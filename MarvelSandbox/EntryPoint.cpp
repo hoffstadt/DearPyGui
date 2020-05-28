@@ -1,10 +1,11 @@
-﻿#include "mvWindow.h"
+﻿#include "Core/mvWindow.h"
+#include "Platform/Windows/mvWindowsWindow.h"
 
 int main()
 {
-	mvWindowsWindow window = mvWindowsWindow();
+	mvWindow* window = new mvWindowsWindow();
 
-	window.show();
+	window->show();
 
-	return window.run();
+	window->run();
 }
