@@ -2,3 +2,7 @@
 	path = Dependencies/imgui
 	url = https://github.com/ocornut/imgui
 	branch = master
+[submodule "Dependencies/cpython"]
+	path = Dependencies/cpython
+	url = https://github.com/python/cpython
+	branch = master
