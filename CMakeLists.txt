@@ -7,4 +7,5 @@ project ("MarvelSandbox")
 
 # Include sub-projects.
 add_subdirectory ("PureImgui")
+add_subdirectory ("EmbeddedPython")
 add_subdirectory ("MarvelSandbox")
