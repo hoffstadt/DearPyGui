@@ -11,6 +11,7 @@ mvWindowsWindow::mvWindowsWindow()
 
 	m_hwnd = CreateWindow(m_wc.lpszClassName, _T("Dear ImGui DirectX11 Example"), WS_OVERLAPPEDWINDOW, 100, 100, 1280, 800, NULL, NULL, m_wc.hInstance, NULL);
 
+	m_app = Marvel::mvApp::GetApp();
 
 	// Initialize Direct3D
 	if (!CreateDeviceD3D(m_hwnd))
@@ -67,11 +68,6 @@ void mvWindowsWindow::prerender()
 	ImGui_ImplDX11_NewFrame();
 	ImGui_ImplWin32_NewFrame();
 	ImGui::NewFrame();
-}
-
-void mvWindowsWindow::render()
-{
-	ImGui::ShowDemoWindow();
 }
 
 void mvWindowsWindow::postrender()

@@ -8,10 +8,14 @@ target_sources(MarvelSandbox
 
 		"${CMAKE_CURRENT_SOURCE_DIR}/EntryPoint.cpp"
 		
+		"${CMAKE_CURRENT_SOURCE_DIR}/src/Core/mvApp.cpp"
+
+		"${CMAKE_CURRENT_SOURCE_DIR}/src/Core/AppItems/mvInputText.cpp"
 		"${CMAKE_CURRENT_SOURCE_DIR}/src/Platform/Windows/mvWindowsWindow.cpp"
 		
 		# imgui
 		#"${CMAKE_CURRENT_SOURCE_DIR}/../Dependencies/imgui/examples/example_win32_directx11/main.cpp"
+		"${CMAKE_CURRENT_SOURCE_DIR}/../Dependencies/imgui/misc/cpp/imgui_stdlib.cpp"
 		"${CMAKE_CURRENT_SOURCE_DIR}/../Dependencies/imgui/imgui.cpp"
 		"${CMAKE_CURRENT_SOURCE_DIR}/../Dependencies/imgui/imgui_demo.cpp"
 		"${CMAKE_CURRENT_SOURCE_DIR}/../Dependencies/imgui/imgui_draw.cpp"
