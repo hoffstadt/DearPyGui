@@ -21,7 +21,6 @@ public:
 
 	virtual void setup() override;
 	virtual void prerender() override;
-	virtual void render() override;
 	virtual void postrender() override;
 	virtual void cleanup() override;
 

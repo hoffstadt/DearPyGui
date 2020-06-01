@@ -7,5 +7,8 @@ int main()
 
 	window->show();
 
+	auto app = Marvel::mvApp::GetApp();
+	app->addInputText("none", "Testing");
+
 	window->run();
 }

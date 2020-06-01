@@ -1,5 +1,7 @@
 #pragma once
 
+#include "mvApp.h"
+
 class mvWindow
 {
 
@@ -10,7 +12,6 @@ public:
 
 	virtual void setup() {}
 	virtual void prerender() {}
-	virtual void render() = 0;
 	virtual void postrender() {}
 	virtual void cleanup() {}
 
@@ -21,7 +22,7 @@ public:
 		while (m_running)
 		{
 			prerender();
-			render();
+			m_app->render();
 			postrender();
 		}
 
@@ -30,6 +31,7 @@ public:
 protected:
 
 	bool m_running = true;
+	Marvel::mvApp* m_app = nullptr;
 
 
 };
