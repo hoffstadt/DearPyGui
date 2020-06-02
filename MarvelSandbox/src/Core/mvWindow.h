@@ -32,6 +32,8 @@ protected:
 
 	bool m_running = true;
 	Marvel::mvApp* m_app = nullptr;
+	unsigned m_width;
+	unsigned m_height;
 
 
 };

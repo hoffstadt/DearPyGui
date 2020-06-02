@@ -1,4 +1,5 @@
 #include "Platform/Windows/mvWindowsWindow.h"
+#include "Core/mvApp.h"
 
 // Forward declare message handler from imgui_impl_win32.cpp
 extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
@@ -97,7 +98,6 @@ void mvWindowsWindow::cleanup()
 	::UnregisterClass(m_wc.lpszClassName, m_wc.hInstance);
 }
 
-
 bool mvWindowsWindow::CreateDeviceD3D(HWND hWnd)
 {
 	// Setup swap chain
@@ -169,7 +169,6 @@ void mvWindowsWindow::CleanupRenderTarget()
 	}
 }
 
-
 LRESULT CALLBACK mvWindowsWindow::HandleMsgSetup(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) noexcept
 {
 	// use create parameter passed in from CreateWindow() to store window class pointer at WinAPI side
@@ -207,6 +206,7 @@ LRESULT mvWindowsWindow::HandleMsg(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lP
 	case WM_SIZE:
 		if (s_pd3dDevice != NULL && wParam != SIZE_MINIMIZED)
 		{
+			Marvel::mvApp::GetApp()->setSize((UINT)LOWORD(lParam), (UINT)HIWORD(lParam));
 			CleanupRenderTarget();
 			s_pSwapChain->ResizeBuffers(0, (UINT)LOWORD(lParam), (UINT)HIWORD(lParam), DXGI_FORMAT_UNKNOWN, 0);
 			CreateRenderTarget();
@@ -222,7 +222,6 @@ LRESULT mvWindowsWindow::HandleMsg(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lP
 	}
 	return ::DefWindowProc(hWnd, msg, wParam, lParam);
 }
-
 
 ID3D11Device* mvWindowsWindow::s_pd3dDevice = NULL;
 ID3D11DeviceContext* mvWindowsWindow::s_pd3dDeviceContext = NULL;
