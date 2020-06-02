@@ -104,6 +104,9 @@ namespace Marvel {
 
 		PyObject* result = PyObject_CallObject(pHandler, pArgs);
 
+		Py_XDECREF(pArgs);
+		Py_XDECREF(result);
+
 	}
 
 	//-----------------------------------------------------------------------------

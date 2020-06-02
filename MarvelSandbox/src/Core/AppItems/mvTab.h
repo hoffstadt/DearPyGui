@@ -19,6 +19,7 @@ namespace Marvel {
 			m_value = new std::string();
 		}
 
+		virtual PyObject* getPyValue() override;
 		virtual mvAppItemType getType() const override { return mvAppItemType::TabBar; }
 
 		virtual void draw() override;
@@ -50,6 +51,7 @@ namespace Marvel {
 
 		}
 
+		virtual PyObject* getPyValue() override;
 		virtual mvAppItemType getType() const override { return mvAppItemType::EndTabBar; }
 
 		virtual void draw() override;
@@ -75,6 +77,7 @@ namespace Marvel {
 		{
 		}
 
+		virtual PyObject* getPyValue() override;
 		virtual mvAppItemType getType() const override { return mvAppItemType::TabItem; }
 
 		virtual void draw() override;
@@ -106,6 +109,7 @@ namespace Marvel {
 
 		}
 
+		virtual PyObject* getPyValue() override;
 		virtual mvAppItemType getType() const override { return mvAppItemType::EndTabItem; }
 
 		virtual void draw() override;

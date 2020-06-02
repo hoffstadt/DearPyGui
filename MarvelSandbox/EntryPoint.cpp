@@ -27,6 +27,9 @@ int main()
 
 	window->run();
 
+	Py_XDECREF(pDict);
+	Py_XDECREF(pModule);
+
 	// shutdown the intpreter
 	Py_Finalize();
 }

@@ -15,6 +15,8 @@ namespace Marvel {
 			m_value = new std::string();
 		}
 
+		virtual PyObject* getPyValue() override;
+
 		virtual mvAppItemType getType() const override { return mvAppItemType::InputText; }
 
 		virtual void draw() override;

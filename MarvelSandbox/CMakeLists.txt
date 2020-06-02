@@ -2,6 +2,12 @@
 
 add_executable (MarvelSandbox)
 
+target_compile_features(MarvelSandbox
+
+	PUBLIC
+		cxx_std_17
+)
+
 target_sources(MarvelSandbox
 
 	PRIVATE
