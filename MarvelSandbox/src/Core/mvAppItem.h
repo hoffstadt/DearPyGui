@@ -9,11 +9,11 @@ namespace Marvel {
 
 	enum class mvAppItemType
 	{
-		None = 0, SampleWidget,
+		None = 0,
 		InputText, InputFloat, InputFloat3, InputInt, Button, Checkbox, RadioButtons, Combo,
 		Listbox, CollapsingHeader, TabBar, TabItem, EndTabItem, EndTabBar, Group, EndGroup,
 		MenuBar, Menu, EndMenu, MenuItem, EndMenuBar, Spacing, Separator, SameLine,
-		Tooltip, EndTooltip, Text, LabelText, ProgressBar, Child, EndChild, Custom, Image,
+		Tooltip, EndTooltip, Text, LabelText, ProgressBar, Child, EndChild, Image,
 		DragInt, ColorEdit4, SliderInt, FileOpen, FileSave
 	};
 

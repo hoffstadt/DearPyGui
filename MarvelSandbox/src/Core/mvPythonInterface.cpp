@@ -5,6 +5,7 @@ namespace Marvel {
 	PyMethodDef SandboxMethods[] = {
 		{"setItemCallback", setItemCallback, METH_VARARGS, "documentation"},
 		{"addInputText", (PyCFunction)addInputText, METH_VARARGS | METH_KEYWORDS, "documentation"},
+		{"addRadioButton", (PyCFunction)addRadioButton, METH_VARARGS | METH_KEYWORDS, "documentation"},
 		{"addTabBar", addTabBar, METH_VARARGS, "documentation"},
 		{"addTab", addTab, METH_VARARGS, "documentation"},
 		{"endTab", endTab, METH_VARARGS, "documentation"},
@@ -217,6 +218,29 @@ namespace Marvel {
 			__debugbreak();
 
 		mvApp::GetApp()->addSameLine(std::string(parent), xoffset, spacing);
+
+		Py_INCREF(Py_None);
+
+		return Py_None;
+	}
+
+	PyObject* addRadioButton(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		const char* parent;
+		const char* name;
+		PyObject* items;
+		int default_value = 0;
+		static const char* keywords[] = { "parent", "name", "items", "default_value", NULL };
+
+		if (!PyArg_ParseTupleAndKeywords(args, kwargs, "ssO|i", const_cast<char**>(keywords), &parent, &name, &items, &default_value))
+			__debugbreak();
+
+		std::vector<std::string> sitems;
+
+		for (int i = 0; i < PyTuple_Size(items); i++)
+			sitems.emplace_back(PyUnicode_AsUTF8(PyTuple_GetItem(items, i)));
+
+		mvApp::GetApp()->addRadioButtons(std::string(parent), std::string(name), sitems, default_value);
 
 		Py_INCREF(Py_None);
 
