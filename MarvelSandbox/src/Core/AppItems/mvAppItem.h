@@ -2,8 +2,15 @@
 
 #include <string>
 #include <vector>
+#include <functional>
 
 namespace Marvel {
+
+	//-----------------------------------------------------------------------------
+	// Forward Declarations & typedefs
+	//-----------------------------------------------------------------------------
+	class mvApp;
+	using mvAppCallback = std::function<void(const std::string&, void*)>;
 
 	enum class mvAppItemType
 	{
@@ -15,24 +22,12 @@ namespace Marvel {
 		DragInt, ColorEdit4, SliderInt, FileOpen, FileSave
 	};
 
-	struct mvAppItemProps
-	{
-		std::string name;
-		std::string label;
-		std::string tip;
-		bool show;
-	};
-
 	class mvAppItem
 	{
 
 	public:
 
-		mvAppItem(const mvAppItemProps& props)
-			: m_props(props)
-		{
-
-		}
+		mvAppItem(const std::string& parent, const std::string& name);
 
 		~mvAppItem() = default;
 
@@ -42,14 +37,29 @@ namespace Marvel {
 		mvAppItem operator=(mvAppItem&& other) = delete;
 
 		virtual mvAppItemType getType() const = 0;
+		virtual void          draw() = 0;
 
-		virtual void draw() = 0;
+		inline const std::string&       getName() const { return m_name; }
+		inline std::vector<mvAppItem*>& getChildren() { return m_children; }
+		inline mvAppItem*               getParent() { return m_parent; }
+		inline bool                     isShown() const { return m_show; }
+		inline void                     show() { m_show = true; }
+		inline void                     hide() { m_show = false; }
+		inline void                     setCallback(mvAppCallback callback) { m_callback = callback; }
+		inline mvAppCallback            getCallback() { return m_callback; }
+
+		void showAll();
+		void hideAll();
 
 	protected:
 
-		mvAppItemProps          m_props;
+		std::string             m_name;
+		std::string             m_label;
+		std::string             m_tip;
+		bool                    m_show;
 		mvAppItem*              m_parent = nullptr;
 		std::vector<mvAppItem*> m_children;
+		mvAppCallback           m_callback = nullptr;
 
 	};
 

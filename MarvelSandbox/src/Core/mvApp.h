@@ -1,25 +1,47 @@
 #pragma once
 
 #include <vector>
+#include <stack>
 #include <string>
-#include "AppItems/mvAppItem.h"
+#include <functional>
+#include "Core/AppItems/mvAppItem.h"
+
 
 namespace Marvel {
 
 	class mvApp final
 	{
 
-	public: // public static methods
+	public:
 
 		static mvApp* GetApp();
 
-	public: // public methods
+	public:
+
+		//-----------------------------------------------------------------------------
+		// Basic AppItems
+		//-----------------------------------------------------------------------------
 
 		mvAppItem* addInputText(const std::string& parent, const std::string& name, const std::string& hint = "");
 
-		void render();
+		//-----------------------------------------------------------------------------
+		// Tabs
+		//-----------------------------------------------------------------------------
 
-	private: // private methods
+		mvAppItem* addTabBar(const std::string& parent, const std::string& name);
+		mvAppItem* addTab   (const std::string& parent, const std::string& name);
+		mvAppItem* endTab   (const std::string& parent);
+		mvAppItem* endTabBar(const std::string& parent);
+
+		bool doesParentAllowRender(mvAppItem* item);
+
+		void       render         ();
+		void       setItemCallback(const std::string& name, mvAppCallback callback);
+		mvAppItem* getItem        (const std::string& name);
+		void       pushParent     (mvAppItem* item);
+		mvAppItem* popParent      ();
+
+	private:
 
 		mvApp() = default;
 
@@ -28,13 +50,14 @@ namespace Marvel {
 		mvApp operator=(const mvApp& other) = delete;
 		mvApp operator=(mvApp&& other) = delete;
 
-	private: // private static members
+	private:
 
 		static mvApp* s_instance;
 
-	private: // private members
+	private:
 
 		std::vector<mvAppItem*> m_items;
+		std::stack<mvAppItem*>  m_parents;
 
 	};
 
