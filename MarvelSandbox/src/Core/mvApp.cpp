@@ -1,6 +1,7 @@
 #include "mvApp.h"
 #include "AppItems/mvInputText.h"
 #include "AppItems/mvTab.h"
+#include <imgui.h>
 
 namespace Marvel {
 
@@ -17,6 +18,10 @@ namespace Marvel {
 
 	void mvApp::render()
 	{
+		ImGui::SetNextWindowPos(ImVec2(0.0f, 0.0f));
+		ImGui::SetNextWindowSize(ImVec2(m_width, m_height));
+		ImGui::Begin("Blah", (bool*)0, ImGuiWindowFlags_NoSavedSettings| ImGuiWindowFlags_NoResize| ImGuiWindowFlags_NoCollapse);
+
 		m_parents.push(nullptr);
 
 		for (mvAppItem* item : m_items)
@@ -31,6 +36,8 @@ namespace Marvel {
 
 			item->draw();
 		}
+
+		ImGui::End();
 	}
 
 	bool mvApp::doesParentAllowRender(mvAppItem* item)

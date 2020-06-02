@@ -40,6 +40,7 @@ namespace Marvel {
 		void       pushParent     (mvAppItem* item);
 		mvAppItem* popParent      ();
 		bool       doesParentAllowRender(mvAppItem* item);
+		void       setSize(unsigned width, unsigned height) { m_width = width; m_height = height; }
 
 	private:
 
@@ -56,6 +57,8 @@ namespace Marvel {
 		std::vector<mvAppItem*> m_items;
 		std::stack<mvAppItem*>  m_parents;
 		PyObject*               m_pDict;
+		unsigned                m_width;
+		unsigned                m_height;
 
 	};
 
