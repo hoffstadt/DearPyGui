@@ -9,6 +9,7 @@ target_sources(MarvelSandbox
 		"${CMAKE_CURRENT_SOURCE_DIR}/EntryPoint.cpp"
 		
 		"${CMAKE_CURRENT_SOURCE_DIR}/src/Core/mvApp.cpp"
+		"${CMAKE_CURRENT_SOURCE_DIR}/src/Core/mvPythonInterface.cpp"
 
 		"${CMAKE_CURRENT_SOURCE_DIR}/src/Core/AppItems/mvAppItem.cpp"
 		"${CMAKE_CURRENT_SOURCE_DIR}/src/Core/AppItems/mvInputText.cpp"
