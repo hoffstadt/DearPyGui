@@ -13,22 +13,20 @@ sandbox.addMenu("MenuBar", "Edit")
 sandbox.endMenu("Edit")
 sandbox.endMenuBar("MenuBar")
 
+sandbox.addSpacing("", 10)
 sandbox.addInputText("", "Testing", hint="a hint")
+sandbox.addSpacing("", 10)
 
+# creating tabs
 sandbox.addTabBar("", "TabBar1")
-
 sandbox.addTab("TabBar1", "Tab1")
-
 sandbox.addInputText("Tab1", "Testing1")
 sandbox.addInputText("Tab1", "Testing2")
-
 sandbox.endTab("Tab1")
-
 sandbox.addTab("TabBar1", "Tab2")
-
 sandbox.addInputText("Tab2", "Testing3")
+sandbox.addSpacing("Tab2", count=10)
 sandbox.addInputText("Tab2", "Testing4")
-
 sandbox.endTab("Tab2")
 sandbox.endTabBar("TabBar1")
 

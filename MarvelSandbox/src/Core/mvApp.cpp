@@ -2,6 +2,7 @@
 #include "AppItems/mvInputText.h"
 #include "AppItems/mvTab.h"
 #include "AppItems/mvMenu.h"
+#include "AppItems/mvSpacing.h"
 #include <imgui.h>
 
 namespace Marvel {
@@ -194,4 +195,14 @@ namespace Marvel {
 		return item;
 	}
 
+	//-----------------------------------------------------------------------------
+	// Misc Items
+	//-----------------------------------------------------------------------------
+
+	mvAppItem* mvApp::addSpacing(const std::string& parent, int count)
+	{
+		mvAppItem* item = new mvSpacing(parent, count);
+		m_items.push_back(item);
+		return item;
+	}
 }

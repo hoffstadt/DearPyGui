@@ -14,6 +14,7 @@ namespace Marvel {
 		{"endMenu", endMenu, METH_VARARGS, "documentation"},
 		{"endMenuBar", endMenuBar, METH_VARARGS, "documentation"},
 		{"addMenuItem", addMenuItem, METH_VARARGS, "documentation"},
+		{"addSpacing", (PyCFunction)addSpacing, METH_VARARGS | METH_KEYWORDS, "documentation"},
 		{"getValue", getValue, METH_VARARGS, "documentation"},
 		{NULL, NULL, 0, NULL}
 	};
@@ -182,6 +183,22 @@ namespace Marvel {
 		PyArg_ParseTuple(args, "ss", &parent, &name);
 
 		mvApp::GetApp()->addMenuItem(std::string(parent), std::string(name));
+
+		Py_INCREF(Py_None);
+
+		return Py_None;
+	}
+
+	PyObject* addSpacing(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		const char* parent;
+		int count = 1;
+		static const char* keywords[] = { "parent", "count", NULL };
+
+		if (!PyArg_ParseTupleAndKeywords(args, kwargs, "s|i", const_cast<char**>(keywords), &parent, &count))
+			__debugbreak();
+
+		mvApp::GetApp()->addSpacing(std::string(parent), count);
 
 		Py_INCREF(Py_None);
 

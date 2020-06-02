@@ -41,6 +41,18 @@ namespace Marvel {
 		mvAppItem* endMenuBar (const std::string& parent);
 
 		//-----------------------------------------------------------------------------
+		// Misc Items
+		//-----------------------------------------------------------------------------
+
+		//mvAppItem* addCollapsingHeader(const mvString& parent, const mvString& name, int flags = AppTreeNodeFlags_None);
+		mvAppItem* addSpacing(const std::string& parent, int count = 1);
+		//mvAppItem* addSeperator(const mvString& parent);
+		//mvAppItem* addSameLine(const mvString& parent, float offset_from_start_x = 0.0f, float spacing = -1.0f);
+		//mvAppItem* addTooltip(const mvString& parent, const mvString& name);
+		//mvAppItem* endTooltip(const mvString& parent);
+		//mvAppItem* addImage(const mvString& parent, const mvString& filename);
+
+		//-----------------------------------------------------------------------------
 		// Utilities
 		//-----------------------------------------------------------------------------
 
