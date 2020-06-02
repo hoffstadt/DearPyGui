@@ -4,13 +4,12 @@
 // Forward declare message handler from imgui_impl_win32.cpp
 extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
-
 mvWindowsWindow::mvWindowsWindow()
 {
 	m_wc = { sizeof(WNDCLASSEX), CS_CLASSDC, HandleMsgSetup, 0L, 0L, GetModuleHandle(NULL), NULL, NULL, NULL, NULL, _T("ImGui Example"), NULL };
 	RegisterClassEx(&m_wc);
 
-	m_hwnd = CreateWindow(m_wc.lpszClassName, _T("Dear ImGui DirectX11 Example"), WS_OVERLAPPEDWINDOW, 100, 100, 1280, 800, NULL, NULL, m_wc.hInstance, NULL);
+	m_hwnd = CreateWindow(m_wc.lpszClassName, _T("Marvel Sandbox"), WS_OVERLAPPEDWINDOW, 100, 100, 1280, 800, NULL, NULL, m_wc.hInstance, NULL);
 
 	m_app = Marvel::mvApp::GetApp();
 
