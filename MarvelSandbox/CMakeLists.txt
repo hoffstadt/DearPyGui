@@ -17,7 +17,6 @@ target_sources(MarvelSandbox
 		"${CMAKE_CURRENT_SOURCE_DIR}/src/Platform/Windows/mvWindowsWindow.cpp"
 		
 		# imgui
-		#"${CMAKE_CURRENT_SOURCE_DIR}/../Dependencies/imgui/examples/example_win32_directx11/main.cpp"
 		"${CMAKE_CURRENT_SOURCE_DIR}/../Dependencies/imgui/misc/cpp/imgui_stdlib.cpp"
 		"${CMAKE_CURRENT_SOURCE_DIR}/../Dependencies/imgui/imgui.cpp"
 		"${CMAKE_CURRENT_SOURCE_DIR}/../Dependencies/imgui/imgui_demo.cpp"
@@ -25,7 +24,6 @@ target_sources(MarvelSandbox
 		"${CMAKE_CURRENT_SOURCE_DIR}/../Dependencies/imgui/imgui_widgets.cpp"
 		"${CMAKE_CURRENT_SOURCE_DIR}/../Dependencies/imgui/examples/imgui_impl_win32.cpp"
 		"${CMAKE_CURRENT_SOURCE_DIR}/../Dependencies/imgui/examples/imgui_impl_dx11.cpp"
-
 )
 
 target_include_directories(MarvelSandbox
@@ -35,7 +33,13 @@ target_include_directories(MarvelSandbox
 		"${CMAKE_CURRENT_SOURCE_DIR}/src/"
 		"${CMAKE_CURRENT_SOURCE_DIR}/../Dependencies/imgui/"
 		"${CMAKE_CURRENT_SOURCE_DIR}/../Dependencies/imgui/examples/"
+		"${CMAKE_CURRENT_SOURCE_DIR}/../Dependencies/cpython/Include/"
+)
 
+target_link_directories(MarvelSandbox
+
+	PRIVATE
+		"${CMAKE_CURRENT_SOURCE_DIR}/../Dependencies/cpython/PCbuild/amd64/"
 )
 
 target_link_libraries(MarvelSandbox
@@ -43,7 +47,7 @@ target_link_libraries(MarvelSandbox
 	PRIVATE
 
 		d3d11
-
+		python3
 )
 
 add_custom_command(TARGET MarvelSandbox PRE_BUILD

@@ -59,8 +59,8 @@ namespace Marvel {
 			showAll();
 
 			// run call back if it exists
-			if (m_callback && changed)
-				(m_callback)(m_name, nullptr);
+			if (changed)
+				mvApp::GetApp()->triggerCallback(m_callback, m_name);
 
 		}
 	}

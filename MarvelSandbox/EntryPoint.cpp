@@ -1,13 +1,9 @@
-﻿#include "Core/mvWindow.h"
+﻿#include "Core/mvPythonInterface.h"
+#include "Core/mvWindow.h"
 #include "Platform/Windows/mvWindowsWindow.h"
 #include <iostream>
 
 using namespace Marvel;
-
-void ItemCallback(const std::string& sender, void* data)
-{
-	std::cout << "Send by: " << sender << std::endl;
-}
 
 int main()
 {
@@ -15,29 +11,22 @@ int main()
 
 	window->show();
 
-	auto app = mvApp::GetApp();
+	Py_SetPath(L"python38.zip;../../../../MarvelSandbox");
+	PyImport_AppendInittab("sandbox", &PyInit_emb);
 
-	app->addInputText("", "Testing", "Type something");
+	// start the intpreter
+	Py_Initialize();
 
-	app->addTabBar("", "TabBar1");
-	{
-		app->addTab("TabBar1", "Tab1");
-		{
-			app->addInputText("Tab1", "Testing1", "Type something1");
-			app->addInputText("Tab1", "Testing2", "Type something2");
-		}
-		app->endTab("Tab1");
+	// import the module (python file) looking in the path
+	PyObject* pModule = PyImport_ImportModule("App"); // new reference
 
-		app->addTab("TabBar1", "Tab2");
-		{
-			app->addInputText("Tab2", "Testing3", "Type something3");
-			app->addInputText("Tab2", "Testing4", "Type something4");
-		}
-		app->endTab("Tab2");
-	}
-	app->endTabBar("TabBar1");
+	// returns the dictionary object representing the module namespace
+	PyObject* pDict = PyModule_GetDict(pModule); // borrowed reference
 
-	app->setItemCallback("Testing", ItemCallback);
+	mvApp::GetApp()->setModuleDict(pDict);
 
 	window->run();
+
+	// shutdown the intpreter
+	Py_Finalize();
 }

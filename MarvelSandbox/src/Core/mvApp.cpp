@@ -64,7 +64,7 @@ namespace Marvel {
 		return item;
 	}
 
-	void mvApp::setItemCallback(const std::string& name, mvAppCallback callback)
+	void mvApp::setItemCallback(const std::string& name, const std::string& callback)
 	{
 		auto item = getItem(name);
 		if (item)
@@ -80,6 +80,20 @@ namespace Marvel {
 		}
 
 		return nullptr;
+	}
+
+	void mvApp::triggerCallback(const std::string& name, const std::string& sender)
+	{
+		if (name == "")
+			return;
+
+		PyObject* pHandler = PyDict_GetItemString(m_pDict, name.c_str()); // borrowed reference
+
+		PyObject* pArgs = PyTuple_New(1);
+		PyTuple_SetItem(pArgs, 0, PyUnicode_FromString(sender.c_str()));
+
+		PyObject* result = PyObject_CallObject(pHandler, pArgs);
+
 	}
 
 	//-----------------------------------------------------------------------------

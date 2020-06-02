@@ -1,16 +1,12 @@
 #pragma once
 
+#define PY_SSIZE_T_CLEAN
+#include <Python.h>
 #include <string>
 #include <vector>
 #include <functional>
 
 namespace Marvel {
-
-	//-----------------------------------------------------------------------------
-	// Forward Declarations & typedefs
-	//-----------------------------------------------------------------------------
-	class mvApp;
-	using mvAppCallback = std::function<void(const std::string&, void*)>;
 
 	enum class mvAppItemType
 	{
@@ -45,8 +41,8 @@ namespace Marvel {
 		inline bool                     isShown() const { return m_show; }
 		inline void                     show() { m_show = true; }
 		inline void                     hide() { m_show = false; }
-		inline void                     setCallback(mvAppCallback callback) { m_callback = callback; }
-		inline mvAppCallback            getCallback() { return m_callback; }
+		inline void                     setCallback(const std::string& callback) { m_callback = callback; }
+		inline const std::string&       getCallback() { return m_callback; }
 
 		void showAll();
 		void hideAll();
@@ -59,7 +55,7 @@ namespace Marvel {
 		bool                    m_show;
 		mvAppItem*              m_parent = nullptr;
 		std::vector<mvAppItem*> m_children;
-		mvAppCallback           m_callback = nullptr;
+		std::string             m_callback = "";
 
 	};
 

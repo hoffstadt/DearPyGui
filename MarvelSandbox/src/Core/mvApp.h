@@ -16,8 +16,6 @@ namespace Marvel {
 
 		static mvApp* GetApp();
 
-	public:
-
 		//-----------------------------------------------------------------------------
 		// Basic AppItems
 		//-----------------------------------------------------------------------------
@@ -33,13 +31,15 @@ namespace Marvel {
 		mvAppItem* endTab   (const std::string& parent);
 		mvAppItem* endTabBar(const std::string& parent);
 
-		bool doesParentAllowRender(mvAppItem* item);
-
 		void       render         ();
-		void       setItemCallback(const std::string& name, mvAppCallback callback);
+		void       setItemCallback(const std::string& name, const std::string& callback);
+		void       setModuleDict  (PyObject* dict) { m_pDict = dict; }
+		PyObject*  getModuleDict  () { return m_pDict; }
 		mvAppItem* getItem        (const std::string& name);
+		void       triggerCallback(const std::string& name, const std::string& sender);
 		void       pushParent     (mvAppItem* item);
 		mvAppItem* popParent      ();
+		bool       doesParentAllowRender(mvAppItem* item);
 
 	private:
 
@@ -52,12 +52,10 @@ namespace Marvel {
 
 	private:
 
-		static mvApp* s_instance;
-
-	private:
-
+		static mvApp*           s_instance;
 		std::vector<mvAppItem*> m_items;
 		std::stack<mvAppItem*>  m_parents;
+		PyObject*               m_pDict;
 
 	};
 
