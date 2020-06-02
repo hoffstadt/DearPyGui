@@ -5,6 +5,7 @@
 #include "AppItems/mvSpacing.h"
 #include "AppItems/mvSameLine.h"
 #include "AppItems/mvRadioButton.h"
+#include "AppItems/mvButton.h"
 #include <imgui.h>
 
 namespace Marvel {
@@ -123,6 +124,13 @@ namespace Marvel {
 	mvAppItem* mvApp::addInputText(const std::string& parent, const std::string& name, const std::string& hint)
 	{
 		mvAppItem* item = new mvInputText(parent, name, hint);
+		m_items.push_back(item);
+		return item;
+	}
+
+	mvAppItem* mvApp::addButton(const std::string& parent, const std::string& name)
+	{
+		mvAppItem* item = new mvButton(parent, name);
 		m_items.push_back(item);
 		return item;
 	}
