@@ -43,6 +43,20 @@ namespace Marvel {
 		mvAppItem* endMenuBar (const std::string& parent);
 
 		//-----------------------------------------------------------------------------
+		// Groups
+		//-----------------------------------------------------------------------------
+
+		mvAppItem* addGroup(const std::string& parent, const std::string& name);
+		mvAppItem* endGroup(const std::string& parent);
+
+		//-----------------------------------------------------------------------------
+		// Child Window
+		//-----------------------------------------------------------------------------
+
+		mvAppItem* addChild(const std::string& parent, const std::string& name, int width, int height);
+		mvAppItem* endChild(const std::string& parent);
+
+		//-----------------------------------------------------------------------------
 		// Misc Items
 		//-----------------------------------------------------------------------------
 

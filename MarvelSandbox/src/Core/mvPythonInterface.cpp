@@ -7,6 +7,10 @@ namespace Marvel {
 		{"addButton", addButton, METH_VARARGS, "documentation"},
 		{"addInputText", (PyCFunction)addInputText, METH_VARARGS | METH_KEYWORDS, "documentation"},
 		{"addRadioButton", (PyCFunction)addRadioButton, METH_VARARGS | METH_KEYWORDS, "documentation"},
+		{"addGroup", addGroup, METH_VARARGS, "documentation"},
+		{"endGroup", endGroup, METH_VARARGS, "documentation"},
+		{"addChild", addChild, METH_VARARGS, "documentation"},
+		{"endChild", endChild, METH_VARARGS, "documentation"},
 		{"addTabBar", addTabBar, METH_VARARGS, "documentation"},
 		{"addTab", addTab, METH_VARARGS, "documentation"},
 		{"endTab", endTab, METH_VARARGS, "documentation"},
@@ -255,6 +259,59 @@ namespace Marvel {
 			sitems.emplace_back(PyUnicode_AsUTF8(PyTuple_GetItem(items, i)));
 
 		mvApp::GetApp()->addRadioButtons(std::string(parent), std::string(name), sitems, default_value);
+
+		Py_INCREF(Py_None);
+
+		return Py_None;
+	}
+
+	PyObject* addGroup(PyObject* self, PyObject* args)
+	{
+		const char* parent, * name;
+
+		PyArg_ParseTuple(args, "ss", &parent, &name);
+
+		mvApp::GetApp()->addGroup(std::string(parent), std::string(name));
+
+		Py_INCREF(Py_None);
+
+		return Py_None;
+	}
+
+	PyObject* endGroup(PyObject* self, PyObject* args)
+	{
+		const char* parent;
+
+		PyArg_ParseTuple(args, "s", &parent);
+
+		mvApp::GetApp()->endGroup(std::string(parent));
+
+		Py_INCREF(Py_None);
+
+		return Py_None;
+	}
+
+	PyObject* addChild(PyObject* self, PyObject* args)
+	{
+		const char* parent, * name;
+		int width, height;
+
+		PyArg_ParseTuple(args, "ssii", &parent, &name, &width, &height);
+
+		mvApp::GetApp()->addChild(std::string(parent), std::string(name), width, height);
+
+		Py_INCREF(Py_None);
+
+		return Py_None;
+	}
+
+	PyObject* endChild(PyObject* self, PyObject* args)
+	{
+		const char* parent;
+
+		PyArg_ParseTuple(args, "s", &parent);
+
+		mvApp::GetApp()->endChild(std::string(parent));
 
 		Py_INCREF(Py_None);
 
