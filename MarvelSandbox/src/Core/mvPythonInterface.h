@@ -14,12 +14,14 @@ namespace Marvel {
 	PyObject* endTab         (PyObject* self, PyObject* args);
 	PyObject* endTabBar      (PyObject* self, PyObject* args);
 
-	PyObject* addMenuBar(PyObject* self, PyObject* args);
-	PyObject* addMenu(PyObject* self, PyObject* args);
-	PyObject* endMenu(PyObject* self, PyObject* args);
-	PyObject* endMenuBar(PyObject* self, PyObject* args);
+	PyObject* addMenuBar (PyObject* self, PyObject* args);
+	PyObject* addMenu    (PyObject* self, PyObject* args);
+	PyObject* endMenu    (PyObject* self, PyObject* args);
+	PyObject* endMenuBar (PyObject* self, PyObject* args);
 	PyObject* addMenuItem(PyObject* self, PyObject* args);
+
+	PyObject* addSpacing(PyObject* self, PyObject* args, PyObject* kwargs);
 	
-	PyObject* getValue       (PyObject* self, PyObject* args);
+	PyObject* getValue(PyObject* self, PyObject* args);
 
 }

@@ -31,7 +31,7 @@ namespace Marvel {
 		mvAppItem operator=(const mvAppItem& other) = delete;
 		mvAppItem operator=(mvAppItem&& other) = delete;
 
-		virtual PyObject* getPyValue() = 0;
+		virtual PyObject*     getPyValue() = 0;
 		virtual mvAppItemType getType() const = 0;
 		virtual void          draw() = 0;
 
