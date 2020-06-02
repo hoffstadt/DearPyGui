@@ -1,6 +1,7 @@
 #include "mvApp.h"
 #include "AppItems/mvInputText.h"
 #include "AppItems/mvTab.h"
+#include "AppItems/mvMenu.h"
 #include <imgui.h>
 
 namespace Marvel {
@@ -23,7 +24,7 @@ namespace Marvel {
 
 		ImGui::SetNextWindowPos(ImVec2(0.0f, 0.0f));
 		ImGui::SetNextWindowSize(ImVec2(m_width, m_height));
-		ImGui::Begin("Blah", (bool*)0, ImGuiWindowFlags_NoSavedSettings| ImGuiWindowFlags_NoResize| ImGuiWindowFlags_NoCollapse| ImGuiWindowFlags_NoTitleBar);
+		ImGui::Begin("Blah", (bool*)0, ImGuiWindowFlags_NoSavedSettings| ImGuiWindowFlags_NoResize| ImGuiWindowFlags_NoCollapse| ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_MenuBar);
 
 		m_parents.push(nullptr);
 
@@ -51,6 +52,10 @@ namespace Marvel {
 			{
 			case mvAppItemType::TabItem:
 				return static_cast<mvTab*>(item->getParent())->getValue();
+				break;
+
+			case mvAppItemType::Menu:
+				return static_cast<mvMenu*>(item->getParent())->getValue();
 				break;
 
 			default:
@@ -146,6 +151,45 @@ namespace Marvel {
 	mvAppItem* mvApp::endTabBar(const std::string& parent)
 	{
 		mvAppItem* item = new mvEndTabBar(parent);
+		m_items.push_back(item);
+		return item;
+	}
+
+	//-----------------------------------------------------------------------------
+	// Adding Menus
+	//-----------------------------------------------------------------------------
+
+	mvAppItem* mvApp::addMenuBar(const std::string& name)
+	{
+		mvAppItem* item = new mvMenuBar(name);
+		m_items.push_back(item);
+		return item;
+	}
+
+	mvAppItem* mvApp::addMenu(const std::string& parent, const std::string& name)
+	{
+		mvAppItem* item = new mvMenu(parent, name);
+		m_items.push_back(item);
+		return item;
+	}
+
+	mvAppItem* mvApp::addMenuItem(const std::string& parent, const std::string& name)
+	{
+		mvAppItem* item = new mvMenuItem(parent, name);
+		m_items.push_back(item);
+		return item;
+	}
+
+	mvAppItem* mvApp::endMenu(const std::string& parent)
+	{
+		mvAppItem* item = new mvEndMenu(parent);
+		m_items.push_back(item);
+		return item;
+	}
+
+	mvAppItem* mvApp::endMenuBar(const std::string& parent)
+	{
+		mvAppItem* item = new mvEndMenuBar(parent);
 		m_items.push_back(item);
 		return item;
 	}

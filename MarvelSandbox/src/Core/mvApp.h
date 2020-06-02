@@ -30,6 +30,20 @@ namespace Marvel {
 		mvAppItem* endTab   (const std::string& parent);
 		mvAppItem* endTabBar(const std::string& parent);
 
+		//-----------------------------------------------------------------------------
+		// Adding Menus
+		//-----------------------------------------------------------------------------
+
+		mvAppItem* addMenuBar (const std::string& name);
+		mvAppItem* addMenu    (const std::string& parent, const std::string& name);
+		mvAppItem* addMenuItem(const std::string& parent, const std::string& name);
+		mvAppItem* endMenu    (const std::string& parent);
+		mvAppItem* endMenuBar (const std::string& parent);
+
+		//-----------------------------------------------------------------------------
+		// Utilities
+		//-----------------------------------------------------------------------------
+
 		void       render         ();
 		void       setItemCallback(const std::string& name, const std::string& callback);
 		void       setModuleDict  (PyObject* dict) { m_pDict = dict; }

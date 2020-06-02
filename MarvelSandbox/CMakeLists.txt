@@ -16,10 +16,11 @@ target_sources(MarvelSandbox
 		
 		"${CMAKE_CURRENT_SOURCE_DIR}/src/Core/mvApp.cpp"
 		"${CMAKE_CURRENT_SOURCE_DIR}/src/Core/mvPythonInterface.cpp"
-
 		"${CMAKE_CURRENT_SOURCE_DIR}/src/Core/mvAppItem.cpp"
+
 		"${CMAKE_CURRENT_SOURCE_DIR}/src/Core/AppItems/mvInputText.cpp"
 		"${CMAKE_CURRENT_SOURCE_DIR}/src/Core/AppItems/mvTab.cpp"
+		"${CMAKE_CURRENT_SOURCE_DIR}/src/Core/AppItems/mvMenu.cpp"
 
 		"${CMAKE_CURRENT_SOURCE_DIR}/src/Platform/Windows/mvWindowsWindow.cpp"
 		

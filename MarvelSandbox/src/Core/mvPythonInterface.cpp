@@ -9,6 +9,11 @@ namespace Marvel {
 		{"addTab", addTab, METH_VARARGS, "documentation"},
 		{"endTab", endTab, METH_VARARGS, "documentation"},
 		{"endTabBar", endTabBar, METH_VARARGS, "documentation"},
+		{"addMenuBar", addMenuBar, METH_VARARGS, "documentation"},
+		{"addMenu", addMenu, METH_VARARGS, "documentation"},
+		{"endMenu", endMenu, METH_VARARGS, "documentation"},
+		{"endMenuBar", endMenuBar, METH_VARARGS, "documentation"},
+		{"addMenuItem", addMenuItem, METH_VARARGS, "documentation"},
 		{"getValue", getValue, METH_VARARGS, "documentation"},
 		{NULL, NULL, 0, NULL}
 	};
@@ -45,6 +50,8 @@ namespace Marvel {
 
 		mvApp::GetApp()->setItemCallback(std::string(callback), std::string(item));
 
+		Py_INCREF(Py_None);
+
 		return Py_None;
 	}
 
@@ -72,6 +79,8 @@ namespace Marvel {
 
 		mvApp::GetApp()->addTabBar(std::string(parent), std::string(name));
 
+		Py_INCREF(Py_None);
+
 		return Py_None;
 	}
 
@@ -82,6 +91,8 @@ namespace Marvel {
 		PyArg_ParseTuple(args, "ss", &parent, &name);
 
 		mvApp::GetApp()->addTab(std::string(parent), std::string(name));
+
+		Py_INCREF(Py_None);
 
 		return Py_None;
 	}
@@ -94,6 +105,8 @@ namespace Marvel {
 
 		mvApp::GetApp()->endTab(std::string(parent));
 
+		Py_INCREF(Py_None);
+
 		return Py_None;
 	}
 
@@ -104,6 +117,73 @@ namespace Marvel {
 		PyArg_ParseTuple(args, "s", &parent);
 
 		mvApp::GetApp()->endTabBar(std::string(parent));
+
+		Py_INCREF(Py_None);
+
+		return Py_None;
+	}
+
+	PyObject* addMenuBar(PyObject* self, PyObject* args)
+	{
+		const char* name;
+
+		PyArg_ParseTuple(args, "s", &name);
+
+		mvApp::GetApp()->addMenuBar(std::string(name));
+
+		Py_INCREF(Py_None);
+
+		return Py_None;
+	}
+
+	PyObject* addMenu(PyObject* self, PyObject* args)
+	{
+		const char* parent, * name;
+
+		PyArg_ParseTuple(args, "ss", &parent, &name);
+
+		mvApp::GetApp()->addMenu(std::string(parent), std::string(name));
+
+		Py_INCREF(Py_None);
+
+		return Py_None;
+	}
+
+	PyObject* endMenu(PyObject* self, PyObject* args)
+	{
+		const char* parent;
+
+		PyArg_ParseTuple(args, "s", &parent);
+
+		mvApp::GetApp()->endMenu(std::string(parent));
+
+		Py_INCREF(Py_None);
+
+		return Py_None;
+	}
+
+	PyObject* endMenuBar(PyObject* self, PyObject* args)
+	{
+		const char* parent;
+
+		PyArg_ParseTuple(args, "s", &parent);
+
+		mvApp::GetApp()->endMenuBar(std::string(parent));
+
+		Py_INCREF(Py_None);
+
+		return Py_None;
+	}
+
+	PyObject* addMenuItem(PyObject* self, PyObject* args)
+	{
+		const char* parent, * name;
+
+		PyArg_ParseTuple(args, "ss", &parent, &name);
+
+		mvApp::GetApp()->addMenuItem(std::string(parent), std::string(name));
+
+		Py_INCREF(Py_None);
 
 		return Py_None;
 	}

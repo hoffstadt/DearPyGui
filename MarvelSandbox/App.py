@@ -1,5 +1,18 @@
 import sandbox
 
+# create some menus
+sandbox.addMenuBar("MenuBar")
+sandbox.addMenu("MenuBar", "File")
+sandbox.addMenu("File", "Callbacks")
+sandbox.addMenuItem("Callbacks", "callback 1")
+sandbox.addMenuItem("Callbacks", "callback 2")
+sandbox.addMenuItem("Callbacks", "callback 3")
+sandbox.endMenu("Callbacks")
+sandbox.endMenu("File")
+sandbox.addMenu("MenuBar", "Edit")
+sandbox.endMenu("Edit")
+sandbox.endMenuBar("MenuBar")
+
 sandbox.addInputText("", "Testing", hint="a hint")
 
 sandbox.addTabBar("", "TabBar1")
@@ -19,11 +32,12 @@ sandbox.addInputText("Tab2", "Testing4")
 sandbox.endTab("Tab2")
 sandbox.endTabBar("TabBar1")
 
+# setting call backs
 sandbox.setItemCallback("Testing", "ItemCallback")
 sandbox.setItemCallback("Tab1", "ItemCallback")
+sandbox.setItemCallback("callback 1", "ItemCallback")
+sandbox.setItemCallback("callback 2", "ItemCallback")
+sandbox.setItemCallback("callback 3", "ItemCallback")
 
 def ItemCallback(sender):
-    print("Fuck yeah ", sender);
-    print(sandbox.getValue(sender))
-    print(sandbox.getValue("Tab1"))
-    print(sandbox.getValue("Testing3"))
+    print("Called by ", sender);
