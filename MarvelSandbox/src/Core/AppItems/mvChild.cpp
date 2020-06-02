@@ -8,7 +8,7 @@ namespace Marvel {
 	void mvChild::draw()
 	{
 
-		ImGui::BeginChild(m_label.c_str(), ImVec2(250.0f, 250.0f), true);
+		ImGui::BeginChild(m_label.c_str(), ImVec2(float(m_width), float(m_height)), true);
 
 		mvApp::GetApp()->pushParent(this);
 

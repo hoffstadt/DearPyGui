@@ -7,6 +7,9 @@ namespace Marvel {
 
 	void mvGroup::draw()
 	{
+		if (m_width != 0)
+			ImGui::PushItemWidth((float)m_width);
+
 		mvApp::GetApp()->pushParent(this);
 		ImGui::BeginGroup();
 
@@ -18,6 +21,9 @@ namespace Marvel {
 
 	void mvEndGroup::draw()
 	{
+		if (m_width != 0)
+			ImGui::PopItemWidth();
+
 		mvApp::GetApp()->popParent();
 		ImGui::EndGroup();
 	}

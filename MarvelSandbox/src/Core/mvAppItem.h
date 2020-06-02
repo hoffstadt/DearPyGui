@@ -49,12 +49,15 @@ namespace Marvel {
 		inline void                     hide() { m_show = false; }
 		inline void                     setCallback(const std::string& callback) { m_callback = callback; }
 		inline const std::string&       getCallback() { return m_callback; }
+		inline int                      getWidth() const { return m_width; }
+		inline void                     setWidth(int width) { m_width = width; }
 
 		void showAll();
 		void hideAll();
 
 	protected:
 
+		int                     m_width = 0;
 		std::string             m_name;
 		std::string             m_label;
 		std::string             m_tip;
