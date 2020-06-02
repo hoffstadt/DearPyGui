@@ -1,6 +1,6 @@
 import sandbox
 
-sandbox.addInputText("", "Testing")
+sandbox.addInputText("", "Testing", hint="a hint")
 
 sandbox.addTabBar("", "TabBar1")
 
@@ -24,3 +24,6 @@ sandbox.setItemCallback("Tab1", "ItemCallback")
 
 def ItemCallback(sender):
     print("Fuck yeah ", sender);
+    print(sandbox.getValue(sender))
+    print(sandbox.getValue("Tab1"))
+    print(sandbox.getValue("Testing3"))

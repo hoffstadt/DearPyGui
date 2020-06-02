@@ -25,4 +25,13 @@ namespace Marvel {
 
 	}
 
+	PyObject* mvInputText::getPyValue()
+	{
+
+		PyObject* pvalue = Py_BuildValue("s", m_value->c_str());
+
+		return pvalue;
+
+	}
+
 }

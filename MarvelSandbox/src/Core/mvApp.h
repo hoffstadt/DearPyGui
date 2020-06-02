@@ -3,7 +3,6 @@
 #include <vector>
 #include <stack>
 #include <string>
-#include <functional>
 #include "Core/AppItems/mvAppItem.h"
 
 

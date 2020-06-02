@@ -10,10 +10,28 @@ namespace Marvel {
 		ImGui::BeginTabBar(m_label.c_str());
 	}
 
+	PyObject* mvTabBar::getPyValue()
+	{
+
+		PyObject* pvalue = Py_BuildValue("s", m_value->c_str());
+
+		return pvalue;
+
+	}
+
 	void mvEndTabBar::draw()
 	{
 		mvApp::GetApp()->popParent();
 		ImGui::EndTabBar();
+	}
+
+	PyObject* mvEndTabBar::getPyValue()
+	{
+
+		PyObject* pvalue = Py_BuildValue("i", m_value);
+
+		return pvalue;
+
 	}
 
 	void mvTab::draw()
@@ -65,9 +83,27 @@ namespace Marvel {
 		}
 	}
 
+	PyObject* mvTab::getPyValue()
+	{
+
+		PyObject* pvalue = Py_BuildValue("i", m_value);
+
+		return pvalue;
+
+	}
+
 	void mvEndTab::draw()
 	{
 		mvApp::GetApp()->popParent();
 		ImGui::EndTabItem();
+	}
+
+	PyObject* mvEndTab::getPyValue()
+	{
+
+		PyObject* pvalue = Py_BuildValue("i", m_value);
+
+		return pvalue;
+
 	}
 }

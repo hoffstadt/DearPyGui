@@ -4,11 +4,12 @@ namespace Marvel {
 
 	PyMethodDef SandboxMethods[] = {
 		{"setItemCallback", setItemCallback, METH_VARARGS, "documentation"},
-		{"addInputText", addInputText, METH_VARARGS, "documentation"},
+		{"addInputText", (PyCFunction)addInputText, METH_VARARGS | METH_KEYWORDS, "documentation"},
 		{"addTabBar", addTabBar, METH_VARARGS, "documentation"},
 		{"addTab", addTab, METH_VARARGS, "documentation"},
 		{"endTab", endTab, METH_VARARGS, "documentation"},
 		{"endTabBar", endTabBar, METH_VARARGS, "documentation"},
+		{"getValue", getValue, METH_VARARGS, "documentation"},
 		{NULL, NULL, 0, NULL}
 	};
 
@@ -22,6 +23,20 @@ namespace Marvel {
 		return PyModule_Create(&SandboxModule);
 	}
 
+	PyObject* getValue(PyObject* self, PyObject* args)
+	{
+		const char* name;
+
+		PyArg_ParseTuple(args, "s", &name);
+
+		mvAppItem* item = mvApp::GetApp()->getItem(std::string(name));
+
+		if(item == nullptr)
+			return Py_None;
+
+		return item->getPyValue();
+	}
+
 	PyObject* setItemCallback(PyObject* self, PyObject* args)
 	{
 		const char* callback, * item;
@@ -33,13 +48,18 @@ namespace Marvel {
 		return Py_None;
 	}
 
-	PyObject* addInputText(PyObject* self, PyObject* args)
+	PyObject* addInputText(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
-		const char* parent, * name;
+		const char* parent, *name;
+		const char* hint = "";
+		static const char* keywords[] = { "parent", "name", "hint", NULL };
 
-		PyArg_ParseTuple(args, "ss", &parent, &name);
+		if(!PyArg_ParseTupleAndKeywords(args, kwargs, "ss|$s", const_cast<char**>(keywords), &parent, &name, &hint))
+			__debugbreak();
 
-		mvApp::GetApp()->addInputText(std::string(parent), std::string(name));
+		mvApp::GetApp()->addInputText(std::string(parent), std::string(name), std::string(hint));
+		
+		Py_INCREF(Py_None);
 
 		return Py_None;
 	}
