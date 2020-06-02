@@ -9,9 +9,11 @@ namespace Marvel {
 
 	public:
 
-		mvChild(const std::string& parent, const std::string& name)
+		mvChild(const std::string& parent, const std::string& name, int width, int height)
 			: mvAppItem(parent, name), m_value(false)
 		{
+			m_width = width;
+			m_height = height;
 		}
 
 		virtual PyObject* getPyValue() override;
@@ -25,6 +27,7 @@ namespace Marvel {
 	private:
 
 		bool m_value;
+		int m_height;
 
 	};
 

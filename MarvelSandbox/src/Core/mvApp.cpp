@@ -44,6 +44,9 @@ namespace Marvel {
 				if (!(m_parents.top()->getName() == item->getParent()->getName()))
 					continue;
 
+			if(item->getWidth() != 0)
+				ImGui::SetNextItemWidth((float)item->getWidth());
+
 			item->draw();
 		}
 
@@ -94,6 +97,13 @@ namespace Marvel {
 		auto item = getItem(name);
 		if (item)
 			item->setCallback(callback);
+	}
+
+	void mvApp::setItemWidth(const std::string& name, int width)
+	{
+		auto item = getItem(name);
+		if (item)
+			item->setWidth(width);
 	}
 
 	mvAppItem* mvApp::getItem(const std::string& name)
@@ -242,7 +252,7 @@ namespace Marvel {
 
 	mvAppItem* mvApp::addChild(const std::string& parent, const std::string& name, int width, int height)
 	{
-		mvAppItem* item = new mvChild(parent, name);
+		mvAppItem* item = new mvChild(parent, name, width, height);
 		m_items.push_back(item);
 		return item;
 	}
