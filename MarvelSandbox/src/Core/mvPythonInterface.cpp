@@ -15,6 +15,7 @@ namespace Marvel {
 		{"endMenuBar", endMenuBar, METH_VARARGS, "documentation"},
 		{"addMenuItem", addMenuItem, METH_VARARGS, "documentation"},
 		{"addSpacing", (PyCFunction)addSpacing, METH_VARARGS | METH_KEYWORDS, "documentation"},
+		{"addSameLine", (PyCFunction)addSameLine, METH_VARARGS | METH_KEYWORDS, "documentation"},
 		{"getValue", getValue, METH_VARARGS, "documentation"},
 		{NULL, NULL, 0, NULL}
 	};
@@ -199,6 +200,23 @@ namespace Marvel {
 			__debugbreak();
 
 		mvApp::GetApp()->addSpacing(std::string(parent), count);
+
+		Py_INCREF(Py_None);
+
+		return Py_None;
+	}
+
+	PyObject* addSameLine(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		const char* parent;
+		float xoffset = 0.0f;
+		float spacing = 0.0f;
+		static const char* keywords[] = { "parent", "xoffset", "spacing", NULL };
+
+		if (!PyArg_ParseTupleAndKeywords(args, kwargs, "s|ff", const_cast<char**>(keywords), &parent, &xoffset, &spacing))
+			__debugbreak();
+
+		mvApp::GetApp()->addSameLine(std::string(parent), xoffset, spacing);
 
 		Py_INCREF(Py_None);
 

@@ -3,6 +3,7 @@
 #include "AppItems/mvTab.h"
 #include "AppItems/mvMenu.h"
 #include "AppItems/mvSpacing.h"
+#include "AppItems/mvSameLine.h"
 #include <imgui.h>
 
 namespace Marvel {
@@ -202,6 +203,13 @@ namespace Marvel {
 	mvAppItem* mvApp::addSpacing(const std::string& parent, int count)
 	{
 		mvAppItem* item = new mvSpacing(parent, count);
+		m_items.push_back(item);
+		return item;
+	}
+
+	mvAppItem* mvApp::addSameLine(const std::string& parent, float offsetx, float spacing)
+	{
+		mvAppItem* item = new mvSameLine(parent, offsetx, spacing);
 		m_items.push_back(item);
 		return item;
 	}
