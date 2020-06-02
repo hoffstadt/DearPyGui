@@ -21,6 +21,7 @@ namespace Marvel {
 	PyObject* addMenuItem(PyObject* self, PyObject* args);
 
 	PyObject* addSpacing(PyObject* self, PyObject* args, PyObject* kwargs);
+	PyObject* addSameLine(PyObject* self, PyObject* args, PyObject* kwargs);
 	
 	PyObject* getValue(PyObject* self, PyObject* args);
 
