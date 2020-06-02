@@ -15,6 +15,7 @@ sandbox.endMenuBar("MenuBar")
 
 sandbox.addSpacing("", 10)
 sandbox.addInputText("", "Testing", hint="a hint")
+sandbox.addRadioButton("", "radiobutton1", ("First Option", "Second Option", "Third Option"))
 sandbox.addSpacing("", 10)
 
 # creating tabs

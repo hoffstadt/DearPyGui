@@ -8,6 +8,7 @@ namespace Marvel {
 
 	PyObject* setItemCallback(PyObject* self, PyObject* args);
 	PyObject* addInputText   (PyObject* self, PyObject* args, PyObject* kwargs);
+	PyObject* addRadioButton (PyObject* self, PyObject* args, PyObject* kwargs);
 
 	PyObject* addTabBar      (PyObject* self, PyObject* args);
 	PyObject* addTab         (PyObject* self, PyObject* args);
