@@ -24,6 +24,7 @@ target_sources(MarvelSandbox
 		"${CMAKE_CURRENT_SOURCE_DIR}/src/Core/AppItems/mvSpacing.cpp"
 		"${CMAKE_CURRENT_SOURCE_DIR}/src/Core/AppItems/mvSameLine.cpp"
 		"${CMAKE_CURRENT_SOURCE_DIR}/src/Core/AppItems/mvRadioButton.cpp"
+		"${CMAKE_CURRENT_SOURCE_DIR}/src/Core/AppItems/mvButton.cpp"
 
 		"${CMAKE_CURRENT_SOURCE_DIR}/src/Platform/Windows/mvWindowsWindow.cpp"
 		

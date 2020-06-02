@@ -14,6 +14,7 @@ sandbox.endMenu("Edit")
 sandbox.endMenuBar("MenuBar")
 
 sandbox.addSpacing("", 10)
+sandbox.addButton("", "Press me")
 sandbox.addInputText("", "Testing", hint="a hint")
 sandbox.addRadioButton("", "radiobutton1", ("First Option", "Second Option", "Third Option"))
 sandbox.addSpacing("", 10)
@@ -33,6 +34,7 @@ sandbox.endTab("Tab2")
 sandbox.endTabBar("TabBar1")
 
 # setting call backs
+sandbox.setItemCallback("Press me", "ItemCallback")
 sandbox.setItemCallback("Testing", "ItemCallback")
 sandbox.setItemCallback("Tab1", "ItemCallback")
 sandbox.setItemCallback("callback 1", "ItemCallback")

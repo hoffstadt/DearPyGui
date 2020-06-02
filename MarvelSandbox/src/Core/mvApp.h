@@ -21,6 +21,7 @@ namespace Marvel {
 
 		mvAppItem* addInputText(const std::string& parent, const std::string& name, const std::string& hint = "");
 		mvAppItem* addRadioButtons(const std::string& parent, const std::string& name, const std::vector<std::string>& itemnames, int default_value = 0);
+		mvAppItem* addButton(const std::string& parent, const std::string& name);
 
 		//-----------------------------------------------------------------------------
 		// Tabs
