@@ -7,14 +7,20 @@
 
 namespace Marvel {
 
+	// InputFloat, InputFloat3, InputInt, Checkbox,  Combo,
+	//	Listbox, CollapsingHeader,  
+	//	 Separator
+	//	Tooltip, EndTooltip, Text, LabelText, ProgressBar, Image,
+	//	DragInt, ColorEdit4, SliderInt, FileOpen, FileSave
+
 	enum class mvAppItemType
 	{
-		None = 0,
-		InputText, InputFloat, InputFloat3, InputInt, Button, Checkbox, RadioButtons, Combo,
-		Listbox, CollapsingHeader, TabBar, TabItem, EndTabItem, EndTabBar, Group, EndGroup,
-		MenuBar, Menu, EndMenu, MenuItem, EndMenuBar, Spacing, Separator, SameLine,
-		Tooltip, EndTooltip, Text, LabelText, ProgressBar, Child, EndChild, Image,
-		DragInt, ColorEdit4, SliderInt, FileOpen, FileSave
+		None = 0, Spacing, SameLine,
+		InputText, Button, RadioButtons,
+		TabBar, TabItem, EndTabItem, EndTabBar,
+		MenuBar, Menu, EndMenu, MenuItem, EndMenuBar,
+		Group, EndGroup, Child, EndChild
+
 	};
 
 	class mvAppItem

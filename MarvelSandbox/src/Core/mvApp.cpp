@@ -6,6 +6,8 @@
 #include "AppItems/mvSameLine.h"
 #include "AppItems/mvRadioButton.h"
 #include "AppItems/mvButton.h"
+#include "AppItems/mvChild.h"
+#include "AppItems/mvGroup.h"
 #include <imgui.h>
 
 namespace Marvel {
@@ -60,6 +62,10 @@ namespace Marvel {
 
 			case mvAppItemType::Menu:
 				return static_cast<mvMenu*>(item->getParent())->getValue();
+				break;
+
+			case mvAppItemType::Child:
+				return static_cast<mvChild*>(item->getParent())->getValue();
 				break;
 
 			default:
@@ -208,6 +214,42 @@ namespace Marvel {
 	mvAppItem* mvApp::endMenuBar(const std::string& parent)
 	{
 		mvAppItem* item = new mvEndMenuBar(parent);
+		m_items.push_back(item);
+		return item;
+	}
+
+	//-----------------------------------------------------------------------------
+	// Groups
+	//-----------------------------------------------------------------------------
+
+	mvAppItem* mvApp::addGroup(const std::string& parent, const std::string& name)
+	{
+		mvAppItem* item = new mvGroup(parent, name);
+		m_items.push_back(item);
+		return item;
+	}
+
+	mvAppItem* mvApp::endGroup(const std::string& parent)
+	{
+		mvAppItem* item = new mvEndGroup(parent);
+		m_items.push_back(item);
+		return item;
+	}
+
+	//-----------------------------------------------------------------------------
+	// Child Window
+	//-----------------------------------------------------------------------------
+
+	mvAppItem* mvApp::addChild(const std::string& parent, const std::string& name, int width, int height)
+	{
+		mvAppItem* item = new mvChild(parent, name);
+		m_items.push_back(item);
+		return item;
+	}
+
+	mvAppItem* mvApp::endChild(const std::string& parent)
+	{
+		mvAppItem* item = new mvEndChild(parent);
 		m_items.push_back(item);
 		return item;
 	}

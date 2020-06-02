@@ -13,10 +13,17 @@ sandbox.addMenu("MenuBar", "Edit")
 sandbox.endMenu("Edit")
 sandbox.endMenuBar("MenuBar")
 
+# various widgets
 sandbox.addSpacing("", 10)
 sandbox.addButton("", "Press me")
 sandbox.addInputText("", "Testing", hint="a hint")
-sandbox.addRadioButton("", "radiobutton1", ("First Option", "Second Option", "Third Option"))
+sandbox.addGroup("", "Group1")
+sandbox.addRadioButton("Group1", "radiobutton1", ("First Option", "Second Option", "Third Option"))
+sandbox.endGroup("Group1")
+sandbox.addSameLine("")
+sandbox.addChild("", "Child1", 100, 200)
+sandbox.addRadioButton("Child1", "radiobutton2", ("First Option", "Second Option", "Third Option"))
+sandbox.endChild("Child1")
 sandbox.addSpacing("", 10)
 
 # creating tabs
