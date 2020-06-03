@@ -20,9 +20,6 @@ namespace Marvel {
 				mvApp::GetApp()->triggerCallback(m_callback, m_name);
 		}
 
-		if(m_tip != "" && ImGui::IsItemHovered())
-			ImGui::SetTooltip(m_tip.c_str());
-
 	}
 
 	PyObject* mvInputText::getPyValue()

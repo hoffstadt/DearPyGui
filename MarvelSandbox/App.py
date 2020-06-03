@@ -28,16 +28,25 @@ sandbox.addSpacing("", 10)
 
 # creating tabs
 sandbox.addTabBar("", "TabBar1")
+
 sandbox.addTab("TabBar1", "Tab1")
 sandbox.addInputText("Tab1", "Testing1")
-sandbox.addSameLine("Tab1")
+sandbox.addSameLine("Tab1", 0, 20)
 sandbox.addInputText("Tab1", "Testing2")
 sandbox.endTab("Tab1")
+
 sandbox.addTab("TabBar1", "Tab2")
 sandbox.addInputText("Tab2", "Testing3")
 sandbox.addSpacing("Tab2", count=10)
 sandbox.addInputText("Tab2", "Testing4")
+
+sandbox.addTooltip("Testing4", "Tooltip1")         # start tooltip
+sandbox.addButton("Tooltip1", "A Fancy tooltip 1")
+sandbox.addButton("Tooltip1", "A Fancy tooltip 2")
+sandbox.endTooltip("Tooltip1")                     # end tooltip
+
 sandbox.endTab("Tab2")
+
 sandbox.endTabBar("TabBar1")
 
 # setting call backs
@@ -47,6 +56,10 @@ sandbox.setItemCallback("Tab1", "ItemCallback")
 sandbox.setItemCallback("callback 1", "ItemCallback")
 sandbox.setItemCallback("callback 2", "ItemCallback")
 sandbox.setItemCallback("callback 3", "ItemCallback")
+
+# setting item widths
+sandbox.setItemWidth("Testing1", 200)
+sandbox.setItemWidth("Testing2", 200)
 
 def ItemCallback(sender):
     print("Called by ", sender);

@@ -48,6 +48,7 @@ namespace Marvel {
 			i++;
 
 			m_name = "endTabBar" + std::to_string(i);
+			m_show = true;
 
 		}
 

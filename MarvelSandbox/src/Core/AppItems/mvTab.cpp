@@ -49,9 +49,6 @@ namespace Marvel {
 
 		}
 
-		parent->hideAll();
-		parent->show();
-
 		// create tab item and see if it is selected
 		if (ImGui::BeginTabItem(m_label.c_str()))
 		{
