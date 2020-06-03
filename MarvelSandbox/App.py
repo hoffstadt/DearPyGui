@@ -26,10 +26,10 @@ sandbox.addRadioButton("Child1", "radiobutton2", ("First Option", "Second Option
 sandbox.endChild("Child1")
 sandbox.addSpacing("", 10)
 
-sandbox.addCollapsingHeader("", "CollapsingHeader1")
-sandbox.addButton("CollapsingHeader1", "Button1")
-sandbox.addButton("CollapsingHeader1", "Button2")
-sandbox.addButton("CollapsingHeader1", "Button3")
+sandbox.addCollapsingHeader("", "Themes")
+sandbox.addButton("Themes", "Use Dark")
+sandbox.addButton("Themes", "Use Light")
+sandbox.addButton("Themes", "Use Classic")
 
 # creating tabs
 sandbox.addTabBar("", "TabBar1")
@@ -61,6 +61,9 @@ sandbox.setItemCallback("Tab1", "ItemCallback")
 sandbox.setItemCallback("callback 1", "ItemCallback")
 sandbox.setItemCallback("callback 2", "ItemCallback")
 sandbox.setItemCallback("callback 3", "ItemCallback")
+sandbox.setItemCallback("Use Dark", "DarkTheme")
+sandbox.setItemCallback("Use Light", "LightTheme")
+sandbox.setItemCallback("Use Classic", "ClassicTheme")
 
 # setting a tip
 sandbox.setItemTip("Button1", "A different tip")
@@ -74,6 +77,13 @@ sandbox.setItemWidth("Testing2", 200)
 
 def ItemCallback(sender):
     print("Called by ", sender);
+
+def DarkTheme(sender):
+    sandbox.setTheme("dark")
+def LightTheme(sender):
+    sandbox.setTheme("light")
+def ClassicTheme(sender):
+    sandbox.setTheme("classic")
 
 def MainCallback(sender):
     print(sender);
