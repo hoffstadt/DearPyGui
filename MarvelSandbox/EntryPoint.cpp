@@ -13,9 +13,11 @@ int main(int argc, char* argv[])
 
 	const wchar_t* path;
 	const char* module_name;
-
+	
+#ifdef MV_RELEASE
 	HWND hWnd = GetConsoleWindow();
 	ShowWindow(hWnd, SW_HIDE);
+#endif // MV_RELEASE
 
 	mvWindow* window = new mvWindowsWindow();
 	window->show();
@@ -39,7 +41,7 @@ int main(int argc, char* argv[])
 		
 	// add our custom module
 	PyImport_AppendInittab("sandbox", &PyInit_emb);
-	PyImport_AppendInittab("sandboxout", &PyInit_embout);
+	PyImport_AppendInittab("sandboxout", &PyInit_embOut);
 
 	// set path and start the intpreter
 	Py_SetPath(path);
@@ -60,34 +62,26 @@ int main(int argc, char* argv[])
 	// get module
 	PyObject* pModule = PyImport_ImportModule(module_name); // new reference
 
-
 	// check if error occurred
-	PyObject* perrorset = PyErr_Occurred();
-	if (!perrorset && pModule != nullptr)
+	if (!PyErr_Occurred() && pModule != nullptr)
 	{
-
 		// returns the dictionary object representing the module namespace
 		PyObject* pDict = PyModule_GetDict(pModule); // borrowed reference
-
 		mvApp::GetApp()->setModuleDict(pDict);
-
 		window->run();
-
 		Py_XDECREF(pModule);
 
 	}
 	else
 	{
 		PyErr_Print();
-
 		mvApp::GetApp()->setOk(false);
-
 		window->run();
 	}
 
 	Py_XDECREF(m);
 
-	// shutdown the intpreter
+	// shutdown the interpreter
 	Py_Finalize();
 
 }

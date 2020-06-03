@@ -2,12 +2,6 @@
 
 add_executable (MarvelSandbox)
 
-target_compile_features(MarvelSandbox
-
-	PUBLIC
-		cxx_std_17
-)
-
 target_sources(MarvelSandbox
 
 	PRIVATE
@@ -51,7 +45,15 @@ target_link_libraries(MarvelSandbox
 	PRIVATE
 
 		d3d11
-		python3_d
+		$<$<CONFIG:Debug>:python3_d>
+		$<$<CONFIG:Release>:python3>
+)
+
+target_compile_definitions(MarvelSandbox
+
+	PUBLIC
+
+		$<$<CONFIG:Release>:MV_RELEASE>
 )
 
 add_custom_command(TARGET MarvelSandbox PRE_BUILD

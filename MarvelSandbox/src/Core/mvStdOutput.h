@@ -3,26 +3,29 @@
 #include <Python.h>
 #include "mvLogger.h"
 
-static PyObject* aview_write(PyObject* self, PyObject* args)
-{
-    const char* what;
-    if (!PyArg_ParseTuple(args, "s", &what))
-        return NULL;
-    Marvel::AppLog::getLogger()->AddLog("%0s", what);
-    return Py_BuildValue("");
-}
+namespace Marvel {
 
-static PyMethodDef a_methods[] = {
-    {"write", aview_write, METH_VARARGS, "Write something."},
-    {NULL, NULL, 0, NULL}
-};
+    static PyObject* writeToLogger(PyObject* self, PyObject* args)
+    {
+        const char* what;
+        if (!PyArg_ParseTuple(args, "s", &what))
+            return NULL;
+        Marvel::AppLog::getLogger()->AddLog("%0s", what);
+        return Py_BuildValue("");
+    }
 
-PyModuleDef OutModule = {
-    PyModuleDef_HEAD_INIT, "sandbox", NULL, -1, a_methods,
-    NULL, NULL, NULL, NULL
-};
+    static PyMethodDef outmethods[] = {
+        {"write", writeToLogger, METH_VARARGS, "Write something."},
+        {NULL, NULL, 0, NULL}
+    };
 
-PyObject* PyInit_embout(void)
-{
-    return PyModule_Create(&OutModule);
+    PyModuleDef OutModule = {
+        PyModuleDef_HEAD_INIT, "sandboxout", NULL, -1, outmethods,
+        NULL, NULL, NULL, NULL
+    };
+
+    PyObject* PyInit_embOut(void)
+    {
+        return PyModule_Create(&OutModule);
+    }
 }
