@@ -64,8 +64,8 @@ namespace Marvel {
 		mvAppItem* addSpacing(const std::string& parent, int count = 1);
 		//mvAppItem* addSeperator(const mvString& parent);
 		mvAppItem* addSameLine(const std::string& parent, float offsetx = 0.0f, float spacing = -1.0f);
-		//mvAppItem* addTooltip(const mvString& parent, const mvString& name);
-		//mvAppItem* endTooltip(const mvString& parent);
+		mvAppItem* addTooltip(const std::string& parent, const std::string& name);
+		mvAppItem* endTooltip(const std::string& parent);
 		//mvAppItem* addImage(const mvString& parent, const mvString& filename);
 
 		//-----------------------------------------------------------------------------
@@ -81,6 +81,7 @@ namespace Marvel {
 		void       triggerCallback(const std::string& name, const std::string& sender);
 		void       pushParent     (mvAppItem* item);
 		mvAppItem* popParent      ();
+		mvAppItem* topParent      ();
 		bool       doesParentAllowRender(mvAppItem* item);
 		void       setSize(unsigned width, unsigned height) { m_width = width; m_height = height; }
 

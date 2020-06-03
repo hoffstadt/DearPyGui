@@ -8,6 +8,7 @@
 #include "AppItems/mvButton.h"
 #include "AppItems/mvChild.h"
 #include "AppItems/mvGroup.h"
+#include "AppItems/mvTooltip.h"
 #include <imgui.h>
 
 namespace Marvel {
@@ -36,18 +37,28 @@ namespace Marvel {
 
 		for (mvAppItem* item : m_items)
 		{
+			// skip item if it's not shown
+			if (!item->isShown())
+				continue;
+
+			// check if item is owned & it's parent is visible
 			if (!doesParentAllowRender(item))
 				continue;
 
 			// if parent isn't the most recent parent, skip
-			if (item->getParent() && m_parents.top())
+			if (item->getParent() && m_parents.top() && item->getType() != mvAppItemType::Tooltip)
 				if (!(m_parents.top()->getName() == item->getParent()->getName()))
 					continue;
 
+			// set item width
 			if(item->getWidth() != 0)
 				ImGui::SetNextItemWidth((float)item->getWidth());
 
 			item->draw();
+
+			// Regular Tooltip (simple)
+			if (item->getTip() != "" && ImGui::IsItemHovered())
+				ImGui::SetTooltip(item->getTip().c_str());
 		}
 
 		ImGui::End();
@@ -71,6 +82,10 @@ namespace Marvel {
 				return static_cast<mvChild*>(item->getParent())->getValue();
 				break;
 
+			case mvAppItemType::Tooltip:
+				return static_cast<mvTooltip*>(item->getParent())->getValue();
+				break;
+
 			default:
 				return item->getParent()->isShown();
 			}
@@ -90,6 +105,11 @@ namespace Marvel {
 		mvAppItem* item = m_parents.top();
 		m_parents.pop();
 		return item;
+	}
+
+	mvAppItem* mvApp::topParent()
+	{
+		return m_parents.top();
 	}
 
 	void mvApp::setItemCallback(const std::string& name, const std::string& callback)
@@ -278,6 +298,20 @@ namespace Marvel {
 	mvAppItem* mvApp::addSameLine(const std::string& parent, float offsetx, float spacing)
 	{
 		mvAppItem* item = new mvSameLine(parent, offsetx, spacing);
+		m_items.push_back(item);
+		return item;
+	}
+
+	mvAppItem* mvApp::addTooltip(const std::string& parent, const std::string& name)
+	{
+		mvAppItem* item = new mvTooltip(parent, name);
+		m_items.push_back(item);
+		return item;
+	}
+
+	mvAppItem* mvApp::endTooltip(const std::string& parent)
+	{
+		mvAppItem* item = new mvEndTooltip(parent);
 		m_items.push_back(item);
 		return item;
 	}

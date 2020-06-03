@@ -30,6 +30,8 @@ namespace Marvel {
 
 	PyObject* addSpacing(PyObject* self, PyObject* args, PyObject* kwargs);
 	PyObject* addSameLine(PyObject* self, PyObject* args, PyObject* kwargs);
+	PyObject* addTooltip(PyObject* self, PyObject* args);
+	PyObject* endTooltip(PyObject* self, PyObject* args);
 	
 	PyObject* getValue(PyObject* self, PyObject* args);
 

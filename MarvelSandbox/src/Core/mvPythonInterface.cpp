@@ -23,6 +23,8 @@ namespace Marvel {
 		{"addMenuItem", addMenuItem, METH_VARARGS, "documentation"},
 		{"addSpacing", (PyCFunction)addSpacing, METH_VARARGS | METH_KEYWORDS, "documentation"},
 		{"addSameLine", (PyCFunction)addSameLine, METH_VARARGS | METH_KEYWORDS, "documentation"},
+		{"addTooltip", addTooltip, METH_VARARGS, "documentation"},
+		{"endTooltip", endTooltip, METH_VARARGS, "documentation"},
 		{"getValue", getValue, METH_VARARGS, "documentation"},
 		{NULL, NULL, 0, NULL}
 	};
@@ -327,6 +329,32 @@ namespace Marvel {
 		PyArg_ParseTuple(args, "s", &parent);
 
 		mvApp::GetApp()->endChild(std::string(parent));
+
+		Py_INCREF(Py_None);
+
+		return Py_None;
+	}
+
+	PyObject* addTooltip(PyObject* self, PyObject* args)
+	{
+		const char* parent, * name;
+
+		PyArg_ParseTuple(args, "ss", &parent, &name);
+
+		mvApp::GetApp()->addTooltip(std::string(parent), std::string(name));
+
+		Py_INCREF(Py_None);
+
+		return Py_None;
+	}
+
+	PyObject* endTooltip(PyObject* self, PyObject* args)
+	{
+		const char* parent;
+
+		PyArg_ParseTuple(args, "s", &parent);
+
+		mvApp::GetApp()->endTooltip(std::string(parent));
 
 		Py_INCREF(Py_None);
 
