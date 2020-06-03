@@ -5,6 +5,7 @@ sandbox.addMenuBar("MenuBar")
 sandbox.addMenu("MenuBar", "File")
 sandbox.addMenu("File", "Callbacks")
 sandbox.addMenuItem("Callbacks", "callback 1")
+sandbox.addSeperator("Callbacks")
 sandbox.addMenuItem("Callbacks", "callback 2")
 sandbox.addMenuItem("Callbacks", "callback 3")
 sandbox.endMenu("Callbacks")
@@ -38,6 +39,7 @@ sandbox.addTab("TabBar1", "Tab1")
 sandbox.addInputText("Tab1", "Testing1")
 sandbox.addSameLine("Tab1", 0, 20)
 sandbox.addInputText("Tab1", "Testing2")
+sandbox.addColorEdit4("Tab1", "Color1", 1.0, 0, 0, 1.0)
 sandbox.endTab("Tab1")
 
 sandbox.addTab("TabBar1", "Tab2")
@@ -77,6 +79,8 @@ sandbox.setItemWidth("Testing2", 200)
 
 def ItemCallback(sender):
     print("Called by ", sender);
+    value = sandbox.getValue("Color1")
+    print(value)
 
 def DarkTheme(sender):
     sandbox.setTheme("dark")

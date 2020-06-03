@@ -10,6 +10,8 @@
 #include "AppItems/mvGroup.h"
 #include "AppItems/mvTooltip.h"
 #include "AppItems/mvCollapsingHeader.h"
+#include "AppItems/mvSeperator.h"
+#include "AppItems/mvColorEdit4.h"
 
 namespace Marvel {
 
@@ -206,6 +208,13 @@ namespace Marvel {
 		return item;
 	}
 
+	mvAppItem* mvApp::addColorEdit4(const std::string& parent, const std::string& name, float r, float g, float b, float a)
+	{
+		mvAppItem* item = new mvColorEdit4(parent, name, r, g, b, a);
+		m_items.push_back(item);
+		return item;
+	}
+
 	mvAppItem* mvApp::addRadioButtons(const std::string& parent, const std::string& name, const std::vector<std::string>& itemnames, int default_value)
 	{
 		mvAppItem* item = new mvRadioButton(parent, name, itemnames, default_value);
@@ -355,6 +364,13 @@ namespace Marvel {
 	mvAppItem* mvApp::endTooltip(const std::string& parent)
 	{
 		mvAppItem* item = new mvEndTooltip(parent);
+		m_items.push_back(item);
+		return item;
+	}
+
+	mvAppItem* mvApp::addSeperator(const std::string& parent)
+	{
+		mvAppItem* item = new mvSeparator(parent);
 		m_items.push_back(item);
 		return item;
 	}
