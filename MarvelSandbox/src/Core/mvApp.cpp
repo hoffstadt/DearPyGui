@@ -176,6 +176,18 @@ namespace Marvel {
 
 	}
 
+	void mvApp::setAppTheme(const std::string& theme)
+	{
+		if (theme == "dark")
+			ImGui::StyleColorsDark();
+		else if (theme == "classic")
+			ImGui::StyleColorsClassic();
+		else if (theme == "light")
+			ImGui::StyleColorsLight();
+		else
+			ImGui::StyleColorsDark();
+	}
+
 	//-----------------------------------------------------------------------------
 	// Basic AppItems
 	//-----------------------------------------------------------------------------

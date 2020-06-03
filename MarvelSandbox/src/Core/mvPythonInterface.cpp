@@ -3,6 +3,7 @@
 namespace Marvel {
 
 	PyMethodDef SandboxMethods[] = {
+		{"setTheme", setTheme, METH_VARARGS, "documentation"},
 		{"setMainCallback", setMainCallback, METH_VARARGS, "documentation"},
 		{"setItemCallback", setItemCallback, METH_VARARGS, "documentation"},
 		{"setItemTip", setItemTip, METH_VARARGS, "documentation"},
@@ -397,6 +398,19 @@ namespace Marvel {
 		PyArg_ParseTuple(args, "ss", &parent, &name);
 
 		mvApp::GetApp()->addCollapsingHeader(std::string(parent), std::string(name));
+
+		Py_INCREF(Py_None);
+
+		return Py_None;
+	}
+
+	PyObject* setTheme(PyObject* self, PyObject* args)
+	{
+		const char* theme;
+
+		PyArg_ParseTuple(args, "s", &theme);
+
+		mvApp::GetApp()->setAppTheme(std::string(theme));
 
 		Py_INCREF(Py_None);
 
