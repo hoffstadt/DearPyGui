@@ -75,6 +75,7 @@ namespace Marvel {
 		void       render         ();
 		void       setItemCallback(const std::string& name, const std::string& callback);
 		void       setItemWidth   (const std::string& name, int width);
+		void       setItemTip     (const std::string& name, const std::string& tip);
 		void       setModuleDict  (PyObject* dict) { m_pDict = dict; }
 		PyObject*  getModuleDict  () { return m_pDict; }
 		mvAppItem* getItem        (const std::string& name);

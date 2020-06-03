@@ -6,6 +6,7 @@ namespace Marvel {
 
 	PyObject* PyInit_emb(void);
 
+	PyObject* setItemTip     (PyObject* self, PyObject* args);
 	PyObject* setItemWidth   (PyObject* self, PyObject* args);
 	PyObject* setItemCallback(PyObject* self, PyObject* args);
 	PyObject* addButton      (PyObject* self, PyObject* args);

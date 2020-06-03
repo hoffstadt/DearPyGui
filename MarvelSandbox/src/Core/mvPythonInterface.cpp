@@ -4,6 +4,7 @@ namespace Marvel {
 
 	PyMethodDef SandboxMethods[] = {
 		{"setItemCallback", setItemCallback, METH_VARARGS, "documentation"},
+		{"setItemTip", setItemTip, METH_VARARGS, "documentation"},
 		{"setItemWidth", setItemWidth, METH_VARARGS, "documentation"},
 		{"addButton", addButton, METH_VARARGS, "documentation"},
 		{"addInputText", (PyCFunction)addInputText, METH_VARARGS | METH_KEYWORDS, "documentation"},
@@ -58,9 +59,22 @@ namespace Marvel {
 	{
 		const char* callback, * item;
 
-		PyArg_ParseTuple(args, "ss", &callback, &item);
+		PyArg_ParseTuple(args, "ss", &item, &callback);
 
-		mvApp::GetApp()->setItemCallback(std::string(callback), std::string(item));
+		mvApp::GetApp()->setItemCallback(std::string(item), std::string(callback));
+
+		Py_INCREF(Py_None);
+
+		return Py_None;
+	}
+
+	PyObject* setItemTip(PyObject* self, PyObject* args)
+	{
+		const char* tip, * item;
+
+		PyArg_ParseTuple(args, "ss", &item, &tip);
+
+		mvApp::GetApp()->setItemTip(std::string(item), std::string(tip));
 
 		Py_INCREF(Py_None);
 
