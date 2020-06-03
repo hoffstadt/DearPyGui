@@ -4,10 +4,15 @@
 
 namespace Marvel {
 
+	//-----------------------------------------------------------------------------
+	// mvChild
+	//-----------------------------------------------------------------------------
 	class mvChild : public mvAppItem
 	{
 
 	public:
+
+		MV_APPITEM_TYPE(mvAppItemType::Child)
 
 		mvChild(const std::string& parent, const std::string& name, int width, int height)
 			: mvAppItem(parent, name), m_value(false)
@@ -16,11 +21,25 @@ namespace Marvel {
 			m_height = height;
 		}
 
-		virtual PyObject* getPyValue() override;
+		virtual PyObject* getPyValue() override
+		{
+			PyObject* pvalue = Py_BuildValue("i", m_value);
 
-		virtual mvAppItemType getType() const override { return mvAppItemType::Child; }
+			return pvalue;
+		}
 
-		virtual void draw() override;
+		virtual void draw() override
+		{
+			ImGui::BeginChild(m_label.c_str(), ImVec2(float(m_width), float(m_height)), true);
+
+			mvApp::GetApp()->pushParent(this);
+
+			// set current child value true
+			m_value = true;
+
+			if (m_tip != "" && ImGui::IsItemHovered())
+				ImGui::SetTooltip(m_tip.c_str());
+		}
 
 		inline bool getValue() const { return m_value; }
 
@@ -31,21 +50,27 @@ namespace Marvel {
 
 	};
 
+	//-----------------------------------------------------------------------------
+	// mvEndChild
+	//-----------------------------------------------------------------------------
 	class mvEndChild : public mvAppItem
 	{
 
 	public:
+
+		MV_APPITEM_TYPE(mvAppItemType::EndChild)
+		MV_NORETURN_VALUE()
 
 		mvEndChild(const std::string& parent)
 			: mvAppItem(parent, "Endgroup")
 		{
 		}
 
-		virtual PyObject* getPyValue() override { return nullptr; }
-
-		virtual mvAppItemType getType() const override { return mvAppItemType::EndChild; }
-
-		virtual void draw() override;
+		virtual void draw() override
+		{
+			mvApp::GetApp()->popParent();
+			ImGui::EndChild();
+		}
 
 	};
 

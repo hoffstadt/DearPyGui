@@ -9,16 +9,19 @@ namespace Marvel {
 
 	public:
 
+		MV_APPITEM_TYPE(mvAppItemType::Button)
+		MV_NORETURN_VALUE()
+
 		mvButton(const std::string& parent, const std::string& name)
 			: mvAppItem(parent, name)
 		{
 		}
 
-		virtual PyObject* getPyValue() override { return nullptr; }
-
-		virtual mvAppItemType getType() const override { return mvAppItemType::Button; }
-
-		virtual void draw() override;
+		virtual void draw() override
+		{
+			if (ImGui::Button(m_label.c_str()))
+				mvApp::GetApp()->triggerCallback(m_callback, m_name);
+		}
 
 	};
 
