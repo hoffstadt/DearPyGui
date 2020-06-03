@@ -4,6 +4,10 @@
 #include <Python.h>
 #include <string>
 #include <vector>
+#include <imgui.h>
+
+#define MV_APPITEM_TYPE(x) virtual mvAppItemType getType() const override { return x; }
+#define MV_NORETURN_VALUE() virtual PyObject* getPyValue() override { return nullptr; }
 
 namespace Marvel {
 

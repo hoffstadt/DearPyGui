@@ -13,16 +13,26 @@ namespace Marvel {
 
 	public:
 
+		MV_APPITEM_TYPE(mvAppItemType::TabBar)
+
 		mvTabBar(const std::string& parent, const std::string& name)
 			: mvAppItem(parent, name)
 		{
 			m_value = new std::string();
 		}
 
-		virtual PyObject* getPyValue() override;
-		virtual mvAppItemType getType() const override { return mvAppItemType::TabBar; }
+		virtual PyObject* getPyValue() override
+		{
+			PyObject* pvalue = Py_BuildValue("s", m_value->c_str());
 
-		virtual void draw() override;
+			return pvalue;
+		}
+
+		virtual void draw() override
+		{
+			mvApp::GetApp()->pushParent(this);
+			ImGui::BeginTabBar(m_label.c_str());
+		}
 
 		inline void setValue(const std::string& value) { *m_value = value; }
 		inline const std::string& getValue() const { return *m_value; }
@@ -41,6 +51,8 @@ namespace Marvel {
 
 	public:
 
+		MV_APPITEM_TYPE(mvAppItemType::EndTabBar)
+
 		mvEndTabBar(const std::string& parent)
 			: mvAppItem(parent, "temporary"), m_value(false)
 		{
@@ -52,10 +64,18 @@ namespace Marvel {
 
 		}
 
-		virtual PyObject* getPyValue() override;
-		virtual mvAppItemType getType() const override { return mvAppItemType::EndTabBar; }
+		virtual PyObject* getPyValue() override
+		{
+			PyObject* pvalue = Py_BuildValue("i", m_value);
 
-		virtual void draw() override;
+			return pvalue;
+		}
+
+		virtual void draw() override
+		{
+			mvApp::GetApp()->popParent();
+			ImGui::EndTabBar();
+		}
 
 		inline bool getValue() const { return m_value; }
 
@@ -73,15 +93,65 @@ namespace Marvel {
 
 	public:
 
+		MV_APPITEM_TYPE(mvAppItemType::TabItem)
+
 		mvTab(const std::string& parent, const std::string& name)
 			: mvAppItem(parent, name), m_value(false)
 		{
 		}
 
-		virtual PyObject* getPyValue() override;
-		virtual mvAppItemType getType() const override { return mvAppItemType::TabItem; }
+		virtual PyObject* getPyValue() override
+		{
+			PyObject* pvalue = Py_BuildValue("i", m_value);
 
-		virtual void draw() override;
+			return pvalue;
+		}
+
+		virtual void draw() override
+		{
+			// cast parent to mvTabBar
+			mvTabBar* parent = static_cast<mvTabBar*>(m_parent);
+
+			// check if this is first tab
+			if (parent->getValue() == "")
+			{
+
+				// set mvTabBar value to the first tab name
+				parent->setValue(m_name);
+				m_value = true;
+
+			}
+
+			// create tab item and see if it is selected
+			if (ImGui::BeginTabItem(m_label.c_str()))
+			{
+				mvApp::GetApp()->pushParent(this); // push parent onto the parent stack
+
+				bool changed = false;
+
+				// change tab bar value to this selected tab
+				if (parent->getValue() != m_name)
+					changed = true;
+				else
+					changed = false;
+
+				parent->setValue(m_name);
+
+				// set other tab's value false
+				for (mvAppItem* child : parent->getChildren())
+					static_cast<mvTab*>(child)->setValue(false);
+
+				// set current tab value true
+				m_value = true;
+
+				showAll();
+
+				// run call back if it exists
+				if (changed)
+					mvApp::GetApp()->triggerCallback(m_callback, m_name);
+
+			}
+		}
 
 		inline void setValue(bool value) { m_value = value; }
 		inline bool getValue() const { return m_value; }
@@ -100,6 +170,8 @@ namespace Marvel {
 
 	public:
 
+		MV_APPITEM_TYPE(mvAppItemType::EndTabItem)
+
 		mvEndTab(const std::string& parent)
 			: mvAppItem(parent, "temporary"), m_value(false)
 		{
@@ -110,10 +182,18 @@ namespace Marvel {
 
 		}
 
-		virtual PyObject* getPyValue() override;
-		virtual mvAppItemType getType() const override { return mvAppItemType::EndTabItem; }
+		virtual PyObject* getPyValue() override
+		{
+			PyObject* pvalue = Py_BuildValue("i", m_value);
 
-		virtual void draw() override;
+			return pvalue;
+		}
+
+		virtual void draw() override
+		{
+			mvApp::GetApp()->popParent();
+			ImGui::EndTabItem();
+		}
 
 		inline bool getValue() const { return m_value; }
 

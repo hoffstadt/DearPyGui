@@ -13,16 +13,26 @@ namespace Marvel {
 
 	public:
 
+		MV_APPITEM_TYPE(mvAppItemType::MenuBar)
+
 		mvMenuBar(const std::string& name)
 			: mvAppItem("", name)
 		{
 			m_value = true;
 		}
 
-		virtual PyObject* getPyValue() override;
-		virtual mvAppItemType getType() const override { return mvAppItemType::MenuBar; }
+		virtual PyObject* getPyValue() override
+		{
+			PyObject* pvalue = Py_BuildValue("i", m_value);
 
-		virtual void draw() override;
+			return pvalue;
+		}
+
+		virtual void draw() override
+		{
+			mvApp::GetApp()->pushParent(this);
+			ImGui::BeginMenuBar();
+		}
 
 		inline void setValue(bool value) { m_value = value; }
 		inline bool getValue() const { return m_value; }
@@ -34,12 +44,15 @@ namespace Marvel {
 	};
 
 	//-----------------------------------------------------------------------------
-	// mvEndTabBar
+	// mvEndMenuBar
 	//-----------------------------------------------------------------------------
 	class mvEndMenuBar : public mvAppItem
 	{
 
 	public:
+
+		MV_APPITEM_TYPE(mvAppItemType::EndMenuBar)
+		MV_NORETURN_VALUE()
 
 		mvEndMenuBar(const std::string& parent)
 			: mvAppItem(parent, "temporary")
@@ -51,31 +64,53 @@ namespace Marvel {
 
 		}
 
-		virtual PyObject* getPyValue() override { return nullptr; }
-		virtual mvAppItemType getType() const override { return mvAppItemType::EndMenuBar; }
-
-		virtual void draw() override;
+		virtual void draw() override
+		{
+			mvApp::GetApp()->popParent();
+			ImGui::EndMenuBar();
+		}
 
 
 	};
 
 	//-----------------------------------------------------------------------------
-	// mvTab
+	// mvMenu
 	//-----------------------------------------------------------------------------
 	class mvMenu : public mvAppItem
 	{
 
 	public:
 
+		MV_APPITEM_TYPE(mvAppItemType::Menu)
+
 		mvMenu(const std::string& parent, const std::string& name)
 			: mvAppItem(parent, name), m_value(false)
 		{
 		}
 
-		virtual PyObject* getPyValue() override;
-		virtual mvAppItemType getType() const override { return mvAppItemType::Menu; }
+		virtual PyObject* getPyValue() override
+		{
+			PyObject* pvalue = Py_BuildValue("i", m_value);
 
-		virtual void draw() override;
+			return pvalue;
+		}
+
+		virtual void draw() override
+		{
+			// create menu and see if its selected
+			if (ImGui::BeginMenu(m_label.c_str()))
+			{
+				mvApp::GetApp()->pushParent(this);
+
+				// set other menus's value false on same level
+				for (mvAppItem* child : m_parent->getChildren())
+					static_cast<mvMenu*>(child)->setValue(false);
+
+				// set current menu value true
+				m_value = true;
+
+			}
+		}
 
 		inline void setValue(bool value) { m_value = value; }
 		inline bool getValue() const { return m_value; }
@@ -87,12 +122,14 @@ namespace Marvel {
 	};
 
 	//-----------------------------------------------------------------------------
-	// mvEndTab
+	// mvEndMenu
 	//-----------------------------------------------------------------------------
 	class mvEndMenu : public mvAppItem
 	{
 
 	public:
+
+		MV_APPITEM_TYPE(mvAppItemType::EndMenu)
 
 		mvEndMenu(const std::string& parent)
 			: mvAppItem(parent, "temporary"), m_value(false)
@@ -104,10 +141,18 @@ namespace Marvel {
 
 		}
 
-		virtual PyObject* getPyValue() override;
-		virtual mvAppItemType getType() const override { return mvAppItemType::EndMenu; }
+		virtual PyObject* getPyValue() override
+		{
+			PyObject* pvalue = Py_BuildValue("i", m_value);
 
-		virtual void draw() override;
+			return pvalue;
+		}
+
+		virtual void draw() override
+		{
+			mvApp::GetApp()->popParent();
+			ImGui::EndMenu();
+		}
 
 		inline bool getValue() const { return m_value; }
 
@@ -118,22 +163,44 @@ namespace Marvel {
 	};
 
 	//-----------------------------------------------------------------------------
-	// mvTab
+	// mvMenuItem
 	//-----------------------------------------------------------------------------
 	class mvMenuItem : public mvAppItem
 	{
 
 	public:
 
+		MV_APPITEM_TYPE(mvAppItemType::MenuItem)
+
 		mvMenuItem(const std::string& parent, const std::string& name)
 			: mvAppItem(parent, name), m_value(false)
 		{
 		}
 
-		virtual PyObject* getPyValue() override;
-		virtual mvAppItemType getType() const override { return mvAppItemType::MenuItem; }
+		virtual PyObject* getPyValue() override
+		{
+			PyObject* pvalue = Py_BuildValue("i", m_value);
 
-		virtual void draw() override;
+			return pvalue;
+		}
+
+		virtual void draw() override
+		{
+			// create menuitem and see if its selected
+			if (ImGui::MenuItem(m_label.c_str(), NULL))
+			{
+
+				// set other menusitems's value false on same level
+				for (mvAppItem* child : m_parent->getChildren())
+					static_cast<mvMenuItem*>(child)->setValue(false);
+
+				m_value = true;
+
+
+				mvApp::GetApp()->triggerCallback(m_callback, m_name);
+
+			}
+		}
 
 		inline void setValue(bool value) { m_value = value; }
 		inline bool getValue() const { return m_value; }
