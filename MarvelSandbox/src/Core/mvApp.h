@@ -108,6 +108,8 @@ namespace Marvel {
 		mvAppItem* getItem(const std::string& name);
 		void       setModuleDict  (PyObject* dict) { m_pDict = dict; }
 		void       setSize(unsigned width, unsigned height) { m_width = width; m_height = height; }
+		bool       isOk() const { return m_ok; }
+		void       setOk(bool ok) { m_ok = ok; }
 
 	private:
 
@@ -130,6 +132,7 @@ namespace Marvel {
 		unsigned                m_width;
 		unsigned                m_height;
 		std::string             m_callback;
+		bool                    m_ok = true;
 
 	};
 

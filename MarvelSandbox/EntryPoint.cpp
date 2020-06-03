@@ -1,14 +1,21 @@
 ﻿#include "Core/mvPythonInterface.h"
+#include "Core/mvStdOutput.h"
 #include "Core/mvWindow.h"
 #include "Platform/Windows/mvWindowsWindow.h"
 #include <iostream>
 
 using namespace Marvel;
 
+AppLog* AppLog::s_instance = nullptr;
+
 int main(int argc, char* argv[])
 {
+
 	const wchar_t* path;
 	const char* module_name;
+
+	HWND hWnd = GetConsoleWindow();
+	ShowWindow(hWnd, SW_HIDE);
 
 	mvWindow* window = new mvWindowsWindow();
 	window->show();
@@ -32,12 +39,15 @@ int main(int argc, char* argv[])
 		
 	// add our custom module
 	PyImport_AppendInittab("sandbox", &PyInit_emb);
+	PyImport_AppendInittab("sandboxout", &PyInit_embout);
 
 	// set path and start the intpreter
 	Py_SetPath(path);
 	Py_Initialize();
 
-	PyObject* catchingModule = PyImport_ImportModule("OutputCatching");
+	PyObject* m = PyImport_ImportModule("sandboxout");
+	PySys_SetObject("stdout", m);
+	PySys_SetObject("stderr", m);
 
 	// get module name
 	if (argc < 2)
@@ -50,17 +60,12 @@ int main(int argc, char* argv[])
 	// get module
 	PyObject* pModule = PyImport_ImportModule(module_name); // new reference
 
-	// check module (if it exists)
-	if (pModule == nullptr)
-	{
-		Py_Finalize();
-		return 0;
-	}
 
 	// check if error occurred
-	PyErr_Print();
-	if (!PyErr_Occurred())
+	PyObject* perrorset = PyErr_Occurred();
+	if (!perrorset && pModule != nullptr)
 	{
+
 		// returns the dictionary object representing the module namespace
 		PyObject* pDict = PyModule_GetDict(pModule); // borrowed reference
 
@@ -68,17 +73,19 @@ int main(int argc, char* argv[])
 
 		window->run();
 
-		Py_XDECREF(pDict);
 		Py_XDECREF(pModule);
 
 	}
 	else
 	{
-		PyObject* catcher = PyObject_GetAttrString(catchingModule, "catchOutErr");
-		PyObject* output = PyObject_GetAttrString(catcher, "value");
-		std::string results = PyUnicode_AsUTF8(output);
-		std::cout << results << std::endl;
+		PyErr_Print();
+
+		mvApp::GetApp()->setOk(false);
+
+		window->run();
 	}
+
+	Py_XDECREF(m);
 
 	// shutdown the intpreter
 	Py_Finalize();

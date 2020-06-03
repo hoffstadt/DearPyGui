@@ -82,9 +82,8 @@ sandbox.setItemWidth("Testing2", 200)
 #sandbox.setMainCallback("MainCallback")
 
 def ItemCallback(sender):
-    print("Called by ", sender);
+    print("Called by ", sender)
     value = sandbox.getValue("Color1")
-    print(value)
 
 def DarkTheme(sender):
     sandbox.setTheme("dark")

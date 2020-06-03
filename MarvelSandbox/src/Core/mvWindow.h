@@ -1,6 +1,7 @@
 #pragma once
 
 #include "mvApp.h"
+#include "mvLogger.h"
 
 class mvWindow
 {
@@ -22,7 +23,9 @@ public:
 		while (m_running)
 		{
 			prerender();
-			m_app->render();
+			if(m_app->isOk())
+				m_app->render();
+			Marvel::AppLog::getLogger()->Draw("Marvel Sandbox");
 			postrender();
 		}
 
