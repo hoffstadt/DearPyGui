@@ -36,6 +36,9 @@ namespace Marvel {
 
 		m_parents.push(nullptr);
 
+		// main callback
+		triggerCallback(m_callback, "Main Application");
+
 		for (mvAppItem* item : m_items)
 		{
 			// skip item if it's not shown

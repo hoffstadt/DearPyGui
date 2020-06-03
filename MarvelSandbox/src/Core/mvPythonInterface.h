@@ -8,6 +8,7 @@ namespace Marvel {
 
 	PyObject* setItemTip     (PyObject* self, PyObject* args);
 	PyObject* setItemWidth   (PyObject* self, PyObject* args);
+	PyObject* setMainCallback(PyObject* self, PyObject* args);
 	PyObject* setItemCallback(PyObject* self, PyObject* args);
 	PyObject* addButton      (PyObject* self, PyObject* args);
 	PyObject* addInputText   (PyObject* self, PyObject* args, PyObject* kwargs);

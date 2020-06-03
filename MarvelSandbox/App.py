@@ -69,5 +69,11 @@ sandbox.setItemTip("Button1", "A different tip")
 sandbox.setItemWidth("Testing1", 200)
 sandbox.setItemWidth("Testing2", 200)
 
+# setting main callback
+#sandbox.setMainCallback("MainCallback")
+
 def ItemCallback(sender):
     print("Called by ", sender);
+
+def MainCallback(sender):
+    print(sender);
