@@ -132,6 +132,13 @@ namespace Marvel {
 			item->setCallback(callback);
 	}
 
+	void mvApp::setItemTip(const std::string& name, const std::string& tip)
+	{
+		auto item = getItem(name);
+		if (item)
+			item->setTip(tip);
+	}
+
 	void mvApp::setItemWidth(const std::string& name, int width)
 	{
 		auto item = getItem(name);
@@ -170,6 +177,7 @@ namespace Marvel {
 	//-----------------------------------------------------------------------------
 	// Basic AppItems
 	//-----------------------------------------------------------------------------
+
 	mvAppItem* mvApp::addInputText(const std::string& parent, const std::string& name, const std::string& hint)
 	{
 		mvAppItem* item = new mvInputText(parent, name, hint);
@@ -194,6 +202,7 @@ namespace Marvel {
 	//-----------------------------------------------------------------------------
 	// Tabs
 	//-----------------------------------------------------------------------------
+
 	mvAppItem* mvApp::addTabBar(const std::string& parent, const std::string& name)
 	{
 		mvAppItem* item = new mvTabBar(parent, name);

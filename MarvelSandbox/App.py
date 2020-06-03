@@ -62,6 +62,9 @@ sandbox.setItemCallback("callback 1", "ItemCallback")
 sandbox.setItemCallback("callback 2", "ItemCallback")
 sandbox.setItemCallback("callback 3", "ItemCallback")
 
+# setting a tip
+sandbox.setItemTip("Button1", "A different tip")
+
 # setting item widths
 sandbox.setItemWidth("Testing1", 200)
 sandbox.setItemWidth("Testing2", 200)
