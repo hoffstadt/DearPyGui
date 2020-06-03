@@ -27,7 +27,10 @@ namespace Marvel {
 		//-----------------------------------------------------------------------------
 
 		mvAppItem* addInputText   (const std::string& parent, const std::string& name, const std::string& hint = "");
-		mvAppItem* addRadioButtons(const std::string& parent, const std::string& name, const std::vector<std::string>& itemnames, int default_value = 0);
+		mvAppItem* addInputInt    (const std::string& parent, const std::string& name, int default_value);
+		mvAppItem* addInputFloat  (const std::string& parent, const std::string& name, float default_value);
+		mvAppItem* addCheckbox    (const std::string& parent, const std::string& name, bool default_value);
+		mvAppItem* addRadioButtons(const std::string& parent, const std::string& name, const std::vector<std::string>& itemnames, int default_value);
 		mvAppItem* addButton      (const std::string& parent, const std::string& name);
 
 		//-----------------------------------------------------------------------------

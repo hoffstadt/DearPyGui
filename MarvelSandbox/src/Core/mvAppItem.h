@@ -11,7 +11,7 @@
 
 namespace Marvel {
 
-	// InputFloat, InputFloat3, InputInt, Checkbox,  Combo,
+	// InputFloat3,  Combo,
 	//	Listbox,  
 	//	Text, LabelText, ProgressBar, Image,
 	//	DragInt, SliderInt, FileOpen, FileSave
@@ -24,7 +24,7 @@ namespace Marvel {
 		MenuBar, Menu, EndMenu, MenuItem, EndMenuBar,
 		Group, EndGroup, Child, EndChild,
 		Tooltip, EndTooltip, CollapsingHeader,
-		Separator, ColorEdit4
+		Separator, ColorEdit4, Checkbox, InputInt, InputFloat
 
 	};
 
