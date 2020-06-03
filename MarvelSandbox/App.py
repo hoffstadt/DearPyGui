@@ -26,6 +26,11 @@ sandbox.addRadioButton("Child1", "radiobutton2", ("First Option", "Second Option
 sandbox.endChild("Child1")
 sandbox.addSpacing("", 10)
 
+sandbox.addCollapsingHeader("", "CollapsingHeader1")
+sandbox.addButton("CollapsingHeader1", "Button1")
+sandbox.addButton("CollapsingHeader1", "Button2")
+sandbox.addButton("CollapsingHeader1", "Button3")
+
 # creating tabs
 sandbox.addTabBar("", "TabBar1")
 

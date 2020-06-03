@@ -26,6 +26,7 @@ namespace Marvel {
 		{"addTooltip", addTooltip, METH_VARARGS, "documentation"},
 		{"endTooltip", endTooltip, METH_VARARGS, "documentation"},
 		{"getValue", getValue, METH_VARARGS, "documentation"},
+		{"addCollapsingHeader", addCollapsingHeader, METH_VARARGS, "documentation"},
 		{NULL, NULL, 0, NULL}
 	};
 
@@ -355,6 +356,19 @@ namespace Marvel {
 		PyArg_ParseTuple(args, "s", &parent);
 
 		mvApp::GetApp()->endTooltip(std::string(parent));
+
+		Py_INCREF(Py_None);
+
+		return Py_None;
+	}
+
+	PyObject* addCollapsingHeader(PyObject* self, PyObject* args)
+	{
+		const char* parent, * name;
+
+		PyArg_ParseTuple(args, "ss", &parent, &name);
+
+		mvApp::GetApp()->addCollapsingHeader(std::string(parent), std::string(name));
 
 		Py_INCREF(Py_None);
 

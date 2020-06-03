@@ -20,7 +20,7 @@ namespace Marvel {
 		TabBar, TabItem, EndTabItem, EndTabBar,
 		MenuBar, Menu, EndMenu, MenuItem, EndMenuBar,
 		Group, EndGroup, Child, EndChild,
-		Tooltip, EndTooltip
+		Tooltip, EndTooltip, CollapsingHeader
 
 	};
 
