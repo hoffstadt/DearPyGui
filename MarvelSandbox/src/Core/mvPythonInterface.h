@@ -28,10 +28,11 @@ namespace Marvel {
 	PyObject* addChild(PyObject* self, PyObject* args);
 	PyObject* endChild(PyObject* self, PyObject* args);
 
-	PyObject* addSpacing(PyObject* self, PyObject* args, PyObject* kwargs);
-	PyObject* addSameLine(PyObject* self, PyObject* args, PyObject* kwargs);
-	PyObject* addTooltip(PyObject* self, PyObject* args);
-	PyObject* endTooltip(PyObject* self, PyObject* args);
+	PyObject* addCollapsingHeader(PyObject* self, PyObject* args);
+	PyObject* addSpacing         (PyObject* self, PyObject* args, PyObject* kwargs);
+	PyObject* addSameLine        (PyObject* self, PyObject* args, PyObject* kwargs);
+	PyObject* addTooltip         (PyObject* self, PyObject* args);
+	PyObject* endTooltip         (PyObject* self, PyObject* args);
 	
 	PyObject* getValue(PyObject* self, PyObject* args);
 

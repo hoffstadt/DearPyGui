@@ -9,6 +9,7 @@
 #include "AppItems/mvChild.h"
 #include "AppItems/mvGroup.h"
 #include "AppItems/mvTooltip.h"
+#include "AppItems/mvCollapsingHeader.h"
 #include <imgui.h>
 
 namespace Marvel {
@@ -85,6 +86,18 @@ namespace Marvel {
 			case mvAppItemType::Tooltip:
 				return static_cast<mvTooltip*>(item->getParent())->getValue();
 				break;
+
+			case mvAppItemType::CollapsingHeader:
+			{
+				if (!static_cast<mvCollapsingHeader*>(item->getParent())->getValue())
+				{
+					item->hide();
+					return false;
+				}
+				else
+					item->show();
+				break;
+			}
 
 			default:
 				return item->getParent()->isShown();
@@ -287,6 +300,13 @@ namespace Marvel {
 	//-----------------------------------------------------------------------------
 	// Misc Items
 	//-----------------------------------------------------------------------------
+
+	mvAppItem* mvApp::addCollapsingHeader(const std::string& parent, const std::string& name)
+	{
+		mvAppItem* item = new mvCollapsingHeader(parent, name);
+		m_items.push_back(item);
+		return item;
+	}
 
 	mvAppItem* mvApp::addSpacing(const std::string& parent, int count)
 	{

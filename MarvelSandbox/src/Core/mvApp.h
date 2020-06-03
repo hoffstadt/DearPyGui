@@ -60,7 +60,7 @@ namespace Marvel {
 		// Misc Items
 		//-----------------------------------------------------------------------------
 
-		//mvAppItem* addCollapsingHeader(const mvString& parent, const mvString& name, int flags = AppTreeNodeFlags_None);
+		mvAppItem* addCollapsingHeader(const std::string& parent, const std::string& name);
 		mvAppItem* addSpacing(const std::string& parent, int count = 1);
 		//mvAppItem* addSeperator(const mvString& parent);
 		mvAppItem* addSameLine(const std::string& parent, float offsetx = 0.0f, float spacing = -1.0f);
