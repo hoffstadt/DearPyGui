@@ -73,6 +73,7 @@ namespace Marvel {
 		//-----------------------------------------------------------------------------
 
 		void       render         ();
+		void       setMainCallback(const std::string& callback) { m_callback = callback; }
 		void       setItemCallback(const std::string& name, const std::string& callback);
 		void       setItemWidth   (const std::string& name, int width);
 		void       setItemTip     (const std::string& name, const std::string& tip);
@@ -103,6 +104,7 @@ namespace Marvel {
 		PyObject*               m_pDict;
 		unsigned                m_width;
 		unsigned                m_height;
+		std::string             m_callback;
 
 	};
 

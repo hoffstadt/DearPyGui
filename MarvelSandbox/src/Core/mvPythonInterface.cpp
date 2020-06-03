@@ -3,6 +3,7 @@
 namespace Marvel {
 
 	PyMethodDef SandboxMethods[] = {
+		{"setMainCallback", setMainCallback, METH_VARARGS, "documentation"},
 		{"setItemCallback", setItemCallback, METH_VARARGS, "documentation"},
 		{"setItemTip", setItemTip, METH_VARARGS, "documentation"},
 		{"setItemWidth", setItemWidth, METH_VARARGS, "documentation"},
@@ -53,6 +54,19 @@ namespace Marvel {
 			return Py_None;
 
 		return item->getPyValue();
+	}
+
+	PyObject* setMainCallback(PyObject* self, PyObject* args)
+	{
+		const char* callback;;
+
+		PyArg_ParseTuple(args, "s", &callback);
+
+		mvApp::GetApp()->setMainCallback(std::string(callback));
+
+		Py_INCREF(Py_None);
+
+		return Py_None;
 	}
 
 	PyObject* setItemCallback(PyObject* self, PyObject* args)
