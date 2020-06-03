@@ -1,7 +1,6 @@
 #pragma once
 
 #define PY_SSIZE_T_CLEAN
-//#undef _DEBUG
 #include <Python.h>
 #include <string>
 #include <vector>

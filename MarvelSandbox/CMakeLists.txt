@@ -51,7 +51,7 @@ target_link_libraries(MarvelSandbox
 	PRIVATE
 
 		d3d11
-		python3
+		python3_d
 )
 
 add_custom_command(TARGET MarvelSandbox PRE_BUILD

@@ -1,4 +1,5 @@
 #include "mvApp.h"
+#include "mvLogger.h"
 #include "AppItems/mvInputText.h"
 #include "AppItems/mvTab.h"
 #include "AppItems/mvMenu.h"
@@ -36,7 +37,7 @@ namespace Marvel {
 
 		ImGui::SetNextWindowPos(ImVec2(0.0f, 0.0f));
 		ImGui::SetNextWindowSize(ImVec2(m_width, m_height));
-		ImGui::Begin("Blah", (bool*)0, ImGuiWindowFlags_NoSavedSettings| ImGuiWindowFlags_NoResize| ImGuiWindowFlags_NoCollapse| ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_MenuBar);
+		ImGui::Begin("Blah", (bool*)0, ImGuiWindowFlags_NoBringToFrontOnFocus | ImGuiWindowFlags_NoSavedSettings| ImGuiWindowFlags_NoResize| ImGuiWindowFlags_NoCollapse| ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_MenuBar);
 
 		m_parents.push(nullptr);
 
@@ -169,12 +170,18 @@ namespace Marvel {
 		if (name == "")
 			return;
 
+		PyErr_Clear();
+
 		PyObject* pHandler = PyDict_GetItemString(m_pDict, name.c_str()); // borrowed reference
 
 		PyObject* pArgs = PyTuple_New(1);
 		PyTuple_SetItem(pArgs, 0, PyUnicode_FromString(sender.c_str()));
 
 		PyObject* result = PyObject_CallObject(pHandler, pArgs);
+
+		// check if error occurred
+		PyErr_Print();
+
 
 		Py_XDECREF(pArgs);
 		Py_XDECREF(result);
