@@ -38,8 +38,6 @@ namespace Marvel {
 			}
 		}
 
-		inline const std::string& getValue() const { return *m_value; }
-
 	private:
 
 		std::string m_hint;

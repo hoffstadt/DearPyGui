@@ -12,6 +12,9 @@
 #include "AppItems/mvCollapsingHeader.h"
 #include "AppItems/mvSeperator.h"
 #include "AppItems/mvColorEdit4.h"
+#include "AppItems/mvInputInt.h"
+#include "AppItems/mvInputFloat.h"
+#include "AppItems/mvCheckbox.h"
 
 namespace Marvel {
 
@@ -201,6 +204,20 @@ namespace Marvel {
 		return item;
 	}
 
+	mvAppItem* mvApp::addInputInt(const std::string& parent, const std::string& name, int default_value)
+	{
+		mvAppItem* item = new mvInputInt(parent, name, default_value);
+		m_items.push_back(item);
+		return item;
+	}
+
+	mvAppItem* mvApp::addInputFloat(const std::string& parent, const std::string& name, float default_value)
+	{
+		mvAppItem* item = new mvInputFloat(parent, name, default_value);
+		m_items.push_back(item);
+		return item;
+	}
+
 	mvAppItem* mvApp::addButton(const std::string& parent, const std::string& name)
 	{
 		mvAppItem* item = new mvButton(parent, name);
@@ -218,6 +235,13 @@ namespace Marvel {
 	mvAppItem* mvApp::addRadioButtons(const std::string& parent, const std::string& name, const std::vector<std::string>& itemnames, int default_value)
 	{
 		mvAppItem* item = new mvRadioButton(parent, name, itemnames, default_value);
+		m_items.push_back(item);
+		return item;
+	}
+
+	mvAppItem* mvApp::addCheckbox(const std::string& parent, const std::string& name, bool default_value)
+	{
+		mvAppItem* item = new mvCheckbox(parent, name, default_value);
 		m_items.push_back(item);
 		return item;
 	}

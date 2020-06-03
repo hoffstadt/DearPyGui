@@ -12,7 +12,10 @@ namespace Marvel {
 		{"setItemWidth", setItemWidth, METH_VARARGS, "documentation"},
 		{"addButton", addButton, METH_VARARGS, "documentation"},
 		{"addInputText", (PyCFunction)addInputText, METH_VARARGS | METH_KEYWORDS, "documentation"},
+		{"addInputInt", (PyCFunction)addInputInt, METH_VARARGS | METH_KEYWORDS, "documentation"},
+		{"addInputFloat", (PyCFunction)addInputFloat, METH_VARARGS | METH_KEYWORDS, "documentation"},
 		{"addRadioButton", (PyCFunction)addRadioButton, METH_VARARGS | METH_KEYWORDS, "documentation"},
+		{"addCheckbox", (PyCFunction)addCheckbox, METH_VARARGS | METH_KEYWORDS, "documentation"},
 		{"addGroup", addGroup, METH_VARARGS, "documentation"},
 		{"endGroup", endGroup, METH_VARARGS, "documentation"},
 		{"addChild", addChild, METH_VARARGS, "documentation"},
@@ -136,6 +139,38 @@ namespace Marvel {
 
 		mvApp::GetApp()->addInputText(std::string(parent), std::string(name), std::string(hint));
 		
+		Py_INCREF(Py_None);
+
+		return Py_None;
+	}
+
+	PyObject* addInputInt(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		const char* parent, * name;
+		int default_value = 0;
+		static const char* keywords[] = { "parent", "name", "default_value", NULL };
+
+		if (!PyArg_ParseTupleAndKeywords(args, kwargs, "ss|$i", const_cast<char**>(keywords), &parent, &name, &default_value))
+			__debugbreak();
+
+		mvApp::GetApp()->addInputInt(std::string(parent), std::string(name), default_value);
+
+		Py_INCREF(Py_None);
+
+		return Py_None;
+	}
+
+	PyObject* addInputFloat(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		const char* parent, * name;
+		float default_value = 0.0f;
+		static const char* keywords[] = { "parent", "name", "default_value", NULL };
+
+		if (!PyArg_ParseTupleAndKeywords(args, kwargs, "ss|$f", const_cast<char**>(keywords), &parent, &name, &default_value))
+			__debugbreak();
+
+		mvApp::GetApp()->addInputFloat(std::string(parent), std::string(name), default_value);
+
 		Py_INCREF(Py_None);
 
 		return Py_None;
@@ -440,6 +475,22 @@ namespace Marvel {
 		PyArg_ParseTuple(args, "ssffff", &parent, &name, &r, &g, &b, &a);
 
 		mvApp::GetApp()->addColorEdit4(std::string(parent), std::string(name), r, g, b, a);
+
+		Py_INCREF(Py_None);
+
+		return Py_None;
+	}
+
+	PyObject* addCheckbox(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		const char* parent, * name;
+		int default_value = 0;
+		static const char* keywords[] = { "parent", "name", "default_value", NULL };
+
+		if (!PyArg_ParseTupleAndKeywords(args, kwargs, "ss|$i", const_cast<char**>(keywords), &parent, &name, &default_value))
+			__debugbreak();
+
+		mvApp::GetApp()->addCheckbox(std::string(parent), std::string(name), default_value);
 
 		Py_INCREF(Py_None);
 
