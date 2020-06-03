@@ -31,6 +31,11 @@ namespace Marvel {
 		mvAppItem* addButton      (const std::string& parent, const std::string& name);
 
 		//-----------------------------------------------------------------------------
+		// Color Items
+		//-----------------------------------------------------------------------------
+		mvAppItem* addColorEdit4(const std::string& parent, const std::string& name, float r, float g, float b, float a);
+
+		//-----------------------------------------------------------------------------
 		// Tabs
 		//-----------------------------------------------------------------------------
 
@@ -72,6 +77,7 @@ namespace Marvel {
 		mvAppItem* addSameLine        (const std::string& parent, float offsetx = 0.0f, float spacing = -1.0f);
 		mvAppItem* addTooltip         (const std::string& parent, const std::string& name);
 		mvAppItem* endTooltip         (const std::string& parent);
+		mvAppItem* addSeperator       (const std::string& parent);
 
 		//-----------------------------------------------------------------------------
 		// Two-step Item modifications

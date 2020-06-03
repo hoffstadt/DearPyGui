@@ -14,8 +14,7 @@ namespace Marvel {
 
 		mvButton(const std::string& parent, const std::string& name)
 			: mvAppItem(parent, name)
-		{
-		}
+		{}
 
 		virtual void draw() override
 		{

@@ -3,6 +3,8 @@
 namespace Marvel {
 
 	PyMethodDef SandboxMethods[] = {
+		{"addColorEdit4", addColorEdit4, METH_VARARGS, "documentation"},
+		{"addSeperator", addSeperator, METH_VARARGS, "documentation"},
 		{"setTheme", setTheme, METH_VARARGS, "documentation"},
 		{"setMainCallback", setMainCallback, METH_VARARGS, "documentation"},
 		{"setItemCallback", setItemCallback, METH_VARARGS, "documentation"},
@@ -411,6 +413,33 @@ namespace Marvel {
 		PyArg_ParseTuple(args, "s", &theme);
 
 		mvApp::GetApp()->setAppTheme(std::string(theme));
+
+		Py_INCREF(Py_None);
+
+		return Py_None;
+	}
+
+	PyObject* addSeperator(PyObject* self, PyObject* args)
+	{
+		const char* parent;
+
+		PyArg_ParseTuple(args, "s", &parent);
+
+		mvApp::GetApp()->addSeperator(std::string(parent));
+
+		Py_INCREF(Py_None);
+
+		return Py_None;
+	}
+
+	PyObject* addColorEdit4(PyObject* self, PyObject* args)
+	{
+		const char* parent, * name;
+		float r, g, b, a;
+
+		PyArg_ParseTuple(args, "ssffff", &parent, &name, &r, &g, &b, &a);
+
+		mvApp::GetApp()->addColorEdit4(std::string(parent), std::string(name), r, g, b, a);
 
 		Py_INCREF(Py_None);
 

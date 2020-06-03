@@ -24,7 +24,6 @@ namespace Marvel {
 		virtual PyObject* getPyValue() override
 		{
 			PyObject* pvalue = Py_BuildValue("i", m_value);
-
 			return pvalue;
 		}
 
@@ -91,7 +90,6 @@ namespace Marvel {
 		virtual PyObject* getPyValue() override
 		{
 			PyObject* pvalue = Py_BuildValue("i", m_value);
-
 			return pvalue;
 		}
 
@@ -144,7 +142,6 @@ namespace Marvel {
 		virtual PyObject* getPyValue() override
 		{
 			PyObject* pvalue = Py_BuildValue("i", m_value);
-
 			return pvalue;
 		}
 
@@ -180,7 +177,6 @@ namespace Marvel {
 		virtual PyObject* getPyValue() override
 		{
 			PyObject* pvalue = Py_BuildValue("i", m_value);
-
 			return pvalue;
 		}
 
