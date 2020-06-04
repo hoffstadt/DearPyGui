@@ -35,6 +35,7 @@ namespace Marvel {
 		mvAppItem* addCheckbox    (const std::string& parent, const std::string& name, bool default_value);
 		mvAppItem* addRadioButtons(const std::string& parent, const std::string& name, const std::vector<std::string>& itemnames, int default_value);
 		mvAppItem* addButton      (const std::string& parent, const std::string& name);
+		mvAppItem* addListbox     (const std::string& parent, const std::string& name, const std::vector<std::string>& itemnames, int default_value = 0, int height = -1);
 
 		//-----------------------------------------------------------------------------
 		// Color Items

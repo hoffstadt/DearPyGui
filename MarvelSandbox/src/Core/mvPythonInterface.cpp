@@ -4,6 +4,28 @@
 
 namespace Marvel {
 
+	PyObject* addListbox(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		const char* parent, *name;
+		PyObject* items;
+		int default_value = 0, height = -1;
+		static const char* keywords[] = { "parent", "name", "items", "default_value", "height", NULL };
+
+		if (!PyArg_ParseTupleAndKeywords(args, kwargs, "ssO|ii", const_cast<char**>(keywords), &parent, &name, &items, &default_value, &height))
+			__debugbreak();
+
+		std::vector<std::string> sitems;
+
+		for (int i = 0; i < PyTuple_Size(items); i++)
+			sitems.emplace_back(PyUnicode_AsUTF8(PyTuple_GetItem(items, i)));
+
+		mvApp::GetApp()->addListbox(std::string(parent), std::string(name), sitems, default_value, height);
+
+		Py_INCREF(Py_None);
+
+		return Py_None;
+	}
+
 	PyObject* TurnOffLogger(PyObject* self, PyObject* args)
 	{
 
@@ -590,6 +612,7 @@ namespace Marvel {
 
 	void CreatePythonInterface(mvPythonModule& pyModule, PyObject* (*initfunc)())
 	{
+		pyModule.addMethod(addListbox, "Not Documented");
 		pyModule.addMethod(TurnOffLogger, "Not Documented");
 		pyModule.addMethod(TurnOnLogger, "Not Documented");
 		pyModule.addMethod(SetLogLevel, "Not Documented");
