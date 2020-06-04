@@ -12,9 +12,7 @@
 
 namespace Marvel {
 
-	//  InputFloat3,  Combo, 
-	//  ProgressBar, Image,
-	//	DragInt, SliderInt, FileOpen, FileSave
+	//  InputFloat3, ProgressBar, Image, DragInt, SliderInt, FileOpen, FileSave
 
 	enum class mvAppItemType
 	{
@@ -25,7 +23,7 @@ namespace Marvel {
 		Group, EndGroup, Child, EndChild,
 		Tooltip, EndTooltip, CollapsingHeader,
 		Separator, ColorEdit4, Checkbox, InputInt, InputFloat,
-		Listbox, Text, LabelText
+		Listbox, Text, LabelText, Combo
 	};
 
 	class mvAppItem

@@ -19,6 +19,7 @@
 #include "AppItems/mvListbox.h"
 #include "AppItems/mvText.h"
 #include "AppItems/mvLabelText.h"
+#include "AppItems/mvCombo.h"
 
 namespace Marvel {
 
@@ -279,6 +280,13 @@ namespace Marvel {
 	mvAppItem* mvApp::addListbox(const std::string& parent, const std::string& name, const std::vector<std::string>& itemnames, int default_value, int height)
 	{
 		mvAppItem* item = new mvListbox(parent, name, itemnames, default_value, height);
+		m_items.push_back(item);
+		return item;
+	}
+
+	mvAppItem* mvApp::addCombo(const std::string& parent, const std::string& name, const std::vector<std::string>& itemnames, const std::string& default_value)
+	{
+		mvAppItem* item = new mvCombo(parent, name, itemnames, default_value);
 		m_items.push_back(item);
 		return item;
 	}

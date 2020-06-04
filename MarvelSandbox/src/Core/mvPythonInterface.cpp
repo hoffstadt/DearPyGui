@@ -88,6 +88,27 @@ namespace Marvel {
 		return Py_None;
 	}
 
+	PyObject* addCombo(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		const char* parent, * name, *default_value = "";
+		PyObject* items;
+		static const char* keywords[] = { "parent", "name", "items", "default_value", NULL };
+
+		if (!PyArg_ParseTupleAndKeywords(args, kwargs, "ssO|s", const_cast<char**>(keywords), &parent, &name, &items, &default_value))
+			__debugbreak();
+
+		std::vector<std::string> sitems;
+
+		for (int i = 0; i < PyTuple_Size(items); i++)
+			sitems.emplace_back(PyUnicode_AsUTF8(PyTuple_GetItem(items, i)));
+
+		mvApp::GetApp()->addCombo(std::string(parent), std::string(name), sitems, default_value);
+
+		Py_INCREF(Py_None);
+
+		return Py_None;
+	}
+
 	PyObject* TurnOffLogger(PyObject* self, PyObject* args)
 	{
 
@@ -674,6 +695,7 @@ namespace Marvel {
 
 	void CreatePythonInterface(mvPythonModule& pyModule, PyObject* (*initfunc)())
 	{
+		pyModule.addMethod(addCombo, "Not Documented");
 		pyModule.addMethod(addText, "Not Documented");
 		pyModule.addMethod(addLabelText, "Not Documented");
 		pyModule.addMethod(addListbox, "Not Documented");
