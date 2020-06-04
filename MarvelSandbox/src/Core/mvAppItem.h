@@ -8,7 +8,7 @@
 #include "mvColor.h"
 
 #define MV_APPITEM_TYPE(x) virtual mvAppItemType getType() const override { return x; }
-#define MV_NORETURN_VALUE() virtual PyObject* getPyValue() override { return nullptr; }
+#define MV_NORETURN_VALUE() virtual PyObject* getPyValue() override { return Py_None; }
 
 namespace Marvel {
 
