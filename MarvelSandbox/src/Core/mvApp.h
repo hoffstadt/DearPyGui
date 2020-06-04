@@ -4,6 +4,7 @@
 #include <stack>
 #include <string>
 #include "Core/mvAppItem.h"
+#include "mvTheme.h"
 
 
 namespace Marvel {
@@ -21,6 +22,8 @@ namespace Marvel {
 		// App Settings
 		//-----------------------------------------------------------------------------
 		void setAppTheme(const std::string& theme);
+		void updateTheme();
+		void changeThemeItem(const char* name, float r, float g, float b, float a);
 
 		//-----------------------------------------------------------------------------
 		// Basic AppItems
@@ -133,6 +136,7 @@ namespace Marvel {
 		unsigned                m_height;
 		std::string             m_callback;
 		bool                    m_ok = true;
+		mvTheme                 m_theme;
 
 	};
 

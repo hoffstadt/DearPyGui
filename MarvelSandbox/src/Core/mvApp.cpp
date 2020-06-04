@@ -200,6 +200,26 @@ namespace Marvel {
 			ImGui::StyleColorsDark();
 	}
 
+	void mvApp::updateTheme()
+	{
+		ImGuiStyle* style = &ImGui::GetStyle();
+		ImVec4* colors = style->Colors;
+
+		auto themecolors = m_theme.getColors();
+
+		for (unsigned i = 0; i < m_theme.getNumberOfItems(); i++)
+		{
+			auto color = themecolors[i];
+			colors[i] = ImVec4(color[0], color[1], color[2], color[3]);
+		}
+			
+	}
+
+	void mvApp::changeThemeItem(const char* name, float r, float g, float b, float a)
+	{
+		m_theme.changeThemeItem(name, r, g, b, a);
+	}
+
 	//-----------------------------------------------------------------------------
 	// Basic AppItems
 	//-----------------------------------------------------------------------------
