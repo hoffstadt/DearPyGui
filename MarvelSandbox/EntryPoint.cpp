@@ -61,6 +61,12 @@ int main(int argc, char* argv[])
 		module_name = argv[1];
 	else
 		module_name = argv[2];
+	
+	// info
+	AppLog::getLogger()->AddLog("[Python Version] %0s\n", PY_VERSION);
+	AppLog::getLogger()->AddLog("[Python Build] %0s\n", Py_GetBuildInfo());
+	AppLog::getLogger()->AddLog("[ImGui Version] %0s\n", IMGUI_VERSION);
+	AppLog::getLogger()->AddLog("[Compiler] %0s\n", Py_GetCompiler());
 
 	// get module
 	PyObject* pModule = PyImport_ImportModule(module_name); // new reference
