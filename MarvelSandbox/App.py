@@ -84,6 +84,8 @@ sandbox.setItemWidth("Testing2", 200)
 def ItemCallback(sender):
     print("Called by ", sender)
     value = sandbox.getValue("Color1")
+    sandbox.changeThemeItem("ImGuiCol_Tab", value[0], value[1], value[2], value[3])
+    sandbox.updateTheme()
 
 def DarkTheme(sender):
     sandbox.setTheme("dark")

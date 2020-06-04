@@ -4,6 +4,30 @@
 
 namespace Marvel {
 
+	PyObject* changeThemeItem(PyObject* self, PyObject* args)
+	{
+		const char* name;
+		float r, g, b, a;
+
+		PyArg_ParseTuple(args, "sffff", &name, &r, &g, &b, &a);
+
+		mvApp::GetApp()->changeThemeItem(name, r, g, b, a);
+
+		Py_INCREF(Py_None);
+
+		return Py_None;
+	}
+
+	PyObject* updateTheme(PyObject* self, PyObject* args)
+	{
+
+		mvApp::GetApp()->updateTheme();
+
+		Py_INCREF(Py_None);
+
+		return Py_None;
+	}
+
 	PyObject* getValue(PyObject* self, PyObject* args)
 	{
 		const char* name;
@@ -455,6 +479,8 @@ namespace Marvel {
 
 	void CreatePythonInterface(mvPythonModule& pyModule, PyObject* (*initfunc)())
 	{
+		pyModule.addMethod(changeThemeItem, "Not Documented");
+		pyModule.addMethod(updateTheme, "Not Documented");
 		pyModule.addMethod(addColorEdit4, "Not Documented");
 		pyModule.addMethod(addSeperator, "Not Documented");
 		pyModule.addMethod(setTheme, "Not Documented");
