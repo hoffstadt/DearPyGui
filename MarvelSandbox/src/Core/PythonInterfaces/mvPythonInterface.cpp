@@ -1,6 +1,6 @@
 #include "mvPythonInterface.h"
 
-#include "mvApp.h"
+#include "Core/mvApp.h"
 
 namespace Marvel {
 
