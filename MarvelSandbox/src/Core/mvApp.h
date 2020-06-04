@@ -5,6 +5,7 @@
 #include <string>
 #include "Core/mvAppItem.h"
 #include "mvTheme.h"
+#include "mvMouse.h"
 
 
 namespace Marvel {
@@ -126,6 +127,11 @@ namespace Marvel {
 		void ClearLog();
 
 		//-----------------------------------------------------------------------------
+		// Inputs
+		//-----------------------------------------------------------------------------
+		mvMousePos getMousePosition() const { return m_mousePos; }
+
+		//-----------------------------------------------------------------------------
 		// Utilities
 		//-----------------------------------------------------------------------------
 		mvAppItem* getItem(const std::string& name);
@@ -162,6 +168,9 @@ namespace Marvel {
 		bool                    m_showLog = true;
 		mvTheme                 m_theme;
 		unsigned                m_loglevel = 0;
+
+		// inputs
+		mvMousePos m_mousePos;
 
 	};
 

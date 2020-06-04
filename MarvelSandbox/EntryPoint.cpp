@@ -1,7 +1,8 @@
 ﻿#define MV_SANDBOX_VERSION "0.0.1"
 
-#include "Core/mvPythonInterface.h"
-#include "Core/mvStdOutput.h"
+#include "Core/PythonInterfaces/mvPythonInterface.h"
+#include "Core/PythonInterfaces/mvInputInterface.h"
+#include "Core/PythonInterfaces/mvStdOutput.h"
 #include "Core/mvWindow.h"
 #include "Platform/Windows/mvWindowsWindow.h"
 #include <iostream>
@@ -11,11 +12,13 @@ using namespace Marvel;
 AppLog* AppLog::s_instance = nullptr;
 
 MV_DECLARE_PYMODULE(pyMod1, "sandbox");
+MV_DECLARE_PYMODULE(pyMod2, "sbInput");
 
 int main(int argc, char* argv[])
 {
 
-	MV_INIT_PYMODULE(pyMod1);
+	MV_INIT_PYMODULE(pyMod1, CreatePythonInterface);
+	MV_INIT_PYMODULE(pyMod2, CreateInputInterface);
 
 	const wchar_t* path;
 	const char* module_name;

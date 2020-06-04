@@ -9,7 +9,7 @@
 
 #define MV_DECLARE_PYMODULE(x, name) mvPythonModule x(name);PyObject* PyInit_Emb##x(void){return PyModule_Create(x.getModuleDefinition());};
 
-#define MV_INIT_PYMODULE(x) CreatePythonInterface(x, &PyInit_Emb##x);
+#define MV_INIT_PYMODULE(x, y) y(x, &PyInit_Emb##x);
 
 namespace Marvel {
 
