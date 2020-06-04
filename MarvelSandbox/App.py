@@ -1,5 +1,5 @@
 import sandbox
-import DarkTheme
+import SandboxTheme
 
 # create some menus
 sandbox.addMenuBar("MenuBar")
@@ -45,6 +45,7 @@ sandbox.addInputInt("Tab1", "inputint1")
 sandbox.addInputFloat("Tab1", "inputfloat1", default_value=117.0)
 sandbox.addCheckbox("Tab1", "Logger", default_value=True)
 sandbox.addCheckbox("Tab1", "checkbox2")
+sandbox.addListbox("Tab1", "listbox1", ("First item", "Second item", "Third item"))
 sandbox.endTab("Tab1")
 
 sandbox.addTab("TabBar1", "Tab2")
@@ -72,6 +73,7 @@ sandbox.setItemCallback("Use Dark", "DarkTheme")
 sandbox.setItemCallback("Use Light", "LightTheme")
 sandbox.setItemCallback("Use Classic", "ClassicTheme")
 sandbox.setItemCallback("Logger", "LoggerCallback")
+sandbox.setItemCallback("listbox1", "ItemCallback")
 
 # setting a tip
 sandbox.setItemTip("Button1", "A different tip")
@@ -85,6 +87,7 @@ sandbox.setItemWidth("Testing2", 200)
 
 def ItemCallback(sender):
     print("Called by ", sender)
+    print(sandbox.getValue("listbox1"))
     value = sandbox.getValue("Color1")
     loglevel = sandbox.getValue("inputint1")
     sandbox.SetLogLevel(loglevel)

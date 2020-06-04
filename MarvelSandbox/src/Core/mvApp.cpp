@@ -16,6 +16,7 @@
 #include "AppItems/mvInputInt.h"
 #include "AppItems/mvInputFloat.h"
 #include "AppItems/mvCheckbox.h"
+#include "AppItems/mvListbox.h"
 
 namespace Marvel {
 
@@ -269,6 +270,13 @@ namespace Marvel {
 	mvAppItem* mvApp::addCheckbox(const std::string& parent, const std::string& name, bool default_value)
 	{
 		mvAppItem* item = new mvCheckbox(parent, name, default_value);
+		m_items.push_back(item);
+		return item;
+	}
+
+	mvAppItem* mvApp::addListbox(const std::string& parent, const std::string& name, const std::vector<std::string>& itemnames, int default_value, int height)
+	{
+		mvAppItem* item = new mvListbox(parent, name, itemnames, default_value, height);
 		m_items.push_back(item);
 		return item;
 	}

@@ -24,8 +24,8 @@ namespace Marvel {
 		MenuBar, Menu, EndMenu, MenuItem, EndMenuBar,
 		Group, EndGroup, Child, EndChild,
 		Tooltip, EndTooltip, CollapsingHeader,
-		Separator, ColorEdit4, Checkbox, InputInt, InputFloat
-
+		Separator, ColorEdit4, Checkbox, InputInt, InputFloat,
+		Listbox
 	};
 
 	class mvAppItem
