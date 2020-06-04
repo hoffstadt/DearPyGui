@@ -4,6 +4,68 @@
 
 namespace Marvel {
 
+	PyObject* addText(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		const char* parent, * name;
+		PyObject* color = PyTuple_New(4);
+		PyTuple_SetItem(color, 0, PyFloat_FromDouble(117.0));
+		PyTuple_SetItem(color, 1, PyFloat_FromDouble(0.0));
+		PyTuple_SetItem(color, 2, PyFloat_FromDouble(0.0));
+		PyTuple_SetItem(color, 3, PyFloat_FromDouble(1.0));
+
+		int wrap = 0;
+		static const char* keywords[] = { "parent", "name", "wrap", "color", NULL };
+
+		if (!PyArg_ParseTupleAndKeywords(args, kwargs, "ss|iO", const_cast<char**>(keywords), &parent, &name, &wrap, &color))
+			__debugbreak();
+
+		float ncolor[4];
+
+		for (int i = 0; i < PyTuple_Size(color); i++)
+			ncolor[i] = (float)PyFloat_AsDouble(PyTuple_GetItem(color, i));
+
+		bool specified = true;
+		if (ncolor[0] > 100.0f)
+			specified = false;
+
+		mvApp::GetApp()->addText(std::string(parent), std::string(name), wrap, { ncolor[0], ncolor[1], ncolor[2], ncolor[3], specified });
+
+		Py_INCREF(Py_None);
+
+		return Py_None;
+	}
+
+	PyObject* addLabelText(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		const char* parent, * name, * value;
+		PyObject* color = PyTuple_New(4);
+		PyTuple_SetItem(color, 0, PyFloat_FromDouble(117.0));
+		PyTuple_SetItem(color, 1, PyFloat_FromDouble(0.0));
+		PyTuple_SetItem(color, 2, PyFloat_FromDouble(0.0));
+		PyTuple_SetItem(color, 3, PyFloat_FromDouble(1.0));
+
+		int wrap = 0;
+		static const char* keywords[] = { "parent", "name", "value", "wrap", "color", NULL };
+
+		if (!PyArg_ParseTupleAndKeywords(args, kwargs, "sss|iO", const_cast<char**>(keywords), &parent, &name, &value, &wrap, &color))
+			__debugbreak();
+
+		float ncolor[4];
+
+		for (int i = 0; i < PyTuple_Size(color); i++)
+			ncolor[i] = (float)PyFloat_AsDouble(PyTuple_GetItem(color, i));
+
+		bool specified = true;
+		if (ncolor[0] > 100.0f)
+			specified = false;
+
+		mvApp::GetApp()->addLabelText(std::string(parent), std::string(name), value, wrap, { ncolor[0], ncolor[1], ncolor[2], ncolor[3], specified });
+
+		Py_INCREF(Py_None);
+
+		return Py_None;
+	}
+
 	PyObject* addListbox(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		const char* parent, *name;
@@ -144,7 +206,7 @@ namespace Marvel {
 
 		PyArg_ParseTuple(args, "sffff", &name, &r, &g, &b, &a);
 
-		mvApp::GetApp()->changeThemeItem(name, r, g, b, a);
+		mvApp::GetApp()->changeThemeItem(name, { r, g, b, a });
 
 		Py_INCREF(Py_None);
 
@@ -587,7 +649,7 @@ namespace Marvel {
 
 		PyArg_ParseTuple(args, "ssffff", &parent, &name, &r, &g, &b, &a);
 
-		mvApp::GetApp()->addColorEdit4(std::string(parent), std::string(name), r, g, b, a);
+		mvApp::GetApp()->addColorEdit4(std::string(parent), std::string(name), { r, g, b, a });
 
 		Py_INCREF(Py_None);
 
@@ -612,6 +674,8 @@ namespace Marvel {
 
 	void CreatePythonInterface(mvPythonModule& pyModule, PyObject* (*initfunc)())
 	{
+		pyModule.addMethod(addText, "Not Documented");
+		pyModule.addMethod(addLabelText, "Not Documented");
 		pyModule.addMethod(addListbox, "Not Documented");
 		pyModule.addMethod(TurnOffLogger, "Not Documented");
 		pyModule.addMethod(TurnOnLogger, "Not Documented");
