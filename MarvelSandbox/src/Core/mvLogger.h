@@ -58,7 +58,7 @@ namespace Marvel {
 
 		void Draw(const char* title, bool* p_open = NULL)
 		{
-			ImGui::SetNextWindowSize(ImVec2(500, 500));
+			ImGui::SetNextWindowSize(ImVec2(500, 500), ImGuiCond_FirstUseEver);
 			if (!ImGui::Begin(title, p_open, ImGuiWindowFlags_NoSavedSettings))
 			{
 				ImGui::End();
@@ -155,6 +155,12 @@ namespace Marvel {
 						else if (strstr(splitstring.c_str(), "[INFO]"))
 						{
 							ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(1.0f, 1.0f, 1.0f, 1.0f));
+							pop_color = true;
+						}
+
+						else if (strstr(splitstring.c_str(), "[DEBUG]"))
+						{
+							ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(0.25f, 0.50f, 1.0f, 1.0f));
 							pop_color = true;
 						}
 

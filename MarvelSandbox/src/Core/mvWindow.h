@@ -25,7 +25,8 @@ public:
 			prerender();
 			if(m_app->isOk())
 				m_app->render();
-			Marvel::AppLog::getLogger()->Draw("Marvel Sandbox");
+			if(m_app->showLog())
+				Marvel::AppLog::getLogger()->Draw("Marvel Sandbox");
 			postrender();
 		}
 
