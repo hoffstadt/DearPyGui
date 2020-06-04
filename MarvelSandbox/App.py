@@ -18,6 +18,7 @@ sandbox.endMenuBar("MenuBar")
 # various widgets
 sandbox.addSpacing("", 10)
 sandbox.addButton("", "Press me")
+sandbox.addCombo("", "combo1", ("A", "B", "C"))
 sandbox.addInputText("", "Testing", hint="a hint")
 sandbox.addGroup("", "Group1")
 sandbox.addRadioButton("Group1", "radiobutton1", ("First Option", "Second Option", "Third Option"))
@@ -77,6 +78,7 @@ sandbox.setItemCallback("Use Light", "LightTheme")
 sandbox.setItemCallback("Use Classic", "ClassicTheme")
 sandbox.setItemCallback("Logger", "LoggerCallback")
 sandbox.setItemCallback("listbox1", "ItemCallback")
+sandbox.setItemCallback("combo1", "ItemCallback")
 
 # setting a tip
 sandbox.setItemTip("Button1", "A different tip")
@@ -90,7 +92,7 @@ sandbox.setItemWidth("Testing2", 200)
 
 def ItemCallback(sender):
     print("Called by ", sender)
-    print(sandbox.getValue("listbox1"))
+    print("value is: ", sandbox.getValue(sender))
     value = sandbox.getValue("Color1")
     loglevel = sandbox.getValue("inputint1")
     sandbox.SetLogLevel(loglevel)
