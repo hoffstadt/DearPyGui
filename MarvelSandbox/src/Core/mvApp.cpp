@@ -425,4 +425,43 @@ namespace Marvel {
 		m_items.push_back(item);
 		return item;
 	}
+
+	//-----------------------------------------------------------------------------
+	// Logging
+	//-----------------------------------------------------------------------------
+
+	void mvApp::Log(const std::string& text, const std::string& level)
+	{
+		if (m_loglevel < 1)
+			AppLog::getLogger()->AddLog("[%05d] [%1s]  %2s\n", ImGui::GetFrameCount(), level.c_str(), text.c_str());
+	}
+
+	void mvApp::LogDebug(const std::string& text)
+	{
+		if (m_loglevel < 2)
+			AppLog::getLogger()->AddLog("[%05d] [DEBUG]  %1s\n", ImGui::GetFrameCount(), text.c_str());
+	}
+
+	void mvApp::LogInfo(const std::string& text)
+	{
+		if (m_loglevel < 3)
+			AppLog::getLogger()->AddLog("[%05d] [INFO]  %1s\n", ImGui::GetFrameCount(), text.c_str());
+	}
+
+	void mvApp::LogWarning(const std::string& text)
+	{
+		if (m_loglevel < 4)
+			AppLog::getLogger()->AddLog("[%05d] [WARNING]  %1s\n", ImGui::GetFrameCount(), text.c_str());
+	}
+
+	void mvApp::LogError(const std::string& text)
+	{
+		if (m_loglevel < 5)
+			AppLog::getLogger()->AddLog("[%05d] [ERROR]  %1s\n", ImGui::GetFrameCount(), text.c_str());
+	}
+
+	void mvApp::ClearLog()
+	{
+		AppLog::getLogger()->Clear();
+	}
 }

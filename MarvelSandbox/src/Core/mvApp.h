@@ -106,6 +106,17 @@ namespace Marvel {
 		void triggerCallback(const std::string& name, const std::string& sender);
 
 		//-----------------------------------------------------------------------------
+		// Logging
+		//-----------------------------------------------------------------------------
+		void setLogLevel(unsigned level) { m_loglevel = level; }
+		void Log(const std::string& text, const std::string& level = "TRACE");
+		void LogDebug(const std::string& text);
+		void LogInfo(const std::string& text);
+		void LogWarning(const std::string& text);
+		void LogError(const std::string& text);
+		void ClearLog();
+
+		//-----------------------------------------------------------------------------
 		// Utilities
 		//-----------------------------------------------------------------------------
 		mvAppItem* getItem(const std::string& name);
@@ -113,6 +124,9 @@ namespace Marvel {
 		void       setSize(unsigned width, unsigned height) { m_width = width; m_height = height; }
 		bool       isOk() const { return m_ok; }
 		void       setOk(bool ok) { m_ok = ok; }
+		bool       showLog() const { return m_showLog; }
+		void       turnOnLogger() { m_showLog = true; }
+		void       turnOffLogger() { m_showLog = false; }
 
 	private:
 
@@ -136,7 +150,9 @@ namespace Marvel {
 		unsigned                m_height;
 		std::string             m_callback;
 		bool                    m_ok = true;
+		bool                    m_showLog = true;
 		mvTheme                 m_theme;
+		unsigned                m_loglevel = 0;
 
 	};
 

@@ -42,8 +42,8 @@ sandbox.addInputText("Tab1", "Testing2")
 sandbox.addColorEdit4("Tab1", "Color1", 1.0, 0, 0, 1.0)
 sandbox.addInputInt("Tab1", "inputint1")
 sandbox.addInputFloat("Tab1", "inputfloat1", default_value=117.0)
-sandbox.addCheckbox("Tab1", "checkbox1")
-sandbox.addCheckbox("Tab1", "checkbox2", default_value=True)
+sandbox.addCheckbox("Tab1", "Logger", default_value=True)
+sandbox.addCheckbox("Tab1", "checkbox2")
 sandbox.endTab("Tab1")
 
 sandbox.addTab("TabBar1", "Tab2")
@@ -70,6 +70,7 @@ sandbox.setItemCallback("callback 3", "ItemCallback")
 sandbox.setItemCallback("Use Dark", "DarkTheme")
 sandbox.setItemCallback("Use Light", "LightTheme")
 sandbox.setItemCallback("Use Classic", "ClassicTheme")
+sandbox.setItemCallback("Logger", "LoggerCallback")
 
 # setting a tip
 sandbox.setItemTip("Button1", "A different tip")
@@ -84,8 +85,23 @@ sandbox.setItemWidth("Testing2", 200)
 def ItemCallback(sender):
     print("Called by ", sender)
     value = sandbox.getValue("Color1")
+    loglevel = sandbox.getValue("inputint1")
+    sandbox.SetLogLevel(loglevel)
     sandbox.changeThemeItem("ImGuiCol_Tab", value[0], value[1], value[2], value[3])
     sandbox.updateTheme()
+    sandbox.Log("log")
+    sandbox.LogDebug("log")
+    sandbox.LogInfo("log")
+    sandbox.LogWarning("log")
+    sandbox.LogError("log")
+
+def LoggerCallback(sender):
+
+    value = sandbox.getValue("Logger")
+    if value == 0:
+        sandbox.TurnOffLogger()
+    else:
+        sandbox.TurnOnLogger()
 
 def DarkTheme(sender):
     sandbox.setTheme("dark")
