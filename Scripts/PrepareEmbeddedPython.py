@@ -104,6 +104,7 @@ for file in glob.glob(build_dir + "/*.pyd"):
 # add python path file for embedding
 with open(debug_dir + "/python38._pth", 'w') as file:
     file.write("python38.zip\n")
+    file.write("Lib\n")
     file.write(".\n")
     file.write("# Uncomment to run site.main() automatically\n")
     file.write("#import site\n")

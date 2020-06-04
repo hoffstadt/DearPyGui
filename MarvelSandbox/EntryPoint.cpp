@@ -19,6 +19,14 @@ MV_DECLARE_PYMODULE(pyMod3, "sbLog");
 
 int main(int argc, char* argv[])
 {
+	std::cout << argv[1] << std::endl;
+
+	wchar_t* program = Py_DecodeLocale(argv[0], NULL);
+	if (program == NULL) {
+		fprintf(stderr, "Fatal error: cannot decode argv[0]\n");
+		exit(1);
+	}
+	Py_SetProgramName(program);  /* optional but recommended */
 
 	// initialize our modules
 	MV_INIT_PYMODULE(pyMod1, CreatePythonInterface);
@@ -44,12 +52,14 @@ int main(int argc, char* argv[])
 	else
 	{
 		// Convert to a wchar_t*
-		size_t origsize = strlen(argv[1]) + 1;
-		const size_t newsize = 100;
-		size_t convertedChars = 0;
-		wchar_t wcstring[newsize];
-		mbstowcs_s(&convertedChars, wcstring, origsize, argv[1], _TRUNCATE);
-		std::wstring wpath = std::wstring(L"python38.zip;") + std::wstring(wcstring);
+		//size_t origsize = strlen(argv[1]) + 1;
+		//const size_t newsize = 100;
+		//size_t convertedChars = 0;
+		//wchar_t wcstring[newsize];
+		//mbstowcs_s(&convertedChars, wcstring, origsize, argv[1], _TRUNCATE);
+		//std::wstring wpath = std::wstring(L"python38.zip;") + std::wstring(wcstring);
+		////path = wpath.c_str();
+		std::wstring wpath = std::wstring(Py_DecodeLocale(argv[1], nullptr)) + std::wstring(L";python38.zip");
 		path = wpath.c_str();
 	}
 	
@@ -58,7 +68,15 @@ int main(int argc, char* argv[])
 
 	// set path and start the intpreter
 	Py_SetPath(path);
+	Py_NoSiteFlag = 1; // this must be set to 1
 	Py_Initialize();
+
+	if (!Py_IsInitialized())
+	{
+		printf("Error initializing Python interpreter\n");
+		return 1;
+	}
+	std::cout << Py_GetPath() << std::endl;;
 
 	PyObject* m = PyImport_ImportModule("sandboxout");
 	PySys_SetObject("stdout", m);
@@ -101,6 +119,9 @@ int main(int argc, char* argv[])
 	Py_XDECREF(m);
 
 	// shutdown the interpreter
-	Py_Finalize();
+	if (Py_FinalizeEx() < 0) {
+		exit(120);
+	}
+	PyMem_RawFree(program);
 
 }
