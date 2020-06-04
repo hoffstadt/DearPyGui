@@ -1,4 +1,5 @@
 import sandbox
+import DarkTheme
 
 # create some menus
 sandbox.addMenuBar("MenuBar")
