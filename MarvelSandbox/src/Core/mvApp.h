@@ -23,7 +23,7 @@ namespace Marvel {
 		//-----------------------------------------------------------------------------
 		void setAppTheme(const std::string& theme);
 		void updateTheme();
-		void changeThemeItem(const char* name, float r, float g, float b, float a);
+		void changeThemeItem(const char* name, mvColor color);
 
 		//-----------------------------------------------------------------------------
 		// Basic AppItems
@@ -40,7 +40,14 @@ namespace Marvel {
 		//-----------------------------------------------------------------------------
 		// Color Items
 		//-----------------------------------------------------------------------------
-		mvAppItem* addColorEdit4(const std::string& parent, const std::string& name, float r, float g, float b, float a);
+		mvAppItem* addColorEdit4(const std::string& parent, const std::string& name, mvColor color);
+
+		//-----------------------------------------------------------------------------
+		// Text
+		//-----------------------------------------------------------------------------
+
+		mvAppItem* addText(const std::string& parent, const std::string& name, int wrap = 0, mvColor color = MV_DEFAULT_COLOR);
+		mvAppItem* addLabelText(const std::string& parent, const std::string& name, const std::string& value, int wrap = 0, mvColor color = MV_DEFAULT_COLOR);
 
 		//-----------------------------------------------------------------------------
 		// Tabs

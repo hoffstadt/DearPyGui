@@ -5,15 +5,15 @@
 #include <string>
 #include <vector>
 #include <imgui.h>
+#include "mvColor.h"
 
 #define MV_APPITEM_TYPE(x) virtual mvAppItemType getType() const override { return x; }
 #define MV_NORETURN_VALUE() virtual PyObject* getPyValue() override { return nullptr; }
 
 namespace Marvel {
 
-	// InputFloat3,  Combo,
-	//	Listbox,  
-	//	Text, LabelText, ProgressBar, Image,
+	//  InputFloat3,  Combo, 
+	//  ProgressBar, Image,
 	//	DragInt, SliderInt, FileOpen, FileSave
 
 	enum class mvAppItemType
@@ -25,7 +25,7 @@ namespace Marvel {
 		Group, EndGroup, Child, EndChild,
 		Tooltip, EndTooltip, CollapsingHeader,
 		Separator, ColorEdit4, Checkbox, InputInt, InputFloat,
-		Listbox
+		Listbox, Text, LabelText
 	};
 
 	class mvAppItem

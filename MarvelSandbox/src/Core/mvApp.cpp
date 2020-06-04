@@ -17,6 +17,8 @@
 #include "AppItems/mvInputFloat.h"
 #include "AppItems/mvCheckbox.h"
 #include "AppItems/mvListbox.h"
+#include "AppItems/mvText.h"
+#include "AppItems/mvLabelText.h"
 
 namespace Marvel {
 
@@ -216,9 +218,9 @@ namespace Marvel {
 			
 	}
 
-	void mvApp::changeThemeItem(const char* name, float r, float g, float b, float a)
+	void mvApp::changeThemeItem(const char* name, mvColor color)
 	{
-		m_theme.changeThemeItem(name, r, g, b, a);
+		m_theme.changeThemeItem(name, color.r, color.g, color.b, color.a);
 	}
 
 	//-----------------------------------------------------------------------------
@@ -253,9 +255,9 @@ namespace Marvel {
 		return item;
 	}
 
-	mvAppItem* mvApp::addColorEdit4(const std::string& parent, const std::string& name, float r, float g, float b, float a)
+	mvAppItem* mvApp::addColorEdit4(const std::string& parent, const std::string& name, mvColor color)
 	{
-		mvAppItem* item = new mvColorEdit4(parent, name, r, g, b, a);
+		mvAppItem* item = new mvColorEdit4(parent, name, color.r, color.g, color.b, color.a);
 		m_items.push_back(item);
 		return item;
 	}
@@ -430,6 +432,24 @@ namespace Marvel {
 	mvAppItem* mvApp::addSeperator(const std::string& parent)
 	{
 		mvAppItem* item = new mvSeparator(parent);
+		m_items.push_back(item);
+		return item;
+	}
+
+	//-----------------------------------------------------------------------------
+	// Text
+	//-----------------------------------------------------------------------------
+
+	mvAppItem* mvApp::addText(const std::string& parent, const std::string& name, int wrap, mvColor color)
+	{
+		mvAppItem* item = new mvText(parent, name, wrap, color);
+		m_items.push_back(item);
+		return item;
+	}
+
+	mvAppItem* mvApp::addLabelText(const std::string& parent, const std::string& name, const std::string& value, int wrap, mvColor color)
+	{
+		mvAppItem* item = new mvLabelText(parent, name, value, wrap, color);
 		m_items.push_back(item);
 		return item;
 	}
