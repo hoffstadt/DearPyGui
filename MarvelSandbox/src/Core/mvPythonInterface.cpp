@@ -1,52 +1,8 @@
 #include "mvPythonInterface.h"
 
+#include "mvApp.h"
+
 namespace Marvel {
-
-	PyMethodDef SandboxMethods[] = {
-		{"addColorEdit4", addColorEdit4, METH_VARARGS, "documentation"},
-		{"addSeperator", addSeperator, METH_VARARGS, "documentation"},
-		{"setTheme", setTheme, METH_VARARGS, "documentation"},
-		{"setMainCallback", setMainCallback, METH_VARARGS, "documentation"},
-		{"setItemCallback", setItemCallback, METH_VARARGS, "documentation"},
-		{"setItemTip", setItemTip, METH_VARARGS, "documentation"},
-		{"setItemWidth", setItemWidth, METH_VARARGS, "documentation"},
-		{"addButton", addButton, METH_VARARGS, "documentation"},
-		{"addInputText", (PyCFunction)addInputText, METH_VARARGS | METH_KEYWORDS, "documentation"},
-		{"addInputInt", (PyCFunction)addInputInt, METH_VARARGS | METH_KEYWORDS, "documentation"},
-		{"addInputFloat", (PyCFunction)addInputFloat, METH_VARARGS | METH_KEYWORDS, "documentation"},
-		{"addRadioButton", (PyCFunction)addRadioButton, METH_VARARGS | METH_KEYWORDS, "documentation"},
-		{"addCheckbox", (PyCFunction)addCheckbox, METH_VARARGS | METH_KEYWORDS, "documentation"},
-		{"addGroup", addGroup, METH_VARARGS, "documentation"},
-		{"endGroup", endGroup, METH_VARARGS, "documentation"},
-		{"addChild", addChild, METH_VARARGS, "documentation"},
-		{"endChild", endChild, METH_VARARGS, "documentation"},
-		{"addTabBar", addTabBar, METH_VARARGS, "documentation"},
-		{"addTab", addTab, METH_VARARGS, "documentation"},
-		{"endTab", endTab, METH_VARARGS, "documentation"},
-		{"endTabBar", endTabBar, METH_VARARGS, "documentation"},
-		{"addMenuBar", addMenuBar, METH_VARARGS, "documentation"},
-		{"addMenu", addMenu, METH_VARARGS, "documentation"},
-		{"endMenu", endMenu, METH_VARARGS, "documentation"},
-		{"endMenuBar", endMenuBar, METH_VARARGS, "documentation"},
-		{"addMenuItem", addMenuItem, METH_VARARGS, "documentation"},
-		{"addSpacing", (PyCFunction)addSpacing, METH_VARARGS | METH_KEYWORDS, "documentation"},
-		{"addSameLine", (PyCFunction)addSameLine, METH_VARARGS | METH_KEYWORDS, "documentation"},
-		{"addTooltip", addTooltip, METH_VARARGS, "documentation"},
-		{"endTooltip", endTooltip, METH_VARARGS, "documentation"},
-		{"getValue", getValue, METH_VARARGS, "documentation"},
-		{"addCollapsingHeader", addCollapsingHeader, METH_VARARGS, "documentation"},
-		{NULL, NULL, 0, NULL}
-	};
-
-	PyModuleDef SandboxModule = {
-		PyModuleDef_HEAD_INIT, "sandbox", NULL, -1, SandboxMethods,
-		NULL, NULL, NULL, NULL
-	};
-
-	PyObject* PyInit_emb(void)
-	{
-		return PyModule_Create(&SandboxModule);
-	}
 
 	PyObject* getValue(PyObject* self, PyObject* args)
 	{
@@ -495,5 +451,43 @@ namespace Marvel {
 		Py_INCREF(Py_None);
 
 		return Py_None;
+	}
+
+	void CreatePythonInterface(mvPythonModule& pyModule, PyObject* (*initfunc)())
+	{
+		pyModule.addMethod(addColorEdit4, "Not Documented");
+		pyModule.addMethod(addSeperator, "Not Documented");
+		pyModule.addMethod(setTheme, "Not Documented");
+		pyModule.addMethod(setMainCallback, "Not Documented");
+		pyModule.addMethod(setItemCallback, "Not Documented");
+		pyModule.addMethod(setItemTip, "Not Documented");
+		pyModule.addMethod(setItemWidth, "Not Documented");
+		pyModule.addMethod(addButton, "Not Documented");
+		pyModule.addMethod(addInputText, "Not Documented");
+		pyModule.addMethod(addInputInt, "Not Documented");
+		pyModule.addMethod(addInputFloat, "Not Documented");
+		pyModule.addMethod(addRadioButton, "Not Documented");
+		pyModule.addMethod(addCheckbox, "Not Documented");
+		pyModule.addMethod(addGroup, "Not Documented");
+		pyModule.addMethod(endGroup, "Not Documented");
+		pyModule.addMethod(addChild, "Not Documented");
+		pyModule.addMethod(endChild, "Not Documented");
+		pyModule.addMethod(addTabBar, "Not Documented");
+		pyModule.addMethod(addTab, "Not Documented");
+		pyModule.addMethod(endTab, "Not Documented");
+		pyModule.addMethod(endTabBar, "Not Documented");
+		pyModule.addMethod(addMenuBar, "Not Documented");
+		pyModule.addMethod(addMenu, "Not Documented");
+		pyModule.addMethod(endMenu, "Not Documented");
+		pyModule.addMethod(endMenuBar, "Not Documented");
+		pyModule.addMethod(addMenuItem, "Not Documented");
+		pyModule.addMethod(addSpacing, "Not Documented");
+		pyModule.addMethod(addSameLine, "Not Documented");
+		pyModule.addMethod(addTooltip, "Not Documented");
+		pyModule.addMethod(endTooltip, "Not Documented");
+		pyModule.addMethod(getValue, "Not Documented");
+		pyModule.addMethod(addCollapsingHeader, "Not Documented");
+
+		PyImport_AppendInittab(pyModule.getName() , initfunc);
 	}
 }

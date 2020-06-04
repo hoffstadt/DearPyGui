@@ -8,8 +8,12 @@ using namespace Marvel;
 
 AppLog* AppLog::s_instance = nullptr;
 
+MV_DECLARE_PYMODULE(pyMod1, "sandbox");
+
 int main(int argc, char* argv[])
 {
+
+	MV_INIT_PYMODULE(pyMod1);
 
 	const wchar_t* path;
 	const char* module_name;
@@ -38,9 +42,8 @@ int main(int argc, char* argv[])
 		std::wstring wpath = std::wstring(L"python38.zip;") + std::wstring(wcstring);
 		path = wpath.c_str();
 	}
-		
+	
 	// add our custom module
-	PyImport_AppendInittab("sandbox", &PyInit_emb);
 	PyImport_AppendInittab("sandboxout", &PyInit_embOut);
 
 	// set path and start the intpreter
