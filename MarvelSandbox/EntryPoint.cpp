@@ -19,7 +19,7 @@ MV_DECLARE_PYMODULE(pyMod3, "sbLog");
 
 int main(int argc, char* argv[])
 {
-	std::cout << argv[1] << std::endl;
+	//std::cout << argv[1] << std::endl;
 
 	wchar_t* program = Py_DecodeLocale(argv[0], NULL);
 	if (program == NULL) {
