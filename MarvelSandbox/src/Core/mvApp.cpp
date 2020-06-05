@@ -18,7 +18,6 @@
 #include "AppItems/mvCheckbox.h"
 #include "AppItems/mvListbox.h"
 #include "AppItems/mvText.h"
-#include "AppItems/mvLabelText.h"
 #include "AppItems/mvCombo.h"
 #include "AppItems/mvPlot.h"
 
