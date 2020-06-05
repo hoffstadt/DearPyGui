@@ -20,6 +20,7 @@
 #include "AppItems/mvText.h"
 #include "AppItems/mvLabelText.h"
 #include "AppItems/mvCombo.h"
+#include "AppItems/mvPlot.h"
 
 namespace Marvel {
 
@@ -504,5 +505,12 @@ namespace Marvel {
 	void mvApp::ClearLog()
 	{
 		AppLog::getLogger()->Clear();
+	}
+
+	mvAppItem* mvApp::addPlot(const std::string& parent, const std::string& name, int width, int height)
+	{
+		mvAppItem* item = new mvPlot(parent, name, width, height);
+		m_items.push_back(item);
+		return item;
 	}
 }

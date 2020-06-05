@@ -132,6 +132,11 @@ namespace Marvel {
 		mvMousePos getMousePosition() const { return m_mousePos; }
 
 		//-----------------------------------------------------------------------------
+		// Plotting
+		//-----------------------------------------------------------------------------
+		mvAppItem* addPlot(const std::string& parent, const std::string& name, int width, int height);
+
+		//-----------------------------------------------------------------------------
 		// Utilities
 		//-----------------------------------------------------------------------------
 		mvAppItem* getItem(const std::string& name);

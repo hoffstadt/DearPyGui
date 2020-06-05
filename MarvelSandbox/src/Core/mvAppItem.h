@@ -5,7 +5,7 @@
 #include <string>
 #include <vector>
 #include <imgui.h>
-#include "mvColor.h"
+#include "mvColor1.h"
 
 #define MV_APPITEM_TYPE(x) virtual mvAppItemType getType() const override { return x; }
 #define MV_NORETURN_VALUE() virtual PyObject* getPyValue() override { return Py_None; }
@@ -23,7 +23,7 @@ namespace Marvel {
 		Group, EndGroup, Child, EndChild,
 		Tooltip, EndTooltip, CollapsingHeader,
 		Separator, ColorEdit4, Checkbox, InputInt, InputFloat,
-		Listbox, Text, LabelText, Combo
+		Listbox, Text, LabelText, Combo, Plot
 	};
 
 	class mvAppItem
