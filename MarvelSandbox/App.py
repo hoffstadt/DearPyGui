@@ -111,6 +111,9 @@ def ItemCallback(sender):
     LogInfo("log")
     LogWarning("log")
     LogError("log")
+    setValue("Output", "234")
+    setValue("radiobutton1", 1)
+    setValue("checkbox2", True)
 
 def LoggerCallback(sender):
 

@@ -1,13 +1,13 @@
 #pragma once
 
-#include "Core/mvAppItem.h"
+#include "Core/AppItems/mvTypeBases.h"
 
 namespace Marvel {
 
 	//-----------------------------------------------------------------------------
 	// mvChild
 	//-----------------------------------------------------------------------------
-	class mvChild : public mvAppItem
+	class mvChild : public mvBoolItemBase
 	{
 
 	public:
@@ -15,16 +15,10 @@ namespace Marvel {
 		MV_APPITEM_TYPE(mvAppItemType::Child)
 
 		mvChild(const std::string& parent, const std::string& name, int width, int height)
-			: mvAppItem(parent, name), m_value(false)
+			: mvBoolItemBase(parent, name, false)
 		{
 			m_width = width;
 			m_height = height;
-		}
-
-		virtual PyObject* getPyValue() override
-		{
-			PyObject* pvalue = Py_BuildValue("i", m_value);
-			return pvalue;
 		}
 
 		virtual void draw() override
@@ -40,11 +34,8 @@ namespace Marvel {
 				ImGui::SetTooltip(m_tip.c_str());
 		}
 
-		inline bool getValue() const { return m_value; }
-
 	private:
 
-		bool m_value;
 		int m_height;
 
 	};
@@ -52,16 +43,15 @@ namespace Marvel {
 	//-----------------------------------------------------------------------------
 	// mvEndChild
 	//-----------------------------------------------------------------------------
-	class mvEndChild : public mvAppItem
+	class mvEndChild : public mvNoneItemBase
 	{
 
 	public:
 
 		MV_APPITEM_TYPE(mvAppItemType::EndChild)
-		MV_NORETURN_VALUE()
 
 		mvEndChild(const std::string& parent)
-			: mvAppItem(parent, "Endgroup")
+			: mvNoneItemBase(parent, "Endgroup")
 		{
 		}
 

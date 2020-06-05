@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Core/mvAppItem.h"
+#include "Core/AppItems/mvTypeBases.h"
 
 #include "events/mvMouseEvent.h"
 #include "events/mvApplicationEvent.h"
@@ -12,16 +12,15 @@
 
 namespace Marvel {
 
-	class mvPlot : public mvAppItem
+	class mvPlot : public mvNoneItemBase
 	{
 
 	public:
 
 		MV_APPITEM_TYPE(mvAppItemType::Plot)
-		MV_NORETURN_VALUE()
 
 		mvPlot(const std::string& parent, const std::string& name, int width, int height)
-			: mvAppItem(parent, name), m_width(width), m_height(height)
+			: mvNoneItemBase(parent, name), m_width(width), m_height(height)
 		{
 
 			m_graph = new marvel::mvImGuiGraph();

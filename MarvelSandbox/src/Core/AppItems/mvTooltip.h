@@ -1,13 +1,13 @@
 #pragma once
 
-#include "Core/mvAppItem.h"
+#include "Core/AppItems/mvtypeBases.h"
 
 namespace Marvel {
 
 	//-----------------------------------------------------------------------------
 	// mvTooltip
 	//-----------------------------------------------------------------------------
-	class mvTooltip : public mvAppItem
+	class mvTooltip : public mvBoolItemBase
 	{
 
 	public:
@@ -15,17 +15,11 @@ namespace Marvel {
 		MV_APPITEM_TYPE(mvAppItemType::Tooltip)
 
 		mvTooltip(const std::string& parent, const std::string& name)
-			: mvAppItem(parent, name), m_value(false)
+			: mvBoolItemBase(parent, name, false)
 		{
 			// has to be showed that way it can check for hovering
 			// otherwise it will never show
 			m_show = true;
-		}
-
-		virtual PyObject* getPyValue() override
-		{
-			PyObject* pvalue = Py_BuildValue("i", m_value);
-			return pvalue;
 		}
 
 		virtual void draw() override
@@ -45,27 +39,20 @@ namespace Marvel {
 				m_value = false;
 		}
 
-		inline bool getValue() const { return m_value; }
-
-	private:
-
-		bool m_value;
-
 	};
 
 	//-----------------------------------------------------------------------------
 	// mvEndTooltip
 	//-----------------------------------------------------------------------------
-	class mvEndTooltip : public mvAppItem
+	class mvEndTooltip : public mvNoneItemBase
 	{
 
 	public:
 
 		MV_APPITEM_TYPE(mvAppItemType::EndTooltip)
-		MV_NORETURN_VALUE()
 
 		mvEndTooltip(const std::string& parent)
-			: mvAppItem(parent, "EndTooltip")
+			: mvNoneItemBase(parent, "EndTooltip")
 		{
 		}
 

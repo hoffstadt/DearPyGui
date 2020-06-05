@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Core/mvAppItem.h"
+#include "Core/AppItems/mvTypeBases.h"
 #include "Core/mvApp.h"
 
 namespace Marvel {
@@ -8,7 +8,7 @@ namespace Marvel {
 	//-----------------------------------------------------------------------------
 	// mvTabBar
 	//-----------------------------------------------------------------------------
-	class mvTabBar : public mvAppItem
+	class mvTabBar : public mvStringItemBase
 	{
 
 	public:
@@ -16,16 +16,8 @@ namespace Marvel {
 		MV_APPITEM_TYPE(mvAppItemType::TabBar)
 
 		mvTabBar(const std::string& parent, const std::string& name)
-			: mvAppItem(parent, name)
-		{
-			m_value = new std::string();
-		}
-
-		virtual PyObject* getPyValue() override
-		{
-			PyObject* pvalue = Py_BuildValue("s", m_value->c_str());
-			return pvalue;
-		}
+			: mvStringItemBase(parent, name, "")
+		{}
 
 		virtual void draw() override
 		{
@@ -33,19 +25,13 @@ namespace Marvel {
 			ImGui::BeginTabBar(m_label.c_str());
 		}
 
-		inline void setValue(const std::string& value) { *m_value = value; }
-		inline const std::string& getValue() const { return *m_value; }
-
-	private:
-
-		std::string* m_value;
 
 	};
 
 	//-----------------------------------------------------------------------------
 	// mvEndTabBar
 	//-----------------------------------------------------------------------------
-	class mvEndTabBar : public mvAppItem
+	class mvEndTabBar : public mvBoolItemBase
 	{
 
 	public:
@@ -53,7 +39,7 @@ namespace Marvel {
 		MV_APPITEM_TYPE(mvAppItemType::EndTabBar)
 
 		mvEndTabBar(const std::string& parent)
-			: mvAppItem(parent, "temporary"), m_value(false)
+			: mvBoolItemBase(parent, "temporary", false)
 		{
 			static int i = 0;
 			i++;
@@ -63,30 +49,18 @@ namespace Marvel {
 
 		}
 
-		virtual PyObject* getPyValue() override
-		{
-			PyObject* pvalue = Py_BuildValue("i", m_value);
-			return pvalue;
-		}
-
 		virtual void draw() override
 		{
 			mvApp::GetApp()->popParent();
 			ImGui::EndTabBar();
 		}
 
-		inline bool getValue() const { return m_value; }
-
-	private:
-
-		bool m_value;
-
 	};
 
 	//-----------------------------------------------------------------------------
 	// mvTab
 	//-----------------------------------------------------------------------------
-	class mvTab : public mvAppItem
+	class mvTab : public mvBoolItemBase
 	{
 
 	public:
@@ -94,14 +68,8 @@ namespace Marvel {
 		MV_APPITEM_TYPE(mvAppItemType::TabItem)
 
 		mvTab(const std::string& parent, const std::string& name)
-			: mvAppItem(parent, name), m_value(false)
+			: mvBoolItemBase(parent, name, false)
 		{
-		}
-
-		virtual PyObject* getPyValue() override
-		{
-			PyObject* pvalue = Py_BuildValue("i", m_value);
-			return pvalue;
 		}
 
 		virtual void draw() override
@@ -150,19 +118,12 @@ namespace Marvel {
 			}
 		}
 
-		inline void setValue(bool value) { m_value = value; }
-		inline bool getValue() const { return m_value; }
-
-	private:
-
-		bool m_value;
-
 	};
 
 	//-----------------------------------------------------------------------------
 	// mvEndTab
 	//-----------------------------------------------------------------------------
-	class mvEndTab : public mvAppItem
+	class mvEndTab : public mvBoolItemBase
 	{
 
 	public:
@@ -170,7 +131,7 @@ namespace Marvel {
 		MV_APPITEM_TYPE(mvAppItemType::EndTabItem)
 
 		mvEndTab(const std::string& parent)
-			: mvAppItem(parent, "temporary"), m_value(false)
+			: mvBoolItemBase(parent, "temporary", false)
 		{
 			static int i = 0;
 			i++;
@@ -179,23 +140,11 @@ namespace Marvel {
 
 		}
 
-		virtual PyObject* getPyValue() override
-		{
-			PyObject* pvalue = Py_BuildValue("i", m_value);
-			return pvalue;
-		}
-
 		virtual void draw() override
 		{
 			mvApp::GetApp()->popParent();
 			ImGui::EndTabItem();
 		}
-
-		inline bool getValue() const { return m_value; }
-
-	private:
-
-		bool m_value;
 
 	};
 

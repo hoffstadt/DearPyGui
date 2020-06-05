@@ -1,19 +1,18 @@
 #pragma once
 
-#include "Core/mvAppItem.h"
+#include "Core/AppItems/mvTypeBases.h"
 
 namespace Marvel {
 
-	class mvSeparator : public mvAppItem
+	class mvSeparator : public mvNoneItemBase
 	{
 
 	public:
 
 		MV_APPITEM_TYPE(mvAppItemType::Separator)
-		MV_NORETURN_VALUE()
 
 		mvSeparator(const std::string& parent)
-			: mvAppItem(parent, "separator")
+			: mvNoneItemBase(parent, "separator")
 		{
 		}
 

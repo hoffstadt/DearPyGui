@@ -1,10 +1,10 @@
 #pragma once
 
-#include "Core/mvAppItem.h"
+#include "Core/AppItems/mvTypeBases.h"
 
 namespace Marvel {
 
-	class mvCombo : public mvAppItem
+	class mvCombo : public mvStringItemBase
 	{
 
 	public:
@@ -12,15 +12,8 @@ namespace Marvel {
 		MV_APPITEM_TYPE(mvAppItemType::Combo)
 
 		mvCombo(const std::string& parent, const std::string& name, const std::vector<std::string>& itemnames, const std::string& default_value)
-			: mvAppItem(parent, name), m_names(itemnames), m_value(default_value)
-		{
-		}
-
-		virtual PyObject* getPyValue() override
-		{
-			PyObject* pvalue = Py_BuildValue("s",m_value.c_str());
-			return pvalue;
-		}
+			: mvStringItemBase(parent, name, default_value), m_names(itemnames)
+		{}
 
 		virtual void draw() override
 		{
@@ -46,7 +39,6 @@ namespace Marvel {
 	private:
 
 		std::vector<std::string> m_names;
-		std::string              m_value;
 
 	};
 

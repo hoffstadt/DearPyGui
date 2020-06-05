@@ -1,19 +1,18 @@
 #pragma once
 
-#include "Core/mvAppItem.h"
+#include "Core/AppItems/mvTypeBases.h"
 
 namespace Marvel {
 
-	class mvText : public mvAppItem
+	class mvText : public mvNoneItemBase
 	{
 
 	public:
 
 		MV_APPITEM_TYPE(mvAppItemType::Text)
-		MV_NORETURN_VALUE()
 
 		mvText(const std::string& parent, const std::string& name, int wrap, mvColor color)
-			: mvAppItem(parent, name), m_wrap(wrap), m_color(color)
+			: mvNoneItemBase(parent, name), m_wrap(wrap), m_color(color)
 		{
 		}
 

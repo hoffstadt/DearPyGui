@@ -1,24 +1,22 @@
 #pragma once
 
-#include "Core/mvAppItem.h"
+#include "Core/AppItems/mvTypeBases.h"
 
 namespace Marvel {
 
 	//-----------------------------------------------------------------------------
 	// mvGroup
 	//-----------------------------------------------------------------------------
-	class mvGroup : public mvAppItem
+	class mvGroup : public mvNoneItemBase
 	{
 
 	public:
 
 		MV_APPITEM_TYPE(mvAppItemType::Group)
-		MV_NORETURN_VALUE()
 
 		mvGroup(const std::string& parent, const std::string& name)
-			: mvAppItem(parent, name)
-		{
-		}
+			: mvNoneItemBase(parent, name)
+		{}
 
 		virtual void draw() override
 		{
@@ -37,16 +35,15 @@ namespace Marvel {
 	//-----------------------------------------------------------------------------
 	// mvEndGroup
 	//-----------------------------------------------------------------------------
-	class mvEndGroup : public mvAppItem
+	class mvEndGroup : public mvNoneItemBase
 	{
 
 	public:
 
 		MV_APPITEM_TYPE(mvAppItemType::EndGroup)
-		MV_NORETURN_VALUE()
 
 		mvEndGroup(const std::string& parent)
-			: mvAppItem(parent, "Endgroup")
+			: mvNoneItemBase(parent, "Endgroup")
 		{
 		}
 

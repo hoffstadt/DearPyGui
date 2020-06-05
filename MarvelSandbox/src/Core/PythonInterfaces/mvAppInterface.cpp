@@ -147,6 +147,22 @@ namespace Marvel {
 		return item->getPyValue();
 	}
 
+	PyObject* setValue(PyObject* self, PyObject* args)
+	{
+		const char* name;
+		PyObject* value;
+
+		PyArg_ParseTuple(args, "sO", &name, &value);
+
+		mvAppItem* item = mvApp::GetApp()->getItem(std::string(name));
+
+		if (item == nullptr)
+			return Py_None;
+
+		item->setPyValue(value);
+		return Py_None;
+	}
+
 	PyObject* setMainCallback(PyObject* self, PyObject* args)
 	{
 		const char* callback;;
@@ -621,6 +637,7 @@ namespace Marvel {
 		pyModule.addMethod(addTooltip, "Not Documented");
 		pyModule.addMethod(endTooltip, "Not Documented");
 		pyModule.addMethod(getValue, "Not Documented");
+		pyModule.addMethod(setValue, "Not Documented");
 		pyModule.addMethod(addCollapsingHeader, "Not Documented");
 
 		PyImport_AppendInittab(pyModule.getName() , initfunc);

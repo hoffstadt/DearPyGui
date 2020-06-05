@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Core/mvAppItem.h"
+#include "Core/AppItems/mvTypeBases.h"
 #include "Core/mvApp.h"
 
 namespace Marvel {
@@ -8,7 +8,7 @@ namespace Marvel {
 	//-----------------------------------------------------------------------------
 	// mvMenuBar
 	//-----------------------------------------------------------------------------
-	class mvMenuBar : public mvAppItem
+	class mvMenuBar : public mvBoolItemBase
 	{
 
 	public:
@@ -16,16 +16,8 @@ namespace Marvel {
 		MV_APPITEM_TYPE(mvAppItemType::MenuBar)
 
 		mvMenuBar(const std::string& name)
-			: mvAppItem("", name)
-		{
-			m_value = true;
-		}
-
-		virtual PyObject* getPyValue() override
-		{
-			PyObject* pvalue = Py_BuildValue("i", m_value);
-			return pvalue;
-		}
+			: mvBoolItemBase("", name, true)
+		{}
 
 		virtual void draw() override
 		{
@@ -33,28 +25,20 @@ namespace Marvel {
 			ImGui::BeginMenuBar();
 		}
 
-		inline void setValue(bool value) { m_value = value; }
-		inline bool getValue() const { return m_value; }
-
-	private:
-
-		bool m_value;
-
 	};
 
 	//-----------------------------------------------------------------------------
 	// mvEndMenuBar
 	//-----------------------------------------------------------------------------
-	class mvEndMenuBar : public mvAppItem
+	class mvEndMenuBar : public mvNoneItemBase
 	{
 
 	public:
 
 		MV_APPITEM_TYPE(mvAppItemType::EndMenuBar)
-		MV_NORETURN_VALUE()
 
 		mvEndMenuBar(const std::string& parent)
-			: mvAppItem(parent, "temporary")
+			: mvNoneItemBase(parent, "temporary")
 		{
 			static int i = 0;
 			i++;
@@ -69,13 +53,12 @@ namespace Marvel {
 			ImGui::EndMenuBar();
 		}
 
-
 	};
 
 	//-----------------------------------------------------------------------------
 	// mvMenu
 	//-----------------------------------------------------------------------------
-	class mvMenu : public mvAppItem
+	class mvMenu : public mvBoolItemBase
 	{
 
 	public:
@@ -83,14 +66,8 @@ namespace Marvel {
 		MV_APPITEM_TYPE(mvAppItemType::Menu)
 
 		mvMenu(const std::string& parent, const std::string& name)
-			: mvAppItem(parent, name), m_value(false)
+			: mvBoolItemBase(parent, name, false)
 		{
-		}
-
-		virtual PyObject* getPyValue() override
-		{
-			PyObject* pvalue = Py_BuildValue("i", m_value);
-			return pvalue;
 		}
 
 		virtual void draw() override
@@ -110,19 +87,12 @@ namespace Marvel {
 			}
 		}
 
-		inline void setValue(bool value) { m_value = value; }
-		inline bool getValue() const { return m_value; }
-
-	private:
-
-		bool m_value;
-
 	};
 
 	//-----------------------------------------------------------------------------
 	// mvEndMenu
 	//-----------------------------------------------------------------------------
-	class mvEndMenu : public mvAppItem
+	class mvEndMenu : public mvBoolItemBase
 	{
 
 	public:
@@ -130,7 +100,7 @@ namespace Marvel {
 		MV_APPITEM_TYPE(mvAppItemType::EndMenu)
 
 		mvEndMenu(const std::string& parent)
-			: mvAppItem(parent, "temporary"), m_value(false)
+			: mvBoolItemBase(parent, "temporary", false)
 		{
 			static int i = 0;
 			i++;
@@ -139,30 +109,18 @@ namespace Marvel {
 
 		}
 
-		virtual PyObject* getPyValue() override
-		{
-			PyObject* pvalue = Py_BuildValue("i", m_value);
-			return pvalue;
-		}
-
 		virtual void draw() override
 		{
 			mvApp::GetApp()->popParent();
 			ImGui::EndMenu();
 		}
 
-		inline bool getValue() const { return m_value; }
-
-	private:
-
-		bool m_value;
-
 	};
 
 	//-----------------------------------------------------------------------------
 	// mvMenuItem
 	//-----------------------------------------------------------------------------
-	class mvMenuItem : public mvAppItem
+	class mvMenuItem : public mvBoolItemBase
 	{
 
 	public:
@@ -170,15 +128,7 @@ namespace Marvel {
 		MV_APPITEM_TYPE(mvAppItemType::MenuItem)
 
 		mvMenuItem(const std::string& parent, const std::string& name)
-			: mvAppItem(parent, name), m_value(false)
-		{
-		}
-
-		virtual PyObject* getPyValue() override
-		{
-			PyObject* pvalue = Py_BuildValue("i", m_value);
-			return pvalue;
-		}
+			: mvBoolItemBase(parent, name, false){}
 
 		virtual void draw() override
 		{
@@ -197,13 +147,6 @@ namespace Marvel {
 
 			}
 		}
-
-		inline void setValue(bool value) { m_value = value; }
-		inline bool getValue() const { return m_value; }
-
-	private:
-
-		bool m_value;
 
 	};
 

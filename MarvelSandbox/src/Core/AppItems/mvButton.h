@@ -1,19 +1,18 @@
 #pragma once
 
-#include "Core/mvAppItem.h"
+#include "Core/AppItems/mvTypeBases.h"
 
 namespace Marvel {
 
-	class mvButton : public mvAppItem
+	class mvButton : public mvNoneItemBase
 	{
 
 	public:
 
 		MV_APPITEM_TYPE(mvAppItemType::Button)
-		MV_NORETURN_VALUE()
 
 		mvButton(const std::string& parent, const std::string& name)
-			: mvAppItem(parent, name)
+			: mvNoneItemBase(parent, name)
 		{}
 
 		virtual void draw() override
