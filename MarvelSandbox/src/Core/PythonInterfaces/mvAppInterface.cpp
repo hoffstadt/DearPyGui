@@ -163,6 +163,34 @@ namespace Marvel {
 		return Py_None;
 	}
 
+	PyObject* showItem(PyObject* self, PyObject* args)
+	{
+		const char* name;
+
+		PyArg_ParseTuple(args, "s", &name);
+
+		mvAppItem* item = mvApp::GetApp()->getItem(std::string(name));
+
+		if (item != nullptr)
+			item->show();
+
+		return Py_None;
+	}
+
+	PyObject* hideItem(PyObject* self, PyObject* args)
+	{
+		const char* name;
+
+		PyArg_ParseTuple(args, "s", &name);
+
+		mvAppItem* item = mvApp::GetApp()->getItem(std::string(name));
+
+		if (item != nullptr)
+			item->hide();
+
+		return Py_None;
+	}
+
 	PyObject* setMainCallback(PyObject* self, PyObject* args)
 	{
 		const char* callback;;
@@ -600,6 +628,8 @@ namespace Marvel {
 
 	void CreatePythonInterface(mvPythonModule& pyModule, PyObject* (*initfunc)())
 	{
+		pyModule.addMethod(showItem, "Not Documented");
+		pyModule.addMethod(hideItem, "Not Documented");
 		pyModule.addMethod(addCombo, "Not Documented");
 		pyModule.addMethod(addText, "Not Documented");
 		pyModule.addMethod(addLabelText, "Not Documented");
