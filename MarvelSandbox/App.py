@@ -114,6 +114,7 @@ def ItemCallback(sender):
     setValue("Output", "234")
     setValue("radiobutton1", 1)
     setValue("checkbox2", True)
+    hideItem("Tab2")
 
 def LoggerCallback(sender):
 
@@ -125,7 +126,9 @@ def LoggerCallback(sender):
 
 def DarkTheme(sender):
     setTheme("dark")
+    showItem("Tab2")
 def LightTheme(sender):
+    hideItem("Plot2")
     setTheme("light")
 def ClassicTheme(sender):
     setTheme("classic")
