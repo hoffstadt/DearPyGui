@@ -134,6 +134,8 @@ namespace Marvel {
 		//-----------------------------------------------------------------------------
 		// Plotting
 		//-----------------------------------------------------------------------------
+		mvAppItem* addSimplePlot(const std::string& parent, const std::string& name, const std::vector<float> value, 
+			const std::string& overlay, float scale_min, float scale_max, float height, bool histogram);
 		mvAppItem* addPlot(const std::string& parent, const std::string& name, int width, int height);
 
 		//-----------------------------------------------------------------------------

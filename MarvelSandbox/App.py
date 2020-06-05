@@ -71,6 +71,12 @@ addTab("TabBar1", "Tab3")
 addPlot("Tab3", "Plot2", 1100, 800);
 endTab("Tab3")
 
+
+addTab("TabBar1", "Tab4")
+addSimplePlot("Tab4", "Simpleplot1", (0.3, 0.9, 2.5, 8.9))
+addSimplePlot("Tab4", "Simpleplot2", (0.3, 0.9, 2.5, 8.9), True, "Overlaying", 0, 0, 180, True)
+endTab("Tab4")
+
 endTabBar("TabBar1")
 
 # setting call backs
@@ -95,7 +101,7 @@ setItemWidth("Testing1", 200)
 setItemWidth("Testing2", 200)
 
 # setting main callback
-#sandbox.setMainCallback("MainCallback")
+#setMainCallback("MainCallback")
 
 def ItemCallback(sender):
     print("Called by ", sender)

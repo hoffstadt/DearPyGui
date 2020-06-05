@@ -20,6 +20,7 @@
 #include "AppItems/mvText.h"
 #include "AppItems/mvCombo.h"
 #include "AppItems/mvPlot.h"
+#include "AppItems/mvSimplePlot.h"
 
 namespace Marvel {
 
@@ -504,6 +505,13 @@ namespace Marvel {
 	void mvApp::ClearLog()
 	{
 		AppLog::getLogger()->Clear();
+	}
+
+	mvAppItem* mvApp::addSimplePlot(const std::string& parent, const std::string& name, const std::vector<float> value, const std::string& overlay, float scale_min, float scale_max, float height, bool histogram)
+	{
+		mvAppItem* item = new mvSimplePlot(parent, name, value, overlay, scale_min, scale_max, height, histogram);
+		m_items.push_back(item);
+		return item;
 	}
 
 	mvAppItem* mvApp::addPlot(const std::string& parent, const std::string& name, int width, int height)
