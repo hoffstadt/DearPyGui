@@ -9,6 +9,7 @@
 
 #define MV_APPITEM_TYPE(x) virtual mvAppItemType getType() const override { return x; }
 #define MV_NORETURN_VALUE() virtual PyObject* getPyValue() override { return Py_None; }
+#define MV_NOSET_VALUE() virtual void SetPyValue(PyObject* value) override {}
 
 namespace Marvel {
 
@@ -40,7 +41,8 @@ namespace Marvel {
 		mvAppItem operator=(const mvAppItem& other) = delete;
 		mvAppItem operator=(mvAppItem&& other) = delete;
 
-		virtual PyObject*     getPyValue() = 0;
+		virtual void          setPyValue(PyObject* value) = 0;
+		virtual PyObject*     getPyValue() const = 0;
 		virtual mvAppItemType getType() const = 0;
 		virtual void          draw() = 0;
 

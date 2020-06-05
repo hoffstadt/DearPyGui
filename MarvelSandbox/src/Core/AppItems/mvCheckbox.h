@@ -1,10 +1,10 @@
 #pragma once
 
-#include "Core/mvAppItem.h"
+#include "mvTypeBases.h"
 
 namespace Marvel {
 
-	class mvCheckbox : public mvAppItem
+	class mvCheckbox : public mvBoolItemBase
 	{
 
 	public:
@@ -12,14 +12,8 @@ namespace Marvel {
 		MV_APPITEM_TYPE(mvAppItemType::Checkbox)
 
 		mvCheckbox(const std::string& parent, const std::string& name, bool default_value)
-			: mvAppItem(parent, name), m_value(default_value)
+			: mvBoolItemBase(parent, name, default_value)
 		{
-		}
-
-		virtual PyObject* getPyValue() override
-		{
-			PyObject* pvalue = Py_BuildValue("i", m_value);
-			return pvalue;
 		}
 
 		virtual void draw() override
@@ -27,10 +21,6 @@ namespace Marvel {
 			if (ImGui::Checkbox(m_label.c_str(), &m_value))
 				mvApp::GetApp()->triggerCallback(m_callback, m_name);
 		}
-
-	private:
-
-		bool m_value;
 
 	};
 

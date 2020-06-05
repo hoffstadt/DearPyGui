@@ -1,19 +1,18 @@
 #pragma once
 
-#include "Core/mvAppItem.h"
+#include "Core/AppItems/mvTypeBases.h"
 
 namespace Marvel {
 
-	class mvSpacing : public mvAppItem
+	class mvSpacing : public mvNoneItemBase
 	{
 
 	public:
 
 		MV_APPITEM_TYPE(mvAppItemType::Spacing)
-		MV_NORETURN_VALUE()
 
 		mvSpacing(const std::string& parent, int count)
-			: mvAppItem(parent, "Spacing")
+			: mvNoneItemBase(parent, "Spacing")
 		{
 			m_value = count;
 		}

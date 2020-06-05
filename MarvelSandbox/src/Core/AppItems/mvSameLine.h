@@ -1,19 +1,18 @@
 #pragma once
 
-#include "Core/mvAppItem.h"
+#include "Core/AppItems/mvTypeBases.h"
 
 namespace Marvel {
 
-	class mvSameLine : public mvAppItem
+	class mvSameLine : public mvNoneItemBase
 	{
 
 	public:
 
 		MV_APPITEM_TYPE(mvAppItemType::SameLine)
-		MV_NORETURN_VALUE()
 
 		mvSameLine(const std::string& parent, float xoffset, float spacing)
-			: mvAppItem(parent, "SameLine"), m_xoffset(xoffset), m_spacing(spacing)
+			: mvNoneItemBase(parent, "SameLine"), m_xoffset(xoffset), m_spacing(spacing)
 		{
 		}
 

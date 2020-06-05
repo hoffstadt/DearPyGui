@@ -1,10 +1,10 @@
 #pragma once
 
-#include "Core/mvAppItem.h"
+#include "Core/AppItems/mvTypeBases.h"
 
 namespace Marvel {
 
-	class mvCollapsingHeader : public mvAppItem
+	class mvCollapsingHeader : public mvBoolItemBase
 	{
 
 	public:
@@ -12,16 +12,8 @@ namespace Marvel {
 		MV_APPITEM_TYPE(mvAppItemType::CollapsingHeader)
 
 		mvCollapsingHeader(const std::string& parent, const std::string& name)
-			: mvAppItem(parent, name)
-		{
-			m_value = false;
-		}
-
-		virtual PyObject* getPyValue() override
-		{
-			PyObject* pvalue = Py_BuildValue("i", m_value);
-			return pvalue;
-		}
+			: mvBoolItemBase(parent, name, false)
+		{}
 
 		virtual void draw() override
 		{
@@ -35,12 +27,6 @@ namespace Marvel {
 			else
 				m_value = false;
 		}
-
-		inline bool getValue() const { return m_value; }
-
-	private:
-
-		bool m_value;
 
 	};
 
