@@ -3,6 +3,7 @@
 #include "Core/PythonInterfaces/mvAppInterface.h"
 #include "Core/PythonInterfaces/mvInputInterface.h"
 #include "Core/PythonInterfaces/mvLoggerInterface.h"
+#include "Core/PythonInterfaces/mvPlotInterface.h"
 #include "Core/PythonInterfaces/mvStdOutput.h"
 #include "Core/mvWindow.h"
 #include "Platform/Windows/mvWindowsWindow.h"
@@ -16,6 +17,7 @@ AppLog* AppLog::s_instance = nullptr;
 MV_DECLARE_PYMODULE(pyMod1, "sbApp");
 MV_DECLARE_PYMODULE(pyMod2, "sbInput");
 MV_DECLARE_PYMODULE(pyMod3, "sbLog");
+MV_DECLARE_PYMODULE(pyMod4, "sbPlot");
 
 int main(int argc, char* argv[])
 {
@@ -31,6 +33,7 @@ int main(int argc, char* argv[])
 	MV_INIT_PYMODULE(pyMod1, CreatePythonInterface);
 	MV_INIT_PYMODULE(pyMod2, CreateInputInterface);
 	MV_INIT_PYMODULE(pyMod3, CreateLoggerInterface);
+	MV_INIT_PYMODULE(pyMod4, CreatePlotInterface);
 
 	const wchar_t* path;
 	const char* module_name;

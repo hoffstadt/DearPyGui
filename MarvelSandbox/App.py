@@ -1,6 +1,7 @@
 from sbApp import *
 from sbLog import *
 from sbInput import *
+from sbPlot import *
 import SandboxTheme
 
 # create some menus
@@ -61,10 +62,14 @@ addInputText("Tab2", "Testing4")
 
 addTooltip("Testing4", "Tooltip1")         # start tooltip
 addButton("Tooltip1", "A Fancy tooltip 1")
-addButton("Tooltip1", "A Fancy tooltip 2")
+addPlot("Tooltip1", "Plot1", 500, 500);
 endTooltip("Tooltip1")                     # end tooltip
 
 endTab("Tab2")
+
+addTab("TabBar1", "Tab3")
+addPlot("Tab3", "Plot2", 1100, 800);
+endTab("Tab3")
 
 endTabBar("TabBar1")
 
