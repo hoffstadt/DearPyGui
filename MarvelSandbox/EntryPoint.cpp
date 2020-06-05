@@ -19,7 +19,6 @@ MV_DECLARE_PYMODULE(pyMod3, "sbLog");
 
 int main(int argc, char* argv[])
 {
-	//std::cout << argv[1] << std::endl;
 
 	wchar_t* program = Py_DecodeLocale(argv[0], NULL);
 	if (program == NULL) {
@@ -41,6 +40,7 @@ int main(int argc, char* argv[])
 	ShowWindow(hWnd, SW_HIDE);
 #endif // MV_RELEASE
 
+	// create window
 	mvWindow* window = new mvWindowsWindow();
 	window->show();
 
@@ -51,33 +51,28 @@ int main(int argc, char* argv[])
 		path = L"python38.zip;";
 	else
 	{
-		// Convert to a wchar_t*
-		//size_t origsize = strlen(argv[1]) + 1;
-		//const size_t newsize = 100;
-		//size_t convertedChars = 0;
-		//wchar_t wcstring[newsize];
-		//mbstowcs_s(&convertedChars, wcstring, origsize, argv[1], _TRUNCATE);
-		//std::wstring wpath = std::wstring(L"python38.zip;") + std::wstring(wcstring);
-		////path = wpath.c_str();
-		std::wstring wpath = std::wstring(Py_DecodeLocale(argv[1], nullptr)) + std::wstring(L";python38.zip");
-		path = wpath.c_str();
+		wchar_t* deco = Py_DecodeLocale(argv[1], nullptr);
+		std::wstring* wpath = new std::wstring(std::wstring(deco) + std::wstring(L";python38.zip"));
+		path = wpath->c_str();
 	}
-	
+
 	// add our custom module
 	PyImport_AppendInittab("sandboxout", &PyInit_embOut);
 
-	// set path and start the intpreter
+	// set path and start the interpreter
 	Py_SetPath(path);
 	Py_NoSiteFlag = 1; // this must be set to 1
+
 	Py_Initialize();
+	PyGILState_STATE gstate = PyGILState_Ensure();
 
 	if (!Py_IsInitialized())
 	{
 		printf("Error initializing Python interpreter\n");
 		return 1;
 	}
-	std::cout << Py_GetPath() << std::endl;;
 
+	// import our custom module to capture stdout/stderr
 	PyObject* m = PyImport_ImportModule("sandboxout");
 	PySys_SetObject("stdout", m);
 	PySys_SetObject("stderr", m);
@@ -118,10 +113,12 @@ int main(int argc, char* argv[])
 
 	Py_XDECREF(m);
 
-	// shutdown the interpreter
-	if (Py_FinalizeEx() < 0) {
-		exit(120);
-	}
-	PyMem_RawFree(program);
+	/* Release the thread. No Python API allowed beyond this point. */
+	PyGILState_Release(gstate);
 
+	// shutdown the interpreter
+	if (Py_FinalizeEx() < 0)
+		exit(120);
+
+	PyMem_RawFree(program);
 }
