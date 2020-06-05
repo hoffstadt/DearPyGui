@@ -4,6 +4,51 @@
 
 namespace Marvel {
 
+	PyObject* addSimplePlot(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		const char* parent, * name;
+		const char* overlay = "";
+		float minscale = 0.0f;
+		float maxscale = 0.0f;
+		float height = 80.0f;
+		int autoscale = true;
+		int histogram = false;
+		PyObject* value;
+
+		static const char* keywords[] = { "parent", "name", "value", "autoscale", "overlay", "minscale", "maxscale", 
+			"height", "histogram", NULL };
+
+		if (!PyArg_ParseTupleAndKeywords(args, kwargs, "ssO|isfffi", const_cast<char**>(keywords) , 
+			&parent, &name, &value, &autoscale, &overlay, &minscale, &maxscale,	&height, &histogram))
+			__debugbreak();
+
+		std::vector<float> values;
+
+		for (int i = 0; i < PyTuple_Size(value); i++)
+			values.emplace_back(PyFloat_AsDouble(PyTuple_GetItem(value, i)));
+
+		if (autoscale)
+		{
+			maxscale = values[0];
+			minscale = values[0];
+
+			for (auto& item : values)
+			{
+				if (item > maxscale)
+					maxscale = item;
+				if (item < minscale)
+					minscale = item;
+			}
+		}
+
+		mvApp::GetApp()->addSimplePlot(std::string(parent), std::string(name), values, std::string(overlay),
+			minscale, maxscale, height, histogram);
+
+		Py_INCREF(Py_None);
+
+		return Py_None;
+	}
+
 	PyObject* addText(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		const char* parent, * name;
@@ -628,6 +673,7 @@ namespace Marvel {
 
 	void CreatePythonInterface(mvPythonModule& pyModule, PyObject* (*initfunc)())
 	{
+		pyModule.addMethod(addSimplePlot, "Not Documented");
 		pyModule.addMethod(showItem, "Not Documented");
 		pyModule.addMethod(hideItem, "Not Documented");
 		pyModule.addMethod(addCombo, "Not Documented");
