@@ -21,7 +21,6 @@ namespace Marvel {
 		inline const std::vector< std::array<float, 4>>& getColors() const { return m_colors; }
 		inline unsigned getNumberOfItems() const { return m_items; }
 
-
 	private:
 
 		unsigned                            m_items = 0u;

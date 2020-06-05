@@ -10,50 +10,54 @@
 
 #include "Core/mvWindow.h"
 
-class mvWindowsWindow : public mvWindow
-{
+namespace Marvel {
 
-public:
+	class mvWindowsWindow : public mvWindow
+	{
 
-	mvWindowsWindow();
+	public:
 
-	virtual void show() override;
+		mvWindowsWindow();
 
-	virtual void setup() override;
-	virtual void prerender() override;
-	virtual void postrender() override;
-	virtual void cleanup() override;
+		virtual void show() override;
 
-private:
+		virtual void setup() override;
+		virtual void prerender() override;
+		virtual void postrender() override;
+		virtual void cleanup() override;
 
-	bool CreateDeviceD3D(HWND hWnd);
+	private:
 
-	void CleanupDeviceD3D();
+		bool CreateDeviceD3D(HWND hWnd);
 
-	void CreateRenderTarget();
+		void CleanupDeviceD3D();
 
-	void CleanupRenderTarget();
+		void CreateRenderTarget();
 
-public:
+		void CleanupRenderTarget();
 
-	static LRESULT CALLBACK HandleMsgSetup(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) noexcept;
+	public:
 
-	static LRESULT CALLBACK HandleMsgThunk(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) noexcept;
+		static LRESULT CALLBACK HandleMsgSetup(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) noexcept;
 
-	LRESULT HandleMsg(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) noexcept;
+		static LRESULT CALLBACK HandleMsgThunk(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) noexcept;
 
-private:
+		LRESULT HandleMsg(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) noexcept;
 
-	HWND m_hwnd;
-	WNDCLASSEX m_wc;
-	MSG m_msg;
+	private:
 
-private:
+		HWND m_hwnd;
+		WNDCLASSEX m_wc;
+		MSG m_msg;
 
-	// Data
-	static ID3D11Device* s_pd3dDevice;
-	static ID3D11DeviceContext* s_pd3dDeviceContext;
-	static IDXGISwapChain* s_pSwapChain;
-	static ID3D11RenderTargetView* s_mainRenderTargetView;
+	private:
 
-};
+		// Data
+		static ID3D11Device* s_pd3dDevice;
+		static ID3D11DeviceContext* s_pd3dDeviceContext;
+		static IDXGISwapChain* s_pSwapChain;
+		static ID3D11RenderTargetView* s_mainRenderTargetView;
+
+	};
+
+}

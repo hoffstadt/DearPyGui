@@ -1,9 +1,6 @@
 ﻿#define MV_SANDBOX_VERSION "0.0.1"
 
-#include "Core/PythonInterfaces/mvAppInterface.h"
-#include "Core/PythonInterfaces/mvInputInterface.h"
-#include "Core/PythonInterfaces/mvLoggerInterface.h"
-#include "Core/PythonInterfaces/mvPlotInterface.h"
+#include "Core/mvPythonModule.h"
 #include "Core/PythonInterfaces/mvStdOutput.h"
 #include "Core/mvWindow.h"
 #include "Platform/Windows/mvWindowsWindow.h"
@@ -18,6 +15,13 @@ MV_DECLARE_PYMODULE(pyMod1, "sbApp");
 MV_DECLARE_PYMODULE(pyMod2, "sbInput");
 MV_DECLARE_PYMODULE(pyMod3, "sbLog");
 MV_DECLARE_PYMODULE(pyMod4, "sbPlot");
+
+namespace Marvel {
+	extern void CreatePythonInterface(mvPythonModule& pyModule, PyObject* (*initfunc)());
+	extern void CreateInputInterface(mvPythonModule& pyModule, PyObject* (*initfunc)());
+	extern void CreateLoggerInterface(mvPythonModule& pyModule, PyObject* (*initfunc)());
+	extern void CreatePlotInterface(mvPythonModule& pyModule, PyObject* (*initfunc)());
+}
 
 int main(int argc, char* argv[])
 {

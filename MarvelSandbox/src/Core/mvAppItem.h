@@ -7,12 +7,16 @@
 #include <imgui.h>
 #include "mvColor1.h"
 
+//-----------------------------------------------------------------------------
+// Helper Macros
+//-----------------------------------------------------------------------------
 #define MV_APPITEM_TYPE(x) virtual mvAppItemType getType() const override { return x; }
 
 namespace Marvel {
 
-	//  InputFloat3, ProgressBar, Image, DragInt, SliderInt, FileOpen, FileSave
-
+	//-----------------------------------------------------------------------------
+	// Enums
+	//-----------------------------------------------------------------------------
 	enum class mvAppItemType
 	{
 		None = 0, Spacing, SameLine,
@@ -25,6 +29,9 @@ namespace Marvel {
 		Listbox, Text, LabelText, Combo, Plot, SimplePlot
 	};
 
+	//-----------------------------------------------------------------------------
+	// mvAppItem
+	//-----------------------------------------------------------------------------
 	class mvAppItem
 	{
 
@@ -41,24 +48,23 @@ namespace Marvel {
 
 		virtual void          setPyValue(PyObject* value) = 0;
 		virtual PyObject*     getPyValue() const = 0;
-		virtual mvAppItemType getType() const = 0;
-		virtual void          draw() = 0;
+		virtual mvAppItemType getType   () const = 0;
+		virtual void          draw      () = 0;
 
-		inline const std::string&       getName() const { return m_name; }
-		inline const std::string&       getTip() const { return m_tip; }
+		inline const std::string&       getName    () const { return m_name; }
+		inline const std::string&       getTip     () const { return m_tip; }
 		inline std::vector<mvAppItem*>& getChildren() { return m_children; }
-		inline mvAppItem*               getParent() { return m_parent; }
-		inline bool                     isShown() const { return m_show; }
-		inline void                     show() { m_show = true; }
-		inline void                     hide() { m_show = false; }
-		inline void                     setCallback(const std::string& callback) { m_callback = callback; }
-		inline void                     setTip(const std::string& tip) { m_tip = tip; }
+		inline mvAppItem*               getParent  () { return m_parent; }
 		inline const std::string&       getCallback() { return m_callback; }
-		inline int                      getWidth() const { return m_width; }
-		inline void                     setWidth(int width) { m_width = width; }
-
-		void showAll();
-		void hideAll();
+		inline int                      getWidth   () const { return m_width; }
+		inline bool                     isShown    () const { return m_show; }
+		inline void                     show       () { m_show = true; }
+		inline void                     hide       () { m_show = false; }
+		inline void                     setCallback(const std::string& callback) { m_callback = callback; }
+		inline void                     setTip     (const std::string& tip) { m_tip = tip; }
+		inline void                     setWidth   (int width) { m_width = width; }
+		void                            showAll    ();
+		void                            hideAll    ();
 
 	protected:
 

@@ -2,9 +2,9 @@
 
 namespace Marvel {
 
-	mvPythonModule::mvPythonModule(const char* name)
-		: m_name(name)
-	{}
+	mvPythonModule::mvPythonModule(const char* name) : m_name(name)
+	{
+	}
 
 	PyModuleDef* mvPythonModule::getModuleDefinition()
 	{
@@ -12,7 +12,7 @@ namespace Marvel {
 
 		auto pyModule = new PyModuleDef{
 			PyModuleDef_HEAD_INIT, m_name, NULL, -1, m_methods.data(),
-			NULL, NULL, NULL, NULL};
+			NULL, NULL, NULL, NULL };
 
 		m_moduledef.reset(pyModule);
 
@@ -23,7 +23,6 @@ namespace Marvel {
 	{
 		m_methods.push_back({ name, function, METH_VARARGS, documentation });
 	}
-
 
 	void mvPythonModule::addMethod_(const char* name, PyCFunctionWithKeywords function, const char* documentation)
 	{
