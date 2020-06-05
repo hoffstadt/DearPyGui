@@ -19,6 +19,7 @@ git clone --recursive origin https://github.com/RaylockLLC/MarvelSandbox
 
 - Dear ImGui
 - CPython
+- MarvelGraph
 
 ### License
 
