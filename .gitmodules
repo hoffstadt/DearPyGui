@@ -6,3 +6,7 @@
 	path = Dependencies/cpython
 	url = https://github.com/python/cpython
 	branch = master
+[submodule "Dependencies/MarvelGraph"]
+	path = Dependencies/MarvelGraph
+	url = https://github.com/RaylockLLC/MarvelGraph
+	branch = master
