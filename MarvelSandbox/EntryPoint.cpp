@@ -53,7 +53,7 @@ int main(int argc, char* argv[])
 
 	// get path
 	if(argc < 2)
-		path = L"python38.zip;../../../../MarvelSandbox";
+		path = L"python38.zip;../../MarvelSandbox";
 	else if(argc == 2)
 		path = L"python38.zip;";
 	else
