@@ -235,9 +235,9 @@ namespace Marvel {
 	// Basic AppItems
 	//-----------------------------------------------------------------------------
 
-	mvAppItem* mvApp::addInputText(const std::string& parent, const std::string& name, const std::string& hint)
+	mvAppItem* mvApp::addInputText(const std::string& parent, const std::string& name, const std::string& hint, bool multiline)
 	{
-		mvAppItem* item = new mvInputText(parent, name, hint);
+		mvAppItem* item = new mvInputText(parent, name, hint, multiline);
 		m_items.push_back(item);
 		return item;
 	}

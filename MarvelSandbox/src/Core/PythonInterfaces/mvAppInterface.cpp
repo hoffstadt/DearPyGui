@@ -388,19 +388,20 @@ namespace Marvel {
 	{
 		const char* parent, *name;
 		const char* hint = "";
-		static const char* keywords[] = { "parent", "name", "hint", NULL };
+		int multiline = 0;
 
 		auto pl = mvPythonTranslator(args, kwargs, {
 			mvPythonDataElement(mvPythonDataType::String, "parent"),
 			mvPythonDataElement(mvPythonDataType::String, "name"),
 			mvPythonDataElement(mvPythonDataType::Optional, ""),
-			mvPythonDataElement(mvPythonDataType::String, "hint")
+			mvPythonDataElement(mvPythonDataType::String, "hint"),
+			mvPythonDataElement(mvPythonDataType::Bool, "multiline")
 			});
 
-		if(!pl.parse(__FUNCTION__, &parent, &name, &hint))
+		if(!pl.parse(__FUNCTION__, &parent, &name, &hint, &multiline))
 			return Py_None;
 
-		mvApp::GetApp()->addInputText(std::string(parent), std::string(name), std::string(hint));
+		mvApp::GetApp()->addInputText(std::string(parent), std::string(name), std::string(hint), multiline);
 		
 		Py_INCREF(Py_None);
 
