@@ -1,5 +1,6 @@
 #include "Core/mvPythonModule.h"
 #include "Core/mvApp.h"
+#include "Core/mvPythonTranslator.h"
 
 namespace Marvel {
 
@@ -14,17 +15,22 @@ namespace Marvel {
 		int histogram = false;
 		PyObject* value;
 
-		static const char* keywords[] = { "parent", "name", "value", "autoscale", "overlay", "minscale", "maxscale", 
-			"height", "histogram", NULL };
+		auto pl = mvPythonTranslator(args, kwargs, {
+			mvPythonDataElement(mvPythonDataType::String, "parent"),
+			mvPythonDataElement(mvPythonDataType::String, "name"),
+			mvPythonDataElement(mvPythonDataType::FloatList, "value"),
+			mvPythonDataElement(mvPythonDataType::Optional, ""),
+			mvPythonDataElement(mvPythonDataType::Bool, "autoscale"),
+			mvPythonDataElement(mvPythonDataType::String, "overlay"),
+			mvPythonDataElement(mvPythonDataType::Float, "minscale"),
+			mvPythonDataElement(mvPythonDataType::Float, "maxscale"),
+			mvPythonDataElement(mvPythonDataType::Float, "height"),
+			mvPythonDataElement(mvPythonDataType::Bool, "histogram")
+			});
 
-		if (!PyArg_ParseTupleAndKeywords(args, kwargs, "ssO|isfffi", const_cast<char**>(keywords) , 
-			&parent, &name, &value, &autoscale, &overlay, &minscale, &maxscale,	&height, &histogram))
-			__debugbreak();
+		pl.parse(9, &parent, &name, &value, &autoscale, &overlay, &minscale, &maxscale, &height, &histogram);
 
-		std::vector<float> values;
-
-		for (int i = 0; i < PyTuple_Size(value); i++)
-			values.emplace_back(PyFloat_AsDouble(PyTuple_GetItem(value, i)));
+		std::vector<float> values = pl.getFloatVec(value);
 
 		if (autoscale)
 		{
@@ -51,22 +57,25 @@ namespace Marvel {
 	PyObject* addText(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		const char* parent, * name;
+		int wrap = 0;
 		PyObject* color = PyTuple_New(4);
 		PyTuple_SetItem(color, 0, PyFloat_FromDouble(117.0));
 		PyTuple_SetItem(color, 1, PyFloat_FromDouble(0.0));
 		PyTuple_SetItem(color, 2, PyFloat_FromDouble(0.0));
 		PyTuple_SetItem(color, 3, PyFloat_FromDouble(1.0));
 
-		int wrap = 0;
-		static const char* keywords[] = { "parent", "name", "wrap", "color", NULL };
+		auto pl = mvPythonTranslator(args, kwargs, {
+			mvPythonDataElement(mvPythonDataType::String, "parent"),
+			mvPythonDataElement(mvPythonDataType::String, "name"),
+			mvPythonDataElement(mvPythonDataType::Optional, ""),
+			mvPythonDataElement(mvPythonDataType::Integer, "wrap"),
+			mvPythonDataElement(mvPythonDataType::FloatList, "color")
 
-		if (!PyArg_ParseTupleAndKeywords(args, kwargs, "ss|iO", const_cast<char**>(keywords), &parent, &name, &wrap, &color))
-			__debugbreak();
+			});
 
-		float ncolor[4];
+		pl.parse(4, &parent, &name, &wrap, &color);
 
-		for (int i = 0; i < PyTuple_Size(color); i++)
-			ncolor[i] = (float)PyFloat_AsDouble(PyTuple_GetItem(color, i));
+		auto ncolor = pl.getFloatVec(color);
 
 		bool specified = true;
 		if (ncolor[0] > 100.0f)
@@ -82,22 +91,26 @@ namespace Marvel {
 	PyObject* addLabelText(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		const char* parent, * name, * value;
+		int wrap = 0;
 		PyObject* color = PyTuple_New(4);
 		PyTuple_SetItem(color, 0, PyFloat_FromDouble(117.0));
 		PyTuple_SetItem(color, 1, PyFloat_FromDouble(0.0));
 		PyTuple_SetItem(color, 2, PyFloat_FromDouble(0.0));
 		PyTuple_SetItem(color, 3, PyFloat_FromDouble(1.0));
 
-		int wrap = 0;
-		static const char* keywords[] = { "parent", "name", "value", "wrap", "color", NULL };
+		auto pl = mvPythonTranslator(args, kwargs, {
+			mvPythonDataElement(mvPythonDataType::String, "parent"),
+			mvPythonDataElement(mvPythonDataType::String, "name"),
+			mvPythonDataElement(mvPythonDataType::String, "value"),
+			mvPythonDataElement(mvPythonDataType::Optional, ""),
+			mvPythonDataElement(mvPythonDataType::Integer, "wrap"),
+			mvPythonDataElement(mvPythonDataType::FloatList, "color")
 
-		if (!PyArg_ParseTupleAndKeywords(args, kwargs, "sss|iO", const_cast<char**>(keywords), &parent, &name, &value, &wrap, &color))
-			__debugbreak();
+			});
 
-		float ncolor[4];
+		pl.parse(4, &parent, &name, &value, &wrap, &color);
 
-		for (int i = 0; i < PyTuple_Size(color); i++)
-			ncolor[i] = (float)PyFloat_AsDouble(PyTuple_GetItem(color, i));
+		auto ncolor = pl.getFloatVec(color);
 
 		bool specified = true;
 		if (ncolor[0] > 100.0f)
@@ -112,20 +125,23 @@ namespace Marvel {
 
 	PyObject* addListbox(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
-		const char* parent, *name;
+
+		const char* parent, * name;
 		PyObject* items;
 		int default_value = 0, height = -1;
-		static const char* keywords[] = { "parent", "name", "items", "default_value", "height", NULL };
 
-		if (!PyArg_ParseTupleAndKeywords(args, kwargs, "ssO|ii", const_cast<char**>(keywords), &parent, &name, &items, &default_value, &height))
-			__debugbreak();
+		auto pl = mvPythonTranslator(args, kwargs, {
+			mvPythonDataElement(mvPythonDataType::String, "parent"),
+			mvPythonDataElement(mvPythonDataType::String, "name"),
+			mvPythonDataElement(mvPythonDataType::StringList, "items"),
+			mvPythonDataElement(mvPythonDataType::Optional, ""),
+			mvPythonDataElement(mvPythonDataType::Integer, "default_value"),
+			mvPythonDataElement(mvPythonDataType::Integer, "height"),
+			});
 
-		std::vector<std::string> sitems;
+		pl.parse(5, &parent, &name, &items, &default_value, &height);
 
-		for (int i = 0; i < PyTuple_Size(items); i++)
-			sitems.emplace_back(PyUnicode_AsUTF8(PyTuple_GetItem(items, i)));
-
-		mvApp::GetApp()->addListbox(std::string(parent), std::string(name), sitems, default_value, height);
+		mvApp::GetApp()->addListbox(std::string(parent), std::string(name), pl.getStringVec(items), default_value, height);
 
 		Py_INCREF(Py_None);
 
@@ -136,29 +152,38 @@ namespace Marvel {
 	{
 		const char* parent, * name, *default_value = "";
 		PyObject* items;
-		static const char* keywords[] = { "parent", "name", "items", "default_value", NULL };
 
-		if (!PyArg_ParseTupleAndKeywords(args, kwargs, "ssO|s", const_cast<char**>(keywords), &parent, &name, &items, &default_value))
-			__debugbreak();
+		auto pl = mvPythonTranslator(args, kwargs, {
+			mvPythonDataElement(mvPythonDataType::String, "parent"),
+			mvPythonDataElement(mvPythonDataType::String, "name"),
+			mvPythonDataElement(mvPythonDataType::StringList, "items"),
+			mvPythonDataElement(mvPythonDataType::Optional, ""),
+			mvPythonDataElement(mvPythonDataType::String, "default_value")
+			});
 
-		std::vector<std::string> sitems;
+		pl.parse(4, &parent, &name, &items, &default_value);
 
-		for (int i = 0; i < PyTuple_Size(items); i++)
-			sitems.emplace_back(PyUnicode_AsUTF8(PyTuple_GetItem(items, i)));
-
-		mvApp::GetApp()->addCombo(std::string(parent), std::string(name), sitems, default_value);
+		mvApp::GetApp()->addCombo(std::string(parent), std::string(name), pl.getStringVec(items), default_value);
 
 		Py_INCREF(Py_None);
 
 		return Py_None;
 	}
 
-	PyObject* changeThemeItem(PyObject* self, PyObject* args)
+	PyObject* changeThemeItem(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		const char* name;
 		float r, g, b, a;
 
-		PyArg_ParseTuple(args, "sffff", &name, &r, &g, &b, &a);
+		auto pl = mvPythonTranslator(args, kwargs, {
+			mvPythonDataElement(mvPythonDataType::String, "name"),
+			mvPythonDataElement(mvPythonDataType::Float, "r"),
+			mvPythonDataElement(mvPythonDataType::Float, "g"),
+			mvPythonDataElement(mvPythonDataType::Float, "b"),
+			mvPythonDataElement(mvPythonDataType::Float, "a")
+			});
+
+		pl.parse(5, &name, &r, &g, &b, &a);
 
 		mvApp::GetApp()->changeThemeItem(name, { r, g, b, a });
 
@@ -177,11 +202,15 @@ namespace Marvel {
 		return Py_None;
 	}
 
-	PyObject* getValue(PyObject* self, PyObject* args)
+	PyObject* getValue(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		const char* name;
 
-		PyArg_ParseTuple(args, "s", &name);
+		auto pl = mvPythonTranslator(args, kwargs, {
+			mvPythonDataElement(mvPythonDataType::String, "name")
+			});
+
+		pl.parse(1, &name);
 
 		mvAppItem* item = mvApp::GetApp()->getItem(std::string(name));
 
@@ -191,12 +220,17 @@ namespace Marvel {
 		return item->getPyValue();
 	}
 
-	PyObject* setValue(PyObject* self, PyObject* args)
+	PyObject* setValue(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		const char* name;
 		PyObject* value;
 
-		PyArg_ParseTuple(args, "sO", &name, &value);
+		auto pl = mvPythonTranslator(args, kwargs, {
+			mvPythonDataElement(mvPythonDataType::String, "name"),
+			mvPythonDataElement(mvPythonDataType::Object, "value")
+			});
+
+		pl.parse(2, &name, &value);
 
 		mvAppItem* item = mvApp::GetApp()->getItem(std::string(name));
 
@@ -207,11 +241,15 @@ namespace Marvel {
 		return Py_None;
 	}
 
-	PyObject* showItem(PyObject* self, PyObject* args)
+	PyObject* showItem(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		const char* name;
 
-		PyArg_ParseTuple(args, "s", &name);
+		auto pl = mvPythonTranslator(args, kwargs, {
+			mvPythonDataElement(mvPythonDataType::String, "name")
+			});
+
+		pl.parse(1, &name);
 
 		mvAppItem* item = mvApp::GetApp()->getItem(std::string(name));
 
@@ -221,11 +259,15 @@ namespace Marvel {
 		return Py_None;
 	}
 
-	PyObject* hideItem(PyObject* self, PyObject* args)
+	PyObject* hideItem(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		const char* name;
 
-		PyArg_ParseTuple(args, "s", &name);
+		auto pl = mvPythonTranslator(args, kwargs, {
+			mvPythonDataElement(mvPythonDataType::String, "name")
+			});
+
+		pl.parse(1, &name);
 
 		mvAppItem* item = mvApp::GetApp()->getItem(std::string(name));
 
@@ -235,11 +277,15 @@ namespace Marvel {
 		return Py_None;
 	}
 
-	PyObject* setMainCallback(PyObject* self, PyObject* args)
+	PyObject* setMainCallback(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
-		const char* callback;;
+		const char* callback;
 
-		PyArg_ParseTuple(args, "s", &callback);
+		auto pl = mvPythonTranslator(args, kwargs, {
+			mvPythonDataElement(mvPythonDataType::String, "callback")
+			});
+
+		pl.parse(1, &callback);
 
 		mvApp::GetApp()->setMainCallback(std::string(callback));
 
@@ -248,11 +294,16 @@ namespace Marvel {
 		return Py_None;
 	}
 
-	PyObject* setItemCallback(PyObject* self, PyObject* args)
+	PyObject* setItemCallback(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		const char* callback, * item;
 
-		PyArg_ParseTuple(args, "ss", &item, &callback);
+		auto pl = mvPythonTranslator(args, kwargs, {
+			mvPythonDataElement(mvPythonDataType::String, "item"),
+			mvPythonDataElement(mvPythonDataType::String, "callback")
+			});
+		
+		pl.parse(2, &item, &callback);
 
 		mvApp::GetApp()->setItemCallback(std::string(item), std::string(callback));
 
@@ -261,11 +312,16 @@ namespace Marvel {
 		return Py_None;
 	}
 
-	PyObject* setItemTip(PyObject* self, PyObject* args)
+	PyObject* setItemTip(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		const char* tip, * item;
 
-		PyArg_ParseTuple(args, "ss", &item, &tip);
+		auto pl = mvPythonTranslator(args, kwargs, {
+			mvPythonDataElement(mvPythonDataType::String, "item"),
+			mvPythonDataElement(mvPythonDataType::String, "tip")
+			});
+
+		pl.parse(2, &item, &tip);
 
 		mvApp::GetApp()->setItemTip(std::string(item), std::string(tip));
 
@@ -274,12 +330,17 @@ namespace Marvel {
 		return Py_None;
 	}
 
-	PyObject* setItemWidth(PyObject* self, PyObject* args)
+	PyObject* setItemWidth(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		const char* item;
 		int width;
 
-		PyArg_ParseTuple(args, "si", &item, &width);
+		auto pl = mvPythonTranslator(args, kwargs, {
+			mvPythonDataElement(mvPythonDataType::String, "item"),
+			mvPythonDataElement(mvPythonDataType::Integer, "width")
+			});
+
+		pl.parse(2, &item, &width);
 
 		mvApp::GetApp()->setItemWidth(std::string(item), width);
 
@@ -288,11 +349,16 @@ namespace Marvel {
 		return Py_None;
 	}
 
-	PyObject* addButton(PyObject* self, PyObject* args)
+	PyObject* addButton(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		const char* parent, * name;
 
-		PyArg_ParseTuple(args, "ss", &parent, &name);
+		auto pl = mvPythonTranslator(args, kwargs, {
+			mvPythonDataElement(mvPythonDataType::String, "parent"),
+			mvPythonDataElement(mvPythonDataType::String, "name")
+			});
+
+		pl.parse(2, &parent, &name);
 
 		mvApp::GetApp()->addButton(std::string(parent), std::string(name));
 
@@ -307,8 +373,14 @@ namespace Marvel {
 		const char* hint = "";
 		static const char* keywords[] = { "parent", "name", "hint", NULL };
 
-		if(!PyArg_ParseTupleAndKeywords(args, kwargs, "ss|$s", const_cast<char**>(keywords), &parent, &name, &hint))
-			__debugbreak();
+		auto pl = mvPythonTranslator(args, kwargs, {
+			mvPythonDataElement(mvPythonDataType::String, "parent"),
+			mvPythonDataElement(mvPythonDataType::String, "name"),
+			mvPythonDataElement(mvPythonDataType::Optional, ""),
+			mvPythonDataElement(mvPythonDataType::String, "hint")
+			});
+
+		pl.parse(3, &parent, &name, &hint);
 
 		mvApp::GetApp()->addInputText(std::string(parent), std::string(name), std::string(hint));
 		
@@ -321,10 +393,15 @@ namespace Marvel {
 	{
 		const char* parent, * name;
 		int default_value = 0;
-		static const char* keywords[] = { "parent", "name", "default_value", NULL };
 
-		if (!PyArg_ParseTupleAndKeywords(args, kwargs, "ss|$i", const_cast<char**>(keywords), &parent, &name, &default_value))
-			__debugbreak();
+		auto pl = mvPythonTranslator(args, kwargs, {
+			mvPythonDataElement(mvPythonDataType::String, "parent"),
+			mvPythonDataElement(mvPythonDataType::String, "name"),
+			mvPythonDataElement(mvPythonDataType::Optional, ""),
+			mvPythonDataElement(mvPythonDataType::Integer, "default_value")
+			});
+
+		pl.parse(3, &parent, &name, &default_value);
 
 		mvApp::GetApp()->addInputInt(std::string(parent), std::string(name), default_value);
 
@@ -337,10 +414,15 @@ namespace Marvel {
 	{
 		const char* parent, * name;
 		float default_value = 0.0f;
-		static const char* keywords[] = { "parent", "name", "default_value", NULL };
 
-		if (!PyArg_ParseTupleAndKeywords(args, kwargs, "ss|$f", const_cast<char**>(keywords), &parent, &name, &default_value))
-			__debugbreak();
+		auto pl = mvPythonTranslator(args, kwargs, {
+			mvPythonDataElement(mvPythonDataType::String, "parent"),
+			mvPythonDataElement(mvPythonDataType::String, "name"),
+			mvPythonDataElement(mvPythonDataType::Optional, ""),
+			mvPythonDataElement(mvPythonDataType::Float, "default_value")
+			});
+
+		pl.parse(3, &parent, &name, &default_value);
 
 		mvApp::GetApp()->addInputFloat(std::string(parent), std::string(name), default_value);
 
@@ -349,11 +431,16 @@ namespace Marvel {
 		return Py_None;
 	}
 
-	PyObject* addTabBar(PyObject* self, PyObject* args)
+	PyObject* addTabBar(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		const char* parent, * name;
 
-		PyArg_ParseTuple(args, "ss", &parent, &name);
+		auto pl = mvPythonTranslator(args, kwargs, {
+			mvPythonDataElement(mvPythonDataType::String, "parent"),
+			mvPythonDataElement(mvPythonDataType::String, "name")
+			});
+
+		pl.parse(2, &parent, &name);
 
 		mvApp::GetApp()->addTabBar(std::string(parent), std::string(name));
 
@@ -362,11 +449,16 @@ namespace Marvel {
 		return Py_None;
 	}
 
-	PyObject* addTab(PyObject* self, PyObject* args)
+	PyObject* addTab(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		const char* parent, * name;
 
-		PyArg_ParseTuple(args, "ss", &parent, &name);
+		auto pl = mvPythonTranslator(args, kwargs, {
+			mvPythonDataElement(mvPythonDataType::String, "parent"),
+			mvPythonDataElement(mvPythonDataType::String, "name")
+			});
+
+		pl.parse(2, &parent, &name);
 
 		mvApp::GetApp()->addTab(std::string(parent), std::string(name));
 
@@ -375,11 +467,15 @@ namespace Marvel {
 		return Py_None;
 	}
 
-	PyObject* endTab(PyObject* self, PyObject* args)
+	PyObject* endTab(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		const char* parent;
 
-		PyArg_ParseTuple(args, "s", &parent);
+		auto pl = mvPythonTranslator(args, kwargs, {
+			mvPythonDataElement(mvPythonDataType::String, "parent"),
+			});
+
+		pl.parse(1, &parent);
 
 		mvApp::GetApp()->endTab(std::string(parent));
 
@@ -388,11 +484,15 @@ namespace Marvel {
 		return Py_None;
 	}
 
-	PyObject* endTabBar(PyObject* self, PyObject* args)
+	PyObject* endTabBar(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		const char* parent;
 
-		PyArg_ParseTuple(args, "s", &parent);
+		auto pl = mvPythonTranslator(args, kwargs, {
+			mvPythonDataElement(mvPythonDataType::String, "parent"),
+			});
+
+		pl.parse(1, &parent);
 
 		mvApp::GetApp()->endTabBar(std::string(parent));
 
@@ -401,11 +501,15 @@ namespace Marvel {
 		return Py_None;
 	}
 
-	PyObject* addMenuBar(PyObject* self, PyObject* args)
+	PyObject* addMenuBar(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		const char* name;
 
-		PyArg_ParseTuple(args, "s", &name);
+		auto pl = mvPythonTranslator(args, kwargs, {
+			mvPythonDataElement(mvPythonDataType::String, "name"),
+			});
+
+		pl.parse(1, &name);
 
 		mvApp::GetApp()->addMenuBar(std::string(name));
 
@@ -414,11 +518,16 @@ namespace Marvel {
 		return Py_None;
 	}
 
-	PyObject* addMenu(PyObject* self, PyObject* args)
+	PyObject* addMenu(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		const char* parent, * name;
 
-		PyArg_ParseTuple(args, "ss", &parent, &name);
+		auto pl = mvPythonTranslator(args, kwargs, {
+			mvPythonDataElement(mvPythonDataType::String, "parent"),
+			mvPythonDataElement(mvPythonDataType::String, "name")
+			});
+
+		pl.parse(2, &parent, &name);
 
 		mvApp::GetApp()->addMenu(std::string(parent), std::string(name));
 
@@ -427,11 +536,15 @@ namespace Marvel {
 		return Py_None;
 	}
 
-	PyObject* endMenu(PyObject* self, PyObject* args)
+	PyObject* endMenu(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		const char* parent;
 
-		PyArg_ParseTuple(args, "s", &parent);
+		auto pl = mvPythonTranslator(args, kwargs, {
+			mvPythonDataElement(mvPythonDataType::String, "parent"),
+			});
+
+		pl.parse(1, &parent);
 
 		mvApp::GetApp()->endMenu(std::string(parent));
 
@@ -440,11 +553,15 @@ namespace Marvel {
 		return Py_None;
 	}
 
-	PyObject* endMenuBar(PyObject* self, PyObject* args)
+	PyObject* endMenuBar(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		const char* parent;
 
-		PyArg_ParseTuple(args, "s", &parent);
+		auto pl = mvPythonTranslator(args, kwargs, {
+			mvPythonDataElement(mvPythonDataType::String, "parent"),
+			});
+
+		pl.parse(1, &parent);
 
 		mvApp::GetApp()->endMenuBar(std::string(parent));
 
@@ -453,11 +570,16 @@ namespace Marvel {
 		return Py_None;
 	}
 
-	PyObject* addMenuItem(PyObject* self, PyObject* args)
+	PyObject* addMenuItem(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		const char* parent, * name;
 
-		PyArg_ParseTuple(args, "ss", &parent, &name);
+		auto pl = mvPythonTranslator(args, kwargs, {
+			mvPythonDataElement(mvPythonDataType::String, "parent"),
+			mvPythonDataElement(mvPythonDataType::String, "name")
+			});
+
+		pl.parse(2, &parent, &name);
 
 		mvApp::GetApp()->addMenuItem(std::string(parent), std::string(name));
 
@@ -470,10 +592,15 @@ namespace Marvel {
 	{
 		const char* parent;
 		int count = 1;
-		static const char* keywords[] = { "parent", "count", NULL };
 
-		if (!PyArg_ParseTupleAndKeywords(args, kwargs, "s|i", const_cast<char**>(keywords), &parent, &count))
-			__debugbreak();
+		auto pl = mvPythonTranslator(args, kwargs, {
+			mvPythonDataElement(mvPythonDataType::String, "parent"),
+			mvPythonDataElement(mvPythonDataType::Optional, ""),
+			mvPythonDataElement(mvPythonDataType::Integer, "count")
+			});
+
+		pl.parse(2, &parent, &count);
+
 
 		mvApp::GetApp()->addSpacing(std::string(parent), count);
 
@@ -487,10 +614,15 @@ namespace Marvel {
 		const char* parent;
 		float xoffset = 0.0f;
 		float spacing = 0.0f;
-		static const char* keywords[] = { "parent", "xoffset", "spacing", NULL };
 
-		if (!PyArg_ParseTupleAndKeywords(args, kwargs, "s|ff", const_cast<char**>(keywords), &parent, &xoffset, &spacing))
-			__debugbreak();
+		auto pl = mvPythonTranslator(args, kwargs, {
+			mvPythonDataElement(mvPythonDataType::String, "parent"),
+			mvPythonDataElement(mvPythonDataType::Optional, ""),
+			mvPythonDataElement(mvPythonDataType::Float, "xoffset"),
+			mvPythonDataElement(mvPythonDataType::Float, "spacing")
+			});
+
+		pl.parse(3, &parent, &xoffset, &spacing);
 
 		mvApp::GetApp()->addSameLine(std::string(parent), xoffset, spacing);
 
@@ -505,28 +637,34 @@ namespace Marvel {
 		const char* name;
 		PyObject* items;
 		int default_value = 0;
-		static const char* keywords[] = { "parent", "name", "items", "default_value", NULL };
 
-		if (!PyArg_ParseTupleAndKeywords(args, kwargs, "ssO|i", const_cast<char**>(keywords), &parent, &name, &items, &default_value))
-			__debugbreak();
+		auto pl = mvPythonTranslator(args, kwargs, {
+			mvPythonDataElement(mvPythonDataType::String, "parent"),
+			mvPythonDataElement(mvPythonDataType::String, "name"),
+			mvPythonDataElement(mvPythonDataType::StringList, "items"),
+			mvPythonDataElement(mvPythonDataType::Optional, ""),
+			mvPythonDataElement(mvPythonDataType::Integer, "default_value")
+			});
 
-		std::vector<std::string> sitems;
+		pl.parse(4, &parent, &name, &items, &default_value);
 
-		for (int i = 0; i < PyTuple_Size(items); i++)
-			sitems.emplace_back(PyUnicode_AsUTF8(PyTuple_GetItem(items, i)));
-
-		mvApp::GetApp()->addRadioButtons(std::string(parent), std::string(name), sitems, default_value);
+		mvApp::GetApp()->addRadioButtons(std::string(parent), std::string(name), pl.getStringVec(items), default_value);
 
 		Py_INCREF(Py_None);
 
 		return Py_None;
 	}
 
-	PyObject* addGroup(PyObject* self, PyObject* args)
+	PyObject* addGroup(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		const char* parent, * name;
 
-		PyArg_ParseTuple(args, "ss", &parent, &name);
+		auto pl = mvPythonTranslator(args, kwargs, {
+			mvPythonDataElement(mvPythonDataType::String, "parent"),
+			mvPythonDataElement(mvPythonDataType::String, "name")
+			});
+
+		pl.parse(2, &parent, &name);
 
 		mvApp::GetApp()->addGroup(std::string(parent), std::string(name));
 
@@ -535,11 +673,15 @@ namespace Marvel {
 		return Py_None;
 	}
 
-	PyObject* endGroup(PyObject* self, PyObject* args)
+	PyObject* endGroup(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		const char* parent;
 
-		PyArg_ParseTuple(args, "s", &parent);
+		auto pl = mvPythonTranslator(args, kwargs, {
+			mvPythonDataElement(mvPythonDataType::String, "parent")
+			});
+
+		pl.parse(1, &parent);
 
 		mvApp::GetApp()->endGroup(std::string(parent));
 
@@ -548,12 +690,21 @@ namespace Marvel {
 		return Py_None;
 	}
 
-	PyObject* addChild(PyObject* self, PyObject* args)
+	PyObject* addChild(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		const char* parent, * name;
 		int width, height;
 
 		PyArg_ParseTuple(args, "ssii", &parent, &name, &width, &height);
+
+		auto pl = mvPythonTranslator(args, kwargs, {
+			mvPythonDataElement(mvPythonDataType::String, "parent"),
+			mvPythonDataElement(mvPythonDataType::String, "name"),
+			mvPythonDataElement(mvPythonDataType::Integer, "width"),
+			mvPythonDataElement(mvPythonDataType::Integer, "height")
+			});
+
+		pl.parse(4, &parent, &name, &width, &height);
 
 		mvApp::GetApp()->addChild(std::string(parent), std::string(name), width, height);
 
@@ -562,11 +713,15 @@ namespace Marvel {
 		return Py_None;
 	}
 
-	PyObject* endChild(PyObject* self, PyObject* args)
+	PyObject* endChild(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		const char* parent;
 
-		PyArg_ParseTuple(args, "s", &parent);
+		auto pl = mvPythonTranslator(args, kwargs, {
+			mvPythonDataElement(mvPythonDataType::String, "parent")
+			});
+
+		pl.parse(1, &parent);
 
 		mvApp::GetApp()->endChild(std::string(parent));
 
@@ -575,11 +730,16 @@ namespace Marvel {
 		return Py_None;
 	}
 
-	PyObject* addTooltip(PyObject* self, PyObject* args)
+	PyObject* addTooltip(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		const char* parent, * name;
 
-		PyArg_ParseTuple(args, "ss", &parent, &name);
+		auto pl = mvPythonTranslator(args, kwargs, {
+			mvPythonDataElement(mvPythonDataType::String, "parent"),
+			mvPythonDataElement(mvPythonDataType::String, "name")
+			});
+
+		pl.parse(2, &parent, &name);
 
 		mvApp::GetApp()->addTooltip(std::string(parent), std::string(name));
 
@@ -588,11 +748,15 @@ namespace Marvel {
 		return Py_None;
 	}
 
-	PyObject* endTooltip(PyObject* self, PyObject* args)
+	PyObject* endTooltip(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		const char* parent;
 
-		PyArg_ParseTuple(args, "s", &parent);
+		auto pl = mvPythonTranslator(args, kwargs, {
+			mvPythonDataElement(mvPythonDataType::String, "parent")
+			});
+
+		pl.parse(1, &parent);
 
 		mvApp::GetApp()->endTooltip(std::string(parent));
 
@@ -601,11 +765,16 @@ namespace Marvel {
 		return Py_None;
 	}
 
-	PyObject* addCollapsingHeader(PyObject* self, PyObject* args)
+	PyObject* addCollapsingHeader(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		const char* parent, * name;
 
-		PyArg_ParseTuple(args, "ss", &parent, &name);
+		auto pl = mvPythonTranslator(args, kwargs, {
+			mvPythonDataElement(mvPythonDataType::String, "parent"),
+			mvPythonDataElement(mvPythonDataType::String, "name")
+			});
+
+		pl.parse(2, &parent, &name);
 
 		mvApp::GetApp()->addCollapsingHeader(std::string(parent), std::string(name));
 
@@ -614,11 +783,15 @@ namespace Marvel {
 		return Py_None;
 	}
 
-	PyObject* setTheme(PyObject* self, PyObject* args)
+	PyObject* setTheme(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		const char* theme;
 
-		PyArg_ParseTuple(args, "s", &theme);
+		auto pl = mvPythonTranslator(args, kwargs, {
+			mvPythonDataElement(mvPythonDataType::String, "theme")
+			});
+
+		pl.parse(1, &theme);
 
 		mvApp::GetApp()->setAppTheme(std::string(theme));
 
@@ -627,11 +800,15 @@ namespace Marvel {
 		return Py_None;
 	}
 
-	PyObject* addSeperator(PyObject* self, PyObject* args)
+	PyObject* addSeperator(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		const char* parent;
 
-		PyArg_ParseTuple(args, "s", &parent);
+		auto pl = mvPythonTranslator(args, kwargs, {
+			mvPythonDataElement(mvPythonDataType::String, "parent")
+			});
+
+		pl.parse(1, &parent);
 
 		mvApp::GetApp()->addSeperator(std::string(parent));
 
@@ -640,12 +817,21 @@ namespace Marvel {
 		return Py_None;
 	}
 
-	PyObject* addColorEdit4(PyObject* self, PyObject* args)
+	PyObject* addColorEdit4(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		const char* parent, * name;
 		float r, g, b, a;
 
-		PyArg_ParseTuple(args, "ssffff", &parent, &name, &r, &g, &b, &a);
+		auto pl = mvPythonTranslator(args, kwargs, {
+			mvPythonDataElement(mvPythonDataType::String, "parent"),
+			mvPythonDataElement(mvPythonDataType::String, "name"),
+			mvPythonDataElement(mvPythonDataType::Float, "r"),
+			mvPythonDataElement(mvPythonDataType::Float, "g"),
+			mvPythonDataElement(mvPythonDataType::Float, "b"),
+			mvPythonDataElement(mvPythonDataType::Float, "a")
+			});
+
+		pl.parse(5, &parent, &name, &r, &g, &b, &a);
 
 		mvApp::GetApp()->addColorEdit4(std::string(parent), std::string(name), { r, g, b, a });
 
@@ -658,10 +844,15 @@ namespace Marvel {
 	{
 		const char* parent, * name;
 		int default_value = 0;
-		static const char* keywords[] = { "parent", "name", "default_value", NULL };
 
-		if (!PyArg_ParseTupleAndKeywords(args, kwargs, "ss|$i", const_cast<char**>(keywords), &parent, &name, &default_value))
-			__debugbreak();
+		auto pl = mvPythonTranslator(args, kwargs, {
+			mvPythonDataElement(mvPythonDataType::String, "parent"),
+			mvPythonDataElement(mvPythonDataType::String, "name"),
+			mvPythonDataElement(mvPythonDataType::Optional, ""),
+			mvPythonDataElement(mvPythonDataType::Integer, "default_value")
+			});
+
+		pl.parse(3, &parent, &name, &default_value);
 
 		mvApp::GetApp()->addCheckbox(std::string(parent), std::string(name), default_value);
 

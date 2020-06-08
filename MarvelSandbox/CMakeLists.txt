@@ -14,6 +14,7 @@ target_sources(MarvelSandbox
 		"${CMAKE_CURRENT_SOURCE_DIR}/src/Core/mvLogger.cpp"
 		"${CMAKE_CURRENT_SOURCE_DIR}/src/Core/mvPythonModule.cpp"
 		"${CMAKE_CURRENT_SOURCE_DIR}/src/Core/mvWindow.cpp"
+		"${CMAKE_CURRENT_SOURCE_DIR}/src/Core/mvPythonTranslator.cpp"
 
 		"${CMAKE_CURRENT_SOURCE_DIR}/src/Core/PythonInterfaces/mvAppInterface.cpp"
 		"${CMAKE_CURRENT_SOURCE_DIR}/src/Core/PythonInterfaces/mvLoggerInterface.cpp"
