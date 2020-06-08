@@ -49,8 +49,8 @@ namespace Marvel {
 		//-----------------------------------------------------------------------------
 		// Text
 		//-----------------------------------------------------------------------------
-		mvAppItem* addText     (const std::string& parent, const std::string& name, int wrap = 0, mvColor color = MV_DEFAULT_COLOR);
-		mvAppItem* addLabelText(const std::string& parent, const std::string& name, const std::string& value, int wrap = 0, mvColor color = MV_DEFAULT_COLOR);
+		mvAppItem* addText     (const std::string& parent, const std::string& name, int wrap = 0, mvColor color = MV_DEFAULT_COLOR, bool bullet = false);
+		mvAppItem* addLabelText(const std::string& parent, const std::string& name, const std::string& value, int wrap = 0, mvColor color = MV_DEFAULT_COLOR, bool bullet = false);
 
 		//-----------------------------------------------------------------------------
 		// Tabs
@@ -86,6 +86,8 @@ namespace Marvel {
 		mvAppItem* addTooltip         (const std::string& parent, const std::string& name);
 		mvAppItem* endTooltip         (const std::string& parent);
 		mvAppItem* addSeperator       (const std::string& parent);
+		mvAppItem* indent             (const std::string& parent, float offset = 0.0f);
+		mvAppItem* unindent           (const std::string& parent, float offset = 0.0f);
 
 		//-----------------------------------------------------------------------------
 		// Item modifications
