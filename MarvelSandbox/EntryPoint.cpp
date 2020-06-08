@@ -15,12 +15,14 @@ MV_DECLARE_PYMODULE(pyMod1, "sbApp");
 MV_DECLARE_PYMODULE(pyMod2, "sbInput");
 MV_DECLARE_PYMODULE(pyMod3, "sbLog");
 MV_DECLARE_PYMODULE(pyMod4, "sbPlot");
+MV_DECLARE_PYMODULE(pyMod5, "sbDraw");
 
 namespace Marvel {
 	extern void CreatePythonInterface(mvPythonModule& pyModule, PyObject* (*initfunc)());
 	extern void CreateInputInterface(mvPythonModule& pyModule, PyObject* (*initfunc)());
 	extern void CreateLoggerInterface(mvPythonModule& pyModule, PyObject* (*initfunc)());
 	extern void CreatePlotInterface(mvPythonModule& pyModule, PyObject* (*initfunc)());
+	extern void CreateDrawingInterface(mvPythonModule& pyModule, PyObject* (*initfunc)());
 }
 
 int main(int argc, char* argv[])
@@ -38,6 +40,7 @@ int main(int argc, char* argv[])
 	MV_INIT_PYMODULE(pyMod2, CreateInputInterface);
 	MV_INIT_PYMODULE(pyMod3, CreateLoggerInterface);
 	MV_INIT_PYMODULE(pyMod4, CreatePlotInterface);
+	MV_INIT_PYMODULE(pyMod5, CreateDrawingInterface);
 
 	const wchar_t* path;
 	const char* module_name;

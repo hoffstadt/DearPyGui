@@ -2,6 +2,7 @@ from sbApp import *
 from sbLog import *
 from sbInput import *
 from sbPlot import *
+from sbDraw import *
 import SandboxTheme
 
 # create some menus
@@ -50,6 +51,8 @@ addInputText("Tab1", "Testing2")
 addColorEdit4("Tab1", "Color1", 1.0, 0, 0, 1.0)
 addInputInt("Tab1", "inputint1")
 addInputFloat("Tab1", "inputfloat1", default_value=117.0)
+addDrawing("Tab1", "drawing1", 110, 110)
+drawLine("drawing1", 10, 10, 100, 100, (1, 0, 0, 1), 1)
 addCheckbox("Tab1", "Logger", default_value=True)
 addCheckbox("Tab1", "checkbox2")
 addListbox("Tab1", "listbox1", ("First item", "Second item", "Third item"), default_value=1)
@@ -80,6 +83,11 @@ addTab("TabBar1", "Tab4")
 addSimplePlot("Tab4", "Simpleplot1", (0.3, 0.9, 2.5, 8.9))
 addSimplePlot("Tab4", "Simpleplot2", (0.3, 0.9, 2.5, 8.9), True, "Overlaying", 0, 0, 180, True)
 endTab("Tab4")
+
+addTab("TabBar1", "Tab5")
+addDrawing("Tab5", "drawing2", 800, 500)
+drawLine("drawing2", 10, 10, 100, 100, (1, 0, 0, 1), 1)
+endTab("Tab5")
 
 endTabBar("TabBar1")
 

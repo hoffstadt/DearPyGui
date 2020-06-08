@@ -22,6 +22,7 @@
 #include "AppItems/mvPlot.h"
 #include "AppItems/mvSimplePlot.h"
 #include "AppItems/mvIndent.h"
+#include "AppItems/mvDrawing.h"
 
 namespace Marvel {
 
@@ -534,5 +535,22 @@ namespace Marvel {
 		mvAppItem* item = new mvPlot(parent, name, width, height);
 		m_items.push_back(item);
 		return item;
+	}
+
+	//-----------------------------------------------------------------------------
+	// Drawing
+	//-----------------------------------------------------------------------------
+	mvAppItem* mvApp::addDrawing(const std::string& parent, const std::string& name, int width, int height)
+	{
+		mvAppItem* item = new mvDrawing(parent, name, width, height);
+		m_items.push_back(item);
+		return item;
+	}
+
+	void mvApp::drawLine(const std::string& drawing, int x1, int y1, int x2, int y2, const mvColor& color, int thickness)
+	{
+		mvAppItem* item = getItem(drawing);
+		mvDrawing* dwg = static_cast<mvDrawing*>(item);
+		dwg->drawLine(x1, y1, x2, y2, color, thickness);
 	}
 }
