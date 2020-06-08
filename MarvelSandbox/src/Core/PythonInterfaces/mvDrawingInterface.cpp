@@ -57,10 +57,31 @@ namespace Marvel {
 		return Py_None;
 	}
 
+	PyObject* clearDrawing(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		const char* drawing;
+
+		auto pl = mvPythonTranslator(args, kwargs, {
+			mvPythonDataElement(mvPythonDataType::String, "drawing")
+			});
+
+		if (!pl.parse(__FUNCTION__, &drawing))
+			return Py_None;
+
+
+
+		mvApp::GetApp()->clearDrawing(drawing);
+
+		Py_INCREF(Py_None);
+
+		return Py_None;
+	}
+
 	void CreateDrawingInterface(mvPythonModule& pyModule, PyObject* (*initfunc)())
 	{
 		pyModule.addMethod(addDrawing, "Not Documented");
 		pyModule.addMethod(drawLine, "Not Documented");
+		pyModule.addMethod(clearDrawing, "Not Documented");
 
 		PyImport_AppendInittab(pyModule.getName(), initfunc);
 	}
