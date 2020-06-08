@@ -1,5 +1,6 @@
 #include "Core/mvPythonModule.h"
 #include "Core/mvApp.h"
+#include "Core/mvPythonTranslator.h"
 
 namespace Marvel {
 
@@ -23,11 +24,15 @@ namespace Marvel {
 		return Py_None;
 	}
 
-	PyObject* SetLogLevel(PyObject* self, PyObject* args)
+	PyObject* SetLogLevel(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		int level;
 
-		PyArg_ParseTuple(args, "i", &level);
+		auto pl = mvPythonTranslator(args, kwargs, {
+			mvPythonDataElement(mvPythonDataType::Integer, "level")
+			});
+
+		pl.parse(1, &level);
 
 		mvApp::GetApp()->setLogLevel(level);
 
@@ -40,10 +45,14 @@ namespace Marvel {
 	{
 		const char* message;
 		const char* level = "TRACE";
-		static const char* keywords[] = { "message", "level", NULL };
 
-		if (!PyArg_ParseTupleAndKeywords(args, kwargs, "s|$s", const_cast<char**>(keywords), &message, &level))
-			__debugbreak();
+		auto pl = mvPythonTranslator(args, kwargs, {
+			mvPythonDataElement(mvPythonDataType::String, "message"),
+			mvPythonDataElement(mvPythonDataType::Optional, ""),
+			mvPythonDataElement(mvPythonDataType::String, "level")
+			});
+
+		pl.parse(2, &message, &level);
 
 		mvApp::GetApp()->Log(std::string(message), std::string(level));
 
@@ -52,11 +61,15 @@ namespace Marvel {
 		return Py_None;
 	}
 
-	PyObject* LogDebug(PyObject* self, PyObject* args)
+	PyObject* LogDebug(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		const char* message;
 
-		PyArg_ParseTuple(args, "s", &message);
+		auto pl = mvPythonTranslator(args, kwargs, {
+			mvPythonDataElement(mvPythonDataType::String, "level")
+			});
+
+		pl.parse(1, &message);
 
 		mvApp::GetApp()->LogDebug(std::string(message));
 
@@ -65,11 +78,15 @@ namespace Marvel {
 		return Py_None;
 	}
 
-	PyObject* LogInfo(PyObject* self, PyObject* args)
+	PyObject* LogInfo(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		const char* message;
 
-		PyArg_ParseTuple(args, "s", &message);
+		auto pl = mvPythonTranslator(args, kwargs, {
+			mvPythonDataElement(mvPythonDataType::String, "level")
+			});
+
+		pl.parse(1, &message);
 
 		mvApp::GetApp()->LogInfo(std::string(message));
 
@@ -78,11 +95,15 @@ namespace Marvel {
 		return Py_None;
 	}
 
-	PyObject* LogWarning(PyObject* self, PyObject* args)
+	PyObject* LogWarning(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		const char* message;
 
-		PyArg_ParseTuple(args, "s", &message);
+		auto pl = mvPythonTranslator(args, kwargs, {
+			mvPythonDataElement(mvPythonDataType::String, "level")
+			});
+
+		pl.parse(1, &message);
 
 		mvApp::GetApp()->LogWarning(std::string(message));
 
@@ -91,11 +112,15 @@ namespace Marvel {
 		return Py_None;
 	}
 
-	PyObject* LogError(PyObject* self, PyObject* args)
+	PyObject* LogError(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		const char* message;
 
-		PyArg_ParseTuple(args, "s", &message);
+		auto pl = mvPythonTranslator(args, kwargs, {
+			mvPythonDataElement(mvPythonDataType::String, "level")
+			});
+
+		pl.parse(1, &message);
 
 		mvApp::GetApp()->LogError(std::string(message));
 
@@ -104,7 +129,7 @@ namespace Marvel {
 		return Py_None;
 	}
 
-	PyObject* ClearLog(PyObject* self, PyObject* args)
+	PyObject* ClearLog(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 
 		mvApp::GetApp()->ClearLog();
