@@ -1,20 +1,26 @@
 #include "mvPythonTranslator.h"
-#include <iostream>
+#include "Core/mvApp.h"
 
 namespace Marvel {
 
-	void mvPythonTranslator::parse(int num, ...)
+	bool mvPythonTranslator::parse(const char* message, ...)
 	{
 
+		bool check = true;
+
 		va_list arguments;
-		va_start(arguments, num);
+		va_start(arguments, message);
 		if (!PyArg_VaParseTupleAndKeywords(m_args, m_kwargs, m_formatstring.data(),
 			const_cast<char**>(m_keywords.data()), arguments))
 		{
+			mvApp::GetApp()->LogError(message);
 			PyErr_Print();
-			//__debugbreak();
+			check = false;
 		}
+
 		va_end(arguments);
+
+		return check;
 	}
 
 	std::vector<std::string> mvPythonTranslator::getStringVec(PyObject* obj)

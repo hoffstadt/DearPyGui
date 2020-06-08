@@ -28,7 +28,8 @@ namespace Marvel {
 			mvPythonDataElement(mvPythonDataType::Bool, "histogram")
 			});
 
-		pl.parse(9, &parent, &name, &value, &autoscale, &overlay, &minscale, &maxscale, &height, &histogram);
+		if(!pl.parse(__FUNCTION__, &parent, &name, &value, &autoscale, &overlay, &minscale, &maxscale, &height, &histogram))
+			return Py_None;
 
 		std::vector<float> values = pl.getFloatVec(value);
 
@@ -73,7 +74,8 @@ namespace Marvel {
 
 			});
 
-		pl.parse(4, &parent, &name, &wrap, &color);
+		if(!pl.parse(__FUNCTION__, &parent, &name, &wrap, &color))
+			return Py_None;
 
 		auto ncolor = pl.getFloatVec(color);
 
@@ -108,7 +110,8 @@ namespace Marvel {
 
 			});
 
-		pl.parse(4, &parent, &name, &value, &wrap, &color);
+		if(!pl.parse(__FUNCTION__, &parent, &name, &value, &wrap, &color))
+			return Py_None;
 
 		auto ncolor = pl.getFloatVec(color);
 
@@ -139,7 +142,8 @@ namespace Marvel {
 			mvPythonDataElement(mvPythonDataType::Integer, "height"),
 			});
 
-		pl.parse(5, &parent, &name, &items, &default_value, &height);
+		if(!pl.parse(__FUNCTION__, &parent, &name, &items, &default_value, &height))
+			return Py_None;
 
 		mvApp::GetApp()->addListbox(std::string(parent), std::string(name), pl.getStringVec(items), default_value, height);
 
@@ -161,7 +165,8 @@ namespace Marvel {
 			mvPythonDataElement(mvPythonDataType::String, "default_value")
 			});
 
-		pl.parse(4, &parent, &name, &items, &default_value);
+		if (!pl.parse(__FUNCTION__, &parent, &name, &items, &default_value))
+			return Py_None;
 
 		mvApp::GetApp()->addCombo(std::string(parent), std::string(name), pl.getStringVec(items), default_value);
 
@@ -183,7 +188,8 @@ namespace Marvel {
 			mvPythonDataElement(mvPythonDataType::Float, "a")
 			});
 
-		pl.parse(5, &name, &r, &g, &b, &a);
+		if(!pl.parse(__FUNCTION__, &name, &r, &g, &b, &a))
+			return Py_None;
 
 		mvApp::GetApp()->changeThemeItem(name, { r, g, b, a });
 
@@ -210,7 +216,8 @@ namespace Marvel {
 			mvPythonDataElement(mvPythonDataType::String, "name")
 			});
 
-		pl.parse(1, &name);
+		if(!pl.parse(__FUNCTION__, &name))
+			return Py_None;
 
 		mvAppItem* item = mvApp::GetApp()->getItem(std::string(name));
 
@@ -230,7 +237,8 @@ namespace Marvel {
 			mvPythonDataElement(mvPythonDataType::Object, "value")
 			});
 
-		pl.parse(2, &name, &value);
+		if(!pl.parse(__FUNCTION__, &name, &value))
+			return Py_None;
 
 		mvAppItem* item = mvApp::GetApp()->getItem(std::string(name));
 
@@ -249,7 +257,8 @@ namespace Marvel {
 			mvPythonDataElement(mvPythonDataType::String, "name")
 			});
 
-		pl.parse(1, &name);
+		if(!pl.parse(__FUNCTION__, &name))
+			return Py_None;
 
 		mvAppItem* item = mvApp::GetApp()->getItem(std::string(name));
 
@@ -267,7 +276,8 @@ namespace Marvel {
 			mvPythonDataElement(mvPythonDataType::String, "name")
 			});
 
-		pl.parse(1, &name);
+		if(!pl.parse(__FUNCTION__, &name))
+			return Py_None;
 
 		mvAppItem* item = mvApp::GetApp()->getItem(std::string(name));
 
@@ -285,7 +295,8 @@ namespace Marvel {
 			mvPythonDataElement(mvPythonDataType::String, "callback")
 			});
 
-		pl.parse(1, &callback);
+		if(!pl.parse(__FUNCTION__, &callback))
+			return Py_None;
 
 		mvApp::GetApp()->setMainCallback(std::string(callback));
 
@@ -303,7 +314,8 @@ namespace Marvel {
 			mvPythonDataElement(mvPythonDataType::String, "callback")
 			});
 		
-		pl.parse(2, &item, &callback);
+		if(!pl.parse(__FUNCTION__, &item, &callback))
+			return Py_None;
 
 		mvApp::GetApp()->setItemCallback(std::string(item), std::string(callback));
 
@@ -321,7 +333,8 @@ namespace Marvel {
 			mvPythonDataElement(mvPythonDataType::String, "tip")
 			});
 
-		pl.parse(2, &item, &tip);
+		if(!pl.parse(__FUNCTION__, &item, &tip))
+			return Py_None;
 
 		mvApp::GetApp()->setItemTip(std::string(item), std::string(tip));
 
@@ -340,7 +353,8 @@ namespace Marvel {
 			mvPythonDataElement(mvPythonDataType::Integer, "width")
 			});
 
-		pl.parse(2, &item, &width);
+		if(!pl.parse(__FUNCTION__, &item, &width))
+			return Py_None;
 
 		mvApp::GetApp()->setItemWidth(std::string(item), width);
 
@@ -358,7 +372,8 @@ namespace Marvel {
 			mvPythonDataElement(mvPythonDataType::String, "name")
 			});
 
-		pl.parse(2, &parent, &name);
+		if(!pl.parse(__FUNCTION__, &parent, &name))
+			return Py_None;
 
 		mvApp::GetApp()->addButton(std::string(parent), std::string(name));
 
@@ -380,7 +395,8 @@ namespace Marvel {
 			mvPythonDataElement(mvPythonDataType::String, "hint")
 			});
 
-		pl.parse(3, &parent, &name, &hint);
+		if(!pl.parse(__FUNCTION__, &parent, &name, &hint))
+			return Py_None;
 
 		mvApp::GetApp()->addInputText(std::string(parent), std::string(name), std::string(hint));
 		
@@ -401,7 +417,8 @@ namespace Marvel {
 			mvPythonDataElement(mvPythonDataType::Integer, "default_value")
 			});
 
-		pl.parse(3, &parent, &name, &default_value);
+		if(!pl.parse(__FUNCTION__, &parent, &name, &default_value))
+			return Py_None;
 
 		mvApp::GetApp()->addInputInt(std::string(parent), std::string(name), default_value);
 
@@ -422,7 +439,8 @@ namespace Marvel {
 			mvPythonDataElement(mvPythonDataType::Float, "default_value")
 			});
 
-		pl.parse(3, &parent, &name, &default_value);
+		if(!pl.parse(__FUNCTION__, &parent, &name, &default_value))
+			return Py_None;
 
 		mvApp::GetApp()->addInputFloat(std::string(parent), std::string(name), default_value);
 
@@ -440,7 +458,7 @@ namespace Marvel {
 			mvPythonDataElement(mvPythonDataType::String, "name")
 			});
 
-		pl.parse(2, &parent, &name);
+		pl.parse(__FUNCTION__, &parent, &name);
 
 		mvApp::GetApp()->addTabBar(std::string(parent), std::string(name));
 
@@ -458,7 +476,7 @@ namespace Marvel {
 			mvPythonDataElement(mvPythonDataType::String, "name")
 			});
 
-		pl.parse(2, &parent, &name);
+		pl.parse(__FUNCTION__, &parent, &name);
 
 		mvApp::GetApp()->addTab(std::string(parent), std::string(name));
 
@@ -475,7 +493,7 @@ namespace Marvel {
 			mvPythonDataElement(mvPythonDataType::String, "parent"),
 			});
 
-		pl.parse(1, &parent);
+		pl.parse(__FUNCTION__, &parent);
 
 		mvApp::GetApp()->endTab(std::string(parent));
 
@@ -492,7 +510,7 @@ namespace Marvel {
 			mvPythonDataElement(mvPythonDataType::String, "parent"),
 			});
 
-		pl.parse(1, &parent);
+		pl.parse(__FUNCTION__, &parent);
 
 		mvApp::GetApp()->endTabBar(std::string(parent));
 
@@ -509,7 +527,7 @@ namespace Marvel {
 			mvPythonDataElement(mvPythonDataType::String, "name"),
 			});
 
-		pl.parse(1, &name);
+		pl.parse(__FUNCTION__, &name);
 
 		mvApp::GetApp()->addMenuBar(std::string(name));
 
@@ -527,7 +545,7 @@ namespace Marvel {
 			mvPythonDataElement(mvPythonDataType::String, "name")
 			});
 
-		pl.parse(2, &parent, &name);
+		pl.parse(__FUNCTION__, &parent, &name);
 
 		mvApp::GetApp()->addMenu(std::string(parent), std::string(name));
 
@@ -544,7 +562,7 @@ namespace Marvel {
 			mvPythonDataElement(mvPythonDataType::String, "parent"),
 			});
 
-		pl.parse(1, &parent);
+		pl.parse(__FUNCTION__, &parent);
 
 		mvApp::GetApp()->endMenu(std::string(parent));
 
@@ -561,7 +579,7 @@ namespace Marvel {
 			mvPythonDataElement(mvPythonDataType::String, "parent"),
 			});
 
-		pl.parse(1, &parent);
+		pl.parse(__FUNCTION__, &parent);
 
 		mvApp::GetApp()->endMenuBar(std::string(parent));
 
@@ -579,7 +597,8 @@ namespace Marvel {
 			mvPythonDataElement(mvPythonDataType::String, "name")
 			});
 
-		pl.parse(2, &parent, &name);
+		if(!pl.parse(__FUNCTION__, &parent, &name))
+			return Py_None;
 
 		mvApp::GetApp()->addMenuItem(std::string(parent), std::string(name));
 
@@ -599,7 +618,8 @@ namespace Marvel {
 			mvPythonDataElement(mvPythonDataType::Integer, "count")
 			});
 
-		pl.parse(2, &parent, &count);
+		if(!pl.parse(__FUNCTION__, &parent, &count))
+			return Py_None;
 
 
 		mvApp::GetApp()->addSpacing(std::string(parent), count);
@@ -622,7 +642,8 @@ namespace Marvel {
 			mvPythonDataElement(mvPythonDataType::Float, "spacing")
 			});
 
-		pl.parse(3, &parent, &xoffset, &spacing);
+		if(!pl.parse(__FUNCTION__, &parent, &xoffset, &spacing))
+			return Py_None;
 
 		mvApp::GetApp()->addSameLine(std::string(parent), xoffset, spacing);
 
@@ -646,7 +667,8 @@ namespace Marvel {
 			mvPythonDataElement(mvPythonDataType::Integer, "default_value")
 			});
 
-		pl.parse(4, &parent, &name, &items, &default_value);
+		if(!pl.parse(__FUNCTION__, &parent, &name, &items, &default_value))
+			return Py_None;
 
 		mvApp::GetApp()->addRadioButtons(std::string(parent), std::string(name), pl.getStringVec(items), default_value);
 
@@ -664,7 +686,7 @@ namespace Marvel {
 			mvPythonDataElement(mvPythonDataType::String, "name")
 			});
 
-		pl.parse(2, &parent, &name);
+		pl.parse(__FUNCTION__, &parent, &name);
 
 		mvApp::GetApp()->addGroup(std::string(parent), std::string(name));
 
@@ -681,7 +703,7 @@ namespace Marvel {
 			mvPythonDataElement(mvPythonDataType::String, "parent")
 			});
 
-		pl.parse(1, &parent);
+		pl.parse(__FUNCTION__, &parent);
 
 		mvApp::GetApp()->endGroup(std::string(parent));
 
@@ -704,7 +726,7 @@ namespace Marvel {
 			mvPythonDataElement(mvPythonDataType::Integer, "height")
 			});
 
-		pl.parse(4, &parent, &name, &width, &height);
+		pl.parse(__FUNCTION__, &parent, &name, &width, &height);
 
 		mvApp::GetApp()->addChild(std::string(parent), std::string(name), width, height);
 
@@ -721,7 +743,7 @@ namespace Marvel {
 			mvPythonDataElement(mvPythonDataType::String, "parent")
 			});
 
-		pl.parse(1, &parent);
+		pl.parse(__FUNCTION__, &parent);
 
 		mvApp::GetApp()->endChild(std::string(parent));
 
@@ -739,7 +761,7 @@ namespace Marvel {
 			mvPythonDataElement(mvPythonDataType::String, "name")
 			});
 
-		pl.parse(2, &parent, &name);
+		pl.parse(__FUNCTION__, &parent, &name);
 
 		mvApp::GetApp()->addTooltip(std::string(parent), std::string(name));
 
@@ -756,7 +778,7 @@ namespace Marvel {
 			mvPythonDataElement(mvPythonDataType::String, "parent")
 			});
 
-		pl.parse(1, &parent);
+		pl.parse(__FUNCTION__, &parent);
 
 		mvApp::GetApp()->endTooltip(std::string(parent));
 
@@ -774,7 +796,7 @@ namespace Marvel {
 			mvPythonDataElement(mvPythonDataType::String, "name")
 			});
 
-		pl.parse(2, &parent, &name);
+		pl.parse(__FUNCTION__, &parent, &name);
 
 		mvApp::GetApp()->addCollapsingHeader(std::string(parent), std::string(name));
 
@@ -791,7 +813,8 @@ namespace Marvel {
 			mvPythonDataElement(mvPythonDataType::String, "theme")
 			});
 
-		pl.parse(1, &theme);
+		if(!pl.parse(__FUNCTION__, &theme))
+			return Py_None;
 
 		mvApp::GetApp()->setAppTheme(std::string(theme));
 
@@ -808,7 +831,8 @@ namespace Marvel {
 			mvPythonDataElement(mvPythonDataType::String, "parent")
 			});
 
-		pl.parse(1, &parent);
+		if(!pl.parse(__FUNCTION__, &parent))
+			return Py_None;
 
 		mvApp::GetApp()->addSeperator(std::string(parent));
 
@@ -831,7 +855,8 @@ namespace Marvel {
 			mvPythonDataElement(mvPythonDataType::Float, "a")
 			});
 
-		pl.parse(5, &parent, &name, &r, &g, &b, &a);
+		if(!pl.parse(__FUNCTION__, &parent, &name, &r, &g, &b, &a))
+			return Py_None;
 
 		mvApp::GetApp()->addColorEdit4(std::string(parent), std::string(name), { r, g, b, a });
 
@@ -852,7 +877,8 @@ namespace Marvel {
 			mvPythonDataElement(mvPythonDataType::Integer, "default_value")
 			});
 
-		pl.parse(3, &parent, &name, &default_value);
+		if(!pl.parse(__FUNCTION__, &parent, &name, &default_value))
+			return Py_None;
 
 		mvApp::GetApp()->addCheckbox(std::string(parent), std::string(name), default_value);
 

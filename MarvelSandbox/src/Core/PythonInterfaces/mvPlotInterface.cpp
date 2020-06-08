@@ -16,7 +16,7 @@ namespace Marvel {
 			mvPythonDataElement(mvPythonDataType::Integer, "height")
 			});
 
-		pl.parse(4, &parent, &name, &width, &height);
+		pl.parse(__FUNCTION__, &parent, &name, &width, &height);
 
 		mvApp::GetApp()->addPlot(std::string(parent), std::string(name), width, height);
 		Py_INCREF(Py_None);
