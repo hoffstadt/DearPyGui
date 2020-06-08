@@ -25,12 +25,12 @@ namespace Marvel {
 
 	std::vector<std::string> mvPythonTranslator::getStringVec(PyObject* obj)
 	{
-		std::vector<std::string> sitems;
+		std::vector<std::string> items;
 
 		for (int i = 0; i < PyTuple_Size(obj); i++)
-			sitems.emplace_back(PyUnicode_AsUTF8(PyTuple_GetItem(obj, i)));
+			items.emplace_back(PyUnicode_AsUTF8(PyTuple_GetItem(obj, i)));
 
-		return sitems;
+		return items;
 	}
 
 	std::vector<float> mvPythonTranslator::getFloatVec(PyObject* obj)
