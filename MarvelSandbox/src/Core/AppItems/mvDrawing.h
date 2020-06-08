@@ -22,6 +22,7 @@ namespace Marvel {
 
 	public:
 
+		virtual ~mvDrawingCommand() = default;
 		virtual void draw(mvDrawing* drawing, ImDrawList* draw_list) = 0;
 		virtual mvDrawingCommandType getType() const = 0;
 
@@ -65,7 +66,7 @@ namespace Marvel {
 
 		MV_APPITEM_TYPE(mvAppItemType::Drawing)
 
-			mvDrawing(const std::string& parent, const std::string& name, int width, int height)
+		mvDrawing(const std::string& parent, const std::string& name, int width, int height)
 			: mvNoneItemBase(parent, name)
 		{
 			m_width = width;
@@ -73,6 +74,7 @@ namespace Marvel {
 		}
 
 		virtual void draw() override;
+		virtual void clear();
 
 		inline float getStartX() const { return m_startx; }
 		inline float getStartY() const { return m_starty; }

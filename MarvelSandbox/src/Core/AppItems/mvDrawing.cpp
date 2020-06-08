@@ -29,6 +29,17 @@ namespace Marvel {
 		ImGui::Dummy(ImVec2((float)m_width, m_height));
 	}
 
+	void mvDrawing::clear()
+	{
+		for (mvDrawingCommand* item : m_commands)
+		{
+			delete item;
+			item = nullptr;
+		}
+
+		m_commands.clear();
+	}
+
 	void mvDrawing::drawLine(int x1, int y1, int x2, int y2, const mvColor& color, float thickness)
 	{
 		mvDrawingCommand* command = new mvDrawLineCommand(x1, y1, x2, y2, color, thickness);

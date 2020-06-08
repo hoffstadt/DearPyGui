@@ -547,6 +547,13 @@ namespace Marvel {
 		return item;
 	}
 
+	void mvApp::clearDrawing(const std::string& drawing)
+	{
+		mvAppItem* item = getItem(drawing);
+		mvDrawing* dwg = static_cast<mvDrawing*>(item);
+		dwg->clear();
+	}
+
 	void mvApp::drawLine(const std::string& drawing, int x1, int y1, int x2, int y2, const mvColor& color, int thickness)
 	{
 		mvAppItem* item = getItem(drawing);

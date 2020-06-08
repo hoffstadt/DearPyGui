@@ -82,7 +82,8 @@ namespace Marvel {
 		// Drawing
 		//-----------------------------------------------------------------------------
 		mvAppItem* addDrawing(const std::string& parent, const std::string& name, int width, int height);
-		void drawLine(const std::string& drawing, int x1, int y1, int x2, int y2, const mvColor& color, int thickness = 1);
+		void       clearDrawing(const std::string& drawing);
+		void       drawLine(const std::string& drawing, int x1, int y1, int x2, int y2, const mvColor& color, int thickness = 1);
 
 		//-----------------------------------------------------------------------------
 		// Misc Items
