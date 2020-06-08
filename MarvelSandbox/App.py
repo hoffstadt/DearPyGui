@@ -108,6 +108,7 @@ def ItemCallback(sender):
     print("value is: ", getValue(sender))
     value = getValue("Color1")
     loglevel = getValue("inputint1")
+    print(loglevel)
     SetLogLevel(loglevel)
     changeThemeItem("ImGuiCol_Tab", value[0], value[1], value[2], value[3])
     updateTheme()

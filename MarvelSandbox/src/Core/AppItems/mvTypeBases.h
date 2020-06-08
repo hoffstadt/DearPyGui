@@ -121,7 +121,7 @@ namespace Marvel {
 		{
 			if (m_valuecount == 1)
 			{
-				PyObject* pvalue = Py_BuildValue("i", m_value);
+				PyObject* pvalue = Py_BuildValue("i", m_value[0]);
 				return pvalue;
 			}
 
@@ -187,7 +187,7 @@ namespace Marvel {
 		{
 			if (m_valuecount == 1)
 			{
-				PyObject* pvalue = Py_BuildValue("f", m_value);
+				PyObject* pvalue = Py_BuildValue("f", m_value[0]);
 				return pvalue;
 			}
 
