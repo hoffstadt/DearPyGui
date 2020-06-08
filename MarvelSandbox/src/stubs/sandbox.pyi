@@ -1,0 +1,3 @@
+
+def addText(parent:str, name:str, wrap:bool = False, 
+            color:tuple = (117.0, 0, 0, 0), bullet:bool = False) -> None: ...
