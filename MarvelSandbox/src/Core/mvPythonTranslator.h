@@ -25,6 +25,7 @@ namespace Marvel {
 		case mvPythonDataType::FloatList:  return 'O';
 		case mvPythonDataType::Optional:  return '|';
 		case mvPythonDataType::Object:  return 'O';
+		default: return 'O';
 		}
 	}
 
@@ -67,7 +68,7 @@ namespace Marvel {
 			m_keywords.push_back(NULL);
 		}
 
-		void parse(int num, ...);
+		bool parse(const char* message, ...);
 
 		std::vector<std::string> getStringVec(PyObject* obj);
 		std::vector<float>       getFloatVec(PyObject* obj);

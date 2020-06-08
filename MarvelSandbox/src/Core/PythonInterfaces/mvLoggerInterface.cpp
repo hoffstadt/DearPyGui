@@ -32,7 +32,8 @@ namespace Marvel {
 			mvPythonDataElement(mvPythonDataType::Integer, "level")
 			});
 
-		pl.parse(1, &level);
+		if(!pl.parse(__FUNCTION__, &level))
+			return Py_None;
 
 		mvApp::GetApp()->setLogLevel(level);
 
@@ -52,7 +53,8 @@ namespace Marvel {
 			mvPythonDataElement(mvPythonDataType::String, "level")
 			});
 
-		pl.parse(2, &message, &level);
+		if(!pl.parse(__FUNCTION__, &message, &level))
+			return Py_None;
 
 		mvApp::GetApp()->Log(std::string(message), std::string(level));
 
@@ -69,7 +71,8 @@ namespace Marvel {
 			mvPythonDataElement(mvPythonDataType::String, "level")
 			});
 
-		pl.parse(1, &message);
+		if (!pl.parse(__FUNCTION__, &message))
+			return Py_None;
 
 		mvApp::GetApp()->LogDebug(std::string(message));
 
@@ -86,7 +89,8 @@ namespace Marvel {
 			mvPythonDataElement(mvPythonDataType::String, "level")
 			});
 
-		pl.parse(1, &message);
+		if (!pl.parse(__FUNCTION__, &message))
+			return Py_None;
 
 		mvApp::GetApp()->LogInfo(std::string(message));
 
@@ -103,7 +107,8 @@ namespace Marvel {
 			mvPythonDataElement(mvPythonDataType::String, "level")
 			});
 
-		pl.parse(1, &message);
+		if (!pl.parse(__FUNCTION__, &message))
+			return Py_None;
 
 		mvApp::GetApp()->LogWarning(std::string(message));
 
@@ -120,7 +125,8 @@ namespace Marvel {
 			mvPythonDataElement(mvPythonDataType::String, "level")
 			});
 
-		pl.parse(1, &message);
+		if (!pl.parse(__FUNCTION__, &message))
+			return Py_None;
 
 		mvApp::GetApp()->LogError(std::string(message));
 
