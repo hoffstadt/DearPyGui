@@ -28,7 +28,7 @@ namespace Marvel {
 		//-----------------------------------------------------------------------------
 		// Basic AppItems
 		//-----------------------------------------------------------------------------
-		mvAppItem* addInputText   (const std::string& parent, const std::string& name, const std::string& hint = "");
+		mvAppItem* addInputText   (const std::string& parent, const std::string& name, const std::string& hint = "", bool multiline = false);
 		mvAppItem* addInputInt    (const std::string& parent, const std::string& name, int default_value);
 		mvAppItem* addInputFloat  (const std::string& parent, const std::string& name, float default_value);
 		mvAppItem* addCheckbox    (const std::string& parent, const std::string& name, bool default_value);
