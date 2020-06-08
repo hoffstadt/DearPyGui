@@ -58,7 +58,7 @@ namespace Marvel {
 	PyObject* addText(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		const char* parent, * name;
-		int wrap = 0;
+		int wrap = 0, bullet = 0;
 		PyObject* color = PyTuple_New(4);
 		PyTuple_SetItem(color, 0, PyFloat_FromDouble(117.0));
 		PyTuple_SetItem(color, 1, PyFloat_FromDouble(0.0));
@@ -70,11 +70,12 @@ namespace Marvel {
 			mvPythonDataElement(mvPythonDataType::String, "name"),
 			mvPythonDataElement(mvPythonDataType::Optional, ""),
 			mvPythonDataElement(mvPythonDataType::Integer, "wrap"),
-			mvPythonDataElement(mvPythonDataType::FloatList, "color")
+			mvPythonDataElement(mvPythonDataType::FloatList, "color"),
+			mvPythonDataElement(mvPythonDataType::Bool, "bullet")
 
 			});
 
-		if(!pl.parse(__FUNCTION__, &parent, &name, &wrap, &color))
+		if(!pl.parse(__FUNCTION__, &parent, &name, &wrap, &color, &bullet))
 			return Py_None;
 
 		auto ncolor = pl.getFloatVec(color);
@@ -83,7 +84,7 @@ namespace Marvel {
 		if (ncolor[0] > 100.0f)
 			specified = false;
 
-		mvApp::GetApp()->addText(std::string(parent), std::string(name), wrap, { ncolor[0], ncolor[1], ncolor[2], ncolor[3], specified });
+		mvApp::GetApp()->addText(std::string(parent), std::string(name), wrap, { ncolor[0], ncolor[1], ncolor[2], ncolor[3], specified }, bullet);
 
 		Py_INCREF(Py_None);
 
@@ -93,7 +94,7 @@ namespace Marvel {
 	PyObject* addLabelText(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		const char* parent, * name, * value;
-		int wrap = 0;
+		int wrap = 0, bullet = 0;
 		PyObject* color = PyTuple_New(4);
 		PyTuple_SetItem(color, 0, PyFloat_FromDouble(117.0));
 		PyTuple_SetItem(color, 1, PyFloat_FromDouble(0.0));
@@ -106,7 +107,8 @@ namespace Marvel {
 			mvPythonDataElement(mvPythonDataType::String, "value"),
 			mvPythonDataElement(mvPythonDataType::Optional, ""),
 			mvPythonDataElement(mvPythonDataType::Integer, "wrap"),
-			mvPythonDataElement(mvPythonDataType::FloatList, "color")
+			mvPythonDataElement(mvPythonDataType::FloatList, "color"),
+			mvPythonDataElement(mvPythonDataType::Bool, "bullet")
 
 			});
 
@@ -119,7 +121,7 @@ namespace Marvel {
 		if (ncolor[0] > 100.0f)
 			specified = false;
 
-		mvApp::GetApp()->addLabelText(std::string(parent), std::string(name), value, wrap, { ncolor[0], ncolor[1], ncolor[2], ncolor[3], specified });
+		mvApp::GetApp()->addLabelText(std::string(parent), std::string(name), value, wrap, { ncolor[0], ncolor[1], ncolor[2], ncolor[3], specified }, bullet);
 
 		Py_INCREF(Py_None);
 
@@ -443,6 +445,48 @@ namespace Marvel {
 			return Py_None;
 
 		mvApp::GetApp()->addInputFloat(std::string(parent), std::string(name), default_value);
+
+		Py_INCREF(Py_None);
+
+		return Py_None;
+	}
+
+	PyObject* indent(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		const char* parent;
+		float offset = 0.0f;
+
+		auto pl = mvPythonTranslator(args, kwargs, {
+			mvPythonDataElement(mvPythonDataType::String, "parent"),
+			mvPythonDataElement(mvPythonDataType::Optional, ""),
+			mvPythonDataElement(mvPythonDataType::Float, "offset")
+			});
+
+		if (!pl.parse(__FUNCTION__, &parent, &offset))
+			return Py_None;
+
+		mvApp::GetApp()->indent(std::string(parent), offset);
+
+		Py_INCREF(Py_None);
+
+		return Py_None;
+	}
+
+	PyObject* unindent(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		const char* parent;
+		float offset = 0.0f;
+
+		auto pl = mvPythonTranslator(args, kwargs, {
+			mvPythonDataElement(mvPythonDataType::String, "parent"),
+			mvPythonDataElement(mvPythonDataType::Optional, ""),
+			mvPythonDataElement(mvPythonDataType::Float, "offset")
+			});
+
+		if (!pl.parse(__FUNCTION__, &parent, &offset))
+			return Py_None;
+
+		mvApp::GetApp()->unindent(std::string(parent), offset);
 
 		Py_INCREF(Py_None);
 
@@ -889,6 +933,8 @@ namespace Marvel {
 
 	void CreatePythonInterface(mvPythonModule& pyModule, PyObject* (*initfunc)())
 	{
+		pyModule.addMethod(indent, "Not Documented");
+		pyModule.addMethod(unindent, "Not Documented");
 		pyModule.addMethod(addSimplePlot, "Not Documented");
 		pyModule.addMethod(showItem, "Not Documented");
 		pyModule.addMethod(hideItem, "Not Documented");

@@ -21,6 +21,7 @@
 #include "AppItems/mvCombo.h"
 #include "AppItems/mvPlot.h"
 #include "AppItems/mvSimplePlot.h"
+#include "AppItems/mvIndent.h"
 
 namespace Marvel {
 
@@ -450,20 +451,34 @@ namespace Marvel {
 		return item;
 	}
 
-	//-----------------------------------------------------------------------------
-	// Text
-	//-----------------------------------------------------------------------------
-
-	mvAppItem* mvApp::addText(const std::string& parent, const std::string& name, int wrap, mvColor color)
+	mvAppItem* mvApp::indent(const std::string& parent, float offset)
 	{
-		mvAppItem* item = new mvText(parent, name, wrap, color);
+		mvAppItem* item = new mvIndent(parent, offset);
 		m_items.push_back(item);
 		return item;
 	}
 
-	mvAppItem* mvApp::addLabelText(const std::string& parent, const std::string& name, const std::string& value, int wrap, mvColor color)
+	mvAppItem* mvApp::unindent(const std::string& parent, float offset)
 	{
-		mvAppItem* item = new mvLabelText(parent, name, value, wrap, color);
+		mvAppItem* item = new mvUnindent(parent, offset);
+		m_items.push_back(item);
+		return item;
+	}
+
+	//-----------------------------------------------------------------------------
+	// Text
+	//-----------------------------------------------------------------------------
+
+	mvAppItem* mvApp::addText(const std::string& parent, const std::string& name, int wrap, mvColor color, bool bullet)
+	{
+		mvAppItem* item = new mvText(parent, name, wrap, color, bullet);
+		m_items.push_back(item);
+		return item;
+	}
+
+	mvAppItem* mvApp::addLabelText(const std::string& parent, const std::string& name, const std::string& value, int wrap, mvColor color, bool bullet)
+	{
+		mvAppItem* item = new mvLabelText(parent, name, value, wrap, color, bullet);
 		m_items.push_back(item);
 		return item;
 	}

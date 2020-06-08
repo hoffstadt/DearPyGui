@@ -26,7 +26,8 @@ namespace Marvel {
 		Group, EndGroup, Child, EndChild,
 		Tooltip, EndTooltip, CollapsingHeader,
 		Separator, ColorEdit4, Checkbox, InputInt, InputFloat,
-		Listbox, Text, LabelText, Combo, Plot, SimplePlot
+		Listbox, Text, LabelText, Combo, Plot, SimplePlot,
+		Indent, Unindent
 	};
 
 	//-----------------------------------------------------------------------------

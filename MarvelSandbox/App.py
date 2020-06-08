@@ -34,8 +34,10 @@ addSpacing("", 10)
 
 addCollapsingHeader("", "Themes")
 addButton("Themes", "Use Dark")
+indent("Themes")
 addButton("Themes", "Use Light")
 addButton("Themes", "Use Classic")
+unindent("Themes")
 
 # creating tabs
 addTabBar("", "TabBar1")
@@ -51,6 +53,7 @@ addCheckbox("Tab1", "Logger", default_value=True)
 addCheckbox("Tab1", "checkbox2")
 addListbox("Tab1", "listbox1", ("First item", "Second item", "Third item"), default_value=1)
 addText("Tab1", "Some awesome regular text")
+addText("Tab1", "Some awesome regular bullet", bullet = True)
 addText("Tab1", "Some awesome red text", color=(1.0, 0, 0, 1.0), wrap=100)
 addLabelText("Tab1", "Output", "color value", color=(0.0, 1.0, 0, 1.0))
 endTab("Tab1")
