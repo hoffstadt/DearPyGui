@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Core/AppItems/mvTypeBases.h"
+#include <misc/cpp/imgui_stdlib.h>
 
 namespace Marvel {
 
@@ -25,19 +26,19 @@ namespace Marvel {
 			{
 				if(m_multiline)
 				{
-					if (ImGui::InputTextMultiline(m_label.c_str(), (char*)m_value.c_str(), m_value.capacity() + 1))
+					if (ImGui::InputTextMultiline(m_label.c_str(), &m_value))
 						mvApp::GetApp()->triggerCallback(m_callback, m_name);
 				}
 				else
 				{
-					if (ImGui::InputText(m_label.c_str(), (char*)m_value.c_str(), m_value.capacity() + 1))
+					if (ImGui::InputText(m_label.c_str(), &m_value))
 						mvApp::GetApp()->triggerCallback(m_callback, m_name);
 				}
 			}
 
 			else
 			{
-				if (ImGui::InputTextWithHint(m_label.c_str(), m_hint.c_str(), (char*)m_value.c_str(), m_value.capacity() + 1))
+				if (ImGui::InputTextWithHint(m_label.c_str(), m_hint.c_str(), &m_value))
 					mvApp::GetApp()->triggerCallback(m_callback, m_name);
 			}
 		}
