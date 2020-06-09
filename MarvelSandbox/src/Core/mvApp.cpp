@@ -149,6 +149,20 @@ namespace Marvel {
 			// Regular Tooltip (simple)
 			if (item->getTip() != "" && ImGui::IsItemHovered())
 				ImGui::SetTooltip(item->getTip().c_str());
+
+			item->setHovered(ImGui::IsItemHovered());
+			item->setActive(ImGui::IsItemActive());
+			item->setFocused(ImGui::IsItemFocused());
+			item->setClicked(ImGui::IsItemClicked());
+			item->setVisible(ImGui::IsItemVisible());
+			item->setEdited(ImGui::IsItemEdited());
+			item->setActivated(ImGui::IsItemActivated());
+			item->setDeactivated(ImGui::IsItemDeactivated());
+			item->setDeactivatedAfterEdit(ImGui::IsItemDeactivatedAfterEdit());
+			item->setToggledOpen(ImGui::IsItemToggledOpen());
+			item->setRectMin({ ImGui::GetItemRectMin().x, ImGui::GetItemRectMin().y});
+			item->setRectMax({ ImGui::GetItemRectMax().x, ImGui::GetItemRectMax().y });
+			item->setRectSize({ ImGui::GetItemRectSize().x, ImGui::GetItemRectSize().y });
 		}
 
 		ImGui::End();
@@ -256,6 +270,97 @@ namespace Marvel {
 		}
 
 		return nullptr;
+	}
+
+	bool mvApp::isItemHovered(const std::string& item)
+	{
+		if (mvAppItem* pitem = getItem(item))
+			return pitem->isItemHovered();
+		return false;
+	}
+
+	bool mvApp::isItemActive(const std::string& item)
+	{
+		if (mvAppItem* pitem = getItem(item))
+			return pitem->isItemActive();
+		return false;
+	}
+
+	bool mvApp::isItemFocused(const std::string& item)
+	{
+		if (mvAppItem* pitem = getItem(item))
+			return pitem->isItemFocused();
+		return false;
+	}
+
+	bool mvApp::isItemClicked(const std::string& item)
+	{
+		if (mvAppItem* pitem = getItem(item))
+			return pitem->isItemClicked();
+		return false;
+	}
+	
+	bool mvApp::isItemVisible(const std::string& item)
+	{
+		if (mvAppItem* pitem = getItem(item))
+			return pitem->isItemVisible();
+		return false;
+	}
+	
+	bool mvApp::isItemEdited(const std::string& item)
+	{
+		if (mvAppItem* pitem = getItem(item))
+			return pitem->isItemEdited();
+		return false;
+	}
+	
+	bool mvApp::isItemActivated(const std::string& item)
+	{
+		if (mvAppItem* pitem = getItem(item))
+			return pitem->isItemActivated();
+		return false;
+	}
+	
+	bool mvApp::isItemDeactivated(const std::string& item)
+	{
+		if (mvAppItem* pitem = getItem(item))
+			return pitem->isItemDeactivated();
+		return false;
+	}
+	
+	bool mvApp::isItemDeactivatedAfterEdit(const std::string& item)
+	{
+		if (mvAppItem* pitem = getItem(item))
+			return pitem->isItemDeactivatedAfterEdit();
+		return false;
+	}
+	
+	bool mvApp::isItemToogledOpen(const std::string& item)
+	{
+		if (mvAppItem* pitem = getItem(item))
+			return pitem->isItemToogledOpen();
+		return false;
+	}
+	
+	mvVec2 mvApp::getItemRectMin(const std::string& item)
+	{
+		if (mvAppItem* pitem = getItem(item))
+			return pitem->getItemRectMin();
+		return {0.0f, 0.0f};
+	}
+	
+	mvVec2 mvApp::getItemRectMax(const std::string& item)
+	{
+		if (mvAppItem* pitem = getItem(item))
+			return pitem->getItemRectMax();
+		return { 0.0f, 0.0f };
+	}
+	
+	mvVec2 mvApp::getItemRectSize(const std::string& item)
+	{
+		if (mvAppItem* pitem = getItem(item))
+			return pitem->getItemRectSize();
+		return { 0.0f, 0.0f };
 	}
 
 	void mvApp::triggerCallback(const std::string& name, const std::string& sender)

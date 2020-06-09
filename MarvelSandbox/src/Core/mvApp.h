@@ -145,6 +145,19 @@ namespace Marvel {
 		mvMousePos getMousePosition() const { return m_mousePos; }
 		bool       isMouseButtonPressed(int button) const;
 		bool       isKeyPressed(int keycode) const;
+		bool       isItemHovered(const std::string& item);
+		bool       isItemActive(const std::string& item);
+		bool       isItemFocused(const std::string& item);
+		bool       isItemClicked(const std::string& item);
+		bool       isItemVisible(const std::string& item);
+		bool       isItemEdited(const std::string& item);
+		bool       isItemActivated(const std::string& item);
+		bool       isItemDeactivated(const std::string& item);
+		bool       isItemDeactivatedAfterEdit(const std::string& item);
+		bool       isItemToogledOpen(const std::string& item);
+		mvVec2     getItemRectMin(const std::string& item);
+		mvVec2     getItemRectMax(const std::string& item);
+		mvVec2     getItemRectSize(const std::string& item);
 
 		//-----------------------------------------------------------------------------
 		// Styles
