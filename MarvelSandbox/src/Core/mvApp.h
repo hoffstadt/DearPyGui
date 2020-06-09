@@ -117,7 +117,13 @@ namespace Marvel {
 		//-----------------------------------------------------------------------------
 		void setMainCallback(const std::string& callback) { m_callback = callback; }
 		void triggerCallback(const std::string& name, const std::string& sender);
-		void setMousePressCallback(const std::string& callback) { m_mouseButtonCallback = callback; }
+		void triggerCallback(const std::string& name, const std::string& sender, const std::string& data);
+		void setMouseClickCallback(const std::string& callback) { m_mouseClickCallback = callback; }
+		void setMouseDownCallback(const std::string& callback) { m_mouseDownCallback = callback; }
+		void setMouseDoubleClickCallback(const std::string& callback) { m_mouseDoubleClickCallback = callback; }
+		void setKeyDownCallback(const std::string& callback) { m_keyDownCallback = callback; }
+		void setKeyPressCallback(const std::string& callback) { m_keyPressCallback = callback; }
+		void setKeyReleaseCallback(const std::string& callback) { m_keyReleaseCallback = callback; }
 
 		//-----------------------------------------------------------------------------
 		// Logging
@@ -176,6 +182,7 @@ namespace Marvel {
 		mvApp operator=(mvApp&& other) = delete;
 
 		bool doesParentAllowRender(mvAppItem* item);
+		void prepareStandardCallbacks();
 
 	private:
 
@@ -200,7 +207,13 @@ namespace Marvel {
 		mvStyle m_style;
 
 		// standard callbacks
-		std::string m_mouseButtonCallback = "";
+		std::string m_mouseDownCallback = "";
+		std::string m_mouseClickCallback = "";
+		std::string m_mouseReleaseCallback = "";
+		std::string m_mouseDoubleClickCallback = "";
+		std::string m_keyDownCallback = "";
+		std::string m_keyPressCallback = "";
+		std::string m_keyReleaseCallback = "";
 
 	};
 

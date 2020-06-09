@@ -113,8 +113,13 @@ setItemWidth("Testing1", 200)
 setItemWidth("Testing2", 200)
 
 # setting main callback
-setMainCallback("MainCallback")
-#setMousePressCallback("MouseCallback")
+#setMainCallback("MainCallback")
+setMouseDownCallback("MouseDownCallback")
+setMouseClickCallback("MouseClickCallback")
+setMouseDoubleClickCallback("MouseDoubleClickCallback")
+setKeyDownCallback("KeyDownCallback")
+setKeyPressCallback("KeyPressCallback")
+setKeyReleaseCallback("KeyReleaseClickCallback")
 
 def ItemCallback(sender):
     print("Called by ", sender)
@@ -157,12 +162,26 @@ def ClassicTheme(sender):
     setTheme("classic")
 
 def MainCallback(sender):
-    
     if isMouseButtonPressed(1):
         print("pressed")
     if isKeyPressed(0x25):
         print("key pressed")
 
-def MouseCallback(sender):
+def MouseDownCallback(sender, data):
+    LogDebug("MouseDownCallback: " + sender + " " + data)
 
-    print("mouse got pressed")
+def MouseClickCallback(sender):
+    LogDebug("MouseClickCallback: " + sender)
+
+def MouseDoubleClickCallback(sender):
+    LogDebug("MouseDoubleClickCallback: " + sender)
+
+def KeyDownCallback(sender, data):
+    LogDebug("KeyDownCallback: " + sender + " " + data)
+
+def KeyPressCallback(sender):
+    LogDebug("KeyPressCallback: " + sender)
+
+def KeyReleaseClickCallback(sender):
+    LogDebug("KeyReleaseCallback: " + sender)
+
