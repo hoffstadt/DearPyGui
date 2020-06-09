@@ -1161,6 +1161,29 @@ namespace Marvel {
 		return Py_None;
 	}
 
+	PyObject* addWindow(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		const char* parent, * name;
+		int width, height;
+
+		PyArg_ParseTuple(args, "ssii", &parent, &name, &width, &height);
+
+		auto pl = mvPythonTranslator(args, kwargs, {
+			mvPythonDataElement(mvPythonDataType::String, "parent"),
+			mvPythonDataElement(mvPythonDataType::String, "name"),
+			mvPythonDataElement(mvPythonDataType::Integer, "width"),
+			mvPythonDataElement(mvPythonDataType::Integer, "height")
+			});
+
+		pl.parse(__FUNCTION__, &parent, &name, &width, &height);
+
+		mvApp::GetApp()->addWindow(std::string(parent), std::string(name), width, height);
+
+		Py_INCREF(Py_None);
+
+		return Py_None;
+	}
+
 	PyObject* endChild(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		const char* parent;
@@ -1315,6 +1338,7 @@ namespace Marvel {
 
 	void CreatePythonInterface(mvPythonModule& pyModule, PyObject* (*initfunc)())
 	{
+		pyModule.addMethod(addWindow, "Not Documented");
 		pyModule.addMethod(isItemHovered, "Not Documented");
 		pyModule.addMethod(isItemActive, "Not Documented");
 		pyModule.addMethod(isItemFocused, "Not Documented");

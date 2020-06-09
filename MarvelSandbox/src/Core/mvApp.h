@@ -79,6 +79,7 @@ namespace Marvel {
 		mvAppItem* addChild           (const std::string& parent, const std::string& name, int width, int height);
 		mvAppItem* endChild           (const std::string& parent);
 		mvAppItem* addCollapsingHeader(const std::string& parent, const std::string& name);
+		mvAppItem* addWindow          (const std::string& parent, const std::string& name, int width, int height);
 
 		//-----------------------------------------------------------------------------
 		// Drawing

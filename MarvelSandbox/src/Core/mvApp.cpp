@@ -23,6 +23,7 @@
 #include "AppItems/mvSimplePlot.h"
 #include "AppItems/mvIndent.h"
 #include "AppItems/mvDrawing.h"
+#include "AppItems/mvWindowAppItem.h"
 
 namespace Marvel {
 
@@ -635,6 +636,13 @@ namespace Marvel {
 	mvAppItem* mvApp::endChild(const std::string& parent)
 	{
 		mvAppItem* item = new mvEndChild(parent);
+		m_items.push_back(item);
+		return item;
+	}
+
+	mvAppItem* mvApp::addWindow(const std::string& parent, const std::string& name, int width, int height)
+	{
+		mvAppItem* item = new mvWindowAppitem(parent, name, width, height);
 		m_items.push_back(item);
 		return item;
 	}
