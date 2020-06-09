@@ -134,6 +134,8 @@ namespace Marvel {
 		// Inputs
 		//-----------------------------------------------------------------------------
 		mvMousePos getMousePosition() const { return m_mousePos; }
+		bool       isMouseButtonPressed(int button) const;
+		bool       isKeyPressed(int keycode) const;
 
 		//-----------------------------------------------------------------------------
 		// Plotting
