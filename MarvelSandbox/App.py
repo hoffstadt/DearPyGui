@@ -54,6 +54,7 @@ addInputFloat("Tab1", "inputfloat1", default_value=117.0)
 addDrawing("Tab1", "drawing1", 110, 110)
 drawLine("drawing1", 10, 10, 100, 100, (1, 0, 0, 1), 1)
 addCheckbox("Tab1", "Logger", default_value=True)
+addCheckbox("Tab1", "OtherWindow", default_value=True)
 addCheckbox("Tab1", "checkbox2")
 addListbox("Tab1", "listbox1", ("First item", "Second item", "Third item"), default_value=1)
 addText("Tab1", "Some awesome regular text")
@@ -91,6 +92,10 @@ endTab("Tab5")
 
 endTabBar("TabBar1")
 
+addWindow("", "win1", 300, 200)
+addInputText("win1", "winTesting", hint="a hint")
+addInputText("win1", "winTestingMul", multiline=True)
+
 # setting call backs
 setItemCallback("Press me", "ItemCallback")
 setItemCallback("Testing", "ItemCallback")
@@ -102,6 +107,7 @@ setItemCallback("Use Dark", "DarkTheme")
 setItemCallback("Use Light", "LightTheme")
 setItemCallback("Use Classic", "ClassicTheme")
 setItemCallback("Logger", "LoggerCallback")
+setItemCallback("OtherWindow", "SubWindowCallback")
 setItemCallback("listbox1", "ItemCallback")
 setItemCallback("combo1", "ItemCallback")
 
@@ -143,6 +149,14 @@ def ItemCallback(sender):
     clearDrawing("drawing2")
     #setStyleItem("Al33pha", 0.5)
     updateStyle()
+
+def SubWindowCallback(sender):
+
+    value = getValue("OtherWindow")
+    if value == 0:
+        hideItem("win1")
+    else:
+        showItem("win1")
 
 def LoggerCallback(sender):
 
