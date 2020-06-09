@@ -1,11 +1,13 @@
 #pragma once
 
 #include <vector>
+#include <map>
 #include <stack>
 #include <string>
 #include "Core/mvAppItem.h"
 #include "mvTheme.h"
 #include "mvMouse.h"
+#include "mvAppStyle.h"
 
 namespace Marvel {
 
@@ -138,6 +140,13 @@ namespace Marvel {
 		bool       isKeyPressed(int keycode) const;
 
 		//-----------------------------------------------------------------------------
+		// Styles
+		//-----------------------------------------------------------------------------
+		void updateStyle();
+		bool setStyleItem(const std::string& item, float x, float y = 0.0f);
+
+
+		//-----------------------------------------------------------------------------
 		// Plotting
 		//-----------------------------------------------------------------------------
 		mvAppItem* addSimplePlot(const std::string& parent, const std::string& name, const std::vector<float> value, 
@@ -155,7 +164,10 @@ namespace Marvel {
 		
 	private:
 
-		mvApp() = default;
+		mvApp()
+		{
+			m_style = getAppDefaultStyle();
+		}
 
 		mvApp(const mvApp& other) = delete;
 		mvApp(mvApp&& other) = delete;
@@ -182,6 +194,9 @@ namespace Marvel {
 
 		// inputs
 		mvMousePos m_mousePos;
+
+		// styles
+		mvStyle m_style;
 
 	};
 

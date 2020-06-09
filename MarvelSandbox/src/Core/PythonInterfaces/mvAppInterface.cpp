@@ -55,6 +55,38 @@ namespace Marvel {
 		return Py_None;
 	}
 
+	PyObject* setStyleItem(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		const char* item;
+		float x = 0.0f;
+		float y = 0.0f;
+
+		auto pl = mvPythonTranslator(args, kwargs, {
+			mvPythonDataElement(mvPythonDataType::String, "item"),
+			mvPythonDataElement(mvPythonDataType::Float, "x"),
+			mvPythonDataElement(mvPythonDataType::Optional, ""),
+			mvPythonDataElement(mvPythonDataType::Float, "x"),
+
+			});
+
+		if (!pl.parse(__FUNCTION__, &item, &x, &y))
+			return Py_False;
+
+		bool check = mvApp::GetApp()->setStyleItem(std::string(item), x, y);
+
+		if (check)
+			return Py_True;
+
+		return Py_False;
+	}
+
+	PyObject* updateStyle(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		mvApp::GetApp()->updateStyle();
+		Py_INCREF(Py_None);
+		return Py_None;
+	}
+
 	PyObject* addText(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		const char* parent, * name;
@@ -934,6 +966,8 @@ namespace Marvel {
 
 	void CreatePythonInterface(mvPythonModule& pyModule, PyObject* (*initfunc)())
 	{
+		pyModule.addMethod(setStyleItem, "Not Documented");
+		pyModule.addMethod(updateStyle, "Not Documented");
 		pyModule.addMethod(indent, "Not Documented");
 		pyModule.addMethod(unindent, "Not Documented");
 		pyModule.addMethod(addSimplePlot, "Not Documented");
