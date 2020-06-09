@@ -49,7 +49,7 @@ namespace Marvel {
 
 		ImGui::SetNextWindowPos(ImVec2(0.0f, 0.0f));
 		ImGui::SetNextWindowSize(ImVec2(m_width, m_height));
-		ImGui::Begin("Blah", (bool*)0, ImGuiWindowFlags_NoBringToFrontOnFocus | ImGuiWindowFlags_NoSavedSettings| ImGuiWindowFlags_NoResize| ImGuiWindowFlags_NoCollapse| ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_MenuBar);
+		ImGui::Begin("Blah", (bool*)0, m_windowflags);
 
 		m_parents.push(nullptr);
 
@@ -349,6 +349,7 @@ namespace Marvel {
 
 	mvAppItem* mvApp::addMenuBar(const std::string& name)
 	{
+		m_windowflags |= ImGuiWindowFlags_MenuBar;
 		mvAppItem* item = new mvMenuBar(name);
 		m_items.push_back(item);
 		return item;
