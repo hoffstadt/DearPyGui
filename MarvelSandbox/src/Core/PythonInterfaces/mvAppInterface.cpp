@@ -339,6 +339,25 @@ namespace Marvel {
 		return Py_None;
 	}
 
+
+	PyObject* setMousePressCallback(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		const char* callback;
+
+		auto pl = mvPythonTranslator(args, kwargs, {
+			mvPythonDataElement(mvPythonDataType::String, "callback")
+			});
+
+		if (!pl.parse(__FUNCTION__, &callback))
+			return Py_None;
+
+		mvApp::GetApp()->setMousePressCallback(std::string(callback));
+
+		Py_INCREF(Py_None);
+
+		return Py_None;
+	}
+
 	PyObject* setItemCallback(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		const char* callback, * item;
@@ -966,6 +985,7 @@ namespace Marvel {
 
 	void CreatePythonInterface(mvPythonModule& pyModule, PyObject* (*initfunc)())
 	{
+		pyModule.addMethod(setMousePressCallback, "Not Documented");
 		pyModule.addMethod(setStyleItem, "Not Documented");
 		pyModule.addMethod(updateStyle, "Not Documented");
 		pyModule.addMethod(indent, "Not Documented");
