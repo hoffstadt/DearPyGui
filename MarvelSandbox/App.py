@@ -113,7 +113,7 @@ setItemWidth("Testing1", 200)
 setItemWidth("Testing2", 200)
 
 # setting main callback
-#setMainCallback("MainCallback")
+setMainCallback("MainCallback")
 
 def ItemCallback(sender):
     print("Called by ", sender)
@@ -154,4 +154,8 @@ def ClassicTheme(sender):
     setTheme("classic")
 
 def MainCallback(sender):
-    print(sender);
+    
+    if isMouseButtonPressed(1):
+        print("pressed")
+    if isKeyPressed(0x25):
+        print("key pressed")

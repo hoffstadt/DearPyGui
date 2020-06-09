@@ -85,6 +85,18 @@ namespace Marvel {
 		ImGui::End();
 	}
 
+	bool mvApp::isMouseButtonPressed(int button) const
+	{
+		ImGuiIO& io = ImGui::GetIO();
+		return io.MouseDown[button];
+	}
+
+	bool mvApp::isKeyPressed(int keycode) const
+	{
+		ImGuiIO& io = ImGui::GetIO();
+		return io.KeysDown[keycode];
+	}
+
 	bool mvApp::doesParentAllowRender(mvAppItem* item)
 	{
 		if (item->getParent())
