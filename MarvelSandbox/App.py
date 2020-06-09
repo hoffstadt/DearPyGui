@@ -114,6 +114,7 @@ setItemWidth("Testing2", 200)
 
 # setting main callback
 setMainCallback("MainCallback")
+#setMousePressCallback("MouseCallback")
 
 def ItemCallback(sender):
     print("Called by ", sender)
@@ -161,3 +162,7 @@ def MainCallback(sender):
         print("pressed")
     if isKeyPressed(0x25):
         print("key pressed")
+
+def MouseCallback(sender):
+
+    print("mouse got pressed")

@@ -117,6 +117,7 @@ namespace Marvel {
 		//-----------------------------------------------------------------------------
 		void setMainCallback(const std::string& callback) { m_callback = callback; }
 		void triggerCallback(const std::string& name, const std::string& sender);
+		void setMousePressCallback(const std::string& callback) { m_mouseButtonCallback = callback; }
 
 		//-----------------------------------------------------------------------------
 		// Logging
@@ -197,6 +198,9 @@ namespace Marvel {
 
 		// styles
 		mvStyle m_style;
+
+		// standard callbacks
+		std::string m_mouseButtonCallback = "";
 
 	};
 

@@ -81,6 +81,9 @@ namespace Marvel {
 		m_mousePos.x = mousePos.x;
 		m_mousePos.y = mousePos.y;
 
+		if (ImGui::IsAnyMouseDown())
+			triggerCallback(m_mouseButtonCallback, "Mouse Button Down");
+
 		ImGui::SetNextWindowPos(ImVec2(0.0f, 0.0f));
 		ImGui::SetNextWindowSize(ImVec2(m_width, m_height));
 		ImGui::Begin("Blah", (bool*)0, m_windowflags);
