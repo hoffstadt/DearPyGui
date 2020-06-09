@@ -4,6 +4,247 @@
 
 namespace Marvel {
 
+
+	PyObject* isItemHovered(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		const char* item;
+
+		auto pl = mvPythonTranslator(args, kwargs, {
+			mvPythonDataElement(mvPythonDataType::String, "item")
+			});
+
+		if (!pl.parse(__FUNCTION__, &item))
+			return Py_None;
+
+		bool value = mvApp::GetApp()->isItemHovered(std::string(item));
+
+		PyObject* pvalue = Py_BuildValue("i", value);
+
+		return pvalue;
+	}
+
+	PyObject* isItemActive(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		const char* item;
+
+		auto pl = mvPythonTranslator(args, kwargs, {
+			mvPythonDataElement(mvPythonDataType::String, "item")
+			});
+
+		if (!pl.parse(__FUNCTION__, &item))
+			return Py_None;
+
+		bool value = mvApp::GetApp()->isItemActive(std::string(item));
+
+		PyObject* pvalue = Py_BuildValue("i", value);
+
+		return pvalue;
+	}
+
+	PyObject* isItemFocused(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		const char* item;
+
+		auto pl = mvPythonTranslator(args, kwargs, {
+			mvPythonDataElement(mvPythonDataType::String, "item")
+			});
+
+		if (!pl.parse(__FUNCTION__, &item))
+			return Py_None;
+
+		bool value = mvApp::GetApp()->isItemFocused(std::string(item));
+
+		PyObject* pvalue = Py_BuildValue("i", value);
+
+		return pvalue;
+	}
+
+	PyObject* isItemClicked(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		const char* item;
+
+		auto pl = mvPythonTranslator(args, kwargs, {
+			mvPythonDataElement(mvPythonDataType::String, "item")
+			});
+
+		if (!pl.parse(__FUNCTION__, &item))
+			return Py_None;
+
+		bool value = mvApp::GetApp()->isItemClicked(std::string(item));
+
+		PyObject* pvalue = Py_BuildValue("i", value);
+
+		return pvalue;
+	}
+
+	PyObject* isItemVisible(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		const char* item;
+
+		auto pl = mvPythonTranslator(args, kwargs, {
+			mvPythonDataElement(mvPythonDataType::String, "item")
+			});
+
+		if (!pl.parse(__FUNCTION__, &item))
+			return Py_None;
+
+		bool value = mvApp::GetApp()->isItemVisible(std::string(item));
+
+		PyObject* pvalue = Py_BuildValue("i", value);
+
+		return pvalue;
+	}
+
+	PyObject* isItemEdited(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		const char* item;
+
+		auto pl = mvPythonTranslator(args, kwargs, {
+			mvPythonDataElement(mvPythonDataType::String, "item")
+			});
+
+		if (!pl.parse(__FUNCTION__, &item))
+			return Py_None;
+
+		bool value = mvApp::GetApp()->isItemEdited(std::string(item));
+
+		PyObject* pvalue = Py_BuildValue("i", value);
+
+		return pvalue;
+	}
+
+	PyObject* isItemActivated(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		const char* item;
+
+		auto pl = mvPythonTranslator(args, kwargs, {
+			mvPythonDataElement(mvPythonDataType::String, "item")
+			});
+
+		if (!pl.parse(__FUNCTION__, &item))
+			return Py_None;
+
+		bool value = mvApp::GetApp()->isItemActivated(std::string(item));
+
+		PyObject* pvalue = Py_BuildValue("i", value);
+
+		return pvalue;
+	}
+
+	PyObject* isItemDeactivated(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		const char* item;
+
+		auto pl = mvPythonTranslator(args, kwargs, {
+			mvPythonDataElement(mvPythonDataType::String, "item")
+			});
+
+		if (!pl.parse(__FUNCTION__, &item))
+			return Py_None;
+
+		bool value = mvApp::GetApp()->isItemDeactivated(std::string(item));
+
+		PyObject* pvalue = Py_BuildValue("i", value);
+
+		return pvalue;
+	}
+
+	PyObject* isItemDeactivatedAfterEdit(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		const char* item;
+
+		auto pl = mvPythonTranslator(args, kwargs, {
+			mvPythonDataElement(mvPythonDataType::String, "item")
+			});
+
+		if (!pl.parse(__FUNCTION__, &item))
+			return Py_None;
+
+		bool value = mvApp::GetApp()->isItemDeactivatedAfterEdit(std::string(item));
+
+		PyObject* pvalue = Py_BuildValue("i", value);
+
+		return pvalue;
+	}
+
+	PyObject* isItemToogledOpen(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		const char* item;
+
+		auto pl = mvPythonTranslator(args, kwargs, {
+			mvPythonDataElement(mvPythonDataType::String, "item")
+			});
+
+		if (!pl.parse(__FUNCTION__, &item))
+			return Py_None;
+
+		bool value = mvApp::GetApp()->isItemToogledOpen(std::string(item));
+
+		PyObject* pvalue = Py_BuildValue("i", value);
+
+		return pvalue;
+	}
+
+	PyObject* getItemRectMin(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		const char* item;
+
+		auto pl = mvPythonTranslator(args, kwargs, {
+			mvPythonDataElement(mvPythonDataType::String, "item")
+			});
+
+		if (!pl.parse(__FUNCTION__, &item))
+			return Py_None;
+
+		mvVec2 value = mvApp::GetApp()->getItemRectMin(std::string(item));
+
+		PyObject* pvalue = PyTuple_New(2);
+		PyTuple_SetItem(pvalue, 0, PyFloat_FromDouble(value.x));
+		PyTuple_SetItem(pvalue, 1, PyFloat_FromDouble(value.y));
+
+		return pvalue;
+	}
+
+	PyObject* getItemRectMax(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		const char* item;
+
+		auto pl = mvPythonTranslator(args, kwargs, {
+			mvPythonDataElement(mvPythonDataType::String, "item")
+			});
+
+		if (!pl.parse(__FUNCTION__, &item))
+			return Py_None;
+
+		mvVec2 value = mvApp::GetApp()->getItemRectMax(std::string(item));
+
+		PyObject* pvalue = PyTuple_New(2);
+		PyTuple_SetItem(pvalue, 0, PyFloat_FromDouble(value.x));
+		PyTuple_SetItem(pvalue, 1, PyFloat_FromDouble(value.y));
+
+		return pvalue;
+	}
+
+	PyObject* getItemRectSize(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		const char* item;
+
+		auto pl = mvPythonTranslator(args, kwargs, {
+			mvPythonDataElement(mvPythonDataType::String, "item")
+			});
+
+		if (!pl.parse(__FUNCTION__, &item))
+			return Py_None;
+
+		mvVec2 value = mvApp::GetApp()->getItemRectSize(std::string(item));
+
+		PyObject* pvalue = PyTuple_New(2);
+		PyTuple_SetItem(pvalue, 0, PyFloat_FromDouble(value.x));
+		PyTuple_SetItem(pvalue, 1, PyFloat_FromDouble(value.y));
+
+		return pvalue;
+	}
+
 	PyObject* addSimplePlot(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		const char* parent, * name;
@@ -1074,6 +1315,19 @@ namespace Marvel {
 
 	void CreatePythonInterface(mvPythonModule& pyModule, PyObject* (*initfunc)())
 	{
+		pyModule.addMethod(isItemHovered, "Not Documented");
+		pyModule.addMethod(isItemActive, "Not Documented");
+		pyModule.addMethod(isItemFocused, "Not Documented");
+		pyModule.addMethod(isItemClicked, "Not Documented");
+		pyModule.addMethod(isItemVisible, "Not Documented");
+		pyModule.addMethod(isItemEdited, "Not Documented");
+		pyModule.addMethod(isItemActivated, "Not Documented");
+		pyModule.addMethod(isItemDeactivated, "Not Documented");
+		pyModule.addMethod(isItemDeactivatedAfterEdit, "Not Documented");
+		pyModule.addMethod(isItemToogledOpen, "Not Documented");
+		pyModule.addMethod(getItemRectMin, "Not Documented");
+		pyModule.addMethod(getItemRectMax, "Not Documented");
+		pyModule.addMethod(getItemRectSize, "Not Documented");
 		pyModule.addMethod(setMouseClickCallback, "Not Documented");
 		pyModule.addMethod(setMouseDownCallback, "Not Documented");
 		pyModule.addMethod(setMouseDoubleClickCallback, "Not Documented");

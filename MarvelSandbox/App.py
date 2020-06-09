@@ -181,6 +181,8 @@ def KeyDownCallback(sender, data):
 
 def KeyPressCallback(sender):
     LogDebug("KeyPressCallback: " + sender)
+    if isItemHovered("Press me"):
+        LogError("button hovered")
 
 def KeyReleaseClickCallback(sender):
     LogDebug("KeyReleaseCallback: " + sender)
