@@ -134,8 +134,8 @@ def ItemCallback(sender):
     setValue("radiobutton1", 1)
     setValue("checkbox2", True)
     hideItem("Tab2")
-    #clearDrawing("drawing2")
-    #setStyleItem("Alpha", 0.5)
+    clearDrawing("drawing2")
+    #setStyleItem("Al33pha", 0.5)
     updateStyle()
 
 def LoggerCallback(sender):

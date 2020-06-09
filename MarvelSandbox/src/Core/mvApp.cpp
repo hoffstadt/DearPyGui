@@ -46,7 +46,7 @@ namespace Marvel {
 		style.ItemInnerSpacing = { mvstyle["ItemInnerSpacing"].x, mvstyle["ItemInnerSpacing"].y };
 		style.TouchExtraPadding = { mvstyle["TouchExtraPadding"].x, mvstyle["TouchExtraPadding"].y };
 		style.IndentSpacing = mvstyle["IndentSpacing"].x;
-		style.ScrollbarSize = mvstyle["WindowScrollbarSizeBorderSize"].x;
+		style.ScrollbarSize = mvstyle["ScrollbarSize"].x;
 		style.ScrollbarRounding = mvstyle["ScrollbarRounding"].x;
 		style.GrabMinSize = mvstyle["GrabMinSize"].x;
 		style.GrabRounding = mvstyle["GrabRounding"].x;
