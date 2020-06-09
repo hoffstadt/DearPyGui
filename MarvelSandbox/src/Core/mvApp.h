@@ -177,6 +177,8 @@ namespace Marvel {
 		bool                    m_showLog = true;
 		mvTheme                 m_theme;
 		unsigned                m_loglevel = 0;
+		ImGuiWindowFlags        m_windowflags = ImGuiWindowFlags_NoBringToFrontOnFocus | ImGuiWindowFlags_NoSavedSettings 
+			| ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoTitleBar;
 
 		// inputs
 		mvMousePos m_mousePos;
