@@ -71,6 +71,39 @@ namespace Marvel {
 		return s_instance;
 	}
 
+	void mvApp::prepareStandardCallbacks()
+	{
+		ImGuiIO& io = ImGui::GetIO();
+
+		for (int i = 0; i < IM_ARRAYSIZE(io.MouseDown); i++)
+		{
+
+			if (ImGui::IsMouseClicked(i))
+				triggerCallback(m_mouseClickCallback, std::to_string(i));
+
+			if (io.MouseDownDuration[i] >= 0.0f)
+				triggerCallback(m_mouseDownCallback, std::to_string(i), std::to_string(io.MouseDownDuration[i]));
+
+			if (ImGui::IsMouseDoubleClicked(i))
+				triggerCallback(m_mouseDoubleClickCallback, std::to_string(i));
+
+			if (ImGui::IsMouseReleased(i))
+				triggerCallback(m_mouseReleaseCallback, std::to_string(i));
+		}
+
+		for (int i = 0; i < IM_ARRAYSIZE(io.KeysDown); i++)
+		{
+			if (ImGui::IsKeyPressed(i))
+				triggerCallback(m_keyPressCallback, std::to_string(i));
+
+			if (io.KeysDownDuration[i] >= 0.0f)
+				triggerCallback(m_keyDownCallback, std::to_string(i), std::to_string(io.KeysDownDuration[i]));
+
+			if (ImGui::IsKeyReleased(i))
+				triggerCallback(m_keyReleaseCallback, std::to_string(i));
+		}
+	}
+
 	void mvApp::render()
 	{
 		// set imgui style to mvstyle
@@ -81,9 +114,8 @@ namespace Marvel {
 		m_mousePos.x = mousePos.x;
 		m_mousePos.y = mousePos.y;
 
-		if (ImGui::IsAnyMouseDown())
-			triggerCallback(m_mouseButtonCallback, "Mouse Button Down");
-
+		prepareStandardCallbacks();
+			
 		ImGui::SetNextWindowPos(ImVec2(0.0f, 0.0f));
 		ImGui::SetNextWindowSize(ImVec2(m_width, m_height));
 		ImGui::Begin("Blah", (bool*)0, m_windowflags);
@@ -237,6 +269,30 @@ namespace Marvel {
 
 		PyObject* pArgs = PyTuple_New(1);
 		PyTuple_SetItem(pArgs, 0, PyUnicode_FromString(sender.c_str()));
+
+		PyObject* result = PyObject_CallObject(pHandler, pArgs);
+
+		// check if error occurred
+		PyErr_Print();
+
+
+		Py_XDECREF(pArgs);
+		Py_XDECREF(result);
+
+	}
+
+	void mvApp::triggerCallback(const std::string& name, const std::string& sender, const std::string& data)
+	{
+		if (name == "")
+			return;
+
+		PyErr_Clear();
+
+		PyObject* pHandler = PyDict_GetItemString(m_pDict, name.c_str()); // borrowed reference
+
+		PyObject* pArgs = PyTuple_New(2);
+		PyTuple_SetItem(pArgs, 0, PyUnicode_FromString(sender.c_str()));
+		PyTuple_SetItem(pArgs, 1, PyUnicode_FromString(data.c_str()));
 
 		PyObject* result = PyObject_CallObject(pHandler, pArgs);
 

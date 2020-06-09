@@ -339,8 +339,7 @@ namespace Marvel {
 		return Py_None;
 	}
 
-
-	PyObject* setMousePressCallback(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* setMouseDownCallback(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		const char* callback;
 
@@ -351,7 +350,97 @@ namespace Marvel {
 		if (!pl.parse(__FUNCTION__, &callback))
 			return Py_None;
 
-		mvApp::GetApp()->setMousePressCallback(std::string(callback));
+		mvApp::GetApp()->setMouseDownCallback(std::string(callback));
+
+		Py_INCREF(Py_None);
+
+		return Py_None;
+	}
+
+	PyObject* setMouseDoubleClickCallback(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		const char* callback;
+
+		auto pl = mvPythonTranslator(args, kwargs, {
+			mvPythonDataElement(mvPythonDataType::String, "callback")
+			});
+
+		if (!pl.parse(__FUNCTION__, &callback))
+			return Py_None;
+
+		mvApp::GetApp()->setMouseDoubleClickCallback(std::string(callback));
+
+		Py_INCREF(Py_None);
+
+		return Py_None;
+	}
+
+	PyObject* setMouseClickCallback(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		const char* callback;
+
+		auto pl = mvPythonTranslator(args, kwargs, {
+			mvPythonDataElement(mvPythonDataType::String, "callback")
+			});
+
+		if (!pl.parse(__FUNCTION__, &callback))
+			return Py_None;
+
+		mvApp::GetApp()->setMouseClickCallback(std::string(callback));
+
+		Py_INCREF(Py_None);
+
+		return Py_None;
+	}
+
+	PyObject* setKeyDownCallback(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		const char* callback;
+
+		auto pl = mvPythonTranslator(args, kwargs, {
+			mvPythonDataElement(mvPythonDataType::String, "callback")
+			});
+
+		if (!pl.parse(__FUNCTION__, &callback))
+			return Py_None;
+
+		mvApp::GetApp()->setKeyDownCallback(std::string(callback));
+
+		Py_INCREF(Py_None);
+
+		return Py_None;
+	}
+
+	PyObject* setKeyPressCallback(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		const char* callback;
+
+		auto pl = mvPythonTranslator(args, kwargs, {
+			mvPythonDataElement(mvPythonDataType::String, "callback")
+			});
+
+		if (!pl.parse(__FUNCTION__, &callback))
+			return Py_None;
+
+		mvApp::GetApp()->setKeyPressCallback(std::string(callback));
+
+		Py_INCREF(Py_None);
+
+		return Py_None;
+	}
+
+	PyObject* setKeyReleaseCallback(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		const char* callback;
+
+		auto pl = mvPythonTranslator(args, kwargs, {
+			mvPythonDataElement(mvPythonDataType::String, "callback")
+			});
+
+		if (!pl.parse(__FUNCTION__, &callback))
+			return Py_None;
+
+		mvApp::GetApp()->setKeyReleaseCallback(std::string(callback));
 
 		Py_INCREF(Py_None);
 
@@ -985,7 +1074,12 @@ namespace Marvel {
 
 	void CreatePythonInterface(mvPythonModule& pyModule, PyObject* (*initfunc)())
 	{
-		pyModule.addMethod(setMousePressCallback, "Not Documented");
+		pyModule.addMethod(setMouseClickCallback, "Not Documented");
+		pyModule.addMethod(setMouseDownCallback, "Not Documented");
+		pyModule.addMethod(setMouseDoubleClickCallback, "Not Documented");
+		pyModule.addMethod(setKeyDownCallback, "Not Documented");
+		pyModule.addMethod(setKeyPressCallback, "Not Documented");
+		pyModule.addMethod(setKeyReleaseCallback, "Not Documented");
 		pyModule.addMethod(setStyleItem, "Not Documented");
 		pyModule.addMethod(updateStyle, "Not Documented");
 		pyModule.addMethod(indent, "Not Documented");
