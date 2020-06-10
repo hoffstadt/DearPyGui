@@ -6,22 +6,20 @@ namespace Marvel {
 
 	PyObject* addDrawing(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
-		const char* parent;
 		const char* name;
 		int width;
 		int height;
 
 		auto pl = mvPythonTranslator(args, kwargs, {
-			mvPythonDataElement(mvPythonDataType::String, "parent"),
 			mvPythonDataElement(mvPythonDataType::String, "name"),
 			mvPythonDataElement(mvPythonDataType::Integer, "width"),
 			mvPythonDataElement(mvPythonDataType::Integer, "height")
 			});
 
-		if (!pl.parse(__FUNCTION__, &parent, &name, &width, &height))
+		if (!pl.parse(__FUNCTION__, &name, &width, &height))
 			return Py_None;
 
-		mvApp::GetApp()->addDrawing(parent, name, width, height);
+		mvApp::GetApp()->addDrawing(name, width, height);
 
 		Py_INCREF(Py_None);
 

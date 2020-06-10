@@ -30,4 +30,22 @@ namespace Marvel {
 
 	};
 
+	class mvEndCollapsingHeader : public mvNoneItemBase
+	{
+
+	public:
+
+		MV_APPITEM_TYPE(mvAppItemType::EndCollapsingHeader)
+
+		mvEndCollapsingHeader(const std::string& parent)
+			: mvNoneItemBase(parent, "EndCollapsingHeader")
+		{}
+
+		virtual void draw() override
+		{
+			mvApp::GetApp()->popParent();
+		}
+
+	};
+
 }
