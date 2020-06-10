@@ -28,4 +28,11 @@ namespace Marvel{
 			child->hideAll();
 	}
 
+	void mvAppItem::setParent(mvAppItem* parent)
+	{
+		if (parent)
+			parent->m_children.push_back(this);
+		m_parent = parent;
+	}
+
 }

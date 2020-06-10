@@ -1,6 +1,7 @@
 #include "Core/mvPythonModule.h"
 #include "Core/mvApp.h"
 #include "Core/mvPythonTranslator.h"
+#include "Core/AppItems/mvAppItems.h"
 
 namespace Marvel {
 
@@ -19,7 +20,8 @@ namespace Marvel {
 		if (!pl.parse(__FUNCTION__, &name, &width, &height))
 			return Py_None;
 
-		mvApp::GetApp()->addDrawing(name, width, height);
+		mvAppItem* item = new mvDrawing("", name, width, height);
+		mvApp::GetApp()->addItem(item);
 
 		Py_INCREF(Py_None);
 
@@ -44,12 +46,13 @@ namespace Marvel {
 		if (!pl.parse(__FUNCTION__, &drawing, &p1, &p2, &color, &thickness))
 			return Py_None;
 
-
 		mvVec2 mp1 = pl.getVec2(p1);
 		mvVec2 mp2 = pl.getVec2(p2);
 		mvColor mcolor = pl.getColor(color);
 
-		mvApp::GetApp()->drawLine(drawing, mp1, mp2, mcolor, thickness);
+		mvAppItem* item = mvApp::GetApp()->getItem(drawing);
+		mvDrawing* dwg = static_cast<mvDrawing*>(item);
+		dwg->drawLine(mp1, mp2, mcolor, thickness);
 
 		Py_INCREF(Py_None);
 
@@ -85,7 +88,9 @@ namespace Marvel {
 		mvColor mcolor = pl.getColor(color);
 		mvColor mfill = pl.getColor(fill);
 
-		mvApp::GetApp()->drawTriangle(drawing, mp1, mp2, mp3, mcolor, mfill, thickness);
+		mvAppItem* item = mvApp::GetApp()->getItem(drawing);
+		mvDrawing* dwg = static_cast<mvDrawing*>(item);
+		dwg->drawTriangle(mp1, mp2, mp3, mcolor, mfill, thickness);
 
 		Py_INCREF(Py_None);
 
@@ -120,7 +125,9 @@ namespace Marvel {
 		mvColor mcolor = pl.getColor(color);
 		mvColor mfill = pl.getColor(fill);
 
-		mvApp::GetApp()->drawRectangle(drawing, mpmin, mpmax, mcolor, mfill, rounding, thickness);
+		mvAppItem* item = mvApp::GetApp()->getItem(drawing);
+		mvDrawing* dwg = static_cast<mvDrawing*>(item);
+		dwg->drawRectangle(mpmin, mpmax, mcolor, mfill, rounding, thickness);
 
 		Py_INCREF(Py_None);
 
@@ -158,7 +165,9 @@ namespace Marvel {
 		mvColor mcolor = pl.getColor(color);
 		mvColor mfill = pl.getColor(fill);
 
-		mvApp::GetApp()->drawQuad(drawing, mp1, mp2, mp3, mp4, mcolor, mfill, thickness);
+		mvAppItem* item = mvApp::GetApp()->getItem(drawing);
+		mvDrawing* dwg = static_cast<mvDrawing*>(item);
+		dwg->drawQuad(mp1, mp2, mp3, mp4, mcolor, mfill, thickness);
 
 		Py_INCREF(Py_None);
 
@@ -185,11 +194,12 @@ namespace Marvel {
 		if (!pl.parse(__FUNCTION__, &drawing, &pos, &text, &color, &size))
 			return Py_None;
 
-
 		mvVec2 mpos = pl.getVec2(pos);
 		mvColor mcolor = pl.getColor(color);
 
-		mvApp::GetApp()->drawText(drawing, mpos, text, mcolor, size);
+		mvAppItem* item = mvApp::GetApp()->getItem(drawing);
+		mvDrawing* dwg = static_cast<mvDrawing*>(item);
+		dwg->drawText(mpos, text, mcolor, size);
 
 		Py_INCREF(Py_None);
 
@@ -220,12 +230,13 @@ namespace Marvel {
 		if (!pl.parse(__FUNCTION__, &drawing, &center, &radius, &color, &segments, &thickness, &fill))
 			return Py_None;
 
-
 		mvVec2 mcenter = pl.getVec2(center);
 		mvColor mcolor = pl.getColor(color);
 		mvColor mfill = pl.getColor(fill);
 
-		mvApp::GetApp()->drawCircle(drawing, mcenter, radius, mcolor, segments, thickness, mfill);
+		mvAppItem* item = mvApp::GetApp()->getItem(drawing);
+		mvDrawing* dwg = static_cast<mvDrawing*>(item);
+		dwg->drawCircle(mcenter, radius, mcolor, segments, thickness, mfill);
 
 		Py_INCREF(Py_None);
 
@@ -252,11 +263,12 @@ namespace Marvel {
 		if (!pl.parse(__FUNCTION__, &drawing, &points, &color, &closed, &thickness))
 			return Py_None;
 
-
 		auto mpoints = pl.getVectVec2(points);
 		mvColor mcolor = pl.getColor(color);
 
-		mvApp::GetApp()->drawPolyline(drawing, mpoints, mcolor, closed, thickness);
+		mvAppItem* item = mvApp::GetApp()->getItem(drawing);
+		mvDrawing* dwg = static_cast<mvDrawing*>(item);
+		dwg->drawPolyline(mpoints, mcolor, closed, thickness);
 
 		Py_INCREF(Py_None);
 
@@ -288,7 +300,9 @@ namespace Marvel {
 		mvColor mcolor = pl.getColor(color);
 		mvColor mfill = pl.getColor(fill);
 
-		mvApp::GetApp()->drawPolygon(drawing, mpoints, mcolor, mfill, thickness);
+		mvAppItem* item = mvApp::GetApp()->getItem(drawing);
+		mvDrawing* dwg = static_cast<mvDrawing*>(item);
+		dwg->drawPolygon(mpoints, mcolor, mfill, thickness);
 
 		Py_INCREF(Py_None);
 
@@ -325,7 +339,9 @@ namespace Marvel {
 		mvVec2 mp4 = pl.getVec2(p4);
 		mvColor mcolor = pl.getColor(color);
 
-		mvApp::GetApp()->drawBezierCurve(drawing, mp1, mp2, mp3, mp4, mcolor, thickness, segments);
+		mvAppItem* item = mvApp::GetApp()->getItem(drawing);
+		mvDrawing* dwg = static_cast<mvDrawing*>(item);
+		dwg->drawBezierCurve(mp1, mp2, mp3, mp4, mcolor, thickness, segments);
 
 		Py_INCREF(Py_None);
 
@@ -343,9 +359,9 @@ namespace Marvel {
 		if (!pl.parse(__FUNCTION__, &drawing))
 			return Py_None;
 
-
-
-		mvApp::GetApp()->clearDrawing(drawing);
+		mvAppItem* item = mvApp::GetApp()->getItem(drawing);
+		mvDrawing* dwg = static_cast<mvDrawing*>(item);
+		dwg->clear();
 
 		Py_INCREF(Py_None);
 

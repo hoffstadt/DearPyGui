@@ -3,6 +3,7 @@ from sbLog import *
 from sbInput import *
 from sbPlot import *
 from sbDraw import *
+from sbWidgets import *
 import SandboxTheme
 
 # create some menus

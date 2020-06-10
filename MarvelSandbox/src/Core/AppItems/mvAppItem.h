@@ -5,7 +5,7 @@
 #include <string>
 #include <vector>
 #include <imgui.h>
-#include "mvCore.h"
+#include "Core/mvCore.h"
 
 //-----------------------------------------------------------------------------
 // Helper Macros
@@ -66,6 +66,7 @@ namespace Marvel {
 		inline void                     setCallback(const std::string& callback) { m_callback = callback; }
 		inline void                     setPopup   (const std::string& popup) { m_popup = popup; }
 		inline void                     setTip     (const std::string& tip) { m_tip = tip; }
+		void                            setParent   (mvAppItem* parent);
 		inline void                     setWidth   (int width) { m_width = width; }
 		void                            showAll    ();
 		void                            hideAll    ();

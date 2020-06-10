@@ -2,6 +2,13 @@
 
 #include "Core/AppItems/mvTypeBases.h"
 
+//-----------------------------------------------------------------------------
+// Widget Index
+//
+//     * mvDrawing
+//
+//-----------------------------------------------------------------------------
+
 #define MV_DRAWCOMMAND_TYPE(x) virtual mvDrawingCommandType getType() const override { return x; }\
 virtual void draw(mvDrawing* draw, ImDrawList* draw_list) override;
 

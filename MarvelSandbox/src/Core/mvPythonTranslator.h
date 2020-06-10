@@ -8,6 +8,9 @@
 
 namespace Marvel {
 
+	//-----------------------------------------------------------------------------
+	// Enums and Helper Functions
+	//-----------------------------------------------------------------------------
 	enum class mvPythonDataType
 	{
 		String, Integer, Float, Bool, StringList, FloatList, Optional,
@@ -30,6 +33,9 @@ namespace Marvel {
 		}
 	}
 
+	//-----------------------------------------------------------------------------
+	// mvPythonDataElement
+	//-----------------------------------------------------------------------------
 	struct mvPythonDataElement
 	{
 		const char* name;
@@ -46,6 +52,9 @@ namespace Marvel {
 		}
 	};
 
+	//-----------------------------------------------------------------------------
+	// mvPythonTranslator
+	//-----------------------------------------------------------------------------
 	class mvPythonTranslator
 	{
 

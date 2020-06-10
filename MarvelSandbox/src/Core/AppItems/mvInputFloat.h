@@ -2,6 +2,13 @@
 
 #include "Core/AppItems/mvTypeBases.h"
 
+//-----------------------------------------------------------------------------
+// Widget Index
+//
+//     * mvInputFloat
+//
+//-----------------------------------------------------------------------------
+
 namespace Marvel {
 
 	class mvInputFloat : public mvFloatItemBase

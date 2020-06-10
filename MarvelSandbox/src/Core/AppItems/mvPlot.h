@@ -7,8 +7,15 @@
 #include "layers/mvBackgroundLayer.h"
 #include "layers/mvPlotLayer.h"
 #include "mvSeries.h"
-#include "mvImgui.h"
+#include "Core/mvImGui.h"
 #include "mvGraph.h"
+
+//-----------------------------------------------------------------------------
+// Widget Index
+//
+//     * mvPlot
+//
+//-----------------------------------------------------------------------------
 
 namespace Marvel {
 

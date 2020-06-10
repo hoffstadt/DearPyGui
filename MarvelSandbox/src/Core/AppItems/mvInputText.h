@@ -3,6 +3,13 @@
 #include "Core/AppItems/mvTypeBases.h"
 #include <misc/cpp/imgui_stdlib.h>
 
+//-----------------------------------------------------------------------------
+// Widget Index
+//
+//     * mvInputText
+//
+//-----------------------------------------------------------------------------
+
 namespace Marvel {
 
 	class mvInputText : public mvStringItemBase
