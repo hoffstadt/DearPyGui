@@ -28,7 +28,7 @@ namespace Marvel {
 		Separator, ColorEdit4, Checkbox, InputInt, InputFloat,
 		Listbox, Text, LabelText, Combo, Plot, SimplePlot,
 		Indent, Unindent, Drawing, Window, EndWindow,
-		Popup, EndPopup
+		Popup, EndPopup, Selectable
 	};
 
 	//-----------------------------------------------------------------------------

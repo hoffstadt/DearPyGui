@@ -5,6 +5,7 @@
 //-----------------------------------------------------------------------------
 // Widget Index
 //
+//     * mvSelectable
 //     * mvButton
 //     * mvCheckbox
 //     * mvCombo
@@ -14,6 +15,35 @@
 //-----------------------------------------------------------------------------
 
 namespace Marvel {
+
+	//-----------------------------------------------------------------------------
+	// mvSelectable
+	//-----------------------------------------------------------------------------
+	class mvSelectable : public mvBoolItemBase
+	{
+
+	public:
+
+		MV_APPITEM_TYPE(mvAppItemType::Selectable)
+
+		mvSelectable(const std::string& parent, const std::string& name, bool default_value)
+			: mvBoolItemBase(parent, name, default_value)
+		{
+		}
+
+		virtual void draw() override
+		{
+			if(ImGui::Selectable(m_label.c_str(), &m_value))
+			{
+				mvApp::GetApp()->triggerCallback(m_callback, m_name);
+
+				// Context Menu
+				if (getPopup() != "")
+					ImGui::OpenPopup(getPopup().c_str());
+			}
+		}
+
+	};
 
 	//-----------------------------------------------------------------------------
 	// mvButton
