@@ -74,6 +74,10 @@ namespace Marvel {
 				return static_cast<mvPopup*>(item->getParent())->getValue();
 				break;
 
+			case mvAppItemType::TreeNode:
+				return static_cast<mvTreeNode*>(item->getParent())->getValue();
+				break;
+
 			case mvAppItemType::CollapsingHeader:
 			{
 				if (!static_cast<mvCollapsingHeader*>(item->getParent())->getValue())

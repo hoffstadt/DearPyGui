@@ -11,6 +11,8 @@
 //     * mvEndGroup
 //     * mvCollapsingHeader
 //     * mvEndCollapsingHeader
+//     * mvTreeNode
+//     * mvEndTreeNode
 //
 //-----------------------------------------------------------------------------
 
@@ -178,6 +180,62 @@ namespace Marvel {
 
 		virtual void draw() override
 		{
+			mvApp::GetApp()->popParent();
+		}
+
+	};
+
+	//-----------------------------------------------------------------------------
+	// mvTreeNode
+	//-----------------------------------------------------------------------------
+	class mvTreeNode : public mvBoolItemBase
+	{
+
+	public:
+
+		MV_APPITEM_TYPE(mvAppItemType::TreeNode)
+
+		mvTreeNode(const std::string& parent, const std::string& name)
+			: mvBoolItemBase(parent, name, false)
+		{}
+
+		virtual void draw() override
+		{
+			if (ImGui::TreeNode(m_label.c_str()))
+			{
+				mvApp::GetApp()->pushParent(this);
+
+				// set current menu value true
+				m_value = true;
+				showAll();
+
+				// Context Menu
+				if (getPopup() != "")
+					ImGui::OpenPopup(getPopup().c_str());
+			}
+			else
+				m_value = false;
+		}
+
+	};
+
+	//-----------------------------------------------------------------------------
+	// mvEndTreeNode
+	//-----------------------------------------------------------------------------
+	class mvEndTreeNode : public mvNoneItemBase
+	{
+
+	public:
+
+		MV_APPITEM_TYPE(mvAppItemType::EndTreeNode)
+
+		mvEndTreeNode(const std::string& parent)
+			: mvNoneItemBase(parent, "EndTreeNode")
+		{}
+
+		virtual void draw() override
+		{
+			ImGui::TreePop();
 			mvApp::GetApp()->popParent();
 		}
 

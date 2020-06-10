@@ -112,6 +112,25 @@ drawPolygon("drawing2", ((363, 471), (100, 498), (50, 220)), (1, 0.5, 0,1))
 drawBezierCurve("drawing2", (50, 200), (150, 250), (300, 150), (600, 250), (1, 1, 0, 1), thickness = 2.0)
 endTab()
 
+addTab("Trees")
+
+addTreeNode("First Node")
+for i in range(0, 10):
+    addText("First Node Item: " + str(i))
+endTreeNode()
+
+addTreeNode("Second Node")
+for i in range(0, 10):
+    addText("Second Node Item: " + str(i))
+
+addTreeNode("Inner Second Node")
+for i in range(0, 10):
+    addText("InnerSecond Node Item: " + str(i))
+endTreeNode()
+
+endTreeNode()
+endTab()
+
 endTabBar()
 
 addWindow("win1", 300, 200)
