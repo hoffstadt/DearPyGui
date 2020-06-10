@@ -84,9 +84,17 @@ namespace Marvel {
 		//-----------------------------------------------------------------------------
 		// Drawing
 		//-----------------------------------------------------------------------------
-		mvAppItem* addDrawing(const std::string& parent, const std::string& name, int width, int height);
-		void       clearDrawing(const std::string& drawing);
-		void       drawLine(const std::string& drawing, int x1, int y1, int x2, int y2, const mvColor& color, int thickness = 1);
+		mvAppItem* addDrawing     (const std::string& parent, const std::string& name, int width, int height);
+		void       clearDrawing   (const std::string& drawing);
+		void       drawLine       (const std::string& drawing, const mvVec2& p1, const mvVec2& p2, const mvColor& color, int thickness = 1);
+		void       drawTriangle   (const std::string& drawing, const mvVec2& p1, const mvVec2& p2, const mvVec2& p3, const mvColor& color, const mvColor& fill = MV_DEFAULT_COLOR, float thickness = 1.0f);
+		void       drawRectangle  (const std::string& drawing, const mvVec2& pmin, const mvVec2& pmax, const mvColor& color, const mvColor& fill = MV_DEFAULT_COLOR, float rounding = 0.0f, float thickness = 1.0f);
+		void       drawQuad       (const std::string& drawing, const mvVec2& p1, const mvVec2& p2, const mvVec2& p3, const mvVec2& p4, const mvColor& color, const mvColor& fill = MV_DEFAULT_COLOR, float thickness = 1.0f);
+		void       drawText       (const std::string& drawing, const mvVec2& pos, const std::string& text, const mvColor& color = MV_DEFAULT_COLOR, int size = 10);
+		void       drawCircle     (const std::string& drawing, const mvVec2& center, float radius, const mvColor& color, int segments = 12, float thickness = 1.0f, const mvColor& fill = MV_DEFAULT_COLOR);
+		void       drawPolyline   (const std::string& drawing, const std::vector<mvVec2>& points, const mvColor& color, bool closed = false, float thickness = 1.0f);
+		void       drawPolygon    (const std::string& drawing, const std::vector<mvVec2>& points, const mvColor& color, const mvColor& fill = MV_DEFAULT_COLOR, float thickness = 1.0f);
+		void       drawBezierCurve(const std::string& drawing, const mvVec2& p1, const mvVec2& p2, const mvVec2& p3, const mvVec2& p4, const mvColor& color, float thickness = 1.0f, int segments = 0);
 
 		//-----------------------------------------------------------------------------
 		// Misc Items
