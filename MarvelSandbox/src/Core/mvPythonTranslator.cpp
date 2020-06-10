@@ -86,4 +86,22 @@ namespace Marvel {
 		return items;
 	}
 
+	std::vector<mvVec2> mvPythonTranslator::getVectVec2L(PyObject* obj)
+	{
+		std::vector<mvVec2> items;
+
+		for (int i = 0; i < PyList_Size(obj); i++)
+		{
+			PyObject* point = PyList_GetItem(obj, i);
+			for (int j = 0; j < PyList_Size(point); j++)
+			{
+				float x = PyFloat_AsDouble(PyList_GetItem(point, 0));
+				float y = PyFloat_AsDouble(PyList_GetItem(point, 1));
+				items.push_back({ x, y });
+			}
+		}
+
+		return items;
+	}
+
 }

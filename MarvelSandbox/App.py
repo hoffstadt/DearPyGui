@@ -5,6 +5,7 @@ from sbPlot import *
 from sbDraw import *
 from sbWidgets import *
 import SandboxTheme
+from math import sin
 
 # create some menus
 addMenuBar("MenuBar")
@@ -26,7 +27,8 @@ endPopup()
 
 
 # various widgets
-addSpacing(10)
+addButton("Plot data")
+addButton("Resize plot")
 addButton("Press me")
 addPopup("Press me", "popup1", mousebutton=1, modal=True)
 addText("Popup text")
@@ -142,6 +144,8 @@ endWindow()
 setItemPopup("radiobutton2", "popup1")
 
 # setting call backs
+setItemCallback("Plot data", "PlotCallback")
+setItemCallback("Resize plot", "ResizePlotCallback")
 setItemCallback("Press me", "ItemCallback")
 setItemCallback("Press me also", "CloseModalCallback")
 setItemCallback("Testing", "ItemCallback")
@@ -172,6 +176,17 @@ setMouseDoubleClickCallback("MouseDoubleClickCallback")
 setKeyDownCallback("KeyDownCallback")
 setKeyPressCallback("KeyPressCallback")
 setKeyReleaseCallback("KeyReleaseClickCallback")
+
+def PlotCallback(sender):
+    data1 = [[0, 0], [1, 1], [2, 1]]
+    data2 = []
+    for i in range(0, 100):
+        data2.append([3.14*i/180, sin(2*3.14*i/180)])
+    addSeries("Plot2", "Simple", "Line", data1, (0, 1, 0, 1))
+    addSeries("Plot2", "Sin", "Line", data2, (1, 0.2, 0, 1))
+
+def ResizePlotCallback(sender):
+    changePlotSize("Plot2", 640, 400)
 
 def CloseModalCallback(sender):
     closePopup()

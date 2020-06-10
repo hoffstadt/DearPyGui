@@ -85,6 +85,7 @@ namespace Marvel {
 		mvVec2                   getVec2(PyObject* obj);
 		mvColor                  getColor(PyObject* obj);
 		std::vector<mvVec2>      getVectVec2(PyObject* obj);
+		std::vector<mvVec2>      getVectVec2L(PyObject* obj);
 
 	private:
 
