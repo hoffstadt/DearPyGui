@@ -57,8 +57,8 @@ namespace Marvel {
 		//     - should only be used in callbacks
 		//-----------------------------------------------------------------------------
 		void        closePopup ();
-		inline void showMetrics(bool show) { m_showMetrics = show; }
-		inline void showAbout  (bool show) { m_showAbout = show; }
+		inline void showMetrics() { m_showMetrics = true; }
+		inline void showAbout  () { m_showAbout = true; }
 
 		//-----------------------------------------------------------------------------
 		// Parent stack operations
@@ -94,16 +94,15 @@ namespace Marvel {
 		//-----------------------------------------------------------------------------
 		// Logging
 		//-----------------------------------------------------------------------------
-		void setLogLevel  (unsigned level) { m_loglevel = level; }
-		void Log          (const std::string& text, const std::string& level = "TRACE");
-		void LogDebug     (const std::string& text);
-		void LogInfo      (const std::string& text);
-		void LogWarning   (const std::string& text);
-		void LogError     (const std::string& text);
-		void ClearLog     ();
-		void turnOnLogger () { m_showLog = true; }
-		void turnOffLogger() { m_showLog = false; }
-		bool showLog      () const { return m_showLog; }
+		void  setLogLevel  (unsigned level) { m_loglevel = level; }
+		void  Log          (const std::string& text, const std::string& level = "TRACE");
+		void  LogDebug     (const std::string& text);
+		void  LogInfo      (const std::string& text);
+		void  LogWarning   (const std::string& text);
+		void  LogError     (const std::string& text);
+		void  ClearLog     ();
+		void  showLogger   () { m_showLog = true; }
+		bool& showLog      () { return m_showLog; }
 
 		//-----------------------------------------------------------------------------
 		// Item Status
@@ -146,6 +145,9 @@ namespace Marvel {
 		mvApp(mvApp&& other) = delete;
 		mvApp operator=(const mvApp& other) = delete;
 		mvApp operator=(mvApp&& other) = delete;
+
+		void showMetricsWindow();
+		void showAboutWindow();
 
 	private:
 

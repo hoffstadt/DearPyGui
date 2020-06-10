@@ -621,16 +621,7 @@ namespace Marvel {
 
 	PyObject* showMetrics(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
-		int show;
-
-		auto pl = mvPythonTranslator(args, kwargs, {
-			mvPythonDataElement(mvPythonDataType::Bool, "show"),
-			});
-
-		if (!pl.parse(__FUNCTION__, &show))
-			return Py_None;
-
-		mvApp::GetApp()->showMetrics(show);
+		mvApp::GetApp()->showMetrics();
 
 		Py_INCREF(Py_None);
 
@@ -639,16 +630,7 @@ namespace Marvel {
 
 	PyObject* showAbout(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
-		int show;
-
-		auto pl = mvPythonTranslator(args, kwargs, {
-			mvPythonDataElement(mvPythonDataType::Bool, "show"),
-			});
-
-		if (!pl.parse(__FUNCTION__, &show))
-			return Py_None;
-
-		mvApp::GetApp()->showAbout(show);
+		mvApp::GetApp()->showAbout();
 
 		Py_INCREF(Py_None);
 

@@ -17,12 +17,11 @@ addMenuItem("callback 2")
 addMenuItem("callback 3")
 endMenu()
 endMenu()
-addMenu("Edit")
+addMenu("Tools")
+addMenuItem("Show About")
+addMenuItem("Show Metrics")
 endMenu()
 endMenuBar()
-
-showMetrics(True)
-showAbout(True)
 
 addPopup("", "popup7", mousebutton=1)
 addText("Popup text Window")
@@ -163,6 +162,8 @@ setItemCallback("Logger", "LoggerCallback")
 setItemCallback("OtherWindow", "SubWindowCallback")
 setItemCallback("listbox1", "ItemCallback")
 setItemCallback("combo1", "ItemCallback")
+setItemCallback("Show Metrics", "ShowMetricsCallback")
+setItemCallback("Show About", "ShowAboutCallback")
 
 # setting a tip
 setItemTip("Button1", "A different tip")
@@ -179,6 +180,11 @@ setMouseDoubleClickCallback("MouseDoubleClickCallback")
 setKeyDownCallback("KeyDownCallback")
 setKeyPressCallback("KeyPressCallback")
 setKeyReleaseCallback("KeyReleaseClickCallback")
+
+def ShowMetricsCallback(sender):
+    showMetrics()
+def ShowAboutCallback(sender):
+    showAbout()
 
 def PlotCallback(sender):
     data1 = [[0, 0], [1, 1], [2, 1]]
@@ -229,9 +235,9 @@ def LoggerCallback(sender):
 
     value = getValue("Logger")
     if value == 0:
-        TurnOffLogger()
+        pass
     else:
-        TurnOnLogger()
+        ShowLogger()
 
 def DarkTheme(sender):
     setTheme("dark")

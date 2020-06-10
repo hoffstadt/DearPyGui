@@ -135,9 +135,14 @@ namespace Marvel {
 		}
 	}
 
-	static void showMetricsWindow()
+	void mvApp::showMetricsWindow()
 	{
-		ImGui::Begin("MarvelSandbox Metrics", 0, ImGuiWindowFlags_NoSavedSettings);
+		if (!ImGui::Begin("MarvelSandbox Metrics", &m_showMetrics, ImGuiWindowFlags_NoSavedSettings))
+		{
+			ImGui::End();
+			return;
+		}
+
 		ImGuiIO& io = ImGui::GetIO();
 		ImGui::Text("MarvelSandbox %s", mvApp::getVersion());
 		ImGui::Text("Dear ImGui %s", ImGui::GetVersion());
@@ -148,9 +153,14 @@ namespace Marvel {
 		ImGui::End();
 	}
 
-	static void showAboutWindow()
+	void mvApp::showAboutWindow()
 	{
-		ImGui::Begin("About MarvelSandbox", 0, ImGuiWindowFlags_AlwaysAutoResize);
+		if (!ImGui::Begin("About MarvelSandbox", &m_showAbout, ImGuiWindowFlags_AlwaysAutoResize))
+		{
+			ImGui::End();
+			return;
+		}
+
 		ImGui::Text("MarvelSandbox %s", mvApp::getVersion());
 		ImGui::Text("Dear ImGui %s", ImGui::GetVersion());
 		ImGui::Separator();
@@ -249,17 +259,17 @@ namespace Marvel {
 			
 		ImGui::SetNextWindowPos(ImVec2(0.0f, 0.0f));
 		ImGui::SetNextWindowSize(ImVec2(m_width, m_height));
-		ImGui::Begin("Blah", (bool*)0, m_windowflags);
+		ImGui::Begin("Main Window", (bool*)0, m_windowflags);
 
 		m_parents.push(nullptr);
 
 		// main callback
 		triggerCallback(m_callback, "Main Application");
 
-		if (m_showMetrics)
+		// standard windows
+		if(m_showMetrics)
 			showMetricsWindow();
-
-		if (m_showAbout)
+		if(m_showAbout)
 			showAboutWindow();
 
 		for (mvAppItem* item : m_items)
