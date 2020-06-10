@@ -4,20 +4,10 @@
 
 namespace Marvel {
 
-	PyObject* TurnOffLogger(PyObject* self, PyObject* args)
+	PyObject* ShowLogger(PyObject* self, PyObject* args)
 	{
 
-		mvApp::GetApp()->turnOffLogger();
-
-		Py_INCREF(Py_None);
-
-		return Py_None;
-	}
-
-	PyObject* TurnOnLogger(PyObject* self, PyObject* args)
-	{
-
-		mvApp::GetApp()->turnOnLogger();
+		mvApp::GetApp()->showLogger();
 
 		Py_INCREF(Py_None);
 
@@ -147,8 +137,7 @@ namespace Marvel {
 
 	void CreateLoggerInterface(mvPythonModule& pyModule, PyObject* (*initfunc)())
 	{
-		pyModule.addMethod(TurnOffLogger, "Not Documented");
-		pyModule.addMethod(TurnOnLogger, "Not Documented");
+		pyModule.addMethod(ShowLogger, "Not Documented");
 		pyModule.addMethod(SetLogLevel, "Not Documented");
 		pyModule.addMethod(Log, "Not Documented");
 		pyModule.addMethod(LogDebug, "Not Documented");
