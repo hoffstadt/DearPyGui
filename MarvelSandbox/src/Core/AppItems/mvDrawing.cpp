@@ -71,7 +71,6 @@ namespace Marvel {
 		for (auto& point : points)
 			point = point + start;
 
-
 		draw_list->AddPolyline((const ImVec2*)const_cast<const mvVec2*>(points.data()), m_points.size(), m_color, m_closed, m_thickness);
 	}
 

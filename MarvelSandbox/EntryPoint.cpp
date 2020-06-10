@@ -1,6 +1,4 @@
-﻿#define MV_SANDBOX_VERSION "0.0.1"
-
-#include "Core/mvPythonModule.h"
+﻿#include "Core/mvPythonModule.h"
 #include "Core/PythonInterfaces/mvStdOutput.h"
 #include "Core/mvWindow.h"
 #include "Platform/Windows/mvWindowsWindow.h"
@@ -99,7 +97,7 @@ int main(int argc, char* argv[])
 		module_name = argv[2];
 	
 	// info
-	AppLog::getLogger()->AddLog("[Sandbox Version] %0s\n", MV_SANDBOX_VERSION);
+	AppLog::getLogger()->AddLog("[Sandbox Version] %0s\n", mvApp::getVersion());
 	AppLog::getLogger()->AddLog("[Python Version] %0s\n", PY_VERSION);
 	AppLog::getLogger()->AddLog("[ImGui Version] %0s\n", IMGUI_VERSION);
 	AppLog::getLogger()->AddLog("[Compiler] %0s\n", Py_GetCompiler());
