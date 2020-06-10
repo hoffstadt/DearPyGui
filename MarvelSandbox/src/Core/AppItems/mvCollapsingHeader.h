@@ -23,6 +23,10 @@ namespace Marvel {
 				// set current menu value true
 				m_value = true;
 				showAll();
+
+				// Context Menu
+				if (getPopup() != "")
+					ImGui::OpenPopup(getPopup().c_str());
 			}
 			else
 				m_value = false;

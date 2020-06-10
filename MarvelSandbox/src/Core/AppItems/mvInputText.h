@@ -27,19 +27,37 @@ namespace Marvel {
 				if(m_multiline)
 				{
 					if (ImGui::InputTextMultiline(m_label.c_str(), &m_value))
+					{
 						mvApp::GetApp()->triggerCallback(m_callback, m_name);
+
+						// Context Menu
+						if (getPopup() != "")
+							ImGui::OpenPopup(getPopup().c_str());
+					}
 				}
 				else
 				{
 					if (ImGui::InputText(m_label.c_str(), &m_value))
+					{
 						mvApp::GetApp()->triggerCallback(m_callback, m_name);
+
+						// Context Menu
+						if (getPopup() != "")
+							ImGui::OpenPopup(getPopup().c_str());
+					}
 				}
 			}
 
 			else
 			{
 				if (ImGui::InputTextWithHint(m_label.c_str(), m_hint.c_str(), &m_value))
+				{
 					mvApp::GetApp()->triggerCallback(m_callback, m_name);
+
+					// Context Menu
+					if (getPopup() != "")
+						ImGui::OpenPopup(getPopup().c_str());
+				}
 			}
 		}
 

@@ -19,9 +19,18 @@ addMenu("Edit")
 endMenu()
 endMenuBar()
 
+addPopup("", "popup7", mousebutton=1)
+addText("Popup text Window")
+endPopup()
+
+
 # various widgets
 addSpacing(10)
 addButton("Press me")
+addPopup("Press me", "popup1", mousebutton=1, modal=True)
+addText("Popup text")
+addButton("Press me also")
+endPopup()
 addCombo("combo1", ("A", "B", "C"))
 addInputText("Testing", hint="a hint")
 addInputText( "TestingMul", multiline=True)
@@ -106,8 +115,12 @@ addInputText("winTesting", hint="a hint")
 addInputText("winTestingMul", multiline=True)
 endWindow()
 
+# setting popups
+setItemPopup("radiobutton2", "popup1")
+
 # setting call backs
 setItemCallback("Press me", "ItemCallback")
+setItemCallback("Press me also", "CloseModalCallback")
 setItemCallback("Testing", "ItemCallback")
 setItemCallback("Tab1", "ItemCallback")
 setItemCallback("callback 1", "ItemCallback")
@@ -136,6 +149,9 @@ setMouseDoubleClickCallback("MouseDoubleClickCallback")
 setKeyDownCallback("KeyDownCallback")
 setKeyPressCallback("KeyPressCallback")
 setKeyReleaseCallback("KeyReleaseClickCallback")
+
+def CloseModalCallback(sender):
+    closePopup()
 
 def ItemCallback(sender):
     print("Called by ", sender)
@@ -188,7 +204,7 @@ def ClassicTheme(sender):
 def MainCallback(sender):
     if isMouseButtonPressed(1):
         print("pressed")
-    if isKeyPressed(0x25):
+    if isKeyPressed(0x25): # left arrow key
         print("key pressed")
 
 def MouseDownCallback(sender, data):
@@ -207,6 +223,8 @@ def KeyPressCallback(sender):
     LogDebug("KeyPressCallback: " + sender)
     if isItemHovered("Press me"):
         LogError("button hovered")
+    if isKeyPressed(0x25): # left arrow key
+        print("key pressed")
 
 def KeyReleaseClickCallback(sender):
     LogDebug("KeyReleaseCallback: " + sender)

@@ -113,7 +113,13 @@ namespace Marvel {
 
 				// run call back if it exists
 				if (changed)
+				{
 					mvApp::GetApp()->triggerCallback(m_callback, m_name);
+
+					// Context Menu
+					if (getPopup() != "")
+						ImGui::OpenPopup(getPopup().c_str());
+				}
 
 			}
 		}

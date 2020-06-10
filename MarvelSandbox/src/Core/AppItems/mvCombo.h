@@ -32,6 +32,11 @@ namespace Marvel {
 					if (is_selected)
 						ImGui::SetItemDefaultFocus();   // Set the initial focus when opening the combo (scrolling + for keyboard navigation support in the upcoming navigation branch)
 				}
+
+				// Context Menu
+				if (getPopup() != "")
+					ImGui::OpenPopup(getPopup().c_str());
+
 				ImGui::EndCombo();
 			}
 		}

@@ -19,7 +19,13 @@ namespace Marvel {
 		{
 
 			if (ImGui::ColorEdit4(m_label.c_str(), m_value))
+			{
 				mvApp::GetApp()->triggerCallback(m_callback, m_name);
+
+				// Context Menu
+				if (getPopup() != "")
+					ImGui::OpenPopup(getPopup().c_str());
+			}
 		}
 
 	};

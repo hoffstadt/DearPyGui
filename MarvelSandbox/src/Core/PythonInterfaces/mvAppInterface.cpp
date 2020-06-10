@@ -702,6 +702,25 @@ namespace Marvel {
 		return Py_None;
 	}
 
+	PyObject* setItemPopup(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		const char* popup, * item;
+
+		auto pl = mvPythonTranslator(args, kwargs, {
+			mvPythonDataElement(mvPythonDataType::String, "item"),
+			mvPythonDataElement(mvPythonDataType::String, "popup")
+			});
+
+		if (!pl.parse(__FUNCTION__, &item, &popup))
+			return Py_None;
+
+		mvApp::GetApp()->setItemPopup(std::string(item), std::string(popup));
+
+		Py_INCREF(Py_None);
+
+		return Py_None;
+	}
+
 	PyObject* setItemTip(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		const char* tip, * item;
@@ -1143,6 +1162,43 @@ namespace Marvel {
 		return Py_None;
 	}
 
+	PyObject* addPopup(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		const char* parent, * name;
+		int mousebutton = 1;
+		int modal = false;
+
+		auto pl = mvPythonTranslator(args, kwargs, {
+			mvPythonDataElement(mvPythonDataType::String, "parent"),
+			mvPythonDataElement(mvPythonDataType::String, "name"),
+			mvPythonDataElement(mvPythonDataType::Optional, ""),
+			mvPythonDataElement(mvPythonDataType::Integer, "mousebutton"),
+			mvPythonDataElement(mvPythonDataType::Integer, "modal")
+			});
+
+		pl.parse(__FUNCTION__, &parent, &name, &mousebutton, &modal);
+
+		mvApp::GetApp()->addPopup(std::string(parent), std::string(name), mousebutton, modal);
+
+		Py_INCREF(Py_None);
+
+		return Py_None;
+	}
+
+	PyObject* endPopup(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		mvApp::GetApp()->endPopup();
+		Py_INCREF(Py_None);
+		return Py_None;
+	}
+
+	PyObject* closePopup(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		mvApp::GetApp()->closePopup();
+		Py_INCREF(Py_None);
+		return Py_None;
+	}
+
 	PyObject* addCollapsingHeader(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		const char* name;
@@ -1238,6 +1294,10 @@ namespace Marvel {
 
 	void CreatePythonInterface(mvPythonModule& pyModule, PyObject* (*initfunc)())
 	{
+		pyModule.addMethod(setItemPopup, "Not Documented");
+		pyModule.addMethod(closePopup, "Not Documented");
+		pyModule.addMethod(addPopup, "Not Documented");
+		pyModule.addMethod(endPopup, "Not Documented");
 		pyModule.addMethod(addWindow, "Not Documented");
 		pyModule.addMethod(endWindow, "Not Documented");
 		pyModule.addMethod(isItemHovered, "Not Documented");

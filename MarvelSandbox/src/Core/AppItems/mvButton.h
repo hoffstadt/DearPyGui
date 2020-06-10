@@ -18,7 +18,13 @@ namespace Marvel {
 		virtual void draw() override
 		{
 			if (ImGui::Button(m_label.c_str()))
+			{
 				mvApp::GetApp()->triggerCallback(m_callback, m_name);
+
+				// Context Menu
+				if (getPopup() != "")
+					ImGui::OpenPopup(getPopup().c_str());
+			}
 		}
 
 	};

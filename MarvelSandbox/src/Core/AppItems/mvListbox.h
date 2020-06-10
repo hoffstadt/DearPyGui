@@ -23,7 +23,13 @@ namespace Marvel {
 				names.emplace_back(name.c_str());
 
 			if (ImGui::ListBox(m_label.c_str(), &m_value[0], names.data(), m_names.size(), m_height))
+			{
 				mvApp::GetApp()->triggerCallback(m_callback, m_name);
+
+				// Context Menu
+				if (getPopup() != "")
+					ImGui::OpenPopup(getPopup().c_str());
+			}
 		}
 
 	private:

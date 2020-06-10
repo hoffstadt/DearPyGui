@@ -22,11 +22,17 @@ namespace Marvel {
 			for (int i = 0; i < m_itemnames.size(); i++)
 			{
 				if (ImGui::RadioButton(m_itemnames[i].c_str(), &m_value[0], i))
+				{
 					mvApp::GetApp()->triggerCallback(m_callback, m_name);
+
+					// Context Menu
+					if (getPopup() != "")
+						ImGui::OpenPopup(getPopup().c_str());
+				}
 			}
 
-			if (m_tip != "" && ImGui::IsItemHovered())
-				ImGui::SetTooltip(m_tip.c_str());
+			//if (m_tip != "" && ImGui::IsItemHovered())
+			//	ImGui::SetTooltip(m_tip.c_str());
 		}
 
 	private:
