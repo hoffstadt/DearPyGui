@@ -55,6 +55,13 @@ namespace Marvel {
 	//-----------------------------------------------------------------------------
 	// mvPythonTranslator
 	//-----------------------------------------------------------------------------
+#define MV_STANDARD_CALLBACK_INIT() const char* callback = "", *tip="", *popup=""; int width=0;
+#define MV_STANDARD_CALLBACK_PARSE &callback, &tip, &popup, &width
+#define MV_STANDARD_CALLBACK_EVAL() mvApp::GetApp()->setItemCallback(name, callback);\
+mvApp::GetApp()->setItemTip(name, tip);\
+mvApp::GetApp()->setItemWidth(name, width);\
+mvApp::GetApp()->setItemPopup(name, popup);
+
 	class mvPythonTranslator
 	{
 
@@ -62,9 +69,19 @@ namespace Marvel {
 
 		mvPythonTranslator() = default;
 
-		mvPythonTranslator(PyObject* args, PyObject* kwargs, const std::initializer_list<mvPythonDataElement>& elements)
+		mvPythonTranslator(PyObject* args, PyObject* kwargs, const std::initializer_list<mvPythonDataElement>& elements, bool standardKeywords = false)
 			: m_args(args), m_kwargs(kwargs), m_elements(elements)
 		{
+
+			if (standardKeywords)
+			{
+				m_elements.push_back(mvPythonDataElement(mvPythonDataType::Optional, ""));
+				m_elements.push_back(mvPythonDataElement(mvPythonDataType::String, "callback", true));
+				m_elements.push_back(mvPythonDataElement(mvPythonDataType::String, "tip"));
+				m_elements.push_back(mvPythonDataElement(mvPythonDataType::String, "popup"));
+				m_elements.push_back(mvPythonDataElement(mvPythonDataType::Integer, "width"));
+			}
+
 			for (const auto& element : m_elements)
 			{
 				if(element.type != mvPythonDataType::Optional)
@@ -72,8 +89,17 @@ namespace Marvel {
 
 				if (element.keywordOnly)
 					m_formatstring.push_back('$');
+
+				// ignore addiotional optionals
+				if (m_optional && element.type == mvPythonDataType::Optional)
+					continue;
+				else if (element.type == mvPythonDataType::Optional)
+					m_optional = true;
+
 				m_formatstring.push_back(element.getSymbol());
 			}
+
+
 			m_formatstring.push_back(0);
 			m_keywords.push_back(NULL);
 		}
@@ -94,6 +120,7 @@ namespace Marvel {
 		std::vector<const char*>         m_keywords;
 		PyObject*                        m_args;
 		PyObject*                        m_kwargs;
+		bool                             m_optional = false; // check if optional has been found already
 
 
 	};
