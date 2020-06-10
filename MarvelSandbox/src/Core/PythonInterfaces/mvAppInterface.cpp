@@ -529,7 +529,7 @@ namespace Marvel {
 		if(!pl.parse(__FUNCTION__, &item, &callback))
 			return Py_None;
 
-		mvApp::GetApp()->setItemCallback(std::string(item), std::string(callback));
+		mvApp::GetApp()->setItemCallback(item, callback);
 
 		Py_INCREF(Py_None);
 
