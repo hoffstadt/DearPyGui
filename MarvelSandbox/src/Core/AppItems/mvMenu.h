@@ -84,6 +84,10 @@ namespace Marvel {
 				// set current menu value true
 				m_value = true;
 
+				// Context Menu
+				if (getPopup() != "")
+					ImGui::OpenPopup(getPopup().c_str());
+
 			}
 		}
 
@@ -144,6 +148,10 @@ namespace Marvel {
 
 
 				mvApp::GetApp()->triggerCallback(m_callback, m_name);
+
+				// Context Menu
+				if (getPopup() != "")
+					ImGui::OpenPopup(getPopup().c_str());
 
 			}
 		}

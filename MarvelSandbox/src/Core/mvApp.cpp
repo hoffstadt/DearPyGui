@@ -25,6 +25,7 @@
 #include "AppItems/mvIndent.h"
 #include "AppItems/mvDrawing.h"
 #include "AppItems/mvWindowAppItem.h"
+#include "AppItems/mvPopup.h"
 
 namespace Marvel {
 
@@ -148,6 +149,10 @@ namespace Marvel {
 
 			item->draw();
 
+			// Context Menu
+			if (item->getPopup() != "")
+				ImGui::OpenPopupOnItemClick(item->getPopup().c_str(), getPopupButton(item->getPopup()));
+
 			// Regular Tooltip (simple)
 			if (item->getTip() != "" && ImGui::IsItemHovered())
 				ImGui::SetTooltip(item->getTip().c_str());
@@ -204,6 +209,10 @@ namespace Marvel {
 				return static_cast<mvTooltip*>(item->getParent())->getValue();
 				break;
 
+			case mvAppItemType::Popup:
+				return static_cast<mvPopup*>(item->getParent())->getValue();
+				break;
+
 			case mvAppItemType::CollapsingHeader:
 			{
 				if (!static_cast<mvCollapsingHeader*>(item->getParent())->getValue())
@@ -251,6 +260,13 @@ namespace Marvel {
 			item->setCallback(callback);
 	}
 
+	void mvApp::setItemPopup(const std::string& name, const std::string& popup)
+	{
+		auto item = getItem(name);
+		if (item)
+			item->setPopup(popup);
+	}
+
 	void mvApp::setItemTip(const std::string& name, const std::string& tip)
 	{
 		auto item = getItem(name);
@@ -274,6 +290,13 @@ namespace Marvel {
 		}
 
 		return nullptr;
+	}
+
+	int mvApp::getPopupButton(const std::string& name)
+	{
+		if (mvAppItem* item = getItem(name))
+			return static_cast<mvPopup*>(item)->getButton();
+		return -1;
 	}
 
 	bool mvApp::isItemHovered(const std::string& item)
@@ -832,6 +855,32 @@ namespace Marvel {
 		m_items.push_back(item);
 		popParent();
 		return item;
+	}
+
+	mvAppItem* mvApp::addPopup(const std::string& parent, const std::string& name, int mousebutton, bool modal)
+	{
+
+		mvAppItem* item = new mvPopup(parent, name, mousebutton, modal);
+		m_items.push_back(item);
+		pushParent(item);
+		return item;
+	}
+
+	mvAppItem* mvApp::endPopup()
+	{
+		std::string parent = "";
+		if (mvAppItem* parentitem = topParent())
+			parent = parentitem->getName();
+
+		mvAppItem* item = new mvEndPopup(parent);
+		m_items.push_back(item);
+		popParent();
+		return item;
+	}
+
+	void mvApp::closePopup()
+	{
+		ImGui::CloseCurrentPopup();
 	}
 
 	mvAppItem* mvApp::addSeperator()

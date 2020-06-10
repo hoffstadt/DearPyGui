@@ -26,8 +26,8 @@ namespace Marvel {
 			mvApp::GetApp()->pushParent(this);
 			ImGui::BeginGroup();
 
-			if (m_tip != "" && ImGui::IsItemHovered())
-				ImGui::SetTooltip(m_tip.c_str());
+			//if (m_tip != "" && ImGui::IsItemHovered())
+			//	ImGui::SetTooltip(m_tip.c_str());
 		}
 
 	};

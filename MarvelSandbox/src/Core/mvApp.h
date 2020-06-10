@@ -105,6 +105,9 @@ namespace Marvel {
 		mvAppItem* addSameLine        (float offsetx = 0.0f, float spacing = -1.0f);
 		mvAppItem* addTooltip         (const std::string& parent, const std::string& name);
 		mvAppItem* endTooltip         ();
+		mvAppItem* addPopup           (const std::string& parent, const std::string& name, int mousebutton = 1, bool modal = false);
+		mvAppItem* endPopup           ();
+		void       closePopup         ();
 		mvAppItem* addSeperator       ();
 		mvAppItem* indent             (float offset = 0.0f);
 		mvAppItem* unindent           (float offset = 0.0f);
@@ -112,6 +115,7 @@ namespace Marvel {
 		//-----------------------------------------------------------------------------
 		// Item modifications
 		//-----------------------------------------------------------------------------
+		void setItemPopup   (const std::string& name, const std::string& popup);
 		void setItemCallback(const std::string& name, const std::string& callback);
 		void setItemWidth   (const std::string& name, int width);
 		void setItemTip     (const std::string& name, const std::string& tip);
@@ -188,6 +192,7 @@ namespace Marvel {
 		// Utilities
 		//-----------------------------------------------------------------------------
 		mvAppItem* getItem(const std::string& name);
+		int        getPopupButton(const std::string& name);
 		void       setModuleDict  (PyObject* dict) { m_pDict = dict; }
 		void       setSize(unsigned width, unsigned height) { m_width = width; m_height = height; }
 		bool       isOk() const { return m_ok; }
