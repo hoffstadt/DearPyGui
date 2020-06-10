@@ -619,8 +619,46 @@ namespace Marvel {
 		return Py_None;
 	}
 
+	PyObject* showMetrics(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		int show;
+
+		auto pl = mvPythonTranslator(args, kwargs, {
+			mvPythonDataElement(mvPythonDataType::Bool, "show"),
+			});
+
+		if (!pl.parse(__FUNCTION__, &show))
+			return Py_None;
+
+		mvApp::GetApp()->showMetrics(show);
+
+		Py_INCREF(Py_None);
+
+		return Py_None;
+	}
+
+	PyObject* showAbout(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		int show;
+
+		auto pl = mvPythonTranslator(args, kwargs, {
+			mvPythonDataElement(mvPythonDataType::Bool, "show"),
+			});
+
+		if (!pl.parse(__FUNCTION__, &show))
+			return Py_None;
+
+		mvApp::GetApp()->showAbout(show);
+
+		Py_INCREF(Py_None);
+
+		return Py_None;
+	}
+
 	void CreatePythonInterface(mvPythonModule& pyModule, PyObject* (*initfunc)())
 	{
+		pyModule.addMethod(showAbout, "Not Documented");
+		pyModule.addMethod(showMetrics, "Not Documented");
 		pyModule.addMethod(setItemPopup, "Not Documented");
 		pyModule.addMethod(closePopup, "Not Documented");
 		pyModule.addMethod(isItemHovered, "Not Documented");

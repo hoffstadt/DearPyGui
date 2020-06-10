@@ -1,5 +1,7 @@
 #pragma once
 
+#define MV_SANDBOX_VERSION "0.0.1"
+
 #include <vector>
 #include <map>
 #include <stack>
@@ -17,6 +19,7 @@ namespace Marvel {
 	public:
 
 		static mvApp* GetApp();
+		static const char* getVersion() { return MV_SANDBOX_VERSION; }
 
 		// actual render loop
 		void render();
@@ -53,7 +56,9 @@ namespace Marvel {
 		// Direct DearImGui Calls
 		//     - should only be used in callbacks
 		//-----------------------------------------------------------------------------
-		void closePopup();
+		void        closePopup ();
+		inline void showMetrics(bool show) { m_showMetrics = show; }
+		inline void showAbout  (bool show) { m_showAbout = show; }
 
 		//-----------------------------------------------------------------------------
 		// Parent stack operations
@@ -128,10 +133,10 @@ namespace Marvel {
 		//-----------------------------------------------------------------------------
 		// Internal Utilities
 		//-----------------------------------------------------------------------------
-		void       setModuleDict (PyObject* dict) { m_pDict = dict; }
-		void       setSize       (unsigned width, unsigned height) { m_width = width; m_height = height; }
-		bool       isOk          () const { return m_ok; }
-		void       setOk         (bool ok) { m_ok = ok; }
+		void setModuleDict (PyObject* dict) { m_pDict = dict; }
+		void setSize       (unsigned width, unsigned height) { m_width = width; m_height = height; }
+		bool isOk          () const { return m_ok; }
+		void setOk         (bool ok) { m_ok = ok; }
 				
 	private:
 
@@ -155,6 +160,8 @@ namespace Marvel {
 		std::string             m_callback;
 		bool                    m_ok = true;
 		bool                    m_showLog = true;
+		bool                    m_showMetrics = false;
+		bool                    m_showAbout = false;
 		mvTheme                 m_theme;
 		unsigned                m_loglevel = 0;
 		ImGuiWindowFlags        m_windowflags = 0;

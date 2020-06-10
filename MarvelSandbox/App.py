@@ -21,6 +21,9 @@ addMenu("Edit")
 endMenu()
 endMenuBar()
 
+showMetrics(True)
+showAbout(True)
+
 addPopup("", "popup7", mousebutton=1)
 addText("Popup text Window")
 endPopup()
