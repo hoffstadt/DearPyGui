@@ -239,7 +239,9 @@ namespace Marvel {
 
 	mvAppItem* mvApp::topParent()
 	{
-		return m_parents.top();
+		if(m_parents.size() != 0)
+			return m_parents.top();
+		return nullptr;
 	}
 
 	void mvApp::setItemCallback(const std::string& name, const std::string& callback)
@@ -470,64 +472,100 @@ namespace Marvel {
 	// Basic AppItems
 	//-----------------------------------------------------------------------------
 
-	mvAppItem* mvApp::addInputText(const std::string& parent, const std::string& name, const std::string& hint, bool multiline)
+	mvAppItem* mvApp::addInputText(const std::string& name, const std::string& hint, bool multiline)
 	{
+		std::string parent = "";
+		if (mvAppItem* parentitem = topParent())
+			parent = parentitem->getName();
+
 		mvAppItem* item = new mvInputText(parent, name, hint, multiline);
 		m_items.push_back(item);
 		return item;
 	}
 
-	mvAppItem* mvApp::addInputInt(const std::string& parent, const std::string& name, int default_value)
+	mvAppItem* mvApp::addInputInt(const std::string& name, int default_value)
 	{
+		std::string parent = "";
+		if (mvAppItem* parentitem = topParent())
+			parent = parentitem->getName();
+
 		mvAppItem* item = new mvInputInt(parent, name, default_value);
 		m_items.push_back(item);
 		return item;
 	}
 
-	mvAppItem* mvApp::addInputFloat(const std::string& parent, const std::string& name, float default_value)
+	mvAppItem* mvApp::addInputFloat(const std::string& name, float default_value)
 	{
+		std::string parent = "";
+		if (mvAppItem* parentitem = topParent())
+			parent = parentitem->getName();
+
 		mvAppItem* item = new mvInputFloat(parent, name, default_value);
 		m_items.push_back(item);
 		return item;
 	}
 
-	mvAppItem* mvApp::addButton(const std::string& parent, const std::string& name)
+	mvAppItem* mvApp::addButton(const std::string& name)
 	{
+		std::string parent = "";
+		if (mvAppItem* parentitem = topParent())
+			parent = parentitem->getName();
+
 		mvAppItem* item = new mvButton(parent, name);
 		m_items.push_back(item);
 		return item;
 	}
 
-	mvAppItem* mvApp::addColorEdit4(const std::string& parent, const std::string& name, mvColor color)
+	mvAppItem* mvApp::addColorEdit4(const std::string& name, mvColor color)
 	{
+		std::string parent = "";
+		if (mvAppItem* parentitem = topParent())
+			parent = parentitem->getName();
+
 		mvAppItem* item = new mvColorEdit4(parent, name, color.r, color.g, color.b, color.a);
 		m_items.push_back(item);
 		return item;
 	}
 
-	mvAppItem* mvApp::addRadioButtons(const std::string& parent, const std::string& name, const std::vector<std::string>& itemnames, int default_value)
+	mvAppItem* mvApp::addRadioButtons(const std::string& name, const std::vector<std::string>& itemnames, int default_value)
 	{
+		std::string parent = "";
+		if (mvAppItem* parentitem = topParent())
+			parent = parentitem->getName();
+
 		mvAppItem* item = new mvRadioButton(parent, name, itemnames, default_value);
 		m_items.push_back(item);
 		return item;
 	}
 
-	mvAppItem* mvApp::addCheckbox(const std::string& parent, const std::string& name, bool default_value)
+	mvAppItem* mvApp::addCheckbox(const std::string& name, bool default_value)
 	{
+		std::string parent = "";
+		if (mvAppItem* parentitem = topParent())
+			parent = parentitem->getName();
+
 		mvAppItem* item = new mvCheckbox(parent, name, default_value);
 		m_items.push_back(item);
 		return item;
 	}
 
-	mvAppItem* mvApp::addListbox(const std::string& parent, const std::string& name, const std::vector<std::string>& itemnames, int default_value, int height)
+	mvAppItem* mvApp::addListbox(const std::string& name, const std::vector<std::string>& itemnames, int default_value, int height)
 	{
+		std::string parent = "";
+		if (mvAppItem* parentitem = topParent())
+			parent = parentitem->getName();
+
 		mvAppItem* item = new mvListbox(parent, name, itemnames, default_value, height);
 		m_items.push_back(item);
 		return item;
 	}
 
-	mvAppItem* mvApp::addCombo(const std::string& parent, const std::string& name, const std::vector<std::string>& itemnames, const std::string& default_value)
+	mvAppItem* mvApp::addCombo(const std::string& name, const std::vector<std::string>& itemnames, const std::string& default_value)
 	{
+		std::string parent = "";
+		if (mvAppItem* parentitem = topParent())
+			parent = parentitem->getName();
+
 		mvAppItem* item = new mvCombo(parent, name, itemnames, default_value);
 		m_items.push_back(item);
 		return item;
@@ -537,31 +575,51 @@ namespace Marvel {
 	// Tabs
 	//-----------------------------------------------------------------------------
 
-	mvAppItem* mvApp::addTabBar(const std::string& parent, const std::string& name)
+	mvAppItem* mvApp::addTabBar(const std::string& name)
 	{
+		std::string parent = "";
+		if (mvAppItem* parentitem = topParent())
+			parent = parentitem->getName();
+
 		mvAppItem* item = new mvTabBar(parent, name);
 		m_items.push_back(item);
+		pushParent(item);
 		return item;
 	}
 
-	mvAppItem* mvApp::addTab(const std::string& parent, const std::string& name)
+	mvAppItem* mvApp::addTab(const std::string& name)
 	{
+		std::string parent = "";
+		if (mvAppItem* parentitem = topParent())
+			parent = parentitem->getName();
+
 		mvAppItem* item = new mvTab(parent, name);
 		m_items.push_back(item);
+		pushParent(item);
 		return item;
 	}
 
-	mvAppItem* mvApp::endTab(const std::string& parent)
+	mvAppItem* mvApp::endTab()
 	{
+		std::string parent = "";
+		if (mvAppItem* parentitem = topParent())
+			parent = parentitem->getName();
+
 		mvAppItem* item = new mvEndTab(parent);
 		m_items.push_back(item);
+		popParent();
 		return item;
 	}
 
-	mvAppItem* mvApp::endTabBar(const std::string& parent)
+	mvAppItem* mvApp::endTabBar()
 	{
+		std::string parent = "";
+		if (mvAppItem* parentitem = topParent())
+			parent = parentitem->getName();
+
 		mvAppItem* item = new mvEndTabBar(parent);
 		m_items.push_back(item);
+		popParent();
 		return item;
 	}
 
@@ -574,34 +632,54 @@ namespace Marvel {
 		m_windowflags |= ImGuiWindowFlags_MenuBar;
 		mvAppItem* item = new mvMenuBar(name);
 		m_items.push_back(item);
+		pushParent(item);
 		return item;
 	}
 
-	mvAppItem* mvApp::addMenu(const std::string& parent, const std::string& name)
+	mvAppItem* mvApp::addMenu(const std::string& name)
 	{
+		std::string parent = "";
+		if (mvAppItem* parentitem = topParent())
+			parent = parentitem->getName();
+
 		mvAppItem* item = new mvMenu(parent, name);
 		m_items.push_back(item);
+		pushParent(item);
 		return item;
 	}
 
-	mvAppItem* mvApp::addMenuItem(const std::string& parent, const std::string& name)
+	mvAppItem* mvApp::addMenuItem(const std::string& name)
 	{
+		std::string parent = "";
+		if (mvAppItem* parentitem = topParent())
+			parent = parentitem->getName();
+
 		mvAppItem* item = new mvMenuItem(parent, name);
 		m_items.push_back(item);
 		return item;
 	}
 
-	mvAppItem* mvApp::endMenu(const std::string& parent)
+	mvAppItem* mvApp::endMenu()
 	{
+		std::string parent = "";
+		if (mvAppItem* parentitem = topParent())
+			parent = parentitem->getName();
+
 		mvAppItem* item = new mvEndMenu(parent);
 		m_items.push_back(item);
+		popParent();
 		return item;
 	}
 
-	mvAppItem* mvApp::endMenuBar(const std::string& parent)
+	mvAppItem* mvApp::endMenuBar()
 	{
+		std::string parent = "";
+		if (mvAppItem* parentitem = topParent())
+			parent = parentitem->getName();
+
 		mvAppItem* item = new mvEndMenuBar(parent);
 		m_items.push_back(item);
+		popParent();
 		return item;
 	}
 
@@ -609,17 +687,27 @@ namespace Marvel {
 	// Groups
 	//-----------------------------------------------------------------------------
 
-	mvAppItem* mvApp::addGroup(const std::string& parent, const std::string& name)
+	mvAppItem* mvApp::addGroup(const std::string& name)
 	{
+		std::string parent = "";
+		if (mvAppItem* parentitem = topParent())
+			parent = parentitem->getName();
+
 		mvAppItem* item = new mvGroup(parent, name);
 		m_items.push_back(item);
+		pushParent(item);
 		return item;
 	}
 
-	mvAppItem* mvApp::endGroup(const std::string& parent)
+	mvAppItem* mvApp::endGroup()
 	{
+		std::string parent = "";
+		if (mvAppItem* parentitem = topParent())
+			parent = parentitem->getName();
+
 		mvAppItem* item = new mvEndGroup(parent);
 		m_items.push_back(item);
+		popParent();
 		return item;
 	}
 
@@ -627,24 +715,51 @@ namespace Marvel {
 	// Child Window
 	//-----------------------------------------------------------------------------
 
-	mvAppItem* mvApp::addChild(const std::string& parent, const std::string& name, int width, int height)
+	mvAppItem* mvApp::addChild(const std::string& name, int width, int height)
 	{
+		std::string parent = "";
+		if (mvAppItem* parentitem = topParent())
+			parent = parentitem->getName();
+
 		mvAppItem* item = new mvChild(parent, name, width, height);
 		m_items.push_back(item);
+		pushParent(item);
 		return item;
 	}
 
-	mvAppItem* mvApp::endChild(const std::string& parent)
+	mvAppItem* mvApp::endChild()
 	{
+		std::string parent = "";
+		if (mvAppItem* parentitem = topParent())
+			parent = parentitem->getName();
+
 		mvAppItem* item = new mvEndChild(parent);
 		m_items.push_back(item);
+		popParent();
 		return item;
 	}
 
-	mvAppItem* mvApp::addWindow(const std::string& parent, const std::string& name, int width, int height)
+	mvAppItem* mvApp::addWindow(const std::string& name, int width, int height)
 	{
+		std::string parent = "";
+		if (mvAppItem* parentitem = topParent())
+			parent = parentitem->getName();
+
 		mvAppItem* item = new mvWindowAppitem(parent, name, width, height);
 		m_items.push_back(item);
+		pushParent(item);
+		return item;
+	}
+
+	mvAppItem* mvApp::endWindow()
+	{
+		std::string parent = "";
+		if (mvAppItem* parentitem = topParent())
+			parent = parentitem->getName();
+
+		mvAppItem* item = new mvEndWindowAppitem(parent);
+		m_items.push_back(item);
+		popParent();
 		return item;
 	}
 
@@ -652,22 +767,47 @@ namespace Marvel {
 	// Misc Items
 	//-----------------------------------------------------------------------------
 
-	mvAppItem* mvApp::addCollapsingHeader(const std::string& parent, const std::string& name)
+	mvAppItem* mvApp::addCollapsingHeader(const std::string& name)
 	{
+		std::string parent = "";
+		if (mvAppItem* parentitem = topParent())
+			parent = parentitem->getName();
+
 		mvAppItem* item = new mvCollapsingHeader(parent, name);
 		m_items.push_back(item);
+		pushParent(item);
 		return item;
 	}
 
-	mvAppItem* mvApp::addSpacing(const std::string& parent, int count)
+	mvAppItem* mvApp::endCollapsingHeader()
 	{
+		std::string parent = "";
+		if (mvAppItem* parentitem = topParent())
+			parent = parentitem->getName();
+
+		mvAppItem* item = new mvEndCollapsingHeader(parent);
+		m_items.push_back(item);
+		popParent();
+		return item;
+	}
+
+	mvAppItem* mvApp::addSpacing(int count)
+	{
+		std::string parent = "";
+		if (mvAppItem* parentitem = topParent())
+			parent = parentitem->getName();
+
 		mvAppItem* item = new mvSpacing(parent, count);
 		m_items.push_back(item);
 		return item;
 	}
 
-	mvAppItem* mvApp::addSameLine(const std::string& parent, float offsetx, float spacing)
+	mvAppItem* mvApp::addSameLine(float offsetx, float spacing)
 	{
+		std::string parent = "";
+		if (mvAppItem* parentitem = topParent())
+			parent = parentitem->getName();
+
 		mvAppItem* item = new mvSameLine(parent, offsetx, spacing);
 		m_items.push_back(item);
 		return item;
@@ -675,34 +815,53 @@ namespace Marvel {
 
 	mvAppItem* mvApp::addTooltip(const std::string& parent, const std::string& name)
 	{
+
 		mvAppItem* item = new mvTooltip(parent, name);
 		m_items.push_back(item);
+		pushParent(item);
 		return item;
 	}
 
-	mvAppItem* mvApp::endTooltip(const std::string& parent)
+	mvAppItem* mvApp::endTooltip()
 	{
+		std::string parent = "";
+		if (mvAppItem* parentitem = topParent())
+			parent = parentitem->getName();
+
 		mvAppItem* item = new mvEndTooltip(parent);
 		m_items.push_back(item);
+		popParent();
 		return item;
 	}
 
-	mvAppItem* mvApp::addSeperator(const std::string& parent)
+	mvAppItem* mvApp::addSeperator()
 	{
+		std::string parent = "";
+		if (mvAppItem* parentitem = topParent())
+			parent = parentitem->getName();
+
 		mvAppItem* item = new mvSeparator(parent);
 		m_items.push_back(item);
 		return item;
 	}
 
-	mvAppItem* mvApp::indent(const std::string& parent, float offset)
+	mvAppItem* mvApp::indent(float offset)
 	{
+		std::string parent = "";
+		if (mvAppItem* parentitem = topParent())
+			parent = parentitem->getName();
+
 		mvAppItem* item = new mvIndent(parent, offset);
 		m_items.push_back(item);
 		return item;
 	}
 
-	mvAppItem* mvApp::unindent(const std::string& parent, float offset)
+	mvAppItem* mvApp::unindent(float offset)
 	{
+		std::string parent = "";
+		if (mvAppItem* parentitem = topParent())
+			parent = parentitem->getName();
+
 		mvAppItem* item = new mvUnindent(parent, offset);
 		m_items.push_back(item);
 		return item;
@@ -712,15 +871,23 @@ namespace Marvel {
 	// Text
 	//-----------------------------------------------------------------------------
 
-	mvAppItem* mvApp::addText(const std::string& parent, const std::string& name, int wrap, mvColor color, bool bullet)
+	mvAppItem* mvApp::addText(const std::string& name, int wrap, mvColor color, bool bullet)
 	{
+		std::string parent = "";
+		if (mvAppItem* parentitem = topParent())
+			parent = parentitem->getName();
+
 		mvAppItem* item = new mvText(parent, name, wrap, color, bullet);
 		m_items.push_back(item);
 		return item;
 	}
 
-	mvAppItem* mvApp::addLabelText(const std::string& parent, const std::string& name, const std::string& value, int wrap, mvColor color, bool bullet)
+	mvAppItem* mvApp::addLabelText(const std::string& name, const std::string& value, int wrap, mvColor color, bool bullet)
 	{
+		std::string parent = "";
+		if (mvAppItem* parentitem = topParent())
+			parent = parentitem->getName();
+
 		mvAppItem* item = new mvLabelText(parent, name, value, wrap, color, bullet);
 		m_items.push_back(item);
 		return item;
@@ -765,15 +932,23 @@ namespace Marvel {
 		AppLog::getLogger()->Clear();
 	}
 
-	mvAppItem* mvApp::addSimplePlot(const std::string& parent, const std::string& name, const std::vector<float> value, const std::string& overlay, float scale_min, float scale_max, float height, bool histogram)
+	mvAppItem* mvApp::addSimplePlot(const std::string& name, const std::vector<float> value, const std::string& overlay, float scale_min, float scale_max, float height, bool histogram)
 	{
+		std::string parent = "";
+		if (mvAppItem* parentitem = topParent())
+			parent = parentitem->getName();
+
 		mvAppItem* item = new mvSimplePlot(parent, name, value, overlay, scale_min, scale_max, height, histogram);
 		m_items.push_back(item);
 		return item;
 	}
 
-	mvAppItem* mvApp::addPlot(const std::string& parent, const std::string& name, int width, int height)
+	mvAppItem* mvApp::addPlot(const std::string& name, int width, int height)
 	{
+		std::string parent = "";
+		if (mvAppItem* parentitem = topParent())
+			parent = parentitem->getName();
+
 		mvAppItem* item = new mvPlot(parent, name, width, height);
 		m_items.push_back(item);
 		return item;
@@ -782,8 +957,12 @@ namespace Marvel {
 	//-----------------------------------------------------------------------------
 	// Drawing
 	//-----------------------------------------------------------------------------
-	mvAppItem* mvApp::addDrawing(const std::string& parent, const std::string& name, int width, int height)
+	mvAppItem* mvApp::addDrawing(const std::string& name, int width, int height)
 	{
+		std::string parent = "";
+		if (mvAppItem* parentitem = topParent())
+			parent = parentitem->getName();
+
 		mvAppItem* item = new mvDrawing(parent, name, width, height);
 		m_items.push_back(item);
 		return item;

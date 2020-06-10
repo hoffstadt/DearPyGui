@@ -30,61 +30,63 @@ namespace Marvel {
 		//-----------------------------------------------------------------------------
 		// Basic AppItems
 		//-----------------------------------------------------------------------------
-		mvAppItem* addInputText   (const std::string& parent, const std::string& name, const std::string& hint = "", bool multiline = false);
-		mvAppItem* addInputInt    (const std::string& parent, const std::string& name, int default_value);
-		mvAppItem* addInputFloat  (const std::string& parent, const std::string& name, float default_value);
-		mvAppItem* addCheckbox    (const std::string& parent, const std::string& name, bool default_value);
-		mvAppItem* addRadioButtons(const std::string& parent, const std::string& name, const std::vector<std::string>& itemnames, int default_value);
-		mvAppItem* addListbox     (const std::string& parent, const std::string& name, const std::vector<std::string>& itemnames, int default_value = 0, int height = -1);
-		mvAppItem* addCombo       (const std::string& parent, const std::string& name, const std::vector<std::string>& itemnames, const std::string& default_value = "");
+		mvAppItem* addInputText   (const std::string& name, const std::string& hint = "", bool multiline = false);
+		mvAppItem* addInputInt    (const std::string& name, int default_value);
+		mvAppItem* addInputFloat  (const std::string& name, float default_value);
+		mvAppItem* addCheckbox    (const std::string& name, bool default_value);
+		mvAppItem* addRadioButtons(const std::string& name, const std::vector<std::string>& itemnames, int default_value);
+		mvAppItem* addListbox     (const std::string& name, const std::vector<std::string>& itemnames, int default_value = 0, int height = -1);
+		mvAppItem* addCombo       (const std::string& name, const std::vector<std::string>& itemnames, const std::string& default_value = "");
 
 		//-----------------------------------------------------------------------------
 		// Buttons
 		//-----------------------------------------------------------------------------
-		mvAppItem* addButton(const std::string& parent, const std::string& name);
+		mvAppItem* addButton(const std::string& name);
 
 		//-----------------------------------------------------------------------------
 		// Color Items
 		//-----------------------------------------------------------------------------
-		mvAppItem* addColorEdit4(const std::string& parent, const std::string& name, mvColor color);
+		mvAppItem* addColorEdit4(const std::string& name, mvColor color);
 
 		//-----------------------------------------------------------------------------
 		// Text
 		//-----------------------------------------------------------------------------
-		mvAppItem* addText     (const std::string& parent, const std::string& name, int wrap = 0, mvColor color = MV_DEFAULT_COLOR, bool bullet = false);
-		mvAppItem* addLabelText(const std::string& parent, const std::string& name, const std::string& value, int wrap = 0, mvColor color = MV_DEFAULT_COLOR, bool bullet = false);
+		mvAppItem* addText     (const std::string& name, int wrap = 0, mvColor color = MV_DEFAULT_COLOR, bool bullet = false);
+		mvAppItem* addLabelText(const std::string& name, const std::string& value, int wrap = 0, mvColor color = MV_DEFAULT_COLOR, bool bullet = false);
 
 		//-----------------------------------------------------------------------------
 		// Tabs
 		//-----------------------------------------------------------------------------
-		mvAppItem* addTabBar(const std::string& parent, const std::string& name);
-		mvAppItem* addTab   (const std::string& parent, const std::string& name);
-		mvAppItem* endTab   (const std::string& parent);
-		mvAppItem* endTabBar(const std::string& parent);
+		mvAppItem* addTabBar(const std::string& name);
+		mvAppItem* addTab   (const std::string& name);
+		mvAppItem* endTab   ();
+		mvAppItem* endTabBar();
 
 		//-----------------------------------------------------------------------------
 		// Menus
 		//-----------------------------------------------------------------------------
 		mvAppItem* addMenuBar (const std::string& name);
-		mvAppItem* addMenu    (const std::string& parent, const std::string& name);
-		mvAppItem* addMenuItem(const std::string& parent, const std::string& name);
-		mvAppItem* endMenu    (const std::string& parent);
-		mvAppItem* endMenuBar (const std::string& parent);
+		mvAppItem* addMenu    (const std::string& name);
+		mvAppItem* addMenuItem(const std::string& name);
+		mvAppItem* endMenu    ();
+		mvAppItem* endMenuBar ();
 
 		//-----------------------------------------------------------------------------
 		// Grouping
 		//-----------------------------------------------------------------------------
-		mvAppItem* addGroup           (const std::string& parent, const std::string& name);
-		mvAppItem* endGroup           (const std::string& parent);
-		mvAppItem* addChild           (const std::string& parent, const std::string& name, int width, int height);
-		mvAppItem* endChild           (const std::string& parent);
-		mvAppItem* addCollapsingHeader(const std::string& parent, const std::string& name);
-		mvAppItem* addWindow          (const std::string& parent, const std::string& name, int width, int height);
+		mvAppItem* addGroup           (const std::string& name);
+		mvAppItem* endGroup           ();
+		mvAppItem* addChild           (const std::string& name, int width, int height);
+		mvAppItem* endChild           ();
+		mvAppItem* addCollapsingHeader(const std::string& name);
+		mvAppItem* endCollapsingHeader();
+		mvAppItem* addWindow          (const std::string& name, int width, int height);
+		mvAppItem* endWindow          ();
 
 		//-----------------------------------------------------------------------------
 		// Drawing
 		//-----------------------------------------------------------------------------
-		mvAppItem* addDrawing     (const std::string& parent, const std::string& name, int width, int height);
+		mvAppItem* addDrawing     (const std::string& name, int width, int height);
 		void       clearDrawing   (const std::string& drawing);
 		void       drawLine       (const std::string& drawing, const mvVec2& p1, const mvVec2& p2, const mvColor& color, int thickness = 1);
 		void       drawTriangle   (const std::string& drawing, const mvVec2& p1, const mvVec2& p2, const mvVec2& p3, const mvColor& color, const mvColor& fill = MV_DEFAULT_COLOR, float thickness = 1.0f);
@@ -99,13 +101,13 @@ namespace Marvel {
 		//-----------------------------------------------------------------------------
 		// Misc Items
 		//-----------------------------------------------------------------------------
-		mvAppItem* addSpacing         (const std::string& parent, int count = 1);
-		mvAppItem* addSameLine        (const std::string& parent, float offsetx = 0.0f, float spacing = -1.0f);
+		mvAppItem* addSpacing         (int count = 1);
+		mvAppItem* addSameLine        (float offsetx = 0.0f, float spacing = -1.0f);
 		mvAppItem* addTooltip         (const std::string& parent, const std::string& name);
-		mvAppItem* endTooltip         (const std::string& parent);
-		mvAppItem* addSeperator       (const std::string& parent);
-		mvAppItem* indent             (const std::string& parent, float offset = 0.0f);
-		mvAppItem* unindent           (const std::string& parent, float offset = 0.0f);
+		mvAppItem* endTooltip         ();
+		mvAppItem* addSeperator       ();
+		mvAppItem* indent             (float offset = 0.0f);
+		mvAppItem* unindent           (float offset = 0.0f);
 
 		//-----------------------------------------------------------------------------
 		// Item modifications
@@ -178,9 +180,9 @@ namespace Marvel {
 		//-----------------------------------------------------------------------------
 		// Plotting
 		//-----------------------------------------------------------------------------
-		mvAppItem* addSimplePlot(const std::string& parent, const std::string& name, const std::vector<float> value, 
+		mvAppItem* addSimplePlot(const std::string& name, const std::vector<float> value, 
 			const std::string& overlay, float scale_min, float scale_max, float height, bool histogram);
-		mvAppItem* addPlot(const std::string& parent, const std::string& name, int width, int height);
+		mvAppItem* addPlot(const std::string& name, int width, int height);
 
 		//-----------------------------------------------------------------------------
 		// Utilities

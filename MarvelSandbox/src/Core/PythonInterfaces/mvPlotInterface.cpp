@@ -6,19 +6,18 @@ namespace Marvel {
 
 	PyObject* addPlot(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
-		const char* parent, * name;
+		const char* name;
 		int width, height;
 
 		auto pl = mvPythonTranslator(args, kwargs, {
-			mvPythonDataElement(mvPythonDataType::String, "parent"),
 			mvPythonDataElement(mvPythonDataType::String, "name"),
 			mvPythonDataElement(mvPythonDataType::Integer, "width"),
 			mvPythonDataElement(mvPythonDataType::Integer, "height")
 			});
 
-		pl.parse(__FUNCTION__, &parent, &name, &width, &height);
+		pl.parse(__FUNCTION__, &name, &width, &height);
 
-		mvApp::GetApp()->addPlot(std::string(parent), std::string(name), width, height);
+		mvApp::GetApp()->addPlot(std::string(name), width, height);
 		Py_INCREF(Py_None);
 		return Py_None;
 	}

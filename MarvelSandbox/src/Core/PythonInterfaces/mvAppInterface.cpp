@@ -247,7 +247,7 @@ namespace Marvel {
 
 	PyObject* addSimplePlot(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
-		const char* parent, * name;
+		const char* name;
 		const char* overlay = "";
 		float minscale = 0.0f;
 		float maxscale = 0.0f;
@@ -257,7 +257,6 @@ namespace Marvel {
 		PyObject* value;
 
 		auto pl = mvPythonTranslator(args, kwargs, {
-			mvPythonDataElement(mvPythonDataType::String, "parent"),
 			mvPythonDataElement(mvPythonDataType::String, "name"),
 			mvPythonDataElement(mvPythonDataType::FloatList, "value"),
 			mvPythonDataElement(mvPythonDataType::Optional, ""),
@@ -269,7 +268,7 @@ namespace Marvel {
 			mvPythonDataElement(mvPythonDataType::Bool, "histogram")
 			});
 
-		if(!pl.parse(__FUNCTION__, &parent, &name, &value, &autoscale, &overlay, &minscale, &maxscale, &height, &histogram))
+		if(!pl.parse(__FUNCTION__, &name, &value, &autoscale, &overlay, &minscale, &maxscale, &height, &histogram))
 			return Py_None;
 
 		std::vector<float> values = pl.getFloatVec(value);
@@ -288,7 +287,7 @@ namespace Marvel {
 			}
 		}
 
-		mvApp::GetApp()->addSimplePlot(std::string(parent), std::string(name), values, std::string(overlay),
+		mvApp::GetApp()->addSimplePlot(std::string(name), values, std::string(overlay),
 			minscale, maxscale, height, histogram);
 
 		Py_INCREF(Py_None);
@@ -330,7 +329,7 @@ namespace Marvel {
 
 	PyObject* addText(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
-		const char* parent, * name;
+		const char* name;
 		int wrap = 0, bullet = 0;
 		PyObject* color = PyTuple_New(4);
 		PyTuple_SetItem(color, 0, PyFloat_FromDouble(117.0));
@@ -339,7 +338,6 @@ namespace Marvel {
 		PyTuple_SetItem(color, 3, PyFloat_FromDouble(1.0));
 
 		auto pl = mvPythonTranslator(args, kwargs, {
-			mvPythonDataElement(mvPythonDataType::String, "parent"),
 			mvPythonDataElement(mvPythonDataType::String, "name"),
 			mvPythonDataElement(mvPythonDataType::Optional, ""),
 			mvPythonDataElement(mvPythonDataType::Integer, "wrap"),
@@ -348,7 +346,7 @@ namespace Marvel {
 
 			});
 
-		if(!pl.parse(__FUNCTION__, &parent, &name, &wrap, &color, &bullet))
+		if(!pl.parse(__FUNCTION__, &name, &wrap, &color, &bullet))
 			return Py_None;
 
 		auto ncolor = pl.getFloatVec(color);
@@ -357,7 +355,7 @@ namespace Marvel {
 		if (ncolor[0] > 100.0f)
 			specified = false;
 
-		mvApp::GetApp()->addText(std::string(parent), std::string(name), wrap, { ncolor[0], ncolor[1], ncolor[2], ncolor[3], specified }, bullet);
+		mvApp::GetApp()->addText(std::string(name), wrap, { ncolor[0], ncolor[1], ncolor[2], ncolor[3], specified }, bullet);
 
 		Py_INCREF(Py_None);
 
@@ -366,7 +364,7 @@ namespace Marvel {
 
 	PyObject* addLabelText(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
-		const char* parent, * name, * value;
+		const char* name, * value;
 		int wrap = 0, bullet = 0;
 		PyObject* color = PyTuple_New(4);
 		PyTuple_SetItem(color, 0, PyFloat_FromDouble(117.0));
@@ -375,7 +373,6 @@ namespace Marvel {
 		PyTuple_SetItem(color, 3, PyFloat_FromDouble(1.0));
 
 		auto pl = mvPythonTranslator(args, kwargs, {
-			mvPythonDataElement(mvPythonDataType::String, "parent"),
 			mvPythonDataElement(mvPythonDataType::String, "name"),
 			mvPythonDataElement(mvPythonDataType::String, "value"),
 			mvPythonDataElement(mvPythonDataType::Optional, ""),
@@ -385,7 +382,7 @@ namespace Marvel {
 
 			});
 
-		if(!pl.parse(__FUNCTION__, &parent, &name, &value, &wrap, &color))
+		if(!pl.parse(__FUNCTION__, &name, &value, &wrap, &color))
 			return Py_None;
 
 		auto ncolor = pl.getFloatVec(color);
@@ -394,7 +391,7 @@ namespace Marvel {
 		if (ncolor[0] > 100.0f)
 			specified = false;
 
-		mvApp::GetApp()->addLabelText(std::string(parent), std::string(name), value, wrap, { ncolor[0], ncolor[1], ncolor[2], ncolor[3], specified }, bullet);
+		mvApp::GetApp()->addLabelText(std::string(name), value, wrap, { ncolor[0], ncolor[1], ncolor[2], ncolor[3], specified }, bullet);
 
 		Py_INCREF(Py_None);
 
@@ -404,12 +401,11 @@ namespace Marvel {
 	PyObject* addListbox(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 
-		const char* parent, * name;
+		const char* name;
 		PyObject* items;
 		int default_value = 0, height = -1;
 
 		auto pl = mvPythonTranslator(args, kwargs, {
-			mvPythonDataElement(mvPythonDataType::String, "parent"),
 			mvPythonDataElement(mvPythonDataType::String, "name"),
 			mvPythonDataElement(mvPythonDataType::StringList, "items"),
 			mvPythonDataElement(mvPythonDataType::Optional, ""),
@@ -417,10 +413,10 @@ namespace Marvel {
 			mvPythonDataElement(mvPythonDataType::Integer, "height"),
 			});
 
-		if(!pl.parse(__FUNCTION__, &parent, &name, &items, &default_value, &height))
+		if(!pl.parse(__FUNCTION__, &name, &items, &default_value, &height))
 			return Py_None;
 
-		mvApp::GetApp()->addListbox(std::string(parent), std::string(name), pl.getStringVec(items), default_value, height);
+		mvApp::GetApp()->addListbox(std::string(name), pl.getStringVec(items), default_value, height);
 
 		Py_INCREF(Py_None);
 
@@ -429,21 +425,20 @@ namespace Marvel {
 
 	PyObject* addCombo(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
-		const char* parent, * name, *default_value = "";
+		const char* name, *default_value = "";
 		PyObject* items;
 
 		auto pl = mvPythonTranslator(args, kwargs, {
-			mvPythonDataElement(mvPythonDataType::String, "parent"),
 			mvPythonDataElement(mvPythonDataType::String, "name"),
 			mvPythonDataElement(mvPythonDataType::StringList, "items"),
 			mvPythonDataElement(mvPythonDataType::Optional, ""),
 			mvPythonDataElement(mvPythonDataType::String, "default_value")
 			});
 
-		if (!pl.parse(__FUNCTION__, &parent, &name, &items, &default_value))
+		if (!pl.parse(__FUNCTION__, &name, &items, &default_value))
 			return Py_None;
 
-		mvApp::GetApp()->addCombo(std::string(parent), std::string(name), pl.getStringVec(items), default_value);
+		mvApp::GetApp()->addCombo(std::string(name), pl.getStringVec(items), default_value);
 
 		Py_INCREF(Py_None);
 
@@ -748,17 +743,16 @@ namespace Marvel {
 
 	PyObject* addButton(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
-		const char* parent, * name;
+		const char* name;
 
 		auto pl = mvPythonTranslator(args, kwargs, {
-			mvPythonDataElement(mvPythonDataType::String, "parent"),
 			mvPythonDataElement(mvPythonDataType::String, "name")
 			});
 
-		if(!pl.parse(__FUNCTION__, &parent, &name))
+		if(!pl.parse(__FUNCTION__, &name))
 			return Py_None;
 
-		mvApp::GetApp()->addButton(std::string(parent), std::string(name));
+		mvApp::GetApp()->addButton(std::string(name));
 
 		Py_INCREF(Py_None);
 
@@ -767,22 +761,21 @@ namespace Marvel {
 
 	PyObject* addInputText(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
-		const char* parent, *name;
+		const char*name;
 		const char* hint = "";
 		int multiline = 0;
 
 		auto pl = mvPythonTranslator(args, kwargs, {
-			mvPythonDataElement(mvPythonDataType::String, "parent"),
 			mvPythonDataElement(mvPythonDataType::String, "name"),
 			mvPythonDataElement(mvPythonDataType::Optional, ""),
 			mvPythonDataElement(mvPythonDataType::String, "hint"),
 			mvPythonDataElement(mvPythonDataType::Bool, "multiline")
 			});
 
-		if(!pl.parse(__FUNCTION__, &parent, &name, &hint, &multiline))
+		if(!pl.parse(__FUNCTION__, &name, &hint, &multiline))
 			return Py_None;
 
-		mvApp::GetApp()->addInputText(std::string(parent), std::string(name), std::string(hint), multiline);
+		mvApp::GetApp()->addInputText(std::string(name), std::string(hint), multiline);
 		
 		Py_INCREF(Py_None);
 
@@ -791,20 +784,19 @@ namespace Marvel {
 
 	PyObject* addInputInt(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
-		const char* parent, * name;
+		const char* name;
 		int default_value = 0;
 
 		auto pl = mvPythonTranslator(args, kwargs, {
-			mvPythonDataElement(mvPythonDataType::String, "parent"),
 			mvPythonDataElement(mvPythonDataType::String, "name"),
 			mvPythonDataElement(mvPythonDataType::Optional, ""),
 			mvPythonDataElement(mvPythonDataType::Integer, "default_value")
 			});
 
-		if(!pl.parse(__FUNCTION__, &parent, &name, &default_value))
+		if(!pl.parse(__FUNCTION__,&name, &default_value))
 			return Py_None;
 
-		mvApp::GetApp()->addInputInt(std::string(parent), std::string(name), default_value);
+		mvApp::GetApp()->addInputInt(std::string(name), default_value);
 
 		Py_INCREF(Py_None);
 
@@ -813,20 +805,19 @@ namespace Marvel {
 
 	PyObject* addInputFloat(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
-		const char* parent, * name;
+		const char* name;
 		float default_value = 0.0f;
 
 		auto pl = mvPythonTranslator(args, kwargs, {
-			mvPythonDataElement(mvPythonDataType::String, "parent"),
 			mvPythonDataElement(mvPythonDataType::String, "name"),
 			mvPythonDataElement(mvPythonDataType::Optional, ""),
 			mvPythonDataElement(mvPythonDataType::Float, "default_value")
 			});
 
-		if(!pl.parse(__FUNCTION__, &parent, &name, &default_value))
+		if(!pl.parse(__FUNCTION__, &name, &default_value))
 			return Py_None;
 
-		mvApp::GetApp()->addInputFloat(std::string(parent), std::string(name), default_value);
+		mvApp::GetApp()->addInputFloat(std::string(name), default_value);
 
 		Py_INCREF(Py_None);
 
@@ -835,19 +826,17 @@ namespace Marvel {
 
 	PyObject* indent(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
-		const char* parent;
 		float offset = 0.0f;
 
 		auto pl = mvPythonTranslator(args, kwargs, {
-			mvPythonDataElement(mvPythonDataType::String, "parent"),
 			mvPythonDataElement(mvPythonDataType::Optional, ""),
 			mvPythonDataElement(mvPythonDataType::Float, "offset")
 			});
 
-		if (!pl.parse(__FUNCTION__, &parent, &offset))
+		if (!pl.parse(__FUNCTION__, &offset))
 			return Py_None;
 
-		mvApp::GetApp()->indent(std::string(parent), offset);
+		mvApp::GetApp()->indent(offset);
 
 		Py_INCREF(Py_None);
 
@@ -856,19 +845,17 @@ namespace Marvel {
 
 	PyObject* unindent(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
-		const char* parent;
 		float offset = 0.0f;
 
 		auto pl = mvPythonTranslator(args, kwargs, {
-			mvPythonDataElement(mvPythonDataType::String, "parent"),
 			mvPythonDataElement(mvPythonDataType::Optional, ""),
 			mvPythonDataElement(mvPythonDataType::Float, "offset")
 			});
 
-		if (!pl.parse(__FUNCTION__, &parent, &offset))
+		if (!pl.parse(__FUNCTION__, &offset))
 			return Py_None;
 
-		mvApp::GetApp()->unindent(std::string(parent), offset);
+		mvApp::GetApp()->unindent(offset);
 
 		Py_INCREF(Py_None);
 
@@ -877,16 +864,15 @@ namespace Marvel {
 
 	PyObject* addTabBar(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
-		const char* parent, * name;
+		const char* name;
 
 		auto pl = mvPythonTranslator(args, kwargs, {
-			mvPythonDataElement(mvPythonDataType::String, "parent"),
 			mvPythonDataElement(mvPythonDataType::String, "name")
 			});
 
-		pl.parse(__FUNCTION__, &parent, &name);
+		pl.parse(__FUNCTION__, &name);
 
-		mvApp::GetApp()->addTabBar(std::string(parent), std::string(name));
+		mvApp::GetApp()->addTabBar(std::string(name));
 
 		Py_INCREF(Py_None);
 
@@ -895,16 +881,15 @@ namespace Marvel {
 
 	PyObject* addTab(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
-		const char* parent, * name;
+		const char* name;
 
 		auto pl = mvPythonTranslator(args, kwargs, {
-			mvPythonDataElement(mvPythonDataType::String, "parent"),
 			mvPythonDataElement(mvPythonDataType::String, "name")
 			});
 
-		pl.parse(__FUNCTION__, &parent, &name);
+		pl.parse(__FUNCTION__, &name);
 
-		mvApp::GetApp()->addTab(std::string(parent), std::string(name));
+		mvApp::GetApp()->addTab(std::string(name));
 
 		Py_INCREF(Py_None);
 
@@ -913,35 +898,15 @@ namespace Marvel {
 
 	PyObject* endTab(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
-		const char* parent;
-
-		auto pl = mvPythonTranslator(args, kwargs, {
-			mvPythonDataElement(mvPythonDataType::String, "parent"),
-			});
-
-		pl.parse(__FUNCTION__, &parent);
-
-		mvApp::GetApp()->endTab(std::string(parent));
-
+		mvApp::GetApp()->endTab();
 		Py_INCREF(Py_None);
-
 		return Py_None;
 	}
 
 	PyObject* endTabBar(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
-		const char* parent;
-
-		auto pl = mvPythonTranslator(args, kwargs, {
-			mvPythonDataElement(mvPythonDataType::String, "parent"),
-			});
-
-		pl.parse(__FUNCTION__, &parent);
-
-		mvApp::GetApp()->endTabBar(std::string(parent));
-
+		mvApp::GetApp()->endTabBar();
 		Py_INCREF(Py_None);
-
 		return Py_None;
 	}
 
@@ -964,16 +929,15 @@ namespace Marvel {
 
 	PyObject* addMenu(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
-		const char* parent, * name;
+		const char* name;
 
 		auto pl = mvPythonTranslator(args, kwargs, {
-			mvPythonDataElement(mvPythonDataType::String, "parent"),
 			mvPythonDataElement(mvPythonDataType::String, "name")
 			});
 
-		pl.parse(__FUNCTION__, &parent, &name);
+		pl.parse(__FUNCTION__, &name);
 
-		mvApp::GetApp()->addMenu(std::string(parent), std::string(name));
+		mvApp::GetApp()->addMenu(std::string(name));
 
 		Py_INCREF(Py_None);
 
@@ -982,51 +946,30 @@ namespace Marvel {
 
 	PyObject* endMenu(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
-		const char* parent;
-
-		auto pl = mvPythonTranslator(args, kwargs, {
-			mvPythonDataElement(mvPythonDataType::String, "parent"),
-			});
-
-		pl.parse(__FUNCTION__, &parent);
-
-		mvApp::GetApp()->endMenu(std::string(parent));
-
+		mvApp::GetApp()->endMenu();
 		Py_INCREF(Py_None);
-
 		return Py_None;
 	}
 
 	PyObject* endMenuBar(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
-		const char* parent;
-
-		auto pl = mvPythonTranslator(args, kwargs, {
-			mvPythonDataElement(mvPythonDataType::String, "parent"),
-			});
-
-		pl.parse(__FUNCTION__, &parent);
-
-		mvApp::GetApp()->endMenuBar(std::string(parent));
-
+		mvApp::GetApp()->endMenuBar();
 		Py_INCREF(Py_None);
-
 		return Py_None;
 	}
 
 	PyObject* addMenuItem(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
-		const char* parent, * name;
+		const char* name;
 
 		auto pl = mvPythonTranslator(args, kwargs, {
-			mvPythonDataElement(mvPythonDataType::String, "parent"),
 			mvPythonDataElement(mvPythonDataType::String, "name")
 			});
 
-		if(!pl.parse(__FUNCTION__, &parent, &name))
+		if(!pl.parse(__FUNCTION__, &name))
 			return Py_None;
 
-		mvApp::GetApp()->addMenuItem(std::string(parent), std::string(name));
+		mvApp::GetApp()->addMenuItem(std::string(name));
 
 		Py_INCREF(Py_None);
 
@@ -1035,20 +978,18 @@ namespace Marvel {
 
 	PyObject* addSpacing(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
-		const char* parent;
 		int count = 1;
 
 		auto pl = mvPythonTranslator(args, kwargs, {
-			mvPythonDataElement(mvPythonDataType::String, "parent"),
 			mvPythonDataElement(mvPythonDataType::Optional, ""),
 			mvPythonDataElement(mvPythonDataType::Integer, "count")
 			});
 
-		if(!pl.parse(__FUNCTION__, &parent, &count))
+		if(!pl.parse(__FUNCTION__, &count))
 			return Py_None;
 
 
-		mvApp::GetApp()->addSpacing(std::string(parent), count);
+		mvApp::GetApp()->addSpacing(count);
 
 		Py_INCREF(Py_None);
 
@@ -1057,21 +998,19 @@ namespace Marvel {
 
 	PyObject* addSameLine(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
-		const char* parent;
 		float xoffset = 0.0f;
 		float spacing = 0.0f;
 
 		auto pl = mvPythonTranslator(args, kwargs, {
-			mvPythonDataElement(mvPythonDataType::String, "parent"),
 			mvPythonDataElement(mvPythonDataType::Optional, ""),
 			mvPythonDataElement(mvPythonDataType::Float, "xoffset"),
 			mvPythonDataElement(mvPythonDataType::Float, "spacing")
 			});
 
-		if(!pl.parse(__FUNCTION__, &parent, &xoffset, &spacing))
+		if(!pl.parse(__FUNCTION__, &xoffset, &spacing))
 			return Py_None;
 
-		mvApp::GetApp()->addSameLine(std::string(parent), xoffset, spacing);
+		mvApp::GetApp()->addSameLine(xoffset, spacing);
 
 		Py_INCREF(Py_None);
 
@@ -1080,23 +1019,21 @@ namespace Marvel {
 
 	PyObject* addRadioButton(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
-		const char* parent;
 		const char* name;
 		PyObject* items;
 		int default_value = 0;
 
 		auto pl = mvPythonTranslator(args, kwargs, {
-			mvPythonDataElement(mvPythonDataType::String, "parent"),
 			mvPythonDataElement(mvPythonDataType::String, "name"),
 			mvPythonDataElement(mvPythonDataType::StringList, "items"),
 			mvPythonDataElement(mvPythonDataType::Optional, ""),
 			mvPythonDataElement(mvPythonDataType::Integer, "default_value")
 			});
 
-		if(!pl.parse(__FUNCTION__, &parent, &name, &items, &default_value))
+		if(!pl.parse(__FUNCTION__, &name, &items, &default_value))
 			return Py_None;
 
-		mvApp::GetApp()->addRadioButtons(std::string(parent), std::string(name), pl.getStringVec(items), default_value);
+		mvApp::GetApp()->addRadioButtons(std::string(name), pl.getStringVec(items), default_value);
 
 		Py_INCREF(Py_None);
 
@@ -1105,16 +1042,15 @@ namespace Marvel {
 
 	PyObject* addGroup(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
-		const char* parent, * name;
+		const char* name;
 
 		auto pl = mvPythonTranslator(args, kwargs, {
-			mvPythonDataElement(mvPythonDataType::String, "parent"),
 			mvPythonDataElement(mvPythonDataType::String, "name")
 			});
 
-		pl.parse(__FUNCTION__, &parent, &name);
+		pl.parse(__FUNCTION__, &name);
 
-		mvApp::GetApp()->addGroup(std::string(parent), std::string(name));
+		mvApp::GetApp()->addGroup(std::string(name));
 
 		Py_INCREF(Py_None);
 
@@ -1123,38 +1059,25 @@ namespace Marvel {
 
 	PyObject* endGroup(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
-		const char* parent;
-
-		auto pl = mvPythonTranslator(args, kwargs, {
-			mvPythonDataElement(mvPythonDataType::String, "parent")
-			});
-
-		pl.parse(__FUNCTION__, &parent);
-
-		mvApp::GetApp()->endGroup(std::string(parent));
-
+		mvApp::GetApp()->endGroup();
 		Py_INCREF(Py_None);
-
 		return Py_None;
 	}
 
 	PyObject* addChild(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
-		const char* parent, * name;
+		const char* name;
 		int width, height;
 
-		PyArg_ParseTuple(args, "ssii", &parent, &name, &width, &height);
-
 		auto pl = mvPythonTranslator(args, kwargs, {
-			mvPythonDataElement(mvPythonDataType::String, "parent"),
 			mvPythonDataElement(mvPythonDataType::String, "name"),
 			mvPythonDataElement(mvPythonDataType::Integer, "width"),
 			mvPythonDataElement(mvPythonDataType::Integer, "height")
 			});
 
-		pl.parse(__FUNCTION__, &parent, &name, &width, &height);
+		pl.parse(__FUNCTION__, &name, &width, &height);
 
-		mvApp::GetApp()->addChild(std::string(parent), std::string(name), width, height);
+		mvApp::GetApp()->addChild(std::string(name), width, height);
 
 		Py_INCREF(Py_None);
 
@@ -1163,41 +1086,35 @@ namespace Marvel {
 
 	PyObject* addWindow(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
-		const char* parent, * name;
+		const char* name;
 		int width, height;
 
-		PyArg_ParseTuple(args, "ssii", &parent, &name, &width, &height);
-
 		auto pl = mvPythonTranslator(args, kwargs, {
-			mvPythonDataElement(mvPythonDataType::String, "parent"),
 			mvPythonDataElement(mvPythonDataType::String, "name"),
 			mvPythonDataElement(mvPythonDataType::Integer, "width"),
 			mvPythonDataElement(mvPythonDataType::Integer, "height")
 			});
 
-		pl.parse(__FUNCTION__, &parent, &name, &width, &height);
+		pl.parse(__FUNCTION__, &name, &width, &height);
 
-		mvApp::GetApp()->addWindow(std::string(parent), std::string(name), width, height);
+		mvApp::GetApp()->addWindow(std::string(name), width, height);
 
 		Py_INCREF(Py_None);
 
 		return Py_None;
 	}
 
+	PyObject* endWindow(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		mvApp::GetApp()->endWindow();
+		Py_INCREF(Py_None);
+		return Py_None;
+	}
+
 	PyObject* endChild(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
-		const char* parent;
-
-		auto pl = mvPythonTranslator(args, kwargs, {
-			mvPythonDataElement(mvPythonDataType::String, "parent")
-			});
-
-		pl.parse(__FUNCTION__, &parent);
-
-		mvApp::GetApp()->endChild(std::string(parent));
-
+		mvApp::GetApp()->endChild();
 		Py_INCREF(Py_None);
-
 		return Py_None;
 	}
 
@@ -1221,36 +1138,32 @@ namespace Marvel {
 
 	PyObject* endTooltip(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
-		const char* parent;
+		mvApp::GetApp()->endTooltip();
+		Py_INCREF(Py_None);
+		return Py_None;
+	}
+
+	PyObject* addCollapsingHeader(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		const char* name;
 
 		auto pl = mvPythonTranslator(args, kwargs, {
-			mvPythonDataElement(mvPythonDataType::String, "parent")
+			mvPythonDataElement(mvPythonDataType::String, "name")
 			});
 
-		pl.parse(__FUNCTION__, &parent);
+		pl.parse(__FUNCTION__, &name);
 
-		mvApp::GetApp()->endTooltip(std::string(parent));
+		mvApp::GetApp()->addCollapsingHeader(std::string(name));
 
 		Py_INCREF(Py_None);
 
 		return Py_None;
 	}
 
-	PyObject* addCollapsingHeader(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* endCollapsingHeader(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
-		const char* parent, * name;
-
-		auto pl = mvPythonTranslator(args, kwargs, {
-			mvPythonDataElement(mvPythonDataType::String, "parent"),
-			mvPythonDataElement(mvPythonDataType::String, "name")
-			});
-
-		pl.parse(__FUNCTION__, &parent, &name);
-
-		mvApp::GetApp()->addCollapsingHeader(std::string(parent), std::string(name));
-
+		mvApp::GetApp()->endCollapsingHeader();
 		Py_INCREF(Py_None);
-
 		return Py_None;
 	}
 
@@ -1274,29 +1187,17 @@ namespace Marvel {
 
 	PyObject* addSeperator(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
-		const char* parent;
-
-		auto pl = mvPythonTranslator(args, kwargs, {
-			mvPythonDataElement(mvPythonDataType::String, "parent")
-			});
-
-		if(!pl.parse(__FUNCTION__, &parent))
-			return Py_None;
-
-		mvApp::GetApp()->addSeperator(std::string(parent));
-
+		mvApp::GetApp()->addSeperator();
 		Py_INCREF(Py_None);
-
 		return Py_None;
 	}
 
 	PyObject* addColorEdit4(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
-		const char* parent, * name;
+		const char* name;
 		float r, g, b, a;
 
 		auto pl = mvPythonTranslator(args, kwargs, {
-			mvPythonDataElement(mvPythonDataType::String, "parent"),
 			mvPythonDataElement(mvPythonDataType::String, "name"),
 			mvPythonDataElement(mvPythonDataType::Float, "r"),
 			mvPythonDataElement(mvPythonDataType::Float, "g"),
@@ -1304,10 +1205,10 @@ namespace Marvel {
 			mvPythonDataElement(mvPythonDataType::Float, "a")
 			});
 
-		if(!pl.parse(__FUNCTION__, &parent, &name, &r, &g, &b, &a))
+		if(!pl.parse(__FUNCTION__, &name, &r, &g, &b, &a))
 			return Py_None;
 
-		mvApp::GetApp()->addColorEdit4(std::string(parent), std::string(name), { r, g, b, a });
+		mvApp::GetApp()->addColorEdit4(std::string(name), { r, g, b, a });
 
 		Py_INCREF(Py_None);
 
@@ -1316,20 +1217,19 @@ namespace Marvel {
 
 	PyObject* addCheckbox(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
-		const char* parent, * name;
+		const char* name;
 		int default_value = 0;
 
 		auto pl = mvPythonTranslator(args, kwargs, {
-			mvPythonDataElement(mvPythonDataType::String, "parent"),
 			mvPythonDataElement(mvPythonDataType::String, "name"),
 			mvPythonDataElement(mvPythonDataType::Optional, ""),
 			mvPythonDataElement(mvPythonDataType::Integer, "default_value")
 			});
 
-		if(!pl.parse(__FUNCTION__, &parent, &name, &default_value))
+		if(!pl.parse(__FUNCTION__, &name, &default_value))
 			return Py_None;
 
-		mvApp::GetApp()->addCheckbox(std::string(parent), std::string(name), default_value);
+		mvApp::GetApp()->addCheckbox(std::string(name), default_value);
 
 		Py_INCREF(Py_None);
 
@@ -1339,6 +1239,7 @@ namespace Marvel {
 	void CreatePythonInterface(mvPythonModule& pyModule, PyObject* (*initfunc)())
 	{
 		pyModule.addMethod(addWindow, "Not Documented");
+		pyModule.addMethod(endWindow, "Not Documented");
 		pyModule.addMethod(isItemHovered, "Not Documented");
 		pyModule.addMethod(isItemActive, "Not Documented");
 		pyModule.addMethod(isItemFocused, "Not Documented");
@@ -1404,6 +1305,7 @@ namespace Marvel {
 		pyModule.addMethod(getValue, "Not Documented");
 		pyModule.addMethod(setValue, "Not Documented");
 		pyModule.addMethod(addCollapsingHeader, "Not Documented");
+		pyModule.addMethod(endCollapsingHeader, "Not Documented");
 
 		PyImport_AppendInittab(pyModule.getName() , initfunc);
 	}

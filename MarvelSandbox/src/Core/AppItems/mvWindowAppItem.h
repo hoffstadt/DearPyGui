@@ -42,4 +42,26 @@ namespace Marvel {
 
 	};
 
+	//-----------------------------------------------------------------------------
+	// mvWindowAppitem
+	//-----------------------------------------------------------------------------
+	class mvEndWindowAppitem : public mvNoneItemBase
+	{
+
+	public:
+
+		MV_APPITEM_TYPE(mvAppItemType::EndWindow)
+
+		mvEndWindowAppitem(const std::string& parent)
+			: mvNoneItemBase(parent, "EndWindow")
+		{
+		}
+
+		virtual void draw() override
+		{
+			mvApp::GetApp()->popParent();
+		}
+
+	};
+
 }
