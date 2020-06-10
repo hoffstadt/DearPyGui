@@ -1,35 +1,18 @@
 #include "mvApp.h"
 #include "mvCore.h"
 #include "mvLogger.h"
-#include "AppItems/mvInputText.h"
-#include "AppItems/mvTab.h"
-#include "AppItems/mvMenu.h"
-#include "AppItems/mvSpacing.h"
-#include "AppItems/mvSameLine.h"
-#include "AppItems/mvRadioButton.h"
-#include "AppItems/mvButton.h"
-#include "AppItems/mvChild.h"
-#include "AppItems/mvGroup.h"
-#include "AppItems/mvTooltip.h"
-#include "AppItems/mvCollapsingHeader.h"
-#include "AppItems/mvSeperator.h"
-#include "AppItems/mvColorEdit4.h"
-#include "AppItems/mvInputInt.h"
-#include "AppItems/mvInputFloat.h"
-#include "AppItems/mvCheckbox.h"
-#include "AppItems/mvListbox.h"
-#include "AppItems/mvText.h"
-#include "AppItems/mvCombo.h"
-#include "AppItems/mvPlot.h"
-#include "AppItems/mvSimplePlot.h"
-#include "AppItems/mvIndent.h"
-#include "AppItems/mvDrawing.h"
-#include "AppItems/mvWindowAppItem.h"
-#include "AppItems/mvPopup.h"
+#include "AppItems/mvAppItems.h"
 
 namespace Marvel {
 
 	mvApp* mvApp::s_instance = nullptr;
+
+	mvApp::mvApp()
+	{
+		m_style = getAppDefaultStyle();
+		m_windowflags = ImGuiWindowFlags_NoBringToFrontOnFocus | ImGuiWindowFlags_NoSavedSettings
+			| ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoTitleBar;
+	}
 
 	static void SetStyle(ImGuiStyle& style, mvStyle& mvstyle)
 	{
@@ -65,6 +48,89 @@ namespace Marvel {
 		style.CircleSegmentMaxError = mvstyle["CircleSegmentMaxError"].x;
 	}
 
+	static bool doesParentAllowRender(mvAppItem* item)
+	{
+		if (item->getParent())
+		{
+			switch (item->getParent()->getType())
+			{
+			case mvAppItemType::TabItem:
+				return static_cast<mvTab*>(item->getParent())->getValue();
+				break;
+
+			case mvAppItemType::Menu:
+				return static_cast<mvMenu*>(item->getParent())->getValue();
+				break;
+
+			case mvAppItemType::Child:
+				return static_cast<mvChild*>(item->getParent())->getValue();
+				break;
+
+			case mvAppItemType::Tooltip:
+				return static_cast<mvTooltip*>(item->getParent())->getValue();
+				break;
+
+			case mvAppItemType::Popup:
+				return static_cast<mvPopup*>(item->getParent())->getValue();
+				break;
+
+			case mvAppItemType::CollapsingHeader:
+			{
+				if (!static_cast<mvCollapsingHeader*>(item->getParent())->getValue())
+				{
+					item->hide();
+					return false;
+				}
+				else
+					item->show();
+				break;
+			}
+
+			default:
+				return item->getParent()->isShown();
+			}
+		}
+
+		// doesn't have a parent
+		return true;
+	}
+
+	static void prepareStandardCallbacks()
+	{
+		ImGuiIO& io = ImGui::GetIO();
+
+		mvApp* app = mvApp::GetApp();
+
+		for (int i = 0; i < IM_ARRAYSIZE(io.MouseDown); i++)
+		{
+
+			if (ImGui::IsMouseClicked(i))
+				app->triggerCallback(app->getMouseClickCallback(), std::to_string(i));
+
+			if (io.MouseDownDuration[i] >= 0.0f)
+				app->triggerCallback(app->getMouseDownCallback(),
+					std::to_string(i), std::to_string(io.MouseDownDuration[i]));
+
+			if (ImGui::IsMouseDoubleClicked(i))
+				app->triggerCallback(app->getMouseDoubleClickCallback(), std::to_string(i));
+
+			if (ImGui::IsMouseReleased(i))
+				app->triggerCallback(app->getMouseReleaseCallback(), std::to_string(i));
+		}
+
+		for (int i = 0; i < IM_ARRAYSIZE(io.KeysDown); i++)
+		{
+			if (ImGui::IsKeyPressed(i))
+				app->triggerCallback(app->getKeyPressCallback(), std::to_string(i));
+
+			if (io.KeysDownDuration[i] >= 0.0f)
+				app->triggerCallback(app->getKeyDownCallback(), std::to_string(i), std::to_string(io.KeysDownDuration[i]));
+
+			if (ImGui::IsKeyReleased(i))
+				app->triggerCallback(app->getKeyReleaseCallback(), std::to_string(i));
+		}
+	}
+
 	mvApp* mvApp::GetApp()
 	{
 		if (s_instance)
@@ -72,39 +138,6 @@ namespace Marvel {
 
 		s_instance = new mvApp();
 		return s_instance;
-	}
-
-	void mvApp::prepareStandardCallbacks()
-	{
-		ImGuiIO& io = ImGui::GetIO();
-
-		for (int i = 0; i < IM_ARRAYSIZE(io.MouseDown); i++)
-		{
-
-			if (ImGui::IsMouseClicked(i))
-				triggerCallback(m_mouseClickCallback, std::to_string(i));
-
-			if (io.MouseDownDuration[i] >= 0.0f)
-				triggerCallback(m_mouseDownCallback, std::to_string(i), std::to_string(io.MouseDownDuration[i]));
-
-			if (ImGui::IsMouseDoubleClicked(i))
-				triggerCallback(m_mouseDoubleClickCallback, std::to_string(i));
-
-			if (ImGui::IsMouseReleased(i))
-				triggerCallback(m_mouseReleaseCallback, std::to_string(i));
-		}
-
-		for (int i = 0; i < IM_ARRAYSIZE(io.KeysDown); i++)
-		{
-			if (ImGui::IsKeyPressed(i))
-				triggerCallback(m_keyPressCallback, std::to_string(i));
-
-			if (io.KeysDownDuration[i] >= 0.0f)
-				triggerCallback(m_keyDownCallback, std::to_string(i), std::to_string(io.KeysDownDuration[i]));
-
-			if (ImGui::IsKeyReleased(i))
-				triggerCallback(m_keyReleaseCallback, std::to_string(i));
-		}
 	}
 
 	void mvApp::render()
@@ -185,53 +218,6 @@ namespace Marvel {
 	{
 		ImGuiIO& io = ImGui::GetIO();
 		return io.KeysDown[keycode];
-	}
-
-	bool mvApp::doesParentAllowRender(mvAppItem* item)
-	{
-		if (item->getParent())
-		{
-			switch (item->getParent()->getType())
-			{
-			case mvAppItemType::TabItem:
-				return static_cast<mvTab*>(item->getParent())->getValue();
-				break;
-
-			case mvAppItemType::Menu:
-				return static_cast<mvMenu*>(item->getParent())->getValue();
-				break;
-
-			case mvAppItemType::Child:
-				return static_cast<mvChild*>(item->getParent())->getValue();
-				break;
-
-			case mvAppItemType::Tooltip:
-				return static_cast<mvTooltip*>(item->getParent())->getValue();
-				break;
-
-			case mvAppItemType::Popup:
-				return static_cast<mvPopup*>(item->getParent())->getValue();
-				break;
-
-			case mvAppItemType::CollapsingHeader:
-			{
-				if (!static_cast<mvCollapsingHeader*>(item->getParent())->getValue())
-				{
-					item->hide();
-					return false;
-				}
-				else
-					item->show();
-				break;
-			}
-
-			default:
-				return item->getParent()->isShown();
-			}
-		}
-
-		// doesn't have a parent
-		return true;
 	}
 
 	void mvApp::pushParent(mvAppItem* item)
@@ -469,9 +455,6 @@ namespace Marvel {
 		m_theme.changeThemeItem(name, color.r, color.g, color.b, color.a);
 	}
 
-	//-----------------------------------------------------------------------------
-	// Styles
-	//-----------------------------------------------------------------------------
 	void mvApp::updateStyle()
 	{
 		ImGuiStyle& style = ImGui::GetStyle();
@@ -491,460 +474,34 @@ namespace Marvel {
 		return false;
 	}
 
-	//-----------------------------------------------------------------------------
-	// Basic AppItems
-	//-----------------------------------------------------------------------------
-
-	mvAppItem* mvApp::addInputText(const std::string& name, const std::string& hint, bool multiline)
+	void mvApp::addItemManual(mvAppItem* item)
 	{
-		std::string parent = "";
-		if (mvAppItem* parentitem = topParent())
-			parent = parentitem->getName();
-
-		mvAppItem* item = new mvInputText(parent, name, hint, multiline);
 		m_items.push_back(item);
-		return item;
 	}
 
-	mvAppItem* mvApp::addInputInt(const std::string& name, int default_value)
+	void mvApp::addItem(mvAppItem* item)
 	{
-		std::string parent = "";
-		if (mvAppItem* parentitem = topParent())
-			parent = parentitem->getName();
-
-		mvAppItem* item = new mvInputInt(parent, name, default_value);
+		mvAppItem* parentitem = topParent();	
+		item->setParent(parentitem);
 		m_items.push_back(item);
-		return item;
 	}
 
-	mvAppItem* mvApp::addInputFloat(const std::string& name, float default_value)
+	void mvApp::addParentItem(mvAppItem* item)
 	{
-		std::string parent = "";
-		if (mvAppItem* parentitem = topParent())
-			parent = parentitem->getName();
-
-		mvAppItem* item = new mvInputFloat(parent, name, default_value);
-		m_items.push_back(item);
-		return item;
-	}
-
-	mvAppItem* mvApp::addButton(const std::string& name)
-	{
-		std::string parent = "";
-		if (mvAppItem* parentitem = topParent())
-			parent = parentitem->getName();
-
-		mvAppItem* item = new mvButton(parent, name);
-		m_items.push_back(item);
-		return item;
-	}
-
-	mvAppItem* mvApp::addColorEdit4(const std::string& name, mvColor color)
-	{
-		std::string parent = "";
-		if (mvAppItem* parentitem = topParent())
-			parent = parentitem->getName();
-
-		mvAppItem* item = new mvColorEdit4(parent, name, color.r, color.g, color.b, color.a);
-		m_items.push_back(item);
-		return item;
-	}
-
-	mvAppItem* mvApp::addRadioButtons(const std::string& name, const std::vector<std::string>& itemnames, int default_value)
-	{
-		std::string parent = "";
-		if (mvAppItem* parentitem = topParent())
-			parent = parentitem->getName();
-
-		mvAppItem* item = new mvRadioButton(parent, name, itemnames, default_value);
-		m_items.push_back(item);
-		return item;
-	}
-
-	mvAppItem* mvApp::addCheckbox(const std::string& name, bool default_value)
-	{
-		std::string parent = "";
-		if (mvAppItem* parentitem = topParent())
-			parent = parentitem->getName();
-
-		mvAppItem* item = new mvCheckbox(parent, name, default_value);
-		m_items.push_back(item);
-		return item;
-	}
-
-	mvAppItem* mvApp::addListbox(const std::string& name, const std::vector<std::string>& itemnames, int default_value, int height)
-	{
-		std::string parent = "";
-		if (mvAppItem* parentitem = topParent())
-			parent = parentitem->getName();
-
-		mvAppItem* item = new mvListbox(parent, name, itemnames, default_value, height);
-		m_items.push_back(item);
-		return item;
-	}
-
-	mvAppItem* mvApp::addCombo(const std::string& name, const std::vector<std::string>& itemnames, const std::string& default_value)
-	{
-		std::string parent = "";
-		if (mvAppItem* parentitem = topParent())
-			parent = parentitem->getName();
-
-		mvAppItem* item = new mvCombo(parent, name, itemnames, default_value);
-		m_items.push_back(item);
-		return item;
-	}
-
-	//-----------------------------------------------------------------------------
-	// Tabs
-	//-----------------------------------------------------------------------------
-
-	mvAppItem* mvApp::addTabBar(const std::string& name)
-	{
-		std::string parent = "";
-		if (mvAppItem* parentitem = topParent())
-			parent = parentitem->getName();
-
-		mvAppItem* item = new mvTabBar(parent, name);
-		m_items.push_back(item);
+		addItem(item);
 		pushParent(item);
-		return item;
 	}
 
-	mvAppItem* mvApp::addTab(const std::string& name)
+	void mvApp::addEndParentItem(mvAppItem* item)
 	{
-		std::string parent = "";
-		if (mvAppItem* parentitem = topParent())
-			parent = parentitem->getName();
-
-		mvAppItem* item = new mvTab(parent, name);
-		m_items.push_back(item);
-		pushParent(item);
-		return item;
-	}
-
-	mvAppItem* mvApp::endTab()
-	{
-		std::string parent = "";
-		if (mvAppItem* parentitem = topParent())
-			parent = parentitem->getName();
-
-		mvAppItem* item = new mvEndTab(parent);
-		m_items.push_back(item);
+		addItem(item);
 		popParent();
-		return item;
-	}
-
-	mvAppItem* mvApp::endTabBar()
-	{
-		std::string parent = "";
-		if (mvAppItem* parentitem = topParent())
-			parent = parentitem->getName();
-
-		mvAppItem* item = new mvEndTabBar(parent);
-		m_items.push_back(item);
-		popParent();
-		return item;
-	}
-
-	//-----------------------------------------------------------------------------
-	// Adding Menus
-	//-----------------------------------------------------------------------------
-
-	mvAppItem* mvApp::addMenuBar(const std::string& name)
-	{
-		m_windowflags |= ImGuiWindowFlags_MenuBar;
-		mvAppItem* item = new mvMenuBar(name);
-		m_items.push_back(item);
-		pushParent(item);
-		return item;
-	}
-
-	mvAppItem* mvApp::addMenu(const std::string& name)
-	{
-		std::string parent = "";
-		if (mvAppItem* parentitem = topParent())
-			parent = parentitem->getName();
-
-		mvAppItem* item = new mvMenu(parent, name);
-		m_items.push_back(item);
-		pushParent(item);
-		return item;
-	}
-
-	mvAppItem* mvApp::addMenuItem(const std::string& name)
-	{
-		std::string parent = "";
-		if (mvAppItem* parentitem = topParent())
-			parent = parentitem->getName();
-
-		mvAppItem* item = new mvMenuItem(parent, name);
-		m_items.push_back(item);
-		return item;
-	}
-
-	mvAppItem* mvApp::endMenu()
-	{
-		std::string parent = "";
-		if (mvAppItem* parentitem = topParent())
-			parent = parentitem->getName();
-
-		mvAppItem* item = new mvEndMenu(parent);
-		m_items.push_back(item);
-		popParent();
-		return item;
-	}
-
-	mvAppItem* mvApp::endMenuBar()
-	{
-		std::string parent = "";
-		if (mvAppItem* parentitem = topParent())
-			parent = parentitem->getName();
-
-		mvAppItem* item = new mvEndMenuBar(parent);
-		m_items.push_back(item);
-		popParent();
-		return item;
-	}
-
-	//-----------------------------------------------------------------------------
-	// Groups
-	//-----------------------------------------------------------------------------
-
-	mvAppItem* mvApp::addGroup(const std::string& name)
-	{
-		std::string parent = "";
-		if (mvAppItem* parentitem = topParent())
-			parent = parentitem->getName();
-
-		mvAppItem* item = new mvGroup(parent, name);
-		m_items.push_back(item);
-		pushParent(item);
-		return item;
-	}
-
-	mvAppItem* mvApp::endGroup()
-	{
-		std::string parent = "";
-		if (mvAppItem* parentitem = topParent())
-			parent = parentitem->getName();
-
-		mvAppItem* item = new mvEndGroup(parent);
-		m_items.push_back(item);
-		popParent();
-		return item;
-	}
-
-	//-----------------------------------------------------------------------------
-	// Child Window
-	//-----------------------------------------------------------------------------
-
-	mvAppItem* mvApp::addChild(const std::string& name, int width, int height)
-	{
-		std::string parent = "";
-		if (mvAppItem* parentitem = topParent())
-			parent = parentitem->getName();
-
-		mvAppItem* item = new mvChild(parent, name, width, height);
-		m_items.push_back(item);
-		pushParent(item);
-		return item;
-	}
-
-	mvAppItem* mvApp::endChild()
-	{
-		std::string parent = "";
-		if (mvAppItem* parentitem = topParent())
-			parent = parentitem->getName();
-
-		mvAppItem* item = new mvEndChild(parent);
-		m_items.push_back(item);
-		popParent();
-		return item;
-	}
-
-	mvAppItem* mvApp::addWindow(const std::string& name, int width, int height)
-	{
-		std::string parent = "";
-		if (mvAppItem* parentitem = topParent())
-			parent = parentitem->getName();
-
-		mvAppItem* item = new mvWindowAppitem(parent, name, width, height);
-		m_items.push_back(item);
-		pushParent(item);
-		return item;
-	}
-
-	mvAppItem* mvApp::endWindow()
-	{
-		std::string parent = "";
-		if (mvAppItem* parentitem = topParent())
-			parent = parentitem->getName();
-
-		mvAppItem* item = new mvEndWindowAppitem(parent);
-		m_items.push_back(item);
-		popParent();
-		return item;
-	}
-
-	//-----------------------------------------------------------------------------
-	// Misc Items
-	//-----------------------------------------------------------------------------
-
-	mvAppItem* mvApp::addCollapsingHeader(const std::string& name)
-	{
-		std::string parent = "";
-		if (mvAppItem* parentitem = topParent())
-			parent = parentitem->getName();
-
-		mvAppItem* item = new mvCollapsingHeader(parent, name);
-		m_items.push_back(item);
-		pushParent(item);
-		return item;
-	}
-
-	mvAppItem* mvApp::endCollapsingHeader()
-	{
-		std::string parent = "";
-		if (mvAppItem* parentitem = topParent())
-			parent = parentitem->getName();
-
-		mvAppItem* item = new mvEndCollapsingHeader(parent);
-		m_items.push_back(item);
-		popParent();
-		return item;
-	}
-
-	mvAppItem* mvApp::addSpacing(int count)
-	{
-		std::string parent = "";
-		if (mvAppItem* parentitem = topParent())
-			parent = parentitem->getName();
-
-		mvAppItem* item = new mvSpacing(parent, count);
-		m_items.push_back(item);
-		return item;
-	}
-
-	mvAppItem* mvApp::addSameLine(float offsetx, float spacing)
-	{
-		std::string parent = "";
-		if (mvAppItem* parentitem = topParent())
-			parent = parentitem->getName();
-
-		mvAppItem* item = new mvSameLine(parent, offsetx, spacing);
-		m_items.push_back(item);
-		return item;
-	}
-
-	mvAppItem* mvApp::addTooltip(const std::string& parent, const std::string& name)
-	{
-
-		mvAppItem* item = new mvTooltip(parent, name);
-		m_items.push_back(item);
-		pushParent(item);
-		return item;
-	}
-
-	mvAppItem* mvApp::endTooltip()
-	{
-		std::string parent = "";
-		if (mvAppItem* parentitem = topParent())
-			parent = parentitem->getName();
-
-		mvAppItem* item = new mvEndTooltip(parent);
-		m_items.push_back(item);
-		popParent();
-		return item;
-	}
-
-	mvAppItem* mvApp::addPopup(const std::string& parent, const std::string& name, int mousebutton, bool modal)
-	{
-
-		mvAppItem* item = new mvPopup(parent, name, mousebutton, modal);
-		m_items.push_back(item);
-		pushParent(item);
-		return item;
-	}
-
-	mvAppItem* mvApp::endPopup()
-	{
-		std::string parent = "";
-		if (mvAppItem* parentitem = topParent())
-			parent = parentitem->getName();
-
-		mvAppItem* item = new mvEndPopup(parent);
-		m_items.push_back(item);
-		popParent();
-		return item;
 	}
 
 	void mvApp::closePopup()
 	{
 		ImGui::CloseCurrentPopup();
 	}
-
-	mvAppItem* mvApp::addSeperator()
-	{
-		std::string parent = "";
-		if (mvAppItem* parentitem = topParent())
-			parent = parentitem->getName();
-
-		mvAppItem* item = new mvSeparator(parent);
-		m_items.push_back(item);
-		return item;
-	}
-
-	mvAppItem* mvApp::indent(float offset)
-	{
-		std::string parent = "";
-		if (mvAppItem* parentitem = topParent())
-			parent = parentitem->getName();
-
-		mvAppItem* item = new mvIndent(parent, offset);
-		m_items.push_back(item);
-		return item;
-	}
-
-	mvAppItem* mvApp::unindent(float offset)
-	{
-		std::string parent = "";
-		if (mvAppItem* parentitem = topParent())
-			parent = parentitem->getName();
-
-		mvAppItem* item = new mvUnindent(parent, offset);
-		m_items.push_back(item);
-		return item;
-	}
-
-	//-----------------------------------------------------------------------------
-	// Text
-	//-----------------------------------------------------------------------------
-
-	mvAppItem* mvApp::addText(const std::string& name, int wrap, mvColor color, bool bullet)
-	{
-		std::string parent = "";
-		if (mvAppItem* parentitem = topParent())
-			parent = parentitem->getName();
-
-		mvAppItem* item = new mvText(parent, name, wrap, color, bullet);
-		m_items.push_back(item);
-		return item;
-	}
-
-	mvAppItem* mvApp::addLabelText(const std::string& name, const std::string& value, int wrap, mvColor color, bool bullet)
-	{
-		std::string parent = "";
-		if (mvAppItem* parentitem = topParent())
-			parent = parentitem->getName();
-
-		mvAppItem* item = new mvLabelText(parent, name, value, wrap, color, bullet);
-		m_items.push_back(item);
-		return item;
-	}
-
-	//-----------------------------------------------------------------------------
-	// Logging
-	//-----------------------------------------------------------------------------
 
 	void mvApp::Log(const std::string& text, const std::string& level)
 	{
@@ -979,112 +536,6 @@ namespace Marvel {
 	void mvApp::ClearLog()
 	{
 		AppLog::getLogger()->Clear();
-	}
-
-	mvAppItem* mvApp::addSimplePlot(const std::string& name, const std::vector<float> value, const std::string& overlay, float scale_min, float scale_max, float height, bool histogram)
-	{
-		std::string parent = "";
-		if (mvAppItem* parentitem = topParent())
-			parent = parentitem->getName();
-
-		mvAppItem* item = new mvSimplePlot(parent, name, value, overlay, scale_min, scale_max, height, histogram);
-		m_items.push_back(item);
-		return item;
-	}
-
-	mvAppItem* mvApp::addPlot(const std::string& name, int width, int height)
-	{
-		std::string parent = "";
-		if (mvAppItem* parentitem = topParent())
-			parent = parentitem->getName();
-
-		mvAppItem* item = new mvPlot(parent, name, width, height);
-		m_items.push_back(item);
-		return item;
-	}
-
-	//-----------------------------------------------------------------------------
-	// Drawing
-	//-----------------------------------------------------------------------------
-	mvAppItem* mvApp::addDrawing(const std::string& name, int width, int height)
-	{
-		std::string parent = "";
-		if (mvAppItem* parentitem = topParent())
-			parent = parentitem->getName();
-
-		mvAppItem* item = new mvDrawing(parent, name, width, height);
-		m_items.push_back(item);
-		return item;
-	}
-
-	void mvApp::clearDrawing(const std::string& drawing)
-	{
-		mvAppItem* item = getItem(drawing);
-		mvDrawing* dwg = static_cast<mvDrawing*>(item);
-		dwg->clear();
-	}
-
-	void mvApp::drawLine(const std::string& drawing, const mvVec2& p1, const mvVec2& p2, const mvColor& color, int thickness)
-	{
-		mvAppItem* item = getItem(drawing);
-		mvDrawing* dwg = static_cast<mvDrawing*>(item);
-		dwg->drawLine(p1, p2, color, thickness);
-	}
-
-	void mvApp::drawTriangle(const std::string& drawing, const mvVec2& p1, const mvVec2& p2, const mvVec2& p3, const mvColor& color, const mvColor& fill, float thickness)
-	{
-		mvAppItem* item = getItem(drawing);
-		mvDrawing* dwg = static_cast<mvDrawing*>(item);
-		dwg->drawTriangle(p1, p2, p3, color, fill, thickness);
-	}
-
-	void mvApp::drawRectangle(const std::string& drawing, const mvVec2& pmin, const mvVec2& pmax, const mvColor& color, const mvColor& fill, float rounding, float thickness)
-	{
-		mvAppItem* item = getItem(drawing);
-		mvDrawing* dwg = static_cast<mvDrawing*>(item);
-		dwg->drawRectangle(pmin, pmax, color, fill, rounding, thickness);
-	}
-
-	void mvApp::drawQuad(const std::string& drawing, const mvVec2& p1, const mvVec2& p2, const mvVec2& p3, const mvVec2& p4, const mvColor& color, const mvColor& fill, float thickness)
-	{
-		mvAppItem* item = getItem(drawing);
-		mvDrawing* dwg = static_cast<mvDrawing*>(item);
-		dwg->drawQuad(p1, p2, p3, p4, color, fill, thickness);
-	}
-
-	void mvApp::drawText(const std::string& drawing, const mvVec2& pos, const std::string& text, const mvColor& color, int size)
-	{
-		mvAppItem* item = getItem(drawing);
-		mvDrawing* dwg = static_cast<mvDrawing*>(item);
-		dwg->drawText(pos, text, color, size);
-	}
-
-	void mvApp::drawCircle(const std::string& drawing, const mvVec2& center, float radius, const mvColor& color, int segments, float thickness, const mvColor& fill)
-	{
-		mvAppItem* item = getItem(drawing);
-		mvDrawing* dwg = static_cast<mvDrawing*>(item);
-		dwg->drawCircle(center, radius, color, segments, thickness, fill);
-	}
-
-	void mvApp::drawPolyline(const std::string& drawing, const std::vector<mvVec2>& points, const mvColor& color, bool closed, float thickness)
-	{
-		mvAppItem* item = getItem(drawing);
-		mvDrawing* dwg = static_cast<mvDrawing*>(item);
-		dwg->drawPolyline(points, color, closed, thickness);
-	}
-
-	void mvApp::drawPolygon(const std::string& drawing, const std::vector<mvVec2>& points, const mvColor& color, const mvColor& fill, float thickness)
-	{
-		mvAppItem* item = getItem(drawing);
-		mvDrawing* dwg = static_cast<mvDrawing*>(item);
-		dwg->drawPolygon(points, color, fill, thickness);
-	}
-
-	void mvApp::drawBezierCurve(const std::string& drawing, const mvVec2& p1, const mvVec2& p2, const mvVec2& p3, const mvVec2& p4, const mvColor& color, float thickness, int segments)
-	{
-		mvAppItem* item = getItem(drawing);
-		mvDrawing* dwg = static_cast<mvDrawing*>(item);
-		dwg->drawBezierCurve(p1, p2, p3, p4, color, thickness, segments);
 	}
 
 }

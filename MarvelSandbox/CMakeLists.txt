@@ -7,15 +7,14 @@ target_sources(MarvelSandbox
 	PRIVATE
 
 		"${CMAKE_CURRENT_SOURCE_DIR}/EntryPoint.cpp"
-		
 		"${CMAKE_CURRENT_SOURCE_DIR}/src/Core/mvApp.cpp"
-		"${CMAKE_CURRENT_SOURCE_DIR}/src/Core/mvAppItem.cpp"
 		"${CMAKE_CURRENT_SOURCE_DIR}/src/Core/mvTheme.cpp"
 		"${CMAKE_CURRENT_SOURCE_DIR}/src/Core/mvLogger.cpp"
 		"${CMAKE_CURRENT_SOURCE_DIR}/src/Core/mvPythonModule.cpp"
 		"${CMAKE_CURRENT_SOURCE_DIR}/src/Core/mvWindow.cpp"
 		"${CMAKE_CURRENT_SOURCE_DIR}/src/Core/mvPythonTranslator.cpp"
 		
+		"${CMAKE_CURRENT_SOURCE_DIR}/src/Core/AppItems/mvAppItem.cpp"
 		"${CMAKE_CURRENT_SOURCE_DIR}/src/Core/AppItems/mvDrawing.cpp"
 
 		"${CMAKE_CURRENT_SOURCE_DIR}/src/Core/PythonInterfaces/mvAppInterface.cpp"
@@ -23,6 +22,7 @@ target_sources(MarvelSandbox
 		"${CMAKE_CURRENT_SOURCE_DIR}/src/Core/PythonInterfaces/mvInputInterface.cpp"
 		"${CMAKE_CURRENT_SOURCE_DIR}/src/Core/PythonInterfaces/mvPlotInterface.cpp"
 		"${CMAKE_CURRENT_SOURCE_DIR}/src/Core/PythonInterfaces/mvDrawingInterface.cpp"
+		"${CMAKE_CURRENT_SOURCE_DIR}/src/Core/PythonInterfaces/mvWidgetAddingInterface.cpp"
 
 		"${CMAKE_CURRENT_SOURCE_DIR}/src/Platform/Windows/mvWindowsWindow.cpp"
 		
@@ -33,8 +33,7 @@ target_sources(MarvelSandbox
 		"${CMAKE_CURRENT_SOURCE_DIR}/../Dependencies/imgui/imgui_draw.cpp"
 		"${CMAKE_CURRENT_SOURCE_DIR}/../Dependencies/imgui/imgui_widgets.cpp"
 		"${CMAKE_CURRENT_SOURCE_DIR}/../Dependencies/imgui/examples/imgui_impl_win32.cpp"
-		"${CMAKE_CURRENT_SOURCE_DIR}/../Dependencies/imgui/examples/imgui_impl_dx11.cpp"
- "src/Core/AppItems/mvDrawing.cpp")
+		"${CMAKE_CURRENT_SOURCE_DIR}/../Dependencies/imgui/examples/imgui_impl_dx11.cpp")
 
 target_include_directories(MarvelSandbox
 

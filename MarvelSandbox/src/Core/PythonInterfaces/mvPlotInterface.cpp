@@ -1,5 +1,6 @@
 #include "Core/mvPythonModule.h"
 #include "Core/mvApp.h"
+#include "Core/AppItems/mvAppItems.h"
 #include "Core/mvPythonTranslator.h"
 
 namespace Marvel {
@@ -17,7 +18,9 @@ namespace Marvel {
 
 		pl.parse(__FUNCTION__, &name, &width, &height);
 
-		mvApp::GetApp()->addPlot(std::string(name), width, height);
+		mvAppItem* item = new mvPlot("", name, width, height);
+		mvApp::GetApp()->addItem(item);
+
 		Py_INCREF(Py_None);
 		return Py_None;
 	}

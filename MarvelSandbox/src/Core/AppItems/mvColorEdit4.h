@@ -2,6 +2,13 @@
 
 #include "Core/AppItems/mvTypeBases.h"
 
+//-----------------------------------------------------------------------------
+// Widget Index
+//
+//     * mvColorEdit4
+//
+//-----------------------------------------------------------------------------
+
 namespace Marvel {
 
 	class mvColorEdit4 : public mvFloatItemBase
