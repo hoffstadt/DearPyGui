@@ -4,6 +4,7 @@
 #include <vector>
 #define PY_SSIZE_T_CLEAN
 #include <Python.h>
+#include "mvCore.h"
 
 namespace Marvel {
 
@@ -72,6 +73,9 @@ namespace Marvel {
 
 		std::vector<std::string> getStringVec(PyObject* obj);
 		std::vector<float>       getFloatVec(PyObject* obj);
+		mvVec2                   getVec2(PyObject* obj);
+		mvColor                  getColor(PyObject* obj);
+		std::vector<mvVec2>      getVectVec2(PyObject* obj);
 
 	private:
 

@@ -5,7 +5,6 @@
 #include <string>
 #include <vector>
 #include <imgui.h>
-#include "mvColor1.h"
 #include "mvCore.h"
 
 //-----------------------------------------------------------------------------

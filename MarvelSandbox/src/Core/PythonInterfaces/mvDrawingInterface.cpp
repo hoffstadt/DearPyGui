@@ -31,26 +31,303 @@ namespace Marvel {
 	PyObject* drawLine(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		const char* drawing;
-		int x1, y1, x2, y2, thickness;
+		int thickness;
+		PyObject* p1, *p2;
 		PyObject* color;
 
 		auto pl = mvPythonTranslator(args, kwargs, {
 			mvPythonDataElement(mvPythonDataType::String, "drawing"),
-			mvPythonDataElement(mvPythonDataType::Integer, "x1"),
-			mvPythonDataElement(mvPythonDataType::Integer, "y1"),
-			mvPythonDataElement(mvPythonDataType::Integer, "x2"),
-			mvPythonDataElement(mvPythonDataType::Integer, "y2"),
+			mvPythonDataElement(mvPythonDataType::FloatList, "p1"),
+			mvPythonDataElement(mvPythonDataType::FloatList, "p2"),
 			mvPythonDataElement(mvPythonDataType::FloatList, "color"),
 			mvPythonDataElement(mvPythonDataType::Integer, "thickness")
 			});
 
-		if (!pl.parse(__FUNCTION__, &drawing, &x1, &y1, &x2, &y2, &color, &thickness))
+		if (!pl.parse(__FUNCTION__, &drawing, &p1, &p2, &color, &thickness))
 			return Py_None;
 
 
-		auto acolor = pl.getFloatVec(color);
+		mvVec2 mp1 = pl.getVec2(p1);
+		mvVec2 mp2 = pl.getVec2(p2);
+		mvColor mcolor = pl.getColor(color);
 
-		mvApp::GetApp()->drawLine(drawing, x1, y1, x2, y2, {acolor[0], acolor[1], acolor[2], acolor[3], true}, thickness);
+		mvApp::GetApp()->drawLine(drawing, mp1, mp2, mcolor, thickness);
+
+		Py_INCREF(Py_None);
+
+		return Py_None;
+	}
+
+	PyObject* drawTriangle(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		const char* drawing;
+		float thickness = 1.0f;
+		PyObject* p1, * p2, *p3;
+		PyObject* color;
+		PyObject* fill = nullptr;
+
+		auto pl = mvPythonTranslator(args, kwargs, {
+			mvPythonDataElement(mvPythonDataType::String, "drawing"),
+			mvPythonDataElement(mvPythonDataType::FloatList, "p1"),
+			mvPythonDataElement(mvPythonDataType::FloatList, "p2"),
+			mvPythonDataElement(mvPythonDataType::FloatList, "p3"),
+			mvPythonDataElement(mvPythonDataType::FloatList, "color"),
+			mvPythonDataElement(mvPythonDataType::Optional, ""),
+			mvPythonDataElement(mvPythonDataType::FloatList, "fill"),
+			mvPythonDataElement(mvPythonDataType::Float, "thickness")
+			});
+
+		if (!pl.parse(__FUNCTION__, &drawing, &p1, &p2, &p3, &color, &fill, &thickness))
+			return Py_None;
+
+
+		mvVec2 mp1 = pl.getVec2(p1);
+		mvVec2 mp2 = pl.getVec2(p2);
+		mvVec2 mp3 = pl.getVec2(p3);
+		mvColor mcolor = pl.getColor(color);
+		mvColor mfill = pl.getColor(fill);
+
+		mvApp::GetApp()->drawTriangle(drawing, mp1, mp2, mp3, mcolor, mfill, thickness);
+
+		Py_INCREF(Py_None);
+
+		return Py_None;
+	}
+
+	PyObject* drawRectangle(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		const char* drawing;
+		float thickness = 1.0f, rounding = 0.0f;
+		PyObject* pmin, * pmax;
+		PyObject* color;
+		PyObject* fill = nullptr;
+
+		auto pl = mvPythonTranslator(args, kwargs, {
+			mvPythonDataElement(mvPythonDataType::String, "drawing"),
+			mvPythonDataElement(mvPythonDataType::FloatList, "pmin"),
+			mvPythonDataElement(mvPythonDataType::FloatList, "pmax"),
+			mvPythonDataElement(mvPythonDataType::FloatList, "color"),
+			mvPythonDataElement(mvPythonDataType::Optional, ""),
+			mvPythonDataElement(mvPythonDataType::FloatList, "fill"),
+			mvPythonDataElement(mvPythonDataType::Float, "rounding"),
+			mvPythonDataElement(mvPythonDataType::Float, "thickness")
+			});
+
+		if (!pl.parse(__FUNCTION__, &drawing, &pmin, &pmax, &color, &fill, &rounding, &thickness))
+			return Py_None;
+
+
+		mvVec2 mpmax = pl.getVec2(pmax);
+		mvVec2 mpmin = pl.getVec2(pmin);
+		mvColor mcolor = pl.getColor(color);
+		mvColor mfill = pl.getColor(fill);
+
+		mvApp::GetApp()->drawRectangle(drawing, mpmin, mpmax, mcolor, mfill, rounding, thickness);
+
+		Py_INCREF(Py_None);
+
+		return Py_None;
+	}
+
+	PyObject* drawQuad(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		const char* drawing;
+		float thickness = 1.0f;
+		PyObject* p1, * p2, *p3, *p4;
+		PyObject* color;
+		PyObject* fill = nullptr;
+
+		auto pl = mvPythonTranslator(args, kwargs, {
+			mvPythonDataElement(mvPythonDataType::String, "drawing"),
+			mvPythonDataElement(mvPythonDataType::FloatList, "p1"),
+			mvPythonDataElement(mvPythonDataType::FloatList, "p2"),
+			mvPythonDataElement(mvPythonDataType::FloatList, "p3"),
+			mvPythonDataElement(mvPythonDataType::FloatList, "p4"),
+			mvPythonDataElement(mvPythonDataType::FloatList, "color"),
+			mvPythonDataElement(mvPythonDataType::Optional, ""),
+			mvPythonDataElement(mvPythonDataType::FloatList, "fill"),
+			mvPythonDataElement(mvPythonDataType::Float, "thickness")
+			});
+
+		if (!pl.parse(__FUNCTION__, &drawing, &p1, &p2, &p3, &p4, &color, &fill, &thickness))
+			return Py_None;
+
+
+		mvVec2 mp1 = pl.getVec2(p1);
+		mvVec2 mp2 = pl.getVec2(p2);
+		mvVec2 mp3 = pl.getVec2(p3);
+		mvVec2 mp4 = pl.getVec2(p4);
+		mvColor mcolor = pl.getColor(color);
+		mvColor mfill = pl.getColor(fill);
+
+		mvApp::GetApp()->drawQuad(drawing, mp1, mp2, mp3, mp4, mcolor, mfill, thickness);
+
+		Py_INCREF(Py_None);
+
+		return Py_None;
+	}
+
+	PyObject* drawText(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		const char* drawing;
+		const char* text;
+		PyObject* pos;
+		int size = 10;
+		PyObject* color = nullptr;
+
+		auto pl = mvPythonTranslator(args, kwargs, {
+			mvPythonDataElement(mvPythonDataType::String, "drawing"),
+			mvPythonDataElement(mvPythonDataType::FloatList, "pos"),
+			mvPythonDataElement(mvPythonDataType::String, "text"),
+			mvPythonDataElement(mvPythonDataType::Optional, ""),
+			mvPythonDataElement(mvPythonDataType::FloatList, "color"),
+			mvPythonDataElement(mvPythonDataType::Integer, "size")
+			});
+
+		if (!pl.parse(__FUNCTION__, &drawing, &pos, &text, &color, &size))
+			return Py_None;
+
+
+		mvVec2 mpos = pl.getVec2(pos);
+		mvColor mcolor = pl.getColor(color);
+
+		mvApp::GetApp()->drawText(drawing, mpos, text, mcolor, size);
+
+		Py_INCREF(Py_None);
+
+		return Py_None;
+	}
+
+	PyObject* drawCircle(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		const char* drawing;
+		PyObject* center;
+		float radius;
+		PyObject* color;
+		int segments = 12;
+		float thickness = 1.0f;
+		PyObject* fill = nullptr;
+
+		auto pl = mvPythonTranslator(args, kwargs, {
+			mvPythonDataElement(mvPythonDataType::String, "drawing"),
+			mvPythonDataElement(mvPythonDataType::FloatList, "center"),
+			mvPythonDataElement(mvPythonDataType::Float, "radius"),
+			mvPythonDataElement(mvPythonDataType::FloatList, "color"),
+			mvPythonDataElement(mvPythonDataType::Optional, ""),
+			mvPythonDataElement(mvPythonDataType::Integer, "segments"),
+			mvPythonDataElement(mvPythonDataType::Float, "thickness"),
+			mvPythonDataElement(mvPythonDataType::FloatList, "fill")
+			});
+
+		if (!pl.parse(__FUNCTION__, &drawing, &center, &radius, &color, &segments, &thickness, &fill))
+			return Py_None;
+
+
+		mvVec2 mcenter = pl.getVec2(center);
+		mvColor mcolor = pl.getColor(color);
+		mvColor mfill = pl.getColor(fill);
+
+		mvApp::GetApp()->drawCircle(drawing, mcenter, radius, mcolor, segments, thickness, mfill);
+
+		Py_INCREF(Py_None);
+
+		return Py_None;
+	}
+
+	PyObject* drawPolyline(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		const char* drawing;
+		PyObject* points;
+		PyObject* color;
+		int closed = false;
+		float thickness = 1.0f;
+
+		auto pl = mvPythonTranslator(args, kwargs, {
+			mvPythonDataElement(mvPythonDataType::String, "drawing"),
+			mvPythonDataElement(mvPythonDataType::FloatList, "points"),
+			mvPythonDataElement(mvPythonDataType::FloatList, "color"),
+			mvPythonDataElement(mvPythonDataType::Optional, ""),
+			mvPythonDataElement(mvPythonDataType::Integer, "closed"),
+			mvPythonDataElement(mvPythonDataType::Float, "thickness"),
+			});
+
+		if (!pl.parse(__FUNCTION__, &drawing, &points, &color, &closed, &thickness))
+			return Py_None;
+
+
+		auto mpoints = pl.getVectVec2(points);
+		mvColor mcolor = pl.getColor(color);
+
+		mvApp::GetApp()->drawPolyline(drawing, mpoints, mcolor, closed, thickness);
+
+		Py_INCREF(Py_None);
+
+		return Py_None;
+	}
+
+	PyObject* drawPolygon(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		const char* drawing;
+		PyObject* points;
+		PyObject* color;
+		PyObject* fill = nullptr;
+		float thickness = 1.0f;
+
+		auto pl = mvPythonTranslator(args, kwargs, {
+			mvPythonDataElement(mvPythonDataType::String, "drawing"),
+			mvPythonDataElement(mvPythonDataType::FloatList, "points"),
+			mvPythonDataElement(mvPythonDataType::FloatList, "color"),
+			mvPythonDataElement(mvPythonDataType::Optional, ""),
+			mvPythonDataElement(mvPythonDataType::FloatList, "fill"),
+			mvPythonDataElement(mvPythonDataType::Float, "thickness"),
+			});
+
+		if (!pl.parse(__FUNCTION__, &drawing, &points, &color, &fill, &thickness))
+			return Py_None;
+
+
+		auto mpoints = pl.getVectVec2(points);
+		mvColor mcolor = pl.getColor(color);
+		mvColor mfill = pl.getColor(fill);
+
+		mvApp::GetApp()->drawPolygon(drawing, mpoints, mcolor, mfill, thickness);
+
+		Py_INCREF(Py_None);
+
+		return Py_None;
+	}
+
+	PyObject* drawBezierCurve(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		const char* drawing;
+		float thickness = 1.0f;
+		PyObject* p1, * p2, * p3, * p4;
+		PyObject* color;
+		int segments = 0;
+
+		auto pl = mvPythonTranslator(args, kwargs, {
+			mvPythonDataElement(mvPythonDataType::String, "drawing"),
+			mvPythonDataElement(mvPythonDataType::FloatList, "p1"),
+			mvPythonDataElement(mvPythonDataType::FloatList, "p2"),
+			mvPythonDataElement(mvPythonDataType::FloatList, "p3"),
+			mvPythonDataElement(mvPythonDataType::FloatList, "p4"),
+			mvPythonDataElement(mvPythonDataType::FloatList, "color"),
+			mvPythonDataElement(mvPythonDataType::Optional, ""),
+			mvPythonDataElement(mvPythonDataType::Float, "thickness"),
+			mvPythonDataElement(mvPythonDataType::Integer, "segments")
+			});
+
+		if (!pl.parse(__FUNCTION__, &drawing, &p1, &p2, &p3, &p4, &color, &thickness, &segments))
+			return Py_None;
+
+
+		mvVec2 mp1 = pl.getVec2(p1);
+		mvVec2 mp2 = pl.getVec2(p2);
+		mvVec2 mp3 = pl.getVec2(p3);
+		mvVec2 mp4 = pl.getVec2(p4);
+		mvColor mcolor = pl.getColor(color);
+
+		mvApp::GetApp()->drawBezierCurve(drawing, mp1, mp2, mp3, mp4, mcolor, thickness, segments);
 
 		Py_INCREF(Py_None);
 
@@ -81,6 +358,14 @@ namespace Marvel {
 	{
 		pyModule.addMethod(addDrawing, "Not Documented");
 		pyModule.addMethod(drawLine, "Not Documented");
+		pyModule.addMethod(drawTriangle, "Not Documented");
+		pyModule.addMethod(drawRectangle, "Not Documented");
+		pyModule.addMethod(drawQuad, "Not Documented");
+		pyModule.addMethod(drawText, "Not Documented");
+		pyModule.addMethod(drawCircle, "Not Documented");
+		pyModule.addMethod(drawPolyline, "Not Documented");
+		pyModule.addMethod(drawPolygon, "Not Documented");
+		pyModule.addMethod(drawBezierCurve, "Not Documented");
 		pyModule.addMethod(clearDrawing, "Not Documented");
 
 		PyImport_AppendInittab(pyModule.getName(), initfunc);

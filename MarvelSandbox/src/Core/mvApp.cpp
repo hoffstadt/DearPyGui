@@ -1,4 +1,5 @@
 #include "mvApp.h"
+#include "mvCore.h"
 #include "mvLogger.h"
 #include "AppItems/mvInputText.h"
 #include "AppItems/mvTab.h"
@@ -795,10 +796,67 @@ namespace Marvel {
 		dwg->clear();
 	}
 
-	void mvApp::drawLine(const std::string& drawing, int x1, int y1, int x2, int y2, const mvColor& color, int thickness)
+	void mvApp::drawLine(const std::string& drawing, const mvVec2& p1, const mvVec2& p2, const mvColor& color, int thickness)
 	{
 		mvAppItem* item = getItem(drawing);
 		mvDrawing* dwg = static_cast<mvDrawing*>(item);
-		dwg->drawLine(x1, y1, x2, y2, color, thickness);
+		dwg->drawLine(p1, p2, color, thickness);
 	}
+
+	void mvApp::drawTriangle(const std::string& drawing, const mvVec2& p1, const mvVec2& p2, const mvVec2& p3, const mvColor& color, const mvColor& fill, float thickness)
+	{
+		mvAppItem* item = getItem(drawing);
+		mvDrawing* dwg = static_cast<mvDrawing*>(item);
+		dwg->drawTriangle(p1, p2, p3, color, fill, thickness);
+	}
+
+	void mvApp::drawRectangle(const std::string& drawing, const mvVec2& pmin, const mvVec2& pmax, const mvColor& color, const mvColor& fill, float rounding, float thickness)
+	{
+		mvAppItem* item = getItem(drawing);
+		mvDrawing* dwg = static_cast<mvDrawing*>(item);
+		dwg->drawRectangle(pmin, pmax, color, fill, rounding, thickness);
+	}
+
+	void mvApp::drawQuad(const std::string& drawing, const mvVec2& p1, const mvVec2& p2, const mvVec2& p3, const mvVec2& p4, const mvColor& color, const mvColor& fill, float thickness)
+	{
+		mvAppItem* item = getItem(drawing);
+		mvDrawing* dwg = static_cast<mvDrawing*>(item);
+		dwg->drawQuad(p1, p2, p3, p4, color, fill, thickness);
+	}
+
+	void mvApp::drawText(const std::string& drawing, const mvVec2& pos, const std::string& text, const mvColor& color, int size)
+	{
+		mvAppItem* item = getItem(drawing);
+		mvDrawing* dwg = static_cast<mvDrawing*>(item);
+		dwg->drawText(pos, text, color, size);
+	}
+
+	void mvApp::drawCircle(const std::string& drawing, const mvVec2& center, float radius, const mvColor& color, int segments, float thickness, const mvColor& fill)
+	{
+		mvAppItem* item = getItem(drawing);
+		mvDrawing* dwg = static_cast<mvDrawing*>(item);
+		dwg->drawCircle(center, radius, color, segments, thickness, fill);
+	}
+
+	void mvApp::drawPolyline(const std::string& drawing, const std::vector<mvVec2>& points, const mvColor& color, bool closed, float thickness)
+	{
+		mvAppItem* item = getItem(drawing);
+		mvDrawing* dwg = static_cast<mvDrawing*>(item);
+		dwg->drawPolyline(points, color, closed, thickness);
+	}
+
+	void mvApp::drawPolygon(const std::string& drawing, const std::vector<mvVec2>& points, const mvColor& color, const mvColor& fill, float thickness)
+	{
+		mvAppItem* item = getItem(drawing);
+		mvDrawing* dwg = static_cast<mvDrawing*>(item);
+		dwg->drawPolygon(points, color, fill, thickness);
+	}
+
+	void mvApp::drawBezierCurve(const std::string& drawing, const mvVec2& p1, const mvVec2& p2, const mvVec2& p3, const mvVec2& p4, const mvColor& color, float thickness, int segments)
+	{
+		mvAppItem* item = getItem(drawing);
+		mvDrawing* dwg = static_cast<mvDrawing*>(item);
+		dwg->drawBezierCurve(p1, p2, p3, p4, color, thickness, segments);
+	}
+
 }
