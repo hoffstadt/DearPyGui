@@ -176,6 +176,28 @@ namespace Marvel {
 		return Py_None;
 	}
 
+	PyObject* addSelectable(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		const char* name;
+		int default_value = false;
+
+		auto pl = mvPythonTranslator(args, kwargs, {
+			mvPythonDataElement(mvPythonDataType::String, "name"),
+			mvPythonDataElement(mvPythonDataType::Optional, ""),
+			mvPythonDataElement(mvPythonDataType::Bool, "default_value")
+			});
+
+		if (!pl.parse(__FUNCTION__, &name, &default_value))
+			return Py_None;
+
+		mvAppItem* item = new mvSelectable("", name, default_value);
+		mvApp::GetApp()->addItem(item);
+
+		Py_INCREF(Py_None);
+
+		return Py_None;
+	}
+
 	PyObject* addButton(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		const char* name;
@@ -721,6 +743,7 @@ namespace Marvel {
 
 	void CreateWidgetAddingInterface(mvPythonModule& pyModule, PyObject* (*initfunc)())
 	{
+		pyModule.addMethod(addSelectable, "Not Documented");
 		pyModule.addMethod(addPopup, "Not Documented");
 		pyModule.addMethod(endPopup, "Not Documented");
 		pyModule.addMethod(addWindow, "Not Documented");
