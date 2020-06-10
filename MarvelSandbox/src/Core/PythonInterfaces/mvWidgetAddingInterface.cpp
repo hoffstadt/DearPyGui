@@ -687,6 +687,32 @@ namespace Marvel {
 		return Py_None;
 	}
 
+	PyObject* addTreeNode(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		const char* name;
+
+		auto pl = mvPythonTranslator(args, kwargs, {
+			mvPythonDataElement(mvPythonDataType::String, "name")
+			});
+
+		pl.parse(__FUNCTION__, &name);
+
+		mvAppItem* item = new mvTreeNode("", name);
+		mvApp::GetApp()->addParentItem(item);
+
+		Py_INCREF(Py_None);
+
+		return Py_None;
+	}
+
+	PyObject* endTreeNode(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		mvAppItem* item = new mvEndTreeNode("");
+		mvApp::GetApp()->addEndParentItem(item);
+		Py_INCREF(Py_None);
+		return Py_None;
+	}
+
 	PyObject* addSeperator(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		mvAppItem* item = new mvSeparator("");
@@ -743,6 +769,8 @@ namespace Marvel {
 
 	void CreateWidgetAddingInterface(mvPythonModule& pyModule, PyObject* (*initfunc)())
 	{
+		pyModule.addMethod(addTreeNode, "Not Documented");
+		pyModule.addMethod(endTreeNode, "Not Documented");
 		pyModule.addMethod(addSelectable, "Not Documented");
 		pyModule.addMethod(addPopup, "Not Documented");
 		pyModule.addMethod(endPopup, "Not Documented");
