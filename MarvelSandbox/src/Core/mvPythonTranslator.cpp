@@ -104,4 +104,23 @@ namespace Marvel {
 		return items;
 	}
 
+	std::vector<std::pair<int, int>> mvPythonTranslator::getVectInt2(PyObject* obj)
+	{
+		std::vector<std::pair<int, int>> items;
+
+		for (int i = 0; i < PyTuple_Size(obj); i++)
+		{
+			PyObject* point = PyTuple_GetItem(obj, i);
+			for (int j = 0; j < PyTuple_Size(point); j++)
+			{
+				int x = PyLong_AsLong(PyTuple_GetItem(point, 0));
+				int y = PyLong_AsLong(PyTuple_GetItem(point, 1));
+				items.emplace_back( x, y);
+			}
+		}
+
+		return items;
+
+	}
+
 }

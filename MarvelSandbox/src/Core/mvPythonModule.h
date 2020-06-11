@@ -40,12 +40,20 @@
 #include <Python.h>
 #include <vector>
 #include <memory>
+#include <string>
 
 //-----------------------------------------------------------------------------
 // Helper Macros
 //-----------------------------------------------------------------------------
 #define addMethod(Function, Documentation) addMethod_(#Function, Function, Documentation)
-#define MV_DECLARE_PYMODULE(x, name) mvPythonModule x(name);PyObject* PyInit_Emb##x(void){return PyModule_Create(x.getModuleDefinition());};
+
+#define MV_DECLARE_PYMODULE(x, name, constants) mvPythonModule x(name, constants);\
+PyObject* PyInit_Emb##x(void){\
+PyObject* mod = PyModule_Create(x.getModuleDefinition());\
+for(auto& item : x.getIntConstants())\
+PyModule_AddIntConstant(mod, item.first.c_str(), item.second);\
+return mod;};
+
 #define MV_INIT_PYMODULE(x, y) y(x, &PyInit_Emb##x);
 
 namespace Marvel {
@@ -55,9 +63,11 @@ namespace Marvel {
 
 	public:
 
-		explicit mvPythonModule(const char* name);
+		mvPythonModule(const char* name, const std::vector<std::pair<std::string, long>>& constants);
 
 		PyModuleDef* getModuleDefinition();
+		void setIntConstants(const std::vector<std::pair<std::string, long>>& constants) { m_intconstants = constants; }
+		const std::vector<std::pair<std::string, long>>& getIntConstants() const { return m_intconstants; }
 		void addMethod_(const char* name, PyCFunction function, const char* documentation = "No documentation");
 		void addMethod_(const char* name, PyCFunctionWithKeywords function, const char* documentation = "No documentation");
 		inline const char* getName() const { return m_name; }
@@ -67,6 +77,7 @@ namespace Marvel {
 		const char*                  m_name;
 		std::vector<PyMethodDef>     m_methods;
 		std::shared_ptr<PyModuleDef> m_moduledef = nullptr;
+		std::vector<std::pair<std::string, long>>  m_intconstants;
 
 	};
 

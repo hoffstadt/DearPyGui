@@ -8,77 +8,98 @@ namespace Marvel {
 	PyObject* addPlot(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		const char* name;
-		int width, height;
+		const char* xAxisName = "";
+		const char* yAxisName = "";
+		int width = -1;
+		int height = 0;
 
 		auto pl = mvPythonTranslator(args, kwargs, {
 			mvPythonDataElement(mvPythonDataType::String, "name"),
+			mvPythonDataElement(mvPythonDataType::Optional, ""),
+			mvPythonDataElement(mvPythonDataType::String, "xAxisName"),
+			mvPythonDataElement(mvPythonDataType::String, "yAxisName"),
 			mvPythonDataElement(mvPythonDataType::Integer, "width"),
 			mvPythonDataElement(mvPythonDataType::Integer, "height")
 			});
 
-		pl.parse(__FUNCTION__, &name, &width, &height);
+		pl.parse(__FUNCTION__, &name, &xAxisName, &yAxisName, &width, &height);
 
-		mvAppItem* item = new mvPlot("", name, width, height);
+		mvAppItem* item = new mvPlot("", name,xAxisName, yAxisName, width, height);
 		mvApp::GetApp()->addItem(item);
 
 		Py_INCREF(Py_None);
 		return Py_None;
 	}
 
-	PyObject* addSeries(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* addLineSeries(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		const char* plot;
 		const char* name;
-		const char* seriestype;
 		PyObject* data;
-		PyObject* color;
+		PyObject* style = nullptr;
 
 		auto pl = mvPythonTranslator(args, kwargs, {
 			mvPythonDataElement(mvPythonDataType::String, "plot"),
 			mvPythonDataElement(mvPythonDataType::String, "name"),
-			mvPythonDataElement(mvPythonDataType::String, "seriestype"),
 			mvPythonDataElement(mvPythonDataType::FloatList, "data"),
-			mvPythonDataElement(mvPythonDataType::FloatList, "color")
+			mvPythonDataElement(mvPythonDataType::Optional, ""),
+			mvPythonDataElement(mvPythonDataType::IntList, "style", true)
 			});
 
-		pl.parse(__FUNCTION__, &plot, &name, &seriestype, &data, &color);
-
-		auto pcolor = pl.getColor(color);
+		pl.parse(__FUNCTION__, &plot, &name, &data, &style);
 
 		mvAppItem* aplot = mvApp::GetApp()->getItem(plot);
-		marvel::mvImGuiGraph* graph = static_cast<mvPlot*>(aplot)->getGraph();
+		mvPlot* graph = static_cast<mvPlot*>(aplot);
 
 		auto datapoints = pl.getVectVec2L(data);
-		std::vector<marvel::mvPoint> points;
-		for (const auto& point : datapoints)
-			points.emplace_back(point.x, point.y);
 
-		marvel::mvSeries* lineseries1 = new marvel::mvLineSeries(graph, name, points, {(int)pcolor.r*255, (int)pcolor.g*255, (int)pcolor.b*255, (int)pcolor.a*255});
+		mvSeries* series = new mvLineSeries(name, datapoints);
 
-		graph->addSeries(lineseries1);
+		graph->addSeries(series);
+
+		if (style)
+		{
+			auto mstyle = pl.getVectInt2(style);
+			for (auto& item : mstyle)
+				series->setPlotStyleVariable(item.first, item.second);
+		}
 
 		Py_INCREF(Py_None);
 		return Py_None;
 	}
 
-	PyObject* changePlotSize(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* addScatterSeries(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		const char* plot;
-		int width;
-		int height;
+		const char* name;
+		PyObject* data;
+		PyObject* style = nullptr;
 
 		auto pl = mvPythonTranslator(args, kwargs, {
 			mvPythonDataElement(mvPythonDataType::String, "plot"),
-			mvPythonDataElement(mvPythonDataType::Integer, "width"),
-			mvPythonDataElement(mvPythonDataType::Integer, "height")
+			mvPythonDataElement(mvPythonDataType::String, "name"),
+			mvPythonDataElement(mvPythonDataType::FloatList, "data"),
+			mvPythonDataElement(mvPythonDataType::Optional, ""),
+			mvPythonDataElement(mvPythonDataType::IntList, "style", true)
 			});
 
-		pl.parse(__FUNCTION__, &plot, &width, &height);
+		pl.parse(__FUNCTION__, &plot, &name, &data, &style);
 
-		mvPlot* aplot = static_cast<mvPlot*>(mvApp::GetApp()->getItem(plot));
+		mvAppItem* aplot = mvApp::GetApp()->getItem(plot);
+		mvPlot* graph = static_cast<mvPlot*>(aplot);
 
-		aplot->getGraph()->setSize(width, height);
+		auto datapoints = pl.getVectVec2L(data);
 
+		mvSeries* series = new mvScatterSeries(name, datapoints);
+
+		graph->addSeries(series);
+
+		if (style)
+		{
+			auto mstyle = pl.getVectInt2(style);
+			for (auto& item : mstyle)
+				series->setPlotStyleVariable(item.first, item.second);
+		}
 
 		Py_INCREF(Py_None);
 		return Py_None;
@@ -87,9 +108,10 @@ namespace Marvel {
 	void CreatePlotInterface(mvPythonModule& pyModule, PyObject* (*initfunc)())
 	{
 		pyModule.addMethod(addPlot, "Not Documented");
-		pyModule.addMethod(addSeries, "Not Documented");
-		pyModule.addMethod(changePlotSize, "Not Documented");
+		pyModule.addMethod(addLineSeries, "Not Documented");
+		pyModule.addMethod(addScatterSeries, "Not Documented");
 
 		PyImport_AppendInittab(pyModule.getName(), initfunc);
 	}
+
 }

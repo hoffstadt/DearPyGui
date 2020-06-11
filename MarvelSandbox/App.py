@@ -4,8 +4,9 @@ from sbInput import *
 from sbPlot import *
 from sbDraw import *
 from sbWidgets import *
+import sbConstants
 import SandboxTheme
-from math import sin
+from math import sin, cos
 
 # create some menus
 addMenuBar("MenuBar")
@@ -18,6 +19,7 @@ addMenuItem("callback 3", callback="ItemCallback")
 endMenu()
 endMenu()
 addMenu("Tools")
+addMenuItem("Show Logger", callback="ShowLoggerCallback")
 addMenuItem("Show About", callback="ShowAboutCallback")
 addMenuItem("Show Metrics", callback="ShowMetricsCallback")
 endMenu()
@@ -29,8 +31,6 @@ endPopup()
 
 
 # various widgets
-addButton("Plot data", callback="PlotCallback", tip="new tip", width=600)
-addButton("Resize plot", callback="ResizePlotCallback")
 addButton("Press me", callback="ItemCallback")
 addPopup("Press me", "popup1", mousebutton=1, modal=True)
 addText("Popup text")
@@ -91,15 +91,10 @@ addInputText("Testing4")
 
 addTooltip("Testing4", "Tooltip1")         # start tooltip
 addButton("A Fancy tooltip 1")
-addPlot("Plot1", 500, 500);
+addPlot("Plot1");
 endTooltip()                     # end tooltip
 
 endTab()
-
-addTab("Tab3")
-addPlot("Plot2", 1100, 800);
-endTab()
-
 
 addTab("Tab4")
 addSimplePlot("Simpleplot1", (0.3, 0.9, 2.5, 8.9))
@@ -140,32 +135,38 @@ endTab()
 
 endTabBar()
 
-addWindow("win1", 300, 200)
-addInputText("winTesting", hint="a hint")
-addInputText("winTestingMul", multiline=True)
+addWindow("Plotting Window", 500, 500)
+addButton("Plot data", callback="PlotCallback", tip="new tip")
+addButton("Resize plot", callback="ResizePlotCallback")
+addPlot("Plot2", "x-axis", "y-axis", -1, 450);
 endWindow()
 
 # setting main callbacks
 #setMainCallback("MainCallback")
-setMouseDownCallback("MouseDownCallback")
-setMouseClickCallback("MouseClickCallback")
-setMouseDoubleClickCallback("MouseDoubleClickCallback")
-setKeyDownCallback("KeyDownCallback")
-setKeyPressCallback("KeyPressCallback")
-setKeyReleaseCallback("KeyReleaseClickCallback")
+#setMouseDownCallback("MouseDownCallback")
+#setMouseClickCallback("MouseClickCallback")
+#setMouseDoubleClickCallback("MouseDoubleClickCallback")
+#setKeyDownCallback("KeyDownCallback")
+#setKeyPressCallback("KeyPressCallback")
+#setKeyReleaseCallback("KeyReleaseClickCallback")
 
 def ShowMetricsCallback(sender):
     showMetrics()
 def ShowAboutCallback(sender):
     showAbout()
+def ShowLoggerCallback(sender):
+    ShowLogger()
 
 def PlotCallback(sender):
-    data1 = [[0, 0], [1, 1], [2, 1]]
+    data1 = []
+    for i in range(0, 100):
+        data1.append([3.14*i/180, cos(3*3.14*i/180)])
+
     data2 = []
     for i in range(0, 100):
         data2.append([3.14*i/180, sin(2*3.14*i/180)])
-    addSeries("Plot2", "Simple", "Line", data1, (0, 1, 0, 1))
-    addSeries("Plot2", "Sin", "Line", data2, (1, 0.2, 0, 1))
+    addLineSeries("Plot2", "Simple", data1, style=( (sbConstants.mvPlotStyleVar_Marker, sbConstants.mvPlotMarker_Diamond), ))
+    addScatterSeries("Plot2", "Sin", data2)
 
 def ResizePlotCallback(sender):
     changePlotSize("Plot2", 640, 400)

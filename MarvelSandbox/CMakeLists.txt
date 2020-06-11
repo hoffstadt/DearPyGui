@@ -25,6 +25,10 @@ target_sources(MarvelSandbox
 		"${CMAKE_CURRENT_SOURCE_DIR}/src/Core/PythonInterfaces/mvWidgetAddingInterface.cpp"
 
 		"${CMAKE_CURRENT_SOURCE_DIR}/src/Platform/Windows/mvWindowsWindow.cpp"
+
+		# implot
+		"${CMAKE_CURRENT_SOURCE_DIR}/../Dependencies/implot/implot.cpp"
+		"${CMAKE_CURRENT_SOURCE_DIR}/../Dependencies/implot/implot_demo.cpp"
 		
 		# imgui
 		"${CMAKE_CURRENT_SOURCE_DIR}/../Dependencies/imgui/misc/cpp/imgui_stdlib.cpp"
@@ -43,11 +47,7 @@ target_include_directories(MarvelSandbox
 		"${CMAKE_CURRENT_SOURCE_DIR}/../Dependencies/imgui/"
 		"${CMAKE_CURRENT_SOURCE_DIR}/../Dependencies/imgui/examples/"
 		"${CMAKE_CURRENT_SOURCE_DIR}/../Dependencies/cpython/Include/"
-
-		"${CMAKE_CURRENT_SOURCE_DIR}/../Dependencies/MarvelGraph/MarvelGraph/include/"
-		"${CMAKE_CURRENT_SOURCE_DIR}/../Dependencies/MarvelGraph/MarvelGraph/include/layers"
-		"${CMAKE_CURRENT_SOURCE_DIR}/../Dependencies/MarvelGraph/MarvelGraph/include/events"
-		"${CMAKE_CURRENT_SOURCE_DIR}/../Dependencies/MarvelGraph/MarvelGraph/include/instrumentation"
+		"${CMAKE_CURRENT_SOURCE_DIR}/../Dependencies/implot/"
 )
 
 target_link_directories(MarvelSandbox
@@ -60,7 +60,6 @@ target_link_libraries(MarvelSandbox
 
 	PRIVATE
 
-		marvelgraph
 		d3d11
 		$<$<CONFIG:Debug>:python3_d>
 		$<$<CONFIG:Release>:python3>
