@@ -7,4 +7,3 @@ add_definitions(-D_USE_MATH_DEFINES)
 # Include sub-projects.
 add_subdirectory ("PureImgui")
 add_subdirectory ("MarvelSandbox")
-add_subdirectory ("Dependencies/MarvelGraph/MarvelGraph")
