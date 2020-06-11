@@ -496,6 +496,14 @@ namespace Marvel {
 
 		PyObject* pHandler = PyDict_GetItemString(m_pDict, name.c_str()); // borrowed reference
 
+		// if callback doesn't exist
+		if (pHandler == NULL)
+		{
+			std::string message(" Callback doesn't exist");
+			LogWarning(name + message);
+			return;
+		}
+
 		PyObject* pArgs = PyTuple_New(1);
 		PyTuple_SetItem(pArgs, 0, PyUnicode_FromString(sender.c_str()));
 
@@ -518,6 +526,14 @@ namespace Marvel {
 		PyErr_Clear();
 
 		PyObject* pHandler = PyDict_GetItemString(m_pDict, name.c_str()); // borrowed reference
+
+		// if callback doesn't exist
+		if (pHandler == NULL)
+		{
+			std::string message(" Callback doesn't exist");
+			LogWarning(name + message);
+			return;
+		}
 
 		PyObject* pArgs = PyTuple_New(2);
 		PyTuple_SetItem(pArgs, 0, PyUnicode_FromString(sender.c_str()));
