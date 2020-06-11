@@ -1,14 +1,9 @@
 #pragma once
 
 #include "Core/AppItems/mvTypeBases.h"
-
-#include "events/mvMouseEvent.h"
-#include "events/mvApplicationEvent.h"
-#include "layers/mvBackgroundLayer.h"
-#include "layers/mvPlotLayer.h"
-#include "mvSeries.h"
-#include "Core/mvImGui.h"
-#include "mvGraph.h"
+#include <implot.h>
+#include <map>
+#include "Core/mvCore.h"
 
 //-----------------------------------------------------------------------------
 // Widget Index
@@ -19,6 +14,58 @@
 
 namespace Marvel {
 
+	//-----------------------------------------------------------------------------
+	// mvSeries
+	//-----------------------------------------------------------------------------
+	class mvSeries
+	{
+
+	public:
+
+		mvSeries(const std::string& name, const std::vector<mvVec2>& points)
+			: m_name(name)
+		{
+			for (auto point : points)
+			{
+				m_xs.push_back(point.x);
+				m_ys.push_back(point.y);
+			}
+
+		}
+
+		virtual void draw() = 0;
+
+		void predraw()
+		{
+			for(auto item : m_variables)
+				ImPlot::PushStyleVar(item.first, item.second);
+
+			for (auto item : m_colors)
+				ImPlot::PushStyleColor(item.first, item.second);
+		}
+
+		void postdraw()
+		{
+			ImPlot::PopStyleVar(m_variables.size());
+			ImPlot::PopStyleColor(m_colors.size());
+		}
+
+		inline void setPlotColors(ImPlotCol var, int value) { m_colors.emplace_back(var, value); }
+		inline void setPlotStyleVariable(ImPlotStyleVar var, int value) { m_variables.emplace_back(var, value); }
+
+	protected:
+
+		std::string        m_name;
+		std::vector<float> m_xs;
+		std::vector<float> m_ys;
+		std::vector<std::pair<ImPlotStyleVar, int>> m_variables;
+		std::vector<std::pair<ImPlotCol, int>> m_colors;
+
+	};
+
+	//-----------------------------------------------------------------------------
+	// mvPlot
+	//-----------------------------------------------------------------------------
 	class mvPlot : public mvNoneItemBase
 	{
 
@@ -26,49 +73,87 @@ namespace Marvel {
 
 		MV_APPITEM_TYPE(mvAppItemType::Plot)
 
-		mvPlot(const std::string& parent, const std::string& name, int width, int height)
-			: mvNoneItemBase(parent, name), m_width(width), m_height(height)
+		mvPlot(const std::string& parent, const std::string& name, const std::string& xname="", 
+			const std::string& yname="", int width = -1, int height = 0)
+			: mvNoneItemBase(parent, name), m_xaxisName(xname), m_yaxisName(yname), m_height(height)
 		{
+			m_width = width;
+		}
 
-			m_graph = new marvel::mvImGuiGraph();
-
-			//// (optional) add an input poller for additional interactions (more worked needed here)
-			m_graph->addInputPoller(new marvel::mvImguiInput());
-
-			m_graph->setSize(width, height);
-
+		void addSeries(mvSeries* series)
+		{
+			m_series.push_back(series);
 		}
 
 		virtual void draw() override
 		{
 
-			int m_cposx = (int)ImGui::GetCursorScreenPos().x;
-			int m_cposy = (int)ImGui::GetCursorScreenPos().y;
-
-			// set starting point
-			m_graph->setStart(m_cposx, m_cposy);
-
-			if (m_width != m_graph->getWidth() || m_height != m_graph->getHeight())
+			if (ImPlot::BeginPlot(m_name.c_str(), m_xaxisName.c_str(), m_yaxisName.c_str(), ImVec2(m_width, m_height)) )
 			{
-				m_width = m_graph->getWidth();
-				m_height = m_graph->getHeight();
-				m_graph->OnEvent(marvel::mvWindowResizeEvent(m_width, m_height));
+				for (auto series : m_series)
+				{
+					series->predraw();
+					series->draw();
+					series->postdraw();
+				}
+
+				ImPlot::EndPlot();
 			}
-				
-
-			// must be called since imgui updates every frame
-			m_graph->OnEvent(marvel::mvAppRenderEvent());
-
 		}
 
-		inline marvel::mvImGuiGraph* getGraph() { return m_graph; }
-		inline void setHeight(int height) { m_height = height; }
 
 	private:
 
-		marvel::mvImGuiGraph* m_graph;
-		int m_width;
-		int m_height;
+		std::string     m_xaxisName;
+		std::string     m_yaxisName;
+		int             m_height;
+		ImPlotFlags     m_flags    = ImPlotFlags_Default;
+		ImPlotAxisFlags m_x_flags  = ImPlotAxisFlags_Default;
+		ImPlotAxisFlags m_y_flags  = ImPlotAxisFlags_Default;
+		ImPlotAxisFlags m_y2_flags = ImPlotAxisFlags_Auxiliary;
+		ImPlotAxisFlags m_y3_flags = ImPlotAxisFlags_Auxiliary;
+
+		std::vector<mvSeries*> m_series;
+
+	};
+
+	//-----------------------------------------------------------------------------
+	// mvLineSeries
+	//-----------------------------------------------------------------------------
+	class mvLineSeries: public mvSeries
+	{
+
+	public:
+
+		mvLineSeries(const std::string& name, const std::vector<mvVec2>& points)
+			: mvSeries(name, points)
+		{
+		}
+
+		virtual void draw() override
+		{
+			ImPlot::PlotLine(m_name.c_str(), m_xs.data(), m_ys.data(), m_xs.size());
+		}
+
+	};
+
+	//-----------------------------------------------------------------------------
+	// mvScatterSeries
+	//-----------------------------------------------------------------------------
+	class mvScatterSeries : public mvSeries
+	{
+
+	public:
+
+		mvScatterSeries(const std::string& name, const std::vector<mvVec2>& points)
+			: mvSeries(name, points)
+		{
+		}
+
+		virtual void draw() override
+		{
+			ImPlot::PlotScatter(m_name.c_str(), m_xs.data(), m_ys.data(), m_xs.size());
+		}
 
 	};
 

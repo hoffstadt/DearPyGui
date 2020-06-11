@@ -2,7 +2,8 @@
 
 namespace Marvel {
 
-	mvPythonModule::mvPythonModule(const char* name) : m_name(name)
+	mvPythonModule::mvPythonModule(const char* name, const std::vector<std::pair<std::string, long>>& constants)
+		: m_name(name), m_intconstants(constants)
 	{
 	}
 

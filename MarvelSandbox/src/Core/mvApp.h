@@ -161,7 +161,7 @@ namespace Marvel {
 		unsigned                m_height;
 		std::string             m_callback;
 		bool                    m_ok = true;
-		bool                    m_showLog = true;
+		bool                    m_showLog = false;
 		bool                    m_showMetrics = false;
 		bool                    m_showAbout = false;
 		mvTheme                 m_theme;

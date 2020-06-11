@@ -14,7 +14,7 @@ namespace Marvel {
 	enum class mvPythonDataType
 	{
 		String, Integer, Float, Bool, StringList, FloatList, Optional,
-		Object
+		Object, IntList
 	};
 
 	static const char PythonDataTypeSymbol(mvPythonDataType type)
@@ -27,6 +27,7 @@ namespace Marvel {
 		case mvPythonDataType::Bool:       return 'i';
 		case mvPythonDataType::StringList: return 'O';
 		case mvPythonDataType::FloatList:  return 'O';
+		case mvPythonDataType::IntList:    return 'O';
 		case mvPythonDataType::Optional:  return '|';
 		case mvPythonDataType::Object:  return 'O';
 		default: return 'O';
@@ -112,6 +113,7 @@ mvApp::GetApp()->setItemPopup(name, popup);
 		mvColor                  getColor(PyObject* obj);
 		std::vector<mvVec2>      getVectVec2(PyObject* obj);
 		std::vector<mvVec2>      getVectVec2L(PyObject* obj);
+		std::vector<std::pair<int, int>> getVectInt2(PyObject* obj);
 
 	private:
 

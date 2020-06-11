@@ -25,7 +25,7 @@ namespace Marvel {
 		{
 			ImGui::End();
 
-			ImGui::SetNextWindowSize(ImVec2(m_width, m_height));
+			ImGui::SetNextWindowSize(ImVec2(m_width, m_height), ImGuiCond_FirstUseEver);
 			ImGui::Begin(m_label.c_str(), &m_show, m_windowflags);
 
 			mvApp::GetApp()->pushParent(this);

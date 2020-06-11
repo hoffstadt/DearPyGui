@@ -1,4 +1,5 @@
 ﻿#include "mvWindowsWindow.h"
+#include <implot.h>
 
 int main()
 {
@@ -6,14 +7,14 @@ int main()
 
 	window->show();
 
-
-
 	window->setup();
 	while (window->m_running)
 	{
 		window->prerender();
 
 		ImGui::ShowDemoWindow();
+
+		ImPlot::ShowDemoWindow();
 
 		window->postrender();
 	}

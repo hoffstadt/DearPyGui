@@ -3,18 +3,20 @@
 #include "Core/mvWindow.h"
 #include "Platform/Windows/mvWindowsWindow.h"
 #include <iostream>
+#include "Core/PythonInterfaces/mvModuleConstants.h"
 
 using namespace Marvel;
 
 AppLog* AppLog::s_instance = nullptr;
 
 // declare our modules
-MV_DECLARE_PYMODULE(pyMod1, "sbApp");
-MV_DECLARE_PYMODULE(pyMod2, "sbInput");
-MV_DECLARE_PYMODULE(pyMod3, "sbLog");
-MV_DECLARE_PYMODULE(pyMod4, "sbPlot");
-MV_DECLARE_PYMODULE(pyMod5, "sbDraw");
-MV_DECLARE_PYMODULE(pyMod6, "sbWidgets");
+MV_DECLARE_PYMODULE(pyMod1, "sbApp", {});
+MV_DECLARE_PYMODULE(pyMod2, "sbInput", {});
+MV_DECLARE_PYMODULE(pyMod3, "sbLog", {});
+MV_DECLARE_PYMODULE(pyMod4, "sbPlot", {});
+MV_DECLARE_PYMODULE(pyMod5, "sbDraw", {});
+MV_DECLARE_PYMODULE(pyMod6, "sbWidgets", {});
+MV_DECLARE_PYMODULE(pyMod7, "sbConstants", ModuleConstants);
 
 namespace Marvel {
 	extern void CreatePythonInterface(mvPythonModule& pyModule, PyObject* (*initfunc)());
@@ -42,6 +44,7 @@ int main(int argc, char* argv[])
 	MV_INIT_PYMODULE(pyMod4, CreatePlotInterface);
 	MV_INIT_PYMODULE(pyMod5, CreateDrawingInterface);
 	MV_INIT_PYMODULE(pyMod6, CreateWidgetAddingInterface);
+	MV_INIT_PYMODULE(pyMod7, CreateConstantsInterface);
 
 	const wchar_t* path;
 	const char* module_name;
