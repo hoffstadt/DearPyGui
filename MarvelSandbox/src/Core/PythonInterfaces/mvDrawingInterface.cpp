@@ -11,13 +11,13 @@ namespace Marvel {
 		int width;
 		int height;
 
-		auto pl = mvPythonTranslator(args, kwargs, {
+		auto pl = mvPythonTranslator( {
 			mvPythonDataElement(mvPythonDataType::String, "name"),
 			mvPythonDataElement(mvPythonDataType::Integer, "width"),
 			mvPythonDataElement(mvPythonDataType::Integer, "height")
 			});
 
-		if (!pl.parse(__FUNCTION__, &name, &width, &height))
+		if (!pl.parse(args, kwargs,__FUNCTION__, &name, &width, &height))
 			return Py_None;
 
 		mvAppItem* item = new mvDrawing("", name, width, height);
@@ -35,7 +35,7 @@ namespace Marvel {
 		PyObject* p1, *p2;
 		PyObject* color;
 
-		auto pl = mvPythonTranslator(args, kwargs, {
+		auto pl = mvPythonTranslator( {
 			mvPythonDataElement(mvPythonDataType::String, "drawing"),
 			mvPythonDataElement(mvPythonDataType::FloatList, "p1"),
 			mvPythonDataElement(mvPythonDataType::FloatList, "p2"),
@@ -43,7 +43,7 @@ namespace Marvel {
 			mvPythonDataElement(mvPythonDataType::Integer, "thickness")
 			});
 
-		if (!pl.parse(__FUNCTION__, &drawing, &p1, &p2, &color, &thickness))
+		if (!pl.parse(args, kwargs,__FUNCTION__, &drawing, &p1, &p2, &color, &thickness))
 			return Py_None;
 
 		mvVec2 mp1 = pl.getVec2(p1);
@@ -67,7 +67,7 @@ namespace Marvel {
 		PyObject* color;
 		PyObject* fill = nullptr;
 
-		auto pl = mvPythonTranslator(args, kwargs, {
+		auto pl = mvPythonTranslator( {
 			mvPythonDataElement(mvPythonDataType::String, "drawing"),
 			mvPythonDataElement(mvPythonDataType::FloatList, "p1"),
 			mvPythonDataElement(mvPythonDataType::FloatList, "p2"),
@@ -78,7 +78,7 @@ namespace Marvel {
 			mvPythonDataElement(mvPythonDataType::Float, "thickness")
 			});
 
-		if (!pl.parse(__FUNCTION__, &drawing, &p1, &p2, &p3, &color, &fill, &thickness))
+		if (!pl.parse(args, kwargs,__FUNCTION__, &drawing, &p1, &p2, &p3, &color, &fill, &thickness))
 			return Py_None;
 
 
@@ -105,7 +105,7 @@ namespace Marvel {
 		PyObject* color;
 		PyObject* fill = nullptr;
 
-		auto pl = mvPythonTranslator(args, kwargs, {
+		auto pl = mvPythonTranslator( {
 			mvPythonDataElement(mvPythonDataType::String, "drawing"),
 			mvPythonDataElement(mvPythonDataType::FloatList, "pmin"),
 			mvPythonDataElement(mvPythonDataType::FloatList, "pmax"),
@@ -116,7 +116,7 @@ namespace Marvel {
 			mvPythonDataElement(mvPythonDataType::Float, "thickness")
 			});
 
-		if (!pl.parse(__FUNCTION__, &drawing, &pmin, &pmax, &color, &fill, &rounding, &thickness))
+		if (!pl.parse(args, kwargs,__FUNCTION__, &drawing, &pmin, &pmax, &color, &fill, &rounding, &thickness))
 			return Py_None;
 
 
@@ -142,7 +142,7 @@ namespace Marvel {
 		PyObject* color;
 		PyObject* fill = nullptr;
 
-		auto pl = mvPythonTranslator(args, kwargs, {
+		auto pl = mvPythonTranslator( {
 			mvPythonDataElement(mvPythonDataType::String, "drawing"),
 			mvPythonDataElement(mvPythonDataType::FloatList, "p1"),
 			mvPythonDataElement(mvPythonDataType::FloatList, "p2"),
@@ -154,7 +154,7 @@ namespace Marvel {
 			mvPythonDataElement(mvPythonDataType::Float, "thickness")
 			});
 
-		if (!pl.parse(__FUNCTION__, &drawing, &p1, &p2, &p3, &p4, &color, &fill, &thickness))
+		if (!pl.parse(args, kwargs,__FUNCTION__, &drawing, &p1, &p2, &p3, &p4, &color, &fill, &thickness))
 			return Py_None;
 
 
@@ -182,7 +182,7 @@ namespace Marvel {
 		int size = 10;
 		PyObject* color = nullptr;
 
-		auto pl = mvPythonTranslator(args, kwargs, {
+		auto pl = mvPythonTranslator( {
 			mvPythonDataElement(mvPythonDataType::String, "drawing"),
 			mvPythonDataElement(mvPythonDataType::FloatList, "pos"),
 			mvPythonDataElement(mvPythonDataType::String, "text"),
@@ -191,7 +191,7 @@ namespace Marvel {
 			mvPythonDataElement(mvPythonDataType::Integer, "size")
 			});
 
-		if (!pl.parse(__FUNCTION__, &drawing, &pos, &text, &color, &size))
+		if (!pl.parse(args, kwargs,__FUNCTION__, &drawing, &pos, &text, &color, &size))
 			return Py_None;
 
 		mvVec2 mpos = pl.getVec2(pos);
@@ -216,7 +216,7 @@ namespace Marvel {
 		float thickness = 1.0f;
 		PyObject* fill = nullptr;
 
-		auto pl = mvPythonTranslator(args, kwargs, {
+		auto pl = mvPythonTranslator( {
 			mvPythonDataElement(mvPythonDataType::String, "drawing"),
 			mvPythonDataElement(mvPythonDataType::FloatList, "center"),
 			mvPythonDataElement(mvPythonDataType::Float, "radius"),
@@ -227,7 +227,7 @@ namespace Marvel {
 			mvPythonDataElement(mvPythonDataType::FloatList, "fill")
 			});
 
-		if (!pl.parse(__FUNCTION__, &drawing, &center, &radius, &color, &segments, &thickness, &fill))
+		if (!pl.parse(args, kwargs,__FUNCTION__, &drawing, &center, &radius, &color, &segments, &thickness, &fill))
 			return Py_None;
 
 		mvVec2 mcenter = pl.getVec2(center);
@@ -251,7 +251,7 @@ namespace Marvel {
 		int closed = false;
 		float thickness = 1.0f;
 
-		auto pl = mvPythonTranslator(args, kwargs, {
+		auto pl = mvPythonTranslator( {
 			mvPythonDataElement(mvPythonDataType::String, "drawing"),
 			mvPythonDataElement(mvPythonDataType::FloatList, "points"),
 			mvPythonDataElement(mvPythonDataType::FloatList, "color"),
@@ -260,7 +260,7 @@ namespace Marvel {
 			mvPythonDataElement(mvPythonDataType::Float, "thickness"),
 			});
 
-		if (!pl.parse(__FUNCTION__, &drawing, &points, &color, &closed, &thickness))
+		if (!pl.parse(args, kwargs,__FUNCTION__, &drawing, &points, &color, &closed, &thickness))
 			return Py_None;
 
 		auto mpoints = pl.getVectVec2(points);
@@ -283,7 +283,7 @@ namespace Marvel {
 		PyObject* fill = nullptr;
 		float thickness = 1.0f;
 
-		auto pl = mvPythonTranslator(args, kwargs, {
+		auto pl = mvPythonTranslator( {
 			mvPythonDataElement(mvPythonDataType::String, "drawing"),
 			mvPythonDataElement(mvPythonDataType::FloatList, "points"),
 			mvPythonDataElement(mvPythonDataType::FloatList, "color"),
@@ -292,7 +292,7 @@ namespace Marvel {
 			mvPythonDataElement(mvPythonDataType::Float, "thickness"),
 			});
 
-		if (!pl.parse(__FUNCTION__, &drawing, &points, &color, &fill, &thickness))
+		if (!pl.parse(args, kwargs,__FUNCTION__, &drawing, &points, &color, &fill, &thickness))
 			return Py_None;
 
 
@@ -317,7 +317,7 @@ namespace Marvel {
 		PyObject* color;
 		int segments = 0;
 
-		auto pl = mvPythonTranslator(args, kwargs, {
+		auto pl = mvPythonTranslator( {
 			mvPythonDataElement(mvPythonDataType::String, "drawing"),
 			mvPythonDataElement(mvPythonDataType::FloatList, "p1"),
 			mvPythonDataElement(mvPythonDataType::FloatList, "p2"),
@@ -329,7 +329,7 @@ namespace Marvel {
 			mvPythonDataElement(mvPythonDataType::Integer, "segments")
 			});
 
-		if (!pl.parse(__FUNCTION__, &drawing, &p1, &p2, &p3, &p4, &color, &thickness, &segments))
+		if (!pl.parse(args, kwargs,__FUNCTION__, &drawing, &p1, &p2, &p3, &p4, &color, &thickness, &segments))
 			return Py_None;
 
 
@@ -352,11 +352,11 @@ namespace Marvel {
 	{
 		const char* drawing;
 
-		auto pl = mvPythonTranslator(args, kwargs, {
+		auto pl = mvPythonTranslator( {
 			mvPythonDataElement(mvPythonDataType::String, "drawing")
 			});
 
-		if (!pl.parse(__FUNCTION__, &drawing))
+		if (!pl.parse(args, kwargs,__FUNCTION__, &drawing))
 			return Py_None;
 
 		mvAppItem* item = mvApp::GetApp()->getItem(drawing);

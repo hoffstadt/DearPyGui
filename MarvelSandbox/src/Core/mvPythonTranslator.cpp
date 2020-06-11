@@ -3,8 +3,9 @@
 
 namespace Marvel {
 
-	mvPythonTranslator::mvPythonTranslator(PyObject* args, PyObject* kwargs, const std::initializer_list<mvPythonDataElement>& elements, bool standardKeywords)
-		: m_args(args), m_kwargs(kwargs), m_elements(elements)
+	mvPythonTranslator::mvPythonTranslator(const std::initializer_list<mvPythonDataElement>& elements, 
+		bool standardKeywords, const std::string& about)
+		: m_elements(elements), m_about(about)
 	{
 
 		if (standardKeywords)
@@ -36,16 +37,18 @@ namespace Marvel {
 
 		m_formatstring.push_back(0);
 		m_keywords.push_back(NULL);
+
+		buildDocumentation();
 	}
 
-	bool mvPythonTranslator::parse(const char* message, ...)
+	bool mvPythonTranslator::parse(PyObject* args, PyObject* kwargs, const char* message, ...)
 	{
 
 		bool check = true;
 
 		va_list arguments;
 		va_start(arguments, message);
-		if (!PyArg_VaParseTupleAndKeywords(m_args, m_kwargs, m_formatstring.data(),
+		if (!PyArg_VaParseTupleAndKeywords(args, kwargs, m_formatstring.data(),
 			const_cast<char**>(m_keywords.data()), arguments))
 		{
 			mvApp::GetApp()->LogError(message);
@@ -164,6 +167,28 @@ namespace Marvel {
 
 		return items;
 
+	}
+
+	void mvPythonTranslator::buildDocumentation()
+	{
+		std::string documentation = m_about + "\n\nParameters\n__________\n\n";
+
+		bool opfound = false;
+
+		for (auto& element : m_elements)
+		{
+			if (element.type == mvPythonDataType::Optional)
+			{
+				if (opfound)
+					continue;
+				opfound = true;
+			}
+
+			documentation = documentation + "* " + element.name + PythonDataTypeString(element.type) + 
+				"\n\t" + element.description + "\n\n";
+		}
+
+		m_documentation = documentation;
 	}
 
 }

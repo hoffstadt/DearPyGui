@@ -15,11 +15,11 @@ namespace Marvel {
 	{
 		int button;
 
-		auto pl = mvPythonTranslator(args, kwargs, {
+		auto pl = mvPythonTranslator( {
 			mvPythonDataElement(mvPythonDataType::Integer, "button")
 			});
 
-		if (!pl.parse(__FUNCTION__, &button))
+		if (!pl.parse(args, kwargs,__FUNCTION__, &button))
 			return Py_None;
 
 		bool pressed = mvApp::GetApp()->isMouseButtonPressed(button);
@@ -33,11 +33,11 @@ namespace Marvel {
 	{
 		int key;
 
-		auto pl = mvPythonTranslator(args, kwargs, {
+		auto pl = mvPythonTranslator( {
 			mvPythonDataElement(mvPythonDataType::Integer, "key")
 			});
 
-		if (!pl.parse(__FUNCTION__, &key))
+		if (!pl.parse(args, kwargs,__FUNCTION__, &key))
 			return Py_None;
 
 		bool pressed = mvApp::GetApp()->isKeyPressed(key);

@@ -1,10 +1,20 @@
 #include "Core/mvPythonModule.h"
 #include "Core/mvApp.h"
 #include "Core/mvPythonTranslator.h"
-
 #include "Core/AppItems/mvAppItems.h"
+#include "mvTranslators.h"
 
 namespace Marvel {
+
+	static std::map<std::string, mvPythonTranslator> Translators = BuildWidgetTranslations();
+
+	auto pl = mvPythonTranslator({
+	mvPythonDataElement(mvPythonDataType::String, "name", false, "Name of the listbox"),
+	mvPythonDataElement(mvPythonDataType::StringList, "items"),
+	mvPythonDataElement(mvPythonDataType::Optional, ""),
+	mvPythonDataElement(mvPythonDataType::Integer, "default_value"),
+	mvPythonDataElement(mvPythonDataType::Integer, "height"),
+		}, true);
 
 	PyObject* addSimplePlot(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
@@ -19,7 +29,7 @@ namespace Marvel {
 		int histogram = false;
 		PyObject* value;
 
-		auto pl = mvPythonTranslator(args, kwargs, {
+		auto pl = mvPythonTranslator( {
 			mvPythonDataElement(mvPythonDataType::String, "name"),
 			mvPythonDataElement(mvPythonDataType::FloatList, "value"),
 			mvPythonDataElement(mvPythonDataType::Optional, ""),
@@ -31,7 +41,7 @@ namespace Marvel {
 			mvPythonDataElement(mvPythonDataType::Bool, "histogram")
 			}, true);
 
-		if (!pl.parse(__FUNCTION__, &name, &value, &autoscale, &overlay, &minscale, &maxscale, &height, &histogram, MV_STANDARD_CALLBACK_PARSE))
+		if (!pl.parse(args, kwargs,__FUNCTION__, &name, &value, &autoscale, &overlay, &minscale, &maxscale, &height, &histogram, MV_STANDARD_CALLBACK_PARSE))
 			return Py_None;
 
 		std::vector<float> values = pl.getFloatVec(value);
@@ -72,7 +82,7 @@ namespace Marvel {
 		PyTuple_SetItem(color, 2, PyFloat_FromDouble(0.0));
 		PyTuple_SetItem(color, 3, PyFloat_FromDouble(1.0));
 
-		auto pl = mvPythonTranslator(args, kwargs, {
+		auto pl = mvPythonTranslator( {
 			mvPythonDataElement(mvPythonDataType::String, "name"),
 			mvPythonDataElement(mvPythonDataType::Optional, ""),
 			mvPythonDataElement(mvPythonDataType::Integer, "wrap"),
@@ -81,7 +91,7 @@ namespace Marvel {
 
 			}, true);
 
-		if (!pl.parse(__FUNCTION__, &name, &wrap, &color, &bullet, MV_STANDARD_CALLBACK_PARSE))
+		if (!pl.parse(args, kwargs,__FUNCTION__, &name, &wrap, &color, &bullet, MV_STANDARD_CALLBACK_PARSE))
 			return Py_None;
 
 		auto mcolor = pl.getColor(color);
@@ -111,7 +121,7 @@ namespace Marvel {
 		PyTuple_SetItem(color, 2, PyFloat_FromDouble(0.0));
 		PyTuple_SetItem(color, 3, PyFloat_FromDouble(1.0));
 
-		auto pl = mvPythonTranslator(args, kwargs, {
+		auto pl = mvPythonTranslator( {
 			mvPythonDataElement(mvPythonDataType::String, "name"),
 			mvPythonDataElement(mvPythonDataType::String, "value"),
 			mvPythonDataElement(mvPythonDataType::Optional, ""),
@@ -121,7 +131,7 @@ namespace Marvel {
 
 			}, true);
 
-		if (!pl.parse(__FUNCTION__, &name, &value, &wrap, &color, MV_STANDARD_CALLBACK_PARSE))
+		if (!pl.parse(args, kwargs,__FUNCTION__, &name, &value, &wrap, &color, MV_STANDARD_CALLBACK_PARSE))
 			return Py_None;
 
 		auto mcolor = pl.getColor(color);
@@ -146,15 +156,15 @@ namespace Marvel {
 		PyObject* items;
 		int default_value = 0, height = -1;
 
-		auto pl = mvPythonTranslator(args, kwargs, {
-			mvPythonDataElement(mvPythonDataType::String, "name"),
-			mvPythonDataElement(mvPythonDataType::StringList, "items"),
-			mvPythonDataElement(mvPythonDataType::Optional, ""),
-			mvPythonDataElement(mvPythonDataType::Integer, "default_value"),
-			mvPythonDataElement(mvPythonDataType::Integer, "height"),
-			}, true);
+		//auto pl = mvPythonTranslator( {
+		//	mvPythonDataElement(mvPythonDataType::String, "name"),
+		//	mvPythonDataElement(mvPythonDataType::StringList, "items"),
+		//	mvPythonDataElement(mvPythonDataType::Optional, ""),
+		//	mvPythonDataElement(mvPythonDataType::Integer, "default_value"),
+		//	mvPythonDataElement(mvPythonDataType::Integer, "height"),
+		//	}, true);
 
-		if (!pl.parse(__FUNCTION__, &name, &items, &default_value, &height, MV_STANDARD_CALLBACK_PARSE))
+		if (!Translators["addListbox"].parse(args, kwargs,__FUNCTION__, &name, &items, &default_value, &height, MV_STANDARD_CALLBACK_PARSE))
 			return Py_None;
 
 		mvAppItem* item = new mvListbox("", name, pl.getStringVec(items), default_value, height);
@@ -173,14 +183,14 @@ namespace Marvel {
 		const char* name, * default_value = "";
 		PyObject* items;
 
-		auto pl = mvPythonTranslator(args, kwargs, {
+		auto pl = mvPythonTranslator( {
 			mvPythonDataElement(mvPythonDataType::String, "name"),
 			mvPythonDataElement(mvPythonDataType::StringList, "items"),
 			mvPythonDataElement(mvPythonDataType::Optional, ""),
 			mvPythonDataElement(mvPythonDataType::String, "default_value")
 			}, true);
 
-		if (!pl.parse(__FUNCTION__, &name, &items, &default_value, MV_STANDARD_CALLBACK_PARSE))
+		if (!pl.parse(args, kwargs,__FUNCTION__, &name, &items, &default_value, MV_STANDARD_CALLBACK_PARSE))
 			return Py_None;
 
 		mvAppItem* item = new mvCombo("", name, pl.getStringVec(items), default_value);
@@ -198,13 +208,13 @@ namespace Marvel {
 		const char* name;
 		int default_value = false;
 
-		auto pl = mvPythonTranslator(args, kwargs, {
+		auto pl = mvPythonTranslator( {
 			mvPythonDataElement(mvPythonDataType::String, "name"),
 			mvPythonDataElement(mvPythonDataType::Optional, ""),
 			mvPythonDataElement(mvPythonDataType::Bool, "default_value")
 			}, true);
 
-		if (!pl.parse(__FUNCTION__, &name, &default_value, MV_STANDARD_CALLBACK_PARSE))
+		if (!pl.parse(args, kwargs,__FUNCTION__, &name, &default_value, MV_STANDARD_CALLBACK_PARSE))
 			return Py_None;
 
 		mvAppItem* item = new mvSelectable("", name, default_value);
@@ -222,11 +232,11 @@ namespace Marvel {
 
 		const char* name;
 
-		auto pl = mvPythonTranslator(args, kwargs, {
+		auto pl = mvPythonTranslator( {
 			mvPythonDataElement(mvPythonDataType::String, "name")
 			}, true);
 
-		if (!pl.parse(__FUNCTION__, &name, MV_STANDARD_CALLBACK_PARSE))
+		if (!pl.parse(args, kwargs,__FUNCTION__, &name, MV_STANDARD_CALLBACK_PARSE))
 			return Py_None;
 
 		mvAppItem* item = new mvButton("", name);
@@ -247,14 +257,14 @@ namespace Marvel {
 		const char* hint = "";
 		int multiline = 0;
 
-		auto pl = mvPythonTranslator(args, kwargs, {
+		auto pl = mvPythonTranslator( {
 			mvPythonDataElement(mvPythonDataType::String, "name"),
 			mvPythonDataElement(mvPythonDataType::Optional, ""),
 			mvPythonDataElement(mvPythonDataType::String, "hint"),
 			mvPythonDataElement(mvPythonDataType::Bool, "multiline")
 			}, true);
 
-		if (!pl.parse(__FUNCTION__, &name, &hint, &multiline, MV_STANDARD_CALLBACK_PARSE))
+		if (!pl.parse(args, kwargs,__FUNCTION__, &name, &hint, &multiline, MV_STANDARD_CALLBACK_PARSE))
 			return Py_None;
 
 		mvAppItem* item = new mvInputText("", name, hint, multiline);
@@ -272,13 +282,13 @@ namespace Marvel {
 		const char* name;
 		int default_value = 0;
 
-		auto pl = mvPythonTranslator(args, kwargs, {
+		auto pl = mvPythonTranslator( {
 			mvPythonDataElement(mvPythonDataType::String, "name"),
 			mvPythonDataElement(mvPythonDataType::Optional, ""),
 			mvPythonDataElement(mvPythonDataType::Integer, "default_value")
 			}, true);
 
-		if (!pl.parse(__FUNCTION__, &name, &default_value, MV_STANDARD_CALLBACK_PARSE))
+		if (!pl.parse(args, kwargs,__FUNCTION__, &name, &default_value, MV_STANDARD_CALLBACK_PARSE))
 			return Py_None;
 
 		mvAppItem* item = new mvInputInt("", name, default_value);
@@ -296,13 +306,13 @@ namespace Marvel {
 		const char* name;
 		float default_value = 0.0f;
 
-		auto pl = mvPythonTranslator(args, kwargs, {
+		auto pl = mvPythonTranslator( {
 			mvPythonDataElement(mvPythonDataType::String, "name"),
 			mvPythonDataElement(mvPythonDataType::Optional, ""),
 			mvPythonDataElement(mvPythonDataType::Float, "default_value")
 			}, true);
 
-		if (!pl.parse(__FUNCTION__, &name, &default_value, MV_STANDARD_CALLBACK_PARSE))
+		if (!pl.parse(args, kwargs,__FUNCTION__, &name, &default_value, MV_STANDARD_CALLBACK_PARSE))
 			return Py_None;
 
 		mvAppItem* item = new mvInputFloat("", name, default_value);
@@ -318,12 +328,12 @@ namespace Marvel {
 	{
 		float offset = 0.0f;
 
-		auto pl = mvPythonTranslator(args, kwargs, {
+		auto pl = mvPythonTranslator( {
 			mvPythonDataElement(mvPythonDataType::Optional, ""),
 			mvPythonDataElement(mvPythonDataType::Float, "offset")
 			});
 
-		if (!pl.parse(__FUNCTION__, &offset))
+		if (!pl.parse(args, kwargs,__FUNCTION__, &offset))
 			return Py_None;
 
 		mvAppItem* item = new mvIndent("", offset);
@@ -338,12 +348,12 @@ namespace Marvel {
 	{
 		float offset = 0.0f;
 
-		auto pl = mvPythonTranslator(args, kwargs, {
+		auto pl = mvPythonTranslator( {
 			mvPythonDataElement(mvPythonDataType::Optional, ""),
 			mvPythonDataElement(mvPythonDataType::Float, "offset")
 			});
 
-		if (!pl.parse(__FUNCTION__, &offset))
+		if (!pl.parse(args, kwargs,__FUNCTION__, &offset))
 			return Py_None;
 
 		mvAppItem* item = new mvUnindent("", offset);
@@ -359,11 +369,11 @@ namespace Marvel {
 		MV_STANDARD_CALLBACK_INIT();
 		const char* name;
 
-		auto pl = mvPythonTranslator(args, kwargs, {
+		auto pl = mvPythonTranslator( {
 			mvPythonDataElement(mvPythonDataType::String, "name")
 			}, true);
 
-		pl.parse(__FUNCTION__, &name, MV_STANDARD_CALLBACK_PARSE);
+		pl.parse(args, kwargs,__FUNCTION__, &name, MV_STANDARD_CALLBACK_PARSE);
 
 		mvAppItem* item = new mvTabBar("", name);
 		mvApp::GetApp()->addParentItem(item);
@@ -379,11 +389,11 @@ namespace Marvel {
 		MV_STANDARD_CALLBACK_INIT();
 		const char* name;
 
-		auto pl = mvPythonTranslator(args, kwargs, {
+		auto pl = mvPythonTranslator( {
 			mvPythonDataElement(mvPythonDataType::String, "name")
 			}, true);
 
-		pl.parse(__FUNCTION__, &name, MV_STANDARD_CALLBACK_PARSE);
+		pl.parse(args, kwargs,__FUNCTION__, &name, MV_STANDARD_CALLBACK_PARSE);
 
 		mvAppItem* item = new mvTab("", name);
 		mvApp::GetApp()->addParentItem(item);
@@ -415,11 +425,11 @@ namespace Marvel {
 		MV_STANDARD_CALLBACK_INIT();
 		const char* name;
 
-		auto pl = mvPythonTranslator(args, kwargs, {
+		auto pl = mvPythonTranslator( {
 			mvPythonDataElement(mvPythonDataType::String, "name"),
 			}, true);
 
-		pl.parse(__FUNCTION__, &name, MV_STANDARD_CALLBACK_PARSE);
+		pl.parse(args, kwargs,__FUNCTION__, &name, MV_STANDARD_CALLBACK_PARSE);
 
 		mvAppItem* item = new mvMenuBar(name);
 		mvApp::GetApp()->addFlag(ImGuiWindowFlags_MenuBar);
@@ -437,11 +447,11 @@ namespace Marvel {
 		MV_STANDARD_CALLBACK_INIT();
 		const char* name;
 
-		auto pl = mvPythonTranslator(args, kwargs, {
+		auto pl = mvPythonTranslator( {
 			mvPythonDataElement(mvPythonDataType::String, "name")
 			}, true);
 
-		pl.parse(__FUNCTION__, &name, MV_STANDARD_CALLBACK_PARSE);
+		pl.parse(args, kwargs,__FUNCTION__, &name, MV_STANDARD_CALLBACK_PARSE);
 
 		mvAppItem* item = new mvMenu("", name);
 		mvApp::GetApp()->addParentItem(item);
@@ -473,11 +483,11 @@ namespace Marvel {
 		MV_STANDARD_CALLBACK_INIT();
 		const char* name;
 
-		auto pl = mvPythonTranslator(args, kwargs, {
+		auto pl = mvPythonTranslator( {
 			mvPythonDataElement(mvPythonDataType::String, "name")
 			}, true);
 
-		if (!pl.parse(__FUNCTION__, &name, MV_STANDARD_CALLBACK_PARSE))
+		if (!pl.parse(args, kwargs,__FUNCTION__, &name, MV_STANDARD_CALLBACK_PARSE))
 			return Py_None;
 
 		mvAppItem* item = new mvMenuItem("", name);
@@ -493,12 +503,12 @@ namespace Marvel {
 	{
 		int count = 1;
 
-		auto pl = mvPythonTranslator(args, kwargs, {
+		auto pl = mvPythonTranslator( {
 			mvPythonDataElement(mvPythonDataType::Optional, ""),
 			mvPythonDataElement(mvPythonDataType::Integer, "count")
 			});
 
-		if (!pl.parse(__FUNCTION__, &count))
+		if (!pl.parse(args, kwargs,__FUNCTION__, &count))
 			return Py_None;
 
 		mvAppItem* item = new mvSpacing("", count);
@@ -514,13 +524,13 @@ namespace Marvel {
 		float xoffset = 0.0f;
 		float spacing = 0.0f;
 
-		auto pl = mvPythonTranslator(args, kwargs, {
+		auto pl = mvPythonTranslator( {
 			mvPythonDataElement(mvPythonDataType::Optional, ""),
 			mvPythonDataElement(mvPythonDataType::Float, "xoffset"),
 			mvPythonDataElement(mvPythonDataType::Float, "spacing")
 			});
 
-		if (!pl.parse(__FUNCTION__, &xoffset, &spacing))
+		if (!pl.parse(args, kwargs,__FUNCTION__, &xoffset, &spacing))
 			return Py_None;
 
 		mvAppItem* item = new mvSameLine("", xoffset, spacing);
@@ -538,14 +548,14 @@ namespace Marvel {
 		PyObject* items;
 		int default_value = 0;
 
-		auto pl = mvPythonTranslator(args, kwargs, {
+		auto pl = mvPythonTranslator( {
 			mvPythonDataElement(mvPythonDataType::String, "name"),
 			mvPythonDataElement(mvPythonDataType::StringList, "items"),
 			mvPythonDataElement(mvPythonDataType::Optional, ""),
 			mvPythonDataElement(mvPythonDataType::Integer, "default_value")
 			}, true);
 
-		if (!pl.parse(__FUNCTION__, &name, &items, &default_value, MV_STANDARD_CALLBACK_PARSE))
+		if (!pl.parse(args, kwargs,__FUNCTION__, &name, &items, &default_value, MV_STANDARD_CALLBACK_PARSE))
 			return Py_None;
 
 		mvAppItem* item = new mvRadioButton("", name, pl.getStringVec(items), default_value);
@@ -562,11 +572,11 @@ namespace Marvel {
 		MV_STANDARD_CALLBACK_INIT();
 		const char* name;
 
-		auto pl = mvPythonTranslator(args, kwargs, {
+		auto pl = mvPythonTranslator( {
 			mvPythonDataElement(mvPythonDataType::String, "name")
 			}, true);
 
-		pl.parse(__FUNCTION__, &name, MV_STANDARD_CALLBACK_PARSE);
+		pl.parse(args, kwargs,__FUNCTION__, &name, MV_STANDARD_CALLBACK_PARSE);
 
 		mvAppItem* item = new mvGroup("", name);
 		mvApp::GetApp()->addParentItem(item);
@@ -590,13 +600,13 @@ namespace Marvel {
 		const char* name;
 		int width, height;
 
-		auto pl = mvPythonTranslator(args, kwargs, {
+		auto pl = mvPythonTranslator( {
 			mvPythonDataElement(mvPythonDataType::String, "name"),
 			mvPythonDataElement(mvPythonDataType::Integer, "width"),
 			mvPythonDataElement(mvPythonDataType::Integer, "height")
 			});
 
-		pl.parse(__FUNCTION__, &name, &width, &height);
+		pl.parse(args, kwargs,__FUNCTION__, &name, &width, &height);
 
 		mvAppItem* item = new mvChild("", name, width, height);
 		mvApp::GetApp()->addParentItem(item);
@@ -611,13 +621,13 @@ namespace Marvel {
 		const char* name;
 		int width, height;
 
-		auto pl = mvPythonTranslator(args, kwargs, {
+		auto pl = mvPythonTranslator( {
 			mvPythonDataElement(mvPythonDataType::String, "name"),
 			mvPythonDataElement(mvPythonDataType::Integer, "width"),
 			mvPythonDataElement(mvPythonDataType::Integer, "height")
 			});
 
-		pl.parse(__FUNCTION__, &name, &width, &height);
+		pl.parse(args, kwargs,__FUNCTION__, &name, &width, &height);
 
 		mvAppItem* item = new mvWindowAppitem("", name, width, height);
 		mvApp::GetApp()->addParentItem(item);
@@ -648,12 +658,12 @@ namespace Marvel {
 		MV_STANDARD_CALLBACK_INIT();
 		const char* parent, * name;
 
-		auto pl = mvPythonTranslator(args, kwargs, {
+		auto pl = mvPythonTranslator( {
 			mvPythonDataElement(mvPythonDataType::String, "parent"),
 			mvPythonDataElement(mvPythonDataType::String, "name")
 			}, true);
 
-		pl.parse(__FUNCTION__, &parent, &name, MV_STANDARD_CALLBACK_PARSE);
+		pl.parse(args, kwargs,__FUNCTION__, &parent, &name, MV_STANDARD_CALLBACK_PARSE);
 
 		mvAppItem* item = new mvTooltip(parent, name);
 		mvApp::GetApp()->pushParent(item);
@@ -680,7 +690,7 @@ namespace Marvel {
 		int mousebutton = 1;
 		int modal = false;
 
-		auto pl = mvPythonTranslator(args, kwargs, {
+		auto pl = mvPythonTranslator( {
 			mvPythonDataElement(mvPythonDataType::String, "parent"),
 			mvPythonDataElement(mvPythonDataType::String, "name"),
 			mvPythonDataElement(mvPythonDataType::Optional, ""),
@@ -688,7 +698,7 @@ namespace Marvel {
 			mvPythonDataElement(mvPythonDataType::Integer, "modal")
 			}, true);
 
-		pl.parse(__FUNCTION__, &parent, &name, &mousebutton, &modal, MV_STANDARD_CALLBACK_PARSE);
+		pl.parse(args, kwargs,__FUNCTION__, &parent, &name, &mousebutton, &modal, MV_STANDARD_CALLBACK_PARSE);
 
 		mvAppItem* item = new mvPopup(parent, name, mousebutton, modal);
 		mvApp::GetApp()->pushParent(item);
@@ -713,11 +723,11 @@ namespace Marvel {
 		MV_STANDARD_CALLBACK_INIT();
 		const char* name;
 
-		auto pl = mvPythonTranslator(args, kwargs, {
+		auto pl = mvPythonTranslator( {
 			mvPythonDataElement(mvPythonDataType::String, "name")
 			}, true);
 
-		pl.parse(__FUNCTION__, &name, MV_STANDARD_CALLBACK_PARSE);
+		pl.parse(args, kwargs,__FUNCTION__, &name, MV_STANDARD_CALLBACK_PARSE);
 
 		mvAppItem* item = new mvCollapsingHeader("", name);
 		mvApp::GetApp()->addParentItem(item);
@@ -741,11 +751,11 @@ namespace Marvel {
 		MV_STANDARD_CALLBACK_INIT();
 		const char* name;
 
-		auto pl = mvPythonTranslator(args, kwargs, {
+		auto pl = mvPythonTranslator( {
 			mvPythonDataElement(mvPythonDataType::String, "name")
 			}, true);
 
-		pl.parse(__FUNCTION__, &name, MV_STANDARD_CALLBACK_PARSE);
+		pl.parse(args, kwargs,__FUNCTION__, &name, MV_STANDARD_CALLBACK_PARSE);
 
 		mvAppItem* item = new mvTreeNode("", name);
 		mvApp::GetApp()->addParentItem(item);
@@ -778,7 +788,7 @@ namespace Marvel {
 		const char* name;
 		float r, g, b, a;
 
-		auto pl = mvPythonTranslator(args, kwargs, {
+		auto pl = mvPythonTranslator( {
 			mvPythonDataElement(mvPythonDataType::String, "name"),
 			mvPythonDataElement(mvPythonDataType::Float, "r"),
 			mvPythonDataElement(mvPythonDataType::Float, "g"),
@@ -786,7 +796,7 @@ namespace Marvel {
 			mvPythonDataElement(mvPythonDataType::Float, "a")
 			}, true);
 
-		if (!pl.parse(__FUNCTION__, &name, &r, &g, &b, &a, MV_STANDARD_CALLBACK_PARSE))
+		if (!pl.parse(args, kwargs,__FUNCTION__, &name, &r, &g, &b, &a, MV_STANDARD_CALLBACK_PARSE))
 			return Py_None;
 
 		mvAppItem* item = new mvColorEdit4("", name, r, g, b, a);
@@ -804,13 +814,13 @@ namespace Marvel {
 		const char* name;
 		int default_value = 0;
 
-		auto pl = mvPythonTranslator(args, kwargs, {
+		auto pl = mvPythonTranslator( {
 			mvPythonDataElement(mvPythonDataType::String, "name"),
 			mvPythonDataElement(mvPythonDataType::Optional, ""),
 			mvPythonDataElement(mvPythonDataType::Integer, "default_value")
 			}, true);
 
-		if (!pl.parse(__FUNCTION__, &name, &default_value, MV_STANDARD_CALLBACK_PARSE))
+		if (!pl.parse(args, kwargs,__FUNCTION__, &name, &default_value, MV_STANDARD_CALLBACK_PARSE))
 			return Py_None;
 
 		mvAppItem* item = new mvCheckbox("", name, default_value);
@@ -824,6 +834,7 @@ namespace Marvel {
 
 	void CreateWidgetAddingInterface(mvPythonModule& pyModule, PyObject* (*initfunc)())
 	{
+
 		pyModule.addMethod(addTreeNode, "Not Documented");
 		pyModule.addMethod(endTreeNode, "Not Documented");
 		pyModule.addMethod(addSelectable, "Not Documented");
@@ -837,7 +848,8 @@ namespace Marvel {
 		pyModule.addMethod(addCombo, "Not Documented");
 		pyModule.addMethod(addText, "Not Documented");
 		pyModule.addMethod(addLabelText, "Not Documented");
-		pyModule.addMethod(addListbox, "Adds a list box\n\nKeyword arguments:\n\nname -- name (default='blah')\nitems -- items");
+		//pyModule.addMethod(addListbox, "Adds a list box\n\nKeyword arguments:\n\nname -- name (default='blah')\nitems -- items");
+		pyModule.addMethod(addListbox, Translators["addListbox"].getDocumentation().c_str());
 		pyModule.addMethod(addColorEdit4, "Not Documented");
 		pyModule.addMethod(addSeperator, "Not Documented");
 		pyModule.addMethod(addButton, "Not Documented");
