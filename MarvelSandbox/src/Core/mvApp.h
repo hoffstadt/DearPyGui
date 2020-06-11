@@ -7,7 +7,6 @@
 #include <stack>
 #include <string>
 #include "Core/AppItems/mvAppItem.h"
-#include "mvTheme.h"
 #include "mvMouse.h"
 #include "mvAppStyle.h"
 
@@ -27,12 +26,11 @@ namespace Marvel {
 		//-----------------------------------------------------------------------------
 		// App Settings
 		//-----------------------------------------------------------------------------
-		void updateTheme    ();
 		void setAppTheme    (const std::string& theme);
-		void changeThemeItem(const char* name, mvColor color);
+		void changeThemeItem(long item, mvColor color);
+		void changeStyleItem(long item, float x);
+		void changeStyleItem(long item, float x, float y);
 		void addFlag        (ImGuiWindowFlags flag) { m_windowflags |= flag; }
-		void updateStyle    ();
-		bool setStyleItem   (const std::string& item, float x, float y = 0.0f);
 
 		//-----------------------------------------------------------------------------
 		// Adding Items
@@ -164,7 +162,6 @@ namespace Marvel {
 		bool                    m_showLog = false;
 		bool                    m_showMetrics = false;
 		bool                    m_showAbout = false;
-		mvTheme                 m_theme;
 		unsigned                m_loglevel = 0;
 		ImGuiWindowFlags        m_windowflags = 0;
 

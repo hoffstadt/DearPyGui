@@ -8,7 +8,6 @@ target_sources(MarvelSandbox
 
 		"${CMAKE_CURRENT_SOURCE_DIR}/EntryPoint.cpp"
 		"${CMAKE_CURRENT_SOURCE_DIR}/src/Core/mvApp.cpp"
-		"${CMAKE_CURRENT_SOURCE_DIR}/src/Core/mvTheme.cpp"
 		"${CMAKE_CURRENT_SOURCE_DIR}/src/Core/mvLogger.cpp"
 		"${CMAKE_CURRENT_SOURCE_DIR}/src/Core/mvPythonModule.cpp"
 		"${CMAKE_CURRENT_SOURCE_DIR}/src/Core/mvWindow.cpp"

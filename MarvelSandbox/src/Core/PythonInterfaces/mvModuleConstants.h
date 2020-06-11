@@ -275,6 +275,16 @@ namespace Marvel {
 		{ "mvGuiStyleVar_TabRounding",         20}, // float     TabRounding
 		{ "mvGuiStyleVar_ButtonTextAlign",     21}, // mvVec2    ButtonTextAlign
 		{ "mvGuiStyleVar_SelectableTextAlign", 22}, // mvVec2    SelectableTextAlign
+		
+		{ "ImGuiStyleVar_TouchExtraPadding", 23}, // mvVec2    SelectableTextAlign
+		{ "ImGuiStyleVar_TabBorderSize", 24}, // mvVec2    SelectableTextAlign
+		{ "ImGuiStyleVar_DisplaySafeAreaPadding", 25}, // mvVec2    SelectableTextAlign
+		{ "ImGuiStyleVar_AntiAliasedLines", 26}, // mvVec2    SelectableTextAlign
+		{ "ImGuiStyleVar_AntiAliasedFill", 27}, // mvVec2    SelectableTextAlign
+		{ "ImGuiStyleVar_CurveTessellationTol", 28}, // mvVec2    SelectableTextAlign
+		{ "ImGuiStyleVar_CircleSegmentMaxError", 29}, // mvVec2    SelectableTextAlign
+
+
 
 		//-----------------------------------------------------------------------------
 		// mvColorEdit/ColorPicker flags

@@ -191,8 +191,7 @@ def ItemCallback(sender):
     loglevel = getValue("inputint1")
     print(loglevel)
     SetLogLevel(loglevel)
-    changeThemeItem("ImGuiCol_Tab", value[0], value[1], value[2], value[3])
-    updateTheme()
+    changeThemeItem(sbConstants.mvGuiCol_Tab, value[0], value[1], value[2], value[3])
     Log("log")
     Log(str(getMousePos()))
     LogDebug("log")
@@ -204,8 +203,7 @@ def ItemCallback(sender):
     setValue("checkbox2", True)
     #hideItem("Tab2")
     clearDrawing("drawing2")
-    #setStyleItem("Al33pha", 0.5)
-    updateStyle()
+    changeStyleItem(sbConstants.mvGuiStyleVar_Alpha, 0.5)
 
 def SubWindowCallback(sender):
 
