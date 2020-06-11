@@ -15,7 +15,7 @@ namespace Marvel {
 	//-----------------------------------------------------------------------------
 	// mvText
 	//-----------------------------------------------------------------------------
-	class mvText : public mvNoneItemBase
+	class mvText : public mvStringItemBase
 	{
 
 	public:
@@ -23,7 +23,7 @@ namespace Marvel {
 		MV_APPITEM_TYPE(mvAppItemType::Text)
 
 		mvText(const std::string& parent, const std::string& name, int wrap, mvColor color, bool bullet)
-			: mvNoneItemBase(parent, name), m_wrap(wrap), m_color(color), m_bullet(bullet)
+			: mvStringItemBase(parent, name, name), m_wrap(wrap), m_color(color), m_bullet(bullet)
 		{
 		}
 
@@ -39,7 +39,7 @@ namespace Marvel {
 			if (m_bullet)
 				ImGui::Bullet();
 
-			ImGui::Text(m_label.c_str());
+			ImGui::Text(m_value.c_str());
 
 			if (m_wrap != 0)
 				ImGui::PopTextWrapPos();
