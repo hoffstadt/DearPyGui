@@ -12,7 +12,7 @@ from math import sin, cos
 addMenuBar("MenuBar")
 addMenu("File")
 addMenu("Callbacks")
-addMenuItem("callback 1", callback="ItemCallback")
+addMenuItem("callback 1", callback="ItemCallbac43k")
 addSeperator()
 addMenuItem("callback 2", callback="ItemCallback")
 addMenuItem("callback 3", callback="ItemCallback")
