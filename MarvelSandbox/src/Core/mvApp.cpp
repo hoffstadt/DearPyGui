@@ -7,13 +7,6 @@ namespace Marvel {
 
 	mvApp* mvApp::s_instance = nullptr;
 
-	mvApp::mvApp()
-	{
-		m_style = getAppDefaultStyle();
-		m_windowflags = ImGuiWindowFlags_NoBringToFrontOnFocus | ImGuiWindowFlags_NoSavedSettings
-			| ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoTitleBar;
-	}
-
 	static void SetStyle(ImGuiStyle& style, mvStyle& mvstyle)
 	{
 		style.Alpha = mvstyle[ImGuiStyleVar_Alpha].x;
@@ -46,6 +39,15 @@ namespace Marvel {
 		style.AntiAliasedFill = mvstyle[27].x > 0.5f;
 		style.CurveTessellationTol = mvstyle[28].x;
 		style.CircleSegmentMaxError = mvstyle[29].x;
+	}
+
+	mvApp::mvApp()
+	{
+		m_style = getAppDefaultStyle();
+		m_windowflags = ImGuiWindowFlags_NoBringToFrontOnFocus | ImGuiWindowFlags_NoSavedSettings
+			| ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoTitleBar;
+
+
 	}
 
 	static bool doesParentAllowRender(mvAppItem* item)
@@ -240,7 +242,8 @@ namespace Marvel {
 	void mvApp::render()
 	{
 		// set imgui style to mvstyle
-		//updateStyle();
+		ImGuiStyle& style = ImGui::GetStyle();
+		SetStyle(style, m_style);
 
 		// update mouse
 		ImVec2 mousePos = ImGui::GetMousePos();
@@ -567,8 +570,6 @@ namespace Marvel {
 		{
 			m_style.at(item).x = x;
 			m_style.at(item).y = y;
-			ImGuiStyle& style = ImGui::GetStyle();
-			SetStyle(style, m_style);
 		}
 
 	}

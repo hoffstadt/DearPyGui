@@ -3,10 +3,12 @@ from sbLog import *
 from sbInput import *
 from sbPlot import *
 from sbDraw import *
+import sbWidgets
 from sbWidgets import *
 import sbConstants
 import SandboxTheme
 from math import sin, cos
+import inspect
 
 # create some menus
 addMenuBar("MenuBar")
@@ -147,6 +149,22 @@ addButton("Plot data", callback="PlotCallback", tip="new tip")
 addButton("Resize plot", callback="ResizePlotCallback")
 addPlot("Plot2", "x-axis", "y-axis", -1, 450);
 endWindow()
+
+
+commands = []
+for item in dir(sbWidgets):
+    if not item.startswith("__"):
+        commands.append(item)
+
+addWindow("Documentation", 500, 500)
+addListbox("Commands", commands, callback="docCallback", width=500, height=10)
+addSpacing()
+addText("Document String", wrap=300)
+endWindow()
+
+def docCallback(sender):
+    value = getValue("Commands")
+    setValue("Document String", sbWidgets.__dict__[commands[value]].__doc__)
 
 # setting main callbacks
 #setMainCallback("MainCallback")

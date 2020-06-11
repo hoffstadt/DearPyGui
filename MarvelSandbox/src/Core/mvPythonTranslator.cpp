@@ -62,8 +62,16 @@ namespace Marvel {
 	{
 		std::vector<std::string> items;
 
-		for (int i = 0; i < PyTuple_Size(obj); i++)
-			items.emplace_back(PyUnicode_AsUTF8(PyTuple_GetItem(obj, i)));
+		if (PyTuple_Check(obj))
+		{
+			for (int i = 0; i < PyTuple_Size(obj); i++)
+				items.emplace_back(PyUnicode_AsUTF8(PyTuple_GetItem(obj, i)));
+		}
+		else if (PyList_Check(obj))
+		{
+			for (int i = 0; i < PyList_Size(obj); i++)
+				items.emplace_back(PyUnicode_AsUTF8(PyList_GetItem(obj, i)));
+		}
 
 		return items;
 	}

@@ -837,7 +837,7 @@ namespace Marvel {
 		pyModule.addMethod(addCombo, "Not Documented");
 		pyModule.addMethod(addText, "Not Documented");
 		pyModule.addMethod(addLabelText, "Not Documented");
-		pyModule.addMethod(addListbox, "Not Documented");
+		pyModule.addMethod(addListbox, "Adds a list box\n\nKeyword arguments:\n\nname -- name (default='blah')\nitems -- items");
 		pyModule.addMethod(addColorEdit4, "Not Documented");
 		pyModule.addMethod(addSeperator, "Not Documented");
 		pyModule.addMethod(addButton, "Not Documented");
