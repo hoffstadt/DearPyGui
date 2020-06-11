@@ -6,40 +6,40 @@
 
 namespace Marvel {
 
-    typedef std::map<std::string, ImVec2> mvStyle;
+    typedef std::map<ImGuiStyleVar, ImVec2> mvStyle;
 
     static mvStyle getAppDefaultStyle()
     {
         mvStyle style;
-        style["Alpha"] = { 1.0f , 0.0f };                
-        style["WindowPadding"] = { 8.0f, 8.0f };
-        style["WindowRounding"] = { 0.0f, 0.0f };
-        style["WindowBorderSize"] = { 1.0f, 0.0f };
-        style["WindowTitleAlign"] = { 0.0f, 0.50f };
-        style["ChildRounding"] = { 0.0f, 0.0f };
-        style["ChildBorderSize"] = { 1.0f, 0.0f };
-        style["PopupRounding"] = { 0.0f, 0.0f };
-        style["PopupBorderSize"] = {1.0, 0.0f};
-        style["FramePadding"] = { 4.0f, 4.0f };
-        style["FrameRounding"] = { 0.0f, 0.0f };
-        style["FrameBorderSize"] = { 0.0f, 0.0f };
-        style["ItemSpacing"] = { 8.0f, 4.0f };
-        style["ItemInnerSpacing"] = { 4.0f, 4.0f };
-        style["TouchExtraPadding"] = { 0.0f, 0.0f };
-        style["IndentSpacing"] = { 21.0f, 0.0f };
-        style["ScrollbarSize"] = { 14.0f, 0.0f };
-        style["ScrollbarRounding"] = { 9.0f, 0.0f };
-        style["GrabMinSize"] = { 10.0f, 0.0f };
-        style["GrabRounding"] = { 0.0f, 0.0f };
-        style["TabRounding"] = { 4.0f, 0.0f };
-        style["TabBorderSize"] = { 0.0f, 0.0f };
-        style["ButtonTextAlign"] = { 0.5f, 0.5f };
-        style["SelectableTextAlign"] = { 0.0f, 0.0f };
-        style["DisplaySafeAreaPadding"] = { 3.0f, 3.0f };
-        style["AntiAliasedLines"] = { 1.0f, 0.0f };
-        style["AntiAliasedFill"] = { 1.0f, 0.0f };
-        style["CurveTessellationTol"] = { 1.25f, 0.0f };
-        style["CircleSegmentMaxError"] = { 1.60f, 0.0f };
+        style[ImGuiStyleVar_Alpha] = { 1.0f , 0.0f };
+        style[ImGuiStyleVar_WindowPadding] = { 8.0f, 8.0f };
+        style[ImGuiStyleVar_WindowRounding] = { 0.0f, 0.0f };
+        style[ImGuiStyleVar_WindowBorderSize] = { 1.0f, 0.0f };
+        style[ImGuiStyleVar_WindowTitleAlign] = { 0.0f, 0.50f };
+        style[ImGuiStyleVar_ChildRounding] = { 0.0f, 0.0f };
+        style[ImGuiStyleVar_ChildBorderSize] = { 1.0f, 0.0f };
+        style[ImGuiStyleVar_PopupRounding] = { 0.0f, 0.0f };
+        style[ImGuiStyleVar_PopupBorderSize] = {1.0, 0.0f};
+        style[ImGuiStyleVar_FramePadding] = { 4.0f, 4.0f };
+        style[ImGuiStyleVar_FrameRounding] = { 0.0f, 0.0f };
+        style[ImGuiStyleVar_FrameBorderSize] = { 0.0f, 0.0f };
+        style[ImGuiStyleVar_ItemSpacing] = { 8.0f, 4.0f };
+        style[ImGuiStyleVar_ItemInnerSpacing] = { 4.0f, 4.0f };
+        style[23] = { 0.0f, 0.0f }; // ImGuiStyleVar_TouchExtraPadding
+        style[ImGuiStyleVar_IndentSpacing] = { 21.0f, 0.0f };
+        style[ImGuiStyleVar_ScrollbarSize] = { 14.0f, 0.0f };
+        style[ImGuiStyleVar_ScrollbarRounding] = { 9.0f, 0.0f };
+        style[ImGuiStyleVar_GrabMinSize] = { 10.0f, 0.0f };
+        style[ImGuiStyleVar_GrabRounding] = { 0.0f, 0.0f };
+        style[ImGuiStyleVar_TabRounding] = { 4.0f, 0.0f };
+        style[24] = { 0.0f, 0.0f }; // ImGuiStyleVar_TabBorderSize
+        style[ImGuiStyleVar_ButtonTextAlign] = { 0.5f, 0.5f };
+        style[ImGuiStyleVar_SelectableTextAlign] = { 0.0f, 0.0f };
+        style[25] = { 3.0f, 3.0f }; //ImGuiStyleVar_DisplaySafeAreaPadding
+        style[26] = { 1.0f, 0.0f }; //ImGuiStyleVar_AntiAliasedLines
+        style[27] = { 1.0f, 0.0f }; //ImGuiStyleVar_AntiAliasedFill
+        style[28] = { 1.25f, 0.0f }; //ImGuiStyleVar_CurveTessellationTol
+        style[29] = { 1.60f, 0.0f }; //ImGuiStyleVar_CircleSegmentMaxError
 
         return style;
     }

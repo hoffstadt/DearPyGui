@@ -16,36 +16,36 @@ namespace Marvel {
 
 	static void SetStyle(ImGuiStyle& style, mvStyle& mvstyle)
 	{
-		style.Alpha = mvstyle["Alpha"].x;
-		style.WindowPadding = { mvstyle["WindowPadding"].x, mvstyle["WindowPadding"].y };
-		style.WindowRounding = mvstyle["WindowRounding"].x;
-		style.WindowBorderSize = mvstyle["WindowBorderSize"].x;
-		style.WindowTitleAlign = { mvstyle["WindowTitleAlign"].x, mvstyle["WindowTitleAlign"].y };
-		style.ChildRounding = mvstyle["ChildRounding"].x;
-		style.ChildBorderSize = mvstyle["ChildBorderSize"].x;
-		style.PopupRounding = mvstyle["PopupRounding"].x;
-		style.PopupBorderSize = mvstyle["PopupBorderSize"].x;
-		style.FramePadding = { mvstyle["FramePadding"].x, mvstyle["FramePadding"].y };
-		style.FrameRounding = mvstyle["FrameRounding"].x;
-		style.FrameBorderSize = mvstyle["FrameBorderSize"].x;
-		style.ItemSpacing = { mvstyle["ItemSpacing"].x, mvstyle["ItemSpacing"].y };
-		style.ItemInnerSpacing = { mvstyle["ItemInnerSpacing"].x, mvstyle["ItemInnerSpacing"].y };
-		style.TouchExtraPadding = { mvstyle["TouchExtraPadding"].x, mvstyle["TouchExtraPadding"].y };
-		style.IndentSpacing = mvstyle["IndentSpacing"].x;
-		style.ScrollbarSize = mvstyle["ScrollbarSize"].x;
-		style.ScrollbarRounding = mvstyle["ScrollbarRounding"].x;
-		style.GrabMinSize = mvstyle["GrabMinSize"].x;
-		style.GrabRounding = mvstyle["GrabRounding"].x;
-		style.TabRounding = mvstyle["TabRounding"].x;
-		style.TabBorderSize = mvstyle["TabBorderSize"].x;
-		style.ButtonTextAlign = { mvstyle["ButtonTextAlign"].x, mvstyle["ButtonTextAlign"].y };
-		style.SelectableTextAlign = { mvstyle["SelectableTextAlign"].x, mvstyle["SelectableTextAlign"].y };
-		style.DisplayWindowPadding = { mvstyle["DisplayWindowPadding"].x, mvstyle["DisplayWindowPadding"].y };
-		style.DisplaySafeAreaPadding = { mvstyle["DisplaySafeAreaPadding"].x, mvstyle["DisplaySafeAreaPadding"].y };
-		style.AntiAliasedLines = mvstyle["AntiAliasedLines"].x > 0.5f;
-		style.AntiAliasedFill = mvstyle["AntiAliasedFill"].x > 0.5f;
-		style.CurveTessellationTol = mvstyle["CurveTessellationTol"].x;
-		style.CircleSegmentMaxError = mvstyle["CircleSegmentMaxError"].x;
+		style.Alpha = mvstyle[ImGuiStyleVar_Alpha].x;
+		style.WindowPadding = { mvstyle[ImGuiStyleVar_WindowPadding].x, mvstyle[ImGuiStyleVar_WindowPadding].y };
+		style.WindowRounding = mvstyle[ImGuiStyleVar_WindowRounding].x;
+		style.WindowBorderSize = mvstyle[ImGuiStyleVar_WindowBorderSize].x;
+		style.WindowTitleAlign = { mvstyle[ImGuiStyleVar_WindowTitleAlign].x, mvstyle[ImGuiStyleVar_WindowTitleAlign].y };
+		style.ChildRounding = mvstyle[ImGuiStyleVar_ChildRounding].x;
+		style.ChildBorderSize = mvstyle[ImGuiStyleVar_ChildBorderSize].x;
+		style.PopupRounding = mvstyle[ImGuiStyleVar_PopupRounding].x;
+		style.PopupBorderSize = mvstyle[ImGuiStyleVar_PopupBorderSize].x;
+		style.FramePadding = { mvstyle[ImGuiStyleVar_FramePadding].x, mvstyle[ImGuiStyleVar_FramePadding].y };
+		style.FrameRounding = mvstyle[ImGuiStyleVar_FrameRounding].x;
+		style.FrameBorderSize = mvstyle[ImGuiStyleVar_FrameBorderSize].x;
+		style.ItemSpacing = { mvstyle[ImGuiStyleVar_ItemSpacing].x, mvstyle[ImGuiStyleVar_ItemSpacing].y };
+		style.ItemInnerSpacing = { mvstyle[ImGuiStyleVar_ItemInnerSpacing].x, mvstyle[ImGuiStyleVar_ItemInnerSpacing].y };
+		style.TouchExtraPadding = { mvstyle[23].x, mvstyle[23].y };
+		style.IndentSpacing = mvstyle[ImGuiStyleVar_IndentSpacing].x;
+		style.ScrollbarSize = mvstyle[ImGuiStyleVar_ScrollbarSize].x;
+		style.ScrollbarRounding = mvstyle[ImGuiStyleVar_ScrollbarRounding].x;
+		style.GrabMinSize = mvstyle[ImGuiStyleVar_GrabMinSize].x;
+		style.GrabRounding = mvstyle[ImGuiStyleVar_GrabRounding].x;
+		style.TabRounding = mvstyle[ImGuiStyleVar_TabRounding].x;
+		style.TabBorderSize = mvstyle[24].x;
+		style.ButtonTextAlign = { mvstyle[ImGuiStyleVar_ButtonTextAlign].x, mvstyle[ImGuiStyleVar_ButtonTextAlign].y };
+		style.SelectableTextAlign = { mvstyle[ImGuiStyleVar_SelectableTextAlign].x, mvstyle[ImGuiStyleVar_SelectableTextAlign].y };
+		//style.DisplayWindowPadding = { mvstyle[25].x, mvstyle[25].y };
+		style.DisplaySafeAreaPadding = { mvstyle[25].x, mvstyle[25].y };
+		style.AntiAliasedLines = mvstyle[26].x > 0.5f;
+		style.AntiAliasedFill = mvstyle[27].x > 0.5f;
+		style.CurveTessellationTol = mvstyle[28].x;
+		style.CircleSegmentMaxError = mvstyle[29].x;
 	}
 
 	static bool doesParentAllowRender(mvAppItem* item)
@@ -240,7 +240,7 @@ namespace Marvel {
 	void mvApp::render()
 	{
 		// set imgui style to mvstyle
-		updateStyle();
+		//updateStyle();
 
 		// update mouse
 		ImVec2 mousePos = ImGui::GetMousePos();
@@ -554,43 +554,23 @@ namespace Marvel {
 			ImGui::StyleColorsDark();
 	}
 
-	void mvApp::updateTheme()
+	void mvApp::changeThemeItem(long item, mvColor color)
 	{
 		ImGuiStyle* style = &ImGui::GetStyle();
-		ImVec4* colors = style->Colors;
-
-		auto themecolors = m_theme.getColors();
-
-		for (unsigned i = 0; i < m_theme.getNumberOfItems(); i++)
-		{
-			auto color = themecolors[i];
-			colors[i] = ImVec4(color[0], color[1], color[2], color[3]);
-		}
-			
+		style->Colors[item] = ImVec4(color.r, color.g, color.b, color.a);
 	}
 
-	void mvApp::changeThemeItem(const char* name, mvColor color)
-	{
-		m_theme.changeThemeItem(name, color.r, color.g, color.b, color.a);
-	}
-
-	void mvApp::updateStyle()
-	{
-		ImGuiStyle& style = ImGui::GetStyle();
-		SetStyle(style, m_style);
-	}
-
-	bool mvApp::setStyleItem(const std::string& item, float x, float y)
+	void mvApp::changeStyleItem(long item, float x, float y)
 	{
 
 		if (m_style.count(item) > 0)
 		{
 			m_style.at(item).x = x;
 			m_style.at(item).y = y;
-			return true;
+			ImGuiStyle& style = ImGui::GetStyle();
+			SetStyle(style, m_style);
 		}
 
-		return false;
 	}
 
 	void mvApp::addItemManual(mvAppItem* item)

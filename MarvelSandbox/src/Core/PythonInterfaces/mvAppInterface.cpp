@@ -247,14 +247,14 @@ namespace Marvel {
 		return pvalue;
 	}
 
-	PyObject* setStyleItem(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* changeStyleItem(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
-		const char* item;
+		int item;
 		float x = 0.0f;
 		float y = 0.0f;
 
 		auto pl = mvPythonTranslator(args, kwargs, {
-			mvPythonDataElement(mvPythonDataType::String, "item"),
+			mvPythonDataElement(mvPythonDataType::Integer, "item"),
 			mvPythonDataElement(mvPythonDataType::Float, "x"),
 			mvPythonDataElement(mvPythonDataType::Optional, ""),
 			mvPythonDataElement(mvPythonDataType::Float, "x"),
@@ -262,50 +262,30 @@ namespace Marvel {
 			});
 
 		if (!pl.parse(__FUNCTION__, &item, &x, &y))
-			return Py_False;
+			return Py_None;
 
-		bool check = mvApp::GetApp()->setStyleItem(std::string(item), x, y);
+		mvApp::GetApp()->changeStyleItem(item, x, y);
 
-		if (check)
-			return Py_True;
-
-		return Py_False;
-	}
-
-	PyObject* updateStyle(PyObject* self, PyObject* args, PyObject* kwargs)
-	{
-		mvApp::GetApp()->updateStyle();
-		Py_INCREF(Py_None);
 		return Py_None;
 	}
 
 	PyObject* changeThemeItem(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
-		const char* name;
+		int item;
 		float r, g, b, a;
 
 		auto pl = mvPythonTranslator(args, kwargs, {
-			mvPythonDataElement(mvPythonDataType::String, "name"),
+			mvPythonDataElement(mvPythonDataType::Integer, "item"),
 			mvPythonDataElement(mvPythonDataType::Float, "r"),
 			mvPythonDataElement(mvPythonDataType::Float, "g"),
 			mvPythonDataElement(mvPythonDataType::Float, "b"),
 			mvPythonDataElement(mvPythonDataType::Float, "a")
 			});
 
-		if(!pl.parse(__FUNCTION__, &name, &r, &g, &b, &a))
+		if(!pl.parse(__FUNCTION__, &item, &r, &g, &b, &a))
 			return Py_None;
 
-		mvApp::GetApp()->changeThemeItem(name, { r, g, b, a });
-
-		Py_INCREF(Py_None);
-
-		return Py_None;
-	}
-
-	PyObject* updateTheme(PyObject* self, PyObject* args)
-	{
-
-		mvApp::GetApp()->updateTheme();
+		mvApp::GetApp()->changeThemeItem(item, { r, g, b, a });
 
 		Py_INCREF(Py_None);
 
@@ -662,12 +642,10 @@ namespace Marvel {
 		pyModule.addMethod(setKeyDownCallback, "Not Documented");
 		pyModule.addMethod(setKeyPressCallback, "Not Documented");
 		pyModule.addMethod(setKeyReleaseCallback, "Not Documented");
-		pyModule.addMethod(setStyleItem, "Not Documented");
-		pyModule.addMethod(updateStyle, "Not Documented");
+		pyModule.addMethod(changeStyleItem, "Not Documented");
 		pyModule.addMethod(showItem, "Not Documented");
 		pyModule.addMethod(hideItem, "Not Documented");
 		pyModule.addMethod(changeThemeItem, "Not Documented");
-		pyModule.addMethod(updateTheme, "Not Documented");
 		pyModule.addMethod(setTheme, "Not Documented");
 		pyModule.addMethod(setMainCallback, "Not Documented");
 		pyModule.addMethod(setItemCallback, "Not Documented");
