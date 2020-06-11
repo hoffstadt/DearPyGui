@@ -79,16 +79,8 @@ namespace Marvel {
 				break;
 
 			case mvAppItemType::CollapsingHeader:
-			{
-				if (!static_cast<mvCollapsingHeader*>(item->getParent())->getValue())
-				{
-					item->hide();
-					return false;
-				}
-				else
-					item->show();
+				return static_cast<mvCollapsingHeader*>(item->getParent())->getValue();
 				break;
-			}
 
 			default:
 				return item->getParent()->isShown();

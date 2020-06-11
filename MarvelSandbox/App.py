@@ -43,6 +43,14 @@ addGroup("Group1")
 addRadioButton("radiobutton1", ("First Option", "Second Option", "Third Option"))
 endGroup()
 addSameLine()
+addSpacing(10)
+
+addCollapsingHeader("Themes")
+addButton("Use Dark", callback="DarkTheme")
+indent()
+addButton("Use Light", callback="LightTheme")
+addButton("Use Classic", callback="ClassicTheme")
+unindent()
 addChild("Child1", 300, 200)
 addRadioButton("radiobutton2", ("First Option", "Second Option", "Third Option"))
 addPopup("radiuobutton2", "popup2", mousebutton=1)
@@ -52,14 +60,6 @@ addSelectable("sel_1")
 addSelectable("sel_2")
 addSelectable("sel_3", True)
 endChild()
-addSpacing(10)
-
-addCollapsingHeader("Themes")
-addButton("Use Dark", callback="DarkTheme")
-indent()
-addButton("Use Light", callback="LightTheme")
-addButton("Use Classic", callback="ClassicTheme")
-unindent()
 endCollapsingHeader()
 
 # creating tabs
@@ -93,6 +93,13 @@ addTooltip("Testing4", "Tooltip1")         # start tooltip
 addButton("A Fancy tooltip 1")
 addPlot("Plot1");
 endTooltip()                     # end tooltip
+
+addChild("Child2", 300, 200)
+addRadioButton("radiobutton23", ("First Option", "Second Option", "Third Option"))
+addSelectable("sel_13")
+addSelectable("sel_23")
+addSelectable("sel_33", True)
+endChild()
 
 endTab()
 
@@ -192,7 +199,7 @@ def ItemCallback(sender):
     setValue("Output", "234")
     setValue("radiobutton1", 1)
     setValue("checkbox2", True)
-    hideItem("Tab2")
+    #hideItem("Tab2")
     clearDrawing("drawing2")
     #setStyleItem("Al33pha", 0.5)
     updateStyle()
