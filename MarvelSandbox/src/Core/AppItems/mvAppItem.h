@@ -72,35 +72,34 @@ namespace Marvel {
 		void                            hideAll    ();
 
 		// utilities
-		bool isItemHovered() const { return m_hovered; }
-		bool isItemActive() const { return m_active; }
-		bool isItemFocused() const { return m_focused; }
-		bool isItemClicked() const { return m_clicked; }
-		bool isItemVisible() const { return m_visible; }
-		bool isItemEdited() const { return m_edited; }
-		bool isItemActivated() const { return m_activated; }
-		bool isItemDeactivated() const { return m_deactivated; }
-		bool isItemDeactivatedAfterEdit() const { return m_deactivatedAfterEdit; }
-		bool isItemToogledOpen() const { return m_toggledOpen; }
-		mvVec2 getItemRectMin() const { return m_rectMin; }
-		mvVec2 getItemRectMax() const { return m_rectMax; }
-		mvVec2 getItemRectSize() const { return m_rectSize; }
+		bool   isItemHovered             () const { return m_hovered; }
+		bool   isItemActive              () const { return m_active; }
+		bool   isItemFocused             () const { return m_focused; }
+		bool   isItemClicked             () const { return m_clicked; }
+		bool   isItemVisible             () const { return m_visible; }
+		bool   isItemEdited              () const { return m_edited; }
+		bool   isItemActivated           () const { return m_activated; }
+		bool   isItemDeactivated         () const { return m_deactivated; }
+		bool   isItemDeactivatedAfterEdit() const { return m_deactivatedAfterEdit; }
+		bool   isItemToogledOpen         () const { return m_toggledOpen; }
+		mvVec2 getItemRectMin            () const { return m_rectMin; }
+		mvVec2 getItemRectMax            () const { return m_rectMax; }
+		mvVec2 getItemRectSize           () const { return m_rectSize; }
 
 
-		void setHovered(bool value) { m_hovered = value; }
-		void setActive(bool value) { m_active = value; }
-		void setFocused(bool value) { m_focused = value; }
-		void setClicked(bool value) { m_clicked = value; }
-		void setVisible(bool value) { m_visible = value; }
-		void setEdited(bool value) { m_edited = value; }
-		void setActivated(bool value) { m_activated = value; }
-		void setDeactivated(bool value) { m_deactivated = value; }
-		void setDeactivatedAfterEdit(bool value) { m_deactivatedAfterEdit = value; }
-		void setToggledOpen(bool value) { m_toggledOpen = value; }
-
-		void setRectMin(mvVec2 value) { m_rectMin = value; }
-		void setRectMax(mvVec2 value) { m_rectMax = value; }
-		void setRectSize(mvVec2 value) { m_rectSize = value; }
+		void setHovered             (bool value)   { m_hovered = value; }
+		void setActive              (bool value)   { m_active = value; }
+		void setFocused             (bool value)   { m_focused = value; }
+		void setClicked             (bool value)   { m_clicked = value; }
+		void setVisible             (bool value)   { m_visible = value; }
+		void setEdited              (bool value)   { m_edited = value; }
+		void setActivated           (bool value)   { m_activated = value; }
+		void setDeactivated         (bool value)   { m_deactivated = value; }
+		void setDeactivatedAfterEdit(bool value)   { m_deactivatedAfterEdit = value; }
+		void setToggledOpen         (bool value)   { m_toggledOpen = value; }
+		void setRectMin             (mvVec2 value) { m_rectMin = value; }
+		void setRectMax             (mvVec2 value) { m_rectMax = value; }
+		void setRectSize            (mvVec2 value) { m_rectSize = value; }
 
 	protected:
 
@@ -114,16 +113,16 @@ namespace Marvel {
 		std::vector<mvAppItem*> m_children;
 		std::string             m_callback = "";
 
-		bool m_hovered;
-		bool m_active;
-		bool m_focused;
-		bool m_clicked;
-		bool m_visible;
-		bool m_edited;
-		bool m_activated;
-		bool m_deactivated;
-		bool m_deactivatedAfterEdit;
-		bool m_toggledOpen;
+		bool   m_hovered;
+		bool   m_active;
+		bool   m_focused;
+		bool   m_clicked;
+		bool   m_visible;
+		bool   m_edited;
+		bool   m_activated;
+		bool   m_deactivated;
+		bool   m_deactivatedAfterEdit;
+		bool   m_toggledOpen;
 		mvVec2 m_rectMin;
 		mvVec2 m_rectMax;
 		mvVec2 m_rectSize;

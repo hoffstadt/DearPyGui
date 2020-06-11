@@ -14,7 +14,7 @@ namespace Marvel {
 
 		MV_APPITEM_TYPE(mvAppItemType::Window)
 
-			mvWindowAppitem(const std::string& parent, const std::string& name, int width, int height)
+		mvWindowAppitem(const std::string& parent, const std::string& name, int width, int height)
 			: mvBoolItemBase(parent, name, false)
 		{
 			m_width = width;

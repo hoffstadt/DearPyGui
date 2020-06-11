@@ -3,6 +3,41 @@
 
 namespace Marvel {
 
+	mvPythonTranslator::mvPythonTranslator(PyObject* args, PyObject* kwargs, const std::initializer_list<mvPythonDataElement>& elements, bool standardKeywords)
+		: m_args(args), m_kwargs(kwargs), m_elements(elements)
+	{
+
+		if (standardKeywords)
+		{
+			m_elements.push_back(mvPythonDataElement(mvPythonDataType::Optional, ""));
+			m_elements.push_back(mvPythonDataElement(mvPythonDataType::String, "callback", true));
+			m_elements.push_back(mvPythonDataElement(mvPythonDataType::String, "tip"));
+			m_elements.push_back(mvPythonDataElement(mvPythonDataType::String, "popup"));
+			m_elements.push_back(mvPythonDataElement(mvPythonDataType::Integer, "width"));
+		}
+
+		for (const auto& element : m_elements)
+		{
+			if (element.type != mvPythonDataType::Optional)
+				m_keywords.push_back(element.name);
+
+			if (element.keywordOnly)
+				m_formatstring.push_back('$');
+
+			// ignore addiotional optionals
+			if (m_optional && element.type == mvPythonDataType::Optional)
+				continue;
+			else if (element.type == mvPythonDataType::Optional)
+				m_optional = true;
+
+			m_formatstring.push_back(element.getSymbol());
+		}
+
+
+		m_formatstring.push_back(0);
+		m_keywords.push_back(NULL);
+	}
+
 	bool mvPythonTranslator::parse(const char* message, ...)
 	{
 

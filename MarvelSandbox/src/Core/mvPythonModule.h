@@ -65,12 +65,12 @@ namespace Marvel {
 
 		mvPythonModule(const char* name, const std::vector<std::pair<std::string, long>>& constants);
 
-		PyModuleDef* getModuleDefinition();
-		void setIntConstants(const std::vector<std::pair<std::string, long>>& constants) { m_intconstants = constants; }
+		PyModuleDef*                                     getModuleDefinition();
+		void                                             setIntConstants(const std::vector<std::pair<std::string, long>>& constants) { m_intconstants = constants; }
 		const std::vector<std::pair<std::string, long>>& getIntConstants() const { return m_intconstants; }
-		void addMethod_(const char* name, PyCFunction function, const char* documentation = "No documentation");
-		void addMethod_(const char* name, PyCFunctionWithKeywords function, const char* documentation = "No documentation");
-		inline const char* getName() const { return m_name; }
+		void                                             addMethod_(const char* name, PyCFunction function, const char* documentation = "No documentation");
+		void                                             addMethod_(const char* name, PyCFunctionWithKeywords function, const char* documentation = "No documentation");
+		inline const char*                               getName() const { return m_name; }
 
 	private:
 
