@@ -70,8 +70,8 @@ namespace Marvel {
 
 	private:
 
-		std::string m_hint;
-		bool        m_multiline;
+		std::string         m_hint;
+		bool                m_multiline;
 
 	};
 
