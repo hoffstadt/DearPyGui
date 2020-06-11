@@ -13,7 +13,7 @@ namespace Marvel {
 		int width = -1;
 		int height = 0;
 
-		auto pl = mvPythonTranslator(args, kwargs, {
+		auto pl = mvPythonTranslator( {
 			mvPythonDataElement(mvPythonDataType::String, "name"),
 			mvPythonDataElement(mvPythonDataType::Optional, ""),
 			mvPythonDataElement(mvPythonDataType::String, "xAxisName"),
@@ -22,7 +22,7 @@ namespace Marvel {
 			mvPythonDataElement(mvPythonDataType::Integer, "height")
 			});
 
-		pl.parse(__FUNCTION__, &name, &xAxisName, &yAxisName, &width, &height);
+		pl.parse(args, kwargs,__FUNCTION__, &name, &xAxisName, &yAxisName, &width, &height);
 
 		mvAppItem* item = new mvPlot("", name,xAxisName, yAxisName, width, height);
 		mvApp::GetApp()->addItem(item);
@@ -38,7 +38,7 @@ namespace Marvel {
 		PyObject* data;
 		PyObject* style = nullptr;
 
-		auto pl = mvPythonTranslator(args, kwargs, {
+		auto pl = mvPythonTranslator( {
 			mvPythonDataElement(mvPythonDataType::String, "plot"),
 			mvPythonDataElement(mvPythonDataType::String, "name"),
 			mvPythonDataElement(mvPythonDataType::FloatList, "data"),
@@ -46,7 +46,7 @@ namespace Marvel {
 			mvPythonDataElement(mvPythonDataType::IntList, "style", true)
 			});
 
-		pl.parse(__FUNCTION__, &plot, &name, &data, &style);
+		pl.parse(args, kwargs,__FUNCTION__, &plot, &name, &data, &style);
 
 		mvAppItem* aplot = mvApp::GetApp()->getItem(plot);
 		mvPlot* graph = static_cast<mvPlot*>(aplot);
@@ -75,7 +75,7 @@ namespace Marvel {
 		PyObject* data;
 		PyObject* style = nullptr;
 
-		auto pl = mvPythonTranslator(args, kwargs, {
+		auto pl = mvPythonTranslator( {
 			mvPythonDataElement(mvPythonDataType::String, "plot"),
 			mvPythonDataElement(mvPythonDataType::String, "name"),
 			mvPythonDataElement(mvPythonDataType::FloatList, "data"),
@@ -83,7 +83,7 @@ namespace Marvel {
 			mvPythonDataElement(mvPythonDataType::IntList, "style", true)
 			});
 
-		pl.parse(__FUNCTION__, &plot, &name, &data, &style);
+		pl.parse(args, kwargs,__FUNCTION__, &plot, &name, &data, &style);
 
 		mvAppItem* aplot = mvApp::GetApp()->getItem(plot);
 		mvPlot* graph = static_cast<mvPlot*>(aplot);

@@ -18,11 +18,11 @@ namespace Marvel {
 	{
 		int level;
 
-		auto pl = mvPythonTranslator(args, kwargs, {
+		auto pl = mvPythonTranslator( {
 			mvPythonDataElement(mvPythonDataType::Integer, "level")
 			});
 
-		if(!pl.parse(__FUNCTION__, &level))
+		if(!pl.parse(args, kwargs,__FUNCTION__, &level))
 			return Py_None;
 
 		mvApp::GetApp()->setLogLevel(level);
@@ -37,13 +37,13 @@ namespace Marvel {
 		const char* message;
 		const char* level = "TRACE";
 
-		auto pl = mvPythonTranslator(args, kwargs, {
+		auto pl = mvPythonTranslator( {
 			mvPythonDataElement(mvPythonDataType::String, "message"),
 			mvPythonDataElement(mvPythonDataType::Optional, ""),
 			mvPythonDataElement(mvPythonDataType::String, "level")
 			});
 
-		if(!pl.parse(__FUNCTION__, &message, &level))
+		if(!pl.parse(args, kwargs,__FUNCTION__, &message, &level))
 			return Py_None;
 
 		mvApp::GetApp()->Log(std::string(message), std::string(level));
@@ -57,11 +57,11 @@ namespace Marvel {
 	{
 		const char* message;
 
-		auto pl = mvPythonTranslator(args, kwargs, {
+		auto pl = mvPythonTranslator( {
 			mvPythonDataElement(mvPythonDataType::String, "level")
 			});
 
-		if (!pl.parse(__FUNCTION__, &message))
+		if (!pl.parse(args, kwargs,__FUNCTION__, &message))
 			return Py_None;
 
 		mvApp::GetApp()->LogDebug(std::string(message));
@@ -75,11 +75,11 @@ namespace Marvel {
 	{
 		const char* message;
 
-		auto pl = mvPythonTranslator(args, kwargs, {
+		auto pl = mvPythonTranslator( {
 			mvPythonDataElement(mvPythonDataType::String, "level")
 			});
 
-		if (!pl.parse(__FUNCTION__, &message))
+		if (!pl.parse(args, kwargs,__FUNCTION__, &message))
 			return Py_None;
 
 		mvApp::GetApp()->LogInfo(std::string(message));
@@ -93,11 +93,11 @@ namespace Marvel {
 	{
 		const char* message;
 
-		auto pl = mvPythonTranslator(args, kwargs, {
+		auto pl = mvPythonTranslator( {
 			mvPythonDataElement(mvPythonDataType::String, "level")
 			});
 
-		if (!pl.parse(__FUNCTION__, &message))
+		if (!pl.parse(args, kwargs,__FUNCTION__, &message))
 			return Py_None;
 
 		mvApp::GetApp()->LogWarning(std::string(message));
@@ -111,11 +111,11 @@ namespace Marvel {
 	{
 		const char* message;
 
-		auto pl = mvPythonTranslator(args, kwargs, {
+		auto pl = mvPythonTranslator( {
 			mvPythonDataElement(mvPythonDataType::String, "level")
 			});
 
-		if (!pl.parse(__FUNCTION__, &message))
+		if (!pl.parse(args, kwargs,__FUNCTION__, &message))
 			return Py_None;
 
 		mvApp::GetApp()->LogError(std::string(message));

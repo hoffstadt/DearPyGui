@@ -11,11 +11,11 @@ namespace Marvel {
 	{
 		const char* item;
 
-		auto pl = mvPythonTranslator(args, kwargs, {
+		auto pl = mvPythonTranslator( {
 			mvPythonDataElement(mvPythonDataType::String, "item")
 			});
 
-		if (!pl.parse(__FUNCTION__, &item))
+		if (!pl.parse(args, kwargs,__FUNCTION__, &item))
 			return Py_None;
 
 		bool value = mvApp::GetApp()->isItemHovered(std::string(item));
@@ -29,11 +29,11 @@ namespace Marvel {
 	{
 		const char* item;
 
-		auto pl = mvPythonTranslator(args, kwargs, {
+		auto pl = mvPythonTranslator( {
 			mvPythonDataElement(mvPythonDataType::String, "item")
 			});
 
-		if (!pl.parse(__FUNCTION__, &item))
+		if (!pl.parse(args, kwargs,__FUNCTION__, &item))
 			return Py_None;
 
 		bool value = mvApp::GetApp()->isItemActive(std::string(item));
@@ -47,11 +47,11 @@ namespace Marvel {
 	{
 		const char* item;
 
-		auto pl = mvPythonTranslator(args, kwargs, {
+		auto pl = mvPythonTranslator( {
 			mvPythonDataElement(mvPythonDataType::String, "item")
 			});
 
-		if (!pl.parse(__FUNCTION__, &item))
+		if (!pl.parse(args, kwargs,__FUNCTION__, &item))
 			return Py_None;
 
 		bool value = mvApp::GetApp()->isItemFocused(std::string(item));
@@ -65,11 +65,11 @@ namespace Marvel {
 	{
 		const char* item;
 
-		auto pl = mvPythonTranslator(args, kwargs, {
+		auto pl = mvPythonTranslator( {
 			mvPythonDataElement(mvPythonDataType::String, "item")
 			});
 
-		if (!pl.parse(__FUNCTION__, &item))
+		if (!pl.parse(args, kwargs,__FUNCTION__, &item))
 			return Py_None;
 
 		bool value = mvApp::GetApp()->isItemClicked(std::string(item));
@@ -83,11 +83,11 @@ namespace Marvel {
 	{
 		const char* item;
 
-		auto pl = mvPythonTranslator(args, kwargs, {
+		auto pl = mvPythonTranslator( {
 			mvPythonDataElement(mvPythonDataType::String, "item")
 			});
 
-		if (!pl.parse(__FUNCTION__, &item))
+		if (!pl.parse(args, kwargs,__FUNCTION__, &item))
 			return Py_None;
 
 		bool value = mvApp::GetApp()->isItemVisible(std::string(item));
@@ -101,11 +101,11 @@ namespace Marvel {
 	{
 		const char* item;
 
-		auto pl = mvPythonTranslator(args, kwargs, {
+		auto pl = mvPythonTranslator( {
 			mvPythonDataElement(mvPythonDataType::String, "item")
 			});
 
-		if (!pl.parse(__FUNCTION__, &item))
+		if (!pl.parse(args, kwargs,__FUNCTION__, &item))
 			return Py_None;
 
 		bool value = mvApp::GetApp()->isItemEdited(std::string(item));
@@ -119,11 +119,11 @@ namespace Marvel {
 	{
 		const char* item;
 
-		auto pl = mvPythonTranslator(args, kwargs, {
+		auto pl = mvPythonTranslator( {
 			mvPythonDataElement(mvPythonDataType::String, "item")
 			});
 
-		if (!pl.parse(__FUNCTION__, &item))
+		if (!pl.parse(args, kwargs,__FUNCTION__, &item))
 			return Py_None;
 
 		bool value = mvApp::GetApp()->isItemActivated(std::string(item));
@@ -137,11 +137,11 @@ namespace Marvel {
 	{
 		const char* item;
 
-		auto pl = mvPythonTranslator(args, kwargs, {
+		auto pl = mvPythonTranslator( {
 			mvPythonDataElement(mvPythonDataType::String, "item")
 			});
 
-		if (!pl.parse(__FUNCTION__, &item))
+		if (!pl.parse(args, kwargs,__FUNCTION__, &item))
 			return Py_None;
 
 		bool value = mvApp::GetApp()->isItemDeactivated(std::string(item));
@@ -155,11 +155,11 @@ namespace Marvel {
 	{
 		const char* item;
 
-		auto pl = mvPythonTranslator(args, kwargs, {
+		auto pl = mvPythonTranslator( {
 			mvPythonDataElement(mvPythonDataType::String, "item")
 			});
 
-		if (!pl.parse(__FUNCTION__, &item))
+		if (!pl.parse(args, kwargs,__FUNCTION__, &item))
 			return Py_None;
 
 		bool value = mvApp::GetApp()->isItemDeactivatedAfterEdit(std::string(item));
@@ -173,11 +173,11 @@ namespace Marvel {
 	{
 		const char* item;
 
-		auto pl = mvPythonTranslator(args, kwargs, {
+		auto pl = mvPythonTranslator( {
 			mvPythonDataElement(mvPythonDataType::String, "item")
 			});
 
-		if (!pl.parse(__FUNCTION__, &item))
+		if (!pl.parse(args, kwargs,__FUNCTION__, &item))
 			return Py_None;
 
 		bool value = mvApp::GetApp()->isItemToogledOpen(std::string(item));
@@ -191,11 +191,11 @@ namespace Marvel {
 	{
 		const char* item;
 
-		auto pl = mvPythonTranslator(args, kwargs, {
+		auto pl = mvPythonTranslator( {
 			mvPythonDataElement(mvPythonDataType::String, "item")
 			});
 
-		if (!pl.parse(__FUNCTION__, &item))
+		if (!pl.parse(args, kwargs,__FUNCTION__, &item))
 			return Py_None;
 
 		mvVec2 value = mvApp::GetApp()->getItemRectMin(std::string(item));
@@ -211,11 +211,11 @@ namespace Marvel {
 	{
 		const char* item;
 
-		auto pl = mvPythonTranslator(args, kwargs, {
+		auto pl = mvPythonTranslator( {
 			mvPythonDataElement(mvPythonDataType::String, "item")
 			});
 
-		if (!pl.parse(__FUNCTION__, &item))
+		if (!pl.parse(args, kwargs,__FUNCTION__, &item))
 			return Py_None;
 
 		mvVec2 value = mvApp::GetApp()->getItemRectMax(std::string(item));
@@ -231,11 +231,11 @@ namespace Marvel {
 	{
 		const char* item;
 
-		auto pl = mvPythonTranslator(args, kwargs, {
+		auto pl = mvPythonTranslator( {
 			mvPythonDataElement(mvPythonDataType::String, "item")
 			});
 
-		if (!pl.parse(__FUNCTION__, &item))
+		if (!pl.parse(args, kwargs,__FUNCTION__, &item))
 			return Py_None;
 
 		mvVec2 value = mvApp::GetApp()->getItemRectSize(std::string(item));
@@ -253,7 +253,7 @@ namespace Marvel {
 		float x = 0.0f;
 		float y = 0.0f;
 
-		auto pl = mvPythonTranslator(args, kwargs, {
+		auto pl = mvPythonTranslator( {
 			mvPythonDataElement(mvPythonDataType::Integer, "item"),
 			mvPythonDataElement(mvPythonDataType::Float, "x"),
 			mvPythonDataElement(mvPythonDataType::Optional, ""),
@@ -261,7 +261,7 @@ namespace Marvel {
 
 			});
 
-		if (!pl.parse(__FUNCTION__, &item, &x, &y))
+		if (!pl.parse(args, kwargs,__FUNCTION__, &item, &x, &y))
 			return Py_None;
 
 		mvApp::GetApp()->changeStyleItem(item, x, y);
@@ -274,7 +274,7 @@ namespace Marvel {
 		int item;
 		float r, g, b, a;
 
-		auto pl = mvPythonTranslator(args, kwargs, {
+		auto pl = mvPythonTranslator( {
 			mvPythonDataElement(mvPythonDataType::Integer, "item"),
 			mvPythonDataElement(mvPythonDataType::Float, "r"),
 			mvPythonDataElement(mvPythonDataType::Float, "g"),
@@ -282,7 +282,7 @@ namespace Marvel {
 			mvPythonDataElement(mvPythonDataType::Float, "a")
 			});
 
-		if(!pl.parse(__FUNCTION__, &item, &r, &g, &b, &a))
+		if(!pl.parse(args, kwargs,__FUNCTION__, &item, &r, &g, &b, &a))
 			return Py_None;
 
 		mvApp::GetApp()->changeThemeItem(item, { r, g, b, a });
@@ -296,11 +296,11 @@ namespace Marvel {
 	{
 		const char* name;
 
-		auto pl = mvPythonTranslator(args, kwargs, {
+		auto pl = mvPythonTranslator( {
 			mvPythonDataElement(mvPythonDataType::String, "name")
 			});
 
-		if(!pl.parse(__FUNCTION__, &name))
+		if(!pl.parse(args, kwargs,__FUNCTION__, &name))
 			return Py_None;
 
 		mvAppItem* item = mvApp::GetApp()->getItem(std::string(name));
@@ -316,12 +316,12 @@ namespace Marvel {
 		const char* name;
 		PyObject* value;
 
-		auto pl = mvPythonTranslator(args, kwargs, {
+		auto pl = mvPythonTranslator( {
 			mvPythonDataElement(mvPythonDataType::String, "name"),
 			mvPythonDataElement(mvPythonDataType::Object, "value")
 			});
 
-		if(!pl.parse(__FUNCTION__, &name, &value))
+		if(!pl.parse(args, kwargs,__FUNCTION__, &name, &value))
 			return Py_None;
 
 		mvAppItem* item = mvApp::GetApp()->getItem(std::string(name));
@@ -337,11 +337,11 @@ namespace Marvel {
 	{
 		const char* name;
 
-		auto pl = mvPythonTranslator(args, kwargs, {
+		auto pl = mvPythonTranslator( {
 			mvPythonDataElement(mvPythonDataType::String, "name")
 			});
 
-		if(!pl.parse(__FUNCTION__, &name))
+		if(!pl.parse(args, kwargs,__FUNCTION__, &name))
 			return Py_None;
 
 		mvAppItem* item = mvApp::GetApp()->getItem(std::string(name));
@@ -356,11 +356,11 @@ namespace Marvel {
 	{
 		const char* name;
 
-		auto pl = mvPythonTranslator(args, kwargs, {
+		auto pl = mvPythonTranslator( {
 			mvPythonDataElement(mvPythonDataType::String, "name")
 			});
 
-		if(!pl.parse(__FUNCTION__, &name))
+		if(!pl.parse(args, kwargs,__FUNCTION__, &name))
 			return Py_None;
 
 		mvAppItem* item = mvApp::GetApp()->getItem(std::string(name));
@@ -375,11 +375,11 @@ namespace Marvel {
 	{
 		const char* callback;
 
-		auto pl = mvPythonTranslator(args, kwargs, {
+		auto pl = mvPythonTranslator( {
 			mvPythonDataElement(mvPythonDataType::String, "callback")
 			});
 
-		if(!pl.parse(__FUNCTION__, &callback))
+		if(!pl.parse(args, kwargs,__FUNCTION__, &callback))
 			return Py_None;
 
 		mvApp::GetApp()->setMainCallback(std::string(callback));
@@ -393,11 +393,11 @@ namespace Marvel {
 	{
 		const char* callback;
 
-		auto pl = mvPythonTranslator(args, kwargs, {
+		auto pl = mvPythonTranslator( {
 			mvPythonDataElement(mvPythonDataType::String, "callback")
 			});
 
-		if (!pl.parse(__FUNCTION__, &callback))
+		if (!pl.parse(args, kwargs,__FUNCTION__, &callback))
 			return Py_None;
 
 		mvApp::GetApp()->setMouseDownCallback(std::string(callback));
@@ -411,11 +411,11 @@ namespace Marvel {
 	{
 		const char* callback;
 
-		auto pl = mvPythonTranslator(args, kwargs, {
+		auto pl = mvPythonTranslator( {
 			mvPythonDataElement(mvPythonDataType::String, "callback")
 			});
 
-		if (!pl.parse(__FUNCTION__, &callback))
+		if (!pl.parse(args, kwargs,__FUNCTION__, &callback))
 			return Py_None;
 
 		mvApp::GetApp()->setMouseDoubleClickCallback(std::string(callback));
@@ -429,11 +429,11 @@ namespace Marvel {
 	{
 		const char* callback;
 
-		auto pl = mvPythonTranslator(args, kwargs, {
+		auto pl = mvPythonTranslator( {
 			mvPythonDataElement(mvPythonDataType::String, "callback")
 			});
 
-		if (!pl.parse(__FUNCTION__, &callback))
+		if (!pl.parse(args, kwargs,__FUNCTION__, &callback))
 			return Py_None;
 
 		mvApp::GetApp()->setMouseClickCallback(std::string(callback));
@@ -447,11 +447,11 @@ namespace Marvel {
 	{
 		const char* callback;
 
-		auto pl = mvPythonTranslator(args, kwargs, {
+		auto pl = mvPythonTranslator( {
 			mvPythonDataElement(mvPythonDataType::String, "callback")
 			});
 
-		if (!pl.parse(__FUNCTION__, &callback))
+		if (!pl.parse(args, kwargs,__FUNCTION__, &callback))
 			return Py_None;
 
 		mvApp::GetApp()->setKeyDownCallback(std::string(callback));
@@ -465,11 +465,11 @@ namespace Marvel {
 	{
 		const char* callback;
 
-		auto pl = mvPythonTranslator(args, kwargs, {
+		auto pl = mvPythonTranslator( {
 			mvPythonDataElement(mvPythonDataType::String, "callback")
 			});
 
-		if (!pl.parse(__FUNCTION__, &callback))
+		if (!pl.parse(args, kwargs,__FUNCTION__, &callback))
 			return Py_None;
 
 		mvApp::GetApp()->setKeyPressCallback(std::string(callback));
@@ -483,11 +483,11 @@ namespace Marvel {
 	{
 		const char* callback;
 
-		auto pl = mvPythonTranslator(args, kwargs, {
+		auto pl = mvPythonTranslator( {
 			mvPythonDataElement(mvPythonDataType::String, "callback")
 			});
 
-		if (!pl.parse(__FUNCTION__, &callback))
+		if (!pl.parse(args, kwargs,__FUNCTION__, &callback))
 			return Py_None;
 
 		mvApp::GetApp()->setKeyReleaseCallback(std::string(callback));
@@ -501,12 +501,12 @@ namespace Marvel {
 	{
 		const char* callback, * item;
 
-		auto pl = mvPythonTranslator(args, kwargs, {
+		auto pl = mvPythonTranslator( {
 			mvPythonDataElement(mvPythonDataType::String, "item"),
 			mvPythonDataElement(mvPythonDataType::String, "callback")
 			});
 		
-		if(!pl.parse(__FUNCTION__, &item, &callback))
+		if(!pl.parse(args, kwargs,__FUNCTION__, &item, &callback))
 			return Py_None;
 
 		mvApp::GetApp()->setItemCallback(item, callback);
@@ -520,12 +520,12 @@ namespace Marvel {
 	{
 		const char* popup, * item;
 
-		auto pl = mvPythonTranslator(args, kwargs, {
+		auto pl = mvPythonTranslator( {
 			mvPythonDataElement(mvPythonDataType::String, "item"),
 			mvPythonDataElement(mvPythonDataType::String, "popup")
 			});
 
-		if (!pl.parse(__FUNCTION__, &item, &popup))
+		if (!pl.parse(args, kwargs,__FUNCTION__, &item, &popup))
 			return Py_None;
 
 		mvApp::GetApp()->setItemPopup(std::string(item), std::string(popup));
@@ -539,12 +539,12 @@ namespace Marvel {
 	{
 		const char* tip, * item;
 
-		auto pl = mvPythonTranslator(args, kwargs, {
+		auto pl = mvPythonTranslator( {
 			mvPythonDataElement(mvPythonDataType::String, "item"),
 			mvPythonDataElement(mvPythonDataType::String, "tip")
 			});
 
-		if(!pl.parse(__FUNCTION__, &item, &tip))
+		if(!pl.parse(args, kwargs,__FUNCTION__, &item, &tip))
 			return Py_None;
 
 		mvApp::GetApp()->setItemTip(std::string(item), std::string(tip));
@@ -559,12 +559,12 @@ namespace Marvel {
 		const char* item;
 		int width;
 
-		auto pl = mvPythonTranslator(args, kwargs, {
+		auto pl = mvPythonTranslator( {
 			mvPythonDataElement(mvPythonDataType::String, "item"),
 			mvPythonDataElement(mvPythonDataType::Integer, "width")
 			});
 
-		if(!pl.parse(__FUNCTION__, &item, &width))
+		if(!pl.parse(args, kwargs,__FUNCTION__, &item, &width))
 			return Py_None;
 
 		mvApp::GetApp()->setItemWidth(std::string(item), width);
@@ -585,11 +585,11 @@ namespace Marvel {
 	{
 		const char* theme;
 
-		auto pl = mvPythonTranslator(args, kwargs, {
+		auto pl = mvPythonTranslator( {
 			mvPythonDataElement(mvPythonDataType::String, "theme")
 			});
 
-		if(!pl.parse(__FUNCTION__, &theme))
+		if(!pl.parse(args, kwargs,__FUNCTION__, &theme))
 			return Py_None;
 
 		mvApp::GetApp()->setAppTheme(std::string(theme));
