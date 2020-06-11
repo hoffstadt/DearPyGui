@@ -37,7 +37,12 @@ namespace Marvel {
 
 		virtual void draw() override
 		{
-			ImGui::BeginChild(m_label.c_str(), ImVec2(float(m_width), float(m_height)), true);
+			if (!ImGui::BeginChild(m_label.c_str(), ImVec2(float(m_width), float(m_height)), true))
+			{
+				m_value = false;
+				ImGui::EndChild();
+				return;
+			}
 
 			mvApp::GetApp()->pushParent(this);
 
@@ -142,24 +147,27 @@ namespace Marvel {
 		MV_APPITEM_TYPE(mvAppItemType::CollapsingHeader)
 
 		mvCollapsingHeader(const std::string& parent, const std::string& name)
-			: mvBoolItemBase(parent, name, false)
+			: mvBoolItemBase(parent, name, true)
 		{}
 
 		virtual void draw() override
 		{
 			// create menu and see if its selected
-			if (ImGui::CollapsingHeader(m_label.c_str(), 0))
+			if (!ImGui::CollapsingHeader(m_label.c_str(), &m_value, 0))
 			{
-				// set current menu value true
-				m_value = true;
-				showAll();
-
-				// Context Menu
-				if (getPopup() != "")
-					ImGui::OpenPopup(getPopup().c_str());
+				hideAll();
+				show();
+				return;
 			}
-			else
-				m_value = false;
+
+			// set current menu value true
+			//m_value = true;
+			showAll();
+
+			// Context Menu
+			if (getPopup() != "")
+				ImGui::OpenPopup(getPopup().c_str());
+
 		}
 
 	};
@@ -180,6 +188,7 @@ namespace Marvel {
 
 		virtual void draw() override
 		{
+			//ImGui::TreePop();
 			mvApp::GetApp()->popParent();
 		}
 
