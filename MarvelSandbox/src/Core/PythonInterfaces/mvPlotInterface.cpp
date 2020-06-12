@@ -17,13 +17,12 @@ namespace Marvel {
 		int height = 0;
 
 		if (!Translators["addPlot"].parse(args, kwargs, __FUNCTION__, &name, &xAxisName, &yAxisName, &width, &height))
-			return Py_None;
+			Py_RETURN_NONE;
 
 		mvAppItem* item = new mvPlot("", name,xAxisName, yAxisName, width, height);
 		mvApp::GetApp()->addItem(item);
 
-		Py_INCREF(Py_None);
-		return Py_None;
+		Py_RETURN_NONE;
 	}
 
 	PyObject* addLineSeries(PyObject* self, PyObject* args, PyObject* kwargs)
@@ -34,7 +33,7 @@ namespace Marvel {
 		PyObject* style = nullptr;
 
 		if (!Translators["addPlot"].parse(args, kwargs, __FUNCTION__, &plot, &name, &data, &style))
-			return Py_None;
+			Py_RETURN_NONE;
 
 		mvAppItem* aplot = mvApp::GetApp()->getItem(plot);
 		mvPlot* graph = static_cast<mvPlot*>(aplot);
@@ -52,8 +51,7 @@ namespace Marvel {
 				series->setPlotStyleVariable(item.first, item.second);
 		}
 
-		Py_INCREF(Py_None);
-		return Py_None;
+		Py_RETURN_NONE;
 	}
 
 	PyObject* addScatterSeries(PyObject* self, PyObject* args, PyObject* kwargs)
@@ -64,7 +62,7 @@ namespace Marvel {
 		PyObject* style = nullptr;
 
 		if (!Translators["addPlot"].parse(args, kwargs, __FUNCTION__, &plot, &name, &data, &style))
-			return Py_None;
+			Py_RETURN_NONE;
 
 		mvAppItem* aplot = mvApp::GetApp()->getItem(plot);
 		mvPlot* graph = static_cast<mvPlot*>(aplot);
@@ -82,8 +80,7 @@ namespace Marvel {
 				series->setPlotStyleVariable(item.first, item.second);
 		}
 
-		Py_INCREF(Py_None);
-		return Py_None;
+		Py_RETURN_NONE;
 	}
 
 	void CreatePlotInterface(mvPythonModule& pyModule, PyObject* (*initfunc)())

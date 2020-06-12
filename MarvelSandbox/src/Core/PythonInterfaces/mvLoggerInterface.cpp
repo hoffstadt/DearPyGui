@@ -11,7 +11,7 @@ namespace Marvel {
 	{
 		mvApp::GetApp()->showLogger();
 		Py_INCREF(Py_None);
-		return Py_None;
+		Py_RETURN_NONE;
 	}
 
 	PyObject* SetLogLevel(PyObject* self, PyObject* args, PyObject* kwargs)
@@ -19,13 +19,11 @@ namespace Marvel {
 		int level;
 
 		if(!Translators["SetLogLevel"].parse(args, kwargs,__FUNCTION__, &level))
-			return Py_None;
+			Py_RETURN_NONE;
 
 		mvApp::GetApp()->setLogLevel(level);
 
-		Py_INCREF(Py_None);
-
-		return Py_None;
+		Py_RETURN_NONE;
 	}
 
 	PyObject* Log(PyObject* self, PyObject* args, PyObject* kwargs)
@@ -34,13 +32,11 @@ namespace Marvel {
 		const char* level = "TRACE";
 
 		if(!Translators["Log"].parse(args, kwargs,__FUNCTION__, &message, &level))
-			return Py_None;
+			Py_RETURN_NONE;
 
 		mvApp::GetApp()->Log(std::string(message), std::string(level));
 
-		Py_INCREF(Py_None);
-
-		return Py_None;
+		Py_RETURN_NONE;
 	}
 
 	PyObject* LogDebug(PyObject* self, PyObject* args, PyObject* kwargs)
@@ -48,13 +44,11 @@ namespace Marvel {
 		const char* message;
 
 		if (!Translators["LogDebug"].parse(args, kwargs,__FUNCTION__, &message))
-			return Py_None;
+			Py_RETURN_NONE;
 
 		mvApp::GetApp()->LogDebug(std::string(message));
 
-		Py_INCREF(Py_None);
-
-		return Py_None;
+		Py_RETURN_NONE;
 	}
 
 	PyObject* LogInfo(PyObject* self, PyObject* args, PyObject* kwargs)
@@ -62,13 +56,11 @@ namespace Marvel {
 		const char* message;
 
 		if (!Translators["LogInfo"].parse(args, kwargs,__FUNCTION__, &message))
-			return Py_None;
+			Py_RETURN_NONE;
 
 		mvApp::GetApp()->LogInfo(std::string(message));
 
-		Py_INCREF(Py_None);
-
-		return Py_None;
+		Py_RETURN_NONE;
 	}
 
 	PyObject* LogWarning(PyObject* self, PyObject* args, PyObject* kwargs)
@@ -76,13 +68,11 @@ namespace Marvel {
 		const char* message;
 
 		if (!Translators["LogWarning"].parse(args, kwargs,__FUNCTION__, &message))
-			return Py_None;
+			Py_RETURN_NONE;
 
 		mvApp::GetApp()->LogWarning(std::string(message));
 
-		Py_INCREF(Py_None);
-
-		return Py_None;
+		Py_RETURN_NONE;
 	}
 
 	PyObject* LogError(PyObject* self, PyObject* args, PyObject* kwargs)
@@ -90,13 +80,11 @@ namespace Marvel {
 		const char* message;
 
 		if (!Translators["LogError"].parse(args, kwargs,__FUNCTION__, &message))
-			return Py_None;
+			Py_RETURN_NONE;
 
 		mvApp::GetApp()->LogError(std::string(message));
 
-		Py_INCREF(Py_None);
-
-		return Py_None;
+		Py_RETURN_NONE;
 	}
 
 	PyObject* ClearLog(PyObject* self, PyObject* args, PyObject* kwargs)
@@ -104,9 +92,7 @@ namespace Marvel {
 
 		mvApp::GetApp()->ClearLog();
 
-		Py_INCREF(Py_None);
-
-		return Py_None;
+		Py_RETURN_NONE;
 	}
 
 	void CreateLoggerInterface(mvPythonModule& pyModule, PyObject* (*initfunc)())
