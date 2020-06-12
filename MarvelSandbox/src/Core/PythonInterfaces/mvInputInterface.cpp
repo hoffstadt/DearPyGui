@@ -20,7 +20,7 @@ namespace Marvel {
 		int button;
 
 		if (!Translators["isMouseButtonPressed"].parse(args, kwargs,__FUNCTION__, &button))
-			return Py_None;
+			Py_RETURN_NONE;
 
 		bool pressed = mvApp::GetApp()->isMouseButtonPressed(button);
 
@@ -34,7 +34,7 @@ namespace Marvel {
 		int key;
 
 		if (!Translators["isMouseButtonPressed"].parse(args, kwargs,__FUNCTION__, &key))
-			return Py_None;
+			Py_RETURN_NONE;
 
 		bool pressed = mvApp::GetApp()->isKeyPressed(key);
 

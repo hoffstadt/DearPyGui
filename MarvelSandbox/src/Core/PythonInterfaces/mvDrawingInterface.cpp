@@ -15,14 +15,12 @@ namespace Marvel {
 		int height;
 
 		if (!Translators["addDrawing"].parse(args, kwargs,__FUNCTION__, &name, &width, &height))
-			return Py_None;
+			Py_RETURN_NONE;
 
 		mvAppItem* item = new mvDrawing("", name, width, height);
 		mvApp::GetApp()->addItem(item);
 
-		Py_INCREF(Py_None);
-
-		return Py_None;
+		Py_RETURN_NONE;
 	}
 
 	PyObject* drawLine(PyObject* self, PyObject* args, PyObject* kwargs)
@@ -33,7 +31,7 @@ namespace Marvel {
 		PyObject* color;
 
 		if (!Translators["drawLine"].parse(args, kwargs,__FUNCTION__, &drawing, &p1, &p2, &color, &thickness))
-			return Py_None;
+			Py_RETURN_NONE;
 
 		mvVec2 mp1 = mvPythonTranslator::getVec2(p1);
 		mvVec2 mp2 = mvPythonTranslator::getVec2(p2);
@@ -43,9 +41,7 @@ namespace Marvel {
 		mvDrawing* dwg = static_cast<mvDrawing*>(item);
 		dwg->drawLine(mp1, mp2, mcolor, thickness);
 
-		Py_INCREF(Py_None);
-
-		return Py_None;
+		Py_RETURN_NONE;
 	}
 
 	PyObject* drawTriangle(PyObject* self, PyObject* args, PyObject* kwargs)
@@ -57,7 +53,7 @@ namespace Marvel {
 		PyObject* fill = nullptr;
 
 		if (!Translators["drawTriangle"].parse(args, kwargs,__FUNCTION__, &drawing, &p1, &p2, &p3, &color, &fill, &thickness))
-			return Py_None;
+			Py_RETURN_NONE;
 
 
 		mvVec2 mp1 = mvPythonTranslator::getVec2(p1);
@@ -70,9 +66,7 @@ namespace Marvel {
 		mvDrawing* dwg = static_cast<mvDrawing*>(item);
 		dwg->drawTriangle(mp1, mp2, mp3, mcolor, mfill, thickness);
 
-		Py_INCREF(Py_None);
-
-		return Py_None;
+		Py_RETURN_NONE;
 	}
 
 	PyObject* drawRectangle(PyObject* self, PyObject* args, PyObject* kwargs)
@@ -84,7 +78,7 @@ namespace Marvel {
 		PyObject* fill = nullptr;
 
 		if (!Translators["drawRectangle"].parse(args, kwargs,__FUNCTION__, &drawing, &pmin, &pmax, &color, &fill, &rounding, &thickness))
-			return Py_None;
+			Py_RETURN_NONE;
 
 
 		mvVec2 mpmax = mvPythonTranslator::getVec2(pmax);
@@ -96,9 +90,7 @@ namespace Marvel {
 		mvDrawing* dwg = static_cast<mvDrawing*>(item);
 		dwg->drawRectangle(mpmin, mpmax, mcolor, mfill, rounding, thickness);
 
-		Py_INCREF(Py_None);
-
-		return Py_None;
+		Py_RETURN_NONE;
 	}
 
 	PyObject* drawQuad(PyObject* self, PyObject* args, PyObject* kwargs)
@@ -110,7 +102,7 @@ namespace Marvel {
 		PyObject* fill = nullptr;
 
 		if (!Translators["drawQuad"].parse(args, kwargs,__FUNCTION__, &drawing, &p1, &p2, &p3, &p4, &color, &fill, &thickness))
-			return Py_None;
+			Py_RETURN_NONE;
 
 
 		mvVec2 mp1 = mvPythonTranslator::getVec2(p1);
@@ -124,9 +116,7 @@ namespace Marvel {
 		mvDrawing* dwg = static_cast<mvDrawing*>(item);
 		dwg->drawQuad(mp1, mp2, mp3, mp4, mcolor, mfill, thickness);
 
-		Py_INCREF(Py_None);
-
-		return Py_None;
+		Py_RETURN_NONE;
 	}
 
 	PyObject* drawText(PyObject* self, PyObject* args, PyObject* kwargs)
@@ -138,7 +128,7 @@ namespace Marvel {
 		PyObject* color = nullptr;
 
 		if (!Translators["drawText"].parse(args, kwargs,__FUNCTION__, &drawing, &pos, &text, &color, &size))
-			return Py_None;
+			Py_RETURN_NONE;
 
 		mvVec2 mpos = mvPythonTranslator::getVec2(pos);
 		mvColor mcolor = mvPythonTranslator::getColor(color);
@@ -147,9 +137,7 @@ namespace Marvel {
 		mvDrawing* dwg = static_cast<mvDrawing*>(item);
 		dwg->drawText(mpos, text, mcolor, size);
 
-		Py_INCREF(Py_None);
-
-		return Py_None;
+		Py_RETURN_NONE;
 	}
 
 	PyObject* drawCircle(PyObject* self, PyObject* args, PyObject* kwargs)
@@ -163,7 +151,7 @@ namespace Marvel {
 		PyObject* fill = nullptr;
 
 		if (!Translators["drawCircle"].parse(args, kwargs,__FUNCTION__, &drawing, &center, &radius, &color, &segments, &thickness, &fill))
-			return Py_None;
+			Py_RETURN_NONE;
 
 		mvVec2 mcenter = mvPythonTranslator::getVec2(center);
 		mvColor mcolor = mvPythonTranslator::getColor(color);
@@ -173,9 +161,7 @@ namespace Marvel {
 		mvDrawing* dwg = static_cast<mvDrawing*>(item);
 		dwg->drawCircle(mcenter, radius, mcolor, segments, thickness, mfill);
 
-		Py_INCREF(Py_None);
-
-		return Py_None;
+		Py_RETURN_NONE;
 	}
 
 	PyObject* drawPolyline(PyObject* self, PyObject* args, PyObject* kwargs)
@@ -187,7 +173,7 @@ namespace Marvel {
 		float thickness = 1.0f;
 
 		if (!Translators["drawPolyline"].parse(args, kwargs,__FUNCTION__, &drawing, &points, &color, &closed, &thickness))
-			return Py_None;
+			Py_RETURN_NONE;
 
 		auto mpoints = mvPythonTranslator::getVectVec2(points);
 		mvColor mcolor = mvPythonTranslator::getColor(color);
@@ -196,9 +182,7 @@ namespace Marvel {
 		mvDrawing* dwg = static_cast<mvDrawing*>(item);
 		dwg->drawPolyline(mpoints, mcolor, closed, thickness);
 
-		Py_INCREF(Py_None);
-
-		return Py_None;
+		Py_RETURN_NONE;
 	}
 
 	PyObject* drawPolygon(PyObject* self, PyObject* args, PyObject* kwargs)
@@ -210,7 +194,7 @@ namespace Marvel {
 		float thickness = 1.0f;
 
 		if (!Translators["drawPolygon"].parse(args, kwargs,__FUNCTION__, &drawing, &points, &color, &fill, &thickness))
-			return Py_None;
+			Py_RETURN_NONE;
 
 
 		auto mpoints = mvPythonTranslator::getVectVec2(points);
@@ -221,9 +205,7 @@ namespace Marvel {
 		mvDrawing* dwg = static_cast<mvDrawing*>(item);
 		dwg->drawPolygon(mpoints, mcolor, mfill, thickness);
 
-		Py_INCREF(Py_None);
-
-		return Py_None;
+		Py_RETURN_NONE;
 	}
 
 	PyObject* drawBezierCurve(PyObject* self, PyObject* args, PyObject* kwargs)
@@ -235,7 +217,7 @@ namespace Marvel {
 		int segments = 0;
 
 		if (!Translators["drawBezierCurve"].parse(args, kwargs,__FUNCTION__, &drawing, &p1, &p2, &p3, &p4, &color, &thickness, &segments))
-			return Py_None;
+			Py_RETURN_NONE;
 
 
 		mvVec2 mp1 = mvPythonTranslator::getVec2(p1);
@@ -248,9 +230,7 @@ namespace Marvel {
 		mvDrawing* dwg = static_cast<mvDrawing*>(item);
 		dwg->drawBezierCurve(mp1, mp2, mp3, mp4, mcolor, thickness, segments);
 
-		Py_INCREF(Py_None);
-
-		return Py_None;
+		Py_RETURN_NONE;
 	}
 
 	PyObject* clearDrawing(PyObject* self, PyObject* args, PyObject* kwargs)
@@ -258,15 +238,13 @@ namespace Marvel {
 		const char* drawing;
 
 		if (!Translators["clearDrawing"].parse(args, kwargs,__FUNCTION__, &drawing))
-			return Py_None;
+			Py_RETURN_NONE;
 
 		mvAppItem* item = mvApp::GetApp()->getItem(drawing);
 		mvDrawing* dwg = static_cast<mvDrawing*>(item);
 		dwg->clear();
 
-		Py_INCREF(Py_None);
-
-		return Py_None;
+		Py_RETURN_NONE;
 	}
 
 	void CreateDrawingInterface(mvPythonModule& pyModule, PyObject* (*initfunc)())

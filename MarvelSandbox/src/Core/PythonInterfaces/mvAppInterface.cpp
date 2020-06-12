@@ -13,7 +13,7 @@ namespace Marvel {
 		const char* item;
 
 		if (!Translators["isItemHovered"].parse(args, kwargs,__FUNCTION__, &item))
-			return Py_None;
+			Py_RETURN_NONE;
 
 		bool value = mvApp::GetApp()->isItemHovered(std::string(item));
 
@@ -27,7 +27,7 @@ namespace Marvel {
 		const char* item;
 
 		if (!Translators["isItemActive"].parse(args, kwargs,__FUNCTION__, &item))
-			return Py_None;
+			Py_RETURN_NONE;
 
 		bool value = mvApp::GetApp()->isItemActive(std::string(item));
 
@@ -41,7 +41,7 @@ namespace Marvel {
 		const char* item;
 
 		if (!Translators["isItemFocused"].parse(args, kwargs,__FUNCTION__, &item))
-			return Py_None;
+			Py_RETURN_NONE;
 
 		bool value = mvApp::GetApp()->isItemFocused(std::string(item));
 
@@ -55,7 +55,7 @@ namespace Marvel {
 		const char* item;
 
 		if (!Translators["isItemClicked"].parse(args, kwargs,__FUNCTION__, &item))
-			return Py_None;
+			Py_RETURN_NONE;
 
 		bool value = mvApp::GetApp()->isItemClicked(std::string(item));
 
@@ -69,7 +69,7 @@ namespace Marvel {
 		const char* item;
 
 		if (!Translators["isItemVisible"].parse(args, kwargs,__FUNCTION__, &item))
-			return Py_None;
+			Py_RETURN_NONE;
 
 		bool value = mvApp::GetApp()->isItemVisible(std::string(item));
 
@@ -83,7 +83,7 @@ namespace Marvel {
 		const char* item;
 
 		if (!Translators["isItemEdited"].parse(args, kwargs,__FUNCTION__, &item))
-			return Py_None;
+			Py_RETURN_NONE;
 
 		bool value = mvApp::GetApp()->isItemEdited(std::string(item));
 
@@ -97,7 +97,7 @@ namespace Marvel {
 		const char* item;
 
 		if (!Translators["isItemActivated"].parse(args, kwargs,__FUNCTION__, &item))
-			return Py_None;
+			Py_RETURN_NONE;
 
 		bool value = mvApp::GetApp()->isItemActivated(std::string(item));
 
@@ -111,7 +111,7 @@ namespace Marvel {
 		const char* item;
 
 		if (!Translators["isItemDeactivated"].parse(args, kwargs,__FUNCTION__, &item))
-			return Py_None;
+			Py_RETURN_NONE;
 
 		bool value = mvApp::GetApp()->isItemDeactivated(std::string(item));
 
@@ -125,7 +125,7 @@ namespace Marvel {
 		const char* item;
 
 		if (!Translators["isItemDeactivatedAfterEdit"].parse(args, kwargs,__FUNCTION__, &item))
-			return Py_None;
+			Py_RETURN_NONE;
 
 		bool value = mvApp::GetApp()->isItemDeactivatedAfterEdit(std::string(item));
 
@@ -139,7 +139,7 @@ namespace Marvel {
 		const char* item;
 
 		if (!Translators["isItemToggledOpen"].parse(args, kwargs,__FUNCTION__, &item))
-			return Py_None;
+			Py_RETURN_NONE;
 
 		bool value = mvApp::GetApp()->isItemToogledOpen(std::string(item));
 
@@ -153,7 +153,7 @@ namespace Marvel {
 		const char* item;
 
 		if (!Translators["getItemRectMin"].parse(args, kwargs,__FUNCTION__, &item))
-			return Py_None;
+			Py_RETURN_NONE;
 
 		mvVec2 value = mvApp::GetApp()->getItemRectMin(std::string(item));
 
@@ -169,7 +169,7 @@ namespace Marvel {
 		const char* item;
 
 		if (!Translators["getItemRectMax"].parse(args, kwargs,__FUNCTION__, &item))
-			return Py_None;
+			Py_RETURN_NONE;
 
 		mvVec2 value = mvApp::GetApp()->getItemRectMax(std::string(item));
 
@@ -185,7 +185,7 @@ namespace Marvel {
 		const char* item;
 
 		if (!Translators["getItemRectSize"].parse(args, kwargs,__FUNCTION__, &item))
-			return Py_None;
+			Py_RETURN_NONE;
 
 		mvVec2 value = mvApp::GetApp()->getItemRectSize(std::string(item));
 
@@ -203,11 +203,11 @@ namespace Marvel {
 		float y = 0.0f;
 
 		if (!Translators["changeStyleItem"].parse(args, kwargs,__FUNCTION__, &item, &x, &y))
-			return Py_None;
+			Py_RETURN_NONE;
 
 		mvApp::GetApp()->changeStyleItem(item, x, y);
 
-		return Py_None;
+		Py_RETURN_NONE;
 	}
 
 	PyObject* changeThemeItem(PyObject* self, PyObject* args, PyObject* kwargs)
@@ -216,13 +216,13 @@ namespace Marvel {
 		float r, g, b, a;
 
 		if(!Translators["changeThemeItem"].parse(args, kwargs,__FUNCTION__, &item, &r, &g, &b, &a))
-			return Py_None;
+			Py_RETURN_NONE;
 
 		mvApp::GetApp()->changeThemeItem(item, { r, g, b, a });
 
-		Py_INCREF(Py_None);
+		
 
-		return Py_None;
+		Py_RETURN_NONE;
 	}
 
 	PyObject* getValue(PyObject* self, PyObject* args, PyObject* kwargs)
@@ -230,12 +230,12 @@ namespace Marvel {
 		const char* name;
 
 		if(!Translators["getValue"].parse(args, kwargs,__FUNCTION__, &name))
-			return Py_None;
+			Py_RETURN_NONE;
 
 		mvAppItem* item = mvApp::GetApp()->getItem(std::string(name));
 
 		if(item == nullptr)
-			return Py_None;
+			Py_RETURN_NONE;
 
 		return item->getPyValue();
 	}
@@ -246,15 +246,15 @@ namespace Marvel {
 		PyObject* value;
 
 		if(!Translators["setValue"].parse(args, kwargs,__FUNCTION__, &name, &value))
-			return Py_None;
+			Py_RETURN_NONE;
 
 		mvAppItem* item = mvApp::GetApp()->getItem(std::string(name));
 
 		if (item == nullptr)
-			return Py_None;
+			Py_RETURN_NONE;
 
 		item->setPyValue(value);
-		return Py_None;
+		Py_RETURN_NONE;
 	}
 
 	PyObject* showItem(PyObject* self, PyObject* args, PyObject* kwargs)
@@ -262,14 +262,14 @@ namespace Marvel {
 		const char* name;
 
 		if(!Translators["showItem"].parse(args, kwargs,__FUNCTION__, &name))
-			return Py_None;
+			Py_RETURN_NONE;
 
 		mvAppItem* item = mvApp::GetApp()->getItem(std::string(name));
 
 		if (item != nullptr)
 			item->show();
 
-		return Py_None;
+		Py_RETURN_NONE;
 	}
 
 	PyObject* hideItem(PyObject* self, PyObject* args, PyObject* kwargs)
@@ -277,14 +277,14 @@ namespace Marvel {
 		const char* name;
 
 		if(!Translators["hideItem"].parse(args, kwargs,__FUNCTION__, &name))
-			return Py_None;
+			Py_RETURN_NONE;
 
 		mvAppItem* item = mvApp::GetApp()->getItem(std::string(name));
 
 		if (item != nullptr)
 			item->hide();
 
-		return Py_None;
+		Py_RETURN_NONE;
 	}
 
 	PyObject* setMainCallback(PyObject* self, PyObject* args, PyObject* kwargs)
@@ -293,13 +293,13 @@ namespace Marvel {
 
 
 		if(!Translators["setMainCallback"].parse(args, kwargs,__FUNCTION__, &callback))
-			return Py_None;
+			Py_RETURN_NONE;
 
 		mvApp::GetApp()->setMainCallback(std::string(callback));
 
-		Py_INCREF(Py_None);
+		
 
-		return Py_None;
+		Py_RETURN_NONE;
 	}
 
 	PyObject* setMouseDownCallback(PyObject* self, PyObject* args, PyObject* kwargs)
@@ -307,13 +307,13 @@ namespace Marvel {
 		const char* callback;
 
 		if (!Translators["setMouseDownCallback"].parse(args, kwargs,__FUNCTION__, &callback))
-			return Py_None;
+			Py_RETURN_NONE;
 
 		mvApp::GetApp()->setMouseDownCallback(std::string(callback));
 
-		Py_INCREF(Py_None);
+		
 
-		return Py_None;
+		Py_RETURN_NONE;
 	}
 
 	PyObject* setMouseDoubleClickCallback(PyObject* self, PyObject* args, PyObject* kwargs)
@@ -321,13 +321,13 @@ namespace Marvel {
 		const char* callback;
 
 		if (!Translators["setMouseDoubleClickCallback"].parse(args, kwargs,__FUNCTION__, &callback))
-			return Py_None;
+			Py_RETURN_NONE;
 
 		mvApp::GetApp()->setMouseDoubleClickCallback(std::string(callback));
 
-		Py_INCREF(Py_None);
+		
 
-		return Py_None;
+		Py_RETURN_NONE;
 	}
 
 	PyObject* setMouseClickCallback(PyObject* self, PyObject* args, PyObject* kwargs)
@@ -335,13 +335,13 @@ namespace Marvel {
 		const char* callback;
 
 		if (!Translators["setMouseClickCallback"].parse(args, kwargs,__FUNCTION__, &callback))
-			return Py_None;
+			Py_RETURN_NONE;
 
 		mvApp::GetApp()->setMouseClickCallback(std::string(callback));
 
-		Py_INCREF(Py_None);
+		
 
-		return Py_None;
+		Py_RETURN_NONE;
 	}
 
 	PyObject* setKeyDownCallback(PyObject* self, PyObject* args, PyObject* kwargs)
@@ -349,13 +349,13 @@ namespace Marvel {
 		const char* callback;
 
 		if (!Translators["setKeyDownCallback"].parse(args, kwargs,__FUNCTION__, &callback))
-			return Py_None;
+			Py_RETURN_NONE;
 
 		mvApp::GetApp()->setKeyDownCallback(std::string(callback));
 
-		Py_INCREF(Py_None);
+		
 
-		return Py_None;
+		Py_RETURN_NONE;
 	}
 
 	PyObject* setKeyPressCallback(PyObject* self, PyObject* args, PyObject* kwargs)
@@ -363,13 +363,13 @@ namespace Marvel {
 		const char* callback;
 
 		if (!Translators["setKeyPressCallback"].parse(args, kwargs,__FUNCTION__, &callback))
-			return Py_None;
+			Py_RETURN_NONE;
 
 		mvApp::GetApp()->setKeyPressCallback(std::string(callback));
 
-		Py_INCREF(Py_None);
+		
 
-		return Py_None;
+		Py_RETURN_NONE;
 	}
 
 	PyObject* setKeyReleaseCallback(PyObject* self, PyObject* args, PyObject* kwargs)
@@ -377,13 +377,13 @@ namespace Marvel {
 		const char* callback;
 
 		if (!Translators["setKeyReleaseCallback"].parse(args, kwargs,__FUNCTION__, &callback))
-			return Py_None;
+			Py_RETURN_NONE;
 
 		mvApp::GetApp()->setKeyReleaseCallback(std::string(callback));
 
-		Py_INCREF(Py_None);
+		
 
-		return Py_None;
+		Py_RETURN_NONE;
 	}
 
 	PyObject* setItemCallback(PyObject* self, PyObject* args, PyObject* kwargs)
@@ -391,13 +391,13 @@ namespace Marvel {
 		const char* callback, * item;
 		
 		if(!Translators["setItemCallback"].parse(args, kwargs,__FUNCTION__, &item, &callback))
-			return Py_None;
+			Py_RETURN_NONE;
 
 		mvApp::GetApp()->setItemCallback(item, callback);
 
-		Py_INCREF(Py_None);
+		
 
-		return Py_None;
+		Py_RETURN_NONE;
 	}
 
 	PyObject* setItemPopup(PyObject* self, PyObject* args, PyObject* kwargs)
@@ -405,13 +405,13 @@ namespace Marvel {
 		const char* popup, * item;
 
 		if (!Translators["setItemPopup"].parse(args, kwargs,__FUNCTION__, &item, &popup))
-			return Py_None;
+			Py_RETURN_NONE;
 
 		mvApp::GetApp()->setItemPopup(std::string(item), std::string(popup));
 
-		Py_INCREF(Py_None);
+		
 
-		return Py_None;
+		Py_RETURN_NONE;
 	}
 
 	PyObject* setItemTip(PyObject* self, PyObject* args, PyObject* kwargs)
@@ -419,13 +419,13 @@ namespace Marvel {
 		const char* tip, * item;
 
 		if(!Translators["setItemTip"].parse(args, kwargs,__FUNCTION__, &item, &tip))
-			return Py_None;
+			Py_RETURN_NONE;
 
 		mvApp::GetApp()->setItemTip(std::string(item), std::string(tip));
 
-		Py_INCREF(Py_None);
+		
 
-		return Py_None;
+		Py_RETURN_NONE;
 	}
 
 	PyObject* setItemWidth(PyObject* self, PyObject* args, PyObject* kwargs)
@@ -434,20 +434,20 @@ namespace Marvel {
 		int width;
 
 		if(!Translators["setItemWidth"].parse(args, kwargs,__FUNCTION__, &item, &width))
-			return Py_None;
+			Py_RETURN_NONE;
 
 		mvApp::GetApp()->setItemWidth(std::string(item), width);
 
-		Py_INCREF(Py_None);
+		
 
-		return Py_None;
+		Py_RETURN_NONE;
 	}
 
 	PyObject* closePopup(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		mvApp::GetApp()->closePopup();
-		Py_INCREF(Py_None);
-		return Py_None;
+		
+		Py_RETURN_NONE;
 	}
 
 	PyObject* setTheme(PyObject* self, PyObject* args, PyObject* kwargs)
@@ -455,31 +455,31 @@ namespace Marvel {
 		const char* theme;
 
 		if(!Translators["setTheme"].parse(args, kwargs,__FUNCTION__, &theme))
-			return Py_None;
+			Py_RETURN_NONE;
 
 		mvApp::GetApp()->setAppTheme(std::string(theme));
 
-		Py_INCREF(Py_None);
+		
 
-		return Py_None;
+		Py_RETURN_NONE;
 	}
 
 	PyObject* showMetrics(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		mvApp::GetApp()->showMetrics();
 
-		Py_INCREF(Py_None);
+		
 
-		return Py_None;
+		Py_RETURN_NONE;
 	}
 
 	PyObject* showAbout(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		mvApp::GetApp()->showAbout();
 
-		Py_INCREF(Py_None);
+		
 
-		return Py_None;
+		Py_RETURN_NONE;
 	}
 
 	void CreatePythonInterface(mvPythonModule& pyModule, PyObject* (*initfunc)())
