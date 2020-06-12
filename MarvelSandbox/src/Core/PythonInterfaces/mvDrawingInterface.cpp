@@ -38,6 +38,13 @@ namespace Marvel {
 		mvColor mcolor = mvPythonTranslator::getColor(color);
 
 		mvAppItem* item = mvApp::GetApp()->getItem(drawing);
+		if (item == nullptr)
+		{
+			std::string message = drawing;
+			mvApp::GetApp()->LogWarning(message + " drawing does not exist.");
+			Py_RETURN_NONE;
+		}
+
 		mvDrawing* dwg = static_cast<mvDrawing*>(item);
 		dwg->drawLine(mp1, mp2, mcolor, thickness);
 
@@ -63,6 +70,13 @@ namespace Marvel {
 		mvColor mfill = mvPythonTranslator::getColor(fill);
 
 		mvAppItem* item = mvApp::GetApp()->getItem(drawing);
+		if (item == nullptr)
+		{
+			std::string message = drawing;
+			mvApp::GetApp()->LogWarning(message + " drawing does not exist.");
+			Py_RETURN_NONE;
+		}
+
 		mvDrawing* dwg = static_cast<mvDrawing*>(item);
 		dwg->drawTriangle(mp1, mp2, mp3, mcolor, mfill, thickness);
 
@@ -87,6 +101,13 @@ namespace Marvel {
 		mvColor mfill = mvPythonTranslator::getColor(fill);
 
 		mvAppItem* item = mvApp::GetApp()->getItem(drawing);
+		if (item == nullptr)
+		{
+			std::string message = drawing;
+			mvApp::GetApp()->LogWarning(message + " drawing does not exist.");
+			Py_RETURN_NONE;
+		}
+
 		mvDrawing* dwg = static_cast<mvDrawing*>(item);
 		dwg->drawRectangle(mpmin, mpmax, mcolor, mfill, rounding, thickness);
 
@@ -113,6 +134,13 @@ namespace Marvel {
 		mvColor mfill = mvPythonTranslator::getColor(fill);
 
 		mvAppItem* item = mvApp::GetApp()->getItem(drawing);
+		if (item == nullptr)
+		{
+			std::string message = drawing;
+			mvApp::GetApp()->LogWarning(message + " drawing does not exist.");
+			Py_RETURN_NONE;
+		}
+
 		mvDrawing* dwg = static_cast<mvDrawing*>(item);
 		dwg->drawQuad(mp1, mp2, mp3, mp4, mcolor, mfill, thickness);
 
@@ -134,6 +162,13 @@ namespace Marvel {
 		mvColor mcolor = mvPythonTranslator::getColor(color);
 
 		mvAppItem* item = mvApp::GetApp()->getItem(drawing);
+		if (item == nullptr)
+		{
+			std::string message = drawing;
+			mvApp::GetApp()->LogWarning(message + " drawing does not exist.");
+			Py_RETURN_NONE;
+		}
+
 		mvDrawing* dwg = static_cast<mvDrawing*>(item);
 		dwg->drawText(mpos, text, mcolor, size);
 
@@ -158,6 +193,13 @@ namespace Marvel {
 		mvColor mfill = mvPythonTranslator::getColor(fill);
 
 		mvAppItem* item = mvApp::GetApp()->getItem(drawing);
+		if (item == nullptr)
+		{
+			std::string message = drawing;
+			mvApp::GetApp()->LogWarning(message + " drawing does not exist.");
+			Py_RETURN_NONE;
+		}
+
 		mvDrawing* dwg = static_cast<mvDrawing*>(item);
 		dwg->drawCircle(mcenter, radius, mcolor, segments, thickness, mfill);
 
@@ -179,6 +221,13 @@ namespace Marvel {
 		mvColor mcolor = mvPythonTranslator::getColor(color);
 
 		mvAppItem* item = mvApp::GetApp()->getItem(drawing);
+		if (item == nullptr)
+		{
+			std::string message = drawing;
+			mvApp::GetApp()->LogWarning(message + " drawing does not exist.");
+			Py_RETURN_NONE;
+		}
+
 		mvDrawing* dwg = static_cast<mvDrawing*>(item);
 		dwg->drawPolyline(mpoints, mcolor, closed, thickness);
 
@@ -202,6 +251,13 @@ namespace Marvel {
 		mvColor mfill = mvPythonTranslator::getColor(fill);
 
 		mvAppItem* item = mvApp::GetApp()->getItem(drawing);
+		if (item == nullptr)
+		{
+			std::string message = drawing;
+			mvApp::GetApp()->LogWarning(message + " drawing does not exist.");
+			Py_RETURN_NONE;
+		}
+
 		mvDrawing* dwg = static_cast<mvDrawing*>(item);
 		dwg->drawPolygon(mpoints, mcolor, mfill, thickness);
 
@@ -227,6 +283,13 @@ namespace Marvel {
 		mvColor mcolor = mvPythonTranslator::getColor(color);
 
 		mvAppItem* item = mvApp::GetApp()->getItem(drawing);
+		if (item == nullptr)
+		{
+			std::string message = drawing;
+			mvApp::GetApp()->LogWarning(message + " drawing does not exist.");
+			Py_RETURN_NONE;
+		}
+
 		mvDrawing* dwg = static_cast<mvDrawing*>(item);
 		dwg->drawBezierCurve(mp1, mp2, mp3, mp4, mcolor, thickness, segments);
 
@@ -241,6 +304,13 @@ namespace Marvel {
 			Py_RETURN_NONE;
 
 		mvAppItem* item = mvApp::GetApp()->getItem(drawing);
+		if (item == nullptr)
+		{
+			std::string message = drawing;
+			mvApp::GetApp()->LogWarning(message + " drawing does not exist.");
+			Py_RETURN_NONE;
+		}
+
 		mvDrawing* dwg = static_cast<mvDrawing*>(item);
 		dwg->clear();
 
