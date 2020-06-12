@@ -10,7 +10,7 @@
 
 1. From within a local directory, enter the following bash commands:
 ```
-git clone --recursive origin https://github.com/RaylockLLC/MarvelSandbox
+git clone --recursive https://github.com/RaylockLLC/MarvelSandbox
 ```
 3. Open the _Scripts_ folder and run the _BuildPythonForWindows.bat_ file.
 
