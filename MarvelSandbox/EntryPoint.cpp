@@ -122,6 +122,7 @@ int main(int argc, char* argv[])
 	{
 		PyErr_Print();
 		mvApp::GetApp()->setOk(false);
+		mvApp::GetApp()->showLogger();
 		window->run();
 	}
 
