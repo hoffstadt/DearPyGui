@@ -69,13 +69,8 @@ namespace Marvel {
 
 		virtual void draw() override
 		{
-			
-			if (static_cast<mvChild*>(getParent())->getValue())
-			{
-				mvApp::GetApp()->popParent();
-				ImGui::EndChild();
-			}
-			
+			mvApp::GetApp()->popParent();
+			ImGui::EndChild();
 		}
 
 	};
