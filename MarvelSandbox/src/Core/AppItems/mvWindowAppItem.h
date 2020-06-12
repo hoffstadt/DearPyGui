@@ -7,7 +7,7 @@ namespace Marvel {
 	//-----------------------------------------------------------------------------
 	// mvWindowAppitem
 	//-----------------------------------------------------------------------------
-	class mvWindowAppitem : public mvBoolItemBase
+	class mvWindowAppitem : public mvNoneItemBase
 	{
 
 	public:
@@ -15,7 +15,7 @@ namespace Marvel {
 		MV_APPITEM_TYPE(mvAppItemType::Window)
 
 		mvWindowAppitem(const std::string& parent, const std::string& name, int width, int height)
-			: mvBoolItemBase(parent, name, false)
+			: mvNoneItemBase(parent, name)
 		{
 			m_width = width;
 			m_height = height;
@@ -25,13 +25,12 @@ namespace Marvel {
 		{
 			ImGui::End();
 
-			ImGui::SetNextWindowSize(ImVec2(m_width, m_height), ImGuiCond_FirstUseEver);
-			ImGui::Begin(m_label.c_str(), &m_show, m_windowflags);
-
 			mvApp::GetApp()->pushParent(this);
 
-			// set current child value true
-			m_value = true;
+			ImGui::SetNextWindowSize(ImVec2(m_width, m_height), ImGuiCond_FirstUseEver);
+
+			ImGui::Begin(m_label.c_str(), &m_show, m_windowflags);
+
 		}
 
 	private:

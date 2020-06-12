@@ -16,7 +16,7 @@ namespace Marvel {
 			: mvAppItem(parent, name){}
 
 		virtual void      setPyValue(PyObject* value) override{}
-		virtual PyObject* getPyValue() const override { return Py_None;}
+		virtual PyObject* getPyValue() const override { Py_RETURN_NONE;}
 
 	};
 
