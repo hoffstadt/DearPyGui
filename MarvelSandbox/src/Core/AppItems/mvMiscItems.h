@@ -124,7 +124,7 @@ namespace Marvel {
 
 	public:
 
-		MV_APPITEM_TYPE(mvAppItemType::InputFloat)
+		MV_APPITEM_TYPE(mvAppItemType::Unindent)
 
 		mvUnindent(const std::string& parent, float default_value)
 			: mvFloatItemBase(parent, "indent", 1, default_value)
