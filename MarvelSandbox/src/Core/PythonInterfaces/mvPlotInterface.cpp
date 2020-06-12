@@ -32,7 +32,7 @@ namespace Marvel {
 		PyObject* data;
 		PyObject* style = nullptr;
 
-		if (!Translators["addPlot"].parse(args, kwargs, __FUNCTION__, &plot, &name, &data, &style))
+		if (!Translators["addLineSeries"].parse(args, kwargs, __FUNCTION__, &plot, &name, &data, &style))
 			Py_RETURN_NONE;
 
 		mvAppItem* aplot = mvApp::GetApp()->getItem(plot);
@@ -61,7 +61,7 @@ namespace Marvel {
 		PyObject* data;
 		PyObject* style = nullptr;
 
-		if (!Translators["addPlot"].parse(args, kwargs, __FUNCTION__, &plot, &name, &data, &style))
+		if (!Translators["addScatterSeries"].parse(args, kwargs, __FUNCTION__, &plot, &name, &data, &style))
 			Py_RETURN_NONE;
 
 		mvAppItem* aplot = mvApp::GetApp()->getItem(plot);

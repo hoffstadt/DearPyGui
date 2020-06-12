@@ -127,12 +127,13 @@ int main(int argc, char* argv[])
 
 	Py_XDECREF(m);
 
-	/* Release the thread. No Python API allowed beyond this point. */
-	PyGILState_Release(gstate);
+	PyMem_RawFree(program);
 
 	// shutdown the interpreter
 	if (Py_FinalizeEx() < 0)
 		exit(120);
 
-	PyMem_RawFree(program);
+	/* Release the thread. No Python API allowed beyond this point. */
+	PyGILState_Release(gstate);
+
 }

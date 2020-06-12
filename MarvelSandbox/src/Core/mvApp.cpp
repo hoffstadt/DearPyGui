@@ -84,6 +84,10 @@ namespace Marvel {
 				return static_cast<mvCollapsingHeader*>(item->getParent())->getValue();
 				break;
 
+			case mvAppItemType::Window:
+				return static_cast<mvWindowAppitem*>(item->getParent())->isShown();
+				break;
+
 			default:
 				return item->getParent()->isShown();
 			}
@@ -277,8 +281,8 @@ namespace Marvel {
 			if (!doesParentAllowRender(item))
 				continue;
 
-			// if parent isn't the most recent parent, skip
-			if (item->getParent() && m_parents.top() && item->getType() != mvAppItemType::Tooltip)
+			// if parent isn't the most recent parent, skip, helps with tabs and end child
+			if (item->getParent() && m_parents.top() && item->getType() != mvAppItemType::Tooltip && item->getType() != mvAppItemType::EndChild)
 				if (!(m_parents.top()->getName() == item->getParent()->getName()))
 					continue;
 
@@ -312,6 +316,8 @@ namespace Marvel {
 		}
 
 		ImGui::End();
+
+		m_parents.pop();
 	}
 
 	bool mvApp::isMouseButtonPressed(int button) const
@@ -487,7 +493,7 @@ namespace Marvel {
 		if (name == "")
 			return;
 
-		PyErr_Clear();
+
 
 		PyObject* pHandler = PyDict_GetItemString(m_pDict, name.c_str()); // borrowed reference
 
@@ -499,22 +505,46 @@ namespace Marvel {
 			return;
 		}
 
-		PyObject* pArgs = PyTuple_New(1);
-		PyTuple_SetItem(pArgs, 0, PyUnicode_FromString(sender.c_str()));
-
-		PyObject* result = PyObject_CallObject(pHandler, pArgs);
-
-		// check if error occurred
-		PyErr_Print();
 
 
-		Py_XDECREF(pArgs);
-		Py_XDECREF(result);
+		// check if handler is callable
+		if (PyCallable_Check(pHandler))
+		{
+
+			PyErr_Clear();
+
+			PyObject* pArgs = PyTuple_New(1);
+			PyTuple_SetItem(pArgs, 0, PyUnicode_FromString(sender.c_str()));
+
+			PyObject* result = PyObject_CallObject(pHandler, pArgs);
+			
+			// check if call succeded
+			if (!result)
+			{
+				std::string message("Callback failed");
+				LogError(name + message);
+			}
+
+			Py_XDECREF(pArgs);
+			Py_XDECREF(result);
+
+			// check if error occurred
+			if(PyErr_Occurred())
+				PyErr_Print();
+
+		}
+
+		else
+		{
+			std::string message(" Callback not callable");
+			LogError(name + message);
+		}
 
 	}
 
 	void mvApp::triggerCallback(const std::string& name, const std::string& sender, const std::string& data)
 	{
+
 		if (name == "")
 			return;
 
@@ -530,18 +560,36 @@ namespace Marvel {
 			return;
 		}
 
-		PyObject* pArgs = PyTuple_New(2);
-		PyTuple_SetItem(pArgs, 0, PyUnicode_FromString(sender.c_str()));
-		PyTuple_SetItem(pArgs, 1, PyUnicode_FromString(data.c_str()));
+		// check if handler is callable
+		if (PyCallable_Check(pHandler))
+		{
+			PyObject* pArgs = PyTuple_New(2);
+			PyTuple_SetItem(pArgs, 0, PyUnicode_FromString(sender.c_str()));
+			PyTuple_SetItem(pArgs, 1, PyUnicode_FromString(data.c_str()));
 
-		PyObject* result = PyObject_CallObject(pHandler, pArgs);
+			PyObject* result = PyObject_CallObject(pHandler, pArgs);
 
-		// check if error occurred
-		PyErr_Print();
+			// check if call succeded
+			if (!result)
+			{
+				std::string message("Callback failed");
+				LogError(name + message);
+			}
 
+			Py_XDECREF(pArgs);
+			Py_XDECREF(result);
 
-		Py_XDECREF(pArgs);
-		Py_XDECREF(result);
+			// check if error occurred
+			if (PyErr_Occurred())
+				PyErr_Print();
+
+		}
+
+		else
+		{
+			std::string message(" Callback not callable");
+			LogError(name + message);
+		}
 
 	}
 
