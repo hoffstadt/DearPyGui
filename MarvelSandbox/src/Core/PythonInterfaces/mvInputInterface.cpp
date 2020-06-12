@@ -1,8 +1,12 @@
 #include "Core/mvPythonModule.h"
 #include "Core/mvPythonTranslator.h"
 #include "Core/mvApp.h"
+#include "mvInputInterface.h"
 
 namespace Marvel {
+
+	static std::map<std::string, mvPythonTranslator> Translators = BuildTranslations();
+
 
 	PyObject* getMousePos(PyObject* self, PyObject* args)
 	{
@@ -15,11 +19,7 @@ namespace Marvel {
 	{
 		int button;
 
-		auto pl = mvPythonTranslator( {
-			mvPythonDataElement(mvPythonDataType::Integer, "button")
-			});
-
-		if (!pl.parse(args, kwargs,__FUNCTION__, &button))
+		if (!Translators["isMouseButtonPressed"].parse(args, kwargs,__FUNCTION__, &button))
 			return Py_None;
 
 		bool pressed = mvApp::GetApp()->isMouseButtonPressed(button);
@@ -33,11 +33,7 @@ namespace Marvel {
 	{
 		int key;
 
-		auto pl = mvPythonTranslator( {
-			mvPythonDataElement(mvPythonDataType::Integer, "key")
-			});
-
-		if (!pl.parse(args, kwargs,__FUNCTION__, &key))
+		if (!Translators["isMouseButtonPressed"].parse(args, kwargs,__FUNCTION__, &key))
 			return Py_None;
 
 		bool pressed = mvApp::GetApp()->isKeyPressed(key);
@@ -50,8 +46,8 @@ namespace Marvel {
 	void CreateInputInterface(mvPythonModule& pyModule, PyObject* (*initfunc)())
 	{
 		pyModule.addMethod(getMousePos, "Not Documented");
-		pyModule.addMethod(isMouseButtonPressed, "Not Documented");
-		pyModule.addMethod(isKeyPressed, "Not Documented");
+		pyModule.addMethodD(isMouseButtonPressed);
+		pyModule.addMethodD(isKeyPressed);
 
 		PyImport_AppendInittab(pyModule.getName(), initfunc);
 	}

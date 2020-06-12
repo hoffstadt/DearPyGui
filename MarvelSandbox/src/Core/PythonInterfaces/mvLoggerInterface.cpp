@@ -1,16 +1,16 @@
 #include "Core/mvPythonModule.h"
 #include "Core/mvApp.h"
 #include "Core/mvPythonTranslator.h"
+#include "mvLoggerInterface.h"
 
 namespace Marvel {
 
+	static std::map<std::string, mvPythonTranslator> Translators = BuildTranslations();
+
 	PyObject* ShowLogger(PyObject* self, PyObject* args)
 	{
-
 		mvApp::GetApp()->showLogger();
-
 		Py_INCREF(Py_None);
-
 		return Py_None;
 	}
 
@@ -18,11 +18,7 @@ namespace Marvel {
 	{
 		int level;
 
-		auto pl = mvPythonTranslator( {
-			mvPythonDataElement(mvPythonDataType::Integer, "level")
-			});
-
-		if(!pl.parse(args, kwargs,__FUNCTION__, &level))
+		if(!Translators["SetLogLevel"].parse(args, kwargs,__FUNCTION__, &level))
 			return Py_None;
 
 		mvApp::GetApp()->setLogLevel(level);
@@ -37,13 +33,7 @@ namespace Marvel {
 		const char* message;
 		const char* level = "TRACE";
 
-		auto pl = mvPythonTranslator( {
-			mvPythonDataElement(mvPythonDataType::String, "message"),
-			mvPythonDataElement(mvPythonDataType::Optional, ""),
-			mvPythonDataElement(mvPythonDataType::String, "level")
-			});
-
-		if(!pl.parse(args, kwargs,__FUNCTION__, &message, &level))
+		if(!Translators["Log"].parse(args, kwargs,__FUNCTION__, &message, &level))
 			return Py_None;
 
 		mvApp::GetApp()->Log(std::string(message), std::string(level));
@@ -57,11 +47,7 @@ namespace Marvel {
 	{
 		const char* message;
 
-		auto pl = mvPythonTranslator( {
-			mvPythonDataElement(mvPythonDataType::String, "level")
-			});
-
-		if (!pl.parse(args, kwargs,__FUNCTION__, &message))
+		if (!Translators["LogDebug"].parse(args, kwargs,__FUNCTION__, &message))
 			return Py_None;
 
 		mvApp::GetApp()->LogDebug(std::string(message));
@@ -75,11 +61,7 @@ namespace Marvel {
 	{
 		const char* message;
 
-		auto pl = mvPythonTranslator( {
-			mvPythonDataElement(mvPythonDataType::String, "level")
-			});
-
-		if (!pl.parse(args, kwargs,__FUNCTION__, &message))
+		if (!Translators["LogInfo"].parse(args, kwargs,__FUNCTION__, &message))
 			return Py_None;
 
 		mvApp::GetApp()->LogInfo(std::string(message));
@@ -93,11 +75,7 @@ namespace Marvel {
 	{
 		const char* message;
 
-		auto pl = mvPythonTranslator( {
-			mvPythonDataElement(mvPythonDataType::String, "level")
-			});
-
-		if (!pl.parse(args, kwargs,__FUNCTION__, &message))
+		if (!Translators["LogWarning"].parse(args, kwargs,__FUNCTION__, &message))
 			return Py_None;
 
 		mvApp::GetApp()->LogWarning(std::string(message));
@@ -111,11 +89,7 @@ namespace Marvel {
 	{
 		const char* message;
 
-		auto pl = mvPythonTranslator( {
-			mvPythonDataElement(mvPythonDataType::String, "level")
-			});
-
-		if (!pl.parse(args, kwargs,__FUNCTION__, &message))
+		if (!Translators["LogError"].parse(args, kwargs,__FUNCTION__, &message))
 			return Py_None;
 
 		mvApp::GetApp()->LogError(std::string(message));
@@ -137,15 +111,16 @@ namespace Marvel {
 
 	void CreateLoggerInterface(mvPythonModule& pyModule, PyObject* (*initfunc)())
 	{
-		pyModule.addMethod(ShowLogger, "Not Documented");
-		pyModule.addMethod(SetLogLevel, "Not Documented");
-		pyModule.addMethod(Log, "Not Documented");
-		pyModule.addMethod(LogDebug, "Not Documented");
-		pyModule.addMethod(LogInfo, "Not Documented");
-		pyModule.addMethod(LogWarning, "Not Documented");
-		pyModule.addMethod(LogError, "Not Documented");
 		pyModule.addMethod(ClearLog, "Not Documented");
+		pyModule.addMethod(ShowLogger, "Not Documented");
 
+		pyModule.addMethodD(SetLogLevel);
+		pyModule.addMethodD(Log);
+		pyModule.addMethodD(LogDebug);
+		pyModule.addMethodD(LogInfo);
+		pyModule.addMethodD(LogWarning);
+		pyModule.addMethodD(LogError);
+		
 		PyImport_AppendInittab(pyModule.getName(), initfunc);
 	}
 }

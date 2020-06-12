@@ -1,21 +1,18 @@
 #include "Core/mvPythonModule.h"
 #include "Core/mvApp.h"
 #include "Core/mvPythonTranslator.h"
-
 #include "Core/AppItems/mvAppItems.h"
+#include "mvAppInterface.h"
 
 namespace Marvel {
 
+	static std::map<std::string, mvPythonTranslator> Translators = BuildTranslations();
 
 	PyObject* isItemHovered(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		const char* item;
 
-		auto pl = mvPythonTranslator( {
-			mvPythonDataElement(mvPythonDataType::String, "item")
-			});
-
-		if (!pl.parse(args, kwargs,__FUNCTION__, &item))
+		if (!Translators["isItemHovered"].parse(args, kwargs,__FUNCTION__, &item))
 			return Py_None;
 
 		bool value = mvApp::GetApp()->isItemHovered(std::string(item));
@@ -29,11 +26,7 @@ namespace Marvel {
 	{
 		const char* item;
 
-		auto pl = mvPythonTranslator( {
-			mvPythonDataElement(mvPythonDataType::String, "item")
-			});
-
-		if (!pl.parse(args, kwargs,__FUNCTION__, &item))
+		if (!Translators["isItemActive"].parse(args, kwargs,__FUNCTION__, &item))
 			return Py_None;
 
 		bool value = mvApp::GetApp()->isItemActive(std::string(item));
@@ -47,11 +40,7 @@ namespace Marvel {
 	{
 		const char* item;
 
-		auto pl = mvPythonTranslator( {
-			mvPythonDataElement(mvPythonDataType::String, "item")
-			});
-
-		if (!pl.parse(args, kwargs,__FUNCTION__, &item))
+		if (!Translators["isItemFocused"].parse(args, kwargs,__FUNCTION__, &item))
 			return Py_None;
 
 		bool value = mvApp::GetApp()->isItemFocused(std::string(item));
@@ -65,11 +54,7 @@ namespace Marvel {
 	{
 		const char* item;
 
-		auto pl = mvPythonTranslator( {
-			mvPythonDataElement(mvPythonDataType::String, "item")
-			});
-
-		if (!pl.parse(args, kwargs,__FUNCTION__, &item))
+		if (!Translators["isItemClicked"].parse(args, kwargs,__FUNCTION__, &item))
 			return Py_None;
 
 		bool value = mvApp::GetApp()->isItemClicked(std::string(item));
@@ -83,11 +68,7 @@ namespace Marvel {
 	{
 		const char* item;
 
-		auto pl = mvPythonTranslator( {
-			mvPythonDataElement(mvPythonDataType::String, "item")
-			});
-
-		if (!pl.parse(args, kwargs,__FUNCTION__, &item))
+		if (!Translators["isItemVisible"].parse(args, kwargs,__FUNCTION__, &item))
 			return Py_None;
 
 		bool value = mvApp::GetApp()->isItemVisible(std::string(item));
@@ -101,11 +82,7 @@ namespace Marvel {
 	{
 		const char* item;
 
-		auto pl = mvPythonTranslator( {
-			mvPythonDataElement(mvPythonDataType::String, "item")
-			});
-
-		if (!pl.parse(args, kwargs,__FUNCTION__, &item))
+		if (!Translators["isItemEdited"].parse(args, kwargs,__FUNCTION__, &item))
 			return Py_None;
 
 		bool value = mvApp::GetApp()->isItemEdited(std::string(item));
@@ -119,11 +96,7 @@ namespace Marvel {
 	{
 		const char* item;
 
-		auto pl = mvPythonTranslator( {
-			mvPythonDataElement(mvPythonDataType::String, "item")
-			});
-
-		if (!pl.parse(args, kwargs,__FUNCTION__, &item))
+		if (!Translators["isItemActivated"].parse(args, kwargs,__FUNCTION__, &item))
 			return Py_None;
 
 		bool value = mvApp::GetApp()->isItemActivated(std::string(item));
@@ -137,11 +110,7 @@ namespace Marvel {
 	{
 		const char* item;
 
-		auto pl = mvPythonTranslator( {
-			mvPythonDataElement(mvPythonDataType::String, "item")
-			});
-
-		if (!pl.parse(args, kwargs,__FUNCTION__, &item))
+		if (!Translators["isItemDeactivated"].parse(args, kwargs,__FUNCTION__, &item))
 			return Py_None;
 
 		bool value = mvApp::GetApp()->isItemDeactivated(std::string(item));
@@ -155,11 +124,7 @@ namespace Marvel {
 	{
 		const char* item;
 
-		auto pl = mvPythonTranslator( {
-			mvPythonDataElement(mvPythonDataType::String, "item")
-			});
-
-		if (!pl.parse(args, kwargs,__FUNCTION__, &item))
+		if (!Translators["isItemDeactivatedAfterEdit"].parse(args, kwargs,__FUNCTION__, &item))
 			return Py_None;
 
 		bool value = mvApp::GetApp()->isItemDeactivatedAfterEdit(std::string(item));
@@ -169,15 +134,11 @@ namespace Marvel {
 		return pvalue;
 	}
 
-	PyObject* isItemToogledOpen(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* isItemToggledOpen(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		const char* item;
 
-		auto pl = mvPythonTranslator( {
-			mvPythonDataElement(mvPythonDataType::String, "item")
-			});
-
-		if (!pl.parse(args, kwargs,__FUNCTION__, &item))
+		if (!Translators["isItemToggledOpen"].parse(args, kwargs,__FUNCTION__, &item))
 			return Py_None;
 
 		bool value = mvApp::GetApp()->isItemToogledOpen(std::string(item));
@@ -191,11 +152,7 @@ namespace Marvel {
 	{
 		const char* item;
 
-		auto pl = mvPythonTranslator( {
-			mvPythonDataElement(mvPythonDataType::String, "item")
-			});
-
-		if (!pl.parse(args, kwargs,__FUNCTION__, &item))
+		if (!Translators["getItemRectMin"].parse(args, kwargs,__FUNCTION__, &item))
 			return Py_None;
 
 		mvVec2 value = mvApp::GetApp()->getItemRectMin(std::string(item));
@@ -211,11 +168,7 @@ namespace Marvel {
 	{
 		const char* item;
 
-		auto pl = mvPythonTranslator( {
-			mvPythonDataElement(mvPythonDataType::String, "item")
-			});
-
-		if (!pl.parse(args, kwargs,__FUNCTION__, &item))
+		if (!Translators["getItemRectMax"].parse(args, kwargs,__FUNCTION__, &item))
 			return Py_None;
 
 		mvVec2 value = mvApp::GetApp()->getItemRectMax(std::string(item));
@@ -231,11 +184,7 @@ namespace Marvel {
 	{
 		const char* item;
 
-		auto pl = mvPythonTranslator( {
-			mvPythonDataElement(mvPythonDataType::String, "item")
-			});
-
-		if (!pl.parse(args, kwargs,__FUNCTION__, &item))
+		if (!Translators["getItemRectSize"].parse(args, kwargs,__FUNCTION__, &item))
 			return Py_None;
 
 		mvVec2 value = mvApp::GetApp()->getItemRectSize(std::string(item));
@@ -253,15 +202,7 @@ namespace Marvel {
 		float x = 0.0f;
 		float y = 0.0f;
 
-		auto pl = mvPythonTranslator( {
-			mvPythonDataElement(mvPythonDataType::Integer, "item"),
-			mvPythonDataElement(mvPythonDataType::Float, "x"),
-			mvPythonDataElement(mvPythonDataType::Optional, ""),
-			mvPythonDataElement(mvPythonDataType::Float, "x"),
-
-			});
-
-		if (!pl.parse(args, kwargs,__FUNCTION__, &item, &x, &y))
+		if (!Translators["changeStyleItem"].parse(args, kwargs,__FUNCTION__, &item, &x, &y))
 			return Py_None;
 
 		mvApp::GetApp()->changeStyleItem(item, x, y);
@@ -274,15 +215,7 @@ namespace Marvel {
 		int item;
 		float r, g, b, a;
 
-		auto pl = mvPythonTranslator( {
-			mvPythonDataElement(mvPythonDataType::Integer, "item"),
-			mvPythonDataElement(mvPythonDataType::Float, "r"),
-			mvPythonDataElement(mvPythonDataType::Float, "g"),
-			mvPythonDataElement(mvPythonDataType::Float, "b"),
-			mvPythonDataElement(mvPythonDataType::Float, "a")
-			});
-
-		if(!pl.parse(args, kwargs,__FUNCTION__, &item, &r, &g, &b, &a))
+		if(!Translators["changeThemeItem"].parse(args, kwargs,__FUNCTION__, &item, &r, &g, &b, &a))
 			return Py_None;
 
 		mvApp::GetApp()->changeThemeItem(item, { r, g, b, a });
@@ -296,11 +229,7 @@ namespace Marvel {
 	{
 		const char* name;
 
-		auto pl = mvPythonTranslator( {
-			mvPythonDataElement(mvPythonDataType::String, "name")
-			});
-
-		if(!pl.parse(args, kwargs,__FUNCTION__, &name))
+		if(!Translators["getValue"].parse(args, kwargs,__FUNCTION__, &name))
 			return Py_None;
 
 		mvAppItem* item = mvApp::GetApp()->getItem(std::string(name));
@@ -316,12 +245,7 @@ namespace Marvel {
 		const char* name;
 		PyObject* value;
 
-		auto pl = mvPythonTranslator( {
-			mvPythonDataElement(mvPythonDataType::String, "name"),
-			mvPythonDataElement(mvPythonDataType::Object, "value")
-			});
-
-		if(!pl.parse(args, kwargs,__FUNCTION__, &name, &value))
+		if(!Translators["setValue"].parse(args, kwargs,__FUNCTION__, &name, &value))
 			return Py_None;
 
 		mvAppItem* item = mvApp::GetApp()->getItem(std::string(name));
@@ -337,11 +261,7 @@ namespace Marvel {
 	{
 		const char* name;
 
-		auto pl = mvPythonTranslator( {
-			mvPythonDataElement(mvPythonDataType::String, "name")
-			});
-
-		if(!pl.parse(args, kwargs,__FUNCTION__, &name))
+		if(!Translators["showItem"].parse(args, kwargs,__FUNCTION__, &name))
 			return Py_None;
 
 		mvAppItem* item = mvApp::GetApp()->getItem(std::string(name));
@@ -356,11 +276,7 @@ namespace Marvel {
 	{
 		const char* name;
 
-		auto pl = mvPythonTranslator( {
-			mvPythonDataElement(mvPythonDataType::String, "name")
-			});
-
-		if(!pl.parse(args, kwargs,__FUNCTION__, &name))
+		if(!Translators["hideItem"].parse(args, kwargs,__FUNCTION__, &name))
 			return Py_None;
 
 		mvAppItem* item = mvApp::GetApp()->getItem(std::string(name));
@@ -375,11 +291,8 @@ namespace Marvel {
 	{
 		const char* callback;
 
-		auto pl = mvPythonTranslator( {
-			mvPythonDataElement(mvPythonDataType::String, "callback")
-			});
 
-		if(!pl.parse(args, kwargs,__FUNCTION__, &callback))
+		if(!Translators["setMainCallback"].parse(args, kwargs,__FUNCTION__, &callback))
 			return Py_None;
 
 		mvApp::GetApp()->setMainCallback(std::string(callback));
@@ -393,11 +306,7 @@ namespace Marvel {
 	{
 		const char* callback;
 
-		auto pl = mvPythonTranslator( {
-			mvPythonDataElement(mvPythonDataType::String, "callback")
-			});
-
-		if (!pl.parse(args, kwargs,__FUNCTION__, &callback))
+		if (!Translators["setMouseDownCallback"].parse(args, kwargs,__FUNCTION__, &callback))
 			return Py_None;
 
 		mvApp::GetApp()->setMouseDownCallback(std::string(callback));
@@ -411,11 +320,7 @@ namespace Marvel {
 	{
 		const char* callback;
 
-		auto pl = mvPythonTranslator( {
-			mvPythonDataElement(mvPythonDataType::String, "callback")
-			});
-
-		if (!pl.parse(args, kwargs,__FUNCTION__, &callback))
+		if (!Translators["setMouseDoubleClickCallback"].parse(args, kwargs,__FUNCTION__, &callback))
 			return Py_None;
 
 		mvApp::GetApp()->setMouseDoubleClickCallback(std::string(callback));
@@ -429,11 +334,7 @@ namespace Marvel {
 	{
 		const char* callback;
 
-		auto pl = mvPythonTranslator( {
-			mvPythonDataElement(mvPythonDataType::String, "callback")
-			});
-
-		if (!pl.parse(args, kwargs,__FUNCTION__, &callback))
+		if (!Translators["setMouseClickCallback"].parse(args, kwargs,__FUNCTION__, &callback))
 			return Py_None;
 
 		mvApp::GetApp()->setMouseClickCallback(std::string(callback));
@@ -447,11 +348,7 @@ namespace Marvel {
 	{
 		const char* callback;
 
-		auto pl = mvPythonTranslator( {
-			mvPythonDataElement(mvPythonDataType::String, "callback")
-			});
-
-		if (!pl.parse(args, kwargs,__FUNCTION__, &callback))
+		if (!Translators["setKeyDownCallback"].parse(args, kwargs,__FUNCTION__, &callback))
 			return Py_None;
 
 		mvApp::GetApp()->setKeyDownCallback(std::string(callback));
@@ -465,11 +362,7 @@ namespace Marvel {
 	{
 		const char* callback;
 
-		auto pl = mvPythonTranslator( {
-			mvPythonDataElement(mvPythonDataType::String, "callback")
-			});
-
-		if (!pl.parse(args, kwargs,__FUNCTION__, &callback))
+		if (!Translators["setKeyPressCallback"].parse(args, kwargs,__FUNCTION__, &callback))
 			return Py_None;
 
 		mvApp::GetApp()->setKeyPressCallback(std::string(callback));
@@ -483,11 +376,7 @@ namespace Marvel {
 	{
 		const char* callback;
 
-		auto pl = mvPythonTranslator( {
-			mvPythonDataElement(mvPythonDataType::String, "callback")
-			});
-
-		if (!pl.parse(args, kwargs,__FUNCTION__, &callback))
+		if (!Translators["setKeyReleaseCallback"].parse(args, kwargs,__FUNCTION__, &callback))
 			return Py_None;
 
 		mvApp::GetApp()->setKeyReleaseCallback(std::string(callback));
@@ -500,13 +389,8 @@ namespace Marvel {
 	PyObject* setItemCallback(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		const char* callback, * item;
-
-		auto pl = mvPythonTranslator( {
-			mvPythonDataElement(mvPythonDataType::String, "item"),
-			mvPythonDataElement(mvPythonDataType::String, "callback")
-			});
 		
-		if(!pl.parse(args, kwargs,__FUNCTION__, &item, &callback))
+		if(!Translators["setItemCallback"].parse(args, kwargs,__FUNCTION__, &item, &callback))
 			return Py_None;
 
 		mvApp::GetApp()->setItemCallback(item, callback);
@@ -520,12 +404,7 @@ namespace Marvel {
 	{
 		const char* popup, * item;
 
-		auto pl = mvPythonTranslator( {
-			mvPythonDataElement(mvPythonDataType::String, "item"),
-			mvPythonDataElement(mvPythonDataType::String, "popup")
-			});
-
-		if (!pl.parse(args, kwargs,__FUNCTION__, &item, &popup))
+		if (!Translators["setItemPopup"].parse(args, kwargs,__FUNCTION__, &item, &popup))
 			return Py_None;
 
 		mvApp::GetApp()->setItemPopup(std::string(item), std::string(popup));
@@ -539,12 +418,7 @@ namespace Marvel {
 	{
 		const char* tip, * item;
 
-		auto pl = mvPythonTranslator( {
-			mvPythonDataElement(mvPythonDataType::String, "item"),
-			mvPythonDataElement(mvPythonDataType::String, "tip")
-			});
-
-		if(!pl.parse(args, kwargs,__FUNCTION__, &item, &tip))
+		if(!Translators["setItemTip"].parse(args, kwargs,__FUNCTION__, &item, &tip))
 			return Py_None;
 
 		mvApp::GetApp()->setItemTip(std::string(item), std::string(tip));
@@ -559,12 +433,7 @@ namespace Marvel {
 		const char* item;
 		int width;
 
-		auto pl = mvPythonTranslator( {
-			mvPythonDataElement(mvPythonDataType::String, "item"),
-			mvPythonDataElement(mvPythonDataType::Integer, "width")
-			});
-
-		if(!pl.parse(args, kwargs,__FUNCTION__, &item, &width))
+		if(!Translators["setItemWidth"].parse(args, kwargs,__FUNCTION__, &item, &width))
 			return Py_None;
 
 		mvApp::GetApp()->setItemWidth(std::string(item), width);
@@ -585,11 +454,7 @@ namespace Marvel {
 	{
 		const char* theme;
 
-		auto pl = mvPythonTranslator( {
-			mvPythonDataElement(mvPythonDataType::String, "theme")
-			});
-
-		if(!pl.parse(args, kwargs,__FUNCTION__, &theme))
+		if(!Translators["setTheme"].parse(args, kwargs,__FUNCTION__, &theme))
 			return Py_None;
 
 		mvApp::GetApp()->setAppTheme(std::string(theme));
@@ -621,38 +486,39 @@ namespace Marvel {
 	{
 		pyModule.addMethod(showAbout, "Not Documented");
 		pyModule.addMethod(showMetrics, "Not Documented");
-		pyModule.addMethod(setItemPopup, "Not Documented");
-		pyModule.addMethod(closePopup, "Not Documented");
-		pyModule.addMethod(isItemHovered, "Not Documented");
-		pyModule.addMethod(isItemActive, "Not Documented");
-		pyModule.addMethod(isItemFocused, "Not Documented");
-		pyModule.addMethod(isItemClicked, "Not Documented");
-		pyModule.addMethod(isItemVisible, "Not Documented");
-		pyModule.addMethod(isItemEdited, "Not Documented");
-		pyModule.addMethod(isItemActivated, "Not Documented");
-		pyModule.addMethod(isItemDeactivated, "Not Documented");
-		pyModule.addMethod(isItemDeactivatedAfterEdit, "Not Documented");
-		pyModule.addMethod(isItemToogledOpen, "Not Documented");
-		pyModule.addMethod(getItemRectMin, "Not Documented");
-		pyModule.addMethod(getItemRectMax, "Not Documented");
-		pyModule.addMethod(getItemRectSize, "Not Documented");
-		pyModule.addMethod(setMouseClickCallback, "Not Documented");
-		pyModule.addMethod(setMouseDownCallback, "Not Documented");
-		pyModule.addMethod(setMouseDoubleClickCallback, "Not Documented");
-		pyModule.addMethod(setKeyDownCallback, "Not Documented");
-		pyModule.addMethod(setKeyPressCallback, "Not Documented");
-		pyModule.addMethod(setKeyReleaseCallback, "Not Documented");
-		pyModule.addMethod(changeStyleItem, "Not Documented");
-		pyModule.addMethod(showItem, "Not Documented");
-		pyModule.addMethod(hideItem, "Not Documented");
-		pyModule.addMethod(changeThemeItem, "Not Documented");
-		pyModule.addMethod(setTheme, "Not Documented");
-		pyModule.addMethod(setMainCallback, "Not Documented");
-		pyModule.addMethod(setItemCallback, "Not Documented");
-		pyModule.addMethod(setItemTip, "Not Documented");
-		pyModule.addMethod(setItemWidth, "Not Documented");
-		pyModule.addMethod(getValue, "Not Documented");
-		pyModule.addMethod(setValue, "Not Documented");
+
+		pyModule.addMethodD(setItemPopup);
+		pyModule.addMethodD(closePopup);
+		pyModule.addMethodD(isItemHovered);
+		pyModule.addMethodD(isItemActive);
+		pyModule.addMethodD(isItemFocused);
+		pyModule.addMethodD(isItemClicked);
+		pyModule.addMethodD(isItemVisible);
+		pyModule.addMethodD(isItemEdited);
+		pyModule.addMethodD(isItemActivated);
+		pyModule.addMethodD(isItemDeactivated);
+		pyModule.addMethodD(isItemDeactivatedAfterEdit);
+		pyModule.addMethodD(isItemToggledOpen);
+		pyModule.addMethodD(getItemRectMin);
+		pyModule.addMethodD(getItemRectMax);
+		pyModule.addMethodD(getItemRectSize);
+		pyModule.addMethodD(setMouseClickCallback);
+		pyModule.addMethodD(setMouseDownCallback);
+		pyModule.addMethodD(setMouseDoubleClickCallback);
+		pyModule.addMethodD(setKeyDownCallback);
+		pyModule.addMethodD(setKeyPressCallback);
+		pyModule.addMethodD(setKeyReleaseCallback);
+		pyModule.addMethodD(changeStyleItem);
+		pyModule.addMethodD(showItem);
+		pyModule.addMethodD(hideItem);
+		pyModule.addMethodD(changeThemeItem);
+		pyModule.addMethodD(setTheme);
+		pyModule.addMethodD(setMainCallback);
+		pyModule.addMethodD(setItemCallback);
+		pyModule.addMethodD(setItemTip);
+		pyModule.addMethodD(setItemWidth);
+		pyModule.addMethodD(getValue);
+		pyModule.addMethodD(setValue);
 
 		PyImport_AppendInittab(pyModule.getName() , initfunc);
 	}
