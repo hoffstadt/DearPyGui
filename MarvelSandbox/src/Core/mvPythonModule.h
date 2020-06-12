@@ -46,6 +46,7 @@
 // Helper Macros
 //-----------------------------------------------------------------------------
 #define addMethod(Function, Documentation) addMethod_(#Function, Function, Documentation)
+#define addMethodD(Function) addMethod_(#Function, Function, Translators[#Function].getDocumentation())
 
 #define MV_DECLARE_PYMODULE(x, name, constants) mvPythonModule x(name, constants);\
 PyObject* PyInit_Emb##x(void){\

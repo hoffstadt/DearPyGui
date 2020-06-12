@@ -69,6 +69,12 @@ addSelectable("sel_3", True)
 endChild()
 endCollapsingHeader()
 
+addCollapsingHeader("Themes2")
+addSelectable("se4_1")
+addSelectable("se5_2")
+addSelectable("se6_3", True)
+endCollapsingHeader()
+
 # creating tabs
 addTabBar("TabBar1")
 

@@ -2,8 +2,11 @@
 #include "Core/mvApp.h"
 #include "Core/mvPythonTranslator.h"
 #include "Core/AppItems/mvAppItems.h"
+#include "mvDrawingInterface.h"
 
 namespace Marvel {
+
+	static std::map<std::string, mvPythonTranslator> Translators = BuildTranslations();
 
 	PyObject* addDrawing(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
@@ -11,13 +14,7 @@ namespace Marvel {
 		int width;
 		int height;
 
-		auto pl = mvPythonTranslator( {
-			mvPythonDataElement(mvPythonDataType::String, "name"),
-			mvPythonDataElement(mvPythonDataType::Integer, "width"),
-			mvPythonDataElement(mvPythonDataType::Integer, "height")
-			});
-
-		if (!pl.parse(args, kwargs,__FUNCTION__, &name, &width, &height))
+		if (!Translators["addDrawing"].parse(args, kwargs,__FUNCTION__, &name, &width, &height))
 			return Py_None;
 
 		mvAppItem* item = new mvDrawing("", name, width, height);
@@ -35,20 +32,12 @@ namespace Marvel {
 		PyObject* p1, *p2;
 		PyObject* color;
 
-		auto pl = mvPythonTranslator( {
-			mvPythonDataElement(mvPythonDataType::String, "drawing"),
-			mvPythonDataElement(mvPythonDataType::FloatList, "p1"),
-			mvPythonDataElement(mvPythonDataType::FloatList, "p2"),
-			mvPythonDataElement(mvPythonDataType::FloatList, "color"),
-			mvPythonDataElement(mvPythonDataType::Integer, "thickness")
-			});
-
-		if (!pl.parse(args, kwargs,__FUNCTION__, &drawing, &p1, &p2, &color, &thickness))
+		if (!Translators["drawLine"].parse(args, kwargs,__FUNCTION__, &drawing, &p1, &p2, &color, &thickness))
 			return Py_None;
 
-		mvVec2 mp1 = pl.getVec2(p1);
-		mvVec2 mp2 = pl.getVec2(p2);
-		mvColor mcolor = pl.getColor(color);
+		mvVec2 mp1 = mvPythonTranslator::getVec2(p1);
+		mvVec2 mp2 = mvPythonTranslator::getVec2(p2);
+		mvColor mcolor = mvPythonTranslator::getColor(color);
 
 		mvAppItem* item = mvApp::GetApp()->getItem(drawing);
 		mvDrawing* dwg = static_cast<mvDrawing*>(item);
@@ -67,26 +56,15 @@ namespace Marvel {
 		PyObject* color;
 		PyObject* fill = nullptr;
 
-		auto pl = mvPythonTranslator( {
-			mvPythonDataElement(mvPythonDataType::String, "drawing"),
-			mvPythonDataElement(mvPythonDataType::FloatList, "p1"),
-			mvPythonDataElement(mvPythonDataType::FloatList, "p2"),
-			mvPythonDataElement(mvPythonDataType::FloatList, "p3"),
-			mvPythonDataElement(mvPythonDataType::FloatList, "color"),
-			mvPythonDataElement(mvPythonDataType::Optional, ""),
-			mvPythonDataElement(mvPythonDataType::FloatList, "fill"),
-			mvPythonDataElement(mvPythonDataType::Float, "thickness")
-			});
-
-		if (!pl.parse(args, kwargs,__FUNCTION__, &drawing, &p1, &p2, &p3, &color, &fill, &thickness))
+		if (!Translators["drawTriangle"].parse(args, kwargs,__FUNCTION__, &drawing, &p1, &p2, &p3, &color, &fill, &thickness))
 			return Py_None;
 
 
-		mvVec2 mp1 = pl.getVec2(p1);
-		mvVec2 mp2 = pl.getVec2(p2);
-		mvVec2 mp3 = pl.getVec2(p3);
-		mvColor mcolor = pl.getColor(color);
-		mvColor mfill = pl.getColor(fill);
+		mvVec2 mp1 = mvPythonTranslator::getVec2(p1);
+		mvVec2 mp2 = mvPythonTranslator::getVec2(p2);
+		mvVec2 mp3 = mvPythonTranslator::getVec2(p3);
+		mvColor mcolor = mvPythonTranslator::getColor(color);
+		mvColor mfill = mvPythonTranslator::getColor(fill);
 
 		mvAppItem* item = mvApp::GetApp()->getItem(drawing);
 		mvDrawing* dwg = static_cast<mvDrawing*>(item);
@@ -105,25 +83,14 @@ namespace Marvel {
 		PyObject* color;
 		PyObject* fill = nullptr;
 
-		auto pl = mvPythonTranslator( {
-			mvPythonDataElement(mvPythonDataType::String, "drawing"),
-			mvPythonDataElement(mvPythonDataType::FloatList, "pmin"),
-			mvPythonDataElement(mvPythonDataType::FloatList, "pmax"),
-			mvPythonDataElement(mvPythonDataType::FloatList, "color"),
-			mvPythonDataElement(mvPythonDataType::Optional, ""),
-			mvPythonDataElement(mvPythonDataType::FloatList, "fill"),
-			mvPythonDataElement(mvPythonDataType::Float, "rounding"),
-			mvPythonDataElement(mvPythonDataType::Float, "thickness")
-			});
-
-		if (!pl.parse(args, kwargs,__FUNCTION__, &drawing, &pmin, &pmax, &color, &fill, &rounding, &thickness))
+		if (!Translators["drawRectangle"].parse(args, kwargs,__FUNCTION__, &drawing, &pmin, &pmax, &color, &fill, &rounding, &thickness))
 			return Py_None;
 
 
-		mvVec2 mpmax = pl.getVec2(pmax);
-		mvVec2 mpmin = pl.getVec2(pmin);
-		mvColor mcolor = pl.getColor(color);
-		mvColor mfill = pl.getColor(fill);
+		mvVec2 mpmax = mvPythonTranslator::getVec2(pmax);
+		mvVec2 mpmin = mvPythonTranslator::getVec2(pmin);
+		mvColor mcolor = mvPythonTranslator::getColor(color);
+		mvColor mfill = mvPythonTranslator::getColor(fill);
 
 		mvAppItem* item = mvApp::GetApp()->getItem(drawing);
 		mvDrawing* dwg = static_cast<mvDrawing*>(item);
@@ -142,28 +109,16 @@ namespace Marvel {
 		PyObject* color;
 		PyObject* fill = nullptr;
 
-		auto pl = mvPythonTranslator( {
-			mvPythonDataElement(mvPythonDataType::String, "drawing"),
-			mvPythonDataElement(mvPythonDataType::FloatList, "p1"),
-			mvPythonDataElement(mvPythonDataType::FloatList, "p2"),
-			mvPythonDataElement(mvPythonDataType::FloatList, "p3"),
-			mvPythonDataElement(mvPythonDataType::FloatList, "p4"),
-			mvPythonDataElement(mvPythonDataType::FloatList, "color"),
-			mvPythonDataElement(mvPythonDataType::Optional, ""),
-			mvPythonDataElement(mvPythonDataType::FloatList, "fill"),
-			mvPythonDataElement(mvPythonDataType::Float, "thickness")
-			});
-
-		if (!pl.parse(args, kwargs,__FUNCTION__, &drawing, &p1, &p2, &p3, &p4, &color, &fill, &thickness))
+		if (!Translators["drawQuad"].parse(args, kwargs,__FUNCTION__, &drawing, &p1, &p2, &p3, &p4, &color, &fill, &thickness))
 			return Py_None;
 
 
-		mvVec2 mp1 = pl.getVec2(p1);
-		mvVec2 mp2 = pl.getVec2(p2);
-		mvVec2 mp3 = pl.getVec2(p3);
-		mvVec2 mp4 = pl.getVec2(p4);
-		mvColor mcolor = pl.getColor(color);
-		mvColor mfill = pl.getColor(fill);
+		mvVec2 mp1 = mvPythonTranslator::getVec2(p1);
+		mvVec2 mp2 = mvPythonTranslator::getVec2(p2);
+		mvVec2 mp3 = mvPythonTranslator::getVec2(p3);
+		mvVec2 mp4 = mvPythonTranslator::getVec2(p4);
+		mvColor mcolor = mvPythonTranslator::getColor(color);
+		mvColor mfill = mvPythonTranslator::getColor(fill);
 
 		mvAppItem* item = mvApp::GetApp()->getItem(drawing);
 		mvDrawing* dwg = static_cast<mvDrawing*>(item);
@@ -182,20 +137,11 @@ namespace Marvel {
 		int size = 10;
 		PyObject* color = nullptr;
 
-		auto pl = mvPythonTranslator( {
-			mvPythonDataElement(mvPythonDataType::String, "drawing"),
-			mvPythonDataElement(mvPythonDataType::FloatList, "pos"),
-			mvPythonDataElement(mvPythonDataType::String, "text"),
-			mvPythonDataElement(mvPythonDataType::Optional, ""),
-			mvPythonDataElement(mvPythonDataType::FloatList, "color"),
-			mvPythonDataElement(mvPythonDataType::Integer, "size")
-			});
-
-		if (!pl.parse(args, kwargs,__FUNCTION__, &drawing, &pos, &text, &color, &size))
+		if (!Translators["drawText"].parse(args, kwargs,__FUNCTION__, &drawing, &pos, &text, &color, &size))
 			return Py_None;
 
-		mvVec2 mpos = pl.getVec2(pos);
-		mvColor mcolor = pl.getColor(color);
+		mvVec2 mpos = mvPythonTranslator::getVec2(pos);
+		mvColor mcolor = mvPythonTranslator::getColor(color);
 
 		mvAppItem* item = mvApp::GetApp()->getItem(drawing);
 		mvDrawing* dwg = static_cast<mvDrawing*>(item);
@@ -216,23 +162,12 @@ namespace Marvel {
 		float thickness = 1.0f;
 		PyObject* fill = nullptr;
 
-		auto pl = mvPythonTranslator( {
-			mvPythonDataElement(mvPythonDataType::String, "drawing"),
-			mvPythonDataElement(mvPythonDataType::FloatList, "center"),
-			mvPythonDataElement(mvPythonDataType::Float, "radius"),
-			mvPythonDataElement(mvPythonDataType::FloatList, "color"),
-			mvPythonDataElement(mvPythonDataType::Optional, ""),
-			mvPythonDataElement(mvPythonDataType::Integer, "segments"),
-			mvPythonDataElement(mvPythonDataType::Float, "thickness"),
-			mvPythonDataElement(mvPythonDataType::FloatList, "fill")
-			});
-
-		if (!pl.parse(args, kwargs,__FUNCTION__, &drawing, &center, &radius, &color, &segments, &thickness, &fill))
+		if (!Translators["drawCircle"].parse(args, kwargs,__FUNCTION__, &drawing, &center, &radius, &color, &segments, &thickness, &fill))
 			return Py_None;
 
-		mvVec2 mcenter = pl.getVec2(center);
-		mvColor mcolor = pl.getColor(color);
-		mvColor mfill = pl.getColor(fill);
+		mvVec2 mcenter = mvPythonTranslator::getVec2(center);
+		mvColor mcolor = mvPythonTranslator::getColor(color);
+		mvColor mfill = mvPythonTranslator::getColor(fill);
 
 		mvAppItem* item = mvApp::GetApp()->getItem(drawing);
 		mvDrawing* dwg = static_cast<mvDrawing*>(item);
@@ -251,20 +186,11 @@ namespace Marvel {
 		int closed = false;
 		float thickness = 1.0f;
 
-		auto pl = mvPythonTranslator( {
-			mvPythonDataElement(mvPythonDataType::String, "drawing"),
-			mvPythonDataElement(mvPythonDataType::FloatList, "points"),
-			mvPythonDataElement(mvPythonDataType::FloatList, "color"),
-			mvPythonDataElement(mvPythonDataType::Optional, ""),
-			mvPythonDataElement(mvPythonDataType::Integer, "closed"),
-			mvPythonDataElement(mvPythonDataType::Float, "thickness"),
-			});
-
-		if (!pl.parse(args, kwargs,__FUNCTION__, &drawing, &points, &color, &closed, &thickness))
+		if (!Translators["drawPolyline"].parse(args, kwargs,__FUNCTION__, &drawing, &points, &color, &closed, &thickness))
 			return Py_None;
 
-		auto mpoints = pl.getVectVec2(points);
-		mvColor mcolor = pl.getColor(color);
+		auto mpoints = mvPythonTranslator::getVectVec2(points);
+		mvColor mcolor = mvPythonTranslator::getColor(color);
 
 		mvAppItem* item = mvApp::GetApp()->getItem(drawing);
 		mvDrawing* dwg = static_cast<mvDrawing*>(item);
@@ -283,22 +209,13 @@ namespace Marvel {
 		PyObject* fill = nullptr;
 		float thickness = 1.0f;
 
-		auto pl = mvPythonTranslator( {
-			mvPythonDataElement(mvPythonDataType::String, "drawing"),
-			mvPythonDataElement(mvPythonDataType::FloatList, "points"),
-			mvPythonDataElement(mvPythonDataType::FloatList, "color"),
-			mvPythonDataElement(mvPythonDataType::Optional, ""),
-			mvPythonDataElement(mvPythonDataType::FloatList, "fill"),
-			mvPythonDataElement(mvPythonDataType::Float, "thickness"),
-			});
-
-		if (!pl.parse(args, kwargs,__FUNCTION__, &drawing, &points, &color, &fill, &thickness))
+		if (!Translators["drawPolygon"].parse(args, kwargs,__FUNCTION__, &drawing, &points, &color, &fill, &thickness))
 			return Py_None;
 
 
-		auto mpoints = pl.getVectVec2(points);
-		mvColor mcolor = pl.getColor(color);
-		mvColor mfill = pl.getColor(fill);
+		auto mpoints = mvPythonTranslator::getVectVec2(points);
+		mvColor mcolor = mvPythonTranslator::getColor(color);
+		mvColor mfill = mvPythonTranslator::getColor(fill);
 
 		mvAppItem* item = mvApp::GetApp()->getItem(drawing);
 		mvDrawing* dwg = static_cast<mvDrawing*>(item);
@@ -317,27 +234,15 @@ namespace Marvel {
 		PyObject* color;
 		int segments = 0;
 
-		auto pl = mvPythonTranslator( {
-			mvPythonDataElement(mvPythonDataType::String, "drawing"),
-			mvPythonDataElement(mvPythonDataType::FloatList, "p1"),
-			mvPythonDataElement(mvPythonDataType::FloatList, "p2"),
-			mvPythonDataElement(mvPythonDataType::FloatList, "p3"),
-			mvPythonDataElement(mvPythonDataType::FloatList, "p4"),
-			mvPythonDataElement(mvPythonDataType::FloatList, "color"),
-			mvPythonDataElement(mvPythonDataType::Optional, ""),
-			mvPythonDataElement(mvPythonDataType::Float, "thickness"),
-			mvPythonDataElement(mvPythonDataType::Integer, "segments")
-			});
-
-		if (!pl.parse(args, kwargs,__FUNCTION__, &drawing, &p1, &p2, &p3, &p4, &color, &thickness, &segments))
+		if (!Translators["drawBezierCurve"].parse(args, kwargs,__FUNCTION__, &drawing, &p1, &p2, &p3, &p4, &color, &thickness, &segments))
 			return Py_None;
 
 
-		mvVec2 mp1 = pl.getVec2(p1);
-		mvVec2 mp2 = pl.getVec2(p2);
-		mvVec2 mp3 = pl.getVec2(p3);
-		mvVec2 mp4 = pl.getVec2(p4);
-		mvColor mcolor = pl.getColor(color);
+		mvVec2 mp1 = mvPythonTranslator::getVec2(p1);
+		mvVec2 mp2 = mvPythonTranslator::getVec2(p2);
+		mvVec2 mp3 = mvPythonTranslator::getVec2(p3);
+		mvVec2 mp4 = mvPythonTranslator::getVec2(p4);
+		mvColor mcolor = mvPythonTranslator::getColor(color);
 
 		mvAppItem* item = mvApp::GetApp()->getItem(drawing);
 		mvDrawing* dwg = static_cast<mvDrawing*>(item);
@@ -352,11 +257,7 @@ namespace Marvel {
 	{
 		const char* drawing;
 
-		auto pl = mvPythonTranslator( {
-			mvPythonDataElement(mvPythonDataType::String, "drawing")
-			});
-
-		if (!pl.parse(args, kwargs,__FUNCTION__, &drawing))
+		if (!Translators["clearDrawing"].parse(args, kwargs,__FUNCTION__, &drawing))
 			return Py_None;
 
 		mvAppItem* item = mvApp::GetApp()->getItem(drawing);
@@ -370,18 +271,19 @@ namespace Marvel {
 
 	void CreateDrawingInterface(mvPythonModule& pyModule, PyObject* (*initfunc)())
 	{
-		pyModule.addMethod(addDrawing, "Not Documented");
-		pyModule.addMethod(drawLine, "Not Documented");
-		pyModule.addMethod(drawTriangle, "Not Documented");
-		pyModule.addMethod(drawRectangle, "Not Documented");
-		pyModule.addMethod(drawQuad, "Not Documented");
-		pyModule.addMethod(drawText, "Not Documented");
-		pyModule.addMethod(drawCircle, "Not Documented");
-		pyModule.addMethod(drawPolyline, "Not Documented");
-		pyModule.addMethod(drawPolygon, "Not Documented");
-		pyModule.addMethod(drawBezierCurve, "Not Documented");
-		pyModule.addMethod(clearDrawing, "Not Documented");
+		pyModule.addMethodD(addDrawing);
+		pyModule.addMethodD(drawLine);
+		pyModule.addMethodD(drawTriangle);
+		pyModule.addMethodD(drawRectangle);
+		pyModule.addMethodD(drawQuad);
+		pyModule.addMethodD(drawText);
+		pyModule.addMethodD(drawCircle);
+		pyModule.addMethodD(drawPolyline);
+		pyModule.addMethodD(drawPolygon);
+		pyModule.addMethodD(drawBezierCurve);
+		pyModule.addMethodD(clearDrawing);
 
 		PyImport_AppendInittab(pyModule.getName(), initfunc);
 	}
+
 }

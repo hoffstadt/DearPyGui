@@ -72,7 +72,7 @@ namespace Marvel {
 		bool             keywordOnly;
 		std::string      description;
 
-		mvPythonDataElement(mvPythonDataType type, const char* name, bool keywordOnly = false, const std::string& description = "")
+		mvPythonDataElement(mvPythonDataType type, const char* name = "", bool keywordOnly = false, const std::string& description = "")
 			: name(name), type(type), keywordOnly(keywordOnly), description(description)
 		{}
 
@@ -93,14 +93,14 @@ namespace Marvel {
 			const std::string& about = "");
 
 		bool                             parse(PyObject* args, PyObject* kwargs, const char* message, ...);
-		std::vector<std::string>         getStringVec(PyObject* obj);
-		std::vector<float>               getFloatVec(PyObject* obj);
-		mvVec2                           getVec2(PyObject* obj);
-		mvColor                          getColor(PyObject* obj);
-		std::vector<mvVec2>              getVectVec2(PyObject* obj);
-		std::vector<mvVec2>              getVectVec2L(PyObject* obj); // TODO combine this and the previous one
-		std::vector<std::pair<int, int>> getVectInt2(PyObject* obj);
-		inline const std::string&        getDocumentation() const { return m_documentation; }
+		static std::vector<std::string>         getStringVec(PyObject* obj);
+		static std::vector<float>               getFloatVec(PyObject* obj);
+		static mvVec2                           getVec2(PyObject* obj);
+		static mvColor                          getColor(PyObject* obj);
+		static std::vector<mvVec2>              getVectVec2(PyObject* obj);
+		static std::vector<mvVec2>              getVectVec2L(PyObject* obj); // TODO combine this and the previous one
+		static std::vector<std::pair<int, int>> getVectInt2(PyObject* obj);
+		inline const char*               getDocumentation() const { return m_documentation.c_str(); }
 
 		void buildDocumentation();
 
