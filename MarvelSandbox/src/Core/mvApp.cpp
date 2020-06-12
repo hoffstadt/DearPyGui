@@ -133,6 +133,32 @@ namespace Marvel {
 		}
 	}
 
+	static bool canItemTypeHaveDuplicates(mvAppItem* item)
+	{
+
+		// ugly and quick
+		switch (item->getType())
+		{
+		case mvAppItemType::Spacing: return true;
+		case mvAppItemType::SameLine: return true;
+		case mvAppItemType::EndTabItem: return true;
+		case mvAppItemType::EndTabBar: return true;
+		case mvAppItemType::EndMenu: return true;
+		case mvAppItemType::EndMenuBar: return true;
+		case mvAppItemType::EndGroup: return true;
+		case mvAppItemType::EndChild: return true;
+		case mvAppItemType::EndTooltip: return true;
+		case mvAppItemType::EndCollapsingHeader: return true;
+		case mvAppItemType::Separator: return true;
+		case mvAppItemType::Indent: return true;
+		case mvAppItemType::Unindent: return true;
+		case mvAppItemType::EndWindow: return true;
+		case mvAppItemType::EndPopup: return true;
+		case mvAppItemType::EndTreeNode: return true;
+		default: return false;
+		}
+	}
+
 	void mvApp::showMetricsWindow()
 	{
 		if (!ImGui::Begin("MarvelSandbox Metrics", &m_showMetrics, ImGuiWindowFlags_NoSavedSettings))
@@ -318,11 +344,6 @@ namespace Marvel {
 		ImGui::End();
 
 		m_parents.pop();
-	}
-
-	bool mvApp::performChecks()
-	{
-		return false;
 	}
 
 	bool mvApp::isMouseButtonPressed(int button) const
@@ -635,6 +656,16 @@ namespace Marvel {
 			return;
 		}
 
+		if (!canItemTypeHaveDuplicates(item))
+		{
+			if (auto otheritem = getItem(item->getName()))
+			{
+				std::string message = item->getName() + " " + std::to_string(m_items.size());
+				LogWarning(message + ": Items of this type must have unique names");
+				return;
+			}
+		}
+
 		m_items.push_back(item);
 	}
 
@@ -644,6 +675,16 @@ namespace Marvel {
 		{
 			LogWarning("Items can't be added during runtime.");
 			return;
+		}
+
+		if (!canItemTypeHaveDuplicates(item))
+		{
+			if (auto otheritem = getItem(item->getName()))
+			{
+				std::string message = item->getName() + " " + std::to_string(m_items.size());
+				LogWarning(message + ": Items of this type must have unique names");
+				return;
+			}
 		}
 
 		mvAppItem* parentitem = topParent();	
@@ -659,6 +700,16 @@ namespace Marvel {
 			return;
 		}
 
+		if (!canItemTypeHaveDuplicates(item))
+		{
+			if (auto otheritem = getItem(item->getName()))
+			{
+				std::string message = item->getName() + " " + std::to_string(m_items.size());
+				LogWarning(message + ": Items of this type must have unique names");
+				return;
+			}
+		}
+
 		addItem(item);
 		pushParent(item);
 	}
@@ -669,6 +720,16 @@ namespace Marvel {
 		{
 			LogWarning("Items can't be added during runtime.");
 			return;
+		}
+
+		if (!canItemTypeHaveDuplicates(item))
+		{
+			if (auto otheritem = getItem(item->getName()))
+			{
+				std::string message = item->getName() + " " + std::to_string(m_items.size());
+				LogWarning(message + ": Items of this type must have unique names");
+				return;
+			}
 		}
 
 		addItem(item);

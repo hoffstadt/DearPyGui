@@ -1,6 +1,6 @@
 #pragma once
 
-#define MV_SANDBOX_VERSION "0.0.1"
+#define MV_SANDBOX_VERSION "0.1(WIP)"
 
 #include <vector>
 #include <map>
@@ -22,8 +22,6 @@ namespace Marvel {
 
 		// actual render loop
 		void render();
-
-		bool performChecks();
 
 		//-----------------------------------------------------------------------------
 		// App Settings
