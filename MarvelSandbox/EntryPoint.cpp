@@ -114,6 +114,7 @@ int main(int argc, char* argv[])
 		// returns the dictionary object representing the module namespace
 		PyObject* pDict = PyModule_GetDict(pModule); // borrowed reference
 		mvApp::GetApp()->setModuleDict(pDict);
+		mvApp::GetApp()->setStarted();
 		window->run();
 		Py_XDECREF(pModule);
 

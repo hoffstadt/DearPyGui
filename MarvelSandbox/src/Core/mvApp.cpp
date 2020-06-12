@@ -320,6 +320,11 @@ namespace Marvel {
 		m_parents.pop();
 	}
 
+	bool mvApp::performChecks()
+	{
+		return false;
+	}
+
 	bool mvApp::isMouseButtonPressed(int button) const
 	{
 		ImGuiIO& io = ImGui::GetIO();
@@ -624,11 +629,23 @@ namespace Marvel {
 
 	void mvApp::addItemManual(mvAppItem* item)
 	{
+		if (m_started)
+		{
+			LogWarning("Items can't be added during runtime.");
+			return;
+		}
+
 		m_items.push_back(item);
 	}
 
 	void mvApp::addItem(mvAppItem* item)
 	{
+		if (m_started)
+		{
+			LogWarning("Items can't be added during runtime.");
+			return;
+		}
+
 		mvAppItem* parentitem = topParent();	
 		item->setParent(parentitem);
 		m_items.push_back(item);
@@ -636,18 +653,36 @@ namespace Marvel {
 
 	void mvApp::addParentItem(mvAppItem* item)
 	{
+		if (m_started)
+		{
+			LogWarning("Items can't be added during runtime.");
+			return;
+		}
+
 		addItem(item);
 		pushParent(item);
 	}
 
 	void mvApp::addEndParentItem(mvAppItem* item)
 	{
+		if (m_started)
+		{
+			LogWarning("Items can't be added during runtime.");
+			return;
+		}
+
 		addItem(item);
 		popParent();
 	}
 
 	void mvApp::closePopup()
 	{
+		if (!m_started)
+		{
+			LogWarning("Popups can't be closed until runtime");
+			return;
+		}
+
 		ImGui::CloseCurrentPopup();
 	}
 

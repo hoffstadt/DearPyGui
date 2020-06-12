@@ -23,6 +23,8 @@ namespace Marvel {
 		// actual render loop
 		void render();
 
+		bool performChecks();
+
 		//-----------------------------------------------------------------------------
 		// App Settings
 		//-----------------------------------------------------------------------------
@@ -133,6 +135,7 @@ namespace Marvel {
 		void setSize       (unsigned width, unsigned height) { m_width = width; m_height = height; }
 		bool isOk          () const { return m_ok; }
 		void setOk         (bool ok) { m_ok = ok; }
+		void setStarted    () { m_started = true; }
 				
 	private:
 
@@ -163,6 +166,7 @@ namespace Marvel {
 		bool                    m_showAbout = false;
 		unsigned                m_loglevel = 0;
 		ImGuiWindowFlags        m_windowflags = 0;
+		bool                    m_started = false; // to prevent widgets from being added
 
 		// standard callbacks
 		std::string m_mouseDownCallback = "";
