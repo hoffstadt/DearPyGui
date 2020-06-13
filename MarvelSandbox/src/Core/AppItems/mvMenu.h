@@ -7,9 +7,7 @@
 // Widget Index
 //
 //     * mvMenuBar
-//     * mvEndMenuBar
 //     * mvMenu
-//     * mvEndMenu
 //     * mvMenuItem
 //
 //-----------------------------------------------------------------------------
@@ -32,35 +30,23 @@ namespace Marvel {
 
 		virtual void draw() override
 		{
-			mvApp::GetApp()->pushParent(this);
 			ImGui::BeginMenuBar();
-		}
+			for (mvAppItem* item : m_children)
+			{
+				// skip item if it's not shown
+				if (!item->isShown())
+					continue;
 
-	};
+				// set item width
+				if (item->getWidth() > 0)
+					ImGui::SetNextItemWidth((float)item->getWidth());
 
-	//-----------------------------------------------------------------------------
-	// mvEndMenuBar
-	//-----------------------------------------------------------------------------
-	class mvEndMenuBar : public mvNoneItemBase
-	{
+				item->draw();
 
-	public:
-
-		MV_APPITEM_TYPE(mvAppItemType::EndMenuBar)
-
-		mvEndMenuBar(const std::string& parent)
-			: mvNoneItemBase(parent, "temporary")
-		{
-			static int i = 0;
-			i++;
-
-			m_name = "endMenuBar" + std::to_string(i);
-
-		}
-
-		virtual void draw() override
-		{
-			mvApp::GetApp()->popParent();
+				// Regular Tooltip (simple)
+				if (item->getTip() != "" && ImGui::IsItemHovered())
+					ImGui::SetTooltip(item->getTip().c_str());
+			}
 			ImGui::EndMenuBar();
 		}
 
@@ -86,7 +72,6 @@ namespace Marvel {
 			// create menu and see if its selected
 			if (ImGui::BeginMenu(m_label.c_str()))
 			{
-				mvApp::GetApp()->pushParent(this);
 
 				// set other menus's value false on same level
 				for (mvAppItem* child : m_parent->getChildren())
@@ -95,39 +80,29 @@ namespace Marvel {
 				// set current menu value true
 				m_value = true;
 
+				for (mvAppItem* item : m_children)
+				{
+					// skip item if it's not shown
+					if (!item->isShown())
+						continue;
+
+					// set item width
+					if (item->getWidth() > 0)
+						ImGui::SetNextItemWidth((float)item->getWidth());
+
+					item->draw();
+
+					// Regular Tooltip (simple)
+					if (item->getTip() != "" && ImGui::IsItemHovered())
+						ImGui::SetTooltip(item->getTip().c_str());
+				}
+
 				// Context Menu
 				if (getPopup() != "")
 					ImGui::OpenPopup(getPopup().c_str());
 
+				ImGui::EndMenu();
 			}
-		}
-
-	};
-
-	//-----------------------------------------------------------------------------
-	// mvEndMenu
-	//-----------------------------------------------------------------------------
-	class mvEndMenu : public mvBoolItemBase
-	{
-
-	public:
-
-		MV_APPITEM_TYPE(mvAppItemType::EndMenu)
-
-		mvEndMenu(const std::string& parent)
-			: mvBoolItemBase(parent, "temporary", false)
-		{
-			static int i = 0;
-			i++;
-
-			m_name = "endTab" + std::to_string(i);
-
-		}
-
-		virtual void draw() override
-		{
-			mvApp::GetApp()->popParent();
-			ImGui::EndMenu();
 		}
 
 	};
