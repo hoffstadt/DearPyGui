@@ -101,7 +101,6 @@ addTab("Tab2")
 addInputText("Testing3")
 addSpacing(10)
 addInputText("Testing4")
-
 addTooltip("Testing4", "Tooltip1")         # start tooltip
 addButton("A Fancy tooltip 1")
 addPlot("Plot1");

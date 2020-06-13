@@ -77,7 +77,7 @@ namespace Marvel {
 				break;
 
 			case mvAppItemType::Tooltip:
-				return static_cast<mvTooltip*>(item->getParent())->getValue();
+				return false;
 				break;
 
 			case mvAppItemType::Popup:
@@ -153,8 +153,6 @@ namespace Marvel {
 		{
 		case mvAppItemType::Spacing: return true;
 		case mvAppItemType::SameLine: return true;
-		case mvAppItemType::EndTabBar: return true;
-		case mvAppItemType::EndTooltip: return true;
 		case mvAppItemType::Separator: return true;
 		case mvAppItemType::Indent: return true;
 		case mvAppItemType::Unindent: return true;
@@ -313,9 +311,9 @@ namespace Marvel {
 				continue;
 
 			// if parent isn't the most recent parent, skip, helps with tabs and end child
-			if (item->getParent() && m_parents.top() && item->getType() != mvAppItemType::Tooltip)
-				if (!(m_parents.top()->getName() == item->getParent()->getName()))
-					continue;
+			//if (item->getParent() && m_parents.top() && item->getType() != mvAppItemType::Tooltip)
+			//	if (!(m_parents.top()->getName() == item->getParent()->getName()))
+			//		continue;
 
 			// set item width
 			if(item->getWidth() > 0)

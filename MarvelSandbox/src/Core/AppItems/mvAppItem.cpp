@@ -21,7 +21,7 @@ namespace Marvel{
 
 	void mvAppItem::hideAll()
 	{
-		if (getType() != mvAppItemType::Tooltip && getType() != mvAppItemType::EndTooltip)
+		if (getType() != mvAppItemType::Tooltip)
 			m_show = false;
 
 		for (auto child : m_children)

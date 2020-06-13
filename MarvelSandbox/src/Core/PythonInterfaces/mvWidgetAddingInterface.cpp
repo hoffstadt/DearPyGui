@@ -529,9 +529,7 @@ namespace Marvel {
 
 	PyObject* endTooltip(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
-		mvAppItem* item = new mvEndTooltip("");
-		mvApp::GetApp()->addEndParentItem(item);
-		
+		mvApp::GetApp()->popParent();
 		Py_RETURN_NONE;
 	}
 
