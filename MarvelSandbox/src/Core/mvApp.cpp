@@ -88,6 +88,10 @@ namespace Marvel {
 				return static_cast<mvWindowAppitem*>(item->getParent())->isShown();
 				break;
 
+			case mvAppItemType::Group:
+				return false;
+				break;
+
 			default:
 				return item->getParent()->isShown();
 			}
@@ -145,7 +149,6 @@ namespace Marvel {
 		case mvAppItemType::EndTabBar: return true;
 		case mvAppItemType::EndMenu: return true;
 		case mvAppItemType::EndMenuBar: return true;
-		case mvAppItemType::EndGroup: return true;
 		case mvAppItemType::EndTooltip: return true;
 		case mvAppItemType::EndCollapsingHeader: return true;
 		case mvAppItemType::Separator: return true;
