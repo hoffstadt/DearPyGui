@@ -58,35 +58,6 @@ namespace Marvel {
 	};
 
 	//-----------------------------------------------------------------------------
-	// mvEndTabBar
-	//-----------------------------------------------------------------------------
-	class mvEndTabBar : public mvBoolItemBase
-	{
-
-	public:
-
-		MV_APPITEM_TYPE(mvAppItemType::EndTabBar)
-
-		mvEndTabBar(const std::string& parent)
-			: mvBoolItemBase(parent, "temporary", false)
-		{
-			static int i = 0;
-			i++;
-
-			m_name = "endTabBar" + std::to_string(i);
-			m_show = true;
-
-		}
-
-		virtual void draw() override
-		{
-			mvApp::GetApp()->popParent();
-			ImGui::EndTabBar();
-		}
-
-	};
-
-	//-----------------------------------------------------------------------------
 	// mvTab
 	//-----------------------------------------------------------------------------
 	class mvTab : public mvBoolItemBase

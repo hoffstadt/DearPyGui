@@ -21,10 +21,10 @@ namespace Marvel {
 	{
 		None = 0, Spacing, SameLine,
 		InputText, Button, RadioButtons,
-		TabBar, TabItem, EndTabBar,
+		TabBar, TabItem,
 		MenuBar, Menu, EndMenu, MenuItem, EndMenuBar,
 		Group, Child,
-		Tooltip, EndTooltip, CollapsingHeader,
+		Tooltip, CollapsingHeader,
 		Separator, ColorEdit4, Checkbox, InputInt, InputFloat,
 		Listbox, Text, LabelText, Combo, Plot, SimplePlot,
 		Indent, Unindent, Drawing, Window, EndWindow,
@@ -113,16 +113,16 @@ namespace Marvel {
 		std::vector<mvAppItem*> m_children;
 		std::string             m_callback = "";
 
-		bool   m_hovered;
-		bool   m_active;
-		bool   m_focused;
-		bool   m_clicked;
-		bool   m_visible;
-		bool   m_edited;
-		bool   m_activated;
-		bool   m_deactivated;
-		bool   m_deactivatedAfterEdit;
-		bool   m_toggledOpen;
+		bool   m_hovered = false;
+		bool   m_active = false;
+		bool   m_focused = false;
+		bool   m_clicked = false;
+		bool   m_visible = false;
+		bool   m_edited = false;
+		bool   m_activated = false;
+		bool   m_deactivated = false;
+		bool   m_deactivatedAfterEdit = false;
+		bool   m_toggledOpen = false;
 		mvVec2 m_rectMin;
 		mvVec2 m_rectMax;
 		mvVec2 m_rectSize;
