@@ -7,7 +7,6 @@
 //
 //     * mvChild
 //     * mvGroup
-//     * mvEndGroup
 //     * mvCollapsingHeader
 //     * mvEndCollapsingHeader
 //     * mvTreeNode
@@ -36,10 +35,8 @@ namespace Marvel {
 
 		virtual void draw() override
 		{
-
-			mvApp::GetApp()->pushParent(this);
 			
-			m_value = ImGui::BeginChild(m_label.c_str(), ImVec2(float(m_width), float(m_height)), true);
+			ImGui::BeginChild(m_label.c_str(), ImVec2(float(m_width), float(m_height)), true);
 
 			for (mvAppItem* item : m_children)
 			{
@@ -90,37 +87,32 @@ namespace Marvel {
 			if (m_width != 0)
 				ImGui::PushItemWidth((float)m_width);
 
-			mvApp::GetApp()->pushParent(this);
 			ImGui::BeginGroup();
 
-			//if (m_tip != "" && ImGui::IsItemHovered())
-			//	ImGui::SetTooltip(m_tip.c_str());
-		}
+			for (mvAppItem* item : m_children)
+			{
+				// skip item if it's not shown
+				if (!item->isShown())
+					continue;
 
-	};
+				// set item width
+				if (item->getWidth() > 0)
+					ImGui::SetNextItemWidth((float)item->getWidth());
 
-	//-----------------------------------------------------------------------------
-	// mvEndGroup
-	//-----------------------------------------------------------------------------
-	class mvEndGroup : public mvNoneItemBase
-	{
+				item->draw();
 
-	public:
+				// Regular Tooltip (simple)
+				if (item->getTip() != "" && ImGui::IsItemHovered())
+					ImGui::SetTooltip(item->getTip().c_str());
+			}
 
-		MV_APPITEM_TYPE(mvAppItemType::EndGroup)
-
-		mvEndGroup(const std::string& parent)
-			: mvNoneItemBase(parent, "Endgroup")
-		{
-		}
-
-		virtual void draw() override
-		{
 			if (m_width != 0)
 				ImGui::PopItemWidth();
 
-			mvApp::GetApp()->popParent();
 			ImGui::EndGroup();
+
+			//if (m_tip != "" && ImGui::IsItemHovered())
+			//	ImGui::SetTooltip(m_tip.c_str());
 		}
 
 	};
