@@ -33,13 +33,9 @@
 //
 //     - mvContainerItems.h
 //         * mvChild
-//         * mvEndChild
 //         * mvGroup
-//         * mvEndGroup
 //         * mvCollapsingHeader
-//         * mvEndCollapsingHeader
 //         * mvTreeNode
-//         * mvEndTreeNode
 //
 //     - mvDrawing.h
 //         * mvDrawing
