@@ -9,7 +9,6 @@
 //     * mvTabBar
 //     * mvEndTabBar
 //     * mvTab
-//     * mvEndTab
 //
 //-----------------------------------------------------------------------------
 
@@ -32,7 +31,27 @@ namespace Marvel {
 		virtual void draw() override
 		{
 			mvApp::GetApp()->pushParent(this);
-			ImGui::BeginTabBar(m_label.c_str());
+			if (ImGui::BeginTabBar(m_label.c_str()))
+			{
+				for (mvAppItem* item : m_children)
+				{
+					// skip item if it's not shown
+					if (!item->isShown())
+						continue;
+
+					// set item width
+					if (item->getWidth() > 0)
+						ImGui::SetNextItemWidth((float)item->getWidth());
+
+					item->draw();
+
+					// Regular Tooltip (simple)
+					if (item->getTip() != "" && ImGui::IsItemHovered())
+						ImGui::SetTooltip(item->getTip().c_str());
+				}
+
+				ImGui::EndTabBar();
+			}
 		}
 
 
@@ -100,7 +119,6 @@ namespace Marvel {
 			// create tab item and see if it is selected
 			if (ImGui::BeginTabItem(m_label.c_str()))
 			{
-				mvApp::GetApp()->pushParent(this); // push parent onto the parent stack
 
 				bool changed = false;
 
@@ -131,35 +149,25 @@ namespace Marvel {
 						ImGui::OpenPopup(getPopup().c_str());
 				}
 
+				for (mvAppItem* item : m_children)
+				{
+					// skip item if it's not shown
+					if (!item->isShown())
+						continue;
+
+					// set item width
+					if (item->getWidth() > 0)
+						ImGui::SetNextItemWidth((float)item->getWidth());
+
+					item->draw();
+
+					// Regular Tooltip (simple)
+					if (item->getTip() != "" && ImGui::IsItemHovered())
+						ImGui::SetTooltip(item->getTip().c_str());
+				}
+
+				ImGui::EndTabItem();
 			}
-		}
-
-	};
-
-	//-----------------------------------------------------------------------------
-	// mvEndTab
-	//-----------------------------------------------------------------------------
-	class mvEndTab : public mvBoolItemBase
-	{
-
-	public:
-
-		MV_APPITEM_TYPE(mvAppItemType::EndTabItem)
-
-		mvEndTab(const std::string& parent)
-			: mvBoolItemBase(parent, "temporary", false)
-		{
-			static int i = 0;
-			i++;
-
-			m_name = "endTab" + std::to_string(i);
-
-		}
-
-		virtual void draw() override
-		{
-			mvApp::GetApp()->popParent();
-			ImGui::EndTabItem();
 		}
 
 	};
