@@ -316,17 +316,13 @@ namespace Marvel {
 
 	PyObject* endTab(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
-		mvAppItem* item = new mvEndTab("");
-		mvApp::GetApp()->addEndParentItem(item);
-		
+		mvApp::GetApp()->popParent();
 		Py_RETURN_NONE;
 	}
 
 	PyObject* endTabBar(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
-		mvAppItem* item = new mvEndTabBar("");
-		mvApp::GetApp()->addEndParentItem(item);
-		
+		mvApp::GetApp()->popParent();
 		Py_RETURN_NONE;
 	}
 
