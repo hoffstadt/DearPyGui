@@ -30,24 +30,26 @@ namespace Marvel {
 
 		virtual void draw() override
 		{
-			ImGui::BeginMenuBar();
-			for (mvAppItem* item : m_children)
+			if (ImGui::BeginMenuBar())
 			{
-				// skip item if it's not shown
-				if (!item->isShown())
-					continue;
+				for (mvAppItem* item : m_children)
+				{
+					// skip item if it's not shown
+					if (!item->isShown())
+						continue;
 
-				// set item width
-				if (item->getWidth() > 0)
-					ImGui::SetNextItemWidth((float)item->getWidth());
+					// set item width
+					if (item->getWidth() > 0)
+						ImGui::SetNextItemWidth((float)item->getWidth());
 
-				item->draw();
+					item->draw();
 
-				// Regular Tooltip (simple)
-				if (item->getTip() != "" && ImGui::IsItemHovered())
-					ImGui::SetTooltip(item->getTip().c_str());
+					// Regular Tooltip (simple)
+					if (item->getTip() != "" && ImGui::IsItemHovered())
+						ImGui::SetTooltip(item->getTip().c_str());
+				}
+				ImGui::EndMenuBar();
 			}
-			ImGui::EndMenuBar();
 		}
 
 	};
