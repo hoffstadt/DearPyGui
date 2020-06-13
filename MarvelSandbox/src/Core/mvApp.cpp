@@ -81,7 +81,7 @@ namespace Marvel {
 				break;
 
 			case mvAppItemType::CollapsingHeader:
-				return static_cast<mvCollapsingHeader*>(item->getParent())->getValue();
+				return false;
 				break;
 
 			case mvAppItemType::Window:
@@ -150,7 +150,6 @@ namespace Marvel {
 		case mvAppItemType::EndMenu: return true;
 		case mvAppItemType::EndMenuBar: return true;
 		case mvAppItemType::EndTooltip: return true;
-		case mvAppItemType::EndCollapsingHeader: return true;
 		case mvAppItemType::Separator: return true;
 		case mvAppItemType::Indent: return true;
 		case mvAppItemType::Unindent: return true;

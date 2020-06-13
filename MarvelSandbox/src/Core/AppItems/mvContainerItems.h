@@ -8,7 +8,6 @@
 //     * mvChild
 //     * mvGroup
 //     * mvCollapsingHeader
-//     * mvEndCollapsingHeader
 //     * mvTreeNode
 //     * mvEndTreeNode
 //
@@ -133,47 +132,37 @@ namespace Marvel {
 
 		virtual void draw() override
 		{
-
-			mvApp::GetApp()->pushParent(this);
 		
 			// create menu and see if its selected
-			if (!ImGui::CollapsingHeader(m_label.c_str(), &m_value, 0))
+			if (ImGui::CollapsingHeader(m_label.c_str(), &m_value, 0))
 			{
-				hideAll();
-				show();
-				mvApp::GetApp()->popParent();
-				return;
+
+				for (mvAppItem* item : m_children)
+				{
+					// skip item if it's not shown
+					if (!item->isShown())
+						continue;
+
+					// set item width
+					if (item->getWidth() > 0)
+						ImGui::SetNextItemWidth((float)item->getWidth());
+
+					item->draw();
+
+					// Regular Tooltip (simple)
+					if (item->getTip() != "" && ImGui::IsItemHovered())
+						ImGui::SetTooltip(item->getTip().c_str());
+				}
 			}
 
 			// set current menu value true
 			//m_value = true;
-			showAll();
+			//showAll();
 
 			// Context Menu
-			if (getPopup() != "")
-				ImGui::OpenPopup(getPopup().c_str());
+			//if (getPopup() != "")
+			//	ImGui::OpenPopup(getPopup().c_str());
 
-		}
-
-	};
-
-	//-----------------------------------------------------------------------------
-	// mvEndCollapsingHeader
-	//-----------------------------------------------------------------------------
-	class mvEndCollapsingHeader : public mvNoneItemBase
-	{
-
-	public:
-
-		MV_APPITEM_TYPE(mvAppItemType::EndCollapsingHeader)
-
-		mvEndCollapsingHeader(const std::string& parent)
-			: mvNoneItemBase(parent, "EndCollapsingHeader")
-		{}
-
-		virtual void draw() override
-		{
-			mvApp::GetApp()->popParent();
 		}
 
 	};

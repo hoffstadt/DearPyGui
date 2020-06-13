@@ -590,9 +590,7 @@ namespace Marvel {
 
 	PyObject* endCollapsingHeader(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
-		mvAppItem* item = new mvEndCollapsingHeader("");
-		mvApp::GetApp()->addEndParentItem(item);
-		
+		mvApp::GetApp()->popParent();	
 		Py_RETURN_NONE;
 	}
 
