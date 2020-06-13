@@ -23,13 +23,29 @@ namespace Marvel {
 
 		virtual void draw() override
 		{
-			ImGui::End();
-
-			mvApp::GetApp()->pushParent(this);
 
 			ImGui::SetNextWindowSize(ImVec2(m_width, m_height), ImGuiCond_FirstUseEver);
 
-			ImGui::Begin(m_label.c_str(), &m_show, m_windowflags);
+			if (ImGui::Begin(m_label.c_str(), &m_show, m_windowflags))
+			{
+				for (mvAppItem* item : m_children)
+				{
+					// skip item if it's not shown
+					if (!item->isShown())
+						continue;
+
+					// set item width
+					if (item->getWidth() > 0)
+						ImGui::SetNextItemWidth((float)item->getWidth());
+
+					item->draw();
+
+					// Regular Tooltip (simple)
+					if (item->getTip() != "" && ImGui::IsItemHovered())
+						ImGui::SetTooltip(item->getTip().c_str());
+				}
+				ImGui::End();
+			}
 
 		}
 
@@ -54,11 +70,13 @@ namespace Marvel {
 		mvEndWindowAppitem(const std::string& parent)
 			: mvNoneItemBase(parent, "EndWindow")
 		{
+			m_show = true;
 		}
 
 		virtual void draw() override
 		{
 			mvApp::GetApp()->popParent();
+			ImGui::End();
 		}
 
 	};

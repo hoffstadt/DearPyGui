@@ -289,7 +289,8 @@ namespace Marvel {
 			Py_RETURN_NONE;
 
 		mvAppItem* item = new mvTabBar("", name);
-		mvApp::GetApp()->addParentItem(item);
+		mvApp::GetApp()->addItem(item);
+		mvApp::GetApp()->pushParent(item);
 
 		MV_STANDARD_CALLBACK_EVAL();
 		
@@ -306,7 +307,8 @@ namespace Marvel {
 			Py_RETURN_NONE;
 
 		mvAppItem* item = new mvTab("", name);
-		mvApp::GetApp()->addParentItem(item);
+		mvApp::GetApp()->addItem(item);
+		mvApp::GetApp()->pushParent(item);
 
 		MV_STANDARD_CALLBACK_EVAL();
 		
@@ -354,7 +356,8 @@ namespace Marvel {
 			Py_RETURN_NONE;
 
 		mvAppItem* item = new mvMenu("", name);
-		mvApp::GetApp()->addParentItem(item);
+		mvApp::GetApp()->addItem(item);
+		mvApp::GetApp()->pushParent(item);
 
 		MV_STANDARD_CALLBACK_EVAL();
 		
@@ -449,10 +452,10 @@ namespace Marvel {
 			Py_RETURN_NONE;
 
 		mvAppItem* item = new mvGroup("", name);
-		mvApp::GetApp()->addParentItem(item);
+		mvApp::GetApp()->addItem(item);
+		mvApp::GetApp()->pushParent(item);
 
 		MV_STANDARD_CALLBACK_EVAL();
-		
 
 		Py_RETURN_NONE;
 	}
@@ -472,9 +475,8 @@ namespace Marvel {
 			Py_RETURN_NONE;
 
 		mvAppItem* item = new mvChild("", name, width, height);
-		mvApp::GetApp()->addParentItem(item);
-
-		
+		mvApp::GetApp()->addItem(item);
+		mvApp::GetApp()->pushParent(item);
 
 		Py_RETURN_NONE;
 	}
@@ -488,18 +490,23 @@ namespace Marvel {
 			Py_RETURN_NONE;
 
 		mvAppItem* item = new mvWindowAppitem("", name, width, height);
-		mvApp::GetApp()->addParentItem(item);
-
-		
+		mvApp::GetApp()->addItem(item);
+		mvApp::GetApp()->pushParent(item);
 
 		Py_RETURN_NONE;
 	}
 
 	PyObject* endWindow(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
+		mvApp::GetApp()->popParent();
+		Py_RETURN_NONE;
+	}
+
+	PyObject* endMainWindow(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
 		mvAppItem* item = new mvEndWindowAppitem("");
-		mvApp::GetApp()->addEndParentItem(item);
-		
+		mvApp::GetApp()->addItem(item);
+
 		Py_RETURN_NONE;
 	}
 
@@ -568,7 +575,8 @@ namespace Marvel {
 			Py_RETURN_NONE;
 
 		mvAppItem* item = new mvCollapsingHeader("", name);
-		mvApp::GetApp()->addParentItem(item);
+		mvApp::GetApp()->addItem(item);
+		mvApp::GetApp()->pushParent(item);
 
 		MV_STANDARD_CALLBACK_EVAL();
 		
@@ -591,7 +599,8 @@ namespace Marvel {
 			Py_RETURN_NONE;
 
 		mvAppItem* item = new mvTreeNode("", name);
-		mvApp::GetApp()->addParentItem(item);
+		mvApp::GetApp()->addItem(item);
+		mvApp::GetApp()->pushParent(item);
 
 		MV_STANDARD_CALLBACK_EVAL();
 		
@@ -654,6 +663,7 @@ namespace Marvel {
 		pyModule.addMethod(endTreeNode, "Not Documented");
 		pyModule.addMethod(endPopup, "Not Documented");
 		pyModule.addMethod(endWindow, "Not Documented");
+		pyModule.addMethod(endMainWindow, "Not Documented");
 		pyModule.addMethod(endGroup, "Not Documented");
 		pyModule.addMethod(endChild, "Not Documented");
 		pyModule.addMethod(endTab, "Not Documented");
