@@ -555,9 +555,7 @@ namespace Marvel {
 
 	PyObject* endPopup(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
-		mvAppItem* item = new mvEndPopup("");
-		mvApp::GetApp()->addEndParentItem(item);
-		
+		mvApp::GetApp()->popParent();
 		Py_RETURN_NONE;
 	}
 
