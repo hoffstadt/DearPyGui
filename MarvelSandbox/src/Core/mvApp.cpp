@@ -60,8 +60,12 @@ namespace Marvel {
 				return static_cast<mvTab*>(item->getParent())->getValue();
 				break;
 
+			case mvAppItemType::MenuBar:
+				return false;
+				break;
+
 			case mvAppItemType::Menu:
-				return static_cast<mvMenu*>(item->getParent())->getValue();
+				return false;
 				break;
 
 			case mvAppItemType::Child:
@@ -147,8 +151,6 @@ namespace Marvel {
 		case mvAppItemType::SameLine: return true;
 		case mvAppItemType::EndTabItem: return true;
 		case mvAppItemType::EndTabBar: return true;
-		case mvAppItemType::EndMenu: return true;
-		case mvAppItemType::EndMenuBar: return true;
 		case mvAppItemType::EndTooltip: return true;
 		case mvAppItemType::Separator: return true;
 		case mvAppItemType::Indent: return true;

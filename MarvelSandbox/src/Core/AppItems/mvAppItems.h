@@ -51,9 +51,7 @@
 //
 //     - mvMenu.h
 //         * mvMenuBar
-//         * mvEndMenuBar
 //         * mvMenu
-//         * mvEndMenu
 //         * mvMenuItem
 //
 //     - mvMiscItems.h

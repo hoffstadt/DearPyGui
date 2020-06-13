@@ -368,17 +368,13 @@ namespace Marvel {
 
 	PyObject* endMenu(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
-		mvAppItem* item = new mvEndMenu("");
-		mvApp::GetApp()->addEndParentItem(item);
-		
+		mvApp::GetApp()->popParent();
 		Py_RETURN_NONE;
 	}
 
 	PyObject* endMenuBar(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
-		mvAppItem* item = new mvEndMenuBar("");
-		mvApp::GetApp()->addEndParentItem(item);
-		
+		mvApp::GetApp()->popParent();
 		Py_RETURN_NONE;
 	}
 
