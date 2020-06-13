@@ -50,65 +50,6 @@ namespace Marvel {
 
 	}
 
-	static bool doesParentAllowRender(mvAppItem* item)
-	{
-		if (item->getParent())
-		{
-			switch (item->getParent()->getType())
-			{
-			case mvAppItemType::TabBar:
-				return false;
-				break;
-
-			case mvAppItemType::TabItem:
-				return false;
-				break;
-
-			case mvAppItemType::MenuBar:
-				return false;
-				break;
-
-			case mvAppItemType::Menu:
-				return false;
-				break;
-
-			case mvAppItemType::Child:
-				return false;
-				break;
-
-			case mvAppItemType::Tooltip:
-				return false;
-				break;
-
-			case mvAppItemType::Popup:
-				return false;
-				break;
-
-			case mvAppItemType::TreeNode:
-				return false;
-				break;
-
-			case mvAppItemType::CollapsingHeader:
-				return false;
-				break;
-
-			case mvAppItemType::Window:
-				return static_cast<mvWindowAppitem*>(item->getParent())->isShown();
-				break;
-
-			case mvAppItemType::Group:
-				return false;
-				break;
-
-			default:
-				return item->getParent()->isShown();
-			}
-		}
-
-		// doesn't have a parent
-		return true;
-	}
-
 	static void prepareStandardCallbacks()
 	{
 		ImGuiIO& io = ImGui::GetIO();
@@ -157,7 +98,6 @@ namespace Marvel {
 		case mvAppItemType::Indent: return true;
 		case mvAppItemType::Unindent: return true;
 		case mvAppItemType::EndWindow: return true;
-		case mvAppItemType::EndPopup: return true;
 		default: return false;
 		}
 	}
@@ -302,18 +242,13 @@ namespace Marvel {
 
 		for (mvAppItem* item : m_items)
 		{
+
+			if (item->getParent())
+				continue;
+
 			// skip item if it's not shown
 			if (!item->isShown())
 				continue;
-
-			// check if item is owned & it's parent is visible
-			if (!doesParentAllowRender(item))
-				continue;
-
-			// if parent isn't the most recent parent, skip, helps with tabs and end child
-			//if (item->getParent() && m_parents.top() && item->getType() != mvAppItemType::Tooltip)
-			//	if (!(m_parents.top()->getName() == item->getParent()->getName()))
-			//		continue;
 
 			// set item width
 			if(item->getWidth() > 0)
@@ -344,9 +279,6 @@ namespace Marvel {
 			//item->setRectSize({ ImGui::GetItemRectSize().x, ImGui::GetItemRectSize().y });
 		}
 
-		ImGui::End();
-
-		m_parents.pop();
 	}
 
 	bool mvApp::isMouseButtonPressed(int button) const
@@ -693,50 +625,6 @@ namespace Marvel {
 		mvAppItem* parentitem = topParent();	
 		item->setParent(parentitem);
 		m_items.push_back(item);
-	}
-
-	void mvApp::addParentItem(mvAppItem* item)
-	{
-		if (m_started)
-		{
-			LogWarning("Items can't be added during runtime.");
-			return;
-		}
-
-		if (!canItemTypeHaveDuplicates(item))
-		{
-			if (auto otheritem = getItem(item->getName()))
-			{
-				std::string message = item->getName() + " " + std::to_string(m_items.size());
-				LogWarning(message + ": Items of this type must have unique names");
-				return;
-			}
-		}
-
-		addItem(item);
-		pushParent(item);
-	}
-
-	void mvApp::addEndParentItem(mvAppItem* item)
-	{
-		if (m_started)
-		{
-			LogWarning("Items can't be added during runtime.");
-			return;
-		}
-
-		if (!canItemTypeHaveDuplicates(item))
-		{
-			if (auto otheritem = getItem(item->getName()))
-			{
-				std::string message = item->getName() + " " + std::to_string(m_items.size());
-				LogWarning(message + ": Items of this type must have unique names");
-				return;
-			}
-		}
-
-		addItem(item);
-		popParent();
 	}
 
 	void mvApp::closePopup()

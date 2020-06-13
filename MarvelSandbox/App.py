@@ -156,6 +156,8 @@ endTab()
 
 endTabBar()
 
+endMainWindow()
+
 addWindow("Plotting Window", 500, 500)
 addButton("Plot data", callback="PlotCallback", tip="new tip")
 addButton("Resize plot", callback="ResizePlotCallback")
