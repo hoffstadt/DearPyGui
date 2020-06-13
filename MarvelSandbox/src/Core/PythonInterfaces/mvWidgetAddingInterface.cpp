@@ -515,25 +515,7 @@ namespace Marvel {
 
 	PyObject* endChild(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
-		auto parent = mvApp::GetApp()->popParent();
-
-		auto parentname = parent->getName();
-
-		auto grandparent = parent->getParent();
-
-		if (grandparent == nullptr)
-		{
-			mvAppItem* item = new mvEndChild("");
-			mvApp::GetApp()->addItemManual(item);
-		}
-		else
-		{
-			mvAppItem* item = new mvEndChild(grandparent->getName());
-			mvApp::GetApp()->addItemManual(item);
-		}
-
-
-		
+		auto parent = mvApp::GetApp()->popParent();		
 		Py_RETURN_NONE;
 	}
 

@@ -42,8 +42,28 @@ namespace Marvel {
 			
 			m_value = ImGui::BeginChild(m_label.c_str(), ImVec2(float(m_width), float(m_height)), true);
 
+			for (mvAppItem* item : m_children)
+			{
+				// skip item if it's not shown
+				if (!item->isShown())
+					continue;
+
+				// set item width
+				if (item->getWidth() > 0)
+					ImGui::SetNextItemWidth((float)item->getWidth());
+
+				item->draw();
+
+				// Regular Tooltip (simple)
+				if (item->getTip() != "" && ImGui::IsItemHovered())
+					ImGui::SetTooltip(item->getTip().c_str());
+			}
+
+			// TODO check if these work for child
 			if (m_tip != "" && ImGui::IsItemHovered())
 				ImGui::SetTooltip(m_tip.c_str());
+
+			ImGui::EndChild();
 		}
 
 	private:
