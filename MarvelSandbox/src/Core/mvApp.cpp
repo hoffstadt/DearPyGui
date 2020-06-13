@@ -65,7 +65,7 @@ namespace Marvel {
 				break;
 
 			case mvAppItemType::Child:
-				return static_cast<mvChild*>(item->getParent())->getValue();
+				return false;
 				break;
 
 			case mvAppItemType::Tooltip:
