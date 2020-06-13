@@ -23,7 +23,7 @@ namespace Marvel {
 		InputText, Button, RadioButtons,
 		TabBar, TabItem, EndTabItem, EndTabBar,
 		MenuBar, Menu, EndMenu, MenuItem, EndMenuBar,
-		Group, EndGroup, Child, EndChild,
+		Group, EndGroup, Child,
 		Tooltip, EndTooltip, CollapsingHeader, EndCollapsingHeader,
 		Separator, ColorEdit4, Checkbox, InputInt, InputFloat,
 		Listbox, Text, LabelText, Combo, Plot, SimplePlot,

@@ -146,7 +146,6 @@ namespace Marvel {
 		case mvAppItemType::EndMenu: return true;
 		case mvAppItemType::EndMenuBar: return true;
 		case mvAppItemType::EndGroup: return true;
-		case mvAppItemType::EndChild: return true;
 		case mvAppItemType::EndTooltip: return true;
 		case mvAppItemType::EndCollapsingHeader: return true;
 		case mvAppItemType::Separator: return true;
@@ -308,7 +307,7 @@ namespace Marvel {
 				continue;
 
 			// if parent isn't the most recent parent, skip, helps with tabs and end child
-			if (item->getParent() && m_parents.top() && item->getType() != mvAppItemType::Tooltip && item->getType() != mvAppItemType::EndChild)
+			if (item->getParent() && m_parents.top() && item->getType() != mvAppItemType::Tooltip)
 				if (!(m_parents.top()->getName() == item->getParent()->getName()))
 					continue;
 

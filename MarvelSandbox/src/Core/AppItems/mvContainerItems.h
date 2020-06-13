@@ -6,7 +6,6 @@
 // Widget Index
 //
 //     * mvChild
-//     * mvEndChild
 //     * mvGroup
 //     * mvEndGroup
 //     * mvCollapsingHeader
@@ -69,29 +68,6 @@ namespace Marvel {
 	private:
 
 		int m_height;
-
-	};
-
-	//-----------------------------------------------------------------------------
-	// mvEndChild
-	//-----------------------------------------------------------------------------
-	class mvEndChild : public mvNoneItemBase
-	{
-
-	public:
-
-		MV_APPITEM_TYPE(mvAppItemType::EndChild)
-
-			mvEndChild(const std::string& parent)
-			: mvNoneItemBase(parent, "EndChild")
-		{
-		}
-
-		virtual void draw() override
-		{
-			mvApp::GetApp()->popParent();
-			ImGui::EndChild();
-		}
 
 	};
 
