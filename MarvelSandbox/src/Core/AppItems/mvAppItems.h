@@ -73,9 +73,7 @@
 //
 //     - mvTab.h
 //         * mvTabBar
-//         * mvEndTabBar
 //         * mvTab
-//         * mvEndTab
 //
 //     - mvText.h
 //         * mvText
