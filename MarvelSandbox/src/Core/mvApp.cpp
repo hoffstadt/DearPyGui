@@ -77,7 +77,7 @@ namespace Marvel {
 				break;
 
 			case mvAppItemType::TreeNode:
-				return static_cast<mvTreeNode*>(item->getParent())->getValue();
+				return false;
 				break;
 
 			case mvAppItemType::CollapsingHeader:
@@ -155,7 +155,6 @@ namespace Marvel {
 		case mvAppItemType::Unindent: return true;
 		case mvAppItemType::EndWindow: return true;
 		case mvAppItemType::EndPopup: return true;
-		case mvAppItemType::EndTreeNode: return true;
 		default: return false;
 		}
 	}

@@ -9,7 +9,6 @@
 //     * mvGroup
 //     * mvCollapsingHeader
 //     * mvTreeNode
-//     * mvEndTreeNode
 //
 //-----------------------------------------------------------------------------
 
@@ -185,40 +184,26 @@ namespace Marvel {
 		{
 			if (ImGui::TreeNode(m_label.c_str()))
 			{
-				mvApp::GetApp()->pushParent(this);
 
-				// set current menu value true
-				m_value = true;
-				showAll();
+				for (mvAppItem* item : m_children)
+				{
+					// skip item if it's not shown
+					if (!item->isShown())
+						continue;
 
-				// Context Menu
-				if (getPopup() != "")
-					ImGui::OpenPopup(getPopup().c_str());
+					// set item width
+					if (item->getWidth() > 0)
+						ImGui::SetNextItemWidth((float)item->getWidth());
+
+					item->draw();
+
+					// Regular Tooltip (simple)
+					if (item->getTip() != "" && ImGui::IsItemHovered())
+						ImGui::SetTooltip(item->getTip().c_str());
+				}
+
+				ImGui::TreePop();
 			}
-			else
-				m_value = false;
-		}
-
-	};
-
-	//-----------------------------------------------------------------------------
-	// mvEndTreeNode
-	//-----------------------------------------------------------------------------
-	class mvEndTreeNode : public mvNoneItemBase
-	{
-
-	public:
-
-		MV_APPITEM_TYPE(mvAppItemType::EndTreeNode)
-
-		mvEndTreeNode(const std::string& parent)
-			: mvNoneItemBase(parent, "EndTreeNode")
-		{}
-
-		virtual void draw() override
-		{
-			ImGui::TreePop();
-			mvApp::GetApp()->popParent();
 		}
 
 	};
