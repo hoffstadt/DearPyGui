@@ -19,6 +19,10 @@ namespace Marvel{
 				{mvPythonDataType::Integer, "height"}
 			}, false, "Needs documentation")},
 
+			{"clearPlot", mvPythonTranslator({
+				{mvPythonDataType::String, "plot"},
+			}, false, "Needs documentation")},
+
 			{"addLineSeries", mvPythonTranslator({
 				{mvPythonDataType::String, "plot"},
 				{mvPythonDataType::String, "name"},

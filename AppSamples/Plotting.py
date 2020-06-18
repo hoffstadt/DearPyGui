@@ -29,6 +29,7 @@ def ShowLoggerCallback(sender):
     ShowLogger()
 
 def PlotCallback(sender):
+    clearPlot("Plot2")
     data1 = []
     for i in range(0, 100):
         data1.append([3.14*i/180, cos(3*3.14*i/180)])

@@ -8,6 +8,21 @@ namespace Marvel {
 
 	static std::map<std::string, mvPythonTranslator> Translators = BuildTranslations();
 
+	PyObject* clearPlot(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		const char* plot;
+
+		if (!Translators["clearPlot"].parse(args, kwargs, __FUNCTION__, &plot))
+			Py_RETURN_NONE;
+
+		mvAppItem* aplot = mvApp::GetApp()->getItem(plot);
+		mvPlot* graph = static_cast<mvPlot*>(aplot);
+
+		graph->clear();
+
+		Py_RETURN_NONE;
+	}
+
 	PyObject* addPlot(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		const char* name;
@@ -85,6 +100,7 @@ namespace Marvel {
 
 	void CreatePlotInterface(mvPythonModule& pyModule, PyObject* (*initfunc)())
 	{
+		pyModule.addMethodD(clearPlot);
 		pyModule.addMethodD(addPlot);
 		pyModule.addMethodD(addLineSeries);
 		pyModule.addMethodD(addScatterSeries);

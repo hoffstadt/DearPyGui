@@ -33,6 +33,8 @@ namespace Marvel {
 
 		}
 
+		virtual ~mvSeries() = default;
+
 		virtual void draw() = 0;
 
 		void predraw()
@@ -83,6 +85,17 @@ namespace Marvel {
 		void addSeries(mvSeries* series)
 		{
 			m_series.push_back(series);
+		}
+
+		void clear()
+		{
+			for (auto series : m_series)
+			{
+				delete series;
+				series = nullptr;
+			}
+
+			m_series.clear();
 		}
 
 		virtual void draw() override
