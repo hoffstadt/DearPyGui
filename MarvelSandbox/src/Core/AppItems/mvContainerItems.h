@@ -6,13 +6,9 @@
 // Widget Index
 //
 //     * mvChild
-//     * mvEndChild
 //     * mvGroup
-//     * mvEndGroup
 //     * mvCollapsingHeader
-//     * mvEndCollapsingHeader
 //     * mvTreeNode
-//     * mvEndTreeNode
 //
 //-----------------------------------------------------------------------------
 
@@ -37,41 +33,36 @@ namespace Marvel {
 
 		virtual void draw() override
 		{
-
-			mvApp::GetApp()->pushParent(this);
 			
-			m_value = ImGui::BeginChild(m_label.c_str(), ImVec2(float(m_width), float(m_height)), true);
+			ImGui::BeginChild(m_label.c_str(), ImVec2(float(m_width), float(m_height)), true);
 
+			for (mvAppItem* item : m_children)
+			{
+				// skip item if it's not shown
+				if (!item->isShown())
+					continue;
+
+				// set item width
+				if (item->getWidth() > 0)
+					ImGui::SetNextItemWidth((float)item->getWidth());
+
+				item->draw();
+
+				// Regular Tooltip (simple)
+				if (item->getTip() != "" && ImGui::IsItemHovered())
+					ImGui::SetTooltip(item->getTip().c_str());
+			}
+
+			// TODO check if these work for child
 			if (m_tip != "" && ImGui::IsItemHovered())
 				ImGui::SetTooltip(m_tip.c_str());
+
+			ImGui::EndChild();
 		}
 
 	private:
 
 		int m_height;
-
-	};
-
-	//-----------------------------------------------------------------------------
-	// mvEndChild
-	//-----------------------------------------------------------------------------
-	class mvEndChild : public mvNoneItemBase
-	{
-
-	public:
-
-		MV_APPITEM_TYPE(mvAppItemType::EndChild)
-
-			mvEndChild(const std::string& parent)
-			: mvNoneItemBase(parent, "EndChild")
-		{
-		}
-
-		virtual void draw() override
-		{
-			mvApp::GetApp()->popParent();
-			ImGui::EndChild();
-		}
 
 	};
 
@@ -94,37 +85,32 @@ namespace Marvel {
 			if (m_width != 0)
 				ImGui::PushItemWidth((float)m_width);
 
-			mvApp::GetApp()->pushParent(this);
 			ImGui::BeginGroup();
 
-			//if (m_tip != "" && ImGui::IsItemHovered())
-			//	ImGui::SetTooltip(m_tip.c_str());
-		}
+			for (mvAppItem* item : m_children)
+			{
+				// skip item if it's not shown
+				if (!item->isShown())
+					continue;
 
-	};
+				// set item width
+				if (item->getWidth() > 0)
+					ImGui::SetNextItemWidth((float)item->getWidth());
 
-	//-----------------------------------------------------------------------------
-	// mvEndGroup
-	//-----------------------------------------------------------------------------
-	class mvEndGroup : public mvNoneItemBase
-	{
+				item->draw();
 
-	public:
+				// Regular Tooltip (simple)
+				if (item->getTip() != "" && ImGui::IsItemHovered())
+					ImGui::SetTooltip(item->getTip().c_str());
+			}
 
-		MV_APPITEM_TYPE(mvAppItemType::EndGroup)
-
-		mvEndGroup(const std::string& parent)
-			: mvNoneItemBase(parent, "Endgroup")
-		{
-		}
-
-		virtual void draw() override
-		{
 			if (m_width != 0)
 				ImGui::PopItemWidth();
 
-			mvApp::GetApp()->popParent();
 			ImGui::EndGroup();
+
+			//if (m_tip != "" && ImGui::IsItemHovered())
+			//	ImGui::SetTooltip(m_tip.c_str());
 		}
 
 	};
@@ -145,47 +131,37 @@ namespace Marvel {
 
 		virtual void draw() override
 		{
-
-			mvApp::GetApp()->pushParent(this);
 		
 			// create menu and see if its selected
-			if (!ImGui::CollapsingHeader(m_label.c_str(), &m_value, 0))
+			if (ImGui::CollapsingHeader(m_label.c_str(), &m_value, 0))
 			{
-				hideAll();
-				show();
-				mvApp::GetApp()->popParent();
-				return;
+
+				for (mvAppItem* item : m_children)
+				{
+					// skip item if it's not shown
+					if (!item->isShown())
+						continue;
+
+					// set item width
+					if (item->getWidth() > 0)
+						ImGui::SetNextItemWidth((float)item->getWidth());
+
+					item->draw();
+
+					// Regular Tooltip (simple)
+					if (item->getTip() != "" && ImGui::IsItemHovered())
+						ImGui::SetTooltip(item->getTip().c_str());
+				}
 			}
 
 			// set current menu value true
 			//m_value = true;
-			showAll();
+			//showAll();
 
 			// Context Menu
-			if (getPopup() != "")
-				ImGui::OpenPopup(getPopup().c_str());
+			//if (getPopup() != "")
+			//	ImGui::OpenPopup(getPopup().c_str());
 
-		}
-
-	};
-
-	//-----------------------------------------------------------------------------
-	// mvEndCollapsingHeader
-	//-----------------------------------------------------------------------------
-	class mvEndCollapsingHeader : public mvNoneItemBase
-	{
-
-	public:
-
-		MV_APPITEM_TYPE(mvAppItemType::EndCollapsingHeader)
-
-		mvEndCollapsingHeader(const std::string& parent)
-			: mvNoneItemBase(parent, "EndCollapsingHeader")
-		{}
-
-		virtual void draw() override
-		{
-			mvApp::GetApp()->popParent();
 		}
 
 	};
@@ -208,40 +184,26 @@ namespace Marvel {
 		{
 			if (ImGui::TreeNode(m_label.c_str()))
 			{
-				mvApp::GetApp()->pushParent(this);
 
-				// set current menu value true
-				m_value = true;
-				showAll();
+				for (mvAppItem* item : m_children)
+				{
+					// skip item if it's not shown
+					if (!item->isShown())
+						continue;
 
-				// Context Menu
-				if (getPopup() != "")
-					ImGui::OpenPopup(getPopup().c_str());
+					// set item width
+					if (item->getWidth() > 0)
+						ImGui::SetNextItemWidth((float)item->getWidth());
+
+					item->draw();
+
+					// Regular Tooltip (simple)
+					if (item->getTip() != "" && ImGui::IsItemHovered())
+						ImGui::SetTooltip(item->getTip().c_str());
+				}
+
+				ImGui::TreePop();
 			}
-			else
-				m_value = false;
-		}
-
-	};
-
-	//-----------------------------------------------------------------------------
-	// mvEndTreeNode
-	//-----------------------------------------------------------------------------
-	class mvEndTreeNode : public mvNoneItemBase
-	{
-
-	public:
-
-		MV_APPITEM_TYPE(mvAppItemType::EndTreeNode)
-
-		mvEndTreeNode(const std::string& parent)
-			: mvNoneItemBase(parent, "EndTreeNode")
-		{}
-
-		virtual void draw() override
-		{
-			ImGui::TreePop();
-			mvApp::GetApp()->popParent();
 		}
 
 	};

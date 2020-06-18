@@ -33,13 +33,9 @@
 //
 //     - mvContainerItems.h
 //         * mvChild
-//         * mvEndChild
 //         * mvGroup
-//         * mvEndGroup
 //         * mvCollapsingHeader
-//         * mvEndCollapsingHeader
 //         * mvTreeNode
-//         * mvEndTreeNode
 //
 //     - mvDrawing.h
 //         * mvDrawing
@@ -55,9 +51,7 @@
 //
 //     - mvMenu.h
 //         * mvMenuBar
-//         * mvEndMenuBar
 //         * mvMenu
-//         * mvEndMenu
 //         * mvMenuItem
 //
 //     - mvMiscItems.h
@@ -79,9 +73,7 @@
 //
 //     - mvTab.h
 //         * mvTabBar
-//         * mvEndTabBar
 //         * mvTab
-//         * mvEndTab
 //
 //     - mvText.h
 //         * mvText
