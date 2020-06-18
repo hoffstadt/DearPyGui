@@ -1,9 +1,3 @@
-import sbWidgets
-import sbApp
-import sbLog
-import sbInput
-import sbPlot
-import sbDraw
 from sbApp import *
 from sbLog import *
 from sbInput import *
@@ -163,6 +157,9 @@ addButton("Plot data", callback="PlotCallback", tip="new tip")
 addButton("Resize plot", callback="ResizePlotCallback")
 addPlot("Plot2", "x-axis", "y-axis", -1, 450);
 endWindow()
+
+# change button color
+addItemColorStyle("Resize plot", sbConstants.mvGuiCol_Button, (0, 1, 0, 1))
 
 # setting main callbacks
 #setMainCallback("MainCallback")

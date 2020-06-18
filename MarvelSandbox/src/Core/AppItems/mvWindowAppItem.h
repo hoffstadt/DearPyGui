@@ -38,7 +38,9 @@ namespace Marvel {
 					if (item->getWidth() > 0)
 						ImGui::SetNextItemWidth((float)item->getWidth());
 
+					item->pushColorStyles();
 					item->draw();
+					item->popColorStyles();
 
 					// Regular Tooltip (simple)
 					if (item->getTip() != "" && ImGui::IsItemHovered())

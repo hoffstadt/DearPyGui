@@ -4,6 +4,7 @@
 #include <Python.h>
 #include <string>
 #include <vector>
+#include <map>
 #include <imgui.h>
 #include "Core/mvCore.h"
 
@@ -71,6 +72,11 @@ namespace Marvel {
 		void                            showAll    ();
 		void                            hideAll    ();
 
+		// color styles for runtime
+		void addColorStyle(ImGuiCol item, mvColor color);
+		void pushColorStyles();
+		void popColorStyles();
+
 		// utilities
 		bool   isItemHovered             () const { return m_hovered; }
 		bool   isItemActive              () const { return m_active; }
@@ -103,15 +109,16 @@ namespace Marvel {
 
 	protected:
 
-		int                     m_width = 0;
-		std::string             m_name;
-		std::string             m_popup;
-		std::string             m_label;
-		std::string             m_tip;
-		bool                    m_show;
-		mvAppItem*              m_parent = nullptr;
-		std::vector<mvAppItem*> m_children;
-		std::string             m_callback = "";
+		int                        m_width = 0;
+		std::string                m_name;
+		std::string                m_popup;
+		std::string                m_label;
+		std::string                m_tip;
+		bool                       m_show;
+		mvAppItem*                 m_parent = nullptr;
+		std::vector<mvAppItem*>    m_children;
+		std::string                m_callback = "";
+		std::map<ImGuiCol, mvColor> m_colorStyles;
 
 		bool   m_hovered = false;
 		bool   m_active = false;

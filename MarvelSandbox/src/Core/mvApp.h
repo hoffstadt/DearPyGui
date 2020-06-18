@@ -26,10 +26,11 @@ namespace Marvel {
 		//-----------------------------------------------------------------------------
 		// App Settings
 		//-----------------------------------------------------------------------------
-		void setAppTheme    (const std::string& theme);
-		void changeThemeItem(long item, mvColor color);
-		void changeStyleItem(long item, float x, float y);
-		void addFlag        (ImGuiWindowFlags flag) { m_windowflags |= flag; }
+		void setAppTheme      (const std::string& theme);
+		void changeThemeItem  (long item, mvColor color);
+		void changeStyleItem  (long item, float x, float y);
+		void addFlag          (ImGuiWindowFlags flag) { m_windowflags |= flag; }
+		void addItemColorStyle(const std::string& name, ImGuiCol item, mvColor color);
 
 		//-----------------------------------------------------------------------------
 		// Adding Items
