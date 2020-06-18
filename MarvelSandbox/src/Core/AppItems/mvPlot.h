@@ -87,6 +87,11 @@ namespace Marvel {
 			m_series.push_back(series);
 		}
 
+		void SetColorMap(ImPlotColormap colormap)
+		{
+			m_colormap = colormap;
+		}
+
 		void clear()
 		{
 			for (auto series : m_series)
@@ -100,9 +105,12 @@ namespace Marvel {
 
 		virtual void draw() override
 		{
+			ImGui::PushID(m_colormap);
 
 			if (ImPlot::BeginPlot(m_name.c_str(), m_xaxisName.c_str(), m_yaxisName.c_str(), ImVec2(m_width, m_height)) )
 			{
+				ImPlot::SetColormap(m_colormap);
+
 				for (auto series : m_series)
 				{
 					series->predraw();
@@ -110,8 +118,12 @@ namespace Marvel {
 					series->postdraw();
 				}
 
+				ImPlot::SetColormap(ImPlotColormap_Default);
+
 				ImPlot::EndPlot();
 			}
+
+			ImGui::PopID();
 		}
 
 
@@ -125,6 +137,7 @@ namespace Marvel {
 		ImPlotAxisFlags m_y_flags  = ImPlotAxisFlags_Default;
 		ImPlotAxisFlags m_y2_flags = ImPlotAxisFlags_Auxiliary;
 		ImPlotAxisFlags m_y3_flags = ImPlotAxisFlags_Auxiliary;
+		ImPlotColormap  m_colormap = ImPlotColormap_Default;
 
 		std::vector<mvSeries*> m_series;
 

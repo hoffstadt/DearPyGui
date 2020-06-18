@@ -23,6 +23,11 @@ namespace Marvel{
 				{mvPythonDataType::String, "plot"},
 			}, false, "Needs documentation")},
 
+			{"setColorMap", mvPythonTranslator({
+				{mvPythonDataType::String, "plot"},
+				{mvPythonDataType::Integer, "map"}
+			}, false, "Needs documentation")},
+
 			{"addLineSeries", mvPythonTranslator({
 				{mvPythonDataType::String, "plot"},
 				{mvPythonDataType::String, "name"},

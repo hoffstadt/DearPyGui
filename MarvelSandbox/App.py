@@ -156,6 +156,12 @@ addWindow("Plotting Window", 500, 500)
 addButton("Plot data", callback="PlotCallback", tip="new tip")
 addButton("Resize plot", callback="ResizePlotCallback")
 addPlot("Plot2", "x-axis", "y-axis", -1, 450);
+addListbox("Colormaps", ("Default", "Dark", "Pastel", "Paired", "Viridis", "Plasma", "Hot", "Cool", "Pink", "Jet"), width=500, height=10, callback="colormapCallback")
+
+def colormapCallback(sender):
+    value = getValue("Colormaps")
+    setColorMap("Plot2", value)
+    print(value)
 endWindow()
 
 # change button color
@@ -178,6 +184,7 @@ def ShowLoggerCallback(sender):
     ShowLogger()
 
 def PlotCallback(sender):
+    clearPlot("Plot2")
     data1 = []
     for i in range(0, 100):
         data1.append([3.14*i/180, cos(3*3.14*i/180)])

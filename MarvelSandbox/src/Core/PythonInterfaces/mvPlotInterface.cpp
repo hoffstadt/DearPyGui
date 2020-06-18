@@ -23,6 +23,22 @@ namespace Marvel {
 		Py_RETURN_NONE;
 	}
 
+	PyObject* setColorMap(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		const char* plot;
+		int map;
+
+		if (!Translators["setColorMap"].parse(args, kwargs, __FUNCTION__, &plot, &map))
+			Py_RETURN_NONE;
+
+		mvAppItem* aplot = mvApp::GetApp()->getItem(plot);
+		mvPlot* graph = static_cast<mvPlot*>(aplot);
+
+		graph->SetColorMap(map);
+
+		Py_RETURN_NONE;
+	}
+
 	PyObject* addPlot(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		const char* name;
@@ -101,6 +117,7 @@ namespace Marvel {
 	void CreatePlotInterface(mvPythonModule& pyModule, PyObject* (*initfunc)())
 	{
 		pyModule.addMethodD(clearPlot);
+		pyModule.addMethodD(setColorMap);
 		pyModule.addMethodD(addPlot);
 		pyModule.addMethodD(addLineSeries);
 		pyModule.addMethodD(addScatterSeries);

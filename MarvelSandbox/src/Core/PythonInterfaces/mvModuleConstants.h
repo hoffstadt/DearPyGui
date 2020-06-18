@@ -87,6 +87,20 @@ namespace Marvel {
 		{"mvPlotMarker_Asterisk", 1 << 10}, // a asterisk marker will be rendered at each point (not filled)
 
 		//-----------------------------------------------------------------------------
+		// Built-in ImPlot Color maps
+		//-----------------------------------------------------------------------------
+		{"mvPlotColormap_Default",  0}, // ImPlot default colormap         (n=10)
+		{"mvPlotColormap_Dark"   ,  1}, // a.k.a. matplotlib "Set1"        (n=9)
+		{"mvPlotColormap_Pastel" ,  2}, // a.k.a. matplotlib "Pastel1"     (n=9)
+		{"mvPlotColormap_Paired" ,  3}, // a.k.a. matplotlib "Paired"      (n=12)
+		{"mvPlotColormap_Viridis",  4}, // a.k.a. matplotlib "viridis"     (n=11)
+		{"mvPlotColormap_Plasma" ,  5}, // a.k.a. matplotlib "plasma"      (n=11)
+		{"mvPlotColormap_Hot"    ,  6}, // a.k.a. matplotlib/MATLAB "hot"  (n=11)
+		{"mvPlotColormap_Cool"   ,  7}, // a.k.a. matplotlib/MATLAB "cool" (n=11)
+		{"mvPlotColormap_Pink"   ,  8}, // a.k.a. matplotlib/MATLAB "pink" (n=11)
+		{"mvPlotColormap_Jet"    ,  9}, // a.k.a. MATLAB "jet"             (n=11)
+
+		//-----------------------------------------------------------------------------
 		// Window Flags
 		//-----------------------------------------------------------------------------
 		{"mvGuiWindowFlags_None"                     ,       0},
