@@ -16,10 +16,17 @@ addMenuItem("Show Metrics", callback="ShowMetricsCallback")
 endMenu()
 endMenuBar()
 
-addButton("Plot data", callback="PlotCallback", tip="new tip")
+addButton("Plot data", callback="PlotCallback")
 addButton("Resize plot", callback="ResizePlotCallback")
 addPlot("Plot2", "x-axis", "y-axis", -1, 450);
+
+addListbox("Colormaps", ("Default", "Dark", "Pastel", "Paired", "Viridis", "Plasma", "Hot", "Cool", "Pink", "Jet"), width=500, height=10, callback="colormapCallback")
+
 endMainWindow()
+
+def colormapCallback(sender):
+    value = getValue("Colormaps")
+    setColorMap("Plot2", value)
 
 def ShowMetricsCallback(sender):
     showMetrics()
