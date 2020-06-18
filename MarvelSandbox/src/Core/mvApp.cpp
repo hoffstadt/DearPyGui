@@ -97,7 +97,6 @@ namespace Marvel {
 		case mvAppItemType::Separator: return true;
 		case mvAppItemType::Indent: return true;
 		case mvAppItemType::Unindent: return true;
-		case mvAppItemType::EndWindow: return true;
 		default: return false;
 		}
 	}

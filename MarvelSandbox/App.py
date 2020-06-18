@@ -244,9 +244,9 @@ def SubWindowCallback(sender):
 
     value = getValue("OtherWindow")
     if value == 0:
-        hideItem("win1")
+        hideItem("Plotting Window")
     else:
-        showItem("win1")
+        showItem("Plotting Window")
 
 def LoggerCallback(sender):
 
