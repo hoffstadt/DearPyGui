@@ -36,8 +36,8 @@ namespace Marvel {
 		//-----------------------------------------------------------------------------
 		void       addItemManual   (mvAppItem* item); // only adds item
 		void       addItem         (mvAppItem* item); // auto sets parent
-		void       addParentItem   (mvAppItem* item); // auto sets parent/pushes parent stack
-		void       addEndParentItem(mvAppItem* item); // auto sets parent/pops parent stack
+		//void       addParentItem   (mvAppItem* item); // auto sets parent/pushes parent stack
+		//void       addEndParentItem(mvAppItem* item); // auto sets parent/pops parent stack
 		mvAppItem* getItem         (const std::string& name);
 
 		//-----------------------------------------------------------------------------

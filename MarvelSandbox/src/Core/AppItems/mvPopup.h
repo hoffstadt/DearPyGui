@@ -35,48 +35,81 @@ namespace Marvel {
 			{
 				if (ImGui::BeginPopupContextWindow(m_name.c_str(), m_button))
 				{
-					mvApp::GetApp()->pushParent(this);
-					// set current menu value true
-					m_value = true;
 
 					// Context Menu
 					if (getPopup() != "")
 						ImGui::OpenPopup(getPopup().c_str());
+
+					for (mvAppItem* item : m_children)
+					{
+						// skip item if it's not shown
+						if (!item->isShown())
+							continue;
+
+						// set item width
+						if (item->getWidth() > 0)
+							ImGui::SetNextItemWidth((float)item->getWidth());
+
+						item->draw();
+
+					}
+
+					ImGui::EndPopup();
 				}
-				else
-					m_value = false;
 			}
 
 			else if (m_modal)
 			{
 				if (ImGui::BeginPopupModal(m_name.c_str()))
 				{
-					mvApp::GetApp()->pushParent(this);
-					// set current menu value true
-					m_value = true;
 
 					// Context Menu
 					if (getPopup() != "")
 						ImGui::OpenPopup(getPopup().c_str());
+
+					for (mvAppItem* item : m_children)
+					{
+						// skip item if it's not shown
+						if (!item->isShown())
+							continue;
+
+						// set item width
+						if (item->getWidth() > 0)
+							ImGui::SetNextItemWidth((float)item->getWidth());
+
+						item->draw();
+
+					}
+
+					ImGui::EndPopup();
 				}
-				else
-					m_value = false;
 			}
 
 			else 
 			{
 				if (ImGui::BeginPopupContextItem(m_name.c_str(), m_button))
 				{
-					mvApp::GetApp()->pushParent(this);
-					// set current menu value true
-					m_value = true;
 
 					// Context Menu
 					if (getPopup() != "")
 						ImGui::OpenPopup(getPopup().c_str());
+
+					for (mvAppItem* item : m_children)
+					{
+						// skip item if it's not shown
+						if (!item->isShown())
+							continue;
+
+						// set item width
+						if (item->getWidth() > 0)
+							ImGui::SetNextItemWidth((float)item->getWidth());
+
+						item->draw();
+
+					}
+
+					ImGui::EndPopup();
 				}
-				else
-					m_value = false;
 			}
 		}
 
@@ -86,29 +119,6 @@ namespace Marvel {
 
 		bool m_modal;
 		int  m_button;
-
-	};
-
-	//-----------------------------------------------------------------------------
-	// mvEndPopup
-	//-----------------------------------------------------------------------------
-	class mvEndPopup : public mvNoneItemBase
-	{
-
-	public:
-
-		MV_APPITEM_TYPE(mvAppItemType::EndPopup)
-
-		mvEndPopup(const std::string& parent)
-			: mvNoneItemBase(parent, "EndPopup")
-		{
-		}
-
-		virtual void draw() override
-		{
-			mvApp::GetApp()->popParent();
-			ImGui::EndPopup();
-		}
 
 	};
 

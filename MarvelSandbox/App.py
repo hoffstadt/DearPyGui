@@ -39,10 +39,12 @@ endPopup()
 
 # various widgets
 addButton("Press me", callback="ItemCallback")
+
 addPopup("Press me", "popup1", mousebutton=1, modal=True)
 addText("Popup text")
 addButton("Press me also", callback="CloseModalCallback")
 endPopup()
+
 addCombo("combo1", ("A", "B", "C"), callback="ItemCallback")
 addInputText("Testing", hint="a hint", callback="ItemCallback")
 addInputText( "TestingMul", multiline=True)
@@ -60,7 +62,7 @@ addButton("Use Classic", callback="ClassicTheme")
 unindent()
 addChild("Child1", 300, 200)
 addRadioButton("radiobutton2", ("First Option", "Second Option", "Third Option"))
-addPopup("radiuobutton2", "popup2", mousebutton=1)
+addPopup("radiobutton2", "popup2", mousebutton=1)
 addText("RadioButton popup Window")
 endPopup()
 addSelectable("sel_1")
@@ -101,7 +103,6 @@ addTab("Tab2")
 addInputText("Testing3")
 addSpacing(10)
 addInputText("Testing4")
-
 addTooltip("Testing4", "Tooltip1")         # start tooltip
 addButton("A Fancy tooltip 1")
 addPlot("Plot1");
@@ -154,6 +155,8 @@ endTreeNode()
 endTab()
 
 endTabBar()
+
+endMainWindow()
 
 addWindow("Plotting Window", 500, 500)
 addButton("Plot data", callback="PlotCallback", tip="new tip")
@@ -241,9 +244,9 @@ def SubWindowCallback(sender):
 
     value = getValue("OtherWindow")
     if value == 0:
-        hideItem("win1")
+        hideItem("Plotting Window")
     else:
-        showItem("win1")
+        showItem("Plotting Window")
 
 def LoggerCallback(sender):
 

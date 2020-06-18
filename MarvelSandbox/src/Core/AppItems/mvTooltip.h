@@ -23,8 +23,10 @@ namespace Marvel {
 		MV_APPITEM_TYPE(mvAppItemType::Tooltip)
 
 		mvTooltip(const std::string& parent, const std::string& name)
-			: mvBoolItemBase(parent, name, false)
+			: mvBoolItemBase(mvApp::GetApp()->getItem(parent)->getParent()->getName(), name, false)
 		{
+			// TODO fix parent ugliness
+
 			// has to be showed that way it can check for hovering
 			// otherwise it will never show
 			m_show = true;
@@ -32,42 +34,27 @@ namespace Marvel {
 
 		virtual void draw() override
 		{
-			if (ImGui::IsItemHovered() &&
-				mvApp::GetApp()->topParent() == getParent()->getParent()
-				|| mvApp::GetApp()->topParent() == getParent())
+			if (ImGui::IsItemHovered())
 			{
-				mvApp::GetApp()->pushParent(this);
 
 				ImGui::BeginTooltip();
+				for (mvAppItem* item : m_children)
+				{
+					// skip item if it's not shown
+					if (!item->isShown())
+						continue;
 
-				// set current menu value true
-				m_value = true;
+					// set item width
+					if (item->getWidth() > 0)
+						ImGui::SetNextItemWidth((float)item->getWidth());
+
+					item->draw();
+
+				}
+				ImGui::EndTooltip();
+
 			}
-			else
-				m_value = false;
-		}
 
-	};
-
-	//-----------------------------------------------------------------------------
-	// mvEndTooltip
-	//-----------------------------------------------------------------------------
-	class mvEndTooltip : public mvNoneItemBase
-	{
-
-	public:
-
-		MV_APPITEM_TYPE(mvAppItemType::EndTooltip)
-
-		mvEndTooltip(const std::string& parent)
-			: mvNoneItemBase(parent, "EndTooltip")
-		{
-		}
-
-		virtual void draw() override
-		{
-			mvApp::GetApp()->popParent();
-			ImGui::EndTooltip();
 		}
 
 	};
