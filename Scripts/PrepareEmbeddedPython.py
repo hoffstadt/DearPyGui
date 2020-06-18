@@ -14,6 +14,7 @@ build_dir = script_dir + "/../Dependencies/cpython/PCbuild/amd64/"
 # directories to put prepared files into
 new_python_dir = script_dir + "/../Resources/python/"
 debug_dir = new_python_dir + "Debug/"
+sample_dir = "../AppSamples"
 
 # directory that will be zipped then removed
 temporary_dir = new_python_dir + "/PythonToZip/"
