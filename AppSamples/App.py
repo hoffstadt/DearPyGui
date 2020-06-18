@@ -1,9 +1,3 @@
-import sbWidgets
-import sbApp
-import sbLog
-import sbInput
-import sbPlot
-import sbDraw
 from sbApp import *
 from sbLog import *
 from sbInput import *
@@ -157,63 +151,12 @@ endTabBar()
 
 endMainWindow()
 
-addWindow("Plotting Window", 500, 500)
-addButton("Plot data", callback="PlotCallback", tip="new tip")
-addButton("Resize plot", callback="ResizePlotCallback")
-addPlot("Plot2", "x-axis", "y-axis", -1, 450);
-endWindow()
-
-
-commands = []
-for item in dir(sbWidgets):
-    if not item.startswith("__"):
-        commands.append(item)
-
-addWindow("Documentation", 500, 500)
-addListbox("Modules", ("sbApp", "sbLog", "sbInput", "sbPlot", "sbDraw", "sbWidgets"), width=500, height=10)
-addListbox("Commands", commands, callback="docCallback", width=500, height=10)
-addSpacing()
-addChild("DocChild", 300, 200)
-addText("Document String", wrap=500)
-endChild()
-endWindow()
-
-def docCallback(sender):
-    value = getValue("Commands")
-    setValue("Document String", sbWidgets.__dict__[commands[value]].__doc__)
-
-# setting main callbacks
-#setMainCallback("MainCallback")
-#setMouseDownCallback("MouseDownCallback")
-#setMouseClickCallback("MouseClickCallback")
-#setMouseDoubleClickCallback("MouseDoubleClickCallback")
-#setKeyDownCallback("KeyDownCallback")
-#setKeyPressCallback("KeyPressCallback")
-#setKeyReleaseCallback("KeyReleaseClickCallback")
-
 def ShowMetricsCallback(sender):
     showMetrics()
 def ShowAboutCallback(sender):
     showAbout()
 def ShowLoggerCallback(sender):
     ShowLogger()
-
-def PlotCallback(sender):
-    data1 = []
-    for i in range(0, 100):
-        data1.append([3.14*i/180, cos(3*3.14*i/180)])
-
-    data2 = []
-    for i in range(0, 100):
-        data2.append([3.14*i/180, sin(2*3.14*i/180)])
-    addLineSeries("Plot2", "Cos", data1, style=( 
-        (sbConstants.mvPlotStyleVar_Marker, sbConstants.mvPlotMarker_None), ))
-    addScatterSeries("Plot2", "Sin", data2, style=( 
-        (sbConstants.mvPlotStyleVar_Marker, sbConstants.mvPlotMarker_Asterisk),
-        (sbConstants.mvPlotStyleVar_MarkerSize, 4), ))
-
-def ResizePlotCallback(sender):
-    changePlotSize("Plot2", 640, 400)
 
 def CloseModalCallback(sender):
     closePopup()

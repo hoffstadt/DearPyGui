@@ -164,25 +164,6 @@ addButton("Resize plot", callback="ResizePlotCallback")
 addPlot("Plot2", "x-axis", "y-axis", -1, 450);
 endWindow()
 
-
-commands = []
-for item in dir(sbWidgets):
-    if not item.startswith("__"):
-        commands.append(item)
-
-addWindow("Documentation", 500, 500)
-addListbox("Modules", ("sbApp", "sbLog", "sbInput", "sbPlot", "sbDraw", "sbWidgets"), width=500, height=10)
-addListbox("Commands", commands, callback="docCallback", width=500, height=10)
-addSpacing()
-addChild("DocChild", 300, 200)
-addText("Document String", wrap=500)
-endChild()
-endWindow()
-
-def docCallback(sender):
-    value = getValue("Commands")
-    setValue("Document String", sbWidgets.__dict__[commands[value]].__doc__)
-
 # setting main callbacks
 #setMainCallback("MainCallback")
 #setMouseDownCallback("MouseDownCallback")
