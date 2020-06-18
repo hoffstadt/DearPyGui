@@ -66,7 +66,6 @@
 //
 //     - mvPopup.h
 //         * mvPopup
-//         * mvEndPopup
 //
 //     - mvSimplePlot.h
 //         * mvSimplePlot
@@ -81,6 +80,5 @@
 //
 //     - mvTooltip.h
 //         * mvTooltip
-//         * mvEndTooltip
 //
 //-----------------------------------------------------------------------------

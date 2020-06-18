@@ -242,6 +242,7 @@ namespace Marvel {
 		for (mvAppItem* item : m_items)
 		{
 
+			// allow the parent to handle rendering
 			if (item->getParent())
 				continue;
 
