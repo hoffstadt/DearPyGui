@@ -1,3 +1,9 @@
+import sbWidgets
+import sbApp
+import sbLog
+import sbInput
+import sbPlot
+import sbDraw
 from sbApp import *
 from sbLog import *
 from sbInput import *
@@ -9,114 +15,313 @@ import SandboxTheme
 from math import sin, cos
 import inspect
 
-# create some menus
+####################################################
+#############    About All Widgets    ##############
+####################################################
+# Widgets are items that allow the you to create a GUI. They can be secorators, inputs, containers, MenuBars, Plots, ect. The base inputs to every widget is a "Name". 
+# A Name is used to refer to the widget when assigning callbacks, getting and setting values, showing, hiding, and any other functions that can acto on a widget.
+# Container widgets are special and when a container widget is added there must always be a paired method to end the container. 
+
+##################################################################################
+##############    MenuBars - Creating "File | Themes" Menu Items    ##############
+##################################################################################
+# NOTES: Menu Bar appears at the top of the app. Only one may be created at a time. Menu Bars have 
+# containers called Menus. It is important we remember to calle the end for every container widget we use
+
+
+#Create the Menu Bar and give it a name. We will call this MenuBar "Menu Bar".
 addMenuBar("MenuBar")
+
+#Add the first Menu item to the Menu Bar. We will call this Menu "File".
 addMenu("File")
-addMenu("Callbacks")
-addMenuItem("callback 1", callback="ItemCallbac43k")
+
+#Adding a Menu inside another Menu will create Sub-Menus. Sub-Menus can be repeated as necessary.
+addMenu("Sub-Menu")
+
+#Adding items to the "Sub-Menu" item. Sub Menus are great for grouping similar items.
+addMenuItem("Sub-Menu Item 1")
+
+#Horizonal separator lines can be added anywhere to separate items in Sandbox
 addSeperator()
-addMenuItem("callback 2", callback="ItemCallback")
-addMenuItem("callback 3", callback="ItemCallback")
+
+#Sprinkel in more sub menu items for a spicy Menu.
+addMenuItem("Sub-Menu Item 2")
+addMenuItem("Sub-Menu Item 3")
+
+#End the "SubMenu" to close its scope and move back up a directory. Sometimes less is more with menu items.
 endMenu()
+
+#Now we can add more items to the "File" menu.
+#Setting the callback keywords to a function is how we give widgets functionality.
+addMenuItem("Hulk", callback = "HulkAbility")
+
+#Ending an final Menu will allow you to move to the next Menu slot in the MenuBar
 endMenu()
-addMenu("Tools")
-addMenuItem("Show Logger", callback="ShowLoggerCallback")
-addMenuItem("Show About", callback="ShowAboutCallback")
-addMenuItem("Show Metrics", callback="ShowMetricsCallback")
+
+#Adding another Menu to the Menu Bar
+addMenu("Themes")
+addMenuItem("Dark", callback = "DarkTheme")
+addMenuItem("Light", callback = "LightTheme")
+addMenuItem("Classic")
+addMenuItem("Theme Editor")
 endMenu()
+
+#Dont forget to end the MenuBar
 endMenuBar()
 
-addPopup("", "popup7", mousebutton=1)
-addText("Popup text Window")
-endPopup()
+#We can even set Callbacks after the widget already exists. This can be done at any point in the code after the item has been created.
+setItemCallback("Classic", "ClassicTheme")
+setItemCallback("Theme Editor", "OpenThemeEditor")
 
+#Callbacks need python functions to run. These are normal python functions, so script them as your heart desires
+def DarkTheme(sender):
+    setTheme("dark")
 
-# various widgets
-addButton("Press me", callback="ItemCallback")
+def LightTheme(sender):
+    setTheme("light")
 
-addPopup("Press me", "popup1", mousebutton=1, modal=True)
-addText("Popup text")
-addButton("Press me also", callback="CloseModalCallback")
-endPopup()
+def ClassicTheme(sender):
+    setTheme("classic")
 
-addCombo("combo1", ("A", "B", "C"), callback="ItemCallback")
-addInputText("Testing", hint="a hint", callback="ItemCallback")
-addInputText( "TestingMul", multiline=True)
-addGroup("Group1")
-addRadioButton("radiobutton1", ("First Option", "Second Option", "Third Option"))
+def OpenThemeEditor(sender):
+    #this is where the theme editor will be turned on once created. it will run similar to logger except the open theme call back will se the Value to 1. and a new window will appear. 
+    #after done editing the user will select "Apply" or "Cancel" and those callbacks will be ran and also the value will be set to 0 and the theme edtor closed.
+    value = 0
+    if value == 0:
+        #CloseThemeEditor
+        pass
+    else:
+        #CloseThemeEditor
+        pass
+
+#An advanced function for the "HulkAbility" callback showing that we can edit theme items. Finilize changes by calling "updateTheme". This is only some of the items that can be colored.
+def HulkAbility(sender):
+    setTheme("Dark")
+    hulksColor = [0,50,0,255]
+    changeThemeItem(sbConstants.mvGuiCol_Tab, hulksColor[0], hulksColor[1], hulksColor[2], hulksColor[3])
+    changeThemeItem(sbConstants.mvGuiCol_Button, hulksColor[0], hulksColor[1], hulksColor[2], hulksColor[3])
+    changeThemeItem(sbConstants.mvGuiCol_Header, hulksColor[0], hulksColor[1], hulksColor[2], hulksColor[3])
+    changeThemeItem(sbConstants.mvGuiCol_MenuBarBg, hulksColor[0], hulksColor[1], hulksColor[2], hulksColor[3])
+    changeThemeItem(sbConstants.mvGuiCol_TitleBg, hulksColor[0], hulksColor[1], hulksColor[2], hulksColor[3])
+    changeThemeItem(sbConstants.mvGuiCol_FrameBg, hulksColor[0], hulksColor[1], hulksColor[2], hulksColor[3])
+    changeThemeItem(sbConstants.mvGuiCol_TextSelectedBg, hulksColor[0], hulksColor[1], hulksColor[2], hulksColor[3])
+    changeThemeItem(sbConstants.mvGuiCol_TabActive, hulksColor[0], hulksColor[1], hulksColor[2], hulksColor[3])
+    changeThemeItem(sbConstants.mvGuiCol_ButtonActive, hulksColor[0], hulksColor[1], hulksColor[2], hulksColor[3])
+    changeThemeItem(sbConstants.mvGuiCol_TitleBgActive, hulksColor[0], hulksColor[1], hulksColor[2], hulksColor[3])
+    changeThemeItem(sbConstants.mvGuiCol_Text, 100, 0, 0, 255)
+    print("Hulk Smash!!!!")
+
+#########################################
+#############    Inputs    ##############
+#########################################
+# NOTES: Input Widgets are items that the user can interact with. They can do things like set and get values of variables for things like Floats, Integers, or Strings. 
+# They also have the ability initate callbacks.
+
+#collapsable header for orginization
+addCollapsingHeader("Inputs")
+
+#each input has a base signature of a name. This is used to interact with the items on the app
+addInputText("Text Input", hint="Hint for description goes here (this is not a default string).")
+addInputText("Text Input with Multiline", multiline=True)
+addInputInt("Input Integer 1", default_value=117)
+addInputFloat("Input Float 1", default_value=117.0)
+addRadioButton("Radio Button", ("First Option", "Second Option", "Third Option"), default_value=2)
+addListbox("Listbox", ("First item", "Second item", "Third item"), default_value=2, height=4)
+addCheckbox("Checkbox", default_value=True)
+addColorEdit4("Color Edit 4", 255, 150, 50, 255)
+addCombo("Combo", ('A', '5', "1.0", "Text"))
+addSelectable("Selectible item 1")
+addSelectable("Selectible item 2",True)
+addButton("Submit All Inputs", callback = "GetAllInputsAndPrint")
+
+#ending Collapsable header
+endCollapsingHeader()
+
+def GetAllInputsAndPrint(sender):
+
+    print('\n')
+
+    print('Submit All Inputs: Has ran the callback "GetAndPrint"')
+
+    input1 = getValue("Text Input")
+    input2 = getValue("Text Input with Multiline")
+    input3 = getValue("Input Integer 1")
+    input4 = getValue("Input Float 1")
+    input5 = getValue("Radio Button")
+    input6 = getValue("Listbox")
+    input7 = getValue("Checkbox")
+    input8 = getValue("Color Edit 4")
+    input9 = getValue("Combo")
+    input10 = getValue("Selectible item 1")
+
+    print("Text Widget: " + input1)
+    print("Text Input Widget with Multiline: ", input2)
+    print("Input Integer 1: " + str(input3))
+    print("Input Float 1: %1.2f" % input4)
+    print("Radio Button: %i" % input5)
+    print("Listbox: {}".format(input6))
+    print("Checkbox:", input7)
+    print("Color Edit 4: {0}, {1}, {2}, {3}".format(input8[0], input8[1], input8[2], input8[3]))
+    print("Combo: " + input9)
+
+    if(input10):
+        print("Selectable item 1 : Selected")
+    else:
+        print("Selectable item 1 : Not Selected")
+    if(getValue("Selectible item 2")):
+        print("Selectable item 1 : Selected")
+    else:
+        print("Selectable item 1 : Not Selected")
+
+    print('\n')
+
+#############################################
+#############    Containers    ##############
+#############################################
+# NOTES: although any widgets can be placed in containers.
+#Containers are useful because setting formatting or attributes for a Container will propagate to the children.
+addCollapsingHeader("Container")
+
+addGroup("Group")
+addRadioButton("Group Radio Button", ("Group Radio Item 1", "Group Radio Item 2", "Group Radio Item 3" ))
 endGroup()
-addSameLine()
-addSpacing(10)
 
-addCollapsingHeader("Themes")
-addButton("Use Dark", callback="DarkTheme")
+addChild("Child", 200, 100)
+addButton("Child Button 1")
+addButton("Child Button 2")
+endChild()
+
+addTreeNode("First Node")
+for i in range(0, 2):
+    addText("First Node Item: " + str(i))
+endTreeNode()
+addTreeNode("Second Node")
+for i in range(0, 2):
+    addText("Second Node Item: " + str(i))
+addTreeNode("Inner Second Node")
+for i in range(0, 2):
+    addText("InnerSecond Node Item: " + str(i))
+endTreeNode()
+endTreeNode()
+
+endCollapsingHeader()
+
+######################################
+#############    Text   ##############
+######################################
+# NOTES:
+
+addCollapsingHeader("Text")
+
+addText("Regular text")
+addText("Regular text with wrapping ability for long lines of text", wrap = 150)
+addText("Regular text with bullet style", bullet = True)
+addText("Regular text with color twist", color = (1.0, 0.0, 0.0, 1.0))
+addLabelText(" :Label Text 1", "Some old text")
+addLabelText(" :Label Text 2", "Some old text with color twist", color = (1.0, 0.0, 0.0, 1.0))
+
+addButton("Change Text Values", callback = "SetAllLabelText")
+endCollapsingHeader()
+
+def SetAllLabelText(sender):
+
+    print()
+
+    print("Called by ", sender)
+    print('The callback name is "SetAllLabelText"')
+
+    valueGotten1 = getValue(" :Label Text 1")
+    valueGotten2 = getValue(" :Label Text 2")
+ 
+    print("The text being replaced in Label Text 1: " + valueGotten1)
+    print("The text being replaced in Label Text 2: " + valueGotten2)
+
+    if (valueGotten1 == "Some old text"):
+        value1 = "Some new text"
+        setValue(" :Label Text 1", value1)
+        setValue(" :Label Text 2", "Some new text with color twist")
+    else:
+        value1 = "Some old text"
+        setValue(" :Label Text 1", value1)
+        setValue(" :Label Text 2", "Some old text with color twist")
+
+    print()
+    
+###########################################################
+#############   Decorators and Formatting   ##############
+###########################################################
+# NOTES: Decrators and Formatting can be applied to a single of items or to a container of items
+
+addCollapsingHeader("Decorators and Formatting")
+addButton("Normal Button")
+addSameLine(spacing=10)
+addButton("Button on same line")
+addButton("Normal Button again##1")
 indent()
-addButton("Use Light", callback="LightTheme")
-addButton("Use Classic", callback="ClassicTheme")
+addButton("Button with an indent")
 unindent()
-addChild("Child1", 300, 200)
-addRadioButton("radiobutton2", ("First Option", "Second Option", "Third Option"))
-addPopup("radiobutton2", "popup2", mousebutton=1)
-addText("RadioButton popup Window")
-endPopup()
-addSelectable("sel_1")
-addSelectable("sel_2")
-addSelectable("sel_3", True)
-endChild()
+addButton("Normal Button again##2")
+addSpacing(5)
+addButton("Button with a vertical spacing above it")
+addButton("Normal Button again")
+addSeperator()
+addButton("Normal Button with a Seperator above it")
 endCollapsingHeader()
 
-addCollapsingHeader("Themes2")
-addSelectable("se4_1")
-addSelectable("se5_2")
-addSelectable("se6_3", True)
+########################################
+#############    Logger   ##############
+########################################
+# NOTES:
+
+#Any command placed in the main loop will be ran on start up. For debuggin purposes we will always open the logger.
+ShowLogger()
+
+addCollapsingHeader("Logger")
+addCheckbox("Enable Logger", callback = "LoggerCallback")
+# log level controll what level of logging the logger with print. 
+# 0 prints all levels. 1 prints debug or greater. 2 prints log info or greater. ect 
+addInputInt("Log Level", default_value = 0)
+addButton("Log Examples", callback = "AllLogExamples")
+addButton("Clear Log", callback = "clearsLog")
 endCollapsingHeader()
 
-# creating tabs
-addTabBar("TabBar1")
+def LoggerCallback(sender):
 
-addTab("Tab1", callback="ItemCallback")
-addInputText("Testing1", width=200)
-addSameLine(0, 20)
-addInputText("Testing2", width=300)
-addColorEdit4("Color1", 1.0, 0, 0, 1.0)
-addInputInt("inputint1")
-addInputFloat("inputfloat1", default_value=117.0)
-addDrawing("drawing1", 110, 110)
-drawLine("drawing1", (10, 10), (100, 100), (1, 0, 0, 1), 1)
-addCheckbox("Logger", default_value=True, callback="LoggerCallback")
-addCheckbox("OtherWindow", default_value=True, callback="SubWindowCallback")
-addCheckbox("checkbox2")
-addListbox("listbox1", ("First item", "Second item", "Third item"), default_value=1, callback="ItemCallback")
-addText("Some awesome regular text")
-addText("Some awesome regular bullet", bullet = True)
-addText("Some awesome red text", color=(1.0, 0, 0, 1.0), wrap=100)
-addLabelText("Output", "color value", color=(0.0, 1.0, 0, 1.0))
-endTab()
+    value = getValue("Enable Logger")
+    if value == 0:
+        pass
+    else:
+        ShowLogger()
 
-addTab("Tab2")
-addInputText("Testing3")
-addSpacing(10)
-addInputText("Testing4")
-addTooltip("Testing4", "Tooltip1")         # start tooltip
-addButton("A Fancy tooltip 1")
-addPlot("Plot1");
-endTooltip()                     # end tooltip
+def AllLogExamples(sender):
+    print()
+    print("Called by ", sender)
+    print("value is: ", getValue(sender))
+    loglevel = getValue("Log Level")
+    print(loglevel)
+    SetLogLevel(loglevel)
+    Log("log")
+    Log("Mouse Click Coord: " + str(getMousePos()))
+    LogDebug("log")
+    LogInfo("log")
+    LogWarning("log")
+    LogError("log")
+    print()
 
-addChild("Child2", 300, 200)
-addRadioButton("radiobutton23", ("First Option", "Second Option", "Third Option"))
-addSelectable("sel_13")
-addSelectable("sel_23")
-addSelectable("sel_33", True)
-endChild()
+def clearsLog(sender):
+    ClearLog()
 
-endTab()
 
-addTab("Tab4")
-addSimplePlot("Simpleplot1", (0.3, 0.9, 2.5, 8.9))
-addSimplePlot("Simpleplot2", (0.3, 0.9, 2.5, 8.9), True, "Overlaying", 0, 0, 180, True)
-endTab()
 
-addTab("DrawingTab")
+#################################################
+#############    Drawing and Canvas    ##############
+#################################################
+# NOTES: 
+addCollapsingHeader("Drawing Canvas")
+
+addButton("draw on canvas", callback="DrawCanvas")
+addButton("clear canvas", callback="ClearCanvas")
+
 addDrawing("drawing2", 800, 500)
 drawRectangle("drawing2", (0, 0), (800, 500), (1, 0, 0, 1), fill=(0, 0, 0.1, 1), rounding=12, thickness = 1.0)
 drawLine("drawing2", (10, 10), (100, 100), (1, 0, 0, 1), 1)
@@ -127,64 +332,27 @@ drawCircle("drawing2", (400, 250), 50, (1, 1, 0,1))
 drawPolyline("drawing2", ((300, 500), (200, 200), (500, 700)), (1, 1, 0,1))
 drawPolygon("drawing2", ((363, 471), (100, 498), (50, 220)), (1, 0.5, 0,1))
 drawBezierCurve("drawing2", (50, 200), (150, 250), (300, 150), (600, 250), (1, 1, 0, 1), thickness = 2.0)
-endTab()
 
-addTab("Trees")
+endCollapsingHeader()
 
-addTreeNode("First Node")
-for i in range(0, 10):
-    addText("First Node Item: " + str(i))
-endTreeNode()
-
-addTreeNode("Second Node")
-for i in range(0, 10):
-    addText("Second Node Item: " + str(i))
-
-addTreeNode("Inner Second Node")
-for i in range(0, 10):
-    addText("InnerSecond Node Item: " + str(i))
-endTreeNode()
-
-endTreeNode()
-endTab()
-
-endTabBar()
-
-endMainWindow()
-
-addWindow("Plotting Window", 500, 500)
+def DrawCanvas(sender):
+    drawRectangle("drawing2", (0, 0), (800, 500), (1, 0, 0, 1), fill=(0, 0, 0.1, 1), rounding=12, thickness = 1.0)
+    drawRectangle("drawing2", (0, 0), (800, 500), (1, 0, 0, 1), fill=(0, 0, 0.1, 1), rounding=12, thickness = 1.0)
+    drawLine("drawing2", (10, 10), (100, 100), (1, 0, 0, 1), 1)
+    drawCircle("drawing2", (400, 250), 50, (1, 1, 0,1))
+    drawBezierCurve("drawing2", (50, 200), (150, 250), (300, 150), (600, 250), (1, 1, 0, 1), thickness = 2.0)
+def ClearCanvas(sender):
+    clearDrawing("drawing2")
+##########################################################
+#############    Plots, Graphs and Charts   ##############
+##########################################################
+# NOTES: 
+addCollapsingHeader("Plots, Graphs and Charts")
 addButton("Plot data", callback="PlotCallback", tip="new tip")
-addButton("Resize plot", callback="ResizePlotCallback")
 addPlot("Plot2", "x-axis", "y-axis", -1, 450);
-addListbox("Colormaps", ("Default", "Dark", "Pastel", "Paired", "Viridis", "Plasma", "Hot", "Cool", "Pink", "Jet"), width=500, height=10, callback="colormapCallback")
-
-def colormapCallback(sender):
-    value = getValue("Colormaps")
-    setColorMap("Plot2", value)
-    print(value)
-endWindow()
-
-# change button color
-addItemColorStyle("Resize plot", sbConstants.mvGuiCol_Button, (0, 1, 0, 1))
-
-# setting main callbacks
-#setMainCallback("MainCallback")
-#setMouseDownCallback("MouseDownCallback")
-#setMouseClickCallback("MouseClickCallback")
-#setMouseDoubleClickCallback("MouseDoubleClickCallback")
-#setKeyDownCallback("KeyDownCallback")
-#setKeyPressCallback("KeyPressCallback")
-#setKeyReleaseCallback("KeyReleaseClickCallback")
-
-def ShowMetricsCallback(sender):
-    showMetrics()
-def ShowAboutCallback(sender):
-    showAbout()
-def ShowLoggerCallback(sender):
-    ShowLogger()
+endCollapsingHeader()
 
 def PlotCallback(sender):
-    clearPlot("Plot2")
     data1 = []
     for i in range(0, 100):
         data1.append([3.14*i/180, cos(3*3.14*i/180)])
@@ -198,58 +366,25 @@ def PlotCallback(sender):
         (sbConstants.mvPlotStyleVar_Marker, sbConstants.mvPlotMarker_Asterisk),
         (sbConstants.mvPlotStyleVar_MarkerSize, 4), ))
 
-def ResizePlotCallback(sender):
-    changePlotSize("Plot2", 640, 400)
+###########################################
+#############    Tool Tips   ##############
+###########################################
+# NOTES: 
+# setting a tip
+#setItemTip("Button1", "A different tip")
 
-def CloseModalCallback(sender):
-    closePopup()
+# setting item widths
+#setItemWidth("Testing1", 200)
+#setItemWidth("Testing2", 200)
 
-def ItemCallback(sender):
-    print("Called by ", sender)
-    print("value is: ", getValue(sender))
-    value = getValue("Color1")
-    loglevel = getValue("inputint1")
-    print(loglevel)
-    SetLogLevel(loglevel)
-    changeThemeItem(sbConstants.mvGuiCol_Tab, value[0], value[1], value[2], value[3])
-    Log("log")
-    Log(str(getMousePos()))
-    LogDebug("log")
-    LogInfo("log")
-    LogWarning("log")
-    LogError("log")
-    setValue("Output", "234")
-    setValue("radiobutton1", 1)
-    setValue("checkbox2", True)
-    #hideItem("Tab2")
-    clearDrawing("drawing2")
-    changeStyleItem(sbConstants.mvGuiStyleVar_Alpha, 0.5)
+#######################################################
+#############    Interactive Callbacks   ##############
+#######################################################
+# NOTES:
 
-def SubWindowCallback(sender):
 
-    value = getValue("OtherWindow")
-    if value == 0:
-        hideItem("Plotting Window")
-    else:
-        showItem("Plotting Window")
-
-def LoggerCallback(sender):
-
-    value = getValue("Logger")
-    if value == 0:
-        pass
-    else:
-        ShowLogger()
-
-def DarkTheme(sender):
-    setTheme("dark")
-    showItem("Tab2")
-def LightTheme(sender):
-    hideItem("Plot2")
-    setTheme("light")
-def ClassicTheme(sender):
-    setTheme("classic")
-
+# setting main callback
+#setMainCallback("MainCallback")
 def MainCallback(sender):
     if isMouseButtonPressed(1):
         print("pressed")
@@ -278,3 +413,4 @@ def KeyPressCallback(sender):
 def KeyReleaseClickCallback(sender):
     LogDebug("KeyReleaseCallback: " + sender)
 
+    endMainWindow()
