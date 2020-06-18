@@ -36,4 +36,20 @@ namespace Marvel{
 		m_parent = parent;
 	}
 
+	void mvAppItem::addColorStyle(ImGuiCol item, mvColor color)
+	{
+		m_colorStyles[item] = color;
+	}
+
+	void mvAppItem::pushColorStyles()
+	{
+		for (auto& item : m_colorStyles)
+			ImGui::PushStyleColor(item.first, item.second);
+	}
+
+	void mvAppItem::popColorStyles()
+	{
+		ImGui::PopStyleColor(m_colorStyles.size());
+	}
+
 }

@@ -8,6 +8,22 @@ namespace Marvel {
 
 	static std::map<std::string, mvPythonTranslator> Translators = BuildTranslations();
 
+	PyObject* addItemColorStyle(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		const char* item;
+		int style;
+		PyObject* color;
+
+		if (!Translators["addItemColorStyle"].parse(args, kwargs, __FUNCTION__, &item, &style, &color))
+			Py_RETURN_NONE;
+
+		auto mcolor = mvPythonTranslator::getColor(color);
+
+		mvApp::GetApp()->addItemColorStyle(item, style, mcolor);
+
+		Py_RETURN_NONE;
+	}
+
 	PyObject* isItemHovered(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		const char* item;
@@ -487,6 +503,7 @@ namespace Marvel {
 		pyModule.addMethod(showAbout, "Not Documented");
 		pyModule.addMethod(showMetrics, "Not Documented");
 
+		pyModule.addMethodD(addItemColorStyle);
 		pyModule.addMethodD(setItemPopup);
 		pyModule.addMethodD(closePopup);
 		pyModule.addMethodD(isItemHovered);

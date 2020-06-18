@@ -254,7 +254,9 @@ namespace Marvel {
 			if(item->getWidth() > 0)
 				ImGui::SetNextItemWidth((float)item->getWidth());
 
+			item->pushColorStyles();
 			item->draw();
+			item->popColorStyles();
 
 			// Context Menu
 			if (item->getPopup() != "")
@@ -310,6 +312,13 @@ namespace Marvel {
 		if(m_parents.size() != 0)
 			return m_parents.top();
 		return nullptr;
+	}
+
+	void mvApp::addItemColorStyle(const std::string& name, ImGuiCol item, mvColor color)
+	{
+		auto aitem = getItem(name);
+		if (aitem)
+			aitem->addColorStyle(item, color);
 	}
 
 	void mvApp::setItemCallback(const std::string& name, const std::string& callback)

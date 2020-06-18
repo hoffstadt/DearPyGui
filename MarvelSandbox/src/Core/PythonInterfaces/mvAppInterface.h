@@ -10,6 +10,12 @@ namespace Marvel{
 	{
 		std::map<std::string, mvPythonTranslator> translators = {
 
+			{"addItemColorStyle", mvPythonTranslator({
+				{mvPythonDataType::String, "item"},
+				{mvPythonDataType::Integer, "style"},
+				{mvPythonDataType::FloatList, "color"}
+			}, false, "Needs documentation")},
+
 			{"isItemHovered", mvPythonTranslator({
 				{mvPythonDataType::String, "item"},
 			}, false, "Needs documentation")},

@@ -19,6 +19,21 @@ namespace Marvel {
 		}
 	};
 
+	struct mvVec4
+	{
+		float x, y, z, w;
+
+		operator ImVec4()
+		{
+			return ImVec4{ x, y , z, w};
+		}
+
+		mvVec4 operator+(const ImVec4& other)
+		{
+			return mvVec4{ x + other.x, y + other.y, z + other.z, w + other.w };
+		}
+	};
+
 	struct mvColor
 	{
 		float r, g, b, a;
