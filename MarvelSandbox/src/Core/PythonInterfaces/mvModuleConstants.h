@@ -59,19 +59,6 @@ namespace Marvel {
 		{"mvPlotCol_COUNT"        ,14},
 
 		//-----------------------------------------------------------------------------
-		// Plot Styling Variables
-		//-----------------------------------------------------------------------------
-		{"mvPlotStyleVar_LineWeight"      , 0}, // float, line weight in pixels
-		{"mvPlotStyleVar_Marker"          , 1}, // int,   marker specification
-		{"mvPlotStyleVar_MarkerSize"      , 2}, // float, marker size in pixels (roughly the marker's "radius")
-		{"mvPlotStyleVar_MarkerWeight"    , 3}, // float, outline weight of markers in pixels
-		{"mvPlotStyleVar_ErrorBarSize"    , 4}, // float, error bar whisker width in pixels
-		{"mvPlotStyleVar_ErrorBarWeight"  , 5}, // float, error bar whisker weight in pixels
-		{"mvPlotStyleVar_DigitalBitHeight", 6}, // float, digital channels bit height (at 1) in pixels
-		{"mvPlotStyleVar_DigitalBitGap"   , 7}, // float, digital channels bit padding gap in pixels
-		{"mvPlotStyleVar_COUNT"           , 8},
-
-		//-----------------------------------------------------------------------------
 		// Plot Marker Specifications
 		//-----------------------------------------------------------------------------
 		{"mvPlotMarker_None"    , 1 << 0},  // no marker

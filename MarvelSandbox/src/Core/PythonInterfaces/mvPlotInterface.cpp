@@ -46,11 +46,15 @@ namespace Marvel {
 		const char* yAxisName = "";
 		int width = -1;
 		int height = 0;
+		int flags = 0;
+		int xflags = 0;
+		int yflags = 0;
 
-		if (!Translators["addPlot"].parse(args, kwargs, __FUNCTION__, &name, &xAxisName, &yAxisName, &width, &height))
+		if (!Translators["addPlot"].parse(args, kwargs, __FUNCTION__, &name, &xAxisName, &yAxisName, &width, &height, &flags,
+			&xflags, &yflags))
 			Py_RETURN_NONE;
 
-		mvAppItem* item = new mvPlot("", name,xAxisName, yAxisName, width, height);
+		mvAppItem* item = new mvPlot("", name,xAxisName, yAxisName, width, height, flags, xflags, yflags);
 		mvApp::GetApp()->addItem(item);
 
 		Py_RETURN_NONE;
@@ -61,9 +65,14 @@ namespace Marvel {
 		const char* plot;
 		const char* name;
 		PyObject* data;
-		PyObject* style = nullptr;
+		float weight = 1.0f;
+		PyObject* color = PyTuple_New(4);
+		PyTuple_SetItem(color, 0, PyFloat_FromDouble(117.0));
+		PyTuple_SetItem(color, 1, PyFloat_FromDouble(0.0));
+		PyTuple_SetItem(color, 2, PyFloat_FromDouble(0.0));
+		PyTuple_SetItem(color, 3, PyFloat_FromDouble(1.0));
 
-		if (!Translators["addLineSeries"].parse(args, kwargs, __FUNCTION__, &plot, &name, &data, &style))
+		if (!Translators["addLineSeries"].parse(args, kwargs, __FUNCTION__, &plot, &name, &data, &color, &weight))
 			Py_RETURN_NONE;
 
 		mvAppItem* aplot = mvApp::GetApp()->getItem(plot);
@@ -71,16 +80,13 @@ namespace Marvel {
 
 		auto datapoints = mvPythonTranslator::getVectVec2(data);
 
-		mvSeries* series = new mvLineSeries(name, datapoints);
+		auto mcolor = mvPythonTranslator::getColor(color);
+		if (mcolor.r > 100.0f)
+			mcolor.specified = false;
+
+		mvSeries* series = new mvLineSeries(name, datapoints, weight, mcolor);
 
 		graph->addSeries(series);
-
-		if (style)
-		{
-			auto mstyle = mvPythonTranslator::getVectInt2(style);
-			for (auto& item : mstyle)
-				series->setPlotStyleVariable(item.first, item.second);
-		}
 
 		Py_RETURN_NONE;
 	}
@@ -90,9 +96,22 @@ namespace Marvel {
 		const char* plot;
 		const char* name;
 		PyObject* data;
-		PyObject* style = nullptr;
+		int marker = 2;
+		float size = 4.0f;
+		float weight = 1.0f;
+		PyObject* outline = PyTuple_New(4);
+		PyTuple_SetItem(outline, 0, PyFloat_FromDouble(117.0));
+		PyTuple_SetItem(outline, 1, PyFloat_FromDouble(0.0));
+		PyTuple_SetItem(outline, 2, PyFloat_FromDouble(0.0));
+		PyTuple_SetItem(outline, 3, PyFloat_FromDouble(1.0));
+		PyObject* fill = PyTuple_New(4);
+		PyTuple_SetItem(fill, 0, PyFloat_FromDouble(117.0));
+		PyTuple_SetItem(fill, 1, PyFloat_FromDouble(0.0));
+		PyTuple_SetItem(fill, 2, PyFloat_FromDouble(0.0));
+		PyTuple_SetItem(fill, 3, PyFloat_FromDouble(1.0));
 
-		if (!Translators["addScatterSeries"].parse(args, kwargs, __FUNCTION__, &plot, &name, &data, &style))
+		if (!Translators["addScatterSeries"].parse(args, kwargs, __FUNCTION__, &plot, &name, &data, &marker,
+			&size, &weight, &outline, &fill))
 			Py_RETURN_NONE;
 
 		mvAppItem* aplot = mvApp::GetApp()->getItem(plot);
@@ -100,16 +119,42 @@ namespace Marvel {
 
 		auto datapoints = mvPythonTranslator::getVectVec2(data);
 
-		mvSeries* series = new mvScatterSeries(name, datapoints);
+		auto mmarkerOutlineColor = mvPythonTranslator::getColor(outline);
+		if (mmarkerOutlineColor.r > 100.0f)
+			mmarkerOutlineColor.specified = false;
+
+		auto mmarkerFillColor = mvPythonTranslator::getColor(fill);
+		if (mmarkerFillColor.r > 100.0f)
+			mmarkerFillColor.specified = false;
+
+		mvSeries* series = new mvScatterSeries(name, datapoints, marker, size, weight, mmarkerOutlineColor,
+			mmarkerFillColor);
 
 		graph->addSeries(series);
 
-		if (style)
-		{
-			auto mstyle = mvPythonTranslator::getVectInt2(style);
-			for (auto& item : mstyle)
-				series->setPlotStyleVariable(item.first, item.second);
-		}
+		Py_RETURN_NONE;
+	}
+
+	PyObject* addTextPoint(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		const char* plot;
+		const char* name;
+		float x;
+		float y;
+		int vertical = false;
+		int xoffset = 0;
+		int yoffset = 0;
+
+		if (!Translators["addTextPoint"].parse(args, kwargs, __FUNCTION__, 
+			&plot, &name, &x, &y, &vertical, &xoffset, &yoffset))
+			Py_RETURN_NONE;
+
+		mvAppItem* aplot = mvApp::GetApp()->getItem(plot);
+		mvPlot* graph = static_cast<mvPlot*>(aplot);
+
+		mvSeries* series = new mvLabelSeries(name, { {(float)x, (float)y}}, xoffset, yoffset, vertical);
+
+		graph->addSeries(series);
 
 		Py_RETURN_NONE;
 	}
@@ -121,6 +166,7 @@ namespace Marvel {
 		pyModule.addMethodD(addPlot);
 		pyModule.addMethodD(addLineSeries);
 		pyModule.addMethodD(addScatterSeries);
+		pyModule.addMethodD(addTextPoint);
 
 		PyImport_AppendInittab(pyModule.getName(), initfunc);
 	}

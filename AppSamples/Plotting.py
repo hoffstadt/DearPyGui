@@ -44,11 +44,10 @@ def PlotCallback(sender):
     data2 = []
     for i in range(0, 100):
         data2.append([3.14*i/180, sin(2*3.14*i/180)])
-    addLineSeries("Plot2", "Cos", data1, style=( 
-        (sbConstants.mvPlotStyleVar_Marker, sbConstants.mvPlotMarker_None), ))
-    addScatterSeries("Plot2", "Sin", data2, style=( 
-        (sbConstants.mvPlotStyleVar_Marker, sbConstants.mvPlotMarker_Asterisk),
-        (sbConstants.mvPlotStyleVar_MarkerSize, 4), ))
+
+    addTextPoint("Plot2", "Here", 1.0, 1.0)
+    addLineSeries("Plot2", "Cos", data1, color=(1,0,1), weight=2)
+    addScatterSeries("Plot2", "Sin", data2, marker=sbConstants.mvPlotMarker_Circle, fill=(1,0,0), outline=(1,1,0))
 
 def ResizePlotCallback(sender):
     changePlotSize("Plot2", 640, 400)
