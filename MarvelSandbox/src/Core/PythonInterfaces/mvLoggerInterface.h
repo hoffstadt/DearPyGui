@@ -11,29 +11,29 @@ namespace Marvel{
 		std::map<std::string, mvPythonTranslator> translators = {
 
 			{"SetLogLevel", mvPythonTranslator({
-				{mvPythonDataType::Integer, "button"}
+				{mvPythonDataType::Integer, "level"}
 			}, false, "Needs documentation")},
 
 			{"Log", mvPythonTranslator({
-				{mvPythonDataType::Integer, "message"},
+				{mvPythonDataType::String, "message"},
 				{mvPythonDataType::Optional},
 				{mvPythonDataType::String, "level"}
 			}, false, "Needs documentation")},
 
 			{"LogDebug", mvPythonTranslator({
-				{mvPythonDataType::Integer, "message"}
+				{mvPythonDataType::String, "message"}
 			}, false, "Needs documentation")},
 
 			{"LogInfo", mvPythonTranslator({
-				{mvPythonDataType::Integer, "message"}
+				{mvPythonDataType::String, "message"}
 			}, false, "Needs documentation")},
 
 			{"LogWarning", mvPythonTranslator({
-				{mvPythonDataType::Integer, "message"}
+				{mvPythonDataType::String, "message"}
 			}, false, "Needs documentation")},
 
 			{"LogError", mvPythonTranslator({
-				{mvPythonDataType::Integer, "message"}
+				{mvPythonDataType::String, "message"}
 			}, false, "Needs documentation")}
 
 		};

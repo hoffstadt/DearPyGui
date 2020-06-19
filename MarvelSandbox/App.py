@@ -66,6 +66,13 @@ addMenuItem("Classic")
 addMenuItem("Theme Editor")
 endMenu()
 
+# standard tools
+addMenu("Tools")
+addMenuItem("Show Logger", callback="ShowLoggerCallback")
+addMenuItem("Show About", callback="ShowAboutCallback")
+addMenuItem("Show Metrics", callback="ShowMetricsCallback")
+endMenu()
+
 #Dont forget to end the MenuBar
 endMenuBar()
 
@@ -82,6 +89,15 @@ def LightTheme(sender):
 
 def ClassicTheme(sender):
     setTheme("classic")
+
+def ShowMetricsCallback(sender):
+    showMetrics()
+
+def ShowAboutCallback(sender):
+    showAbout()
+
+def ShowLoggerCallback(sender):
+    ShowLogger()
 
 def OpenThemeEditor(sender):
     #this is where the theme editor will be turned on once created. it will run similar to logger except the open theme call back will se the Value to 1. and a new window will appear. 
@@ -277,7 +293,6 @@ endCollapsingHeader()
 ShowLogger()
 
 addCollapsingHeader("Logger")
-addCheckbox("Enable Logger", callback = "LoggerCallback")
 # log level controll what level of logging the logger with print. 
 # 0 prints all levels. 1 prints debug or greater. 2 prints log info or greater. ect 
 addInputInt("Log Level", default_value = 0)
@@ -285,18 +300,10 @@ addButton("Log Examples", callback = "AllLogExamples")
 addButton("Clear Log", callback = "clearsLog")
 endCollapsingHeader()
 
-def LoggerCallback(sender):
-
-    value = getValue("Enable Logger")
-    if value == 0:
-        pass
-    else:
-        ShowLogger()
-
 def AllLogExamples(sender):
     print()
     print("Called by ", sender)
-    print("value is: ", getValue(sender))
+    #print("value is: ", getValue(sender))
     loglevel = getValue("Log Level")
     print(loglevel)
     SetLogLevel(loglevel)
