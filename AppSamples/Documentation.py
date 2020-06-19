@@ -33,8 +33,8 @@ addListbox("Commands##widgets", getCommands(sbWidgets), callback="commandCallbac
 addListbox("Commands##plot", getCommands(sbPlot), callback="commandCallback", width=500, height=10)
 addListbox("Commands##draw", getCommands(sbDraw), callback="commandCallback", width=500, height=10)
 addSpacing()
-addChild("DocChild", 300, 200)
-addText("Document String", wrap=500)
+addChild("DocChild", 500, 200)
+addText("Document String", wrap=300)
 endChild()
 endMainWindow()
 

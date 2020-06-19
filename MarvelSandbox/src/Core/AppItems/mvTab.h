@@ -24,14 +24,14 @@ namespace Marvel {
 
 		MV_APPITEM_TYPE(mvAppItemType::TabBar)
 
-		mvTabBar(const std::string& parent, const std::string& name)
-			: mvStringItemBase(parent, name, "")
+		mvTabBar(const std::string& parent, const std::string& name, ImGuiTabBarFlags flags = 0)
+			: mvStringItemBase(parent, name, ""), m_flags(flags)
 		{}
 
 		virtual void draw() override
 		{
 			mvApp::GetApp()->pushParent(this);
-			if (ImGui::BeginTabBar(m_label.c_str()))
+			if (ImGui::BeginTabBar(m_label.c_str(), m_flags))
 			{
 				for (mvAppItem* item : m_children)
 				{
@@ -56,6 +56,9 @@ namespace Marvel {
 			}
 		}
 
+	private:
+
+		ImGuiTabBarFlags m_flags;
 
 	};
 

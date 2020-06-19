@@ -53,9 +53,7 @@ namespace Marvel {
 
 	private:
 
-		int m_height;
 		ImGuiWindowFlags m_windowflags = ImGuiWindowFlags_NoSavedSettings;
-
 
 	};
 

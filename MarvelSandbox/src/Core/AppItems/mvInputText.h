@@ -19,8 +19,8 @@ namespace Marvel {
 
 		MV_APPITEM_TYPE(mvAppItemType::InputText)
 
-		mvInputText(const std::string& parent, const std::string& name, const std::string& hint, bool multiline)
-			: mvStringItemBase(parent, name, ""), m_hint(hint), m_multiline(multiline)
+		mvInputText(const std::string& parent, const std::string& name, const std::string& hint, bool multiline, ImGuiInputTextFlags flags)
+			: mvStringItemBase(parent, name, ""), m_hint(hint), m_multiline(multiline), m_flags(flags)
 		{
 		}
 
@@ -33,7 +33,7 @@ namespace Marvel {
 			{
 				if(m_multiline)
 				{
-					if (ImGui::InputTextMultiline(m_label.c_str(), &m_value))
+					if (ImGui::InputTextMultiline(m_label.c_str(), &m_value, ImVec2(m_width, m_height)))
 					{
 						mvApp::GetApp()->triggerCallback(m_callback, m_name);
 
@@ -44,7 +44,7 @@ namespace Marvel {
 				}
 				else
 				{
-					if (ImGui::InputText(m_label.c_str(), &m_value))
+					if (ImGui::InputText(m_label.c_str(), &m_value, m_flags))
 					{
 						mvApp::GetApp()->triggerCallback(m_callback, m_name);
 
@@ -57,7 +57,7 @@ namespace Marvel {
 
 			else
 			{
-				if (ImGui::InputTextWithHint(m_label.c_str(), m_hint.c_str(), &m_value))
+				if (ImGui::InputTextWithHint(m_label.c_str(), m_hint.c_str(), &m_value, m_flags))
 				{
 					mvApp::GetApp()->triggerCallback(m_callback, m_name);
 
@@ -72,6 +72,7 @@ namespace Marvel {
 
 		std::string         m_hint;
 		bool                m_multiline;
+		ImGuiInputTextFlags m_flags;
 
 	};
 

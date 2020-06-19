@@ -45,6 +45,7 @@ namespace Marvel {
 		void setItemPopup   (const std::string& name, const std::string& popup);
 		void setItemCallback(const std::string& name, const std::string& callback);
 		void setItemWidth   (const std::string& name, int width);
+		void setItemHeight  (const std::string& name, int height);
 		void setItemTip     (const std::string& name, const std::string& tip);
 		int  getPopupButton (const std::string& name);
 

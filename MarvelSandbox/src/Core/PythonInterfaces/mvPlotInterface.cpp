@@ -69,7 +69,7 @@ namespace Marvel {
 		mvAppItem* aplot = mvApp::GetApp()->getItem(plot);
 		mvPlot* graph = static_cast<mvPlot*>(aplot);
 
-		auto datapoints = mvPythonTranslator::getVectVec2L(data);
+		auto datapoints = mvPythonTranslator::getVectVec2(data);
 
 		mvSeries* series = new mvLineSeries(name, datapoints);
 
@@ -98,7 +98,7 @@ namespace Marvel {
 		mvAppItem* aplot = mvApp::GetApp()->getItem(plot);
 		mvPlot* graph = static_cast<mvPlot*>(aplot);
 
-		auto datapoints = mvPythonTranslator::getVectVec2L(data);
+		auto datapoints = mvPythonTranslator::getVectVec2(data);
 
 		mvSeries* series = new mvScatterSeries(name, datapoints);
 

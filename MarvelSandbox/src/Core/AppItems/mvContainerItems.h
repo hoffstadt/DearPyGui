@@ -62,10 +62,6 @@ namespace Marvel {
 			ImGui::EndChild();
 		}
 
-	private:
-
-		int m_height;
-
 	};
 
 	//-----------------------------------------------------------------------------
@@ -129,15 +125,15 @@ namespace Marvel {
 
 		MV_APPITEM_TYPE(mvAppItemType::CollapsingHeader)
 
-		mvCollapsingHeader(const std::string& parent, const std::string& name)
-			: mvBoolItemBase(parent, name, true)
+		mvCollapsingHeader(const std::string& parent, const std::string& name, ImGuiTreeNodeFlags flags = 0)
+			: mvBoolItemBase(parent, name, true), m_flags(flags)
 		{}
 
 		virtual void draw() override
 		{
 		
 			// create menu and see if its selected
-			if (ImGui::CollapsingHeader(m_label.c_str(), &m_value, 0))
+			if (ImGui::CollapsingHeader(m_label.c_str(), &m_value, m_flags))
 			{
 
 				for (mvAppItem* item : m_children)
@@ -160,15 +156,11 @@ namespace Marvel {
 				}
 			}
 
-			// set current menu value true
-			//m_value = true;
-			//showAll();
-
-			// Context Menu
-			//if (getPopup() != "")
-			//	ImGui::OpenPopup(getPopup().c_str());
-
 		}
+
+	private:
+
+		ImGuiTreeNodeFlags m_flags;
 
 	};
 
@@ -182,13 +174,13 @@ namespace Marvel {
 
 		MV_APPITEM_TYPE(mvAppItemType::TreeNode)
 
-		mvTreeNode(const std::string& parent, const std::string& name)
-			: mvBoolItemBase(parent, name, false)
+		mvTreeNode(const std::string& parent, const std::string& name, ImGuiTreeNodeFlags flags = 0)
+			: mvBoolItemBase(parent, name, false), m_flags(flags)
 		{}
 
 		virtual void draw() override
 		{
-			if (ImGui::TreeNode(m_label.c_str()))
+			if (ImGui::TreeNodeEx(m_label.c_str(), m_flags))
 			{
 
 				for (mvAppItem* item : m_children)
@@ -213,6 +205,10 @@ namespace Marvel {
 				ImGui::TreePop();
 			}
 		}
+
+	private:
+
+		ImGuiTreeNodeFlags m_flags;
 
 	};
 

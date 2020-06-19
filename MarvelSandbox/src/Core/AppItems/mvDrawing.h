@@ -309,7 +309,6 @@ namespace Marvel {
 
 		std::vector<mvDrawingCommand*> m_commands;
 		ImDrawList* draw_list = nullptr;
-		float       m_height;
 		float       m_startx = 0.0f;
 		float       m_starty = 0.0f;
 

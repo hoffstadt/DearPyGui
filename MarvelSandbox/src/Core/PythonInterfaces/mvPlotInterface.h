@@ -33,7 +33,8 @@ namespace Marvel{
 				{mvPythonDataType::String, "name"},
 				{mvPythonDataType::FloatList, "data"},
 				{mvPythonDataType::Optional},
-				{mvPythonDataType::IntList, "style", true}
+				{mvPythonDataType::KeywordOnly},
+				{mvPythonDataType::IntList, "style"}
 			}, false, "Needs documentation")},
 
 			{"addScatterSeries", mvPythonTranslator({
@@ -41,7 +42,8 @@ namespace Marvel{
 				{mvPythonDataType::String, "name"},
 				{mvPythonDataType::FloatList, "data"},
 				{mvPythonDataType::Optional},
-				{mvPythonDataType::IntList, "style", true}
+				{mvPythonDataType::KeywordOnly},
+				{mvPythonDataType::IntList, "style"}
 			}, false, "Needs documentation")}
 
 		};
