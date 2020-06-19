@@ -10,11 +10,12 @@
 //-----------------------------------------------------------------------------
 // Helper Macros
 //-----------------------------------------------------------------------------
-#define MV_STANDARD_CALLBACK_INIT() const char* callback = "", *tip="", *popup=""; int width=0;
-#define MV_STANDARD_CALLBACK_PARSE &callback, &tip, &popup, &width
+#define MV_STANDARD_CALLBACK_INIT() const char* callback = "", *tip="", *popup=""; int width=0; int height=0;
+#define MV_STANDARD_CALLBACK_PARSE &callback, &tip, &popup, &width, &height
 #define MV_STANDARD_CALLBACK_EVAL() mvApp::GetApp()->setItemCallback(name, callback);\
 mvApp::GetApp()->setItemTip(name, tip);\
 mvApp::GetApp()->setItemWidth(name, width);\
+mvApp::GetApp()->setItemHeight(name, height);\
 mvApp::GetApp()->setItemPopup(name, popup);
 
 namespace Marvel {
@@ -25,7 +26,7 @@ namespace Marvel {
 	enum class mvPythonDataType
 	{
 		String, Integer, Float, Bool, StringList, FloatList, Optional,
-		Object, IntList
+		Object, IntList, KeywordOnly
 	};
 
 	static const char PythonDataTypeSymbol(mvPythonDataType type)
@@ -35,11 +36,12 @@ namespace Marvel {
 		case mvPythonDataType::String:     return 's';
 		case mvPythonDataType::Integer:    return 'i';
 		case mvPythonDataType::Float:      return 'f';
-		case mvPythonDataType::Bool:       return 'i';
+		case mvPythonDataType::Bool:       return 'p';
 		case mvPythonDataType::StringList: return 'O';
 		case mvPythonDataType::FloatList:  return 'O';
 		case mvPythonDataType::IntList:    return 'O';
 		case mvPythonDataType::Optional:   return '|';
+		case mvPythonDataType::KeywordOnly:return '$';
 		case mvPythonDataType::Object:     return 'O';
 		default:                           return 'O';
 		}
@@ -56,7 +58,8 @@ namespace Marvel {
 		case mvPythonDataType::StringList: return " : List(str)";
 		case mvPythonDataType::FloatList:  return " : List(float)";
 		case mvPythonDataType::IntList:    return " : List(int)";
-		case mvPythonDataType::Optional:    return "Optional Arguments\n____________________";
+		case mvPythonDataType::Optional:   return "Optional Arguments\n____________________";
+		case mvPythonDataType::KeywordOnly:return "Keyword Only Arguments\n____________________";
 		case mvPythonDataType::Object:     return " : object";
 		default:                           return " : unknown";
 		}
@@ -69,11 +72,10 @@ namespace Marvel {
 	{
 		const char*      name;
 		mvPythonDataType type;
-		bool             keywordOnly;
 		std::string      description;
 
-		mvPythonDataElement(mvPythonDataType type, const char* name = "", bool keywordOnly = false, const std::string& description = "")
-			: name(name), type(type), keywordOnly(keywordOnly), description(description)
+		mvPythonDataElement(mvPythonDataType type, const char* name = "", const std::string& description = "")
+			: name(name), type(type), description(description)
 		{}
 
 		const char getSymbol() const { return PythonDataTypeSymbol(type);}
@@ -92,15 +94,14 @@ namespace Marvel {
 		mvPythonTranslator(const std::initializer_list<mvPythonDataElement>& elements, bool standardKeywords = false, 
 			const std::string& about = "");
 
-		bool                             parse(PyObject* args, PyObject* kwargs, const char* message, ...);
+		bool                                    parse(PyObject* args, PyObject* kwargs, const char* message, ...);
 		static std::vector<std::string>         getStringVec(PyObject* obj);
 		static std::vector<float>               getFloatVec(PyObject* obj);
 		static mvVec2                           getVec2(PyObject* obj);
 		static mvColor                          getColor(PyObject* obj);
 		static std::vector<mvVec2>              getVectVec2(PyObject* obj);
-		static std::vector<mvVec2>              getVectVec2L(PyObject* obj); // TODO combine this and the previous one
 		static std::vector<std::pair<int, int>> getVectInt2(PyObject* obj);
-		inline const char*               getDocumentation() const { return m_documentation.c_str(); }
+		inline const char*                      getDocumentation() const { return m_documentation.c_str(); }
 
 		void buildDocumentation();
 
@@ -110,6 +111,7 @@ namespace Marvel {
 		std::vector<char>                m_formatstring;
 		std::vector<const char*>         m_keywords;
 		bool                             m_optional = false; // check if optional has been found already
+		bool                             m_keyword = false; // check if keyword has been found already
 		std::string                      m_about;
 		std::string                      m_documentation;
 

@@ -16,12 +16,12 @@ namespace Marvel {
 		const char* overlay = "";
 		float minscale = 0.0f;
 		float maxscale = 0.0f;
-		float height = 80.0f;
 		int autoscale = true;
 		int histogram = false;
 		PyObject* value;
 
-		if (!Translators["addSimplePlot"].parse(args, kwargs,__FUNCTION__, &name, &value, &autoscale, &overlay, &minscale, &maxscale, &height, &histogram, MV_STANDARD_CALLBACK_PARSE))
+		if (!Translators["addSimplePlot"].parse(args, kwargs,__FUNCTION__, &name, &value, &autoscale, &overlay, 
+			&minscale, &maxscale, &histogram, MV_STANDARD_CALLBACK_PARSE))
 			Py_RETURN_NONE;
 
 		std::vector<float> values = mvPythonTranslator::getFloatVec(value);
@@ -44,8 +44,6 @@ namespace Marvel {
 		mvApp::GetApp()->addItem(item);
 
 		MV_STANDARD_CALLBACK_EVAL();
-
-		
 
 		Py_RETURN_NONE;
 	}
@@ -93,28 +91,25 @@ namespace Marvel {
 	{
 		MV_STANDARD_CALLBACK_INIT();
 
-		const char* name, * value;
-		int wrap = 0, bullet = 0;
+		const char* name;
+		const char* value;
 		PyObject* color = PyTuple_New(4);
 		PyTuple_SetItem(color, 0, PyFloat_FromDouble(117.0));
 		PyTuple_SetItem(color, 1, PyFloat_FromDouble(0.0));
 		PyTuple_SetItem(color, 2, PyFloat_FromDouble(0.0));
 		PyTuple_SetItem(color, 3, PyFloat_FromDouble(1.0));
 
-		if (!Translators["addLabelText"].parse(args, kwargs,__FUNCTION__, &name, &value, &wrap, &color, MV_STANDARD_CALLBACK_PARSE))
+		if (!Translators["addLabelText"].parse(args, kwargs,__FUNCTION__, &name, &value, &color, MV_STANDARD_CALLBACK_PARSE))
 			Py_RETURN_NONE;
 
 		auto mcolor = mvPythonTranslator::getColor(color);
-
 		if (mcolor.r > 100.0f)
 			mcolor.specified = false;
 
-		mvAppItem* item = new mvLabelText("", std::string(name), value, wrap, mcolor, bullet);
+		mvAppItem* item = new mvLabelText("", std::string(name), value, mcolor);
 		mvApp::GetApp()->addItem(item);
 
 		MV_STANDARD_CALLBACK_EVAL();
-
-		
 
 		Py_RETURN_NONE;
 	}
@@ -124,9 +119,9 @@ namespace Marvel {
 		MV_STANDARD_CALLBACK_INIT();
 		const char* name;
 		PyObject* items;
-		int default_value = 0, height = -1;
+		int default_value = 0;
 
-		if (!Translators["addListbox"].parse(args, kwargs,__FUNCTION__, &name, &items, &default_value, &height, MV_STANDARD_CALLBACK_PARSE))
+		if (!Translators["addListbox"].parse(args, kwargs,__FUNCTION__, &name, &items, &default_value, MV_STANDARD_CALLBACK_PARSE))
 			Py_RETURN_NONE;
 
 		mvAppItem* item = new mvListbox("", name, mvPythonTranslator::getStringVec(items), default_value, height);
@@ -134,15 +129,14 @@ namespace Marvel {
 
 		MV_STANDARD_CALLBACK_EVAL();
 
-		
-
 		Py_RETURN_NONE;
 	}
 
 	PyObject* addCombo(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		MV_STANDARD_CALLBACK_INIT();
-		const char* name, * default_value = "";
+		const char* name;
+		const char* default_value = "";
 		PyObject* items;
 
 		if (!Translators["addCombo"].parse(args, kwargs,__FUNCTION__, &name, &items, &default_value, MV_STANDARD_CALLBACK_PARSE))
@@ -152,7 +146,6 @@ namespace Marvel {
 		mvApp::GetApp()->addItem(item);
 
 		MV_STANDARD_CALLBACK_EVAL();
-		
 
 		Py_RETURN_NONE;
 	}
@@ -180,17 +173,18 @@ namespace Marvel {
 		MV_STANDARD_CALLBACK_INIT();
 
 		const char* name;
+		int small = false;
+		int arrow = false;
+		int direction = -1;
 
-		if (!Translators["addButton"].parse(args, kwargs,__FUNCTION__, &name, MV_STANDARD_CALLBACK_PARSE))
+		if (!Translators["addButton"].parse(args, kwargs,__FUNCTION__, &name, &small,
+			&arrow, &direction, MV_STANDARD_CALLBACK_PARSE))
 			Py_RETURN_NONE;
 
-		mvAppItem* item = new mvButton("", name);
+		mvAppItem* item = new mvButton("", name, small, arrow, direction);
 		mvApp::GetApp()->addItem(item);
 
 		MV_STANDARD_CALLBACK_EVAL();
-		MV_STANDARD_CALLBACK_EVAL();
-
-		
 
 		Py_RETURN_NONE;
 	}
@@ -201,15 +195,15 @@ namespace Marvel {
 		const char* name;
 		const char* hint = "";
 		int multiline = 0;
+		int flags = 0;
 
-		if (!Translators["addInputText"].parse(args, kwargs,__FUNCTION__, &name, &hint, &multiline, MV_STANDARD_CALLBACK_PARSE))
+		if (!Translators["addInputText"].parse(args, kwargs,__FUNCTION__, &name, &hint, &multiline, &flags, MV_STANDARD_CALLBACK_PARSE))
 			Py_RETURN_NONE;
 
-		mvAppItem* item = new mvInputText("", name, hint, multiline);
+		mvAppItem* item = new mvInputText("", name, hint, multiline, flags);
 		mvApp::GetApp()->addItem(item);
 
 		MV_STANDARD_CALLBACK_EVAL();
-		
 
 		Py_RETURN_NONE;
 	}
@@ -284,11 +278,12 @@ namespace Marvel {
 	{
 		MV_STANDARD_CALLBACK_INIT();
 		const char* name;
+		int flags = 0;
 
-		if (!Translators["addTabBar"].parse(args, kwargs, __FUNCTION__, &name, MV_STANDARD_CALLBACK_PARSE))
+		if (!Translators["addTabBar"].parse(args, kwargs, __FUNCTION__, &name, &flags, MV_STANDARD_CALLBACK_PARSE))
 			Py_RETURN_NONE;
 
-		mvAppItem* item = new mvTabBar("", name);
+		mvAppItem* item = new mvTabBar("", name, flags);
 		mvApp::GetApp()->addItem(item);
 		mvApp::GetApp()->pushParent(item);
 
@@ -570,11 +565,12 @@ namespace Marvel {
 	{
 		MV_STANDARD_CALLBACK_INIT();
 		const char* name;
+		int flags = 0;
 
-		if (!Translators["addCollapsingHeader"].parse(args, kwargs, __FUNCTION__, &name, MV_STANDARD_CALLBACK_PARSE))
+		if (!Translators["addCollapsingHeader"].parse(args, kwargs, __FUNCTION__, &name, &flags, MV_STANDARD_CALLBACK_PARSE))
 			Py_RETURN_NONE;
 
-		mvAppItem* item = new mvCollapsingHeader("", name);
+		mvAppItem* item = new mvCollapsingHeader("", name, flags);
 		mvApp::GetApp()->addItem(item);
 		mvApp::GetApp()->pushParent(item);
 
@@ -594,11 +590,12 @@ namespace Marvel {
 	{
 		MV_STANDARD_CALLBACK_INIT();
 		const char* name;
+		int flags = 0;
 
-		if (!Translators["addTreeNode"].parse(args, kwargs, __FUNCTION__, &name, MV_STANDARD_CALLBACK_PARSE))
+		if (!Translators["addTreeNode"].parse(args, kwargs, __FUNCTION__, &name, &flags, MV_STANDARD_CALLBACK_PARSE))
 			Py_RETURN_NONE;
 
-		mvAppItem* item = new mvTreeNode("", name);
+		mvAppItem* item = new mvTreeNode("", name, flags);
 		mvApp::GetApp()->addItem(item);
 		mvApp::GetApp()->pushParent(item);
 

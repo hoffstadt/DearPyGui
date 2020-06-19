@@ -61,6 +61,7 @@ namespace Marvel {
 		inline const std::string&       getCallback() { return m_callback; }
 		inline const std::string&       getPopup   () { return m_popup; }
 		inline int                      getWidth   () const { return m_width; }
+		inline int                      getHeight  () const { return m_height; }
 		inline bool                     isShown    () const { return m_show; }
 		inline void                     show       () { m_show = true; }
 		inline void                     hide       () { m_show = false; }
@@ -69,6 +70,7 @@ namespace Marvel {
 		inline void                     setTip     (const std::string& tip) { m_tip = tip; }
 		void                            setParent   (mvAppItem* parent);
 		inline void                     setWidth   (int width) { m_width = width; }
+		inline void                     setHeight  (int height) { m_height = height; }
 		void                            showAll    ();
 		void                            hideAll    ();
 
@@ -110,6 +112,7 @@ namespace Marvel {
 	protected:
 
 		int                        m_width = 0;
+		int                        m_height = 0;
 		std::string                m_name;
 		std::string                m_popup;
 		std::string                m_label;

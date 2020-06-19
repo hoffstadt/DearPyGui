@@ -1,9 +1,3 @@
-import sbWidgets
-import sbApp
-import sbLog
-import sbInput
-import sbPlot
-import sbDraw
 from sbApp import *
 from sbLog import *
 from sbInput import *
@@ -13,7 +7,6 @@ from sbWidgets import *
 import sbConstants
 import SandboxTheme
 from math import sin, cos
-import inspect
 
 ####################################################
 #############    About All Widgets    ##############
@@ -27,7 +20,6 @@ import inspect
 ##################################################################################
 # NOTES: Menu Bar appears at the top of the app. Only one may be created at a time. Menu Bars have 
 # containers called Menus. It is important we remember to calle the end for every container widget we use
-
 
 #Create the Menu Bar and give it a name. We will call this MenuBar "Menu Bar".
 addMenuBar("MenuBar")
@@ -318,10 +310,8 @@ def AllLogExamples(sender):
 def clearsLog(sender):
     ClearLog()
 
-
-
 #################################################
-#############    Drawing and Canvas    ##############
+#############    Drawing and Canvas    ##########
 #################################################
 # NOTES: 
 addCollapsingHeader("Drawing Canvas")
@@ -350,12 +340,15 @@ def DrawCanvas(sender):
     drawBezierCurve("drawing2", (50, 200), (150, 250), (300, 150), (600, 250), (1, 1, 0, 1), thickness = 2.0)
 def ClearCanvas(sender):
     clearDrawing("drawing2")
+
 ##########################################################
 #############    Plots, Graphs and Charts   ##############
 ##########################################################
 # NOTES: 
 addCollapsingHeader("Plots, Graphs and Charts")
 addButton("Plot data", callback="PlotCallback", tip="new tip")
+addSimplePlot("Simpleplot1", (0.3, 0.9, 2.5, 8.9), height = 80)
+addSimplePlot("Simpleplot2", (0.3, 0.9, 2.5, 8.9), overlay="Overlaying", height=180, histogram=True)
 addPlot("Plot2", "x-axis", "y-axis", -1, 450);
 endCollapsingHeader()
 

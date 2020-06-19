@@ -77,9 +77,10 @@ namespace Marvel {
 
 		mvPlot(const std::string& parent, const std::string& name, const std::string& xname="", 
 			const std::string& yname="", int width = -1, int height = 0)
-			: mvNoneItemBase(parent, name), m_xaxisName(xname), m_yaxisName(yname), m_height(height)
+			: mvNoneItemBase(parent, name), m_xaxisName(xname), m_yaxisName(yname)
 		{
 			m_width = width;
+			m_height = height;
 		}
 
 		void addSeries(mvSeries* series)
@@ -131,7 +132,6 @@ namespace Marvel {
 
 		std::string     m_xaxisName;
 		std::string     m_yaxisName;
-		int             m_height;
 		ImPlotFlags     m_flags    = ImPlotFlags_Default;
 		ImPlotAxisFlags m_x_flags  = ImPlotAxisFlags_Default;
 		ImPlotAxisFlags m_y_flags  = ImPlotAxisFlags_Default;

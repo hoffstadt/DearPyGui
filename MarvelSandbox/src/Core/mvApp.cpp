@@ -349,6 +349,13 @@ namespace Marvel {
 			item->setWidth(width);
 	}
 
+	void mvApp::setItemHeight(const std::string& name, int height)
+	{
+		auto item = getItem(name);
+		if (item)
+			item->setHeight(height);
+	}
+
 	mvAppItem* mvApp::getItem(const std::string& name)
 	{
 		for (mvAppItem* item : m_items)

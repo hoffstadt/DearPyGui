@@ -49,7 +49,8 @@ namespace Marvel{
 
 	void mvAppItem::popColorStyles()
 	{
-		ImGui::PopStyleColor(m_colorStyles.size());
+		if(m_colorStyles.size() > 0)
+			ImGui::PopStyleColor(m_colorStyles.size());
 	}
 
 }

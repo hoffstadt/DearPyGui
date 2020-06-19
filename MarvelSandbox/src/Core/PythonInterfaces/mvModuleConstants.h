@@ -338,6 +338,15 @@ namespace Marvel {
 		{"mvGuiMouseButton_Left"  , 0},
 		{"mvGuiMouseButton_Right" , 1},
 		{"mvGuiMouseButton_Middle", 2},
+
+		//-----------------------------------------------------------------------------
+		// A cardinal direction
+		//-----------------------------------------------------------------------------
+		{ "mvGuiDir_None" ,-1 },
+		{ "mvGuiDir_Left" , 0 },
+		{ "mvGuiDir_Right", 1 },
+		{ "mvGuiDir_Up"   , 2 },
+		{ "mvGuiDir_Down" , 3 },
 };
 
 	void CreateConstantsInterface(mvPythonModule& pyModule, PyObject* (*initfunc)())

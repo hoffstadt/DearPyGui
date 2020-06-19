@@ -55,13 +55,43 @@ namespace Marvel {
 
 		MV_APPITEM_TYPE(mvAppItemType::Button)
 
-		mvButton(const std::string& parent, const std::string& name)
-			: mvNoneItemBase(parent, name)
-		{}
+		mvButton(const std::string& parent, const std::string& name, bool small = false, 
+			bool arrow = false, ImGuiDir direction = ImGuiDir_None)
+			: mvNoneItemBase(parent, name), m_small(small), m_arrow(arrow), m_direction(direction)
+		{
+		}
 
 		virtual void draw() override
 		{
-			if (ImGui::Button(m_label.c_str()))
+			if (m_small)
+			{
+				if (ImGui::SmallButton(m_label.c_str()))
+				{
+					mvApp::GetApp()->triggerCallback(m_callback, m_name);
+
+					// Context Menu
+					if (getPopup() != "")
+						ImGui::OpenPopup(getPopup().c_str());
+				}
+
+				return;
+			}
+
+			if (m_arrow)
+			{
+				if (ImGui::ArrowButton(m_label.c_str(), m_direction))
+				{
+					mvApp::GetApp()->triggerCallback(m_callback, m_name);
+
+					// Context Menu
+					if (getPopup() != "")
+						ImGui::OpenPopup(getPopup().c_str());
+				}
+
+				return;
+			}
+
+			if (ImGui::Button(m_label.c_str(), ImVec2(m_width, m_height)))
 			{
 				mvApp::GetApp()->triggerCallback(m_callback, m_name);
 
@@ -70,6 +100,12 @@ namespace Marvel {
 					ImGui::OpenPopup(getPopup().c_str());
 			}
 		}
+
+	private:
+
+		bool     m_small;
+		bool     m_arrow;
+		ImGuiDir m_direction = ImGuiDir_None;
 
 	};
 
