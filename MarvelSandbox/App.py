@@ -413,4 +413,4 @@ def KeyPressCallback(sender):
 def KeyReleaseClickCallback(sender):
     LogDebug("KeyReleaseCallback: " + sender)
 
-    endMainWindow()
+endMainWindow()
