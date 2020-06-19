@@ -16,7 +16,11 @@ namespace Marvel{
 				{mvPythonDataType::String, "xAxisName"},
 				{mvPythonDataType::String, "yAxisName"},
 				{mvPythonDataType::Integer, "width"},
-				{mvPythonDataType::Integer, "height"}
+				{mvPythonDataType::Integer, "height"},
+				{mvPythonDataType::KeywordOnly},
+				{mvPythonDataType::Integer, "flags"},
+				{mvPythonDataType::Integer, "xflags"},
+				{mvPythonDataType::Integer, "yflags"}
 			}, false, "Needs documentation")},
 
 			{"clearPlot", mvPythonTranslator({
@@ -34,7 +38,8 @@ namespace Marvel{
 				{mvPythonDataType::FloatList, "data"},
 				{mvPythonDataType::Optional},
 				{mvPythonDataType::KeywordOnly},
-				{mvPythonDataType::IntList, "style"}
+				{mvPythonDataType::FloatList, "color"},
+				{mvPythonDataType::Float, "weight"}
 			}, false, "Needs documentation")},
 
 			{"addScatterSeries", mvPythonTranslator({
@@ -43,7 +48,23 @@ namespace Marvel{
 				{mvPythonDataType::FloatList, "data"},
 				{mvPythonDataType::Optional},
 				{mvPythonDataType::KeywordOnly},
-				{mvPythonDataType::IntList, "style"}
+				{mvPythonDataType::Integer, "marker"},
+				{mvPythonDataType::Float, "size"},
+				{mvPythonDataType::Float, "weight"},
+				{mvPythonDataType::FloatList, "outline"},
+				{mvPythonDataType::FloatList, "fill"},
+			}, false, "Needs documentation")},
+
+			{"addTextPoint", mvPythonTranslator({
+				{mvPythonDataType::String, "plot"},
+				{mvPythonDataType::String, "name"},
+				{mvPythonDataType::Float, "x"},
+				{mvPythonDataType::Float, "y"},
+				{mvPythonDataType::Optional},
+				{mvPythonDataType::KeywordOnly},
+				{mvPythonDataType::Bool, "vertical"},
+				{mvPythonDataType::Integer, "xoffset"},
+				{mvPythonDataType::Integer, "yoffset"}
 			}, false, "Needs documentation")}
 
 		};
