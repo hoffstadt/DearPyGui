@@ -655,6 +655,24 @@ namespace Marvel {
 		Py_RETURN_NONE;
 	}
 
+	PyObject* addDragFloat(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		MV_STANDARD_CALLBACK_INIT();
+		const char* name;
+		int default_value = 0;
+
+		if (!Translators["addDragFloat"].parse(args, kwargs, __FUNCTION__, &name, &default_value, MV_STANDARD_CALLBACK_PARSE))
+			Py_RETURN_NONE;
+
+		mvAppItem* item = new mvDragFloat("", name, default_value);
+		mvApp::GetApp()->addItem(item);
+
+		MV_STANDARD_CALLBACK_EVAL();
+
+
+		Py_RETURN_NONE;
+	}
+
 	void CreateWidgetAddingInterface(mvPythonModule& pyModule, PyObject* (*initfunc)())
 	{
 		pyModule.addMethod(endTreeNode, "Not Documented");
@@ -700,6 +718,7 @@ namespace Marvel {
 		pyModule.addMethodD(addSameLine);
 		pyModule.addMethodD(addTooltip);
 		pyModule.addMethodD(addCollapsingHeader);
+		pyModule.addMethodD(addDragFloat);
 		
 
 		PyImport_AppendInittab(pyModule.getName(), initfunc);

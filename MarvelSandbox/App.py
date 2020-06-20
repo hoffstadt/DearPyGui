@@ -140,6 +140,7 @@ addColorEdit4("Color Edit 4", 255, 150, 50, 255)
 addCombo("Combo", ('A', '5', "1.0", "Text"))
 addSelectable("Selectible item 1")
 addSelectable("Selectible item 2",True)
+addDragFloat("Drag Float", default_value=117.0)
 addButton("Submit All Inputs", callback = "GetAllInputsAndPrint")
 
 #ending Collapsable header
