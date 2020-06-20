@@ -1,5 +1,6 @@
 #include "Core/mvPythonModule.h"
 #include "Core/mvApp.h"
+#include "Core/mvLogger.h"
 #include "Core/mvPythonTranslator.h"
 #include "Core/AppItems/mvAppItems.h"
 #include "mvDrawingInterface.h"
@@ -41,7 +42,7 @@ namespace Marvel {
 		if (item == nullptr)
 		{
 			std::string message = drawing;
-			mvApp::GetApp()->LogWarning(message + " drawing does not exist.");
+			AppLog::getLogger()->LogWarning(message + " drawing does not exist.");
 			Py_RETURN_NONE;
 		}
 
@@ -73,7 +74,7 @@ namespace Marvel {
 		if (item == nullptr)
 		{
 			std::string message = drawing;
-			mvApp::GetApp()->LogWarning(message + " drawing does not exist.");
+			AppLog::getLogger()->LogWarning(message + " drawing does not exist.");
 			Py_RETURN_NONE;
 		}
 
@@ -104,7 +105,7 @@ namespace Marvel {
 		if (item == nullptr)
 		{
 			std::string message = drawing;
-			mvApp::GetApp()->LogWarning(message + " drawing does not exist.");
+			AppLog::getLogger()->LogWarning(message + " drawing does not exist.");
 			Py_RETURN_NONE;
 		}
 
@@ -137,7 +138,7 @@ namespace Marvel {
 		if (item == nullptr)
 		{
 			std::string message = drawing;
-			mvApp::GetApp()->LogWarning(message + " drawing does not exist.");
+			AppLog::getLogger()->LogWarning(message + " drawing does not exist.");
 			Py_RETURN_NONE;
 		}
 
@@ -165,7 +166,7 @@ namespace Marvel {
 		if (item == nullptr)
 		{
 			std::string message = drawing;
-			mvApp::GetApp()->LogWarning(message + " drawing does not exist.");
+			AppLog::getLogger()->LogWarning(message + " drawing does not exist.");
 			Py_RETURN_NONE;
 		}
 
@@ -196,7 +197,7 @@ namespace Marvel {
 		if (item == nullptr)
 		{
 			std::string message = drawing;
-			mvApp::GetApp()->LogWarning(message + " drawing does not exist.");
+			AppLog::getLogger()->LogWarning(message + " drawing does not exist.");
 			Py_RETURN_NONE;
 		}
 
@@ -224,7 +225,7 @@ namespace Marvel {
 		if (item == nullptr)
 		{
 			std::string message = drawing;
-			mvApp::GetApp()->LogWarning(message + " drawing does not exist.");
+			AppLog::getLogger()->LogWarning(message + " drawing does not exist.");
 			Py_RETURN_NONE;
 		}
 
@@ -254,7 +255,7 @@ namespace Marvel {
 		if (item == nullptr)
 		{
 			std::string message = drawing;
-			mvApp::GetApp()->LogWarning(message + " drawing does not exist.");
+			AppLog::getLogger()->LogWarning(message + " drawing does not exist.");
 			Py_RETURN_NONE;
 		}
 
@@ -286,7 +287,7 @@ namespace Marvel {
 		if (item == nullptr)
 		{
 			std::string message = drawing;
-			mvApp::GetApp()->LogWarning(message + " drawing does not exist.");
+			AppLog::getLogger()->LogWarning(message + " drawing does not exist.");
 			Py_RETURN_NONE;
 		}
 
@@ -307,7 +308,7 @@ namespace Marvel {
 		if (item == nullptr)
 		{
 			std::string message = drawing;
-			mvApp::GetApp()->LogWarning(message + " drawing does not exist.");
+			AppLog::getLogger()->LogWarning(message + " drawing does not exist.");
 			Py_RETURN_NONE;
 		}
 

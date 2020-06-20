@@ -482,7 +482,7 @@ namespace Marvel {
 		if (pHandler == NULL)
 		{
 			std::string message(" Callback doesn't exist");
-			LogWarning(name + message);
+			AppLog::getLogger()->LogWarning(name + message);
 			return;
 		}
 
@@ -503,7 +503,7 @@ namespace Marvel {
 			if (!result)
 			{
 				std::string message("Callback failed");
-				LogError(name + message);
+				AppLog::getLogger()->LogError(name + message);
 			}
 
 			Py_XDECREF(pArgs);
@@ -518,7 +518,7 @@ namespace Marvel {
 		else
 		{
 			std::string message(" Callback not callable");
-			LogError(name + message);
+			AppLog::getLogger()->LogError(name + message);
 		}
 
 	}
@@ -537,7 +537,7 @@ namespace Marvel {
 		if (pHandler == NULL)
 		{
 			std::string message(" Callback doesn't exist");
-			LogWarning(name + message);
+			AppLog::getLogger()->LogWarning(name + message);
 			return;
 		}
 
@@ -554,7 +554,7 @@ namespace Marvel {
 			if (!result)
 			{
 				std::string message("Callback failed");
-				LogError(name + message);
+				AppLog::getLogger()->LogError(name + message);
 			}
 
 			Py_XDECREF(pArgs);
@@ -569,7 +569,7 @@ namespace Marvel {
 		else
 		{
 			std::string message(" Callback not callable");
-			LogError(name + message);
+			AppLog::getLogger()->LogError(name + message);
 		}
 
 	}
@@ -607,7 +607,7 @@ namespace Marvel {
 	{
 		if (m_started)
 		{
-			LogWarning("Items can't be added during runtime.");
+			AppLog::getLogger()->LogWarning("Items can't be added during runtime.");
 			return;
 		}
 
@@ -616,7 +616,7 @@ namespace Marvel {
 			if (auto otheritem = getItem(item->getName()))
 			{
 				std::string message = item->getName() + " " + std::to_string(m_items.size());
-				LogWarning(message + ": Items of this type must have unique names");
+				AppLog::getLogger()->LogWarning(message + ": Items of this type must have unique names");
 				return;
 			}
 		}
@@ -628,7 +628,7 @@ namespace Marvel {
 	{
 		if (m_started)
 		{
-			LogWarning("Items can't be added during runtime.");
+			AppLog::getLogger()->LogWarning("Items can't be added during runtime.");
 			return;
 		}
 
@@ -637,7 +637,7 @@ namespace Marvel {
 			if (auto otheritem = getItem(item->getName()))
 			{
 				std::string message = item->getName() + " " + std::to_string(m_items.size());
-				LogWarning(message + ": Items of this type must have unique names");
+				AppLog::getLogger()->LogWarning(message + ": Items of this type must have unique names");
 				return;
 			}
 		}
@@ -654,46 +654,11 @@ namespace Marvel {
 	{
 		if (!m_started)
 		{
-			LogWarning("Popups can't be closed until runtime");
+			AppLog::getLogger()->LogWarning("Popups can't be closed until runtime");
 			return;
 		}
 
 		ImGui::CloseCurrentPopup();
-	}
-
-	void mvApp::Log(const std::string& text, const std::string& level)
-	{
-		if (m_loglevel < 1)
-			AppLog::getLogger()->AddLog("[%05d] [%1s]  %2s\n", ImGui::GetFrameCount(), level.c_str(), text.c_str());
-	}
-
-	void mvApp::LogDebug(const std::string& text)
-	{
-		if (m_loglevel < 2)
-			AppLog::getLogger()->AddLog("[%05d] [DEBUG]  %1s\n", ImGui::GetFrameCount(), text.c_str());
-	}
-
-	void mvApp::LogInfo(const std::string& text)
-	{
-		if (m_loglevel < 3)
-			AppLog::getLogger()->AddLog("[%05d] [INFO]  %1s\n", ImGui::GetFrameCount(), text.c_str());
-	}
-
-	void mvApp::LogWarning(const std::string& text)
-	{
-		if (m_loglevel < 4)
-			AppLog::getLogger()->AddLog("[%05d] [WARNING]  %1s\n", ImGui::GetFrameCount(), text.c_str());
-	}
-
-	void mvApp::LogError(const std::string& text)
-	{
-		if (m_loglevel < 5)
-			AppLog::getLogger()->AddLog("[%05d] [ERROR]  %1s\n", ImGui::GetFrameCount(), text.c_str());
-	}
-
-	void mvApp::ClearLog()
-	{
-		AppLog::getLogger()->Clear();
 	}
 
 }

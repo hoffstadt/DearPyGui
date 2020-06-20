@@ -91,15 +91,8 @@ namespace Marvel {
 		//-----------------------------------------------------------------------------
 		// Logging
 		//-----------------------------------------------------------------------------
-		void  setLogLevel  (unsigned level) { m_loglevel = level; }
-		void  Log          (const std::string& text, const std::string& level = "TRACE");
-		void  LogDebug     (const std::string& text);
-		void  LogInfo      (const std::string& text);
-		void  LogWarning   (const std::string& text);
-		void  LogError     (const std::string& text);
-		void  ClearLog     ();
 		void  showLogger   () { m_showLog = true; }
-		bool& showLog      () { return m_showLog; }
+		bool& isLoggerShown() { return m_showLog; }
 
 		//-----------------------------------------------------------------------------
 		// Item Status
