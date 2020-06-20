@@ -73,6 +73,8 @@ namespace Marvel {
 		inline void                     setHeight  (int height) { m_height = height; }
 		void                            showAll    ();
 		void                            hideAll    ();
+		mvAppItem*                      getChild   (const std::string& name);
+		void                            addChild   (mvAppItem* child);
 
 		// color styles for runtime
 		void addColorStyle(ImGuiCol item, mvColor color);
@@ -80,6 +82,7 @@ namespace Marvel {
 		void popColorStyles();
 
 		// utilities
+		bool   isContainer               () const { return m_container; }
 		bool   isItemHovered             () const { return m_hovered; }
 		bool   isItemActive              () const { return m_active; }
 		bool   isItemFocused             () const { return m_focused; }
@@ -123,6 +126,7 @@ namespace Marvel {
 		std::string                m_callback = "";
 		std::map<ImGuiCol, mvColor> m_colorStyles;
 
+		bool   m_container = false;
 		bool   m_hovered = false;
 		bool   m_active = false;
 		bool   m_focused = false;

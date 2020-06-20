@@ -242,10 +242,6 @@ namespace Marvel {
 		for (mvAppItem* item : m_items)
 		{
 
-			// allow the parent to handle rendering
-			if (item->getParent())
-				continue;
-
 			// skip item if it's not shown
 			if (!item->isShown())
 				continue;
@@ -362,6 +358,14 @@ namespace Marvel {
 		{
 			if (item->getName() == name)
 				return item;
+
+			if (item->isContainer())
+			{
+				auto child = item->getChild(name);
+				if (child)
+					return child;
+			}
+			
 		}
 
 		return nullptr;
@@ -640,7 +644,10 @@ namespace Marvel {
 
 		mvAppItem* parentitem = topParent();	
 		item->setParent(parentitem);
-		m_items.push_back(item);
+		if(parentitem)
+			parentitem->addChild(item);
+		else
+			m_items.push_back(item);
 	}
 
 	void mvApp::closePopup()
