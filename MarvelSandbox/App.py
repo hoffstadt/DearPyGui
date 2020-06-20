@@ -162,6 +162,7 @@ def GetAllInputsAndPrint(sender):
     input8 = getValue("Color Edit 4")
     input9 = getValue("Combo")
     input10 = getValue("Selectible item 1")
+    input11 = getValue("Drag Float")
 
     print("Text Widget: " + input1)
     print("Text Input Widget with Multiline: ", input2)
@@ -181,6 +182,8 @@ def GetAllInputsAndPrint(sender):
         print("Selectable item 1 : Selected")
     else:
         print("Selectable item 1 : Not Selected")
+
+    print("Drag Float: " + input11)
 
     print('\n')
 
