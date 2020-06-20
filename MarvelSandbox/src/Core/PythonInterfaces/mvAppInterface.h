@@ -148,6 +148,11 @@ namespace Marvel{
 				{mvPythonDataType::Integer, "width"}
 			}, false, "Needs documentation") },
 
+			{ "setItemHeight", mvPythonTranslator({
+				{mvPythonDataType::String, "item"},
+				{mvPythonDataType::Integer, "height"}
+			}, false, "Needs documentation") },
+
 			{ "setTheme", mvPythonTranslator({
 				{mvPythonDataType::String, "theme"}
 			}, false, "Needs documentation") },

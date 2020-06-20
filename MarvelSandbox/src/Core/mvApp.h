@@ -42,11 +42,6 @@ namespace Marvel {
 		//-----------------------------------------------------------------------------
 		// Item modifications
 		//-----------------------------------------------------------------------------
-		void setItemPopup   (const std::string& name, const std::string& popup);
-		void setItemCallback(const std::string& name, const std::string& callback);
-		void setItemWidth   (const std::string& name, int width);
-		void setItemHeight  (const std::string& name, int height);
-		void setItemTip     (const std::string& name, const std::string& tip);
 		int  getPopupButton (const std::string& name);
 
 		//-----------------------------------------------------------------------------
@@ -93,24 +88,6 @@ namespace Marvel {
 		//-----------------------------------------------------------------------------
 		void  showLogger   () { m_showLog = true; }
 		bool& isLoggerShown() { return m_showLog; }
-
-		//-----------------------------------------------------------------------------
-		// Item Status
-		//     - Directly from DearImGui (may not all be applicable)
-		//-----------------------------------------------------------------------------
-		bool   isItemHovered             (const std::string& item);
-		bool   isItemActive              (const std::string& item);
-		bool   isItemFocused             (const std::string& item);
-		bool   isItemClicked             (const std::string& item);
-		bool   isItemVisible             (const std::string& item);
-		bool   isItemEdited              (const std::string& item);
-		bool   isItemActivated           (const std::string& item);
-		bool   isItemDeactivated         (const std::string& item);
-		bool   isItemDeactivatedAfterEdit(const std::string& item);
-		bool   isItemToogledOpen         (const std::string& item);
-		mvVec2 getItemRectMin            (const std::string& item);
-		mvVec2 getItemRectMax            (const std::string& item);
-		mvVec2 getItemRectSize           (const std::string& item);
 
 		//-----------------------------------------------------------------------------
 		// Input Polling

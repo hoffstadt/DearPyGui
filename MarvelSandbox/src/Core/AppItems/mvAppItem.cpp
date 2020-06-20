@@ -72,4 +72,15 @@ namespace Marvel{
 		m_children.push_back(child);
 	}
 
+	mvAppItem::~mvAppItem()
+	{
+		for (auto child : m_children)
+		{
+			delete child;
+			child = nullptr;
+		}
+
+		m_children.clear();
+	}
+
 }

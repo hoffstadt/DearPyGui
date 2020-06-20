@@ -317,41 +317,6 @@ namespace Marvel {
 			aitem->addColorStyle(item, color);
 	}
 
-	void mvApp::setItemCallback(const std::string& name, const std::string& callback)
-	{
-		auto item = getItem(name);
-		if (item)
-			item->setCallback(callback);
-	}
-
-	void mvApp::setItemPopup(const std::string& name, const std::string& popup)
-	{
-		auto item = getItem(name);
-		if (item)
-			item->setPopup(popup);
-	}
-
-	void mvApp::setItemTip(const std::string& name, const std::string& tip)
-	{
-		auto item = getItem(name);
-		if (item)
-			item->setTip(tip);
-	}
-
-	void mvApp::setItemWidth(const std::string& name, int width)
-	{
-		auto item = getItem(name);
-		if (item)
-			item->setWidth(width);
-	}
-
-	void mvApp::setItemHeight(const std::string& name, int height)
-	{
-		auto item = getItem(name);
-		if (item)
-			item->setHeight(height);
-	}
-
 	mvAppItem* mvApp::getItem(const std::string& name)
 	{
 		for (mvAppItem* item : m_items)
@@ -376,97 +341,6 @@ namespace Marvel {
 		if (mvAppItem* item = getItem(name))
 			return static_cast<mvPopup*>(item)->getButton();
 		return -1;
-	}
-
-	bool mvApp::isItemHovered(const std::string& item)
-	{
-		if (mvAppItem* pitem = getItem(item))
-			return pitem->isItemHovered();
-		return false;
-	}
-
-	bool mvApp::isItemActive(const std::string& item)
-	{
-		if (mvAppItem* pitem = getItem(item))
-			return pitem->isItemActive();
-		return false;
-	}
-
-	bool mvApp::isItemFocused(const std::string& item)
-	{
-		if (mvAppItem* pitem = getItem(item))
-			return pitem->isItemFocused();
-		return false;
-	}
-
-	bool mvApp::isItemClicked(const std::string& item)
-	{
-		if (mvAppItem* pitem = getItem(item))
-			return pitem->isItemClicked();
-		return false;
-	}
-	
-	bool mvApp::isItemVisible(const std::string& item)
-	{
-		if (mvAppItem* pitem = getItem(item))
-			return pitem->isItemVisible();
-		return false;
-	}
-	
-	bool mvApp::isItemEdited(const std::string& item)
-	{
-		if (mvAppItem* pitem = getItem(item))
-			return pitem->isItemEdited();
-		return false;
-	}
-	
-	bool mvApp::isItemActivated(const std::string& item)
-	{
-		if (mvAppItem* pitem = getItem(item))
-			return pitem->isItemActivated();
-		return false;
-	}
-	
-	bool mvApp::isItemDeactivated(const std::string& item)
-	{
-		if (mvAppItem* pitem = getItem(item))
-			return pitem->isItemDeactivated();
-		return false;
-	}
-	
-	bool mvApp::isItemDeactivatedAfterEdit(const std::string& item)
-	{
-		if (mvAppItem* pitem = getItem(item))
-			return pitem->isItemDeactivatedAfterEdit();
-		return false;
-	}
-	
-	bool mvApp::isItemToogledOpen(const std::string& item)
-	{
-		if (mvAppItem* pitem = getItem(item))
-			return pitem->isItemToogledOpen();
-		return false;
-	}
-	
-	mvVec2 mvApp::getItemRectMin(const std::string& item)
-	{
-		if (mvAppItem* pitem = getItem(item))
-			return pitem->getItemRectMin();
-		return {0.0f, 0.0f};
-	}
-	
-	mvVec2 mvApp::getItemRectMax(const std::string& item)
-	{
-		if (mvAppItem* pitem = getItem(item))
-			return pitem->getItemRectMax();
-		return { 0.0f, 0.0f };
-	}
-	
-	mvVec2 mvApp::getItemRectSize(const std::string& item)
-	{
-		if (mvAppItem* pitem = getItem(item))
-			return pitem->getItemRectSize();
-		return { 0.0f, 0.0f };
 	}
 
 	void mvApp::triggerCallback(const std::string& name, const std::string& sender)
