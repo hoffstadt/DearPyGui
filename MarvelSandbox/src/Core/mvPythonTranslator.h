@@ -12,11 +12,11 @@
 //-----------------------------------------------------------------------------
 #define MV_STANDARD_CALLBACK_INIT() const char* callback = "", *tip="", *popup=""; int width=0; int height=0;
 #define MV_STANDARD_CALLBACK_PARSE &callback, &tip, &popup, &width, &height
-#define MV_STANDARD_CALLBACK_EVAL() mvApp::GetApp()->setItemCallback(name, callback);\
-mvApp::GetApp()->setItemTip(name, tip);\
-mvApp::GetApp()->setItemWidth(name, width);\
-mvApp::GetApp()->setItemHeight(name, height);\
-mvApp::GetApp()->setItemPopup(name, popup);
+#define MV_STANDARD_CALLBACK_EVAL() mvApp::GetApp()->getItem(name)->setCallback(callback);\
+mvApp::GetApp()->getItem(name)->setTip(tip);\
+mvApp::GetApp()->getItem(name)->setWidth(width);\
+mvApp::GetApp()->getItem(name)->setHeight(height);\
+mvApp::GetApp()->getItem(name)->setPopup(popup);
 
 namespace Marvel {
 

@@ -42,7 +42,7 @@ namespace Marvel {
 
 		mvAppItem(const std::string& parent, const std::string& name);
 
-		~mvAppItem() = default;
+		virtual ~mvAppItem();
 
 		mvAppItem(const mvAppItem& other) = delete;
 		mvAppItem(mvAppItem&& other) = delete;
