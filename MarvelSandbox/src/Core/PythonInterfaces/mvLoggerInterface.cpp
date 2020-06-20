@@ -1,5 +1,6 @@
 #include "Core/mvPythonModule.h"
 #include "Core/mvApp.h"
+#include "Core/mvLogger.h"
 #include "Core/mvPythonTranslator.h"
 #include "mvLoggerInterface.h"
 
@@ -17,13 +18,9 @@ namespace Marvel {
 	PyObject* SetLogLevel(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		int level;
-
 		if(!Translators["SetLogLevel"].parse(args, kwargs,__FUNCTION__, &level))
 			Py_RETURN_NONE;
-
-		mvApp::GetApp()->setLogLevel(level);
-		
-
+		AppLog::getLogger()->setLogLevel(level);
 		Py_RETURN_NONE;
 	}
 
@@ -31,12 +28,10 @@ namespace Marvel {
 	{
 		const char* message;
 		const char* level = "TRACE";
-
 		if(!Translators["Log"].parse(args, kwargs,__FUNCTION__, &message, &level))
 			Py_RETURN_NONE;
 
-		mvApp::GetApp()->Log(std::string(message), std::string(level));
-
+		AppLog::getLogger()->Log(std::string(message), std::string(level));
 		Py_RETURN_NONE;
 	}
 
@@ -47,8 +42,7 @@ namespace Marvel {
 		if (!Translators["LogDebug"].parse(args, kwargs,__FUNCTION__, &message))
 			Py_RETURN_NONE;
 
-		mvApp::GetApp()->LogDebug(std::string(message));
-
+		AppLog::getLogger()->LogDebug(std::string(message));
 		Py_RETURN_NONE;
 	}
 
@@ -59,8 +53,7 @@ namespace Marvel {
 		if (!Translators["LogInfo"].parse(args, kwargs,__FUNCTION__, &message))
 			Py_RETURN_NONE;
 
-		mvApp::GetApp()->LogInfo(std::string(message));
-
+		AppLog::getLogger()->LogInfo(std::string(message));
 		Py_RETURN_NONE;
 	}
 
@@ -71,8 +64,7 @@ namespace Marvel {
 		if (!Translators["LogWarning"].parse(args, kwargs,__FUNCTION__, &message))
 			Py_RETURN_NONE;
 
-		mvApp::GetApp()->LogWarning(std::string(message));
-
+		AppLog::getLogger()->LogWarning(std::string(message));
 		Py_RETURN_NONE;
 	}
 
@@ -83,16 +75,13 @@ namespace Marvel {
 		if (!Translators["LogError"].parse(args, kwargs,__FUNCTION__, &message))
 			Py_RETURN_NONE;
 
-		mvApp::GetApp()->LogError(std::string(message));
-
+		AppLog::getLogger()->LogError(std::string(message));
 		Py_RETURN_NONE;
 	}
 
 	PyObject* ClearLog(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
-
-		mvApp::GetApp()->ClearLog();
-
+		AppLog::getLogger()->ClearLog();
 		Py_RETURN_NONE;
 	}
 

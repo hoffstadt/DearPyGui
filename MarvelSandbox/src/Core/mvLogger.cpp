@@ -169,4 +169,39 @@ namespace Marvel {
 		ImGui::End();
 	}
 
+	void AppLog::Log(const std::string& text, const std::string& level)
+	{
+		if (m_loglevel < 1)
+			AddLog("[%05d] [%1s]  %2s\n", ImGui::GetFrameCount(), level.c_str(), text.c_str());
+	}
+
+	void AppLog::LogDebug(const std::string& text)
+	{
+		if (m_loglevel < 2)
+			AddLog("[%05d] [DEBUG]  %1s\n", ImGui::GetFrameCount(), text.c_str());
+	}
+
+	void AppLog::LogInfo(const std::string& text)
+	{
+		if (m_loglevel < 3)
+			AddLog("[%05d] [INFO]  %1s\n", ImGui::GetFrameCount(), text.c_str());
+	}
+
+	void AppLog::LogWarning(const std::string& text)
+	{
+		if (m_loglevel < 4)
+			AddLog("[%05d] [WARNING]  %1s\n", ImGui::GetFrameCount(), text.c_str());
+	}
+
+	void AppLog::LogError(const std::string& text)
+	{
+		if (m_loglevel < 5)
+			AddLog("[%05d] [ERROR]  %1s\n", ImGui::GetFrameCount(), text.c_str());
+	}
+
+	void AppLog::ClearLog()
+	{
+		Clear();
+	}
+
 }

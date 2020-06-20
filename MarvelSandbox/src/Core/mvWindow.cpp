@@ -11,8 +11,8 @@ namespace Marvel {
 			prerender();
 			if (m_app->isOk())
 				m_app->render();
-			if(mvApp::GetApp()->showLog())
-				Marvel::AppLog::getLogger()->Draw("Marvel Sandbox", &mvApp::GetApp()->showLog());
+			if(mvApp::GetApp()->isLoggerShown())
+				Marvel::AppLog::getLogger()->Draw("Marvel Sandbox", &mvApp::GetApp()->isLoggerShown());
 			postrender();
 		}
 
