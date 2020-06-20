@@ -8,8 +8,6 @@ namespace Marvel{
 		m_parent(mvApp::GetApp()->getItem(parent))
 	{
 
-		if (m_parent)
-			m_parent->m_children.push_back(this);
 	}
 
 	void mvAppItem::showAll()
@@ -30,9 +28,6 @@ namespace Marvel{
 
 	void mvAppItem::setParent(mvAppItem* parent)
 	{
-		if (parent)
-			parent->m_children.push_back(this);
-
 		m_parent = parent;
 	}
 
@@ -51,6 +46,30 @@ namespace Marvel{
 	{
 		if(m_colorStyles.size() > 0)
 			ImGui::PopStyleColor(m_colorStyles.size());
+	}
+
+	mvAppItem* mvAppItem::getChild(const std::string& name)
+	{
+		for (mvAppItem* item : m_children)
+		{
+			if (item->getName() == name)
+				return item;
+
+			if (item->isContainer())
+			{
+				auto child = item->getChild(name);
+				if (child)
+					return child;
+			}
+		}
+
+		return nullptr;
+	}
+
+	void mvAppItem::addChild(mvAppItem* child)
+	{
+		m_container = true;
+		m_children.push_back(child);
 	}
 
 }

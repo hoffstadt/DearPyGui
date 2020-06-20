@@ -22,6 +22,7 @@ namespace Marvel {
 			Py_RETURN_NONE;
 
 		mvApp::GetApp()->setLogLevel(level);
+		
 
 		Py_RETURN_NONE;
 	}
