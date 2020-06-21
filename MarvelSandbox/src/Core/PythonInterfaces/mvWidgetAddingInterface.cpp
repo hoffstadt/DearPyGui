@@ -628,7 +628,7 @@ namespace Marvel {
 		if (!Translators["addColorEdit4"].parse(args, kwargs,__FUNCTION__, &name, &r, &g, &b, &a, MV_STANDARD_CALLBACK_PARSE))
 			Py_RETURN_NONE;
 
-		mvAppItem* item = new mvColorEdit4("", name, r, g, b, a);
+		mvAppItem* item = new mvColorEdit4("", name, r/255, g/255, b/255, a/255);
 		mvApp::GetApp()->addItem(item);
 
 		MV_STANDARD_CALLBACK_EVAL();
@@ -651,6 +651,24 @@ namespace Marvel {
 
 		MV_STANDARD_CALLBACK_EVAL();
 		
+
+		Py_RETURN_NONE;
+	}
+
+	PyObject* addDragFloat(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		MV_STANDARD_CALLBACK_INIT();
+		const char* name;
+		float default_value = 0;
+
+		if (!Translators["addDragFloat"].parse(args, kwargs, __FUNCTION__, &name, &default_value, MV_STANDARD_CALLBACK_PARSE))
+			Py_RETURN_NONE;
+
+		mvAppItem* item = new mvDragFloat("", name, default_value);
+		mvApp::GetApp()->addItem(item);
+
+		MV_STANDARD_CALLBACK_EVAL();
+
 
 		Py_RETURN_NONE;
 	}
@@ -700,6 +718,7 @@ namespace Marvel {
 		pyModule.addMethodD(addSameLine);
 		pyModule.addMethodD(addTooltip);
 		pyModule.addMethodD(addCollapsingHeader);
+		pyModule.addMethodD(addDragFloat);
 		
 
 		PyImport_AppendInittab(pyModule.getName(), initfunc);

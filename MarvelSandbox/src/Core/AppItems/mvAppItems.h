@@ -16,6 +16,7 @@
 #include "Core/AppItems/mvPopup.h"
 #include "Core/AppItems/mvDrawing.h"
 #include "Core/AppItems/mvPlot.h"
+#include "Core/AppItems/mvDragFloat.h"
 
 //-----------------------------------------------------------------------------
 // Widget Index

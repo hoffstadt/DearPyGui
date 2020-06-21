@@ -136,10 +136,11 @@ addInputFloat("Input Float 1", default_value=117.0)
 addRadioButton("Radio Button", ("First Option", "Second Option", "Third Option"), default_value=2)
 addListbox("Listbox", ("First item", "Second item", "Third item"), default_value=2, height=4)
 addCheckbox("Checkbox", default_value=True)
-addColorEdit4("Color Edit 4", 255, 150, 50, 255)
+addColorEdit4("Color Edit 4", 50, 100, 56, 255)
 addCombo("Combo", ('A', '5', "1.0", "Text"))
 addSelectable("Selectible item 1")
 addSelectable("Selectible item 2",True)
+addDragFloat("Drag Float", default_value=117.0)
 addButton("Submit All Inputs", callback = "GetAllInputsAndPrint")
 
 #ending Collapsable header
@@ -161,6 +162,7 @@ def GetAllInputsAndPrint(sender):
     input8 = getValue("Color Edit 4")
     input9 = getValue("Combo")
     input10 = getValue("Selectible item 1")
+    input11 = getValue("Drag Float")
 
     print("Text Widget: " + input1)
     print("Text Input Widget with Multiline: ", input2)
@@ -180,6 +182,8 @@ def GetAllInputsAndPrint(sender):
         print("Selectable item 1 : Selected")
     else:
         print("Selectable item 1 : Not Selected")
+
+    print("Drag Float: " + input11)
 
     print('\n')
 
