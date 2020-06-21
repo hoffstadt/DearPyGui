@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Core/AppItems/mvTypeBases.h"
+#include "Core/mvThreadPool.h"
 
 //-----------------------------------------------------------------------------
 // Widget Index
@@ -35,6 +36,7 @@ namespace Marvel {
 		{
 			if(ImGui::Selectable(m_label.c_str(), &m_value))
 			{
+
 				mvApp::GetApp()->triggerCallback(m_callback, m_name);
 
 				// Context Menu
@@ -93,7 +95,14 @@ namespace Marvel {
 
 			if (ImGui::Button(m_label.c_str(), ImVec2(m_width, m_height)))
 			{
-				mvApp::GetApp()->triggerCallback(m_callback, m_name);
+				//mvApp::GetApp()->triggerCallback(m_callback, m_name);
+
+				auto callback = m_callback;
+				auto name = m_name;
+
+				auto threadpool = mvThreadPool::GetThreadPool();
+
+				threadpool->submit(std::bind(&mvApp::triggerCallbackMT, mvApp::GetApp(), callback, name));
 
 				// Context Menu
 				if (getPopup() != "")

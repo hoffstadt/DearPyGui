@@ -231,7 +231,7 @@ namespace Marvel {
 		m_parents.push(nullptr);
 
 		// main callback
-		triggerCallback(m_callback, "Main Application");
+		triggerCallbackMT(m_callback, "Main Application");
 
 		// standard windows
 		if(m_showMetrics)
@@ -343,12 +343,31 @@ namespace Marvel {
 		return -1;
 	}
 
+	void mvApp::triggerCallbackMT(const std::string& name, const std::string& sender)
+	{
+		PyGILState_STATE gstate = PyGILState_Ensure();
+
+		triggerCallback(name, sender);
+
+		/* Release the thread. No Python API allowed beyond this point. */
+		PyGILState_Release(gstate);
+
+	}
+
+	void mvApp::triggerCallbackMT2(const std::string& name, const std::string& sender, const std::string& data)
+	{
+		PyGILState_STATE gstate = PyGILState_Ensure();
+
+		triggerCallback(name, sender, data);
+
+		/* Release the thread. No Python API allowed beyond this point. */
+		PyGILState_Release(gstate);
+	}
+
 	void mvApp::triggerCallback(const std::string& name, const std::string& sender)
 	{
 		if (name == "")
 			return;
-
-
 
 		PyObject* pHandler = PyDict_GetItemString(m_pDict, name.c_str()); // borrowed reference
 
@@ -359,8 +378,6 @@ namespace Marvel {
 			AppLog::getLogger()->LogWarning(name + message);
 			return;
 		}
-
-
 
 		// check if handler is callable
 		if (PyCallable_Check(pHandler))

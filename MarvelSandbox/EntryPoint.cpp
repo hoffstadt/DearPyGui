@@ -2,6 +2,7 @@
 #include "Core/PythonInterfaces/mvStdOutput.h"
 #include "Core/mvWindow.h"
 #include "Platform/Windows/mvWindowsWindow.h"
+#include "Core/mvThreadPool.h"
 #include <iostream>
 #include "Core/PythonInterfaces/mvModuleConstants.h"
 
@@ -57,6 +58,9 @@ int main(int argc, char* argv[])
 	ShowWindow(hWnd, SW_SHOW);
 #endif // MV_RELEASE
 
+	// run threadpool to initialize it
+	Marvel::mvThreadPool::GetThreadPool();
+
 	// create window
 	mvWindow* window = new mvWindowsWindow();
 	window->show();
@@ -81,7 +85,6 @@ int main(int argc, char* argv[])
 	Py_NoSiteFlag = 1; // this must be set to 1
 
 	Py_Initialize();
-	PyGILState_STATE gstate = PyGILState_Ensure();
 
 	if (!Py_IsInitialized())
 	{
@@ -137,8 +140,5 @@ int main(int argc, char* argv[])
 	// shutdown the interpreter
 	if (Py_FinalizeEx() < 0)
 		exit(120);
-
-	/* Release the thread. No Python API allowed beyond this point. */
-	PyGILState_Release(gstate);
 
 }

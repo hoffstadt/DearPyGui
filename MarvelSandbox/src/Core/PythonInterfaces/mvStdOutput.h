@@ -2,6 +2,7 @@
 #define PY_SSIZE_T_CLEAN
 #include <Python.h>
 #include "Core/mvLogger.h"
+#include "Core/mvThreadPool.h"
 
 namespace Marvel {
 
@@ -10,6 +11,7 @@ namespace Marvel {
         const char* what;
         if (!PyArg_ParseTuple(args, "s", &what))
             return NULL;
+
         Marvel::AppLog::getLogger()->AddLog("%0s", what);
         return Py_BuildValue("");
     }
