@@ -22,6 +22,50 @@ namespace Marvel{
 				{mvPythonDataType::Bool, "histogram", "create a histogram"}
 			}, true, "A simple plot for visualization of a set of values")},
 
+			{"addSliderFloat", mvPythonTranslator({
+				{mvPythonDataType::String, "name"},
+				{mvPythonDataType::Optional},
+				{mvPythonDataType::KeywordOnly},
+				{mvPythonDataType::Float, "default_value"},
+				{mvPythonDataType::Float, "min_value"},
+				{mvPythonDataType::Float, "max_value"},
+				{mvPythonDataType::String, "format"},
+				{mvPythonDataType::Float, "power"},
+				{mvPythonDataType::Bool, "vertical"}
+			}, true, "A slider for a single float value")},
+
+			{"addSliderFloat4", mvPythonTranslator({
+				{mvPythonDataType::String, "name"},
+				{mvPythonDataType::Optional},
+				{mvPythonDataType::KeywordOnly},
+				{mvPythonDataType::FloatList, "default_value"},
+				{mvPythonDataType::Float, "min_value"},
+				{mvPythonDataType::Float, "max_value"},
+				{mvPythonDataType::String, "format"},
+				{mvPythonDataType::Float, "power"}
+			}, true, "A slider for a 4 float values.")},
+
+			{"addSliderInt", mvPythonTranslator({
+				{mvPythonDataType::String, "name"},
+				{mvPythonDataType::Optional},
+				{mvPythonDataType::KeywordOnly},
+				{mvPythonDataType::Integer, "default_value"},
+				{mvPythonDataType::Integer, "min_value"},
+				{mvPythonDataType::Integer, "max_value"},
+				{mvPythonDataType::String, "format"},
+				{mvPythonDataType::Bool, "vertical"}
+			}, true, "A slider for a single int value")},
+
+			{"addSliderInt4", mvPythonTranslator({
+				{mvPythonDataType::String, "name"},
+				{mvPythonDataType::Optional},
+				{mvPythonDataType::KeywordOnly},
+				{mvPythonDataType::IntList, "default_value"},
+				{mvPythonDataType::Integer, "min_value"},
+				{mvPythonDataType::Integer, "max_value"},
+				{mvPythonDataType::String, "format"}
+			}, true, "A slider for a 4 int values.")},
+
 			{"addText", mvPythonTranslator({
 				{mvPythonDataType::String, "name"},
 				{mvPythonDataType::Optional},

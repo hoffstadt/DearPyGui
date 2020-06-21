@@ -48,6 +48,110 @@ namespace Marvel {
 		Py_RETURN_NONE;
 	}
 
+	PyObject* addSliderFloat(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		MV_STANDARD_CALLBACK_INIT();
+
+		const char* name;
+		float default_value = 0.0f;
+		float min_value = 0.0f;
+		float max_value = 1.0f;
+		const char* format = "%.3f";
+		float power = 1.0f;
+		int vertical = false;
+
+		if (!Translators["addSliderFloat"].parse(args, kwargs, __FUNCTION__, &name, &default_value, 
+			&min_value, &max_value, &format, &power, &vertical, MV_STANDARD_CALLBACK_PARSE))
+			Py_RETURN_NONE;
+
+		mvAppItem* item = new mvSliderFloat("", name, default_value, min_value, max_value, format, power, vertical);
+		mvApp::GetApp()->addItem(item);
+
+		MV_STANDARD_CALLBACK_EVAL();
+
+		Py_RETURN_NONE;
+	}
+
+	PyObject* addSliderFloat4(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		MV_STANDARD_CALLBACK_INIT();
+
+		const char* name;
+		PyObject* default_value = PyTuple_New(4);
+		PyTuple_SetItem(default_value, 0, PyFloat_FromDouble(0.0));
+		PyTuple_SetItem(default_value, 1, PyFloat_FromDouble(0.0));
+		PyTuple_SetItem(default_value, 2, PyFloat_FromDouble(0.0));
+		PyTuple_SetItem(default_value, 3, PyFloat_FromDouble(0.0));
+		float min_value = 0.0f;
+		float max_value = 1.0f;
+		const char* format = "%.3f";
+		float power = 1.0f;
+
+		if (!Translators["addSliderFloat4"].parse(args, kwargs, __FUNCTION__, &name, &default_value,
+			&min_value, &max_value, &format, &power, MV_STANDARD_CALLBACK_PARSE))
+			Py_RETURN_NONE;
+
+		auto vec = mvPythonTranslator::getFloatVec(default_value);
+
+		mvAppItem* item = new mvSliderFloat4("", name, vec.data(), min_value, max_value, format, power);
+		mvApp::GetApp()->addItem(item);
+
+		MV_STANDARD_CALLBACK_EVAL();
+
+		Py_RETURN_NONE;
+	}
+
+	PyObject* addSliderInt(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		MV_STANDARD_CALLBACK_INIT();
+
+		const char* name;
+		int default_value = 0;
+		int min_value = 0;
+		int max_value = 100;
+		const char* format = "%d";
+		int vertical = false;
+
+		if (!Translators["addSliderInt"].parse(args, kwargs, __FUNCTION__, &name, &default_value,
+			&min_value, &max_value, &format, &vertical, MV_STANDARD_CALLBACK_PARSE))
+			Py_RETURN_NONE;
+
+		mvAppItem* item = new mvSliderInt("", name, default_value, min_value, max_value, format, vertical);
+		mvApp::GetApp()->addItem(item);
+
+		MV_STANDARD_CALLBACK_EVAL();
+
+		Py_RETURN_NONE;
+	}
+
+	PyObject* addSliderInt4(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		MV_STANDARD_CALLBACK_INIT();
+
+		const char* name;
+		PyObject* default_value = PyTuple_New(4);
+		PyTuple_SetItem(default_value, 0, PyLong_FromLong(0));
+		PyTuple_SetItem(default_value, 1, PyLong_FromLong(0));
+		PyTuple_SetItem(default_value, 2, PyLong_FromLong(0));
+		PyTuple_SetItem(default_value, 3, PyLong_FromLong(0));
+		int min_value = 0;
+		int max_value = 100;
+		const char* format = "%d";
+
+		if (!Translators["addSliderInt4"].parse(args, kwargs, __FUNCTION__, &name, &default_value,
+			&min_value, &max_value, &format, MV_STANDARD_CALLBACK_PARSE))
+			Py_RETURN_NONE;
+
+		auto vec = mvPythonTranslator::getIntVec(default_value);
+
+		mvAppItem* item = new mvSliderInt4("", name, vec.data(), min_value, max_value, format);
+		mvApp::GetApp()->addItem(item);
+
+		MV_STANDARD_CALLBACK_EVAL();
+
+		Py_RETURN_NONE;
+	}
+
 	PyObject* addText(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		MV_STANDARD_CALLBACK_INIT();
@@ -59,15 +163,6 @@ namespace Marvel {
 		PyTuple_SetItem(color, 1, PyFloat_FromDouble(0.0));
 		PyTuple_SetItem(color, 2, PyFloat_FromDouble(0.0));
 		PyTuple_SetItem(color, 3, PyFloat_FromDouble(1.0));
-
-		auto pl = mvPythonTranslator( {
-			mvPythonDataElement(mvPythonDataType::String, "name"),
-			mvPythonDataElement(mvPythonDataType::Optional, ""),
-			mvPythonDataElement(mvPythonDataType::Integer, "wrap"),
-			mvPythonDataElement(mvPythonDataType::FloatList, "color"),
-			mvPythonDataElement(mvPythonDataType::Bool, "bullet")
-
-			}, true);
 
 		if (!Translators["addText"].parse(args, kwargs,__FUNCTION__, &name, &wrap, &color, &bullet, MV_STANDARD_CALLBACK_PARSE))
 			Py_RETURN_NONE;
@@ -81,8 +176,6 @@ namespace Marvel {
 		mvApp::GetApp()->addItem(item);
 
 		MV_STANDARD_CALLBACK_EVAL();
-
-		
 
 		Py_RETURN_NONE;
 	}
@@ -688,6 +781,10 @@ namespace Marvel {
 		pyModule.addMethod(endTooltip, "Not Documented");
 		pyModule.addMethod(endCollapsingHeader, "Not Documented");
 
+		pyModule.addMethodD(addSliderFloat);
+		pyModule.addMethodD(addSliderInt);
+		pyModule.addMethodD(addSliderFloat4);
+		pyModule.addMethodD(addSliderInt4);
 		pyModule.addMethodD(addTreeNode);
 		pyModule.addMethodD(addSelectable);
 		pyModule.addMethodD(addPopup);
