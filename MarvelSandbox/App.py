@@ -152,6 +152,8 @@ endCollapsingHeader()
 
 def GetAllInputsAndPrint(sender):
 
+    setValue("Input Float 1", 6969)
+
     print('\n')
 
     print('Submit All Inputs: Has ran the callback "GetAndPrint"')
@@ -178,7 +180,10 @@ def GetAllInputsAndPrint(sender):
     print("Input Float 1: %1.2f" % input4)
     print("Radio Button: %i" % input5)
     print("Listbox: {}".format(input6))
-    print("Checkbox:", input7)
+    if input7 == True:
+        print("Checkbox: True")
+    else:
+        print("Checkbox: False")
     print("Color Edit 4: {0}, {1}, {2}, {3}".format(input8[0], input8[1], input8[2], input8[3]))
     print("Combo: " + input9)
 

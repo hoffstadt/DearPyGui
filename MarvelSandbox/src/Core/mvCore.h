@@ -50,3 +50,13 @@ namespace Marvel {
 
 #define MV_DEFAULT_COLOR Marvel::mvColor{1.0f, 1.0f, 1.0f, 1.0f, false}
 #define MV_TRANSPARENT Marvel::mvColor{1.0f, 1.0f, 1.0f, 0.0f, true}
+
+//#include "mvlogging.h"
+//
+//#define MV_ENABLE_ASSERTS
+//
+//#ifdef MV_ENABLE_ASSERTS
+//#define MV_ASSERT(x, ...) { if(!(x)) { MV_ERROR("Assertion Failed: {0}", __VA_ARGS__); __debugbreak(); } }
+//#else
+//#define MV_ASSERT(x, ...)
+//#endif

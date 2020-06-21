@@ -1,5 +1,6 @@
 #include "mvLogger.h"
 #include <string>
+#include <mutex>
 
 namespace Marvel {
 
@@ -27,6 +28,10 @@ namespace Marvel {
 
 	void AppLog::AddLog(const char* fmt, ...)
 	{
+		static std::mutex mutex;
+
+		std::lock_guard<std::mutex> lock(mutex);
+
 		int old_size = Buf.size();
 		va_list args;
 		va_start(args, fmt);
