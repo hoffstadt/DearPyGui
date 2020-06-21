@@ -193,7 +193,13 @@ namespace Marvel{
 				{mvPythonDataType::String, "name"},
 				{mvPythonDataType::Optional},
 				{mvPythonDataType::Integer, "default_value"}
-			}, true, "A Listbox is a listbox") }
+			}, true, "A Listbox is a listbox") },
+
+			{"addDragFloat", mvPythonTranslator({
+				{mvPythonDataType::String, "name"},
+				{mvPythonDataType::Optional},
+				{mvPythonDataType::Float, "default_value"}
+			}, true, "This is useful for easy selection of a float withing a set range") }
 
 		};
 
