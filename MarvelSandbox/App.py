@@ -141,6 +141,10 @@ addCombo("Combo", ('A', '5', "1.0", "Text"))
 addSelectable("Selectible item 1")
 addSelectable("Selectible item 2",True)
 addDragFloat("Drag Float", default_value=117.0)
+addSliderFloat("SliderFloat", default_value=0.75, max_value=10, format="%2.5f", vertical=True)
+addSliderInt("SliderInt", default_value=70, max_value=1000)
+addSliderFloat4("SliderFloat4")
+addSliderInt4("SliderInt4")
 addButton("Submit All Inputs", callback = "GetAllInputsAndPrint")
 
 #ending Collapsable header
@@ -163,6 +167,10 @@ def GetAllInputsAndPrint(sender):
     input9 = getValue("Combo")
     input10 = getValue("Selectible item 1")
     input11 = getValue("Drag Float")
+    input12 = getValue("SliderFloat")
+    input13 = getValue("SliderFloat4")
+    input14 = getValue("SliderInt")
+    input15 = getValue("SliderInt4")
 
     print("Text Widget: " + input1)
     print("Text Input Widget with Multiline: ", input2)
@@ -183,7 +191,11 @@ def GetAllInputsAndPrint(sender):
     else:
         print("Selectable item 1 : Not Selected")
 
-    print("Drag Float: " + input11)
+    print("Drag Float: " + str(input11))
+    print("SliderFloat: " + str(input12))
+    print("SliderFloat4: " + str(input13))
+    print("SliderInt: " + str(input14))
+    print("SliderInt4: " + str(input15))
 
     print('\n')
 

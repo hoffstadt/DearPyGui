@@ -97,6 +97,7 @@ namespace Marvel {
 		bool                                    parse(PyObject* args, PyObject* kwargs, const char* message, ...);
 		static std::vector<std::string>         getStringVec(PyObject* obj);
 		static std::vector<float>               getFloatVec(PyObject* obj);
+		static std::vector<int>                 getIntVec(PyObject* obj);
 		static mvVec2                           getVec2(PyObject* obj);
 		static mvColor                          getColor(PyObject* obj);
 		static std::vector<mvVec2>              getVectVec2(PyObject* obj);

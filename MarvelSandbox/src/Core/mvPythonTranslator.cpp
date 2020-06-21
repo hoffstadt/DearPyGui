@@ -95,6 +95,16 @@ namespace Marvel {
 		return items;
 	}
 
+	std::vector<int> mvPythonTranslator::getIntVec(PyObject* obj)
+	{
+		std::vector<int> items;
+
+		for (int i = 0; i < PyTuple_Size(obj); i++)
+			items.emplace_back(PyLong_AsLong(PyTuple_GetItem(obj, i)));
+
+		return items;
+	}
+
 	mvVec2 mvPythonTranslator::getVec2(PyObject* obj)
 	{
 		std::vector<float> items;
