@@ -53,6 +53,21 @@ namespace Marvel {
 				// Regular Tooltip (simple)
 				if (item->getTip() != "" && ImGui::IsItemHovered())
 					ImGui::SetTooltip(item->getTip().c_str());
+
+
+				item->setHovered(ImGui::IsItemHovered());
+				item->setActive(ImGui::IsItemActive());
+				item->setFocused(ImGui::IsItemFocused());
+				item->setClicked(ImGui::IsItemClicked());
+				item->setVisible(ImGui::IsItemVisible());
+				item->setEdited(ImGui::IsItemEdited());
+				item->setActivated(ImGui::IsItemActivated());
+				item->setDeactivated(ImGui::IsItemDeactivated());
+				item->setDeactivatedAfterEdit(ImGui::IsItemDeactivatedAfterEdit());
+				item->setToggledOpen(ImGui::IsItemToggledOpen());
+				item->setRectMin({ ImGui::GetItemRectMin().x, ImGui::GetItemRectMin().y });
+				item->setRectMax({ ImGui::GetItemRectMax().x, ImGui::GetItemRectMax().y });
+				item->setRectSize({ ImGui::GetItemRectSize().x, ImGui::GetItemRectSize().y });
 			}
 
 			// TODO check if these work for child
@@ -102,6 +117,21 @@ namespace Marvel {
 				// Regular Tooltip (simple)
 				if (item->getTip() != "" && ImGui::IsItemHovered())
 					ImGui::SetTooltip(item->getTip().c_str());
+
+
+				item->setHovered(ImGui::IsItemHovered());
+				item->setActive(ImGui::IsItemActive());
+				item->setFocused(ImGui::IsItemFocused());
+				item->setClicked(ImGui::IsItemClicked());
+				item->setVisible(ImGui::IsItemVisible());
+				item->setEdited(ImGui::IsItemEdited());
+				item->setActivated(ImGui::IsItemActivated());
+				item->setDeactivated(ImGui::IsItemDeactivated());
+				item->setDeactivatedAfterEdit(ImGui::IsItemDeactivatedAfterEdit());
+				item->setToggledOpen(ImGui::IsItemToggledOpen());
+				item->setRectMin({ ImGui::GetItemRectMin().x, ImGui::GetItemRectMin().y });
+				item->setRectMax({ ImGui::GetItemRectMax().x, ImGui::GetItemRectMax().y });
+				item->setRectSize({ ImGui::GetItemRectSize().x, ImGui::GetItemRectSize().y });
 			}
 
 			if (m_width != 0)
@@ -151,6 +181,21 @@ namespace Marvel {
 					// Regular Tooltip (simple)
 					if (item->getTip() != "" && ImGui::IsItemHovered())
 						ImGui::SetTooltip(item->getTip().c_str());
+
+
+					item->setHovered(ImGui::IsItemHovered());
+					item->setActive(ImGui::IsItemActive());
+					item->setFocused(ImGui::IsItemFocused());
+					item->setClicked(ImGui::IsItemClicked());
+					item->setVisible(ImGui::IsItemVisible());
+					item->setEdited(ImGui::IsItemEdited());
+					item->setActivated(ImGui::IsItemActivated());
+					item->setDeactivated(ImGui::IsItemDeactivated());
+					item->setDeactivatedAfterEdit(ImGui::IsItemDeactivatedAfterEdit());
+					item->setToggledOpen(ImGui::IsItemToggledOpen());
+					item->setRectMin({ ImGui::GetItemRectMin().x, ImGui::GetItemRectMin().y });
+					item->setRectMax({ ImGui::GetItemRectMax().x, ImGui::GetItemRectMax().y });
+					item->setRectSize({ ImGui::GetItemRectSize().x, ImGui::GetItemRectSize().y });
 				}
 			}
 
@@ -198,6 +243,21 @@ namespace Marvel {
 					// Regular Tooltip (simple)
 					if (item->getTip() != "" && ImGui::IsItemHovered())
 						ImGui::SetTooltip(item->getTip().c_str());
+
+
+					item->setHovered(ImGui::IsItemHovered());
+					item->setActive(ImGui::IsItemActive());
+					item->setFocused(ImGui::IsItemFocused());
+					item->setClicked(ImGui::IsItemClicked());
+					item->setVisible(ImGui::IsItemVisible());
+					item->setEdited(ImGui::IsItemEdited());
+					item->setActivated(ImGui::IsItemActivated());
+					item->setDeactivated(ImGui::IsItemDeactivated());
+					item->setDeactivatedAfterEdit(ImGui::IsItemDeactivatedAfterEdit());
+					item->setToggledOpen(ImGui::IsItemToggledOpen());
+					item->setRectMin({ ImGui::GetItemRectMin().x, ImGui::GetItemRectMin().y });
+					item->setRectMax({ ImGui::GetItemRectMax().x, ImGui::GetItemRectMax().y });
+					item->setRectSize({ ImGui::GetItemRectSize().x, ImGui::GetItemRectSize().y });
 				}
 
 				ImGui::TreePop();
