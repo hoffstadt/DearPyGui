@@ -251,7 +251,7 @@ namespace Marvel {
 		m_mousePos.y = mousePos.y;
 
 		// prevents crashes from early events before thread pool is ready
-		if(ImGui::GetFrameCount() > 100)
+		if(ImGui::GetFrameCount() > 10)
 			prepareStandardCallbacks();
 			
 		ImGui::SetNextWindowPos(ImVec2(0.0f, 0.0f));
@@ -260,7 +260,8 @@ namespace Marvel {
 
 		m_parents.push(nullptr);
 
-		triggerCallback(m_callback, "Main Application");
+		if (ImGui::GetFrameCount() > 10)
+			triggerCallback(m_callback, "Main Application");
 
 		// standard windows
 		if(m_showMetrics)
