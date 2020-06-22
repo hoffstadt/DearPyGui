@@ -250,7 +250,9 @@ namespace Marvel {
 		m_mousePos.x = mousePos.x;
 		m_mousePos.y = mousePos.y;
 
-		prepareStandardCallbacks();
+		// prevents crashes from early events before thread pool is ready
+		if(ImGui::GetFrameCount() > 100)
+			prepareStandardCallbacks();
 			
 		ImGui::SetNextWindowPos(ImVec2(0.0f, 0.0f));
 		ImGui::SetNextWindowSize(ImVec2(m_width, m_height));
