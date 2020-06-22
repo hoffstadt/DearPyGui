@@ -8,12 +8,21 @@ namespace Marvel {
 
     static PyObject* writeToLogger(PyObject* self, PyObject* args)
     {
+        PyGILState_STATE gstate = PyGILState_Ensure();
         const char* what;
         if (!PyArg_ParseTuple(args, "s", &what))
-            return NULL;
+        {
+            Py_XINCREF(Py_None);
+            PyGILState_Release(gstate);
+            return Py_None;
+        }
 
+        
         Marvel::AppLog::getLogger()->AddLog("%0s", what);
-        return Py_BuildValue("");
+        Py_XINCREF(Py_None);
+        PyGILState_Release(gstate);
+        
+        return Py_None;
     }
 
     static PyMethodDef outmethods[] = {

@@ -58,9 +58,6 @@ int main(int argc, char* argv[])
 	ShowWindow(hWnd, SW_SHOW);
 #endif // MV_RELEASE
 
-	// run threadpool to initialize it
-	Marvel::mvThreadPool::GetThreadPool();
-
 	// create window
 	mvWindow* window = new mvWindowsWindow();
 	window->show();
@@ -85,12 +82,13 @@ int main(int argc, char* argv[])
 	Py_NoSiteFlag = 1; // this must be set to 1
 
 	Py_Initialize();
-
 	if (!Py_IsInitialized())
 	{
 		printf("Error initializing Python interpreter\n");
 		return 1;
 	}
+	PyEval_InitThreads();
+	
 
 	// import our custom module to capture stdout/stderr
 	PyObject* m = PyImport_ImportModule("sandboxout");
@@ -121,7 +119,9 @@ int main(int argc, char* argv[])
 		PyObject* pDict = PyModule_GetDict(pModule); // borrowed reference
 		mvApp::GetApp()->setModuleDict(pDict);
 		mvApp::GetApp()->setStarted();
+		PyEval_SaveThread(); // releases global lock
 		window->run();
+		PyGILState_STATE gstate = PyGILState_Ensure();
 		Py_XDECREF(pModule);
 
 	}

@@ -204,6 +204,10 @@ def GetAllInputsAndPrint(sender):
 
     print('\n')
 
+    for i in range(0, 10000000):
+        pass
+    print("done")
+
 #############################################
 #############    Containers    ##############
 #############################################
@@ -406,7 +410,7 @@ def PlotCallback(sender):
 
 
 # setting main callback
-#setMainCallback("MainCallback")
+setMainCallback("MainCallback")
 def MainCallback(sender):
     if isMouseButtonPressed(1):
         print("pressed")

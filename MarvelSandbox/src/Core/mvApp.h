@@ -63,10 +63,8 @@ namespace Marvel {
 		// Callbacks
 		//     - triggerCallback methods performs checks
 		//-----------------------------------------------------------------------------
-		void triggerCallbackMT          (const std::string& name, const std::string& sender);
 		void triggerCallback            (const std::string& name, const std::string& sender);
-		void triggerCallbackMT2         (const std::string& name, const std::string& sender, const std::string& data);
-		void triggerCallback            (const std::string& name, const std::string& sender, const std::string& data);
+		void triggerCallbackD           (const std::string& name, const std::string& sender, const std::string& data); // sends data with the callback
 		void setMainCallback            (const std::string& callback) { m_callback = callback; }
 		void setMouseClickCallback      (const std::string& callback) { m_mouseClickCallback = callback; }
 		void setMouseDownCallback       (const std::string& callback) { m_mouseDownCallback = callback; }

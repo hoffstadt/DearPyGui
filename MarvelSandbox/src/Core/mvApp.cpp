@@ -60,29 +60,57 @@ namespace Marvel {
 		{
 
 			if (ImGui::IsMouseClicked(i))
-				app->triggerCallback(app->getMouseClickCallback(), std::to_string(i));
+			{
+				auto threadpool = mvThreadPool::GetThreadPool();
+				threadpool->submit(std::bind(&mvApp::triggerCallback, 
+					app, app->getMouseClickCallback(), std::to_string(i)));
+
+			}
 
 			if (io.MouseDownDuration[i] >= 0.0f)
-				app->triggerCallback(app->getMouseDownCallback(),
-					std::to_string(i), std::to_string(io.MouseDownDuration[i]));
+			{
+				auto threadpool = mvThreadPool::GetThreadPool();
+				threadpool->submit(std::bind(&mvApp::triggerCallbackD,
+					app, app->getMouseDownCallback(), std::to_string(i), std::to_string(io.MouseDownDuration[i])));
+			}
 
 			if (ImGui::IsMouseDoubleClicked(i))
-				app->triggerCallback(app->getMouseDoubleClickCallback(), std::to_string(i));
+			{
+				auto threadpool = mvThreadPool::GetThreadPool();
+				threadpool->submit(std::bind(&mvApp::triggerCallback,
+					app, app->getMouseDoubleClickCallback(), std::to_string(i)));
+			}
 
 			if (ImGui::IsMouseReleased(i))
-				app->triggerCallback(app->getMouseReleaseCallback(), std::to_string(i));
+			{
+				auto threadpool = mvThreadPool::GetThreadPool();
+				threadpool->submit(std::bind(&mvApp::triggerCallback,
+					app, app->getMouseReleaseCallback(), std::to_string(i)));
+			}
 		}
 
 		for (int i = 0; i < IM_ARRAYSIZE(io.KeysDown); i++)
 		{
 			if (ImGui::IsKeyPressed(i))
-				app->triggerCallback(app->getKeyPressCallback(), std::to_string(i));
+			{
+				auto threadpool = mvThreadPool::GetThreadPool();
+				threadpool->submit(std::bind(&mvApp::triggerCallback,
+					app, app->getKeyPressCallback(), std::to_string(i)));
+			}
 
 			if (io.KeysDownDuration[i] >= 0.0f)
-				app->triggerCallback(app->getKeyDownCallback(), std::to_string(i), std::to_string(io.KeysDownDuration[i]));
+			{
+				auto threadpool = mvThreadPool::GetThreadPool();
+				threadpool->submit(std::bind(&mvApp::triggerCallbackD,
+					app, app->getKeyDownCallback(), std::to_string(i), std::to_string(io.KeysDownDuration[i])));
+			}
 
 			if (ImGui::IsKeyReleased(i))
-				app->triggerCallback(app->getKeyReleaseCallback(), std::to_string(i));
+			{
+				auto threadpool = mvThreadPool::GetThreadPool();
+				threadpool->submit(std::bind(&mvApp::triggerCallback,
+					app, app->getKeyReleaseCallback(), std::to_string(i)));
+			}
 		}
 	}
 
@@ -230,8 +258,7 @@ namespace Marvel {
 
 		m_parents.push(nullptr);
 
-		// main callback
-		triggerCallbackMT(m_callback, "Main Application");
+		triggerCallback(m_callback, "Main Application");
 
 		// standard windows
 		if(m_showMetrics)
@@ -262,19 +289,6 @@ namespace Marvel {
 			if (item->getTip() != "" && ImGui::IsItemHovered())
 				ImGui::SetTooltip(item->getTip().c_str());
 
-			//item->setHovered(ImGui::IsItemHovered());
-			//item->setActive(ImGui::IsItemActive());
-			//item->setFocused(ImGui::IsItemFocused());
-			//item->setClicked(ImGui::IsItemClicked());
-			//item->setVisible(ImGui::IsItemVisible());
-			//item->setEdited(ImGui::IsItemEdited());
-			//item->setActivated(ImGui::IsItemActivated());
-			//item->setDeactivated(ImGui::IsItemDeactivated());
-			//item->setDeactivatedAfterEdit(ImGui::IsItemDeactivatedAfterEdit());
-			//item->setToggledOpen(ImGui::IsItemToggledOpen());
-			//item->setRectMin({ ImGui::GetItemRectMin().x, ImGui::GetItemRectMin().y});
-			//item->setRectMax({ ImGui::GetItemRectMax().x, ImGui::GetItemRectMax().y });
-			//item->setRectSize({ ImGui::GetItemRectSize().x, ImGui::GetItemRectSize().y });
 		}
 
 	}
@@ -343,31 +357,13 @@ namespace Marvel {
 		return -1;
 	}
 
-	void mvApp::triggerCallbackMT(const std::string& name, const std::string& sender)
-	{
-		PyGILState_STATE gstate = PyGILState_Ensure();
-
-		triggerCallback(name, sender);
-
-		/* Release the thread. No Python API allowed beyond this point. */
-		PyGILState_Release(gstate);
-
-	}
-
-	void mvApp::triggerCallbackMT2(const std::string& name, const std::string& sender, const std::string& data)
-	{
-		PyGILState_STATE gstate = PyGILState_Ensure();
-
-		triggerCallback(name, sender, data);
-
-		/* Release the thread. No Python API allowed beyond this point. */
-		PyGILState_Release(gstate);
-	}
-
 	void mvApp::triggerCallback(const std::string& name, const std::string& sender)
 	{
+		
 		if (name == "")
 			return;
+
+		PyGILState_STATE gstate = PyGILState_Ensure();
 
 		PyObject* pHandler = PyDict_GetItemString(m_pDict, name.c_str()); // borrowed reference
 
@@ -376,6 +372,7 @@ namespace Marvel {
 		{
 			std::string message(" Callback doesn't exist");
 			AppLog::getLogger()->LogWarning(name + message);
+			PyGILState_Release(gstate);
 			return;
 		}
 
@@ -412,13 +409,15 @@ namespace Marvel {
 			AppLog::getLogger()->LogError(name + message);
 		}
 
+		PyGILState_Release(gstate);
 	}
 
-	void mvApp::triggerCallback(const std::string& name, const std::string& sender, const std::string& data)
+	void mvApp::triggerCallbackD(const std::string& name, const std::string& sender, const std::string& data)
 	{
-
 		if (name == "")
 			return;
+
+		PyGILState_STATE gstate = PyGILState_Ensure();
 
 		PyErr_Clear();
 
@@ -429,6 +428,7 @@ namespace Marvel {
 		{
 			std::string message(" Callback doesn't exist");
 			AppLog::getLogger()->LogWarning(name + message);
+			PyGILState_Release(gstate);
 			return;
 		}
 
@@ -462,6 +462,8 @@ namespace Marvel {
 			std::string message(" Callback not callable");
 			AppLog::getLogger()->LogError(name + message);
 		}
+
+		PyGILState_Release(gstate);
 
 	}
 

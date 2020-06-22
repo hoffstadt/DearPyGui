@@ -86,8 +86,7 @@ namespace Marvel {
     mvThreadPool::mvThreadPool() :
         m_done(false), m_joiner(m_threads)
     {
-        //unsigned const thread_count = std::thread::hardware_concurrency();
-        unsigned const thread_count = 3;
+        unsigned const thread_count = std::thread::hardware_concurrency();
 
         //MV_INFO("CPU Thread Count: {}", thread_count);
 

@@ -27,7 +27,8 @@ namespace Marvel {
 
 			if (ImGui::ColorEdit4(m_label.c_str(), m_value))
 			{
-				mvApp::GetApp()->triggerCallback(m_callback, m_name);
+				auto threadpool = mvThreadPool::GetThreadPool();
+				threadpool->submit(std::bind(&mvApp::triggerCallback, mvApp::GetApp(), m_callback, m_name));
 
 				// Context Menu
 				if (getPopup() != "")
