@@ -109,8 +109,6 @@ namespace Marvel {
 
 			ImGui::EndGroup();
 
-			//if (m_tip != "" && ImGui::IsItemHovered())
-			//	ImGui::SetTooltip(m_tip.c_str());
 		}
 
 	};

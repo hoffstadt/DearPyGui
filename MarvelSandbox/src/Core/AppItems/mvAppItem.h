@@ -142,7 +142,8 @@ namespace Marvel {
 		mvVec2 m_rectMax;
 		mvVec2 m_rectSize;
 
-		mutable std::mutex m_mutex;
+		mutable std::mutex m_rmutex; // read mutex
+		mutable std::mutex m_wmutex; // write mutex
 
 	};
 

@@ -40,7 +40,8 @@ namespace Marvel {
 
 				if (ImGui::VSliderFloat(m_label.c_str(), ImVec2(m_width, m_height), m_value, m_min, m_max, m_format.c_str(), m_power))
 				{
-					mvApp::GetApp()->triggerCallback(m_callback, m_name);
+					auto threadpool = mvThreadPool::GetThreadPool();
+					threadpool->submit(std::bind(&mvApp::triggerCallback, mvApp::GetApp(), m_callback, m_name));
 
 					// Context Menu
 					if (getPopup() != "")
@@ -51,7 +52,8 @@ namespace Marvel {
 			{
 				if (ImGui::SliderFloat(m_label.c_str(), m_value, m_min, m_max, m_format.c_str(), m_power))
 				{
-					mvApp::GetApp()->triggerCallback(m_callback, m_name);
+					auto threadpool = mvThreadPool::GetThreadPool();
+					threadpool->submit(std::bind(&mvApp::triggerCallback, mvApp::GetApp(), m_callback, m_name));
 
 					// Context Menu
 					if (getPopup() != "")
@@ -91,7 +93,8 @@ namespace Marvel {
 		{
 			if (ImGui::SliderFloat4(m_label.c_str(), m_value, m_min, m_max, m_format.c_str(), m_power))
 			{
-				mvApp::GetApp()->triggerCallback(m_callback, m_name);
+				auto threadpool = mvThreadPool::GetThreadPool();
+				threadpool->submit(std::bind(&mvApp::triggerCallback, mvApp::GetApp(), m_callback, m_name));
 
 				// Context Menu
 				if (getPopup() != "")
@@ -135,7 +138,8 @@ namespace Marvel {
 
 				if (ImGui::VSliderInt(m_label.c_str(), ImVec2(m_width, m_height), m_value, m_min, m_max, m_format.c_str()))
 				{
-					mvApp::GetApp()->triggerCallback(m_callback, m_name);
+					auto threadpool = mvThreadPool::GetThreadPool();
+					threadpool->submit(std::bind(&mvApp::triggerCallback, mvApp::GetApp(), m_callback, m_name));
 
 					// Context Menu
 					if (getPopup() != "")
@@ -185,7 +189,8 @@ namespace Marvel {
 		{
 			if (ImGui::SliderInt4(m_label.c_str(), m_value, m_min, m_max, m_format.c_str()))
 			{
-				mvApp::GetApp()->triggerCallback(m_callback, m_name);
+				auto threadpool = mvThreadPool::GetThreadPool();
+				threadpool->submit(std::bind(&mvApp::triggerCallback, mvApp::GetApp(), m_callback, m_name));
 
 				// Context Menu
 				if (getPopup() != "")

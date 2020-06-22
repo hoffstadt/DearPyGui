@@ -35,7 +35,8 @@ namespace Marvel {
 				{
 					if (ImGui::InputTextMultiline(m_label.c_str(), &m_value, ImVec2(m_width, m_height)))
 					{
-						mvApp::GetApp()->triggerCallback(m_callback, m_name);
+						auto threadpool = mvThreadPool::GetThreadPool();
+						threadpool->submit(std::bind(&mvApp::triggerCallback, mvApp::GetApp(), m_callback, m_name));
 
 						// Context Menu
 						if (getPopup() != "")
@@ -46,7 +47,8 @@ namespace Marvel {
 				{
 					if (ImGui::InputText(m_label.c_str(), &m_value, m_flags))
 					{
-						mvApp::GetApp()->triggerCallback(m_callback, m_name);
+						auto threadpool = mvThreadPool::GetThreadPool();
+						threadpool->submit(std::bind(&mvApp::triggerCallback, mvApp::GetApp(), m_callback, m_name));
 
 						// Context Menu
 						if (getPopup() != "")
@@ -59,7 +61,8 @@ namespace Marvel {
 			{
 				if (ImGui::InputTextWithHint(m_label.c_str(), m_hint.c_str(), &m_value, m_flags))
 				{
-					mvApp::GetApp()->triggerCallback(m_callback, m_name);
+					auto threadpool = mvThreadPool::GetThreadPool();
+					threadpool->submit(std::bind(&mvApp::triggerCallback, mvApp::GetApp(), m_callback, m_name));
 
 					// Context Menu
 					if (getPopup() != "")
