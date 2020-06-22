@@ -11,6 +11,7 @@
 //     * mvCombo
 //     * mvListbox
 //     * mvRadioButton
+//     * mvProgressBar
 //
 //-----------------------------------------------------------------------------
 
@@ -266,6 +267,38 @@ namespace Marvel {
 	private:
 
 		std::vector<std::string> m_itemnames;
+
+	};
+
+	//-----------------------------------------------------------------------------
+	// mvProgressBar
+	//-----------------------------------------------------------------------------
+	class mvProgressBar : public mvFloatItemBase
+	{
+
+	public:
+
+		MV_APPITEM_TYPE(mvAppItemType::ProgressBar)
+
+		mvProgressBar(const std::string& parent, const std::string& name, float default_value = 0.0f, const std::string& overlay = "")
+			: mvFloatItemBase(parent, name, 1, default_value), m_overlay(overlay)
+		{
+		}
+
+		virtual void draw() override
+		{
+
+			ImGui::ProgressBar(m_value[0], ImVec2(m_width, m_height), m_overlay.c_str());
+
+			// Context Menu
+			if (getPopup() != "")
+				ImGui::OpenPopup(getPopup().c_str());
+
+		}
+
+	private:
+
+		std::string m_overlay;
 
 	};
 

@@ -30,6 +30,7 @@
 //         * mvCombo
 //         * mvListbox
 //         * mvRadioButton
+//         * mvProgressBar
 //
 //     - mvColorEdit4.h
 //         * mvColorEdit4

@@ -22,6 +22,14 @@ namespace Marvel{
 				{mvPythonDataType::Bool, "histogram", "create a histogram"}
 			}, true, "A simple plot for visualization of a set of values")},
 
+			{"addProgressBar", mvPythonTranslator({
+				{mvPythonDataType::String, "name"},
+				{mvPythonDataType::Float, "value"},
+				{mvPythonDataType::Optional},
+				{mvPythonDataType::KeywordOnly},
+				{mvPythonDataType::String, "overlay"}
+			}, true, "A progress bar.")},
+
 			{"addImage", mvPythonTranslator({
 				{mvPythonDataType::String, "name"},
 				{mvPythonDataType::String, "value"},

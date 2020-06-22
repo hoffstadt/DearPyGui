@@ -48,6 +48,24 @@ namespace Marvel {
 		Py_RETURN_NONE;
 	}
 
+	PyObject* addProgressBar(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		MV_STANDARD_CALLBACK_INIT();
+		const char* name;
+		float default_value;
+		const char* overlay = "";
+
+		if (!Translators["addProgressBar"].parse(args, kwargs, __FUNCTION__, &name, &default_value, &overlay, MV_STANDARD_CALLBACK_PARSE))
+			Py_RETURN_NONE;
+
+		mvAppItem* item = new mvProgressBar("", name, default_value, overlay);
+		mvApp::GetApp()->addItem(item);
+
+		MV_STANDARD_CALLBACK_EVAL();
+
+		Py_RETURN_NONE;
+	}
+
 	PyObject* addImage(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		MV_STANDARD_CALLBACK_INIT();
@@ -901,6 +919,7 @@ namespace Marvel {
 		pyModule.addMethod(endCollapsingHeader, "Not Documented");
 
 		pyModule.addMethodD(addImage);
+		pyModule.addMethodD(addProgressBar);
 		pyModule.addMethodD(addDragFloat);
 		pyModule.addMethodD(addDragInt);
 		pyModule.addMethodD(addDragFloat4);
