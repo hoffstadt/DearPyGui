@@ -119,6 +119,8 @@ def HulkAbility(sender):
     changeThemeItem(sbConstants.mvGuiCol_Text, 100, 0, 0, 255)
     print("Hulk Smash!!!!")
 
+addProgressBar("Progress", 0, overlay="Progress Bar")
+
 #########################################
 #############    Inputs    ##############
 #########################################
@@ -414,6 +416,12 @@ def PlotCallback(sender):
 # setting main callback
 setMainCallback("MainCallback")
 def MainCallback(sender):
+    value = getValue("Progress")
+    value = value + 0.01
+    if value >= 1:
+        value = 0
+    setValue("Progress", value)
+
     if isMouseButtonPressed(1):
         print("pressed")
     if isKeyPressed(0x25): # left arrow key

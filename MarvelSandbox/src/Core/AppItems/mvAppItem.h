@@ -31,7 +31,7 @@ namespace Marvel {
 		Listbox, Text, LabelText, Combo, Plot, SimplePlot,
 		Indent, Unindent, Drawing, Window, EndWindow,
 		Popup, EndPopup, Selectable, TreeNode, DragFloat, DragInt,
-		DragFloat4, DragInt4
+		DragFloat4, DragInt4, ProgressBar
 	};
 
 	//-----------------------------------------------------------------------------
