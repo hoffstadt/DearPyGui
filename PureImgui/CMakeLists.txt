@@ -11,8 +11,8 @@ target_sources(PureImgui
 		"${CMAKE_CURRENT_SOURCE_DIR}/src/mvWindowsWindow.cpp"
 		
 		# implot
-		"${CMAKE_CURRENT_SOURCE_DIR}/../Dependencies/implot/implot.cpp"
-		"${CMAKE_CURRENT_SOURCE_DIR}/../Dependencies/implot/implot_demo.cpp"
+		"${CMAKE_CURRENT_SOURCE_DIR}/../MarvelSandbox/src/Vendor/implot/implot.cpp"
+		"${CMAKE_CURRENT_SOURCE_DIR}/../MarvelSandbox/src/Vendor/implot/implot_demo.cpp"
 
 		# imgui
 		"${CMAKE_CURRENT_SOURCE_DIR}/../Dependencies/imgui/imgui.cpp"
@@ -31,7 +31,8 @@ target_include_directories(PureImgui
 		"${CMAKE_CURRENT_SOURCE_DIR}/src/"
 		"${CMAKE_CURRENT_SOURCE_DIR}/../Dependencies/imgui/"
 		"${CMAKE_CURRENT_SOURCE_DIR}/../Dependencies/imgui/examples/"
-		"${CMAKE_CURRENT_SOURCE_DIR}/../Dependencies/implot/"
+		"${CMAKE_CURRENT_SOURCE_DIR}/../MarvelSandbox/src/Vendor/implot/"
+		"${CMAKE_CURRENT_SOURCE_DIR}/../MarvelSandbox/src/Vendor/stb/"
 
 )
 

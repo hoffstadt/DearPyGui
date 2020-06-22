@@ -27,10 +27,11 @@ target_sources(MarvelSandbox
 		"${CMAKE_CURRENT_SOURCE_DIR}/src/Core/PythonInterfaces/mvWidgetAddingInterface.cpp"
 
 		"${CMAKE_CURRENT_SOURCE_DIR}/src/Platform/Windows/mvWindowsWindow.cpp"
+		"${CMAKE_CURRENT_SOURCE_DIR}/src/Platform/Windows/mvPlatformSpecifics.cpp"
 
 		# implot
-		"${CMAKE_CURRENT_SOURCE_DIR}/../Dependencies/implot/implot.cpp"
-		"${CMAKE_CURRENT_SOURCE_DIR}/../Dependencies/implot/implot_demo.cpp"
+		"${CMAKE_CURRENT_SOURCE_DIR}/src/Vendor/implot/implot.cpp"
+		"${CMAKE_CURRENT_SOURCE_DIR}/src/Vendor/implot/implot_demo.cpp"
 		
 		# imgui
 		"${CMAKE_CURRENT_SOURCE_DIR}/../Dependencies/imgui/misc/cpp/imgui_stdlib.cpp"
@@ -49,7 +50,8 @@ target_include_directories(MarvelSandbox
 		"${CMAKE_CURRENT_SOURCE_DIR}/../Dependencies/imgui/"
 		"${CMAKE_CURRENT_SOURCE_DIR}/../Dependencies/imgui/examples/"
 		"${CMAKE_CURRENT_SOURCE_DIR}/../Dependencies/cpython/Include/"
-		"${CMAKE_CURRENT_SOURCE_DIR}/../Dependencies/implot/"
+		"${CMAKE_CURRENT_SOURCE_DIR}/src/Vendor/implot"
+		"${CMAKE_CURRENT_SOURCE_DIR}/src/Vendor/stb"
 )
 
 target_link_directories(MarvelSandbox

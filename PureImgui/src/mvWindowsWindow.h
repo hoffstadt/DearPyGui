@@ -36,6 +36,8 @@ private:
 
 public:
 
+	static ID3D11Device* getDevice() { return s_pd3dDevice; }
+
 	static LRESULT CALLBACK HandleMsgSetup(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) noexcept;
 
 	static LRESULT CALLBACK HandleMsgThunk(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) noexcept;

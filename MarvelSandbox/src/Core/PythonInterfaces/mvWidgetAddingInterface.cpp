@@ -48,6 +48,37 @@ namespace Marvel {
 		Py_RETURN_NONE;
 	}
 
+	PyObject* addImage(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		MV_STANDARD_CALLBACK_INIT();
+
+		const char* name;
+		const char* value;
+		PyObject* tintcolor = PyTuple_New(4);
+		PyTuple_SetItem(tintcolor, 0, PyFloat_FromDouble(1.0));
+		PyTuple_SetItem(tintcolor, 1, PyFloat_FromDouble(1.0));
+		PyTuple_SetItem(tintcolor, 2, PyFloat_FromDouble(1.0));
+		PyTuple_SetItem(tintcolor, 3, PyFloat_FromDouble(1.0));
+		PyObject* bordercolor = PyTuple_New(4);
+		PyTuple_SetItem(bordercolor, 0, PyFloat_FromDouble(0.0));
+		PyTuple_SetItem(bordercolor, 1, PyFloat_FromDouble(0.0));
+		PyTuple_SetItem(bordercolor, 2, PyFloat_FromDouble(0.0));
+		PyTuple_SetItem(bordercolor, 3, PyFloat_FromDouble(0.0));
+
+		if (!Translators["addImage"].parse(args, kwargs, __FUNCTION__, &name, &value, &tintcolor, &bordercolor, MV_STANDARD_CALLBACK_PARSE))
+			Py_RETURN_NONE;
+
+		auto mtintcolor = mvPythonTranslator::getColor(tintcolor);
+		auto mbordercolor = mvPythonTranslator::getColor(bordercolor);
+
+		mvAppItem* item = new mvImage("", name, value, mtintcolor, mbordercolor);
+		mvApp::GetApp()->addItem(item);
+
+		MV_STANDARD_CALLBACK_EVAL();
+
+		Py_RETURN_NONE;
+	}
+
 	PyObject* addSliderFloat(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		MV_STANDARD_CALLBACK_INIT();
@@ -172,7 +203,7 @@ namespace Marvel {
 		if (mcolor.r > 100.0f)
 			mcolor.specified = false;
 
-		mvAppItem* item = new mvText("", std::string(name), wrap, mcolor, bullet);
+		mvAppItem* item = new mvText("", name, wrap, mcolor, bullet);
 		mvApp::GetApp()->addItem(item);
 
 		MV_STANDARD_CALLBACK_EVAL();
@@ -781,6 +812,7 @@ namespace Marvel {
 		pyModule.addMethod(endTooltip, "Not Documented");
 		pyModule.addMethod(endCollapsingHeader, "Not Documented");
 
+		pyModule.addMethodD(addImage);
 		pyModule.addMethodD(addSliderFloat);
 		pyModule.addMethodD(addSliderInt);
 		pyModule.addMethodD(addSliderFloat4);

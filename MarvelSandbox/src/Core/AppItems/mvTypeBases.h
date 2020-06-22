@@ -2,6 +2,7 @@
 
 #include "Core/AppItems/mvAppItem.h"
 #include "Core/Concurrency/mvThreadPool.h"
+#include "Core/mvPlatformSpecifics.h"
 
 namespace Marvel {
 
@@ -226,6 +227,45 @@ namespace Marvel {
 
 		unsigned m_valuecount = 1;
 		float    m_value[4];
+
+	};
+
+	//-----------------------------------------------------------------------------
+	// mvImageItemBase
+	//-----------------------------------------------------------------------------
+	class mvImageItemBase : public mvAppItem
+	{
+
+	public:
+
+		mvImageItemBase(const std::string& parent, const std::string& name, const std::string& value)
+			: mvAppItem(parent, name), m_value(value)
+		{
+		}
+
+		virtual void setPyValue(PyObject* value) override
+		{
+			std::lock_guard<std::mutex> lock(m_wmutex);
+			m_value = PyUnicode_AsUTF8(value);
+			if (!m_value.empty())
+				LoadTextureFromFile(m_value.c_str(), &m_texture, &m_width, &m_height);
+
+		}
+
+		virtual PyObject* getPyValue() const override
+		{
+			std::lock_guard<std::mutex> lock(m_rmutex);
+			PyObject* pvalue = Py_BuildValue("s", m_value.c_str());
+			return pvalue;
+		}
+
+		inline void setValue(const std::string& value) { m_value = value; }
+		inline const std::string& getValue() const { return m_value; }
+
+	protected:
+
+		std::string m_value;
+		void*       m_texture = nullptr;
 
 	};
 
