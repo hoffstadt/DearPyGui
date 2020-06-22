@@ -145,6 +145,8 @@ addSliderFloat("SliderFloat", default_value=0.75, max_value=10, format="%2.5f", 
 addSliderInt("SliderInt", default_value=70, max_value=1000)
 addSliderFloat4("SliderFloat4")
 addSliderInt4("SliderInt4")
+addDragInt("DragInt")
+addDragInt4("DragInt4")
 addButton("Submit All Inputs", callback = "GetAllInputsAndPrint")
 
 #ending Collapsable header

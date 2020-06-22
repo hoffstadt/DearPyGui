@@ -138,7 +138,7 @@ namespace Marvel {
 			{
 				PyObject* value = PyTuple_New(m_valuecount);
 				for (int i = 0; i < m_valuecount; i++)
-					PyTuple_SetItem(value, i, PyBool_FromLong(m_value[i]));
+					PyTuple_SetItem(value, i, PyLong_FromLong(m_value[i]));
 				return value;
 			}
 

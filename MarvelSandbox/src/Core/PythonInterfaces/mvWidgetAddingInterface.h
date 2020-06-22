@@ -75,6 +75,52 @@ namespace Marvel{
 				{mvPythonDataType::String, "format"}
 			}, true, "A slider for a 4 int values.")},
 
+			{"addDragFloat", mvPythonTranslator({
+				{mvPythonDataType::String, "name"},
+				{mvPythonDataType::Optional},
+				{mvPythonDataType::KeywordOnly},
+				{mvPythonDataType::Float, "default_value"},
+				{mvPythonDataType::Float, "speed"},
+				{mvPythonDataType::Float, "min_value"},
+				{mvPythonDataType::Float, "max_value"},
+				{mvPythonDataType::String, "format"},
+				{mvPythonDataType::Float, "power"}
+			}, true, "A drag for a single float value")},
+
+			{"addDragFloat4", mvPythonTranslator({
+				{mvPythonDataType::String, "name"},
+				{mvPythonDataType::Optional},
+				{mvPythonDataType::KeywordOnly},
+				{mvPythonDataType::FloatList, "default_value"},
+				{mvPythonDataType::Float, "speed"},
+				{mvPythonDataType::Float, "min_value"},
+				{mvPythonDataType::Float, "max_value"},
+				{mvPythonDataType::String, "format"},
+				{mvPythonDataType::Float, "power"}
+			}, true, "A drag for a 4 float values.")},
+
+			{"addDragInt", mvPythonTranslator({
+				{mvPythonDataType::String, "name"},
+				{mvPythonDataType::Optional},
+				{mvPythonDataType::KeywordOnly},
+				{mvPythonDataType::Integer, "default_value"},
+				{mvPythonDataType::Float, "speed"},
+				{mvPythonDataType::Integer, "min_value"},
+				{mvPythonDataType::Integer, "max_value"},
+				{mvPythonDataType::String, "format"}
+			}, true, "A drag for a single int value")},
+
+			{"addDragInt4", mvPythonTranslator({
+				{mvPythonDataType::String, "name"},
+				{mvPythonDataType::Optional},
+				{mvPythonDataType::KeywordOnly},
+				{mvPythonDataType::IntList, "default_value"},
+				{mvPythonDataType::Float, "speed"},
+				{mvPythonDataType::Integer, "min_value"},
+				{mvPythonDataType::Integer, "max_value"},
+				{mvPythonDataType::String, "format"}
+			}, true, "A drag for a 4 int values.")},
+
 			{"addText", mvPythonTranslator({
 				{mvPythonDataType::String, "name"},
 				{mvPythonDataType::Optional},
