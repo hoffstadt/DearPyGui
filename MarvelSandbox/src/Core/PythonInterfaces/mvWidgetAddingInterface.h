@@ -22,6 +22,15 @@ namespace Marvel{
 				{mvPythonDataType::Bool, "histogram", "create a histogram"}
 			}, true, "A simple plot for visualization of a set of values")},
 
+			{"addImage", mvPythonTranslator({
+				{mvPythonDataType::String, "name"},
+				{mvPythonDataType::String, "value"},
+				{mvPythonDataType::Optional},
+				{mvPythonDataType::KeywordOnly},
+				{mvPythonDataType::FloatList, "tint_color"},
+				{mvPythonDataType::FloatList, "border_color"}
+			}, true, "An image.")},
+
 			{"addSliderFloat", mvPythonTranslator({
 				{mvPythonDataType::String, "name"},
 				{mvPythonDataType::Optional},

@@ -23,7 +23,7 @@ namespace Marvel {
 	{
 		None = 0, Spacing, SameLine,
 		InputText, Button, RadioButtons,
-		TabBar, TabItem,
+		TabBar, TabItem, Image,
 		MenuBar, Menu, EndMenu, MenuItem, EndMenuBar,
 		Group, Child, SliderFloat, SliderFloat4, SliderInt, SliderInt4,
 		Tooltip, CollapsingHeader,

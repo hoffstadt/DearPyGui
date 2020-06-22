@@ -18,6 +18,7 @@
 #include "Core/AppItems/mvPlot.h"
 #include "Core/AppItems/mvDragFloat.h"
 #include "Core/AppItems/mvSlideItems.h"
+#include "Core/AppItems/mvImage.h"
 
 //-----------------------------------------------------------------------------
 // Widget Index
@@ -82,5 +83,12 @@
 //
 //     - mvTooltip.h
 //         * mvTooltip
+//
+//     - mvSlideItems.h
+//         * mvSliderFloat
+//         * mvSliderFloat4
+//
+//     - mvImage.h
+//         * mvImage
 //
 //-----------------------------------------------------------------------------
