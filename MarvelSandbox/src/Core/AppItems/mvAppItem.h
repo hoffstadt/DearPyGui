@@ -30,7 +30,8 @@ namespace Marvel {
 		Separator, ColorEdit4, Checkbox, InputInt, InputFloat,
 		Listbox, Text, LabelText, Combo, Plot, SimplePlot,
 		Indent, Unindent, Drawing, Window, EndWindow,
-		Popup, EndPopup, Selectable, TreeNode, DragFloat
+		Popup, EndPopup, Selectable, TreeNode, DragFloat, DragInt,
+		DragFloat4, DragInt4
 	};
 
 	//-----------------------------------------------------------------------------

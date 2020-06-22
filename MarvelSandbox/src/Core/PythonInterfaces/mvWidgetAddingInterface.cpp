@@ -79,6 +79,112 @@ namespace Marvel {
 		Py_RETURN_NONE;
 	}
 
+	PyObject* addDragFloat(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		MV_STANDARD_CALLBACK_INIT();
+
+		const char* name;
+		float default_value = 0.0f;
+		float speed = 1.0f;
+		float min_value = 0.0f;
+		float max_value = 1.0f;
+		const char* format = "%.3f";
+		float power = 1.0f;
+
+		if (!Translators["addDragFloat"].parse(args, kwargs, __FUNCTION__, &name, &default_value, &speed,
+			&min_value, &max_value, &format, &power, MV_STANDARD_CALLBACK_PARSE))
+			Py_RETURN_NONE;
+
+		mvAppItem* item = new mvDragFloat("", name, default_value, speed, min_value, max_value, format, power);
+		mvApp::GetApp()->addItem(item);
+
+		MV_STANDARD_CALLBACK_EVAL();
+
+		Py_RETURN_NONE;
+	}
+
+	PyObject* addDragFloat4(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		MV_STANDARD_CALLBACK_INIT();
+
+		const char* name;
+		PyObject* default_value = PyTuple_New(4);
+		PyTuple_SetItem(default_value, 0, PyFloat_FromDouble(0.0));
+		PyTuple_SetItem(default_value, 1, PyFloat_FromDouble(0.0));
+		PyTuple_SetItem(default_value, 2, PyFloat_FromDouble(0.0));
+		PyTuple_SetItem(default_value, 3, PyFloat_FromDouble(0.0));
+		float speed = 1.0f;
+		float min_value = 0.0f;
+		float max_value = 1.0f;
+		const char* format = "%.3f";
+		float power = 1.0f;
+
+		if (!Translators["addDragFloat4"].parse(args, kwargs, __FUNCTION__, &name, &default_value, &speed,
+			&min_value, &max_value, &format, &power, MV_STANDARD_CALLBACK_PARSE))
+			Py_RETURN_NONE;
+
+		auto vec = mvPythonTranslator::getFloatVec(default_value);
+
+		mvAppItem* item = new mvDragFloat4("", name, vec.data(), speed, min_value, max_value, format, power);
+		mvApp::GetApp()->addItem(item);
+
+		MV_STANDARD_CALLBACK_EVAL();
+
+		Py_RETURN_NONE;
+	}
+
+	PyObject* addDragInt(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		MV_STANDARD_CALLBACK_INIT();
+
+		const char* name;
+		int default_value = 0;
+		float speed = 1.0f;
+		int min_value = 0;
+		int max_value = 100;
+		const char* format = "%d";
+
+		if (!Translators["addDragInt"].parse(args, kwargs, __FUNCTION__, &name, &default_value, &speed, 
+			&min_value, &max_value, &format, MV_STANDARD_CALLBACK_PARSE))
+			Py_RETURN_NONE;
+
+		mvAppItem* item = new mvDragInt("", name, default_value, speed, min_value, max_value, format);
+		mvApp::GetApp()->addItem(item);
+
+		MV_STANDARD_CALLBACK_EVAL();
+
+		Py_RETURN_NONE;
+	}
+
+	PyObject* addDragInt4(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		MV_STANDARD_CALLBACK_INIT();
+
+		const char* name;
+		PyObject* default_value = PyTuple_New(4);
+		PyTuple_SetItem(default_value, 0, PyLong_FromLong(0));
+		PyTuple_SetItem(default_value, 1, PyLong_FromLong(0));
+		PyTuple_SetItem(default_value, 2, PyLong_FromLong(0));
+		PyTuple_SetItem(default_value, 3, PyLong_FromLong(0));
+		float speed = 1.0f;
+		int min_value = 0;
+		int max_value = 100;
+		const char* format = "%d";
+
+		if (!Translators["addDragInt4"].parse(args, kwargs, __FUNCTION__, &name, &default_value, &speed,
+			&min_value, &max_value, &format, MV_STANDARD_CALLBACK_PARSE))
+			Py_RETURN_NONE;
+
+		auto vec = mvPythonTranslator::getIntVec(default_value);
+
+		mvAppItem* item = new mvDragInt4("", name, vec.data(), speed, min_value, max_value, format);
+		mvApp::GetApp()->addItem(item);
+
+		MV_STANDARD_CALLBACK_EVAL();
+
+		Py_RETURN_NONE;
+	}
+
 	PyObject* addSliderFloat(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		MV_STANDARD_CALLBACK_INIT();
@@ -779,24 +885,6 @@ namespace Marvel {
 		Py_RETURN_NONE;
 	}
 
-	PyObject* addDragFloat(PyObject* self, PyObject* args, PyObject* kwargs)
-	{
-		MV_STANDARD_CALLBACK_INIT();
-		const char* name;
-		float default_value = 0;
-
-		if (!Translators["addDragFloat"].parse(args, kwargs, __FUNCTION__, &name, &default_value, MV_STANDARD_CALLBACK_PARSE))
-			Py_RETURN_NONE;
-
-		mvAppItem* item = new mvDragFloat("", name, default_value);
-		mvApp::GetApp()->addItem(item);
-
-		MV_STANDARD_CALLBACK_EVAL();
-
-
-		Py_RETURN_NONE;
-	}
-
 	void CreateWidgetAddingInterface(mvPythonModule& pyModule, PyObject* (*initfunc)())
 	{
 		pyModule.addMethod(endTreeNode, "Not Documented");
@@ -813,6 +901,10 @@ namespace Marvel {
 		pyModule.addMethod(endCollapsingHeader, "Not Documented");
 
 		pyModule.addMethodD(addImage);
+		pyModule.addMethodD(addDragFloat);
+		pyModule.addMethodD(addDragInt);
+		pyModule.addMethodD(addDragFloat4);
+		pyModule.addMethodD(addDragInt4);
 		pyModule.addMethodD(addSliderFloat);
 		pyModule.addMethodD(addSliderInt);
 		pyModule.addMethodD(addSliderFloat4);
@@ -847,7 +939,6 @@ namespace Marvel {
 		pyModule.addMethodD(addSameLine);
 		pyModule.addMethodD(addTooltip);
 		pyModule.addMethodD(addCollapsingHeader);
-		pyModule.addMethodD(addDragFloat);
 		
 
 		PyImport_AppendInittab(pyModule.getName(), initfunc);
