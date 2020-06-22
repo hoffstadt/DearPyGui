@@ -1,7 +1,7 @@
-#include "Core/mvPythonModule.h"
+#include "Core/PythonUtilities/mvPythonModule.h"
 #include "Core/mvApp.h"
 #include "Core/mvLogger.h"
-#include "Core/mvPythonTranslator.h"
+#include "Core/PythonUtilities/mvPythonTranslator.h"
 #include "mvLoggerInterface.h"
 
 namespace Marvel {

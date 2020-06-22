@@ -2,7 +2,7 @@
 #define PY_SSIZE_T_CLEAN
 #include <Python.h>
 #include "Core/mvLogger.h"
-#include "Core/mvThreadPool.h"
+#include "Core/Concurrency/mvThreadPool.h"
 
 namespace Marvel {
 

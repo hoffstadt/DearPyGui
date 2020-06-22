@@ -8,9 +8,9 @@
 #include <atomic>
 #include <queue>
 #include <deque>
-#include "mvCore.h"
+#include "Core/mvCore.h"
 #include "mvQueue.h"
-#include "mvMemory.h"
+#include "Core/mvMemory.h"
 
 namespace Marvel {
 

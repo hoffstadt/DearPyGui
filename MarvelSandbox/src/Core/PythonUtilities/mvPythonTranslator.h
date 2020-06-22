@@ -5,7 +5,7 @@
 #include <map>
 #define PY_SSIZE_T_CLEAN
 #include <Python.h>
-#include "mvCore.h"
+#include "Core/mvCore.h"
 
 //-----------------------------------------------------------------------------
 // Helper Macros
