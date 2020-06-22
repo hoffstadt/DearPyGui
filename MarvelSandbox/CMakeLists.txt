@@ -9,11 +9,13 @@ target_sources(MarvelSandbox
 		"${CMAKE_CURRENT_SOURCE_DIR}/EntryPoint.cpp"
 		"${CMAKE_CURRENT_SOURCE_DIR}/src/Core/mvApp.cpp"
 		"${CMAKE_CURRENT_SOURCE_DIR}/src/Core/mvLogger.cpp"
-		"${CMAKE_CURRENT_SOURCE_DIR}/src/Core/mvPythonModule.cpp"
 		"${CMAKE_CURRENT_SOURCE_DIR}/src/Core/mvWindow.cpp"
-		"${CMAKE_CURRENT_SOURCE_DIR}/src/Core/mvPythonTranslator.cpp"
-		"${CMAKE_CURRENT_SOURCE_DIR}/src/Core/mvThreadPool.cpp"
 		
+		"${CMAKE_CURRENT_SOURCE_DIR}/src/Core/Concurrency/mvThreadPool.cpp"
+
+		"${CMAKE_CURRENT_SOURCE_DIR}/src/Core/PythonUtilities/mvPythonTranslator.cpp"
+		"${CMAKE_CURRENT_SOURCE_DIR}/src/Core/PythonUtilities/mvPythonModule.cpp"
+
 		"${CMAKE_CURRENT_SOURCE_DIR}/src/Core/AppItems/mvAppItem.cpp"
 		"${CMAKE_CURRENT_SOURCE_DIR}/src/Core/AppItems/mvDrawing.cpp"
 

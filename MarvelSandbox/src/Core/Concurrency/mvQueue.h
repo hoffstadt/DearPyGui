@@ -3,7 +3,7 @@
 #include <mutex>
 #include <atomic>
 #include <condition_variable>
-#include "mvMemory.h"
+#include "Core/mvMemory.h"
 
 namespace Marvel {
 
