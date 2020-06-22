@@ -16,6 +16,18 @@ namespace Marvel{
 				{mvPythonDataType::Integer, "height"}
 			}, false, "Needs documentation")},
 
+			{"drawImage", mvPythonTranslator({
+				{mvPythonDataType::String, "drawing"},
+				{mvPythonDataType::String, "file"},
+				{mvPythonDataType::FloatList, "pmin"},
+				{mvPythonDataType::Optional},
+				{mvPythonDataType::KeywordOnly},
+				{mvPythonDataType::FloatList, "pmax"},
+				{mvPythonDataType::FloatList, "uv_min"},
+				{mvPythonDataType::FloatList, "uv_max"},
+				{mvPythonDataType::FloatList, "color"}
+			}, false, "Needs documentation")},
+
 			{"drawLine", mvPythonTranslator({
 				{mvPythonDataType::String, "drawing"},
 				{mvPythonDataType::FloatList, "p1"},

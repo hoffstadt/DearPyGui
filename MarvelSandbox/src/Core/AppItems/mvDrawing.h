@@ -22,7 +22,7 @@ namespace Marvel {
 	enum class mvDrawingCommandType
 	{
 		DrawLine, DrawTriangle, DrawCircle, DrawText, DrawRect, DrawQuad,
-		DrawPolyline, DrawBezierCurve, DrawPolygon
+		DrawPolyline, DrawBezierCurve, DrawPolygon, DrawImage
 	};
 
 	//-----------------------------------------------------------------------------
@@ -36,6 +36,40 @@ namespace Marvel {
 		virtual ~mvDrawingCommand() = default;
 		virtual void draw(mvDrawing* drawing, ImDrawList* draw_list) = 0;
 		virtual mvDrawingCommandType getType() const = 0;
+
+	};
+
+	//-----------------------------------------------------------------------------
+	// mvDrawImageCommand
+	//-----------------------------------------------------------------------------
+	class mvDrawImageCommand : public mvDrawingCommand
+	{
+
+	public:
+
+		MV_DRAWCOMMAND_TYPE(mvDrawingCommandType::DrawImage)
+
+		mvDrawImageCommand(const std::string& file, const mvVec2& pmin, const mvVec2& pmax, const mvVec2& uv_min = { 0, 0 },
+				const mvVec2& uv_max = { 1, 1 }, const mvColor& color = { 1.0f, 1.0f, 1.0f, 1.0f })
+			: mvDrawingCommand(), m_file(file), m_pmax(pmax), m_pmin(pmin), m_uv_min(uv_min), m_uv_max(uv_max),
+			m_color(color)
+		{
+			if (m_pmax.x < 0 && m_pmax.y < 0)
+				m_autosize = true;
+		}
+
+	private:
+
+		std::string m_file;
+		mvVec2		m_pmax;
+		mvVec2		m_pmin;
+		mvVec2		m_uv_min;
+		mvVec2		m_uv_max;
+		mvColor		m_color;
+		void*       m_texture = nullptr;
+		int         m_width;
+		int         m_height;
+		bool        m_autosize = false;
 
 	};
 
@@ -304,6 +338,7 @@ namespace Marvel {
 		void drawPolyline   (const std::vector<mvVec2>& points, const mvColor& color, bool closed, float thickness);
 		void drawPolygon    (const std::vector<mvVec2>& points, const mvColor& color, const mvColor& fill, float thickness);
 		void drawBezierCurve(const mvVec2& p1, const mvVec2& p2, const mvVec2& p3, const mvVec2& p4, const mvColor& color, float thickness, int segments);
+		void drawImage      (const std::string& file, const mvVec2& pmin, const mvVec2& pmax, const mvVec2& uv_min, const mvVec2& uv_max, const mvColor& color);
 
 	private:
 

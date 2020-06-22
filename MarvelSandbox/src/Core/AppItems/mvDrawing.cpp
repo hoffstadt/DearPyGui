@@ -8,6 +8,20 @@
 
 namespace Marvel {
 
+	void mvDrawImageCommand::draw(mvDrawing* draw, ImDrawList* draw_list)
+	{
+		if (m_texture == nullptr && !m_file.empty())
+		{
+			LoadTextureFromFile(m_file.c_str(), &m_texture, &m_width, &m_height);
+			if(m_autosize)
+				m_pmax = { (float)m_width + m_pmin.x, (float)m_height + m_pmin.y};
+		}
+
+		mvVec2 start = draw->getStart();
+		if(m_texture)
+			draw_list->AddImage(m_texture, m_pmin + start, m_pmax+start, m_uv_min, m_uv_max, m_color);
+	}
+
 	void mvDrawLineCommand::draw(mvDrawing* draw, ImDrawList* draw_list)
 	{
 		mvVec2 start = draw->getStart();
@@ -233,6 +247,12 @@ namespace Marvel {
 	void mvDrawing::drawBezierCurve(const mvVec2& p1, const mvVec2& p2, const mvVec2& p3, const mvVec2& p4, const mvColor& color, float thickness, int segments)
 	{
 		mvDrawingCommand* command = new mvDrawBezierCurveCommand(p1, p2, p3, p4, color, thickness, segments);
+		m_commands.push_back(command);
+	}
+
+	void mvDrawing::drawImage(const std::string& file, const mvVec2& pmin, const mvVec2& pmax, const mvVec2& uv_min, const mvVec2& uv_max, const mvColor& color)
+	{
+		mvDrawingCommand* command = new mvDrawImageCommand(file, pmin, pmax, uv_min, uv_max, color);
 		m_commands.push_back(command);
 	}
 }

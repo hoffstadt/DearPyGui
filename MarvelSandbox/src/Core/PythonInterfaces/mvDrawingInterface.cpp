@@ -24,6 +24,50 @@ namespace Marvel {
 		Py_RETURN_NONE;
 	}
 
+	PyObject* drawImage(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		const char* drawing;
+		const char* file;
+		PyObject* pmin;
+		PyObject* pmax = PyTuple_New(2);
+		PyTuple_SetItem(pmax, 0, PyFloat_FromDouble(-100));
+		PyTuple_SetItem(pmax, 1, PyFloat_FromDouble(-100));
+		PyObject* uv_min = PyTuple_New(2);
+		PyTuple_SetItem(uv_min, 0, PyFloat_FromDouble(0));
+		PyTuple_SetItem(uv_min, 1, PyFloat_FromDouble(0));
+		PyObject* uv_max = PyTuple_New(2);
+		PyTuple_SetItem(uv_max, 0, PyFloat_FromDouble(1));
+		PyTuple_SetItem(uv_max, 1, PyFloat_FromDouble(1));
+		PyObject* color = PyTuple_New(4);
+		PyTuple_SetItem(color, 0, PyFloat_FromDouble(1));
+		PyTuple_SetItem(color, 1, PyFloat_FromDouble(1));
+		PyTuple_SetItem(color, 2, PyFloat_FromDouble(1));
+		PyTuple_SetItem(color, 3, PyFloat_FromDouble(1));
+
+		if (!Translators["drawImage"].parse(args, kwargs, __FUNCTION__, &drawing, &file,
+			&pmin, &pmax, &uv_min, &uv_max, &color))
+			Py_RETURN_NONE;
+
+		mvVec2 mpmin = mvPythonTranslator::getVec2(pmin);
+		mvVec2 mpmax = mvPythonTranslator::getVec2(pmax);
+		mvVec2 muv_min = mvPythonTranslator::getVec2(uv_min);
+		mvVec2 muv_max = mvPythonTranslator::getVec2(uv_max);
+		mvColor mcolor = mvPythonTranslator::getColor(color);
+
+		mvAppItem* item = mvApp::GetApp()->getItem(drawing);
+		if (item == nullptr)
+		{
+			std::string message = drawing;
+			AppLog::getLogger()->LogWarning(message + " drawing does not exist.");
+			Py_RETURN_NONE;
+		}
+
+		mvDrawing* dwg = static_cast<mvDrawing*>(item);
+		dwg->drawImage(file, mpmin, mpmax, muv_min, muv_max, mcolor);
+
+		Py_RETURN_NONE;
+	}
+
 	PyObject* drawLine(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		const char* drawing;
@@ -321,6 +365,7 @@ namespace Marvel {
 	void CreateDrawingInterface(mvPythonModule& pyModule, PyObject* (*initfunc)())
 	{
 		pyModule.addMethodD(addDrawing);
+		pyModule.addMethodD(drawImage);
 		pyModule.addMethodD(drawLine);
 		pyModule.addMethodD(drawTriangle);
 		pyModule.addMethodD(drawRectangle);

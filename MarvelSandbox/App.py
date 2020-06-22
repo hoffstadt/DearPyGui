@@ -349,7 +349,8 @@ addButton("draw on canvas", callback="DrawCanvas")
 addButton("clear canvas", callback="ClearCanvas")
 
 addDrawing("drawing2", 800, 500)
-drawRectangle("drawing2", (0, 0), (800, 500), (1, 0, 0, 1), fill=(0, 0, 0.1, 1), rounding=12, thickness = 1.0)
+drawImage("drawing2", "C:/Users/Jonathan Hoffstadt/Desktop/ben.png", (50,100))
+#drawRectangle("drawing2", (0, 0), (800, 500), (1, 0, 0, 1), fill=(0, 0, 0.1, 1), rounding=12, thickness = 1.0)
 drawLine("drawing2", (10, 10), (100, 100), (1, 0, 0, 1), 1)
 drawTriangle("drawing2", (300, 500), (200, 200), (500, 200), (1, 1, 0, 1), thickness = 3.0)
 drawQuad("drawing2", (50, 50), (150, 50), (150, 150), (50, 150), (1, 1, 0, 1), thickness = 3.0)
@@ -358,6 +359,7 @@ drawCircle("drawing2", (400, 250), 50, (1, 1, 0,1))
 drawPolyline("drawing2", ((300, 500), (200, 200), (500, 700)), (1, 1, 0,1))
 drawPolygon("drawing2", ((363, 471), (100, 498), (50, 220)), (1, 0.5, 0,1))
 drawBezierCurve("drawing2", (50, 200), (150, 250), (300, 150), (600, 250), (1, 1, 0, 1), thickness = 2.0)
+
 
 endCollapsingHeader()
 
