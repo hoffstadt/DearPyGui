@@ -32,6 +32,7 @@ target_sources(MarvelSandbox
 		# implot
 		"${CMAKE_CURRENT_SOURCE_DIR}/src/Vendor/implot/implot.cpp"
 		"${CMAKE_CURRENT_SOURCE_DIR}/src/Vendor/implot/implot_demo.cpp"
+		"${CMAKE_CURRENT_SOURCE_DIR}/src/Vendor/ImGuiColorTextEdit/TextEditor.cpp"
 		
 		# imgui
 		"${CMAKE_CURRENT_SOURCE_DIR}/../Dependencies/imgui/misc/cpp/imgui_stdlib.cpp"
@@ -52,6 +53,7 @@ target_include_directories(MarvelSandbox
 		"${CMAKE_CURRENT_SOURCE_DIR}/../Dependencies/cpython/Include/"
 		"${CMAKE_CURRENT_SOURCE_DIR}/src/Vendor/implot"
 		"${CMAKE_CURRENT_SOURCE_DIR}/src/Vendor/stb"
+		"${CMAKE_CURRENT_SOURCE_DIR}/src/Vendor/ImGuiColorTextEdit"
 )
 
 target_link_directories(MarvelSandbox
