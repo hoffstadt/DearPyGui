@@ -6,10 +6,4 @@ from sbDraw import *
 from sbWidgets import *
 import sbConstants
 
-
-
-
 addButton("Press me")
-
-endMainWindow()
-

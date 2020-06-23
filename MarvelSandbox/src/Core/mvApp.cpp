@@ -309,6 +309,24 @@ namespace Marvel {
 		return s_instance;
 	}
 
+	void mvApp::preRender()
+	{
+
+		bool endWindowFound = false;
+
+		for (mvAppItem* item : m_items)
+		{
+			if (item->getType() == mvAppItemType::EndWindow)
+				endWindowFound = true;
+		}
+
+		if (!endWindowFound)
+		{
+			mvAppItem* item = new mvEndWindowAppitem("");
+			mvApp::GetApp()->addItem(item);
+		}
+	}
+
 	void mvApp::render()
 	{
 		// set imgui style to mvstyle

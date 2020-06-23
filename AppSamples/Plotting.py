@@ -23,7 +23,6 @@ addPlot("Plot2", "x-axis", "y-axis", -1, 450);
 
 addListbox("Colormaps", ("Default", "Dark", "Pastel", "Paired", "Viridis", "Plasma", "Hot", "Cool", "Pink", "Jet"), width=500, height=10, callback="colormapCallback")
 
-endMainWindow()
 
 def colormapCallback(sender):
     value = getValue("Colormaps")

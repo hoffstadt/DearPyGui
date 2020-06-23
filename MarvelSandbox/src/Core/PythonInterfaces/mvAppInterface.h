@@ -20,6 +20,11 @@ namespace Marvel{
 				{mvPythonDataType::String, "item"},
 			}, false, "Needs documentation")},
 
+			{"setMainWindowSize", mvPythonTranslator({
+				{mvPythonDataType::Integer, "width"},
+				{mvPythonDataType::Integer, "height"}
+			}, false, "Needs documentation")},
+
 			{"isItemActive", mvPythonTranslator({
 				{mvPythonDataType::String, "item"},
 			}, false, "Needs documentation")},

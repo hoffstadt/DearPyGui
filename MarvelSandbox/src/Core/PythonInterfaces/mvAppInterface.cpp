@@ -508,6 +508,19 @@ namespace Marvel {
 		Py_RETURN_NONE;
 	}
 
+	PyObject* setMainWindowSize(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		int width;
+		int height;
+
+		if (!Translators["setMainWindowSize"].parse(args, kwargs, __FUNCTION__, &width, &height))
+			Py_RETURN_NONE;
+
+		mvApp::GetApp()->setWindowSize(width, height);
+
+		Py_RETURN_NONE;
+	}
+
 	PyObject* closePopup(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		mvApp::GetApp()->closePopup();
@@ -555,10 +568,11 @@ namespace Marvel {
 		pyModule.addMethod(showSource, "Not Documented");
 		pyModule.addMethod(showAbout, "Not Documented");
 		pyModule.addMethod(showMetrics, "Not Documented");
+		pyModule.addMethod(closePopup, "Not Documented");
 
+		pyModule.addMethodD(setMainWindowSize);
 		pyModule.addMethodD(addItemColorStyle);
 		pyModule.addMethodD(setItemPopup);
-		pyModule.addMethodD(closePopup);
 		pyModule.addMethodD(isItemHovered);
 		pyModule.addMethodD(isItemActive);
 		pyModule.addMethodD(isItemFocused);
