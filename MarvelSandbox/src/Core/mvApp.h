@@ -107,6 +107,8 @@ namespace Marvel {
 		void setOk         (bool ok) { m_ok = ok; }
 		void setStarted    () { m_started = true; }
 		void setFile       (const std::string& file);
+		void addKeyword    (const std::string& keyword, const std::string& description) { m_keywords.emplace_back(keyword, description); }
+		std::vector<std::pair<std::string, std::string>> getKeywords() { return m_keywords; }
 				
 	private:
 
@@ -150,8 +152,9 @@ namespace Marvel {
 		std::string m_keyPressCallback = "";
 		std::string m_keyReleaseCallback = "";
 
-		TextEditor m_editor;
-		std::string m_file;
+		TextEditor               m_editor;
+		std::string              m_file;
+		std::vector<std::pair<std::string, std::string>> m_keywords;
 
 	};
 

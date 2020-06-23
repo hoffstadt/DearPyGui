@@ -1,4 +1,5 @@
 #include "mvPythonModule.h"
+#include "Core/mvApp.h"
 
 namespace Marvel {
 
@@ -23,11 +24,13 @@ namespace Marvel {
 	void mvPythonModule::addMethod_(const char* name, PyCFunction function, const char* documentation)
 	{
 		m_methods.push_back({ name, function, METH_VARARGS, documentation });
+		mvApp::GetApp()->addKeyword(name, documentation);
 	}
 
 	void mvPythonModule::addMethod_(const char* name, PyCFunctionWithKeywords function, const char* documentation)
 	{
 		m_methods.push_back({ name, (PyCFunction)function, METH_VARARGS | METH_KEYWORDS, documentation });
+		mvApp::GetApp()->addKeyword(name, documentation);
 	}
 
 }

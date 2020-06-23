@@ -14,8 +14,6 @@ target_sources(PureImgui
 		"${CMAKE_CURRENT_SOURCE_DIR}/../MarvelSandbox/src/Vendor/implot/implot.cpp"
 		"${CMAKE_CURRENT_SOURCE_DIR}/../MarvelSandbox/src/Vendor/implot/implot_demo.cpp"
 
-		"${CMAKE_CURRENT_SOURCE_DIR}/../MarvelSandbox/src/Vendor/ImGuiColorTextEdit/TextEditor.cpp"
-
 		# imgui
 		"${CMAKE_CURRENT_SOURCE_DIR}/../Dependencies/imgui/imgui.cpp"
 		"${CMAKE_CURRENT_SOURCE_DIR}/../Dependencies/imgui/imgui_demo.cpp"
@@ -35,7 +33,6 @@ target_include_directories(PureImgui
 		"${CMAKE_CURRENT_SOURCE_DIR}/../Dependencies/imgui/examples/"
 		"${CMAKE_CURRENT_SOURCE_DIR}/../MarvelSandbox/src/Vendor/implot/"
 		"${CMAKE_CURRENT_SOURCE_DIR}/../MarvelSandbox/src/Vendor/stb/"
-		"${CMAKE_CURRENT_SOURCE_DIR}/../MarvelSandbox/src/Vendor/ImGuiColorTextEdit/"
 
 )
 

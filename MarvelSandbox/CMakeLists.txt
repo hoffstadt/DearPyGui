@@ -32,6 +32,8 @@ target_sources(MarvelSandbox
 		# implot
 		"${CMAKE_CURRENT_SOURCE_DIR}/src/Vendor/implot/implot.cpp"
 		"${CMAKE_CURRENT_SOURCE_DIR}/src/Vendor/implot/implot_demo.cpp"
+
+		# ImGuiColorTextEdit
 		"${CMAKE_CURRENT_SOURCE_DIR}/src/Vendor/ImGuiColorTextEdit/TextEditor.cpp"
 		
 		# imgui
