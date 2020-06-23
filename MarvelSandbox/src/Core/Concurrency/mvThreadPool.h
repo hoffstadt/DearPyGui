@@ -84,6 +84,7 @@ namespace Marvel {
     public:
 
         mvWorkStealingQueue(){}
+        ~mvWorkStealingQueue() = default;
 
         // deleted copy constructor/assignment operator.
         mvWorkStealingQueue(const mvWorkStealingQueue& other)            = delete;
@@ -112,6 +113,7 @@ namespace Marvel {
     public:
 
         static mvThreadPool* GetThreadPool();
+        static void InitThreadPool();
 
     public:
 

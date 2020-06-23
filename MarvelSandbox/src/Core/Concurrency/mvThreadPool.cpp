@@ -94,12 +94,11 @@ namespace Marvel {
         {
 
             for (unsigned i = 0; i < thread_count; ++i)
-            {
                 m_queues.push_back(OwnedPtr<mvWorkStealingQueue>(new mvWorkStealingQueue));
 
+            for (unsigned i = 0; i < thread_count; ++i)
                 m_threads.push_back(
                     std::thread(&mvThreadPool::worker_thread, this, i));
-            }
 
         }
         catch (...)
@@ -116,6 +115,11 @@ namespace Marvel {
         
         s_instance = new mvThreadPool();
         return s_instance;
+    }
+
+    void mvThreadPool::InitThreadPool()
+    {
+        s_instance = new mvThreadPool();
     }
 
     void mvThreadPool::worker_thread(unsigned index)

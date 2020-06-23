@@ -30,6 +30,7 @@ namespace Marvel {
 
 int main(int argc, char* argv[])
 {
+	mvThreadPool::InitThreadPool();
 
 	wchar_t* program = Py_DecodeLocale(argv[0], NULL);
 	if (program == NULL) {
@@ -48,6 +49,7 @@ int main(int argc, char* argv[])
 	MV_INIT_PYMODULE(pyMod7, CreateConstantsInterface);
 
 	const wchar_t* path;
+	std::string addedpath;
 	const char* module_name;
 	
 #ifdef MV_RELEASE
@@ -63,15 +65,23 @@ int main(int argc, char* argv[])
 	window->show();
 
 	// get path
-	if(argc < 2)
+	if (argc < 2) // ran from visual studio
+	{
+		addedpath = std::string(MAINDIR) + std::string("MarvelSandbox/");
 		path = L"python38.zip;../../MarvelSandbox";
-	else if(argc == 2)
+	}
+	else if (argc == 2) // ran without path
+	{
+		addedpath = "";
 		path = L"python38.zip;";
-	else
+	}
+
+	else // ran from command line with path
 	{
 		wchar_t* deco = Py_DecodeLocale(argv[1], nullptr);
 		std::wstring* wpath = new std::wstring(std::wstring(deco) + std::wstring(L";python38.zip"));
 		path = wpath->c_str();
+		addedpath = argv[1];
 	}
 
 	// add our custom module
@@ -119,6 +129,8 @@ int main(int argc, char* argv[])
 		PyObject* pDict = PyModule_GetDict(pModule); // borrowed reference
 		mvApp::GetApp()->setModuleDict(pDict);
 		mvApp::GetApp()->setStarted();
+		std::string filename = addedpath + std::string(module_name) + ".py";
+		mvApp::GetApp()->setFile(filename);
 		PyEval_SaveThread(); // releases global lock
 		window->run();
 		PyGILState_STATE gstate = PyGILState_Ensure();
