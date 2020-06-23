@@ -124,7 +124,7 @@ int main(int argc, char* argv[])
 	mvAppLog::getLogger()->AddLog("[Sandbox Version] %0s\n", mvApp::getVersion());
 	mvAppLog::getLogger()->AddLog("[Python Version] %0s\n", PY_VERSION);
 	mvAppLog::getLogger()->AddLog("[ImGui Version] %0s\n", IMGUI_VERSION);
-	mvAppLog::getLogger()->AddLog("[Compiler] %0s\n", Py_GetCompiler());
+	mvAppLog::getLogger()->AddLog("[Compiler] MSVC version %0d\n", _MSC_VER);
 
 	// get module
 	PyObject* pModule = PyImport_ImportModule(module_name); // new reference
