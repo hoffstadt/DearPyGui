@@ -9,6 +9,7 @@
 #include "Core/AppItems/mvAppItem.h"
 #include "mvMouse.h"
 #include "mvAppStyle.h"
+#include "TextEditor.h"
 
 namespace Marvel {
 
@@ -51,6 +52,7 @@ namespace Marvel {
 		void        closePopup ();
 		inline void showMetrics() { m_showMetrics = true; }
 		inline void showAbout  () { m_showAbout = true; }
+		inline void showSource () { m_showSource = true; }
 
 		//-----------------------------------------------------------------------------
 		// Parent stack operations
@@ -104,6 +106,7 @@ namespace Marvel {
 		bool isOk          () const { return m_ok; }
 		void setOk         (bool ok) { m_ok = ok; }
 		void setStarted    () { m_started = true; }
+		void setFile       (const std::string& file);
 				
 	private:
 
@@ -116,6 +119,7 @@ namespace Marvel {
 
 		void showMetricsWindow();
 		void showAboutWindow();
+		void showSourceWindow();
 
 	private:
 
@@ -132,6 +136,7 @@ namespace Marvel {
 		bool                    m_showLog = false;
 		bool                    m_showMetrics = false;
 		bool                    m_showAbout = false;
+		bool                    m_showSource = false;
 		unsigned                m_loglevel = 0;
 		ImGuiWindowFlags        m_windowflags = 0;
 		bool                    m_started = false; // to prevent widgets from being added
@@ -144,6 +149,9 @@ namespace Marvel {
 		std::string m_keyDownCallback = "";
 		std::string m_keyPressCallback = "";
 		std::string m_keyReleaseCallback = "";
+
+		TextEditor m_editor;
+		std::string m_file;
 
 	};
 

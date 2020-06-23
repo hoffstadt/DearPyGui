@@ -63,6 +63,7 @@ addMenu("Tools")
 addMenuItem("Show Logger", callback="ShowLoggerCallback")
 addMenuItem("Show About", callback="ShowAboutCallback")
 addMenuItem("Show Metrics", callback="ShowMetricsCallback")
+addMenuItem("Show Source", callback="ShowSourceCallback")
 endMenu()
 
 #Dont forget to end the MenuBar
@@ -84,6 +85,9 @@ def ClassicTheme(sender):
 
 def ShowMetricsCallback(sender):
     showMetrics()
+
+def ShowSourceCallback(sender):
+    showSource()
 
 def ShowAboutCallback(sender):
     showAbout()
@@ -383,6 +387,8 @@ addPlot("Plot2", "x-axis", "y-axis", -1, 450);
 endCollapsingHeader()
 
 def PlotCallback(sender):
+    clearPlot("Plot2") # without this it crashes?
+
     data1 = []
     for i in range(0, 100):
         data1.append([3.14*i/180, cos(3*3.14*i/180)])

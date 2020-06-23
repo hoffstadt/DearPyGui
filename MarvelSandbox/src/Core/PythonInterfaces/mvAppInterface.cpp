@@ -541,14 +541,18 @@ namespace Marvel {
 	PyObject* showAbout(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		mvApp::GetApp()->showAbout();
+		Py_RETURN_NONE;
+	}
 
-		
-
+	PyObject* showSource(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		mvApp::GetApp()->showSource();
 		Py_RETURN_NONE;
 	}
 
 	void CreatePythonInterface(mvPythonModule& pyModule, PyObject* (*initfunc)())
 	{
+		pyModule.addMethod(showSource, "Not Documented");
 		pyModule.addMethod(showAbout, "Not Documented");
 		pyModule.addMethod(showMetrics, "Not Documented");
 
