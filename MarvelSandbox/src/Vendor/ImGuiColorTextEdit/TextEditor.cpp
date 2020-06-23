@@ -3178,9 +3178,6 @@ const TextEditor::LanguageDefinition& TextEditor::LanguageDefinition::Python()
 		for (auto& k : cppKeywords)
 			langDef.mKeywords.insert(k);
 
-		//static const char* const identifiers[] = {
-		//	"sbWidgets", "addMenuBar"
-		//};
 		for (auto& k : Marvel::mvApp::GetApp()->getKeywords())
 		{
 			Identifier id;
