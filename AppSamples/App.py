@@ -6,4 +6,7 @@ from sbDraw import *
 from sbWidgets import *
 import sbConstants
 
+# This app is used for packaging.
+# Make it your own!
+
 addButton("Press me")
