@@ -65,6 +65,7 @@ namespace Marvel {
 		}
 
 		m_editor.SetReadOnly(true);
+		m_editor.SetShowWhitespaces(false);
 	}
 
 	static void prepareStandardCallbacks()
