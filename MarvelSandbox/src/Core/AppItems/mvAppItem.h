@@ -26,7 +26,7 @@ namespace Marvel {
 		TabBar, TabItem, Image,
 		MenuBar, Menu, EndMenu, MenuItem, EndMenuBar,
 		Group, Child, SliderFloat, SliderFloat4, SliderInt, SliderInt4,
-		Tooltip, CollapsingHeader,
+		Tooltip, CollapsingHeader, SliderFloat2, SliderFloat3, SliderInt2, SliderInt3,
 		Separator, ColorEdit4, Checkbox, InputInt, InputFloat,
 		Listbox, Text, LabelText, Combo, Plot, SimplePlot,
 		Indent, Unindent, Drawing, Window, EndWindow,

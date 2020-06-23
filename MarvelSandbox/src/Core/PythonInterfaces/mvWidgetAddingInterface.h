@@ -51,6 +51,28 @@ namespace Marvel{
 				{mvPythonDataType::Bool, "vertical"}
 			}, true, "A slider for a single float value")},
 
+			{"addSliderFloat2", mvPythonTranslator({
+				{mvPythonDataType::String, "name"},
+				{mvPythonDataType::Optional},
+				{mvPythonDataType::KeywordOnly},
+				{mvPythonDataType::FloatList, "default_value"},
+				{mvPythonDataType::Float, "min_value"},
+				{mvPythonDataType::Float, "max_value"},
+				{mvPythonDataType::String, "format"},
+				{mvPythonDataType::Float, "power"}
+			}, true, "A slider for a 2 float values.")},
+
+			{"addSliderFloat3", mvPythonTranslator({
+				{mvPythonDataType::String, "name"},
+				{mvPythonDataType::Optional},
+				{mvPythonDataType::KeywordOnly},
+				{mvPythonDataType::FloatList, "default_value"},
+				{mvPythonDataType::Float, "min_value"},
+				{mvPythonDataType::Float, "max_value"},
+				{mvPythonDataType::String, "format"},
+				{mvPythonDataType::Float, "power"}
+			}, true, "A slider for a 3 float values.")},
+
 			{"addSliderFloat4", mvPythonTranslator({
 				{mvPythonDataType::String, "name"},
 				{mvPythonDataType::Optional},
@@ -72,6 +94,26 @@ namespace Marvel{
 				{mvPythonDataType::String, "format"},
 				{mvPythonDataType::Bool, "vertical"}
 			}, true, "A slider for a single int value")},
+
+			{"addSliderInt2", mvPythonTranslator({
+				{mvPythonDataType::String, "name"},
+				{mvPythonDataType::Optional},
+				{mvPythonDataType::KeywordOnly},
+				{mvPythonDataType::IntList, "default_value"},
+				{mvPythonDataType::Integer, "min_value"},
+				{mvPythonDataType::Integer, "max_value"},
+				{mvPythonDataType::String, "format"}
+			}, true, "A slider for a 2 int values.")},
+
+			{"addSliderInt3", mvPythonTranslator({
+				{mvPythonDataType::String, "name"},
+				{mvPythonDataType::Optional},
+				{mvPythonDataType::KeywordOnly},
+				{mvPythonDataType::IntList, "default_value"},
+				{mvPythonDataType::Integer, "min_value"},
+				{mvPythonDataType::Integer, "max_value"},
+				{mvPythonDataType::String, "format"}
+			}, true, "A slider for a 3 int values.")},
 
 			{"addSliderInt4", mvPythonTranslator({
 				{mvPythonDataType::String, "name"},
