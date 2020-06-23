@@ -28,8 +28,9 @@ namespace Marvel {
 		Group, Child, 
 		SliderFloat, SliderFloat4, SliderInt, SliderInt4, SliderFloat2, SliderFloat3, SliderInt2, SliderInt3,
 		DragFloat, DragFloat4, DragInt, DragInt4, DragFloat2, DragFloat3, DragInt2, DragInt3,
+		InputFloat, InputFloat4, InputInt, InputInt4, InputFloat2, InputFloat3, InputInt2, InputInt3,
 		Tooltip, CollapsingHeader, 
-		Separator, ColorEdit4, Checkbox, InputInt, InputFloat,
+		Separator, ColorEdit4, Checkbox,
 		Listbox, Text, LabelText, Combo, Plot, SimplePlot,
 		Indent, Unindent, Drawing, Window, EndWindow,
 		Popup, EndPopup, Selectable, TreeNode, ProgressBar

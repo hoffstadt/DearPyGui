@@ -693,20 +693,162 @@ namespace Marvel {
 		Py_RETURN_NONE;
 	}
 
-	PyObject* addInputFloat(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* addInputInt2(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		MV_STANDARD_CALLBACK_INIT();
-		const char* name;
-		float default_value = 0.0f;
 
-		if (!Translators["addInputFloat"].parse(args, kwargs,__FUNCTION__, &name, &default_value, MV_STANDARD_CALLBACK_PARSE))
+		const char* name;
+		PyObject* default_value = PyTuple_New(2);
+		PyTuple_SetItem(default_value, 0, PyLong_FromLong(0));
+		PyTuple_SetItem(default_value, 1, PyLong_FromLong(0));
+
+		if (!Translators["addInputInt2"].parse(args, kwargs, __FUNCTION__, &name, &default_value, MV_STANDARD_CALLBACK_PARSE))
 			Py_RETURN_NONE;
 
-		mvAppItem* item = new mvInputFloat("", name, default_value);
+		auto vec = mvPythonTranslator::getIntVec(default_value);
+
+		mvAppItem* item = new mvInputInt2("", name, vec.data());
 		mvApp::GetApp()->addItem(item);
 
 		MV_STANDARD_CALLBACK_EVAL();
-		
+
+		Py_RETURN_NONE;
+	}
+
+	PyObject* addInputInt3(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		MV_STANDARD_CALLBACK_INIT();
+
+		const char* name;
+		PyObject* default_value = PyTuple_New(3);
+		PyTuple_SetItem(default_value, 0, PyLong_FromLong(0));
+		PyTuple_SetItem(default_value, 1, PyLong_FromLong(0));
+		PyTuple_SetItem(default_value, 2, PyLong_FromLong(0));
+
+		if (!Translators["addInputInt3"].parse(args, kwargs, __FUNCTION__, &name, &default_value, MV_STANDARD_CALLBACK_PARSE))
+			Py_RETURN_NONE;
+
+		auto vec = mvPythonTranslator::getIntVec(default_value);
+
+		mvAppItem* item = new mvInputInt3("", name, vec.data());
+		mvApp::GetApp()->addItem(item);
+
+		MV_STANDARD_CALLBACK_EVAL();
+
+		Py_RETURN_NONE;
+	}
+
+	PyObject* addInputInt4(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		MV_STANDARD_CALLBACK_INIT();
+
+		const char* name;
+		PyObject* default_value = PyTuple_New(4);
+		PyTuple_SetItem(default_value, 0, PyLong_FromLong(0));
+		PyTuple_SetItem(default_value, 1, PyLong_FromLong(0));
+		PyTuple_SetItem(default_value, 2, PyLong_FromLong(0));
+		PyTuple_SetItem(default_value, 3, PyLong_FromLong(0));
+
+		if (!Translators["addInputInt4"].parse(args, kwargs, __FUNCTION__, &name, &default_value, MV_STANDARD_CALLBACK_PARSE))
+			Py_RETURN_NONE;
+
+		auto vec = mvPythonTranslator::getIntVec(default_value);
+
+		mvAppItem* item = new mvInputInt4("", name, vec.data());
+		mvApp::GetApp()->addItem(item);
+
+		MV_STANDARD_CALLBACK_EVAL();
+
+		Py_RETURN_NONE;
+	}
+
+	PyObject* addInputFloat(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		MV_STANDARD_CALLBACK_INIT();
+
+		const char* name;
+		float default_value = 0.0f;
+		const char* format = "%.3f";
+
+		if (!Translators["addInputFloat"].parse(args, kwargs, __FUNCTION__, &name, &default_value, &format, MV_STANDARD_CALLBACK_PARSE))
+			Py_RETURN_NONE;
+
+		mvAppItem* item = new mvInputFloat("", name, default_value, format);
+		mvApp::GetApp()->addItem(item);
+
+		MV_STANDARD_CALLBACK_EVAL();
+
+		Py_RETURN_NONE;
+	}
+
+	PyObject* addInputFloat2(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		MV_STANDARD_CALLBACK_INIT();
+
+		const char* name;
+		PyObject* default_value = PyTuple_New(2);
+		PyTuple_SetItem(default_value, 0, PyLong_FromLong(0));
+		PyTuple_SetItem(default_value, 1, PyLong_FromLong(0));
+		const char* format = "%.3f";
+
+		if (!Translators["addInputFloat2"].parse(args, kwargs, __FUNCTION__, &name, &default_value, &format, MV_STANDARD_CALLBACK_PARSE))
+			Py_RETURN_NONE;
+
+		auto vec = mvPythonTranslator::getFloatVec(default_value);
+
+		mvAppItem* item = new mvInputFloat2("", name, vec.data(), format);
+		mvApp::GetApp()->addItem(item);
+
+		MV_STANDARD_CALLBACK_EVAL();
+
+		Py_RETURN_NONE;
+	}
+
+	PyObject* addInputFloat3(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		MV_STANDARD_CALLBACK_INIT();
+
+		const char* name;
+		PyObject* default_value = PyTuple_New(3);
+		PyTuple_SetItem(default_value, 0, PyLong_FromLong(0));
+		PyTuple_SetItem(default_value, 1, PyLong_FromLong(0));
+		PyTuple_SetItem(default_value, 2, PyLong_FromLong(0));
+		const char* format = "%.3f";
+
+		if (!Translators["addInputFloat3"].parse(args, kwargs, __FUNCTION__, &name, &default_value, &format, MV_STANDARD_CALLBACK_PARSE))
+			Py_RETURN_NONE;
+
+		auto vec = mvPythonTranslator::getFloatVec(default_value);
+
+		mvAppItem* item = new mvInputFloat3("", name, vec.data(), format);
+		mvApp::GetApp()->addItem(item);
+
+		MV_STANDARD_CALLBACK_EVAL();
+
+		Py_RETURN_NONE;
+	}
+
+	PyObject* addInputFloat4(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		MV_STANDARD_CALLBACK_INIT();
+
+		const char* name;
+		PyObject* default_value = PyTuple_New(4);
+		PyTuple_SetItem(default_value, 0, PyLong_FromLong(0));
+		PyTuple_SetItem(default_value, 1, PyLong_FromLong(0));
+		PyTuple_SetItem(default_value, 2, PyLong_FromLong(0));
+		PyTuple_SetItem(default_value, 3, PyLong_FromLong(0));
+		const char* format = "%.3f";
+
+		if (!Translators["addInputFloat4"].parse(args, kwargs, __FUNCTION__, &name, &default_value, &format, MV_STANDARD_CALLBACK_PARSE))
+			Py_RETURN_NONE;
+
+		auto vec = mvPythonTranslator::getFloatVec(default_value);
+
+		mvAppItem* item = new mvInputFloat4("", name, vec.data(), format);
+		mvApp::GetApp()->addItem(item);
+
+		MV_STANDARD_CALLBACK_EVAL();
 
 		Py_RETURN_NONE;
 	}
