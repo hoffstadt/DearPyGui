@@ -5,6 +5,9 @@ MarvelSandbox is a **simple to use (but powerful) Python GUI toolkit**, built on
 
 In the same manner Dear ImGui provides a simple way to create tools for game developers, MarvelSandbox provides a simple way for python developers to **create quick and powerful GUIs for scripts**. It's well suited for **beginners** too!
 
+### Usage
+Usage details will be added once version 0.1 is closer to completion.
+
 ### Requirements
 
 - [_Visual Studio 2019_ (windows)](https://visualstudio.microsoft.com/vs/)
