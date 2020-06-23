@@ -872,17 +872,17 @@ namespace Marvel {
 		MV_STANDARD_CALLBACK_INIT();
 		const char* name;
 		PyObject* default_value = PyTuple_New(4);
-		PyTuple_SetItem(default_value, 0, PyFloat_FromDouble(0.0));
-		PyTuple_SetItem(default_value, 1, PyFloat_FromDouble(0.0));
-		PyTuple_SetItem(default_value, 2, PyFloat_FromDouble(0.0));
-		PyTuple_SetItem(default_value, 3, PyFloat_FromDouble(0.0));
+		PyTuple_SetItem(default_value, 0, PyLong_FromLong(0.0));
+		PyTuple_SetItem(default_value, 1, PyLong_FromLong(0.0));
+		PyTuple_SetItem(default_value, 2, PyLong_FromLong(0.0));
+		PyTuple_SetItem(default_value, 3, PyLong_FromLong(0.0));
 
 		if (!Translators["addColorEdit4"].parse(args, kwargs,__FUNCTION__, &name, &default_value, MV_STANDARD_CALLBACK_PARSE))
 			Py_RETURN_NONE;
 
-		auto vec = mvPythonTranslator::getFloatVec(default_value);
+		auto color = mvPythonTranslator::getColor(default_value);
 
-		mvAppItem* item = new mvColorEdit4("", name, vec.data());
+		mvAppItem* item = new mvColorEdit4("", name, color);
 		mvApp::GetApp()->addItem(item);
 
 		MV_STANDARD_CALLBACK_EVAL();
