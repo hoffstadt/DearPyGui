@@ -121,6 +121,63 @@ namespace Marvel {
 		Py_RETURN_NONE;
 	}
 
+	PyObject* addDragFloat2(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		MV_STANDARD_CALLBACK_INIT();
+
+		const char* name;
+		PyObject* default_value = PyTuple_New(2);
+		PyTuple_SetItem(default_value, 0, PyFloat_FromDouble(0.0));
+		PyTuple_SetItem(default_value, 1, PyFloat_FromDouble(0.0));
+		float speed = 1.0f;
+		float min_value = 0.0f;
+		float max_value = 1.0f;
+		const char* format = "%.3f";
+		float power = 1.0f;
+
+		if (!Translators["addDragFloat2"].parse(args, kwargs, __FUNCTION__, &name, &default_value, &speed,
+			&min_value, &max_value, &format, &power, MV_STANDARD_CALLBACK_PARSE))
+			Py_RETURN_NONE;
+
+		auto vec = mvPythonTranslator::getFloatVec(default_value);
+
+		mvAppItem* item = new mvDragFloat2("", name, vec.data(), speed, min_value, max_value, format, power);
+		mvApp::GetApp()->addItem(item);
+
+		MV_STANDARD_CALLBACK_EVAL();
+
+		Py_RETURN_NONE;
+	}
+
+	PyObject* addDragFloat3(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		MV_STANDARD_CALLBACK_INIT();
+
+		const char* name;
+		PyObject* default_value = PyTuple_New(3);
+		PyTuple_SetItem(default_value, 0, PyFloat_FromDouble(0.0));
+		PyTuple_SetItem(default_value, 1, PyFloat_FromDouble(0.0));
+		PyTuple_SetItem(default_value, 2, PyFloat_FromDouble(0.0));
+		float speed = 1.0f;
+		float min_value = 0.0f;
+		float max_value = 1.0f;
+		const char* format = "%.3f";
+		float power = 1.0f;
+
+		if (!Translators["addDragFloat3"].parse(args, kwargs, __FUNCTION__, &name, &default_value, &speed,
+			&min_value, &max_value, &format, &power, MV_STANDARD_CALLBACK_PARSE))
+			Py_RETURN_NONE;
+
+		auto vec = mvPythonTranslator::getFloatVec(default_value);
+
+		mvAppItem* item = new mvDragFloat3("", name, vec.data(), speed, min_value, max_value, format, power);
+		mvApp::GetApp()->addItem(item);
+
+		MV_STANDARD_CALLBACK_EVAL();
+
+		Py_RETURN_NONE;
+	}
+
 	PyObject* addDragFloat4(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		MV_STANDARD_CALLBACK_INIT();
@@ -167,6 +224,60 @@ namespace Marvel {
 			Py_RETURN_NONE;
 
 		mvAppItem* item = new mvDragInt("", name, default_value, speed, min_value, max_value, format);
+		mvApp::GetApp()->addItem(item);
+
+		MV_STANDARD_CALLBACK_EVAL();
+
+		Py_RETURN_NONE;
+	}
+
+	PyObject* addDragInt2(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		MV_STANDARD_CALLBACK_INIT();
+
+		const char* name;
+		PyObject* default_value = PyTuple_New(2);
+		PyTuple_SetItem(default_value, 0, PyLong_FromLong(0));
+		PyTuple_SetItem(default_value, 1, PyLong_FromLong(0));
+		float speed = 1.0f;
+		int min_value = 0;
+		int max_value = 100;
+		const char* format = "%d";
+
+		if (!Translators["addDragInt2"].parse(args, kwargs, __FUNCTION__, &name, &default_value, &speed,
+			&min_value, &max_value, &format, MV_STANDARD_CALLBACK_PARSE))
+			Py_RETURN_NONE;
+
+		auto vec = mvPythonTranslator::getIntVec(default_value);
+
+		mvAppItem* item = new mvDragInt2("", name, vec.data(), speed, min_value, max_value, format);
+		mvApp::GetApp()->addItem(item);
+
+		MV_STANDARD_CALLBACK_EVAL();
+
+		Py_RETURN_NONE;
+	}
+
+	PyObject* addDragInt3(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		MV_STANDARD_CALLBACK_INIT();
+
+		const char* name;
+		PyObject* default_value = PyTuple_New(3);
+		PyTuple_SetItem(default_value, 0, PyLong_FromLong(0));
+		PyTuple_SetItem(default_value, 1, PyLong_FromLong(0));
+		float speed = 1.0f;
+		int min_value = 0;
+		int max_value = 100;
+		const char* format = "%d";
+
+		if (!Translators["addDragInt3"].parse(args, kwargs, __FUNCTION__, &name, &default_value, &speed,
+			&min_value, &max_value, &format, MV_STANDARD_CALLBACK_PARSE))
+			Py_RETURN_NONE;
+
+		auto vec = mvPythonTranslator::getIntVec(default_value);
+
+		mvAppItem* item = new mvDragInt3("", name, vec.data(), speed, min_value, max_value, format);
 		mvApp::GetApp()->addItem(item);
 
 		MV_STANDARD_CALLBACK_EVAL();
@@ -1036,7 +1147,11 @@ namespace Marvel {
 		pyModule.addMethodD(addProgressBar);
 		pyModule.addMethodD(addDragFloat);
 		pyModule.addMethodD(addDragInt);
+		pyModule.addMethodD(addDragFloat2);
+		pyModule.addMethodD(addDragFloat3);
 		pyModule.addMethodD(addDragFloat4);
+		pyModule.addMethodD(addDragInt2);
+		pyModule.addMethodD(addDragInt3);
 		pyModule.addMethodD(addDragInt4);
 		pyModule.addMethodD(addSliderFloat);
 		pyModule.addMethodD(addSliderInt);

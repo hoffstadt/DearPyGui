@@ -25,13 +25,14 @@ namespace Marvel {
 		InputText, Button, RadioButtons,
 		TabBar, TabItem, Image,
 		MenuBar, Menu, EndMenu, MenuItem, EndMenuBar,
-		Group, Child, SliderFloat, SliderFloat4, SliderInt, SliderInt4,
-		Tooltip, CollapsingHeader, SliderFloat2, SliderFloat3, SliderInt2, SliderInt3,
+		Group, Child, 
+		SliderFloat, SliderFloat4, SliderInt, SliderInt4, SliderFloat2, SliderFloat3, SliderInt2, SliderInt3,
+		DragFloat, DragFloat4, DragInt, DragInt4, DragFloat2, DragFloat3, DragInt2, DragInt3,
+		Tooltip, CollapsingHeader, 
 		Separator, ColorEdit4, Checkbox, InputInt, InputFloat,
 		Listbox, Text, LabelText, Combo, Plot, SimplePlot,
 		Indent, Unindent, Drawing, Window, EndWindow,
-		Popup, EndPopup, Selectable, TreeNode, DragFloat, DragInt,
-		DragFloat4, DragInt4, ProgressBar
+		Popup, EndPopup, Selectable, TreeNode, ProgressBar
 	};
 
 	//-----------------------------------------------------------------------------

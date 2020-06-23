@@ -95,6 +95,16 @@
 //         * mvSliderInt3
 //         * mvSliderInt4
 //
+//     - mvDragItems.h
+//         * mvDragFloat
+//         * mvDragFloat2
+//         * mvDragFloat3
+//         * mvDragFloat4
+//         * mvDragInt
+//         * mvDragInt2
+//         * mvDragInt3
+//         * mvDragInt4
+//
 //     - mvImage.h
 //         * mvImage
 //

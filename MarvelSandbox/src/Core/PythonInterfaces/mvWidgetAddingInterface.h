@@ -137,6 +137,30 @@ namespace Marvel{
 				{mvPythonDataType::Float, "power"}
 			}, true, "A drag for a single float value")},
 
+			{ "addDragFloat2", mvPythonTranslator({
+				{mvPythonDataType::String, "name"},
+				{mvPythonDataType::Optional},
+				{mvPythonDataType::KeywordOnly},
+				{mvPythonDataType::FloatList, "default_value"},
+				{mvPythonDataType::Float, "speed"},
+				{mvPythonDataType::Float, "min_value"},
+				{mvPythonDataType::Float, "max_value"},
+				{mvPythonDataType::String, "format"},
+				{mvPythonDataType::Float, "power"}
+			}, true, "A drag for a 2 float values.") },
+
+			{ "addDragFloat3", mvPythonTranslator({
+				{mvPythonDataType::String, "name"},
+				{mvPythonDataType::Optional},
+				{mvPythonDataType::KeywordOnly},
+				{mvPythonDataType::FloatList, "default_value"},
+				{mvPythonDataType::Float, "speed"},
+				{mvPythonDataType::Float, "min_value"},
+				{mvPythonDataType::Float, "max_value"},
+				{mvPythonDataType::String, "format"},
+				{mvPythonDataType::Float, "power"}
+			}, true, "A drag for a 3 float values.") },
+
 			{"addDragFloat4", mvPythonTranslator({
 				{mvPythonDataType::String, "name"},
 				{mvPythonDataType::Optional},
@@ -159,6 +183,28 @@ namespace Marvel{
 				{mvPythonDataType::Integer, "max_value"},
 				{mvPythonDataType::String, "format"}
 			}, true, "A drag for a single int value")},
+
+			{ "addDragInt2", mvPythonTranslator({
+				{mvPythonDataType::String, "name"},
+				{mvPythonDataType::Optional},
+				{mvPythonDataType::KeywordOnly},
+				{mvPythonDataType::IntList, "default_value"},
+				{mvPythonDataType::Float, "speed"},
+				{mvPythonDataType::Integer, "min_value"},
+				{mvPythonDataType::Integer, "max_value"},
+				{mvPythonDataType::String, "format"}
+			}, true, "A drag for a 2 int values.") },
+
+			{ "addDragInt3", mvPythonTranslator({
+				{mvPythonDataType::String, "name"},
+				{mvPythonDataType::Optional},
+				{mvPythonDataType::KeywordOnly},
+				{mvPythonDataType::IntList, "default_value"},
+				{mvPythonDataType::Float, "speed"},
+				{mvPythonDataType::Integer, "min_value"},
+				{mvPythonDataType::Integer, "max_value"},
+				{mvPythonDataType::String, "format"}
+			}, true, "A drag for a 3 int values.") },
 
 			{"addDragInt4", mvPythonTranslator({
 				{mvPythonDataType::String, "name"},
