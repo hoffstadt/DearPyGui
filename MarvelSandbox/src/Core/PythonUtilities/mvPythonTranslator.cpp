@@ -1,6 +1,6 @@
 #include "mvPythonTranslator.h"
 #include "Core/mvApp.h"
-#include "Core/mvLogger.h"
+#include "Core/mvAppLog.h"
 
 namespace Marvel {
 
@@ -57,7 +57,7 @@ namespace Marvel {
 		if (!PyArg_VaParseTupleAndKeywords(args, kwargs, m_formatstring.data(),
 			const_cast<char**>(m_keywords.data()), arguments))
 		{
-			AppLog::getLogger()->LogError(message);
+			mvAppLog::getLogger()->LogError(message);
 			PyErr_Print();
 			check = false;
 		}
@@ -89,8 +89,17 @@ namespace Marvel {
 	{
 		std::vector<float> items;
 
-		for (int i = 0; i < PyTuple_Size(obj); i++)
-			items.emplace_back(PyFloat_AsDouble(PyTuple_GetItem(obj, i)));
+		if (PyTuple_Check(obj))
+		{
+			for (int i = 0; i < PyTuple_Size(obj); i++)
+				items.emplace_back(PyFloat_AsDouble(PyTuple_GetItem(obj, i)));
+		}
+
+		else if (PyList_Check(obj))
+		{
+			for (int i = 0; i < PyList_Size(obj); i++)
+				items.emplace_back(PyFloat_AsDouble(PyList_GetItem(obj, i)));
+		}
 
 		return items;
 	}
@@ -99,8 +108,17 @@ namespace Marvel {
 	{
 		std::vector<int> items;
 
-		for (int i = 0; i < PyTuple_Size(obj); i++)
-			items.emplace_back(PyLong_AsLong(PyTuple_GetItem(obj, i)));
+		if (PyTuple_Check(obj))
+		{
+			for (int i = 0; i < PyTuple_Size(obj); i++)
+				items.emplace_back(PyLong_AsLong(PyTuple_GetItem(obj, i)));
+		}
+
+		else if (PyList_Check(obj))
+		{
+			for (int i = 0; i < PyList_Size(obj); i++)
+				items.emplace_back(PyLong_AsLong(PyList_GetItem(obj, i)));
+		}
 
 		return items;
 	}

@@ -13,6 +13,7 @@ addMenu("Tools")
 addMenuItem("Show Logger", callback="ShowLoggerCallback")
 addMenuItem("Show About", callback="ShowAboutCallback")
 addMenuItem("Show Metrics", callback="ShowMetricsCallback")
+addMenuItem("Show Source", callback="ShowSourceCallback")
 endMenu()
 endMenuBar()
 
@@ -33,7 +34,9 @@ def ShowMetricsCallback(sender):
 def ShowAboutCallback(sender):
     showAbout()
 def ShowLoggerCallback(sender):
-    ShowLogger()
+    showLogger()
+def ShowSourceCallback(sender):
+    showSource()
 
 def PlotCallback(sender):
     clearPlot("Plot2")
@@ -46,8 +49,8 @@ def PlotCallback(sender):
         data2.append([3.14*i/180, sin(2*3.14*i/180)])
 
     addTextPoint("Plot2", "Here", 1.0, 1.0)
-    addLineSeries("Plot2", "Cos", data1, color=(1,0,1), weight=2)
-    addScatterSeries("Plot2", "Sin", data2, marker=sbConstants.mvPlotMarker_Circle, fill=(1,0,0), outline=(1,1,0))
+    addLineSeries("Plot2", "Cos", data1, color=(255,0,255), weight=2)
+    addScatterSeries("Plot2", "Sin", data2, marker=sbConstants.mvPlotMarker_Circle, fill=(255,0,0), outline=(255,255,0))
 
 def ResizePlotCallback(sender):
     changePlotSize("Plot2", 640, 400)

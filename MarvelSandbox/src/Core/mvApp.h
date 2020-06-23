@@ -9,7 +9,7 @@
 #include "Core/AppItems/mvAppItem.h"
 #include "mvMouse.h"
 #include "mvAppStyle.h"
-#include "TextEditor.h"
+#include "mvTextEditor.h"
 
 namespace Marvel {
 
@@ -41,18 +41,18 @@ namespace Marvel {
 		mvAppItem* getItem         (const std::string& name);
 
 		//-----------------------------------------------------------------------------
-		// Item modifications
-		//-----------------------------------------------------------------------------
-		int  getPopupButton (const std::string& name);
-
-		//-----------------------------------------------------------------------------
 		// Direct DearImGui Calls
 		//     - should only be used in callbacks
 		//-----------------------------------------------------------------------------
-		void        closePopup ();
+		void closePopup();
+
+		//-----------------------------------------------------------------------------
+		// Standard Windows
+		//-----------------------------------------------------------------------------
 		inline void showMetrics() { m_showMetrics = true; }
 		inline void showAbout  () { m_showAbout = true; }
 		inline void showSource () { m_showSource = true; }
+		inline void showLogger () { m_showLog = true; }
 
 		//-----------------------------------------------------------------------------
 		// Parent stack operations
@@ -63,7 +63,8 @@ namespace Marvel {
 
 		//-----------------------------------------------------------------------------
 		// Callbacks
-		//     - triggerCallback methods performs checks
+		//     - triggerCallback methods performs checks to determine if callback
+		//     - actually exists
 		//-----------------------------------------------------------------------------
 		void triggerCallback            (const std::string& name, const std::string& sender);
 		void triggerCallbackD           (const std::string& name, const std::string& sender, const std::string& data); // sends data with the callback
@@ -75,7 +76,7 @@ namespace Marvel {
 		void setKeyDownCallback         (const std::string& callback) { m_keyDownCallback = callback; }
 		void setKeyPressCallback        (const std::string& callback) { m_keyPressCallback = callback; }
 		void setKeyReleaseCallback      (const std::string& callback) { m_keyReleaseCallback = callback; }
-		
+
 		const std::string& getMainCallback            () const { return m_callback; }
 		const std::string& getMouseReleaseCallback    () const { return m_mouseReleaseCallback; }
 		const std::string& getMouseClickCallback      () const { return m_mouseClickCallback; }
@@ -84,12 +85,6 @@ namespace Marvel {
 		const std::string& getKeyDownCallback         () const { return m_keyDownCallback; }
 		const std::string& getKeyPressCallback        () const { return m_keyPressCallback; }
 		const std::string& getKeyReleaseCallback      () const { return m_keyReleaseCallback; }
-
-		//-----------------------------------------------------------------------------
-		// Logging
-		//-----------------------------------------------------------------------------
-		void  showLogger   () { m_showLog = true; }
-		bool& isLoggerShown() { return m_showLog; }
 
 		//-----------------------------------------------------------------------------
 		// Input Polling
@@ -101,13 +96,14 @@ namespace Marvel {
 		//-----------------------------------------------------------------------------
 		// Internal Utilities
 		//-----------------------------------------------------------------------------
-		void setModuleDict (PyObject* dict) { m_pDict = dict; }
-		void setSize       (unsigned width, unsigned height) { m_width = width; m_height = height; }
-		bool isOk          () const { return m_ok; }
-		void setOk         (bool ok) { m_ok = ok; }
-		void setStarted    () { m_started = true; }
-		void setFile       (const std::string& file);
-		void addKeyword    (const std::string& keyword, const std::string& description) { m_keywords.emplace_back(keyword, description); }
+		void  setModuleDict (PyObject* dict) { m_pDict = dict; }
+		bool& isLoggerShown () { return m_showLog; }
+		void  setSize       (unsigned width, unsigned height) { m_width = width; m_height = height; }
+		bool  isOk          () const { return m_ok; }
+		void  setOk         (bool ok) { m_ok = ok; }
+		void  setStarted    () { m_started = true; }
+		void  setFile       (const std::string& file);
+		void  addKeyword    (const std::string& keyword, const std::string& description) { m_keywords.emplace_back(keyword, description); }
 		std::vector<std::pair<std::string, std::string>> getKeywords() { return m_keywords; }
 				
 	private:
@@ -152,9 +148,10 @@ namespace Marvel {
 		std::string m_keyPressCallback = "";
 		std::string m_keyReleaseCallback = "";
 
-		TextEditor               m_editor;
-		std::string              m_file;
+		mvTextEditor               m_editor;
+		std::string                m_file;
 		std::vector<std::pair<std::string, std::string>> m_keywords;
+		std::vector<std::pair<std::string, std::string>> m_constants;
 
 	};
 

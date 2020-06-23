@@ -1,7 +1,7 @@
 #pragma once
 #define PY_SSIZE_T_CLEAN
 #include <Python.h>
-#include "Core/mvLogger.h"
+#include "Core/mvAppLog.h"
 #include "Core/Concurrency/mvThreadPool.h"
 
 namespace Marvel {
@@ -18,7 +18,7 @@ namespace Marvel {
         }
 
         
-        Marvel::AppLog::getLogger()->AddLog("%0s", what);
+        Marvel::mvAppLog::getLogger()->AddLog("%0s", what);
         Py_XINCREF(Py_None);
         PyGILState_Release(gstate);
         

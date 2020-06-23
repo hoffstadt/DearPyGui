@@ -1,6 +1,6 @@
 #include "mvApp.h"
 #include "mvCore.h"
-#include "mvLogger.h"
+#include "mvAppLog.h"
 #include "AppItems/mvAppItems.h"
 #include <fstream>
 #include <streambuf>
@@ -54,7 +54,7 @@ namespace Marvel {
 	void mvApp::setFile(const std::string& file)
 	{
 		m_file = file;
-		m_editor.SetLanguageDefinition(TextEditor::LanguageDefinition::Python());
+		m_editor.SetLanguageDefinition(mvTextEditor::LanguageDefinition::Python());
 		{
 			std::ifstream t(m_file.c_str());
 			if (t.good())
@@ -145,6 +145,13 @@ namespace Marvel {
 		case mvAppItemType::Unindent: return true;
 		default: return false;
 		}
+	}
+
+	static int getPopupButton(const std::string& name)
+	{
+		if (mvAppItem* item = mvApp::GetApp()->getItem(name))
+			return static_cast<mvPopup*>(item)->getButton();
+		return -1;
 	}
 
 	void mvApp::showMetricsWindow()
@@ -266,7 +273,7 @@ namespace Marvel {
 				ImGui::Separator();
 
 				if (ImGui::MenuItem("Select all", nullptr, nullptr))
-					m_editor.SetSelection(TextEditor::Coordinates(), TextEditor::Coordinates(m_editor.GetTotalLines(), 0));
+					m_editor.SetSelection(mvTextEditor::Coordinates(), mvTextEditor::Coordinates(m_editor.GetTotalLines(), 0));
 
 				ImGui::EndMenu();
 			}
@@ -274,11 +281,11 @@ namespace Marvel {
 			if (ImGui::BeginMenu("View"))
 			{
 				if (ImGui::MenuItem("Dark palette"))
-					m_editor.SetPalette(TextEditor::GetDarkPalette());
+					m_editor.SetPalette(mvTextEditor::GetDarkPalette());
 				if (ImGui::MenuItem("Light palette"))
-					m_editor.SetPalette(TextEditor::GetLightPalette());
+					m_editor.SetPalette(mvTextEditor::GetLightPalette());
 				if (ImGui::MenuItem("Retro blue palette"))
-					m_editor.SetPalette(TextEditor::GetRetroBluePalette());
+					m_editor.SetPalette(mvTextEditor::GetRetroBluePalette());
 				ImGui::EndMenu();
 			}
 			ImGui::EndMenuBar();
@@ -429,13 +436,6 @@ namespace Marvel {
 		return nullptr;
 	}
 
-	int mvApp::getPopupButton(const std::string& name)
-	{
-		if (mvAppItem* item = getItem(name))
-			return static_cast<mvPopup*>(item)->getButton();
-		return -1;
-	}
-
 	void mvApp::triggerCallback(const std::string& name, const std::string& sender)
 	{
 		
@@ -450,7 +450,7 @@ namespace Marvel {
 		if (pHandler == NULL)
 		{
 			std::string message(" Callback doesn't exist");
-			AppLog::getLogger()->LogWarning(name + message);
+			mvAppLog::getLogger()->LogWarning(name + message);
 			PyGILState_Release(gstate);
 			return;
 		}
@@ -470,7 +470,7 @@ namespace Marvel {
 			if (!result)
 			{
 				std::string message("Callback failed");
-				AppLog::getLogger()->LogError(name + message);
+				mvAppLog::getLogger()->LogError(name + message);
 			}
 
 			Py_XDECREF(pArgs);
@@ -485,7 +485,7 @@ namespace Marvel {
 		else
 		{
 			std::string message(" Callback not callable");
-			AppLog::getLogger()->LogError(name + message);
+			mvAppLog::getLogger()->LogError(name + message);
 		}
 
 		PyGILState_Release(gstate);
@@ -506,7 +506,7 @@ namespace Marvel {
 		if (pHandler == NULL)
 		{
 			std::string message(" Callback doesn't exist");
-			AppLog::getLogger()->LogWarning(name + message);
+			mvAppLog::getLogger()->LogWarning(name + message);
 			PyGILState_Release(gstate);
 			return;
 		}
@@ -524,7 +524,7 @@ namespace Marvel {
 			if (!result)
 			{
 				std::string message("Callback failed");
-				AppLog::getLogger()->LogError(name + message);
+				mvAppLog::getLogger()->LogError(name + message);
 			}
 
 			Py_XDECREF(pArgs);
@@ -539,7 +539,7 @@ namespace Marvel {
 		else
 		{
 			std::string message(" Callback not callable");
-			AppLog::getLogger()->LogError(name + message);
+			mvAppLog::getLogger()->LogError(name + message);
 		}
 
 		PyGILState_Release(gstate);
@@ -579,7 +579,7 @@ namespace Marvel {
 	{
 		if (m_started)
 		{
-			AppLog::getLogger()->LogWarning("Items can't be added during runtime.");
+			mvAppLog::getLogger()->LogWarning("Items can't be added during runtime.");
 			return;
 		}
 
@@ -588,7 +588,7 @@ namespace Marvel {
 			if (auto otheritem = getItem(item->getName()))
 			{
 				std::string message = item->getName() + " " + std::to_string(m_items.size());
-				AppLog::getLogger()->LogWarning(message + ": Items of this type must have unique names");
+				mvAppLog::getLogger()->LogWarning(message + ": Items of this type must have unique names");
 				return;
 			}
 		}
@@ -600,7 +600,7 @@ namespace Marvel {
 	{
 		if (m_started)
 		{
-			AppLog::getLogger()->LogWarning("Items can't be added during runtime.");
+			mvAppLog::getLogger()->LogWarning("Items can't be added during runtime.");
 			return;
 		}
 
@@ -609,7 +609,7 @@ namespace Marvel {
 			if (auto otheritem = getItem(item->getName()))
 			{
 				std::string message = item->getName() + " " + std::to_string(m_items.size());
-				AppLog::getLogger()->LogWarning(message + ": Items of this type must have unique names");
+				mvAppLog::getLogger()->LogWarning(message + ": Items of this type must have unique names");
 				return;
 			}
 		}
@@ -626,7 +626,7 @@ namespace Marvel {
 	{
 		if (!m_started)
 		{
-			AppLog::getLogger()->LogWarning("Popups can't be closed until runtime");
+			mvAppLog::getLogger()->LogWarning("Popups can't be closed until runtime");
 			return;
 		}
 
