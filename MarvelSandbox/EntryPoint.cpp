@@ -5,6 +5,7 @@
 #include "Platform/Windows/mvWindowsWindow.h"
 #include <iostream>
 #include "Core/PythonInterfaces/mvModuleConstants.h"
+#include <fstream>
 
 using namespace Marvel;
 
@@ -28,6 +29,8 @@ namespace Marvel {
 	extern void CreateWidgetAddingInterface(mvPythonModule& pyModule, PyObject* (*initfunc)());
 }
 
+bool doesFileExists(const char* filepath, const char** modname = nullptr);
+
 int main(int argc, char* argv[])
 {
 	mvThreadPool::InitThreadPool();
@@ -50,7 +53,8 @@ int main(int argc, char* argv[])
 
 	const wchar_t* path;
 	std::string addedpath;
-	const char* module_name;
+	const char* module_name = nullptr;
+	doesFileExists("SandboxConfig.txt", &module_name);
 	
 #ifdef MV_RELEASE
 	HWND hWnd = GetConsoleWindow();
@@ -61,7 +65,12 @@ int main(int argc, char* argv[])
 #endif // MV_RELEASE
 
 	// get path
-	if (argc < 2) // ran from visual studio
+	if (module_name) // ran with config file
+	{
+		addedpath = "";
+		path = L"python38.zip;";
+	}
+	else if (argc < 2) // ran from visual studio
 	{
 		addedpath = std::string(MV_MAIN_DIR) + std::string("MarvelSandbox/");
 		path = L"python38.zip;../../MarvelSandbox";
@@ -102,7 +111,9 @@ int main(int argc, char* argv[])
 	PySys_SetObject("stderr", m);
 
 	// get module name
-	if (argc < 2)
+	if (module_name) // ran with config file
+		module_name = module_name;
+	else if (argc < 2)
 		module_name = "App";
 	else if (argc == 2)
 		module_name = argv[1];
@@ -160,4 +171,20 @@ int main(int argc, char* argv[])
 	if (Py_FinalizeEx() < 0)
 		exit(120);
 
+}
+
+bool doesFileExists(const char* filepath, const char** modname)
+{
+	/* try to open file to read */
+	std::ifstream ifile;
+	ifile.open(filepath, std::ios::in);
+	if (ifile)
+	{
+		std::string line;
+		std::getline(ifile, line);
+		auto pline = new std::string(line);
+		*modname = pline->data();
+		return true;
+	}
+	return false;
 }
