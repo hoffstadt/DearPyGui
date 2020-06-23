@@ -5,9 +5,11 @@
 #include <cmath>
 
 #include "TextEditor.h"
+#include "Core/mvApp.h"
 
 #define IMGUI_DEFINE_MATH_OPERATORS
 #include "imgui.h" // for imGui::GetCurrentWindow()
+
 
 // TODO
 // - multiline comments vs single-line: latter is blocking start of a ML
@@ -2087,7 +2089,6 @@ const TextEditor::Palette& TextEditor::GetRetroBluePalette()
 	return p;
 }
 
-
 std::string TextEditor::GetText() const
 {
 	return GetText(Coordinates(), Coordinates((int)mLines.size(), 0));
@@ -3166,19 +3167,25 @@ const TextEditor::LanguageDefinition& TextEditor::LanguageDefinition::Python()
 	if (!inited)
 	{
 		static const char* const cppKeywords[] = {
-			"if", "elif", "else", "def", "class", "from", "import"
+			"False", "class", "finally", "is","return","None","continue","for",
+			"lambda","try","True","def","from","nonlocal","while","and","del",
+			"global","not","with","as","elif","if","or","yield","assert","else",
+			"import","pass","break","except","in","raise","self","print","__init__",
+			"append","int","float","complex","str","list","tuple","range","len",
+			"abs","sin","cos","tan","atan","asin","acos","bytes","bytearray",
+			"memoryview","set","frozenset","dict","Boolean"
 		};
 		for (auto& k : cppKeywords)
 			langDef.mKeywords.insert(k);
 
-		static const char* const identifiers[] = {
-			"sbWidgets", "addMenuBar"
-		};
-		for (auto& k : identifiers)
+		//static const char* const identifiers[] = {
+		//	"sbWidgets", "addMenuBar"
+		//};
+		for (auto& k : Marvel::mvApp::GetApp()->getKeywords())
 		{
 			Identifier id;
-			id.mDeclaration = "Built-in function";
-			langDef.mIdentifiers.insert(std::make_pair(std::string(k), id));
+			id.mDeclaration = k.second;
+			langDef.mIdentifiers.insert(std::make_pair(k.first, id));
 		}
 
 		langDef.mTokenize = [](const char* in_begin, const char* in_end, const char*& out_begin, const char*& out_end, PaletteIndex& paletteIndex) -> bool
