@@ -60,10 +60,6 @@ int main(int argc, char* argv[])
 	ShowWindow(hWnd, SW_SHOW);
 #endif // MV_RELEASE
 
-	// create window
-	mvWindow* window = new mvWindowsWindow();
-	window->show();
-
 	// get path
 	if (argc < 2) // ran from visual studio
 	{
@@ -128,10 +124,16 @@ int main(int argc, char* argv[])
 		// returns the dictionary object representing the module namespace
 		PyObject* pDict = PyModule_GetDict(pModule); // borrowed reference
 		mvApp::GetApp()->setModuleDict(pDict);
-		mvApp::GetApp()->setStarted();
 		std::string filename = addedpath + std::string(module_name) + ".py";
 		mvApp::GetApp()->setFile(filename);
 		PyEval_SaveThread(); // releases global lock
+		mvApp::GetApp()->preRender();
+		mvApp::GetApp()->setStarted();
+
+		// create window
+		mvWindow* window = new mvWindowsWindow(mvApp::GetApp()->getWindowWidth(), mvApp::GetApp()->getWindowHeight());
+		window->show();
+
 		window->run();
 		PyGILState_STATE gstate = PyGILState_Ensure();
 		Py_XDECREF(pModule);
@@ -142,6 +144,11 @@ int main(int argc, char* argv[])
 		PyErr_Print();
 		mvApp::GetApp()->setOk(false);
 		mvApp::GetApp()->showLogger();
+
+		// create window
+		mvWindow* window = new mvWindowsWindow(mvApp::GetApp()->getWindowWidth(), mvApp::GetApp()->getWindowHeight());
+		window->show();
+
 		window->run();
 	}
 

@@ -10,6 +10,8 @@ namespace Marvel {
 
 	public:
 
+		mvWindow(unsigned width, unsigned height) : m_width(width), m_height(height){}
+
 		virtual void show      () = 0;
 		virtual void setup     () {}
 		virtual void prerender () {}

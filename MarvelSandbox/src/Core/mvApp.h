@@ -22,16 +22,20 @@ namespace Marvel {
 		static const char* getVersion() { return MV_SANDBOX_VERSION; }
 
 		// actual render loop
+		void preRender();
 		void render();
 
 		//-----------------------------------------------------------------------------
 		// App Settings
 		//-----------------------------------------------------------------------------
-		void setAppTheme      (const std::string& theme);
-		void changeThemeItem  (long item, mvColor color);
-		void changeStyleItem  (long item, float x, float y);
-		void addFlag          (ImGuiWindowFlags flag) { m_windowflags |= flag; }
-		void addItemColorStyle(const std::string& name, ImGuiCol item, mvColor color);
+		void     setAppTheme      (const std::string& theme);
+		void     changeThemeItem  (long item, mvColor color);
+		void     changeStyleItem  (long item, float x, float y);
+		void     addFlag          (ImGuiWindowFlags flag) { m_windowflags |= flag; }
+		void     addItemColorStyle(const std::string& name, ImGuiCol item, mvColor color);
+		void     setWindowSize    (unsigned width, unsigned height) { m_width = width; m_height = height; }
+		unsigned getWindowWidth   () const { return m_width; }
+		unsigned getWindowHeight  () const { return m_height; }
 
 		//-----------------------------------------------------------------------------
 		// Adding Items
@@ -127,8 +131,8 @@ namespace Marvel {
 		std::vector<mvAppItem*> m_items;
 		std::stack<mvAppItem*>  m_parents;
 		PyObject*               m_pDict;
-		unsigned                m_width;
-		unsigned                m_height;
+		unsigned                m_width = 1280;
+		unsigned                m_height = 800;
 		std::string             m_callback;
 		bool                    m_ok = true;
 		bool                    m_showLog = false;
