@@ -14,7 +14,7 @@ import sbConstants
 from math import sin, cos
 import inspect
 
-ShowLogger()
+showLogger()
 
 def getCommands(mod):
     commands = []
