@@ -401,8 +401,8 @@ def PlotCallback(sender):
 
     addTextPoint("Plot2", "Here", 1.0, 1.0)
 
-    addLineSeries("Plot2", "Cos", data1, color=(1,0,1), weight=2)
-    addScatterSeries("Plot2", "Sin", data2, marker=sbConstants.mvPlotMarker_Circle, fill=(1,0,0), outline=(1,1,0))
+    addLineSeries("Plot2", "Cos", data1, color=(255,0,255), weight=2)
+    addScatterSeries("Plot2", "Sin", data2, marker=sbConstants.mvPlotMarker_Circle, fill=(255,0,0), outline=(255,255,0,255))
 
 
 ###########################################

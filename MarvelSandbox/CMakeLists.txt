@@ -26,7 +26,6 @@ target_sources(MarvelSandbox
 		"src/Core/PythonInterfaces/mvPlotInterface.cpp"
 		"src/Core/PythonInterfaces/mvDrawingInterface.cpp"
 		"src/Core/PythonInterfaces/mvWidgetAddingInterface.cpp"
-		"src/Core/PythonInterfaces/mvModuleConstants.cpp"
 
 		"src/Platform/Windows/mvWindowsWindow.cpp"
 		"src/Platform/Windows/mvUtilities.cpp"
@@ -42,7 +41,7 @@ target_sources(MarvelSandbox
 		"../Dependencies/imgui/imgui_draw.cpp"
 		"../Dependencies/imgui/imgui_widgets.cpp"
 		"../Dependencies/imgui/examples/imgui_impl_win32.cpp"
-		"../Dependencies/imgui/examples/imgui_impl_dx11.cpp" "src/Core/PythonInterfaces/mvModuleConstants.cpp")
+		"../Dependencies/imgui/examples/imgui_impl_dx11.cpp")
 
 target_include_directories(MarvelSandbox
 

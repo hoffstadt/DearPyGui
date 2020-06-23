@@ -67,10 +67,10 @@ namespace Marvel {
 		PyObject* data;
 		float weight = 1.0f;
 		PyObject* color = PyTuple_New(4);
-		PyTuple_SetItem(color, 0, PyFloat_FromDouble(117.0));
-		PyTuple_SetItem(color, 1, PyFloat_FromDouble(0.0));
-		PyTuple_SetItem(color, 2, PyFloat_FromDouble(0.0));
-		PyTuple_SetItem(color, 3, PyFloat_FromDouble(1.0));
+		PyTuple_SetItem(color, 0, PyLong_FromLong(1000));
+		PyTuple_SetItem(color, 1, PyLong_FromLong(0));
+		PyTuple_SetItem(color, 2, PyLong_FromLong(0));
+		PyTuple_SetItem(color, 3, PyLong_FromLong(255));
 
 		if (!Translators["addLineSeries"].parse(args, kwargs, __FUNCTION__, &plot, &name, &data, &color, &weight))
 			Py_RETURN_NONE;
@@ -81,7 +81,7 @@ namespace Marvel {
 		auto datapoints = mvPythonTranslator::getVectVec2(data);
 
 		auto mcolor = mvPythonTranslator::getColor(color);
-		if (mcolor.r > 100.0f)
+		if (mcolor.r > 1000)
 			mcolor.specified = false;
 
 		mvSeries* series = new mvLineSeries(name, datapoints, weight, mcolor);
@@ -100,15 +100,15 @@ namespace Marvel {
 		float size = 4.0f;
 		float weight = 1.0f;
 		PyObject* outline = PyTuple_New(4);
-		PyTuple_SetItem(outline, 0, PyFloat_FromDouble(117.0));
-		PyTuple_SetItem(outline, 1, PyFloat_FromDouble(0.0));
-		PyTuple_SetItem(outline, 2, PyFloat_FromDouble(0.0));
-		PyTuple_SetItem(outline, 3, PyFloat_FromDouble(1.0));
+		PyTuple_SetItem(outline, 0, PyLong_FromLong(1000));
+		PyTuple_SetItem(outline, 1, PyLong_FromLong(0));
+		PyTuple_SetItem(outline, 2, PyLong_FromLong(0));
+		PyTuple_SetItem(outline, 3, PyLong_FromLong(255));
 		PyObject* fill = PyTuple_New(4);
-		PyTuple_SetItem(fill, 0, PyFloat_FromDouble(117.0));
-		PyTuple_SetItem(fill, 1, PyFloat_FromDouble(0.0));
-		PyTuple_SetItem(fill, 2, PyFloat_FromDouble(0.0));
-		PyTuple_SetItem(fill, 3, PyFloat_FromDouble(1.0));
+		PyTuple_SetItem(fill, 0, PyLong_FromLong(1000));
+		PyTuple_SetItem(fill, 1, PyLong_FromLong(0));
+		PyTuple_SetItem(fill, 2, PyLong_FromLong(0));
+		PyTuple_SetItem(fill, 3, PyLong_FromLong(255));
 
 		if (!Translators["addScatterSeries"].parse(args, kwargs, __FUNCTION__, &plot, &name, &data, &marker,
 			&size, &weight, &outline, &fill))
@@ -120,11 +120,11 @@ namespace Marvel {
 		auto datapoints = mvPythonTranslator::getVectVec2(data);
 
 		auto mmarkerOutlineColor = mvPythonTranslator::getColor(outline);
-		if (mmarkerOutlineColor.r > 100.0f)
+		if (mmarkerOutlineColor.r > 1000)
 			mmarkerOutlineColor.specified = false;
 
 		auto mmarkerFillColor = mvPythonTranslator::getColor(fill);
-		if (mmarkerFillColor.r > 100.0f)
+		if (mmarkerFillColor.r > 1000)
 			mmarkerFillColor.specified = false;
 
 		mvSeries* series = new mvScatterSeries(name, datapoints, marker, size, weight, mmarkerOutlineColor,
