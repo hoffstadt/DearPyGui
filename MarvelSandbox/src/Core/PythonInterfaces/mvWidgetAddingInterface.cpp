@@ -227,6 +227,61 @@ namespace Marvel {
 		Py_RETURN_NONE;
 	}
 
+	PyObject* addSliderFloat2(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		MV_STANDARD_CALLBACK_INIT();
+
+		const char* name;
+		PyObject* default_value = PyTuple_New(2);
+		PyTuple_SetItem(default_value, 0, PyFloat_FromDouble(0.0));
+		PyTuple_SetItem(default_value, 1, PyFloat_FromDouble(0.0));
+		float min_value = 0.0f;
+		float max_value = 1.0f;
+		const char* format = "%.3f";
+		float power = 1.0f;
+
+		if (!Translators["addSliderFloat2"].parse(args, kwargs, __FUNCTION__, &name, &default_value,
+			&min_value, &max_value, &format, &power, MV_STANDARD_CALLBACK_PARSE))
+			Py_RETURN_NONE;
+
+		auto vec = mvPythonTranslator::getFloatVec(default_value);
+
+		mvAppItem* item = new mvSliderFloat2("", name, vec.data(), min_value, max_value, format, power);
+		mvApp::GetApp()->addItem(item);
+
+		MV_STANDARD_CALLBACK_EVAL();
+
+		Py_RETURN_NONE;
+	}
+
+	PyObject* addSliderFloat3(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		MV_STANDARD_CALLBACK_INIT();
+
+		const char* name;
+		PyObject* default_value = PyTuple_New(3);
+		PyTuple_SetItem(default_value, 0, PyFloat_FromDouble(0.0));
+		PyTuple_SetItem(default_value, 1, PyFloat_FromDouble(0.0));
+		PyTuple_SetItem(default_value, 2, PyFloat_FromDouble(0.0));
+		float min_value = 0.0f;
+		float max_value = 1.0f;
+		const char* format = "%.3f";
+		float power = 1.0f;
+
+		if (!Translators["addSliderFloat3"].parse(args, kwargs, __FUNCTION__, &name, &default_value,
+			&min_value, &max_value, &format, &power, MV_STANDARD_CALLBACK_PARSE))
+			Py_RETURN_NONE;
+
+		auto vec = mvPythonTranslator::getFloatVec(default_value);
+
+		mvAppItem* item = new mvSliderFloat3("", name, vec.data(), min_value, max_value, format, power);
+		mvApp::GetApp()->addItem(item);
+
+		MV_STANDARD_CALLBACK_EVAL();
+
+		Py_RETURN_NONE;
+	}
+
 	PyObject* addSliderFloat4(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		MV_STANDARD_CALLBACK_INIT();
@@ -272,6 +327,59 @@ namespace Marvel {
 			Py_RETURN_NONE;
 
 		mvAppItem* item = new mvSliderInt("", name, default_value, min_value, max_value, format, vertical);
+		mvApp::GetApp()->addItem(item);
+
+		MV_STANDARD_CALLBACK_EVAL();
+
+		Py_RETURN_NONE;
+	}
+
+	PyObject* addSliderInt2(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		MV_STANDARD_CALLBACK_INIT();
+
+		const char* name;
+		PyObject* default_value = PyTuple_New(2);
+		PyTuple_SetItem(default_value, 0, PyLong_FromLong(0));
+		PyTuple_SetItem(default_value, 1, PyLong_FromLong(0));
+		int min_value = 0;
+		int max_value = 100;
+		const char* format = "%d";
+
+		if (!Translators["addSliderInt2"].parse(args, kwargs, __FUNCTION__, &name, &default_value,
+			&min_value, &max_value, &format, MV_STANDARD_CALLBACK_PARSE))
+			Py_RETURN_NONE;
+
+		auto vec = mvPythonTranslator::getIntVec(default_value);
+
+		mvAppItem* item = new mvSliderInt2("", name, vec.data(), min_value, max_value, format);
+		mvApp::GetApp()->addItem(item);
+
+		MV_STANDARD_CALLBACK_EVAL();
+
+		Py_RETURN_NONE;
+	}
+
+	PyObject* addSliderInt3(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		MV_STANDARD_CALLBACK_INIT();
+
+		const char* name;
+		PyObject* default_value = PyTuple_New(3);
+		PyTuple_SetItem(default_value, 0, PyLong_FromLong(0));
+		PyTuple_SetItem(default_value, 1, PyLong_FromLong(0));
+		PyTuple_SetItem(default_value, 2, PyLong_FromLong(0));
+		int min_value = 0;
+		int max_value = 100;
+		const char* format = "%d";
+
+		if (!Translators["addSliderInt3"].parse(args, kwargs, __FUNCTION__, &name, &default_value,
+			&min_value, &max_value, &format, MV_STANDARD_CALLBACK_PARSE))
+			Py_RETURN_NONE;
+
+		auto vec = mvPythonTranslator::getIntVec(default_value);
+
+		mvAppItem* item = new mvSliderInt3("", name, vec.data(), min_value, max_value, format);
 		mvApp::GetApp()->addItem(item);
 
 		MV_STANDARD_CALLBACK_EVAL();
@@ -932,7 +1040,11 @@ namespace Marvel {
 		pyModule.addMethodD(addDragInt4);
 		pyModule.addMethodD(addSliderFloat);
 		pyModule.addMethodD(addSliderInt);
+		pyModule.addMethodD(addSliderFloat2);
+		pyModule.addMethodD(addSliderFloat3);
 		pyModule.addMethodD(addSliderFloat4);
+		pyModule.addMethodD(addSliderInt2);
+		pyModule.addMethodD(addSliderInt3);
 		pyModule.addMethodD(addSliderInt4);
 		pyModule.addMethodD(addTreeNode);
 		pyModule.addMethodD(addSelectable);
