@@ -18,9 +18,28 @@ namespace Marvel {
 
 		MV_APPITEM_TYPE(mvAppItemType::ColorEdit4)
 
-		mvColorEdit4(const std::string& parent, const std::string& name, float r, float g, float b, float a)
-			: mvFloatItemBase(parent, name, 4, r, g, b, a)
+		mvColorEdit4(const std::string& parent, const std::string& name, mvColor default_value)
+			: mvFloatItemBase(parent, name, 4, default_value.r / 255.0, default_value.g / 255.0, default_value.b / 255.0, default_value.a / 255.0)
 		{}
+
+		virtual void setPyValue(PyObject* value) override
+		{
+			std::lock_guard<std::mutex> lock(m_wmutex);
+
+			for (int i = 0; i < PyTuple_Size(value); i++)
+				m_value[i] = (float)PyLong_AsLong(PyTuple_GetItem(value, i)) / 255.0;
+		}
+
+		virtual PyObject* getPyValue() const override
+		{
+			std::lock_guard<std::mutex> lock(m_rmutex);
+
+			PyObject* value = PyTuple_New(m_valuecount);
+			for (int i = 0; i < m_valuecount; i++)
+				PyTuple_SetItem(value, i, PyLong_FromLong(m_value[i] * 255.0));
+			return value;
+
+		}
 
 		virtual void draw() override
 		{
