@@ -1,32 +1,32 @@
-#include "mvLogger.h"
+#include "mvAppLog.h"
 #include <string>
 #include <mutex>
 
 namespace Marvel {
 
-	AppLog* AppLog::getLogger()
+	mvAppLog* mvAppLog::getLogger()
 	{
 		if (s_instance)
 			return s_instance;
 
-		s_instance = new AppLog();
+		s_instance = new mvAppLog();
 		return s_instance;
 	}
 
-	AppLog::AppLog()
+	mvAppLog::mvAppLog()
 	{
 		AutoScroll = true;
 		Clear();
 	}
 
-	void AppLog::Clear()
+	void mvAppLog::Clear()
 	{
 		Buf.clear();
 		LineOffsets.clear();
 		LineOffsets.push_back(0);
 	}
 
-	void AppLog::AddLog(const char* fmt, ...)
+	void mvAppLog::AddLog(const char* fmt, ...)
 	{
 		static std::mutex mutex;
 
@@ -42,7 +42,7 @@ namespace Marvel {
 				LineOffsets.push_back(old_size + 1);
 	}
 
-	void AppLog::Draw(const char* title, bool* p_open)
+	void mvAppLog::Draw(const char* title, bool* p_open)
 	{
 		ImGui::SetNextWindowSize(ImVec2(500, 500), ImGuiCond_FirstUseEver);
 		if (!ImGui::Begin(title, p_open, ImGuiWindowFlags_NoSavedSettings))
@@ -174,37 +174,37 @@ namespace Marvel {
 		ImGui::End();
 	}
 
-	void AppLog::Log(const std::string& text, const std::string& level)
+	void mvAppLog::Log(const std::string& text, const std::string& level)
 	{
 		if (m_loglevel < 1)
 			AddLog("[%05d] [%1s]  %2s\n", ImGui::GetFrameCount(), level.c_str(), text.c_str());
 	}
 
-	void AppLog::LogDebug(const std::string& text)
+	void mvAppLog::LogDebug(const std::string& text)
 	{
 		if (m_loglevel < 2)
 			AddLog("[%05d] [DEBUG]  %1s\n", ImGui::GetFrameCount(), text.c_str());
 	}
 
-	void AppLog::LogInfo(const std::string& text)
+	void mvAppLog::LogInfo(const std::string& text)
 	{
 		if (m_loglevel < 3)
 			AddLog("[%05d] [INFO]  %1s\n", ImGui::GetFrameCount(), text.c_str());
 	}
 
-	void AppLog::LogWarning(const std::string& text)
+	void mvAppLog::LogWarning(const std::string& text)
 	{
 		if (m_loglevel < 4)
 			AddLog("[%05d] [WARNING]  %1s\n", ImGui::GetFrameCount(), text.c_str());
 	}
 
-	void AppLog::LogError(const std::string& text)
+	void mvAppLog::LogError(const std::string& text)
 	{
 		if (m_loglevel < 5)
 			AddLog("[%05d] [ERROR]  %1s\n", ImGui::GetFrameCount(), text.c_str());
 	}
 
-	void AppLog::ClearLog()
+	void mvAppLog::ClearLog()
 	{
 		Clear();
 	}

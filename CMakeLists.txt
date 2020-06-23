@@ -3,7 +3,7 @@
 project ("MarvelSandbox")
 
 add_definitions(-D_USE_MATH_DEFINES)
-add_definitions(-DMAINDIR="${CMAKE_CURRENT_SOURCE_DIR}/")
+add_definitions(-DMV_MAIN_DIR="${CMAKE_CURRENT_SOURCE_DIR}/")
 
 # Include sub-projects.
 add_subdirectory ("PureImgui")

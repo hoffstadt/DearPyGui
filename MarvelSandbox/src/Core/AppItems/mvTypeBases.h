@@ -2,7 +2,7 @@
 
 #include "Core/AppItems/mvAppItem.h"
 #include "Core/Concurrency/mvThreadPool.h"
-#include "Core/mvPlatformSpecifics.h"
+#include "Core/mvUtilities.h"
 
 namespace Marvel {
 

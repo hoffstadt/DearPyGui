@@ -8,7 +8,7 @@
 
 using namespace Marvel;
 
-AppLog* AppLog::s_instance = nullptr;
+mvAppLog* mvAppLog::s_instance = nullptr;
 
 // declare our modules
 MV_DECLARE_PYMODULE(pyMod1, "sbApp", {});
@@ -67,7 +67,7 @@ int main(int argc, char* argv[])
 	// get path
 	if (argc < 2) // ran from visual studio
 	{
-		addedpath = std::string(MAINDIR) + std::string("MarvelSandbox/");
+		addedpath = std::string(MV_MAIN_DIR) + std::string("MarvelSandbox/");
 		path = L"python38.zip;../../MarvelSandbox";
 	}
 	else if (argc == 2) // ran without path
@@ -114,10 +114,10 @@ int main(int argc, char* argv[])
 		module_name = argv[2];
 	
 	// info
-	AppLog::getLogger()->AddLog("[Sandbox Version] %0s\n", mvApp::getVersion());
-	AppLog::getLogger()->AddLog("[Python Version] %0s\n", PY_VERSION);
-	AppLog::getLogger()->AddLog("[ImGui Version] %0s\n", IMGUI_VERSION);
-	AppLog::getLogger()->AddLog("[Compiler] %0s\n", Py_GetCompiler());
+	mvAppLog::getLogger()->AddLog("[Sandbox Version] %0s\n", mvApp::getVersion());
+	mvAppLog::getLogger()->AddLog("[Python Version] %0s\n", PY_VERSION);
+	mvAppLog::getLogger()->AddLog("[ImGui Version] %0s\n", IMGUI_VERSION);
+	mvAppLog::getLogger()->AddLog("[Compiler] %0s\n", Py_GetCompiler());
 
 	// get module
 	PyObject* pModule = PyImport_ImportModule(module_name); // new reference

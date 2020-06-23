@@ -6,21 +6,20 @@ target_sources(PureImgui
 
 	PRIVATE
 
-		"${CMAKE_CURRENT_SOURCE_DIR}/main.cpp"
-		
-		"${CMAKE_CURRENT_SOURCE_DIR}/src/mvWindowsWindow.cpp"
+		"main.cpp"
+		"src/mvWindowsWindow.cpp"
 		
 		# implot
-		"${CMAKE_CURRENT_SOURCE_DIR}/../MarvelSandbox/src/Vendor/implot/implot.cpp"
-		"${CMAKE_CURRENT_SOURCE_DIR}/../MarvelSandbox/src/Vendor/implot/implot_demo.cpp"
+		"../MarvelSandbox/src/Vendor/implot/implot.cpp"
+		"../MarvelSandbox/src/Vendor/implot/implot_demo.cpp"
 
 		# imgui
-		"${CMAKE_CURRENT_SOURCE_DIR}/../Dependencies/imgui/imgui.cpp"
-		"${CMAKE_CURRENT_SOURCE_DIR}/../Dependencies/imgui/imgui_demo.cpp"
-		"${CMAKE_CURRENT_SOURCE_DIR}/../Dependencies/imgui/imgui_draw.cpp"
-		"${CMAKE_CURRENT_SOURCE_DIR}/../Dependencies/imgui/imgui_widgets.cpp"
-		"${CMAKE_CURRENT_SOURCE_DIR}/../Dependencies/imgui/examples/imgui_impl_win32.cpp"
-		"${CMAKE_CURRENT_SOURCE_DIR}/../Dependencies/imgui/examples/imgui_impl_dx11.cpp"
+		"../Dependencies/imgui/imgui.cpp"
+		"../Dependencies/imgui/imgui_demo.cpp"
+		"../Dependencies/imgui/imgui_draw.cpp"
+		"../Dependencies/imgui/imgui_widgets.cpp"
+		"../Dependencies/imgui/examples/imgui_impl_win32.cpp"
+		"../Dependencies/imgui/examples/imgui_impl_dx11.cpp"
 
 )
 
@@ -28,11 +27,11 @@ target_include_directories(PureImgui
 
 	PRIVATE
 
-		"${CMAKE_CURRENT_SOURCE_DIR}/src/"
-		"${CMAKE_CURRENT_SOURCE_DIR}/../Dependencies/imgui/"
-		"${CMAKE_CURRENT_SOURCE_DIR}/../Dependencies/imgui/examples/"
-		"${CMAKE_CURRENT_SOURCE_DIR}/../MarvelSandbox/src/Vendor/implot/"
-		"${CMAKE_CURRENT_SOURCE_DIR}/../MarvelSandbox/src/Vendor/stb/"
+		"src/"
+		"../Dependencies/imgui/"
+		"../Dependencies/imgui/examples/"
+		"../MarvelSandbox/src/Vendor/implot/"
+		"../MarvelSandbox/src/Vendor/stb/"
 
 )
 

@@ -1,4 +1,4 @@
-#include "Core/mvPlatformSpecifics.h"
+#include "Core/mvUtilities.h"
 #include "mvWindowsWindow.h"
 
 #define STB_IMAGE_IMPLEMENTATION

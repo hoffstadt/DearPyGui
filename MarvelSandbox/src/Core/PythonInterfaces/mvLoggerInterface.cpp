@@ -1,6 +1,6 @@
 #include "Core/PythonUtilities/mvPythonModule.h"
 #include "Core/mvApp.h"
-#include "Core/mvLogger.h"
+#include "Core/mvAppLog.h"
 #include "Core/PythonUtilities/mvPythonTranslator.h"
 #include "mvLoggerInterface.h"
 
@@ -8,7 +8,7 @@ namespace Marvel {
 
 	static std::map<std::string, mvPythonTranslator> Translators = BuildTranslations();
 
-	PyObject* ShowLogger(PyObject* self, PyObject* args)
+	PyObject* showLogger(PyObject* self, PyObject* args)
 	{
 		mvApp::GetApp()->showLogger();
 		Py_INCREF(Py_None);
@@ -20,7 +20,7 @@ namespace Marvel {
 		int level;
 		if(!Translators["SetLogLevel"].parse(args, kwargs,__FUNCTION__, &level))
 			Py_RETURN_NONE;
-		AppLog::getLogger()->setLogLevel(level);
+		mvAppLog::getLogger()->setLogLevel(level);
 		Py_RETURN_NONE;
 	}
 
@@ -31,7 +31,7 @@ namespace Marvel {
 		if(!Translators["Log"].parse(args, kwargs,__FUNCTION__, &message, &level))
 			Py_RETURN_NONE;
 
-		AppLog::getLogger()->Log(std::string(message), std::string(level));
+		mvAppLog::getLogger()->Log(std::string(message), std::string(level));
 		Py_RETURN_NONE;
 	}
 
@@ -42,7 +42,7 @@ namespace Marvel {
 		if (!Translators["LogDebug"].parse(args, kwargs,__FUNCTION__, &message))
 			Py_RETURN_NONE;
 
-		AppLog::getLogger()->LogDebug(std::string(message));
+		mvAppLog::getLogger()->LogDebug(std::string(message));
 		Py_RETURN_NONE;
 	}
 
@@ -53,7 +53,7 @@ namespace Marvel {
 		if (!Translators["LogInfo"].parse(args, kwargs,__FUNCTION__, &message))
 			Py_RETURN_NONE;
 
-		AppLog::getLogger()->LogInfo(std::string(message));
+		mvAppLog::getLogger()->LogInfo(std::string(message));
 		Py_RETURN_NONE;
 	}
 
@@ -64,7 +64,7 @@ namespace Marvel {
 		if (!Translators["LogWarning"].parse(args, kwargs,__FUNCTION__, &message))
 			Py_RETURN_NONE;
 
-		AppLog::getLogger()->LogWarning(std::string(message));
+		mvAppLog::getLogger()->LogWarning(std::string(message));
 		Py_RETURN_NONE;
 	}
 
@@ -75,20 +75,20 @@ namespace Marvel {
 		if (!Translators["LogError"].parse(args, kwargs,__FUNCTION__, &message))
 			Py_RETURN_NONE;
 
-		AppLog::getLogger()->LogError(std::string(message));
+		mvAppLog::getLogger()->LogError(std::string(message));
 		Py_RETURN_NONE;
 	}
 
 	PyObject* ClearLog(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
-		AppLog::getLogger()->ClearLog();
+		mvAppLog::getLogger()->ClearLog();
 		Py_RETURN_NONE;
 	}
 
 	void CreateLoggerInterface(mvPythonModule& pyModule, PyObject* (*initfunc)())
 	{
 		pyModule.addMethod(ClearLog, "Not Documented");
-		pyModule.addMethod(ShowLogger, "Not Documented");
+		pyModule.addMethod(showLogger, "Not Documented");
 
 		pyModule.addMethodD(SetLogLevel);
 		pyModule.addMethodD(Log);

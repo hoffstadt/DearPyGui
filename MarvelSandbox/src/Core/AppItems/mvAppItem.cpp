@@ -4,10 +4,9 @@
 namespace Marvel{
 
 	mvAppItem::mvAppItem(const std::string& parent, const std::string& name)
-		: m_name(name), m_label(name), m_tip(""), m_show(true),
-		m_parent(mvApp::GetApp()->getItem(parent))
 	{
-
+		m_name = name;
+		m_label = name;
 	}
 
 	void mvAppItem::showAll()

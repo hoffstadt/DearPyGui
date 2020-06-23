@@ -1,7 +1,7 @@
 #pragma once
 
 #include "mvApp.h"
-#include "mvLogger.h"
+#include "mvAppLog.h"
 
 namespace Marvel {
 

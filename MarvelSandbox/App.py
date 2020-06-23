@@ -92,7 +92,7 @@ def ShowAboutCallback(sender):
     showAbout()
 
 def ShowLoggerCallback(sender):
-    ShowLogger()
+    showLogger()
 
 def OpenThemeEditor(sender):
     #this is where the theme editor will be turned on once created. it will run similar to logger except the open theme call back will se the Value to 1. and a new window will appear. 
@@ -318,7 +318,7 @@ endCollapsingHeader()
 # NOTES:
 
 #Any command placed in the main loop will be ran on start up. For debuggin purposes we will always open the logger.
-ShowLogger()
+showLogger()
 
 addCollapsingHeader("Logger")
 # log level controll what level of logging the logger with print. 

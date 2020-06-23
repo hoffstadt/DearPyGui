@@ -5,12 +5,12 @@
 
 namespace Marvel {
 
-	class AppLog
+	class mvAppLog
 	{
 
 	public:
 
-		static AppLog* getLogger();
+		static mvAppLog* getLogger();
 
 		void Clear ();
 		void AddLog(const char* fmt, ...);
@@ -25,11 +25,11 @@ namespace Marvel {
 
 	private:
 
-		AppLog();
+		mvAppLog();
 
 	private:
 
-		static AppLog* s_instance;
+		static mvAppLog*    s_instance;
 		ImGuiTextBuffer     Buf;
 		ImGuiTextFilter     Filter;
 		ImVector<int>       LineOffsets;    // Index to lines offset. We maintain this with AddLog() calls, allowing us to have a random access on lines
