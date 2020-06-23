@@ -8,8 +8,6 @@
 #include "Core/AppItems/mvMiscItems.h"
 #include "Core/AppItems/mvTooltip.h"
 #include "Core/AppItems/mvColorEdit4.h"
-#include "Core/AppItems/mvInputInt.h"
-#include "Core/AppItems/mvInputFloat.h"
 #include "Core/AppItems/mvText.h"
 #include "Core/AppItems/mvSimplePlot.h"
 #include "Core/AppItems/mvWindowAppItem.h"
@@ -18,6 +16,7 @@
 #include "Core/AppItems/mvPlot.h"
 #include "Core/AppItems/mvSlideItems.h"
 #include "Core/AppItems/mvDragItems.h"
+#include "Core/AppItems/mvInputItems.h"
 #include "Core/AppItems/mvImage.h"
 
 //-----------------------------------------------------------------------------
@@ -43,12 +42,6 @@
 //
 //     - mvDrawing.h
 //         * mvDrawing
-//
-//     - mvInputFloat.h
-//         * mvInputFloat
-//
-//     - mvInputInt.h
-//         * mvInputInt
 //
 //     - mvInputText.h
 //         * mvInputText
@@ -104,6 +97,16 @@
 //         * mvDragInt2
 //         * mvDragInt3
 //         * mvDragInt4
+//
+//     - mvInputItems.h
+//         * mvInputFloat
+//         * mvInputFloat2
+//         * mvInputFloat3
+//         * mvInputFloat4
+//         * mvInputInt
+//         * mvInputInt2
+//         * mvInputInt3
+//         * mvInputInt4
 //
 //     - mvImage.h
 //         * mvImage

@@ -273,14 +273,54 @@ namespace Marvel{
 			{"addInputInt", mvPythonTranslator({
 				{mvPythonDataType::String, "name"},
 				{mvPythonDataType::Optional},
-				{mvPythonDataType::Integer, "default_value"}
+				{mvPythonDataType::Integer, "default_value"},
 			}, true, "A Listbox is a listbox")},
+
+			{ "addInputInt2", mvPythonTranslator({
+				{mvPythonDataType::String, "name"},
+				{mvPythonDataType::Optional},
+				{mvPythonDataType::IntList, "default_value"},
+			}, true, "A Listbox is a listbox") },
+
+			{ "addInputInt3", mvPythonTranslator({
+				{mvPythonDataType::String, "name"},
+				{mvPythonDataType::Optional},
+				{mvPythonDataType::IntList, "default_value"},
+			}, true, "A Listbox is a listbox") },
+
+			{ "addInputInt4", mvPythonTranslator({
+				{mvPythonDataType::String, "name"},
+				{mvPythonDataType::Optional},
+				{mvPythonDataType::IntList, "default_value"},
+			}, true, "A Listbox is a listbox") },
 
 			{"addInputFloat", mvPythonTranslator({
 				{mvPythonDataType::String, "name"},
 				{mvPythonDataType::Optional},
-				{mvPythonDataType::Float, "default_value"}
+				{mvPythonDataType::Float, "default_value"},
+				{mvPythonDataType::String, "format"}
 			}, true, "A Listbox is a listbox")},
+
+			{ "addInputFloat2", mvPythonTranslator({
+				{mvPythonDataType::String, "name"},
+				{mvPythonDataType::Optional},
+				{mvPythonDataType::FloatList, "default_value"},
+				{mvPythonDataType::String, "format"}
+			}, true, "A Listbox is a listbox") },
+
+			{ "addInputFloat3", mvPythonTranslator({
+				{mvPythonDataType::String, "name"},
+				{mvPythonDataType::Optional},
+				{mvPythonDataType::FloatList, "default_value"},
+				{mvPythonDataType::String, "format"}
+			}, true, "A Listbox is a listbox") },
+
+			{ "addInputFloat4", mvPythonTranslator({
+				{mvPythonDataType::String, "name"},
+				{mvPythonDataType::Optional},
+				{mvPythonDataType::FloatList, "default_value"},
+				{mvPythonDataType::String, "format"}
+			}, true, "A Listbox is a listbox") },
 
 			{"indent", mvPythonTranslator({
 				{mvPythonDataType::Optional},
