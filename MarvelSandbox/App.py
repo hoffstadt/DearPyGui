@@ -109,7 +109,7 @@ def OpenThemeEditor(sender):
 #An advanced function for the "HulkAbility" callback showing that we can edit theme items. Finilize changes by calling "updateTheme". This is only some of the items that can be colored.
 def HulkAbility(sender):
     setTheme("Dark")
-    hulksColor = [0,50,0,255]
+    hulksColor = (0,50,0,255)
     changeThemeItem(sbConstants.mvGuiCol_Tab, hulksColor[0], hulksColor[1], hulksColor[2], hulksColor[3])
     changeThemeItem(sbConstants.mvGuiCol_Button, hulksColor[0], hulksColor[1], hulksColor[2], hulksColor[3])
     changeThemeItem(sbConstants.mvGuiCol_Header, hulksColor[0], hulksColor[1], hulksColor[2], hulksColor[3])
@@ -142,7 +142,7 @@ addInputFloat("Input Float 1", default_value=117.0)
 addRadioButton("Radio Button", ("First Option", "Second Option", "Third Option"), default_value=2)
 addListbox("Listbox", ("First item", "Second item", "Third item"), default_value=2, height=4)
 addCheckbox("Checkbox", default_value=True)
-addColorEdit4("Color Edit 4", (50, 100, 56, 255))
+addColorEdit4("Color Edit 4", (50, 100, 200, 255))
 addCombo("Combo", ('A', '5', "1.0", "Text"))
 addSelectable("Selectible item 1")
 addSelectable("Selectible item 2",True)

@@ -290,7 +290,8 @@ namespace Marvel{
 
 			{"addColorEdit4", mvPythonTranslator({
 				{mvPythonDataType::String, "name"},
-				{mvPythonDataType::FloatList, "default_value (r,g,b,a)"},
+				{mvPythonDataType::Optional},
+				{mvPythonDataType::IntList, "default_value (r, g, b, a)"},
 			}, true, "A Listbox is a listbox") },
 
 			{"addCheckbox", mvPythonTranslator({
