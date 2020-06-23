@@ -128,7 +128,7 @@ namespace Marvel {
 	mvColor mvPythonTranslator::getColor(PyObject* obj)
 	{
 
-		float color[4] = { 0.0f, 0.0f, 0.0f, 1.0f };
+		int color[4] = { 255, 255, 255, 255 };
 
 		if(obj == nullptr)
 			return mvColor{ color[0], color[1], color[2], color[3], false };
@@ -136,12 +136,12 @@ namespace Marvel {
 		if (PyTuple_Check(obj))
 		{
 			for (int i = 0; i < PyTuple_Size(obj); i++)
-				color[i] = PyFloat_AsDouble(PyTuple_GetItem(obj, i));
+				color[i] = PyLong_AsLong(PyTuple_GetItem(obj, i));
 		}
 		else if (PyList_Check(obj))
 		{
 			for (int i = 0; i < PyList_Size(obj); i++)
-				color[i] = PyFloat_AsDouble(PyList_GetItem(obj, i));
+				color[i] = PyLong_AsLong(PyList_GetItem(obj, i));
 		}
 
 		return mvColor{ color[0], color[1], color[2], color[3], true };

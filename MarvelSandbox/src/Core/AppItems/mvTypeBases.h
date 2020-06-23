@@ -269,4 +269,57 @@ namespace Marvel {
 
 	};
 
+	//-----------------------------------------------------------------------------
+	// mvColorItemBase
+	//-----------------------------------------------------------------------------
+	class mvColorItemBase : public mvAppItem
+	{
+
+	public:
+
+		mvColorItemBase(const std::string& parent, const std::string& name, mvColor color)
+			: mvAppItem(parent, name)
+		{
+			m_value[0] = color.r/255.0f;
+			m_value[1] = color.g/255.0f;
+			m_value[2] = color.b/255.0f;
+			m_value[3] = color.a/255.0f;
+		}
+
+		virtual void setPyValue(PyObject* value) override
+		{
+			std::lock_guard<std::mutex> lock(m_wmutex);
+
+			for (int i = 0; i < PyTuple_Size(value); i++)
+				m_value[i] = PyLong_AsLong(PyTuple_GetItem(value, i))/255.0f;
+
+		}
+
+		virtual PyObject* getPyValue() const override
+		{
+			std::lock_guard<std::mutex> lock(m_rmutex);
+
+			PyObject* value = PyTuple_New(4);
+			for (int i = 0; i < 4; i++)
+				PyTuple_SetItem(value, i, PyLong_FromLong(m_value[i]*255));
+			return value;
+
+		}
+
+		inline void setValue(mvColor color)
+		{
+			m_value[0] = color.r/255.0f;
+			m_value[1] = color.g/255.0f;
+			m_value[2] = color.b/255.0f;
+			m_value[3] = color.a/255.0f;
+		}
+
+		inline const float* getValue() const { return &m_value[0]; }
+
+	protected:
+
+		float m_value[4];
+
+	};
+
 }

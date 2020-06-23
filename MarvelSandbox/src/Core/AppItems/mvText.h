@@ -31,7 +31,7 @@ namespace Marvel {
 		{
 
 			if (m_color.specified)
-				ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(m_color.r, m_color.g, m_color.b, m_color.a));
+				ImGui::PushStyleColor(ImGuiCol_Text, m_color);
 
 			if (m_wrap != 0)
 				ImGui::PushTextWrapPos(ImGui::GetCursorPos().x + m_wrap);
@@ -75,7 +75,7 @@ namespace Marvel {
 		{
 
 			if (m_color.specified)
-				ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(m_color.r, m_color.g, m_color.b, m_color.a));
+				ImGui::PushStyleColor(ImGuiCol_Text, m_color);
 
 			ImGui::Text(m_value.c_str());
 

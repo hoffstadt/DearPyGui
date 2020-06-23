@@ -254,7 +254,7 @@ namespace Marvel {
 	PyObject* changeThemeItem(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		int item;
-		float r, g, b, a;
+		int r, g, b, a;
 
 		if(!Translators["changeThemeItem"].parse(args, kwargs,__FUNCTION__, &item, &r, &g, &b, &a))
 			Py_RETURN_NONE;

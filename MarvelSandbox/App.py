@@ -5,7 +5,6 @@ from sbPlot import *
 from sbDraw import *
 from sbWidgets import *
 import sbConstants
-import SandboxTheme
 from math import sin, cos
 
 ####################################################
@@ -142,7 +141,9 @@ addInputFloat("Input Float 1", default_value=117.0)
 addRadioButton("Radio Button", ("First Option", "Second Option", "Third Option"), default_value=2)
 addListbox("Listbox", ("First item", "Second item", "Third item"), default_value=2, height=4)
 addCheckbox("Checkbox", default_value=True)
+addColorEdit3("Color Edit 3", (50, 100, 200))
 addColorEdit4("Color Edit 4", (50, 100, 200, 255))
+addColorPicker4("Color Picker 4", (50, 100, 200, 255), width=200, height=200)
 addCombo("Combo", ('A', '5', "1.0", "Text"))
 addSelectable("Selectible item 1")
 addSelectable("Selectible item 2",True)
@@ -174,6 +175,7 @@ def GetAllInputsAndPrint(sender):
     input6 = getValue("Listbox")
     input7 = getValue("Checkbox")
     input8 = getValue("Color Edit 4")
+    input8a = getValue("Color Edit 3")
     input9 = getValue("Combo")
     input10 = getValue("Selectible item 1")
     input11 = getValue("Drag Float")
@@ -192,6 +194,7 @@ def GetAllInputsAndPrint(sender):
         print("Checkbox: True")
     else:
         print("Checkbox: False")
+    print("Color Edit 3: ", input8a)
     print("Color Edit 4: {0}, {1}, {2}, {3}".format(input8[0], input8[1], input8[2], input8[3]))
     print("Combo: " + input9)
 
@@ -257,9 +260,9 @@ addCollapsingHeader("Text")
 addText("Regular text")
 addText("Regular text with wrapping ability for long lines of text", wrap = 150)
 addText("Regular text with bullet style", bullet = True)
-addText("Regular text with color twist", color = (1.0, 0.0, 0.0, 1.0))
+addText("Regular text with color twist", color = (255, 0, 0, 255))
 addLabelText(" :Label Text 1", "Some old text")
-addLabelText(" :Label Text 2", "Some old text with color twist", color = (1.0, 0.0, 0.0, 1.0))
+addLabelText(" :Label Text 2", "Some old text with color twist", color = (255, 255, 0, 255))
 
 addButton("Change Text Values", callback = "SetAllLabelText")
 endCollapsingHeader()
@@ -353,25 +356,24 @@ addButton("draw on canvas", callback="DrawCanvas")
 addButton("clear canvas", callback="ClearCanvas")
 
 addDrawing("drawing2", 800, 500)
-drawRectangle("drawing2", (0, 0), (800, 500), (1, 0, 0, 1), fill=(0, 0, 0.1, 1), rounding=12, thickness = 1.0)
-drawLine("drawing2", (10, 10), (100, 100), (1, 0, 0, 1), 1)
-drawTriangle("drawing2", (300, 500), (200, 200), (500, 200), (1, 1, 0, 1), thickness = 3.0)
-drawQuad("drawing2", (50, 50), (150, 50), (150, 150), (50, 150), (1, 1, 0, 1), thickness = 3.0)
-drawText("drawing2", (50, 300), "Some Text", color=(1, 1, 0,1), size=15)
-drawCircle("drawing2", (400, 250), 50, (1, 1, 0,1))
-drawPolyline("drawing2", ((300, 500), (200, 200), (500, 700)), (1, 1, 0,1))
-drawPolygon("drawing2", ((363, 471), (100, 498), (50, 220)), (1, 0.5, 0,1))
-drawBezierCurve("drawing2", (50, 200), (150, 250), (300, 150), (600, 250), (1, 1, 0, 1), thickness = 2.0)
+drawRectangle("drawing2", (0, 0), (800, 500), (255, 0, 0, 255), fill=(0, 0, 25, 255), rounding=12, thickness = 1.0)
+drawLine("drawing2", (10, 10), (100, 100), (255, 0, 0, 255), 1)
+drawTriangle("drawing2", (300, 500), (200, 200), (500, 200), (255, 255, 0, 255), thickness = 3.0)
+drawQuad("drawing2", (50, 50), (150, 50), (150, 150), (50, 150), (255, 255, 0, 255), thickness = 3.0)
+drawText("drawing2", (50, 300), "Some Text", color=(255, 255, 0, 255), size=15)
+drawCircle("drawing2", (400, 250), 50, (255, 255, 0, 255))
+drawPolyline("drawing2", ((300, 500), (200, 200), (500, 700)), (255, 255, 0, 255))
+drawPolygon("drawing2", ((363, 471), (100, 498), (50, 220)), (255, 125, 0, 255))
+drawBezierCurve("drawing2", (50, 200), (150, 250), (300, 150), (600, 250), (255, 255, 0, 255), thickness = 2.0)
 
 
 endCollapsingHeader()
 
 def DrawCanvas(sender):
-    drawRectangle("drawing2", (0, 0), (800, 500), (1, 0, 0, 1), fill=(0, 0, 0.1, 1), rounding=12, thickness = 1.0)
-    drawRectangle("drawing2", (0, 0), (800, 500), (1, 0, 0, 1), fill=(0, 0, 0.1, 1), rounding=12, thickness = 1.0)
-    drawLine("drawing2", (10, 10), (100, 100), (1, 0, 0, 1), 1)
-    drawCircle("drawing2", (400, 250), 50, (1, 1, 0,1))
-    drawBezierCurve("drawing2", (50, 200), (150, 250), (300, 150), (600, 250), (1, 1, 0, 1), thickness = 2.0)
+    drawRectangle("drawing2", (0, 0), (800, 500), (255, 0, 0), fill=(0, 0, 25, 255), rounding=12, thickness = 1.0)
+    drawLine("drawing2", (10, 10), (100, 100), (255, 0, 0), 1)
+    drawCircle("drawing2", (400, 250), 50, (255, 255, 0))
+    drawBezierCurve("drawing2", (50, 200), (150, 250), (300, 150), (600, 250), (255, 255, 0), thickness = 2.0)
 def ClearCanvas(sender):
     clearDrawing("drawing2")
 

@@ -533,17 +533,17 @@ namespace Marvel {
 		const char* name;
 		int wrap = 0, bullet = 0;
 		PyObject* color = PyTuple_New(4);
-		PyTuple_SetItem(color, 0, PyFloat_FromDouble(117.0));
-		PyTuple_SetItem(color, 1, PyFloat_FromDouble(0.0));
-		PyTuple_SetItem(color, 2, PyFloat_FromDouble(0.0));
-		PyTuple_SetItem(color, 3, PyFloat_FromDouble(1.0));
+		PyTuple_SetItem(color, 0, PyLong_FromLong(1000));
+		PyTuple_SetItem(color, 1, PyLong_FromLong(0));
+		PyTuple_SetItem(color, 2, PyLong_FromLong(0));
+		PyTuple_SetItem(color, 3, PyLong_FromLong(255));
 
 		if (!Translators["addText"].parse(args, kwargs,__FUNCTION__, &name, &wrap, &color, &bullet, MV_STANDARD_CALLBACK_PARSE))
 			Py_RETURN_NONE;
 
 		auto mcolor = mvPythonTranslator::getColor(color);
 
-		if (mcolor.r > 100.0f)
+		if (mcolor.r > 500)
 			mcolor.specified = false;
 
 		mvAppItem* item = new mvText("", name, wrap, mcolor, bullet);
@@ -561,16 +561,16 @@ namespace Marvel {
 		const char* name;
 		const char* value;
 		PyObject* color = PyTuple_New(4);
-		PyTuple_SetItem(color, 0, PyFloat_FromDouble(117.0));
-		PyTuple_SetItem(color, 1, PyFloat_FromDouble(0.0));
-		PyTuple_SetItem(color, 2, PyFloat_FromDouble(0.0));
-		PyTuple_SetItem(color, 3, PyFloat_FromDouble(1.0));
+		PyTuple_SetItem(color, 0, PyLong_FromLong(1000));
+		PyTuple_SetItem(color, 1, PyLong_FromLong(0));
+		PyTuple_SetItem(color, 2, PyLong_FromLong(0));
+		PyTuple_SetItem(color, 3, PyLong_FromLong(255));
 
 		if (!Translators["addLabelText"].parse(args, kwargs,__FUNCTION__, &name, &value, &color, MV_STANDARD_CALLBACK_PARSE))
 			Py_RETURN_NONE;
 
 		auto mcolor = mvPythonTranslator::getColor(color);
-		if (mcolor.r > 100.0f)
+		if (mcolor.r > 500)
 			mcolor.specified = false;
 
 		mvAppItem* item = new mvLabelText("", std::string(name), value, mcolor);
@@ -1227,16 +1227,38 @@ namespace Marvel {
 		
 		Py_RETURN_NONE;
 	}
+	
+	PyObject* addColorEdit3(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		MV_STANDARD_CALLBACK_INIT();
+		const char* name;
+		PyObject* default_value = PyTuple_New(3);
+		PyTuple_SetItem(default_value, 0, PyLong_FromLong(0));
+		PyTuple_SetItem(default_value, 1, PyLong_FromLong(0));
+		PyTuple_SetItem(default_value, 2, PyLong_FromLong(0));
+
+		if (!Translators["addColorEdit3"].parse(args, kwargs, __FUNCTION__, &name, &default_value, MV_STANDARD_CALLBACK_PARSE))
+			Py_RETURN_NONE;
+
+		auto color = mvPythonTranslator::getColor(default_value);
+
+		mvAppItem* item = new mvColorEdit3("", name, color);
+		mvApp::GetApp()->addItem(item);
+
+		MV_STANDARD_CALLBACK_EVAL();
+
+		Py_RETURN_NONE;
+	}
 
 	PyObject* addColorEdit4(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		MV_STANDARD_CALLBACK_INIT();
 		const char* name;
 		PyObject* default_value = PyTuple_New(4);
-		PyTuple_SetItem(default_value, 0, PyLong_FromLong(0.0));
-		PyTuple_SetItem(default_value, 1, PyLong_FromLong(0.0));
-		PyTuple_SetItem(default_value, 2, PyLong_FromLong(0.0));
-		PyTuple_SetItem(default_value, 3, PyLong_FromLong(0.0));
+		PyTuple_SetItem(default_value, 0, PyLong_FromLong(0));
+		PyTuple_SetItem(default_value, 1, PyLong_FromLong(0));
+		PyTuple_SetItem(default_value, 2, PyLong_FromLong(0));
+		PyTuple_SetItem(default_value, 3, PyLong_FromLong(0));
 
 		if (!Translators["addColorEdit4"].parse(args, kwargs,__FUNCTION__, &name, &default_value, MV_STANDARD_CALLBACK_PARSE))
 			Py_RETURN_NONE;
@@ -1248,6 +1270,50 @@ namespace Marvel {
 
 		MV_STANDARD_CALLBACK_EVAL();
 		
+		Py_RETURN_NONE;
+	}
+
+	PyObject* addColorPicker3(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		MV_STANDARD_CALLBACK_INIT();
+		const char* name;
+		PyObject* default_value = PyTuple_New(3);
+		PyTuple_SetItem(default_value, 0, PyLong_FromLong(0));
+		PyTuple_SetItem(default_value, 1, PyLong_FromLong(0));
+		PyTuple_SetItem(default_value, 2, PyLong_FromLong(0));
+
+		if (!Translators["addColorPicker3"].parse(args, kwargs, __FUNCTION__, &name, &default_value, MV_STANDARD_CALLBACK_PARSE))
+			Py_RETURN_NONE;
+
+		auto color = mvPythonTranslator::getColor(default_value);
+
+		mvAppItem* item = new mvColorPicker3("", name, color);
+		mvApp::GetApp()->addItem(item);
+
+		MV_STANDARD_CALLBACK_EVAL();
+
+		Py_RETURN_NONE;
+	}
+
+	PyObject* addColorPicker4(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		MV_STANDARD_CALLBACK_INIT();
+		const char* name;
+		PyObject* default_value = PyTuple_New(4);
+		PyTuple_SetItem(default_value, 0, PyLong_FromLong(0));
+		PyTuple_SetItem(default_value, 1, PyLong_FromLong(0));
+		PyTuple_SetItem(default_value, 2, PyLong_FromLong(0));
+		PyTuple_SetItem(default_value, 3, PyLong_FromLong(0));
+
+		if (!Translators["addColorPicker4"].parse(args, kwargs, __FUNCTION__, &name, &default_value, MV_STANDARD_CALLBACK_PARSE))
+			Py_RETURN_NONE;
+
+		auto color = mvPythonTranslator::getColor(default_value);
+
+		mvAppItem* item = new mvColorPicker4("", name, color);
+		mvApp::GetApp()->addItem(item);
+
+		MV_STANDARD_CALLBACK_EVAL();
 
 		Py_RETURN_NONE;
 	}
@@ -1314,7 +1380,10 @@ namespace Marvel {
 		pyModule.addMethodD(addText);
 		pyModule.addMethodD(addLabelText);
 		pyModule.addMethodD(addListbox);
+		pyModule.addMethodD(addColorEdit3);
 		pyModule.addMethodD(addColorEdit4);
+		pyModule.addMethodD(addColorPicker3);
+		pyModule.addMethodD(addColorPicker4);
 		pyModule.addMethodD(addSeperator);
 		pyModule.addMethodD(addButton);
 		pyModule.addMethodD(addInputText);
