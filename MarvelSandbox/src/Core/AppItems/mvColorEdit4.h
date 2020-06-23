@@ -18,8 +18,8 @@ namespace Marvel {
 
 		MV_APPITEM_TYPE(mvAppItemType::ColorEdit4)
 
-		mvColorEdit4(const std::string& parent, const std::string& name, float r, float g, float b, float a)
-			: mvFloatItemBase(parent, name, 4, r, g, b, a)
+		mvColorEdit4(const std::string& parent, const std::string& name, float default_value[4])
+			: mvFloatItemBase(parent, name, 4, default_value[0]/255, default_value[1]/255, default_value[2]/255, default_value[3]/255)
 		{}
 
 		virtual void draw() override
