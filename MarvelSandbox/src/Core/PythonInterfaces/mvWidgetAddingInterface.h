@@ -416,10 +416,30 @@ namespace Marvel{
 				{mvPythonDataType::Integer, "flags"}
 			}, true, "A Listbox is a listbox") },
 
-			{"addColorEdit4", mvPythonTranslator({
+			{"addColorEdit3", mvPythonTranslator({
 				{mvPythonDataType::String, "name"},
 				{mvPythonDataType::Optional},
-				{mvPythonDataType::IntList, "default_value (r, g, b, a)"},
+				{mvPythonDataType::IntList, "default_value (0, 0, 0)"},
+			}, true, "A Listbox is a listbox") },
+
+
+			{ "addColorEdit4", mvPythonTranslator({
+				{mvPythonDataType::String, "name"},
+				{mvPythonDataType::Optional},
+				{mvPythonDataType::IntList, "default_value (0, 0, 0, 255)"},
+			}, true, "A Listbox is a listbox") },
+
+			{ "addColorPicker3", mvPythonTranslator({
+				{mvPythonDataType::String, "name"},
+				{mvPythonDataType::Optional},
+				{mvPythonDataType::IntList, "default_value (0, 0, 0)"},
+			}, true, "A Listbox is a listbox") },
+
+
+			{ "addColorPicker4", mvPythonTranslator({
+				{mvPythonDataType::String, "name"},
+				{mvPythonDataType::Optional},
+				{mvPythonDataType::IntList, "default_value (0, 0, 0, 255)"},
 			}, true, "A Listbox is a listbox") },
 
 			{"addCheckbox", mvPythonTranslator({

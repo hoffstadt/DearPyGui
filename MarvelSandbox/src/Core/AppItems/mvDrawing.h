@@ -50,7 +50,7 @@ namespace Marvel {
 		MV_DRAWCOMMAND_TYPE(mvDrawingCommandType::DrawImage)
 
 		mvDrawImageCommand(const std::string& file, const mvVec2& pmin, const mvVec2& pmax, const mvVec2& uv_min = { 0, 0 },
-				const mvVec2& uv_max = { 1, 1 }, const mvColor& color = { 1.0f, 1.0f, 1.0f, 1.0f })
+				const mvVec2& uv_max = { 1, 1 }, const mvColor& color = { 255, 255, 255, 255 })
 			: mvDrawingCommand(), m_file(file), m_pmax(pmax), m_pmin(pmin), m_uv_min(uv_min), m_uv_max(uv_max),
 			m_color(color)
 		{

@@ -36,20 +36,21 @@ namespace Marvel {
 
 	struct mvColor
 	{
-		float r, g, b, a;
+		int r, g, b, a;
 		bool specified = true;
 
 		operator ImU32()
 		{
-			return ImGui::ColorConvertFloat4ToU32({ r, g, b, a });
+			return ImGui::ColorConvertFloat4ToU32({ r/255.0f, g/255.0f, b/255.0f, a/255.0f });
 		}
+
 
 	};
 
 }
 
-#define MV_DEFAULT_COLOR Marvel::mvColor{1.0f, 1.0f, 1.0f, 1.0f, false}
-#define MV_TRANSPARENT Marvel::mvColor{1.0f, 1.0f, 1.0f, 0.0f, true}
+#define MV_DEFAULT_COLOR Marvel::mvColor{255, 255, 255, 255, false}
+#define MV_TRANSPARENT Marvel::mvColor{255, 255, 255, 0, true}
 
 //#include "mvlogging.h"
 //

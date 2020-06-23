@@ -1,6 +1,8 @@
 from sbApp import *
 import sbConstants as sb
 
+
+# change to 0..255
 changeThemeItem(sb.mvGuiCol_Text, 1.00, 1.00, 1.00, 1.00)
 changeThemeItem(sb.mvGuiCol_TextDisabled, 0.50, 0.50, 0.50, 1.00)
 changeThemeItem(sb.mvGuiCol_WindowBg, 0.06, 0.06, 0.06, 0.94)

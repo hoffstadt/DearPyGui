@@ -39,10 +39,10 @@ namespace Marvel {
 		PyTuple_SetItem(uv_max, 0, PyFloat_FromDouble(1));
 		PyTuple_SetItem(uv_max, 1, PyFloat_FromDouble(1));
 		PyObject* color = PyTuple_New(4);
-		PyTuple_SetItem(color, 0, PyFloat_FromDouble(1));
-		PyTuple_SetItem(color, 1, PyFloat_FromDouble(1));
-		PyTuple_SetItem(color, 2, PyFloat_FromDouble(1));
-		PyTuple_SetItem(color, 3, PyFloat_FromDouble(1));
+		PyTuple_SetItem(color, 0, PyFloat_FromDouble(255));
+		PyTuple_SetItem(color, 1, PyFloat_FromDouble(255));
+		PyTuple_SetItem(color, 2, PyFloat_FromDouble(255));
+		PyTuple_SetItem(color, 3, PyFloat_FromDouble(255));
 
 		if (!Translators["drawImage"].parse(args, kwargs, __FUNCTION__, &drawing, &file,
 			&pmin, &pmax, &uv_min, &uv_max, &color))
@@ -290,7 +290,6 @@ namespace Marvel {
 		if (!Translators["drawPolygon"].parse(args, kwargs,__FUNCTION__, &drawing, &points, &color, &fill, &thickness))
 			Py_RETURN_NONE;
 
-
 		auto mpoints = mvPythonTranslator::getVectVec2(points);
 		mvColor mcolor = mvPythonTranslator::getColor(color);
 		mvColor mfill = mvPythonTranslator::getColor(fill);
@@ -319,7 +318,6 @@ namespace Marvel {
 
 		if (!Translators["drawBezierCurve"].parse(args, kwargs,__FUNCTION__, &drawing, &p1, &p2, &p3, &p4, &color, &thickness, &segments))
 			Py_RETURN_NONE;
-
 
 		mvVec2 mp1 = mvPythonTranslator::getVec2(p1);
 		mvVec2 mp2 = mvPythonTranslator::getVec2(p2);

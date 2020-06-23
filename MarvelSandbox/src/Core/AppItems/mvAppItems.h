@@ -7,7 +7,7 @@
 #include "Core/AppItems/mvMenu.h"
 #include "Core/AppItems/mvMiscItems.h"
 #include "Core/AppItems/mvTooltip.h"
-#include "Core/AppItems/mvColorEdit4.h"
+#include "Core/AppItems/mvColorItems.h"
 #include "Core/AppItems/mvText.h"
 #include "Core/AppItems/mvSimplePlot.h"
 #include "Core/AppItems/mvWindowAppItem.h"
@@ -31,8 +31,11 @@
 //         * mvRadioButton
 //         * mvProgressBar
 //
-//     - mvColorEdit4.h
+//     - mvColorItems.h
+//         * mvColorEdit3
 //         * mvColorEdit4
+//         * mvColorPicker3
+//         * mvColorPicker4
 //
 //     - mvContainerItems.h
 //         * mvChild
