@@ -74,10 +74,10 @@ namespace Marvel {
 		//     - triggerCallback methods performs checks to determine if callback
 		//     - actually exists
 		//-----------------------------------------------------------------------------
-		void runCallback                (const std::string& name, const std::string& sender);
-		void runCallbackD               (const std::string& name, const std::string& sender, const std::string& data);
-		void triggerCallback            (std::atomic<bool>* p, const std::string& name, const std::string& sender);
-		void triggerCallbackD           (std::atomic<bool>* p, const std::string& name, const std::string& sender, const std::string& data); // sends data with the callback
+		void runCallback                (std::string name, std::string sender);
+		void runCallbackD               (std::string name, std::string sender, std::string data);
+		void triggerCallback            (std::atomic<bool>* p, std::string name, std::string sender);
+		void triggerCallbackD           (std::atomic<bool>* p, std::string name, std::string sender, std::string data); // sends data with the callback
 		void setMainCallback            (const std::string& callback) { m_callback = callback; }
 		void setMouseClickCallback      (const std::string& callback) { m_mouseClickCallback = callback; }
 		void setMouseDownCallback       (const std::string& callback) { m_mouseDownCallback = callback; }
@@ -145,7 +145,7 @@ namespace Marvel {
 		unsigned                m_loglevel = 0;
 		ImGuiWindowFlags        m_windowflags = 0;
 		bool                    m_started = false; // to prevent widgets from being added
-		bool                    m_multithread = true;
+		bool                    m_multithread = false;
 
 		// standard callbacks
 		std::string m_mouseDownCallback = "";

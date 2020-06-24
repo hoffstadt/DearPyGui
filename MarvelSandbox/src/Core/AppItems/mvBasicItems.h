@@ -95,7 +95,6 @@ namespace Marvel {
 
 			if (ImGui::Button(m_label.c_str(), ImVec2(m_width, m_height)))
 			{
-				//if (!mvApp::GetApp()->runCallback(m_callback, m_name))
 				mvApp::GetApp()->runCallback(m_callback, m_name);
 
 				// Context Menu

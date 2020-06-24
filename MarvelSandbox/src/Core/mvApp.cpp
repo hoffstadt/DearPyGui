@@ -176,7 +176,7 @@ namespace Marvel {
 		m_mousePos.x = mousePos.x;
 		m_mousePos.y = mousePos.y;
 
-		//prepareStandardCallbacks();
+		prepareStandardCallbacks();
 			
 		ImGui::SetNextWindowPos(ImVec2(0.0f, 0.0f));
 		ImGui::SetNextWindowSize(ImVec2(m_width, m_height));
@@ -295,7 +295,7 @@ namespace Marvel {
 		return nullptr;
 	}
 
-	void mvApp::runCallback(const std::string& name, const std::string& sender)
+	void mvApp::runCallback(std::string name, std::string sender)
 	{
 		std::atomic<bool> check(false);
 
@@ -336,7 +336,7 @@ namespace Marvel {
 			
 	}
 
-	void mvApp::runCallbackD(const std::string& name, const std::string& sender, const std::string& data)
+	void mvApp::runCallbackD(std::string name, std::string sender, std::string data)
 	{
 		std::atomic<bool> check(false);
 
@@ -346,15 +346,40 @@ namespace Marvel {
 			threadpool->submit(std::bind(&mvApp::triggerCallbackD, this, &check, name, sender, data));
 		}
 
-		else 
-			triggerCallbackD(&check, name, sender, data);
+		else
+		{
+
+			auto beg_ = clock_::now();
+
+			std::thread thread1(&mvApp::triggerCallbackD, this, &check, name, sender, data);
+
+			double elapsedTime = 0.0;
+			while (elapsedTime < 1.0)
+			{
+				auto now = std::chrono::high_resolution_clock::now();
+
+				elapsedTime = std::chrono::duration_cast<second_>(clock_::now() - beg_).count();
+
+				if (check)
+				{
+					thread1.join();
+					return;
+				}
+
+			}
+
+			thread1.detach();
+			m_multithread = true;
+			mvAppLog::getLogger()->LogWarning("Multithreading activated.");
+
+		}
 
 	}
 
-	void mvApp::triggerCallback(std::atomic<bool>* p, const std::string& name, const std::string& sender)
+	void mvApp::triggerCallback(std::atomic<bool>* p, const std::string name, std::string sender)
 	{
 		
-		if (name == "")
+		if (name.empty())
 		{
 			if(p)
 			 *p = true;
@@ -414,9 +439,9 @@ namespace Marvel {
 			*p = true;
 	}
 
-	void mvApp::triggerCallbackD(std::atomic<bool>* p, const std::string& name, const std::string& sender, const std::string& data)
+	void mvApp::triggerCallbackD(std::atomic<bool>* p, const std::string name, std::string sender, std::string data)
 	{
-		if (name == "")
+		if (name.empty())
 		{
 			if (p)
 				*p = true;
