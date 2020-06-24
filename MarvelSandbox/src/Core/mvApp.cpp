@@ -88,29 +88,29 @@ namespace Marvel {
 		{
 
 			if (ImGui::IsMouseClicked(i))
-				app->runCallback(app->getMouseClickCallback(), std::to_string(i));
+				app->runCallbackD(app->getMouseClickCallback(), i);
 
 			if (io.MouseDownDuration[i] >= 0.0f)
-				app->runCallbackD(app->getMouseDownCallback(), std::to_string(i), std::to_string(io.MouseDownDuration[i]));
+				app->runCallbackD(app->getMouseDownCallback(), i, io.MouseDownDuration[i]);
 
 			if (ImGui::IsMouseDoubleClicked(i))
-				app->runCallback(app->getMouseDoubleClickCallback(), std::to_string(i));
+				app->runCallbackD(app->getMouseDoubleClickCallback(), i);
 
 			if (ImGui::IsMouseReleased(i))
-				app->runCallback(app->getMouseReleaseCallback(), std::to_string(i));
+				app->runCallbackD(app->getMouseReleaseCallback(), i);
 
 		}
 
 		for (int i = 0; i < IM_ARRAYSIZE(io.KeysDown); i++)
 		{
 			if (ImGui::IsKeyPressed(i))
-				app->runCallback(app->getKeyPressCallback(), std::to_string(i));
+				app->runCallbackD(app->getKeyPressCallback(), i);
 
 			if (io.KeysDownDuration[i] >= 0.0f)
-				app->runCallbackD(app->getKeyDownCallback(), std::to_string(i), std::to_string(io.KeysDownDuration[i]));
+				app->runCallbackD(app->getKeyDownCallback(), i, io.KeysDownDuration[i]);
 
 			if (ImGui::IsKeyReleased(i))
-				app->runCallback(app->getKeyReleaseCallback(), std::to_string(i));
+				app->runCallbackD(app->getKeyReleaseCallback(), i);
 
 		}
 	}
@@ -295,14 +295,14 @@ namespace Marvel {
 		return nullptr;
 	}
 
-	void mvApp::runCallback(std::string name, std::string sender)
+	void mvApp::runCallback(const std::string& name, const std::string& sender)
 	{
 		std::atomic<bool> check(false);
 
 		if (m_multithread)
 		{
 			auto threadpool = mvThreadPool::GetThreadPool();
-			threadpool->submit(std::bind(&mvApp::triggerCallback, this, &check, name, sender));
+			threadpool->submit(std::bind(&mvApp::triggerCallback, this, &check, &name, &sender));
 			return;
 		}
 
@@ -311,7 +311,7 @@ namespace Marvel {
 
 			auto beg_ = clock_::now();
 
-			std::thread thread1(&mvApp::triggerCallback, this, &check, name, sender);
+			std::thread thread1(&mvApp::triggerCallback, this, &check, &name, &sender);
 
 			double elapsedTime = 0.0;
 			while (elapsedTime < 1.0)
@@ -336,14 +336,14 @@ namespace Marvel {
 			
 	}
 
-	void mvApp::runCallbackD(std::string name, std::string sender, std::string data)
+	void mvApp::runCallbackD(const std::string& name, int sender, float data)
 	{
 		std::atomic<bool> check(false);
 
 		if (m_multithread)
 		{
 			auto threadpool = mvThreadPool::GetThreadPool();
-			threadpool->submit(std::bind(&mvApp::triggerCallbackD, this, &check, name, sender, data));
+			threadpool->submit(std::bind(&mvApp::triggerCallbackD, this, &check, &name, sender, data));
 		}
 
 		else
@@ -351,7 +351,7 @@ namespace Marvel {
 
 			auto beg_ = clock_::now();
 
-			std::thread thread1(&mvApp::triggerCallbackD, this, &check, name, sender, data);
+			std::thread thread1(&mvApp::triggerCallbackD, this, &check, &name, sender, data);
 
 			double elapsedTime = 0.0;
 			while (elapsedTime < 1.0)
@@ -376,10 +376,10 @@ namespace Marvel {
 
 	}
 
-	void mvApp::triggerCallback(std::atomic<bool>* p, const std::string name, std::string sender)
+	void mvApp::triggerCallback(std::atomic<bool>* p, const std::string* name, const std::string* sender)
 	{
 		
-		if (name.empty())
+		if (name->empty())
 		{
 			if(p)
 			 *p = true;
@@ -388,13 +388,13 @@ namespace Marvel {
 
 		PyGILState_STATE gstate = PyGILState_Ensure();
 
-		PyObject* pHandler = PyDict_GetItemString(m_pDict, name.c_str()); // borrowed reference
+		PyObject* pHandler = PyDict_GetItemString(m_pDict, name->c_str()); // borrowed reference
 
 		// if callback doesn't exist
 		if (pHandler == NULL)
 		{
 			std::string message(" Callback doesn't exist");
-			mvAppLog::getLogger()->LogWarning(name + message);
+			mvAppLog::getLogger()->LogWarning((*name) + message);
 			PyGILState_Release(gstate);
 			if (p)
 				*p = true;
@@ -408,7 +408,7 @@ namespace Marvel {
 			PyErr_Clear();
 
 			PyObject* pArgs = PyTuple_New(1);
-			PyTuple_SetItem(pArgs, 0, PyUnicode_FromString(sender.c_str()));
+			PyTuple_SetItem(pArgs, 0, PyUnicode_FromString(sender->c_str()));
 
 			PyObject* result = PyObject_CallObject(pHandler, pArgs);
 			
@@ -416,7 +416,7 @@ namespace Marvel {
 			if (!result)
 			{
 				std::string message("Callback failed");
-				mvAppLog::getLogger()->LogError(name + message);
+				mvAppLog::getLogger()->LogError((*name) + message);
 			}
 
 			Py_XDECREF(pArgs);
@@ -431,7 +431,7 @@ namespace Marvel {
 		else
 		{
 			std::string message(" Callback not callable");
-			mvAppLog::getLogger()->LogError(name + message);
+			mvAppLog::getLogger()->LogError((*name) + message);
 		}
 
 		PyGILState_Release(gstate);
@@ -439,9 +439,9 @@ namespace Marvel {
 			*p = true;
 	}
 
-	void mvApp::triggerCallbackD(std::atomic<bool>* p, const std::string name, std::string sender, std::string data)
+	void mvApp::triggerCallbackD(std::atomic<bool>* p, const std::string* name, int sender, float data)
 	{
-		if (name.empty())
+		if (name->empty())
 		{
 			if (p)
 				*p = true;
@@ -452,13 +452,13 @@ namespace Marvel {
 
 		PyErr_Clear();
 
-		PyObject* pHandler = PyDict_GetItemString(m_pDict, name.c_str()); // borrowed reference
+		PyObject* pHandler = PyDict_GetItemString(m_pDict, name->c_str()); // borrowed reference
 
 		// if callback doesn't exist
 		if (pHandler == NULL)
 		{
 			std::string message(" Callback doesn't exist");
-			mvAppLog::getLogger()->LogWarning(name + message);
+			mvAppLog::getLogger()->LogWarning((*name) + message);
 			PyGILState_Release(gstate);
 			if (p)
 				*p = true;
@@ -469,8 +469,8 @@ namespace Marvel {
 		if (PyCallable_Check(pHandler))
 		{
 			PyObject* pArgs = PyTuple_New(2);
-			PyTuple_SetItem(pArgs, 0, PyUnicode_FromString(sender.c_str()));
-			PyTuple_SetItem(pArgs, 1, PyUnicode_FromString(data.c_str()));
+			PyTuple_SetItem(pArgs, 0, PyLong_FromLong(sender));
+			PyTuple_SetItem(pArgs, 1, PyFloat_FromDouble(data));
 
 			PyObject* result = PyObject_CallObject(pHandler, pArgs);
 
@@ -478,7 +478,7 @@ namespace Marvel {
 			if (!result)
 			{
 				std::string message("Callback failed");
-				mvAppLog::getLogger()->LogError(name + message);
+				mvAppLog::getLogger()->LogError((*name) + message);
 			}
 
 			Py_XDECREF(pArgs);
@@ -487,13 +487,12 @@ namespace Marvel {
 			// check if error occurred
 			if (PyErr_Occurred())
 				PyErr_Print();
-
 		}
 
 		else
 		{
 			std::string message(" Callback not callable");
-			mvAppLog::getLogger()->LogError(name + message);
+			mvAppLog::getLogger()->LogError((*name) + message);
 		}
 
 		PyGILState_Release(gstate);
