@@ -4,8 +4,9 @@
 #include "Core/mvWindow.h"
 #include "Platform/Windows/mvWindowsWindow.h"
 #include <iostream>
-#include "Core/PythonInterfaces/mvModuleConstants.h"
 #include <fstream>
+#include "Core/PythonInterfaces/mvInterfaceRegistry.h"
+#include "Core/PythonInterfaces/mvInterfaces.h"
 
 using namespace Marvel;
 
@@ -18,16 +19,7 @@ MV_DECLARE_PYMODULE(pyMod3, "sbLog", {});
 MV_DECLARE_PYMODULE(pyMod4, "sbPlot", {});
 MV_DECLARE_PYMODULE(pyMod5, "sbDraw", {});
 MV_DECLARE_PYMODULE(pyMod6, "sbWidgets", {});
-MV_DECLARE_PYMODULE(pyMod7, "sbConstants", ModuleConstants);
-
-namespace Marvel {
-	extern void CreatePythonInterface(mvPythonModule& pyModule, PyObject* (*initfunc)());
-	extern void CreateInputInterface(mvPythonModule& pyModule, PyObject* (*initfunc)());
-	extern void CreateLoggerInterface(mvPythonModule& pyModule, PyObject* (*initfunc)());
-	extern void CreatePlotInterface(mvPythonModule& pyModule, PyObject* (*initfunc)());
-	extern void CreateDrawingInterface(mvPythonModule& pyModule, PyObject* (*initfunc)());
-	extern void CreateWidgetAddingInterface(mvPythonModule& pyModule, PyObject* (*initfunc)());
-}
+MV_DECLARE_PYMODULE(pyMod7, "sbConstants", mvInterfaceRegistry::GetRegistry()->getConstants());
 
 bool doesFileExists(const char* filepath, const char** modname = nullptr);
 
@@ -104,7 +96,6 @@ int main(int argc, char* argv[])
 	}
 	PyEval_InitThreads();
 	
-
 	// import our custom module to capture stdout/stderr
 	PyObject* m = PyImport_ImportModule("sandboxout");
 	PySys_SetObject("stdout", m);

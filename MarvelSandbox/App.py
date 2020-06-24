@@ -63,6 +63,7 @@ addMenuItem("Show Logger", callback="ShowLoggerCallback")
 addMenuItem("Show About", callback="ShowAboutCallback")
 addMenuItem("Show Metrics", callback="ShowMetricsCallback")
 addMenuItem("Show Source", callback="ShowSourceCallback")
+addMenuItem("Show Documentation", callback="ShowDocCallback")
 endMenu()
 
 #Dont forget to end the MenuBar
@@ -93,6 +94,9 @@ def ShowAboutCallback(sender):
 
 def ShowLoggerCallback(sender):
     showLogger()
+
+def ShowDocCallback(sender):
+    showDocumentation()
 
 def OpenThemeEditor(sender):
     #this is where the theme editor will be turned on once created. it will run similar to logger except the open theme call back will se the Value to 1. and a new window will appear. 
@@ -423,7 +427,7 @@ def PlotCallback(sender):
 
 
 # setting main callback
-setMainCallback("MainCallback")
+#setMainCallback("MainCallback")
 def MainCallback(sender):
     value = getValue("Progress")
     value = value + 0.01

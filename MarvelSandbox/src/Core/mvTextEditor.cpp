@@ -6,7 +6,7 @@
 
 #include "mvTextEditor.h"
 #include "Core/mvApp.h"
-#include "Core/PythonInterfaces/mvModuleConstants.h"
+#include "Core/PythonInterfaces/mvInterfaceRegistry.h"
 
 #define IMGUI_DEFINE_MATH_OPERATORS
 #include "imgui.h" // for imGui::GetCurrentWindow()
@@ -3187,7 +3187,7 @@ const mvTextEditor::LanguageDefinition& mvTextEditor::LanguageDefinition::Python
 			langDef.mIdentifiers.insert(std::make_pair(k.first, id));
 		}
 
-		for (auto& k : ModuleConstants)
+		for (auto& k : mvInterfaceRegistry::GetRegistry()->getConstants())
 		{
 			Identifier id;
 			id.mDeclaration = "Constant with value " + std::to_string(k.second);

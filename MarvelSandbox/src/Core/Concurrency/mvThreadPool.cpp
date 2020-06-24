@@ -88,8 +88,6 @@ namespace Marvel {
     {
         unsigned const thread_count = std::thread::hardware_concurrency();
 
-        //MV_INFO("CPU Thread Count: {}", thread_count);
-
         try
         {
 

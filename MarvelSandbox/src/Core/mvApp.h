@@ -28,14 +28,16 @@ namespace Marvel {
 		//-----------------------------------------------------------------------------
 		// App Settings
 		//-----------------------------------------------------------------------------
-		void     setAppTheme      (const std::string& theme);
-		void     changeThemeItem  (long item, mvColor color);
-		void     changeStyleItem  (long item, float x, float y);
-		void     addFlag          (ImGuiWindowFlags flag) { m_windowflags |= flag; }
-		void     addItemColorStyle(const std::string& name, ImGuiCol item, mvColor color);
-		void     setWindowSize    (unsigned width, unsigned height) { m_width = width; m_height = height; }
-		unsigned getWindowWidth   () const { return m_width; }
-		unsigned getWindowHeight  () const { return m_height; }
+		void          setAppTheme      (const std::string& theme);
+		void          changeThemeItem  (long item, mvColor color);
+		void          changeStyleItem  (long item, float x, float y);
+		void          addFlag          (ImGuiWindowFlags flag) { m_windowflags |= flag; }
+		void          addItemColorStyle(const std::string& name, ImGuiCol item, mvColor color);
+		void          setWindowSize    (unsigned width, unsigned height) { m_width = width; m_height = height; }
+		unsigned      getWindowWidth   () const { return m_width; }
+		unsigned      getWindowHeight  () const { return m_height; }
+		mvTextEditor& getEditor        () { return m_editor; }
+		std::string&  getFile          () { return m_file; }
 
 		//-----------------------------------------------------------------------------
 		// Adding Items
@@ -57,6 +59,7 @@ namespace Marvel {
 		inline void showAbout  () { m_showAbout = true; }
 		inline void showSource () { m_showSource = true; }
 		inline void showLogger () { m_showLog = true; }
+		inline void showDoc    () { m_showDoc = true; }
 
 		//-----------------------------------------------------------------------------
 		// Parent stack operations
@@ -119,10 +122,6 @@ namespace Marvel {
 		mvApp operator=(const mvApp& other) = delete;
 		mvApp operator=(mvApp&& other) = delete;
 
-		void showMetricsWindow();
-		void showAboutWindow();
-		void showSourceWindow();
-
 	private:
 
 		static mvApp*           s_instance;
@@ -139,6 +138,7 @@ namespace Marvel {
 		bool                    m_showMetrics = false;
 		bool                    m_showAbout = false;
 		bool                    m_showSource = false;
+		bool                    m_showDoc = false;
 		unsigned                m_loglevel = 0;
 		ImGuiWindowFlags        m_windowflags = 0;
 		bool                    m_started = false; // to prevent widgets from being added
@@ -155,7 +155,6 @@ namespace Marvel {
 		mvTextEditor               m_editor;
 		std::string                m_file;
 		std::vector<std::pair<std::string, std::string>> m_keywords;
-		std::vector<std::pair<std::string, std::string>> m_constants;
 
 	};
 
