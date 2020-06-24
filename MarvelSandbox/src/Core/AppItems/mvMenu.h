@@ -134,8 +134,7 @@ namespace Marvel {
 
 				m_value = true;
 
-				auto threadpool = mvThreadPool::GetThreadPool();
-				threadpool->submit(std::bind(&mvApp::triggerCallback, mvApp::GetApp(), m_callback, m_name));
+				mvApp::GetApp()->runCallback(m_callback, m_name);
 
 				// Context Menu
 				if (getPopup() != "")

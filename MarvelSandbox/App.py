@@ -165,7 +165,7 @@ endCollapsingHeader()
 
 def GetAllInputsAndPrint(sender):
 
-    setValue("Input Float 1", 6969)
+    #setValue("Input Float 1", 6969)
 
     print('\n')
 

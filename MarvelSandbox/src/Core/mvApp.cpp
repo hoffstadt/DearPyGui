@@ -8,6 +8,12 @@
 #include "Core/StandardWindows/mvAboutWindow.h"
 #include "Core/StandardWindows/mvMetricsWindow.h"
 #include "Core/StandardWindows/mvSourceWindow.h"
+#include <thread>
+#include <future>
+#include <chrono>
+
+typedef std::chrono::high_resolution_clock clock_;
+typedef std::chrono::duration<double, std::ratio<1> > second_;
 
 namespace Marvel {
 
@@ -82,57 +88,30 @@ namespace Marvel {
 		{
 
 			if (ImGui::IsMouseClicked(i))
-			{
-				auto threadpool = mvThreadPool::GetThreadPool();
-				threadpool->submit(std::bind(&mvApp::triggerCallback, 
-					app, app->getMouseClickCallback(), std::to_string(i)));
-
-			}
+				app->runCallback(app->getMouseClickCallback(), std::to_string(i));
 
 			if (io.MouseDownDuration[i] >= 0.0f)
-			{
-				auto threadpool = mvThreadPool::GetThreadPool();
-				threadpool->submit(std::bind(&mvApp::triggerCallbackD,
-					app, app->getMouseDownCallback(), std::to_string(i), std::to_string(io.MouseDownDuration[i])));
-			}
+				app->runCallbackD(app->getMouseDownCallback(), std::to_string(i), std::to_string(io.MouseDownDuration[i]));
 
 			if (ImGui::IsMouseDoubleClicked(i))
-			{
-				auto threadpool = mvThreadPool::GetThreadPool();
-				threadpool->submit(std::bind(&mvApp::triggerCallback,
-					app, app->getMouseDoubleClickCallback(), std::to_string(i)));
-			}
+				app->runCallback(app->getMouseDoubleClickCallback(), std::to_string(i));
 
 			if (ImGui::IsMouseReleased(i))
-			{
-				auto threadpool = mvThreadPool::GetThreadPool();
-				threadpool->submit(std::bind(&mvApp::triggerCallback,
-					app, app->getMouseReleaseCallback(), std::to_string(i)));
-			}
+				app->runCallback(app->getMouseReleaseCallback(), std::to_string(i));
+
 		}
 
 		for (int i = 0; i < IM_ARRAYSIZE(io.KeysDown); i++)
 		{
 			if (ImGui::IsKeyPressed(i))
-			{
-				auto threadpool = mvThreadPool::GetThreadPool();
-				threadpool->submit(std::bind(&mvApp::triggerCallback,
-					app, app->getKeyPressCallback(), std::to_string(i)));
-			}
+				app->runCallback(app->getKeyPressCallback(), std::to_string(i));
 
 			if (io.KeysDownDuration[i] >= 0.0f)
-			{
-				auto threadpool = mvThreadPool::GetThreadPool();
-				threadpool->submit(std::bind(&mvApp::triggerCallbackD,
-					app, app->getKeyDownCallback(), std::to_string(i), std::to_string(io.KeysDownDuration[i])));
-			}
+				app->runCallbackD(app->getKeyDownCallback(), std::to_string(i), std::to_string(io.KeysDownDuration[i]));
 
 			if (ImGui::IsKeyReleased(i))
-			{
-				auto threadpool = mvThreadPool::GetThreadPool();
-				threadpool->submit(std::bind(&mvApp::triggerCallback,
-					app, app->getKeyReleaseCallback(), std::to_string(i)));
-			}
+				app->runCallback(app->getKeyReleaseCallback(), std::to_string(i));
+
 		}
 	}
 
@@ -187,6 +166,7 @@ namespace Marvel {
 
 	void mvApp::render()
 	{
+
 		// set imgui style to mvstyle
 		ImGuiStyle& style = ImGui::GetStyle();
 		SetStyle(style, m_style);
@@ -196,7 +176,7 @@ namespace Marvel {
 		m_mousePos.x = mousePos.x;
 		m_mousePos.y = mousePos.y;
 
-		prepareStandardCallbacks();
+		//prepareStandardCallbacks();
 			
 		ImGui::SetNextWindowPos(ImVec2(0.0f, 0.0f));
 		ImGui::SetNextWindowSize(ImVec2(m_width, m_height));
@@ -204,7 +184,8 @@ namespace Marvel {
 
 		m_parents.push(nullptr);
 
-		triggerCallback(m_callback, "Main Application");
+		if(!m_callback.empty())
+			runCallback(m_callback, "Main Application");
 
 		// standard windows
 		if(m_showMetrics)
@@ -314,11 +295,72 @@ namespace Marvel {
 		return nullptr;
 	}
 
-	void mvApp::triggerCallback(const std::string& name, const std::string& sender)
+	bool mvApp::runCallback(const std::string& name, const std::string& sender)
+	{
+		std::atomic<bool> check(false);
+
+		if (m_multithread)
+		{
+			auto threadpool = mvThreadPool::GetThreadPool();
+			threadpool->submit(std::bind(&mvApp::triggerCallback, this, std::ref(check), name, sender));
+			return true;
+		}
+
+		else
+		{
+
+			auto beg_ = clock_::now();
+
+			std::thread thread1(&mvApp::triggerCallback, this, std::ref(check), name, sender);
+
+			double elapsedTime = 0.0;
+			while (elapsedTime < 1.0)
+			{
+				auto now = std::chrono::high_resolution_clock::now();
+
+				elapsedTime = std::chrono::duration_cast<second_>(clock_::now() - beg_).count();
+
+				if (check)
+				{
+					thread1.join();
+					return true;
+				}
+
+			}
+
+			thread1.detach();
+			m_multithread = true;
+			mvAppLog::getLogger()->LogWarning("Multithreading activated.");
+			return false;
+
+		}
+			
+	}
+
+	bool mvApp::runCallbackD(const std::string& name, const std::string& sender, const std::string& data)
+	{
+		std::atomic<bool> check(false);
+
+		if (m_multithread)
+		{
+			auto threadpool = mvThreadPool::GetThreadPool();
+			threadpool->submit(std::bind(&mvApp::triggerCallbackD, this, std::ref(check), name, sender, data));
+		}
+
+		else 
+			triggerCallbackD(std::ref(check), name, sender, data);
+
+		return true;
+	}
+
+	void mvApp::triggerCallback(std::atomic<bool>& p, const std::string& name, const std::string& sender)
 	{
 		
 		if (name == "")
+		{
+			p = true;
 			return;
+		}
 
 		PyGILState_STATE gstate = PyGILState_Ensure();
 
@@ -330,6 +372,7 @@ namespace Marvel {
 			std::string message(" Callback doesn't exist");
 			mvAppLog::getLogger()->LogWarning(name + message);
 			PyGILState_Release(gstate);
+			p = true;
 			return;
 		}
 
@@ -367,12 +410,16 @@ namespace Marvel {
 		}
 
 		PyGILState_Release(gstate);
+		p = true;
 	}
 
-	void mvApp::triggerCallbackD(const std::string& name, const std::string& sender, const std::string& data)
+	void mvApp::triggerCallbackD(std::atomic<bool>& p, const std::string& name, const std::string& sender, const std::string& data)
 	{
 		if (name == "")
+		{
+			p = true;
 			return;
+		}
 
 		PyGILState_STATE gstate = PyGILState_Ensure();
 
@@ -386,6 +433,7 @@ namespace Marvel {
 			std::string message(" Callback doesn't exist");
 			mvAppLog::getLogger()->LogWarning(name + message);
 			PyGILState_Release(gstate);
+			p = true;
 			return;
 		}
 
@@ -421,6 +469,7 @@ namespace Marvel {
 		}
 
 		PyGILState_Release(gstate);
+		p = true;
 
 	}
 
