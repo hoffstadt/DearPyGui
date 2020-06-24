@@ -295,15 +295,15 @@ namespace Marvel {
 		return nullptr;
 	}
 
-	bool mvApp::runCallback(const std::string& name, const std::string& sender)
+	void mvApp::runCallback(const std::string& name, const std::string& sender)
 	{
 		std::atomic<bool> check(false);
 
 		if (m_multithread)
 		{
 			auto threadpool = mvThreadPool::GetThreadPool();
-			threadpool->submit(std::bind(&mvApp::triggerCallback, this, std::ref(check), name, sender));
-			return true;
+			threadpool->submit(std::bind(&mvApp::triggerCallback, this, &check, name, sender));
+			return;
 		}
 
 		else
@@ -311,7 +311,7 @@ namespace Marvel {
 
 			auto beg_ = clock_::now();
 
-			std::thread thread1(&mvApp::triggerCallback, this, std::ref(check), name, sender);
+			std::thread thread1(&mvApp::triggerCallback, this, &check, name, sender);
 
 			double elapsedTime = 0.0;
 			while (elapsedTime < 1.0)
@@ -323,7 +323,7 @@ namespace Marvel {
 				if (check)
 				{
 					thread1.join();
-					return true;
+					return;
 				}
 
 			}
@@ -331,34 +331,33 @@ namespace Marvel {
 			thread1.detach();
 			m_multithread = true;
 			mvAppLog::getLogger()->LogWarning("Multithreading activated.");
-			return false;
 
 		}
 			
 	}
 
-	bool mvApp::runCallbackD(const std::string& name, const std::string& sender, const std::string& data)
+	void mvApp::runCallbackD(const std::string& name, const std::string& sender, const std::string& data)
 	{
 		std::atomic<bool> check(false);
 
 		if (m_multithread)
 		{
 			auto threadpool = mvThreadPool::GetThreadPool();
-			threadpool->submit(std::bind(&mvApp::triggerCallbackD, this, std::ref(check), name, sender, data));
+			threadpool->submit(std::bind(&mvApp::triggerCallbackD, this, &check, name, sender, data));
 		}
 
 		else 
-			triggerCallbackD(std::ref(check), name, sender, data);
+			triggerCallbackD(&check, name, sender, data);
 
-		return true;
 	}
 
-	void mvApp::triggerCallback(std::atomic<bool>& p, const std::string& name, const std::string& sender)
+	void mvApp::triggerCallback(std::atomic<bool>* p, const std::string& name, const std::string& sender)
 	{
 		
 		if (name == "")
 		{
-			p = true;
+			if(p)
+			 *p = true;
 			return;
 		}
 
@@ -372,7 +371,8 @@ namespace Marvel {
 			std::string message(" Callback doesn't exist");
 			mvAppLog::getLogger()->LogWarning(name + message);
 			PyGILState_Release(gstate);
-			p = true;
+			if (p)
+				*p = true;
 			return;
 		}
 
@@ -410,14 +410,16 @@ namespace Marvel {
 		}
 
 		PyGILState_Release(gstate);
-		p = true;
+		if (p)
+			*p = true;
 	}
 
-	void mvApp::triggerCallbackD(std::atomic<bool>& p, const std::string& name, const std::string& sender, const std::string& data)
+	void mvApp::triggerCallbackD(std::atomic<bool>* p, const std::string& name, const std::string& sender, const std::string& data)
 	{
 		if (name == "")
 		{
-			p = true;
+			if (p)
+				*p = true;
 			return;
 		}
 
@@ -433,7 +435,8 @@ namespace Marvel {
 			std::string message(" Callback doesn't exist");
 			mvAppLog::getLogger()->LogWarning(name + message);
 			PyGILState_Release(gstate);
-			p = true;
+			if (p)
+				*p = true;
 			return;
 		}
 
@@ -469,7 +472,8 @@ namespace Marvel {
 		}
 
 		PyGILState_Release(gstate);
-		p = true;
+		if (p)
+			*p = true;
 
 	}
 

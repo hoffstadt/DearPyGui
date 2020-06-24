@@ -306,16 +306,6 @@ namespace Marvel {
 
 		}
 
-		inline void setValue(mvColor color)
-		{
-			m_value[0] = color.r/255.0f;
-			m_value[1] = color.g/255.0f;
-			m_value[2] = color.b/255.0f;
-			m_value[3] = color.a/255.0f;
-		}
-
-		inline const float* getValue() const { return &m_value[0]; }
-
 	protected:
 
 		float m_value[4];
