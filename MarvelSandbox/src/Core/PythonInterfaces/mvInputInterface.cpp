@@ -1,12 +1,28 @@
 #include "Core/PythonUtilities/mvPythonModule.h"
 #include "Core/PythonUtilities/mvPythonTranslator.h"
 #include "Core/mvApp.h"
-#include "mvInputInterface.h"
+#include "mvInterfaces.h"
 
 namespace Marvel {
 
-	static std::map<std::string, mvPythonTranslator> Translators = BuildTranslations();
+	static std::map<std::string, mvPythonTranslator> Translators = mvInterfaceRegistry::GetRegistry()->getPythonInterface("InputsInterface");
 
+	std::map<std::string, mvPythonTranslator> BuildInputsInterface() {
+
+		std::map<std::string, mvPythonTranslator> translators = {
+
+			{"isMouseButtonPressed", mvPythonTranslator({
+				{mvPythonDataType::Integer, "button"}
+			}, false, "Needs documentation")},
+
+			{"isKeyPressed", mvPythonTranslator({
+				{mvPythonDataType::Integer, "key"}
+			}, false, "Needs documentation")}
+
+		};
+
+		return translators;
+	}
 
 	PyObject* getMousePos(PyObject* self, PyObject* args)
 	{

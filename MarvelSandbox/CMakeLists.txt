@@ -11,6 +11,11 @@ target_sources(MarvelSandbox
 		"src/Core/mvAppLog.cpp"
 		"src/Core/mvWindow.cpp"
 		"src/Core/mvTextEditor.cpp"
+
+		"src/Core/StandardWindows/mvDocWindow.cpp"
+		"src/Core/StandardWindows/mvAboutWindow.cpp"
+		"src/Core/StandardWindows/mvMetricsWindow.cpp"
+		"src/Core/StandardWindows/mvSourceWindow.cpp"
 		
 		"src/Core/Concurrency/mvThreadPool.cpp"
 
@@ -26,6 +31,8 @@ target_sources(MarvelSandbox
 		"src/Core/PythonInterfaces/mvPlotInterface.cpp"
 		"src/Core/PythonInterfaces/mvDrawingInterface.cpp"
 		"src/Core/PythonInterfaces/mvWidgetAddingInterface.cpp"
+		"src/Core/PythonInterfaces/mvInterfaceRegistry.cpp"
+		"src/Core/PythonInterfaces/mvModuleConstants.cpp"
 
 		"src/Platform/Windows/mvWindowsWindow.cpp"
 		"src/Platform/Windows/mvUtilities.cpp"
