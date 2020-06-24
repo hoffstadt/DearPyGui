@@ -115,11 +115,6 @@ namespace Marvel {
         return s_instance;
     }
 
-    void mvThreadPool::InitThreadPool()
-    {
-        s_instance = new mvThreadPool();
-    }
-
     void mvThreadPool::worker_thread(unsigned index)
     {
         m_index = index;

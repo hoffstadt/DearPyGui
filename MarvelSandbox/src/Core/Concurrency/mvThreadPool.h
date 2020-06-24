@@ -113,7 +113,6 @@ namespace Marvel {
     public:
 
         static mvThreadPool* GetThreadPool();
-        static void InitThreadPool();
 
     public:
 

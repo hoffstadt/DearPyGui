@@ -25,7 +25,6 @@ bool doesFileExists(const char* filepath, const char** modname = nullptr);
 
 int main(int argc, char* argv[])
 {
-	mvThreadPool::InitThreadPool();
 
 	wchar_t* program = Py_DecodeLocale(argv[0], NULL);
 	if (program == NULL) {

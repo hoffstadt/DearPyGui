@@ -33,8 +33,7 @@ namespace Marvel {
 
 			if (ImGui::ColorEdit3(m_label.c_str(), m_value))
 			{
-				auto threadpool = mvThreadPool::GetThreadPool();
-				threadpool->submit(std::bind(&mvApp::triggerCallback, mvApp::GetApp(), m_callback, m_name));
+				mvApp::GetApp()->runCallback(m_callback, m_name);
 
 				// Context Menu
 				if (getPopup() != "")
@@ -63,8 +62,7 @@ namespace Marvel {
 
 			if (ImGui::ColorEdit4(m_label.c_str(), m_value))
 			{
-				auto threadpool = mvThreadPool::GetThreadPool();
-				threadpool->submit(std::bind(&mvApp::triggerCallback, mvApp::GetApp(), m_callback, m_name));
+				mvApp::GetApp()->runCallback(m_callback, m_name);
 
 				// Context Menu
 				if (getPopup() != "")
@@ -93,8 +91,7 @@ namespace Marvel {
 
 			if (ImGui::ColorPicker3(m_label.c_str(), m_value))
 			{
-				auto threadpool = mvThreadPool::GetThreadPool();
-				threadpool->submit(std::bind(&mvApp::triggerCallback, mvApp::GetApp(), m_callback, m_name));
+				mvApp::GetApp()->runCallback(m_callback, m_name);
 
 				// Context Menu
 				if (getPopup() != "")
@@ -123,8 +120,7 @@ namespace Marvel {
 
 			if (ImGui::ColorPicker4(m_label.c_str(), m_value))
 			{
-				auto threadpool = mvThreadPool::GetThreadPool();
-				threadpool->submit(std::bind(&mvApp::triggerCallback, mvApp::GetApp(), m_callback, m_name));
+				mvApp::GetApp()->runCallback(m_callback, m_name);
 
 				// Context Menu
 				if (getPopup() != "")
