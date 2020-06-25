@@ -6,14 +6,13 @@ extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg
 
 namespace Marvel {
 
-	mvWindowsWindow::mvWindowsWindow(unsigned width, unsigned height) : mvWindow(width, height)
+	mvWindowsWindow::mvWindowsWindow(unsigned width, unsigned height, bool editor) 
+		: mvWindow(width, height, editor)
 	{
 		m_wc = { sizeof(WNDCLASSEX), CS_CLASSDC, HandleMsgSetup, 0L, 0L, GetModuleHandle(NULL), NULL, NULL, NULL, NULL, _T("ImGui Example"), NULL };
 		RegisterClassEx(&m_wc);
 
 		m_hwnd = CreateWindow(m_wc.lpszClassName, _T("Marvel Sandbox"), WS_OVERLAPPEDWINDOW, 100, 100, width, height, NULL, NULL, m_wc.hInstance, NULL);
-
-		m_app = Marvel::mvApp::GetApp();
 
 		// Initialize Direct3D
 		if (!CreateDeviceD3D(m_hwnd))

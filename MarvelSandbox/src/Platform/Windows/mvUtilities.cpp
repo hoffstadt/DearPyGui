@@ -4,6 +4,13 @@
 #define STB_IMAGE_IMPLEMENTATION
 #include <stb_image.h>
 
+#include <shobjidl.h> 
+#include <windows.h>
+#include <atlbase.h> // Contains the declaration of CComPtr.
+#include <array>
+#include <codecvt>
+#include <sstream>
+
 namespace Marvel {
 
     // Simple helper function to load an image into a DX11 texture with common settings
@@ -55,5 +62,132 @@ namespace Marvel {
 
         return true;
     }
+
+	std::string SaveFile(std::vector<std::pair<std::string, std::string >>& extensions)
+	{
+
+		std::string  result = "";
+
+		std::vector<std::pair<std::wstring, std::wstring >> wextensions;
+
+		for (const auto& item : extensions)
+		{
+			wextensions.emplace_back(std::wstring(L""), std::wstring(L""));
+			wextensions.back().first = std::wstring_convert<std::codecvt_utf8<wchar_t>>().from_bytes(item.first);
+			wextensions.back().second = std::wstring_convert<std::codecvt_utf8<wchar_t>>().from_bytes(item.second);
+		}
+
+		COMDLG_FILTERSPEC* fspecArray = new COMDLG_FILTERSPEC[wextensions.size() + 1];
+		for (int i = 0; i < wextensions.size(); i++)
+		{
+			fspecArray[i].pszName = wextensions[i].first.c_str();
+			fspecArray[i].pszSpec = wextensions[i].second.c_str();
+		}
+
+		HRESULT hr = CoInitializeEx(NULL, COINIT_APARTMENTTHREADED | COINIT_DISABLE_OLE1DDE);
+		if (SUCCEEDED(hr))
+		{
+			CComPtr<IFileSaveDialog> pFileOpen;
+
+			// Create the FileOpenDialog object.
+			hr = pFileOpen.CoCreateInstance(__uuidof(FileSaveDialog));
+
+			hr = pFileOpen->SetFileTypes(extensions.size(), fspecArray);
+			hr = pFileOpen->SetDefaultExtension(fspecArray[0].pszSpec);
+			if (SUCCEEDED(hr))
+			{
+				// Show the Open dialog box.
+				hr = pFileOpen->Show(NULL);
+
+				// Get the file name from the dialog box.
+				if (SUCCEEDED(hr))
+				{
+					CComPtr<IShellItem> pItem;
+					hr = pFileOpen->GetResult(&pItem);
+					if (SUCCEEDED(hr))
+					{
+						PWSTR pszFilePath;
+						hr = pItem->GetDisplayName(SIGDN_FILESYSPATH, &pszFilePath);
+
+						if (SUCCEEDED(hr))
+							result = std::wstring_convert<std::codecvt_utf8<wchar_t>>().to_bytes(pszFilePath);
+
+
+					}
+
+					// pItem goes out of scope.
+				}
+
+				// pFileOpen goes out of scope.
+			}
+			CoUninitialize();
+		}
+
+		delete[] fspecArray;
+		return result;
+	}
+
+	std::string OpenFile(std::vector<std::pair<std::string, std::string>>& extensions)
+	{
+		std::string result = "";
+
+		std::vector<std::pair<std::wstring, std::wstring >> wextensions;
+
+		for (const auto& item : extensions)
+		{
+			wextensions.emplace_back(std::wstring(L""), std::wstring(L""));
+			wextensions.back().first = std::wstring_convert<std::codecvt_utf8<wchar_t>>().from_bytes(item.first);
+			wextensions.back().second = std::wstring_convert<std::codecvt_utf8<wchar_t>>().from_bytes(item.second);
+		}
+
+		COMDLG_FILTERSPEC* fspecArray = new COMDLG_FILTERSPEC[wextensions.size() + 1];
+		for (int i = 0; i < wextensions.size(); i++)
+		{
+			fspecArray[i].pszName = wextensions[i].first.c_str();
+			fspecArray[i].pszSpec = wextensions[i].second.c_str();
+		}
+
+		HRESULT hr = CoInitializeEx(NULL, COINIT_APARTMENTTHREADED | COINIT_DISABLE_OLE1DDE);
+		if (SUCCEEDED(hr))
+		{
+			CComPtr<IFileOpenDialog> pFileOpen;
+
+			// Create the FileOpenDialog object.
+			hr = pFileOpen.CoCreateInstance(__uuidof(FileOpenDialog));
+			hr = pFileOpen->SetFileTypes(extensions.size(), fspecArray);
+			hr = pFileOpen->SetDefaultExtension(fspecArray[0].pszSpec);
+			if (SUCCEEDED(hr))
+			{
+				// Show the Open dialog box.
+				hr = pFileOpen->Show(NULL);
+
+				// Get the file name from the dialog box.
+				if (SUCCEEDED(hr))
+				{
+					CComPtr<IShellItem> pItem;
+					hr = pFileOpen->GetResult(&pItem);
+					if (SUCCEEDED(hr))
+					{
+						PWSTR pszFilePath;
+						hr = pItem->GetDisplayName(SIGDN_FILESYSPATH, &pszFilePath);
+
+						if (SUCCEEDED(hr))
+							result = std::wstring_convert<std::codecvt_utf8<wchar_t>>().to_bytes(pszFilePath);
+
+					}
+
+
+
+					// pItem goes out of scope.
+				}
+
+				// pFileOpen goes out of scope.
+			}
+			CoUninitialize();
+		}
+
+		delete[] fspecArray;
+		return result;
+	}
 
 }
