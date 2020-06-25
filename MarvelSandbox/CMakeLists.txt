@@ -58,8 +58,9 @@ target_include_directories(MarvelSandbox
 		"../Dependencies/imgui/"
 		"../Dependencies/imgui/examples/"
 		"../Dependencies/cpython/Include/"
-		"src/Vendor/implot"
-		"src/Vendor/stb"
+		"src/Vendor/implot/"
+		"src/Vendor/stb/"
+		"src/Vendor/CLIUtils/"
 )
 
 target_link_directories(MarvelSandbox
