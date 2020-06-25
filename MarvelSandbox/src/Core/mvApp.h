@@ -39,6 +39,20 @@ namespace Marvel {
 		unsigned      getWindowHeight  () const { return m_height; }
 		mvTextEditor& getEditor        () { return m_editor; }
 		std::string&  getFile          () { return m_file; }
+		
+		//-----------------------------------------------------------------------------
+		// Concurrency Settings
+		//-----------------------------------------------------------------------------
+		void     setThreadPoolThreshold      (double time) { m_threadPoolThreshold = time; }
+		void     setThreadCount              (unsigned count) { m_threads = count; }
+		void     setThreadPoolAuto           () { m_threadPoolAuto = true; }
+		void     activateThreadPool          () { m_threadPool = true; }
+		void     setThreadPoolHighPerformance() { m_threadPoolHighPerformance = true; }
+
+		double   getThreadPoolThreshold        () const { return m_threadPoolThreshold; }
+		unsigned getThreadCount                () const { return m_threads; }
+		bool     usingThreadPool               () const { return m_threadPool; }
+		bool     usingThreadPoolHighPerformance() const { return m_threadPoolHighPerformance; }
 
 		//-----------------------------------------------------------------------------
 		// Adding Items
@@ -74,6 +88,7 @@ namespace Marvel {
 		//     - triggerCallback methods performs checks to determine if callback
 		//     - actually exists
 		//-----------------------------------------------------------------------------
+		void runMainCallback            (const std::string& name, const std::string& sender);
 		void runCallback                (const std::string& name, const std::string& sender);
 		void runCallbackD               (const std::string& name, int sender, float data = 0.0f);
 		void triggerCallback            (std::atomic<bool>* p, const std::string* name, const std::string* sender);
@@ -145,7 +160,11 @@ namespace Marvel {
 		unsigned                m_loglevel = 0;
 		ImGuiWindowFlags        m_windowflags = 0;
 		bool                    m_started = false; // to prevent widgets from being added
-		bool                    m_multithread = false;
+		bool                    m_threadPoolAuto = true;
+		bool                    m_threadPool = false;
+		double                  m_threadPoolThreshold = 1.0;
+		unsigned                m_threads = 2; // how many threads to use.
+		bool                    m_threadPoolHighPerformance = false;
 
 		// standard callbacks
 		std::string m_mouseDownCallback = "";

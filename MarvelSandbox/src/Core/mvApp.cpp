@@ -185,7 +185,7 @@ namespace Marvel {
 		m_parents.push(nullptr);
 
 		if(!m_callback.empty())
-			runCallback(m_callback, "Main Application");
+			runMainCallback(m_callback, "Main Application");
 
 		// standard windows
 		if(m_showMetrics)
@@ -295,11 +295,29 @@ namespace Marvel {
 		return nullptr;
 	}
 
+	void mvApp::runMainCallback(const std::string& name, const std::string& sender)
+	{
+		if (name.empty())
+			return;
+
+		if (PyGILState_Check()) // if holding gil, don't run
+		{
+			mvAppLog::getLogger()->LogWarning("Waiting for another thread to finish.");
+			return;
+		}
+
+		std::atomic<bool> check(false);
+		triggerCallback(&check, &name, &sender);
+	}
+
 	void mvApp::runCallback(const std::string& name, const std::string& sender)
 	{
+		if (name.empty())
+			return;
+
 		std::atomic<bool> check(false);
 
-		if (m_multithread)
+		if (m_threadPool)
 		{
 			auto threadpool = mvThreadPool::GetThreadPool();
 			threadpool->submit(std::bind(&mvApp::triggerCallback, this, &check, &name, &sender));
@@ -314,7 +332,7 @@ namespace Marvel {
 			std::thread thread1(&mvApp::triggerCallback, this, &check, &name, &sender);
 
 			double elapsedTime = 0.0;
-			while (elapsedTime < 1.0)
+			while (elapsedTime < m_threadPoolThreshold)
 			{
 				auto now = std::chrono::high_resolution_clock::now();
 
@@ -329,8 +347,11 @@ namespace Marvel {
 			}
 
 			thread1.detach();
-			m_multithread = true;
-			mvAppLog::getLogger()->LogWarning("Multithreading activated.");
+			if (m_threadPoolAuto)
+			{
+				m_threadPool = true;
+				mvAppLog::getLogger()->LogWarning("Thread pool will be activated automatically.");
+			}
 
 		}
 			
@@ -338,9 +359,12 @@ namespace Marvel {
 
 	void mvApp::runCallbackD(const std::string& name, int sender, float data)
 	{
+		if (name.empty())
+			return;
+
 		std::atomic<bool> check(false);
 
-		if (m_multithread)
+		if (m_threadPool)
 		{
 			auto threadpool = mvThreadPool::GetThreadPool();
 			threadpool->submit(std::bind(&mvApp::triggerCallbackD, this, &check, &name, sender, data));
@@ -354,7 +378,7 @@ namespace Marvel {
 			std::thread thread1(&mvApp::triggerCallbackD, this, &check, &name, sender, data);
 
 			double elapsedTime = 0.0;
-			while (elapsedTime < 1.0)
+			while (elapsedTime < m_threadPoolThreshold)
 			{
 				auto now = std::chrono::high_resolution_clock::now();
 
@@ -369,8 +393,11 @@ namespace Marvel {
 			}
 
 			thread1.detach();
-			m_multithread = true;
-			mvAppLog::getLogger()->LogWarning("Multithreading activated.");
+			if (m_threadPoolAuto)
+			{
+				m_threadPool = true;
+				mvAppLog::getLogger()->LogWarning("Thread pool will be activated automatically.");
+			}
 
 		}
 
@@ -378,13 +405,6 @@ namespace Marvel {
 
 	void mvApp::triggerCallback(std::atomic<bool>* p, const std::string* name, const std::string* sender)
 	{
-		
-		if (name->empty())
-		{
-			if(p)
-			 *p = true;
-			return;
-		}
 
 		PyGILState_STATE gstate = PyGILState_Ensure();
 
@@ -441,12 +461,6 @@ namespace Marvel {
 
 	void mvApp::triggerCallbackD(std::atomic<bool>* p, const std::string* name, int sender, float data)
 	{
-		if (name->empty())
-		{
-			if (p)
-				*p = true;
-			return;
-		}
 
 		PyGILState_STATE gstate = PyGILState_Ensure();
 

@@ -222,7 +222,11 @@ namespace Marvel {
 
 	void mvPythonTranslator::buildDocumentation()
 	{
-		std::string documentation = m_about + "\n\nParameters\n__________\n\n";
+		std::string documentation;
+		if(m_elements.empty())
+			documentation = m_about;
+		else
+			documentation = m_about + "\n\nParameters\n__________\n\n";
 
 		bool opfound = false;
 		bool keyfound = false;

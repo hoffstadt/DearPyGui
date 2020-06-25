@@ -12,6 +12,42 @@ namespace Marvel {
 
 		std::map<std::string, mvPythonTranslator> translators = {
 
+			{"endTreeNode", mvPythonTranslator({
+			}, false, "not documented")},
+
+			{"endPopup", mvPythonTranslator({
+			}, false, "not documented")},
+
+			{"endWindow", mvPythonTranslator({
+			}, false, "not documented")},
+
+			{"endMainWindow", mvPythonTranslator({
+			}, false, "not documented")},
+
+			{"endGroup", mvPythonTranslator({
+			}, false, "not documented")},
+
+			{"endChild", mvPythonTranslator({
+			}, false, "not documented")},
+
+			{"endTab", mvPythonTranslator({
+			}, false, "not documented")},
+
+			{"endTabBar", mvPythonTranslator({
+			}, false, "not documented")},
+
+			{"endMenu", mvPythonTranslator({
+			}, false, "not documented")},
+
+			{"endMenuBar", mvPythonTranslator({
+			}, false, "not documented")},
+
+			{"endTooltip", mvPythonTranslator({
+			}, false, "not documented")},
+
+			{"endCollapsingHeader", mvPythonTranslator({
+			}, false, "not documented")},
+
 			{"addSimplePlot", mvPythonTranslator({
 				{mvPythonDataType::String, "name"},
 				{mvPythonDataType::FloatList, "value", "Tuple of float values"},
@@ -1790,19 +1826,18 @@ namespace Marvel {
 
 	void CreateWidgetAddingInterface(mvPythonModule& pyModule, PyObject* (*initfunc)())
 	{
-		pyModule.addMethod(endTreeNode, "Not Documented");
-		pyModule.addMethod(endPopup, "Not Documented");
-		pyModule.addMethod(endWindow, "Not Documented");
-		pyModule.addMethod(endMainWindow, "Not Documented");
-		pyModule.addMethod(endGroup, "Not Documented");
-		pyModule.addMethod(endChild, "Not Documented");
-		pyModule.addMethod(endTab, "Not Documented");
-		pyModule.addMethod(endTabBar, "Not Documented");
-		pyModule.addMethod(endMenu, "Not Documented");
-		pyModule.addMethod(endMenuBar, "Not Documented");
-		pyModule.addMethod(endTooltip, "Not Documented");
-		pyModule.addMethod(endCollapsingHeader, "Not Documented");
-
+		pyModule.addMethodD(endTreeNode);
+		pyModule.addMethodD(endPopup);
+		pyModule.addMethodD(endWindow);
+		pyModule.addMethodD(endMainWindow);
+		pyModule.addMethodD(endGroup);
+		pyModule.addMethodD(endChild);
+		pyModule.addMethodD(endTab);
+		pyModule.addMethodD(endTabBar);
+		pyModule.addMethodD(endMenu);
+		pyModule.addMethodD(endMenuBar);
+		pyModule.addMethodD(endTooltip);
+		pyModule.addMethodD(endCollapsingHeader);
 		pyModule.addMethodD(addImage);
 		pyModule.addMethodD(addProgressBar);
 		pyModule.addMethodD(addDragFloat);

@@ -13,7 +13,7 @@ namespace Marvel {
 
 		std::map<std::string, mvPythonTranslator> translators = {
 
-						{"addDrawing", mvPythonTranslator({
+			{"addDrawing", mvPythonTranslator({
 				{mvPythonDataType::String, "name"},
 				{mvPythonDataType::Integer, "width"},
 				{mvPythonDataType::Integer, "height"}
