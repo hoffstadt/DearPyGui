@@ -1,5 +1,6 @@
 #include "Platform/Windows/mvWindowsWindow.h"
 #include "Core/mvApp.h"
+#include "Core/mvAppEditor.h"
 
 // Forward declare message handler from imgui_impl_win32.cpp
 extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
@@ -207,6 +208,7 @@ namespace Marvel {
 			if (s_pd3dDevice != NULL && wParam != SIZE_MINIMIZED)
 			{
 				Marvel::mvApp::GetApp()->setSize((UINT)LOWORD(lParam), (UINT)HIWORD(lParam));
+				Marvel::mvAppEditor::GetAppEditor()->setSize((UINT)LOWORD(lParam), (UINT)HIWORD(lParam));
 				CleanupRenderTarget();
 				s_pSwapChain->ResizeBuffers(0, (UINT)LOWORD(lParam), (UINT)HIWORD(lParam), DXGI_FORMAT_UNKNOWN, 0);
 				CreateRenderTarget();

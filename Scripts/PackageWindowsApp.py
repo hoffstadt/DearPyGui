@@ -9,10 +9,10 @@ script_dir = os.getcwd()
 build_dir = script_dir + "/../Dependencies/cpython/PCbuild/amd64/"
 
 # directories to put prepared files into
-window_app_dir = script_dir + "/../Resources/WindowsApp/"
+window_app_dir = script_dir + "/../Output/WindowsApp/"
 
-new_python_dir = script_dir + "/../Resources/python/"
-debug_dir = new_python_dir + "Debug/"
+new_python_dir = script_dir + "/../Output/Python/"
+debug_dir = script_dir + "/../Output/Python/Debug/"
 
 if not os.path.isdir(window_app_dir):
     os.mkdir(window_app_dir)
@@ -65,7 +65,7 @@ shutil.copy(build_dir + "/winsound.pyd", window_app_dir)
 shutil.copy(build_dir + "/xxlimited.pyd", window_app_dir)
 shutil.copy("../cmake-build-release/MarvelSandbox/MarvelSandbox.exe", window_app_dir)
 shutil.copy("../cmake-build-release/MarvelSandbox/MarvelSandbox.exe.manifest", window_app_dir)
-shutil.copy("../AppSamples/App.py", "../Resources/WindowsApp/")
+shutil.copy("../AppSamples/App.py", "../Output/WindowsApp/")
 shutil.copy(debug_dir + "/python38.zip", window_app_dir)
 
 # add python path file for embedding
@@ -76,5 +76,12 @@ with open(window_app_dir + "/python38._pth", 'w') as file:
     file.write("# Uncomment to run site.main() automatically\n")
     file.write("#import site\n")
 
-with open(window_app_dir + "/SandboxConfig.txt", 'w') as file:
-    file.write("App")
+# add App batch file
+with open(window_app_dir + "/RunApp.bat", 'w') as file:
+    file.write("@echo off\n")
+    file.write("call MarvelSandbox.exe --app App\n")
+
+# add Editor batch file
+with open(window_app_dir + "/RunEditor.bat", 'w') as file:
+    file.write("@echo off\n")
+    file.write("call MarvelSandbox.exe --editor\n")

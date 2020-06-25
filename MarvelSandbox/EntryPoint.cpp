@@ -25,8 +25,6 @@ MV_DECLARE_PYMODULE(pyMod5, "sbDraw", {});
 MV_DECLARE_PYMODULE(pyMod6, "sbWidgets", {});
 MV_DECLARE_PYMODULE(pyMod7, "sbConstants", mvInterfaceRegistry::GetRegistry()->getConstants());
 
-bool doesFileExists(const char* filepath, const char** modname = nullptr);
-
 int main(int argc, char* argv[])
 {
 
@@ -52,21 +50,14 @@ int main(int argc, char* argv[])
 	bool metrics = false;
 	bool source = false;
 	bool documentation = false;
-	bool editorMode = true;
-	bool editorMode2 = false;
+	bool editorMode = false;
 	app.add_flag("-l, --logger", logger, "Show Logger");
 	app.add_flag("-m, --metrics", metrics, "Show Metrics");
 	app.add_flag("-s, --source", source, "Show Source");
 	app.add_flag("-d, --documentation", documentation, "Show Documentation");
 	app.add_flag("-e, --editor", editorMode, "Sets MarvelSandbox to Editor Mode");
-	app.add_flag("-o, --editorOff", editorMode2, "Sets MarvelSandbox to Editor Mode Off");
 
 	CLI11_PARSE(app, argc, argv);
-
-	std::string addedpath = PathName;
-
-	if (editorMode2)
-		editorMode = false;
 
 	if (editorMode)
 	{
@@ -95,19 +86,10 @@ int main(int argc, char* argv[])
 	MV_INIT_PYMODULE(pyMod6, CreateWidgetAddingInterface);
 	MV_INIT_PYMODULE(pyMod7, CreateConstantsInterface);
 
-	const char* module_name = nullptr;
-	doesFileExists("SandboxConfig.txt", &module_name);
-
-	// get module name and path
-	if (module_name) // ran with config file
-	{
-		AppName = module_name;
-		PathName = "python38.zip;";
-	}
-
+	std::string addedpath;
 	if (argc < 2) // ran from visual studio
 	{
-		//addedpath = std::string(MV_MAIN_DIR) + std::string("MarvelSandbox/");
+		addedpath = std::string(MV_MAIN_DIR) + std::string("MarvelSandbox/");
 		PathName = "python38.zip;../../MarvelSandbox";
 	}
 
@@ -147,7 +129,7 @@ int main(int argc, char* argv[])
 		// returns the dictionary object representing the module namespace
 		PyObject* pDict = PyModule_GetDict(pModule); // borrowed reference
 		mvApp::GetApp()->setModuleDict(pDict);
-		std::string filename = addedpath + "\\" + std::string(AppName) + ".py";
+		std::string filename = addedpath + std::string(AppName) + ".py";
 		mvApp::GetApp()->setFile(filename);
 		PyEval_SaveThread(); // releases global lock
 		mvApp::GetApp()->preRender();
@@ -161,11 +143,10 @@ int main(int argc, char* argv[])
 		// create window
 		mvWindow* window = new mvWindowsWindow(mvApp::GetApp()->getWindowWidth(), mvApp::GetApp()->getWindowHeight());
 		window->show();
-
 		window->run();
 		PyGILState_STATE gstate = PyGILState_Ensure();
 		Py_XDECREF(pModule);
-
+		delete window;
 	}
 	else
 	{
@@ -176,8 +157,8 @@ int main(int argc, char* argv[])
 		// create window
 		mvWindow* window = new mvWindowsWindow(mvApp::GetApp()->getWindowWidth(), mvApp::GetApp()->getWindowHeight());
 		window->show();
-
 		window->run();
+		delete window;
 	}
 
 	Py_XDECREF(m);
@@ -188,20 +169,4 @@ int main(int argc, char* argv[])
 	if (Py_FinalizeEx() < 0)
 		exit(120);
 
-}
-
-bool doesFileExists(const char* filepath, const char** modname)
-{
-	/* try to open file to read */
-	std::ifstream ifile;
-	ifile.open(filepath, std::ios::in);
-	if (ifile)
-	{
-		std::string line;
-		std::getline(ifile, line);
-		auto pline = new std::string(line);
-		*modname = pline->data();
-		return true;
-	}
-	return false;
 }
