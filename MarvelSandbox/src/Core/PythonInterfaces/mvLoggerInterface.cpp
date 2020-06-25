@@ -12,6 +12,12 @@ namespace Marvel {
 
 		std::map<std::string, mvPythonTranslator> translators = {
 
+			{"ClearLog", mvPythonTranslator({
+			}, false, "Needs documentation")},
+
+			{"showLogger", mvPythonTranslator({
+			}, false, "Needs documentation")},
+
 			{"SetLogLevel", mvPythonTranslator({
 				{mvPythonDataType::Integer, "level"}
 			}, false, "Needs documentation")},
@@ -122,9 +128,8 @@ namespace Marvel {
 
 	void CreateLoggerInterface(mvPythonModule& pyModule, PyObject* (*initfunc)())
 	{
-		pyModule.addMethod(ClearLog, "Not Documented");
-		pyModule.addMethod(showLogger, "Not Documented");
-
+		pyModule.addMethodD(ClearLog);
+		pyModule.addMethodD(showLogger);
 		pyModule.addMethodD(SetLogLevel);
 		pyModule.addMethodD(Log);
 		pyModule.addMethodD(LogDebug);

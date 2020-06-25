@@ -427,7 +427,7 @@ def PlotCallback(sender):
 
 
 # setting main callback
-#setMainCallback("MainCallback")
+setMainCallback("MainCallback")
 def MainCallback(sender):
     value = getValue("Progress")
     value = value + 0.01

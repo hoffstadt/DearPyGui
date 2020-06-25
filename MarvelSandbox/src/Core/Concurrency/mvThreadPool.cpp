@@ -1,4 +1,6 @@
 #include "mvThreadPool.h"
+#include "Core/mvApp.h"
+#include "Core/mvAppLog.h"
 //#include "mvLogging.h"
 
 namespace Marvel {
@@ -86,7 +88,14 @@ namespace Marvel {
     mvThreadPool::mvThreadPool() :
         m_done(false), m_joiner(m_threads)
     {
-        unsigned const thread_count = std::thread::hardware_concurrency();
+        unsigned thread_count;
+        
+        if (mvApp::GetApp()->usingThreadPoolHighPerformance())
+            thread_count = std::thread::hardware_concurrency();
+        else
+            thread_count = mvApp::GetApp()->getThreadCount();
+
+        mvAppLog::getLogger()->LogInfo("Thread pool activated with " + std::to_string(thread_count) + " threads.");
 
         try
         {

@@ -11,6 +11,9 @@ namespace Marvel {
 
 		std::map<std::string, mvPythonTranslator> translators = {
 
+			{"getMousePos", mvPythonTranslator({
+			}, false, "Needs documentation")},
+
 			{"isMouseButtonPressed", mvPythonTranslator({
 				{mvPythonDataType::Integer, "button"}
 			}, false, "Needs documentation")},
@@ -61,7 +64,7 @@ namespace Marvel {
 
 	void CreateInputInterface(mvPythonModule& pyModule, PyObject* (*initfunc)())
 	{
-		pyModule.addMethod(getMousePos, "Not Documented");
+		pyModule.addMethodD(getMousePos);
 		pyModule.addMethodD(isMouseButtonPressed);
 		pyModule.addMethodD(isKeyPressed);
 

@@ -12,6 +12,38 @@ namespace Marvel {
 
 		std::map<std::string, mvPythonTranslator> translators = {
 
+				{"setThreadPoolThreshold", mvPythonTranslator({
+					{mvPythonDataType::Float, "time"}
+				}, false, "Needs documentation")},
+
+				{"setThreadCount", mvPythonTranslator({
+					{mvPythonDataType::Integer, "threads"}
+				}, false, "Needs documentation")},
+
+				{"setThreadPoolAuto", mvPythonTranslator({
+				}, false, "Needs documentation")},
+
+				{"showDocumentation", mvPythonTranslator({
+				}, false, "Needs documentation")},
+
+				{"showAbout", mvPythonTranslator({
+				}, false, "Needs documentation")},
+
+				{"showMetrics", mvPythonTranslator({
+				}, false, "Needs documentation")},
+
+				{"closePopup", mvPythonTranslator({
+				}, false, "Needs documentation")},
+
+				{"showSource", mvPythonTranslator({
+				}, false, "Needs documentation")},
+
+				{"activateThreadPool", mvPythonTranslator({
+				}, false, "Needs documentation")},
+
+				{"setThreadPoolHighPerformance", mvPythonTranslator({
+				}, false, "Needs documentation")},
+
 				{"addItemColorStyle", mvPythonTranslator({
 					{mvPythonDataType::String, "item"},
 					{mvPythonDataType::Integer, "style"},
@@ -167,6 +199,52 @@ namespace Marvel {
 		};
 
 		return translators;
+	}
+
+	PyObject* setThreadPoolThreshold(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		float time;
+
+		if (!Translators["setThreadPoolThreshold"].parse(args, kwargs, __FUNCTION__, &time))
+			Py_RETURN_NONE;
+
+		mvApp::GetApp()->setThreadPoolThreshold(time);
+
+		Py_RETURN_NONE;
+	}
+
+	PyObject* setThreadCount(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		int threads;
+
+		if (!Translators["setThreadCount"].parse(args, kwargs, __FUNCTION__, &threads))
+			Py_RETURN_NONE;
+
+		mvApp::GetApp()->setThreadCount(threads);
+
+		Py_RETURN_NONE;
+	}
+
+	PyObject* setThreadPoolAuto(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		mvApp::GetApp()->setThreadPoolAuto();
+		Py_RETURN_NONE;
+	}
+
+	PyObject* activateThreadPool(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+
+		mvApp::GetApp()->activateThreadPool();
+
+		Py_RETURN_NONE;
+	}
+
+	PyObject* setThreadPoolHighPerformance(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+
+		mvApp::GetApp()->setThreadPoolHighPerformance();
+
+		Py_RETURN_NONE;
 	}
 
 	PyObject* addItemColorStyle(PyObject* self, PyObject* args, PyObject* kwargs)
@@ -732,12 +810,16 @@ namespace Marvel {
 
 	void CreatePythonInterface(mvPythonModule& pyModule, PyObject* (*initfunc)())
 	{
-		pyModule.addMethod(showSource, "Not Documented");
-		pyModule.addMethod(showAbout, "Not Documented");
-		pyModule.addMethod(showMetrics, "Not Documented");
-		pyModule.addMethod(closePopup, "Not Documented");
-		pyModule.addMethod(showDocumentation, "Not Documented");
-
+		pyModule.addMethodD(setThreadPoolAuto);
+		pyModule.addMethodD(showSource);
+		pyModule.addMethodD(showAbout);
+		pyModule.addMethodD(showMetrics);
+		pyModule.addMethodD(closePopup);
+		pyModule.addMethodD(showDocumentation);
+		pyModule.addMethodD(setThreadPoolThreshold);
+		pyModule.addMethodD(setThreadCount);
+		pyModule.addMethodD(activateThreadPool);
+		pyModule.addMethodD(setThreadPoolHighPerformance);
 		pyModule.addMethodD(setMainWindowSize);
 		pyModule.addMethodD(addItemColorStyle);
 		pyModule.addMethodD(setItemPopup);
