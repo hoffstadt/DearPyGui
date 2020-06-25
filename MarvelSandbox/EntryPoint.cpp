@@ -7,6 +7,7 @@
 #include <fstream>
 #include "Core/PythonInterfaces/mvInterfaceRegistry.h"
 #include "Core/PythonInterfaces/mvInterfaces.h"
+#include <CLI11.hpp>
 
 using namespace Marvel;
 
@@ -25,6 +26,28 @@ bool doesFileExists(const char* filepath, const char** modname = nullptr);
 
 int main(int argc, char* argv[])
 {
+	CLI::App app{ "Marvel Sandbox" };
+	app.allow_windows_style_options();
+
+	// options
+	std::string AppName = "App";
+	std::string PathName = "";
+	app.add_option("-a, --app", AppName, "Name of the python file (without extension)");
+	app.add_option("-p, --path", PathName, "Path to app file (default is location of MarvelSandbox.exe)");
+
+	// flags
+	bool logger = false;
+	bool metrics = false;
+	bool source = false;
+	bool documentation = false;
+	app.add_flag("-l, --logger", logger, "Show Logger");
+	app.add_flag("-m, --metrics", logger, "Show Metrics");
+	app.add_flag("-s, --source", logger, "Show Source");
+	app.add_flag("-d, --documentation", logger, "Show Documentation");
+
+	CLI11_PARSE(app, argc, argv);
+
+	PathName = PathName + ";python38.zip";
 
 	wchar_t* program = Py_DecodeLocale(argv[0], NULL);
 	if (program == NULL) {
@@ -42,10 +65,23 @@ int main(int argc, char* argv[])
 	MV_INIT_PYMODULE(pyMod6, CreateWidgetAddingInterface);
 	MV_INIT_PYMODULE(pyMod7, CreateConstantsInterface);
 
-	const wchar_t* path;
 	std::string addedpath;
 	const char* module_name = nullptr;
 	doesFileExists("SandboxConfig.txt", &module_name);
+
+	// get module name and path
+	if (module_name) // ran with config file
+	{
+		AppName = module_name;
+		addedpath = "";
+		PathName = "python38.zip;";
+	}
+
+	if (argc < 2) // ran from visual studio
+	{
+		addedpath = std::string(MV_MAIN_DIR) + std::string("MarvelSandbox/");
+		PathName = "python38.zip;../../MarvelSandbox";
+	}
 	
 #ifdef MV_RELEASE
 	HWND hWnd = GetConsoleWindow();
@@ -53,38 +89,14 @@ int main(int argc, char* argv[])
 #else
 	HWND hWnd = GetConsoleWindow();
 	ShowWindow(hWnd, SW_SHOW);
-#endif // MV_RELEASE
-
-	// get path
-	if (module_name) // ran with config file
-	{
-		addedpath = "";
-		path = L"python38.zip;";
-	}
-	else if (argc < 2) // ran from visual studio
-	{
-		addedpath = std::string(MV_MAIN_DIR) + std::string("MarvelSandbox/");
-		path = L"python38.zip;../../MarvelSandbox";
-	}
-	else if (argc == 2) // ran without path
-	{
-		addedpath = "";
-		path = L"python38.zip;";
-	}
-
-	else // ran from command line with path
-	{
-		wchar_t* deco = Py_DecodeLocale(argv[1], nullptr);
-		std::wstring* wpath = new std::wstring(std::wstring(deco) + std::wstring(L";python38.zip"));
-		path = wpath->c_str();
-		addedpath = argv[1];
-	}
+#endif
 
 	// add our custom module
 	PyImport_AppendInittab("sandboxout", &PyInit_embOut);
 
 	// set path and start the interpreter
-	Py_SetPath(path);
+	wchar_t* deco = Py_DecodeLocale(PathName.c_str(), nullptr);
+	Py_SetPath(deco);
 	Py_NoSiteFlag = 1; // this must be set to 1
 
 	Py_Initialize();
@@ -100,16 +112,6 @@ int main(int argc, char* argv[])
 	PySys_SetObject("stdout", m);
 	PySys_SetObject("stderr", m);
 
-	// get module name
-	if (module_name) // ran with config file
-		module_name = module_name;
-	else if (argc < 2)
-		module_name = "App";
-	else if (argc == 2)
-		module_name = argv[1];
-	else
-		module_name = argv[2];
-	
 	// info
 	mvAppLog::getLogger()->AddLog("[Sandbox Version] %0s\n", mvApp::getVersion());
 	mvAppLog::getLogger()->AddLog("[Python Version] %0s\n", PY_VERSION);
@@ -117,7 +119,7 @@ int main(int argc, char* argv[])
 	mvAppLog::getLogger()->AddLog("[Compiler] MSVC version %0d\n", _MSC_VER);
 
 	// get module
-	PyObject* pModule = PyImport_ImportModule(module_name); // new reference
+	PyObject* pModule = PyImport_ImportModule(AppName.c_str()); // new reference
 	
 	// check if error occurred
 	if (!PyErr_Occurred() && pModule != nullptr)
@@ -125,11 +127,16 @@ int main(int argc, char* argv[])
 		// returns the dictionary object representing the module namespace
 		PyObject* pDict = PyModule_GetDict(pModule); // borrowed reference
 		mvApp::GetApp()->setModuleDict(pDict);
-		std::string filename = addedpath + std::string(module_name) + ".py";
+		std::string filename = addedpath + std::string(AppName) + ".py";
 		mvApp::GetApp()->setFile(filename);
 		PyEval_SaveThread(); // releases global lock
 		mvApp::GetApp()->preRender();
 		mvApp::GetApp()->setStarted();
+
+		if(logger) mvApp::GetApp()->showLogger();
+		if(source) mvApp::GetApp()->showSource();
+		if(metrics) mvApp::GetApp()->showMetrics();
+		if(documentation) mvApp::GetApp()->showDoc();
 
 		// create window
 		mvWindow* window = new mvWindowsWindow(mvApp::GetApp()->getWindowWidth(), mvApp::GetApp()->getWindowHeight());
