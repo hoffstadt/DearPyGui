@@ -57,7 +57,8 @@ namespace Marvel {
 		if (!PyArg_VaParseTupleAndKeywords(args, kwargs, m_formatstring.data(),
 			const_cast<char**>(m_keywords.data()), arguments))
 		{
-			mvAppLog::getLogger()->LogError(message);
+			PyErr_Print();
+			PyErr_SetString(PyExc_Exception, message);
 			PyErr_Print();
 			check = false;
 		}

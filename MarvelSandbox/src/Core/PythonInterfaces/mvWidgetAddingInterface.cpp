@@ -382,11 +382,11 @@ namespace Marvel {
 
 			{"addMenuBar", mvPythonTranslator({
 				{mvPythonDataType::String, "name"}
-			}, true, "A Listbox is a listbox")},
+			}, false, "A Listbox is a listbox")},
 
 			{"addMenu", mvPythonTranslator({
 				{mvPythonDataType::String, "name"}
-			}, true, "A Listbox is a listbox")},
+			}, false, "A Listbox is a listbox")},
 
 			{"addMenuItem", mvPythonTranslator({
 				{mvPythonDataType::String, "name"}
@@ -444,7 +444,7 @@ namespace Marvel {
 				{mvPythonDataType::Optional},
 				{mvPythonDataType::KeywordOnly},
 				{mvPythonDataType::Integer, "flags"}
-			}, true, "A Listbox is a listbox") },
+			}, false, "A Listbox is a listbox") },
 
 			{"addTreeNode", mvPythonTranslator({
 				{mvPythonDataType::String, "name"},

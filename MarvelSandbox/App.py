@@ -127,6 +127,7 @@ def HulkAbility(sender):
     print("Hulk Smash!!!!")
 
 addProgressBar("Progress", 0, overlay="Progress Bar")
+addButton()
 
 #########################################
 #############    Inputs    ##############
