@@ -12,12 +12,12 @@ lib_dir = script_dir + "/../Dependencies/cpython/Lib/"
 build_dir = script_dir + "/../Dependencies/cpython/PCbuild/amd64/"
 
 # directories to put prepared files into
-new_python_dir = script_dir + "/../Resources/python/"
-debug_dir = new_python_dir + "Debug/"
+new_python_dir = script_dir + "/../Output/Python/"
+debug_dir = script_dir + "/../Output/Python/Debug/"
 sample_dir = "../AppSamples"
 
 # directory that will be zipped then removed
-temporary_dir = new_python_dir + "/PythonToZip/"
+temporary_dir = script_dir + "/../Output/Python/PythonToZip/"
 
 # directories to compile pyc files
 directories = [
@@ -60,10 +60,10 @@ directories = [
     ]
 
 # create the necessary directories if they do not exist
-if not os.path.isdir(new_python_dir):
-    os.mkdir(new_python_dir)
-    os.mkdir(temporary_dir)
-    os.mkdir(debug_dir)
+if not os.path.isdir(script_dir + "/../Output/"):
+    os.mkdir(script_dir + "/../Output/")
+    os.mkdir(script_dir + "/../Output/Python/")
+    os.mkdir(script_dir + "/../Output/Python/Debug")
 
 # copy pyc files to the temporary directory
 for directory in directories:

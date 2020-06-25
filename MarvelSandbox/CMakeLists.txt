@@ -90,4 +90,4 @@ target_compile_definitions(MarvelSandbox
 
 add_custom_command(TARGET MarvelSandbox PRE_BUILD
                    COMMAND ${CMAKE_COMMAND} -E copy_directory
-                       ${CMAKE_SOURCE_DIR}/Resources/python/Debug/ $<TARGET_FILE_DIR:MarvelSandbox>)
+                       ${CMAKE_SOURCE_DIR}/Output/python/Debug/ $<TARGET_FILE_DIR:MarvelSandbox>)

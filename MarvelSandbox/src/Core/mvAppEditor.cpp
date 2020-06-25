@@ -53,7 +53,6 @@ static void startup(std::string file, std::string flags)
 	CloseHandle(pi.hThread);
 }
 
-
 namespace Marvel {
 
 	mvAppEditor* mvAppEditor::s_instance = nullptr;
@@ -70,10 +69,16 @@ namespace Marvel {
 		// windows specific currently
 		if (ImGui::IsKeyDown(0x11)) // control button
 		{
-			if (ImGui::IsKeyReleased(0x53))
+			if (ImGui::IsKeyReleased(0x53)) // S
 				saveFile();
-			if (ImGui::IsKeyReleased(0x4F))
+			if (ImGui::IsKeyReleased(0x4F)) // O
 				openFile();
+		}
+
+		if (ImGui::IsKeyReleased(0x74)) // F5
+		{
+			saveFile();
+			startup(m_file, m_flags);
 		}
 
 	}
@@ -173,9 +178,10 @@ namespace Marvel {
 		ImGui::SetNextWindowSize(ImVec2(m_width, m_height));
 
 		auto cpos = m_editor.GetCursorPosition();
-		ImGui::Begin("App Source", nullptr, ImGuiWindowFlags_HorizontalScrollbar | ImGuiWindowFlags_NoBringToFrontOnFocus | ImGuiWindowFlags_NoSavedSettings
-			| ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_HorizontalScrollbar | ImGuiWindowFlags_MenuBar);
-		
+		ImGui::Begin("App Source", nullptr, ImGuiWindowFlags_NoBringToFrontOnFocus | ImGuiWindowFlags_NoSavedSettings
+			| ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoTitleBar  
+			| ImGuiWindowFlags_MenuBar);
+
 		if (ImGui::BeginMenuBar())
 		{
 			if (ImGui::BeginMenu("File"))
@@ -244,8 +250,11 @@ namespace Marvel {
 
 			if (ImGui::BeginMenu("Run"))
 			{
-				if (ImGui::MenuItem("Run App"))
+				if (ImGui::MenuItem("Run App", "F5"))
+				{
+					saveFile();
 					startup(m_file, m_flags);
+				}
 
 				ImGui::EndMenu();
 			}
@@ -263,7 +272,7 @@ namespace Marvel {
 			ImGui::EndMenuBar();
 		}
 
-		ImGui::Text("%6d/%-6d %6d lines  | %s | %s | %s | %s | %s", cpos.mLine + 1, cpos.mColumn + 1, m_editor.GetTotalLines(),
+		ImGui::Text("%6d/%-6d %6d lines  | %s | %s | %s | %s", cpos.mLine + 1, cpos.mColumn + 1, m_editor.GetTotalLines(),
 			m_editor.IsOverwrite() ? "Ovr" : "Ins",
 			m_editor.CanUndo() ? "*" : " ",
 			m_editor.GetLanguageDefinition().mName.c_str(), getFile().c_str());
