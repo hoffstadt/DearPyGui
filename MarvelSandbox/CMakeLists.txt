@@ -2,12 +2,15 @@
 
 add_executable (MarvelSandbox)
 
+set_property(TARGET MarvelSandbox PROPERTY CXX_STANDARD 17)
+
 target_sources(MarvelSandbox
 
 	PRIVATE
 
 		"EntryPoint.cpp"
 		"src/Core/mvApp.cpp"
+		"src/Core/mvAppEditor.cpp"
 		"src/Core/mvAppLog.cpp"
 		"src/Core/mvWindow.cpp"
 		"src/Core/mvTextEditor.cpp"

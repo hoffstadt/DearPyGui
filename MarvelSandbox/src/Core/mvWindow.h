@@ -1,6 +1,7 @@
 #pragma once
 
 #include "mvApp.h"
+#include "mvAppEditor.h"
 #include "mvAppLog.h"
 
 namespace Marvel {
@@ -10,7 +11,12 @@ namespace Marvel {
 
 	public:
 
-		mvWindow(unsigned width, unsigned height) : m_width(width), m_height(height){}
+		mvWindow(unsigned width, unsigned height, bool editor = false) : 
+			m_width(width), m_height(height), m_editor(editor)
+		{
+			m_app = mvApp::GetApp();
+			m_appEditor = mvAppEditor::GetAppEditor();
+		}
 
 		virtual void show      () = 0;
 		virtual void setup     () {}
@@ -23,7 +29,9 @@ namespace Marvel {
 	protected:
 
 		bool           m_running = true;
-		Marvel::mvApp* m_app = nullptr;
+		bool           m_editor = false;
+		mvApp*         m_app = nullptr;
+		mvAppEditor*   m_appEditor = nullptr;
 		unsigned       m_width;
 		unsigned       m_height;
 

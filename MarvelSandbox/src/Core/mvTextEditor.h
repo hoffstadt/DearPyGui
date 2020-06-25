@@ -190,6 +190,8 @@ namespace Marvel {
 		mvTextEditor();
 		~mvTextEditor();
 
+		void ClearUndo() { mUndoBuffer.clear(); mUndoIndex = 0; }
+
 		void SetLanguageDefinition(const LanguageDefinition& aLanguageDef);
 		const LanguageDefinition& GetLanguageDefinition() const { return mLanguageDefinition; }
 
@@ -235,7 +237,7 @@ namespace Marvel {
 		inline void SetShowWhitespaces(bool aValue) { mShowWhitespaces = aValue; }
 		inline bool IsShowingWhitespaces() const { return mShowWhitespaces; }
 
-		void SetTabSize(int aValue);
+		void       SetTabSize(int aValue);
 		inline int GetTabSize() const { return mTabSize; }
 
 		void InsertText(const std::string& aValue);

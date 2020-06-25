@@ -17,7 +17,7 @@ namespace Marvel {
 
 	public:
 
-		mvWindowsWindow(unsigned width, unsigned height);
+		mvWindowsWindow(unsigned width, unsigned height, bool editor = false);
 
 		virtual void show() override;
 

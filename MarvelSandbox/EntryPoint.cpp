@@ -1,14 +1,17 @@
 ﻿#include "Core/PythonUtilities/mvPythonModule.h"
 #include "Core/PythonInterfaces/mvStdOutput.h"
-#include "Core/Concurrency/mvThreadPool.h"
+//#include "Core/Concurrency/mvThreadPool.h"
 #include "Core/mvWindow.h"
+#include "Core/mvAppEditor.h"
 #include "Platform/Windows/mvWindowsWindow.h"
 #include <iostream>
 #include <fstream>
 #include "Core/PythonInterfaces/mvInterfaceRegistry.h"
 #include "Core/PythonInterfaces/mvInterfaces.h"
 #include <CLI11.hpp>
+#include <filesystem>
 
+namespace fs = std::filesystem;
 using namespace Marvel;
 
 mvAppLog* mvAppLog::s_instance = nullptr;
@@ -26,6 +29,15 @@ bool doesFileExists(const char* filepath, const char** modname = nullptr);
 
 int main(int argc, char* argv[])
 {
+
+#ifdef MV_RELEASE
+	HWND hWnd = GetConsoleWindow();
+	ShowWindow(hWnd, SW_HIDE);
+#else
+	HWND hWnd = GetConsoleWindow();
+	ShowWindow(hWnd, SW_SHOW);
+#endif
+
 	CLI::App app{ "Marvel Sandbox" };
 	app.allow_windows_style_options();
 
@@ -40,12 +52,30 @@ int main(int argc, char* argv[])
 	bool metrics = false;
 	bool source = false;
 	bool documentation = false;
+	bool editorMode = true;
+	bool editorMode2 = false;
 	app.add_flag("-l, --logger", logger, "Show Logger");
-	app.add_flag("-m, --metrics", logger, "Show Metrics");
-	app.add_flag("-s, --source", logger, "Show Source");
-	app.add_flag("-d, --documentation", logger, "Show Documentation");
+	app.add_flag("-m, --metrics", metrics, "Show Metrics");
+	app.add_flag("-s, --source", source, "Show Source");
+	app.add_flag("-d, --documentation", documentation, "Show Documentation");
+	app.add_flag("-e, --editor", editorMode, "Sets MarvelSandbox to Editor Mode");
+	app.add_flag("-o, --editorOff", editorMode2, "Sets MarvelSandbox to Editor Mode Off");
 
 	CLI11_PARSE(app, argc, argv);
+
+	std::string addedpath = PathName;
+
+	if (editorMode2)
+		editorMode = false;
+
+	if (editorMode)
+	{
+		mvWindow* window = new mvWindowsWindow(mvAppEditor::GetAppEditor()->getWindowWidth(), mvAppEditor::GetAppEditor()->getWindowHeight(), true);
+		window->show();
+		window->run();
+
+		return 0;
+	}
 
 	PathName = PathName + ";python38.zip";
 
@@ -65,7 +95,6 @@ int main(int argc, char* argv[])
 	MV_INIT_PYMODULE(pyMod6, CreateWidgetAddingInterface);
 	MV_INIT_PYMODULE(pyMod7, CreateConstantsInterface);
 
-	std::string addedpath;
 	const char* module_name = nullptr;
 	doesFileExists("SandboxConfig.txt", &module_name);
 
@@ -73,23 +102,14 @@ int main(int argc, char* argv[])
 	if (module_name) // ran with config file
 	{
 		AppName = module_name;
-		addedpath = "";
 		PathName = "python38.zip;";
 	}
 
 	if (argc < 2) // ran from visual studio
 	{
-		addedpath = std::string(MV_MAIN_DIR) + std::string("MarvelSandbox/");
+		//addedpath = std::string(MV_MAIN_DIR) + std::string("MarvelSandbox/");
 		PathName = "python38.zip;../../MarvelSandbox";
 	}
-	
-#ifdef MV_RELEASE
-	HWND hWnd = GetConsoleWindow();
-	ShowWindow(hWnd, SW_HIDE);
-#else
-	HWND hWnd = GetConsoleWindow();
-	ShowWindow(hWnd, SW_SHOW);
-#endif
 
 	// add our custom module
 	PyImport_AppendInittab("sandboxout", &PyInit_embOut);
@@ -127,7 +147,7 @@ int main(int argc, char* argv[])
 		// returns the dictionary object representing the module namespace
 		PyObject* pDict = PyModule_GetDict(pModule); // borrowed reference
 		mvApp::GetApp()->setModuleDict(pDict);
-		std::string filename = addedpath + std::string(AppName) + ".py";
+		std::string filename = addedpath + "\\" + std::string(AppName) + ".py";
 		mvApp::GetApp()->setFile(filename);
 		PyEval_SaveThread(); // releases global lock
 		mvApp::GetApp()->preRender();
