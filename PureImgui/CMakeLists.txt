@@ -10,8 +10,8 @@ target_sources(PureImgui
 		"src/mvWindowsWindow.cpp"
 		
 		# implot
-		"../MarvelSandbox/src/Vendor/implot/implot.cpp"
-		"../MarvelSandbox/src/Vendor/implot/implot_demo.cpp"
+		"../Marvel/src/Vendor/implot/implot.cpp"
+		"../Marvel/src/Vendor/implot/implot_demo.cpp"
 
 		# imgui
 		"../Dependencies/imgui/imgui.cpp"
@@ -30,8 +30,8 @@ target_include_directories(PureImgui
 		"src/"
 		"../Dependencies/imgui/"
 		"../Dependencies/imgui/examples/"
-		"../MarvelSandbox/src/Vendor/implot/"
-		"../MarvelSandbox/src/Vendor/stb/"
+		"../Marvel/src/Vendor/implot/"
+		"../Marvel/src/Vendor/stb/"
 
 )
 

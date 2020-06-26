@@ -1,4 +1,5 @@
-﻿#include "Core/PythonUtilities/mvPythonModule.h"
+#include "MainApplication.h"
+#include "Core/PythonUtilities/mvPythonModule.h"
 #include "Core/PythonInterfaces/mvStdOutput.h"
 #include "Core/mvWindow.h"
 #include "Core/mvAppEditor.h"
@@ -10,21 +11,16 @@
 #include <CLI11.hpp>
 #include <iostream>
 
-using namespace Marvel;
+namespace Marvel {
 
-mvAppLog* mvAppLog::s_instance = nullptr;
+	mvAppLog* mvAppLog::s_instance = nullptr;
 
-class Application
-{
-
-public:
-
-	Application(int argc, char* argv[]) : argc(argc), argv(argv)
+	Application::Application(const char* name, int argc, char* argv[]) : argc(argc), argv(argv)
 	{
-
+		mvAppEditor::GetAppEditor()->setProgramName(name);
 	}
 
-	~Application()
+	Application::~Application()
 	{
 		Py_XDECREF(m);
 
@@ -35,19 +31,19 @@ public:
 			exit(120);
 	}
 
-	void showConsole()
+	void Application::showConsole()
 	{
 		HWND hWnd = GetConsoleWindow();
 		ShowWindow(hWnd, SW_SHOW);
 	}
 
-	void hideConsole()
+	void Application::hideConsole()
 	{
 		HWND hWnd = GetConsoleWindow();
 		ShowWindow(hWnd, SW_HIDE);
 	}
 
-	int parseCommandLine()
+	int Application::parseCommandLine()
 	{
 		CLI::App app{ "Marvel Sandbox" };
 		app.allow_windows_style_options();
@@ -66,10 +62,10 @@ public:
 		CLI11_PARSE(app, argc, argv);
 
 		return 0;
-		
+
 	}
 
-	void handlePaths()
+	void Application::handlePaths()
 	{
 		PathName = PathName + ";python38.zip";
 
@@ -88,7 +84,7 @@ public:
 		}
 	}
 
-	int initializePython()
+	int Application::initializePython()
 	{
 		// add our custom module
 		PyImport_AppendInittab("sandboxout", &PyInit_embOut);
@@ -114,7 +110,7 @@ public:
 		return 0;
 	}
 
-	int run()
+	int Application::run()
 	{
 		if (editorMode)
 			return runEditorMode();
@@ -126,7 +122,7 @@ public:
 
 	}
 
-	int runEditorMode()
+	int Application::runEditorMode()
 	{
 		mvWindow* window = new mvWindowsWindow(mvAppEditor::GetAppEditor()->getWindowWidth(),
 			mvAppEditor::GetAppEditor()->getWindowHeight(), true);
@@ -136,7 +132,7 @@ public:
 		return 0;
 	}
 
-	int runErrorMode()
+	int Application::runErrorMode()
 	{
 		PyErr_Print();
 		mvApp::GetApp()->setOk(false);
@@ -151,7 +147,7 @@ public:
 		return 0;
 	}
 
-	int runRegularMode()
+	int Application::runRegularMode()
 	{
 		// returns the dictionary object representing the module namespace
 		PyObject* pDict = PyModule_GetDict(pModule); // borrowed reference
@@ -178,7 +174,7 @@ public:
 		return 0;
 	}
 
-	void logInformation()
+	void Application::logInformation()
 	{
 		// info
 		mvAppLog::getLogger()->AddLog("[Sandbox Version] %0s\n", mvApp::getVersion());
@@ -187,7 +183,7 @@ public:
 		mvAppLog::getLogger()->AddLog("[Compiler] MSVC version %0d\n", _MSC_VER);
 	}
 
-	void importModule()
+	void Application::importModule()
 	{
 		// get module
 		pModule = PyImport_ImportModule(AppName.c_str()); // new reference
@@ -200,54 +196,4 @@ public:
 			errorMode = true;
 	}
 
-public:
-
-	int argc;
-	char** argv;
-	wchar_t* program;
-	bool errorMode   = false;
-	bool regularMode = false;
-	PyObject* pModule = nullptr;
-	PyObject* m = nullptr;
-
-	bool ranFromVS = false;
-	std::string addedPath;
-
-	// options
-	std::string AppName = "App";
-	std::string PathName = "";
-
-	// flags
-	bool logger = false;
-	bool metrics = false;
-	bool source = false;
-	bool documentation = false;
-	bool editorMode = false;
-
-};
-
-int main(int argc, char* argv[])
-{
-
-	Application app(argc, argv);
-
-	app.parseCommandLine();
-
-#ifdef MV_RELEASE
-	app.hideConsole();
-#else
-	app.showConsole();
-#endif
-
-	app.handlePaths();
-
-	app.initializePython();
-
-	app.logInformation();
-
-	app.importModule();
-
-	app.run();
-
-	return 0;
 }
