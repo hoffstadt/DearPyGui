@@ -1,5 +1,5 @@
-#include "Core/PythonUtilities/mvPythonModule.h"
-#include "Core/PythonUtilities/mvPythonTranslator.h"
+#include "mvPythonModule.h"
+#include "mvPythonTranslator.h"
 #include "Core/mvApp.h"
 #include "mvInterfaces.h"
 #include "mvInterfaceRegistry.h"

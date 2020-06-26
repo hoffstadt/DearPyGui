@@ -4,8 +4,11 @@ from sbInput import *
 from sbPlot import *
 from sbDraw import *
 from sbWidgets import *
+from sbExtension import *
 import sbConstants
 from math import sin, cos
+
+testme()
 
 ####################################################
 #############    About All Widgets    ##############

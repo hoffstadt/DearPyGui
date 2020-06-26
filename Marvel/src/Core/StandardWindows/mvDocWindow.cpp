@@ -1,6 +1,6 @@
 #include "mvDocWindow.h"
 #include <imgui.h>
-#include "Core/PythonInterfaces/mvInterfaceRegistry.h"
+#include "mvInterfaceRegistry.h"
 
 namespace Marvel {
 
