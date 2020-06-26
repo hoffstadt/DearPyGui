@@ -10,6 +10,7 @@
 #include "Core/PythonInterfaces/mvInterfaces.h"
 #include <CLI11.hpp>
 #include <filesystem>
+#include <iostream>
 
 namespace fs = std::filesystem;
 using namespace Marvel;
@@ -70,6 +71,8 @@ int main(int argc, char* argv[])
 
 	PathName = PathName + ";python38.zip";
 
+
+
 	wchar_t* program = Py_DecodeLocale(argv[0], NULL);
 	if (program == NULL) {
 		fprintf(stderr, "Fatal error: cannot decode argv[0]\n");
@@ -95,6 +98,8 @@ int main(int argc, char* argv[])
 
 	// add our custom module
 	PyImport_AppendInittab("sandboxout", &PyInit_embOut);
+
+	std::cout << PathName << std::endl;
 
 	// set path and start the interpreter
 	wchar_t* deco = Py_DecodeLocale(PathName.c_str(), nullptr);
