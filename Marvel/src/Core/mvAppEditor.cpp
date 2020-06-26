@@ -15,7 +15,7 @@
 
 namespace fs = std::filesystem;
 
-static void startup(std::string file, std::string flags)
+static void startup(const char* name, std::string file, std::string flags)
 {
 	// additional information
 	STARTUPINFO si;
@@ -34,10 +34,11 @@ static void startup(std::string file, std::string flags)
 	size_t lastindex = filename.find_last_of(".");
 	std::string rawname = filename.substr(0, lastindex);
 
-	std::string cmd = "MarvelSandbox.exe --app " + rawname + " --path \"" + pathname + "\" " + flags;
+	std::string cmd = name + std::string(".exe --app ") + rawname + " --path \"" + pathname + "\" " + flags;
+	std::string pname = name + std::string(".exe");
 
 	// start the program up
-	CreateProcess("MarvelSandbox.exe",   // the path
+	CreateProcess(const_cast<char*>(pname.c_str()),   // the path
 		const_cast<char*>(cmd.c_str()),        // Command line
 		NULL,           // Process handle not inheritable
 		NULL,           // Thread handle not inheritable
@@ -78,7 +79,7 @@ namespace Marvel {
 		if (ImGui::IsKeyReleased(0x74)) // F5
 		{
 			saveFile();
-			startup(m_file, m_flags);
+			startup(m_programName, m_file, m_flags);
 		}
 
 	}
@@ -253,7 +254,7 @@ namespace Marvel {
 				if (ImGui::MenuItem("Run App", "F5"))
 				{
 					saveFile();
-					startup(m_file, m_flags);
+					startup(m_programName, m_file, m_flags);
 				}
 
 				ImGui::EndMenu();

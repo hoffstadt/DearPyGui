@@ -7,4 +7,5 @@ add_definitions(-DMV_MAIN_DIR="${CMAKE_CURRENT_SOURCE_DIR}/")
 
 # Include sub-projects.
 add_subdirectory ("PureImgui")
+add_subdirectory ("Marvel")
 add_subdirectory ("MarvelSandbox")

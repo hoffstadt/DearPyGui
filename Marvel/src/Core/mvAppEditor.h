@@ -40,6 +40,7 @@ namespace Marvel {
 		void          saveFileAs();
 		void          handleKeyEvents();
 		void          setSize(unsigned width, unsigned height) { m_width = width; m_height = height; }
+		void          setProgramName(const char* name) { m_programName = name; }
 
 		//-----------------------------------------------------------------------------
 		// Standard Windows
@@ -70,6 +71,7 @@ namespace Marvel {
 		bool                    m_showWhiteSpace = false;
 		bool                    m_saved = true;
 		std::string             m_flags = "";
+		const char*             m_programName;
 
 	};
 
