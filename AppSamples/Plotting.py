@@ -53,3 +53,4 @@ def PlotCallback(sender):
 
 def ResizePlotCallback(sender):
     changePlotSize("Plot2", 640, 400)
+
