@@ -2,10 +2,11 @@
 #include "Core/PythonUtilities/mvPythonTranslator.h"
 #include "Core/mvApp.h"
 #include "mvInterfaces.h"
+#include "mvInterfaceRegistry.h"
 
 namespace Marvel {
 
-	static std::map<std::string, mvPythonTranslator> Translators = mvInterfaceRegistry::GetRegistry()->getPythonInterface("InputsInterface");
+	static std::map<std::string, mvPythonTranslator> Translators = mvInterfaceRegistry::GetRegistry()->getPythonInterface("sbInput");
 
 	std::map<std::string, mvPythonTranslator> BuildInputsInterface() {
 
@@ -62,12 +63,15 @@ namespace Marvel {
 		return pvalue;
 	}
 
-	void CreateInputInterface(mvPythonModule& pyModule, PyObject* (*initfunc)())
+	mvPythonModule* CreateInputInterface()
 	{
-		pyModule.addMethodD(getMousePos);
-		pyModule.addMethodD(isMouseButtonPressed);
-		pyModule.addMethodD(isKeyPressed);
 
-		PyImport_AppendInittab(pyModule.getName(), initfunc);
+		auto pyModule = new mvPythonModule("sbInput", {});
+
+		pyModule->addMethodD(getMousePos);
+		pyModule->addMethodD(isMouseButtonPressed);
+		pyModule->addMethodD(isKeyPressed);
+
+		return pyModule;
 	}
 }

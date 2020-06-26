@@ -49,7 +49,7 @@
 #define addMethodD(Function) addMethod_(#Function, Function, Translators[#Function].getDocumentation())
 
 #define MV_DECLARE_PYMODULE(x, name, constants) mvPythonModule x(name, constants);\
-PyObject* PyInit_Emb##x(void){\
+PyObject* PyInit_Emb##x(){\
 PyObject* mod = PyModule_Create(x.getModuleDefinition());\
 for(auto& item : x.getIntConstants())\
 PyModule_AddIntConstant(mod, item.first.c_str(), item.second);\
@@ -71,11 +71,11 @@ namespace Marvel {
 		const std::vector<std::pair<std::string, long>>& getIntConstants() const { return m_intconstants; }
 		void                                             addMethod_(const char* name, PyCFunction function, const char* documentation = "No documentation");
 		void                                             addMethod_(const char* name, PyCFunctionWithKeywords function, const char* documentation = "No documentation");
-		inline const char*                               getName() const { return m_name; }
+		inline const std::string&                        getName() const { return m_name; }
 
 	private:
 
-		const char*                  m_name;
+		std::string                  m_name;
 		std::vector<PyMethodDef>     m_methods;
 		std::shared_ptr<PyModuleDef> m_moduledef = nullptr;
 		std::vector<std::pair<std::string, long>>  m_intconstants;

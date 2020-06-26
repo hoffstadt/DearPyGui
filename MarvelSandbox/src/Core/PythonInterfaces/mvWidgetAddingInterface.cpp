@@ -3,10 +3,11 @@
 #include "Core/PythonUtilities/mvPythonTranslator.h"
 #include "Core/AppItems/mvAppItems.h"
 #include "mvInterfaces.h"
+#include "mvInterfaceRegistry.h"
 
 namespace Marvel {
 
-	static std::map<std::string, mvPythonTranslator> Translators = mvInterfaceRegistry::GetRegistry()->getPythonInterface("WidgetsInterface");
+	static std::map<std::string, mvPythonTranslator> Translators = mvInterfaceRegistry::GetRegistry()->getPythonInterface("sbWidgets");
 
 	std::map<std::string, mvPythonTranslator> BuildWidgetsInterface() {
 
@@ -1824,73 +1825,75 @@ namespace Marvel {
 		Py_RETURN_NONE;
 	}
 
-	void CreateWidgetAddingInterface(mvPythonModule& pyModule, PyObject* (*initfunc)())
+	mvPythonModule* CreateWidgetAddingInterface()
 	{
-		pyModule.addMethodD(endTreeNode);
-		pyModule.addMethodD(endPopup);
-		pyModule.addMethodD(endWindow);
-		pyModule.addMethodD(endMainWindow);
-		pyModule.addMethodD(endGroup);
-		pyModule.addMethodD(endChild);
-		pyModule.addMethodD(endTab);
-		pyModule.addMethodD(endTabBar);
-		pyModule.addMethodD(endMenu);
-		pyModule.addMethodD(endMenuBar);
-		pyModule.addMethodD(endTooltip);
-		pyModule.addMethodD(endCollapsingHeader);
-		pyModule.addMethodD(addImage);
-		pyModule.addMethodD(addProgressBar);
-		pyModule.addMethodD(addDragFloat);
-		pyModule.addMethodD(addDragInt);
-		pyModule.addMethodD(addDragFloat2);
-		pyModule.addMethodD(addDragFloat3);
-		pyModule.addMethodD(addDragFloat4);
-		pyModule.addMethodD(addDragInt2);
-		pyModule.addMethodD(addDragInt3);
-		pyModule.addMethodD(addDragInt4);
-		pyModule.addMethodD(addSliderFloat);
-		pyModule.addMethodD(addSliderInt);
-		pyModule.addMethodD(addSliderFloat2);
-		pyModule.addMethodD(addSliderFloat3);
-		pyModule.addMethodD(addSliderFloat4);
-		pyModule.addMethodD(addSliderInt2);
-		pyModule.addMethodD(addSliderInt3);
-		pyModule.addMethodD(addSliderInt4);
-		pyModule.addMethodD(addTreeNode);
-		pyModule.addMethodD(addSelectable);
-		pyModule.addMethodD(addPopup);
-		pyModule.addMethodD(addWindow);
-		pyModule.addMethodD(indent);
-		pyModule.addMethodD(unindent);
-		pyModule.addMethodD(addSimplePlot);
-		pyModule.addMethodD(addCombo);
-		pyModule.addMethodD(addText);
-		pyModule.addMethodD(addLabelText);
-		pyModule.addMethodD(addListbox);
-		pyModule.addMethodD(addColorEdit3);
-		pyModule.addMethodD(addColorEdit4);
-		pyModule.addMethodD(addColorPicker3);
-		pyModule.addMethodD(addColorPicker4);
-		pyModule.addMethodD(addSeperator);
-		pyModule.addMethodD(addButton);
-		pyModule.addMethodD(addInputText);
-		pyModule.addMethodD(addInputInt);
-		pyModule.addMethodD(addInputFloat);
-		pyModule.addMethodD(addRadioButton);
-		pyModule.addMethodD(addCheckbox);
-		pyModule.addMethodD(addGroup);
-		pyModule.addMethodD(addChild);
-		pyModule.addMethodD(addTabBar);
-		pyModule.addMethodD(addTab);
-		pyModule.addMethodD(addMenuBar);
-		pyModule.addMethodD(addMenu);
-		pyModule.addMethodD(addMenuItem);
-		pyModule.addMethodD(addSpacing);
-		pyModule.addMethodD(addSameLine);
-		pyModule.addMethodD(addTooltip);
-		pyModule.addMethodD(addCollapsingHeader);
-		
 
-		PyImport_AppendInittab(pyModule.getName(), initfunc);
+		auto pyModule = new mvPythonModule("sbWidgets", {});
+
+		pyModule->addMethodD(endTreeNode);
+		pyModule->addMethodD(endPopup);
+		pyModule->addMethodD(endWindow);
+		pyModule->addMethodD(endMainWindow);
+		pyModule->addMethodD(endGroup);
+		pyModule->addMethodD(endChild);
+		pyModule->addMethodD(endTab);
+		pyModule->addMethodD(endTabBar);
+		pyModule->addMethodD(endMenu);
+		pyModule->addMethodD(endMenuBar);
+		pyModule->addMethodD(endTooltip);
+		pyModule->addMethodD(endCollapsingHeader);
+		pyModule->addMethodD(addImage);
+		pyModule->addMethodD(addProgressBar);
+		pyModule->addMethodD(addDragFloat);
+		pyModule->addMethodD(addDragInt);
+		pyModule->addMethodD(addDragFloat2);
+		pyModule->addMethodD(addDragFloat3);
+		pyModule->addMethodD(addDragFloat4);
+		pyModule->addMethodD(addDragInt2);
+		pyModule->addMethodD(addDragInt3);
+		pyModule->addMethodD(addDragInt4);
+		pyModule->addMethodD(addSliderFloat);
+		pyModule->addMethodD(addSliderInt);
+		pyModule->addMethodD(addSliderFloat2);
+		pyModule->addMethodD(addSliderFloat3);
+		pyModule->addMethodD(addSliderFloat4);
+		pyModule->addMethodD(addSliderInt2);
+		pyModule->addMethodD(addSliderInt3);
+		pyModule->addMethodD(addSliderInt4);
+		pyModule->addMethodD(addTreeNode);
+		pyModule->addMethodD(addSelectable);
+		pyModule->addMethodD(addPopup);
+		pyModule->addMethodD(addWindow);
+		pyModule->addMethodD(indent);
+		pyModule->addMethodD(unindent);
+		pyModule->addMethodD(addSimplePlot);
+		pyModule->addMethodD(addCombo);
+		pyModule->addMethodD(addText);
+		pyModule->addMethodD(addLabelText);
+		pyModule->addMethodD(addListbox);
+		pyModule->addMethodD(addColorEdit3);
+		pyModule->addMethodD(addColorEdit4);
+		pyModule->addMethodD(addColorPicker3);
+		pyModule->addMethodD(addColorPicker4);
+		pyModule->addMethodD(addSeperator);
+		pyModule->addMethodD(addButton);
+		pyModule->addMethodD(addInputText);
+		pyModule->addMethodD(addInputInt);
+		pyModule->addMethodD(addInputFloat);
+		pyModule->addMethodD(addRadioButton);
+		pyModule->addMethodD(addCheckbox);
+		pyModule->addMethodD(addGroup);
+		pyModule->addMethodD(addChild);
+		pyModule->addMethodD(addTabBar);
+		pyModule->addMethodD(addTab);
+		pyModule->addMethodD(addMenuBar);
+		pyModule->addMethodD(addMenu);
+		pyModule->addMethodD(addMenuItem);
+		pyModule->addMethodD(addSpacing);
+		pyModule->addMethodD(addSameLine);
+		pyModule->addMethodD(addTooltip);
+		pyModule->addMethodD(addCollapsingHeader);
+		
+		return pyModule;
 	}
 }

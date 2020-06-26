@@ -13,7 +13,7 @@ namespace Marvel {
 		m_methods.push_back({ NULL, NULL, 0, NULL });
 
 		auto pyModule = new PyModuleDef{
-			PyModuleDef_HEAD_INIT, m_name, NULL, -1, m_methods.data(),
+			PyModuleDef_HEAD_INIT, m_name.c_str(), NULL, -1, m_methods.data(),
 			NULL, NULL, NULL, NULL };
 
 		m_moduledef.reset(pyModule);

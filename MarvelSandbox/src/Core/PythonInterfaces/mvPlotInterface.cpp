@@ -3,10 +3,11 @@
 #include "Core/AppItems/mvAppItems.h"
 #include "Core/PythonUtilities/mvPythonTranslator.h"
 #include "mvInterfaces.h"
+#include "mvInterfaceRegistry.h"
 
 namespace Marvel {
 
-	static std::map<std::string, mvPythonTranslator> Translators = mvInterfaceRegistry::GetRegistry()->getPythonInterface("PlottingInterface");
+	static std::map<std::string, mvPythonTranslator> Translators = mvInterfaceRegistry::GetRegistry()->getPythonInterface("sbPlot");
 
 	std::map<std::string, mvPythonTranslator> BuildPlottingInterface() {
 
@@ -225,16 +226,19 @@ namespace Marvel {
 		Py_RETURN_NONE;
 	}
 
-	void CreatePlotInterface(mvPythonModule& pyModule, PyObject* (*initfunc)())
+	mvPythonModule* CreatePlotInterface()
 	{
-		pyModule.addMethodD(clearPlot);
-		pyModule.addMethodD(setColorMap);
-		pyModule.addMethodD(addPlot);
-		pyModule.addMethodD(addLineSeries);
-		pyModule.addMethodD(addScatterSeries);
-		pyModule.addMethodD(addTextPoint);
 
-		PyImport_AppendInittab(pyModule.getName(), initfunc);
+		auto pyModule = new mvPythonModule("sbPlot", {});
+
+		pyModule->addMethodD(clearPlot);
+		pyModule->addMethodD(setColorMap);
+		pyModule->addMethodD(addPlot);
+		pyModule->addMethodD(addLineSeries);
+		pyModule->addMethodD(addScatterSeries);
+		pyModule->addMethodD(addTextPoint);
+
+		return pyModule;
 	}
 
 }
