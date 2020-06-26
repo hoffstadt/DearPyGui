@@ -1,11 +1,22 @@
 #include "mvInterfaceRegistry.h"
 #include "mvInterfaces.h"
-#include "Core/PythonUtilities/mvPythonModule.h"
+#include "mvPythonModule.h"
 #include <functional>
+#include "Core/mvApp.h"
 
 namespace Marvel {
 
 	mvInterfaceRegistry* mvInterfaceRegistry::s_instance = nullptr;
+
+	std::map<std::string, mvPythonTranslator>& mvInterfaceRegistry::getPythonInterface(const std::string& name)
+	{ 
+		return m_translators[name]; 
+	}
+
+	std::vector<std::pair<std::string, long>>& mvInterfaceRegistry::getConstants()
+	{ 
+		return m_constants; 
+	}
 
 	mvInterfaceRegistry* mvInterfaceRegistry::GetRegistry()
 	{
@@ -13,7 +24,12 @@ namespace Marvel {
 			return s_instance;
 
 		s_instance = new mvInterfaceRegistry();
-		initModules();
+
+		//auto initializer = mvApp::GetApp()->getModuleInitializer();
+		auto initializer = mvModuleInitializer::getInitializer();
+		int startindex = initializer->initializeCoreModules();
+		initializer->initializeUserModules(startindex);
+		//initModules();
 		return s_instance;
 	}
 

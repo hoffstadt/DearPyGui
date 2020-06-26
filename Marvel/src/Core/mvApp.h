@@ -11,6 +11,7 @@
 #include "mvMouse.h"
 #include "mvAppStyle.h"
 #include "mvTextEditor.h"
+#include "mvModuleInitializer.h"
 
 namespace Marvel {
 
@@ -39,7 +40,6 @@ namespace Marvel {
 		unsigned      getWindowHeight  () const { return m_height; }
 		mvTextEditor& getEditor        () { return m_editor; }
 		std::string&  getFile          () { return m_file; }
-		
 		//-----------------------------------------------------------------------------
 		// Concurrency Settings
 		//-----------------------------------------------------------------------------

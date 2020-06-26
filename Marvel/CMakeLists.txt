@@ -22,12 +22,11 @@ target_sources(Marvel
 		
 		"src/Core/Concurrency/mvThreadPool.cpp"
 
-		"src/Core/PythonUtilities/mvPythonTranslator.cpp"
-		"src/Core/PythonUtilities/mvPythonModule.cpp"
-
 		"src/Core/AppItems/mvAppItem.cpp"
 		"src/Core/AppItems/mvDrawing.cpp"
 
+		"src/Core/PythonInterfaces/mvPythonTranslator.cpp"
+		"src/Core/PythonInterfaces/mvPythonModule.cpp"
 		"src/Core/PythonInterfaces/mvAppInterface.cpp"
 		"src/Core/PythonInterfaces/mvLoggerInterface.cpp"
 		"src/Core/PythonInterfaces/mvInputInterface.cpp"
@@ -36,6 +35,7 @@ target_sources(Marvel
 		"src/Core/PythonInterfaces/mvWidgetAddingInterface.cpp"
 		"src/Core/PythonInterfaces/mvInterfaceRegistry.cpp"
 		"src/Core/PythonInterfaces/mvModuleConstants.cpp"
+		"src/Core/PythonInterfaces/mvModuleInitializer.cpp"
 
 		"src/Platform/Windows/mvWindowsWindow.cpp"
 		"src/Platform/Windows/mvUtilities.cpp"
@@ -57,8 +57,8 @@ target_include_directories(Marvel
 
 	PUBLIC
 
-		"include/"
 		"src/"
+		"include/"
 		"../Dependencies/imgui/"
 		"../Dependencies/imgui/examples/"
 		"../Dependencies/cpython/Include/"

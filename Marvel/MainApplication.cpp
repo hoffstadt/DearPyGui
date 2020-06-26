@@ -1,12 +1,13 @@
-#include "MainApplication.h"
-#include "Core/PythonUtilities/mvPythonModule.h"
+#include "include/MainApplication.h"
+#include "mvPythonModule.h"
 #include "Core/PythonInterfaces/mvStdOutput.h"
+#include "include/mvModuleInitializer.h"
 #include "Core/mvWindow.h"
 #include "Core/mvAppEditor.h"
 #include "Platform/Windows/mvWindowsWindow.h"
 #include <iostream>
 #include <fstream>
-#include "Core/PythonInterfaces/mvInterfaceRegistry.h"
+#include "mvInterfaceRegistry.h"
 #include "Core/PythonInterfaces/mvInterfaces.h"
 #include <CLI11.hpp>
 #include <iostream>

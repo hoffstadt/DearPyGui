@@ -6,7 +6,7 @@
 
 #include "mvTextEditor.h"
 #include "Core/mvApp.h"
-#include "Core/PythonInterfaces/mvInterfaceRegistry.h"
+#include "mvInterfaceRegistry.h"
 
 #define IMGUI_DEFINE_MATH_OPERATORS
 #include "imgui.h" // for imGui::GetCurrentWindow()
