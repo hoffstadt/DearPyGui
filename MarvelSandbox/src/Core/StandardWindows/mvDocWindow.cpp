@@ -17,20 +17,20 @@ namespace Marvel {
 
 	mvDocWindow::mvDocWindow()
 	{
-		m_sbWidgets = mvInterfaceRegistry::GetRegistry()->getPythonInterfaceCommands("WidgetsInterface");
-		m_sbApp = mvInterfaceRegistry::GetRegistry()->getPythonInterfaceCommands("AppInterface");
-		m_sbLog = mvInterfaceRegistry::GetRegistry()->getPythonInterfaceCommands("LoggingInterface");
-		m_sbInput = mvInterfaceRegistry::GetRegistry()->getPythonInterfaceCommands("InputsInterface");
-		m_sbPlot = mvInterfaceRegistry::GetRegistry()->getPythonInterfaceCommands("PlottingInterface");
-		m_sbDraw = mvInterfaceRegistry::GetRegistry()->getPythonInterfaceCommands("DrawingInterface");
+		m_sbWidgets = mvInterfaceRegistry::GetRegistry()->getPythonInterfaceCommands("sbWidgets");
+		m_sbApp = mvInterfaceRegistry::GetRegistry()->getPythonInterfaceCommands("sbApp");
+		m_sbLog = mvInterfaceRegistry::GetRegistry()->getPythonInterfaceCommands("sbLog");
+		m_sbInput = mvInterfaceRegistry::GetRegistry()->getPythonInterfaceCommands("sbInputs");
+		m_sbPlot = mvInterfaceRegistry::GetRegistry()->getPythonInterfaceCommands("sbPlot");
+		m_sbDraw = mvInterfaceRegistry::GetRegistry()->getPythonInterfaceCommands("sbDraw");
 		m_sbConstants = mvInterfaceRegistry::GetRegistry()->getConstantsCommands();
 
-		m_sbDocWidgets = mvInterfaceRegistry::GetRegistry()->getPythonInterfaceDoc("WidgetsInterface");
-		m_sbDocApp = mvInterfaceRegistry::GetRegistry()->getPythonInterfaceDoc("AppInterface");
-		m_sbDocLog = mvInterfaceRegistry::GetRegistry()->getPythonInterfaceDoc("LoggingInterface");
-		m_sbDocInput = mvInterfaceRegistry::GetRegistry()->getPythonInterfaceDoc("InputsInterface");
-		m_sbDocPlot = mvInterfaceRegistry::GetRegistry()->getPythonInterfaceDoc("PlottingInterface");
-		m_sbDocDraw = mvInterfaceRegistry::GetRegistry()->getPythonInterfaceDoc("DrawingInterface");
+		m_sbDocWidgets = mvInterfaceRegistry::GetRegistry()->getPythonInterfaceDoc("sbWidgets");
+		m_sbDocApp = mvInterfaceRegistry::GetRegistry()->getPythonInterfaceDoc("sbApp");
+		m_sbDocLog = mvInterfaceRegistry::GetRegistry()->getPythonInterfaceDoc("sbLog");
+		m_sbDocInput = mvInterfaceRegistry::GetRegistry()->getPythonInterfaceDoc("sbInputs");
+		m_sbDocPlot = mvInterfaceRegistry::GetRegistry()->getPythonInterfaceDoc("sbPlot");
+		m_sbDocDraw = mvInterfaceRegistry::GetRegistry()->getPythonInterfaceDoc("sbDraw");
 	}
 
 	void mvDocWindow::render(bool& show)

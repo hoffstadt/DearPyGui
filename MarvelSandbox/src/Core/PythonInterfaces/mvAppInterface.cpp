@@ -3,10 +3,11 @@
 #include "Core/PythonUtilities/mvPythonTranslator.h"
 #include "Core/AppItems/mvAppItems.h"
 #include "mvInterfaces.h"
+#include "mvInterfaceRegistry.h"
 
 namespace Marvel {
 
-	static std::map<std::string, mvPythonTranslator> Translators = mvInterfaceRegistry::GetRegistry()->getPythonInterface("AppInterface");
+	static std::map<std::string, mvPythonTranslator> Translators = mvInterfaceRegistry::GetRegistry()->getPythonInterface("sbApp");
 
 	std::map<std::string, mvPythonTranslator> BuildAppInterface() {
 
@@ -808,53 +809,58 @@ namespace Marvel {
 		Py_RETURN_NONE;
 	}
 
-	void CreatePythonInterface(mvPythonModule& pyModule, PyObject* (*initfunc)())
+	mvPythonModule* CreatePythonInterface()
 	{
-		pyModule.addMethodD(setThreadPoolAuto);
-		pyModule.addMethodD(showSource);
-		pyModule.addMethodD(showAbout);
-		pyModule.addMethodD(showMetrics);
-		pyModule.addMethodD(closePopup);
-		pyModule.addMethodD(showDocumentation);
-		pyModule.addMethodD(setThreadPoolThreshold);
-		pyModule.addMethodD(setThreadCount);
-		pyModule.addMethodD(activateThreadPool);
-		pyModule.addMethodD(setThreadPoolHighPerformance);
-		pyModule.addMethodD(setMainWindowSize);
-		pyModule.addMethodD(addItemColorStyle);
-		pyModule.addMethodD(setItemPopup);
-		pyModule.addMethodD(isItemHovered);
-		pyModule.addMethodD(isItemActive);
-		pyModule.addMethodD(isItemFocused);
-		pyModule.addMethodD(isItemClicked);
-		pyModule.addMethodD(isItemVisible);
-		pyModule.addMethodD(isItemEdited);
-		pyModule.addMethodD(isItemActivated);
-		pyModule.addMethodD(isItemDeactivated);
-		pyModule.addMethodD(isItemDeactivatedAfterEdit);
-		pyModule.addMethodD(isItemToggledOpen);
-		pyModule.addMethodD(getItemRectMin);
-		pyModule.addMethodD(getItemRectMax);
-		pyModule.addMethodD(getItemRectSize);
-		pyModule.addMethodD(setMouseClickCallback);
-		pyModule.addMethodD(setMouseDownCallback);
-		pyModule.addMethodD(setMouseDoubleClickCallback);
-		pyModule.addMethodD(setKeyDownCallback);
-		pyModule.addMethodD(setKeyPressCallback);
-		pyModule.addMethodD(setKeyReleaseCallback);
-		pyModule.addMethodD(changeStyleItem);
-		pyModule.addMethodD(showItem);
-		pyModule.addMethodD(hideItem);
-		pyModule.addMethodD(changeThemeItem);
-		pyModule.addMethodD(setTheme);
-		pyModule.addMethodD(setMainCallback);
-		pyModule.addMethodD(setItemCallback);
-		pyModule.addMethodD(setItemTip);
-		pyModule.addMethodD(setItemWidth);
-		pyModule.addMethodD(setItemHeight);
-		pyModule.addMethodD(getValue);
-		pyModule.addMethodD(setValue);
 
-		PyImport_AppendInittab(pyModule.getName() , initfunc);
+		mvPythonModule* pyModule = new mvPythonModule("sbApp", {});
+
+		pyModule->addMethodD(setThreadPoolAuto);
+		pyModule->addMethodD(showSource);
+		pyModule->addMethodD(showAbout);
+		pyModule->addMethodD(showMetrics);
+		pyModule->addMethodD(closePopup);
+		pyModule->addMethodD(showDocumentation);
+		pyModule->addMethodD(setThreadPoolThreshold);
+		pyModule->addMethodD(setThreadCount);
+		pyModule->addMethodD(activateThreadPool);
+		pyModule->addMethodD(setThreadPoolHighPerformance);
+		pyModule->addMethodD(setMainWindowSize);
+		pyModule->addMethodD(addItemColorStyle);
+		pyModule->addMethodD(setItemPopup);
+		pyModule->addMethodD(isItemHovered);
+		pyModule->addMethodD(isItemActive);
+		pyModule->addMethodD(isItemFocused);
+		pyModule->addMethodD(isItemClicked);
+		pyModule->addMethodD(isItemVisible);
+		pyModule->addMethodD(isItemEdited);
+		pyModule->addMethodD(isItemActivated);
+		pyModule->addMethodD(isItemDeactivated);
+		pyModule->addMethodD(isItemDeactivatedAfterEdit);
+		pyModule->addMethodD(isItemToggledOpen);
+		pyModule->addMethodD(getItemRectMin);
+		pyModule->addMethodD(getItemRectMax);
+		pyModule->addMethodD(getItemRectSize);
+		pyModule->addMethodD(setMouseClickCallback);
+		pyModule->addMethodD(setMouseDownCallback);
+		pyModule->addMethodD(setMouseDoubleClickCallback);
+		pyModule->addMethodD(setKeyDownCallback);
+		pyModule->addMethodD(setKeyPressCallback);
+		pyModule->addMethodD(setKeyReleaseCallback);
+		pyModule->addMethodD(changeStyleItem);
+		pyModule->addMethodD(showItem);
+		pyModule->addMethodD(hideItem);
+		pyModule->addMethodD(changeThemeItem);
+		pyModule->addMethodD(setTheme);
+		pyModule->addMethodD(setMainCallback);
+		pyModule->addMethodD(setItemCallback);
+		pyModule->addMethodD(setItemTip);
+		pyModule->addMethodD(setItemWidth);
+		pyModule->addMethodD(setItemHeight);
+		pyModule->addMethodD(getValue);
+		pyModule->addMethodD(setValue);
+
+		//PyImport_AppendInittab(pyModule.getName().c_str(), initfunc);
+
+		return pyModule;
 	}
 }

@@ -2,6 +2,7 @@
 #include "Core/PythonUtilities/mvPythonTranslator.h"
 #include "Core/mvApp.h"
 #include "mvInterfaces.h"
+#include "mvInterfaceRegistry.h"
 
 namespace Marvel {
 
@@ -342,8 +343,11 @@ namespace Marvel {
 	}
 
 
-	void CreateConstantsInterface(mvPythonModule& pyModule, PyObject* (*initfunc)())
+	mvPythonModule* CreateConstantsInterface()
 	{
-		PyImport_AppendInittab(pyModule.getName(), initfunc);
+
+		auto pyModule = new mvPythonModule("sbConstants", BuildConstantsInterface());
+
+		return pyModule;
 	}
 }

@@ -1,5 +1,7 @@
 #include "mvInterfaceRegistry.h"
 #include "mvInterfaces.h"
+#include "Core/PythonUtilities/mvPythonModule.h"
+#include <functional>
 
 namespace Marvel {
 
@@ -11,19 +13,25 @@ namespace Marvel {
 			return s_instance;
 
 		s_instance = new mvInterfaceRegistry();
+		initModules();
 		return s_instance;
 	}
 
 	mvInterfaceRegistry::mvInterfaceRegistry()
 	{
 		m_constants = BuildConstantsInterface();
+	}
 
-		m_translators["AppInterface"] = BuildAppInterface();
-		m_translators["WidgetsInterface"] = BuildWidgetsInterface();
-		m_translators["DrawingInterface"] = BuildDrawingInterface();
-		m_translators["InputsInterface"] = BuildInputsInterface();
-		m_translators["LoggingInterface"] = BuildLoggingInterface();
-		m_translators["PlottingInterface"] = BuildPlottingInterface();
+	void mvInterfaceRegistry::addModule(const char* name, pyInitFunc initfunc, pyDocFunc docfunc)
+	{
+		if(docfunc)
+			m_translators[name] = docfunc();
+		m_modules.push_back(initfunc);
+	}
+
+	pyInitFunc mvInterfaceRegistry::getInitFunc(int i)
+	{
+		return m_modules[i];
 	}
 
 	std::vector<const char*> mvInterfaceRegistry::getPythonInterfaceCommands(const std::string& name)

@@ -3,10 +3,11 @@
 #include "Core/mvAppLog.h"
 #include "Core/PythonUtilities/mvPythonTranslator.h"
 #include "mvInterfaces.h"
+#include "mvInterfaceRegistry.h"
 
 namespace Marvel {
 
-	static std::map<std::string, mvPythonTranslator> Translators = mvInterfaceRegistry::GetRegistry()->getPythonInterface("LoggingInterface");
+	static std::map<std::string, mvPythonTranslator> Translators = mvInterfaceRegistry::GetRegistry()->getPythonInterface("sbLog");
 
 	std::map<std::string, mvPythonTranslator> BuildLoggingInterface() {
 
@@ -126,17 +127,20 @@ namespace Marvel {
 		Py_RETURN_NONE;
 	}
 
-	void CreateLoggerInterface(mvPythonModule& pyModule, PyObject* (*initfunc)())
+	mvPythonModule* CreateLoggerInterface()
 	{
-		pyModule.addMethodD(ClearLog);
-		pyModule.addMethodD(showLogger);
-		pyModule.addMethodD(SetLogLevel);
-		pyModule.addMethodD(Log);
-		pyModule.addMethodD(LogDebug);
-		pyModule.addMethodD(LogInfo);
-		pyModule.addMethodD(LogWarning);
-		pyModule.addMethodD(LogError);
-		
-		PyImport_AppendInittab(pyModule.getName(), initfunc);
+
+		auto pyModule = new mvPythonModule("sbLog", {});
+
+		pyModule->addMethodD(ClearLog);
+		pyModule->addMethodD(showLogger);
+		pyModule->addMethodD(SetLogLevel);
+		pyModule->addMethodD(Log);
+		pyModule->addMethodD(LogDebug);
+		pyModule->addMethodD(LogInfo);
+		pyModule->addMethodD(LogWarning);
+		pyModule->addMethodD(LogError);
+
+		return pyModule;
 	}
 }

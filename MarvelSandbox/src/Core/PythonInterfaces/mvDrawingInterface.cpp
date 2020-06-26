@@ -4,10 +4,11 @@
 #include "Core/PythonUtilities/mvPythonTranslator.h"
 #include "Core/AppItems/mvAppItems.h"
 #include "mvInterfaces.h"
+#include "mvInterfaceRegistry.h"
 
 namespace Marvel {
 
-	static std::map<std::string, mvPythonTranslator> Translators = mvInterfaceRegistry::GetRegistry()->getPythonInterface("DrawingInterface");
+	static std::map<std::string, mvPythonTranslator> Translators = mvInterfaceRegistry::GetRegistry()->getPythonInterface("sbDraw");
 
 	std::map<std::string, mvPythonTranslator> BuildDrawingInterface() {
 
@@ -483,22 +484,24 @@ namespace Marvel {
 		Py_RETURN_NONE;
 	}
 
-	void CreateDrawingInterface(mvPythonModule& pyModule, PyObject* (*initfunc)())
+	mvPythonModule* CreateDrawingInterface()
 	{
-		pyModule.addMethodD(addDrawing);
-		pyModule.addMethodD(drawImage);
-		pyModule.addMethodD(drawLine);
-		pyModule.addMethodD(drawTriangle);
-		pyModule.addMethodD(drawRectangle);
-		pyModule.addMethodD(drawQuad);
-		pyModule.addMethodD(drawText);
-		pyModule.addMethodD(drawCircle);
-		pyModule.addMethodD(drawPolyline);
-		pyModule.addMethodD(drawPolygon);
-		pyModule.addMethodD(drawBezierCurve);
-		pyModule.addMethodD(clearDrawing);
+		auto pyModule = new mvPythonModule("sbDraw", {});
 
-		PyImport_AppendInittab(pyModule.getName(), initfunc);
+		pyModule->addMethodD(addDrawing);
+		pyModule->addMethodD(drawImage);
+		pyModule->addMethodD(drawLine);
+		pyModule->addMethodD(drawTriangle);
+		pyModule->addMethodD(drawRectangle);
+		pyModule->addMethodD(drawQuad);
+		pyModule->addMethodD(drawText);
+		pyModule->addMethodD(drawCircle);
+		pyModule->addMethodD(drawPolyline);
+		pyModule->addMethodD(drawPolygon);
+		pyModule->addMethodD(drawBezierCurve);
+		pyModule->addMethodD(clearDrawing);
+
+		return pyModule;
 	}
 
 }
