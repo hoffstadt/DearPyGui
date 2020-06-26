@@ -67,7 +67,7 @@ shutil.copy(build_dir + "/winsound.pyd", app_depend_dir)
 shutil.copy(build_dir + "/xxlimited.pyd", app_depend_dir)
 shutil.copy("../cmake-build-release/MarvelSandbox/MarvelSandbox.exe", app_depend_dir)
 shutil.copy("../cmake-build-release/MarvelSandbox/MarvelSandbox.exe.manifest", app_depend_dir)
-shutil.copy("../AppSamples/App.py", app_depend_dir)
+shutil.copy("../AppSamples/App.py", window_app_dir)
 shutil.copy(debug_dir + "/python38.zip", app_depend_dir)
 
 # add python path file for embedding
@@ -79,11 +79,13 @@ with open(app_depend_dir + "/python38._pth", 'w') as file:
     file.write("#import site\n")
 
 # add App batch file
-with open(app_depend_dir + "/RunApp.bat", 'w') as file:
+with open(window_app_dir + "/RunApp.bat", 'w') as file:
     file.write("@echo off\n")
-    file.write("call MarvelSandbox.exe --app App\n")
+    file.write("cd Dependencies\n")
+    file.write("call MarvelSandbox.exe --app App --path ..\n")
 
 # add Editor batch file
-with open(app_depend_dir + "/RunEditor.bat", 'w') as file:
+with open(window_app_dir + "/RunEditor.bat", 'w') as file:
     file.write("@echo off\n")
+    file.write("cd Dependencies\n")
     file.write("call MarvelSandbox.exe --editor\n")
