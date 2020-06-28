@@ -42,6 +42,12 @@ namespace Marvel {
 		unsigned      getWindowWidth() const { return m_windows[0]->getWidth(); }
 		unsigned      getWindowHeight() const { return m_windows[0]->getHeight(); }
 		bool&         isLoggerShown() { return m_showLog; }
+		const std::string& getAppTheme() const { return m_theme; }
+		
+		std::pair<float, float> getStyleItem(long item);
+		mvColor      getThemeItem(long item);
+		void         setActiveWindow(const std::string& window) { m_activeWindow = window; }
+		const std::string& getActiveWindow() const { return m_activeWindow; }
 
 
 		//-----------------------------------------------------------------------------
@@ -57,6 +63,7 @@ namespace Marvel {
 		unsigned getThreadCount                () const { return m_threads; }
 		bool     usingThreadPool               () const { return m_threadPool; }
 		bool     usingThreadPoolHighPerformance() const { return m_threadPoolHighPerformance; }
+		bool     isThreadPoolAuto              () const { return m_threadPoolAuto; }
 
 		//-----------------------------------------------------------------------------
 		// Adding Items
@@ -136,9 +143,11 @@ namespace Marvel {
 	private:
 
 		static mvApp*           s_instance;
+		std::string             m_theme = "dark";
 		std::string             m_file;
 		mvMousePos              m_mousePos;
 		mvStyle                 m_style;
+		std::string             m_activeWindow = "MainWindow";
 		std::vector<mvAppItem*> m_windows;
 		std::stack<mvAppItem*>  m_parents;
 		PyObject*               m_pDict;

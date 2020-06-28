@@ -13,6 +13,9 @@ namespace Marvel {
 
 		std::map<std::string, mvPythonTranslator> translators = {
 
+			{"get_log_level", mvPythonTranslator({
+			}, false, "Returns the log level.")},
+
 			{"clear_log", mvPythonTranslator({
 			}, false, "Clears the logger.")},
 
@@ -55,6 +58,13 @@ namespace Marvel {
 		mvApp::GetApp()->showLogger();
 		Py_INCREF(Py_None);
 		Py_RETURN_NONE;
+	}
+
+	
+
+	PyObject* get_log_level(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		return Py_BuildValue("i", mvAppLog::getLogger()->getLogLevel());
 	}
 
 	PyObject* set_log_level(PyObject* self, PyObject* args, PyObject* kwargs)
@@ -132,6 +142,7 @@ namespace Marvel {
 
 		auto pyModule = new mvPythonModule("sbLog", {});
 
+		pyModule->addMethodD(get_log_level);
 		pyModule->addMethodD(clear_log);
 		pyModule->addMethodD(show_logger);
 		pyModule->addMethodD(set_log_level);

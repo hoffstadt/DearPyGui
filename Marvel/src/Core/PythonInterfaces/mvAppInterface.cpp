@@ -13,6 +13,61 @@ namespace Marvel {
 
 		std::map<std::string, mvPythonTranslator> translators = {
 
+				{"is_threadpool_activated", mvPythonTranslator({
+				}, false, "Checks if threadpool is activated")},
+
+				{"get_style_item", mvPythonTranslator({
+					{mvPythonDataType::Integer, "item"}
+				}, false, "Returns a style item's value")},
+
+				{"get_theme_item", mvPythonTranslator({
+					{mvPythonDataType::Integer, "item"}
+				}, false, "Returns a theme item's color")},
+
+				{"get_item_callback", mvPythonTranslator({
+					{mvPythonDataType::String, "item"}
+				}, false, "Returns an item' callback")},
+
+				{"get_item_height", mvPythonTranslator({
+					{mvPythonDataType::String, "item"}
+				}, false, "Returns an item's height.")},
+
+				{"get_item_width", mvPythonTranslator({
+					{mvPythonDataType::String, "item"}
+				}, false, "Returns an item's width.")},
+
+				{"get_item_popup", mvPythonTranslator({
+					{mvPythonDataType::String, "item"}
+				}, false, "Returns an item's popup.")},
+
+				{"get_item_tip", mvPythonTranslator({
+					{mvPythonDataType::String, "item"}
+				}, false, "Returns an item's tip.")},
+
+				{"get_main_callback", mvPythonTranslator({
+				}, false, "Returns the main callback.")},
+
+				{"get_main_window_size", mvPythonTranslator({
+				}, false, "Returns the size of the main window.")},
+
+				{"get_theme", mvPythonTranslator({
+				}, false, "Returns the current theme.")},
+
+				{"get_thread_count", mvPythonTranslator({
+				}, false, "Returns the allowable thread count.")},
+
+				{"is_threadpool_automatic", mvPythonTranslator({
+				}, false, "Checks if the threadpool is automatic.")},
+
+				{"is_threadpool_high_performance", mvPythonTranslator({
+				}, false, "Checks if the threadpool is allowed to use the maximum number of threads.")},
+
+				{"get_threadpool_threshold", mvPythonTranslator({
+				}, false, "Returns the threadpool activation threshold.")},
+
+				{"get_active_window", mvPythonTranslator({
+				}, false, "Returns the active window name.")},
+
 				{"get_marvel_version", mvPythonTranslator({
 				}, false, "Returns the current version of Marvel.")},
 
@@ -179,6 +234,150 @@ namespace Marvel {
 		};
 
 		return translators;
+	}
+
+	PyObject* is_threadpool_activated(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		return Py_BuildValue("b", mvApp::GetApp()->usingThreadPool());
+	}
+
+	PyObject* get_style_item(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		int item;
+
+		if (!Translators["get_style_item"].parse(args, kwargs, __FUNCTION__, &item))
+			Py_RETURN_NONE;
+
+		auto values = mvApp::GetApp()->getStyleItem(item);
+
+		return Py_BuildValue("(ff)", values.first, values.second);
+	}
+
+	PyObject* get_theme_item(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		int item;
+
+		if (!Translators["get_theme_item"].parse(args, kwargs, __FUNCTION__, &item))
+			Py_RETURN_NONE;
+
+		auto color = mvApp::GetApp()->getThemeItem(item);
+
+		return Py_BuildValue("(iiii)", color.r, color.g, color.b, color.a);
+	}
+
+	PyObject* get_item_callback(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		const char* item;
+
+		if (!Translators["get_item_callback"].parse(args, kwargs, __FUNCTION__, &item))
+			Py_RETURN_NONE;
+
+		auto appitem = mvApp::GetApp()->getItem(item);
+
+		if (appitem)
+			return Py_BuildValue("s", appitem->getCallback());
+
+		Py_RETURN_NONE;
+	}
+
+	PyObject* get_item_height(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		const char* item;
+
+		if (!Translators["get_item_height"].parse(args, kwargs, __FUNCTION__, &item))
+			Py_RETURN_NONE;
+
+		auto appitem = mvApp::GetApp()->getItem(item);
+
+		if (appitem)
+			return Py_BuildValue("i", appitem->getHeight());
+
+		Py_RETURN_NONE;
+	}
+
+	PyObject* get_item_width(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		const char* item;
+
+		if (!Translators["get_item_width"].parse(args, kwargs, __FUNCTION__, &item))
+			Py_RETURN_NONE;
+
+		auto appitem = mvApp::GetApp()->getItem(item);
+
+		if (appitem)
+			return Py_BuildValue("i", appitem->getWidth());
+
+		Py_RETURN_NONE;
+	}
+
+	PyObject* get_item_popup(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		const char* item;
+
+		if (!Translators["get_item_popup"].parse(args, kwargs, __FUNCTION__, &item))
+			Py_RETURN_NONE;
+
+		auto appitem = mvApp::GetApp()->getItem(item);
+
+		if (appitem)
+			return Py_BuildValue("s", appitem->getPopup());
+
+		Py_RETURN_NONE;
+	}
+
+	PyObject* get_item_tip(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		const char* item;
+
+		if (!Translators["get_item_tip"].parse(args, kwargs, __FUNCTION__, &item))
+			Py_RETURN_NONE;
+
+		auto appitem = mvApp::GetApp()->getItem(item);
+
+		if (appitem)
+			return Py_BuildValue("s", appitem->getTip());
+
+		Py_RETURN_NONE;
+	}
+
+	PyObject* get_main_callback(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		return Py_BuildValue("s", mvApp::GetApp()->getMainCallback());
+	}
+
+	PyObject* get_main_window_size(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		return Py_BuildValue("(i,i)", mvApp::GetApp()->getWindowWidth(), mvApp::GetApp()->getWindowWidth());
+	}
+
+	PyObject* get_theme(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		return Py_BuildValue("s", mvApp::GetApp()->getAppTheme());
+	}
+
+	PyObject* get_thread_count(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		return Py_BuildValue("i", mvApp::GetApp()->getThreadCount());
+	}
+
+	PyObject* is_threadpool_automatic(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		return Py_BuildValue("b", mvApp::GetApp()->isThreadPoolAuto());
+	}
+
+	PyObject* is_threadpool_high_performance(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		return Py_BuildValue("b", mvApp::GetApp()->usingThreadPoolHighPerformance());
+	}
+
+	PyObject* get_threadpool_threshold(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		return Py_BuildValue("f", mvApp::GetApp()->getThreadPoolThreshold());
+	}
+
+	PyObject* get_active_window(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		return Py_BuildValue("s", mvApp::GetApp()->getActiveWindow());
 	}
 
 	PyObject* get_marvel_version(PyObject* self, PyObject* args, PyObject* kwargs)
@@ -707,6 +906,21 @@ namespace Marvel {
 
 		mvPythonModule* pyModule = new mvPythonModule("sbApp", {});
 
+		pyModule->addMethodD(is_threadpool_activated);
+		pyModule->addMethodD(get_style_item);
+		pyModule->addMethodD(get_theme_item);
+		pyModule->addMethodD(get_item_callback);
+		pyModule->addMethodD(get_item_height);
+		pyModule->addMethodD(get_item_popup);
+		pyModule->addMethodD(get_item_tip);
+		pyModule->addMethodD(get_main_callback);
+		pyModule->addMethodD(get_main_window_size);
+		pyModule->addMethodD(get_theme);
+		pyModule->addMethodD(get_thread_count);
+		pyModule->addMethodD(is_threadpool_automatic);
+		pyModule->addMethodD(is_threadpool_high_performance);
+		pyModule->addMethodD(get_threadpool_threshold);
+		pyModule->addMethodD(get_active_window);
 		pyModule->addMethodD(get_marvel_version);
 		pyModule->addMethodD(set_threadpool_auto);
 		pyModule->addMethodD(show_source);

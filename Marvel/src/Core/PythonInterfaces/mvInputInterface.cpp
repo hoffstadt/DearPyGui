@@ -12,6 +12,24 @@ namespace Marvel {
 
 		std::map<std::string, mvPythonTranslator> translators = {
 
+			{"get_key_down_callback", mvPythonTranslator({
+			}, false, "Returns the key down callback.")},
+
+			{"get_key_press_callback", mvPythonTranslator({
+			}, false, "Returns the key press callback.")},
+
+			{"get_key_release_callback", mvPythonTranslator({
+			}, false, "Returns the key release callback.")},
+
+			{"get_mouse_click_callback", mvPythonTranslator({
+			}, false, "Returns the mouse click callback.")},
+
+			{"get_mouse_double_click_callback", mvPythonTranslator({
+			}, false, "Returns the mouse double click callback.")},
+
+			{"get_mouse_down_callback", mvPythonTranslator({
+			}, false, "Returns the mouse down callback.")},
+
 			{"get_mouse_pos", mvPythonTranslator({
 			}, false, "Returns the current mouse position in relation to the active window (minus titlebar).")},
 
@@ -50,6 +68,36 @@ namespace Marvel {
 		};
 
 		return translators;
+	}
+
+	PyObject* get_key_down_callback(PyObject* self, PyObject* args)
+	{
+		return Py_BuildValue("s", mvApp::GetApp()->getKeyDownCallback());
+	}
+
+	PyObject* get_key_press_callback(PyObject* self, PyObject* args)
+	{
+		return Py_BuildValue("s", mvApp::GetApp()->getKeyPressCallback());
+	}
+
+	PyObject* get_key_release_callback(PyObject* self, PyObject* args)
+	{
+		return Py_BuildValue("s", mvApp::GetApp()->getKeyReleaseCallback());
+	}
+
+	PyObject* get_mouse_click_callback(PyObject* self, PyObject* args)
+	{
+		return Py_BuildValue("s", mvApp::GetApp()->getMouseClickCallback());
+	}
+
+	PyObject* get_mouse_double_click_callback(PyObject* self, PyObject* args)
+	{
+		return Py_BuildValue("s", mvApp::GetApp()->getMouseDoubleClickCallback());
+	}
+
+	PyObject* get_mouse_down_callback(PyObject* self, PyObject* args)
+	{
+		return Py_BuildValue("s", mvApp::GetApp()->getMouseDownCallback());
 	}
 
 	PyObject* get_mouse_pos(PyObject* self, PyObject* args)
@@ -176,6 +224,12 @@ namespace Marvel {
 
 		auto pyModule = new mvPythonModule("sbInput", {});
 
+		pyModule->addMethodD(get_key_down_callback);
+		pyModule->addMethodD(get_key_press_callback);
+		pyModule->addMethodD(get_key_release_callback);
+		pyModule->addMethodD(get_mouse_click_callback);
+		pyModule->addMethodD(get_mouse_double_click_callback);
+		pyModule->addMethodD(get_mouse_down_callback);
 		pyModule->addMethodD(get_mouse_pos);
 		pyModule->addMethodD(is_mouse_button_pressed);
 		pyModule->addMethodD(is_key_pressed);

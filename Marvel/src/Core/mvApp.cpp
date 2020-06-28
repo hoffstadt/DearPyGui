@@ -437,6 +437,8 @@ namespace Marvel {
 
 	void mvApp::setAppTheme(const std::string& theme)
 	{
+		m_theme = theme;
+
 		if (theme == "dark")
 			ImGui::StyleColorsDark();
 		else if (theme == "classic")
@@ -462,6 +464,23 @@ namespace Marvel {
 			m_style.at(item).y = y;
 		}
 
+	}
+
+	std::pair<float, float> mvApp::getStyleItem(long item)
+	{
+		if (m_style.count(item) > 0)
+		{
+			return std::make_pair(m_style[item].x, m_style[item].y);
+		}
+
+		return std::make_pair(-1.0f, -1.0f);
+
+	}
+
+	mvColor mvApp::getThemeItem(long item)
+	{
+		ImGuiStyle* style = &ImGui::GetStyle();
+		mvColor color = {style->Colors[item].x * 255, style->Colors[item].y * 255 ,style->Colors[item].z * 255 , style->Colors[item].w * 255 };
 	}
 
 	void mvApp::addItem(mvAppItem* item, bool noParent)

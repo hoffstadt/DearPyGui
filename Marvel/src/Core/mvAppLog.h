@@ -23,6 +23,7 @@ namespace Marvel {
 		void LogError(const std::string& text);
 		void ClearLog();
 		void Draw  (const char* title, bool* p_open = NULL);
+		unsigned getLogLevel() const { return m_loglevel; }
 
 	private:
 
