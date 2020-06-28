@@ -11,8 +11,8 @@ namespace Marvel {
 
 	public:
 
-		mvWindow(unsigned width, unsigned height, bool editor = false) : 
-			m_width(width), m_height(height), m_editor(editor)
+		mvWindow(unsigned width, unsigned height, bool editor = false, bool error = false) : 
+			m_width(width), m_height(height), m_editor(editor), m_error(error)
 		{
 			m_app = mvApp::GetApp();
 			m_appEditor = mvAppEditor::GetAppEditor();
@@ -30,6 +30,7 @@ namespace Marvel {
 
 		bool           m_running = true;
 		bool           m_editor = false;
+		bool           m_error = false;
 		mvApp*         m_app = nullptr;
 		mvAppEditor*   m_appEditor = nullptr;
 		unsigned       m_width;

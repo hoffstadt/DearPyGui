@@ -7,8 +7,8 @@ extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg
 
 namespace Marvel {
 
-	mvWindowsWindow::mvWindowsWindow(unsigned width, unsigned height, bool editor) 
-		: mvWindow(width, height, editor)
+	mvWindowsWindow::mvWindowsWindow(unsigned width, unsigned height, bool editor, bool error) 
+		: mvWindow(width, height, editor, error)
 	{
 		m_wc = { sizeof(WNDCLASSEX), CS_CLASSDC, HandleMsgSetup, 0L, 0L, GetModuleHandle(NULL), NULL, NULL, NULL, NULL, _T("ImGui Example"), NULL };
 		RegisterClassEx(&m_wc);
@@ -207,8 +207,8 @@ namespace Marvel {
 		case WM_SIZE:
 			if (s_pd3dDevice != NULL && wParam != SIZE_MINIMIZED)
 			{
-				Marvel::mvApp::GetApp()->setSize((UINT)LOWORD(lParam), (UINT)HIWORD(lParam));
-				Marvel::mvAppEditor::GetAppEditor()->setSize((UINT)LOWORD(lParam), (UINT)HIWORD(lParam));
+				Marvel::mvApp::GetApp()->setWindowSize((UINT)LOWORD(lParam), (UINT)HIWORD(lParam));
+				Marvel::mvAppEditor::GetAppEditor()->setWindowSize((UINT)LOWORD(lParam), (UINT)HIWORD(lParam));
 				CleanupRenderTarget();
 				s_pSwapChain->ResizeBuffers(0, (UINT)LOWORD(lParam), (UINT)HIWORD(lParam), DXGI_FORMAT_UNKNOWN, 0);
 				CreateRenderTarget();

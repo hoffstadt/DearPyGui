@@ -11,6 +11,7 @@
 #include "Core/PythonInterfaces/mvInterfaces.h"
 #include <CLI11.hpp>
 #include <iostream>
+#include "Core/StandardWindows/mvSourceWindow.h"
 
 namespace Marvel {
 
@@ -136,11 +137,11 @@ namespace Marvel {
 	int Application::runErrorMode()
 	{
 		PyErr_Print();
-		mvApp::GetApp()->setOk(false);
 		mvApp::GetApp()->showLogger();
 
 		// create window
-		mvWindow* window = new mvWindowsWindow(mvApp::GetApp()->getWindowWidth(), mvApp::GetApp()->getWindowHeight());
+		mvWindow* window = new mvWindowsWindow(mvApp::GetApp()->getWindowWidth(), mvApp::GetApp()->getWindowHeight(),
+			false, true);
 		window->show();
 		window->run();
 		delete window;
@@ -154,7 +155,7 @@ namespace Marvel {
 		PyObject* pDict = PyModule_GetDict(pModule); // borrowed reference
 		mvApp::GetApp()->setModuleDict(pDict);
 		std::string filename = addedPath + std::string(AppName) + ".py";
-		mvApp::GetApp()->setFile(filename);
+		mvSourceWindow::GetWindow()->setFile(filename);
 		PyEval_SaveThread(); // releases global lock
 		mvApp::GetApp()->preRender();
 		mvApp::GetApp()->setStarted();
@@ -178,7 +179,7 @@ namespace Marvel {
 	void Application::logInformation()
 	{
 		// info
-		mvAppLog::getLogger()->AddLog("[Sandbox Version] %0s\n", mvApp::getVersion());
+		mvAppLog::getLogger()->AddLog("[Sandbox Version] %0s\n", mvApp::GetVersion());
 		mvAppLog::getLogger()->AddLog("[Python Version] %0s\n", PY_VERSION);
 		mvAppLog::getLogger()->AddLog("[ImGui Version] %0s\n", IMGUI_VERSION);
 		mvAppLog::getLogger()->AddLog("[Compiler] MSVC version %0d\n", _MSC_VER);

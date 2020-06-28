@@ -35,6 +35,8 @@ namespace Marvel {
 			ImGui::SameLine(m_xoffset, m_spacing);
 		}
 
+		virtual bool areDuplicatesAllowed() const override { return true; }
+
 	private:
 
 		float m_xoffset;
@@ -62,6 +64,8 @@ namespace Marvel {
 			ImGui::Separator();
 		}
 
+		virtual bool areDuplicatesAllowed() const override { return true; }
+
 	};
 
 	//-----------------------------------------------------------------------------
@@ -85,6 +89,8 @@ namespace Marvel {
 			for (int i = 0; i < m_value; i++)
 				ImGui::Spacing();
 		}
+
+		virtual bool areDuplicatesAllowed() const override { return true; }
 
 		inline int getValue() const { return m_value; }
 
@@ -114,6 +120,8 @@ namespace Marvel {
 			ImGui::Indent(m_value[0]);
 		}
 
+		virtual bool areDuplicatesAllowed() const override { return true; }
+
 	};
 
 	//-----------------------------------------------------------------------------
@@ -135,6 +143,8 @@ namespace Marvel {
 		{
 			ImGui::Unindent(m_value[0]);
 		}
+
+		virtual bool areDuplicatesAllowed() const override { return true; }
 
 	};
 

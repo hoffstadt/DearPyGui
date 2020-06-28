@@ -1,7 +1,7 @@
 #include "mvSourceWindow.h"
 #include <imgui.h>
-#include "Core/mvApp.h"
-
+#include <fstream>
+#include <streambuf>
 
 namespace Marvel {
 
@@ -16,9 +16,26 @@ namespace Marvel {
 		return s_instance;
 	}
 
+	void mvSourceWindow::setFile(const std::string& file)
+	{
+		m_file = file;
+		m_editor.SetLanguageDefinition(mvTextEditor::LanguageDefinition::Python());
+		{
+			std::ifstream t(m_file.c_str());
+			if (t.good())
+			{
+				std::string str((std::istreambuf_iterator<char>(t)), std::istreambuf_iterator<char>());
+				m_editor.SetText(str);
+			}
+		}
+
+		m_editor.SetReadOnly(true);
+		m_editor.SetShowWhitespaces(false);
+	}
+
 	void mvSourceWindow::render(bool& show)
 	{
-		auto cpos = mvApp::GetApp()->getEditor().GetCursorPosition();
+		auto cpos = m_editor.GetCursorPosition();
 		ImGui::Begin("App Source", &show, ImGuiWindowFlags_HorizontalScrollbar | ImGuiWindowFlags_MenuBar);
 		ImGui::SetWindowSize(ImVec2(800, 600), ImGuiCond_FirstUseEver);
 		if (ImGui::BeginMenuBar())
@@ -28,13 +45,13 @@ namespace Marvel {
 
 				ImGui::Separator();
 
-				if (ImGui::MenuItem("Copy", "Ctrl-C", nullptr, mvApp::GetApp()->getEditor().HasSelection()))
-					mvApp::GetApp()->getEditor().Copy();
+				if (ImGui::MenuItem("Copy", "Ctrl-C", nullptr, m_editor.HasSelection()))
+					m_editor.Copy();
 
 				ImGui::Separator();
 
 				if (ImGui::MenuItem("Select all", nullptr, nullptr))
-					mvApp::GetApp()->getEditor().SetSelection(mvTextEditor::Coordinates(), mvTextEditor::Coordinates(mvApp::GetApp()->getEditor().GetTotalLines(), 0));
+					m_editor.SetSelection(mvTextEditor::Coordinates(), mvTextEditor::Coordinates(m_editor.GetTotalLines(), 0));
 
 				ImGui::EndMenu();
 			}
@@ -42,22 +59,22 @@ namespace Marvel {
 			if (ImGui::BeginMenu("View"))
 			{
 				if (ImGui::MenuItem("Dark palette"))
-					mvApp::GetApp()->getEditor().SetPalette(mvTextEditor::GetDarkPalette());
+					m_editor.SetPalette(mvTextEditor::GetDarkPalette());
 				if (ImGui::MenuItem("Light palette"))
-					mvApp::GetApp()->getEditor().SetPalette(mvTextEditor::GetLightPalette());
+					m_editor.SetPalette(mvTextEditor::GetLightPalette());
 				if (ImGui::MenuItem("Retro blue palette"))
-					mvApp::GetApp()->getEditor().SetPalette(mvTextEditor::GetRetroBluePalette());
+					m_editor.SetPalette(mvTextEditor::GetRetroBluePalette());
 				ImGui::EndMenu();
 			}
 			ImGui::EndMenuBar();
 		}
 
-		ImGui::Text("%6d/%-6d %6d lines  | %s | %s | %s | %s", cpos.mLine + 1, cpos.mColumn + 1, mvApp::GetApp()->getEditor().GetTotalLines(),
-			mvApp::GetApp()->getEditor().IsOverwrite() ? "Ovr" : "Ins",
-			mvApp::GetApp()->getEditor().CanUndo() ? "*" : " ",
-			mvApp::GetApp()->getEditor().GetLanguageDefinition().mName.c_str(), mvApp::GetApp()->getFile().c_str());
+		ImGui::Text("%6d/%-6d %6d lines  | %s | %s | %s | %s", cpos.mLine + 1, cpos.mColumn + 1, m_editor.GetTotalLines(),
+			m_editor.IsOverwrite() ? "Ovr" : "Ins",
+			m_editor.CanUndo() ? "*" : " ",
+			m_editor.GetLanguageDefinition().mName.c_str(), m_file.c_str());
 
-		mvApp::GetApp()->getEditor().Render("TextEditor");
+		m_editor.Render("TextEditor");
 		ImGui::End();
 	}
 

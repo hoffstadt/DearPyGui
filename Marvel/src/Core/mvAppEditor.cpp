@@ -8,51 +8,7 @@
 #include "Core/StandardWindows/mvMetricsWindow.h"
 #include "Core/StandardWindows/mvSourceWindow.h"
 #include "Core/mvUtilities.h"
-
-#include <Windows.h>
-#include <filesystem>
 #include <misc/cpp/imgui_stdlib.h>
-
-namespace fs = std::filesystem;
-
-static void startup(const char* name, std::string file, std::string flags)
-{
-	// additional information
-	STARTUPINFO si;
-	PROCESS_INFORMATION pi;
-
-	// set the size of the structures
-	ZeroMemory(&si, sizeof(si));
-	si.cb = sizeof(si);
-	ZeroMemory(&pi, sizeof(pi));
-
-	fs::path p = fs::path(file);
-	p.replace_extension(" ");
-	auto filename = p.filename().string();
-	auto pathname = p.parent_path().string();
-
-	size_t lastindex = filename.find_last_of(".");
-	std::string rawname = filename.substr(0, lastindex);
-
-	std::string cmd = name + std::string(".exe --app ") + rawname + " --path \"" + pathname + "\" " + flags;
-	std::string pname = name + std::string(".exe");
-
-	// start the program up
-	CreateProcess(const_cast<char*>(pname.c_str()),   // the path
-		const_cast<char*>(cmd.c_str()),        // Command line
-		NULL,           // Process handle not inheritable
-		NULL,           // Thread handle not inheritable
-		FALSE,          // Set handle inheritance to FALSE
-		0,              // No creation flags
-		NULL,           // Use parent's environment block
-		NULL,           // Use parent's starting directory 
-		&si,            // Pointer to STARTUPINFO structure
-		&pi             // Pointer to PROCESS_INFORMATION structure (removed extra parentheses)
-	);
-	// Close process and thread handles. 
-	CloseHandle(pi.hProcess);
-	CloseHandle(pi.hThread);
-}
 
 namespace Marvel {
 
@@ -79,7 +35,7 @@ namespace Marvel {
 		if (ImGui::IsKeyReleased(0x74)) // F5
 		{
 			saveFile();
-			startup(m_programName, m_file, m_flags);
+			RunFile(m_programName, m_file, m_flags);
 		}
 
 	}
@@ -254,7 +210,7 @@ namespace Marvel {
 				if (ImGui::MenuItem("Run App", "F5"))
 				{
 					saveFile();
-					startup(m_programName, m_file, m_flags);
+					RunFile(m_programName, m_file, m_flags);
 				}
 
 				ImGui::EndMenu();

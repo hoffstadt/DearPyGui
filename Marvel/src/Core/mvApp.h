@@ -20,26 +20,33 @@ namespace Marvel {
 
 	public:
 
-		static mvApp* GetApp();
-		static const char* getVersion() { return MV_SANDBOX_VERSION; }
+		static mvApp*      GetApp();
+		static const char* GetVersion() { return MV_SANDBOX_VERSION; }
+
+		// precheck before the main render loop has started
+		void preRender();
 
 		// actual render loop
-		void preRender();
 		void render();
 
 		//-----------------------------------------------------------------------------
 		// App Settings
 		//-----------------------------------------------------------------------------
-		void          setAppTheme      (const std::string& theme);
+		void          setAppTheme  (const std::string& theme);
+		void          setWindowSize(unsigned width, unsigned height) { m_width = width; m_height = height; }
+		void          setModuleDict(PyObject* dict) { m_pDict = dict; }
+		void          setStarted() { m_started = true; }
+		
 		void          changeThemeItem  (long item, mvColor color);
 		void          changeStyleItem  (long item, float x, float y);
 		void          addFlag          (ImGuiWindowFlags flag) { m_windowflags |= flag; }
 		void          addItemColorStyle(const std::string& name, ImGuiCol item, mvColor color);
-		void          setWindowSize    (unsigned width, unsigned height) { m_width = width; m_height = height; }
+		
 		unsigned      getWindowWidth   () const { return m_width; }
 		unsigned      getWindowHeight  () const { return m_height; }
-		mvTextEditor& getEditor        () { return m_editor; }
-		std::string&  getFile          () { return m_file; }
+		bool&         isLoggerShown() { return m_showLog; }
+
+
 		//-----------------------------------------------------------------------------
 		// Concurrency Settings
 		//-----------------------------------------------------------------------------
@@ -58,7 +65,7 @@ namespace Marvel {
 		// Adding Items
 		//-----------------------------------------------------------------------------
 		void       addItemManual   (mvAppItem* item); // only adds item
-		void       addItem         (mvAppItem* item); // auto sets parent
+		void       addItem         (mvAppItem* item); // auto sets item's parent
 		mvAppItem* getItem         (const std::string& name);
 
 		//-----------------------------------------------------------------------------
@@ -71,10 +78,10 @@ namespace Marvel {
 		// Standard Windows
 		//-----------------------------------------------------------------------------
 		inline void showMetrics() { m_showMetrics = true; }
-		inline void showAbout  () { m_showAbout = true; }
-		inline void showSource () { m_showSource = true; }
-		inline void showLogger () { m_showLog = true; }
-		inline void showDoc    () { m_showDoc = true; }
+		inline void showAbout  () { m_showAbout   = true; }
+		inline void showSource () { m_showSource  = true; }
+		inline void showLogger () { m_showLog     = true; }
+		inline void showDoc    () { m_showDoc     = true; }
 
 		//-----------------------------------------------------------------------------
 		// Parent stack operations
@@ -90,9 +97,10 @@ namespace Marvel {
 		//-----------------------------------------------------------------------------
 		void runMainCallback            (const std::string& name, const std::string& sender);
 		void runCallback                (const std::string& name, const std::string& sender);
-		void runCallbackD               (const std::string& name, int sender, float data = 0.0f);
 		void triggerCallback            (std::atomic<bool>* p, const std::string* name, const std::string* sender);
-		void triggerCallbackD           (std::atomic<bool>* p, const std::string* name, int sender, float data);
+		void runCallbackD               (const std::string& name, int sender, float data = 0.0f);                // data sending version
+		void triggerCallbackD           (std::atomic<bool>* p, const std::string* name, int sender, float data); // data sending version
+
 		void setMainCallback            (const std::string& callback) { m_callback = callback; }
 		void setMouseClickCallback      (const std::string& callback) { m_mouseClickCallback = callback; }
 		void setMouseDownCallback       (const std::string& callback) { m_mouseDownCallback = callback; }
@@ -114,23 +122,10 @@ namespace Marvel {
 		//-----------------------------------------------------------------------------
 		// Input Polling
 		//-----------------------------------------------------------------------------
-		mvMousePos getMousePosition() const { return m_mousePos; }
-		bool       isMouseButtonPressed(int button) const;
-		bool       isKeyPressed(int keycode) const;
-
-		//-----------------------------------------------------------------------------
-		// Internal Utilities
-		//-----------------------------------------------------------------------------
-		void  setModuleDict (PyObject* dict) { m_pDict = dict; }
-		bool& isLoggerShown () { return m_showLog; }
-		void  setSize       (unsigned width, unsigned height) { m_width = width; m_height = height; }
-		bool  isOk          () const { return m_ok; }
-		void  setOk         (bool ok) { m_ok = ok; }
-		void  setStarted    () { m_started = true; }
-		void  setFile       (const std::string& file);
-		void  addKeyword    (const std::string& keyword, const std::string& description) { m_keywords.emplace_back(keyword, description); }
-		std::vector<std::pair<std::string, std::string>> getKeywords() { return m_keywords; }
-				
+		mvMousePos getMousePosition    ()            const { return m_mousePos; }
+		bool       isMouseButtonPressed(int button)  const;
+		bool       isKeyPressed        (int keycode) const;
+			
 	private:
 
 		mvApp();
@@ -177,7 +172,6 @@ namespace Marvel {
 
 		mvTextEditor               m_editor;
 		std::string                m_file;
-		std::vector<std::pair<std::string, std::string>> m_keywords;
 
 	};
 

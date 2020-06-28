@@ -2,7 +2,12 @@
 #include <string>
 #include <mutex>
 
+typedef std::chrono::high_resolution_clock clock_;
+typedef std::chrono::duration<double, std::ratio<1> > second_;
+
 namespace Marvel {
+
+	std::chrono::steady_clock::time_point mvAppLog::s_start;
 
 	mvAppLog* mvAppLog::getLogger()
 	{
@@ -10,6 +15,7 @@ namespace Marvel {
 			return s_instance;
 
 		s_instance = new mvAppLog();
+		s_start = clock_::now();
 		return s_instance;
 	}
 
@@ -177,31 +183,39 @@ namespace Marvel {
 	void mvAppLog::Log(const std::string& text, const std::string& level)
 	{
 		if (m_loglevel < 1)
-			AddLog("[%05d] [%1s]  %2s\n", ImGui::GetFrameCount(), level.c_str(), text.c_str());
+		{
+			auto now = std::chrono::high_resolution_clock::now();
+			AddLog("[%0.2f] [%1s]  %2s\n", std::chrono::duration_cast<second_>(clock_::now()-s_start).count(), 
+				level.c_str(), text.c_str());
+		}
 	}
 
 	void mvAppLog::LogDebug(const std::string& text)
 	{
 		if (m_loglevel < 2)
-			AddLog("[%05d] [DEBUG]  %1s\n", ImGui::GetFrameCount(), text.c_str());
+			AddLog("[%0.2f] [DEBUG]  %1s\n", std::chrono::duration_cast<second_>(clock_::now() - s_start).count(), 
+				text.c_str());
 	}
 
 	void mvAppLog::LogInfo(const std::string& text)
 	{
 		if (m_loglevel < 3)
-			AddLog("[%05d] [INFO]  %1s\n", ImGui::GetFrameCount(), text.c_str());
+			AddLog("[%0.2f] [INFO]  %1s\n", std::chrono::duration_cast<second_>(clock_::now() - s_start).count(), 
+				text.c_str());
 	}
 
 	void mvAppLog::LogWarning(const std::string& text)
 	{
 		if (m_loglevel < 4)
-			AddLog("[%05d] [WARNING]  %1s\n", ImGui::GetFrameCount(), text.c_str());
+			AddLog("[%0.2f] [WARNING]  %1s\n", std::chrono::duration_cast<second_>(clock_::now() - s_start).count(), 
+				text.c_str());
 	}
 
 	void mvAppLog::LogError(const std::string& text)
 	{
 		if (m_loglevel < 5)
-			AddLog("[%05d] [ERROR]  %1s\n", ImGui::GetFrameCount(), text.c_str());
+			AddLog("[%0.2f] [ERROR]  %1s\n", std::chrono::duration_cast<second_>(clock_::now() - s_start).count(), 
+				text.c_str());
 	}
 
 	void mvAppLog::ClearLog()

@@ -13,7 +13,7 @@ namespace Marvel {
 
 		std::map<std::string, mvPythonTranslator> translators = {
 
-			{"addPlot", mvPythonTranslator({
+			{"add_plot", mvPythonTranslator({
 				{mvPythonDataType::String, "name"},
 				{mvPythonDataType::Optional},
 				{mvPythonDataType::String, "xAxisName"},
@@ -24,18 +24,18 @@ namespace Marvel {
 				{mvPythonDataType::Integer, "flags"},
 				{mvPythonDataType::Integer, "xflags"},
 				{mvPythonDataType::Integer, "yflags"}
-			}, false, "Needs documentation")},
+			}, false, "Adds a plot widget.")},
 
-			{"clearPlot", mvPythonTranslator({
+			{"clear_plot", mvPythonTranslator({
 				{mvPythonDataType::String, "plot"},
-			}, false, "Needs documentation")},
+			}, false, "Clears a plot.")},
 
-			{"setColorMap", mvPythonTranslator({
+			{"set_color_map", mvPythonTranslator({
 				{mvPythonDataType::String, "plot"},
 				{mvPythonDataType::Integer, "map"}
-			}, false, "Needs documentation")},
+			}, false, "Sets the color map of the plot's series.")},
 
-			{"addLineSeries", mvPythonTranslator({
+			{"add_line_series", mvPythonTranslator({
 				{mvPythonDataType::String, "plot"},
 				{mvPythonDataType::String, "name"},
 				{mvPythonDataType::FloatList, "data"},
@@ -43,9 +43,9 @@ namespace Marvel {
 				{mvPythonDataType::KeywordOnly},
 				{mvPythonDataType::FloatList, "color"},
 				{mvPythonDataType::Float, "weight"}
-			}, false, "Needs documentation")},
+			}, false, "Adds a line series to a plot.")},
 
-			{"addScatterSeries", mvPythonTranslator({
+			{"add_scatter_series", mvPythonTranslator({
 				{mvPythonDataType::String, "plot"},
 				{mvPythonDataType::String, "name"},
 				{mvPythonDataType::FloatList, "data"},
@@ -56,9 +56,9 @@ namespace Marvel {
 				{mvPythonDataType::Float, "weight"},
 				{mvPythonDataType::FloatList, "outline"},
 				{mvPythonDataType::FloatList, "fill"},
-			}, false, "Needs documentation")},
+			}, false, "Adds a scatter series to a plot.")},
 
-			{"addTextPoint", mvPythonTranslator({
+			{"add_text_point", mvPythonTranslator({
 				{mvPythonDataType::String, "plot"},
 				{mvPythonDataType::String, "name"},
 				{mvPythonDataType::Float, "x"},
@@ -68,18 +68,18 @@ namespace Marvel {
 				{mvPythonDataType::Bool, "vertical"},
 				{mvPythonDataType::Integer, "xoffset"},
 				{mvPythonDataType::Integer, "yoffset"}
-			}, false, "Needs documentation")}
+			}, false, "Adds a point with text to a plot.")}
 
 		};
 
 		return translators;
 	}
 
-	PyObject* clearPlot(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* clear_plot(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		const char* plot;
 
-		if (!Translators["clearPlot"].parse(args, kwargs, __FUNCTION__, &plot))
+		if (!Translators["clear_plot"].parse(args, kwargs, __FUNCTION__, &plot))
 			Py_RETURN_NONE;
 
 		mvAppItem* aplot = mvApp::GetApp()->getItem(plot);
@@ -90,12 +90,12 @@ namespace Marvel {
 		Py_RETURN_NONE;
 	}
 
-	PyObject* setColorMap(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* set_color_map(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		const char* plot;
 		int map;
 
-		if (!Translators["setColorMap"].parse(args, kwargs, __FUNCTION__, &plot, &map))
+		if (!Translators["set_color_map"].parse(args, kwargs, __FUNCTION__, &plot, &map))
 			Py_RETURN_NONE;
 
 		mvAppItem* aplot = mvApp::GetApp()->getItem(plot);
@@ -106,7 +106,7 @@ namespace Marvel {
 		Py_RETURN_NONE;
 	}
 
-	PyObject* addPlot(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* add_plot(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		const char* name;
 		const char* xAxisName = "";
@@ -117,7 +117,7 @@ namespace Marvel {
 		int xflags = 0;
 		int yflags = 0;
 
-		if (!Translators["addPlot"].parse(args, kwargs, __FUNCTION__, &name, &xAxisName, &yAxisName, &width, &height, &flags,
+		if (!Translators["add_plot"].parse(args, kwargs, __FUNCTION__, &name, &xAxisName, &yAxisName, &width, &height, &flags,
 			&xflags, &yflags))
 			Py_RETURN_NONE;
 
@@ -127,7 +127,7 @@ namespace Marvel {
 		Py_RETURN_NONE;
 	}
 
-	PyObject* addLineSeries(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* add_line_series(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		const char* plot;
 		const char* name;
@@ -139,7 +139,7 @@ namespace Marvel {
 		PyTuple_SetItem(color, 2, PyLong_FromLong(0));
 		PyTuple_SetItem(color, 3, PyLong_FromLong(255));
 
-		if (!Translators["addLineSeries"].parse(args, kwargs, __FUNCTION__, &plot, &name, &data, &color, &weight))
+		if (!Translators["add_line_series"].parse(args, kwargs, __FUNCTION__, &plot, &name, &data, &color, &weight))
 			Py_RETURN_NONE;
 
 		mvAppItem* aplot = mvApp::GetApp()->getItem(plot);
@@ -158,7 +158,7 @@ namespace Marvel {
 		Py_RETURN_NONE;
 	}
 
-	PyObject* addScatterSeries(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* add_scatter_series(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		const char* plot;
 		const char* name;
@@ -177,7 +177,7 @@ namespace Marvel {
 		PyTuple_SetItem(fill, 2, PyLong_FromLong(0));
 		PyTuple_SetItem(fill, 3, PyLong_FromLong(255));
 
-		if (!Translators["addScatterSeries"].parse(args, kwargs, __FUNCTION__, &plot, &name, &data, &marker,
+		if (!Translators["add_scatter_series"].parse(args, kwargs, __FUNCTION__, &plot, &name, &data, &marker,
 			&size, &weight, &outline, &fill))
 			Py_RETURN_NONE;
 
@@ -202,7 +202,7 @@ namespace Marvel {
 		Py_RETURN_NONE;
 	}
 
-	PyObject* addTextPoint(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* add_text_point(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		const char* plot;
 		const char* name;
@@ -212,7 +212,7 @@ namespace Marvel {
 		int xoffset = 0;
 		int yoffset = 0;
 
-		if (!Translators["addTextPoint"].parse(args, kwargs, __FUNCTION__, 
+		if (!Translators["add_text_point"].parse(args, kwargs, __FUNCTION__, 
 			&plot, &name, &x, &y, &vertical, &xoffset, &yoffset))
 			Py_RETURN_NONE;
 
@@ -231,12 +231,12 @@ namespace Marvel {
 
 		auto pyModule = new mvPythonModule("sbPlot", {});
 
-		pyModule->addMethodD(clearPlot);
-		pyModule->addMethodD(setColorMap);
-		pyModule->addMethodD(addPlot);
-		pyModule->addMethodD(addLineSeries);
-		pyModule->addMethodD(addScatterSeries);
-		pyModule->addMethodD(addTextPoint);
+		pyModule->addMethodD(clear_plot);
+		pyModule->addMethodD(set_color_map);
+		pyModule->addMethodD(add_plot);
+		pyModule->addMethodD(add_line_series);
+		pyModule->addMethodD(add_scatter_series);
+		pyModule->addMethodD(add_text_point);
 
 		return pyModule;
 	}

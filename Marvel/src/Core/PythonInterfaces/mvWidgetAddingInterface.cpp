@@ -1,5 +1,6 @@
 #include "mvPythonModule.h"
 #include "Core/mvApp.h"
+#include "Core/mvAppLog.h"
 #include "mvPythonTranslator.h"
 #include "Core/AppItems/mvAppItems.h"
 #include "mvInterfaces.h"
@@ -13,43 +14,46 @@ namespace Marvel {
 
 		std::map<std::string, mvPythonTranslator> translators = {
 
-			{"endTreeNode", mvPythonTranslator({
-			}, false, "not documented")},
+			{"end_tree_node", mvPythonTranslator({
+			}, false, "Ends the tree node created by a call to add_tree_node.")},
 
-			{"endPopup", mvPythonTranslator({
-			}, false, "not documented")},
+			{"end_popup", mvPythonTranslator({
+			}, false, "Ends the popup created by a call to add_popup.")},
 
-			{"endWindow", mvPythonTranslator({
-			}, false, "not documented")},
+			{"end_window", mvPythonTranslator({
+			}, false, "Ends the window created by a call to add_window.")},
 
-			{"endMainWindow", mvPythonTranslator({
-			}, false, "not documented")},
+			{"end_main_window", mvPythonTranslator({
+			}, false, "Ends the main window if you intend to create additional windows.")},
 
-			{"endGroup", mvPythonTranslator({
-			}, false, "not documented")},
+			{"end_group", mvPythonTranslator({
+			}, false, "Ends the group created by a call to add_group.")},
 
-			{"endChild", mvPythonTranslator({
-			}, false, "not documented")},
+			{"end_child", mvPythonTranslator({
+			}, false, "Ends the child created by a call to add_child.")},
 
-			{"endTab", mvPythonTranslator({
-			}, false, "not documented")},
+			{"end_tab", mvPythonTranslator({
+			}, false, "Ends the tab created by a call to add_tab.")},
 
-			{"endTabBar", mvPythonTranslator({
-			}, false, "not documented")},
+			{"end_tab_bar", mvPythonTranslator({
+			}, false, "Ends the tab bar created by a call to add_tab_bar")},
 
-			{"endMenu", mvPythonTranslator({
-			}, false, "not documented")},
+			{"end_menu", mvPythonTranslator({
+			}, false, "Ends the menu created by a call to add_menu.")},
 
-			{"endMenuBar", mvPythonTranslator({
-			}, false, "not documented")},
+			{"end_menu_bar", mvPythonTranslator({
+			}, false, "Ends the menu bar created by a call to add_menu_bar.")},
 
-			{"endTooltip", mvPythonTranslator({
-			}, false, "not documented")},
+			{"end_tooltip", mvPythonTranslator({
+			}, false, "Ends the tooltip created by a call to add_tooltip.")},
 
-			{"endCollapsingHeader", mvPythonTranslator({
-			}, false, "not documented")},
+			{"end_collapsing_header", mvPythonTranslator({
+			}, false, "Ends the collapsing header created by a call to add_collapsing_header.")},
 
-			{"addSimplePlot", mvPythonTranslator({
+			{"add_seperator", mvPythonTranslator({
+			}, false, "Adds a horizontal line.")},
+
+			{"add_simple_plot", mvPythonTranslator({
 				{mvPythonDataType::String, "name"},
 				{mvPythonDataType::FloatList, "value", "Tuple of float values"},
 				{mvPythonDataType::Optional},
@@ -60,24 +64,24 @@ namespace Marvel {
 				{mvPythonDataType::Bool, "histogram", "create a histogram"}
 			}, true, "A simple plot for visualization of a set of values")},
 
-			{"addProgressBar", mvPythonTranslator({
+			{"add_progress_bar", mvPythonTranslator({
 				{mvPythonDataType::String, "name"},
 				{mvPythonDataType::Float, "value"},
 				{mvPythonDataType::Optional},
 				{mvPythonDataType::KeywordOnly},
 				{mvPythonDataType::String, "overlay"}
-			}, true, "A progress bar.")},
+			}, true, "Adds a progress bar.")},
 
-			{"addImage", mvPythonTranslator({
+			{"add_image", mvPythonTranslator({
 				{mvPythonDataType::String, "name"},
 				{mvPythonDataType::String, "value"},
 				{mvPythonDataType::Optional},
 				{mvPythonDataType::KeywordOnly},
 				{mvPythonDataType::FloatList, "tint_color"},
 				{mvPythonDataType::FloatList, "border_color"}
-			}, true, "An image.")},
+			}, true, "Adds an image.")},
 
-			{"addSliderFloat", mvPythonTranslator({
+			{"add_slider_float", mvPythonTranslator({
 				{mvPythonDataType::String, "name"},
 				{mvPythonDataType::Optional},
 				{mvPythonDataType::KeywordOnly},
@@ -87,9 +91,9 @@ namespace Marvel {
 				{mvPythonDataType::String, "format"},
 				{mvPythonDataType::Float, "power"},
 				{mvPythonDataType::Bool, "vertical"}
-			}, true, "A slider for a single float value")},
+			}, true, "Adds slider for a single float value")},
 
-			{"addSliderFloat2", mvPythonTranslator({
+			{"add_slider_float2", mvPythonTranslator({
 				{mvPythonDataType::String, "name"},
 				{mvPythonDataType::Optional},
 				{mvPythonDataType::KeywordOnly},
@@ -98,9 +102,9 @@ namespace Marvel {
 				{mvPythonDataType::Float, "max_value"},
 				{mvPythonDataType::String, "format"},
 				{mvPythonDataType::Float, "power"}
-			}, true, "A slider for a 2 float values.")},
+			}, true, "Adds slider for a 2 float values.")},
 
-			{"addSliderFloat3", mvPythonTranslator({
+			{"add_slider_float3", mvPythonTranslator({
 				{mvPythonDataType::String, "name"},
 				{mvPythonDataType::Optional},
 				{mvPythonDataType::KeywordOnly},
@@ -109,9 +113,9 @@ namespace Marvel {
 				{mvPythonDataType::Float, "max_value"},
 				{mvPythonDataType::String, "format"},
 				{mvPythonDataType::Float, "power"}
-			}, true, "A slider for a 3 float values.")},
+			}, true, "Adds slider for a 3 float values.")},
 
-			{"addSliderFloat4", mvPythonTranslator({
+			{"add_slider_float4", mvPythonTranslator({
 				{mvPythonDataType::String, "name"},
 				{mvPythonDataType::Optional},
 				{mvPythonDataType::KeywordOnly},
@@ -120,9 +124,9 @@ namespace Marvel {
 				{mvPythonDataType::Float, "max_value"},
 				{mvPythonDataType::String, "format"},
 				{mvPythonDataType::Float, "power"}
-			}, true, "A slider for a 4 float values.")},
+			}, true, "Adds slider for a 4 float values.")},
 
-			{"addSliderInt", mvPythonTranslator({
+			{"add_slider_int", mvPythonTranslator({
 				{mvPythonDataType::String, "name"},
 				{mvPythonDataType::Optional},
 				{mvPythonDataType::KeywordOnly},
@@ -131,9 +135,9 @@ namespace Marvel {
 				{mvPythonDataType::Integer, "max_value"},
 				{mvPythonDataType::String, "format"},
 				{mvPythonDataType::Bool, "vertical"}
-			}, true, "A slider for a single int value")},
+			}, true, "Adds slider for a single int value")},
 
-			{"addSliderInt2", mvPythonTranslator({
+			{"add_slider_int2", mvPythonTranslator({
 				{mvPythonDataType::String, "name"},
 				{mvPythonDataType::Optional},
 				{mvPythonDataType::KeywordOnly},
@@ -141,9 +145,9 @@ namespace Marvel {
 				{mvPythonDataType::Integer, "min_value"},
 				{mvPythonDataType::Integer, "max_value"},
 				{mvPythonDataType::String, "format"}
-			}, true, "A slider for a 2 int values.")},
+			}, true, "Adds slider for a 2 int values.")},
 
-			{"addSliderInt3", mvPythonTranslator({
+			{"add_slider_int3", mvPythonTranslator({
 				{mvPythonDataType::String, "name"},
 				{mvPythonDataType::Optional},
 				{mvPythonDataType::KeywordOnly},
@@ -151,9 +155,9 @@ namespace Marvel {
 				{mvPythonDataType::Integer, "min_value"},
 				{mvPythonDataType::Integer, "max_value"},
 				{mvPythonDataType::String, "format"}
-			}, true, "A slider for a 3 int values.")},
+			}, true, "Adds slider for a 3 int values.")},
 
-			{"addSliderInt4", mvPythonTranslator({
+			{"add_slider_int4", mvPythonTranslator({
 				{mvPythonDataType::String, "name"},
 				{mvPythonDataType::Optional},
 				{mvPythonDataType::KeywordOnly},
@@ -161,9 +165,9 @@ namespace Marvel {
 				{mvPythonDataType::Integer, "min_value"},
 				{mvPythonDataType::Integer, "max_value"},
 				{mvPythonDataType::String, "format"}
-			}, true, "A slider for a 4 int values.")},
+			}, true, "Adds slider for a 4 int values.")},
 
-			{"addDragFloat", mvPythonTranslator({
+			{"add_drag_float", mvPythonTranslator({
 				{mvPythonDataType::String, "name"},
 				{mvPythonDataType::Optional},
 				{mvPythonDataType::KeywordOnly},
@@ -173,9 +177,9 @@ namespace Marvel {
 				{mvPythonDataType::Float, "max_value"},
 				{mvPythonDataType::String, "format"},
 				{mvPythonDataType::Float, "power"}
-			}, true, "A drag for a single float value")},
+			}, true, "Adds drag for a single float value")},
 
-			{ "addDragFloat2", mvPythonTranslator({
+			{ "add_drag_float2", mvPythonTranslator({
 				{mvPythonDataType::String, "name"},
 				{mvPythonDataType::Optional},
 				{mvPythonDataType::KeywordOnly},
@@ -185,9 +189,9 @@ namespace Marvel {
 				{mvPythonDataType::Float, "max_value"},
 				{mvPythonDataType::String, "format"},
 				{mvPythonDataType::Float, "power"}
-			}, true, "A drag for a 2 float values.") },
+			}, true, "Adds drag for a 2 float values.") },
 
-			{ "addDragFloat3", mvPythonTranslator({
+			{ "add_drag_float3", mvPythonTranslator({
 				{mvPythonDataType::String, "name"},
 				{mvPythonDataType::Optional},
 				{mvPythonDataType::KeywordOnly},
@@ -197,9 +201,9 @@ namespace Marvel {
 				{mvPythonDataType::Float, "max_value"},
 				{mvPythonDataType::String, "format"},
 				{mvPythonDataType::Float, "power"}
-			}, true, "A drag for a 3 float values.") },
+			}, true, "Adds drag for a 3 float values.") },
 
-			{"addDragFloat4", mvPythonTranslator({
+			{"add_drag_float4", mvPythonTranslator({
 				{mvPythonDataType::String, "name"},
 				{mvPythonDataType::Optional},
 				{mvPythonDataType::KeywordOnly},
@@ -209,9 +213,9 @@ namespace Marvel {
 				{mvPythonDataType::Float, "max_value"},
 				{mvPythonDataType::String, "format"},
 				{mvPythonDataType::Float, "power"}
-			}, true, "A drag for a 4 float values.")},
+			}, true, "Adds drag for a 4 float values.")},
 
-			{"addDragInt", mvPythonTranslator({
+			{"add_drag_int", mvPythonTranslator({
 				{mvPythonDataType::String, "name"},
 				{mvPythonDataType::Optional},
 				{mvPythonDataType::KeywordOnly},
@@ -220,9 +224,9 @@ namespace Marvel {
 				{mvPythonDataType::Integer, "min_value"},
 				{mvPythonDataType::Integer, "max_value"},
 				{mvPythonDataType::String, "format"}
-			}, true, "A drag for a single int value")},
+			}, true, "Adds drag for a single int value")},
 
-			{ "addDragInt2", mvPythonTranslator({
+			{ "add_drag_int2", mvPythonTranslator({
 				{mvPythonDataType::String, "name"},
 				{mvPythonDataType::Optional},
 				{mvPythonDataType::KeywordOnly},
@@ -231,9 +235,9 @@ namespace Marvel {
 				{mvPythonDataType::Integer, "min_value"},
 				{mvPythonDataType::Integer, "max_value"},
 				{mvPythonDataType::String, "format"}
-			}, true, "A drag for a 2 int values.") },
+			}, true, "Adds drag for a 2 int values.") },
 
-			{ "addDragInt3", mvPythonTranslator({
+			{ "add_drag_int3", mvPythonTranslator({
 				{mvPythonDataType::String, "name"},
 				{mvPythonDataType::Optional},
 				{mvPythonDataType::KeywordOnly},
@@ -242,9 +246,9 @@ namespace Marvel {
 				{mvPythonDataType::Integer, "min_value"},
 				{mvPythonDataType::Integer, "max_value"},
 				{mvPythonDataType::String, "format"}
-			}, true, "A drag for a 3 int values.") },
+			}, true, "Adds drag for a 3 int values.") },
 
-			{"addDragInt4", mvPythonTranslator({
+			{"add_drag_int4", mvPythonTranslator({
 				{mvPythonDataType::String, "name"},
 				{mvPythonDataType::Optional},
 				{mvPythonDataType::KeywordOnly},
@@ -253,9 +257,9 @@ namespace Marvel {
 				{mvPythonDataType::Integer, "min_value"},
 				{mvPythonDataType::Integer, "max_value"},
 				{mvPythonDataType::String, "format"}
-			}, true, "A drag for a 4 int values.")},
+			}, true, "Adds drag for a 4 int values.")},
 
-			{"addText", mvPythonTranslator({
+			{"add_text", mvPythonTranslator({
 				{mvPythonDataType::String, "name"},
 				{mvPythonDataType::Optional},
 				{mvPythonDataType::Integer, "wrap", "number of characters until wraping"},
@@ -263,241 +267,234 @@ namespace Marvel {
 				{mvPythonDataType::Bool, "bullet", "makes the text bulleted"}
 			}, true, "Adds text")},
 
-			{"addLabelText", mvPythonTranslator({
+			{"add_label_text", mvPythonTranslator({
 				{mvPythonDataType::String, "name"},
 				{mvPythonDataType::String, "value"},
 				{mvPythonDataType::Optional},
 				{mvPythonDataType::FloatList, "color"},
-			}, true, "A text with a label. Useful for output values.")},
+			}, true, "Adds text with a label. Useful for output values.")},
 
-			{"addListbox", mvPythonTranslator({
+			{"add_listbox", mvPythonTranslator({
 				{mvPythonDataType::String, "name", "Name of the listbox"},
 				{mvPythonDataType::StringList, "items"},
 				{mvPythonDataType::Optional},
 				{mvPythonDataType::Integer, "default_value"},
-			}, true, "A Listbox is a listbox")},
+			}, true, "Adds a listbox.")},
 
-			{"addCombo", mvPythonTranslator({
+			{"add_combo", mvPythonTranslator({
 				{mvPythonDataType::String, "name"},
 				{mvPythonDataType::StringList, "items"},
 				{mvPythonDataType::Optional},
 				{mvPythonDataType::String, "default_value"}
-			}, true, "A Listbox is a listbox")},
+			}, true, "Adds a combo.")},
 
-			{"addSelectable", mvPythonTranslator({
+			{"add_selectable", mvPythonTranslator({
 				{mvPythonDataType::String, "name"},
 				{mvPythonDataType::Optional},
 				{mvPythonDataType::Bool, "default_value"}
-			}, true, "A Listbox is a listbox")},
+			}, true, "Adds a selectable.")},
 
-			{"addButton", mvPythonTranslator({
+			{"add_button", mvPythonTranslator({
 				{mvPythonDataType::String, "name"},
 				{mvPythonDataType::Optional},
 				{mvPythonDataType::KeywordOnly},
 				{mvPythonDataType::Bool, "small", "Small button, useful for embedding in text."},
 				{mvPythonDataType::Bool, "arrow", "Arrow button."},
 				{mvPythonDataType::Integer, "direction", "A cardinal direction"},
-			}, true, "A button.")},
+			}, true, "Adds a button.")},
 
-			{"addInputText", mvPythonTranslator({
+			{"add_input_text", mvPythonTranslator({
 				{mvPythonDataType::String, "name"},
 				{mvPythonDataType::Optional},
 				{mvPythonDataType::KeywordOnly},
 				{mvPythonDataType::String, "hint"},
 				{mvPythonDataType::Bool, "multiline"},
 				{mvPythonDataType::Integer, "flags"}
-			}, true, "A input for text values.")},
+			}, true, "Adds input for text values.")},
 
-			{"addInputInt", mvPythonTranslator({
+			{"add_input_int", mvPythonTranslator({
 				{mvPythonDataType::String, "name"},
 				{mvPythonDataType::Optional},
 				{mvPythonDataType::Integer, "default_value"},
-			}, true, "A Listbox is a listbox")},
+			}, true, "Adds input for integer values.")},
 
-			{ "addInputInt2", mvPythonTranslator({
+			{ "add_input_int2", mvPythonTranslator({
 				{mvPythonDataType::String, "name"},
 				{mvPythonDataType::Optional},
 				{mvPythonDataType::IntList, "default_value"},
-			}, true, "A Listbox is a listbox") },
+			}, true, "Adds input for 2 integer values.") },
 
-			{ "addInputInt3", mvPythonTranslator({
+			{ "add_input_int3", mvPythonTranslator({
 				{mvPythonDataType::String, "name"},
 				{mvPythonDataType::Optional},
 				{mvPythonDataType::IntList, "default_value"},
-			}, true, "A Listbox is a listbox") },
+			}, true, "Adds input for 3 integer values.") },
 
-			{ "addInputInt4", mvPythonTranslator({
+			{ "add_input_int4", mvPythonTranslator({
 				{mvPythonDataType::String, "name"},
 				{mvPythonDataType::Optional},
 				{mvPythonDataType::IntList, "default_value"},
-			}, true, "A Listbox is a listbox") },
+			}, true, "Adds input for 4 integer values.") },
 
-			{"addInputFloat", mvPythonTranslator({
+			{"add_input_float", mvPythonTranslator({
 				{mvPythonDataType::String, "name"},
 				{mvPythonDataType::Optional},
 				{mvPythonDataType::Float, "default_value"},
 				{mvPythonDataType::String, "format"}
-			}, true, "A Listbox is a listbox")},
+			}, true, "Adds input for float values.")},
 
-			{ "addInputFloat2", mvPythonTranslator({
+			{ "add_input_float2", mvPythonTranslator({
 				{mvPythonDataType::String, "name"},
 				{mvPythonDataType::Optional},
 				{mvPythonDataType::FloatList, "default_value"},
 				{mvPythonDataType::String, "format"}
-			}, true, "A Listbox is a listbox") },
+			}, true, "Adds input for 2 float values.") },
 
-			{ "addInputFloat3", mvPythonTranslator({
+			{ "add_input_float3", mvPythonTranslator({
 				{mvPythonDataType::String, "name"},
 				{mvPythonDataType::Optional},
 				{mvPythonDataType::FloatList, "default_value"},
 				{mvPythonDataType::String, "format"}
-			}, true, "A Listbox is a listbox") },
+			}, true, "Adds input for 3 float values.") },
 
-			{ "addInputFloat4", mvPythonTranslator({
+			{ "add_input_float4", mvPythonTranslator({
 				{mvPythonDataType::String, "name"},
 				{mvPythonDataType::Optional},
 				{mvPythonDataType::FloatList, "default_value"},
 				{mvPythonDataType::String, "format"}
-			}, true, "A Listbox is a listbox") },
+			}, true, "Adds input for 4 float values.") },
 
-			{"indent", mvPythonTranslator({
+			{"add_indent", mvPythonTranslator({
 				{mvPythonDataType::Optional},
 				{mvPythonDataType::Float, "offset"}
-			}, false, "A Listbox is a listbox")},
+			}, false, "Adds an indent to following items.")},
 
 			{"unindent", mvPythonTranslator({
 				{mvPythonDataType::Optional},
 				{mvPythonDataType::Float, "offset"}
-			}, false, "A Listbox is a listbox")},
+			}, false, "Unindents following items.")},
 
-			{"addTabBar", mvPythonTranslator({
+			{"add_tab_bar", mvPythonTranslator({
 				{mvPythonDataType::String, "name"},
 				{mvPythonDataType::Optional},
 				{mvPythonDataType::KeywordOnly},
 				{mvPythonDataType::Integer, "flags"}
-			}, true, "A tab bar.")},
+			}, true, "Adds a tab bar.")},
 
-			{"addTab", mvPythonTranslator({
+			{"add_tab", mvPythonTranslator({
 				{mvPythonDataType::String, "name"}
-			}, true, "A Listbox is a listbox")},
+			}, true, "Adds a tab to a tab bar.")},
 
-			{"addMenuBar", mvPythonTranslator({
+			{"add_menu_bar", mvPythonTranslator({
 				{mvPythonDataType::String, "name"}
-			}, false, "A Listbox is a listbox")},
+			}, false, "Adds a menu bar to a window. Must be followed by a call to end_menu_bar.")},
 
-			{"addMenu", mvPythonTranslator({
+			{"add_menu", mvPythonTranslator({
 				{mvPythonDataType::String, "name"}
-			}, false, "A Listbox is a listbox")},
+			}, false, "Adds a menu to an existing menu bar. Must be followed by a call to end_menu")},
 
-			{"addMenuItem", mvPythonTranslator({
+			{"add_menu_item", mvPythonTranslator({
 				{mvPythonDataType::String, "name"}
-			}, true, "A Listbox is a listbox")},
+			}, true, "Adds a menu item to an existing menu.")},
 
-			{"addSpacing", mvPythonTranslator({
+			{"add_spacing", mvPythonTranslator({
 				{mvPythonDataType::Optional},
 				{mvPythonDataType::Integer, "count"}
-			}, false, "A Listbox is a listbox")},
+			}, false, "Adds vertical spacing.")},
 
-			{"addSameLine", mvPythonTranslator({
+			{"add_same_line", mvPythonTranslator({
 				{mvPythonDataType::Optional},
 				{mvPythonDataType::Float, "xoffset"},
 				{mvPythonDataType::Float, "spacing"}
-			}, false, "A Listbox is a listbox")},
+			}, false, "Places a widget on the same line as the previous widget. Can also be used for horizontal spacing.")},
 
-			{"addRadioButton", mvPythonTranslator({
+			{"add_radio_button", mvPythonTranslator({
 				{mvPythonDataType::String, "name"},
 				{mvPythonDataType::StringList, "items"},
 				{mvPythonDataType::Optional},
 				{mvPythonDataType::Integer, "default_value"}
-			}, true, "A Listbox is a listbox") },
+			}, true, "Adds a set of radio buttons.") },
 
-			{"addGroup", mvPythonTranslator({
+			{"add_group", mvPythonTranslator({
 				{mvPythonDataType::String, "name"}
-			}, true, "A Listbox is a listbox") },
+			}, true, "Creates a group that other widgets can belong to. The group allows item commands to be issued for all of its members.\
+				Must be closed with the end_group command.") },
 
-			{"addChild", mvPythonTranslator({
+			{"add_child", mvPythonTranslator({
 				{mvPythonDataType::String, "name"},
 				{mvPythonDataType::Integer, "width"},
 				{mvPythonDataType::Integer, "height"}
-			}, false, "A Listbox is a listbox") },
+			}, false, "Adds an embedded child window. Will show scrollbars when items do not fit.") },
 
-			{"addWindow", mvPythonTranslator({
+			{"add_window", mvPythonTranslator({
 				{mvPythonDataType::String, "name"},
 				{mvPythonDataType::Integer, "width"},
 				{mvPythonDataType::Integer, "height"}
-			}, false, "A Listbox is a listbox") },
+			}, false, "Creates a new window for following items to be added to. Must call end_main_window command before.") },
 
-			{"addTooltip", mvPythonTranslator({
+			{"add_tooltip", mvPythonTranslator({
 				{mvPythonDataType::String, "parent"},
 				{mvPythonDataType::String, "name"}
-			}, true, "A Listbox is a listbox") },
+			}, true, "Adds an advanced tool tip for an item. This command must come immediately after the item the tip is for.") },
 
-			{"addPopup", mvPythonTranslator({
+			{"add_popup", mvPythonTranslator({
 				{mvPythonDataType::String, "parent"},
 				{mvPythonDataType::String, "name"},
 				{mvPythonDataType::Optional},
 				{mvPythonDataType::Integer, "mousebutton"},
 				{mvPythonDataType::Integer, "modal"}
-			}, true, "A Listbox is a listbox") },
+			}, true, "Adds a popup window for an item. This command must come immediately after the item the popup is for.") },
 
-			{"addCollapsingHeader", mvPythonTranslator({
+			{"add_collapsing_header", mvPythonTranslator({
 				{mvPythonDataType::String, "name"},
 				{mvPythonDataType::Optional},
 				{mvPythonDataType::KeywordOnly},
 				{mvPythonDataType::Integer, "flags"}
-			}, false, "A Listbox is a listbox") },
+			}, false, "Adds a collapsing header to add items to. Must be closed with the end_collapsing_header command.") },
 
-			{"addTreeNode", mvPythonTranslator({
+			{"add_tree_node", mvPythonTranslator({
 				{mvPythonDataType::String, "name"},
 				{mvPythonDataType::Optional},
 				{mvPythonDataType::KeywordOnly},
 				{mvPythonDataType::Integer, "flags"}
-			}, true, "A Listbox is a listbox") },
+			}, true, "Adds a tree node to add items to. Must be closed with the end_tree_node command.") },
 
-			{"addColorEdit3", mvPythonTranslator({
+			{"add_color_edit3", mvPythonTranslator({
 				{mvPythonDataType::String, "name"},
 				{mvPythonDataType::Optional},
 				{mvPythonDataType::IntList, "default_value (0, 0, 0)"},
-			}, true, "A Listbox is a listbox") },
+			}, true, "Adds an rgb color editing widget.") },
 
-
-			{ "addColorEdit4", mvPythonTranslator({
+			{ "add_color_edit4", mvPythonTranslator({
 				{mvPythonDataType::String, "name"},
 				{mvPythonDataType::Optional},
 				{mvPythonDataType::IntList, "default_value (0, 0, 0, 255)"},
-			}, true, "A Listbox is a listbox") },
+			}, true, "Adds an rgba color editing widget.") },
 
-			{ "addColorPicker3", mvPythonTranslator({
+			{ "add_color_picker3", mvPythonTranslator({
 				{mvPythonDataType::String, "name"},
 				{mvPythonDataType::Optional},
 				{mvPythonDataType::IntList, "default_value (0, 0, 0)"},
-			}, true, "A Listbox is a listbox") },
+			}, true, "Adds an rgb color picking widget.") },
 
-
-			{ "addColorPicker4", mvPythonTranslator({
+			{ "add_color_picker4", mvPythonTranslator({
 				{mvPythonDataType::String, "name"},
 				{mvPythonDataType::Optional},
 				{mvPythonDataType::IntList, "default_value (0, 0, 0, 255)"},
-			}, true, "A Listbox is a listbox") },
+			}, true, "Adds an rgba color picking widget.") },
 
-			{"addCheckbox", mvPythonTranslator({
+			{"add_checkbox", mvPythonTranslator({
 				{mvPythonDataType::String, "name"},
 				{mvPythonDataType::Optional},
 				{mvPythonDataType::Integer, "default_value"}
-			}, true, "A Listbox is a listbox") },
-
-			{"addDragFloat", mvPythonTranslator({
-				{mvPythonDataType::String, "name"},
-				{mvPythonDataType::Optional},
-				{mvPythonDataType::Float, "default_value"}
-			}, true, "This is useful for easy selection of a float withing a set range") }
+			}, true, "Adds a checkbox widget.") }
 
 		};
 
 		return translators;
 	}
 
-	PyObject* addSimplePlot(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* add_simple_plot(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		MV_STANDARD_CALLBACK_INIT();
 
@@ -509,7 +506,7 @@ namespace Marvel {
 		int histogram = false;
 		PyObject* value;
 
-		if (!Translators["addSimplePlot"].parse(args, kwargs,__FUNCTION__, &name, &value, &autoscale, &overlay, 
+		if (!Translators["add_simple_plot"].parse(args, kwargs,__FUNCTION__, &name, &value, &autoscale, &overlay, 
 			&minscale, &maxscale, &histogram, MV_STANDARD_CALLBACK_PARSE))
 			Py_RETURN_NONE;
 
@@ -537,14 +534,14 @@ namespace Marvel {
 		Py_RETURN_NONE;
 	}
 
-	PyObject* addProgressBar(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* add_progress_bar(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		MV_STANDARD_CALLBACK_INIT();
 		const char* name;
 		float default_value;
 		const char* overlay = "";
 
-		if (!Translators["addProgressBar"].parse(args, kwargs, __FUNCTION__, &name, &default_value, &overlay, MV_STANDARD_CALLBACK_PARSE))
+		if (!Translators["add_progress_bar"].parse(args, kwargs, __FUNCTION__, &name, &default_value, &overlay, MV_STANDARD_CALLBACK_PARSE))
 			Py_RETURN_NONE;
 
 		mvAppItem* item = new mvProgressBar("", name, default_value, overlay);
@@ -555,7 +552,7 @@ namespace Marvel {
 		Py_RETURN_NONE;
 	}
 
-	PyObject* addImage(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* add_image(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		MV_STANDARD_CALLBACK_INIT();
 
@@ -572,7 +569,7 @@ namespace Marvel {
 		PyTuple_SetItem(bordercolor, 2, PyFloat_FromDouble(0.0));
 		PyTuple_SetItem(bordercolor, 3, PyFloat_FromDouble(0.0));
 
-		if (!Translators["addImage"].parse(args, kwargs, __FUNCTION__, &name, &value, &tintcolor, &bordercolor, MV_STANDARD_CALLBACK_PARSE))
+		if (!Translators["add_image"].parse(args, kwargs, __FUNCTION__, &name, &value, &tintcolor, &bordercolor, MV_STANDARD_CALLBACK_PARSE))
 			Py_RETURN_NONE;
 
 		auto mtintcolor = mvPythonTranslator::getColor(tintcolor);
@@ -586,7 +583,7 @@ namespace Marvel {
 		Py_RETURN_NONE;
 	}
 
-	PyObject* addDragFloat(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* add_drag_float(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		MV_STANDARD_CALLBACK_INIT();
 
@@ -598,7 +595,7 @@ namespace Marvel {
 		const char* format = "%.3f";
 		float power = 1.0f;
 
-		if (!Translators["addDragFloat"].parse(args, kwargs, __FUNCTION__, &name, &default_value, &speed,
+		if (!Translators["add_drag_float"].parse(args, kwargs, __FUNCTION__, &name, &default_value, &speed,
 			&min_value, &max_value, &format, &power, MV_STANDARD_CALLBACK_PARSE))
 			Py_RETURN_NONE;
 
@@ -610,7 +607,7 @@ namespace Marvel {
 		Py_RETURN_NONE;
 	}
 
-	PyObject* addDragFloat2(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* add_drag_float2(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		MV_STANDARD_CALLBACK_INIT();
 
@@ -624,7 +621,7 @@ namespace Marvel {
 		const char* format = "%.3f";
 		float power = 1.0f;
 
-		if (!Translators["addDragFloat2"].parse(args, kwargs, __FUNCTION__, &name, &default_value, &speed,
+		if (!Translators["add_drag_float2"].parse(args, kwargs, __FUNCTION__, &name, &default_value, &speed,
 			&min_value, &max_value, &format, &power, MV_STANDARD_CALLBACK_PARSE))
 			Py_RETURN_NONE;
 
@@ -638,7 +635,7 @@ namespace Marvel {
 		Py_RETURN_NONE;
 	}
 
-	PyObject* addDragFloat3(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* add_drag_float3(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		MV_STANDARD_CALLBACK_INIT();
 
@@ -653,7 +650,7 @@ namespace Marvel {
 		const char* format = "%.3f";
 		float power = 1.0f;
 
-		if (!Translators["addDragFloat3"].parse(args, kwargs, __FUNCTION__, &name, &default_value, &speed,
+		if (!Translators["add_drag_float3"].parse(args, kwargs, __FUNCTION__, &name, &default_value, &speed,
 			&min_value, &max_value, &format, &power, MV_STANDARD_CALLBACK_PARSE))
 			Py_RETURN_NONE;
 
@@ -667,7 +664,7 @@ namespace Marvel {
 		Py_RETURN_NONE;
 	}
 
-	PyObject* addDragFloat4(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* add_drag_float4(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		MV_STANDARD_CALLBACK_INIT();
 
@@ -683,7 +680,7 @@ namespace Marvel {
 		const char* format = "%.3f";
 		float power = 1.0f;
 
-		if (!Translators["addDragFloat4"].parse(args, kwargs, __FUNCTION__, &name, &default_value, &speed,
+		if (!Translators["add_drag_float4"].parse(args, kwargs, __FUNCTION__, &name, &default_value, &speed,
 			&min_value, &max_value, &format, &power, MV_STANDARD_CALLBACK_PARSE))
 			Py_RETURN_NONE;
 
@@ -697,7 +694,7 @@ namespace Marvel {
 		Py_RETURN_NONE;
 	}
 
-	PyObject* addDragInt(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* add_drag_int(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		MV_STANDARD_CALLBACK_INIT();
 
@@ -708,7 +705,7 @@ namespace Marvel {
 		int max_value = 100;
 		const char* format = "%d";
 
-		if (!Translators["addDragInt"].parse(args, kwargs, __FUNCTION__, &name, &default_value, &speed, 
+		if (!Translators["add_drag_int"].parse(args, kwargs, __FUNCTION__, &name, &default_value, &speed, 
 			&min_value, &max_value, &format, MV_STANDARD_CALLBACK_PARSE))
 			Py_RETURN_NONE;
 
@@ -720,7 +717,7 @@ namespace Marvel {
 		Py_RETURN_NONE;
 	}
 
-	PyObject* addDragInt2(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* add_drag_int2(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		MV_STANDARD_CALLBACK_INIT();
 
@@ -733,7 +730,7 @@ namespace Marvel {
 		int max_value = 100;
 		const char* format = "%d";
 
-		if (!Translators["addDragInt2"].parse(args, kwargs, __FUNCTION__, &name, &default_value, &speed,
+		if (!Translators["add_drag_int2"].parse(args, kwargs, __FUNCTION__, &name, &default_value, &speed,
 			&min_value, &max_value, &format, MV_STANDARD_CALLBACK_PARSE))
 			Py_RETURN_NONE;
 
@@ -747,7 +744,7 @@ namespace Marvel {
 		Py_RETURN_NONE;
 	}
 
-	PyObject* addDragInt3(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* add_drag_int3(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		MV_STANDARD_CALLBACK_INIT();
 
@@ -760,7 +757,7 @@ namespace Marvel {
 		int max_value = 100;
 		const char* format = "%d";
 
-		if (!Translators["addDragInt3"].parse(args, kwargs, __FUNCTION__, &name, &default_value, &speed,
+		if (!Translators["add_drag_int3"].parse(args, kwargs, __FUNCTION__, &name, &default_value, &speed,
 			&min_value, &max_value, &format, MV_STANDARD_CALLBACK_PARSE))
 			Py_RETURN_NONE;
 
@@ -774,7 +771,7 @@ namespace Marvel {
 		Py_RETURN_NONE;
 	}
 
-	PyObject* addDragInt4(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* add_drag_int4(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		MV_STANDARD_CALLBACK_INIT();
 
@@ -789,7 +786,7 @@ namespace Marvel {
 		int max_value = 100;
 		const char* format = "%d";
 
-		if (!Translators["addDragInt4"].parse(args, kwargs, __FUNCTION__, &name, &default_value, &speed,
+		if (!Translators["add_drag_int4"].parse(args, kwargs, __FUNCTION__, &name, &default_value, &speed,
 			&min_value, &max_value, &format, MV_STANDARD_CALLBACK_PARSE))
 			Py_RETURN_NONE;
 
@@ -803,7 +800,7 @@ namespace Marvel {
 		Py_RETURN_NONE;
 	}
 
-	PyObject* addSliderFloat(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* add_slider_float(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		MV_STANDARD_CALLBACK_INIT();
 
@@ -815,7 +812,7 @@ namespace Marvel {
 		float power = 1.0f;
 		int vertical = false;
 
-		if (!Translators["addSliderFloat"].parse(args, kwargs, __FUNCTION__, &name, &default_value, 
+		if (!Translators["add_slider_float"].parse(args, kwargs, __FUNCTION__, &name, &default_value, 
 			&min_value, &max_value, &format, &power, &vertical, MV_STANDARD_CALLBACK_PARSE))
 			Py_RETURN_NONE;
 
@@ -827,7 +824,7 @@ namespace Marvel {
 		Py_RETURN_NONE;
 	}
 
-	PyObject* addSliderFloat2(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* add_slider_float2(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		MV_STANDARD_CALLBACK_INIT();
 
@@ -840,7 +837,7 @@ namespace Marvel {
 		const char* format = "%.3f";
 		float power = 1.0f;
 
-		if (!Translators["addSliderFloat2"].parse(args, kwargs, __FUNCTION__, &name, &default_value,
+		if (!Translators["add_slider_float2"].parse(args, kwargs, __FUNCTION__, &name, &default_value,
 			&min_value, &max_value, &format, &power, MV_STANDARD_CALLBACK_PARSE))
 			Py_RETURN_NONE;
 
@@ -854,7 +851,7 @@ namespace Marvel {
 		Py_RETURN_NONE;
 	}
 
-	PyObject* addSliderFloat3(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* add_slider_float3(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		MV_STANDARD_CALLBACK_INIT();
 
@@ -868,7 +865,7 @@ namespace Marvel {
 		const char* format = "%.3f";
 		float power = 1.0f;
 
-		if (!Translators["addSliderFloat3"].parse(args, kwargs, __FUNCTION__, &name, &default_value,
+		if (!Translators["add_slider_float3"].parse(args, kwargs, __FUNCTION__, &name, &default_value,
 			&min_value, &max_value, &format, &power, MV_STANDARD_CALLBACK_PARSE))
 			Py_RETURN_NONE;
 
@@ -882,7 +879,7 @@ namespace Marvel {
 		Py_RETURN_NONE;
 	}
 
-	PyObject* addSliderFloat4(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* add_slider_float4(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		MV_STANDARD_CALLBACK_INIT();
 
@@ -897,7 +894,7 @@ namespace Marvel {
 		const char* format = "%.3f";
 		float power = 1.0f;
 
-		if (!Translators["addSliderFloat4"].parse(args, kwargs, __FUNCTION__, &name, &default_value,
+		if (!Translators["add_slider_float4"].parse(args, kwargs, __FUNCTION__, &name, &default_value,
 			&min_value, &max_value, &format, &power, MV_STANDARD_CALLBACK_PARSE))
 			Py_RETURN_NONE;
 
@@ -911,7 +908,7 @@ namespace Marvel {
 		Py_RETURN_NONE;
 	}
 
-	PyObject* addSliderInt(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* add_slider_int(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		MV_STANDARD_CALLBACK_INIT();
 
@@ -922,7 +919,7 @@ namespace Marvel {
 		const char* format = "%d";
 		int vertical = false;
 
-		if (!Translators["addSliderInt"].parse(args, kwargs, __FUNCTION__, &name, &default_value,
+		if (!Translators["add_slider_int"].parse(args, kwargs, __FUNCTION__, &name, &default_value,
 			&min_value, &max_value, &format, &vertical, MV_STANDARD_CALLBACK_PARSE))
 			Py_RETURN_NONE;
 
@@ -934,7 +931,7 @@ namespace Marvel {
 		Py_RETURN_NONE;
 	}
 
-	PyObject* addSliderInt2(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* add_slider_int2(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		MV_STANDARD_CALLBACK_INIT();
 
@@ -946,7 +943,7 @@ namespace Marvel {
 		int max_value = 100;
 		const char* format = "%d";
 
-		if (!Translators["addSliderInt2"].parse(args, kwargs, __FUNCTION__, &name, &default_value,
+		if (!Translators["add_slider_int2"].parse(args, kwargs, __FUNCTION__, &name, &default_value,
 			&min_value, &max_value, &format, MV_STANDARD_CALLBACK_PARSE))
 			Py_RETURN_NONE;
 
@@ -960,7 +957,7 @@ namespace Marvel {
 		Py_RETURN_NONE;
 	}
 
-	PyObject* addSliderInt3(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* add_slider_int3(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		MV_STANDARD_CALLBACK_INIT();
 
@@ -973,7 +970,7 @@ namespace Marvel {
 		int max_value = 100;
 		const char* format = "%d";
 
-		if (!Translators["addSliderInt3"].parse(args, kwargs, __FUNCTION__, &name, &default_value,
+		if (!Translators["add_slider_int3"].parse(args, kwargs, __FUNCTION__, &name, &default_value,
 			&min_value, &max_value, &format, MV_STANDARD_CALLBACK_PARSE))
 			Py_RETURN_NONE;
 
@@ -987,7 +984,7 @@ namespace Marvel {
 		Py_RETURN_NONE;
 	}
 
-	PyObject* addSliderInt4(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* add_slider_int4(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		MV_STANDARD_CALLBACK_INIT();
 
@@ -1001,7 +998,7 @@ namespace Marvel {
 		int max_value = 100;
 		const char* format = "%d";
 
-		if (!Translators["addSliderInt4"].parse(args, kwargs, __FUNCTION__, &name, &default_value,
+		if (!Translators["add_slider_int4"].parse(args, kwargs, __FUNCTION__, &name, &default_value,
 			&min_value, &max_value, &format, MV_STANDARD_CALLBACK_PARSE))
 			Py_RETURN_NONE;
 
@@ -1015,7 +1012,7 @@ namespace Marvel {
 		Py_RETURN_NONE;
 	}
 
-	PyObject* addText(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* add_text(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		MV_STANDARD_CALLBACK_INIT();
 
@@ -1027,7 +1024,7 @@ namespace Marvel {
 		PyTuple_SetItem(color, 2, PyLong_FromLong(0));
 		PyTuple_SetItem(color, 3, PyLong_FromLong(255));
 
-		if (!Translators["addText"].parse(args, kwargs,__FUNCTION__, &name, &wrap, &color, &bullet, MV_STANDARD_CALLBACK_PARSE))
+		if (!Translators["add_text"].parse(args, kwargs,__FUNCTION__, &name, &wrap, &color, &bullet, MV_STANDARD_CALLBACK_PARSE))
 			Py_RETURN_NONE;
 
 		auto mcolor = mvPythonTranslator::getColor(color);
@@ -1043,7 +1040,7 @@ namespace Marvel {
 		Py_RETURN_NONE;
 	}
 
-	PyObject* addLabelText(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* add_label_text(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		MV_STANDARD_CALLBACK_INIT();
 
@@ -1055,7 +1052,7 @@ namespace Marvel {
 		PyTuple_SetItem(color, 2, PyLong_FromLong(0));
 		PyTuple_SetItem(color, 3, PyLong_FromLong(255));
 
-		if (!Translators["addLabelText"].parse(args, kwargs,__FUNCTION__, &name, &value, &color, MV_STANDARD_CALLBACK_PARSE))
+		if (!Translators["add_label_text"].parse(args, kwargs,__FUNCTION__, &name, &value, &color, MV_STANDARD_CALLBACK_PARSE))
 			Py_RETURN_NONE;
 
 		auto mcolor = mvPythonTranslator::getColor(color);
@@ -1070,14 +1067,14 @@ namespace Marvel {
 		Py_RETURN_NONE;
 	}
 
-	PyObject* addListbox(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* add_listbox(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		MV_STANDARD_CALLBACK_INIT();
 		const char* name;
 		PyObject* items;
 		int default_value = 0;
 
-		if (!Translators["addListbox"].parse(args, kwargs,__FUNCTION__, &name, &items, &default_value, MV_STANDARD_CALLBACK_PARSE))
+		if (!Translators["add_listbox"].parse(args, kwargs,__FUNCTION__, &name, &items, &default_value, MV_STANDARD_CALLBACK_PARSE))
 			Py_RETURN_NONE;
 
 		mvAppItem* item = new mvListbox("", name, mvPythonTranslator::getStringVec(items), default_value, height);
@@ -1088,14 +1085,14 @@ namespace Marvel {
 		Py_RETURN_NONE;
 	}
 
-	PyObject* addCombo(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* add_combo(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		MV_STANDARD_CALLBACK_INIT();
 		const char* name;
 		const char* default_value = "";
 		PyObject* items;
 
-		if (!Translators["addCombo"].parse(args, kwargs,__FUNCTION__, &name, &items, &default_value, MV_STANDARD_CALLBACK_PARSE))
+		if (!Translators["add_combo"].parse(args, kwargs,__FUNCTION__, &name, &items, &default_value, MV_STANDARD_CALLBACK_PARSE))
 			Py_RETURN_NONE;
 
 		mvAppItem* item = new mvCombo("", name, mvPythonTranslator::getStringVec(items), default_value);
@@ -1106,13 +1103,13 @@ namespace Marvel {
 		Py_RETURN_NONE;
 	}
 
-	PyObject* addSelectable(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* add_selectable(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		MV_STANDARD_CALLBACK_INIT();
 		const char* name;
 		int default_value = false;
 
-		if (!Translators["addSelectable"].parse(args, kwargs,__FUNCTION__, &name, &default_value, MV_STANDARD_CALLBACK_PARSE))
+		if (!Translators["add_selectable"].parse(args, kwargs,__FUNCTION__, &name, &default_value, MV_STANDARD_CALLBACK_PARSE))
 			Py_RETURN_NONE;
 
 		mvAppItem* item = new mvSelectable("", name, default_value);
@@ -1124,7 +1121,7 @@ namespace Marvel {
 		Py_RETURN_NONE;
 	}
 
-	PyObject* addButton(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* add_button(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		MV_STANDARD_CALLBACK_INIT();
 
@@ -1133,7 +1130,7 @@ namespace Marvel {
 		int arrow = false;
 		int direction = -1;
 
-		if (!Translators["addButton"].parse(args, kwargs,__FUNCTION__, &name, &small,
+		if (!Translators["add_button"].parse(args, kwargs,__FUNCTION__, &name, &small,
 			&arrow, &direction, MV_STANDARD_CALLBACK_PARSE))
 			Py_RETURN_NONE;
 
@@ -1145,7 +1142,7 @@ namespace Marvel {
 		Py_RETURN_NONE;
 	}
 
-	PyObject* addInputText(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* add_input_text(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		MV_STANDARD_CALLBACK_INIT();
 		const char* name;
@@ -1153,7 +1150,7 @@ namespace Marvel {
 		int multiline = 0;
 		int flags = 0;
 
-		if (!Translators["addInputText"].parse(args, kwargs,__FUNCTION__, &name, &hint, &multiline, &flags, MV_STANDARD_CALLBACK_PARSE))
+		if (!Translators["add_input_text"].parse(args, kwargs,__FUNCTION__, &name, &hint, &multiline, &flags, MV_STANDARD_CALLBACK_PARSE))
 			Py_RETURN_NONE;
 
 		mvAppItem* item = new mvInputText("", name, hint, multiline, flags);
@@ -1164,13 +1161,13 @@ namespace Marvel {
 		Py_RETURN_NONE;
 	}
 
-	PyObject* addInputInt(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* add_input_int(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		MV_STANDARD_CALLBACK_INIT();
 		const char* name;
 		int default_value = 0;
 
-		if (!Translators["addInputInt"].parse(args, kwargs,__FUNCTION__, &name, &default_value, MV_STANDARD_CALLBACK_PARSE))
+		if (!Translators["add_input_int"].parse(args, kwargs,__FUNCTION__, &name, &default_value, MV_STANDARD_CALLBACK_PARSE))
 			Py_RETURN_NONE;
 
 		mvAppItem* item = new mvInputInt("", name, default_value);
@@ -1182,7 +1179,7 @@ namespace Marvel {
 		Py_RETURN_NONE;
 	}
 
-	PyObject* addInputInt2(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* add_input_int2(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		MV_STANDARD_CALLBACK_INIT();
 
@@ -1191,7 +1188,7 @@ namespace Marvel {
 		PyTuple_SetItem(default_value, 0, PyLong_FromLong(0));
 		PyTuple_SetItem(default_value, 1, PyLong_FromLong(0));
 
-		if (!Translators["addInputInt2"].parse(args, kwargs, __FUNCTION__, &name, &default_value, MV_STANDARD_CALLBACK_PARSE))
+		if (!Translators["add_input_int2"].parse(args, kwargs, __FUNCTION__, &name, &default_value, MV_STANDARD_CALLBACK_PARSE))
 			Py_RETURN_NONE;
 
 		auto vec = mvPythonTranslator::getIntVec(default_value);
@@ -1204,7 +1201,7 @@ namespace Marvel {
 		Py_RETURN_NONE;
 	}
 
-	PyObject* addInputInt3(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* add_input_int3(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		MV_STANDARD_CALLBACK_INIT();
 
@@ -1214,7 +1211,7 @@ namespace Marvel {
 		PyTuple_SetItem(default_value, 1, PyLong_FromLong(0));
 		PyTuple_SetItem(default_value, 2, PyLong_FromLong(0));
 
-		if (!Translators["addInputInt3"].parse(args, kwargs, __FUNCTION__, &name, &default_value, MV_STANDARD_CALLBACK_PARSE))
+		if (!Translators["add_input_int3"].parse(args, kwargs, __FUNCTION__, &name, &default_value, MV_STANDARD_CALLBACK_PARSE))
 			Py_RETURN_NONE;
 
 		auto vec = mvPythonTranslator::getIntVec(default_value);
@@ -1227,7 +1224,7 @@ namespace Marvel {
 		Py_RETURN_NONE;
 	}
 
-	PyObject* addInputInt4(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* add_input_int4(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		MV_STANDARD_CALLBACK_INIT();
 
@@ -1238,7 +1235,7 @@ namespace Marvel {
 		PyTuple_SetItem(default_value, 2, PyLong_FromLong(0));
 		PyTuple_SetItem(default_value, 3, PyLong_FromLong(0));
 
-		if (!Translators["addInputInt4"].parse(args, kwargs, __FUNCTION__, &name, &default_value, MV_STANDARD_CALLBACK_PARSE))
+		if (!Translators["add_input_int4"].parse(args, kwargs, __FUNCTION__, &name, &default_value, MV_STANDARD_CALLBACK_PARSE))
 			Py_RETURN_NONE;
 
 		auto vec = mvPythonTranslator::getIntVec(default_value);
@@ -1251,7 +1248,7 @@ namespace Marvel {
 		Py_RETURN_NONE;
 	}
 
-	PyObject* addInputFloat(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* add_input_float(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		MV_STANDARD_CALLBACK_INIT();
 
@@ -1259,7 +1256,7 @@ namespace Marvel {
 		float default_value = 0.0f;
 		const char* format = "%.3f";
 
-		if (!Translators["addInputFloat"].parse(args, kwargs, __FUNCTION__, &name, &default_value, &format, MV_STANDARD_CALLBACK_PARSE))
+		if (!Translators["add_input_float"].parse(args, kwargs, __FUNCTION__, &name, &default_value, &format, MV_STANDARD_CALLBACK_PARSE))
 			Py_RETURN_NONE;
 
 		mvAppItem* item = new mvInputFloat("", name, default_value, format);
@@ -1270,7 +1267,7 @@ namespace Marvel {
 		Py_RETURN_NONE;
 	}
 
-	PyObject* addInputFloat2(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* add_input_float2(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		MV_STANDARD_CALLBACK_INIT();
 
@@ -1280,7 +1277,7 @@ namespace Marvel {
 		PyTuple_SetItem(default_value, 1, PyLong_FromLong(0));
 		const char* format = "%.3f";
 
-		if (!Translators["addInputFloat2"].parse(args, kwargs, __FUNCTION__, &name, &default_value, &format, MV_STANDARD_CALLBACK_PARSE))
+		if (!Translators["add_input_float2"].parse(args, kwargs, __FUNCTION__, &name, &default_value, &format, MV_STANDARD_CALLBACK_PARSE))
 			Py_RETURN_NONE;
 
 		auto vec = mvPythonTranslator::getFloatVec(default_value);
@@ -1293,7 +1290,7 @@ namespace Marvel {
 		Py_RETURN_NONE;
 	}
 
-	PyObject* addInputFloat3(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* add_input_float3(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		MV_STANDARD_CALLBACK_INIT();
 
@@ -1304,7 +1301,7 @@ namespace Marvel {
 		PyTuple_SetItem(default_value, 2, PyLong_FromLong(0));
 		const char* format = "%.3f";
 
-		if (!Translators["addInputFloat3"].parse(args, kwargs, __FUNCTION__, &name, &default_value, &format, MV_STANDARD_CALLBACK_PARSE))
+		if (!Translators["add_input_float3"].parse(args, kwargs, __FUNCTION__, &name, &default_value, &format, MV_STANDARD_CALLBACK_PARSE))
 			Py_RETURN_NONE;
 
 		auto vec = mvPythonTranslator::getFloatVec(default_value);
@@ -1317,7 +1314,7 @@ namespace Marvel {
 		Py_RETURN_NONE;
 	}
 
-	PyObject* addInputFloat4(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* add_input_float4(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		MV_STANDARD_CALLBACK_INIT();
 
@@ -1329,7 +1326,7 @@ namespace Marvel {
 		PyTuple_SetItem(default_value, 3, PyLong_FromLong(0));
 		const char* format = "%.3f";
 
-		if (!Translators["addInputFloat4"].parse(args, kwargs, __FUNCTION__, &name, &default_value, &format, MV_STANDARD_CALLBACK_PARSE))
+		if (!Translators["add_input_float4"].parse(args, kwargs, __FUNCTION__, &name, &default_value, &format, MV_STANDARD_CALLBACK_PARSE))
 			Py_RETURN_NONE;
 
 		auto vec = mvPythonTranslator::getFloatVec(default_value);
@@ -1342,11 +1339,11 @@ namespace Marvel {
 		Py_RETURN_NONE;
 	}
 
-	PyObject* indent(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* add_indent(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		float offset = 0.0f;
 
-		if (!Translators["indent"].parse(args, kwargs,__FUNCTION__, &offset))
+		if (!Translators["add_indent"].parse(args, kwargs,__FUNCTION__, &offset))
 			Py_RETURN_NONE;
 
 		mvAppItem* item = new mvIndent("", offset);
@@ -1372,13 +1369,13 @@ namespace Marvel {
 		Py_RETURN_NONE;
 	}
 
-	PyObject* addTabBar(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* add_tab_bar(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		MV_STANDARD_CALLBACK_INIT();
 		const char* name;
 		int flags = 0;
 
-		if (!Translators["addTabBar"].parse(args, kwargs, __FUNCTION__, &name, &flags, MV_STANDARD_CALLBACK_PARSE))
+		if (!Translators["add_tab_bar"].parse(args, kwargs, __FUNCTION__, &name, &flags, MV_STANDARD_CALLBACK_PARSE))
 			Py_RETURN_NONE;
 
 		mvAppItem* item = new mvTabBar("", name, flags);
@@ -1391,42 +1388,91 @@ namespace Marvel {
 		Py_RETURN_NONE;
 	}
 
-	PyObject* addTab(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* add_tab(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		MV_STANDARD_CALLBACK_INIT();
 		const char* name;
 
-		if (!Translators["addTab"].parse(args, kwargs, __FUNCTION__, &name, MV_STANDARD_CALLBACK_PARSE))
+		if (!Translators["add_tab"].parse(args, kwargs, __FUNCTION__, &name, MV_STANDARD_CALLBACK_PARSE))
 			Py_RETURN_NONE;
-
-		mvAppItem* item = new mvTab("", name);
-		mvApp::GetApp()->addItem(item);
-		mvApp::GetApp()->pushParent(item);
-
-		MV_STANDARD_CALLBACK_EVAL();
 		
+		auto parentItem = mvApp::GetApp()->topParent();
+
+		if (parentItem == nullptr)
+			mvAppLog::getLogger()->LogError("add_tab must follow a call to add_tabbar.");
+
+		else if (parentItem->getType() == mvAppItemType::TabBar)
+		{
+			mvAppItem* item = new mvTab("", name);
+			mvApp::GetApp()->addItem(item);
+			mvApp::GetApp()->pushParent(item);
+			MV_STANDARD_CALLBACK_EVAL();
+		}
+
+		else
+			mvAppLog::getLogger()->LogError("add_tab was called incorrectly. Did you forget to call end_tab?");
 
 		Py_RETURN_NONE;
 	}
 
-	PyObject* endTab(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* end_tab(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		mvApp::GetApp()->popParent();
 		Py_RETURN_NONE;
-	}
 
-	PyObject* endTabBar(PyObject* self, PyObject* args, PyObject* kwargs)
-	{
-		mvApp::GetApp()->popParent();
+		auto parentItem = mvApp::GetApp()->topParent();
+
+		if (parentItem == nullptr)
+			mvAppLog::getLogger()->LogError("end_tab must follow a call to add_tab.");
+
+		else if (parentItem->getType() == mvAppItemType::TabItem)
+			mvApp::GetApp()->popParent();
+
+		else
+			mvAppLog::getLogger()->LogError("end_tab was called incorrectly and will be ignored");
+
 		Py_RETURN_NONE;
 	}
 
-	PyObject* addMenuBar(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* end_tab_bar(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		mvApp::GetApp()->popParent();
+		Py_RETURN_NONE;
+
+		auto parentItem = mvApp::GetApp()->topParent();
+
+		if (parentItem == nullptr)
+			mvAppLog::getLogger()->LogError("end_tabbar must follow a call to add_menubar.");
+
+		else if (parentItem->getType() == mvAppItemType::TabBar)
+			mvApp::GetApp()->popParent();
+
+		else
+		{
+			mvAppLog::getLogger()->LogError("add_menubar was called incorrectly. Did you forget to call end_menu?");
+			mvAppLog::getLogger()->LogWarning("Taking corrective action. Clearing parent stack.");
+
+			auto item = mvApp::GetApp()->popParent();
+			while (item->getType() != mvAppItemType::TabBar)
+			{
+				mvApp::GetApp()->popParent();
+				item = mvApp::GetApp()->topParent();
+
+				if (item == nullptr)
+					break;
+			}
+
+		}
+
+		Py_RETURN_NONE;
+	}
+
+	PyObject* add_menu_bar(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		MV_STANDARD_CALLBACK_INIT();
 		const char* name;
 
-		if (!Translators["addMenuBar"].parse(args, kwargs, __FUNCTION__, &name, MV_STANDARD_CALLBACK_PARSE))
+		if (!Translators["add_menu_bar"].parse(args, kwargs, __FUNCTION__, &name, MV_STANDARD_CALLBACK_PARSE))
 			Py_RETURN_NONE;
 
 		mvAppItem* item = new mvMenuBar(name);
@@ -1440,42 +1486,82 @@ namespace Marvel {
 		Py_RETURN_NONE;
 	}
 
-	PyObject* addMenu(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* add_menu(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		MV_STANDARD_CALLBACK_INIT();
 		const char* name;
 
-		if (!Translators["addMenu"].parse(args, kwargs, __FUNCTION__, &name, MV_STANDARD_CALLBACK_PARSE))
+		if (!Translators["add_menu"].parse(args, kwargs, __FUNCTION__, &name, MV_STANDARD_CALLBACK_PARSE))
 			Py_RETURN_NONE;
 
-		mvAppItem* item = new mvMenu("", name);
-		mvApp::GetApp()->addItem(item);
-		mvApp::GetApp()->pushParent(item);
+		auto parentItem = mvApp::GetApp()->topParent();
 
-		MV_STANDARD_CALLBACK_EVAL();
+		if (parentItem == nullptr)
+			mvAppLog::getLogger()->LogError("add_menu must follow a call to add_menubar.");
+
+		else if (parentItem->getType() == mvAppItemType::MenuBar || parentItem->getType() == mvAppItemType::Menu)
+		{
+			mvAppItem* item = new mvMenu("", name);
+			mvApp::GetApp()->addItem(item);
+			mvApp::GetApp()->pushParent(item);
+			MV_STANDARD_CALLBACK_EVAL();
+		}
+
+		else
+			mvAppLog::getLogger()->LogError("add_menu was called incorrectly. Did you forget to call end_menu?");
+
+		Py_RETURN_NONE;
+	}
+
+	PyObject* end_menu(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		auto parentItem = mvApp::GetApp()->topParent();
 		
+		if(parentItem == nullptr)
+			mvAppLog::getLogger()->LogError("end_menu must follow a call to add_menu.");
+
+		else if (parentItem->getType() == mvAppItemType::Menu)
+			mvApp::GetApp()->popParent();
+
+		else
+			mvAppLog::getLogger()->LogError("end_menu was called incorrectly and will be ignored");
 
 		Py_RETURN_NONE;
 	}
 
-	PyObject* endMenu(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* end_menu_bar(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
-		mvApp::GetApp()->popParent();
+		auto parentItem = mvApp::GetApp()->topParent();
+
+		if (parentItem == nullptr)
+			mvAppLog::getLogger()->LogError("end_menu_bar must follow a call to add_menu_bar.");
+
+		else if (parentItem->getType() == mvAppItemType::MenuBar)
+			mvApp::GetApp()->popParent();
+
+		else
+		{
+			mvAppLog::getLogger()->LogError("end_menu_bar was called incorrectly. Did you forget to call end_menu?");
+			mvAppLog::getLogger()->LogWarning("Taking corrective action. Clearing parent stack.");
+
+			auto item = mvApp::GetApp()->popParent();
+			while (item != nullptr)
+			{
+				mvApp::GetApp()->popParent();
+				item = mvApp::GetApp()->topParent();
+			}
+
+		}
+
 		Py_RETURN_NONE;
 	}
 
-	PyObject* endMenuBar(PyObject* self, PyObject* args, PyObject* kwargs)
-	{
-		mvApp::GetApp()->popParent();
-		Py_RETURN_NONE;
-	}
-
-	PyObject* addMenuItem(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* add_menu_item(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		MV_STANDARD_CALLBACK_INIT();
 		const char* name;
 
-		if (!Translators["addMenuItem"].parse(args, kwargs,__FUNCTION__, &name, MV_STANDARD_CALLBACK_PARSE))
+		if (!Translators["add_menu_item"].parse(args, kwargs,__FUNCTION__, &name, MV_STANDARD_CALLBACK_PARSE))
 			Py_RETURN_NONE;
 
 		mvAppItem* item = new mvMenuItem("", name);
@@ -1487,11 +1573,11 @@ namespace Marvel {
 		Py_RETURN_NONE;
 	}
 
-	PyObject* addSpacing(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* add_spacing(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		int count = 1;
 
-		if (!Translators["addSpacing"].parse(args, kwargs,__FUNCTION__, &count))
+		if (!Translators["add_spacing"].parse(args, kwargs,__FUNCTION__, &count))
 			Py_RETURN_NONE;
 
 		mvAppItem* item = new mvSpacing("", count);
@@ -1502,12 +1588,12 @@ namespace Marvel {
 		Py_RETURN_NONE;
 	}
 
-	PyObject* addSameLine(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* add_same_line(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		float xoffset = 0.0f;
 		float spacing = 0.0f;
 
-		if (!Translators["addSameLine"].parse(args, kwargs,__FUNCTION__, &xoffset, &spacing))
+		if (!Translators["add_same_line"].parse(args, kwargs,__FUNCTION__, &xoffset, &spacing))
 			Py_RETURN_NONE;
 
 		mvAppItem* item = new mvSameLine("", xoffset, spacing);
@@ -1518,14 +1604,14 @@ namespace Marvel {
 		Py_RETURN_NONE;
 	}
 
-	PyObject* addRadioButton(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* add_radio_button(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		MV_STANDARD_CALLBACK_INIT();
 		const char* name;
 		PyObject* items;
 		int default_value = 0;
 
-		if (!Translators["addRadioButton"].parse(args, kwargs,__FUNCTION__, &name, &items, &default_value, MV_STANDARD_CALLBACK_PARSE))
+		if (!Translators["add_radio_button"].parse(args, kwargs,__FUNCTION__, &name, &items, &default_value, MV_STANDARD_CALLBACK_PARSE))
 			Py_RETURN_NONE;
 
 		mvAppItem* item = new mvRadioButton("", name, mvPythonTranslator::getStringVec(items), default_value);
@@ -1536,12 +1622,12 @@ namespace Marvel {
 		Py_RETURN_NONE;
 	}
 
-	PyObject* addGroup(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* add_group(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		MV_STANDARD_CALLBACK_INIT();
 		const char* name;
 
-		if (!Translators["addGroup"].parse(args, kwargs, __FUNCTION__, &name, MV_STANDARD_CALLBACK_PARSE))
+		if (!Translators["add_group"].parse(args, kwargs, __FUNCTION__, &name, MV_STANDARD_CALLBACK_PARSE))
 			Py_RETURN_NONE;
 
 		mvAppItem* item = new mvGroup("", name);
@@ -1553,18 +1639,28 @@ namespace Marvel {
 		Py_RETURN_NONE;
 	}
 
-	PyObject* endGroup(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* end_group(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
-		mvApp::GetApp()->popParent();
+		auto parentItem = mvApp::GetApp()->topParent();
+
+		if (parentItem == nullptr)
+			mvAppLog::getLogger()->LogError("end_group must follow a call to add_group.");
+
+		else if (parentItem->getType() == mvAppItemType::Group)
+			mvApp::GetApp()->popParent();
+
+		else
+			mvAppLog::getLogger()->LogError("end_group was called incorrectly and will be ignored");
+
 		Py_RETURN_NONE;
 	}
 
-	PyObject* addChild(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* add_child(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		const char* name;
 		int width, height;
 
-		if (!Translators["addChild"].parse(args, kwargs, __FUNCTION__, &name, &width, &height))
+		if (!Translators["add_child"].parse(args, kwargs, __FUNCTION__, &name, &width, &height))
 			Py_RETURN_NONE;
 
 		mvAppItem* item = new mvChild("", name, width, height);
@@ -1574,12 +1670,12 @@ namespace Marvel {
 		Py_RETURN_NONE;
 	}
 
-	PyObject* addWindow(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* add_window(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		const char* name;
 		int width, height;
 
-		if (!Translators["addWindow"].parse(args, kwargs, __FUNCTION__, &name, &width, &height))
+		if (!Translators["add_window"].parse(args, kwargs, __FUNCTION__, &name, &width, &height))
 			Py_RETURN_NONE;
 
 		mvAppItem* item = new mvWindowAppitem("", name, width, height);
@@ -1589,32 +1685,61 @@ namespace Marvel {
 		Py_RETURN_NONE;
 	}
 
-	PyObject* endWindow(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* end_window(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
-		mvApp::GetApp()->popParent();
+
+		auto parentItem = mvApp::GetApp()->topParent();
+
+		if (parentItem == nullptr)
+			mvAppLog::getLogger()->LogError("end_window must follow a call to add_window.");
+
+		else if (parentItem->getType() == mvAppItemType::Window)
+			mvApp::GetApp()->popParent();
+
+		else
+			mvAppLog::getLogger()->LogError("end_window was called incorrectly and will be ignored");
+
 		Py_RETURN_NONE;
 	}
 
-	PyObject* endMainWindow(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* end_main_window(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
-		mvAppItem* item = new mvEndWindowAppitem("");
-		mvApp::GetApp()->addItem(item);
+		auto parentItem = mvApp::GetApp()->topParent();
+
+		if (parentItem == nullptr)
+		{
+			mvAppItem* item = new mvEndWindowAppitem("");
+			mvApp::GetApp()->addItem(item);
+		}
+		else
+			mvAppLog::getLogger()->LogError("Missing an end_* command.");
 
 		Py_RETURN_NONE;
 	}
 
-	PyObject* endChild(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* end_child(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
-		auto parent = mvApp::GetApp()->popParent();		
+
+		auto parentItem = mvApp::GetApp()->topParent();
+
+		if (parentItem == nullptr)
+			mvAppLog::getLogger()->LogError("end_child must follow a call to add_child.");
+
+		else if (parentItem->getType() == mvAppItemType::Child)
+			mvApp::GetApp()->popParent();
+
+		else
+			mvAppLog::getLogger()->LogError("end_child was called incorrectly and will be ignored");
+
 		Py_RETURN_NONE;
 	}
 
-	PyObject* addTooltip(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* add_tooltip(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		MV_STANDARD_CALLBACK_INIT();
 		const char* parent, * name;
 
-		if (!Translators["addTooltip"].parse(args, kwargs, __FUNCTION__, &parent, &name, MV_STANDARD_CALLBACK_PARSE))
+		if (!Translators["add_tooltip"].parse(args, kwargs, __FUNCTION__, &parent, &name, MV_STANDARD_CALLBACK_PARSE))
 			Py_RETURN_NONE;
 
 		mvAppItem* item = new mvTooltip(parent, name);
@@ -1627,20 +1752,31 @@ namespace Marvel {
 		Py_RETURN_NONE;
 	}
 
-	PyObject* endTooltip(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* end_tooltip(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
-		mvApp::GetApp()->popParent();
+
+		auto parentItem = mvApp::GetApp()->topParent();
+
+		if (parentItem == nullptr)
+			mvAppLog::getLogger()->LogError("end_tooltip must follow a call to add_tooltip.");
+
+		else if (parentItem->getType() == mvAppItemType::Tooltip)
+			mvApp::GetApp()->popParent();
+
+		else
+			mvAppLog::getLogger()->LogError("end_tooltip was called incorrectly and will be ignored");
+
 		Py_RETURN_NONE;
 	}
 
-	PyObject* addPopup(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* add_popup(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		MV_STANDARD_CALLBACK_INIT();
 		const char* parent, * name;
 		int mousebutton = 1;
 		int modal = false;
 
-		if (!Translators["addPopup"].parse(args, kwargs, __FUNCTION__, &parent, &name, &mousebutton, &modal, MV_STANDARD_CALLBACK_PARSE))
+		if (!Translators["add_popup"].parse(args, kwargs, __FUNCTION__, &parent, &name, &mousebutton, &modal, MV_STANDARD_CALLBACK_PARSE))
 			Py_RETURN_NONE;
 
 		mvAppItem* item = new mvPopup(parent, name, mousebutton, modal);
@@ -1653,19 +1789,29 @@ namespace Marvel {
 		Py_RETURN_NONE;
 	}
 
-	PyObject* endPopup(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* end_popup(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
-		mvApp::GetApp()->popParent();
+		auto parentItem = mvApp::GetApp()->topParent();
+
+		if (parentItem == nullptr)
+			mvAppLog::getLogger()->LogError("end_popup must follow a call to add_group.");
+
+		else if (parentItem->getType() == mvAppItemType::Popup)
+			mvApp::GetApp()->popParent();
+
+		else
+			mvAppLog::getLogger()->LogError("end_popup was called incorrectly and will be ignored");
+
 		Py_RETURN_NONE;
 	}
 
-	PyObject* addCollapsingHeader(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* add_collapsing_header(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		MV_STANDARD_CALLBACK_INIT();
 		const char* name;
 		int flags = 0;
 
-		if (!Translators["addCollapsingHeader"].parse(args, kwargs, __FUNCTION__, &name, &flags, MV_STANDARD_CALLBACK_PARSE))
+		if (!Translators["add_collapsing_header"].parse(args, kwargs, __FUNCTION__, &name, &flags, MV_STANDARD_CALLBACK_PARSE))
 			Py_RETURN_NONE;
 
 		mvAppItem* item = new mvCollapsingHeader("", name, flags);
@@ -1678,19 +1824,29 @@ namespace Marvel {
 		Py_RETURN_NONE;
 	}
 
-	PyObject* endCollapsingHeader(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* end_collapsing_header(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
-		mvApp::GetApp()->popParent();	
+		auto parentItem = mvApp::GetApp()->topParent();
+
+		if (parentItem == nullptr)
+			mvAppLog::getLogger()->LogError("end_collapsing_header must follow a call to add_collapsing_header.");
+
+		else if (parentItem->getType() == mvAppItemType::CollapsingHeader)
+			mvApp::GetApp()->popParent();
+
+		else
+			mvAppLog::getLogger()->LogError("end_collapsing_header was called incorrectly and will be ignored");
+
 		Py_RETURN_NONE;
 	}
 
-	PyObject* addTreeNode(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* add_tree_node(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		MV_STANDARD_CALLBACK_INIT();
 		const char* name;
 		int flags = 0;
 
-		if (!Translators["addTreeNode"].parse(args, kwargs, __FUNCTION__, &name, &flags, MV_STANDARD_CALLBACK_PARSE))
+		if (!Translators["add_tree_node"].parse(args, kwargs, __FUNCTION__, &name, &flags, MV_STANDARD_CALLBACK_PARSE))
 			Py_RETURN_NONE;
 
 		mvAppItem* item = new mvTreeNode("", name, flags);
@@ -1703,13 +1859,23 @@ namespace Marvel {
 		Py_RETURN_NONE;
 	}
 
-	PyObject* endTreeNode(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* end_tree_node(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
-		mvApp::GetApp()->popParent();
+		auto parentItem = mvApp::GetApp()->topParent();
+
+		if (parentItem == nullptr)
+			mvAppLog::getLogger()->LogError("end_tree_node must follow a call to add_tree_node.");
+
+		else if (parentItem->getType() == mvAppItemType::TreeNode)
+			mvApp::GetApp()->popParent();
+
+		else
+			mvAppLog::getLogger()->LogError("end_tree_node was called incorrectly and will be ignored");
+
 		Py_RETURN_NONE;
 	}
 
-	PyObject* addSeperator(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* add_seperator(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		mvAppItem* item = new mvSeparator("");
 		mvApp::GetApp()->addItem(item);
@@ -1717,7 +1883,7 @@ namespace Marvel {
 		Py_RETURN_NONE;
 	}
 	
-	PyObject* addColorEdit3(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* add_color_edit3(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		MV_STANDARD_CALLBACK_INIT();
 		const char* name;
@@ -1726,7 +1892,7 @@ namespace Marvel {
 		PyTuple_SetItem(default_value, 1, PyLong_FromLong(0));
 		PyTuple_SetItem(default_value, 2, PyLong_FromLong(0));
 
-		if (!Translators["addColorEdit3"].parse(args, kwargs, __FUNCTION__, &name, &default_value, MV_STANDARD_CALLBACK_PARSE))
+		if (!Translators["add_color_edit3"].parse(args, kwargs, __FUNCTION__, &name, &default_value, MV_STANDARD_CALLBACK_PARSE))
 			Py_RETURN_NONE;
 
 		auto color = mvPythonTranslator::getColor(default_value);
@@ -1739,7 +1905,7 @@ namespace Marvel {
 		Py_RETURN_NONE;
 	}
 
-	PyObject* addColorEdit4(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* add_color_edit4(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		MV_STANDARD_CALLBACK_INIT();
 		const char* name;
@@ -1749,7 +1915,7 @@ namespace Marvel {
 		PyTuple_SetItem(default_value, 2, PyLong_FromLong(0));
 		PyTuple_SetItem(default_value, 3, PyLong_FromLong(0));
 
-		if (!Translators["addColorEdit4"].parse(args, kwargs,__FUNCTION__, &name, &default_value, MV_STANDARD_CALLBACK_PARSE))
+		if (!Translators["add_color_edit4"].parse(args, kwargs,__FUNCTION__, &name, &default_value, MV_STANDARD_CALLBACK_PARSE))
 			Py_RETURN_NONE;
 
 		auto color = mvPythonTranslator::getColor(default_value);
@@ -1762,7 +1928,7 @@ namespace Marvel {
 		Py_RETURN_NONE;
 	}
 
-	PyObject* addColorPicker3(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* add_color_picker3(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		MV_STANDARD_CALLBACK_INIT();
 		const char* name;
@@ -1771,7 +1937,7 @@ namespace Marvel {
 		PyTuple_SetItem(default_value, 1, PyLong_FromLong(0));
 		PyTuple_SetItem(default_value, 2, PyLong_FromLong(0));
 
-		if (!Translators["addColorPicker3"].parse(args, kwargs, __FUNCTION__, &name, &default_value, MV_STANDARD_CALLBACK_PARSE))
+		if (!Translators["add_color_picker3"].parse(args, kwargs, __FUNCTION__, &name, &default_value, MV_STANDARD_CALLBACK_PARSE))
 			Py_RETURN_NONE;
 
 		auto color = mvPythonTranslator::getColor(default_value);
@@ -1784,7 +1950,7 @@ namespace Marvel {
 		Py_RETURN_NONE;
 	}
 
-	PyObject* addColorPicker4(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* add_color_picker4(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		MV_STANDARD_CALLBACK_INIT();
 		const char* name;
@@ -1794,7 +1960,7 @@ namespace Marvel {
 		PyTuple_SetItem(default_value, 2, PyLong_FromLong(0));
 		PyTuple_SetItem(default_value, 3, PyLong_FromLong(1));
 
-		if (!Translators["addColorPicker4"].parse(args, kwargs, __FUNCTION__, &name, &default_value, MV_STANDARD_CALLBACK_PARSE))
+		if (!Translators["add_color_picker4"].parse(args, kwargs, __FUNCTION__, &name, &default_value, MV_STANDARD_CALLBACK_PARSE))
 			Py_RETURN_NONE;
 
 		auto color = mvPythonTranslator::getColor(default_value);
@@ -1807,13 +1973,13 @@ namespace Marvel {
 		Py_RETURN_NONE;
 	}
 
-	PyObject* addCheckbox(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* add_checkbox(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		MV_STANDARD_CALLBACK_INIT();
 		const char* name;
 		int default_value = 0;
 
-		if (!Translators["addCheckbox"].parse(args, kwargs,__FUNCTION__, &name, &default_value, MV_STANDARD_CALLBACK_PARSE))
+		if (!Translators["add_checkbox"].parse(args, kwargs,__FUNCTION__, &name, &default_value, MV_STANDARD_CALLBACK_PARSE))
 			Py_RETURN_NONE;
 
 		mvAppItem* item = new mvCheckbox("", name, default_value);
@@ -1830,69 +1996,69 @@ namespace Marvel {
 
 		auto pyModule = new mvPythonModule("sbWidgets", {});
 
-		pyModule->addMethodD(endTreeNode);
-		pyModule->addMethodD(endPopup);
-		pyModule->addMethodD(endWindow);
-		pyModule->addMethodD(endMainWindow);
-		pyModule->addMethodD(endGroup);
-		pyModule->addMethodD(endChild);
-		pyModule->addMethodD(endTab);
-		pyModule->addMethodD(endTabBar);
-		pyModule->addMethodD(endMenu);
-		pyModule->addMethodD(endMenuBar);
-		pyModule->addMethodD(endTooltip);
-		pyModule->addMethodD(endCollapsingHeader);
-		pyModule->addMethodD(addImage);
-		pyModule->addMethodD(addProgressBar);
-		pyModule->addMethodD(addDragFloat);
-		pyModule->addMethodD(addDragInt);
-		pyModule->addMethodD(addDragFloat2);
-		pyModule->addMethodD(addDragFloat3);
-		pyModule->addMethodD(addDragFloat4);
-		pyModule->addMethodD(addDragInt2);
-		pyModule->addMethodD(addDragInt3);
-		pyModule->addMethodD(addDragInt4);
-		pyModule->addMethodD(addSliderFloat);
-		pyModule->addMethodD(addSliderInt);
-		pyModule->addMethodD(addSliderFloat2);
-		pyModule->addMethodD(addSliderFloat3);
-		pyModule->addMethodD(addSliderFloat4);
-		pyModule->addMethodD(addSliderInt2);
-		pyModule->addMethodD(addSliderInt3);
-		pyModule->addMethodD(addSliderInt4);
-		pyModule->addMethodD(addTreeNode);
-		pyModule->addMethodD(addSelectable);
-		pyModule->addMethodD(addPopup);
-		pyModule->addMethodD(addWindow);
-		pyModule->addMethodD(indent);
+		pyModule->addMethodD(end_tree_node);
+		pyModule->addMethodD(end_popup);
+		pyModule->addMethodD(end_window);
+		pyModule->addMethodD(end_main_window);
+		pyModule->addMethodD(end_group);
+		pyModule->addMethodD(end_child);
+		pyModule->addMethodD(end_tab);
+		pyModule->addMethodD(end_tab_bar);
+		pyModule->addMethodD(end_menu);
+		pyModule->addMethodD(end_menu_bar);
+		pyModule->addMethodD(end_tooltip);
+		pyModule->addMethodD(end_collapsing_header);
+		pyModule->addMethodD(add_image);
+		pyModule->addMethodD(add_progress_bar);
+		pyModule->addMethodD(add_drag_float);
+		pyModule->addMethodD(add_drag_int);
+		pyModule->addMethodD(add_drag_float2);
+		pyModule->addMethodD(add_drag_float3);
+		pyModule->addMethodD(add_drag_float4);
+		pyModule->addMethodD(add_drag_int2);
+		pyModule->addMethodD(add_drag_int3);
+		pyModule->addMethodD(add_drag_int4);
+		pyModule->addMethodD(add_slider_float);
+		pyModule->addMethodD(add_slider_int);
+		pyModule->addMethodD(add_slider_float2);
+		pyModule->addMethodD(add_slider_float3);
+		pyModule->addMethodD(add_slider_float4);
+		pyModule->addMethodD(add_slider_int2);
+		pyModule->addMethodD(add_slider_int3);
+		pyModule->addMethodD(add_slider_int4);
+		pyModule->addMethodD(add_tree_node);
+		pyModule->addMethodD(add_selectable);
+		pyModule->addMethodD(add_popup);
+		pyModule->addMethodD(add_window);
+		pyModule->addMethodD(add_indent);
 		pyModule->addMethodD(unindent);
-		pyModule->addMethodD(addSimplePlot);
-		pyModule->addMethodD(addCombo);
-		pyModule->addMethodD(addText);
-		pyModule->addMethodD(addLabelText);
-		pyModule->addMethodD(addListbox);
-		pyModule->addMethodD(addColorEdit3);
-		pyModule->addMethodD(addColorEdit4);
-		pyModule->addMethodD(addColorPicker3);
-		pyModule->addMethodD(addColorPicker4);
-		pyModule->addMethodD(addSeperator);
-		pyModule->addMethodD(addButton);
-		pyModule->addMethodD(addInputText);
-		pyModule->addMethodD(addInputInt);
-		pyModule->addMethodD(addInputFloat);
-		pyModule->addMethodD(addRadioButton);
-		pyModule->addMethodD(addCheckbox);
-		pyModule->addMethodD(addGroup);
-		pyModule->addMethodD(addChild);
-		pyModule->addMethodD(addTabBar);
-		pyModule->addMethodD(addTab);
-		pyModule->addMethodD(addMenuBar);
-		pyModule->addMethodD(addMenu);
-		pyModule->addMethodD(addMenuItem);
-		pyModule->addMethodD(addSpacing);
-		pyModule->addMethodD(addSameLine);
-		pyModule->addMethodD(addTooltip);
-		pyModule->addMethodD(addCollapsingHeader);
+		pyModule->addMethodD(add_simple_plot);
+		pyModule->addMethodD(add_combo);
+		pyModule->addMethodD(add_text);
+		pyModule->addMethodD(add_label_text);
+		pyModule->addMethodD(add_listbox);
+		pyModule->addMethodD(add_color_edit3);
+		pyModule->addMethodD(add_color_edit4);
+		pyModule->addMethodD(add_color_picker3);
+		pyModule->addMethodD(add_color_picker4);
+		pyModule->addMethodD(add_seperator);
+		pyModule->addMethodD(add_button);
+		pyModule->addMethodD(add_input_text);
+		pyModule->addMethodD(add_input_int);
+		pyModule->addMethodD(add_input_float);
+		pyModule->addMethodD(add_radio_button);
+		pyModule->addMethodD(add_checkbox);
+		pyModule->addMethodD(add_group);
+		pyModule->addMethodD(add_child);
+		pyModule->addMethodD(add_tab_bar);
+		pyModule->addMethodD(add_tab);
+		pyModule->addMethodD(add_menu_bar);
+		pyModule->addMethodD(add_menu);
+		pyModule->addMethodD(add_menu_item);
+		pyModule->addMethodD(add_spacing);
+		pyModule->addMethodD(add_same_line);
+		pyModule->addMethodD(add_tooltip);
+		pyModule->addMethodD(add_collapsing_header);
 		
 		return pyModule;
 	}

@@ -39,7 +39,6 @@ namespace Marvel {
 		void          saveFile();
 		void          saveFileAs();
 		void          handleKeyEvents();
-		void          setSize(unsigned width, unsigned height) { m_width = width; m_height = height; }
 		void          setProgramName(const char* name) { m_programName = name; }
 
 		//-----------------------------------------------------------------------------

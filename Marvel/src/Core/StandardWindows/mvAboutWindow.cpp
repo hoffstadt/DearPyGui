@@ -24,7 +24,7 @@ namespace Marvel {
 			return;
 		}
 
-		ImGui::Text("MarvelSandbox %s", mvApp::getVersion());
+		ImGui::Text("MarvelSandbox %s", mvApp::GetVersion());
 		ImGui::Text("Dear ImGui %s", ImGui::GetVersion());
 		ImGui::Separator();
 		ImGui::Text("By Jonathan Hoffstadt and Preston Cothren");
