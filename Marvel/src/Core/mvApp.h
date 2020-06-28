@@ -120,7 +120,7 @@ namespace Marvel {
 		// Input Polling
 		//-----------------------------------------------------------------------------
 		void       setMousePosition    (float x, float y) { m_mousePos.x = x; m_mousePos.y = y; }
-		mvMousePos getMousePosition    ()            const { return m_mousePos; }
+		mvMousePos getMousePosition    () const { return m_mousePos; }
 		bool       isMouseButtonPressed(int button)  const;
 		bool       isKeyPressed        (int keycode) const;
 			
@@ -136,6 +136,7 @@ namespace Marvel {
 	private:
 
 		static mvApp*           s_instance;
+		std::string             m_file;
 		mvMousePos              m_mousePos;
 		mvStyle                 m_style;
 		std::vector<mvAppItem*> m_windows;
@@ -148,12 +149,11 @@ namespace Marvel {
 		bool                    m_showAbout = false;
 		bool                    m_showSource = false;
 		bool                    m_showDoc = false;
-		unsigned                m_loglevel = 0;
 		bool                    m_started = false; // to prevent widgets from being added
 		bool                    m_threadPoolAuto = true;
 		bool                    m_threadPool = false;
 		double                  m_threadPoolThreshold = 1.0;
-		unsigned                m_threads = 2; // how many threads to use.
+		unsigned                m_threads = 2; // how many threads to use
 		bool                    m_threadPoolHighPerformance = false;
 
 		// standard callbacks
@@ -164,9 +164,6 @@ namespace Marvel {
 		std::string m_keyDownCallback = "";
 		std::string m_keyPressCallback = "";
 		std::string m_keyReleaseCallback = "";
-
-		//mvTextEditor               m_editor;
-		std::string                m_file;
 
 	};
 
