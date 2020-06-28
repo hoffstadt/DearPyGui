@@ -14,62 +14,62 @@ namespace Marvel {
 		std::map<std::string, mvPythonTranslator> translators = {
 
 				{"is_threadpool_activated", mvPythonTranslator({
-				}, false, "Checks if threadpool is activated")},
+				}, false, "Checks if threadpool is activated", "Boolean")},
 
 				{"get_style_item", mvPythonTranslator({
 					{mvPythonDataType::Integer, "item"}
-				}, false, "Returns a style item's value")},
+				}, false, "Returns a style item's value", "(float, float)")},
 
 				{"get_theme_item", mvPythonTranslator({
 					{mvPythonDataType::Integer, "item"}
-				}, false, "Returns a theme item's color")},
+				}, false, "Returns a theme item's color", "(float, float, float, float)")},
 
 				{"get_item_callback", mvPythonTranslator({
 					{mvPythonDataType::String, "item"}
-				}, false, "Returns an item' callback")},
+				}, false, "Returns an item' callback", "str")},
 
 				{"get_item_height", mvPythonTranslator({
 					{mvPythonDataType::String, "item"}
-				}, false, "Returns an item's height.")},
+				}, false, "Returns an item's height.", "float")},
 
 				{"get_item_width", mvPythonTranslator({
 					{mvPythonDataType::String, "item"}
-				}, false, "Returns an item's width.")},
+				}, false, "Returns an item's width.", "float")},
 
 				{"get_item_popup", mvPythonTranslator({
 					{mvPythonDataType::String, "item"}
-				}, false, "Returns an item's popup.")},
+				}, false, "Returns an item's popup.", "str")},
 
 				{"get_item_tip", mvPythonTranslator({
 					{mvPythonDataType::String, "item"}
-				}, false, "Returns an item's tip.")},
+				}, false, "Returns an item's tip.", "str")},
 
 				{"get_main_callback", mvPythonTranslator({
-				}, false, "Returns the main callback.")},
+				}, false, "Returns the main callback.", "str")},
 
 				{"get_main_window_size", mvPythonTranslator({
-				}, false, "Returns the size of the main window.")},
+				}, false, "Returns the size of the main window.", "(float, float)")},
 
 				{"get_theme", mvPythonTranslator({
-				}, false, "Returns the current theme.")},
+				}, false, "Returns the current theme.", "str")},
 
 				{"get_thread_count", mvPythonTranslator({
-				}, false, "Returns the allowable thread count.")},
+				}, false, "Returns the allowable thread count.", "int")},
 
 				{"is_threadpool_automatic", mvPythonTranslator({
-				}, false, "Checks if the threadpool is automatic.")},
+				}, false, "Checks if the threadpool is automatic.", "Boolean")},
 
 				{"is_threadpool_high_performance", mvPythonTranslator({
-				}, false, "Checks if the threadpool is allowed to use the maximum number of threads.")},
+				}, false, "Checks if the threadpool is allowed to use the maximum number of threads.", "Boolean")},
 
 				{"get_threadpool_threshold", mvPythonTranslator({
-				}, false, "Returns the threadpool activation threshold.")},
+				}, false, "Returns the threadpool activation threshold.", "float")},
 
 				{"get_active_window", mvPythonTranslator({
-				}, false, "Returns the active window name.")},
+				}, false, "Returns the active window name.", "str")},
 
 				{"get_marvel_version", mvPythonTranslator({
-				}, false, "Returns the current version of Marvel.")},
+				}, false, "Returns the current version of Marvel.", "str")},
 
 				{"set_threadpool_threshold", mvPythonTranslator({
 					{mvPythonDataType::Float, "time"}
@@ -111,7 +111,7 @@ namespace Marvel {
 
 				{"is_item_hovered", mvPythonTranslator({
 					{mvPythonDataType::String, "item"},
-				}, false, "Checks if an item is hovered.")},
+				}, false, "Checks if an item is hovered.", "Boolean")},
 
 				{"set_main_window_size", mvPythonTranslator({
 					{mvPythonDataType::Integer, "width"},
@@ -120,51 +120,51 @@ namespace Marvel {
 
 				{"is_item_active", mvPythonTranslator({
 					{mvPythonDataType::String, "item"},
-				}, false, "Checks if an item is active.")},
+				}, false, "Checks if an item is active.", "Boolean")},
 
 				{"is_item_focused", mvPythonTranslator({
 					{mvPythonDataType::String, "item"},
-				}, false, "Checks if an item is focused.")},
+				}, false, "Checks if an item is focused.", "Boolean")},
 
 				{"is_item_clicked", mvPythonTranslator({
 					{mvPythonDataType::String, "item"},
-				}, false, "Checks if an item is clicked.")},
+				}, false, "Checks if an item is clicked.", "Boolean")},
 
 				{"is_item_visible", mvPythonTranslator({
 					{mvPythonDataType::String, "item"},
-				}, false, "Checks if an item is visible.")},
+				}, false, "Checks if an item is visible.", "Boolean")},
 
 				{"is_item_edited", mvPythonTranslator({
 					{mvPythonDataType::String, "item"},
-				}, false, "Checks if an item has been edited.")},
+				}, false, "Checks if an item has been edited.", "Boolean")},
 
 				{"is_item_activated", mvPythonTranslator({
 					{mvPythonDataType::String, "item"},
-				}, false, "Checks if an item has been activated.")},
+				}, false, "Checks if an item has been activated.", "Boolean")},
 
 				{"is_item_deactivated", mvPythonTranslator({
 					{mvPythonDataType::String, "item"},
-				}, false, "Checks if an item has been deactivated.")},
+				}, false, "Checks if an item has been deactivated.", "Boolean")},
 
 				{"is_item_deactivated_after_edit", mvPythonTranslator({
 					{mvPythonDataType::String, "item"},
-				}, false, "Checks if an item has been deactivated after editing.")},
+				}, false, "Checks if an item has been deactivated after editing.", "Boolean")},
 
 				{"is_item_toggled_open", mvPythonTranslator({
 					{mvPythonDataType::String, "item"},
-				}, false, "Checks if an item is toggled.")},
+				}, false, "Checks if an item is toggled.", "Boolean")},
 
 				{"get_item_rect_min", mvPythonTranslator({
 					{mvPythonDataType::String, "item"},
-				}, false, "Returns an item's minimum allowable size.")},
+				}, false, "Returns an item's minimum allowable size.", "(float, float)")},
 
 				{"get_item_rect_max", mvPythonTranslator({
 					{mvPythonDataType::String, "item"},
-				}, false, "Returns an item's maximum allowable size.")},
+				}, false, "Returns an item's maximum allowable size.", "(float, float)")},
 
 				{"get_item_rect_size", mvPythonTranslator({
 					{mvPythonDataType::String, "item"},
-				}, false, "Returns an item's current size.")},
+				}, false, "Returns an item's current size.", "(float, float)")},
 
 				{"change_style_item", mvPythonTranslator({
 					{mvPythonDataType::Integer, "item"},
@@ -183,7 +183,7 @@ namespace Marvel {
 
 				{"get_value", mvPythonTranslator({
 					{mvPythonDataType::String, "name"}
-				}, false, "Returns an item's value or None if there is none.")},
+				}, false, "Returns an item's value or None if there is none.", "Depends")},
 
 				{"set_value", mvPythonTranslator({
 					{mvPythonDataType::String, "name"},

@@ -92,7 +92,7 @@ namespace Marvel {
 		mvPythonTranslator() = default;
 
 		mvPythonTranslator(const std::initializer_list<mvPythonDataElement>& elements, bool standardKeywords = false, 
-			const std::string& about = "");
+			const std::string& about = "", const std::string& returnType = "None");
 
 		bool                                    parse(PyObject* args, PyObject* kwargs, const char* message, ...);
 		static std::vector<std::string>         getStringVec(PyObject* obj);
@@ -114,6 +114,7 @@ namespace Marvel {
 		bool                             m_optional = false; // check if optional has been found already
 		bool                             m_keyword = false; // check if keyword has been found already
 		std::string                      m_about;
+		std::string                      m_return;
 		std::string                      m_documentation;
 
 

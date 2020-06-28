@@ -13,33 +13,33 @@ namespace Marvel {
 		std::map<std::string, mvPythonTranslator> translators = {
 
 			{"get_key_down_callback", mvPythonTranslator({
-			}, false, "Returns the key down callback.")},
+			}, false, "Returns the key down callback.", "str")},
 
 			{"get_key_press_callback", mvPythonTranslator({
-			}, false, "Returns the key press callback.")},
+			}, false, "Returns the key press callback.", "str")},
 
 			{"get_key_release_callback", mvPythonTranslator({
-			}, false, "Returns the key release callback.")},
+			}, false, "Returns the key release callback.", "str")},
 
 			{"get_mouse_click_callback", mvPythonTranslator({
-			}, false, "Returns the mouse click callback.")},
+			}, false, "Returns the mouse click callback.", "str")},
 
 			{"get_mouse_double_click_callback", mvPythonTranslator({
-			}, false, "Returns the mouse double click callback.")},
+			}, false, "Returns the mouse double click callback.", "str")},
 
 			{"get_mouse_down_callback", mvPythonTranslator({
-			}, false, "Returns the mouse down callback.")},
+			}, false, "Returns the mouse down callback.", "str")},
 
 			{"get_mouse_pos", mvPythonTranslator({
-			}, false, "Returns the current mouse position in relation to the active window (minus titlebar).")},
+			}, false, "Returns the current mouse position in relation to the active window (minus titlebar).", "(int, int)")},
 
 			{"is_mouse_button_pressed", mvPythonTranslator({
 				{mvPythonDataType::Integer, "button"}
-			}, false, "Checks if the mouse button is pressed.")},
+			}, false, "Checks if the mouse button is pressed.", "Boolean")},
 
 			{"is_key_pressed", mvPythonTranslator({
 				{mvPythonDataType::Integer, "key"}
-			}, false, "Checks if the key is pressed.")},
+			}, false, "Checks if the key is pressed.", "Boolean")},
 
 			{"set_mouse_down_callback", mvPythonTranslator({
 				{mvPythonDataType::String, "callback"}
