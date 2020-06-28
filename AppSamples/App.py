@@ -9,7 +9,7 @@ import sbConstants
 # This app is used for packaging.
 # Make it your own!
 
-addButton("Press me")
+add_button("Press me")
 
 
 

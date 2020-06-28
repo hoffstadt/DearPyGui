@@ -93,112 +93,112 @@ namespace Marvel {
 			//-----------------------------------------------------------------------------
 			// Window Flags
 			//-----------------------------------------------------------------------------
-			{"mvGuiWindowFlags_None"                     ,       0},
-			{"mvGuiWindowFlags_NoTitleBar"               ,  1 << 0},   // Disable title-bar
-			{"mvGuiWindowFlags_NoResize"                 ,  1 << 1},   // Disable user resizing with the lower-right grip
-			{"mvGuiWindowFlags_NoMove"                   ,  1 << 2},   // Disable user moving the window
-			{"mvGuiWindowFlags_NoScrollbar"              ,  1 << 3},   // Disable scrollbars (window can still scroll with mouse or programmatically)
-			{"mvGuiWindowFlags_NoScrollWithMouse"        ,  1 << 4},   // Disable user vertically scrolling with mouse wheel. On child window, mouse wheel will be forwarded to the parent unless NoScrollbar is also set.
-			{"mvGuiWindowFlags_NoCollapse"               ,  1 << 5},   // Disable user collapsing window by double-clicking on it
-			{"mvGuiWindowFlags_AlwaysAutoResize"         ,  1 << 6},   // Resize every window to its content every frame
-			{"mvGuiWindowFlags_NoBackground"             ,  1 << 7},   // Disable drawing background color (WindowBg, etc.) and outside border. Similar as using SetNextWindowBgAlpha(0.0f).
-			{"mvGuiWindowFlags_NoSavedSettings"          ,  1 << 8},   // Never load/save settings in .ini file
-			{"mvGuiWindowFlags_NoMouseInputs"            ,  1 << 9},   // Disable catching mouse, hovering test with pass through.
-			{"mvGuiWindowFlags_MenuBar"                  ,  1 << 10},  // Has a menu-bar
-			{"mvGuiWindowFlags_HorizontalScrollbar"      ,  1 << 11},  // Allow horizontal scrollbar to appear (off by default). You may use SetNextWindowContentSize(ImVec2(width,0.0f)); prior to calling Begin() to specify width. Read code in imgui_demo in the "Horizontal Scrolling" section.
-			{"mvGuiWindowFlags_NoFocusOnAppearing"       ,  1 << 12},  // Disable taking focus when transitioning from hidden to visible state
-			{"mvGuiWindowFlags_NoBringToFrontOnFocus"    ,  1 << 13},  // Disable bringing window to front when taking focus (e.g. clicking on it or programmatically giving it focus)
-			{"mvGuiWindowFlags_AlwaysVerticalScrollbar"  ,  1 << 14},  // Always show vertical scrollbar (even if ContentSize.y < Size.y)
-			{"mvGuiWindowFlags_AlwaysHorizontalScrollbar",  1 << 15},  // Always show horizontal scrollbar (even if ContentSize.x < Size.x)
-			{"mvGuiWindowFlags_AlwaysUseWindowPadding"   ,  1 << 16},  // Ensure child windows without border uses style.WindowPadding (ignored by default for non-bordered child windows, because more convenient)
-			{"mvGuiWindowFlags_NoNavInputs"              ,  1 << 18},  // No gamepad/keyboard navigation within the window
-			{"mvGuiWindowFlags_NoNavFocus"               ,  1 << 19},  // No focusing toward this window with gamepad/keyboard navigation (e.g. skipped by CTRL+TAB)
-			{"mvGuiWindowFlags_UnsavedDocument"          ,  1 << 20},  // Append '*' to title without affecting the ID, as a convenience to avoid using the ### operator. When used in a tab/docking context, tab is selected on closure and closure is deferred by one frame to allow code to cancel the closure (with a confirmation popup, etc.) without flicker.
-			{"mvGuiWindowFlags_NoNav"                    ,   786432},
-			{"mvGuiWindowFlags_NoDecoration"             ,       43},
-			{"mvGuiWindowFlags_NoInputs"                 ,   786944},
+			{"mvWindowFlags_None"                     ,       0},
+			{"mvWindowFlags_NoTitleBar"               ,  1 << 0},   // Disable title-bar
+			{"mvWindowFlags_NoResize"                 ,  1 << 1},   // Disable user resizing with the lower-right grip
+			{"mvWindowFlags_NoMove"                   ,  1 << 2},   // Disable user moving the window
+			{"mvWindowFlags_NoScrollbar"              ,  1 << 3},   // Disable scrollbars (window can still scroll with mouse or programmatically)
+			{"mvWindowFlags_NoScrollWithMouse"        ,  1 << 4},   // Disable user vertically scrolling with mouse wheel. On child window, mouse wheel will be forwarded to the parent unless NoScrollbar is also set.
+			{"mvWindowFlags_NoCollapse"               ,  1 << 5},   // Disable user collapsing window by double-clicking on it
+			{"mvWindowFlags_AlwaysAutoResize"         ,  1 << 6},   // Resize every window to its content every frame
+			{"mvWindowFlags_NoBackground"             ,  1 << 7},   // Disable drawing background color (WindowBg, etc.) and outside border. Similar as using SetNextWindowBgAlpha(0.0f).
+			{"mvWindowFlags_NoSavedSettings"          ,  1 << 8},   // Never load/save settings in .ini file
+			{"mvWindowFlags_NoMouseInputs"            ,  1 << 9},   // Disable catching mouse, hovering test with pass through.
+			{"mvWindowFlags_MenuBar"                  ,  1 << 10},  // Has a menu-bar
+			{"mvWindowFlags_HorizontalScrollbar"      ,  1 << 11},  // Allow horizontal scrollbar to appear (off by default). You may use SetNextWindowContentSize(ImVec2(width,0.0f)); prior to calling Begin() to specify width. Read code in imgui_demo in the "Horizontal Scrolling" section.
+			{"mvWindowFlags_NoFocusOnAppearing"       ,  1 << 12},  // Disable taking focus when transitioning from hidden to visible state
+			{"mvWindowFlags_NoBringToFrontOnFocus"    ,  1 << 13},  // Disable bringing window to front when taking focus (e.g. clicking on it or programmatically giving it focus)
+			{"mvWindowFlags_AlwaysVerticalScrollbar"  ,  1 << 14},  // Always show vertical scrollbar (even if ContentSize.y < Size.y)
+			{"mvWindowFlags_AlwaysHorizontalScrollbar",  1 << 15},  // Always show horizontal scrollbar (even if ContentSize.x < Size.x)
+			{"mvWindowFlags_AlwaysUseWindowPadding"   ,  1 << 16},  // Ensure child windows without border uses style.WindowPadding (ignored by default for non-bordered child windows, because more convenient)
+			{"mvWindowFlags_NoNavInputs"              ,  1 << 18},  // No gamepad/keyboard navigation within the window
+			{"mvWindowFlags_NoNavFocus"               ,  1 << 19},  // No focusing toward this window with gamepad/keyboard navigation (e.g. skipped by CTRL+TAB)
+			{"mvWindowFlags_UnsavedDocument"          ,  1 << 20},  // Append '*' to title without affecting the ID, as a convenience to avoid using the ### operator. When used in a tab/docking context, tab is selected on closure and closure is deferred by one frame to allow code to cancel the closure (with a confirmation popup, etc.) without flicker.
+			{"mvWindowFlags_NoNav"                    ,   786432},
+			{"mvWindowFlags_NoDecoration"             ,       43},
+			{"mvWindowFlags_NoInputs"                 ,   786944},
 
 			//-----------------------------------------------------------------------------
 			// Input Text Flags
 			//-----------------------------------------------------------------------------
-			{"mvGuiInputTextFlags_None"               ,      0},
-			{"mvGuiInputTextFlags_CharsDecimal"       , 1 << 0},   // Allow 0123456789.+-*/
-			{"mvGuiInputTextFlags_CharsHexadecimal"   , 1 << 1},   // Allow 0123456789ABCDEFabcdef
-			{"mvGuiInputTextFlags_CharsUppercase"     , 1 << 2},   // Turn a..z into A..Z
-			{"mvGuiInputTextFlags_CharsNoBlank"       , 1 << 3},   // Filter out spaces, tabs
-			{"mvGuiInputTextFlags_AutoSelectAll"      , 1 << 4},   // Select entire text when first taking mouse focus
-			{"mvGuiInputTextFlags_EnterReturnsTrue"   , 1 << 5},   // Return 'true' when Enter is pressed (as opposed to every time the value was modified). Consider looking at the IsItemDeactivatedAfterEdit() function.
-			{"mvGuiInputTextFlags_CallbackCompletion" , 1 << 6},   // Callback on pressing TAB (for completion handling)
-			{"mvGuiInputTextFlags_CallbackHistory"    , 1 << 7},   // Callback on pressing Up/Down arrows (for history handling)
-			{"mvGuiInputTextFlags_CallbackAlways"     , 1 << 8},   // Callback on each iteration. User code may query cursor position, modify text buffer.
-			{"mvGuiInputTextFlags_CallbackCharFilter" , 1 << 9},   // Callback on character inputs to replace or discard them. Modify 'EventChar' to replace or discard, or return 1 in callback to discard.
-			{"mvGuiInputTextFlags_AllowTabInput"      , 1 << 10},  // Pressing TAB input a '\t' character into the text field
-			{"mvGuiInputTextFlags_CtrlEnterForNewLine", 1 << 11},  // In multi-line mode, unfocus with Enter, add new line with Ctrl+Enter (default is opposite: unfocus with Ctrl+Enter, add line with Enter).
-			{"mvGuiInputTextFlags_NoHorizontalScroll" , 1 << 12},  // Disable following the cursor horizontally
-			{"mvGuiInputTextFlags_AlwaysInsertMode"   , 1 << 13},  // Insert mode
-			{"mvGuiInputTextFlags_ReadOnly"           , 1 << 14},  // Read-only mode
-			{"mvGuiInputTextFlags_Password"           , 1 << 15},  // Password mode, display all characters as '*'
-			{"mvGuiInputTextFlags_NoUndoRedo"         , 1 << 16},  // Disable undo/redo. Note that input text owns the text data while active, if you want to provide your own undo/redo stack you need e.g. to call ClearActiveID().
-			{"mvGuiInputTextFlags_CharsScientific"    , 1 << 17},  // Allow 0123456789.+-*/eE (Scientific notation input)
-			{"mvGuiInputTextFlags_CallbackResize"     , 1 << 18},  // Callback on buffer capacity changes request (beyond 'buf_size' parameter value), allowing the string to grow. Notify when the string wants to be resized (for string types which hold a cache of their Size). You will be provided a new BufSize in the callback and NEED to honor it. (see misc/cpp/imgui_stdlib.h for an example of using this)
+			{"mvInputTextFlags_None"               ,      0},
+			{"mvInputTextFlags_CharsDecimal"       , 1 << 0},   // Allow 0123456789.+-*/
+			{"mvInputTextFlags_CharsHexadecimal"   , 1 << 1},   // Allow 0123456789ABCDEFabcdef
+			{"mvInputTextFlags_CharsUppercase"     , 1 << 2},   // Turn a..z into A..Z
+			{"mvInputTextFlags_CharsNoBlank"       , 1 << 3},   // Filter out spaces, tabs
+			{"mvInputTextFlags_AutoSelectAll"      , 1 << 4},   // Select entire text when first taking mouse focus
+			{"mvInputTextFlags_EnterReturnsTrue"   , 1 << 5},   // Return 'true' when Enter is pressed (as opposed to every time the value was modified). Consider looking at the IsItemDeactivatedAfterEdit() function.
+			{"mvInputTextFlags_CallbackCompletion" , 1 << 6},   // Callback on pressing TAB (for completion handling)
+			{"mvInputTextFlags_CallbackHistory"    , 1 << 7},   // Callback on pressing Up/Down arrows (for history handling)
+			{"mvInputTextFlags_CallbackAlways"     , 1 << 8},   // Callback on each iteration. User code may query cursor position, modify text buffer.
+			{"mvInputTextFlags_CallbackCharFilter" , 1 << 9},   // Callback on character inputs to replace or discard them. Modify 'EventChar' to replace or discard, or return 1 in callback to discard.
+			{"mvInputTextFlags_AllowTabInput"      , 1 << 10},  // Pressing TAB input a '\t' character into the text field
+			{"mvInputTextFlags_CtrlEnterForNewLine", 1 << 11},  // In multi-line mode, unfocus with Enter, add new line with Ctrl+Enter (default is opposite: unfocus with Ctrl+Enter, add line with Enter).
+			{"mvInputTextFlags_NoHorizontalScroll" , 1 << 12},  // Disable following the cursor horizontally
+			{"mvInputTextFlags_AlwaysInsertMode"   , 1 << 13},  // Insert mode
+			{"mvInputTextFlags_ReadOnly"           , 1 << 14},  // Read-only mode
+			{"mvInputTextFlags_Password"           , 1 << 15},  // Password mode, display all characters as '*'
+			{"mvInputTextFlags_NoUndoRedo"         , 1 << 16},  // Disable undo/redo. Note that input text owns the text data while active, if you want to provide your own undo/redo stack you need e.g. to call ClearActiveID().
+			{"mvInputTextFlags_CharsScientific"    , 1 << 17},  // Allow 0123456789.+-*/eE (Scientific notation input)
+			{"mvInputTextFlags_CallbackResize"     , 1 << 18},  // Callback on buffer capacity changes request (beyond 'buf_size' parameter value), allowing the string to grow. Notify when the string wants to be resized (for string types which hold a cache of their Size). You will be provided a new BufSize in the callback and NEED to honor it. (see misc/cpp/imgui_stdlib.h for an example of using this)
 
 			//-----------------------------------------------------------------------------
 			// tree and collapsing header flags
 			//-----------------------------------------------------------------------------
-			{"mvGuiTreeNodeFlags_None"                ,      0},
-			{"mvGuiTreeNodeFlags_Selected"            , 1 << 0},   // Draw as selected
-			{"mvGuiTreeNodeFlags_Framed"              , 1 << 1},   // Full colored frame (e.g. for CollapsingHeader)
-			{"mvGuiTreeNodeFlags_AllowItemOverlap"    , 1 << 2},   // Hit testing to allow subsequent widgets to overlap this one
-			{"mvGuiTreeNodeFlags_NoTreePushOnOpen"    , 1 << 3},   // Don't do a TreePush() when open (e.g. for CollapsingHeader) = no extra indent nor pushing on ID stack
-			{"mvGuiTreeNodeFlags_NoAutoOpenOnLog"     , 1 << 4},   // Don't automatically and temporarily open node when Logging is active (by default logging will automatically open tree nodes)
-			{"mvGuiTreeNodeFlags_DefaultOpen"         , 1 << 5},   // Default node to be open
-			{"mvGuiTreeNodeFlags_OpenOnDoubleClick"   , 1 << 6},   // Need double-click to open node
-			{"mvGuiTreeNodeFlags_OpenOnArrow"         , 1 << 7},   // Only open when clicking on the arrow part. If ImGuiTreeNodeFlags_OpenOnDoubleClick is also set, single-click arrow or double-click all box to open.
-			{"mvGuiTreeNodeFlags_Leaf"                , 1 << 8},   // No collapsing, no arrow (use as a convenience for leaf nodes).
-			{"mvGuiTreeNodeFlags_Bullet"              , 1 << 9},   // Display a bullet instead of arrow
-			{"mvGuiTreeNodeFlags_FramePadding"        , 1 << 10},  // Use FramePadding (even for an unframed text node) to vertically align text baseline to regular widget height. Equivalent to calling AlignTextToFramePadding().
-			{"mvGuiTreeNodeFlags_SpanAvailWidth"      , 1 << 11},  // Extend hit box to the right-most edge, even if not framed. This is not the default in order to allow adding other items on the same line. In the future we may refactor the hit system to be front-to-back, allowing natural overlaps and then this can become the default.
-			{"mvGuiTreeNodeFlags_SpanFullWidth"       , 1 << 12},  // Extend hit box to the left-most and right-most edges (bypass the indented area).
-			{"mvGuiTreeNodeFlags_NavLeftJumpsBackHere", 1 << 13},  // (WIP) Nav: left direction may move to this TreeNode() from any of its child (items submitted between TreeNode and TreePop)
-			{"mvGuiTreeNodeFlags_CollapsingHeader"    ,      26},
+			{"mvTreeNodeFlags_None"                ,      0},
+			{"mvTreeNodeFlags_Selected"            , 1 << 0},   // Draw as selected
+			{"mvTreeNodeFlags_Framed"              , 1 << 1},   // Full colored frame (e.g. for CollapsingHeader)
+			{"mvTreeNodeFlags_AllowItemOverlap"    , 1 << 2},   // Hit testing to allow subsequent widgets to overlap this one
+			{"mvTreeNodeFlags_NoTreePushOnOpen"    , 1 << 3},   // Don't do a TreePush() when open (e.g. for CollapsingHeader) = no extra indent nor pushing on ID stack
+			{"mvTreeNodeFlags_NoAutoOpenOnLog"     , 1 << 4},   // Don't automatically and temporarily open node when Logging is active (by default logging will automatically open tree nodes)
+			{"mvTreeNodeFlags_DefaultOpen"         , 1 << 5},   // Default node to be open
+			{"mvTreeNodeFlags_OpenOnDoubleClick"   , 1 << 6},   // Need double-click to open node
+			{"mvTreeNodeFlags_OpenOnArrow"         , 1 << 7},   // Only open when clicking on the arrow part. If ImGuiTreeNodeFlags_OpenOnDoubleClick is also set, single-click arrow or double-click all box to open.
+			{"mvTreeNodeFlags_Leaf"                , 1 << 8},   // No collapsing, no arrow (use as a convenience for leaf nodes).
+			{"mvTreeNodeFlags_Bullet"              , 1 << 9},   // Display a bullet instead of arrow
+			{"mvTreeNodeFlags_FramePadding"        , 1 << 10},  // Use FramePadding (even for an unframed text node) to vertically align text baseline to regular widget height. Equivalent to calling AlignTextToFramePadding().
+			{"mvTreeNodeFlags_SpanAvailWidth"      , 1 << 11},  // Extend hit box to the right-most edge, even if not framed. This is not the default in order to allow adding other items on the same line. In the future we may refactor the hit system to be front-to-back, allowing natural overlaps and then this can become the default.
+			{"mvTreeNodeFlags_SpanFullWidth"       , 1 << 12},  // Extend hit box to the left-most and right-most edges (bypass the indented area).
+			{"mvTreeNodeFlags_NavLeftJumpsBackHere", 1 << 13},  // (WIP) Nav: left direction may move to this TreeNode() from any of its child (items submitted between TreeNode and TreePop)
+			{"mvTreeNodeFlags_CollapsingHeader"    ,      26},
 
 			//-----------------------------------------------------------------------------
 			// Selectable flags
 			//-----------------------------------------------------------------------------
-			{"mvGuiSelectableFlags_None"            ,      0},
-			{"mvGuiSelectableFlags_DontClosePopups" , 1 << 0},   // Clicking this don't close parent popup window
-			{"mvGuiSelectableFlags_SpanAllColumns"  , 1 << 1},   // Selectable frame can span all columns (text will still fit in current column)
-			{"mvGuiSelectableFlags_AllowDoubleClick", 1 << 2},   // Generate press events on double clicks too
-			{"mvGuiSelectableFlags_Disabled"        , 1 << 3},   // Cannot be selected, display grayed out text
-			{"mvGuiSelectableFlags_AllowItemOverlap", 1 << 4},    // (WIP) Hit testing to allow subsequent widgets to overlap this one
+			{"mvSelectableFlags_None"            ,      0},
+			{"mvSelectableFlags_DontClosePopups" , 1 << 0},   // Clicking this don't close parent popup window
+			{"mvSelectableFlags_SpanAllColumns"  , 1 << 1},   // Selectable frame can span all columns (text will still fit in current column)
+			{"mvSelectableFlags_AllowDoubleClick", 1 << 2},   // Generate press events on double clicks too
+			{"mvSelectableFlags_Disabled"        , 1 << 3},   // Cannot be selected, display grayed out text
+			{"mvSelectableFlags_AllowItemOverlap", 1 << 4},    // (WIP) Hit testing to allow subsequent widgets to overlap this one
 
 			//-----------------------------------------------------------------------------
 			// Combo flags
 			//-----------------------------------------------------------------------------
-			{"mvGuiComboFlags_None"          ,      0},
-			{"mvGuiComboFlags_PopupAlignLeft", 1 << 0},   // Align the popup toward the left by default
-			{"mvGuiComboFlags_HeightSmall"   , 1 << 1},   // Max ~4 items visible. Tip: If you want your combo popup to be a specific size you can use SetNextWindowSizeConstraints() prior to calling BeginCombo()
-			{"mvGuiComboFlags_HeightRegular" , 1 << 2},   // Max ~8 items visible (default)
-			{"mvGuiComboFlags_HeightLarge"   , 1 << 3},   // Max ~20 items visible
-			{"mvGuiComboFlags_HeightLargest" , 1 << 4},   // As many fitting items as possible
-			{"mvGuiComboFlags_NoArrowButton ", 1 << 5},   // Display on the preview box without the square arrow button
-			{"mvGuiComboFlags_NoPreview"     , 1 << 6},   // Display only a square arrow button
-			{"mvGuiComboFlags_HeightMask_"   ,     30},
+			{"mvComboFlags_None"          ,      0},
+			{"mvComboFlags_PopupAlignLeft", 1 << 0},   // Align the popup toward the left by default
+			{"mvComboFlags_HeightSmall"   , 1 << 1},   // Max ~4 items visible. Tip: If you want your combo popup to be a specific size you can use SetNextWindowSizeConstraints() prior to calling BeginCombo()
+			{"mvComboFlags_HeightRegular" , 1 << 2},   // Max ~8 items visible (default)
+			{"mvComboFlags_HeightLarge"   , 1 << 3},   // Max ~20 items visible
+			{"mvComboFlags_HeightLargest" , 1 << 4},   // As many fitting items as possible
+			{"mvComboFlags_NoArrowButton ", 1 << 5},   // Display on the preview box without the square arrow button
+			{"mvComboFlags_NoPreview"     , 1 << 6},   // Display only a square arrow button
+			{"mvComboFlags_HeightMask_"   ,     30},
 
 			//-----------------------------------------------------------------------------
 			// Tabbar flags
 			//-----------------------------------------------------------------------------
-			{"mvGuiTabBarFlags_None"                        ,      0},
-			{"mvGuiTabBarFlags_Reorderable"                 , 1 << 0},   // Allow manually dragging tabs to re-order them + New tabs are appended at the end of list
-			{"mvGuiTabBarFlags_AutoSelectNewTabs"           , 1 << 1},   // Automatically select new tabs when they appear
-			{"mvGuiTabBarFlags_TabListPopupButton"          , 1 << 2},   // Disable buttons to open the tab list popup
-			{"mvGuiTabBarFlags_NoCloseWithMiddleMouseButton", 1 << 3},   // Disable behavior of closing tabs (that are submitted with p_open != NULL) with middle mouse button. You can still repro this behavior on user's side with if (IsItemHovered() && IsMouseClicked(2)) *p_open = false.
-			{"mvGuiTabBarFlags_NoTabListScrollingButtons"   , 1 << 4},   // Disable scrolling buttons (apply when fitting policy is ImGuiTabBarFlags_FittingPolicyScroll)
-			{"mvGuiTabBarFlags_NoTooltip"                   , 1 << 5},   // Disable tooltips when hovering a tab
-			{"mvGuiTabBarFlags_FittingPolicyResizeDown"     , 1 << 6},   // Resize tabs when they don't fit
-			{"mvGuiTabBarFlags_FittingPolicyScroll"         , 1 << 7},   // Add scroll buttons when tabs don't fit
-			{"mvGuiTabBarFlags_FittingPolicyMask_"          ,    192},
-			{"mvGuiTabBarFlags_FittingPolicyDefault_"       ,     64},
+			{"mvTabBarFlags_None"                        ,      0},
+			{"mvTabBarFlags_Reorderable"                 , 1 << 0},   // Allow manually dragging tabs to re-order them + New tabs are appended at the end of list
+			{"mvTabBarFlags_AutoSelectNewTabs"           , 1 << 1},   // Automatically select new tabs when they appear
+			{"mvTabBarFlags_TabListPopupButton"          , 1 << 2},   // Disable buttons to open the tab list popup
+			{"mvTabBarFlags_NoCloseWithMiddleMouseButton", 1 << 3},   // Disable behavior of closing tabs (that are submitted with p_open != NULL) with middle mouse button. You can still repro this behavior on user's side with if (IsItemHovered() && IsMouseClicked(2)) *p_open = false.
+			{"mvTabBarFlags_NoTabListScrollingButtons"   , 1 << 4},   // Disable scrolling buttons (apply when fitting policy is ImGuiTabBarFlags_FittingPolicyScroll)
+			{"mvTabBarFlags_NoTooltip"                   , 1 << 5},   // Disable tooltips when hovering a tab
+			{"mvTabBarFlags_FittingPolicyResizeDown"     , 1 << 6},   // Resize tabs when they don't fit
+			{"mvTabBarFlags_FittingPolicyScroll"         , 1 << 7},   // Add scroll buttons when tabs don't fit
+			{"mvTabBarFlags_FittingPolicyMask_"          ,    192},
+			{"mvTabBarFlags_FittingPolicyDefault_"       ,     64},
 
 			//-----------------------------------------------------------------------------
 			// Theme Color IDs
@@ -293,50 +293,50 @@ namespace Marvel {
 			//-----------------------------------------------------------------------------
 			// mvColorEdit/ColorPicker flags
 			//-----------------------------------------------------------------------------
-			{"mvGuiColorEditFlags_None"           , 0},
-			{"mvGuiColorEditFlags_NoAlpha"         , 1 << 1},   //              // ColorEdit, ColorPicker, ColorButton: ignore Alpha component (will only read 3 components from the input pointer).
-			{"mvGuiColorEditFlags_NoPicker"        , 1 << 2},   //              // ColorEdit: disable picker when clicking on colored square.
-			{"mvGuiColorEditFlags_NoOptions"       , 1 << 3},   //              // ColorEdit: disable toggling options menu when right-clicking on inputs/small preview.
-			{"mvGuiColorEditFlags_NoSmallPreview"  , 1 << 4},   //              // ColorEdit, ColorPicker: disable colored square preview next to the inputs. (e.g. to show only the inputs)
-			{"mvGuiColorEditFlags_NoInputs"        , 1 << 5},   //              // ColorEdit, ColorPicker: disable inputs sliders/text widgets (e.g. to show only the small preview colored square).
-			{"mvGuiColorEditFlags_NoTooltip"       , 1 << 6},   //              // ColorEdit, ColorPicker, ColorButton: disable tooltip when hovering the preview.
-			{"mvGuiColorEditFlags_NoLabel"         , 1 << 7},   //              // ColorEdit, ColorPicker: disable display of inline text label (the label is still forwarded to the tooltip and picker).
-			{"mvGuiColorEditFlags_NoSidePreview"   , 1 << 8},   //              // ColorPicker: disable bigger color preview on right side of the picker, use small colored square preview instead.
-			{"mvGuiColorEditFlags_NoDragDrop"      , 1 << 9},   //              // ColorEdit: disable drag and drop target. ColorButton: disable drag and drop source.
-			{ "mvGuiColorEditFlags_NoBorder"       , 1 << 10},  //              // ColorButton: disable border (which is enforced by default)
+			{"mvColorEditFlags_None"           , 0},
+			{"mvColorEditFlags_NoAlpha"         , 1 << 1},   //              // ColorEdit, ColorPicker, ColorButton: ignore Alpha component (will only read 3 components from the input pointer).
+			{"mvColorEditFlags_NoPicker"        , 1 << 2},   //              // ColorEdit: disable picker when clicking on colored square.
+			{"mvColorEditFlags_NoOptions"       , 1 << 3},   //              // ColorEdit: disable toggling options menu when right-clicking on inputs/small preview.
+			{"mvColorEditFlags_NoSmallPreview"  , 1 << 4},   //              // ColorEdit, ColorPicker: disable colored square preview next to the inputs. (e.g. to show only the inputs)
+			{"mvColorEditFlags_NoInputs"        , 1 << 5},   //              // ColorEdit, ColorPicker: disable inputs sliders/text widgets (e.g. to show only the small preview colored square).
+			{"mvColorEditFlags_NoTooltip"       , 1 << 6},   //              // ColorEdit, ColorPicker, ColorButton: disable tooltip when hovering the preview.
+			{"mvColorEditFlags_NoLabel"         , 1 << 7},   //              // ColorEdit, ColorPicker: disable display of inline text label (the label is still forwarded to the tooltip and picker).
+			{"mvColorEditFlags_NoSidePreview"   , 1 << 8},   //              // ColorPicker: disable bigger color preview on right side of the picker, use small colored square preview instead.
+			{"mvColorEditFlags_NoDragDrop"      , 1 << 9},   //              // ColorEdit: disable drag and drop target. ColorButton: disable drag and drop source.
+			{"mvColorEditFlags_NoBorder"       , 1 << 10},  //              // ColorButton: disable border (which is enforced by default)
 			//User Options (right-click on widget to change some of them).
-			{"mvGuiColorEditFlags_AlphaBar"        , 1 << 16},  //              // ColorEdit, ColorPicker: show vertical alpha bar/gradient in picker.
-			{"mvGuiColorEditFlags_AlphaPreview"    , 1 << 17},  //              // ColorEdit, ColorPicker, ColorButton: display preview as a transparent color over a checkerboard, instead of opaque.
-			{"mvGuiColorEditFlags_AlphaPreviewHalf", 1 << 18},  //              // ColorEdit, ColorPicker, ColorButton: display half opaque / half checkerboard, instead of opaque.
-			{"mvGuiColorEditFlags_HDR"             , 1 << 19},  //              // (WIP) ColorEdit: Currently only disable 0.0f..1.0f limits in RGBA edition (note: you probably want to use ImGuiColorEditFlags_Float flag as well).
-			{"mvGuiColorEditFlags_DisplayRGB"      , 1 << 20},  // [Display]    // ColorEdit: override _display_ type among RGB/HSV/Hex. ColorPicker: select any combination using one or more of RGB/HSV/Hex.
-			{"mvGuiColorEditFlags_DisplayHSV"      , 1 << 21},  // [Display]    // "
-			{"mvGuiColorEditFlags_DisplayHex"      , 1 << 22},  // [Display]    // "
-			{"mvGuiColorEditFlags_Uint8"           , 1 << 23},  // [DataType]   // ColorEdit, ColorPicker, ColorButton: _display_ values formatted as 0..255.
-			{"mvGuiColorEditFlags_Float"           , 1 << 24},  // [DataType]   // ColorEdit, ColorPicker, ColorButton: _display_ values formatted as 0.0f..1.0f floats instead of 0..255 integers. No round-trip of value via integers.
-			{"mvGuiColorEditFlags_PickerHueBar"    , 1 << 25},  // [Picker]     // ColorPicker: bar for Hue, rectangle for Sat/Value.
-			{"mvGuiColorEditFlags_PickerHueWheel"  , 1 << 26},  // [Picker]     // ColorPicker: wheel for Hue, triangle for Sat/Value.
-			{"mvGuiColorEditFlags_InputRGB"        , 1 << 27},  // [Input]      // ColorEdit, ColorPicker: input and output data in RGB format.
-			{"mvGuiColorEditFlags_InputHSV"        , 1 << 28},  // [Input]      // ColorEdit, ColorPicker: input and output data in HSV format.
+			{"mvColorEditFlags_AlphaBar"        , 1 << 16},  //              // ColorEdit, ColorPicker: show vertical alpha bar/gradient in picker.
+			{"mvColorEditFlags_AlphaPreview"    , 1 << 17},  //              // ColorEdit, ColorPicker, ColorButton: display preview as a transparent color over a checkerboard, instead of opaque.
+			{"mvColorEditFlags_AlphaPreviewHalf", 1 << 18},  //              // ColorEdit, ColorPicker, ColorButton: display half opaque / half checkerboard, instead of opaque.
+			{"mvColorEditFlags_HDR"             , 1 << 19},  //              // (WIP) ColorEdit: Currently only disable 0.0f..1.0f limits in RGBA edition (note: you probably want to use ImGuiColorEditFlags_Float flag as well).
+			{"mvColorEditFlags_DisplayRGB"      , 1 << 20},  // [Display]    // ColorEdit: override _display_ type among RGB/HSV/Hex. ColorPicker: select any combination using one or more of RGB/HSV/Hex.
+			{"mvColorEditFlags_DisplayHSV"      , 1 << 21},  // [Display]    // "
+			{"mvColorEditFlags_DisplayHex"      , 1 << 22},  // [Display]    // "
+			{"mvColorEditFlags_Uint8"           , 1 << 23},  // [DataType]   // ColorEdit, ColorPicker, ColorButton: _display_ values formatted as 0..255.
+			{"mvColorEditFlags_Float"           , 1 << 24},  // [DataType]   // ColorEdit, ColorPicker, ColorButton: _display_ values formatted as 0.0f..1.0f floats instead of 0..255 integers. No round-trip of value via integers.
+			{"mvColorEditFlags_PickerHueBar"    , 1 << 25},  // [Picker]     // ColorPicker: bar for Hue, rectangle for Sat/Value.
+			{"mvColorEditFlags_PickerHueWheel"  , 1 << 26},  // [Picker]     // ColorPicker: wheel for Hue, triangle for Sat/Value.
+			{"mvColorEditFlags_InputRGB"        , 1 << 27},  // [Input]      // ColorEdit, ColorPicker: input and output data in RGB format.
+			{"mvColorEditFlags_InputHSV"        , 1 << 28},  // [Input]      // ColorEdit, ColorPicker: input and output data in HSV format.
 			// Defaults Options. You can set application defaults using SetColorEditOptions(). The intent is that you probably don't want to
 			// override them in most of your calls. Let the user choose via the option menu and/or call SetColorEditOptions() once during startup.
-			{"mvGuiColorEditFlags__OptionsDefault", 177209344},
+			{"mvColorEditFlags__OptionsDefault", 177209344},
 
 			//-----------------------------------------------------------------------------
 			// Mouse Codes
 			//-----------------------------------------------------------------------------
-			{"mvGuiMouseButton_Left"  , 0},
-			{"mvGuiMouseButton_Right" , 1},
-			{"mvGuiMouseButton_Middle", 2},
+			{"mvMouseButton_Left"  , 0},
+			{"mvMouseButton_Right" , 1},
+			{"mvMouseButton_Middle", 2},
 
 			//-----------------------------------------------------------------------------
 			// A cardinal direction
 			//-----------------------------------------------------------------------------
-			{ "mvGuiDir_None" ,-1 },
-			{ "mvGuiDir_Left" , 0 },
-			{ "mvGuiDir_Right", 1 },
-			{ "mvGuiDir_Up"   , 2 },
-			{ "mvGuiDir_Down" , 3 },
+			{ "mvDir_None" ,-1 },
+			{ "mvDir_Left" , 0 },
+			{ "mvDir_Right", 1 },
+			{ "mvDir_Up"   , 2 },
+			{ "mvDir_Down" , 3 },
 		};
 
 		return ModuleConstants;

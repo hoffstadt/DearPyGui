@@ -32,7 +32,7 @@ namespace Marvel {
 		ColorEdit3, ColorEdit4, ColorPicker3, ColorPicker4,
 		Tooltip, CollapsingHeader, Separator, Checkbox,
 		Listbox, Text, LabelText, Combo, Plot, SimplePlot,
-		Indent, Unindent, Drawing, Window, EndWindow,
+		Indent, Unindent, Drawing, Window,
 		Popup, Selectable, TreeNode, ProgressBar
 	};
 

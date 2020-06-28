@@ -23,9 +23,6 @@ namespace Marvel {
 			{"end_window", mvPythonTranslator({
 			}, false, "Ends the window created by a call to add_window.")},
 
-			{"end_main_window", mvPythonTranslator({
-			}, false, "Ends the main window if you intend to create additional windows.")},
-
 			{"end_group", mvPythonTranslator({
 			}, false, "Ends the group created by a call to add_group.")},
 
@@ -1475,12 +1472,18 @@ namespace Marvel {
 		if (!Translators["add_menu_bar"].parse(args, kwargs, __FUNCTION__, &name, MV_STANDARD_CALLBACK_PARSE))
 			Py_RETURN_NONE;
 
-		mvAppItem* item = new mvMenuBar(name);
-		mvApp::GetApp()->addFlag(ImGuiWindowFlags_MenuBar);
-		mvApp::GetApp()->pushParent(item);
-		mvApp::GetApp()->addItemManual(item);
+		auto parentItem = mvApp::GetApp()->topParent();
+		
+		if (parentItem->getType() == mvAppItemType::Window)
+		{
+			auto window = static_cast<mvWindowAppitem*>(parentItem);
+			window->addFlag(ImGuiWindowFlags_MenuBar);
+			mvAppItem* item = new mvMenuBar(name);
+			mvApp::GetApp()->addItem(item);
+			mvApp::GetApp()->pushParent(item);
 
-		MV_STANDARD_CALLBACK_EVAL();
+			MV_STANDARD_CALLBACK_EVAL();
+		}
 		
 
 		Py_RETURN_NONE;
@@ -1678,8 +1681,8 @@ namespace Marvel {
 		if (!Translators["add_window"].parse(args, kwargs, __FUNCTION__, &name, &width, &height))
 			Py_RETURN_NONE;
 
-		mvAppItem* item = new mvWindowAppitem("", name, width, height);
-		mvApp::GetApp()->addItem(item);
+		mvAppItem* item = new mvWindowAppitem("", name, width, height, 0, 0, false);
+		mvApp::GetApp()->addWindow(item);
 		mvApp::GetApp()->pushParent(item);
 
 		Py_RETURN_NONE;
@@ -1698,21 +1701,6 @@ namespace Marvel {
 
 		else
 			mvAppLog::getLogger()->LogError("end_window was called incorrectly and will be ignored");
-
-		Py_RETURN_NONE;
-	}
-
-	PyObject* end_main_window(PyObject* self, PyObject* args, PyObject* kwargs)
-	{
-		auto parentItem = mvApp::GetApp()->topParent();
-
-		if (parentItem == nullptr)
-		{
-			mvAppItem* item = new mvEndWindowAppitem("");
-			mvApp::GetApp()->addItem(item);
-		}
-		else
-			mvAppLog::getLogger()->LogError("Missing an end_* command.");
 
 		Py_RETURN_NONE;
 	}
@@ -1744,7 +1732,7 @@ namespace Marvel {
 
 		mvAppItem* item = new mvTooltip(parent, name);
 		mvApp::GetApp()->pushParent(item);
-		mvApp::GetApp()->addItemManual(item);
+		mvApp::GetApp()->addItem(item, false);
 
 		MV_STANDARD_CALLBACK_EVAL();
 		
@@ -1781,7 +1769,7 @@ namespace Marvel {
 
 		mvAppItem* item = new mvPopup(parent, name, mousebutton, modal);
 		mvApp::GetApp()->pushParent(item);
-		mvApp::GetApp()->addItemManual(item);
+		mvApp::GetApp()->addItem(item, false);
 
 		MV_STANDARD_CALLBACK_EVAL();
 		
@@ -1999,7 +1987,6 @@ namespace Marvel {
 		pyModule->addMethodD(end_tree_node);
 		pyModule->addMethodD(end_popup);
 		pyModule->addMethodD(end_window);
-		pyModule->addMethodD(end_main_window);
 		pyModule->addMethodD(end_group);
 		pyModule->addMethodD(end_child);
 		pyModule->addMethodD(end_tab);
