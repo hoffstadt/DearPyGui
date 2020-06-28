@@ -14,28 +14,28 @@ namespace Marvel {
 		Application(const char* name, int argc, char* argv[]);
 		~Application();
 
-		void showConsole();
-		void hideConsole();
+		void showConsole     ();
+		void hideConsole     ();
 		int  parseCommandLine();
-		void handlePaths();
+		void handlePaths     ();
 		int  initializePython();
-		int  run();
-		int  runEditorMode();
-		int  runErrorMode();
-		int  runRegularMode();
-		void logInformation();
-		void importModule();
+		int  run             ();
+		int  runEditorMode   ();
+		int  runErrorMode    ();
+		int  runRegularMode  ();
+		void logInformation  ();
+		void importModule    ();
 
 	public:
 
 		int         argc;
 		char**      argv;
 		wchar_t*    program;
-		bool        errorMode = false;
+		bool        errorMode   = false;
 		bool        regularMode = false;
-		PyObject*   pModule = nullptr;
-		PyObject*   m = nullptr;
-		bool        ranFromVS = false;
+		PyObject*   pModule     = nullptr;
+		PyObject*   m           = nullptr;
+		bool        ranFromVS   = false;
 		std::string addedPath;
 
 		// options
@@ -43,11 +43,11 @@ namespace Marvel {
 		std::string PathName = "";
 
 		// flags
-		bool logger = false;
-		bool metrics = false;
-		bool source = false;
-		bool documentation = false;
-		bool editorMode = false;
+		bool logger        = false; // starts application with the logger shown
+		bool metrics       = false; // starts application with the metrics window shown
+		bool source        = false; // starts application with the source window shown
+		bool documentation = false; // starts application with the documentation window shown
+		bool editorMode    = false; // starts application in editor mode
 
 	};
 

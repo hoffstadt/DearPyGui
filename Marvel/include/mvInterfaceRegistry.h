@@ -5,12 +5,21 @@
 
 namespace Marvel {
 
+	//-----------------------------------------------------------------------------
+	// Forward Declarations
+	//-----------------------------------------------------------------------------
 	class mvPythonModule;
 	class mvPythonTranslator;
 
+	//-----------------------------------------------------------------------------
+	// Typedefs
+	//-----------------------------------------------------------------------------
 	using pyInitFunc = mvPythonModule * (*)();
 	using pyDocFunc = std::map<std::string, mvPythonTranslator>(*)();
 
+	//-----------------------------------------------------------------------------
+	// mvInterfaceRegistry
+	//-----------------------------------------------------------------------------
 	class mvInterfaceRegistry
 	{
 
@@ -35,7 +44,7 @@ namespace Marvel {
 
 	private:
 
-		static mvInterfaceRegistry* s_instance;
+		static mvInterfaceRegistry*                                      s_instance;
 		std::map<std::string, std::map<std::string, mvPythonTranslator>> m_translators;
 		std::vector<std::pair<std::string, long>>                        m_constants;
 		std::vector<pyInitFunc>                                          m_modules;
