@@ -93,30 +93,30 @@ namespace Marvel {
 			//-----------------------------------------------------------------------------
 			// Window Flags
 			//-----------------------------------------------------------------------------
-			{"mvWindowFlags_None"                     ,       0},
-			{"mvWindowFlags_NoTitleBar"               ,  1 << 0},   // Disable title-bar
-			{"mvWindowFlags_NoResize"                 ,  1 << 1},   // Disable user resizing with the lower-right grip
-			{"mvWindowFlags_NoMove"                   ,  1 << 2},   // Disable user moving the window
-			{"mvWindowFlags_NoScrollbar"              ,  1 << 3},   // Disable scrollbars (window can still scroll with mouse or programmatically)
-			{"mvWindowFlags_NoScrollWithMouse"        ,  1 << 4},   // Disable user vertically scrolling with mouse wheel. On child window, mouse wheel will be forwarded to the parent unless NoScrollbar is also set.
-			{"mvWindowFlags_NoCollapse"               ,  1 << 5},   // Disable user collapsing window by double-clicking on it
-			{"mvWindowFlags_AlwaysAutoResize"         ,  1 << 6},   // Resize every window to its content every frame
-			{"mvWindowFlags_NoBackground"             ,  1 << 7},   // Disable drawing background color (WindowBg, etc.) and outside border. Similar as using SetNextWindowBgAlpha(0.0f).
-			{"mvWindowFlags_NoSavedSettings"          ,  1 << 8},   // Never load/save settings in .ini file
-			{"mvWindowFlags_NoMouseInputs"            ,  1 << 9},   // Disable catching mouse, hovering test with pass through.
-			{"mvWindowFlags_MenuBar"                  ,  1 << 10},  // Has a menu-bar
-			{"mvWindowFlags_HorizontalScrollbar"      ,  1 << 11},  // Allow horizontal scrollbar to appear (off by default). You may use SetNextWindowContentSize(ImVec2(width,0.0f)); prior to calling Begin() to specify width. Read code in imgui_demo in the "Horizontal Scrolling" section.
-			{"mvWindowFlags_NoFocusOnAppearing"       ,  1 << 12},  // Disable taking focus when transitioning from hidden to visible state
-			{"mvWindowFlags_NoBringToFrontOnFocus"    ,  1 << 13},  // Disable bringing window to front when taking focus (e.g. clicking on it or programmatically giving it focus)
-			{"mvWindowFlags_AlwaysVerticalScrollbar"  ,  1 << 14},  // Always show vertical scrollbar (even if ContentSize.y < Size.y)
-			{"mvWindowFlags_AlwaysHorizontalScrollbar",  1 << 15},  // Always show horizontal scrollbar (even if ContentSize.x < Size.x)
-			{"mvWindowFlags_AlwaysUseWindowPadding"   ,  1 << 16},  // Ensure child windows without border uses style.WindowPadding (ignored by default for non-bordered child windows, because more convenient)
-			{"mvWindowFlags_NoNavInputs"              ,  1 << 18},  // No gamepad/keyboard navigation within the window
-			{"mvWindowFlags_NoNavFocus"               ,  1 << 19},  // No focusing toward this window with gamepad/keyboard navigation (e.g. skipped by CTRL+TAB)
-			{"mvWindowFlags_UnsavedDocument"          ,  1 << 20},  // Append '*' to title without affecting the ID, as a convenience to avoid using the ### operator. When used in a tab/docking context, tab is selected on closure and closure is deferred by one frame to allow code to cancel the closure (with a confirmation popup, etc.) without flicker.
-			{"mvWindowFlags_NoNav"                    ,   786432},
-			{"mvWindowFlags_NoDecoration"             ,       43},
-			{"mvWindowFlags_NoInputs"                 ,   786944},
+			//{"mvWindowFlags_None"                     ,       0},
+			//{"mvWindowFlags_NoTitleBar"               ,  1 << 0},   // Disable title-bar
+			//{"mvWindowFlags_NoResize"                 ,  1 << 1},   // Disable user resizing with the lower-right grip
+			//{"mvWindowFlags_NoMove"                   ,  1 << 2},   // Disable user moving the window
+			//{"mvWindowFlags_NoScrollbar"              ,  1 << 3},   // Disable scrollbars (window can still scroll with mouse or programmatically)
+			//{"mvWindowFlags_NoScrollWithMouse"        ,  1 << 4},   // Disable user vertically scrolling with mouse wheel. On child window, mouse wheel will be forwarded to the parent unless NoScrollbar is also set.
+			//{"mvWindowFlags_NoCollapse"               ,  1 << 5},   // Disable user collapsing window by double-clicking on it
+			//{"mvWindowFlags_AlwaysAutoResize"         ,  1 << 6},   // Resize every window to its content every frame
+			//{"mvWindowFlags_NoBackground"             ,  1 << 7},   // Disable drawing background color (WindowBg, etc.) and outside border. Similar as using SetNextWindowBgAlpha(0.0f).
+			//{"mvWindowFlags_NoSavedSettings"          ,  1 << 8},   // Never load/save settings in .ini file
+			//{"mvWindowFlags_NoMouseInputs"            ,  1 << 9},   // Disable catching mouse, hovering test with pass through.
+			//{"mvWindowFlags_MenuBar"                  ,  1 << 10},  // Has a menu-bar
+			//{"mvWindowFlags_HorizontalScrollbar"      ,  1 << 11},  // Allow horizontal scrollbar to appear (off by default). You may use SetNextWindowContentSize(ImVec2(width,0.0f)); prior to calling Begin() to specify width. Read code in imgui_demo in the "Horizontal Scrolling" section.
+			//{"mvWindowFlags_NoFocusOnAppearing"       ,  1 << 12},  // Disable taking focus when transitioning from hidden to visible state
+			//{"mvWindowFlags_NoBringToFrontOnFocus"    ,  1 << 13},  // Disable bringing window to front when taking focus (e.g. clicking on it or programmatically giving it focus)
+			//{"mvWindowFlags_AlwaysVerticalScrollbar"  ,  1 << 14},  // Always show vertical scrollbar (even if ContentSize.y < Size.y)
+			//{"mvWindowFlags_AlwaysHorizontalScrollbar",  1 << 15},  // Always show horizontal scrollbar (even if ContentSize.x < Size.x)
+			//{"mvWindowFlags_AlwaysUseWindowPadding"   ,  1 << 16},  // Ensure child windows without border uses style.WindowPadding (ignored by default for non-bordered child windows, because more convenient)
+			//{"mvWindowFlags_NoNavInputs"              ,  1 << 18},  // No gamepad/keyboard navigation within the window
+			//{"mvWindowFlags_NoNavFocus"               ,  1 << 19},  // No focusing toward this window with gamepad/keyboard navigation (e.g. skipped by CTRL+TAB)
+			//{"mvWindowFlags_UnsavedDocument"          ,  1 << 20},  // Append '*' to title without affecting the ID, as a convenience to avoid using the ### operator. When used in a tab/docking context, tab is selected on closure and closure is deferred by one frame to allow code to cancel the closure (with a confirmation popup, etc.) without flicker.
+			//{"mvWindowFlags_NoNav"                    ,   786432},
+			//{"mvWindowFlags_NoDecoration"             ,       43},
+			//{"mvWindowFlags_NoInputs"                 ,   786944},
 
 			//-----------------------------------------------------------------------------
 			// Input Text Flags
@@ -165,25 +165,25 @@ namespace Marvel {
 			//-----------------------------------------------------------------------------
 			// Selectable flags
 			//-----------------------------------------------------------------------------
-			{"mvSelectableFlags_None"            ,      0},
-			{"mvSelectableFlags_DontClosePopups" , 1 << 0},   // Clicking this don't close parent popup window
-			{"mvSelectableFlags_SpanAllColumns"  , 1 << 1},   // Selectable frame can span all columns (text will still fit in current column)
-			{"mvSelectableFlags_AllowDoubleClick", 1 << 2},   // Generate press events on double clicks too
-			{"mvSelectableFlags_Disabled"        , 1 << 3},   // Cannot be selected, display grayed out text
-			{"mvSelectableFlags_AllowItemOverlap", 1 << 4},    // (WIP) Hit testing to allow subsequent widgets to overlap this one
+			//{"mvSelectableFlags_None"            ,      0},
+			//{"mvSelectableFlags_DontClosePopups" , 1 << 0},   // Clicking this don't close parent popup window
+			//{"mvSelectableFlags_SpanAllColumns"  , 1 << 1},   // Selectable frame can span all columns (text will still fit in current column)
+			//{"mvSelectableFlags_AllowDoubleClick", 1 << 2},   // Generate press events on double clicks too
+			//{"mvSelectableFlags_Disabled"        , 1 << 3},   // Cannot be selected, display grayed out text
+			//{"mvSelectableFlags_AllowItemOverlap", 1 << 4},    // (WIP) Hit testing to allow subsequent widgets to overlap this one
 
 			//-----------------------------------------------------------------------------
 			// Combo flags
 			//-----------------------------------------------------------------------------
-			{"mvComboFlags_None"          ,      0},
-			{"mvComboFlags_PopupAlignLeft", 1 << 0},   // Align the popup toward the left by default
-			{"mvComboFlags_HeightSmall"   , 1 << 1},   // Max ~4 items visible. Tip: If you want your combo popup to be a specific size you can use SetNextWindowSizeConstraints() prior to calling BeginCombo()
-			{"mvComboFlags_HeightRegular" , 1 << 2},   // Max ~8 items visible (default)
-			{"mvComboFlags_HeightLarge"   , 1 << 3},   // Max ~20 items visible
-			{"mvComboFlags_HeightLargest" , 1 << 4},   // As many fitting items as possible
-			{"mvComboFlags_NoArrowButton ", 1 << 5},   // Display on the preview box without the square arrow button
-			{"mvComboFlags_NoPreview"     , 1 << 6},   // Display only a square arrow button
-			{"mvComboFlags_HeightMask_"   ,     30},
+			//{"mvComboFlags_None"          ,      0},
+			//{"mvComboFlags_PopupAlignLeft", 1 << 0},   // Align the popup toward the left by default
+			//{"mvComboFlags_HeightSmall"   , 1 << 1},   // Max ~4 items visible. Tip: If you want your combo popup to be a specific size you can use SetNextWindowSizeConstraints() prior to calling BeginCombo()
+			//{"mvComboFlags_HeightRegular" , 1 << 2},   // Max ~8 items visible (default)
+			//{"mvComboFlags_HeightLarge"   , 1 << 3},   // Max ~20 items visible
+			//{"mvComboFlags_HeightLargest" , 1 << 4},   // As many fitting items as possible
+			//{"mvComboFlags_NoArrowButton ", 1 << 5},   // Display on the preview box without the square arrow button
+			//{"mvComboFlags_NoPreview"     , 1 << 6},   // Display only a square arrow button
+			//{"mvComboFlags_HeightMask_"   ,     30},
 
 			//-----------------------------------------------------------------------------
 			// Tabbar flags
@@ -293,34 +293,34 @@ namespace Marvel {
 			//-----------------------------------------------------------------------------
 			// mvColorEdit/ColorPicker flags
 			//-----------------------------------------------------------------------------
-			{"mvColorEditFlags_None"           , 0},
-			{"mvColorEditFlags_NoAlpha"         , 1 << 1},   //              // ColorEdit, ColorPicker, ColorButton: ignore Alpha component (will only read 3 components from the input pointer).
-			{"mvColorEditFlags_NoPicker"        , 1 << 2},   //              // ColorEdit: disable picker when clicking on colored square.
-			{"mvColorEditFlags_NoOptions"       , 1 << 3},   //              // ColorEdit: disable toggling options menu when right-clicking on inputs/small preview.
-			{"mvColorEditFlags_NoSmallPreview"  , 1 << 4},   //              // ColorEdit, ColorPicker: disable colored square preview next to the inputs. (e.g. to show only the inputs)
-			{"mvColorEditFlags_NoInputs"        , 1 << 5},   //              // ColorEdit, ColorPicker: disable inputs sliders/text widgets (e.g. to show only the small preview colored square).
-			{"mvColorEditFlags_NoTooltip"       , 1 << 6},   //              // ColorEdit, ColorPicker, ColorButton: disable tooltip when hovering the preview.
-			{"mvColorEditFlags_NoLabel"         , 1 << 7},   //              // ColorEdit, ColorPicker: disable display of inline text label (the label is still forwarded to the tooltip and picker).
-			{"mvColorEditFlags_NoSidePreview"   , 1 << 8},   //              // ColorPicker: disable bigger color preview on right side of the picker, use small colored square preview instead.
-			{"mvColorEditFlags_NoDragDrop"      , 1 << 9},   //              // ColorEdit: disable drag and drop target. ColorButton: disable drag and drop source.
-			{"mvColorEditFlags_NoBorder"       , 1 << 10},  //              // ColorButton: disable border (which is enforced by default)
-			//User Options (right-click on widget to change some of them).
-			{"mvColorEditFlags_AlphaBar"        , 1 << 16},  //              // ColorEdit, ColorPicker: show vertical alpha bar/gradient in picker.
-			{"mvColorEditFlags_AlphaPreview"    , 1 << 17},  //              // ColorEdit, ColorPicker, ColorButton: display preview as a transparent color over a checkerboard, instead of opaque.
-			{"mvColorEditFlags_AlphaPreviewHalf", 1 << 18},  //              // ColorEdit, ColorPicker, ColorButton: display half opaque / half checkerboard, instead of opaque.
-			{"mvColorEditFlags_HDR"             , 1 << 19},  //              // (WIP) ColorEdit: Currently only disable 0.0f..1.0f limits in RGBA edition (note: you probably want to use ImGuiColorEditFlags_Float flag as well).
-			{"mvColorEditFlags_DisplayRGB"      , 1 << 20},  // [Display]    // ColorEdit: override _display_ type among RGB/HSV/Hex. ColorPicker: select any combination using one or more of RGB/HSV/Hex.
-			{"mvColorEditFlags_DisplayHSV"      , 1 << 21},  // [Display]    // "
-			{"mvColorEditFlags_DisplayHex"      , 1 << 22},  // [Display]    // "
-			{"mvColorEditFlags_Uint8"           , 1 << 23},  // [DataType]   // ColorEdit, ColorPicker, ColorButton: _display_ values formatted as 0..255.
-			{"mvColorEditFlags_Float"           , 1 << 24},  // [DataType]   // ColorEdit, ColorPicker, ColorButton: _display_ values formatted as 0.0f..1.0f floats instead of 0..255 integers. No round-trip of value via integers.
-			{"mvColorEditFlags_PickerHueBar"    , 1 << 25},  // [Picker]     // ColorPicker: bar for Hue, rectangle for Sat/Value.
-			{"mvColorEditFlags_PickerHueWheel"  , 1 << 26},  // [Picker]     // ColorPicker: wheel for Hue, triangle for Sat/Value.
-			{"mvColorEditFlags_InputRGB"        , 1 << 27},  // [Input]      // ColorEdit, ColorPicker: input and output data in RGB format.
-			{"mvColorEditFlags_InputHSV"        , 1 << 28},  // [Input]      // ColorEdit, ColorPicker: input and output data in HSV format.
-			// Defaults Options. You can set application defaults using SetColorEditOptions(). The intent is that you probably don't want to
-			// override them in most of your calls. Let the user choose via the option menu and/or call SetColorEditOptions() once during startup.
-			{"mvColorEditFlags__OptionsDefault", 177209344},
+			//{"mvColorEditFlags_None"           , 0},
+			//{"mvColorEditFlags_NoAlpha"         , 1 << 1},   //              // ColorEdit, ColorPicker, ColorButton: ignore Alpha component (will only read 3 components from the input pointer).
+			//{"mvColorEditFlags_NoPicker"        , 1 << 2},   //              // ColorEdit: disable picker when clicking on colored square.
+			//{"mvColorEditFlags_NoOptions"       , 1 << 3},   //              // ColorEdit: disable toggling options menu when right-clicking on inputs/small preview.
+			//{"mvColorEditFlags_NoSmallPreview"  , 1 << 4},   //              // ColorEdit, ColorPicker: disable colored square preview next to the inputs. (e.g. to show only the inputs)
+			//{"mvColorEditFlags_NoInputs"        , 1 << 5},   //              // ColorEdit, ColorPicker: disable inputs sliders/text widgets (e.g. to show only the small preview colored square).
+			//{"mvColorEditFlags_NoTooltip"       , 1 << 6},   //              // ColorEdit, ColorPicker, ColorButton: disable tooltip when hovering the preview.
+			//{"mvColorEditFlags_NoLabel"         , 1 << 7},   //              // ColorEdit, ColorPicker: disable display of inline text label (the label is still forwarded to the tooltip and picker).
+			//{"mvColorEditFlags_NoSidePreview"   , 1 << 8},   //              // ColorPicker: disable bigger color preview on right side of the picker, use small colored square preview instead.
+			//{"mvColorEditFlags_NoDragDrop"      , 1 << 9},   //              // ColorEdit: disable drag and drop target. ColorButton: disable drag and drop source.
+			//{"mvColorEditFlags_NoBorder"       , 1 << 10},  //              // ColorButton: disable border (which is enforced by default)
+			////User Options (right-click on widget to change some of them).
+			//{"mvColorEditFlags_AlphaBar"        , 1 << 16},  //              // ColorEdit, ColorPicker: show vertical alpha bar/gradient in picker.
+			//{"mvColorEditFlags_AlphaPreview"    , 1 << 17},  //              // ColorEdit, ColorPicker, ColorButton: display preview as a transparent color over a checkerboard, instead of opaque.
+			//{"mvColorEditFlags_AlphaPreviewHalf", 1 << 18},  //              // ColorEdit, ColorPicker, ColorButton: display half opaque / half checkerboard, instead of opaque.
+			//{"mvColorEditFlags_HDR"             , 1 << 19},  //              // (WIP) ColorEdit: Currently only disable 0.0f..1.0f limits in RGBA edition (note: you probably want to use ImGuiColorEditFlags_Float flag as well).
+			//{"mvColorEditFlags_DisplayRGB"      , 1 << 20},  // [Display]    // ColorEdit: override _display_ type among RGB/HSV/Hex. ColorPicker: select any combination using one or more of RGB/HSV/Hex.
+			//{"mvColorEditFlags_DisplayHSV"      , 1 << 21},  // [Display]    // "
+			//{"mvColorEditFlags_DisplayHex"      , 1 << 22},  // [Display]    // "
+			//{"mvColorEditFlags_Uint8"           , 1 << 23},  // [DataType]   // ColorEdit, ColorPicker, ColorButton: _display_ values formatted as 0..255.
+			//{"mvColorEditFlags_Float"           , 1 << 24},  // [DataType]   // ColorEdit, ColorPicker, ColorButton: _display_ values formatted as 0.0f..1.0f floats instead of 0..255 integers. No round-trip of value via integers.
+			//{"mvColorEditFlags_PickerHueBar"    , 1 << 25},  // [Picker]     // ColorPicker: bar for Hue, rectangle for Sat/Value.
+			//{"mvColorEditFlags_PickerHueWheel"  , 1 << 26},  // [Picker]     // ColorPicker: wheel for Hue, triangle for Sat/Value.
+			//{"mvColorEditFlags_InputRGB"        , 1 << 27},  // [Input]      // ColorEdit, ColorPicker: input and output data in RGB format.
+			//{"mvColorEditFlags_InputHSV"        , 1 << 28},  // [Input]      // ColorEdit, ColorPicker: input and output data in HSV format.
+			//// Defaults Options. You can set application defaults using SetColorEditOptions(). The intent is that you probably don't want to
+			//// override them in most of your calls. Let the user choose via the option menu and/or call SetColorEditOptions() once during startup.
+			//{"mvColorEditFlags__OptionsDefault", 177209344},
 
 			//-----------------------------------------------------------------------------
 			// Mouse Codes

@@ -20,6 +20,16 @@ namespace Marvel {
 				{mvPythonDataType::Integer, "height"}
 			}, false, "Adds a drawing widget.")},
 
+			{"set_drawing_size", mvPythonTranslator({
+				{mvPythonDataType::String, "name"},
+				{mvPythonDataType::Integer, "width"},
+				{mvPythonDataType::Integer, "height"}
+			}, false, "Sets the size of a drawing widget.")},
+
+			{"get_drawing_size", mvPythonTranslator({
+				{mvPythonDataType::String, "name"},
+			}, false, "Returns the size of a drawing widget.")},
+
 			{"draw_image", mvPythonTranslator({
 				{mvPythonDataType::String, "drawing"},
 				{mvPythonDataType::String, "file"},
@@ -144,6 +154,41 @@ namespace Marvel {
 
 		mvAppItem* item = new mvDrawing("", name, width, height);
 		mvApp::GetApp()->addItem(item);
+
+		Py_RETURN_NONE;
+	}
+
+	PyObject* set_drawing_size(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		const char* name;
+		int width;
+		int height;
+
+		if (!Translators["set_drawing_size"].parse(args, kwargs, __FUNCTION__, &name, &width, &height))
+			Py_RETURN_NONE;
+
+		auto drawing = mvApp::GetApp()->getItem(name);
+
+		if (drawing)
+		{
+			drawing->setWidth(width);
+			drawing->setHeight(height);
+		}
+
+		Py_RETURN_NONE;
+	}
+
+	PyObject* get_drawing_size(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		const char* name;
+
+		if (!Translators["get_drawing_size"].parse(args, kwargs, __FUNCTION__, &name))
+			Py_RETURN_NONE;
+
+		auto drawing = mvApp::GetApp()->getItem(name);
+
+		if (drawing)
+			return Py_BuildValue("(ff)", drawing->getWidth(), drawing->getHeight());
 
 		Py_RETURN_NONE;
 	}
@@ -488,6 +533,8 @@ namespace Marvel {
 	{
 		auto pyModule = new mvPythonModule("sbDraw", {});
 
+		pyModule->addMethodD(get_drawing_size);
+		pyModule->addMethodD(set_drawing_size);
 		pyModule->addMethodD(add_drawing);
 		pyModule->addMethodD(draw_image);
 		pyModule->addMethodD(draw_line);

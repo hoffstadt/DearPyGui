@@ -14,6 +14,7 @@ add_menu_item("Show Logger", callback="show_logger")
 add_menu_item("Show About", callback="show_about")
 add_menu_item("Show Metrics", callback="show_metrics")
 add_menu_item("Show Source", callback="show_source")
+add_menu_item("Show Documentation", callback="show_documentation")
 end_menu()
 end_menu_bar()
 
