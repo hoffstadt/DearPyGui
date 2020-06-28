@@ -481,6 +481,7 @@ namespace Marvel {
 	{
 		ImGuiStyle* style = &ImGui::GetStyle();
 		mvColor color = {style->Colors[item].x * 255, style->Colors[item].y * 255 ,style->Colors[item].z * 255 , style->Colors[item].w * 255 };
+		return color;
 	}
 
 	void mvApp::addItem(mvAppItem* item, bool noParent)
