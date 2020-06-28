@@ -391,8 +391,8 @@ def PlotCallback(sender):
 
     add_text_point("Plot2", "Here", 1.0, 1.0)
 
-    add_line_series("Plot2", "Cos", data1, color=(255,0,255), weight=2)
-    add_scatter_series("Plot2", "Sin", data2, marker=sbConstants.mvPlotMarker_Circle, fill=(255,0,0), outline=(255,255,0,255))
+    add_line_series("Plot2", "Cos", data1, weight=2)
+    add_scatter_series("Plot2", "Sin", data2, marker=sbConstants.mvPlotMarker_Circle)
 
 
 ###########################################
@@ -421,9 +421,12 @@ def MainCallback(sender):
         value = 0
     set_value("Progress", value)
 
-    if is_mouse_button_pressed(1):
+    if is_mouse_button_pressed(sbConstants.mvMouseButton_Left):
         print("pressed")
     if is_key_pressed(0x25): # left arrow key
         print("key pressed")
 
-end_main_window()
+add_window("Secondary Window", 300, 500)
+
+add_simple_plot("Simpleplot3", (0.3, 0.9, 2.5, 8.9), height = 80)
+end_window()

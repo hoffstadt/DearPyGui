@@ -8,37 +8,29 @@ import sbConstants
 from math import sin, cos
 
 # create some menus
-addMenuBar("MenuBar")
-addMenu("Tools")
-addMenuItem("Show Logger", callback="ShowLoggerCallback")
-addMenuItem("Show About", callback="ShowAboutCallback")
-addMenuItem("Show Metrics", callback="ShowMetricsCallback")
-addMenuItem("Show Source", callback="ShowSourceCallback")
-endMenu()
-endMenuBar()
+add_menu_bar("MenuBar")
+add_menu("Tools")
+add_menu_item("Show Logger", callback="show_logger")
+add_menu_item("Show About", callback="show_about")
+add_menu_item("Show Metrics", callback="show_metrics")
+add_menu_item("Show Source", callback="show_source")
+end_menu()
+end_menu_bar()
 
-addButton("Plot data", callback="PlotCallback")
-addButton("Resize plot", callback="ResizePlotCallback")
-addPlot("Plot2", "x-axis", "y-axis", -1, 450);
+add_button("Plot data", callback="PlotCallback")
+add_plot("Plot2", "x-axis", "y-axis", -1, 450);
 
-addListbox("Colormaps", ("Default", "Dark", "Pastel", "Paired", "Viridis", "Plasma", "Hot", "Cool", "Pink", "Jet"), width=500, height=10, callback="colormapCallback")
-
+add_listbox("Colormaps", ("Default", "Dark", "Pastel", "Paired", "Viridis", "Plasma", "Hot", "Cool", "Pink", "Jet"), width=500, height=10, callback="colormapCallback")
 
 def colormapCallback(sender):
-    value = getValue("Colormaps")
-    setColorMap("Plot2", value)
 
-def ShowMetricsCallback(sender):
-    showMetrics()
-def ShowAboutCallback(sender):
-    showAbout()
-def ShowLoggerCallback(sender):
-    showLogger()
-def ShowSourceCallback(sender):
-    showSource()
+    value = get_value("Colormaps")
+    set_color_map("Plot2", value)
 
 def PlotCallback(sender):
-    clearPlot("Plot2")
+
+    clear_plot("Plot2")
+
     data1 = []
     for i in range(0, 100):
         data1.append([3.14*i/180, cos(3*3.14*i/180)])
@@ -47,10 +39,8 @@ def PlotCallback(sender):
     for i in range(0, 100):
         data2.append([3.14*i/180, sin(2*3.14*i/180)])
 
-    addTextPoint("Plot2", "Here", 1.0, 1.0)
-    addLineSeries("Plot2", "Cos", data1, color=(255,0,255), weight=2)
-    addScatterSeries("Plot2", "Sin", data2, marker=sbConstants.mvPlotMarker_Circle, fill=(255,0,0), outline=(255,255,0))
+    add_text_point("Plot2", "Here", 1.0, 1.0)
+    add_line_series("Plot2", "Cos", data1, weight=2)
+    add_scatter_series("Plot2", "Sin", data2, marker=sbConstants.mvPlotMarker_Circle)
 
-def ResizePlotCallback(sender):
-    changePlotSize("Plot2", 640, 400)
 

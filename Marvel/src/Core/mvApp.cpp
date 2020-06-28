@@ -56,8 +56,8 @@ namespace Marvel {
 	mvApp::mvApp()
 	{
 		m_style = getAppDefaultStyle();
-		m_windowflags = ImGuiWindowFlags_NoBringToFrontOnFocus | ImGuiWindowFlags_NoSavedSettings
-			| ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoTitleBar;
+		m_windows.push_back(new mvWindowAppitem("", "MainWindow", 1280, 800, 0, 0, true));
+		m_parents.push(m_windows.back());
 
 	}
 
@@ -114,22 +114,18 @@ namespace Marvel {
 		return s_instance;
 	}
 
+	void mvApp::setWindowSize(unsigned width, unsigned height) 
+	{ 
+		m_windows[0]->setWidth(width);
+		m_windows[0]->setHeight(height);
+	}
+
 	void mvApp::preRender()
 	{
 
-		bool endWindowFound = false;
+		if (m_windows.size() == 1)
+			popParent();
 
-		for (mvAppItem* item : m_items)
-		{
-			if (item->getType() == mvAppItemType::EndWindow)
-				endWindowFound = true;
-		}
-
-		if (!endWindowFound)
-		{
-			mvAppItem* item = new mvEndWindowAppitem("");
-			mvApp::GetApp()->addItem(item);
-		}
 	}
 
 	void mvApp::render()
@@ -140,17 +136,13 @@ namespace Marvel {
 		SetStyle(style, m_style);
 
 		// update mouse
-		ImVec2 mousePos = ImGui::GetMousePos();
-		m_mousePos.x = mousePos.x;
-		m_mousePos.y = mousePos.y;
+		//ImVec2 mousePos = ImGui::GetMousePos();
+		////m_mousePos.x = mousePos.x;
+		////m_mousePos.y = mousePos.y;
+		//m_mousePos.x = 0.0f;
+		//m_mousePos.y = 0.0f;
 
 		prepareStandardCallbacks();
-			
-		ImGui::SetNextWindowPos(ImVec2(0.0f, 0.0f));
-		ImGui::SetNextWindowSize(ImVec2(m_width, m_height));
-		ImGui::Begin("Main Window", (bool*)0, m_windowflags);
-
-		m_parents.push(nullptr);
 
 		if(!m_callback.empty())
 			runMainCallback(m_callback, "Main Application");
@@ -165,44 +157,8 @@ namespace Marvel {
 		if (m_showDoc)
 			mvDocWindow::GetWindow()->render(m_showDoc);
 
-		for (mvAppItem* item : m_items)
-		{
-
-			// skip item if it's not shown
-			if (!item->isShown())
-				continue;
-
-			// set item width
-			if(item->getWidth() > 0)
-				ImGui::SetNextItemWidth((float)item->getWidth());
-
-			item->pushColorStyles();
-			item->draw();
-			item->popColorStyles();
-
-			// Context Menu
-			if (item->getPopup() != "")
-				ImGui::OpenPopupOnItemClick(item->getPopup().c_str(), getPopupButton(item->getPopup()));
-
-			// Regular Tooltip (simple)
-			if (item->getTip() != "" && ImGui::IsItemHovered())
-				ImGui::SetTooltip(item->getTip().c_str());
-
-			item->setHovered(ImGui::IsItemHovered());
-			item->setActive(ImGui::IsItemActive());
-			item->setFocused(ImGui::IsItemFocused());
-			item->setClicked(ImGui::IsItemClicked());
-			item->setVisible(ImGui::IsItemVisible());
-			item->setEdited(ImGui::IsItemEdited());
-			item->setActivated(ImGui::IsItemActivated());
-			item->setDeactivated(ImGui::IsItemDeactivated());
-			item->setDeactivatedAfterEdit(ImGui::IsItemDeactivatedAfterEdit());
-			item->setToggledOpen(ImGui::IsItemToggledOpen());
-			item->setRectMin({ ImGui::GetItemRectMin().x, ImGui::GetItemRectMin().y});
-			item->setRectMax({ ImGui::GetItemRectMax().x, ImGui::GetItemRectMax().y });
-			item->setRectSize({ ImGui::GetItemRectSize().x, ImGui::GetItemRectSize().y });
-
-		}
+		for (auto window : m_windows)
+			window->draw();
 
 	}
 
@@ -246,18 +202,14 @@ namespace Marvel {
 
 	mvAppItem* mvApp::getItem(const std::string& name)
 	{
-		for (mvAppItem* item : m_items)
+		for (auto window : m_windows)
 		{
-			if (item->getName() == name)
-				return item;
+			if (window->getName() == name)
+				return window;
 
-			if (item->isContainer())
-			{
-				auto child = item->getChild(name);
-				if (child)
-					return child;
-			}
-			
+			auto child = window->getChild(name);
+			if (child)
+				return child;
 		}
 
 		return nullptr;
@@ -512,8 +464,11 @@ namespace Marvel {
 
 	}
 
-	void mvApp::addItemManual(mvAppItem* item)
+	void mvApp::addItem(mvAppItem* item, bool noParent)
 	{
+		static int count = 0;
+		count++;
+
 		if (m_started)
 		{
 			mvAppLog::getLogger()->LogWarning("Items can't be added during runtime.");
@@ -524,28 +479,7 @@ namespace Marvel {
 		{
 			if (auto otheritem = getItem(item->getName()))
 			{
-				std::string message = item->getName() + " " + std::to_string(m_items.size());
-				mvAppLog::getLogger()->LogWarning(message + ": Items of this type must have unique names");
-				return;
-			}
-		}
-
-		m_items.push_back(item);
-	}
-
-	void mvApp::addItem(mvAppItem* item)
-	{
-		if (m_started)
-		{
-			mvAppLog::getLogger()->LogWarning("Items can't be added during runtime.");
-			return;
-		}
-
-		if (!item->areDuplicatesAllowed())
-		{
-			if (auto otheritem = getItem(item->getName()))
-			{
-				std::string message = item->getName() + " " + std::to_string(m_items.size());
+				std::string message = item->getName() + " " + std::to_string(count);
 				mvAppLog::getLogger()->LogWarning(message + ": Items of this type must have unique names");
 				return;
 			}
@@ -553,10 +487,12 @@ namespace Marvel {
 
 		mvAppItem* parentitem = topParent();	
 		item->setParent(parentitem);
-		if(parentitem)
-			parentitem->addChild(item);
-		else
-			m_items.push_back(item);
+		parentitem->addChild(item);
+	}
+
+	void mvApp::addWindow(mvAppItem* item)
+	{
+		m_windows.push_back(item);
 	}
 
 	void mvApp::closePopup()

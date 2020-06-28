@@ -13,7 +13,7 @@ namespace Marvel {
 		std::map<std::string, mvPythonTranslator> translators = {
 
 			{"get_mouse_pos", mvPythonTranslator({
-			}, false, "Returns the current mouse position.")},
+			}, false, "Returns the current mouse position in relation to the active window (minus titlebar).")},
 
 			{"is_mouse_button_pressed", mvPythonTranslator({
 				{mvPythonDataType::Integer, "button"}

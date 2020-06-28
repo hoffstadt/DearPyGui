@@ -148,7 +148,7 @@ namespace Marvel {
 		auto datapoints = mvPythonTranslator::getVectVec2(data);
 
 		auto mcolor = mvPythonTranslator::getColor(color);
-		if (mcolor.r > 1000)
+		if (mcolor.r > 999)
 			mcolor.specified = false;
 
 		mvSeries* series = new mvLineSeries(name, datapoints, weight, mcolor);
@@ -187,11 +187,11 @@ namespace Marvel {
 		auto datapoints = mvPythonTranslator::getVectVec2(data);
 
 		auto mmarkerOutlineColor = mvPythonTranslator::getColor(outline);
-		if (mmarkerOutlineColor.r > 1000)
+		if (mmarkerOutlineColor.r > 999)
 			mmarkerOutlineColor.specified = false;
 
 		auto mmarkerFillColor = mvPythonTranslator::getColor(fill);
-		if (mmarkerFillColor.r > 1000)
+		if (mmarkerFillColor.r > 999)
 			mmarkerFillColor.specified = false;
 
 		mvSeries* series = new mvScatterSeries(name, datapoints, marker, size, weight, mmarkerOutlineColor,

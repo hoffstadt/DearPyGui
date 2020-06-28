@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Core/AppItems/mvTypeBases.h"
+#include "Core/mvApp.h"
 
 namespace Marvel {
 
@@ -14,17 +15,35 @@ namespace Marvel {
 
 		MV_APPITEM_TYPE(mvAppItemType::Window)
 
-		mvWindowAppitem(const std::string& parent, const std::string& name, int width, int height)
-			: mvNoneItemBase(parent, name)
+		mvWindowAppitem(const std::string& parent, const std::string& name, int width, int height, int xpos, int ypos, bool mainWindow)
+			: mvNoneItemBase(parent, name), m_xpos(xpos), m_ypos(ypos), m_mainWindow(mainWindow)
 		{
 			m_width = width;
 			m_height = height;
+
+			if (mainWindow)
+			{
+				m_windowflags = ImGuiWindowFlags_NoBringToFrontOnFocus | ImGuiWindowFlags_NoSavedSettings
+					| ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoTitleBar;
+			}
 		}
+
+		void addFlag(ImGuiWindowFlags flag) { m_windowflags |= flag; }
 
 		virtual void draw() override
 		{
+			// shouldn't have to do this but do. Fix later
+			if (!m_show)
+				return;
 
-			ImGui::SetNextWindowSize(ImVec2(m_width, m_height), ImGuiCond_FirstUseEver);
+			if (m_mainWindow)
+			{
+				ImGui::SetNextWindowPos(ImVec2(0.0f, 0.0f));
+				ImGui::SetNextWindowSize(ImVec2(m_width, m_height));
+			}
+				
+			else
+				ImGui::SetNextWindowSize(ImVec2(m_width, m_height), ImGuiCond_FirstUseEver);
 
 			if (ImGui::Begin(m_label.c_str(), &m_show, m_windowflags))
 			{
@@ -45,7 +64,42 @@ namespace Marvel {
 					// Regular Tooltip (simple)
 					if (item->getTip() != "" && ImGui::IsItemHovered())
 						ImGui::SetTooltip(item->getTip().c_str());
+
+					item->setHovered(ImGui::IsItemHovered());
+					item->setActive(ImGui::IsItemActive());
+					item->setFocused(ImGui::IsItemFocused());
+					item->setClicked(ImGui::IsItemClicked());
+					item->setVisible(ImGui::IsItemVisible());
+					item->setEdited(ImGui::IsItemEdited());
+					item->setActivated(ImGui::IsItemActivated());
+					item->setDeactivated(ImGui::IsItemDeactivated());
+					item->setDeactivatedAfterEdit(ImGui::IsItemDeactivatedAfterEdit());
+					item->setToggledOpen(ImGui::IsItemToggledOpen());
+					item->setRectMin({ ImGui::GetItemRectMin().x, ImGui::GetItemRectMin().y });
+					item->setRectMax({ ImGui::GetItemRectMax().x, ImGui::GetItemRectMax().y });
+					item->setRectSize({ ImGui::GetItemRectSize().x, ImGui::GetItemRectSize().y });
 				}
+
+				setHovered(ImGui::IsWindowHovered());
+				setFocused(ImGui::IsWindowFocused());
+				setRectSize({ ImGui::GetWindowSize().x, ImGui::GetWindowSize().y });
+				setActivated(ImGui::IsWindowCollapsed());
+				m_width = ImGui::GetWindowWidth();
+				m_height = ImGui::GetWindowHeight();
+
+				if (ImGui::IsWindowFocused())
+				{
+
+					float titleBarHeight = ImGui::GetStyle().FramePadding.y * 2 + ImGui::GetFontSize();
+
+					// update mouse
+					ImVec2 mousePos = ImGui::GetMousePos();
+					float x = mousePos.x - ImGui::GetWindowPos().x;
+					float y = mousePos.y - ImGui::GetWindowPos().y - titleBarHeight;
+					mvApp::GetApp()->setMousePosition(x, y);
+
+				}
+
 				ImGui::End();
 			}
 
@@ -54,30 +108,9 @@ namespace Marvel {
 	private:
 
 		ImGuiWindowFlags m_windowflags = ImGuiWindowFlags_NoSavedSettings;
-
-	};
-
-	//-----------------------------------------------------------------------------
-	// mvWindowAppitem
-	//-----------------------------------------------------------------------------
-	class mvEndWindowAppitem : public mvNoneItemBase
-	{
-
-	public:
-
-		MV_APPITEM_TYPE(mvAppItemType::EndWindow)
-
-		mvEndWindowAppitem(const std::string& parent)
-			: mvNoneItemBase(parent, "EndWindow")
-		{
-			m_show = true;
-		}
-
-		virtual void draw() override
-		{
-			mvApp::GetApp()->popParent();
-			ImGui::End();
-		}
+		int              m_xpos = 0;
+		int              m_ypos = 0;
+		bool             m_mainWindow = false;
 
 	};
 

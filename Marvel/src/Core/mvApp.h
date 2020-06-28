@@ -33,17 +33,14 @@ namespace Marvel {
 		// App Settings
 		//-----------------------------------------------------------------------------
 		void          setAppTheme  (const std::string& theme);
-		void          setWindowSize(unsigned width, unsigned height) { m_width = width; m_height = height; }
+		void          setWindowSize(unsigned width, unsigned height);
 		void          setModuleDict(PyObject* dict) { m_pDict = dict; }
 		void          setStarted() { m_started = true; }
-		
 		void          changeThemeItem  (long item, mvColor color);
 		void          changeStyleItem  (long item, float x, float y);
-		void          addFlag          (ImGuiWindowFlags flag) { m_windowflags |= flag; }
 		void          addItemColorStyle(const std::string& name, ImGuiCol item, mvColor color);
-		
-		unsigned      getWindowWidth   () const { return m_width; }
-		unsigned      getWindowHeight  () const { return m_height; }
+		unsigned      getWindowWidth() const { return m_windows[0]->getWidth(); }
+		unsigned      getWindowHeight() const { return m_windows[0]->getHeight(); }
 		bool&         isLoggerShown() { return m_showLog; }
 
 
@@ -64,8 +61,8 @@ namespace Marvel {
 		//-----------------------------------------------------------------------------
 		// Adding Items
 		//-----------------------------------------------------------------------------
-		void       addItemManual   (mvAppItem* item); // only adds item
-		void       addItem         (mvAppItem* item); // auto sets item's parent
+		void       addItem         (mvAppItem* item, bool noParent = false);
+		void       addWindow       (mvAppItem* item);
 		mvAppItem* getItem         (const std::string& name);
 
 		//-----------------------------------------------------------------------------
@@ -122,6 +119,7 @@ namespace Marvel {
 		//-----------------------------------------------------------------------------
 		// Input Polling
 		//-----------------------------------------------------------------------------
+		void       setMousePosition    (float x, float y) { m_mousePos.x = x; m_mousePos.y = y; }
 		mvMousePos getMousePosition    ()            const { return m_mousePos; }
 		bool       isMouseButtonPressed(int button)  const;
 		bool       isKeyPressed        (int keycode) const;
@@ -140,11 +138,9 @@ namespace Marvel {
 		static mvApp*           s_instance;
 		mvMousePos              m_mousePos;
 		mvStyle                 m_style;
-		std::vector<mvAppItem*> m_items;
+		std::vector<mvAppItem*> m_windows;
 		std::stack<mvAppItem*>  m_parents;
 		PyObject*               m_pDict;
-		unsigned                m_width = 1280;
-		unsigned                m_height = 800;
 		std::string             m_callback;
 		bool                    m_ok = true;
 		bool                    m_showLog = false;
@@ -153,7 +149,6 @@ namespace Marvel {
 		bool                    m_showSource = false;
 		bool                    m_showDoc = false;
 		unsigned                m_loglevel = 0;
-		ImGuiWindowFlags        m_windowflags = 0;
 		bool                    m_started = false; // to prevent widgets from being added
 		bool                    m_threadPoolAuto = true;
 		bool                    m_threadPool = false;
@@ -170,7 +165,7 @@ namespace Marvel {
 		std::string m_keyPressCallback = "";
 		std::string m_keyReleaseCallback = "";
 
-		mvTextEditor               m_editor;
+		//mvTextEditor               m_editor;
 		std::string                m_file;
 
 	};
