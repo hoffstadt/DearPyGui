@@ -5,8 +5,8 @@
 namespace Marvel {
 
 	mvPythonTranslator::mvPythonTranslator(const std::initializer_list<mvPythonDataElement>& elements, 
-		bool standardKeywords, const std::string& about)
-		: m_elements(elements), m_about(about)
+		bool standardKeywords, const std::string& about, const std::string& returnType)
+		: m_elements(elements), m_about(about), m_return(returnType)
 	{
 
 		if (standardKeywords)
@@ -223,11 +223,10 @@ namespace Marvel {
 
 	void mvPythonTranslator::buildDocumentation()
 	{
-		std::string documentation;
-		if(m_elements.empty())
-			documentation = m_about;
-		else
-			documentation = m_about + "\n\nParameters\n__________\n\n";
+		std::string documentation = m_about + "\n\nReturn Type: " + m_return + "\n";
+
+		if (!m_elements.empty())
+			documentation = documentation + "\n\nParameters\n__________\n\n";
 
 		bool opfound = false;
 		bool keyfound = false;

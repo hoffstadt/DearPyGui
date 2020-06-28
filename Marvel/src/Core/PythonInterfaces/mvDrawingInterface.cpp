@@ -28,7 +28,7 @@ namespace Marvel {
 
 			{"get_drawing_size", mvPythonTranslator({
 				{mvPythonDataType::String, "name"},
-			}, false, "Returns the size of a drawing widget.")},
+			}, false, "Returns the size of a drawing widget.", "(float, float)")},
 
 			{"draw_image", mvPythonTranslator({
 				{mvPythonDataType::String, "drawing"},

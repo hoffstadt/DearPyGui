@@ -14,7 +14,7 @@ namespace Marvel {
 		std::map<std::string, mvPythonTranslator> translators = {
 
 			{"get_log_level", mvPythonTranslator({
-			}, false, "Returns the log level.")},
+			}, false, "Returns the log level.", "int")},
 
 			{"clear_log", mvPythonTranslator({
 			}, false, "Clears the logger.")},
