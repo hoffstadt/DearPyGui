@@ -1,12 +1,53 @@
 # Marvel Sandbox
 <sub>(This library is available under a free and permissive license)</sub>
 
-MarvelSandbox is a **simple to use (but powerful) Python GUI toolkit**, built on top of Dear ImGui. Although the API may seem similar to Dear ImGui, MarvelSandbox does not use the immediate mode paradigm, but instead provides a wrapping that simulates a traditional retained mode GUI.
+MarvelSandbox is a **simple to use (but powerful) Python GUI framework**, built on top of **Dear ImGui**. Although the API may seem similar to Dear ImGui, _MarvelSandbox_ does not use the immediate mode paradigm, but instead provides a wrapping that simulates a traditional retained mode GUI.
 
-In the same manner Dear ImGui provides a simple way to create tools for game developers, MarvelSandbox provides a simple way for python developers to **create quick and powerful GUIs for scripts**. It's well suited for **beginners** too!
+In the same manner Dear ImGui provides a simple way to create tools for game developers, _MarvelSandbox_ provides a simple way for python developers to **create quick and powerful GUIs for scripts**. It's well suited for **beginners** too!
 
 ### Usage
-Usage details will be added once version 0.1 is closer to completion.
+**MarvelSandbox is an all included framework containing its own embedded python interpreter.** Using _MarvelSandbox_ is a simple as creating a python script like the one below, and calling ```MarvelSandbox.exe --app ScriptName --path PathToScriptDirectory``` from the command line (Windows).
+
+Code:
+```Python
+from sbWidgets import *
+
+add_text("Hello world")
+add_button("Save", callback="SaveCallback")
+add_input_text("string")
+add_float_slider("float")
+```
+Result:
+<BR>![BasicUsageExample](../assets/BasicUsageExample1.PNG?raw=true)
+
+### Features
+
+#### Plotting/Graphing
+_MarvelSandbox_ includes a plotting API built using ImPlot.
+<BR>![BasicUsageExample](../assets/PlottingExample1.PNG?raw=true)
+  
+#### Drawings
+_MarvelSandbox_ includes a drawing API to create custom drawings.
+<BR>![BasicUsageExample](../assets/DrawingExample1.PNG?raw=true)
+
+#### Logging
+_MarvelSandbox_ includes a logging API that also acts as a python output console.
+<BR>![BasicUsageExample](../assets/LoggingExample1.PNG?raw=true)
+  
+#### Built-in IDE
+If you choose not to use your own IDE, we have provided a basic build-in IDE for creating and testing apps. To use the built-in IDE just call the _MarvelSandbox_ executable with the **--editor** flag: ```MarvelSandbox.exe --editor```
+<BR>![BasicUsageExample](../assets/IDEExample1.PNG?raw=true)
+  
+#### Built-in Documentation
+Using the ```show_documentation()``` command opens the built-in documentation window which displays all _MarvelSandbox_ commands and constants, along with information on their usage.
+<BR>![BasicUsageExample](../assets/DocumentationExample.PNG?raw=true)
+
+### Current Dependencies
+
+- [Dear ImGui](https://github.com/ocornut/imgui)
+- [CPython](https://github.com/python/cpython)
+- [ImPlot](https://github.com/epezent/implot)
+- [CLI11](https://github.com/CLIUtils/CLI11)
 
 ### Requirements
 
@@ -20,14 +61,16 @@ Usage details will be added once version 0.1 is closer to completion.
 git clone --recursive https://github.com/RaylockLLC/MarvelSandbox
 ```
 3. Open the _Scripts_ folder and run the _BuildPythonForWindows.bat_ file.
+4. In Visual Studio, use _Open a local folder_ to open _MarvelSandbox_ folder.
+5. Switch to the release configuration and run _Build All_.
 
-
-### Current Dependencies
-
-- [Dear ImGui](https://github.com/ocornut/imgui)
-- [CPython](https://github.com/python/cpython)
-- [ImPlot](https://github.com/epezent/implot)
+### Prebuilt Binaries
+Coming soon!
 
 ### License
 
 This repository is licensed under the [MIT License](https://mit-license.org/).
+
+### Gallery
+<BR>![StandardWindowsExample1](../assets/WidgetsExample1.PNG?raw=true)
+<BR>![StandardWindowsExample1](../assets/StandardWindowsExample1.PNG?raw=true)
