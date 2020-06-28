@@ -32,22 +32,21 @@ namespace Marvel {
 		//-----------------------------------------------------------------------------
 		// App Settings
 		//-----------------------------------------------------------------------------
-		void          setAppTheme  (const std::string& theme);
-		void          setWindowSize(unsigned width, unsigned height);
-		void          setModuleDict(PyObject* dict) { m_pDict = dict; }
-		void          setStarted() { m_started = true; }
-		void          changeThemeItem  (long item, mvColor color);
-		void          changeStyleItem  (long item, float x, float y);
-		void          addItemColorStyle(const std::string& name, ImGuiCol item, mvColor color);
-		unsigned      getWindowWidth() const { return m_windows[0]->getWidth(); }
-		unsigned      getWindowHeight() const { return m_windows[0]->getHeight(); }
-		bool&         isLoggerShown() { return m_showLog; }
-		const std::string& getAppTheme() const { return m_theme; }
-		
-		std::pair<float, float> getStyleItem(long item);
-		mvColor      getThemeItem(long item);
-		void         setActiveWindow(const std::string& window) { m_activeWindow = window; }
-		const std::string& getActiveWindow() const { return m_activeWindow; }
+		void                    setAppTheme      (const std::string& theme);
+		void                    setWindowSize    (unsigned width, unsigned height);
+		void                    setModuleDict    (PyObject* dict) { m_pDict = dict; }
+		void                    setStarted       () { m_started = true; }
+		void                    changeThemeItem  (long item, mvColor color);
+		void                    changeStyleItem  (long item, float x, float y);
+		void                    addItemColorStyle(const std::string& name, ImGuiCol item, mvColor color);
+		unsigned                getWindowWidth   () const { return m_windows[0]->getWidth(); }
+		unsigned                getWindowHeight  () const { return m_windows[0]->getHeight(); }
+		bool&                   isLoggerShown    () { return m_showLog; }
+		const std::string&      getAppTheme      () const { return m_theme; }
+		std::pair<float, float> getStyleItem     (long item);
+		mvColor                 getThemeItem     (long item);
+		void                    setActiveWindow  (const std::string& window) { m_activeWindow = window; }
+		const std::string&      getActiveWindow  () const { return m_activeWindow; }
 
 
 		//-----------------------------------------------------------------------------
