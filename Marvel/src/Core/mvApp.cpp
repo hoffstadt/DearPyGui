@@ -61,23 +61,6 @@ namespace Marvel {
 
 	}
 
-	void mvApp::setFile(const std::string& file)
-	{
-		m_file = file;
-		m_editor.SetLanguageDefinition(mvTextEditor::LanguageDefinition::Python());
-		{
-			std::ifstream t(m_file.c_str());
-			if (t.good())
-			{
-				std::string str((std::istreambuf_iterator<char>(t)), std::istreambuf_iterator<char>());
-				m_editor.SetText(str);
-			}
-		}
-
-		m_editor.SetReadOnly(true);
-		m_editor.SetShowWhitespaces(false);
-	}
-
 	static void prepareStandardCallbacks()
 	{
 		ImGuiIO& io = ImGui::GetIO();
@@ -112,21 +95,6 @@ namespace Marvel {
 			if (ImGui::IsKeyReleased(i))
 				app->runCallbackD(app->getKeyReleaseCallback(), i);
 
-		}
-	}
-
-	static bool canItemTypeHaveDuplicates(mvAppItem* item)
-	{
-
-		// ugly and quick
-		switch (item->getType())
-		{
-		case mvAppItemType::Spacing: return true;
-		case mvAppItemType::SameLine: return true;
-		case mvAppItemType::Separator: return true;
-		case mvAppItemType::Indent: return true;
-		case mvAppItemType::Unindent: return true;
-		default: return false;
 		}
 	}
 
@@ -552,7 +520,7 @@ namespace Marvel {
 			return;
 		}
 
-		if (!canItemTypeHaveDuplicates(item))
+		if (!item->areDuplicatesAllowed())
 		{
 			if (auto otheritem = getItem(item->getName()))
 			{
@@ -573,7 +541,7 @@ namespace Marvel {
 			return;
 		}
 
-		if (!canItemTypeHaveDuplicates(item))
+		if (!item->areDuplicatesAllowed())
 		{
 			if (auto otheritem = getItem(item->getName()))
 			{

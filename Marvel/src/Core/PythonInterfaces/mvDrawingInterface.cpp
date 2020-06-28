@@ -14,13 +14,13 @@ namespace Marvel {
 
 		std::map<std::string, mvPythonTranslator> translators = {
 
-			{"addDrawing", mvPythonTranslator({
+			{"add_drawing", mvPythonTranslator({
 				{mvPythonDataType::String, "name"},
 				{mvPythonDataType::Integer, "width"},
 				{mvPythonDataType::Integer, "height"}
-			}, false, "Needs documentation")},
+			}, false, "Adds a drawing widget.")},
 
-			{"drawImage", mvPythonTranslator({
+			{"draw_image", mvPythonTranslator({
 				{mvPythonDataType::String, "drawing"},
 				{mvPythonDataType::String, "file"},
 				{mvPythonDataType::FloatList, "pmin"},
@@ -30,17 +30,17 @@ namespace Marvel {
 				{mvPythonDataType::FloatList, "uv_min"},
 				{mvPythonDataType::FloatList, "uv_max"},
 				{mvPythonDataType::IntList, "color"}
-			}, false, "Needs documentation")},
+			}, false, "Draws an image on a drawing.")},
 
-			{"drawLine", mvPythonTranslator({
+			{"draw_line", mvPythonTranslator({
 				{mvPythonDataType::String, "drawing"},
 				{mvPythonDataType::FloatList, "p1"},
 				{mvPythonDataType::FloatList, "p2"},
 				{mvPythonDataType::IntList, "color"},
 				{mvPythonDataType::Integer, "thickness"},
-			}, false, "Needs documentation")},
+			}, false, "Draws a line on a drawing.")},
 
-			{"drawTriangle", mvPythonTranslator({
+			{"draw_triangle", mvPythonTranslator({
 				{mvPythonDataType::String, "drawing"},
 				{mvPythonDataType::FloatList, "p1"},
 				{mvPythonDataType::FloatList, "p2"},
@@ -49,9 +49,9 @@ namespace Marvel {
 				{mvPythonDataType::Optional},
 				{mvPythonDataType::FloatList, "fill"},
 				{mvPythonDataType::Float, "thickness"}
-			}, false, "Needs documentation")},
+			}, false, "Draws a triangle on a drawing.")},
 
-			{"drawRectangle", mvPythonTranslator({
+			{"draw_rectangle", mvPythonTranslator({
 				{mvPythonDataType::String, "drawing"},
 				{mvPythonDataType::FloatList, "pmin"},
 				{mvPythonDataType::FloatList, "pmax"},
@@ -60,9 +60,9 @@ namespace Marvel {
 				{mvPythonDataType::FloatList, "fill"},
 				{mvPythonDataType::Float, "rounding"},
 				{mvPythonDataType::Float, "thickness"}
-			}, false, "Needs documentation")},
+			}, false, "Draws a rectangle on a drawing.")},
 
-			{"drawQuad", mvPythonTranslator({
+			{"draw_quad", mvPythonTranslator({
 				{mvPythonDataType::String, "drawing"},
 				{mvPythonDataType::FloatList, "p1"},
 				{mvPythonDataType::FloatList, "p2"},
@@ -72,18 +72,18 @@ namespace Marvel {
 				{mvPythonDataType::Optional},
 				{mvPythonDataType::FloatList, "fill"},
 				{mvPythonDataType::Float, "thickness"}
-			}, false, "Needs documentation")},
+			}, false, "Draws a quad on a drawing.")},
 
-			{"drawText", mvPythonTranslator({
+			{"draw_text", mvPythonTranslator({
 				{mvPythonDataType::String, "drawing"},
 				{mvPythonDataType::FloatList, "pos"},
 				{mvPythonDataType::String, "text"},
 				{mvPythonDataType::Optional},
 				{mvPythonDataType::IntList, "color"},
 				{mvPythonDataType::Integer, "size"}
-			}, false, "Needs documentation")},
+			}, false, "Draws text on a drawing.")},
 
-			{"drawCircle", mvPythonTranslator({
+			{"draw_circle", mvPythonTranslator({
 				{mvPythonDataType::String, "drawing"},
 				{mvPythonDataType::FloatList, "center"},
 				{mvPythonDataType::Float, "radius"},
@@ -92,27 +92,27 @@ namespace Marvel {
 				{mvPythonDataType::Integer, "segments"},
 				{mvPythonDataType::Float, "thickness"},
 				{mvPythonDataType::FloatList, "fill"}
-			}, false, "Needs documentation")},
+			}, false, "Draws a circle on a drawing.")},
 
-			{"drawPolyline", mvPythonTranslator({
+			{"draw_polyline", mvPythonTranslator({
 				{mvPythonDataType::String, "drawing"},
 				{mvPythonDataType::FloatList, "points"},
 				{mvPythonDataType::IntList, "color"},
 				{mvPythonDataType::Optional},
 				{mvPythonDataType::Integer, "closed"},
 				{mvPythonDataType::Float, "thickness"}
-			}, false, "Needs documentation")},
+			}, false, "Draws lines on a drawing.")},
 
-			{"drawPolygon", mvPythonTranslator({
+			{"draw_polygon", mvPythonTranslator({
 				{mvPythonDataType::String, "drawing"},
 				{mvPythonDataType::FloatList, "points"},
 				{mvPythonDataType::IntList, "color"},
 				{mvPythonDataType::Optional},
 				{mvPythonDataType::FloatList, "fill"},
 				{mvPythonDataType::Float, "thickness"}
-			}, false, "Needs documentation")},
+			}, false, "Draws a polygon on a drawing.")},
 
-			{"drawBezierCurve", mvPythonTranslator({
+			{"draw_bezier_curve", mvPythonTranslator({
 				{mvPythonDataType::String, "drawing"},
 				{mvPythonDataType::FloatList, "p1"},
 				{mvPythonDataType::FloatList, "p2"},
@@ -122,24 +122,24 @@ namespace Marvel {
 				{mvPythonDataType::Optional},
 				{mvPythonDataType::Float, "thickness"},
 				{mvPythonDataType::Integer, "segments"}
-			}, false, "Needs documentation")},
+			}, false, "Draws a bezier curve on a drawing.")},
 
-			{"clearDrawing", mvPythonTranslator({
+			{"clear_drawing", mvPythonTranslator({
 				{mvPythonDataType::String, "draw"}
-			}, false, "Needs documentation")},
+			}, false, "Clears a drawing.")},
 
 		};
 
 		return translators;
 	}
 
-	PyObject* addDrawing(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* add_drawing(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		const char* name;
 		int width;
 		int height;
 
-		if (!Translators["addDrawing"].parse(args, kwargs,__FUNCTION__, &name, &width, &height))
+		if (!Translators["add_drawing"].parse(args, kwargs,__FUNCTION__, &name, &width, &height))
 			Py_RETURN_NONE;
 
 		mvAppItem* item = new mvDrawing("", name, width, height);
@@ -148,7 +148,7 @@ namespace Marvel {
 		Py_RETURN_NONE;
 	}
 
-	PyObject* drawImage(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* draw_image(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		const char* drawing;
 		const char* file;
@@ -168,7 +168,7 @@ namespace Marvel {
 		PyTuple_SetItem(color, 2, PyFloat_FromDouble(255));
 		PyTuple_SetItem(color, 3, PyFloat_FromDouble(255));
 
-		if (!Translators["drawImage"].parse(args, kwargs, __FUNCTION__, &drawing, &file,
+		if (!Translators["draw_image"].parse(args, kwargs, __FUNCTION__, &drawing, &file,
 			&pmin, &pmax, &uv_min, &uv_max, &color))
 			Py_RETURN_NONE;
 
@@ -192,14 +192,14 @@ namespace Marvel {
 		Py_RETURN_NONE;
 	}
 
-	PyObject* drawLine(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* draw_line(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		const char* drawing;
 		int thickness;
 		PyObject* p1, *p2;
 		PyObject* color;
 
-		if (!Translators["drawLine"].parse(args, kwargs,__FUNCTION__, &drawing, &p1, &p2, &color, &thickness))
+		if (!Translators["draw_line"].parse(args, kwargs,__FUNCTION__, &drawing, &p1, &p2, &color, &thickness))
 			Py_RETURN_NONE;
 
 		mvVec2 mp1 = mvPythonTranslator::getVec2(p1);
@@ -220,7 +220,7 @@ namespace Marvel {
 		Py_RETURN_NONE;
 	}
 
-	PyObject* drawTriangle(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* draw_triangle(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		const char* drawing;
 		float thickness = 1.0f;
@@ -228,7 +228,7 @@ namespace Marvel {
 		PyObject* color;
 		PyObject* fill = nullptr;
 
-		if (!Translators["drawTriangle"].parse(args, kwargs,__FUNCTION__, &drawing, &p1, &p2, &p3, &color, &fill, &thickness))
+		if (!Translators["draw_triangle"].parse(args, kwargs,__FUNCTION__, &drawing, &p1, &p2, &p3, &color, &fill, &thickness))
 			Py_RETURN_NONE;
 
 
@@ -252,7 +252,7 @@ namespace Marvel {
 		Py_RETURN_NONE;
 	}
 
-	PyObject* drawRectangle(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* draw_rectangle(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		const char* drawing;
 		float thickness = 1.0f, rounding = 0.0f;
@@ -260,7 +260,7 @@ namespace Marvel {
 		PyObject* color;
 		PyObject* fill = nullptr;
 
-		if (!Translators["drawRectangle"].parse(args, kwargs,__FUNCTION__, &drawing, &pmin, &pmax, &color, &fill, &rounding, &thickness))
+		if (!Translators["draw_rectangle"].parse(args, kwargs,__FUNCTION__, &drawing, &pmin, &pmax, &color, &fill, &rounding, &thickness))
 			Py_RETURN_NONE;
 
 
@@ -283,7 +283,7 @@ namespace Marvel {
 		Py_RETURN_NONE;
 	}
 
-	PyObject* drawQuad(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* draw_quad(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		const char* drawing;
 		float thickness = 1.0f;
@@ -291,7 +291,7 @@ namespace Marvel {
 		PyObject* color;
 		PyObject* fill = nullptr;
 
-		if (!Translators["drawQuad"].parse(args, kwargs,__FUNCTION__, &drawing, &p1, &p2, &p3, &p4, &color, &fill, &thickness))
+		if (!Translators["draw_quad"].parse(args, kwargs,__FUNCTION__, &drawing, &p1, &p2, &p3, &p4, &color, &fill, &thickness))
 			Py_RETURN_NONE;
 
 
@@ -316,7 +316,7 @@ namespace Marvel {
 		Py_RETURN_NONE;
 	}
 
-	PyObject* drawText(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* draw_text(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		const char* drawing;
 		const char* text;
@@ -324,7 +324,7 @@ namespace Marvel {
 		int size = 10;
 		PyObject* color = nullptr;
 
-		if (!Translators["drawText"].parse(args, kwargs,__FUNCTION__, &drawing, &pos, &text, &color, &size))
+		if (!Translators["draw_text"].parse(args, kwargs,__FUNCTION__, &drawing, &pos, &text, &color, &size))
 			Py_RETURN_NONE;
 
 		mvVec2 mpos = mvPythonTranslator::getVec2(pos);
@@ -344,7 +344,7 @@ namespace Marvel {
 		Py_RETURN_NONE;
 	}
 
-	PyObject* drawCircle(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* draw_circle(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		const char* drawing;
 		PyObject* center;
@@ -354,7 +354,7 @@ namespace Marvel {
 		float thickness = 1.0f;
 		PyObject* fill = nullptr;
 
-		if (!Translators["drawCircle"].parse(args, kwargs,__FUNCTION__, &drawing, &center, &radius, &color, &segments, &thickness, &fill))
+		if (!Translators["draw_circle"].parse(args, kwargs,__FUNCTION__, &drawing, &center, &radius, &color, &segments, &thickness, &fill))
 			Py_RETURN_NONE;
 
 		mvVec2 mcenter = mvPythonTranslator::getVec2(center);
@@ -375,7 +375,7 @@ namespace Marvel {
 		Py_RETURN_NONE;
 	}
 
-	PyObject* drawPolyline(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* draw_polyline(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		const char* drawing;
 		PyObject* points;
@@ -383,7 +383,7 @@ namespace Marvel {
 		int closed = false;
 		float thickness = 1.0f;
 
-		if (!Translators["drawPolyline"].parse(args, kwargs,__FUNCTION__, &drawing, &points, &color, &closed, &thickness))
+		if (!Translators["draw_polyline"].parse(args, kwargs,__FUNCTION__, &drawing, &points, &color, &closed, &thickness))
 			Py_RETURN_NONE;
 
 		auto mpoints = mvPythonTranslator::getVectVec2(points);
@@ -403,7 +403,7 @@ namespace Marvel {
 		Py_RETURN_NONE;
 	}
 
-	PyObject* drawPolygon(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* draw_polygon(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		const char* drawing;
 		PyObject* points;
@@ -411,7 +411,7 @@ namespace Marvel {
 		PyObject* fill = nullptr;
 		float thickness = 1.0f;
 
-		if (!Translators["drawPolygon"].parse(args, kwargs,__FUNCTION__, &drawing, &points, &color, &fill, &thickness))
+		if (!Translators["draw_polygon"].parse(args, kwargs,__FUNCTION__, &drawing, &points, &color, &fill, &thickness))
 			Py_RETURN_NONE;
 
 		auto mpoints = mvPythonTranslator::getVectVec2(points);
@@ -432,7 +432,7 @@ namespace Marvel {
 		Py_RETURN_NONE;
 	}
 
-	PyObject* drawBezierCurve(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* draw_bezier_curve(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		const char* drawing;
 		float thickness = 1.0f;
@@ -440,7 +440,7 @@ namespace Marvel {
 		PyObject* color;
 		int segments = 0;
 
-		if (!Translators["drawBezierCurve"].parse(args, kwargs,__FUNCTION__, &drawing, &p1, &p2, &p3, &p4, &color, &thickness, &segments))
+		if (!Translators["draw_bezier_curve"].parse(args, kwargs,__FUNCTION__, &drawing, &p1, &p2, &p3, &p4, &color, &thickness, &segments))
 			Py_RETURN_NONE;
 
 		mvVec2 mp1 = mvPythonTranslator::getVec2(p1);
@@ -463,11 +463,11 @@ namespace Marvel {
 		Py_RETURN_NONE;
 	}
 
-	PyObject* clearDrawing(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* clear_drawing(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		const char* drawing;
 
-		if (!Translators["clearDrawing"].parse(args, kwargs,__FUNCTION__, &drawing))
+		if (!Translators["clear_drawing"].parse(args, kwargs,__FUNCTION__, &drawing))
 			Py_RETURN_NONE;
 
 		mvAppItem* item = mvApp::GetApp()->getItem(drawing);
@@ -488,18 +488,18 @@ namespace Marvel {
 	{
 		auto pyModule = new mvPythonModule("sbDraw", {});
 
-		pyModule->addMethodD(addDrawing);
-		pyModule->addMethodD(drawImage);
-		pyModule->addMethodD(drawLine);
-		pyModule->addMethodD(drawTriangle);
-		pyModule->addMethodD(drawRectangle);
-		pyModule->addMethodD(drawQuad);
-		pyModule->addMethodD(drawText);
-		pyModule->addMethodD(drawCircle);
-		pyModule->addMethodD(drawPolyline);
-		pyModule->addMethodD(drawPolygon);
-		pyModule->addMethodD(drawBezierCurve);
-		pyModule->addMethodD(clearDrawing);
+		pyModule->addMethodD(add_drawing);
+		pyModule->addMethodD(draw_image);
+		pyModule->addMethodD(draw_line);
+		pyModule->addMethodD(draw_triangle);
+		pyModule->addMethodD(draw_rectangle);
+		pyModule->addMethodD(draw_quad);
+		pyModule->addMethodD(draw_text);
+		pyModule->addMethodD(draw_circle);
+		pyModule->addMethodD(draw_polyline);
+		pyModule->addMethodD(draw_polygon);
+		pyModule->addMethodD(draw_bezier_curve);
+		pyModule->addMethodD(clear_drawing);
 
 		return pyModule;
 	}

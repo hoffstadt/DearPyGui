@@ -25,17 +25,29 @@ namespace Marvel {
 
 		s_instance = new mvInterfaceRegistry();
 
-		//auto initializer = mvApp::GetApp()->getModuleInitializer();
 		auto initializer = mvModuleInitializer::getInitializer();
 		int startindex = initializer->initializeCoreModules();
 		initializer->initializeUserModules(startindex);
-		//initModules();
 		return s_instance;
 	}
 
 	mvInterfaceRegistry::mvInterfaceRegistry()
 	{
 		m_constants = BuildConstantsInterface();
+	}
+
+	std::vector<std::pair<std::string, std::string>> mvInterfaceRegistry::getAllCommands()
+	{
+
+		std::vector<std::pair<std::string, std::string>> result;
+
+		for (const auto& modu : m_translators)
+		{
+			for (const auto& item : modu.second) // actual translator maps
+				result.emplace_back(item.first.c_str(), item.second.getDocumentation());
+		}
+
+		return result;
 	}
 
 	void mvInterfaceRegistry::addModule(const char* name, pyInitFunc initfunc, pyDocFunc docfunc)

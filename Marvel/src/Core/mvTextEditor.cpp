@@ -3180,7 +3180,7 @@ const mvTextEditor::LanguageDefinition& mvTextEditor::LanguageDefinition::Python
 		for (auto& k : cppKeywords)
 			langDef.mKeywords.insert(k);
 
-		for (auto& k : Marvel::mvApp::GetApp()->getKeywords())
+		for (auto& k : Marvel::mvInterfaceRegistry::GetRegistry()->getAllCommands())
 		{
 			Identifier id;
 			id.mDeclaration = k.second;

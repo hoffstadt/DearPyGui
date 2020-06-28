@@ -26,6 +26,8 @@ namespace Marvel {
 		std::vector<const char*>                   getPythonInterfaceDoc     (const std::string& name);
 		void                                       addModule                 (const char* name, pyInitFunc initfunc, pyDocFunc docfunc = nullptr);
 		pyInitFunc                                 getInitFunc               (int i);
+		
+		std::vector<std::pair<std::string, std::string>> getAllCommands();
 
 	private:
 

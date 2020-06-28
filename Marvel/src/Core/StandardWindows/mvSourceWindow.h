@@ -1,5 +1,7 @@
 #pragma once
 
+#include "Core/mvTextEditor.h"
+
 namespace Marvel {
 
 	class mvSourceWindow
@@ -9,7 +11,8 @@ namespace Marvel {
 
 		static mvSourceWindow* GetWindow();
 
-		void render(bool& show);
+		void render (bool& show);
+		void setFile(const std::string& file);
 
 	private:
 
@@ -18,6 +21,8 @@ namespace Marvel {
 	private:
 
 		static mvSourceWindow* s_instance;
+		mvTextEditor           m_editor;
+		std::string            m_file;
 
 	};
 

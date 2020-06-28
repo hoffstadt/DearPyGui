@@ -2,6 +2,7 @@
 
 #include <imgui.h>
 #include <string>
+#include <chrono>
 
 namespace Marvel {
 
@@ -36,6 +37,7 @@ namespace Marvel {
 		bool                AutoScroll;     // Keep scrolling if already at the bottom
 		int                 m_loglevel =0;
 
+		static std::chrono::steady_clock::time_point s_start;
 	};
 
 }

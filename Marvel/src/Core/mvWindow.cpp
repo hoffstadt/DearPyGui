@@ -13,7 +13,7 @@ namespace Marvel {
 			if (m_editor)
 				m_appEditor->render();
 
-			else if (m_app->isOk())
+			else if (!m_error)
 				m_app->render();
 
 			if(mvApp::GetApp()->isLoggerShown())

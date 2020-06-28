@@ -3,13 +3,15 @@
 
 #define STB_IMAGE_IMPLEMENTATION
 #include <stb_image.h>
-
 #include <shobjidl.h> 
 #include <windows.h>
 #include <atlbase.h> // Contains the declaration of CComPtr.
 #include <array>
 #include <codecvt>
 #include <sstream>
+#include <filesystem>
+
+namespace fs = std::filesystem;
 
 namespace Marvel {
 
@@ -63,7 +65,46 @@ namespace Marvel {
         return true;
     }
 
-	std::string SaveFile(std::vector<std::pair<std::string, std::string >>& extensions)
+	void RunFile(const std::string& name, const std::string& file, const std::string& flags)
+	{
+		// additional information
+		STARTUPINFO si;
+		PROCESS_INFORMATION pi;
+
+		// set the size of the structures
+		ZeroMemory(&si, sizeof(si));
+		si.cb = sizeof(si);
+		ZeroMemory(&pi, sizeof(pi));
+
+		fs::path p = fs::path(file);
+		p.replace_extension(" ");
+		auto filename = p.filename().string();
+		auto pathname = p.parent_path().string();
+
+		size_t lastindex = filename.find_last_of(".");
+		std::string rawname = filename.substr(0, lastindex);
+
+		std::string cmd = name + std::string(".exe --app ") + rawname + " --path \"" + pathname + "\" " + flags;
+		std::string pname = name + std::string(".exe");
+
+		// start the program up
+		CreateProcess(const_cast<char*>(pname.c_str()),   // the path
+			const_cast<char*>(cmd.c_str()),        // Command line
+			NULL,           // Process handle not inheritable
+			NULL,           // Thread handle not inheritable
+			FALSE,          // Set handle inheritance to FALSE
+			0,              // No creation flags
+			NULL,           // Use parent's environment block
+			NULL,           // Use parent's starting directory 
+			&si,            // Pointer to STARTUPINFO structure
+			&pi             // Pointer to PROCESS_INFORMATION structure (removed extra parentheses)
+		);
+		// Close process and thread handles. 
+		CloseHandle(pi.hProcess);
+		CloseHandle(pi.hThread);
+	}
+
+	std::string SaveFile(const std::vector<std::pair<std::string, std::string >>& extensions)
 	{
 
 		std::string  result = "";
@@ -127,7 +168,7 @@ namespace Marvel {
 		return result;
 	}
 
-	std::string OpenFile(std::vector<std::pair<std::string, std::string>>& extensions)
+	std::string OpenFile(const std::vector<std::pair<std::string, std::string>>& extensions)
 	{
 		std::string result = "";
 

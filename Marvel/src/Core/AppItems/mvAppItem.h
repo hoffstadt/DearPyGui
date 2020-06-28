@@ -33,7 +33,7 @@ namespace Marvel {
 		Tooltip, CollapsingHeader, Separator, Checkbox,
 		Listbox, Text, LabelText, Combo, Plot, SimplePlot,
 		Indent, Unindent, Drawing, Window, EndWindow,
-		Popup, EndPopup, Selectable, TreeNode, ProgressBar
+		Popup, Selectable, TreeNode, ProgressBar
 	};
 
 	//-----------------------------------------------------------------------------
@@ -58,6 +58,9 @@ namespace Marvel {
 		virtual PyObject*     getPyValue()          const = 0;
 		virtual mvAppItemType getType   ()          const = 0;
 		virtual void          draw      ()                = 0;
+
+		// virtual methods
+		virtual bool areDuplicatesAllowed() const { return false; }
 
 		// color styles for runtime (WORK NEEDED HERE)
 		void addColorStyle  (ImGuiCol item, mvColor color);

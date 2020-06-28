@@ -13,109 +13,112 @@ namespace Marvel {
 
 		std::map<std::string, mvPythonTranslator> translators = {
 
-				{"setThreadPoolThreshold", mvPythonTranslator({
+				{"get_marvel_version", mvPythonTranslator({
+				}, false, "Returns the current version of Marvel.")},
+
+				{"set_threadpool_threshold", mvPythonTranslator({
 					{mvPythonDataType::Float, "time"}
-				}, false, "Needs documentation")},
+				}, false, "Sets the minimum duration for a callback before activating the threadpool.")},
 
-				{"setThreadCount", mvPythonTranslator({
+				{"set_thread_count", mvPythonTranslator({
 					{mvPythonDataType::Integer, "threads"}
+				}, false, "Sets number of threads to use if the threadpool is active.")},
+
+				{"set_threadpool_auto", mvPythonTranslator({
+				}, false, "Sets threadpool to automatically activate if the threshold is met.")},
+
+				{"show_documentation", mvPythonTranslator({
+				}, false, "Shows the documentation window.")},
+
+				{"show_about", mvPythonTranslator({
+				}, false, "Shows the about window.")},
+
+				{"show_metrics", mvPythonTranslator({
+				}, false, "Shows the metrics window.")},
+
+				{"close_popup", mvPythonTranslator({
 				}, false, "Needs documentation")},
 
-				{"setThreadPoolAuto", mvPythonTranslator({
-				}, false, "Needs documentation")},
+				{"show_source", mvPythonTranslator({
+				}, false, "Shows the source code for the current app.")},
 
-				{"showDocumentation", mvPythonTranslator({
-				}, false, "Needs documentation")},
+				{"activate_threadpool", mvPythonTranslator({
+				}, false, "Activated the threadpool.")},
 
-				{"showAbout", mvPythonTranslator({
-				}, false, "Needs documentation")},
+				{"set_threadpool_high_performance", mvPythonTranslator({
+				}, false, "Set the thread count to the maximum number of threads on your computer.")},
 
-				{"showMetrics", mvPythonTranslator({
-				}, false, "Needs documentation")},
-
-				{"closePopup", mvPythonTranslator({
-				}, false, "Needs documentation")},
-
-				{"showSource", mvPythonTranslator({
-				}, false, "Needs documentation")},
-
-				{"activateThreadPool", mvPythonTranslator({
-				}, false, "Needs documentation")},
-
-				{"setThreadPoolHighPerformance", mvPythonTranslator({
-				}, false, "Needs documentation")},
-
-				{"addItemColorStyle", mvPythonTranslator({
+				{"add_item_color_style", mvPythonTranslator({
 					{mvPythonDataType::String, "item"},
 					{mvPythonDataType::Integer, "style"},
 					{mvPythonDataType::FloatList, "color"}
 				}, false, "Needs documentation")},
 
-				{"isItemHovered", mvPythonTranslator({
+				{"is_item_hovered", mvPythonTranslator({
 					{mvPythonDataType::String, "item"},
-				}, false, "Needs documentation")},
+				}, false, "Checks if an item is hovered.")},
 
-				{"setMainWindowSize", mvPythonTranslator({
+				{"set_main_window_size", mvPythonTranslator({
 					{mvPythonDataType::Integer, "width"},
 					{mvPythonDataType::Integer, "height"}
-				}, false, "Needs documentation")},
+				}, false, "Sets the main window size.")},
 
-				{"isItemActive", mvPythonTranslator({
+				{"is_item_active", mvPythonTranslator({
 					{mvPythonDataType::String, "item"},
-				}, false, "Needs documentation")},
+				}, false, "Checks if an item is active.")},
 
-				{"isItemFocused", mvPythonTranslator({
+				{"is_item_focused", mvPythonTranslator({
 					{mvPythonDataType::String, "item"},
-				}, false, "Needs documentation")},
+				}, false, "Checks if an item is focused.")},
 
-				{"isItemClicked", mvPythonTranslator({
+				{"is_item_clicked", mvPythonTranslator({
 					{mvPythonDataType::String, "item"},
-				}, false, "Needs documentation")},
+				}, false, "Checks if an item is clicked.")},
 
-				{"isItemVisible", mvPythonTranslator({
+				{"is_item_visible", mvPythonTranslator({
 					{mvPythonDataType::String, "item"},
-				}, false, "Needs documentation")},
+				}, false, "Checks if an item is visible.")},
 
-				{"isItemEdited", mvPythonTranslator({
+				{"is_item_edited", mvPythonTranslator({
 					{mvPythonDataType::String, "item"},
-				}, false, "Needs documentation")},
+				}, false, "Checks if an item has been edited.")},
 
-				{"isItemActivated", mvPythonTranslator({
+				{"is_item_activated", mvPythonTranslator({
 					{mvPythonDataType::String, "item"},
-				}, false, "Needs documentation")},
+				}, false, "Checks if an item has been activated.")},
 
-				{"isItemDeactivated", mvPythonTranslator({
+				{"is_item_deactivated", mvPythonTranslator({
 					{mvPythonDataType::String, "item"},
-				}, false, "Needs documentation")},
+				}, false, "Checks if an item has been deactivated.")},
 
-				{"isItemDeactivatedAfterEdit", mvPythonTranslator({
+				{"is_item_deactivated_after_edit", mvPythonTranslator({
 					{mvPythonDataType::String, "item"},
-				}, false, "Needs documentation")},
+				}, false, "Checks if an item has been deactivated after editing.")},
 
-				{"isItemToggledOpen", mvPythonTranslator({
+				{"is_item_toggled_open", mvPythonTranslator({
 					{mvPythonDataType::String, "item"},
-				}, false, "Needs documentation")},
+				}, false, "Checks if an item is toggled.")},
 
-				{"getItemRectMin", mvPythonTranslator({
+				{"get_item_rect_min", mvPythonTranslator({
 					{mvPythonDataType::String, "item"},
-				}, false, "Needs documentation")},
+				}, false, "Returns an item's minimum allowable size.")},
 
-				{"getItemRectMax", mvPythonTranslator({
+				{"get_item_rect_max", mvPythonTranslator({
 					{mvPythonDataType::String, "item"},
-				}, false, "Needs documentation")},
+				}, false, "Returns an item's maximum allowable size.")},
 
-				{"getItemRectSize", mvPythonTranslator({
+				{"get_item_rect_size", mvPythonTranslator({
 					{mvPythonDataType::String, "item"},
-				}, false, "Needs documentation")},
+				}, false, "Returns an item's current size.")},
 
-				{"changeStyleItem", mvPythonTranslator({
+				{"change_style_item", mvPythonTranslator({
 					{mvPythonDataType::Integer, "item"},
 					{mvPythonDataType::Float, "x"},
 					{mvPythonDataType::Optional},
 					{mvPythonDataType::Float, "y"}
 				}, false, "Needs documentation")},
 
-				{"changeThemeItem", mvPythonTranslator({
+				{"change_theme_item", mvPythonTranslator({
 					{mvPythonDataType::Integer, "item"},
 					{mvPythonDataType::Float, "r"},
 					{mvPythonDataType::Float, "g"},
@@ -123,90 +126,71 @@ namespace Marvel {
 					{mvPythonDataType::Float, "a"}
 				}, false, "Needs documentation")},
 
-				{"getValue", mvPythonTranslator({
+				{"get_value", mvPythonTranslator({
 					{mvPythonDataType::String, "name"}
-				}, false, "Needs documentation")},
+				}, false, "Returns an item's value or None if there is none.")},
 
-				{"setValue", mvPythonTranslator({
+				{"set_value", mvPythonTranslator({
 					{mvPythonDataType::String, "name"},
 					{mvPythonDataType::Object, "value"}
-				}, false, "Needs documentation")},
+				}, false, "Sets an item's value if applicable.")},
 
-				{"showItem", mvPythonTranslator({
+				{"show_item", mvPythonTranslator({
 					{mvPythonDataType::String, "name"}
-				}, false, "Needs documentation")},
+				}, false, "Shows an item if it was hidden.")},
 
-				{"hideItem", mvPythonTranslator({
+				{"hide_item", mvPythonTranslator({
 					{mvPythonDataType::String, "name"}
-				}, false, "Needs documentation")},
+				}, false, "Hides an item.")},
 
-				{"setMainCallback", mvPythonTranslator({
+				{"set_main_callback", mvPythonTranslator({
 					{mvPythonDataType::String, "callback"}
-				}, false, "Needs documentation")},
+				}, false, "Sets the callback to be ran every frame.")},
 
-				{"setMouseDownCallback", mvPythonTranslator({
-					{mvPythonDataType::String, "callback"}
-				}, false, "Needs documentation")},
-
-				{"setMouseDoubleClickCallback", mvPythonTranslator({
-					{mvPythonDataType::String, "callback"}
-				}, false, "Needs documentation")},
-
-				{"setMouseClickCallback", mvPythonTranslator({
-					{mvPythonDataType::String, "callback"}
-				}, false, "Needs documentation")},
-
-				{ "setKeyDownCallback", mvPythonTranslator({
-					{mvPythonDataType::String, "callback"}
-				}, false, "Needs documentation") },
-
-				{ "setKeyPressCallback", mvPythonTranslator({
-					{mvPythonDataType::String, "callback"}
-				}, false, "Needs documentation") },
-
-				{ "setKeyReleaseCallback", mvPythonTranslator({
-					{mvPythonDataType::String, "callback"}
-				}, false, "Needs documentation") },
-
-				{ "setItemCallback", mvPythonTranslator({
+				{ "set_item_callback", mvPythonTranslator({
 					{mvPythonDataType::String, "item"},
 					{mvPythonDataType::String, "callback"}
-				}, false, "Needs documentation") },
+				}, false, "Sets an item's callback if applicable.") },
 
-				{ "setItemPopup", mvPythonTranslator({
+				{ "set_item_popup", mvPythonTranslator({
 					{mvPythonDataType::String, "item"},
 					{mvPythonDataType::String, "popup"}
-				}, false, "Needs documentation") },
+				}, false, "Sets an item's popup if applicable.") },
 
-				{ "setItemTip", mvPythonTranslator({
+				{ "set_item_tip", mvPythonTranslator({
 					{mvPythonDataType::String, "item"},
 					{mvPythonDataType::String, "tip"}
-				}, false, "Needs documentation") },
+				}, false, "Sets a simple tooltip for an item.") },
 
-				{ "setItemWidth", mvPythonTranslator({
+				{ "set_item_width", mvPythonTranslator({
 					{mvPythonDataType::String, "item"},
 					{mvPythonDataType::Integer, "width"}
-				}, false, "Needs documentation") },
+				}, false, "Sets an item's width.") },
 
-				{ "setItemHeight", mvPythonTranslator({
+				{ "set_item_height", mvPythonTranslator({
 					{mvPythonDataType::String, "item"},
 					{mvPythonDataType::Integer, "height"}
-				}, false, "Needs documentation") },
+				}, false, "Sets an item's height if applicable.") },
 
-				{ "setTheme", mvPythonTranslator({
+				{ "set_theme", mvPythonTranslator({
 					{mvPythonDataType::String, "theme"}
-				}, false, "Needs documentation") },
+				}, false, "Set the application's theme to a built-in theme.") },
 
 		};
 
 		return translators;
 	}
 
-	PyObject* setThreadPoolThreshold(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* get_marvel_version(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		return Py_BuildValue("s", mvApp::GetApp()->GetVersion());
+	}
+
+	PyObject* set_threadpool_threshold(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		float time;
 
-		if (!Translators["setThreadPoolThreshold"].parse(args, kwargs, __FUNCTION__, &time))
+		if (!Translators["set_threadpool_threshold"].parse(args, kwargs, __FUNCTION__, &time))
 			Py_RETURN_NONE;
 
 		mvApp::GetApp()->setThreadPoolThreshold(time);
@@ -214,11 +198,11 @@ namespace Marvel {
 		Py_RETURN_NONE;
 	}
 
-	PyObject* setThreadCount(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* set_thread_count(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		int threads;
 
-		if (!Translators["setThreadCount"].parse(args, kwargs, __FUNCTION__, &threads))
+		if (!Translators["set_thread_count"].parse(args, kwargs, __FUNCTION__, &threads))
 			Py_RETURN_NONE;
 
 		mvApp::GetApp()->setThreadCount(threads);
@@ -226,13 +210,13 @@ namespace Marvel {
 		Py_RETURN_NONE;
 	}
 
-	PyObject* setThreadPoolAuto(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* set_threadpool_auto(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		mvApp::GetApp()->setThreadPoolAuto();
 		Py_RETURN_NONE;
 	}
 
-	PyObject* activateThreadPool(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* activate_threadpool(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 
 		mvApp::GetApp()->activateThreadPool();
@@ -240,21 +224,19 @@ namespace Marvel {
 		Py_RETURN_NONE;
 	}
 
-	PyObject* setThreadPoolHighPerformance(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* set_threadpool_high_performance(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
-
 		mvApp::GetApp()->setThreadPoolHighPerformance();
-
 		Py_RETURN_NONE;
 	}
 
-	PyObject* addItemColorStyle(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* add_item_color_style(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		const char* item;
 		int style;
 		PyObject* color;
 
-		if (!Translators["addItemColorStyle"].parse(args, kwargs, __FUNCTION__, &item, &style, &color))
+		if (!Translators["add_item_color_style"].parse(args, kwargs, __FUNCTION__, &item, &style, &color))
 			Py_RETURN_NONE;
 
 		auto mcolor = mvPythonTranslator::getColor(color);
@@ -264,11 +246,11 @@ namespace Marvel {
 		Py_RETURN_NONE;
 	}
 
-	PyObject* isItemHovered(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* is_item_hovered(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		const char* item;
 
-		if (!Translators["isItemHovered"].parse(args, kwargs,__FUNCTION__, &item))
+		if (!Translators["is_item_hovered"].parse(args, kwargs,__FUNCTION__, &item))
 			Py_RETURN_NONE;
 
 		auto appitem = mvApp::GetApp()->getItem(item);
@@ -279,11 +261,11 @@ namespace Marvel {
 		Py_RETURN_NONE;
 	}
 
-	PyObject* isItemActive(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* is_item_active(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		const char* item;
 
-		if (!Translators["isItemActive"].parse(args, kwargs,__FUNCTION__, &item))
+		if (!Translators["is_item_active"].parse(args, kwargs,__FUNCTION__, &item))
 			Py_RETURN_NONE;
 
 		auto appitem = mvApp::GetApp()->getItem(item);
@@ -294,11 +276,11 @@ namespace Marvel {
 		Py_RETURN_NONE;
 	}
 
-	PyObject* isItemFocused(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* is_item_focused(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		const char* item;
 
-		if (!Translators["isItemFocused"].parse(args, kwargs,__FUNCTION__, &item))
+		if (!Translators["is_item_focused"].parse(args, kwargs,__FUNCTION__, &item))
 			Py_RETURN_NONE;
 
 		auto appitem = mvApp::GetApp()->getItem(item);
@@ -309,11 +291,11 @@ namespace Marvel {
 		Py_RETURN_NONE;
 	}
 
-	PyObject* isItemClicked(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* is_item_clicked(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		const char* item;
 
-		if (!Translators["isItemClicked"].parse(args, kwargs,__FUNCTION__, &item))
+		if (!Translators["is_item_clicked"].parse(args, kwargs,__FUNCTION__, &item))
 			Py_RETURN_NONE;
 
 		auto appitem = mvApp::GetApp()->getItem(item);
@@ -324,11 +306,11 @@ namespace Marvel {
 		Py_RETURN_NONE;
 	}
 
-	PyObject* isItemVisible(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* is_item_visible(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		const char* item;
 
-		if (!Translators["isItemVisible"].parse(args, kwargs,__FUNCTION__, &item))
+		if (!Translators["is_item_visible"].parse(args, kwargs,__FUNCTION__, &item))
 			Py_RETURN_NONE;
 
 		auto appitem = mvApp::GetApp()->getItem(item);
@@ -339,11 +321,11 @@ namespace Marvel {
 		Py_RETURN_NONE;
 	}
 
-	PyObject* isItemEdited(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* is_item_edited(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		const char* item;
 
-		if (!Translators["isItemEdited"].parse(args, kwargs,__FUNCTION__, &item))
+		if (!Translators["is_item_edited"].parse(args, kwargs,__FUNCTION__, &item))
 			Py_RETURN_NONE;
 
 		auto appitem = mvApp::GetApp()->getItem(item);
@@ -354,11 +336,11 @@ namespace Marvel {
 		Py_RETURN_NONE;
 	}
 
-	PyObject* isItemActivated(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* is_item_activated(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		const char* item;
 
-		if (!Translators["isItemActivated"].parse(args, kwargs,__FUNCTION__, &item))
+		if (!Translators["is_item_activated"].parse(args, kwargs,__FUNCTION__, &item))
 			Py_RETURN_NONE;
 
 		auto appitem = mvApp::GetApp()->getItem(item);
@@ -369,11 +351,11 @@ namespace Marvel {
 		Py_RETURN_NONE;
 	}
 
-	PyObject* isItemDeactivated(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* is_item_deactivated(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		const char* item;
 
-		if (!Translators["isItemDeactivated"].parse(args, kwargs,__FUNCTION__, &item))
+		if (!Translators["is_item_deactivated"].parse(args, kwargs,__FUNCTION__, &item))
 			Py_RETURN_NONE;
 
 		auto appitem = mvApp::GetApp()->getItem(item);
@@ -384,11 +366,11 @@ namespace Marvel {
 		Py_RETURN_NONE;
 	}
 
-	PyObject* isItemDeactivatedAfterEdit(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* is_item_deactivated_after_edit(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		const char* item;
 
-		if (!Translators["isItemDeactivatedAfterEdit"].parse(args, kwargs,__FUNCTION__, &item))
+		if (!Translators["is_item_deactivated_after_edit"].parse(args, kwargs,__FUNCTION__, &item))
 			Py_RETURN_NONE;
 
 		auto appitem = mvApp::GetApp()->getItem(item);
@@ -399,11 +381,11 @@ namespace Marvel {
 		Py_RETURN_NONE;
 	}
 
-	PyObject* isItemToggledOpen(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* is_item_toggled_open(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		const char* item;
 
-		if (!Translators["isItemToggledOpen"].parse(args, kwargs,__FUNCTION__, &item))
+		if (!Translators["is_item_toggled_open"].parse(args, kwargs,__FUNCTION__, &item))
 			Py_RETURN_NONE;
 
 		auto appitem = mvApp::GetApp()->getItem(item);
@@ -414,11 +396,11 @@ namespace Marvel {
 		Py_RETURN_NONE;
 	}
 
-	PyObject* getItemRectMin(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* get_item_rect_min(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		const char* item;
 
-		if (!Translators["getItemRectMin"].parse(args, kwargs,__FUNCTION__, &item))
+		if (!Translators["get_item_rect_min"].parse(args, kwargs,__FUNCTION__, &item))
 			Py_RETURN_NONE;
 
 		auto appitem = mvApp::GetApp()->getItem(item);
@@ -435,11 +417,11 @@ namespace Marvel {
 		Py_RETURN_NONE;
 	}
 
-	PyObject* getItemRectMax(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* get_item_rect_max(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		const char* item;
 
-		if (!Translators["getItemRectMax"].parse(args, kwargs,__FUNCTION__, &item))
+		if (!Translators["get_item_rect_max"].parse(args, kwargs,__FUNCTION__, &item))
 			Py_RETURN_NONE;
 
 		auto appitem = mvApp::GetApp()->getItem(item);
@@ -456,11 +438,11 @@ namespace Marvel {
 		Py_RETURN_NONE;
 	}
 
-	PyObject* getItemRectSize(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* get_item_rect_size(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		const char* item;
 
-		if (!Translators["getItemRectSize"].parse(args, kwargs,__FUNCTION__, &item))
+		if (!Translators["get_item_rect_size"].parse(args, kwargs,__FUNCTION__, &item))
 			Py_RETURN_NONE;
 
 		auto appitem = mvApp::GetApp()->getItem(item);
@@ -477,13 +459,13 @@ namespace Marvel {
 		Py_RETURN_NONE;
 	}
 
-	PyObject* changeStyleItem(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* change_style_item(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		int item;
 		float x = 0.0f;
 		float y = 0.0f;
 
-		if (!Translators["changeStyleItem"].parse(args, kwargs,__FUNCTION__, &item, &x, &y))
+		if (!Translators["change_style_item"].parse(args, kwargs,__FUNCTION__, &item, &x, &y))
 			Py_RETURN_NONE;
 
 		mvApp::GetApp()->changeStyleItem(item, x, y);
@@ -491,12 +473,12 @@ namespace Marvel {
 		Py_RETURN_NONE;
 	}
 
-	PyObject* changeThemeItem(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* change_theme_item(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		int item;
 		int r, g, b, a;
 
-		if(!Translators["changeThemeItem"].parse(args, kwargs,__FUNCTION__, &item, &r, &g, &b, &a))
+		if(!Translators["change_theme_item"].parse(args, kwargs,__FUNCTION__, &item, &r, &g, &b, &a))
 			Py_RETURN_NONE;
 
 		mvApp::GetApp()->changeThemeItem(item, { r, g, b, a });
@@ -506,11 +488,11 @@ namespace Marvel {
 		Py_RETURN_NONE;
 	}
 
-	PyObject* getValue(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* get_value(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		const char* name;
 
-		if(!Translators["getValue"].parse(args, kwargs,__FUNCTION__, &name))
+		if(!Translators["get_value"].parse(args, kwargs,__FUNCTION__, &name))
 			Py_RETURN_NONE;
 
 		mvAppItem* item = mvApp::GetApp()->getItem(std::string(name));
@@ -521,12 +503,12 @@ namespace Marvel {
 		return item->getPyValue();
 	}
 
-	PyObject* setValue(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* set_value(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		const char* name;
 		PyObject* value;
 
-		if(!Translators["setValue"].parse(args, kwargs,__FUNCTION__, &name, &value))
+		if(!Translators["set_value"].parse(args, kwargs,__FUNCTION__, &name, &value))
 			Py_RETURN_NONE;
 
 		mvAppItem* item = mvApp::GetApp()->getItem(std::string(name));
@@ -538,11 +520,11 @@ namespace Marvel {
 		Py_RETURN_NONE;
 	}
 
-	PyObject* showItem(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* show_item(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		const char* name;
 
-		if(!Translators["showItem"].parse(args, kwargs,__FUNCTION__, &name))
+		if(!Translators["show_item"].parse(args, kwargs,__FUNCTION__, &name))
 			Py_RETURN_NONE;
 
 		mvAppItem* item = mvApp::GetApp()->getItem(std::string(name));
@@ -553,11 +535,11 @@ namespace Marvel {
 		Py_RETURN_NONE;
 	}
 
-	PyObject* hideItem(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* hide_item(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		const char* name;
 
-		if(!Translators["hideItem"].parse(args, kwargs,__FUNCTION__, &name))
+		if(!Translators["hide_item"].parse(args, kwargs,__FUNCTION__, &name))
 			Py_RETURN_NONE;
 
 		mvAppItem* item = mvApp::GetApp()->getItem(std::string(name));
@@ -568,12 +550,12 @@ namespace Marvel {
 		Py_RETURN_NONE;
 	}
 
-	PyObject* setMainCallback(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* set_main_callback(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		const char* callback;
 
 
-		if(!Translators["setMainCallback"].parse(args, kwargs,__FUNCTION__, &callback))
+		if(!Translators["set_main_callback"].parse(args, kwargs,__FUNCTION__, &callback))
 			Py_RETURN_NONE;
 
 		mvApp::GetApp()->setMainCallback(std::string(callback));
@@ -583,96 +565,12 @@ namespace Marvel {
 		Py_RETURN_NONE;
 	}
 
-	PyObject* setMouseDownCallback(PyObject* self, PyObject* args, PyObject* kwargs)
-	{
-		const char* callback;
-
-		if (!Translators["setMouseDownCallback"].parse(args, kwargs,__FUNCTION__, &callback))
-			Py_RETURN_NONE;
-
-		mvApp::GetApp()->setMouseDownCallback(std::string(callback));
-
-		
-
-		Py_RETURN_NONE;
-	}
-
-	PyObject* setMouseDoubleClickCallback(PyObject* self, PyObject* args, PyObject* kwargs)
-	{
-		const char* callback;
-
-		if (!Translators["setMouseDoubleClickCallback"].parse(args, kwargs,__FUNCTION__, &callback))
-			Py_RETURN_NONE;
-
-		mvApp::GetApp()->setMouseDoubleClickCallback(std::string(callback));
-
-		
-
-		Py_RETURN_NONE;
-	}
-
-	PyObject* setMouseClickCallback(PyObject* self, PyObject* args, PyObject* kwargs)
-	{
-		const char* callback;
-
-		if (!Translators["setMouseClickCallback"].parse(args, kwargs,__FUNCTION__, &callback))
-			Py_RETURN_NONE;
-
-		mvApp::GetApp()->setMouseClickCallback(std::string(callback));
-
-		
-
-		Py_RETURN_NONE;
-	}
-
-	PyObject* setKeyDownCallback(PyObject* self, PyObject* args, PyObject* kwargs)
-	{
-		const char* callback;
-
-		if (!Translators["setKeyDownCallback"].parse(args, kwargs,__FUNCTION__, &callback))
-			Py_RETURN_NONE;
-
-		mvApp::GetApp()->setKeyDownCallback(std::string(callback));
-
-		
-
-		Py_RETURN_NONE;
-	}
-
-	PyObject* setKeyPressCallback(PyObject* self, PyObject* args, PyObject* kwargs)
-	{
-		const char* callback;
-
-		if (!Translators["setKeyPressCallback"].parse(args, kwargs,__FUNCTION__, &callback))
-			Py_RETURN_NONE;
-
-		mvApp::GetApp()->setKeyPressCallback(std::string(callback));
-
-		
-
-		Py_RETURN_NONE;
-	}
-
-	PyObject* setKeyReleaseCallback(PyObject* self, PyObject* args, PyObject* kwargs)
-	{
-		const char* callback;
-
-		if (!Translators["setKeyReleaseCallback"].parse(args, kwargs,__FUNCTION__, &callback))
-			Py_RETURN_NONE;
-
-		mvApp::GetApp()->setKeyReleaseCallback(std::string(callback));
-
-		
-
-		Py_RETURN_NONE;
-	}
-
-	PyObject* setItemCallback(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* set_item_callback(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		const char* callback;
 		const char* item;
 		
-		if(!Translators["setItemCallback"].parse(args, kwargs,__FUNCTION__, &item, &callback))
+		if(!Translators["set_item_callback"].parse(args, kwargs,__FUNCTION__, &item, &callback))
 			Py_RETURN_NONE;
 
 		auto appitem = mvApp::GetApp()->getItem(item);
@@ -683,12 +581,12 @@ namespace Marvel {
 		Py_RETURN_NONE;
 	}
 
-	PyObject* setItemPopup(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* set_item_popup(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		const char* popup;
 		const char* item;
 
-		if (!Translators["setItemPopup"].parse(args, kwargs,__FUNCTION__, &item, &popup))
+		if (!Translators["set_item_popup"].parse(args, kwargs,__FUNCTION__, &item, &popup))
 			Py_RETURN_NONE;
 
 		auto appitem = mvApp::GetApp()->getItem(item);
@@ -699,11 +597,11 @@ namespace Marvel {
 		Py_RETURN_NONE;
 	}
 
-	PyObject* setItemTip(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* set_item_tip(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		const char* tip, * item;
 
-		if(!Translators["setItemTip"].parse(args, kwargs,__FUNCTION__, &item, &tip))
+		if(!Translators["set_item_tip"].parse(args, kwargs,__FUNCTION__, &item, &tip))
 			Py_RETURN_NONE;
 
 		auto appitem = mvApp::GetApp()->getItem(item);
@@ -714,12 +612,12 @@ namespace Marvel {
 		Py_RETURN_NONE;
 	}
 
-	PyObject* setItemWidth(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* set_item_width(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		const char* item;
 		int width;
 
-		if(!Translators["setItemWidth"].parse(args, kwargs,__FUNCTION__, &item, &width))
+		if(!Translators["set_item_width"].parse(args, kwargs,__FUNCTION__, &item, &width))
 			Py_RETURN_NONE;
 
 		auto appitem = mvApp::GetApp()->getItem(item);
@@ -731,12 +629,12 @@ namespace Marvel {
 		Py_RETURN_NONE;
 	}
 
-	PyObject* setItemHeight(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* set_item_height(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		const char* item;
 		int height;
 
-		if (!Translators["setItemHeight"].parse(args, kwargs, __FUNCTION__, &item, &height))
+		if (!Translators["set_item_height"].parse(args, kwargs, __FUNCTION__, &item, &height))
 			Py_RETURN_NONE;
 
 		auto appitem = mvApp::GetApp()->getItem(item);
@@ -748,12 +646,12 @@ namespace Marvel {
 		Py_RETURN_NONE;
 	}
 
-	PyObject* setMainWindowSize(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* set_main_window_size(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		int width;
 		int height;
 
-		if (!Translators["setMainWindowSize"].parse(args, kwargs, __FUNCTION__, &width, &height))
+		if (!Translators["set_main_window_size"].parse(args, kwargs, __FUNCTION__, &width, &height))
 			Py_RETURN_NONE;
 
 		mvApp::GetApp()->setWindowSize(width, height);
@@ -761,49 +659,44 @@ namespace Marvel {
 		Py_RETURN_NONE;
 	}
 
-	PyObject* closePopup(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* close_popup(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		mvApp::GetApp()->closePopup();
 		
 		Py_RETURN_NONE;
 	}
 
-	PyObject* setTheme(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* set_theme(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		const char* theme;
 
-		if(!Translators["setTheme"].parse(args, kwargs,__FUNCTION__, &theme))
+		if(!Translators["set_theme"].parse(args, kwargs,__FUNCTION__, &theme))
 			Py_RETURN_NONE;
 
 		mvApp::GetApp()->setAppTheme(std::string(theme));
 
-		
-
 		Py_RETURN_NONE;
 	}
 
-	PyObject* showMetrics(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* show_metrics(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		mvApp::GetApp()->showMetrics();
-
-		
-
 		Py_RETURN_NONE;
 	}
 
-	PyObject* showAbout(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* show_about(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		mvApp::GetApp()->showAbout();
 		Py_RETURN_NONE;
 	}
 
-	PyObject* showSource(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* show_source(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		mvApp::GetApp()->showSource();
 		Py_RETURN_NONE;
 	}
 
-	PyObject* showDocumentation(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* show_documentation(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		mvApp::GetApp()->showDoc();
 		Py_RETURN_NONE;
@@ -814,52 +707,45 @@ namespace Marvel {
 
 		mvPythonModule* pyModule = new mvPythonModule("sbApp", {});
 
-		pyModule->addMethodD(setThreadPoolAuto);
-		pyModule->addMethodD(showSource);
-		pyModule->addMethodD(showAbout);
-		pyModule->addMethodD(showMetrics);
-		pyModule->addMethodD(closePopup);
-		pyModule->addMethodD(showDocumentation);
-		pyModule->addMethodD(setThreadPoolThreshold);
-		pyModule->addMethodD(setThreadCount);
-		pyModule->addMethodD(activateThreadPool);
-		pyModule->addMethodD(setThreadPoolHighPerformance);
-		pyModule->addMethodD(setMainWindowSize);
-		pyModule->addMethodD(addItemColorStyle);
-		pyModule->addMethodD(setItemPopup);
-		pyModule->addMethodD(isItemHovered);
-		pyModule->addMethodD(isItemActive);
-		pyModule->addMethodD(isItemFocused);
-		pyModule->addMethodD(isItemClicked);
-		pyModule->addMethodD(isItemVisible);
-		pyModule->addMethodD(isItemEdited);
-		pyModule->addMethodD(isItemActivated);
-		pyModule->addMethodD(isItemDeactivated);
-		pyModule->addMethodD(isItemDeactivatedAfterEdit);
-		pyModule->addMethodD(isItemToggledOpen);
-		pyModule->addMethodD(getItemRectMin);
-		pyModule->addMethodD(getItemRectMax);
-		pyModule->addMethodD(getItemRectSize);
-		pyModule->addMethodD(setMouseClickCallback);
-		pyModule->addMethodD(setMouseDownCallback);
-		pyModule->addMethodD(setMouseDoubleClickCallback);
-		pyModule->addMethodD(setKeyDownCallback);
-		pyModule->addMethodD(setKeyPressCallback);
-		pyModule->addMethodD(setKeyReleaseCallback);
-		pyModule->addMethodD(changeStyleItem);
-		pyModule->addMethodD(showItem);
-		pyModule->addMethodD(hideItem);
-		pyModule->addMethodD(changeThemeItem);
-		pyModule->addMethodD(setTheme);
-		pyModule->addMethodD(setMainCallback);
-		pyModule->addMethodD(setItemCallback);
-		pyModule->addMethodD(setItemTip);
-		pyModule->addMethodD(setItemWidth);
-		pyModule->addMethodD(setItemHeight);
-		pyModule->addMethodD(getValue);
-		pyModule->addMethodD(setValue);
-
-		//PyImport_AppendInittab(pyModule.getName().c_str(), initfunc);
+		pyModule->addMethodD(get_marvel_version);
+		pyModule->addMethodD(set_threadpool_auto);
+		pyModule->addMethodD(show_source);
+		pyModule->addMethodD(show_about);
+		pyModule->addMethodD(show_metrics);
+		pyModule->addMethodD(close_popup);
+		pyModule->addMethodD(show_documentation);
+		pyModule->addMethodD(set_threadpool_threshold);
+		pyModule->addMethodD(set_thread_count);
+		pyModule->addMethodD(activate_threadpool);
+		pyModule->addMethodD(set_threadpool_high_performance);
+		pyModule->addMethodD(set_main_window_size);
+		pyModule->addMethodD(add_item_color_style);
+		pyModule->addMethodD(set_item_popup);
+		pyModule->addMethodD(is_item_hovered);
+		pyModule->addMethodD(is_item_active);
+		pyModule->addMethodD(is_item_focused);
+		pyModule->addMethodD(is_item_clicked);
+		pyModule->addMethodD(is_item_visible);
+		pyModule->addMethodD(is_item_edited);
+		pyModule->addMethodD(is_item_activated);
+		pyModule->addMethodD(is_item_deactivated);
+		pyModule->addMethodD(is_item_deactivated_after_edit);
+		pyModule->addMethodD(is_item_toggled_open);
+		pyModule->addMethodD(get_item_rect_min);
+		pyModule->addMethodD(get_item_rect_max);
+		pyModule->addMethodD(get_item_rect_size);
+		pyModule->addMethodD(change_style_item);
+		pyModule->addMethodD(show_item);
+		pyModule->addMethodD(hide_item);
+		pyModule->addMethodD(change_theme_item);
+		pyModule->addMethodD(set_theme);
+		pyModule->addMethodD(set_main_callback);
+		pyModule->addMethodD(set_item_callback);
+		pyModule->addMethodD(set_item_tip);
+		pyModule->addMethodD(set_item_width);
+		pyModule->addMethodD(set_item_height);
+		pyModule->addMethodD(get_value);
+		pyModule->addMethodD(set_value);
 
 		return pyModule;
 	}

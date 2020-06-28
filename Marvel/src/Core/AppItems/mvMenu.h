@@ -99,10 +99,6 @@ namespace Marvel {
 						ImGui::SetTooltip(item->getTip().c_str());
 				}
 
-				// Context Menu
-				if (getPopup() != "")
-					ImGui::OpenPopup(getPopup().c_str());
-
 				ImGui::EndMenu();
 			}
 		}
