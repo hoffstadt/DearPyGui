@@ -35,7 +35,7 @@ _MarvelSandbox_ includes a logging API that also acts as a python output console
 <BR>![BasicUsageExample](../assets/LoggingExample1.PNG?raw=true)
   
 #### Built-in IDE
-If you choose not to use your own IDE, we have provided a basic build-in IDE for creating and testing apps. To use the built-in IDE just call the _MarvelSandbox_ executable with the **--editor** flag: ```MarvelSandbox.exe --editor```
+If you choose not to use your own IDE, we have provided a basic built-in IDE for creating and testing apps. To use the built-in IDE just call the _MarvelSandbox_ executable with the **--editor** flag: ```MarvelSandbox.exe --editor```
 <BR>![BasicUsageExample](../assets/IDEExample1.PNG?raw=true)
   
 #### Built-in Documentation
