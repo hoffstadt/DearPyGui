@@ -7,6 +7,7 @@
 #include <stack>
 #include <string>
 #include <atomic>
+#include <queue>
 #include "Core/AppItems/mvAppItem.h"
 #include "mvMouse.h"
 #include "mvAppStyle.h"
@@ -70,6 +71,7 @@ namespace Marvel {
 		void       addItem         (mvAppItem* item, bool noParent = false);
 		void       addWindow       (mvAppItem* item);
 		mvAppItem* getItem         (const std::string& name);
+		void       deleteItem      (const std::string& name) { m_deleteQueue.push(name); }
 
 		//-----------------------------------------------------------------------------
 		// Direct DearImGui Calls
@@ -149,6 +151,7 @@ namespace Marvel {
 		std::string             m_activeWindow = "MainWindow";
 		std::vector<mvAppItem*> m_windows;
 		std::stack<mvAppItem*>  m_parents;
+		std::queue<std::string> m_deleteQueue;
 		PyObject*               m_pDict;
 		std::string             m_callback;
 		bool                    m_ok = true;

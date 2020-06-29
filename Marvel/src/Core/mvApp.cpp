@@ -160,6 +160,26 @@ namespace Marvel {
 		for (auto window : m_windows)
 			window->draw();
 
+		// delete items from the delete queue
+		while (!m_deleteQueue.empty())
+		{
+			std::string& itemname = m_deleteQueue.front();
+
+			bool deletedItem = false;
+
+			for (auto window : m_windows)
+			{
+				deletedItem = window->deleteChild(itemname);
+				if (deletedItem)
+					break;
+			}
+				
+			if (!deletedItem)
+				mvAppLog::getLogger()->LogWarning(itemname + " not deleted because it was not found");
+
+			m_deleteQueue.pop();
+		}
+
 	}
 
 	bool mvApp::isMouseButtonPressed(int button) const

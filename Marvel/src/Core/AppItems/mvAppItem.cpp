@@ -9,6 +9,51 @@ namespace Marvel{
 		m_label = name;
 	}
 
+	bool mvAppItem::deleteChild(const std::string& name)
+	{
+
+		bool childfound = false;
+		bool itemDeleted = false;
+
+		for (mvAppItem* item : m_children)
+		{
+			if (item->getName() == name)
+			{
+				childfound = true;
+				break;
+			}
+
+			if (item->isContainer())
+			{
+				itemDeleted = item->deleteChild(name);
+				if (itemDeleted)
+					break;
+			}
+		}
+
+		if (childfound)
+		{
+			std::vector<mvAppItem*> oldchildren = m_children;
+
+			m_children.clear();
+
+			for (auto item : oldchildren)
+			{
+				if (item->getName() == name)
+				{
+					delete item;
+					item = nullptr;
+					itemDeleted = true;
+					continue;
+				}
+
+				m_children.push_back(item);
+			}
+		}
+
+		return itemDeleted;
+	}
+
 	void mvAppItem::showAll()
 	{
 		m_show = true;

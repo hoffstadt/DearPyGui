@@ -16,6 +16,10 @@ namespace Marvel {
 				{"is_threadpool_activated", mvPythonTranslator({
 				}, false, "Checks if threadpool is activated", "Boolean")},
 
+				{"delete_item", mvPythonTranslator({
+					{mvPythonDataType::String, "item"}
+				}, false, "Deletes an item if it exists.")},
+
 				{"get_style_item", mvPythonTranslator({
 					{mvPythonDataType::Integer, "item"}
 				}, false, "Returns a style item's value", "(float, float)")},
@@ -239,6 +243,19 @@ namespace Marvel {
 	PyObject* is_threadpool_activated(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		return Py_BuildValue("b", mvApp::GetApp()->usingThreadPool());
+	}
+
+	PyObject* delete_item(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		const char* item;
+
+		if (!Translators["delete_item"].parse(args, kwargs, __FUNCTION__, &item))
+			Py_RETURN_NONE;
+
+		mvApp::GetApp()->deleteItem(item);
+
+		Py_RETURN_NONE;
+
 	}
 
 	PyObject* get_style_item(PyObject* self, PyObject* args, PyObject* kwargs)
@@ -906,6 +923,7 @@ namespace Marvel {
 
 		mvPythonModule* pyModule = new mvPythonModule("sbApp", {});
 
+		pyModule->addMethodD(delete_item);
 		pyModule->addMethodD(is_threadpool_activated);
 		pyModule->addMethodD(get_style_item);
 		pyModule->addMethodD(get_theme_item);
