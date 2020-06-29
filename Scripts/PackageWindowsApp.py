@@ -89,3 +89,9 @@ with open(window_app_dir + "/RunEditor.bat", 'w') as file:
     file.write("@echo off\n")
     file.write("cd Dependencies\n")
     file.write("call MarvelSandbox.exe --editor\n")
+
+# add documentation batch file
+with open(window_app_dir + "/RunDocumentation.bat", 'w') as file:
+    file.write("@echo off\n")
+    file.write("cd Dependencies\n")
+    file.write("call MarvelSandbox.exe --documentation\n")

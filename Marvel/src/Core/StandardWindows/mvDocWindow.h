@@ -2,6 +2,7 @@
 
 #include <vector>
 #include <string>
+#include <imgui.h>
 
 namespace Marvel {
 
@@ -13,6 +14,9 @@ namespace Marvel {
 		static mvDocWindow* GetWindow();
 
 		void render(bool& show);
+
+		void setToMainMode() { m_mainMode = true; }
+		void setSize(unsigned width, unsigned height) { m_width = width; m_height = height; }
 
 	private:
 
@@ -48,6 +52,11 @@ namespace Marvel {
 		std::vector<const char*> m_sbDocInput;
 		std::vector<const char*> m_sbDocPlot;
 		std::vector<const char*> m_sbDocDraw;
+
+		bool     m_mainMode = false;
+		unsigned m_width = 1280;
+		unsigned m_height = 800;
+		ImGuiWindowFlags m_flags = ImGuiWindowFlags_NoSavedSettings;
 
 	};
 

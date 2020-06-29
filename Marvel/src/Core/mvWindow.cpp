@@ -13,6 +13,9 @@ namespace Marvel {
 			if (m_editor)
 				m_appEditor->render();
 
+			else if(m_doc)
+				m_documentation->GetWindow()->render(m_doc);
+
 			else if (!m_error)
 			{
 				m_app->render();

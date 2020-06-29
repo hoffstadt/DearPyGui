@@ -58,7 +58,7 @@ namespace Marvel {
 		app.add_flag("-l, --logger", logger, "Show Logger");
 		app.add_flag("-m, --metrics", metrics, "Show Metrics");
 		app.add_flag("-s, --source", source, "Show Source");
-		app.add_flag("-d, --documentation", documentation, "Show Documentation");
+		app.add_flag("-d, --documentation", documentation, "Sets MarvelSandbox to Documentation Mode");
 		app.add_flag("-e, --editor", editorMode, "Sets MarvelSandbox to Editor Mode");
 
 		CLI11_PARSE(app, argc, argv);
@@ -117,6 +117,9 @@ namespace Marvel {
 		if (editorMode)
 			return runEditorMode();
 
+		if (documentation)
+			return runDocMode();
+
 		if (errorMode)
 			return runErrorMode();
 
@@ -128,6 +131,16 @@ namespace Marvel {
 	{
 		mvWindow* window = new mvWindowsWindow(mvAppEditor::GetAppEditor()->getWindowWidth(),
 			mvAppEditor::GetAppEditor()->getWindowHeight(), true);
+		window->show();
+		window->run();
+
+		return 0;
+	}
+
+	int Application::runDocMode()
+	{
+		mvWindow* window = new mvWindowsWindow(mvAppEditor::GetAppEditor()->getWindowWidth(),
+			mvAppEditor::GetAppEditor()->getWindowHeight(), false, false, true);
 		window->show();
 		window->run();
 
