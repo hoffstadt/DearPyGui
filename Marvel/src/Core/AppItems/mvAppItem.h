@@ -67,6 +67,8 @@ namespace Marvel {
 		void pushColorStyles();
 		void popColorStyles ();
 
+		bool deleteChild(const std::string& name);
+
 		// getters
 		mvAppItem*                      getChild                  (const std::string& name);      // will return nullptr if not found
 		inline std::vector<mvAppItem*>& getChildren               ()       { return m_children; }

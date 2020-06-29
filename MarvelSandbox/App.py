@@ -394,6 +394,8 @@ def PlotCallback(sender):
     add_line_series("Plot2", "Cos", data1, weight=2)
     add_scatter_series("Plot2", "Sin", data2, marker=sbConstants.mvPlotMarker_Circle)
 
+    delete_item("Child Button 1")
+
 
 ###########################################
 #############    Tool Tips   ##############
@@ -421,8 +423,8 @@ def MainCallback(sender):
         value = 0
     set_value("Progress", value)
 
-    if is_mouse_button_pressed(sbConstants.mvMouseButton_Left):
-        print("pressed")
+    #if is_mouse_button_pressed(sbConstants.mvMouseButton_Left):
+    #    print("pressed")
     if is_key_pressed(0x25): # left arrow key
         print("key pressed")
 
