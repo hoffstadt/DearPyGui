@@ -160,6 +160,10 @@ namespace Marvel {
 		for (auto window : m_windows)
 			window->draw();
 
+	}
+
+	void mvApp::postRender()
+	{
 		// delete items from the delete queue
 		while (!m_deleteQueue.empty())
 		{
@@ -173,13 +177,85 @@ namespace Marvel {
 				if (deletedItem)
 					break;
 			}
-				
+
 			if (!deletedItem)
 				mvAppLog::getLogger()->LogWarning(itemname + " not deleted because it was not found");
 
 			m_deleteQueue.pop();
 		}
 
+		// add runtime items
+		for (auto& newItem : m_newItemVec)
+		{
+
+			bool addedItem = false;
+
+			if (auto otheritem = getItem(newItem.item->getName()))
+			{
+				std::string message = newItem.item->getName();
+				mvAppLog::getLogger()->LogWarning(message + ": Items of this type must have unique names");
+				delete newItem.item;
+				newItem.item = nullptr;
+				continue;
+			}
+
+			for (auto window : m_windows)
+			{
+				addedItem = window->addRuntimeChild(newItem.parent, newItem.after, newItem.item);
+				if (addedItem)
+					break;
+			}
+
+			if (!addedItem)
+			{
+				mvAppLog::getLogger()->LogWarning(newItem.item->getName() + " not deleted because it was not found.");
+				delete newItem.item;
+				newItem.item = nullptr;
+			}
+
+		}
+
+		m_newItemVec.clear();
+
+		// move items up
+		while (!m_upQueue.empty())
+		{
+			std::string& itemname = m_upQueue.front();
+
+			bool movedItem = false;
+
+			for (auto window : m_windows)
+			{
+				movedItem = window->moveChildUp(itemname);
+				if (movedItem)
+					break;
+			}
+
+			if (!movedItem)
+				mvAppLog::getLogger()->LogWarning(itemname + " not moved because it was not found");
+
+			m_upQueue.pop();
+		}
+
+		// move items down
+		while (!m_downQueue.empty())
+		{
+			std::string& itemname = m_downQueue.front();
+
+			bool movedItem = false;
+
+			for (auto window : m_windows)
+			{
+				movedItem = window->moveChildDown(itemname);
+				if (movedItem)
+					break;
+			}
+
+			if (!movedItem)
+				mvAppLog::getLogger()->LogWarning(itemname + " not moved because it was not found");
+
+			m_downQueue.pop();
+		}
 	}
 
 	bool mvApp::isMouseButtonPressed(int button) const
@@ -500,18 +576,19 @@ namespace Marvel {
 	mvColor mvApp::getThemeItem(long item)
 	{
 		ImGuiStyle* style = &ImGui::GetStyle();
-		mvColor color = {style->Colors[item].x * 255, style->Colors[item].y * 255 ,style->Colors[item].z * 255 , style->Colors[item].w * 255 };
+		mvColor color = {(int)style->Colors[item].x * 255, (int)style->Colors[item].y * 255 ,
+			(int)style->Colors[item].z * 255 , (int)style->Colors[item].w * 255 };
 		return color;
 	}
 
-	void mvApp::addItem(mvAppItem* item, bool noParent)
+	void mvApp::addItem(mvAppItem* item)
 	{
 		static int count = 0;
 		count++;
 
 		if (m_started)
 		{
-			mvAppLog::getLogger()->LogWarning("Items can't be added during runtime.");
+			mvAppLog::getLogger()->Log("Runtime item adding.");
 			return;
 		}
 

@@ -26,7 +26,9 @@ namespace Marvel {
 
 		mvMenuBar(const std::string& name)
 			: mvBoolItemBase("", name, true)
-		{}
+		{
+			m_container = true;
+		}
 
 		virtual void draw() override
 		{
@@ -67,6 +69,7 @@ namespace Marvel {
 		mvMenu(const std::string& parent, const std::string& name)
 			: mvBoolItemBase(parent, name, false)
 		{
+			m_container = true;
 		}
 
 		virtual void draw() override

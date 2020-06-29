@@ -223,9 +223,12 @@ add_group("Group")
 add_radio_button("Group Radio Button", ("Group Radio Item 1", "Group Radio Item 2", "Group Radio Item 3" ))
 end_group()
 
-add_child("Child", 200, 100)
+add_child("Child", width=200, height=100)
 add_button("Child Button 1")
 add_button("Child Button 2")
+add_button("Child Button 3")
+add_button("Child Button 4")
+add_button("Child Button 5")
 end_child()
 
 add_tree_node("First Node")
@@ -298,7 +301,7 @@ add_indent()
 add_button("Button with an indent")
 unindent()
 add_button("Normal Button again##2")
-add_spacing(5)
+add_spacing(count=5)
 add_button("Button with a vertical spacing above it")
 add_button("Normal Button again")
 add_seperator()
@@ -344,7 +347,7 @@ add_collapsing_header("Drawing Canvas")
 add_button("draw on canvas", callback="DrawCanvas")
 add_button("clear canvas", callback="ClearCanvas")
 
-add_drawing("drawing2", 800, 500)
+add_drawing("drawing2", width=800, height=500)
 draw_rectangle("drawing2", (0, 0), (800, 500), (255, 0, 0, 255), fill=(0, 0, 25, 255), rounding=12, thickness = 1.0)
 draw_line("drawing2", (10, 10), (100, 100), (255, 0, 0, 255), 1)
 draw_triangle("drawing2", (300, 500), (200, 200), (500, 200), (255, 255, 0, 255), thickness = 3.0)
@@ -375,7 +378,7 @@ add_collapsing_header("Plots, Graphs and Charts")
 add_button("Plot data", callback="PlotCallback", tip="new tip")
 add_simple_plot("Simpleplot1", (0.3, 0.9, 2.5, 8.9), height = 80)
 add_simple_plot("Simpleplot2", (0.3, 0.9, 2.5, 8.9), overlay="Overlaying", height=180, histogram=True)
-add_plot("Plot2", "x-axis", "y-axis", -1, 450);
+add_plot("Plot2", "x-axis", "y-axis", width=-1, height=450);
 end_collapsing_header()
 
 def PlotCallback(sender):
@@ -395,6 +398,12 @@ def PlotCallback(sender):
     add_scatter_series("Plot2", "Sin", data2, marker=sbConstants.mvPlotMarker_Circle)
 
     delete_item("Child Button 1")
+
+    add_child("Runtime Child", width=200, height=100, after="Simpleplot3")
+    add_button("Runtime Button 1", parent="Runtime Child")
+    add_button("Runtime Button 2", after="Runtime Button 1")
+
+    move_item_down("Logger")
 
 
 ###########################################

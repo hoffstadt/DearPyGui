@@ -9,235 +9,243 @@ namespace Marvel {
 
 	static std::map<std::string, mvPythonTranslator> Translators = mvInterfaceRegistry::GetRegistry()->getPythonInterface("sbApp");
 
-	std::map<std::string, mvPythonTranslator> BuildAppInterface() {
+	std::map<std::string, mvPythonTranslator>& BuildAppInterface() {
 
-		std::map<std::string, mvPythonTranslator> translators = {
+		std::map<std::string, mvPythonTranslator>* translators = new std::map< std::string, mvPythonTranslator>{
 
-				{"is_threadpool_activated", mvPythonTranslator({
-				}, false, "Checks if threadpool is activated", "Boolean")},
+			{"is_threadpool_activated", mvPythonTranslator({
+			}, false, "Checks if threadpool is activated", "Boolean")},
 
-				{"delete_item", mvPythonTranslator({
-					{mvPythonDataType::String, "item"}
-				}, false, "Deletes an item if it exists.")},
+			{"delete_item", mvPythonTranslator({
+				{mvPythonDataType::String, "item"}
+			}, false, "Deletes an item if it exists.")},
 
-				{"get_style_item", mvPythonTranslator({
-					{mvPythonDataType::Integer, "item"}
-				}, false, "Returns a style item's value", "(float, float)")},
+			{"move_item_up", mvPythonTranslator({
+				{mvPythonDataType::String, "item"}
+			}, false, "Moves item up if possible and if it exists.")},
 
-				{"get_theme_item", mvPythonTranslator({
-					{mvPythonDataType::Integer, "item"}
-				}, false, "Returns a theme item's color", "(float, float, float, float)")},
+			{"move_item_down", mvPythonTranslator({
+				{mvPythonDataType::String, "item"}
+			}, false, "Moves down up if possible and if it exists.")},
 
-				{"get_item_callback", mvPythonTranslator({
-					{mvPythonDataType::String, "item"}
-				}, false, "Returns an item' callback", "str")},
+			{"get_style_item", mvPythonTranslator({
+				{mvPythonDataType::Integer, "item"}
+			}, false, "Returns a style item's value", "(float, float)")},
 
-				{"get_item_height", mvPythonTranslator({
-					{mvPythonDataType::String, "item"}
-				}, false, "Returns an item's height.", "float")},
+			{"get_theme_item", mvPythonTranslator({
+				{mvPythonDataType::Integer, "item"}
+			}, false, "Returns a theme item's color", "(float, float, float, float)")},
 
-				{"get_item_width", mvPythonTranslator({
-					{mvPythonDataType::String, "item"}
-				}, false, "Returns an item's width.", "float")},
+			{"get_item_callback", mvPythonTranslator({
+				{mvPythonDataType::String, "item"}
+			}, false, "Returns an item' callback", "str")},
 
-				{"get_item_popup", mvPythonTranslator({
-					{mvPythonDataType::String, "item"}
-				}, false, "Returns an item's popup.", "str")},
+			{"get_item_height", mvPythonTranslator({
+				{mvPythonDataType::String, "item"}
+			}, false, "Returns an item's height.", "float")},
 
-				{"get_item_tip", mvPythonTranslator({
-					{mvPythonDataType::String, "item"}
-				}, false, "Returns an item's tip.", "str")},
+			{"get_item_width", mvPythonTranslator({
+				{mvPythonDataType::String, "item"}
+			}, false, "Returns an item's width.", "float")},
 
-				{"get_main_callback", mvPythonTranslator({
-				}, false, "Returns the main callback.", "str")},
+			{"get_item_popup", mvPythonTranslator({
+				{mvPythonDataType::String, "item"}
+			}, false, "Returns an item's popup.", "str")},
 
-				{"get_main_window_size", mvPythonTranslator({
-				}, false, "Returns the size of the main window.", "(float, float)")},
+			{"get_item_tip", mvPythonTranslator({
+				{mvPythonDataType::String, "item"}
+			}, false, "Returns an item's tip.", "str")},
 
-				{"get_theme", mvPythonTranslator({
-				}, false, "Returns the current theme.", "str")},
+			{"get_main_callback", mvPythonTranslator({
+			}, false, "Returns the main callback.", "str")},
 
-				{"get_thread_count", mvPythonTranslator({
-				}, false, "Returns the allowable thread count.", "int")},
+			{"get_main_window_size", mvPythonTranslator({
+			}, false, "Returns the size of the main window.", "(float, float)")},
 
-				{"is_threadpool_automatic", mvPythonTranslator({
-				}, false, "Checks if the threadpool is automatic.", "Boolean")},
+			{"get_theme", mvPythonTranslator({
+			}, false, "Returns the current theme.", "str")},
 
-				{"is_threadpool_high_performance", mvPythonTranslator({
-				}, false, "Checks if the threadpool is allowed to use the maximum number of threads.", "Boolean")},
+			{"get_thread_count", mvPythonTranslator({
+			}, false, "Returns the allowable thread count.", "int")},
 
-				{"get_threadpool_threshold", mvPythonTranslator({
-				}, false, "Returns the threadpool activation threshold.", "float")},
+			{"is_threadpool_automatic", mvPythonTranslator({
+			}, false, "Checks if the threadpool is automatic.", "Boolean")},
 
-				{"get_active_window", mvPythonTranslator({
-				}, false, "Returns the active window name.", "str")},
+			{"is_threadpool_high_performance", mvPythonTranslator({
+			}, false, "Checks if the threadpool is allowed to use the maximum number of threads.", "Boolean")},
 
-				{"get_marvel_version", mvPythonTranslator({
-				}, false, "Returns the current version of Marvel.", "str")},
+			{"get_threadpool_threshold", mvPythonTranslator({
+			}, false, "Returns the threadpool activation threshold.", "float")},
 
-				{"set_threadpool_threshold", mvPythonTranslator({
-					{mvPythonDataType::Float, "time"}
-				}, false, "Sets the minimum duration for a callback before activating the threadpool.")},
+			{"get_active_window", mvPythonTranslator({
+			}, false, "Returns the active window name.", "str")},
 
-				{"set_thread_count", mvPythonTranslator({
-					{mvPythonDataType::Integer, "threads"}
-				}, false, "Sets number of threads to use if the threadpool is active.")},
+			{"get_marvel_version", mvPythonTranslator({
+			}, false, "Returns the current version of Marvel.", "str")},
 
-				{"set_threadpool_auto", mvPythonTranslator({
-				}, false, "Sets threadpool to automatically activate if the threshold is met.")},
+			{"set_threadpool_threshold", mvPythonTranslator({
+				{mvPythonDataType::Float, "time"}
+			}, false, "Sets the minimum duration for a callback before activating the threadpool.")},
 
-				{"show_documentation", mvPythonTranslator({
-				}, false, "Shows the documentation window.")},
+			{"set_thread_count", mvPythonTranslator({
+				{mvPythonDataType::Integer, "threads"}
+			}, false, "Sets number of threads to use if the threadpool is active.")},
 
-				{"show_about", mvPythonTranslator({
-				}, false, "Shows the about window.")},
+			{"set_threadpool_auto", mvPythonTranslator({
+			}, false, "Sets threadpool to automatically activate if the threshold is met.")},
 
-				{"show_metrics", mvPythonTranslator({
-				}, false, "Shows the metrics window.")},
+			{"show_documentation", mvPythonTranslator({
+			}, false, "Shows the documentation window.")},
 
-				{"close_popup", mvPythonTranslator({
-				}, false, "Needs documentation")},
+			{"show_about", mvPythonTranslator({
+			}, false, "Shows the about window.")},
 
-				{"show_source", mvPythonTranslator({
-				}, false, "Shows the source code for the current app.")},
+			{"show_metrics", mvPythonTranslator({
+			}, false, "Shows the metrics window.")},
 
-				{"activate_threadpool", mvPythonTranslator({
-				}, false, "Activated the threadpool.")},
+			{"close_popup", mvPythonTranslator({
+			}, false, "Needs documentation")},
 
-				{"set_threadpool_high_performance", mvPythonTranslator({
-				}, false, "Set the thread count to the maximum number of threads on your computer.")},
+			{"show_source", mvPythonTranslator({
+			}, false, "Shows the source code for the current app.")},
 
-				{"add_item_color_style", mvPythonTranslator({
-					{mvPythonDataType::String, "item"},
-					{mvPythonDataType::Integer, "style"},
-					{mvPythonDataType::FloatList, "color"}
-				}, false, "Needs documentation")},
+			{"activate_threadpool", mvPythonTranslator({
+			}, false, "Activated the threadpool.")},
 
-				{"is_item_hovered", mvPythonTranslator({
-					{mvPythonDataType::String, "item"},
-				}, false, "Checks if an item is hovered.", "Boolean")},
+			{"set_threadpool_high_performance", mvPythonTranslator({
+			}, false, "Set the thread count to the maximum number of threads on your computer.")},
 
-				{"set_main_window_size", mvPythonTranslator({
-					{mvPythonDataType::Integer, "width"},
-					{mvPythonDataType::Integer, "height"}
-				}, false, "Sets the main window size.")},
+			{"add_item_color_style", mvPythonTranslator({
+				{mvPythonDataType::String, "item"},
+				{mvPythonDataType::Integer, "style"},
+				{mvPythonDataType::FloatList, "color"}
+			}, false, "Needs documentation")},
 
-				{"is_item_active", mvPythonTranslator({
-					{mvPythonDataType::String, "item"},
-				}, false, "Checks if an item is active.", "Boolean")},
+			{"is_item_hovered", mvPythonTranslator({
+				{mvPythonDataType::String, "item"},
+			}, false, "Checks if an item is hovered.", "Boolean")},
 
-				{"is_item_focused", mvPythonTranslator({
-					{mvPythonDataType::String, "item"},
-				}, false, "Checks if an item is focused.", "Boolean")},
+			{"set_main_window_size", mvPythonTranslator({
+				{mvPythonDataType::Integer, "width"},
+				{mvPythonDataType::Integer, "height"}
+			}, false, "Sets the main window size.")},
 
-				{"is_item_clicked", mvPythonTranslator({
-					{mvPythonDataType::String, "item"},
-				}, false, "Checks if an item is clicked.", "Boolean")},
+			{"is_item_active", mvPythonTranslator({
+				{mvPythonDataType::String, "item"},
+			}, false, "Checks if an item is active.", "Boolean")},
 
-				{"is_item_visible", mvPythonTranslator({
-					{mvPythonDataType::String, "item"},
-				}, false, "Checks if an item is visible.", "Boolean")},
+			{"is_item_focused", mvPythonTranslator({
+				{mvPythonDataType::String, "item"},
+			}, false, "Checks if an item is focused.", "Boolean")},
 
-				{"is_item_edited", mvPythonTranslator({
-					{mvPythonDataType::String, "item"},
-				}, false, "Checks if an item has been edited.", "Boolean")},
+			{"is_item_clicked", mvPythonTranslator({
+				{mvPythonDataType::String, "item"},
+			}, false, "Checks if an item is clicked.", "Boolean")},
 
-				{"is_item_activated", mvPythonTranslator({
-					{mvPythonDataType::String, "item"},
-				}, false, "Checks if an item has been activated.", "Boolean")},
+			{"is_item_visible", mvPythonTranslator({
+				{mvPythonDataType::String, "item"},
+			}, false, "Checks if an item is visible.", "Boolean")},
 
-				{"is_item_deactivated", mvPythonTranslator({
-					{mvPythonDataType::String, "item"},
-				}, false, "Checks if an item has been deactivated.", "Boolean")},
+			{"is_item_edited", mvPythonTranslator({
+				{mvPythonDataType::String, "item"},
+			}, false, "Checks if an item has been edited.", "Boolean")},
 
-				{"is_item_deactivated_after_edit", mvPythonTranslator({
-					{mvPythonDataType::String, "item"},
-				}, false, "Checks if an item has been deactivated after editing.", "Boolean")},
+			{"is_item_activated", mvPythonTranslator({
+				{mvPythonDataType::String, "item"},
+			}, false, "Checks if an item has been activated.", "Boolean")},
 
-				{"is_item_toggled_open", mvPythonTranslator({
-					{mvPythonDataType::String, "item"},
-				}, false, "Checks if an item is toggled.", "Boolean")},
+			{"is_item_deactivated", mvPythonTranslator({
+				{mvPythonDataType::String, "item"},
+			}, false, "Checks if an item has been deactivated.", "Boolean")},
 
-				{"get_item_rect_min", mvPythonTranslator({
-					{mvPythonDataType::String, "item"},
-				}, false, "Returns an item's minimum allowable size.", "(float, float)")},
+			{"is_item_deactivated_after_edit", mvPythonTranslator({
+				{mvPythonDataType::String, "item"},
+			}, false, "Checks if an item has been deactivated after editing.", "Boolean")},
 
-				{"get_item_rect_max", mvPythonTranslator({
-					{mvPythonDataType::String, "item"},
-				}, false, "Returns an item's maximum allowable size.", "(float, float)")},
+			{"is_item_toggled_open", mvPythonTranslator({
+				{mvPythonDataType::String, "item"},
+			}, false, "Checks if an item is toggled.", "Boolean")},
 
-				{"get_item_rect_size", mvPythonTranslator({
-					{mvPythonDataType::String, "item"},
-				}, false, "Returns an item's current size.", "(float, float)")},
+			{"get_item_rect_min", mvPythonTranslator({
+				{mvPythonDataType::String, "item"},
+			}, false, "Returns an item's minimum allowable size.", "(float, float)")},
 
-				{"change_style_item", mvPythonTranslator({
-					{mvPythonDataType::Integer, "item"},
-					{mvPythonDataType::Float, "x"},
-					{mvPythonDataType::Optional},
-					{mvPythonDataType::Float, "y"}
-				}, false, "Needs documentation")},
+			{"get_item_rect_max", mvPythonTranslator({
+				{mvPythonDataType::String, "item"},
+			}, false, "Returns an item's maximum allowable size.", "(float, float)")},
 
-				{"change_theme_item", mvPythonTranslator({
-					{mvPythonDataType::Integer, "item"},
-					{mvPythonDataType::Float, "r"},
-					{mvPythonDataType::Float, "g"},
-					{mvPythonDataType::Float, "b"},
-					{mvPythonDataType::Float, "a"}
-				}, false, "Needs documentation")},
+			{"get_item_rect_size", mvPythonTranslator({
+				{mvPythonDataType::String, "item"},
+			}, false, "Returns an item's current size.", "(float, float)")},
 
-				{"get_value", mvPythonTranslator({
-					{mvPythonDataType::String, "name"}
-				}, false, "Returns an item's value or None if there is none.", "Depends")},
+			{"change_style_item", mvPythonTranslator({
+				{mvPythonDataType::Integer, "item"},
+				{mvPythonDataType::Float, "x"},
+				{mvPythonDataType::Optional},
+				{mvPythonDataType::Float, "y"}
+			}, false, "Needs documentation")},
 
-				{"set_value", mvPythonTranslator({
-					{mvPythonDataType::String, "name"},
-					{mvPythonDataType::Object, "value"}
-				}, false, "Sets an item's value if applicable.")},
+			{"change_theme_item", mvPythonTranslator({
+				{mvPythonDataType::Integer, "item"},
+				{mvPythonDataType::Float, "r"},
+				{mvPythonDataType::Float, "g"},
+				{mvPythonDataType::Float, "b"},
+				{mvPythonDataType::Float, "a"}
+			}, false, "Needs documentation")},
 
-				{"show_item", mvPythonTranslator({
-					{mvPythonDataType::String, "name"}
-				}, false, "Shows an item if it was hidden.")},
+			{"get_value", mvPythonTranslator({
+				{mvPythonDataType::String, "name"}
+			}, false, "Returns an item's value or None if there is none.", "Depends")},
 
-				{"hide_item", mvPythonTranslator({
-					{mvPythonDataType::String, "name"}
-				}, false, "Hides an item.")},
+			{"set_value", mvPythonTranslator({
+				{mvPythonDataType::String, "name"},
+				{mvPythonDataType::Object, "value"}
+			}, false, "Sets an item's value if applicable.")},
 
-				{"set_main_callback", mvPythonTranslator({
-					{mvPythonDataType::String, "callback"}
-				}, false, "Sets the callback to be ran every frame.")},
+			{"show_item", mvPythonTranslator({
+				{mvPythonDataType::String, "name"}
+			}, false, "Shows an item if it was hidden.")},
 
-				{ "set_item_callback", mvPythonTranslator({
-					{mvPythonDataType::String, "item"},
-					{mvPythonDataType::String, "callback"}
-				}, false, "Sets an item's callback if applicable.") },
+			{"hide_item", mvPythonTranslator({
+				{mvPythonDataType::String, "name"}
+			}, false, "Hides an item.")},
 
-				{ "set_item_popup", mvPythonTranslator({
-					{mvPythonDataType::String, "item"},
-					{mvPythonDataType::String, "popup"}
-				}, false, "Sets an item's popup if applicable.") },
+			{"set_main_callback", mvPythonTranslator({
+				{mvPythonDataType::String, "callback"}
+			}, false, "Sets the callback to be ran every frame.")},
 
-				{ "set_item_tip", mvPythonTranslator({
-					{mvPythonDataType::String, "item"},
-					{mvPythonDataType::String, "tip"}
-				}, false, "Sets a simple tooltip for an item.") },
+			{ "set_item_callback", mvPythonTranslator({
+				{mvPythonDataType::String, "item"},
+				{mvPythonDataType::String, "callback"}
+			}, false, "Sets an item's callback if applicable.") },
 
-				{ "set_item_width", mvPythonTranslator({
-					{mvPythonDataType::String, "item"},
-					{mvPythonDataType::Integer, "width"}
-				}, false, "Sets an item's width.") },
+			{ "set_item_popup", mvPythonTranslator({
+				{mvPythonDataType::String, "item"},
+				{mvPythonDataType::String, "popup"}
+			}, false, "Sets an item's popup if applicable.") },
 
-				{ "set_item_height", mvPythonTranslator({
-					{mvPythonDataType::String, "item"},
-					{mvPythonDataType::Integer, "height"}
-				}, false, "Sets an item's height if applicable.") },
+			{ "set_item_tip", mvPythonTranslator({
+				{mvPythonDataType::String, "item"},
+				{mvPythonDataType::String, "tip"}
+			}, false, "Sets a simple tooltip for an item.") },
 
-				{ "set_theme", mvPythonTranslator({
-					{mvPythonDataType::String, "theme"}
-				}, false, "Set the application's theme to a built-in theme.") },
+			{ "set_item_width", mvPythonTranslator({
+				{mvPythonDataType::String, "item"},
+				{mvPythonDataType::Integer, "width"}
+			}, false, "Sets an item's width.") },
+
+			{ "set_item_height", mvPythonTranslator({
+				{mvPythonDataType::String, "item"},
+				{mvPythonDataType::Integer, "height"}
+			}, false, "Sets an item's height if applicable.") },
+
+			{ "set_theme", mvPythonTranslator({
+				{mvPythonDataType::String, "theme"}
+			}, false, "Set the application's theme to a built-in theme.") },
 
 		};
 
-		return translators;
+		return *translators;
 	}
 
 	PyObject* is_threadpool_activated(PyObject* self, PyObject* args, PyObject* kwargs)
@@ -253,6 +261,32 @@ namespace Marvel {
 			Py_RETURN_NONE;
 
 		mvApp::GetApp()->deleteItem(item);
+
+		Py_RETURN_NONE;
+
+	}
+
+	PyObject* move_item_up(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		const char* item;
+
+		if (!Translators["move_item_up"].parse(args, kwargs, __FUNCTION__, &item))
+			Py_RETURN_NONE;
+
+		mvApp::GetApp()->moveItemUp(item);
+
+		Py_RETURN_NONE;
+
+	}
+
+	PyObject* move_item_down(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		const char* item;
+
+		if (!Translators["move_item_down"].parse(args, kwargs, __FUNCTION__, &item))
+			Py_RETURN_NONE;
+
+		mvApp::GetApp()->moveItemDown(item);
 
 		Py_RETURN_NONE;
 
@@ -924,6 +958,8 @@ namespace Marvel {
 		mvPythonModule* pyModule = new mvPythonModule("sbApp", {});
 
 		pyModule->addMethodD(delete_item);
+		pyModule->addMethodD(move_item_down);
+		pyModule->addMethodD(move_item_up);
 		pyModule->addMethodD(is_threadpool_activated);
 		pyModule->addMethodD(get_style_item);
 		pyModule->addMethodD(get_theme_item);

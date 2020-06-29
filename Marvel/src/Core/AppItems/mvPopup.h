@@ -25,6 +25,7 @@ namespace Marvel {
 		mvPopup(const std::string& parent, const std::string& name, int mousebutton = 1, bool modal=false)
 			: mvBoolItemBase(parent, name, false), m_modal(modal), m_button(mousebutton)
 		{
+			m_container = true;
 			if (m_parent)
 				m_parent->setPopup(name);
 		}

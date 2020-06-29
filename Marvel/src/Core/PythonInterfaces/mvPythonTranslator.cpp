@@ -18,6 +18,8 @@ namespace Marvel {
 			m_elements.push_back(mvPythonDataElement(mvPythonDataType::String, "popup", "Registers a popup if supported"));
 			m_elements.push_back(mvPythonDataElement(mvPythonDataType::Integer, "width", "Sets the width of the widget"));
 			m_elements.push_back(mvPythonDataElement(mvPythonDataType::Integer, "height", "Sets the height of the widget if supported"));
+			m_elements.push_back(mvPythonDataElement(mvPythonDataType::String, "after", "Item to add this item after. (runtime adding)"));
+			m_elements.push_back(mvPythonDataElement(mvPythonDataType::String, "parent", "Parent to add this item to. (runtime adding)"));
 		}
 
 		for (const auto& element : m_elements)

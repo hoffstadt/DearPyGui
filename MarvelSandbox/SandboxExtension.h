@@ -5,16 +5,16 @@ namespace Marvel {
 
 	static std::map<std::string, mvPythonTranslator> Translators = mvInterfaceRegistry::GetRegistry()->getPythonInterface("sbExtension");
 
-	std::map<std::string, mvPythonTranslator> BuildExtensionsInterface() {
+	std::map<std::string, mvPythonTranslator>& BuildExtensionsInterface() {
 
-		std::map<std::string, mvPythonTranslator> translators = {
+		std::map<std::string, mvPythonTranslator>* translators = new std::map<std::string, mvPythonTranslator>{
 
 			{"testme", mvPythonTranslator({
 			}, false, "Needs documentation")},
 
 		};
 
-		return translators;
+		return *translators;
 	}
 
 	PyObject* testme(PyObject* self, PyObject* args, PyObject* kwargs)

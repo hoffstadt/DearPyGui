@@ -19,6 +19,17 @@ namespace Marvel {
 	class mvApp final
 	{
 
+		struct NewRuntimeItem
+		{
+			mvAppItem* item;
+			std::string after;
+			std::string parent;
+
+			NewRuntimeItem(const std::string& parent, const std::string& after, mvAppItem* item)
+				:item(item), after(after), parent(parent)
+			{}
+		};
+
 	public:
 
 		static mvApp*      GetApp();
@@ -29,6 +40,9 @@ namespace Marvel {
 
 		// actual render loop
 		void render();
+
+		// post
+		void postRender();
 
 		//-----------------------------------------------------------------------------
 		// App Settings
@@ -48,6 +62,7 @@ namespace Marvel {
 		mvColor                 getThemeItem     (long item);
 		void                    setActiveWindow  (const std::string& window) { m_activeWindow = window; }
 		const std::string&      getActiveWindow  () const { return m_activeWindow; }
+		bool                    isStarted        () const { return m_started; }
 
 
 		//-----------------------------------------------------------------------------
@@ -68,10 +83,13 @@ namespace Marvel {
 		//-----------------------------------------------------------------------------
 		// Adding Items
 		//-----------------------------------------------------------------------------
-		void       addItem         (mvAppItem* item, bool noParent = false);
-		void       addWindow       (mvAppItem* item);
-		mvAppItem* getItem         (const std::string& name);
-		void       deleteItem      (const std::string& name) { m_deleteQueue.push(name); }
+		void       addItem       (mvAppItem* item);
+		void       addWindow     (mvAppItem* item);
+		mvAppItem* getItem       (const std::string& name);
+		void       addRuntimeItem(const std::string& parent, const std::string& after, mvAppItem* item) { m_newItemVec.push_back(NewRuntimeItem(parent, after, item)); }
+		void       deleteItem    (const std::string& name) { m_deleteQueue.push(name); }
+		void       moveItemUp    (const std::string& name) { m_upQueue.push(name); }
+		void       moveItemDown  (const std::string& name) { m_downQueue.push(name); }
 
 		//-----------------------------------------------------------------------------
 		// Direct DearImGui Calls
@@ -143,29 +161,32 @@ namespace Marvel {
 
 	private:
 
-		static mvApp*           s_instance;
-		std::string             m_theme = "dark";
-		std::string             m_file;
-		mvMousePos              m_mousePos;
-		mvStyle                 m_style;
-		std::string             m_activeWindow = "MainWindow";
-		std::vector<mvAppItem*> m_windows;
-		std::stack<mvAppItem*>  m_parents;
-		std::queue<std::string> m_deleteQueue;
-		PyObject*               m_pDict;
-		std::string             m_callback;
-		bool                    m_ok = true;
-		bool                    m_showLog = false;
-		bool                    m_showMetrics = false;
-		bool                    m_showAbout = false;
-		bool                    m_showSource = false;
-		bool                    m_showDoc = false;
-		bool                    m_started = false; // to prevent widgets from being added
-		bool                    m_threadPoolAuto = true;
-		bool                    m_threadPool = false;
-		double                  m_threadPoolThreshold = 1.0;
-		unsigned                m_threads = 2; // how many threads to use
-		bool                    m_threadPoolHighPerformance = false;
+		static mvApp*              s_instance;
+		std::string                m_theme = "dark";
+		std::string                m_file;
+		mvMousePos                 m_mousePos;
+		mvStyle                    m_style;
+		std::string                m_activeWindow = "MainWindow";
+		std::vector<mvAppItem*>    m_windows;
+		std::stack<mvAppItem*>     m_parents;
+		std::queue<std::string>    m_deleteQueue;
+		std::queue<std::string>    m_upQueue;
+		std::queue<std::string>    m_downQueue;
+		std::vector<NewRuntimeItem> m_newItemVec;
+		PyObject*                  m_pDict;
+		std::string                m_callback;
+		bool                       m_ok = true;
+		bool                       m_showLog = false;
+		bool                       m_showMetrics = false;
+		bool                       m_showAbout = false;
+		bool                       m_showSource = false;
+		bool                       m_showDoc = false;
+		bool                       m_started = false; // to prevent widgets from being added
+		bool                       m_threadPoolAuto = true;
+		bool                       m_threadPool = false;
+		double                     m_threadPoolThreshold = 1.0;
+		unsigned                   m_threads = 2; // how many threads to use
+		bool                       m_threadPoolHighPerformance = false;
 
 		// standard callbacks
 		std::string m_mouseDownCallback = "";

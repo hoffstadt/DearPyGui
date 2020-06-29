@@ -15,7 +15,7 @@ namespace Marvel {
 	// Typedefs
 	//-----------------------------------------------------------------------------
 	using pyInitFunc = mvPythonModule * (*)();
-	using pyDocFunc = std::map<std::string, mvPythonTranslator>(*)();
+	using pyDocFunc = std::map<std::string, mvPythonTranslator>&(*)();
 
 	//-----------------------------------------------------------------------------
 	// mvInterfaceRegistry

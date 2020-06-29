@@ -10,15 +10,13 @@ namespace Marvel {
 
 	static std::map<std::string, mvPythonTranslator> Translators = mvInterfaceRegistry::GetRegistry()->getPythonInterface("sbDraw");
 
-	std::map<std::string, mvPythonTranslator> BuildDrawingInterface() {
+	std::map<std::string, mvPythonTranslator>& BuildDrawingInterface() {
 
-		std::map<std::string, mvPythonTranslator> translators = {
+		std::map<std::string, mvPythonTranslator>* translators = new std::map< std::string, mvPythonTranslator>{
 
 			{"add_drawing", mvPythonTranslator({
-				{mvPythonDataType::String, "name"},
-				{mvPythonDataType::Integer, "width"},
-				{mvPythonDataType::Integer, "height"}
-			}, false, "Adds a drawing widget.")},
+				{mvPythonDataType::String, "name"}
+			}, true, "Adds a drawing widget.")},
 
 			{"set_drawing_size", mvPythonTranslator({
 				{mvPythonDataType::String, "name"},
@@ -140,20 +138,22 @@ namespace Marvel {
 
 		};
 
-		return translators;
+		return *translators;
 	}
 
 	PyObject* add_drawing(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
-		const char* name;
-		int width;
-		int height;
 
-		if (!Translators["add_drawing"].parse(args, kwargs,__FUNCTION__, &name, &width, &height))
+		MV_STANDARD_CALLBACK_INIT();
+		const char* name;
+
+		if (!Translators["add_drawing"].parse(args, kwargs,__FUNCTION__, &name, MV_STANDARD_CALLBACK_PARSE))
 			Py_RETURN_NONE;
 
 		mvAppItem* item = new mvDrawing("", name, width, height);
 		mvApp::GetApp()->addItem(item);
+
+		MV_STANDARD_CALLBACK_EVAL();
 
 		Py_RETURN_NONE;
 	}

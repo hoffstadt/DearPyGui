@@ -9,6 +9,184 @@ namespace Marvel{
 		m_label = name;
 	}
 
+	bool  mvAppItem::moveChildUp(const std::string& name)
+	{
+		bool found = false;
+		int index = 0;
+
+		// check children
+		for (int i = 0; i<m_children.size(); i++)
+		{
+
+			if (m_children[i]->getName() == name)
+			{
+				found = true;
+				index = i;
+				break;
+			}
+
+			if (m_children[i]->isContainer())
+			{
+				found = m_children[i]->moveChildUp(name);
+				if (found)
+					return true;
+			}
+
+		}
+
+		if (found)
+		{
+			if (index > 0)
+			{
+				auto upperitem = m_children[index - 1];
+				auto loweritem = m_children[index];
+
+				m_children[index] = upperitem;
+				m_children[index-1] = loweritem;
+			}
+
+			return true;
+		}
+
+		return false;
+
+	}
+
+	bool  mvAppItem::moveChildDown(const std::string& name)
+	{
+		bool found = false;
+		int index = 0;
+
+		// check children
+		for (int i = 0; i < m_children.size(); i++)
+		{
+
+			if (m_children[i]->getName() == name)
+			{
+				found = true;
+				index = i;
+				break;
+			}
+
+			if (m_children[i]->isContainer())
+			{
+				found = m_children[i]->moveChildDown(name);
+				if (found)
+					return true;
+			}
+
+		}
+
+		if (found)
+		{
+			if (index < m_children.size()-1)
+			{
+				auto upperitem = m_children[index];
+				auto loweritem = m_children[index+1];
+
+				m_children[index] = loweritem;
+				m_children[index + 1] = upperitem;
+			}
+
+			return true;
+		}
+
+		return false;
+	}
+
+	bool mvAppItem::addRuntimeChild(const std::string& parent, const std::string& after, mvAppItem* item)
+	{
+		if (after.empty() && parent.empty())
+			return false;
+
+		//this is the container, add item to beginning.
+		if (after == "")
+		{
+			if (parent == m_name)
+			{
+				std::vector<mvAppItem*> oldchildren = m_children;
+				m_children.clear();
+				m_children.push_back(item);
+
+				for (auto child : oldchildren)
+					m_children.push_back(child);
+
+				item->setParent(this);
+
+				return true;
+			}
+
+			else
+			{
+				// check children
+				for (mvAppItem* child : m_children)
+				{
+
+					bool parentFound = false;
+					if (child->isContainer())
+					{
+						parentFound = child->addRuntimeChild(parent, after, item);
+
+						if (parentFound)
+							return true;
+					}
+				}
+			}
+		}
+
+		else
+		{
+			bool afterFound = false;
+
+			// check children
+			for (mvAppItem* child : m_children)
+			{
+
+				if (child->getName() == after)
+				{
+					afterFound = true;
+					break;
+				}
+
+			}
+
+			// after item is in this container
+			if (afterFound)
+			{
+				item->setParent(this);
+
+				std::vector<mvAppItem*> oldchildren = m_children;
+				m_children.clear();
+
+				for (auto child : oldchildren)
+				{
+					m_children.push_back(child);
+					if (child->getName() == after)
+						m_children.push_back(item);
+
+				}
+
+				return true;
+			}
+		}
+
+		// check children
+		for (mvAppItem* child : m_children)
+		{
+
+			bool parentFound = false;
+			if (child->isContainer())
+			{
+				parentFound = child->addRuntimeChild(parent, after, item);
+
+				if (parentFound)
+					return true;
+			}
+		}
+
+		return false;
+	}
+
 	bool mvAppItem::deleteChild(const std::string& name)
 	{
 
