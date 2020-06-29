@@ -196,62 +196,153 @@ namespace Marvel {
 		m_commands.clear();
 	}
 
-	void mvDrawing::drawLine(const mvVec2& p1, const mvVec2& p2, const mvColor& color, float thickness)
+	void mvDrawing::drawLine(const mvVec2& p1, const mvVec2& p2, const mvColor& color, float thickness, const std::string& tag)
 	{
+		for (auto item : m_commands)
+		{
+			if (item->tag == tag && !tag.empty())
+			{
+				*item = mvDrawLineCommand(p1, p2, color, thickness);
+				return;
+			}
+		}
+
 		mvDrawingCommand* command = new mvDrawLineCommand(p1, p2, color, thickness);
+		command->tag = tag;
 		m_commands.push_back(command);
 	}
 
-	void mvDrawing::drawTriangle(const mvVec2& p1, const mvVec2& p2, const mvVec2& p3, const mvColor& color, const mvColor& fill, float thickness)
+	void mvDrawing::drawTriangle(const mvVec2& p1, const mvVec2& p2, const mvVec2& p3, const mvColor& color, const mvColor& fill, float thickness, const std::string& tag)
 	{
+		for (auto item : m_commands)
+		{
+			if (item->tag == tag && !tag.empty())
+			{
+				*item = mvDrawTriangleCommand(p1, p2, p3, color, thickness, fill);
+				return;
+			}
+		}
+
 		mvDrawingCommand* command = new mvDrawTriangleCommand(p1, p2, p3, color, thickness, fill);
 		m_commands.push_back(command);
 	}
 
-	void mvDrawing::drawRectangle(const mvVec2& pmin, const mvVec2& pmax, const mvColor& color, const mvColor& fill, float rounding, float thickness)
+	void mvDrawing::drawRectangle(const mvVec2& pmin, const mvVec2& pmax, const mvColor& color, const mvColor& fill, float rounding, float thickness, const std::string& tag)
 	{
+		for (auto item : m_commands)
+		{
+			if (item->tag == tag && !tag.empty())
+			{
+				*item = mvDrawRectCommand(pmin, pmax, color, fill, rounding, thickness);
+				return;
+			}
+		}
+
 		mvDrawingCommand* command = new mvDrawRectCommand(pmin, pmax, color, fill, rounding, thickness);
 		m_commands.push_back(command);
 	}
 
-	void mvDrawing::drawQuad(const mvVec2& p1, const mvVec2& p2, const mvVec2& p3, const mvVec2& p4, const mvColor& color, const mvColor& fill, float thickness)
+	void mvDrawing::drawQuad(const mvVec2& p1, const mvVec2& p2, const mvVec2& p3, const mvVec2& p4, const mvColor& color, const mvColor& fill, float thickness, const std::string& tag)
 	{
+		for (auto item : m_commands)
+		{
+			if (item->tag == tag && !tag.empty())
+			{
+				*item = mvDrawQuadCommand(p1, p2, p3, p4, color, fill, thickness);
+				return;
+			}
+		}
+
 		mvDrawingCommand* command = new mvDrawQuadCommand(p1, p2, p3, p4, color, fill, thickness);
 		m_commands.push_back(command);
 	}
 
-	void mvDrawing::drawText(const mvVec2& pos, const std::string& text, const mvColor& color, int size)
+	void mvDrawing::drawText(const mvVec2& pos, const std::string& text, const mvColor& color, int size, const std::string& tag)
 	{
+		for (auto item : m_commands)
+		{
+			if (item->tag == tag && !tag.empty())
+			{
+				*item = mvDrawTextCommand(pos, text, color, size);
+				return;
+			}
+		}
+
 		mvDrawingCommand* command = new mvDrawTextCommand(pos, text, color, size);
 		m_commands.push_back(command);
 	}
 
-	void mvDrawing::drawCircle(const mvVec2& center, float radius, const mvColor& color, int segments, float thickness, const mvColor& fill)
+	void mvDrawing::drawCircle(const mvVec2& center, float radius, const mvColor& color, int segments, float thickness, const mvColor& fill, const std::string& tag)
 	{
+		for (auto item : m_commands)
+		{
+			if (item->tag == tag && !tag.empty())
+			{
+				*item = mvDrawCircleCommand(center, radius, color, segments, thickness, fill);
+				return;
+			}
+		}
+
 		mvDrawingCommand* command = new mvDrawCircleCommand(center, radius, color, segments, thickness, fill);
 		m_commands.push_back(command);
 	}
 
-	void mvDrawing::drawPolyline(const std::vector<mvVec2>& points, const mvColor& color, bool closed, float thickness)
+	void mvDrawing::drawPolyline(const std::vector<mvVec2>& points, const mvColor& color, bool closed, float thickness, const std::string& tag)
 	{
+		for (auto item : m_commands)
+		{
+			if (item->tag == tag && !tag.empty())
+			{
+				*item = mvDrawPolylineCommand(points, color, closed, thickness);
+				return;
+			}
+		}
+
 		mvDrawingCommand* command = new mvDrawPolylineCommand(points, color, closed, thickness);
 		m_commands.push_back(command);
 	}
 
-	void mvDrawing::drawPolygon(const std::vector<mvVec2>& points, const mvColor& color, const mvColor& fill, float thickness)
+	void mvDrawing::drawPolygon(const std::vector<mvVec2>& points, const mvColor& color, const mvColor& fill, float thickness, const std::string& tag)
 	{
+		for (auto item : m_commands)
+		{
+			if (item->tag == tag && !tag.empty())
+			{
+				*item = mvDrawPolygonCommand(points, color, fill, thickness);
+				return;
+			}
+		}
+
 		mvDrawingCommand* command = new mvDrawPolygonCommand(points, color, fill, thickness);
 		m_commands.push_back(command);
 	}
 
-	void mvDrawing::drawBezierCurve(const mvVec2& p1, const mvVec2& p2, const mvVec2& p3, const mvVec2& p4, const mvColor& color, float thickness, int segments)
+	void mvDrawing::drawBezierCurve(const mvVec2& p1, const mvVec2& p2, const mvVec2& p3, const mvVec2& p4, const mvColor& color, float thickness, int segments, const std::string& tag)
 	{
+		for (auto item : m_commands)
+		{
+			if (item->tag == tag && !tag.empty())
+			{
+				*item = mvDrawBezierCurveCommand(p1, p2, p3, p4, color, thickness, segments);
+				return;
+			}
+		}
+
 		mvDrawingCommand* command = new mvDrawBezierCurveCommand(p1, p2, p3, p4, color, thickness, segments);
 		m_commands.push_back(command);
 	}
 
-	void mvDrawing::drawImage(const std::string& file, const mvVec2& pmin, const mvVec2& pmax, const mvVec2& uv_min, const mvVec2& uv_max, const mvColor& color)
+	void mvDrawing::drawImage(const std::string& file, const mvVec2& pmin, const mvVec2& pmax, const mvVec2& uv_min, const mvVec2& uv_max, const mvColor& color, const std::string& tag)
 	{
+		for (auto item : m_commands)
+		{
+			if (item->tag == tag && !tag.empty())
+			{
+				*item = mvDrawImageCommand(file, pmin, pmax, uv_min, uv_max, color);
+				return;
+			}
+		}
+
 		mvDrawingCommand* command = new mvDrawImageCommand(file, pmin, pmax, uv_min, uv_max, color);
 		m_commands.push_back(command);
 	}
