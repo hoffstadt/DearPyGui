@@ -37,6 +37,8 @@ namespace Marvel {
 		virtual void draw(mvDrawing* drawing, ImDrawList* draw_list) = 0;
 		virtual mvDrawingCommandType getType() const = 0;
 
+		std::string tag = "";
+
 	};
 
 	//-----------------------------------------------------------------------------
@@ -329,16 +331,16 @@ namespace Marvel {
 		inline float  getStartY() const { return m_starty; }
 		inline mvVec2 getStart () const { return { m_startx, m_starty }; }
 
-		void drawLine       (const mvVec2& p1, const mvVec2& p2, const mvColor& color, float thickness);
-		void drawTriangle   (const mvVec2& p1, const mvVec2& p2, const mvVec2& p3, const mvColor& color, const mvColor& fill, float thickness);
-		void drawRectangle  (const mvVec2& pmin, const mvVec2& pmax, const mvColor& color,const mvColor& fill, float rounding, float thickness);
-		void drawQuad       (const mvVec2& p1, const mvVec2& p2, const mvVec2& p3, const mvVec2& p4,const mvColor& color, const mvColor& fill, float thickness);
-		void drawText       (const mvVec2& pos, const std::string& text, const mvColor& color, int size);
-		void drawCircle     (const mvVec2& center, float radius, const mvColor& color,int segments, float thickness, const mvColor& fill);
-		void drawPolyline   (const std::vector<mvVec2>& points, const mvColor& color, bool closed, float thickness);
-		void drawPolygon    (const std::vector<mvVec2>& points, const mvColor& color, const mvColor& fill, float thickness);
-		void drawBezierCurve(const mvVec2& p1, const mvVec2& p2, const mvVec2& p3, const mvVec2& p4, const mvColor& color, float thickness, int segments);
-		void drawImage      (const std::string& file, const mvVec2& pmin, const mvVec2& pmax, const mvVec2& uv_min, const mvVec2& uv_max, const mvColor& color);
+		void drawLine       (const mvVec2& p1, const mvVec2& p2, const mvColor& color, float thickness, const std::string& tag = "");
+		void drawTriangle   (const mvVec2& p1, const mvVec2& p2, const mvVec2& p3, const mvColor& color, const mvColor& fill, float thickness, const std::string& tag = "");
+		void drawRectangle  (const mvVec2& pmin, const mvVec2& pmax, const mvColor& color,const mvColor& fill, float rounding, float thickness, const std::string& tag = "");
+		void drawQuad       (const mvVec2& p1, const mvVec2& p2, const mvVec2& p3, const mvVec2& p4,const mvColor& color, const mvColor& fill, float thickness, const std::string& tag = "");
+		void drawText       (const mvVec2& pos, const std::string& text, const mvColor& color, int size, const std::string& tag = "");
+		void drawCircle     (const mvVec2& center, float radius, const mvColor& color,int segments, float thickness, const mvColor& fill, const std::string& tag = "");
+		void drawPolyline   (const std::vector<mvVec2>& points, const mvColor& color, bool closed, float thickness, const std::string& tag = "");
+		void drawPolygon    (const std::vector<mvVec2>& points, const mvColor& color, const mvColor& fill, float thickness, const std::string& tag = "");
+		void drawBezierCurve(const mvVec2& p1, const mvVec2& p2, const mvVec2& p3, const mvVec2& p4, const mvColor& color, float thickness, int segments, const std::string& tag = "");
+		void drawImage      (const std::string& file, const mvVec2& pmin, const mvVec2& pmax, const mvVec2& uv_min, const mvVec2& uv_max, const mvColor& color, const std::string& tag = "");
 
 	private:
 
