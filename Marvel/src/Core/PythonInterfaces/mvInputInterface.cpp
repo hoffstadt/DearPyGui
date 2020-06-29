@@ -8,9 +8,9 @@ namespace Marvel {
 
 	static std::map<std::string, mvPythonTranslator> Translators = mvInterfaceRegistry::GetRegistry()->getPythonInterface("sbInput");
 
-	std::map<std::string, mvPythonTranslator> BuildInputsInterface() {
+	std::map<std::string, mvPythonTranslator>& BuildInputsInterface() {
 
-		std::map<std::string, mvPythonTranslator> translators = {
+		std::map<std::string, mvPythonTranslator>* translators = new std::map< std::string, mvPythonTranslator>{
 
 			{"get_key_down_callback", mvPythonTranslator({
 			}, false, "Returns the key down callback.", "str")},
@@ -67,7 +67,7 @@ namespace Marvel {
 
 		};
 
-		return translators;
+		return *translators;
 	}
 
 	PyObject* get_key_down_callback(PyObject* self, PyObject* args)

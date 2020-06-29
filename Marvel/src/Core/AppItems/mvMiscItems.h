@@ -25,8 +25,8 @@ namespace Marvel {
 
 		MV_APPITEM_TYPE(mvAppItemType::SameLine)
 
-		mvSameLine(const std::string& parent, float xoffset, float spacing)
-			: mvNoneItemBase(parent, "SameLine"), m_xoffset(xoffset), m_spacing(spacing)
+		mvSameLine(const std::string& parent, const std::string& name, float xoffset, float spacing)
+			: mvNoneItemBase(parent, name), m_xoffset(xoffset), m_spacing(spacing)
 		{
 		}
 
@@ -54,8 +54,8 @@ namespace Marvel {
 
 		MV_APPITEM_TYPE(mvAppItemType::Separator)
 
-		mvSeparator(const std::string& parent)
-			: mvNoneItemBase(parent, "separator")
+		mvSeparator(const std::string& parent, const std::string& name)
+			: mvNoneItemBase(parent, name)
 		{
 		}
 
@@ -78,8 +78,8 @@ namespace Marvel {
 
 		MV_APPITEM_TYPE(mvAppItemType::Spacing)
 
-		mvSpacing(const std::string& parent, int count)
-			: mvNoneItemBase(parent, "Spacing")
+		mvSpacing(const std::string& parent, const std::string& name, int count)
+			: mvNoneItemBase(parent, name)
 		{
 			m_value = count;
 		}
@@ -110,8 +110,8 @@ namespace Marvel {
 
 		MV_APPITEM_TYPE(mvAppItemType::Indent)
 
-		mvIndent(const std::string& parent, float default_value)
-			: mvFloatItemBase(parent, "indent", 1, default_value)
+		mvIndent(const std::string& parent, const std::string& name, float default_value)
+			: mvFloatItemBase(parent, name, 1, default_value)
 		{
 		}
 
@@ -134,8 +134,8 @@ namespace Marvel {
 
 		MV_APPITEM_TYPE(mvAppItemType::Unindent)
 
-		mvUnindent(const std::string& parent, float default_value)
-			: mvFloatItemBase(parent, "indent", 1, default_value)
+		mvUnindent(const std::string& parent, const std::string& name, float default_value)
+			: mvFloatItemBase(parent, name, 1, default_value)
 		{
 		}
 

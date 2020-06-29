@@ -10,9 +10,9 @@ namespace Marvel {
 
 	static std::map<std::string, mvPythonTranslator> Translators = mvInterfaceRegistry::GetRegistry()->getPythonInterface("sbWidgets");
 
-	std::map<std::string, mvPythonTranslator> BuildWidgetsInterface() {
+	std::map<std::string, mvPythonTranslator>& BuildWidgetsInterface() {
 
-		std::map<std::string, mvPythonTranslator> translators = {
+		std::map<std::string, mvPythonTranslator>* translators  = new std::map< std::string, mvPythonTranslator>{
 
 			{"end_tree_node", mvPythonTranslator({
 			}, false, "Ends the tree node created by a call to add_tree_node.")},
@@ -48,7 +48,10 @@ namespace Marvel {
 			}, false, "Ends the collapsing header created by a call to add_collapsing_header.")},
 
 			{"add_seperator", mvPythonTranslator({
-			}, false, "Adds a horizontal line.")},
+				{mvPythonDataType::Optional},
+				{mvPythonDataType::KeywordOnly},
+				{mvPythonDataType::String, "name"},
+			}, true, "Adds a horizontal line.")},
 
 			{"add_simple_plot", mvPythonTranslator({
 				{mvPythonDataType::String, "name"},
@@ -363,13 +366,17 @@ namespace Marvel {
 
 			{"add_indent", mvPythonTranslator({
 				{mvPythonDataType::Optional},
+				{mvPythonDataType::KeywordOnly},
+				{mvPythonDataType::String, "name"},
 				{mvPythonDataType::Float, "offset"}
-			}, false, "Adds an indent to following items.")},
+			}, true, "Adds an indent to following items.")},
 
 			{"unindent", mvPythonTranslator({
 				{mvPythonDataType::Optional},
+				{mvPythonDataType::KeywordOnly},
+				{mvPythonDataType::String, "name"},
 				{mvPythonDataType::Float, "offset"}
-			}, false, "Unindents following items.")},
+			}, true, "Unindents following items.")},
 
 			{"add_tab_bar", mvPythonTranslator({
 				{mvPythonDataType::String, "name"},
@@ -384,11 +391,11 @@ namespace Marvel {
 
 			{"add_menu_bar", mvPythonTranslator({
 				{mvPythonDataType::String, "name"}
-			}, false, "Adds a menu bar to a window. Must be followed by a call to end_menu_bar.")},
+			}, true, "Adds a menu bar to a window. Must be followed by a call to end_menu_bar unless added at runtime.")},
 
 			{"add_menu", mvPythonTranslator({
 				{mvPythonDataType::String, "name"}
-			}, false, "Adds a menu to an existing menu bar. Must be followed by a call to end_menu")},
+			}, true, "Adds a menu to an existing menu bar. Must be followed by a call to end_menu unless added at runtime.")},
 
 			{"add_menu_item", mvPythonTranslator({
 				{mvPythonDataType::String, "name"}
@@ -396,14 +403,18 @@ namespace Marvel {
 
 			{"add_spacing", mvPythonTranslator({
 				{mvPythonDataType::Optional},
+				{mvPythonDataType::KeywordOnly},
+				{mvPythonDataType::String, "name"},
 				{mvPythonDataType::Integer, "count"}
-			}, false, "Adds vertical spacing.")},
+			}, true, "Adds vertical spacing.")},
 
 			{"add_same_line", mvPythonTranslator({
 				{mvPythonDataType::Optional},
+				{mvPythonDataType::KeywordOnly},
+				{mvPythonDataType::String, "name"},
 				{mvPythonDataType::Float, "xoffset"},
 				{mvPythonDataType::Float, "spacing"}
-			}, false, "Places a widget on the same line as the previous widget. Can also be used for horizontal spacing.")},
+			}, true, "Places a widget on the same line as the previous widget. Can also be used for horizontal spacing.")},
 
 			{"add_radio_button", mvPythonTranslator({
 				{mvPythonDataType::String, "name"},
@@ -415,13 +426,11 @@ namespace Marvel {
 			{"add_group", mvPythonTranslator({
 				{mvPythonDataType::String, "name"}
 			}, true, "Creates a group that other widgets can belong to. The group allows item commands to be issued for all of its members.\
-				Must be closed with the end_group command.") },
+				Must be closed with the end_group command unless added at runtime.") },
 
 			{"add_child", mvPythonTranslator({
-				{mvPythonDataType::String, "name"},
-				{mvPythonDataType::Integer, "width"},
-				{mvPythonDataType::Integer, "height"}
-			}, false, "Adds an embedded child window. Will show scrollbars when items do not fit.") },
+				{mvPythonDataType::String, "name"}
+			}, true, "Adds an embedded child window. Will show scrollbars when items do not fit. Must be followed by a call to end_child unless added at runtime.") },
 
 			{"add_window", mvPythonTranslator({
 				{mvPythonDataType::String, "name"},
@@ -430,12 +439,12 @@ namespace Marvel {
 			}, false, "Creates a new window for following items to be added to. Must call end_main_window command before.") },
 
 			{"add_tooltip", mvPythonTranslator({
-				{mvPythonDataType::String, "parent"},
+				{mvPythonDataType::String, "tipparent"},
 				{mvPythonDataType::String, "name"}
 			}, true, "Adds an advanced tool tip for an item. This command must come immediately after the item the tip is for.") },
 
 			{"add_popup", mvPythonTranslator({
-				{mvPythonDataType::String, "parent"},
+				{mvPythonDataType::String, "popupparent"},
 				{mvPythonDataType::String, "name"},
 				{mvPythonDataType::Optional},
 				{mvPythonDataType::Integer, "mousebutton"},
@@ -447,14 +456,14 @@ namespace Marvel {
 				{mvPythonDataType::Optional},
 				{mvPythonDataType::KeywordOnly},
 				{mvPythonDataType::Integer, "flags"}
-			}, false, "Adds a collapsing header to add items to. Must be closed with the end_collapsing_header command.") },
+			}, true, "Adds a collapsing header to add items to. Must be closed with the end_collapsing_header command unless added at runtime.") },
 
 			{"add_tree_node", mvPythonTranslator({
 				{mvPythonDataType::String, "name"},
 				{mvPythonDataType::Optional},
 				{mvPythonDataType::KeywordOnly},
 				{mvPythonDataType::Integer, "flags"}
-			}, true, "Adds a tree node to add items to. Must be closed with the end_tree_node command.") },
+			}, true, "Adds a tree node to add items to. Must be closed with the end_tree_node command unless added at runtime.") },
 
 			{"add_color_edit3", mvPythonTranslator({
 				{mvPythonDataType::String, "name"},
@@ -488,7 +497,7 @@ namespace Marvel {
 
 		};
 
-		return translators;
+		return *translators;
 	}
 
 	PyObject* add_simple_plot(PyObject* self, PyObject* args, PyObject* kwargs)
@@ -1338,30 +1347,32 @@ namespace Marvel {
 
 	PyObject* add_indent(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
+		static int i = 0; i++;
+		MV_STANDARD_CALLBACK_INIT();
+		const char* name = std::string("indent" + std::to_string(i)).c_str();
 		float offset = 0.0f;
 
-		if (!Translators["add_indent"].parse(args, kwargs,__FUNCTION__, &offset))
+		if (!Translators["add_indent"].parse(args, kwargs,__FUNCTION__, &name, &offset, MV_STANDARD_CALLBACK_PARSE))
 			Py_RETURN_NONE;
 
-		mvAppItem* item = new mvIndent("", offset);
+		mvAppItem* item = new mvIndent("", name, offset);
 		mvApp::GetApp()->addItem(item);
-
-		
 
 		Py_RETURN_NONE;
 	}
 
 	PyObject* unindent(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
+		static int i = 0; i++;
+		MV_STANDARD_CALLBACK_INIT();
+		const char* name = std::string("unindent" + std::to_string(i)).c_str();
 		float offset = 0.0f;
 
-		if (!Translators["unindent"].parse(args, kwargs,__FUNCTION__, &offset))
+		if (!Translators["unindent"].parse(args, kwargs,__FUNCTION__, &name, &offset, MV_STANDARD_CALLBACK_PARSE))
 			Py_RETURN_NONE;
 
-		mvAppItem* item = new mvUnindent("", offset);
+		mvAppItem* item = new mvUnindent("", name, offset);
 		mvApp::GetApp()->addItem(item);
-
-		
 
 		Py_RETURN_NONE;
 	}
@@ -1578,12 +1589,17 @@ namespace Marvel {
 
 	PyObject* add_spacing(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
+		static int i = 0; i++;
+
+		MV_STANDARD_CALLBACK_INIT();
+
+		const char* name = std::string("spacing" + std::to_string(i)).c_str();
 		int count = 1;
 
-		if (!Translators["add_spacing"].parse(args, kwargs,__FUNCTION__, &count))
+		if (!Translators["add_spacing"].parse(args, kwargs,__FUNCTION__, &name, &count))
 			Py_RETURN_NONE;
 
-		mvAppItem* item = new mvSpacing("", count);
+		mvAppItem* item = new mvSpacing("", name, count);
 		mvApp::GetApp()->addItem(item);
 
 		
@@ -1593,13 +1609,16 @@ namespace Marvel {
 
 	PyObject* add_same_line(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
+		static int i = 0; i++;
+		MV_STANDARD_CALLBACK_INIT();
+		const char* name = std::string("sameline" + std::to_string(i)).c_str();
 		float xoffset = 0.0f;
 		float spacing = 0.0f;
 
-		if (!Translators["add_same_line"].parse(args, kwargs,__FUNCTION__, &xoffset, &spacing))
+		if (!Translators["add_same_line"].parse(args, kwargs,__FUNCTION__, &name, &xoffset, &spacing))
 			Py_RETURN_NONE;
 
-		mvAppItem* item = new mvSameLine("", xoffset, spacing);
+		mvAppItem* item = new mvSameLine("", name, xoffset, spacing);
 		mvApp::GetApp()->addItem(item);
 
 		
@@ -1660,15 +1679,18 @@ namespace Marvel {
 
 	PyObject* add_child(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
-		const char* name;
-		int width, height;
+		MV_STANDARD_CALLBACK_INIT();
 
-		if (!Translators["add_child"].parse(args, kwargs, __FUNCTION__, &name, &width, &height))
+		const char* name;
+
+		if (!Translators["add_child"].parse(args, kwargs, __FUNCTION__, &name, MV_STANDARD_CALLBACK_PARSE))
 			Py_RETURN_NONE;
 
-		mvAppItem* item = new mvChild("", name, width, height);
+		mvAppItem* item = new mvChild("", name);
 		mvApp::GetApp()->addItem(item);
 		mvApp::GetApp()->pushParent(item);
+
+		MV_STANDARD_CALLBACK_EVAL();
 
 		Py_RETURN_NONE;
 	}
@@ -1725,14 +1747,14 @@ namespace Marvel {
 	PyObject* add_tooltip(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		MV_STANDARD_CALLBACK_INIT();
-		const char* parent, * name;
+		const char* tipparent, * name;
 
-		if (!Translators["add_tooltip"].parse(args, kwargs, __FUNCTION__, &parent, &name, MV_STANDARD_CALLBACK_PARSE))
+		if (!Translators["add_tooltip"].parse(args, kwargs, __FUNCTION__, &tipparent, &name, MV_STANDARD_CALLBACK_PARSE))
 			Py_RETURN_NONE;
 
-		mvAppItem* item = new mvTooltip(parent, name);
+		mvAppItem* item = new mvTooltip(tipparent, name);
 		mvApp::GetApp()->pushParent(item);
-		mvApp::GetApp()->addItem(item, false);
+		mvApp::GetApp()->addItem(item);
 
 		MV_STANDARD_CALLBACK_EVAL();
 		
@@ -1760,16 +1782,16 @@ namespace Marvel {
 	PyObject* add_popup(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		MV_STANDARD_CALLBACK_INIT();
-		const char* parent, * name;
+		const char* popupparent, * name;
 		int mousebutton = 1;
 		int modal = false;
 
-		if (!Translators["add_popup"].parse(args, kwargs, __FUNCTION__, &parent, &name, &mousebutton, &modal, MV_STANDARD_CALLBACK_PARSE))
+		if (!Translators["add_popup"].parse(args, kwargs, __FUNCTION__, &popupparent, &name, &mousebutton, &modal, MV_STANDARD_CALLBACK_PARSE))
 			Py_RETURN_NONE;
 
-		mvAppItem* item = new mvPopup(parent, name, mousebutton, modal);
+		mvAppItem* item = new mvPopup(popupparent, name, mousebutton, modal);
 		mvApp::GetApp()->pushParent(item);
-		mvApp::GetApp()->addItem(item, false);
+		mvApp::GetApp()->addItem(item);
 
 		MV_STANDARD_CALLBACK_EVAL();
 		
@@ -1807,8 +1829,6 @@ namespace Marvel {
 		mvApp::GetApp()->pushParent(item);
 
 		MV_STANDARD_CALLBACK_EVAL();
-		
-
 		Py_RETURN_NONE;
 	}
 
@@ -1865,8 +1885,17 @@ namespace Marvel {
 
 	PyObject* add_seperator(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
-		mvAppItem* item = new mvSeparator("");
+		static int i = 0; i++;
+		MV_STANDARD_CALLBACK_INIT();
+		const char* name = std::string("seperator" + std::to_string(i)).c_str();
+
+		if (!Translators["add_seperator"].parse(args, kwargs, __FUNCTION__, &name, MV_STANDARD_CALLBACK_PARSE))
+			Py_RETURN_NONE;
+
+		mvAppItem* item = new mvSeparator("", name);
 		mvApp::GetApp()->addItem(item);
+
+		MV_STANDARD_CALLBACK_EVAL();
 		
 		Py_RETURN_NONE;
 	}

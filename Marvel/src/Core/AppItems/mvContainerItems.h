@@ -24,11 +24,10 @@ namespace Marvel {
 
 		MV_APPITEM_TYPE(mvAppItemType::Child)
 
-		mvChild(const std::string& parent, const std::string& name, int width, int height)
+		mvChild(const std::string& parent, const std::string& name)
 			: mvBoolItemBase(parent, name, false)
 		{
-			m_width = width;
-			m_height = height;
+			m_container = true;
 		}
 
 		virtual void draw() override
@@ -91,7 +90,9 @@ namespace Marvel {
 
 		mvGroup(const std::string& parent, const std::string& name)
 			: mvNoneItemBase(parent, name)
-		{}
+		{
+			m_container = true;
+		}
 
 		virtual void draw() override
 		{
@@ -155,7 +156,9 @@ namespace Marvel {
 
 		mvCollapsingHeader(const std::string& parent, const std::string& name, ImGuiTreeNodeFlags flags = 0)
 			: mvBoolItemBase(parent, name, true), m_flags(flags)
-		{}
+		{
+			m_container = true;
+		}
 
 		virtual void draw() override
 		{
@@ -219,7 +222,9 @@ namespace Marvel {
 
 		mvTreeNode(const std::string& parent, const std::string& name, ImGuiTreeNodeFlags flags = 0)
 			: mvBoolItemBase(parent, name, false), m_flags(flags)
-		{}
+		{
+			m_container = true;
+		}
 
 		virtual void draw() override
 		{

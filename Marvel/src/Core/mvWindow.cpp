@@ -14,7 +14,11 @@ namespace Marvel {
 				m_appEditor->render();
 
 			else if (!m_error)
+			{
 				m_app->render();
+				m_app->postRender();
+
+			}
 
 			if(mvApp::GetApp()->isLoggerShown())
 				Marvel::mvAppLog::getLogger()->Draw("Marvel Sandbox", &mvApp::GetApp()->isLoggerShown());

@@ -9,9 +9,9 @@ namespace Marvel {
 
 	static std::map<std::string, mvPythonTranslator> Translators = mvInterfaceRegistry::GetRegistry()->getPythonInterface("sbLog");
 
-	std::map<std::string, mvPythonTranslator> BuildLoggingInterface() {
+	std::map<std::string, mvPythonTranslator>& BuildLoggingInterface() {
 
-		std::map<std::string, mvPythonTranslator> translators = {
+		std::map<std::string, mvPythonTranslator>* translators = new std::map< std::string, mvPythonTranslator>{
 
 			{"get_log_level", mvPythonTranslator({
 			}, false, "Returns the log level.", "int")},
@@ -50,7 +50,7 @@ namespace Marvel {
 
 		};
 
-		return translators;
+		return *translators;
 	}
 
 	PyObject* show_logger(PyObject* self, PyObject* args)

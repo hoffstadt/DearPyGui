@@ -10,13 +10,17 @@
 //-----------------------------------------------------------------------------
 // Helper Macros
 //-----------------------------------------------------------------------------
-#define MV_STANDARD_CALLBACK_INIT() const char* callback = "", *tip="", *popup=""; int width=0; int height=0;
-#define MV_STANDARD_CALLBACK_PARSE &callback, &tip, &popup, &width, &height
-#define MV_STANDARD_CALLBACK_EVAL() mvApp::GetApp()->getItem(name)->setCallback(callback);\
-mvApp::GetApp()->getItem(name)->setTip(tip);\
-mvApp::GetApp()->getItem(name)->setWidth(width);\
-mvApp::GetApp()->getItem(name)->setHeight(height);\
-mvApp::GetApp()->getItem(name)->setPopup(popup);
+#define MV_STANDARD_CALLBACK_INIT() const char* callback = "", *tip="", *popup=""; int width=0; int height=0; const char* after=""; const char* parent="";
+#define MV_STANDARD_CALLBACK_PARSE &callback, &tip, &popup, &width, &height, &after, &parent
+#define MV_STANDARD_CALLBACK_EVAL() item->setCallback(callback);\
+item->setTip(tip);\
+item->setWidth(width);\
+item->setHeight(height);\
+item->setPopup(popup);\
+auto ma = mvApp::GetApp();\
+if(!std::string(parent).empty() || !std::string(after).empty() && ma->isStarted())ma->addRuntimeItem(parent, after, item);\
+else if(std::string(parent).empty() && std::string(after).empty() && ma->isStarted())mvAppLog::getLogger()->LogWarning(item->getName() + " not added. Must use after/parent if added during runtime.");\
+if(ma->isStarted() && item->isContainer())ma->popParent();
 
 namespace Marvel {
 

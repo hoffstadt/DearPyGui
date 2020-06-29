@@ -1,5 +1,6 @@
 #include "mvPythonModule.h"
 #include "Core/mvApp.h"
+#include "Core/mvAppLog.h"
 #include "Core/AppItems/mvAppItems.h"
 #include "mvPythonTranslator.h"
 #include "mvInterfaces.h"
@@ -9,22 +10,20 @@ namespace Marvel {
 
 	static std::map<std::string, mvPythonTranslator> Translators = mvInterfaceRegistry::GetRegistry()->getPythonInterface("sbPlot");
 
-	std::map<std::string, mvPythonTranslator> BuildPlottingInterface() {
+	std::map<std::string, mvPythonTranslator>& BuildPlottingInterface() {
 
-		std::map<std::string, mvPythonTranslator> translators = {
+		std::map<std::string, mvPythonTranslator>* translators = new std::map< std::string, mvPythonTranslator>{
 
 			{"add_plot", mvPythonTranslator({
 				{mvPythonDataType::String, "name"},
 				{mvPythonDataType::Optional},
 				{mvPythonDataType::String, "xAxisName"},
 				{mvPythonDataType::String, "yAxisName"},
-				{mvPythonDataType::Integer, "width"},
-				{mvPythonDataType::Integer, "height"},
 				{mvPythonDataType::KeywordOnly},
 				{mvPythonDataType::Integer, "flags"},
 				{mvPythonDataType::Integer, "xflags"},
 				{mvPythonDataType::Integer, "yflags"}
-			}, false, "Adds a plot widget.")},
+			}, true, "Adds a plot widget.")},
 
 			{"clear_plot", mvPythonTranslator({
 				{mvPythonDataType::String, "plot"},
@@ -72,7 +71,7 @@ namespace Marvel {
 
 		};
 
-		return translators;
+		return *translators;
 	}
 
 	PyObject* clear_plot(PyObject* self, PyObject* args, PyObject* kwargs)
@@ -108,21 +107,22 @@ namespace Marvel {
 
 	PyObject* add_plot(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
+		MV_STANDARD_CALLBACK_INIT();
 		const char* name;
 		const char* xAxisName = "";
 		const char* yAxisName = "";
-		int width = -1;
-		int height = 0;
 		int flags = 0;
 		int xflags = 0;
 		int yflags = 0;
 
-		if (!Translators["add_plot"].parse(args, kwargs, __FUNCTION__, &name, &xAxisName, &yAxisName, &width, &height, &flags,
-			&xflags, &yflags))
+		if (!Translators["add_plot"].parse(args, kwargs, __FUNCTION__, &name, &xAxisName, &yAxisName, &flags,
+			&xflags, &yflags, MV_STANDARD_CALLBACK_PARSE))
 			Py_RETURN_NONE;
 
 		mvAppItem* item = new mvPlot("", name,xAxisName, yAxisName, width, height, flags, xflags, yflags);
 		mvApp::GetApp()->addItem(item);
+
+		MV_STANDARD_CALLBACK_EVAL();
 
 		Py_RETURN_NONE;
 	}

@@ -30,6 +30,7 @@ namespace Marvel {
 			// has to be showed that way it can check for hovering
 			// otherwise it will never show
 			m_show = true;
+			m_container = true;
 		}
 
 		virtual void draw() override
