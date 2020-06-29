@@ -144,7 +144,7 @@ namespace Marvel {
 
 		prepareStandardCallbacks();
 
-		if(!m_callback.empty())
+		if (!m_callback.empty())
 			runMainCallback(m_callback, "Main Application");
 
 		// standard windows

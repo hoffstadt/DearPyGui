@@ -198,12 +198,16 @@ namespace Marvel {
 
 	void mvDrawing::drawLine(const mvVec2& p1, const mvVec2& p2, const mvColor& color, float thickness, const std::string& tag)
 	{
-		for (auto item : m_commands)
+		if (!tag.empty())
 		{
-			if (item->tag == tag && !tag.empty())
+			for (auto item : m_commands)
 			{
-				*item = mvDrawLineCommand(p1, p2, color, thickness);
-				return;
+				if (item->tag == tag)
+				{
+					*static_cast<mvDrawLineCommand*>(item) = mvDrawLineCommand(p1, p2, color, thickness);
+					item->tag = tag;
+					return;
+				}
 			}
 		}
 
@@ -214,136 +218,181 @@ namespace Marvel {
 
 	void mvDrawing::drawTriangle(const mvVec2& p1, const mvVec2& p2, const mvVec2& p3, const mvColor& color, const mvColor& fill, float thickness, const std::string& tag)
 	{
-		for (auto item : m_commands)
+		if (!tag.empty())
 		{
-			if (item->tag == tag && !tag.empty())
+			for (auto item : m_commands)
 			{
-				*item = mvDrawTriangleCommand(p1, p2, p3, color, thickness, fill);
-				return;
+				if (item->tag == tag)
+				{
+					*static_cast<mvDrawTriangleCommand*>(item) = mvDrawTriangleCommand(p1, p2, p3, color, thickness, fill);
+					item->tag = tag;
+					return;
+				}
 			}
 		}
 
 		mvDrawingCommand* command = new mvDrawTriangleCommand(p1, p2, p3, color, thickness, fill);
+		command->tag = tag;
 		m_commands.push_back(command);
 	}
 
 	void mvDrawing::drawRectangle(const mvVec2& pmin, const mvVec2& pmax, const mvColor& color, const mvColor& fill, float rounding, float thickness, const std::string& tag)
 	{
-		for (auto item : m_commands)
+		if (!tag.empty())
 		{
-			if (item->tag == tag && !tag.empty())
+			for (auto item : m_commands)
 			{
-				*item = mvDrawRectCommand(pmin, pmax, color, fill, rounding, thickness);
-				return;
+				if (item->tag == tag)
+				{
+					*static_cast<mvDrawRectCommand*>(item) = mvDrawRectCommand(pmin, pmax, color, fill, rounding, thickness);
+					item->tag = tag;
+					return;
+				}
 			}
 		}
 
 		mvDrawingCommand* command = new mvDrawRectCommand(pmin, pmax, color, fill, rounding, thickness);
+		command->tag = tag;
 		m_commands.push_back(command);
 	}
 
 	void mvDrawing::drawQuad(const mvVec2& p1, const mvVec2& p2, const mvVec2& p3, const mvVec2& p4, const mvColor& color, const mvColor& fill, float thickness, const std::string& tag)
 	{
-		for (auto item : m_commands)
+		if (!tag.empty())
 		{
-			if (item->tag == tag && !tag.empty())
+			for (auto item : m_commands)
 			{
-				*item = mvDrawQuadCommand(p1, p2, p3, p4, color, fill, thickness);
-				return;
+				if (item->tag == tag)
+				{
+					*static_cast<mvDrawQuadCommand*>(item) = mvDrawQuadCommand(p1, p2, p3, p4, color, fill, thickness);
+					item->tag = tag;
+					return;
+				}
 			}
 		}
 
 		mvDrawingCommand* command = new mvDrawQuadCommand(p1, p2, p3, p4, color, fill, thickness);
+		command->tag = tag;
 		m_commands.push_back(command);
 	}
 
 	void mvDrawing::drawText(const mvVec2& pos, const std::string& text, const mvColor& color, int size, const std::string& tag)
 	{
-		for (auto item : m_commands)
+		if (!tag.empty())
 		{
-			if (item->tag == tag && !tag.empty())
+			for (auto item : m_commands)
 			{
-				*item = mvDrawTextCommand(pos, text, color, size);
-				return;
+				if (item->tag == tag)
+				{
+					*static_cast<mvDrawTextCommand*>(item) = mvDrawTextCommand(pos, text, color, size);
+					item->tag = tag;
+					return;
+				}
 			}
 		}
 
 		mvDrawingCommand* command = new mvDrawTextCommand(pos, text, color, size);
+		command->tag = tag;
 		m_commands.push_back(command);
 	}
 
 	void mvDrawing::drawCircle(const mvVec2& center, float radius, const mvColor& color, int segments, float thickness, const mvColor& fill, const std::string& tag)
 	{
-		for (auto item : m_commands)
+		if (!tag.empty())
 		{
-			if (item->tag == tag && !tag.empty())
+			for (auto item : m_commands)
 			{
-				*item = mvDrawCircleCommand(center, radius, color, segments, thickness, fill);
-				return;
+				if (item->tag == tag)
+				{
+					*static_cast<mvDrawCircleCommand*>(item) = mvDrawCircleCommand(center, radius, color, segments, thickness, fill);
+					item->tag = tag;
+					return;
+				}
 			}
 		}
 
 		mvDrawingCommand* command = new mvDrawCircleCommand(center, radius, color, segments, thickness, fill);
+		command->tag = tag;
 		m_commands.push_back(command);
 	}
 
 	void mvDrawing::drawPolyline(const std::vector<mvVec2>& points, const mvColor& color, bool closed, float thickness, const std::string& tag)
 	{
-		for (auto item : m_commands)
+		if (!tag.empty())
 		{
-			if (item->tag == tag && !tag.empty())
+			for (auto item : m_commands)
 			{
-				*item = mvDrawPolylineCommand(points, color, closed, thickness);
-				return;
+				if (item->tag == tag)
+				{
+					*static_cast<mvDrawPolylineCommand*>(item) = mvDrawPolylineCommand(points, color, closed, thickness);
+					item->tag = tag;
+					return;
+				}
 			}
 		}
 
 		mvDrawingCommand* command = new mvDrawPolylineCommand(points, color, closed, thickness);
+		command->tag = tag;
 		m_commands.push_back(command);
 	}
 
 	void mvDrawing::drawPolygon(const std::vector<mvVec2>& points, const mvColor& color, const mvColor& fill, float thickness, const std::string& tag)
 	{
-		for (auto item : m_commands)
+		if (!tag.empty())
 		{
-			if (item->tag == tag && !tag.empty())
+			for (auto item : m_commands)
 			{
-				*item = mvDrawPolygonCommand(points, color, fill, thickness);
-				return;
+				if (item->tag == tag)
+				{
+					*static_cast<mvDrawPolygonCommand*>(item) = mvDrawPolygonCommand(points, color, fill, thickness);
+					item->tag = tag;
+					return;
+				}
 			}
 		}
 
 		mvDrawingCommand* command = new mvDrawPolygonCommand(points, color, fill, thickness);
+		command->tag = tag;
 		m_commands.push_back(command);
 	}
 
 	void mvDrawing::drawBezierCurve(const mvVec2& p1, const mvVec2& p2, const mvVec2& p3, const mvVec2& p4, const mvColor& color, float thickness, int segments, const std::string& tag)
 	{
-		for (auto item : m_commands)
+		if (!tag.empty())
 		{
-			if (item->tag == tag && !tag.empty())
+			for (auto item : m_commands)
 			{
-				*item = mvDrawBezierCurveCommand(p1, p2, p3, p4, color, thickness, segments);
-				return;
+				if (item->tag == tag)
+				{
+					*static_cast<mvDrawBezierCurveCommand*>(item) = mvDrawBezierCurveCommand(p1, p2, p3, p4, color, thickness, segments);
+					item->tag = tag;
+					return;
+				}
 			}
 		}
 
 		mvDrawingCommand* command = new mvDrawBezierCurveCommand(p1, p2, p3, p4, color, thickness, segments);
+		command->tag = tag;
 		m_commands.push_back(command);
 	}
 
 	void mvDrawing::drawImage(const std::string& file, const mvVec2& pmin, const mvVec2& pmax, const mvVec2& uv_min, const mvVec2& uv_max, const mvColor& color, const std::string& tag)
 	{
-		for (auto item : m_commands)
+		if (!tag.empty())
 		{
-			if (item->tag == tag && !tag.empty())
+			for (auto item : m_commands)
 			{
-				*item = mvDrawImageCommand(file, pmin, pmax, uv_min, uv_max, color);
-				return;
+				if (item->tag == tag)
+				{
+					*static_cast<mvDrawImageCommand*>(item) = mvDrawImageCommand(file, pmin, pmax, uv_min, uv_max, color);
+					item->tag = tag;
+					return;
+				}
 			}
 		}
 
 		mvDrawingCommand* command = new mvDrawImageCommand(file, pmin, pmax, uv_min, uv_max, color);
+		command->tag = tag;
 		m_commands.push_back(command);
 	}
 }
