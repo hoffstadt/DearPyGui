@@ -35,7 +35,15 @@ namespace Marvel {
 
 	void mvDocWindow::render(bool& show)
 	{
-		if (!ImGui::Begin("Documentation", &show, ImGuiWindowFlags_NoSavedSettings))
+		if (m_mainMode)
+		{
+			ImGui::SetNextWindowPos(ImVec2(0.0f, 0.0f));
+			ImGui::SetNextWindowSize(ImVec2(m_width, m_height));
+			m_flags = ImGuiWindowFlags_NoBringToFrontOnFocus | ImGuiWindowFlags_NoSavedSettings
+				| ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoTitleBar;
+		}
+
+		if (!ImGui::Begin("Documentation", &show, m_flags))
 		{
 			ImGui::End();
 			return;

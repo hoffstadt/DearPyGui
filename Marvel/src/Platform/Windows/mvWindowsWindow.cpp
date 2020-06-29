@@ -7,8 +7,8 @@ extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg
 
 namespace Marvel {
 
-	mvWindowsWindow::mvWindowsWindow(unsigned width, unsigned height, bool editor, bool error) 
-		: mvWindow(width, height, editor, error)
+	mvWindowsWindow::mvWindowsWindow(unsigned width, unsigned height, bool editor, bool error, bool doc) 
+		: mvWindow(width, height, editor, error, doc)
 	{
 		m_wc = { sizeof(WNDCLASSEX), CS_CLASSDC, HandleMsgSetup, 0L, 0L, GetModuleHandle(NULL), NULL, NULL, NULL, NULL, _T("ImGui Example"), NULL };
 		RegisterClassEx(&m_wc);

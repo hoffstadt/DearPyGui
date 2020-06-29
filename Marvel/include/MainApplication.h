@@ -22,6 +22,7 @@ namespace Marvel {
 		int  run             ();
 		int  runEditorMode   ();
 		int  runErrorMode    ();
+		int  runDocMode      ();
 		int  runRegularMode  ();
 		void logInformation  ();
 		void importModule    ();
