@@ -208,7 +208,7 @@ namespace Marvel {
 
 			if (!addedItem)
 			{
-				mvAppLog::getLogger()->LogWarning(newItem.item->getName() + " not deleted because it was not found.");
+				mvAppLog::getLogger()->LogWarning(newItem.item->getName() + " not added because its parent was not found");
 				delete newItem.item;
 				newItem.item = nullptr;
 			}

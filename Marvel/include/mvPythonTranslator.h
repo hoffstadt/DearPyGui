@@ -19,8 +19,8 @@ item->setHeight(height);\
 item->setPopup(popup);\
 auto ma = mvApp::GetApp();\
 if(!std::string(parent).empty() || !std::string(after).empty() && ma->isStarted())ma->addRuntimeItem(parent, after, item);\
-else if(std::string(parent).empty() && std::string(after).empty() && ma->isStarted())mvAppLog::getLogger()->LogWarning(item->getName() + " not added. Must use after/parent if added during runtime.");\
-if(ma->isStarted() && item->isContainer())ma->popParent();
+else if(std::string(parent).empty() && std::string(after).empty() && ma->isStarted() && ma->topParent() != nullptr)ma->addRuntimeItem(ma->topParent()->getName(), after, item);\
+else if(std::string(parent).empty() && std::string(after).empty() && ma->isStarted())ma->addRuntimeItem("MainWindow", "", item);\
 
 namespace Marvel {
 

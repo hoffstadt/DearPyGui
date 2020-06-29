@@ -399,9 +399,10 @@ def PlotCallback(sender):
 
     delete_item("Child Button 1")
 
-    add_child("Runtime Child", width=200, height=100, after="Simpleplot3")
-    add_button("Runtime Button 1", parent="Runtime Child")
-    add_button("Runtime Button 2", after="Runtime Button 1")
+    add_child("Runtime Child", width=200, height=100)
+    add_button("Runtime Button 1")
+    add_button("Runtime Button 2")
+    end_child()
 
     move_item_down("Logger")
 
