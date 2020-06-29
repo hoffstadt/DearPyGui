@@ -159,7 +159,7 @@ namespace Marvel {
 		PyEval_SaveThread(); // releases global lock
 		mvApp::GetApp()->preRender();
 		mvApp::GetApp()->setStarted();
-		mvApp::GetApp()->popParent();
+		//mvApp::GetApp()->popParent();
 
 		if (logger) mvApp::GetApp()->showLogger();
 		if (source) mvApp::GetApp()->showSource();

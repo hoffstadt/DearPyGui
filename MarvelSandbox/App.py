@@ -437,6 +437,8 @@ def MainCallback(sender):
     if is_key_pressed(0x25): # left arrow key
         print("key pressed")
 
+end_window()
+
 add_window("Secondary Window", 300, 500)
 
 add_simple_plot("Simpleplot3", (0.3, 0.9, 2.5, 8.9), height = 80)
