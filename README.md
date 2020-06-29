@@ -5,6 +5,10 @@ MarvelSandbox is a **simple to use (but powerful) Python GUI framework**, built 
 
 In the same manner Dear ImGui provides a simple way to create tools for game developers, _MarvelSandbox_ provides a simple way for python developers to **create quick and powerful GUIs for scripts**. It's well suited for **beginners** too!
 
+| [Usage](#usage) - [Features](#features) - [Building](#building)|
+:----------------------------------------------------------: |
+| [Upcoming changes](#upcoming-changes) - [Gallery](#gallery) - [License](#license) - [Current Dependencies](#current-dependencies) - [Prebuilt Binaries](#prebuilt-binaries)|
+
 ### Usage
 **MarvelSandbox is an all included framework containing its own embedded python interpreter.** Using _MarvelSandbox_ is a simple as creating a python script like the one below, and calling ```MarvelSandbox.exe --app ScriptName --path PathToScriptDirectory``` from the command line (Windows).
 
@@ -54,7 +58,9 @@ Using the ```show_documentation()``` command opens the built-in documentation wi
 - [_Visual Studio 2019_ (windows)](https://visualstudio.microsoft.com/vs/)
 - [_git_](https://git-scm.com/)
 
-### How to build for Windows
+### Building
+
+#### Windows
 
 1. From within a local directory, enter the following bash commands:
 ```
@@ -66,6 +72,16 @@ git clone --recursive https://github.com/RaylockLLC/MarvelSandbox
 
 ### Prebuilt Binaries
 Coming soon!
+
+### Upcoming Changes
+Some upcoming features:
+- Additional Plot types (bar graph, pie chart, etc.)
+- Support for window docking and multiple viewports.
+- More complete theme and style system.
+- 3D widget.
+- MacOs and Linux support.
+- Custom Widget API.
+
 
 ### License
 
