@@ -46,65 +46,69 @@ namespace Marvel {
 			else
 				ImGui::SetNextWindowSize(ImVec2(m_width, m_height), ImGuiCond_FirstUseEver);
 
-			if (ImGui::Begin(m_label.c_str(), &m_show, m_windowflags))
+			if (!ImGui::Begin(m_label.c_str(), &m_show, m_windowflags))
 			{
-				for (mvAppItem* item : m_children)
-				{
-					// skip item if it's not shown
-					if (!item->isShown())
-						continue;
-
-					// set item width
-					if (item->getWidth() > 0)
-						ImGui::SetNextItemWidth((float)item->getWidth());
-
-					item->pushColorStyles();
-					item->draw();
-					item->popColorStyles();
-
-					// Regular Tooltip (simple)
-					if (item->getTip() != "" && ImGui::IsItemHovered())
-						ImGui::SetTooltip(item->getTip().c_str());
-
-					item->setHovered(ImGui::IsItemHovered());
-					item->setActive(ImGui::IsItemActive());
-					item->setFocused(ImGui::IsItemFocused());
-					item->setClicked(ImGui::IsItemClicked());
-					item->setVisible(ImGui::IsItemVisible());
-					item->setEdited(ImGui::IsItemEdited());
-					item->setActivated(ImGui::IsItemActivated());
-					item->setDeactivated(ImGui::IsItemDeactivated());
-					item->setDeactivatedAfterEdit(ImGui::IsItemDeactivatedAfterEdit());
-					item->setToggledOpen(ImGui::IsItemToggledOpen());
-					item->setRectMin({ ImGui::GetItemRectMin().x, ImGui::GetItemRectMin().y });
-					item->setRectMax({ ImGui::GetItemRectMax().x, ImGui::GetItemRectMax().y });
-					item->setRectSize({ ImGui::GetItemRectSize().x, ImGui::GetItemRectSize().y });
-				}
-
-				setHovered(ImGui::IsWindowHovered());
-				setFocused(ImGui::IsWindowFocused());
-				setRectSize({ ImGui::GetWindowSize().x, ImGui::GetWindowSize().y });
-				setActivated(ImGui::IsWindowCollapsed());
-				m_width = ImGui::GetWindowWidth();
-				m_height = ImGui::GetWindowHeight();
-
-				if (ImGui::IsWindowFocused())
-				{
-
-					float titleBarHeight = ImGui::GetStyle().FramePadding.y * 2 + ImGui::GetFontSize();
-
-					// update mouse
-					ImVec2 mousePos = ImGui::GetMousePos();
-					float x = mousePos.x - ImGui::GetWindowPos().x;
-					float y = mousePos.y - ImGui::GetWindowPos().y - titleBarHeight;
-					mvApp::GetApp()->setMousePosition(x, y);
-
-					mvApp::GetApp()->setActiveWindow(m_name);
-
-				}
-
 				ImGui::End();
+				return;
 			}
+
+			for (mvAppItem* item : m_children)
+			{
+				// skip item if it's not shown
+				if (!item->isShown())
+					continue;
+
+				// set item width
+				if (item->getWidth() > 0)
+					ImGui::SetNextItemWidth((float)item->getWidth());
+
+				item->pushColorStyles();
+				item->draw();
+				item->popColorStyles();
+
+				// Regular Tooltip (simple)
+				if (item->getTip() != "" && ImGui::IsItemHovered())
+					ImGui::SetTooltip(item->getTip().c_str());
+
+				item->setHovered(ImGui::IsItemHovered());
+				item->setActive(ImGui::IsItemActive());
+				item->setFocused(ImGui::IsItemFocused());
+				item->setClicked(ImGui::IsItemClicked());
+				item->setVisible(ImGui::IsItemVisible());
+				item->setEdited(ImGui::IsItemEdited());
+				item->setActivated(ImGui::IsItemActivated());
+				item->setDeactivated(ImGui::IsItemDeactivated());
+				item->setDeactivatedAfterEdit(ImGui::IsItemDeactivatedAfterEdit());
+				item->setToggledOpen(ImGui::IsItemToggledOpen());
+				item->setRectMin({ ImGui::GetItemRectMin().x, ImGui::GetItemRectMin().y });
+				item->setRectMax({ ImGui::GetItemRectMax().x, ImGui::GetItemRectMax().y });
+				item->setRectSize({ ImGui::GetItemRectSize().x, ImGui::GetItemRectSize().y });
+			}
+
+			setHovered(ImGui::IsWindowHovered());
+			setFocused(ImGui::IsWindowFocused());
+			setRectSize({ ImGui::GetWindowSize().x, ImGui::GetWindowSize().y });
+			setActivated(ImGui::IsWindowCollapsed());
+			m_width = ImGui::GetWindowWidth();
+			m_height = ImGui::GetWindowHeight();
+
+			if (ImGui::IsWindowFocused())
+			{
+
+				float titleBarHeight = ImGui::GetStyle().FramePadding.y * 2 + ImGui::GetFontSize();
+
+				// update mouse
+				ImVec2 mousePos = ImGui::GetMousePos();
+				float x = mousePos.x - ImGui::GetWindowPos().x;
+				float y = mousePos.y - ImGui::GetWindowPos().y - titleBarHeight;
+				mvApp::GetApp()->setMousePosition(x, y);
+
+				mvApp::GetApp()->setActiveWindow(m_name);
+
+			}
+
+			ImGui::End();
+	
 
 		}
 
