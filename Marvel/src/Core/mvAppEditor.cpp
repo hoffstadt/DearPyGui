@@ -10,6 +10,16 @@
 #include "Core/mvUtilities.h"
 #include <misc/cpp/imgui_stdlib.h>
 
+static const char* initialText = "from sbApp import *\n\
+from sbLog import *\n\
+from sbInput import *\n\
+from sbPlot import *\n\
+from sbDraw import *\n\
+from sbWidgets import *\n\
+from sbExtension import *\n\
+import sbConstants\n\
+\nadd_button('Button 1')\n";
+
 namespace Marvel {
 
 	mvAppEditor* mvAppEditor::s_instance = nullptr;
@@ -18,6 +28,7 @@ namespace Marvel {
 	{
 		m_editor.SetLanguageDefinition(mvTextEditor::LanguageDefinition::Python());
 		m_editor.SetShowWhitespaces(m_showWhiteSpace);
+		m_editor.SetText(initialText);
 	}
 
 	void mvAppEditor::handleKeyEvents()
@@ -35,6 +46,8 @@ namespace Marvel {
 		if (ImGui::IsKeyReleased(0x74)) // F5
 		{
 			saveFile();
+			if (m_file.empty())
+				return;
 			RunFile(m_programName, m_file, m_flags);
 		}
 
@@ -61,7 +74,7 @@ namespace Marvel {
 		setFile("");
 		m_saved = true;
 		m_editor.ClearUndo();
-		m_editor.SetText("");
+		m_editor.SetText(initialText);
 
 	}
 
@@ -81,7 +94,10 @@ namespace Marvel {
 	void mvAppEditor::saveFile()
 	{
 		if (m_file.empty())
+		{
+			saveFileAs();
 			return;
+		}
 
 		auto textToSave = m_editor.GetText();
 		/// save text....
@@ -99,6 +115,8 @@ namespace Marvel {
 	{
 		std::vector<std::pair<std::string, std::string> > extensions = { std::make_pair("Python", "*.py") };
 		m_file = SaveFile(extensions);
+		if (m_file.empty())
+			return;
 		saveFile();
 	}
 
@@ -210,6 +228,8 @@ namespace Marvel {
 				if (ImGui::MenuItem("Run App", "F5"))
 				{
 					saveFile();
+					if (m_file.empty())
+						return;
 					RunFile(m_programName, m_file, m_flags);
 				}
 
