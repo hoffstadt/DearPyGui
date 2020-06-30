@@ -348,11 +348,13 @@ add_button("draw on canvas", callback="DrawCanvas")
 add_button("clear canvas", callback="ClearCanvas")
 
 add_drawing("drawing2", width=800, height=500)
-draw_rectangle("drawing2", (0, 0), (800, 500), (255, 0, 0, 255), fill=(0, 0, 25, 255), rounding=12, thickness = 1.0, tag="background")
+set_drawing_origin("drawing2", 400, 250)
+draw_rectangle("drawing2", (-400, 250), (400, -250), (255, 0, 0, 255), fill=(0, 0, 25, 255), rounding=12, thickness = 1.0, tag="background")
 draw_line("drawing2", (10, 10), (100, 100), (255, 0, 0, 255), 1)
 draw_triangle("drawing2", (300, 500), (200, 200), (500, 200), (255, 255, 0, 255), thickness = 3.0)
 draw_quad("drawing2", (50, 50), (150, 50), (150, 150), (50, 150), (255, 255, 0, 255), thickness = 3.0)
 draw_text("drawing2", (50, 300), "Some Text", color=(255, 255, 0, 255), size=15)
+draw_text("drawing2", (0, 0), "Origin", color=(255, 255, 0, 255), size=15)
 draw_circle("drawing2", (400, 250), 50, (255, 255, 0, 255))
 draw_polyline("drawing2", ((300, 500), (200, 200), (500, 700)), (255, 255, 0, 255))
 draw_polygon("drawing2", ((363, 471), (100, 498), (50, 220)), (255, 125, 0, 255))
@@ -362,7 +364,7 @@ draw_bezier_curve("drawing2", (50, 200), (150, 250), (300, 150), (600, 250), (25
 end_collapsing_header()
 
 def DrawCanvas(sender):
-    draw_rectangle("drawing2", (0, 0), (800, 500), (255, 0, 0), fill=(0, 0, 25, 255), rounding=12, thickness = 1.0)
+    #draw_rectangle("drawing2", (800, 500), (0, 0), (255, 0, 0), fill=(0, 0, 25, 255), rounding=12, thickness = 1.0)
     draw_line("drawing2", (10, 10), (100, 100), (255, 0, 0), 1)
     draw_circle("drawing2", (400, 250), 50, (255, 255, 0))
     draw_bezier_curve("drawing2", (50, 200), (150, 250), (300, 150), (600, 250), (255, 255, 0), thickness = 2.0)
@@ -426,8 +428,10 @@ def PlotCallback(sender):
 set_mouse_wheel_callback("WheelCallback")
 
 def WheelCallback(sender, data):
+    scale = get_drawing_scale("drawing2")
+    set_drawing_scale("drawing2", scale[0]+data*0.1, scale[1]+data*0.1)
 
-    print("Wheel rolled: ", data)
+
 
 
 # setting main callback
@@ -439,7 +443,8 @@ def MainCallback(sender):
         value = 0
     set_value("Progress", value)
 
-    draw_rectangle("drawing2", (0, 0), (800, 500), (255, 0, 0, 255), fill=(int(255*value), 0, 25, 255), rounding=12, thickness = 1.0, tag="background")
+    scale = get_drawing_scale("drawing2")
+    draw_rectangle("drawing2", (-400/scale[0], 250/scale[1]), (400/scale[0], -250/scale[1]), (255, 0, 0, 255), fill=(int(255*value), 0, 25, 255), rounding=12, thickness = 1.0, tag="background")
 
     #if is_mouse_button_pressed(sbConstants.mvMouseButton_Left):
     #    print("pressed")
