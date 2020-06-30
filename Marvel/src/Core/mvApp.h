@@ -22,11 +22,11 @@ namespace Marvel {
 		struct NewRuntimeItem
 		{
 			mvAppItem* item;
-			std::string after;
+			std::string before;
 			std::string parent;
 
-			NewRuntimeItem(const std::string& parent, const std::string& after, mvAppItem* item)
-				:item(item), after(after), parent(parent)
+			NewRuntimeItem(const std::string& parent, const std::string& before, mvAppItem* item)
+				:item(item), before(before), parent(parent)
 			{}
 		};
 
@@ -86,7 +86,7 @@ namespace Marvel {
 		void       addItem       (mvAppItem* item);
 		void       addWindow     (mvAppItem* item);
 		mvAppItem* getItem       (const std::string& name);
-		void       addRuntimeItem(const std::string& parent, const std::string& after, mvAppItem* item) { m_newItemVec.push_back(NewRuntimeItem(parent, after, item)); }
+		void       addRuntimeItem(const std::string& parent, const std::string& before, mvAppItem* item) { m_newItemVec.push_back(NewRuntimeItem(parent, before, item)); }
 		void       deleteItem    (const std::string& name) { m_deleteQueue.push(name); }
 		void       moveItemUp    (const std::string& name) { m_upQueue.push(name); }
 		void       moveItemDown  (const std::string& name) { m_downQueue.push(name); }

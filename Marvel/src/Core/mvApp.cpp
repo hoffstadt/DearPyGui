@@ -201,7 +201,7 @@ namespace Marvel {
 
 			for (auto window : m_windows)
 			{
-				addedItem = window->addRuntimeChild(newItem.parent, newItem.after, newItem.item);
+				addedItem = window->addRuntimeChild(newItem.parent, newItem.before, newItem.item);
 				if (addedItem)
 					break;
 			}

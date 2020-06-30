@@ -94,25 +94,18 @@ namespace Marvel{
 		return false;
 	}
 
-	bool mvAppItem::addRuntimeChild(const std::string& parent, const std::string& after, mvAppItem* item)
+	bool mvAppItem::addRuntimeChild(const std::string& parent, const std::string& before, mvAppItem* item)
 	{
-		if (after.empty() && parent.empty())
+		if (before.empty() && parent.empty())
 			return false;
 
 		//this is the container, add item to beginning.
-		if (after == "")
+		if (before.empty())
 		{
 			if (parent == m_name)
 			{
-				std::vector<mvAppItem*> oldchildren = m_children;
-				m_children.clear();
 				m_children.push_back(item);
-
-				for (auto child : oldchildren)
-					m_children.push_back(child);
-
 				item->setParent(this);
-
 				return true;
 			}
 
@@ -125,7 +118,7 @@ namespace Marvel{
 					bool parentFound = false;
 					if (child->isContainer())
 					{
-						parentFound = child->addRuntimeChild(parent, after, item);
+						parentFound = child->addRuntimeChild(parent, before, item);
 
 						if (parentFound)
 							return true;
@@ -136,22 +129,22 @@ namespace Marvel{
 
 		else
 		{
-			bool afterFound = false;
+			bool beforeFound = false;
 
 			// check children
 			for (mvAppItem* child : m_children)
 			{
 
-				if (child->getName() == after)
+				if (child->getName() == before)
 				{
-					afterFound = true;
+					beforeFound = true;
 					break;
 				}
 
 			}
 
 			// after item is in this container
-			if (afterFound)
+			if (beforeFound)
 			{
 				item->setParent(this);
 
@@ -160,9 +153,9 @@ namespace Marvel{
 
 				for (auto child : oldchildren)
 				{
-					m_children.push_back(child);
-					if (child->getName() == after)
+					if (child->getName() == before)
 						m_children.push_back(item);
+					m_children.push_back(child);
 
 				}
 
@@ -177,7 +170,7 @@ namespace Marvel{
 			bool parentFound = false;
 			if (child->isContainer())
 			{
-				parentFound = child->addRuntimeChild(parent, after, item);
+				parentFound = child->addRuntimeChild(parent, before, item);
 
 				if (parentFound)
 					return true;
