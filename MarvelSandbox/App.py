@@ -426,13 +426,21 @@ def PlotCallback(sender):
 # NOTES:
 
 set_mouse_wheel_callback("WheelCallback")
+set_mouse_drag_callback("MouseDragCallback", 10)
 
 def WheelCallback(sender, data):
-    scale = get_drawing_scale("drawing2")
-    set_drawing_scale("drawing2", scale[0]+data*0.1, scale[1]+data*0.1)
+
+    if is_item_hovered("drawing2"):
+        scale = get_drawing_scale("drawing2")
+        set_drawing_scale("drawing2", scale[0]+data*0.1, scale[1]+data*0.1)
 
 
+def MouseDragCallback(sender, data):
 
+    if is_item_hovered("drawing2") and data == 0:
+        origin = get_drawing_origin("drawing2")
+        delta = get_mouse_drag_delta()
+        set_drawing_origin("drawing2", origin[0] + delta[0], origin[1] - delta[1])
 
 # setting main callback
 set_main_callback("MainCallback")
@@ -446,8 +454,8 @@ def MainCallback(sender):
     scale = get_drawing_scale("drawing2")
     draw_rectangle("drawing2", (-400/scale[0], 250/scale[1]), (400/scale[0], -250/scale[1]), (255, 0, 0, 255), fill=(int(255*value), 0, 25, 255), rounding=12, thickness = 1.0, tag="background")
 
-    #if is_mouse_button_pressed(sbConstants.mvMouseButton_Left):
-    #    print("pressed")
+    if is_mouse_button_pressed(sbConstants.mvMouseButton_Left) and is_item_hovered("Secondary Window"):
+        print("pressed")
     if is_key_pressed(0x25): # left arrow key
         print("key pressed")
 

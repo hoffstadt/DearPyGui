@@ -30,12 +30,18 @@ namespace Marvel {
 		}
 
 		void addFlag(ImGuiWindowFlags flag) { m_windowflags |= flag; }
+		void removeFlag(ImGuiWindowFlags flag) { m_windowflags &= ~flag; }
 
 		virtual void draw() override
 		{
 			// shouldn't have to do this but do. Fix later
 			if (!m_show)
+			{
+				setHovered(false);
+				setFocused(false);
+				setActivated(false);
 				return;
+			}
 
 			if (m_mainWindow)
 			{

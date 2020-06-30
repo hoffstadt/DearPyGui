@@ -124,12 +124,20 @@ namespace Marvel {
 		void runCallbackD               (const std::string& name, int sender, float data = 0.0f);                // data sending version
 		void triggerCallbackD           (std::atomic<bool>* p, const std::string* name, int sender, float data); // data sending version
 
+		void  setMouseDragThreshold(float threshold) { m_mouseDragThreshold =  threshold; }
+		float getMouseDragThreshold() const { return m_mouseDragThreshold; }
+		bool  isMouseDragging      () const { return m_mouseDragging; }
+		void  setMouseDragging(bool drag) { m_mouseDragging = drag; }
+		const mvVec2& getMouseDragDelta() const { return m_mouseDragDelta; }
+		void setMouseDragDelta(const mvVec2& delta) { m_mouseDragDelta = delta; }
+
 		void setMainCallback            (const std::string& callback) { m_callback = callback; }
 		void setMouseClickCallback      (const std::string& callback) { m_mouseClickCallback = callback; }
 		void setMouseDownCallback       (const std::string& callback) { m_mouseDownCallback = callback; }
 		void setMouseDoubleClickCallback(const std::string& callback) { m_mouseDoubleClickCallback = callback; }
 		void setMouseReleaseCallback    (const std::string& callback) { m_mouseReleaseCallback = callback; }
 		void setMouseWheelCallback      (const std::string& callback) { m_mouseWheelCallback = callback; }
+		void setMouseDragCallback       (const std::string& callback) { m_mouseDragCallback = callback; }
 		void setKeyDownCallback         (const std::string& callback) { m_keyDownCallback = callback; }
 		void setKeyPressCallback        (const std::string& callback) { m_keyPressCallback = callback; }
 		void setKeyReleaseCallback      (const std::string& callback) { m_keyReleaseCallback = callback; }
@@ -139,6 +147,7 @@ namespace Marvel {
 		const std::string& getMouseClickCallback      () const { return m_mouseClickCallback; }
 		const std::string& getMouseDownCallback       () const { return m_mouseDownCallback; }
 		const std::string& getMouseDoubleClickCallback() const { return m_mouseDoubleClickCallback; }
+		const std::string& getMouseDragCallback       () const { return m_mouseDragCallback; }
 		const std::string& getKeyDownCallback         () const { return m_keyDownCallback; }
 		const std::string& getKeyPressCallback        () const { return m_keyPressCallback; }
 		const std::string& getKeyReleaseCallback      () const { return m_keyReleaseCallback; }
@@ -190,6 +199,10 @@ namespace Marvel {
 		double                     m_threadPoolThreshold = 1.0;
 		unsigned                   m_threads = 2; // how many threads to use
 		bool                       m_threadPoolHighPerformance = false;
+		
+		float                      m_mouseDragThreshold = 20.0f;
+		bool                       m_mouseDragging = false;
+		mvVec2                     m_mouseDragDelta = { 0.0f, 0.0f };
 
 		// standard callbacks
 		std::string m_mouseDownCallback = "";
@@ -197,6 +210,7 @@ namespace Marvel {
 		std::string m_mouseReleaseCallback = "";
 		std::string m_mouseDoubleClickCallback = "";
 		std::string m_mouseWheelCallback = "";
+		std::string m_mouseDragCallback = "";
 		std::string m_keyDownCallback = "";
 		std::string m_keyPressCallback = "";
 		std::string m_keyReleaseCallback = "";
