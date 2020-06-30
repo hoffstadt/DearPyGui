@@ -30,6 +30,9 @@ namespace Marvel {
 			{"get_mouse_down_callback", mvPythonTranslator({
 			}, false, "Returns the mouse down callback.", "str")},
 
+			{"get_mouse_wheel_callback", mvPythonTranslator({
+			}, false, "Returns the mouse wheel callback.", "str")},
+
 			{"get_mouse_pos", mvPythonTranslator({
 			}, false, "Returns the current mouse position in relation to the active window (minus titlebar).", "(int, int)")},
 
@@ -44,6 +47,10 @@ namespace Marvel {
 			{"set_mouse_down_callback", mvPythonTranslator({
 				{mvPythonDataType::String, "callback"}
 			}, false, "Sets a callback for a mouse down event.")},
+
+			{"set_mouse_wheel_callback", mvPythonTranslator({
+				{mvPythonDataType::String, "callback"}
+			}, false, "Sets a callback for a mouse wheel event.")},
 
 			{"set_mouse_double_click_callback", mvPythonTranslator({
 				{mvPythonDataType::String, "callback"}
@@ -88,6 +95,11 @@ namespace Marvel {
 	PyObject* get_mouse_click_callback(PyObject* self, PyObject* args)
 	{
 		return Py_BuildValue("s", mvApp::GetApp()->getMouseClickCallback());
+	}
+
+	PyObject* get_mouse_wheel_callback(PyObject* self, PyObject* args)
+	{
+		return Py_BuildValue("s", mvApp::GetApp()->getMouseWheelCallback());
 	}
 
 	PyObject* get_mouse_double_click_callback(PyObject* self, PyObject* args)
@@ -144,8 +156,6 @@ namespace Marvel {
 
 		mvApp::GetApp()->setMouseDownCallback(std::string(callback));
 
-
-
 		Py_RETURN_NONE;
 	}
 
@@ -157,8 +167,6 @@ namespace Marvel {
 			Py_RETURN_NONE;
 
 		mvApp::GetApp()->setMouseDoubleClickCallback(std::string(callback));
-
-
 
 		Py_RETURN_NONE;
 	}
@@ -172,8 +180,6 @@ namespace Marvel {
 
 		mvApp::GetApp()->setMouseClickCallback(std::string(callback));
 
-
-
 		Py_RETURN_NONE;
 	}
 
@@ -185,8 +191,6 @@ namespace Marvel {
 			Py_RETURN_NONE;
 
 		mvApp::GetApp()->setKeyDownCallback(std::string(callback));
-
-
 
 		Py_RETURN_NONE;
 	}
@@ -200,8 +204,6 @@ namespace Marvel {
 
 		mvApp::GetApp()->setKeyPressCallback(std::string(callback));
 
-
-
 		Py_RETURN_NONE;
 	}
 
@@ -214,7 +216,17 @@ namespace Marvel {
 
 		mvApp::GetApp()->setKeyReleaseCallback(std::string(callback));
 
+		Py_RETURN_NONE;
+	}
 
+	PyObject* set_mouse_wheel_callback(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		const char* callback;
+
+		if (!Translators["set_mouse_wheel_callback"].parse(args, kwargs, __FUNCTION__, &callback))
+			Py_RETURN_NONE;
+
+		mvApp::GetApp()->setMouseWheelCallback(std::string(callback));
 
 		Py_RETURN_NONE;
 	}
@@ -224,6 +236,8 @@ namespace Marvel {
 
 		auto pyModule = new mvPythonModule("sbInput", {});
 
+		pyModule->addMethodD(get_mouse_wheel_callback);
+		pyModule->addMethodD(set_mouse_wheel_callback);
 		pyModule->addMethodD(get_key_down_callback);
 		pyModule->addMethodD(get_key_press_callback);
 		pyModule->addMethodD(get_key_release_callback);

@@ -67,6 +67,9 @@ namespace Marvel {
 
 		mvApp* app = mvApp::GetApp();
 
+		if (io.MouseWheel != 0.0f)
+			app->runCallbackD(app->getMouseWheelCallback(), 0, io.MouseWheel);
+
 		for (int i = 0; i < IM_ARRAYSIZE(io.MouseDown); i++)
 		{
 

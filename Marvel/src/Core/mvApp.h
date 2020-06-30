@@ -129,6 +129,7 @@ namespace Marvel {
 		void setMouseDownCallback       (const std::string& callback) { m_mouseDownCallback = callback; }
 		void setMouseDoubleClickCallback(const std::string& callback) { m_mouseDoubleClickCallback = callback; }
 		void setMouseReleaseCallback    (const std::string& callback) { m_mouseReleaseCallback = callback; }
+		void setMouseWheelCallback      (const std::string& callback) { m_mouseWheelCallback = callback; }
 		void setKeyDownCallback         (const std::string& callback) { m_keyDownCallback = callback; }
 		void setKeyPressCallback        (const std::string& callback) { m_keyPressCallback = callback; }
 		void setKeyReleaseCallback      (const std::string& callback) { m_keyReleaseCallback = callback; }
@@ -141,6 +142,7 @@ namespace Marvel {
 		const std::string& getKeyDownCallback         () const { return m_keyDownCallback; }
 		const std::string& getKeyPressCallback        () const { return m_keyPressCallback; }
 		const std::string& getKeyReleaseCallback      () const { return m_keyReleaseCallback; }
+		const std::string& getMouseWheelCallback      () const { return m_mouseWheelCallback; }
 
 		//-----------------------------------------------------------------------------
 		// Input Polling
@@ -165,6 +167,7 @@ namespace Marvel {
 		std::string                m_theme = "dark";
 		std::string                m_file;
 		mvMousePos                 m_mousePos;
+		float                      m_mouseWheel;
 		mvStyle                    m_style;
 		std::string                m_activeWindow = "MainWindow";
 		std::vector<mvAppItem*>    m_windows;
@@ -193,6 +196,7 @@ namespace Marvel {
 		std::string m_mouseClickCallback = "";
 		std::string m_mouseReleaseCallback = "";
 		std::string m_mouseDoubleClickCallback = "";
+		std::string m_mouseWheelCallback = "";
 		std::string m_keyDownCallback = "";
 		std::string m_keyPressCallback = "";
 		std::string m_keyReleaseCallback = "";
