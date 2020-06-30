@@ -179,6 +179,9 @@ namespace Marvel {
 		m_startx = (int)ImGui::GetCursorScreenPos().x;
 		m_starty = (int)ImGui::GetCursorScreenPos().y;
 
+		if (m_dirty)
+			updateCommands();
+
 		for (auto command : m_commands)
 			command->draw(this, draw_list);
 
@@ -196,8 +199,25 @@ namespace Marvel {
 		m_commands.clear();
 	}
 
+	mvVec2 mvDrawing::convertToModelSpace(const mvVec2& point)
+	{
+		return { point.x*m_scalex + m_originx, m_height - point.y*m_scaley - m_originy };
+	}
+
+	void mvDrawing::convertToModelSpace(std::vector<mvVec2>& points, const std::vector<mvVec2>& pointso)
+	{
+		for (int i = 0; i < points.size(); i++)
+		{
+			points[i].x = pointso[i].x;
+
+			points[i].x = pointso[i].x * m_scalex + m_originx;
+			points[i].y = m_height - pointso[i].y * m_scaley - m_originy;
+		}
+	}
+
 	void mvDrawing::drawLine(const mvVec2& p1, const mvVec2& p2, const mvColor& color, float thickness, const std::string& tag)
 	{
+
 		if (!tag.empty())
 		{
 			for (auto item : m_commands)
@@ -206,12 +226,13 @@ namespace Marvel {
 				{
 					*static_cast<mvDrawLineCommand*>(item) = mvDrawLineCommand(p1, p2, color, thickness);
 					item->tag = tag;
+					m_dirty = true;
 					return;
 				}
 			}
 		}
 
-		mvDrawingCommand* command = new mvDrawLineCommand(p1, p2, color, thickness);
+		mvDrawingCommand* command = new mvDrawLineCommand(p1, p2,  color, thickness);
 		command->tag = tag;
 		m_commands.push_back(command);
 	}
@@ -224,14 +245,17 @@ namespace Marvel {
 			{
 				if (item->tag == tag)
 				{
-					*static_cast<mvDrawTriangleCommand*>(item) = mvDrawTriangleCommand(p1, p2, p3, color, thickness, fill);
+					*static_cast<mvDrawTriangleCommand*>(item) = mvDrawTriangleCommand(p1, 
+						p2, p3, color, thickness, fill);
 					item->tag = tag;
+					m_dirty = true;
 					return;
 				}
 			}
 		}
 
-		mvDrawingCommand* command = new mvDrawTriangleCommand(p1, p2, p3, color, thickness, fill);
+		mvDrawingCommand* command = new mvDrawTriangleCommand(p1,
+			p2, p3, color, thickness, fill);
 		command->tag = tag;
 		m_commands.push_back(command);
 	}
@@ -246,6 +270,7 @@ namespace Marvel {
 				{
 					*static_cast<mvDrawRectCommand*>(item) = mvDrawRectCommand(pmin, pmax, color, fill, rounding, thickness);
 					item->tag = tag;
+					m_dirty = true;
 					return;
 				}
 			}
@@ -264,14 +289,17 @@ namespace Marvel {
 			{
 				if (item->tag == tag)
 				{
-					*static_cast<mvDrawQuadCommand*>(item) = mvDrawQuadCommand(p1, p2, p3, p4, color, fill, thickness);
+					*static_cast<mvDrawQuadCommand*>(item) = mvDrawQuadCommand(p1, p2, 
+						p3, p4, color, fill, thickness);
 					item->tag = tag;
+					m_dirty = true;
 					return;
 				}
 			}
 		}
 
-		mvDrawingCommand* command = new mvDrawQuadCommand(p1, p2, p3, p4, color, fill, thickness);
+		mvDrawingCommand* command = new mvDrawQuadCommand(p1, p2,
+			p3, p4, color, fill, thickness);
 		command->tag = tag;
 		m_commands.push_back(command);
 	}
@@ -286,6 +314,7 @@ namespace Marvel {
 				{
 					*static_cast<mvDrawTextCommand*>(item) = mvDrawTextCommand(pos, text, color, size);
 					item->tag = tag;
+					m_dirty = true;
 					return;
 				}
 			}
@@ -306,6 +335,7 @@ namespace Marvel {
 				{
 					*static_cast<mvDrawCircleCommand*>(item) = mvDrawCircleCommand(center, radius, color, segments, thickness, fill);
 					item->tag = tag;
+					m_dirty = true;
 					return;
 				}
 			}
@@ -316,8 +346,9 @@ namespace Marvel {
 		m_commands.push_back(command);
 	}
 
-	void mvDrawing::drawPolyline(const std::vector<mvVec2>& points, const mvColor& color, bool closed, float thickness, const std::string& tag)
+	void mvDrawing::drawPolyline(std::vector<mvVec2>& points, const mvColor& color, bool closed, float thickness, const std::string& tag)
 	{
+
 		if (!tag.empty())
 		{
 			for (auto item : m_commands)
@@ -326,6 +357,7 @@ namespace Marvel {
 				{
 					*static_cast<mvDrawPolylineCommand*>(item) = mvDrawPolylineCommand(points, color, closed, thickness);
 					item->tag = tag;
+					m_dirty = true;
 					return;
 				}
 			}
@@ -336,8 +368,9 @@ namespace Marvel {
 		m_commands.push_back(command);
 	}
 
-	void mvDrawing::drawPolygon(const std::vector<mvVec2>& points, const mvColor& color, const mvColor& fill, float thickness, const std::string& tag)
+	void mvDrawing::drawPolygon(std::vector<mvVec2>& points, const mvColor& color, const mvColor& fill, float thickness, const std::string& tag)
 	{
+
 		if (!tag.empty())
 		{
 			for (auto item : m_commands)
@@ -346,6 +379,7 @@ namespace Marvel {
 				{
 					*static_cast<mvDrawPolygonCommand*>(item) = mvDrawPolygonCommand(points, color, fill, thickness);
 					item->tag = tag;
+					m_dirty = true;
 					return;
 				}
 			}
@@ -364,14 +398,17 @@ namespace Marvel {
 			{
 				if (item->tag == tag)
 				{
-					*static_cast<mvDrawBezierCurveCommand*>(item) = mvDrawBezierCurveCommand(p1, p2, p3, p4, color, thickness, segments);
+					*static_cast<mvDrawBezierCurveCommand*>(item) = mvDrawBezierCurveCommand(p1, p2, p3, 
+						convertToModelSpace(p4), color, thickness, segments);
 					item->tag = tag;
+					m_dirty = true;
 					return;
 				}
 			}
 		}
 
-		mvDrawingCommand* command = new mvDrawBezierCurveCommand(p1, p2, p3, p4, color, thickness, segments);
+		mvDrawingCommand* command = new mvDrawBezierCurveCommand(p1, p2, p3,
+			p4, color, thickness, segments);
 		command->tag = tag;
 		m_commands.push_back(command);
 	}
@@ -386,6 +423,7 @@ namespace Marvel {
 				{
 					*static_cast<mvDrawImageCommand*>(item) = mvDrawImageCommand(file, pmin, pmax, uv_min, uv_max, color);
 					item->tag = tag;
+					m_dirty = true;
 					return;
 				}
 			}
@@ -394,5 +432,107 @@ namespace Marvel {
 		mvDrawingCommand* command = new mvDrawImageCommand(file, pmin, pmax, uv_min, uv_max, color);
 		command->tag = tag;
 		m_commands.push_back(command);
+	}
+
+	void mvDrawing::updateCommands()
+	{
+		for (auto command : m_commands)
+		{
+			switch (command->getType())
+			{
+
+			case mvDrawingCommandType::DrawLine:
+			{
+				mvDrawLineCommand& acommand = *static_cast<mvDrawLineCommand*>(command);
+				acommand.m_p1 = convertToModelSpace(acommand.m_p1o);
+				acommand.m_p2 = convertToModelSpace(acommand.m_p2o);
+				break;
+			}
+
+			case mvDrawingCommandType::DrawTriangle:
+			{
+				mvDrawTriangleCommand& acommand = *static_cast<mvDrawTriangleCommand*>(command);
+				acommand.m_p1 = convertToModelSpace(acommand.m_p1o);
+				acommand.m_p2 = convertToModelSpace(acommand.m_p2o);
+				acommand.m_p3 = convertToModelSpace(acommand.m_p3o);
+				break;
+			}
+
+			case mvDrawingCommandType::DrawCircle:
+			{
+				mvDrawCircleCommand& acommand = *static_cast<mvDrawCircleCommand*>(command);
+				acommand.m_center = convertToModelSpace(acommand.m_centero);
+				acommand.m_radius = acommand.m_radiuso * m_scalex;
+				break;
+			}
+
+
+			case mvDrawingCommandType::DrawText:
+			{
+				mvDrawTextCommand& acommand = *static_cast<mvDrawTextCommand*>(command);
+				acommand.m_pos = convertToModelSpace(acommand.m_poso);
+				break;
+			}
+
+			case mvDrawingCommandType::DrawRect:
+			{
+				mvDrawRectCommand& acommand = *static_cast<mvDrawRectCommand*>(command);
+				acommand.m_pmin = convertToModelSpace(acommand.m_pmino);
+				acommand.m_pmax = convertToModelSpace(acommand.m_pmaxo);
+				break;
+			}
+
+			case mvDrawingCommandType::DrawQuad:
+			{
+				mvDrawQuadCommand& acommand = *static_cast<mvDrawQuadCommand*>(command);
+				acommand.m_p1 = convertToModelSpace(acommand.m_p1o);
+				acommand.m_p2 = convertToModelSpace(acommand.m_p2o);
+				acommand.m_p3 = convertToModelSpace(acommand.m_p3o);
+				acommand.m_p4 = convertToModelSpace(acommand.m_p4o);
+				break;
+			}
+
+			case mvDrawingCommandType::DrawPolyline:
+			{
+				mvDrawPolylineCommand& acommand = *static_cast<mvDrawPolylineCommand*>(command);
+				convertToModelSpace(acommand.m_points, acommand.m_pointso);
+				break;
+			}
+
+			case mvDrawingCommandType::DrawPolygon:
+			{
+				mvDrawPolygonCommand& acommand = *static_cast<mvDrawPolygonCommand*>(command);
+				convertToModelSpace(acommand.m_points, acommand.m_pointso);
+				break;
+			}
+
+			case mvDrawingCommandType::DrawBezierCurve:
+			{
+				mvDrawBezierCurveCommand& acommand = *static_cast<mvDrawBezierCurveCommand*>(command);
+				acommand.m_p1 = convertToModelSpace(acommand.m_p1o);
+				acommand.m_p2 = convertToModelSpace(acommand.m_p2o);
+				acommand.m_p3 = convertToModelSpace(acommand.m_p3o);
+				acommand.m_p4 = convertToModelSpace(acommand.m_p4o);
+				break;
+			}
+
+			}
+		}
+
+		m_dirty = false;
+	}
+
+	void mvDrawing::setScale(float xscale, float yscale) 
+	{ 
+		m_scalex = xscale; 
+		m_scaley = yscale; 
+		m_dirty = true;
+	}
+
+	void mvDrawing::setOrigin(float x, float y) 
+	{ 
+		m_originx = x; 
+		m_originy = y; 
+		m_dirty = true;
 	}
 }

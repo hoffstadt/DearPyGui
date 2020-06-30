@@ -53,7 +53,7 @@ namespace Marvel {
 
 		mvDrawImageCommand(const std::string& file, const mvVec2& pmin, const mvVec2& pmax, const mvVec2& uv_min = { 0, 0 },
 				const mvVec2& uv_max = { 1, 1 }, const mvColor& color = { 255, 255, 255, 255 })
-			: mvDrawingCommand(), m_file(file), m_pmax(pmax), m_pmin(pmin), m_uv_min(uv_min), m_uv_max(uv_max),
+			: mvDrawingCommand(), m_file(file), m_pmax(pmax), m_pmaxo(pmax), m_pmin(pmin), m_pmino(pmin), m_uv_min(uv_min), m_uv_max(uv_max),
 			m_color(color)
 		{
 			if (m_pmax.x < 0 && m_pmax.y < 0)
@@ -64,7 +64,9 @@ namespace Marvel {
 
 		std::string m_file;
 		mvVec2		m_pmax;
+		mvVec2		m_pmaxo;
 		mvVec2		m_pmin;
+		mvVec2		m_pmino;
 		mvVec2		m_uv_min;
 		mvVec2		m_uv_max;
 		mvColor		m_color;
@@ -86,14 +88,16 @@ namespace Marvel {
 		MV_DRAWCOMMAND_TYPE(mvDrawingCommandType::DrawLine)
 
 		mvDrawLineCommand(const mvVec2& p1, const mvVec2& p2, const mvColor& color, float thickness)
-			: mvDrawingCommand(), m_p1(p1), m_p2(p2), m_color(color), m_thickness(thickness)
+			: mvDrawingCommand(), m_p1(p1), m_p1o(p1), m_p2(p2), m_p2o(p2), m_color(color), m_thickness(thickness)
 		{
 		}
 
-	private:
+	public:
 
 		mvVec2  m_p1;
+		mvVec2  m_p1o;
 		mvVec2  m_p2;
+		mvVec2  m_p2o;
 		mvColor m_color;
 		float   m_thickness;
 
@@ -110,15 +114,18 @@ namespace Marvel {
 		MV_DRAWCOMMAND_TYPE(mvDrawingCommandType::DrawTriangle)
 
 		mvDrawTriangleCommand(const mvVec2& p1, const mvVec2& p2, const mvVec2& p3, const mvColor& color, float thickness, const mvColor& fill)
-			: mvDrawingCommand(), m_p1(p1), m_p2(p2), m_p3(p3), m_color(color), m_fill(fill), m_thickness(thickness)
+			: mvDrawingCommand(), m_p1(p1), m_p1o(p1), m_p2(p2), m_p2o(p2), m_p3(p3), m_p3o(p3), m_color(color), m_fill(fill), m_thickness(thickness)
 		{
 		}
 
-	private:
+	public:
 
 		mvVec2  m_p1;
+		mvVec2  m_p1o;
 		mvVec2  m_p2;
+		mvVec2  m_p2o;
 		mvVec2  m_p3;
+		mvVec2  m_p3o;
 		mvColor m_color;
 		mvColor m_fill;
 		float   m_thickness;
@@ -136,14 +143,16 @@ namespace Marvel {
 		MV_DRAWCOMMAND_TYPE(mvDrawingCommandType::DrawCircle)
 
 		mvDrawCircleCommand(const mvVec2& center, float radius, const mvColor& color, int segments, float thickness, const mvColor& fill)
-			: mvDrawingCommand(), m_center(center), m_radius(radius), m_segments(segments), m_color(color), m_fill(fill), m_thickness(thickness)
+			: mvDrawingCommand(), m_center(center), m_centero(center), m_radius(radius), m_radiuso(radius), m_segments(segments), m_color(color), m_fill(fill), m_thickness(thickness)
 		{
 		}
 
-	private:
+	public:
 
 		mvVec2  m_center;
+		mvVec2  m_centero;
 		float   m_radius;
+		float   m_radiuso;
 		int     m_segments;
 		mvColor m_color;
 		mvColor m_fill;
@@ -162,13 +171,14 @@ namespace Marvel {
 		MV_DRAWCOMMAND_TYPE(mvDrawingCommandType::DrawText)
 
 		mvDrawTextCommand(const mvVec2& pos, const std::string& text, const mvColor& color, int size)
-			: mvDrawingCommand(), m_pos(pos), m_text(text), m_color(color), m_size(size)
+			: mvDrawingCommand(), m_pos(pos), m_poso(pos), m_text(text), m_color(color), m_size(size)
 		{
 		}
 
-	private:
+	public:
 
 		mvVec2      m_pos;
+		mvVec2      m_poso;
 		std::string m_text;
 		mvColor     m_color;
 		int         m_size;
@@ -187,14 +197,16 @@ namespace Marvel {
 		MV_DRAWCOMMAND_TYPE(mvDrawingCommandType::DrawRect)
 
 		mvDrawRectCommand(const mvVec2& pmin, const mvVec2& pmax, const mvColor& color, const mvColor& fill, float rounding, float thickness)
-			: mvDrawingCommand(), m_pmin(pmin), m_pmax(pmax), m_rounding(rounding), m_color(color),m_fill(fill), m_thickness(thickness)
+			: mvDrawingCommand(), m_pmin(pmin), m_pmino(pmin), m_pmax(pmax), m_pmaxo(pmax), m_rounding(rounding), m_color(color),m_fill(fill), m_thickness(thickness)
 		{
 		}
 
-	private:
+	public:
 
 		mvVec2  m_pmin;
+		mvVec2  m_pmino;
 		mvVec2  m_pmax;
+		mvVec2  m_pmaxo;
 		float   m_rounding;
 		mvColor m_color;
 		mvColor m_fill;
@@ -214,16 +226,20 @@ namespace Marvel {
 		MV_DRAWCOMMAND_TYPE(mvDrawingCommandType::DrawQuad)
 
 		mvDrawQuadCommand(const mvVec2& p1, const mvVec2& p2, const mvVec2& p3, const mvVec2& p4,const mvColor& color, const mvColor& fill, float thickness)
-			: mvDrawingCommand(), m_p1(p1), m_p2(p2), m_p3(p3), m_p4(p4), m_color(color),m_fill(fill), m_thickness(thickness)
+			: mvDrawingCommand(), m_p1(p1), m_p1o(p1), m_p2(p2), m_p2o(p2), m_p3(p3), m_p3o(p3), m_p4(p4), m_p4o(p4), m_color(color),m_fill(fill), m_thickness(thickness)
 		{
 		}
 
-	private:
+	public:
 
 		mvVec2  m_p1;
+		mvVec2  m_p1o;
 		mvVec2  m_p2;
+		mvVec2  m_p2o;
 		mvVec2  m_p3;
+		mvVec2  m_p3o;
 		mvVec2  m_p4;
+		mvVec2  m_p4o;
 		mvColor m_color;
 		mvColor m_fill;
 		float   m_thickness;
@@ -242,13 +258,14 @@ namespace Marvel {
 		MV_DRAWCOMMAND_TYPE(mvDrawingCommandType::DrawPolyline)
 
 		mvDrawPolylineCommand(const std::vector<mvVec2>& points, const mvColor& color, bool closed, float thickness)
-			: mvDrawingCommand(), m_points(points), m_color(color), m_closed(closed),m_thickness(thickness)
+			: mvDrawingCommand(), m_points(points), m_pointso(points), m_color(color), m_closed(closed),m_thickness(thickness)
 		{
 		}
 
-	private:
+	public:
 
 		std::vector<mvVec2> m_points;
+		std::vector<mvVec2> m_pointso;
 		mvColor             m_color;
 		bool                m_closed;
 		float               m_thickness;
@@ -267,13 +284,14 @@ namespace Marvel {
 		MV_DRAWCOMMAND_TYPE(mvDrawingCommandType::DrawPolygon)
 
 		mvDrawPolygonCommand(const std::vector<mvVec2>& points, const mvColor& color, const mvColor& fill, float thickness)
-			: mvDrawingCommand(), m_points(points), m_color(color), m_fill(fill), m_thickness(thickness)
+			: mvDrawingCommand(), m_points(points), m_pointso(points), m_color(color), m_fill(fill), m_thickness(thickness)
 		{
 		}
 
-	private:
+	public:
 
 		std::vector<mvVec2> m_points;
+		std::vector<mvVec2> m_pointso;
 		mvColor             m_color;
 		mvColor             m_fill;
 		float               m_thickness;
@@ -292,16 +310,20 @@ namespace Marvel {
 		MV_DRAWCOMMAND_TYPE(mvDrawingCommandType::DrawBezierCurve)
 
 		mvDrawBezierCurveCommand(const mvVec2& p1, const mvVec2& p2, const mvVec2& p3, const mvVec2& p4,const mvColor& color, float thickness, int segments)
-			: mvDrawingCommand(), m_p1(p1), m_p2(p2), m_p3(p3), m_p4(p4), m_color(color),m_thickness(thickness), m_segments(segments)
+			: mvDrawingCommand(), m_p1(p1), m_p1o(p1), m_p2(p2), m_p2o(p2), m_p3(p3), m_p3o(p3), m_p4(p4), m_p4o(p4), m_color(color),m_thickness(thickness), m_segments(segments)
 		{
 		}
 
-	private:
+	public:
 
 		mvVec2  m_p1;
+		mvVec2  m_p1o;
 		mvVec2  m_p2;
+		mvVec2  m_p2o;
 		mvVec2  m_p3;
+		mvVec2  m_p3o;
 		mvVec2  m_p4;
+		mvVec2  m_p4o;
 		mvColor m_color;
 		float   m_thickness;
 		int     m_segments;
@@ -337,10 +359,24 @@ namespace Marvel {
 		void drawQuad       (const mvVec2& p1, const mvVec2& p2, const mvVec2& p3, const mvVec2& p4,const mvColor& color, const mvColor& fill, float thickness, const std::string& tag = "");
 		void drawText       (const mvVec2& pos, const std::string& text, const mvColor& color, int size, const std::string& tag = "");
 		void drawCircle     (const mvVec2& center, float radius, const mvColor& color,int segments, float thickness, const mvColor& fill, const std::string& tag = "");
-		void drawPolyline   (const std::vector<mvVec2>& points, const mvColor& color, bool closed, float thickness, const std::string& tag = "");
-		void drawPolygon    (const std::vector<mvVec2>& points, const mvColor& color, const mvColor& fill, float thickness, const std::string& tag = "");
+		void drawPolyline   (std::vector<mvVec2>& points, const mvColor& color, bool closed, float thickness, const std::string& tag = "");
+		void drawPolygon    (std::vector<mvVec2>& points, const mvColor& color, const mvColor& fill, float thickness, const std::string& tag = "");
 		void drawBezierCurve(const mvVec2& p1, const mvVec2& p2, const mvVec2& p3, const mvVec2& p4, const mvColor& color, float thickness, int segments, const std::string& tag = "");
 		void drawImage      (const std::string& file, const mvVec2& pmin, const mvVec2& pmax, const mvVec2& uv_min, const mvVec2& uv_max, const mvColor& color, const std::string& tag = "");
+
+		void setScale(float xscale, float yscale);
+		void setOrigin(float x, float y);
+
+		ImVec2 getScale() const { return { m_scalex, m_scaley }; }
+		ImVec2 getOrigin() const { return { m_originx, m_originy }; }
+
+		mvVec2 convertToModelSpace(const mvVec2& point);
+		void convertToModelSpace(std::vector<mvVec2>& points);
+		void convertToModelSpace(std::vector<mvVec2>& points, const std::vector<mvVec2>& pointso);
+
+	private:
+
+		void updateCommands();
 
 	private:
 
@@ -348,6 +384,11 @@ namespace Marvel {
 		ImDrawList* draw_list = nullptr;
 		float       m_startx = 0.0f;
 		float       m_starty = 0.0f;
+		float       m_originx = 0.0f;
+		float       m_originy = 0.0f;
+		float       m_scalex = 1.0f;
+		float       m_scaley = 1.0f;
+		bool        m_dirty = true;
 
 	};
 }

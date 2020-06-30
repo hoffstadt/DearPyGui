@@ -24,6 +24,26 @@ namespace Marvel {
 				{mvPythonDataType::Integer, "height"}
 			}, false, "Sets the size of a drawing widget.")},
 
+			{"set_drawing_origin", mvPythonTranslator({
+				{mvPythonDataType::String, "name"},
+				{mvPythonDataType::Float, "x"},
+				{mvPythonDataType::Float, "y"}
+			}, false, "Sets the drawing origin (default is 0,0).")},
+
+			{"set_drawing_scale", mvPythonTranslator({
+				{mvPythonDataType::String, "name"},
+				{mvPythonDataType::Float, "x"},
+				{mvPythonDataType::Float, "y"}
+			}, false, "Sets the drawing scale (default is (1,1)).")},
+
+			{"get_drawing_origin", mvPythonTranslator({
+				{mvPythonDataType::String, "name"},
+			}, false, "Returns the drawing origin.", "(float, float)")},
+
+			{"get_drawing_scale", mvPythonTranslator({
+				{mvPythonDataType::String, "name"},
+			}, false, "Returns the drawing scale.", "(float, float)")},
+
 			{"get_drawing_size", mvPythonTranslator({
 				{mvPythonDataType::String, "name"},
 			}, false, "Returns the size of a drawing widget.", "(float, float)")},
@@ -188,6 +208,90 @@ namespace Marvel {
 		}
 
 		Py_RETURN_NONE;
+	}
+
+	PyObject* set_drawing_origin(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		const char* name;
+		float x;
+		float y;
+
+		if (!Translators["set_drawing_origin"].parse(args, kwargs, __FUNCTION__, &name, &x, &y))
+			Py_RETURN_NONE;
+
+		mvAppItem* item = mvApp::GetApp()->getItem(name);
+		if (item == nullptr)
+		{
+			std::string message = name;
+			mvAppLog::getLogger()->LogWarning(message + " drawing does not exist.");
+			Py_RETURN_NONE;
+		}
+
+		mvDrawing* dwg = static_cast<mvDrawing*>(item);
+		dwg->setOrigin(x, y);
+
+		Py_RETURN_NONE;
+	}
+
+	PyObject* set_drawing_scale(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		const char* name;
+		float x;
+		float y;
+
+		if (!Translators["set_drawing_scale"].parse(args, kwargs, __FUNCTION__, &name, &x, &y))
+			Py_RETURN_NONE;
+
+		mvAppItem* item = mvApp::GetApp()->getItem(name);
+		if (item == nullptr)
+		{
+			std::string message = name;
+			mvAppLog::getLogger()->LogWarning(message + " drawing does not exist.");
+			Py_RETURN_NONE;
+		}
+
+		mvDrawing* dwg = static_cast<mvDrawing*>(item);
+		dwg->setScale(x, y);
+
+		Py_RETURN_NONE;
+	}
+
+	PyObject* get_drawing_origin(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		const char* name;
+
+		if (!Translators["get_drawing_origin"].parse(args, kwargs, __FUNCTION__, &name))
+			Py_RETURN_NONE;
+
+		mvAppItem* item = mvApp::GetApp()->getItem(name);
+		if (item == nullptr)
+		{
+			std::string message = name;
+			mvAppLog::getLogger()->LogWarning(message + " drawing does not exist.");
+			Py_RETURN_NONE;
+		}
+
+		mvDrawing* dwg = static_cast<mvDrawing*>(item);
+		return Py_BuildValue("(ff)", dwg->getOrigin().x, dwg->getOrigin().y);
+	}
+
+	PyObject* get_drawing_scale(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		const char* name;
+
+		if (!Translators["get_drawing_scale"].parse(args, kwargs, __FUNCTION__, &name))
+			Py_RETURN_NONE;
+
+		mvAppItem* item = mvApp::GetApp()->getItem(name);
+		if (item == nullptr)
+		{
+			std::string message = name;
+			mvAppLog::getLogger()->LogWarning(message + " drawing does not exist.");
+			Py_RETURN_NONE;
+		}
+
+		mvDrawing* dwg = static_cast<mvDrawing*>(item);
+		return Py_BuildValue("(ff)", dwg->getScale().x, dwg->getScale().y);
 	}
 
 	PyObject* get_drawing_size(PyObject* self, PyObject* args, PyObject* kwargs)
@@ -555,6 +659,10 @@ namespace Marvel {
 	{
 		auto pyModule = new mvPythonModule("sbDraw", {});
 
+		pyModule->addMethodD(get_drawing_origin);
+		pyModule->addMethodD(get_drawing_scale);
+		pyModule->addMethodD(set_drawing_origin);
+		pyModule->addMethodD(set_drawing_scale);
 		pyModule->addMethodD(get_drawing_size);
 		pyModule->addMethodD(set_drawing_size);
 		pyModule->addMethodD(add_drawing);
