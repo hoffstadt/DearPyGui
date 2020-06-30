@@ -67,10 +67,11 @@ namespace Marvel {
 		void pushColorStyles();
 		void popColorStyles ();
 
-		bool addRuntimeChild(const std::string& parent, const std::string& after, mvAppItem* item);
-		bool deleteChild(const std::string& name);
-		bool moveChildUp(const std::string& name);
-		bool moveChildDown(const std::string& name);
+		// runtime modifications
+		bool addRuntimeChild(const std::string& parent, const std::string& before, mvAppItem* item);
+		bool deleteChild    (const std::string& name);
+		bool moveChildUp    (const std::string& name);
+		bool moveChildDown  (const std::string& name);
 
 		// getters
 		mvAppItem*                      getChild                  (const std::string& name);      // will return nullptr if not found
