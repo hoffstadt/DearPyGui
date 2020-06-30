@@ -163,6 +163,21 @@ namespace Marvel {
 			{"mvTreeNodeFlags_CollapsingHeader"    ,      26},
 
 			//-----------------------------------------------------------------------------
+			// Popup flags
+			//-----------------------------------------------------------------------------
+			{"mvGuiPopupFlags_None"                   , 0 },
+			{"mvGuiPopupFlags_MouseButtonLeft"        , 0 },        // For BeginPopupContext*(): open on Left Mouse release. Guaranted to always be == 0 (same as ImGuiMouseButton_Left)
+			{"mvGuiPopupFlags_MouseButtonRight"       , 1 },        // For BeginPopupContext*(): open on Right Mouse release. Guaranted to always be == 1 (same as ImGuiMouseButton_Right)
+			{"mvGuiPopupFlags_MouseButtonMiddle"      , 2 },        // For BeginPopupContext*(): open on Middle Mouse release. Guaranted to always be == 2 (same as ImGuiMouseButton_Middle)
+			{"mvGuiPopupFlags_MouseButtonMask_"       , 0x1F },
+			{"mvGuiPopupFlags_MouseButtonDefault_"    , 1 },
+			{"mvGuiPopupFlags_NoOpenOverExistingPopup", 1 << 5 },   // For OpenPopup*(), BeginPopupContext*(): don't open if there's already a popup at the same level of the popup stack
+			{"mvGuiPopupFlags_NoOpenOverItems"        , 1 << 6 },   // For BeginPopupContextWindow(): don't return true when hovering items, only when hovering empty space
+			{"mvGuiPopupFlags_AnyPopupId"             , 1 << 7 },   // For IsPopupOpen(): ignore the ImGuiID parameter and test for any popup.
+			{"mvGuiPopupFlags_AnyPopupLevel"          , 1 << 8 },   // For IsPopupOpen(): search/test at any level of the popup stack (default test in the current level)
+			{"mvGuiPopupFlags_AnyPopup"               , 384 },
+
+			//-----------------------------------------------------------------------------
 			// Selectable flags
 			//-----------------------------------------------------------------------------
 			//{"mvSelectableFlags_None"            ,      0},
