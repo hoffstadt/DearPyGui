@@ -70,6 +70,22 @@ namespace Marvel {
 		if (io.MouseWheel != 0.0f)
 			app->runCallbackD(app->getMouseWheelCallback(), 0, io.MouseWheel);
 
+
+		for (int i = 0; i < 3; i++)
+		{
+			if (ImGui::IsMouseDragging(i, app->getMouseDragThreshold()))
+			{
+				app->setMouseDragging(true);
+				app->setMouseDragDelta({ ImGui::GetMouseDragDelta().x, ImGui::GetMouseDragDelta().y });
+				app->runCallbackD(app->getMouseDragCallback(), i, i);
+				ImGui::ResetMouseDragDelta(i);
+				break;
+			}
+			app->setMouseDragging(false);
+			app->setMouseDragDelta({ 0.0f, 0.0f });
+			
+		}
+
 		for (int i = 0; i < IM_ARRAYSIZE(io.MouseDown); i++)
 		{
 

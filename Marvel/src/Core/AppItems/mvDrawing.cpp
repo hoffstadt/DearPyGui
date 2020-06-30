@@ -175,6 +175,7 @@ namespace Marvel {
 
 	void mvDrawing::draw()
 	{
+
 		draw_list = ImGui::GetWindowDrawList();
 		m_startx = (int)ImGui::GetCursorScreenPos().x;
 		m_starty = (int)ImGui::GetCursorScreenPos().y;
@@ -182,10 +183,14 @@ namespace Marvel {
 		if (m_dirty)
 			updateCommands();
 
+		ImGui::PushClipRect({ m_startx, m_starty }, { m_startx + (float)m_width, m_starty + (float)m_height }, false);
+
 		for (auto command : m_commands)
 			command->draw(this, draw_list);
 
+		ImGui::PopClipRect();
 		ImGui::Dummy(ImVec2((float)m_width, m_height));
+
 	}
 
 	void mvDrawing::clear()

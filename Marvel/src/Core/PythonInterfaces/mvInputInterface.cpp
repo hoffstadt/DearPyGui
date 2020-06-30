@@ -33,8 +33,17 @@ namespace Marvel {
 			{"get_mouse_wheel_callback", mvPythonTranslator({
 			}, false, "Returns the mouse wheel callback.", "str")},
 
+			{"get_mouse_drag_callback", mvPythonTranslator({
+			}, false, "Returns the mouse drag callback.", "str")},
+
 			{"get_mouse_pos", mvPythonTranslator({
 			}, false, "Returns the current mouse position in relation to the active window (minus titlebar).", "(int, int)")},
+
+			{"get_mouse_drag_delta", mvPythonTranslator({
+			}, false, "Returns the current mouse drag delta", "(float, float)")},
+
+			{"is_mouse_dragging", mvPythonTranslator({
+			}, false, "Checks if the mouse is dragging.", "Boolean")},
 
 			{"is_mouse_button_pressed", mvPythonTranslator({
 				{mvPythonDataType::Integer, "button"}
@@ -47,6 +56,11 @@ namespace Marvel {
 			{"set_mouse_down_callback", mvPythonTranslator({
 				{mvPythonDataType::String, "callback"}
 			}, false, "Sets a callback for a mouse down event.")},
+
+			{"set_mouse_drag_callback", mvPythonTranslator({
+				{mvPythonDataType::String, "callback"},
+				{mvPythonDataType::Float, "threshold"}
+			}, false, "Sets a callback for a mouse drag event.")},
 
 			{"set_mouse_wheel_callback", mvPythonTranslator({
 				{mvPythonDataType::String, "callback"}
@@ -78,6 +92,11 @@ namespace Marvel {
 	}
 
 	PyObject* get_key_down_callback(PyObject* self, PyObject* args)
+	{
+		return Py_BuildValue("s", mvApp::GetApp()->getMouseDragCallback());
+	}
+
+	PyObject* get_mouse_drag_callback(PyObject* self, PyObject* args)
 	{
 		return Py_BuildValue("s", mvApp::GetApp()->getKeyDownCallback());
 	}
@@ -119,6 +138,13 @@ namespace Marvel {
 		return pvalue;
 	}
 
+	PyObject* get_mouse_drag_delta(PyObject* self, PyObject* args)
+	{
+		mvVec2 pos = mvApp::GetApp()->getMouseDragDelta();
+		PyObject* pvalue = Py_BuildValue("(ff)", pos.x, pos.y);
+		return pvalue;
+	}
+
 	PyObject* is_mouse_button_pressed(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		int button;
@@ -147,6 +173,11 @@ namespace Marvel {
 		return pvalue;
 	}
 
+	PyObject* is_mouse_dragging(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		return Py_BuildValue("i", mvApp::GetApp()->isMouseDragging());
+	}
+
 	PyObject* set_mouse_down_callback(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		const char* callback;
@@ -155,6 +186,20 @@ namespace Marvel {
 			Py_RETURN_NONE;
 
 		mvApp::GetApp()->setMouseDownCallback(std::string(callback));
+
+		Py_RETURN_NONE;
+	}
+
+	PyObject* set_mouse_drag_callback(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		const char* callback;
+		float threshold;
+
+		if (!Translators["set_mouse_drag_callback"].parse(args, kwargs, __FUNCTION__, &callback, &threshold))
+			Py_RETURN_NONE;
+
+		mvApp::GetApp()->setMouseDragCallback(std::string(callback));
+		mvApp::GetApp()->setMouseDragThreshold(threshold);
 
 		Py_RETURN_NONE;
 	}
@@ -235,6 +280,11 @@ namespace Marvel {
 	{
 
 		auto pyModule = new mvPythonModule("sbInput", {});
+
+		pyModule->addMethodD(get_mouse_drag_callback);
+		pyModule->addMethodD(set_mouse_drag_callback);
+		pyModule->addMethodD(is_mouse_dragging);
+		pyModule->addMethodD(get_mouse_drag_delta);
 
 		pyModule->addMethodD(get_mouse_wheel_callback);
 		pyModule->addMethodD(set_mouse_wheel_callback);
