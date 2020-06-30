@@ -423,6 +423,12 @@ def PlotCallback(sender):
 #######################################################
 # NOTES:
 
+set_mouse_wheel_callback("WheelCallback")
+
+def WheelCallback(sender, data):
+
+    print("Wheel rolled: ", data)
+
 
 # setting main callback
 set_main_callback("MainCallback")
