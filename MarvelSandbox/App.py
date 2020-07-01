@@ -411,6 +411,8 @@ def PlotCallback(sender):
 
     move_item_down("Logger")
 
+    add_indent(before="draw on canvas")
+
 
 ###########################################
 #############    Tool Tips   ##############
