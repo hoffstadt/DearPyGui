@@ -98,12 +98,6 @@ namespace Marvel {
 		void       moveItemDown      (const std::string& name) { m_downQueue.push(name); }
 
 		//-----------------------------------------------------------------------------
-		// Direct DearImGui Calls
-		//     - should only be used in callbacks
-		//-----------------------------------------------------------------------------
-		void closePopup();
-
-		//-----------------------------------------------------------------------------
 		// Parent stack operations
 		//-----------------------------------------------------------------------------
 		void       pushParent(mvAppItem* item); // pushes parent onto stack

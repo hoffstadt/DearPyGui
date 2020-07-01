@@ -8,7 +8,7 @@ from sbExtension import *
 import sbConstants
 from math import sin, cos
 
-testme()
+#testme()
 
 ####################################################
 #############    About All Widgets    ##############
@@ -116,7 +116,11 @@ def HulkAbility(sender):
     print("Hulk Smash!!!!")
 
 add_progress_bar("Progress", 0, overlay="Progress Bar")
-add_button()
+add_button("Modal Window")
+add_popup("Modal Window", "ModalPopup", modal=True)
+add_simple_plot("SimpleplotModal", (0.3, 0.9, 2.5, 8.9), height = 80)
+add_button("Close Modal Window", callback="close_popup")
+end_popup()
 
 #########################################
 #############    Inputs    ##############
@@ -469,6 +473,8 @@ def MainCallback(sender):
 end_window()
 
 add_window("Secondary Window", 300, 500)
-
 add_simple_plot("Simpleplot3", (0.3, 0.9, 2.5, 8.9), height = 80)
+add_popup("Simpleplot3", "plot_popup")
+add_simple_plot("SimpleplotPop", (0.3, 0.9, 2.5, 8.9), height = 80)
+end_popup()
 end_window()

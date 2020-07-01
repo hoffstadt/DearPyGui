@@ -15,7 +15,6 @@ namespace Marvel {
 			m_elements.push_back(mvPythonDataElement(mvPythonDataType::KeywordOnly));
 			m_elements.push_back(mvPythonDataElement(mvPythonDataType::String, "callback", "Registers a callback if supported"));
 			m_elements.push_back(mvPythonDataElement(mvPythonDataType::String, "tip", "Adds a simple tooltip"));
-			m_elements.push_back(mvPythonDataElement(mvPythonDataType::String, "popup", "Registers a popup if supported"));
 			m_elements.push_back(mvPythonDataElement(mvPythonDataType::Integer, "width", "Sets the width of the widget"));
 			m_elements.push_back(mvPythonDataElement(mvPythonDataType::Integer, "height", "Sets the height of the widget if supported"));
 			m_elements.push_back(mvPythonDataElement(mvPythonDataType::String, "before", "Item to add this item before. (runtime adding)"));

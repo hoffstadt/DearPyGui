@@ -171,7 +171,7 @@ namespace Marvel {
 					DebugItem("Item Height:", height.c_str());
 					DebugItem("Item Callback:", selectedItem->getCallback().c_str());
 					DebugItem("Item Tip:", selectedItem->getTip().c_str());
-					DebugItem("Item Popup:",selectedItem->getTip().c_str());
+					DebugItem("Item Popup:",selectedItem->getPopup().c_str());
 					DebugItem("Item Show:", selectedItem->isShown() ? ts : fs);
 					DebugItem("Item Visible:", selectedItem->isItemVisible() ? ts : fs);
 					DebugItem("Item Hovered:", selectedItem->isItemHovered() ? ts : fs);
