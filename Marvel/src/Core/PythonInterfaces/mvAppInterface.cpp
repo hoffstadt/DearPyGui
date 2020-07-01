@@ -920,7 +920,10 @@ namespace Marvel {
 
 	PyObject* close_popup(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
-		mvApp::GetApp()->closePopup();
+		if (!mvApp::GetApp()->isStarted())
+			Py_RETURN_NONE;
+
+		ImGui::CloseCurrentPopup();
 		
 		Py_RETURN_NONE;
 	}

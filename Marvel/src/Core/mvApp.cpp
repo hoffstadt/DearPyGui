@@ -692,11 +692,7 @@ namespace Marvel {
 		static int count = 0;
 		count++;
 
-		if (m_started)
-		{
-			mvAppLog::getLogger()->Log("Runtime item adding.");
-			return;
-		}
+		assert(!m_started); // should never be called during runtime
 
 		if (!item->areDuplicatesAllowed())
 		{
@@ -716,17 +712,6 @@ namespace Marvel {
 	void mvApp::addWindow(mvAppItem* item)
 	{
 		m_windows.push_back(item);
-	}
-
-	void mvApp::closePopup()
-	{
-		if (!m_started)
-		{
-			mvAppLog::getLogger()->LogWarning("Popups can't be closed until runtime");
-			return;
-		}
-
-		ImGui::CloseCurrentPopup();
 	}
 
 }

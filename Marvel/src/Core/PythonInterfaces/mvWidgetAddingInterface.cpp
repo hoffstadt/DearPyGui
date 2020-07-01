@@ -448,7 +448,7 @@ namespace Marvel {
 			{mvPythonDataType::String, "name"},
 			{mvPythonDataType::Optional},
 			{mvPythonDataType::Integer, "mousebutton"},
-			{mvPythonDataType::Integer, "modal"}
+			{mvPythonDataType::Bool, "modal"}
 		}, true, "Adds a popup window for an item. This command must come immediately after the item the popup is for.") });
 
 		translators->insert({ "add_collapsing_header", mvPythonTranslator({
@@ -1734,6 +1734,13 @@ namespace Marvel {
 
 		if (!Translators["add_popup"].parse(args, kwargs, __FUNCTION__, &popupparent, &name, &mousebutton, &modal, MV_STANDARD_CALLBACK_PARSE))
 			Py_RETURN_NONE;
+
+		auto PopupParent = mvApp::GetApp()->getItem(popupparent);
+		if (PopupParent)
+			PopupParent->setPopup(name);
+
+		if (std::string(popupparent) == "")
+			mvApp::GetApp()->getItem("MainWindow")->setPopup(name);
 
 		mvAppItem* item = new mvPopup(popupparent, name, mousebutton, modal);
 		MV_STANDARD_CALLBACK_EVAL();
