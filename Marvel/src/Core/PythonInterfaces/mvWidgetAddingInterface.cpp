@@ -1347,7 +1347,8 @@ namespace Marvel {
 	{
 		static int i = 0; i++;
 		MV_STANDARD_CALLBACK_INIT();
-		const char* name = std::string("indent" + std::to_string(i)).c_str();
+		std::string sname = std::string("indent" + std::to_string(i));
+		const char* name = sname.c_str();
 		float offset = 0.0f;
 
 		if (!Translators["add_indent"].parse(args, kwargs,__FUNCTION__, &name, &offset, MV_STANDARD_CALLBACK_PARSE))
@@ -1356,6 +1357,8 @@ namespace Marvel {
 		mvAppItem* item = new mvIndent("", name, offset);
 		mvApp::GetApp()->addItem(item);
 
+		MV_STANDARD_CALLBACK_EVAL();
+
 		Py_RETURN_NONE;
 	}
 
@@ -1363,7 +1366,8 @@ namespace Marvel {
 	{
 		static int i = 0; i++;
 		MV_STANDARD_CALLBACK_INIT();
-		const char* name = std::string("unindent" + std::to_string(i)).c_str();
+		std::string sname = std::string("unindent" + std::to_string(i));
+		const char* name = sname.c_str();
 		float offset = 0.0f;
 
 		if (!Translators["unindent"].parse(args, kwargs,__FUNCTION__, &name, &offset, MV_STANDARD_CALLBACK_PARSE))
@@ -1371,6 +1375,8 @@ namespace Marvel {
 
 		mvAppItem* item = new mvUnindent("", name, offset);
 		mvApp::GetApp()->addItem(item);
+
+		MV_STANDARD_CALLBACK_EVAL();
 
 		Py_RETURN_NONE;
 	}
@@ -1586,8 +1592,8 @@ namespace Marvel {
 		static int i = 0; i++;
 
 		MV_STANDARD_CALLBACK_INIT();
-
-		const char* name = std::string("spacing" + std::to_string(i)).c_str();
+		std::string sname = std::string("spacing" + std::to_string(i));
+		const char* name = sname.c_str();
 		int count = 1;
 
 		if (!Translators["add_spacing"].parse(args, kwargs,__FUNCTION__, &name, &count))
@@ -1605,7 +1611,8 @@ namespace Marvel {
 	{
 		static int i = 0; i++;
 		MV_STANDARD_CALLBACK_INIT();
-		const char* name = std::string("sameline" + std::to_string(i)).c_str();
+		std::string sname = std::string("sameline" + std::to_string(i));
+		const char* name = sname.c_str();
 		float xoffset = 0.0f;
 		float spacing = 0.0f;
 
@@ -1868,7 +1875,8 @@ namespace Marvel {
 	{
 		static int i = 0; i++;
 		MV_STANDARD_CALLBACK_INIT();
-		const char* name = std::string("seperator" + std::to_string(i)).c_str();
+		std::string sname = std::string("seperator" + std::to_string(i));
+		const char* name = sname.c_str();
 
 		if (!Translators["add_seperator"].parse(args, kwargs, __FUNCTION__, &name, MV_STANDARD_CALLBACK_PARSE))
 			Py_RETURN_NONE;
