@@ -21,6 +21,8 @@ auto ma = mvApp::GetApp();\
 if((!std::string(parent).empty() || !std::string(before).empty()) && ma->isStarted())ma->addRuntimeItem(parent, before, item);\
 else if(std::string(parent).empty() && std::string(before).empty() && ma->isStarted() && ma->topParent() != nullptr)ma->addRuntimeItem(ma->topParent()->getName(), before, item);\
 else if(std::string(parent).empty() && std::string(before).empty() && ma->isStarted())ma->addRuntimeItem("MainWindow", "", item);\
+else if(!std::string(parent).empty() && !ma->isStarted())ma->addRuntimeItem(parent, before, item);\
+else if(std::string(parent).empty() && !ma->isStarted() && std::string(before).empty()) ma->addItem(item);
 
 namespace Marvel {
 

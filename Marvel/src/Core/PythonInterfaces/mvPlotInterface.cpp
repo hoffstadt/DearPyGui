@@ -120,7 +120,6 @@ namespace Marvel {
 			Py_RETURN_NONE;
 
 		mvAppItem* item = new mvPlot("", name,xAxisName, yAxisName, width, height, flags, xflags, yflags);
-		mvApp::GetApp()->addItem(item);
 
 		MV_STANDARD_CALLBACK_EVAL();
 
