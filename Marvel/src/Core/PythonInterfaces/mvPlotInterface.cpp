@@ -1,6 +1,6 @@
 #include "mvPythonModule.h"
 #include "Core/mvApp.h"
-#include "Core/mvAppLog.h"
+#include "Core/StandardWindows/mvAppLog.h"
 #include "Core/AppItems/mvAppItems.h"
 #include "mvPythonTranslator.h"
 #include "mvInterfaces.h"

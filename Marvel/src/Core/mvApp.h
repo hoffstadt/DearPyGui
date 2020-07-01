@@ -13,10 +13,11 @@
 #include "mvAppStyle.h"
 #include "mvTextEditor.h"
 #include "mvModuleInitializer.h"
+#include "Core/StandardWindows/mvStandardWindow.h"
 
 namespace Marvel {
 
-	class mvApp final
+	class mvApp : public mvStandardWindow
 	{
 
 		struct NewRuntimeItem
@@ -32,38 +33,40 @@ namespace Marvel {
 
 	public:
 
-		static mvApp*      GetApp();
-		static const char* GetVersion() { return MV_SANDBOX_VERSION; }
+		static mvApp*            GetApp();
+		static mvStandardWindow* GetAppStandardWindow();
+		static const char*       GetVersion() { return MV_SANDBOX_VERSION; }
 
-		// precheck before the main render loop has started
-		void preRender();
+		~mvApp();
 
-		// actual render loop
-		void render();
-
-		// post
-		void postRender();
+		void         precheck  ();                           // precheck before the main render loop has started
+		virtual void render    (bool& show) override;        // actual render loop		
+		virtual void postrender() override;                  // post rendering (every frame)
+		bool         isStarted() const { return m_started; } // has the application started running
 
 		//-----------------------------------------------------------------------------
 		// App Settings
 		//-----------------------------------------------------------------------------
+		void                    setFile        (const std::string& file);
+		void                    setWindowSize  (unsigned width, unsigned height);
+		void                    setModuleDict  (PyObject* dict) { m_pDict = dict; }
+		void                    setStarted     () { m_started = true; }
+		void                    setActiveWindow(const std::string& window) { m_activeWindow = window; }
+
+		const std::string&      getFile        () const { return m_file; }
+		const std::string&      getActiveWindow() const { return m_activeWindow; }
+
+		//-----------------------------------------------------------------------------
+		// Styles/Themes
+		//-----------------------------------------------------------------------------
 		void                    setAppTheme      (const std::string& theme);
-		void                    setWindowSize    (unsigned width, unsigned height);
-		void                    setModuleDict    (PyObject* dict) { m_pDict = dict; }
-		void                    setStarted       () { m_started = true; }
 		void                    changeThemeItem  (long item, mvColor color);
 		void                    changeStyleItem  (long item, float x, float y);
 		void                    addItemColorStyle(const std::string& name, ImGuiCol item, mvColor color);
-		unsigned                getWindowWidth   () const { return m_windows[0]->getWidth(); }
-		unsigned                getWindowHeight  () const { return m_windows[0]->getHeight(); }
-		bool&                   isLoggerShown    () { return m_showLog; }
-		const std::string&      getAppTheme      () const { return m_theme; }
-		std::pair<float, float> getStyleItem     (long item);
-		mvColor                 getThemeItem     (long item);
-		void                    setActiveWindow  (const std::string& window) { m_activeWindow = window; }
-		const std::string&      getActiveWindow  () const { return m_activeWindow; }
-		bool                    isStarted        () const { return m_started; }
 
+		const std::string&      getAppTheme () const { return m_theme; }
+		std::pair<float, float> getStyleItem(long item);
+		mvColor                 getThemeItem(long item);
 
 		//-----------------------------------------------------------------------------
 		// Concurrency Settings
@@ -81,15 +84,16 @@ namespace Marvel {
 		bool     isThreadPoolAuto              () const { return m_threadPoolAuto; }
 
 		//-----------------------------------------------------------------------------
-		// Adding Items
+		// App Item Operations
 		//-----------------------------------------------------------------------------
-		void       addItem       (mvAppItem* item);
-		void       addWindow     (mvAppItem* item);
-		mvAppItem* getItem       (const std::string& name);
-		void       addRuntimeItem(const std::string& parent, const std::string& before, mvAppItem* item) { m_newItemVec.push_back(NewRuntimeItem(parent, before, item)); }
-		void       deleteItem    (const std::string& name) { m_deleteQueue.push(name); }
-		void       moveItemUp    (const std::string& name) { m_upQueue.push(name); }
-		void       moveItemDown  (const std::string& name) { m_downQueue.push(name); }
+		void       addItem           (mvAppItem* item);
+		void       addWindow         (mvAppItem* item);
+		void       addRuntimeItem    (const std::string& parent, const std::string& before, mvAppItem* item);
+		mvAppItem* getItem           (const std::string& name);
+		void       deleteItem        (const std::string& name) { m_deleteQueue.push(name); }
+		void       deleteItemChildren(const std::string& name) { m_deleteChildrenQueue.push(name); }
+		void       moveItemUp        (const std::string& name) { m_upQueue.push(name); }
+		void       moveItemDown      (const std::string& name) { m_downQueue.push(name); }
 
 		//-----------------------------------------------------------------------------
 		// Direct DearImGui Calls
@@ -98,38 +102,22 @@ namespace Marvel {
 		void closePopup();
 
 		//-----------------------------------------------------------------------------
-		// Standard Windows
-		//-----------------------------------------------------------------------------
-		inline void showMetrics() { m_showMetrics = true; }
-		inline void showAbout  () { m_showAbout   = true; }
-		inline void showSource () { m_showSource  = true; }
-		inline void showLogger () { m_showLog     = true; }
-		inline void showDoc    () { m_showDoc     = true; }
-
-		//-----------------------------------------------------------------------------
 		// Parent stack operations
 		//-----------------------------------------------------------------------------
 		void       pushParent(mvAppItem* item); // pushes parent onto stack
 		mvAppItem* popParent();                 // pop parent off stack and return it
-		mvAppItem* topParent();                 // return top parent
+		mvAppItem* topParent();                 // returns top parent without popping
 
 		//-----------------------------------------------------------------------------
 		// Callbacks
 		//     - triggerCallback methods performs checks to determine if callback
 		//     - actually exists
 		//-----------------------------------------------------------------------------
-		void runMainCallback            (const std::string& name, const std::string& sender);
+		void runMainCallback            (const std::string& name, const std::string& sender); // single threaded callback
 		void runCallback                (const std::string& name, const std::string& sender);
 		void triggerCallback            (std::atomic<bool>* p, const std::string* name, const std::string* sender);
 		void runCallbackD               (const std::string& name, int sender, float data = 0.0f);                // data sending version
 		void triggerCallbackD           (std::atomic<bool>* p, const std::string* name, int sender, float data); // data sending version
-
-		void  setMouseDragThreshold(float threshold) { m_mouseDragThreshold =  threshold; }
-		float getMouseDragThreshold() const { return m_mouseDragThreshold; }
-		bool  isMouseDragging      () const { return m_mouseDragging; }
-		void  setMouseDragging(bool drag) { m_mouseDragging = drag; }
-		const mvVec2& getMouseDragDelta() const { return m_mouseDragDelta; }
-		void setMouseDragDelta(const mvVec2& delta) { m_mouseDragDelta = delta; }
 
 		void setMainCallback            (const std::string& callback) { m_callback = callback; }
 		void setMouseClickCallback      (const std::string& callback) { m_mouseClickCallback = callback; }
@@ -156,55 +144,63 @@ namespace Marvel {
 		//-----------------------------------------------------------------------------
 		// Input Polling
 		//-----------------------------------------------------------------------------
-		void       setMousePosition    (float x, float y) { m_mousePos.x = x; m_mousePos.y = y; }
-		mvMousePos getMousePosition    () const { return m_mousePos; }
-		bool       isMouseButtonPressed(int button)  const;
-		bool       isKeyPressed        (int keycode) const;
+		void          setMousePosition     (float x, float y) { m_mousePos.x = x; m_mousePos.y = y; }
+		void          setMouseDragThreshold(float threshold) { m_mouseDragThreshold = threshold; }
+		void          setMouseDragging     (bool drag) { m_mouseDragging = drag; }
+		void          setMouseDragDelta    (const mvVec2& delta) { m_mouseDragDelta = delta; }
+
+		float         getMouseDragThreshold() const { return m_mouseDragThreshold; }
+		const mvVec2& getMouseDragDelta    () const { return m_mouseDragDelta; }
+		mvMousePos    getMousePosition     () const { return m_mousePos; }
+		bool          isMouseDragging      () const { return m_mouseDragging; }
+		bool          isMouseButtonPressed (int button)  const;
+		bool          isKeyPressed         (int keycode) const;
 			
 	private:
 
 		mvApp();
 
-		mvApp(const mvApp& other) = delete;
-		mvApp(mvApp&& other) = delete;
+		mvApp          (const mvApp& other) = delete;
+		mvApp          (mvApp&& other)      = delete;
 		mvApp operator=(const mvApp& other) = delete;
-		mvApp operator=(mvApp&& other) = delete;
+		mvApp operator=(mvApp&& other)      = delete;
 
 	private:
 
-		static mvApp*              s_instance;
-		std::string                m_theme = "dark";
-		std::string                m_file;
-		mvMousePos                 m_mousePos;
-		float                      m_mouseWheel;
-		mvStyle                    m_style;
-		std::string                m_activeWindow = "MainWindow";
-		std::vector<mvAppItem*>    m_windows;
-		std::stack<mvAppItem*>     m_parents;
-		std::queue<std::string>    m_deleteQueue;
-		std::queue<std::string>    m_upQueue;
-		std::queue<std::string>    m_downQueue;
+		static mvApp* s_instance;
+		mvStyle       m_style;
+		std::string   m_theme = "dark";
+		std::string   m_file;
+		PyObject*     m_pDict;
+
+		std::stack<mvAppItem*>      m_parents; // parent stack for adding items
+		std::vector<mvAppItem*>     m_windows;
+
+		// runtime widget modifications
+		std::queue<std::string>     m_deleteChildrenQueue;
+		std::queue<std::string>     m_deleteQueue;
+		std::queue<std::string>     m_upQueue;
+		std::queue<std::string>     m_downQueue;
 		std::vector<NewRuntimeItem> m_newItemVec;
-		PyObject*                  m_pDict;
-		std::string                m_callback;
-		bool                       m_ok = true;
-		bool                       m_showLog = false;
-		bool                       m_showMetrics = false;
-		bool                       m_showAbout = false;
-		bool                       m_showSource = false;
-		bool                       m_showDoc = false;
-		bool                       m_started = false; // to prevent widgets from being added
-		bool                       m_threadPoolAuto = true;
-		bool                       m_threadPool = false;
-		double                     m_threadPoolThreshold = 1.0;
-		unsigned                   m_threads = 2; // how many threads to use
-		bool                       m_threadPoolHighPerformance = false;
 		
-		float                      m_mouseDragThreshold = 20.0f;
-		bool                       m_mouseDragging = false;
-		mvVec2                     m_mouseDragDelta = { 0.0f, 0.0f };
+		// concurrency
+		bool     m_threadPoolAuto = true;             // will the threadpool automatically activate based on threshold
+		bool     m_threadPool = false;                // is threadpool activated
+		double   m_threadPoolThreshold = 1.0;         // callback delay (seconds) before threadpool activation
+		unsigned m_threads = 2;                       // how many threads to use
+		bool     m_threadPoolHighPerformance = false; // when true, use max number of threads
+		
+		// input state
+		bool        m_started = false; // to change to runtime behavior
+		std::string m_activeWindow = "MainWindow";
+		mvMousePos  m_mousePos;
+		float       m_mouseWheel;
+		float       m_mouseDragThreshold = 20.0f;
+		bool        m_mouseDragging = false;
+		mvVec2      m_mouseDragDelta = { 0.0f, 0.0f };
 
 		// standard callbacks
+		std::string m_callback = "";
 		std::string m_mouseDownCallback = "";
 		std::string m_mouseClickCallback = "";
 		std::string m_mouseReleaseCallback = "";

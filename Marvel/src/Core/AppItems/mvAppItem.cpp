@@ -225,6 +225,17 @@ namespace Marvel{
 		return itemDeleted;
 	}
 
+	void mvAppItem::deleteChildren()
+	{
+		for (auto child : m_children)
+		{
+			delete child;
+			child = nullptr;
+		}
+
+		m_children.clear();
+	}
+
 	void mvAppItem::showAll()
 	{
 		m_show = true;
@@ -289,13 +300,7 @@ namespace Marvel{
 
 	mvAppItem::~mvAppItem()
 	{
-		for (auto child : m_children)
-		{
-			delete child;
-			child = nullptr;
-		}
-
-		m_children.clear();
+		deleteChildren();
 	}
 
 }

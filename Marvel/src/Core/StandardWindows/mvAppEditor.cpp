@@ -1,12 +1,11 @@
 #include "mvAppEditor.h"
-#include "mvCore.h"
-#include "mvAppLog.h"
+#include "Core/mvCore.h"
 #include <fstream>
 #include <streambuf>
+#include "Core/StandardWindows/mvAppLog.h"
 #include "Core/StandardWindows/mvDocWindow.h"
 #include "Core/StandardWindows/mvAboutWindow.h"
 #include "Core/StandardWindows/mvMetricsWindow.h"
-#include "Core/StandardWindows/mvSourceWindow.h"
 #include "Core/mvUtilities.h"
 #include <misc/cpp/imgui_stdlib.h>
 
@@ -29,6 +28,10 @@ namespace Marvel {
 		m_editor.SetLanguageDefinition(mvTextEditor::LanguageDefinition::Python());
 		m_editor.SetShowWhitespaces(m_showWhiteSpace);
 		m_editor.SetText(initialText);
+
+		addStandardWindow("documentation", mvDocWindow::GetWindow());
+		addStandardWindow("about", new mvAboutWindow());
+		addStandardWindow("metrics", new mvMetricsWindow());
 	}
 
 	void mvAppEditor::handleKeyEvents()
@@ -48,7 +51,7 @@ namespace Marvel {
 			saveFile();
 			if (m_file.empty())
 				return;
-			RunFile(m_programName, m_file, m_flags);
+			RunFile(m_programName, m_file, m_complilerflags);
 		}
 
 	}
@@ -120,7 +123,7 @@ namespace Marvel {
 		saveFile();
 	}
 
-	mvAppEditor* mvAppEditor::GetAppEditor()
+	mvStandardWindow* mvAppEditor::GetAppEditor()
 	{
 		if (s_instance)
 			return s_instance;
@@ -129,20 +132,18 @@ namespace Marvel {
 		return s_instance;
 	}
 
-	void mvAppEditor::render()
+	void mvAppEditor::render(bool& show)
 	{
 
 		// set imgui style to mvstyle
 		ImGuiStyle& style = ImGui::GetStyle();
 		style.WindowRounding = 0.0f;
 
-		// standard windows
-		if (m_showMetrics)
-			mvMetricsWindow::GetWindow()->render(m_showMetrics);
-		if (m_showAbout)
-			mvAboutWindow::GetWindow()->render(m_showAbout);
-		if (m_showDoc)
-			mvDocWindow::GetWindow()->render(m_showDoc);
+		for (auto& entry : m_standardWindows)
+		{
+			if (entry.second.show)
+				entry.second.window->render(entry.second.show);
+		}
 
 		if (m_editor.CanUndo())
 			m_saved = false;
@@ -230,7 +231,7 @@ namespace Marvel {
 					saveFile();
 					if (m_file.empty())
 						return;
-					RunFile(m_programName, m_file, m_flags);
+					RunFile(m_programName, m_file, m_complilerflags);
 				}
 
 				ImGui::EndMenu();
@@ -239,11 +240,11 @@ namespace Marvel {
 			if (ImGui::BeginMenu("Tools"))
 			{
 				if (ImGui::MenuItem("Documentation"))
-					m_showDoc = true;
+					showStandardWindow("documentation");
 				if (ImGui::MenuItem("Metrics"))
-					m_showMetrics = true;
+					showStandardWindow("metrics");
 				if (ImGui::MenuItem("About"))
-					m_showAbout = true;
+					showStandardWindow("about");
 				ImGui::EndMenu();
 			}
 			ImGui::EndMenuBar();
@@ -256,7 +257,7 @@ namespace Marvel {
 
 		ImGui::SameLine();
 		ImGui::SetNextItemWidth(200.0f);
-		ImGui::InputText("Flags", &m_flags);
+		ImGui::InputText("Flags", &m_complilerflags);
 
 		m_editor.Render("TextEditor");
 

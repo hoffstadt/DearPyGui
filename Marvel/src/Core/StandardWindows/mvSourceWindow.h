@@ -1,28 +1,23 @@
 #pragma once
 
 #include "Core/mvTextEditor.h"
+#include "mvStandardWindow.h"
 
 namespace Marvel {
 
-	class mvSourceWindow
+	class mvSourceWindow : public mvStandardWindow
 	{
 
 	public:
 
-		static mvSourceWindow* GetWindow();
-
-		void render (bool& show);
 		void setFile(const std::string& file);
 
-	private:
-
-		mvSourceWindow() = default;
+		virtual void render(bool& show) override;
 
 	private:
 
-		static mvSourceWindow* s_instance;
-		mvTextEditor           m_editor;
-		std::string            m_file;
+		mvTextEditor m_editor;
+		std::string  m_file;
 
 	};
 

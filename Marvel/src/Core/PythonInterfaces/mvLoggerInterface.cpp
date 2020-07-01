@@ -1,6 +1,6 @@
 #include "mvPythonModule.h"
 #include "Core/mvApp.h"
-#include "Core/mvAppLog.h"
+#include "Core/StandardWindows/mvAppLog.h"
 #include "mvPythonTranslator.h"
 #include "mvInterfaces.h"
 #include "mvInterfaceRegistry.h"
@@ -55,7 +55,7 @@ namespace Marvel {
 
 	PyObject* show_logger(PyObject* self, PyObject* args)
 	{
-		mvApp::GetApp()->showLogger();
+		mvApp::GetApp()->showStandardWindow("logger");
 		Py_INCREF(Py_None);
 		Py_RETURN_NONE;
 	}

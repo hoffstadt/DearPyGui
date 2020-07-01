@@ -70,6 +70,7 @@ namespace Marvel {
 		// runtime modifications
 		bool addRuntimeChild(const std::string& parent, const std::string& before, mvAppItem* item);
 		bool deleteChild    (const std::string& name);
+		void deleteChildren ();
 		bool moveChildUp    (const std::string& name);
 		bool moveChildDown  (const std::string& name);
 

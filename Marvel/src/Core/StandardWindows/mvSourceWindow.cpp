@@ -5,17 +5,6 @@
 
 namespace Marvel {
 
-	mvSourceWindow* mvSourceWindow::s_instance = nullptr;
-
-	mvSourceWindow* mvSourceWindow::GetWindow()
-	{
-		if (s_instance)
-			return s_instance;
-
-		s_instance = new mvSourceWindow();
-		return s_instance;
-	}
-
 	void mvSourceWindow::setFile(const std::string& file)
 	{
 		m_file = file;
