@@ -4,27 +4,23 @@
 #include <string>
 #include <imgui.h>
 
+#include "mvStandardWindow.h"
+
 namespace Marvel {
 
-	class mvDocWindow
+	class mvDocWindow : public mvStandardWindow
 	{
 
 	public:
 
-		static mvDocWindow* GetWindow();
+		static mvStandardWindow* GetWindow();
 
-		void render(bool& show);
-
-		void setToMainMode() { m_mainMode = true; }
-		void setSize(unsigned width, unsigned height) { m_width = width; m_height = height; }
+		virtual void render(bool& show) override;
 
 	private:
 
 		mvDocWindow();
 
-	private:
-
-		static mvDocWindow* s_instance;
 		int m_moduleSelection = 0;
 		const char* m_doc = "None";
 
@@ -53,10 +49,7 @@ namespace Marvel {
 		std::vector<const char*> m_sbDocPlot;
 		std::vector<const char*> m_sbDocDraw;
 
-		bool     m_mainMode = false;
-		unsigned m_width = 1280;
-		unsigned m_height = 800;
-		ImGuiWindowFlags m_flags = ImGuiWindowFlags_NoSavedSettings;
+		static mvDocWindow* s_instance;
 
 	};
 

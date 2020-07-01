@@ -8,13 +8,14 @@ target_sources(Marvel
 
 	PRIVATE
 
-		"MainApplication.cpp"
+		"MarvelApplication.cpp"
 		"src/Core/mvApp.cpp"
-		"src/Core/mvAppEditor.cpp"
-		"src/Core/mvAppLog.cpp"
 		"src/Core/mvWindow.cpp"
 		"src/Core/mvTextEditor.cpp"
 
+		"src/Core/StandardWindows/mvStandardWindow.cpp"
+		"src/Core/StandardWindows/mvAppEditor.cpp"
+		"src/Core/StandardWindows/mvAppLog.cpp"
 		"src/Core/StandardWindows/mvDocWindow.cpp"
 		"src/Core/StandardWindows/mvAboutWindow.cpp"
 		"src/Core/StandardWindows/mvMetricsWindow.cpp"

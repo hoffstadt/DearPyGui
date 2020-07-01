@@ -1,9 +1,9 @@
 #include "mvApp.h"
 #include "mvCore.h"
-#include "mvAppLog.h"
 #include "AppItems/mvAppItems.h"
 #include <fstream>
 #include <streambuf>
+#include "Core/StandardWindows/mvAppLog.h"
 #include "Core/StandardWindows/mvDocWindow.h"
 #include "Core/StandardWindows/mvAboutWindow.h"
 #include "Core/StandardWindows/mvMetricsWindow.h"
@@ -59,6 +59,31 @@ namespace Marvel {
 		m_windows.push_back(new mvWindowAppitem("", "MainWindow", 1280, 800, 0, 0, true));
 		m_parents.push(m_windows.back());
 
+		addStandardWindow("documentation", mvDocWindow::GetWindow());
+		addStandardWindow("about", new mvAboutWindow());
+		addStandardWindow("metrics", new mvMetricsWindow());
+		addStandardWindow("source", new mvSourceWindow());
+		addStandardWindow("logger", mvAppLog::GetLoggerStandardWindow());
+
+	}
+
+	mvApp::~mvApp()
+	{
+		for (auto window : m_windows)
+		{
+			delete window;
+			window = nullptr;
+		}
+
+		m_windows.clear();
+	}
+
+	void  mvApp::setFile(const std::string& file) 
+	{ 
+		m_file = file;
+
+		auto sourcewindow = static_cast<mvSourceWindow*>(m_standardWindows["source"].window);
+		sourcewindow->setFile(file);
 	}
 
 	static void prepareStandardCallbacks()
@@ -133,13 +158,23 @@ namespace Marvel {
 		return s_instance;
 	}
 
+	mvStandardWindow* mvApp::GetAppStandardWindow()
+	{
+		return static_cast<mvStandardWindow*>(GetApp());
+	}
+
 	void mvApp::setWindowSize(unsigned width, unsigned height) 
 	{ 
 		m_windows[0]->setWidth(width);
 		m_windows[0]->setHeight(height);
 	}
 
-	void mvApp::preRender()
+	void mvApp::addRuntimeItem(const std::string& parent, const std::string& before, mvAppItem* item) 
+	{ 
+		m_newItemVec.push_back(NewRuntimeItem(parent, before, item)); 
+	}
+
+	void mvApp::precheck()
 	{
 
 		if (m_windows.size() == 1)
@@ -147,7 +182,7 @@ namespace Marvel {
 
 	}
 
-	void mvApp::render()
+	void mvApp::render(bool& show)
 	{
 
 		// set imgui style to mvstyle
@@ -166,23 +201,25 @@ namespace Marvel {
 		if (!m_callback.empty())
 			runMainCallback(m_callback, "Main Application");
 
-		// standard windows
-		if(m_showMetrics)
-			mvMetricsWindow::GetWindow()->render(m_showMetrics);
-		if(m_showAbout)
-			mvAboutWindow::GetWindow()->render(m_showAbout);
-		if (m_showSource)
-			mvSourceWindow::GetWindow()->render(m_showSource);
-		if (m_showDoc)
-			mvDocWindow::GetWindow()->render(m_showDoc);
-
 		for (auto window : m_windows)
 			window->draw();
 
 	}
 
-	void mvApp::postRender()
+	void mvApp::postrender()
 	{
+		// delete items from the delete queue
+		while (!m_deleteChildrenQueue.empty())
+		{
+			std::string& itemname = m_deleteChildrenQueue.front();
+
+			auto item = getItem(itemname);
+			if (item)
+				item->deleteChildren();
+
+			m_deleteChildrenQueue.pop();
+		}
+
 		// delete items from the delete queue
 		while (!m_deleteQueue.empty())
 		{

@@ -384,6 +384,9 @@ add_plot("Plot2", "x-axis", "y-axis", width=-1, height=450);
 end_collapsing_header()
 
 def PlotCallback(sender):
+
+    delete_item("Themes", True)
+
     clear_plot("Plot2") # without this it crashes?
 
     data1 = []

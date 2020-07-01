@@ -15,11 +15,17 @@ namespace Marvel {
 			return s_instance;
 
 		s_instance = new mvAppLog();
+		s_instance->setSize(500, 500);
 		s_start = clock_::now();
 		return s_instance;
 	}
 
-	mvAppLog::mvAppLog()
+	mvStandardWindow* mvAppLog::GetLoggerStandardWindow()
+	{
+		return static_cast<mvStandardWindow*>(getLogger());
+	}
+
+	mvAppLog::mvAppLog() : mvStandardWindow()
 	{
 		AutoScroll = true;
 		Clear();
@@ -48,10 +54,20 @@ namespace Marvel {
 				LineOffsets.push_back(old_size + 1);
 	}
 
-	void mvAppLog::Draw(const char* title, bool* p_open)
+	void mvAppLog::render(bool& show)
 	{
-		ImGui::SetNextWindowSize(ImVec2(500, 500), ImGuiCond_FirstUseEver);
-		if (!ImGui::Begin(title, p_open, ImGuiWindowFlags_NoSavedSettings))
+		if (m_mainMode)
+		{
+			ImGui::SetNextWindowPos(ImVec2(0.0f, 0.0f));
+			ImGui::SetNextWindowSize(ImVec2(m_width, m_height));
+			
+			m_flags = ImGuiWindowFlags_NoBringToFrontOnFocus | ImGuiWindowFlags_NoSavedSettings
+				| ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoTitleBar;
+		}
+		else
+			ImGui::SetNextWindowSize(ImVec2(m_width, m_width), ImGuiCond_FirstUseEver);
+
+		if (!ImGui::Begin("Marvel Logger", &show, m_flags))
 		{
 			ImGui::End();
 			return;

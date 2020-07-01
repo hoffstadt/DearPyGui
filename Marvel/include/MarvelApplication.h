@@ -44,9 +44,6 @@ namespace Marvel {
 		std::string PathName = "";
 
 		// flags
-		bool logger        = false; // starts application with the logger shown
-		bool metrics       = false; // starts application with the metrics window shown
-		bool source        = false; // starts application with the source window shown
 		bool documentation = false; // starts application with the documentation window shown
 		bool editorMode    = false; // starts application in editor mode
 

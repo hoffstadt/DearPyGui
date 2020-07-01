@@ -2,19 +2,7 @@
 #include <imgui.h>
 #include "Core/mvApp.h"
 
-
 namespace Marvel {
-
-	mvAboutWindow* mvAboutWindow::s_instance = nullptr;
-
-	mvAboutWindow* mvAboutWindow::GetWindow()
-	{
-		if (s_instance)
-			return s_instance;
-
-		s_instance = new mvAboutWindow();
-		return s_instance;
-	}
 
 	void mvAboutWindow::render(bool& show)
 	{

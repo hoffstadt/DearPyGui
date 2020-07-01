@@ -8,30 +8,34 @@
 #include <string>
 #include <atomic>
 #include "Core/AppItems/mvAppItem.h"
-#include "mvMouse.h"
-#include "mvAppStyle.h"
-#include "mvTextEditor.h"
+#include "Core/mvMouse.h"
+#include "Core/mvAppStyle.h"
+#include "Core/mvTextEditor.h"
+#include "mvStandardWindow.h"
 
 namespace Marvel {
 
-	class mvAppEditor final
+	class mvAppEditor : public mvStandardWindow
 	{
+
+		struct StandardWindowEntry
+		{
+			mvStandardWindow* window;
+			bool              show;
+		};
 
 	public:
 
-		static mvAppEditor* GetAppEditor();
-		static const char* getVersion() { return MV_SANDBOX_VERSION; }
+		static mvStandardWindow* GetAppEditor();
+		static const char*       getVersion() { return MV_SANDBOX_VERSION; }
 
 		// actual render loop
-		void preRender() {}
-		void render();
+		void         preRender() {}
+		virtual void render(bool& show) override;
 
 		//-----------------------------------------------------------------------------
 		// 
 		//-----------------------------------------------------------------------------
-		void          setWindowSize(unsigned width, unsigned height) { m_width = width; m_height = height; }
-		unsigned      getWindowWidth() const { return m_width; }
-		unsigned      getWindowHeight() const { return m_height; }
 		std::string&  getFile() { return m_file; }
 		void          setFile(const std::string& file);
 		void          closeFile();
@@ -40,13 +44,6 @@ namespace Marvel {
 		void          saveFileAs();
 		void          handleKeyEvents();
 		void          setProgramName(const char* name) { m_programName = name; }
-
-		//-----------------------------------------------------------------------------
-		// Standard Windows
-		//-----------------------------------------------------------------------------
-		inline void showMetrics() { m_showMetrics = true; }
-		inline void showAbout() { m_showAbout = true; }
-		inline void showDoc() { m_showDoc = true; }
 
 	private:
 
@@ -62,15 +59,12 @@ namespace Marvel {
 		static mvAppEditor*     s_instance;
 		mvTextEditor            m_editor;
 		std::string             m_file;
-		unsigned                m_width = 1280;
-		unsigned                m_height = 800;
-		bool                    m_showMetrics = false;
-		bool                    m_showAbout = false;
-		bool                    m_showDoc = false;
 		bool                    m_showWhiteSpace = false;
 		bool                    m_saved = true;
-		std::string             m_flags = "";
+		std::string             m_complilerflags = "";
 		const char*             m_programName;
+
+		std::map < std::string, StandardWindowEntry> m_standardWindows;
 
 	};
 

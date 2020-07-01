@@ -1,6 +1,6 @@
 #include "mvThreadPool.h"
 #include "Core/mvApp.h"
-#include "Core/mvAppLog.h"
+#include "Core/StandardWindows/mvAppLog.h"
 //#include "mvLogging.h"
 
 namespace Marvel {

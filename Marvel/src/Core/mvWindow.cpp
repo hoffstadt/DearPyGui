@@ -10,21 +10,23 @@ namespace Marvel {
 		{
 			prerender();
 			
-			if (m_editor)
-				m_appEditor->render();
+			if (m_error)
+				m_logger->render(m_error);
+
+			else if (m_editor)
+				m_appEditor->render(m_editor);
 
 			else if(m_doc)
-				m_documentation->GetWindow()->render(m_doc);
+				m_documentation->render(m_doc);
 
 			else if (!m_error)
 			{
-				m_app->render();
-				m_app->postRender();
+				m_app->prerender();
+				m_app->render(m_running);
+				m_app->postrender();
 
 			}
 
-			if(mvApp::GetApp()->isLoggerShown())
-				Marvel::mvAppLog::getLogger()->Draw("Marvel Sandbox", &mvApp::GetApp()->isLoggerShown());
 			postrender();
 		}
 

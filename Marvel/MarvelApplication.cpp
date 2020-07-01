@@ -1,9 +1,9 @@
-#include "include/MainApplication.h"
+#include "include/MarvelApplication.h"
 #include "mvPythonModule.h"
 #include "Core/PythonInterfaces/mvStdOutput.h"
 #include "include/mvModuleInitializer.h"
 #include "Core/mvWindow.h"
-#include "Core/mvAppEditor.h"
+#include "Core/StandardWindows/mvAppEditor.h"
 #include "Platform/Windows/mvWindowsWindow.h"
 #include <iostream>
 #include <fstream>
@@ -19,7 +19,7 @@ namespace Marvel {
 
 	Application::Application(const char* name, int argc, char* argv[]) : argc(argc), argv(argv)
 	{
-		mvAppEditor::GetAppEditor()->setProgramName(name);
+		static_cast<mvAppEditor*>(mvAppEditor::GetAppEditor())->setProgramName(name);
 	}
 
 	Application::~Application()
@@ -55,9 +55,6 @@ namespace Marvel {
 		app.add_option("-p, --path", PathName, "Path to app file (default is location of MarvelSandbox.exe)");
 
 		// flags
-		app.add_flag("-l, --logger", logger, "Show Logger");
-		app.add_flag("-m, --metrics", metrics, "Show Metrics");
-		app.add_flag("-s, --source", source, "Show Source");
 		app.add_flag("-d, --documentation", documentation, "Sets MarvelSandbox to Documentation Mode");
 		app.add_flag("-e, --editor", editorMode, "Sets MarvelSandbox to Editor Mode");
 
@@ -150,7 +147,7 @@ namespace Marvel {
 	int Application::runErrorMode()
 	{
 		PyErr_Print();
-		mvApp::GetApp()->showLogger();
+		//mvApp::GetApp()->showLogger();
 
 		// create window
 		mvWindow* window = new mvWindowsWindow(mvApp::GetApp()->getWindowWidth(), mvApp::GetApp()->getWindowHeight(),
@@ -168,16 +165,10 @@ namespace Marvel {
 		PyObject* pDict = PyModule_GetDict(pModule); // borrowed reference
 		mvApp::GetApp()->setModuleDict(pDict);
 		std::string filename = addedPath + std::string(AppName) + ".py";
-		mvSourceWindow::GetWindow()->setFile(filename);
+		mvApp::GetApp()->setFile(filename);
 		PyEval_SaveThread(); // releases global lock
-		mvApp::GetApp()->preRender();
+		mvApp::GetApp()->precheck();
 		mvApp::GetApp()->setStarted();
-		//mvApp::GetApp()->popParent();
-
-		if (logger) mvApp::GetApp()->showLogger();
-		if (source) mvApp::GetApp()->showSource();
-		if (metrics) mvApp::GetApp()->showMetrics();
-		if (documentation) mvApp::GetApp()->showDoc();
 
 		// create window
 		mvWindow* window = new mvWindowsWindow(mvApp::GetApp()->getWindowWidth(), mvApp::GetApp()->getWindowHeight());

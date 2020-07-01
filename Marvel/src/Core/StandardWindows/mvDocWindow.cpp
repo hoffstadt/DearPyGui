@@ -6,16 +6,7 @@ namespace Marvel {
 
 	mvDocWindow* mvDocWindow::s_instance = nullptr;
 
-	mvDocWindow* mvDocWindow::GetWindow()
-	{
-		if (s_instance)
-			return s_instance;
-
-		s_instance = new mvDocWindow();
-		return s_instance;
-	}
-
-	mvDocWindow::mvDocWindow()
+	mvDocWindow::mvDocWindow() : mvStandardWindow()
 	{
 		m_sbWidgets = mvInterfaceRegistry::GetRegistry()->getPythonInterfaceCommands("sbWidgets");
 		m_sbApp = mvInterfaceRegistry::GetRegistry()->getPythonInterfaceCommands("sbApp");
@@ -31,6 +22,15 @@ namespace Marvel {
 		m_sbDocInput = mvInterfaceRegistry::GetRegistry()->getPythonInterfaceDoc("sbInput");
 		m_sbDocPlot = mvInterfaceRegistry::GetRegistry()->getPythonInterfaceDoc("sbPlot");
 		m_sbDocDraw = mvInterfaceRegistry::GetRegistry()->getPythonInterfaceDoc("sbDraw");
+	}
+
+	mvStandardWindow* mvDocWindow::GetWindow()
+	{
+		if (s_instance)
+			return s_instance;
+
+		s_instance = new mvDocWindow();
+		return s_instance;
 	}
 
 	void mvDocWindow::render(bool& show)

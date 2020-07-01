@@ -1,6 +1,6 @@
 #pragma once
 
-#include "MainApplication.h"
+#include "MarvelApplication.h"
 #include "mvInterfaceRegistry.h"
 #include "mvModuleInitializer.h"
 #include "mvPythonModule.h"

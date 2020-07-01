@@ -1,23 +1,15 @@
 #pragma once
 
+#include "mvStandardWindow.h"
+
 namespace Marvel {
 
-	class mvMetricsWindow
+	class mvMetricsWindow : public mvStandardWindow
 	{
 
 	public:
 
-		static mvMetricsWindow* GetWindow();
-
-		void render(bool& show);
-
-	private:
-
-		mvMetricsWindow() = default;
-
-	private:
-
-		static mvMetricsWindow* s_instance;
+		virtual void render(bool& show) override;
 
 	};
 

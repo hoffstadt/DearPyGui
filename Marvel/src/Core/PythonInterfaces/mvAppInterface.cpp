@@ -17,7 +17,9 @@ namespace Marvel {
 			}, false, "Checks if threadpool is activated", "Boolean")},
 
 			{"delete_item", mvPythonTranslator({
-				{mvPythonDataType::String, "item"}
+				{mvPythonDataType::String, "item"},
+				{mvPythonDataType::Optional},
+				{mvPythonDataType::Bool, "children_only"}
 			}, false, "Deletes an item if it exists.")},
 
 			{"move_item_up", mvPythonTranslator({
@@ -256,11 +258,15 @@ namespace Marvel {
 	PyObject* delete_item(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		const char* item;
+		int childrenOnly = false;
 
-		if (!Translators["delete_item"].parse(args, kwargs, __FUNCTION__, &item))
+		if (!Translators["delete_item"].parse(args, kwargs, __FUNCTION__, &item, &childrenOnly))
 			Py_RETURN_NONE;
 
-		mvApp::GetApp()->deleteItem(item);
+		if(childrenOnly)
+			mvApp::GetApp()->deleteItemChildren(item);
+		else
+			mvApp::GetApp()->deleteItem(item);
 
 		Py_RETURN_NONE;
 
@@ -930,25 +936,25 @@ namespace Marvel {
 
 	PyObject* show_metrics(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
-		mvApp::GetApp()->showMetrics();
+		mvApp::GetApp()->showStandardWindow("metrics");
 		Py_RETURN_NONE;
 	}
 
 	PyObject* show_about(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
-		mvApp::GetApp()->showAbout();
+		mvApp::GetApp()->showStandardWindow("about");
 		Py_RETURN_NONE;
 	}
 
 	PyObject* show_source(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
-		mvApp::GetApp()->showSource();
+		mvApp::GetApp()->showStandardWindow("source");
 		Py_RETURN_NONE;
 	}
 
 	PyObject* show_documentation(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
-		mvApp::GetApp()->showDoc();
+		mvApp::GetApp()->showStandardWindow("documentation");
 		Py_RETURN_NONE;
 	}
 
