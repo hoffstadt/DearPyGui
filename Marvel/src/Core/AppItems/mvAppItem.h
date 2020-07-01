@@ -12,7 +12,7 @@
 //-----------------------------------------------------------------------------
 // Helper Macro
 //-----------------------------------------------------------------------------
-#define MV_APPITEM_TYPE(x) virtual mvAppItemType getType() const override { return x; }
+#define MV_APPITEM_TYPE(x) virtual mvAppItemType getType() const override { return x; } virtual std::string getStringType() const override { return std::string(#x); }
 
 namespace Marvel {
 
@@ -54,10 +54,11 @@ namespace Marvel {
 		mvAppItem operator=(mvAppItem&& other)      = delete; // move assignment operator
 
 		// pure virtual methods
-		virtual void          setPyValue(PyObject* value) = 0;
-		virtual PyObject*     getPyValue()          const = 0;
-		virtual mvAppItemType getType   ()          const = 0;
-		virtual void          draw      ()                = 0;
+		virtual void          setPyValue   (PyObject* value) = 0;
+		virtual PyObject*     getPyValue   ()          const = 0;
+		virtual mvAppItemType getType      ()          const = 0;
+		virtual std::string   getStringType()          const = 0;
+		virtual void          draw         ()                = 0;
 
 		// virtual methods
 		virtual bool areDuplicatesAllowed() const { return false; }
@@ -73,6 +74,7 @@ namespace Marvel {
 		void deleteChildren ();
 		bool moveChildUp    (const std::string& name);
 		bool moveChildDown  (const std::string& name);
+		void resetState     ();
 
 		// getters
 		mvAppItem*                      getChild                  (const std::string& name);      // will return nullptr if not found

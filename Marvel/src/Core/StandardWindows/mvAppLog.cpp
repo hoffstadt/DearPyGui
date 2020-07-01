@@ -1,6 +1,7 @@
 #include "mvAppLog.h"
 #include <string>
 #include <mutex>
+#include "Core/mvApp.h"
 
 typedef std::chrono::high_resolution_clock clock_;
 typedef std::chrono::duration<double, std::ratio<1> > second_;
@@ -193,6 +194,21 @@ namespace Marvel {
 			ImGui::SetScrollHereY(1.0f);
 
 		ImGui::EndChild();
+
+		if (ImGui::IsWindowFocused())
+		{
+
+			float titleBarHeight = ImGui::GetStyle().FramePadding.y * 2 + ImGui::GetFontSize();
+
+			// update mouse
+			ImVec2 mousePos = ImGui::GetMousePos();
+			float x = mousePos.x - ImGui::GetWindowPos().x;
+			float y = mousePos.y - ImGui::GetWindowPos().y - titleBarHeight;
+			mvApp::GetApp()->setMousePosition(x, y);
+
+			mvApp::GetApp()->setActiveWindow("Log");
+
+		}
 		ImGui::End();
 	}
 
