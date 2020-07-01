@@ -147,9 +147,22 @@ namespace Marvel {
 
 				if (selectedItem)
 				{	
-					ImGui::PushItemWidth(200);
+					
 					ImGui::BeginGroup();
 
+					if (ImGui::ArrowButton("Move Up", ImGuiDir_Up))
+						app->moveItemUp(m_selectedItem);
+					ImGui::SameLine();
+					if (ImGui::ArrowButton("Move Down", ImGuiDir_Down))
+						app->moveItemDown(m_selectedItem);
+					ImGui::SameLine();
+					if (ImGui::Button("Delete"))
+					{
+						app->deleteItem(m_selectedItem);
+						m_selectedItem = "MainWindow";
+					}
+
+					ImGui::PushItemWidth(200);
 					DebugItem("Item Name:", m_selectedItem.c_str());
 					DebugItem("Item Type:", selectedItem->getStringType().c_str());
 					DebugItem("Container:", selectedItem->isContainer() ? ts : fs);
@@ -170,7 +183,6 @@ namespace Marvel {
 					DebugItem("Item Deactivated:", selectedItem->isItemDeactivated() ? ts : fs);
 					DebugItem("Item DeavtivatedAfterEdit:", selectedItem->isItemDeactivatedAfterEdit() ? ts : fs);
 					DebugItem("Item ToggledOpen:", selectedItem->isItemToogledOpen() ? ts : fs);
-
 					ImGui::EndGroup();
 					ImGui::PopItemWidth();
 					ImGui::SameLine();

@@ -233,12 +233,14 @@ namespace Marvel {
 			if (item)
 				item->deleteChildren();
 
+
 			m_deleteChildrenQueue.pop();
 		}
 
 		// delete items from the delete queue
 		while (!m_deleteQueue.empty())
 		{
+
 			std::string& itemname = m_deleteQueue.front();
 
 			bool deletedItem = false;
@@ -248,6 +250,38 @@ namespace Marvel {
 				deletedItem = window->deleteChild(itemname);
 				if (deletedItem)
 					break;
+			}
+
+			bool childfound = false;
+			bool itemDeleted = false;
+
+			for (auto window : m_windows)
+			{
+				if (window->getName() == itemname)
+				{
+					childfound = true;
+					break;
+				}
+			}
+
+			if (childfound)
+			{
+				std::vector<mvAppItem*> oldwindows = m_windows;
+
+				m_windows.clear();
+
+				for (auto window : oldwindows)
+				{
+					if (window->getName() == itemname)
+					{
+						delete window;
+						window = nullptr;
+						deletedItem = true;
+						continue;
+					}
+
+					m_windows.push_back(window);
+				}
 			}
 
 			if (!deletedItem)

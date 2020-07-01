@@ -531,7 +531,6 @@ namespace Marvel {
 		}
 
 		mvAppItem* item = new mvSimplePlot("", name, values, overlay, minscale, maxscale, height, histogram);
-		mvApp::GetApp()->addItem(item);
 
 		MV_STANDARD_CALLBACK_EVAL();
 
@@ -549,7 +548,6 @@ namespace Marvel {
 			Py_RETURN_NONE;
 
 		mvAppItem* item = new mvProgressBar("", name, default_value, overlay);
-		mvApp::GetApp()->addItem(item);
 
 		MV_STANDARD_CALLBACK_EVAL();
 
@@ -580,7 +578,6 @@ namespace Marvel {
 		auto mbordercolor = mvPythonTranslator::getColor(bordercolor);
 
 		mvAppItem* item = new mvImage("", name, value, mtintcolor, mbordercolor);
-		mvApp::GetApp()->addItem(item);
 
 		MV_STANDARD_CALLBACK_EVAL();
 
@@ -604,7 +601,6 @@ namespace Marvel {
 			Py_RETURN_NONE;
 
 		mvAppItem* item = new mvDragFloat("", name, default_value, speed, min_value, max_value, format, power);
-		mvApp::GetApp()->addItem(item);
 
 		MV_STANDARD_CALLBACK_EVAL();
 
@@ -632,7 +628,6 @@ namespace Marvel {
 		auto vec = mvPythonTranslator::getFloatVec(default_value);
 
 		mvAppItem* item = new mvDragFloat2("", name, vec.data(), speed, min_value, max_value, format, power);
-		mvApp::GetApp()->addItem(item);
 
 		MV_STANDARD_CALLBACK_EVAL();
 
@@ -661,7 +656,6 @@ namespace Marvel {
 		auto vec = mvPythonTranslator::getFloatVec(default_value);
 
 		mvAppItem* item = new mvDragFloat3("", name, vec.data(), speed, min_value, max_value, format, power);
-		mvApp::GetApp()->addItem(item);
 
 		MV_STANDARD_CALLBACK_EVAL();
 
@@ -691,7 +685,6 @@ namespace Marvel {
 		auto vec = mvPythonTranslator::getFloatVec(default_value);
 
 		mvAppItem* item = new mvDragFloat4("", name, vec.data(), speed, min_value, max_value, format, power);
-		mvApp::GetApp()->addItem(item);
 
 		MV_STANDARD_CALLBACK_EVAL();
 
@@ -714,7 +707,6 @@ namespace Marvel {
 			Py_RETURN_NONE;
 
 		mvAppItem* item = new mvDragInt("", name, default_value, speed, min_value, max_value, format);
-		mvApp::GetApp()->addItem(item);
 
 		MV_STANDARD_CALLBACK_EVAL();
 
@@ -741,7 +733,6 @@ namespace Marvel {
 		auto vec = mvPythonTranslator::getIntVec(default_value);
 
 		mvAppItem* item = new mvDragInt2("", name, vec.data(), speed, min_value, max_value, format);
-		mvApp::GetApp()->addItem(item);
 
 		MV_STANDARD_CALLBACK_EVAL();
 
@@ -768,7 +759,6 @@ namespace Marvel {
 		auto vec = mvPythonTranslator::getIntVec(default_value);
 
 		mvAppItem* item = new mvDragInt3("", name, vec.data(), speed, min_value, max_value, format);
-		mvApp::GetApp()->addItem(item);
 
 		MV_STANDARD_CALLBACK_EVAL();
 
@@ -797,7 +787,6 @@ namespace Marvel {
 		auto vec = mvPythonTranslator::getIntVec(default_value);
 
 		mvAppItem* item = new mvDragInt4("", name, vec.data(), speed, min_value, max_value, format);
-		mvApp::GetApp()->addItem(item);
 
 		MV_STANDARD_CALLBACK_EVAL();
 
@@ -821,7 +810,6 @@ namespace Marvel {
 			Py_RETURN_NONE;
 
 		mvAppItem* item = new mvSliderFloat("", name, default_value, min_value, max_value, format, power, vertical);
-		mvApp::GetApp()->addItem(item);
 
 		MV_STANDARD_CALLBACK_EVAL();
 
@@ -848,7 +836,6 @@ namespace Marvel {
 		auto vec = mvPythonTranslator::getFloatVec(default_value);
 
 		mvAppItem* item = new mvSliderFloat2("", name, vec.data(), min_value, max_value, format, power);
-		mvApp::GetApp()->addItem(item);
 
 		MV_STANDARD_CALLBACK_EVAL();
 
@@ -876,7 +863,6 @@ namespace Marvel {
 		auto vec = mvPythonTranslator::getFloatVec(default_value);
 
 		mvAppItem* item = new mvSliderFloat3("", name, vec.data(), min_value, max_value, format, power);
-		mvApp::GetApp()->addItem(item);
 
 		MV_STANDARD_CALLBACK_EVAL();
 
@@ -905,7 +891,6 @@ namespace Marvel {
 		auto vec = mvPythonTranslator::getFloatVec(default_value);
 
 		mvAppItem* item = new mvSliderFloat4("", name, vec.data(), min_value, max_value, format, power);
-		mvApp::GetApp()->addItem(item);
 
 		MV_STANDARD_CALLBACK_EVAL();
 
@@ -928,7 +913,6 @@ namespace Marvel {
 			Py_RETURN_NONE;
 
 		mvAppItem* item = new mvSliderInt("", name, default_value, min_value, max_value, format, vertical);
-		mvApp::GetApp()->addItem(item);
 
 		MV_STANDARD_CALLBACK_EVAL();
 
@@ -954,7 +938,6 @@ namespace Marvel {
 		auto vec = mvPythonTranslator::getIntVec(default_value);
 
 		mvAppItem* item = new mvSliderInt2("", name, vec.data(), min_value, max_value, format);
-		mvApp::GetApp()->addItem(item);
 
 		MV_STANDARD_CALLBACK_EVAL();
 
@@ -981,7 +964,6 @@ namespace Marvel {
 		auto vec = mvPythonTranslator::getIntVec(default_value);
 
 		mvAppItem* item = new mvSliderInt3("", name, vec.data(), min_value, max_value, format);
-		mvApp::GetApp()->addItem(item);
 
 		MV_STANDARD_CALLBACK_EVAL();
 
@@ -1009,7 +991,6 @@ namespace Marvel {
 		auto vec = mvPythonTranslator::getIntVec(default_value);
 
 		mvAppItem* item = new mvSliderInt4("", name, vec.data(), min_value, max_value, format);
-		mvApp::GetApp()->addItem(item);
 
 		MV_STANDARD_CALLBACK_EVAL();
 
@@ -1037,7 +1018,6 @@ namespace Marvel {
 			mcolor.specified = false;
 
 		mvAppItem* item = new mvText("", name, wrap, mcolor, bullet);
-		mvApp::GetApp()->addItem(item);
 
 		MV_STANDARD_CALLBACK_EVAL();
 
@@ -1064,7 +1044,6 @@ namespace Marvel {
 			mcolor.specified = false;
 
 		mvAppItem* item = new mvLabelText("", std::string(name), value, mcolor);
-		mvApp::GetApp()->addItem(item);
 
 		MV_STANDARD_CALLBACK_EVAL();
 
@@ -1082,7 +1061,6 @@ namespace Marvel {
 			Py_RETURN_NONE;
 
 		mvAppItem* item = new mvListbox("", name, mvPythonTranslator::getStringVec(items), default_value, height);
-		mvApp::GetApp()->addItem(item);
 
 		MV_STANDARD_CALLBACK_EVAL();
 
@@ -1100,7 +1078,6 @@ namespace Marvel {
 			Py_RETURN_NONE;
 
 		mvAppItem* item = new mvCombo("", name, mvPythonTranslator::getStringVec(items), default_value);
-		mvApp::GetApp()->addItem(item);
 
 		MV_STANDARD_CALLBACK_EVAL();
 
@@ -1117,7 +1094,6 @@ namespace Marvel {
 			Py_RETURN_NONE;
 
 		mvAppItem* item = new mvSelectable("", name, default_value);
-		mvApp::GetApp()->addItem(item);
 
 		MV_STANDARD_CALLBACK_EVAL();
 		
@@ -1139,7 +1115,6 @@ namespace Marvel {
 			Py_RETURN_NONE;
 
 		mvAppItem* item = new mvButton("", name, small, arrow, direction);
-		mvApp::GetApp()->addItem(item);
 
 		MV_STANDARD_CALLBACK_EVAL();
 
@@ -1158,7 +1133,6 @@ namespace Marvel {
 			Py_RETURN_NONE;
 
 		mvAppItem* item = new mvInputText("", name, hint, multiline, flags);
-		mvApp::GetApp()->addItem(item);
 
 		MV_STANDARD_CALLBACK_EVAL();
 
@@ -1175,11 +1149,9 @@ namespace Marvel {
 			Py_RETURN_NONE;
 
 		mvAppItem* item = new mvInputInt("", name, default_value);
-		mvApp::GetApp()->addItem(item);
 
 		MV_STANDARD_CALLBACK_EVAL();
 		
-
 		Py_RETURN_NONE;
 	}
 
@@ -1198,7 +1170,6 @@ namespace Marvel {
 		auto vec = mvPythonTranslator::getIntVec(default_value);
 
 		mvAppItem* item = new mvInputInt2("", name, vec.data());
-		mvApp::GetApp()->addItem(item);
 
 		MV_STANDARD_CALLBACK_EVAL();
 
@@ -1221,7 +1192,6 @@ namespace Marvel {
 		auto vec = mvPythonTranslator::getIntVec(default_value);
 
 		mvAppItem* item = new mvInputInt3("", name, vec.data());
-		mvApp::GetApp()->addItem(item);
 
 		MV_STANDARD_CALLBACK_EVAL();
 
@@ -1245,7 +1215,6 @@ namespace Marvel {
 		auto vec = mvPythonTranslator::getIntVec(default_value);
 
 		mvAppItem* item = new mvInputInt4("", name, vec.data());
-		mvApp::GetApp()->addItem(item);
 
 		MV_STANDARD_CALLBACK_EVAL();
 
@@ -1264,7 +1233,6 @@ namespace Marvel {
 			Py_RETURN_NONE;
 
 		mvAppItem* item = new mvInputFloat("", name, default_value, format);
-		mvApp::GetApp()->addItem(item);
 
 		MV_STANDARD_CALLBACK_EVAL();
 
@@ -1287,7 +1255,6 @@ namespace Marvel {
 		auto vec = mvPythonTranslator::getFloatVec(default_value);
 
 		mvAppItem* item = new mvInputFloat2("", name, vec.data(), format);
-		mvApp::GetApp()->addItem(item);
 
 		MV_STANDARD_CALLBACK_EVAL();
 
@@ -1311,7 +1278,6 @@ namespace Marvel {
 		auto vec = mvPythonTranslator::getFloatVec(default_value);
 
 		mvAppItem* item = new mvInputFloat3("", name, vec.data(), format);
-		mvApp::GetApp()->addItem(item);
 
 		MV_STANDARD_CALLBACK_EVAL();
 
@@ -1336,7 +1302,6 @@ namespace Marvel {
 		auto vec = mvPythonTranslator::getFloatVec(default_value);
 
 		mvAppItem* item = new mvInputFloat4("", name, vec.data(), format);
-		mvApp::GetApp()->addItem(item);
 
 		MV_STANDARD_CALLBACK_EVAL();
 
@@ -1355,7 +1320,6 @@ namespace Marvel {
 			Py_RETURN_NONE;
 
 		mvAppItem* item = new mvIndent("", name, offset);
-		mvApp::GetApp()->addItem(item);
 
 		MV_STANDARD_CALLBACK_EVAL();
 
@@ -1374,7 +1338,6 @@ namespace Marvel {
 			Py_RETURN_NONE;
 
 		mvAppItem* item = new mvUnindent("", name, offset);
-		mvApp::GetApp()->addItem(item);
 
 		MV_STANDARD_CALLBACK_EVAL();
 
@@ -1391,7 +1354,6 @@ namespace Marvel {
 			Py_RETURN_NONE;
 
 		mvAppItem* item = new mvTabBar("", name, flags);
-		mvApp::GetApp()->addItem(item);
 		MV_STANDARD_CALLBACK_EVAL();
 		mvApp::GetApp()->pushParent(item);
 		Py_RETURN_NONE;
@@ -1413,7 +1375,6 @@ namespace Marvel {
 		else if (parentItem->getType() == mvAppItemType::TabBar)
 		{
 			mvAppItem* item = new mvTab("", name);
-			mvApp::GetApp()->addItem(item);
 			MV_STANDARD_CALLBACK_EVAL();
 			mvApp::GetApp()->pushParent(item);
 		}
@@ -1491,7 +1452,6 @@ namespace Marvel {
 			auto window = static_cast<mvWindowAppitem*>(parentItem);
 			window->addFlag(ImGuiWindowFlags_MenuBar);
 			mvAppItem* item = new mvMenuBar(name);
-			mvApp::GetApp()->addItem(item);
 			MV_STANDARD_CALLBACK_EVAL();
 			mvApp::GetApp()->pushParent(item);
 		}
@@ -1516,7 +1476,6 @@ namespace Marvel {
 		else if (parentItem->getType() == mvAppItemType::MenuBar || parentItem->getType() == mvAppItemType::Menu)
 		{
 			mvAppItem* item = new mvMenu("", name);
-			mvApp::GetApp()->addItem(item);
 			MV_STANDARD_CALLBACK_EVAL();
 			mvApp::GetApp()->pushParent(item);
 		}
@@ -1579,10 +1538,8 @@ namespace Marvel {
 			Py_RETURN_NONE;
 
 		mvAppItem* item = new mvMenuItem("", name);
-		mvApp::GetApp()->addItem(item);
 
 		MV_STANDARD_CALLBACK_EVAL();
-		
 
 		Py_RETURN_NONE;
 	}
@@ -1596,13 +1553,12 @@ namespace Marvel {
 		const char* name = sname.c_str();
 		int count = 1;
 
-		if (!Translators["add_spacing"].parse(args, kwargs,__FUNCTION__, &name, &count))
+		if (!Translators["add_spacing"].parse(args, kwargs,__FUNCTION__, &name, &count, MV_STANDARD_CALLBACK_PARSE))
 			Py_RETURN_NONE;
 
 		mvAppItem* item = new mvSpacing("", name, count);
-		mvApp::GetApp()->addItem(item);
 
-		
+		MV_STANDARD_CALLBACK_EVAL();
 
 		Py_RETURN_NONE;
 	}
@@ -1616,13 +1572,12 @@ namespace Marvel {
 		float xoffset = 0.0f;
 		float spacing = 0.0f;
 
-		if (!Translators["add_same_line"].parse(args, kwargs,__FUNCTION__, &name, &xoffset, &spacing))
+		if (!Translators["add_same_line"].parse(args, kwargs,__FUNCTION__, &name, &xoffset, &spacing, MV_STANDARD_CALLBACK_PARSE))
 			Py_RETURN_NONE;
 
 		mvAppItem* item = new mvSameLine("", name, xoffset, spacing);
-		mvApp::GetApp()->addItem(item);
 
-		
+		MV_STANDARD_CALLBACK_EVAL();
 
 		Py_RETURN_NONE;
 	}
@@ -1638,7 +1593,6 @@ namespace Marvel {
 			Py_RETURN_NONE;
 
 		mvAppItem* item = new mvRadioButton("", name, mvPythonTranslator::getStringVec(items), default_value);
-		mvApp::GetApp()->addItem(item);
 
 		MV_STANDARD_CALLBACK_EVAL();
 		
@@ -1654,7 +1608,6 @@ namespace Marvel {
 			Py_RETURN_NONE;
 
 		mvAppItem* item = new mvGroup("", name);
-		mvApp::GetApp()->addItem(item);
 		MV_STANDARD_CALLBACK_EVAL();
 		mvApp::GetApp()->pushParent(item);
 		Py_RETURN_NONE;
@@ -1686,7 +1639,6 @@ namespace Marvel {
 			Py_RETURN_NONE;
 
 		mvAppItem* item = new mvChild("", name);
-		mvApp::GetApp()->addItem(item);
 		MV_STANDARD_CALLBACK_EVAL();
 		mvApp::GetApp()->pushParent(item);
 
@@ -1751,7 +1703,6 @@ namespace Marvel {
 			Py_RETURN_NONE;
 
 		mvAppItem* item = new mvTooltip(tipparent, name);
-		mvApp::GetApp()->addItem(item);
 		MV_STANDARD_CALLBACK_EVAL();
 		mvApp::GetApp()->pushParent(item);
 		Py_RETURN_NONE;
@@ -1785,7 +1736,6 @@ namespace Marvel {
 			Py_RETURN_NONE;
 
 		mvAppItem* item = new mvPopup(popupparent, name, mousebutton, modal);
-		mvApp::GetApp()->addItem(item);
 		MV_STANDARD_CALLBACK_EVAL();
 		mvApp::GetApp()->pushParent(item);
 		Py_RETURN_NONE;
@@ -1817,7 +1767,6 @@ namespace Marvel {
 			Py_RETURN_NONE;
 
 		mvAppItem* item = new mvCollapsingHeader("", name, flags);
-		mvApp::GetApp()->addItem(item);
 		MV_STANDARD_CALLBACK_EVAL();
 		mvApp::GetApp()->pushParent(item);
 		Py_RETURN_NONE;
@@ -1849,7 +1798,6 @@ namespace Marvel {
 			Py_RETURN_NONE;
 
 		mvAppItem* item = new mvTreeNode("", name, flags);
-		mvApp::GetApp()->addItem(item);
 		MV_STANDARD_CALLBACK_EVAL();
 		mvApp::GetApp()->pushParent(item);
 		Py_RETURN_NONE;
@@ -1882,7 +1830,6 @@ namespace Marvel {
 			Py_RETURN_NONE;
 
 		mvAppItem* item = new mvSeparator("", name);
-		mvApp::GetApp()->addItem(item);
 
 		MV_STANDARD_CALLBACK_EVAL();
 		
@@ -1904,7 +1851,6 @@ namespace Marvel {
 		auto color = mvPythonTranslator::getColor(default_value);
 
 		mvAppItem* item = new mvColorEdit3("", name, color);
-		mvApp::GetApp()->addItem(item);
 
 		MV_STANDARD_CALLBACK_EVAL();
 
@@ -1927,8 +1873,6 @@ namespace Marvel {
 		auto color = mvPythonTranslator::getColor(default_value);
 
 		mvAppItem* item = new mvColorEdit4("", name, color);
-		mvApp::GetApp()->addItem(item);
-
 		MV_STANDARD_CALLBACK_EVAL();
 		
 		Py_RETURN_NONE;
@@ -1949,7 +1893,6 @@ namespace Marvel {
 		auto color = mvPythonTranslator::getColor(default_value);
 
 		mvAppItem* item = new mvColorPicker3("", name, color);
-		mvApp::GetApp()->addItem(item);
 
 		MV_STANDARD_CALLBACK_EVAL();
 
@@ -1972,7 +1915,6 @@ namespace Marvel {
 		auto color = mvPythonTranslator::getColor(default_value);
 
 		mvAppItem* item = new mvColorPicker4("", name, color);
-		mvApp::GetApp()->addItem(item);
 
 		MV_STANDARD_CALLBACK_EVAL();
 
@@ -1989,10 +1931,8 @@ namespace Marvel {
 			Py_RETURN_NONE;
 
 		mvAppItem* item = new mvCheckbox("", name, default_value);
-		mvApp::GetApp()->addItem(item);
 
 		MV_STANDARD_CALLBACK_EVAL();
-		
 
 		Py_RETURN_NONE;
 	}

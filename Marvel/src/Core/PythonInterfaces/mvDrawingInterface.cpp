@@ -183,7 +183,6 @@ namespace Marvel {
 			Py_RETURN_NONE;
 
 		mvAppItem* item = new mvDrawing("", name, width, height);
-		mvApp::GetApp()->addItem(item);
 
 		MV_STANDARD_CALLBACK_EVAL();
 
