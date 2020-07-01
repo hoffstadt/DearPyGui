@@ -1,4 +1,5 @@
 #include "mvSourceWindow.h"
+#include "Core/mvApp.h"
 #include <imgui.h>
 #include <fstream>
 #include <streambuf>
@@ -64,6 +65,21 @@ namespace Marvel {
 			m_editor.GetLanguageDefinition().mName.c_str(), m_file.c_str());
 
 		m_editor.Render("TextEditor");
+
+		if (ImGui::IsWindowFocused())
+		{
+
+			float titleBarHeight = ImGui::GetStyle().FramePadding.y * 2 + ImGui::GetFontSize();
+
+			// update mouse
+			ImVec2 mousePos = ImGui::GetMousePos();
+			float x = mousePos.x - ImGui::GetWindowPos().x;
+			float y = mousePos.y - ImGui::GetWindowPos().y - titleBarHeight;
+			mvApp::GetApp()->setMousePosition(x, y);
+
+			mvApp::GetApp()->setActiveWindow("Source");
+
+		}
 		ImGui::End();
 	}
 

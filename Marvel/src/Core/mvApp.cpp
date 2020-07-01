@@ -8,6 +8,7 @@
 #include "Core/StandardWindows/mvAboutWindow.h"
 #include "Core/StandardWindows/mvMetricsWindow.h"
 #include "Core/StandardWindows/mvSourceWindow.h"
+#include "Core/StandardWindows/mvDebugWindow.h"
 #include <thread>
 #include <future>
 #include <chrono>
@@ -63,6 +64,7 @@ namespace Marvel {
 		addStandardWindow("about", new mvAboutWindow());
 		addStandardWindow("metrics", new mvMetricsWindow());
 		addStandardWindow("source", new mvSourceWindow());
+		addStandardWindow("debug", new mvDebugWindow());
 		addStandardWindow("logger", mvAppLog::GetLoggerStandardWindow());
 
 	}
@@ -182,12 +184,28 @@ namespace Marvel {
 
 	}
 
-	void mvApp::render(bool& show)
+	void mvApp::prerender()
 	{
+
+		for (auto& entry : m_standardWindows)
+		{
+			if (entry.second.show)
+				entry.second.window->render(entry.second.show);
+		}
 
 		// set imgui style to mvstyle
 		ImGuiStyle& style = ImGui::GetStyle();
 		SetStyle(style, m_style);
+
+		prepareStandardCallbacks();
+
+		for (auto window : m_windows)
+			window->resetState();
+
+	}
+
+	void mvApp::render(bool& show)
+	{
 
 		// update mouse
 		//ImVec2 mousePos = ImGui::GetMousePos();
@@ -195,8 +213,6 @@ namespace Marvel {
 		////m_mousePos.y = mousePos.y;
 		//m_mousePos.x = 0.0f;
 		//m_mousePos.y = 0.0f;
-
-		prepareStandardCallbacks();
 
 		if (!m_callback.empty())
 			runMainCallback(m_callback, "Main Application");

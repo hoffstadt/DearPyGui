@@ -105,6 +105,9 @@ namespace Marvel {
 			{"show_metrics", mvPythonTranslator({
 			}, false, "Shows the metrics window.")},
 
+			{"show_debug", mvPythonTranslator({
+			}, false, "Shows the debug window.")},
+
 			{"close_popup", mvPythonTranslator({
 			}, false, "Needs documentation")},
 
@@ -952,6 +955,12 @@ namespace Marvel {
 		Py_RETURN_NONE;
 	}
 
+	PyObject* show_debug(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		mvApp::GetApp()->showStandardWindow("debug");
+		Py_RETURN_NONE;
+	}
+
 	PyObject* show_documentation(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		mvApp::GetApp()->showStandardWindow("documentation");
@@ -985,6 +994,7 @@ namespace Marvel {
 		pyModule->addMethodD(set_threadpool_auto);
 		pyModule->addMethodD(show_source);
 		pyModule->addMethodD(show_about);
+		pyModule->addMethodD(show_debug);
 		pyModule->addMethodD(show_metrics);
 		pyModule->addMethodD(close_popup);
 		pyModule->addMethodD(show_documentation);

@@ -20,6 +20,7 @@ target_sources(Marvel
 		"src/Core/StandardWindows/mvAboutWindow.cpp"
 		"src/Core/StandardWindows/mvMetricsWindow.cpp"
 		"src/Core/StandardWindows/mvSourceWindow.cpp"
+		"src/Core/StandardWindows/mvDebugWindow.cpp"
 		
 		"src/Core/Concurrency/mvThreadPool.cpp"
 

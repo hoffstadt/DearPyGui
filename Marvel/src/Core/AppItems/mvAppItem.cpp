@@ -9,6 +9,24 @@ namespace Marvel{
 		m_label = name;
 	}
 
+	void mvAppItem::resetState()
+	{
+		m_hovered = false;
+		m_active = false;
+		m_focused = false;
+		m_clicked = false;
+		m_visible = false;
+		m_edited = false;
+		m_activated = false;
+		m_deactivated = false;
+		m_deactivatedAfterEdit = false;
+		m_toggledOpen = false;
+
+		for (mvAppItem* item : m_children)
+			item->resetState();
+
+	}
+
 	bool  mvAppItem::moveChildUp(const std::string& name)
 	{
 		bool found = false;

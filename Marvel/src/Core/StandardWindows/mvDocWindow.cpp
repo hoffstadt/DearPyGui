@@ -1,6 +1,7 @@
 #include "mvDocWindow.h"
 #include <imgui.h>
 #include "mvInterfaceRegistry.h"
+#include "Core/mvApp.h"
 
 namespace Marvel {
 
@@ -126,6 +127,20 @@ namespace Marvel {
 		ImGui::PopTextWrapPos();
 		ImGui::EndChild();
 
+		if (ImGui::IsWindowFocused())
+		{
+
+			float titleBarHeight = ImGui::GetStyle().FramePadding.y * 2 + ImGui::GetFontSize();
+
+			// update mouse
+			ImVec2 mousePos = ImGui::GetMousePos();
+			float x = mousePos.x - ImGui::GetWindowPos().x;
+			float y = mousePos.y - ImGui::GetWindowPos().y - titleBarHeight;
+			mvApp::GetApp()->setMousePosition(x, y);
+
+			mvApp::GetApp()->setActiveWindow("Documentation");
+
+		}
 
 		ImGui::End();
 	}

@@ -19,6 +19,22 @@ namespace Marvel {
 		ImGui::Text("%d vertices, %d indices (%d triangles)", io.MetricsRenderVertices, io.MetricsRenderIndices, io.MetricsRenderIndices / 3);
 		ImGui::Text("%d active windows (%d visible)", io.MetricsActiveWindows, io.MetricsRenderWindows);
 		ImGui::Text("%d active allocations", io.MetricsActiveAllocations);
+
+		if (ImGui::IsWindowFocused())
+		{
+
+			float titleBarHeight = ImGui::GetStyle().FramePadding.y * 2 + ImGui::GetFontSize();
+
+			// update mouse
+			ImVec2 mousePos = ImGui::GetMousePos();
+			float x = mousePos.x - ImGui::GetWindowPos().x;
+			float y = mousePos.y - ImGui::GetWindowPos().y - titleBarHeight;
+			mvApp::GetApp()->setMousePosition(x, y);
+
+			mvApp::GetApp()->setActiveWindow("Metrics");
+
+		}
+
 		ImGui::End();
 	}
 

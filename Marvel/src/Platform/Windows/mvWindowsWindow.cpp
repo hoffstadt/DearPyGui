@@ -35,6 +35,7 @@ namespace Marvel {
 		IMGUI_CHECKVERSION();
 		ImGui::CreateContext();
 		ImGuiIO& io = ImGui::GetIO(); (void)io;
+		io.ConfigWindowsMoveFromTitleBarOnly = true;
 
 		// Setup Dear ImGui style
 		ImGui::StyleColorsDark();

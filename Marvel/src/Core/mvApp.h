@@ -40,6 +40,7 @@ namespace Marvel {
 		~mvApp();
 
 		void         precheck  ();                           // precheck before the main render loop has started
+		virtual void prerender () override;                  // actual render loop		
 		virtual void render    (bool& show) override;        // actual render loop		
 		virtual void postrender() override;                  // post rendering (every frame)
 		bool         isStarted() const { return m_started; } // has the application started running
@@ -53,8 +54,9 @@ namespace Marvel {
 		void                    setStarted     () { m_started = true; }
 		void                    setActiveWindow(const std::string& window) { m_activeWindow = window; }
 
-		const std::string&      getFile        () const { return m_file; }
-		const std::string&      getActiveWindow() const { return m_activeWindow; }
+		const std::string&       getFile        () const { return m_file; }
+		const std::string&       getActiveWindow() const { return m_activeWindow; }
+		std::vector<mvAppItem*>& getWindows     () { return m_windows; }
 
 		//-----------------------------------------------------------------------------
 		// Styles/Themes
