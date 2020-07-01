@@ -18,7 +18,7 @@ item->setWidth(width);\
 item->setHeight(height);\
 item->setPopup(popup);\
 auto ma = mvApp::GetApp();\
-if(!std::string(parent).empty() || !std::string(before).empty() && ma->isStarted())ma->addRuntimeItem(parent, before, item);\
+if((!std::string(parent).empty() || !std::string(before).empty()) && ma->isStarted())ma->addRuntimeItem(parent, before, item);\
 else if(std::string(parent).empty() && std::string(before).empty() && ma->isStarted() && ma->topParent() != nullptr)ma->addRuntimeItem(ma->topParent()->getName(), before, item);\
 else if(std::string(parent).empty() && std::string(before).empty() && ma->isStarted())ma->addRuntimeItem("MainWindow", "", item);\
 
