@@ -183,7 +183,7 @@ namespace Marvel {
 		if (m_dirty)
 			updateCommands();
 
-		ImGui::PushClipRect({ m_startx, m_starty }, { m_startx + (float)m_width, m_starty + (float)m_height }, false);
+		ImGui::PushClipRect({ m_startx, m_starty }, { m_startx + (float)m_width, m_starty + (float)m_height }, true);
 
 		for (auto command : m_commands)
 			command->draw(this, draw_list);

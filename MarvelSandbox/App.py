@@ -478,3 +478,14 @@ add_popup("Simpleplot3", "plot_popup")
 add_simple_plot("SimpleplotPop", (0.3, 0.9, 2.5, 8.9), height = 80)
 end_popup()
 end_window()
+
+add_window("canvas_holding",width = 500, height = 500)
+
+add_child("canvas_holder")
+
+add_drawing("canvas", width= 500, height= 500)
+draw_line("canvas", p1 = [-176, -176], p2 = [178, 178],color = [150,150,150], thickness = 1)
+#draw_line("canvas", p1 = sensor1.origin, p2 = sensor1.p2, color =[100,200,150],thickness = 1)
+
+end_child()
+end_window()
