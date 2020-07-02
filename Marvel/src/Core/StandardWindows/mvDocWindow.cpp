@@ -24,7 +24,10 @@ namespace Marvel {
 		m_sbDocPlot = mvInterfaceRegistry::GetRegistry()->getPythonInterfaceDoc("sbPlot");
 		m_sbDocDraw = mvInterfaceRegistry::GetRegistry()->getPythonInterfaceDoc("sbDraw");
 
-		m_flags |= ImGuiWindowFlags_AlwaysAutoResize;
+		//m_flags |= ImGuiWindowFlags_AlwaysAutoResize;
+
+		m_width = 500;
+		m_height = 500;
 	}
 
 	mvStandardWindow* mvDocWindow::GetWindow()
@@ -45,6 +48,7 @@ namespace Marvel {
 			m_flags = ImGuiWindowFlags_NoBringToFrontOnFocus | ImGuiWindowFlags_NoSavedSettings
 				| ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoTitleBar;
 		}
+
 
 		if (!ImGui::Begin("Documentation", &show, m_flags))
 		{
