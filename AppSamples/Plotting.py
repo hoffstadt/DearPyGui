@@ -19,7 +19,7 @@ end_menu()
 end_menu_bar()
 
 add_button("Plot data", callback="PlotCallback")
-add_plot("Plot2", "x-axis", "y-axis", -1, 450);
+add_plot("Plot2", "x-axis", "y-axis", width=-1, height=450);
 
 add_listbox("Colormaps", ("Default", "Dark", "Pastel", "Paired", "Viridis", "Plasma", "Hot", "Cool", "Pink", "Jet"), width=500, height=10, callback="colormapCallback")
 

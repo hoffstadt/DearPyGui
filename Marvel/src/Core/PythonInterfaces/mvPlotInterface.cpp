@@ -82,6 +82,12 @@ namespace Marvel {
 			Py_RETURN_NONE;
 
 		mvAppItem* aplot = mvApp::GetApp()->getItem(plot);
+		if (aplot == nullptr)
+		{
+			std::string message = plot;
+			mvAppLog::getLogger()->LogWarning(message + " plot does not exist.");
+			Py_RETURN_NONE;
+		}
 		mvPlot* graph = static_cast<mvPlot*>(aplot);
 
 		graph->clear();
@@ -98,6 +104,12 @@ namespace Marvel {
 			Py_RETURN_NONE;
 
 		mvAppItem* aplot = mvApp::GetApp()->getItem(plot);
+		if (aplot == nullptr)
+		{
+			std::string message = plot;
+			mvAppLog::getLogger()->LogWarning(message + " plot does not exist.");
+			Py_RETURN_NONE;
+		}
 		mvPlot* graph = static_cast<mvPlot*>(aplot);
 
 		graph->SetColorMap(map);
@@ -142,6 +154,14 @@ namespace Marvel {
 			Py_RETURN_NONE;
 
 		mvAppItem* aplot = mvApp::GetApp()->getItem(plot);
+
+		if (aplot == nullptr)
+		{
+			std::string message = plot;
+			mvAppLog::getLogger()->LogWarning(message + " plot does not exist.");
+			Py_RETURN_NONE;
+		}
+
 		mvPlot* graph = static_cast<mvPlot*>(aplot);
 
 		auto datapoints = mvPythonTranslator::getVectVec2(data);
@@ -181,6 +201,14 @@ namespace Marvel {
 			Py_RETURN_NONE;
 
 		mvAppItem* aplot = mvApp::GetApp()->getItem(plot);
+
+		if (aplot == nullptr)
+		{
+			std::string message = plot;
+			mvAppLog::getLogger()->LogWarning(message + " plot does not exist.");
+			Py_RETURN_NONE;
+		}
+
 		mvPlot* graph = static_cast<mvPlot*>(aplot);
 
 		auto datapoints = mvPythonTranslator::getVectVec2(data);
@@ -216,6 +244,12 @@ namespace Marvel {
 			Py_RETURN_NONE;
 
 		mvAppItem* aplot = mvApp::GetApp()->getItem(plot);
+		if (aplot == nullptr)
+		{
+			std::string message = plot;
+			mvAppLog::getLogger()->LogWarning(message + " plot does not exist.");
+			Py_RETURN_NONE;
+		}
 		mvPlot* graph = static_cast<mvPlot*>(aplot);
 
 		mvSeries* series = new mvLabelSeries(name, { {(float)x, (float)y}}, xoffset, yoffset, vertical);
