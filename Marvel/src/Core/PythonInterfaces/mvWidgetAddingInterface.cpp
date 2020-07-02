@@ -306,10 +306,16 @@ namespace Marvel {
 		translators->insert({ "add_input_text", mvPythonTranslator({
 			{mvPythonDataType::String, "name"},
 			{mvPythonDataType::Optional},
-			{mvPythonDataType::KeywordOnly},
+			{mvPythonDataType::String, "default_value"},
 			{mvPythonDataType::String, "hint"},
+			{mvPythonDataType::KeywordOnly},
 			{mvPythonDataType::Bool, "multiline"},
-			{mvPythonDataType::Integer, "flags"}
+			{mvPythonDataType::Bool, "no_spaces"},
+			{mvPythonDataType::Bool, "uppercase"},
+			{mvPythonDataType::Bool, "decimal"},
+			{mvPythonDataType::Bool, "hexadecimal"},
+			{mvPythonDataType::Bool, "readonly"},
+			{mvPythonDataType::Bool, "password"},
 		}, true, "Adds input for text values.") });
 
 		translators->insert({ "add_input_int", mvPythonTranslator({
@@ -382,11 +388,14 @@ namespace Marvel {
 			{mvPythonDataType::String, "name"},
 			{mvPythonDataType::Optional},
 			{mvPythonDataType::KeywordOnly},
-			{mvPythonDataType::Integer, "flags"}
+			{mvPythonDataType::Bool, "reorderable"}
 		}, true, "Adds a tab bar.") });
 
 		translators->insert({ "add_tab", mvPythonTranslator({
-			{mvPythonDataType::String, "name"}
+			{mvPythonDataType::String, "name"},
+			{mvPythonDataType::Optional},
+			{mvPythonDataType::KeywordOnly},
+			{mvPythonDataType::Bool, "closable"}
 		}, true, "Adds a tab to a tab bar.") });
 
 		translators->insert({ "add_menu_bar", mvPythonTranslator({
@@ -441,6 +450,7 @@ namespace Marvel {
 			{mvPythonDataType::Integer, "start_x"},
 			{mvPythonDataType::Integer, "start_y"},
 			{mvPythonDataType::Bool, "autosize"},
+			{mvPythonDataType::Bool, "default_close"}
 		}, false, "Creates a new window for following items to be added to. Must call end_main_window command before.") });
 
 		translators->insert({ "add_tooltip", mvPythonTranslator({
@@ -460,14 +470,14 @@ namespace Marvel {
 			{mvPythonDataType::String, "name"},
 			{mvPythonDataType::Optional},
 			{mvPythonDataType::KeywordOnly},
-			{mvPythonDataType::Integer, "flags"}
+			{mvPythonDataType::Bool, "default_open"}
 		}, true, "Adds a collapsing header to add items to. Must be closed with the end_collapsing_header command.") });
 
 		translators->insert({ "add_tree_node", mvPythonTranslator({
 			{mvPythonDataType::String, "name"},
 			{mvPythonDataType::Optional},
 			{mvPythonDataType::KeywordOnly},
-			{mvPythonDataType::Integer, "flags"}
+			{mvPythonDataType::Bool, "default_open"}
 		}, true, "Adds a tree node to add items to. Must be closed with the end_tree_node command.") });
 
 		translators->insert({ "add_color_edit3", mvPythonTranslator({
@@ -1130,14 +1140,31 @@ namespace Marvel {
 	{
 		MV_STANDARD_CALLBACK_INIT();
 		const char* name;
+		const char* default_value = "";
 		const char* hint = "";
 		int multiline = 0;
+
+		int no_spaces = false;
+		int uppercase = false;
+		int decimal = false;
+		int hexadecimal = false;
+		int readonly = false;
+		int password = false;
+
 		int flags = 0;
 
-		if (!Translators["add_input_text"].parse(args, kwargs,__FUNCTION__, &name, &hint, &multiline, &flags, MV_STANDARD_CALLBACK_PARSE))
+		if (!Translators["add_input_text"].parse(args, kwargs,__FUNCTION__, &name, &default_value, &hint, &multiline, &no_spaces, 
+			&uppercase, &decimal, &hexadecimal, &readonly, &password, MV_STANDARD_CALLBACK_PARSE))
 			Py_RETURN_NONE;
 
-		mvAppItem* item = new mvInputText("", name, hint, multiline, flags);
+		if (no_spaces) flags |= ImGuiInputTextFlags_CharsNoBlank;
+		if (uppercase) flags |= ImGuiInputTextFlags_CharsUppercase;
+		if (decimal) flags |= ImGuiInputTextFlags_CharsDecimal;
+		if (hexadecimal) flags |= ImGuiInputTextFlags_CharsHexadecimal;
+		if (readonly) flags |= ImGuiInputTextFlags_ReadOnly;
+		if (password) flags |= ImGuiInputTextFlags_Password;
+
+		mvAppItem* item = new mvInputText("", name, default_value, hint, multiline, flags);
 
 		MV_STANDARD_CALLBACK_EVAL();
 
@@ -1353,12 +1380,12 @@ namespace Marvel {
 	{
 		MV_STANDARD_CALLBACK_INIT();
 		const char* name;
-		int flags = 0;
+		int reorderable = false;
 
-		if (!Translators["add_tab_bar"].parse(args, kwargs, __FUNCTION__, &name, &flags, MV_STANDARD_CALLBACK_PARSE))
+		if (!Translators["add_tab_bar"].parse(args, kwargs, __FUNCTION__, &name, &reorderable, MV_STANDARD_CALLBACK_PARSE))
 			Py_RETURN_NONE;
 
-		mvAppItem* item = new mvTabBar("", name, flags);
+		mvAppItem* item = new mvTabBar("", name, reorderable);
 		MV_STANDARD_CALLBACK_EVAL();
 		mvApp::GetApp()->pushParent(item);
 		Py_RETURN_NONE;
@@ -1368,8 +1395,9 @@ namespace Marvel {
 	{
 		MV_STANDARD_CALLBACK_INIT();
 		const char* name;
+		int closeable = false;
 
-		if (!Translators["add_tab"].parse(args, kwargs, __FUNCTION__, &name, MV_STANDARD_CALLBACK_PARSE))
+		if (!Translators["add_tab"].parse(args, kwargs, __FUNCTION__, &name, &closeable, MV_STANDARD_CALLBACK_PARSE))
 			Py_RETURN_NONE;
 		
 		auto parentItem = mvApp::GetApp()->topParent();
@@ -1379,7 +1407,7 @@ namespace Marvel {
 
 		else if (parentItem->getType() == mvAppItemType::TabBar)
 		{
-			mvAppItem* item = new mvTab("", name);
+			mvAppItem* item = new mvTab("", name, closeable);
 			MV_STANDARD_CALLBACK_EVAL();
 			mvApp::GetApp()->pushParent(item);
 		}
@@ -1658,13 +1686,18 @@ namespace Marvel {
 		int startx = 0;
 		int starty = 0;
 		int autosize = false;
+		int default_close = false;
 
-		if (!Translators["add_window"].parse(args, kwargs, __FUNCTION__, &name, &width, &height, &startx, &starty, &autosize))
+		if (!Translators["add_window"].parse(args, kwargs, __FUNCTION__, &name, &width, &height, &startx, &starty, &autosize, &default_close))
 			Py_RETURN_NONE;
 
+		
 		mvAppItem* item = new mvWindowAppitem("", name, width, height, startx, starty, false, autosize);
 		mvApp::GetApp()->addWindow(item);
 		mvApp::GetApp()->pushParent(item);
+
+		if (default_close)
+			item->hide();
 
 		Py_RETURN_NONE;
 	}
@@ -1779,10 +1812,13 @@ namespace Marvel {
 	{
 		MV_STANDARD_CALLBACK_INIT();
 		const char* name;
+		int default_open = false;
 		int flags = 0;
 
-		if (!Translators["add_collapsing_header"].parse(args, kwargs, __FUNCTION__, &name, &flags, MV_STANDARD_CALLBACK_PARSE))
+		if (!Translators["add_collapsing_header"].parse(args, kwargs, __FUNCTION__, &name, &default_open, MV_STANDARD_CALLBACK_PARSE))
 			Py_RETURN_NONE;
+
+		if (default_open) flags |= ImGuiTreeNodeFlags_DefaultOpen;
 
 		mvAppItem* item = new mvCollapsingHeader("", name, flags);
 		MV_STANDARD_CALLBACK_EVAL();
@@ -1810,10 +1846,13 @@ namespace Marvel {
 	{
 		MV_STANDARD_CALLBACK_INIT();
 		const char* name;
+		int default_open = false;
 		int flags = 0;
 
-		if (!Translators["add_tree_node"].parse(args, kwargs, __FUNCTION__, &name, &flags, MV_STANDARD_CALLBACK_PARSE))
+		if (!Translators["add_tree_node"].parse(args, kwargs, __FUNCTION__, &name, &default_open, MV_STANDARD_CALLBACK_PARSE))
 			Py_RETURN_NONE;
+
+		if (default_open) flags |= ImGuiTreeNodeFlags_DefaultOpen;
 
 		mvAppItem* item = new mvTreeNode("", name, flags);
 		MV_STANDARD_CALLBACK_EVAL();

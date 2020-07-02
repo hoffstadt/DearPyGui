@@ -24,9 +24,13 @@ namespace Marvel {
 
 		MV_APPITEM_TYPE(mvAppItemType::TabBar)
 
-		mvTabBar(const std::string& parent, const std::string& name, ImGuiTabBarFlags flags = 0)
-			: mvStringItemBase(parent, name, ""), m_flags(flags)
-		{}
+		mvTabBar(const std::string& parent, const std::string& name, bool reorderable = false)
+			: mvStringItemBase(parent, name, ""), m_reorderable(reorderable)
+		{
+			if (reorderable)
+				m_flags |= ImGuiTabBarFlags_Reorderable;
+		
+		}
 
 		virtual void draw() override
 		{
@@ -72,7 +76,8 @@ namespace Marvel {
 
 	private:
 
-		ImGuiTabBarFlags m_flags;
+		bool m_reorderable = false;
+		ImGuiTabBarFlags m_flags = ImGuiTabBarFlags_None;
 
 	};
 
@@ -86,8 +91,8 @@ namespace Marvel {
 
 		MV_APPITEM_TYPE(mvAppItemType::TabItem)
 
-		mvTab(const std::string& parent, const std::string& name)
-			: mvBoolItemBase(parent, name, false)
+		mvTab(const std::string& parent, const std::string& name, bool closable = false)
+			: mvBoolItemBase(parent, name, false), m_closable(closable)
 		{
 		}
 
@@ -107,7 +112,7 @@ namespace Marvel {
 			}
 
 			// create tab item and see if it is selected
-			if (ImGui::BeginTabItem(m_label.c_str()))
+			if (ImGui::BeginTabItem(m_label.c_str(), m_closable ? &m_show : nullptr))
 			{
 
 				bool changed = false;
@@ -176,6 +181,10 @@ namespace Marvel {
 				ImGui::EndTabItem();
 			}
 		}
+
+	private:
+
+		bool m_closable = false;
 
 	};
 
