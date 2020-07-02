@@ -34,6 +34,26 @@ namespace Marvel {
 				{mvPythonDataType::Integer, "map"}
 			}, false, "Sets the color map of the plot's series.")},
 
+			{"set_plot_xlimits", mvPythonTranslator({
+				{mvPythonDataType::String, "plot"},
+				{mvPythonDataType::Float, "xmin"},
+				{mvPythonDataType::Float, "xmax"},
+			}, false, "Sets x axis limits of a plot. (can be undone with set_plot_xlimits_auto()")},
+
+			{"set_plot_ylimits", mvPythonTranslator({
+				{mvPythonDataType::String, "plot"},
+				{mvPythonDataType::Float, "ymin"},
+				{mvPythonDataType::Float, "ymax"},
+			}, false, "Sets y axis limits of a plot. (can be undone with set_plot_ylimits_auto()")},
+
+			{"set_plot_xlimits_auto", mvPythonTranslator({
+				{mvPythonDataType::String, "plot"},
+			}, false, "Sets plots x limits to be automatic.")},
+
+			{"set_plot_ylimits_auto", mvPythonTranslator({
+				{mvPythonDataType::String, "plot"},
+			}, false, "Sets plots y limits to be automatic.")},
+
 			{"add_line_series", mvPythonTranslator({
 				{mvPythonDataType::String, "plot"},
 				{mvPythonDataType::String, "name"},
@@ -91,6 +111,94 @@ namespace Marvel {
 		mvPlot* graph = static_cast<mvPlot*>(aplot);
 
 		graph->clear();
+
+		Py_RETURN_NONE;
+	}
+
+	PyObject* set_plot_xlimits_auto(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		const char* plot;
+
+		if (!Translators["set_plot_xlimits_auto"].parse(args, kwargs, __FUNCTION__, &plot))
+			Py_RETURN_NONE;
+
+		mvAppItem* aplot = mvApp::GetApp()->getItem(plot);
+		if (aplot == nullptr)
+		{
+			std::string message = plot;
+			mvAppLog::getLogger()->LogWarning(message + " plot does not exist.");
+			Py_RETURN_NONE;
+		}
+		mvPlot* graph = static_cast<mvPlot*>(aplot);
+
+		graph->setXLimitsAuto();
+
+		Py_RETURN_NONE;
+	}
+
+	PyObject* set_plot_ylimits_auto(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		const char* plot;
+
+		if (!Translators["set_plot_ylimits_auto"].parse(args, kwargs, __FUNCTION__, &plot))
+			Py_RETURN_NONE;
+
+		mvAppItem* aplot = mvApp::GetApp()->getItem(plot);
+		if (aplot == nullptr)
+		{
+			std::string message = plot;
+			mvAppLog::getLogger()->LogWarning(message + " plot does not exist.");
+			Py_RETURN_NONE;
+		}
+		mvPlot* graph = static_cast<mvPlot*>(aplot);
+
+		graph->setYLimitsAuto();
+
+		Py_RETURN_NONE;
+	}
+
+	PyObject* set_plot_xlimits(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		const char* plot;
+		float xmin;
+		float xmax;
+
+		if (!Translators["set_plot_xlimits"].parse(args, kwargs, __FUNCTION__, &plot, &xmin, &xmax))
+			Py_RETURN_NONE;
+
+		mvAppItem* aplot = mvApp::GetApp()->getItem(plot);
+		if (aplot == nullptr)
+		{
+			std::string message = plot;
+			mvAppLog::getLogger()->LogWarning(message + " plot does not exist.");
+			Py_RETURN_NONE;
+		}
+		mvPlot* graph = static_cast<mvPlot*>(aplot);
+
+		graph->setXLimits(xmin, xmax);
+
+		Py_RETURN_NONE;
+	}
+
+	PyObject* set_plot_ylimits(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		const char* plot;
+		float ymin;
+		float ymax;
+
+		if (!Translators["set_plot_ylimits"].parse(args, kwargs, __FUNCTION__, &plot, &ymin, &ymax))
+			Py_RETURN_NONE;
+
+		mvAppItem* aplot = mvApp::GetApp()->getItem(plot);
+		if (aplot == nullptr)
+		{
+			std::string message = plot;
+			mvAppLog::getLogger()->LogWarning(message + " plot does not exist.");
+			Py_RETURN_NONE;
+		}
+		mvPlot* graph = static_cast<mvPlot*>(aplot);
+
+		graph->setYLimits(ymin, ymax);
 
 		Py_RETURN_NONE;
 	}
@@ -265,6 +373,10 @@ namespace Marvel {
 		auto pyModule = new mvPythonModule("sbPlot", {});
 
 		pyModule->addMethodD(clear_plot);
+		pyModule->addMethodD(set_plot_xlimits_auto);
+		pyModule->addMethodD(set_plot_ylimits_auto);
+		pyModule->addMethodD(set_plot_xlimits);
+		pyModule->addMethodD(set_plot_ylimits);
 		pyModule->addMethodD(set_color_map);
 		pyModule->addMethodD(add_plot);
 		pyModule->addMethodD(add_line_series);

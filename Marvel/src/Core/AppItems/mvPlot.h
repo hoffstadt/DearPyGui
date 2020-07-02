@@ -89,6 +89,12 @@ namespace Marvel {
 		{
 			ImGui::PushID(m_colormap);
 
+			if (m_setXLimits)
+				ImPlot::SetNextPlotLimitsX(m_xlimits.x, m_xlimits.y, ImGuiCond_Always);
+
+			if (m_setYLimits)
+				ImPlot::SetNextPlotLimitsY(m_ylimits.x, m_ylimits.y, ImGuiCond_Always);
+
 			if (ImPlot::BeginPlot(m_name.c_str(), m_xaxisName.c_str(), m_yaxisName.c_str(), ImVec2(m_width, m_height), m_flags,
 				m_xflags, m_yflags) )
 			{
@@ -106,6 +112,27 @@ namespace Marvel {
 			ImGui::PopID();
 		}
 
+		void setXLimits(float x_min, float x_max)
+		{
+			m_setXLimits = true;
+			m_xlimits = ImVec2(x_min, x_max);
+		}
+
+		void setYLimits(float y_min, float y_max)
+		{
+			m_setYLimits = true;
+			m_ylimits = ImVec2(y_min, y_max);
+		}
+
+		void setXLimitsAuto()
+		{
+			m_setXLimits = false;
+		}
+
+		void setYLimitsAuto()
+		{
+			m_setYLimits = false;
+		}
 
 	private:
 
@@ -115,6 +142,10 @@ namespace Marvel {
 		ImPlotAxisFlags m_xflags  = ImPlotAxisFlags_Default;
 		ImPlotAxisFlags m_yflags  = ImPlotAxisFlags_Default;
 		ImPlotColormap  m_colormap = ImPlotColormap_Default;
+		bool            m_setXLimits = false;
+		bool            m_setYLimits = false;
+		ImVec2          m_xlimits;
+		ImVec2          m_ylimits;
 
 		std::vector<mvSeries*> m_series;
 
