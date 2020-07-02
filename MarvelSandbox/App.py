@@ -137,7 +137,7 @@ end_tooltip()
 add_collapsing_header("Inputs")
 
 #each input has a base signature of a name. This is used to interact with the items on the app
-add_input_text("Text Input", hint="Hint for description goes here (this is not a default string).")
+add_input_text("Text Input", hint="Hint for description goes here (this is not a default string).", uppercase=True)
 add_input_text("Text Input with Multiline", multiline=True)
 add_input_int("Input Integer 1", default_value=117)
 add_input_float("Input Float 1", default_value=117.0)
@@ -394,6 +394,12 @@ add_plot("Plot2", "x-axis", "y-axis", width=-1, height=450);
 set_plot_ylimits("Plot2", -10, 10)
 end_collapsing_header()
 
+add_tab_bar("tabbar1", reorderable=True)
+for i in range(0, 10):
+    add_tab("tab" + str(i), closable=True)
+    end_tab()
+end_tab_bar()
+
 def PlotCallback(sender):
 
     delete_item("Themes", True)
@@ -475,12 +481,12 @@ def MainCallback(sender):
 
     if is_mouse_button_pressed(sbConstants.mvMouseButton_Left) and is_item_hovered("Secondary Window"):
         print("pressed")
-    if is_key_pressed(0x25): # left arrow key
+    if is_key_pressed(sbConstants.mvKey_Left): # left arrow key
         print("key pressed")
 
 end_window()
 
-add_window("Secondary Window", 300, 500, autosize=True)
+add_window("Secondary Window", 300, 500, autosize=True, default_close=True)
 add_simple_plot("Simpleplot3", (0.3, 0.9, 2.5, 8.9), height = 80)
 add_popup("Simpleplot3", "plot_popup")
 add_simple_plot("SimpleplotPop", (0.3, 0.9, 2.5, 8.9), height = 80)

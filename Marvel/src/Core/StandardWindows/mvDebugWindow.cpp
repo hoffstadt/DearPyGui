@@ -78,6 +78,7 @@ namespace Marvel {
 				DebugItem("ImGui Version: ", IMGUI_VERSION);
 				DebugItem("App File: ", app->getFile().c_str());
 				DebugItem("Threads Active: ", std::to_string(app->getThreadCount()).c_str());
+				DebugItem("Threadpool Threshold: ", std::to_string(app->getThreadPoolThreshold()).c_str());
 				DebugItem("Threadpool Active: ", app->usingThreadPool() ? ts : fs);
 				DebugItem("Threadpool Auto: ", app->isThreadPoolAuto() ? ts : fs);
 				DebugItem("Threadpool High: ", app->usingThreadPoolHighPerformance() ? ts : fs);
@@ -161,6 +162,12 @@ namespace Marvel {
 						app->deleteItem(m_selectedItem);
 						m_selectedItem = "MainWindow";
 					}
+					ImGui::SameLine();
+					if (ImGui::Button("Show"))
+						app->getItem(m_selectedItem)->show();
+					ImGui::SameLine();
+					if (ImGui::Button("Hide"))
+						app->getItem(m_selectedItem)->hide();
 
 					ImGui::PushItemWidth(200);
 					DebugItem("Item Name:", m_selectedItem.c_str());

@@ -43,6 +43,7 @@ namespace Marvel {
 				setHovered(false);
 				setFocused(false);
 				setActivated(false);
+				setVisible(false);
 				return;
 			}
 
@@ -94,6 +95,7 @@ namespace Marvel {
 				item->setRectSize({ ImGui::GetItemRectSize().x, ImGui::GetItemRectSize().y });
 			}
 
+			setVisible(true);
 			setHovered(ImGui::IsWindowHovered());
 			setFocused(ImGui::IsWindowFocused());
 			setRectSize({ ImGui::GetWindowSize().x, ImGui::GetWindowSize().y });
