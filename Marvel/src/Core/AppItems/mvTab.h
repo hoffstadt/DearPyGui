@@ -30,7 +30,6 @@ namespace Marvel {
 
 		virtual void draw() override
 		{
-			mvApp::GetApp()->pushParent(this);
 			if (ImGui::BeginTabBar(m_label.c_str(), m_flags))
 			{
 				for (mvAppItem* item : m_children)
