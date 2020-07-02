@@ -76,6 +76,7 @@ namespace Marvel {
 		void     setThreadPoolThreshold      (double time) { m_threadPoolThreshold = time; }
 		void     setThreadCount              (unsigned count) { m_threads = count; }
 		void     setThreadPoolAuto           () { m_threadPoolAuto = true; }
+		void     setThreadPoolManual         () { m_threadPoolAuto = false; }
 		void     activateThreadPool          () { m_threadPool = true; }
 		void     setThreadPoolHighPerformance() { m_threadPoolHighPerformance = true; }
 

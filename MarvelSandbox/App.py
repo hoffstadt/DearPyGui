@@ -88,15 +88,7 @@ def ClassicTheme(sender):
     set_theme("classic")
 
 def OpenThemeEditor(sender):
-    #this is where the theme editor will be turned on once created. it will run similar to logger except the open theme call back will se the Value to 1. and a new window will appear. 
-    #after done editing the user will select "Apply" or "Cancel" and those callbacks will be ran and also the value will be set to 0 and the theme edtor closed.
-    value = 0
-    if value == 0:
-        #CloseThemeEditor
-        pass
-    else:
-        #CloseThemeEditor
-        pass
+    print(open_file_dialog([["Python", "*.py"], ["Word", "*.doc*"]]))
 
 #An advanced function for the "HulkAbility" callback showing that we can edit theme items. Finilize changes by calling "updateTheme". This is only some of the items that can be colored.
 def HulkAbility(sender):
@@ -401,8 +393,6 @@ for i in range(0, 10):
 end_tab_bar()
 
 def PlotCallback(sender):
-
-    delete_item("Themes", True)
 
     set_plot_ylimits_auto("Plot2")
 
