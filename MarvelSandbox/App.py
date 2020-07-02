@@ -9,6 +9,7 @@ import sbConstants
 from math import sin, cos
 
 #testme()
+show_debug()
 
 ####################################################
 #############    About All Widgets    ##############
@@ -118,6 +119,12 @@ add_button("Hover me")
 add_tooltip("Hover me", "tool_tip")
 add_simple_plot("SimpleplotTooltip", (0.3, 0.9, 2.5, 8.9), height = 80)
 end_tooltip()
+
+add_button("Long Process", callback="LongCallback")
+def LongCallback(sender):
+    for i in range(0, 10000000):
+        pass
+    print("Done with process")
 
 #########################################
 #############    Inputs    ##############
@@ -411,17 +418,17 @@ def PlotCallback(sender):
     add_line_series("Plot2", "Cos", data1, weight=2)
     add_scatter_series("Plot2", "Sin", data2, marker=sbConstants.mvPlotMarker_Circle)
 
-    delete_item("Child Button 1")
+    #delete_item("Child Button 1")
 
     add_child("Runtime Child", width=200, height=100, before="Simpleplot3")
     add_button("Runtime Button 1")
     add_button("Runtime Button 2")
     end_child()
 
-    move_item_down("Logger")
+    #move_item_down("Logger")
 
-    add_indent(before="draw on canvas")
-    unindent(parent="Drawing Canvas")
+    #add_indent(before="draw on canvas")
+    #unindent(parent="Drawing Canvas")
 
 
 ###########################################
@@ -445,14 +452,18 @@ set_mouse_drag_callback("MouseDragCallback", 10)
 
 def WheelCallback(sender, data):
 
+   
     if is_item_hovered("drawing2"):
+        print("wheel")
         scale = get_drawing_scale("drawing2")
         set_drawing_scale("drawing2", scale[0]+data*0.1, scale[1]+data*0.1)
 
 
 def MouseDragCallback(sender, data):
 
+    print("drag" + str(data) + " " + str(is_item_hovered("drawing2")))
     if is_item_hovered("drawing2") and data == 0:
+        print("drag")
         origin = get_drawing_origin("drawing2")
         delta = get_mouse_drag_delta()
         set_drawing_origin("drawing2", origin[0] + delta[0], origin[1] - delta[1])
@@ -469,7 +480,7 @@ def MainCallback(sender):
     scale = get_drawing_scale("drawing2")
     draw_rectangle("drawing2", (-400/scale[0], 250/scale[1]), (400/scale[0], -250/scale[1]), (255, 0, 0, 255), fill=(int(255*value), 0, 25, 255), rounding=12, thickness = 1.0, tag="background")
 
-    if is_mouse_button_pressed(sbConstants.mvMouseButton_Left) and is_item_hovered("Secondary Window"):
+    if is_mouse_button_pressed(sbConstants.mvMouseButton_Left):
         print("pressed")
     if is_key_pressed(sbConstants.mvKey_Left): # left arrow key
         print("key pressed")

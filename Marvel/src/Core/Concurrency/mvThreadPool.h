@@ -112,10 +112,7 @@ namespace Marvel {
 
     public:
 
-        static mvThreadPool* GetThreadPool();
-
-    public:
-
+        mvThreadPool();
         ~mvThreadPool(){ m_done = true;}
 
         template<typename F>
@@ -134,8 +131,6 @@ namespace Marvel {
 
     private:
 
-        mvThreadPool();
-
         void worker_thread                   (unsigned index);
         void run_pending_task                ();
         bool pop_task_from_local_queue       (task_type& task);
@@ -151,7 +146,7 @@ namespace Marvel {
         mvThreadJoiner                              m_joiner;
         static thread_local mvWorkStealingQueue*    m_local_work_queue;
         static thread_local unsigned                m_index;
-        static mvThreadPool*                        s_instance;
+        //static mvThreadPool*                        s_instance;
 
     };
 
