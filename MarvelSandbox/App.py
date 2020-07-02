@@ -486,7 +486,7 @@ def MainCallback(sender):
 
 end_window()
 
-add_window("Secondary Window", 300, 500, autosize=True, default_close=True)
+add_window("Secondary Window", 300, 500, autosize=True, hide=True)
 add_simple_plot("Simpleplot3", (0.3, 0.9, 2.5, 8.9), height = 80)
 add_popup("Simpleplot3", "plot_popup")
 add_simple_plot("SimpleplotPop", (0.3, 0.9, 2.5, 8.9), height = 80)

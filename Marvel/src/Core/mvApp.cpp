@@ -389,6 +389,12 @@ namespace Marvel {
 
 	mvAppItem* mvApp::popParent()
 	{
+		if (m_parents.empty())
+		{
+			mvAppLog::getLogger()->LogError("No parent to pop.");
+			return nullptr;
+		}
+
 		mvAppItem* item = m_parents.top();
 		m_parents.pop();
 		return item;
@@ -711,6 +717,9 @@ namespace Marvel {
 		}
 
 		mvAppItem* parentitem = topParent();	
+		if (parentitem == nullptr)
+			parentitem = m_windows[0];
+
 		item->setParent(parentitem);
 		parentitem->addChild(item);
 	}
