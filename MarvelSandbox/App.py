@@ -391,11 +391,14 @@ add_button("Plot data", callback="PlotCallback", tip="new tip")
 add_simple_plot("Simpleplot1", (0.3, 0.9, 2.5, 8.9), height = 80)
 add_simple_plot("Simpleplot2", (0.3, 0.9, 2.5, 8.9), overlay="Overlaying", height=180, histogram=True)
 add_plot("Plot2", "x-axis", "y-axis", width=-1, height=450);
+set_plot_ylimits("Plot2", -10, 10)
 end_collapsing_header()
 
 def PlotCallback(sender):
 
     delete_item("Themes", True)
+
+    set_plot_ylimits_auto("Plot2")
 
     clear_plot("Plot2") # without this it crashes?
 
