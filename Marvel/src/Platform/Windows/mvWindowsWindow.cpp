@@ -210,6 +210,7 @@ namespace Marvel {
 			{
 				Marvel::mvApp::GetApp()->setWindowSize((UINT)LOWORD(lParam), (UINT)HIWORD(lParam));
 				Marvel::mvAppEditor::GetAppEditor()->setSize((UINT)LOWORD(lParam), (UINT)HIWORD(lParam));
+				Marvel::mvDocWindow::GetWindow()->setSize((UINT)LOWORD(lParam), (UINT)HIWORD(lParam));
 				CleanupRenderTarget();
 				s_pSwapChain->ResizeBuffers(0, (UINT)LOWORD(lParam), (UINT)HIWORD(lParam), DXGI_FORMAT_UNKNOWN, 0);
 				CreateRenderTarget();
