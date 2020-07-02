@@ -23,7 +23,7 @@ namespace Marvel {
 		MV_APPITEM_TYPE(mvAppItemType::Tooltip)
 
 		mvTooltip(const std::string& parent, const std::string& name)
-			: mvBoolItemBase(mvApp::GetApp()->getItem(parent)->getParent()->getName(), name, false)
+			: mvBoolItemBase(parent, name, false)
 		{
 			// TODO fix parent ugliness
 

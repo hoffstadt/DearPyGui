@@ -57,7 +57,7 @@ namespace Marvel {
 	mvApp::mvApp()
 	{
 		m_style = getAppDefaultStyle();
-		m_windows.push_back(new mvWindowAppitem("", "MainWindow", 1280, 800, 0, 0, true));
+		m_windows.push_back(new mvWindowAppitem("", "MainWindow", 1280, 800, 0, 0, true, false));
 		m_parents.push(m_windows.back());
 
 		addStandardWindow("documentation", mvDocWindow::GetWindow());
@@ -302,6 +302,12 @@ namespace Marvel {
 				mvAppLog::getLogger()->LogWarning(message + ": Items of this type must have unique names");
 				delete newItem.item;
 				newItem.item = nullptr;
+				continue;
+			}
+
+			if (newItem.item->getType() == mvAppItemType::Window)
+			{
+				m_windows.push_back(newItem.item);
 				continue;
 			}
 

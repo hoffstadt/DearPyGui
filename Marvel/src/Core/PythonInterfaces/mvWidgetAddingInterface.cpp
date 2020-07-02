@@ -435,7 +435,12 @@ namespace Marvel {
 		translators->insert({ "add_window", mvPythonTranslator({
 			{mvPythonDataType::String, "name"},
 			{mvPythonDataType::Integer, "width"},
-			{mvPythonDataType::Integer, "height"}
+			{mvPythonDataType::Integer, "height"},
+			{mvPythonDataType::Optional},
+			{mvPythonDataType::KeywordOnly},
+			{mvPythonDataType::Integer, "start_x"},
+			{mvPythonDataType::Integer, "start_y"},
+			{mvPythonDataType::Bool, "autosize"},
 		}, false, "Creates a new window for following items to be added to. Must call end_main_window command before.") });
 
 		translators->insert({ "add_tooltip", mvPythonTranslator({
@@ -1648,12 +1653,16 @@ namespace Marvel {
 	PyObject* add_window(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		const char* name;
-		int width, height;
+		int width;
+		int height;
+		int startx = 0;
+		int starty = 0;
+		int autosize = false;
 
-		if (!Translators["add_window"].parse(args, kwargs, __FUNCTION__, &name, &width, &height))
+		if (!Translators["add_window"].parse(args, kwargs, __FUNCTION__, &name, &width, &height, &startx, &starty, &autosize))
 			Py_RETURN_NONE;
 
-		mvAppItem* item = new mvWindowAppitem("", name, width, height, 0, 0, false);
+		mvAppItem* item = new mvWindowAppitem("", name, width, height, startx, starty, false, autosize);
 		mvApp::GetApp()->addWindow(item);
 		mvApp::GetApp()->pushParent(item);
 
@@ -1703,6 +1712,8 @@ namespace Marvel {
 			Py_RETURN_NONE;
 
 		mvAppItem* item = new mvTooltip(tipparent, name);
+
+
 		MV_STANDARD_CALLBACK_EVAL();
 		mvApp::GetApp()->pushParent(item);
 		Py_RETURN_NONE;
