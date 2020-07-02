@@ -4,6 +4,7 @@
 #include "Core/AppItems/mvAppItems.h"
 #include "mvInterfaces.h"
 #include "mvInterfaceRegistry.h"
+#include "Core/mvUtilities.h"
 
 namespace Marvel {
 
@@ -15,6 +16,14 @@ namespace Marvel {
 
 			{"is_threadpool_activated", mvPythonTranslator({
 			}, false, "Checks if threadpool is activated", "Boolean")},
+
+			{"open_file_dialog", mvPythonTranslator({
+				{mvPythonDataType::StringList, "extensions", "i.e [['Python', '*.py']]"},
+			}, false, "Opens an 'open file' dialog.", "str")},
+
+			{"save_file_dialog", mvPythonTranslator({
+				{mvPythonDataType::StringList, "extensions", "i.e [['Python', '*.py']]"},
+			}, false, "Opens an 'save file' dialog.", "str")},
 
 			{"delete_item", mvPythonTranslator({
 				{mvPythonDataType::String, "item"},
@@ -272,6 +281,46 @@ namespace Marvel {
 			mvApp::GetApp()->deleteItem(item);
 
 		Py_RETURN_NONE;
+
+	}
+
+	PyObject* open_file_dialog(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		PyObject* extensions;
+
+		if (!Translators["open_file_dialog"].parse(args, kwargs, __FUNCTION__, &extensions))
+			Py_RETURN_NONE;
+
+		bool threadpoolactive = mvApp::GetApp()->usingThreadPool();
+		if (!threadpoolactive)
+			mvApp::GetApp()->setThreadPoolManual();
+
+		std::string file = OpenFile(mvPythonTranslator::getStringPairVec(extensions));
+
+		if (!threadpoolactive)
+			mvApp::GetApp()->setThreadPoolAuto();
+
+		return Py_BuildValue("s", file.c_str());
+
+	}
+
+	PyObject* save_file_dialog(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		PyObject* extensions;
+
+		if (!Translators["save_file_dialog"].parse(args, kwargs, __FUNCTION__, &extensions))
+			Py_RETURN_NONE;
+
+		bool threadpoolactive = mvApp::GetApp()->usingThreadPool();
+		if (!threadpoolactive)
+			mvApp::GetApp()->setThreadPoolManual();
+
+		std::string file = SaveFile(mvPythonTranslator::getStringPairVec(extensions));
+
+		if (!threadpoolactive)
+			mvApp::GetApp()->setThreadPoolAuto();
+
+		return Py_BuildValue("s", SaveFile(mvPythonTranslator::getStringPairVec(extensions)).c_str());
 
 	}
 
@@ -975,6 +1024,8 @@ namespace Marvel {
 
 		mvPythonModule* pyModule = new mvPythonModule("sbApp", {});
 
+		pyModule->addMethodD(save_file_dialog);
+		pyModule->addMethodD(open_file_dialog);
 		pyModule->addMethodD(delete_item);
 		pyModule->addMethodD(move_item_down);
 		pyModule->addMethodD(move_item_up);

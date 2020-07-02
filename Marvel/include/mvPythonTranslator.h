@@ -107,6 +107,7 @@ namespace Marvel {
 		static mvColor                          getColor(PyObject* obj);
 		static std::vector<mvVec2>              getVectVec2(PyObject* obj);
 		static std::vector<std::pair<int, int>> getVectInt2(PyObject* obj);
+		static std::vector<std::pair<std::string, std::string>> getStringPairVec(PyObject* obj);
 		inline const char*                      getDocumentation() const { return m_documentation.c_str(); }
 
 		void buildDocumentation();

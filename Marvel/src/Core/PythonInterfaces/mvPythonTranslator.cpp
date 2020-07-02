@@ -87,6 +87,35 @@ namespace Marvel {
 		return items;
 	}
 
+	std::vector<std::pair<std::string, std::string>> mvPythonTranslator::getStringPairVec(PyObject* obj)
+	{
+		std::vector<std::pair<std::string, std::string>> items;
+
+		if (PyTuple_Check(obj))
+		{
+			for (int i = 0; i < PyTuple_Size(obj); i++)
+			{
+				PyObject* item = PyTuple_GetItem(obj, i);
+				if (PyTuple_Size(item) == 2)
+					items.emplace_back(PyUnicode_AsUTF8(PyTuple_GetItem(item, 0)),PyUnicode_AsUTF8(PyTuple_GetItem(item, 1)));
+
+			}
+				
+		}
+		else if (PyList_Check(obj))
+		{
+			for (int i = 0; i < PyList_Size(obj); i++)
+			{
+				PyObject* item = PyList_GetItem(obj, i);
+				if (PyList_Size(item) == 2)
+					items.emplace_back(PyUnicode_AsUTF8(PyList_GetItem(item, 0)), PyUnicode_AsUTF8(PyList_GetItem(item, 1)));
+
+			}
+		}
+
+		return items;
+	}
+
 	std::vector<float> mvPythonTranslator::getFloatVec(PyObject* obj)
 	{
 		std::vector<float> items;

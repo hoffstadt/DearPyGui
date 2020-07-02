@@ -95,6 +95,9 @@ namespace Marvel {
 				ImGui::EndGroup();
 				ImGui::PopItemWidth();
 
+				if (ImGui::Button("Threadpool On"))
+					app->activateThreadPool();
+
 				ImGui::EndTabItem();
 			}
 
