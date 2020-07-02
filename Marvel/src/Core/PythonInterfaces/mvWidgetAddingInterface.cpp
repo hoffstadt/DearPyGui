@@ -450,7 +450,7 @@ namespace Marvel {
 			{mvPythonDataType::Integer, "start_x"},
 			{mvPythonDataType::Integer, "start_y"},
 			{mvPythonDataType::Bool, "autosize"},
-			{mvPythonDataType::Bool, "default_close"}
+			{mvPythonDataType::Bool, "hide"}
 		}, false, "Creates a new window for following items to be added to. Must call end_main_window command before.") });
 
 		translators->insert({ "add_tooltip", mvPythonTranslator({
@@ -1686,9 +1686,9 @@ namespace Marvel {
 		int startx = 0;
 		int starty = 0;
 		int autosize = false;
-		int default_close = false;
+		int hide = false;
 
-		if (!Translators["add_window"].parse(args, kwargs, __FUNCTION__, &name, &width, &height, &startx, &starty, &autosize, &default_close))
+		if (!Translators["add_window"].parse(args, kwargs, __FUNCTION__, &name, &width, &height, &startx, &starty, &autosize, &hide))
 			Py_RETURN_NONE;
 
 		
@@ -1696,7 +1696,7 @@ namespace Marvel {
 		mvApp::GetApp()->addWindow(item);
 		mvApp::GetApp()->pushParent(item);
 
-		if (default_close)
+		if (hide)
 			item->hide();
 
 		Py_RETURN_NONE;
