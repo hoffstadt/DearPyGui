@@ -8,12 +8,17 @@
 #include <string>
 #include <atomic>
 #include <queue>
+#include <chrono>
 #include "Core/AppItems/mvAppItem.h"
 #include "mvMouse.h"
 #include "mvAppStyle.h"
 #include "mvTextEditor.h"
 #include "mvModuleInitializer.h"
 #include "Core/StandardWindows/mvStandardWindow.h"
+#include "Core/Concurrency/mvThreadPool.h"
+
+typedef std::chrono::high_resolution_clock clock_;
+typedef std::chrono::duration<double, std::ratio<1> > second_;
 
 namespace Marvel {
 
@@ -85,6 +90,8 @@ namespace Marvel {
 		bool     usingThreadPool               () const { return m_threadPool; }
 		bool     usingThreadPoolHighPerformance() const { return m_threadPoolHighPerformance; }
 		bool     isThreadPoolAuto              () const { return m_threadPoolAuto; }
+		std::mutex* getRenderMutex() { return &m_mutex; }
+		void     deactivateThreadPool() { m_threadPool = false; if (m_tpool) { delete m_tpool; m_tpool = nullptr; } }
 
 		//-----------------------------------------------------------------------------
 		// App Item Operations
@@ -112,9 +119,9 @@ namespace Marvel {
 		//-----------------------------------------------------------------------------
 		void runMainCallback            (const std::string& name, const std::string& sender); // single threaded callback
 		void runCallback                (const std::string& name, const std::string& sender);
-		void triggerCallback            (std::atomic<bool>* p, const std::string* name, const std::string* sender);
+		void triggerCallback            (const std::string* name, const std::string* sender);
 		void runCallbackD               (const std::string& name, int sender, float data = 0.0f);                // data sending version
-		void triggerCallbackD           (std::atomic<bool>* p, const std::string* name, int sender, float data); // data sending version
+		void triggerCallbackD           (const std::string* name, int sender, float data); // data sending version
 
 		void setMainCallback            (const std::string& callback) { m_callback = callback; }
 		void setMouseClickCallback      (const std::string& callback) { m_mouseClickCallback = callback; }
@@ -165,6 +172,7 @@ namespace Marvel {
 	private:
 
 		static mvApp* s_instance;
+		mvThreadPool* m_tpool = nullptr;
 		mvStyle       m_style;
 		std::string   m_theme = "dark";
 		std::string   m_file;
@@ -181,11 +189,14 @@ namespace Marvel {
 		std::vector<NewRuntimeItem> m_newItemVec;
 		
 		// concurrency
-		bool     m_threadPoolAuto = true;             // will the threadpool automatically activate based on threshold
-		bool     m_threadPool = false;                // is threadpool activated
-		double   m_threadPoolThreshold = 1.0;         // callback delay (seconds) before threadpool activation
-		unsigned m_threads = 2;                       // how many threads to use
-		bool     m_threadPoolHighPerformance = false; // when true, use max number of threads
+		bool               m_threadPoolAuto = true;             // will the threadpool automatically activate based on threshold
+		bool               m_threadPool = false;                // is threadpool activated
+		double             m_threadPoolThreshold = 10.0;         // callback delay (seconds) before threadpool activation
+		unsigned           m_threads = 2;                       // how many threads to use
+		bool               m_threadPoolHighPerformance = false; // when true, use max number of threads
+		mutable std::mutex m_mutex; // read mutex
+		double             m_threadTime = 3.0;
+		std::chrono::steady_clock::time_point m_poolStart;
 		
 		// input state
 		bool        m_started = false; // to change to runtime behavior

@@ -13,9 +13,6 @@
 #include <future>
 #include <chrono>
 
-typedef std::chrono::high_resolution_clock clock_;
-typedef std::chrono::duration<double, std::ratio<1> > second_;
-
 namespace Marvel {
 
 	mvApp* mvApp::s_instance = nullptr;
@@ -186,6 +183,20 @@ namespace Marvel {
 
 	void mvApp::prerender()
 	{
+
+		if (m_threadTime > 30.0)
+		{
+			if (m_tpool != nullptr)
+			{
+				delete m_tpool;
+				m_tpool = nullptr;
+				m_threadTime = 0.0;
+				m_threadPool = false;
+				mvAppLog::getLogger()->LogInfo("Threadpool destroyed");
+			}
+			
+		}
+
 
 		for (auto& entry : m_standardWindows)
 		{
@@ -368,6 +379,8 @@ namespace Marvel {
 
 			m_downQueue.pop();
 		}
+
+		m_threadTime = std::chrono::duration_cast<second_>(clock_::now() - m_poolStart).count();
 	}
 
 	bool mvApp::isMouseButtonPressed(int button) const
@@ -440,8 +453,7 @@ namespace Marvel {
 			return;
 		}
 
-		std::atomic<bool> check(false);
-		triggerCallback(&check, &name, &sender);
+		triggerCallback(&name, &sender);
 	}
 
 	void mvApp::runCallback(const std::string& name, const std::string& sender)
@@ -449,46 +461,18 @@ namespace Marvel {
 		if (name.empty())
 			return;
 
-		std::atomic<bool> check(false);
-
-		if (m_threadPool)
+		if (m_tpool == nullptr)
 		{
-			auto threadpool = mvThreadPool::GetThreadPool();
-			threadpool->submit(std::bind(&mvApp::triggerCallback, this, &check, &name, &sender));
-			return;
+			m_tpool = new mvThreadPool();
+			m_poolStart = clock_::now();
+			m_threadPool = true;
+			mvAppLog::getLogger()->LogInfo("Threadpool created");
 		}
 
-		else
-		{
-
-			auto beg_ = clock_::now();
-
-			std::thread thread1(&mvApp::triggerCallback, this, &check, &name, &sender);
-
-			double elapsedTime = 0.0;
-			while (elapsedTime < m_threadPoolThreshold)
-			{
-				auto now = std::chrono::high_resolution_clock::now();
-
-				elapsedTime = std::chrono::duration_cast<second_>(clock_::now() - beg_).count();
-
-				if (check)
-				{
-					thread1.join();
-					return;
-				}
-
-			}
-
-			thread1.detach();
-			if (m_threadPoolAuto)
-			{
-				m_threadPool = true;
-				mvAppLog::getLogger()->LogWarning("Thread pool will be activated automatically.");
-			}
-
-		}
-			
+		m_tpool->submit(std::bind(&mvApp::triggerCallback, this, &name, &sender));
+		auto now = std::chrono::high_resolution_clock::now();
+		m_threadTime = std::chrono::duration_cast<second_>(clock_::now() - m_poolStart).count();
+	
 	}
 
 	void mvApp::runCallbackD(const std::string& name, int sender, float data)
@@ -496,48 +480,21 @@ namespace Marvel {
 		if (name.empty())
 			return;
 
-		std::atomic<bool> check(false);
-
-		if (m_threadPool)
+		if (m_tpool == nullptr)
 		{
-			auto threadpool = mvThreadPool::GetThreadPool();
-			threadpool->submit(std::bind(&mvApp::triggerCallbackD, this, &check, &name, sender, data));
+			m_tpool = new mvThreadPool();
+			m_poolStart = clock_::now();
+			m_threadPool = true;
+			mvAppLog::getLogger()->LogInfo("Threadpool created");
 		}
 
-		else
-		{
-
-			auto beg_ = clock_::now();
-
-			std::thread thread1(&mvApp::triggerCallbackD, this, &check, &name, sender, data);
-
-			double elapsedTime = 0.0;
-			while (elapsedTime < m_threadPoolThreshold)
-			{
-				auto now = std::chrono::high_resolution_clock::now();
-
-				elapsedTime = std::chrono::duration_cast<second_>(clock_::now() - beg_).count();
-
-				if (check)
-				{
-					thread1.join();
-					return;
-				}
-
-			}
-
-			thread1.detach();
-			if (m_threadPoolAuto)
-			{
-				m_threadPool = true;
-				mvAppLog::getLogger()->LogWarning("Thread pool will be activated automatically.");
-			}
-
-		}
+		m_tpool->submit(std::bind(&mvApp::triggerCallbackD, this, &name, sender, data));
+		auto now = std::chrono::high_resolution_clock::now();
+		m_threadTime = std::chrono::duration_cast<second_>(clock_::now() - m_poolStart).count();
 
 	}
 
-	void mvApp::triggerCallback(std::atomic<bool>* p, const std::string* name, const std::string* sender)
+	void mvApp::triggerCallback(const std::string* name, const std::string* sender)
 	{
 
 		PyGILState_STATE gstate = PyGILState_Ensure();
@@ -550,8 +507,6 @@ namespace Marvel {
 			std::string message(" Callback doesn't exist");
 			mvAppLog::getLogger()->LogWarning((*name) + message);
 			PyGILState_Release(gstate);
-			if (p)
-				*p = true;
 			return;
 		}
 
@@ -589,11 +544,9 @@ namespace Marvel {
 		}
 
 		PyGILState_Release(gstate);
-		if (p)
-			*p = true;
 	}
 
-	void mvApp::triggerCallbackD(std::atomic<bool>* p, const std::string* name, int sender, float data)
+	void mvApp::triggerCallbackD(const std::string* name, int sender, float data)
 	{
 
 		PyGILState_STATE gstate = PyGILState_Ensure();
@@ -608,8 +561,6 @@ namespace Marvel {
 			std::string message(" Callback doesn't exist");
 			mvAppLog::getLogger()->LogWarning((*name) + message);
 			PyGILState_Release(gstate);
-			if (p)
-				*p = true;
 			return;
 		}
 
@@ -644,8 +595,6 @@ namespace Marvel {
 		}
 
 		PyGILState_Release(gstate);
-		if (p)
-			*p = true;
 
 	}
 

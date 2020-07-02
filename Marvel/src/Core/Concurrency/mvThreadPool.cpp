@@ -7,7 +7,6 @@ namespace Marvel {
 
     thread_local mvWorkStealingQueue* mvThreadPool::m_local_work_queue;
     thread_local unsigned mvThreadPool::m_index;
-    mvThreadPool* mvThreadPool::s_instance = nullptr;
 
     //-----------------------------------------------------------------------------
     // mvThreadJoiner
@@ -113,15 +112,6 @@ namespace Marvel {
             m_done = true;
             throw;
         }
-    }
-
-    mvThreadPool* mvThreadPool::GetThreadPool()
-    {
-        if (s_instance)
-            return s_instance;
-        
-        s_instance = new mvThreadPool();
-        return s_instance;
     }
 
     void mvThreadPool::worker_thread(unsigned index)

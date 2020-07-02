@@ -10,6 +10,7 @@ import sbConstants
 # Make it your own!
 
 add_button("Press me")
+show_debug()
 
 
 
