@@ -23,6 +23,8 @@ namespace Marvel {
 		m_sbDocInput = mvInterfaceRegistry::GetRegistry()->getPythonInterfaceDoc("sbInput");
 		m_sbDocPlot = mvInterfaceRegistry::GetRegistry()->getPythonInterfaceDoc("sbPlot");
 		m_sbDocDraw = mvInterfaceRegistry::GetRegistry()->getPythonInterfaceDoc("sbDraw");
+
+		m_flags |= ImGuiWindowFlags_AlwaysAutoResize;
 	}
 
 	mvStandardWindow* mvDocWindow::GetWindow()
@@ -50,82 +52,101 @@ namespace Marvel {
 			return;
 		}
 
-		ImGui::BeginGroup();
-		ImGui::SetNextItemWidth(500);
-		ImGui::ListBox("Modules", &m_moduleSelection, &m_modules[0], 7, 7);
-
-		ImGui::SetNextItemWidth(500);
-		if (m_moduleSelection == 0)
+		if (ImGui::BeginTabBar("Main Tabbar"))
 		{
-			static int selection = 0;
-			if (ImGui::ListBox("Commands", &selection, m_sbWidgets.data(), m_sbWidgets.size(), 30))
+			if (ImGui::BeginTabItem("Help"))
 			{
-				m_doc = m_sbDocWidgets[selection];
-			}
-		}
+				ImGui::Text("ABOUT THIS DEMO:");
+				ImGui::BulletText("Sections below are demonstrating many aspects of the library.");
+				ImGui::BulletText("The \"Examples\" menu above leads to more demo contents.");
+				ImGui::BulletText("The \"Tools\" menu above gives access to: About Box, Style Editor,\n"
+					"and Metrics (general purpose Dear ImGui debugging tool).");
+				ImGui::Separator();
 
-		else if (m_moduleSelection == 1)
-		{
-			static int selection = 0;
-			if (ImGui::ListBox("Commands", &selection, m_sbApp.data(), m_sbApp.size(), 30))
+				ImGui::EndTabItem();
+			}
+
+			if (ImGui::BeginTabItem("Commands"))
 			{
-				m_doc = m_sbDocApp[selection];
+				ImGui::BeginGroup();
+				ImGui::SetNextItemWidth(500);
+				ImGui::ListBox("Modules", &m_moduleSelection, &m_modules[0], 7, 7);
+
+				ImGui::SetNextItemWidth(500);
+				if (m_moduleSelection == 0)
+				{
+					static int selection = 0;
+					if (ImGui::ListBox("Commands", &selection, m_sbWidgets.data(), m_sbWidgets.size(), 30))
+					{
+						m_doc = m_sbDocWidgets[selection];
+					}
+				}
+
+				else if (m_moduleSelection == 1)
+				{
+					static int selection = 0;
+					if (ImGui::ListBox("Commands", &selection, m_sbApp.data(), m_sbApp.size(), 30))
+					{
+						m_doc = m_sbDocApp[selection];
+					}
+				}
+
+				else if (m_moduleSelection == 2)
+				{
+					static int selection = 0;
+					if (ImGui::ListBox("Commands", &selection, m_sbLog.data(), m_sbLog.size(), 30))
+					{
+						m_doc = m_sbDocLog[selection];
+					}
+				}
+
+				else if (m_moduleSelection == 3)
+				{
+					static int selection = 0;
+					if (ImGui::ListBox("Commands", &selection, m_sbInput.data(), m_sbInput.size(), 30))
+					{
+						m_doc = m_sbDocInput[selection];
+					}
+				}
+
+				else if (m_moduleSelection == 4)
+				{
+					static int selection = 0;
+					if (ImGui::ListBox("Commands", &selection, m_sbPlot.data(), m_sbPlot.size(), 30))
+					{
+						m_doc = m_sbDocPlot[selection];
+					}
+				}
+
+				else if (m_moduleSelection == 5)
+				{
+					static int selection = 0;
+					if (ImGui::ListBox("Commands", &selection, m_sbDraw.data(), m_sbDraw.size(), 30))
+					{
+						m_doc = m_sbDocDraw[selection];
+					}
+				}
+
+				else if (m_moduleSelection == 6)
+				{
+					static int selection = 0;
+					if (ImGui::ListBox("Commands", &selection, m_sbConstants.data(), m_sbConstants.size(), 30))
+					{
+						m_doc = "A constant.";
+					}
+				}
+
+				ImGui::EndGroup();
+
+				ImGui::SameLine();
+				ImGui::BeginChild("DocChild", ImVec2(500, 600), true);
+				ImGui::PushTextWrapPos(ImGui::GetCursorPos().x + 400);
+				ImGui::Text(m_doc);
+				ImGui::PopTextWrapPos();
+				ImGui::EndChild();
 			}
+			ImGui::EndTabBar();
 		}
-
-		else if (m_moduleSelection == 2)
-		{
-			static int selection = 0;
-			if (ImGui::ListBox("Commands", &selection, m_sbLog.data(), m_sbLog.size(), 30))
-			{
-				m_doc = m_sbDocLog[selection];
-			}
-		}
-
-		else if (m_moduleSelection == 3)
-		{
-			static int selection = 0;
-			if (ImGui::ListBox("Commands", &selection, m_sbInput.data(), m_sbInput.size(), 30))
-			{
-				m_doc = m_sbDocInput[selection];
-			}
-		}
-
-		else if (m_moduleSelection == 4)
-		{
-			static int selection = 0;
-			if (ImGui::ListBox("Commands", &selection, m_sbPlot.data(), m_sbPlot.size(), 30))
-			{
-				m_doc = m_sbDocPlot[selection];
-			}
-		}
-
-		else if (m_moduleSelection == 5)
-		{
-			static int selection = 0;
-			if (ImGui::ListBox("Commands", &selection, m_sbDraw.data(), m_sbDraw.size(), 30))
-			{
-				m_doc = m_sbDocDraw[selection];
-			}
-		}
-
-		else if (m_moduleSelection == 6)
-		{
-			static int selection = 0;
-			if (ImGui::ListBox("Commands", &selection, m_sbConstants.data(), m_sbConstants.size(), 30))
-			{
-				m_doc = "A constant.";
-			}
-		}
-
-		ImGui::EndGroup();
-
-		ImGui::SameLine();
-		ImGui::BeginChild("DocChild", ImVec2(500, 600), true);
-		ImGui::PushTextWrapPos(ImGui::GetCursorPos().x + 400);
-		ImGui::Text(m_doc);
-		ImGui::PopTextWrapPos();
-		ImGui::EndChild();
 
 		if (ImGui::IsWindowFocused())
 		{

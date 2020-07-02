@@ -15,7 +15,7 @@ namespace Marvel {
 
 		MV_APPITEM_TYPE(mvAppItemType::Window)
 
-		mvWindowAppitem(const std::string& parent, const std::string& name, int width, int height, int xpos, int ypos, bool mainWindow)
+		mvWindowAppitem(const std::string& parent, const std::string& name, int width, int height, int xpos, int ypos, bool mainWindow, bool autosize)
 			: mvNoneItemBase(parent, name), m_xpos(xpos), m_ypos(ypos), m_mainWindow(mainWindow)
 		{
 			m_container = true;
@@ -27,6 +27,9 @@ namespace Marvel {
 				m_windowflags = ImGuiWindowFlags_NoBringToFrontOnFocus | ImGuiWindowFlags_NoSavedSettings
 					| ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoTitleBar;
 			}
+
+			if (autosize)
+				m_windowflags |= ImGuiWindowFlags_AlwaysAutoResize;
 		}
 
 		void addFlag(ImGuiWindowFlags flag) { m_windowflags |= flag; }
