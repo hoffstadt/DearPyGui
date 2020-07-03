@@ -1,6 +1,6 @@
 #pragma once
 
-#define MV_SANDBOX_VERSION "0.1(WIP)"
+#define MV_SANDBOX_VERSION "0.1 alpha"
 
 #include <vector>
 #include <map>
@@ -34,6 +34,13 @@ namespace Marvel {
 			NewRuntimeItem(const std::string& parent, const std::string& before, mvAppItem* item)
 				:item(item), before(before), parent(parent)
 			{}
+		};
+
+		struct AsyncronousCallback
+		{
+			std::string name;
+			PyObject* data;
+			std::string returnname;
 		};
 
 	public:
@@ -78,20 +85,19 @@ namespace Marvel {
 		//-----------------------------------------------------------------------------
 		// Concurrency Settings
 		//-----------------------------------------------------------------------------
+		void     setMainThreadID             (std::thread::id id) { m_mainThreadID = id; }
 		void     setThreadPoolThreshold      (double time) { m_threadPoolThreshold = time; }
 		void     setThreadCount              (unsigned count) { m_threads = count; }
-		void     setThreadPoolAuto           () { m_threadPoolAuto = true; }
-		void     setThreadPoolManual         () { m_threadPoolAuto = false; }
 		void     activateThreadPool          () { m_threadPool = true; }
 		void     setThreadPoolHighPerformance() { m_threadPoolHighPerformance = true; }
 
-		double   getThreadPoolThreshold        () const { return m_threadPoolThreshold; }
-		unsigned getThreadCount                () const { return m_threads; }
-		bool     usingThreadPool               () const { return m_threadPool; }
-		bool     usingThreadPoolHighPerformance() const { return m_threadPoolHighPerformance; }
-		bool     isThreadPoolAuto              () const { return m_threadPoolAuto; }
-		std::mutex* getRenderMutex() { return &m_mutex; }
-		void     deactivateThreadPool() { m_threadPool = false; if (m_tpool) { delete m_tpool; m_tpool = nullptr; } }
+		std::thread::id   getMainThreadID       () const { return m_mainThreadID; }
+		double            getThreadPoolThreshold        () const { return m_threadPoolThreshold; }
+		unsigned          getThreadCount                () const { return m_threads; }
+		bool              usingThreadPool               () const { return m_threadPool; }
+		bool              usingThreadPoolHighPerformance() const { return m_threadPoolHighPerformance; }
+		void              deactivateThreadPool() { m_threadPool = false; if (m_tpool) { delete m_tpool; m_tpool = nullptr; } }
+
 
 		//-----------------------------------------------------------------------------
 		// App Item Operations
@@ -117,11 +123,11 @@ namespace Marvel {
 		//     - triggerCallback methods performs checks to determine if callback
 		//     - actually exists
 		//-----------------------------------------------------------------------------
-		void runMainCallback            (const std::string& name, const std::string& sender); // single threaded callback
 		void runCallback                (const std::string& name, const std::string& sender);
-		void triggerCallback            (const std::string* name, const std::string* sender);
-		void runCallbackD               (const std::string& name, int sender, float data = 0.0f);                // data sending version
-		void triggerCallbackD           (const std::string* name, int sender, float data); // data sending version
+		void runCallbackD               (const std::string& name, int sender, float data = 0.0f);
+		void runAsyncCallback           (std::string name, PyObject* data, std::string returnname);
+		void runAsyncCallbackReturn     (std::string name, PyObject* data);
+		void addMTCallback              (const std::string& name, PyObject* data, const std::string& returnname = "") { m_asyncCallbacks.push_back({ name, data, returnname}); }
 
 		void setMainCallback            (const std::string& callback) { m_callback = callback; }
 		void setMouseClickCallback      (const std::string& callback) { m_mouseClickCallback = callback; }
@@ -186,16 +192,18 @@ namespace Marvel {
 		std::queue<std::string>     m_deleteQueue;
 		std::queue<std::string>     m_upQueue;
 		std::queue<std::string>     m_downQueue;
+		std::queue<AsyncronousCallback> m_asyncReturns;
 		std::vector<NewRuntimeItem> m_newItemVec;
+		std::vector<AsyncronousCallback> m_asyncCallbacks;
 		
 		// concurrency
-		bool               m_threadPoolAuto = true;             // will the threadpool automatically activate based on threshold
+		std::thread::id    m_mainThreadID;
 		bool               m_threadPool = false;                // is threadpool activated
-		double             m_threadPoolThreshold = 10.0;         // callback delay (seconds) before threadpool activation
+		double             m_threadPoolThreshold = 30.0;         // callback delay (seconds) before threadpool activation
 		unsigned           m_threads = 2;                       // how many threads to use
 		bool               m_threadPoolHighPerformance = false; // when true, use max number of threads
-		mutable std::mutex m_mutex; // read mutex
 		double             m_threadTime = 3.0;
+		mutable std::mutex m_mutex;
 		std::chrono::steady_clock::time_point m_poolStart;
 		
 		// input state

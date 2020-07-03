@@ -112,7 +112,7 @@ namespace Marvel {
 
     public:
 
-        mvThreadPool();
+        mvThreadPool(unsigned threadcount = 0);
         ~mvThreadPool(){ m_done = true;}
 
         template<typename F>

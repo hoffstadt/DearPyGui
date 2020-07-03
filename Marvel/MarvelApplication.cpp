@@ -192,6 +192,8 @@ namespace Marvel {
 
 	void Application::importModule()
 	{
+		mvApp::GetApp()->setMainThreadID(std::this_thread::get_id());
+
 		// get module
 		pModule = PyImport_ImportModule(AppName.c_str()); // new reference
 
