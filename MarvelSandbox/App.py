@@ -10,6 +10,7 @@ from math import sin, cos
 
 #testme()
 show_debug()
+set_log_level(0)
 
 ####################################################
 #############    About All Widgets    ##############
@@ -121,10 +122,26 @@ add_simple_plot("SimpleplotTooltip", (0.3, 0.9, 2.5, 8.9), height = 80)
 end_tooltip()
 
 add_button("Long Process", callback="LongCallback")
+add_button("Long Asyncronous Process", callback="LongAsyncronousCallback")
+
+def LongAsyncronousCallback(sender):
+    run_async_function("LongCallback2", "some_data", return_handler="ReturnFromLongProcess")
+
 def LongCallback(sender):
     for i in range(0, 10000000):
         pass
-    print("Done with process")
+    print("Done with long process")
+
+def LongCallback2(data):
+    for i in range(0, 10000000):
+        pass
+    print("Done with process from " + data)
+    print(get_value("Progress"))
+    return 42
+
+def ReturnFromLongProcess(data):
+    print("Data returned to main thread: " + str(data))
+    print(get_value("Progress"))
 
 #########################################
 #############    Inputs    ##############
@@ -452,18 +469,14 @@ set_mouse_drag_callback("MouseDragCallback", 10)
 
 def WheelCallback(sender, data):
 
-   
     if is_item_hovered("drawing2"):
-        print("wheel")
         scale = get_drawing_scale("drawing2")
         set_drawing_scale("drawing2", scale[0]+data*0.1, scale[1]+data*0.1)
 
 
 def MouseDragCallback(sender, data):
 
-    print("drag" + str(data) + " " + str(is_item_hovered("drawing2")))
     if is_item_hovered("drawing2") and data == 0:
-        print("drag")
         origin = get_drawing_origin("drawing2")
         delta = get_mouse_drag_delta()
         set_drawing_origin("drawing2", origin[0] + delta[0], origin[1] - delta[1])
@@ -481,7 +494,7 @@ def MainCallback(sender):
     draw_rectangle("drawing2", (-400/scale[0], 250/scale[1]), (400/scale[0], -250/scale[1]), (255, 0, 0, 255), fill=(int(255*value), 0, 25, 255), rounding=12, thickness = 1.0, tag="background")
 
     if is_mouse_button_pressed(sbConstants.mvMouseButton_Left):
-        print("pressed")
+        pass
     if is_key_pressed(sbConstants.mvKey_Left): # left arrow key
         print("key pressed")
 

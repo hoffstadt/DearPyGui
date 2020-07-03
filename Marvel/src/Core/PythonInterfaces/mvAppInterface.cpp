@@ -1,5 +1,6 @@
 #include "mvPythonModule.h"
 #include "Core/mvApp.h"
+#include "Core/StandardWindows/mvAppLog.h"
 #include "mvPythonTranslator.h"
 #include "Core/AppItems/mvAppItems.h"
 #include "mvInterfaces.h"
@@ -14,8 +15,12 @@ namespace Marvel {
 
 		std::map<std::string, mvPythonTranslator>* translators = new std::map< std::string, mvPythonTranslator>{
 
-			{"is_threadpool_activated", mvPythonTranslator({
-			}, false, "Checks if threadpool is activated", "Boolean")},
+			{"run_async_function", mvPythonTranslator({
+				{mvPythonDataType::String, "name"},
+				{mvPythonDataType::Object, "data"},
+				{mvPythonDataType::Optional},
+				{mvPythonDataType::String, "return_handler"},
+			}, false, "Runs a function asyncronously.")},
 
 			{"open_file_dialog", mvPythonTranslator({
 				{mvPythonDataType::StringList, "extensions", "i.e [['Python', '*.py']]"},
@@ -79,9 +84,6 @@ namespace Marvel {
 			{"get_thread_count", mvPythonTranslator({
 			}, false, "Returns the allowable thread count.", "int")},
 
-			{"is_threadpool_automatic", mvPythonTranslator({
-			}, false, "Checks if the threadpool is automatic.", "Boolean")},
-
 			{"is_threadpool_high_performance", mvPythonTranslator({
 			}, false, "Checks if the threadpool is allowed to use the maximum number of threads.", "Boolean")},
 
@@ -102,9 +104,6 @@ namespace Marvel {
 				{mvPythonDataType::Integer, "threads"}
 			}, false, "Sets number of threads to use if the threadpool is active.")},
 
-			{"set_threadpool_auto", mvPythonTranslator({
-			}, false, "Sets threadpool to automatically activate if the threshold is met.")},
-
 			{"show_documentation", mvPythonTranslator({
 			}, false, "Shows the documentation window.")},
 
@@ -122,9 +121,6 @@ namespace Marvel {
 
 			{"show_source", mvPythonTranslator({
 			}, false, "Shows the source code for the current app.")},
-
-			{"activate_threadpool", mvPythonTranslator({
-			}, false, "Activated the threadpool.")},
 
 			{"set_threadpool_high_performance", mvPythonTranslator({
 			}, false, "Set the thread count to the maximum number of threads on your computer.")},
@@ -262,13 +258,29 @@ namespace Marvel {
 		return *translators;
 	}
 
-	PyObject* is_threadpool_activated(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* run_async_function(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
-		return Py_BuildValue("b", mvApp::GetApp()->usingThreadPool());
+		const char* name;
+		const char* return_handler = "";
+		PyObject* data;
+
+		if (!Translators["run_async_function"].parse(args, kwargs, __FUNCTION__, &name, &data, &return_handler))
+			Py_RETURN_NONE;
+
+		mvApp::GetApp()->addMTCallback(name, data, return_handler);
+
+		Py_RETURN_NONE;
+
 	}
 
 	PyObject* delete_item(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
+		if (std::this_thread::get_id() != mvApp::GetApp()->getMainThreadID())
+		{
+			mvAppLog::getLogger()->LogWarning("Items can not be modified outside of the main thread.");
+			Py_RETURN_NONE;
+		}
+
 		const char* item;
 		int childrenOnly = false;
 
@@ -291,17 +303,9 @@ namespace Marvel {
 		if (!Translators["open_file_dialog"].parse(args, kwargs, __FUNCTION__, &extensions))
 			Py_RETURN_NONE;
 
-		bool threadpoolactive = mvApp::GetApp()->usingThreadPool();
-		if (!threadpoolactive)
-			mvApp::GetApp()->setThreadPoolManual();
-
 		std::string file = OpenFile(mvPythonTranslator::getStringPairVec(extensions));
 
-		if (!threadpoolactive)
-			mvApp::GetApp()->setThreadPoolAuto();
-
 		return Py_BuildValue("s", file.c_str());
-
 	}
 
 	PyObject* save_file_dialog(PyObject* self, PyObject* args, PyObject* kwargs)
@@ -311,21 +315,19 @@ namespace Marvel {
 		if (!Translators["save_file_dialog"].parse(args, kwargs, __FUNCTION__, &extensions))
 			Py_RETURN_NONE;
 
-		bool threadpoolactive = mvApp::GetApp()->usingThreadPool();
-		if (!threadpoolactive)
-			mvApp::GetApp()->setThreadPoolManual();
-
 		std::string file = SaveFile(mvPythonTranslator::getStringPairVec(extensions));
 
-		if (!threadpoolactive)
-			mvApp::GetApp()->setThreadPoolAuto();
-
 		return Py_BuildValue("s", SaveFile(mvPythonTranslator::getStringPairVec(extensions)).c_str());
-
 	}
 
 	PyObject* move_item_up(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
+		if (std::this_thread::get_id() != mvApp::GetApp()->getMainThreadID())
+		{
+			mvAppLog::getLogger()->LogWarning("Items can not be modified outside of the main thread.");
+			Py_RETURN_NONE;
+		}
+
 		const char* item;
 
 		if (!Translators["move_item_up"].parse(args, kwargs, __FUNCTION__, &item))
@@ -339,6 +341,12 @@ namespace Marvel {
 
 	PyObject* move_item_down(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
+		if (std::this_thread::get_id() != mvApp::GetApp()->getMainThreadID())
+		{
+			mvAppLog::getLogger()->LogWarning("Items can not be modified outside of the main thread.");
+			Py_RETURN_NONE;
+		}
+
 		const char* item;
 
 		if (!Translators["move_item_down"].parse(args, kwargs, __FUNCTION__, &item))
@@ -469,11 +477,6 @@ namespace Marvel {
 		return Py_BuildValue("i", mvApp::GetApp()->getThreadCount());
 	}
 
-	PyObject* is_threadpool_automatic(PyObject* self, PyObject* args, PyObject* kwargs)
-	{
-		return Py_BuildValue("b", mvApp::GetApp()->isThreadPoolAuto());
-	}
-
 	PyObject* is_threadpool_high_performance(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		return Py_BuildValue("b", mvApp::GetApp()->usingThreadPoolHighPerformance());
@@ -508,26 +511,13 @@ namespace Marvel {
 
 	PyObject* set_thread_count(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
+
 		int threads;
 
 		if (!Translators["set_thread_count"].parse(args, kwargs, __FUNCTION__, &threads))
 			Py_RETURN_NONE;
 
 		mvApp::GetApp()->setThreadCount(threads);
-
-		Py_RETURN_NONE;
-	}
-
-	PyObject* set_threadpool_auto(PyObject* self, PyObject* args, PyObject* kwargs)
-	{
-		mvApp::GetApp()->setThreadPoolAuto();
-		Py_RETURN_NONE;
-	}
-
-	PyObject* activate_threadpool(PyObject* self, PyObject* args, PyObject* kwargs)
-	{
-
-		mvApp::GetApp()->activateThreadPool();
 
 		Py_RETURN_NONE;
 	}
@@ -1024,12 +1014,12 @@ namespace Marvel {
 
 		mvPythonModule* pyModule = new mvPythonModule("sbApp", {});
 
+		pyModule->addMethodD(run_async_function);
 		pyModule->addMethodD(save_file_dialog);
 		pyModule->addMethodD(open_file_dialog);
 		pyModule->addMethodD(delete_item);
 		pyModule->addMethodD(move_item_down);
 		pyModule->addMethodD(move_item_up);
-		pyModule->addMethodD(is_threadpool_activated);
 		pyModule->addMethodD(get_style_item);
 		pyModule->addMethodD(get_theme_item);
 		pyModule->addMethodD(get_item_callback);
@@ -1040,12 +1030,10 @@ namespace Marvel {
 		pyModule->addMethodD(get_main_window_size);
 		pyModule->addMethodD(get_theme);
 		pyModule->addMethodD(get_thread_count);
-		pyModule->addMethodD(is_threadpool_automatic);
 		pyModule->addMethodD(is_threadpool_high_performance);
 		pyModule->addMethodD(get_threadpool_threshold);
 		pyModule->addMethodD(get_active_window);
 		pyModule->addMethodD(get_marvel_version);
-		pyModule->addMethodD(set_threadpool_auto);
 		pyModule->addMethodD(show_source);
 		pyModule->addMethodD(show_about);
 		pyModule->addMethodD(show_debug);
@@ -1054,7 +1042,6 @@ namespace Marvel {
 		pyModule->addMethodD(show_documentation);
 		pyModule->addMethodD(set_threadpool_threshold);
 		pyModule->addMethodD(set_thread_count);
-		pyModule->addMethodD(activate_threadpool);
 		pyModule->addMethodD(set_threadpool_high_performance);
 		pyModule->addMethodD(set_main_window_size);
 		pyModule->addMethodD(add_item_color_style);

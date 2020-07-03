@@ -37,19 +37,17 @@ namespace Marvel {
 
 		virtual void setPyValue(PyObject* value) override 
 		{ 
-			std::lock_guard<std::mutex> lock(m_wmutex);
 			m_value = PyLong_AsLong(value); 
 		}
 
 		virtual PyObject* getPyValue() const override
 		{
-			std::lock_guard<std::mutex> lock(m_rmutex);
 			PyObject* pvalue = Py_BuildValue("i", m_value);
 			return pvalue;
 		}
 
-		inline void setValue(bool value) { m_value = value; }
 		inline bool getValue() const { return m_value; }
+		inline void setValue(bool value) { m_value = value; }
 
 	protected:
 
@@ -72,19 +70,17 @@ namespace Marvel {
 
 		virtual void setPyValue(PyObject* value) override
 		{
-			std::lock_guard<std::mutex> lock(m_wmutex);
 			m_value = PyUnicode_AsUTF8(value);
 		}
 
 		virtual PyObject* getPyValue() const override
 		{
-			std::lock_guard<std::mutex> lock(m_rmutex);
 			PyObject* pvalue = Py_BuildValue("s", m_value.c_str());
 			return pvalue;
 		}
 
-		inline void setValue(const std::string& value) { m_value = value; }
 		inline const std::string& getValue() const { return m_value; }
+		inline void setValue(const std::string& value) { m_value = value; }
 
 	protected:
 
@@ -112,7 +108,6 @@ namespace Marvel {
 
 		virtual void setPyValue(PyObject* value) override
 		{
-			std::lock_guard<std::mutex> lock(m_wmutex);
 
 			if (m_valuecount == 1)
 				m_value[0] = PyLong_AsLong(value);
@@ -126,7 +121,6 @@ namespace Marvel {
 
 		virtual PyObject* getPyValue() const override
 		{
-			std::lock_guard<std::mutex> lock(m_rmutex);
 
 			if (m_valuecount == 1)
 			{
@@ -143,16 +137,6 @@ namespace Marvel {
 			}
 
 		}
-
-		inline void setValue(int value, int y=0, int z=0, int w=0)
-		{
-			m_value[0] = value;
-			m_value[1] = y;
-			m_value[2] = z;
-			m_value[3] = w;
-		}
-
-		inline const int* getValue() const { return &m_value[0]; }
 
 	protected:
 
@@ -181,7 +165,6 @@ namespace Marvel {
 
 		virtual void setPyValue(PyObject* value) override
 		{
-			std::lock_guard<std::mutex> lock(m_wmutex);
 
 			if(m_valuecount == 1)
 				m_value[0] = PyFloat_AsDouble(value);
@@ -195,7 +178,6 @@ namespace Marvel {
 
 		virtual PyObject* getPyValue() const override
 		{
-			std::lock_guard<std::mutex> lock(m_rmutex);
 
 			if (m_valuecount == 1)
 			{
@@ -212,16 +194,6 @@ namespace Marvel {
 			}
 
 		}
-
-		inline void setValue(float value, float y=0.0f, float z=0.0f, float w=0.0f) 
-		{
-			m_value[0] = value; 
-			m_value[1] = y; 
-			m_value[2] = z; 
-			m_value[3] = w; 
-		}
-
-		inline const float* getValue() const { return &m_value[0]; }
 
 	protected:
 
@@ -245,7 +217,6 @@ namespace Marvel {
 
 		virtual void setPyValue(PyObject* value) override
 		{
-			std::lock_guard<std::mutex> lock(m_wmutex);
 			m_value = PyUnicode_AsUTF8(value);
 			if (!m_value.empty())
 				LoadTextureFromFile(m_value.c_str(), &m_texture, &m_width, &m_height);
@@ -254,7 +225,6 @@ namespace Marvel {
 
 		virtual PyObject* getPyValue() const override
 		{
-			std::lock_guard<std::mutex> lock(m_rmutex);
 			PyObject* pvalue = Py_BuildValue("s", m_value.c_str());
 			return pvalue;
 		}
@@ -288,7 +258,6 @@ namespace Marvel {
 
 		virtual void setPyValue(PyObject* value) override
 		{
-			std::lock_guard<std::mutex> lock(m_wmutex);
 
 			for (int i = 0; i < PyTuple_Size(value); i++)
 				m_value[i] = PyLong_AsLong(PyTuple_GetItem(value, i))/255.0f;
@@ -297,7 +266,6 @@ namespace Marvel {
 
 		virtual PyObject* getPyValue() const override
 		{
-			std::lock_guard<std::mutex> lock(m_rmutex);
 
 			PyObject* value = PyTuple_New(4);
 			for (int i = 0; i < 4; i++)

@@ -170,12 +170,14 @@ namespace Marvel {
 
 	void mvApp::addRuntimeItem(const std::string& parent, const std::string& before, mvAppItem* item) 
 	{ 
+		if (std::this_thread::get_id() != m_mainThreadID)
+			mvAppLog::getLogger()->LogWarning("This function can't be called outside main thread.");
+
 		m_newItemVec.push_back(NewRuntimeItem(parent, before, item)); 
 	}
 
 	void mvApp::precheck()
 	{
-
 		if (m_windows.size() == 1)
 			popParent();
 
@@ -184,7 +186,7 @@ namespace Marvel {
 	void mvApp::prerender()
 	{
 
-		if (m_threadTime > 30.0)
+		if (m_threadTime > m_threadPoolThreshold)
 		{
 			if (m_tpool != nullptr)
 			{
@@ -192,9 +194,20 @@ namespace Marvel {
 				m_tpool = nullptr;
 				m_threadTime = 0.0;
 				m_threadPool = false;
-				mvAppLog::getLogger()->LogInfo("Threadpool destroyed");
+				mvAppLog::getLogger()->Log("Threadpool destroyed");
 			}
 			
+		}
+
+		if (!m_asyncReturns.empty())
+		{
+			std::lock_guard<std::mutex> lock(m_mutex);
+			while (!m_asyncReturns.empty())
+			{
+				auto& asyncreturn = m_asyncReturns.front();
+				runAsyncCallbackReturn(asyncreturn.name, asyncreturn.data);
+				m_asyncReturns.pop();
+			}
 		}
 
 
@@ -218,15 +231,8 @@ namespace Marvel {
 	void mvApp::render(bool& show)
 	{
 
-		// update mouse
-		//ImVec2 mousePos = ImGui::GetMousePos();
-		////m_mousePos.x = mousePos.x;
-		////m_mousePos.y = mousePos.y;
-		//m_mousePos.x = 0.0f;
-		//m_mousePos.y = 0.0f;
-
 		if (!m_callback.empty())
-			runMainCallback(m_callback, "Main Application");
+			runCallback(m_callback, "Main Application");
 
 		for (auto window : m_windows)
 			window->draw();
@@ -380,7 +386,27 @@ namespace Marvel {
 			m_downQueue.pop();
 		}
 
-		m_threadTime = std::chrono::duration_cast<second_>(clock_::now() - m_poolStart).count();
+		// async callbacks
+		if (!m_asyncCallbacks.empty())
+		{
+			if (m_tpool == nullptr)
+			{
+				m_tpool = new mvThreadPool(m_threadPoolHighPerformance ? 0 : m_threads);
+				m_poolStart = clock_::now();
+				m_threadPool = true;
+				mvAppLog::getLogger()->Log("Threadpool created");
+			}
+
+		}
+
+		for (auto& callback : m_asyncCallbacks)
+			m_tpool->submit(std::bind(&mvApp::runAsyncCallback, this, callback.name, callback.data, callback.returnname));
+
+		m_asyncCallbacks.clear();
+
+		if(m_tpool != nullptr)
+			m_threadTime = std::chrono::duration_cast<second_>(clock_::now() - m_poolStart).count();
+		
 	}
 
 	bool mvApp::isMouseButtonPressed(int button) const
@@ -429,6 +455,13 @@ namespace Marvel {
 
 	mvAppItem* mvApp::getItem(const std::string& name)
 	{
+
+		if (std::this_thread::get_id() != m_mainThreadID)
+		{
+			mvAppLog::getLogger()->LogWarning("This function can't be called outside main thread.");
+			return nullptr;
+		}
+
 		for (auto window : m_windows)
 		{
 			if (window->getName() == name)
@@ -442,70 +475,20 @@ namespace Marvel {
 		return nullptr;
 	}
 
-	void mvApp::runMainCallback(const std::string& name, const std::string& sender)
+	void mvApp::runAsyncCallback(std::string name, PyObject* data, std::string returnname)
 	{
 		if (name.empty())
 			return;
-
-		if (PyGILState_Check()) // if holding gil, don't run
-		{
-			mvAppLog::getLogger()->LogWarning("Waiting for another thread to finish.");
-			return;
-		}
-
-		triggerCallback(&name, &sender);
-	}
-
-	void mvApp::runCallback(const std::string& name, const std::string& sender)
-	{
-		if (name.empty())
-			return;
-
-		if (m_tpool == nullptr)
-		{
-			m_tpool = new mvThreadPool();
-			m_poolStart = clock_::now();
-			m_threadPool = true;
-			mvAppLog::getLogger()->LogInfo("Threadpool created");
-		}
-
-		m_tpool->submit(std::bind(&mvApp::triggerCallback, this, &name, &sender));
-		auto now = std::chrono::high_resolution_clock::now();
-		m_threadTime = std::chrono::duration_cast<second_>(clock_::now() - m_poolStart).count();
-	
-	}
-
-	void mvApp::runCallbackD(const std::string& name, int sender, float data)
-	{
-		if (name.empty())
-			return;
-
-		if (m_tpool == nullptr)
-		{
-			m_tpool = new mvThreadPool();
-			m_poolStart = clock_::now();
-			m_threadPool = true;
-			mvAppLog::getLogger()->LogInfo("Threadpool created");
-		}
-
-		m_tpool->submit(std::bind(&mvApp::triggerCallbackD, this, &name, sender, data));
-		auto now = std::chrono::high_resolution_clock::now();
-		m_threadTime = std::chrono::duration_cast<second_>(clock_::now() - m_poolStart).count();
-
-	}
-
-	void mvApp::triggerCallback(const std::string* name, const std::string* sender)
-	{
 
 		PyGILState_STATE gstate = PyGILState_Ensure();
 
-		PyObject* pHandler = PyDict_GetItemString(m_pDict, name->c_str()); // borrowed reference
+		PyObject* pHandler = PyDict_GetItemString(m_pDict, name.c_str()); // borrowed reference
 
 		// if callback doesn't exist
 		if (pHandler == NULL)
 		{
 			std::string message(" Callback doesn't exist");
-			mvAppLog::getLogger()->LogWarning((*name) + message);
+			mvAppLog::getLogger()->LogWarning(name + message);
 			PyGILState_Release(gstate);
 			return;
 		}
@@ -517,7 +500,124 @@ namespace Marvel {
 			PyErr_Clear();
 
 			PyObject* pArgs = PyTuple_New(1);
-			PyTuple_SetItem(pArgs, 0, PyUnicode_FromString(sender->c_str()));
+			Py_XINCREF(data);
+			PyTuple_SetItem(pArgs, 0, data);
+
+			PyObject* result = PyObject_CallObject(pHandler, pArgs);
+
+			// check if call succeded
+			if (!result)
+			{
+				std::string message("Callback failed");
+				mvAppLog::getLogger()->LogError(name + message);
+			}
+
+			if (!returnname.empty())
+			{
+				std::lock_guard<std::mutex> lock(m_mutex);
+				m_asyncReturns.push({ returnname, result });
+			}
+			else
+				Py_XDECREF(result);
+
+			Py_XDECREF(pArgs);
+			
+			// check if error occurred
+			if (PyErr_Occurred())
+				PyErr_Print();
+
+		}
+
+		else
+		{
+			std::string message(" Callback not callable");
+			mvAppLog::getLogger()->LogError(name + message);
+		}
+
+		PyGILState_Release(gstate);
+	}
+
+	void mvApp::runAsyncCallbackReturn(std::string name, PyObject* data)
+	{
+		if (name.empty())
+			return;
+
+		PyGILState_STATE gstate = PyGILState_Ensure();
+
+		PyObject* pHandler = PyDict_GetItemString(m_pDict, name.c_str()); // borrowed reference
+
+		// if callback doesn't exist
+		if (pHandler == NULL)
+		{
+			std::string message(" Callback doesn't exist");
+			mvAppLog::getLogger()->LogWarning(name + message);
+			PyGILState_Release(gstate);
+			return;
+		}
+
+		// check if handler is callable
+		if (PyCallable_Check(pHandler))
+		{
+
+			PyErr_Clear();
+
+			PyObject* pArgs = PyTuple_New(1);
+			Py_XINCREF(data);
+			PyTuple_SetItem(pArgs, 0, data);
+
+			PyObject* result = PyObject_CallObject(pHandler, pArgs);
+
+			// check if call succeded
+			if (!result)
+			{
+				std::string message("Callback failed");
+				mvAppLog::getLogger()->LogError(name + message);
+			}
+
+			Py_XDECREF(pArgs);
+			Py_XDECREF(result);
+
+			// check if error occurred
+			if (PyErr_Occurred())
+				PyErr_Print();
+
+		}
+
+		else
+		{
+			std::string message(" Callback not callable");
+			mvAppLog::getLogger()->LogError(name + message);
+		}
+
+		PyGILState_Release(gstate);
+	}
+
+	void mvApp::runCallback(const std::string& name, const std::string& sender)
+	{
+		if (name.empty())
+			return;
+
+		PyGILState_STATE gstate = PyGILState_Ensure();
+
+		PyObject* pHandler = PyDict_GetItemString(m_pDict, name.c_str()); // borrowed reference
+
+		// if callback doesn't exist
+		if (pHandler == NULL)
+		{
+			std::string message(" Callback doesn't exist");
+			mvAppLog::getLogger()->LogWarning(name + message);
+			PyGILState_Release(gstate);
+			return;
+		}
+
+		// check if handler is callable
+		if (PyCallable_Check(pHandler))
+		{
+
+			PyErr_Clear();
+
+			PyObject* pArgs = PyTuple_New(1);
+			PyTuple_SetItem(pArgs, 0, PyUnicode_FromString(sender.c_str()));
 
 			PyObject* result = PyObject_CallObject(pHandler, pArgs);
 			
@@ -525,7 +625,7 @@ namespace Marvel {
 			if (!result)
 			{
 				std::string message("Callback failed");
-				mvAppLog::getLogger()->LogError((*name) + message);
+				mvAppLog::getLogger()->LogError(name + message);
 			}
 
 			Py_XDECREF(pArgs);
@@ -540,26 +640,28 @@ namespace Marvel {
 		else
 		{
 			std::string message(" Callback not callable");
-			mvAppLog::getLogger()->LogError((*name) + message);
+			mvAppLog::getLogger()->LogError(name + message);
 		}
 
 		PyGILState_Release(gstate);
 	}
 
-	void mvApp::triggerCallbackD(const std::string* name, int sender, float data)
+	void mvApp::runCallbackD(const std::string& name, int sender, float data)
 	{
+		if (name.empty())
+			return;
 
 		PyGILState_STATE gstate = PyGILState_Ensure();
 
 		PyErr_Clear();
 
-		PyObject* pHandler = PyDict_GetItemString(m_pDict, name->c_str()); // borrowed reference
+		PyObject* pHandler = PyDict_GetItemString(m_pDict, name.c_str()); // borrowed reference
 
 		// if callback doesn't exist
 		if (pHandler == NULL)
 		{
 			std::string message(" Callback doesn't exist");
-			mvAppLog::getLogger()->LogWarning((*name) + message);
+			mvAppLog::getLogger()->LogWarning(name + message);
 			PyGILState_Release(gstate);
 			return;
 		}
@@ -577,7 +679,7 @@ namespace Marvel {
 			if (!result)
 			{
 				std::string message("Callback failed");
-				mvAppLog::getLogger()->LogError((*name) + message);
+				mvAppLog::getLogger()->LogError(name + message);
 			}
 
 			Py_XDECREF(pArgs);
@@ -591,7 +693,7 @@ namespace Marvel {
 		else
 		{
 			std::string message(" Callback not callable");
-			mvAppLog::getLogger()->LogError((*name) + message);
+			mvAppLog::getLogger()->LogError(name + message);
 		}
 
 		PyGILState_Release(gstate);
@@ -650,10 +752,16 @@ namespace Marvel {
 
 	void mvApp::addItem(mvAppItem* item)
 	{
+		if (std::this_thread::get_id() != m_mainThreadID)
+		{
+			mvAppLog::getLogger()->LogWarning("Items can not be added outside main thread.");
+			return;
+		}
+
 		static int count = 0;
 		count++;
 
-		assert(!m_started); // should never be called during runtime
+		assert(!m_started); // should not be callable during runtime
 
 		if (!item->areDuplicatesAllowed())
 		{
@@ -675,6 +783,12 @@ namespace Marvel {
 
 	void mvApp::addWindow(mvAppItem* item)
 	{
+		if (std::this_thread::get_id() != m_mainThreadID)
+		{
+			mvAppLog::getLogger()->LogWarning("Items can not be added outside main thread.");
+			return;
+		}
+
 		m_windows.push_back(item);
 	}
 

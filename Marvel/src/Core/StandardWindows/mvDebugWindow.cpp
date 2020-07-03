@@ -80,7 +80,6 @@ namespace Marvel {
 				DebugItem("Threads Active: ", std::to_string(app->getThreadCount()).c_str());
 				DebugItem("Threadpool Threshold: ", std::to_string(app->getThreadPoolThreshold()).c_str());
 				DebugItem("Threadpool Active: ", app->usingThreadPool() ? ts : fs);
-				DebugItem("Threadpool Auto: ", app->isThreadPoolAuto() ? ts : fs);
 				DebugItem("Threadpool High: ", app->usingThreadPoolHighPerformance() ? ts : fs);
 				DebugItem("Main Callback: ", app->getMainCallback().c_str());
 				DebugItem("Mouse Release Callback: ", app->getMouseReleaseCallback().c_str());
@@ -94,12 +93,6 @@ namespace Marvel {
 
 				ImGui::EndGroup();
 				ImGui::PopItemWidth();
-
-				if (ImGui::Button("Threadpool On"))
-					app->activateThreadPool();
-				ImGui::SameLine();
-				if (ImGui::Button("Threadpool Off"))
-					app->deactivateThreadPool();
 
 				ImGui::EndTabItem();
 			}
