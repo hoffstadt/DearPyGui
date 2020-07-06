@@ -205,4 +205,38 @@ namespace Marvel {
 			errorMode = true;
 	}
 
+	void Application::setLogLevel(unsigned level)
+	{
+		mvAppLog::getLogger()->setLogLevel(level);
+	}
+
+	void Application::Log(const std::string& text, const std::string& level)
+	{
+		mvAppLog::getLogger()->Log(text, level);
+	}
+
+	void Application::LogDebug(const std::string& text)
+	{
+		mvAppLog::getLogger()->LogDebug(text);
+	}
+
+	void Application::LogInfo(const std::string& text)
+	{
+		mvAppLog::getLogger()->LogInfo(text);
+	}
+
+	void Application::LogWarning(const std::string& text)
+	{
+		mvAppLog::getLogger()->LogWarning(text);
+	}
+
+	void Application::LogError(const std::string& text)
+	{
+		mvAppLog::getLogger()->LogError(text);
+	}
+
+	void Application::ClearLog()
+	{
+		mvAppLog::getLogger()->ClearLog();
+	}
 }
