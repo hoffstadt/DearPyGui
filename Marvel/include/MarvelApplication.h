@@ -28,13 +28,13 @@ namespace Marvel {
 		void importModule    ();
 
 		// logging
-		void setLogLevel(unsigned level);
-		void Log(const std::string& text, const std::string& level = "TRACE");
-		void LogDebug(const std::string& text);
-		void LogInfo(const std::string& text);
-		void LogWarning(const std::string& text);
-		void LogError(const std::string& text);
-		void ClearLog();
+		static void setLogLevel(unsigned level);
+		static void Log(const std::string& text, const std::string& level = "TRACE");
+		static void LogDebug(const std::string& text);
+		static void LogInfo(const std::string& text);
+		static void LogWarning(const std::string& text);
+		static void LogError(const std::string& text);
+		static void ClearLog();
 
 	public:
 
