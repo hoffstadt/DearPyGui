@@ -78,7 +78,7 @@ namespace Marvel {
 		if (argc < 2) // ran from visual studio
 		{
 			ranFromVS = true;
-			addedPath = std::string(MV_MAIN_DIR) + std::string("MarvelSandbox/");
+			addedPath = std::string(MV_MAIN_DIR);
 			PathName = "python38.zip;../../MarvelSandbox";
 		}
 	}
