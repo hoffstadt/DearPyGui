@@ -27,6 +27,15 @@ namespace Marvel {
 		void logInformation  ();
 		void importModule    ();
 
+		// logging
+		void setLogLevel(unsigned level);
+		void Log(const std::string& text, const std::string& level = "TRACE");
+		void LogDebug(const std::string& text);
+		void LogInfo(const std::string& text);
+		void LogWarning(const std::string& text);
+		void LogError(const std::string& text);
+		void ClearLog();
+
 	public:
 
 		int         argc;
