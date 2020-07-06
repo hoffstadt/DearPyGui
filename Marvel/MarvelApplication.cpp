@@ -79,7 +79,7 @@ namespace Marvel {
 		{
 			ranFromVS = true;
 			addedPath = std::string(MV_MAIN_DIR);
-			PathName = "python38.zip;../../MarvelSandbox";
+			PathName = "python38.zip;../../MarvelSandbox;.";
 		}
 	}
 
