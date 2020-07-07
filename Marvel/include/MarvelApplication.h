@@ -49,7 +49,7 @@ namespace Marvel {
 		std::string addedPath;
 
 		// options
-		std::string AppName = "App";
+		std::string AppName = "Demo";
 		std::string PathName = "";
 
 		// flags

@@ -68,6 +68,7 @@ shutil.copy(build_dir + "/xxlimited.pyd", app_depend_dir)
 shutil.copy("../cmake-build-release/MarvelSandbox/MarvelSandbox.exe", app_depend_dir)
 shutil.copy("../cmake-build-release/MarvelSandbox/MarvelSandbox.exe.manifest", app_depend_dir)
 shutil.copy("../AppSamples/App.py", window_app_dir)
+shutil.copy("../MarvelSandbox/Demo.py", window_app_dir)
 shutil.copy(debug_dir + "/python38.zip", app_depend_dir)
 
 # add python path file for embedding
@@ -83,6 +84,12 @@ with open(window_app_dir + "/RunApp.bat", 'w') as file:
     file.write("@echo off\n")
     file.write("cd Dependencies\n")
     file.write("call MarvelSandbox.exe --app App --path ..\n")
+
+# add Demo batch file
+with open(window_app_dir + "/RunDemo.bat", 'w') as file:
+    file.write("@echo off\n")
+    file.write("cd Dependencies\n")
+    file.write("call MarvelSandbox.exe --app Demo --path ..\n")
 
 # add Editor batch file
 with open(window_app_dir + "/RunEditor.bat", 'w') as file:
