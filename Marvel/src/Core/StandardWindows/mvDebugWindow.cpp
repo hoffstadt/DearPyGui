@@ -78,7 +78,7 @@ namespace Marvel {
 				DebugItem("ImGui Version: ", IMGUI_VERSION);
 				DebugItem("App File: ", app->getFile().c_str());
 				DebugItem("Threads Active: ", std::to_string(app->getThreadCount()).c_str());
-				DebugItem("Threadpool Threshold: ", std::to_string(app->getThreadPoolThreshold()).c_str());
+				DebugItem("Threadpool Timeout: ", std::to_string(app->getThreadPoolTimeout()).c_str());
 				DebugItem("Threadpool Active: ", app->usingThreadPool() ? ts : fs);
 				DebugItem("Threadpool High: ", app->usingThreadPoolHighPerformance() ? ts : fs);
 				DebugItem("Main Callback: ", app->getMainCallback().c_str());
@@ -109,7 +109,6 @@ namespace Marvel {
 				DebugItem("Global Mouse Position:", io.MousePos.x, io.MousePos.y);
 				DebugItem("Mouse Drag Delta:", app->getMouseDragDelta().x, app->getMouseDragDelta().y);
 				DebugItem("Mouse Drag Threshold:", app->getMouseDragThreshold());
-				DebugItem("Mouse Dragging:", app->isMouseDragging() ? ts : fs);
 
 				ImGui::Spacing();
 				ImGui::Spacing();

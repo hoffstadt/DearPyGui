@@ -87,8 +87,8 @@ namespace Marvel {
 			{"is_threadpool_high_performance", mvPythonTranslator({
 			}, false, "Checks if the threadpool is allowed to use the maximum number of threads.", "Boolean")},
 
-			{"get_threadpool_threshold", mvPythonTranslator({
-			}, false, "Returns the threadpool activation threshold.", "float")},
+			{"get_threadpool_timeout", mvPythonTranslator({
+			}, false, "Returns the threadpool timeout in seconds.", "float")},
 
 			{"get_active_window", mvPythonTranslator({
 			}, false, "Returns the active window name.", "str")},
@@ -96,9 +96,9 @@ namespace Marvel {
 			{"get_marvel_version", mvPythonTranslator({
 			}, false, "Returns the current version of Marvel.", "str")},
 
-			{"set_threadpool_threshold", mvPythonTranslator({
+			{"set_threadpool_timeout", mvPythonTranslator({
 				{mvPythonDataType::Float, "time"}
-			}, false, "Sets the minimum duration for a callback before activating the threadpool.")},
+			}, false, "Sets the threadpool timeout.")},
 
 			{"set_thread_count", mvPythonTranslator({
 				{mvPythonDataType::Integer, "threads"}
@@ -482,9 +482,9 @@ namespace Marvel {
 		return Py_BuildValue("b", mvApp::GetApp()->usingThreadPoolHighPerformance());
 	}
 
-	PyObject* get_threadpool_threshold(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* get_threadpool_timeout(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
-		return Py_BuildValue("f", mvApp::GetApp()->getThreadPoolThreshold());
+		return Py_BuildValue("f", mvApp::GetApp()->getThreadPoolTimeout());
 	}
 
 	PyObject* get_active_window(PyObject* self, PyObject* args, PyObject* kwargs)
@@ -497,14 +497,14 @@ namespace Marvel {
 		return Py_BuildValue("s", mvApp::GetApp()->GetVersion());
 	}
 
-	PyObject* set_threadpool_threshold(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* set_threadpool_timeout(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		float time;
 
-		if (!Translators["set_threadpool_threshold"].parse(args, kwargs, __FUNCTION__, &time))
+		if (!Translators["set_threadpool_timeout"].parse(args, kwargs, __FUNCTION__, &time))
 			Py_RETURN_NONE;
 
-		mvApp::GetApp()->setThreadPoolThreshold(time);
+		mvApp::GetApp()->setThreadPoolTimeout(time);
 
 		Py_RETURN_NONE;
 	}
@@ -1031,7 +1031,7 @@ namespace Marvel {
 		pyModule->addMethodD(get_theme);
 		pyModule->addMethodD(get_thread_count);
 		pyModule->addMethodD(is_threadpool_high_performance);
-		pyModule->addMethodD(get_threadpool_threshold);
+		pyModule->addMethodD(get_threadpool_timeout);
 		pyModule->addMethodD(get_active_window);
 		pyModule->addMethodD(get_marvel_version);
 		pyModule->addMethodD(show_source);
@@ -1040,7 +1040,7 @@ namespace Marvel {
 		pyModule->addMethodD(show_metrics);
 		pyModule->addMethodD(close_popup);
 		pyModule->addMethodD(show_documentation);
-		pyModule->addMethodD(set_threadpool_threshold);
+		pyModule->addMethodD(set_threadpool_timeout);
 		pyModule->addMethodD(set_thread_count);
 		pyModule->addMethodD(set_threadpool_high_performance);
 		pyModule->addMethodD(set_main_window_size);

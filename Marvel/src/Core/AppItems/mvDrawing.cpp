@@ -227,7 +227,7 @@ namespace Marvel {
 		{
 			for (auto item : m_commands)
 			{
-				if (item->tag == tag)
+				if (item->tag == tag && item->getType() == mvDrawingCommandType::DrawLine)
 				{
 					*static_cast<mvDrawLineCommand*>(item) = mvDrawLineCommand(p1, p2, color, thickness);
 					item->tag = tag;
@@ -248,7 +248,7 @@ namespace Marvel {
 		{
 			for (auto item : m_commands)
 			{
-				if (item->tag == tag)
+				if (item->tag == tag && item->getType() == mvDrawingCommandType::DrawTriangle)
 				{
 					*static_cast<mvDrawTriangleCommand*>(item) = mvDrawTriangleCommand(p1, 
 						p2, p3, color, thickness, fill);
@@ -271,7 +271,7 @@ namespace Marvel {
 		{
 			for (auto item : m_commands)
 			{
-				if (item->tag == tag)
+				if (item->tag == tag && item->getType() == mvDrawingCommandType::DrawRect)
 				{
 					*static_cast<mvDrawRectCommand*>(item) = mvDrawRectCommand(pmin, pmax, color, fill, rounding, thickness);
 					item->tag = tag;
@@ -292,7 +292,7 @@ namespace Marvel {
 		{
 			for (auto item : m_commands)
 			{
-				if (item->tag == tag)
+				if (item->tag == tag && item->getType() == mvDrawingCommandType::DrawQuad)
 				{
 					*static_cast<mvDrawQuadCommand*>(item) = mvDrawQuadCommand(p1, p2, 
 						p3, p4, color, fill, thickness);
@@ -315,7 +315,7 @@ namespace Marvel {
 		{
 			for (auto item : m_commands)
 			{
-				if (item->tag == tag)
+				if (item->tag == tag && item->getType() == mvDrawingCommandType::DrawText)
 				{
 					*static_cast<mvDrawTextCommand*>(item) = mvDrawTextCommand(pos, text, color, size);
 					item->tag = tag;
@@ -336,7 +336,7 @@ namespace Marvel {
 		{
 			for (auto item : m_commands)
 			{
-				if (item->tag == tag)
+				if (item->tag == tag && item->getType() == mvDrawingCommandType::DrawCircle)
 				{
 					*static_cast<mvDrawCircleCommand*>(item) = mvDrawCircleCommand(center, radius, color, segments, thickness, fill);
 					item->tag = tag;
@@ -358,7 +358,7 @@ namespace Marvel {
 		{
 			for (auto item : m_commands)
 			{
-				if (item->tag == tag)
+				if (item->tag == tag && item->getType() == mvDrawingCommandType::DrawPolyline)
 				{
 					*static_cast<mvDrawPolylineCommand*>(item) = mvDrawPolylineCommand(points, color, closed, thickness);
 					item->tag = tag;
@@ -380,7 +380,7 @@ namespace Marvel {
 		{
 			for (auto item : m_commands)
 			{
-				if (item->tag == tag)
+				if (item->tag == tag && item->getType() == mvDrawingCommandType::DrawPolygon)
 				{
 					*static_cast<mvDrawPolygonCommand*>(item) = mvDrawPolygonCommand(points, color, fill, thickness);
 					item->tag = tag;
@@ -401,7 +401,7 @@ namespace Marvel {
 		{
 			for (auto item : m_commands)
 			{
-				if (item->tag == tag)
+				if (item->tag == tag && item->getType() == mvDrawingCommandType::DrawBezierCurve)
 				{
 					*static_cast<mvDrawBezierCurveCommand*>(item) = mvDrawBezierCurveCommand(p1, p2, p3, 
 						convertToModelSpace(p4), color, thickness, segments);
@@ -424,7 +424,7 @@ namespace Marvel {
 		{
 			for (auto item : m_commands)
 			{
-				if (item->tag == tag)
+				if (item->tag == tag && item->getType() == mvDrawingCommandType::DrawImage)
 				{
 					*static_cast<mvDrawImageCommand*>(item) = mvDrawImageCommand(file, pmin, pmax, uv_min, uv_max, color);
 					item->tag = tag;

@@ -186,7 +186,7 @@ namespace Marvel {
 	void mvApp::prerender()
 	{
 
-		if (m_threadTime > m_threadPoolThreshold)
+		if (m_threadTime > m_threadPoolTimeout)
 		{
 			if (m_tpool != nullptr)
 			{
@@ -409,16 +409,44 @@ namespace Marvel {
 		
 	}
 
-	bool mvApp::isMouseButtonPressed(int button) const
+	bool mvApp::isMouseDragging(int button, float threshold) const
 	{
-		ImGuiIO& io = ImGui::GetIO();
-		return io.MouseDown[button];
+		return ImGui::IsMouseDragging(button, threshold);
+	}
+
+	bool mvApp::isMouseButtonDown(int button) const
+	{
+		return ImGui::IsMouseDown(button);
+	}
+
+	bool mvApp::isMouseButtonClicked(int button) const
+	{
+		return ImGui::IsMouseClicked(button);
+	}
+
+	bool mvApp::isMouseButtonDoubleClicked(int button) const
+	{
+		return ImGui::IsMouseDoubleClicked(button);
+	}
+
+	bool mvApp::isMouseButtonReleased(int button) const
+	{
+		return ImGui::IsMouseReleased(button);
 	}
 
 	bool mvApp::isKeyPressed(int keycode) const
 	{
-		ImGuiIO& io = ImGui::GetIO();
-		return io.KeysDown[keycode];
+		return ImGui::IsKeyPressed(keycode);
+	}
+
+	bool mvApp::isKeyReleased(int keycode) const
+	{
+		return ImGui::IsKeyReleased(keycode);
+	}
+
+	bool mvApp::isKeyDown(int keycode) const
+	{
+		return ImGui::IsKeyDown(keycode);
 	}
 
 	void mvApp::pushParent(mvAppItem* item)

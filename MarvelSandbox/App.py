@@ -493,7 +493,7 @@ def MainCallback(sender):
     scale = get_drawing_scale("drawing2")
     draw_rectangle("drawing2", (-400/scale[0], 250/scale[1]), (400/scale[0], -250/scale[1]), (255, 0, 0, 255), fill=(int(255*value), 0, 25, 255), rounding=12, thickness = 1.0, tag="background")
 
-    if is_mouse_button_pressed(sbConstants.mvMouseButton_Left):
+    if is_mouse_button_clicked(sbConstants.mvMouseButton_Left):
         pass
     if is_key_pressed(sbConstants.mvKey_Left): # left arrow key
         print("key pressed")

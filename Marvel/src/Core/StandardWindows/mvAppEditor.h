@@ -1,7 +1,5 @@
 #pragma once
 
-#define MV_SANDBOX_VERSION "0.1(WIP)"
-
 #include <vector>
 #include <map>
 #include <stack>
