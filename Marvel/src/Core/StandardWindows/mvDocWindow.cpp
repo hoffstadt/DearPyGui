@@ -380,6 +380,8 @@ namespace Marvel {
 				ImGui::Text(m_doc);
 				ImGui::PopTextWrapPos();
 				ImGui::EndChild();
+
+				ImGui::EndTabItem();
 			}
 			ImGui::EndTabBar();
 		}
