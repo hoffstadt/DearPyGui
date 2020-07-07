@@ -9,6 +9,15 @@ In the same manner Dear ImGui provides a simple way to create tools for game dev
 :----------------------------------------------------------: |
 | [Upcoming changes](#upcoming-changes) - [Gallery](#gallery) - [License](#license) - [Current Dependencies](#current-dependencies) - [Prebuilt Binaries](#prebuilt-binaries)|
 
+### Prebuilt Binaries
+#### Windows
+- Download [Latest Release](https://github.com/RaylockLLC/MarvelSandbox/releases/download/v0.1-alpha/Sandbox.zip)
+- Download _Sandbox.zip_ and unzip anywhere. 
+- Run _RunDocumentation.bat_ to see documentation.
+- Run _RunEditor.bat_ to use the built-in IDE.
+- Run _RunApp.bat_ to run the App.py file included.
+- You can use App.py as a starting point.
+
 ### Usage
 **MarvelSandbox is an all included framework containing its own embedded python interpreter.** Using _MarvelSandbox_ is a simple as creating a python script like the one below, and calling ```MarvelSandbox.exe --app ScriptName --path PathToScriptDirectory``` from the command line (Windows).
 
@@ -69,9 +78,6 @@ git clone --recursive https://github.com/RaylockLLC/MarvelSandbox
 3. Open the _Scripts_ folder and run the _BuildPythonForWindows.bat_ file.
 4. In Visual Studio, use _Open a local folder_ to open _MarvelSandbox_ folder.
 5. Switch to the release configuration and run _Build All_.
-
-### Prebuilt Binaries
-Coming soon!
 
 ### Upcoming Changes
 Some upcoming features:
