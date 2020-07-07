@@ -42,16 +42,38 @@ namespace Marvel {
 			{"get_mouse_drag_delta", mvPythonTranslator({
 			}, false, "Returns the current mouse drag delta", "(float, float)")},
 
-			{"is_mouse_dragging", mvPythonTranslator({
+			{"is_mouse_button_dragging", mvPythonTranslator({
+				{mvPythonDataType::Integer, "button"},
+				{mvPythonDataType::Float, "threshold"},
 			}, false, "Checks if the mouse is dragging.", "Boolean")},
 
-			{"is_mouse_button_pressed", mvPythonTranslator({
+			{"is_mouse_button_down", mvPythonTranslator({
 				{mvPythonDataType::Integer, "button"}
 			}, false, "Checks if the mouse button is pressed.", "Boolean")},
+
+			{"is_mouse_button_clicked", mvPythonTranslator({
+				{mvPythonDataType::Integer, "button"}
+			}, false, "Checks if the mouse button is clicked.", "Boolean")},
+
+			{"is_mouse_button_released", mvPythonTranslator({
+				{mvPythonDataType::Integer, "button"}
+			}, false, "Checks if the mouse button is released.", "Boolean")},
+
+			{"is_mouse_button_double_clicked", mvPythonTranslator({
+				{mvPythonDataType::Integer, "button"}
+			}, false, "Checks if the mouse button is double clicked.", "Boolean")},
 
 			{"is_key_pressed", mvPythonTranslator({
 				{mvPythonDataType::Integer, "key"}
 			}, false, "Checks if the key is pressed.", "Boolean")},
+
+			{"is_key_released", mvPythonTranslator({
+				{mvPythonDataType::Integer, "key"}
+			}, false, "Checks if the key is released.", "Boolean")},
+
+			{"is_key_down", mvPythonTranslator({
+				{mvPythonDataType::Integer, "key"}
+			}, false, "Checks if the key is down.", "Boolean")},
 
 			{"set_mouse_down_callback", mvPythonTranslator({
 				{mvPythonDataType::String, "callback"}
@@ -145,20 +167,6 @@ namespace Marvel {
 		return pvalue;
 	}
 
-	PyObject* is_mouse_button_pressed(PyObject* self, PyObject* args, PyObject* kwargs)
-	{
-		int button;
-
-		if (!Translators["is_mouse_button_pressed"].parse(args, kwargs,__FUNCTION__, &button))
-			Py_RETURN_NONE;
-
-		bool pressed = mvApp::GetApp()->isMouseButtonPressed(button);
-
-		PyObject* pvalue = Py_BuildValue("i", pressed);
-
-		return pvalue;
-	}
-
 	PyObject* is_key_pressed(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		int key;
@@ -173,9 +181,83 @@ namespace Marvel {
 		return pvalue;
 	}
 
-	PyObject* is_mouse_dragging(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* is_key_released(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
-		return Py_BuildValue("i", mvApp::GetApp()->isMouseDragging());
+		int key;
+
+		if (!Translators["is_key_released"].parse(args, kwargs, __FUNCTION__, &key))
+			Py_RETURN_NONE;
+
+		bool pressed = mvApp::GetApp()->isKeyReleased(key);
+
+		PyObject* pvalue = Py_BuildValue("i", pressed);
+		
+		return pvalue;
+	}
+
+	PyObject* is_key_down(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		int key;
+
+		if (!Translators["is_key_down"].parse(args, kwargs, __FUNCTION__, &key))
+			Py_RETURN_NONE;
+
+		bool pressed = mvApp::GetApp()->isKeyDown(key);
+
+		PyObject* pvalue = Py_BuildValue("i", pressed);
+
+		return pvalue;
+	}
+
+	PyObject* is_mouse_button_dragging(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		int button;
+		float threshold;
+
+		if (!Translators["is_mouse_button_dragging"].parse(args, kwargs, __FUNCTION__, &button, &threshold))
+			Py_RETURN_NONE;
+
+		return Py_BuildValue("i", mvApp::GetApp()->isMouseDragging(button, threshold));
+	}
+
+	PyObject* is_mouse_button_down(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		int button;
+
+		if (!Translators["is_mouse_button_down"].parse(args, kwargs, __FUNCTION__, &button))
+			Py_RETURN_NONE;
+
+		return Py_BuildValue("i", mvApp::GetApp()->isMouseButtonDown(button));
+	}
+
+	PyObject* is_mouse_button_clicked(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		int button;
+
+		if (!Translators["is_mouse_button_clicked"].parse(args, kwargs, __FUNCTION__, &button))
+			Py_RETURN_NONE;
+
+		return Py_BuildValue("i", mvApp::GetApp()->isMouseButtonClicked(button));
+	}
+
+	PyObject* is_mouse_button_double_clicked(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		int button;
+
+		if (!Translators["is_mouse_button_double_clicked"].parse(args, kwargs, __FUNCTION__, &button))
+			Py_RETURN_NONE;
+
+		return Py_BuildValue("i", mvApp::GetApp()->isMouseButtonDoubleClicked(button));
+	}
+
+	PyObject* is_mouse_button_released(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		int button;
+
+		if (!Translators["is_mouse_button_released"].parse(args, kwargs, __FUNCTION__, &button))
+			Py_RETURN_NONE;
+
+		return Py_BuildValue("i", mvApp::GetApp()->isMouseButtonReleased(button));
 	}
 
 	PyObject* set_mouse_down_callback(PyObject* self, PyObject* args, PyObject* kwargs)
@@ -283,9 +365,12 @@ namespace Marvel {
 
 		pyModule->addMethodD(get_mouse_drag_callback);
 		pyModule->addMethodD(set_mouse_drag_callback);
-		pyModule->addMethodD(is_mouse_dragging);
+		pyModule->addMethodD(is_mouse_button_dragging);
+		pyModule->addMethodD(is_mouse_button_down);
+		pyModule->addMethodD(is_mouse_button_clicked);
+		pyModule->addMethodD(is_mouse_button_double_clicked);
+		pyModule->addMethodD(is_mouse_button_released);
 		pyModule->addMethodD(get_mouse_drag_delta);
-
 		pyModule->addMethodD(get_mouse_wheel_callback);
 		pyModule->addMethodD(set_mouse_wheel_callback);
 		pyModule->addMethodD(get_key_down_callback);
@@ -295,8 +380,9 @@ namespace Marvel {
 		pyModule->addMethodD(get_mouse_double_click_callback);
 		pyModule->addMethodD(get_mouse_down_callback);
 		pyModule->addMethodD(get_mouse_pos);
-		pyModule->addMethodD(is_mouse_button_pressed);
 		pyModule->addMethodD(is_key_pressed);
+		pyModule->addMethodD(is_key_released);
+		pyModule->addMethodD(is_key_down);
 		pyModule->addMethodD(set_mouse_click_callback);
 		pyModule->addMethodD(set_mouse_down_callback);
 		pyModule->addMethodD(set_mouse_double_click_callback);

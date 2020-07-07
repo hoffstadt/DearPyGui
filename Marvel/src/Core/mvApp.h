@@ -1,7 +1,5 @@
 #pragma once
 
-#define MV_SANDBOX_VERSION "0.1 alpha"
-
 #include <vector>
 #include <map>
 #include <stack>
@@ -86,17 +84,16 @@ namespace Marvel {
 		// Concurrency Settings
 		//-----------------------------------------------------------------------------
 		void     setMainThreadID             (std::thread::id id) { m_mainThreadID = id; }
-		void     setThreadPoolThreshold      (double time) { m_threadPoolThreshold = time; }
+		void     setThreadPoolTimeout        (double time) { m_threadPoolTimeout = time; }
 		void     setThreadCount              (unsigned count) { m_threads = count; }
 		void     activateThreadPool          () { m_threadPool = true; }
 		void     setThreadPoolHighPerformance() { m_threadPoolHighPerformance = true; }
 
-		std::thread::id   getMainThreadID       () const { return m_mainThreadID; }
-		double            getThreadPoolThreshold        () const { return m_threadPoolThreshold; }
+		std::thread::id   getMainThreadID               () const { return m_mainThreadID; }
+		double            getThreadPoolTimeout          () const { return m_threadPoolTimeout; }
 		unsigned          getThreadCount                () const { return m_threads; }
 		bool              usingThreadPool               () const { return m_threadPool; }
 		bool              usingThreadPoolHighPerformance() const { return m_threadPoolHighPerformance; }
-		void              deactivateThreadPool() { m_threadPool = false; if (m_tpool) { delete m_tpool; m_tpool = nullptr; } }
 
 
 		//-----------------------------------------------------------------------------
@@ -152,7 +149,7 @@ namespace Marvel {
 		const std::string& getMouseWheelCallback      () const { return m_mouseWheelCallback; }
 
 		//-----------------------------------------------------------------------------
-		// Input Polling
+		// Inputs
 		//-----------------------------------------------------------------------------
 		void          setMousePosition     (float x, float y) { m_mousePos.x = x; m_mousePos.y = y; }
 		void          setMouseDragThreshold(float threshold) { m_mouseDragThreshold = threshold; }
@@ -162,9 +159,16 @@ namespace Marvel {
 		float         getMouseDragThreshold() const { return m_mouseDragThreshold; }
 		const mvVec2& getMouseDragDelta    () const { return m_mouseDragDelta; }
 		mvMousePos    getMousePosition     () const { return m_mousePos; }
-		bool          isMouseDragging      () const { return m_mouseDragging; }
-		bool          isMouseButtonPressed (int button)  const;
-		bool          isKeyPressed         (int keycode) const;
+
+		// input polling
+		bool          isMouseDragging             (int button, float threshold) const;
+		bool          isMouseButtonDown           (int button)  const;
+		bool          isMouseButtonClicked        (int button)  const;
+		bool          isMouseButtonDoubleClicked  (int button)  const;
+		bool          isMouseButtonReleased       (int button)  const;
+		bool          isKeyDown                   (int keycode) const;
+		bool          isKeyPressed                (int keycode) const;
+		bool          isKeyReleased               (int keycode) const;
 			
 	private:
 
@@ -199,7 +203,7 @@ namespace Marvel {
 		// concurrency
 		std::thread::id    m_mainThreadID;
 		bool               m_threadPool = false;                // is threadpool activated
-		double             m_threadPoolThreshold = 30.0;         // callback delay (seconds) before threadpool activation
+		double             m_threadPoolTimeout = 30.0;
 		unsigned           m_threads = 2;                       // how many threads to use
 		bool               m_threadPoolHighPerformance = false; // when true, use max number of threads
 		double             m_threadTime = 3.0;

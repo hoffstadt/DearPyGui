@@ -221,11 +221,14 @@ namespace Marvel {
 					ImGui::Indent();
 					CodeColorText("Main    - ran every frame");
 					CodeColorText("Inputs  - ran when mouse/keyboard events occure");
-					CodeColorText("Widgets - ran when certain widgets are interacting with");
+					CodeColorText("Widgets - ran when certain widgets are interacted with");
 					ImGui::Unindent();
 					ImGui::BulletText("Notes:");
 					ImGui::Indent();
 					ImGui::BulletText("The 'set_*_callback' commands take a string with the name of the callback to use.");
+					ImGui::BulletText("Always be ran on the same thread as the GUI.");
+					ImGui::BulletText("Should NOT be computationally expensive (because of the note above),");
+					ImGui::Text("otherwise you may see a drop in frame rate.");
 					ImGui::Unindent();
 					ImGui::Separator();
 
@@ -234,9 +237,7 @@ namespace Marvel {
 					ImGui::BulletText("The command is 'set_main_callback(...)'");
 					ImGui::BulletText("Notes:");
 					ImGui::Indent();
-					ImGui::BulletText("This function will always be ran on the same thread as the GUI.");
-					ImGui::BulletText("Should NOT be computationally expensive (because of the note above),");
-					ImGui::Text("otherwise you may see a drop in frame rate.");
+
 					ImGui::BulletText("Should take the following form:");
 					ImGui::Indent();
 					CodeColorText("def callbackname(sender):");
@@ -286,6 +287,50 @@ namespace Marvel {
 
 				}
 
+				if (ImGui::CollapsingHeader("Concurrency and Asyncronous Functions"))
+				{
+
+					ColorText("BASICS:");
+					ImGui::BulletText("If a callback needs to perform time consuming calculations, functions can be");
+					ImGui::Text("    ran asyncronously (on seperate threads).");
+					ImGui::BulletText("Currently, the async function CAN NOT call Marvel API commands.");
+
+					ImGui::BulletText("The following command is used for asyncronous functions:");
+					ImGui::Indent();
+					CodeColorText("run_async_function(name, data, return_handler)");
+					ImGui::Unindent();
+					ImGui::BulletText("Notes:");
+					ImGui::Indent();
+					ImGui::BulletText("name - the function name to run concurrently");
+					ImGui::BulletText("data - any data needed by the function");
+					ImGui::BulletText("return_hander - the name of a function to run on completion");
+					ImGui::Unindent();
+					ImGui::Separator();
+
+					ColorText("RETURN HANDLER:");
+					ImGui::BulletText("The return handler is used to provide any updates to the GUI following");
+					ImGui::Text("    an asyncronous function call. This function is ran on the main thread.");
+					ImGui::BulletText("Takes the following form:");
+					ImGui::Indent();
+					CodeColorText("def ReturnHandler(data):");
+					CodeColorText("    ...");
+					ImGui::Unindent();
+					ImGui::BulletText("Where data is the return value of the async function (if anything is returned).");
+					ImGui::Separator();
+
+					ColorText("THREADPOOL:");
+					ImGui::BulletText("When an asyncronous function is called, a threadpool is created to manage threads.");
+					ImGui::BulletText("There are 2 aspects of this threadpool that can be configured:");
+					ImGui::Indent();
+					ImGui::BulletText("Number of threads using the following commands:");
+					CodeColorText("set_thread_count(...)                # sets number of threads to use (default is 2)");
+					CodeColorText("set_threadpool_high_performance(...) # sets thread count to maximum");
+					ImGui::BulletText("Timeout using the following command:");
+					CodeColorText("set_threadpool_timeout(...) # sets the timeout before destroying threadpool when not in use");
+					ImGui::Unindent();
+
+				}
+
 				if (ImGui::CollapsingHeader("Input Polling"))
 				{
 					ImGui::BulletText("During any callback, you can poll information about the mouse and keyboard.");
@@ -293,10 +338,35 @@ namespace Marvel {
 					ImGui::Indent();
 					CodeColorText("get_mouse_pos");
 					CodeColorText("is_key_pressed");
-					CodeColorText("is_mouse_button_pressed");
-					CodeColorText("is_mouse_dragging");
+					CodeColorText("is_key_released");
+					CodeColorText("is_key_down");
+					CodeColorText("is_mouse_button_dragging");
+					CodeColorText("is_mouse_button_down");
+					CodeColorText("is_mouse_button_clicked");
+					CodeColorText("is_mouse_button_double_clicked");
+					CodeColorText("is_mouse_button_released");
 					ImGui::Unindent();
 
+				}
+
+				if (ImGui::CollapsingHeader("Drawings"))
+				{
+					ColorText("BASICS:");
+					ImGui::BulletText("The drawing API is a low-level drawing API useful as a canvas or custom widget.");
+					ImGui::BulletText("Drawings are added using the 'add_drawing(...)' command.");
+					ImGui::BulletText("All drawing commands' first argument is the name of the drawing you are refering to.");
+					ImGui::BulletText("The drawings scale and coordinate origin can be set with the following commands:");
+					ImGui::Indent();
+					CodeColorText("set_drawing_scale(...)  # default is 1.0 and 1.0");
+					CodeColorText("set_drawing_origin(...) # origin is in pixels, default is 0,0 (bottom left corner)");
+					ImGui::Unindent();
+					ImGui::Separator();
+
+					ColorText("TAGS:");
+					ImGui::BulletText("To efficiently update a drawing, you should use the tag system (as opposed to clearing and redrawing)");
+					ImGui::BulletText("All draw commands of the form 'draw_*' accept an optional tag argument.");
+					ImGui::BulletText("The tag argument is a string that acts as an indentifier for the draw item.");
+					ImGui::BulletText("On subsequent calls to the same draw command with the given tag, the item will be updated.");
 				}
 
 				ImGui::EndTabItem();
