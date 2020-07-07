@@ -228,9 +228,10 @@ namespace Marvel {
 
 		virtual void draw() override
 		{
+			ImGui::BeginGroup();
 			if (ImGui::TreeNodeEx(m_label.c_str(), m_flags))
 			{
-
+				
 				for (mvAppItem* item : m_children)
 				{
 					// skip item if it's not shown
@@ -267,6 +268,7 @@ namespace Marvel {
 
 				ImGui::TreePop();
 			}
+			ImGui::EndGroup();
 		}
 
 	private:

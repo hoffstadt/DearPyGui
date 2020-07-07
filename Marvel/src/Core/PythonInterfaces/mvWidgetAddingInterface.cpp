@@ -66,8 +66,8 @@ namespace Marvel {
 
 		translators->insert({ "add_progress_bar", mvPythonTranslator({
 			{mvPythonDataType::String, "name"},
-			{mvPythonDataType::Float, "value"},
 			{mvPythonDataType::Optional},
+			{mvPythonDataType::Float, "value"},
 			{mvPythonDataType::KeywordOnly},
 			{mvPythonDataType::String, "overlay"}
 		}, true, "Adds a progress bar.") });
@@ -443,9 +443,9 @@ namespace Marvel {
 
 		translators->insert({ "add_window", mvPythonTranslator({
 			{mvPythonDataType::String, "name"},
+			{mvPythonDataType::Optional},
 			{mvPythonDataType::Integer, "width"},
 			{mvPythonDataType::Integer, "height"},
-			{mvPythonDataType::Optional},
 			{mvPythonDataType::KeywordOnly},
 			{mvPythonDataType::Integer, "start_x"},
 			{mvPythonDataType::Integer, "start_y"},
@@ -556,7 +556,7 @@ namespace Marvel {
 	{
 		MV_STANDARD_CALLBACK_INIT();
 		const char* name;
-		float default_value;
+		float default_value = 0.0f;
 		const char* overlay = "";
 
 		if (!Translators["add_progress_bar"].parse(args, kwargs, __FUNCTION__, &name, &default_value, &overlay, MV_STANDARD_CALLBACK_PARSE))
@@ -762,6 +762,7 @@ namespace Marvel {
 		PyObject* default_value = PyTuple_New(3);
 		PyTuple_SetItem(default_value, 0, PyLong_FromLong(0));
 		PyTuple_SetItem(default_value, 1, PyLong_FromLong(0));
+		PyTuple_SetItem(default_value, 2, PyLong_FromLong(0));
 		float speed = 1.0f;
 		int min_value = 0;
 		int max_value = 100;
@@ -1071,6 +1072,8 @@ namespace Marvel {
 		const char* name;
 		PyObject* items;
 		int default_value = 0;
+
+		height = 3;
 
 		if (!Translators["add_listbox"].parse(args, kwargs,__FUNCTION__, &name, &items, &default_value, MV_STANDARD_CALLBACK_PARSE))
 			Py_RETURN_NONE;
@@ -1681,8 +1684,8 @@ namespace Marvel {
 	PyObject* add_window(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		const char* name;
-		int width;
-		int height;
+		int width = -1;
+		int height = -1;
 		int startx = 0;
 		int starty = 0;
 		int autosize = false;
@@ -1691,7 +1694,12 @@ namespace Marvel {
 		if (!Translators["add_window"].parse(args, kwargs, __FUNCTION__, &name, &width, &height, &startx, &starty, &autosize, &hide))
 			Py_RETURN_NONE;
 
-		
+		if (width == -1 && height == -1)
+		{
+			width = 500;
+			height = 500;
+		}
+
 		mvAppItem* item = new mvWindowAppitem("", name, width, height, startx, starty, false, autosize);
 		mvApp::GetApp()->addWindow(item);
 		mvApp::GetApp()->pushParent(item);
@@ -2047,7 +2055,13 @@ namespace Marvel {
 		pyModule->addMethodD(add_button);
 		pyModule->addMethodD(add_input_text);
 		pyModule->addMethodD(add_input_int);
+		pyModule->addMethodD(add_input_int2);
+		pyModule->addMethodD(add_input_int3);
+		pyModule->addMethodD(add_input_int4);
 		pyModule->addMethodD(add_input_float);
+		pyModule->addMethodD(add_input_float2);
+		pyModule->addMethodD(add_input_float3);
+		pyModule->addMethodD(add_input_float4);
 		pyModule->addMethodD(add_radio_button);
 		pyModule->addMethodD(add_checkbox);
 		pyModule->addMethodD(add_group);

@@ -197,7 +197,7 @@ namespace Marvel {
 
 		MV_APPITEM_TYPE(mvAppItemType::Listbox)
 
-		mvListbox(const std::string& parent, const std::string& name, const std::vector<std::string>& itemnames, int default_value = 0, int height = -1)
+		mvListbox(const std::string& parent, const std::string& name, const std::vector<std::string>& itemnames, int default_value = 0, int height = 3)
 			: mvIntItemBase(parent, name, 1, default_value), m_names(itemnames), m_height(height)
 		{
 		}
