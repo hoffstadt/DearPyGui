@@ -9,15 +9,6 @@ In the same manner Dear ImGui provides a simple way to create tools for game dev
 :----------------------------------------------------------: |
 | [Upcoming changes](#upcoming-changes) - [Gallery](#gallery) - [License](#license) - [Current Dependencies](#current-dependencies) - [Prebuilt Binaries](#prebuilt-binaries)|
 
-### Prebuilt Binaries
-#### Windows
-- Download [Latest Release](https://github.com/RaylockLLC/MarvelSandbox/releases/download/v0.1-alpha/Sandbox.zip)
-- Download _Sandbox.zip_ and unzip anywhere. 
-- Run _RunDocumentation.bat_ to see documentation.
-- Run _RunEditor.bat_ to use the built-in IDE.
-- Run _RunApp.bat_ to run the App.py file included.
-- You can use App.py as a starting point.
-
 ### Usage
 **MarvelSandbox is an all included framework containing its own embedded python interpreter.** Using _MarvelSandbox_ is a simple as creating a python script like the one below, and calling ```MarvelSandbox.exe --app ScriptName --path PathToScriptDirectory``` from the command line (Windows).
 
@@ -54,6 +45,15 @@ If you choose not to use your own IDE, we have provided a basic built-in IDE for
 #### Built-in Documentation
 Using the ```show_documentation()``` command opens the built-in documentation window which displays all _MarvelSandbox_ commands and constants, along with information on their usage.
 <BR>![BasicUsageExample](../assets/DocumentationExample.PNG?raw=true)
+  
+### Prebuilt Binaries
+#### Windows
+- Download [Latest Release](https://github.com/RaylockLLC/MarvelSandbox/releases/download/v0.1-alpha/Sandbox.zip)
+- Download _Sandbox.zip_ and unzip anywhere. 
+- Run _RunDocumentation.bat_ to see documentation.
+- Run _RunEditor.bat_ to use the built-in IDE.
+- Run _RunApp.bat_ to run the App.py file included.
+- You can use App.py as a starting point.
 
 ### Current Dependencies
 
