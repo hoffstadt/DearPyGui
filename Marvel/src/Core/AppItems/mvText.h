@@ -27,6 +27,8 @@ namespace Marvel {
 		{
 		}
 
+		virtual bool areDuplicatesAllowed() const override { return true; }
+
 		virtual void draw() override
 		{
 

@@ -234,6 +234,8 @@ namespace Marvel {
 		int flags = 0;
 		int xflags = 0;
 		int yflags = 0;
+		width = -1;
+		height = -1;
 
 		if (!Translators["add_plot"].parse(args, kwargs, __FUNCTION__, &name, &xAxisName, &yAxisName, &flags,
 			&xflags, &yflags, MV_STANDARD_CALLBACK_PARSE))

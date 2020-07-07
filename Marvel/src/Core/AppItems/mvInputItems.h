@@ -244,13 +244,13 @@ namespace Marvel {
 		MV_APPITEM_TYPE(mvAppItemType::InputFloat4)
 
 		mvInputFloat4(const std::string& parent, const std::string& name, float default_value[4], const std::string& format = "%.3f")
-			: mvFloatItemBase(parent, name, 3, default_value[0], default_value[1], default_value[2], default_value[3]), m_format(format)
+			: mvFloatItemBase(parent, name, 4, default_value[0], default_value[1], default_value[2], default_value[3]), m_format(format)
 		{
 		}
 
 		virtual void draw() override
 		{
-			if (ImGui::InputFloat3(m_label.c_str(), m_value, m_format.c_str()))
+			if (ImGui::InputFloat4(m_label.c_str(), m_value, m_format.c_str()))
 			{
 				mvApp::GetApp()->runCallback(m_callback, m_name);
 
