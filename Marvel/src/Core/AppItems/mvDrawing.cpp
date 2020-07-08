@@ -28,6 +28,14 @@ namespace Marvel {
 		draw_list->AddLine(m_p1+start, m_p2+start, m_color, m_thickness);
 	}
 
+	void mvDrawArrowCommand::draw(mvDrawing* draw, ImDrawList* draw_list)
+	{
+		mvVec2 start = draw->getStart();
+		draw_list->AddLine(m_p1 + start, m_p2 + start, m_color, m_thickness);
+		draw_list->AddTriangle(m_points[0] + start, m_points[1] + start, m_points[2] + start, m_color, m_thickness);
+		draw_list->AddTriangleFilled(m_points[0] + start, m_points[1] + start, m_points[2] + start, m_color);
+	}
+
 	void mvDrawTriangleCommand::draw(mvDrawing* draw, ImDrawList* draw_list)
 	{
 		mvVec2 start = draw->getStart();
@@ -213,8 +221,6 @@ namespace Marvel {
 	{
 		for (int i = 0; i < points.size(); i++)
 		{
-			points[i].x = pointso[i].x;
-
 			points[i].x = pointso[i].x * m_scalex + m_originx;
 			points[i].y = m_height - pointso[i].y * m_scaley - m_originy;
 		}
@@ -238,6 +244,63 @@ namespace Marvel {
 		}
 
 		mvDrawingCommand* command = new mvDrawLineCommand(p1, p2,  color, thickness);
+		command->tag = tag;
+		m_commands.push_back(command);
+	}
+
+	void mvDrawing::drawArrow(const mvVec2& p1, const mvVec2& p2, const mvColor& color, float thickness, float size, const std::string& tag)
+	{
+		float xsi = p1.x;
+		float xfi = p2.x;
+		float ysi = p1.y;
+		float yfi = p2.y;
+
+		// length of arrow head
+		double xoffset = size;
+		double yoffset = size;
+
+		// get pointer angle w.r.t +X (in radians)
+		double angle = 0.0;
+		if (xsi >= xfi && ysi >= yfi) {
+			angle = atan((ysi - yfi) / (xsi - xfi));
+		}
+		else if (xsi < xfi && ysi >= yfi) {
+			angle = M_PI + atan((ysi - yfi) / (xsi - xfi));
+		}
+		else if (xsi < xfi && ysi < yfi) {
+			angle = -M_PI + atan((ysi - yfi) / (xsi - xfi));
+		}
+		else if (xsi >= xfi && ysi < yfi) {
+			angle = atan((ysi - yfi) / (xsi - xfi));
+		}
+
+		// arrow head points
+		float x1 = xsi - xoffset * cos(angle);
+		float y1 = ysi - yoffset * sin(angle);
+
+		std::vector<mvVec2> points;
+		points.push_back({ xsi, ysi });
+		points.push_back({ (float)(x1 - 0.5 * size * sin(angle)), (float)(y1 + 0.5 * size * cos(angle)) });
+		points.push_back({ (float)(x1 + 0.5 * size * cos((M_PI / 2.0) - angle)), (float)(y1 - 0.5 * size * sin((M_PI / 2.0) - angle) )});
+
+		if (!tag.empty())
+		{
+			for (auto item : m_commands)
+			{
+				if (item->tag == tag && item->getType() == mvDrawingCommandType::DrawArrow)
+				{
+					*static_cast<mvDrawArrowCommand*>(item) = mvDrawArrowCommand(p1, p2, points, color, thickness, size);
+					item->tag = tag;
+					m_dirty = true;
+					return;
+				}
+			}
+		}
+
+
+
+
+		mvDrawingCommand* command = new mvDrawArrowCommand(p1, p2, points, color, thickness, size);
 		command->tag = tag;
 		m_commands.push_back(command);
 	}
@@ -451,6 +514,15 @@ namespace Marvel {
 				mvDrawLineCommand& acommand = *static_cast<mvDrawLineCommand*>(command);
 				acommand.m_p1 = convertToModelSpace(acommand.m_p1o);
 				acommand.m_p2 = convertToModelSpace(acommand.m_p2o);
+				break;
+			}
+
+			case mvDrawingCommandType::DrawArrow:
+			{
+				mvDrawArrowCommand& acommand = *static_cast<mvDrawArrowCommand*>(command);
+				acommand.m_p1 = convertToModelSpace(acommand.m_p1o);
+				acommand.m_p2 = convertToModelSpace(acommand.m_p2o);
+				convertToModelSpace(acommand.m_points, acommand.m_pointso);
 				break;
 			}
 

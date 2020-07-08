@@ -72,6 +72,18 @@ namespace Marvel {
 				{mvPythonDataType::String, "tag"},
 			}, false, "Draws a line on a drawing.")},
 
+			{"draw_arrow", mvPythonTranslator({
+				{mvPythonDataType::String, "drawing"},
+				{mvPythonDataType::FloatList, "p1"},
+				{mvPythonDataType::FloatList, "p2"},
+				{mvPythonDataType::IntList, "color"},
+				{mvPythonDataType::Integer, "thickness"},
+				{mvPythonDataType::Integer, "size"},
+				{mvPythonDataType::Optional},
+				{mvPythonDataType::KeywordOnly},
+				{mvPythonDataType::String, "tag"},
+			}, false, "Draws an arrow on a drawing.")},
+
 			{"draw_triangle", mvPythonTranslator({
 				{mvPythonDataType::String, "drawing"},
 				{mvPythonDataType::FloatList, "p1"},
@@ -382,6 +394,36 @@ namespace Marvel {
 		Py_RETURN_NONE;
 	}
 
+	PyObject* draw_arrow(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		const char* drawing;
+		int thickness;
+		int size;
+		PyObject* p1, * p2;
+		PyObject* color;
+		const char* tag = "";
+
+		if (!Translators["draw_arrow"].parse(args, kwargs, __FUNCTION__, &drawing, &p1, &p2, &color, &thickness, &size, &tag))
+			Py_RETURN_NONE;
+
+		mvVec2 mp1 = mvPythonTranslator::getVec2(p1);
+		mvVec2 mp2 = mvPythonTranslator::getVec2(p2);
+		mvColor mcolor = mvPythonTranslator::getColor(color);
+
+		mvAppItem* item = mvApp::GetApp()->getItem(drawing);
+		if (item == nullptr)
+		{
+			std::string message = drawing;
+			mvAppLog::getLogger()->LogWarning(message + " drawing does not exist.");
+			Py_RETURN_NONE;
+		}
+
+		mvDrawing* dwg = static_cast<mvDrawing*>(item);
+		dwg->drawArrow(mp1, mp2, mcolor, thickness, size, tag);
+
+		Py_RETURN_NONE;
+	}
+
 	PyObject* draw_triangle(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		const char* drawing;
@@ -658,6 +700,7 @@ namespace Marvel {
 	{
 		auto pyModule = new mvPythonModule("sbDraw", {});
 
+		pyModule->addMethodD(draw_arrow);
 		pyModule->addMethodD(get_drawing_origin);
 		pyModule->addMethodD(get_drawing_scale);
 		pyModule->addMethodD(set_drawing_origin);

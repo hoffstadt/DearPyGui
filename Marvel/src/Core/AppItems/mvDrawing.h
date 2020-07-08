@@ -22,7 +22,7 @@ namespace Marvel {
 	enum class mvDrawingCommandType
 	{
 		DrawLine, DrawTriangle, DrawCircle, DrawText, DrawRect, DrawQuad,
-		DrawPolyline, DrawBezierCurve, DrawPolygon, DrawImage
+		DrawPolyline, DrawBezierCurve, DrawPolygon, DrawImage, DrawArrow
 	};
 
 	//-----------------------------------------------------------------------------
@@ -64,9 +64,9 @@ namespace Marvel {
 
 		std::string m_file;
 		mvVec2		m_pmax;
-		mvVec2		m_pmaxo;
 		mvVec2		m_pmin;
-		mvVec2		m_pmino;
+		mvVec2		m_pmaxo; // original, no scaling
+		mvVec2		m_pmino; // original, no scaling
 		mvVec2		m_uv_min;
 		mvVec2		m_uv_max;
 		mvColor		m_color;
@@ -95,11 +95,41 @@ namespace Marvel {
 	public:
 
 		mvVec2  m_p1;
-		mvVec2  m_p1o;
 		mvVec2  m_p2;
-		mvVec2  m_p2o;
+		mvVec2  m_p1o; // original, no scaling
+		mvVec2  m_p2o; // original, no scaling
 		mvColor m_color;
 		float   m_thickness;
+
+	};
+
+	//-----------------------------------------------------------------------------
+	// mvDrawArrowCommand
+	//-----------------------------------------------------------------------------
+	class mvDrawArrowCommand : public mvDrawingCommand
+	{
+
+	public:
+
+		MV_DRAWCOMMAND_TYPE(mvDrawingCommandType::DrawArrow)
+
+		mvDrawArrowCommand(const mvVec2& p1, const mvVec2& p2, const std::vector<mvVec2>& points, const mvColor& color, float thickness, float size)
+			: mvDrawingCommand(), m_p1(p1), m_p1o(p1), m_p2(p2), m_p2o(p2), m_points(points), m_pointso(points), m_color(color), m_thickness(thickness),
+			m_size(size)
+		{
+		}
+
+	public:
+
+		mvVec2  m_p1;
+		mvVec2  m_p2;
+		mvVec2  m_p1o; // original, no scaling
+		mvVec2  m_p2o; // original, no scaling
+		std::vector<mvVec2> m_points;
+		std::vector<mvVec2> m_pointso; // original, no scaling
+		mvColor m_color;
+		float   m_thickness;
+		float   m_size;
 
 	};
 
@@ -121,11 +151,11 @@ namespace Marvel {
 	public:
 
 		mvVec2  m_p1;
-		mvVec2  m_p1o;
 		mvVec2  m_p2;
-		mvVec2  m_p2o;
 		mvVec2  m_p3;
-		mvVec2  m_p3o;
+		mvVec2  m_p1o; // original, no scaling
+		mvVec2  m_p2o; // original, no scaling
+		mvVec2  m_p3o; // original, no scaling
 		mvColor m_color;
 		mvColor m_fill;
 		float   m_thickness;
@@ -150,9 +180,9 @@ namespace Marvel {
 	public:
 
 		mvVec2  m_center;
-		mvVec2  m_centero;
 		float   m_radius;
-		float   m_radiuso;
+		mvVec2  m_centero; // original, no scaling
+		float   m_radiuso; // original, no scaling
 		int     m_segments;
 		mvColor m_color;
 		mvColor m_fill;
@@ -178,7 +208,7 @@ namespace Marvel {
 	public:
 
 		mvVec2      m_pos;
-		mvVec2      m_poso;
+		mvVec2      m_poso; // original, no scaling
 		std::string m_text;
 		mvColor     m_color;
 		int         m_size;
@@ -204,9 +234,9 @@ namespace Marvel {
 	public:
 
 		mvVec2  m_pmin;
-		mvVec2  m_pmino;
 		mvVec2  m_pmax;
-		mvVec2  m_pmaxo;
+		mvVec2  m_pmino; // original, no scaling
+		mvVec2  m_pmaxo; // original, no scaling
 		float   m_rounding;
 		mvColor m_color;
 		mvColor m_fill;
@@ -233,13 +263,13 @@ namespace Marvel {
 	public:
 
 		mvVec2  m_p1;
-		mvVec2  m_p1o;
 		mvVec2  m_p2;
-		mvVec2  m_p2o;
 		mvVec2  m_p3;
-		mvVec2  m_p3o;
 		mvVec2  m_p4;
-		mvVec2  m_p4o;
+		mvVec2  m_p1o; // original, no scaling
+		mvVec2  m_p2o; // original, no scaling
+		mvVec2  m_p3o; // original, no scaling
+		mvVec2  m_p4o; // original, no scaling
 		mvColor m_color;
 		mvColor m_fill;
 		float   m_thickness;
@@ -265,7 +295,7 @@ namespace Marvel {
 	public:
 
 		std::vector<mvVec2> m_points;
-		std::vector<mvVec2> m_pointso;
+		std::vector<mvVec2> m_pointso; // original, no scaling
 		mvColor             m_color;
 		bool                m_closed;
 		float               m_thickness;
@@ -291,7 +321,7 @@ namespace Marvel {
 	public:
 
 		std::vector<mvVec2> m_points;
-		std::vector<mvVec2> m_pointso;
+		std::vector<mvVec2> m_pointso; // original, no scaling
 		mvColor             m_color;
 		mvColor             m_fill;
 		float               m_thickness;
@@ -317,13 +347,13 @@ namespace Marvel {
 	public:
 
 		mvVec2  m_p1;
-		mvVec2  m_p1o;
 		mvVec2  m_p2;
-		mvVec2  m_p2o;
 		mvVec2  m_p3;
-		mvVec2  m_p3o;
 		mvVec2  m_p4;
-		mvVec2  m_p4o;
+		mvVec2  m_p1o; // original, no scaling
+		mvVec2  m_p2o; // original, no scaling
+		mvVec2  m_p3o; // original, no scaling
+		mvVec2  m_p4o; // original, no scaling
 		mvColor m_color;
 		float   m_thickness;
 		int     m_segments;
@@ -354,6 +384,7 @@ namespace Marvel {
 		inline mvVec2 getStart () const { return { m_startx, m_starty }; }
 
 		void drawLine       (const mvVec2& p1, const mvVec2& p2, const mvColor& color, float thickness, const std::string& tag = "");
+		void drawArrow      (const mvVec2& p1, const mvVec2& p2, const mvColor& color, float thickness, float size, const std::string& tag = "");
 		void drawTriangle   (const mvVec2& p1, const mvVec2& p2, const mvVec2& p3, const mvColor& color, const mvColor& fill, float thickness, const std::string& tag = "");
 		void drawRectangle  (const mvVec2& pmin, const mvVec2& pmax, const mvColor& color,const mvColor& fill, float rounding, float thickness, const std::string& tag = "");
 		void drawQuad       (const mvVec2& p1, const mvVec2& p2, const mvVec2& p3, const mvVec2& p4,const mvColor& color, const mvColor& fill, float thickness, const std::string& tag = "");
@@ -371,7 +402,6 @@ namespace Marvel {
 		ImVec2 getOrigin() const { return { m_originx, m_originy }; }
 
 		mvVec2 convertToModelSpace(const mvVec2& point);
-		void convertToModelSpace(std::vector<mvVec2>& points);
 		void convertToModelSpace(std::vector<mvVec2>& points, const std::vector<mvVec2>& pointso);
 
 	private:

@@ -209,6 +209,7 @@ draw_circle("drawing##widget", (400, 250), 50, (255, 255, 0, 255))
 draw_polyline("drawing##widget", ((300, 500), (200, 200), (500, 700)), (255, 255, 0, 255))
 draw_polygon("drawing##widget", ((363, 471), (100, 498), (50, 220)), (255, 125, 0, 255))
 draw_bezier_curve("drawing##widget", (50, 200), (150, 250), (300, 150), (600, 250), (255, 255, 0, 255), thickness = 2.0)
+draw_arrow("drawing##widget", (50, 70), (100, 65), (0, 200, 255), 1, 10)
 end_window()
 
 # asyncronous testing
