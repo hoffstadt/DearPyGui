@@ -73,6 +73,12 @@ namespace Marvel {
 				{mvPythonDataType::String, "item"}
 			}, false, "Returns an item's height.", "float")},
 
+			{"get_total_time", mvPythonTranslator({
+			}, false, "Returns total time since app started.", "float")},
+
+			{"get_delta_time", mvPythonTranslator({
+			}, false, "Returns time since last frame.", "float")},
+
 			{"get_item_width", mvPythonTranslator({
 				{mvPythonDataType::String, "item"}
 			}, false, "Returns an item's width.", "float")},
@@ -393,6 +399,16 @@ namespace Marvel {
 		auto color = mvApp::GetApp()->getThemeItem(item);
 
 		return Py_BuildValue("(iiii)", color.r, color.g, color.b, color.a);
+	}
+
+	PyObject* get_total_time(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		return Py_BuildValue("f", mvApp::GetApp()->getTotalTime());
+	}
+
+	PyObject* get_delta_time(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		return Py_BuildValue("f", mvApp::GetApp()->getDeltaTime());
 	}
 
 	PyObject* get_item_callback(PyObject* self, PyObject* args, PyObject* kwargs)
@@ -1071,6 +1087,8 @@ namespace Marvel {
 
 		mvPythonModule* pyModule = new mvPythonModule("sbApp", {});
 
+		pyModule->addMethodD(get_delta_time);
+		pyModule->addMethodD(get_total_time);
 		pyModule->addMethodD(get_data);
 		pyModule->addMethodD(delete_data);
 		pyModule->addMethodD(add_data);

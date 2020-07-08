@@ -25,20 +25,16 @@ namespace Marvel {
 
 		struct NewRuntimeItem
 		{
-			mvAppItem* item;
-			std::string before;
-			std::string parent;
-
-			NewRuntimeItem(const std::string& parent, const std::string& before, mvAppItem* item)
-				:item(item), before(before), parent(parent)
-			{}
+			mvAppItem*  item;   // new item to add
+			std::string before; // what item to add new item before
+			std::string parent; // what parent to add item to (if not using before)
 		};
 
 		struct AsyncronousCallback
 		{
-			std::string name;
-			PyObject* data;
-			std::string returnname;
+			std::string name;       // name of function to run
+			PyObject*   data;       // any data need by the function
+			std::string returnname; // optional return function
 		};
 
 	public:
@@ -49,24 +45,24 @@ namespace Marvel {
 
 		~mvApp();
 
-		void         precheck  ();                           // precheck before the main render loop has started
-		virtual void prerender () override;                  // actual render loop		
-		virtual void render    (bool& show) override;        // actual render loop		
-		virtual void postrender() override;                  // post rendering (every frame)
-		bool         isStarted() const { return m_started; } // has the application started running
+		void         precheck  ();                            // precheck before the main render loop has started
+		virtual void prerender () override;                   // pre rendering (every frame)	
+		virtual void render    (bool& show) override;         // actual render loop		
+		virtual void postrender() override;                   // post rendering (every frame)
+		bool         isStarted () const { return m_started; } // has the application started running
 
 		//-----------------------------------------------------------------------------
 		// App Settings
 		//-----------------------------------------------------------------------------
-		void                    setFile        (const std::string& file);
-		void                    setWindowSize  (unsigned width, unsigned height);
-		void                    setModuleDict  (PyObject* dict) { m_pDict = dict; }
-		void                    setStarted     () { m_started = true; }
-		void                    setActiveWindow(const std::string& window) { m_activeWindow = window; }
+		void                     setFile        (const std::string& file);
+		void                     setWindowSize  (unsigned width, unsigned height);
+		void                     setModuleDict  (PyObject* dict) { m_pDict = dict; }
+		void                     setStarted     () { m_started = true; }
+		void                     setActiveWindow(const std::string& window) { m_activeWindow = window; }
 
 		const std::string&       getFile        () const { return m_file; }
 		const std::string&       getActiveWindow() const { return m_activeWindow; }
-		std::vector<mvAppItem*>& getWindows     () { return m_windows; }
+		std::vector<mvAppItem*>& getWindows     ()       { return m_windows; }
 
 		//-----------------------------------------------------------------------------
 		// Styles/Themes
@@ -83,11 +79,11 @@ namespace Marvel {
 		//-----------------------------------------------------------------------------
 		// Concurrency Settings
 		//-----------------------------------------------------------------------------
-		void     setMainThreadID             (std::thread::id id) { m_mainThreadID = id; }
-		void     setThreadPoolTimeout        (double time) { m_threadPoolTimeout = time; }
-		void     setThreadCount              (unsigned count) { m_threads = count; }
-		void     activateThreadPool          () { m_threadPool = true; }
-		void     setThreadPoolHighPerformance() { m_threadPoolHighPerformance = true; }
+		void              setMainThreadID               (std::thread::id id) { m_mainThreadID = id; }
+		void              setThreadPoolTimeout          (double time) { m_threadPoolTimeout = time; }
+		void              setThreadCount                (unsigned count) { m_threads = count; }
+		void              activateThreadPool            () { m_threadPool = true; }
+		void              setThreadPoolHighPerformance  () { m_threadPoolHighPerformance = true; }
 
 		std::thread::id   getMainThreadID               () const { return m_mainThreadID; }
 		double            getThreadPoolTimeout          () const { return m_threadPoolTimeout; }
@@ -95,13 +91,17 @@ namespace Marvel {
 		bool              usingThreadPool               () const { return m_threadPool; }
 		bool              usingThreadPoolHighPerformance() const { return m_threadPoolHighPerformance; }
 
+		//-----------------------------------------------------------------------------
+		// Data Storage Operations
+		//-----------------------------------------------------------------------------
+		void       addData     (const std::string& name, PyObject* data);
+		PyObject*  getData     (const std::string& name);
+		void       deleteData  (const std::string& name);
+		unsigned   getDataCount() const { return m_dataStorage.size(); }
 
 		//-----------------------------------------------------------------------------
 		// App Item Operations
 		//-----------------------------------------------------------------------------
-		void       addData           (const std::string& name, PyObject* data);
-		PyObject*  getData           (const std::string& name);
-		void       deleteData        (const std::string& name);
 		void       addItem           (mvAppItem* item);
 		void       addWindow         (mvAppItem* item);
 		void       addRuntimeItem    (const std::string& parent, const std::string& before, mvAppItem* item);
@@ -110,10 +110,10 @@ namespace Marvel {
 		void       deleteItemChildren(const std::string& name) { m_deleteChildrenQueue.push(name); }
 		void       moveItemUp        (const std::string& name) { m_upQueue.push(name); }
 		void       moveItemDown      (const std::string& name) { m_downQueue.push(name); }
-		unsigned   getDataCount      () const { return m_dataStorage.size(); }
-
+		
 		//-----------------------------------------------------------------------------
 		// Parent stack operations
+		//     - used for automatic parent deduction
 		//-----------------------------------------------------------------------------
 		void       pushParent(mvAppItem* item); // pushes parent onto stack
 		mvAppItem* popParent();                 // pop parent off stack and return it
@@ -121,14 +121,12 @@ namespace Marvel {
 
 		//-----------------------------------------------------------------------------
 		// Callbacks
-		//     - triggerCallback methods performs checks to determine if callback
-		//     - actually exists
 		//-----------------------------------------------------------------------------
 		void runCallback                (const std::string& name, const std::string& sender);
 		void runCallbackD               (const std::string& name, int sender, float data = 0.0f);
 		void runAsyncCallback           (std::string name, PyObject* data, std::string returnname);
 		void runAsyncCallbackReturn     (std::string name, PyObject* data);
-		void addMTCallback              (const std::string& name, PyObject* data, const std::string& returnname = "") { m_asyncCallbacks.push_back({ name, data, returnname}); }
+		void addMTCallback              (const std::string& name, PyObject* data, const std::string& returnname = "");
 
 		void setMainCallback            (const std::string& callback) { m_callback = callback; }
 		void setMouseClickCallback      (const std::string& callback) { m_mouseClickCallback = callback; }
@@ -160,6 +158,8 @@ namespace Marvel {
 		void          setMouseDragging     (bool drag) { m_mouseDragging = drag; }
 		void          setMouseDragDelta    (const mvVec2& delta) { m_mouseDragDelta = delta; }
 
+		float         getDeltaTime         () const { return m_deltaTime; }
+		double        getTotalTime         () const { return m_time; }
 		float         getMouseDragThreshold() const { return m_mouseDragThreshold; }
 		const mvVec2& getMouseDragDelta    () const { return m_mouseDragDelta; }
 		mvMousePos    getMousePosition     () const { return m_mousePos; }
@@ -191,9 +191,11 @@ namespace Marvel {
 		std::string   m_theme = "dark";
 		std::string   m_file;
 		PyObject*     m_pDict;
+		float         m_deltaTime; // time since last frame
+		double        m_time;      // total time since starting
 
-		std::stack<mvAppItem*>      m_parents; // parent stack for adding items
-		std::vector<mvAppItem*>     m_windows;
+		std::stack<mvAppItem*>  m_parents;
+		std::vector<mvAppItem*> m_windows;
 
 		// runtime widget modifications
 		std::queue<std::string>          m_deleteChildrenQueue;
@@ -206,17 +208,17 @@ namespace Marvel {
 		std::map<std::string, PyObject*> m_dataStorage;
 		
 		// concurrency
-		std::thread::id    m_mainThreadID;
-		bool               m_threadPool = false;                // is threadpool activated
-		double             m_threadPoolTimeout = 30.0;
-		unsigned           m_threads = 2;                       // how many threads to use
-		bool               m_threadPoolHighPerformance = false; // when true, use max number of threads
-		double             m_threadTime = 3.0;
-		mutable std::mutex m_mutex;
-		std::chrono::steady_clock::time_point m_poolStart;
+		std::thread::id                       m_mainThreadID;
+		bool                                  m_threadPool = false;                // is threadpool activated
+		double                                m_threadPoolTimeout = 30.0;
+		unsigned                              m_threads = 2;                       // how many threads to use
+		bool                                  m_threadPoolHighPerformance = false; // when true, use max number of threads
+		double                                m_threadTime = 0.0;                  // how long threadpool has been active
+		mutable std::mutex                    m_mutex;
+		std::chrono::steady_clock::time_point m_poolStart;                         // threadpool start time
 		
 		// input state
-		bool        m_started = false; // to change to runtime behavior
+		bool        m_started = false;              // to change to runtime behavior
 		std::string m_activeWindow = "MainWindow";
 		mvMousePos  m_mousePos;
 		float       m_mouseWheel;

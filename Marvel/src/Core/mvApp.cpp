@@ -51,40 +51,6 @@ namespace Marvel {
 		style.CircleSegmentMaxError = mvstyle[29].x;
 	}
 
-	mvApp::mvApp()
-	{
-		m_style = getAppDefaultStyle();
-		m_windows.push_back(new mvWindowAppitem("", "MainWindow", 1280, 800, 0, 0, true, false));
-		m_parents.push(m_windows.back());
-
-		addStandardWindow("documentation", mvDocWindow::GetWindow());
-		addStandardWindow("about", new mvAboutWindow());
-		addStandardWindow("metrics", new mvMetricsWindow());
-		addStandardWindow("source", new mvSourceWindow());
-		addStandardWindow("debug", new mvDebugWindow());
-		addStandardWindow("logger", mvAppLog::GetLoggerStandardWindow());
-
-	}
-
-	mvApp::~mvApp()
-	{
-		for (auto window : m_windows)
-		{
-			delete window;
-			window = nullptr;
-		}
-
-		m_windows.clear();
-	}
-
-	void  mvApp::setFile(const std::string& file) 
-	{ 
-		m_file = file;
-
-		auto sourcewindow = static_cast<mvSourceWindow*>(m_standardWindows["source"].window);
-		sourcewindow->setFile(file);
-	}
-
 	static void prepareStandardCallbacks()
 	{
 		ImGuiIO& io = ImGui::GetIO();
@@ -107,7 +73,7 @@ namespace Marvel {
 			}
 			app->setMouseDragging(false);
 			app->setMouseDragDelta({ 0.0f, 0.0f });
-			
+
 		}
 
 		for (int i = 0; i < IM_ARRAYSIZE(io.MouseDown); i++)
@@ -162,6 +128,40 @@ namespace Marvel {
 		return static_cast<mvStandardWindow*>(GetApp());
 	}
 
+	mvApp::mvApp()
+	{
+		m_style = getAppDefaultStyle();
+		m_windows.push_back(new mvWindowAppitem("", "MainWindow", 1280, 800, 0, 0, true, false));
+		m_parents.push(m_windows.back());
+
+		addStandardWindow("documentation", mvDocWindow::GetWindow());
+		addStandardWindow("about", new mvAboutWindow());
+		addStandardWindow("metrics", new mvMetricsWindow());
+		addStandardWindow("source", new mvSourceWindow());
+		addStandardWindow("debug", new mvDebugWindow());
+		addStandardWindow("logger", mvAppLog::GetLoggerStandardWindow());
+
+	}
+
+	mvApp::~mvApp()
+	{
+		for (auto window : m_windows)
+		{
+			delete window;
+			window = nullptr;
+		}
+
+		m_windows.clear();
+	}
+
+	void  mvApp::setFile(const std::string& file) 
+	{ 
+		m_file = file;
+
+		auto sourcewindow = static_cast<mvSourceWindow*>(m_standardWindows["source"].window);
+		sourcewindow->setFile(file);
+	}
+
 	void mvApp::setWindowSize(unsigned width, unsigned height) 
 	{ 
 		m_windows[0]->setWidth(width);
@@ -173,7 +173,12 @@ namespace Marvel {
 		if (std::this_thread::get_id() != m_mainThreadID)
 			mvAppLog::getLogger()->LogWarning("This function can't be called outside main thread.");
 
-		m_newItemVec.push_back(NewRuntimeItem(parent, before, item)); 
+		m_newItemVec.push_back({ item, before, parent });
+	}
+
+	void mvApp::addMTCallback(const std::string& name, PyObject* data, const std::string& returnname) 
+	{ 
+		m_asyncCallbacks.push_back({ name, data, returnname }); 
 	}
 
 	void mvApp::precheck()
@@ -198,6 +203,11 @@ namespace Marvel {
 			}
 			
 		}
+
+		// update times
+		ImGuiIO& io = ImGui::GetIO();
+		m_deltaTime = io.DeltaTime;
+		m_time = ImGui::GetTime();
 
 		if (!m_asyncReturns.empty())
 		{
