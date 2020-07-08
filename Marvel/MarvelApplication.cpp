@@ -53,6 +53,7 @@ namespace Marvel {
 		// options
 		app.add_option("-a, --app", AppName, "Name of the python file (without extension)");
 		app.add_option("-p, --path", PathName, "Path to app file (default is location of MarvelSandbox.exe)");
+		app.add_option("-l, --libs", LibraryPath, "Path to 3rd party python libraries");
 
 		// flags
 		app.add_flag("-d, --documentation", documentation, "Sets MarvelSandbox to Documentation Mode");
@@ -66,7 +67,7 @@ namespace Marvel {
 
 	void Application::handlePaths()
 	{
-		PathName = PathName + ";python38.zip";
+		PathName = PathName + ";python38.zip;" + LibraryPath + ";";
 
 		program = Py_DecodeLocale(argv[0], NULL);
 		if (program == NULL) {

@@ -51,6 +51,7 @@ namespace Marvel {
 		// options
 		std::string AppName = "Demo";
 		std::string PathName = "";
+		std::string LibraryPath = "";
 
 		// flags
 		bool documentation = false; // starts application with the documentation window shown
