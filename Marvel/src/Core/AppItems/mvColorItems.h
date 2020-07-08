@@ -33,6 +33,9 @@ namespace Marvel {
 
 			if (ImGui::ColorEdit3(m_label.c_str(), m_value))
 			{
+				if (!m_dataSource.empty())
+					mvApp::GetApp()->addData(m_dataSource, getPyValue());
+
 				mvApp::GetApp()->runCallback(m_callback, m_name);
 
 				// Context Menu
@@ -62,6 +65,9 @@ namespace Marvel {
 
 			if (ImGui::ColorEdit4(m_label.c_str(), m_value))
 			{
+				if (!m_dataSource.empty())
+					mvApp::GetApp()->addData(m_dataSource, getPyValue());
+
 				mvApp::GetApp()->runCallback(m_callback, m_name);
 
 				// Context Menu
@@ -91,6 +97,9 @@ namespace Marvel {
 
 			if (ImGui::ColorPicker3(m_label.c_str(), m_value))
 			{
+				if (!m_dataSource.empty())
+					mvApp::GetApp()->addData(m_dataSource, getPyValue());
+
 				mvApp::GetApp()->runCallback(m_callback, m_name);
 
 				// Context Menu
@@ -120,6 +129,9 @@ namespace Marvel {
 
 			if (ImGui::ColorPicker4(m_label.c_str(), m_value))
 			{
+				if (!m_dataSource.empty())
+					mvApp::GetApp()->addData(m_dataSource, getPyValue());
+
 				mvApp::GetApp()->runCallback(m_callback, m_name);
 
 				// Context Menu

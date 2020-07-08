@@ -9,6 +9,7 @@ from math import sin, cos
 
 set_log_level(0)
 add_data("DataStorage1", {"Key": 34})
+add_data("DataStorage2", [23,42,53])
 
 add_menu_bar("MenuBar")
 
@@ -100,9 +101,9 @@ add_selectable("Selectable##widget")
 add_input_text("Input Text##widget")
 add_label_text("Label Text", "value")
 
-add_color_edit3("Color Edit3##widget")
+add_color_edit3("Color Edit3##widget", data_source = "DataStorage2")
 add_color_edit4("Color Edit4##widget")
-add_color_picker3("Color Picker3##widget", width=300)
+add_color_picker3("Color Picker3##widget", width=300, data_source = "DataStorage2")
 add_color_picker4("Color Picker4##widget", width=300)
 
 add_input_float("Input Float##widget")
@@ -111,7 +112,7 @@ add_input_float3("Input Float3##widget")
 add_input_float4("Input Float4##widget")
 add_input_int("Input Int##widget")
 add_input_int2("Input Int2##widget")
-add_input_int3("Input Int3##widget")
+add_input_int3("Input Int3##widget", data_source = "DataStorage2")
 add_input_int4("Input Int4##widget")
 
 add_drag_float("Drag Float##widget")
@@ -120,7 +121,7 @@ add_drag_float3("Drag Float3##widget")
 add_drag_float4("Drag Float4##widget")
 add_drag_int("Drag Int##widget")
 add_drag_int2("Drag Int2##widget")
-add_drag_int3("Drag Int3##widget")
+add_drag_int3("Drag Int3##widget", data_source = "DataStorage2")
 add_drag_int4("Drag Int4##widget")
 
 add_slider_float("Slider Float##widget")
@@ -129,7 +130,7 @@ add_slider_float3("Slider Float3##widget")
 add_slider_float4("Slider Float4##widget")
 add_slider_int("Slider Int##widget")
 add_slider_int2("Slider Int2##widget")
-add_slider_int3("Slider Int3##widget")
+add_slider_int3("Slider Int3##widget", data_source = "DataStorage2")
 add_slider_int4("Slider Int4##widget")
 
 end_tab()

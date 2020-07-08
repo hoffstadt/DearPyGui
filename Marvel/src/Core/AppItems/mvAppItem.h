@@ -74,6 +74,7 @@ namespace Marvel {
 		bool moveChildUp    (const std::string& name);
 		bool moveChildDown  (const std::string& name);
 		void resetState     ();
+		void updateDataSource(const std::string& name);
 
 		// getters
 		mvAppItem*                      getChild                  (const std::string& name);      // will return nullptr if not found
@@ -83,6 +84,7 @@ namespace Marvel {
 		inline const std::string&       getTip                    () const { return m_tip; }
 		inline const std::string&       getCallback               () const { return m_callback; }
 		inline const std::string&       getPopup                  () const { return m_popup; }
+		inline const std::string&       getDataSource             () const { return m_popup; }
 		inline int                      getWidth                  () const { return m_width; }
 		inline int                      getHeight                 () const { return m_height; }
 		inline bool                     isShown                   () const { return m_show; }
@@ -126,9 +128,11 @@ namespace Marvel {
 		inline void setRectMin             (mvVec2 value)                { m_rectMin = value; }
 		inline void setRectMax             (mvVec2 value)                { m_rectMax = value; }
 		inline void setRectSize            (mvVec2 value)                { m_rectSize = value; }
+		inline void setDataSource          (const std::string& value)    { m_dataSource = value; }
 
 	protected:
 
+		std::string                 m_dataSource = "";
 		int                         m_width  = 0;
 		int                         m_height = 0;
 		bool                        m_show                 = true; // determines whether to attempt rendering

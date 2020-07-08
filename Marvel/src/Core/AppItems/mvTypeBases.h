@@ -3,6 +3,7 @@
 #include "Core/AppItems/mvAppItem.h"
 #include "Core/Concurrency/mvThreadPool.h"
 #include "Core/mvUtilities.h"
+#include "Core/StandardWindows/mvAppLog.h"
 
 namespace Marvel {
 
@@ -37,12 +38,27 @@ namespace Marvel {
 
 		virtual void setPyValue(PyObject* value) override 
 		{ 
+			PyGILState_STATE gstate = PyGILState_Ensure();
+
+			if (!PyLong_Check(value))
+			{
+				PyGILState_Release(gstate);
+				mvAppLog::getLogger()->LogError(m_name + " type must be a bool.");
+				return;
+			}
+
 			m_value = PyLong_AsLong(value); 
+
+			PyGILState_Release(gstate);
 		}
 
 		virtual PyObject* getPyValue() const override
 		{
+			PyGILState_STATE gstate = PyGILState_Ensure();
+
 			PyObject* pvalue = Py_BuildValue("i", m_value);
+
+			PyGILState_Release(gstate);
 			return pvalue;
 		}
 
@@ -70,12 +86,27 @@ namespace Marvel {
 
 		virtual void setPyValue(PyObject* value) override
 		{
+			PyGILState_STATE gstate = PyGILState_Ensure();
+
+			if (!PyUnicode_Check(value))
+			{
+				PyGILState_Release(gstate);
+				mvAppLog::getLogger()->LogError(m_name + " type must be a string");
+				return;
+			}
+
 			m_value = PyUnicode_AsUTF8(value);
+
+			PyGILState_Release(gstate);
 		}
 
 		virtual PyObject* getPyValue() const override
 		{
+			PyGILState_STATE gstate = PyGILState_Ensure();
+
 			PyObject* pvalue = Py_BuildValue("s", m_value.c_str());
+
+			PyGILState_Release(gstate);
 			return pvalue;
 		}
 
@@ -109,32 +140,54 @@ namespace Marvel {
 		virtual void setPyValue(PyObject* value) override
 		{
 
+			PyGILState_STATE gstate = PyGILState_Ensure();
+
+			if (m_valuecount == 1 && !PyLong_Check(value))
+			{
+				PyGILState_Release(gstate);
+				mvAppLog::getLogger()->LogError(m_name + " type must be an integer.");
+				return;
+			}
+			else if (m_valuecount != 1 && !PyList_Check(value))
+			{
+				PyGILState_Release(gstate);
+				mvAppLog::getLogger()->LogError(m_name + " type must be an integer list.");
+				return;
+			}
+
 			if (m_valuecount == 1)
 				m_value[0] = PyLong_AsLong(value);
 
 			else
 			{
-				for (int i = 0; i < PyTuple_Size(value); i++)
-					m_value[i] = PyLong_AsLong(PyTuple_GetItem(value, i));
+				for (int i = 0; i < PyList_Size(value); i++)
+					m_value[i] = PyLong_AsLong(PyList_GetItem(value, i));
 			}
+
+			PyGILState_Release(gstate);
 		}
 
 		virtual PyObject* getPyValue() const override
 		{
+			PyGILState_STATE gstate = PyGILState_Ensure();
 
 			if (m_valuecount == 1)
 			{
 				PyObject* pvalue = Py_BuildValue("i", m_value[0]);
+				PyGILState_Release(gstate);
 				return pvalue;
 			}
 
 			else
 			{
-				PyObject* value = PyTuple_New(m_valuecount);
+				PyObject* value = PyList_New(m_valuecount);
 				for (int i = 0; i < m_valuecount; i++)
-					PyTuple_SetItem(value, i, PyLong_FromLong(m_value[i]));
+					PyList_SetItem(value, i, PyLong_FromLong(m_value[i]));
+				PyGILState_Release(gstate);
 				return value;
 			}
+
+			PyGILState_Release(gstate);
 
 		}
 
@@ -166,30 +219,52 @@ namespace Marvel {
 		virtual void setPyValue(PyObject* value) override
 		{
 
+			PyGILState_STATE gstate = PyGILState_Ensure();
+
+			if (m_valuecount == 1 && !PyFloat_Check(value))
+			{
+				PyGILState_Release(gstate);
+				mvAppLog::getLogger()->LogError(m_name + " type must be a float.");
+				return;
+			}
+			else if (m_valuecount != 1 && !PyList_Check(value))
+			{
+				PyGILState_Release(gstate);
+				mvAppLog::getLogger()->LogError(m_name + " type must be a float list.");
+				return;
+			}
+
 			if(m_valuecount == 1)
 				m_value[0] = PyFloat_AsDouble(value);
 
 			else
 			{
-				for (int i = 0; i < PyTuple_Size(value); i++)
-					m_value[i] = (float)PyFloat_AsDouble(PyTuple_GetItem(value, i));
+				for (int i = 0; i < PyList_Size(value); i++)
+					m_value[i] = (float)PyFloat_AsDouble(PyList_GetItem(value, i));
 			}
+
+			PyGILState_Release(gstate);
 		}
 
 		virtual PyObject* getPyValue() const override
 		{
 
+			PyGILState_STATE gstate = PyGILState_Ensure();
+
 			if (m_valuecount == 1)
 			{
 				PyObject* pvalue = Py_BuildValue("f", m_value[0]);
+				PyGILState_Release(gstate);
 				return pvalue;
 			}
 
 			else
 			{
-				PyObject* value = PyTuple_New(m_valuecount);
+				PyObject* value = PyList_New(m_valuecount);
 				for (int i = 0; i < m_valuecount; i++)
-					PyTuple_SetItem(value, i, PyFloat_FromDouble(m_value[i]));
+					PyList_SetItem(value, i, PyFloat_FromDouble(m_value[i]));
+
+				PyGILState_Release(gstate);
 				return value;
 			}
 
@@ -217,15 +292,30 @@ namespace Marvel {
 
 		virtual void setPyValue(PyObject* value) override
 		{
+			PyGILState_STATE gstate = PyGILState_Ensure();
+
+			if (!PyUnicode_Check(value))
+			{
+				PyGILState_Release(gstate);
+				mvAppLog::getLogger()->LogError(m_name + " type must be a string.");
+				return;
+			}
+
 			m_value = PyUnicode_AsUTF8(value);
 			if (!m_value.empty())
 				LoadTextureFromFile(m_value.c_str(), &m_texture, &m_width, &m_height);
+
+			PyGILState_Release(gstate);
 
 		}
 
 		virtual PyObject* getPyValue() const override
 		{
+			PyGILState_STATE gstate = PyGILState_Ensure();
+
 			PyObject* pvalue = Py_BuildValue("s", m_value.c_str());
+
+			PyGILState_Release(gstate);
 			return pvalue;
 		}
 
@@ -259,17 +349,25 @@ namespace Marvel {
 		virtual void setPyValue(PyObject* value) override
 		{
 
-			for (int i = 0; i < PyTuple_Size(value); i++)
-				m_value[i] = PyLong_AsLong(PyTuple_GetItem(value, i))/255.0f;
+			PyGILState_STATE gstate = PyGILState_Ensure();
+
+			for (int i = 0; i < PyList_Size(value); i++)
+				m_value[i] = PyLong_AsLong(PyList_GetItem(value, i))/255.0f;
+
+			PyGILState_Release(gstate);
 
 		}
 
 		virtual PyObject* getPyValue() const override
 		{
 
-			PyObject* value = PyTuple_New(4);
+			PyGILState_STATE gstate = PyGILState_Ensure();
+
+			PyObject* value = PyList_New(4);
 			for (int i = 0; i < 4; i++)
-				PyTuple_SetItem(value, i, PyLong_FromLong(m_value[i]*255));
+				PyList_SetItem(value, i, PyLong_FromLong(m_value[i]*255));
+
+			PyGILState_Release(gstate);
 			return value;
 
 		}
