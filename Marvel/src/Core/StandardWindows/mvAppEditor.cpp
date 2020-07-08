@@ -256,7 +256,7 @@ namespace Marvel {
 			m_editor.GetLanguageDefinition().mName.c_str(), getFile().c_str());
 
 		ImGui::SameLine();
-		ImGui::SetNextItemWidth(200.0f);
+		ImGui::SetNextItemWidth(-50.0f);
 		ImGui::InputText("Flags", &m_complilerflags);
 
 		m_editor.Render("TextEditor");
