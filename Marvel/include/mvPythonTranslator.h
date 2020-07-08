@@ -10,12 +10,13 @@
 //-----------------------------------------------------------------------------
 // Helper Macros
 //-----------------------------------------------------------------------------
-#define MV_STANDARD_CALLBACK_INIT() const char* callback = "", *tip=""; int width=0; int height=0; const char* before=""; const char* parent="";
-#define MV_STANDARD_CALLBACK_PARSE &callback, &tip, &width, &height, &before, &parent
+#define MV_STANDARD_CALLBACK_INIT() const char* callback = "", *tip=""; int width=0; int height=0; const char* before=""; const char* parent=""; const char* data_source = "";
+#define MV_STANDARD_CALLBACK_PARSE &callback, &tip, &width, &height, &before, &parent, &data_source
 #define MV_STANDARD_CALLBACK_EVAL() item->setCallback(callback);\
 item->setTip(tip);\
 item->setWidth(width);\
 item->setHeight(height);\
+item->setDataSource(data_source);\
 auto ma = mvApp::GetApp();\
 if((!std::string(parent).empty() || !std::string(before).empty()) && ma->isStarted())ma->addRuntimeItem(parent, before, item);\
 else if(std::string(parent).empty() && std::string(before).empty() && ma->isStarted() && ma->topParent() != nullptr)ma->addRuntimeItem(ma->topParent()->getName(), before, item);\

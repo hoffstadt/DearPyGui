@@ -186,6 +186,13 @@ namespace Marvel {
 		if (m_windows.size() == 1)
 			popParent();
 
+		// update for any data storage added at compile time
+		for (auto& data : m_dataStorage)
+		{
+			for (auto window : m_windows)
+				window->updateDataSource(data.first);
+		}
+
 	}
 
 	void mvApp::prerender()
@@ -840,7 +847,10 @@ namespace Marvel {
 
 		if (m_dataStorage.count(name) > 0)
 		{
-			mvAppLog::getLogger()->LogWarning(name + " already exists in data storage.");
+			deleteData(name);
+			addData(name, data);
+			for (auto window : m_windows)
+				window->updateDataSource(name);
 			return;
 		}
 
@@ -860,7 +870,7 @@ namespace Marvel {
 			mvAppLog::getLogger()->LogWarning(name + " does not exists in data storage.");
 			return nullptr;
 		}
-
+		Py_XINCREF(m_dataStorage.at(name));
 		return m_dataStorage.at(name);
 	}
 

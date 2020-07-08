@@ -35,6 +35,9 @@ namespace Marvel {
 				{
 					if (ImGui::InputTextMultiline(m_label.c_str(), &m_value, ImVec2(m_width, m_height)))
 					{
+						if (!m_dataSource.empty())
+							mvApp::GetApp()->addData(m_dataSource, getPyValue());
+
 						mvApp::GetApp()->runCallback(m_callback, m_name);
 
 						// Context Menu
@@ -46,6 +49,9 @@ namespace Marvel {
 				{
 					if (ImGui::InputText(m_label.c_str(), &m_value, m_flags))
 					{
+						if (!m_dataSource.empty())
+							mvApp::GetApp()->addData(m_dataSource, getPyValue());
+
 						mvApp::GetApp()->runCallback(m_callback, m_name);
 
 						// Context Menu
@@ -59,6 +65,9 @@ namespace Marvel {
 			{
 				if (ImGui::InputTextWithHint(m_label.c_str(), m_hint.c_str(), &m_value, m_flags))
 				{
+					if (!m_dataSource.empty())
+						mvApp::GetApp()->addData(m_dataSource, getPyValue());
+
 					mvApp::GetApp()->runCallback(m_callback, m_name);
 
 					// Context Menu

@@ -19,6 +19,7 @@ namespace Marvel {
 			m_elements.push_back(mvPythonDataElement(mvPythonDataType::Integer, "height", "Sets the height of the widget if supported"));
 			m_elements.push_back(mvPythonDataElement(mvPythonDataType::String, "before", "Item to add this item before. (runtime adding)"));
 			m_elements.push_back(mvPythonDataElement(mvPythonDataType::String, "parent", "Parent to add this item to. (runtime adding)"));
+			m_elements.push_back(mvPythonDataElement(mvPythonDataType::String, "data_source", "data_source for shared data"));
 		}
 
 		for (const auto& element : m_elements)

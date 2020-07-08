@@ -37,6 +37,9 @@ namespace Marvel {
 			if(ImGui::Selectable(m_label.c_str(), &m_value))
 			{
 
+				if (!m_dataSource.empty())
+					mvApp::GetApp()->addData(m_dataSource, getPyValue());
+
 				mvApp::GetApp()->runCallback(m_callback, m_name);
 
 				// Context Menu
@@ -69,6 +72,7 @@ namespace Marvel {
 			{
 				if (ImGui::SmallButton(m_label.c_str()))
 				{
+
 					mvApp::GetApp()->runCallback(m_callback, m_name);
 
 					// Context Menu
@@ -83,6 +87,7 @@ namespace Marvel {
 			{
 				if (ImGui::ArrowButton(m_label.c_str(), m_direction))
 				{
+
 					mvApp::GetApp()->runCallback(m_callback, m_name);
 
 					// Context Menu
@@ -95,6 +100,7 @@ namespace Marvel {
 
 			if (ImGui::Button(m_label.c_str(), ImVec2(m_width, m_height)))
 			{
+
 				mvApp::GetApp()->runCallback(m_callback, m_name);
 
 				// Context Menu
@@ -130,6 +136,9 @@ namespace Marvel {
 		{
 			if (ImGui::Checkbox(m_label.c_str(), &m_value))
 			{
+				if (!m_dataSource.empty())
+					mvApp::GetApp()->addData(m_dataSource, getPyValue());
+
 				mvApp::GetApp()->runCallback(m_callback, m_name);
 
 				// Context Menu
@@ -164,6 +173,9 @@ namespace Marvel {
 					bool is_selected = (m_value == m_names[i]);
 					if (ImGui::Selectable(m_names[i].c_str(), is_selected))
 					{
+						if (!m_dataSource.empty())
+							mvApp::GetApp()->addData(m_dataSource, getPyValue());
+
 						m_value = m_names[i];
 						mvApp::GetApp()->runCallback(m_callback, m_name);
 
@@ -210,6 +222,9 @@ namespace Marvel {
 
 			if (ImGui::ListBox(m_label.c_str(), &m_value[0], names.data(), m_names.size(), m_height))
 			{
+				if (!m_dataSource.empty())
+					mvApp::GetApp()->addData(m_dataSource, getPyValue());
+
 				mvApp::GetApp()->runCallback(m_callback, m_name);
 
 				// Context Menu
@@ -247,6 +262,9 @@ namespace Marvel {
 			{
 				if (ImGui::RadioButton(m_itemnames[i].c_str(), &m_value[0], i))
 				{
+					if (!m_dataSource.empty())
+						mvApp::GetApp()->addData(m_dataSource, getPyValue());
+
 					mvApp::GetApp()->runCallback(m_callback, m_name);
 
 					// Context Menu
