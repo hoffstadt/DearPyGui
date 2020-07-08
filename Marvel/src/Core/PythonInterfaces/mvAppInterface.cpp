@@ -30,6 +30,19 @@ namespace Marvel {
 				{mvPythonDataType::StringList, "extensions", "i.e [['Python', '*.py']]"},
 			}, false, "Opens an 'save file' dialog.", "str")},
 
+			{"add_data", mvPythonTranslator({
+				{mvPythonDataType::String, "name"},
+				{mvPythonDataType::Object, "data"}
+			}, false, "Adds data for later retrieval.")},
+
+			{"get_data", mvPythonTranslator({
+				{mvPythonDataType::String, "name"}
+			}, false, "Retrieves data from storage.", "object")},
+
+			{"delete_data", mvPythonTranslator({
+				{mvPythonDataType::String, "name"}
+			}, false, "Deletes data from storage.")},
+
 			{"delete_item", mvPythonTranslator({
 				{mvPythonDataType::String, "item"},
 				{mvPythonDataType::Optional},
@@ -518,6 +531,50 @@ namespace Marvel {
 			Py_RETURN_NONE;
 
 		mvApp::GetApp()->setThreadCount(threads);
+
+		Py_RETURN_NONE;
+	}
+
+	PyObject* add_data(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+
+		const char* name;
+		PyObject* data;
+
+		if (!Translators["add_data"].parse(args, kwargs, __FUNCTION__, &name, &data))
+			Py_RETURN_NONE;
+
+		mvApp::GetApp()->addData(name, data);
+		Py_XINCREF(data);
+
+		Py_RETURN_NONE;
+	}
+
+	PyObject* get_data(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+
+		const char* name;
+
+		if (!Translators["get_data"].parse(args, kwargs, __FUNCTION__, &name))
+			Py_RETURN_NONE;
+
+		auto result = mvApp::GetApp()->getData(name);
+
+		if (result)
+			return result;
+
+		Py_RETURN_NONE;
+	}
+
+	PyObject* delete_data(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+
+		const char* name;
+
+		if (!Translators["delete_data"].parse(args, kwargs, __FUNCTION__, &name))
+			Py_RETURN_NONE;
+
+		mvApp::GetApp()->deleteData(name);
 
 		Py_RETURN_NONE;
 	}
@@ -1014,6 +1071,9 @@ namespace Marvel {
 
 		mvPythonModule* pyModule = new mvPythonModule("sbApp", {});
 
+		pyModule->addMethodD(get_data);
+		pyModule->addMethodD(delete_data);
+		pyModule->addMethodD(add_data);
 		pyModule->addMethodD(run_async_function);
 		pyModule->addMethodD(save_file_dialog);
 		pyModule->addMethodD(open_file_dialog);

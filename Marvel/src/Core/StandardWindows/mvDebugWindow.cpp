@@ -77,6 +77,7 @@ namespace Marvel {
 				DebugItem("Marvel Version: ", mvApp::GetVersion());
 				DebugItem("ImGui Version: ", IMGUI_VERSION);
 				DebugItem("App File: ", app->getFile().c_str());
+				DebugItem("Stored Data: ", std::to_string(app->getDataCount()).c_str());
 				DebugItem("Threads Active: ", std::to_string(app->getThreadCount()).c_str());
 				DebugItem("Threadpool Timeout: ", std::to_string(app->getThreadPoolTimeout()).c_str());
 				DebugItem("Threadpool Active: ", app->usingThreadPool() ? ts : fs);

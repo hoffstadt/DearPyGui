@@ -820,4 +820,56 @@ namespace Marvel {
 		m_windows.push_back(item);
 	}
 
+	void mvApp::addData(const std::string& name, PyObject* data)
+	{
+		if (std::this_thread::get_id() != m_mainThreadID)
+		{
+			mvAppLog::getLogger()->LogWarning("Data can not be modified outside main thread.");
+			return;
+		}
+
+		if (m_dataStorage.count(name) > 0)
+		{
+			mvAppLog::getLogger()->LogWarning(name + " already exists in data storage.");
+			return;
+		}
+
+		m_dataStorage.insert({ name, data });
+	}
+
+	PyObject* mvApp::getData(const std::string& name)
+	{
+		if (std::this_thread::get_id() != m_mainThreadID)
+		{
+			mvAppLog::getLogger()->LogWarning("Data can not be modified outside main thread.");
+			return nullptr;
+		}
+
+		if (m_dataStorage.count(name) == 0)
+		{
+			mvAppLog::getLogger()->LogWarning(name + " does not exists in data storage.");
+			return nullptr;
+		}
+
+		return m_dataStorage.at(name);
+	}
+
+	void mvApp::deleteData(const std::string& name)
+	{
+		if (std::this_thread::get_id() != m_mainThreadID)
+		{
+			mvAppLog::getLogger()->LogWarning("Data can not be modified outside main thread.");
+			return;
+		}
+
+		if (m_dataStorage.count(name) == 0)
+		{
+			mvAppLog::getLogger()->LogWarning(name + " does not exists in data storage.");
+			return;
+		}
+
+		Py_XDECREF(m_dataStorage.at(name));
+		m_dataStorage.erase(name);
+		
+	}
 }
