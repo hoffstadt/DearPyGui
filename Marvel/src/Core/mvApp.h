@@ -99,6 +99,9 @@ namespace Marvel {
 		//-----------------------------------------------------------------------------
 		// App Item Operations
 		//-----------------------------------------------------------------------------
+		void       addData           (const std::string& name, PyObject* data);
+		PyObject*  getData           (const std::string& name);
+		void       deleteData        (const std::string& name);
 		void       addItem           (mvAppItem* item);
 		void       addWindow         (mvAppItem* item);
 		void       addRuntimeItem    (const std::string& parent, const std::string& before, mvAppItem* item);
@@ -107,6 +110,7 @@ namespace Marvel {
 		void       deleteItemChildren(const std::string& name) { m_deleteChildrenQueue.push(name); }
 		void       moveItemUp        (const std::string& name) { m_upQueue.push(name); }
 		void       moveItemDown      (const std::string& name) { m_downQueue.push(name); }
+		unsigned   getDataCount      () const { return m_dataStorage.size(); }
 
 		//-----------------------------------------------------------------------------
 		// Parent stack operations
@@ -192,13 +196,14 @@ namespace Marvel {
 		std::vector<mvAppItem*>     m_windows;
 
 		// runtime widget modifications
-		std::queue<std::string>     m_deleteChildrenQueue;
-		std::queue<std::string>     m_deleteQueue;
-		std::queue<std::string>     m_upQueue;
-		std::queue<std::string>     m_downQueue;
-		std::queue<AsyncronousCallback> m_asyncReturns;
-		std::vector<NewRuntimeItem> m_newItemVec;
+		std::queue<std::string>          m_deleteChildrenQueue;
+		std::queue<std::string>          m_deleteQueue;
+		std::queue<std::string>          m_upQueue;
+		std::queue<std::string>          m_downQueue;
+		std::queue<AsyncronousCallback>  m_asyncReturns;
+		std::vector<NewRuntimeItem>      m_newItemVec;
 		std::vector<AsyncronousCallback> m_asyncCallbacks;
+		std::map<std::string, PyObject*> m_dataStorage;
 		
 		// concurrency
 		std::thread::id    m_mainThreadID;

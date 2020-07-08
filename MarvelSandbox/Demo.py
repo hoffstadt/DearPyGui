@@ -8,6 +8,7 @@ import sbConstants
 from math import sin, cos
 
 set_log_level(0)
+add_data("DataStorage1", {"Key": 34})
 
 add_menu_bar("MenuBar")
 
@@ -430,6 +431,7 @@ def PlotCallback(sender):
 def RetrieveValues(sender):
 
     show_logger()
+    log_info("Data Storage:" + str(get_data("DataStorage1")))
     log_info("Checkbox: " + str(get_value("Checkbox##widget")))
     log_info("Combo: " + str(get_value("Combo##widget")))
     log_info("Radio Button: " + str(get_value("Radio Button##widget")))
