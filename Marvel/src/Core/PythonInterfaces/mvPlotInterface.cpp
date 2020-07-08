@@ -263,6 +263,13 @@ namespace Marvel {
 		if (!Translators["add_line_series"].parse(args, kwargs, __FUNCTION__, &plot, &name, &data, &color, &weight))
 			Py_RETURN_NONE;
 
+		if (!PyList_Check(data))
+		{
+			std::string message = plot;
+			mvAppLog::getLogger()->LogWarning(message + " add line series requires a list of lists.");
+			Py_RETURN_NONE;
+		}
+
 		mvAppItem* aplot = mvApp::GetApp()->getItem(plot);
 
 		if (aplot == nullptr)
@@ -309,6 +316,13 @@ namespace Marvel {
 		if (!Translators["add_scatter_series"].parse(args, kwargs, __FUNCTION__, &plot, &name, &data, &marker,
 			&size, &weight, &outline, &fill))
 			Py_RETURN_NONE;
+
+		if (!PyList_Check(data))
+		{
+			std::string message = plot;
+			mvAppLog::getLogger()->LogWarning(message + " add scatter series requires a list of lists.");
+			Py_RETURN_NONE;
+		}
 
 		mvAppItem* aplot = mvApp::GetApp()->getItem(plot);
 

@@ -369,6 +369,23 @@ namespace Marvel {
 					ImGui::BulletText("On subsequent calls to the same draw command with the given tag, the item will be updated.");
 				}
 
+				if (ImGui::CollapsingHeader("3rd Party Python Libraries"))
+				{
+					ImGui::BulletText("To use 3rd Party Python Libraries:");
+					ImGui::Indent();
+					ImGui::BulletText("1. Install Python Version 3.8.3 (must be same version as Marvel's embedded version).");
+					ImGui::BulletText("2. Pip install the library you want to use.");
+					ImGui::BulletText("3. Run MarvelSandbox with the --libs PathToSitePackages");
+					ImGui::BulletText("4. Now you can use any pip installed library.");
+					ImGui::Unindent();
+
+					ImGui::BulletText("The path for site packages is typically:");
+					ImGui::Indent();
+					ColorText("PythonInstallLocation/Lib/site-packages");
+					ImGui::Unindent();
+
+				}
+
 				ImGui::EndTabItem();
 			}
 
