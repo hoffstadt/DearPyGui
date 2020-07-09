@@ -188,7 +188,7 @@ namespace Marvel {
 		static mvApp* s_instance;
 		mvThreadPool* m_tpool = nullptr;
 		mvStyle       m_style;
-		std::string   m_theme = "dark";
+		std::string   m_theme = "Dark";
 		std::string   m_file;
 		PyObject*     m_pDict;
 		float         m_deltaTime; // time since last frame
