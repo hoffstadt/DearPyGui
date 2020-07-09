@@ -10,7 +10,7 @@ namespace Marvel {
 		std::map<std::string, mvPythonTranslator>* translators = new std::map<std::string, mvPythonTranslator>{
 
 			{"testme", mvPythonTranslator({
-			}, false, "Needs documentation")},
+			}, "Needs documentation")},
 
 		};
 

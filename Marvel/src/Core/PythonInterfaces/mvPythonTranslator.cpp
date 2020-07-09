@@ -4,23 +4,56 @@
 
 namespace Marvel {
 
+	static const char PythonDataTypeSymbol(mvPythonDataType type)
+	{
+		switch (type)
+		{
+		case mvPythonDataType::String:     return 's';
+		case mvPythonDataType::Integer:    return 'i';
+		case mvPythonDataType::Float:      return 'f';
+		case mvPythonDataType::Bool:       return 'p';
+		case mvPythonDataType::StringList: return 'O';
+		case mvPythonDataType::FloatList:  return 'O';
+		case mvPythonDataType::IntList:    return 'O';
+		case mvPythonDataType::Optional:   return '|';
+		case mvPythonDataType::KeywordOnly:return '$';
+		case mvPythonDataType::Object:     return 'O';
+		default:                           return 'O';
+		}
+	}
+
+	static const char* PythonDataTypeString(mvPythonDataType type)
+	{
+		switch (type)
+		{
+		case mvPythonDataType::String:     return " : str";
+		case mvPythonDataType::Integer:    return " : int";
+		case mvPythonDataType::Float:      return " : float";
+		case mvPythonDataType::Bool:       return " : bool";
+		case mvPythonDataType::StringList: return " : List(str)";
+		case mvPythonDataType::FloatList:  return " : List(float)";
+		case mvPythonDataType::IntList:    return " : List(int)";
+		case mvPythonDataType::Optional:   return "Optional Arguments\n____________________";
+		case mvPythonDataType::KeywordOnly:return "Keyword Only Arguments\n____________________";
+		case mvPythonDataType::Object:     return " : object";
+		default:                           return " : unknown";
+		}
+	}
+
+
+	mvPythonDataElement::mvPythonDataElement(mvPythonDataType type, const char* name, const std::string& description)
+		: name(name), type(type), description(description)
+	{}
+
+	const char mvPythonDataElement::getSymbol() const 
+	{ 
+		return PythonDataTypeSymbol(type); 
+	}
+
 	mvPythonTranslator::mvPythonTranslator(const std::initializer_list<mvPythonDataElement>& elements, 
-		bool standardKeywords, const std::string& about, const std::string& returnType)
+		const std::string& about, const std::string& returnType)
 		: m_elements(elements), m_about(about), m_return(returnType)
 	{
-
-		if (standardKeywords)
-		{
-			m_elements.push_back(mvPythonDataElement(mvPythonDataType::Optional));
-			m_elements.push_back(mvPythonDataElement(mvPythonDataType::KeywordOnly));
-			m_elements.push_back(mvPythonDataElement(mvPythonDataType::String, "callback", "Registers a callback if supported"));
-			m_elements.push_back(mvPythonDataElement(mvPythonDataType::String, "tip", "Adds a simple tooltip"));
-			m_elements.push_back(mvPythonDataElement(mvPythonDataType::Integer, "width", "Sets the width of the widget"));
-			m_elements.push_back(mvPythonDataElement(mvPythonDataType::Integer, "height", "Sets the height of the widget if supported"));
-			m_elements.push_back(mvPythonDataElement(mvPythonDataType::String, "before", "Item to add this item before. (runtime adding)"));
-			m_elements.push_back(mvPythonDataElement(mvPythonDataType::String, "parent", "Parent to add this item to. (runtime adding)"));
-			m_elements.push_back(mvPythonDataElement(mvPythonDataType::String, "data_source", "data_source for shared data"));
-		}
 
 		for (const auto& element : m_elements)
 		{

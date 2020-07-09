@@ -18,42 +18,6 @@ namespace Marvel {
 		Object, IntList, KeywordOnly
 	};
 
-	static const char PythonDataTypeSymbol(mvPythonDataType type)
-	{
-		switch (type)
-		{
-		case mvPythonDataType::String:     return 's';
-		case mvPythonDataType::Integer:    return 'i';
-		case mvPythonDataType::Float:      return 'f';
-		case mvPythonDataType::Bool:       return 'p';
-		case mvPythonDataType::StringList: return 'O';
-		case mvPythonDataType::FloatList:  return 'O';
-		case mvPythonDataType::IntList:    return 'O';
-		case mvPythonDataType::Optional:   return '|';
-		case mvPythonDataType::KeywordOnly:return '$';
-		case mvPythonDataType::Object:     return 'O';
-		default:                           return 'O';
-		}
-	}
-
-	static const char* PythonDataTypeString(mvPythonDataType type)
-	{
-		switch (type)
-		{
-		case mvPythonDataType::String:     return " : str";
-		case mvPythonDataType::Integer:    return " : int";
-		case mvPythonDataType::Float:      return " : float";
-		case mvPythonDataType::Bool:       return " : bool";
-		case mvPythonDataType::StringList: return " : List(str)";
-		case mvPythonDataType::FloatList:  return " : List(float)";
-		case mvPythonDataType::IntList:    return " : List(int)";
-		case mvPythonDataType::Optional:   return "Optional Arguments\n____________________";
-		case mvPythonDataType::KeywordOnly:return "Keyword Only Arguments\n____________________";
-		case mvPythonDataType::Object:     return " : object";
-		default:                           return " : unknown";
-		}
-	}
-
 	//-----------------------------------------------------------------------------
 	// mvPythonDataElement
 	//-----------------------------------------------------------------------------
@@ -63,11 +27,8 @@ namespace Marvel {
 		mvPythonDataType type;
 		std::string      description;
 
-		mvPythonDataElement(mvPythonDataType type, const char* name = "", const std::string& description = "")
-			: name(name), type(type), description(description)
-		{}
-
-		const char getSymbol() const { return PythonDataTypeSymbol(type);}
+		mvPythonDataElement(mvPythonDataType type, const char* name = "", const std::string& description = "");
+		const char getSymbol() const;
 	};
 
 	//-----------------------------------------------------------------------------
@@ -80,7 +41,7 @@ namespace Marvel {
 
 		mvPythonTranslator() = default;
 
-		mvPythonTranslator(const std::initializer_list<mvPythonDataElement>& elements, bool standardKeywords = false, 
+		mvPythonTranslator(const std::initializer_list<mvPythonDataElement>& elements, 
 			const std::string& about = "", const std::string& returnType = "None");
 
 		bool                                    parse(PyObject* args, PyObject* kwargs, const char* message, ...);
