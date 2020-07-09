@@ -27,8 +27,12 @@ namespace Marvel {
 		virtual void draw() override
 		{
 
-			if(m_texture == nullptr && !m_value.empty())
-				LoadTextureFromFile(m_value.c_str(), &m_texture, &m_width, &m_height);
+			if (m_texture == nullptr && !m_value.empty())
+			{
+				LoadTextureFromFile(m_value.c_str(), &m_texture, &m_picWidth, &m_picHeight);
+				if (m_width == 0) m_width = m_picWidth;
+				if (m_height == 0) m_height = m_picHeight;
+			}
 
 			if(m_texture)
 				ImGui::Image(m_texture, ImVec2(m_width, m_height), ImVec2(0,0), ImVec2(1,1), 
@@ -45,6 +49,8 @@ namespace Marvel {
 
 		mvColor m_tintColor;
 		mvColor m_borderColor;
+		int     m_picWidth = 0;
+		int     m_picHeight = 0;
 
 	};
 
