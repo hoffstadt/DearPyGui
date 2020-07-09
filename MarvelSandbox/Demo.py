@@ -94,7 +94,7 @@ add_checkbox("Checkbox##widget")
 add_combo("Combo##widget", ("Item 1", "Item 2", "item 3"))
 add_radio_button("Radio Button##widget", ("Item 1", "Item 2", "item 3"))
 add_listbox("Listbox##widget", ("Item 1", "Item 2", "item 3"))
-add_progress_bar("Progress Bar##widget", 0.45, overlay="Progress Bar")
+add_progress_bar("Progress Bar##widget", 0.45, overlay="Progress Bar", height = 100)
 
 add_text("Text")
 add_selectable("Selectable##widget")
@@ -146,6 +146,11 @@ for i in range(0, 3):
     add_text("Item" + str(i))
 end_tree_node()
 
+add_collapsing_header("Collapsing Header##widget", tip="crack")
+for i in range(0, 10):
+    add_text("Item " + str(i) + " belonging to a collapsing header")
+end_collapsing_header()
+
 add_child("Child##widget", width=220, height=100)
 for i in range(0, 10):
     add_text("Item " + str(i) + " belonging to a child")
@@ -182,7 +187,7 @@ add_listbox("Colormaps", ("Default", "Dark", "Pastel", "Paired", "Viridis", "Pla
 add_plot("Plot", "x-axis", "y-axis", height=-1);
 end_tab()
 add_tab("Simple Plots")
-add_simple_plot("Simpleplot1", (0.3, 0.9, 2.5, 8.9), height = 80)
+add_simple_plot("Simpleplot1", (0.3, 0.9, 2.5, 8.9))
 add_simple_plot("Simpleplot2", (0.3, 0.9, 2.5, 8.9), overlay="Overlaying", height=180, histogram=True)
 end_tab()
 end_tab_bar()
