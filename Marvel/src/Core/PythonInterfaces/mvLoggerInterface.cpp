@@ -14,39 +14,39 @@ namespace Marvel {
 		std::map<std::string, mvPythonTranslator>* translators = new std::map< std::string, mvPythonTranslator>{
 
 			{"get_log_level", mvPythonTranslator({
-			}, false, "Returns the log level.", "int")},
+			}, "Returns the log level.", "int")},
 
 			{"clear_log", mvPythonTranslator({
-			}, false, "Clears the logger.")},
+			}, "Clears the logger.")},
 
 			{"show_logger", mvPythonTranslator({
-			}, false, "Shows the logging window.")},
+			}, "Shows the logging window.")},
 
 			{"set_log_level", mvPythonTranslator({
 				{mvPythonDataType::Integer, "level"}
-			}, false, "Sets the log level.")},
+			}, "Sets the log level.")},
 
 			{"log", mvPythonTranslator({
 				{mvPythonDataType::String, "message"},
 				{mvPythonDataType::Optional},
 				{mvPythonDataType::String, "level"}
-			}, false, "Logs a trace level log.")},
+			}, "Logs a trace level log.")},
 
 			{"log_debug", mvPythonTranslator({
 				{mvPythonDataType::String, "message"}
-			}, false, "Logs a debug level log.")},
+			}, "Logs a debug level log.")},
 
 			{"log_info", mvPythonTranslator({
 				{mvPythonDataType::String, "message"}
-			}, false, "Logs a info level log.")},
+			}, "Logs a info level log.")},
 
 			{"log_warning", mvPythonTranslator({
 				{mvPythonDataType::String, "message"}
-			}, false, "Logs a warning level log.")},
+			}, "Logs a warning level log.")},
 
 			{"log_error", mvPythonTranslator({
 				{mvPythonDataType::String, "message"}
-			}, false, "Logs a error level log.")}
+			}, "Logs a error level log.")}
 
 		};
 

@@ -40,37 +40,37 @@ namespace Marvel {
 		std::map<std::string, mvPythonTranslator>* translators = new std::map< std::string, mvPythonTranslator>;
 
 		translators->insert({ "end_tree_node", mvPythonTranslator({
-		}, false, "Ends the tree node created by a call to add_tree_node.") });
+		}, "Ends the tree node created by a call to add_tree_node.") });
 
 		translators->insert({ "end_popup", mvPythonTranslator({
-		}, false, "Ends the popup created by a call to add_popup.") });
+		}, "Ends the popup created by a call to add_popup.") });
 
 		translators->insert({ "end_window", mvPythonTranslator({
-		}, false, "Ends the window created by a call to add_window.") });
+		}, "Ends the window created by a call to add_window.") });
 
 		translators->insert({ "end_group", mvPythonTranslator({
-		}, false, "Ends the group created by a call to add_group.") });
+		}, "Ends the group created by a call to add_group.") });
 
 		translators->insert({ "end_child", mvPythonTranslator({
-		}, false, "Ends the child created by a call to add_child.") });
+		}, "Ends the child created by a call to add_child.") });
 
 		translators->insert({ "end_tab", mvPythonTranslator({
-		}, false, "Ends the tab created by a call to add_tab.") });
+		}, "Ends the tab created by a call to add_tab.") });
 
 		translators->insert({ "end_tab_bar", mvPythonTranslator({
-		}, false, "Ends the tab bar created by a call to add_tab_bar") });
+		}, "Ends the tab bar created by a call to add_tab_bar") });
 
 		translators->insert({ "end_menu", mvPythonTranslator({
-		}, false, "Ends the menu created by a call to add_menu.") });
+		}, "Ends the menu created by a call to add_menu.") });
 
 		translators->insert({ "end_menu_bar", mvPythonTranslator({
-		}, false, "Ends the menu bar created by a call to add_menu_bar.") });
+		}, "Ends the menu bar created by a call to add_menu_bar.") });
 
 		translators->insert({ "end_tooltip", mvPythonTranslator({
-		}, false, "Ends the tooltip created by a call to add_tooltip.") });
+		}, "Ends the tooltip created by a call to add_tooltip.") });
 
 		translators->insert({ "end_collapsing_header", mvPythonTranslator({
-		}, false, "Ends the collapsing header created by a call to add_collapsing_header.") });
+		}, "Ends the collapsing header created by a call to add_collapsing_header.") });
 
 		translators->insert({ "add_seperator", mvPythonTranslator({
 			{mvPythonDataType::KeywordOnly},
@@ -78,7 +78,7 @@ namespace Marvel {
 			{mvPythonDataType::String, "tip", "Adds a simple tooltip"},
 			{mvPythonDataType::String, "parent", "Parent to add this item to. (runtime adding)"},
 			{mvPythonDataType::String, "before","Item to add this item before. (runtime adding)"},
-		}, false, "Adds a horizontal line.") });
+		}, "Adds a horizontal line.") });
 
 		translators->insert({ "add_simple_plot", mvPythonTranslator({
 			{mvPythonDataType::String, "name"},
@@ -94,7 +94,7 @@ namespace Marvel {
 			{mvPythonDataType::String, "before","Item to add this item before. (runtime adding)"},
 			{mvPythonDataType::Integer, "width",""},
 			{mvPythonDataType::Integer, "height",""},
-		}, false, "A simple plot for visualization of a set of values") });
+		}, "A simple plot for visualization of a set of values") });
 
 		translators->insert({ "add_progress_bar", mvPythonTranslator({
 			{mvPythonDataType::String, "name"},
@@ -108,7 +108,7 @@ namespace Marvel {
 			{mvPythonDataType::String, "data_source", "data source for shared data"},
 			{mvPythonDataType::Integer, "width",""},
 			{mvPythonDataType::Integer, "height",""},
-		}, false, "Adds a progress bar.") });
+		}, "Adds a progress bar.") });
 
 		translators->insert({ "add_image", mvPythonTranslator({
 			{mvPythonDataType::String, "name"},
@@ -122,7 +122,7 @@ namespace Marvel {
 			{mvPythonDataType::String, "data_source", "data source for shared data"},
 			{mvPythonDataType::Integer, "width",""},
 			{mvPythonDataType::Integer, "height",""},
-		}, false, "Adds an image.") });
+		}, "Adds an image.") });
 
 		translators->insert({ "add_slider_float", mvPythonTranslator({
 			{mvPythonDataType::String, "name"},
@@ -140,7 +140,7 @@ namespace Marvel {
 			{mvPythonDataType::String, "data_source", "data source for shared data"},
 			{mvPythonDataType::Integer, "width",""},
 			{mvPythonDataType::Integer, "height","Height of a vertical slider"},
-		}, false, "Adds slider for a single float value") });
+		}, "Adds slider for a single float value") });
 
 		translators->insert({ "add_slider_float2", mvPythonTranslator({
 			{mvPythonDataType::String, "name"},
@@ -156,7 +156,7 @@ namespace Marvel {
 			{mvPythonDataType::String, "before", "Item to add this item before. (runtime adding)"},
 			{mvPythonDataType::String, "data_source", "data source for shared data"},
 			{mvPythonDataType::Integer, "width",""}
-		}, false, "Adds slider for a 2 float values.") });
+		}, "Adds slider for a 2 float values.") });
 
 		translators->insert({ "add_slider_float3", mvPythonTranslator({
 			{mvPythonDataType::String, "name"},
@@ -172,7 +172,7 @@ namespace Marvel {
 			{mvPythonDataType::String, "before", "Item to add this item before. (runtime adding)"},
 			{mvPythonDataType::String, "data_source", "data source for shared data"},
 			{mvPythonDataType::Integer, "width",""}
-		}, false, "Adds slider for a 3 float values.") });
+		}, "Adds slider for a 3 float values.") });
 
 		translators->insert({ "add_slider_float4", mvPythonTranslator({
 			{mvPythonDataType::String, "name"},
@@ -188,7 +188,7 @@ namespace Marvel {
 			{mvPythonDataType::String, "before", "Item to add this item before. (runtime adding)"},
 			{mvPythonDataType::String, "data_source", "data source for shared data"},
 			{mvPythonDataType::Integer, "width",""}
-		}, false, "Adds slider for a 4 float values.") });
+		}, "Adds slider for a 4 float values.") });
 
 		translators->insert({ "add_slider_int", mvPythonTranslator({
 			{mvPythonDataType::String, "name"},
@@ -205,7 +205,7 @@ namespace Marvel {
 			{mvPythonDataType::String, "data_source", "data source for shared data"},
 			{mvPythonDataType::Integer, "width",""},
 			{mvPythonDataType::Integer, "height","Height of a vertical slider"},
-		}, false, "Adds slider for a single int value") });
+		}, "Adds slider for a single int value") });
 
 		translators->insert({ "add_slider_int2", mvPythonTranslator({
 			{mvPythonDataType::String, "name"},
@@ -220,7 +220,7 @@ namespace Marvel {
 			{mvPythonDataType::String, "before", "Item to add this item before. (runtime adding)"},
 			{mvPythonDataType::String, "data_source", "data source for shared data"},
 			{mvPythonDataType::Integer, "width",""}
-		}, false, "Adds slider for a 2 int values.") });
+		}, "Adds slider for a 2 int values.") });
 
 		translators->insert({ "add_slider_int3", mvPythonTranslator({
 			{mvPythonDataType::String, "name"},
@@ -235,7 +235,7 @@ namespace Marvel {
 			{mvPythonDataType::String, "before", "Item to add this item before. (runtime adding)"},
 			{mvPythonDataType::String, "data_source", "data source for shared data"},
 			{mvPythonDataType::Integer, "width",""}
-		}, false, "Adds slider for a 3 int values.") });
+		}, "Adds slider for a 3 int values.") });
 
 		translators->insert({ "add_slider_int4", mvPythonTranslator({
 			{mvPythonDataType::String, "name"},
@@ -250,7 +250,7 @@ namespace Marvel {
 			{mvPythonDataType::String, "before", "Item to add this item before. (runtime adding)"},
 			{mvPythonDataType::String, "data_source", "data source for shared data"},
 			{mvPythonDataType::Integer, "width",""}
-		}, false, "Adds slider for a 4 int values.") });
+		}, "Adds slider for a 4 int values.") });
 
 		translators->insert({ "add_drag_float", mvPythonTranslator({
 			{mvPythonDataType::String, "name"},
@@ -267,7 +267,7 @@ namespace Marvel {
 			{mvPythonDataType::String, "before", "Item to add this item before. (runtime adding)"},
 			{mvPythonDataType::String, "data_source", "data source for shared data"},
 			{mvPythonDataType::Integer, "width",""}
-		}, false, "Adds drag for a single float value") });
+		}, "Adds drag for a single float value") });
 
 		translators->insert({ "add_drag_float2", mvPythonTranslator({
 			{mvPythonDataType::String, "name"},
@@ -284,7 +284,7 @@ namespace Marvel {
 			{mvPythonDataType::String, "before", "Item to add this item before. (runtime adding)"},
 			{mvPythonDataType::String, "data_source", "data source for shared data"},
 			{mvPythonDataType::Integer, "width",""}
-		}, false, "Adds drag for a 2 float values.") });
+		}, "Adds drag for a 2 float values.") });
 
 		translators->insert({ "add_drag_float3", mvPythonTranslator({
 			{mvPythonDataType::String, "name"},
@@ -301,7 +301,7 @@ namespace Marvel {
 			{mvPythonDataType::String, "before", "Item to add this item before. (runtime adding)"},
 			{mvPythonDataType::String, "data_source", "data source for shared data"},
 			{mvPythonDataType::Integer, "width",""}
-		}, false, "Adds drag for a 3 float values.") });
+		}, "Adds drag for a 3 float values.") });
 
 		translators->insert({ "add_drag_float4", mvPythonTranslator({
 			{mvPythonDataType::String, "name"},
@@ -318,7 +318,7 @@ namespace Marvel {
 			{mvPythonDataType::String, "before", "Item to add this item before. (runtime adding)"},
 			{mvPythonDataType::String, "data_source", "data source for shared data"},
 			{mvPythonDataType::Integer, "width",""}
-		}, false, "Adds drag for a 4 float values.") });
+		}, "Adds drag for a 4 float values.") });
 
 		translators->insert({ "add_drag_int", mvPythonTranslator({
 			{mvPythonDataType::String, "name"},
@@ -334,7 +334,7 @@ namespace Marvel {
 			{mvPythonDataType::String, "before", "Item to add this item before. (runtime adding)"},
 			{mvPythonDataType::String, "data_source", "data source for shared data"},
 			{mvPythonDataType::Integer, "width",""}
-		}, false, "Adds drag for a single int value") });
+		}, "Adds drag for a single int value") });
 
 		translators->insert({ "add_drag_int2", mvPythonTranslator({
 			{mvPythonDataType::String, "name"},
@@ -350,7 +350,7 @@ namespace Marvel {
 			{mvPythonDataType::String, "before", "Item to add this item before. (runtime adding)"},
 			{mvPythonDataType::String, "data_source", "data source for shared data"},
 			{mvPythonDataType::Integer, "width",""}
-		}, false, "Adds drag for a 2 int values.") });
+		}, "Adds drag for a 2 int values.") });
 
 		translators->insert({ "add_drag_int3", mvPythonTranslator({
 			{mvPythonDataType::String, "name"},
@@ -366,7 +366,7 @@ namespace Marvel {
 			{mvPythonDataType::String, "before", "Item to add this item before. (runtime adding)"},
 			{mvPythonDataType::String, "data_source", "data source for shared data"},
 			{mvPythonDataType::Integer, "width",""}
-		}, false, "Adds drag for a 3 int values.") });
+		}, "Adds drag for a 3 int values.") });
 
 		translators->insert({ "add_drag_int4", mvPythonTranslator({
 			{mvPythonDataType::String, "name"},
@@ -382,7 +382,7 @@ namespace Marvel {
 			{mvPythonDataType::String, "before", "Item to add this item before. (runtime adding)"},
 			{mvPythonDataType::String, "data_source", "data source for shared data"},
 			{mvPythonDataType::Integer, "width",""}
-		}, false, "Adds drag for a 4 int values.") });
+		}, "Adds drag for a 4 int values.") });
 
 		translators->insert({ "add_text", mvPythonTranslator({
 			{mvPythonDataType::String, "name"},
@@ -393,7 +393,7 @@ namespace Marvel {
 			{mvPythonDataType::String, "tip", "Adds a simple tooltip"},
 			{mvPythonDataType::String, "parent", "Parent to add this item to. (runtime adding)"},
 			{mvPythonDataType::String, "before", "Item to add this item before. (runtime adding)"},
-		}, false, "Adds text") });
+		}, "Adds text") });
 
 		translators->insert({ "add_label_text", mvPythonTranslator({
 			{mvPythonDataType::String, "name"},
@@ -404,7 +404,7 @@ namespace Marvel {
 			{mvPythonDataType::String, "parent", "Parent to add this item to. (runtime adding)"},
 			{mvPythonDataType::String, "before", "Item to add this item before. (runtime adding)"},
 			{mvPythonDataType::String, "data_source", "data source for shared data"},
-		}, false, "Adds text with a label. Useful for output values.") });
+		}, "Adds text with a label. Useful for output values.") });
 
 		translators->insert({ "add_listbox", mvPythonTranslator({
 			{mvPythonDataType::String, "name", "Name of the listbox"},
@@ -418,7 +418,7 @@ namespace Marvel {
 			{mvPythonDataType::String, "data_source", "data source for shared data"},
 			{mvPythonDataType::Integer, "width",""},
 			{mvPythonDataType::Integer, "height", "number of items to show"},
-		}, false, "Adds a listbox.") });
+		}, "Adds a listbox.") });
 
 		translators->insert({ "add_combo", mvPythonTranslator({
 			{mvPythonDataType::String, "name"},
@@ -431,7 +431,7 @@ namespace Marvel {
 			{mvPythonDataType::String, "before", "Item to add this item before. (runtime adding)"},
 			{mvPythonDataType::String, "data_source", "data source for shared data"},
 			{mvPythonDataType::Integer, "width",""},
-		}, false, "Adds a combo.") });
+		}, "Adds a combo.") });
 
 		translators->insert({ "add_selectable", mvPythonTranslator({
 			{mvPythonDataType::String, "name"},
@@ -442,7 +442,7 @@ namespace Marvel {
 			{mvPythonDataType::String, "parent", "Parent to add this item to. (runtime adding)"},
 			{mvPythonDataType::String, "before", "Item to add this item before. (runtime adding)"},
 			{mvPythonDataType::String, "data_source", "data source for shared data"},
-		}, false, "Adds a selectable.") });
+		}, "Adds a selectable.") });
 
 		translators->insert({ "add_button", mvPythonTranslator({
 			{mvPythonDataType::String, "name"},
@@ -456,7 +456,7 @@ namespace Marvel {
 			{mvPythonDataType::String, "before", "Item to add this item before. (runtime adding)"},
 			{mvPythonDataType::Integer, "width",""},
 			{mvPythonDataType::Integer, "height", ""},
-		}, false, "Adds a button.") });
+		}, "Adds a button.") });
 
 		translators->insert({ "add_input_text", mvPythonTranslator({
 			{mvPythonDataType::String, "name"},
@@ -476,7 +476,7 @@ namespace Marvel {
 			{mvPythonDataType::String, "before", "Item to add this item before. (runtime adding)"},
 			{mvPythonDataType::String, "data_source", "data source for shared data"},
 			{mvPythonDataType::Integer, "width",""},
-		}, false, "Adds input for text values.") });
+		}, "Adds input for text values.") });
 
 		translators->insert({ "add_input_int", mvPythonTranslator({
 			{mvPythonDataType::String, "name"},
@@ -488,7 +488,7 @@ namespace Marvel {
 			{mvPythonDataType::String, "before", "Item to add this item before. (runtime adding)"},
 			{mvPythonDataType::String, "data_source", "data source for shared data"},
 			{mvPythonDataType::Integer, "width",""},
-		}, false, "Adds input for integer values.") });
+		}, "Adds input for integer values.") });
 
 		translators->insert({ "add_input_int2", mvPythonTranslator({
 			{mvPythonDataType::String, "name"},
@@ -500,7 +500,7 @@ namespace Marvel {
 			{mvPythonDataType::String, "before", "Item to add this item before. (runtime adding)"},
 			{mvPythonDataType::String, "data_source", "data source for shared data"},
 			{mvPythonDataType::Integer, "width",""},
-		}, false, "Adds input for 2 integer values.") });
+		}, "Adds input for 2 integer values.") });
 
 		translators->insert({ "add_input_int3", mvPythonTranslator({
 			{mvPythonDataType::String, "name"},
@@ -512,7 +512,7 @@ namespace Marvel {
 			{mvPythonDataType::String, "before", "Item to add this item before. (runtime adding)"},
 			{mvPythonDataType::String, "data_source", "data source for shared data"},
 			{mvPythonDataType::Integer, "width",""},
-		}, false, "Adds input for 3 integer values.") });
+		}, "Adds input for 3 integer values.") });
 
 		translators->insert({ "add_input_int4", mvPythonTranslator({
 			{mvPythonDataType::String, "name"},
@@ -524,7 +524,7 @@ namespace Marvel {
 			{mvPythonDataType::String, "before", "Item to add this item before. (runtime adding)"},
 			{mvPythonDataType::String, "data_source", "data source for shared data"},
 			{mvPythonDataType::Integer, "width",""},
-		}, false, "Adds input for 4 integer values.") });
+		}, "Adds input for 4 integer values.") });
 
 		translators->insert({ "add_input_float", mvPythonTranslator({
 			{mvPythonDataType::String, "name"},
@@ -537,7 +537,7 @@ namespace Marvel {
 			{mvPythonDataType::String, "before", "Item to add this item before. (runtime adding)"},
 			{mvPythonDataType::String, "data_source", "data source for shared data"},
 			{mvPythonDataType::Integer, "width",""},
-		}, false, "Adds input for float values.") });
+		}, "Adds input for float values.") });
 
 		translators->insert({ "add_input_float2", mvPythonTranslator({
 			{mvPythonDataType::String, "name"},
@@ -550,7 +550,7 @@ namespace Marvel {
 			{mvPythonDataType::String, "before", "Item to add this item before. (runtime adding)"},
 			{mvPythonDataType::String, "data_source", "data source for shared data"},
 			{mvPythonDataType::Integer, "width",""},
-		}, false, "Adds input for 2 float values.") });
+		}, "Adds input for 2 float values.") });
 
 		translators->insert({ "add_input_float3", mvPythonTranslator({
 			{mvPythonDataType::String, "name"},
@@ -563,7 +563,7 @@ namespace Marvel {
 			{mvPythonDataType::String, "before", "Item to add this item before. (runtime adding)"},
 			{mvPythonDataType::String, "data_source", "data source for shared data"},
 			{mvPythonDataType::Integer, "width",""},
-		}, false, "Adds input for 3 float values.") });
+		}, "Adds input for 3 float values.") });
 
 		translators->insert({ "add_input_float4", mvPythonTranslator({
 			{mvPythonDataType::String, "name"},
@@ -576,7 +576,7 @@ namespace Marvel {
 			{mvPythonDataType::String, "before", "Item to add this item before. (runtime adding)"},
 			{mvPythonDataType::String, "data_source", "data source for shared data"},
 			{mvPythonDataType::Integer, "width",""},
-		}, false, "Adds input for 4 float values.") });
+		}, "Adds input for 4 float values.") });
 
 		translators->insert({ "add_indent", mvPythonTranslator({
 			{mvPythonDataType::KeywordOnly},
@@ -584,7 +584,7 @@ namespace Marvel {
 			{mvPythonDataType::Float, "offset"},
 			{mvPythonDataType::String, "parent", "Parent to add this item to. (runtime adding)"},
 			{mvPythonDataType::String, "before", "Item to add this item before. (runtime adding)"},
-		}, false, "Adds an indent to following items.") });
+		}, "Adds an indent to following items.") });
 
 		translators->insert({ "unindent", mvPythonTranslator({
 			{mvPythonDataType::KeywordOnly},
@@ -592,7 +592,7 @@ namespace Marvel {
 			{mvPythonDataType::Float, "offset"},
 			{mvPythonDataType::String, "parent", "Parent to add this item to. (runtime adding)"},
 			{mvPythonDataType::String, "before", "Item to add this item before. (runtime adding)"},
-		}, false, "Unindents following items.") });
+		}, "Unindents following items.") });
 
 		translators->insert({ "add_tab_bar", mvPythonTranslator({
 			{mvPythonDataType::String, "name"},
@@ -602,7 +602,7 @@ namespace Marvel {
 			{mvPythonDataType::String, "parent", "Parent to add this item to. (runtime adding)"},
 			{mvPythonDataType::String, "before", "Item to add this item before. (runtime adding)"},
 			{mvPythonDataType::String, "data_source", "data source for shared data"},
-		}, false, "Adds a tab bar.") });
+		}, "Adds a tab bar.") });
 
 		translators->insert({ "add_tab", mvPythonTranslator({
 			{mvPythonDataType::String, "name"},
@@ -611,14 +611,14 @@ namespace Marvel {
 			{mvPythonDataType::String, "tip", "Adds a simple tooltip"},
 			{mvPythonDataType::String, "parent", "Parent to add this item to. (runtime adding)"},
 			{mvPythonDataType::String, "before", "Item to add this item before. (runtime adding)"},
-		}, false, "Adds a tab to a tab bar.") });
+		}, "Adds a tab to a tab bar.") });
 
 		translators->insert({ "add_menu_bar", mvPythonTranslator({
 			{mvPythonDataType::String, "name"},
 			{mvPythonDataType::KeywordOnly},
 			{mvPythonDataType::String, "parent", "Parent to add this item to. (runtime adding)"},
 			{mvPythonDataType::String, "before", "Item to add this item before. (runtime adding)"},
-		}, false, "Adds a menu bar to a window. Must be followed by a call to end_menu_bar.") });
+		}, "Adds a menu bar to a window. Must be followed by a call to end_menu_bar.") });
 
 		translators->insert({ "add_menu", mvPythonTranslator({
 			{mvPythonDataType::String, "name"},
@@ -626,7 +626,7 @@ namespace Marvel {
 			{mvPythonDataType::String, "tip", "Adds a simple tooltip"},
 			{mvPythonDataType::String, "parent", "Parent to add this item to. (runtime adding)"},
 			{mvPythonDataType::String, "before", "Item to add this item before. (runtime adding)"},
-		}, false, "Adds a menu to an existing menu bar. Must be followed by a call to end_menu.") });
+		}, "Adds a menu to an existing menu bar. Must be followed by a call to end_menu.") });
 
 		translators->insert({ "add_menu_item", mvPythonTranslator({
 			{mvPythonDataType::String, "name"},
@@ -635,7 +635,7 @@ namespace Marvel {
 			{mvPythonDataType::String, "tip", "Adds a simple tooltip"},
 			{mvPythonDataType::String, "parent", "Parent to add this item to. (runtime adding)"},
 			{mvPythonDataType::String, "before", "Item to add this item before. (runtime adding)"},
-		}, false, "Adds a menu item to an existing menu.") });
+		}, "Adds a menu item to an existing menu.") });
 
 		translators->insert({ "add_spacing", mvPythonTranslator({
 			{mvPythonDataType::KeywordOnly},
@@ -643,7 +643,7 @@ namespace Marvel {
 			{mvPythonDataType::Integer, "count"},
 			{mvPythonDataType::String, "parent", "Parent to add this item to. (runtime adding)"},
 			{mvPythonDataType::String, "before", "Item to add this item before. (runtime adding)"},
-		}, false, "Adds vertical spacing.") });
+		}, "Adds vertical spacing.") });
 
 		translators->insert({ "add_same_line", mvPythonTranslator({
 			{mvPythonDataType::KeywordOnly},
@@ -652,7 +652,7 @@ namespace Marvel {
 			{mvPythonDataType::Float, "spacing"},
 			{mvPythonDataType::String, "parent", "Parent to add this item to. (runtime adding)"},
 			{mvPythonDataType::String, "before", "Item to add this item before. (runtime adding)"},
-		}, false, "Places a widget on the same line as the previous widget. Can also be used for horizontal spacing.") });
+		}, "Places a widget on the same line as the previous widget. Can also be used for horizontal spacing.") });
 
 		translators->insert({ "add_radio_button", mvPythonTranslator({
 			{mvPythonDataType::String, "name"},
@@ -664,7 +664,7 @@ namespace Marvel {
 			{mvPythonDataType::String, "parent", "Parent to add this item to. (runtime adding)"},
 			{mvPythonDataType::String, "before", "Item to add this item before. (runtime adding)"},
 			{mvPythonDataType::String, "data_source", "data source for shared data"},
-		}, false, "Adds a set of radio buttons.") });
+		}, "Adds a set of radio buttons.") });
 
 		translators->insert({ "add_group", mvPythonTranslator({
 			{mvPythonDataType::String, "name"},
@@ -673,7 +673,7 @@ namespace Marvel {
 			{mvPythonDataType::String, "parent", "Parent to add this item to. (runtime adding)"},
 			{mvPythonDataType::String, "before", "Item to add this item before. (runtime adding)"},
 			{mvPythonDataType::Integer, "width",""}
-		}, false, "Creates a group that other widgets can belong to. The group allows item commands to be issued for all of its members.\
+		}, "Creates a group that other widgets can belong to. The group allows item commands to be issued for all of its members.\
 				Must be closed with the end_group command unless added at runtime.") });
 
 		translators->insert({ "add_child", mvPythonTranslator({
@@ -684,7 +684,7 @@ namespace Marvel {
 			{mvPythonDataType::String, "before", "Item to add this item before. (runtime adding)"},
 			{mvPythonDataType::Integer, "width",""},
 			{mvPythonDataType::Integer, "height", ""},
-		}, false, "Adds an embedded child window. Will show scrollbars when items do not fit. Must be followed by a call to end_child.") });
+		}, "Adds an embedded child window. Will show scrollbars when items do not fit. Must be followed by a call to end_child.") });
 
 		translators->insert({ "add_window", mvPythonTranslator({
 			{mvPythonDataType::String, "name"},
@@ -696,7 +696,7 @@ namespace Marvel {
 			{mvPythonDataType::Integer, "start_y"},
 			{mvPythonDataType::Bool, "autosize"},
 			{mvPythonDataType::Bool, "hide"}
-		}, false, "Creates a new window for following items to be added to. Must call end_main_window command before.") });
+		}, "Creates a new window for following items to be added to. Must call end_main_window command before.") });
 
 		translators->insert({ "add_tooltip", mvPythonTranslator({
 			{mvPythonDataType::String, "tipparent"},
@@ -704,7 +704,7 @@ namespace Marvel {
 			{mvPythonDataType::KeywordOnly},
 			{mvPythonDataType::String, "parent", "Parent to add this item to. (runtime adding)"},
 			{mvPythonDataType::String, "before", "Item to add this item before. (runtime adding)"}
-		}, false, "Adds an advanced tool tip for an item. This command must come immediately after the item the tip is for.") });
+		}, "Adds an advanced tool tip for an item. This command must come immediately after the item the tip is for.") });
 
 		translators->insert({ "add_popup", mvPythonTranslator({
 			{mvPythonDataType::String, "popupparent"},
@@ -716,7 +716,7 @@ namespace Marvel {
 			{mvPythonDataType::String, "before", "Item to add this item before. (runtime adding)"},
 			{mvPythonDataType::Integer, "width",""},
 			{mvPythonDataType::Integer, "height", ""},
-		}, false, "Adds a popup window for an item. This command must come immediately after the item the popup is for.") });
+		}, "Adds a popup window for an item. This command must come immediately after the item the popup is for.") });
 
 		translators->insert({ "add_collapsing_header", mvPythonTranslator({
 			{mvPythonDataType::String, "name"},
@@ -725,7 +725,7 @@ namespace Marvel {
 			{mvPythonDataType::String, "tip", "Adds a simple tooltip"},
 			{mvPythonDataType::String, "parent", "Parent to add this item to. (runtime adding)"},
 			{mvPythonDataType::String, "before", "Item to add this item before. (runtime adding)"}
-		}, false, "Adds a collapsing header to add items to. Must be closed with the end_collapsing_header command.") });
+		}, "Adds a collapsing header to add items to. Must be closed with the end_collapsing_header command.") });
 
 		translators->insert({ "add_tree_node", mvPythonTranslator({
 			{mvPythonDataType::String, "name"},
@@ -734,7 +734,7 @@ namespace Marvel {
 			{mvPythonDataType::String, "tip", "Adds a simple tooltip"},
 			{mvPythonDataType::String, "parent", "Parent to add this item to. (runtime adding)"},
 			{mvPythonDataType::String, "before", "Item to add this item before. (runtime adding)"},
-		}, false, "Adds a tree node to add items to. Must be closed with the end_tree_node command.") });
+		}, "Adds a tree node to add items to. Must be closed with the end_tree_node command.") });
 
 		translators->insert({ "add_color_edit3", mvPythonTranslator({
 			{mvPythonDataType::String, "name"},
@@ -747,7 +747,7 @@ namespace Marvel {
 			{mvPythonDataType::String, "data_source", "data source for shared data"},
 			{mvPythonDataType::Integer, "width",""},
 			{mvPythonDataType::Integer, "height", ""},
-		}, false, "Adds an rgb color editing widget.") });
+		}, "Adds an rgb color editing widget.") });
 
 		translators->insert({ "add_color_edit4", mvPythonTranslator({
 			{mvPythonDataType::String, "name"},
@@ -760,7 +760,7 @@ namespace Marvel {
 			{mvPythonDataType::String, "data_source", "data source for shared data"},
 			{mvPythonDataType::Integer, "width",""},
 			{mvPythonDataType::Integer, "height", ""},
-		}, false, "Adds an rgba color editing widget.") });
+		}, "Adds an rgba color editing widget.") });
 
 		translators->insert({ "add_color_picker3", mvPythonTranslator({
 			{mvPythonDataType::String, "name"},
@@ -773,7 +773,7 @@ namespace Marvel {
 			{mvPythonDataType::String, "data_source", "data source for shared data"},
 			{mvPythonDataType::Integer, "width",""},
 			{mvPythonDataType::Integer, "height", ""},
-		}, false, "Adds an rgb color picking widget.") });
+		}, "Adds an rgb color picking widget.") });
 
 		translators->insert({ "add_color_picker4", mvPythonTranslator({
 			{mvPythonDataType::String, "name"},
@@ -786,7 +786,7 @@ namespace Marvel {
 			{mvPythonDataType::String, "data_source", "data source for shared data"},
 			{mvPythonDataType::Integer, "width",""},
 			{mvPythonDataType::Integer, "height", ""},
-		}, false, "Adds an rgba color picking widget.") });
+		}, "Adds an rgba color picking widget.") });
 
 		translators->insert({ "add_checkbox", mvPythonTranslator({
 			{mvPythonDataType::String, "name"},
@@ -797,7 +797,7 @@ namespace Marvel {
 			{mvPythonDataType::String, "parent", "Parent to add this item to. (runtime adding)"},
 			{mvPythonDataType::String, "before", "Item to add this item before. (runtime adding)"},
 			{mvPythonDataType::String, "data_source", "data source for shared data"}
-		}, false, "Adds a checkbox widget.") });
+		}, "Adds a checkbox widget.") });
 
 		return *translators;
 	}

@@ -27,36 +27,36 @@ namespace Marvel {
 				{mvPythonDataType::String, "before", "Item to add this item before. (runtime adding)"},
 				{mvPythonDataType::Integer, "width",""},
 				{mvPythonDataType::Integer, "height", ""},
-			}, false, "Adds a plot widget.")},
+			}, "Adds a plot widget.")},
 
 			{"clear_plot", mvPythonTranslator({
 				{mvPythonDataType::String, "plot"},
-			}, false, "Clears a plot.")},
+			}, "Clears a plot.")},
 
 			{"set_color_map", mvPythonTranslator({
 				{mvPythonDataType::String, "plot"},
 				{mvPythonDataType::Integer, "map"}
-			}, false, "Sets the color map of the plot's series.")},
+			}, "Sets the color map of the plot's series.")},
 
 			{"set_plot_xlimits", mvPythonTranslator({
 				{mvPythonDataType::String, "plot"},
 				{mvPythonDataType::Float, "xmin"},
 				{mvPythonDataType::Float, "xmax"},
-			}, false, "Sets x axis limits of a plot. (can be undone with set_plot_xlimits_auto()")},
+			}, "Sets x axis limits of a plot. (can be undone with set_plot_xlimits_auto()")},
 
 			{"set_plot_ylimits", mvPythonTranslator({
 				{mvPythonDataType::String, "plot"},
 				{mvPythonDataType::Float, "ymin"},
 				{mvPythonDataType::Float, "ymax"},
-			}, false, "Sets y axis limits of a plot. (can be undone with set_plot_ylimits_auto()")},
+			}, "Sets y axis limits of a plot. (can be undone with set_plot_ylimits_auto()")},
 
 			{"set_plot_xlimits_auto", mvPythonTranslator({
 				{mvPythonDataType::String, "plot"},
-			}, false, "Sets plots x limits to be automatic.")},
+			}, "Sets plots x limits to be automatic.")},
 
 			{"set_plot_ylimits_auto", mvPythonTranslator({
 				{mvPythonDataType::String, "plot"},
-			}, false, "Sets plots y limits to be automatic.")},
+			}, "Sets plots y limits to be automatic.")},
 
 			{"add_line_series", mvPythonTranslator({
 				{mvPythonDataType::String, "plot"},
@@ -66,7 +66,7 @@ namespace Marvel {
 				{mvPythonDataType::KeywordOnly},
 				{mvPythonDataType::FloatList, "color"},
 				{mvPythonDataType::Float, "weight"}
-			}, false, "Adds a line series to a plot.")},
+			}, "Adds a line series to a plot.")},
 
 			{"add_scatter_series", mvPythonTranslator({
 				{mvPythonDataType::String, "plot"},
@@ -79,7 +79,7 @@ namespace Marvel {
 				{mvPythonDataType::Float, "weight"},
 				{mvPythonDataType::FloatList, "outline"},
 				{mvPythonDataType::FloatList, "fill"},
-			}, false, "Adds a scatter series to a plot.")},
+			}, "Adds a scatter series to a plot.")},
 
 			{"add_text_point", mvPythonTranslator({
 				{mvPythonDataType::String, "plot"},
@@ -91,7 +91,7 @@ namespace Marvel {
 				{mvPythonDataType::Bool, "vertical"},
 				{mvPythonDataType::Integer, "xoffset"},
 				{mvPythonDataType::Integer, "yoffset"}
-			}, false, "Adds a point with text to a plot.")}
+			}, "Adds a point with text to a plot.")}
 
 		};
 

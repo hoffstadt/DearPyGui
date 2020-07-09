@@ -22,37 +22,37 @@ namespace Marvel {
 				{mvPythonDataType::String, "before", "Item to add this item before. (runtime adding)"},
 				{mvPythonDataType::Integer, "width",""},
 				{mvPythonDataType::Integer, "height",""},
-			}, false, "Adds a drawing widget.")},
+			}, "Adds a drawing widget.")},
 
 			{"set_drawing_size", mvPythonTranslator({
 				{mvPythonDataType::String, "name"},
 				{mvPythonDataType::Integer, "width"},
 				{mvPythonDataType::Integer, "height"}
-			}, false, "Sets the size of a drawing widget.")},
+			}, "Sets the size of a drawing widget.")},
 
 			{"set_drawing_origin", mvPythonTranslator({
 				{mvPythonDataType::String, "name"},
 				{mvPythonDataType::Float, "x"},
 				{mvPythonDataType::Float, "y"}
-			}, false, "Sets the drawing origin (default is 0,0).")},
+			}, "Sets the drawing origin (default is 0,0).")},
 
 			{"set_drawing_scale", mvPythonTranslator({
 				{mvPythonDataType::String, "name"},
 				{mvPythonDataType::Float, "x"},
 				{mvPythonDataType::Float, "y"}
-			}, false, "Sets the drawing scale (default is (1,1)).")},
+			}, "Sets the drawing scale (default is (1,1)).")},
 
 			{"get_drawing_origin", mvPythonTranslator({
 				{mvPythonDataType::String, "name"},
-			}, false, "Returns the drawing origin.", "(float, float)")},
+			}, "Returns the drawing origin.", "(float, float)")},
 
 			{"get_drawing_scale", mvPythonTranslator({
 				{mvPythonDataType::String, "name"},
-			}, false, "Returns the drawing scale.", "(float, float)")},
+			}, "Returns the drawing scale.", "(float, float)")},
 
 			{"get_drawing_size", mvPythonTranslator({
 				{mvPythonDataType::String, "name"},
-			}, false, "Returns the size of a drawing widget.", "(float, float)")},
+			}, "Returns the size of a drawing widget.", "(float, float)")},
 
 			{"draw_image", mvPythonTranslator({
 				{mvPythonDataType::String, "drawing"},
@@ -65,7 +65,7 @@ namespace Marvel {
 				{mvPythonDataType::FloatList, "uv_max"},
 				{mvPythonDataType::IntList, "color"},
 				{mvPythonDataType::String, "tag"},
-			}, false, "Draws an image on a drawing.")},
+			}, "Draws an image on a drawing.")},
 
 			{"draw_line", mvPythonTranslator({
 				{mvPythonDataType::String, "drawing"},
@@ -76,7 +76,7 @@ namespace Marvel {
 				{mvPythonDataType::Optional},
 				{mvPythonDataType::KeywordOnly},
 				{mvPythonDataType::String, "tag"},
-			}, false, "Draws a line on a drawing.")},
+			}, "Draws a line on a drawing.")},
 
 			{"draw_arrow", mvPythonTranslator({
 				{mvPythonDataType::String, "drawing"},
@@ -88,7 +88,7 @@ namespace Marvel {
 				{mvPythonDataType::Optional},
 				{mvPythonDataType::KeywordOnly},
 				{mvPythonDataType::String, "tag"},
-			}, false, "Draws an arrow on a drawing.")},
+			}, "Draws an arrow on a drawing.")},
 
 			{"draw_triangle", mvPythonTranslator({
 				{mvPythonDataType::String, "drawing"},
@@ -100,7 +100,7 @@ namespace Marvel {
 				{mvPythonDataType::FloatList, "fill"},
 				{mvPythonDataType::Float, "thickness"},
 				{mvPythonDataType::String, "tag"},
-			}, false, "Draws a triangle on a drawing.")},
+			}, "Draws a triangle on a drawing.")},
 
 			{"draw_rectangle", mvPythonTranslator({
 				{mvPythonDataType::String, "drawing"},
@@ -112,7 +112,7 @@ namespace Marvel {
 				{mvPythonDataType::Float, "rounding"},
 				{mvPythonDataType::Float, "thickness"},
 				{mvPythonDataType::String, "tag"},
-			}, false, "Draws a rectangle on a drawing.")},
+			}, "Draws a rectangle on a drawing.")},
 
 			{"draw_quad", mvPythonTranslator({
 				{mvPythonDataType::String, "drawing"},
@@ -125,7 +125,7 @@ namespace Marvel {
 				{mvPythonDataType::FloatList, "fill"},
 				{mvPythonDataType::Float, "thickness"},
 				{mvPythonDataType::String, "tag"},
-			}, false, "Draws a quad on a drawing.")},
+			}, "Draws a quad on a drawing.")},
 
 			{"draw_text", mvPythonTranslator({
 				{mvPythonDataType::String, "drawing"},
@@ -135,7 +135,7 @@ namespace Marvel {
 				{mvPythonDataType::IntList, "color"},
 				{mvPythonDataType::Integer, "size"},
 				{mvPythonDataType::String, "tag"},
-			}, false, "Draws text on a drawing.")},
+			}, "Draws text on a drawing.")},
 
 			{"draw_circle", mvPythonTranslator({
 				{mvPythonDataType::String, "drawing"},
@@ -147,7 +147,7 @@ namespace Marvel {
 				{mvPythonDataType::Float, "thickness"},
 				{mvPythonDataType::FloatList, "fill"},
 				{mvPythonDataType::String, "tag"},
-			}, false, "Draws a circle on a drawing.")},
+			}, "Draws a circle on a drawing.")},
 
 			{"draw_polyline", mvPythonTranslator({
 				{mvPythonDataType::String, "drawing"},
@@ -157,7 +157,7 @@ namespace Marvel {
 				{mvPythonDataType::Integer, "closed"},
 				{mvPythonDataType::Float, "thickness"},
 				{mvPythonDataType::String, "tag"},
-			}, false, "Draws lines on a drawing.")},
+			}, "Draws lines on a drawing.")},
 
 			{"draw_polygon", mvPythonTranslator({
 				{mvPythonDataType::String, "drawing"},
@@ -167,7 +167,7 @@ namespace Marvel {
 				{mvPythonDataType::FloatList, "fill"},
 				{mvPythonDataType::Float, "thickness"},
 				{mvPythonDataType::String, "tag"},
-			}, false, "Draws a polygon on a drawing.")},
+			}, "Draws a polygon on a drawing.")},
 
 			{"draw_bezier_curve", mvPythonTranslator({
 				{mvPythonDataType::String, "drawing"},
@@ -180,11 +180,11 @@ namespace Marvel {
 				{mvPythonDataType::Float, "thickness"},
 				{mvPythonDataType::Integer, "segments"},
 				{mvPythonDataType::String, "tag"},
-			}, false, "Draws a bezier curve on a drawing.")},
+			}, "Draws a bezier curve on a drawing.")},
 
 			{"clear_drawing", mvPythonTranslator({
 				{mvPythonDataType::String, "draw"}
-			}, false, "Clears a drawing.")},
+			}, "Clears a drawing.")},
 
 		};
 
