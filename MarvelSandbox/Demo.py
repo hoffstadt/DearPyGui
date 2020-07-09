@@ -17,6 +17,13 @@ add_menu("Themes")
 add_menu_item("Dark", callback = "ThemeCallback")
 add_menu_item("Light", callback = "ThemeCallback")
 add_menu_item("Classic", callback = "ThemeCallback")
+add_menu_item("Dark 2", callback = "ThemeCallback")
+add_menu_item("Grey", callback = "ThemeCallback")
+add_menu_item("Dark Grey", callback = "ThemeCallback")
+add_menu_item("Cherry", callback = "ThemeCallback")
+add_menu_item("Purple", callback = "ThemeCallback")
+add_menu_item("Gold", callback = "ThemeCallback")
+add_menu_item("Red", callback = "ThemeCallback")
 end_menu()
 
 add_menu("Tools")
@@ -400,13 +407,7 @@ def Launcher(sender):
         show_item("Tooltips/Popups")
 
 def ThemeCallback(sender):
-
-    if sender == "Dark":
-        set_theme("dark")
-    elif sender == "Light":
-        set_theme("light")
-    else:
-        set_theme("classic")
+    set_theme(sender)
 
 def LogCallback(sender):
     show_logger()
