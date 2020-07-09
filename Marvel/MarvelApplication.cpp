@@ -67,6 +67,8 @@ namespace Marvel {
 
 	void Application::handlePaths()
 	{
+		addedPath = PathName + "\\";
+
 		PathName = PathName + ";python38.zip;" + LibraryPath + ";";
 
 		program = Py_DecodeLocale(argv[0], NULL);
@@ -82,6 +84,7 @@ namespace Marvel {
 			addedPath = std::string(MV_MAIN_DIR);
 			PathName = "python38.zip;../../MarvelSandbox;.";
 		}
+	
 	}
 
 	int Application::initializePython()
