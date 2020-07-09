@@ -34,11 +34,17 @@ namespace Marvel {
 			else if (element.type == mvPythonDataType::Optional)
 				m_optional = true;
 
+			if (element.type == mvPythonDataType::KeywordOnly && !m_optional)
+			{
+				m_formatstring.push_back('|');
+			}
+
 			// ignore additional keywords
 			if (m_keyword && element.type == mvPythonDataType::KeywordOnly)
 				continue;
 			else if (element.type == mvPythonDataType::KeywordOnly)
 				m_keyword = true;
+
 
 			m_formatstring.push_back(element.getSymbol());
 		}
@@ -63,6 +69,7 @@ namespace Marvel {
 			PyErr_SetString(PyExc_Exception, message);
 			PyErr_Print();
 			check = false;
+			mvApp::GetApp()->showStandardWindow("logger");
 		}
 
 		va_end(arguments);
@@ -186,12 +193,12 @@ namespace Marvel {
 		if (PyTuple_Check(obj))
 		{
 			for (int i = 0; i < PyTuple_Size(obj); i++)
-				color[i] = PyLong_AsLong(PyTuple_GetItem(obj, i));
+				color[i] = (int)PyFloat_AsDouble(PyTuple_GetItem(obj, i));
 		}
 		else if (PyList_Check(obj))
 		{
 			for (int i = 0; i < PyList_Size(obj); i++)
-				color[i] = PyLong_AsLong(PyList_GetItem(obj, i));
+				color[i] = (int)PyFloat_AsDouble(PyList_GetItem(obj, i));
 		}
 
 		return mvColor{ color[0], color[1], color[2], color[3], true };

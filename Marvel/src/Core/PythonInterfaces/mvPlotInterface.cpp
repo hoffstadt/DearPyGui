@@ -22,8 +22,12 @@ namespace Marvel {
 				{mvPythonDataType::KeywordOnly},
 				{mvPythonDataType::Integer, "flags"},
 				{mvPythonDataType::Integer, "xflags"},
-				{mvPythonDataType::Integer, "yflags"}
-			}, true, "Adds a plot widget.")},
+				{mvPythonDataType::Integer, "yflags"},
+				{mvPythonDataType::String, "parent", "Parent to add this item to. (runtime adding)"},
+				{mvPythonDataType::String, "before", "Item to add this item before. (runtime adding)"},
+				{mvPythonDataType::Integer, "width",""},
+				{mvPythonDataType::Integer, "height", ""},
+			}, false, "Adds a plot widget.")},
 
 			{"clear_plot", mvPythonTranslator({
 				{mvPythonDataType::String, "plot"},
@@ -227,23 +231,46 @@ namespace Marvel {
 
 	PyObject* add_plot(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
-		MV_STANDARD_CALLBACK_INIT();
 		const char* name;
 		const char* xAxisName = "";
 		const char* yAxisName = "";
 		int flags = 0;
 		int xflags = 0;
 		int yflags = 0;
-		width = -1;
-		height = -1;
+		const char* parent = "";
+		const char* before = "";
+		int width = -1;
+		int height = -1;
 
 		if (!Translators["add_plot"].parse(args, kwargs, __FUNCTION__, &name, &xAxisName, &yAxisName, &flags,
-			&xflags, &yflags, MV_STANDARD_CALLBACK_PARSE))
+			&xflags, &yflags, &parent, &before, &width, &height))
 			Py_RETURN_NONE;
 
 		mvAppItem* item = new mvPlot("", name,xAxisName, yAxisName, width, height, flags, xflags, yflags);
+		item->setWidth(width);
+		item->setHeight(height);
 
-		MV_STANDARD_CALLBACK_EVAL();
+		auto ma = mvApp::GetApp();
+
+		// typical run time adding
+		if ((!std::string(parent).empty() || !std::string(before).empty()) && ma->isStarted())
+			ma->addRuntimeItem(parent, before, item);
+
+		// adding without specifying before or parent, instead using parent stack
+		else if (std::string(parent).empty() && std::string(before).empty() && ma->isStarted() && ma->topParent() != nullptr)
+			ma->addRuntimeItem(ma->topParent()->getName(), before, item);
+
+		// adding without specifying before or parent, but with empty stack (add to main window)
+		else if (std::string(parent).empty() && std::string(before).empty() && ma->isStarted())
+			ma->addRuntimeItem("MainWindow", "", item);
+
+		// adding normally but using the runtime style of adding
+		else if (!std::string(parent).empty() && !ma->isStarted())
+			ma->addRuntimeItem(parent, before, item);
+
+		// typical adding before runtime
+		else if (std::string(parent).empty() && !ma->isStarted() && std::string(before).empty())
+			ma->addItem(item);
 
 		Py_RETURN_NONE;
 	}
