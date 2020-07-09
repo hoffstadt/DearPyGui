@@ -15,8 +15,14 @@ namespace Marvel {
 		std::map<std::string, mvPythonTranslator>* translators = new std::map< std::string, mvPythonTranslator>{
 
 			{"add_drawing", mvPythonTranslator({
-				{mvPythonDataType::String, "name"}
-			}, true, "Adds a drawing widget.")},
+				{mvPythonDataType::String, "name"},
+				{mvPythonDataType::KeywordOnly},
+				{mvPythonDataType::String, "tip", "Adds a simple tooltip"},
+				{mvPythonDataType::String, "parent", "Parent to add this item to. (runtime adding)"},
+				{mvPythonDataType::String, "before", "Item to add this item before. (runtime adding)"},
+				{mvPythonDataType::Integer, "width",""},
+				{mvPythonDataType::Integer, "height",""},
+			}, false, "Adds a drawing widget.")},
 
 			{"set_drawing_size", mvPythonTranslator({
 				{mvPythonDataType::String, "name"},
@@ -187,16 +193,42 @@ namespace Marvel {
 
 	PyObject* add_drawing(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
-
-		MV_STANDARD_CALLBACK_INIT();
 		const char* name;
+		const char* tip = "";
+		const char* parent = "";
+		const char* before = "";
+		int width = 0;
+		int height = 0;
 
-		if (!Translators["add_drawing"].parse(args, kwargs,__FUNCTION__, &name, MV_STANDARD_CALLBACK_PARSE))
+		if (!Translators["add_drawing"].parse(args, kwargs,__FUNCTION__, &name, &tip, &parent, &before, &width, &height))
 			Py_RETURN_NONE;
 
 		mvAppItem* item = new mvDrawing("", name, width, height);
+		item->setTip(tip);
+		item->setWidth(width);
+		item->setHeight(height);
+		
+		auto ma = mvApp::GetApp();
 
-		MV_STANDARD_CALLBACK_EVAL();
+		// typical run time adding
+		if ((!std::string(parent).empty() || !std::string(before).empty()) && ma->isStarted())
+			ma->addRuntimeItem(parent, before, item);
+
+		// adding without specifying before or parent, instead using parent stack
+		else if (std::string(parent).empty() && std::string(before).empty() && ma->isStarted() && ma->topParent() != nullptr)
+			ma->addRuntimeItem(ma->topParent()->getName(), before, item);
+
+		// adding without specifying before or parent, but with empty stack (add to main window)
+		else if (std::string(parent).empty() && std::string(before).empty() && ma->isStarted())
+			ma->addRuntimeItem("MainWindow", "", item);
+
+		// adding normally but using the runtime style of adding
+		else if (!std::string(parent).empty() && !ma->isStarted())
+			ma->addRuntimeItem(parent, before, item);
+
+		// typical adding before runtime
+		else if (std::string(parent).empty() && !ma->isStarted() && std::string(before).empty())
+			ma->addItem(item);
 
 		Py_RETURN_NONE;
 	}

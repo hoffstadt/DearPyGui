@@ -137,7 +137,7 @@ namespace Marvel {
 				// run call back if it exists
 				if (changed)
 				{
-					mvApp::GetApp()->runCallback(m_callback, m_name);
+					mvApp::GetApp()->runCallback(parent->getCallback(), m_name);
 
 					// Context Menu
 					if (getPopup() != "")

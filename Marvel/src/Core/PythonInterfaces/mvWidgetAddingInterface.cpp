@@ -10,6 +10,31 @@ namespace Marvel {
 
 	static std::map<std::string, mvPythonTranslator> Translators = mvInterfaceRegistry::GetRegistry()->getPythonInterface("sbWidgets");
 
+	static void AddItemWithRuntimeChecks(mvAppItem* item, const char* parent, const char* before)
+	{
+		auto ma = mvApp::GetApp();
+
+		// typical run time adding
+		if ((!std::string(parent).empty() || !std::string(before).empty()) && ma->isStarted())
+			ma->addRuntimeItem(parent, before, item);
+
+		// adding without specifying before or parent, instead using parent stack
+		else if (std::string(parent).empty() && std::string(before).empty() && ma->isStarted() && ma->topParent() != nullptr)
+			ma->addRuntimeItem(ma->topParent()->getName(), before, item);
+
+		// adding without specifying before or parent, but with empty stack (add to main window)
+		else if (std::string(parent).empty() && std::string(before).empty() && ma->isStarted())
+			ma->addRuntimeItem("MainWindow", "", item);
+
+		// adding normally but using the runtime style of adding
+		else if (!std::string(parent).empty() && !ma->isStarted())
+			ma->addRuntimeItem(parent, before, item);
+
+		// typical adding before runtime
+		else if (std::string(parent).empty() && !ma->isStarted() && std::string(before).empty())
+			ma->addItem(item);
+	}
+
 	std::map<std::string, mvPythonTranslator>& BuildWidgetsInterface() {
 		
 		std::map<std::string, mvPythonTranslator>* translators = new std::map< std::string, mvPythonTranslator>;
@@ -48,267 +73,396 @@ namespace Marvel {
 		}, false, "Ends the collapsing header created by a call to add_collapsing_header.") });
 
 		translators->insert({ "add_seperator", mvPythonTranslator({
-			{mvPythonDataType::Optional},
 			{mvPythonDataType::KeywordOnly},
 			{mvPythonDataType::String, "name"},
-		}, true, "Adds a horizontal line.") });
+			{mvPythonDataType::String, "tip", "Adds a simple tooltip"},
+			{mvPythonDataType::String, "parent", "Parent to add this item to. (runtime adding)"},
+			{mvPythonDataType::String, "before","Item to add this item before. (runtime adding)"},
+		}, false, "Adds a horizontal line.") });
 
 		translators->insert({ "add_simple_plot", mvPythonTranslator({
 			{mvPythonDataType::String, "name"},
 			{mvPythonDataType::FloatList, "value", "Tuple of float values"},
-			{mvPythonDataType::Optional},
+			{mvPythonDataType::KeywordOnly},
 			{mvPythonDataType::Bool, "autoscale", "autoscales range based on data (default is True)"},
 			{mvPythonDataType::String, "overlay", "overlays text (similar to a plot title)"},
 			{mvPythonDataType::Float, "minscale", "used if autoscale is false"},
 			{mvPythonDataType::Float, "maxscale", "used if autoscale is false"},
-			{mvPythonDataType::Bool, "histogram", "create a histogram"}
-		}, true, "A simple plot for visualization of a set of values") });
+			{mvPythonDataType::Bool, "histogram", "create a histogram"},
+			{mvPythonDataType::String, "tip", "Adds a simple tooltip"},
+			{mvPythonDataType::String, "parent", "Parent to add this item to. (runtime adding)"},
+			{mvPythonDataType::String, "before","Item to add this item before. (runtime adding)"},
+			{mvPythonDataType::Integer, "width",""},
+			{mvPythonDataType::Integer, "height",""},
+		}, false, "A simple plot for visualization of a set of values") });
 
 		translators->insert({ "add_progress_bar", mvPythonTranslator({
 			{mvPythonDataType::String, "name"},
 			{mvPythonDataType::Optional},
 			{mvPythonDataType::Float, "value"},
 			{mvPythonDataType::KeywordOnly},
-			{mvPythonDataType::String, "overlay"}
-		}, true, "Adds a progress bar.") });
+			{mvPythonDataType::String, "overlay"},
+			{mvPythonDataType::String, "tip", "Adds a simple tooltip"},
+			{mvPythonDataType::String, "parent", "Parent to add this item to. (runtime adding)"},
+			{mvPythonDataType::String, "before", "Item to add this item before. (runtime adding)"},
+			{mvPythonDataType::String, "data_source", "data source for shared data"},
+			{mvPythonDataType::Integer, "width",""},
+			{mvPythonDataType::Integer, "height",""},
+		}, false, "Adds a progress bar.") });
 
 		translators->insert({ "add_image", mvPythonTranslator({
 			{mvPythonDataType::String, "name"},
 			{mvPythonDataType::String, "value"},
-			{mvPythonDataType::Optional},
 			{mvPythonDataType::KeywordOnly},
 			{mvPythonDataType::FloatList, "tint_color"},
-			{mvPythonDataType::FloatList, "border_color"}
-		}, true, "Adds an image.") });
+			{mvPythonDataType::FloatList, "border_color"},
+			{mvPythonDataType::String, "tip", "Adds a simple tooltip"},
+			{mvPythonDataType::String, "parent", "Parent to add this item to. (runtime adding)"},
+			{mvPythonDataType::String, "before", "Item to add this item before. (runtime adding)"},
+			{mvPythonDataType::String, "data_source", "data source for shared data"},
+			{mvPythonDataType::Integer, "width",""},
+			{mvPythonDataType::Integer, "height",""},
+		}, false, "Adds an image.") });
 
 		translators->insert({ "add_slider_float", mvPythonTranslator({
 			{mvPythonDataType::String, "name"},
-			{mvPythonDataType::Optional},
 			{mvPythonDataType::KeywordOnly},
 			{mvPythonDataType::Float, "default_value"},
 			{mvPythonDataType::Float, "min_value"},
 			{mvPythonDataType::Float, "max_value"},
 			{mvPythonDataType::String, "format"},
 			{mvPythonDataType::Float, "power"},
-			{mvPythonDataType::Bool, "vertical"}
-		}, true, "Adds slider for a single float value") });
+			{mvPythonDataType::Bool, "vertical"},
+			{mvPythonDataType::String, "callback", "Registers a callback"},
+			{mvPythonDataType::String, "tip", "Adds a simple tooltip"},
+			{mvPythonDataType::String, "parent", "Parent to add this item to. (runtime adding)"},
+			{mvPythonDataType::String, "before", "Item to add this item before. (runtime adding)"},
+			{mvPythonDataType::String, "data_source", "data source for shared data"},
+			{mvPythonDataType::Integer, "width",""},
+			{mvPythonDataType::Integer, "height","Height of a vertical slider"},
+		}, false, "Adds slider for a single float value") });
 
 		translators->insert({ "add_slider_float2", mvPythonTranslator({
 			{mvPythonDataType::String, "name"},
-			{mvPythonDataType::Optional},
 			{mvPythonDataType::KeywordOnly},
 			{mvPythonDataType::FloatList, "default_value"},
 			{mvPythonDataType::Float, "min_value"},
 			{mvPythonDataType::Float, "max_value"},
 			{mvPythonDataType::String, "format"},
-			{mvPythonDataType::Float, "power"}
-		}, true, "Adds slider for a 2 float values.") });
+			{mvPythonDataType::Float, "power"},
+			{mvPythonDataType::String, "callback", "Registers a callback"},
+			{mvPythonDataType::String, "tip", "Adds a simple tooltip"},
+			{mvPythonDataType::String, "parent", "Parent to add this item to. (runtime adding)"},
+			{mvPythonDataType::String, "before", "Item to add this item before. (runtime adding)"},
+			{mvPythonDataType::String, "data_source", "data source for shared data"},
+			{mvPythonDataType::Integer, "width",""}
+		}, false, "Adds slider for a 2 float values.") });
 
 		translators->insert({ "add_slider_float3", mvPythonTranslator({
 			{mvPythonDataType::String, "name"},
-			{mvPythonDataType::Optional},
 			{mvPythonDataType::KeywordOnly},
 			{mvPythonDataType::FloatList, "default_value"},
 			{mvPythonDataType::Float, "min_value"},
 			{mvPythonDataType::Float, "max_value"},
 			{mvPythonDataType::String, "format"},
-			{mvPythonDataType::Float, "power"}
-		}, true, "Adds slider for a 3 float values.") });
+			{mvPythonDataType::Float, "power"},
+			{mvPythonDataType::String, "callback", "Registers a callback"},
+			{mvPythonDataType::String, "tip", "Adds a simple tooltip"},
+			{mvPythonDataType::String, "parent", "Parent to add this item to. (runtime adding)"},
+			{mvPythonDataType::String, "before", "Item to add this item before. (runtime adding)"},
+			{mvPythonDataType::String, "data_source", "data source for shared data"},
+			{mvPythonDataType::Integer, "width",""}
+		}, false, "Adds slider for a 3 float values.") });
 
 		translators->insert({ "add_slider_float4", mvPythonTranslator({
 			{mvPythonDataType::String, "name"},
-			{mvPythonDataType::Optional},
 			{mvPythonDataType::KeywordOnly},
 			{mvPythonDataType::FloatList, "default_value"},
 			{mvPythonDataType::Float, "min_value"},
 			{mvPythonDataType::Float, "max_value"},
 			{mvPythonDataType::String, "format"},
-			{mvPythonDataType::Float, "power"}
-		}, true, "Adds slider for a 4 float values.") });
+			{mvPythonDataType::Float, "power"},
+			{mvPythonDataType::String, "callback", "Registers a callback"},
+			{mvPythonDataType::String, "tip", "Adds a simple tooltip"},
+			{mvPythonDataType::String, "parent", "Parent to add this item to. (runtime adding)"},
+			{mvPythonDataType::String, "before", "Item to add this item before. (runtime adding)"},
+			{mvPythonDataType::String, "data_source", "data source for shared data"},
+			{mvPythonDataType::Integer, "width",""}
+		}, false, "Adds slider for a 4 float values.") });
 
 		translators->insert({ "add_slider_int", mvPythonTranslator({
 			{mvPythonDataType::String, "name"},
-			{mvPythonDataType::Optional},
 			{mvPythonDataType::KeywordOnly},
 			{mvPythonDataType::Integer, "default_value"},
 			{mvPythonDataType::Integer, "min_value"},
 			{mvPythonDataType::Integer, "max_value"},
 			{mvPythonDataType::String, "format"},
-			{mvPythonDataType::Bool, "vertical"}
-		}, true, "Adds slider for a single int value") });
+			{mvPythonDataType::Bool, "vertical"},
+			{mvPythonDataType::String, "callback", "Registers a callback"},
+			{mvPythonDataType::String, "tip", "Adds a simple tooltip"},
+			{mvPythonDataType::String, "parent", "Parent to add this item to. (runtime adding)"},
+			{mvPythonDataType::String, "before", "Item to add this item before. (runtime adding)"},
+			{mvPythonDataType::String, "data_source", "data source for shared data"},
+			{mvPythonDataType::Integer, "width",""},
+			{mvPythonDataType::Integer, "height","Height of a vertical slider"},
+		}, false, "Adds slider for a single int value") });
 
 		translators->insert({ "add_slider_int2", mvPythonTranslator({
 			{mvPythonDataType::String, "name"},
-			{mvPythonDataType::Optional},
 			{mvPythonDataType::KeywordOnly},
 			{mvPythonDataType::IntList, "default_value"},
 			{mvPythonDataType::Integer, "min_value"},
 			{mvPythonDataType::Integer, "max_value"},
-			{mvPythonDataType::String, "format"}
-		}, true, "Adds slider for a 2 int values.") });
+			{mvPythonDataType::String, "format"},
+			{mvPythonDataType::String, "callback", "Registers a callback"},
+			{mvPythonDataType::String, "tip", "Adds a simple tooltip"},
+			{mvPythonDataType::String, "parent", "Parent to add this item to. (runtime adding)"},
+			{mvPythonDataType::String, "before", "Item to add this item before. (runtime adding)"},
+			{mvPythonDataType::String, "data_source", "data source for shared data"},
+			{mvPythonDataType::Integer, "width",""}
+		}, false, "Adds slider for a 2 int values.") });
 
 		translators->insert({ "add_slider_int3", mvPythonTranslator({
 			{mvPythonDataType::String, "name"},
-			{mvPythonDataType::Optional},
 			{mvPythonDataType::KeywordOnly},
 			{mvPythonDataType::IntList, "default_value"},
 			{mvPythonDataType::Integer, "min_value"},
 			{mvPythonDataType::Integer, "max_value"},
-			{mvPythonDataType::String, "format"}
-		}, true, "Adds slider for a 3 int values.") });
+			{mvPythonDataType::String, "format"},
+			{mvPythonDataType::String, "callback", "Registers a callback"},
+			{mvPythonDataType::String, "tip", "Adds a simple tooltip"},
+			{mvPythonDataType::String, "parent", "Parent to add this item to. (runtime adding)"},
+			{mvPythonDataType::String, "before", "Item to add this item before. (runtime adding)"},
+			{mvPythonDataType::String, "data_source", "data source for shared data"},
+			{mvPythonDataType::Integer, "width",""}
+		}, false, "Adds slider for a 3 int values.") });
 
 		translators->insert({ "add_slider_int4", mvPythonTranslator({
 			{mvPythonDataType::String, "name"},
-			{mvPythonDataType::Optional},
 			{mvPythonDataType::KeywordOnly},
 			{mvPythonDataType::IntList, "default_value"},
 			{mvPythonDataType::Integer, "min_value"},
 			{mvPythonDataType::Integer, "max_value"},
-			{mvPythonDataType::String, "format"}
-		}, true, "Adds slider for a 4 int values.") });
+			{mvPythonDataType::String, "format"},
+			{mvPythonDataType::String, "callback", "Registers a callback"},
+			{mvPythonDataType::String, "tip", "Adds a simple tooltip"},
+			{mvPythonDataType::String, "parent", "Parent to add this item to. (runtime adding)"},
+			{mvPythonDataType::String, "before", "Item to add this item before. (runtime adding)"},
+			{mvPythonDataType::String, "data_source", "data source for shared data"},
+			{mvPythonDataType::Integer, "width",""}
+		}, false, "Adds slider for a 4 int values.") });
 
 		translators->insert({ "add_drag_float", mvPythonTranslator({
 			{mvPythonDataType::String, "name"},
-			{mvPythonDataType::Optional},
 			{mvPythonDataType::KeywordOnly},
 			{mvPythonDataType::Float, "default_value"},
 			{mvPythonDataType::Float, "speed"},
 			{mvPythonDataType::Float, "min_value"},
 			{mvPythonDataType::Float, "max_value"},
 			{mvPythonDataType::String, "format"},
-			{mvPythonDataType::Float, "power"}
-		}, true, "Adds drag for a single float value") });
+			{mvPythonDataType::Float, "power"},
+			{mvPythonDataType::String, "callback", "Registers a callback"},
+			{mvPythonDataType::String, "tip", "Adds a simple tooltip"},
+			{mvPythonDataType::String, "parent", "Parent to add this item to. (runtime adding)"},
+			{mvPythonDataType::String, "before", "Item to add this item before. (runtime adding)"},
+			{mvPythonDataType::String, "data_source", "data source for shared data"},
+			{mvPythonDataType::Integer, "width",""}
+		}, false, "Adds drag for a single float value") });
 
 		translators->insert({ "add_drag_float2", mvPythonTranslator({
 			{mvPythonDataType::String, "name"},
-			{mvPythonDataType::Optional},
 			{mvPythonDataType::KeywordOnly},
 			{mvPythonDataType::FloatList, "default_value"},
 			{mvPythonDataType::Float, "speed"},
 			{mvPythonDataType::Float, "min_value"},
 			{mvPythonDataType::Float, "max_value"},
 			{mvPythonDataType::String, "format"},
-			{mvPythonDataType::Float, "power"}
-		}, true, "Adds drag for a 2 float values.") });
+			{mvPythonDataType::Float, "power"},
+			{mvPythonDataType::String, "callback", "Registers a callback"},
+			{mvPythonDataType::String, "tip", "Adds a simple tooltip"},
+			{mvPythonDataType::String, "parent", "Parent to add this item to. (runtime adding)"},
+			{mvPythonDataType::String, "before", "Item to add this item before. (runtime adding)"},
+			{mvPythonDataType::String, "data_source", "data source for shared data"},
+			{mvPythonDataType::Integer, "width",""}
+		}, false, "Adds drag for a 2 float values.") });
 
 		translators->insert({ "add_drag_float3", mvPythonTranslator({
 			{mvPythonDataType::String, "name"},
-			{mvPythonDataType::Optional},
 			{mvPythonDataType::KeywordOnly},
 			{mvPythonDataType::FloatList, "default_value"},
 			{mvPythonDataType::Float, "speed"},
 			{mvPythonDataType::Float, "min_value"},
 			{mvPythonDataType::Float, "max_value"},
 			{mvPythonDataType::String, "format"},
-			{mvPythonDataType::Float, "power"}
-		}, true, "Adds drag for a 3 float values.") });
+			{mvPythonDataType::Float, "power"},
+			{mvPythonDataType::String, "callback", "Registers a callback"},
+			{mvPythonDataType::String, "tip", "Adds a simple tooltip"},
+			{mvPythonDataType::String, "parent", "Parent to add this item to. (runtime adding)"},
+			{mvPythonDataType::String, "before", "Item to add this item before. (runtime adding)"},
+			{mvPythonDataType::String, "data_source", "data source for shared data"},
+			{mvPythonDataType::Integer, "width",""}
+		}, false, "Adds drag for a 3 float values.") });
 
 		translators->insert({ "add_drag_float4", mvPythonTranslator({
 			{mvPythonDataType::String, "name"},
-			{mvPythonDataType::Optional},
 			{mvPythonDataType::KeywordOnly},
 			{mvPythonDataType::FloatList, "default_value"},
 			{mvPythonDataType::Float, "speed"},
 			{mvPythonDataType::Float, "min_value"},
 			{mvPythonDataType::Float, "max_value"},
 			{mvPythonDataType::String, "format"},
-			{mvPythonDataType::Float, "power"}
-		}, true, "Adds drag for a 4 float values.") });
+			{mvPythonDataType::Float, "power"},
+			{mvPythonDataType::String, "callback", "Registers a callback"},
+			{mvPythonDataType::String, "tip", "Adds a simple tooltip"},
+			{mvPythonDataType::String, "parent", "Parent to add this item to. (runtime adding)"},
+			{mvPythonDataType::String, "before", "Item to add this item before. (runtime adding)"},
+			{mvPythonDataType::String, "data_source", "data source for shared data"},
+			{mvPythonDataType::Integer, "width",""}
+		}, false, "Adds drag for a 4 float values.") });
 
 		translators->insert({ "add_drag_int", mvPythonTranslator({
 			{mvPythonDataType::String, "name"},
-			{mvPythonDataType::Optional},
 			{mvPythonDataType::KeywordOnly},
 			{mvPythonDataType::Integer, "default_value"},
 			{mvPythonDataType::Float, "speed"},
 			{mvPythonDataType::Integer, "min_value"},
 			{mvPythonDataType::Integer, "max_value"},
-			{mvPythonDataType::String, "format"}
-		}, true, "Adds drag for a single int value") });
+			{mvPythonDataType::String, "format"},
+			{mvPythonDataType::String, "callback", "Registers a callback"},
+			{mvPythonDataType::String, "tip", "Adds a simple tooltip"},
+			{mvPythonDataType::String, "parent", "Parent to add this item to. (runtime adding)"},
+			{mvPythonDataType::String, "before", "Item to add this item before. (runtime adding)"},
+			{mvPythonDataType::String, "data_source", "data source for shared data"},
+			{mvPythonDataType::Integer, "width",""}
+		}, false, "Adds drag for a single int value") });
 
 		translators->insert({ "add_drag_int2", mvPythonTranslator({
 			{mvPythonDataType::String, "name"},
-			{mvPythonDataType::Optional},
 			{mvPythonDataType::KeywordOnly},
 			{mvPythonDataType::IntList, "default_value"},
 			{mvPythonDataType::Float, "speed"},
 			{mvPythonDataType::Integer, "min_value"},
 			{mvPythonDataType::Integer, "max_value"},
-			{mvPythonDataType::String, "format"}
-		}, true, "Adds drag for a 2 int values.") });
+			{mvPythonDataType::String, "format"},
+			{mvPythonDataType::String, "callback", "Registers a callback"},
+			{mvPythonDataType::String, "tip", "Adds a simple tooltip"},
+			{mvPythonDataType::String, "parent", "Parent to add this item to. (runtime adding)"},
+			{mvPythonDataType::String, "before", "Item to add this item before. (runtime adding)"},
+			{mvPythonDataType::String, "data_source", "data source for shared data"},
+			{mvPythonDataType::Integer, "width",""}
+		}, false, "Adds drag for a 2 int values.") });
 
 		translators->insert({ "add_drag_int3", mvPythonTranslator({
 			{mvPythonDataType::String, "name"},
-			{mvPythonDataType::Optional},
 			{mvPythonDataType::KeywordOnly},
 			{mvPythonDataType::IntList, "default_value"},
 			{mvPythonDataType::Float, "speed"},
 			{mvPythonDataType::Integer, "min_value"},
 			{mvPythonDataType::Integer, "max_value"},
-			{mvPythonDataType::String, "format"}
-		}, true, "Adds drag for a 3 int values.") });
+			{mvPythonDataType::String, "format"},
+			{mvPythonDataType::String, "callback", "Registers a callback"},
+			{mvPythonDataType::String, "tip", "Adds a simple tooltip"},
+			{mvPythonDataType::String, "parent", "Parent to add this item to. (runtime adding)"},
+			{mvPythonDataType::String, "before", "Item to add this item before. (runtime adding)"},
+			{mvPythonDataType::String, "data_source", "data source for shared data"},
+			{mvPythonDataType::Integer, "width",""}
+		}, false, "Adds drag for a 3 int values.") });
 
 		translators->insert({ "add_drag_int4", mvPythonTranslator({
 			{mvPythonDataType::String, "name"},
-			{mvPythonDataType::Optional},
 			{mvPythonDataType::KeywordOnly},
 			{mvPythonDataType::IntList, "default_value"},
 			{mvPythonDataType::Float, "speed"},
 			{mvPythonDataType::Integer, "min_value"},
 			{mvPythonDataType::Integer, "max_value"},
-			{mvPythonDataType::String, "format"}
-		}, true, "Adds drag for a 4 int values.") });
+			{mvPythonDataType::String, "format"},
+			{mvPythonDataType::String, "callback", "Registers a callback"},
+			{mvPythonDataType::String, "tip", "Adds a simple tooltip"},
+			{mvPythonDataType::String, "parent", "Parent to add this item to. (runtime adding)"},
+			{mvPythonDataType::String, "before", "Item to add this item before. (runtime adding)"},
+			{mvPythonDataType::String, "data_source", "data source for shared data"},
+			{mvPythonDataType::Integer, "width",""}
+		}, false, "Adds drag for a 4 int values.") });
 
 		translators->insert({ "add_text", mvPythonTranslator({
 			{mvPythonDataType::String, "name"},
-			{mvPythonDataType::Optional},
+			{mvPythonDataType::KeywordOnly},
 			{mvPythonDataType::Integer, "wrap", "number of characters until wraping"},
 			{mvPythonDataType::FloatList, "color", "color of the text (rgba)"},
-			{mvPythonDataType::Bool, "bullet", "makes the text bulleted"}
-		}, true, "Adds text") });
+			{mvPythonDataType::Bool, "bullet", "makes the text bulleted"},
+			{mvPythonDataType::String, "tip", "Adds a simple tooltip"},
+			{mvPythonDataType::String, "parent", "Parent to add this item to. (runtime adding)"},
+			{mvPythonDataType::String, "before", "Item to add this item before. (runtime adding)"},
+		}, false, "Adds text") });
 
 		translators->insert({ "add_label_text", mvPythonTranslator({
 			{mvPythonDataType::String, "name"},
 			{mvPythonDataType::String, "value"},
-			{mvPythonDataType::Optional},
+			{mvPythonDataType::KeywordOnly},
 			{mvPythonDataType::FloatList, "color"},
-		}, true, "Adds text with a label. Useful for output values.") });
+			{mvPythonDataType::String, "tip", "Adds a simple tooltip"},
+			{mvPythonDataType::String, "parent", "Parent to add this item to. (runtime adding)"},
+			{mvPythonDataType::String, "before", "Item to add this item before. (runtime adding)"},
+			{mvPythonDataType::String, "data_source", "data source for shared data"},
+		}, false, "Adds text with a label. Useful for output values.") });
 
 		translators->insert({ "add_listbox", mvPythonTranslator({
 			{mvPythonDataType::String, "name", "Name of the listbox"},
 			{mvPythonDataType::StringList, "items"},
-			{mvPythonDataType::Optional},
+			{mvPythonDataType::KeywordOnly},
 			{mvPythonDataType::Integer, "default_value"},
-		}, true, "Adds a listbox.") });
+			{mvPythonDataType::String, "callback", "Registers a callback"},
+			{mvPythonDataType::String, "tip", "Adds a simple tooltip"},
+			{mvPythonDataType::String, "parent", "Parent to add this item to. (runtime adding)"},
+			{mvPythonDataType::String, "before", "Item to add this item before. (runtime adding)"},
+			{mvPythonDataType::String, "data_source", "data source for shared data"},
+			{mvPythonDataType::Integer, "width",""},
+			{mvPythonDataType::Integer, "height", "number of items to show"},
+		}, false, "Adds a listbox.") });
 
 		translators->insert({ "add_combo", mvPythonTranslator({
 			{mvPythonDataType::String, "name"},
 			{mvPythonDataType::StringList, "items"},
-			{mvPythonDataType::Optional},
-			{mvPythonDataType::String, "default_value"}
-		}, true, "Adds a combo.") });
+			{mvPythonDataType::KeywordOnly},
+			{mvPythonDataType::String, "default_value"},
+			{mvPythonDataType::String, "callback", "Registers a callback"},
+			{mvPythonDataType::String, "tip", "Adds a simple tooltip"},
+			{mvPythonDataType::String, "parent", "Parent to add this item to. (runtime adding)"},
+			{mvPythonDataType::String, "before", "Item to add this item before. (runtime adding)"},
+			{mvPythonDataType::String, "data_source", "data source for shared data"},
+			{mvPythonDataType::Integer, "width",""},
+		}, false, "Adds a combo.") });
 
 		translators->insert({ "add_selectable", mvPythonTranslator({
 			{mvPythonDataType::String, "name"},
-			{mvPythonDataType::Optional},
-			{mvPythonDataType::Bool, "default_value"}
-		}, true, "Adds a selectable.") });
+			{mvPythonDataType::KeywordOnly},
+			{mvPythonDataType::Bool, "default_value"},
+			{mvPythonDataType::String, "callback", "Registers a callback"},
+			{mvPythonDataType::String, "tip", "Adds a simple tooltip"},
+			{mvPythonDataType::String, "parent", "Parent to add this item to. (runtime adding)"},
+			{mvPythonDataType::String, "before", "Item to add this item before. (runtime adding)"},
+			{mvPythonDataType::String, "data_source", "data source for shared data"},
+		}, false, "Adds a selectable.") });
 
 		translators->insert({ "add_button", mvPythonTranslator({
 			{mvPythonDataType::String, "name"},
-			{mvPythonDataType::Optional},
 			{mvPythonDataType::KeywordOnly},
 			{mvPythonDataType::Bool, "small", "Small button, useful for embedding in text."},
 			{mvPythonDataType::Bool, "arrow", "Arrow button."},
 			{mvPythonDataType::Integer, "direction", "A cardinal direction"},
-		}, true, "Adds a button.") });
+			{mvPythonDataType::String, "callback", "Registers a callback"},
+			{mvPythonDataType::String, "tip", "Adds a simple tooltip"},
+			{mvPythonDataType::String, "parent", "Parent to add this item to. (runtime adding)"},
+			{mvPythonDataType::String, "before", "Item to add this item before. (runtime adding)"},
+			{mvPythonDataType::Integer, "width",""},
+			{mvPythonDataType::Integer, "height", ""},
+		}, false, "Adds a button.") });
 
 		translators->insert({ "add_input_text", mvPythonTranslator({
 			{mvPythonDataType::String, "name"},
-			{mvPythonDataType::Optional},
+			{mvPythonDataType::KeywordOnly},
 			{mvPythonDataType::String, "default_value"},
 			{mvPythonDataType::String, "hint"},
-			{mvPythonDataType::KeywordOnly},
 			{mvPythonDataType::Bool, "multiline"},
 			{mvPythonDataType::Bool, "no_spaces"},
 			{mvPythonDataType::Bool, "uppercase"},
@@ -316,130 +470,221 @@ namespace Marvel {
 			{mvPythonDataType::Bool, "hexadecimal"},
 			{mvPythonDataType::Bool, "readonly"},
 			{mvPythonDataType::Bool, "password"},
-		}, true, "Adds input for text values.") });
+			{mvPythonDataType::String, "callback", "Registers a callback"},
+			{mvPythonDataType::String, "tip", "Adds a simple tooltip"},
+			{mvPythonDataType::String, "parent", "Parent to add this item to. (runtime adding)"},
+			{mvPythonDataType::String, "before", "Item to add this item before. (runtime adding)"},
+			{mvPythonDataType::String, "data_source", "data source for shared data"},
+			{mvPythonDataType::Integer, "width",""},
+		}, false, "Adds input for text values.") });
 
 		translators->insert({ "add_input_int", mvPythonTranslator({
 			{mvPythonDataType::String, "name"},
-			{mvPythonDataType::Optional},
+			{mvPythonDataType::KeywordOnly},
 			{mvPythonDataType::Integer, "default_value"},
-		}, true, "Adds input for integer values.") });
+			{mvPythonDataType::String, "callback", "Registers a callback"},
+			{mvPythonDataType::String, "tip", "Adds a simple tooltip"},
+			{mvPythonDataType::String, "parent", "Parent to add this item to. (runtime adding)"},
+			{mvPythonDataType::String, "before", "Item to add this item before. (runtime adding)"},
+			{mvPythonDataType::String, "data_source", "data source for shared data"},
+			{mvPythonDataType::Integer, "width",""},
+		}, false, "Adds input for integer values.") });
 
 		translators->insert({ "add_input_int2", mvPythonTranslator({
 			{mvPythonDataType::String, "name"},
-			{mvPythonDataType::Optional},
+			{mvPythonDataType::KeywordOnly},
 			{mvPythonDataType::IntList, "default_value"},
-		}, true, "Adds input for 2 integer values.") });
+			{mvPythonDataType::String, "callback", "Registers a callback"},
+			{mvPythonDataType::String, "tip", "Adds a simple tooltip"},
+			{mvPythonDataType::String, "parent", "Parent to add this item to. (runtime adding)"},
+			{mvPythonDataType::String, "before", "Item to add this item before. (runtime adding)"},
+			{mvPythonDataType::String, "data_source", "data source for shared data"},
+			{mvPythonDataType::Integer, "width",""},
+		}, false, "Adds input for 2 integer values.") });
 
 		translators->insert({ "add_input_int3", mvPythonTranslator({
 			{mvPythonDataType::String, "name"},
-			{mvPythonDataType::Optional},
+			{mvPythonDataType::KeywordOnly},
 			{mvPythonDataType::IntList, "default_value"},
-		}, true, "Adds input for 3 integer values.") });
+			{mvPythonDataType::String, "callback", "Registers a callback"},
+			{mvPythonDataType::String, "tip", "Adds a simple tooltip"},
+			{mvPythonDataType::String, "parent", "Parent to add this item to. (runtime adding)"},
+			{mvPythonDataType::String, "before", "Item to add this item before. (runtime adding)"},
+			{mvPythonDataType::String, "data_source", "data source for shared data"},
+			{mvPythonDataType::Integer, "width",""},
+		}, false, "Adds input for 3 integer values.") });
 
 		translators->insert({ "add_input_int4", mvPythonTranslator({
 			{mvPythonDataType::String, "name"},
-			{mvPythonDataType::Optional},
+			{mvPythonDataType::KeywordOnly},
 			{mvPythonDataType::IntList, "default_value"},
-		}, true, "Adds input for 4 integer values.") });
+			{mvPythonDataType::String, "callback", "Registers a callback"},
+			{mvPythonDataType::String, "tip", "Adds a simple tooltip"},
+			{mvPythonDataType::String, "parent", "Parent to add this item to. (runtime adding)"},
+			{mvPythonDataType::String, "before", "Item to add this item before. (runtime adding)"},
+			{mvPythonDataType::String, "data_source", "data source for shared data"},
+			{mvPythonDataType::Integer, "width",""},
+		}, false, "Adds input for 4 integer values.") });
 
 		translators->insert({ "add_input_float", mvPythonTranslator({
 			{mvPythonDataType::String, "name"},
-			{mvPythonDataType::Optional},
+			{mvPythonDataType::KeywordOnly},
 			{mvPythonDataType::Float, "default_value"},
-			{mvPythonDataType::String, "format"}
-		}, true, "Adds input for float values.") });
+			{mvPythonDataType::String, "format"},
+			{mvPythonDataType::String, "callback", "Registers a callback"},
+			{mvPythonDataType::String, "tip", "Adds a simple tooltip"},
+			{mvPythonDataType::String, "parent", "Parent to add this item to. (runtime adding)"},
+			{mvPythonDataType::String, "before", "Item to add this item before. (runtime adding)"},
+			{mvPythonDataType::String, "data_source", "data source for shared data"},
+			{mvPythonDataType::Integer, "width",""},
+		}, false, "Adds input for float values.") });
 
 		translators->insert({ "add_input_float2", mvPythonTranslator({
 			{mvPythonDataType::String, "name"},
-			{mvPythonDataType::Optional},
+			{mvPythonDataType::KeywordOnly},
 			{mvPythonDataType::FloatList, "default_value"},
-			{mvPythonDataType::String, "format"}
-		}, true, "Adds input for 2 float values.") });
+			{mvPythonDataType::String, "format"},
+			{mvPythonDataType::String, "callback", "Registers a callback"},
+			{mvPythonDataType::String, "tip", "Adds a simple tooltip"},
+			{mvPythonDataType::String, "parent", "Parent to add this item to. (runtime adding)"},
+			{mvPythonDataType::String, "before", "Item to add this item before. (runtime adding)"},
+			{mvPythonDataType::String, "data_source", "data source for shared data"},
+			{mvPythonDataType::Integer, "width",""},
+		}, false, "Adds input for 2 float values.") });
 
 		translators->insert({ "add_input_float3", mvPythonTranslator({
 			{mvPythonDataType::String, "name"},
-			{mvPythonDataType::Optional},
+			{mvPythonDataType::KeywordOnly},
 			{mvPythonDataType::FloatList, "default_value"},
-			{mvPythonDataType::String, "format"}
-		}, true, "Adds input for 3 float values.") });
+			{mvPythonDataType::String, "format"},
+			{mvPythonDataType::String, "callback", "Registers a callback"},
+			{mvPythonDataType::String, "tip", "Adds a simple tooltip"},
+			{mvPythonDataType::String, "parent", "Parent to add this item to. (runtime adding)"},
+			{mvPythonDataType::String, "before", "Item to add this item before. (runtime adding)"},
+			{mvPythonDataType::String, "data_source", "data source for shared data"},
+			{mvPythonDataType::Integer, "width",""},
+		}, false, "Adds input for 3 float values.") });
 
 		translators->insert({ "add_input_float4", mvPythonTranslator({
 			{mvPythonDataType::String, "name"},
-			{mvPythonDataType::Optional},
+			{mvPythonDataType::KeywordOnly},
 			{mvPythonDataType::FloatList, "default_value"},
-			{mvPythonDataType::String, "format"}
-		}, true, "Adds input for 4 float values.") });
+			{mvPythonDataType::String, "format"},
+			{mvPythonDataType::String, "callback", "Registers a callback"},
+			{mvPythonDataType::String, "tip", "Adds a simple tooltip"},
+			{mvPythonDataType::String, "parent", "Parent to add this item to. (runtime adding)"},
+			{mvPythonDataType::String, "before", "Item to add this item before. (runtime adding)"},
+			{mvPythonDataType::String, "data_source", "data source for shared data"},
+			{mvPythonDataType::Integer, "width",""},
+		}, false, "Adds input for 4 float values.") });
 
 		translators->insert({ "add_indent", mvPythonTranslator({
-			{mvPythonDataType::Optional},
 			{mvPythonDataType::KeywordOnly},
 			{mvPythonDataType::String, "name"},
-			{mvPythonDataType::Float, "offset"}
-		}, true, "Adds an indent to following items.") });
+			{mvPythonDataType::Float, "offset"},
+			{mvPythonDataType::String, "parent", "Parent to add this item to. (runtime adding)"},
+			{mvPythonDataType::String, "before", "Item to add this item before. (runtime adding)"},
+		}, false, "Adds an indent to following items.") });
 
 		translators->insert({ "unindent", mvPythonTranslator({
-			{mvPythonDataType::Optional},
 			{mvPythonDataType::KeywordOnly},
 			{mvPythonDataType::String, "name"},
-			{mvPythonDataType::Float, "offset"}
-		}, true, "Unindents following items.") });
+			{mvPythonDataType::Float, "offset"},
+			{mvPythonDataType::String, "parent", "Parent to add this item to. (runtime adding)"},
+			{mvPythonDataType::String, "before", "Item to add this item before. (runtime adding)"},
+		}, false, "Unindents following items.") });
 
 		translators->insert({ "add_tab_bar", mvPythonTranslator({
 			{mvPythonDataType::String, "name"},
-			{mvPythonDataType::Optional},
 			{mvPythonDataType::KeywordOnly},
-			{mvPythonDataType::Bool, "reorderable"}
-		}, true, "Adds a tab bar.") });
+			{mvPythonDataType::Bool, "reorderable"},
+			{mvPythonDataType::String, "callback", "Registers a callback"},
+			{mvPythonDataType::String, "parent", "Parent to add this item to. (runtime adding)"},
+			{mvPythonDataType::String, "before", "Item to add this item before. (runtime adding)"},
+			{mvPythonDataType::String, "data_source", "data source for shared data"},
+		}, false, "Adds a tab bar.") });
 
 		translators->insert({ "add_tab", mvPythonTranslator({
 			{mvPythonDataType::String, "name"},
-			{mvPythonDataType::Optional},
 			{mvPythonDataType::KeywordOnly},
-			{mvPythonDataType::Bool, "closable"}
-		}, true, "Adds a tab to a tab bar.") });
+			{mvPythonDataType::Bool, "closable"},
+			{mvPythonDataType::String, "tip", "Adds a simple tooltip"},
+			{mvPythonDataType::String, "parent", "Parent to add this item to. (runtime adding)"},
+			{mvPythonDataType::String, "before", "Item to add this item before. (runtime adding)"},
+		}, false, "Adds a tab to a tab bar.") });
 
 		translators->insert({ "add_menu_bar", mvPythonTranslator({
-			{mvPythonDataType::String, "name"}
-		}, true, "Adds a menu bar to a window. Must be followed by a call to end_menu_bar.") });
+			{mvPythonDataType::String, "name"},
+			{mvPythonDataType::KeywordOnly},
+			{mvPythonDataType::String, "parent", "Parent to add this item to. (runtime adding)"},
+			{mvPythonDataType::String, "before", "Item to add this item before. (runtime adding)"},
+		}, false, "Adds a menu bar to a window. Must be followed by a call to end_menu_bar.") });
 
 		translators->insert({ "add_menu", mvPythonTranslator({
-			{mvPythonDataType::String, "name"}
-		}, true, "Adds a menu to an existing menu bar. Must be followed by a call to end_menu.") });
+			{mvPythonDataType::String, "name"},
+			{mvPythonDataType::KeywordOnly},
+			{mvPythonDataType::String, "tip", "Adds a simple tooltip"},
+			{mvPythonDataType::String, "parent", "Parent to add this item to. (runtime adding)"},
+			{mvPythonDataType::String, "before", "Item to add this item before. (runtime adding)"},
+		}, false, "Adds a menu to an existing menu bar. Must be followed by a call to end_menu.") });
 
 		translators->insert({ "add_menu_item", mvPythonTranslator({
-			{mvPythonDataType::String, "name"}
-		}, true, "Adds a menu item to an existing menu.") });
+			{mvPythonDataType::String, "name"},
+			{mvPythonDataType::KeywordOnly},
+			{mvPythonDataType::String, "callback", "Registers a callback"},
+			{mvPythonDataType::String, "tip", "Adds a simple tooltip"},
+			{mvPythonDataType::String, "parent", "Parent to add this item to. (runtime adding)"},
+			{mvPythonDataType::String, "before", "Item to add this item before. (runtime adding)"},
+		}, false, "Adds a menu item to an existing menu.") });
 
 		translators->insert({ "add_spacing", mvPythonTranslator({
-			{mvPythonDataType::Optional},
 			{mvPythonDataType::KeywordOnly},
 			{mvPythonDataType::String, "name"},
-			{mvPythonDataType::Integer, "count"}
-		}, true, "Adds vertical spacing.") });
+			{mvPythonDataType::Integer, "count"},
+			{mvPythonDataType::String, "parent", "Parent to add this item to. (runtime adding)"},
+			{mvPythonDataType::String, "before", "Item to add this item before. (runtime adding)"},
+		}, false, "Adds vertical spacing.") });
 
 		translators->insert({ "add_same_line", mvPythonTranslator({
-			{mvPythonDataType::Optional},
 			{mvPythonDataType::KeywordOnly},
 			{mvPythonDataType::String, "name"},
 			{mvPythonDataType::Float, "xoffset"},
-			{mvPythonDataType::Float, "spacing"}
-		}, true, "Places a widget on the same line as the previous widget. Can also be used for horizontal spacing.") });
+			{mvPythonDataType::Float, "spacing"},
+			{mvPythonDataType::String, "parent", "Parent to add this item to. (runtime adding)"},
+			{mvPythonDataType::String, "before", "Item to add this item before. (runtime adding)"},
+		}, false, "Places a widget on the same line as the previous widget. Can also be used for horizontal spacing.") });
 
 		translators->insert({ "add_radio_button", mvPythonTranslator({
 			{mvPythonDataType::String, "name"},
 			{mvPythonDataType::StringList, "items"},
-			{mvPythonDataType::Optional},
-			{mvPythonDataType::Integer, "default_value"}
-		}, true, "Adds a set of radio buttons.") });
+			{mvPythonDataType::KeywordOnly},
+			{mvPythonDataType::Integer, "default_value"},
+			{mvPythonDataType::String, "callback", "Registers a callback"},
+			{mvPythonDataType::String, "tip", "Adds a simple tooltip"},
+			{mvPythonDataType::String, "parent", "Parent to add this item to. (runtime adding)"},
+			{mvPythonDataType::String, "before", "Item to add this item before. (runtime adding)"},
+			{mvPythonDataType::String, "data_source", "data source for shared data"},
+		}, false, "Adds a set of radio buttons.") });
 
 		translators->insert({ "add_group", mvPythonTranslator({
-			{mvPythonDataType::String, "name"}
-		}, true, "Creates a group that other widgets can belong to. The group allows item commands to be issued for all of its members.\
+			{mvPythonDataType::String, "name"},
+			{mvPythonDataType::KeywordOnly},
+			{mvPythonDataType::String, "tip", "Adds a simple tooltip"},
+			{mvPythonDataType::String, "parent", "Parent to add this item to. (runtime adding)"},
+			{mvPythonDataType::String, "before", "Item to add this item before. (runtime adding)"},
+			{mvPythonDataType::Integer, "width",""}
+		}, false, "Creates a group that other widgets can belong to. The group allows item commands to be issued for all of its members.\
 				Must be closed with the end_group command unless added at runtime.") });
 
 		translators->insert({ "add_child", mvPythonTranslator({
-			{mvPythonDataType::String, "name"}
-		}, true, "Adds an embedded child window. Will show scrollbars when items do not fit. Must be followed by a call to end_child.") });
+			{mvPythonDataType::String, "name"},
+			{mvPythonDataType::KeywordOnly},
+			{mvPythonDataType::String, "tip", "Adds a simple tooltip"},
+			{mvPythonDataType::String, "parent", "Parent to add this item to. (runtime adding)"},
+			{mvPythonDataType::String, "before", "Item to add this item before. (runtime adding)"},
+			{mvPythonDataType::Integer, "width",""},
+			{mvPythonDataType::Integer, "height", ""},
+		}, false, "Adds an embedded child window. Will show scrollbars when items do not fit. Must be followed by a call to end_child.") });
 
 		translators->insert({ "add_window", mvPythonTranslator({
 			{mvPythonDataType::String, "name"},
@@ -455,68 +700,110 @@ namespace Marvel {
 
 		translators->insert({ "add_tooltip", mvPythonTranslator({
 			{mvPythonDataType::String, "tipparent"},
-			{mvPythonDataType::String, "name"}
-		}, true, "Adds an advanced tool tip for an item. This command must come immediately after the item the tip is for.") });
+			{mvPythonDataType::String, "name"},
+			{mvPythonDataType::KeywordOnly},
+			{mvPythonDataType::String, "parent", "Parent to add this item to. (runtime adding)"},
+			{mvPythonDataType::String, "before", "Item to add this item before. (runtime adding)"}
+		}, false, "Adds an advanced tool tip for an item. This command must come immediately after the item the tip is for.") });
 
 		translators->insert({ "add_popup", mvPythonTranslator({
 			{mvPythonDataType::String, "popupparent"},
 			{mvPythonDataType::String, "name"},
-			{mvPythonDataType::Optional},
+			{mvPythonDataType::KeywordOnly},
 			{mvPythonDataType::Integer, "mousebutton"},
-			{mvPythonDataType::Bool, "modal"}
-		}, true, "Adds a popup window for an item. This command must come immediately after the item the popup is for.") });
+			{mvPythonDataType::Bool, "modal"},
+			{mvPythonDataType::String, "parent", "Parent to add this item to. (runtime adding)"},
+			{mvPythonDataType::String, "before", "Item to add this item before. (runtime adding)"},
+			{mvPythonDataType::Integer, "width",""},
+			{mvPythonDataType::Integer, "height", ""},
+		}, false, "Adds a popup window for an item. This command must come immediately after the item the popup is for.") });
 
 		translators->insert({ "add_collapsing_header", mvPythonTranslator({
 			{mvPythonDataType::String, "name"},
-			{mvPythonDataType::Optional},
 			{mvPythonDataType::KeywordOnly},
-			{mvPythonDataType::Bool, "default_open"}
-		}, true, "Adds a collapsing header to add items to. Must be closed with the end_collapsing_header command.") });
+			{mvPythonDataType::Bool, "default_open"},
+			{mvPythonDataType::String, "tip", "Adds a simple tooltip"},
+			{mvPythonDataType::String, "parent", "Parent to add this item to. (runtime adding)"},
+			{mvPythonDataType::String, "before", "Item to add this item before. (runtime adding)"}
+		}, false, "Adds a collapsing header to add items to. Must be closed with the end_collapsing_header command.") });
 
 		translators->insert({ "add_tree_node", mvPythonTranslator({
 			{mvPythonDataType::String, "name"},
-			{mvPythonDataType::Optional},
 			{mvPythonDataType::KeywordOnly},
-			{mvPythonDataType::Bool, "default_open"}
-		}, true, "Adds a tree node to add items to. Must be closed with the end_tree_node command.") });
+			{mvPythonDataType::Bool, "default_open"},
+			{mvPythonDataType::String, "tip", "Adds a simple tooltip"},
+			{mvPythonDataType::String, "parent", "Parent to add this item to. (runtime adding)"},
+			{mvPythonDataType::String, "before", "Item to add this item before. (runtime adding)"},
+		}, false, "Adds a tree node to add items to. Must be closed with the end_tree_node command.") });
 
 		translators->insert({ "add_color_edit3", mvPythonTranslator({
 			{mvPythonDataType::String, "name"},
-			{mvPythonDataType::Optional},
+			{mvPythonDataType::KeywordOnly},
 			{mvPythonDataType::IntList, "default_value (0, 0, 0)"},
-		}, true, "Adds an rgb color editing widget.") });
+			{mvPythonDataType::String, "callback", "Registers a callback"},
+			{mvPythonDataType::String, "tip", "Adds a simple tooltip"},
+			{mvPythonDataType::String, "parent", "Parent to add this item to. (runtime adding)"},
+			{mvPythonDataType::String, "before", "Item to add this item before. (runtime adding)"},
+			{mvPythonDataType::String, "data_source", "data source for shared data"},
+			{mvPythonDataType::Integer, "width",""},
+			{mvPythonDataType::Integer, "height", ""},
+		}, false, "Adds an rgb color editing widget.") });
 
 		translators->insert({ "add_color_edit4", mvPythonTranslator({
 			{mvPythonDataType::String, "name"},
-			{mvPythonDataType::Optional},
+			{mvPythonDataType::KeywordOnly},
 			{mvPythonDataType::IntList, "default_value (0, 0, 0, 255)"},
-		}, true, "Adds an rgba color editing widget.") });
+			{mvPythonDataType::String, "callback", "Registers a callback"},
+			{mvPythonDataType::String, "tip", "Adds a simple tooltip"},
+			{mvPythonDataType::String, "parent", "Parent to add this item to. (runtime adding)"},
+			{mvPythonDataType::String, "before", "Item to add this item before. (runtime adding)"},
+			{mvPythonDataType::String, "data_source", "data source for shared data"},
+			{mvPythonDataType::Integer, "width",""},
+			{mvPythonDataType::Integer, "height", ""},
+		}, false, "Adds an rgba color editing widget.") });
 
 		translators->insert({ "add_color_picker3", mvPythonTranslator({
 			{mvPythonDataType::String, "name"},
-			{mvPythonDataType::Optional},
+			{mvPythonDataType::KeywordOnly},
 			{mvPythonDataType::IntList, "default_value (0, 0, 0)"},
-		}, true, "Adds an rgb color picking widget.") });
+			{mvPythonDataType::String, "callback", "Registers a callback"},
+			{mvPythonDataType::String, "tip", "Adds a simple tooltip"},
+			{mvPythonDataType::String, "parent", "Parent to add this item to. (runtime adding)"},
+			{mvPythonDataType::String, "before", "Item to add this item before. (runtime adding)"},
+			{mvPythonDataType::String, "data_source", "data source for shared data"},
+			{mvPythonDataType::Integer, "width",""},
+			{mvPythonDataType::Integer, "height", ""},
+		}, false, "Adds an rgb color picking widget.") });
 
 		translators->insert({ "add_color_picker4", mvPythonTranslator({
 			{mvPythonDataType::String, "name"},
-			{mvPythonDataType::Optional},
+			{mvPythonDataType::KeywordOnly},
 			{mvPythonDataType::IntList, "default_value (0, 0, 0, 255)"},
-		}, true, "Adds an rgba color picking widget.") });
+			{mvPythonDataType::String, "callback", "Registers a callback"},
+			{mvPythonDataType::String, "tip", "Adds a simple tooltip"},
+			{mvPythonDataType::String, "parent", "Parent to add this item to. (runtime adding)"},
+			{mvPythonDataType::String, "before", "Item to add this item before. (runtime adding)"},
+			{mvPythonDataType::String, "data_source", "data source for shared data"},
+			{mvPythonDataType::Integer, "width",""},
+			{mvPythonDataType::Integer, "height", ""},
+		}, false, "Adds an rgba color picking widget.") });
 
 		translators->insert({ "add_checkbox", mvPythonTranslator({
 			{mvPythonDataType::String, "name"},
-			{mvPythonDataType::Optional},
-			{mvPythonDataType::Integer, "default_value"}
-		}, true, "Adds a checkbox widget.") });
+			{mvPythonDataType::KeywordOnly},
+			{mvPythonDataType::Integer, "default_value"},
+			{mvPythonDataType::String, "callback", "Registers a callback"},
+			{mvPythonDataType::String, "tip", "Adds a simple tooltip"},
+			{mvPythonDataType::String, "parent", "Parent to add this item to. (runtime adding)"},
+			{mvPythonDataType::String, "before", "Item to add this item before. (runtime adding)"},
+			{mvPythonDataType::String, "data_source", "data source for shared data"}
+		}, false, "Adds a checkbox widget.") });
 
 		return *translators;
 	}
 
 	PyObject* add_simple_plot(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
-		MV_STANDARD_CALLBACK_INIT();
-
 		const char* name;
 		const char* overlay = "";
 		float minscale = 0.0f;
@@ -524,9 +811,14 @@ namespace Marvel {
 		int autoscale = true;
 		int histogram = false;
 		PyObject* value;
+		const char* tip = "";
+		const char* parent = "";
+		const char* before = "";
+		int width = 0;
+		int height = 0;
 
 		if (!Translators["add_simple_plot"].parse(args, kwargs,__FUNCTION__, &name, &value, &autoscale, &overlay, 
-			&minscale, &maxscale, &histogram, MV_STANDARD_CALLBACK_PARSE))
+			&minscale, &maxscale, &histogram, &tip, &parent, &before, &width, &height))
 			Py_RETURN_NONE;
 
 		std::vector<float> values = mvPythonTranslator::getFloatVec(value);
@@ -546,33 +838,44 @@ namespace Marvel {
 		}
 
 		mvAppItem* item = new mvSimplePlot("", name, values, overlay, minscale, maxscale, height, histogram);
+		item->setTip(tip);
+		item->setWidth(width);
+		item->setHeight(height);
 
-		MV_STANDARD_CALLBACK_EVAL();
+		AddItemWithRuntimeChecks(item, parent, before);
 
 		Py_RETURN_NONE;
 	}
 
 	PyObject* add_progress_bar(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
-		MV_STANDARD_CALLBACK_INIT();
 		const char* name;
 		float default_value = 0.0f;
 		const char* overlay = "";
+		const char* tip = "";
+		const char* parent = "";
+		const char* before = "";
+		const char* data_source = "";
+		int width = 0;
+		int height = 0;
 
-		if (!Translators["add_progress_bar"].parse(args, kwargs, __FUNCTION__, &name, &default_value, &overlay, MV_STANDARD_CALLBACK_PARSE))
+		if (!Translators["add_progress_bar"].parse(args, kwargs, __FUNCTION__, &name, &default_value, 
+			&overlay, &tip, &parent, &before, &data_source, &width, &height))
 			Py_RETURN_NONE;
 
 		mvAppItem* item = new mvProgressBar("", name, default_value, overlay);
+		item->setTip(tip);
+		item->setWidth(width);
+		item->setHeight(height);
+		item->setDataSource(data_source);
 
-		MV_STANDARD_CALLBACK_EVAL();
+		AddItemWithRuntimeChecks(item, parent, before);
 
 		Py_RETURN_NONE;
 	}
 
 	PyObject* add_image(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
-		MV_STANDARD_CALLBACK_INIT();
-
 		const char* name;
 		const char* value;
 		PyObject* tintcolor = PyTuple_New(4);
@@ -585,24 +888,33 @@ namespace Marvel {
 		PyTuple_SetItem(bordercolor, 1, PyFloat_FromDouble(0.0));
 		PyTuple_SetItem(bordercolor, 2, PyFloat_FromDouble(0.0));
 		PyTuple_SetItem(bordercolor, 3, PyFloat_FromDouble(0.0));
+		const char* tip = "";
+		const char* parent = "";
+		const char* before = "";
+		const char* data_source = "";
+		int width = 0;
+		int height = 0;
 
-		if (!Translators["add_image"].parse(args, kwargs, __FUNCTION__, &name, &value, &tintcolor, &bordercolor, MV_STANDARD_CALLBACK_PARSE))
+		if (!Translators["add_image"].parse(args, kwargs, __FUNCTION__, &name, 
+			&value, &tintcolor, &bordercolor, &tip, &parent, &before, &data_source, &width, &height))
 			Py_RETURN_NONE;
 
 		auto mtintcolor = mvPythonTranslator::getColor(tintcolor);
 		auto mbordercolor = mvPythonTranslator::getColor(bordercolor);
 
 		mvAppItem* item = new mvImage("", name, value, mtintcolor, mbordercolor);
+		item->setTip(tip);
+		item->setWidth(width);
+		item->setHeight(height);
+		item->setDataSource(data_source);
 
-		MV_STANDARD_CALLBACK_EVAL();
+		AddItemWithRuntimeChecks(item, parent, before);
 
 		Py_RETURN_NONE;
 	}
 
 	PyObject* add_drag_float(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
-		MV_STANDARD_CALLBACK_INIT();
-
 		const char* name;
 		float default_value = 0.0f;
 		float speed = 1.0f;
@@ -610,22 +922,29 @@ namespace Marvel {
 		float max_value = 1.0f;
 		const char* format = "%.3f";
 		float power = 1.0f;
+		const char* callback = "";
+		const char*tip = ""; 
+		int width = 0; 
+		const char* before = ""; 
+		const char* parent = ""; 
+		const char* data_source = "";
 
 		if (!Translators["add_drag_float"].parse(args, kwargs, __FUNCTION__, &name, &default_value, &speed,
-			&min_value, &max_value, &format, &power, MV_STANDARD_CALLBACK_PARSE))
+			&min_value, &max_value, &format, &power, &callback, &tip, &parent, &before, &data_source, &width))
 			Py_RETURN_NONE;
 
 		mvAppItem* item = new mvDragFloat("", name, default_value, speed, min_value, max_value, format, power);
+		item->setCallback(callback); 
+		item->setTip(tip); 
+		item->setDataSource(data_source); 
+		item->setWidth(width);
 
-		MV_STANDARD_CALLBACK_EVAL();
-
+		AddItemWithRuntimeChecks(item, parent, before);
 		Py_RETURN_NONE;
 	}
 
 	PyObject* add_drag_float2(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
-		MV_STANDARD_CALLBACK_INIT();
-
 		const char* name;
 		PyObject* default_value = PyTuple_New(2);
 		PyTuple_SetItem(default_value, 0, PyFloat_FromDouble(0.0));
@@ -635,24 +954,30 @@ namespace Marvel {
 		float max_value = 1.0f;
 		const char* format = "%.3f";
 		float power = 1.0f;
+		const char* callback = "";
+		const char* tip = "";
+		const char* parent = "";
+		const char* before = "";
+		const char* data_source = "";
+		int width = 0;
 
 		if (!Translators["add_drag_float2"].parse(args, kwargs, __FUNCTION__, &name, &default_value, &speed,
-			&min_value, &max_value, &format, &power, MV_STANDARD_CALLBACK_PARSE))
+			&min_value, &max_value, &format, &power, &callback, &tip, &parent, &before, &data_source, &width))
 			Py_RETURN_NONE;
 
 		auto vec = mvPythonTranslator::getFloatVec(default_value);
 
 		mvAppItem* item = new mvDragFloat2("", name, vec.data(), speed, min_value, max_value, format, power);
-
-		MV_STANDARD_CALLBACK_EVAL();
-
+		item->setCallback(callback);
+		item->setTip(tip);
+		item->setDataSource(data_source);
+		item->setWidth(width);
+		AddItemWithRuntimeChecks(item, parent, before);
 		Py_RETURN_NONE;
 	}
 
 	PyObject* add_drag_float3(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
-		MV_STANDARD_CALLBACK_INIT();
-
 		const char* name;
 		PyObject* default_value = PyTuple_New(3);
 		PyTuple_SetItem(default_value, 0, PyFloat_FromDouble(0.0));
@@ -663,24 +988,30 @@ namespace Marvel {
 		float max_value = 1.0f;
 		const char* format = "%.3f";
 		float power = 1.0f;
+		const char* callback = "";
+		const char* tip = "";
+		const char* parent = "";
+		const char* before = "";
+		const char* data_source = "";
+		int width = 0;
 
 		if (!Translators["add_drag_float3"].parse(args, kwargs, __FUNCTION__, &name, &default_value, &speed,
-			&min_value, &max_value, &format, &power, MV_STANDARD_CALLBACK_PARSE))
+			&min_value, &max_value, &format, &power, &callback, &tip, &parent, &before, &data_source, &width))
 			Py_RETURN_NONE;
 
 		auto vec = mvPythonTranslator::getFloatVec(default_value);
 
 		mvAppItem* item = new mvDragFloat3("", name, vec.data(), speed, min_value, max_value, format, power);
-
-		MV_STANDARD_CALLBACK_EVAL();
-
+		item->setCallback(callback);
+		item->setTip(tip);
+		item->setDataSource(data_source);
+		item->setWidth(width);
+		AddItemWithRuntimeChecks(item, parent, before);
 		Py_RETURN_NONE;
 	}
 
 	PyObject* add_drag_float4(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
-		MV_STANDARD_CALLBACK_INIT();
-
 		const char* name;
 		PyObject* default_value = PyTuple_New(4);
 		PyTuple_SetItem(default_value, 0, PyFloat_FromDouble(0.0));
@@ -692,46 +1023,58 @@ namespace Marvel {
 		float max_value = 1.0f;
 		const char* format = "%.3f";
 		float power = 1.0f;
+		const char* callback = "";
+		const char* tip = "";
+		const char* parent = "";
+		const char* before = "";
+		const char* data_source = "";
+		int width = 0;
 
 		if (!Translators["add_drag_float4"].parse(args, kwargs, __FUNCTION__, &name, &default_value, &speed,
-			&min_value, &max_value, &format, &power, MV_STANDARD_CALLBACK_PARSE))
+			&min_value, &max_value, &format, &power, &callback, &tip, &parent, &before, &data_source, &width))
 			Py_RETURN_NONE;
 
 		auto vec = mvPythonTranslator::getFloatVec(default_value);
 
 		mvAppItem* item = new mvDragFloat4("", name, vec.data(), speed, min_value, max_value, format, power);
-
-		MV_STANDARD_CALLBACK_EVAL();
-
+		item->setCallback(callback);
+		item->setTip(tip);
+		item->setDataSource(data_source);
+		item->setWidth(width);
+		AddItemWithRuntimeChecks(item, parent, before);
 		Py_RETURN_NONE;
 	}
 
 	PyObject* add_drag_int(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
-		MV_STANDARD_CALLBACK_INIT();
-
 		const char* name;
 		int default_value = 0;
 		float speed = 1.0f;
 		int min_value = 0;
 		int max_value = 100;
 		const char* format = "%d";
+		const char* callback = "";
+		const char* tip = "";
+		const char* parent = "";
+		const char* before = "";
+		const char* data_source = "";
+		int width = 0;
 
 		if (!Translators["add_drag_int"].parse(args, kwargs, __FUNCTION__, &name, &default_value, &speed, 
-			&min_value, &max_value, &format, MV_STANDARD_CALLBACK_PARSE))
+			&min_value, &max_value, &format, &callback, &tip, &parent, &before, &data_source, &width))
 			Py_RETURN_NONE;
 
 		mvAppItem* item = new mvDragInt("", name, default_value, speed, min_value, max_value, format);
-
-		MV_STANDARD_CALLBACK_EVAL();
-
+		item->setCallback(callback);
+		item->setTip(tip);
+		item->setDataSource(data_source);
+		item->setWidth(width);
+		AddItemWithRuntimeChecks(item, parent, before);
 		Py_RETURN_NONE;
 	}
 
 	PyObject* add_drag_int2(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
-		MV_STANDARD_CALLBACK_INIT();
-
 		const char* name;
 		PyObject* default_value = PyTuple_New(2);
 		PyTuple_SetItem(default_value, 0, PyLong_FromLong(0));
@@ -740,24 +1083,30 @@ namespace Marvel {
 		int min_value = 0;
 		int max_value = 100;
 		const char* format = "%d";
+		const char* callback = "";
+		const char* tip = "";
+		const char* parent = "";
+		const char* before = "";
+		const char* data_source = "";
+		int width = 0;
 
 		if (!Translators["add_drag_int2"].parse(args, kwargs, __FUNCTION__, &name, &default_value, &speed,
-			&min_value, &max_value, &format, MV_STANDARD_CALLBACK_PARSE))
+			&min_value, &max_value, &format, &callback, &tip, &parent, &before, &data_source, &width))
 			Py_RETURN_NONE;
 
 		auto vec = mvPythonTranslator::getIntVec(default_value);
 
 		mvAppItem* item = new mvDragInt2("", name, vec.data(), speed, min_value, max_value, format);
-
-		MV_STANDARD_CALLBACK_EVAL();
-
+		item->setCallback(callback);
+		item->setTip(tip);
+		item->setDataSource(data_source);
+		item->setWidth(width);
+		AddItemWithRuntimeChecks(item, parent, before);
 		Py_RETURN_NONE;
 	}
 
 	PyObject* add_drag_int3(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
-		MV_STANDARD_CALLBACK_INIT();
-
 		const char* name;
 		PyObject* default_value = PyTuple_New(3);
 		PyTuple_SetItem(default_value, 0, PyLong_FromLong(0));
@@ -767,24 +1116,30 @@ namespace Marvel {
 		int min_value = 0;
 		int max_value = 100;
 		const char* format = "%d";
+		const char* callback = "";
+		const char* tip = "";
+		const char* parent = "";
+		const char* before = "";
+		const char* data_source = "";
+		int width = 0;
 
 		if (!Translators["add_drag_int3"].parse(args, kwargs, __FUNCTION__, &name, &default_value, &speed,
-			&min_value, &max_value, &format, MV_STANDARD_CALLBACK_PARSE))
+			&min_value, &max_value, &format, &callback, &tip, &parent, &before, &data_source, &width))
 			Py_RETURN_NONE;
 
 		auto vec = mvPythonTranslator::getIntVec(default_value);
 
 		mvAppItem* item = new mvDragInt3("", name, vec.data(), speed, min_value, max_value, format);
-
-		MV_STANDARD_CALLBACK_EVAL();
-
+		item->setCallback(callback);
+		item->setTip(tip);
+		item->setDataSource(data_source);
+		item->setWidth(width);
+		AddItemWithRuntimeChecks(item, parent, before);
 		Py_RETURN_NONE;
 	}
 
 	PyObject* add_drag_int4(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
-		MV_STANDARD_CALLBACK_INIT();
-
 		const char* name;
 		PyObject* default_value = PyTuple_New(4);
 		PyTuple_SetItem(default_value, 0, PyLong_FromLong(0));
@@ -795,24 +1150,30 @@ namespace Marvel {
 		int min_value = 0;
 		int max_value = 100;
 		const char* format = "%d";
+		const char* callback = "";
+		const char* tip = "";
+		const char* parent = "";
+		const char* before = "";
+		const char* data_source = "";
+		int width = 0;
 
 		if (!Translators["add_drag_int4"].parse(args, kwargs, __FUNCTION__, &name, &default_value, &speed,
-			&min_value, &max_value, &format, MV_STANDARD_CALLBACK_PARSE))
+			&min_value, &max_value, &format, &callback, &tip, &parent, &before, &data_source, &width))
 			Py_RETURN_NONE;
 
 		auto vec = mvPythonTranslator::getIntVec(default_value);
 
 		mvAppItem* item = new mvDragInt4("", name, vec.data(), speed, min_value, max_value, format);
-
-		MV_STANDARD_CALLBACK_EVAL();
-
+		item->setCallback(callback);
+		item->setTip(tip);
+		item->setDataSource(data_source);
+		item->setWidth(width);
+		AddItemWithRuntimeChecks(item, parent, before);
 		Py_RETURN_NONE;
 	}
 
 	PyObject* add_slider_float(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
-		MV_STANDARD_CALLBACK_INIT();
-
 		const char* name;
 		float default_value = 0.0f;
 		float min_value = 0.0f;
@@ -820,22 +1181,33 @@ namespace Marvel {
 		const char* format = "%.3f";
 		float power = 1.0f;
 		int vertical = false;
+		const char* callback = "";
+		const char* tip = "";
+		const char* parent = "";
+		const char* before = "";
+		const char* data_source = "";
+		int width = 0;
+		int height = 0;
 
 		if (!Translators["add_slider_float"].parse(args, kwargs, __FUNCTION__, &name, &default_value, 
-			&min_value, &max_value, &format, &power, &vertical, MV_STANDARD_CALLBACK_PARSE))
+			&min_value, &max_value, &format, &power, &vertical, &callback, &tip, &parent, &before, 
+			&data_source, &width, &height))
 			Py_RETURN_NONE;
 
 		mvAppItem* item = new mvSliderFloat("", name, default_value, min_value, max_value, format, power, vertical);
+		item->setCallback(callback);
+		item->setTip(tip);
+		item->setDataSource(data_source);
+		item->setWidth(width);
+		item->setHeight(height);
 
-		MV_STANDARD_CALLBACK_EVAL();
+		AddItemWithRuntimeChecks(item, parent, before);
 
 		Py_RETURN_NONE;
 	}
 
 	PyObject* add_slider_float2(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
-		MV_STANDARD_CALLBACK_INIT();
-
 		const char* name;
 		PyObject* default_value = PyTuple_New(2);
 		PyTuple_SetItem(default_value, 0, PyFloat_FromDouble(0.0));
@@ -844,24 +1216,33 @@ namespace Marvel {
 		float max_value = 1.0f;
 		const char* format = "%.3f";
 		float power = 1.0f;
+		const char* callback = "";
+		const char* tip = "";
+		const char* parent = "";
+		const char* before = "";
+		const char* data_source = "";
+		int width = 0;
 
 		if (!Translators["add_slider_float2"].parse(args, kwargs, __FUNCTION__, &name, &default_value,
-			&min_value, &max_value, &format, &power, MV_STANDARD_CALLBACK_PARSE))
+			&min_value, &max_value, &format, &power, &callback, &tip, &parent, &before, &data_source,
+			&width))
 			Py_RETURN_NONE;
 
 		auto vec = mvPythonTranslator::getFloatVec(default_value);
 
 		mvAppItem* item = new mvSliderFloat2("", name, vec.data(), min_value, max_value, format, power);
+		item->setCallback(callback);
+		item->setTip(tip);
+		item->setDataSource(data_source);
+		item->setWidth(width);
 
-		MV_STANDARD_CALLBACK_EVAL();
+		AddItemWithRuntimeChecks(item, parent, before);
 
 		Py_RETURN_NONE;
 	}
 
 	PyObject* add_slider_float3(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
-		MV_STANDARD_CALLBACK_INIT();
-
 		const char* name;
 		PyObject* default_value = PyTuple_New(3);
 		PyTuple_SetItem(default_value, 0, PyFloat_FromDouble(0.0));
@@ -871,24 +1252,33 @@ namespace Marvel {
 		float max_value = 1.0f;
 		const char* format = "%.3f";
 		float power = 1.0f;
+		const char* callback = "";
+		const char* tip = "";
+		const char* parent = "";
+		const char* before = "";
+		const char* data_source = "";
+		int width = 0;
 
 		if (!Translators["add_slider_float3"].parse(args, kwargs, __FUNCTION__, &name, &default_value,
-			&min_value, &max_value, &format, &power, MV_STANDARD_CALLBACK_PARSE))
+			&min_value, &max_value, &format, &power, &callback, &tip, &parent, &before, &data_source,
+			&width))
 			Py_RETURN_NONE;
 
 		auto vec = mvPythonTranslator::getFloatVec(default_value);
 
 		mvAppItem* item = new mvSliderFloat3("", name, vec.data(), min_value, max_value, format, power);
+		item->setCallback(callback);
+		item->setTip(tip);
+		item->setDataSource(data_source);
+		item->setWidth(width);
 
-		MV_STANDARD_CALLBACK_EVAL();
+		AddItemWithRuntimeChecks(item, parent, before);
 
 		Py_RETURN_NONE;
 	}
 
 	PyObject* add_slider_float4(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
-		MV_STANDARD_CALLBACK_INIT();
-
 		const char* name;
 		PyObject* default_value = PyTuple_New(4);
 		PyTuple_SetItem(default_value, 0, PyFloat_FromDouble(0.0));
@@ -899,46 +1289,66 @@ namespace Marvel {
 		float max_value = 1.0f;
 		const char* format = "%.3f";
 		float power = 1.0f;
+		const char* callback = "";
+		const char* tip = "";
+		const char* parent = "";
+		const char* before = "";
+		const char* data_source = "";
+		int width = 0;
 
 		if (!Translators["add_slider_float4"].parse(args, kwargs, __FUNCTION__, &name, &default_value,
-			&min_value, &max_value, &format, &power, MV_STANDARD_CALLBACK_PARSE))
+			&min_value, &max_value, &format, &power, &callback, &tip, &parent, &before, &data_source,
+			&width))
 			Py_RETURN_NONE;
 
 		auto vec = mvPythonTranslator::getFloatVec(default_value);
 
 		mvAppItem* item = new mvSliderFloat4("", name, vec.data(), min_value, max_value, format, power);
+		item->setCallback(callback);
+		item->setTip(tip);
+		item->setDataSource(data_source);
+		item->setWidth(width);
 
-		MV_STANDARD_CALLBACK_EVAL();
+		AddItemWithRuntimeChecks(item, parent, before);
 
 		Py_RETURN_NONE;
 	}
 
 	PyObject* add_slider_int(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
-		MV_STANDARD_CALLBACK_INIT();
-
 		const char* name;
 		int default_value = 0;
 		int min_value = 0;
 		int max_value = 100;
 		const char* format = "%d";
 		int vertical = false;
+		const char* callback = "";
+		const char* tip = "";
+		const char* parent = "";
+		const char* before = "";
+		const char* data_source = "";
+		int width = 0;
+		int height = 0;
 
 		if (!Translators["add_slider_int"].parse(args, kwargs, __FUNCTION__, &name, &default_value,
-			&min_value, &max_value, &format, &vertical, MV_STANDARD_CALLBACK_PARSE))
+			&min_value, &max_value, &format, &vertical, &callback, &tip, &parent, &before, &data_source,
+			&width, &height))
 			Py_RETURN_NONE;
 
 		mvAppItem* item = new mvSliderInt("", name, default_value, min_value, max_value, format, vertical);
+		item->setCallback(callback);
+		item->setTip(tip);
+		item->setDataSource(data_source);
+		item->setWidth(width);
+		item->setHeight(height);
 
-		MV_STANDARD_CALLBACK_EVAL();
+		AddItemWithRuntimeChecks(item, parent, before);
 
 		Py_RETURN_NONE;
 	}
 
 	PyObject* add_slider_int2(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
-		MV_STANDARD_CALLBACK_INIT();
-
 		const char* name;
 		PyObject* default_value = PyTuple_New(2);
 		PyTuple_SetItem(default_value, 0, PyLong_FromLong(0));
@@ -946,24 +1356,33 @@ namespace Marvel {
 		int min_value = 0;
 		int max_value = 100;
 		const char* format = "%d";
+		const char* callback = "";
+		const char* tip = "";
+		const char* parent = "";
+		const char* before = "";
+		const char* data_source = "";
+		int width = 0;
 
 		if (!Translators["add_slider_int2"].parse(args, kwargs, __FUNCTION__, &name, &default_value,
-			&min_value, &max_value, &format, MV_STANDARD_CALLBACK_PARSE))
+			&min_value, &max_value, &format, &callback, &tip, &parent, &before, &data_source,
+			&width))
 			Py_RETURN_NONE;
 
 		auto vec = mvPythonTranslator::getIntVec(default_value);
 
 		mvAppItem* item = new mvSliderInt2("", name, vec.data(), min_value, max_value, format);
+		item->setCallback(callback);
+		item->setTip(tip);
+		item->setDataSource(data_source);
+		item->setWidth(width);
 
-		MV_STANDARD_CALLBACK_EVAL();
+		AddItemWithRuntimeChecks(item, parent, before);
 
 		Py_RETURN_NONE;
 	}
 
 	PyObject* add_slider_int3(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
-		MV_STANDARD_CALLBACK_INIT();
-
 		const char* name;
 		PyObject* default_value = PyTuple_New(3);
 		PyTuple_SetItem(default_value, 0, PyLong_FromLong(0));
@@ -972,24 +1391,33 @@ namespace Marvel {
 		int min_value = 0;
 		int max_value = 100;
 		const char* format = "%d";
+		const char* callback = "";
+		const char* tip = "";
+		const char* parent = "";
+		const char* before = "";
+		const char* data_source = "";
+		int width = 0;
 
 		if (!Translators["add_slider_int3"].parse(args, kwargs, __FUNCTION__, &name, &default_value,
-			&min_value, &max_value, &format, MV_STANDARD_CALLBACK_PARSE))
+			&min_value, &max_value, &format, &callback, &tip, &parent, &before, &data_source,
+			&width))
 			Py_RETURN_NONE;
 
 		auto vec = mvPythonTranslator::getIntVec(default_value);
 
 		mvAppItem* item = new mvSliderInt3("", name, vec.data(), min_value, max_value, format);
+		item->setCallback(callback);
+		item->setTip(tip);
+		item->setDataSource(data_source);
+		item->setWidth(width);
 
-		MV_STANDARD_CALLBACK_EVAL();
+		AddItemWithRuntimeChecks(item, parent, before);
 
 		Py_RETURN_NONE;
 	}
 
 	PyObject* add_slider_int4(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
-		MV_STANDARD_CALLBACK_INIT();
-
 		const char* name;
 		PyObject* default_value = PyTuple_New(4);
 		PyTuple_SetItem(default_value, 0, PyLong_FromLong(0));
@@ -999,33 +1427,48 @@ namespace Marvel {
 		int min_value = 0;
 		int max_value = 100;
 		const char* format = "%d";
+		const char* callback = "";
+		const char* tip = "";
+		const char* parent = "";
+		const char* before = "";
+		const char* data_source = "";
+		int width = 0;
 
 		if (!Translators["add_slider_int4"].parse(args, kwargs, __FUNCTION__, &name, &default_value,
-			&min_value, &max_value, &format, MV_STANDARD_CALLBACK_PARSE))
+			&min_value, &max_value, &format, &callback, &tip, &parent, &before, &data_source,
+			&width))
 			Py_RETURN_NONE;
 
 		auto vec = mvPythonTranslator::getIntVec(default_value);
 
 		mvAppItem* item = new mvSliderInt4("", name, vec.data(), min_value, max_value, format);
+		item->setCallback(callback);
+		item->setTip(tip);
+		item->setDataSource(data_source);
+		item->setWidth(width);
 
-		MV_STANDARD_CALLBACK_EVAL();
+		AddItemWithRuntimeChecks(item, parent, before);
 
 		Py_RETURN_NONE;
 	}
 
 	PyObject* add_text(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
-		MV_STANDARD_CALLBACK_INIT();
-
 		const char* name;
-		int wrap = 0, bullet = 0;
+		int wrap = 0;
+		int bullet = false;
 		PyObject* color = PyTuple_New(4);
 		PyTuple_SetItem(color, 0, PyLong_FromLong(1000));
 		PyTuple_SetItem(color, 1, PyLong_FromLong(0));
 		PyTuple_SetItem(color, 2, PyLong_FromLong(0));
 		PyTuple_SetItem(color, 3, PyLong_FromLong(255));
+		const char* tip = ""; 
+		const char* before = ""; 
+		const char* parent = ""; 
 
-		if (!Translators["add_text"].parse(args, kwargs,__FUNCTION__, &name, &wrap, &color, &bullet, MV_STANDARD_CALLBACK_PARSE))
+
+		if (!Translators["add_text"].parse(args, kwargs,__FUNCTION__, &name, &wrap, 
+			&color, &bullet, &tip, &parent, &before))
 			Py_RETURN_NONE;
 
 		auto mcolor = mvPythonTranslator::getColor(color);
@@ -1034,15 +1477,13 @@ namespace Marvel {
 			mcolor.specified = false;
 
 		mvAppItem* item = new mvText("", name, wrap, mcolor, bullet);
-
-		MV_STANDARD_CALLBACK_EVAL();
-
+		item->setTip(tip);
+		AddItemWithRuntimeChecks(item, parent, before);
 		Py_RETURN_NONE;
 	}
 
 	PyObject* add_label_text(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
-		MV_STANDARD_CALLBACK_INIT();
 
 		const char* name;
 		const char* value;
@@ -1051,8 +1492,14 @@ namespace Marvel {
 		PyTuple_SetItem(color, 1, PyLong_FromLong(0));
 		PyTuple_SetItem(color, 2, PyLong_FromLong(0));
 		PyTuple_SetItem(color, 3, PyLong_FromLong(255));
+		const char* tip = ""; 
+		const char* before = ""; 
+		const char* parent = ""; 
+		const char* data_source = "";
 
-		if (!Translators["add_label_text"].parse(args, kwargs,__FUNCTION__, &name, &value, &color, MV_STANDARD_CALLBACK_PARSE))
+
+		if (!Translators["add_label_text"].parse(args, kwargs,__FUNCTION__, &name, &value, 
+			&color, &tip, &parent, &before, &data_source))
 			Py_RETURN_NONE;
 
 		auto mcolor = mvPythonTranslator::getColor(color);
@@ -1060,104 +1507,135 @@ namespace Marvel {
 			mcolor.specified = false;
 
 		mvAppItem* item = new mvLabelText("", std::string(name), value, mcolor);
-
-		MV_STANDARD_CALLBACK_EVAL();
-
+		item->setTip(tip); 
+		item->setDataSource(data_source);
+		AddItemWithRuntimeChecks(item, parent, before);
 		Py_RETURN_NONE;
 	}
 
 	PyObject* add_listbox(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
-		MV_STANDARD_CALLBACK_INIT();
 		const char* name;
 		PyObject* items;
 		int default_value = 0;
+		const char* callback = "";
+		const char* tip = ""; 
+		int width = 0; 
+		int height = 3; 
+		const char* before = ""; 
+		const char* parent = ""; 
+		const char* data_source = "";
 
-		height = 3;
-
-		if (!Translators["add_listbox"].parse(args, kwargs,__FUNCTION__, &name, &items, &default_value, MV_STANDARD_CALLBACK_PARSE))
+		if (!Translators["add_listbox"].parse(args, kwargs,__FUNCTION__, &name, &items, 
+			&default_value, &callback, &tip, &parent, &before, &data_source, &width, &height))
 			Py_RETURN_NONE;
 
 		mvAppItem* item = new mvListbox("", name, mvPythonTranslator::getStringVec(items), default_value, height);
-
-		MV_STANDARD_CALLBACK_EVAL();
-
+		item->setCallback(callback); 
+		item->setTip(tip); 
+		item->setDataSource(data_source); 
+		item->setWidth(width); 
+		item->setHeight(height);
+		AddItemWithRuntimeChecks(item, parent, before);
 		Py_RETURN_NONE;
 	}
 
 	PyObject* add_combo(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
-		MV_STANDARD_CALLBACK_INIT();
 		const char* name;
 		const char* default_value = "";
 		PyObject* items;
+		const char* callback = "";
+		const char* tip = ""; 
+		int width = 0;
+		const char* before = ""; 
+		const char* parent = ""; 
+		const char* data_source = "";
 
-		if (!Translators["add_combo"].parse(args, kwargs,__FUNCTION__, &name, &items, &default_value, MV_STANDARD_CALLBACK_PARSE))
+		if (!Translators["add_combo"].parse(args, kwargs,__FUNCTION__, &name, &items, 
+			&default_value, &callback, &tip, &parent, &before, &data_source, &width))
 			Py_RETURN_NONE;
 
 		mvAppItem* item = new mvCombo("", name, mvPythonTranslator::getStringVec(items), default_value);
-
-		MV_STANDARD_CALLBACK_EVAL();
-
+		item->setCallback(callback); 
+		item->setTip(tip); 
+		item->setDataSource(data_source); 
+		item->setWidth(width);
+		AddItemWithRuntimeChecks(item, parent, before);
 		Py_RETURN_NONE;
 	}
 
 	PyObject* add_selectable(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
-		MV_STANDARD_CALLBACK_INIT();
 		const char* name;
 		int default_value = false;
+		const char* callback = "";
+		const char* tip = ""; 
+		const char* before = ""; 
+		const char* parent = ""; 
+		const char* data_source = "";
 
-		if (!Translators["add_selectable"].parse(args, kwargs,__FUNCTION__, &name, &default_value, MV_STANDARD_CALLBACK_PARSE))
+		if (!Translators["add_selectable"].parse(args, kwargs,__FUNCTION__, &name, 
+			&default_value, &callback, &tip, &parent, &before, &data_source))
 			Py_RETURN_NONE;
 
 		mvAppItem* item = new mvSelectable("", name, default_value);
-
-		MV_STANDARD_CALLBACK_EVAL();
-		
-
+		item->setCallback(callback); 
+		item->setTip(tip); 
+		item->setDataSource(data_source);
+		AddItemWithRuntimeChecks(item, parent, before);
 		Py_RETURN_NONE;
 	}
 
 	PyObject* add_button(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
-		MV_STANDARD_CALLBACK_INIT();
-
 		const char* name;
 		int small = false;
 		int arrow = false;
 		int direction = -1;
+		const char* callback = "";
+		const char* tip = ""; 
+		int width = 0; 
+		int height = 0; 
+		const char* before = ""; 
+		const char* parent = ""; 
 
 		if (!Translators["add_button"].parse(args, kwargs,__FUNCTION__, &name, &small,
-			&arrow, &direction, MV_STANDARD_CALLBACK_PARSE))
+			&arrow, &direction, &callback, &tip, &parent, &before, &width, &height))
 			Py_RETURN_NONE;
 
 		mvAppItem* item = new mvButton("", name, small, arrow, direction);
-
-		MV_STANDARD_CALLBACK_EVAL();
-
+		item->setCallback(callback); 
+		item->setTip(tip); 
+		item->setWidth(width); 
+		item->setHeight(height);
+		AddItemWithRuntimeChecks(item, parent, before);
 		Py_RETURN_NONE;
 	}
 
 	PyObject* add_input_text(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
-		MV_STANDARD_CALLBACK_INIT();
 		const char* name;
 		const char* default_value = "";
 		const char* hint = "";
 		int multiline = 0;
-
 		int no_spaces = false;
 		int uppercase = false;
 		int decimal = false;
 		int hexadecimal = false;
 		int readonly = false;
 		int password = false;
+		const char* callback = "";
+		const char* tip = ""; 
+		int width = 0; 
+		const char* before = ""; 
+		const char* parent = ""; 
+		const char* data_source = "";
 
 		int flags = 0;
 
 		if (!Translators["add_input_text"].parse(args, kwargs,__FUNCTION__, &name, &default_value, &hint, &multiline, &no_spaces, 
-			&uppercase, &decimal, &hexadecimal, &readonly, &password, MV_STANDARD_CALLBACK_PARSE))
+			&uppercase, &decimal, &hexadecimal, &readonly, &password, &callback, &tip, &parent, &before, &data_source, &width))
 			Py_RETURN_NONE;
 
 		if (no_spaces) flags |= ImGuiInputTextFlags_CharsNoBlank;
@@ -1168,161 +1646,220 @@ namespace Marvel {
 		if (password) flags |= ImGuiInputTextFlags_Password;
 
 		mvAppItem* item = new mvInputText("", name, default_value, hint, multiline, flags);
-
-		MV_STANDARD_CALLBACK_EVAL();
+		item->setCallback(callback); 
+		item->setTip(tip); 
+		item->setDataSource(data_source); 
+		item->setWidth(width);
+				
+		AddItemWithRuntimeChecks(item, parent, before);
 
 		Py_RETURN_NONE;
 	}
 
 	PyObject* add_input_int(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
-		MV_STANDARD_CALLBACK_INIT();
 		const char* name;
 		int default_value = 0;
+		const char* callback = "";
+		const char* tip = "";
+		int width = 0;
+		const char* before = "";
+		const char* parent = "";
+		const char* data_source = "";
 
-		if (!Translators["add_input_int"].parse(args, kwargs,__FUNCTION__, &name, &default_value, MV_STANDARD_CALLBACK_PARSE))
+		if (!Translators["add_input_int"].parse(args, kwargs,__FUNCTION__, &name, 
+			&default_value, &callback, &tip, &parent, &before, &data_source, &width))
 			Py_RETURN_NONE;
 
 		mvAppItem* item = new mvInputInt("", name, default_value);
+		item->setCallback(callback);
+		item->setTip(tip);
+		item->setDataSource(data_source);
+		item->setWidth(width);
 
-		MV_STANDARD_CALLBACK_EVAL();
-		
+		AddItemWithRuntimeChecks(item, parent, before);
 		Py_RETURN_NONE;
 	}
 
 	PyObject* add_input_int2(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
-		MV_STANDARD_CALLBACK_INIT();
-
 		const char* name;
 		PyObject* default_value = PyTuple_New(2);
 		PyTuple_SetItem(default_value, 0, PyLong_FromLong(0));
 		PyTuple_SetItem(default_value, 1, PyLong_FromLong(0));
+		const char* callback = "";
+		const char* tip = "";
+		int width = 0;
+		const char* before = "";
+		const char* parent = "";
+		const char* data_source = "";
 
-		if (!Translators["add_input_int2"].parse(args, kwargs, __FUNCTION__, &name, &default_value, MV_STANDARD_CALLBACK_PARSE))
+		if (!Translators["add_input_int2"].parse(args, kwargs, __FUNCTION__, &name, 
+			&default_value, &callback, &tip, &parent, &before, &data_source, &width))
 			Py_RETURN_NONE;
 
 		auto vec = mvPythonTranslator::getIntVec(default_value);
 
 		mvAppItem* item = new mvInputInt2("", name, vec.data());
+		item->setCallback(callback);
+		item->setTip(tip);
+		item->setDataSource(data_source);
+		item->setWidth(width);
 
-		MV_STANDARD_CALLBACK_EVAL();
-
+		AddItemWithRuntimeChecks(item, parent, before);
 		Py_RETURN_NONE;
 	}
 
 	PyObject* add_input_int3(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
-		MV_STANDARD_CALLBACK_INIT();
-
 		const char* name;
 		PyObject* default_value = PyTuple_New(3);
 		PyTuple_SetItem(default_value, 0, PyLong_FromLong(0));
 		PyTuple_SetItem(default_value, 1, PyLong_FromLong(0));
 		PyTuple_SetItem(default_value, 2, PyLong_FromLong(0));
+		const char* callback = "";
+		const char* tip = "";
+		int width = 0;
+		const char* before = "";
+		const char* parent = "";
+		const char* data_source = "";
 
-		if (!Translators["add_input_int3"].parse(args, kwargs, __FUNCTION__, &name, &default_value, MV_STANDARD_CALLBACK_PARSE))
+		if (!Translators["add_input_int3"].parse(args, kwargs, __FUNCTION__, &name, 
+			&default_value, &callback, &tip, &parent, &before, &data_source, &width))
 			Py_RETURN_NONE;
 
 		auto vec = mvPythonTranslator::getIntVec(default_value);
 
 		mvAppItem* item = new mvInputInt3("", name, vec.data());
-
-		MV_STANDARD_CALLBACK_EVAL();
-
+		item->setCallback(callback);
+		item->setTip(tip);
+		item->setDataSource(data_source);
+		item->setWidth(width);
+			
+		AddItemWithRuntimeChecks(item, parent, before);
 		Py_RETURN_NONE;
 	}
 
 	PyObject* add_input_int4(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
-		MV_STANDARD_CALLBACK_INIT();
-
 		const char* name;
 		PyObject* default_value = PyTuple_New(4);
 		PyTuple_SetItem(default_value, 0, PyLong_FromLong(0));
 		PyTuple_SetItem(default_value, 1, PyLong_FromLong(0));
 		PyTuple_SetItem(default_value, 2, PyLong_FromLong(0));
 		PyTuple_SetItem(default_value, 3, PyLong_FromLong(0));
+		const char* callback = "";
+		const char* tip = "";
+		int width = 0;
+		const char* before = "";
+		const char* parent = "";
+		const char* data_source = "";
 
-		if (!Translators["add_input_int4"].parse(args, kwargs, __FUNCTION__, &name, &default_value, MV_STANDARD_CALLBACK_PARSE))
+		if (!Translators["add_input_int4"].parse(args, kwargs, __FUNCTION__, &name, 
+			&default_value, &callback, &tip, &parent, &before, &data_source, &width))
 			Py_RETURN_NONE;
 
 		auto vec = mvPythonTranslator::getIntVec(default_value);
 
 		mvAppItem* item = new mvInputInt4("", name, vec.data());
-
-		MV_STANDARD_CALLBACK_EVAL();
-
+		item->setCallback(callback);
+		item->setTip(tip);
+		item->setDataSource(data_source);
+		item->setWidth(width);
+				
+		AddItemWithRuntimeChecks(item, parent, before);
 		Py_RETURN_NONE;
 	}
 
 	PyObject* add_input_float(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
-		MV_STANDARD_CALLBACK_INIT();
-
 		const char* name;
 		float default_value = 0.0f;
 		const char* format = "%.3f";
+		const char* callback = "";
+		const char* tip = "";
+		int width = 0;
+		const char* before = "";
+		const char* parent = "";
+		const char* data_source = "";
 
-		if (!Translators["add_input_float"].parse(args, kwargs, __FUNCTION__, &name, &default_value, &format, MV_STANDARD_CALLBACK_PARSE))
+		if (!Translators["add_input_float"].parse(args, kwargs, __FUNCTION__, &name, 
+			&default_value, &format, &callback, &tip, &parent, &before, &data_source, &width))
 			Py_RETURN_NONE;
 
 		mvAppItem* item = new mvInputFloat("", name, default_value, format);
+		item->setCallback(callback);
+		item->setTip(tip);
+		item->setDataSource(data_source);
+		item->setWidth(width);
 
-		MV_STANDARD_CALLBACK_EVAL();
-
+		AddItemWithRuntimeChecks(item, parent, before);
 		Py_RETURN_NONE;
 	}
 
 	PyObject* add_input_float2(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
-		MV_STANDARD_CALLBACK_INIT();
-
 		const char* name;
 		PyObject* default_value = PyTuple_New(2);
 		PyTuple_SetItem(default_value, 0, PyLong_FromLong(0));
 		PyTuple_SetItem(default_value, 1, PyLong_FromLong(0));
 		const char* format = "%.3f";
+		const char* callback = "";
+		const char* tip = "";
+		int width = 0;
+		const char* before = "";
+		const char* parent = "";
+		const char* data_source = "";
 
-		if (!Translators["add_input_float2"].parse(args, kwargs, __FUNCTION__, &name, &default_value, &format, MV_STANDARD_CALLBACK_PARSE))
+		if (!Translators["add_input_float2"].parse(args, kwargs, __FUNCTION__, &name, 
+			&default_value, &format, &callback, &tip, &parent, &before, &data_source, &width))
 			Py_RETURN_NONE;
 
 		auto vec = mvPythonTranslator::getFloatVec(default_value);
 
 		mvAppItem* item = new mvInputFloat2("", name, vec.data(), format);
+		item->setCallback(callback);
+		item->setTip(tip);
+		item->setDataSource(data_source);
+		item->setWidth(width);
 
-		MV_STANDARD_CALLBACK_EVAL();
-
+		AddItemWithRuntimeChecks(item, parent, before);
 		Py_RETURN_NONE;
 	}
 
 	PyObject* add_input_float3(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
-		MV_STANDARD_CALLBACK_INIT();
-
 		const char* name;
 		PyObject* default_value = PyTuple_New(3);
 		PyTuple_SetItem(default_value, 0, PyLong_FromLong(0));
 		PyTuple_SetItem(default_value, 1, PyLong_FromLong(0));
 		PyTuple_SetItem(default_value, 2, PyLong_FromLong(0));
 		const char* format = "%.3f";
+		const char* callback = "";
+		const char* tip = "";
+		int width = 0;
+		const char* before = "";
+		const char* parent = "";
+		const char* data_source = "";
 
-		if (!Translators["add_input_float3"].parse(args, kwargs, __FUNCTION__, &name, &default_value, &format, MV_STANDARD_CALLBACK_PARSE))
+		if (!Translators["add_input_float3"].parse(args, kwargs, __FUNCTION__, &name, 
+			&default_value, &format, &callback, &tip, &parent, &before, &data_source, &width))
 			Py_RETURN_NONE;
 
 		auto vec = mvPythonTranslator::getFloatVec(default_value);
 
 		mvAppItem* item = new mvInputFloat3("", name, vec.data(), format);
+		item->setCallback(callback);
+		item->setTip(tip);
+		item->setDataSource(data_source);
+		item->setWidth(width);
 
-		MV_STANDARD_CALLBACK_EVAL();
-
+		AddItemWithRuntimeChecks(item, parent, before);
 		Py_RETURN_NONE;
 	}
 
 	PyObject* add_input_float4(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
-		MV_STANDARD_CALLBACK_INIT();
-
 		const char* name;
 		PyObject* default_value = PyTuple_New(4);
 		PyTuple_SetItem(default_value, 0, PyLong_FromLong(0));
@@ -1330,77 +1867,95 @@ namespace Marvel {
 		PyTuple_SetItem(default_value, 2, PyLong_FromLong(0));
 		PyTuple_SetItem(default_value, 3, PyLong_FromLong(0));
 		const char* format = "%.3f";
+		const char* callback = "";
+		const char* tip = "";
+		int width = 0;
+		const char* before = "";
+		const char* parent = "";
+		const char* data_source = "";
 
-		if (!Translators["add_input_float4"].parse(args, kwargs, __FUNCTION__, &name, &default_value, &format, MV_STANDARD_CALLBACK_PARSE))
+		if (!Translators["add_input_float4"].parse(args, kwargs, __FUNCTION__, &name, 
+			&default_value, &format, &callback, &tip, &parent, &before, &data_source, &width))
 			Py_RETURN_NONE;
 
 		auto vec = mvPythonTranslator::getFloatVec(default_value);
 
 		mvAppItem* item = new mvInputFloat4("", name, vec.data(), format);
+		item->setCallback(callback);
+		item->setTip(tip);
+		item->setDataSource(data_source);
+		item->setWidth(width);
 
-		MV_STANDARD_CALLBACK_EVAL();
-
+		AddItemWithRuntimeChecks(item, parent, before);
 		Py_RETURN_NONE;
 	}
 
 	PyObject* add_indent(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		static int i = 0; i++;
-		MV_STANDARD_CALLBACK_INIT();
 		std::string sname = std::string("indent" + std::to_string(i));
 		const char* name = sname.c_str();
 		float offset = 0.0f;
+		const char* before = ""; 
+		const char* parent = "";
 
-		if (!Translators["add_indent"].parse(args, kwargs,__FUNCTION__, &name, &offset, MV_STANDARD_CALLBACK_PARSE))
+		if (!Translators["add_indent"].parse(args, kwargs,__FUNCTION__, &name, &offset, 
+			&parent, &before))
 			Py_RETURN_NONE;
 
 		mvAppItem* item = new mvIndent("", name, offset);
-
-		MV_STANDARD_CALLBACK_EVAL();
-
+		AddItemWithRuntimeChecks(item, parent, before);
 		Py_RETURN_NONE;
 	}
 
 	PyObject* unindent(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		static int i = 0; i++;
-		MV_STANDARD_CALLBACK_INIT();
 		std::string sname = std::string("unindent" + std::to_string(i));
 		const char* name = sname.c_str();
 		float offset = 0.0f;
+		const char* before = "";
+		const char* parent = "";
 
-		if (!Translators["unindent"].parse(args, kwargs,__FUNCTION__, &name, &offset, MV_STANDARD_CALLBACK_PARSE))
+		if (!Translators["unindent"].parse(args, kwargs,__FUNCTION__, &name, &offset, &parent, &before))
 			Py_RETURN_NONE;
 
 		mvAppItem* item = new mvUnindent("", name, offset);
-
-		MV_STANDARD_CALLBACK_EVAL();
-
+		AddItemWithRuntimeChecks(item, parent, before);
 		Py_RETURN_NONE;
 	}
 
 	PyObject* add_tab_bar(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
-		MV_STANDARD_CALLBACK_INIT();
 		const char* name;
 		int reorderable = false;
+		const char* callback = "";
+		const char* parent = "";
+		const char* before = "";
+		const char* data_source = "";
 
-		if (!Translators["add_tab_bar"].parse(args, kwargs, __FUNCTION__, &name, &reorderable, MV_STANDARD_CALLBACK_PARSE))
+		if (!Translators["add_tab_bar"].parse(args, kwargs, __FUNCTION__, &name, &reorderable, 
+			&callback, &parent, &before, &data_source))
 			Py_RETURN_NONE;
 
 		mvAppItem* item = new mvTabBar("", name, reorderable);
-		MV_STANDARD_CALLBACK_EVAL();
+		item->setCallback(callback); 
+		item->setDataSource(data_source);
+		AddItemWithRuntimeChecks(item, parent, before);
 		mvApp::GetApp()->pushParent(item);
 		Py_RETURN_NONE;
 	}
 
 	PyObject* add_tab(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
-		MV_STANDARD_CALLBACK_INIT();
 		const char* name;
 		int closeable = false;
+		const char* tip = "";
+		const char* before = ""; 
+		const char* parent = "";
 
-		if (!Translators["add_tab"].parse(args, kwargs, __FUNCTION__, &name, &closeable, MV_STANDARD_CALLBACK_PARSE))
+		if (!Translators["add_tab"].parse(args, kwargs, __FUNCTION__, &name, &closeable,
+			&tip, &parent, &before))
 			Py_RETURN_NONE;
 		
 		auto parentItem = mvApp::GetApp()->topParent();
@@ -1411,7 +1966,8 @@ namespace Marvel {
 		else if (parentItem->getType() == mvAppItemType::TabBar)
 		{
 			mvAppItem* item = new mvTab("", name, closeable);
-			MV_STANDARD_CALLBACK_EVAL();
+			item->setTip(tip);
+			AddItemWithRuntimeChecks(item, parent, before);
 			mvApp::GetApp()->pushParent(item);
 		}
 
@@ -1475,10 +2031,12 @@ namespace Marvel {
 
 	PyObject* add_menu_bar(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
-		MV_STANDARD_CALLBACK_INIT();
 		const char* name;
+		const char* before = ""; 
+		const char* parent = "";
 
-		if (!Translators["add_menu_bar"].parse(args, kwargs, __FUNCTION__, &name, MV_STANDARD_CALLBACK_PARSE))
+		if (!Translators["add_menu_bar"].parse(args, kwargs, __FUNCTION__, &name,
+			&parent, &before))
 			Py_RETURN_NONE;
 
 		auto parentItem = mvApp::GetApp()->topParent();
@@ -1488,7 +2046,7 @@ namespace Marvel {
 			auto window = static_cast<mvWindowAppitem*>(parentItem);
 			window->addFlag(ImGuiWindowFlags_MenuBar);
 			mvAppItem* item = new mvMenuBar(name);
-			MV_STANDARD_CALLBACK_EVAL();
+			AddItemWithRuntimeChecks(item, parent, before);
 			mvApp::GetApp()->pushParent(item);
 		}
 		
@@ -1498,10 +2056,13 @@ namespace Marvel {
 
 	PyObject* add_menu(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
-		MV_STANDARD_CALLBACK_INIT();
 		const char* name;
+		const char* tip = ""; 
+		const char* before = ""; 
+		const char* parent = "";
 
-		if (!Translators["add_menu"].parse(args, kwargs, __FUNCTION__, &name, MV_STANDARD_CALLBACK_PARSE))
+		if (!Translators["add_menu"].parse(args, kwargs, __FUNCTION__, &name, 
+			&tip, &parent, &before))
 			Py_RETURN_NONE;
 
 		auto parentItem = mvApp::GetApp()->topParent();
@@ -1512,7 +2073,8 @@ namespace Marvel {
 		else if (parentItem->getType() == mvAppItemType::MenuBar || parentItem->getType() == mvAppItemType::Menu)
 		{
 			mvAppItem* item = new mvMenu("", name);
-			MV_STANDARD_CALLBACK_EVAL();
+			item->setTip(tip);
+			AddItemWithRuntimeChecks(item, parent, before);
 			mvApp::GetApp()->pushParent(item);
 		}
 
@@ -1567,84 +2129,99 @@ namespace Marvel {
 
 	PyObject* add_menu_item(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
-		MV_STANDARD_CALLBACK_INIT();
 		const char* name;
+		const char* callback = "";
+		const char* tip = ""; 
+		const char* before = ""; 
+		const char* parent = "";
 
-		if (!Translators["add_menu_item"].parse(args, kwargs,__FUNCTION__, &name, MV_STANDARD_CALLBACK_PARSE))
+		if (!Translators["add_menu_item"].parse(args, kwargs,__FUNCTION__, &name, 
+			&callback, &tip, &parent, &before))
 			Py_RETURN_NONE;
 
 		mvAppItem* item = new mvMenuItem("", name);
-
-		MV_STANDARD_CALLBACK_EVAL();
-
+		item->setCallback(callback); 
+		item->setTip(tip); 
+		AddItemWithRuntimeChecks(item, parent, before);
 		Py_RETURN_NONE;
 	}
 
 	PyObject* add_spacing(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		static int i = 0; i++;
-
-		MV_STANDARD_CALLBACK_INIT();
 		std::string sname = std::string("spacing" + std::to_string(i));
 		const char* name = sname.c_str();
 		int count = 1;
+		const char* before = ""; 
+		const char* parent = "";
 
-		if (!Translators["add_spacing"].parse(args, kwargs,__FUNCTION__, &name, &count, MV_STANDARD_CALLBACK_PARSE))
+		if (!Translators["add_spacing"].parse(args, kwargs,__FUNCTION__, &name, &count,
+			&parent, &before))
 			Py_RETURN_NONE;
 
 		mvAppItem* item = new mvSpacing("", name, count);
-
-		MV_STANDARD_CALLBACK_EVAL();
-
+		AddItemWithRuntimeChecks(item, parent, before);
 		Py_RETURN_NONE;
 	}
 
 	PyObject* add_same_line(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		static int i = 0; i++;
-		MV_STANDARD_CALLBACK_INIT();
 		std::string sname = std::string("sameline" + std::to_string(i));
 		const char* name = sname.c_str();
 		float xoffset = 0.0f;
 		float spacing = 0.0f;
+		const char* before = "";
+		const char* parent = "";
 
-		if (!Translators["add_same_line"].parse(args, kwargs,__FUNCTION__, &name, &xoffset, &spacing, MV_STANDARD_CALLBACK_PARSE))
+		if (!Translators["add_same_line"].parse(args, kwargs,__FUNCTION__, &name,
+			&xoffset, &spacing, &parent, &before))
 			Py_RETURN_NONE;
 
 		mvAppItem* item = new mvSameLine("", name, xoffset, spacing);
-
-		MV_STANDARD_CALLBACK_EVAL();
-
+		AddItemWithRuntimeChecks(item, parent, before);
 		Py_RETURN_NONE;
 	}
 
 	PyObject* add_radio_button(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
-		MV_STANDARD_CALLBACK_INIT();
 		const char* name;
 		PyObject* items;
 		int default_value = 0;
+		const char* callback = "";
+		const char* tip = "";
+		const char* before = "";
+		const char* parent = "";
+		const char* data_source = "";
 
-		if (!Translators["add_radio_button"].parse(args, kwargs,__FUNCTION__, &name, &items, &default_value, MV_STANDARD_CALLBACK_PARSE))
+		if (!Translators["add_radio_button"].parse(args, kwargs,__FUNCTION__, &name, &items, 
+			&default_value, &callback, &tip, &parent, &before, &data_source))
 			Py_RETURN_NONE;
 
 		mvAppItem* item = new mvRadioButton("", name, mvPythonTranslator::getStringVec(items), default_value);
-
-		MV_STANDARD_CALLBACK_EVAL();
-		
+		item->setCallback(callback); 
+		item->setTip(tip); 
+		item->setDataSource(data_source); 
+		AddItemWithRuntimeChecks(item, parent, before);
 		Py_RETURN_NONE;
 	}
 
 	PyObject* add_group(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
-		MV_STANDARD_CALLBACK_INIT();
 		const char* name;
+		const char* tip = ""; 
+		int width = 0; 
+		const char* before = ""; 
+		const char* parent = "";
 
-		if (!Translators["add_group"].parse(args, kwargs, __FUNCTION__, &name, MV_STANDARD_CALLBACK_PARSE))
+		if (!Translators["add_group"].parse(args, kwargs, __FUNCTION__, &name, 
+			&tip, &parent, &before, &width))
 			Py_RETURN_NONE;
 
 		mvAppItem* item = new mvGroup("", name);
-		MV_STANDARD_CALLBACK_EVAL();
+		item->setTip(tip);
+		item->setWidth(width);
+		AddItemWithRuntimeChecks(item, parent, before);
 		mvApp::GetApp()->pushParent(item);
 		Py_RETURN_NONE;
 	}
@@ -1667,15 +2244,22 @@ namespace Marvel {
 
 	PyObject* add_child(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
-		MV_STANDARD_CALLBACK_INIT();
-
 		const char* name;
+		const char* tip = "";
+		int width = 0;
+		int height = 0;
+		const char* before = "";
+		const char* parent = "";
 
-		if (!Translators["add_child"].parse(args, kwargs, __FUNCTION__, &name, MV_STANDARD_CALLBACK_PARSE))
+		if (!Translators["add_child"].parse(args, kwargs, __FUNCTION__, &name, 
+			&tip, &parent, &before, &width, &height))
 			Py_RETURN_NONE;
 
 		mvAppItem* item = new mvChild("", name);
-		MV_STANDARD_CALLBACK_EVAL();
+		item->setTip(tip); 
+		item->setWidth(width); 
+		item->setHeight(height);
+		AddItemWithRuntimeChecks(item, parent, before);
 		mvApp::GetApp()->pushParent(item);
 
 		Py_RETURN_NONE;
@@ -1691,7 +2275,8 @@ namespace Marvel {
 		int autosize = false;
 		int hide = false;
 
-		if (!Translators["add_window"].parse(args, kwargs, __FUNCTION__, &name, &width, &height, &startx, &starty, &autosize, &hide))
+		if (!Translators["add_window"].parse(args, kwargs, __FUNCTION__, &name, &width, 
+			&height, &startx, &starty, &autosize, &hide))
 			Py_RETURN_NONE;
 
 		if (width == -1 && height == -1)
@@ -1746,16 +2331,17 @@ namespace Marvel {
 
 	PyObject* add_tooltip(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
-		MV_STANDARD_CALLBACK_INIT();
-		const char* tipparent, * name;
+		const char* tipparent;
+		const char*name;
+		const char* parent = ""; 
+		const char* before = ""; 
 
-		if (!Translators["add_tooltip"].parse(args, kwargs, __FUNCTION__, &tipparent, &name, MV_STANDARD_CALLBACK_PARSE))
+		if (!Translators["add_tooltip"].parse(args, kwargs, __FUNCTION__, &tipparent, 
+			&name, &parent, &before))
 			Py_RETURN_NONE;
 
 		mvAppItem* item = new mvTooltip(tipparent, name);
-
-
-		MV_STANDARD_CALLBACK_EVAL();
+		AddItemWithRuntimeChecks(item, parent, before);
 		mvApp::GetApp()->pushParent(item);
 		Py_RETURN_NONE;
 	}
@@ -1779,12 +2365,17 @@ namespace Marvel {
 
 	PyObject* add_popup(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
-		MV_STANDARD_CALLBACK_INIT();
-		const char* popupparent, * name;
+		const char* popupparent;
+		const char* name;
 		int mousebutton = 1;
 		int modal = false;
+		int width = 0;
+		int height = 0;
+		const char* before = "";
+		const char* parent = "";
 
-		if (!Translators["add_popup"].parse(args, kwargs, __FUNCTION__, &popupparent, &name, &mousebutton, &modal, MV_STANDARD_CALLBACK_PARSE))
+		if (!Translators["add_popup"].parse(args, kwargs, __FUNCTION__, &popupparent, 
+			&name, &mousebutton, &modal, &parent, &before, &width, &height))
 			Py_RETURN_NONE;
 
 		auto PopupParent = mvApp::GetApp()->getItem(popupparent);
@@ -1795,7 +2386,9 @@ namespace Marvel {
 			mvApp::GetApp()->getItem("MainWindow")->setPopup(name);
 
 		mvAppItem* item = new mvPopup(popupparent, name, mousebutton, modal);
-		MV_STANDARD_CALLBACK_EVAL();
+		item->setWidth(width); 
+		item->setHeight(height);
+		AddItemWithRuntimeChecks(item, parent, before);
 		mvApp::GetApp()->pushParent(item);
 		Py_RETURN_NONE;
 	}
@@ -1818,18 +2411,22 @@ namespace Marvel {
 
 	PyObject* add_collapsing_header(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
-		MV_STANDARD_CALLBACK_INIT();
 		const char* name;
 		int default_open = false;
 		int flags = 0;
+		const char* tip = ""; 
+		const char* before = ""; 
+		const char* parent = "";
 
-		if (!Translators["add_collapsing_header"].parse(args, kwargs, __FUNCTION__, &name, &default_open, MV_STANDARD_CALLBACK_PARSE))
+		if (!Translators["add_collapsing_header"].parse(args, kwargs, __FUNCTION__, &name, 
+			&default_open, &tip, &parent, &before))
 			Py_RETURN_NONE;
 
 		if (default_open) flags |= ImGuiTreeNodeFlags_DefaultOpen;
 
 		mvAppItem* item = new mvCollapsingHeader("", name, flags);
-		MV_STANDARD_CALLBACK_EVAL();
+		item->setTip(tip);
+		AddItemWithRuntimeChecks(item, parent, before);
 		mvApp::GetApp()->pushParent(item);
 		Py_RETURN_NONE;
 	}
@@ -1852,18 +2449,22 @@ namespace Marvel {
 
 	PyObject* add_tree_node(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
-		MV_STANDARD_CALLBACK_INIT();
 		const char* name;
 		int default_open = false;
 		int flags = 0;
+		const char* tip = "";
+		const char* before = "";
+		const char* parent = "";
 
-		if (!Translators["add_tree_node"].parse(args, kwargs, __FUNCTION__, &name, &default_open, MV_STANDARD_CALLBACK_PARSE))
+		if (!Translators["add_tree_node"].parse(args, kwargs, __FUNCTION__, &name, 
+			&default_open, &tip, &parent, &before))
 			Py_RETURN_NONE;
 
 		if (default_open) flags |= ImGuiTreeNodeFlags_DefaultOpen;
 
 		mvAppItem* item = new mvTreeNode("", name, flags);
-		MV_STANDARD_CALLBACK_EVAL();
+		item->setTip(tip);
+		AddItemWithRuntimeChecks(item, parent, before);
 		mvApp::GetApp()->pushParent(item);
 		Py_RETURN_NONE;
 	}
@@ -1887,118 +2488,167 @@ namespace Marvel {
 	PyObject* add_seperator(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		static int i = 0; i++;
-		MV_STANDARD_CALLBACK_INIT();
 		std::string sname = std::string("seperator" + std::to_string(i));
 		const char* name = sname.c_str();
+		const char* tip = "";
+		const char* parent = "";
+		const char* before = "";
 
-		if (!Translators["add_seperator"].parse(args, kwargs, __FUNCTION__, &name, MV_STANDARD_CALLBACK_PARSE))
+		if (!Translators["add_seperator"].parse(args, kwargs, __FUNCTION__, &name, &tip, &parent, &before))
 			Py_RETURN_NONE;
 
 		mvAppItem* item = new mvSeparator("", name);
+		item->setTip(tip);
 
-		MV_STANDARD_CALLBACK_EVAL();
+		AddItemWithRuntimeChecks(item, parent, before);
 		
 		Py_RETURN_NONE;
 	}
 	
 	PyObject* add_color_edit3(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
-		MV_STANDARD_CALLBACK_INIT();
 		const char* name;
 		PyObject* default_value = PyTuple_New(3);
 		PyTuple_SetItem(default_value, 0, PyLong_FromLong(0));
 		PyTuple_SetItem(default_value, 1, PyLong_FromLong(0));
 		PyTuple_SetItem(default_value, 2, PyLong_FromLong(0));
+		const char* callback = "";
+		const char* tip = "";
+		int width = 0;
+		int height = 0;
+		const char* before = "";
+		const char* parent = "";
+		const char* data_source = "";
 
-		if (!Translators["add_color_edit3"].parse(args, kwargs, __FUNCTION__, &name, &default_value, MV_STANDARD_CALLBACK_PARSE))
+		if (!Translators["add_color_edit3"].parse(args, kwargs, __FUNCTION__, &name, 
+			&default_value, &callback, &tip, &parent, &before, &data_source, &width, &height))
 			Py_RETURN_NONE;
 
 		auto color = mvPythonTranslator::getColor(default_value);
 
 		mvAppItem* item = new mvColorEdit3("", name, color);
-
-		MV_STANDARD_CALLBACK_EVAL();
-
+		item->setCallback(callback); 
+		item->setTip(tip); 
+		item->setDataSource(data_source); 
+		item->setWidth(width); 
+		item->setHeight(height);
+		AddItemWithRuntimeChecks(item, parent, before);
 		Py_RETURN_NONE;
 	}
 
 	PyObject* add_color_edit4(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
-		MV_STANDARD_CALLBACK_INIT();
 		const char* name;
 		PyObject* default_value = PyTuple_New(4);
 		PyTuple_SetItem(default_value, 0, PyLong_FromLong(0));
 		PyTuple_SetItem(default_value, 1, PyLong_FromLong(0));
 		PyTuple_SetItem(default_value, 2, PyLong_FromLong(0));
 		PyTuple_SetItem(default_value, 3, PyLong_FromLong(0));
+		const char* callback = "";
+		const char* tip = "";
+		int width = 0;
+		int height = 0;
+		const char* before = "";
+		const char* parent = "";
+		const char* data_source = "";
 
-		if (!Translators["add_color_edit4"].parse(args, kwargs,__FUNCTION__, &name, &default_value, MV_STANDARD_CALLBACK_PARSE))
+		if (!Translators["add_color_edit4"].parse(args, kwargs,__FUNCTION__, &name, &default_value, &callback, &tip, &parent, &before, &data_source, &width, &height))
 			Py_RETURN_NONE;
 
 		auto color = mvPythonTranslator::getColor(default_value);
 
 		mvAppItem* item = new mvColorEdit4("", name, color);
-		MV_STANDARD_CALLBACK_EVAL();
-		
+		item->setCallback(callback);
+		item->setTip(tip);
+		item->setDataSource(data_source);
+		item->setWidth(width);
+		item->setHeight(height);
+		AddItemWithRuntimeChecks(item, parent, before);
 		Py_RETURN_NONE;
 	}
 
 	PyObject* add_color_picker3(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
-		MV_STANDARD_CALLBACK_INIT();
 		const char* name;
 		PyObject* default_value = PyTuple_New(3);
 		PyTuple_SetItem(default_value, 0, PyLong_FromLong(0));
 		PyTuple_SetItem(default_value, 1, PyLong_FromLong(0));
 		PyTuple_SetItem(default_value, 2, PyLong_FromLong(0));
+		const char* callback = "";
+		const char* tip = "";
+		int width = 0;
+		int height = 0;
+		const char* before = "";
+		const char* parent = "";
+		const char* data_source = "";
 
-		if (!Translators["add_color_picker3"].parse(args, kwargs, __FUNCTION__, &name, &default_value, MV_STANDARD_CALLBACK_PARSE))
+		if (!Translators["add_color_picker3"].parse(args, kwargs, __FUNCTION__, &name, &default_value, &callback, &tip, &parent, &before, &data_source, &width, &height))
 			Py_RETURN_NONE;
 
 		auto color = mvPythonTranslator::getColor(default_value);
 
 		mvAppItem* item = new mvColorPicker3("", name, color);
-
-		MV_STANDARD_CALLBACK_EVAL();
-
+		item->setCallback(callback);
+		item->setTip(tip);
+		item->setDataSource(data_source);
+		item->setWidth(width);
+		item->setHeight(height);
+		AddItemWithRuntimeChecks(item, parent, before);
 		Py_RETURN_NONE;
 	}
 
 	PyObject* add_color_picker4(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
-		MV_STANDARD_CALLBACK_INIT();
 		const char* name;
 		PyObject* default_value = PyTuple_New(4);
 		PyTuple_SetItem(default_value, 0, PyLong_FromLong(0));
 		PyTuple_SetItem(default_value, 1, PyLong_FromLong(0));
 		PyTuple_SetItem(default_value, 2, PyLong_FromLong(0));
 		PyTuple_SetItem(default_value, 3, PyLong_FromLong(1));
+		const char* callback = "";
+		const char* tip = "";
+		int width = 0;
+		int height = 0;
+		const char* before = "";
+		const char* parent = "";
+		const char* data_source = "";
 
-		if (!Translators["add_color_picker4"].parse(args, kwargs, __FUNCTION__, &name, &default_value, MV_STANDARD_CALLBACK_PARSE))
+		if (!Translators["add_color_picker4"].parse(args, kwargs, __FUNCTION__, &name, 
+			&default_value, &callback, &tip, &parent, &before, &data_source, &width, &height))
 			Py_RETURN_NONE;
 
 		auto color = mvPythonTranslator::getColor(default_value);
 
 		mvAppItem* item = new mvColorPicker4("", name, color);
-
-		MV_STANDARD_CALLBACK_EVAL();
-
+		item->setCallback(callback);
+		item->setTip(tip);
+		item->setDataSource(data_source);
+		item->setWidth(width);
+		item->setHeight(height);
+		AddItemWithRuntimeChecks(item, parent, before);
 		Py_RETURN_NONE;
 	}
 
 	PyObject* add_checkbox(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
-		MV_STANDARD_CALLBACK_INIT();
 		const char* name;
 		int default_value = 0;
+		const char* callback = "";
+		const char* tip = "";
+		const char* before = "";
+		const char* parent = "";
+		const char* data_source = "";
 
-		if (!Translators["add_checkbox"].parse(args, kwargs,__FUNCTION__, &name, &default_value, MV_STANDARD_CALLBACK_PARSE))
+
+		if (!Translators["add_checkbox"].parse(args, kwargs,__FUNCTION__, &name, 
+			&default_value, &callback, &tip, &parent, &before, &data_source))
 			Py_RETURN_NONE;
 
 		mvAppItem* item = new mvCheckbox("", name, default_value);
-
-		MV_STANDARD_CALLBACK_EVAL();
-
+		item->setCallback(callback); 
+		item->setTip(tip); 
+		item->setDataSource(data_source);
+		AddItemWithRuntimeChecks(item, parent, before);
 		Py_RETURN_NONE;
 	}
 
