@@ -171,7 +171,7 @@ namespace Marvel {
 				for (int i = 0; i < m_names.size(); i++)
 				{
 					bool is_selected = (m_value == m_names[i]);
-					if (ImGui::Selectable(m_names[i].c_str(), is_selected))
+					if (ImGui::Selectable((m_names[i] + "##" + m_name).c_str(), is_selected))
 					{
 						if (!m_dataSource.empty())
 							mvApp::GetApp()->addData(m_dataSource, getPyValue());
@@ -260,7 +260,7 @@ namespace Marvel {
 		{
 			for (int i = 0; i < m_itemnames.size(); i++)
 			{
-				if (ImGui::RadioButton(m_itemnames[i].c_str(), &m_value[0], i))
+				if (ImGui::RadioButton((m_itemnames[i] + "##" + m_name).c_str(), &m_value[0], i))
 				{
 					if (!m_dataSource.empty())
 						mvApp::GetApp()->addData(m_dataSource, getPyValue());
