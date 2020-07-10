@@ -123,6 +123,7 @@ namespace Marvel {
 		// Callbacks
 		//-----------------------------------------------------------------------------
 		void runCallback                (const std::string& name, const std::string& sender);
+		void runCallbackP               (const std::string& name, const std::string& sender, PyObject* data);
 		void runCallbackD               (const std::string& name, int sender, float data = 0.0f);
 		void runAsyncCallback           (std::string name, PyObject* data, std::string returnname);
 		void runAsyncCallbackReturn     (std::string name, PyObject* data);

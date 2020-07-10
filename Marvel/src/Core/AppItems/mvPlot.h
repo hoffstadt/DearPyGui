@@ -57,8 +57,8 @@ namespace Marvel {
 
 		mvPlot(const std::string& parent, const std::string& name, const std::string& xname="", 
 			const std::string& yname="", int width = -1, int height = 0, ImPlotFlags flags = 0, 
-			ImPlotAxisFlags xflags = 0, ImPlotAxisFlags yflags = 0)
-			: mvNoneItemBase(parent, name), m_xaxisName(xname), m_yaxisName(yname)
+			ImPlotAxisFlags xflags = 0, ImPlotAxisFlags yflags = 0, const std::string& queryCallback = "")
+			: mvNoneItemBase(parent, name), m_xaxisName(xname), m_yaxisName(yname), m_queryCallback(queryCallback)
 		{
 			m_width = width;
 			m_height = height;
@@ -106,6 +106,29 @@ namespace Marvel {
 
 				ImPlot::SetColormap(ImPlotColormap_Default);
 
+				m_queried = ImPlot::IsPlotQueried();
+
+				if (m_queried)
+				{
+					auto area = ImPlot::GetPlotQuery();
+					m_queryArea[0] = area.X.Min;
+					m_queryArea[1] = area.X.Max;
+					m_queryArea[2] = area.Y.Min;
+					m_queryArea[3] = area.Y.Max;
+				}
+
+				if (!m_queryCallback.empty() && m_queried)
+				{
+					PyGILState_STATE gstate = PyGILState_Ensure();
+					PyObject* area = PyTuple_New(4);
+					PyTuple_SetItem(area, 0, PyFloat_FromDouble(m_queryArea[0]));
+					PyTuple_SetItem(area, 1, PyFloat_FromDouble(m_queryArea[1]));
+					PyTuple_SetItem(area, 2, PyFloat_FromDouble(m_queryArea[2]));
+					PyTuple_SetItem(area, 3, PyFloat_FromDouble(m_queryArea[3]));
+					PyGILState_Release(gstate);
+					mvApp::GetApp()->runCallbackP(m_queryCallback, m_name, area);
+				}
+
 				ImPlot::EndPlot();
 			}
 
@@ -134,6 +157,16 @@ namespace Marvel {
 			m_setYLimits = false;
 		}
 
+		bool isPlotQueried() const
+		{
+			return m_queried;
+		}
+
+		float* getPlotQueryArea()
+		{
+			return m_queryArea;
+		}
+
 	private:
 
 		std::string     m_xaxisName;
@@ -146,6 +179,9 @@ namespace Marvel {
 		bool            m_setYLimits = false;
 		ImVec2          m_xlimits;
 		ImVec2          m_ylimits;
+		std::string     m_queryCallback;
+		bool            m_queried = false;
+		float           m_queryArea[4];
 
 		std::vector<mvSeries*> m_series;
 

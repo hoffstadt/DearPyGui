@@ -692,6 +692,61 @@ namespace Marvel {
 		PyGILState_Release(gstate);
 	}
 
+	void mvApp::runCallbackP(const std::string& name, const std::string& sender, PyObject* data)
+	{
+		if (name.empty())
+			return;
+
+		PyGILState_STATE gstate = PyGILState_Ensure();
+
+		PyObject* pHandler = PyDict_GetItemString(m_pDict, name.c_str()); // borrowed reference
+
+		// if callback doesn't exist
+		if (pHandler == NULL)
+		{
+			std::string message(" Callback doesn't exist");
+			mvAppLog::getLogger()->LogWarning(name + message);
+			PyGILState_Release(gstate);
+			return;
+		}
+
+		// check if handler is callable
+		if (PyCallable_Check(pHandler))
+		{
+
+			PyErr_Clear();
+
+			PyObject* pArgs = PyTuple_New(2);
+			PyTuple_SetItem(pArgs, 0, PyUnicode_FromString(sender.c_str()));
+			PyTuple_SetItem(pArgs, 1, data);
+
+			PyObject* result = PyObject_CallObject(pHandler, pArgs);
+
+			// check if call succeded
+			if (!result)
+			{
+				std::string message("Callback failed");
+				mvAppLog::getLogger()->LogError(name + message);
+			}
+
+			Py_XDECREF(pArgs);
+			Py_XDECREF(result);
+
+			// check if error occurred
+			if (PyErr_Occurred())
+				PyErr_Print();
+
+		}
+
+		else
+		{
+			std::string message(" Callback not callable");
+			mvAppLog::getLogger()->LogError(name + message);
+		}
+
+		PyGILState_Release(gstate);
+	}
+
 	void mvApp::runCallbackD(const std::string& name, int sender, float data)
 	{
 		if (name.empty())

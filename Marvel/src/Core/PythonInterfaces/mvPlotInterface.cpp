@@ -27,11 +27,20 @@ namespace Marvel {
 				{mvPythonDataType::String, "before", "Item to add this item before. (runtime adding)"},
 				{mvPythonDataType::Integer, "width",""},
 				{mvPythonDataType::Integer, "height", ""},
+				{mvPythonDataType::String, "query_callback", "Callback ran when plot is queried. Should be of the form 'def Callback(sender, data)'\n Data is (x_min, x_max, y_min, y_max)."},
 			}, "Adds a plot widget.")},
 
 			{"clear_plot", mvPythonTranslator({
 				{mvPythonDataType::String, "plot"},
 			}, "Clears a plot.")},
+
+			{"is_plot_queried", mvPythonTranslator({
+				{mvPythonDataType::String, "plot"},
+			}, "Clears a plot.", "boolean")},
+
+			{"get_plot_query_area", mvPythonTranslator({
+				{mvPythonDataType::String, "plot"},
+			}, "Clears a plot.", "List(float) -> (x_min, x_max, y_min, y_max)")},
 
 			{"set_color_map", mvPythonTranslator({
 				{mvPythonDataType::String, "plot"},
@@ -207,6 +216,46 @@ namespace Marvel {
 		Py_RETURN_NONE;
 	}
 
+	PyObject* is_plot_queried(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		const char* plot;
+
+		if (!Translators["is_plot_queried"].parse(args, kwargs, __FUNCTION__, &plot))
+			Py_RETURN_NONE;
+
+		mvAppItem* aplot = mvApp::GetApp()->getItem(plot);
+		if (aplot == nullptr)
+		{
+			std::string message = plot;
+			mvAppLog::getLogger()->LogWarning(message + " plot does not exist.");
+			Py_RETURN_NONE;
+		}
+		mvPlot* graph = static_cast<mvPlot*>(aplot);
+
+		return Py_BuildValue("b", graph->isPlotQueried());
+	}
+
+	PyObject* get_plot_query_area(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		const char* plot;
+
+		if (!Translators["get_plot_query_area"].parse(args, kwargs, __FUNCTION__, &plot))
+			Py_RETURN_NONE;
+
+		mvAppItem* aplot = mvApp::GetApp()->getItem(plot);
+		if (aplot == nullptr)
+		{
+			std::string message = plot;
+			mvAppLog::getLogger()->LogWarning(message + " plot does not exist.");
+			Py_RETURN_NONE;
+		}
+		mvPlot* graph = static_cast<mvPlot*>(aplot);
+
+		auto area = graph->getPlotQueryArea();
+
+		return Py_BuildValue("(ffff)", area[0], area[1], area[2], area[3]);
+	}
+
 	PyObject* set_color_map(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		const char* plot;
@@ -241,12 +290,13 @@ namespace Marvel {
 		const char* before = "";
 		int width = -1;
 		int height = -1;
+		const char* query_callback = "";
 
 		if (!Translators["add_plot"].parse(args, kwargs, __FUNCTION__, &name, &xAxisName, &yAxisName, &flags,
-			&xflags, &yflags, &parent, &before, &width, &height))
+			&xflags, &yflags, &parent, &before, &width, &height, &query_callback))
 			Py_RETURN_NONE;
 
-		mvAppItem* item = new mvPlot("", name,xAxisName, yAxisName, width, height, flags, xflags, yflags);
+		mvAppItem* item = new mvPlot("", name,xAxisName, yAxisName, width, height, flags, xflags, yflags, query_callback);
 		item->setWidth(width);
 		item->setHeight(height);
 
@@ -415,6 +465,8 @@ namespace Marvel {
 
 		auto pyModule = new mvPythonModule("sbPlot", {});
 
+		pyModule->addMethodD(is_plot_queried);
+		pyModule->addMethodD(get_plot_query_area);
 		pyModule->addMethodD(clear_plot);
 		pyModule->addMethodD(set_plot_xlimits_auto);
 		pyModule->addMethodD(set_plot_ylimits_auto);
