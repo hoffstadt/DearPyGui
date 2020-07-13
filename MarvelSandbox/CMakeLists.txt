@@ -28,3 +28,7 @@ target_link_libraries(MarvelSandbox
 add_custom_command(TARGET MarvelSandbox PRE_BUILD
                    COMMAND ${CMAKE_COMMAND} -E copy_directory
                        ${CMAKE_SOURCE_DIR}/Output/python/Debug/ $<TARGET_FILE_DIR:MarvelSandbox>)
+
+add_custom_command(TARGET MarvelSandbox PRE_BUILD
+                   COMMAND ${CMAKE_COMMAND} -E copy
+                       ${CMAKE_SOURCE_DIR}/MarvelSandbox/sbConfig.json $<TARGET_FILE_DIR:MarvelSandbox>)

@@ -52,6 +52,7 @@ namespace Marvel {
 		std::string AppName = "Demo";
 		std::string PathName = "";
 		std::string LibraryPath = "";
+		std::string theme = "Dark";
 
 		// flags
 		bool documentation = false; // starts application with the documentation window shown
