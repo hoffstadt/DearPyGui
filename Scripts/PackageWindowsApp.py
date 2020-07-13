@@ -10,14 +10,13 @@ build_dir = script_dir + "/../Dependencies/cpython/PCbuild/amd64/"
 
 # directories to put prepared files into
 window_app_dir = script_dir + "/../Output/SandboxForWindows/"
-app_depend_dir = script_dir + "/../Output/SandboxForWindows/Dependencies/"
+app_depend_dir = script_dir + "/../Output/SandboxForWindows/"
 
 new_python_dir = script_dir + "/../Output/Python/"
 debug_dir = script_dir + "/../Output/Python/Debug/"
 
 if not os.path.isdir(window_app_dir):
     os.mkdir(window_app_dir)
-    os.mkdir(app_depend_dir)
 
 # delete everything except python fils
 for file in glob.glob("../SandboxForWindows/*.*"):

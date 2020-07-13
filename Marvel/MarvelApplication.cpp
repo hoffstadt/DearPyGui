@@ -116,7 +116,7 @@ namespace Marvel {
 	{
 		addedPath = PathName + "\\";
 
-		PathName = PathName + ";Dependencies/python38.zip;.;" + LibraryPath + ";";
+		PathName = PathName + ";python38.zip;.;" + LibraryPath + ";";
 
 		program = Py_DecodeLocale(argv[0], NULL);
 		if (program == NULL) {
