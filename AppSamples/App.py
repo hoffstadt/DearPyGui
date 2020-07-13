@@ -1,10 +1,5 @@
-from sbApp import *
-from sbLog import *
-from sbInput import *
-from sbPlot import *
-from sbDraw import *
-from sbWidgets import *
-import sbConstants
+from marvel import *
+import marvel_constants as mc
 
 # This app is used for packaging.
 # Make it your own!

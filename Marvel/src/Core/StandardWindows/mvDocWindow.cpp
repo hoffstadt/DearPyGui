@@ -9,23 +9,82 @@ namespace Marvel {
 
 	mvDocWindow::mvDocWindow() : mvStandardWindow()
 	{
-		m_sbWidgets = mvInterfaceRegistry::GetRegistry()->getPythonInterfaceCommands("sbWidgets");
-		m_sbApp = mvInterfaceRegistry::GetRegistry()->getPythonInterfaceCommands("sbApp");
-		m_sbLog = mvInterfaceRegistry::GetRegistry()->getPythonInterfaceCommands("sbLog");
-		m_sbInput = mvInterfaceRegistry::GetRegistry()->getPythonInterfaceCommands("sbInput");
-		m_sbPlot = mvInterfaceRegistry::GetRegistry()->getPythonInterfaceCommands("sbPlot");
-		m_sbDraw = mvInterfaceRegistry::GetRegistry()->getPythonInterfaceCommands("sbDraw");
-		m_sbConstants = mvInterfaceRegistry::GetRegistry()->getConstantsCommands();
+		m_marvel = mvInterfaceRegistry::GetRegistry()->getPythonInterfaceCommands("marvel");
+		m_marvelConstants = mvInterfaceRegistry::GetRegistry()->getConstantsCommands();
 
-		m_sbDocWidgets = mvInterfaceRegistry::GetRegistry()->getPythonInterfaceDoc("sbWidgets");
-		m_sbDocApp = mvInterfaceRegistry::GetRegistry()->getPythonInterfaceDoc("sbApp");
-		m_sbDocLog = mvInterfaceRegistry::GetRegistry()->getPythonInterfaceDoc("sbLog");
-		m_sbDocInput = mvInterfaceRegistry::GetRegistry()->getPythonInterfaceDoc("sbInput");
-		m_sbDocPlot = mvInterfaceRegistry::GetRegistry()->getPythonInterfaceDoc("sbPlot");
-		m_sbDocDraw = mvInterfaceRegistry::GetRegistry()->getPythonInterfaceDoc("sbDraw");
+		m_docMarvel = mvInterfaceRegistry::GetRegistry()->getPythonInterfaceDoc("marvel");
 
-		//m_flags |= ImGuiWindowFlags_AlwaysAutoResize;
+		//
+		for (int i = 0; i<m_marvel.size(); i++)
+		{
+			std::string category = mvInterfaceRegistry::GetRegistry()->getPythonInterface("marvel")[m_marvel[i]].getCategory();
 
+			if (category == "App")
+			{
+				m_app.push_back(m_marvel[i]);
+				m_docApp.push_back(m_docMarvel[i]);
+			}
+
+			else if (category == "Logging")
+			{
+				m_logging.push_back(m_marvel[i]);
+				m_docLogging.push_back(m_docMarvel[i]);
+			}
+
+			else if (category == "Adding Widgets")
+			{
+				m_widgets.push_back(m_marvel[i]);
+				m_docWidgets.push_back(m_docMarvel[i]);
+			}
+
+			else if (category == "Widget Commands")
+			{
+				m_widgetsCommands.push_back(m_marvel[i]);
+				m_docWidgetsCommands.push_back(m_docMarvel[i]);
+			}
+
+			else if (category == "Containers")
+			{
+				m_containers.push_back(m_marvel[i]);
+				m_docContainers.push_back(m_docMarvel[i]);
+			}
+
+			else if (category == "Drawing")
+			{
+				m_drawing.push_back(m_marvel[i]);
+				m_docDrawing.push_back(m_docMarvel[i]);
+			}
+
+			else if (category == "Plotting")
+			{
+				m_plotting.push_back(m_marvel[i]);
+				m_docPlotting.push_back(m_docMarvel[i]);
+			}
+
+			else if (category == "Tables")
+			{
+				m_tables.push_back(m_marvel[i]);
+				m_docTables.push_back(m_docMarvel[i]);
+			}
+
+			else if (category == "Themes and Styles")
+			{
+				m_themes.push_back(m_marvel[i]);
+				m_docThemes.push_back(m_docMarvel[i]);
+			}
+
+			else if (category == "Input Polling")
+			{
+				m_inputs.push_back(m_marvel[i]);
+				m_docInputs.push_back(m_docMarvel[i]);
+			}
+
+			else if (category == "Standard Windows")
+			{
+				m_windows.push_back(m_marvel[i]);
+				m_docWindows.push_back(m_docMarvel[i]);
+			}
+		}
 	}
 
 	mvStandardWindow* mvDocWindow::GetWindow()
@@ -456,70 +515,91 @@ namespace Marvel {
 			{
 				ImGui::BeginGroup();
 				ImGui::SetNextItemWidth(500);
-				ImGui::ListBox("Modules", &m_moduleSelection, &m_modules[0], 7, 7);
+				ImGui::ListBox("Category", &categorySelection, &m_categories[0], 12, 7);
 
 				ImGui::SetNextItemWidth(500);
-				if (m_moduleSelection == 0)
+				if (categorySelection == 0)
 				{
 					static int selection = 0;
-					if (ImGui::ListBox("Commands", &selection, m_sbWidgets.data(), m_sbWidgets.size(), 30))
-					{
-						m_doc = m_sbDocWidgets[selection];
-					}
+					if (ImGui::ListBox("Commands", &selection, m_app.data(), m_app.size(), 30))
+						m_doc = m_docApp[selection];
 				}
 
-				else if (m_moduleSelection == 1)
+				else if (categorySelection == 1)
 				{
 					static int selection = 0;
-					if (ImGui::ListBox("Commands", &selection, m_sbApp.data(), m_sbApp.size(), 30))
-					{
-						m_doc = m_sbDocApp[selection];
-					}
+					if (ImGui::ListBox("Commands", &selection, m_logging.data(), m_logging.size(), 30))
+						m_doc = m_docLogging[selection];
 				}
 
-				else if (m_moduleSelection == 2)
+				else if (categorySelection == 2)
 				{
 					static int selection = 0;
-					if (ImGui::ListBox("Commands", &selection, m_sbLog.data(), m_sbLog.size(), 30))
-					{
-						m_doc = m_sbDocLog[selection];
-					}
+					if (ImGui::ListBox("Commands", &selection, m_widgets.data(), m_widgets.size(), 30))
+						m_doc = m_docWidgets[selection];
 				}
 
-				else if (m_moduleSelection == 3)
+				else if (categorySelection == 3)
 				{
 					static int selection = 0;
-					if (ImGui::ListBox("Commands", &selection, m_sbInput.data(), m_sbInput.size(), 30))
-					{
-						m_doc = m_sbDocInput[selection];
-					}
+					if (ImGui::ListBox("Commands", &selection, m_widgetsCommands.data(), m_widgetsCommands.size(), 30))
+						m_doc = m_docWidgetsCommands[selection];
 				}
 
-				else if (m_moduleSelection == 4)
+				else if (categorySelection == 4)
 				{
 					static int selection = 0;
-					if (ImGui::ListBox("Commands", &selection, m_sbPlot.data(), m_sbPlot.size(), 30))
-					{
-						m_doc = m_sbDocPlot[selection];
-					}
+					if (ImGui::ListBox("Commands", &selection, m_containers.data(), m_containers.size(), 30))
+						m_doc = m_docContainers[selection];
 				}
 
-				else if (m_moduleSelection == 5)
+				else if (categorySelection == 5)
 				{
 					static int selection = 0;
-					if (ImGui::ListBox("Commands", &selection, m_sbDraw.data(), m_sbDraw.size(), 30))
-					{
-						m_doc = m_sbDocDraw[selection];
-					}
+					if (ImGui::ListBox("Commands", &selection, m_drawing.data(), m_drawing.size(), 30))
+						m_doc = m_docDrawing[selection];
 				}
 
-				else if (m_moduleSelection == 6)
+				else if (categorySelection == 6)
 				{
 					static int selection = 0;
-					if (ImGui::ListBox("Commands", &selection, m_sbConstants.data(), m_sbConstants.size(), 30))
-					{
+					if (ImGui::ListBox("Commands", &selection, m_plotting.data(), m_plotting.size(), 30))
+						m_doc = m_docPlotting[selection];
+				}
+
+				else if (categorySelection == 7)
+				{
+					static int selection = 0;
+					if (ImGui::ListBox("Commands", &selection, m_tables.data(), m_tables.size(), 30))
+						m_doc = m_docTables[selection];
+				}
+
+				else if (categorySelection == 8)
+				{
+					static int selection = 0;
+					if (ImGui::ListBox("Commands", &selection, m_themes.data(), m_themes.size(), 30))
+						m_doc = m_docThemes[selection];
+				}
+
+				else if (categorySelection == 9)
+				{
+					static int selection = 0;
+					if (ImGui::ListBox("Commands", &selection, m_inputs.data(), m_inputs.size(), 30))
+						m_doc = m_docInputs[selection];
+				}
+
+				else if (categorySelection == 10)
+				{
+					static int selection = 0;
+					if (ImGui::ListBox("Commands", &selection, m_windows.data(), m_windows.size(), 30))
+						m_doc = m_docWindows[selection];
+				}
+
+				else if (categorySelection == 11)
+				{
+					static int selection = 0;
+					if (ImGui::ListBox("Commands", &selection, m_marvelConstants.data(), m_marvelConstants.size(), 30))
 						m_doc = "A constant.";
-					}
 				}
 
 				ImGui::EndGroup();

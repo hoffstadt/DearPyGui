@@ -42,10 +42,12 @@ namespace Marvel {
 		mvPythonParser() = default;
 
 		mvPythonParser(const std::initializer_list<mvPythonDataElement>& elements, 
-			const std::string& about = "", const std::string& returnType = "None");
+			const std::string& about = "", const std::string& returnType = "None", 
+			const std::string& category = "App");
 
 		bool               parse(PyObject* args, PyObject* kwargs, const char* message, ...);
 		inline const char* getDocumentation() const { return m_documentation.c_str(); }
+		const std::string& getCategory     () const { return m_category; }
 
 		void buildDocumentation();
 
@@ -59,6 +61,7 @@ namespace Marvel {
 		std::string                      m_about;
 		std::string                      m_return;
 		std::string                      m_documentation;
+		std::string                      m_category;
 
 
 	};

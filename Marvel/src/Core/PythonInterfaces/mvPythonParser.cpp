@@ -50,8 +50,8 @@ namespace Marvel {
 	}
 
 	mvPythonParser::mvPythonParser(const std::initializer_list<mvPythonDataElement>& elements, 
-		const std::string& about, const std::string& returnType)
-		: m_elements(elements), m_about(about), m_return(returnType)
+		const std::string& about, const std::string& returnType, const std::string& category)
+		: m_elements(elements), m_about(about), m_return(returnType), m_category(category)
 	{
 
 		for (const auto& element : m_elements)
