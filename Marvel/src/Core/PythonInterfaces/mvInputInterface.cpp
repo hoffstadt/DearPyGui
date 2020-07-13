@@ -6,105 +6,105 @@
 
 namespace Marvel {
 
-	static std::map<std::string, mvPythonTranslator> Translators = mvInterfaceRegistry::GetRegistry()->getPythonInterface("sbInput");
+	static std::map<std::string, mvPythonParser> Translators = mvInterfaceRegistry::GetRegistry()->getPythonInterface("sbInput");
 
-	std::map<std::string, mvPythonTranslator>& BuildInputsInterface() {
+	std::map<std::string, mvPythonParser>& BuildInputsInterface() {
 
-		std::map<std::string, mvPythonTranslator>* translators = new std::map< std::string, mvPythonTranslator>{
+		std::map<std::string, mvPythonParser>* translators = new std::map< std::string, mvPythonParser>{
 
-			{"get_key_down_callback", mvPythonTranslator({
+			{"get_key_down_callback", mvPythonParser({
 			}, "Returns the key down callback.", "str")},
 
-			{"get_key_press_callback", mvPythonTranslator({
+			{"get_key_press_callback", mvPythonParser({
 			}, "Returns the key press callback.", "str")},
 
-			{"get_key_release_callback", mvPythonTranslator({
+			{"get_key_release_callback", mvPythonParser({
 			}, "Returns the key release callback.", "str")},
 
-			{"get_mouse_click_callback", mvPythonTranslator({
+			{"get_mouse_click_callback", mvPythonParser({
 			}, "Returns the mouse click callback.", "str")},
 
-			{"get_mouse_double_click_callback", mvPythonTranslator({
+			{"get_mouse_double_click_callback", mvPythonParser({
 			}, "Returns the mouse double click callback.", "str")},
 
-			{"get_mouse_down_callback", mvPythonTranslator({
+			{"get_mouse_down_callback", mvPythonParser({
 			}, "Returns the mouse down callback.", "str")},
 
-			{"get_mouse_wheel_callback", mvPythonTranslator({
+			{"get_mouse_wheel_callback", mvPythonParser({
 			}, "Returns the mouse wheel callback.", "str")},
 
-			{"get_mouse_drag_callback", mvPythonTranslator({
+			{"get_mouse_drag_callback", mvPythonParser({
 			}, "Returns the mouse drag callback.", "str")},
 
-			{"get_mouse_pos", mvPythonTranslator({
+			{"get_mouse_pos", mvPythonParser({
 			}, "Returns the current mouse position in relation to the active window (minus titlebar).", "(int, int)")},
 
-			{"get_mouse_drag_delta", mvPythonTranslator({
+			{"get_mouse_drag_delta", mvPythonParser({
 			}, "Returns the current mouse drag delta", "(float, float)")},
 
-			{"is_mouse_button_dragging", mvPythonTranslator({
+			{"is_mouse_button_dragging", mvPythonParser({
 				{mvPythonDataType::Integer, "button"},
 				{mvPythonDataType::Float, "threshold"},
 			}, "Checks if the mouse is dragging.", "Boolean")},
 
-			{"is_mouse_button_down", mvPythonTranslator({
+			{"is_mouse_button_down", mvPythonParser({
 				{mvPythonDataType::Integer, "button"}
 			}, "Checks if the mouse button is pressed.", "Boolean")},
 
-			{"is_mouse_button_clicked", mvPythonTranslator({
+			{"is_mouse_button_clicked", mvPythonParser({
 				{mvPythonDataType::Integer, "button"}
 			}, "Checks if the mouse button is clicked.", "Boolean")},
 
-			{"is_mouse_button_released", mvPythonTranslator({
+			{"is_mouse_button_released", mvPythonParser({
 				{mvPythonDataType::Integer, "button"}
 			}, "Checks if the mouse button is released.", "Boolean")},
 
-			{"is_mouse_button_double_clicked", mvPythonTranslator({
+			{"is_mouse_button_double_clicked", mvPythonParser({
 				{mvPythonDataType::Integer, "button"}
 			}, "Checks if the mouse button is double clicked.", "Boolean")},
 
-			{"is_key_pressed", mvPythonTranslator({
+			{"is_key_pressed", mvPythonParser({
 				{mvPythonDataType::Integer, "key"}
 			}, "Checks if the key is pressed.", "Boolean")},
 
-			{"is_key_released", mvPythonTranslator({
+			{"is_key_released", mvPythonParser({
 				{mvPythonDataType::Integer, "key"}
 			}, "Checks if the key is released.", "Boolean")},
 
-			{"is_key_down", mvPythonTranslator({
+			{"is_key_down", mvPythonParser({
 				{mvPythonDataType::Integer, "key"}
 			}, "Checks if the key is down.", "Boolean")},
 
-			{"set_mouse_down_callback", mvPythonTranslator({
+			{"set_mouse_down_callback", mvPythonParser({
 				{mvPythonDataType::String, "callback"}
 			}, "Sets a callback for a mouse down event.")},
 
-			{"set_mouse_drag_callback", mvPythonTranslator({
+			{"set_mouse_drag_callback", mvPythonParser({
 				{mvPythonDataType::String, "callback"},
 				{mvPythonDataType::Float, "threshold"}
 			}, "Sets a callback for a mouse drag event.")},
 
-			{"set_mouse_wheel_callback", mvPythonTranslator({
+			{"set_mouse_wheel_callback", mvPythonParser({
 				{mvPythonDataType::String, "callback"}
 			}, "Sets a callback for a mouse wheel event.")},
 
-			{"set_mouse_double_click_callback", mvPythonTranslator({
+			{"set_mouse_double_click_callback", mvPythonParser({
 				{mvPythonDataType::String, "callback"}
 			}, "Sets a callback for a mouse double click event.")},
 
-			{"set_mouse_click_callback", mvPythonTranslator({
+			{"set_mouse_click_callback", mvPythonParser({
 				{mvPythonDataType::String, "callback"}
 			}, "Sets a callback for a mouse click event.")},
 
-			{ "set_key_down_callback", mvPythonTranslator({
+			{ "set_key_down_callback", mvPythonParser({
 				{mvPythonDataType::String, "callback"}
 			}, "Sets a callback for a key down event.") },
 
-			{ "set_key_press_callback", mvPythonTranslator({
+			{ "set_key_press_callback", mvPythonParser({
 				{mvPythonDataType::String, "callback"}
 			}, "Sets a callback for a key press event.") },
 
-			{ "set_key_release_callback", mvPythonTranslator({
+			{ "set_key_release_callback", mvPythonParser({
 				{mvPythonDataType::String, "callback"}
 			}, "Sets a callback for a key release event.") }
 

@@ -9,270 +9,270 @@
 
 namespace Marvel {
 
-	static std::map<std::string, mvPythonTranslator> Translators = mvInterfaceRegistry::GetRegistry()->getPythonInterface("sbApp");
+	static std::map<std::string, mvPythonParser> Translators = mvInterfaceRegistry::GetRegistry()->getPythonInterface("sbApp");
 
-	std::map<std::string, mvPythonTranslator>& BuildAppInterface() {
+	std::map<std::string, mvPythonParser>& BuildAppInterface() {
 
-		std::map<std::string, mvPythonTranslator>* translators = new std::map < std::string, mvPythonTranslator>();
+		std::map<std::string, mvPythonParser>* translators = new std::map < std::string, mvPythonParser>();
 
-		translators->insert({ "run_async_function", mvPythonTranslator({
+		translators->insert({ "run_async_function", mvPythonParser({
 			{mvPythonDataType::String, "name"},
 			{mvPythonDataType::Object, "data"},
 			{mvPythonDataType::Optional},
 			{mvPythonDataType::String, "return_handler"},
 		}, "Runs a function asyncronously.") });
 
-		translators->insert({ "open_file_dialog", mvPythonTranslator({
+		translators->insert({ "open_file_dialog", mvPythonParser({
 			{mvPythonDataType::StringList, "extensions", "i.e [['Python', '*.py']]"},
 		}, "Opens an 'open file' dialog.", "str") });
 
-		translators->insert({ "save_file_dialog", mvPythonTranslator({
+		translators->insert({ "save_file_dialog", mvPythonParser({
 			{mvPythonDataType::StringList, "extensions", "i.e [['Python', '*.py']]"},
 		}, "Opens an 'save file' dialog.", "str") });
 
-		translators->insert({ "add_data", mvPythonTranslator({
+		translators->insert({ "add_data", mvPythonParser({
 			{mvPythonDataType::String, "name"},
 			{mvPythonDataType::Object, "data"}
 		}, "Adds data for later retrieval.") });
 
-		translators->insert({ "get_data", mvPythonTranslator({
+		translators->insert({ "get_data", mvPythonParser({
 			{mvPythonDataType::String, "name"}
 		}, "Retrieves data from storage.", "object") });
 
-		translators->insert({ "set_table_item", mvPythonTranslator({
+		translators->insert({ "set_table_item", mvPythonParser({
 			{mvPythonDataType::String, "table"},
 			{mvPythonDataType::Integer, "row"},
 			{mvPythonDataType::Integer, "column"},
 			{mvPythonDataType::String, "value"},
 		}, "Sets a table's cell value.") });
 
-		translators->insert({ "delete_row", mvPythonTranslator({
+		translators->insert({ "delete_row", mvPythonParser({
 			{mvPythonDataType::String, "table"},
 			{mvPythonDataType::Integer, "row"}
 		}, "Delete a row in a table.") });
 
-		translators->insert({ "delete_column", mvPythonTranslator({
+		translators->insert({ "delete_column", mvPythonParser({
 			{mvPythonDataType::String, "table"},
 			{mvPythonDataType::Integer, "column"}
 		}, "Delete a column in a table.") });
 
-		translators->insert({ "add_row", mvPythonTranslator({
+		translators->insert({ "add_row", mvPythonParser({
 			{mvPythonDataType::String, "table"},
 			{mvPythonDataType::StringList, "row"},
 		}, "Adds a row to a table.") });
 
-		translators->insert({ "add_column", mvPythonTranslator({
+		translators->insert({ "add_column", mvPythonParser({
 			{mvPythonDataType::String, "table"},
 			{mvPythonDataType::String, "name"},
 			{mvPythonDataType::StringList, "column"},
 		}, "Adds a column to a table.") });
 
-		translators->insert({ "insert_column", mvPythonTranslator({
+		translators->insert({ "insert_column", mvPythonParser({
 			{mvPythonDataType::String, "table"},
 			{mvPythonDataType::Integer, "column_index"},
 			{mvPythonDataType::String, "name"},
 			{mvPythonDataType::StringList, "column"},
 		}, "Inserts a column into a table.") });
 
-		translators->insert({ "insert_row", mvPythonTranslator({
+		translators->insert({ "insert_row", mvPythonParser({
 			{mvPythonDataType::String, "table"},
 			{mvPythonDataType::Integer, "row_index"},
 			{mvPythonDataType::StringList, "row"},
 		}, "Inserts a row into a table.") });
 
-		translators->insert({ "set_table_selection", mvPythonTranslator({
+		translators->insert({ "set_table_selection", mvPythonParser({
 			{mvPythonDataType::String, "table"},
 			{mvPythonDataType::Integer, "row"},
 			{mvPythonDataType::Integer, "column"},
 			{mvPythonDataType::Bool, "value"},
 		}, "Sets a table's cell selection value.") });
 
-		translators->insert({ "get_table_item", mvPythonTranslator({
+		translators->insert({ "get_table_item", mvPythonParser({
 			{mvPythonDataType::String, "table"},
 			{mvPythonDataType::Integer, "row"},
 			{mvPythonDataType::Integer, "column"}
 		}, "Gets a table's cell value.", "str") });
 
-		translators->insert({ "get_table_selections", mvPythonTranslator({
+		translators->insert({ "get_table_selections", mvPythonParser({
 			{mvPythonDataType::String, "table"}
 		}, "Retrieves data from storage.", "List of integer pairs.") });
 
-		translators->insert({ "delete_data", mvPythonTranslator({
+		translators->insert({ "delete_data", mvPythonParser({
 			{mvPythonDataType::String, "name"}
 		}, "Deletes data from storage.") });
 
-		translators->insert({ "delete_item", mvPythonTranslator({
+		translators->insert({ "delete_item", mvPythonParser({
 			{mvPythonDataType::String, "item"},
 			{mvPythonDataType::Optional},
 			{mvPythonDataType::Bool, "children_only"}
 		}, "Deletes an item if it exists.") });
 
-		translators->insert({ "move_item_up", mvPythonTranslator({
+		translators->insert({ "move_item_up", mvPythonParser({
 			{mvPythonDataType::String, "item"}
 		}, "Moves item up if possible and if it exists.") });
 
-		translators->insert({ "move_item_down", mvPythonTranslator({
+		translators->insert({ "move_item_down", mvPythonParser({
 			{mvPythonDataType::String, "item"}
 		}, "Moves down up if possible and if it exists.") });
 
-		translators->insert({ "get_style_item", mvPythonTranslator({
+		translators->insert({ "get_style_item", mvPythonParser({
 			{mvPythonDataType::Integer, "item"}
 		}, "Returns a style item's value", "(float, float)") });
 
-		translators->insert({ "get_theme_item", mvPythonTranslator({
+		translators->insert({ "get_theme_item", mvPythonParser({
 			{mvPythonDataType::Integer, "item"}
 		}, "Returns a theme item's color", "(float, float, float, float)") });
 
-		translators->insert({ "get_item_callback", mvPythonTranslator({
+		translators->insert({ "get_item_callback", mvPythonParser({
 			{mvPythonDataType::String, "item"}
 		}, "Returns an item' callback", "str") });
 
-		translators->insert({ "get_item_height", mvPythonTranslator({
+		translators->insert({ "get_item_height", mvPythonParser({
 			{mvPythonDataType::String, "item"}
 		}, "Returns an item's height.", "float") });
 
-		translators->insert({ "get_total_time", mvPythonTranslator({
+		translators->insert({ "get_total_time", mvPythonParser({
 		}, "Returns total time since app started.", "float") });
 
-		translators->insert({ "get_delta_time", mvPythonTranslator({
+		translators->insert({ "get_delta_time", mvPythonParser({
 		}, "Returns time since last frame.", "float") });
 
-		translators->insert({ "get_item_width", mvPythonTranslator({
+		translators->insert({ "get_item_width", mvPythonParser({
 			{mvPythonDataType::String, "item"}
 		}, "Returns an item's width.", "float") });
 
-		translators->insert({ "get_item_popup", mvPythonTranslator({
+		translators->insert({ "get_item_popup", mvPythonParser({
 			{mvPythonDataType::String, "item"}
 		}, "Returns an item's popup.", "str") });
 
-		translators->insert({ "get_item_tip", mvPythonTranslator({
+		translators->insert({ "get_item_tip", mvPythonParser({
 			{mvPythonDataType::String, "item"}
 		}, "Returns an item's tip.", "str") });
 
-		translators->insert({ "get_main_callback", mvPythonTranslator({
+		translators->insert({ "get_main_callback", mvPythonParser({
 		}, "Returns the main callback.", "str") });
 
-		translators->insert({ "get_main_window_size", mvPythonTranslator({
+		translators->insert({ "get_main_window_size", mvPythonParser({
 		}, "Returns the size of the main window.", "(float, float)") });
 
-		translators->insert({ "get_theme", mvPythonTranslator({
+		translators->insert({ "get_theme", mvPythonParser({
 		}, "Returns the current theme.", "str") });
 
-		translators->insert({ "get_thread_count", mvPythonTranslator({
+		translators->insert({ "get_thread_count", mvPythonParser({
 		}, "Returns the allowable thread count.", "int") });
 
-		translators->insert({ "is_threadpool_high_performance", mvPythonTranslator({
+		translators->insert({ "is_threadpool_high_performance", mvPythonParser({
 		}, "Checks if the threadpool is allowed to use the maximum number of threads.", "Boolean") });
 
-		translators->insert({ "get_threadpool_timeout", mvPythonTranslator({
+		translators->insert({ "get_threadpool_timeout", mvPythonParser({
 		}, "Returns the threadpool timeout in seconds.", "float") });
 
-		translators->insert({ "get_active_window", mvPythonTranslator({
+		translators->insert({ "get_active_window", mvPythonParser({
 		}, "Returns the active window name.", "str") });
 
-		translators->insert({ "get_marvel_version", mvPythonTranslator({
+		translators->insert({ "get_marvel_version", mvPythonParser({
 		}, "Returns the current version of Marvel.", "str") });
 
-		translators->insert({ "set_threadpool_timeout", mvPythonTranslator({
+		translators->insert({ "set_threadpool_timeout", mvPythonParser({
 			{mvPythonDataType::Float, "time"}
 		}, "Sets the threadpool timeout.") });
 
-		translators->insert({ "set_thread_count", mvPythonTranslator({
+		translators->insert({ "set_thread_count", mvPythonParser({
 			{mvPythonDataType::Integer, "threads"}
 		}, "Sets number of threads to use if the threadpool is active.") });
 
-		translators->insert({ "show_documentation", mvPythonTranslator({
+		translators->insert({ "show_documentation", mvPythonParser({
 		}, "Shows the documentation window.") });
 
-		translators->insert({ "show_about", mvPythonTranslator({
+		translators->insert({ "show_about", mvPythonParser({
 		}, "Shows the about window.") });
 
-		translators->insert({ "show_metrics", mvPythonTranslator({
+		translators->insert({ "show_metrics", mvPythonParser({
 		}, "Shows the metrics window.") });
 
-		translators->insert({ "show_debug", mvPythonTranslator({
+		translators->insert({ "show_debug", mvPythonParser({
 		}, "Shows the debug window.") });
 
-		translators->insert({ "close_popup", mvPythonTranslator({
+		translators->insert({ "close_popup", mvPythonParser({
 		}, "Needs documentation") });
 
-		translators->insert({ "show_source", mvPythonTranslator({
+		translators->insert({ "show_source", mvPythonParser({
 		}, "Shows the source code for the current app.") });
 
-		translators->insert({ "set_threadpool_high_performance", mvPythonTranslator({
+		translators->insert({ "set_threadpool_high_performance", mvPythonParser({
 		}, "Set the thread count to the maximum number of threads on your computer.") });
 
-		translators->insert({ "add_item_color_style", mvPythonTranslator({
+		translators->insert({ "add_item_color_style", mvPythonParser({
 			{mvPythonDataType::String, "item"},
 			{mvPythonDataType::Integer, "style"},
 			{mvPythonDataType::FloatList, "color"}
 		}, "Needs documentation") });
 
-		translators->insert({ "is_item_hovered", mvPythonTranslator({
+		translators->insert({ "is_item_hovered", mvPythonParser({
 			{mvPythonDataType::String, "item"},
 		}, "Checks if an item is hovered.", "Boolean") });
 
-		translators->insert({ "set_main_window_size", mvPythonTranslator({
+		translators->insert({ "set_main_window_size", mvPythonParser({
 			{mvPythonDataType::Integer, "width"},
 			{mvPythonDataType::Integer, "height"}
 		}, "Sets the main window size.") });
 
-		translators->insert({ "is_item_active", mvPythonTranslator({
+		translators->insert({ "is_item_active", mvPythonParser({
 			{mvPythonDataType::String, "item"},
 		}, "Checks if an item is active.", "Boolean") });
 
-		translators->insert({ "is_item_focused", mvPythonTranslator({
+		translators->insert({ "is_item_focused", mvPythonParser({
 			{mvPythonDataType::String, "item"},
 		}, "Checks if an item is focused.", "Boolean") });
 
-		translators->insert({ "is_item_clicked", mvPythonTranslator({
+		translators->insert({ "is_item_clicked", mvPythonParser({
 			{mvPythonDataType::String, "item"},
 		}, "Checks if an item is clicked.", "Boolean") });
 
-		translators->insert({ "is_item_visible", mvPythonTranslator({
+		translators->insert({ "is_item_visible", mvPythonParser({
 			{mvPythonDataType::String, "item"},
 		}, "Checks if an item is visible.", "Boolean") });
 
-		translators->insert({ "is_item_edited", mvPythonTranslator({
+		translators->insert({ "is_item_edited", mvPythonParser({
 			{mvPythonDataType::String, "item"},
 		}, "Checks if an item has been edited.", "Boolean") });
 
-		translators->insert({ "is_item_activated", mvPythonTranslator({
+		translators->insert({ "is_item_activated", mvPythonParser({
 			{mvPythonDataType::String, "item"},
 		}, "Checks if an item has been activated.", "Boolean") });
 
-		translators->insert({ "is_item_deactivated", mvPythonTranslator({
+		translators->insert({ "is_item_deactivated", mvPythonParser({
 			{mvPythonDataType::String, "item"},
 		}, "Checks if an item has been deactivated.", "Boolean") });
 
-		translators->insert({ "is_item_deactivated_after_edit", mvPythonTranslator({
+		translators->insert({ "is_item_deactivated_after_edit", mvPythonParser({
 			{mvPythonDataType::String, "item"},
 		}, "Checks if an item has been deactivated after editing.", "Boolean") });
 
-		translators->insert({ "is_item_toggled_open", mvPythonTranslator({
+		translators->insert({ "is_item_toggled_open", mvPythonParser({
 			{mvPythonDataType::String, "item"},
 		}, "Checks if an item is toggled.", "Boolean") });
 
-		translators->insert({ "get_item_rect_min", mvPythonTranslator({
+		translators->insert({ "get_item_rect_min", mvPythonParser({
 			{mvPythonDataType::String, "item"},
 		}, "Returns an item's minimum allowable size.", "(float, float)") });
 
-		translators->insert({ "get_item_rect_max", mvPythonTranslator({
+		translators->insert({ "get_item_rect_max", mvPythonParser({
 			{mvPythonDataType::String, "item"},
 		}, "Returns an item's maximum allowable size.", "(float, float)") });
 
-		translators->insert({ "get_item_rect_size", mvPythonTranslator({
+		translators->insert({ "get_item_rect_size", mvPythonParser({
 			{mvPythonDataType::String, "item"},
 		}, "Returns an item's current size.", "(float, float)") });
 
-		translators->insert({ "change_style_item", mvPythonTranslator({
+		translators->insert({ "change_style_item", mvPythonParser({
 			{mvPythonDataType::Integer, "item"},
 			{mvPythonDataType::Float, "x"},
 			{mvPythonDataType::Optional},
 			{mvPythonDataType::Float, "y"}
 		}, "Needs documentation") });
 
-		translators->insert({ "change_theme_item", mvPythonTranslator({
+		translators->insert({ "change_theme_item", mvPythonParser({
 			{mvPythonDataType::Integer, "item"},
 			{mvPythonDataType::Float, "r"},
 			{mvPythonDataType::Float, "g"},
@@ -280,53 +280,53 @@ namespace Marvel {
 			{mvPythonDataType::Float, "a"}
 		}, "Needs documentation") });
 
-		translators->insert({ "get_value", mvPythonTranslator({
+		translators->insert({ "get_value", mvPythonParser({
 			{mvPythonDataType::String, "name"}
 		}, "Returns an item's value or None if there is none.", "Depends") });
 
-		translators->insert({ "set_value", mvPythonTranslator({
+		translators->insert({ "set_value", mvPythonParser({
 			{mvPythonDataType::String, "name"},
 			{mvPythonDataType::Object, "value"}
 		}, "Sets an item's value if applicable.") });
 
-		translators->insert({ "show_item", mvPythonTranslator({
+		translators->insert({ "show_item", mvPythonParser({
 			{mvPythonDataType::String, "name"}
 		}, "Shows an item if it was hidden.") });
 
-		translators->insert({ "hide_item", mvPythonTranslator({
+		translators->insert({ "hide_item", mvPythonParser({
 			{mvPythonDataType::String, "name"}
 		}, "Hides an item.") });
 
-		translators->insert({ "set_main_callback", mvPythonTranslator({
+		translators->insert({ "set_main_callback", mvPythonParser({
 			{mvPythonDataType::String, "callback"}
 		}, "Sets the callback to be ran every frame.") });
 
-		translators->insert({ "set_item_callback", mvPythonTranslator({
+		translators->insert({ "set_item_callback", mvPythonParser({
 			{mvPythonDataType::String, "item"},
 			{mvPythonDataType::String, "callback"}
 		}, "Sets an item's callback if applicable.") });
 
-		translators->insert({ "set_item_popup", mvPythonTranslator({
+		translators->insert({ "set_item_popup", mvPythonParser({
 			{mvPythonDataType::String, "item"},
 			{mvPythonDataType::String, "popup"}
 		}, "Sets an item's popup if applicable.") });
 
-		translators->insert({ "set_item_tip", mvPythonTranslator({
+		translators->insert({ "set_item_tip", mvPythonParser({
 			{mvPythonDataType::String, "item"},
 			{mvPythonDataType::String, "tip"}
 		}, "Sets a simple tooltip for an item.") });
 
-		translators->insert({ "set_item_width", mvPythonTranslator({
+		translators->insert({ "set_item_width", mvPythonParser({
 			{mvPythonDataType::String, "item"},
 			{mvPythonDataType::Integer, "width"}
 		}, "Sets an item's width.") });
 
-		translators->insert({ "set_item_height", mvPythonTranslator({
+		translators->insert({ "set_item_height", mvPythonParser({
 			{mvPythonDataType::String, "item"},
 			{mvPythonDataType::Integer, "height"}
 		}, "Sets an item's height if applicable.") });
 
-		translators->insert({ "set_theme", mvPythonTranslator({
+		translators->insert({ "set_theme", mvPythonParser({
 			{mvPythonDataType::String, "theme"}
 		}, "Set the application's theme to a built-in theme.") });
 
@@ -418,7 +418,7 @@ namespace Marvel {
 			Py_RETURN_NONE;
 		}
 
-		auto prow = mvPythonTranslator::getStringVec(row);
+		auto prow = mvPythonParser::getStringVec(row);
 
 		mvTable* atable = static_cast<mvTable*>(item);
 		atable->addRow(prow);
@@ -443,7 +443,7 @@ namespace Marvel {
 			Py_RETURN_NONE;
 		}
 
-		auto pcolumn = mvPythonTranslator::getStringVec(column);
+		auto pcolumn = mvPythonParser::getStringVec(column);
 
 		mvTable* atable = static_cast<mvTable*>(item);
 		atable->addColumn(name, pcolumn);
@@ -468,7 +468,7 @@ namespace Marvel {
 			Py_RETURN_NONE;
 		}
 
-		auto prow = mvPythonTranslator::getStringVec(row);
+		auto prow = mvPythonParser::getStringVec(row);
 
 		mvTable* atable = static_cast<mvTable*>(item);
 		atable->insertRow(row_index, prow);
@@ -494,7 +494,7 @@ namespace Marvel {
 			Py_RETURN_NONE;
 		}
 
-		auto prow = mvPythonTranslator::getStringVec(column);
+		auto prow = mvPythonParser::getStringVec(column);
 
 		mvTable* atable = static_cast<mvTable*>(item);
 		atable->insertColumn(column_index, name, prow);
@@ -614,7 +614,7 @@ namespace Marvel {
 		if (!Translators["open_file_dialog"].parse(args, kwargs, __FUNCTION__, &extensions))
 			Py_RETURN_NONE;
 
-		std::string file = OpenFile(mvPythonTranslator::getStringPairVec(extensions));
+		std::string file = OpenFile(mvPythonParser::getStringPairVec(extensions));
 
 		return Py_BuildValue("s", file.c_str());
 	}
@@ -626,9 +626,9 @@ namespace Marvel {
 		if (!Translators["save_file_dialog"].parse(args, kwargs, __FUNCTION__, &extensions))
 			Py_RETURN_NONE;
 
-		std::string file = SaveFile(mvPythonTranslator::getStringPairVec(extensions));
+		std::string file = SaveFile(mvPythonParser::getStringPairVec(extensions));
 
-		return Py_BuildValue("s", SaveFile(mvPythonTranslator::getStringPairVec(extensions)).c_str());
+		return Py_BuildValue("s", SaveFile(mvPythonParser::getStringPairVec(extensions)).c_str());
 	}
 
 	PyObject* move_item_up(PyObject* self, PyObject* args, PyObject* kwargs)
@@ -902,7 +902,7 @@ namespace Marvel {
 		if (!Translators["add_item_color_style"].parse(args, kwargs, __FUNCTION__, &item, &style, &color))
 			Py_RETURN_NONE;
 
-		auto mcolor = mvPythonTranslator::getColor(color);
+		auto mcolor = mvPythonParser::getColor(color);
 
 		mvApp::GetApp()->addItemColorStyle(item, style, mcolor);
 

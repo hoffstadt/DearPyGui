@@ -3,13 +3,13 @@
 
 namespace Marvel {
 
-	static std::map<std::string, mvPythonTranslator> Translators = mvInterfaceRegistry::GetRegistry()->getPythonInterface("sbExtension");
+	static std::map<std::string, mvPythonParser> Translators = mvInterfaceRegistry::GetRegistry()->getPythonInterface("sbExtension");
 
-	std::map<std::string, mvPythonTranslator>& BuildExtensionsInterface() {
+	std::map<std::string, mvPythonParser>& BuildExtensionsInterface() {
 
-		std::map<std::string, mvPythonTranslator>* translators = new std::map<std::string, mvPythonTranslator>{
+		std::map<std::string, mvPythonParser>* translators = new std::map<std::string, mvPythonParser>{
 
-			{"testme", mvPythonTranslator({
+			{"testme", mvPythonParser({
 			}, "Needs documentation")},
 
 		};
