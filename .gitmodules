@@ -6,3 +6,7 @@
 	path = Dependencies/cpython
 	url = https://github.com/python/cpython
 	branch = master
+[submodule "Dependencies/json"]
+	path = Dependencies/json
+	url = https://github.com/nlohmann/json
+	branch = master
