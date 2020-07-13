@@ -9,8 +9,8 @@ script_dir = os.getcwd()
 build_dir = script_dir + "/../Dependencies/cpython/PCbuild/amd64/"
 
 # directories to put prepared files into
-window_app_dir = script_dir + "/../Output/WindowsApp/"
-app_depend_dir = script_dir + "/../Output/WindowsApp/Dependencies/"
+window_app_dir = script_dir + "/../Output/SandboxForWindows/"
+app_depend_dir = script_dir + "/../Output/SandboxForWindows/Dependencies/"
 
 new_python_dir = script_dir + "/../Output/Python/"
 debug_dir = script_dir + "/../Output/Python/Debug/"
@@ -20,7 +20,7 @@ if not os.path.isdir(window_app_dir):
     os.mkdir(app_depend_dir)
 
 # delete everything except python fils
-for file in glob.glob("../WindowsApp/*.*"):
+for file in glob.glob("../SandboxForWindows/*.*"):
     os.remove(file)
 
 # copy everything to windows package folder
@@ -65,9 +65,9 @@ shutil.copy(build_dir + "/vcruntime140.dll", app_depend_dir)
 shutil.copy(build_dir + "/vcruntime140_1.dll", app_depend_dir)
 shutil.copy(build_dir + "/winsound.pyd", app_depend_dir)
 shutil.copy(build_dir + "/xxlimited.pyd", app_depend_dir)
-shutil.copy("../cmake-build-release/MarvelSandbox/MarvelSandbox.exe", app_depend_dir)
-shutil.copy("../cmake-build-release/MarvelSandbox/MarvelSandbox.exe.manifest", app_depend_dir)
+shutil.copy("../cmake-build-release/MarvelSandbox/MarvelSandbox.exe", window_app_dir)
 shutil.copy("../AppSamples/App.py", window_app_dir)
+shutil.copy("../AppSamples/Manager.py", window_app_dir)
 shutil.copy("../MarvelSandbox/Demo.py", window_app_dir)
 shutil.copy(debug_dir + "/python38.zip", app_depend_dir)
 
@@ -79,36 +79,12 @@ with open(app_depend_dir + "/python38._pth", 'w') as file:
     file.write("# Uncomment to run site.main() automatically\n")
     file.write("#import site\n")
 
-# add App batch file
-with open(window_app_dir + "/RunApp.bat", 'w') as file:
-    file.write("@echo off\n")
-    file.write("cd Dependencies\n")
-    file.write("call MarvelSandbox.exe --app App --path .. --noconfig\n")
-
-# add Demo batch file
-with open(window_app_dir + "/RunDemo.bat", 'w') as file:
-    file.write("@echo off\n")
-    file.write("cd Dependencies\n")
-    file.write("call MarvelSandbox.exe --app Demo --path .. --noconfig\n")
-
-# add Editor batch file
-with open(window_app_dir + "/RunEditor.bat", 'w') as file:
-    file.write("@echo off\n")
-    file.write("cd Dependencies\n")
-    file.write("call MarvelSandbox.exe --editor --noconfig\n")
-
-# add documentation batch file
-with open(window_app_dir + "/RunDocumentation.bat", 'w') as file:
-    file.write("@echo off\n")
-    file.write("cd Dependencies\n")
-    file.write("call MarvelSandbox.exe --documentation --noconfig\n")
-
 # add unused config file
-with open(window_app_dir + "/Dependencies/sbConfig.json", 'w') as file:
+with open(window_app_dir + "/marvel_config.json", 'w') as file:
     file.write("{\n")
-    file.write("\t\"App\": \"Demo\",\n")
+    file.write("\t\"App\": \"Manager\",\n")
     file.write("\t\"Mode\": \"None\",\n")
     file.write("\t\"Theme\": \"Dark\",\n")
-    file.write("\t\"Path\": \"..\",\n")
+    file.write("\t\"Path\": \"\",\n")
     file.write("\t\"PythonLibs\": \"\"\n")
     file.write("}")

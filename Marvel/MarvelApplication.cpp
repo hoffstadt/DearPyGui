@@ -68,7 +68,7 @@ namespace Marvel {
 		// no commandline arguments, so use config file
 		if (argc == 1 && !ignoreConfig)
 		{
-			std::ifstream stream("sbconfig.json");
+			std::ifstream stream("marvel_config.json");
 			if (stream.good())
 			{
 				nlohmann::json j = nlohmann::json::parse(stream);
@@ -116,7 +116,7 @@ namespace Marvel {
 	{
 		addedPath = PathName + "\\";
 
-		PathName = PathName + ";python38.zip;.;" + LibraryPath + ";";
+		PathName = PathName + ";Dependencies/python38.zip;.;" + LibraryPath + ";";
 
 		program = Py_DecodeLocale(argv[0], NULL);
 		if (program == NULL) {
