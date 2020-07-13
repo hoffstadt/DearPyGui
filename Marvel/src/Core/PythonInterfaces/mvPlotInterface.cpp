@@ -2,17 +2,18 @@
 #include "Core/mvApp.h"
 #include "Core/StandardWindows/mvAppLog.h"
 #include "Core/AppItems/mvAppItems.h"
+#include "mvPythonParser.h"
 #include "mvPythonTranslator.h"
 #include "mvInterfaces.h"
 #include "mvInterfaceRegistry.h"
 
 namespace Marvel {
 
-	static std::map<std::string, mvPythonParser> Translators = mvInterfaceRegistry::GetRegistry()->getPythonInterface("sbPlot");
+	static std::map<std::string, mvPythonParser> Parsers = mvInterfaceRegistry::GetRegistry()->getPythonInterface("sbPlot");
 
 	std::map<std::string, mvPythonParser>& BuildPlottingInterface() {
 
-		std::map<std::string, mvPythonParser>* translators = new std::map< std::string, mvPythonParser>{
+		std::map<std::string, mvPythonParser>* parsers = new std::map< std::string, mvPythonParser>{
 
 			{"add_plot", mvPythonParser({
 				{mvPythonDataType::String, "name"},
@@ -104,14 +105,14 @@ namespace Marvel {
 
 		};
 
-		return *translators;
+		return *parsers;
 	}
 
 	PyObject* clear_plot(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		const char* plot;
 
-		if (!Translators["clear_plot"].parse(args, kwargs, __FUNCTION__, &plot))
+		if (!Parsers["clear_plot"].parse(args, kwargs, __FUNCTION__, &plot))
 			Py_RETURN_NONE;
 
 		mvAppItem* aplot = mvApp::GetApp()->getItem(plot);
@@ -132,7 +133,7 @@ namespace Marvel {
 	{
 		const char* plot;
 
-		if (!Translators["set_plot_xlimits_auto"].parse(args, kwargs, __FUNCTION__, &plot))
+		if (!Parsers["set_plot_xlimits_auto"].parse(args, kwargs, __FUNCTION__, &plot))
 			Py_RETURN_NONE;
 
 		mvAppItem* aplot = mvApp::GetApp()->getItem(plot);
@@ -153,7 +154,7 @@ namespace Marvel {
 	{
 		const char* plot;
 
-		if (!Translators["set_plot_ylimits_auto"].parse(args, kwargs, __FUNCTION__, &plot))
+		if (!Parsers["set_plot_ylimits_auto"].parse(args, kwargs, __FUNCTION__, &plot))
 			Py_RETURN_NONE;
 
 		mvAppItem* aplot = mvApp::GetApp()->getItem(plot);
@@ -176,7 +177,7 @@ namespace Marvel {
 		float xmin;
 		float xmax;
 
-		if (!Translators["set_plot_xlimits"].parse(args, kwargs, __FUNCTION__, &plot, &xmin, &xmax))
+		if (!Parsers["set_plot_xlimits"].parse(args, kwargs, __FUNCTION__, &plot, &xmin, &xmax))
 			Py_RETURN_NONE;
 
 		mvAppItem* aplot = mvApp::GetApp()->getItem(plot);
@@ -199,7 +200,7 @@ namespace Marvel {
 		float ymin;
 		float ymax;
 
-		if (!Translators["set_plot_ylimits"].parse(args, kwargs, __FUNCTION__, &plot, &ymin, &ymax))
+		if (!Parsers["set_plot_ylimits"].parse(args, kwargs, __FUNCTION__, &plot, &ymin, &ymax))
 			Py_RETURN_NONE;
 
 		mvAppItem* aplot = mvApp::GetApp()->getItem(plot);
@@ -220,7 +221,7 @@ namespace Marvel {
 	{
 		const char* plot;
 
-		if (!Translators["is_plot_queried"].parse(args, kwargs, __FUNCTION__, &plot))
+		if (!Parsers["is_plot_queried"].parse(args, kwargs, __FUNCTION__, &plot))
 			Py_RETURN_NONE;
 
 		mvAppItem* aplot = mvApp::GetApp()->getItem(plot);
@@ -239,7 +240,7 @@ namespace Marvel {
 	{
 		const char* plot;
 
-		if (!Translators["get_plot_query_area"].parse(args, kwargs, __FUNCTION__, &plot))
+		if (!Parsers["get_plot_query_area"].parse(args, kwargs, __FUNCTION__, &plot))
 			Py_RETURN_NONE;
 
 		mvAppItem* aplot = mvApp::GetApp()->getItem(plot);
@@ -261,7 +262,7 @@ namespace Marvel {
 		const char* plot;
 		int map;
 
-		if (!Translators["set_color_map"].parse(args, kwargs, __FUNCTION__, &plot, &map))
+		if (!Parsers["set_color_map"].parse(args, kwargs, __FUNCTION__, &plot, &map))
 			Py_RETURN_NONE;
 
 		mvAppItem* aplot = mvApp::GetApp()->getItem(plot);
@@ -292,7 +293,7 @@ namespace Marvel {
 		int height = -1;
 		const char* query_callback = "";
 
-		if (!Translators["add_plot"].parse(args, kwargs, __FUNCTION__, &name, &xAxisName, &yAxisName, &flags,
+		if (!Parsers["add_plot"].parse(args, kwargs, __FUNCTION__, &name, &xAxisName, &yAxisName, &flags,
 			&xflags, &yflags, &parent, &before, &width, &height, &query_callback))
 			Py_RETURN_NONE;
 
@@ -337,7 +338,7 @@ namespace Marvel {
 		PyTuple_SetItem(color, 2, PyLong_FromLong(0));
 		PyTuple_SetItem(color, 3, PyLong_FromLong(255));
 
-		if (!Translators["add_line_series"].parse(args, kwargs, __FUNCTION__, &plot, &name, &data, &color, &weight))
+		if (!Parsers["add_line_series"].parse(args, kwargs, __FUNCTION__, &plot, &name, &data, &color, &weight))
 			Py_RETURN_NONE;
 
 		if (!PyList_Check(data))
@@ -358,9 +359,9 @@ namespace Marvel {
 
 		mvPlot* graph = static_cast<mvPlot*>(aplot);
 
-		auto datapoints = mvPythonParser::getVectVec2(data);
+		auto datapoints = mvPythonTranslator::getVectVec2(data);
 
-		auto mcolor = mvPythonParser::getColor(color);
+		auto mcolor = mvPythonTranslator::getColor(color);
 		if (mcolor.r > 999)
 			mcolor.specified = false;
 
@@ -390,7 +391,7 @@ namespace Marvel {
 		PyTuple_SetItem(fill, 2, PyLong_FromLong(0));
 		PyTuple_SetItem(fill, 3, PyLong_FromLong(255));
 
-		if (!Translators["add_scatter_series"].parse(args, kwargs, __FUNCTION__, &plot, &name, &data, &marker,
+		if (!Parsers["add_scatter_series"].parse(args, kwargs, __FUNCTION__, &plot, &name, &data, &marker,
 			&size, &weight, &outline, &fill))
 			Py_RETURN_NONE;
 
@@ -412,13 +413,13 @@ namespace Marvel {
 
 		mvPlot* graph = static_cast<mvPlot*>(aplot);
 
-		auto datapoints = mvPythonParser::getVectVec2(data);
+		auto datapoints = mvPythonTranslator::getVectVec2(data);
 
-		auto mmarkerOutlineColor = mvPythonParser::getColor(outline);
+		auto mmarkerOutlineColor = mvPythonTranslator::getColor(outline);
 		if (mmarkerOutlineColor.r > 999)
 			mmarkerOutlineColor.specified = false;
 
-		auto mmarkerFillColor = mvPythonParser::getColor(fill);
+		auto mmarkerFillColor = mvPythonTranslator::getColor(fill);
 		if (mmarkerFillColor.r > 999)
 			mmarkerFillColor.specified = false;
 
@@ -440,7 +441,7 @@ namespace Marvel {
 		int xoffset = 0;
 		int yoffset = 0;
 
-		if (!Translators["add_text_point"].parse(args, kwargs, __FUNCTION__, 
+		if (!Parsers["add_text_point"].parse(args, kwargs, __FUNCTION__, 
 			&plot, &name, &x, &y, &vertical, &xoffset, &yoffset))
 			Py_RETURN_NONE;
 

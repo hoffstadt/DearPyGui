@@ -10,7 +10,7 @@
 // Helper Macros
 //-----------------------------------------------------------------------------
 #define addMethod(Function, Documentation) addMethod_(#Function, Function, Documentation)
-#define addMethodD(Function) addMethod_(#Function, Function, Translators[#Function].getDocumentation())
+#define addMethodD(Function) addMethod_(#Function, Function, Parsers[#Function].getDocumentation())
 
 namespace Marvel {
 

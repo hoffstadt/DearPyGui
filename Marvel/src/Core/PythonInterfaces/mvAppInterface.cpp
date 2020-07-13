@@ -1,6 +1,7 @@
 #include "mvPythonModule.h"
 #include "Core/mvApp.h"
 #include "Core/StandardWindows/mvAppLog.h"
+#include "mvPythonParser.h"
 #include "mvPythonTranslator.h"
 #include "Core/AppItems/mvAppItems.h"
 #include "mvInterfaces.h"
@@ -9,270 +10,270 @@
 
 namespace Marvel {
 
-	static std::map<std::string, mvPythonParser> Translators = mvInterfaceRegistry::GetRegistry()->getPythonInterface("sbApp");
+	static std::map<std::string, mvPythonParser> Parsers = mvInterfaceRegistry::GetRegistry()->getPythonInterface("sbApp");
 
 	std::map<std::string, mvPythonParser>& BuildAppInterface() {
 
-		std::map<std::string, mvPythonParser>* translators = new std::map < std::string, mvPythonParser>();
+		std::map<std::string, mvPythonParser>* parsers = new std::map < std::string, mvPythonParser>();
 
-		translators->insert({ "run_async_function", mvPythonParser({
+		parsers->insert({ "run_async_function", mvPythonParser({
 			{mvPythonDataType::String, "name"},
 			{mvPythonDataType::Object, "data"},
 			{mvPythonDataType::Optional},
 			{mvPythonDataType::String, "return_handler"},
 		}, "Runs a function asyncronously.") });
 
-		translators->insert({ "open_file_dialog", mvPythonParser({
+		parsers->insert({ "open_file_dialog", mvPythonParser({
 			{mvPythonDataType::StringList, "extensions", "i.e [['Python', '*.py']]"},
 		}, "Opens an 'open file' dialog.", "str") });
 
-		translators->insert({ "save_file_dialog", mvPythonParser({
+		parsers->insert({ "save_file_dialog", mvPythonParser({
 			{mvPythonDataType::StringList, "extensions", "i.e [['Python', '*.py']]"},
 		}, "Opens an 'save file' dialog.", "str") });
 
-		translators->insert({ "add_data", mvPythonParser({
+		parsers->insert({ "add_data", mvPythonParser({
 			{mvPythonDataType::String, "name"},
 			{mvPythonDataType::Object, "data"}
 		}, "Adds data for later retrieval.") });
 
-		translators->insert({ "get_data", mvPythonParser({
+		parsers->insert({ "get_data", mvPythonParser({
 			{mvPythonDataType::String, "name"}
 		}, "Retrieves data from storage.", "object") });
 
-		translators->insert({ "set_table_item", mvPythonParser({
+		parsers->insert({ "set_table_item", mvPythonParser({
 			{mvPythonDataType::String, "table"},
 			{mvPythonDataType::Integer, "row"},
 			{mvPythonDataType::Integer, "column"},
 			{mvPythonDataType::String, "value"},
 		}, "Sets a table's cell value.") });
 
-		translators->insert({ "delete_row", mvPythonParser({
+		parsers->insert({ "delete_row", mvPythonParser({
 			{mvPythonDataType::String, "table"},
 			{mvPythonDataType::Integer, "row"}
 		}, "Delete a row in a table.") });
 
-		translators->insert({ "delete_column", mvPythonParser({
+		parsers->insert({ "delete_column", mvPythonParser({
 			{mvPythonDataType::String, "table"},
 			{mvPythonDataType::Integer, "column"}
 		}, "Delete a column in a table.") });
 
-		translators->insert({ "add_row", mvPythonParser({
+		parsers->insert({ "add_row", mvPythonParser({
 			{mvPythonDataType::String, "table"},
 			{mvPythonDataType::StringList, "row"},
 		}, "Adds a row to a table.") });
 
-		translators->insert({ "add_column", mvPythonParser({
+		parsers->insert({ "add_column", mvPythonParser({
 			{mvPythonDataType::String, "table"},
 			{mvPythonDataType::String, "name"},
 			{mvPythonDataType::StringList, "column"},
 		}, "Adds a column to a table.") });
 
-		translators->insert({ "insert_column", mvPythonParser({
+		parsers->insert({ "insert_column", mvPythonParser({
 			{mvPythonDataType::String, "table"},
 			{mvPythonDataType::Integer, "column_index"},
 			{mvPythonDataType::String, "name"},
 			{mvPythonDataType::StringList, "column"},
 		}, "Inserts a column into a table.") });
 
-		translators->insert({ "insert_row", mvPythonParser({
+		parsers->insert({ "insert_row", mvPythonParser({
 			{mvPythonDataType::String, "table"},
 			{mvPythonDataType::Integer, "row_index"},
 			{mvPythonDataType::StringList, "row"},
 		}, "Inserts a row into a table.") });
 
-		translators->insert({ "set_table_selection", mvPythonParser({
+		parsers->insert({ "set_table_selection", mvPythonParser({
 			{mvPythonDataType::String, "table"},
 			{mvPythonDataType::Integer, "row"},
 			{mvPythonDataType::Integer, "column"},
 			{mvPythonDataType::Bool, "value"},
 		}, "Sets a table's cell selection value.") });
 
-		translators->insert({ "get_table_item", mvPythonParser({
+		parsers->insert({ "get_table_item", mvPythonParser({
 			{mvPythonDataType::String, "table"},
 			{mvPythonDataType::Integer, "row"},
 			{mvPythonDataType::Integer, "column"}
 		}, "Gets a table's cell value.", "str") });
 
-		translators->insert({ "get_table_selections", mvPythonParser({
+		parsers->insert({ "get_table_selections", mvPythonParser({
 			{mvPythonDataType::String, "table"}
 		}, "Retrieves data from storage.", "List of integer pairs.") });
 
-		translators->insert({ "delete_data", mvPythonParser({
+		parsers->insert({ "delete_data", mvPythonParser({
 			{mvPythonDataType::String, "name"}
 		}, "Deletes data from storage.") });
 
-		translators->insert({ "delete_item", mvPythonParser({
+		parsers->insert({ "delete_item", mvPythonParser({
 			{mvPythonDataType::String, "item"},
 			{mvPythonDataType::Optional},
 			{mvPythonDataType::Bool, "children_only"}
 		}, "Deletes an item if it exists.") });
 
-		translators->insert({ "move_item_up", mvPythonParser({
+		parsers->insert({ "move_item_up", mvPythonParser({
 			{mvPythonDataType::String, "item"}
 		}, "Moves item up if possible and if it exists.") });
 
-		translators->insert({ "move_item_down", mvPythonParser({
+		parsers->insert({ "move_item_down", mvPythonParser({
 			{mvPythonDataType::String, "item"}
 		}, "Moves down up if possible and if it exists.") });
 
-		translators->insert({ "get_style_item", mvPythonParser({
+		parsers->insert({ "get_style_item", mvPythonParser({
 			{mvPythonDataType::Integer, "item"}
 		}, "Returns a style item's value", "(float, float)") });
 
-		translators->insert({ "get_theme_item", mvPythonParser({
+		parsers->insert({ "get_theme_item", mvPythonParser({
 			{mvPythonDataType::Integer, "item"}
 		}, "Returns a theme item's color", "(float, float, float, float)") });
 
-		translators->insert({ "get_item_callback", mvPythonParser({
+		parsers->insert({ "get_item_callback", mvPythonParser({
 			{mvPythonDataType::String, "item"}
 		}, "Returns an item' callback", "str") });
 
-		translators->insert({ "get_item_height", mvPythonParser({
+		parsers->insert({ "get_item_height", mvPythonParser({
 			{mvPythonDataType::String, "item"}
 		}, "Returns an item's height.", "float") });
 
-		translators->insert({ "get_total_time", mvPythonParser({
+		parsers->insert({ "get_total_time", mvPythonParser({
 		}, "Returns total time since app started.", "float") });
 
-		translators->insert({ "get_delta_time", mvPythonParser({
+		parsers->insert({ "get_delta_time", mvPythonParser({
 		}, "Returns time since last frame.", "float") });
 
-		translators->insert({ "get_item_width", mvPythonParser({
+		parsers->insert({ "get_item_width", mvPythonParser({
 			{mvPythonDataType::String, "item"}
 		}, "Returns an item's width.", "float") });
 
-		translators->insert({ "get_item_popup", mvPythonParser({
+		parsers->insert({ "get_item_popup", mvPythonParser({
 			{mvPythonDataType::String, "item"}
 		}, "Returns an item's popup.", "str") });
 
-		translators->insert({ "get_item_tip", mvPythonParser({
+		parsers->insert({ "get_item_tip", mvPythonParser({
 			{mvPythonDataType::String, "item"}
 		}, "Returns an item's tip.", "str") });
 
-		translators->insert({ "get_main_callback", mvPythonParser({
+		parsers->insert({ "get_main_callback", mvPythonParser({
 		}, "Returns the main callback.", "str") });
 
-		translators->insert({ "get_main_window_size", mvPythonParser({
+		parsers->insert({ "get_main_window_size", mvPythonParser({
 		}, "Returns the size of the main window.", "(float, float)") });
 
-		translators->insert({ "get_theme", mvPythonParser({
+		parsers->insert({ "get_theme", mvPythonParser({
 		}, "Returns the current theme.", "str") });
 
-		translators->insert({ "get_thread_count", mvPythonParser({
+		parsers->insert({ "get_thread_count", mvPythonParser({
 		}, "Returns the allowable thread count.", "int") });
 
-		translators->insert({ "is_threadpool_high_performance", mvPythonParser({
+		parsers->insert({ "is_threadpool_high_performance", mvPythonParser({
 		}, "Checks if the threadpool is allowed to use the maximum number of threads.", "Boolean") });
 
-		translators->insert({ "get_threadpool_timeout", mvPythonParser({
+		parsers->insert({ "get_threadpool_timeout", mvPythonParser({
 		}, "Returns the threadpool timeout in seconds.", "float") });
 
-		translators->insert({ "get_active_window", mvPythonParser({
+		parsers->insert({ "get_active_window", mvPythonParser({
 		}, "Returns the active window name.", "str") });
 
-		translators->insert({ "get_marvel_version", mvPythonParser({
+		parsers->insert({ "get_marvel_version", mvPythonParser({
 		}, "Returns the current version of Marvel.", "str") });
 
-		translators->insert({ "set_threadpool_timeout", mvPythonParser({
+		parsers->insert({ "set_threadpool_timeout", mvPythonParser({
 			{mvPythonDataType::Float, "time"}
 		}, "Sets the threadpool timeout.") });
 
-		translators->insert({ "set_thread_count", mvPythonParser({
+		parsers->insert({ "set_thread_count", mvPythonParser({
 			{mvPythonDataType::Integer, "threads"}
 		}, "Sets number of threads to use if the threadpool is active.") });
 
-		translators->insert({ "show_documentation", mvPythonParser({
+		parsers->insert({ "show_documentation", mvPythonParser({
 		}, "Shows the documentation window.") });
 
-		translators->insert({ "show_about", mvPythonParser({
+		parsers->insert({ "show_about", mvPythonParser({
 		}, "Shows the about window.") });
 
-		translators->insert({ "show_metrics", mvPythonParser({
+		parsers->insert({ "show_metrics", mvPythonParser({
 		}, "Shows the metrics window.") });
 
-		translators->insert({ "show_debug", mvPythonParser({
+		parsers->insert({ "show_debug", mvPythonParser({
 		}, "Shows the debug window.") });
 
-		translators->insert({ "close_popup", mvPythonParser({
+		parsers->insert({ "close_popup", mvPythonParser({
 		}, "Needs documentation") });
 
-		translators->insert({ "show_source", mvPythonParser({
+		parsers->insert({ "show_source", mvPythonParser({
 		}, "Shows the source code for the current app.") });
 
-		translators->insert({ "set_threadpool_high_performance", mvPythonParser({
+		parsers->insert({ "set_threadpool_high_performance", mvPythonParser({
 		}, "Set the thread count to the maximum number of threads on your computer.") });
 
-		translators->insert({ "add_item_color_style", mvPythonParser({
+		parsers->insert({ "add_item_color_style", mvPythonParser({
 			{mvPythonDataType::String, "item"},
 			{mvPythonDataType::Integer, "style"},
 			{mvPythonDataType::FloatList, "color"}
 		}, "Needs documentation") });
 
-		translators->insert({ "is_item_hovered", mvPythonParser({
+		parsers->insert({ "is_item_hovered", mvPythonParser({
 			{mvPythonDataType::String, "item"},
 		}, "Checks if an item is hovered.", "Boolean") });
 
-		translators->insert({ "set_main_window_size", mvPythonParser({
+		parsers->insert({ "set_main_window_size", mvPythonParser({
 			{mvPythonDataType::Integer, "width"},
 			{mvPythonDataType::Integer, "height"}
 		}, "Sets the main window size.") });
 
-		translators->insert({ "is_item_active", mvPythonParser({
+		parsers->insert({ "is_item_active", mvPythonParser({
 			{mvPythonDataType::String, "item"},
 		}, "Checks if an item is active.", "Boolean") });
 
-		translators->insert({ "is_item_focused", mvPythonParser({
+		parsers->insert({ "is_item_focused", mvPythonParser({
 			{mvPythonDataType::String, "item"},
 		}, "Checks if an item is focused.", "Boolean") });
 
-		translators->insert({ "is_item_clicked", mvPythonParser({
+		parsers->insert({ "is_item_clicked", mvPythonParser({
 			{mvPythonDataType::String, "item"},
 		}, "Checks if an item is clicked.", "Boolean") });
 
-		translators->insert({ "is_item_visible", mvPythonParser({
+		parsers->insert({ "is_item_visible", mvPythonParser({
 			{mvPythonDataType::String, "item"},
 		}, "Checks if an item is visible.", "Boolean") });
 
-		translators->insert({ "is_item_edited", mvPythonParser({
+		parsers->insert({ "is_item_edited", mvPythonParser({
 			{mvPythonDataType::String, "item"},
 		}, "Checks if an item has been edited.", "Boolean") });
 
-		translators->insert({ "is_item_activated", mvPythonParser({
+		parsers->insert({ "is_item_activated", mvPythonParser({
 			{mvPythonDataType::String, "item"},
 		}, "Checks if an item has been activated.", "Boolean") });
 
-		translators->insert({ "is_item_deactivated", mvPythonParser({
+		parsers->insert({ "is_item_deactivated", mvPythonParser({
 			{mvPythonDataType::String, "item"},
 		}, "Checks if an item has been deactivated.", "Boolean") });
 
-		translators->insert({ "is_item_deactivated_after_edit", mvPythonParser({
+		parsers->insert({ "is_item_deactivated_after_edit", mvPythonParser({
 			{mvPythonDataType::String, "item"},
 		}, "Checks if an item has been deactivated after editing.", "Boolean") });
 
-		translators->insert({ "is_item_toggled_open", mvPythonParser({
+		parsers->insert({ "is_item_toggled_open", mvPythonParser({
 			{mvPythonDataType::String, "item"},
 		}, "Checks if an item is toggled.", "Boolean") });
 
-		translators->insert({ "get_item_rect_min", mvPythonParser({
+		parsers->insert({ "get_item_rect_min", mvPythonParser({
 			{mvPythonDataType::String, "item"},
 		}, "Returns an item's minimum allowable size.", "(float, float)") });
 
-		translators->insert({ "get_item_rect_max", mvPythonParser({
+		parsers->insert({ "get_item_rect_max", mvPythonParser({
 			{mvPythonDataType::String, "item"},
 		}, "Returns an item's maximum allowable size.", "(float, float)") });
 
-		translators->insert({ "get_item_rect_size", mvPythonParser({
+		parsers->insert({ "get_item_rect_size", mvPythonParser({
 			{mvPythonDataType::String, "item"},
 		}, "Returns an item's current size.", "(float, float)") });
 
-		translators->insert({ "change_style_item", mvPythonParser({
+		parsers->insert({ "change_style_item", mvPythonParser({
 			{mvPythonDataType::Integer, "item"},
 			{mvPythonDataType::Float, "x"},
 			{mvPythonDataType::Optional},
 			{mvPythonDataType::Float, "y"}
 		}, "Needs documentation") });
 
-		translators->insert({ "change_theme_item", mvPythonParser({
+		parsers->insert({ "change_theme_item", mvPythonParser({
 			{mvPythonDataType::Integer, "item"},
 			{mvPythonDataType::Float, "r"},
 			{mvPythonDataType::Float, "g"},
@@ -280,57 +281,57 @@ namespace Marvel {
 			{mvPythonDataType::Float, "a"}
 		}, "Needs documentation") });
 
-		translators->insert({ "get_value", mvPythonParser({
+		parsers->insert({ "get_value", mvPythonParser({
 			{mvPythonDataType::String, "name"}
 		}, "Returns an item's value or None if there is none.", "Depends") });
 
-		translators->insert({ "set_value", mvPythonParser({
+		parsers->insert({ "set_value", mvPythonParser({
 			{mvPythonDataType::String, "name"},
 			{mvPythonDataType::Object, "value"}
 		}, "Sets an item's value if applicable.") });
 
-		translators->insert({ "show_item", mvPythonParser({
+		parsers->insert({ "show_item", mvPythonParser({
 			{mvPythonDataType::String, "name"}
 		}, "Shows an item if it was hidden.") });
 
-		translators->insert({ "hide_item", mvPythonParser({
+		parsers->insert({ "hide_item", mvPythonParser({
 			{mvPythonDataType::String, "name"}
 		}, "Hides an item.") });
 
-		translators->insert({ "set_main_callback", mvPythonParser({
+		parsers->insert({ "set_main_callback", mvPythonParser({
 			{mvPythonDataType::String, "callback"}
 		}, "Sets the callback to be ran every frame.") });
 
-		translators->insert({ "set_item_callback", mvPythonParser({
+		parsers->insert({ "set_item_callback", mvPythonParser({
 			{mvPythonDataType::String, "item"},
 			{mvPythonDataType::String, "callback"}
 		}, "Sets an item's callback if applicable.") });
 
-		translators->insert({ "set_item_popup", mvPythonParser({
+		parsers->insert({ "set_item_popup", mvPythonParser({
 			{mvPythonDataType::String, "item"},
 			{mvPythonDataType::String, "popup"}
 		}, "Sets an item's popup if applicable.") });
 
-		translators->insert({ "set_item_tip", mvPythonParser({
+		parsers->insert({ "set_item_tip", mvPythonParser({
 			{mvPythonDataType::String, "item"},
 			{mvPythonDataType::String, "tip"}
 		}, "Sets a simple tooltip for an item.") });
 
-		translators->insert({ "set_item_width", mvPythonParser({
+		parsers->insert({ "set_item_width", mvPythonParser({
 			{mvPythonDataType::String, "item"},
 			{mvPythonDataType::Integer, "width"}
 		}, "Sets an item's width.") });
 
-		translators->insert({ "set_item_height", mvPythonParser({
+		parsers->insert({ "set_item_height", mvPythonParser({
 			{mvPythonDataType::String, "item"},
 			{mvPythonDataType::Integer, "height"}
 		}, "Sets an item's height if applicable.") });
 
-		translators->insert({ "set_theme", mvPythonParser({
+		parsers->insert({ "set_theme", mvPythonParser({
 			{mvPythonDataType::String, "theme"}
 		}, "Set the application's theme to a built-in theme.") });
 
-		return *translators;
+		return *parsers;
 	}
 
 	PyObject* set_table_item(PyObject* self, PyObject* args, PyObject* kwargs)
@@ -340,7 +341,7 @@ namespace Marvel {
 		int column;
 		const char* value;
 
-		if (!Translators["set_table_item"].parse(args, kwargs, __FUNCTION__, &table, &row,
+		if (!Parsers["set_table_item"].parse(args, kwargs, __FUNCTION__, &table, &row,
 			&column, &value))
 			Py_RETURN_NONE;
 
@@ -363,7 +364,7 @@ namespace Marvel {
 		const char* table;
 		int row;
 
-		if (!Translators["delete_row"].parse(args, kwargs, __FUNCTION__, &table, &row))
+		if (!Parsers["delete_row"].parse(args, kwargs, __FUNCTION__, &table, &row))
 			Py_RETURN_NONE;
 
 		mvAppItem* item = mvApp::GetApp()->getItem(table);
@@ -385,7 +386,7 @@ namespace Marvel {
 		const char* table;
 		int column;
 
-		if (!Translators["delete_column"].parse(args, kwargs, __FUNCTION__, &table, &column))
+		if (!Parsers["delete_column"].parse(args, kwargs, __FUNCTION__, &table, &column))
 			Py_RETURN_NONE;
 
 		mvAppItem* item = mvApp::GetApp()->getItem(table);
@@ -407,7 +408,7 @@ namespace Marvel {
 		const char* table;
 		PyObject* row;
 
-		if (!Translators["add_row"].parse(args, kwargs, __FUNCTION__, &table, &row))
+		if (!Parsers["add_row"].parse(args, kwargs, __FUNCTION__, &table, &row))
 			Py_RETURN_NONE;
 
 		mvAppItem* item = mvApp::GetApp()->getItem(table);
@@ -418,7 +419,7 @@ namespace Marvel {
 			Py_RETURN_NONE;
 		}
 
-		auto prow = mvPythonParser::getStringVec(row);
+		auto prow = mvPythonTranslator::getStringVec(row);
 
 		mvTable* atable = static_cast<mvTable*>(item);
 		atable->addRow(prow);
@@ -432,7 +433,7 @@ namespace Marvel {
 		const char* name;
 		PyObject* column;
 
-		if (!Translators["add_column"].parse(args, kwargs, __FUNCTION__, &table, &name, &column))
+		if (!Parsers["add_column"].parse(args, kwargs, __FUNCTION__, &table, &name, &column))
 			Py_RETURN_NONE;
 
 		mvAppItem* item = mvApp::GetApp()->getItem(table);
@@ -443,7 +444,7 @@ namespace Marvel {
 			Py_RETURN_NONE;
 		}
 
-		auto pcolumn = mvPythonParser::getStringVec(column);
+		auto pcolumn = mvPythonTranslator::getStringVec(column);
 
 		mvTable* atable = static_cast<mvTable*>(item);
 		atable->addColumn(name, pcolumn);
@@ -457,7 +458,7 @@ namespace Marvel {
 		int row_index;
 		PyObject* row;
 
-		if (!Translators["insert_row"].parse(args, kwargs, __FUNCTION__, &table, &row_index, &row))
+		if (!Parsers["insert_row"].parse(args, kwargs, __FUNCTION__, &table, &row_index, &row))
 			Py_RETURN_NONE;
 
 		mvAppItem* item = mvApp::GetApp()->getItem(table);
@@ -468,7 +469,7 @@ namespace Marvel {
 			Py_RETURN_NONE;
 		}
 
-		auto prow = mvPythonParser::getStringVec(row);
+		auto prow = mvPythonTranslator::getStringVec(row);
 
 		mvTable* atable = static_cast<mvTable*>(item);
 		atable->insertRow(row_index, prow);
@@ -483,7 +484,7 @@ namespace Marvel {
 		const char* name;
 		PyObject* column;
 
-		if (!Translators["insert_column"].parse(args, kwargs, __FUNCTION__, &table, &column_index, &name, &column))
+		if (!Parsers["insert_column"].parse(args, kwargs, __FUNCTION__, &table, &column_index, &name, &column))
 			Py_RETURN_NONE;
 
 		mvAppItem* item = mvApp::GetApp()->getItem(table);
@@ -494,7 +495,7 @@ namespace Marvel {
 			Py_RETURN_NONE;
 		}
 
-		auto prow = mvPythonParser::getStringVec(column);
+		auto prow = mvPythonTranslator::getStringVec(column);
 
 		mvTable* atable = static_cast<mvTable*>(item);
 		atable->insertColumn(column_index, name, prow);
@@ -509,7 +510,7 @@ namespace Marvel {
 		int column;
 		int value;
 
-		if (!Translators["set_table_selection"].parse(args, kwargs, __FUNCTION__, &table, &row,
+		if (!Parsers["set_table_selection"].parse(args, kwargs, __FUNCTION__, &table, &row,
 			&column, &value))
 			Py_RETURN_NONE;
 
@@ -533,7 +534,7 @@ namespace Marvel {
 		int row;
 		int column;
 
-		if (!Translators["get_table_item"].parse(args, kwargs, __FUNCTION__, &table, &row,
+		if (!Parsers["get_table_item"].parse(args, kwargs, __FUNCTION__, &table, &row,
 			&column))
 			Py_RETURN_NONE;
 
@@ -554,7 +555,7 @@ namespace Marvel {
 	{
 		const char* table;
 
-		if (!Translators["get_table_selections"].parse(args, kwargs, __FUNCTION__, &table))
+		if (!Parsers["get_table_selections"].parse(args, kwargs, __FUNCTION__, &table))
 			Py_RETURN_NONE;
 
 		mvAppItem* item = mvApp::GetApp()->getItem(table);
@@ -575,7 +576,7 @@ namespace Marvel {
 		const char* return_handler = "";
 		PyObject* data;
 
-		if (!Translators["run_async_function"].parse(args, kwargs, __FUNCTION__, &name, &data, &return_handler))
+		if (!Parsers["run_async_function"].parse(args, kwargs, __FUNCTION__, &name, &data, &return_handler))
 			Py_RETURN_NONE;
 
 		mvApp::GetApp()->addMTCallback(name, data, return_handler);
@@ -595,7 +596,7 @@ namespace Marvel {
 		const char* item;
 		int childrenOnly = false;
 
-		if (!Translators["delete_item"].parse(args, kwargs, __FUNCTION__, &item, &childrenOnly))
+		if (!Parsers["delete_item"].parse(args, kwargs, __FUNCTION__, &item, &childrenOnly))
 			Py_RETURN_NONE;
 
 		if(childrenOnly)
@@ -611,10 +612,10 @@ namespace Marvel {
 	{
 		PyObject* extensions;
 
-		if (!Translators["open_file_dialog"].parse(args, kwargs, __FUNCTION__, &extensions))
+		if (!Parsers["open_file_dialog"].parse(args, kwargs, __FUNCTION__, &extensions))
 			Py_RETURN_NONE;
 
-		std::string file = OpenFile(mvPythonParser::getStringPairVec(extensions));
+		std::string file = OpenFile(mvPythonTranslator::getStringPairVec(extensions));
 
 		return Py_BuildValue("s", file.c_str());
 	}
@@ -623,12 +624,12 @@ namespace Marvel {
 	{
 		PyObject* extensions;
 
-		if (!Translators["save_file_dialog"].parse(args, kwargs, __FUNCTION__, &extensions))
+		if (!Parsers["save_file_dialog"].parse(args, kwargs, __FUNCTION__, &extensions))
 			Py_RETURN_NONE;
 
-		std::string file = SaveFile(mvPythonParser::getStringPairVec(extensions));
+		std::string file = SaveFile(mvPythonTranslator::getStringPairVec(extensions));
 
-		return Py_BuildValue("s", SaveFile(mvPythonParser::getStringPairVec(extensions)).c_str());
+		return Py_BuildValue("s", SaveFile(mvPythonTranslator::getStringPairVec(extensions)).c_str());
 	}
 
 	PyObject* move_item_up(PyObject* self, PyObject* args, PyObject* kwargs)
@@ -641,7 +642,7 @@ namespace Marvel {
 
 		const char* item;
 
-		if (!Translators["move_item_up"].parse(args, kwargs, __FUNCTION__, &item))
+		if (!Parsers["move_item_up"].parse(args, kwargs, __FUNCTION__, &item))
 			Py_RETURN_NONE;
 
 		mvApp::GetApp()->moveItemUp(item);
@@ -660,7 +661,7 @@ namespace Marvel {
 
 		const char* item;
 
-		if (!Translators["move_item_down"].parse(args, kwargs, __FUNCTION__, &item))
+		if (!Parsers["move_item_down"].parse(args, kwargs, __FUNCTION__, &item))
 			Py_RETURN_NONE;
 
 		mvApp::GetApp()->moveItemDown(item);
@@ -673,7 +674,7 @@ namespace Marvel {
 	{
 		int item;
 
-		if (!Translators["get_style_item"].parse(args, kwargs, __FUNCTION__, &item))
+		if (!Parsers["get_style_item"].parse(args, kwargs, __FUNCTION__, &item))
 			Py_RETURN_NONE;
 
 		auto values = mvApp::GetApp()->getStyleItem(item);
@@ -685,7 +686,7 @@ namespace Marvel {
 	{
 		int item;
 
-		if (!Translators["get_theme_item"].parse(args, kwargs, __FUNCTION__, &item))
+		if (!Parsers["get_theme_item"].parse(args, kwargs, __FUNCTION__, &item))
 			Py_RETURN_NONE;
 
 		auto color = mvApp::GetApp()->getThemeItem(item);
@@ -707,7 +708,7 @@ namespace Marvel {
 	{
 		const char* item;
 
-		if (!Translators["get_item_callback"].parse(args, kwargs, __FUNCTION__, &item))
+		if (!Parsers["get_item_callback"].parse(args, kwargs, __FUNCTION__, &item))
 			Py_RETURN_NONE;
 
 		auto appitem = mvApp::GetApp()->getItem(item);
@@ -722,7 +723,7 @@ namespace Marvel {
 	{
 		const char* item;
 
-		if (!Translators["get_item_height"].parse(args, kwargs, __FUNCTION__, &item))
+		if (!Parsers["get_item_height"].parse(args, kwargs, __FUNCTION__, &item))
 			Py_RETURN_NONE;
 
 		auto appitem = mvApp::GetApp()->getItem(item);
@@ -737,7 +738,7 @@ namespace Marvel {
 	{
 		const char* item;
 
-		if (!Translators["get_item_width"].parse(args, kwargs, __FUNCTION__, &item))
+		if (!Parsers["get_item_width"].parse(args, kwargs, __FUNCTION__, &item))
 			Py_RETURN_NONE;
 
 		auto appitem = mvApp::GetApp()->getItem(item);
@@ -752,7 +753,7 @@ namespace Marvel {
 	{
 		const char* item;
 
-		if (!Translators["get_item_popup"].parse(args, kwargs, __FUNCTION__, &item))
+		if (!Parsers["get_item_popup"].parse(args, kwargs, __FUNCTION__, &item))
 			Py_RETURN_NONE;
 
 		auto appitem = mvApp::GetApp()->getItem(item);
@@ -767,7 +768,7 @@ namespace Marvel {
 	{
 		const char* item;
 
-		if (!Translators["get_item_tip"].parse(args, kwargs, __FUNCTION__, &item))
+		if (!Parsers["get_item_tip"].parse(args, kwargs, __FUNCTION__, &item))
 			Py_RETURN_NONE;
 
 		auto appitem = mvApp::GetApp()->getItem(item);
@@ -822,7 +823,7 @@ namespace Marvel {
 	{
 		float time;
 
-		if (!Translators["set_threadpool_timeout"].parse(args, kwargs, __FUNCTION__, &time))
+		if (!Parsers["set_threadpool_timeout"].parse(args, kwargs, __FUNCTION__, &time))
 			Py_RETURN_NONE;
 
 		mvApp::GetApp()->setThreadPoolTimeout(time);
@@ -835,7 +836,7 @@ namespace Marvel {
 
 		int threads;
 
-		if (!Translators["set_thread_count"].parse(args, kwargs, __FUNCTION__, &threads))
+		if (!Parsers["set_thread_count"].parse(args, kwargs, __FUNCTION__, &threads))
 			Py_RETURN_NONE;
 
 		mvApp::GetApp()->setThreadCount(threads);
@@ -849,7 +850,7 @@ namespace Marvel {
 		const char* name;
 		PyObject* data;
 
-		if (!Translators["add_data"].parse(args, kwargs, __FUNCTION__, &name, &data))
+		if (!Parsers["add_data"].parse(args, kwargs, __FUNCTION__, &name, &data))
 			Py_RETURN_NONE;
 
 		mvApp::GetApp()->addData(name, data);
@@ -863,7 +864,7 @@ namespace Marvel {
 
 		const char* name;
 
-		if (!Translators["get_data"].parse(args, kwargs, __FUNCTION__, &name))
+		if (!Parsers["get_data"].parse(args, kwargs, __FUNCTION__, &name))
 			Py_RETURN_NONE;
 
 		auto result = mvApp::GetApp()->getData(name);
@@ -879,7 +880,7 @@ namespace Marvel {
 
 		const char* name;
 
-		if (!Translators["delete_data"].parse(args, kwargs, __FUNCTION__, &name))
+		if (!Parsers["delete_data"].parse(args, kwargs, __FUNCTION__, &name))
 			Py_RETURN_NONE;
 
 		mvApp::GetApp()->deleteData(name);
@@ -899,10 +900,10 @@ namespace Marvel {
 		int style;
 		PyObject* color;
 
-		if (!Translators["add_item_color_style"].parse(args, kwargs, __FUNCTION__, &item, &style, &color))
+		if (!Parsers["add_item_color_style"].parse(args, kwargs, __FUNCTION__, &item, &style, &color))
 			Py_RETURN_NONE;
 
-		auto mcolor = mvPythonParser::getColor(color);
+		auto mcolor = mvPythonTranslator::getColor(color);
 
 		mvApp::GetApp()->addItemColorStyle(item, style, mcolor);
 
@@ -913,7 +914,7 @@ namespace Marvel {
 	{
 		const char* item;
 
-		if (!Translators["is_item_hovered"].parse(args, kwargs,__FUNCTION__, &item))
+		if (!Parsers["is_item_hovered"].parse(args, kwargs,__FUNCTION__, &item))
 			Py_RETURN_NONE;
 
 		auto appitem = mvApp::GetApp()->getItem(item);
@@ -928,7 +929,7 @@ namespace Marvel {
 	{
 		const char* item;
 
-		if (!Translators["is_item_active"].parse(args, kwargs,__FUNCTION__, &item))
+		if (!Parsers["is_item_active"].parse(args, kwargs,__FUNCTION__, &item))
 			Py_RETURN_NONE;
 
 		auto appitem = mvApp::GetApp()->getItem(item);
@@ -943,7 +944,7 @@ namespace Marvel {
 	{
 		const char* item;
 
-		if (!Translators["is_item_focused"].parse(args, kwargs,__FUNCTION__, &item))
+		if (!Parsers["is_item_focused"].parse(args, kwargs,__FUNCTION__, &item))
 			Py_RETURN_NONE;
 
 		auto appitem = mvApp::GetApp()->getItem(item);
@@ -958,7 +959,7 @@ namespace Marvel {
 	{
 		const char* item;
 
-		if (!Translators["is_item_clicked"].parse(args, kwargs,__FUNCTION__, &item))
+		if (!Parsers["is_item_clicked"].parse(args, kwargs,__FUNCTION__, &item))
 			Py_RETURN_NONE;
 
 		auto appitem = mvApp::GetApp()->getItem(item);
@@ -973,7 +974,7 @@ namespace Marvel {
 	{
 		const char* item;
 
-		if (!Translators["is_item_visible"].parse(args, kwargs,__FUNCTION__, &item))
+		if (!Parsers["is_item_visible"].parse(args, kwargs,__FUNCTION__, &item))
 			Py_RETURN_NONE;
 
 		auto appitem = mvApp::GetApp()->getItem(item);
@@ -988,7 +989,7 @@ namespace Marvel {
 	{
 		const char* item;
 
-		if (!Translators["is_item_edited"].parse(args, kwargs,__FUNCTION__, &item))
+		if (!Parsers["is_item_edited"].parse(args, kwargs,__FUNCTION__, &item))
 			Py_RETURN_NONE;
 
 		auto appitem = mvApp::GetApp()->getItem(item);
@@ -1003,7 +1004,7 @@ namespace Marvel {
 	{
 		const char* item;
 
-		if (!Translators["is_item_activated"].parse(args, kwargs,__FUNCTION__, &item))
+		if (!Parsers["is_item_activated"].parse(args, kwargs,__FUNCTION__, &item))
 			Py_RETURN_NONE;
 
 		auto appitem = mvApp::GetApp()->getItem(item);
@@ -1018,7 +1019,7 @@ namespace Marvel {
 	{
 		const char* item;
 
-		if (!Translators["is_item_deactivated"].parse(args, kwargs,__FUNCTION__, &item))
+		if (!Parsers["is_item_deactivated"].parse(args, kwargs,__FUNCTION__, &item))
 			Py_RETURN_NONE;
 
 		auto appitem = mvApp::GetApp()->getItem(item);
@@ -1033,7 +1034,7 @@ namespace Marvel {
 	{
 		const char* item;
 
-		if (!Translators["is_item_deactivated_after_edit"].parse(args, kwargs,__FUNCTION__, &item))
+		if (!Parsers["is_item_deactivated_after_edit"].parse(args, kwargs,__FUNCTION__, &item))
 			Py_RETURN_NONE;
 
 		auto appitem = mvApp::GetApp()->getItem(item);
@@ -1048,7 +1049,7 @@ namespace Marvel {
 	{
 		const char* item;
 
-		if (!Translators["is_item_toggled_open"].parse(args, kwargs,__FUNCTION__, &item))
+		if (!Parsers["is_item_toggled_open"].parse(args, kwargs,__FUNCTION__, &item))
 			Py_RETURN_NONE;
 
 		auto appitem = mvApp::GetApp()->getItem(item);
@@ -1063,7 +1064,7 @@ namespace Marvel {
 	{
 		const char* item;
 
-		if (!Translators["get_item_rect_min"].parse(args, kwargs,__FUNCTION__, &item))
+		if (!Parsers["get_item_rect_min"].parse(args, kwargs,__FUNCTION__, &item))
 			Py_RETURN_NONE;
 
 		auto appitem = mvApp::GetApp()->getItem(item);
@@ -1084,7 +1085,7 @@ namespace Marvel {
 	{
 		const char* item;
 
-		if (!Translators["get_item_rect_max"].parse(args, kwargs,__FUNCTION__, &item))
+		if (!Parsers["get_item_rect_max"].parse(args, kwargs,__FUNCTION__, &item))
 			Py_RETURN_NONE;
 
 		auto appitem = mvApp::GetApp()->getItem(item);
@@ -1105,7 +1106,7 @@ namespace Marvel {
 	{
 		const char* item;
 
-		if (!Translators["get_item_rect_size"].parse(args, kwargs,__FUNCTION__, &item))
+		if (!Parsers["get_item_rect_size"].parse(args, kwargs,__FUNCTION__, &item))
 			Py_RETURN_NONE;
 
 		auto appitem = mvApp::GetApp()->getItem(item);
@@ -1128,7 +1129,7 @@ namespace Marvel {
 		float x = 0.0f;
 		float y = 0.0f;
 
-		if (!Translators["change_style_item"].parse(args, kwargs,__FUNCTION__, &item, &x, &y))
+		if (!Parsers["change_style_item"].parse(args, kwargs,__FUNCTION__, &item, &x, &y))
 			Py_RETURN_NONE;
 
 		mvApp::GetApp()->changeStyleItem(item, x, y);
@@ -1141,7 +1142,7 @@ namespace Marvel {
 		int item;
 		int r, g, b, a;
 
-		if(!Translators["change_theme_item"].parse(args, kwargs,__FUNCTION__, &item, &r, &g, &b, &a))
+		if(!Parsers["change_theme_item"].parse(args, kwargs,__FUNCTION__, &item, &r, &g, &b, &a))
 			Py_RETURN_NONE;
 
 		mvApp::GetApp()->changeThemeItem(item, { r, g, b, a });
@@ -1155,7 +1156,7 @@ namespace Marvel {
 	{
 		const char* name;
 
-		if(!Translators["get_value"].parse(args, kwargs,__FUNCTION__, &name))
+		if(!Parsers["get_value"].parse(args, kwargs,__FUNCTION__, &name))
 			Py_RETURN_NONE;
 
 		mvAppItem* item = mvApp::GetApp()->getItem(std::string(name));
@@ -1171,7 +1172,7 @@ namespace Marvel {
 		const char* name;
 		PyObject* value;
 
-		if(!Translators["set_value"].parse(args, kwargs,__FUNCTION__, &name, &value))
+		if(!Parsers["set_value"].parse(args, kwargs,__FUNCTION__, &name, &value))
 			Py_RETURN_NONE;
 
 		mvAppItem* item = mvApp::GetApp()->getItem(std::string(name));
@@ -1187,7 +1188,7 @@ namespace Marvel {
 	{
 		const char* name;
 
-		if(!Translators["show_item"].parse(args, kwargs,__FUNCTION__, &name))
+		if(!Parsers["show_item"].parse(args, kwargs,__FUNCTION__, &name))
 			Py_RETURN_NONE;
 
 		mvAppItem* item = mvApp::GetApp()->getItem(std::string(name));
@@ -1202,7 +1203,7 @@ namespace Marvel {
 	{
 		const char* name;
 
-		if(!Translators["hide_item"].parse(args, kwargs,__FUNCTION__, &name))
+		if(!Parsers["hide_item"].parse(args, kwargs,__FUNCTION__, &name))
 			Py_RETURN_NONE;
 
 		mvAppItem* item = mvApp::GetApp()->getItem(std::string(name));
@@ -1218,7 +1219,7 @@ namespace Marvel {
 		const char* callback;
 
 
-		if(!Translators["set_main_callback"].parse(args, kwargs,__FUNCTION__, &callback))
+		if(!Parsers["set_main_callback"].parse(args, kwargs,__FUNCTION__, &callback))
 			Py_RETURN_NONE;
 
 		mvApp::GetApp()->setMainCallback(std::string(callback));
@@ -1233,7 +1234,7 @@ namespace Marvel {
 		const char* callback;
 		const char* item;
 		
-		if(!Translators["set_item_callback"].parse(args, kwargs,__FUNCTION__, &item, &callback))
+		if(!Parsers["set_item_callback"].parse(args, kwargs,__FUNCTION__, &item, &callback))
 			Py_RETURN_NONE;
 
 		auto appitem = mvApp::GetApp()->getItem(item);
@@ -1249,7 +1250,7 @@ namespace Marvel {
 		const char* popup;
 		const char* item;
 
-		if (!Translators["set_item_popup"].parse(args, kwargs,__FUNCTION__, &item, &popup))
+		if (!Parsers["set_item_popup"].parse(args, kwargs,__FUNCTION__, &item, &popup))
 			Py_RETURN_NONE;
 
 		auto appitem = mvApp::GetApp()->getItem(item);
@@ -1264,7 +1265,7 @@ namespace Marvel {
 	{
 		const char* tip, * item;
 
-		if(!Translators["set_item_tip"].parse(args, kwargs,__FUNCTION__, &item, &tip))
+		if(!Parsers["set_item_tip"].parse(args, kwargs,__FUNCTION__, &item, &tip))
 			Py_RETURN_NONE;
 
 		auto appitem = mvApp::GetApp()->getItem(item);
@@ -1280,7 +1281,7 @@ namespace Marvel {
 		const char* item;
 		int width;
 
-		if(!Translators["set_item_width"].parse(args, kwargs,__FUNCTION__, &item, &width))
+		if(!Parsers["set_item_width"].parse(args, kwargs,__FUNCTION__, &item, &width))
 			Py_RETURN_NONE;
 
 		auto appitem = mvApp::GetApp()->getItem(item);
@@ -1297,7 +1298,7 @@ namespace Marvel {
 		const char* item;
 		int height;
 
-		if (!Translators["set_item_height"].parse(args, kwargs, __FUNCTION__, &item, &height))
+		if (!Parsers["set_item_height"].parse(args, kwargs, __FUNCTION__, &item, &height))
 			Py_RETURN_NONE;
 
 		auto appitem = mvApp::GetApp()->getItem(item);
@@ -1314,7 +1315,7 @@ namespace Marvel {
 		int width;
 		int height;
 
-		if (!Translators["set_main_window_size"].parse(args, kwargs, __FUNCTION__, &width, &height))
+		if (!Parsers["set_main_window_size"].parse(args, kwargs, __FUNCTION__, &width, &height))
 			Py_RETURN_NONE;
 
 		mvApp::GetApp()->setWindowSize(width, height);
@@ -1336,7 +1337,7 @@ namespace Marvel {
 	{
 		const char* theme;
 
-		if(!Translators["set_theme"].parse(args, kwargs,__FUNCTION__, &theme))
+		if(!Parsers["set_theme"].parse(args, kwargs,__FUNCTION__, &theme))
 			Py_RETURN_NONE;
 
 		mvApp::GetApp()->setAppTheme(std::string(theme));

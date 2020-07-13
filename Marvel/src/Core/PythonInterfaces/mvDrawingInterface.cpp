@@ -1,6 +1,7 @@
 #include "mvPythonModule.h"
 #include "Core/mvApp.h"
 #include "Core/StandardWindows/mvAppLog.h"
+#include "mvPythonParser.h"
 #include "mvPythonTranslator.h"
 #include "Core/AppItems/mvAppItems.h"
 #include "mvInterfaces.h"
@@ -8,11 +9,11 @@
 
 namespace Marvel {
 
-	static std::map<std::string, mvPythonParser> Translators = mvInterfaceRegistry::GetRegistry()->getPythonInterface("sbDraw");
+	static std::map<std::string, mvPythonParser> Parsers = mvInterfaceRegistry::GetRegistry()->getPythonInterface("sbDraw");
 
 	std::map<std::string, mvPythonParser>& BuildDrawingInterface() {
 
-		std::map<std::string, mvPythonParser>* translators = new std::map< std::string, mvPythonParser>{
+		std::map<std::string, mvPythonParser>* parsers = new std::map< std::string, mvPythonParser>{
 
 			{"add_drawing", mvPythonParser({
 				{mvPythonDataType::String, "name"},
@@ -188,7 +189,7 @@ namespace Marvel {
 
 		};
 
-		return *translators;
+		return *parsers;
 	}
 
 	PyObject* add_drawing(PyObject* self, PyObject* args, PyObject* kwargs)
@@ -200,7 +201,7 @@ namespace Marvel {
 		int width = 0;
 		int height = 0;
 
-		if (!Translators["add_drawing"].parse(args, kwargs,__FUNCTION__, &name, &tip, &parent, &before, &width, &height))
+		if (!Parsers["add_drawing"].parse(args, kwargs,__FUNCTION__, &name, &tip, &parent, &before, &width, &height))
 			Py_RETURN_NONE;
 
 		mvAppItem* item = new mvDrawing("", name, width, height);
@@ -239,7 +240,7 @@ namespace Marvel {
 		int width;
 		int height;
 
-		if (!Translators["set_drawing_size"].parse(args, kwargs, __FUNCTION__, &name, &width, &height))
+		if (!Parsers["set_drawing_size"].parse(args, kwargs, __FUNCTION__, &name, &width, &height))
 			Py_RETURN_NONE;
 
 		auto drawing = mvApp::GetApp()->getItem(name);
@@ -259,7 +260,7 @@ namespace Marvel {
 		float x;
 		float y;
 
-		if (!Translators["set_drawing_origin"].parse(args, kwargs, __FUNCTION__, &name, &x, &y))
+		if (!Parsers["set_drawing_origin"].parse(args, kwargs, __FUNCTION__, &name, &x, &y))
 			Py_RETURN_NONE;
 
 		mvAppItem* item = mvApp::GetApp()->getItem(name);
@@ -282,7 +283,7 @@ namespace Marvel {
 		float x;
 		float y;
 
-		if (!Translators["set_drawing_scale"].parse(args, kwargs, __FUNCTION__, &name, &x, &y))
+		if (!Parsers["set_drawing_scale"].parse(args, kwargs, __FUNCTION__, &name, &x, &y))
 			Py_RETURN_NONE;
 
 		mvAppItem* item = mvApp::GetApp()->getItem(name);
@@ -303,7 +304,7 @@ namespace Marvel {
 	{
 		const char* name;
 
-		if (!Translators["get_drawing_origin"].parse(args, kwargs, __FUNCTION__, &name))
+		if (!Parsers["get_drawing_origin"].parse(args, kwargs, __FUNCTION__, &name))
 			Py_RETURN_NONE;
 
 		mvAppItem* item = mvApp::GetApp()->getItem(name);
@@ -322,7 +323,7 @@ namespace Marvel {
 	{
 		const char* name;
 
-		if (!Translators["get_drawing_scale"].parse(args, kwargs, __FUNCTION__, &name))
+		if (!Parsers["get_drawing_scale"].parse(args, kwargs, __FUNCTION__, &name))
 			Py_RETURN_NONE;
 
 		mvAppItem* item = mvApp::GetApp()->getItem(name);
@@ -341,7 +342,7 @@ namespace Marvel {
 	{
 		const char* name;
 
-		if (!Translators["get_drawing_size"].parse(args, kwargs, __FUNCTION__, &name))
+		if (!Parsers["get_drawing_size"].parse(args, kwargs, __FUNCTION__, &name))
 			Py_RETURN_NONE;
 
 		auto drawing = mvApp::GetApp()->getItem(name);
@@ -373,15 +374,15 @@ namespace Marvel {
 		PyTuple_SetItem(color, 3, PyFloat_FromDouble(255));
 		const char* tag = "";
 
-		if (!Translators["draw_image"].parse(args, kwargs, __FUNCTION__, &drawing, &file,
+		if (!Parsers["draw_image"].parse(args, kwargs, __FUNCTION__, &drawing, &file,
 			&pmin, &pmax, &uv_min, &uv_max, &color, &tag))
 			Py_RETURN_NONE;
 
-		mvVec2 mpmin = mvPythonParser::getVec2(pmin);
-		mvVec2 mpmax = mvPythonParser::getVec2(pmax);
-		mvVec2 muv_min = mvPythonParser::getVec2(uv_min);
-		mvVec2 muv_max = mvPythonParser::getVec2(uv_max);
-		mvColor mcolor = mvPythonParser::getColor(color);
+		mvVec2 mpmin = mvPythonTranslator::getVec2(pmin);
+		mvVec2 mpmax = mvPythonTranslator::getVec2(pmax);
+		mvVec2 muv_min = mvPythonTranslator::getVec2(uv_min);
+		mvVec2 muv_max = mvPythonTranslator::getVec2(uv_max);
+		mvColor mcolor = mvPythonTranslator::getColor(color);
 
 		mvAppItem* item = mvApp::GetApp()->getItem(drawing);
 		if (item == nullptr)
@@ -405,12 +406,12 @@ namespace Marvel {
 		PyObject* color;
 		const char* tag = "";
 
-		if (!Translators["draw_line"].parse(args, kwargs,__FUNCTION__, &drawing, &p1, &p2, &color, &thickness, &tag))
+		if (!Parsers["draw_line"].parse(args, kwargs,__FUNCTION__, &drawing, &p1, &p2, &color, &thickness, &tag))
 			Py_RETURN_NONE;
 
-		mvVec2 mp1 = mvPythonParser::getVec2(p1);
-		mvVec2 mp2 = mvPythonParser::getVec2(p2);
-		mvColor mcolor = mvPythonParser::getColor(color);
+		mvVec2 mp1 = mvPythonTranslator::getVec2(p1);
+		mvVec2 mp2 = mvPythonTranslator::getVec2(p2);
+		mvColor mcolor = mvPythonTranslator::getColor(color);
 
 		mvAppItem* item = mvApp::GetApp()->getItem(drawing);
 		if (item == nullptr)
@@ -435,12 +436,12 @@ namespace Marvel {
 		PyObject* color;
 		const char* tag = "";
 
-		if (!Translators["draw_arrow"].parse(args, kwargs, __FUNCTION__, &drawing, &p1, &p2, &color, &thickness, &size, &tag))
+		if (!Parsers["draw_arrow"].parse(args, kwargs, __FUNCTION__, &drawing, &p1, &p2, &color, &thickness, &size, &tag))
 			Py_RETURN_NONE;
 
-		mvVec2 mp1 = mvPythonParser::getVec2(p1);
-		mvVec2 mp2 = mvPythonParser::getVec2(p2);
-		mvColor mcolor = mvPythonParser::getColor(color);
+		mvVec2 mp1 = mvPythonTranslator::getVec2(p1);
+		mvVec2 mp2 = mvPythonTranslator::getVec2(p2);
+		mvColor mcolor = mvPythonTranslator::getColor(color);
 
 		mvAppItem* item = mvApp::GetApp()->getItem(drawing);
 		if (item == nullptr)
@@ -465,15 +466,15 @@ namespace Marvel {
 		PyObject* fill = nullptr;
 		const char* tag = "";
 
-		if (!Translators["draw_triangle"].parse(args, kwargs,__FUNCTION__, &drawing, &p1, &p2, &p3, &color, &fill, &thickness, &tag))
+		if (!Parsers["draw_triangle"].parse(args, kwargs,__FUNCTION__, &drawing, &p1, &p2, &p3, &color, &fill, &thickness, &tag))
 			Py_RETURN_NONE;
 
 
-		mvVec2 mp1 = mvPythonParser::getVec2(p1);
-		mvVec2 mp2 = mvPythonParser::getVec2(p2);
-		mvVec2 mp3 = mvPythonParser::getVec2(p3);
-		mvColor mcolor = mvPythonParser::getColor(color);
-		mvColor mfill = mvPythonParser::getColor(fill);
+		mvVec2 mp1 = mvPythonTranslator::getVec2(p1);
+		mvVec2 mp2 = mvPythonTranslator::getVec2(p2);
+		mvVec2 mp3 = mvPythonTranslator::getVec2(p3);
+		mvColor mcolor = mvPythonTranslator::getColor(color);
+		mvColor mfill = mvPythonTranslator::getColor(fill);
 
 		mvAppItem* item = mvApp::GetApp()->getItem(drawing);
 		if (item == nullptr)
@@ -498,14 +499,14 @@ namespace Marvel {
 		PyObject* fill = nullptr;
 		const char* tag = "";
 
-		if (!Translators["draw_rectangle"].parse(args, kwargs,__FUNCTION__, &drawing, &pmin, &pmax, &color, &fill, &rounding, &thickness, &tag))
+		if (!Parsers["draw_rectangle"].parse(args, kwargs,__FUNCTION__, &drawing, &pmin, &pmax, &color, &fill, &rounding, &thickness, &tag))
 			Py_RETURN_NONE;
 
 
-		mvVec2 mpmax = mvPythonParser::getVec2(pmax);
-		mvVec2 mpmin = mvPythonParser::getVec2(pmin);
-		mvColor mcolor = mvPythonParser::getColor(color);
-		mvColor mfill = mvPythonParser::getColor(fill);
+		mvVec2 mpmax = mvPythonTranslator::getVec2(pmax);
+		mvVec2 mpmin = mvPythonTranslator::getVec2(pmin);
+		mvColor mcolor = mvPythonTranslator::getColor(color);
+		mvColor mfill = mvPythonTranslator::getColor(fill);
 
 		mvAppItem* item = mvApp::GetApp()->getItem(drawing);
 		if (item == nullptr)
@@ -530,16 +531,16 @@ namespace Marvel {
 		PyObject* fill = nullptr;
 		const char* tag = "";
 
-		if (!Translators["draw_quad"].parse(args, kwargs,__FUNCTION__, &drawing, &p1, &p2, &p3, &p4, &color, &fill, &thickness, &tag))
+		if (!Parsers["draw_quad"].parse(args, kwargs,__FUNCTION__, &drawing, &p1, &p2, &p3, &p4, &color, &fill, &thickness, &tag))
 			Py_RETURN_NONE;
 
 
-		mvVec2 mp1 = mvPythonParser::getVec2(p1);
-		mvVec2 mp2 = mvPythonParser::getVec2(p2);
-		mvVec2 mp3 = mvPythonParser::getVec2(p3);
-		mvVec2 mp4 = mvPythonParser::getVec2(p4);
-		mvColor mcolor = mvPythonParser::getColor(color);
-		mvColor mfill = mvPythonParser::getColor(fill);
+		mvVec2 mp1 = mvPythonTranslator::getVec2(p1);
+		mvVec2 mp2 = mvPythonTranslator::getVec2(p2);
+		mvVec2 mp3 = mvPythonTranslator::getVec2(p3);
+		mvVec2 mp4 = mvPythonTranslator::getVec2(p4);
+		mvColor mcolor = mvPythonTranslator::getColor(color);
+		mvColor mfill = mvPythonTranslator::getColor(fill);
 
 		mvAppItem* item = mvApp::GetApp()->getItem(drawing);
 		if (item == nullptr)
@@ -564,11 +565,11 @@ namespace Marvel {
 		PyObject* color = nullptr;
 		const char* tag = "";
 
-		if (!Translators["draw_text"].parse(args, kwargs,__FUNCTION__, &drawing, &pos, &text, &color, &size, &tag))
+		if (!Parsers["draw_text"].parse(args, kwargs,__FUNCTION__, &drawing, &pos, &text, &color, &size, &tag))
 			Py_RETURN_NONE;
 
-		mvVec2 mpos = mvPythonParser::getVec2(pos);
-		mvColor mcolor = mvPythonParser::getColor(color);
+		mvVec2 mpos = mvPythonTranslator::getVec2(pos);
+		mvColor mcolor = mvPythonTranslator::getColor(color);
 
 		mvAppItem* item = mvApp::GetApp()->getItem(drawing);
 		if (item == nullptr)
@@ -595,12 +596,12 @@ namespace Marvel {
 		PyObject* fill = nullptr;
 		const char* tag = "";
 
-		if (!Translators["draw_circle"].parse(args, kwargs,__FUNCTION__, &drawing, &center, &radius, &color, &segments, &thickness, &fill, &tag))
+		if (!Parsers["draw_circle"].parse(args, kwargs,__FUNCTION__, &drawing, &center, &radius, &color, &segments, &thickness, &fill, &tag))
 			Py_RETURN_NONE;
 
-		mvVec2 mcenter = mvPythonParser::getVec2(center);
-		mvColor mcolor = mvPythonParser::getColor(color);
-		mvColor mfill = mvPythonParser::getColor(fill);
+		mvVec2 mcenter = mvPythonTranslator::getVec2(center);
+		mvColor mcolor = mvPythonTranslator::getColor(color);
+		mvColor mfill = mvPythonTranslator::getColor(fill);
 
 		mvAppItem* item = mvApp::GetApp()->getItem(drawing);
 		if (item == nullptr)
@@ -625,11 +626,11 @@ namespace Marvel {
 		float thickness = 1.0f;
 		const char* tag = "";
 
-		if (!Translators["draw_polyline"].parse(args, kwargs,__FUNCTION__, &drawing, &points, &color, &closed, &thickness, &tag))
+		if (!Parsers["draw_polyline"].parse(args, kwargs,__FUNCTION__, &drawing, &points, &color, &closed, &thickness, &tag))
 			Py_RETURN_NONE;
 
-		auto mpoints = mvPythonParser::getVectVec2(points);
-		mvColor mcolor = mvPythonParser::getColor(color);
+		auto mpoints = mvPythonTranslator::getVectVec2(points);
+		mvColor mcolor = mvPythonTranslator::getColor(color);
 
 		mvAppItem* item = mvApp::GetApp()->getItem(drawing);
 		if (item == nullptr)
@@ -654,12 +655,12 @@ namespace Marvel {
 		float thickness = 1.0f;
 		const char* tag = "";
 
-		if (!Translators["draw_polygon"].parse(args, kwargs,__FUNCTION__, &drawing, &points, &color, &fill, &thickness, &tag))
+		if (!Parsers["draw_polygon"].parse(args, kwargs,__FUNCTION__, &drawing, &points, &color, &fill, &thickness, &tag))
 			Py_RETURN_NONE;
 
-		auto mpoints = mvPythonParser::getVectVec2(points);
-		mvColor mcolor = mvPythonParser::getColor(color);
-		mvColor mfill = mvPythonParser::getColor(fill);
+		auto mpoints = mvPythonTranslator::getVectVec2(points);
+		mvColor mcolor = mvPythonTranslator::getColor(color);
+		mvColor mfill = mvPythonTranslator::getColor(fill);
 
 		mvAppItem* item = mvApp::GetApp()->getItem(drawing);
 		if (item == nullptr)
@@ -684,14 +685,14 @@ namespace Marvel {
 		int segments = 0;
 		const char* tag = "";
 
-		if (!Translators["draw_bezier_curve"].parse(args, kwargs,__FUNCTION__, &drawing, &p1, &p2, &p3, &p4, &color, &thickness, &segments, &tag))
+		if (!Parsers["draw_bezier_curve"].parse(args, kwargs,__FUNCTION__, &drawing, &p1, &p2, &p3, &p4, &color, &thickness, &segments, &tag))
 			Py_RETURN_NONE;
 
-		mvVec2 mp1 = mvPythonParser::getVec2(p1);
-		mvVec2 mp2 = mvPythonParser::getVec2(p2);
-		mvVec2 mp3 = mvPythonParser::getVec2(p3);
-		mvVec2 mp4 = mvPythonParser::getVec2(p4);
-		mvColor mcolor = mvPythonParser::getColor(color);
+		mvVec2 mp1 = mvPythonTranslator::getVec2(p1);
+		mvVec2 mp2 = mvPythonTranslator::getVec2(p2);
+		mvVec2 mp3 = mvPythonTranslator::getVec2(p3);
+		mvVec2 mp4 = mvPythonTranslator::getVec2(p4);
+		mvColor mcolor = mvPythonTranslator::getColor(color);
 
 		mvAppItem* item = mvApp::GetApp()->getItem(drawing);
 		if (item == nullptr)
@@ -711,7 +712,7 @@ namespace Marvel {
 	{
 		const char* drawing;
 
-		if (!Translators["clear_drawing"].parse(args, kwargs,__FUNCTION__, &drawing))
+		if (!Parsers["clear_drawing"].parse(args, kwargs,__FUNCTION__, &drawing))
 			Py_RETURN_NONE;
 
 		mvAppItem* item = mvApp::GetApp()->getItem(drawing);
