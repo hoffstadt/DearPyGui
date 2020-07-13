@@ -165,6 +165,7 @@ namespace Marvel {
 
 	void mvApp::setWindowSize(unsigned width, unsigned height) 
 	{ 
+		setSize(width, height);
 		m_windows[0]->setWidth(width);
 		m_windows[0]->setHeight(height);
 	}
