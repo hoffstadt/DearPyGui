@@ -95,8 +95,8 @@ namespace Marvel {
 					ImGui::Unindent();
 					ImGui::Separator();
 
-					ColorText("RUNNING AN APP:");
-					ImGui::BulletText("An app can be ran 2 ways:");
+					ColorText("RUNNING AN APP (EXPLICITLY):");
+					ImGui::BulletText("An app can be ran explicitly 2 ways:");
 					ImGui::Indent();
 					ImGui::BulletText("Call the MarvelSandbox executable with --app YourPythonFile --path PathToFile");
 					ImGui::BulletText("Call the MarvelSandbox executable with --app YourPythonFile (if the file is next to executable)");
@@ -105,6 +105,21 @@ namespace Marvel {
 					ImGui::Indent();
 					ImGui::BulletText("Do NOT leave the python extension when using --app i.e. MarvelSandbox.exe --app Blah (not Blah.py).");
 					ImGui::BulletText("Do NOT have spacing in the python file name.");
+					ImGui::Unindent();
+					ImGui::Separator();
+
+					ColorText("CONFIG FILE:");
+					ImGui::BulletText("A configuration file called 'sbConfig.json', sits next to the MarvelSandbox executable.");
+					ImGui::BulletText("This file is the default method for passing flags and options to the executable (rather than command line).");
+					ImGui::BulletText("The config file is a simple json file.");
+
+					ImGui::BulletText("Config options:");
+					ImGui::Indent();
+					ImGui::BulletText("App - a string matching the name of the app file (without the .py extension)");
+					ImGui::BulletText("Mode - a string for the mode to run (None, Editor, Documentation).");
+					ImGui::BulletText("Theme - a string for initial theme (Dark, Light, Classic, Dark 2, Grey, Dark Grey, Cherry, Purple, Gold, Red).");
+					ImGui::BulletText("Path - a string with the path to the python file relative to the MarvelSandbox executable.");
+					ImGui::BulletText("PythonLibs - a string with the path to 3rd party python libs relative to the MarvelSandbox executable.");
 					ImGui::Unindent();
 				}
 
@@ -210,6 +225,54 @@ namespace Marvel {
 					CodeColorText("add_button(..., parent='childname')");
 					ImGui::Unindent();
 					ImGui::Unindent();
+
+				}
+
+				if (ImGui::CollapsingHeader("Tables"))
+				{
+					ColorText("BASICS");
+					ImGui::BulletText("Tables are useful for viewing large amounts of data.");
+					ImGui::BulletText("The following commands are related to tables:");
+					ImGui::Indent();
+					CodeColorText("add_table");
+					CodeColorText("set_table_item");
+					CodeColorText("set_table_selection");
+					CodeColorText("get_table_selections");
+					CodeColorText("get_table_item");
+					CodeColorText("delete_row");
+					CodeColorText("delete_column");
+					CodeColorText("insert_row");
+					CodeColorText("insert_column");
+					ImGui::Unindent();
+
+				}
+
+				if (ImGui::CollapsingHeader("Data Storage"))
+				{
+					ColorText("BASICS");
+					ImGui::BulletText("There are 3 usecases for the data storage system:");
+					ImGui::Indent();
+					ImGui::BulletText("1. For widgets to use the same underlying data (i.e. both modify the same data)");
+					ImGui::BulletText("2. To store data for use at a later time or in a different callback.");
+					ImGui::BulletText("3. A combination of 1 and 2.");
+					ImGui::Unindent();
+					ImGui::Separator();
+
+					ColorText("USE CASE 1");
+					ImGui::BulletText("To share the underlying data of multiple widgets, just use the 'data_source' keyword when adding the widget.");
+					ImGui::BulletText("Ensure the underlying data structures match or it will not work.");
+					ImGui::Separator();
+
+					ColorText("USE CASE 2");
+					ImGui::BulletText("To store data for later usage, just use the following commands:");
+					ImGui::Indent();
+					CodeColorText("add_data");
+					CodeColorText("get_data");
+					ImGui::Unindent();
+					ImGui::Separator();
+
+					ColorText("USE CASE 3");
+					ImGui::BulletText("With this use case, you store data with 'add_data' and use that data with the 'data_source' keyword.");
 
 				}
 
