@@ -83,22 +83,32 @@ with open(app_depend_dir + "/python38._pth", 'w') as file:
 with open(window_app_dir + "/RunApp.bat", 'w') as file:
     file.write("@echo off\n")
     file.write("cd Dependencies\n")
-    file.write("call MarvelSandbox.exe --app App --path ..\n")
+    file.write("call MarvelSandbox.exe --app App --path .. --noconfig\n")
 
 # add Demo batch file
 with open(window_app_dir + "/RunDemo.bat", 'w') as file:
     file.write("@echo off\n")
     file.write("cd Dependencies\n")
-    file.write("call MarvelSandbox.exe --app Demo --path ..\n")
+    file.write("call MarvelSandbox.exe --app Demo --path .. --noconfig\n")
 
 # add Editor batch file
 with open(window_app_dir + "/RunEditor.bat", 'w') as file:
     file.write("@echo off\n")
     file.write("cd Dependencies\n")
-    file.write("call MarvelSandbox.exe --editor\n")
+    file.write("call MarvelSandbox.exe --editor --noconfig\n")
 
 # add documentation batch file
 with open(window_app_dir + "/RunDocumentation.bat", 'w') as file:
     file.write("@echo off\n")
     file.write("cd Dependencies\n")
-    file.write("call MarvelSandbox.exe --documentation\n")
+    file.write("call MarvelSandbox.exe --documentation --noconfig\n")
+
+# add unused config file
+with open(window_app_dir + "/Dependencies/sbConfig.json", 'w') as file:
+    file.write("{\n")
+    file.write("\t\"App\": \"Demo\",\n")
+    file.write("\t\"Mode\": \"None\",\n")
+    file.write("\t\"Theme\": \"Dark\",\n")
+    file.write("\t\"Path\": \"..\",\n")
+    file.write("\t\"PythonLibs\": \"\"\n")
+    file.write("}")

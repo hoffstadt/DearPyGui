@@ -12,6 +12,7 @@
 #include <CLI11.hpp>
 #include <iostream>
 #include "Core/StandardWindows/mvSourceWindow.h"
+#include <nlohmann/json.hpp>
 
 namespace Marvel {
 
@@ -47,6 +48,8 @@ namespace Marvel {
 
 	int Application::parseCommandLine()
 	{
+		bool ignoreConfig = false;
+
 		CLI::App app{ "Marvel Sandbox" };
 		app.allow_windows_style_options();
 
@@ -58,8 +61,52 @@ namespace Marvel {
 		// flags
 		app.add_flag("-d, --documentation", documentation, "Sets MarvelSandbox to Documentation Mode");
 		app.add_flag("-e, --editor", editorMode, "Sets MarvelSandbox to Editor Mode");
+		app.add_flag("-n, --noconfig", ignoreConfig, "Ignores config file");
 
 		CLI11_PARSE(app, argc, argv);
+
+		// no commandline arguments, so use config file
+		if (argc == 1 && !ignoreConfig)
+		{
+			std::ifstream stream("sbconfig.json");
+			if (stream.good())
+			{
+				nlohmann::json j = nlohmann::json::parse(stream);
+
+				if (j.contains("App"))
+				{
+					AppName = j["App"];
+				}
+				else
+					AppName = "Demo";
+
+				if (j.contains("Mode"))
+				{
+
+					std::string mode = j["Mode"];
+					if (mode == "Documentation")
+						documentation = true;
+					else if (mode == "Editor")
+						editorMode = true;
+				}
+
+				if (j.contains("Theme"))
+					theme = j["Theme"];
+
+				if (j.contains("Path"))
+					PathName = j["Path"];
+
+				if (j.contains("PythonLibs"))
+					LibraryPath = j["PythonLibs"];
+
+
+				if (j.contains("Development"))
+					ranFromVS = j["Development"];
+			}
+
+			return 0;
+		}
+
 
 		return 0;
 
@@ -69,7 +116,7 @@ namespace Marvel {
 	{
 		addedPath = PathName + "\\";
 
-		PathName = PathName + ";python38.zip;" + LibraryPath + ";";
+		PathName = PathName + ";python38.zip;.;" + LibraryPath + ";";
 
 		program = Py_DecodeLocale(argv[0], NULL);
 		if (program == NULL) {
@@ -78,12 +125,8 @@ namespace Marvel {
 		}
 		Py_SetProgramName(program);  /* optional but recommended */
 
-		if (argc < 2) // ran from visual studio
-		{
-			ranFromVS = true;
+		if(ranFromVS)
 			addedPath = std::string(MV_MAIN_DIR);
-			PathName = "python38.zip;../../MarvelSandbox;.";
-		}
 	
 	}
 
@@ -151,7 +194,6 @@ namespace Marvel {
 	int Application::runErrorMode()
 	{
 		PyErr_Print();
-		//mvApp::GetApp()->showLogger();
 
 		// create window
 		mvWindow* window = new mvWindowsWindow(mvApp::GetApp()->getWindowWidth(), mvApp::GetApp()->getWindowHeight(),
@@ -177,6 +219,7 @@ namespace Marvel {
 		// create window
 		mvWindow* window = new mvWindowsWindow(mvApp::GetApp()->getWindowWidth(), mvApp::GetApp()->getWindowHeight());
 		window->show();
+		mvApp::GetApp()->setAppTheme(theme);
 		window->run();
 		PyGILState_STATE gstate = PyGILState_Ensure();
 		Py_XDECREF(pModule);
