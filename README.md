@@ -50,10 +50,7 @@ Using the ```show_documentation()``` command opens the built-in documentation wi
 #### Windows
 - Download [Latest Release](https://github.com/RaylockLLC/MarvelSandbox/releases/download/v0.1-alpha/Sandbox.zip)
 - Download _Sandbox.zip_ and unzip anywhere. 
-- Run _RunDemo.bat_ to see demo.
-- Run _RunDocumentation.bat_ to see documentation.
-- Run _RunEditor.bat_ to use the built-in IDE.
-- Run _RunApp.bat_ to run the App.py file included.
+- Run _MarvelSandbox.exe_.
 - You can use App.py as a starting point.
 
 ### Current Dependencies
