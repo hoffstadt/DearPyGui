@@ -72,6 +72,15 @@ namespace Marvel {
 		translators->insert({ "end_collapsing_header", mvPythonTranslator({
 		}, "Ends the collapsing header created by a call to add_collapsing_header.") });
 
+		translators->insert({ "add_table", mvPythonTranslator({
+			{mvPythonDataType::String, "name"},
+			{mvPythonDataType::StringList, "headers"},
+			{mvPythonDataType::KeywordOnly},
+			{mvPythonDataType::String, "callback", "Registers a callback"},
+			{mvPythonDataType::String, "parent", "Parent to add this item to. (runtime adding)"},
+			{mvPythonDataType::String, "before","Item to add this item before. (runtime adding)"},
+		}, "Adds table.") });
+
 		translators->insert({ "add_seperator", mvPythonTranslator({
 			{mvPythonDataType::KeywordOnly},
 			{mvPythonDataType::String, "name"},
@@ -800,6 +809,23 @@ namespace Marvel {
 		}, "Adds a checkbox widget.") });
 
 		return *translators;
+	}
+
+	PyObject* add_table(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		const char* name;
+		PyObject* headers;
+		const char* callback = "";
+		const char* parent = "";
+		const char* before = "";
+
+		if (!Translators["add_table"].parse(args, kwargs, __FUNCTION__, &name, &headers, &callback, &parent, &before))
+			Py_RETURN_NONE;
+
+		mvAppItem* item = new mvTable("", name, mvPythonTranslator::getStringVec(headers));
+		item->setCallback(callback);
+		AddItemWithRuntimeChecks(item, parent, before);
+		Py_RETURN_NONE;
 	}
 
 	PyObject* add_simple_plot(PyObject* self, PyObject* args, PyObject* kwargs)
@@ -2657,6 +2683,7 @@ namespace Marvel {
 
 		auto pyModule = new mvPythonModule("sbWidgets", {});
 
+		pyModule->addMethodD(add_table);
 		pyModule->addMethodD(end_tree_node);
 		pyModule->addMethodD(end_popup);
 		pyModule->addMethodD(end_window);
