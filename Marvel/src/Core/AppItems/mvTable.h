@@ -20,8 +20,9 @@ namespace Marvel {
 
 		MV_APPITEM_TYPE(mvAppItemType::Table)
 
-			mvTable(const std::string& parent, const std::string& name, const std::vector<std::string>& headers);
+		mvTable(const std::string& parent, const std::string& name, const std::vector<std::string>& headers);
 
+		// table operations
 		void setTableItem(int row, int column, const std::string& value);
 		void setSelection(int row, int column, bool value);
 		void addRow      (const std::vector<std::string>& row);
@@ -40,11 +41,16 @@ namespace Marvel {
 
 	private:
 
-		std::map<std::pair<int, int>, bool>      m_selections;
-		std::vector<std::string> m_headers;
-		std::vector<std::vector<std::string>> m_textValues;
-		std::vector<std::vector<std::string>> m_textOrignalValues;
-		int m_columns;
+		bool isIndexValid(int row, int column) const;
+		void updateHashValues();
+
+	private:
+
+		std::map<std::pair<int, int>, bool>   m_selections;
+		std::vector<std::string>              m_headers;
+		std::vector<std::vector<std::string>> m_hashValues;
+		std::vector<std::vector<std::string>> m_values;
+		int                                   m_columns;
 
 	};
 
