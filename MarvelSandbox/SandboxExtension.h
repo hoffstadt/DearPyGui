@@ -3,24 +3,24 @@
 
 namespace Marvel {
 
-	static std::map<std::string, mvPythonParser> Translators = mvInterfaceRegistry::GetRegistry()->getPythonInterface("sbExtension");
+	static std::map<std::string, mvPythonParser> Parsers = mvInterfaceRegistry::GetRegistry()->getPythonInterface("sbExtension");
 
 	std::map<std::string, mvPythonParser>& BuildExtensionsInterface() {
 
-		std::map<std::string, mvPythonParser>* translators = new std::map<std::string, mvPythonParser>{
+		std::map<std::string, mvPythonParser>* parsers = new std::map<std::string, mvPythonParser>{
 
 			{"testme", mvPythonParser({
 			}, "Needs documentation")},
 
 		};
 
-		return *translators;
+		return *parsers;
 	}
 
 	PyObject* testme(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 
-		if (!Translators["testme"].parse(args, kwargs, __FUNCTION__))
+		if (!Parsers["testme"].parse(args, kwargs, __FUNCTION__))
 			Py_RETURN_NONE;
 
 		std::cout << "hell yes" << std::endl;

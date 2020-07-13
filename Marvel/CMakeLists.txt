@@ -29,6 +29,7 @@ target_sources(Marvel
 		"src/Core/AppItems/mvTable.cpp"
 
 		"src/Core/PythonInterfaces/mvPythonTranslator.cpp"
+		"src/Core/PythonInterfaces/mvPythonParser.cpp"
 		"src/Core/PythonInterfaces/mvPythonModule.cpp"
 		"src/Core/PythonInterfaces/mvAppInterface.cpp"
 		"src/Core/PythonInterfaces/mvLoggerInterface.cpp"

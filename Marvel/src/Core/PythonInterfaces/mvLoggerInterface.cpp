@@ -1,17 +1,17 @@
 #include "mvPythonModule.h"
 #include "Core/mvApp.h"
 #include "Core/StandardWindows/mvAppLog.h"
-#include "mvPythonTranslator.h"
+#include "mvPythonParser.h"
 #include "mvInterfaces.h"
 #include "mvInterfaceRegistry.h"
 
 namespace Marvel {
 
-	static std::map<std::string, mvPythonParser> Translators = mvInterfaceRegistry::GetRegistry()->getPythonInterface("sbLog");
+	static std::map<std::string, mvPythonParser> Parsers = mvInterfaceRegistry::GetRegistry()->getPythonInterface("sbLog");
 
 	std::map<std::string, mvPythonParser>& BuildLoggingInterface() {
 
-		std::map<std::string, mvPythonParser>* translators = new std::map< std::string, mvPythonParser>{
+		std::map<std::string, mvPythonParser>* parsers = new std::map< std::string, mvPythonParser>{
 
 			{"get_log_level", mvPythonParser({
 			}, "Returns the log level.", "int")},
@@ -50,7 +50,7 @@ namespace Marvel {
 
 		};
 
-		return *translators;
+		return *parsers;
 	}
 
 	PyObject* show_logger(PyObject* self, PyObject* args)
@@ -70,7 +70,7 @@ namespace Marvel {
 	PyObject* set_log_level(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		int level;
-		if(!Translators["set_log_level"].parse(args, kwargs,__FUNCTION__, &level))
+		if(!Parsers["set_log_level"].parse(args, kwargs,__FUNCTION__, &level))
 			Py_RETURN_NONE;
 		mvAppLog::getLogger()->setLogLevel(level);
 		Py_RETURN_NONE;
@@ -80,7 +80,7 @@ namespace Marvel {
 	{
 		const char* message;
 		const char* level = "TRACE";
-		if(!Translators["log"].parse(args, kwargs,__FUNCTION__, &message, &level))
+		if(!Parsers["log"].parse(args, kwargs,__FUNCTION__, &message, &level))
 			Py_RETURN_NONE;
 
 		mvAppLog::getLogger()->Log(std::string(message), std::string(level));
@@ -91,7 +91,7 @@ namespace Marvel {
 	{
 		const char* message;
 
-		if (!Translators["log_debug"].parse(args, kwargs,__FUNCTION__, &message))
+		if (!Parsers["log_debug"].parse(args, kwargs,__FUNCTION__, &message))
 			Py_RETURN_NONE;
 
 		mvAppLog::getLogger()->LogDebug(std::string(message));
@@ -102,7 +102,7 @@ namespace Marvel {
 	{
 		const char* message;
 
-		if (!Translators["log_info"].parse(args, kwargs,__FUNCTION__, &message))
+		if (!Parsers["log_info"].parse(args, kwargs,__FUNCTION__, &message))
 			Py_RETURN_NONE;
 
 		mvAppLog::getLogger()->LogInfo(std::string(message));
@@ -113,7 +113,7 @@ namespace Marvel {
 	{
 		const char* message;
 
-		if (!Translators["log_warning"].parse(args, kwargs,__FUNCTION__, &message))
+		if (!Parsers["log_warning"].parse(args, kwargs,__FUNCTION__, &message))
 			Py_RETURN_NONE;
 
 		mvAppLog::getLogger()->LogWarning(std::string(message));
@@ -124,7 +124,7 @@ namespace Marvel {
 	{
 		const char* message;
 
-		if (!Translators["log_error"].parse(args, kwargs,__FUNCTION__, &message))
+		if (!Parsers["log_error"].parse(args, kwargs,__FUNCTION__, &message))
 			Py_RETURN_NONE;
 
 		mvAppLog::getLogger()->LogError(std::string(message));

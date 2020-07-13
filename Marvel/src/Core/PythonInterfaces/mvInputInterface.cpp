@@ -1,16 +1,16 @@
 #include "mvPythonModule.h"
-#include "mvPythonTranslator.h"
+#include "mvPythonParser.h"
 #include "Core/mvApp.h"
 #include "mvInterfaces.h"
 #include "mvInterfaceRegistry.h"
 
 namespace Marvel {
 
-	static std::map<std::string, mvPythonParser> Translators = mvInterfaceRegistry::GetRegistry()->getPythonInterface("sbInput");
+	static std::map<std::string, mvPythonParser> Parsers = mvInterfaceRegistry::GetRegistry()->getPythonInterface("sbInput");
 
 	std::map<std::string, mvPythonParser>& BuildInputsInterface() {
 
-		std::map<std::string, mvPythonParser>* translators = new std::map< std::string, mvPythonParser>{
+		std::map<std::string, mvPythonParser>* parsers = new std::map< std::string, mvPythonParser>{
 
 			{"get_key_down_callback", mvPythonParser({
 			}, "Returns the key down callback.", "str")},
@@ -110,7 +110,7 @@ namespace Marvel {
 
 		};
 
-		return *translators;
+		return *parsers;
 	}
 
 	PyObject* get_key_down_callback(PyObject* self, PyObject* args)
@@ -171,7 +171,7 @@ namespace Marvel {
 	{
 		int key;
 
-		if (!Translators["is_key_pressed"].parse(args, kwargs,__FUNCTION__, &key))
+		if (!Parsers["is_key_pressed"].parse(args, kwargs,__FUNCTION__, &key))
 			Py_RETURN_NONE;
 
 		bool pressed = mvApp::GetApp()->isKeyPressed(key);
@@ -185,7 +185,7 @@ namespace Marvel {
 	{
 		int key;
 
-		if (!Translators["is_key_released"].parse(args, kwargs, __FUNCTION__, &key))
+		if (!Parsers["is_key_released"].parse(args, kwargs, __FUNCTION__, &key))
 			Py_RETURN_NONE;
 
 		bool pressed = mvApp::GetApp()->isKeyReleased(key);
@@ -199,7 +199,7 @@ namespace Marvel {
 	{
 		int key;
 
-		if (!Translators["is_key_down"].parse(args, kwargs, __FUNCTION__, &key))
+		if (!Parsers["is_key_down"].parse(args, kwargs, __FUNCTION__, &key))
 			Py_RETURN_NONE;
 
 		bool pressed = mvApp::GetApp()->isKeyDown(key);
@@ -214,7 +214,7 @@ namespace Marvel {
 		int button;
 		float threshold;
 
-		if (!Translators["is_mouse_button_dragging"].parse(args, kwargs, __FUNCTION__, &button, &threshold))
+		if (!Parsers["is_mouse_button_dragging"].parse(args, kwargs, __FUNCTION__, &button, &threshold))
 			Py_RETURN_NONE;
 
 		return Py_BuildValue("i", mvApp::GetApp()->isMouseDragging(button, threshold));
@@ -224,7 +224,7 @@ namespace Marvel {
 	{
 		int button;
 
-		if (!Translators["is_mouse_button_down"].parse(args, kwargs, __FUNCTION__, &button))
+		if (!Parsers["is_mouse_button_down"].parse(args, kwargs, __FUNCTION__, &button))
 			Py_RETURN_NONE;
 
 		return Py_BuildValue("i", mvApp::GetApp()->isMouseButtonDown(button));
@@ -234,7 +234,7 @@ namespace Marvel {
 	{
 		int button;
 
-		if (!Translators["is_mouse_button_clicked"].parse(args, kwargs, __FUNCTION__, &button))
+		if (!Parsers["is_mouse_button_clicked"].parse(args, kwargs, __FUNCTION__, &button))
 			Py_RETURN_NONE;
 
 		return Py_BuildValue("i", mvApp::GetApp()->isMouseButtonClicked(button));
@@ -244,7 +244,7 @@ namespace Marvel {
 	{
 		int button;
 
-		if (!Translators["is_mouse_button_double_clicked"].parse(args, kwargs, __FUNCTION__, &button))
+		if (!Parsers["is_mouse_button_double_clicked"].parse(args, kwargs, __FUNCTION__, &button))
 			Py_RETURN_NONE;
 
 		return Py_BuildValue("i", mvApp::GetApp()->isMouseButtonDoubleClicked(button));
@@ -254,7 +254,7 @@ namespace Marvel {
 	{
 		int button;
 
-		if (!Translators["is_mouse_button_released"].parse(args, kwargs, __FUNCTION__, &button))
+		if (!Parsers["is_mouse_button_released"].parse(args, kwargs, __FUNCTION__, &button))
 			Py_RETURN_NONE;
 
 		return Py_BuildValue("i", mvApp::GetApp()->isMouseButtonReleased(button));
@@ -264,7 +264,7 @@ namespace Marvel {
 	{
 		const char* callback;
 
-		if (!Translators["set_mouse_down_callback"].parse(args, kwargs, __FUNCTION__, &callback))
+		if (!Parsers["set_mouse_down_callback"].parse(args, kwargs, __FUNCTION__, &callback))
 			Py_RETURN_NONE;
 
 		mvApp::GetApp()->setMouseDownCallback(std::string(callback));
@@ -277,7 +277,7 @@ namespace Marvel {
 		const char* callback;
 		float threshold;
 
-		if (!Translators["set_mouse_drag_callback"].parse(args, kwargs, __FUNCTION__, &callback, &threshold))
+		if (!Parsers["set_mouse_drag_callback"].parse(args, kwargs, __FUNCTION__, &callback, &threshold))
 			Py_RETURN_NONE;
 
 		mvApp::GetApp()->setMouseDragCallback(std::string(callback));
@@ -290,7 +290,7 @@ namespace Marvel {
 	{
 		const char* callback;
 
-		if (!Translators["set_mouse_double_click_callback"].parse(args, kwargs, __FUNCTION__, &callback))
+		if (!Parsers["set_mouse_double_click_callback"].parse(args, kwargs, __FUNCTION__, &callback))
 			Py_RETURN_NONE;
 
 		mvApp::GetApp()->setMouseDoubleClickCallback(std::string(callback));
@@ -302,7 +302,7 @@ namespace Marvel {
 	{
 		const char* callback;
 
-		if (!Translators["set_mouse_click_callback"].parse(args, kwargs, __FUNCTION__, &callback))
+		if (!Parsers["set_mouse_click_callback"].parse(args, kwargs, __FUNCTION__, &callback))
 			Py_RETURN_NONE;
 
 		mvApp::GetApp()->setMouseClickCallback(std::string(callback));
@@ -314,7 +314,7 @@ namespace Marvel {
 	{
 		const char* callback;
 
-		if (!Translators["set_key_down_callback"].parse(args, kwargs, __FUNCTION__, &callback))
+		if (!Parsers["set_key_down_callback"].parse(args, kwargs, __FUNCTION__, &callback))
 			Py_RETURN_NONE;
 
 		mvApp::GetApp()->setKeyDownCallback(std::string(callback));
@@ -326,7 +326,7 @@ namespace Marvel {
 	{
 		const char* callback;
 
-		if (!Translators["set_key_press_callback"].parse(args, kwargs, __FUNCTION__, &callback))
+		if (!Parsers["set_key_press_callback"].parse(args, kwargs, __FUNCTION__, &callback))
 			Py_RETURN_NONE;
 
 		mvApp::GetApp()->setKeyPressCallback(std::string(callback));
@@ -338,7 +338,7 @@ namespace Marvel {
 	{
 		const char* callback;
 
-		if (!Translators["set_key_release_callback"].parse(args, kwargs, __FUNCTION__, &callback))
+		if (!Parsers["set_key_release_callback"].parse(args, kwargs, __FUNCTION__, &callback))
 			Py_RETURN_NONE;
 
 		mvApp::GetApp()->setKeyReleaseCallback(std::string(callback));
@@ -350,7 +350,7 @@ namespace Marvel {
 	{
 		const char* callback;
 
-		if (!Translators["set_mouse_wheel_callback"].parse(args, kwargs, __FUNCTION__, &callback))
+		if (!Parsers["set_mouse_wheel_callback"].parse(args, kwargs, __FUNCTION__, &callback))
 			Py_RETURN_NONE;
 
 		mvApp::GetApp()->setMouseWheelCallback(std::string(callback));

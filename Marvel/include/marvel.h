@@ -4,6 +4,6 @@
 #include "mvInterfaceRegistry.h"
 #include "mvModuleInitializer.h"
 #include "mvPythonModule.h"
-#include "mvPythonTranslator.h"
+#include "mvPythonParser.h"
 
 #define MV_MODULE_START 7
