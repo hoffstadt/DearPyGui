@@ -32,7 +32,8 @@ namespace Marvel {
 		Tooltip, CollapsingHeader, Separator, Checkbox,
 		Listbox, Text, LabelText, Combo, Plot, SimplePlot,
 		Indent, Unindent, Drawing, Window,
-		Popup, Selectable, TreeNode, ProgressBar
+		Popup, Selectable, TreeNode, ProgressBar,
+		Table
 	};
 
 	//-----------------------------------------------------------------------------

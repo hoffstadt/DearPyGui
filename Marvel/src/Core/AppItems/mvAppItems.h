@@ -18,6 +18,7 @@
 #include "Core/AppItems/mvDragItems.h"
 #include "Core/AppItems/mvInputItems.h"
 #include "Core/AppItems/mvImage.h"
+#include "Core/AppItems/mvTable.h"
 
 //-----------------------------------------------------------------------------
 // Widget Index
