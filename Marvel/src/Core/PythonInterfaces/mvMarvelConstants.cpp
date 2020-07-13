@@ -363,7 +363,7 @@ namespace Marvel {
 	mvPythonModule* CreateConstantsInterface()
 	{
 
-		auto pyModule = new mvPythonModule("sbConstants", BuildConstantsInterface());
+		auto pyModule = new mvPythonModule("marvel_constants", BuildConstantsInterface());
 
 		return pyModule;
 	}
