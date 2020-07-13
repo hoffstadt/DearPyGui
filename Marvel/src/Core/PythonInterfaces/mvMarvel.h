@@ -1247,7 +1247,7 @@ namespace Marvel {
 			{mvPythonDataType::Integer, "count"},
 			{mvPythonDataType::String, "parent", "Parent to add this item to. (runtime adding)"},
 			{mvPythonDataType::String, "before", "Item to add this item before. (runtime adding)"},
-		}, "Adds vertical spacing.") });
+		}, "Adds vertical spacing.", "None", "Adding Widgets") });
 
 		parsers->insert({ "add_same_line", mvPythonParser({
 			{mvPythonDataType::KeywordOnly},
