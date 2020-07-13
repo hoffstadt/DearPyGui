@@ -11,55 +11,58 @@ namespace Marvel {
 		m_columns = headers.size();
 	}
 
-	void mvTable::setTableItem(int row, int column, const std::string& value)
+	bool mvTable::isIndexValid(int row, int column) const
 	{
-		if (column > m_columns + 1 || row > m_textOrignalValues.size() + 1)
-		{
-			mvAppLog::getLogger()->LogError(m_name + " item out of index.");
-			return;
-		}
-
 		if (column < 0 || row < 0)
 		{
-			mvAppLog::getLogger()->LogError(m_name + " item out of index.");
-			return;
+			mvAppLog::getLogger()->LogError("Table index must be a positive integer.");
+			return false;
 		}
 
-		m_textOrignalValues[row][column] = value;
-		m_textValues[row][column] = value + "##" + m_name + "-" + std::to_string(row) + "-" + std::to_string(column);
+		if (column > m_columns + 1 || row > m_values.size() + 1)
+		{
+			mvAppLog::getLogger()->LogError("Table indices out of range.");
+			return false;
+		}
+
+		return true;
+	}
+
+	void mvTable::updateHashValues()
+	{
+		m_hashValues.clear();
+
+		m_hashValues = m_values;
+
+		for (int i = 0; i < m_hashValues.size(); i++)
+		{
+			for (int j = 0; j < m_hashValues[i].size(); j++)
+				m_hashValues[i][j] = m_hashValues[i][j] + "##" + m_name + "-" + std::to_string(i) + "-" + std::to_string(j);
+		}
+	}
+
+	void mvTable::setTableItem(int row, int column, const std::string& value)
+	{
+		if (!isIndexValid(row, column))
+			return;
+
+		m_values[row][column] = value;
+		m_hashValues[row][column] = value + "##" + m_name + "-" + std::to_string(row) + "-" + std::to_string(column);
 
 	}
 
 	std::string mvTable::getTableItem(int row, int column) const
 	{
-		if (column > m_columns + 1 || row > m_textOrignalValues.size() + 1)
-		{
-			mvAppLog::getLogger()->LogError(m_name + " item out of index.");
+		if (!isIndexValid(row, column))
 			return "";
-		}
 
-		if (column < 0 || row < 0)
-		{
-			mvAppLog::getLogger()->LogError(m_name + " item out of index.");
-			return "";
-		}
-
-		return m_textOrignalValues[row][column];
+		return m_values[row][column];
 	}
 
 	void mvTable::setSelection(int row, int column, bool value)
 	{
-		if (column > m_columns + 1 || row > m_textOrignalValues.size() + 1)
-		{
-			mvAppLog::getLogger()->LogError(m_name + " item out of index.");
+		if (!isIndexValid(row, column))
 			return;
-		}
-
-		if (column < 0 || row < 0)
-		{
-			mvAppLog::getLogger()->LogError(m_name + " item out of index.");
-			return;
-		}
 
 		m_selections[{row, column}] = value;
 	}
@@ -75,7 +78,7 @@ namespace Marvel {
 			return;
 		}
 
-		std::vector<std::vector<std::string>> textValues;
+		std::vector<std::vector<std::string>> values;
 
 		for (int i = 0; i < PyList_Size(value); i++)
 		{
@@ -86,22 +89,17 @@ namespace Marvel {
 				PyObject* pitem = PyList_GetItem(prow, j);
 				row.push_back(std::string(PyUnicode_AsUTF8(pitem)));
 			}
-			textValues.push_back(row);
+			values.push_back(row);
 		}
 
 		PyGILState_Release(gstate);
 
-		m_textValues = textValues;
-		m_textOrignalValues = textValues;
+		m_values = values;
 
-		while (m_headers.size() > m_textValues[0].size())
+		while (m_headers.size() > m_values[0].size())
 			m_headers.pop_back();
 
-		for (int i = 0; i < m_textValues.size(); i++)
-		{
-			for (int j = 0; j < m_textValues[i].size(); j++)
-				m_textValues[i][j] = m_textValues[i][j] + "##" + m_name + "-" + std::to_string(i) + "-" + std::to_string(j);
-		}
+		updateHashValues();
 
 		m_selections.clear();
 	}
@@ -110,13 +108,13 @@ namespace Marvel {
 	{
 		PyGILState_STATE gstate = PyGILState_Ensure();
 
-		PyObject* pvalue = PyList_New(m_textValues.size());
+		PyObject* pvalue = PyList_New(m_hashValues.size());
 
-		for (int i = 0; i < m_textValues.size(); i++)
+		for (int i = 0; i < m_hashValues.size(); i++)
 		{
-			PyObject* prow = PyList_New(m_textValues[i].size());
-			for (int j = 0; j < m_textValues[i].size(); j++)
-				PyList_SetItem(prow, j, PyUnicode_FromString(m_textOrignalValues[i][j].c_str()));
+			PyObject* prow = PyList_New(m_hashValues[i].size());
+			for (int j = 0; j < m_hashValues[i].size(); j++)
+				PyList_SetItem(prow, j, PyUnicode_FromString(m_values[i][j].c_str()));
 			PyList_SetItem(pvalue, i, prow);
 		}
 
@@ -152,24 +150,15 @@ namespace Marvel {
 
 	void mvTable::addRow(const std::vector<std::string>& row)
 	{
-		m_textValues.push_back(row);
-		m_textOrignalValues.push_back(row);
+		m_values.push_back(row);
 
-		while (m_textValues.back().size() < m_headers.size())
-			m_textValues.back().push_back("");
+		while (m_values.back().size() < m_headers.size())
+			m_values.back().push_back("");
 
-		while (m_textOrignalValues.back().size() < m_headers.size())
-			m_textOrignalValues.back().push_back("");
+		while (m_values.back().size() > m_headers.size())
+			m_values.back().pop_back();
 
-		while (m_textOrignalValues.back().size() > m_headers.size())
-			m_textOrignalValues.back().pop_back();
-
-		while (m_textValues.back().size() > m_headers.size())
-			m_textValues.back().pop_back();
-
-		for (int i = 0; i < m_headers.size(); i++)
-			m_textValues.back()[i] = m_textValues.back()[i] + "##" + m_name + "-" + std::to_string(m_textValues.size() - 1) + "-" + std::to_string(i);
-
+		updateHashValues();
 	}
 
 	void mvTable::addColumn(const std::string& name, const std::vector<std::string>& column)
@@ -177,7 +166,7 @@ namespace Marvel {
 		m_headers.push_back(name);
 
 		int index = 0;
-		for (auto& row : m_textOrignalValues)
+		for (auto& row : m_values)
 		{
 			if (index >= column.size())
 			{
@@ -190,24 +179,15 @@ namespace Marvel {
 			index++;
 		}
 
-		m_textValues = m_textOrignalValues;
 		m_columns++;
 
-		for (int i = 0; i < m_textValues.size(); i++)
-		{
-			for (int j = 0; j < m_textValues[i].size(); j++)
-				m_textValues[i][j] = m_textValues[i][j] + "##" + m_name + "-" + std::to_string(i) + "-" + std::to_string(j);
-		}
-
+		updateHashValues();
 	}
 
 	void mvTable::insertColumn(int column_index, const std::string& name, const std::vector<std::string>& column)
 	{
-		if (column_index > m_headers.size() || column_index < 0)
-		{
-			mvAppLog::getLogger()->LogError(m_name + " column index out of range.");
+		if (!isIndexValid(0, column_index))
 			return;
-		}
 
 		if (column_index == m_headers.size())
 		{
@@ -215,10 +195,10 @@ namespace Marvel {
 			return;
 		}
 
-		auto oldValues = m_textValues;
+		auto oldValues = m_values;
 		auto oldHeaders = m_headers;
 
-		m_textOrignalValues.clear();
+		m_values.clear();
 		m_headers.clear();
 		m_columns++;
 
@@ -255,17 +235,10 @@ namespace Marvel {
 			}
 			row.push_back(oldValues[i].back());
 
-			m_textOrignalValues.push_back(row);
+			m_values.push_back(row);
 		}
 
-		m_textValues = m_textOrignalValues;
-
-		for (int i = 0; i < m_textValues.size(); i++)
-		{
-
-			for (int j = 0; j < m_textValues[i].size(); j++)
-				m_textValues[i][j] = m_textValues[i][j] + "##" + m_name + "-" + std::to_string(i) + "-" + std::to_string(j);
-		}
+		updateHashValues();
 
 		// update selections
 		std::map<std::pair<int, int>, bool> oldSelection = m_selections;
@@ -286,51 +259,41 @@ namespace Marvel {
 
 	void mvTable::insertRow(int row_index, const std::vector<std::string>& row)
 	{
-		if (row_index > m_textValues.size() || row_index < 0)
-		{
-			mvAppLog::getLogger()->LogError(m_name + " row index out of range.");
+		if (!isIndexValid(row_index, 0))
 			return;
-		}
 
-		if (row_index == m_textValues.size())
+		if (row_index == m_hashValues.size())
 		{
 			addRow(row);
 			return;
 		}
 
-		auto oldValues = m_textValues;
+		auto oldValues = m_hashValues;
 
-		m_textOrignalValues.clear();
+		m_values.clear();
 
 		for (int i = 0; i < oldValues.size(); i++)
 		{
 			if (i == row_index)
 			{
-				m_textOrignalValues.push_back(row);
+				m_values.push_back(row);
 				continue;
 			}
 
 			if(i > row_index)
-				m_textOrignalValues.push_back(oldValues[i-1]);
+				m_values.push_back(oldValues[i-1]);
 			else
-				m_textOrignalValues.push_back(oldValues[i]);
+				m_values.push_back(oldValues[i]);
 		}
-		m_textOrignalValues.push_back(oldValues.back());
+		m_values.push_back(oldValues.back());
 
-		while (m_textOrignalValues[row_index].size() < m_headers.size())
-			m_textOrignalValues[row_index].push_back("");
+		while (m_values[row_index].size() < m_headers.size())
+			m_values[row_index].push_back("");
 
-		while (m_textOrignalValues.back().size() > m_headers.size())
-			m_textOrignalValues.back().pop_back();
+		while (m_values.back().size() > m_headers.size())
+			m_values.back().pop_back();
 
-		m_textValues = m_textOrignalValues;
-
-		for (int i = 0; i < m_textValues.size(); i++)
-		{
-
-			for (int j = 0; j < m_textValues[i].size(); j++)
-				m_textValues[i][j] = m_textValues[i][j] + "##" + m_name + "-" + std::to_string(i) + "-" + std::to_string(j);
-		}
+		updateHashValues();
 
 		// update selections
 		std::map<std::pair<int, int>, bool> oldSelection = m_selections;
@@ -351,16 +314,12 @@ namespace Marvel {
 
 	void mvTable::deleteRow(int row)
 	{
-		if (row >= m_textValues.size() || row < 0)
-		{
-			mvAppLog::getLogger()->LogError(m_name + " row index out of range.");
-			return;
-		}
+		if (!isIndexValid(row, 0))
+			return ;
 
-		auto oldValues = m_textValues;
+		auto oldValues = m_values;
 
-		m_textValues.clear();
-		m_textOrignalValues.clear();
+		m_values.clear();
 
 		int index = 0;
 		for (auto& item : oldValues)
@@ -368,16 +327,11 @@ namespace Marvel {
 			index++;
 			if (index == row)
 				continue;
-			m_textValues.push_back(item);
+			m_values.push_back(item);
 			
 		}
 
-		for (int i = 0; i < m_textValues.size(); i++)
-		{
-			
-			for (int j = 0; j < m_textValues[i].size(); j++)
-				m_textValues[i][j] = m_textValues[i][j] + "##" + m_name + "-" + std::to_string(i) + "-" + std::to_string(j);
-		}
+		updateHashValues();
 
 		// update selections
 		std::map<std::pair<int, int>, bool> oldSelection = m_selections;
@@ -400,16 +354,19 @@ namespace Marvel {
 
 	void mvTable::deleteColumn(int column)
 	{
-		if (column >= m_textValues.size() || column < 0)
+		if (!isIndexValid(0, column))
+			return;
+
+		if (column >= m_headers.size())
 		{
-			mvAppLog::getLogger()->LogError(m_name + " column index out of range.");
+			mvAppLog::getLogger()->LogError("Column to delete does not exist.");
 			return;
 		}
 
-		auto oldValues = m_textValues;
+		auto oldValues = m_values;
 		auto oldHeaders = m_headers;
 
-		m_textOrignalValues.clear();
+		m_values.clear();
 		m_headers.clear();
 		m_columns--;
 
@@ -430,16 +387,10 @@ namespace Marvel {
 				row.push_back(oldValues[i][j]);
 			}
 
-			m_textOrignalValues.push_back(row);
+			m_values.push_back(row);
 		}
 
-		m_textValues = m_textOrignalValues;
-
-		for (int i = 0; i < m_textValues.size(); i++)
-		{
-			for (int j = 0; j < m_textValues[i].size(); j++)
-				m_textValues[i][j] = m_textValues[i][j] + "##" + m_name + "-" + std::to_string(i) + "-" + std::to_string(j);
-		}
+		updateHashValues();
 
 		// update selections
 		std::map<std::pair<int, int>, bool> oldSelection = m_selections;
@@ -461,6 +412,7 @@ namespace Marvel {
 
 	void mvTable::draw()
 	{
+
 		ImGui::Separator();
 		ImGui::Columns(m_columns, 0, true);
 
@@ -472,11 +424,11 @@ namespace Marvel {
 		ImGui::Separator();
 
 		int index = 0;
-		for (int i = 0; i < m_textValues.size(); i++)
+		for (int i = 0; i < m_hashValues.size(); i++)
 		{
 			for (int j = 0; j < m_columns; j++)
 			{
-				if (ImGui::Selectable(m_textValues[i][j].c_str(), m_selections[{i, j}]))
+				if (ImGui::Selectable(m_hashValues[i][j].c_str(), m_selections[{i, j}]))
 				{
 					m_selections[{i, j}] = !m_selections[{i, j}];
 					mvApp::GetApp()->runCallback(m_callback, m_name);
