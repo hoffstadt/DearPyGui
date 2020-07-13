@@ -39,19 +39,58 @@ end_menu_bar()
 
 # launchers
 add_group("Launch Group", width=200)
-add_button("Widgets##launcher", callback="Launcher")
-add_button("Drawing##launcher", callback="Launcher")
-add_button("Plotting##launcher", callback="Launcher")
-add_button("Logging##launcher", callback="Launcher")
-add_button("Asyncronous##launcher", callback="Launcher")
-add_button("Input Polling##launcher", callback="Launcher")
-add_button("Input Text##launcher", callback="Launcher")
-add_button("Text##launcher", callback="Launcher")
-add_button("Tooltips/Popups##launcher", callback="Launcher")
+add_button("Widgets", callback="Launcher")
+add_button("Drawing API", callback="Launcher")
+add_button("Plots, Graphs and Charts", callback="Launcher")
+add_button("Logging", callback="Launcher")
+add_button("Asyncronous", callback="Launcher")
+add_button("Input Polling", callback="Launcher")
+add_button("Input Text", callback="Launcher")
+add_button("Text Widget", callback="Launcher")
+add_button("Tooltips/Popups", callback="Launcher")
+add_button("Tables", callback="Launcher")
 end_group()
 
+# tables
+add_window("Tables##dialog", 500, 500, hide=True)
+add_button("Delete row 6", callback="DeleteRow")
+add_button("Delete col 1", callback="DeleteCol")
+add_button("Add row ", callback="AddRow")
+add_button("Add col ", callback="AddCol")
+add_button("Insert row 5", callback="InsertRow")
+add_button("Insert col 1 ", callback="InsertCol")
+add_table("Table##widget", ["Column 1", "Column 2", "Column 3", "Column 4"])
+
+tabledata = []
+for i in range(0, 10):
+    row = []
+    for j in range(0, 4):
+        row.append("Item"+str(i)+"-"+str(j))
+    tabledata.append(row)
+
+set_value("Table##widget", tabledata)
+end_window()
+
+def DeleteRow(sender):
+    delete_row("Table##widget", 6)
+
+def DeleteCol(sender):
+    delete_column("Table##widget", 1)
+
+def AddRow(sender):
+    add_row("Table##widget", ["new1", "new2", "new3", "new4"])
+
+def AddCol(sender):
+    add_column("Table##widget", "New Column", ["new1", "new2", "new3", "new4"])
+
+def InsertRow(sender):
+    insert_row("Table##widget", 5, ["inew1", "inew2", "inew3", "inew4"])
+
+def InsertCol(sender):
+    insert_column("Table##widget", 1,  "Inserted Column", ["inew1", "inew2", "inew3", "inew4"])
+
 # tooltip/popup testing
-add_window("Tooltips/Popups", 200, 200, hide=True)
+add_window("Tooltips/Popups##dialog", 200, 200, hide=True)
 add_button("Hover me##tooltips")
 add_tooltip("Hover me##tooltips", "tool_tip##tooltips")
 add_simple_plot("Simpleplot##tooltips", (0.3, 0.9, 2.5, 8.9), height = 80)
@@ -68,7 +107,7 @@ end_popup()
 end_window()
 
 # text testing
-add_window("Text Widget", 200, 200, hide=True)
+add_window("Text Widget##dialog", 200, 200, hide=True)
 add_text("Regular")
 add_text("Wrapped at 100 pixels", wrap=100)
 add_text("Color", color=(0, 200, 255))
@@ -76,7 +115,7 @@ add_text("Bullet", bullet=True)
 end_window()
 
 # input text testing
-add_window("Input Text", 500, 500, autosize=True, hide=True)
+add_window("Input Text##dialog", 500, 500, autosize=True, hide=True)
 add_input_text("Regular##inputtext")
 add_input_text("With hint##inputtext", hint="A hint")
 add_input_text("No spaces##inputtext", no_spaces=True)
@@ -89,7 +128,7 @@ add_input_text("Multiline##inputtext", multiline=True)
 end_window()
 
 # widget testing
-add_window("Widgets", 500, 500, hide=True)
+add_window("Widgets##dialog", 500, 500, hide=True)
 
 add_button("Get Widget Values", callback="RetrieveValues")
 
@@ -176,7 +215,7 @@ end_tab_bar()
 end_window()
 
 # logger testing
-add_window("Logging", 500, 500, autosize=True, hide=True)
+add_window("Logging##dialog", 500, 500, autosize=True, hide=True)
 add_button("Test Logger", callback="LogCallback")
 add_same_line(spacing=10)
 add_group("LoggingGroup")
@@ -186,7 +225,7 @@ end_group()
 end_window()
 
 # plot testing
-add_window("Plots, Graphs and Charts", 500, 500, hide=True)
+add_window("Plots, Graphs and Charts##dialog", 500, 500, hide=True)
 add_tab_bar("PlotTabBar")
 add_tab("Plot Widget")
 add_button("Plot data", callback="PlotCallback")
@@ -201,7 +240,7 @@ end_tab_bar()
 end_window()
 
 # drawing testing
-add_window("Drawing API", autosize=True, hide=True)
+add_window("Drawing API##dialog", autosize=True, hide=True)
 add_group("Drawing Controls Group")
 add_slider_float("X Origin", vertical=True, min_value = -100, max_value=100, default_value=0, callback="UpdateDrawing")
 add_same_line(spacing=20)
@@ -226,13 +265,13 @@ draw_arrow("drawing##widget", (50, 70), (100, 65), (0, 200, 255), 1, 10)
 end_window()
 
 # asyncronous testing
-add_window("Asyncrounous Testing", hide=True)
+add_window("Asyncronous##dialog", hide=True)
 add_button("Start Long Process", callback="LongCallback")
 add_button("Start Long Asyncronous Process", callback="LongAsyncronousCallback")
 end_window()
 
 # input polling
-add_window("Input Polling", hide=True, autosize=True)
+add_window("Input Polling##dialog", hide=True, autosize=True)
 add_text("Key Polling")
 add_label_text("A key Down", "False", color=(0,200,255))
 add_label_text("W key Pressed", "False", color=(0,200,255))
@@ -385,26 +424,7 @@ def ReturnFromLongProcess(data):
     log_info("Data returned to main thread: " + str(data))
 
 def Launcher(sender):
-
-    if sender == "Widgets##launcher":
-        show_item("Widgets")
-    elif sender == "Drawing##launcher":
-        show_item("Drawing API")
-    elif sender == "Plotting##launcher":
-        show_item("Plots, Graphs and Charts")
-    elif sender == "Logging##launcher":
-        show_item("Logging")
-    elif sender == "Asyncronous##launcher":
-        show_item("Asyncrounous Testing")
-    elif sender == "Input Polling##launcher":
-        set_main_callback("InputPollingMainCallback")
-        show_item("Input Polling")
-    elif sender == "Input Text##launcher":
-        show_item("Input Text")
-    elif sender == "Text##launcher":
-        show_item("Text Widget")
-    elif sender == "Tooltips/Popups##launcher":
-        show_item("Tooltips/Popups")
+    show_item(sender + "##dialog")
 
 def ThemeCallback(sender):
     set_theme(sender)
