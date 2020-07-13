@@ -8,13 +8,13 @@
 
 namespace Marvel {
 
-	static std::map<std::string, mvPythonTranslator> Translators = mvInterfaceRegistry::GetRegistry()->getPythonInterface("sbPlot");
+	static std::map<std::string, mvPythonParser> Translators = mvInterfaceRegistry::GetRegistry()->getPythonInterface("sbPlot");
 
-	std::map<std::string, mvPythonTranslator>& BuildPlottingInterface() {
+	std::map<std::string, mvPythonParser>& BuildPlottingInterface() {
 
-		std::map<std::string, mvPythonTranslator>* translators = new std::map< std::string, mvPythonTranslator>{
+		std::map<std::string, mvPythonParser>* translators = new std::map< std::string, mvPythonParser>{
 
-			{"add_plot", mvPythonTranslator({
+			{"add_plot", mvPythonParser({
 				{mvPythonDataType::String, "name"},
 				{mvPythonDataType::Optional},
 				{mvPythonDataType::String, "xAxisName"},
@@ -30,44 +30,44 @@ namespace Marvel {
 				{mvPythonDataType::String, "query_callback", "Callback ran when plot is queried. Should be of the form 'def Callback(sender, data)'\n Data is (x_min, x_max, y_min, y_max)."},
 			}, "Adds a plot widget.")},
 
-			{"clear_plot", mvPythonTranslator({
+			{"clear_plot", mvPythonParser({
 				{mvPythonDataType::String, "plot"},
 			}, "Clears a plot.")},
 
-			{"is_plot_queried", mvPythonTranslator({
+			{"is_plot_queried", mvPythonParser({
 				{mvPythonDataType::String, "plot"},
 			}, "Clears a plot.", "boolean")},
 
-			{"get_plot_query_area", mvPythonTranslator({
+			{"get_plot_query_area", mvPythonParser({
 				{mvPythonDataType::String, "plot"},
 			}, "Clears a plot.", "List(float) -> (x_min, x_max, y_min, y_max)")},
 
-			{"set_color_map", mvPythonTranslator({
+			{"set_color_map", mvPythonParser({
 				{mvPythonDataType::String, "plot"},
 				{mvPythonDataType::Integer, "map"}
 			}, "Sets the color map of the plot's series.")},
 
-			{"set_plot_xlimits", mvPythonTranslator({
+			{"set_plot_xlimits", mvPythonParser({
 				{mvPythonDataType::String, "plot"},
 				{mvPythonDataType::Float, "xmin"},
 				{mvPythonDataType::Float, "xmax"},
 			}, "Sets x axis limits of a plot. (can be undone with set_plot_xlimits_auto()")},
 
-			{"set_plot_ylimits", mvPythonTranslator({
+			{"set_plot_ylimits", mvPythonParser({
 				{mvPythonDataType::String, "plot"},
 				{mvPythonDataType::Float, "ymin"},
 				{mvPythonDataType::Float, "ymax"},
 			}, "Sets y axis limits of a plot. (can be undone with set_plot_ylimits_auto()")},
 
-			{"set_plot_xlimits_auto", mvPythonTranslator({
+			{"set_plot_xlimits_auto", mvPythonParser({
 				{mvPythonDataType::String, "plot"},
 			}, "Sets plots x limits to be automatic.")},
 
-			{"set_plot_ylimits_auto", mvPythonTranslator({
+			{"set_plot_ylimits_auto", mvPythonParser({
 				{mvPythonDataType::String, "plot"},
 			}, "Sets plots y limits to be automatic.")},
 
-			{"add_line_series", mvPythonTranslator({
+			{"add_line_series", mvPythonParser({
 				{mvPythonDataType::String, "plot"},
 				{mvPythonDataType::String, "name"},
 				{mvPythonDataType::FloatList, "data"},
@@ -77,7 +77,7 @@ namespace Marvel {
 				{mvPythonDataType::Float, "weight"}
 			}, "Adds a line series to a plot.")},
 
-			{"add_scatter_series", mvPythonTranslator({
+			{"add_scatter_series", mvPythonParser({
 				{mvPythonDataType::String, "plot"},
 				{mvPythonDataType::String, "name"},
 				{mvPythonDataType::FloatList, "data"},
@@ -90,7 +90,7 @@ namespace Marvel {
 				{mvPythonDataType::FloatList, "fill"},
 			}, "Adds a scatter series to a plot.")},
 
-			{"add_text_point", mvPythonTranslator({
+			{"add_text_point", mvPythonParser({
 				{mvPythonDataType::String, "plot"},
 				{mvPythonDataType::String, "name"},
 				{mvPythonDataType::Float, "x"},
@@ -358,9 +358,9 @@ namespace Marvel {
 
 		mvPlot* graph = static_cast<mvPlot*>(aplot);
 
-		auto datapoints = mvPythonTranslator::getVectVec2(data);
+		auto datapoints = mvPythonParser::getVectVec2(data);
 
-		auto mcolor = mvPythonTranslator::getColor(color);
+		auto mcolor = mvPythonParser::getColor(color);
 		if (mcolor.r > 999)
 			mcolor.specified = false;
 
@@ -412,13 +412,13 @@ namespace Marvel {
 
 		mvPlot* graph = static_cast<mvPlot*>(aplot);
 
-		auto datapoints = mvPythonTranslator::getVectVec2(data);
+		auto datapoints = mvPythonParser::getVectVec2(data);
 
-		auto mmarkerOutlineColor = mvPythonTranslator::getColor(outline);
+		auto mmarkerOutlineColor = mvPythonParser::getColor(outline);
 		if (mmarkerOutlineColor.r > 999)
 			mmarkerOutlineColor.specified = false;
 
-		auto mmarkerFillColor = mvPythonTranslator::getColor(fill);
+		auto mmarkerFillColor = mvPythonParser::getColor(fill);
 		if (mmarkerFillColor.r > 999)
 			mmarkerFillColor.specified = false;
 

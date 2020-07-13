@@ -50,7 +50,7 @@ namespace Marvel {
 		return PythonDataTypeSymbol(type); 
 	}
 
-	mvPythonTranslator::mvPythonTranslator(const std::initializer_list<mvPythonDataElement>& elements, 
+	mvPythonParser::mvPythonParser(const std::initializer_list<mvPythonDataElement>& elements, 
 		const std::string& about, const std::string& returnType)
 		: m_elements(elements), m_about(about), m_return(returnType)
 	{
@@ -88,7 +88,7 @@ namespace Marvel {
 		buildDocumentation();
 	}
 
-	bool mvPythonTranslator::parse(PyObject* args, PyObject* kwargs, const char* message, ...)
+	bool mvPythonParser::parse(PyObject* args, PyObject* kwargs, const char* message, ...)
 	{
 
 		bool check = true;
@@ -110,7 +110,7 @@ namespace Marvel {
 		return check;
 	}
 
-	std::vector<std::string> mvPythonTranslator::getStringVec(PyObject* obj)
+	std::vector<std::string> mvPythonParser::getStringVec(PyObject* obj)
 	{
 		std::vector<std::string> items;
 
@@ -128,7 +128,7 @@ namespace Marvel {
 		return items;
 	}
 
-	std::vector<std::pair<std::string, std::string>> mvPythonTranslator::getStringPairVec(PyObject* obj)
+	std::vector<std::pair<std::string, std::string>> mvPythonParser::getStringPairVec(PyObject* obj)
 	{
 		std::vector<std::pair<std::string, std::string>> items;
 
@@ -157,7 +157,7 @@ namespace Marvel {
 		return items;
 	}
 
-	std::vector<float> mvPythonTranslator::getFloatVec(PyObject* obj)
+	std::vector<float> mvPythonParser::getFloatVec(PyObject* obj)
 	{
 		std::vector<float> items;
 
@@ -176,7 +176,7 @@ namespace Marvel {
 		return items;
 	}
 
-	std::vector<int> mvPythonTranslator::getIntVec(PyObject* obj)
+	std::vector<int> mvPythonParser::getIntVec(PyObject* obj)
 	{
 		std::vector<int> items;
 
@@ -195,7 +195,7 @@ namespace Marvel {
 		return items;
 	}
 
-	mvVec2 mvPythonTranslator::getVec2(PyObject* obj)
+	mvVec2 mvPythonParser::getVec2(PyObject* obj)
 	{
 		std::vector<float> items;
 
@@ -215,7 +215,7 @@ namespace Marvel {
 		return mvVec2{ x, y };
 	}
 
-	mvColor mvPythonTranslator::getColor(PyObject* obj)
+	mvColor mvPythonParser::getColor(PyObject* obj)
 	{
 
 		int color[4] = { 255, 255, 255, 255 };
@@ -237,7 +237,7 @@ namespace Marvel {
 		return mvColor{ color[0], color[1], color[2], color[3], true };
 	}
 
-	std::vector<mvVec2> mvPythonTranslator::getVectVec2(PyObject* obj)
+	std::vector<mvVec2> mvPythonParser::getVectVec2(PyObject* obj)
 	{
 		std::vector<mvVec2> items;
 
@@ -273,7 +273,7 @@ namespace Marvel {
 		return items;
 	}
 
-	std::vector<std::pair<int, int>> mvPythonTranslator::getVectInt2(PyObject* obj)
+	std::vector<std::pair<int, int>> mvPythonParser::getVectInt2(PyObject* obj)
 	{
 		std::vector<std::pair<int, int>> items;
 
@@ -292,7 +292,7 @@ namespace Marvel {
 
 	}
 
-	void mvPythonTranslator::buildDocumentation()
+	void mvPythonParser::buildDocumentation()
 	{
 		std::string documentation = m_about + "\n\nReturn Type: " + m_return + "\n";
 

@@ -8,7 +8,7 @@ namespace Marvel {
 
 	mvInterfaceRegistry* mvInterfaceRegistry::s_instance = nullptr;
 
-	std::map<std::string, mvPythonTranslator>& mvInterfaceRegistry::getPythonInterface(const std::string& name)
+	std::map<std::string, mvPythonParser>& mvInterfaceRegistry::getPythonInterface(const std::string& name)
 	{ 
 		return m_translators[name]; 
 	}
@@ -64,7 +64,7 @@ namespace Marvel {
 
 	std::vector<const char*> mvInterfaceRegistry::getPythonInterfaceCommands(const std::string& name)
 	{
-		std::map<std::string, mvPythonTranslator>& docmap = m_translators[name];
+		std::map<std::string, mvPythonParser>& docmap = m_translators[name];
 
 		std::vector<const char*> commandvec;
 
@@ -76,7 +76,7 @@ namespace Marvel {
 
 	std::vector<const char*> mvInterfaceRegistry::getPythonInterfaceDoc(const std::string& name)
 	{
-		std::map<std::string, mvPythonTranslator>& docmap = m_translators[name];
+		std::map<std::string, mvPythonParser>& docmap = m_translators[name];
 
 		std::vector<const char*> docvec;
 

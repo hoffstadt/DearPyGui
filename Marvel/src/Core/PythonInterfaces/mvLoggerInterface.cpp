@@ -7,44 +7,44 @@
 
 namespace Marvel {
 
-	static std::map<std::string, mvPythonTranslator> Translators = mvInterfaceRegistry::GetRegistry()->getPythonInterface("sbLog");
+	static std::map<std::string, mvPythonParser> Translators = mvInterfaceRegistry::GetRegistry()->getPythonInterface("sbLog");
 
-	std::map<std::string, mvPythonTranslator>& BuildLoggingInterface() {
+	std::map<std::string, mvPythonParser>& BuildLoggingInterface() {
 
-		std::map<std::string, mvPythonTranslator>* translators = new std::map< std::string, mvPythonTranslator>{
+		std::map<std::string, mvPythonParser>* translators = new std::map< std::string, mvPythonParser>{
 
-			{"get_log_level", mvPythonTranslator({
+			{"get_log_level", mvPythonParser({
 			}, "Returns the log level.", "int")},
 
-			{"clear_log", mvPythonTranslator({
+			{"clear_log", mvPythonParser({
 			}, "Clears the logger.")},
 
-			{"show_logger", mvPythonTranslator({
+			{"show_logger", mvPythonParser({
 			}, "Shows the logging window.")},
 
-			{"set_log_level", mvPythonTranslator({
+			{"set_log_level", mvPythonParser({
 				{mvPythonDataType::Integer, "level"}
 			}, "Sets the log level.")},
 
-			{"log", mvPythonTranslator({
+			{"log", mvPythonParser({
 				{mvPythonDataType::String, "message"},
 				{mvPythonDataType::Optional},
 				{mvPythonDataType::String, "level"}
 			}, "Logs a trace level log.")},
 
-			{"log_debug", mvPythonTranslator({
+			{"log_debug", mvPythonParser({
 				{mvPythonDataType::String, "message"}
 			}, "Logs a debug level log.")},
 
-			{"log_info", mvPythonTranslator({
+			{"log_info", mvPythonParser({
 				{mvPythonDataType::String, "message"}
 			}, "Logs a info level log.")},
 
-			{"log_warning", mvPythonTranslator({
+			{"log_warning", mvPythonParser({
 				{mvPythonDataType::String, "message"}
 			}, "Logs a warning level log.")},
 
-			{"log_error", mvPythonTranslator({
+			{"log_error", mvPythonParser({
 				{mvPythonDataType::String, "message"}
 			}, "Logs a error level log.")}
 

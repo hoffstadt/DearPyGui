@@ -8,13 +8,13 @@
 
 namespace Marvel {
 
-	static std::map<std::string, mvPythonTranslator> Translators = mvInterfaceRegistry::GetRegistry()->getPythonInterface("sbDraw");
+	static std::map<std::string, mvPythonParser> Translators = mvInterfaceRegistry::GetRegistry()->getPythonInterface("sbDraw");
 
-	std::map<std::string, mvPythonTranslator>& BuildDrawingInterface() {
+	std::map<std::string, mvPythonParser>& BuildDrawingInterface() {
 
-		std::map<std::string, mvPythonTranslator>* translators = new std::map< std::string, mvPythonTranslator>{
+		std::map<std::string, mvPythonParser>* translators = new std::map< std::string, mvPythonParser>{
 
-			{"add_drawing", mvPythonTranslator({
+			{"add_drawing", mvPythonParser({
 				{mvPythonDataType::String, "name"},
 				{mvPythonDataType::KeywordOnly},
 				{mvPythonDataType::String, "tip", "Adds a simple tooltip"},
@@ -24,37 +24,37 @@ namespace Marvel {
 				{mvPythonDataType::Integer, "height",""},
 			}, "Adds a drawing widget.")},
 
-			{"set_drawing_size", mvPythonTranslator({
+			{"set_drawing_size", mvPythonParser({
 				{mvPythonDataType::String, "name"},
 				{mvPythonDataType::Integer, "width"},
 				{mvPythonDataType::Integer, "height"}
 			}, "Sets the size of a drawing widget.")},
 
-			{"set_drawing_origin", mvPythonTranslator({
+			{"set_drawing_origin", mvPythonParser({
 				{mvPythonDataType::String, "name"},
 				{mvPythonDataType::Float, "x"},
 				{mvPythonDataType::Float, "y"}
 			}, "Sets the drawing origin (default is 0,0).")},
 
-			{"set_drawing_scale", mvPythonTranslator({
+			{"set_drawing_scale", mvPythonParser({
 				{mvPythonDataType::String, "name"},
 				{mvPythonDataType::Float, "x"},
 				{mvPythonDataType::Float, "y"}
 			}, "Sets the drawing scale (default is (1,1)).")},
 
-			{"get_drawing_origin", mvPythonTranslator({
+			{"get_drawing_origin", mvPythonParser({
 				{mvPythonDataType::String, "name"},
 			}, "Returns the drawing origin.", "(float, float)")},
 
-			{"get_drawing_scale", mvPythonTranslator({
+			{"get_drawing_scale", mvPythonParser({
 				{mvPythonDataType::String, "name"},
 			}, "Returns the drawing scale.", "(float, float)")},
 
-			{"get_drawing_size", mvPythonTranslator({
+			{"get_drawing_size", mvPythonParser({
 				{mvPythonDataType::String, "name"},
 			}, "Returns the size of a drawing widget.", "(float, float)")},
 
-			{"draw_image", mvPythonTranslator({
+			{"draw_image", mvPythonParser({
 				{mvPythonDataType::String, "drawing"},
 				{mvPythonDataType::String, "file"},
 				{mvPythonDataType::FloatList, "pmin"},
@@ -67,7 +67,7 @@ namespace Marvel {
 				{mvPythonDataType::String, "tag"},
 			}, "Draws an image on a drawing.")},
 
-			{"draw_line", mvPythonTranslator({
+			{"draw_line", mvPythonParser({
 				{mvPythonDataType::String, "drawing"},
 				{mvPythonDataType::FloatList, "p1"},
 				{mvPythonDataType::FloatList, "p2"},
@@ -78,7 +78,7 @@ namespace Marvel {
 				{mvPythonDataType::String, "tag"},
 			}, "Draws a line on a drawing.")},
 
-			{"draw_arrow", mvPythonTranslator({
+			{"draw_arrow", mvPythonParser({
 				{mvPythonDataType::String, "drawing"},
 				{mvPythonDataType::FloatList, "p1"},
 				{mvPythonDataType::FloatList, "p2"},
@@ -90,7 +90,7 @@ namespace Marvel {
 				{mvPythonDataType::String, "tag"},
 			}, "Draws an arrow on a drawing.")},
 
-			{"draw_triangle", mvPythonTranslator({
+			{"draw_triangle", mvPythonParser({
 				{mvPythonDataType::String, "drawing"},
 				{mvPythonDataType::FloatList, "p1"},
 				{mvPythonDataType::FloatList, "p2"},
@@ -102,7 +102,7 @@ namespace Marvel {
 				{mvPythonDataType::String, "tag"},
 			}, "Draws a triangle on a drawing.")},
 
-			{"draw_rectangle", mvPythonTranslator({
+			{"draw_rectangle", mvPythonParser({
 				{mvPythonDataType::String, "drawing"},
 				{mvPythonDataType::FloatList, "pmin"},
 				{mvPythonDataType::FloatList, "pmax"},
@@ -114,7 +114,7 @@ namespace Marvel {
 				{mvPythonDataType::String, "tag"},
 			}, "Draws a rectangle on a drawing.")},
 
-			{"draw_quad", mvPythonTranslator({
+			{"draw_quad", mvPythonParser({
 				{mvPythonDataType::String, "drawing"},
 				{mvPythonDataType::FloatList, "p1"},
 				{mvPythonDataType::FloatList, "p2"},
@@ -127,7 +127,7 @@ namespace Marvel {
 				{mvPythonDataType::String, "tag"},
 			}, "Draws a quad on a drawing.")},
 
-			{"draw_text", mvPythonTranslator({
+			{"draw_text", mvPythonParser({
 				{mvPythonDataType::String, "drawing"},
 				{mvPythonDataType::FloatList, "pos"},
 				{mvPythonDataType::String, "text"},
@@ -137,7 +137,7 @@ namespace Marvel {
 				{mvPythonDataType::String, "tag"},
 			}, "Draws text on a drawing.")},
 
-			{"draw_circle", mvPythonTranslator({
+			{"draw_circle", mvPythonParser({
 				{mvPythonDataType::String, "drawing"},
 				{mvPythonDataType::FloatList, "center"},
 				{mvPythonDataType::Float, "radius"},
@@ -149,7 +149,7 @@ namespace Marvel {
 				{mvPythonDataType::String, "tag"},
 			}, "Draws a circle on a drawing.")},
 
-			{"draw_polyline", mvPythonTranslator({
+			{"draw_polyline", mvPythonParser({
 				{mvPythonDataType::String, "drawing"},
 				{mvPythonDataType::FloatList, "points"},
 				{mvPythonDataType::IntList, "color"},
@@ -159,7 +159,7 @@ namespace Marvel {
 				{mvPythonDataType::String, "tag"},
 			}, "Draws lines on a drawing.")},
 
-			{"draw_polygon", mvPythonTranslator({
+			{"draw_polygon", mvPythonParser({
 				{mvPythonDataType::String, "drawing"},
 				{mvPythonDataType::FloatList, "points"},
 				{mvPythonDataType::IntList, "color"},
@@ -169,7 +169,7 @@ namespace Marvel {
 				{mvPythonDataType::String, "tag"},
 			}, "Draws a polygon on a drawing.")},
 
-			{"draw_bezier_curve", mvPythonTranslator({
+			{"draw_bezier_curve", mvPythonParser({
 				{mvPythonDataType::String, "drawing"},
 				{mvPythonDataType::FloatList, "p1"},
 				{mvPythonDataType::FloatList, "p2"},
@@ -182,7 +182,7 @@ namespace Marvel {
 				{mvPythonDataType::String, "tag"},
 			}, "Draws a bezier curve on a drawing.")},
 
-			{"clear_drawing", mvPythonTranslator({
+			{"clear_drawing", mvPythonParser({
 				{mvPythonDataType::String, "draw"}
 			}, "Clears a drawing.")},
 
@@ -377,11 +377,11 @@ namespace Marvel {
 			&pmin, &pmax, &uv_min, &uv_max, &color, &tag))
 			Py_RETURN_NONE;
 
-		mvVec2 mpmin = mvPythonTranslator::getVec2(pmin);
-		mvVec2 mpmax = mvPythonTranslator::getVec2(pmax);
-		mvVec2 muv_min = mvPythonTranslator::getVec2(uv_min);
-		mvVec2 muv_max = mvPythonTranslator::getVec2(uv_max);
-		mvColor mcolor = mvPythonTranslator::getColor(color);
+		mvVec2 mpmin = mvPythonParser::getVec2(pmin);
+		mvVec2 mpmax = mvPythonParser::getVec2(pmax);
+		mvVec2 muv_min = mvPythonParser::getVec2(uv_min);
+		mvVec2 muv_max = mvPythonParser::getVec2(uv_max);
+		mvColor mcolor = mvPythonParser::getColor(color);
 
 		mvAppItem* item = mvApp::GetApp()->getItem(drawing);
 		if (item == nullptr)
@@ -408,9 +408,9 @@ namespace Marvel {
 		if (!Translators["draw_line"].parse(args, kwargs,__FUNCTION__, &drawing, &p1, &p2, &color, &thickness, &tag))
 			Py_RETURN_NONE;
 
-		mvVec2 mp1 = mvPythonTranslator::getVec2(p1);
-		mvVec2 mp2 = mvPythonTranslator::getVec2(p2);
-		mvColor mcolor = mvPythonTranslator::getColor(color);
+		mvVec2 mp1 = mvPythonParser::getVec2(p1);
+		mvVec2 mp2 = mvPythonParser::getVec2(p2);
+		mvColor mcolor = mvPythonParser::getColor(color);
 
 		mvAppItem* item = mvApp::GetApp()->getItem(drawing);
 		if (item == nullptr)
@@ -438,9 +438,9 @@ namespace Marvel {
 		if (!Translators["draw_arrow"].parse(args, kwargs, __FUNCTION__, &drawing, &p1, &p2, &color, &thickness, &size, &tag))
 			Py_RETURN_NONE;
 
-		mvVec2 mp1 = mvPythonTranslator::getVec2(p1);
-		mvVec2 mp2 = mvPythonTranslator::getVec2(p2);
-		mvColor mcolor = mvPythonTranslator::getColor(color);
+		mvVec2 mp1 = mvPythonParser::getVec2(p1);
+		mvVec2 mp2 = mvPythonParser::getVec2(p2);
+		mvColor mcolor = mvPythonParser::getColor(color);
 
 		mvAppItem* item = mvApp::GetApp()->getItem(drawing);
 		if (item == nullptr)
@@ -469,11 +469,11 @@ namespace Marvel {
 			Py_RETURN_NONE;
 
 
-		mvVec2 mp1 = mvPythonTranslator::getVec2(p1);
-		mvVec2 mp2 = mvPythonTranslator::getVec2(p2);
-		mvVec2 mp3 = mvPythonTranslator::getVec2(p3);
-		mvColor mcolor = mvPythonTranslator::getColor(color);
-		mvColor mfill = mvPythonTranslator::getColor(fill);
+		mvVec2 mp1 = mvPythonParser::getVec2(p1);
+		mvVec2 mp2 = mvPythonParser::getVec2(p2);
+		mvVec2 mp3 = mvPythonParser::getVec2(p3);
+		mvColor mcolor = mvPythonParser::getColor(color);
+		mvColor mfill = mvPythonParser::getColor(fill);
 
 		mvAppItem* item = mvApp::GetApp()->getItem(drawing);
 		if (item == nullptr)
@@ -502,10 +502,10 @@ namespace Marvel {
 			Py_RETURN_NONE;
 
 
-		mvVec2 mpmax = mvPythonTranslator::getVec2(pmax);
-		mvVec2 mpmin = mvPythonTranslator::getVec2(pmin);
-		mvColor mcolor = mvPythonTranslator::getColor(color);
-		mvColor mfill = mvPythonTranslator::getColor(fill);
+		mvVec2 mpmax = mvPythonParser::getVec2(pmax);
+		mvVec2 mpmin = mvPythonParser::getVec2(pmin);
+		mvColor mcolor = mvPythonParser::getColor(color);
+		mvColor mfill = mvPythonParser::getColor(fill);
 
 		mvAppItem* item = mvApp::GetApp()->getItem(drawing);
 		if (item == nullptr)
@@ -534,12 +534,12 @@ namespace Marvel {
 			Py_RETURN_NONE;
 
 
-		mvVec2 mp1 = mvPythonTranslator::getVec2(p1);
-		mvVec2 mp2 = mvPythonTranslator::getVec2(p2);
-		mvVec2 mp3 = mvPythonTranslator::getVec2(p3);
-		mvVec2 mp4 = mvPythonTranslator::getVec2(p4);
-		mvColor mcolor = mvPythonTranslator::getColor(color);
-		mvColor mfill = mvPythonTranslator::getColor(fill);
+		mvVec2 mp1 = mvPythonParser::getVec2(p1);
+		mvVec2 mp2 = mvPythonParser::getVec2(p2);
+		mvVec2 mp3 = mvPythonParser::getVec2(p3);
+		mvVec2 mp4 = mvPythonParser::getVec2(p4);
+		mvColor mcolor = mvPythonParser::getColor(color);
+		mvColor mfill = mvPythonParser::getColor(fill);
 
 		mvAppItem* item = mvApp::GetApp()->getItem(drawing);
 		if (item == nullptr)
@@ -567,8 +567,8 @@ namespace Marvel {
 		if (!Translators["draw_text"].parse(args, kwargs,__FUNCTION__, &drawing, &pos, &text, &color, &size, &tag))
 			Py_RETURN_NONE;
 
-		mvVec2 mpos = mvPythonTranslator::getVec2(pos);
-		mvColor mcolor = mvPythonTranslator::getColor(color);
+		mvVec2 mpos = mvPythonParser::getVec2(pos);
+		mvColor mcolor = mvPythonParser::getColor(color);
 
 		mvAppItem* item = mvApp::GetApp()->getItem(drawing);
 		if (item == nullptr)
@@ -598,9 +598,9 @@ namespace Marvel {
 		if (!Translators["draw_circle"].parse(args, kwargs,__FUNCTION__, &drawing, &center, &radius, &color, &segments, &thickness, &fill, &tag))
 			Py_RETURN_NONE;
 
-		mvVec2 mcenter = mvPythonTranslator::getVec2(center);
-		mvColor mcolor = mvPythonTranslator::getColor(color);
-		mvColor mfill = mvPythonTranslator::getColor(fill);
+		mvVec2 mcenter = mvPythonParser::getVec2(center);
+		mvColor mcolor = mvPythonParser::getColor(color);
+		mvColor mfill = mvPythonParser::getColor(fill);
 
 		mvAppItem* item = mvApp::GetApp()->getItem(drawing);
 		if (item == nullptr)
@@ -628,8 +628,8 @@ namespace Marvel {
 		if (!Translators["draw_polyline"].parse(args, kwargs,__FUNCTION__, &drawing, &points, &color, &closed, &thickness, &tag))
 			Py_RETURN_NONE;
 
-		auto mpoints = mvPythonTranslator::getVectVec2(points);
-		mvColor mcolor = mvPythonTranslator::getColor(color);
+		auto mpoints = mvPythonParser::getVectVec2(points);
+		mvColor mcolor = mvPythonParser::getColor(color);
 
 		mvAppItem* item = mvApp::GetApp()->getItem(drawing);
 		if (item == nullptr)
@@ -657,9 +657,9 @@ namespace Marvel {
 		if (!Translators["draw_polygon"].parse(args, kwargs,__FUNCTION__, &drawing, &points, &color, &fill, &thickness, &tag))
 			Py_RETURN_NONE;
 
-		auto mpoints = mvPythonTranslator::getVectVec2(points);
-		mvColor mcolor = mvPythonTranslator::getColor(color);
-		mvColor mfill = mvPythonTranslator::getColor(fill);
+		auto mpoints = mvPythonParser::getVectVec2(points);
+		mvColor mcolor = mvPythonParser::getColor(color);
+		mvColor mfill = mvPythonParser::getColor(fill);
 
 		mvAppItem* item = mvApp::GetApp()->getItem(drawing);
 		if (item == nullptr)
@@ -687,11 +687,11 @@ namespace Marvel {
 		if (!Translators["draw_bezier_curve"].parse(args, kwargs,__FUNCTION__, &drawing, &p1, &p2, &p3, &p4, &color, &thickness, &segments, &tag))
 			Py_RETURN_NONE;
 
-		mvVec2 mp1 = mvPythonTranslator::getVec2(p1);
-		mvVec2 mp2 = mvPythonTranslator::getVec2(p2);
-		mvVec2 mp3 = mvPythonTranslator::getVec2(p3);
-		mvVec2 mp4 = mvPythonTranslator::getVec2(p4);
-		mvColor mcolor = mvPythonTranslator::getColor(color);
+		mvVec2 mp1 = mvPythonParser::getVec2(p1);
+		mvVec2 mp2 = mvPythonParser::getVec2(p2);
+		mvVec2 mp3 = mvPythonParser::getVec2(p3);
+		mvVec2 mp4 = mvPythonParser::getVec2(p4);
+		mvColor mcolor = mvPythonParser::getColor(color);
 
 		mvAppItem* item = mvApp::GetApp()->getItem(drawing);
 		if (item == nullptr)

@@ -8,7 +8,7 @@
 
 namespace Marvel {
 
-	static std::map<std::string, mvPythonTranslator> Translators = mvInterfaceRegistry::GetRegistry()->getPythonInterface("sbWidgets");
+	static std::map<std::string, mvPythonParser> Translators = mvInterfaceRegistry::GetRegistry()->getPythonInterface("sbWidgets");
 
 	static void AddItemWithRuntimeChecks(mvAppItem* item, const char* parent, const char* before)
 	{
@@ -35,44 +35,44 @@ namespace Marvel {
 			ma->addItem(item);
 	}
 
-	std::map<std::string, mvPythonTranslator>& BuildWidgetsInterface() {
+	std::map<std::string, mvPythonParser>& BuildWidgetsInterface() {
 		
-		std::map<std::string, mvPythonTranslator>* translators = new std::map< std::string, mvPythonTranslator>;
+		std::map<std::string, mvPythonParser>* translators = new std::map< std::string, mvPythonParser>;
 
-		translators->insert({ "end_tree_node", mvPythonTranslator({
+		translators->insert({ "end_tree_node", mvPythonParser({
 		}, "Ends the tree node created by a call to add_tree_node.") });
 
-		translators->insert({ "end_popup", mvPythonTranslator({
+		translators->insert({ "end_popup", mvPythonParser({
 		}, "Ends the popup created by a call to add_popup.") });
 
-		translators->insert({ "end_window", mvPythonTranslator({
+		translators->insert({ "end_window", mvPythonParser({
 		}, "Ends the window created by a call to add_window.") });
 
-		translators->insert({ "end_group", mvPythonTranslator({
+		translators->insert({ "end_group", mvPythonParser({
 		}, "Ends the group created by a call to add_group.") });
 
-		translators->insert({ "end_child", mvPythonTranslator({
+		translators->insert({ "end_child", mvPythonParser({
 		}, "Ends the child created by a call to add_child.") });
 
-		translators->insert({ "end_tab", mvPythonTranslator({
+		translators->insert({ "end_tab", mvPythonParser({
 		}, "Ends the tab created by a call to add_tab.") });
 
-		translators->insert({ "end_tab_bar", mvPythonTranslator({
+		translators->insert({ "end_tab_bar", mvPythonParser({
 		}, "Ends the tab bar created by a call to add_tab_bar") });
 
-		translators->insert({ "end_menu", mvPythonTranslator({
+		translators->insert({ "end_menu", mvPythonParser({
 		}, "Ends the menu created by a call to add_menu.") });
 
-		translators->insert({ "end_menu_bar", mvPythonTranslator({
+		translators->insert({ "end_menu_bar", mvPythonParser({
 		}, "Ends the menu bar created by a call to add_menu_bar.") });
 
-		translators->insert({ "end_tooltip", mvPythonTranslator({
+		translators->insert({ "end_tooltip", mvPythonParser({
 		}, "Ends the tooltip created by a call to add_tooltip.") });
 
-		translators->insert({ "end_collapsing_header", mvPythonTranslator({
+		translators->insert({ "end_collapsing_header", mvPythonParser({
 		}, "Ends the collapsing header created by a call to add_collapsing_header.") });
 
-		translators->insert({ "add_table", mvPythonTranslator({
+		translators->insert({ "add_table", mvPythonParser({
 			{mvPythonDataType::String, "name"},
 			{mvPythonDataType::StringList, "headers"},
 			{mvPythonDataType::KeywordOnly},
@@ -81,7 +81,7 @@ namespace Marvel {
 			{mvPythonDataType::String, "before","Item to add this item before. (runtime adding)"},
 		}, "Adds table.") });
 
-		translators->insert({ "add_seperator", mvPythonTranslator({
+		translators->insert({ "add_seperator", mvPythonParser({
 			{mvPythonDataType::KeywordOnly},
 			{mvPythonDataType::String, "name"},
 			{mvPythonDataType::String, "tip", "Adds a simple tooltip"},
@@ -89,7 +89,7 @@ namespace Marvel {
 			{mvPythonDataType::String, "before","Item to add this item before. (runtime adding)"},
 		}, "Adds a horizontal line.") });
 
-		translators->insert({ "add_simple_plot", mvPythonTranslator({
+		translators->insert({ "add_simple_plot", mvPythonParser({
 			{mvPythonDataType::String, "name"},
 			{mvPythonDataType::FloatList, "value", "Tuple of float values"},
 			{mvPythonDataType::KeywordOnly},
@@ -105,7 +105,7 @@ namespace Marvel {
 			{mvPythonDataType::Integer, "height",""},
 		}, "A simple plot for visualization of a set of values") });
 
-		translators->insert({ "add_progress_bar", mvPythonTranslator({
+		translators->insert({ "add_progress_bar", mvPythonParser({
 			{mvPythonDataType::String, "name"},
 			{mvPythonDataType::Optional},
 			{mvPythonDataType::Float, "value"},
@@ -119,7 +119,7 @@ namespace Marvel {
 			{mvPythonDataType::Integer, "height",""},
 		}, "Adds a progress bar.") });
 
-		translators->insert({ "add_image", mvPythonTranslator({
+		translators->insert({ "add_image", mvPythonParser({
 			{mvPythonDataType::String, "name"},
 			{mvPythonDataType::String, "value"},
 			{mvPythonDataType::KeywordOnly},
@@ -133,7 +133,7 @@ namespace Marvel {
 			{mvPythonDataType::Integer, "height",""},
 		}, "Adds an image.") });
 
-		translators->insert({ "add_slider_float", mvPythonTranslator({
+		translators->insert({ "add_slider_float", mvPythonParser({
 			{mvPythonDataType::String, "name"},
 			{mvPythonDataType::KeywordOnly},
 			{mvPythonDataType::Float, "default_value"},
@@ -151,7 +151,7 @@ namespace Marvel {
 			{mvPythonDataType::Integer, "height","Height of a vertical slider"},
 		}, "Adds slider for a single float value") });
 
-		translators->insert({ "add_slider_float2", mvPythonTranslator({
+		translators->insert({ "add_slider_float2", mvPythonParser({
 			{mvPythonDataType::String, "name"},
 			{mvPythonDataType::KeywordOnly},
 			{mvPythonDataType::FloatList, "default_value"},
@@ -167,7 +167,7 @@ namespace Marvel {
 			{mvPythonDataType::Integer, "width",""}
 		}, "Adds slider for a 2 float values.") });
 
-		translators->insert({ "add_slider_float3", mvPythonTranslator({
+		translators->insert({ "add_slider_float3", mvPythonParser({
 			{mvPythonDataType::String, "name"},
 			{mvPythonDataType::KeywordOnly},
 			{mvPythonDataType::FloatList, "default_value"},
@@ -183,7 +183,7 @@ namespace Marvel {
 			{mvPythonDataType::Integer, "width",""}
 		}, "Adds slider for a 3 float values.") });
 
-		translators->insert({ "add_slider_float4", mvPythonTranslator({
+		translators->insert({ "add_slider_float4", mvPythonParser({
 			{mvPythonDataType::String, "name"},
 			{mvPythonDataType::KeywordOnly},
 			{mvPythonDataType::FloatList, "default_value"},
@@ -199,7 +199,7 @@ namespace Marvel {
 			{mvPythonDataType::Integer, "width",""}
 		}, "Adds slider for a 4 float values.") });
 
-		translators->insert({ "add_slider_int", mvPythonTranslator({
+		translators->insert({ "add_slider_int", mvPythonParser({
 			{mvPythonDataType::String, "name"},
 			{mvPythonDataType::KeywordOnly},
 			{mvPythonDataType::Integer, "default_value"},
@@ -216,7 +216,7 @@ namespace Marvel {
 			{mvPythonDataType::Integer, "height","Height of a vertical slider"},
 		}, "Adds slider for a single int value") });
 
-		translators->insert({ "add_slider_int2", mvPythonTranslator({
+		translators->insert({ "add_slider_int2", mvPythonParser({
 			{mvPythonDataType::String, "name"},
 			{mvPythonDataType::KeywordOnly},
 			{mvPythonDataType::IntList, "default_value"},
@@ -231,7 +231,7 @@ namespace Marvel {
 			{mvPythonDataType::Integer, "width",""}
 		}, "Adds slider for a 2 int values.") });
 
-		translators->insert({ "add_slider_int3", mvPythonTranslator({
+		translators->insert({ "add_slider_int3", mvPythonParser({
 			{mvPythonDataType::String, "name"},
 			{mvPythonDataType::KeywordOnly},
 			{mvPythonDataType::IntList, "default_value"},
@@ -246,7 +246,7 @@ namespace Marvel {
 			{mvPythonDataType::Integer, "width",""}
 		}, "Adds slider for a 3 int values.") });
 
-		translators->insert({ "add_slider_int4", mvPythonTranslator({
+		translators->insert({ "add_slider_int4", mvPythonParser({
 			{mvPythonDataType::String, "name"},
 			{mvPythonDataType::KeywordOnly},
 			{mvPythonDataType::IntList, "default_value"},
@@ -261,7 +261,7 @@ namespace Marvel {
 			{mvPythonDataType::Integer, "width",""}
 		}, "Adds slider for a 4 int values.") });
 
-		translators->insert({ "add_drag_float", mvPythonTranslator({
+		translators->insert({ "add_drag_float", mvPythonParser({
 			{mvPythonDataType::String, "name"},
 			{mvPythonDataType::KeywordOnly},
 			{mvPythonDataType::Float, "default_value"},
@@ -278,7 +278,7 @@ namespace Marvel {
 			{mvPythonDataType::Integer, "width",""}
 		}, "Adds drag for a single float value") });
 
-		translators->insert({ "add_drag_float2", mvPythonTranslator({
+		translators->insert({ "add_drag_float2", mvPythonParser({
 			{mvPythonDataType::String, "name"},
 			{mvPythonDataType::KeywordOnly},
 			{mvPythonDataType::FloatList, "default_value"},
@@ -295,7 +295,7 @@ namespace Marvel {
 			{mvPythonDataType::Integer, "width",""}
 		}, "Adds drag for a 2 float values.") });
 
-		translators->insert({ "add_drag_float3", mvPythonTranslator({
+		translators->insert({ "add_drag_float3", mvPythonParser({
 			{mvPythonDataType::String, "name"},
 			{mvPythonDataType::KeywordOnly},
 			{mvPythonDataType::FloatList, "default_value"},
@@ -312,7 +312,7 @@ namespace Marvel {
 			{mvPythonDataType::Integer, "width",""}
 		}, "Adds drag for a 3 float values.") });
 
-		translators->insert({ "add_drag_float4", mvPythonTranslator({
+		translators->insert({ "add_drag_float4", mvPythonParser({
 			{mvPythonDataType::String, "name"},
 			{mvPythonDataType::KeywordOnly},
 			{mvPythonDataType::FloatList, "default_value"},
@@ -329,7 +329,7 @@ namespace Marvel {
 			{mvPythonDataType::Integer, "width",""}
 		}, "Adds drag for a 4 float values.") });
 
-		translators->insert({ "add_drag_int", mvPythonTranslator({
+		translators->insert({ "add_drag_int", mvPythonParser({
 			{mvPythonDataType::String, "name"},
 			{mvPythonDataType::KeywordOnly},
 			{mvPythonDataType::Integer, "default_value"},
@@ -345,7 +345,7 @@ namespace Marvel {
 			{mvPythonDataType::Integer, "width",""}
 		}, "Adds drag for a single int value") });
 
-		translators->insert({ "add_drag_int2", mvPythonTranslator({
+		translators->insert({ "add_drag_int2", mvPythonParser({
 			{mvPythonDataType::String, "name"},
 			{mvPythonDataType::KeywordOnly},
 			{mvPythonDataType::IntList, "default_value"},
@@ -361,7 +361,7 @@ namespace Marvel {
 			{mvPythonDataType::Integer, "width",""}
 		}, "Adds drag for a 2 int values.") });
 
-		translators->insert({ "add_drag_int3", mvPythonTranslator({
+		translators->insert({ "add_drag_int3", mvPythonParser({
 			{mvPythonDataType::String, "name"},
 			{mvPythonDataType::KeywordOnly},
 			{mvPythonDataType::IntList, "default_value"},
@@ -377,7 +377,7 @@ namespace Marvel {
 			{mvPythonDataType::Integer, "width",""}
 		}, "Adds drag for a 3 int values.") });
 
-		translators->insert({ "add_drag_int4", mvPythonTranslator({
+		translators->insert({ "add_drag_int4", mvPythonParser({
 			{mvPythonDataType::String, "name"},
 			{mvPythonDataType::KeywordOnly},
 			{mvPythonDataType::IntList, "default_value"},
@@ -393,7 +393,7 @@ namespace Marvel {
 			{mvPythonDataType::Integer, "width",""}
 		}, "Adds drag for a 4 int values.") });
 
-		translators->insert({ "add_text", mvPythonTranslator({
+		translators->insert({ "add_text", mvPythonParser({
 			{mvPythonDataType::String, "name"},
 			{mvPythonDataType::KeywordOnly},
 			{mvPythonDataType::Integer, "wrap", "number of characters until wraping"},
@@ -404,7 +404,7 @@ namespace Marvel {
 			{mvPythonDataType::String, "before", "Item to add this item before. (runtime adding)"},
 		}, "Adds text") });
 
-		translators->insert({ "add_label_text", mvPythonTranslator({
+		translators->insert({ "add_label_text", mvPythonParser({
 			{mvPythonDataType::String, "name"},
 			{mvPythonDataType::String, "value"},
 			{mvPythonDataType::KeywordOnly},
@@ -415,7 +415,7 @@ namespace Marvel {
 			{mvPythonDataType::String, "data_source", "data source for shared data"},
 		}, "Adds text with a label. Useful for output values.") });
 
-		translators->insert({ "add_listbox", mvPythonTranslator({
+		translators->insert({ "add_listbox", mvPythonParser({
 			{mvPythonDataType::String, "name", "Name of the listbox"},
 			{mvPythonDataType::StringList, "items"},
 			{mvPythonDataType::KeywordOnly},
@@ -429,7 +429,7 @@ namespace Marvel {
 			{mvPythonDataType::Integer, "height", "number of items to show"},
 		}, "Adds a listbox.") });
 
-		translators->insert({ "add_combo", mvPythonTranslator({
+		translators->insert({ "add_combo", mvPythonParser({
 			{mvPythonDataType::String, "name"},
 			{mvPythonDataType::StringList, "items"},
 			{mvPythonDataType::KeywordOnly},
@@ -442,7 +442,7 @@ namespace Marvel {
 			{mvPythonDataType::Integer, "width",""},
 		}, "Adds a combo.") });
 
-		translators->insert({ "add_selectable", mvPythonTranslator({
+		translators->insert({ "add_selectable", mvPythonParser({
 			{mvPythonDataType::String, "name"},
 			{mvPythonDataType::KeywordOnly},
 			{mvPythonDataType::Bool, "default_value"},
@@ -453,7 +453,7 @@ namespace Marvel {
 			{mvPythonDataType::String, "data_source", "data source for shared data"},
 		}, "Adds a selectable.") });
 
-		translators->insert({ "add_button", mvPythonTranslator({
+		translators->insert({ "add_button", mvPythonParser({
 			{mvPythonDataType::String, "name"},
 			{mvPythonDataType::KeywordOnly},
 			{mvPythonDataType::Bool, "small", "Small button, useful for embedding in text."},
@@ -467,7 +467,7 @@ namespace Marvel {
 			{mvPythonDataType::Integer, "height", ""},
 		}, "Adds a button.") });
 
-		translators->insert({ "add_input_text", mvPythonTranslator({
+		translators->insert({ "add_input_text", mvPythonParser({
 			{mvPythonDataType::String, "name"},
 			{mvPythonDataType::KeywordOnly},
 			{mvPythonDataType::String, "default_value"},
@@ -487,7 +487,7 @@ namespace Marvel {
 			{mvPythonDataType::Integer, "width",""},
 		}, "Adds input for text values.") });
 
-		translators->insert({ "add_input_int", mvPythonTranslator({
+		translators->insert({ "add_input_int", mvPythonParser({
 			{mvPythonDataType::String, "name"},
 			{mvPythonDataType::KeywordOnly},
 			{mvPythonDataType::Integer, "default_value"},
@@ -499,7 +499,7 @@ namespace Marvel {
 			{mvPythonDataType::Integer, "width",""},
 		}, "Adds input for integer values.") });
 
-		translators->insert({ "add_input_int2", mvPythonTranslator({
+		translators->insert({ "add_input_int2", mvPythonParser({
 			{mvPythonDataType::String, "name"},
 			{mvPythonDataType::KeywordOnly},
 			{mvPythonDataType::IntList, "default_value"},
@@ -511,7 +511,7 @@ namespace Marvel {
 			{mvPythonDataType::Integer, "width",""},
 		}, "Adds input for 2 integer values.") });
 
-		translators->insert({ "add_input_int3", mvPythonTranslator({
+		translators->insert({ "add_input_int3", mvPythonParser({
 			{mvPythonDataType::String, "name"},
 			{mvPythonDataType::KeywordOnly},
 			{mvPythonDataType::IntList, "default_value"},
@@ -523,7 +523,7 @@ namespace Marvel {
 			{mvPythonDataType::Integer, "width",""},
 		}, "Adds input for 3 integer values.") });
 
-		translators->insert({ "add_input_int4", mvPythonTranslator({
+		translators->insert({ "add_input_int4", mvPythonParser({
 			{mvPythonDataType::String, "name"},
 			{mvPythonDataType::KeywordOnly},
 			{mvPythonDataType::IntList, "default_value"},
@@ -535,7 +535,7 @@ namespace Marvel {
 			{mvPythonDataType::Integer, "width",""},
 		}, "Adds input for 4 integer values.") });
 
-		translators->insert({ "add_input_float", mvPythonTranslator({
+		translators->insert({ "add_input_float", mvPythonParser({
 			{mvPythonDataType::String, "name"},
 			{mvPythonDataType::KeywordOnly},
 			{mvPythonDataType::Float, "default_value"},
@@ -548,7 +548,7 @@ namespace Marvel {
 			{mvPythonDataType::Integer, "width",""},
 		}, "Adds input for float values.") });
 
-		translators->insert({ "add_input_float2", mvPythonTranslator({
+		translators->insert({ "add_input_float2", mvPythonParser({
 			{mvPythonDataType::String, "name"},
 			{mvPythonDataType::KeywordOnly},
 			{mvPythonDataType::FloatList, "default_value"},
@@ -561,7 +561,7 @@ namespace Marvel {
 			{mvPythonDataType::Integer, "width",""},
 		}, "Adds input for 2 float values.") });
 
-		translators->insert({ "add_input_float3", mvPythonTranslator({
+		translators->insert({ "add_input_float3", mvPythonParser({
 			{mvPythonDataType::String, "name"},
 			{mvPythonDataType::KeywordOnly},
 			{mvPythonDataType::FloatList, "default_value"},
@@ -574,7 +574,7 @@ namespace Marvel {
 			{mvPythonDataType::Integer, "width",""},
 		}, "Adds input for 3 float values.") });
 
-		translators->insert({ "add_input_float4", mvPythonTranslator({
+		translators->insert({ "add_input_float4", mvPythonParser({
 			{mvPythonDataType::String, "name"},
 			{mvPythonDataType::KeywordOnly},
 			{mvPythonDataType::FloatList, "default_value"},
@@ -587,7 +587,7 @@ namespace Marvel {
 			{mvPythonDataType::Integer, "width",""},
 		}, "Adds input for 4 float values.") });
 
-		translators->insert({ "add_indent", mvPythonTranslator({
+		translators->insert({ "add_indent", mvPythonParser({
 			{mvPythonDataType::KeywordOnly},
 			{mvPythonDataType::String, "name"},
 			{mvPythonDataType::Float, "offset"},
@@ -595,7 +595,7 @@ namespace Marvel {
 			{mvPythonDataType::String, "before", "Item to add this item before. (runtime adding)"},
 		}, "Adds an indent to following items.") });
 
-		translators->insert({ "unindent", mvPythonTranslator({
+		translators->insert({ "unindent", mvPythonParser({
 			{mvPythonDataType::KeywordOnly},
 			{mvPythonDataType::String, "name"},
 			{mvPythonDataType::Float, "offset"},
@@ -603,7 +603,7 @@ namespace Marvel {
 			{mvPythonDataType::String, "before", "Item to add this item before. (runtime adding)"},
 		}, "Unindents following items.") });
 
-		translators->insert({ "add_tab_bar", mvPythonTranslator({
+		translators->insert({ "add_tab_bar", mvPythonParser({
 			{mvPythonDataType::String, "name"},
 			{mvPythonDataType::KeywordOnly},
 			{mvPythonDataType::Bool, "reorderable"},
@@ -613,7 +613,7 @@ namespace Marvel {
 			{mvPythonDataType::String, "data_source", "data source for shared data"},
 		}, "Adds a tab bar.") });
 
-		translators->insert({ "add_tab", mvPythonTranslator({
+		translators->insert({ "add_tab", mvPythonParser({
 			{mvPythonDataType::String, "name"},
 			{mvPythonDataType::KeywordOnly},
 			{mvPythonDataType::Bool, "closable"},
@@ -622,14 +622,14 @@ namespace Marvel {
 			{mvPythonDataType::String, "before", "Item to add this item before. (runtime adding)"},
 		}, "Adds a tab to a tab bar.") });
 
-		translators->insert({ "add_menu_bar", mvPythonTranslator({
+		translators->insert({ "add_menu_bar", mvPythonParser({
 			{mvPythonDataType::String, "name"},
 			{mvPythonDataType::KeywordOnly},
 			{mvPythonDataType::String, "parent", "Parent to add this item to. (runtime adding)"},
 			{mvPythonDataType::String, "before", "Item to add this item before. (runtime adding)"},
 		}, "Adds a menu bar to a window. Must be followed by a call to end_menu_bar.") });
 
-		translators->insert({ "add_menu", mvPythonTranslator({
+		translators->insert({ "add_menu", mvPythonParser({
 			{mvPythonDataType::String, "name"},
 			{mvPythonDataType::KeywordOnly},
 			{mvPythonDataType::String, "tip", "Adds a simple tooltip"},
@@ -637,7 +637,7 @@ namespace Marvel {
 			{mvPythonDataType::String, "before", "Item to add this item before. (runtime adding)"},
 		}, "Adds a menu to an existing menu bar. Must be followed by a call to end_menu.") });
 
-		translators->insert({ "add_menu_item", mvPythonTranslator({
+		translators->insert({ "add_menu_item", mvPythonParser({
 			{mvPythonDataType::String, "name"},
 			{mvPythonDataType::KeywordOnly},
 			{mvPythonDataType::String, "callback", "Registers a callback"},
@@ -646,7 +646,7 @@ namespace Marvel {
 			{mvPythonDataType::String, "before", "Item to add this item before. (runtime adding)"},
 		}, "Adds a menu item to an existing menu.") });
 
-		translators->insert({ "add_spacing", mvPythonTranslator({
+		translators->insert({ "add_spacing", mvPythonParser({
 			{mvPythonDataType::KeywordOnly},
 			{mvPythonDataType::String, "name"},
 			{mvPythonDataType::Integer, "count"},
@@ -654,7 +654,7 @@ namespace Marvel {
 			{mvPythonDataType::String, "before", "Item to add this item before. (runtime adding)"},
 		}, "Adds vertical spacing.") });
 
-		translators->insert({ "add_same_line", mvPythonTranslator({
+		translators->insert({ "add_same_line", mvPythonParser({
 			{mvPythonDataType::KeywordOnly},
 			{mvPythonDataType::String, "name"},
 			{mvPythonDataType::Float, "xoffset"},
@@ -663,7 +663,7 @@ namespace Marvel {
 			{mvPythonDataType::String, "before", "Item to add this item before. (runtime adding)"},
 		}, "Places a widget on the same line as the previous widget. Can also be used for horizontal spacing.") });
 
-		translators->insert({ "add_radio_button", mvPythonTranslator({
+		translators->insert({ "add_radio_button", mvPythonParser({
 			{mvPythonDataType::String, "name"},
 			{mvPythonDataType::StringList, "items"},
 			{mvPythonDataType::KeywordOnly},
@@ -675,7 +675,7 @@ namespace Marvel {
 			{mvPythonDataType::String, "data_source", "data source for shared data"},
 		}, "Adds a set of radio buttons.") });
 
-		translators->insert({ "add_group", mvPythonTranslator({
+		translators->insert({ "add_group", mvPythonParser({
 			{mvPythonDataType::String, "name"},
 			{mvPythonDataType::KeywordOnly},
 			{mvPythonDataType::String, "tip", "Adds a simple tooltip"},
@@ -685,7 +685,7 @@ namespace Marvel {
 		}, "Creates a group that other widgets can belong to. The group allows item commands to be issued for all of its members.\
 				Must be closed with the end_group command unless added at runtime.") });
 
-		translators->insert({ "add_child", mvPythonTranslator({
+		translators->insert({ "add_child", mvPythonParser({
 			{mvPythonDataType::String, "name"},
 			{mvPythonDataType::KeywordOnly},
 			{mvPythonDataType::String, "tip", "Adds a simple tooltip"},
@@ -695,7 +695,7 @@ namespace Marvel {
 			{mvPythonDataType::Integer, "height", ""},
 		}, "Adds an embedded child window. Will show scrollbars when items do not fit. Must be followed by a call to end_child.") });
 
-		translators->insert({ "add_window", mvPythonTranslator({
+		translators->insert({ "add_window", mvPythonParser({
 			{mvPythonDataType::String, "name"},
 			{mvPythonDataType::Optional},
 			{mvPythonDataType::Integer, "width"},
@@ -707,7 +707,7 @@ namespace Marvel {
 			{mvPythonDataType::Bool, "hide"}
 		}, "Creates a new window for following items to be added to. Must call end_main_window command before.") });
 
-		translators->insert({ "add_tooltip", mvPythonTranslator({
+		translators->insert({ "add_tooltip", mvPythonParser({
 			{mvPythonDataType::String, "tipparent"},
 			{mvPythonDataType::String, "name"},
 			{mvPythonDataType::KeywordOnly},
@@ -715,7 +715,7 @@ namespace Marvel {
 			{mvPythonDataType::String, "before", "Item to add this item before. (runtime adding)"}
 		}, "Adds an advanced tool tip for an item. This command must come immediately after the item the tip is for.") });
 
-		translators->insert({ "add_popup", mvPythonTranslator({
+		translators->insert({ "add_popup", mvPythonParser({
 			{mvPythonDataType::String, "popupparent"},
 			{mvPythonDataType::String, "name"},
 			{mvPythonDataType::KeywordOnly},
@@ -727,7 +727,7 @@ namespace Marvel {
 			{mvPythonDataType::Integer, "height", ""},
 		}, "Adds a popup window for an item. This command must come immediately after the item the popup is for.") });
 
-		translators->insert({ "add_collapsing_header", mvPythonTranslator({
+		translators->insert({ "add_collapsing_header", mvPythonParser({
 			{mvPythonDataType::String, "name"},
 			{mvPythonDataType::KeywordOnly},
 			{mvPythonDataType::Bool, "default_open"},
@@ -736,7 +736,7 @@ namespace Marvel {
 			{mvPythonDataType::String, "before", "Item to add this item before. (runtime adding)"}
 		}, "Adds a collapsing header to add items to. Must be closed with the end_collapsing_header command.") });
 
-		translators->insert({ "add_tree_node", mvPythonTranslator({
+		translators->insert({ "add_tree_node", mvPythonParser({
 			{mvPythonDataType::String, "name"},
 			{mvPythonDataType::KeywordOnly},
 			{mvPythonDataType::Bool, "default_open"},
@@ -745,7 +745,7 @@ namespace Marvel {
 			{mvPythonDataType::String, "before", "Item to add this item before. (runtime adding)"},
 		}, "Adds a tree node to add items to. Must be closed with the end_tree_node command.") });
 
-		translators->insert({ "add_color_edit3", mvPythonTranslator({
+		translators->insert({ "add_color_edit3", mvPythonParser({
 			{mvPythonDataType::String, "name"},
 			{mvPythonDataType::KeywordOnly},
 			{mvPythonDataType::IntList, "default_value (0, 0, 0)"},
@@ -758,7 +758,7 @@ namespace Marvel {
 			{mvPythonDataType::Integer, "height", ""},
 		}, "Adds an rgb color editing widget.") });
 
-		translators->insert({ "add_color_edit4", mvPythonTranslator({
+		translators->insert({ "add_color_edit4", mvPythonParser({
 			{mvPythonDataType::String, "name"},
 			{mvPythonDataType::KeywordOnly},
 			{mvPythonDataType::IntList, "default_value (0, 0, 0, 255)"},
@@ -771,7 +771,7 @@ namespace Marvel {
 			{mvPythonDataType::Integer, "height", ""},
 		}, "Adds an rgba color editing widget.") });
 
-		translators->insert({ "add_color_picker3", mvPythonTranslator({
+		translators->insert({ "add_color_picker3", mvPythonParser({
 			{mvPythonDataType::String, "name"},
 			{mvPythonDataType::KeywordOnly},
 			{mvPythonDataType::IntList, "default_value (0, 0, 0)"},
@@ -784,7 +784,7 @@ namespace Marvel {
 			{mvPythonDataType::Integer, "height", ""},
 		}, "Adds an rgb color picking widget.") });
 
-		translators->insert({ "add_color_picker4", mvPythonTranslator({
+		translators->insert({ "add_color_picker4", mvPythonParser({
 			{mvPythonDataType::String, "name"},
 			{mvPythonDataType::KeywordOnly},
 			{mvPythonDataType::IntList, "default_value (0, 0, 0, 255)"},
@@ -797,7 +797,7 @@ namespace Marvel {
 			{mvPythonDataType::Integer, "height", ""},
 		}, "Adds an rgba color picking widget.") });
 
-		translators->insert({ "add_checkbox", mvPythonTranslator({
+		translators->insert({ "add_checkbox", mvPythonParser({
 			{mvPythonDataType::String, "name"},
 			{mvPythonDataType::KeywordOnly},
 			{mvPythonDataType::Integer, "default_value"},
@@ -822,7 +822,7 @@ namespace Marvel {
 		if (!Translators["add_table"].parse(args, kwargs, __FUNCTION__, &name, &headers, &callback, &parent, &before))
 			Py_RETURN_NONE;
 
-		mvAppItem* item = new mvTable("", name, mvPythonTranslator::getStringVec(headers));
+		mvAppItem* item = new mvTable("", name, mvPythonParser::getStringVec(headers));
 		item->setCallback(callback);
 		AddItemWithRuntimeChecks(item, parent, before);
 		Py_RETURN_NONE;
@@ -847,7 +847,7 @@ namespace Marvel {
 			&minscale, &maxscale, &histogram, &tip, &parent, &before, &width, &height))
 			Py_RETURN_NONE;
 
-		std::vector<float> values = mvPythonTranslator::getFloatVec(value);
+		std::vector<float> values = mvPythonParser::getFloatVec(value);
 
 		if (autoscale)
 		{
@@ -925,8 +925,8 @@ namespace Marvel {
 			&value, &tintcolor, &bordercolor, &tip, &parent, &before, &data_source, &width, &height))
 			Py_RETURN_NONE;
 
-		auto mtintcolor = mvPythonTranslator::getColor(tintcolor);
-		auto mbordercolor = mvPythonTranslator::getColor(bordercolor);
+		auto mtintcolor = mvPythonParser::getColor(tintcolor);
+		auto mbordercolor = mvPythonParser::getColor(bordercolor);
 
 		mvAppItem* item = new mvImage("", name, value, mtintcolor, mbordercolor);
 		item->setTip(tip);
@@ -991,7 +991,7 @@ namespace Marvel {
 			&min_value, &max_value, &format, &power, &callback, &tip, &parent, &before, &data_source, &width))
 			Py_RETURN_NONE;
 
-		auto vec = mvPythonTranslator::getFloatVec(default_value);
+		auto vec = mvPythonParser::getFloatVec(default_value);
 
 		mvAppItem* item = new mvDragFloat2("", name, vec.data(), speed, min_value, max_value, format, power);
 		item->setCallback(callback);
@@ -1025,7 +1025,7 @@ namespace Marvel {
 			&min_value, &max_value, &format, &power, &callback, &tip, &parent, &before, &data_source, &width))
 			Py_RETURN_NONE;
 
-		auto vec = mvPythonTranslator::getFloatVec(default_value);
+		auto vec = mvPythonParser::getFloatVec(default_value);
 
 		mvAppItem* item = new mvDragFloat3("", name, vec.data(), speed, min_value, max_value, format, power);
 		item->setCallback(callback);
@@ -1060,7 +1060,7 @@ namespace Marvel {
 			&min_value, &max_value, &format, &power, &callback, &tip, &parent, &before, &data_source, &width))
 			Py_RETURN_NONE;
 
-		auto vec = mvPythonTranslator::getFloatVec(default_value);
+		auto vec = mvPythonParser::getFloatVec(default_value);
 
 		mvAppItem* item = new mvDragFloat4("", name, vec.data(), speed, min_value, max_value, format, power);
 		item->setCallback(callback);
@@ -1120,7 +1120,7 @@ namespace Marvel {
 			&min_value, &max_value, &format, &callback, &tip, &parent, &before, &data_source, &width))
 			Py_RETURN_NONE;
 
-		auto vec = mvPythonTranslator::getIntVec(default_value);
+		auto vec = mvPythonParser::getIntVec(default_value);
 
 		mvAppItem* item = new mvDragInt2("", name, vec.data(), speed, min_value, max_value, format);
 		item->setCallback(callback);
@@ -1153,7 +1153,7 @@ namespace Marvel {
 			&min_value, &max_value, &format, &callback, &tip, &parent, &before, &data_source, &width))
 			Py_RETURN_NONE;
 
-		auto vec = mvPythonTranslator::getIntVec(default_value);
+		auto vec = mvPythonParser::getIntVec(default_value);
 
 		mvAppItem* item = new mvDragInt3("", name, vec.data(), speed, min_value, max_value, format);
 		item->setCallback(callback);
@@ -1187,7 +1187,7 @@ namespace Marvel {
 			&min_value, &max_value, &format, &callback, &tip, &parent, &before, &data_source, &width))
 			Py_RETURN_NONE;
 
-		auto vec = mvPythonTranslator::getIntVec(default_value);
+		auto vec = mvPythonParser::getIntVec(default_value);
 
 		mvAppItem* item = new mvDragInt4("", name, vec.data(), speed, min_value, max_value, format);
 		item->setCallback(callback);
@@ -1254,7 +1254,7 @@ namespace Marvel {
 			&width))
 			Py_RETURN_NONE;
 
-		auto vec = mvPythonTranslator::getFloatVec(default_value);
+		auto vec = mvPythonParser::getFloatVec(default_value);
 
 		mvAppItem* item = new mvSliderFloat2("", name, vec.data(), min_value, max_value, format, power);
 		item->setCallback(callback);
@@ -1290,7 +1290,7 @@ namespace Marvel {
 			&width))
 			Py_RETURN_NONE;
 
-		auto vec = mvPythonTranslator::getFloatVec(default_value);
+		auto vec = mvPythonParser::getFloatVec(default_value);
 
 		mvAppItem* item = new mvSliderFloat3("", name, vec.data(), min_value, max_value, format, power);
 		item->setCallback(callback);
@@ -1327,7 +1327,7 @@ namespace Marvel {
 			&width))
 			Py_RETURN_NONE;
 
-		auto vec = mvPythonTranslator::getFloatVec(default_value);
+		auto vec = mvPythonParser::getFloatVec(default_value);
 
 		mvAppItem* item = new mvSliderFloat4("", name, vec.data(), min_value, max_value, format, power);
 		item->setCallback(callback);
@@ -1394,7 +1394,7 @@ namespace Marvel {
 			&width))
 			Py_RETURN_NONE;
 
-		auto vec = mvPythonTranslator::getIntVec(default_value);
+		auto vec = mvPythonParser::getIntVec(default_value);
 
 		mvAppItem* item = new mvSliderInt2("", name, vec.data(), min_value, max_value, format);
 		item->setCallback(callback);
@@ -1429,7 +1429,7 @@ namespace Marvel {
 			&width))
 			Py_RETURN_NONE;
 
-		auto vec = mvPythonTranslator::getIntVec(default_value);
+		auto vec = mvPythonParser::getIntVec(default_value);
 
 		mvAppItem* item = new mvSliderInt3("", name, vec.data(), min_value, max_value, format);
 		item->setCallback(callback);
@@ -1465,7 +1465,7 @@ namespace Marvel {
 			&width))
 			Py_RETURN_NONE;
 
-		auto vec = mvPythonTranslator::getIntVec(default_value);
+		auto vec = mvPythonParser::getIntVec(default_value);
 
 		mvAppItem* item = new mvSliderInt4("", name, vec.data(), min_value, max_value, format);
 		item->setCallback(callback);
@@ -1497,7 +1497,7 @@ namespace Marvel {
 			&color, &bullet, &tip, &parent, &before))
 			Py_RETURN_NONE;
 
-		auto mcolor = mvPythonTranslator::getColor(color);
+		auto mcolor = mvPythonParser::getColor(color);
 
 		if (mcolor.r > 500)
 			mcolor.specified = false;
@@ -1528,7 +1528,7 @@ namespace Marvel {
 			&color, &tip, &parent, &before, &data_source))
 			Py_RETURN_NONE;
 
-		auto mcolor = mvPythonTranslator::getColor(color);
+		auto mcolor = mvPythonParser::getColor(color);
 		if (mcolor.r > 500)
 			mcolor.specified = false;
 
@@ -1556,7 +1556,7 @@ namespace Marvel {
 			&default_value, &callback, &tip, &parent, &before, &data_source, &width, &height))
 			Py_RETURN_NONE;
 
-		mvAppItem* item = new mvListbox("", name, mvPythonTranslator::getStringVec(items), default_value, height);
+		mvAppItem* item = new mvListbox("", name, mvPythonParser::getStringVec(items), default_value, height);
 		item->setCallback(callback); 
 		item->setTip(tip); 
 		item->setDataSource(data_source); 
@@ -1582,7 +1582,7 @@ namespace Marvel {
 			&default_value, &callback, &tip, &parent, &before, &data_source, &width))
 			Py_RETURN_NONE;
 
-		mvAppItem* item = new mvCombo("", name, mvPythonTranslator::getStringVec(items), default_value);
+		mvAppItem* item = new mvCombo("", name, mvPythonParser::getStringVec(items), default_value);
 		item->setCallback(callback); 
 		item->setTip(tip); 
 		item->setDataSource(data_source); 
@@ -1724,7 +1724,7 @@ namespace Marvel {
 			&default_value, &callback, &tip, &parent, &before, &data_source, &width))
 			Py_RETURN_NONE;
 
-		auto vec = mvPythonTranslator::getIntVec(default_value);
+		auto vec = mvPythonParser::getIntVec(default_value);
 
 		mvAppItem* item = new mvInputInt2("", name, vec.data());
 		item->setCallback(callback);
@@ -1754,7 +1754,7 @@ namespace Marvel {
 			&default_value, &callback, &tip, &parent, &before, &data_source, &width))
 			Py_RETURN_NONE;
 
-		auto vec = mvPythonTranslator::getIntVec(default_value);
+		auto vec = mvPythonParser::getIntVec(default_value);
 
 		mvAppItem* item = new mvInputInt3("", name, vec.data());
 		item->setCallback(callback);
@@ -1785,7 +1785,7 @@ namespace Marvel {
 			&default_value, &callback, &tip, &parent, &before, &data_source, &width))
 			Py_RETURN_NONE;
 
-		auto vec = mvPythonTranslator::getIntVec(default_value);
+		auto vec = mvPythonParser::getIntVec(default_value);
 
 		mvAppItem* item = new mvInputInt4("", name, vec.data());
 		item->setCallback(callback);
@@ -1841,7 +1841,7 @@ namespace Marvel {
 			&default_value, &format, &callback, &tip, &parent, &before, &data_source, &width))
 			Py_RETURN_NONE;
 
-		auto vec = mvPythonTranslator::getFloatVec(default_value);
+		auto vec = mvPythonParser::getFloatVec(default_value);
 
 		mvAppItem* item = new mvInputFloat2("", name, vec.data(), format);
 		item->setCallback(callback);
@@ -1872,7 +1872,7 @@ namespace Marvel {
 			&default_value, &format, &callback, &tip, &parent, &before, &data_source, &width))
 			Py_RETURN_NONE;
 
-		auto vec = mvPythonTranslator::getFloatVec(default_value);
+		auto vec = mvPythonParser::getFloatVec(default_value);
 
 		mvAppItem* item = new mvInputFloat3("", name, vec.data(), format);
 		item->setCallback(callback);
@@ -1904,7 +1904,7 @@ namespace Marvel {
 			&default_value, &format, &callback, &tip, &parent, &before, &data_source, &width))
 			Py_RETURN_NONE;
 
-		auto vec = mvPythonTranslator::getFloatVec(default_value);
+		auto vec = mvPythonParser::getFloatVec(default_value);
 
 		mvAppItem* item = new mvInputFloat4("", name, vec.data(), format);
 		item->setCallback(callback);
@@ -2224,7 +2224,7 @@ namespace Marvel {
 			&default_value, &callback, &tip, &parent, &before, &data_source))
 			Py_RETURN_NONE;
 
-		mvAppItem* item = new mvRadioButton("", name, mvPythonTranslator::getStringVec(items), default_value);
+		mvAppItem* item = new mvRadioButton("", name, mvPythonParser::getStringVec(items), default_value);
 		item->setCallback(callback); 
 		item->setTip(tip); 
 		item->setDataSource(data_source); 
@@ -2550,7 +2550,7 @@ namespace Marvel {
 			&default_value, &callback, &tip, &parent, &before, &data_source, &width, &height))
 			Py_RETURN_NONE;
 
-		auto color = mvPythonTranslator::getColor(default_value);
+		auto color = mvPythonParser::getColor(default_value);
 
 		mvAppItem* item = new mvColorEdit3("", name, color);
 		item->setCallback(callback); 
@@ -2581,7 +2581,7 @@ namespace Marvel {
 		if (!Translators["add_color_edit4"].parse(args, kwargs,__FUNCTION__, &name, &default_value, &callback, &tip, &parent, &before, &data_source, &width, &height))
 			Py_RETURN_NONE;
 
-		auto color = mvPythonTranslator::getColor(default_value);
+		auto color = mvPythonParser::getColor(default_value);
 
 		mvAppItem* item = new mvColorEdit4("", name, color);
 		item->setCallback(callback);
@@ -2611,7 +2611,7 @@ namespace Marvel {
 		if (!Translators["add_color_picker3"].parse(args, kwargs, __FUNCTION__, &name, &default_value, &callback, &tip, &parent, &before, &data_source, &width, &height))
 			Py_RETURN_NONE;
 
-		auto color = mvPythonTranslator::getColor(default_value);
+		auto color = mvPythonParser::getColor(default_value);
 
 		mvAppItem* item = new mvColorPicker3("", name, color);
 		item->setCallback(callback);
@@ -2643,7 +2643,7 @@ namespace Marvel {
 			&default_value, &callback, &tip, &parent, &before, &data_source, &width, &height))
 			Py_RETURN_NONE;
 
-		auto color = mvPythonTranslator::getColor(default_value);
+		auto color = mvPythonParser::getColor(default_value);
 
 		mvAppItem* item = new mvColorPicker4("", name, color);
 		item->setCallback(callback);

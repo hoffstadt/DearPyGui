@@ -32,16 +32,16 @@ namespace Marvel {
 	};
 
 	//-----------------------------------------------------------------------------
-	// mvPythonTranslator
+	// mvPythonParser
 	//-----------------------------------------------------------------------------
-	class mvPythonTranslator
+	class mvPythonParser
 	{
 
 	public:
 
-		mvPythonTranslator() = default;
+		mvPythonParser() = default;
 
-		mvPythonTranslator(const std::initializer_list<mvPythonDataElement>& elements, 
+		mvPythonParser(const std::initializer_list<mvPythonDataElement>& elements, 
 			const std::string& about = "", const std::string& returnType = "None");
 
 		bool                                    parse(PyObject* args, PyObject* kwargs, const char* message, ...);

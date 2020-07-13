@@ -9,13 +9,13 @@ namespace Marvel {
 	//-----------------------------------------------------------------------------
 	// Forward Declarations
 	//-----------------------------------------------------------------------------
-	class mvPythonTranslator;
+	class mvPythonParser;
 
 	//-----------------------------------------------------------------------------
 	// Typedefs
 	//-----------------------------------------------------------------------------
 	using pyInitFunc = mvPythonModule * (*)();
-	using pyDocFunc = std::map<std::string, mvPythonTranslator>&(*)();
+	using pyDocFunc = std::map<std::string, mvPythonParser>&(*)();
 
 	template<int index>
 	constexpr void initModule(const char* name, pyInitFunc interfacefunc, pyDocFunc docfunc = nullptr)
