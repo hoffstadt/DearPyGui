@@ -58,6 +58,20 @@ namespace Marvel {
 		return *parsers;
 	}
 
+	PyObject* run_file(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		const char* name;
+		const char* file;
+		const char* flags = "";
+
+		if (!Parsers["run_file"].parse(args, kwargs, __FUNCTION__, &name, &file, &flags))
+			Py_RETURN_NONE;
+
+		RunFile(name, file, flags);
+
+		Py_RETURN_NONE;
+	}
+
 	PyObject* add_drawing(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		const char* name;
@@ -4188,6 +4202,7 @@ namespace Marvel {
 
 		auto pyModule = new mvPythonModule("marvel", {});
 
+		pyModule->addMethodD(run_file);
 		pyModule->addMethodD(add_table);
 		pyModule->addMethodD(end_tree_node);
 		pyModule->addMethodD(end_popup);

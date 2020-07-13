@@ -1463,6 +1463,13 @@ namespace Marvel {
 
 	void AddAppCommands(std::map<std::string, mvPythonParser>* parsers)
 	{
+		parsers->insert({ "run_file", mvPythonParser({
+			{mvPythonDataType::String, "name", "Executable name"},
+			{mvPythonDataType::String, "file", "Path to python file."},
+			{mvPythonDataType::KeywordOnly},
+			{mvPythonDataType::String, "flags", "Executable flags."},
+		}, "Runs a seperate Marvel app.") });
+
 		parsers->insert({ "run_async_function", mvPythonParser({
 			{mvPythonDataType::String, "name"},
 			{mvPythonDataType::Object, "data"},
