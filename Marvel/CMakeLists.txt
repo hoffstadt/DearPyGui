@@ -66,6 +66,7 @@ target_include_directories(Marvel
 		"../Dependencies/imgui/"
 		"../Dependencies/imgui/examples/"
 		"../Dependencies/cpython/Include/"
+		"../Dependencies/json/include/"
 		"src/Vendor/implot/"
 		"src/Vendor/stb/"
 		"src/Vendor/CLIUtils/"
@@ -82,6 +83,7 @@ target_link_libraries(Marvel
 	PUBLIC
 
 		d3d11
+		nlohmann_json::nlohmann_json
 		$<$<CONFIG:Debug>:python3_d>
 		$<$<CONFIG:Release>:python3>
 )
