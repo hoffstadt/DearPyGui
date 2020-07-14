@@ -17,9 +17,13 @@ jobs:
     - uses: actions/checkout@v2
       
     - name: configure
+      shell: cmd
       run: |
         cd Scripts
-        call BuildPythonForWindows.bat
+        start BuildPythonForWindows.bat
+        mkdir cmake-build-release
+        cd build
+        cmake ..
         
     - name: build
       run: |
