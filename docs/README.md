@@ -46,7 +46,7 @@ If you choose not to use your own IDE, we have provided a basic built-in IDE for
   
 #### Built-in Documentation
 Using the ```show_documentation()``` command opens the built-in documentation window which displays all _MarvelSandbox_ commands and constants, along with information on their usage.
-<BR>![BasicUsageExample](../assets/DocumentationExample.PNG?raw=true)
+<BR>![BasicUsageExample](../../assets/DocumentationExample.PNG?raw=true)
   
 ### Prebuilt Binaries
 #### Windows
