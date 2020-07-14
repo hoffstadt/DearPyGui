@@ -24,7 +24,7 @@ jobs:
       shell: cmd
       run: |
         cd Scripts
-        call BuildPythonForWindows.bat
+        call BuildPythonForWindows.bat --ci
         cd ..
         mkdir cmake-build-release
         cd cmake-build-release

@@ -1,6 +1,8 @@
 # Marvel Sandbox
 <sub>(This library is available under a free and permissive license)</sub>
 
+[![build status](https://github.com/RaylockLLC/MarvelSandbox/workflows/Windows/badge.svg)](https://github.com/RaylockLLC/MarvelSandbox/actions?workflow=Windows)
+
 MarvelSandbox is a **simple to use (but powerful) Python GUI framework**, built on top of **Dear ImGui**. Although the API may seem similar to Dear ImGui, _MarvelSandbox_ does not use the immediate mode paradigm, but instead provides a wrapping that simulates a traditional retained mode GUI.
 
 In the same manner Dear ImGui provides a simple way to create tools for game developers, _MarvelSandbox_ provides a simple way for python developers to **create quick and powerful GUIs for scripts**. It's well suited for **beginners** too!
