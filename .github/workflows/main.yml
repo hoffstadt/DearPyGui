@@ -1,0 +1,26 @@
+name: Windows
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+    
+jobs:
+
+  build-windows:
+    
+    runs-on: windows-2019
+
+    steps:
+
+    - uses: actions/checkout@v2
+      
+    - name: configure
+      run: |
+        cd Scripts
+        BuildPythonForWindows.bat
+        
+    - name: build
+      run: |
+        cmake --build cmake-build-release
