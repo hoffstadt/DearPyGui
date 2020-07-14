@@ -21,6 +21,7 @@ jobs:
       run: |
         cd Scripts
         start BuildPythonForWindows.bat
+        cd ..
         mkdir cmake-build-release
         cd cmake-build-release
         cmake ..
