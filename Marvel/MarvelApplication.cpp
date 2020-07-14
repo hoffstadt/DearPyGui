@@ -116,7 +116,7 @@ namespace Marvel {
 	{
 		addedPath = PathName + "\\";
 
-		PathName = PathName + ";python38.zip;.;" + LibraryPath + ";";
+		PathName = PathName + ";python38.zip;" + LibraryPath + ";";
 
 		program = Py_DecodeLocale(argv[0], NULL);
 		if (program == NULL) {
@@ -139,6 +139,7 @@ namespace Marvel {
 		wchar_t* deco = Py_DecodeLocale(PathName.c_str(), nullptr);
 		Py_SetPath(deco);
 		Py_NoSiteFlag = 1; // this must be set to 1
+		Py_DontWriteBytecodeFlag = 1;
 
 		Py_Initialize();
 		if (!Py_IsInitialized())
