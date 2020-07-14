@@ -16,7 +16,7 @@ In the same manner Dear ImGui provides a simple way to create tools for game dev
 
 Code:
 ```Python
-from sbWidgets import *
+from marvel import *
 
 add_text("Hello world")
 add_button("Save", callback="SaveCallback")
