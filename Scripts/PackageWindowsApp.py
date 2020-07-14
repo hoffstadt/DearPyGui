@@ -10,13 +10,14 @@ build_dir = script_dir + "/../Dependencies/cpython/PCbuild/amd64/"
 
 # directories to put prepared files into
 window_app_dir = script_dir + "/../Output/SandboxForWindows/"
-app_depend_dir = script_dir + "/../Output/SandboxForWindows/"
+app_depend_dir = script_dir + "/../Output/SandboxForWindows/Dependencies/"
 
 new_python_dir = script_dir + "/../Output/Python/"
 debug_dir = script_dir + "/../Output/Python/Debug/"
 
 if not os.path.isdir(window_app_dir):
     os.mkdir(window_app_dir)
+    os.mkdir(app_depend_dir)
 
 # delete everything except python fils
 for file in glob.glob("../SandboxForWindows/*.*"):
@@ -53,8 +54,8 @@ shutil.copy(build_dir + "/libcrypto-1_1.dll", app_depend_dir)
 shutil.copy(build_dir + "/libffi-7.dll", app_depend_dir)
 shutil.copy(build_dir + "/pyexpat.pyd", app_depend_dir)
 shutil.copy(build_dir + "/pyshellext.dll", app_depend_dir)
-shutil.copy(build_dir + "/python3.dll", app_depend_dir)
-shutil.copy(build_dir + "/python38.dll", app_depend_dir)
+shutil.copy(build_dir + "/python3.dll", window_app_dir)
+shutil.copy(build_dir + "/python38.dll", window_app_dir)
 shutil.copy(build_dir + "/select.pyd", app_depend_dir)
 shutil.copy(build_dir + "/sqlite3.dll", app_depend_dir)
 shutil.copy(build_dir + "/tcl86t.dll", app_depend_dir)
