@@ -2,6 +2,7 @@ import glob
 import shutil
 import os
 import zipfile
+from os import path
 
 script_dir = os.getcwd()
 
@@ -62,7 +63,11 @@ directories = [
 # create the necessary directories if they do not exist
 if not os.path.isdir(script_dir + "/../Output/"):
     os.mkdir(script_dir + "/../Output/")
-    os.mkdir(script_dir + "/../Output/Python/")
+
+if not os.path.isdir(script_dir + "/../Output/Python"):
+    os.mkdir(script_dir + "/../Output/Python")
+
+if not os.path.isdir(script_dir + "/../Output/Python/Debug"):
     os.mkdir(script_dir + "/../Output/Python/Debug")
 
 # copy pyc files to the temporary directory
@@ -88,8 +93,10 @@ shutil.rmtree(temporary_dir)
 # copy interpreters
 shutil.copy(build_dir + "/python.exe", debug_dir)
 shutil.copy(build_dir + "/pythonw.exe", debug_dir)
-shutil.copy(build_dir + "/python_d.exe", debug_dir)
-shutil.copy(build_dir + "/pythonw_d.exe", debug_dir)
+
+if(path.exists(build_dir + "/python_d.exe")):
+    shutil.copy(build_dir + "/python_d.exe", debug_dir)
+    shutil.copy(build_dir + "/pythonw_d.exe", debug_dir)
 
 # TODO actually sperate release and debug libraries.
 #     For now, we can just group them all together.

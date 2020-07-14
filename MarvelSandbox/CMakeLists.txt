@@ -35,16 +35,10 @@ add_custom_command(TARGET MarvelSandbox PRE_BUILD
 
 add_custom_command(TARGET MarvelSandbox PRE_BUILD
                    COMMAND ${CMAKE_COMMAND} -E copy_if_different
-                       ${CMAKE_SOURCE_DIR}/Output/python/Debug/python3.dll $<TARGET_FILE_DIR:MarvelSandbox>)
+                       ${CMAKE_SOURCE_DIR}/Output/python/Debug/python3$<$<CONFIG:Debug>:_d>.dll $<TARGET_FILE_DIR:MarvelSandbox>)
 
 add_custom_command(TARGET MarvelSandbox PRE_BUILD
                    COMMAND ${CMAKE_COMMAND} -E copy_if_different
-                       ${CMAKE_SOURCE_DIR}/Output/python/Debug/python38.dll $<TARGET_FILE_DIR:MarvelSandbox>)
+                       ${CMAKE_SOURCE_DIR}/Output/python/Debug/python38$<$<CONFIG:Debug>:_d>.dll $<TARGET_FILE_DIR:MarvelSandbox>)
 
-add_custom_command(TARGET MarvelSandbox PRE_BUILD
-                   COMMAND ${CMAKE_COMMAND} -E copy_if_different
-                       ${CMAKE_SOURCE_DIR}/Output/python/Debug/python3_d.dll $<TARGET_FILE_DIR:MarvelSandbox>)
 
-add_custom_command(TARGET MarvelSandbox PRE_BUILD
-                   COMMAND ${CMAKE_COMMAND} -E copy_if_different
-                       ${CMAKE_SOURCE_DIR}/Output/python/Debug/python38_d.dll $<TARGET_FILE_DIR:MarvelSandbox>)
