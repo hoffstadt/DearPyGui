@@ -14,13 +14,19 @@
 #include "Core/StandardWindows/mvSourceWindow.h"
 #include <nlohmann/json.hpp>
 
+#include <filesystem>
+
+namespace fs = std::filesystem;
+
 namespace Marvel {
 
 	mvAppLog* mvAppLog::s_instance = nullptr;
+	const char* Application::s_argv0 = nullptr;
 
 	Application::Application(const char* name, int argc, char* argv[]) : argc(argc), argv(argv)
 	{
 		static_cast<mvAppEditor*>(mvAppEditor::GetAppEditor())->setProgramName(name);
+		s_argv0 = argv[0];
 	}
 
 	Application::~Application()
@@ -66,18 +72,18 @@ namespace Marvel {
 		CLI11_PARSE(app, argc, argv);
 
 		// no commandline arguments, so use config file
-		if (argc == 1 && !ignoreConfig)
+		if (!ignoreConfig)
 		{
 			std::ifstream stream("marvel_config.json");
 			if (stream.good())
 			{
 				nlohmann::json j = nlohmann::json::parse(stream);
 
-				if (j.contains("App"))
+				if (j.contains("App") && AppName.empty())
 				{
 					AppName = j["App"];
 				}
-				else
+				else if(AppName.empty())
 					AppName = "Demo";
 
 				if (j.contains("Mode"))
@@ -94,7 +100,7 @@ namespace Marvel {
 					theme = j["Theme"];
 
 				if (j.contains("Path"))
-					PathName = j["Path"];
+					PathName = PathName + std::string(j["Path"]);
 
 				if (j.contains("PythonLibs"))
 					LibraryPath = j["PythonLibs"];
@@ -114,9 +120,14 @@ namespace Marvel {
 
 	void Application::handlePaths()
 	{
+		fs::path p = fs::path(argv[0]);
+		p.replace_extension(" ");
+		auto dependencies = p.parent_path().string() + "/Dependencies;";
+		auto excpath = p.parent_path().string() + ";";
+
 		addedPath = PathName + "\\";
 
-		PathName = PathName + ";python38.zip;" + LibraryPath + ";";
+		PathName = excpath + dependencies + PathName + ";Dependencies/python38.zip;" + LibraryPath + ";";
 
 		program = Py_DecodeLocale(argv[0], NULL);
 		if (program == NULL) {

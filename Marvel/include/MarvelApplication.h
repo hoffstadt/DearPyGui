@@ -35,6 +35,7 @@ namespace Marvel {
 		static void LogWarning(const std::string& text);
 		static void LogError(const std::string& text);
 		static void ClearLog();
+		static const char* getArgv0() { return s_argv0; }
 
 	public:
 
@@ -48,8 +49,10 @@ namespace Marvel {
 		bool        ranFromVS   = false;
 		std::string addedPath;
 
+		static const char* s_argv0;
+
 		// options
-		std::string AppName = "Demo";
+		std::string AppName = "";
 		std::string PathName = "";
 		std::string LibraryPath = "";
 		std::string theme = "Dark";
