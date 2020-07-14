@@ -3,6 +3,6 @@
 	"Mode": "None",
 	"Theme": "Dark",
 	"Development": true,
-	"Path": "../../MarvelSandbox",
+	"Path": "../../MarvelSandbox;",
 	"PythonLibs": ""
 }

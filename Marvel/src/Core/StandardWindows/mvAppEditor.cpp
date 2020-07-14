@@ -9,14 +9,8 @@
 #include "Core/mvUtilities.h"
 #include <misc/cpp/imgui_stdlib.h>
 
-static const char* initialText = "from sbApp import *\n\
-from sbLog import *\n\
-from sbInput import *\n\
-from sbPlot import *\n\
-from sbDraw import *\n\
-from sbWidgets import *\n\
-from sbExtension import *\n\
-import sbConstants\n\
+static const char* initialText = "from marvel import *\n\
+import marvel_constants as mc\n\
 \nadd_button('Button 1')\n";
 
 namespace Marvel {
