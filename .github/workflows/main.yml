@@ -19,7 +19,7 @@ jobs:
     - name: configure
       run: |
         cd Scripts
-        BuildPythonForWindows.bat
+        call BuildPythonForWindows.bat
         
     - name: build
       run: |
