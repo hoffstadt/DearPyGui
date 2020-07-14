@@ -30,19 +30,19 @@ Result:
 
 #### Plotting/Graphing
 _MarvelSandbox_ includes a plotting API built using ImPlot.
-<BR>![BasicUsageExample](../assets/PlottingExample1.PNG?raw=true)
+<BR>![BasicUsageExample](../../assets/PlottingExample1.PNG?raw=true)
   
 #### Drawings
 _MarvelSandbox_ includes a drawing API to create custom drawings.
-<BR>![BasicUsageExample](../assets/DrawingExample1.PNG?raw=true)
+<BR>![BasicUsageExample](../../assets/DrawingExample1.PNG?raw=true)
 
 #### Logging
 _MarvelSandbox_ includes a logging API that also acts as a python output console.
-<BR>![BasicUsageExample](../assets/LoggingExample1.PNG?raw=true)
+<BR>![BasicUsageExample](../../assets/LoggingExample1.PNG?raw=true)
   
 #### Built-in IDE
 If you choose not to use your own IDE, we have provided a basic built-in IDE for creating and testing apps. To use the built-in IDE just call the _MarvelSandbox_ executable with the **--editor** flag: ```MarvelSandbox.exe --editor```
-<BR>![BasicUsageExample](../assets/IDEExample1.PNG?raw=true)
+<BR>![BasicUsageExample](../../assets/IDEExample1.PNG?raw=true)
   
 #### Built-in Documentation
 Using the ```show_documentation()``` command opens the built-in documentation window which displays all _MarvelSandbox_ commands and constants, along with information on their usage.
@@ -94,5 +94,5 @@ Some upcoming features:
 This repository is licensed under the [MIT License](https://mit-license.org/).
 
 ### Gallery
-<BR>![StandardWindowsExample1](../assets/WidgetsExample1.PNG?raw=true)
-<BR>![StandardWindowsExample1](../assets/StandardWindowsExample1.PNG?raw=true)
+<BR>![StandardWindowsExample1](../../assets/WidgetsExample1.PNG?raw=true)
+<BR>![StandardWindowsExample1](../../assets/StandardWindowsExample1.PNG?raw=true)
