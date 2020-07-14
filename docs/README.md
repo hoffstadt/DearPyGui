@@ -24,7 +24,7 @@ add_input_text("string")
 add_float_slider("float")
 ```
 Result:
-<BR>![BasicUsageExample](../assets/BasicUsageExample1.PNG?raw=true)
+<BR>![BasicUsageExample](../../assets/BasicUsageExample1.PNG?raw=true)
 
 ### Features
 
