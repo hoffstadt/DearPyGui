@@ -50,7 +50,7 @@ Using the ```show_documentation()``` command opens the built-in documentation wi
   
 ### Prebuilt Binaries
 #### Windows
-- Download [Latest Release](https://github.com/RaylockLLC/MarvelSandbox/releases/download/v0.1-alpha7/Sandbox.zip)
+- Download [Latest Release](https://github.com/RaylockLLC/MarvelSandbox/releases/download/v0.1-alpha8/Sandbox.zip)
 - Download _Sandbox.zip_ and unzip anywhere. 
 - Run _MarvelSandbox.exe_.
 - You can use App.py as a starting point.
@@ -62,14 +62,15 @@ Using the ```show_documentation()``` command opens the built-in documentation wi
 - [ImPlot](https://github.com/epezent/implot)
 - [CLI11](https://github.com/CLIUtils/CLI11)
 
-### Requirements
-
-- [_Visual Studio 2019_ (windows)](https://visualstudio.microsoft.com/vs/)
-- [_git_](https://git-scm.com/)
 
 ### Building
 
 #### Windows
+
+##### Build Requirements
+
+- [_Visual Studio 2019_ (windows)](https://visualstudio.microsoft.com/vs/)
+- [_git_](https://git-scm.com/)
 
 1. From within a local directory, enter the following bash commands:
 ```

@@ -9,8 +9,8 @@ script_dir = os.getcwd()
 build_dir = script_dir + "/../Dependencies/cpython/PCbuild/amd64/"
 
 # directories to put prepared files into
-window_app_dir = script_dir + "/../Output/SandboxForWindows/"
-app_depend_dir = script_dir + "/../Output/SandboxForWindows/Dependencies/"
+window_app_dir = script_dir + "/../Output/SandboxRelease/"
+app_depend_dir = script_dir + "/../Output/SandboxRelease/Dependencies/"
 
 new_python_dir = script_dir + "/../Output/Python/"
 debug_dir = script_dir + "/../Output/Python/Debug/"
@@ -20,7 +20,7 @@ if not os.path.isdir(window_app_dir):
     os.mkdir(app_depend_dir)
 
 # delete everything except python fils
-for file in glob.glob("../SandboxForWindows/*.*"):
+for file in glob.glob("../Output/SandboxRelease/*.*"):
     os.remove(file)
 
 # copy everything to windows package folder
@@ -88,3 +88,9 @@ with open(window_app_dir + "/marvel_config.json", 'w') as file:
     file.write("\t\"Path\": \"\",\n")
     file.write("\t\"PythonLibs\": \"\"\n")
     file.write("}")
+
+# zip temporary directory
+shutil.make_archive(
+    "../Output/Sandbox",
+    "zip",
+    "../Output/SandboxRelease/")
