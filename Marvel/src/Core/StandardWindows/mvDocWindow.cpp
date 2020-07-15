@@ -342,7 +342,7 @@ namespace Marvel {
 					ImGui::BulletText("Callbacks are functions that are ran when some event occurs.");
 					ImGui::BulletText("There are currently 3 'types' of callbacks used in Sandbox:");
 					ImGui::Indent();
-					CodeColorText("Render    - ran every frame");
+					CodeColorText("Render  - ran every frame");
 					CodeColorText("Inputs  - ran when mouse/keyboard events occure");
 					CodeColorText("Widgets - ran when certain widgets are interacted with");
 					ImGui::Unindent();
@@ -355,7 +355,7 @@ namespace Marvel {
 					ImGui::Unindent();
 					ImGui::Separator();
 
-					ColorText("Render CALLBACK:");
+					ColorText("RENDER CALLBACK:");
 					ImGui::BulletText("Useful for live updating (for example a progress bar)");
 					ImGui::BulletText("The command is 'set_render_callback(...)'");
 					ImGui::BulletText("The optional 'handler' keyword will set which window triggers the callback.");
