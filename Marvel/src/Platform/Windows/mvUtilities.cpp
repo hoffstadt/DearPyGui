@@ -3,6 +3,7 @@
 
 #define STB_IMAGE_IMPLEMENTATION
 #include <stb_image.h>
+#include <shlobj.h> 
 #include <shobjidl.h> 
 #include <windows.h>
 #include <atlbase.h> // Contains the declaration of CComPtr.
@@ -15,6 +16,18 @@
 namespace fs = std::filesystem;
 
 namespace Marvel {
+
+	static int CALLBACK BrowseCallbackProc(HWND hwnd, UINT uMsg, LPARAM lParam, LPARAM lpData)
+	{
+
+		if (uMsg == BFFM_INITIALIZED)
+		{
+			std::string tmp = (const char*)lpData;
+			SendMessage(hwnd, BFFM_SETSELECTION, TRUE, lpData);
+		}
+
+		return 0;
+	}
 
     // Simple helper function to load an image into a DX11 texture with common settings
     bool LoadTextureFromFile(const char* filename, void* vout_srv, int* out_width, int* out_height)
@@ -103,6 +116,39 @@ namespace Marvel {
 		// Close process and thread handles. 
 		CloseHandle(pi.hProcess);
 		CloseHandle(pi.hThread);
+	}
+
+	std::string PickDirectory(const std::string& directory)
+	{
+		TCHAR path[MAX_PATH];
+
+		const char* path_param = directory.c_str();
+
+		BROWSEINFO bi = { 0 };
+		bi.lpszTitle = ("Browse for folder...");
+		bi.ulFlags = BIF_RETURNONLYFSDIRS | BIF_NEWDIALOGSTYLE | BIF_EDITBOX;
+		bi.lpfn = BrowseCallbackProc;
+		bi.lParam = (LPARAM)path_param;
+
+		LPITEMIDLIST pidl = SHBrowseForFolder(&bi);
+
+		if (pidl != 0)
+		{
+			//get the name of the folder and put it in path
+			SHGetPathFromIDList(pidl, path);
+
+			//free memory used
+			IMalloc* imalloc = 0;
+			if (SUCCEEDED(SHGetMalloc(&imalloc)))
+			{
+				imalloc->Free(pidl);
+				imalloc->Release();
+			}
+
+			return path;
+		}
+
+		return "";
 	}
 
 	std::string SaveFile(const std::vector<std::pair<std::string, std::string >>& extensions)

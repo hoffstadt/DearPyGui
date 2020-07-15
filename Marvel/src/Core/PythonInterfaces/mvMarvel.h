@@ -1481,6 +1481,9 @@ namespace Marvel {
 			{mvPythonDataType::StringList, "extensions", "i.e [['Python', '*.py']]"},
 		}, "Opens an 'open file' dialog.", "str") });
 
+		parsers->insert({ "select_directory_dialog", mvPythonParser({
+		}, "Opens a select directory dialog.", "str") });
+
 		parsers->insert({ "save_file_dialog", mvPythonParser({
 			{mvPythonDataType::StringList, "extensions", "i.e [['Python', '*.py']]"},
 		}, "Opens an 'save file' dialog.", "str") });

@@ -9,5 +9,6 @@ namespace Marvel {
 	void        RunFile            (const std::string& name, const std::string& file, const std::string& flags = "");
 	std::string OpenFile           (const std::vector<std::pair<std::string, std::string>>& extensions);
 	std::string SaveFile           (const std::vector<std::pair<std::string, std::string>>& extensions);
+	std::string PickDirectory      (const std::string& directory);
 
 }
