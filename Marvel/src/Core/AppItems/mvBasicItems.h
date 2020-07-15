@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Core/AppItems/mvTypeBases.h"
+#include "mvPythonTranslator.h"
 
 //-----------------------------------------------------------------------------
 // Widget Index
@@ -159,8 +160,9 @@ namespace Marvel {
 
 		MV_APPITEM_TYPE(mvAppItemType::Combo)
 
-		mvCombo(const std::string& parent, const std::string& name, const std::vector<std::string>& itemnames, const std::string& default_value)
-			: mvStringItemBase(parent, name, default_value), m_names(itemnames)
+		mvCombo(const std::string& parent, const std::string& name, const std::vector<std::string>& itemnames, const std::string& default_value,
+			const std::string& listDataSource = "")
+			: mvStringItemBase(parent, name, default_value), m_names(itemnames), m_listDataSource(listDataSource)
 		{}
 
 		virtual void draw() override
@@ -193,9 +195,22 @@ namespace Marvel {
 			}
 		}
 
+		virtual void updateData(const std::string& name) override
+		{
+			if (name == m_listDataSource)
+			{
+				PyObject* data = mvApp::GetApp()->getData(name);
+				if (data == nullptr)
+					return;
+
+				m_names = mvPythonTranslator::getStringVec(data);
+			}
+		}
+
 	private:
 
 		std::vector<std::string> m_names;
+		std::string              m_listDataSource;
 
 	};
 
@@ -209,18 +224,18 @@ namespace Marvel {
 
 		MV_APPITEM_TYPE(mvAppItemType::Listbox)
 
-		mvListbox(const std::string& parent, const std::string& name, const std::vector<std::string>& itemnames, int default_value = 0, int height = 3)
-			: mvIntItemBase(parent, name, 1, default_value), m_names(itemnames), m_height(height)
+		mvListbox(const std::string& parent, const std::string& name, const std::vector<std::string>& itemnames, int default_value = 0, int height = 3,
+			const std::string& listDataSource = "")
+			: mvIntItemBase(parent, name, 1, default_value), m_names(itemnames), m_height(height), m_listDataSource(listDataSource)
 		{
+			for (const std::string& name : m_names)
+				m_charNames.emplace_back(name.c_str());
 		}
 
 		virtual void draw() override
 		{
-			std::vector<const char*> names;
-			for (const std::string& name : m_names)
-				names.emplace_back(name.c_str());
 
-			if (ImGui::ListBox(m_label.c_str(), &m_value[0], names.data(), m_names.size(), m_height))
+			if (ImGui::ListBox(m_label.c_str(), &m_value[0], m_charNames.data(), m_names.size(), m_height))
 			{
 				if (!m_dataSource.empty())
 					mvApp::GetApp()->addData(m_dataSource, getPyValue());
@@ -233,10 +248,27 @@ namespace Marvel {
 			}
 		}
 
+		virtual void updateData(const std::string& name) override
+		{
+			if (name == m_listDataSource)
+			{
+				PyObject* data = mvApp::GetApp()->getData(name);
+				if (data == nullptr)
+					return;
+
+				m_names = mvPythonTranslator::getStringVec(data);
+				m_charNames.clear();
+				for (const std::string& name : m_names)
+					m_charNames.emplace_back(name.c_str());
+			}
+		}
+
 	private:
 
 		std::vector<std::string> m_names;
 		int                      m_height; // number of items to show (default -1)
+		std::vector<const char*> m_charNames;
+		std::string              m_listDataSource;
 
 	};
 

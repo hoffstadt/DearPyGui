@@ -132,9 +132,9 @@ add_tab("Basic Widgets##widget")
 
 add_button("Button##widget")
 add_checkbox("Checkbox##widget")
-add_combo("Combo##widget", ("Item 1", "Item 2", "item 3"))
+add_combo("Combo##widget", ("Item 1", "Item 2", "item 3"), list_data_source="listboxitems")
 add_radio_button("Radio Button##widget", ("Item 1", "Item 2", "item 3"))
-add_listbox("Listbox##widget", ("Item 1", "Item 2", "item 3"))
+add_listbox("Listbox##widget", ("Item 1", "Item 2", "item 3"), list_data_source="listboxitems")
 add_progress_bar("Progress Bar##widget", 0.45, overlay="Progress Bar", height = 100)
 
 add_text("Text")
@@ -419,9 +419,11 @@ def ReturnFromLongProcess(data):
     log_info("Data returned to main thread: " + str(data))
 
 def Launcher(sender):
+ 
     show_item(sender + "##dialog")
 
 def ThemeCallback(sender):
+    add_data("listboxitems", ["fish", "ass hole", "pussy", "butt hole"])
     set_theme(sender)
 
 def LogCallback(sender):

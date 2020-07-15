@@ -2029,12 +2029,15 @@ namespace Marvel {
 		const char* before = ""; 
 		const char* parent = ""; 
 		const char* data_source = "";
+		const char* list_data_source = "";
 
 		if (!Parsers["add_listbox"].parse(args, kwargs,__FUNCTION__, &name, &items, 
-			&default_value, &callback, &tip, &parent, &before, &data_source, &width, &height))
+			&default_value, &callback, &tip, &parent, &before, &data_source, &width, 
+			&height, &list_data_source))
 			Py_RETURN_NONE;
 
-		mvAppItem* item = new mvListbox("", name, mvPythonTranslator::getStringVec(items), default_value, height);
+		mvAppItem* item = new mvListbox("", name, mvPythonTranslator::getStringVec(items), 
+			default_value, height, list_data_source);
 		item->setCallback(callback); 
 		item->setTip(tip); 
 		item->setDataSource(data_source); 
@@ -2055,12 +2058,14 @@ namespace Marvel {
 		const char* before = ""; 
 		const char* parent = ""; 
 		const char* data_source = "";
+		const char* list_data_source = "";
 
 		if (!Parsers["add_combo"].parse(args, kwargs,__FUNCTION__, &name, &items, 
-			&default_value, &callback, &tip, &parent, &before, &data_source, &width))
+			&default_value, &callback, &tip, &parent, &before, &data_source, &width
+			,&list_data_source))
 			Py_RETURN_NONE;
 
-		mvAppItem* item = new mvCombo("", name, mvPythonTranslator::getStringVec(items), default_value);
+		mvAppItem* item = new mvCombo("", name, mvPythonTranslator::getStringVec(items), default_value, list_data_source);
 		item->setCallback(callback); 
 		item->setTip(tip); 
 		item->setDataSource(data_source); 
