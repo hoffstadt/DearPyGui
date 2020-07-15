@@ -1466,6 +1466,13 @@ namespace Marvel {
 
 	void AddAppCommands(std::map<std::string, mvPythonParser>* parsers)
 	{
+		parsers->insert({ "set_global_font_scale", mvPythonParser({
+			{mvPythonDataType::Float, "scale", "default is 1.0"}
+		}, "Changes the global font scale.") });
+
+		parsers->insert({ "get_global_font_scale", mvPythonParser({
+		}, "Returns the global font scale.", "float") });
+
 		parsers->insert({ "run_file", mvPythonParser({
 			{mvPythonDataType::String, "name", "Executable name"},
 			{mvPythonDataType::String, "file", "Path to python file."},

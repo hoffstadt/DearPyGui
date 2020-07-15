@@ -155,7 +155,17 @@ namespace Marvel {
 		m_windows.clear();
 	}
 
-	void  mvApp::setFile(const std::string& file) 
+	void mvApp::setGlobalFontScale(float scale)
+	{
+		m_globalFontScale = scale;
+	}
+
+	float mvApp::getGlobalFontScale()
+	{
+		return m_globalFontScale;
+	}
+
+	void mvApp::setFile(const std::string& file) 
 	{ 
 		m_file = file;
 
@@ -217,6 +227,7 @@ namespace Marvel {
 		ImGuiIO& io = ImGui::GetIO();
 		m_deltaTime = io.DeltaTime;
 		m_time = ImGui::GetTime();
+		io.FontGlobalScale = m_globalFontScale;
 
 		if (!m_asyncReturns.empty())
 		{
@@ -430,41 +441,57 @@ namespace Marvel {
 
 	bool mvApp::isMouseDragging(int button, float threshold) const
 	{
+		if (!m_started)
+			return false;
 		return ImGui::IsMouseDragging(button, threshold);
 	}
 
 	bool mvApp::isMouseButtonDown(int button) const
 	{
+		if (!m_started)
+			return false;
 		return ImGui::IsMouseDown(button);
 	}
 
 	bool mvApp::isMouseButtonClicked(int button) const
 	{
+		if (!m_started)
+			return false;
 		return ImGui::IsMouseClicked(button);
 	}
 
 	bool mvApp::isMouseButtonDoubleClicked(int button) const
 	{
+		if (!m_started)
+			return false;
 		return ImGui::IsMouseDoubleClicked(button);
 	}
 
 	bool mvApp::isMouseButtonReleased(int button) const
 	{
+		if (!m_started)
+			return false;
 		return ImGui::IsMouseReleased(button);
 	}
 
 	bool mvApp::isKeyPressed(int keycode) const
 	{
+		if (!m_started)
+			return false;
 		return ImGui::IsKeyPressed(keycode);
 	}
 
 	bool mvApp::isKeyReleased(int keycode) const
 	{
+		if (!m_started)
+			return false;
 		return ImGui::IsKeyReleased(keycode);
 	}
 
 	bool mvApp::isKeyDown(int keycode) const
 	{
+		if (!m_started)
+			return false;
 		return ImGui::IsKeyDown(keycode);
 	}
 
