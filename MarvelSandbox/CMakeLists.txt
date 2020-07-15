@@ -30,7 +30,7 @@ add_custom_command(TARGET MarvelSandbox PRE_BUILD
                        ${CMAKE_SOURCE_DIR}/Output/python/Debug/ $<TARGET_FILE_DIR:MarvelSandbox>/Dependencies)
 
 add_custom_command(TARGET MarvelSandbox PRE_BUILD
-                   COMMAND ${CMAKE_COMMAND} -E copy_if_different
+                   COMMAND ${CMAKE_COMMAND} -E copy
                        ${CMAKE_SOURCE_DIR}/MarvelSandbox/marvel_config.json $<TARGET_FILE_DIR:MarvelSandbox>)
 
 add_custom_command(TARGET MarvelSandbox PRE_BUILD
