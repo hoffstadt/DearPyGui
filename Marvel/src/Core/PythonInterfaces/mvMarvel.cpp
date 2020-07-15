@@ -3430,6 +3430,12 @@ namespace Marvel {
 
 	}
 
+	PyObject* select_directory_dialog(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		std::string file = PickDirectory("");
+		return Py_BuildValue("s", file.c_str());
+	}
+
 	PyObject* open_file_dialog(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		PyObject* extensions;
@@ -4202,6 +4208,7 @@ namespace Marvel {
 
 		auto pyModule = new mvPythonModule("marvel", {});
 
+		pyModule->addMethodD(select_directory_dialog);
 		pyModule->addMethodD(run_file);
 		pyModule->addMethodD(add_table);
 		pyModule->addMethodD(end_tree_node);
