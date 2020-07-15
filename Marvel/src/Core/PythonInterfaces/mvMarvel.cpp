@@ -4352,6 +4352,7 @@ namespace Marvel {
 		pyModule->addMethodD(get_style_item);
 		pyModule->addMethodD(get_theme_item);
 		pyModule->addMethodD(get_item_callback);
+		pyModule->addMethodD(get_item_width);
 		pyModule->addMethodD(get_item_height);
 		pyModule->addMethodD(get_item_popup);
 		pyModule->addMethodD(get_item_tip);
