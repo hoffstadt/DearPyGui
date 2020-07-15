@@ -54,15 +54,17 @@ namespace Marvel {
 		//-----------------------------------------------------------------------------
 		// App Settings
 		//-----------------------------------------------------------------------------
-		void                     setFile        (const std::string& file);
-		void                     setWindowSize  (unsigned width, unsigned height);
-		void                     setModuleDict  (PyObject* dict) { m_pDict = dict; }
-		void                     setStarted     () { m_started = true; }
-		void                     setActiveWindow(const std::string& window) { m_activeWindow = window; }
+		void                     setFile           (const std::string& file);
+		void                     setWindowSize     (unsigned width, unsigned height);
+		void                     setModuleDict     (PyObject* dict) { m_pDict = dict; }
+		void                     setStarted        () { m_started = true; }
+		void                     setActiveWindow   (const std::string& window) { m_activeWindow = window; }
+		void                     setGlobalFontScale(float scale);
 
-		const std::string&       getFile        () const { return m_file; }
-		const std::string&       getActiveWindow() const { return m_activeWindow; }
-		std::vector<mvAppItem*>& getWindows     ()       { return m_windows; }
+		const std::string&       getFile           () const { return m_file; }
+		const std::string&       getActiveWindow   () const { return m_activeWindow; }
+		std::vector<mvAppItem*>& getWindows        ()       { return m_windows; }
+		float                    getGlobalFontScale();
 
 		//-----------------------------------------------------------------------------
 		// Styles/Themes
@@ -194,6 +196,7 @@ namespace Marvel {
 		PyObject*     m_pDict;
 		float         m_deltaTime; // time since last frame
 		double        m_time;      // total time since starting
+		float         m_globalFontScale = 1.0f;
 
 		std::stack<mvAppItem*>  m_parents;
 		std::vector<mvAppItem*> m_windows;

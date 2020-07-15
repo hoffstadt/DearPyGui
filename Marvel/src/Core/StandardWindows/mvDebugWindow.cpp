@@ -92,6 +92,14 @@ namespace Marvel {
 				DebugItem("Key Press Callback: ", app->getKeyPressCallback().c_str());
 				DebugItem("Key Release Callback: ", app->getKeyReleaseCallback().c_str());
 
+				// Post-baking font scaling. Note that this is NOT the nice way of scaling fonts, read below.
+				// (we enforce hard clamping manually as by default DragFloat/SliderFloat allows CTRL+Click text to get out of bounds).
+				const float MIN_SCALE = 0.3f;
+				const float MAX_SCALE = 2.0f;
+
+				if (ImGui::DragFloat("global scale", &io.FontGlobalScale, 0.005f, MIN_SCALE, MAX_SCALE, "%.2f")) // Scale everything
+					io.FontGlobalScale = (((io.FontGlobalScale) >= (MIN_SCALE)) ? (io.FontGlobalScale) : (MIN_SCALE));
+
 				ImGui::EndGroup();
 				ImGui::PopItemWidth();
 

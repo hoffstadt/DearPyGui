@@ -58,6 +58,23 @@ namespace Marvel {
 		return *parsers;
 	}
 
+	PyObject* set_global_font_scale(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		float scale;
+
+		if (!Parsers["set_global_font_scale"].parse(args, kwargs, __FUNCTION__, &scale))
+			Py_RETURN_NONE;
+
+		mvApp::GetApp()->setGlobalFontScale(scale);
+
+		Py_RETURN_NONE;
+	}
+
+	PyObject* get_global_font_scale(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		return Py_BuildValue("f", mvApp::GetApp()->getGlobalFontScale());
+	}
+
 	PyObject* run_file(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		const char* name;
@@ -4215,6 +4232,8 @@ namespace Marvel {
 
 		auto pyModule = new mvPythonModule("marvel", {});
 
+		pyModule->addMethodD(get_global_font_scale);
+		pyModule->addMethodD(set_global_font_scale);
 		pyModule->addMethodD(select_directory_dialog);
 		pyModule->addMethodD(run_file);
 		pyModule->addMethodD(add_table);
