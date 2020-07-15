@@ -96,10 +96,11 @@ namespace Marvel {
 		//-----------------------------------------------------------------------------
 		// Data Storage Operations
 		//-----------------------------------------------------------------------------
-		void       addData     (const std::string& name, PyObject* data);
-		PyObject*  getData     (const std::string& name);
-		void       deleteData  (const std::string& name);
-		unsigned   getDataCount() const { return m_dataStorage.size(); }
+		void                              addData     (const std::string& name, PyObject* data);
+		PyObject*                         getData     (const std::string& name);
+		void                              deleteData  (const std::string& name);
+		unsigned                          getDataCount() const { return m_dataStorage.size(); }
+		std::map<std::string, mvTexture>& getTextures() { return m_textures; }
 
 		//-----------------------------------------------------------------------------
 		// App Item Operations
@@ -210,6 +211,9 @@ namespace Marvel {
 		std::vector<NewRuntimeItem>      m_newItemVec;
 		std::vector<AsyncronousCallback> m_asyncCallbacks;
 		std::map<std::string, PyObject*> m_dataStorage;
+
+		// textures
+		std::map<std::string, mvTexture> m_textures;
 		
 		// concurrency
 		std::thread::id                       m_mainThreadID;

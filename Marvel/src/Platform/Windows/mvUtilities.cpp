@@ -79,6 +79,12 @@ namespace Marvel {
         return true;
     }
 
+	bool UnloadTexture(void* texture)
+	{
+		// TODO : decide if cleanup is necessary
+		return true;
+	}
+
 	void RunFile(const std::string& name, const std::string& file, const std::string& flags)
 	{
 		// additional information

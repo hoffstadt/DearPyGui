@@ -223,7 +223,7 @@ namespace Marvel {
 			
 		}
 
-		ImGui::ShowStyleEditor();
+		//ImGui::ShowStyleEditor();
 
 		// update times
 		ImGuiIO& io = ImGui::GetIO();

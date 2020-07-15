@@ -60,6 +60,10 @@ namespace Marvel {
 				m_autosize = true;
 		}
 
+		~mvDrawImageCommand();
+
+		void updateTexture();
+
 	private:
 
 		std::string m_file;
@@ -71,8 +75,8 @@ namespace Marvel {
 		mvVec2		m_uv_max;
 		mvColor		m_color;
 		void*       m_texture = nullptr;
-		int         m_width;
-		int         m_height;
+		int         m_width = 0;
+		int         m_height = 0;
 		bool        m_autosize = false;
 
 	};
