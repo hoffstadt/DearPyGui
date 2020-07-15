@@ -284,8 +284,8 @@ namespace Marvel {
 		mvEventHandler* eventHandler = nullptr;
 		if (m_activeWindow == "MainWindow")
 		{
-			if (!getCallback().empty())
-				runCallback(getCallback(), "Main Application");
+			if (!getRenderCallback().empty())
+				runCallback(getRenderCallback(), "Main Application");
 		}
 		else
 		{
@@ -295,8 +295,8 @@ namespace Marvel {
 				{
 					auto windowtype = static_cast<mvWindowAppitem*>(window);
 					eventHandler = static_cast<mvEventHandler*>(windowtype);
-					if (!eventHandler->getCallback().empty())
-						runCallback(eventHandler->getCallback(), m_activeWindow);
+					if (!eventHandler->getRenderCallback().empty())
+						runCallback(eventHandler->getRenderCallback(), m_activeWindow);
 					break;
 				}
 			}

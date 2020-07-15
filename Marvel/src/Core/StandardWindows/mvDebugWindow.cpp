@@ -82,7 +82,7 @@ namespace Marvel {
 				DebugItem("Threadpool Timeout: ", std::to_string(app->getThreadPoolTimeout()).c_str());
 				DebugItem("Threadpool Active: ", app->usingThreadPool() ? ts : fs);
 				DebugItem("Threadpool High: ", app->usingThreadPoolHighPerformance() ? ts : fs);
-				DebugItem("Main Callback: ", app->getCallback().c_str());
+				DebugItem("Main Callback: ", app->getRenderCallback().c_str());
 				DebugItem("Mouse Release Callback: ", app->getMouseReleaseCallback().c_str());
 				DebugItem("Mouse Click Callback: ", app->getMouseClickCallback().c_str());
 				DebugItem("Mouse Double Click Callback: ", app->getMouseDoubleClickCallback().c_str());

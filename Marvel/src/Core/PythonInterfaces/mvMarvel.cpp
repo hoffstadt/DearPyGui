@@ -4130,7 +4130,7 @@ namespace Marvel {
 			Py_RETURN_NONE;
 
 		if(std::string(handler) == "MainWindow")
-			mvApp::GetApp()->setCallback(std::string(callback));
+			mvApp::GetApp()->setRenderCallback(std::string(callback));
 		else
 		{
 			auto item = mvApp::GetApp()->getItem(handler);
@@ -4138,7 +4138,7 @@ namespace Marvel {
 			{
 				auto windowtype = static_cast<mvWindowAppitem*>(item);
 				mvEventHandler* eventhandler = static_cast<mvEventHandler*>(windowtype);
-				eventhandler->setCallback(callback);
+				eventhandler->setRenderCallback(callback);
 				int a = 5;
 			}
 		}
