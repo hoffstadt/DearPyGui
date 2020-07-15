@@ -115,6 +115,8 @@ namespace Marvel{
 	void mvAppItem::updateDataSource(const std::string& name)
 	{
 
+		updateData(name);
+
 		if (name == m_dataSource)
 			setPyValue(mvApp::GetApp()->getData(name));
 

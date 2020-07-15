@@ -1185,6 +1185,7 @@ namespace Marvel {
 			{mvPythonDataType::String, "data_source", "data source for shared data"},
 			{mvPythonDataType::Integer, "width",""},
 			{mvPythonDataType::Integer, "height", "number of items to show"},
+			{mvPythonDataType::String, "list_data_source", "Data source for the list items."},
 		}, "Adds a listbox.", "None", "Adding Widgets") });
 
 		parsers->insert({ "add_combo", mvPythonParser({
@@ -1198,6 +1199,7 @@ namespace Marvel {
 			{mvPythonDataType::String, "before", "Item to add this item before. (runtime adding)"},
 			{mvPythonDataType::String, "data_source", "data source for shared data"},
 			{mvPythonDataType::Integer, "width",""},
+			{mvPythonDataType::String, "list_data_source", "Data source for the list items."},
 		}, "Adds a combo.", "None", "Adding Widgets") });
 
 		parsers->insert({ "add_selectable", mvPythonParser({

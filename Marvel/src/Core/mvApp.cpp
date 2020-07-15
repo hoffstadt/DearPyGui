@@ -1286,6 +1286,8 @@ namespace Marvel {
 		}
 
 		m_dataStorage.insert({ name, data });
+		for (auto window : m_windows)
+			window->updateDataSource(name);
 	}
 
 	PyObject* mvApp::getData(const std::string& name)

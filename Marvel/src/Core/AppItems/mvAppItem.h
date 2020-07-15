@@ -62,6 +62,7 @@ namespace Marvel {
 
 		// virtual methods
 		virtual bool areDuplicatesAllowed() const { return false; }
+		virtual void updateData(const std::string& name) {}
 
 		// color styles for runtime (WORK NEEDED HERE)
 		void addColorStyle  (ImGuiCol item, mvColor color);
