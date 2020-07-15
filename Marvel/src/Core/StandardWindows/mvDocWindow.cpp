@@ -309,7 +309,7 @@ namespace Marvel {
 				if (ImGui::CollapsingHeader("Data Storage"))
 				{
 					ColorText("BASICS");
-					ImGui::BulletText("There are 3 usecases for the data storage system:");
+					ImGui::BulletText("There are 3 use cases for the data storage system:");
 					ImGui::Indent();
 					ImGui::BulletText("1. For widgets to use the same underlying data (i.e. both modify the same data)");
 					ImGui::BulletText("2. To store data for use at a later time or in a different callback.");
@@ -320,6 +320,7 @@ namespace Marvel {
 					ColorText("USE CASE 1");
 					ImGui::BulletText("To share the underlying data of multiple widgets, just use the 'data_source' keyword when adding the widget.");
 					ImGui::BulletText("Ensure the underlying data structures match or it will not work.");
+					ImGui::BulletText("Some widgets have a 'secondary_data_source' (i.e. listbox, which allows modification of the listed items)");
 					ImGui::Separator();
 
 					ColorText("USE CASE 2");
