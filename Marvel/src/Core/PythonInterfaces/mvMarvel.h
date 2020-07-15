@@ -1149,6 +1149,9 @@ namespace Marvel {
 			{mvPythonDataType::String, "data_source", "data source for shared data"},
 			{mvPythonDataType::Integer, "width",""},
 			{mvPythonDataType::Integer, "height",""},
+			{mvPythonDataType::FloatList, "uv_min"},
+			{mvPythonDataType::FloatList, "uv_max"},
+			{mvPythonDataType::String, "secondary_data_source", "Float list for uv_min and uv_max (i.e. float list (minx, miny, maxx, maxy))"},
 		}, "Adds an image.", "None", "Adding Widgets") });
 
 		parsers->insert({ "add_text", mvPythonParser({

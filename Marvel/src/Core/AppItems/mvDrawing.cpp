@@ -8,18 +8,62 @@
 
 namespace Marvel {
 
+	mvDrawImageCommand::~mvDrawImageCommand()
+	{
+		if (!m_file.empty())
+		{
+			auto& textures = mvApp::GetApp()->getTextures();
+			textures[m_file].count--;
+			if (textures[m_file].count == 0)
+			{
+				UnloadTexture(textures[m_file].texture);
+				textures.erase(m_file);
+			}
+		}
+	}
+
 	void mvDrawImageCommand::draw(mvDrawing* draw, ImDrawList* draw_list)
 	{
 		if (m_texture == nullptr && !m_file.empty())
 		{
-			LoadTextureFromFile(m_file.c_str(), &m_texture, &m_width, &m_height);
-			if(m_autosize)
-				m_pmax = { (float)m_width + m_pmin.x, (float)m_height + m_pmin.y};
+			updateTexture();
+			auto& textures = mvApp::GetApp()->getTextures();
+			if (m_width == 0) m_width = textures[m_file].width * (m_uv_max.x - m_uv_min.x);
+			if (m_height == 0) m_height = textures[m_file].height * (m_uv_max.y - m_uv_min.y);
+
+			if (m_autosize)
+				m_pmax = { (float)m_width + m_pmin.x, (float)m_height + m_pmin.y };
+
 		}
 
 		mvVec2 start = draw->getStart();
 		if(m_texture)
 			draw_list->AddImage(m_texture, m_pmin + start, m_pmax+start, m_uv_min, m_uv_max, m_color);
+	}
+
+	void mvDrawImageCommand::updateTexture()
+	{
+		auto& textures = mvApp::GetApp()->getTextures();
+
+		if (!m_file.empty())
+		{
+			if (textures.count(m_file) == 0)
+			{
+				mvTexture texture = { 0, 0, nullptr, 1 };
+				if (LoadTextureFromFile(m_file.c_str(), &texture.texture, &texture.width, &texture.height))
+					textures.insert({ m_file, texture });
+				m_texture = textures[m_file].texture;
+			}
+			else
+			{
+				textures[m_file].count++;
+				int count = textures[m_file].count;
+				m_texture = textures[m_file].texture;
+			}
+		}
+
+		else
+			m_texture = nullptr;
 	}
 
 	void mvDrawLineCommand::draw(mvDrawing* draw, ImDrawList* draw_list)

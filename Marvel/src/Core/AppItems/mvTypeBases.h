@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Core/mvApp.h"
 #include "Core/AppItems/mvAppItem.h"
 #include "Core/Concurrency/mvThreadPool.h"
 #include "Core/mvUtilities.h"
@@ -292,6 +293,9 @@ namespace Marvel {
 
 		virtual void setPyValue(PyObject* value) override
 		{
+
+			std::string oldvalue = m_value;
+
 			PyGILState_STATE gstate = PyGILState_Ensure();
 
 			if (!PyUnicode_Check(value))
@@ -302,11 +306,21 @@ namespace Marvel {
 			}
 
 			m_value = PyUnicode_AsUTF8(value);
-			if (!m_value.empty())
-				LoadTextureFromFile(m_value.c_str(), &m_texture, &m_width, &m_height);
-
 			PyGILState_Release(gstate);
 
+			// clean up old resource
+			if (!m_value.empty() && oldvalue != m_value)
+			{
+				auto& textures = mvApp::GetApp()->getTextures();
+				textures[oldvalue].count--;
+				if (textures[oldvalue].count == 0)
+				{
+					UnloadTexture(textures[oldvalue].texture);
+					textures.erase(oldvalue);
+				}
+			}
+			
+			updateTexture();
 		}
 
 		virtual PyObject* getPyValue() const override
@@ -317,6 +331,31 @@ namespace Marvel {
 
 			PyGILState_Release(gstate);
 			return pvalue;
+		}
+
+		void updateTexture()
+		{
+			auto& textures = mvApp::GetApp()->getTextures();
+
+			if (!m_value.empty())
+			{
+				if (textures.count(m_value) == 0)
+				{
+					mvTexture texture = { 0, 0, nullptr, 1 };
+					if (LoadTextureFromFile(m_value.c_str(), &texture.texture, &texture.width, &texture.height))
+						textures.insert({ m_value, texture });
+					m_texture = textures[m_value].texture;
+				}
+				else
+				{
+					textures[m_value].count++;
+					int count = textures[m_value].count;
+					m_texture = textures[m_value].texture;
+				}
+			}
+
+			else
+				m_texture = nullptr;
 		}
 
 		inline void setValue(const std::string& value) { m_value = value; }

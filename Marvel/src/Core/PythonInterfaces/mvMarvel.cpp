@@ -1415,15 +1415,26 @@ namespace Marvel {
 		const char* data_source = "";
 		int width = 0;
 		int height = 0;
+		PyObject* uv_min = PyTuple_New(2);
+		PyTuple_SetItem(uv_min, 0, PyFloat_FromDouble(0));
+		PyTuple_SetItem(uv_min, 1, PyFloat_FromDouble(0));
+		PyObject* uv_max = PyTuple_New(2);
+		PyTuple_SetItem(uv_max, 0, PyFloat_FromDouble(1));
+		PyTuple_SetItem(uv_max, 1, PyFloat_FromDouble(1));
+		const char* secondary_data_source = "";
 
 		if (!Parsers["add_image"].parse(args, kwargs, __FUNCTION__, &name, 
-			&value, &tintcolor, &bordercolor, &tip, &parent, &before, &data_source, &width, &height))
+			&value, &tintcolor, &bordercolor, &tip, &parent, &before, &data_source, &width, 
+			&height, &uv_min, &uv_max, &secondary_data_source))
 			Py_RETURN_NONE;
 
 		auto mtintcolor = mvPythonTranslator::getColor(tintcolor);
 		auto mbordercolor = mvPythonTranslator::getColor(bordercolor);
+		mvVec2 muv_min = mvPythonTranslator::getVec2(uv_min);
+		mvVec2 muv_max = mvPythonTranslator::getVec2(uv_max);
 
-		mvAppItem* item = new mvImage("", name, value, mtintcolor, mbordercolor);
+		mvAppItem* item = new mvImage("", name, value, mtintcolor, mbordercolor, muv_min, muv_max,
+			secondary_data_source);
 		item->setTip(tip);
 		item->setWidth(width);
 		item->setHeight(height);
