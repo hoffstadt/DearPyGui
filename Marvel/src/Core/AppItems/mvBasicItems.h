@@ -282,8 +282,9 @@ namespace Marvel {
 
 		MV_APPITEM_TYPE(mvAppItemType::RadioButtons)
 
-		mvRadioButton(const std::string& parent, const std::string& name, const std::vector<std::string>& itemnames, int default_value)
-			: mvIntItemBase(parent, name, 1, default_value)
+		mvRadioButton(const std::string& parent, const std::string& name, const std::vector<std::string>& itemnames, int default_value,
+			const std::string& secondaryDataSource = "")
+			: mvIntItemBase(parent, name, 1, default_value), m_listDataSource(secondaryDataSource)
 		{
 			m_itemnames = itemnames;
 		}
@@ -307,9 +308,22 @@ namespace Marvel {
 
 		}
 
+		virtual void updateData(const std::string& name) override
+		{
+			if (name == m_listDataSource)
+			{
+				PyObject* data = mvApp::GetApp()->getData(name);
+				if (data == nullptr)
+					return;
+
+				m_itemnames = mvPythonTranslator::getStringVec(data);
+			}
+		}
+
 	private:
 
 		std::vector<std::string> m_itemnames;
+		std::string              m_listDataSource;
 
 	};
 
