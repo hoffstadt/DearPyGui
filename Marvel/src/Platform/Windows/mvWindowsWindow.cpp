@@ -37,6 +37,10 @@ namespace Marvel {
 		ImGuiIO& io = ImGui::GetIO(); (void)io;
 		io.ConfigWindowsMoveFromTitleBarOnly = true;
 
+		//io.Fonts->AddFontDefault();
+		//io.Fonts->AddFontFromFileTTF("calibri.ttf", 16.0f);
+		//io.Fonts->Build();
+
 		// Setup Dear ImGui style
 		ImGui::StyleColorsDark();
 

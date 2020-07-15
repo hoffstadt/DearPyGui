@@ -223,6 +223,8 @@ namespace Marvel {
 			
 		}
 
+		ImGui::ShowStyleEditor();
+
 		// update times
 		ImGuiIO& io = ImGui::GetIO();
 		m_deltaTime = io.DeltaTime;
