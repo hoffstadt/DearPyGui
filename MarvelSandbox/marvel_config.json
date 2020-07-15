@@ -1,6 +1,6 @@
 {
 	"App": "Demo",
-	"Mode": "None",
+	"Mode": "Editor",
 	"Theme": "Dark",
 	"Development": true,
 	"Path": "../../MarvelSandbox;",

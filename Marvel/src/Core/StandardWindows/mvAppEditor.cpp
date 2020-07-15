@@ -38,6 +38,17 @@ namespace Marvel {
 				saveFile();
 			if (ImGui::IsKeyReleased(0x4F)) // O
 				openFile();
+			if (ImGui::IsKeyReleased(0x44)) // D
+			{
+				std::string line = m_editor.GetCurrentLineText();
+				int linepos = m_editor.GetCursorPosition().mLine;
+				int linecol = m_editor.GetCursorPosition().mColumn;
+				m_editor.MoveRight(line.size() - linecol);
+				m_editor.InsertText("\n");
+				m_editor.InsertText(line);
+				m_editor.MoveLeft(line.size() - linecol);
+				
+			}
 		}
 
 		if (ImGui::IsKeyReleased(0x74)) // F5
