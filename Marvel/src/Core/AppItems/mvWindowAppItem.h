@@ -2,13 +2,14 @@
 
 #include "Core/AppItems/mvTypeBases.h"
 #include "Core/mvApp.h"
+#include "Core/mvEventHandler.h"
 
 namespace Marvel {
 
 	//-----------------------------------------------------------------------------
 	// mvWindowAppitem
 	//-----------------------------------------------------------------------------
-	class mvWindowAppitem : public mvNoneItemBase
+	class mvWindowAppitem : public mvNoneItemBase, public mvEventHandler
 	{
 
 	public:
@@ -16,7 +17,7 @@ namespace Marvel {
 		MV_APPITEM_TYPE(mvAppItemType::Window)
 
 		mvWindowAppitem(const std::string& parent, const std::string& name, int width, int height, int xpos, int ypos, bool mainWindow, bool autosize)
-			: mvNoneItemBase(parent, name), m_xpos(xpos), m_ypos(ypos), m_mainWindow(mainWindow)
+			: mvNoneItemBase(parent, name), mvEventHandler(), m_xpos(xpos), m_ypos(ypos), m_mainWindow(mainWindow)
 		{
 			m_container = true;
 			m_width = width;
@@ -100,6 +101,10 @@ namespace Marvel {
 			setFocused(ImGui::IsWindowFocused());
 			setRectSize({ ImGui::GetWindowSize().x, ImGui::GetWindowSize().y });
 			setActivated(ImGui::IsWindowCollapsed());
+
+			if (ImGui::GetWindowWidth() != m_width || ImGui::GetWindowHeight() != m_height)
+				mvApp::GetApp()->runCallback(getResizeCallback(), m_name);
+
 			m_width = ImGui::GetWindowWidth();
 			m_height = ImGui::GetWindowHeight();
 
@@ -129,6 +134,18 @@ namespace Marvel {
 		int              m_xpos = 0;
 		int              m_ypos = 0;
 		bool             m_mainWindow = false;
+
+		// standard callbacks
+		std::string m_callback = "";
+		std::string m_mouseDownCallback = "";
+		std::string m_mouseClickCallback = "";
+		std::string m_mouseReleaseCallback = "";
+		std::string m_mouseDoubleClickCallback = "";
+		std::string m_mouseWheelCallback = "";
+		std::string m_mouseDragCallback = "";
+		std::string m_keyDownCallback = "";
+		std::string m_keyPressCallback = "";
+		std::string m_keyReleaseCallback = "";
 
 	};
 

@@ -1061,46 +1061,6 @@ namespace Marvel {
 		Py_RETURN_NONE;
 	}
 
-	PyObject* get_key_down_callback(PyObject* self, PyObject* args)
-	{
-		return Py_BuildValue("s", mvApp::GetApp()->getMouseDragCallback());
-	}
-
-	PyObject* get_mouse_drag_callback(PyObject* self, PyObject* args)
-	{
-		return Py_BuildValue("s", mvApp::GetApp()->getKeyDownCallback());
-	}
-
-	PyObject* get_key_press_callback(PyObject* self, PyObject* args)
-	{
-		return Py_BuildValue("s", mvApp::GetApp()->getKeyPressCallback());
-	}
-
-	PyObject* get_key_release_callback(PyObject* self, PyObject* args)
-	{
-		return Py_BuildValue("s", mvApp::GetApp()->getKeyReleaseCallback());
-	}
-
-	PyObject* get_mouse_click_callback(PyObject* self, PyObject* args)
-	{
-		return Py_BuildValue("s", mvApp::GetApp()->getMouseClickCallback());
-	}
-
-	PyObject* get_mouse_wheel_callback(PyObject* self, PyObject* args)
-	{
-		return Py_BuildValue("s", mvApp::GetApp()->getMouseWheelCallback());
-	}
-
-	PyObject* get_mouse_double_click_callback(PyObject* self, PyObject* args)
-	{
-		return Py_BuildValue("s", mvApp::GetApp()->getMouseDoubleClickCallback());
-	}
-
-	PyObject* get_mouse_down_callback(PyObject* self, PyObject* args)
-	{
-		return Py_BuildValue("s", mvApp::GetApp()->getMouseDownCallback());
-	}
-
 	PyObject* get_mouse_pos(PyObject* self, PyObject* args)
 	{
 		mvMousePos pos = mvApp::GetApp()->getMousePosition();
@@ -1211,11 +1171,22 @@ namespace Marvel {
 	PyObject* set_mouse_down_callback(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		const char* callback;
+		const char* handler = "MainWindow";
 
-		if (!Parsers["set_mouse_down_callback"].parse(args, kwargs, __FUNCTION__, &callback))
+		if (!Parsers["set_mouse_down_callback"].parse(args, kwargs, __FUNCTION__, &callback, &handler))
 			Py_RETURN_NONE;
 
-		mvApp::GetApp()->setMouseDownCallback(std::string(callback));
+		if (std::string(handler) == "MainWindow")
+			mvApp::GetApp()->setMouseDownCallback(std::string(callback));
+		else
+		{
+			auto item = mvApp::GetApp()->getItem(handler);
+			if (item)
+			{
+				auto windowtype = static_cast<mvWindowAppitem*>(item);
+				static_cast<mvEventHandler*>(windowtype)->setMouseDownCallback(callback);
+			}
+		}
 
 		Py_RETURN_NONE;
 	}
@@ -1224,12 +1195,24 @@ namespace Marvel {
 	{
 		const char* callback;
 		float threshold;
+		const char* handler = "MainWindow";
 
-		if (!Parsers["set_mouse_drag_callback"].parse(args, kwargs, __FUNCTION__, &callback, &threshold))
+		if (!Parsers["set_mouse_drag_callback"].parse(args, kwargs, __FUNCTION__, &callback, &threshold, &handler))
 			Py_RETURN_NONE;
 
-		mvApp::GetApp()->setMouseDragCallback(std::string(callback));
 		mvApp::GetApp()->setMouseDragThreshold(threshold);
+
+		if (std::string(handler) == "MainWindow")
+			mvApp::GetApp()->setMouseDragCallback(std::string(callback));
+		else
+		{
+			auto item = mvApp::GetApp()->getItem(handler);
+			if (item)
+			{
+				auto windowtype = static_cast<mvWindowAppitem*>(item);
+				static_cast<mvEventHandler*>(windowtype)->setMouseDragCallback(callback);
+			}
+		}
 
 		Py_RETURN_NONE;
 	}
@@ -1237,11 +1220,22 @@ namespace Marvel {
 	PyObject* set_mouse_double_click_callback(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		const char* callback;
+		const char* handler;
 
-		if (!Parsers["set_mouse_double_click_callback"].parse(args, kwargs, __FUNCTION__, &callback))
+		if (!Parsers["set_mouse_double_click_callback"].parse(args, kwargs, __FUNCTION__, &callback, &handler))
 			Py_RETURN_NONE;
 
-		mvApp::GetApp()->setMouseDoubleClickCallback(std::string(callback));
+		if (std::string(handler) == "MainWindow")
+			mvApp::GetApp()->setMouseDoubleClickCallback(std::string(callback));
+		else
+		{
+			auto item = mvApp::GetApp()->getItem(handler);
+			if (item)
+			{
+				auto windowtype = static_cast<mvWindowAppitem*>(item);
+				static_cast<mvEventHandler*>(windowtype)->setMouseDoubleClickCallback(callback);
+			}
+		}
 
 		Py_RETURN_NONE;
 	}
@@ -1249,11 +1243,22 @@ namespace Marvel {
 	PyObject* set_mouse_click_callback(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		const char* callback;
+		const char* handler = "MainWindow";
 
-		if (!Parsers["set_mouse_click_callback"].parse(args, kwargs, __FUNCTION__, &callback))
+		if (!Parsers["set_mouse_click_callback"].parse(args, kwargs, __FUNCTION__, &callback, &handler))
 			Py_RETURN_NONE;
 
-		mvApp::GetApp()->setMouseClickCallback(std::string(callback));
+		if (std::string(handler) == "MainWindow")
+			mvApp::GetApp()->setMouseClickCallback(std::string(callback));
+		else
+		{
+			auto item = mvApp::GetApp()->getItem(handler);
+			if (item)
+			{
+				auto windowtype = static_cast<mvWindowAppitem*>(item);
+				static_cast<mvEventHandler*>(windowtype)->setMouseClickCallback(callback);
+			}
+		}
 
 		Py_RETURN_NONE;
 	}
@@ -1261,11 +1266,22 @@ namespace Marvel {
 	PyObject* set_key_down_callback(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		const char* callback;
+		const char* handler = "MainWindow";
 
-		if (!Parsers["set_key_down_callback"].parse(args, kwargs, __FUNCTION__, &callback))
+		if (!Parsers["set_key_down_callback"].parse(args, kwargs, __FUNCTION__, &callback, &handler))
 			Py_RETURN_NONE;
 
-		mvApp::GetApp()->setKeyDownCallback(std::string(callback));
+		if (std::string(handler) == "MainWindow")
+			mvApp::GetApp()->setKeyDownCallback(std::string(callback));
+		else
+		{
+			auto item = mvApp::GetApp()->getItem(handler);
+			if (item)
+			{
+				auto windowtype = static_cast<mvWindowAppitem*>(item);
+				static_cast<mvEventHandler*>(windowtype)->setKeyDownCallback(callback);
+			}
+		}
 
 		Py_RETURN_NONE;
 	}
@@ -1273,11 +1289,22 @@ namespace Marvel {
 	PyObject* set_key_press_callback(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		const char* callback;
+		const char* handler = "MainWindow";
 
-		if (!Parsers["set_key_press_callback"].parse(args, kwargs, __FUNCTION__, &callback))
+		if (!Parsers["set_key_press_callback"].parse(args, kwargs, __FUNCTION__, &callback, &handler))
 			Py_RETURN_NONE;
 
-		mvApp::GetApp()->setKeyPressCallback(std::string(callback));
+		if (std::string(handler) == "MainWindow")
+			mvApp::GetApp()->setKeyPressCallback(std::string(callback));
+		else
+		{
+			auto item = mvApp::GetApp()->getItem(handler);
+			if (item)
+			{
+				auto windowtype = static_cast<mvWindowAppitem*>(item);
+				static_cast<mvEventHandler*>(windowtype)->setKeyPressCallback(callback);
+			}
+		}
 
 		Py_RETURN_NONE;
 	}
@@ -1285,11 +1312,22 @@ namespace Marvel {
 	PyObject* set_key_release_callback(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		const char* callback;
+		const char* handler = "MainWindow";
 
-		if (!Parsers["set_key_release_callback"].parse(args, kwargs, __FUNCTION__, &callback))
+		if (!Parsers["set_key_release_callback"].parse(args, kwargs, __FUNCTION__, &callback, &handler))
 			Py_RETURN_NONE;
 
-		mvApp::GetApp()->setKeyReleaseCallback(std::string(callback));
+		if (std::string(handler) == "MainWindow")
+			mvApp::GetApp()->setKeyReleaseCallback(std::string(callback));
+		else
+		{
+			auto item = mvApp::GetApp()->getItem(handler);
+			if (item)
+			{
+				auto windowtype = static_cast<mvWindowAppitem*>(item);
+				static_cast<mvEventHandler*>(windowtype)->setKeyReleaseCallback(callback);
+			}
+		}
 
 		Py_RETURN_NONE;
 	}
@@ -1297,11 +1335,22 @@ namespace Marvel {
 	PyObject* set_mouse_wheel_callback(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		const char* callback;
+		const char* handler = "MainWindow";
 
-		if (!Parsers["set_mouse_wheel_callback"].parse(args, kwargs, __FUNCTION__, &callback))
+		if (!Parsers["set_mouse_wheel_callback"].parse(args, kwargs, __FUNCTION__, &callback, &handler))
 			Py_RETURN_NONE;
 
-		mvApp::GetApp()->setMouseWheelCallback(std::string(callback));
+		if (std::string(handler) == "MainWindow")
+			mvApp::GetApp()->setMouseWheelCallback(std::string(callback));
+		else
+		{
+			auto item = mvApp::GetApp()->getItem(handler);
+			if (item)
+			{
+				auto windowtype = static_cast<mvWindowAppitem*>(item);
+				static_cast<mvEventHandler*>(windowtype)->setMouseWheelCallback(callback);
+			}
+		}
 
 		Py_RETURN_NONE;
 	}
@@ -3642,11 +3691,6 @@ namespace Marvel {
 		Py_RETURN_NONE;
 	}
 
-	PyObject* get_main_callback(PyObject* self, PyObject* args, PyObject* kwargs)
-	{
-		return Py_BuildValue("s", mvApp::GetApp()->getMainCallback());
-	}
-
 	PyObject* get_main_window_size(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		return Py_BuildValue("(i,i)", mvApp::GetApp()->getWindowWidth(), mvApp::GetApp()->getWindowWidth());
@@ -4077,17 +4121,52 @@ namespace Marvel {
 		Py_RETURN_NONE;
 	}
 
-	PyObject* set_main_callback(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* set_render_callback(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		const char* callback;
+		const char* handler = "MainWindow";
 
-
-		if (!Parsers["set_main_callback"].parse(args, kwargs, __FUNCTION__, &callback))
+		if (!Parsers["set_render_callback"].parse(args, kwargs, __FUNCTION__, &callback, &handler))
 			Py_RETURN_NONE;
 
-		mvApp::GetApp()->setMainCallback(std::string(callback));
+		if(std::string(handler) == "MainWindow")
+			mvApp::GetApp()->setCallback(std::string(callback));
+		else
+		{
+			auto item = mvApp::GetApp()->getItem(handler);
+			if (item)
+			{
+				auto windowtype = static_cast<mvWindowAppitem*>(item);
+				mvEventHandler* eventhandler = static_cast<mvEventHandler*>(windowtype);
+				eventhandler->setCallback(callback);
+				int a = 5;
+			}
+		}
 
+		Py_RETURN_NONE;
+	}
 
+	PyObject* set_resize_callback(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		const char* callback;
+		const char* handler = "MainWindow";
+
+		if (!Parsers["set_resize_callback"].parse(args, kwargs, __FUNCTION__, &callback, &handler))
+			Py_RETURN_NONE;
+
+		if (std::string(handler) == "MainWindow")
+			mvApp::GetApp()->setResizeCallback(std::string(callback));
+		else
+		{
+			auto item = mvApp::GetApp()->getItem(handler);
+			if (item)
+			{
+				auto windowtype = static_cast<mvWindowAppitem*>(item);
+				mvEventHandler* eventhandler = static_cast<mvEventHandler*>(windowtype);
+				eventhandler->setResizeCallback(callback);
+				int a = 5;
+			}
+		}
 
 		Py_RETURN_NONE;
 	}
@@ -4367,7 +4446,6 @@ namespace Marvel {
 		pyModule->addMethodD(get_item_height);
 		pyModule->addMethodD(get_item_popup);
 		pyModule->addMethodD(get_item_tip);
-		pyModule->addMethodD(get_main_callback);
 		pyModule->addMethodD(get_main_window_size);
 		pyModule->addMethodD(get_theme);
 		pyModule->addMethodD(get_thread_count);
@@ -4405,7 +4483,7 @@ namespace Marvel {
 		pyModule->addMethodD(hide_item);
 		pyModule->addMethodD(change_theme_item);
 		pyModule->addMethodD(set_theme);
-		pyModule->addMethodD(set_main_callback);
+		pyModule->addMethodD(set_render_callback);
 		pyModule->addMethodD(set_item_callback);
 		pyModule->addMethodD(set_item_tip);
 		pyModule->addMethodD(set_item_width);
@@ -4414,7 +4492,6 @@ namespace Marvel {
 		pyModule->addMethodD(set_value);
 
 		// old input
-		pyModule->addMethodD(get_mouse_drag_callback);
 		pyModule->addMethodD(set_mouse_drag_callback);
 		pyModule->addMethodD(is_mouse_button_dragging);
 		pyModule->addMethodD(is_mouse_button_down);
@@ -4422,14 +4499,7 @@ namespace Marvel {
 		pyModule->addMethodD(is_mouse_button_double_clicked);
 		pyModule->addMethodD(is_mouse_button_released);
 		pyModule->addMethodD(get_mouse_drag_delta);
-		pyModule->addMethodD(get_mouse_wheel_callback);
 		pyModule->addMethodD(set_mouse_wheel_callback);
-		pyModule->addMethodD(get_key_down_callback);
-		pyModule->addMethodD(get_key_press_callback);
-		pyModule->addMethodD(get_key_release_callback);
-		pyModule->addMethodD(get_mouse_click_callback);
-		pyModule->addMethodD(get_mouse_double_click_callback);
-		pyModule->addMethodD(get_mouse_down_callback);
 		pyModule->addMethodD(get_mouse_pos);
 		pyModule->addMethodD(is_key_pressed);
 		pyModule->addMethodD(is_key_released);
@@ -4440,6 +4510,7 @@ namespace Marvel {
 		pyModule->addMethodD(set_key_down_callback);
 		pyModule->addMethodD(set_key_press_callback);
 		pyModule->addMethodD(set_key_release_callback);
+		pyModule->addMethodD(set_resize_callback);
 
 		// old logging
 		pyModule->addMethodD(get_log_level);

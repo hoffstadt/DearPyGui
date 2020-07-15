@@ -293,6 +293,8 @@ end_window()
 
 # callbacks
 
+set_render_callback("InputPollingMainCallback", "Input Polling##dialog")
+
 def InputPollingMainCallback(sender):
 
     set_value("Mouse Position", str(get_mouse_pos()))

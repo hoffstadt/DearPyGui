@@ -57,9 +57,28 @@ namespace Marvel {
 		ImGuiIO& io = ImGui::GetIO();
 
 		mvApp* app = mvApp::GetApp();
+		std::string activewindow = app->getActiveWindow();
+		mvEventHandler* eventHandler = nullptr;
+		if (activewindow == "MainWindow")
+			eventHandler = static_cast<mvEventHandler*>(app);
+		else
+		{
+			for (auto window : app->getWindows())
+			{
+				if (window->getName() == activewindow)
+				{
+					auto windowtype = static_cast<mvWindowAppitem*>(window);
+					eventHandler = static_cast<mvEventHandler*>(windowtype);
+					break;
+				}
+			}
+		}
+
+		if(eventHandler == nullptr)
+			eventHandler = static_cast<mvEventHandler*>(app);
 
 		if (io.MouseWheel != 0.0f)
-			app->runCallbackD(app->getMouseWheelCallback(), 0, io.MouseWheel);
+			app->runCallbackD(eventHandler->getMouseWheelCallback(), 0, io.MouseWheel);
 
 
 		for (int i = 0; i < 3; i++)
@@ -68,7 +87,7 @@ namespace Marvel {
 			{
 				app->setMouseDragging(true);
 				app->setMouseDragDelta({ ImGui::GetMouseDragDelta().x, ImGui::GetMouseDragDelta().y });
-				app->runCallbackD(app->getMouseDragCallback(), i, i);
+				app->runCallbackD(eventHandler->getMouseDragCallback(), i, i);
 				ImGui::ResetMouseDragDelta(i);
 				break;
 			}
@@ -81,29 +100,29 @@ namespace Marvel {
 		{
 
 			if (ImGui::IsMouseClicked(i))
-				app->runCallbackD(app->getMouseClickCallback(), i);
+				app->runCallbackD(eventHandler->getMouseClickCallback(), i);
 
 			if (io.MouseDownDuration[i] >= 0.0f)
-				app->runCallbackD(app->getMouseDownCallback(), i, io.MouseDownDuration[i]);
+				app->runCallbackD(eventHandler->getMouseDownCallback(), i, io.MouseDownDuration[i]);
 
 			if (ImGui::IsMouseDoubleClicked(i))
-				app->runCallbackD(app->getMouseDoubleClickCallback(), i);
+				app->runCallbackD(eventHandler->getMouseDoubleClickCallback(), i);
 
 			if (ImGui::IsMouseReleased(i))
-				app->runCallbackD(app->getMouseReleaseCallback(), i);
+				app->runCallbackD(eventHandler->getMouseReleaseCallback(), i);
 
 		}
 
 		for (int i = 0; i < IM_ARRAYSIZE(io.KeysDown); i++)
 		{
 			if (ImGui::IsKeyPressed(i))
-				app->runCallbackD(app->getKeyPressCallback(), i);
+				app->runCallbackD(eventHandler->getKeyPressCallback(), i);
 
 			if (io.KeysDownDuration[i] >= 0.0f)
-				app->runCallbackD(app->getKeyDownCallback(), i, io.KeysDownDuration[i]);
+				app->runCallbackD(eventHandler->getKeyDownCallback(), i, io.KeysDownDuration[i]);
 
 			if (ImGui::IsKeyReleased(i))
-				app->runCallbackD(app->getKeyReleaseCallback(), i);
+				app->runCallbackD(eventHandler->getKeyReleaseCallback(), i);
 
 		}
 	}
@@ -262,9 +281,28 @@ namespace Marvel {
 
 	void mvApp::render(bool& show)
 	{
+		mvEventHandler* eventHandler = nullptr;
+		if (m_activeWindow == "MainWindow")
+		{
+			if (!getCallback().empty())
+				runCallback(getCallback(), "Main Application");
+		}
+		else
+		{
+			for (auto window : getWindows())
+			{
+				if (window->getName() == m_activeWindow)
+				{
+					auto windowtype = static_cast<mvWindowAppitem*>(window);
+					eventHandler = static_cast<mvEventHandler*>(windowtype);
+					if (!eventHandler->getCallback().empty())
+						runCallback(eventHandler->getCallback(), m_activeWindow);
+					break;
+				}
+			}
+		}
 
-		if (!m_callback.empty())
-			runCallback(m_callback, "Main Application");
+
 
 		for (auto window : m_windows)
 			window->draw();

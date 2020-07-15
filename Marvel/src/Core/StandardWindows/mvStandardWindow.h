@@ -3,10 +3,11 @@
 #include <imgui.h>
 #include <map>
 #include <string>
+#include "Core/mvEventHandler.h"
 
 namespace Marvel {
 
-	class mvStandardWindow
+	class mvStandardWindow : public mvEventHandler
 	{
 
 		struct StandardWindowEntry
@@ -16,6 +17,8 @@ namespace Marvel {
 		};
 
 	public:
+
+		mvStandardWindow() : mvEventHandler() {}
 
 		virtual ~mvStandardWindow() {}
 
