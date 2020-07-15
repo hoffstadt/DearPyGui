@@ -168,7 +168,7 @@ namespace Marvel {
 					ImGui::Separator();
 
 					ColorText("CONFIG FILE:");
-					ImGui::BulletText("A configuration file called 'sbConfig.json', sits next to the MarvelSandbox executable.");
+					ImGui::BulletText("A configuration file called 'marvel_config.json', sits next to the MarvelSandbox executable.");
 					ImGui::BulletText("This file is the default method for passing flags and options to the executable (rather than command line).");
 					ImGui::BulletText("The config file is a simple json file.");
 
@@ -342,7 +342,7 @@ namespace Marvel {
 					ImGui::BulletText("Callbacks are functions that are ran when some event occurs.");
 					ImGui::BulletText("There are currently 3 'types' of callbacks used in Sandbox:");
 					ImGui::Indent();
-					CodeColorText("Main    - ran every frame");
+					CodeColorText("Render    - ran every frame");
 					CodeColorText("Inputs  - ran when mouse/keyboard events occure");
 					CodeColorText("Widgets - ran when certain widgets are interacted with");
 					ImGui::Unindent();
@@ -355,9 +355,10 @@ namespace Marvel {
 					ImGui::Unindent();
 					ImGui::Separator();
 
-					ColorText("MAIN CALLBACK:");
+					ColorText("Render CALLBACK:");
 					ImGui::BulletText("Useful for live updating (for example a progress bar)");
-					ImGui::BulletText("The command is 'set_main_callback(...)'");
+					ImGui::BulletText("The command is 'set_render_callback(...)'");
+					ImGui::BulletText("The optional 'handler' keyword will set which window triggers the callback.");
 					ImGui::BulletText("Notes:");
 					ImGui::Indent();
 
@@ -373,7 +374,8 @@ namespace Marvel {
 					ColorText("INPUT CALLBACKS:");
 					ImGui::BulletText("Useful for capturing key strokes, making iteractive drawings, etc.");
 					ImGui::BulletText("Commands take the form of 'set_*_callback(...)'");
-					ImGui::BulletText("Should take the following form:");
+					ImGui::BulletText("The optional 'handler' keyword will set which window triggers the callback.");
+					ImGui::BulletText("Most should take the following form:");
 					ImGui::Indent();
 					CodeColorText("def callbackname(sender, data):");
 					CodeColorText("    ...");

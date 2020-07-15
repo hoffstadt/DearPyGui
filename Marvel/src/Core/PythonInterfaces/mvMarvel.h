@@ -306,36 +306,11 @@ namespace Marvel {
 
 	void AddInputCommands(std::map<std::string, mvPythonParser>* parsers)
 	{
-		parsers->insert({ "set_main_callback", mvPythonParser({
-			{mvPythonDataType::String, "callback"}
+		parsers->insert({ "set_render_callback", mvPythonParser({
+			{mvPythonDataType::String, "callback"},
+			{mvPythonDataType::Optional},
+			{mvPythonDataType::String, "handler", "Callback will be run when event occurs while this window is active (default is main window)"},
 		}, "Sets the callback to be ran every frame.", "None", "Input Polling") });
-
-		parsers->insert({ "get_main_callback", mvPythonParser({
-		}, "Returns the main callback.", "str", "Input Polling") });
-
-		parsers->insert({ "get_key_down_callback", mvPythonParser({
-		}, "Returns the key down callback.", "str", "Input Polling") });
-
-		parsers->insert({ "get_key_press_callback", mvPythonParser({
-		}, "Returns the key press callback.", "str", "Input Polling") });
-
-		parsers->insert({ "get_key_release_callback", mvPythonParser({
-		}, "Returns the key release callback.", "str", "Input Polling") });
-
-		parsers->insert({ "get_mouse_click_callback", mvPythonParser({
-		}, "Returns the mouse click callback.", "str", "Input Polling") });
-
-		parsers->insert({ "get_mouse_double_click_callback", mvPythonParser({
-		}, "Returns the mouse double click callback.", "str", "Input Polling") });
-
-		parsers->insert({ "get_mouse_down_callback", mvPythonParser({
-		}, "Returns the mouse down callback.", "str", "Input Polling") });
-
-		parsers->insert({ "get_mouse_wheel_callback", mvPythonParser({
-		}, "Returns the mouse wheel callback.", "str", "Input Polling") });
-
-		parsers->insert({ "get_mouse_drag_callback", mvPythonParser({
-		}, "Returns the mouse drag callback.", "str", "Input Polling") });
 
 		parsers->insert({ "get_mouse_pos", mvPythonParser({
 		}, "Returns the current mouse position in relation to the active window (minus titlebar).", 
@@ -377,37 +352,59 @@ namespace Marvel {
 			{mvPythonDataType::Integer, "key"}
 		}, "Checks if the key is down.", "Boolean", "Input Polling") });
 
+		parsers->insert({ "set_resize_callback", mvPythonParser({
+			{mvPythonDataType::String, "callback"},
+			{mvPythonDataType::Optional},
+			{mvPythonDataType::String, "handler", "Callback will be run when event occurs while this window is active (default is main window)"},
+		}, "Sets a callback for a window resizes.", "None", "Input Polling") });
+
 		parsers->insert({ "set_mouse_down_callback", mvPythonParser({
-			{mvPythonDataType::String, "callback"}
+			{mvPythonDataType::String, "callback"},
+			{mvPythonDataType::Optional},
+			{mvPythonDataType::String, "handler", "Callback will be run when event occurs while this window is active (default is main window)"},
 		}, "Sets a callback for a mouse down event.", "None", "Input Polling") });
 
 		parsers->insert({ "set_mouse_drag_callback", mvPythonParser({
 			{mvPythonDataType::String, "callback"},
-			{mvPythonDataType::Float, "threshold"}
+			{mvPythonDataType::Float, "threshold"},
+			{mvPythonDataType::Optional},
+			{mvPythonDataType::String, "handler", "Callback will be run when event occurs while this window is active (default is main window)"},
 		}, "Sets a callback for a mouse drag event.", "None", "Input Polling") });
 
 		parsers->insert({ "set_mouse_wheel_callback", mvPythonParser({
-			{mvPythonDataType::String, "callback"}
+			{mvPythonDataType::String, "callback"},
+			{mvPythonDataType::Optional},
+			{mvPythonDataType::String, "handler", "Callback will be run when event occurs while this window is active (default is main window)"},
 		}, "Sets a callback for a mouse wheel event.", "None", "Input Polling") });
 
 		parsers->insert({ "set_mouse_double_click_callback", mvPythonParser({
-			{mvPythonDataType::String, "callback"}
+			{mvPythonDataType::String, "callback"},
+			{mvPythonDataType::Optional},
+			{mvPythonDataType::String, "handler", "Callback will be run when event occurs while this window is active (default is main window)"},
 		}, "Sets a callback for a mouse double click event.", "None", "Input Polling") });
 
 		parsers->insert({ "set_mouse_click_callback", mvPythonParser({
-			{mvPythonDataType::String, "callback"}
+			{mvPythonDataType::String, "callback"},
+			{mvPythonDataType::Optional},
+			{mvPythonDataType::String, "handler", "Callback will be run when event occurs while this window is active (default is main window)"},
 		}, "Sets a callback for a mouse click event.", "None", "Input Polling") });
 
 		parsers->insert({ "set_key_down_callback", mvPythonParser({
-			{mvPythonDataType::String, "callback"}
+			{mvPythonDataType::String, "callback"},
+			{mvPythonDataType::Optional},
+			{mvPythonDataType::String, "handler", "Callback will be run when event occurs while this window is active (default is main window)"},
 		}, "Sets a callback for a key down event.", "None", "Input Polling") }),
 
 		parsers->insert({ "set_key_press_callback", mvPythonParser({
-				{mvPythonDataType::String, "callback"}
+			{mvPythonDataType::String, "callback"},
+			{mvPythonDataType::Optional},
+			{mvPythonDataType::String, "handler", "Callback will be run when event occurs while this window is active (default is main window)"},
 			}, "Sets a callback for a key press event.", "None", "Input Polling") });
 
 		parsers->insert({ "set_key_release_callback", mvPythonParser({
-			{mvPythonDataType::String, "callback"}
+			{mvPythonDataType::String, "callback"},
+			{mvPythonDataType::Optional},
+			{mvPythonDataType::String, "handler", "Callback will be run when event occurs while this window is active (default is main window)"},
 		}, "Sets a callback for a key release event.", "None", "Input Polling") });
 	}
 

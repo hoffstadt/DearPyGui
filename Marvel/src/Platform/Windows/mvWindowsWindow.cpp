@@ -212,9 +212,10 @@ namespace Marvel {
 		case WM_SIZE:
 			if (s_pd3dDevice != NULL && wParam != SIZE_MINIMIZED)
 			{
-				Marvel::mvApp::GetApp()->setWindowSize((UINT)LOWORD(lParam), (UINT)HIWORD(lParam));
-				Marvel::mvAppEditor::GetAppEditor()->setSize((UINT)LOWORD(lParam), (UINT)HIWORD(lParam));
-				Marvel::mvDocWindow::GetWindow()->setSize((UINT)LOWORD(lParam), (UINT)HIWORD(lParam));
+				mvApp::GetApp()->setWindowSize((UINT)LOWORD(lParam), (UINT)HIWORD(lParam));
+				mvApp::GetApp()->runCallback(mvApp::GetApp()->getResizeCallback(), "Main Application");
+				mvAppEditor::GetAppEditor()->setSize((UINT)LOWORD(lParam), (UINT)HIWORD(lParam));
+				mvDocWindow::GetWindow()->setSize((UINT)LOWORD(lParam), (UINT)HIWORD(lParam));
 				CleanupRenderTarget();
 				s_pSwapChain->ResizeBuffers(0, (UINT)LOWORD(lParam), (UINT)HIWORD(lParam), DXGI_FORMAT_UNKNOWN, 0);
 				CreateRenderTarget();
