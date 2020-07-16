@@ -140,11 +140,9 @@ namespace Marvel {
 		if (!Parsers["set_drawing_size"].parse(args, kwargs, __FUNCTION__, &name, &width, &height))
 			Py_RETURN_NONE;
 
-		// check for drawing in items, if not found
-		// check if it was added at runtime
-		auto drawing = mvApp::GetApp()->getItem(name);
+		auto drawing = mvApp::GetApp()->getRuntimeItem(name);
 		if (drawing == nullptr)
-			drawing = mvApp::GetApp()->getRuntimeItem(name);
+			drawing = mvApp::GetApp()->getItem(name);
 
 		if (drawing)
 		{
@@ -164,11 +162,9 @@ namespace Marvel {
 		if (!Parsers["set_drawing_origin"].parse(args, kwargs, __FUNCTION__, &name, &x, &y))
 			Py_RETURN_NONE;
 
-		// check for drawing in items, if not found
-		// check if it was added at runtime
-		auto item = mvApp::GetApp()->getItem(name);
+		auto item = mvApp::GetApp()->getRuntimeItem(name);
 		if (item == nullptr)
-			item = mvApp::GetApp()->getRuntimeItem(name);
+			item = mvApp::GetApp()->getItem(name);
 
 		if (item == nullptr)
 		{
@@ -199,11 +195,10 @@ namespace Marvel {
 		if (!Parsers["set_drawing_scale"].parse(args, kwargs, __FUNCTION__, &name, &x, &y))
 			Py_RETURN_NONE;
 
-		// check for drawing in items, if not found
-		// check if it was added at runtime
-		auto item = mvApp::GetApp()->getItem(name);
+		auto item = mvApp::GetApp()->getRuntimeItem(name);
 		if (item == nullptr)
-			item = mvApp::GetApp()->getRuntimeItem(name);
+			item = mvApp::GetApp()->getItem(name);
+
 		if (item == nullptr)
 		{
 			std::string message = name;
@@ -231,11 +226,10 @@ namespace Marvel {
 		if (!Parsers["get_drawing_origin"].parse(args, kwargs, __FUNCTION__, &name))
 			Py_RETURN_NONE;
 
-		// check for drawing in items, if not found
-		// check if it was added at runtime
-		auto item = mvApp::GetApp()->getItem(name);
+		auto item = mvApp::GetApp()->getRuntimeItem(name);
 		if (item == nullptr)
-			item = mvApp::GetApp()->getRuntimeItem(name);
+			item = mvApp::GetApp()->getItem(name);
+
 		if (item == nullptr)
 		{
 			std::string message = name;
@@ -262,11 +256,10 @@ namespace Marvel {
 		if (!Parsers["get_drawing_scale"].parse(args, kwargs, __FUNCTION__, &name))
 			Py_RETURN_NONE;
 
-		// check for drawing in items, if not found
-		// check if it was added at runtime
-		auto item = mvApp::GetApp()->getItem(name);
+		auto item = mvApp::GetApp()->getRuntimeItem(name);
 		if (item == nullptr)
-			item = mvApp::GetApp()->getRuntimeItem(name);
+			item = mvApp::GetApp()->getItem(name);
+
 		if (item == nullptr)
 		{
 			std::string message = name;
@@ -293,11 +286,9 @@ namespace Marvel {
 		if (!Parsers["get_drawing_size"].parse(args, kwargs, __FUNCTION__, &name))
 			Py_RETURN_NONE;
 
-		// check for drawing in items, if not found
-		// check if it was added at runtime
-		auto drawing = mvApp::GetApp()->getItem(name);
+		auto drawing = mvApp::GetApp()->getRuntimeItem(name);
 		if (drawing == nullptr)
-			drawing = mvApp::GetApp()->getRuntimeItem(name);
+			drawing = mvApp::GetApp()->getItem(name);
 
 		if (drawing)
 			return Py_BuildValue("(ff)", drawing->getWidth(), drawing->getHeight());
@@ -1355,7 +1346,10 @@ namespace Marvel {
 			mvApp::GetApp()->setMouseDownCallback(std::string(callback));
 		else
 		{
-			auto item = mvApp::GetApp()->getItem(handler);
+			mvAppItem* item;
+			item = mvApp::GetApp()->getRuntimeItem(handler);
+			if(item == nullptr)
+				item = mvApp::GetApp()->getItem(handler);
 			if (item)
 			{
 				auto windowtype = static_cast<mvWindowAppitem*>(item);
@@ -1381,7 +1375,10 @@ namespace Marvel {
 			mvApp::GetApp()->setMouseDragCallback(std::string(callback));
 		else
 		{
-			auto item = mvApp::GetApp()->getItem(handler);
+			mvAppItem* item;
+			item = mvApp::GetApp()->getRuntimeItem(handler);
+			if (item == nullptr)
+				item = mvApp::GetApp()->getItem(handler);
 			if (item)
 			{
 				auto windowtype = static_cast<mvWindowAppitem*>(item);
@@ -1404,7 +1401,10 @@ namespace Marvel {
 			mvApp::GetApp()->setMouseDoubleClickCallback(std::string(callback));
 		else
 		{
-			auto item = mvApp::GetApp()->getItem(handler);
+			mvAppItem* item;
+			item = mvApp::GetApp()->getRuntimeItem(handler);
+			if (item == nullptr)
+				item = mvApp::GetApp()->getItem(handler);
 			if (item)
 			{
 				auto windowtype = static_cast<mvWindowAppitem*>(item);
@@ -1427,7 +1427,10 @@ namespace Marvel {
 			mvApp::GetApp()->setMouseClickCallback(std::string(callback));
 		else
 		{
-			auto item = mvApp::GetApp()->getItem(handler);
+			mvAppItem* item;
+			item = mvApp::GetApp()->getRuntimeItem(handler);
+			if (item == nullptr)
+				item = mvApp::GetApp()->getItem(handler);
 			if (item)
 			{
 				auto windowtype = static_cast<mvWindowAppitem*>(item);
@@ -1450,7 +1453,10 @@ namespace Marvel {
 			mvApp::GetApp()->setKeyDownCallback(std::string(callback));
 		else
 		{
-			auto item = mvApp::GetApp()->getItem(handler);
+			mvAppItem* item;
+			item = mvApp::GetApp()->getRuntimeItem(handler);
+			if (item == nullptr)
+				item = mvApp::GetApp()->getItem(handler);
 			if (item)
 			{
 				auto windowtype = static_cast<mvWindowAppitem*>(item);
@@ -1473,7 +1479,10 @@ namespace Marvel {
 			mvApp::GetApp()->setKeyPressCallback(std::string(callback));
 		else
 		{
-			auto item = mvApp::GetApp()->getItem(handler);
+			mvAppItem* item;
+			item = mvApp::GetApp()->getRuntimeItem(handler);
+			if (item == nullptr)
+				item = mvApp::GetApp()->getItem(handler);
 			if (item)
 			{
 				auto windowtype = static_cast<mvWindowAppitem*>(item);
@@ -1496,7 +1505,10 @@ namespace Marvel {
 			mvApp::GetApp()->setKeyReleaseCallback(std::string(callback));
 		else
 		{
-			auto item = mvApp::GetApp()->getItem(handler);
+			mvAppItem* item;
+			item = mvApp::GetApp()->getRuntimeItem(handler);
+			if (item == nullptr)
+				item = mvApp::GetApp()->getItem(handler);
 			if (item)
 			{
 				auto windowtype = static_cast<mvWindowAppitem*>(item);
@@ -1519,7 +1531,10 @@ namespace Marvel {
 			mvApp::GetApp()->setMouseWheelCallback(std::string(callback));
 		else
 		{
-			auto item = mvApp::GetApp()->getItem(handler);
+			mvAppItem* item;
+			item = mvApp::GetApp()->getRuntimeItem(handler);
+			if (item == nullptr)
+				item = mvApp::GetApp()->getItem(handler);
 			if (item)
 			{
 				auto windowtype = static_cast<mvWindowAppitem*>(item);
@@ -4308,7 +4323,11 @@ namespace Marvel {
 			mvApp::GetApp()->setRenderCallback(std::string(callback));
 		else
 		{
-			auto item = mvApp::GetApp()->getItem(handler);
+
+			mvAppItem* item;
+			item = mvApp::GetApp()->getRuntimeItem(handler);
+			if (item == nullptr)
+				item = mvApp::GetApp()->getItem(handler);
 			if (item)
 			{
 				if (item->getType() == mvAppItemType::Window)
@@ -4343,21 +4362,28 @@ namespace Marvel {
 			mvApp::GetApp()->setResizeCallback(std::string(callback));
 		else
 		{
-			auto item = mvApp::GetApp()->getItem(handler);
-			if (item->getType() == mvAppItemType::Window)
+			mvAppItem* item;
+			item = mvApp::GetApp()->getRuntimeItem(handler);
+			if (item == nullptr)
+				item = mvApp::GetApp()->getItem(handler);
+
+			if (item)
 			{
-				auto windowtype = static_cast<mvWindowAppitem*>(item);
-				mvEventHandler* eventhandler = static_cast<mvEventHandler*>(windowtype);
-				eventhandler->setResizeCallback(callback);
+				if (item->getType() == mvAppItemType::Window)
+				{
+					auto windowtype = static_cast<mvWindowAppitem*>(item);
+					mvEventHandler* eventhandler = static_cast<mvEventHandler*>(windowtype);
+					eventhandler->setResizeCallback(callback);
+				}
+				else if (item->getType() == mvAppItemType::Child)
+				{
+					auto childType = static_cast<mvChild*>(item);
+					mvEventHandler* eventhandler = static_cast<mvEventHandler*>(childType);
+					eventhandler->setResizeCallback(callback);
+				}
+				else
+					mvAppLog::getLogger()->LogWarning("Resize callback can only be set for window/child items");
 			}
-			else if (item->getType() == mvAppItemType::Child)
-			{
-				auto childType = static_cast<mvChild*>(item);
-				mvEventHandler* eventhandler = static_cast<mvEventHandler*>(childType);
-				eventhandler->setResizeCallback(callback);
-			}
-			else
-				mvAppLog::getLogger()->LogWarning("Resize callback can only be set for window/child items");
 		}
 
 		Py_RETURN_NONE;
@@ -4371,7 +4397,10 @@ namespace Marvel {
 		if (!Parsers["set_item_callback"].parse(args, kwargs, __FUNCTION__, &item, &callback))
 			Py_RETURN_NONE;
 
-		auto appitem = mvApp::GetApp()->getItem(item);
+		mvAppItem* appitem;
+		appitem = mvApp::GetApp()->getRuntimeItem(item);
+		if (appitem == nullptr)
+			appitem = mvApp::GetApp()->getItem(item);
 
 		if (appitem)
 			appitem->setCallback(callback);
