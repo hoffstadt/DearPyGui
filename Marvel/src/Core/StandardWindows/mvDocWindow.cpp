@@ -9,6 +9,7 @@ namespace Marvel {
 
 	mvDocWindow::mvDocWindow() : mvStandardWindow()
 	{
+		m_commands = mvInterfaceRegistry::GetRegistry()->getAllCommands();
 		m_marvel = mvInterfaceRegistry::GetRegistry()->getPythonInterfaceCommands("marvel");
 		m_marvelConstants = mvInterfaceRegistry::GetRegistry()->getConstantsCommands();
 
@@ -124,15 +125,15 @@ namespace Marvel {
 			ImGui::SetNextWindowSize(ImVec2(700, 500), ImGuiCond_FirstUseEver);
 		}
 
-		if (!ImGui::Begin("Documentation", &show, m_flags))
+		if (!ImGui::Begin("Documentation##doc", &show, m_flags))
 		{
 			ImGui::End();
 			return;
 		}
 
-		if (ImGui::BeginTabBar("Main Tabbar"))
+		if (ImGui::BeginTabBar("Main Tabbar##doc"))
 		{
-			if (ImGui::BeginTabItem("Help"))
+			if (ImGui::BeginTabItem("Help##doc"))
 			{
 
 				if (ImGui::CollapsingHeader("Help"))
@@ -514,7 +515,7 @@ namespace Marvel {
 				ImGui::EndTabItem();
 			}
 
-			if (ImGui::BeginTabItem("Commands"))
+			if (ImGui::BeginTabItem("Commands##doc"))
 			{
 				ImGui::BeginGroup();
 				ImGui::SetNextItemWidth(500);
@@ -616,6 +617,41 @@ namespace Marvel {
 
 				ImGui::EndTabItem();
 			}
+
+			if (ImGui::BeginTabItem("Search Commands##doc"))
+			{
+
+				static int commandselection = 0;
+				const char* commanddoc = m_commands[commandselection].second.c_str();
+				static ImGuiTextFilter filter;
+				filter.Draw();
+
+				ImGui::PushItemWidth(300);
+				ImGui::BeginChild("CommandsChild##debug", ImVec2(500.0f, 600.0f), true);
+				ImGui::PushStyleColor(ImGuiCol_Text, { 1.0f, 1.0f, 0.0f, 1.0f });
+				for (int i = 0; i < m_commands.size(); i++)
+				{
+					auto& item = m_commands[i];
+
+					if (filter.PassFilter(item.first.c_str()))
+					{
+						if (ImGui::Selectable(item.first.c_str(), i == commandselection))
+							commandselection = i;
+					}
+				}
+				ImGui::PopStyleColor();
+				ImGui::EndChild();
+				ImGui::SameLine();
+				ImGui::BeginChild("CommandsDoc##debug", ImVec2(500.0f, 600.0f), true);
+				ImGui::PushStyleColor(ImGuiCol_Text, { 1.0f, 0.0f, 1.0f, 1.0f });
+				ImGui::PushTextWrapPos(500);
+				ImGui::Text(commanddoc);
+				ImGui::PopStyleColor();
+				ImGui::PopTextWrapPos();
+				ImGui::EndChild();
+				ImGui::EndTabItem();
+			}
+
 			ImGui::EndTabBar();
 		}
 
