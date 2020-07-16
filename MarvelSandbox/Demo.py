@@ -32,6 +32,14 @@ end_menu()
 
 end_menu_bar()
 
+def BlahCallback(sender):
+    if is_item_hovered("Widgets"):
+        print("Hovered")
+    else:
+        print("Not Hovered")
+
+set_render_callback("BlahCallback")
+
 # launchers
 add_group("Launch Group", width=200)
 add_button("Widgets", callback="Launcher")

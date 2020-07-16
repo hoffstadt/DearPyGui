@@ -274,13 +274,6 @@ namespace Marvel {
 
 		prepareStandardCallbacks();
 
-		for (auto window : m_windows)
-			window->resetState();
-
-	}
-
-	void mvApp::render(bool& show)
-	{
 		mvEventHandler* eventHandler = nullptr;
 		if (m_activeWindow == "MainWindow")
 		{
@@ -302,7 +295,13 @@ namespace Marvel {
 			}
 		}
 
+		for (auto window : m_windows)
+			window->resetState();
 
+	}
+
+	void mvApp::render(bool& show)
+	{
 
 		for (auto window : m_windows)
 			window->draw();
@@ -311,6 +310,7 @@ namespace Marvel {
 
 	void mvApp::postrender()
 	{
+		
 		// delete items from the delete queue
 		while (!m_deleteChildrenQueue.empty())
 		{
