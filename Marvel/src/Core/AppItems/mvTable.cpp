@@ -412,7 +412,7 @@ namespace Marvel {
 
 	void mvTable::draw()
 	{
-
+		ImGui::BeginChild(m_name.c_str(), ImVec2(m_width, m_height));
 		ImGui::Separator();
 		ImGui::Columns(m_columns, 0, true);
 
@@ -440,6 +440,7 @@ namespace Marvel {
 
 		ImGui::Columns(1);
 		ImGui::Separator();
+		ImGui::EndChild();
 
 	}
 
