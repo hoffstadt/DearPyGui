@@ -336,11 +336,9 @@ namespace Marvel {
 		mvVec2 muv_max = mvPythonTranslator::getVec2(uv_max);
 		mvColor mcolor = mvPythonTranslator::getColor(color);
 
-		// check for drawing in items, if not found
-		// check if it was added at runtime
-		auto item = mvApp::GetApp()->getItem(drawing);
+		auto item = mvApp::GetApp()->getRuntimeItem(drawing);
 		if (item == nullptr)
-			item = mvApp::GetApp()->getRuntimeItem(drawing);
+			item = mvApp::GetApp()->getItem(drawing);
 
 		if (item == nullptr)
 		{
@@ -377,11 +375,9 @@ namespace Marvel {
 		mvVec2 mp2 = mvPythonTranslator::getVec2(p2);
 		mvColor mcolor = mvPythonTranslator::getColor(color);
 
-		// check for drawing in items, if not found
-		// check if it was added at runtime
-		auto item = mvApp::GetApp()->getItem(drawing);
+		auto item = mvApp::GetApp()->getRuntimeItem(drawing);
 		if (item == nullptr)
-			item = mvApp::GetApp()->getRuntimeItem(drawing);
+			item = mvApp::GetApp()->getItem(drawing);
 
 		if (item == nullptr)
 		{
@@ -419,11 +415,9 @@ namespace Marvel {
 		mvVec2 mp2 = mvPythonTranslator::getVec2(p2);
 		mvColor mcolor = mvPythonTranslator::getColor(color);
 
-		// check for drawing in items, if not found
-		// check if it was added at runtime
-		auto item = mvApp::GetApp()->getItem(drawing);
+		auto item = mvApp::GetApp()->getRuntimeItem(drawing);
 		if (item == nullptr)
-			item = mvApp::GetApp()->getRuntimeItem(drawing);
+			item = mvApp::GetApp()->getItem(drawing);
 
 		if (item == nullptr)
 		{
@@ -464,11 +458,9 @@ namespace Marvel {
 		mvColor mcolor = mvPythonTranslator::getColor(color);
 		mvColor mfill = mvPythonTranslator::getColor(fill);
 
-		// check for drawing in items, if not found
-		// check if it was added at runtime
-		auto item = mvApp::GetApp()->getItem(drawing);
+		auto item = mvApp::GetApp()->getRuntimeItem(drawing);
 		if (item == nullptr)
-			item = mvApp::GetApp()->getRuntimeItem(drawing);
+			item = mvApp::GetApp()->getItem(drawing);
 
 		if (item == nullptr)
 		{
@@ -508,11 +500,9 @@ namespace Marvel {
 		mvColor mcolor = mvPythonTranslator::getColor(color);
 		mvColor mfill = mvPythonTranslator::getColor(fill);
 
-		// check for drawing in items, if not found
-		// check if it was added at runtime
-		auto item = mvApp::GetApp()->getItem(drawing);
+		auto item = mvApp::GetApp()->getRuntimeItem(drawing);
 		if (item == nullptr)
-			item = mvApp::GetApp()->getRuntimeItem(drawing);
+			item = mvApp::GetApp()->getItem(drawing);
 
 		if (item == nullptr)
 		{
@@ -554,11 +544,9 @@ namespace Marvel {
 		mvColor mcolor = mvPythonTranslator::getColor(color);
 		mvColor mfill = mvPythonTranslator::getColor(fill);
 
-		// check for drawing in items, if not found
-		// check if it was added at runtime
-		auto item = mvApp::GetApp()->getItem(drawing);
+		auto item = mvApp::GetApp()->getRuntimeItem(drawing);
 		if (item == nullptr)
-			item = mvApp::GetApp()->getRuntimeItem(drawing);
+			item = mvApp::GetApp()->getItem(drawing);
 
 		if (item == nullptr)
 		{
@@ -595,11 +583,9 @@ namespace Marvel {
 		mvVec2 mpos = mvPythonTranslator::getVec2(pos);
 		mvColor mcolor = mvPythonTranslator::getColor(color);
 
-		// check for drawing in items, if not found
-		// check if it was added at runtime
-		auto item = mvApp::GetApp()->getItem(drawing);
+		auto item = mvApp::GetApp()->getRuntimeItem(drawing);
 		if (item == nullptr)
-			item = mvApp::GetApp()->getRuntimeItem(drawing);
+			item = mvApp::GetApp()->getItem(drawing);
 
 		if (item == nullptr)
 		{
@@ -639,11 +625,9 @@ namespace Marvel {
 		mvColor mcolor = mvPythonTranslator::getColor(color);
 		mvColor mfill = mvPythonTranslator::getColor(fill);
 
-		// check for drawing in items, if not found
-		// check if it was added at runtime
-		auto item = mvApp::GetApp()->getItem(drawing);
+		auto item = mvApp::GetApp()->getRuntimeItem(drawing);
 		if (item == nullptr)
-			item = mvApp::GetApp()->getRuntimeItem(drawing);
+			item = mvApp::GetApp()->getItem(drawing);
 
 		if (item == nullptr)
 		{
@@ -680,11 +664,9 @@ namespace Marvel {
 		auto mpoints = mvPythonTranslator::getVectVec2(points);
 		mvColor mcolor = mvPythonTranslator::getColor(color);
 
-		// check for drawing in items, if not found
-		// check if it was added at runtime
-		auto item = mvApp::GetApp()->getItem(drawing);
+		auto item = mvApp::GetApp()->getRuntimeItem(drawing);
 		if (item == nullptr)
-			item = mvApp::GetApp()->getRuntimeItem(drawing);
+			item = mvApp::GetApp()->getItem(drawing);
 
 		if (item == nullptr)
 		{
@@ -722,11 +704,9 @@ namespace Marvel {
 		mvColor mcolor = mvPythonTranslator::getColor(color);
 		mvColor mfill = mvPythonTranslator::getColor(fill);
 
-		// check for drawing in items, if not found
-		// check if it was added at runtime
-		auto item = mvApp::GetApp()->getItem(drawing);
+		auto item = mvApp::GetApp()->getRuntimeItem(drawing);
 		if (item == nullptr)
-			item = mvApp::GetApp()->getRuntimeItem(drawing);
+			item = mvApp::GetApp()->getItem(drawing);
 
 		if (item == nullptr)
 		{
@@ -766,11 +746,9 @@ namespace Marvel {
 		mvVec2 mp4 = mvPythonTranslator::getVec2(p4);
 		mvColor mcolor = mvPythonTranslator::getColor(color);
 
-		// check for drawing in items, if not found
-		// check if it was added at runtime
-		auto item = mvApp::GetApp()->getItem(drawing);
+		auto item = mvApp::GetApp()->getRuntimeItem(drawing);
 		if (item == nullptr)
-			item = mvApp::GetApp()->getRuntimeItem(drawing);
+			item = mvApp::GetApp()->getItem(drawing);
 
 		if (item == nullptr)
 		{
@@ -799,11 +777,9 @@ namespace Marvel {
 		if (!Parsers["clear_drawing"].parse(args, kwargs, __FUNCTION__, &drawing))
 			Py_RETURN_NONE;
 
-		// check for drawing in items, if not found
-		// check if it was added at runtime
-		auto item = mvApp::GetApp()->getItem(drawing);
+		auto item = mvApp::GetApp()->getRuntimeItem(drawing);
 		if (item == nullptr)
-			item = mvApp::GetApp()->getRuntimeItem(drawing);
+			item = mvApp::GetApp()->getItem(drawing);
 
 		if (item == nullptr)
 		{
