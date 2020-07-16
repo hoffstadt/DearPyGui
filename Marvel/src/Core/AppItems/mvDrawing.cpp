@@ -272,6 +272,7 @@ namespace Marvel {
 
 	void mvDrawing::drawLine(const mvVec2& p1, const mvVec2& p2, const mvColor& color, float thickness, const std::string& tag)
 	{
+		m_dirty = true;
 
 		if (!tag.empty())
 		{
@@ -281,7 +282,6 @@ namespace Marvel {
 				{
 					*static_cast<mvDrawLineCommand*>(item) = mvDrawLineCommand(p1, p2, color, thickness);
 					item->tag = tag;
-					m_dirty = true;
 					return;
 				}
 			}
@@ -294,6 +294,7 @@ namespace Marvel {
 
 	void mvDrawing::drawArrow(const mvVec2& p1, const mvVec2& p2, const mvColor& color, float thickness, float size, const std::string& tag)
 	{
+		m_dirty = true;
 		float xsi = p1.x;
 		float xfi = p2.x;
 		float ysi = p1.y;
@@ -351,6 +352,7 @@ namespace Marvel {
 
 	void mvDrawing::drawTriangle(const mvVec2& p1, const mvVec2& p2, const mvVec2& p3, const mvColor& color, const mvColor& fill, float thickness, const std::string& tag)
 	{
+		m_dirty = true;
 		if (!tag.empty())
 		{
 			for (auto item : m_commands)
@@ -374,6 +376,7 @@ namespace Marvel {
 
 	void mvDrawing::drawRectangle(const mvVec2& pmin, const mvVec2& pmax, const mvColor& color, const mvColor& fill, float rounding, float thickness, const std::string& tag)
 	{
+		m_dirty = true;
 		if (!tag.empty())
 		{
 			for (auto item : m_commands)
@@ -395,6 +398,7 @@ namespace Marvel {
 
 	void mvDrawing::drawQuad(const mvVec2& p1, const mvVec2& p2, const mvVec2& p3, const mvVec2& p4, const mvColor& color, const mvColor& fill, float thickness, const std::string& tag)
 	{
+		m_dirty = true;
 		if (!tag.empty())
 		{
 			for (auto item : m_commands)
@@ -418,6 +422,7 @@ namespace Marvel {
 
 	void mvDrawing::drawText(const mvVec2& pos, const std::string& text, const mvColor& color, int size, const std::string& tag)
 	{
+		m_dirty = true;
 		if (!tag.empty())
 		{
 			for (auto item : m_commands)
@@ -439,6 +444,7 @@ namespace Marvel {
 
 	void mvDrawing::drawCircle(const mvVec2& center, float radius, const mvColor& color, int segments, float thickness, const mvColor& fill, const std::string& tag)
 	{
+		m_dirty = true;
 		if (!tag.empty())
 		{
 			for (auto item : m_commands)
@@ -460,6 +466,7 @@ namespace Marvel {
 
 	void mvDrawing::drawPolyline(std::vector<mvVec2>& points, const mvColor& color, bool closed, float thickness, const std::string& tag)
 	{
+		m_dirty = true;
 
 		if (!tag.empty())
 		{
@@ -482,6 +489,7 @@ namespace Marvel {
 
 	void mvDrawing::drawPolygon(std::vector<mvVec2>& points, const mvColor& color, const mvColor& fill, float thickness, const std::string& tag)
 	{
+		m_dirty = true;
 
 		if (!tag.empty())
 		{
@@ -504,6 +512,7 @@ namespace Marvel {
 
 	void mvDrawing::drawBezierCurve(const mvVec2& p1, const mvVec2& p2, const mvVec2& p3, const mvVec2& p4, const mvColor& color, float thickness, int segments, const std::string& tag)
 	{
+		m_dirty = true;
 		if (!tag.empty())
 		{
 			for (auto item : m_commands)
@@ -527,6 +536,7 @@ namespace Marvel {
 
 	void mvDrawing::drawImage(const std::string& file, const mvVec2& pmin, const mvVec2& pmax, const mvVec2& uv_min, const mvVec2& uv_max, const mvColor& color, const std::string& tag)
 	{
+		m_dirty = true;
 		if (!tag.empty())
 		{
 			for (auto item : m_commands)

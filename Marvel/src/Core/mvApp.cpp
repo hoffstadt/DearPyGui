@@ -595,6 +595,24 @@ namespace Marvel {
 		return nullptr;
 	}
 
+	mvAppItem* mvApp::getRuntimeItem(const std::string& name)
+	{
+
+		if (std::this_thread::get_id() != m_mainThreadID)
+		{
+			mvAppLog::getLogger()->LogWarning("This function can't be called outside main thread.");
+			return nullptr;
+		}
+
+		for (auto& item : m_newItemVec)
+		{
+			if (item.item->getName() == name)
+				return item.item;
+		}
+
+		return nullptr;
+	}
+
 	void mvApp::runAsyncCallback(std::string name, PyObject* data, std::string returnname)
 	{
 		if (name.empty())
