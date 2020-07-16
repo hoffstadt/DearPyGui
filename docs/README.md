@@ -66,6 +66,8 @@ Using the ```show_documentation()``` command opens the built-in documentation wi
   
 ### Current Dependencies
 
+---
+
 - [Dear ImGui](https://github.com/ocornut/imgui)
 - [CPython](https://github.com/python/cpython)
 - [ImPlot](https://github.com/epezent/implot)
@@ -104,15 +106,15 @@ Some upcoming features:
 - Custom Widget API.
 
 
-### License
-
----
-
-This repository is licensed under the [MIT License](https://github.com/RaylockLLC/MarvelSandbox/blob/master/docs/LICENSE).
-
 ### Gallery
 
 ---
 
 <BR>![StandardWindowsExample1](../../assets/WidgetsExample1.PNG?raw=true)
 <BR>![StandardWindowsExample1](../../assets/StandardWindowsExample1.PNG?raw=true)
+
+### License
+
+---
+
+MarvelSandbox is licensed under the [MIT License](https://github.com/RaylockLLC/MarvelSandbox/blob/master/LICENSE).
