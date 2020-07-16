@@ -2,7 +2,7 @@
 name: App request
 about: Suggest an app for the app samples
 title: "[NEW APP] New App"
-labels: new app
+labels: good first issue, new app
 assignees: ''
 
 ---

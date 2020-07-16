@@ -2,7 +2,7 @@
 name: App enhancement
 about: Suggest an enhancement for an app
 title: "[APP ENHANCEMENT] App Enhancement"
-labels: ''
+labels: app enhancement, good first issue
 assignees: ''
 
 ---
