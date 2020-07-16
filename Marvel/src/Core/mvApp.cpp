@@ -274,24 +274,30 @@ namespace Marvel {
 
 		prepareStandardCallbacks();
 
-		mvEventHandler* eventHandler = nullptr;
 		if (m_activeWindow == "MainWindow")
 		{
 			if (!getRenderCallback().empty())
 				runCallback(getRenderCallback(), "Main Application");
 		}
-		else
+
+		else 
 		{
-			for (auto window : getWindows())
+			auto item = mvApp::GetApp()->getItem(m_activeWindow);
+
+			if (item == nullptr)
+				m_activeWindow = "MainWindow";
+
+			else if (item->getType() == mvAppItemType::Window)
 			{
-				if (window->getName() == m_activeWindow)
-				{
-					auto windowtype = static_cast<mvWindowAppitem*>(window);
-					eventHandler = static_cast<mvEventHandler*>(windowtype);
-					if (!eventHandler->getRenderCallback().empty())
-						runCallback(eventHandler->getRenderCallback(), m_activeWindow);
-					break;
-				}
+				auto windowtype = static_cast<mvWindowAppitem*>(item);
+				mvEventHandler* handler = static_cast<mvEventHandler*>(windowtype);
+				runCallback(handler->getRenderCallback(), m_activeWindow);
+			}
+			else if (item->getType() == mvAppItemType::Child)
+			{
+				auto childType = static_cast<mvChild*>(item);
+				mvEventHandler* handler = static_cast<mvEventHandler*>(childType);
+				runCallback(handler->getRenderCallback(), m_activeWindow);
 			}
 		}
 

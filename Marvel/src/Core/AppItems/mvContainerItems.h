@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Core/AppItems/mvTypeBases.h"
+#include "Core/mvEventHandler.h"
 
 //-----------------------------------------------------------------------------
 // Widget Index
@@ -17,7 +18,7 @@ namespace Marvel {
 	//-----------------------------------------------------------------------------
 	// mvChild
 	//-----------------------------------------------------------------------------
-	class mvChild : public mvBoolItemBase
+	class mvChild : public mvBoolItemBase, public mvEventHandler
 	{
 
 	public:
@@ -25,7 +26,7 @@ namespace Marvel {
 		MV_APPITEM_TYPE(mvAppItemType::Child)
 
 		mvChild(const std::string& parent, const std::string& name)
-			: mvBoolItemBase(parent, name, false)
+			: mvBoolItemBase(parent, name, false), mvEventHandler()
 		{
 			m_container = true;
 		}
@@ -72,6 +73,18 @@ namespace Marvel {
 			// TODO check if these work for child
 			if (m_tip != "" && ImGui::IsItemHovered())
 				ImGui::SetTooltip(m_tip.c_str());
+
+			if (ImGui::IsWindowFocused())
+			{
+
+				// update mouse
+				ImVec2 mousePos = ImGui::GetMousePos();
+				float x = mousePos.x - ImGui::GetWindowPos().x;
+				float y = mousePos.y - ImGui::GetWindowPos().y;
+				mvApp::GetApp()->setMousePosition(x, y);
+				mvApp::GetApp()->setActiveWindow(m_name);
+
+			}
 
 			ImGui::EndChild();
 		}
