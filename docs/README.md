@@ -7,11 +7,14 @@ MarvelSandbox is a **simple to use (but powerful) Python GUI framework**, built 
 
 In the same manner Dear ImGui provides a simple way to create tools for game developers, _MarvelSandbox_ provides a simple way for python developers to **create quick and powerful GUIs for scripts**. It's well suited for **beginners** too!
 
-| [Usage](#usage) - [Features](#features) - [Building](#building)|
+| [Usage](#Usage) - [Features](#features) - [Building](#building)|
 :----------------------------------------------------------: |
 | [Upcoming changes](#upcoming-changes) - [Gallery](#gallery) - [License](#license) - [Current Dependencies](#current-dependencies) - [Prebuilt Binaries](#prebuilt-binaries)|
 
-### Usage
+### Simple Usage
+
+ ---
+ 
 **MarvelSandbox is an all included framework containing its own embedded python interpreter.** Using _MarvelSandbox_ is a simple as creating a python script like the one below, and calling ```MarvelSandbox.exe --app ScriptName --path PathToScriptDirectory``` from the command line (Windows).
 
 Code:
@@ -26,7 +29,20 @@ add_float_slider("float")
 Result:
 <BR>![BasicUsageExample](../../assets/BasicUsageExample1.PNG?raw=true)
 
-### Features
+### Prebuilt Binaries
+#### Windows
+- Download [Latest Release](https://github.com/RaylockLLC/MarvelSandbox/releases/download/v0.1-alpha9/Sandbox.zip)
+- Download _Sandbox.zip_ and unzip anywhere. 
+- Run _MarvelSandbox.exe_.
+- You can use App.py as a starting point.
+
+### Some Features
+
+---
+
+#### Themes
+_MarvelSandbox_ currently includes 10 themes:
+<BR>![Themes](../../assets/Themes.PNG?raw=true)
 
 #### Plotting/Graphing
 _MarvelSandbox_ includes a plotting API built using ImPlot.
@@ -48,13 +64,6 @@ If you choose not to use your own IDE, we have provided a basic built-in IDE for
 Using the ```show_documentation()``` command opens the built-in documentation window which displays all _MarvelSandbox_ commands and constants, along with information on their usage.
 <BR>![BasicUsageExample](../../assets/DocumentationExample.PNG?raw=true)
   
-### Prebuilt Binaries
-#### Windows
-- Download [Latest Release](https://github.com/RaylockLLC/MarvelSandbox/releases/download/v0.1-alpha9/Sandbox.zip)
-- Download _Sandbox.zip_ and unzip anywhere. 
-- Run _MarvelSandbox.exe_.
-- You can use App.py as a starting point.
-
 ### Current Dependencies
 
 - [Dear ImGui](https://github.com/ocornut/imgui)
@@ -64,6 +73,8 @@ Using the ```show_documentation()``` command opens the built-in documentation wi
 
 
 ### Building
+
+---
 
 #### Windows
 
@@ -81,6 +92,9 @@ git clone --recursive https://github.com/RaylockLLC/MarvelSandbox
 5. Switch to the release configuration and run _Build All_.
 
 ### Upcoming Changes
+
+---
+
 Some upcoming features:
 - Additional Plot types (bar graph, pie chart, etc.)
 - Support for window docking and multiple viewports.
@@ -92,8 +106,13 @@ Some upcoming features:
 
 ### License
 
-This repository is licensed under the [MIT License](https://mit-license.org/).
+---
+
+This repository is licensed under the [MIT License](https://github.com/RaylockLLC/MarvelSandbox/blob/master/docs/LICENSE).
 
 ### Gallery
+
+---
+
 <BR>![StandardWindowsExample1](../../assets/WidgetsExample1.PNG?raw=true)
 <BR>![StandardWindowsExample1](../../assets/StandardWindowsExample1.PNG?raw=true)
