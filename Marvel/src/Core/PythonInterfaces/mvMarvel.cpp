@@ -3827,7 +3827,7 @@ namespace Marvel {
 		auto appitem = mvApp::GetApp()->getItem(item);
 
 		if (appitem)
-			return Py_BuildValue("i", appitem->isItemHovered());
+			return Py_BuildValue("b", appitem->isItemHovered());
 
 		Py_RETURN_NONE;
 	}

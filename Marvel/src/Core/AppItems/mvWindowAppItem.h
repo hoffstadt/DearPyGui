@@ -94,6 +94,7 @@ namespace Marvel {
 				item->setRectMin({ ImGui::GetItemRectMin().x, ImGui::GetItemRectMin().y });
 				item->setRectMax({ ImGui::GetItemRectMax().x, ImGui::GetItemRectMax().y });
 				item->setRectSize({ ImGui::GetItemRectSize().x, ImGui::GetItemRectSize().y });
+
 			}
 
 			setVisible(true);
