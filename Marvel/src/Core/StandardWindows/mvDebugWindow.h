@@ -1,6 +1,7 @@
 #pragma once
 
 #include "mvStandardWindow.h"
+#include "mvInterfaceRegistry.h"
 
 namespace Marvel {
 
@@ -16,6 +17,8 @@ namespace Marvel {
 			m_width = 500; 
 			m_height = 500;  
 			m_flags |= ImGuiWindowFlags_AlwaysAutoResize;
+
+			m_commands = mvInterfaceRegistry::GetRegistry()->getAllCommands();
 		}
 
 		virtual void render(bool& show) override;
@@ -24,6 +27,7 @@ namespace Marvel {
 	private:
 
 		std::string m_selectedItem = "MainWindow";
+		std::vector<std::pair<std::string, std::string>> m_commands;
 
 	};
 

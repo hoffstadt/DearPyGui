@@ -68,6 +68,8 @@ namespace Marvel {
 		std::vector<const char*> m_docLogging;
 		std::vector<const char*> m_docThemes;
 		std::vector<const char*> m_docContainers;
+
+		std::vector<std::pair<std::string, std::string>> m_commands;
 		
 		static mvDocWindow* s_instance;
 

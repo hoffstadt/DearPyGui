@@ -206,7 +206,35 @@ namespace Marvel {
 
 			if (ImGui::BeginTabItem("Commands##debug"))
 			{
-				ImGui::PushItemWidth(500);
+
+				static int commandselection = 0;
+				const char* commanddoc = m_commands[commandselection].second.c_str();
+				static ImGuiTextFilter filter;
+				filter.Draw();
+
+				ImGui::PushItemWidth(300);
+				ImGui::BeginChild("CommandsChild##debug", ImVec2(500.0f, 100.0f), true);
+				ImGui::PushStyleColor(ImGuiCol_Text, { 1.0f, 1.0f, 0.0f, 1.0f });
+				for (int i = 0; i<m_commands.size(); i++)
+				{
+					auto& item = m_commands[i];
+
+					if (filter.PassFilter(item.first.c_str()))
+					{
+						if (ImGui::Selectable(item.first.c_str(), i == commandselection))
+							commandselection = i;
+					}
+				}
+				ImGui::PopStyleColor();
+				ImGui::EndChild();
+				
+				ImGui::BeginChild("CommandsDoc##debug", ImVec2(500.0f, 200.0f), true);
+				ImGui::PushStyleColor(ImGuiCol_Text, { 1.0f, 0.0f, 1.0f, 1.0f });
+				ImGui::PushTextWrapPos(500);
+				ImGui::Text(commanddoc);
+				ImGui::PopStyleColor();
+				ImGui::PopTextWrapPos();
+				ImGui::EndChild();
 				ImGui::InputTextMultiline("Command##debug", &commandstring);
 				ImGui::PopItemWidth();
 				if (ImGui::Button("Run##debug"))
