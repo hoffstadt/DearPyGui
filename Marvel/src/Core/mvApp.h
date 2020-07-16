@@ -65,6 +65,7 @@ namespace Marvel {
 		const std::string&       getActiveWindow   () const { return m_activeWindow; }
 		std::vector<mvAppItem*>& getWindows        ()       { return m_windows; }
 		float                    getGlobalFontScale();
+		PyObject*                getModuleDict() { return m_pDict; }
 
 		//-----------------------------------------------------------------------------
 		// Styles/Themes
