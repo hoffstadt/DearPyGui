@@ -4136,10 +4136,14 @@ namespace Marvel {
 			auto item = mvApp::GetApp()->getItem(handler);
 			if (item)
 			{
-				auto windowtype = static_cast<mvWindowAppitem*>(item);
-				mvEventHandler* eventhandler = static_cast<mvEventHandler*>(windowtype);
-				eventhandler->setRenderCallback(callback);
-				int a = 5;
+				if (item->getType() == mvAppItemType::Window)
+				{
+					auto windowtype = static_cast<mvWindowAppitem*>(item);
+					mvEventHandler* eventhandler = static_cast<mvEventHandler*>(windowtype);
+					eventhandler->setRenderCallback(callback);
+				}
+				else
+					mvAppLog::getLogger()->LogWarning("Render callback can only be set for windows");
 			}
 		}
 
@@ -4159,13 +4163,14 @@ namespace Marvel {
 		else
 		{
 			auto item = mvApp::GetApp()->getItem(handler);
-			if (item)
+			if (item->getType() == mvAppItemType::Window)
 			{
 				auto windowtype = static_cast<mvWindowAppitem*>(item);
 				mvEventHandler* eventhandler = static_cast<mvEventHandler*>(windowtype);
 				eventhandler->setResizeCallback(callback);
-				int a = 5;
 			}
+			else
+				mvAppLog::getLogger()->LogWarning("Resize callback can only be set for windows");
 		}
 
 		Py_RETURN_NONE;
