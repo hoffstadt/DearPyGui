@@ -380,6 +380,11 @@ namespace Marvel {
 			m_height = height;
 		}
 
+		~mvDrawing() 
+		{
+			clear();
+		}
+
 		virtual void draw() override;
 		virtual void clear();
 
