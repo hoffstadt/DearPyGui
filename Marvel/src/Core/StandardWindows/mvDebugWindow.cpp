@@ -93,17 +93,6 @@ namespace Marvel {
 				DebugItem("Key Down Callback: ", app->getKeyDownCallback().c_str());
 				DebugItem("Key Press Callback: ", app->getKeyPressCallback().c_str());
 				DebugItem("Key Release Callback: ", app->getKeyReleaseCallback().c_str());
-				ImGui::InputTextMultiline("Command##debug", &commandstring);
-				if (ImGui::Button("Run##debug"))
-				{
-					std::string command = "from marvel import *\n" + commandstring;
-
-					PyGILState_STATE gstate = PyGILState_Ensure();
-					PyRun_SimpleString(command.c_str());
-					//PyRun_String(commandstring.c_str(), 0, mvApp::GetApp()->getModuleDict(), nullptr);
-					//PyEval_EvalCode(PyUnicode_FromString(commandstring.c_str()), mvApp::GetApp()->getModuleDict(), nullptr);
-					PyGILState_Release(gstate);
-				}
 
 				ImGui::EndGroup();
 				ImGui::PopItemWidth();
@@ -151,7 +140,7 @@ namespace Marvel {
 			{
 				auto selectedItem = mvApp::GetApp()->getItem(m_selectedItem);
 				std::string parentName = "";
-				
+
 				if (selectedItem->getParent())
 					parentName = selectedItem->getParent()->getName();
 
@@ -159,8 +148,8 @@ namespace Marvel {
 				std::string height = std::to_string(selectedItem->getHeight());
 
 				if (selectedItem)
-				{	
-					
+				{
+
 					ImGui::BeginGroup();
 
 					if (ImGui::ArrowButton("Move Up", ImGuiDir_Up))
@@ -190,7 +179,7 @@ namespace Marvel {
 					DebugItem("Item Height:", height.c_str());
 					DebugItem("Item Callback:", selectedItem->getCallback().c_str());
 					DebugItem("Item Tip:", selectedItem->getTip().c_str());
-					DebugItem("Item Popup:",selectedItem->getPopup().c_str());
+					DebugItem("Item Popup:", selectedItem->getPopup().c_str());
 					DebugItem("Item Show:", selectedItem->isShown() ? ts : fs);
 					DebugItem("Item Visible:", selectedItem->isItemVisible() ? ts : fs);
 					DebugItem("Item Hovered:", selectedItem->isItemHovered() ? ts : fs);
@@ -211,7 +200,23 @@ namespace Marvel {
 				for (auto window : mvApp::GetApp()->getWindows())
 					renderItem(window);
 				ImGui::EndChild();
-				
+
+				ImGui::EndTabItem();
+			}
+
+			if (ImGui::BeginTabItem("Commands##debug"))
+			{
+				ImGui::PushItemWidth(500);
+				ImGui::InputTextMultiline("Command##debug", &commandstring);
+				ImGui::PopItemWidth();
+				if (ImGui::Button("Run##debug"))
+				{
+					std::string command = "from marvel import *\n" + commandstring;
+
+					PyGILState_STATE gstate = PyGILState_Ensure();
+					PyRun_SimpleString(command.c_str());
+					PyGILState_Release(gstate);
+				}
 				ImGui::EndTabItem();
 			}
 

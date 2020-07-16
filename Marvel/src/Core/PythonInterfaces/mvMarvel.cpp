@@ -140,7 +140,11 @@ namespace Marvel {
 		if (!Parsers["set_drawing_size"].parse(args, kwargs, __FUNCTION__, &name, &width, &height))
 			Py_RETURN_NONE;
 
+		// check for drawing in items, if not found
+		// check if it was added at runtime
 		auto drawing = mvApp::GetApp()->getItem(name);
+		if (drawing == nullptr)
+			drawing = mvApp::GetApp()->getRuntimeItem(name);
 
 		if (drawing)
 		{
@@ -160,7 +164,12 @@ namespace Marvel {
 		if (!Parsers["set_drawing_origin"].parse(args, kwargs, __FUNCTION__, &name, &x, &y))
 			Py_RETURN_NONE;
 
-		mvAppItem* item = mvApp::GetApp()->getItem(name);
+		// check for drawing in items, if not found
+		// check if it was added at runtime
+		auto item = mvApp::GetApp()->getItem(name);
+		if (item == nullptr)
+			item = mvApp::GetApp()->getRuntimeItem(name);
+
 		if (item == nullptr)
 		{
 			std::string message = name;
@@ -168,7 +177,14 @@ namespace Marvel {
 			Py_RETURN_NONE;
 		}
 
-		mvDrawing* dwg = static_cast<mvDrawing*>(item);
+		mvDrawing* dwg;
+		if(item->getType() == mvAppItemType::Drawing)
+			dwg = static_cast<mvDrawing*>(item);
+		else
+		{
+			mvAppLog::getLogger()->LogWarning(std::string(name) + " is not a drawing.");
+			Py_RETURN_NONE;
+		}
 		dwg->setOrigin(x, y);
 
 		Py_RETURN_NONE;
@@ -183,7 +199,11 @@ namespace Marvel {
 		if (!Parsers["set_drawing_scale"].parse(args, kwargs, __FUNCTION__, &name, &x, &y))
 			Py_RETURN_NONE;
 
-		mvAppItem* item = mvApp::GetApp()->getItem(name);
+		// check for drawing in items, if not found
+		// check if it was added at runtime
+		auto item = mvApp::GetApp()->getItem(name);
+		if (item == nullptr)
+			item = mvApp::GetApp()->getRuntimeItem(name);
 		if (item == nullptr)
 		{
 			std::string message = name;
@@ -191,7 +211,14 @@ namespace Marvel {
 			Py_RETURN_NONE;
 		}
 
-		mvDrawing* dwg = static_cast<mvDrawing*>(item);
+		mvDrawing* dwg;
+		if (item->getType() == mvAppItemType::Drawing)
+			dwg = static_cast<mvDrawing*>(item);
+		else
+		{
+			mvAppLog::getLogger()->LogWarning(std::string(name) + " is not a drawing.");
+			Py_RETURN_NONE;
+		}
 		dwg->setScale(x, y);
 
 		Py_RETURN_NONE;
@@ -204,7 +231,11 @@ namespace Marvel {
 		if (!Parsers["get_drawing_origin"].parse(args, kwargs, __FUNCTION__, &name))
 			Py_RETURN_NONE;
 
-		mvAppItem* item = mvApp::GetApp()->getItem(name);
+		// check for drawing in items, if not found
+		// check if it was added at runtime
+		auto item = mvApp::GetApp()->getItem(name);
+		if (item == nullptr)
+			item = mvApp::GetApp()->getRuntimeItem(name);
 		if (item == nullptr)
 		{
 			std::string message = name;
@@ -212,7 +243,15 @@ namespace Marvel {
 			Py_RETURN_NONE;
 		}
 
-		mvDrawing* dwg = static_cast<mvDrawing*>(item);
+		mvDrawing* dwg;
+		if (item->getType() == mvAppItemType::Drawing)
+			dwg = static_cast<mvDrawing*>(item);
+		else
+		{
+			mvAppLog::getLogger()->LogWarning(std::string(name) + " is not a drawing.");
+			Py_RETURN_NONE;
+		}
+
 		return Py_BuildValue("(ff)", dwg->getOrigin().x, dwg->getOrigin().y);
 	}
 
@@ -223,7 +262,11 @@ namespace Marvel {
 		if (!Parsers["get_drawing_scale"].parse(args, kwargs, __FUNCTION__, &name))
 			Py_RETURN_NONE;
 
-		mvAppItem* item = mvApp::GetApp()->getItem(name);
+		// check for drawing in items, if not found
+		// check if it was added at runtime
+		auto item = mvApp::GetApp()->getItem(name);
+		if (item == nullptr)
+			item = mvApp::GetApp()->getRuntimeItem(name);
 		if (item == nullptr)
 		{
 			std::string message = name;
@@ -231,7 +274,15 @@ namespace Marvel {
 			Py_RETURN_NONE;
 		}
 
-		mvDrawing* dwg = static_cast<mvDrawing*>(item);
+		mvDrawing* dwg;
+		if (item->getType() == mvAppItemType::Drawing)
+			dwg = static_cast<mvDrawing*>(item);
+		else
+		{
+			mvAppLog::getLogger()->LogWarning(std::string(name) + " is not a drawing.");
+			Py_RETURN_NONE;
+		}
+
 		return Py_BuildValue("(ff)", dwg->getScale().x, dwg->getScale().y);
 	}
 
@@ -242,7 +293,11 @@ namespace Marvel {
 		if (!Parsers["get_drawing_size"].parse(args, kwargs, __FUNCTION__, &name))
 			Py_RETURN_NONE;
 
+		// check for drawing in items, if not found
+		// check if it was added at runtime
 		auto drawing = mvApp::GetApp()->getItem(name);
+		if (drawing == nullptr)
+			drawing = mvApp::GetApp()->getRuntimeItem(name);
 
 		if (drawing)
 			return Py_BuildValue("(ff)", drawing->getWidth(), drawing->getHeight());
@@ -281,7 +336,12 @@ namespace Marvel {
 		mvVec2 muv_max = mvPythonTranslator::getVec2(uv_max);
 		mvColor mcolor = mvPythonTranslator::getColor(color);
 
-		mvAppItem* item = mvApp::GetApp()->getItem(drawing);
+		// check for drawing in items, if not found
+		// check if it was added at runtime
+		auto item = mvApp::GetApp()->getItem(drawing);
+		if (item == nullptr)
+			item = mvApp::GetApp()->getRuntimeItem(drawing);
+
 		if (item == nullptr)
 		{
 			std::string message = drawing;
@@ -289,7 +349,14 @@ namespace Marvel {
 			Py_RETURN_NONE;
 		}
 
-		mvDrawing* dwg = static_cast<mvDrawing*>(item);
+		mvDrawing* dwg;
+		if (item->getType() == mvAppItemType::Drawing)
+			dwg = static_cast<mvDrawing*>(item);
+		else
+		{
+			mvAppLog::getLogger()->LogWarning(std::string(drawing) + " is not a drawing.");
+			Py_RETURN_NONE;
+		}
 		dwg->drawImage(file, mpmin, mpmax, muv_min, muv_max, mcolor, tag);
 
 		Py_RETURN_NONE;
@@ -310,7 +377,12 @@ namespace Marvel {
 		mvVec2 mp2 = mvPythonTranslator::getVec2(p2);
 		mvColor mcolor = mvPythonTranslator::getColor(color);
 
-		mvAppItem* item = mvApp::GetApp()->getItem(drawing);
+		// check for drawing in items, if not found
+		// check if it was added at runtime
+		auto item = mvApp::GetApp()->getItem(drawing);
+		if (item == nullptr)
+			item = mvApp::GetApp()->getRuntimeItem(drawing);
+
 		if (item == nullptr)
 		{
 			std::string message = drawing;
@@ -318,7 +390,14 @@ namespace Marvel {
 			Py_RETURN_NONE;
 		}
 
-		mvDrawing* dwg = static_cast<mvDrawing*>(item);
+		mvDrawing* dwg;
+		if (item->getType() == mvAppItemType::Drawing)
+			dwg = static_cast<mvDrawing*>(item);
+		else
+		{
+			mvAppLog::getLogger()->LogWarning(std::string(drawing) + " is not a drawing.");
+			Py_RETURN_NONE;
+		}
 		dwg->drawLine(mp1, mp2, mcolor, thickness, tag);
 
 		Py_RETURN_NONE;
@@ -340,7 +419,12 @@ namespace Marvel {
 		mvVec2 mp2 = mvPythonTranslator::getVec2(p2);
 		mvColor mcolor = mvPythonTranslator::getColor(color);
 
-		mvAppItem* item = mvApp::GetApp()->getItem(drawing);
+		// check for drawing in items, if not found
+		// check if it was added at runtime
+		auto item = mvApp::GetApp()->getItem(drawing);
+		if (item == nullptr)
+			item = mvApp::GetApp()->getRuntimeItem(drawing);
+
 		if (item == nullptr)
 		{
 			std::string message = drawing;
@@ -348,7 +432,14 @@ namespace Marvel {
 			Py_RETURN_NONE;
 		}
 
-		mvDrawing* dwg = static_cast<mvDrawing*>(item);
+		mvDrawing* dwg;
+		if (item->getType() == mvAppItemType::Drawing)
+			dwg = static_cast<mvDrawing*>(item);
+		else
+		{
+			mvAppLog::getLogger()->LogWarning(std::string(drawing) + " is not a drawing.");
+			Py_RETURN_NONE;
+		}
 		dwg->drawArrow(mp1, mp2, mcolor, thickness, size, tag);
 
 		Py_RETURN_NONE;
@@ -373,7 +464,12 @@ namespace Marvel {
 		mvColor mcolor = mvPythonTranslator::getColor(color);
 		mvColor mfill = mvPythonTranslator::getColor(fill);
 
-		mvAppItem* item = mvApp::GetApp()->getItem(drawing);
+		// check for drawing in items, if not found
+		// check if it was added at runtime
+		auto item = mvApp::GetApp()->getItem(drawing);
+		if (item == nullptr)
+			item = mvApp::GetApp()->getRuntimeItem(drawing);
+
 		if (item == nullptr)
 		{
 			std::string message = drawing;
@@ -381,7 +477,14 @@ namespace Marvel {
 			Py_RETURN_NONE;
 		}
 
-		mvDrawing* dwg = static_cast<mvDrawing*>(item);
+		mvDrawing* dwg;
+		if (item->getType() == mvAppItemType::Drawing)
+			dwg = static_cast<mvDrawing*>(item);
+		else
+		{
+			mvAppLog::getLogger()->LogWarning(std::string(drawing) + " is not a drawing.");
+			Py_RETURN_NONE;
+		}
 		dwg->drawTriangle(mp1, mp2, mp3, mcolor, mfill, thickness, tag);
 
 		Py_RETURN_NONE;
@@ -405,7 +508,12 @@ namespace Marvel {
 		mvColor mcolor = mvPythonTranslator::getColor(color);
 		mvColor mfill = mvPythonTranslator::getColor(fill);
 
-		mvAppItem* item = mvApp::GetApp()->getItem(drawing);
+		// check for drawing in items, if not found
+		// check if it was added at runtime
+		auto item = mvApp::GetApp()->getItem(drawing);
+		if (item == nullptr)
+			item = mvApp::GetApp()->getRuntimeItem(drawing);
+
 		if (item == nullptr)
 		{
 			std::string message = drawing;
@@ -413,7 +521,14 @@ namespace Marvel {
 			Py_RETURN_NONE;
 		}
 
-		mvDrawing* dwg = static_cast<mvDrawing*>(item);
+		mvDrawing* dwg;
+		if (item->getType() == mvAppItemType::Drawing)
+			dwg = static_cast<mvDrawing*>(item);
+		else
+		{
+			mvAppLog::getLogger()->LogWarning(std::string(drawing) + " is not a drawing.");
+			Py_RETURN_NONE;
+		}
 		dwg->drawRectangle(mpmin, mpmax, mcolor, mfill, rounding, thickness, tag);
 
 		Py_RETURN_NONE;
@@ -439,7 +554,12 @@ namespace Marvel {
 		mvColor mcolor = mvPythonTranslator::getColor(color);
 		mvColor mfill = mvPythonTranslator::getColor(fill);
 
-		mvAppItem* item = mvApp::GetApp()->getItem(drawing);
+		// check for drawing in items, if not found
+		// check if it was added at runtime
+		auto item = mvApp::GetApp()->getItem(drawing);
+		if (item == nullptr)
+			item = mvApp::GetApp()->getRuntimeItem(drawing);
+
 		if (item == nullptr)
 		{
 			std::string message = drawing;
@@ -447,7 +567,14 @@ namespace Marvel {
 			Py_RETURN_NONE;
 		}
 
-		mvDrawing* dwg = static_cast<mvDrawing*>(item);
+		mvDrawing* dwg;
+		if (item->getType() == mvAppItemType::Drawing)
+			dwg = static_cast<mvDrawing*>(item);
+		else
+		{
+			mvAppLog::getLogger()->LogWarning(std::string(drawing) + " is not a drawing.");
+			Py_RETURN_NONE;
+		}
 		dwg->drawQuad(mp1, mp2, mp3, mp4, mcolor, mfill, thickness, tag);
 
 		Py_RETURN_NONE;
@@ -468,7 +595,12 @@ namespace Marvel {
 		mvVec2 mpos = mvPythonTranslator::getVec2(pos);
 		mvColor mcolor = mvPythonTranslator::getColor(color);
 
-		mvAppItem* item = mvApp::GetApp()->getItem(drawing);
+		// check for drawing in items, if not found
+		// check if it was added at runtime
+		auto item = mvApp::GetApp()->getItem(drawing);
+		if (item == nullptr)
+			item = mvApp::GetApp()->getRuntimeItem(drawing);
+
 		if (item == nullptr)
 		{
 			std::string message = drawing;
@@ -476,7 +608,14 @@ namespace Marvel {
 			Py_RETURN_NONE;
 		}
 
-		mvDrawing* dwg = static_cast<mvDrawing*>(item);
+		mvDrawing* dwg;
+		if (item->getType() == mvAppItemType::Drawing)
+			dwg = static_cast<mvDrawing*>(item);
+		else
+		{
+			mvAppLog::getLogger()->LogWarning(std::string(drawing) + " is not a drawing.");
+			Py_RETURN_NONE;
+		}
 		dwg->drawText(mpos, text, mcolor, size, tag);
 
 		Py_RETURN_NONE;
@@ -500,7 +639,12 @@ namespace Marvel {
 		mvColor mcolor = mvPythonTranslator::getColor(color);
 		mvColor mfill = mvPythonTranslator::getColor(fill);
 
-		mvAppItem* item = mvApp::GetApp()->getItem(drawing);
+		// check for drawing in items, if not found
+		// check if it was added at runtime
+		auto item = mvApp::GetApp()->getItem(drawing);
+		if (item == nullptr)
+			item = mvApp::GetApp()->getRuntimeItem(drawing);
+
 		if (item == nullptr)
 		{
 			std::string message = drawing;
@@ -508,7 +652,14 @@ namespace Marvel {
 			Py_RETURN_NONE;
 		}
 
-		mvDrawing* dwg = static_cast<mvDrawing*>(item);
+		mvDrawing* dwg;
+		if (item->getType() == mvAppItemType::Drawing)
+			dwg = static_cast<mvDrawing*>(item);
+		else
+		{
+			mvAppLog::getLogger()->LogWarning(std::string(drawing) + " is not a drawing.");
+			Py_RETURN_NONE;
+		}
 		dwg->drawCircle(mcenter, radius, mcolor, segments, thickness, mfill, tag);
 
 		Py_RETURN_NONE;
@@ -529,7 +680,12 @@ namespace Marvel {
 		auto mpoints = mvPythonTranslator::getVectVec2(points);
 		mvColor mcolor = mvPythonTranslator::getColor(color);
 
-		mvAppItem* item = mvApp::GetApp()->getItem(drawing);
+		// check for drawing in items, if not found
+		// check if it was added at runtime
+		auto item = mvApp::GetApp()->getItem(drawing);
+		if (item == nullptr)
+			item = mvApp::GetApp()->getRuntimeItem(drawing);
+
 		if (item == nullptr)
 		{
 			std::string message = drawing;
@@ -537,7 +693,14 @@ namespace Marvel {
 			Py_RETURN_NONE;
 		}
 
-		mvDrawing* dwg = static_cast<mvDrawing*>(item);
+		mvDrawing* dwg;
+		if (item->getType() == mvAppItemType::Drawing)
+			dwg = static_cast<mvDrawing*>(item);
+		else
+		{
+			mvAppLog::getLogger()->LogWarning(std::string(drawing) + " is not a drawing.");
+			Py_RETURN_NONE;
+		}
 		dwg->drawPolyline(mpoints, mcolor, closed, thickness, tag);
 
 		Py_RETURN_NONE;
@@ -559,7 +722,12 @@ namespace Marvel {
 		mvColor mcolor = mvPythonTranslator::getColor(color);
 		mvColor mfill = mvPythonTranslator::getColor(fill);
 
-		mvAppItem* item = mvApp::GetApp()->getItem(drawing);
+		// check for drawing in items, if not found
+		// check if it was added at runtime
+		auto item = mvApp::GetApp()->getItem(drawing);
+		if (item == nullptr)
+			item = mvApp::GetApp()->getRuntimeItem(drawing);
+
 		if (item == nullptr)
 		{
 			std::string message = drawing;
@@ -567,7 +735,14 @@ namespace Marvel {
 			Py_RETURN_NONE;
 		}
 
-		mvDrawing* dwg = static_cast<mvDrawing*>(item);
+		mvDrawing* dwg;
+		if (item->getType() == mvAppItemType::Drawing)
+			dwg = static_cast<mvDrawing*>(item);
+		else
+		{
+			mvAppLog::getLogger()->LogWarning(std::string(drawing) + " is not a drawing.");
+			Py_RETURN_NONE;
+		}
 		dwg->drawPolygon(mpoints, mcolor, mfill, thickness, tag);
 
 		Py_RETURN_NONE;
@@ -591,7 +766,12 @@ namespace Marvel {
 		mvVec2 mp4 = mvPythonTranslator::getVec2(p4);
 		mvColor mcolor = mvPythonTranslator::getColor(color);
 
-		mvAppItem* item = mvApp::GetApp()->getItem(drawing);
+		// check for drawing in items, if not found
+		// check if it was added at runtime
+		auto item = mvApp::GetApp()->getItem(drawing);
+		if (item == nullptr)
+			item = mvApp::GetApp()->getRuntimeItem(drawing);
+
 		if (item == nullptr)
 		{
 			std::string message = drawing;
@@ -599,7 +779,14 @@ namespace Marvel {
 			Py_RETURN_NONE;
 		}
 
-		mvDrawing* dwg = static_cast<mvDrawing*>(item);
+		mvDrawing* dwg;
+		if (item->getType() == mvAppItemType::Drawing)
+			dwg = static_cast<mvDrawing*>(item);
+		else
+		{
+			mvAppLog::getLogger()->LogWarning(std::string(drawing) + " is not a drawing.");
+			Py_RETURN_NONE;
+		}
 		dwg->drawBezierCurve(mp1, mp2, mp3, mp4, mcolor, thickness, segments, tag);
 
 		Py_RETURN_NONE;
@@ -612,7 +799,12 @@ namespace Marvel {
 		if (!Parsers["clear_drawing"].parse(args, kwargs, __FUNCTION__, &drawing))
 			Py_RETURN_NONE;
 
-		mvAppItem* item = mvApp::GetApp()->getItem(drawing);
+		// check for drawing in items, if not found
+		// check if it was added at runtime
+		auto item = mvApp::GetApp()->getItem(drawing);
+		if (item == nullptr)
+			item = mvApp::GetApp()->getRuntimeItem(drawing);
+
 		if (item == nullptr)
 		{
 			std::string message = drawing;
@@ -620,7 +812,14 @@ namespace Marvel {
 			Py_RETURN_NONE;
 		}
 
-		mvDrawing* dwg = static_cast<mvDrawing*>(item);
+		mvDrawing* dwg;
+		if (item->getType() == mvAppItemType::Drawing)
+			dwg = static_cast<mvDrawing*>(item);
+		else
+		{
+			mvAppLog::getLogger()->LogWarning(std::string(drawing) + " is not a drawing.");
+			Py_RETURN_NONE;
+		}
 		dwg->clear();
 
 		Py_RETURN_NONE;

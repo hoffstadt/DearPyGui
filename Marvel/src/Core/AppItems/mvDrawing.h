@@ -406,6 +406,7 @@ namespace Marvel {
 
 		void setScale(float xscale, float yscale);
 		void setOrigin(float x, float y);
+		void markDirty() { m_dirty = true; }
 
 		ImVec2 getScale() const { return { m_scalex, m_scaley }; }
 		ImVec2 getOrigin() const { return { m_originx, m_originy }; }
