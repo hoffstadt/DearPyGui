@@ -31,7 +31,7 @@ Result:
 
 ### Prebuilt Binaries
 #### Windows
-- Download [Latest Release](https://github.com/RaylockLLC/MarvelSandbox/releases/download/v0.1-alpha9/Sandbox.zip)
+- Download [Latest Release](https://github.com/RaylockLLC/MarvelSandbox/releases/download/v0.1-alpha10/Sandbox.zip)
 - Download _Sandbox.zip_ and unzip anywhere. 
 - Run _MarvelSandbox.exe_.
 - You can use App.py as a starting point.
