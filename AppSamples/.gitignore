@@ -2,3 +2,5 @@
 !.gitignore
 !*.py
 !*.json
+!*.png
+!*.jpg

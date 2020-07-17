@@ -1,5 +1,16 @@
 #pragma once
 
+//-----------------------------------------------------------------------------
+// mvWindow
+//
+//     - This abstract class is just a light wrapper for a platform specific
+//       window. It's quite lacking so may need to be extended later.
+//
+//     - This class may need to be renamed to remove confusion between this
+//       window and the mvWindowAppItem class (maybe to viewport?)
+//     
+//-----------------------------------------------------------------------------
+
 #include "mvApp.h"
 #include "Core/StandardWindows/mvAppEditor.h"
 #include "Core/StandardWindows/mvAppLog.h"
@@ -7,31 +18,17 @@
 
 namespace Marvel {
 
+	//-----------------------------------------------------------------------------
+	// mvWindow
+	//-----------------------------------------------------------------------------
 	class mvWindow
 	{
 
 	public:
 
-		mvWindow(unsigned width, unsigned height, bool editor = false, bool error = false, bool doc = false) : 
-			m_width(width), m_height(height), m_editor(editor), m_error(error), m_doc(doc)
-		{
-			m_app = mvApp::GetAppStandardWindow();
-			m_appEditor = mvAppEditor::GetAppEditor();
-			m_documentation = mvDocWindow::GetWindow();
-			m_logger = mvAppLog::GetLoggerStandardWindow();
+		mvWindow(unsigned width, unsigned height, bool editor = false, bool error = false, bool doc = false);
 
-			if (m_error)
-			{
-				m_logger->setToMainMode();
-				m_logger->setSize(width, height);
-			}
-
-			else if (m_doc)
-			{
-				m_documentation->setToMainMode();
-				m_documentation->setSize(width, height);
-			}
-		}
+		virtual ~mvWindow() {}
 
 		virtual void show      () = 0;
 		virtual void setup     () {}
@@ -43,14 +40,14 @@ namespace Marvel {
 
 	protected:
 
-		bool              m_running = true;
-		bool              m_editor = false;
-		bool              m_error = false;
-		bool              m_doc = false;
-		mvStandardWindow* m_app = nullptr;
-		mvStandardWindow* m_appEditor = nullptr;
+		bool              m_running       = true;
+		bool              m_editor        = false;
+		bool              m_error         = false;
+		bool              m_doc           = false;
+		mvStandardWindow* m_app           = nullptr;
+		mvStandardWindow* m_appEditor     = nullptr;
 		mvStandardWindow* m_documentation = nullptr;
-		mvStandardWindow* m_logger = nullptr;
+		mvStandardWindow* m_logger        = nullptr;
 		unsigned          m_width;
 		unsigned          m_height;
 

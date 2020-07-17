@@ -22,6 +22,8 @@ namespace Marvel {
 
 	mvAppLog* mvAppLog::s_instance = nullptr;
 	const char* Application::s_argv0 = nullptr;
+	thread_local mvWorkStealingQueue* mvThreadPool::m_local_work_queue;
+	thread_local unsigned mvThreadPool::m_index;
 
 	Application::Application(const char* name, int argc, char* argv[]) : argc(argc), argv(argv)
 	{
@@ -226,7 +228,7 @@ namespace Marvel {
 		mvApp::GetApp()->setFile(filename);
 		PyEval_SaveThread(); // releases global lock
 		mvApp::GetApp()->precheck();
-		mvApp::GetApp()->setStarted();
+		mvApp::SetAppStarted();
 
 		// create window
 		mvWindow* window = new mvWindowsWindow(mvApp::GetApp()->getWindowWidth(), mvApp::GetApp()->getWindowHeight());
@@ -236,6 +238,7 @@ namespace Marvel {
 		PyGILState_STATE gstate = PyGILState_Ensure();
 		Py_XDECREF(pModule);
 		delete window;
+		delete mvApp::GetApp();
 
 		return 0;
 	}

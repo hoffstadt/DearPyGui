@@ -39,7 +39,7 @@ namespace Marvel {
 			{
 
 				if (!m_dataSource.empty())
-					mvApp::GetApp()->addData(m_dataSource, getPyValue());
+					mvDataStorage::AddData(m_dataSource, getPyValue());
 
 				mvApp::GetApp()->runCallback(m_callback, m_name);
 
@@ -138,7 +138,7 @@ namespace Marvel {
 			if (ImGui::Checkbox(m_label.c_str(), &m_value))
 			{
 				if (!m_dataSource.empty())
-					mvApp::GetApp()->addData(m_dataSource, getPyValue());
+					mvDataStorage::AddData(m_dataSource, getPyValue());
 
 				mvApp::GetApp()->runCallback(m_callback, m_name);
 
@@ -176,7 +176,7 @@ namespace Marvel {
 					if (ImGui::Selectable((m_names[i] + "##" + m_name).c_str(), is_selected))
 					{
 						if (!m_dataSource.empty())
-							mvApp::GetApp()->addData(m_dataSource, getPyValue());
+							mvDataStorage::AddData(m_dataSource, getPyValue());
 
 						m_value = m_names[i];
 						mvApp::GetApp()->runCallback(m_callback, m_name);
@@ -199,7 +199,7 @@ namespace Marvel {
 		{
 			if (name == m_listDataSource)
 			{
-				PyObject* data = mvApp::GetApp()->getData(name);
+				PyObject* data = mvDataStorage::GetData(name);
 				if (data == nullptr)
 					return;
 
@@ -238,7 +238,7 @@ namespace Marvel {
 			if (ImGui::ListBox(m_label.c_str(), &m_value[0], m_charNames.data(), m_names.size(), m_height))
 			{
 				if (!m_dataSource.empty())
-					mvApp::GetApp()->addData(m_dataSource, getPyValue());
+					mvDataStorage::AddData(m_dataSource, getPyValue());
 
 				mvApp::GetApp()->runCallback(m_callback, m_name);
 
@@ -252,7 +252,7 @@ namespace Marvel {
 		{
 			if (name == m_listDataSource)
 			{
-				PyObject* data = mvApp::GetApp()->getData(name);
+				PyObject* data = mvDataStorage::GetData(name);
 				if (data == nullptr)
 					return;
 
@@ -296,7 +296,7 @@ namespace Marvel {
 				if (ImGui::RadioButton((m_itemnames[i] + "##" + m_name).c_str(), &m_value[0], i))
 				{
 					if (!m_dataSource.empty())
-						mvApp::GetApp()->addData(m_dataSource, getPyValue());
+						mvDataStorage::AddData(m_dataSource, getPyValue());
 
 					mvApp::GetApp()->runCallback(m_callback, m_name);
 
@@ -312,7 +312,7 @@ namespace Marvel {
 		{
 			if (name == m_listDataSource)
 			{
-				PyObject* data = mvApp::GetApp()->getData(name);
+				PyObject* data = mvDataStorage::GetData(name);
 				if (data == nullptr)
 					return;
 

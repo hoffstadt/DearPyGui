@@ -1,5 +1,15 @@
 #pragma once
 
+//-----------------------------------------------------------------------------
+// mvEventHandler
+//
+//     - This is a temporary class for v0.1 until a more complete event 
+//       handling system is put in place. Which will be required for the
+//       upcoming v0.2 custom widget API.
+//     
+//     - Currently this is used by mvWindowAppItem and mvApp
+//-----------------------------------------------------------------------------
+
 #include <string>
 
 namespace Marvel {

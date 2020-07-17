@@ -2,6 +2,7 @@
 
 #include "Core/AppItems/mvTypeBases.h"
 #include "Core/mvEventHandler.h"
+#include "Core/mvInput.h"
 
 //-----------------------------------------------------------------------------
 // Widget Index
@@ -81,7 +82,7 @@ namespace Marvel {
 				ImVec2 mousePos = ImGui::GetMousePos();
 				float x = mousePos.x - ImGui::GetWindowPos().x;
 				float y = mousePos.y - ImGui::GetWindowPos().y;
-				mvApp::GetApp()->setMousePosition(x, y);
+				mvInput::setMousePosition(x, y);
 				mvApp::GetApp()->setActiveWindow(m_name);
 
 			}

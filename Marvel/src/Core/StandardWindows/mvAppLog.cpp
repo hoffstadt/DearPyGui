@@ -2,6 +2,7 @@
 #include <string>
 #include <mutex>
 #include "Core/mvApp.h"
+#include "Core/mvInput.h"
 
 typedef std::chrono::high_resolution_clock clock_;
 typedef std::chrono::duration<double, std::ratio<1> > second_;
@@ -204,8 +205,7 @@ namespace Marvel {
 			ImVec2 mousePos = ImGui::GetMousePos();
 			float x = mousePos.x - ImGui::GetWindowPos().x;
 			float y = mousePos.y - ImGui::GetWindowPos().y - titleBarHeight;
-			mvApp::GetApp()->setMousePosition(x, y);
-
+			mvInput::setMousePosition(x, y);
 			mvApp::GetApp()->setActiveWindow("Log");
 
 		}

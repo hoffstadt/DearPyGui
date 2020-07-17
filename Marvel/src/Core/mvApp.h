@@ -1,5 +1,19 @@
 #pragma once
 
+//-----------------------------------------------------------------------------
+// mvApp
+//
+//     - This class acts as the primary manager for a MarvelSandbox app,
+//       with the following responsibilities:
+//
+//         * Adding/Removing/Modifying AppItems
+//         * Callback routing
+//         * AppItem parent deduction
+//         * Data storage
+//         * Texture storage
+//     
+//-----------------------------------------------------------------------------
+
 #include <vector>
 #include <map>
 #include <stack>
@@ -8,18 +22,20 @@
 #include <queue>
 #include <chrono>
 #include "Core/AppItems/mvAppItem.h"
-#include "mvMouse.h"
 #include "mvAppStyle.h"
 #include "mvTextEditor.h"
 #include "mvModuleInitializer.h"
 #include "Core/StandardWindows/mvStandardWindow.h"
-#include "Core/Concurrency/mvThreadPool.h"
+#include "Core/mvThreadPool.h"
 
 typedef std::chrono::high_resolution_clock clock_;
 typedef std::chrono::duration<double, std::ratio<1> > second_;
 
 namespace Marvel {
 
+	//-----------------------------------------------------------------------------
+	// mvApp
+	//-----------------------------------------------------------------------------
 	class mvApp : public mvStandardWindow
 	{
 
@@ -42,6 +58,8 @@ namespace Marvel {
 		static mvApp*            GetApp();
 		static mvStandardWindow* GetAppStandardWindow();
 		static const char*       GetVersion() { return MV_SANDBOX_VERSION; }
+		static bool              IsAppStarted() { return s_started; }
+		static void              SetAppStarted() { s_started = true; }
 
 		~mvApp();
 
@@ -49,15 +67,13 @@ namespace Marvel {
 		virtual void prerender () override;                   // pre rendering (every frame)	
 		virtual void render    (bool& show) override;         // actual render loop		
 		virtual void postrender() override;                   // post rendering (every frame)
-		bool         isStarted () const { return m_started; } // has the application started running
 
 		//-----------------------------------------------------------------------------
 		// App Settings
 		//-----------------------------------------------------------------------------
 		void                     setFile           (const std::string& file);
 		void                     setWindowSize     (unsigned width, unsigned height);
-		void                     setModuleDict     (PyObject* dict) { m_pDict = dict; }
-		void                     setStarted        () { m_started = true; }
+		void                     setModuleDict     (PyObject* dict) { m_pDict = dict; }		
 		void                     setActiveWindow   (const std::string& window) { m_activeWindow = window; }
 		void                     setGlobalFontScale(float scale);
 
@@ -65,7 +81,8 @@ namespace Marvel {
 		const std::string&       getActiveWindow   () const { return m_activeWindow; }
 		std::vector<mvAppItem*>& getWindows        ()       { return m_windows; }
 		float                    getGlobalFontScale();
-		PyObject*                getModuleDict() { return m_pDict; }
+		PyObject*                getModuleDict     () { return m_pDict; }
+		
 
 		//-----------------------------------------------------------------------------
 		// Styles/Themes
@@ -95,15 +112,6 @@ namespace Marvel {
 		bool              usingThreadPoolHighPerformance() const { return m_threadPoolHighPerformance; }
 
 		//-----------------------------------------------------------------------------
-		// Data Storage Operations
-		//-----------------------------------------------------------------------------
-		void                              addData     (const std::string& name, PyObject* data);
-		PyObject*                         getData     (const std::string& name);
-		void                              deleteData  (const std::string& name);
-		unsigned                          getDataCount() const { return m_dataStorage.size(); }
-		std::map<std::string, mvTexture>& getTextures() { return m_textures; }
-
-		//-----------------------------------------------------------------------------
 		// App Item Operations
 		//-----------------------------------------------------------------------------
 		void       addItem           (mvAppItem* item);
@@ -127,36 +135,12 @@ namespace Marvel {
 		//-----------------------------------------------------------------------------
 		// Callbacks
 		//-----------------------------------------------------------------------------
-		void runCallback                (const std::string& name, const std::string& sender);
-		void runCallbackP               (const std::string& name, const std::string& sender, PyObject* data);
-		void runCallbackD               (const std::string& name, int sender, float data = 0.0f);
+		void runCallback               (const std::string& name, const std::string& sender, PyObject* data = Py_None);
 		void runAsyncCallback           (std::string name, PyObject* data, std::string returnname);
-		void runAsyncCallbackReturn     (std::string name, PyObject* data);
 		void addMTCallback              (const std::string& name, PyObject* data, const std::string& returnname = "");
 
-		//-----------------------------------------------------------------------------
-		// Inputs
-		//-----------------------------------------------------------------------------
-		void          setMousePosition     (float x, float y) { m_mousePos.x = x; m_mousePos.y = y; }
-		void          setMouseDragThreshold(float threshold) { m_mouseDragThreshold = threshold; }
-		void          setMouseDragging     (bool drag) { m_mouseDragging = drag; }
-		void          setMouseDragDelta    (const mvVec2& delta) { m_mouseDragDelta = delta; }
-
-		float         getDeltaTime         () const { return m_deltaTime; }
-		double        getTotalTime         () const { return m_time; }
-		float         getMouseDragThreshold() const { return m_mouseDragThreshold; }
-		const mvVec2& getMouseDragDelta    () const { return m_mouseDragDelta; }
-		mvMousePos    getMousePosition     () const { return m_mousePos; }
-
-		// input polling
-		bool          isMouseDragging             (int button, float threshold) const;
-		bool          isMouseButtonDown           (int button)  const;
-		bool          isMouseButtonClicked        (int button)  const;
-		bool          isMouseButtonDoubleClicked  (int button)  const;
-		bool          isMouseButtonReleased       (int button)  const;
-		bool          isKeyDown                   (int keycode) const;
-		bool          isKeyPressed                (int keycode) const;
-		bool          isKeyReleased               (int keycode) const;
+		float  getDeltaTime() { return m_deltaTime; }
+		double getTotalTime() { return m_time; }
 			
 	private:
 
@@ -170,6 +154,7 @@ namespace Marvel {
 	private:
 
 		static mvApp* s_instance;
+		static bool   s_started;
 		mvThreadPool* m_tpool = nullptr;
 		mvStyle       m_style;
 		std::string   m_theme = "Dark";
@@ -178,6 +163,7 @@ namespace Marvel {
 		float         m_deltaTime; // time since last frame
 		double        m_time;      // total time since starting
 		float         m_globalFontScale = 1.0f;
+		std::string   m_activeWindow = "MainWindow";
 
 		std::stack<mvAppItem*>  m_parents;
 		std::vector<mvAppItem*> m_windows;
@@ -190,10 +176,6 @@ namespace Marvel {
 		std::queue<AsyncronousCallback>  m_asyncReturns;
 		std::vector<NewRuntimeItem>      m_newItemVec;
 		std::vector<AsyncronousCallback> m_asyncCallbacks;
-		std::map<std::string, PyObject*> m_dataStorage;
-
-		// textures
-		std::map<std::string, mvTexture> m_textures;
 		
 		// concurrency
 		std::thread::id                       m_mainThreadID;
@@ -204,15 +186,6 @@ namespace Marvel {
 		double                                m_threadTime = 0.0;                  // how long threadpool has been active
 		mutable std::mutex                    m_mutex;
 		std::chrono::steady_clock::time_point m_poolStart;                         // threadpool start time
-		
-		// input state
-		bool        m_started = false;              // to change to runtime behavior
-		std::string m_activeWindow = "MainWindow";
-		mvMousePos  m_mousePos;
-		float       m_mouseWheel;
-		float       m_mouseDragThreshold = 20.0f;
-		bool        m_mouseDragging = false;
-		mvVec2      m_mouseDragDelta = { 0.0f, 0.0f };
 
 	};
 

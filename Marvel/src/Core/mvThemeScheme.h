@@ -1,7 +1,18 @@
 #pragma once
 
+//-----------------------------------------------------------------------------
+// EditorColorScheme
+//
+//     - This is a temporary class for generating themes. This will be
+//       removed once a proper theme system is implemented in v0.2
+//     
+//-----------------------------------------------------------------------------
+
 namespace Marvel {
 
+	//-----------------------------------------------------------------------------
+	// EditorColorScheme
+	//-----------------------------------------------------------------------------
 	class EditorColorScheme
 	{
 		// 0xRRGGBBAA

@@ -47,7 +47,7 @@ namespace Marvel {
 				if (ImGui::VSliderFloat(m_label.c_str(), ImVec2(m_width, m_height), m_value, m_min, m_max, m_format.c_str(), m_power))
 				{
 					if (!m_dataSource.empty())
-						mvApp::GetApp()->addData(m_dataSource, getPyValue());
+						mvDataStorage::AddData(m_dataSource, getPyValue());
 
 					mvApp::GetApp()->runCallback(m_callback, m_name);
 
@@ -61,7 +61,7 @@ namespace Marvel {
 				if (ImGui::SliderFloat(m_label.c_str(), m_value, m_min, m_max, m_format.c_str(), m_power))
 				{
 					if (!m_dataSource.empty())
-						mvApp::GetApp()->addData(m_dataSource, getPyValue());
+						mvDataStorage::AddData(m_dataSource, getPyValue());
 
 					mvApp::GetApp()->runCallback(m_callback, m_name);
 
@@ -104,7 +104,7 @@ namespace Marvel {
 			if (ImGui::SliderFloat2(m_label.c_str(), m_value, m_min, m_max, m_format.c_str(), m_power))
 			{
 				if (!m_dataSource.empty())
-					mvApp::GetApp()->addData(m_dataSource, getPyValue());
+					mvDataStorage::AddData(m_dataSource, getPyValue());
 
 				mvApp::GetApp()->runCallback(m_callback, m_name);
 
@@ -145,7 +145,7 @@ namespace Marvel {
 			if (ImGui::SliderFloat3(m_label.c_str(), m_value, m_min, m_max, m_format.c_str(), m_power))
 			{
 				if (!m_dataSource.empty())
-					mvApp::GetApp()->addData(m_dataSource, getPyValue());
+					mvDataStorage::AddData(m_dataSource, getPyValue());
 
 				mvApp::GetApp()->runCallback(m_callback, m_name);
 
@@ -186,7 +186,7 @@ namespace Marvel {
 			if (ImGui::SliderFloat4(m_label.c_str(), m_value, m_min, m_max, m_format.c_str(), m_power))
 			{
 				if (!m_dataSource.empty())
-					mvApp::GetApp()->addData(m_dataSource, getPyValue());
+					mvDataStorage::AddData(m_dataSource, getPyValue());
 
 				mvApp::GetApp()->runCallback(m_callback, m_name);
 
@@ -233,7 +233,7 @@ namespace Marvel {
 				if (ImGui::VSliderInt(m_label.c_str(), ImVec2(m_width, m_height), m_value, m_min, m_max, m_format.c_str()))
 				{
 					if (!m_dataSource.empty())
-						mvApp::GetApp()->addData(m_dataSource, getPyValue());
+						mvDataStorage::AddData(m_dataSource, getPyValue());
 
 					mvApp::GetApp()->runCallback(m_callback, m_name);
 
@@ -247,7 +247,7 @@ namespace Marvel {
 				if (ImGui::SliderInt(m_label.c_str(), m_value, m_min, m_max, m_format.c_str()))
 				{
 					if (!m_dataSource.empty())
-						mvApp::GetApp()->addData(m_dataSource, getPyValue());
+						mvDataStorage::AddData(m_dataSource, getPyValue());
 
 					mvApp::GetApp()->runCallback(m_callback, m_name);
 
@@ -289,7 +289,7 @@ namespace Marvel {
 			if (ImGui::SliderInt2(m_label.c_str(), m_value, m_min, m_max, m_format.c_str()))
 			{
 				if (!m_dataSource.empty())
-					mvApp::GetApp()->addData(m_dataSource, getPyValue());
+					mvDataStorage::AddData(m_dataSource, getPyValue());
 
 				mvApp::GetApp()->runCallback(m_callback, m_name);
 
@@ -329,7 +329,7 @@ namespace Marvel {
 			if (ImGui::SliderInt3(m_label.c_str(), m_value, m_min, m_max, m_format.c_str()))
 			{
 				if (!m_dataSource.empty())
-					mvApp::GetApp()->addData(m_dataSource, getPyValue());
+					mvDataStorage::AddData(m_dataSource, getPyValue());
 
 				mvApp::GetApp()->runCallback(m_callback, m_name);
 
@@ -369,7 +369,7 @@ namespace Marvel {
 			if (ImGui::SliderInt4(m_label.c_str(), m_value, m_min, m_max, m_format.c_str()))
 			{
 				if (!m_dataSource.empty())
-					mvApp::GetApp()->addData(m_dataSource, getPyValue());
+					mvDataStorage::AddData(m_dataSource, getPyValue());
 
 				mvApp::GetApp()->runCallback(m_callback, m_name);
 

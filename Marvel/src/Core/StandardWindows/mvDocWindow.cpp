@@ -2,6 +2,7 @@
 #include <imgui.h>
 #include "mvInterfaceRegistry.h"
 #include "Core/mvApp.h"
+#include "Core/mvInput.h"
 
 namespace Marvel {
 
@@ -365,10 +366,11 @@ namespace Marvel {
 
 					ImGui::BulletText("Should take the following form:");
 					ImGui::Indent();
-					CodeColorText("def callbackname(sender):");
+					CodeColorText("def callbackname(sender, data):");
 					CodeColorText("    ...");
 					ImGui::Unindent();
 					ImGui::BulletText("The 'sender' parameter is the name of widget the callback was sent from.");
+					ImGui::BulletText("The data parameter depends on the actual callback. Check the documentation.");
 					ImGui::Unindent();
 					ImGui::Separator();
 
@@ -406,10 +408,11 @@ namespace Marvel {
 					ImGui::Unindent();
 					ImGui::BulletText("Should take the following form:");
 					ImGui::Indent();
-					CodeColorText("def callbackname(sender):");
+					CodeColorText("def callbackname(sender, data):");
 					CodeColorText("    ...");
 					ImGui::Unindent();
 					ImGui::BulletText("The 'sender' parameter is the name of widget the callback was sent from.");
+					ImGui::BulletText("The data parameter depends on the actual callback. Check the documentation.");
 
 				}
 
@@ -664,7 +667,7 @@ namespace Marvel {
 			ImVec2 mousePos = ImGui::GetMousePos();
 			float x = mousePos.x - ImGui::GetWindowPos().x;
 			float y = mousePos.y - ImGui::GetWindowPos().y - titleBarHeight;
-			mvApp::GetApp()->setMousePosition(x, y);
+			mvInput::setMousePosition(x, y);
 
 			mvApp::GetApp()->setActiveWindow("Documentation");
 

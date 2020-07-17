@@ -10,12 +10,34 @@
 namespace Marvel {
 
 	//-----------------------------------------------------------------------------
+	// mvGlobalIntepreterLock
+	//-----------------------------------------------------------------------------
+	class mvGlobalIntepreterLock
+	{
+	
+	public:
+
+		mvGlobalIntepreterLock();
+		~mvGlobalIntepreterLock();
+
+	private:
+
+		PyGILState_STATE m_gstate;
+
+	};
+
+	//-----------------------------------------------------------------------------
 	// mvPythonTranslator
 	//-----------------------------------------------------------------------------
 	class mvPythonTranslator
 	{
 
 	public:
+
+		static PyObject* ToPyString(const std::string& value);
+		static PyObject* ToPyFloat(float value);
+		static PyObject* ToPyInt(int value);
+		static PyObject* ToPyPair(float x, float y);
 
 		static std::vector<std::string>                         getStringVec(PyObject* obj);
 		static std::vector<float>                               getFloatVec(PyObject* obj);

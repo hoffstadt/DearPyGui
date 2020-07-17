@@ -1,5 +1,13 @@
 #pragma once
 
+//-----------------------------------------------------------------------------
+// mvUtilities
+//
+//     - This file contains typically platform specific functions. May need
+//       to rename to a more appropriate name.
+//     
+//-----------------------------------------------------------------------------
+
 #include <vector>
 #include <string>
 

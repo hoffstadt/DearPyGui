@@ -126,7 +126,7 @@ namespace Marvel {
 					PyTuple_SetItem(area, 2, PyFloat_FromDouble(m_queryArea[2]));
 					PyTuple_SetItem(area, 3, PyFloat_FromDouble(m_queryArea[3]));
 					PyGILState_Release(gstate);
-					mvApp::GetApp()->runCallbackP(m_queryCallback, m_name, area);
+					mvApp::GetApp()->runCallback(m_queryCallback, m_name, area);
 				}
 
 				ImPlot::EndPlot();
