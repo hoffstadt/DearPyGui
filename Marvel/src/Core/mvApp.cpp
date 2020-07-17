@@ -1,5 +1,7 @@
 #include "mvApp.h"
 #include "mvCore.h"
+#include "mvDataStorage.h"
+#include "mvInput.h"
 #include "mvThemeScheme.h"
 #include "AppItems/mvAppItems.h"
 #include <fstream>
@@ -17,6 +19,7 @@
 namespace Marvel {
 
 	mvApp* mvApp::s_instance = nullptr;
+	bool   mvApp::s_started = false;
 
 	static void SetStyle(ImGuiStyle& style, mvStyle& mvstyle)
 	{
@@ -78,21 +81,21 @@ namespace Marvel {
 			eventHandler = static_cast<mvEventHandler*>(app);
 
 		if (io.MouseWheel != 0.0f)
-			app->runCallbackD(eventHandler->getMouseWheelCallback(), 0, io.MouseWheel);
+			app->runCallback(eventHandler->getMouseWheelCallback(), std::to_string(0), mvPythonTranslator::ToPyPair(0, io.MouseWheel));
 
 
 		for (int i = 0; i < 3; i++)
 		{
-			if (ImGui::IsMouseDragging(i, app->getMouseDragThreshold()))
+			if (ImGui::IsMouseDragging(i, mvInput::getMouseDragThreshold()))
 			{
-				app->setMouseDragging(true);
-				app->setMouseDragDelta({ ImGui::GetMouseDragDelta().x, ImGui::GetMouseDragDelta().y });
-				app->runCallbackD(eventHandler->getMouseDragCallback(), i, i);
+				mvInput::setMouseDragging(true);
+				mvInput::setMouseDragDelta({ ImGui::GetMouseDragDelta().x, ImGui::GetMouseDragDelta().y });
+				app->runCallback(eventHandler->getMouseDragCallback(), std::to_string(i), mvPythonTranslator::ToPyInt(i));
 				ImGui::ResetMouseDragDelta(i);
 				break;
 			}
-			app->setMouseDragging(false);
-			app->setMouseDragDelta({ 0.0f, 0.0f });
+			mvInput::setMouseDragging(false);
+			mvInput::setMouseDragDelta({ 0.0f, 0.0f });
 
 		}
 
@@ -100,31 +103,32 @@ namespace Marvel {
 		{
 
 			if (ImGui::IsMouseClicked(i))
-				app->runCallbackD(eventHandler->getMouseClickCallback(), i);
+				app->runCallback(eventHandler->getMouseClickCallback(), std::to_string(i));
 
 			if (io.MouseDownDuration[i] >= 0.0f)
-				app->runCallbackD(eventHandler->getMouseDownCallback(), i, io.MouseDownDuration[i]);
+				app->runCallback(eventHandler->getMouseDownCallback(), std::to_string(i), mvPythonTranslator::ToPyFloat(io.MouseDownDuration[i]));
 
 			if (ImGui::IsMouseDoubleClicked(i))
-				app->runCallbackD(eventHandler->getMouseDoubleClickCallback(), i);
+				app->runCallback(eventHandler->getMouseDoubleClickCallback(), std::to_string(i));
 
 			if (ImGui::IsMouseReleased(i))
-				app->runCallbackD(eventHandler->getMouseReleaseCallback(), i);
+				app->runCallback(eventHandler->getMouseReleaseCallback(), std::to_string(i));
 
 		}
 
 		for (int i = 0; i < IM_ARRAYSIZE(io.KeysDown); i++)
 		{
 			if (ImGui::IsKeyPressed(i))
-				app->runCallbackD(eventHandler->getKeyPressCallback(), i);
+				app->runCallback(eventHandler->getKeyPressCallback(), std::to_string(i));
 
 			if (io.KeysDownDuration[i] >= 0.0f)
-				app->runCallbackD(eventHandler->getKeyDownCallback(), i, io.KeysDownDuration[i]);
+				app->runCallback(eventHandler->getKeyDownCallback(), std::to_string(i), mvPythonTranslator::ToPyFloat(io.KeysDownDuration[i]));
 
 			if (ImGui::IsKeyReleased(i))
-				app->runCallbackD(eventHandler->getKeyReleaseCallback(), i);
+				app->runCallback(eventHandler->getKeyReleaseCallback(), std::to_string(i));
 
 		}
+
 	}
 
 	static int getPopupButton(const std::string& name)
@@ -218,11 +222,7 @@ namespace Marvel {
 			popParent();
 
 		// update for any data storage added at compile time
-		for (auto& data : m_dataStorage)
-		{
-			for (auto window : m_windows)
-				window->updateDataSource(data.first);
-		}
+		mvDataStorage::UpdateData();
 
 	}
 
@@ -256,7 +256,7 @@ namespace Marvel {
 			while (!m_asyncReturns.empty())
 			{
 				auto& asyncreturn = m_asyncReturns.front();
-				runAsyncCallbackReturn(asyncreturn.name, asyncreturn.data);
+				runCallback(asyncreturn.name, "Asyncrounous Callback", asyncreturn.data);
 				m_asyncReturns.pop();
 			}
 		}
@@ -485,62 +485,6 @@ namespace Marvel {
 		
 	}
 
-	bool mvApp::isMouseDragging(int button, float threshold) const
-	{
-		if (!m_started)
-			return false;
-		return ImGui::IsMouseDragging(button, threshold);
-	}
-
-	bool mvApp::isMouseButtonDown(int button) const
-	{
-		if (!m_started)
-			return false;
-		return ImGui::IsMouseDown(button);
-	}
-
-	bool mvApp::isMouseButtonClicked(int button) const
-	{
-		if (!m_started)
-			return false;
-		return ImGui::IsMouseClicked(button);
-	}
-
-	bool mvApp::isMouseButtonDoubleClicked(int button) const
-	{
-		if (!m_started)
-			return false;
-		return ImGui::IsMouseDoubleClicked(button);
-	}
-
-	bool mvApp::isMouseButtonReleased(int button) const
-	{
-		if (!m_started)
-			return false;
-		return ImGui::IsMouseReleased(button);
-	}
-
-	bool mvApp::isKeyPressed(int keycode) const
-	{
-		if (!m_started)
-			return false;
-		return ImGui::IsKeyPressed(keycode);
-	}
-
-	bool mvApp::isKeyReleased(int keycode) const
-	{
-		if (!m_started)
-			return false;
-		return ImGui::IsKeyReleased(keycode);
-	}
-
-	bool mvApp::isKeyDown(int keycode) const
-	{
-		if (!m_started)
-			return false;
-		return ImGui::IsKeyDown(keycode);
-	}
-
 	void mvApp::pushParent(mvAppItem* item)
 	{
 		m_parents.push(item);
@@ -637,9 +581,10 @@ namespace Marvel {
 
 			PyErr_Clear();
 
-			PyObject* pArgs = PyTuple_New(1);
+			PyObject* pArgs = PyTuple_New(2);
 			Py_XINCREF(data);
-			PyTuple_SetItem(pArgs, 0, data);
+			PyTuple_SetItem(pArgs, 0, PyUnicode_FromString("Async"));
+			PyTuple_SetItem(pArgs, 1, data);
 
 			PyObject* result = PyObject_CallObject(pHandler, pArgs);
 
@@ -675,116 +620,7 @@ namespace Marvel {
 		PyGILState_Release(gstate);
 	}
 
-	void mvApp::runAsyncCallbackReturn(std::string name, PyObject* data)
-	{
-		if (name.empty())
-			return;
-
-		PyGILState_STATE gstate = PyGILState_Ensure();
-
-		PyObject* pHandler = PyDict_GetItemString(m_pDict, name.c_str()); // borrowed reference
-
-		// if callback doesn't exist
-		if (pHandler == NULL)
-		{
-			std::string message(" Callback doesn't exist");
-			mvAppLog::getLogger()->LogWarning(name + message);
-			PyGILState_Release(gstate);
-			return;
-		}
-
-		// check if handler is callable
-		if (PyCallable_Check(pHandler))
-		{
-
-			PyErr_Clear();
-
-			PyObject* pArgs = PyTuple_New(1);
-			Py_XINCREF(data);
-			PyTuple_SetItem(pArgs, 0, data);
-
-			PyObject* result = PyObject_CallObject(pHandler, pArgs);
-
-			// check if call succeded
-			if (!result)
-			{
-				std::string message("Callback failed");
-				mvAppLog::getLogger()->LogError(name + message);
-			}
-
-			Py_XDECREF(pArgs);
-			Py_XDECREF(result);
-
-			// check if error occurred
-			if (PyErr_Occurred())
-				PyErr_Print();
-
-		}
-
-		else
-		{
-			std::string message(" Callback not callable");
-			mvAppLog::getLogger()->LogError(name + message);
-		}
-
-		PyGILState_Release(gstate);
-	}
-
-	void mvApp::runCallback(const std::string& name, const std::string& sender)
-	{
-		if (name.empty())
-			return;
-
-		PyGILState_STATE gstate = PyGILState_Ensure();
-
-		PyObject* pHandler = PyDict_GetItemString(m_pDict, name.c_str()); // borrowed reference
-
-		// if callback doesn't exist
-		if (pHandler == NULL)
-		{
-			std::string message(" Callback doesn't exist");
-			mvAppLog::getLogger()->LogWarning(name + message);
-			PyGILState_Release(gstate);
-			return;
-		}
-
-		// check if handler is callable
-		if (PyCallable_Check(pHandler))
-		{
-
-			PyErr_Clear();
-
-			PyObject* pArgs = PyTuple_New(1);
-			PyTuple_SetItem(pArgs, 0, PyUnicode_FromString(sender.c_str()));
-
-			PyObject* result = PyObject_CallObject(pHandler, pArgs);
-			
-			// check if call succeded
-			if (!result)
-			{
-				std::string message("Callback failed");
-				mvAppLog::getLogger()->LogError(name + message);
-			}
-
-			Py_XDECREF(pArgs);
-			Py_XDECREF(result);
-
-			// check if error occurred
-			if(PyErr_Occurred())
-				PyErr_Print();
-
-		}
-
-		else
-		{
-			std::string message(" Callback not callable");
-			mvAppLog::getLogger()->LogError(name + message);
-		}
-
-		PyGILState_Release(gstate);
-	}
-
-	void mvApp::runCallbackP(const std::string& name, const std::string& sender, PyObject* data)
+	void mvApp::runCallback(const std::string& name, const std::string& sender, PyObject* data)
 	{
 		if (name.empty())
 			return;
@@ -809,6 +645,7 @@ namespace Marvel {
 			PyErr_Clear();
 
 			PyObject* pArgs = PyTuple_New(2);
+			Py_XINCREF(data);
 			PyTuple_SetItem(pArgs, 0, PyUnicode_FromString(sender.c_str()));
 			PyTuple_SetItem(pArgs, 1, data);
 
@@ -837,60 +674,6 @@ namespace Marvel {
 		}
 
 		PyGILState_Release(gstate);
-	}
-
-	void mvApp::runCallbackD(const std::string& name, int sender, float data)
-	{
-		if (name.empty())
-			return;
-
-		PyGILState_STATE gstate = PyGILState_Ensure();
-
-		PyErr_Clear();
-
-		PyObject* pHandler = PyDict_GetItemString(m_pDict, name.c_str()); // borrowed reference
-
-		// if callback doesn't exist
-		if (pHandler == NULL)
-		{
-			std::string message(" Callback doesn't exist");
-			mvAppLog::getLogger()->LogWarning(name + message);
-			PyGILState_Release(gstate);
-			return;
-		}
-
-		// check if handler is callable
-		if (PyCallable_Check(pHandler))
-		{
-			PyObject* pArgs = PyTuple_New(2);
-			PyTuple_SetItem(pArgs, 0, PyLong_FromLong(sender));
-			PyTuple_SetItem(pArgs, 1, PyFloat_FromDouble(data));
-
-			PyObject* result = PyObject_CallObject(pHandler, pArgs);
-
-			// check if call succeded
-			if (!result)
-			{
-				std::string message("Callback failed");
-				mvAppLog::getLogger()->LogError(name + message);
-			}
-
-			Py_XDECREF(pArgs);
-			Py_XDECREF(result);
-
-			// check if error occurred
-			if (PyErr_Occurred())
-				PyErr_Print();
-		}
-
-		else
-		{
-			std::string message(" Callback not callable");
-			mvAppLog::getLogger()->LogError(name + message);
-		}
-
-		PyGILState_Release(gstate);
-
 	}
 
 	void mvApp::setAppTheme(const std::string& theme)
@@ -1328,7 +1111,7 @@ namespace Marvel {
 		static int count = 0;
 		count++;
 
-		assert(!m_started); // should not be callable during runtime
+		assert(!IsAppStarted()); // should not be callable during runtime
 
 		if (!item->areDuplicatesAllowed())
 		{
@@ -1359,61 +1142,4 @@ namespace Marvel {
 		m_windows.push_back(item);
 	}
 
-	void mvApp::addData(const std::string& name, PyObject* data)
-	{
-		if (std::this_thread::get_id() != m_mainThreadID)
-		{
-			mvAppLog::getLogger()->LogWarning("Data can not be modified outside main thread.");
-			return;
-		}
-
-		if (m_dataStorage.count(name) > 0)
-		{
-			deleteData(name);
-			addData(name, data);
-			for (auto window : m_windows)
-				window->updateDataSource(name);
-			return;
-		}
-
-		m_dataStorage.insert({ name, data });
-		for (auto window : m_windows)
-			window->updateDataSource(name);
-	}
-
-	PyObject* mvApp::getData(const std::string& name)
-	{
-		if (std::this_thread::get_id() != m_mainThreadID)
-		{
-			mvAppLog::getLogger()->LogWarning("Data can not be modified outside main thread.");
-			return nullptr;
-		}
-
-		if (m_dataStorage.count(name) == 0)
-		{
-			mvAppLog::getLogger()->LogWarning(name + " does not exists in data storage.");
-			return nullptr;
-		}
-		Py_XINCREF(m_dataStorage.at(name));
-		return m_dataStorage.at(name);
-	}
-
-	void mvApp::deleteData(const std::string& name)
-	{
-		if (std::this_thread::get_id() != m_mainThreadID)
-		{
-			mvAppLog::getLogger()->LogWarning("Data can not be modified outside main thread.");
-			return;
-		}
-
-		if (m_dataStorage.count(name) == 0)
-		{
-			mvAppLog::getLogger()->LogWarning(name + " does not exists in data storage.");
-			return;
-		}
-
-		Py_XDECREF(m_dataStorage.at(name));
-		m_dataStorage.erase(name);
-		
-	}
 }

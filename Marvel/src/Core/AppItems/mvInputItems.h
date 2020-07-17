@@ -37,7 +37,7 @@ namespace Marvel {
 			if (ImGui::InputInt(m_label.c_str(), m_value))
 			{
 				if (!m_dataSource.empty())
-					mvApp::GetApp()->addData(m_dataSource, getPyValue());
+					mvDataStorage::AddData(m_dataSource, getPyValue());
 
 				mvApp::GetApp()->runCallback(m_callback, m_name);
 
@@ -69,7 +69,7 @@ namespace Marvel {
 			if (ImGui::InputInt2(m_label.c_str(), m_value))
 			{
 				if (!m_dataSource.empty())
-					mvApp::GetApp()->addData(m_dataSource, getPyValue());
+					mvDataStorage::AddData(m_dataSource, getPyValue());
 
 				mvApp::GetApp()->runCallback(m_callback, m_name);
 
@@ -101,7 +101,7 @@ namespace Marvel {
 			if (ImGui::InputInt3(m_label.c_str(), m_value))
 			{
 				if (!m_dataSource.empty())
-					mvApp::GetApp()->addData(m_dataSource, getPyValue());
+					mvDataStorage::AddData(m_dataSource, getPyValue());
 
 				mvApp::GetApp()->runCallback(m_callback, m_name);
 
@@ -133,7 +133,7 @@ namespace Marvel {
 			if (ImGui::InputInt4(m_label.c_str(), m_value))
 			{
 				if (!m_dataSource.empty())
-					mvApp::GetApp()->addData(m_dataSource, getPyValue());
+					mvDataStorage::AddData(m_dataSource, getPyValue());
 
 				mvApp::GetApp()->runCallback(m_callback, m_name);
 
@@ -166,7 +166,7 @@ namespace Marvel {
 			if (ImGui::InputFloat(m_label.c_str(), m_value, 0.0f, 0.0f, m_format.c_str()))
 			{
 				if (!m_dataSource.empty())
-					mvApp::GetApp()->addData(m_dataSource, getPyValue());
+					mvDataStorage::AddData(m_dataSource, getPyValue());
 
 				mvApp::GetApp()->runCallback(m_callback, m_name);
 
@@ -202,7 +202,7 @@ namespace Marvel {
 			if (ImGui::InputFloat2(m_label.c_str(), m_value, m_format.c_str()))
 			{
 				if (!m_dataSource.empty())
-					mvApp::GetApp()->addData(m_dataSource, getPyValue());
+					mvDataStorage::AddData(m_dataSource, getPyValue());
 
 				mvApp::GetApp()->runCallback(m_callback, m_name);
 
@@ -238,7 +238,7 @@ namespace Marvel {
 			if (ImGui::InputFloat3(m_label.c_str(), m_value, m_format.c_str()))
 			{
 				if (!m_dataSource.empty())
-					mvApp::GetApp()->addData(m_dataSource, getPyValue());
+					mvDataStorage::AddData(m_dataSource, getPyValue());
 
 				mvApp::GetApp()->runCallback(m_callback, m_name);
 
@@ -274,7 +274,7 @@ namespace Marvel {
 			if (ImGui::InputFloat4(m_label.c_str(), m_value, m_format.c_str()))
 			{
 				if (!m_dataSource.empty())
-					mvApp::GetApp()->addData(m_dataSource, getPyValue());
+					mvDataStorage::AddData(m_dataSource, getPyValue());
 
 				mvApp::GetApp()->runCallback(m_callback, m_name);
 

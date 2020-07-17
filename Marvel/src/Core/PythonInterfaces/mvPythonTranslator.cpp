@@ -4,9 +4,44 @@
 
 namespace Marvel {
 
+	mvGlobalIntepreterLock::mvGlobalIntepreterLock()
+	{
+		m_gstate = PyGILState_Ensure();
+	}
+
+	mvGlobalIntepreterLock::~mvGlobalIntepreterLock()
+	{
+		PyGILState_Release(m_gstate);
+	}
+
+	PyObject* mvPythonTranslator::ToPyString(const std::string& value)
+	{
+		mvGlobalIntepreterLock gil();
+		return PyUnicode_FromString(value.c_str());
+	}
+
+	PyObject* mvPythonTranslator::ToPyFloat(float value)
+	{
+		mvGlobalIntepreterLock gil();
+		return PyFloat_FromDouble(value);
+	}
+
+	PyObject* mvPythonTranslator::ToPyInt(int value)
+	{
+		mvGlobalIntepreterLock gil();
+		return PyLong_FromLong(value);
+	}
+
+	PyObject* mvPythonTranslator::ToPyPair(float x, float y)
+	{
+		mvGlobalIntepreterLock gil();
+		return Py_BuildValue("[ff]", x, y);
+	}
+
 	std::vector<std::string> mvPythonTranslator::getStringVec(PyObject* obj)
 	{
 		std::vector<std::string> items;
+		mvGlobalIntepreterLock gil();
 
 		if (PyTuple_Check(obj))
 		{
@@ -25,6 +60,7 @@ namespace Marvel {
 	std::vector<std::pair<std::string, std::string>> mvPythonTranslator::getStringPairVec(PyObject* obj)
 	{
 		std::vector<std::pair<std::string, std::string>> items;
+		mvGlobalIntepreterLock gil();
 
 		if (PyTuple_Check(obj))
 		{
@@ -48,12 +84,14 @@ namespace Marvel {
 			}
 		}
 
+
 		return items;
 	}
 
 	std::vector<float> mvPythonTranslator::getFloatVec(PyObject* obj)
 	{
 		std::vector<float> items;
+		mvGlobalIntepreterLock gil();
 
 		if (PyTuple_Check(obj))
 		{
@@ -67,12 +105,14 @@ namespace Marvel {
 				items.emplace_back(PyFloat_AsDouble(PyList_GetItem(obj, i)));
 		}
 
+
 		return items;
 	}
 
 	std::vector<int> mvPythonTranslator::getIntVec(PyObject* obj)
 	{
 		std::vector<int> items;
+		mvGlobalIntepreterLock gil();
 
 		if (PyTuple_Check(obj))
 		{
@@ -86,12 +126,14 @@ namespace Marvel {
 				items.emplace_back(PyLong_AsLong(PyList_GetItem(obj, i)));
 		}
 
+
 		return items;
 	}
 
 	mvVec2 mvPythonTranslator::getVec2(PyObject* obj)
 	{
 		std::vector<float> items;
+		mvGlobalIntepreterLock gil();
 
 		float x, y;
 
@@ -106,6 +148,7 @@ namespace Marvel {
 			y = PyFloat_AsDouble(PyList_GetItem(obj, 1));
 		}
 
+
 		return mvVec2{ x, y };
 	}
 
@@ -116,6 +159,8 @@ namespace Marvel {
 
 		if (obj == nullptr)
 			return mvColor{ color[0], color[1], color[2], color[3], false };
+
+		mvGlobalIntepreterLock gil();
 
 		if (PyTuple_Check(obj))
 		{
@@ -134,8 +179,7 @@ namespace Marvel {
 	std::vector<mvVec2> mvPythonTranslator::getVectVec2(PyObject* obj)
 	{
 		std::vector<mvVec2> items;
-
-
+		mvGlobalIntepreterLock gil();
 
 		if (PyTuple_Check(obj))
 		{
@@ -170,6 +214,7 @@ namespace Marvel {
 	std::vector<std::pair<int, int>> mvPythonTranslator::getVectInt2(PyObject* obj)
 	{
 		std::vector<std::pair<int, int>> items;
+		mvGlobalIntepreterLock gil();
 
 		for (int i = 0; i < PyTuple_Size(obj); i++)
 		{

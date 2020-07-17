@@ -1,6 +1,7 @@
 #include "mvAboutWindow.h"
 #include <imgui.h>
 #include "Core/mvApp.h"
+#include "Core/mvInput.h"
 
 namespace Marvel {
 
@@ -94,7 +95,7 @@ namespace Marvel {
 			ImVec2 mousePos = ImGui::GetMousePos();
 			float x = mousePos.x - ImGui::GetWindowPos().x;
 			float y = mousePos.y - ImGui::GetWindowPos().y - titleBarHeight;
-			mvApp::GetApp()->setMousePosition(x, y);
+			mvInput::setMousePosition(x, y);
 
 			mvApp::GetApp()->setActiveWindow("About");
 

@@ -1,5 +1,6 @@
 #include "mvAppItem.h"
 #include "Core/mvApp.h"
+#include "Core/mvDataStorage.h"
 
 namespace Marvel{
 
@@ -118,7 +119,7 @@ namespace Marvel{
 		updateData(name);
 
 		if (name == m_dataSource)
-			setPyValue(mvApp::GetApp()->getData(name));
+			setPyValue(mvDataStorage::GetData(name));
 
 		for (auto child : m_children)
 			child->updateDataSource(name);

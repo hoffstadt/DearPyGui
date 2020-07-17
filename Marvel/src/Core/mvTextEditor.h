@@ -1,6 +1,15 @@
 #pragma once
 
-// forked from ImGuiColorTextEditor
+//-----------------------------------------------------------------------------
+// mvTextEditor
+//
+//     - This was forked and modified from the now abandoned 
+//       ImGuiColorTextEditor.
+//       
+//     - Eventually this should be rewritten and improved to make it
+//       more extendable and customizable (i.e. key mappings)
+//     
+//-----------------------------------------------------------------------------
 
 #include <string>
 #include <vector>
@@ -14,6 +23,9 @@
 
 namespace Marvel {
 
+	//-----------------------------------------------------------------------------
+	// mvTextEditor
+	//-----------------------------------------------------------------------------
 	class mvTextEditor
 	{
 	public:

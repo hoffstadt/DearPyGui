@@ -1,6 +1,8 @@
 #include "mvMarvel.h"
 #include "mvPythonModule.h"
 #include "Core/mvApp.h"
+#include "Core/mvInput.h"
+#include "Core/mvDataStorage.h"
 #include "Core/StandardWindows/mvAppLog.h"
 #include "mvPythonTranslator.h"
 #include "Core/AppItems/mvAppItems.h"
@@ -16,23 +18,23 @@ namespace Marvel {
 		auto ma = mvApp::GetApp();
 
 		// typical run time adding
-		if ((!std::string(parent).empty() || !std::string(before).empty()) && ma->isStarted())
+		if ((!std::string(parent).empty() || !std::string(before).empty()) && mvApp::IsAppStarted())
 			ma->addRuntimeItem(parent, before, item);
 
 		// adding without specifying before or parent, instead using parent stack
-		else if (std::string(parent).empty() && std::string(before).empty() && ma->isStarted() && ma->topParent() != nullptr)
+		else if (std::string(parent).empty() && std::string(before).empty() && mvApp::IsAppStarted() && ma->topParent() != nullptr)
 			ma->addRuntimeItem(ma->topParent()->getName(), before, item);
 
 		// adding without specifying before or parent, but with empty stack (add to main window)
-		else if (std::string(parent).empty() && std::string(before).empty() && ma->isStarted())
+		else if (std::string(parent).empty() && std::string(before).empty() && mvApp::IsAppStarted())
 			ma->addRuntimeItem("MainWindow", "", item);
 
 		// adding normally but using the runtime style of adding
-		else if (!std::string(parent).empty() && !ma->isStarted())
+		else if (!std::string(parent).empty() && !mvApp::IsAppStarted())
 			ma->addRuntimeItem(parent, before, item);
 
 		// typical adding before runtime
-		else if (std::string(parent).empty() && !ma->isStarted() && std::string(before).empty())
+		else if (std::string(parent).empty() && !mvApp::IsAppStarted() && std::string(before).empty())
 			ma->addItem(item);
 	}
 
@@ -106,27 +108,7 @@ namespace Marvel {
 		item->setWidth(width);
 		item->setHeight(height);
 
-		auto ma = mvApp::GetApp();
-
-		// typical run time adding
-		if ((!std::string(parent).empty() || !std::string(before).empty()) && ma->isStarted())
-			ma->addRuntimeItem(parent, before, item);
-
-		// adding without specifying before or parent, instead using parent stack
-		else if (std::string(parent).empty() && std::string(before).empty() && ma->isStarted() && ma->topParent() != nullptr)
-			ma->addRuntimeItem(ma->topParent()->getName(), before, item);
-
-		// adding without specifying before or parent, but with empty stack (add to main window)
-		else if (std::string(parent).empty() && std::string(before).empty() && ma->isStarted())
-			ma->addRuntimeItem("MainWindow", "", item);
-
-		// adding normally but using the runtime style of adding
-		else if (!std::string(parent).empty() && !ma->isStarted())
-			ma->addRuntimeItem(parent, before, item);
-
-		// typical adding before runtime
-		else if (std::string(parent).empty() && !ma->isStarted() && std::string(before).empty())
-			ma->addItem(item);
+		AddItemWithRuntimeChecks(item, parent, before);
 
 		Py_RETURN_NONE;
 	}
@@ -985,27 +967,7 @@ namespace Marvel {
 		item->setWidth(width);
 		item->setHeight(height);
 
-		auto ma = mvApp::GetApp();
-
-		// typical run time adding
-		if ((!std::string(parent).empty() || !std::string(before).empty()) && ma->isStarted())
-			ma->addRuntimeItem(parent, before, item);
-
-		// adding without specifying before or parent, instead using parent stack
-		else if (std::string(parent).empty() && std::string(before).empty() && ma->isStarted() && ma->topParent() != nullptr)
-			ma->addRuntimeItem(ma->topParent()->getName(), before, item);
-
-		// adding without specifying before or parent, but with empty stack (add to main window)
-		else if (std::string(parent).empty() && std::string(before).empty() && ma->isStarted())
-			ma->addRuntimeItem("MainWindow", "", item);
-
-		// adding normally but using the runtime style of adding
-		else if (!std::string(parent).empty() && !ma->isStarted())
-			ma->addRuntimeItem(parent, before, item);
-
-		// typical adding before runtime
-		else if (std::string(parent).empty() && !ma->isStarted() && std::string(before).empty())
-			ma->addItem(item);
+		AddItemWithRuntimeChecks(item, parent, before);
 
 		Py_RETURN_NONE;
 	}
@@ -1229,14 +1191,14 @@ namespace Marvel {
 
 	PyObject* get_mouse_pos(PyObject* self, PyObject* args)
 	{
-		mvMousePos pos = mvApp::GetApp()->getMousePosition();
+		mvVec2 pos = mvInput::getMousePosition();
 		PyObject* pvalue = Py_BuildValue("(ff)", pos.x, pos.y);
 		return pvalue;
 	}
 
 	PyObject* get_mouse_drag_delta(PyObject* self, PyObject* args)
 	{
-		mvVec2 pos = mvApp::GetApp()->getMouseDragDelta();
+		mvVec2 pos = mvInput::getMouseDragDelta();
 		PyObject* pvalue = Py_BuildValue("(ff)", pos.x, pos.y);
 		return pvalue;
 	}
@@ -1248,7 +1210,7 @@ namespace Marvel {
 		if (!Parsers["is_key_pressed"].parse(args, kwargs, __FUNCTION__, &key))
 			Py_RETURN_NONE;
 
-		bool pressed = mvApp::GetApp()->isKeyPressed(key);
+		bool pressed = mvInput::isKeyPressed(key);
 
 		PyObject* pvalue = Py_BuildValue("i", pressed);
 
@@ -1262,7 +1224,7 @@ namespace Marvel {
 		if (!Parsers["is_key_released"].parse(args, kwargs, __FUNCTION__, &key))
 			Py_RETURN_NONE;
 
-		bool pressed = mvApp::GetApp()->isKeyReleased(key);
+		bool pressed = mvInput::isKeyReleased(key);
 
 		PyObject* pvalue = Py_BuildValue("i", pressed);
 
@@ -1276,7 +1238,7 @@ namespace Marvel {
 		if (!Parsers["is_key_down"].parse(args, kwargs, __FUNCTION__, &key))
 			Py_RETURN_NONE;
 
-		bool pressed = mvApp::GetApp()->isKeyDown(key);
+		bool pressed = mvInput::isKeyDown(key);
 
 		PyObject* pvalue = Py_BuildValue("i", pressed);
 
@@ -1291,7 +1253,7 @@ namespace Marvel {
 		if (!Parsers["is_mouse_button_dragging"].parse(args, kwargs, __FUNCTION__, &button, &threshold))
 			Py_RETURN_NONE;
 
-		return Py_BuildValue("i", mvApp::GetApp()->isMouseDragging(button, threshold));
+		return Py_BuildValue("i", mvInput::isMouseDragging(button, threshold));
 	}
 
 	PyObject* is_mouse_button_down(PyObject* self, PyObject* args, PyObject* kwargs)
@@ -1301,7 +1263,7 @@ namespace Marvel {
 		if (!Parsers["is_mouse_button_down"].parse(args, kwargs, __FUNCTION__, &button))
 			Py_RETURN_NONE;
 
-		return Py_BuildValue("i", mvApp::GetApp()->isMouseButtonDown(button));
+		return Py_BuildValue("i", mvInput::isMouseButtonDown(button));
 	}
 
 	PyObject* is_mouse_button_clicked(PyObject* self, PyObject* args, PyObject* kwargs)
@@ -1311,7 +1273,7 @@ namespace Marvel {
 		if (!Parsers["is_mouse_button_clicked"].parse(args, kwargs, __FUNCTION__, &button))
 			Py_RETURN_NONE;
 
-		return Py_BuildValue("i", mvApp::GetApp()->isMouseButtonClicked(button));
+		return Py_BuildValue("i", mvInput::isMouseButtonClicked(button));
 	}
 
 	PyObject* is_mouse_button_double_clicked(PyObject* self, PyObject* args, PyObject* kwargs)
@@ -1321,7 +1283,7 @@ namespace Marvel {
 		if (!Parsers["is_mouse_button_double_clicked"].parse(args, kwargs, __FUNCTION__, &button))
 			Py_RETURN_NONE;
 
-		return Py_BuildValue("i", mvApp::GetApp()->isMouseButtonDoubleClicked(button));
+		return Py_BuildValue("i", mvInput::isMouseButtonDoubleClicked(button));
 	}
 
 	PyObject* is_mouse_button_released(PyObject* self, PyObject* args, PyObject* kwargs)
@@ -1331,7 +1293,7 @@ namespace Marvel {
 		if (!Parsers["is_mouse_button_released"].parse(args, kwargs, __FUNCTION__, &button))
 			Py_RETURN_NONE;
 
-		return Py_BuildValue("i", mvApp::GetApp()->isMouseButtonReleased(button));
+		return Py_BuildValue("i", mvInput::isMouseButtonReleased(button));
 	}
 
 	PyObject* set_mouse_down_callback(PyObject* self, PyObject* args, PyObject* kwargs)
@@ -1369,7 +1331,7 @@ namespace Marvel {
 		if (!Parsers["set_mouse_drag_callback"].parse(args, kwargs, __FUNCTION__, &callback, &threshold, &handler))
 			Py_RETURN_NONE;
 
-		mvApp::GetApp()->setMouseDragThreshold(threshold);
+		mvInput::setMouseDragThreshold(threshold);
 
 		if (std::string(handler) == "MainWindow")
 			mvApp::GetApp()->setMouseDragCallback(std::string(callback));
@@ -3950,7 +3912,7 @@ namespace Marvel {
 		if (!Parsers["add_data"].parse(args, kwargs, __FUNCTION__, &name, &data))
 			Py_RETURN_NONE;
 
-		mvApp::GetApp()->addData(name, data);
+		mvDataStorage::AddData(name, data);
 		Py_XINCREF(data);
 
 		Py_RETURN_NONE;
@@ -3964,7 +3926,7 @@ namespace Marvel {
 		if (!Parsers["get_data"].parse(args, kwargs, __FUNCTION__, &name))
 			Py_RETURN_NONE;
 
-		auto result = mvApp::GetApp()->getData(name);
+		auto result = mvDataStorage::GetData(name);
 
 		if (result)
 			return result;
@@ -3980,7 +3942,7 @@ namespace Marvel {
 		if (!Parsers["delete_data"].parse(args, kwargs, __FUNCTION__, &name))
 			Py_RETURN_NONE;
 
-		mvApp::GetApp()->deleteData(name);
+		mvDataStorage::DeleteData(name);
 
 		Py_RETURN_NONE;
 	}
@@ -4488,7 +4450,7 @@ namespace Marvel {
 
 	PyObject* close_popup(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
-		if (!mvApp::GetApp()->isStarted())
+		if (!mvApp::IsAppStarted())
 			Py_RETURN_NONE;
 
 		ImGui::CloseCurrentPopup();

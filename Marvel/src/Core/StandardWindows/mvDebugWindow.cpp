@@ -1,6 +1,9 @@
 #include "mvDebugWindow.h"
 #include <misc/cpp/imgui_stdlib.h>
 #include "Core/mvApp.h"
+#include "Core/mvInput.h"
+#include "Core/mvDataStorage.h"
+#include "Core/mvTextureStorage.h"
 
 namespace Marvel {
 
@@ -79,7 +82,8 @@ namespace Marvel {
 				DebugItem("Marvel Version: ", mvApp::GetVersion());
 				DebugItem("ImGui Version: ", IMGUI_VERSION);
 				DebugItem("App File: ", app->getFile().c_str());
-				DebugItem("Stored Data: ", std::to_string(app->getDataCount()).c_str());
+				DebugItem("Stored Data: ", std::to_string(mvDataStorage::GetDataCount()).c_str());
+				DebugItem("Stored Textures: ", std::to_string(mvTextureStorage::GetTextureCount()).c_str());
 				DebugItem("Threads Active: ", std::to_string(app->getThreadCount()).c_str());
 				DebugItem("Threadpool Timeout: ", std::to_string(app->getThreadPoolTimeout()).c_str());
 				DebugItem("Threadpool Active: ", app->usingThreadPool() ? ts : fs);
@@ -106,12 +110,12 @@ namespace Marvel {
 				ImGui::PushItemWidth(200);
 				ImGui::BeginGroup();
 
-				auto mousepos = app->getMousePosition();
+				auto mousepos = mvInput::getMousePosition();
 				DebugItem("Active Window: ", app->getActiveWindow().c_str());
 				DebugItem("Local Mouse Position:", mousepos.x, mousepos.y);
 				DebugItem("Global Mouse Position:", io.MousePos.x, io.MousePos.y);
-				DebugItem("Mouse Drag Delta:", app->getMouseDragDelta().x, app->getMouseDragDelta().y);
-				DebugItem("Mouse Drag Threshold:", app->getMouseDragThreshold());
+				DebugItem("Mouse Drag Delta:", mvInput::getMouseDragDelta().x, mvInput::getMouseDragDelta().y);
+				DebugItem("Mouse Drag Threshold:", mvInput::getMouseDragThreshold());
 
 				ImGui::Spacing();
 				ImGui::Spacing();
@@ -260,8 +264,7 @@ namespace Marvel {
 			ImVec2 mousePos = ImGui::GetMousePos();
 			float x = mousePos.x - ImGui::GetWindowPos().x;
 			float y = mousePos.y - ImGui::GetWindowPos().y - titleBarHeight;
-			mvApp::GetApp()->setMousePosition(x, y);
-
+			mvInput::setMousePosition(x, y);
 			mvApp::GetApp()->setActiveWindow("Debug");
 
 		}

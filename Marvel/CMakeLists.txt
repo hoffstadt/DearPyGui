@@ -10,8 +10,11 @@ target_sources(Marvel
 
 		"MarvelApplication.cpp"
 		"src/Core/mvApp.cpp"
+		"src/Core/mvInput.cpp"
 		"src/Core/mvWindow.cpp"
 		"src/Core/mvTextEditor.cpp"
+		"src/Core/mvDataStorage.cpp"
+		"src/Core/mvTextureStorage.cpp"
 
 		"src/Core/StandardWindows/mvStandardWindow.cpp"
 		"src/Core/StandardWindows/mvAppEditor.cpp"
@@ -21,8 +24,6 @@ target_sources(Marvel
 		"src/Core/StandardWindows/mvMetricsWindow.cpp"
 		"src/Core/StandardWindows/mvSourceWindow.cpp"
 		"src/Core/StandardWindows/mvDebugWindow.cpp"
-		
-		"src/Core/Concurrency/mvThreadPool.cpp"
 
 		"src/Core/AppItems/mvAppItem.cpp"
 		"src/Core/AppItems/mvDrawing.cpp"

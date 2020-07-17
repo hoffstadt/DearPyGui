@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Core/AppItems/mvTypeBases.h"
+#include "Core/mvTextureStorage.h"
 
 //-----------------------------------------------------------------------------
 // Widget Index
@@ -61,8 +62,6 @@ namespace Marvel {
 		}
 
 		~mvDrawImageCommand();
-
-		void updateTexture();
 
 	private:
 

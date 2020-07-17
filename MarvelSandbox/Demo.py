@@ -66,22 +66,22 @@ for i in range(0, 10):
 set_value("Table##widget", tabledata)
 end_window()
 
-def DeleteRow(sender):
+def DeleteRow(sender, data):
     delete_row("Table##widget", 6)
 
-def DeleteCol(sender):
+def DeleteCol(sender, data):
     delete_column("Table##widget", 1)
 
-def AddRow(sender):
+def AddRow(sender, data):
     add_row("Table##widget", ["new1", "new2", "new3", "new4"])
 
-def AddCol(sender):
+def AddCol(sender, data):
     add_column("Table##widget", "New Column", ["new1", "new2", "new3", "new4"])
 
-def InsertRow(sender):
+def InsertRow(sender, data):
     insert_row("Table##widget", 5, ["inew1", "inew2", "inew3", "inew4"])
 
-def InsertCol(sender):
+def InsertCol(sender, data):
     insert_column("Table##widget", 1,  "Inserted Column", ["inew1", "inew2", "inew3", "inew4"])
 
 # tooltip/popup testing
@@ -295,7 +295,7 @@ end_window()
 
 set_render_callback("InputPollingMainCallback", "Input Polling##dialog")
 
-def InputPollingMainCallback(sender):
+def InputPollingMainCallback(sender, data):
 
     set_value("Mouse Position", str(get_mouse_pos()))
 
@@ -395,39 +395,39 @@ def InputPollingMainCallback(sender):
     else:
         set_value("Middle Mouse Released", "False")
 
-def colormapCallback(sender):
+def colormapCallback(sender, data):
     value = get_value("Colormaps")
     set_color_map("Plot", value)
 
-def UpdateDrawing(sender):
+def UpdateDrawing(sender, data):
     set_drawing_origin("drawing##widget", get_value("X Origin"), get_value("Y Origin"))
     set_drawing_scale("drawing##widget", get_value("X Scale "), get_value("Y Scale"))
 
-def LongAsyncronousCallback(sender):
+def LongAsyncronousCallback(sender, data):
     run_async_function("LongCallback2", "some_data", return_handler="ReturnFromLongProcess")
 
-def LongCallback(sender):
+def LongCallback(sender, data):
     for i in range(0, 10000000):
         pass
     log_info("Done with long process")
 
-def LongCallback2(data):
+def LongCallback2(sender, data):
     for i in range(0, 10000000):
         pass
     log_info("Done with process from " + data)
     return 42
 
-def ReturnFromLongProcess(data):
+def ReturnFromLongProcess(sender, data):
     log_info("Data returned to main thread: " + str(data))
 
-def Launcher(sender):
+def Launcher(sender, data):
  
     show_item(sender + "##dialog")
 
-def ThemeCallback(sender):
+def ThemeCallback(sender, data):
     set_theme(sender)
 
-def LogCallback(sender):
+def LogCallback(sender, data):
     show_logger()
     clear_log()
     loglevel = get_value("Log Level##logging")
@@ -439,7 +439,7 @@ def LogCallback(sender):
     log_warning("Warning Message")
     log_error("Error Message")
 
-def PlotCallback(sender):
+def PlotCallback(sender, data):
 
     clear_plot("Plot")
 
@@ -454,7 +454,7 @@ def PlotCallback(sender):
     add_line_series("Plot", "Cos", data1, weight=2)
     add_scatter_series("Plot", "Sin", data2, marker=mc.mvPlotMarker_Circle)
 
-def RetrieveValues(sender):
+def RetrieveValues(sender, data):
 
     show_logger()
     log_info("Data Storage:" + str(get_data("DataStorage1")))

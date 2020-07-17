@@ -6,7 +6,7 @@ add_button("Run Demo", callback="Launcher")
 add_button("Run Documentation", callback="Launcher")
 add_button("Run IDE", callback="Launcher")
 
-def Launcher(sender):
+def Launcher(sender, data):
 
     if sender == "Run App":
         run_file("MarvelSandbox", "App.py")

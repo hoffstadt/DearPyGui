@@ -6,7 +6,6 @@
 #include <string>
 #include <atomic>
 #include "Core/AppItems/mvAppItem.h"
-#include "Core/mvMouse.h"
 #include "Core/mvAppStyle.h"
 #include "Core/mvTextEditor.h"
 #include "mvStandardWindow.h"
