@@ -365,7 +365,7 @@ namespace Marvel {
 	//-----------------------------------------------------------------------------
 	// mvDrawing
 	//-----------------------------------------------------------------------------
-	class mvDrawing : public mvNoneItemBase
+	class mvDrawing : public mvAppItem
 	{
 
 	public:
@@ -373,7 +373,7 @@ namespace Marvel {
 		MV_APPITEM_TYPE(mvAppItemType::Drawing)
 
 		mvDrawing(const std::string& parent, const std::string& name, int width, int height)
-			: mvNoneItemBase(parent, name)
+			: mvAppItem(parent, name)
 		{
 			m_width = width;
 			m_height = height;

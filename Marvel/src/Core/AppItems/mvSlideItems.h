@@ -44,7 +44,7 @@ namespace Marvel {
 				if (m_width < 1.0f)
 					m_width = 20.f;
 
-				if (ImGui::VSliderFloat(m_label.c_str(), ImVec2(m_width, m_height), m_value, m_min, m_max, m_format.c_str(), m_power))
+				if (ImGui::VSliderFloat(m_label.c_str(), ImVec2(m_width, m_height), m_value.data(), m_min, m_max, m_format.c_str(), m_power))
 				{
 					if (!m_dataSource.empty())
 						mvDataStorage::AddData(m_dataSource, getPyValue());
@@ -58,7 +58,7 @@ namespace Marvel {
 			}
 			else
 			{
-				if (ImGui::SliderFloat(m_label.c_str(), m_value, m_min, m_max, m_format.c_str(), m_power))
+				if (ImGui::SliderFloat(m_label.c_str(), m_value.data(), m_min, m_max, m_format.c_str(), m_power))
 				{
 					if (!m_dataSource.empty())
 						mvDataStorage::AddData(m_dataSource, getPyValue());
@@ -101,7 +101,7 @@ namespace Marvel {
 
 		virtual void draw() override
 		{
-			if (ImGui::SliderFloat2(m_label.c_str(), m_value, m_min, m_max, m_format.c_str(), m_power))
+			if (ImGui::SliderFloat2(m_label.c_str(), m_value.data(), m_min, m_max, m_format.c_str(), m_power))
 			{
 				if (!m_dataSource.empty())
 					mvDataStorage::AddData(m_dataSource, getPyValue());
@@ -142,7 +142,7 @@ namespace Marvel {
 
 		virtual void draw() override
 		{
-			if (ImGui::SliderFloat3(m_label.c_str(), m_value, m_min, m_max, m_format.c_str(), m_power))
+			if (ImGui::SliderFloat3(m_label.c_str(), m_value.data(), m_min, m_max, m_format.c_str(), m_power))
 			{
 				if (!m_dataSource.empty())
 					mvDataStorage::AddData(m_dataSource, getPyValue());
@@ -183,7 +183,7 @@ namespace Marvel {
 
 		virtual void draw() override
 		{
-			if (ImGui::SliderFloat4(m_label.c_str(), m_value, m_min, m_max, m_format.c_str(), m_power))
+			if (ImGui::SliderFloat4(m_label.c_str(), m_value.data(), m_min, m_max, m_format.c_str(), m_power))
 			{
 				if (!m_dataSource.empty())
 					mvDataStorage::AddData(m_dataSource, getPyValue());
@@ -230,7 +230,7 @@ namespace Marvel {
 				if (m_width < 1.0f)
 					m_width = 20.f;
 
-				if (ImGui::VSliderInt(m_label.c_str(), ImVec2(m_width, m_height), m_value, m_min, m_max, m_format.c_str()))
+				if (ImGui::VSliderInt(m_label.c_str(), ImVec2(m_width, m_height), m_value.data(), m_min, m_max, m_format.c_str()))
 				{
 					if (!m_dataSource.empty())
 						mvDataStorage::AddData(m_dataSource, getPyValue());
@@ -244,7 +244,7 @@ namespace Marvel {
 			}
 			else
 			{
-				if (ImGui::SliderInt(m_label.c_str(), m_value, m_min, m_max, m_format.c_str()))
+				if (ImGui::SliderInt(m_label.c_str(), m_value.data(), m_min, m_max, m_format.c_str()))
 				{
 					if (!m_dataSource.empty())
 						mvDataStorage::AddData(m_dataSource, getPyValue());
@@ -286,7 +286,7 @@ namespace Marvel {
 
 		virtual void draw() override
 		{
-			if (ImGui::SliderInt2(m_label.c_str(), m_value, m_min, m_max, m_format.c_str()))
+			if (ImGui::SliderInt2(m_label.c_str(), m_value.data(), m_min, m_max, m_format.c_str()))
 			{
 				if (!m_dataSource.empty())
 					mvDataStorage::AddData(m_dataSource, getPyValue());
@@ -326,7 +326,7 @@ namespace Marvel {
 
 		virtual void draw() override
 		{
-			if (ImGui::SliderInt3(m_label.c_str(), m_value, m_min, m_max, m_format.c_str()))
+			if (ImGui::SliderInt3(m_label.c_str(), m_value.data(), m_min, m_max, m_format.c_str()))
 			{
 				if (!m_dataSource.empty())
 					mvDataStorage::AddData(m_dataSource, getPyValue());
@@ -366,7 +366,7 @@ namespace Marvel {
 
 		virtual void draw() override
 		{
-			if (ImGui::SliderInt4(m_label.c_str(), m_value, m_min, m_max, m_format.c_str()))
+			if (ImGui::SliderInt4(m_label.c_str(), m_value.data(), m_min, m_max, m_format.c_str()))
 			{
 				if (!m_dataSource.empty())
 					mvDataStorage::AddData(m_dataSource, getPyValue());

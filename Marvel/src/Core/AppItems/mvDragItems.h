@@ -38,7 +38,7 @@ namespace Marvel {
 		virtual void draw() override
 		{
 
-			if (ImGui::DragFloat(m_label.c_str(), m_value, m_speed, m_min, m_max, m_format.c_str(), m_power))
+			if (ImGui::DragFloat(m_label.c_str(), m_value.data(), m_speed, m_min, m_max, m_format.c_str(), m_power))
 			{
 				if (!m_dataSource.empty())
 					mvDataStorage::AddData(m_dataSource, getPyValue());
@@ -81,7 +81,7 @@ namespace Marvel {
 
 		virtual void draw() override
 		{
-			if (ImGui::DragFloat2(m_label.c_str(), m_value, m_speed, m_min, m_max, m_format.c_str(), m_power))
+			if (ImGui::DragFloat2(m_label.c_str(), m_value.data(), m_speed, m_min, m_max, m_format.c_str(), m_power))
 			{
 				if (!m_dataSource.empty())
 					mvDataStorage::AddData(m_dataSource, getPyValue());
@@ -123,7 +123,7 @@ namespace Marvel {
 
 		virtual void draw() override
 		{
-			if (ImGui::DragFloat3(m_label.c_str(), m_value, m_speed, m_min, m_max, m_format.c_str(), m_power))
+			if (ImGui::DragFloat3(m_label.c_str(), m_value.data(), m_speed, m_min, m_max, m_format.c_str(), m_power))
 			{
 				if (!m_dataSource.empty())
 					mvDataStorage::AddData(m_dataSource, getPyValue());
@@ -165,7 +165,7 @@ namespace Marvel {
 
 		virtual void draw() override
 		{
-			if (ImGui::DragFloat4(m_label.c_str(), m_value, m_speed, m_min, m_max, m_format.c_str(), m_power))
+			if (ImGui::DragFloat4(m_label.c_str(), m_value.data(), m_speed, m_min, m_max, m_format.c_str(), m_power))
 			{
 				if (!m_dataSource.empty())
 					mvDataStorage::AddData(m_dataSource, getPyValue());
@@ -207,7 +207,7 @@ namespace Marvel {
 		virtual void draw() override
 		{
 
-			if (ImGui::DragInt(m_label.c_str(), m_value, m_speed, m_min, m_max, m_format.c_str()))
+			if (ImGui::DragInt(m_label.c_str(), m_value.data(), m_speed, m_min, m_max, m_format.c_str()))
 			{
 				if (!m_dataSource.empty())
 					mvDataStorage::AddData(m_dataSource, getPyValue());
@@ -249,7 +249,7 @@ namespace Marvel {
 
 		virtual void draw() override
 		{
-			if (ImGui::DragInt2(m_label.c_str(), m_value, m_speed, m_min, m_max, m_format.c_str()))
+			if (ImGui::DragInt2(m_label.c_str(), m_value.data(), m_speed, m_min, m_max, m_format.c_str()))
 			{
 				if (!m_dataSource.empty())
 					mvDataStorage::AddData(m_dataSource, getPyValue());
@@ -290,7 +290,7 @@ namespace Marvel {
 
 		virtual void draw() override
 		{
-			if (ImGui::DragInt3(m_label.c_str(), m_value, m_speed, m_min, m_max, m_format.c_str()))
+			if (ImGui::DragInt3(m_label.c_str(), m_value.data(), m_speed, m_min, m_max, m_format.c_str()))
 			{
 				if (!m_dataSource.empty())
 					mvDataStorage::AddData(m_dataSource, getPyValue());
@@ -331,7 +331,7 @@ namespace Marvel {
 
 		virtual void draw() override
 		{
-			if (ImGui::DragInt4(m_label.c_str(), m_value, m_speed, m_min, m_max, m_format.c_str()))
+			if (ImGui::DragInt4(m_label.c_str(), m_value.data(), m_speed, m_min, m_max, m_format.c_str()))
 			{
 				if (!m_dataSource.empty())
 					mvDataStorage::AddData(m_dataSource, getPyValue());

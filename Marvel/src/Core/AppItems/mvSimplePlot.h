@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Core/AppItems/mvAppItem.h"
+#include "mvPythonTranslator.h"
 
 //-----------------------------------------------------------------------------
 // Widget Index
@@ -36,35 +37,12 @@ namespace Marvel{
 
 		virtual void setPyValue(PyObject* value) override
 		{
-			PyGILState_STATE gstate = PyGILState_Ensure();
-
-			if (!PyList_Check(value))
-			{
-				PyGILState_Release(gstate);
-				mvAppLog::getLogger()->LogError(m_name + " type must be a float list.");
-				return;
-			}
-
-			std::vector<float> newvalue;
-
-			for (int i = 0; i < PyList_Size(value); i++)
-				newvalue.push_back((float)PyFloat_AsDouble(PyList_GetItem(value, i)));
-
-			m_value = newvalue;
-
-			PyGILState_Release(gstate);
+			m_value = mvPythonTranslator::ToFloatVect(value, m_name + " requires a list or tuple of floats.");
 		}
 
 		virtual PyObject* getPyValue() const override
 		{
-			PyGILState_STATE gstate = PyGILState_Ensure();
-
-			PyObject* value = PyList_New(m_value.size());
-			for (int i = 0; i < m_value.size(); i++)
-				PyList_SetItem(value, i, PyFloat_FromDouble(m_value[i]));
-
-			PyGILState_Release(gstate);
-			return value;
+			return mvPythonTranslator::ToPyList(m_value);
 		}
 
 		inline void setValue(const std::vector<float>& value){ m_value = value;}
