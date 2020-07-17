@@ -31,7 +31,7 @@ namespace Marvel {
 		virtual void draw() override
 		{
 
-			if (ImGui::ColorEdit3(m_label.c_str(), m_value))
+			if (ImGui::ColorEdit3(m_label.c_str(), m_value.data()))
 			{
 				if (!m_dataSource.empty())
 					mvDataStorage::AddData(m_dataSource, getPyValue());
@@ -63,7 +63,7 @@ namespace Marvel {
 		virtual void draw() override
 		{
 
-			if (ImGui::ColorEdit4(m_label.c_str(), m_value))
+			if (ImGui::ColorEdit4(m_label.c_str(), m_value.data()))
 			{
 				if (!m_dataSource.empty())
 					mvDataStorage::AddData(m_dataSource, getPyValue());
@@ -95,7 +95,7 @@ namespace Marvel {
 		virtual void draw() override
 		{
 
-			if (ImGui::ColorPicker3(m_label.c_str(), m_value))
+			if (ImGui::ColorPicker3(m_label.c_str(), m_value.data()))
 			{
 				if (!m_dataSource.empty())
 					mvDataStorage::AddData(m_dataSource, getPyValue());
@@ -127,7 +127,7 @@ namespace Marvel {
 		virtual void draw() override
 		{
 
-			if (ImGui::ColorPicker4(m_label.c_str(), m_value))
+			if (ImGui::ColorPicker4(m_label.c_str(), m_value.data()))
 			{
 				if (!m_dataSource.empty())
 					mvDataStorage::AddData(m_dataSource, getPyValue());

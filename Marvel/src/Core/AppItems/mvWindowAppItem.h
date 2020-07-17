@@ -9,7 +9,7 @@ namespace Marvel {
 	//-----------------------------------------------------------------------------
 	// mvWindowAppitem
 	//-----------------------------------------------------------------------------
-	class mvWindowAppitem : public mvNoneItemBase, public mvEventHandler
+	class mvWindowAppitem : public mvAppItem, public mvEventHandler
 	{
 
 	public:
@@ -17,7 +17,7 @@ namespace Marvel {
 		MV_APPITEM_TYPE(mvAppItemType::Window)
 
 		mvWindowAppitem(const std::string& parent, const std::string& name, int width, int height, int xpos, int ypos, bool mainWindow, bool autosize)
-			: mvNoneItemBase(parent, name), mvEventHandler(), m_xpos(xpos), m_ypos(ypos), m_mainWindow(mainWindow)
+			: mvAppItem(parent, name), mvEventHandler(), m_xpos(xpos), m_ypos(ypos), m_mainWindow(mainWindow)
 		{
 			m_container = true;
 			m_width = width;

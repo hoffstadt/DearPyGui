@@ -54,13 +54,13 @@ namespace Marvel {
 		mvAppItem operator=(mvAppItem&& other)      = delete; // move assignment operator
 
 		// pure virtual methods
-		virtual void          setPyValue   (PyObject* value) = 0;
-		virtual PyObject*     getPyValue   ()          const = 0;
-		virtual mvAppItemType getType      ()          const = 0;
-		virtual std::string   getStringType()          const = 0;
-		virtual void          draw         ()                = 0;
+		virtual mvAppItemType getType      () const = 0;
+		virtual std::string   getStringType() const = 0;
+		virtual void          draw         ()       = 0;
 
 		// virtual methods
+		virtual void      setPyValue(PyObject* value) {}
+		virtual PyObject* getPyValue() const { Py_RETURN_NONE; }
 		virtual bool areDuplicatesAllowed() const { return false; }
 		virtual void updateData(const std::string& name) {}
 

@@ -48,7 +48,7 @@ namespace Marvel {
 	//-----------------------------------------------------------------------------
 	// mvPlot
 	//-----------------------------------------------------------------------------
-	class mvPlot : public mvNoneItemBase
+	class mvPlot : public mvAppItem
 	{
 
 	public:
@@ -58,7 +58,7 @@ namespace Marvel {
 		mvPlot(const std::string& parent, const std::string& name, const std::string& xname="", 
 			const std::string& yname="", int width = -1, int height = 0, ImPlotFlags flags = 0, 
 			ImPlotAxisFlags xflags = 0, ImPlotAxisFlags yflags = 0, const std::string& queryCallback = "")
-			: mvNoneItemBase(parent, name), m_xaxisName(xname), m_yaxisName(yname), m_queryCallback(queryCallback)
+			: mvAppItem(parent, name), m_xaxisName(xname), m_yaxisName(yname), m_queryCallback(queryCallback)
 		{
 			m_width = width;
 			m_height = height;

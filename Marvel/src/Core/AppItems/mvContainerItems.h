@@ -95,7 +95,7 @@ namespace Marvel {
 	//-----------------------------------------------------------------------------
 	// mvGroup
 	//-----------------------------------------------------------------------------
-	class mvGroup : public mvNoneItemBase
+	class mvGroup : public mvAppItem
 	{
 
 	public:
@@ -103,7 +103,7 @@ namespace Marvel {
 		MV_APPITEM_TYPE(mvAppItemType::Group)
 
 		mvGroup(const std::string& parent, const std::string& name)
-			: mvNoneItemBase(parent, name)
+			: mvAppItem(parent, name)
 		{
 			m_container = true;
 		}

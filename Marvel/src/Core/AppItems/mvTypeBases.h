@@ -1,27 +1,12 @@
 #pragma once
 
+#include "mvPythonTranslator.h"
 #include "Core/mvApp.h"
 #include "Core/AppItems/mvAppItem.h"
 #include "Core/mvUtilities.h"
 #include "Core/StandardWindows/mvAppLog.h"
 
 namespace Marvel {
-
-	//-----------------------------------------------------------------------------
-	// mvNoneItemBase
-	//-----------------------------------------------------------------------------
-	class mvNoneItemBase : public mvAppItem
-	{
-
-	public:
-
-		mvNoneItemBase(const std::string& parent, const std::string& name)
-			: mvAppItem(parent, name){}
-
-		virtual void      setPyValue(PyObject* value) override{}
-		virtual PyObject* getPyValue() const override { Py_RETURN_NONE;}
-
-	};
 
 	//-----------------------------------------------------------------------------
 	// mvBoolItemBase
@@ -38,28 +23,12 @@ namespace Marvel {
 
 		virtual void setPyValue(PyObject* value) override 
 		{ 
-			PyGILState_STATE gstate = PyGILState_Ensure();
-
-			if (!PyLong_Check(value))
-			{
-				PyGILState_Release(gstate);
-				mvAppLog::getLogger()->LogError(m_name + " type must be a bool.");
-				return;
-			}
-
-			m_value = PyLong_AsLong(value); 
-
-			PyGILState_Release(gstate);
+			m_value = mvPythonTranslator::ToBool(value, m_name + " requires a bool value."); 
 		}
 
 		virtual PyObject* getPyValue() const override
 		{
-			PyGILState_STATE gstate = PyGILState_Ensure();
-
-			PyObject* pvalue = Py_BuildValue("i", m_value);
-
-			PyGILState_Release(gstate);
-			return pvalue;
+			return mvPythonTranslator::ToPyBool(m_value);
 		}
 
 		inline bool getValue() const { return m_value; }
@@ -86,28 +55,12 @@ namespace Marvel {
 
 		virtual void setPyValue(PyObject* value) override
 		{
-			PyGILState_STATE gstate = PyGILState_Ensure();
-
-			if (!PyUnicode_Check(value))
-			{
-				PyGILState_Release(gstate);
-				mvAppLog::getLogger()->LogError(m_name + " type must be a string");
-				return;
-			}
-
-			m_value = PyUnicode_AsUTF8(value);
-
-			PyGILState_Release(gstate);
+			m_value = mvPythonTranslator::ToString(value, m_name + " requires a string value.");
 		}
 
 		virtual PyObject* getPyValue() const override
 		{
-			PyGILState_STATE gstate = PyGILState_Ensure();
-
-			PyObject* pvalue = Py_BuildValue("s", m_value.c_str());
-
-			PyGILState_Release(gstate);
-			return pvalue;
+			return mvPythonTranslator::ToPyString(m_value);
 		}
 
 		inline const std::string& getValue() const { return m_value; }
@@ -131,70 +84,36 @@ namespace Marvel {
 			int x, int y=0, int z=0, int w=0)
 			: mvAppItem(parent, name), m_valuecount(count)
 		{
-			m_value[0] = x;
-			m_value[1] = y;
-			m_value[2] = z;
-			m_value[3] = w;
+			m_value.push_back(x);
+			m_value.push_back(y);
+			m_value.push_back(z);
+			m_value.push_back(w);
 		}
 
 		virtual void setPyValue(PyObject* value) override
 		{
 
-			PyGILState_STATE gstate = PyGILState_Ensure();
-
-			if (m_valuecount == 1 && !PyLong_Check(value))
-			{
-				PyGILState_Release(gstate);
-				mvAppLog::getLogger()->LogError(m_name + " type must be an integer.");
-				return;
-			}
-			else if (m_valuecount != 1 && !PyList_Check(value))
-			{
-				PyGILState_Release(gstate);
-				mvAppLog::getLogger()->LogError(m_name + " type must be an integer list.");
-				return;
-			}
-
 			if (m_valuecount == 1)
-				m_value[0] = PyLong_AsLong(value);
+				m_value[0] = mvPythonTranslator::ToInt(value);
 
 			else
-			{
-				for (int i = 0; i < PyList_Size(value); i++)
-					m_value[i] = PyLong_AsLong(PyList_GetItem(value, i));
-			}
+				m_value = mvPythonTranslator::ToIntVect(value, " requires a list or tuple of integers.");
 
-			PyGILState_Release(gstate);
 		}
 
 		virtual PyObject* getPyValue() const override
 		{
-			PyGILState_STATE gstate = PyGILState_Ensure();
-
 			if (m_valuecount == 1)
-			{
-				PyObject* pvalue = Py_BuildValue("i", m_value[0]);
-				PyGILState_Release(gstate);
-				return pvalue;
-			}
+				return mvPythonTranslator::ToPyInt(m_value[0]);
 
 			else
-			{
-				PyObject* value = PyList_New(m_valuecount);
-				for (int i = 0; i < m_valuecount; i++)
-					PyList_SetItem(value, i, PyLong_FromLong(m_value[i]));
-				PyGILState_Release(gstate);
-				return value;
-			}
-
-			PyGILState_Release(gstate);
-
+				return mvPythonTranslator::ToPyList(m_value);
 		}
 
 	protected:
 
-		unsigned m_valuecount = 1;
-		int      m_value[4];
+		unsigned         m_valuecount = 1;
+		std::vector<int> m_value;
 
 	};
 
@@ -210,70 +129,35 @@ namespace Marvel {
 			float x, float y=0.0f, float z=0.0f, float w=0.0f)
 			: mvAppItem(parent, name), m_valuecount(count)
 		{
-			m_value[0] = x;
-			m_value[1] = y;
-			m_value[2] = z;
-			m_value[3] = w;
+			m_value.push_back(x);
+			m_value.push_back(y);
+			m_value.push_back(z);
+			m_value.push_back(w);
 		}
 
 		virtual void setPyValue(PyObject* value) override
 		{
-
-			PyGILState_STATE gstate = PyGILState_Ensure();
-
-			if (m_valuecount == 1 && !PyFloat_Check(value))
-			{
-				PyGILState_Release(gstate);
-				mvAppLog::getLogger()->LogError(m_name + " type must be a float.");
-				return;
-			}
-			else if (m_valuecount != 1 && !PyList_Check(value))
-			{
-				PyGILState_Release(gstate);
-				mvAppLog::getLogger()->LogError(m_name + " type must be a float list.");
-				return;
-			}
-
-			if(m_valuecount == 1)
-				m_value[0] = PyFloat_AsDouble(value);
+			if (m_valuecount == 1)
+				m_value[0] = mvPythonTranslator::ToFloat(value);
 
 			else
-			{
-				for (int i = 0; i < PyList_Size(value); i++)
-					m_value[i] = (float)PyFloat_AsDouble(PyList_GetItem(value, i));
-			}
-
-			PyGILState_Release(gstate);
+				m_value = mvPythonTranslator::ToFloatVect(value, " requires a list or tuple of floats.");
 		}
 
 		virtual PyObject* getPyValue() const override
 		{
 
-			PyGILState_STATE gstate = PyGILState_Ensure();
-
 			if (m_valuecount == 1)
-			{
-				PyObject* pvalue = Py_BuildValue("f", m_value[0]);
-				PyGILState_Release(gstate);
-				return pvalue;
-			}
+				return mvPythonTranslator::ToPyFloat(m_value[0]);
 
 			else
-			{
-				PyObject* value = PyList_New(m_valuecount);
-				for (int i = 0; i < m_valuecount; i++)
-					PyList_SetItem(value, i, PyFloat_FromDouble(m_value[i]));
-
-				PyGILState_Release(gstate);
-				return value;
-			}
-
+				return mvPythonTranslator::ToPyList(m_value);
 		}
 
 	protected:
 
-		unsigned m_valuecount = 1;
-		float    m_value[4];
+		unsigned           m_valuecount = 1;
+		std::vector<float> m_value;
 
 	};
 
@@ -289,41 +173,35 @@ namespace Marvel {
 		mvColorItemBase(const std::string& parent, const std::string& name, mvColor color)
 			: mvAppItem(parent, name)
 		{
-			m_value[0] = color.r/255.0f;
-			m_value[1] = color.g/255.0f;
-			m_value[2] = color.b/255.0f;
-			m_value[3] = color.a/255.0f;
+			m_value.push_back(color.r/255.0f);
+			m_value.push_back(color.g/255.0f);
+			m_value.push_back(color.b/255.0f);
+			m_value.push_back(color.a/255.0f);
 		}
 
 		virtual void setPyValue(PyObject* value) override
 		{
-
-			PyGILState_STATE gstate = PyGILState_Ensure();
-
-			for (int i = 0; i < PyList_Size(value); i++)
-				m_value[i] = PyLong_AsLong(PyList_GetItem(value, i))/255.0f;
-
-			PyGILState_Release(gstate);
-
+			auto ints = mvPythonTranslator::ToIntVect(value, " requires a list or tuple of integers");
+			for (int i = 0; i < ints.size(); i++)
+			{
+				if (i > 3)
+					break;
+				m_value[i] = ints[i] / 255.0f;
+			}
+				
 		}
 
 		virtual PyObject* getPyValue() const override
 		{
-
-			PyGILState_STATE gstate = PyGILState_Ensure();
-
-			PyObject* value = PyList_New(4);
-			for (int i = 0; i < 4; i++)
-				PyList_SetItem(value, i, PyLong_FromLong(m_value[i]*255));
-
-			PyGILState_Release(gstate);
-			return value;
-
+			std::vector<int> ints;
+			for (const auto& item : m_value)
+				ints.push_back(item * 255);
+			return mvPythonTranslator::ToPyList(ints);
 		}
 
 	protected:
 
-		float m_value[4];
+		std::vector<float> m_value;
 
 	};
 

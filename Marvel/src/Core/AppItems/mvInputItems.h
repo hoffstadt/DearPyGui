@@ -34,7 +34,7 @@ namespace Marvel {
 		virtual void draw() override
 		{
 
-			if (ImGui::InputInt(m_label.c_str(), m_value))
+			if (ImGui::InputInt(m_label.c_str(), m_value.data()))
 			{
 				if (!m_dataSource.empty())
 					mvDataStorage::AddData(m_dataSource, getPyValue());
@@ -66,7 +66,7 @@ namespace Marvel {
 		virtual void draw() override
 		{
 
-			if (ImGui::InputInt2(m_label.c_str(), m_value))
+			if (ImGui::InputInt2(m_label.c_str(), m_value.data()))
 			{
 				if (!m_dataSource.empty())
 					mvDataStorage::AddData(m_dataSource, getPyValue());
@@ -98,7 +98,7 @@ namespace Marvel {
 		virtual void draw() override
 		{
 
-			if (ImGui::InputInt3(m_label.c_str(), m_value))
+			if (ImGui::InputInt3(m_label.c_str(), m_value.data()))
 			{
 				if (!m_dataSource.empty())
 					mvDataStorage::AddData(m_dataSource, getPyValue());
@@ -130,7 +130,7 @@ namespace Marvel {
 		virtual void draw() override
 		{
 
-			if (ImGui::InputInt4(m_label.c_str(), m_value))
+			if (ImGui::InputInt4(m_label.c_str(), m_value.data()))
 			{
 				if (!m_dataSource.empty())
 					mvDataStorage::AddData(m_dataSource, getPyValue());
@@ -163,7 +163,7 @@ namespace Marvel {
 
 		virtual void draw() override
 		{
-			if (ImGui::InputFloat(m_label.c_str(), m_value, 0.0f, 0.0f, m_format.c_str()))
+			if (ImGui::InputFloat(m_label.c_str(), m_value.data(), 0.0f, 0.0f, m_format.c_str()))
 			{
 				if (!m_dataSource.empty())
 					mvDataStorage::AddData(m_dataSource, getPyValue());
@@ -199,7 +199,7 @@ namespace Marvel {
 
 		virtual void draw() override
 		{
-			if (ImGui::InputFloat2(m_label.c_str(), m_value, m_format.c_str()))
+			if (ImGui::InputFloat2(m_label.c_str(), m_value.data(), m_format.c_str()))
 			{
 				if (!m_dataSource.empty())
 					mvDataStorage::AddData(m_dataSource, getPyValue());
@@ -235,7 +235,7 @@ namespace Marvel {
 
 		virtual void draw() override
 		{
-			if (ImGui::InputFloat3(m_label.c_str(), m_value, m_format.c_str()))
+			if (ImGui::InputFloat3(m_label.c_str(), m_value.data(), m_format.c_str()))
 			{
 				if (!m_dataSource.empty())
 					mvDataStorage::AddData(m_dataSource, getPyValue());
@@ -271,7 +271,7 @@ namespace Marvel {
 
 		virtual void draw() override
 		{
-			if (ImGui::InputFloat4(m_label.c_str(), m_value, m_format.c_str()))
+			if (ImGui::InputFloat4(m_label.c_str(), m_value.data(), m_format.c_str()))
 			{
 				if (!m_dataSource.empty())
 					mvDataStorage::AddData(m_dataSource, getPyValue());

@@ -18,7 +18,7 @@ namespace Marvel {
 	//-----------------------------------------------------------------------------
 	// mvSameLine
 	//-----------------------------------------------------------------------------
-	class mvSameLine : public mvNoneItemBase
+	class mvSameLine : public mvAppItem
 	{
 
 	public:
@@ -26,7 +26,7 @@ namespace Marvel {
 		MV_APPITEM_TYPE(mvAppItemType::SameLine)
 
 		mvSameLine(const std::string& parent, const std::string& name, float xoffset, float spacing)
-			: mvNoneItemBase(parent, name), m_xoffset(xoffset), m_spacing(spacing)
+			: mvAppItem(parent, name), m_xoffset(xoffset), m_spacing(spacing)
 		{
 		}
 
@@ -47,7 +47,7 @@ namespace Marvel {
 	//-----------------------------------------------------------------------------
 	// mvSeparator
 	//-----------------------------------------------------------------------------
-	class mvSeparator : public mvNoneItemBase
+	class mvSeparator : public mvAppItem
 	{
 
 	public:
@@ -55,7 +55,7 @@ namespace Marvel {
 		MV_APPITEM_TYPE(mvAppItemType::Separator)
 
 		mvSeparator(const std::string& parent, const std::string& name)
-			: mvNoneItemBase(parent, name)
+			: mvAppItem(parent, name)
 		{
 		}
 
@@ -71,7 +71,7 @@ namespace Marvel {
 	//-----------------------------------------------------------------------------
 	// mvSpacing
 	//-----------------------------------------------------------------------------
-	class mvSpacing : public mvNoneItemBase
+	class mvSpacing : public mvAppItem
 	{
 
 	public:
@@ -79,7 +79,7 @@ namespace Marvel {
 		MV_APPITEM_TYPE(mvAppItemType::Spacing)
 
 		mvSpacing(const std::string& parent, const std::string& name, int count)
-			: mvNoneItemBase(parent, name)
+			: mvAppItem(parent, name)
 		{
 			m_value = count;
 		}

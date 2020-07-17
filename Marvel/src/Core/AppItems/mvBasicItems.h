@@ -54,7 +54,7 @@ namespace Marvel {
 	//-----------------------------------------------------------------------------
 	// mvButton
 	//-----------------------------------------------------------------------------
-	class mvButton : public mvNoneItemBase
+	class mvButton : public mvAppItem
 	{
 
 	public:
@@ -63,7 +63,7 @@ namespace Marvel {
 
 		mvButton(const std::string& parent, const std::string& name, bool small = false, 
 			bool arrow = false, ImGuiDir direction = ImGuiDir_None)
-			: mvNoneItemBase(parent, name), m_small(small), m_arrow(arrow), m_direction(direction)
+			: mvAppItem(parent, name), m_small(small), m_arrow(arrow), m_direction(direction)
 		{
 		}
 
@@ -203,7 +203,7 @@ namespace Marvel {
 				if (data == nullptr)
 					return;
 
-				m_names = mvPythonTranslator::getStringVec(data);
+				m_names = mvPythonTranslator::ToStringVect(data);
 			}
 		}
 
@@ -256,7 +256,7 @@ namespace Marvel {
 				if (data == nullptr)
 					return;
 
-				m_names = mvPythonTranslator::getStringVec(data);
+				m_names = mvPythonTranslator::ToStringVect(data);
 				m_charNames.clear();
 				for (const std::string& name : m_names)
 					m_charNames.emplace_back(name.c_str());
@@ -316,7 +316,7 @@ namespace Marvel {
 				if (data == nullptr)
 					return;
 
-				m_itemnames = mvPythonTranslator::getStringVec(data);
+				m_itemnames = mvPythonTranslator::ToStringVect(data);
 			}
 		}
 

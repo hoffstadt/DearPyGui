@@ -206,7 +206,10 @@ namespace Marvel {
 	void mvApp::addRuntimeItem(const std::string& parent, const std::string& before, mvAppItem* item) 
 	{ 
 		if (std::this_thread::get_id() != m_mainThreadID)
+		{
 			mvAppLog::getLogger()->LogWarning("This function can't be called outside main thread.");
+			return;
+		}
 
 		m_newItemVec.push_back({ item, before, parent });
 	}
@@ -1084,9 +1087,7 @@ namespace Marvel {
 	std::pair<float, float> mvApp::getStyleItem(long item)
 	{
 		if (m_style.count(item) > 0)
-		{
 			return std::make_pair(m_style[item].x, m_style[item].y);
-		}
 
 		return std::make_pair(-1.0f, -1.0f);
 
