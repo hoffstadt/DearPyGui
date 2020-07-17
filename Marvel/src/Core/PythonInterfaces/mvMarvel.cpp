@@ -3883,7 +3883,7 @@ namespace Marvel {
 
 	PyObject* get_main_window_size(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
-		return Py_BuildValue("(i,i)", mvApp::GetApp()->getWindowWidth(), mvApp::GetApp()->getWindowWidth());
+		return Py_BuildValue("(i,i)", mvApp::GetApp()->getWindowWidth(), mvApp::GetApp()->getWindowHeight());
 	}
 
 	PyObject* get_theme(PyObject* self, PyObject* args, PyObject* kwargs)
