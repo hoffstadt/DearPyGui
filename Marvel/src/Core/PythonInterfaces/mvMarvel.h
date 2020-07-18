@@ -1419,6 +1419,7 @@ namespace Marvel {
 			{mvPythonDataType::String, "before", "Item to add this item before. (runtime adding)"},
 			{mvPythonDataType::Integer, "width",""},
 			{mvPythonDataType::Integer, "height", ""},
+			{mvPythonDataType::Bool, "border", ""},
 		}, "Adds an embedded child window. Will show scrollbars when items do not fit. Must be followed by a call to end_child.", 
 		"None", "Containers") });
 
