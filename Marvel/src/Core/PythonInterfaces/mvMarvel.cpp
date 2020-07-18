@@ -2970,12 +2970,13 @@ namespace Marvel {
 		int height = 0;
 		const char* before = "";
 		const char* parent = "";
+		int border = true;
 
 		if (!Parsers["add_child"].parse(args, kwargs, __FUNCTION__, &name, 
-			&tip, &parent, &before, &width, &height))
+			&tip, &parent, &before, &width, &height, &border))
 			return mvPythonTranslator::GetPyNone();
 
-		mvAppItem* item = new mvChild("", name);
+		mvAppItem* item = new mvChild("", name, border);
 		item->setTip(tip); 
 		item->setWidth(width); 
 		item->setHeight(height);

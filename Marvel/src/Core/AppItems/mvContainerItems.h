@@ -26,8 +26,8 @@ namespace Marvel {
 
 		MV_APPITEM_TYPE(mvAppItemType::Child)
 
-		mvChild(const std::string& parent, const std::string& name)
-			: mvBoolItemBase(parent, name, false), mvEventHandler()
+		mvChild(const std::string& parent, const std::string& name, bool border)
+			: mvBoolItemBase(parent, name, false), mvEventHandler(), m_border(border)
 		{
 			m_container = true;
 		}
@@ -35,7 +35,7 @@ namespace Marvel {
 		virtual void draw() override
 		{
 			
-			ImGui::BeginChild(m_label.c_str(), ImVec2(float(m_width), float(m_height)), true);
+			ImGui::BeginChild(m_label.c_str(), ImVec2(float(m_width), float(m_height)), m_border);
 
 			for (mvAppItem* item : m_children)
 			{
@@ -83,6 +83,10 @@ namespace Marvel {
 
 			ImGui::EndChild();
 		}
+
+	private:
+
+		bool m_border;
 
 	};
 
