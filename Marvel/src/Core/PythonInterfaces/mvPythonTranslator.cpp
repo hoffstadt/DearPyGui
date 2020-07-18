@@ -86,6 +86,42 @@ namespace Marvel {
 		return result;
 	}
 
+	PyObject* mvPythonTranslator::ToPyList(const std::vector<std::string>& value)
+	{
+		mvGlobalIntepreterLock gil;
+
+		PyObject* result = PyList_New(value.size());
+
+		for (int i = 0; i < value.size(); i++)
+			PyList_SetItem(result, i, PyUnicode_FromString(value[i].c_str()));
+
+		return result;
+	}
+
+	PyObject* mvPythonTranslator::ToPyList(const std::vector<std::vector<std::string>>& value)
+	{
+		mvGlobalIntepreterLock gil;
+
+		PyObject* result = PyList_New(value.size());
+
+		for (int i = 0; i < value.size(); i++)
+			PyList_SetItem(result, i, ToPyList(value[i]));
+
+		return result;
+	}
+
+	PyObject* mvPythonTranslator::ToPyList(const std::vector<std::pair<int, int>>& value)
+	{
+		mvGlobalIntepreterLock gil;
+
+		PyObject* result = PyList_New(value.size());
+
+		for (int i = 0; i < value.size(); i++)
+			PyList_SetItem(result, i, ToPyPair(value[i].first, value[i].second));
+
+		return result;
+	}
+
 	int mvPythonTranslator::ToInt(PyObject* value, const std::string& message)
 	{
 		mvGlobalIntepreterLock gil;
@@ -361,5 +397,26 @@ namespace Marvel {
 
 		return items;
 
+	}
+
+	std::vector<std::vector<std::string>> mvPythonTranslator::ToVectVectString(PyObject* value, const std::string& message)
+	{
+		mvGlobalIntepreterLock gil;
+
+		std::vector<std::vector<std::string>> results;
+
+		if (PyTuple_Check(value))
+		{
+			for (int i = 0; i < PyTuple_Size(value); i++)
+				results.emplace_back(ToStringVect(PyTuple_GetItem(value, i), message));
+		}
+
+		else if (PyList_Check(value))
+		{
+			for (int i = 0; i < PyList_Size(value); i++)
+				results.emplace_back(ToStringVect(PyList_GetItem(value, i), message));
+		}
+
+		return results;
 	}
 }

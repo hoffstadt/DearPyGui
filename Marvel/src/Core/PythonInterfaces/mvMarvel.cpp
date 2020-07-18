@@ -6,7 +6,6 @@
 #include "Core/StandardWindows/mvAppLog.h"
 #include "mvPythonTranslator.h"
 #include "Core/AppItems/mvAppItems.h"
-#include "mvInterfaces.h"
 #include "mvInterfaceRegistry.h"
 
 namespace Marvel {

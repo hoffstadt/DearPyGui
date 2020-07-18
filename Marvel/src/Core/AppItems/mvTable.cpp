@@ -1,4 +1,5 @@
 #include "mvTable.h"
+#include "mvPythonTranslator.h"
 #include "Core/mvApp.h"
 #include "Core/StandardWindows/mvAppLog.h"
 
@@ -69,30 +70,7 @@ namespace Marvel {
 
 	void mvTable::setPyValue(PyObject* value)
 	{
-		PyGILState_STATE gstate = PyGILState_Ensure();
-
-		if (!PyList_Check(value))
-		{
-			PyGILState_Release(gstate);
-			mvAppLog::getLogger()->LogError(m_name + " type must be an list.");
-			return;
-		}
-
-		std::vector<std::vector<std::string>> values;
-
-		for (int i = 0; i < PyList_Size(value); i++)
-		{
-			std::vector<std::string> row;
-			PyObject* prow = PyList_GetItem(value, i);
-			for (int j = 0; j < PyList_Size(prow); j++)
-			{
-				PyObject* pitem = PyList_GetItem(prow, j);
-				row.push_back(std::string(PyUnicode_AsUTF8(pitem)));
-			}
-			values.push_back(row);
-		}
-
-		PyGILState_Release(gstate);
+		auto values = mvPythonTranslator::ToVectVectString(value, m_name + " requires a list/tuple or list/tuple of strings.");
 
 		m_values = values;
 
@@ -106,20 +84,7 @@ namespace Marvel {
 
 	PyObject* mvTable::getPyValue() const
 	{
-		PyGILState_STATE gstate = PyGILState_Ensure();
-
-		PyObject* pvalue = PyList_New(m_hashValues.size());
-
-		for (int i = 0; i < m_hashValues.size(); i++)
-		{
-			PyObject* prow = PyList_New(m_hashValues[i].size());
-			for (int j = 0; j < m_hashValues[i].size(); j++)
-				PyList_SetItem(prow, j, PyUnicode_FromString(m_values[i][j].c_str()));
-			PyList_SetItem(pvalue, i, prow);
-		}
-
-		PyGILState_Release(gstate);
-		return pvalue;
+		return mvPythonTranslator::ToPyList(m_hashValues);
 	}
 
 	PyObject* mvTable::getSelections() const
@@ -129,23 +94,15 @@ namespace Marvel {
 		for (auto& item : m_selections)
 			if (item.second) selectionCount++;
 
-		PyGILState_STATE gstate = PyGILState_Ensure();
+		std::vector<std::pair<int, int>> selections;
 
-		PyObject* selections = PyList_New(selectionCount);
-		int index = 0;
 		for (auto& item : m_selections)
 		{
 			if (item.second)
-			{
-				PyObject* selection = PyList_New(2);
-				PyList_SetItem(selection, 0, PyLong_FromLong(item.first.first));
-				PyList_SetItem(selection, 1, PyLong_FromLong(item.first.second));
-				PyList_SetItem(selections, index, selection);
-				index++;
-			}
+				selections.emplace_back(item.first.first, item.first.second);
 		}
-		PyGILState_Release(gstate);
-		return selections;
+		
+		return mvPythonTranslator::ToPyList(selections);
 	}
 
 	void mvTable::addRow(const std::vector<std::string>& row)

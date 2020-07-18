@@ -1,5 +1,19 @@
 #pragma once
 
+//-----------------------------------------------------------------------------
+// Application
+//
+//     - This class represents the actual overall application with the
+//       following responsibilities:
+//
+//         * Command line parsing
+//         * Initializing/Finalizing Python
+//         * Importing the user's module
+//         * Importing marvel modules
+//         * Setting overall application mode (i.e. editor, documentation, etc.)
+//     
+//-----------------------------------------------------------------------------
+
 #define PY_SSIZE_T_CLEAN
 #include <Python.h>
 #include <string>

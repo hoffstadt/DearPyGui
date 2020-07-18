@@ -1,4 +1,4 @@
-#include "mvInterfaces.h"
+#include "mvInterfaceRegistry.h"
 #include "mvModuleInitializer.h"
 
 namespace Marvel {

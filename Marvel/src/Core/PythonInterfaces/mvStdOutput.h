@@ -1,8 +1,16 @@
 #pragma once
-#define PY_SSIZE_T_CLEAN
-#include <Python.h>
+//-----------------------------------------------------------------------------
+// mvStdOutput
+//
+//     - This file defines a python module to intercept console output and
+//       reroute it to the marvel logger
+//     
+//-----------------------------------------------------------------------------
+
 #include "Core/StandardWindows/mvAppLog.h"
 #include "Core/mvThreadPool.h"
+#define PY_SSIZE_T_CLEAN
+#include <Python.h>
 
 namespace Marvel {
 
@@ -16,7 +24,6 @@ namespace Marvel {
             Py_RETURN_NONE;
         }
 
-        
         Marvel::mvAppLog::getLogger()->AddLog("%0s", what);
         PyGILState_Release(gstate);
         Py_RETURN_NONE;

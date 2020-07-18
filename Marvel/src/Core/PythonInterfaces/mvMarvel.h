@@ -1,4 +1,14 @@
 #pragma once
+
+//-----------------------------------------------------------------------------
+// mvMarvel
+//
+//     - This file contains marvel python module command information.
+//
+//     - These parsers are used to check python parsing and build documentation
+//     
+//-----------------------------------------------------------------------------
+
 #include "mvPythonParser.h"
 
 namespace Marvel {

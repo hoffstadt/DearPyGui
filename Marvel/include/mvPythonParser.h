@@ -1,11 +1,25 @@
 #pragma once
 
+//-----------------------------------------------------------------------------
+// mvPythonParser
+//
+//     - This class has the following responsibilities:
+//
+//         * Assist in Python tuple parsing and error checks the operation
+//         * Builds documentation based on PythonDataElement List
+//         * Categorizes Python Commands
+//         * Builds the Python parse string
+//
+//     - Should probably be reworked for v0.2 to be clearer
+//     
+//-----------------------------------------------------------------------------
+
 #include <string>
 #include <vector>
 #include <map>
+#include "Core/mvCore.h"
 #define PY_SSIZE_T_CLEAN
 #include <Python.h>
-#include "Core/mvCore.h"
 
 namespace Marvel {
 
@@ -57,12 +71,11 @@ namespace Marvel {
 		std::vector<char>                m_formatstring;
 		std::vector<const char*>         m_keywords;
 		bool                             m_optional = false; // check if optional has been found already
-		bool                             m_keyword = false; // check if keyword has been found already
+		bool                             m_keyword  = false; // check if keyword has been found already
 		std::string                      m_about;
 		std::string                      m_return;
 		std::string                      m_documentation;
 		std::string                      m_category;
-
 
 	};
 }

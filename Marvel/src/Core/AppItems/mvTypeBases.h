@@ -1,5 +1,13 @@
 #pragma once
 
+//-----------------------------------------------------------------------------
+// mvTypeBases
+//
+//     - This file contains abstract classes for concrete mvAppItem 
+//       implementations which share common underlying data types.
+//     
+//-----------------------------------------------------------------------------
+
 #include "mvPythonTranslator.h"
 #include "Core/mvApp.h"
 #include "Core/AppItems/mvAppItem.h"

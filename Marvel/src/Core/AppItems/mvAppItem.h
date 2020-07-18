@@ -1,5 +1,12 @@
 #pragma once
 
+//-----------------------------------------------------------------------------
+// mvAppItem
+//
+//     - mvAppItem is the abstract base class for all MarvelSandbox widgets.
+//     
+//-----------------------------------------------------------------------------
+
 #define PY_SSIZE_T_CLEAN
 #include <Python.h>
 #include <string>
