@@ -1,5 +1,13 @@
 #pragma once
 
+//-----------------------------------------------------------------------------
+// mvPythonModule
+//
+//     - This class acts as a wrapper over the Python C API module system.
+//       It neatly hides away the ugly C details of the API.
+//     
+//-----------------------------------------------------------------------------
+
 #define PY_SSIZE_T_CLEAN
 #include <Python.h>
 #include <vector>
@@ -7,9 +15,8 @@
 #include <string>
 
 //-----------------------------------------------------------------------------
-// Helper Macros
+// Helper Macro
 //-----------------------------------------------------------------------------
-#define addMethod(Function, Documentation) addMethod_(#Function, Function, Documentation)
 #define addMethodD(Function) addMethod_(#Function, Function, Parsers[#Function].getDocumentation())
 
 namespace Marvel {
@@ -33,10 +40,10 @@ namespace Marvel {
 
 	private:
 
-		std::string                                m_name;
-		std::vector<PyMethodDef>                   m_methods;
-		std::shared_ptr<PyModuleDef>               m_moduledef = nullptr;
-		std::vector<std::pair<std::string, long>>  m_intconstants;
+		std::string                               m_name;
+		std::vector<PyMethodDef>                  m_methods;
+		std::shared_ptr<PyModuleDef>              m_moduledef = nullptr;
+		std::vector<std::pair<std::string, long>> m_intconstants;
 
 	};
 

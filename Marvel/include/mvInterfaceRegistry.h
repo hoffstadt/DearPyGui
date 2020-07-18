@@ -1,5 +1,16 @@
 #pragma once
 
+//-----------------------------------------------------------------------------
+// mvInterfaceRegistry
+//
+//     - This class acts as a single location where python modules, parsers,
+//       etc. are registered. They can then be queried by other classes
+//       for documentation, initialization, etc.
+//
+//     - This class is confusing and will need to be reworked for v0.2
+//     
+//-----------------------------------------------------------------------------
+
 #include "mvPythonParser.h"
 #include "mvPythonModule.h"
 
@@ -10,6 +21,10 @@ namespace Marvel {
 	//-----------------------------------------------------------------------------
 	class mvPythonModule;
 	class mvPythonParser;
+	std::vector<std::pair<std::string, long>> BuildConstantsInterface();
+	std::map<std::string, mvPythonParser>&    BuildMarvelInterface();
+	mvPythonModule* CreateMarvelInterface();
+	mvPythonModule* CreateConstantsInterface();
 
 	//-----------------------------------------------------------------------------
 	// Typedefs

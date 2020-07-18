@@ -11,9 +11,9 @@
 #include <string>
 #include <vector>
 #include <map>
+#include "Core/mvCore.h"
 #define PY_SSIZE_T_CLEAN
 #include <Python.h>
-#include "Core/mvCore.h"
 
 namespace Marvel {
 
@@ -55,11 +55,14 @@ namespace Marvel {
 		static PyObject* ToPyPair  (const std::string& x, const std::string& y);
 		static PyObject* ToPyList  (const std::vector<int>& value);
 		static PyObject* ToPyList  (const std::vector<float>& value);
+		static PyObject* ToPyList  (const std::vector<std::string>& value);
+		static PyObject* ToPyList  (const std::vector<std::vector<std::string>>& value);
+		static PyObject* ToPyList  (const std::vector<std::pair<int, int>>& value);
 
 		// conversion to c++
-		static int         ToInt   (PyObject* value, const std::string& message="Type must be an integer.");
-		static float       ToFloat (PyObject* value, const std::string& message="Type must be a float.");
-		static bool        ToBool  (PyObject* value, const std::string& message="Type must be a bool.");
+		static int         ToInt   (PyObject* value, const std::string& message = "Type must be an integer.");
+		static float       ToFloat (PyObject* value, const std::string& message = "Type must be a float.");
+		static bool        ToBool  (PyObject* value, const std::string& message = "Type must be a bool.");
 		static mvColor     ToColor (PyObject* value, const std::string& message = "Type must be a list or tuple of ints.");
 		static mvVec2      ToVec2  (PyObject* value, const std::string& message = "Type must be a list or tuple of floats.");
 		static std::string ToString(PyObject* value, const std::string& message = "Type must be a string.");
@@ -70,6 +73,7 @@ namespace Marvel {
 		static std::vector<std::string>                         ToStringVect    (PyObject* value, const std::string& message = "Type must be a list or tuple of strings.");
 		static std::vector<std::pair<int, int>>                 ToVectInt2      (PyObject* value, const std::string& message = "Type must be an list/tuple of integer.");
 		static std::vector<std::pair<std::string, std::string>> ToVectPairString(PyObject* value, const std::string& message = "Type must be an list/tuple of string pairs.");
+		static std::vector<std::vector<std::string>>            ToVectVectString(PyObject* value, const std::string& message = "Type must be an list/tuple of list/tuple of strings.");
 
 	private:
 

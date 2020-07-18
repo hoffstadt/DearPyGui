@@ -8,7 +8,6 @@
 #include <iostream>
 #include <fstream>
 #include "mvInterfaceRegistry.h"
-#include "Core/PythonInterfaces/mvInterfaces.h"
 #include <CLI11.hpp>
 #include <iostream>
 #include "Core/StandardWindows/mvSourceWindow.h"

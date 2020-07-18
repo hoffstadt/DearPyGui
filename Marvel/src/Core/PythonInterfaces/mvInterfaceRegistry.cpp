@@ -1,5 +1,4 @@
 #include "mvInterfaceRegistry.h"
-#include "mvInterfaces.h"
 #include "mvPythonModule.h"
 #include <functional>
 #include "Core/mvApp.h"

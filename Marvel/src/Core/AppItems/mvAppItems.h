@@ -82,6 +82,9 @@
 //     - mvTooltip.h
 //         * mvTooltip
 //
+//     - mvTable.h
+//         * mvTable
+//
 //     - mvSlideItems.h
 //         * mvSliderFloat
 //         * mvSliderFloat2

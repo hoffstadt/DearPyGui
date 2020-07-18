@@ -1,5 +1,17 @@
 #pragma once
 
+//-----------------------------------------------------------------------------
+// mvModuleInitializer
+//
+//     - This class serves 2 main purposes:
+//
+//         * Automating Marvel Python Module Import
+//         * Allows C++ users to add additional modules
+//
+//     - This system needs to be reworked. It's ugly and confusing
+//     
+//-----------------------------------------------------------------------------
+
 #include <map>
 #include "mvInterfaceRegistry.h"
 #include "mvPythonModule.h"
