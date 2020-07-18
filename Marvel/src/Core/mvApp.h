@@ -28,8 +28,12 @@
 #include "Core/StandardWindows/mvStandardWindow.h"
 #include "Core/mvThreadPool.h"
 
+//-----------------------------------------------------------------------------
+// Typedefs for chrono's ridiculously long names
+//-----------------------------------------------------------------------------
 typedef std::chrono::high_resolution_clock clock_;
 typedef std::chrono::duration<double, std::ratio<1> > second_;
+typedef std::chrono::steady_clock::time_point time_point_;
 
 namespace Marvel {
 
@@ -55,18 +59,18 @@ namespace Marvel {
 
 	public:
 
-		static mvApp*            GetApp();
+		static mvApp*            GetApp              ();
 		static mvStandardWindow* GetAppStandardWindow();
-		static const char*       GetVersion() { return MV_SANDBOX_VERSION; }
-		static bool              IsAppStarted() { return s_started; }
-		static void              SetAppStarted() { s_started = true; }
+		static const char*       GetVersion          () { return MV_SANDBOX_VERSION; }
+		static bool              IsAppStarted        () { return s_started; }
+		static void              SetAppStarted       () { s_started = true; }
 
 		~mvApp();
 
-		void         precheck  ();                            // precheck before the main render loop has started
-		virtual void prerender () override;                   // pre rendering (every frame)	
-		virtual void render    (bool& show) override;         // actual render loop		
-		virtual void postrender() override;                   // post rendering (every frame)
+		void         precheck  ();                    // precheck before the main render loop has started
+		virtual void prerender ()           override; // pre rendering (every frame)	
+		virtual void render    (bool& show) override; // actual render loop		
+		virtual void postrender()           override; // post rendering (every frame)
 
 		//-----------------------------------------------------------------------------
 		// App Settings
@@ -97,32 +101,32 @@ namespace Marvel {
 		mvColor                 getThemeItem(long item);
 
 		//-----------------------------------------------------------------------------
-		// Concurrency Settings
+		// Concurrency
 		//-----------------------------------------------------------------------------
-		void              setMainThreadID               (std::thread::id id) { m_mainThreadID = id; }
-		void              setThreadPoolTimeout          (double time) { m_threadPoolTimeout = time; }
-		void              setThreadCount                (unsigned count) { m_threads = count; }
-		void              activateThreadPool            () { m_threadPool = true; }
-		void              setThreadPoolHighPerformance  () { m_threadPoolHighPerformance = true; }
+		void            setMainThreadID               (std::thread::id id) { m_mainThreadID = id; }
+		void            setThreadPoolTimeout          (double time) { m_threadPoolTimeout = time; }
+		void            setThreadCount                (unsigned count) { m_threads = count; }
+		void            activateThreadPool            () { m_threadPool = true; }
+		void            setThreadPoolHighPerformance  () { m_threadPoolHighPerformance = true; }
 
-		std::thread::id   getMainThreadID               () const { return m_mainThreadID; }
-		double            getThreadPoolTimeout          () const { return m_threadPoolTimeout; }
-		unsigned          getThreadCount                () const { return m_threads; }
-		bool              usingThreadPool               () const { return m_threadPool; }
-		bool              usingThreadPoolHighPerformance() const { return m_threadPoolHighPerformance; }
+		std::thread::id getMainThreadID               () const { return m_mainThreadID; }
+		double          getThreadPoolTimeout          () const { return m_threadPoolTimeout; }
+		unsigned        getThreadCount                () const { return m_threads; }
+		bool            usingThreadPool               () const { return m_threadPool; }
+		bool            usingThreadPoolHighPerformance() const { return m_threadPoolHighPerformance; }
 
 		//-----------------------------------------------------------------------------
-		// App Item Operations
+		// AppItem Operations
 		//-----------------------------------------------------------------------------
 		void       addItem           (mvAppItem* item);
 		void       addWindow         (mvAppItem* item);
 		void       addRuntimeItem    (const std::string& parent, const std::string& before, mvAppItem* item);
-		mvAppItem* getItem           (const std::string& name);
-		mvAppItem* getRuntimeItem    (const std::string& name);
 		void       deleteItem        (const std::string& name) { if(name!="MainWindow") m_deleteQueue.push(name); }
 		void       deleteItemChildren(const std::string& name) { m_deleteChildrenQueue.push(name); }
 		void       moveItemUp        (const std::string& name) { m_upQueue.push(name); }
 		void       moveItemDown      (const std::string& name) { m_downQueue.push(name); }
+		mvAppItem* getItem           (const std::string& name);
+		mvAppItem* getRuntimeItem    (const std::string& name);
 		
 		//-----------------------------------------------------------------------------
 		// Parent stack operations
@@ -135,16 +139,30 @@ namespace Marvel {
 		//-----------------------------------------------------------------------------
 		// Callbacks
 		//-----------------------------------------------------------------------------
-		void runCallback               (const std::string& name, const std::string& sender, PyObject* data = Py_None);
-		void runAsyncCallback           (std::string name, PyObject* data, std::string returnname);
-		void addMTCallback              (const std::string& name, PyObject* data, const std::string& returnname = "");
+		void runCallback     (const std::string& name, const std::string& sender, PyObject* data = Py_None);
+		void runAsyncCallback(std::string name, PyObject* data, std::string returnname);
+		void addMTCallback   (const std::string& name, PyObject* data, const std::string& returnname = "");
 
+		template<typename T> 
+		void dispatchRenderCallback(mvAppItemType itemType, mvAppItem* item)
+		{
+			if (item->getType() != itemType) return;
+			T* renderType = static_cast<T*>(item);
+			auto handler = static_cast<mvEventHandler*>(renderType);
+			runCallback(handler->getRenderCallback(), m_activeWindow);
+		}
+
+		//-----------------------------------------------------------------------------
+		// Timing
+		//-----------------------------------------------------------------------------
 		float  getDeltaTime() { return m_deltaTime; }
 		double getTotalTime() { return m_time; }
 			
 	private:
 
 		mvApp();
+
+		void routeInputCallbacks();
 
 		mvApp          (const mvApp& other) = delete;
 		mvApp          (mvApp&& other)      = delete;
@@ -155,18 +173,17 @@ namespace Marvel {
 
 		static mvApp* s_instance;
 		static bool   s_started;
-		mvThreadPool* m_tpool = nullptr;
-		mvStyle       m_style;
-		std::string   m_theme = "Dark";
-		std::string   m_file;
-		PyObject*     m_pDict;
-		float         m_deltaTime; // time since last frame
-		double        m_time;      // total time since starting
-		float         m_globalFontScale = 1.0f;
-		std::string   m_activeWindow = "MainWindow";
 
+		std::string             m_activeWindow = "MainWindow";
 		std::stack<mvAppItem*>  m_parents;
 		std::vector<mvAppItem*> m_windows;
+		std::string             m_file;
+		PyObject*               m_pDict;
+		
+		// appearance
+		mvStyle     m_style;
+		std::string m_theme = "Dark";
+		float       m_globalFontScale = 1.0f;
 
 		// runtime widget modifications
 		std::queue<std::string>          m_deleteChildrenQueue;
@@ -176,16 +193,21 @@ namespace Marvel {
 		std::queue<AsyncronousCallback>  m_asyncReturns;
 		std::vector<NewRuntimeItem>      m_newItemVec;
 		std::vector<AsyncronousCallback> m_asyncCallbacks;
+
+		// timing
+		float  m_deltaTime; // time since last frame
+		double m_time;      // total time since starting
 		
 		// concurrency
-		std::thread::id                       m_mainThreadID;
-		bool                                  m_threadPool = false;                // is threadpool activated
-		double                                m_threadPoolTimeout = 30.0;
-		unsigned                              m_threads = 2;                       // how many threads to use
-		bool                                  m_threadPoolHighPerformance = false; // when true, use max number of threads
-		double                                m_threadTime = 0.0;                  // how long threadpool has been active
-		mutable std::mutex                    m_mutex;
-		std::chrono::steady_clock::time_point m_poolStart;                         // threadpool start time
+		mvThreadPool*      m_tpool = nullptr;
+		mutable std::mutex m_mutex;
+		std::thread::id    m_mainThreadID;
+		bool               m_threadPool = false;                // is threadpool activated
+		double             m_threadPoolTimeout = 30.0;          // how long til trying to delete pool
+		unsigned           m_threads = 2;                       // how many threads to use
+		bool               m_threadPoolHighPerformance = false; // when true, use max number of threads
+		double             m_threadTime = 0.0;                  // how long threadpool has been active
+		time_point_        m_poolStart;                         // threadpool start time
 
 	};
 

@@ -1,5 +1,6 @@
 #include "mvAppItem.h"
 #include "Core/mvApp.h"
+#include "Core/mvInput.h"
 #include "Core/mvDataStorage.h"
 
 namespace Marvel{
@@ -8,6 +9,21 @@ namespace Marvel{
 	{
 		m_name = name;
 		m_label = name;
+	}
+
+	void mvAppItem::registerWindowFocusing()
+	{
+		if (ImGui::IsWindowFocused())
+		{
+
+			// update mouse
+			ImVec2 mousePos = ImGui::GetMousePos();
+			float x = mousePos.x - ImGui::GetWindowPos().x;
+			float y = mousePos.y - ImGui::GetWindowPos().y;
+			mvInput::setMousePosition(x, y);
+			mvApp::GetApp()->setActiveWindow(m_name);
+
+		}
 	}
 
 	void mvAppItem::resetState()

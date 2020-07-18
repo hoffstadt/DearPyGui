@@ -12,21 +12,25 @@ namespace Marvel {
         const char* what;
         if (!PyArg_ParseTuple(args, "s", &what))
         {
-            Py_XINCREF(Py_None);
             PyGILState_Release(gstate);
-            return Py_None;
+            Py_RETURN_NONE;
         }
 
         
         Marvel::mvAppLog::getLogger()->AddLog("%0s", what);
-        Py_XINCREF(Py_None);
         PyGILState_Release(gstate);
-        
-        return Py_None;
+        Py_RETURN_NONE;
+    }
+
+    PyObject* flush(PyObject* self, PyObject* args)
+    {
+        // no-op
+        return Py_BuildValue("");
     }
 
     static PyMethodDef outmethods[] = {
         {"write", writeToLogger, METH_VARARGS, "Write something."},
+        {"flush", flush, METH_VARARGS, "Flush."},
         {NULL, NULL, 0, NULL}
     };
 

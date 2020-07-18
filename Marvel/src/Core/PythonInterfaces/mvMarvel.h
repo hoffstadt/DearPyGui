@@ -309,7 +309,7 @@ namespace Marvel {
 		parsers->insert({ "set_render_callback", mvPythonParser({
 			{mvPythonDataType::String, "callback"},
 			{mvPythonDataType::Optional},
-			{mvPythonDataType::String, "handler", "Callback will be run when event occurs while this window is active (default is main window)"},
+			{mvPythonDataType::String, "handler", "Callback will be run when event occurs while this window/child/popup/menu is active (default is main window)"},
 		}, "Sets the callback to be ran every frame.", "None", "Input Polling") });
 
 		parsers->insert({ "get_mouse_pos", mvPythonParser({

@@ -7,6 +7,13 @@ namespace Marvel {
 
 	std::map<std::string, PyObject*> mvDataStorage::s_dataStorage;
 
+	void mvDataStorage::DeleteAllData()
+	{
+		for (auto& data : s_dataStorage)
+			Py_XDECREF(data.second);
+		s_dataStorage.clear();
+	}
+
 	void mvDataStorage::UpdateData()
 	{
 		for (auto& data : s_dataStorage)

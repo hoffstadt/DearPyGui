@@ -34,13 +34,16 @@ namespace Marvel {
 
 	public:
 
-		static void      AddData     (const std::string& name, PyObject* data);
-		static void      DeleteData  (const std::string& name);
-		static void      UpdateData  ();
-		static PyObject* GetData     (const std::string& name);
-		static unsigned  GetDataCount();
+		static void      AddData      (const std::string& name, PyObject* data);
+		static void      DeleteData   (const std::string& name);
+		static void      UpdateData   ();
+		static PyObject* GetData      (const std::string& name);
+		static unsigned  GetDataCount ();
+		static void      DeleteAllData();
 
 	private:
+
+		mvDataStorage() = default;
 
 		static std::map<std::string, PyObject*> s_dataStorage;
 

@@ -33,9 +33,12 @@ namespace Marvel {
 
 	Application::~Application()
 	{
+		auto m_gstate = PyGILState_Ensure();
 		Py_XDECREF(m);
 
 		PyMem_RawFree(program);
+
+		PyGILState_Release(m_gstate);
 
 		// shutdown the interpreter
 		if (Py_FinalizeEx() < 0)
@@ -160,7 +163,6 @@ namespace Marvel {
 			printf("Error initializing Python interpreter\n");
 			return 1;
 		}
-		PyEval_InitThreads();
 
 		// import our custom module to capture stdout/stderr
 		m = PyImport_ImportModule("sandboxout");

@@ -8,6 +8,14 @@ namespace Marvel {
 
 	std::map<std::string, mvTexture> mvTextureStorage::s_textures;
 
+	void mvTextureStorage::DeleteAllTextures()
+	{
+		for (auto& texture : s_textures)
+			UnloadTexture(texture.second.texture);
+
+		s_textures.clear();
+	}
+
 	void mvTextureStorage::AddTexture(const std::string& name)
 	{
 		// check if texture already exists and if it does

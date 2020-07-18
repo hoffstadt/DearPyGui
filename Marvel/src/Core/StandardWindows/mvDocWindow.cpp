@@ -13,10 +13,8 @@ namespace Marvel {
 		m_commands = mvInterfaceRegistry::GetRegistry()->getAllCommands();
 		m_marvel = mvInterfaceRegistry::GetRegistry()->getPythonInterfaceCommands("marvel");
 		m_marvelConstants = mvInterfaceRegistry::GetRegistry()->getConstantsCommands();
-
 		m_docMarvel = mvInterfaceRegistry::GetRegistry()->getPythonInterfaceDoc("marvel");
 
-		//
 		for (int i = 0; i<m_marvel.size(); i++)
 		{
 			std::string category = mvInterfaceRegistry::GetRegistry()->getPythonInterface("marvel")[m_marvel[i]].getCategory();
@@ -363,7 +361,7 @@ namespace Marvel {
 					ImGui::BulletText("The optional 'handler' keyword will set which window triggers the callback.");
 					ImGui::BulletText("Notes:");
 					ImGui::Indent();
-
+					ImGui::BulletText("Works for: Window, Child, Popup, Menu");
 					ImGui::BulletText("Should take the following form:");
 					ImGui::Indent();
 					CodeColorText("def callbackname(sender, data):");

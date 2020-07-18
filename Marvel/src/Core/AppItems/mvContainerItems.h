@@ -75,17 +75,8 @@ namespace Marvel {
 			if (m_tip != "" && ImGui::IsItemHovered())
 				ImGui::SetTooltip(m_tip.c_str());
 
-			if (ImGui::IsWindowFocused())
-			{
-
-				// update mouse
-				ImVec2 mousePos = ImGui::GetMousePos();
-				float x = mousePos.x - ImGui::GetWindowPos().x;
-				float y = mousePos.y - ImGui::GetWindowPos().y;
-				mvInput::setMousePosition(x, y);
-				mvApp::GetApp()->setActiveWindow(m_name);
-
-			}
+			// allows this item to have a render callback
+			registerWindowFocusing();
 
 			ImGui::EndChild();
 		}
