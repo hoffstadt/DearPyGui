@@ -78,6 +78,9 @@ namespace Marvel {
 			// allows this item to have a render callback
 			registerWindowFocusing();
 
+			m_width = ImGui::GetWindowWidth();
+			m_height = ImGui::GetWindowHeight();
+
 			ImGui::EndChild();
 		}
 
@@ -162,17 +165,19 @@ namespace Marvel {
 
 		MV_APPITEM_TYPE(mvAppItemType::CollapsingHeader)
 
-		mvCollapsingHeader(const std::string& parent, const std::string& name, ImGuiTreeNodeFlags flags = 0)
-			: mvBoolItemBase(parent, name, true), m_flags(flags)
+		mvCollapsingHeader(const std::string& parent, const std::string& name, ImGuiTreeNodeFlags flags = 0, bool closable = false)
+			: mvBoolItemBase(parent, name, true), m_flags(flags), m_closable(closable)
 		{
 			m_container = true;
 		}
 
 		virtual void draw() override
 		{
-		
-			// create menu and see if its selected
-			if (ImGui::CollapsingHeader(m_label.c_str(), &m_value, m_flags))
+			bool* toggle = nullptr;
+			if (m_closable)
+				toggle = &m_value;
+
+			if (ImGui::CollapsingHeader(m_label.c_str(), toggle, m_flags))
 			{
 
 				for (mvAppItem* item : m_children)
@@ -215,6 +220,7 @@ namespace Marvel {
 	private:
 
 		ImGuiTreeNodeFlags m_flags;
+		bool               m_closable;
 
 	};
 

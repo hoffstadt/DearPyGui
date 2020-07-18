@@ -879,6 +879,16 @@ namespace Marvel {
 
 	void AddItemCommands(std::map<std::string, mvPythonParser>* parsers)
 	{
+		parsers->insert({ "set_window_pos", mvPythonParser({
+			{mvPythonDataType::String, "window"},
+			{mvPythonDataType::Float, "x"},
+			{mvPythonDataType::Float, "y"}
+		}, "Sets a windows position", "None", "Widget Commands") });
+
+		parsers->insert({ "get_window_pos", mvPythonParser({
+			{mvPythonDataType::String, "window"}
+		}, "Gets a windows position", "List(float)", "Widget Commands") });
+
 		parsers->insert({ "delete_item", mvPythonParser({
 			{mvPythonDataType::String, "item"},
 			{mvPythonDataType::Optional},
@@ -1373,6 +1383,7 @@ namespace Marvel {
 			{mvPythonDataType::String, "name"},
 			{mvPythonDataType::KeywordOnly},
 			{mvPythonDataType::Bool, "default_open"},
+			{mvPythonDataType::Bool, "closable"},
 			{mvPythonDataType::String, "tip", "Adds a simple tooltip"},
 			{mvPythonDataType::String, "parent", "Parent to add this item to. (runtime adding)"},
 			{mvPythonDataType::String, "before", "Item to add this item before. (runtime adding)"}
@@ -1420,6 +1431,9 @@ namespace Marvel {
 			{mvPythonDataType::Integer, "start_x"},
 			{mvPythonDataType::Integer, "start_y"},
 			{mvPythonDataType::Bool, "autosize"},
+			{mvPythonDataType::Bool, "resizable"},
+			{mvPythonDataType::Bool, "title_bar"},
+			{mvPythonDataType::Bool, "movable"},
 			{mvPythonDataType::Bool, "hide"}
 		}, "Creates a new window for following items to be added to. Must call end_main_window command before.", 
 			"None", "Containers") });

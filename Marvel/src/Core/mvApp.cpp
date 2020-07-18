@@ -72,7 +72,7 @@ namespace Marvel {
 	mvApp::mvApp()
 	{
 		m_style = getAppDefaultStyle();
-		m_windows.push_back(new mvWindowAppitem("", "MainWindow", 1280, 800, 0, 0, true, false));
+		m_windows.push_back(new mvWindowAppitem("", "MainWindow", 1280, 800, 0, 0, true, false, true, false, false));
 		m_parents.push(m_windows.back());
 
 		addStandardWindow("documentation", mvDocWindow::GetWindow());
@@ -558,6 +558,27 @@ namespace Marvel {
 			if (item.item->getName() == name)
 				return item.item;
 		}
+
+		return nullptr;
+	}
+
+	mvWindowAppitem* mvApp::getWindow(const std::string& name)
+	{
+
+		if (std::this_thread::get_id() != m_mainThreadID)
+		{
+			mvAppLog::getLogger()->LogWarning("This function can't be called outside main thread.");
+			return nullptr;
+		}
+
+		mvAppItem* item = getRuntimeItem(name);
+		if (item == nullptr)
+			item = getItem(name);
+		if (item == nullptr)
+			return nullptr;
+
+		if (item->getType() == mvAppItemType::Window)
+			return static_cast<mvWindowAppitem*>(item);
 
 		return nullptr;
 	}

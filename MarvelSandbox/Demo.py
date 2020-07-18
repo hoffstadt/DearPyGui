@@ -102,7 +102,7 @@ end_popup()
 end_window()
 
 # text testing
-add_window("Text Widget##dialog", 200, 200, hide=True)
+add_window("Text Widget##dialog", 200, 200, start_x=0, start_y=0, hide=True, resizable=False, title_bar=False, movable=True)
 add_text("Regular")
 add_text("Wrapped at 100 pixels", wrap=100)
 add_text("Color", color=(0, 200, 255))
@@ -187,7 +187,7 @@ for i in range(0, 3):
     add_text("Item" + str(i))
 end_tree_node()
 
-add_collapsing_header("Collapsing Header##widget", tip="crack")
+add_collapsing_header("Collapsing Header##widget")
 for i in range(0, 10):
     add_text("Item " + str(i) + " belonging to a collapsing header")
 end_collapsing_header()
