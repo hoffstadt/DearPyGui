@@ -38,6 +38,11 @@ typedef std::chrono::steady_clock::time_point time_point_;
 namespace Marvel {
 
 	//-----------------------------------------------------------------------------
+	// Forward Declarations
+	//-----------------------------------------------------------------------------
+	class mvWindowAppitem;
+
+	//-----------------------------------------------------------------------------
 	// mvApp
 	//-----------------------------------------------------------------------------
 	class mvApp : public mvStandardWindow
@@ -118,15 +123,16 @@ namespace Marvel {
 		//-----------------------------------------------------------------------------
 		// AppItem Operations
 		//-----------------------------------------------------------------------------
-		void       addItem           (mvAppItem* item);
-		void       addWindow         (mvAppItem* item);
-		void       addRuntimeItem    (const std::string& parent, const std::string& before, mvAppItem* item);
-		void       deleteItem        (const std::string& name) { if(name!="MainWindow") m_deleteQueue.push(name); }
-		void       deleteItemChildren(const std::string& name) { m_deleteChildrenQueue.push(name); }
-		void       moveItemUp        (const std::string& name) { m_upQueue.push(name); }
-		void       moveItemDown      (const std::string& name) { m_downQueue.push(name); }
-		mvAppItem* getItem           (const std::string& name);
-		mvAppItem* getRuntimeItem    (const std::string& name);
+		void             addItem           (mvAppItem* item);
+		void             addWindow         (mvAppItem* item);
+		void             addRuntimeItem    (const std::string& parent, const std::string& before, mvAppItem* item);
+		void             deleteItem        (const std::string& name) { if(name!="MainWindow") m_deleteQueue.push(name); }
+		void             deleteItemChildren(const std::string& name) { m_deleteChildrenQueue.push(name); }
+		void             moveItemUp        (const std::string& name) { m_upQueue.push(name); }
+		void             moveItemDown      (const std::string& name) { m_downQueue.push(name); }
+		mvAppItem*       getItem           (const std::string& name);
+		mvAppItem*       getRuntimeItem    (const std::string& name);
+		mvWindowAppitem* getWindow         (const std::string& name);
 		
 		//-----------------------------------------------------------------------------
 		// Parent stack operations

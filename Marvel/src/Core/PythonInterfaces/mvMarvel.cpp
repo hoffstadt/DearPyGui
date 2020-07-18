@@ -2255,7 +2255,6 @@ namespace Marvel {
 		item->setTip(tip); 
 		item->setDataSource(data_source); 
 		item->setWidth(width); 
-		item->setHeight(height);
 		AddItemWithRuntimeChecks(item, parent, before);
 		return mvPythonTranslator::GetPyNone();
 	}
@@ -2991,13 +2990,17 @@ namespace Marvel {
 		const char* name;
 		int width = -1;
 		int height = -1;
-		int startx = 0;
-		int starty = 0;
+		int startx = 200;
+		int starty = 200;
 		int autosize = false;
 		int hide = false;
+		int resizable = true;
+		int title_bar = true;
+		int movable = true;
 
 		if (!Parsers["add_window"].parse(args, kwargs, __FUNCTION__, &name, &width, 
-			&height, &startx, &starty, &autosize, &hide))
+			&height, &startx, &starty, &autosize, &resizable, &title_bar, &movable,
+			&hide))
 			return mvPythonTranslator::GetPyNone();
 
 		if (width == -1 && height == -1)
@@ -3006,7 +3009,8 @@ namespace Marvel {
 			height = 500;
 		}
 
-		mvAppItem* item = new mvWindowAppitem("", name, width, height, startx, starty, false, autosize);
+		mvAppItem* item = new mvWindowAppitem("", name, width, height, startx, starty, 
+			false, autosize, resizable, title_bar, movable);
 		mvApp::GetApp()->addWindow(item);
 		mvApp::GetApp()->pushParent(item);
 
@@ -3031,6 +3035,48 @@ namespace Marvel {
 			mvAppLog::getLogger()->LogError("end_window was called incorrectly and will be ignored");
 
 		return mvPythonTranslator::GetPyNone();
+	}
+
+	PyObject* set_window_pos(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		const char* window;
+		float x;
+		float y;
+
+		if (!Parsers["set_window_pos"].parse(args, kwargs, __FUNCTION__, &window,&x, &y))
+			return mvPythonTranslator::GetPyNone();
+
+		auto awindow = mvApp::GetApp()->getWindow(window);
+
+		if (awindow == nullptr)
+		{
+			mvAppLog::getLogger()->LogError(window + std::string(" window was not found"));
+			return mvPythonTranslator::GetPyNone();
+		}
+
+		awindow->setWindowPos(x, y);
+
+		return mvPythonTranslator::GetPyNone();
+	}
+
+	PyObject* get_window_pos(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		const char* window;
+
+		if (!Parsers["get_window_pos"].parse(args, kwargs, __FUNCTION__, &window))
+			return mvPythonTranslator::GetPyNone();
+
+		auto awindow = mvApp::GetApp()->getWindow(window);
+
+		if (awindow == nullptr)
+		{
+			mvAppLog::getLogger()->LogError(window + std::string(" window was not found"));
+			return mvPythonTranslator::GetPyNone();
+		}
+
+		mvVec2 pos = awindow->getWindowPos();
+
+		return mvPythonTranslator::ToPyPair(pos.x, pos.y);
 	}
 
 	PyObject* end_child(PyObject* self, PyObject* args, PyObject* kwargs)
@@ -3134,18 +3180,19 @@ namespace Marvel {
 	{
 		const char* name;
 		int default_open = false;
+		int closable = false;
 		int flags = 0;
 		const char* tip = ""; 
 		const char* before = ""; 
 		const char* parent = "";
 
 		if (!Parsers["add_collapsing_header"].parse(args, kwargs, __FUNCTION__, &name, 
-			&default_open, &tip, &parent, &before))
+			&default_open, &closable, &tip, &parent, &before))
 			return mvPythonTranslator::GetPyNone();
 
 		if (default_open) flags |= ImGuiTreeNodeFlags_DefaultOpen;
 
-		mvAppItem* item = new mvCollapsingHeader("", name, flags);
+		mvAppItem* item = new mvCollapsingHeader("", name, flags, closable);
 		item->setTip(tip);
 		AddItemWithRuntimeChecks(item, parent, before);
 		mvApp::GetApp()->pushParent(item);
@@ -4477,6 +4524,8 @@ namespace Marvel {
 
 		auto pyModule = new mvPythonModule("marvel", {});
 
+		pyModule->addMethodD(get_window_pos);
+		pyModule->addMethodD(set_window_pos);
 		pyModule->addMethodD(get_global_font_scale);
 		pyModule->addMethodD(set_global_font_scale);
 		pyModule->addMethodD(select_directory_dialog);

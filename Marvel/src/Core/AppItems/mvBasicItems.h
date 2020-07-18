@@ -226,7 +226,7 @@ namespace Marvel {
 
 		mvListbox(const std::string& parent, const std::string& name, const std::vector<std::string>& itemnames, int default_value = 0, int height = 3,
 			const std::string& listDataSource = "")
-			: mvIntItemBase(parent, name, 1, default_value), m_names(itemnames), m_height(height), m_listDataSource(listDataSource)
+			: mvIntItemBase(parent, name, 1, default_value), m_names(itemnames), m_itemsHeight(height), m_listDataSource(listDataSource)
 		{
 			for (const std::string& name : m_names)
 				m_charNames.emplace_back(name.c_str());
@@ -235,7 +235,7 @@ namespace Marvel {
 		virtual void draw() override
 		{
 
-			if (ImGui::ListBox(m_label.c_str(), &m_value[0], m_charNames.data(), m_names.size(), m_height))
+			if (ImGui::ListBox(m_label.c_str(), &m_value[0], m_charNames.data(), m_names.size(), m_itemsHeight))
 			{
 				if (!m_dataSource.empty())
 					mvDataStorage::AddData(m_dataSource, getPyValue());
@@ -266,7 +266,7 @@ namespace Marvel {
 	private:
 
 		std::vector<std::string> m_names;
-		int                      m_height; // number of items to show (default -1)
+		int                      m_itemsHeight; // number of items to show (default -1)
 		std::vector<const char*> m_charNames;
 		std::string              m_listDataSource;
 

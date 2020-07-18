@@ -16,7 +16,8 @@ namespace Marvel {
 
 		MV_APPITEM_TYPE(mvAppItemType::Window)
 
-		mvWindowAppitem(const std::string& parent, const std::string& name, int width, int height, int xpos, int ypos, bool mainWindow, bool autosize)
+		mvWindowAppitem(const std::string& parent, const std::string& name, int width, int height, int xpos, int ypos, 
+			bool mainWindow, bool autosize, bool resizable, bool titlebar, bool movable)
 			: mvAppItem(parent, name), mvEventHandler(), m_xpos(xpos), m_ypos(ypos), m_mainWindow(mainWindow)
 		{
 			m_container = true;
@@ -31,10 +32,31 @@ namespace Marvel {
 
 			if (autosize)
 				m_windowflags |= ImGuiWindowFlags_AlwaysAutoResize;
+
+			if(!resizable)
+				m_windowflags |= ImGuiWindowFlags_NoResize;
+
+			if (!titlebar)
+				m_windowflags |= ImGuiWindowFlags_NoTitleBar;
+
+			if (!movable)
+				m_windowflags |= ImGuiWindowFlags_NoMove;
 		}
 
 		void addFlag(ImGuiWindowFlags flag) { m_windowflags |= flag; }
 		void removeFlag(ImGuiWindowFlags flag) { m_windowflags &= ~flag; }
+		
+		void setWindowPos(float x, float y)
+		{
+			m_move = true;
+			m_xpos = x;
+			m_ypos = y;
+		}
+
+		mvVec2 getWindowPos() const
+		{
+			return { (float)m_xpos, (float)m_ypos };
+		}
 
 		virtual void draw() override
 		{
@@ -55,7 +77,16 @@ namespace Marvel {
 			}
 				
 			else
+			{
+				ImGui::SetNextWindowPos(ImVec2(m_xpos, m_ypos), ImGuiCond_FirstUseEver);
 				ImGui::SetNextWindowSize(ImVec2(m_width, m_height), ImGuiCond_FirstUseEver);
+			}
+
+			if (m_move)
+			{
+				ImGui::SetNextWindowPos(ImVec2(m_xpos, m_ypos));
+				m_move = false;
+			}
 
 			if (!ImGui::Begin(m_label.c_str(), &m_show, m_windowflags))
 			{
@@ -123,29 +154,19 @@ namespace Marvel {
 
 			}
 
-			ImGui::End();
-	
+			m_xpos = ImGui::GetWindowPos().x;
+			m_ypos = ImGui::GetWindowPos().y;
 
+			ImGui::End();
 		}
 
 	private:
 
 		ImGuiWindowFlags m_windowflags = ImGuiWindowFlags_NoSavedSettings;
-		int              m_xpos = 0;
-		int              m_ypos = 0;
+		int              m_xpos = 200;
+		int              m_ypos = 200;
 		bool             m_mainWindow = false;
-
-		// standard callbacks
-		std::string m_callback = "";
-		std::string m_mouseDownCallback = "";
-		std::string m_mouseClickCallback = "";
-		std::string m_mouseReleaseCallback = "";
-		std::string m_mouseDoubleClickCallback = "";
-		std::string m_mouseWheelCallback = "";
-		std::string m_mouseDragCallback = "";
-		std::string m_keyDownCallback = "";
-		std::string m_keyPressCallback = "";
-		std::string m_keyReleaseCallback = "";
+		bool             m_move = true;
 
 	};
 
