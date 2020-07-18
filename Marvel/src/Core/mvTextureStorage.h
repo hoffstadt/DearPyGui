@@ -1,21 +1,16 @@
 #pragma once
 
 //-----------------------------------------------------------------------------
-// mvDataStorage
+// mvTextureStorage
 //
-//     - This class acts as a manager for data storage by the users. The 
-//       data storage system serves 3 purposes:
+//     - This class acts as a manager for texture storage. The 
+//       texture storage system serves 2 purposes:
 //
-//         * Allows some widgets to share the same underlying data.
-//         * Allows some widgets secondary data be modified (i.e. listbox list items)
-//         * Allows the user to store data for any other purpose where
-//           the data can be retrieved at a later time.
+//         * Allows some image based widgets to share the same textures.
+//         * Allows some textures to be automatically cleaned up using
+//           a reference counting system.
 //
-//     - AddData is also used to update existing data. We probably need to add
-//       an UpdataData method to make this explicit and come up with another
-//       name for the current UpdateData method. The current UpdateData just
-//       updates all items in mvApp (which should not be this class's
-//       responsibility).
+//     - AddTexture will increment an existing texture if it already exists
 //     
 //-----------------------------------------------------------------------------
 
@@ -29,10 +24,10 @@ namespace Marvel {
 	//-----------------------------------------------------------------------------
 	struct mvTexture
 	{
-		int width;
-		int height;
+		int   width;
+		int   height;
 		void* texture;
-		int count = 0;
+		int   count = 0;
 	};
 
 	//-----------------------------------------------------------------------------
@@ -43,13 +38,16 @@ namespace Marvel {
 
 	public:
 
-		static void       AddTexture     (const std::string& name);
-		static void       IncrementTexture(const std::string& name);
-		static void       DecrementTexture(const std::string& name);
-		static mvTexture* GetTexture  (const std::string& name);
-		static unsigned   GetTextureCount();
+		static void       AddTexture       (const std::string& name);
+		static void       IncrementTexture (const std::string& name);
+		static void       DecrementTexture (const std::string& name);
+		static mvTexture* GetTexture       (const std::string& name);
+		static unsigned   GetTextureCount  ();
+		static void       DeleteAllTextures();
 
 	private:
+
+		mvTextureStorage() = default;
 		
 		static std::map<std::string, mvTexture> s_textures;
 

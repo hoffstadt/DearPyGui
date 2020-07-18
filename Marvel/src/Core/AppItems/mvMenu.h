@@ -59,7 +59,7 @@ namespace Marvel {
 	//-----------------------------------------------------------------------------
 	// mvMenu
 	//-----------------------------------------------------------------------------
-	class mvMenu : public mvBoolItemBase
+	class mvMenu : public mvBoolItemBase, public mvEventHandler
 	{
 
 	public:
@@ -67,7 +67,7 @@ namespace Marvel {
 		MV_APPITEM_TYPE(mvAppItemType::Menu)
 
 		mvMenu(const std::string& parent, const std::string& name)
-			: mvBoolItemBase(parent, name, false)
+			: mvBoolItemBase(parent, name, false), mvEventHandler()
 		{
 			m_container = true;
 		}
@@ -102,6 +102,7 @@ namespace Marvel {
 						ImGui::SetTooltip(item->getTip().c_str());
 				}
 
+				registerWindowFocusing();
 				ImGui::EndMenu();
 			}
 		}

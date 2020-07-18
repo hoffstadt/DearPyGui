@@ -59,10 +59,10 @@ namespace Marvel {
 		virtual void          draw         ()       = 0;
 
 		// virtual methods
-		virtual void      setPyValue(PyObject* value) {}
-		virtual PyObject* getPyValue() const { Py_RETURN_NONE; }
-		virtual bool areDuplicatesAllowed() const { return false; }
-		virtual void updateData(const std::string& name) {}
+		virtual void      setPyValue          (PyObject* value) {}
+		virtual PyObject* getPyValue          () const { Py_RETURN_NONE; }
+		virtual bool      areDuplicatesAllowed() const { return false; }
+		virtual void      updateData          (const std::string& name) {}
 
 		// color styles for runtime (WORK NEEDED HERE)
 		void addColorStyle  (ImGuiCol item, mvColor color);
@@ -77,6 +77,7 @@ namespace Marvel {
 		bool moveChildDown  (const std::string& name);
 		void resetState     ();
 		void updateDataSource(const std::string& name);
+		void registerWindowFocusing(); // only useful for imgui window types
 
 		// getters
 		mvAppItem*                      getChild                  (const std::string& name);      // will return nullptr if not found

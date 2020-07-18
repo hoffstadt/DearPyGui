@@ -55,89 +55,6 @@ namespace Marvel {
 		style.CircleSegmentMaxError = mvstyle[29].x;
 	}
 
-	static void prepareStandardCallbacks()
-	{
-		ImGuiIO& io = ImGui::GetIO();
-
-		mvApp* app = mvApp::GetApp();
-		std::string activewindow = app->getActiveWindow();
-		mvEventHandler* eventHandler = nullptr;
-		if (activewindow == "MainWindow")
-			eventHandler = static_cast<mvEventHandler*>(app);
-		else
-		{
-			for (auto window : app->getWindows())
-			{
-				if (window->getName() == activewindow)
-				{
-					auto windowtype = static_cast<mvWindowAppitem*>(window);
-					eventHandler = static_cast<mvEventHandler*>(windowtype);
-					break;
-				}
-			}
-		}
-
-		if(eventHandler == nullptr)
-			eventHandler = static_cast<mvEventHandler*>(app);
-
-		if (io.MouseWheel != 0.0f)
-			app->runCallback(eventHandler->getMouseWheelCallback(), std::to_string(0), mvPythonTranslator::ToPyPair(0, io.MouseWheel));
-
-
-		for (int i = 0; i < 3; i++)
-		{
-			if (ImGui::IsMouseDragging(i, mvInput::getMouseDragThreshold()))
-			{
-				mvInput::setMouseDragging(true);
-				mvInput::setMouseDragDelta({ ImGui::GetMouseDragDelta().x, ImGui::GetMouseDragDelta().y });
-				app->runCallback(eventHandler->getMouseDragCallback(), std::to_string(i), mvPythonTranslator::ToPyInt(i));
-				ImGui::ResetMouseDragDelta(i);
-				break;
-			}
-			mvInput::setMouseDragging(false);
-			mvInput::setMouseDragDelta({ 0.0f, 0.0f });
-
-		}
-
-		for (int i = 0; i < IM_ARRAYSIZE(io.MouseDown); i++)
-		{
-
-			if (ImGui::IsMouseClicked(i))
-				app->runCallback(eventHandler->getMouseClickCallback(), std::to_string(i));
-
-			if (io.MouseDownDuration[i] >= 0.0f)
-				app->runCallback(eventHandler->getMouseDownCallback(), std::to_string(i), mvPythonTranslator::ToPyFloat(io.MouseDownDuration[i]));
-
-			if (ImGui::IsMouseDoubleClicked(i))
-				app->runCallback(eventHandler->getMouseDoubleClickCallback(), std::to_string(i));
-
-			if (ImGui::IsMouseReleased(i))
-				app->runCallback(eventHandler->getMouseReleaseCallback(), std::to_string(i));
-
-		}
-
-		for (int i = 0; i < IM_ARRAYSIZE(io.KeysDown); i++)
-		{
-			if (ImGui::IsKeyPressed(i))
-				app->runCallback(eventHandler->getKeyPressCallback(), std::to_string(i));
-
-			if (io.KeysDownDuration[i] >= 0.0f)
-				app->runCallback(eventHandler->getKeyDownCallback(), std::to_string(i), mvPythonTranslator::ToPyFloat(io.KeysDownDuration[i]));
-
-			if (ImGui::IsKeyReleased(i))
-				app->runCallback(eventHandler->getKeyReleaseCallback(), std::to_string(i));
-
-		}
-
-	}
-
-	static int getPopupButton(const std::string& name)
-	{
-		if (mvAppItem* item = mvApp::GetApp()->getItem(name))
-			return static_cast<mvPopup*>(item)->getButton();
-		return -1;
-	}
-
 	mvApp* mvApp::GetApp()
 	{
 		if (s_instance)
@@ -176,6 +93,95 @@ namespace Marvel {
 		}
 
 		m_windows.clear();
+
+		mvTextureStorage::DeleteAllTextures();
+		mvDataStorage::DeleteAllData();
+	}
+
+	void mvApp::routeInputCallbacks()
+	{
+		// Note: Events are only routed to the active window
+
+		// default handler is main window
+		mvEventHandler* eventHandler = static_cast<mvEventHandler*>(this);
+		if (m_activeWindow != "MainWindow")
+		{
+			for (auto window : m_windows)
+			{
+				if (window->getName() == m_activeWindow)
+				{
+					auto windowtype = static_cast<mvWindowAppitem*>(window);
+					eventHandler = static_cast<mvEventHandler*>(windowtype);
+					break;
+				}
+			}
+		}
+
+		// route mouse wheel event
+		if (ImGui::GetIO().MouseWheel != 0.0f)
+			runCallback(eventHandler->getMouseWheelCallback(), m_activeWindow,
+				mvPythonTranslator::ToPyMPair(0, ImGui::GetIO().MouseWheel));
+
+		// route mouse dragging event
+		// this must be seperate since only a single button can be dragged
+		for (int i = 0; i < 3; i++)
+		{
+			if (ImGui::IsMouseDragging(i, mvInput::getMouseDragThreshold()))
+			{
+				// TODO: send delta
+				mvInput::setMouseDragging(true);
+				mvInput::setMouseDragDelta({ ImGui::GetMouseDragDelta().x, ImGui::GetMouseDragDelta().y });
+				runCallback(eventHandler->getMouseDragCallback(), m_activeWindow,
+					mvPythonTranslator::ToPyMPair(i, 0));
+				ImGui::ResetMouseDragDelta(i);
+				break;
+			}
+
+			// reset, since event has already been dispatched
+			mvInput::setMouseDragging(false);
+			mvInput::setMouseDragDelta({ 0.0f, 0.0f });
+		}
+
+		// route other mouse events
+		for (int i = 0; i < IM_ARRAYSIZE(ImGui::GetIO().MouseDown); i++)
+		{
+			// route mouse click event
+			if (ImGui::IsMouseClicked(i))
+				runCallback(eventHandler->getMouseClickCallback(), m_activeWindow,
+					mvPythonTranslator::ToPyInt(i));
+
+			// route mouse down event
+			if (ImGui::GetIO().MouseDownDuration[i] >= 0.0f)
+				runCallback(eventHandler->getMouseDownCallback(), m_activeWindow,
+					mvPythonTranslator::ToPyMPair(i, ImGui::GetIO().MouseDownDuration[i]));
+
+			// route mouse double clicked event
+			if (ImGui::IsMouseDoubleClicked(i))
+				runCallback(eventHandler->getMouseDoubleClickCallback(), m_activeWindow,
+					mvPythonTranslator::ToPyInt(i));
+
+			// route mouse released event
+			if (ImGui::IsMouseReleased(i))
+				runCallback(eventHandler->getMouseReleaseCallback(), m_activeWindow,
+					mvPythonTranslator::ToPyInt(i));
+		}
+
+		// route key events
+		for (int i = 0; i < IM_ARRAYSIZE(ImGui::GetIO().KeysDown); i++)
+		{
+			// route key pressed event
+			if (ImGui::IsKeyPressed(i))
+				runCallback(eventHandler->getKeyPressCallback(), std::to_string(i));
+
+			// route key down event
+			if (ImGui::GetIO().KeysDownDuration[i] >= 0.0f)
+				runCallback(eventHandler->getKeyDownCallback(), std::to_string(i),
+					mvPythonTranslator::ToPyFloat(ImGui::GetIO().KeysDownDuration[i]));
+
+			// route key released event
+			if (ImGui::IsKeyReleased(i))
+				runCallback(eventHandler->getKeyReleaseCallback(), std::to_string(i));
+		}
 	}
 
 	void mvApp::setGlobalFontScale(float scale)
@@ -198,7 +204,10 @@ namespace Marvel {
 
 	void mvApp::setWindowSize(unsigned width, unsigned height) 
 	{ 
+		// set viewport size
 		setSize(width, height);
+
+		// set imgui window size
 		m_windows[0]->setWidth(width);
 		m_windows[0]->setHeight(height);
 	}
@@ -221,17 +230,20 @@ namespace Marvel {
 
 	void mvApp::precheck()
 	{
+		// prevents the user from having to call
+		// end_window when there is only the main one
 		if (m_windows.size() == 1)
 			popParent();
 
-		// update for any data storage added at compile time
+		// If any data was stored during compile time,
+		// this will update items relying on it before
+		// the first render frame
 		mvDataStorage::UpdateData();
-
 	}
 
 	void mvApp::prerender()
 	{
-
+		// check if threadpool is ready to be cleaned up
 		if (m_threadTime > m_threadPoolTimeout)
 		{
 			if (m_tpool != nullptr)
@@ -245,14 +257,13 @@ namespace Marvel {
 			
 		}
 
-		//ImGui::ShowStyleEditor();
-
-		// update times
-		ImGuiIO& io = ImGui::GetIO();
-		m_deltaTime = io.DeltaTime;
+		// update timing
+		m_deltaTime = ImGui::GetIO().DeltaTime;
 		m_time = ImGui::GetTime();
-		io.FontGlobalScale = m_globalFontScale;
+		ImGui::GetIO().FontGlobalScale = m_globalFontScale;
 
+		// check if any asyncronout functions have returned
+		// and are requesting to send data back
 		if (!m_asyncReturns.empty())
 		{
 			std::lock_guard<std::mutex> lock(m_mutex);
@@ -264,7 +275,7 @@ namespace Marvel {
 			}
 		}
 
-
+		// render any standard windows (i.e. logger, debug, etc.)
 		for (auto& entry : m_standardWindows)
 		{
 			if (entry.second.show)
@@ -272,11 +283,12 @@ namespace Marvel {
 		}
 
 		// set imgui style to mvstyle
-		ImGuiStyle& style = ImGui::GetStyle();
-		SetStyle(style, m_style);
+		SetStyle(ImGui::GetStyle(), m_style);
 
-		prepareStandardCallbacks();
+		// route any registered input callbacks
+		routeInputCallbacks();
 
+		// run render callbacks
 		if (m_activeWindow == "MainWindow")
 		{
 			if (!getRenderCallback().empty())
@@ -285,82 +297,71 @@ namespace Marvel {
 
 		else 
 		{
-			auto item = mvApp::GetApp()->getItem(m_activeWindow);
+			mvAppItem* item = mvApp::GetApp()->getItem(m_activeWindow);
 
 			if (item == nullptr)
 				m_activeWindow = "MainWindow";
-
-			else if (item->getType() == mvAppItemType::Window)
+			else
 			{
-				auto windowtype = static_cast<mvWindowAppitem*>(item);
-				mvEventHandler* handler = static_cast<mvEventHandler*>(windowtype);
-				runCallback(handler->getRenderCallback(), m_activeWindow);
-			}
-			else if (item->getType() == mvAppItemType::Child)
-			{
-				auto childType = static_cast<mvChild*>(item);
-				mvEventHandler* handler = static_cast<mvEventHandler*>(childType);
-				runCallback(handler->getRenderCallback(), m_activeWindow);
+				dispatchRenderCallback<mvWindowAppitem>(mvAppItemType::Window, item);
+				dispatchRenderCallback<mvChild>        (mvAppItemType::Child , item);
+				dispatchRenderCallback<mvPopup>        (mvAppItemType::Popup , item);
+				dispatchRenderCallback<mvMenu>         (mvAppItemType::Menu  , item);
 			}
 		}
 
+		// resets app items states (i.e. hovered)
 		for (auto window : m_windows)
 			window->resetState();
-
 	}
 
 	void mvApp::render(bool& show)
 	{
-
 		for (auto window : m_windows)
 			window->draw();
-
 	}
 
 	void mvApp::postrender()
 	{
-		
 		// delete items from the delete queue
 		while (!m_deleteChildrenQueue.empty())
 		{
-			std::string& itemname = m_deleteChildrenQueue.front();
-
-			auto item = getItem(itemname);
+			auto item = getItem(m_deleteChildrenQueue.front());
 			if (item)
 				item->deleteChildren();
-
-
 			m_deleteChildrenQueue.pop();
 		}
 
 		// delete items from the delete queue
 		while (!m_deleteQueue.empty())
 		{
-
-			std::string& itemname = m_deleteQueue.front();
-
 			bool deletedItem = false;
 
+			// try to delete item
 			for (auto window : m_windows)
 			{
-				deletedItem = window->deleteChild(itemname);
+				deletedItem = window->deleteChild(m_deleteQueue.front());
 				if (deletedItem)
 					break;
 			}
 
-			bool childfound = false;
+			bool windowDeleting = false;
 			bool itemDeleted = false;
 
+			// check if attempting to delete a window
 			for (auto window : m_windows)
 			{
-				if (window->getName() == itemname)
+				if (window->getName() == m_deleteQueue.front())
 				{
-					childfound = true;
+					windowDeleting = true;
 					break;
 				}
 			}
 
-			if (childfound)
+			// delete window and update window vector
+			// this should be changed to a different data
+			// structure
+			if (windowDeleting)
 			{
 				std::vector<mvAppItem*> oldwindows = m_windows;
 
@@ -368,7 +369,7 @@ namespace Marvel {
 
 				for (auto window : oldwindows)
 				{
-					if (window->getName() == itemname)
+					if (window->getName() == m_deleteQueue.front())
 					{
 						delete window;
 						window = nullptr;
@@ -381,7 +382,7 @@ namespace Marvel {
 			}
 
 			if (!deletedItem)
-				mvAppLog::getLogger()->LogWarning(itemname + " not deleted because it was not found");
+				mvAppLog::getLogger()->LogWarning(m_deleteQueue.front() + " not deleted because it was not found");
 
 			m_deleteQueue.pop();
 		}
@@ -468,6 +469,7 @@ namespace Marvel {
 		// async callbacks
 		if (!m_asyncCallbacks.empty())
 		{
+			// check if threadpool is valid, if not, create it
 			if (m_tpool == nullptr)
 			{
 				m_tpool = new mvThreadPool(m_threadPoolHighPerformance ? 0 : m_threads);
@@ -476,16 +478,16 @@ namespace Marvel {
 				mvAppLog::getLogger()->Log("Threadpool created");
 			}
 
+			// submit to thread pool
+			for (auto& callback : m_asyncCallbacks)
+				m_tpool->submit(std::bind(&mvApp::runAsyncCallback, this, callback.name, callback.data, callback.returnname));
+
+			m_asyncCallbacks.clear();
 		}
 
-		for (auto& callback : m_asyncCallbacks)
-			m_tpool->submit(std::bind(&mvApp::runAsyncCallback, this, callback.name, callback.data, callback.returnname));
-
-		m_asyncCallbacks.clear();
-
+		// update timer if thread pool exists
 		if(m_tpool != nullptr)
 			m_threadTime = std::chrono::duration_cast<second_>(clock_::now() - m_poolStart).count();
-		
 	}
 
 	void mvApp::pushParent(mvAppItem* item)
@@ -581,7 +583,6 @@ namespace Marvel {
 		// check if handler is callable
 		if (PyCallable_Check(pHandler))
 		{
-
 			PyErr_Clear();
 
 			PyObject* pArgs = PyTuple_New(2);

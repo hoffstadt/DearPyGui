@@ -70,7 +70,6 @@ namespace Marvel {
 
 				}
 				ImGui::EndTooltip();
-
 			}
 
 		}

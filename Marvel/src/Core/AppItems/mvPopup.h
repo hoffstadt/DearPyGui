@@ -15,7 +15,7 @@ namespace Marvel {
 	//-----------------------------------------------------------------------------
 	// mvPopup
 	//-----------------------------------------------------------------------------
-	class mvPopup : public mvBoolItemBase
+	class mvPopup : public mvBoolItemBase, public mvEventHandler
 	{
 
 	public:
@@ -23,7 +23,7 @@ namespace Marvel {
 		MV_APPITEM_TYPE(mvAppItemType::Popup)
 
 		mvPopup(const std::string& parent, const std::string& name, int mousebutton = 1, bool modal=false)
-			: mvBoolItemBase(parent, name, false), m_modal(modal), m_button(mousebutton)
+			: mvBoolItemBase(parent, name, false), mvEventHandler(), m_modal(modal), m_button(mousebutton)
 		{
 			m_container = true;
 			if (m_parent)
@@ -72,6 +72,7 @@ namespace Marvel {
 
 					}
 
+					registerWindowFocusing();
 					ImGui::EndPopup();
 				}
 			}
@@ -115,6 +116,7 @@ namespace Marvel {
 
 					}
 
+					registerWindowFocusing();
 					ImGui::EndPopup();
 				}
 			}

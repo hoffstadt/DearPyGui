@@ -44,6 +44,12 @@ namespace Marvel {
 		return PyBool_FromLong(value);
 	}
 
+	PyObject* mvPythonTranslator::ToPyMPair(int x, float y)
+	{
+		mvGlobalIntepreterLock gil;
+		return Py_BuildValue("[if]", x, y);
+	}
+
 	PyObject* mvPythonTranslator::ToPyPair(float x, float y)
 	{
 		mvGlobalIntepreterLock gil;
