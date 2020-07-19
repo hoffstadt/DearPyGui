@@ -8,6 +8,7 @@
 #include "Core/StandardWindows/mvMetricsWindow.h"
 #include "Core/mvUtilities.h"
 #include <misc/cpp/imgui_stdlib.h>
+#include <iostream>
 
 static const char* initialText = "from marvel import *\n\
 import marvel_constants as mc\n\
@@ -43,10 +44,10 @@ namespace Marvel {
 				std::string line = m_editor.GetCurrentLineText();
 				int linepos = m_editor.GetCursorPosition().mLine;
 				int linecol = m_editor.GetCursorPosition().mColumn;
-				m_editor.MoveRight(line.size() - linecol);
+				m_editor.MoveEnd();
 				m_editor.InsertText("\n");
 				m_editor.InsertText(line);
-				m_editor.MoveLeft(line.size() - linecol);
+				m_editor.SetCursorPosition({ linepos+1, linecol });
 				
 			}
 		}
