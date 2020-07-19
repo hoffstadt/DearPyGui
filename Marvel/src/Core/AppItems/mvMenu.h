@@ -28,6 +28,12 @@ namespace Marvel {
 			: mvBoolItemBase("", name, true)
 		{
 			m_container = true;
+			
+			// TODO use code below to set item height when font and scale systems are done
+			//float FontSize = ImGui::GetFontSize(); // = Base Font Size * Current Window Scale
+			//ImGuiStyle currentStyle = ImGui::GetStyle(); // = Padding for the Top and Bottom
+			//m_height = int(currentStyle.FramePadding.y * 2 + FontSize);
+			m_height = 21;
 		}
 
 		virtual void draw() override
