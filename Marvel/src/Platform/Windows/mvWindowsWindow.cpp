@@ -88,8 +88,17 @@ namespace Marvel {
 		s_pd3dDeviceContext->ClearRenderTargetView(s_mainRenderTargetView, (float*)&clear_color);
 		ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
 
-		s_pSwapChain->Present(1, 0); // Present with vsync
+		//s_pSwapChain->Present(1, 0); // Present with vsync
 		//g_pSwapChain->Present(0, 0); // Present without vsync
+
+		static UINT presentFlags = 0;
+		if (s_pSwapChain->Present(1, presentFlags) == DXGI_STATUS_OCCLUDED) {
+			presentFlags = DXGI_PRESENT_TEST;
+			Sleep(20);
+		}
+		else {
+			presentFlags = 0;
+		}
 	}
 
 	void mvWindowsWindow::cleanup()
