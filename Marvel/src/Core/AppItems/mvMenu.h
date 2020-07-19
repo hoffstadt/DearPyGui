@@ -2,7 +2,6 @@
 
 #include "Core/AppItems/mvTypeBases.h"
 #include "Core/mvApp.h"
-#include <iostream>
 
 //-----------------------------------------------------------------------------
 // Widget Index
