@@ -4324,6 +4324,18 @@ namespace Marvel {
 					mvEventHandler* eventhandler = static_cast<mvEventHandler*>(childType);
 					eventhandler->setRenderCallback(callback);
 				}
+				else if (item->getType() == mvAppItemType::Popup)
+				{
+					auto childType = static_cast<mvPopup*>(item);
+					mvEventHandler* eventhandler = static_cast<mvEventHandler*>(childType);
+					eventhandler->setRenderCallback(callback);
+				}
+				else if (item->getType() == mvAppItemType::Menu)
+				{
+					auto childType = static_cast<mvMenu*>(item);
+					mvEventHandler* eventhandler = static_cast<mvEventHandler*>(childType);
+					eventhandler->setRenderCallback(callback);
+				}
 				else
 					mvAppLog::getLogger()->LogWarning("Render callback can only be set for window/child items");
 			}
