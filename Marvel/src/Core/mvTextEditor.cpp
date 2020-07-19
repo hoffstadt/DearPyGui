@@ -766,6 +766,7 @@ void mvTextEditor::HandleKeyboardInputs()
 		else if (!IsReadOnly() && !ctrl && !alt && ImGui::IsKeyPressed(ImGui::GetKeyIndex(ImGuiKey_Tab)))
 			EnterCharacter('\t', shift);
 
+
 		if (!IsReadOnly() && !io.InputQueueCharacters.empty())
 		{
 			for (int i = 0; i < io.InputQueueCharacters.Size; i++)

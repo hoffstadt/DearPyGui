@@ -1,21 +1,27 @@
 from marvel import *
 import marvel_constants as mc
 
-add_button("Run App", callback="Launcher")
-add_button("Run Demo", callback="Launcher")
-add_button("Run Documentation", callback="Launcher")
-add_button("Run IDE", callback="Launcher")
+set_main_window_size(270, 110)
+add_group("Group", width=50)
+add_button("App", callback="Launcher", height=50)
+add_same_line(spacing=10)
+add_button("Demo", callback="Launcher", height=50)
+add_same_line(spacing=10)
+add_button("Docs", callback="Launcher", height=50)
+add_same_line(spacing=10)
+add_button("IDE", callback="Launcher", height=50)
+end_group()
 
 def Launcher(sender, data):
 
-    if sender == "Run App":
+    if sender == "App":
         run_file("MarvelSandbox", "App.py")
         
-    elif sender == "Run Demo":
+    elif sender == "Demo":
         run_file("MarvelSandbox", "Demo.py")
         
-    if sender == "Run Documentation":
+    if sender == "Documentation":
         run_file("MarvelSandbox", "", flags="--documentation")
         
-    if sender == "Run IDE":
+    if sender == "IDE":
         run_file("MarvelSandbox", "", flags="--editor")
