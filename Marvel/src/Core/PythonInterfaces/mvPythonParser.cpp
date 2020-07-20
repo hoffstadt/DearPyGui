@@ -30,13 +30,31 @@ namespace Marvel {
 		case mvPythonDataType::Integer:    return " : int";
 		case mvPythonDataType::Float:      return " : float";
 		case mvPythonDataType::Bool:       return " : bool";
-		case mvPythonDataType::StringList: return " : List(str)";
-		case mvPythonDataType::FloatList:  return " : List(float)";
-		case mvPythonDataType::IntList:    return " : List(int)";
+		case mvPythonDataType::StringList: return " : List[str]";
+		case mvPythonDataType::FloatList:  return " : List[float]";
+		case mvPythonDataType::IntList:    return " : List[int]";
 		case mvPythonDataType::Optional:   return "Optional Arguments\n____________________";
 		case mvPythonDataType::KeywordOnly:return "Keyword Only Arguments\n____________________";
 		case mvPythonDataType::Object:     return " : object";
 		default:                           return " : unknown";
+		}
+	}
+
+	const char* PythonDataTypeActual(mvPythonDataType type)
+	{
+		switch (type)
+		{
+		case mvPythonDataType::String:     return "str";
+		case mvPythonDataType::Integer:    return "int";
+		case mvPythonDataType::Float:      return "float";
+		case mvPythonDataType::Bool:       return "bool";
+		case mvPythonDataType::StringList: return "List[str]";
+		case mvPythonDataType::FloatList:  return "List[float]";
+		case mvPythonDataType::IntList:    return "List[int]";
+		case mvPythonDataType::Optional:   return "";
+		case mvPythonDataType::KeywordOnly:return "";
+		case mvPythonDataType::Object:     return "object";
+		default:                           return "unknown";
 		}
 	}
 

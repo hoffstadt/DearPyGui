@@ -45,6 +45,8 @@ namespace Marvel {
 		const char getSymbol() const;
 	};
 
+	const char* PythonDataTypeActual(mvPythonDataType type);
+
 	//-----------------------------------------------------------------------------
 	// mvPythonParser
 	//-----------------------------------------------------------------------------
@@ -62,6 +64,10 @@ namespace Marvel {
 		bool               parse(PyObject* args, PyObject* kwargs, const char* message, ...);
 		inline const char* getDocumentation() const { return m_documentation.c_str(); }
 		const std::string& getCategory     () const { return m_category; }
+
+		const std::vector<mvPythonDataElement>& getElements() const { return m_elements; }
+		const std::string& getReturnType() const { return m_return; }
+		const std::string& getAbout() const { return m_about; }
 
 		void buildDocumentation();
 
