@@ -14,6 +14,10 @@ namespace Marvel {
 
 	static void AddItemWithRuntimeChecks(mvAppItem* item, const char* parent, const char* before)
 	{
+
+		if (item == nullptr)
+			return;
+
 		auto ma = mvApp::GetApp();
 
 		// typical run time adding
@@ -110,6 +114,9 @@ namespace Marvel {
 		item->setWidth(width);
 		item->setHeight(height);
 
+		if(!item)
+			return mvPythonTranslator::GetPyNone();
+
 		AddItemWithRuntimeChecks(item, parent, before);
 
 		return mvPythonTranslator::GetPyNone();
@@ -124,9 +131,7 @@ namespace Marvel {
 		if (!Parsers["set_drawing_size"].parse(args, kwargs, __FUNCTION__, &name, &width, &height))
 			return mvPythonTranslator::GetPyNone();
 
-		auto drawing = mvApp::GetApp()->getRuntimeItem(name);
-		if (drawing == nullptr)
-			drawing = mvApp::GetApp()->getItem(name);
+		auto drawing = mvApp::GetApp()->getItem(name);
 
 		if (drawing)
 		{
@@ -146,9 +151,7 @@ namespace Marvel {
 		if (!Parsers["set_drawing_origin"].parse(args, kwargs, __FUNCTION__, &name, &x, &y))
 			return mvPythonTranslator::GetPyNone();
 
-		auto item = mvApp::GetApp()->getRuntimeItem(name);
-		if (item == nullptr)
-			item = mvApp::GetApp()->getItem(name);
+		auto item = mvApp::GetApp()->getItem(name);
 
 		if (item == nullptr)
 		{
@@ -179,9 +182,7 @@ namespace Marvel {
 		if (!Parsers["set_drawing_scale"].parse(args, kwargs, __FUNCTION__, &name, &x, &y))
 			return mvPythonTranslator::GetPyNone();
 
-		auto item = mvApp::GetApp()->getRuntimeItem(name);
-		if (item == nullptr)
-			item = mvApp::GetApp()->getItem(name);
+		auto item = mvApp::GetApp()->getItem(name);
 
 		if (item == nullptr)
 		{
@@ -210,9 +211,7 @@ namespace Marvel {
 		if (!Parsers["get_drawing_origin"].parse(args, kwargs, __FUNCTION__, &name))
 			return mvPythonTranslator::GetPyNone();
 
-		auto item = mvApp::GetApp()->getRuntimeItem(name);
-		if (item == nullptr)
-			item = mvApp::GetApp()->getItem(name);
+		auto item = mvApp::GetApp()->getItem(name);
 
 		if (item == nullptr)
 		{
@@ -240,9 +239,7 @@ namespace Marvel {
 		if (!Parsers["get_drawing_scale"].parse(args, kwargs, __FUNCTION__, &name))
 			return mvPythonTranslator::GetPyNone();
 
-		auto item = mvApp::GetApp()->getRuntimeItem(name);
-		if (item == nullptr)
-			item = mvApp::GetApp()->getItem(name);
+		auto item = mvApp::GetApp()->getItem(name);
 
 		if (item == nullptr)
 		{
@@ -270,9 +267,7 @@ namespace Marvel {
 		if (!Parsers["get_drawing_size"].parse(args, kwargs, __FUNCTION__, &name))
 			return mvPythonTranslator::GetPyNone();
 
-		auto drawing = mvApp::GetApp()->getRuntimeItem(name);
-		if (drawing == nullptr)
-			drawing = mvApp::GetApp()->getItem(name);
+		auto drawing = mvApp::GetApp()->getItem(name);
 
 		if (drawing)
 			return mvPythonTranslator::ToPyPair(drawing->getWidth(), drawing->getHeight());
@@ -311,9 +306,7 @@ namespace Marvel {
 		mvVec2 muv_max = mvPythonTranslator::ToVec2(uv_max);
 		mvColor mcolor = mvPythonTranslator::ToColor(color);
 
-		auto item = mvApp::GetApp()->getRuntimeItem(drawing);
-		if (item == nullptr)
-			item = mvApp::GetApp()->getItem(drawing);
+		auto item = mvApp::GetApp()->getItem(drawing);
 
 		if (item == nullptr)
 		{
@@ -350,9 +343,7 @@ namespace Marvel {
 		mvVec2 mp2 = mvPythonTranslator::ToVec2(p2);
 		mvColor mcolor = mvPythonTranslator::ToColor(color);
 
-		auto item = mvApp::GetApp()->getRuntimeItem(drawing);
-		if (item == nullptr)
-			item = mvApp::GetApp()->getItem(drawing);
+		auto item = mvApp::GetApp()->getItem(drawing);
 
 		if (item == nullptr)
 		{
@@ -390,9 +381,7 @@ namespace Marvel {
 		mvVec2 mp2 = mvPythonTranslator::ToVec2(p2);
 		mvColor mcolor = mvPythonTranslator::ToColor(color);
 
-		auto item = mvApp::GetApp()->getRuntimeItem(drawing);
-		if (item == nullptr)
-			item = mvApp::GetApp()->getItem(drawing);
+		auto item = mvApp::GetApp()->getItem(drawing);
 
 		if (item == nullptr)
 		{
@@ -433,9 +422,7 @@ namespace Marvel {
 		mvColor mcolor = mvPythonTranslator::ToColor(color);
 		mvColor mfill = mvPythonTranslator::ToColor(fill);
 
-		auto item = mvApp::GetApp()->getRuntimeItem(drawing);
-		if (item == nullptr)
-			item = mvApp::GetApp()->getItem(drawing);
+		auto item = mvApp::GetApp()->getItem(drawing);
 
 		if (item == nullptr)
 		{
@@ -475,9 +462,7 @@ namespace Marvel {
 		mvColor mcolor = mvPythonTranslator::ToColor(color);
 		mvColor mfill = mvPythonTranslator::ToColor(fill);
 
-		auto item = mvApp::GetApp()->getRuntimeItem(drawing);
-		if (item == nullptr)
-			item = mvApp::GetApp()->getItem(drawing);
+		auto item = mvApp::GetApp()->getItem(drawing);
 
 		if (item == nullptr)
 		{
@@ -519,9 +504,7 @@ namespace Marvel {
 		mvColor mcolor = mvPythonTranslator::ToColor(color);
 		mvColor mfill = mvPythonTranslator::ToColor(fill);
 
-		auto item = mvApp::GetApp()->getRuntimeItem(drawing);
-		if (item == nullptr)
-			item = mvApp::GetApp()->getItem(drawing);
+		auto item = mvApp::GetApp()->getItem(drawing);
 
 		if (item == nullptr)
 		{
@@ -558,9 +541,7 @@ namespace Marvel {
 		mvVec2 mpos = mvPythonTranslator::ToVec2(pos);
 		mvColor mcolor = mvPythonTranslator::ToColor(color);
 
-		auto item = mvApp::GetApp()->getRuntimeItem(drawing);
-		if (item == nullptr)
-			item = mvApp::GetApp()->getItem(drawing);
+		auto item = mvApp::GetApp()->getItem(drawing);
 
 		if (item == nullptr)
 		{
@@ -600,9 +581,7 @@ namespace Marvel {
 		mvColor mcolor = mvPythonTranslator::ToColor(color);
 		mvColor mfill = mvPythonTranslator::ToColor(fill);
 
-		auto item = mvApp::GetApp()->getRuntimeItem(drawing);
-		if (item == nullptr)
-			item = mvApp::GetApp()->getItem(drawing);
+		auto item = mvApp::GetApp()->getItem(drawing);
 
 		if (item == nullptr)
 		{
@@ -639,9 +618,7 @@ namespace Marvel {
 		auto mpoints = mvPythonTranslator::ToVectVec2(points);
 		mvColor mcolor = mvPythonTranslator::ToColor(color);
 
-		auto item = mvApp::GetApp()->getRuntimeItem(drawing);
-		if (item == nullptr)
-			item = mvApp::GetApp()->getItem(drawing);
+		auto item = mvApp::GetApp()->getItem(drawing);
 
 		if (item == nullptr)
 		{
@@ -679,9 +656,7 @@ namespace Marvel {
 		mvColor mcolor = mvPythonTranslator::ToColor(color);
 		mvColor mfill = mvPythonTranslator::ToColor(fill);
 
-		auto item = mvApp::GetApp()->getRuntimeItem(drawing);
-		if (item == nullptr)
-			item = mvApp::GetApp()->getItem(drawing);
+		auto item = mvApp::GetApp()->getItem(drawing);
 
 		if (item == nullptr)
 		{
@@ -721,9 +696,7 @@ namespace Marvel {
 		mvVec2 mp4 = mvPythonTranslator::ToVec2(p4);
 		mvColor mcolor = mvPythonTranslator::ToColor(color);
 
-		auto item = mvApp::GetApp()->getRuntimeItem(drawing);
-		if (item == nullptr)
-			item = mvApp::GetApp()->getItem(drawing);
+		auto item = mvApp::GetApp()->getItem(drawing);
 
 		if (item == nullptr)
 		{
@@ -752,9 +725,7 @@ namespace Marvel {
 		if (!Parsers["clear_drawing"].parse(args, kwargs, __FUNCTION__, &drawing))
 			return mvPythonTranslator::GetPyNone();
 
-		auto item = mvApp::GetApp()->getRuntimeItem(drawing);
-		if (item == nullptr)
-			item = mvApp::GetApp()->getItem(drawing);
+		auto item = mvApp::GetApp()->getItem(drawing);
 
 		if (item == nullptr)
 		{
@@ -1310,9 +1281,7 @@ namespace Marvel {
 		else
 		{
 			mvAppItem* item;
-			item = mvApp::GetApp()->getRuntimeItem(handler);
-			if(item == nullptr)
-				item = mvApp::GetApp()->getItem(handler);
+			item = mvApp::GetApp()->getItem(handler);
 			if (item)
 			{
 				auto windowtype = static_cast<mvWindowAppitem*>(item);
@@ -1339,9 +1308,7 @@ namespace Marvel {
 		else
 		{
 			mvAppItem* item;
-			item = mvApp::GetApp()->getRuntimeItem(handler);
-			if (item == nullptr)
-				item = mvApp::GetApp()->getItem(handler);
+			item = mvApp::GetApp()->getItem(handler);
 			if (item)
 			{
 				auto windowtype = static_cast<mvWindowAppitem*>(item);
@@ -1365,9 +1332,7 @@ namespace Marvel {
 		else
 		{
 			mvAppItem* item;
-			item = mvApp::GetApp()->getRuntimeItem(handler);
-			if (item == nullptr)
-				item = mvApp::GetApp()->getItem(handler);
+			item = mvApp::GetApp()->getItem(handler);
 			if (item)
 			{
 				auto windowtype = static_cast<mvWindowAppitem*>(item);
@@ -1391,9 +1356,7 @@ namespace Marvel {
 		else
 		{
 			mvAppItem* item;
-			item = mvApp::GetApp()->getRuntimeItem(handler);
-			if (item == nullptr)
-				item = mvApp::GetApp()->getItem(handler);
+			item = mvApp::GetApp()->getItem(handler);
 			if (item)
 			{
 				auto windowtype = static_cast<mvWindowAppitem*>(item);
@@ -1417,9 +1380,7 @@ namespace Marvel {
 		else
 		{
 			mvAppItem* item;
-			item = mvApp::GetApp()->getRuntimeItem(handler);
-			if (item == nullptr)
-				item = mvApp::GetApp()->getItem(handler);
+			item = mvApp::GetApp()->getItem(handler);
 			if (item)
 			{
 				auto windowtype = static_cast<mvWindowAppitem*>(item);
@@ -1443,9 +1404,7 @@ namespace Marvel {
 		else
 		{
 			mvAppItem* item;
-			item = mvApp::GetApp()->getRuntimeItem(handler);
-			if (item == nullptr)
-				item = mvApp::GetApp()->getItem(handler);
+			item = mvApp::GetApp()->getItem(handler);
 			if (item)
 			{
 				auto windowtype = static_cast<mvWindowAppitem*>(item);
@@ -1469,9 +1428,7 @@ namespace Marvel {
 		else
 		{
 			mvAppItem* item;
-			item = mvApp::GetApp()->getRuntimeItem(handler);
-			if (item == nullptr)
-				item = mvApp::GetApp()->getItem(handler);
+			item = mvApp::GetApp()->getItem(handler);
 			if (item)
 			{
 				auto windowtype = static_cast<mvWindowAppitem*>(item);
@@ -1495,9 +1452,7 @@ namespace Marvel {
 		else
 		{
 			mvAppItem* item;
-			item = mvApp::GetApp()->getRuntimeItem(handler);
-			if (item == nullptr)
-				item = mvApp::GetApp()->getItem(handler);
+			item = mvApp::GetApp()->getItem(handler);
 			if (item)
 			{
 				auto windowtype = static_cast<mvWindowAppitem*>(item);
@@ -4310,9 +4265,7 @@ namespace Marvel {
 		{
 
 			mvAppItem* item;
-			item = mvApp::GetApp()->getRuntimeItem(handler);
-			if (item == nullptr)
-				item = mvApp::GetApp()->getItem(handler);
+			item = mvApp::GetApp()->getItem(handler);
 			if (item)
 			{
 				if (item->getType() == mvAppItemType::Window)
@@ -4360,9 +4313,7 @@ namespace Marvel {
 		else
 		{
 			mvAppItem* item;
-			item = mvApp::GetApp()->getRuntimeItem(handler);
-			if (item == nullptr)
-				item = mvApp::GetApp()->getItem(handler);
+			item = mvApp::GetApp()->getItem(handler);
 
 			if (item)
 			{
@@ -4375,6 +4326,18 @@ namespace Marvel {
 				else if (item->getType() == mvAppItemType::Child)
 				{
 					auto childType = static_cast<mvChild*>(item);
+					mvEventHandler* eventhandler = static_cast<mvEventHandler*>(childType);
+					eventhandler->setResizeCallback(callback);
+				}
+				else if (item->getType() == mvAppItemType::Popup)
+				{
+					auto childType = static_cast<mvPopup*>(item);
+					mvEventHandler* eventhandler = static_cast<mvEventHandler*>(childType);
+					eventhandler->setResizeCallback(callback);
+				}
+				else if (item->getType() == mvAppItemType::Menu)
+				{
+					auto childType = static_cast<mvMenu*>(item);
 					mvEventHandler* eventhandler = static_cast<mvEventHandler*>(childType);
 					eventhandler->setResizeCallback(callback);
 				}
@@ -4395,9 +4358,7 @@ namespace Marvel {
 			return mvPythonTranslator::GetPyNone();
 
 		mvAppItem* appitem;
-		appitem = mvApp::GetApp()->getRuntimeItem(item);
-		if (appitem == nullptr)
-			appitem = mvApp::GetApp()->getItem(item);
+		appitem = mvApp::GetApp()->getItem(item);
 
 		if (appitem)
 			appitem->setCallback(callback);

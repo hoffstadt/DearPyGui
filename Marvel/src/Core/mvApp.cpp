@@ -393,7 +393,7 @@ namespace Marvel {
 
 			bool addedItem = false;
 
-			if (auto otheritem = getItem(newItem.item->getName()))
+			if (auto otheritem = getItem(newItem.item->getName(), true))
 			{
 				std::string message = newItem.item->getName();
 				mvAppLog::getLogger()->LogWarning(message + ": Items of this type must have unique names");
@@ -524,7 +524,7 @@ namespace Marvel {
 			aitem->addColorStyle(item, color);
 	}
 
-	mvAppItem* mvApp::getItem(const std::string& name)
+	mvAppItem* mvApp::getItem(const std::string& name, bool ignoreRuntime)
 	{
 
 		if (std::this_thread::get_id() != m_mainThreadID)
@@ -532,6 +532,14 @@ namespace Marvel {
 			mvAppLog::getLogger()->LogWarning("This function can't be called outside main thread.");
 			return nullptr;
 		}
+
+		mvAppItem* item = nullptr;
+
+		if (!ignoreRuntime)
+			item = getRuntimeItem(name);
+
+		if (item)
+			return item;
 
 		for (auto window : m_windows)
 		{
@@ -543,9 +551,7 @@ namespace Marvel {
 				return child;
 		}
 
-
-
-		return getRuntimeItem(name);
+		return nullptr;
 	}
 
 	mvAppItem* mvApp::getRuntimeItem(const std::string& name)
@@ -559,6 +565,7 @@ namespace Marvel {
 
 		for (auto& item : m_newItemVec)
 		{
+
 			if (item.item->getName() == name)
 				return item.item;
 		}

@@ -130,7 +130,7 @@ namespace Marvel {
 		void             deleteItemChildren(const std::string& name) { m_deleteChildrenQueue.push(name); }
 		void             moveItemUp        (const std::string& name) { m_upQueue.push(name); }
 		void             moveItemDown      (const std::string& name) { m_downQueue.push(name); }
-		mvAppItem*       getItem           (const std::string& name);
+		mvAppItem*       getItem           (const std::string& name, bool ignoreRuntime = false);
 		mvAppItem*       getRuntimeItem    (const std::string& name);
 		mvWindowAppitem* getWindow         (const std::string& name);
 		
