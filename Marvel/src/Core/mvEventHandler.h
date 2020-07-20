@@ -24,20 +24,23 @@ namespace Marvel {
 
 		mvEventHandler() = default;
 
+		bool isMouseHandled   () const { return m_handleMouse; }
+		bool isKeyboardHandled() const { return m_handleKeyboard; }
+
 		//-----------------------------------------------------------------------------
 		// Callbacks
 		//-----------------------------------------------------------------------------
 		void setRenderCallback          (const std::string& callback) { m_renderCallback = callback; }
 		void setResizeCallback          (const std::string& callback) { m_resizeCallback = callback; }
-		void setMouseClickCallback      (const std::string& callback) { m_mouseClickCallback = callback; }
-		void setMouseDownCallback       (const std::string& callback) { m_mouseDownCallback = callback; }
-		void setMouseDoubleClickCallback(const std::string& callback) { m_mouseDoubleClickCallback = callback; }
-		void setMouseReleaseCallback    (const std::string& callback) { m_mouseReleaseCallback = callback; }
-		void setMouseWheelCallback      (const std::string& callback) { m_mouseWheelCallback = callback; }
-		void setMouseDragCallback       (const std::string& callback) { m_mouseDragCallback = callback; }
-		void setKeyDownCallback         (const std::string& callback) { m_keyDownCallback = callback; }
-		void setKeyPressCallback        (const std::string& callback) { m_keyPressCallback = callback; }
-		void setKeyReleaseCallback      (const std::string& callback) { m_keyReleaseCallback = callback; }
+		void setMouseClickCallback      (const std::string& callback) { m_handleMouse = true; m_mouseClickCallback = callback; }
+		void setMouseDownCallback       (const std::string& callback) { m_handleMouse = true; m_mouseDownCallback = callback; }
+		void setMouseDoubleClickCallback(const std::string& callback) { m_handleMouse = true; m_mouseDoubleClickCallback = callback; }
+		void setMouseReleaseCallback    (const std::string& callback) { m_handleMouse = true; m_mouseReleaseCallback = callback; }
+		void setMouseWheelCallback      (const std::string& callback) { m_handleMouse = true; m_mouseWheelCallback = callback; }
+		void setMouseDragCallback       (const std::string& callback) { m_handleMouse = true; m_mouseDragCallback = callback; }
+		void setKeyDownCallback         (const std::string& callback) { m_handleKeyboard = true; m_keyDownCallback = callback; }
+		void setKeyPressCallback        (const std::string& callback) { m_handleKeyboard = true; m_keyPressCallback = callback; }
+		void setKeyReleaseCallback      (const std::string& callback) { m_handleKeyboard = true; m_keyReleaseCallback = callback; }
 
 		const std::string& getRenderCallback          () const { return m_renderCallback; }
 		const std::string& getResizeCallback          () const { return m_resizeCallback; }
@@ -65,6 +68,9 @@ namespace Marvel {
 		std::string m_keyPressCallback = "";
 		std::string m_keyReleaseCallback = "";
 		std::string m_resizeCallback = "";
+
+		bool m_handleMouse    = false;
+		bool m_handleKeyboard = false;
 
 	};
 
