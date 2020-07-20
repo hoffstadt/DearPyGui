@@ -451,7 +451,7 @@ def PlotCallback(sender, data):
     for i in range(0, 100):
         data2.append([3.14*i/180, sin(2*3.14*i/180)])
 
-    add_line_series("Plot", "Cos", data1, weight=2)
+    add_line_series("Plot", "Cos", data1, weight=2, fill=(255, 0, 0, 100))
     add_scatter_series("Plot", "Sin", data2, marker=mc.mvPlotMarker_Circle)
 
 def RetrieveValues(sender, data):

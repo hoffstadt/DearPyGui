@@ -250,6 +250,7 @@ namespace Marvel {
 			{mvPythonDataType::Optional},
 			{mvPythonDataType::KeywordOnly},
 			{mvPythonDataType::FloatList, "color"},
+			{mvPythonDataType::FloatList, "fill"},
 			{mvPythonDataType::Float, "weight"}
 		}, "Adds a line series to a plot.", "None", "Plotting") });
 
