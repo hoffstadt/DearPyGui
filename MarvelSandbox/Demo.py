@@ -141,7 +141,7 @@ add_progress_bar("Progress Bar##widget", 0.45, overlay="Progress Bar", height = 
 add_text("Text")
 add_selectable("Selectable##widget")
 add_input_text("Input Text##widget")
-add_label_text("Label Text", "value")
+add_label_text("Label Text##123", "value")
 
 add_color_edit3("Color Edit3##widget", data_source = "DataStorage2")
 add_color_edit4("Color Edit4##widget")
