@@ -66,6 +66,18 @@ namespace Marvel {
 		return *parsers;
 	}
 
+	PyObject* generate_stub_file(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		const char* file;
+
+		if (!Parsers["generate_stub_file"].parse(args, kwargs, __FUNCTION__, &file))
+			return mvPythonTranslator::GetPyNone();
+
+		mvInterfaceRegistry::GetRegistry()->generateStubFile(file);
+
+		return mvPythonTranslator::GetPyNone();
+	}
+
 	PyObject* set_global_font_scale(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		float scale;
@@ -4518,6 +4530,7 @@ namespace Marvel {
 
 		auto pyModule = new mvPythonModule("marvel", {});
 
+		pyModule->addMethodD(generate_stub_file);
 		pyModule->addMethodD(get_window_pos);
 		pyModule->addMethodD(set_window_pos);
 		pyModule->addMethodD(get_global_font_scale);

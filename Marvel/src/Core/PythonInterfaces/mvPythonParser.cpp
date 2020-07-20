@@ -22,7 +22,7 @@ namespace Marvel {
 		}
 	}
 
-	static const char* PythonDataTypeString(mvPythonDataType type)
+	const char* PythonDataTypeString(mvPythonDataType type)
 	{
 		switch (type)
 		{
@@ -30,9 +30,9 @@ namespace Marvel {
 		case mvPythonDataType::Integer:    return " : int";
 		case mvPythonDataType::Float:      return " : float";
 		case mvPythonDataType::Bool:       return " : bool";
-		case mvPythonDataType::StringList: return " : List(str)";
-		case mvPythonDataType::FloatList:  return " : List(float)";
-		case mvPythonDataType::IntList:    return " : List(int)";
+		case mvPythonDataType::StringList: return " : List[str]";
+		case mvPythonDataType::FloatList:  return " : List[float]";
+		case mvPythonDataType::IntList:    return " : List[int]";
 		case mvPythonDataType::Optional:   return "Optional Arguments\n____________________";
 		case mvPythonDataType::KeywordOnly:return "Keyword Only Arguments\n____________________";
 		case mvPythonDataType::Object:     return " : object";
