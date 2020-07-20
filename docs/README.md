@@ -98,6 +98,7 @@ git clone --recursive https://github.com/RaylockLLC/MarvelSandbox
 ---
 
 Some upcoming features:
+- An object oriented interface
 - Additional Plot types (bar graph, pie chart, etc.)
 - Support for window docking and multiple viewports.
 - More complete theme and style system.
