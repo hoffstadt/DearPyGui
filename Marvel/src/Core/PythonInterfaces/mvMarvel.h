@@ -1498,6 +1498,10 @@ namespace Marvel {
 			{mvPythonDataType::Float, "scale", "default is 1.0"}
 		}, "Changes the global font scale.") });
 
+		parsers->insert({ "generate_stub_file", mvPythonParser({
+			{mvPythonDataType::String, "file", ""}
+		}, "Generates a stub file") });
+
 		parsers->insert({ "get_global_font_scale", mvPythonParser({
 		}, "Returns the global font scale.", "float") });
 

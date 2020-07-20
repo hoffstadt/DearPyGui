@@ -42,6 +42,8 @@ namespace Marvel {
 
 		static mvInterfaceRegistry* GetRegistry();
 
+		void generateStubFile(const std::string& file);
+
 		std::vector<std::pair<std::string, long>>& getConstants              ();
 		std::vector<long>                          getConstantsValue         ();
 		std::vector<const char*>                   getConstantsCommands      ();

@@ -2,10 +2,41 @@
 #include "mvPythonModule.h"
 #include <functional>
 #include "Core/mvApp.h"
+#include <iostream>
+#include <fstream>
 
 namespace Marvel {
 
 	mvInterfaceRegistry* mvInterfaceRegistry::s_instance = nullptr;
+
+	void mvInterfaceRegistry::generateStubFile(const std::string& file)
+	{
+		std::ofstream stub;
+		stub.open(file);
+		for (const auto& parser : m_parsers["marvel"])
+		{
+			stub << "def " << parser.first << "(";
+
+			auto elements = parser.second.getElements();
+
+			for (int i = 0; i < elements.size(); i++)
+			{
+				if (elements[i].type == mvPythonDataType::KeywordOnly || elements[i].type == mvPythonDataType::Optional)
+					continue;
+				if(i != elements.size() - 1)
+					stub << elements[i].name << ": " << PythonDataTypeString(elements[i].type) <<
+					",";
+				else
+					stub << elements[i].name << ": " << PythonDataTypeString(elements[i].type) <<
+						") -> " << parser.second.getReturnType() << ": ...\n";
+			}
+
+
+
+		}
+		stub << "Writing this to a file.\n";
+		stub.close();
+	}
 
 	std::map<std::string, mvPythonParser>& mvInterfaceRegistry::getPythonInterface(const std::string& name)
 	{ 
