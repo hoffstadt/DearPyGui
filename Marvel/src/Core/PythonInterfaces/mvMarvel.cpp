@@ -32,6 +32,9 @@ namespace Marvel {
 		else if (!std::string(parent).empty() && !mvApp::IsAppStarted())
 			ma->addRuntimeItem(parent, before, item);
 
+		else if (std::string(parent).empty() && !mvApp::IsAppStarted() && std::string(before).empty() && item->getType()==mvAppItemType::Window)
+			ma->addWindow(item);
+
 		// typical adding before runtime
 		else if (std::string(parent).empty() && !mvApp::IsAppStarted() && std::string(before).empty())
 			ma->addItem(item);
@@ -3012,7 +3015,7 @@ namespace Marvel {
 
 		mvAppItem* item = new mvWindowAppitem("", name, width, height, startx, starty, 
 			false, autosize, resizable, title_bar, movable);
-		mvApp::GetApp()->addWindow(item);
+		AddItemWithRuntimeChecks(item, "", "");
 		mvApp::GetApp()->pushParent(item);
 
 		if (hide)

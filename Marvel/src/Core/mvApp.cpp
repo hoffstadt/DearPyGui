@@ -374,9 +374,8 @@ namespace Marvel {
 						delete window;
 						window = nullptr;
 						deletedItem = true;
-						break;
+						continue;
 					}
-
 					m_windows.push_back(window);
 				}
 			}
