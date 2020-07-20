@@ -1171,9 +1171,16 @@ namespace Marvel {
 		return mvPythonTranslator::GetPyNone();
 	}
 
-	PyObject* get_mouse_pos(PyObject* self, PyObject* args)
+	PyObject* get_mouse_pos(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
+		int global = false;
+
+		if (!Parsers["get_mouse_pos"].parse(args, kwargs, __FUNCTION__, &global))
+			return mvPythonTranslator::GetPyNone();
+
 		mvVec2 pos = mvInput::getMousePosition();
+		if (global)
+			pos = mvInput::getGlobalMousePosition();
 		PyObject* pvalue = mvPythonTranslator::ToPyPair(pos.x, pos.y);
 		return pvalue;
 	}

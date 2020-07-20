@@ -6,6 +6,7 @@
 namespace Marvel {
 
 	mvVec2  mvInput::s_mousePos = {0.0f, 0.0f};
+	mvVec2  mvInput::s_mouseGlobalPos = {0.0f, 0.0f};
 	float   mvInput::s_mouseWheel = 0.0f;
 	float   mvInput::s_mouseDragThreshold = 20.0f;
 	bool    mvInput::s_mouseDragging = false;
@@ -15,6 +16,12 @@ namespace Marvel {
 	{
 		s_mousePos.x = x;
 		s_mousePos.y = y;
+	}
+
+	void mvInput::setGlobalMousePosition(float x, float y)
+	{
+		s_mouseGlobalPos.x = x;
+		s_mouseGlobalPos.y = y;
 	}
 
 	void mvInput::setMouseDragThreshold(float threshold)
@@ -46,6 +53,11 @@ namespace Marvel {
 	const mvVec2& mvInput::getMousePosition()
 	{
 		return s_mousePos;
+	}
+
+	const mvVec2& mvInput::getGlobalMousePosition()
+	{
+		return s_mouseGlobalPos;
 	}
 
 	bool mvInput::isMouseDragging(int button, float threshold)
