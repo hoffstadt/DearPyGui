@@ -12,7 +12,10 @@ namespace Marvel {
 	void mvInterfaceRegistry::generateStubFile(const std::string& file)
 	{
 		std::ofstream stub;
-		stub.open(file);
+		stub.open(file + "/marvel.pyi");
+
+		stub << "from typing import List, Any\n\n";
+
 		for (const auto& parser : m_parsers["marvel"])
 		{
 			stub << "def " << parser.first << "(";
@@ -24,18 +27,27 @@ namespace Marvel {
 				if (elements[i].type == mvPythonDataType::KeywordOnly || elements[i].type == mvPythonDataType::Optional)
 					continue;
 				if(i != elements.size() - 1)
-					stub << elements[i].name << ": " << PythonDataTypeString(elements[i].type) <<
-					",";
+					stub << elements[i].name << ": " << PythonDataTypeActual(elements[i].type) <<
+					", ";
 				else
-					stub << elements[i].name << ": " << PythonDataTypeString(elements[i].type) <<
-						") -> " << parser.second.getReturnType() << ": ...\n";
+					stub << elements[i].name << ": " << PythonDataTypeActual(elements[i].type) <<
+						") -> " << parser.second.getReturnType() << ":\n\t\"\"\""<<parser.second.getAbout() << "\"\"\"\n\t...\n\n";
 			}
+
+			if(elements.size() == 0)
+				stub << ") -> " << parser.second.getReturnType() << ":\n\t\"\"\"" << parser.second.getAbout() << "\"\"\"\n\t...\n\n";
 
 
 
 		}
-		stub << "Writing this to a file.\n";
 		stub.close();
+
+		std::ofstream stub2;
+		stub2.open(file + "/marvel_constants.pyi");
+		stub2 << "\n";
+		for (auto& item : m_constants)
+			stub2 << item.first << " = " << item.second << "\n";
+		stub2.close();
 	}
 
 	std::map<std::string, mvPythonParser>& mvInterfaceRegistry::getPythonInterface(const std::string& name)

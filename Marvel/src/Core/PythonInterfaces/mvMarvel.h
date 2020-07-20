@@ -212,11 +212,12 @@ namespace Marvel {
 
 		parsers->insert({ "is_plot_queried", mvPythonParser({
 			{mvPythonDataType::String, "plot"},
-		}, "Clears a plot.", "boolean", "Plotting") });
+		}, "Clears a plot.", "bool", "Plotting") });
 
 		parsers->insert({ "get_plot_query_area", mvPythonParser({
 			{mvPythonDataType::String, "plot"},
-		}, "Clears a plot.", "List(float) -> (x_min, x_max, y_min, y_max)", "Plotting") });
+		}, "Clears a plot.", "List[float]", "Plotting") });
+		//}, "Clears a plot.", "List(float) -> (x_min, x_max, y_min, y_max)", "Plotting") });
 
 		parsers->insert({ "set_color_map", mvPythonParser({
 			{mvPythonDataType::String, "plot"},
@@ -335,35 +336,35 @@ namespace Marvel {
 		parsers->insert({ "is_mouse_button_dragging", mvPythonParser({
 			{mvPythonDataType::Integer, "button"},
 			{mvPythonDataType::Float, "threshold"},
-		}, "Checks if the mouse is dragging.", "Boolean", "Input Polling") });
+		}, "Checks if the mouse is dragging.", "bool", "Input Polling") });
 
 		parsers->insert({ "is_mouse_button_down", mvPythonParser({
 			{mvPythonDataType::Integer, "button"}
-		}, "Checks if the mouse button is pressed.", "Boolean", "Input Polling") });
+		}, "Checks if the mouse button is pressed.", "bool", "Input Polling") });
 
 		parsers->insert({ "is_mouse_button_clicked", mvPythonParser({
 			{mvPythonDataType::Integer, "button"}
-		}, "Checks if the mouse button is clicked.", "Boolean", "Input Polling") });
+		}, "Checks if the mouse button is clicked.", "bool", "Input Polling") });
 
 		parsers->insert({ "is_mouse_button_released", mvPythonParser({
 			{mvPythonDataType::Integer, "button"}
-		}, "Checks if the mouse button is released.", "Boolean", "Input Polling") });
+		}, "Checks if the mouse button is released.", "bool", "Input Polling") });
 
 		parsers->insert({ "is_mouse_button_double_clicked", mvPythonParser({
 			{mvPythonDataType::Integer, "button"}
-		}, "Checks if the mouse button is double clicked.", "Boolean", "Input Polling") });
+		}, "Checks if the mouse button is double clicked.", "bool", "Input Polling") });
 
 		parsers->insert({ "is_key_pressed", mvPythonParser({
 			{mvPythonDataType::Integer, "key"}
-		}, "Checks if the key is pressed.", "Boolean", "Input Polling") });
+		}, "Checks if the key is pressed.", "bool", "Input Polling") });
 
 		parsers->insert({ "is_key_released", mvPythonParser({
 			{mvPythonDataType::Integer, "key"}
-		}, "Checks if the key is released.", "Boolean", "Input Polling") });
+		}, "Checks if the key is released.", "bool", "Input Polling") });
 
 		parsers->insert({ "is_key_down", mvPythonParser({
 			{mvPythonDataType::Integer, "key"}
-		}, "Checks if the key is down.", "Boolean", "Input Polling") });
+		}, "Checks if the key is down.", "bool", "Input Polling") });
 
 		parsers->insert({ "set_resize_callback", mvPythonParser({
 			{mvPythonDataType::String, "callback"},
@@ -877,7 +878,7 @@ namespace Marvel {
 
 		parsers->insert({ "get_table_selections", mvPythonParser({
 			{mvPythonDataType::String, "table"}
-		}, "Retrieves data from storage.", "List of integer pairs.", "Tables") });
+		}, "Retrieves data from storage.", "List[List[int]]", "Tables") });
 	}
 
 	void AddItemCommands(std::map<std::string, mvPythonParser>* parsers)
@@ -890,7 +891,7 @@ namespace Marvel {
 
 		parsers->insert({ "get_window_pos", mvPythonParser({
 			{mvPythonDataType::String, "window"}
-		}, "Gets a windows position", "List(float)", "Widget Commands") });
+		}, "Gets a windows position", "List[float]", "Widget Commands") });
 
 		parsers->insert({ "delete_item", mvPythonParser({
 			{mvPythonDataType::String, "item"},
@@ -928,59 +929,59 @@ namespace Marvel {
 
 		parsers->insert({ "is_item_hovered", mvPythonParser({
 			{mvPythonDataType::String, "item"},
-		}, "Checks if an item is hovered.", "Boolean", "Widget Commands") });
+		}, "Checks if an item is hovered.", "bool", "Widget Commands") });
 
 		parsers->insert({ "is_item_active", mvPythonParser({
 			{mvPythonDataType::String, "item"},
-		}, "Checks if an item is active.", "Boolean", "Widget Commands") });
+		}, "Checks if an item is active.", "bool", "Widget Commands") });
 
 		parsers->insert({ "is_item_focused", mvPythonParser({
 			{mvPythonDataType::String, "item"},
-		}, "Checks if an item is focused.", "Boolean", "Widget Commands") });
+		}, "Checks if an item is focused.", "bool", "Widget Commands") });
 
 		parsers->insert({ "is_item_clicked", mvPythonParser({
 			{mvPythonDataType::String, "item"},
-		}, "Checks if an item is clicked.", "Boolean", "Widget Commands") });
+		}, "Checks if an item is clicked.", "bool", "Widget Commands") });
 
 		parsers->insert({ "is_item_visible", mvPythonParser({
 			{mvPythonDataType::String, "item"},
-		}, "Checks if an item is visible.", "Boolean", "Widget Commands") });
+		}, "Checks if an item is visible.", "bool", "Widget Commands") });
 
 		parsers->insert({ "is_item_edited", mvPythonParser({
 			{mvPythonDataType::String, "item"},
-		}, "Checks if an item has been edited.", "Boolean", "Widget Commands") });
+		}, "Checks if an item has been edited.", "bool", "Widget Commands") });
 
 		parsers->insert({ "is_item_activated", mvPythonParser({
 			{mvPythonDataType::String, "item"},
-		}, "Checks if an item has been activated.", "Boolean", "Widget Commands") });
+		}, "Checks if an item has been activated.", "bool", "Widget Commands") });
 
 		parsers->insert({ "is_item_deactivated", mvPythonParser({
 			{mvPythonDataType::String, "item"},
-		}, "Checks if an item has been deactivated.", "Boolean", "Widget Commands") });
+		}, "Checks if an item has been deactivated.", "bool", "Widget Commands") });
 
 		parsers->insert({ "is_item_deactivated_after_edit", mvPythonParser({
 			{mvPythonDataType::String, "item"},
-		}, "Checks if an item has been deactivated after editing.", "Boolean", "Widget Commands") });
+		}, "Checks if an item has been deactivated after editing.", "bool", "Widget Commands") });
 
 		parsers->insert({ "is_item_toggled_open", mvPythonParser({
 			{mvPythonDataType::String, "item"},
-		}, "Checks if an item is toggled.", "Boolean", "Widget Commands") });
+		}, "Checks if an item is toggled.", "bool", "Widget Commands") });
 
 		parsers->insert({ "get_item_rect_min", mvPythonParser({
 			{mvPythonDataType::String, "item"},
-		}, "Returns an item's minimum allowable size.", "(float, float)", "Widget Commands") });
+		}, "Returns an item's minimum allowable size.", "[float, float]", "Widget Commands") });
 
 		parsers->insert({ "get_item_rect_max", mvPythonParser({
 			{mvPythonDataType::String, "item"},
-		}, "Returns an item's maximum allowable size.", "(float, float)", "Widget Commands") });
+		}, "Returns an item's maximum allowable size.", "[float, float]", "Widget Commands") });
 
 		parsers->insert({ "get_item_rect_size", mvPythonParser({
 			{mvPythonDataType::String, "item"},
-		}, "Returns an item's current size.", "(float, float)", "Widget Commands") });
+		}, "Returns an item's current size.", "[float, float]", "Widget Commands") });
 
 		parsers->insert({ "get_value", mvPythonParser({
 			{mvPythonDataType::String, "name"}
-		}, "Returns an item's value or None if there is none.", "Depends", "Widget Commands") });
+		}, "Returns an item's value or None if there is none.", "Any", "Widget Commands") });
 
 		parsers->insert({ "set_value", mvPythonParser({
 			{mvPythonDataType::String, "name"},
@@ -1300,7 +1301,7 @@ namespace Marvel {
 		parsers->insert({ "add_color_edit3", mvPythonParser({
 			{mvPythonDataType::String, "name"},
 			{mvPythonDataType::KeywordOnly},
-			{mvPythonDataType::IntList, "default_value (0, 0, 0)"},
+			{mvPythonDataType::IntList, "default_value"},
 			{mvPythonDataType::String, "callback", "Registers a callback"},
 			{mvPythonDataType::String, "tip", "Adds a simple tooltip"},
 			{mvPythonDataType::String, "parent", "Parent to add this item to. (runtime adding)"},
@@ -1313,7 +1314,7 @@ namespace Marvel {
 		parsers->insert({ "add_color_edit4", mvPythonParser({
 			{mvPythonDataType::String, "name"},
 			{mvPythonDataType::KeywordOnly},
-			{mvPythonDataType::IntList, "default_value (0, 0, 0, 255)"},
+			{mvPythonDataType::IntList, "default_value"},
 			{mvPythonDataType::String, "callback", "Registers a callback"},
 			{mvPythonDataType::String, "tip", "Adds a simple tooltip"},
 			{mvPythonDataType::String, "parent", "Parent to add this item to. (runtime adding)"},
@@ -1326,7 +1327,7 @@ namespace Marvel {
 		parsers->insert({ "add_color_picker3", mvPythonParser({
 			{mvPythonDataType::String, "name"},
 			{mvPythonDataType::KeywordOnly},
-			{mvPythonDataType::IntList, "default_value (0, 0, 0)"},
+			{mvPythonDataType::IntList, "default_value"},
 			{mvPythonDataType::String, "callback", "Registers a callback"},
 			{mvPythonDataType::String, "tip", "Adds a simple tooltip"},
 			{mvPythonDataType::String, "parent", "Parent to add this item to. (runtime adding)"},
@@ -1339,7 +1340,7 @@ namespace Marvel {
 		parsers->insert({ "add_color_picker4", mvPythonParser({
 			{mvPythonDataType::String, "name"},
 			{mvPythonDataType::KeywordOnly},
-			{mvPythonDataType::IntList, "default_value (0, 0, 0, 255)"},
+			{mvPythonDataType::IntList, "default_value"},
 			{mvPythonDataType::String, "callback", "Registers a callback"},
 			{mvPythonDataType::String, "tip", "Adds a simple tooltip"},
 			{mvPythonDataType::String, "parent", "Parent to add this item to. (runtime adding)"},
@@ -1499,8 +1500,8 @@ namespace Marvel {
 		}, "Changes the global font scale.") });
 
 		parsers->insert({ "generate_stub_file", mvPythonParser({
-			{mvPythonDataType::String, "file", ""}
-		}, "Generates a stub file") });
+			{mvPythonDataType::String, "directory", ""}
+		}, "Generates stub files.") });
 
 		parsers->insert({ "get_global_font_scale", mvPythonParser({
 		}, "Returns the global font scale.", "float") });
@@ -1550,13 +1551,13 @@ namespace Marvel {
 		}, "Returns time since last frame.", "float") });
 
 		parsers->insert({ "get_main_window_size", mvPythonParser({
-		}, "Returns the size of the main window.", "(float, float)") });
+		}, "Returns the size of the main window.", "[float, float]") });
 
 		parsers->insert({ "get_thread_count", mvPythonParser({
 		}, "Returns the allowable thread count.", "int") });
 
 		parsers->insert({ "is_threadpool_high_performance", mvPythonParser({
-		}, "Checks if the threadpool is allowed to use the maximum number of threads.", "Boolean") });
+		}, "Checks if the threadpool is allowed to use the maximum number of threads.", "bool") });
 
 		parsers->insert({ "get_threadpool_timeout", mvPythonParser({
 		}, "Returns the threadpool timeout in seconds.", "float") });
