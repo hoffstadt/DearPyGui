@@ -325,8 +325,8 @@ namespace Marvel {
 
 		parsers->insert({ "get_mouse_pos", mvPythonParser({
 			{mvPythonDataType::KeywordOnly},
-			{mvPythonDataType::Bool, "global"}
-		}, "Returns the current mouse position in relation to the active window (minus titlebar) unless global flag is set.", 
+			{mvPythonDataType::Bool, "local"}
+		}, "Returns the current mouse position in relation to the active window (minus titlebar) unless local flag is unset.", 
 		"(int, int)", "Input Polling") });
 
 		parsers->insert({ "get_mouse_drag_delta", mvPythonParser({
