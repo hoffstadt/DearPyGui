@@ -51,7 +51,11 @@ namespace Marvel {
 			m_move = true;
 			m_xpos = x;
 			m_ypos = y;
+			m_dirty = true;
 		}
+
+		virtual void setWidth(int width) override { m_width = width; m_dirty = true; }
+		virtual void setHeight(int height) override { m_height = height; m_dirty = true; }
 
 		mvVec2 getWindowPos() const
 		{
@@ -76,10 +80,11 @@ namespace Marvel {
 				ImGui::SetNextWindowSize(ImVec2(m_width, m_height));
 			}
 				
-			else
+			else if (m_dirty)
 			{
-				ImGui::SetNextWindowPos(ImVec2(m_xpos, m_ypos), ImGuiCond_FirstUseEver);
-				ImGui::SetNextWindowSize(ImVec2(m_width, m_height), ImGuiCond_FirstUseEver);
+				ImGui::SetNextWindowPos(ImVec2(m_xpos, m_ypos));
+				ImGui::SetNextWindowSize(ImVec2(m_width, m_height));
+				m_dirty = false;
 			}
 
 			if (m_move)
@@ -168,6 +173,7 @@ namespace Marvel {
 		int              m_ypos = 200;
 		bool             m_mainWindow = false;
 		bool             m_move = true;
+		bool             m_dirty = true;
 
 	};
 
