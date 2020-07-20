@@ -114,31 +114,31 @@ namespace Marvel {
 		inline mvVec2                   getItemRectSize           () const { return m_rectSize; }
 
 		// setters
-		void        setParent              (mvAppItem* parent);
-		void        showAll                ();
-		void        hideAll                ();
-		void        addChild               (mvAppItem* child);
-		inline void show                   ()                            { m_show = true; }
-		inline void hide                   ()                            { m_show = false; }
-		inline void setCallback            (const std::string& callback) { m_callback = callback; }
-		inline void setPopup               (const std::string& popup)    { m_popup = popup; }
-		inline void setTip                 (const std::string& tip)      { m_tip = tip; }
-		inline void setWidth               (int width)                   { m_width = width; }
-		inline void setHeight              (int height)                  { m_height = height; }
-		inline void setHovered             (bool value)                  { m_hovered = value; }
-		inline void setActive              (bool value)                  { m_active = value; }
-		inline void setFocused             (bool value)                  { m_focused = value; }
-		inline void setClicked             (bool value)                  { m_clicked = value; }
-		inline void setVisible             (bool value)                  { m_visible = value; }
-		inline void setEdited              (bool value)                  { m_edited = value; }
-		inline void setActivated           (bool value)                  { m_activated = value; }
-		inline void setDeactivated         (bool value)                  { m_deactivated = value; }
-		inline void setDeactivatedAfterEdit(bool value)                  { m_deactivatedAfterEdit = value; }
-		inline void setToggledOpen         (bool value)                  { m_toggledOpen = value; }
-		inline void setRectMin             (mvVec2 value)                { m_rectMin = value; }
-		inline void setRectMax             (mvVec2 value)                { m_rectMax = value; }
-		inline void setRectSize            (mvVec2 value)                { m_rectSize = value; }
-		inline void setDataSource          (const std::string& value)    { m_dataSource = value; }
+		void         setParent              (mvAppItem* parent);
+		void         showAll                ();
+		void         hideAll                ();
+		void         addChild               (mvAppItem* child);
+		inline void  show                   ()                            { m_show = true; }
+		inline void  hide                   ()                            { m_show = false; }
+		inline void  setCallback            (const std::string& callback) { m_callback = callback; }
+		inline void  setPopup               (const std::string& popup)    { m_popup = popup; }
+		inline void  setTip                 (const std::string& tip)      { m_tip = tip; }
+		virtual void setWidth               (int width)                   { m_width = width; }
+		virtual void setHeight              (int height)                  { m_height = height; }
+		inline void  setHovered             (bool value)                  { m_hovered = value; }
+		inline void  setActive              (bool value)                  { m_active = value; }
+		inline void  setFocused             (bool value)                  { m_focused = value; }
+		inline void  setClicked             (bool value)                  { m_clicked = value; }
+		inline void  setVisible             (bool value)                  { m_visible = value; }
+		inline void  setEdited              (bool value)                  { m_edited = value; }
+		inline void  setActivated           (bool value)                  { m_activated = value; }
+		inline void  setDeactivated         (bool value)                  { m_deactivated = value; }
+		inline void  setDeactivatedAfterEdit(bool value)                  { m_deactivatedAfterEdit = value; }
+		inline void  setToggledOpen         (bool value)                  { m_toggledOpen = value; }
+		inline void  setRectMin             (mvVec2 value)                { m_rectMin = value; }
+		inline void  setRectMax             (mvVec2 value)                { m_rectMax = value; }
+		inline void  setRectSize            (mvVec2 value)                { m_rectSize = value; }
+		inline void  setDataSource          (const std::string& value)    { m_dataSource = value; }
 
 	protected:
 
