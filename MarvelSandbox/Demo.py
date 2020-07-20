@@ -3,6 +3,7 @@ import marvel_constants as mc
 from math import sin, cos
 
 set_log_level(0)
+
 add_data("DataStorage1", {"Key": 34})
 add_data("DataStorage2", [23,42,53])
 

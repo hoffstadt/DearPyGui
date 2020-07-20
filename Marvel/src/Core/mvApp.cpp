@@ -215,12 +215,20 @@ namespace Marvel {
 
 	void mvApp::setWindowSize(unsigned width, unsigned height) 
 	{ 
+
 		// set viewport size
 		setSize(width, height);
 
 		// set imgui window size
 		m_windows[0]->setWidth(width);
 		m_windows[0]->setHeight(height);
+	}
+
+	void mvApp::setActualSize(unsigned width, unsigned height)
+	{
+
+		m_actualWidth = width;
+		m_actualHeight = height;
 	}
 
 	void mvApp::addRuntimeItem(const std::string& parent, const std::string& before, mvAppItem* item) 

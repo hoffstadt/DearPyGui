@@ -221,6 +221,14 @@ namespace Marvel {
 		case WM_SIZE:
 			if (s_pd3dDevice != NULL && wParam != SIZE_MINIMIZED)
 			{
+				RECT rect;
+				if (GetWindowRect(hWnd, &rect))
+				{
+					int width = rect.right - rect.left;
+					int height = rect.bottom - rect.top;
+					mvApp::GetApp()->setActualSize(width, height);
+				}
+
 				mvApp::GetApp()->setWindowSize((UINT)LOWORD(lParam), (UINT)HIWORD(lParam));
 				mvApp::GetApp()->runCallback(mvApp::GetApp()->getResizeCallback(), "Main Application");
 				mvAppEditor::GetAppEditor()->setSize((UINT)LOWORD(lParam), (UINT)HIWORD(lParam));
