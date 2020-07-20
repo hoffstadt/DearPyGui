@@ -957,7 +957,13 @@ namespace Marvel {
 		PyTuple_SetItem(color, 2, PyLong_FromLong(0));
 		PyTuple_SetItem(color, 3, PyLong_FromLong(255));
 
-		if (!Parsers["add_line_series"].parse(args, kwargs, __FUNCTION__, &plot, &name, &data, &color, &weight))
+		PyObject* fill = PyTuple_New(4);
+		PyTuple_SetItem(fill, 0, PyLong_FromLong(1000));
+		PyTuple_SetItem(fill, 1, PyLong_FromLong(0));
+		PyTuple_SetItem(fill, 2, PyLong_FromLong(0));
+		PyTuple_SetItem(fill, 3, PyLong_FromLong(255));
+
+		if (!Parsers["add_line_series"].parse(args, kwargs, __FUNCTION__, &plot, &name, &data, &color, &fill, &weight))
 			return mvPythonTranslator::GetPyNone();
 
 		if (!PyList_Check(data))
@@ -984,7 +990,11 @@ namespace Marvel {
 		if (mcolor.r > 999)
 			mcolor.specified = false;
 
-		mvSeries* series = new mvLineSeries(name, datapoints, weight, mcolor);
+		auto mfill = mvPythonTranslator::ToColor(fill);
+		if (mfill.r > 999)
+			mfill.specified = false;
+
+		mvSeries* series = new mvLineSeries(name, datapoints, weight, mcolor, mfill);
 
 		graph->addSeries(series);
 

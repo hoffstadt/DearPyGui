@@ -196,8 +196,8 @@ namespace Marvel {
 	public:
 
 		mvLineSeries(const std::string& name, const std::vector<mvVec2>& points, float weight=1.0f,
-			mvColor color = MV_DEFAULT_COLOR)
-			: mvSeries(name, points), m_lineWeight(weight), m_color(color)
+			mvColor color = MV_DEFAULT_COLOR, mvColor fill = MV_DEFAULT_COLOR)
+			: mvSeries(name, points), m_lineWeight(weight), m_color(color), m_fill(fill)
 		{
 		}
 
@@ -205,6 +205,8 @@ namespace Marvel {
 		{
 			if (m_color.specified)
 				ImPlot::PushStyleColor(ImPlotCol_Line, m_color);
+			if (m_fill.specified)
+				ImPlot::PushStyleColor(ImPlotCol_Fill, m_fill);
 
 			ImPlot::PushStyleVar(ImPlotStyleVar_LineWeight, m_lineWeight);
 
@@ -212,14 +214,17 @@ namespace Marvel {
 
 			if (m_color.specified)
 				ImPlot::PopStyleColor();
+			if (m_fill.specified)
+				ImPlot::PopStyleColor();
 
 			ImPlot::PopStyleVar();
 		}
 
 	private:
 
-		float m_lineWeight;
+		float   m_lineWeight;
 		mvColor m_color;
+		mvColor m_fill;
 
 	};
 
