@@ -225,6 +225,7 @@ namespace Marvel {
 
 	void mvApp::addMTCallback(const std::string& name, PyObject* data, const std::string& returnname) 
 	{ 
+		std::lock_guard<std::mutex> lock(m_mutex);
 		m_asyncCallbacks.push_back({ name, data, returnname }); 
 	}
 
@@ -477,10 +478,12 @@ namespace Marvel {
 				mvAppLog::getLogger()->Log("Threadpool created");
 			}
 
+			
 			// submit to thread pool
 			for (auto& callback : m_asyncCallbacks)
 				m_tpool->submit(std::bind(&mvApp::runAsyncCallback, this, callback.name, callback.data, callback.returnname));
 
+			std::lock_guard<std::mutex> lock(m_mutex);
 			m_asyncCallbacks.clear();
 		}
 
@@ -540,7 +543,9 @@ namespace Marvel {
 				return child;
 		}
 
-		return nullptr;
+
+
+		return getRuntimeItem(name);
 	}
 
 	mvAppItem* mvApp::getRuntimeItem(const std::string& name)
