@@ -12,6 +12,29 @@
 
 namespace Marvel {
 
+	static std::string FindRenderedTextEnd(const char* text, const char* text_end = nullptr)
+	{
+		int size = 0;
+
+		const char* text_display_end = text;
+		if (!text_end)
+			text_end = (const char*)-1;
+
+		while (text_display_end < text_end && *text_display_end != '\0' && (text_display_end[0] != '#' || text_display_end[1] != '#'))
+		{
+			text_display_end++;
+			size++;
+		}
+
+		char* cvalue = new char[size+1];
+		for (int i = 0; i < size; i++)
+			cvalue[i] = text[i];
+
+		cvalue[size] = '\0';
+
+		return std::string(cvalue);
+	}
+
 	//-----------------------------------------------------------------------------
 	// mvText
 	//-----------------------------------------------------------------------------
@@ -71,10 +94,13 @@ namespace Marvel {
 			mvLabelText(const std::string& parent, const std::string& name, const std::string& value, mvColor color)
 			: mvStringItemBase(parent, name, value), m_color(color)
 		{
+			m_label = FindRenderedTextEnd(m_name.c_str());
 		}
 
 		virtual void draw() override
 		{
+
+			
 
 			if (m_color.specified)
 				ImGui::PushStyleColor(ImGuiCol_Text, m_color);

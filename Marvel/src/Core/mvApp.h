@@ -189,8 +189,8 @@ namespace Marvel {
 		std::vector<mvAppItem*> m_windows;
 		std::string             m_file;
 		PyObject*               m_pDict;
-		int                     m_actualWidth;
-		int                     m_actualHeight;
+		int                     m_actualWidth = 1280;
+		int                     m_actualHeight = 800;
 		
 		// appearance
 		mvStyle     m_style;
