@@ -117,70 +117,81 @@ namespace Marvel {
 			}
 		}
 
+		// early opt out of keyboard events
+		if (eventHandler->isKeyboardHandled())
+		{
+			// route key events
+			for (int i = 0; i < IM_ARRAYSIZE(ImGui::GetIO().KeysDown); i++)
+			{
+				// route key pressed event
+				if (ImGui::IsKeyPressed(i) && !eventHandler->getKeyPressCallback().empty())
+					runCallback(eventHandler->getKeyPressCallback(), std::to_string(i));
+
+				// route key down event
+				if (ImGui::GetIO().KeysDownDuration[i] >= 0.0f && !eventHandler->getKeyDownCallback().empty())
+					runCallback(eventHandler->getKeyDownCallback(), std::to_string(i),
+						mvPythonTranslator::ToPyFloat(ImGui::GetIO().KeysDownDuration[i]));
+
+				// route key released event
+				if (ImGui::IsKeyReleased(i) && !eventHandler->getKeyReleaseCallback().empty())
+					runCallback(eventHandler->getKeyReleaseCallback(), std::to_string(i));
+			}
+		}
+
+		// early opt out of mouse events
+		if (!eventHandler->isMouseHandled())
+			return;
+
 		// route mouse wheel event
-		if (ImGui::GetIO().MouseWheel != 0.0f)
+		if (ImGui::GetIO().MouseWheel != 0.0f && !eventHandler->getMouseWheelCallback().empty())
 			runCallback(eventHandler->getMouseWheelCallback(), m_activeWindow,
 				mvPythonTranslator::ToPyMPair(0, ImGui::GetIO().MouseWheel));
 
 		// route mouse dragging event
 		// this must be seperate since only a single button can be dragged
-		for (int i = 0; i < 3; i++)
+		if (!eventHandler->getMouseDragCallback().empty())
 		{
-			if (ImGui::IsMouseDragging(i, mvInput::getMouseDragThreshold()))
+			for (int i = 0; i < 3; i++)
 			{
-				// TODO: send delta
-				mvInput::setMouseDragging(true);
-				mvInput::setMouseDragDelta({ ImGui::GetMouseDragDelta().x, ImGui::GetMouseDragDelta().y });
-				runCallback(eventHandler->getMouseDragCallback(), m_activeWindow,
-					mvPythonTranslator::ToPyMPair(i, 0));
-				ImGui::ResetMouseDragDelta(i);
-				break;
-			}
+				if (ImGui::IsMouseDragging(i, mvInput::getMouseDragThreshold()))
+				{
+					// TODO: send delta
+					mvInput::setMouseDragging(true);
+					mvInput::setMouseDragDelta({ ImGui::GetMouseDragDelta().x, ImGui::GetMouseDragDelta().y });
+					runCallback(eventHandler->getMouseDragCallback(), m_activeWindow,
+						mvPythonTranslator::ToPyMPair(i, 0));
+					ImGui::ResetMouseDragDelta(i);
+					break;
+				}
 
-			// reset, since event has already been dispatched
-			mvInput::setMouseDragging(false);
-			mvInput::setMouseDragDelta({ 0.0f, 0.0f });
+				// reset, since event has already been dispatched
+				mvInput::setMouseDragging(false);
+				mvInput::setMouseDragDelta({ 0.0f, 0.0f });
+			}
 		}
 
 		// route other mouse events
 		for (int i = 0; i < IM_ARRAYSIZE(ImGui::GetIO().MouseDown); i++)
 		{
 			// route mouse click event
-			if (ImGui::IsMouseClicked(i))
+			if (ImGui::IsMouseClicked(i) && !eventHandler->getMouseClickCallback().empty())
 				runCallback(eventHandler->getMouseClickCallback(), m_activeWindow,
 					mvPythonTranslator::ToPyInt(i));
 
 			// route mouse down event
-			if (ImGui::GetIO().MouseDownDuration[i] >= 0.0f)
+			if (ImGui::GetIO().MouseDownDuration[i] >= 0.0f && !eventHandler->getMouseDownCallback().empty())
 				runCallback(eventHandler->getMouseDownCallback(), m_activeWindow,
 					mvPythonTranslator::ToPyMPair(i, ImGui::GetIO().MouseDownDuration[i]));
 
 			// route mouse double clicked event
-			if (ImGui::IsMouseDoubleClicked(i))
+			if (ImGui::IsMouseDoubleClicked(i) && !eventHandler->getMouseDoubleClickCallback().empty())
 				runCallback(eventHandler->getMouseDoubleClickCallback(), m_activeWindow,
 					mvPythonTranslator::ToPyInt(i));
 
 			// route mouse released event
-			if (ImGui::IsMouseReleased(i))
+			if (ImGui::IsMouseReleased(i) && !eventHandler->getMouseReleaseCallback().empty())
 				runCallback(eventHandler->getMouseReleaseCallback(), m_activeWindow,
 					mvPythonTranslator::ToPyInt(i));
-		}
-
-		// route key events
-		for (int i = 0; i < IM_ARRAYSIZE(ImGui::GetIO().KeysDown); i++)
-		{
-			// route key pressed event
-			if (ImGui::IsKeyPressed(i))
-				runCallback(eventHandler->getKeyPressCallback(), std::to_string(i));
-
-			// route key down event
-			if (ImGui::GetIO().KeysDownDuration[i] >= 0.0f)
-				runCallback(eventHandler->getKeyDownCallback(), std::to_string(i),
-					mvPythonTranslator::ToPyFloat(ImGui::GetIO().KeysDownDuration[i]));
-
-			// route key released event
-			if (ImGui::IsKeyReleased(i))
-				runCallback(eventHandler->getKeyReleaseCallback(), std::to_string(i));
 		}
 	}
 
