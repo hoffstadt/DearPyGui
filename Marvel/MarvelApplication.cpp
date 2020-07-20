@@ -232,7 +232,7 @@ namespace Marvel {
 		mvApp::SetAppStarted();
 
 		// create window
-		mvWindow* window = new mvWindowsWindow(mvApp::GetApp()->getWindowWidth(), mvApp::GetApp()->getWindowHeight());
+		mvWindow* window = new mvWindowsWindow(mvApp::GetApp()->getActualWidth(), mvApp::GetApp()->getActualHeight());
 		window->show();
 		mvApp::GetApp()->setAppTheme(theme);
 		window->run();

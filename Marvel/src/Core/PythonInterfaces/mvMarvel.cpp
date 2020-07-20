@@ -3842,7 +3842,7 @@ namespace Marvel {
 
 	PyObject* get_main_window_size(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
-		return mvPythonTranslator::ToPyPair(mvApp::GetApp()->getWindowWidth(), mvApp::GetApp()->getWindowHeight());
+		return mvPythonTranslator::ToPyPair(mvApp::GetApp()->getActualWidth(), mvApp::GetApp()->getActualHeight());
 	}
 
 	PyObject* get_theme(PyObject* self, PyObject* args, PyObject* kwargs)
@@ -4449,7 +4449,7 @@ namespace Marvel {
 		if (!Parsers["set_main_window_size"].parse(args, kwargs, __FUNCTION__, &width, &height))
 			return mvPythonTranslator::GetPyNone();
 
-		mvApp::GetApp()->setWindowSize(width, height);
+		mvApp::GetApp()->setActualSize(width, height);
 
 		return mvPythonTranslator::GetPyNone();
 	}
