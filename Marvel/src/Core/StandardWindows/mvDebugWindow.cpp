@@ -262,6 +262,7 @@ namespace Marvel {
 
 			// update mouse
 			ImVec2 mousePos = ImGui::GetMousePos();
+			mvInput::setGlobalMousePosition(mousePos.x, mousePos.y);
 			float x = mousePos.x - ImGui::GetWindowPos().x;
 			float y = mousePos.y - ImGui::GetWindowPos().y - titleBarHeight;
 			mvInput::setMousePosition(x, y);

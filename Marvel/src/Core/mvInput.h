@@ -25,14 +25,16 @@ namespace Marvel {
 
 	public:
 
-		static void          setMousePosition     (float x, float y);
-		static void          setMouseDragThreshold(float threshold);
-		static void          setMouseDragging     (bool drag);
-		static void          setMouseDragDelta    (const mvVec2& delta);
+		static void          setMousePosition      (float x, float y);
+		static void          setGlobalMousePosition(float x, float y);
+		static void          setMouseDragThreshold (float threshold);
+		static void          setMouseDragging      (bool drag);
+		static void          setMouseDragDelta     (const mvVec2& delta);
 
-		static float         getMouseDragThreshold();
-		static const mvVec2& getMouseDragDelta    ();
-		static const mvVec2& getMousePosition     ();
+		static float         getMouseDragThreshold ();
+		static const mvVec2& getMouseDragDelta     ();
+		static const mvVec2& getMousePosition      ();
+		static const mvVec2& getGlobalMousePosition();
 
 		static bool          isMouseDragging           (int button, float threshold);
 		static bool          isMouseButtonDown         (int button);
@@ -46,6 +48,7 @@ namespace Marvel {
 	private:
 
 		static mvVec2 s_mousePos;
+		static mvVec2 s_mouseGlobalPos;
 		static float  s_mouseWheel;
 		static float  s_mouseDragThreshold;
 		static bool   s_mouseDragging;

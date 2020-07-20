@@ -324,7 +324,9 @@ namespace Marvel {
 		}, "Sets the callback to be ran every frame.", "None", "Input Polling") });
 
 		parsers->insert({ "get_mouse_pos", mvPythonParser({
-		}, "Returns the current mouse position in relation to the active window (minus titlebar).", 
+			{mvPythonDataType::KeywordOnly},
+			{mvPythonDataType::Bool, "global"}
+		}, "Returns the current mouse position in relation to the active window (minus titlebar) unless global flag is set.", 
 		"(int, int)", "Input Polling") });
 
 		parsers->insert({ "get_mouse_drag_delta", mvPythonParser({
