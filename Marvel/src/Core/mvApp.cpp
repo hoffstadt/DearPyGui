@@ -259,6 +259,7 @@ namespace Marvel {
 		// this will update items relying on it before
 		// the first render frame
 		mvDataStorage::UpdateData();
+
 	}
 
 	void mvApp::prerender()
@@ -275,6 +276,12 @@ namespace Marvel {
 				mvAppLog::getLogger()->Log("Threadpool destroyed");
 			}
 			
+		}
+
+		if (m_compileTimeThemeSet)
+		{
+			changeTheme();
+			m_compileTimeThemeSet = false;
 		}
 
 		// update timing
@@ -735,19 +742,29 @@ namespace Marvel {
 	{
 		m_theme = theme;
 
+		if (s_started)
+			changeTheme();
+		else
+			m_compileTimeThemeSet = true;
+
+	}
+
+	void mvApp::changeTheme()
+	{
+
 		// TODO: All themes borrowed from online need to be
 		//       cleaned up for consistency and completed.
 
-		if (theme == "Dark")
+		if (m_theme == "Dark")
 			ImGui::StyleColorsDark();
 
-		else if (theme == "Classic")
+		else if (m_theme == "Classic")
 			ImGui::StyleColorsClassic();
 
-		else if (theme == "Light")
+		else if (m_theme == "Light")
 			ImGui::StyleColorsLight();
 
-		else if (theme == "Dark 2")
+		else if (m_theme == "Dark 2")
 		{
 			ImGuiStyle& style = ImGui::GetStyle();
 			style.FrameRounding = 2.3f;
@@ -799,7 +816,7 @@ namespace Marvel {
 			style.Colors[ImGuiCol_ModalWindowDimBg] = ImVec4(0.20f, 0.20f, 0.20f, 0.35f);
 		}
 
-		else if (theme == "Dark Grey")
+		else if (m_theme == "Dark Grey")
 		{
 			ImVec4* colors = ImGui::GetStyle().Colors;
 			colors[ImGuiCol_Text] = ImVec4(1.00f, 1.00f, 1.00f, 1.00f);
@@ -846,7 +863,7 @@ namespace Marvel {
 			colors[ImGuiCol_NavWindowingHighlight] = ImVec4(1.00f, 1.00f, 1.00f, 0.70f);
 		}
 
-		else if (theme == "Cherry")
+		else if (m_theme == "Cherry")
 		{
 			auto& style = ImGui::GetStyle();
 			style.Colors[ImGuiCol_Text] = ImVec4(0.860f, 0.930f, 0.890f, 0.78f);
@@ -902,7 +919,7 @@ namespace Marvel {
 			style.WindowBorderSize = 1.0f;
 		}
 
-		else if (theme == "Grey")
+		else if (m_theme == "Grey")
 		{
 		ImGuiStyle& style = ImGui::GetStyle();
 		ImVec4* colors = style.Colors;
@@ -978,13 +995,13 @@ namespace Marvel {
 		style.GrabRounding = 3;
 		}
 
-		else if (theme == "Purple")
+		else if (m_theme == "Purple")
 		{
 		EditorColorScheme::SetColors(0x1F2421FF, 0xDCE1DEFF, 0x725AC1FF, 0x8D86C9FF, 0xECA400FF);
 		EditorColorScheme::ApplyTheme();
 		}
 
-		else if (theme == "Gold")
+		else if (m_theme == "Gold")
 		{
 			ImGuiStyle* style = &ImGui::GetStyle();
 			ImVec4* colors = style->Colors;
@@ -1056,7 +1073,7 @@ namespace Marvel {
 			style->DisplaySafeAreaPadding = ImVec2(4, 4);
 		}
 
-		else if (theme == "Red")
+		else if (m_theme == "Red")
 		{
 			auto& style = ImGui::GetStyle();
 			style.FrameRounding = 4.0f;
