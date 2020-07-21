@@ -173,6 +173,7 @@ namespace Marvel {
 		mvApp();
 
 		void routeInputCallbacks();
+		void changeTheme();
 
 		mvApp          (const mvApp& other) = delete;
 		mvApp          (mvApp&& other)      = delete;
@@ -195,6 +196,7 @@ namespace Marvel {
 		// appearance
 		mvStyle     m_style;
 		std::string m_theme = "Dark";
+		bool        m_compileTimeThemeSet = false; // theme changed at compile time
 		float       m_globalFontScale = 1.0f;
 
 		// runtime widget modifications
