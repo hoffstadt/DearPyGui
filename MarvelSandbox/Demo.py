@@ -55,6 +55,7 @@ add_button("Add row ", callback="AddRow")
 add_button("Add col ", callback="AddCol")
 add_button("Insert row 5", callback="InsertRow")
 add_button("Insert col 1 ", callback="InsertCol")
+add_button("Clear Table ", callback="ClearTable")
 add_table("Table##widget", ["Column 1", "Column 2", "Column 3", "Column 4"])
 
 def closeit(sender, data):
@@ -69,6 +70,9 @@ for i in range(0, 10):
 
 set_value("Table##widget", tabledata)
 end_window()
+
+def ClearTable(sender, data):
+    clear_table("Table##widget")
 
 def DeleteRow(sender, data):
     delete_row("Table##widget", 6)

@@ -844,6 +844,10 @@ namespace Marvel {
 			{mvPythonDataType::StringList, "row"},
 		}, "Adds a row to a table.", "None", "Tables") });
 
+		parsers->insert({ "clear_table", mvPythonParser({
+			{mvPythonDataType::String, "table"}
+		}, "Clears data in a table", "None", "Tables") });
+
 		parsers->insert({ "add_column", mvPythonParser({
 			{mvPythonDataType::String, "table"},
 			{mvPythonDataType::String, "name"},
