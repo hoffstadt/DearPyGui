@@ -3603,6 +3603,26 @@ namespace Marvel {
 		return mvPythonTranslator::GetPyNone();
 	}
 
+	PyObject* clear_table(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		const char* table;
+
+		if (!Parsers["clear_table"].parse(args, kwargs, __FUNCTION__, &table))
+			return mvPythonTranslator::GetPyNone();
+
+		mvAppItem* item = mvApp::GetApp()->getItem(table);
+		if (item == nullptr)
+		{
+			std::string message = table;
+			mvAppLog::getLogger()->LogWarning(message + " table does not exist.");
+			return mvPythonTranslator::GetPyNone();
+		}
+
+		mvTable* atable = static_cast<mvTable*>(item);
+		atable->clearTable();
+		Py_RETURN_NONE;
+	}
+
 	PyObject* get_table_item(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		const char* table;
@@ -4531,6 +4551,7 @@ namespace Marvel {
 
 		auto pyModule = new mvPythonModule("marvel", {});
 
+		pyModule->addMethodD(clear_table);
 		pyModule->addMethodD(generate_stub_file);
 		pyModule->addMethodD(get_window_pos);
 		pyModule->addMethodD(set_window_pos);

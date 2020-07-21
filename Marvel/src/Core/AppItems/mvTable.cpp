@@ -367,6 +367,13 @@ namespace Marvel {
 
 	}
 
+	void mvTable::clearTable()
+	{
+		m_selections.clear();
+		m_hashValues.clear();
+		m_values.clear();
+	}
+
 	void mvTable::draw()
 	{
 		ImGui::BeginChild(m_name.c_str(), ImVec2(m_width, m_height));
