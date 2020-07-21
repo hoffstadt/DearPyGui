@@ -2985,10 +2985,11 @@ namespace Marvel {
 		int resizable = true;
 		int title_bar = true;
 		int movable = true;
+		const char* closing_callback = "";
 
 		if (!Parsers["add_window"].parse(args, kwargs, __FUNCTION__, &name, &width, 
 			&height, &startx, &starty, &autosize, &resizable, &title_bar, &movable,
-			&hide))
+			&hide, &closing_callback))
 			return mvPythonTranslator::GetPyNone();
 
 		if (width == -1 && height == -1)
@@ -2998,7 +2999,7 @@ namespace Marvel {
 		}
 
 		mvAppItem* item = new mvWindowAppitem("", name, width, height, startx, starty, 
-			false, autosize, resizable, title_bar, movable);
+			false, autosize, resizable, title_bar, movable, closing_callback);
 		AddItemWithRuntimeChecks(item, "", "");
 		mvApp::GetApp()->pushParent(item);
 
