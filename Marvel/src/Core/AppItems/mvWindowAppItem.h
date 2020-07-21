@@ -17,8 +17,8 @@ namespace Marvel {
 		MV_APPITEM_TYPE(mvAppItemType::Window)
 
 		mvWindowAppitem(const std::string& parent, const std::string& name, int width, int height, int xpos, int ypos, 
-			bool mainWindow, bool autosize, bool resizable, bool titlebar, bool movable)
-			: mvAppItem(parent, name), mvEventHandler(), m_xpos(xpos), m_ypos(ypos), m_mainWindow(mainWindow)
+			bool mainWindow, bool autosize, bool resizable, bool titlebar, bool movable, const std::string& closing_callback="")
+			: mvAppItem(parent, name), mvEventHandler(), m_xpos(xpos), m_ypos(ypos), m_mainWindow(mainWindow), m_closing_callback(closing_callback)
 		{
 			m_container = true;
 			m_width = width;
@@ -48,7 +48,6 @@ namespace Marvel {
 		
 		void setWindowPos(float x, float y)
 		{
-			m_move = true;
 			m_xpos = x;
 			m_ypos = y;
 			m_dirty = true;
@@ -71,8 +70,15 @@ namespace Marvel {
 				setFocused(false);
 				setActivated(false);
 				setVisible(false);
+				if (!m_closing)
+				{
+					m_closing = true;
+					mvApp::GetApp()->runCallback(m_closing_callback, m_name);
+
+				}
 				return;
 			}
+			m_closing = false;
 
 			if (m_mainWindow)
 			{
@@ -85,12 +91,6 @@ namespace Marvel {
 				ImGui::SetNextWindowPos(ImVec2(m_xpos, m_ypos));
 				ImGui::SetNextWindowSize(ImVec2(m_width, m_height));
 				m_dirty = false;
-			}
-
-			if (m_move)
-			{
-				ImGui::SetNextWindowPos(ImVec2(m_xpos, m_ypos));
-				m_move = false;
 			}
 
 			if (!ImGui::Begin(m_label.c_str(), &m_show, m_windowflags))
@@ -172,8 +172,9 @@ namespace Marvel {
 		int              m_xpos = 200;
 		int              m_ypos = 200;
 		bool             m_mainWindow = false;
-		bool             m_move = true;
 		bool             m_dirty = true;
+		bool             m_closing = true;
+		std::string      m_closing_callback = "";
 
 	};
 

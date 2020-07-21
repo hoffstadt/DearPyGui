@@ -1439,7 +1439,8 @@ namespace Marvel {
 			{mvPythonDataType::Bool, "resizable"},
 			{mvPythonDataType::Bool, "title_bar"},
 			{mvPythonDataType::Bool, "movable"},
-			{mvPythonDataType::Bool, "hide"}
+			{mvPythonDataType::Bool, "hide"},
+			{mvPythonDataType::String, "on_close"},
 		}, "Creates a new window for following items to be added to. Must call end_main_window command before.", 
 			"None", "Containers") });
 

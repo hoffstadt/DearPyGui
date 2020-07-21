@@ -48,7 +48,7 @@ add_button("Tables", callback="Launcher")
 end_group()
 
 # tables
-add_window("Tables##dialog", 500, 500, hide=True)
+add_window("Tables##dialog", 500, 500, hide=True, on_close="closeit")
 add_button("Delete row 6", callback="DeleteRow")
 add_button("Delete col 1", callback="DeleteCol")
 add_button("Add row ", callback="AddRow")
@@ -56,6 +56,9 @@ add_button("Add col ", callback="AddCol")
 add_button("Insert row 5", callback="InsertRow")
 add_button("Insert col 1 ", callback="InsertCol")
 add_table("Table##widget", ["Column 1", "Column 2", "Column 3", "Column 4"])
+
+def closeit(sender, data):
+    print("closing tables")
 
 tabledata = []
 for i in range(0, 10):
