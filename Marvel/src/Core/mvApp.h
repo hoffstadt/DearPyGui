@@ -80,9 +80,9 @@ namespace Marvel {
 		// App Settings
 		//-----------------------------------------------------------------------------
 		void                     setFile           (const std::string& file);
+		void                     setArgv0          (const std::string& argv0) { m_argv0 = argv0; }
 		void                     setWindowSize     (unsigned width, unsigned height);
-		void                     setActualSize     (unsigned width, unsigned height);
-		void                     setModuleDict     (PyObject* dict) { m_pDict = dict; }				
+		void                     setActualSize     (unsigned width, unsigned height);			
 		void                     setActiveWindow   (const std::string& window) { m_activeWindow = window; }
 		void                     setGlobalFontScale(float scale);
 
@@ -91,9 +91,9 @@ namespace Marvel {
 		const std::string&       getActiveWindow   () const { return m_activeWindow; }
 		std::vector<mvAppItem*>& getWindows        ()       { return m_windows; }
 		float                    getGlobalFontScale();
-		PyObject*                getModuleDict    () { return m_pDict; }
 		int                      getActualWidth() const { return m_actualWidth; }
 		int                      getActualHeight() const { return m_actualHeight; }
+		const std::string&       getArgv0() const { return m_argv0; }
 		
 
 		//-----------------------------------------------------------------------------
@@ -185,10 +185,10 @@ namespace Marvel {
 		static bool   s_started;
 
 		std::string             m_activeWindow = "MainWindow";
+		std::string             m_argv0 = "";
 		std::stack<mvAppItem*>  m_parents;
 		std::vector<mvAppItem*> m_windows;
 		std::string             m_file;
-		PyObject*               m_pDict;
 		int                     m_actualWidth = 1280;
 		int                     m_actualHeight = 800;
 		

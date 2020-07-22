@@ -12,6 +12,8 @@
 #include <sstream>
 #include <filesystem>
 
+#include <iostream>
+
 namespace fs = std::filesystem;
 
 namespace Marvel {
@@ -84,7 +86,7 @@ namespace Marvel {
 		return true;
 	}
 
-	void RunFile(const std::string& name, const std::string& file, const std::string& flags)
+	void RunFile(const std::string& file, const std::string& flags)
 	{
 		// additional information
 		STARTUPINFO si;
@@ -103,9 +105,11 @@ namespace Marvel {
 		size_t lastindex = filename.find_last_of(".");
 		std::string rawname = filename.substr(0, lastindex);
 
-		//std::string cmd = std::string("\"") + std::string(Marvel::Application::getArgv0()) + std::string("\" --app ") + rawname + " --path \"" + pathname + "\" " + flags;
-		std::string cmd = "";
-		std::string pname = name + ".exe";
+		std::string cmd = std::string("\"") + std::string(Marvel::mvApp::GetApp()->getArgv0()) + std::string("\" --app ") + 
+			rawname + " --path \"" + pathname + "\" " + "--noconfig " + flags;
+		std::string pname = "MarvelSandbox.exe";
+
+		std::cout << cmd << std::endl;
 
 		// start the program up
 		CreateProcess(const_cast<char*>(pname.c_str()),   // the path

@@ -2,24 +2,20 @@
 #include <Python.h>
 #include "mvStdOutput.h"
 #include <Windows.h>
-#include <CLI11.hpp>
 #include <iostream>
+#include <fstream>
 #include <nlohmann/json.hpp>
 #include <filesystem>
+#include <CLI11.hpp>
 
 namespace fs = std::filesystem;
 using namespace Marvel;
 
 int main(int argc, char* argv[])
 {
-
-	bool ignoreConfig = false;
 	wchar_t* program;
 	bool errorMode = false;
-	bool regularMode = false;
-	PyObject* pModule = nullptr;
 	PyObject* m = nullptr;
-	bool ranFromVS = false;
 	std::string addedPath;
 	std::string AppName = "";
 	std::string PathName = "";
@@ -27,6 +23,7 @@ int main(int argc, char* argv[])
 	std::string theme = "Dark";
 	bool documentation = false; // starts application with the documentation window shown
 	bool editorMode = false; // starts application in editor mode
+	bool ignoreConfig = false;
 
 	CLI::App app{ "Marvel Sandbox" };
 	app.allow_windows_style_options();
@@ -76,13 +73,10 @@ int main(int argc, char* argv[])
 
 			if (j.contains("PythonLibs"))
 				LibraryPath = j["PythonLibs"];
-
-
-			if (j.contains("Development"))
-				ranFromVS = j["Development"];
 		}
-
 	}
+
+
 
 #ifdef MV_RELEASE
 	HWND hWnd = GetConsoleWindow();
@@ -109,9 +103,6 @@ int main(int argc, char* argv[])
 	}
 	Py_SetProgramName(program);  /* optional but recommended */
 
-	if (ranFromVS)
-		addedPath = std::string(MV_MAIN_DIR);
-
 	// initialize python
 	// add our custom module
 	//PyImport_AppendInittab("sandboxout", &PyInit_embOut);
@@ -135,19 +126,31 @@ int main(int argc, char* argv[])
 	//PySys_SetObject("stderr", m);
 
 	// get module
-	pModule = PyImport_ImportModule(AppName.c_str()); // new reference
+	std::string themeCommand = "from marvel import *\nset_theme(\"" + theme + "\")";
+	PyRun_SimpleString(themeCommand.c_str());
+
+	if (editorMode)
+	{
+		std::string command = "start_marvel_editor(r\"" + std::string(argv[0]) + "\")";
+		PyRun_SimpleString(command.c_str());
+		return 0;
+	}
+
+	if (documentation)
+	{
+		PyRun_SimpleString("start_marvel_docs()");
+		return 0;
+	}
+
+	PyObject* pModule = PyImport_ImportModule(AppName.c_str()); // new reference
 
 	// check if error occurred
 	if (!PyErr_Occurred() && pModule != nullptr)
-		regularMode = true;
+	{
+		Py_XDECREF(pModule);
+		return 0;
+	}
 
-	else
-		errorMode = true;
-
-	PyEval_SaveThread(); // releases global lock
-
-	PyGILState_STATE gstate = PyGILState_Ensure();
-	Py_XDECREF(pModule);
-
-	return 0;
+	else return 1;
+	
 }

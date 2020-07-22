@@ -11,8 +11,7 @@
 #include <iostream>
 
 static const char* initialText = "from marvel import *\n\
-import marvel_constants as mc\n\
-\nadd_button('Button 1')\n";
+\nadd_button('Button 1')\nstart_marvel()\n";
 
 namespace Marvel {
 
@@ -57,7 +56,7 @@ namespace Marvel {
 			saveFile();
 			if (m_file.empty())
 				return;
-			RunFile(m_programName, m_file, m_complilerflags);
+			RunFile(m_file, m_complilerflags);
 		}
 
 	}
@@ -237,7 +236,7 @@ namespace Marvel {
 					saveFile();
 					if (m_file.empty())
 						return;
-					RunFile(m_programName, m_file, m_complilerflags);
+					RunFile(m_file, m_complilerflags);
 				}
 
 				ImGui::EndMenu();

@@ -79,10 +79,7 @@ namespace Marvel {
 		mvAppLog::getLogger()->AddLog("[ImGui Version] %0s\n", IMGUI_VERSION);
 		mvAppLog::getLogger()->AddLog("[Compiler] MSVC version %0d\n", _MSC_VER);
 
-		// returns the dictionary object representing the module namespace
-		//PyObject* pDict = PyModule_GetDict(PyImport_AddModule("__main__")); // borrowed reference
 		setMainThreadID(std::this_thread::get_id());
-		//setModuleDict(pDict);
 
 		m_style = getAppDefaultStyle();
 		m_windows.push_back(new mvWindowAppitem("", "MainWindow", 1280, 800, 0, 0, true, false, true, false, false));
@@ -645,8 +642,7 @@ namespace Marvel {
 
 		mvGlobalIntepreterLock gil;
 
-		PyObject* pHandler;
-		pHandler = PyDict_GetItemString(m_pDict, name.c_str()); // borrowed reference
+		PyObject* pHandler = PyDict_GetItemString(PyModule_GetDict(PyImport_AddModule("__main__")), name.c_str()); // borrowed
 		if (pHandler == NULL)
 		{
 			PyObject* pModules = PyDict_Values(PyImport_GetModuleDict());
@@ -725,8 +721,7 @@ namespace Marvel {
 
 		//mvGlobalIntepreterLock gil;
 
-		PyObject* pHandler;
-		pHandler = PyDict_GetItemString(m_pDict, name.c_str()); // borrowed reference
+		PyObject* pHandler = PyDict_GetItemString(PyModule_GetDict(PyImport_AddModule("__main__")), name.c_str()); // borrowed
 		if (pHandler == NULL)
 		{
 			PyObject* pModules = PyDict_Values(PyImport_GetModuleDict());
