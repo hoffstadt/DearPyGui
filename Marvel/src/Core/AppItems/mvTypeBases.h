@@ -8,7 +8,8 @@
 //     
 //-----------------------------------------------------------------------------
 
-#include "mvPythonTranslator.h"
+#include "Core/PythonInterfaces/mvInterfaceRegistry.h"
+#include "Core/PythonInterfaces/mvPythonTranslator.h"
 #include "Core/mvApp.h"
 #include "Core/AppItems/mvAppItem.h"
 #include "Core/mvUtilities.h"

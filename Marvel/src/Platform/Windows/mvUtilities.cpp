@@ -11,7 +11,6 @@
 #include <codecvt>
 #include <sstream>
 #include <filesystem>
-#include "MarvelApplication.h"
 
 namespace fs = std::filesystem;
 
@@ -104,7 +103,8 @@ namespace Marvel {
 		size_t lastindex = filename.find_last_of(".");
 		std::string rawname = filename.substr(0, lastindex);
 
-		std::string cmd = std::string("\"") + std::string(Marvel::Application::getArgv0()) + std::string("\" --app ") + rawname + " --path \"" + pathname + "\" " + flags;
+		//std::string cmd = std::string("\"") + std::string(Marvel::Application::getArgv0()) + std::string("\" --app ") + rawname + " --path \"" + pathname + "\" " + flags;
+		std::string cmd = "";
 		std::string pname = name + ".exe";
 
 		// start the program up

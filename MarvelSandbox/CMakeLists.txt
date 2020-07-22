@@ -9,31 +9,30 @@ target_sources(MarvelSandbox
 	PRIVATE
 
 		"main.cpp"
-        "../Marvel/MarvelApplication.cpp"
 )
 
 target_include_directories(MarvelSandbox
 
 	PRIVATE
 
-		"../Marvel/include/"
+		"../Dependencies/cpython/Include/"
+		"../Dependencies/json/include/"
+		"Vendor/CLIUtils/"
 
 )
 
 target_link_directories(MarvelSandbox
 
-	PRIVATE
-
-		"../cmake-build-release/Marvel/"
-
+	PUBLIC
+		"../Dependencies/cpython/PCbuild/amd64/"
 )
 
 target_link_libraries(MarvelSandbox
 
-	PRIVATE
-
-		marvel
-
+	PUBLIC
+		nlohmann_json::nlohmann_json
+		$<$<CONFIG:Debug>:python38_d>
+		$<$<CONFIG:Release>:python38>
 )
 
 add_custom_command(TARGET MarvelSandbox PRE_BUILD
@@ -53,5 +52,7 @@ add_custom_command(TARGET MarvelSandbox PRE_BUILD
                        ${CMAKE_SOURCE_DIR}/Output/python/Debug/python38$<$<CONFIG:Debug>:_d>.dll $<TARGET_FILE_DIR:MarvelSandbox>)
 
 add_custom_command(TARGET MarvelSandbox PRE_BUILD
-                   COMMAND ${CMAKE_COMMAND} -E copy_if_different
-                       ${CMAKE_SOURCE_DIR}/cmake-build-release/Marvel/marvel.pyd $<TARGET_FILE_DIR:MarvelSandbox>/Dependencies)
+                   COMMAND ${CMAKE_COMMAND} -E copy
+                       ${CMAKE_SOURCE_DIR}/cmake-build-$<$<CONFIG:Release>:release>$<$<CONFIG:Debug>:debug>/Marvel/marvel$<$<CONFIG:Debug>:_d>.pyd $<TARGET_FILE_DIR:MarvelSandbox>/Dependencies)
+
+

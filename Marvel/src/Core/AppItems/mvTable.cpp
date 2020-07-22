@@ -1,5 +1,5 @@
 #include "mvTable.h"
-#include "mvPythonTranslator.h"
+#include "Core/PythonInterfaces/mvPythonTranslator.h"
 #include "Core/mvApp.h"
 #include "Core/StandardWindows/mvAppLog.h"
 

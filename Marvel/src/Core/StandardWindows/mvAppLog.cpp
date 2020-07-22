@@ -10,6 +10,7 @@ typedef std::chrono::duration<double, std::ratio<1> > second_;
 namespace Marvel {
 
 	std::chrono::steady_clock::time_point mvAppLog::s_start;
+	mvAppLog* mvAppLog::s_instance = nullptr;
 
 	mvAppLog* mvAppLog::getLogger()
 	{

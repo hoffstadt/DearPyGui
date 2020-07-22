@@ -2,6 +2,7 @@
 
 add_library(marvel SHARED)
 set_target_properties(marvel PROPERTIES SUFFIX ".pyd")
+set_target_properties(marvel PROPERTIES OUTPUT_NAME "marvel$<$<CONFIG:Debug>:_d>")
 
 set_property(TARGET marvel PROPERTY CXX_STANDARD 17)
 
@@ -9,7 +10,6 @@ target_sources(marvel
 
 	PRIVATE
 
-		"MarvelApplication.cpp"
 		"src/Core/mvApp.cpp"
 		"src/Core/mvInput.cpp"
 		"src/Core/mvWindow.cpp"
@@ -58,14 +58,11 @@ target_include_directories(marvel
 	PUBLIC
 
 		"src/"
-		"include/"
 		"../Dependencies/imgui/"
 		"../Dependencies/imgui/examples/"
 		"../Dependencies/cpython/Include/"
-		"../Dependencies/json/include/"
 		"src/Vendor/implot/"
 		"src/Vendor/stb/"
-		"src/Vendor/CLIUtils/"
 )
 
 target_link_directories(marvel
@@ -79,9 +76,8 @@ target_link_libraries(marvel
 	PUBLIC
 
 		d3d11
-		nlohmann_json::nlohmann_json
-		$<$<CONFIG:Debug>:python3_d>
-		$<$<CONFIG:Release>:python3>
+		$<$<CONFIG:Debug>:python38_d>
+		$<$<CONFIG:Release>:python38>
 )
 
 target_compile_definitions(marvel
@@ -89,5 +85,8 @@ target_compile_definitions(marvel
 	PUBLIC
 
 		$<$<CONFIG:Release>:MV_RELEASE>
+
+	PRIVATE
+		_EXPORTING
 )
 

@@ -20,6 +20,8 @@ namespace Marvel {
 
 	mvApp* mvApp::s_instance = nullptr;
 	bool   mvApp::s_started = false;
+	thread_local mvWorkStealingQueue* mvThreadPool::m_local_work_queue;
+	thread_local unsigned mvThreadPool::m_index;
 
 	static void SetStyle(ImGuiStyle& style, mvStyle& mvstyle)
 	{
@@ -78,9 +80,9 @@ namespace Marvel {
 		mvAppLog::getLogger()->AddLog("[Compiler] MSVC version %0d\n", _MSC_VER);
 
 		// returns the dictionary object representing the module namespace
-		PyObject* pDict = PyModule_GetDict(PyImport_AddModule("__main__")); // borrowed reference
+		//PyObject* pDict = PyModule_GetDict(PyImport_AddModule("__main__")); // borrowed reference
 		setMainThreadID(std::this_thread::get_id());
-		setModuleDict(pDict);
+		//setModuleDict(pDict);
 
 		m_style = getAppDefaultStyle();
 		m_windows.push_back(new mvWindowAppitem("", "MainWindow", 1280, 800, 0, 0, true, false, true, false, false));
@@ -643,7 +645,26 @@ namespace Marvel {
 
 		mvGlobalIntepreterLock gil;
 
-		PyObject* pHandler = PyDict_GetItemString(m_pDict, name.c_str()); // borrowed reference
+		PyObject* pHandler;
+		pHandler = PyDict_GetItemString(m_pDict, name.c_str()); // borrowed reference
+		if (pHandler == NULL)
+		{
+			PyObject* pModules = PyDict_Values(PyImport_GetModuleDict());
+			PyObject* pModulesKeys = PyDict_Keys(PyImport_GetModuleDict());
+			for (int i = 0; i < PyList_Size(pModules); i++)
+			{
+				//mvAppLog::getLogger()->LogError(_PyUnicode_AsString(PyList_GetItem(pModulesKeys, i)));
+				PyObject* pModule = PyModule_GetDict(PyList_GetItem(pModules, i));
+				if (PyDict_Check(pModule))
+				{
+					pHandler = PyDict_GetItemString(pModule, name.c_str()); // borrowed reference
+					if (pHandler)
+						break;
+				}
+
+			}
+			Py_XDECREF(pModules);
+		}
 
 		// if callback doesn't exist
 		if (pHandler == NULL)
@@ -704,7 +725,26 @@ namespace Marvel {
 
 		//mvGlobalIntepreterLock gil;
 
-		PyObject* pHandler = PyDict_GetItemString(m_pDict, name.c_str()); // borrowed reference
+		PyObject* pHandler;
+		pHandler = PyDict_GetItemString(m_pDict, name.c_str()); // borrowed reference
+		if (pHandler == NULL)
+		{
+			PyObject* pModules = PyDict_Values(PyImport_GetModuleDict());
+			PyObject* pModulesKeys = PyDict_Keys(PyImport_GetModuleDict());
+			for (int i = 0; i < PyList_Size(pModules); i++)
+			{
+				//mvAppLog::getLogger()->LogError(_PyUnicode_AsString(PyList_GetItem(pModulesKeys, i)));
+				PyObject* pModule = PyModule_GetDict(PyList_GetItem(pModules, i));
+				if (PyDict_Check(pModule))
+				{
+					pHandler = PyDict_GetItemString(pModule, name.c_str()); // borrowed reference
+					if (pHandler)
+						break;
+				}
+
+			}
+			Py_XDECREF(pModules);
+		}
 
 		// if callback doesn't exist
 		if (pHandler == NULL)
