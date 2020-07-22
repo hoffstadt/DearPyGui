@@ -1047,7 +1047,8 @@ namespace Marvel {
 		}, "Needs documentation") });
 
 		parsers->insert({ "show_source", mvPythonParser({
-		}, "Shows the source code for the current app.", "None", "Standard Windows") });
+			{mvPythonDataType::String, "file"},
+		}, "Shows the source code for a file.", "None", "Standard Windows") });
 	}
 
 	void AddThemeCommands(std::map<std::string, mvPythonParser>* parsers)
@@ -1501,7 +1502,16 @@ namespace Marvel {
 	void AddAppCommands(std::map<std::string, mvPythonParser>* parsers)
 	{
 		parsers->insert({ "start_marvel", mvPythonParser({
+			{mvPythonDataType::Optional},
+			{mvPythonDataType::String, "argv0", ""}
 		}, "Starts marvel") });
+
+		parsers->insert({ "start_marvel_editor", mvPythonParser({
+			{mvPythonDataType::String, "argv0", ""}
+		}, "Starts marvel editor") });
+
+		parsers->insert({ "start_marvel_docs", mvPythonParser({
+		}, "Starts marvel documentation") });
 
 		parsers->insert({ "set_global_font_scale", mvPythonParser({
 			{mvPythonDataType::Float, "scale", "default is 1.0"}
@@ -1515,10 +1525,8 @@ namespace Marvel {
 		}, "Returns the global font scale.", "float") });
 
 		parsers->insert({ "run_file", mvPythonParser({
-			{mvPythonDataType::String, "name", "Executable name"},
 			{mvPythonDataType::String, "file", "Path to python file."},
-			{mvPythonDataType::KeywordOnly},
-			{mvPythonDataType::String, "flags", "Executable flags."},
+			{mvPythonDataType::String, "flags"},
 		}, "Runs a seperate Marvel app.") });
 
 		parsers->insert({ "run_async_function", mvPythonParser({

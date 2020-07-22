@@ -4,6 +4,7 @@
 #include "Core/mvInput.h"
 #include "Core/mvDataStorage.h"
 #include "Core/StandardWindows/mvAppLog.h"
+#include "Core/StandardWindows/mvSourceWindow.h"
 #include "mvPythonTranslator.h"
 #include "Core/AppItems/mvAppItems.h"
 #include "mvInterfaceRegistry.h"
@@ -75,15 +76,50 @@ namespace Marvel {
 	PyObject* start_marvel(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 
+		const char* argv0="";
+
+		if (!Parsers["start_marvel"].parse(args, kwargs, __FUNCTION__, &argv0))
+			return mvPythonTranslator::GetPyNone();
+
 		mvApp::GetApp()->precheck();
+		mvApp::GetApp()->setArgv0(argv0);
 		mvApp::SetAppStarted();
-		//mvApp::GetApp()->setModuleDict(PyModule_GetDict(self));
-		//mvApp::GetApp()->setModuleDict(PyModule_GetDict(PyImport_AddModule("Demo"))); // borrowed reference
-		mvApp::GetApp()->setModuleDict(PyModule_GetDict(PyImport_AddModule("__main__"))); // borrowed reference
 		PyEval_InitThreads();
 
 		// create window
 		mvWindow* window = new mvWindowsWindow(mvApp::GetApp()->getActualWidth(), mvApp::GetApp()->getActualHeight());
+		window->show();
+		window->run();
+		delete window;
+		delete mvApp::GetApp();
+
+		return mvPythonTranslator::GetPyNone();
+	}
+
+	PyObject* start_marvel_editor(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+
+		const char* argv0;
+
+		if (!Parsers["start_marvel_editor"].parse(args, kwargs, __FUNCTION__, &argv0))
+			return mvPythonTranslator::GetPyNone();
+
+		// create window
+		mvWindow* window = new mvWindowsWindow(mvApp::GetApp()->getActualWidth(), mvApp::GetApp()->getActualHeight(), true);
+		mvApp::GetApp()->setArgv0(argv0);
+		window->show();
+		window->run();
+		delete window;
+		delete mvApp::GetApp();
+
+		return mvPythonTranslator::GetPyNone();
+	}
+
+	PyObject* start_marvel_docs(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+
+		// create window
+		mvWindow* window = new mvWindowsWindow(mvApp::GetApp()->getActualWidth(), mvApp::GetApp()->getActualHeight(), false, false, true);
 		window->show();
 		window->run();
 		delete window;
@@ -123,14 +159,13 @@ namespace Marvel {
 
 	PyObject* run_file(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
-		const char* name;
 		const char* file;
-		const char* flags = "";
+		const char* flags;
 
-		if (!Parsers["run_file"].parse(args, kwargs, __FUNCTION__, &name, &file, &flags))
+		if (!Parsers["run_file"].parse(args, kwargs, __FUNCTION__, &file, &flags))
 			return mvPythonTranslator::GetPyNone();
 
-		RunFile(name, file, flags);
+		RunFile(file, flags);
 
 		return mvPythonTranslator::GetPyNone();
 	}
@@ -4555,7 +4590,14 @@ namespace Marvel {
 
 	PyObject* show_source(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
+		const char* file;
+
+		if (!Parsers["show_source"].parse(args, kwargs, __FUNCTION__, &file))
+			return mvPythonTranslator::GetPyNone();
+
 		mvApp::GetApp()->showStandardWindow("source");
+		auto window = static_cast<mvSourceWindow*>(mvApp::GetApp()->getStandardWindow("source"));
+		window->setFile(file);
 		return mvPythonTranslator::GetPyNone();
 	}
 
@@ -4574,6 +4616,8 @@ namespace Marvel {
 	static PyMethodDef marvelmethods[]
 	{
 		ADD_PYTHON_FUNCTION(start_marvel)
+		ADD_PYTHON_FUNCTION(start_marvel_editor)
+		ADD_PYTHON_FUNCTION(start_marvel_docs)
 		ADD_PYTHON_FUNCTION(clear_table)
 		ADD_PYTHON_FUNCTION(generate_stub_file)
 		ADD_PYTHON_FUNCTION(get_window_pos)

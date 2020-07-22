@@ -21,6 +21,11 @@ namespace Marvel {
 		m_standardWindows.insert({ name, {window, false} });
 	}
 
+	mvStandardWindow* mvStandardWindow::getStandardWindow(const std::string& name)
+	{
+		return m_standardWindows[name].window;
+	}
+
 	void mvStandardWindow::setToMainMode() 
 	{ 
 		m_mainMode = true; 

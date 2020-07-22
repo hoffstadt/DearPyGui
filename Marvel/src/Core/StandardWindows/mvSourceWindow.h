@@ -16,7 +16,7 @@ namespace Marvel {
 
 	private:
 
-		mvTextEditor m_editor;
+		mvTextEditor  m_editor;
 		std::string  m_file;
 
 	};
