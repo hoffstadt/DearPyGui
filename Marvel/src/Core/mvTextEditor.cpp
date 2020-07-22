@@ -3188,12 +3188,12 @@ const mvTextEditor::LanguageDefinition& mvTextEditor::LanguageDefinition::Python
 			langDef.mIdentifiers.insert(std::make_pair(k.first, id));
 		}
 
-		for (auto& k : mvInterfaceRegistry::GetRegistry()->getConstants())
-		{
-			Identifier id;
-			id.mDeclaration = "Constant with value " + std::to_string(k.second);
-			langDef.mPreprocIdentifiers.insert(std::make_pair(k.first, id));
-		}
+		//for (auto& k : mvInterfaceRegistry::GetRegistry()->getConstants())
+		//{
+		//	Identifier id;
+		//	id.mDeclaration = "Constant with value " + std::to_string(k.second);
+		//	langDef.mPreprocIdentifiers.insert(std::make_pair(k.first, id));
+		//}
 
 		langDef.mTokenize = [](const char* in_begin, const char* in_end, const char*& out_begin, const char*& out_end, PaletteIndex& paletteIndex) -> bool
 		{

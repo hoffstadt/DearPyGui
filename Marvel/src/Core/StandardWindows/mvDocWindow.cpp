@@ -12,7 +12,6 @@ namespace Marvel {
 	{
 		m_commands = mvInterfaceRegistry::GetRegistry()->getAllCommands();
 		m_marvel = mvInterfaceRegistry::GetRegistry()->getPythonInterfaceCommands("marvel");
-		m_marvelConstants = mvInterfaceRegistry::GetRegistry()->getConstantsCommands();
 		m_docMarvel = mvInterfaceRegistry::GetRegistry()->getPythonInterfaceDoc("marvel");
 
 		for (int i = 0; i<m_marvel.size(); i++)
@@ -598,13 +597,6 @@ namespace Marvel {
 					static int selection = 0;
 					if (ImGui::ListBox("Commands", &selection, m_windows.data(), m_windows.size(), 30))
 						m_doc = m_docWindows[selection];
-				}
-
-				else if (categorySelection == 11)
-				{
-					static int selection = 0;
-					if (ImGui::ListBox("Commands", &selection, m_marvelConstants.data(), m_marvelConstants.size(), 30))
-						m_doc = "A constant.";
 				}
 
 				ImGui::EndGroup();

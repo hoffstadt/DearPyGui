@@ -1500,6 +1500,9 @@ namespace Marvel {
 
 	void AddAppCommands(std::map<std::string, mvPythonParser>* parsers)
 	{
+		parsers->insert({ "start_marvel", mvPythonParser({
+		}, "Starts marvel") });
+
 		parsers->insert({ "set_global_font_scale", mvPythonParser({
 			{mvPythonDataType::Float, "scale", "default is 1.0"}
 		}, "Changes the global font scale.") });

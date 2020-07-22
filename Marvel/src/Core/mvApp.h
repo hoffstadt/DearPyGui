@@ -24,7 +24,6 @@
 #include "Core/AppItems/mvAppItem.h"
 #include "mvAppStyle.h"
 #include "mvTextEditor.h"
-#include "mvModuleInitializer.h"
 #include "Core/StandardWindows/mvStandardWindow.h"
 #include "Core/mvThreadPool.h"
 

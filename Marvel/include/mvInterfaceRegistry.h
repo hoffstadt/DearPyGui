@@ -21,10 +21,10 @@ namespace Marvel {
 	//-----------------------------------------------------------------------------
 	class mvPythonModule;
 	class mvPythonParser;
-	std::vector<std::pair<std::string, long>> BuildConstantsInterface();
+	//std::vector<std::pair<std::string, long>> BuildConstantsInterface();
 	std::map<std::string, mvPythonParser>&    BuildMarvelInterface();
-	mvPythonModule* CreateMarvelInterface();
-	mvPythonModule* CreateConstantsInterface();
+	//mvPythonModule* CreateMarvelInterface();
+	//mvPythonModule* CreateConstantsInterface();
 
 	//-----------------------------------------------------------------------------
 	// Typedefs
@@ -44,14 +44,10 @@ namespace Marvel {
 
 		void generateStubFile(const std::string& file);
 
-		std::vector<std::pair<std::string, long>>& getConstants              ();
-		std::vector<long>                          getConstantsValue         ();
-		std::vector<const char*>                   getConstantsCommands      ();
 		std::map<std::string, mvPythonParser>&     getPythonInterface        (const std::string& name);
 		std::vector<const char*>                   getPythonInterfaceCommands(const std::string& name);
 		std::vector<const char*>                   getPythonInterfaceDoc     (const std::string& name);
 		void                                       addModule                 (const char* name, pyInitFunc initfunc, pyDocFunc docfunc = nullptr);
-		pyInitFunc                                 getInitFunc               (int i);
 		
 		std::vector<std::pair<std::string, std::string>> getAllCommands();
 
@@ -63,8 +59,6 @@ namespace Marvel {
 
 		static mvInterfaceRegistry*                                      s_instance;
 		std::map<std::string, std::map<std::string, mvPythonParser>>     m_parsers;
-		std::vector<std::pair<std::string, long>>                        m_constants;
-		std::vector<pyInitFunc>                                          m_modules;
 	};
 
 

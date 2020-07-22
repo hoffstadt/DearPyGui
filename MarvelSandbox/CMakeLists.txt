@@ -2,11 +2,14 @@
 
 add_executable (MarvelSandbox)
 
+set_property(TARGET MarvelSandbox PROPERTY CXX_STANDARD 17)
+
 target_sources(MarvelSandbox
 
 	PRIVATE
 
 		"main.cpp"
+        "../Marvel/MarvelApplication.cpp"
 )
 
 target_include_directories(MarvelSandbox
@@ -17,11 +20,19 @@ target_include_directories(MarvelSandbox
 
 )
 
+target_link_directories(MarvelSandbox
+
+	PRIVATE
+
+		"../cmake-build-release/Marvel/"
+
+)
+
 target_link_libraries(MarvelSandbox
 
 	PRIVATE
 
-		Marvel
+		marvel
 
 )
 
@@ -41,4 +52,6 @@ add_custom_command(TARGET MarvelSandbox PRE_BUILD
                    COMMAND ${CMAKE_COMMAND} -E copy_if_different
                        ${CMAKE_SOURCE_DIR}/Output/python/Debug/python38$<$<CONFIG:Debug>:_d>.dll $<TARGET_FILE_DIR:MarvelSandbox>)
 
-
+add_custom_command(TARGET MarvelSandbox PRE_BUILD
+                   COMMAND ${CMAKE_COMMAND} -E copy_if_different
+                       ${CMAKE_SOURCE_DIR}/cmake-build-release/Marvel/marvel.pyd $<TARGET_FILE_DIR:MarvelSandbox>/Dependencies)

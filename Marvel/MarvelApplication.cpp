@@ -1,7 +1,6 @@
 #include "include/MarvelApplication.h"
 #include "mvPythonModule.h"
 #include "Core/PythonInterfaces/mvStdOutput.h"
-#include "include/mvModuleInitializer.h"
 #include "Core/mvWindow.h"
 #include "Core/StandardWindows/mvAppEditor.h"
 #include "Platform/Windows/mvWindowsWindow.h"
@@ -12,7 +11,6 @@
 #include <iostream>
 #include "Core/StandardWindows/mvSourceWindow.h"
 #include <nlohmann/json.hpp>
-
 #include <filesystem>
 
 namespace fs = std::filesystem;

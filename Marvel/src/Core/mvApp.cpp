@@ -71,6 +71,17 @@ namespace Marvel {
 
 	mvApp::mvApp()
 	{
+		// info
+		mvAppLog::getLogger()->AddLog("[Sandbox Version] %0s\n", mvApp::GetVersion());
+		mvAppLog::getLogger()->AddLog("[Python Version] %0s\n", PY_VERSION);
+		mvAppLog::getLogger()->AddLog("[ImGui Version] %0s\n", IMGUI_VERSION);
+		mvAppLog::getLogger()->AddLog("[Compiler] MSVC version %0d\n", _MSC_VER);
+
+		// returns the dictionary object representing the module namespace
+		PyObject* pDict = PyModule_GetDict(PyImport_AddModule("__main__")); // borrowed reference
+		setMainThreadID(std::this_thread::get_id());
+		setModuleDict(pDict);
+
 		m_style = getAppDefaultStyle();
 		m_windows.push_back(new mvWindowAppitem("", "MainWindow", 1280, 800, 0, 0, true, false, true, false, false));
 		m_parents.push(m_windows.back());
@@ -350,6 +361,9 @@ namespace Marvel {
 
 	void mvApp::postrender()
 	{
+
+		Py_BEGIN_ALLOW_THREADS
+
 		// delete items from the delete queue
 		while (!m_deleteChildrenQueue.empty())
 		{
@@ -516,6 +530,8 @@ namespace Marvel {
 		// update timer if thread pool exists
 		if(m_tpool != nullptr)
 			m_threadTime = std::chrono::duration_cast<second_>(clock_::now() - m_poolStart).count();
+
+		Py_END_ALLOW_THREADS
 	}
 
 	void mvApp::pushParent(mvAppItem* item)
@@ -625,7 +641,7 @@ namespace Marvel {
 		if (name.empty())
 			return;
 
-		PyGILState_STATE gstate = PyGILState_Ensure();
+		mvGlobalIntepreterLock gil;
 
 		PyObject* pHandler = PyDict_GetItemString(m_pDict, name.c_str()); // borrowed reference
 
@@ -634,7 +650,7 @@ namespace Marvel {
 		{
 			std::string message(" Callback doesn't exist");
 			mvAppLog::getLogger()->LogWarning(name + message);
-			PyGILState_Release(gstate);
+			
 			return;
 		}
 
@@ -679,7 +695,6 @@ namespace Marvel {
 			mvAppLog::getLogger()->LogError(name + message);
 		}
 
-		PyGILState_Release(gstate);
 	}
 
 	void mvApp::runCallback(const std::string& name, const std::string& sender, PyObject* data)
@@ -687,7 +702,7 @@ namespace Marvel {
 		if (name.empty())
 			return;
 
-		PyGILState_STATE gstate = PyGILState_Ensure();
+		//mvGlobalIntepreterLock gil;
 
 		PyObject* pHandler = PyDict_GetItemString(m_pDict, name.c_str()); // borrowed reference
 
@@ -696,7 +711,6 @@ namespace Marvel {
 		{
 			std::string message(" Callback doesn't exist");
 			mvAppLog::getLogger()->LogWarning(name + message);
-			PyGILState_Release(gstate);
 			return;
 		}
 
@@ -735,7 +749,7 @@ namespace Marvel {
 			mvAppLog::getLogger()->LogError(name + message);
 		}
 
-		PyGILState_Release(gstate);
+		
 	}
 
 	void mvApp::setAppTheme(const std::string& theme)
