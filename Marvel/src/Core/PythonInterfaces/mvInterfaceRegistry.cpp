@@ -41,23 +41,11 @@ namespace Marvel {
 
 		}
 		stub.close();
-
-		std::ofstream stub2;
-		stub2.open(file + "/marvel_constants.pyi");
-		stub2 << "\n";
-		for (auto& item : m_constants)
-			stub2 << item.first << " = " << item.second << "\n";
-		stub2.close();
 	}
 
 	std::map<std::string, mvPythonParser>& mvInterfaceRegistry::getPythonInterface(const std::string& name)
 	{ 
 		return m_parsers[name];
-	}
-
-	std::vector<std::pair<std::string, long>>& mvInterfaceRegistry::getConstants()
-	{ 
-		return m_constants; 
 	}
 
 	mvInterfaceRegistry* mvInterfaceRegistry::GetRegistry()
@@ -66,16 +54,12 @@ namespace Marvel {
 			return s_instance;
 
 		s_instance = new mvInterfaceRegistry();
-
-		auto initializer = mvModuleInitializer::getInitializer();
-		int startindex = initializer->initializeCoreModules();
-		initializer->initializeUserModules(startindex);
 		return s_instance;
 	}
 
 	mvInterfaceRegistry::mvInterfaceRegistry()
 	{
-		m_constants = BuildConstantsInterface();
+		m_parsers["marvel"] = BuildMarvelInterface();
 	}
 
 	std::vector<std::pair<std::string, std::string>> mvInterfaceRegistry::getAllCommands()
@@ -96,12 +80,7 @@ namespace Marvel {
 	{
 		if(docfunc)
 			m_parsers[name] = docfunc();
-		m_modules.push_back(initfunc);
-	}
-
-	pyInitFunc mvInterfaceRegistry::getInitFunc(int i)
-	{
-		return m_modules[i];
+		//m_modules.push_back(initfunc);
 	}
 
 	std::vector<const char*> mvInterfaceRegistry::getPythonInterfaceCommands(const std::string& name)
@@ -126,26 +105,6 @@ namespace Marvel {
 			docvec.emplace_back(item.second.getDocumentation());
 
 		return docvec;
-	}
-
-	std::vector<const char*> mvInterfaceRegistry::getConstantsCommands()
-	{
-		std::vector<const char*> commandvec;
-
-		for (const auto& item : m_constants)
-			commandvec.emplace_back(item.first.c_str());
-
-		return commandvec;
-	}
-
-	std::vector<long> mvInterfaceRegistry::getConstantsValue()
-	{
-		std::vector<long> commandvec;
-
-		for (const auto& item : m_constants)
-			commandvec.push_back(item.second);
-
-		return commandvec;
 	}
 
 }

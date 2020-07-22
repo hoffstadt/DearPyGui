@@ -1,10 +1,11 @@
 ﻿cmake_minimum_required (VERSION 3.16)
 
-add_library(Marvel STATIC)
+add_library(marvel SHARED)
+set_target_properties(marvel PROPERTIES SUFFIX ".pyd")
 
-set_property(TARGET Marvel PROPERTY CXX_STANDARD 17)
+set_property(TARGET marvel PROPERTY CXX_STANDARD 17)
 
-target_sources(Marvel
+target_sources(marvel
 
 	PRIVATE
 
@@ -34,8 +35,7 @@ target_sources(Marvel
 		"src/Core/PythonInterfaces/mvPythonModule.cpp"
 		"src/Core/PythonInterfaces/mvMarvel.cpp"
 		"src/Core/PythonInterfaces/mvInterfaceRegistry.cpp"
-		"src/Core/PythonInterfaces/mvMarvelConstants.cpp"
-		"src/Core/PythonInterfaces/mvModuleInitializer.cpp"
+		#"src/Core/PythonInterfaces/mvMarvelConstants.cpp"
 
 		"src/Platform/Windows/mvWindowsWindow.cpp"
 		"src/Platform/Windows/mvUtilities.cpp"
@@ -53,7 +53,7 @@ target_sources(Marvel
 		"../Dependencies/imgui/examples/imgui_impl_win32.cpp"
 		"../Dependencies/imgui/examples/imgui_impl_dx11.cpp")
 
-target_include_directories(Marvel
+target_include_directories(marvel
 
 	PUBLIC
 
@@ -68,13 +68,13 @@ target_include_directories(Marvel
 		"src/Vendor/CLIUtils/"
 )
 
-target_link_directories(Marvel
+target_link_directories(marvel
 
 	PUBLIC
 		"../Dependencies/cpython/PCbuild/amd64/"
 )
 
-target_link_libraries(Marvel
+target_link_libraries(marvel
 
 	PUBLIC
 
@@ -84,9 +84,10 @@ target_link_libraries(Marvel
 		$<$<CONFIG:Release>:python3>
 )
 
-target_compile_definitions(Marvel
+target_compile_definitions(marvel
 
 	PUBLIC
 
 		$<$<CONFIG:Release>:MV_RELEASE>
 )
+

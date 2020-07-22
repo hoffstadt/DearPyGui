@@ -10,6 +10,6 @@ add_definitions(-DMV_SANDBOX_VERSION="0.1 alpha 12")
 
 # Include sub-projects.
 add_subdirectory ("ImguiTesting")
-add_subdirectory ("Marvel")
+add_subdirectory ("marvel")
 add_subdirectory ("MarvelSandbox")
 add_subdirectory ("Dependencies/json")

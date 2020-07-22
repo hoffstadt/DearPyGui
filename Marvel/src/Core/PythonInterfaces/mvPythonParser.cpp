@@ -1,5 +1,6 @@
 #include "mvPythonParser.h"
 #include "Core/mvApp.h"
+#include "mvPythonTranslator.h"
 #include "Core/StandardWindows/mvAppLog.h"
 
 namespace Marvel {

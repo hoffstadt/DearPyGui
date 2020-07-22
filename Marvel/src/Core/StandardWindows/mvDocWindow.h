@@ -24,7 +24,7 @@ namespace Marvel {
 		int categorySelection = 0;
 		const char* m_doc = "None";
 
-		const char* m_categories[12] = {
+		const char* m_categories[11] = {
 			"App",
 			"Logging",
 			"Adding Widgets",
@@ -35,12 +35,10 @@ namespace Marvel {
 			"Tables",
 			"Themes and Styles",
 			"Input Polling",
-			"Standard Windows",
-			"marvel_constants",
+			"Standard Windows"
 		};
 
 		std::vector<const char*> m_marvel;
-		std::vector<const char*> m_marvelConstants;
 		std::vector<const char*> m_docMarvel;
 		std::vector<const char*> m_docMarvelConstants;
 

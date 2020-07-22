@@ -7,6 +7,12 @@
 #include "mvPythonTranslator.h"
 #include "Core/AppItems/mvAppItems.h"
 #include "mvInterfaceRegistry.h"
+#include "Platform/Windows/mvWindowsWindow.h"
+
+//-----------------------------------------------------------------------------
+// Helper Macro
+//-----------------------------------------------------------------------------
+#define ADD_PYTHON_FUNCTION(Function) { #Function, (PyCFunction)Function, METH_VARARGS | METH_KEYWORDS, Parsers[#Function].getDocumentation() },
 
 namespace Marvel {
 
@@ -64,6 +70,23 @@ namespace Marvel {
 		AddContainterWidgets(parsers);
 		AddAppCommands(parsers);
 		return *parsers;
+	}
+
+	PyObject* start_marvel(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+
+		mvApp::GetApp()->precheck();
+		mvApp::SetAppStarted();
+		PyEval_InitThreads();
+
+		// create window
+		mvWindow* window = new mvWindowsWindow(mvApp::GetApp()->getActualWidth(), mvApp::GetApp()->getActualHeight());
+		window->show();
+		window->run();
+		delete window;
+		delete mvApp::GetApp();
+
+		return mvPythonTranslator::GetPyNone();
 	}
 
 	PyObject* generate_stub_file(PyObject* self, PyObject* args, PyObject* kwargs)
@@ -2298,7 +2321,7 @@ namespace Marvel {
 	PyObject* add_button(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		const char* name;
-		int small = false;
+		int smallb = false;
 		int arrow = false;
 		int direction = -1;
 		const char* callback = "";
@@ -2308,11 +2331,11 @@ namespace Marvel {
 		const char* before = ""; 
 		const char* parent = ""; 
 
-		if (!Parsers["add_button"].parse(args, kwargs,__FUNCTION__, &name, &small,
+		if (!Parsers["add_button"].parse(args, kwargs,__FUNCTION__, &name, &smallb,
 			&arrow, &direction, &callback, &tip, &parent, &before, &width, &height))
 			return mvPythonTranslator::GetPyNone();
 
-		mvAppItem* item = new mvButton("", name, small, arrow, direction);
+		mvAppItem* item = new mvButton("", name, smallb, arrow, direction);
 		item->setCallback(callback); 
 		item->setTip(tip); 
 		item->setWidth(width); 
@@ -3395,7 +3418,6 @@ namespace Marvel {
 		const char* before = "";
 		const char* parent = "";
 		const char* data_source = "";
-
 
 		if (!Parsers["add_checkbox"].parse(args, kwargs,__FUNCTION__, &name, 
 			&default_value, &callback, &tip, &parent, &before, &data_source))
@@ -4546,230 +4568,243 @@ namespace Marvel {
 		return mvPythonTranslator::GetPyNone();
 	}
 
-	mvPythonModule* CreateMarvelInterface()
+	static PyMethodDef marvelmethods[]
 	{
+		ADD_PYTHON_FUNCTION(start_marvel)
+		ADD_PYTHON_FUNCTION(clear_table)
+		ADD_PYTHON_FUNCTION(generate_stub_file)
+		ADD_PYTHON_FUNCTION(get_window_pos)
+		ADD_PYTHON_FUNCTION(set_window_pos)
+		ADD_PYTHON_FUNCTION(get_global_font_scale)
+		ADD_PYTHON_FUNCTION(set_global_font_scale)
+		ADD_PYTHON_FUNCTION(select_directory_dialog)
+		ADD_PYTHON_FUNCTION(run_file)
+		ADD_PYTHON_FUNCTION(add_table)
+		ADD_PYTHON_FUNCTION(end_tree_node)
+		ADD_PYTHON_FUNCTION(end_popup)
+		ADD_PYTHON_FUNCTION(end_window)
+		ADD_PYTHON_FUNCTION(end_group)
+		ADD_PYTHON_FUNCTION(end_child)
+		ADD_PYTHON_FUNCTION(end_tab)
+		ADD_PYTHON_FUNCTION(end_tab_bar)
+		ADD_PYTHON_FUNCTION(end_menu)
+		ADD_PYTHON_FUNCTION(end_menu_bar)
+		ADD_PYTHON_FUNCTION(end_tooltip)
+		ADD_PYTHON_FUNCTION(end_collapsing_header)
+		ADD_PYTHON_FUNCTION(add_image)
+		ADD_PYTHON_FUNCTION(add_progress_bar)
+		ADD_PYTHON_FUNCTION(add_drag_float)
+		ADD_PYTHON_FUNCTION(add_drag_int)
+		ADD_PYTHON_FUNCTION(add_drag_float2)
+		ADD_PYTHON_FUNCTION(add_drag_float3)
+		ADD_PYTHON_FUNCTION(add_drag_float4)
+		ADD_PYTHON_FUNCTION(add_drag_int2)
+		ADD_PYTHON_FUNCTION(add_drag_int3)
+		ADD_PYTHON_FUNCTION(add_drag_int4)
+		ADD_PYTHON_FUNCTION(add_slider_float)
+		ADD_PYTHON_FUNCTION(add_slider_int)
+		ADD_PYTHON_FUNCTION(add_slider_float2)
+		ADD_PYTHON_FUNCTION(add_slider_float3)
+		ADD_PYTHON_FUNCTION(add_slider_float4)
+		ADD_PYTHON_FUNCTION(add_slider_int2)
+		ADD_PYTHON_FUNCTION(add_slider_int3)
+		ADD_PYTHON_FUNCTION(add_slider_int4)
+		ADD_PYTHON_FUNCTION(add_tree_node)
+		ADD_PYTHON_FUNCTION(add_selectable)
+		ADD_PYTHON_FUNCTION(add_popup)
+		ADD_PYTHON_FUNCTION(add_window)
+		ADD_PYTHON_FUNCTION(add_indent)
+		ADD_PYTHON_FUNCTION(unindent)
+		ADD_PYTHON_FUNCTION(add_simple_plot)
+		ADD_PYTHON_FUNCTION(add_combo)
+		ADD_PYTHON_FUNCTION(add_text)
+		ADD_PYTHON_FUNCTION(add_label_text)
+		ADD_PYTHON_FUNCTION(add_listbox)
+		ADD_PYTHON_FUNCTION(add_color_edit3)
+		ADD_PYTHON_FUNCTION(add_color_edit4)
+		ADD_PYTHON_FUNCTION(add_color_picker3)
+		ADD_PYTHON_FUNCTION(add_color_picker4)
+		ADD_PYTHON_FUNCTION(add_seperator)
+		ADD_PYTHON_FUNCTION(add_button)
+		ADD_PYTHON_FUNCTION(add_input_text)
+		ADD_PYTHON_FUNCTION(add_input_int)
+		ADD_PYTHON_FUNCTION(add_input_int2)
+		ADD_PYTHON_FUNCTION(add_input_int3)
+		ADD_PYTHON_FUNCTION(add_input_int4)
+		ADD_PYTHON_FUNCTION(add_input_float)
+		ADD_PYTHON_FUNCTION(add_input_float2)
+		ADD_PYTHON_FUNCTION(add_input_float3)
+		ADD_PYTHON_FUNCTION(add_input_float4)
+		ADD_PYTHON_FUNCTION(add_radio_button)
+		ADD_PYTHON_FUNCTION(add_checkbox)
+		ADD_PYTHON_FUNCTION(add_group)
+		ADD_PYTHON_FUNCTION(add_child)
+		ADD_PYTHON_FUNCTION(add_tab_bar)
+		ADD_PYTHON_FUNCTION(add_tab)
+		ADD_PYTHON_FUNCTION(add_menu_bar)
+		ADD_PYTHON_FUNCTION(add_menu)
+		ADD_PYTHON_FUNCTION(add_menu_item)
+		ADD_PYTHON_FUNCTION(add_spacing)
+		ADD_PYTHON_FUNCTION(add_same_line)
+		ADD_PYTHON_FUNCTION(add_tooltip)
+		ADD_PYTHON_FUNCTION(add_collapsing_header)
+		ADD_PYTHON_FUNCTION(draw_arrow)
+		ADD_PYTHON_FUNCTION(get_drawing_origin)
+		ADD_PYTHON_FUNCTION(get_drawing_scale)
+		ADD_PYTHON_FUNCTION(set_drawing_origin)
+		ADD_PYTHON_FUNCTION(set_drawing_scale)
+		ADD_PYTHON_FUNCTION(get_drawing_size)
+		ADD_PYTHON_FUNCTION(set_drawing_size)
+		ADD_PYTHON_FUNCTION(add_drawing)
+		ADD_PYTHON_FUNCTION(draw_image)
+		ADD_PYTHON_FUNCTION(draw_line)
+		ADD_PYTHON_FUNCTION(draw_triangle)
+		ADD_PYTHON_FUNCTION(draw_rectangle)
+		ADD_PYTHON_FUNCTION(draw_quad)
+		ADD_PYTHON_FUNCTION(draw_text)
+		ADD_PYTHON_FUNCTION(draw_circle)
+		ADD_PYTHON_FUNCTION(draw_polyline)
+		ADD_PYTHON_FUNCTION(draw_polygon)
+		ADD_PYTHON_FUNCTION(draw_bezier_curve)
+		ADD_PYTHON_FUNCTION(clear_drawing)
+		ADD_PYTHON_FUNCTION(add_column)
+		ADD_PYTHON_FUNCTION(insert_column)
+		ADD_PYTHON_FUNCTION(delete_column)
+		ADD_PYTHON_FUNCTION(add_row)
+		ADD_PYTHON_FUNCTION(insert_row)
+		ADD_PYTHON_FUNCTION(delete_row)
+		ADD_PYTHON_FUNCTION(get_table_item)
+		ADD_PYTHON_FUNCTION(set_table_item)
+		ADD_PYTHON_FUNCTION(set_table_selection)
+		ADD_PYTHON_FUNCTION(get_table_selections)
+		ADD_PYTHON_FUNCTION(get_delta_time)
+		ADD_PYTHON_FUNCTION(get_total_time)
+		ADD_PYTHON_FUNCTION(get_data)
+		ADD_PYTHON_FUNCTION(delete_data)
+		ADD_PYTHON_FUNCTION(add_data)
+		ADD_PYTHON_FUNCTION(run_async_function)
+		ADD_PYTHON_FUNCTION(save_file_dialog)
+		ADD_PYTHON_FUNCTION(open_file_dialog)
+		ADD_PYTHON_FUNCTION(delete_item)
+		ADD_PYTHON_FUNCTION(move_item_down)
+		ADD_PYTHON_FUNCTION(move_item_up)
+		ADD_PYTHON_FUNCTION(get_style_item)
+		ADD_PYTHON_FUNCTION(get_theme_item)
+		ADD_PYTHON_FUNCTION(get_item_callback)
+		ADD_PYTHON_FUNCTION(get_item_width)
+		ADD_PYTHON_FUNCTION(get_item_height)
+		ADD_PYTHON_FUNCTION(get_item_popup)
+		ADD_PYTHON_FUNCTION(get_item_tip)
+		ADD_PYTHON_FUNCTION(get_main_window_size)
+		ADD_PYTHON_FUNCTION(get_theme)
+		ADD_PYTHON_FUNCTION(get_thread_count)
+		ADD_PYTHON_FUNCTION(is_threadpool_high_performance)
+		ADD_PYTHON_FUNCTION(get_threadpool_timeout)
+		ADD_PYTHON_FUNCTION(get_active_window)
+		ADD_PYTHON_FUNCTION(get_marvel_version)
+		ADD_PYTHON_FUNCTION(show_source)
+		ADD_PYTHON_FUNCTION(show_about)
+		ADD_PYTHON_FUNCTION(show_debug)
+		ADD_PYTHON_FUNCTION(show_metrics)
+		ADD_PYTHON_FUNCTION(close_popup)
+		ADD_PYTHON_FUNCTION(show_documentation)
+		ADD_PYTHON_FUNCTION(set_threadpool_timeout)
+		ADD_PYTHON_FUNCTION(set_thread_count)
+		ADD_PYTHON_FUNCTION(set_threadpool_high_performance)
+		ADD_PYTHON_FUNCTION(set_main_window_size)
+		ADD_PYTHON_FUNCTION(add_item_color_style)
+		ADD_PYTHON_FUNCTION(set_item_popup)
+		ADD_PYTHON_FUNCTION(is_item_hovered)
+		ADD_PYTHON_FUNCTION(is_item_active)
+		ADD_PYTHON_FUNCTION(is_item_focused)
+		ADD_PYTHON_FUNCTION(is_item_clicked)
+		ADD_PYTHON_FUNCTION(is_item_visible)
+		ADD_PYTHON_FUNCTION(is_item_edited)
+		ADD_PYTHON_FUNCTION(is_item_activated)
+		ADD_PYTHON_FUNCTION(is_item_deactivated)
+		ADD_PYTHON_FUNCTION(is_item_deactivated_after_edit)
+		ADD_PYTHON_FUNCTION(is_item_toggled_open)
+		ADD_PYTHON_FUNCTION(get_item_rect_min)
+		ADD_PYTHON_FUNCTION(get_item_rect_max)
+		ADD_PYTHON_FUNCTION(get_item_rect_size)
+		ADD_PYTHON_FUNCTION(change_style_item)
+		ADD_PYTHON_FUNCTION(show_item)
+		ADD_PYTHON_FUNCTION(hide_item)
+		ADD_PYTHON_FUNCTION(change_theme_item)
+		ADD_PYTHON_FUNCTION(set_theme)
+		ADD_PYTHON_FUNCTION(set_render_callback)
+		ADD_PYTHON_FUNCTION(set_item_callback)
+		ADD_PYTHON_FUNCTION(set_item_tip)
+		ADD_PYTHON_FUNCTION(set_item_width)
+		ADD_PYTHON_FUNCTION(set_item_height)
+		ADD_PYTHON_FUNCTION(get_value)
+		ADD_PYTHON_FUNCTION(set_value)
+		ADD_PYTHON_FUNCTION(set_mouse_drag_callback)
+		ADD_PYTHON_FUNCTION(is_mouse_button_dragging)
+		ADD_PYTHON_FUNCTION(is_mouse_button_down)
+		ADD_PYTHON_FUNCTION(is_mouse_button_clicked)
+		ADD_PYTHON_FUNCTION(is_mouse_button_double_clicked)
+		ADD_PYTHON_FUNCTION(is_mouse_button_released)
+		ADD_PYTHON_FUNCTION(get_mouse_drag_delta)
+		ADD_PYTHON_FUNCTION(set_mouse_wheel_callback)
+		ADD_PYTHON_FUNCTION(get_mouse_pos)
+		ADD_PYTHON_FUNCTION(is_key_pressed)
+		ADD_PYTHON_FUNCTION(is_key_released)
+		ADD_PYTHON_FUNCTION(is_key_down)
+		ADD_PYTHON_FUNCTION(set_mouse_click_callback)
+		ADD_PYTHON_FUNCTION(set_mouse_down_callback)
+		ADD_PYTHON_FUNCTION(set_mouse_double_click_callback)
+		ADD_PYTHON_FUNCTION(set_key_down_callback)
+		ADD_PYTHON_FUNCTION(set_key_press_callback)
+		ADD_PYTHON_FUNCTION(set_key_release_callback)
+		ADD_PYTHON_FUNCTION(set_resize_callback)
+		ADD_PYTHON_FUNCTION(get_log_level)
+		ADD_PYTHON_FUNCTION(clear_log)
+		ADD_PYTHON_FUNCTION(show_logger)
+		ADD_PYTHON_FUNCTION(set_log_level)
+		ADD_PYTHON_FUNCTION(log)
+		ADD_PYTHON_FUNCTION(log_debug)
+		ADD_PYTHON_FUNCTION(log_info)
+		ADD_PYTHON_FUNCTION(log_warning)
+		ADD_PYTHON_FUNCTION(log_error)
+		ADD_PYTHON_FUNCTION(is_plot_queried)
+		ADD_PYTHON_FUNCTION(get_plot_query_area)
+		ADD_PYTHON_FUNCTION(clear_plot)
+		ADD_PYTHON_FUNCTION(set_plot_xlimits_auto)
+		ADD_PYTHON_FUNCTION(set_plot_ylimits_auto)
+		ADD_PYTHON_FUNCTION(set_plot_xlimits)
+		ADD_PYTHON_FUNCTION(set_plot_ylimits)
+		ADD_PYTHON_FUNCTION(set_color_map)
+		ADD_PYTHON_FUNCTION(add_plot)
+		ADD_PYTHON_FUNCTION(add_line_series)
+		ADD_PYTHON_FUNCTION(add_scatter_series)
+		ADD_PYTHON_FUNCTION(add_text_point)
+		{NULL, NULL, 0, NULL}
+	};
 
-		auto pyModule = new mvPythonModule("marvel", {});
+	static PyModuleDef marvelModule = {
+		PyModuleDef_HEAD_INIT, "marvel", NULL, -1, marvelmethods,
+		NULL, NULL, NULL, NULL
+	};
 
-		pyModule->addMethodD(clear_table);
-		pyModule->addMethodD(generate_stub_file);
-		pyModule->addMethodD(get_window_pos);
-		pyModule->addMethodD(set_window_pos);
-		pyModule->addMethodD(get_global_font_scale);
-		pyModule->addMethodD(set_global_font_scale);
-		pyModule->addMethodD(select_directory_dialog);
-		pyModule->addMethodD(run_file);
-		pyModule->addMethodD(add_table);
-		pyModule->addMethodD(end_tree_node);
-		pyModule->addMethodD(end_popup);
-		pyModule->addMethodD(end_window);
-		pyModule->addMethodD(end_group);
-		pyModule->addMethodD(end_child);
-		pyModule->addMethodD(end_tab);
-		pyModule->addMethodD(end_tab_bar);
-		pyModule->addMethodD(end_menu);
-		pyModule->addMethodD(end_menu_bar);
-		pyModule->addMethodD(end_tooltip);
-		pyModule->addMethodD(end_collapsing_header);
-		pyModule->addMethodD(add_image);
-		pyModule->addMethodD(add_progress_bar);
-		pyModule->addMethodD(add_drag_float);
-		pyModule->addMethodD(add_drag_int);
-		pyModule->addMethodD(add_drag_float2);
-		pyModule->addMethodD(add_drag_float3);
-		pyModule->addMethodD(add_drag_float4);
-		pyModule->addMethodD(add_drag_int2);
-		pyModule->addMethodD(add_drag_int3);
-		pyModule->addMethodD(add_drag_int4);
-		pyModule->addMethodD(add_slider_float);
-		pyModule->addMethodD(add_slider_int);
-		pyModule->addMethodD(add_slider_float2);
-		pyModule->addMethodD(add_slider_float3);
-		pyModule->addMethodD(add_slider_float4);
-		pyModule->addMethodD(add_slider_int2);
-		pyModule->addMethodD(add_slider_int3);
-		pyModule->addMethodD(add_slider_int4);
-		pyModule->addMethodD(add_tree_node);
-		pyModule->addMethodD(add_selectable);
-		pyModule->addMethodD(add_popup);
-		pyModule->addMethodD(add_window);
-		pyModule->addMethodD(add_indent);
-		pyModule->addMethodD(unindent);
-		pyModule->addMethodD(add_simple_plot);
-		pyModule->addMethodD(add_combo);
-		pyModule->addMethodD(add_text);
-		pyModule->addMethodD(add_label_text);
-		pyModule->addMethodD(add_listbox);
-		pyModule->addMethodD(add_color_edit3);
-		pyModule->addMethodD(add_color_edit4);
-		pyModule->addMethodD(add_color_picker3);
-		pyModule->addMethodD(add_color_picker4);
-		pyModule->addMethodD(add_seperator);
-		pyModule->addMethodD(add_button);
-		pyModule->addMethodD(add_input_text);
-		pyModule->addMethodD(add_input_int);
-		pyModule->addMethodD(add_input_int2);
-		pyModule->addMethodD(add_input_int3);
-		pyModule->addMethodD(add_input_int4);
-		pyModule->addMethodD(add_input_float);
-		pyModule->addMethodD(add_input_float2);
-		pyModule->addMethodD(add_input_float3);
-		pyModule->addMethodD(add_input_float4);
-		pyModule->addMethodD(add_radio_button);
-		pyModule->addMethodD(add_checkbox);
-		pyModule->addMethodD(add_group);
-		pyModule->addMethodD(add_child);
-		pyModule->addMethodD(add_tab_bar);
-		pyModule->addMethodD(add_tab);
-		pyModule->addMethodD(add_menu_bar);
-		pyModule->addMethodD(add_menu);
-		pyModule->addMethodD(add_menu_item);
-		pyModule->addMethodD(add_spacing);
-		pyModule->addMethodD(add_same_line);
-		pyModule->addMethodD(add_tooltip);
-		pyModule->addMethodD(add_collapsing_header);
+	PyMODINIT_FUNC PyInit_marvel(void)
+	{
+		PyObject* m;
 
-		// drawing commands
-		pyModule->addMethodD(draw_arrow);
-		pyModule->addMethodD(get_drawing_origin);
-		pyModule->addMethodD(get_drawing_scale);
-		pyModule->addMethodD(set_drawing_origin);
-		pyModule->addMethodD(set_drawing_scale);
-		pyModule->addMethodD(get_drawing_size);
-		pyModule->addMethodD(set_drawing_size);
-		pyModule->addMethodD(add_drawing);
-		pyModule->addMethodD(draw_image);
-		pyModule->addMethodD(draw_line);
-		pyModule->addMethodD(draw_triangle);
-		pyModule->addMethodD(draw_rectangle);
-		pyModule->addMethodD(draw_quad);
-		pyModule->addMethodD(draw_text);
-		pyModule->addMethodD(draw_circle);
-		pyModule->addMethodD(draw_polyline);
-		pyModule->addMethodD(draw_polygon);
-		pyModule->addMethodD(draw_bezier_curve);
-		pyModule->addMethodD(clear_drawing);
+		m = PyModule_Create(&marvelModule);
+		if (m == NULL)
+			return NULL;
 
-		// old app
-		pyModule->addMethodD(add_column);
-		pyModule->addMethodD(insert_column);
-		pyModule->addMethodD(delete_column);
-		pyModule->addMethodD(add_row);
-		pyModule->addMethodD(insert_row);
-		pyModule->addMethodD(delete_row);
-		pyModule->addMethodD(get_table_item);
-		pyModule->addMethodD(set_table_item);
-		pyModule->addMethodD(set_table_selection);
-		pyModule->addMethodD(get_table_selections);
-		pyModule->addMethodD(get_delta_time);
-		pyModule->addMethodD(get_total_time);
-		pyModule->addMethodD(get_data);
-		pyModule->addMethodD(delete_data);
-		pyModule->addMethodD(add_data);
-		pyModule->addMethodD(run_async_function);
-		pyModule->addMethodD(save_file_dialog);
-		pyModule->addMethodD(open_file_dialog);
-		pyModule->addMethodD(delete_item);
-		pyModule->addMethodD(move_item_down);
-		pyModule->addMethodD(move_item_up);
-		pyModule->addMethodD(get_style_item);
-		pyModule->addMethodD(get_theme_item);
-		pyModule->addMethodD(get_item_callback);
-		pyModule->addMethodD(get_item_width);
-		pyModule->addMethodD(get_item_height);
-		pyModule->addMethodD(get_item_popup);
-		pyModule->addMethodD(get_item_tip);
-		pyModule->addMethodD(get_main_window_size);
-		pyModule->addMethodD(get_theme);
-		pyModule->addMethodD(get_thread_count);
-		pyModule->addMethodD(is_threadpool_high_performance);
-		pyModule->addMethodD(get_threadpool_timeout);
-		pyModule->addMethodD(get_active_window);
-		pyModule->addMethodD(get_marvel_version);
-		pyModule->addMethodD(show_source);
-		pyModule->addMethodD(show_about);
-		pyModule->addMethodD(show_debug);
-		pyModule->addMethodD(show_metrics);
-		pyModule->addMethodD(close_popup);
-		pyModule->addMethodD(show_documentation);
-		pyModule->addMethodD(set_threadpool_timeout);
-		pyModule->addMethodD(set_thread_count);
-		pyModule->addMethodD(set_threadpool_high_performance);
-		pyModule->addMethodD(set_main_window_size);
-		pyModule->addMethodD(add_item_color_style);
-		pyModule->addMethodD(set_item_popup);
-		pyModule->addMethodD(is_item_hovered);
-		pyModule->addMethodD(is_item_active);
-		pyModule->addMethodD(is_item_focused);
-		pyModule->addMethodD(is_item_clicked);
-		pyModule->addMethodD(is_item_visible);
-		pyModule->addMethodD(is_item_edited);
-		pyModule->addMethodD(is_item_activated);
-		pyModule->addMethodD(is_item_deactivated);
-		pyModule->addMethodD(is_item_deactivated_after_edit);
-		pyModule->addMethodD(is_item_toggled_open);
-		pyModule->addMethodD(get_item_rect_min);
-		pyModule->addMethodD(get_item_rect_max);
-		pyModule->addMethodD(get_item_rect_size);
-		pyModule->addMethodD(change_style_item);
-		pyModule->addMethodD(show_item);
-		pyModule->addMethodD(hide_item);
-		pyModule->addMethodD(change_theme_item);
-		pyModule->addMethodD(set_theme);
-		pyModule->addMethodD(set_render_callback);
-		pyModule->addMethodD(set_item_callback);
-		pyModule->addMethodD(set_item_tip);
-		pyModule->addMethodD(set_item_width);
-		pyModule->addMethodD(set_item_height);
-		pyModule->addMethodD(get_value);
-		pyModule->addMethodD(set_value);
+		auto MarvelError = PyErr_NewException("marvel.error", NULL, NULL);
+		Py_XINCREF(MarvelError);
+		if (PyModule_AddObject(m, "error", MarvelError) < 0) {
+			Py_XDECREF(MarvelError);
+			Py_CLEAR(MarvelError);
+			Py_DECREF(m);
+			return NULL;
+		}
 
-		// old input
-		pyModule->addMethodD(set_mouse_drag_callback);
-		pyModule->addMethodD(is_mouse_button_dragging);
-		pyModule->addMethodD(is_mouse_button_down);
-		pyModule->addMethodD(is_mouse_button_clicked);
-		pyModule->addMethodD(is_mouse_button_double_clicked);
-		pyModule->addMethodD(is_mouse_button_released);
-		pyModule->addMethodD(get_mouse_drag_delta);
-		pyModule->addMethodD(set_mouse_wheel_callback);
-		pyModule->addMethodD(get_mouse_pos);
-		pyModule->addMethodD(is_key_pressed);
-		pyModule->addMethodD(is_key_released);
-		pyModule->addMethodD(is_key_down);
-		pyModule->addMethodD(set_mouse_click_callback);
-		pyModule->addMethodD(set_mouse_down_callback);
-		pyModule->addMethodD(set_mouse_double_click_callback);
-		pyModule->addMethodD(set_key_down_callback);
-		pyModule->addMethodD(set_key_press_callback);
-		pyModule->addMethodD(set_key_release_callback);
-		pyModule->addMethodD(set_resize_callback);
-
-		// old logging
-		pyModule->addMethodD(get_log_level);
-		pyModule->addMethodD(clear_log);
-		pyModule->addMethodD(show_logger);
-		pyModule->addMethodD(set_log_level);
-		pyModule->addMethodD(log);
-		pyModule->addMethodD(log_debug);
-		pyModule->addMethodD(log_info);
-		pyModule->addMethodD(log_warning);
-		pyModule->addMethodD(log_error);
-
-		// old plotting
-		pyModule->addMethodD(is_plot_queried);
-		pyModule->addMethodD(get_plot_query_area);
-		pyModule->addMethodD(clear_plot);
-		pyModule->addMethodD(set_plot_xlimits_auto);
-		pyModule->addMethodD(set_plot_ylimits_auto);
-		pyModule->addMethodD(set_plot_xlimits);
-		pyModule->addMethodD(set_plot_ylimits);
-		pyModule->addMethodD(set_color_map);
-		pyModule->addMethodD(add_plot);
-		pyModule->addMethodD(add_line_series);
-		pyModule->addMethodD(add_scatter_series);
-		pyModule->addMethodD(add_text_point);
-		
-		return pyModule;
+		return m;
 	}
+
 }
