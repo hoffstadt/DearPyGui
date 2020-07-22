@@ -85,8 +85,5 @@ target_compile_definitions(marvel
 	PUBLIC
 
 		$<$<CONFIG:Release>:MV_RELEASE>
-
-	PRIVATE
-		_EXPORTING
 )
 

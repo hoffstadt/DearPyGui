@@ -35,6 +35,13 @@ target_link_libraries(MarvelSandbox
 		$<$<CONFIG:Release>:python38>
 )
 
+target_compile_definitions(MarvelSandbox
+
+	PUBLIC
+
+		$<$<CONFIG:Release>:MV_RELEASE>
+)
+
 add_custom_command(TARGET MarvelSandbox PRE_BUILD
                    COMMAND ${CMAKE_COMMAND} -E copy_directory
                        ${CMAKE_SOURCE_DIR}/Output/python/Debug/ $<TARGET_FILE_DIR:MarvelSandbox>/Dependencies)
