@@ -4,6 +4,7 @@
 #include <string>
 #include <chrono>
 #include "mvStandardWindow.h"
+#include "Core/mvCore.h"
 
 namespace Marvel {
 
@@ -14,9 +15,9 @@ namespace Marvel {
 
 		static mvAppLog*         getLogger();
 		static mvStandardWindow* GetLoggerStandardWindow();
-
+		
+		void         AddLog(const char* fmt, ...);
 		void         Clear      ();
-		void         AddLog     (const char* fmt, ...);
 		void         setLogLevel(unsigned level) { m_loglevel = level; }
 		void         Log        (const std::string& text, const std::string& level = "TRACE");
 		void         LogDebug   (const std::string& text);

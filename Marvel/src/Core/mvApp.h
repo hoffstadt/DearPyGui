@@ -82,7 +82,7 @@ namespace Marvel {
 		void                     setFile           (const std::string& file);
 		void                     setWindowSize     (unsigned width, unsigned height);
 		void                     setActualSize     (unsigned width, unsigned height);
-		void                     setModuleDict     (PyObject* dict) { m_pDict = dict; }		
+		void                     setModuleDict     (PyObject* dict) { m_pDict = dict; }				
 		void                     setActiveWindow   (const std::string& window) { m_activeWindow = window; }
 		void                     setGlobalFontScale(float scale);
 
@@ -91,7 +91,7 @@ namespace Marvel {
 		const std::string&       getActiveWindow   () const { return m_activeWindow; }
 		std::vector<mvAppItem*>& getWindows        ()       { return m_windows; }
 		float                    getGlobalFontScale();
-		PyObject*                getModuleDict     () { return m_pDict; }
+		PyObject*                getModuleDict    () { return m_pDict; }
 		int                      getActualWidth() const { return m_actualWidth; }
 		int                      getActualHeight() const { return m_actualHeight; }
 		

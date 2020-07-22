@@ -1,6 +1,7 @@
 #include "mvDocWindow.h"
 #include <imgui.h>
-#include "mvInterfaceRegistry.h"
+#include "Core/PythonInterfaces/mvPythonTranslator.h"
+#include "Core/PythonInterfaces/mvInterfaceRegistry.h"
 #include "Core/mvApp.h"
 #include "Core/mvInput.h"
 

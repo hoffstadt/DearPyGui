@@ -1,8 +1,9 @@
 from marvel import *
-import marvel_constants as mc
 from math import sin, cos
 
 set_log_level(0)
+show_logger()
+show_debug()
 
 add_data("DataStorage1", {"Key": 34})
 add_data("DataStorage2", [23,42,53])
@@ -104,9 +105,9 @@ add_simple_plot("Simpleplot##modal", (0.3, 0.9, 2.5, 8.9), height = 80)
 add_button("Close Window##modal", callback="close_popup")
 end_popup()
 add_text("Right Click Me")
-add_popup("Right Click Me", "RegularPopup", mousebutton=mc.mvMouseButton_Right)
-add_simple_plot("Simpleplot##popup", (0.3, 0.9, 2.5, 8.9), height = 80)
-end_popup()
+#add_popup("Right Click Me", "RegularPopup", mousebutton=mc.mvMouseButton_Right)
+#add_simple_plot("Simpleplot##popup", (0.3, 0.9, 2.5, 8.9), height = 80)
+#end_popup()
 end_window()
 
 # text testing
@@ -307,102 +308,6 @@ def InputPollingMainCallback(sender, data):
 
     set_value("Mouse Position", str(get_mouse_pos()))
 
-    # keys
-    if is_key_down(mc.mvKey_A):
-        set_value("A key Down", "True")
-    else:
-        set_value("A key Down", "False")
-
-    if is_key_pressed(mc.mvKey_W):
-        set_value("W key Pressed", "True")
-    else:
-        set_value("W key Pressed", "False")
-
-    if is_key_released(mc.mvKey_Q):
-        set_value("Q key Released", "True")
-    else:
-        set_value("Q key Released", "False")
-
-    # mouse dragging
-    if is_mouse_button_dragging(mc.mvMouseButton_Left, 10):
-        set_value("Left Mouse Dragging", "True")
-    else:
-        set_value("Left Mouse Dragging", "False")
-
-    if is_mouse_button_dragging(mc.mvMouseButton_Right, 10):
-        set_value("Right Mouse Dragging", "True")
-    else:
-        set_value("Right Mouse Dragging", "False")
-
-    if is_mouse_button_dragging(mc.mvMouseButton_Middle, 10):
-        set_value("Middle Mouse Dragging", "True")
-    else:
-        set_value("Middle Mouse Dragging", "False")
-
-    # mouse down
-    if is_mouse_button_down(mc.mvMouseButton_Left):
-        set_value("Left Mouse Down", "True")
-    else:
-        set_value("Left Mouse Down", "False")
-
-    if is_mouse_button_down(mc.mvMouseButton_Right):
-        set_value("Right Mouse Down", "True")
-    else:
-        set_value("Right Mouse Down", "False")
-
-    if is_mouse_button_down(mc.mvMouseButton_Middle):
-        set_value("Middle Mouse Down", "True")
-    else:
-        set_value("Middle Mouse Down", "False")
-
-    # mouse clicked
-    if is_mouse_button_clicked(mc.mvMouseButton_Left):
-        set_value("Left Mouse Clicked", "True")
-    else:
-        set_value("Left Mouse Clicked", "False")
-
-    if is_mouse_button_clicked(mc.mvMouseButton_Right):
-        set_value("Right Mouse Clicked", "True")
-    else:
-        set_value("Right Mouse Clicked", "False")
-
-    if is_mouse_button_clicked(mc.mvMouseButton_Middle):
-        set_value("Middle Mouse Clicked", "True")
-    else:
-        set_value("Middle Mouse Clicked", "False")
-
-    # mouse double clicked
-    if is_mouse_button_double_clicked(mc.mvMouseButton_Left):
-        set_value("Left Mouse Double Clicked", "True")
-    else:
-        set_value("Left Mouse Double Clicked", "False")
-
-    if is_mouse_button_double_clicked(mc.mvMouseButton_Right):
-        set_value("Right Mouse Double Clicked", "True")
-    else:
-        set_value("Right Mouse Double Clicked", "False")
-
-    if is_mouse_button_double_clicked(mc.mvMouseButton_Middle):
-        set_value("Middle Mouse Double Clicked", "True")
-    else:
-        set_value("Middle Mouse Double Clicked", "False")
-
-    # mouse released
-    if is_mouse_button_released(mc.mvMouseButton_Left):
-        set_value("Left Mouse Released", "True")
-    else:
-        set_value("Left Mouse Released", "False")
-
-    if is_mouse_button_released(mc.mvMouseButton_Right):
-        set_value("Right Mouse Released", "True")
-    else:
-        set_value("Right Mouse Released", "False")
-
-    if is_mouse_button_released(mc.mvMouseButton_Middle):
-        set_value("Middle Mouse Released", "True")
-    else:
-        set_value("Middle Mouse Released", "False")
-
 def colormapCallback(sender, data):
     value = get_value("Colormaps")
     set_color_map("Plot", value)
@@ -460,7 +365,7 @@ def PlotCallback(sender, data):
         data2.append([3.14*i/180, sin(2*3.14*i/180)])
 
     add_line_series("Plot", "Cos", data1, weight=2, fill=(255, 0, 0, 100))
-    add_scatter_series("Plot", "Sin", data2, marker=mc.mvPlotMarker_Circle)
+    add_scatter_series("Plot", "Sin", data2)
 
 def RetrieveValues(sender, data):
 
@@ -502,3 +407,5 @@ def RetrieveValues(sender, data):
     log_info("Color Picker3: " + str(get_value("Color Picker3##widget")))
     log_info("Color Picker4: " + str(get_value("Color Picker4##widget")))
     log_info("Tab Bar: " + str(get_value("Tab Bar##widget")))
+
+start_marvel()

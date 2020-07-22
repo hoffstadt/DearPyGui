@@ -77,6 +77,9 @@ namespace Marvel {
 
 		mvApp::GetApp()->precheck();
 		mvApp::SetAppStarted();
+		//mvApp::GetApp()->setModuleDict(PyModule_GetDict(self));
+		//mvApp::GetApp()->setModuleDict(PyModule_GetDict(PyImport_AddModule("Demo"))); // borrowed reference
+		mvApp::GetApp()->setModuleDict(PyModule_GetDict(PyImport_AddModule("__main__"))); // borrowed reference
 		PyEval_InitThreads();
 
 		// create window
