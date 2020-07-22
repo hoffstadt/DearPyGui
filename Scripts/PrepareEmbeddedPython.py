@@ -87,11 +87,6 @@ shutil.make_archive(
     "zip",
     temporary_dir)
 
-shutil.make_archive(
-    debug_dir + "/python38_d",
-    "zip",
-    temporary_dir)
-
 # remove temporary directory
 shutil.rmtree(temporary_dir)
 
