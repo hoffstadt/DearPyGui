@@ -1,4 +1,5 @@
 #include "mvApp.h"
+#include "mvMarvel.h"
 #include "mvCore.h"
 #include "mvDataStorage.h"
 #include "mvInput.h"
@@ -71,6 +72,18 @@ namespace Marvel {
 		return s_instance;
 	}
 
+	void mvApp::DeleteApp()
+	{
+		if (s_instance)
+		{
+			delete s_instance;
+			s_instance = nullptr;
+		}
+
+		s_started = false;
+
+	}
+
 	mvStandardWindow* mvApp::GetAppStandardWindow()
 	{
 		return static_cast<mvStandardWindow*>(GetApp());
@@ -78,6 +91,8 @@ namespace Marvel {
 
 	mvApp::mvApp()
 	{
+		m_parsers = BuildMarvelInterface();
+
 		// info
 		mvAppLog::AddLog("[Sandbox Version] %0s\n", mvApp::GetVersion());
 		mvAppLog::AddLog("[Python Version] %0s\n", PY_VERSION);

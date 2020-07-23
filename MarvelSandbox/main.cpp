@@ -15,6 +15,8 @@ using namespace Marvel;
 
 int main(int argc, char* argv[])
 {
+	mvApp::GetApp()->setArgv0(argv[0]);
+
 	wchar_t* program;
 	bool errorMode = false;
 	PyObject* m = nullptr;
@@ -127,8 +129,7 @@ int main(int argc, char* argv[])
 
 	if (editorMode)
 	{
-		std::string command = "start_marvel_editor(r\"" + std::string(argv[0]) + "\")";
-		PyRun_SimpleString(command.c_str());
+		PyRun_SimpleString("start_marvel_editor()");
 		return 0;
 	}
 
@@ -148,6 +149,10 @@ int main(int argc, char* argv[])
 		return 0;
 	}
 
-	else return 1;
+	else
+	{
+		start_marvel_error();
+		return 0;
+	}
 	
 }

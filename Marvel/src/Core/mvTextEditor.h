@@ -286,6 +286,7 @@ namespace Marvel {
 		static const Palette& GetRetroBluePalette();
 
 	private:
+
 		typedef std::vector<std::pair<std::regex, PaletteIndex>> RegexList;
 
 		struct EditorState

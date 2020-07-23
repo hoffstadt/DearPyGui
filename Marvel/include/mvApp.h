@@ -25,9 +25,9 @@
 #include <chrono>
 #include <mutex>
 #include <thread>
-
 #include "mvStandardWindow.h"
 #include "mvAppItem.h"
+#include "mvPythonParser.h"
 
 
 //-----------------------------------------------------------------------------
@@ -72,6 +72,7 @@ namespace Marvel {
 	public:
 
 		static mvApp*            GetApp              ();
+		static void              DeleteApp           ();
 		static mvStandardWindow* GetAppStandardWindow();
 		static const char*       GetVersion          () { return MV_SANDBOX_VERSION; }
 		static bool              IsAppStarted        () { return s_started; }
@@ -174,6 +175,8 @@ namespace Marvel {
 		//-----------------------------------------------------------------------------
 		float  getDeltaTime() { return m_deltaTime; }
 		double getTotalTime() { return m_time; }
+
+		std::map<std::string, mvPythonParser>* getParsers() { return m_parsers; }
 			
 	private:
 
@@ -199,6 +202,8 @@ namespace Marvel {
 		std::string             m_file;
 		int                     m_actualWidth = 1280;
 		int                     m_actualHeight = 800;
+
+		std::map<std::string, mvPythonParser>* m_parsers;
 		
 		// appearance
 		mvStyle     m_style;

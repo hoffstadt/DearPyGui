@@ -1,8 +1,8 @@
 #include "mvDocWindow.h"
 #include <imgui.h>
 #include "mvPythonTranslator.h"
-#include "Core/PythonInterfaces/mvInterfaceRegistry.h"
 #include "mvApp.h"
+#include "mvMarvel.h"
 #include "Core/mvInput.h"
 
 namespace Marvel {
@@ -11,80 +11,101 @@ namespace Marvel {
 
 	mvDocWindow::mvDocWindow() : mvStandardWindow()
 	{
-		m_commands = mvInterfaceRegistry::GetRegistry()->getAllCommands();
-		m_marvel = mvInterfaceRegistry::GetRegistry()->getPythonInterfaceCommands("marvel");
-		m_docMarvel = mvInterfaceRegistry::GetRegistry()->getPythonInterfaceDoc("marvel");
+		setup();
+	}
 
-		for (int i = 0; i<m_marvel.size(); i++)
+	mvDocWindow::~mvDocWindow()
+	{
+		m_docmap->clear();
+		delete m_docmap;
+	}
+
+	void mvDocWindow::setup()
+	{
+		m_docmap = BuildMarvelInterface();
+		m_constants = GetModuleConstants();
+
+		for (auto& item : m_constants)
 		{
-			std::string category = mvInterfaceRegistry::GetRegistry()->getPythonInterface("marvel")[m_marvel[i]].getCategory();
+			m_cconstants.push_back(item.first.c_str());
+			m_constantsValues.push_back("Constant with a value of " + std::to_string(item.second));
+		}
+
+		for (const auto& item : *m_docmap)
+		{
+			m_commands.emplace_back(item.first.c_str(), item.second.getDocumentation());
+
+			std::string category = item.second.getCategory();
 
 			if (category == "App")
 			{
-				m_app.push_back(m_marvel[i]);
-				m_docApp.push_back(m_docMarvel[i]);
+				m_app.push_back(item.first.c_str());
+				m_docApp.push_back(item.second.getDocumentation());
 			}
 
 			else if (category == "Logging")
 			{
-				m_logging.push_back(m_marvel[i]);
-				m_docLogging.push_back(m_docMarvel[i]);
+				m_logging.push_back(item.first.c_str());
+				m_docLogging.push_back(item.second.getDocumentation());
 			}
 
 			else if (category == "Adding Widgets")
 			{
-				m_widgets.push_back(m_marvel[i]);
-				m_docWidgets.push_back(m_docMarvel[i]);
+				m_widgets.push_back(item.first.c_str());
+				m_docWidgets.push_back(item.second.getDocumentation());
 			}
 
 			else if (category == "Widget Commands")
 			{
-				m_widgetsCommands.push_back(m_marvel[i]);
-				m_docWidgetsCommands.push_back(m_docMarvel[i]);
+				m_widgetsCommands.push_back(item.first.c_str());
+				m_docWidgetsCommands.push_back(item.second.getDocumentation());
 			}
 
 			else if (category == "Containers")
 			{
-				m_containers.push_back(m_marvel[i]);
-				m_docContainers.push_back(m_docMarvel[i]);
+				m_containers.push_back(item.first.c_str());
+				m_docContainers.push_back(item.second.getDocumentation());
 			}
 
 			else if (category == "Drawing")
 			{
-				m_drawing.push_back(m_marvel[i]);
-				m_docDrawing.push_back(m_docMarvel[i]);
+				m_drawing.push_back(item.first.c_str());
+				m_docDrawing.push_back(item.second.getDocumentation());
 			}
 
 			else if (category == "Plotting")
 			{
-				m_plotting.push_back(m_marvel[i]);
-				m_docPlotting.push_back(m_docMarvel[i]);
+				m_plotting.push_back(item.first.c_str());
+				m_docPlotting.push_back(item.second.getDocumentation());
 			}
 
 			else if (category == "Tables")
 			{
-				m_tables.push_back(m_marvel[i]);
-				m_docTables.push_back(m_docMarvel[i]);
+				m_tables.push_back(item.first.c_str());
+				m_docTables.push_back(item.second.getDocumentation());
 			}
 
 			else if (category == "Themes and Styles")
 			{
-				m_themes.push_back(m_marvel[i]);
-				m_docThemes.push_back(m_docMarvel[i]);
+				m_themes.push_back(item.first.c_str());
+				m_docThemes.push_back(item.second.getDocumentation());
 			}
 
 			else if (category == "Input Polling")
 			{
-				m_inputs.push_back(m_marvel[i]);
-				m_docInputs.push_back(m_docMarvel[i]);
+				m_inputs.push_back(item.first.c_str());
+				m_docInputs.push_back(item.second.getDocumentation());
 			}
 
 			else if (category == "Standard Windows")
 			{
-				m_windows.push_back(m_marvel[i]);
-				m_docWindows.push_back(m_docMarvel[i]);
+				m_windows.push_back(item.first.c_str());
+				m_docWindows.push_back(item.second.getDocumentation());
 			}
+
 		}
+
+
 	}
 
 	mvStandardWindow* mvDocWindow::GetWindow()
@@ -598,6 +619,12 @@ namespace Marvel {
 					static int selection = 0;
 					if (ImGui::ListBox("Commands", &selection, m_windows.data(), m_windows.size(), 30))
 						m_doc = m_docWindows[selection];
+				}
+				else if (categorySelection == 11)
+				{
+					static int selection = 0;
+					if (ImGui::ListBox("Commands", &selection, m_cconstants.data(), m_cconstants.size(), 30))
+						m_doc = m_constantsValues[selection].c_str();
 				}
 
 				ImGui::EndGroup();
