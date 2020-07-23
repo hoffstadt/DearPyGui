@@ -13,7 +13,7 @@ namespace Marvel {
 		m_wc = { sizeof(WNDCLASSEX), CS_CLASSDC, HandleMsgSetup, 0L, 0L, GetModuleHandle(NULL), NULL, NULL, NULL, NULL, _T("ImGui Example"), NULL };
 		RegisterClassEx(&m_wc);
 
-		m_hwnd = CreateWindow(m_wc.lpszClassName, _T("Marvel Sandbox"), WS_OVERLAPPEDWINDOW, 100, 100, width, height, NULL, NULL, m_wc.hInstance, NULL);
+		m_hwnd = CreateWindow(m_wc.lpszClassName, _T("Marvel Sandbox"), WS_OVERLAPPEDWINDOW, 100, 100, width, height, NULL, NULL, m_wc.hInstance, this);
 
 		// Initialize Direct3D
 		if (!CreateDeviceD3D(m_hwnd))
@@ -22,6 +22,11 @@ namespace Marvel {
 			::UnregisterClass(m_wc.lpszClassName, m_wc.hInstance);
 		}
 
+	}
+
+	mvWindowsWindow::~mvWindowsWindow()
+	{
+		cleanup();
 	}
 
 	void mvWindowsWindow::show()
@@ -228,11 +233,11 @@ namespace Marvel {
 					int height = rect.bottom - rect.top;
 					mvApp::GetApp()->setActualSize(width, height);
 				}
-
+				m_width = (UINT)LOWORD(lParam);
+				m_height = (UINT)HIWORD(lParam);
 				mvApp::GetApp()->setWindowSize((UINT)LOWORD(lParam), (UINT)HIWORD(lParam));
 				mvApp::GetApp()->runCallback(mvApp::GetApp()->getResizeCallback(), "Main Application");
-				if(this)
-					m_appEditor->setSize((UINT)LOWORD(lParam), (UINT)HIWORD(lParam));
+				m_appEditor->setSize((UINT)LOWORD(lParam), (UINT)HIWORD(lParam));
 				mvDocWindow::GetWindow()->setSize((UINT)LOWORD(lParam), (UINT)HIWORD(lParam));
 				CleanupRenderTarget();
 				s_pSwapChain->ResizeBuffers(0, (UINT)LOWORD(lParam), (UINT)HIWORD(lParam), DXGI_FORMAT_UNKNOWN, 0);

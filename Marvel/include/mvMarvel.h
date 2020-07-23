@@ -1505,7 +1505,6 @@ namespace Marvel {
 		}, "Starts marvel") });
 
 		parsers->insert({ "start_marvel_editor", mvPythonParser({
-			{mvPythonDataType::String, "argv0", ""}
 		}, "Starts marvel editor") });
 
 		parsers->insert({ "start_marvel_docs", mvPythonParser({
@@ -1600,4 +1599,12 @@ namespace Marvel {
 	}
 
 	PyMODINIT_FUNC PyInit_marvel(void);
+
+	std::map<std::string, mvPythonParser>* BuildMarvelInterface();
+
+	std::vector<std::pair<std::string, std::string>> GetAllCommands();
+
+	std::vector<std::pair<std::string, long>> GetModuleConstants();
+
+	void start_marvel_error();
 }

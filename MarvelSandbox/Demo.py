@@ -2,8 +2,6 @@ from marvel import *
 from math import sin, cos
 
 set_log_level(0)
-#show_logger()
-show_debug()
 
 add_data("DataStorage1", {"Key": 34})
 add_data("DataStorage2", [23,42,53])
@@ -11,7 +9,7 @@ add_data("DataStorage2", [23,42,53])
 add_menu_bar("MenuBar")
 
 add_menu("Themes")
-add_menu_item("Dark", callback = "ThemeCallback")
+add_menu_item("Dark", callback = "ThemeCallback1")
 add_menu_item("Light", callback = "ThemeCallback")
 add_menu_item("Classic", callback = "ThemeCallback")
 add_menu_item("Dark 2", callback = "ThemeCallback")
@@ -408,3 +406,4 @@ def RetrieveValues(sender, data):
     log_info("Tab Bar: " + str(get_value("Tab Bar##widget")))
 
 start_marvel()
+start_marvel_editor()

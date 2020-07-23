@@ -2,7 +2,7 @@
 
 #include "mvStandardWindow.h"
 #include "mvPythonTranslator.h"
-#include "Core/PythonInterfaces/mvInterfaceRegistry.h"
+#include "mvMarvel.h"
 
 namespace Marvel {
 
@@ -19,7 +19,7 @@ namespace Marvel {
 			m_height = 500;  
 			m_flags |= ImGuiWindowFlags_AlwaysAutoResize;
 
-			m_commands = mvInterfaceRegistry::GetRegistry()->getAllCommands();
+			m_commands = GetAllCommands();
 		}
 
 		virtual void render(bool& show) override;

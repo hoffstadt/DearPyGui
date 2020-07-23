@@ -1,5 +1,4 @@
 #include "mvMarvel.h"
-#include "mvPythonModule.h"
 #include "mvApp.h"
 #include "Core/mvInput.h"
 #include "Core/mvDataStorage.h"
@@ -7,17 +6,14 @@
 #include "Core/StandardWindows/mvSourceWindow.h"
 #include "mvPythonTranslator.h"
 #include "Core/AppItems/mvAppItems.h"
-#include "mvInterfaceRegistry.h"
 #include "Platform/Windows/mvWindowsWindow.h"
 
 //-----------------------------------------------------------------------------
 // Helper Macro
 //-----------------------------------------------------------------------------
-#define ADD_PYTHON_FUNCTION(Function) { #Function, (PyCFunction)Function, METH_VARARGS | METH_KEYWORDS, Parsers[#Function].getDocumentation() },
+#define ADD_PYTHON_FUNCTION(Function) { #Function, (PyCFunction)Function, METH_VARARGS | METH_KEYWORDS, (*mvApp::GetApp()->getParsers())[#Function].getDocumentation() },
 
 namespace Marvel {
-
-	static std::map<std::string, mvPythonParser> Parsers = mvInterfaceRegistry::GetRegistry()->getPythonInterface("marvel");
 
 	static void AddItemWithRuntimeChecks(mvAppItem* item, const char* parent, const char* before)
 	{
@@ -51,7 +47,8 @@ namespace Marvel {
 			ma->addItem(item);
 	}
 
-	std::map<std::string, mvPythonParser>& BuildMarvelInterface() {
+	std::map<std::string, mvPythonParser>* BuildMarvelInterface() 
+	{
 		
 		std::map<std::string, mvPythonParser>* parsers = new std::map< std::string, mvPythonParser>;
 
@@ -70,7 +67,21 @@ namespace Marvel {
 		AddBasicWidgets(parsers);
 		AddContainterWidgets(parsers);
 		AddAppCommands(parsers);
-		return *parsers;
+		return parsers;
+	}
+
+	std::vector<std::pair<std::string, std::string>> GetAllCommands()
+	{
+		auto mapping = BuildMarvelInterface();
+		
+		std::vector<std::pair<std::string, std::string>> result;
+
+		for (const auto& item : *mapping)
+			result.emplace_back(item.first, item.second.getDocumentation());
+
+		delete mapping;
+
+		return std::move(result);
 	}
 
 	PyObject* start_marvel(PyObject* self, PyObject* args, PyObject* kwargs)
@@ -85,7 +96,7 @@ namespace Marvel {
 		window->show();
 		window->run();
 		delete window;
-		delete mvApp::GetApp();
+		mvApp::DeleteApp();
 
 		return mvPythonTranslator::GetPyNone();
 	}
@@ -93,18 +104,14 @@ namespace Marvel {
 	PyObject* start_marvel_editor(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 
-		const char* argv0;
-
-		if (!Parsers["start_marvel_editor"].parse(args, kwargs, __FUNCTION__, &argv0))
-			return mvPythonTranslator::GetPyNone();
+		mvApp::SetAppStarted();
 
 		// create window
 		mvWindow* window = new mvWindowsWindow(mvApp::GetApp()->getActualWidth(), mvApp::GetApp()->getActualHeight(), true);
-		mvApp::GetApp()->setArgv0(argv0);
 		window->show();
 		window->run();
 		delete window;
-		delete mvApp::GetApp();
+		mvApp::DeleteApp();
 
 		return mvPythonTranslator::GetPyNone();
 	}
@@ -126,10 +133,10 @@ namespace Marvel {
 	{
 		const char* file;
 
-		if (!Parsers["generate_stub_file"].parse(args, kwargs, __FUNCTION__, &file))
+		if (!(*mvApp::GetApp()->getParsers())["generate_stub_file"].parse(args, kwargs, __FUNCTION__, &file))
 			return mvPythonTranslator::GetPyNone();
 
-		mvInterfaceRegistry::GetRegistry()->generateStubFile(file);
+		//mvInterfaceRegistry::GetRegistry()->generateStubFile(file);
 
 		return mvPythonTranslator::GetPyNone();
 	}
@@ -138,7 +145,7 @@ namespace Marvel {
 	{
 		float scale;
 
-		if (!Parsers["set_global_font_scale"].parse(args, kwargs, __FUNCTION__, &scale))
+		if (!(*mvApp::GetApp()->getParsers())["set_global_font_scale"].parse(args, kwargs, __FUNCTION__, &scale))
 			return mvPythonTranslator::GetPyNone();
 
 		mvApp::GetApp()->setGlobalFontScale(scale);
@@ -156,7 +163,7 @@ namespace Marvel {
 		const char* file;
 		const char* flags;
 
-		if (!Parsers["run_file"].parse(args, kwargs, __FUNCTION__, &file, &flags))
+		if (!(*mvApp::GetApp()->getParsers())["run_file"].parse(args, kwargs, __FUNCTION__, &file, &flags))
 			return mvPythonTranslator::GetPyNone();
 
 		RunFile(file, flags);
@@ -173,7 +180,7 @@ namespace Marvel {
 		int width = 0;
 		int height = 0;
 
-		if (!Parsers["add_drawing"].parse(args, kwargs, __FUNCTION__, &name, &tip, &parent, &before, &width, &height))
+		if (!(*mvApp::GetApp()->getParsers())["add_drawing"].parse(args, kwargs, __FUNCTION__, &name, &tip, &parent, &before, &width, &height))
 			return mvPythonTranslator::GetPyNone();
 
 		mvAppItem* item = new mvDrawing("", name, width, height);
@@ -195,7 +202,7 @@ namespace Marvel {
 		int width;
 		int height;
 
-		if (!Parsers["set_drawing_size"].parse(args, kwargs, __FUNCTION__, &name, &width, &height))
+		if (!(*mvApp::GetApp()->getParsers())["set_drawing_size"].parse(args, kwargs, __FUNCTION__, &name, &width, &height))
 			return mvPythonTranslator::GetPyNone();
 
 		auto drawing = mvApp::GetApp()->getItem(name);
@@ -215,7 +222,7 @@ namespace Marvel {
 		float x;
 		float y;
 
-		if (!Parsers["set_drawing_origin"].parse(args, kwargs, __FUNCTION__, &name, &x, &y))
+		if (!(*mvApp::GetApp()->getParsers())["set_drawing_origin"].parse(args, kwargs, __FUNCTION__, &name, &x, &y))
 			return mvPythonTranslator::GetPyNone();
 
 		auto item = mvApp::GetApp()->getItem(name);
@@ -246,7 +253,7 @@ namespace Marvel {
 		float x;
 		float y;
 
-		if (!Parsers["set_drawing_scale"].parse(args, kwargs, __FUNCTION__, &name, &x, &y))
+		if (!(*mvApp::GetApp()->getParsers())["set_drawing_scale"].parse(args, kwargs, __FUNCTION__, &name, &x, &y))
 			return mvPythonTranslator::GetPyNone();
 
 		auto item = mvApp::GetApp()->getItem(name);
@@ -275,7 +282,7 @@ namespace Marvel {
 	{
 		const char* name;
 
-		if (!Parsers["get_drawing_origin"].parse(args, kwargs, __FUNCTION__, &name))
+		if (!(*mvApp::GetApp()->getParsers())["get_drawing_origin"].parse(args, kwargs, __FUNCTION__, &name))
 			return mvPythonTranslator::GetPyNone();
 
 		auto item = mvApp::GetApp()->getItem(name);
@@ -303,7 +310,7 @@ namespace Marvel {
 	{
 		const char* name;
 
-		if (!Parsers["get_drawing_scale"].parse(args, kwargs, __FUNCTION__, &name))
+		if (!(*mvApp::GetApp()->getParsers())["get_drawing_scale"].parse(args, kwargs, __FUNCTION__, &name))
 			return mvPythonTranslator::GetPyNone();
 
 		auto item = mvApp::GetApp()->getItem(name);
@@ -331,7 +338,7 @@ namespace Marvel {
 	{
 		const char* name;
 
-		if (!Parsers["get_drawing_size"].parse(args, kwargs, __FUNCTION__, &name))
+		if (!(*mvApp::GetApp()->getParsers())["get_drawing_size"].parse(args, kwargs, __FUNCTION__, &name))
 			return mvPythonTranslator::GetPyNone();
 
 		auto drawing = mvApp::GetApp()->getItem(name);
@@ -363,7 +370,7 @@ namespace Marvel {
 		PyTuple_SetItem(color, 3, PyFloat_FromDouble(255));
 		const char* tag = "";
 
-		if (!Parsers["draw_image"].parse(args, kwargs, __FUNCTION__, &drawing, &file,
+		if (!(*mvApp::GetApp()->getParsers())["draw_image"].parse(args, kwargs, __FUNCTION__, &drawing, &file,
 			&pmin, &pmax, &uv_min, &uv_max, &color, &tag))
 			return mvPythonTranslator::GetPyNone();
 
@@ -403,7 +410,7 @@ namespace Marvel {
 		PyObject* color;
 		const char* tag = "";
 
-		if (!Parsers["draw_line"].parse(args, kwargs, __FUNCTION__, &drawing, &p1, &p2, &color, &thickness, &tag))
+		if (!(*mvApp::GetApp()->getParsers())["draw_line"].parse(args, kwargs, __FUNCTION__, &drawing, &p1, &p2, &color, &thickness, &tag))
 			return mvPythonTranslator::GetPyNone();
 
 		mvVec2 mp1 = mvPythonTranslator::ToVec2(p1);
@@ -441,7 +448,7 @@ namespace Marvel {
 		PyObject* color;
 		const char* tag = "";
 
-		if (!Parsers["draw_arrow"].parse(args, kwargs, __FUNCTION__, &drawing, &p1, &p2, &color, &thickness, &size, &tag))
+		if (!(*mvApp::GetApp()->getParsers())["draw_arrow"].parse(args, kwargs, __FUNCTION__, &drawing, &p1, &p2, &color, &thickness, &size, &tag))
 			return mvPythonTranslator::GetPyNone();
 
 		mvVec2 mp1 = mvPythonTranslator::ToVec2(p1);
@@ -479,7 +486,7 @@ namespace Marvel {
 		PyObject* fill = nullptr;
 		const char* tag = "";
 
-		if (!Parsers["draw_triangle"].parse(args, kwargs, __FUNCTION__, &drawing, &p1, &p2, &p3, &color, &fill, &thickness, &tag))
+		if (!(*mvApp::GetApp()->getParsers())["draw_triangle"].parse(args, kwargs, __FUNCTION__, &drawing, &p1, &p2, &p3, &color, &fill, &thickness, &tag))
 			return mvPythonTranslator::GetPyNone();
 
 
@@ -520,7 +527,7 @@ namespace Marvel {
 		PyObject* fill = nullptr;
 		const char* tag = "";
 
-		if (!Parsers["draw_rectangle"].parse(args, kwargs, __FUNCTION__, &drawing, &pmin, &pmax, &color, &fill, &rounding, &thickness, &tag))
+		if (!(*mvApp::GetApp()->getParsers())["draw_rectangle"].parse(args, kwargs, __FUNCTION__, &drawing, &pmin, &pmax, &color, &fill, &rounding, &thickness, &tag))
 			return mvPythonTranslator::GetPyNone();
 
 
@@ -560,7 +567,7 @@ namespace Marvel {
 		PyObject* fill = nullptr;
 		const char* tag = "";
 
-		if (!Parsers["draw_quad"].parse(args, kwargs, __FUNCTION__, &drawing, &p1, &p2, &p3, &p4, &color, &fill, &thickness, &tag))
+		if (!(*mvApp::GetApp()->getParsers())["draw_quad"].parse(args, kwargs, __FUNCTION__, &drawing, &p1, &p2, &p3, &p4, &color, &fill, &thickness, &tag))
 			return mvPythonTranslator::GetPyNone();
 
 
@@ -602,7 +609,7 @@ namespace Marvel {
 		PyObject* color = nullptr;
 		const char* tag = "";
 
-		if (!Parsers["draw_text"].parse(args, kwargs, __FUNCTION__, &drawing, &pos, &text, &color, &size, &tag))
+		if (!(*mvApp::GetApp()->getParsers())["draw_text"].parse(args, kwargs, __FUNCTION__, &drawing, &pos, &text, &color, &size, &tag))
 			return mvPythonTranslator::GetPyNone();
 
 		mvVec2 mpos = mvPythonTranslator::ToVec2(pos);
@@ -641,7 +648,7 @@ namespace Marvel {
 		PyObject* fill = nullptr;
 		const char* tag = "";
 
-		if (!Parsers["draw_circle"].parse(args, kwargs, __FUNCTION__, &drawing, &center, &radius, &color, &segments, &thickness, &fill, &tag))
+		if (!(*mvApp::GetApp()->getParsers())["draw_circle"].parse(args, kwargs, __FUNCTION__, &drawing, &center, &radius, &color, &segments, &thickness, &fill, &tag))
 			return mvPythonTranslator::GetPyNone();
 
 		mvVec2 mcenter = mvPythonTranslator::ToVec2(center);
@@ -679,7 +686,7 @@ namespace Marvel {
 		float thickness = 1.0f;
 		const char* tag = "";
 
-		if (!Parsers["draw_polyline"].parse(args, kwargs, __FUNCTION__, &drawing, &points, &color, &closed, &thickness, &tag))
+		if (!(*mvApp::GetApp()->getParsers())["draw_polyline"].parse(args, kwargs, __FUNCTION__, &drawing, &points, &color, &closed, &thickness, &tag))
 			return mvPythonTranslator::GetPyNone();
 
 		auto mpoints = mvPythonTranslator::ToVectVec2(points);
@@ -716,7 +723,7 @@ namespace Marvel {
 		float thickness = 1.0f;
 		const char* tag = "";
 
-		if (!Parsers["draw_polygon"].parse(args, kwargs, __FUNCTION__, &drawing, &points, &color, &fill, &thickness, &tag))
+		if (!(*mvApp::GetApp()->getParsers())["draw_polygon"].parse(args, kwargs, __FUNCTION__, &drawing, &points, &color, &fill, &thickness, &tag))
 			return mvPythonTranslator::GetPyNone();
 
 		auto mpoints = mvPythonTranslator::ToVectVec2(points);
@@ -754,7 +761,7 @@ namespace Marvel {
 		int segments = 0;
 		const char* tag = "";
 
-		if (!Parsers["draw_bezier_curve"].parse(args, kwargs, __FUNCTION__, &drawing, &p1, &p2, &p3, &p4, &color, &thickness, &segments, &tag))
+		if (!(*mvApp::GetApp()->getParsers())["draw_bezier_curve"].parse(args, kwargs, __FUNCTION__, &drawing, &p1, &p2, &p3, &p4, &color, &thickness, &segments, &tag))
 			return mvPythonTranslator::GetPyNone();
 
 		mvVec2 mp1 = mvPythonTranslator::ToVec2(p1);
@@ -789,7 +796,7 @@ namespace Marvel {
 	{
 		const char* drawing;
 
-		if (!Parsers["clear_drawing"].parse(args, kwargs, __FUNCTION__, &drawing))
+		if (!(*mvApp::GetApp()->getParsers())["clear_drawing"].parse(args, kwargs, __FUNCTION__, &drawing))
 			return mvPythonTranslator::GetPyNone();
 
 		auto item = mvApp::GetApp()->getItem(drawing);
@@ -818,7 +825,7 @@ namespace Marvel {
 	{
 		const char* plot;
 
-		if (!Parsers["clear_plot"].parse(args, kwargs, __FUNCTION__, &plot))
+		if (!(*mvApp::GetApp()->getParsers())["clear_plot"].parse(args, kwargs, __FUNCTION__, &plot))
 			return mvPythonTranslator::GetPyNone();
 
 		mvAppItem* aplot = mvApp::GetApp()->getItem(plot);
@@ -839,7 +846,7 @@ namespace Marvel {
 	{
 		const char* plot;
 
-		if (!Parsers["set_plot_xlimits_auto"].parse(args, kwargs, __FUNCTION__, &plot))
+		if (!(*mvApp::GetApp()->getParsers())["set_plot_xlimits_auto"].parse(args, kwargs, __FUNCTION__, &plot))
 			return mvPythonTranslator::GetPyNone();
 
 		mvAppItem* aplot = mvApp::GetApp()->getItem(plot);
@@ -860,7 +867,7 @@ namespace Marvel {
 	{
 		const char* plot;
 
-		if (!Parsers["set_plot_ylimits_auto"].parse(args, kwargs, __FUNCTION__, &plot))
+		if (!(*mvApp::GetApp()->getParsers())["set_plot_ylimits_auto"].parse(args, kwargs, __FUNCTION__, &plot))
 			return mvPythonTranslator::GetPyNone();
 
 		mvAppItem* aplot = mvApp::GetApp()->getItem(plot);
@@ -883,7 +890,7 @@ namespace Marvel {
 		float xmin;
 		float xmax;
 
-		if (!Parsers["set_plot_xlimits"].parse(args, kwargs, __FUNCTION__, &plot, &xmin, &xmax))
+		if (!(*mvApp::GetApp()->getParsers())["set_plot_xlimits"].parse(args, kwargs, __FUNCTION__, &plot, &xmin, &xmax))
 			return mvPythonTranslator::GetPyNone();
 
 		mvAppItem* aplot = mvApp::GetApp()->getItem(plot);
@@ -906,7 +913,7 @@ namespace Marvel {
 		float ymin;
 		float ymax;
 
-		if (!Parsers["set_plot_ylimits"].parse(args, kwargs, __FUNCTION__, &plot, &ymin, &ymax))
+		if (!(*mvApp::GetApp()->getParsers())["set_plot_ylimits"].parse(args, kwargs, __FUNCTION__, &plot, &ymin, &ymax))
 			return mvPythonTranslator::GetPyNone();
 
 		mvAppItem* aplot = mvApp::GetApp()->getItem(plot);
@@ -927,7 +934,7 @@ namespace Marvel {
 	{
 		const char* plot;
 
-		if (!Parsers["is_plot_queried"].parse(args, kwargs, __FUNCTION__, &plot))
+		if (!(*mvApp::GetApp()->getParsers())["is_plot_queried"].parse(args, kwargs, __FUNCTION__, &plot))
 			return mvPythonTranslator::GetPyNone();
 
 		mvAppItem* aplot = mvApp::GetApp()->getItem(plot);
@@ -946,7 +953,7 @@ namespace Marvel {
 	{
 		const char* plot;
 
-		if (!Parsers["get_plot_query_area"].parse(args, kwargs, __FUNCTION__, &plot))
+		if (!(*mvApp::GetApp()->getParsers())["get_plot_query_area"].parse(args, kwargs, __FUNCTION__, &plot))
 			return mvPythonTranslator::GetPyNone();
 
 		mvAppItem* aplot = mvApp::GetApp()->getItem(plot);
@@ -968,7 +975,7 @@ namespace Marvel {
 		const char* plot;
 		int map;
 
-		if (!Parsers["set_color_map"].parse(args, kwargs, __FUNCTION__, &plot, &map))
+		if (!(*mvApp::GetApp()->getParsers())["set_color_map"].parse(args, kwargs, __FUNCTION__, &plot, &map))
 			return mvPythonTranslator::GetPyNone();
 
 		mvAppItem* aplot = mvApp::GetApp()->getItem(plot);
@@ -999,7 +1006,7 @@ namespace Marvel {
 		int height = -1;
 		const char* query_callback = "";
 
-		if (!Parsers["add_plot"].parse(args, kwargs, __FUNCTION__, &name, &xAxisName, &yAxisName, &flags,
+		if (!(*mvApp::GetApp()->getParsers())["add_plot"].parse(args, kwargs, __FUNCTION__, &name, &xAxisName, &yAxisName, &flags,
 			&xflags, &yflags, &parent, &before, &width, &height, &query_callback))
 			return mvPythonTranslator::GetPyNone();
 
@@ -1030,7 +1037,7 @@ namespace Marvel {
 		PyTuple_SetItem(fill, 2, PyLong_FromLong(0));
 		PyTuple_SetItem(fill, 3, PyLong_FromLong(255));
 
-		if (!Parsers["add_line_series"].parse(args, kwargs, __FUNCTION__, &plot, &name, &data, &color, &fill, &weight))
+		if (!(*mvApp::GetApp()->getParsers())["add_line_series"].parse(args, kwargs, __FUNCTION__, &plot, &name, &data, &color, &fill, &weight))
 			return mvPythonTranslator::GetPyNone();
 
 		if (!PyList_Check(data))
@@ -1087,7 +1094,7 @@ namespace Marvel {
 		PyTuple_SetItem(fill, 2, PyLong_FromLong(0));
 		PyTuple_SetItem(fill, 3, PyLong_FromLong(255));
 
-		if (!Parsers["add_scatter_series"].parse(args, kwargs, __FUNCTION__, &plot, &name, &data, &marker,
+		if (!(*mvApp::GetApp()->getParsers())["add_scatter_series"].parse(args, kwargs, __FUNCTION__, &plot, &name, &data, &marker,
 			&size, &weight, &outline, &fill))
 			return mvPythonTranslator::GetPyNone();
 
@@ -1137,7 +1144,7 @@ namespace Marvel {
 		int xoffset = 0;
 		int yoffset = 0;
 
-		if (!Parsers["add_text_point"].parse(args, kwargs, __FUNCTION__,
+		if (!(*mvApp::GetApp()->getParsers())["add_text_point"].parse(args, kwargs, __FUNCTION__,
 			&plot, &name, &x, &y, &vertical, &xoffset, &yoffset))
 			return mvPythonTranslator::GetPyNone();
 
@@ -1171,7 +1178,7 @@ namespace Marvel {
 	PyObject* set_log_level(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		int level;
-		if (!Parsers["set_log_level"].parse(args, kwargs, __FUNCTION__, &level))
+		if (!(*mvApp::GetApp()->getParsers())["set_log_level"].parse(args, kwargs, __FUNCTION__, &level))
 			return mvPythonTranslator::GetPyNone();
 		mvAppLog::setLogLevel(level);
 		return mvPythonTranslator::GetPyNone();
@@ -1181,7 +1188,7 @@ namespace Marvel {
 	{
 		const char* message;
 		const char* level = "TRACE";
-		if (!Parsers["log"].parse(args, kwargs, __FUNCTION__, &message, &level))
+		if (!(*mvApp::GetApp()->getParsers())["log"].parse(args, kwargs, __FUNCTION__, &message, &level))
 			return mvPythonTranslator::GetPyNone();
 
 		mvAppLog::Log(std::string(message), std::string(level));
@@ -1192,7 +1199,7 @@ namespace Marvel {
 	{
 		const char* message;
 
-		if (!Parsers["log_debug"].parse(args, kwargs, __FUNCTION__, &message))
+		if (!(*mvApp::GetApp()->getParsers())["log_debug"].parse(args, kwargs, __FUNCTION__, &message))
 			return mvPythonTranslator::GetPyNone();
 
 		mvAppLog::LogDebug(std::string(message));
@@ -1203,7 +1210,7 @@ namespace Marvel {
 	{
 		const char* message;
 
-		if (!Parsers["log_info"].parse(args, kwargs, __FUNCTION__, &message))
+		if (!(*mvApp::GetApp()->getParsers())["log_info"].parse(args, kwargs, __FUNCTION__, &message))
 			return mvPythonTranslator::GetPyNone();
 
 		mvAppLog::LogInfo(std::string(message));
@@ -1214,7 +1221,7 @@ namespace Marvel {
 	{
 		const char* message;
 
-		if (!Parsers["log_warning"].parse(args, kwargs, __FUNCTION__, &message))
+		if (!(*mvApp::GetApp()->getParsers())["log_warning"].parse(args, kwargs, __FUNCTION__, &message))
 			return mvPythonTranslator::GetPyNone();
 
 		mvAppLog::LogWarning(std::string(message));
@@ -1225,7 +1232,7 @@ namespace Marvel {
 	{
 		const char* message;
 
-		if (!Parsers["log_error"].parse(args, kwargs, __FUNCTION__, &message))
+		if (!(*mvApp::GetApp()->getParsers())["log_error"].parse(args, kwargs, __FUNCTION__, &message))
 			return mvPythonTranslator::GetPyNone();
 
 		mvAppLog::LogError(std::string(message));
@@ -1242,7 +1249,7 @@ namespace Marvel {
 	{
 		int local = true;
 
-		if (!Parsers["get_mouse_pos"].parse(args, kwargs, __FUNCTION__, &local))
+		if (!(*mvApp::GetApp()->getParsers())["get_mouse_pos"].parse(args, kwargs, __FUNCTION__, &local))
 			return mvPythonTranslator::GetPyNone();
 
 		mvVec2 pos = mvInput::getMousePosition();
@@ -1263,7 +1270,7 @@ namespace Marvel {
 	{
 		int key;
 
-		if (!Parsers["is_key_pressed"].parse(args, kwargs, __FUNCTION__, &key))
+		if (!(*mvApp::GetApp()->getParsers())["is_key_pressed"].parse(args, kwargs, __FUNCTION__, &key))
 			return mvPythonTranslator::GetPyNone();
 
 		bool pressed = mvInput::isKeyPressed(key);
@@ -1277,7 +1284,7 @@ namespace Marvel {
 	{
 		int key;
 
-		if (!Parsers["is_key_released"].parse(args, kwargs, __FUNCTION__, &key))
+		if (!(*mvApp::GetApp()->getParsers())["is_key_released"].parse(args, kwargs, __FUNCTION__, &key))
 			return mvPythonTranslator::GetPyNone();
 
 		bool pressed = mvInput::isKeyReleased(key);
@@ -1291,7 +1298,7 @@ namespace Marvel {
 	{
 		int key;
 
-		if (!Parsers["is_key_down"].parse(args, kwargs, __FUNCTION__, &key))
+		if (!(*mvApp::GetApp()->getParsers())["is_key_down"].parse(args, kwargs, __FUNCTION__, &key))
 			return mvPythonTranslator::GetPyNone();
 
 		bool pressed = mvInput::isKeyDown(key);
@@ -1306,7 +1313,7 @@ namespace Marvel {
 		int button;
 		float threshold;
 
-		if (!Parsers["is_mouse_button_dragging"].parse(args, kwargs, __FUNCTION__, &button, &threshold))
+		if (!(*mvApp::GetApp()->getParsers())["is_mouse_button_dragging"].parse(args, kwargs, __FUNCTION__, &button, &threshold))
 			return mvPythonTranslator::GetPyNone();
 
 		return mvPythonTranslator::ToPyBool(mvInput::isMouseDragging(button, threshold));
@@ -1316,7 +1323,7 @@ namespace Marvel {
 	{
 		int button;
 
-		if (!Parsers["is_mouse_button_down"].parse(args, kwargs, __FUNCTION__, &button))
+		if (!(*mvApp::GetApp()->getParsers())["is_mouse_button_down"].parse(args, kwargs, __FUNCTION__, &button))
 			return mvPythonTranslator::GetPyNone();
 
 		return mvPythonTranslator::ToPyBool(mvInput::isMouseButtonDown(button));
@@ -1326,7 +1333,7 @@ namespace Marvel {
 	{
 		int button;
 
-		if (!Parsers["is_mouse_button_clicked"].parse(args, kwargs, __FUNCTION__, &button))
+		if (!(*mvApp::GetApp()->getParsers())["is_mouse_button_clicked"].parse(args, kwargs, __FUNCTION__, &button))
 			return mvPythonTranslator::GetPyNone();
 
 		return mvPythonTranslator::ToPyBool(mvInput::isMouseButtonClicked(button));
@@ -1336,7 +1343,7 @@ namespace Marvel {
 	{
 		int button;
 
-		if (!Parsers["is_mouse_button_double_clicked"].parse(args, kwargs, __FUNCTION__, &button))
+		if (!(*mvApp::GetApp()->getParsers())["is_mouse_button_double_clicked"].parse(args, kwargs, __FUNCTION__, &button))
 			return mvPythonTranslator::GetPyNone();
 
 		return mvPythonTranslator::ToPyBool(mvInput::isMouseButtonDoubleClicked(button));
@@ -1346,7 +1353,7 @@ namespace Marvel {
 	{
 		int button;
 
-		if (!Parsers["is_mouse_button_released"].parse(args, kwargs, __FUNCTION__, &button))
+		if (!(*mvApp::GetApp()->getParsers())["is_mouse_button_released"].parse(args, kwargs, __FUNCTION__, &button))
 			return mvPythonTranslator::GetPyNone();
 
 		return mvPythonTranslator::ToPyBool(mvInput::isMouseButtonReleased(button));
@@ -1357,7 +1364,7 @@ namespace Marvel {
 		const char* callback;
 		const char* handler = "MainWindow";
 
-		if (!Parsers["set_mouse_down_callback"].parse(args, kwargs, __FUNCTION__, &callback, &handler))
+		if (!(*mvApp::GetApp()->getParsers())["set_mouse_down_callback"].parse(args, kwargs, __FUNCTION__, &callback, &handler))
 			return mvPythonTranslator::GetPyNone();
 
 		if (std::string(handler) == "MainWindow")
@@ -1382,7 +1389,7 @@ namespace Marvel {
 		float threshold;
 		const char* handler = "MainWindow";
 
-		if (!Parsers["set_mouse_drag_callback"].parse(args, kwargs, __FUNCTION__, &callback, &threshold, &handler))
+		if (!(*mvApp::GetApp()->getParsers())["set_mouse_drag_callback"].parse(args, kwargs, __FUNCTION__, &callback, &threshold, &handler))
 			return mvPythonTranslator::GetPyNone();
 
 		mvInput::setMouseDragThreshold(threshold);
@@ -1408,7 +1415,7 @@ namespace Marvel {
 		const char* callback;
 		const char* handler;
 
-		if (!Parsers["set_mouse_double_click_callback"].parse(args, kwargs, __FUNCTION__, &callback, &handler))
+		if (!(*mvApp::GetApp()->getParsers())["set_mouse_double_click_callback"].parse(args, kwargs, __FUNCTION__, &callback, &handler))
 			return mvPythonTranslator::GetPyNone();
 
 		if (std::string(handler) == "MainWindow")
@@ -1432,7 +1439,7 @@ namespace Marvel {
 		const char* callback;
 		const char* handler = "MainWindow";
 
-		if (!Parsers["set_mouse_click_callback"].parse(args, kwargs, __FUNCTION__, &callback, &handler))
+		if (!(*mvApp::GetApp()->getParsers())["set_mouse_click_callback"].parse(args, kwargs, __FUNCTION__, &callback, &handler))
 			return mvPythonTranslator::GetPyNone();
 
 		if (std::string(handler) == "MainWindow")
@@ -1456,7 +1463,7 @@ namespace Marvel {
 		const char* callback;
 		const char* handler = "MainWindow";
 
-		if (!Parsers["set_key_down_callback"].parse(args, kwargs, __FUNCTION__, &callback, &handler))
+		if (!(*mvApp::GetApp()->getParsers())["set_key_down_callback"].parse(args, kwargs, __FUNCTION__, &callback, &handler))
 			return mvPythonTranslator::GetPyNone();
 
 		if (std::string(handler) == "MainWindow")
@@ -1480,7 +1487,7 @@ namespace Marvel {
 		const char* callback;
 		const char* handler = "MainWindow";
 
-		if (!Parsers["set_key_press_callback"].parse(args, kwargs, __FUNCTION__, &callback, &handler))
+		if (!(*mvApp::GetApp()->getParsers())["set_key_press_callback"].parse(args, kwargs, __FUNCTION__, &callback, &handler))
 			return mvPythonTranslator::GetPyNone();
 
 		if (std::string(handler) == "MainWindow")
@@ -1504,7 +1511,7 @@ namespace Marvel {
 		const char* callback;
 		const char* handler = "MainWindow";
 
-		if (!Parsers["set_key_release_callback"].parse(args, kwargs, __FUNCTION__, &callback, &handler))
+		if (!(*mvApp::GetApp()->getParsers())["set_key_release_callback"].parse(args, kwargs, __FUNCTION__, &callback, &handler))
 			return mvPythonTranslator::GetPyNone();
 
 		if (std::string(handler) == "MainWindow")
@@ -1528,7 +1535,7 @@ namespace Marvel {
 		const char* callback;
 		const char* handler = "MainWindow";
 
-		if (!Parsers["set_mouse_wheel_callback"].parse(args, kwargs, __FUNCTION__, &callback, &handler))
+		if (!(*mvApp::GetApp()->getParsers())["set_mouse_wheel_callback"].parse(args, kwargs, __FUNCTION__, &callback, &handler))
 			return mvPythonTranslator::GetPyNone();
 
 		if (std::string(handler) == "MainWindow")
@@ -1555,7 +1562,7 @@ namespace Marvel {
 		const char* parent = "";
 		const char* before = "";
 
-		if (!Parsers["add_table"].parse(args, kwargs, __FUNCTION__, &name, &headers, &callback, &parent, &before))
+		if (!(*mvApp::GetApp()->getParsers())["add_table"].parse(args, kwargs, __FUNCTION__, &name, &headers, &callback, &parent, &before))
 			return mvPythonTranslator::GetPyNone();
 
 		mvAppItem* item = new mvTable("", name, mvPythonTranslator::ToStringVect(headers));
@@ -1579,7 +1586,7 @@ namespace Marvel {
 		int width = 0;
 		int height = 0;
 
-		if (!Parsers["add_simple_plot"].parse(args, kwargs,__FUNCTION__, &name, &value, &autoscale, &overlay, 
+		if (!(*mvApp::GetApp()->getParsers())["add_simple_plot"].parse(args, kwargs,__FUNCTION__, &name, &value, &autoscale, &overlay, 
 			&minscale, &maxscale, &histogram, &tip, &parent, &before, &width, &height))
 			return mvPythonTranslator::GetPyNone();
 
@@ -1621,7 +1628,7 @@ namespace Marvel {
 		int width = 0;
 		int height = 0;
 
-		if (!Parsers["add_progress_bar"].parse(args, kwargs, __FUNCTION__, &name, &default_value, 
+		if (!(*mvApp::GetApp()->getParsers())["add_progress_bar"].parse(args, kwargs, __FUNCTION__, &name, &default_value, 
 			&overlay, &tip, &parent, &before, &data_source, &width, &height))
 			return mvPythonTranslator::GetPyNone();
 
@@ -1664,7 +1671,7 @@ namespace Marvel {
 		PyTuple_SetItem(uv_max, 1, PyFloat_FromDouble(1));
 		const char* secondary_data_source = "";
 
-		if (!Parsers["add_image"].parse(args, kwargs, __FUNCTION__, &name, 
+		if (!(*mvApp::GetApp()->getParsers())["add_image"].parse(args, kwargs, __FUNCTION__, &name, 
 			&value, &tintcolor, &bordercolor, &tip, &parent, &before, &data_source, &width, 
 			&height, &uv_min, &uv_max, &secondary_data_source))
 			return mvPythonTranslator::GetPyNone();
@@ -1702,7 +1709,7 @@ namespace Marvel {
 		const char* parent = ""; 
 		const char* data_source = "";
 
-		if (!Parsers["add_drag_float"].parse(args, kwargs, __FUNCTION__, &name, &default_value, &speed,
+		if (!(*mvApp::GetApp()->getParsers())["add_drag_float"].parse(args, kwargs, __FUNCTION__, &name, &default_value, &speed,
 			&min_value, &max_value, &format, &power, &callback, &tip, &parent, &before, &data_source, &width))
 			return mvPythonTranslator::GetPyNone();
 
@@ -1734,7 +1741,7 @@ namespace Marvel {
 		const char* data_source = "";
 		int width = 0;
 
-		if (!Parsers["add_drag_float2"].parse(args, kwargs, __FUNCTION__, &name, &default_value, &speed,
+		if (!(*mvApp::GetApp()->getParsers())["add_drag_float2"].parse(args, kwargs, __FUNCTION__, &name, &default_value, &speed,
 			&min_value, &max_value, &format, &power, &callback, &tip, &parent, &before, &data_source, &width))
 			return mvPythonTranslator::GetPyNone();
 
@@ -1768,7 +1775,7 @@ namespace Marvel {
 		const char* data_source = "";
 		int width = 0;
 
-		if (!Parsers["add_drag_float3"].parse(args, kwargs, __FUNCTION__, &name, &default_value, &speed,
+		if (!(*mvApp::GetApp()->getParsers())["add_drag_float3"].parse(args, kwargs, __FUNCTION__, &name, &default_value, &speed,
 			&min_value, &max_value, &format, &power, &callback, &tip, &parent, &before, &data_source, &width))
 			return mvPythonTranslator::GetPyNone();
 
@@ -1803,7 +1810,7 @@ namespace Marvel {
 		const char* data_source = "";
 		int width = 0;
 
-		if (!Parsers["add_drag_float4"].parse(args, kwargs, __FUNCTION__, &name, &default_value, &speed,
+		if (!(*mvApp::GetApp()->getParsers())["add_drag_float4"].parse(args, kwargs, __FUNCTION__, &name, &default_value, &speed,
 			&min_value, &max_value, &format, &power, &callback, &tip, &parent, &before, &data_source, &width))
 			return mvPythonTranslator::GetPyNone();
 
@@ -1833,7 +1840,7 @@ namespace Marvel {
 		const char* data_source = "";
 		int width = 0;
 
-		if (!Parsers["add_drag_int"].parse(args, kwargs, __FUNCTION__, &name, &default_value, &speed, 
+		if (!(*mvApp::GetApp()->getParsers())["add_drag_int"].parse(args, kwargs, __FUNCTION__, &name, &default_value, &speed, 
 			&min_value, &max_value, &format, &callback, &tip, &parent, &before, &data_source, &width))
 			return mvPythonTranslator::GetPyNone();
 
@@ -1863,7 +1870,7 @@ namespace Marvel {
 		const char* data_source = "";
 		int width = 0;
 
-		if (!Parsers["add_drag_int2"].parse(args, kwargs, __FUNCTION__, &name, &default_value, &speed,
+		if (!(*mvApp::GetApp()->getParsers())["add_drag_int2"].parse(args, kwargs, __FUNCTION__, &name, &default_value, &speed,
 			&min_value, &max_value, &format, &callback, &tip, &parent, &before, &data_source, &width))
 			return mvPythonTranslator::GetPyNone();
 
@@ -1896,7 +1903,7 @@ namespace Marvel {
 		const char* data_source = "";
 		int width = 0;
 
-		if (!Parsers["add_drag_int3"].parse(args, kwargs, __FUNCTION__, &name, &default_value, &speed,
+		if (!(*mvApp::GetApp()->getParsers())["add_drag_int3"].parse(args, kwargs, __FUNCTION__, &name, &default_value, &speed,
 			&min_value, &max_value, &format, &callback, &tip, &parent, &before, &data_source, &width))
 			return mvPythonTranslator::GetPyNone();
 
@@ -1930,7 +1937,7 @@ namespace Marvel {
 		const char* data_source = "";
 		int width = 0;
 
-		if (!Parsers["add_drag_int4"].parse(args, kwargs, __FUNCTION__, &name, &default_value, &speed,
+		if (!(*mvApp::GetApp()->getParsers())["add_drag_int4"].parse(args, kwargs, __FUNCTION__, &name, &default_value, &speed,
 			&min_value, &max_value, &format, &callback, &tip, &parent, &before, &data_source, &width))
 			return mvPythonTranslator::GetPyNone();
 
@@ -1962,7 +1969,7 @@ namespace Marvel {
 		int width = 0;
 		int height = 0;
 
-		if (!Parsers["add_slider_float"].parse(args, kwargs, __FUNCTION__, &name, &default_value, 
+		if (!(*mvApp::GetApp()->getParsers())["add_slider_float"].parse(args, kwargs, __FUNCTION__, &name, &default_value, 
 			&min_value, &max_value, &format, &power, &vertical, &callback, &tip, &parent, &before, 
 			&data_source, &width, &height))
 			return mvPythonTranslator::GetPyNone();
@@ -1994,7 +2001,7 @@ namespace Marvel {
 		const char* data_source = "";
 		int width = 0;
 
-		if (!Parsers["add_slider_float2"].parse(args, kwargs, __FUNCTION__, &name, &default_value,
+		if (!(*mvApp::GetApp()->getParsers())["add_slider_float2"].parse(args, kwargs, __FUNCTION__, &name, &default_value,
 			&min_value, &max_value, &format, &power, &callback, &tip, &parent, &before, &data_source,
 			&width))
 			return mvPythonTranslator::GetPyNone();
@@ -2028,7 +2035,7 @@ namespace Marvel {
 		const char* data_source = "";
 		int width = 0;
 
-		if (!Parsers["add_slider_float3"].parse(args, kwargs, __FUNCTION__, &name, &default_value,
+		if (!(*mvApp::GetApp()->getParsers())["add_slider_float3"].parse(args, kwargs, __FUNCTION__, &name, &default_value,
 			&min_value, &max_value, &format, &power, &callback, &tip, &parent, &before, &data_source,
 			&width))
 			return mvPythonTranslator::GetPyNone();
@@ -2063,7 +2070,7 @@ namespace Marvel {
 		const char* data_source = "";
 		int width = 0;
 
-		if (!Parsers["add_slider_float4"].parse(args, kwargs, __FUNCTION__, &name, &default_value,
+		if (!(*mvApp::GetApp()->getParsers())["add_slider_float4"].parse(args, kwargs, __FUNCTION__, &name, &default_value,
 			&min_value, &max_value, &format, &power, &callback, &tip, &parent, &before, &data_source,
 			&width))
 			return mvPythonTranslator::GetPyNone();
@@ -2095,7 +2102,7 @@ namespace Marvel {
 		int width = 0;
 		int height = 0;
 
-		if (!Parsers["add_slider_int"].parse(args, kwargs, __FUNCTION__, &name, &default_value,
+		if (!(*mvApp::GetApp()->getParsers())["add_slider_int"].parse(args, kwargs, __FUNCTION__, &name, &default_value,
 			&min_value, &max_value, &format, &vertical, &callback, &tip, &parent, &before, &data_source,
 			&width, &height))
 			return mvPythonTranslator::GetPyNone();
@@ -2126,7 +2133,7 @@ namespace Marvel {
 		const char* data_source = "";
 		int width = 0;
 
-		if (!Parsers["add_slider_int2"].parse(args, kwargs, __FUNCTION__, &name, &default_value,
+		if (!(*mvApp::GetApp()->getParsers())["add_slider_int2"].parse(args, kwargs, __FUNCTION__, &name, &default_value,
 			&min_value, &max_value, &format, &callback, &tip, &parent, &before, &data_source,
 			&width))
 			return mvPythonTranslator::GetPyNone();
@@ -2159,7 +2166,7 @@ namespace Marvel {
 		const char* data_source = "";
 		int width = 0;
 
-		if (!Parsers["add_slider_int3"].parse(args, kwargs, __FUNCTION__, &name, &default_value,
+		if (!(*mvApp::GetApp()->getParsers())["add_slider_int3"].parse(args, kwargs, __FUNCTION__, &name, &default_value,
 			&min_value, &max_value, &format, &callback, &tip, &parent, &before, &data_source,
 			&width))
 			return mvPythonTranslator::GetPyNone();
@@ -2194,7 +2201,7 @@ namespace Marvel {
 		const char* data_source = "";
 		int width = 0;
 
-		if (!Parsers["add_slider_int4"].parse(args, kwargs, __FUNCTION__, &name, &default_value,
+		if (!(*mvApp::GetApp()->getParsers())["add_slider_int4"].parse(args, kwargs, __FUNCTION__, &name, &default_value,
 			&min_value, &max_value, &format, &callback, &tip, &parent, &before, &data_source,
 			&width))
 			return mvPythonTranslator::GetPyNone();
@@ -2226,7 +2233,7 @@ namespace Marvel {
 		const char* parent = ""; 
 
 
-		if (!Parsers["add_text"].parse(args, kwargs,__FUNCTION__, &name, &wrap, 
+		if (!(*mvApp::GetApp()->getParsers())["add_text"].parse(args, kwargs,__FUNCTION__, &name, &wrap, 
 			&color, &bullet, &tip, &parent, &before))
 			return mvPythonTranslator::GetPyNone();
 
@@ -2257,7 +2264,7 @@ namespace Marvel {
 		const char* data_source = "";
 
 
-		if (!Parsers["add_label_text"].parse(args, kwargs,__FUNCTION__, &name, &value, 
+		if (!(*mvApp::GetApp()->getParsers())["add_label_text"].parse(args, kwargs,__FUNCTION__, &name, &value, 
 			&color, &tip, &parent, &before, &data_source))
 			return mvPythonTranslator::GetPyNone();
 
@@ -2286,7 +2293,7 @@ namespace Marvel {
 		const char* data_source = "";
 		const char* secondary_data_source = "";
 
-		if (!Parsers["add_listbox"].parse(args, kwargs,__FUNCTION__, &name, &items, 
+		if (!(*mvApp::GetApp()->getParsers())["add_listbox"].parse(args, kwargs,__FUNCTION__, &name, &items, 
 			&default_value, &callback, &tip, &parent, &before, &data_source, &width, 
 			&height, &secondary_data_source))
 			return mvPythonTranslator::GetPyNone();
@@ -2314,7 +2321,7 @@ namespace Marvel {
 		const char* data_source = "";
 		const char* secondary_data_source = "";
 
-		if (!Parsers["add_combo"].parse(args, kwargs,__FUNCTION__, &name, &items, 
+		if (!(*mvApp::GetApp()->getParsers())["add_combo"].parse(args, kwargs,__FUNCTION__, &name, &items, 
 			&default_value, &callback, &tip, &parent, &before, &data_source, &width
 			,&secondary_data_source))
 			return mvPythonTranslator::GetPyNone();
@@ -2338,7 +2345,7 @@ namespace Marvel {
 		const char* parent = ""; 
 		const char* data_source = "";
 
-		if (!Parsers["add_selectable"].parse(args, kwargs,__FUNCTION__, &name, 
+		if (!(*mvApp::GetApp()->getParsers())["add_selectable"].parse(args, kwargs,__FUNCTION__, &name, 
 			&default_value, &callback, &tip, &parent, &before, &data_source))
 			return mvPythonTranslator::GetPyNone();
 
@@ -2363,7 +2370,7 @@ namespace Marvel {
 		const char* before = ""; 
 		const char* parent = ""; 
 
-		if (!Parsers["add_button"].parse(args, kwargs,__FUNCTION__, &name, &smallb,
+		if (!(*mvApp::GetApp()->getParsers())["add_button"].parse(args, kwargs,__FUNCTION__, &name, &smallb,
 			&arrow, &direction, &callback, &tip, &parent, &before, &width, &height))
 			return mvPythonTranslator::GetPyNone();
 
@@ -2397,7 +2404,7 @@ namespace Marvel {
 
 		int flags = 0;
 
-		if (!Parsers["add_input_text"].parse(args, kwargs,__FUNCTION__, &name, &default_value, &hint, &multiline, &no_spaces, 
+		if (!(*mvApp::GetApp()->getParsers())["add_input_text"].parse(args, kwargs,__FUNCTION__, &name, &default_value, &hint, &multiline, &no_spaces, 
 			&uppercase, &decimal, &hexadecimal, &readonly, &password, &callback, &tip, &parent, &before, &data_source, &width))
 			return mvPythonTranslator::GetPyNone();
 
@@ -2429,7 +2436,7 @@ namespace Marvel {
 		const char* parent = "";
 		const char* data_source = "";
 
-		if (!Parsers["add_input_int"].parse(args, kwargs,__FUNCTION__, &name, 
+		if (!(*mvApp::GetApp()->getParsers())["add_input_int"].parse(args, kwargs,__FUNCTION__, &name, 
 			&default_value, &callback, &tip, &parent, &before, &data_source, &width))
 			return mvPythonTranslator::GetPyNone();
 
@@ -2456,7 +2463,7 @@ namespace Marvel {
 		const char* parent = "";
 		const char* data_source = "";
 
-		if (!Parsers["add_input_int2"].parse(args, kwargs, __FUNCTION__, &name, 
+		if (!(*mvApp::GetApp()->getParsers())["add_input_int2"].parse(args, kwargs, __FUNCTION__, &name, 
 			&default_value, &callback, &tip, &parent, &before, &data_source, &width))
 			return mvPythonTranslator::GetPyNone();
 
@@ -2486,7 +2493,7 @@ namespace Marvel {
 		const char* parent = "";
 		const char* data_source = "";
 
-		if (!Parsers["add_input_int3"].parse(args, kwargs, __FUNCTION__, &name, 
+		if (!(*mvApp::GetApp()->getParsers())["add_input_int3"].parse(args, kwargs, __FUNCTION__, &name, 
 			&default_value, &callback, &tip, &parent, &before, &data_source, &width))
 			return mvPythonTranslator::GetPyNone();
 
@@ -2517,7 +2524,7 @@ namespace Marvel {
 		const char* parent = "";
 		const char* data_source = "";
 
-		if (!Parsers["add_input_int4"].parse(args, kwargs, __FUNCTION__, &name, 
+		if (!(*mvApp::GetApp()->getParsers())["add_input_int4"].parse(args, kwargs, __FUNCTION__, &name, 
 			&default_value, &callback, &tip, &parent, &before, &data_source, &width))
 			return mvPythonTranslator::GetPyNone();
 
@@ -2545,7 +2552,7 @@ namespace Marvel {
 		const char* parent = "";
 		const char* data_source = "";
 
-		if (!Parsers["add_input_float"].parse(args, kwargs, __FUNCTION__, &name, 
+		if (!(*mvApp::GetApp()->getParsers())["add_input_float"].parse(args, kwargs, __FUNCTION__, &name, 
 			&default_value, &format, &callback, &tip, &parent, &before, &data_source, &width))
 			return mvPythonTranslator::GetPyNone();
 
@@ -2573,7 +2580,7 @@ namespace Marvel {
 		const char* parent = "";
 		const char* data_source = "";
 
-		if (!Parsers["add_input_float2"].parse(args, kwargs, __FUNCTION__, &name, 
+		if (!(*mvApp::GetApp()->getParsers())["add_input_float2"].parse(args, kwargs, __FUNCTION__, &name, 
 			&default_value, &format, &callback, &tip, &parent, &before, &data_source, &width))
 			return mvPythonTranslator::GetPyNone();
 
@@ -2604,7 +2611,7 @@ namespace Marvel {
 		const char* parent = "";
 		const char* data_source = "";
 
-		if (!Parsers["add_input_float3"].parse(args, kwargs, __FUNCTION__, &name, 
+		if (!(*mvApp::GetApp()->getParsers())["add_input_float3"].parse(args, kwargs, __FUNCTION__, &name, 
 			&default_value, &format, &callback, &tip, &parent, &before, &data_source, &width))
 			return mvPythonTranslator::GetPyNone();
 
@@ -2636,7 +2643,7 @@ namespace Marvel {
 		const char* parent = "";
 		const char* data_source = "";
 
-		if (!Parsers["add_input_float4"].parse(args, kwargs, __FUNCTION__, &name, 
+		if (!(*mvApp::GetApp()->getParsers())["add_input_float4"].parse(args, kwargs, __FUNCTION__, &name, 
 			&default_value, &format, &callback, &tip, &parent, &before, &data_source, &width))
 			return mvPythonTranslator::GetPyNone();
 
@@ -2661,7 +2668,7 @@ namespace Marvel {
 		const char* before = ""; 
 		const char* parent = "";
 
-		if (!Parsers["add_indent"].parse(args, kwargs,__FUNCTION__, &name, &offset, 
+		if (!(*mvApp::GetApp()->getParsers())["add_indent"].parse(args, kwargs,__FUNCTION__, &name, &offset, 
 			&parent, &before))
 			return mvPythonTranslator::GetPyNone();
 
@@ -2679,7 +2686,7 @@ namespace Marvel {
 		const char* before = "";
 		const char* parent = "";
 
-		if (!Parsers["unindent"].parse(args, kwargs,__FUNCTION__, &name, &offset, &parent, &before))
+		if (!(*mvApp::GetApp()->getParsers())["unindent"].parse(args, kwargs,__FUNCTION__, &name, &offset, &parent, &before))
 			return mvPythonTranslator::GetPyNone();
 
 		mvAppItem* item = new mvUnindent("", name, offset);
@@ -2696,7 +2703,7 @@ namespace Marvel {
 		const char* before = "";
 		const char* data_source = "";
 
-		if (!Parsers["add_tab_bar"].parse(args, kwargs, __FUNCTION__, &name, &reorderable, 
+		if (!(*mvApp::GetApp()->getParsers())["add_tab_bar"].parse(args, kwargs, __FUNCTION__, &name, &reorderable, 
 			&callback, &parent, &before, &data_source))
 			return mvPythonTranslator::GetPyNone();
 
@@ -2716,7 +2723,7 @@ namespace Marvel {
 		const char* before = ""; 
 		const char* parent = "";
 
-		if (!Parsers["add_tab"].parse(args, kwargs, __FUNCTION__, &name, &closeable,
+		if (!(*mvApp::GetApp()->getParsers())["add_tab"].parse(args, kwargs, __FUNCTION__, &name, &closeable,
 			&tip, &parent, &before))
 			return mvPythonTranslator::GetPyNone();
 		
@@ -2796,7 +2803,7 @@ namespace Marvel {
 		const char* before = ""; 
 		const char* parent = "";
 
-		if (!Parsers["add_menu_bar"].parse(args, kwargs, __FUNCTION__, &name,
+		if (!(*mvApp::GetApp()->getParsers())["add_menu_bar"].parse(args, kwargs, __FUNCTION__, &name,
 			&parent, &before))
 			return mvPythonTranslator::GetPyNone();
 
@@ -2821,7 +2828,7 @@ namespace Marvel {
 		const char* before = ""; 
 		const char* parent = "";
 
-		if (!Parsers["add_menu"].parse(args, kwargs, __FUNCTION__, &name, 
+		if (!(*mvApp::GetApp()->getParsers())["add_menu"].parse(args, kwargs, __FUNCTION__, &name, 
 			&tip, &parent, &before))
 			return mvPythonTranslator::GetPyNone();
 
@@ -2895,7 +2902,7 @@ namespace Marvel {
 		const char* before = ""; 
 		const char* parent = "";
 
-		if (!Parsers["add_menu_item"].parse(args, kwargs,__FUNCTION__, &name, 
+		if (!(*mvApp::GetApp()->getParsers())["add_menu_item"].parse(args, kwargs,__FUNCTION__, &name, 
 			&callback, &tip, &parent, &before))
 			return mvPythonTranslator::GetPyNone();
 
@@ -2915,7 +2922,7 @@ namespace Marvel {
 		const char* before = ""; 
 		const char* parent = "";
 
-		if (!Parsers["add_spacing"].parse(args, kwargs,__FUNCTION__, &name, &count,
+		if (!(*mvApp::GetApp()->getParsers())["add_spacing"].parse(args, kwargs,__FUNCTION__, &name, &count,
 			&parent, &before))
 			return mvPythonTranslator::GetPyNone();
 
@@ -2934,7 +2941,7 @@ namespace Marvel {
 		const char* before = "";
 		const char* parent = "";
 
-		if (!Parsers["add_same_line"].parse(args, kwargs,__FUNCTION__, &name,
+		if (!(*mvApp::GetApp()->getParsers())["add_same_line"].parse(args, kwargs,__FUNCTION__, &name,
 			&xoffset, &spacing, &parent, &before))
 			return mvPythonTranslator::GetPyNone();
 
@@ -2955,7 +2962,7 @@ namespace Marvel {
 		const char* data_source = "";
 		const char* secondary_data_source = "";
 
-		if (!Parsers["add_radio_button"].parse(args, kwargs,__FUNCTION__, &name, &items, 
+		if (!(*mvApp::GetApp()->getParsers())["add_radio_button"].parse(args, kwargs,__FUNCTION__, &name, &items, 
 			&default_value, &callback, &tip, &parent, &before, &data_source, &secondary_data_source))
 			return mvPythonTranslator::GetPyNone();
 
@@ -2976,7 +2983,7 @@ namespace Marvel {
 		const char* before = ""; 
 		const char* parent = "";
 
-		if (!Parsers["add_group"].parse(args, kwargs, __FUNCTION__, &name, 
+		if (!(*mvApp::GetApp()->getParsers())["add_group"].parse(args, kwargs, __FUNCTION__, &name, 
 			&tip, &parent, &before, &width))
 			return mvPythonTranslator::GetPyNone();
 
@@ -3014,7 +3021,7 @@ namespace Marvel {
 		const char* parent = "";
 		int border = true;
 
-		if (!Parsers["add_child"].parse(args, kwargs, __FUNCTION__, &name, 
+		if (!(*mvApp::GetApp()->getParsers())["add_child"].parse(args, kwargs, __FUNCTION__, &name, 
 			&tip, &parent, &before, &width, &height, &border))
 			return mvPythonTranslator::GetPyNone();
 
@@ -3042,7 +3049,7 @@ namespace Marvel {
 		int movable = true;
 		const char* closing_callback = "";
 
-		if (!Parsers["add_window"].parse(args, kwargs, __FUNCTION__, &name, &width, 
+		if (!(*mvApp::GetApp()->getParsers())["add_window"].parse(args, kwargs, __FUNCTION__, &name, &width, 
 			&height, &startx, &starty, &autosize, &resizable, &title_bar, &movable,
 			&hide, &closing_callback))
 			return mvPythonTranslator::GetPyNone();
@@ -3087,7 +3094,7 @@ namespace Marvel {
 		float x;
 		float y;
 
-		if (!Parsers["set_window_pos"].parse(args, kwargs, __FUNCTION__, &window,&x, &y))
+		if (!(*mvApp::GetApp()->getParsers())["set_window_pos"].parse(args, kwargs, __FUNCTION__, &window,&x, &y))
 			return mvPythonTranslator::GetPyNone();
 
 		auto awindow = mvApp::GetApp()->getWindow(window);
@@ -3107,7 +3114,7 @@ namespace Marvel {
 	{
 		const char* window;
 
-		if (!Parsers["get_window_pos"].parse(args, kwargs, __FUNCTION__, &window))
+		if (!(*mvApp::GetApp()->getParsers())["get_window_pos"].parse(args, kwargs, __FUNCTION__, &window))
 			return mvPythonTranslator::GetPyNone();
 
 		auto awindow = mvApp::GetApp()->getWindow(window);
@@ -3147,7 +3154,7 @@ namespace Marvel {
 		const char* parent = ""; 
 		const char* before = ""; 
 
-		if (!Parsers["add_tooltip"].parse(args, kwargs, __FUNCTION__, &tipparent, 
+		if (!(*mvApp::GetApp()->getParsers())["add_tooltip"].parse(args, kwargs, __FUNCTION__, &tipparent, 
 			&name, &parent, &before))
 			return mvPythonTranslator::GetPyNone();
 
@@ -3185,7 +3192,7 @@ namespace Marvel {
 		const char* before = "";
 		const char* parent = "";
 
-		if (!Parsers["add_popup"].parse(args, kwargs, __FUNCTION__, &popupparent, 
+		if (!(*mvApp::GetApp()->getParsers())["add_popup"].parse(args, kwargs, __FUNCTION__, &popupparent, 
 			&name, &mousebutton, &modal, &parent, &before, &width, &height))
 			return mvPythonTranslator::GetPyNone();
 
@@ -3230,7 +3237,7 @@ namespace Marvel {
 		const char* before = ""; 
 		const char* parent = "";
 
-		if (!Parsers["add_collapsing_header"].parse(args, kwargs, __FUNCTION__, &name, 
+		if (!(*mvApp::GetApp()->getParsers())["add_collapsing_header"].parse(args, kwargs, __FUNCTION__, &name, 
 			&default_open, &closable, &tip, &parent, &before))
 			return mvPythonTranslator::GetPyNone();
 
@@ -3268,7 +3275,7 @@ namespace Marvel {
 		const char* before = "";
 		const char* parent = "";
 
-		if (!Parsers["add_tree_node"].parse(args, kwargs, __FUNCTION__, &name, 
+		if (!(*mvApp::GetApp()->getParsers())["add_tree_node"].parse(args, kwargs, __FUNCTION__, &name, 
 			&default_open, &tip, &parent, &before))
 			return mvPythonTranslator::GetPyNone();
 
@@ -3306,7 +3313,7 @@ namespace Marvel {
 		const char* parent = "";
 		const char* before = "";
 
-		if (!Parsers["add_seperator"].parse(args, kwargs, __FUNCTION__, &name, &tip, &parent, &before))
+		if (!(*mvApp::GetApp()->getParsers())["add_seperator"].parse(args, kwargs, __FUNCTION__, &name, &tip, &parent, &before))
 			return mvPythonTranslator::GetPyNone();
 
 		mvAppItem* item = new mvSeparator("", name);
@@ -3332,7 +3339,7 @@ namespace Marvel {
 		const char* parent = "";
 		const char* data_source = "";
 
-		if (!Parsers["add_color_edit3"].parse(args, kwargs, __FUNCTION__, &name, 
+		if (!(*mvApp::GetApp()->getParsers())["add_color_edit3"].parse(args, kwargs, __FUNCTION__, &name, 
 			&default_value, &callback, &tip, &parent, &before, &data_source, &width, &height))
 			return mvPythonTranslator::GetPyNone();
 
@@ -3364,7 +3371,7 @@ namespace Marvel {
 		const char* parent = "";
 		const char* data_source = "";
 
-		if (!Parsers["add_color_edit4"].parse(args, kwargs,__FUNCTION__, &name, &default_value, &callback, &tip, &parent, &before, &data_source, &width, &height))
+		if (!(*mvApp::GetApp()->getParsers())["add_color_edit4"].parse(args, kwargs,__FUNCTION__, &name, &default_value, &callback, &tip, &parent, &before, &data_source, &width, &height))
 			return mvPythonTranslator::GetPyNone();
 
 		auto color = mvPythonTranslator::ToColor(default_value);
@@ -3394,7 +3401,7 @@ namespace Marvel {
 		const char* parent = "";
 		const char* data_source = "";
 
-		if (!Parsers["add_color_picker3"].parse(args, kwargs, __FUNCTION__, &name, &default_value, &callback, &tip, &parent, &before, &data_source, &width, &height))
+		if (!(*mvApp::GetApp()->getParsers())["add_color_picker3"].parse(args, kwargs, __FUNCTION__, &name, &default_value, &callback, &tip, &parent, &before, &data_source, &width, &height))
 			return mvPythonTranslator::GetPyNone();
 
 		auto color = mvPythonTranslator::ToColor(default_value);
@@ -3425,7 +3432,7 @@ namespace Marvel {
 		const char* parent = "";
 		const char* data_source = "";
 
-		if (!Parsers["add_color_picker4"].parse(args, kwargs, __FUNCTION__, &name, 
+		if (!(*mvApp::GetApp()->getParsers())["add_color_picker4"].parse(args, kwargs, __FUNCTION__, &name, 
 			&default_value, &callback, &tip, &parent, &before, &data_source, &width, &height))
 			return mvPythonTranslator::GetPyNone();
 
@@ -3451,7 +3458,7 @@ namespace Marvel {
 		const char* parent = "";
 		const char* data_source = "";
 
-		if (!Parsers["add_checkbox"].parse(args, kwargs,__FUNCTION__, &name, 
+		if (!(*mvApp::GetApp()->getParsers())["add_checkbox"].parse(args, kwargs,__FUNCTION__, &name, 
 			&default_value, &callback, &tip, &parent, &before, &data_source))
 			return mvPythonTranslator::GetPyNone();
 
@@ -3470,7 +3477,7 @@ namespace Marvel {
 		int column;
 		const char* value;
 
-		if (!Parsers["set_table_item"].parse(args, kwargs, __FUNCTION__, &table, &row,
+		if (!(*mvApp::GetApp()->getParsers())["set_table_item"].parse(args, kwargs, __FUNCTION__, &table, &row,
 			&column, &value))
 			return mvPythonTranslator::GetPyNone();
 
@@ -3493,7 +3500,7 @@ namespace Marvel {
 		const char* table;
 		int row;
 
-		if (!Parsers["delete_row"].parse(args, kwargs, __FUNCTION__, &table, &row))
+		if (!(*mvApp::GetApp()->getParsers())["delete_row"].parse(args, kwargs, __FUNCTION__, &table, &row))
 			return mvPythonTranslator::GetPyNone();
 
 		mvAppItem* item = mvApp::GetApp()->getItem(table);
@@ -3515,7 +3522,7 @@ namespace Marvel {
 		const char* table;
 		int column;
 
-		if (!Parsers["delete_column"].parse(args, kwargs, __FUNCTION__, &table, &column))
+		if (!(*mvApp::GetApp()->getParsers())["delete_column"].parse(args, kwargs, __FUNCTION__, &table, &column))
 			return mvPythonTranslator::GetPyNone();
 
 		mvAppItem* item = mvApp::GetApp()->getItem(table);
@@ -3537,7 +3544,7 @@ namespace Marvel {
 		const char* table;
 		PyObject* row;
 
-		if (!Parsers["add_row"].parse(args, kwargs, __FUNCTION__, &table, &row))
+		if (!(*mvApp::GetApp()->getParsers())["add_row"].parse(args, kwargs, __FUNCTION__, &table, &row))
 			return mvPythonTranslator::GetPyNone();
 
 		mvAppItem* item = mvApp::GetApp()->getItem(table);
@@ -3562,7 +3569,7 @@ namespace Marvel {
 		const char* name;
 		PyObject* column;
 
-		if (!Parsers["add_column"].parse(args, kwargs, __FUNCTION__, &table, &name, &column))
+		if (!(*mvApp::GetApp()->getParsers())["add_column"].parse(args, kwargs, __FUNCTION__, &table, &name, &column))
 			return mvPythonTranslator::GetPyNone();
 
 		mvAppItem* item = mvApp::GetApp()->getItem(table);
@@ -3587,7 +3594,7 @@ namespace Marvel {
 		int row_index;
 		PyObject* row;
 
-		if (!Parsers["insert_row"].parse(args, kwargs, __FUNCTION__, &table, &row_index, &row))
+		if (!(*mvApp::GetApp()->getParsers())["insert_row"].parse(args, kwargs, __FUNCTION__, &table, &row_index, &row))
 			return mvPythonTranslator::GetPyNone();
 
 		mvAppItem* item = mvApp::GetApp()->getItem(table);
@@ -3613,7 +3620,7 @@ namespace Marvel {
 		const char* name;
 		PyObject* column;
 
-		if (!Parsers["insert_column"].parse(args, kwargs, __FUNCTION__, &table, &column_index, &name, &column))
+		if (!(*mvApp::GetApp()->getParsers())["insert_column"].parse(args, kwargs, __FUNCTION__, &table, &column_index, &name, &column))
 			return mvPythonTranslator::GetPyNone();
 
 		mvAppItem* item = mvApp::GetApp()->getItem(table);
@@ -3639,7 +3646,7 @@ namespace Marvel {
 		int column;
 		int value;
 
-		if (!Parsers["set_table_selection"].parse(args, kwargs, __FUNCTION__, &table, &row,
+		if (!(*mvApp::GetApp()->getParsers())["set_table_selection"].parse(args, kwargs, __FUNCTION__, &table, &row,
 			&column, &value))
 			return mvPythonTranslator::GetPyNone();
 
@@ -3661,7 +3668,7 @@ namespace Marvel {
 	{
 		const char* table;
 
-		if (!Parsers["clear_table"].parse(args, kwargs, __FUNCTION__, &table))
+		if (!(*mvApp::GetApp()->getParsers())["clear_table"].parse(args, kwargs, __FUNCTION__, &table))
 			return mvPythonTranslator::GetPyNone();
 
 		mvAppItem* item = mvApp::GetApp()->getItem(table);
@@ -3683,7 +3690,7 @@ namespace Marvel {
 		int row;
 		int column;
 
-		if (!Parsers["get_table_item"].parse(args, kwargs, __FUNCTION__, &table, &row,
+		if (!(*mvApp::GetApp()->getParsers())["get_table_item"].parse(args, kwargs, __FUNCTION__, &table, &row,
 			&column))
 			return mvPythonTranslator::GetPyNone();
 
@@ -3704,7 +3711,7 @@ namespace Marvel {
 	{
 		const char* table;
 
-		if (!Parsers["get_table_selections"].parse(args, kwargs, __FUNCTION__, &table))
+		if (!(*mvApp::GetApp()->getParsers())["get_table_selections"].parse(args, kwargs, __FUNCTION__, &table))
 			return mvPythonTranslator::GetPyNone();
 
 		mvAppItem* item = mvApp::GetApp()->getItem(table);
@@ -3725,7 +3732,7 @@ namespace Marvel {
 		const char* return_handler = "";
 		PyObject* data;
 
-		if (!Parsers["run_async_function"].parse(args, kwargs, __FUNCTION__, &name, &data, &return_handler))
+		if (!(*mvApp::GetApp()->getParsers())["run_async_function"].parse(args, kwargs, __FUNCTION__, &name, &data, &return_handler))
 			return mvPythonTranslator::GetPyNone();
 
 		mvApp::GetApp()->addMTCallback(name, data, return_handler);
@@ -3745,7 +3752,7 @@ namespace Marvel {
 		const char* item;
 		int childrenOnly = false;
 
-		if (!Parsers["delete_item"].parse(args, kwargs, __FUNCTION__, &item, &childrenOnly))
+		if (!(*mvApp::GetApp()->getParsers())["delete_item"].parse(args, kwargs, __FUNCTION__, &item, &childrenOnly))
 			return mvPythonTranslator::GetPyNone();
 
 		if (childrenOnly)
@@ -3767,7 +3774,7 @@ namespace Marvel {
 	{
 		PyObject* extensions;
 
-		if (!Parsers["open_file_dialog"].parse(args, kwargs, __FUNCTION__, &extensions))
+		if (!(*mvApp::GetApp()->getParsers())["open_file_dialog"].parse(args, kwargs, __FUNCTION__, &extensions))
 			return mvPythonTranslator::GetPyNone();
 
 		std::string file = OpenFile(mvPythonTranslator::ToVectPairString(extensions));
@@ -3779,7 +3786,7 @@ namespace Marvel {
 	{
 		PyObject* extensions;
 
-		if (!Parsers["save_file_dialog"].parse(args, kwargs, __FUNCTION__, &extensions))
+		if (!(*mvApp::GetApp()->getParsers())["save_file_dialog"].parse(args, kwargs, __FUNCTION__, &extensions))
 			return mvPythonTranslator::GetPyNone();
 
 		std::string file = SaveFile(mvPythonTranslator::ToVectPairString(extensions));
@@ -3797,7 +3804,7 @@ namespace Marvel {
 
 		const char* item;
 
-		if (!Parsers["move_item_up"].parse(args, kwargs, __FUNCTION__, &item))
+		if (!(*mvApp::GetApp()->getParsers())["move_item_up"].parse(args, kwargs, __FUNCTION__, &item))
 			return mvPythonTranslator::GetPyNone();
 
 		mvApp::GetApp()->moveItemUp(item);
@@ -3816,7 +3823,7 @@ namespace Marvel {
 
 		const char* item;
 
-		if (!Parsers["move_item_down"].parse(args, kwargs, __FUNCTION__, &item))
+		if (!(*mvApp::GetApp()->getParsers())["move_item_down"].parse(args, kwargs, __FUNCTION__, &item))
 			return mvPythonTranslator::GetPyNone();
 
 		mvApp::GetApp()->moveItemDown(item);
@@ -3829,7 +3836,7 @@ namespace Marvel {
 	{
 		int item;
 
-		if (!Parsers["get_style_item"].parse(args, kwargs, __FUNCTION__, &item))
+		if (!(*mvApp::GetApp()->getParsers())["get_style_item"].parse(args, kwargs, __FUNCTION__, &item))
 			return mvPythonTranslator::GetPyNone();
 
 		auto values = mvApp::GetApp()->getStyleItem(item);
@@ -3841,7 +3848,7 @@ namespace Marvel {
 	{
 		int item;
 
-		if (!Parsers["get_theme_item"].parse(args, kwargs, __FUNCTION__, &item))
+		if (!(*mvApp::GetApp()->getParsers())["get_theme_item"].parse(args, kwargs, __FUNCTION__, &item))
 			return mvPythonTranslator::GetPyNone();
 
 		auto color = mvApp::GetApp()->getThemeItem(item);
@@ -3863,7 +3870,7 @@ namespace Marvel {
 	{
 		const char* item;
 
-		if (!Parsers["get_item_callback"].parse(args, kwargs, __FUNCTION__, &item))
+		if (!(*mvApp::GetApp()->getParsers())["get_item_callback"].parse(args, kwargs, __FUNCTION__, &item))
 			return mvPythonTranslator::GetPyNone();
 
 		auto appitem = mvApp::GetApp()->getItem(item);
@@ -3878,7 +3885,7 @@ namespace Marvel {
 	{
 		const char* item;
 
-		if (!Parsers["get_item_height"].parse(args, kwargs, __FUNCTION__, &item))
+		if (!(*mvApp::GetApp()->getParsers())["get_item_height"].parse(args, kwargs, __FUNCTION__, &item))
 			return mvPythonTranslator::GetPyNone();
 
 		auto appitem = mvApp::GetApp()->getItem(item);
@@ -3893,7 +3900,7 @@ namespace Marvel {
 	{
 		const char* item;
 
-		if (!Parsers["get_item_width"].parse(args, kwargs, __FUNCTION__, &item))
+		if (!(*mvApp::GetApp()->getParsers())["get_item_width"].parse(args, kwargs, __FUNCTION__, &item))
 			return mvPythonTranslator::GetPyNone();
 
 		auto appitem = mvApp::GetApp()->getItem(item);
@@ -3908,7 +3915,7 @@ namespace Marvel {
 	{
 		const char* item;
 
-		if (!Parsers["get_item_popup"].parse(args, kwargs, __FUNCTION__, &item))
+		if (!(*mvApp::GetApp()->getParsers())["get_item_popup"].parse(args, kwargs, __FUNCTION__, &item))
 			return mvPythonTranslator::GetPyNone();
 
 		auto appitem = mvApp::GetApp()->getItem(item);
@@ -3923,7 +3930,7 @@ namespace Marvel {
 	{
 		const char* item;
 
-		if (!Parsers["get_item_tip"].parse(args, kwargs, __FUNCTION__, &item))
+		if (!(*mvApp::GetApp()->getParsers())["get_item_tip"].parse(args, kwargs, __FUNCTION__, &item))
 			return mvPythonTranslator::GetPyNone();
 
 		auto appitem = mvApp::GetApp()->getItem(item);
@@ -3973,7 +3980,7 @@ namespace Marvel {
 	{
 		float time;
 
-		if (!Parsers["set_threadpool_timeout"].parse(args, kwargs, __FUNCTION__, &time))
+		if (!(*mvApp::GetApp()->getParsers())["set_threadpool_timeout"].parse(args, kwargs, __FUNCTION__, &time))
 			return mvPythonTranslator::GetPyNone();
 
 		mvApp::GetApp()->setThreadPoolTimeout(time);
@@ -3986,7 +3993,7 @@ namespace Marvel {
 
 		int threads;
 
-		if (!Parsers["set_thread_count"].parse(args, kwargs, __FUNCTION__, &threads))
+		if (!(*mvApp::GetApp()->getParsers())["set_thread_count"].parse(args, kwargs, __FUNCTION__, &threads))
 			return mvPythonTranslator::GetPyNone();
 
 		mvApp::GetApp()->setThreadCount(threads);
@@ -4000,7 +4007,7 @@ namespace Marvel {
 		const char* name;
 		PyObject* data;
 
-		if (!Parsers["add_data"].parse(args, kwargs, __FUNCTION__, &name, &data))
+		if (!(*mvApp::GetApp()->getParsers())["add_data"].parse(args, kwargs, __FUNCTION__, &name, &data))
 			return mvPythonTranslator::GetPyNone();
 
 		mvDataStorage::AddData(name, data);
@@ -4014,7 +4021,7 @@ namespace Marvel {
 
 		const char* name;
 
-		if (!Parsers["get_data"].parse(args, kwargs, __FUNCTION__, &name))
+		if (!(*mvApp::GetApp()->getParsers())["get_data"].parse(args, kwargs, __FUNCTION__, &name))
 			return mvPythonTranslator::GetPyNone();
 
 		auto result = mvDataStorage::GetData(name);
@@ -4030,7 +4037,7 @@ namespace Marvel {
 
 		const char* name;
 
-		if (!Parsers["delete_data"].parse(args, kwargs, __FUNCTION__, &name))
+		if (!(*mvApp::GetApp()->getParsers())["delete_data"].parse(args, kwargs, __FUNCTION__, &name))
 			return mvPythonTranslator::GetPyNone();
 
 		mvDataStorage::DeleteData(name);
@@ -4050,7 +4057,7 @@ namespace Marvel {
 		int style;
 		PyObject* color;
 
-		if (!Parsers["add_item_color_style"].parse(args, kwargs, __FUNCTION__, &item, &style, &color))
+		if (!(*mvApp::GetApp()->getParsers())["add_item_color_style"].parse(args, kwargs, __FUNCTION__, &item, &style, &color))
 			return mvPythonTranslator::GetPyNone();
 
 		auto mcolor = mvPythonTranslator::ToColor(color);
@@ -4064,7 +4071,7 @@ namespace Marvel {
 	{
 		const char* item;
 
-		if (!Parsers["is_item_hovered"].parse(args, kwargs, __FUNCTION__, &item))
+		if (!(*mvApp::GetApp()->getParsers())["is_item_hovered"].parse(args, kwargs, __FUNCTION__, &item))
 			return mvPythonTranslator::GetPyNone();
 
 		auto appitem = mvApp::GetApp()->getItem(item);
@@ -4079,7 +4086,7 @@ namespace Marvel {
 	{
 		const char* item;
 
-		if (!Parsers["is_item_active"].parse(args, kwargs, __FUNCTION__, &item))
+		if (!(*mvApp::GetApp()->getParsers())["is_item_active"].parse(args, kwargs, __FUNCTION__, &item))
 			return mvPythonTranslator::GetPyNone();
 
 		auto appitem = mvApp::GetApp()->getItem(item);
@@ -4094,7 +4101,7 @@ namespace Marvel {
 	{
 		const char* item;
 
-		if (!Parsers["is_item_focused"].parse(args, kwargs, __FUNCTION__, &item))
+		if (!(*mvApp::GetApp()->getParsers())["is_item_focused"].parse(args, kwargs, __FUNCTION__, &item))
 			return mvPythonTranslator::GetPyNone();
 
 		auto appitem = mvApp::GetApp()->getItem(item);
@@ -4109,7 +4116,7 @@ namespace Marvel {
 	{
 		const char* item;
 
-		if (!Parsers["is_item_clicked"].parse(args, kwargs, __FUNCTION__, &item))
+		if (!(*mvApp::GetApp()->getParsers())["is_item_clicked"].parse(args, kwargs, __FUNCTION__, &item))
 			return mvPythonTranslator::GetPyNone();
 
 		auto appitem = mvApp::GetApp()->getItem(item);
@@ -4124,7 +4131,7 @@ namespace Marvel {
 	{
 		const char* item;
 
-		if (!Parsers["is_item_visible"].parse(args, kwargs, __FUNCTION__, &item))
+		if (!(*mvApp::GetApp()->getParsers())["is_item_visible"].parse(args, kwargs, __FUNCTION__, &item))
 			return mvPythonTranslator::GetPyNone();
 
 		auto appitem = mvApp::GetApp()->getItem(item);
@@ -4139,7 +4146,7 @@ namespace Marvel {
 	{
 		const char* item;
 
-		if (!Parsers["is_item_edited"].parse(args, kwargs, __FUNCTION__, &item))
+		if (!(*mvApp::GetApp()->getParsers())["is_item_edited"].parse(args, kwargs, __FUNCTION__, &item))
 			return mvPythonTranslator::GetPyNone();
 
 		auto appitem = mvApp::GetApp()->getItem(item);
@@ -4154,7 +4161,7 @@ namespace Marvel {
 	{
 		const char* item;
 
-		if (!Parsers["is_item_activated"].parse(args, kwargs, __FUNCTION__, &item))
+		if (!(*mvApp::GetApp()->getParsers())["is_item_activated"].parse(args, kwargs, __FUNCTION__, &item))
 			return mvPythonTranslator::GetPyNone();
 
 		auto appitem = mvApp::GetApp()->getItem(item);
@@ -4169,7 +4176,7 @@ namespace Marvel {
 	{
 		const char* item;
 
-		if (!Parsers["is_item_deactivated"].parse(args, kwargs, __FUNCTION__, &item))
+		if (!(*mvApp::GetApp()->getParsers())["is_item_deactivated"].parse(args, kwargs, __FUNCTION__, &item))
 			return mvPythonTranslator::GetPyNone();
 
 		auto appitem = mvApp::GetApp()->getItem(item);
@@ -4184,7 +4191,7 @@ namespace Marvel {
 	{
 		const char* item;
 
-		if (!Parsers["is_item_deactivated_after_edit"].parse(args, kwargs, __FUNCTION__, &item))
+		if (!(*mvApp::GetApp()->getParsers())["is_item_deactivated_after_edit"].parse(args, kwargs, __FUNCTION__, &item))
 			return mvPythonTranslator::GetPyNone();
 
 		auto appitem = mvApp::GetApp()->getItem(item);
@@ -4199,7 +4206,7 @@ namespace Marvel {
 	{
 		const char* item;
 
-		if (!Parsers["is_item_toggled_open"].parse(args, kwargs, __FUNCTION__, &item))
+		if (!(*mvApp::GetApp()->getParsers())["is_item_toggled_open"].parse(args, kwargs, __FUNCTION__, &item))
 			return mvPythonTranslator::GetPyNone();
 
 		auto appitem = mvApp::GetApp()->getItem(item);
@@ -4214,7 +4221,7 @@ namespace Marvel {
 	{
 		const char* item;
 
-		if (!Parsers["get_item_rect_min"].parse(args, kwargs, __FUNCTION__, &item))
+		if (!(*mvApp::GetApp()->getParsers())["get_item_rect_min"].parse(args, kwargs, __FUNCTION__, &item))
 			return mvPythonTranslator::GetPyNone();
 
 		auto appitem = mvApp::GetApp()->getItem(item);
@@ -4232,7 +4239,7 @@ namespace Marvel {
 	{
 		const char* item;
 
-		if (!Parsers["get_item_rect_max"].parse(args, kwargs, __FUNCTION__, &item))
+		if (!(*mvApp::GetApp()->getParsers())["get_item_rect_max"].parse(args, kwargs, __FUNCTION__, &item))
 			return mvPythonTranslator::GetPyNone();
 
 		auto appitem = mvApp::GetApp()->getItem(item);
@@ -4250,7 +4257,7 @@ namespace Marvel {
 	{
 		const char* item;
 
-		if (!Parsers["get_item_rect_size"].parse(args, kwargs, __FUNCTION__, &item))
+		if (!(*mvApp::GetApp()->getParsers())["get_item_rect_size"].parse(args, kwargs, __FUNCTION__, &item))
 			return mvPythonTranslator::GetPyNone();
 
 		auto appitem = mvApp::GetApp()->getItem(item);
@@ -4270,7 +4277,7 @@ namespace Marvel {
 		float x = 0.0f;
 		float y = 0.0f;
 
-		if (!Parsers["change_style_item"].parse(args, kwargs, __FUNCTION__, &item, &x, &y))
+		if (!(*mvApp::GetApp()->getParsers())["change_style_item"].parse(args, kwargs, __FUNCTION__, &item, &x, &y))
 			return mvPythonTranslator::GetPyNone();
 
 		mvApp::GetApp()->changeStyleItem(item, x, y);
@@ -4283,7 +4290,7 @@ namespace Marvel {
 		int item;
 		int r, g, b, a;
 
-		if (!Parsers["change_theme_item"].parse(args, kwargs, __FUNCTION__, &item, &r, &g, &b, &a))
+		if (!(*mvApp::GetApp()->getParsers())["change_theme_item"].parse(args, kwargs, __FUNCTION__, &item, &r, &g, &b, &a))
 			return mvPythonTranslator::GetPyNone();
 
 		mvApp::GetApp()->changeThemeItem(item, { r, g, b, a });
@@ -4297,7 +4304,7 @@ namespace Marvel {
 	{
 		const char* name;
 
-		if (!Parsers["get_value"].parse(args, kwargs, __FUNCTION__, &name))
+		if (!(*mvApp::GetApp()->getParsers())["get_value"].parse(args, kwargs, __FUNCTION__, &name))
 			return mvPythonTranslator::GetPyNone();
 
 		mvAppItem* item = mvApp::GetApp()->getItem(std::string(name));
@@ -4313,7 +4320,7 @@ namespace Marvel {
 		const char* name;
 		PyObject* value;
 
-		if (!Parsers["set_value"].parse(args, kwargs, __FUNCTION__, &name, &value))
+		if (!(*mvApp::GetApp()->getParsers())["set_value"].parse(args, kwargs, __FUNCTION__, &name, &value))
 			return mvPythonTranslator::GetPyNone();
 
 		mvAppItem* item = mvApp::GetApp()->getItem(std::string(name));
@@ -4329,7 +4336,7 @@ namespace Marvel {
 	{
 		const char* name;
 
-		if (!Parsers["show_item"].parse(args, kwargs, __FUNCTION__, &name))
+		if (!(*mvApp::GetApp()->getParsers())["show_item"].parse(args, kwargs, __FUNCTION__, &name))
 			return mvPythonTranslator::GetPyNone();
 
 		mvAppItem* item = mvApp::GetApp()->getItem(std::string(name));
@@ -4344,7 +4351,7 @@ namespace Marvel {
 	{
 		const char* name;
 
-		if (!Parsers["hide_item"].parse(args, kwargs, __FUNCTION__, &name))
+		if (!(*mvApp::GetApp()->getParsers())["hide_item"].parse(args, kwargs, __FUNCTION__, &name))
 			return mvPythonTranslator::GetPyNone();
 
 		mvAppItem* item = mvApp::GetApp()->getItem(std::string(name));
@@ -4360,7 +4367,7 @@ namespace Marvel {
 		const char* callback;
 		const char* handler = "MainWindow";
 
-		if (!Parsers["set_render_callback"].parse(args, kwargs, __FUNCTION__, &callback, &handler))
+		if (!(*mvApp::GetApp()->getParsers())["set_render_callback"].parse(args, kwargs, __FUNCTION__, &callback, &handler))
 			return mvPythonTranslator::GetPyNone();
 
 		if(std::string(handler) == "MainWindow")
@@ -4409,7 +4416,7 @@ namespace Marvel {
 		const char* callback;
 		const char* handler = "MainWindow";
 
-		if (!Parsers["set_resize_callback"].parse(args, kwargs, __FUNCTION__, &callback, &handler))
+		if (!(*mvApp::GetApp()->getParsers())["set_resize_callback"].parse(args, kwargs, __FUNCTION__, &callback, &handler))
 			return mvPythonTranslator::GetPyNone();
 
 		if (std::string(handler) == "MainWindow")
@@ -4458,7 +4465,7 @@ namespace Marvel {
 		const char* callback;
 		const char* item;
 
-		if (!Parsers["set_item_callback"].parse(args, kwargs, __FUNCTION__, &item, &callback))
+		if (!(*mvApp::GetApp()->getParsers())["set_item_callback"].parse(args, kwargs, __FUNCTION__, &item, &callback))
 			return mvPythonTranslator::GetPyNone();
 
 		mvAppItem* appitem;
@@ -4475,7 +4482,7 @@ namespace Marvel {
 		const char* popup;
 		const char* item;
 
-		if (!Parsers["set_item_popup"].parse(args, kwargs, __FUNCTION__, &item, &popup))
+		if (!(*mvApp::GetApp()->getParsers())["set_item_popup"].parse(args, kwargs, __FUNCTION__, &item, &popup))
 			return mvPythonTranslator::GetPyNone();
 
 		auto appitem = mvApp::GetApp()->getItem(item);
@@ -4490,7 +4497,7 @@ namespace Marvel {
 	{
 		const char* tip, * item;
 
-		if (!Parsers["set_item_tip"].parse(args, kwargs, __FUNCTION__, &item, &tip))
+		if (!(*mvApp::GetApp()->getParsers())["set_item_tip"].parse(args, kwargs, __FUNCTION__, &item, &tip))
 			return mvPythonTranslator::GetPyNone();
 
 		auto appitem = mvApp::GetApp()->getItem(item);
@@ -4506,7 +4513,7 @@ namespace Marvel {
 		const char* item;
 		int width;
 
-		if (!Parsers["set_item_width"].parse(args, kwargs, __FUNCTION__, &item, &width))
+		if (!(*mvApp::GetApp()->getParsers())["set_item_width"].parse(args, kwargs, __FUNCTION__, &item, &width))
 			return mvPythonTranslator::GetPyNone();
 
 		auto appitem = mvApp::GetApp()->getItem(item);
@@ -4523,7 +4530,7 @@ namespace Marvel {
 		const char* item;
 		int height;
 
-		if (!Parsers["set_item_height"].parse(args, kwargs, __FUNCTION__, &item, &height))
+		if (!(*mvApp::GetApp()->getParsers())["set_item_height"].parse(args, kwargs, __FUNCTION__, &item, &height))
 			return mvPythonTranslator::GetPyNone();
 
 		auto appitem = mvApp::GetApp()->getItem(item);
@@ -4540,7 +4547,7 @@ namespace Marvel {
 		int width;
 		int height;
 
-		if (!Parsers["set_main_window_size"].parse(args, kwargs, __FUNCTION__, &width, &height))
+		if (!(*mvApp::GetApp()->getParsers())["set_main_window_size"].parse(args, kwargs, __FUNCTION__, &width, &height))
 			return mvPythonTranslator::GetPyNone();
 
 		mvApp::GetApp()->setActualSize(width, height);
@@ -4562,7 +4569,7 @@ namespace Marvel {
 	{
 		const char* theme;
 
-		if (!Parsers["set_theme"].parse(args, kwargs, __FUNCTION__, &theme))
+		if (!(*mvApp::GetApp()->getParsers())["set_theme"].parse(args, kwargs, __FUNCTION__, &theme))
 			return mvPythonTranslator::GetPyNone();
 
 		mvApp::GetApp()->setAppTheme(std::string(theme));
@@ -4586,7 +4593,7 @@ namespace Marvel {
 	{
 		const char* file;
 
-		if (!Parsers["show_source"].parse(args, kwargs, __FUNCTION__, &file))
+		if (!(*mvApp::GetApp()->getParsers())["show_source"].parse(args, kwargs, __FUNCTION__, &file))
 			return mvPythonTranslator::GetPyNone();
 
 		mvApp::GetApp()->showStandardWindow("source");
@@ -4605,6 +4612,359 @@ namespace Marvel {
 	{
 		mvApp::GetApp()->showStandardWindow("documentation");
 		return mvPythonTranslator::GetPyNone();
+	}
+
+	std::vector<std::pair<std::string, long>> GetModuleConstants()
+	{
+		std::vector<std::pair<std::string, long>> ModuleConstants =
+		{
+			//-----------------------------------------------------------------------------
+			// Plot Flags
+			//-----------------------------------------------------------------------------
+			{"mvPlotFlags_MousePos"   , 1 << 0},  // the mouse position, in plot coordinates, will be displayed in the bottom-right
+			{"mvPlotFlags_Legend"     , 1 << 1},  // a legend will be displayed in the top-left
+			{"mvPlotFlags_Highlight"  , 1 << 2},  // plot items will be highlighted when their legend entry is hovered
+			{"mvPlotFlags_BoxSelect"  , 1 << 3},  // the user will be able to box-select with right-mouse
+			{"mvPlotFlags_Query"      , 1 << 4},  // the user will be able to draw query rects with middle-mouse
+			{"mvPlotFlags_ContextMenu", 1 << 5},  // the user will be able to open a context menu with double-right click
+			{"mvPlotFlags_Crosshairs" , 1 << 6},  // the default mouse cursor will be replaced with a crosshair when hovered
+			{"mvPlotFlags_CullData"   , 1 << 7},  // plot data outside the plot area will be culled from rendering
+			{"mvPlotFlags_AntiAliased", 1 << 8},  // lines and fills will be anti-aliased (not recommended)
+			{"mvPlotFlags_NoChild"    , 1 << 9},  // a child window region will not be used to capture mouse scroll (can boost performance for single ImGui window applications)
+			{"mvPlotFlags_YAxis2"     , 1 << 10}, // enable a 2nd y axis
+			{"mvPlotFlags_YAxis3"     , 1 << 11}, // enable a 3rd y axis
+			{"mvPlotFlags_Default"    ,     175},
+
+			//-----------------------------------------------------------------------------
+			// Axis Flags
+			//-----------------------------------------------------------------------------
+			{"mvPlotAxisFlags_GridLines" , 1 << 0}, // grid lines will be displayed
+			{"mvPlotAxisFlags_TickMarks" , 1 << 1}, // tick marks will be displayed for each grid line
+			{"mvPlotAxisFlags_TickLabels", 1 << 2}, // text labels will be displayed for each grid line
+			{"mvPlotAxisFlags_Invert"    , 1 << 3}, // the axis will be inverted
+			{"mvPlotAxisFlags_LockMin"   , 1 << 4}, // the axis minimum value will be locked when panning/zooming
+			{"mvPlotAxisFlags_LockMax"   , 1 << 5}, // the axis maximum value will be locked when panning/zooming
+			{"mvPlotAxisFlags_Adaptive"  , 1 << 6}, // grid divisions will adapt to the current pixel size the axis
+			{"mvPlotAxisFlags_LogScale"  , 1 << 7}, // a logartithmic (base 10) axis scale will be used
+			{"mvPlotAxisFlags_Scientific", 1 << 8}, // scientific notation will be used for tick labels if displayed (WIP, not very good yet)
+			{"mvPlotAxisFlags_Default"   ,     71},
+			{"mvPlotAxisFlags_Auxiliary" ,     70},
+
+			//-----------------------------------------------------------------------------
+			// Plot Colors
+			//-----------------------------------------------------------------------------
+			{"mvPlotCol_Line"         , 0}, // plot line/outline color (defaults to a rotating color set)
+			{"mvPlotCol_Fill"         , 1}, // plot fill color for bars (defaults to the current line color)
+			{"mvPlotCol_MarkerOutline", 2}, // marker outline color (defaults to the current line color)
+			{"mvPlotCol_MarkerFill"   , 3}, // marker fill color (defaults to the current line color)
+			{"mvPlotCol_ErrorBar"     , 4}, // error bar color (defaults to ImGuiCol_Text)
+			{"mvPlotCol_FrameBg"      , 5}, // plot frame background color (defaults to ImGuiCol_FrameBg)
+			{"mvPlotCol_PlotBg"       , 6}, // plot area background color (defaults to ImGuiCol_WindowBg)
+			{"mvPlotCol_PlotBorder"   , 7}, // plot area border color (defaults to ImGuiCol_Text)
+			{"mvPlotCol_XAxis"        , 8}, // x-axis grid/label color (defaults to 25% ImGuiCol_Text)
+			{"mvPlotCol_YAxis"        , 9}, // y-axis grid/label color (defaults to 25% ImGuiCol_Text)
+			{"mvPlotCol_YAxis2"       ,10}, // 2nd y-axis grid/label color (defaults to 25% ImGuiCol_Text)
+			{"mvPlotCol_YAxis3"       ,11}, // 3rd y-axis grid/label color (defaults to 25% ImGuiCol_Text)
+			{"mvPlotCol_Selection"    ,12}, // box-selection color (defaults to yellow)
+			{"mvPlotCol_Query"        ,13}, // box-query color (defaults to green)
+			{"mvPlotCol_COUNT"        ,14},
+
+			//-----------------------------------------------------------------------------
+			// Plot Marker Specifications
+			//-----------------------------------------------------------------------------
+			{"mvPlotMarker_None"    , 1 << 0},  // no marker
+			{"mvPlotMarker_Circle"  , 1 << 1},  // a circle marker will be rendered at each point
+			{"mvPlotMarker_Square"  , 1 << 2},  // a square maker will be rendered at each point
+			{"mvPlotMarker_Diamond" , 1 << 3},  // a diamond marker will be rendered at each point
+			{"mvPlotMarker_Up"      , 1 << 4},  // an upward-pointing triangle marker will up rendered at each point
+			{"mvPlotMarker_Down"    , 1 << 5},  // an downward-pointing triangle marker will up rendered at each point
+			{"mvPlotMarker_Left"    , 1 << 6},  // an leftward-pointing triangle marker will up rendered at each point
+			{"mvPlotMarker_Right"   , 1 << 7},  // an rightward-pointing triangle marker will up rendered at each point
+			{"mvPlotMarker_Cross"   , 1 << 8},  // a cross marker will be rendered at each point (not filled)
+			{"mvPlotMarker_Plus"    , 1 << 9},  // a plus marker will be rendered at each point (not filled)
+			{"mvPlotMarker_Asterisk", 1 << 10}, // a asterisk marker will be rendered at each point (not filled)
+
+			//-----------------------------------------------------------------------------
+			// Built-in ImPlot Color maps
+			//-----------------------------------------------------------------------------
+			{"mvPlotColormap_Default",  0}, // ImPlot default colormap         (n=10)
+			{"mvPlotColormap_Dark"   ,  1}, // a.k.a. matplotlib "Set1"        (n=9)
+			{"mvPlotColormap_Pastel" ,  2}, // a.k.a. matplotlib "Pastel1"     (n=9)
+			{"mvPlotColormap_Paired" ,  3}, // a.k.a. matplotlib "Paired"      (n=12)
+			{"mvPlotColormap_Viridis",  4}, // a.k.a. matplotlib "viridis"     (n=11)
+			{"mvPlotColormap_Plasma" ,  5}, // a.k.a. matplotlib "plasma"      (n=11)
+			{"mvPlotColormap_Hot"    ,  6}, // a.k.a. matplotlib/MATLAB "hot"  (n=11)
+			{"mvPlotColormap_Cool"   ,  7}, // a.k.a. matplotlib/MATLAB "cool" (n=11)
+			{"mvPlotColormap_Pink"   ,  8}, // a.k.a. matplotlib/MATLAB "pink" (n=11)
+			{"mvPlotColormap_Jet"    ,  9}, // a.k.a. MATLAB "jet"             (n=11)
+
+			//-----------------------------------------------------------------------------
+			// Theme Color IDs
+			//-----------------------------------------------------------------------------
+			{"mvGuiCol_Text"                 , 0},
+			{"mvGuiCol_TextDisabled"         , 1},
+			{"mvGuiCol_WindowBg"             , 2}, // Background of normal windows
+			{"mvGuiCol_ChildBg"              , 3}, // Background of child windows
+			{"mvGuiCol_PopupBg"              , 4}, // Background of popups, menus, tooltips windows
+			{"mvGuiCol_Border"               , 5},
+			{"mvGuiCol_BorderShadow"         , 6},
+			{"mvGuiCol_FrameBg"              , 7},
+			{"mvGuiCol_FrameBgHovered"       , 8},
+			{"mvGuiCol_FrameBgActive"        , 9},
+			{"mvGuiCol_TitleBg"              , 10},
+			{"mvGuiCol_TitleBgActive"        , 11},
+			{"mvGuiCol_TitleBgCollapsed"     , 12},
+			{"mvGuiCol_MenuBarBg"            , 13},
+			{"mvGuiCol_ScrollbarBg"          , 14},
+			{"mvGuiCol_ScrollbarGrab"        , 15},
+			{"mvGuiCol_ScrollbarGrabHovered" , 16},
+			{"mvGuiCol_ScrollbarGrabActive"  , 17},
+			{"mvGuiCol_CheckMark"            , 18},
+			{"mvGuiCol_SliderGrab"           , 19},
+			{"mvGuiCol_SliderGrabActive"     , 20},
+			{"mvGuiCol_Button"               , 21},
+			{"mvGuiCol_ButtonHovered"        , 22},
+			{"mvGuiCol_ButtonActive"         , 23},
+			{"mvGuiCol_Header"               , 24}, // Header* colors are used for CollapsingHeader, TreeNode, Selectable, MenuItem
+			{"mvGuiCol_HeaderHovered"        , 25},
+			{"mvGuiCol_HeaderActive"         , 26},
+			{"mvGuiCol_Separator"            , 27},
+			{"mvGuiCol_SeparatorHovered"     , 28},
+			{"mvGuiCol_SeparatorActive"      , 29},
+			{"mvGuiCol_ResizeGrip"           , 30},
+			{"mvGuiCol_ResizeGripHovered"    , 31},
+			{"mvGuiCol_ResizeGripActive"     , 32},
+			{"mvGuiCol_Tab"                  , 33},
+			{"mvGuiCol_TabHovered"           , 34},
+			{"mvGuiCol_TabActive"            , 35},
+			{"mvGuiCol_TabUnfocused"         , 36},
+			{"mvGuiCol_TabUnfocusedActive"   , 37},
+			{"mvGuiCol_PlotLines"            , 38},
+			{"mvGuiCol_PlotLinesHovered"     , 39},
+			{"mvGuiCol_PlotHistogram"        , 40},
+			{"mvGuiCol_PlotHistogramHovered" , 41},
+			{"mvGuiCol_TextSelectedBg"       , 42},
+			{"mvGuiCol_DragDropTarget"       , 43},
+			{"mvGuiCol_NavHighlight"         , 44}, // Gamepad/keyboard: current highlighted item
+			{"mvGuiCol_NavWindowingHighlight", 45}, // Highlight window when using CTRL+TAB
+			{"mvGuiCol_NavWindowingDimBg"    , 46}, // Darken/colorize entire screen behind the CTRL+TAB window list, when active 
+			{"mvGuiCol_ModalWindowDimBg"     , 47}, // Darken/colorize entire screen behind a modal window, when one is active
+
+			//-----------------------------------------------------------------------------
+			// Style IDs
+			//-----------------------------------------------------------------------------
+			// Enum name --------------------- // Member in mvGuiStyle structure (see GuiStyle for descriptions)
+			{ "mvGuiStyleVar_Alpha",               0}, // float     Alpha
+			{ "mvGuiStyleVar_WindowPadding",       1}, // mvVec2    WindowPadding
+			{ "mvGuiStyleVar_WindowRounding",      2}, // float     WindowRounding
+			{ "mvGuiStyleVar_WindowBorderSize",    3}, // float     WindowBorderSize
+			{ "mvGuiStyleVar_WindowMinSize",       4}, // mvVec2    WindowMinSize
+			{ "mvGuiStyleVar_WindowTitleAlign",    5}, // mvVec2    WindowTitleAlign
+			{ "mvGuiStyleVar_ChildRounding",       6}, // float     ChildRounding
+			{ "mvGuiStyleVar_ChildBorderSize",     7}, // float     ChildBorderSize
+			{ "mvGuiStyleVar_PopupRounding",       8}, // float     PopupRounding
+			{ "mvGuiStyleVar_PopupBorderSize",     9}, // float     PopupBorderSize
+			{ "mvGuiStyleVar_FramePadding",        10}, // mvVec2    FramePadding
+			{ "mvGuiStyleVar_FrameRounding",       11}, // float     FrameRounding
+			{ "mvGuiStyleVar_FrameBorderSize",     12}, // float     FrameBorderSize
+			{ "mvGuiStyleVar_ItemSpacing",         13}, // mvVec2    ItemSpacing
+			{ "mvGuiStyleVar_ItemInnerSpacing",    14}, // mvVec2    ItemInnerSpacing
+			{ "mvGuiStyleVar_IndentSpacing",       15}, // float     IndentSpacing
+			{ "mvGuiStyleVar_ScrollbarSize",       16}, // float     ScrollbarSize
+			{ "mvGuiStyleVar_ScrollbarRounding",   17}, // float     ScrollbarRounding
+			{ "mvGuiStyleVar_GrabMinSize",         18}, // float     GrabMinSize
+			{ "mvGuiStyleVar_GrabRounding",        19}, // float     GrabRounding
+			{ "mvGuiStyleVar_TabRounding",         20}, // float     TabRounding
+			{ "mvGuiStyleVar_ButtonTextAlign",     21}, // mvVec2    ButtonTextAlign
+			{ "mvGuiStyleVar_SelectableTextAlign", 22}, // mvVec2    SelectableTextAlign
+
+			{ "ImGuiStyleVar_TouchExtraPadding", 23}, // mvVec2    SelectableTextAlign
+			{ "ImGuiStyleVar_TabBorderSize", 24}, // mvVec2    SelectableTextAlign
+			{ "ImGuiStyleVar_DisplaySafeAreaPadding", 25}, // mvVec2    SelectableTextAlign
+			{ "ImGuiStyleVar_AntiAliasedLines", 26}, // mvVec2    SelectableTextAlign
+			{ "ImGuiStyleVar_AntiAliasedFill", 27}, // mvVec2    SelectableTextAlign
+			{ "ImGuiStyleVar_CurveTessellationTol", 28}, // mvVec2    SelectableTextAlign
+			{ "ImGuiStyleVar_CircleSegmentMaxError", 29}, // mvVec2    SelectableTextAlign
+
+			//-----------------------------------------------------------------------------
+			// Key Codes
+			//-----------------------------------------------------------------------------
+			{ "mvKey_Back"			, 0x08 },
+			{ "mvKey_Tab"			, 0x09 },
+			{ "mvKey_Clear"			, 0x0C },
+			{ "mvKey_Return"		, 0x0D },
+			{ "mvKey_Shift"			, 0x10 },
+			{ "mvKey_Control"		, 0x11 },
+			{ "mvKey_Alt"			, 0x12 },
+			{ "mvKey_Pause"			, 0x13 },
+			{ "mvKey_Capital"		, 0x14 },
+			{ "mvKey_Escape"		, 0x1B },
+			{ "mvKey_Spacebar"		, 0x20 },
+			{ "mvKey_Prior"			, 0x21 },
+			{ "mvKey_Next"			, 0x22 },
+			{ "mvKey_End"			, 0x23 },
+			{ "mvKey_Home"			, 0x24 },
+			{ "mvKey_Left"			, 0x25 },
+			{ "mvKey_Up"			, 0x26 },
+			{ "mvKey_Right"			, 0x27 },
+			{ "mvKey_Down"			, 0x28 },
+			{ "mvKey_Select"		, 0x29 },
+			{ "mvKey_Print"			, 0x2A },
+			{ "mvKey_Execute"		, 0x2B },
+			{ "mvKey_PrintScreen"	, 0x2C },
+			{ "mvKey_Insert"		, 0x2D },
+			{ "mvKey_Delete"		, 0x2E },
+			{ "mvKey_Help"			, 0x2F },
+			{ "mvKey_0"			, 0x30 },
+			{ "mvKey_1"			, 0x31 },
+			{ "mvKey_2"			, 0x32 },
+			{ "mvKey_3"			, 0x33 },
+			{ "mvKey_4"			, 0x34 },
+			{ "mvKey_5"			, 0x35 },
+			{ "mvKey_6"			, 0x36 },
+			{ "mvKey_7"			, 0x37 },
+			{ "mvKey_8"			, 0x38 },
+			{ "mvKey_9"			, 0x39 },
+			{ "mvKey_A"			, 0x41 },
+			{ "mvKey_B"			, 0x42 },
+			{ "mvKey_C"			, 0x43 },
+			{ "mvKey_D"			, 0x44 },
+			{ "mvKey_E"			, 0x45 },
+			{ "mvKey_F"			, 0x46 },
+			{ "mvKey_G"			, 0x47 },
+			{ "mvKey_H"			, 0x48 },
+			{ "mvKey_I"			, 0x49 },
+			{ "mvKey_J"			, 0x4A },
+			{ "mvKey_K"			, 0x4B },
+			{ "mvKey_L"			, 0x4C },
+			{ "mvKey_M"			, 0x4D },
+			{ "mvKey_N"			, 0x4E },
+			{ "mvKey_O"			, 0x4F },
+			{ "mvKey_P"			, 0x50 },
+			{ "mvKey_Q"			, 0x51 },
+			{ "mvKey_R"			, 0x52 },
+			{ "mvKey_S"			, 0x53 },
+			{ "mvKey_T"			, 0x54 },
+			{ "mvKey_U"			, 0x55 },
+			{ "mvKey_V"			, 0x56 },
+			{ "mvKey_W"			, 0x57 },
+			{ "mvKey_X"			, 0x58 },
+			{ "mvKey_Y"			, 0x59 },
+			{ "mvKey_Z"			, 0x5A },
+			{ "mvKey_LWin"		, 0x5B },
+			{ "mvKey_RWin"		, 0x5C },
+			{ "mvKey_Apps"		, 0x5D },
+			{ "mvKey_Sleep"		, 0x5F },
+			{ "mvKey_NumPad0"   , 0x60 },
+			{ "mvKey_NumPad1"   , 0x61 },
+			{ "mvKey_NumPad2"   , 0x62 },
+			{ "mvKey_NumPad3"   , 0x63 },
+			{ "mvKey_NumPad4"   , 0x64 },
+			{ "mvKey_NumPad5"   , 0x65 },
+			{ "mvKey_NumPad6"	, 0x66 },
+			{ "mvKey_NumPad7"	, 0x67 },
+			{ "mvKey_NumPad8"	, 0x68 },
+			{ "mvKey_NumPad9"	, 0x69 },
+			{ "mvKey_Multiply"	, 0x6A },
+			{ "mvKey_Add"		, 0x6B },
+			{ "mvKey_Separator"	, 0x6C },
+			{ "mvKey_Subtract"	, 0x6D },
+			{ "mvKey_Decimal"	, 0x6E },
+			{ "mvKey_Divide"	, 0x6F },
+			{ "mvKey_F1"		, 0x70 },
+			{ "mvKey_F2"		, 0x71 },
+			{ "mvKey_F3"		, 0x72 },
+			{ "mvKey_F4"		, 0x73 },
+			{ "mvKey_F5"		, 0x74 },
+			{ "mvKey_F6"		, 0x75 },
+			{ "mvKey_F7"		, 0x76 },
+			{ "mvKey_F8"		, 0x77 },
+			{ "mvKey_F9"		, 0x78 },
+			{ "mvKey_F10"		, 0x79 },
+			{ "mvKey_F11"		, 0x7A },
+			{ "mvKey_F12"		, 0x7B },
+			{ "mvKey_F13"		, 0x7C },
+			{ "mvKey_F14"		, 0x7D },
+			{ "mvKey_F15"		, 0x7E },
+			{ "mvKey_F16"		, 0x7F },
+			{ "mvKey_F17"		, 0x80 },
+			{ "mvKey_F18"		, 0x81 },
+			{ "mvKey_F19"		, 0x82 },
+			{ "mvKey_F20"		, 0x83 },
+			{ "mvKey_F21"		, 0x84 },
+			{ "mvKey_F22"		, 0x85 },
+			{ "mvKey_F23"		, 0x86 },
+			{ "mvKey_F24"		, 0x87 },
+			{ "mvKey_NumLock"				, 0x90 },
+			{ "mvKey_ScrollLock"			, 0x91 },
+			{ "mvKey_LShift"				, 0xA0 },
+			{ "mvKey_RShift"				, 0xA1 },
+			{ "mvKey_LControl"				, 0xA2 },
+			{ "mvKey_RControl"				, 0xA3 },
+			{ "mvKey_LMenu"					, 0xA4 },
+			{ "mvKey_RMenu"					, 0xA5 },
+			{ "mvKey_Browser_Back"			, 0xA6 },
+			{ "mvKey_Browser_Forward"		, 0xA7 },
+			{ "mvKey_Browser_Refresh"		, 0xA8 },
+			{ "mvKey_Browser_Stop"			, 0xA9 },
+			{ "mvKey_Browser_Search"		, 0xAA },
+			{ "mvKey_Browser_Favorites"		, 0xAB },
+			{ "mvKey_Browser_Home"			, 0xAC },
+			{ "mvKey_Volume_Mute"			, 0xAD },
+			{ "mvKey_Volume_Down"			, 0xAE },
+			{ "mvKey_Volume_Up"				, 0xAF },
+			{ "mvKey_Media_Next_Track"		, 0xB0 },
+			{ "mvKey_Media_Prev_Track"		, 0xB1 },
+			{ "mvKey_Media_Stop"			, 0xB2 },
+			{ "mvKey_Media_Play_Pause"		, 0xB3 },
+			{ "mvKey_Launch_Mail"			, 0xB4 },
+			{ "mvKey_Launch_Media_Select"	, 0xB5 },
+			{ "mvKey_Launch_App1"			, 0xB6 },
+			{ "mvKey_Launch_App2"			, 0xB7 },
+			{ "mvKey_Colon"					, 0xBA },
+			{ "mvKey_Plus"					, 0xBB },
+			{ "mvKey_Comma"					, 0xBC },
+			{ "mvKey_Minus"					, 0xBD },
+			{ "mvKey_Period"				, 0xBE },
+			{ "mvKey_Slash"					, 0xBF },
+			{ "mvKey_Tilde"					, 0xC0 },
+			{ "mvKey_Open_Brace"			, 0xDB },
+			{ "mvKey_Backslash"				, 0xDC },
+			{ "mvKey_Close_Brace"			, 0xDD },
+			{ "mvKey_Quote"					, 0xDE },
+
+
+
+			//-----------------------------------------------------------------------------
+			// Mouse Codes
+			//-----------------------------------------------------------------------------
+			{ "mvMouseButton_Left"  , 0 },
+			{ "mvMouseButton_Right" , 1 },
+			{ "mvMouseButton_Middle", 2 },
+			{ "mvMouseButton_X1", 3 },
+			{ "mvMouseButton_X2", 4 },
+
+			//-----------------------------------------------------------------------------
+			// Cardinal directions
+			//-----------------------------------------------------------------------------
+			{ "mvDir_None" ,-1 },
+			{ "mvDir_Left" , 0 },
+			{ "mvDir_Right", 1 },
+			{ "mvDir_Up"   , 2 },
+			{ "mvDir_Down" , 3 },
+
+			//-----------------------------------------------------------------------------
+			// Log Levels
+			//-----------------------------------------------------------------------------
+			{ "mvTRACE"   , 0 },
+			{ "mvDEBUG"   , 1 },
+			{ "mvINFO"    , 2 },
+			{ "mvWARNING" , 3 },
+			{ "mvERROR"   , 4 },
+			{ "mvOFF"     , 5 }
+		};
+
+		return ModuleConstants;
 	}
 
 	static PyMethodDef marvelmethods[]
@@ -4836,6 +5196,11 @@ namespace Marvel {
 		if (m == NULL)
 			return NULL;
 
+		auto constants = GetModuleConstants();
+
+		for (auto& item : constants)
+			PyModule_AddIntConstant(m, item.first.c_str(), item.second);
+
 		auto MarvelError = PyErr_NewException("marvel.error", NULL, NULL);
 		Py_XINCREF(MarvelError);
 		if (PyModule_AddObject(m, "error", MarvelError) < 0) {
@@ -4848,4 +5213,16 @@ namespace Marvel {
 		return m;
 	}
 
+	void start_marvel_error()
+	{
+		PyErr_Print();
+
+		// create window
+		mvWindow* window = new mvWindowsWindow(mvApp::GetApp()->getActualWidth(), mvApp::GetApp()->getActualHeight(), false, true);
+		window->show();
+		window->run();
+		delete window;
+		delete mvApp::GetApp();
+
+	}
 }

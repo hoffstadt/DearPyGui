@@ -3,10 +3,9 @@
 #include <string>
 #include <regex>
 #include <cmath>
-
 #include "mvTextEditor.h"
 #include "mvApp.h"
-#include "Core/PythonInterfaces/mvInterfaceRegistry.h"
+#include "mvMarvel.h"
 
 #define IMGUI_DEFINE_MATH_OPERATORS
 #include "imgui.h" // for imGui::GetCurrentWindow()
@@ -3181,19 +3180,23 @@ const mvTextEditor::LanguageDefinition& mvTextEditor::LanguageDefinition::Python
 		for (auto& k : cppKeywords)
 			langDef.mKeywords.insert(k);
 
-		for (auto& k : Marvel::mvInterfaceRegistry::GetRegistry()->getAllCommands())
+		auto docmap = BuildMarvelInterface();
+		
+		for (auto& k : *docmap)
 		{
 			Identifier id;
-			id.mDeclaration = k.second;
+			id.mDeclaration = k.second.getDocumentation();
 			langDef.mIdentifiers.insert(std::make_pair(k.first, id));
 		}
 
-		//for (auto& k : mvInterfaceRegistry::GetRegistry()->getConstants())
-		//{
-		//	Identifier id;
-		//	id.mDeclaration = "Constant with value " + std::to_string(k.second);
-		//	langDef.mPreprocIdentifiers.insert(std::make_pair(k.first, id));
-		//}
+		delete docmap;
+
+		for (auto& k : GetModuleConstants())
+		{
+			Identifier id;
+			id.mDeclaration = "Constant with value " + std::to_string(k.second);
+			langDef.mPreprocIdentifiers.insert(std::make_pair(k.first, id));
+		}
 
 		langDef.mTokenize = [](const char* in_begin, const char* in_end, const char*& out_begin, const char*& out_end, PaletteIndex& paletteIndex) -> bool
 		{

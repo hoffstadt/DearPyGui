@@ -17,6 +17,9 @@ set(MARVEL_SOURCES
 	"src/Core/mvTextEditor.cpp"
 	"src/Core/mvDataStorage.cpp"
 	"src/Core/mvTextureStorage.cpp"
+	"src/Core/mvPythonTranslator.cpp"
+	"src/Core/mvPythonParser.cpp"
+	"src/Core/mvMarvel.cpp"
 
 	"src/Core/StandardWindows/mvStandardWindow.cpp"
 	"src/Core/StandardWindows/mvAppEditor.cpp"
@@ -29,13 +32,6 @@ set(MARVEL_SOURCES
 	"src/Core/AppItems/mvAppItem.cpp"
 	"src/Core/AppItems/mvDrawing.cpp"
 	"src/Core/AppItems/mvTable.cpp"
-
-	"src/Core/PythonInterfaces/mvPythonTranslator.cpp"
-	"src/Core/PythonInterfaces/mvPythonParser.cpp"
-	"src/Core/PythonInterfaces/mvPythonModule.cpp"
-	"src/Core/PythonInterfaces/mvMarvel.cpp"
-	"src/Core/PythonInterfaces/mvInterfaceRegistry.cpp"
-	#"src/Core/PythonInterfaces/mvMarvelConstants.cpp"
 
 	"src/Platform/Windows/mvWindowsWindow.cpp"
 	"src/Platform/Windows/mvUtilities.cpp"

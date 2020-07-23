@@ -5,6 +5,7 @@
 #include <imgui.h>
 
 #include "mvStandardWindow.h"
+#include "mvPythonParser.h"
 
 namespace Marvel {
 
@@ -20,11 +21,13 @@ namespace Marvel {
 	private:
 
 		mvDocWindow();
+		~mvDocWindow();
+		void setup();
 
 		int categorySelection = 0;
 		const char* m_doc = "None";
 
-		const char* m_categories[11] = {
+		const char* m_categories[12] = {
 			"App",
 			"Logging",
 			"Adding Widgets",
@@ -35,13 +38,9 @@ namespace Marvel {
 			"Tables",
 			"Themes and Styles",
 			"Input Polling",
-			"Standard Windows"
+			"Standard Windows",
+			"Constants",
 		};
-
-		std::vector<const char*> m_marvel;
-		std::vector<const char*> m_docMarvel;
-		std::vector<const char*> m_docMarvelConstants;
-
 
 		std::vector<const char*> m_app;
 		std::vector<const char*> m_widgets;
@@ -54,6 +53,7 @@ namespace Marvel {
 		std::vector<const char*> m_windows;
 		std::vector<const char*> m_logging;
 		std::vector<const char*> m_themes;
+		std::vector<const char*> m_cconstants;
 		
 		std::vector<const char*> m_docApp;
 		std::vector<const char*> m_docWidgets;
@@ -68,6 +68,9 @@ namespace Marvel {
 		std::vector<const char*> m_docContainers;
 
 		std::vector<std::pair<std::string, std::string>> m_commands;
+		std::vector<std::pair<std::string, long>> m_constants;
+		std::vector<std::string> m_constantsValues;
+		std::map<std::string, mvPythonParser>* m_docmap;
 		
 		static mvDocWindow* s_instance;
 

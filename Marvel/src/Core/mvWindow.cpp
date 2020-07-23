@@ -38,6 +38,7 @@ namespace Marvel {
 			
 			if (m_error)
 			{
+				mvAppLog::setSize(m_width, m_height);
 				mvAppLog::render();
 			}
 
