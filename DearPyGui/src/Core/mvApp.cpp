@@ -8,7 +8,6 @@
 #include "mvThemeScheme.h"
 #include <fstream>
 #include <streambuf>
-
 #include "mvAppLog.h"
 #include "Core/StandardWindows/mvDocWindow.h"
 #include "Core/StandardWindows/mvAboutWindow.h"
@@ -19,7 +18,6 @@
 #include <future>
 #include <chrono>
 #include "Core/mvThreadPool.h"
-
 #include "Core/AppItems/mvAppItems.h"
 
 namespace Marvel {
@@ -91,12 +89,13 @@ namespace Marvel {
 
 	mvApp::mvApp()
 	{
-		m_parsers = BuildMarvelInterface();
+		m_parsers = BuildDearPyGuiInterface();
 
 		// info
-		mvAppLog::AddLog("[Sandbox Version] %0s\n", mvApp::GetVersion());
+		mvAppLog::AddLog("\n");
+		mvAppLog::AddLog("[DearPyGui Version] %0s\n", mvApp::GetVersion());
 		mvAppLog::AddLog("[Python Version] %0s\n", PY_VERSION);
-		mvAppLog::AddLog("[ImGui Version] %0s\n", IMGUI_VERSION);
+		mvAppLog::AddLog("[DearImGui Version] %0s\n", IMGUI_VERSION);
 		mvAppLog::AddLog("[Compiler] MSVC version %0d\n", _MSC_VER);
 
 		setMainThreadID(std::this_thread::get_id());

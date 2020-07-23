@@ -22,7 +22,7 @@ namespace Marvel {
 
 	void mvDocWindow::setup()
 	{
-		m_docmap = BuildMarvelInterface();
+		m_docmap = BuildDearPyGuiInterface();
 		m_constants = GetModuleConstants();
 
 		for (auto& item : m_constants)

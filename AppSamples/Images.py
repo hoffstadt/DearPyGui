@@ -1,5 +1,4 @@
-from marvel import *
-import marvel_constants as mc
+from dearpygui import *
 
 add_input_float2("uv_min", default_value = (0, 0), callback="Update")
 add_input_float2("uv_max", default_value = (1, 1), callback="Update" )
@@ -22,3 +21,5 @@ def Update(sender, data):
 
 add_image("Full", "SpriteMapExample.png")
 add_image("Partial", "SpriteMapExample.png", secondary_data_source="TextureCoordinates")
+
+start_dearpygui()

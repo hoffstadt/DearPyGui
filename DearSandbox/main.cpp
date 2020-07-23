@@ -22,12 +22,12 @@ int main(int argc, char* argv[])
 	PyObject* m = nullptr;
 	std::string addedPath;
 	std::string AppName = "Demo";
-	std::string PathName = "../../MarvelSandbox";
+	std::string PathName = "../../DearSandbox";
 	bool documentation = false; // starts application with the documentation window shown
 	bool editorMode = false; // starts application in editor mode
 	bool ignoreConfig = false;
 
-	CLI::App app{ "Marvel Sandbox" };
+	CLI::App app{ "Dear Sandbox" };
 	app.allow_windows_style_options();
 
 	// options
@@ -44,7 +44,7 @@ int main(int argc, char* argv[])
 	// no commandline arguments, so use config file
 	if (!ignoreConfig)
 	{
-		std::ifstream stream("marvel_config.json");
+		std::ifstream stream("dearpygui_config.json");
 		if (stream.good())
 		{
 			nlohmann::json j = nlohmann::json::parse(stream);
@@ -105,7 +105,7 @@ int main(int argc, char* argv[])
 	// initialize python
 	// add our custom module
 	PyImport_AppendInittab("sandboxout", &PyInit_embOut);
-	PyImport_AppendInittab("marvel", &PyInit_marvel);
+	PyImport_AppendInittab("dearpygui", &PyInit_dearpygui);
 
 	// set path and start the interpreter
 	wchar_t* deco = Py_DecodeLocale(PathName.c_str(), nullptr);
@@ -120,7 +120,7 @@ int main(int argc, char* argv[])
 		return 1;
 	}
 
-	PyObject* mmarvel = PyImport_ImportModule("marvel");
+	PyObject* mmarvel = PyImport_ImportModule("dearpygui");
 
 	// import our custom module to capture stdout/stderr
 	m = PyImport_ImportModule("sandboxout");
@@ -129,13 +129,13 @@ int main(int argc, char* argv[])
 
 	if (editorMode)
 	{
-		PyRun_SimpleString("start_marvel_editor()");
+		PyRun_SimpleString("start_dearpygui_editor()");
 		return 0;
 	}
 
 	if (documentation)
 	{
-		PyRun_SimpleString("start_marvel_docs()");
+		PyRun_SimpleString("start_dearpygui_docs()");
 		return 0;
 	}
 
@@ -151,7 +151,7 @@ int main(int argc, char* argv[])
 
 	else
 	{
-		start_marvel_error();
+		start_dearpygui_error();
 		return 0;
 	}
 	

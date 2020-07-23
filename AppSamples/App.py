@@ -1,5 +1,4 @@
-from marvel import *
-import marvel_constants as mc
+from dearpygui import *
 
 # This app is used for packaging.
 # Make it your own!
@@ -7,3 +6,5 @@ import marvel_constants as mc
 show_logger()
 
 add_button("Press me")
+
+start_dearpygui()
