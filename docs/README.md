@@ -1,11 +1,11 @@
-# Marvel Sandbox
-[![build status](https://github.com/RaylockLLC/MarvelSandbox/workflows/Windows/badge.svg)](https://github.com/RaylockLLC/MarvelSandbox/actions?workflow=Windows)
+# Dear PyGui (currently transitioning from "MarvelSandbox", please be patient)
+[![build status](https://github.com/RaylockLLC/DearPyGui/workflows/Windows/badge.svg)](https://github.com/RaylockLLC/DearPyGui/actions?workflow=Windows)
 
 <sub>(This library is available under a free and permissive license)</sub>
 
-MarvelSandbox is a **simple to use (but powerful) Python GUI framework**, built on top of **Dear ImGui**. Although the API may seem similar to Dear ImGui, _MarvelSandbox_ does not use the immediate mode paradigm, but instead provides a wrapping that simulates a traditional retained mode GUI.
+Dear PyGui is a **simple to use (but powerful) Python GUI framework**, built on top of **Dear ImGui**. Although the API may seem similar to Dear ImGui, _DearPyGui_ does not use the immediate mode paradigm, but instead provides a wrapping that simulates a traditional retained mode GUI.
 
-In the same manner Dear ImGui provides a simple way to create tools for game developers, _MarvelSandbox_ provides a simple way for python developers to **create quick and powerful GUIs for scripts**. It's well suited for **beginners** too!
+In the same manner Dear ImGui provides a simple way to create tools for game developers, _DearPyGui_ provides a simple way for python developers to **create quick and powerful GUIs for scripts**. It's well suited for **beginners** too!
 
 | [Usage](#Usage) - [Features](#features) - [Building](#building)|
 :----------------------------------------------------------: |
@@ -15,7 +15,7 @@ In the same manner Dear ImGui provides a simple way to create tools for game dev
 
  ---
  
-**MarvelSandbox is an all included framework containing its own embedded python interpreter.** Using _MarvelSandbox_ is a simple as creating a python script like the one below, and calling ```MarvelSandbox.exe --app ScriptName --path PathToScriptDirectory``` from the command line (Windows).
+**DearSandbox is an all included framework containing its own embedded python interpreter.** Using _DearPyGui_ is a simple as creating a python script like the one below, and calling ```MarvelSandbox.exe --app ScriptName --path PathToScriptDirectory``` from the command line (Windows).
 
 Code:
 ```Python
@@ -31,9 +31,9 @@ Result:
 
 ### Prebuilt Binaries
 #### Windows
-- Download [Latest Release](https://github.com/RaylockLLC/MarvelSandbox/releases/download/v0.1-alpha12/Sandbox.zip)
+- Download [Latest Release](https://github.com/RaylockLLC/DearPyGui/releases/download/v0.1-alpha12/Sandbox.zip)
 - Download _Sandbox.zip_ and unzip anywhere. 
-- Run _MarvelSandbox.exe_.
+- Run _DearSandbox.exe_.
 - You can use App.py as a starting point.
 
 ### Some Features
@@ -41,27 +41,27 @@ Result:
 ---
 
 #### Themes
-_MarvelSandbox_ currently includes 10 themes:
+_DearPyGui_ currently includes 10 themes:
 <BR>![Themes](../../assets/Themes.PNG?raw=true)
 
 #### Plotting/Graphing
-_MarvelSandbox_ includes a plotting API built using ImPlot.
+_DearPyGui_ includes a plotting API built using ImPlot.
 <BR>![BasicUsageExample](../../assets/PlottingExample1.PNG?raw=true)
   
 #### Drawings
-_MarvelSandbox_ includes a drawing API to create custom drawings.
+_DearPyGui_ includes a drawing API to create custom drawings.
 <BR>![BasicUsageExample](../../assets/DrawingExample1.PNG?raw=true)
 
 #### Logging
-_MarvelSandbox_ includes a logging API that also acts as a python output console.
+_DearPyGui_ includes a logging API that also acts as a python output console.
 <BR>![BasicUsageExample](../../assets/LoggingExample1.PNG?raw=true)
   
 #### Built-in IDE
-If you choose not to use your own IDE, we have provided a basic built-in IDE for creating and testing apps. To use the built-in IDE just call the _MarvelSandbox_ executable with the **--editor** flag: ```MarvelSandbox.exe --editor```
+If you choose not to use your own IDE, we have provided a basic built-in IDE for creating and testing apps. To use the built-in IDE just call the _DearPyGui_ executable with the **--editor** flag: ```MarvelSandbox.exe --editor```
 <BR>![BasicUsageExample](../../assets/IDEExample1.PNG?raw=true)
   
 #### Built-in Documentation
-Using the ```show_documentation()``` command opens the built-in documentation window which displays all _MarvelSandbox_ commands and constants, along with information on their usage.
+Using the ```show_documentation()``` command opens the built-in documentation window which displays all _DearPyGui_ commands and constants, along with information on their usage.
 <BR>![BasicUsageExample](../../assets/DocumentationExample.PNG?raw=true)
   
 ### Current Dependencies
@@ -87,10 +87,10 @@ Using the ```show_documentation()``` command opens the built-in documentation wi
 
 1. From within a local directory, enter the following bash commands:
 ```
-git clone --recursive https://github.com/RaylockLLC/MarvelSandbox
+git clone --recursive https://github.com/RaylockLLC/DearPyGui
 ```
 3. Open the _Scripts_ folder and run the _BuildPythonForWindows.bat_ file.
-4. In Visual Studio, use _Open a local folder_ to open _MarvelSandbox_ folder.
+4. In Visual Studio, use _Open a local folder_ to open _DearPyGui_ folder.
 5. Switch to the release configuration and run _Build All_.
 
 ### Upcoming Changes
@@ -118,4 +118,4 @@ Some upcoming features:
 
 ---
 
-MarvelSandbox is licensed under the [MIT License](https://github.com/RaylockLLC/MarvelSandbox/blob/master/LICENSE).
+DearPyGui is licensed under the [MIT License](https://github.com/RaylockLLC/DearPyGui/blob/master/LICENSE).
