@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Core/AppItems/mvAppItem.h"
+#include "mvAppItem.h"
 
 //-----------------------------------------------------------------------------
 // Widget Index

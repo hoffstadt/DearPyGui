@@ -2,7 +2,7 @@ from marvel import *
 from math import sin, cos
 
 set_log_level(0)
-show_logger()
+#show_logger()
 show_debug()
 
 add_data("DataStorage1", {"Key": 34})

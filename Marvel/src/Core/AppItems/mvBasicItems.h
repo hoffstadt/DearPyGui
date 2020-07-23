@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Core/AppItems/mvTypeBases.h"
-#include "Core/PythonInterfaces/mvPythonTranslator.h"
+#include "mvPythonTranslator.h"
 
 //-----------------------------------------------------------------------------
 // Widget Index

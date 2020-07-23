@@ -14,6 +14,8 @@
 //     
 //-----------------------------------------------------------------------------
 
+#define PY_SSIZE_T_CLEAN
+#include <Python.h>
 #include <vector>
 #include <map>
 #include <stack>
@@ -21,11 +23,12 @@
 #include <atomic>
 #include <queue>
 #include <chrono>
-#include "Core/AppItems/mvAppItem.h"
-#include "mvAppStyle.h"
-#include "mvTextEditor.h"
-#include "Core/StandardWindows/mvStandardWindow.h"
-#include "Core/mvThreadPool.h"
+#include <mutex>
+#include <thread>
+
+#include "mvStandardWindow.h"
+#include "mvAppItem.h"
+
 
 //-----------------------------------------------------------------------------
 // Typedefs for chrono's ridiculously long names
@@ -33,6 +36,7 @@
 typedef std::chrono::high_resolution_clock clock_;
 typedef std::chrono::duration<double, std::ratio<1> > second_;
 typedef std::chrono::steady_clock::time_point time_point_;
+typedef std::map<ImGuiStyleVar, ImVec2> mvStyle;
 
 namespace Marvel {
 
@@ -40,6 +44,10 @@ namespace Marvel {
 	// Forward Declarations
 	//-----------------------------------------------------------------------------
 	class mvWindowAppitem;
+	class mvThreadPool;
+	class mvTextEditor;
+	class mvColor;
+	
 
 	//-----------------------------------------------------------------------------
 	// mvApp
@@ -148,7 +156,7 @@ namespace Marvel {
 		//-----------------------------------------------------------------------------
 		// Callbacks
 		//-----------------------------------------------------------------------------
-		void runCallback     (const std::string& name, const std::string& sender, PyObject* data = Py_None);
+		void runCallback     (const std::string& name, const std::string& sender, PyObject* data = nullptr);
 		void runAsyncCallback(std::string name, PyObject* data, std::string returnname);
 		void addMTCallback   (const std::string& name, PyObject* data, const std::string& returnname = "");
 

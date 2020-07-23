@@ -1,7 +1,7 @@
 #include "mvInterfaceRegistry.h"
 #include "mvPythonModule.h"
 #include <functional>
-#include "Core/mvApp.h"
+#include "mvApp.h"
 #include <iostream>
 #include <fstream>
 

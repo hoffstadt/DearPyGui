@@ -9,11 +9,11 @@
 //-----------------------------------------------------------------------------
 
 #include "Core/PythonInterfaces/mvInterfaceRegistry.h"
-#include "Core/PythonInterfaces/mvPythonTranslator.h"
-#include "Core/mvApp.h"
-#include "Core/AppItems/mvAppItem.h"
+#include "mvPythonTranslator.h"
+#include "mvApp.h"
+#include "mvAppItem.h"
 #include "Core/mvUtilities.h"
-#include "Core/StandardWindows/mvAppLog.h"
+#include "mvAppLog.h"
 
 namespace Marvel {
 

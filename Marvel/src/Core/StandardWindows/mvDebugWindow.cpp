@@ -1,6 +1,7 @@
 #include "mvDebugWindow.h"
 #include <misc/cpp/imgui_stdlib.h>
-#include "Core/mvApp.h"
+#include "mvApp.h"
+#include "mvAppItem.h"
 #include "Core/mvInput.h"
 #include "Core/mvDataStorage.h"
 #include "Core/mvTextureStorage.h"

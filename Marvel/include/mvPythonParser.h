@@ -17,7 +17,7 @@
 #include <string>
 #include <vector>
 #include <map>
-#include "Core/mvCore.h"
+#include "mvCore.h"
 #define PY_SSIZE_T_CLEAN
 #include <Python.h>
 

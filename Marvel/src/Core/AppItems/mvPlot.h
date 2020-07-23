@@ -3,7 +3,7 @@
 #include "Core/AppItems/mvTypeBases.h"
 #include <implot.h>
 #include <map>
-#include "Core/mvCore.h"
+#include "mvCore.h"
 
 //-----------------------------------------------------------------------------
 // Widget Index

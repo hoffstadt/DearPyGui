@@ -13,7 +13,7 @@
 
 #include "mvApp.h"
 #include "Core/StandardWindows/mvAppEditor.h"
-#include "Core/StandardWindows/mvAppLog.h"
+#include "mvAppLog.h"
 #include "StandardWindows/mvDocWindow.h"
 
 namespace Marvel {
@@ -28,7 +28,7 @@ namespace Marvel {
 
 		mvWindow(unsigned width, unsigned height, bool editor = false, bool error = false, bool doc = false);
 
-		virtual ~mvWindow() {}
+		virtual ~mvWindow();
 
 		virtual void show      () = 0;
 		virtual void setup     () {}
@@ -47,7 +47,6 @@ namespace Marvel {
 		mvStandardWindow* m_app           = nullptr;
 		mvStandardWindow* m_appEditor     = nullptr;
 		mvStandardWindow* m_documentation = nullptr;
-		mvStandardWindow* m_logger        = nullptr;
 		unsigned          m_width;
 		unsigned          m_height;
 

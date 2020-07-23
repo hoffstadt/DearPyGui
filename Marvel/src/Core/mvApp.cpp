@@ -2,11 +2,13 @@
 #include "mvCore.h"
 #include "mvDataStorage.h"
 #include "mvInput.h"
+#include "mvAppStyle.h"
+#include "mvTextEditor.h"
 #include "mvThemeScheme.h"
-#include "AppItems/mvAppItems.h"
 #include <fstream>
 #include <streambuf>
-#include "Core/StandardWindows/mvAppLog.h"
+
+#include "mvAppLog.h"
 #include "Core/StandardWindows/mvDocWindow.h"
 #include "Core/StandardWindows/mvAboutWindow.h"
 #include "Core/StandardWindows/mvMetricsWindow.h"
@@ -15,6 +17,9 @@
 #include <thread>
 #include <future>
 #include <chrono>
+#include "Core/mvThreadPool.h"
+
+#include "Core/AppItems/mvAppItems.h"
 
 namespace Marvel {
 
@@ -74,10 +79,10 @@ namespace Marvel {
 	mvApp::mvApp()
 	{
 		// info
-		mvAppLog::getLogger()->AddLog("[Sandbox Version] %0s\n", mvApp::GetVersion());
-		mvAppLog::getLogger()->AddLog("[Python Version] %0s\n", PY_VERSION);
-		mvAppLog::getLogger()->AddLog("[ImGui Version] %0s\n", IMGUI_VERSION);
-		mvAppLog::getLogger()->AddLog("[Compiler] MSVC version %0d\n", _MSC_VER);
+		mvAppLog::AddLog("[Sandbox Version] %0s\n", mvApp::GetVersion());
+		mvAppLog::AddLog("[Python Version] %0s\n", PY_VERSION);
+		mvAppLog::AddLog("[ImGui Version] %0s\n", IMGUI_VERSION);
+		mvAppLog::AddLog("[Compiler] MSVC version %0d\n", _MSC_VER);
 
 		setMainThreadID(std::this_thread::get_id());
 
@@ -90,7 +95,6 @@ namespace Marvel {
 		addStandardWindow("metrics", new mvMetricsWindow());
 		addStandardWindow("source", new mvSourceWindow());
 		addStandardWindow("debug", new mvDebugWindow());
-		addStandardWindow("logger", mvAppLog::GetLoggerStandardWindow());
 
 	}
 
@@ -245,7 +249,7 @@ namespace Marvel {
 	{ 
 		if (std::this_thread::get_id() != m_mainThreadID)
 		{
-			mvAppLog::getLogger()->LogWarning("This function can't be called outside main thread.");
+			mvAppLog::LogWarning("This function can't be called outside main thread.");
 			return;
 		}
 
@@ -283,7 +287,7 @@ namespace Marvel {
 				m_tpool = nullptr;
 				m_threadTime = 0.0;
 				m_threadPool = false;
-				mvAppLog::getLogger()->Log("Threadpool destroyed");
+				mvAppLog::Log("Threadpool destroyed");
 			}
 			
 		}
@@ -312,7 +316,9 @@ namespace Marvel {
 			}
 		}
 
-		// render any standard windows (i.e. logger, debug, etc.)
+		mvAppLog::render();
+
+		// render any standard windows (i.e. debug, etc.)
 		for (auto& entry : m_standardWindows)
 		{
 			if (entry.second.show)
@@ -421,7 +427,7 @@ namespace Marvel {
 			}
 
 			if (!deletedItem)
-				mvAppLog::getLogger()->LogWarning(m_deleteQueue.front() + " not deleted because it was not found");
+				mvAppLog::LogWarning(m_deleteQueue.front() + " not deleted because it was not found");
 
 			m_deleteQueue.pop();
 		}
@@ -435,7 +441,7 @@ namespace Marvel {
 			if (auto otheritem = getItem(newItem.item->getName(), true))
 			{
 				std::string message = newItem.item->getName();
-				mvAppLog::getLogger()->LogWarning(message + ": Items of this type must have unique names");
+				mvAppLog::LogWarning(message + ": Items of this type must have unique names");
 				delete newItem.item;
 				newItem.item = nullptr;
 				continue;
@@ -456,7 +462,7 @@ namespace Marvel {
 
 			if (!addedItem)
 			{
-				mvAppLog::getLogger()->LogWarning(newItem.item->getName() + " not added because its parent was not found");
+				mvAppLog::LogWarning(newItem.item->getName() + " not added because its parent was not found");
 				delete newItem.item;
 				newItem.item = nullptr;
 			}
@@ -480,7 +486,7 @@ namespace Marvel {
 			}
 
 			if (!movedItem)
-				mvAppLog::getLogger()->LogWarning(itemname + " not moved because it was not found");
+				mvAppLog::LogWarning(itemname + " not moved because it was not found");
 
 			m_upQueue.pop();
 		}
@@ -500,7 +506,7 @@ namespace Marvel {
 			}
 
 			if (!movedItem)
-				mvAppLog::getLogger()->LogWarning(itemname + " not moved because it was not found");
+				mvAppLog::LogWarning(itemname + " not moved because it was not found");
 
 			m_downQueue.pop();
 		}
@@ -514,7 +520,7 @@ namespace Marvel {
 				m_tpool = new mvThreadPool(m_threadPoolHighPerformance ? 0 : m_threads);
 				m_poolStart = clock_::now();
 				m_threadPool = true;
-				mvAppLog::getLogger()->Log("Threadpool created");
+				mvAppLog::Log("Threadpool created");
 			}
 
 			
@@ -542,7 +548,7 @@ namespace Marvel {
 	{
 		if (m_parents.empty())
 		{
-			mvAppLog::getLogger()->LogError("No parent to pop.");
+			mvAppLog::LogError("No parent to pop.");
 			return nullptr;
 		}
 
@@ -570,7 +576,7 @@ namespace Marvel {
 
 		if (std::this_thread::get_id() != m_mainThreadID)
 		{
-			mvAppLog::getLogger()->LogWarning("This function can't be called outside main thread.");
+			mvAppLog::LogWarning("This function can't be called outside main thread.");
 			return nullptr;
 		}
 
@@ -600,7 +606,7 @@ namespace Marvel {
 
 		if (std::this_thread::get_id() != m_mainThreadID)
 		{
-			mvAppLog::getLogger()->LogWarning("This function can't be called outside main thread.");
+			mvAppLog::LogWarning("This function can't be called outside main thread.");
 			return nullptr;
 		}
 
@@ -619,7 +625,7 @@ namespace Marvel {
 
 		if (std::this_thread::get_id() != m_mainThreadID)
 		{
-			mvAppLog::getLogger()->LogWarning("This function can't be called outside main thread.");
+			mvAppLog::LogWarning("This function can't be called outside main thread.");
 			return nullptr;
 		}
 
@@ -649,7 +655,7 @@ namespace Marvel {
 			PyObject* pModulesKeys = PyDict_Keys(PyImport_GetModuleDict());
 			for (int i = 0; i < PyList_Size(pModules); i++)
 			{
-				//mvAppLog::getLogger()->LogError(_PyUnicode_AsString(PyList_GetItem(pModulesKeys, i)));
+				//mvAppLog::LogError(_PyUnicode_AsString(PyList_GetItem(pModulesKeys, i)));
 				PyObject* pModule = PyModule_GetDict(PyList_GetItem(pModules, i));
 				if (PyDict_Check(pModule))
 				{
@@ -666,7 +672,7 @@ namespace Marvel {
 		if (pHandler == NULL)
 		{
 			std::string message(" Callback doesn't exist");
-			mvAppLog::getLogger()->LogWarning(name + message);
+			mvAppLog::LogWarning(name + message);
 			
 			return;
 		}
@@ -687,7 +693,7 @@ namespace Marvel {
 			if (!result)
 			{
 				std::string message("Callback failed");
-				mvAppLog::getLogger()->LogError(name + message);
+				mvAppLog::LogError(name + message);
 			}
 
 			if (!returnname.empty())
@@ -709,7 +715,7 @@ namespace Marvel {
 		else
 		{
 			std::string message(" Callback not callable");
-			mvAppLog::getLogger()->LogError(name + message);
+			mvAppLog::LogError(name + message);
 		}
 
 	}
@@ -718,6 +724,9 @@ namespace Marvel {
 	{
 		if (name.empty())
 			return;
+
+		if (data == nullptr)
+			data = Py_None;
 
 		//mvGlobalIntepreterLock gil;
 
@@ -728,7 +737,7 @@ namespace Marvel {
 			PyObject* pModulesKeys = PyDict_Keys(PyImport_GetModuleDict());
 			for (int i = 0; i < PyList_Size(pModules); i++)
 			{
-				//mvAppLog::getLogger()->LogError(_PyUnicode_AsString(PyList_GetItem(pModulesKeys, i)));
+				//mvAppLog::LogError(_PyUnicode_AsString(PyList_GetItem(pModulesKeys, i)));
 				PyObject* pModule = PyModule_GetDict(PyList_GetItem(pModules, i));
 				if (PyDict_Check(pModule))
 				{
@@ -745,7 +754,7 @@ namespace Marvel {
 		if (pHandler == NULL)
 		{
 			std::string message(" Callback doesn't exist");
-			mvAppLog::getLogger()->LogWarning(name + message);
+			mvAppLog::LogWarning(name + message);
 			return;
 		}
 
@@ -766,7 +775,7 @@ namespace Marvel {
 			if (!result)
 			{
 				std::string message("Callback failed");
-				mvAppLog::getLogger()->LogError(name + message);
+				mvAppLog::LogError(name + message);
 			}
 
 			Py_XDECREF(pArgs);
@@ -781,7 +790,7 @@ namespace Marvel {
 		else
 		{
 			std::string message(" Callback not callable");
-			mvAppLog::getLogger()->LogError(name + message);
+			mvAppLog::LogError(name + message);
 		}
 
 		
@@ -1223,7 +1232,7 @@ namespace Marvel {
 	{
 		if (std::this_thread::get_id() != m_mainThreadID)
 		{
-			mvAppLog::getLogger()->LogWarning("Items can not be added outside main thread.");
+			mvAppLog::LogWarning("Items can not be added outside main thread.");
 			return;
 		}
 
@@ -1237,7 +1246,7 @@ namespace Marvel {
 			if (auto otheritem = getItem(item->getName()))
 			{
 				std::string message = item->getName() + " " + std::to_string(count);
-				mvAppLog::getLogger()->LogWarning(message + ": Items of this type must have unique names");
+				mvAppLog::LogWarning(message + ": Items of this type must have unique names");
 				return;
 			}
 		}
@@ -1254,7 +1263,7 @@ namespace Marvel {
 	{
 		if (std::this_thread::get_id() != m_mainThreadID)
 		{
-			mvAppLog::getLogger()->LogWarning("Items can not be added outside main thread.");
+			mvAppLog::LogWarning("Items can not be added outside main thread.");
 			return;
 		}
 

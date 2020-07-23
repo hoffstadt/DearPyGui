@@ -13,7 +13,7 @@
 
 namespace Marvel {
 
-	void AddDrawingCommands(std::map<std::string, mvPythonParser>* parsers)
+	static void AddDrawingCommands(std::map<std::string, mvPythonParser>* parsers)
 	{
 		parsers->insert({ "add_drawing", mvPythonParser({
 			{mvPythonDataType::String, "name"},
@@ -188,7 +188,7 @@ namespace Marvel {
 		}, "Clears a drawing.", "None", "Drawing") });
 	}
 
-	void AddPlotCommands(std::map<std::string, mvPythonParser>* parsers)
+	static void AddPlotCommands(std::map<std::string, mvPythonParser>* parsers)
 	{
 		parsers->insert({ "add_plot", mvPythonParser({
 		{mvPythonDataType::String, "name"},
@@ -281,7 +281,7 @@ namespace Marvel {
 		}, "Adds a point with text to a plot.", "None", "Plotting") });
 	}
 
-	void AddLogCommands(std::map<std::string, mvPythonParser>* parsers)
+	static void AddLogCommands(std::map<std::string, mvPythonParser>* parsers)
 	{
 		parsers->insert({ "get_log_level", mvPythonParser({
 		}, "Returns the log level.", "int", "Logging") });
@@ -316,7 +316,7 @@ namespace Marvel {
 		}, "Logs a error level log.", "None", "Logging") });
 	}
 
-	void AddInputCommands(std::map<std::string, mvPythonParser>* parsers)
+	static void AddInputCommands(std::map<std::string, mvPythonParser>* parsers)
 	{
 		parsers->insert({ "set_render_callback", mvPythonParser({
 			{mvPythonDataType::String, "callback"},
@@ -422,7 +422,7 @@ namespace Marvel {
 		}, "Sets a callback for a key release event.", "None", "Input Polling") });
 	}
 
-	void AddInputWidgets(std::map<std::string, mvPythonParser>* parsers)
+	static void AddInputWidgets(std::map<std::string, mvPythonParser>* parsers)
 	{
 		parsers->insert({ "add_input_text", mvPythonParser({
 			{mvPythonDataType::String, "name"},
@@ -545,7 +545,7 @@ namespace Marvel {
 		}, "Adds input for 4 float values.", "None", "Adding Widgets") });
 	}
 
-	void AddSliderWidgets(std::map<std::string, mvPythonParser>* parsers)
+	static void AddSliderWidgets(std::map<std::string, mvPythonParser>* parsers)
 	{
 		parsers->insert({ "add_slider_float", mvPythonParser({
 			{mvPythonDataType::String, "name"},
@@ -676,7 +676,7 @@ namespace Marvel {
 		}, "Adds slider for a 4 int values.", "None", "Adding Widgets") });
 	}
 
-	void AddDragWidgets(std::map<std::string, mvPythonParser>* parsers)
+	static void AddDragWidgets(std::map<std::string, mvPythonParser>* parsers)
 	{
 		parsers->insert({ "add_drag_float", mvPythonParser({
 			{mvPythonDataType::String, "name"},
@@ -811,7 +811,7 @@ namespace Marvel {
 		}, "Adds drag for a 4 int values.", "None", "Adding Widgets") });
 	}
 
-	void AddTableCommands(std::map<std::string, mvPythonParser>* parsers)
+	static void AddTableCommands(std::map<std::string, mvPythonParser>* parsers)
 	{
 		parsers->insert({ "add_table", mvPythonParser({
 			{mvPythonDataType::String, "name"},
@@ -885,7 +885,7 @@ namespace Marvel {
 		}, "Retrieves data from storage.", "List[List[int]]", "Tables") });
 	}
 
-	void AddItemCommands(std::map<std::string, mvPythonParser>* parsers)
+	static void AddItemCommands(std::map<std::string, mvPythonParser>* parsers)
 	{
 		parsers->insert({ "set_window_pos", mvPythonParser({
 			{mvPythonDataType::String, "window"},
@@ -1026,7 +1026,7 @@ namespace Marvel {
 		}, "Sets an item's height if applicable.", "None", "Widget Commands") });
 	}
 
-	void AddStdWindowCommands(std::map<std::string, mvPythonParser>* parsers)
+	static void AddStdWindowCommands(std::map<std::string, mvPythonParser>* parsers)
 	{
 		parsers->insert({ "show_logger", mvPythonParser({
 		}, "Shows the logging window.", "None", "Standard Windows") });
@@ -1051,7 +1051,7 @@ namespace Marvel {
 		}, "Shows the source code for a file.", "None", "Standard Windows") });
 	}
 
-	void AddThemeCommands(std::map<std::string, mvPythonParser>* parsers)
+	static void AddThemeCommands(std::map<std::string, mvPythonParser>* parsers)
 	{
 		parsers->insert({ "set_theme", mvPythonParser({
 			{mvPythonDataType::String, "theme"}
@@ -1090,7 +1090,7 @@ namespace Marvel {
 		}, "Needs documentation", "None", "Themes and Styles") });
 	}
 
-	void AddMenuCommands(std::map<std::string, mvPythonParser>* parsers)
+	static void AddMenuCommands(std::map<std::string, mvPythonParser>* parsers)
 	{
 		parsers->insert({ "add_menu_bar", mvPythonParser({
 			{mvPythonDataType::String, "name"},
@@ -1123,7 +1123,7 @@ namespace Marvel {
 		}, "Ends the menu bar created by a call to add_menu_bar.", "None", "Containers") });
 	}
 
-	void AddBasicWidgets(std::map<std::string, mvPythonParser>* parsers)
+	static void AddBasicWidgets(std::map<std::string, mvPythonParser>* parsers)
 	{
 		parsers->insert({ "add_seperator", mvPythonParser({
 			{mvPythonDataType::KeywordOnly},
@@ -1367,7 +1367,7 @@ namespace Marvel {
 		}, "Adds a checkbox widget.", "None", "Adding Widgets") });
 	}
 
-	void AddContainterWidgets(std::map<std::string, mvPythonParser>* parsers)
+	static void AddContainterWidgets(std::map<std::string, mvPythonParser>* parsers)
 	{
 		parsers->insert({ "add_tab_bar", mvPythonParser({
 			{mvPythonDataType::String, "name"},
@@ -1499,11 +1499,9 @@ namespace Marvel {
 		}, "Ends the collapsing header created by a call to add_collapsing_header.", "None", "Containers") });
 	}
 
-	void AddAppCommands(std::map<std::string, mvPythonParser>* parsers)
+	static void AddAppCommands(std::map<std::string, mvPythonParser>* parsers)
 	{
 		parsers->insert({ "start_marvel", mvPythonParser({
-			{mvPythonDataType::Optional},
-			{mvPythonDataType::String, "argv0", ""}
 		}, "Starts marvel") });
 
 		parsers->insert({ "start_marvel_editor", mvPythonParser({
@@ -1601,4 +1599,5 @@ namespace Marvel {
 		}, "Sets the main window size.") });
 	}
 
+	PyMODINIT_FUNC PyInit_marvel(void);
 }

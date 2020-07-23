@@ -1,7 +1,7 @@
 #include "mvTable.h"
-#include "Core/PythonInterfaces/mvPythonTranslator.h"
-#include "Core/mvApp.h"
-#include "Core/StandardWindows/mvAppLog.h"
+#include "mvPythonTranslator.h"
+#include "mvApp.h"
+#include "mvAppLog.h"
 
 namespace Marvel {
 
@@ -16,13 +16,13 @@ namespace Marvel {
 	{
 		if (column < 0 || row < 0)
 		{
-			mvAppLog::getLogger()->LogError("Table index must be a positive integer.");
+			mvAppLog::LogError("Table index must be a positive integer.");
 			return false;
 		}
 
 		if (column > m_columns + 1 || row > m_values.size() + 1)
 		{
-			mvAppLog::getLogger()->LogError("Table indices out of range.");
+			mvAppLog::LogError("Table indices out of range.");
 			return false;
 		}
 
@@ -316,7 +316,7 @@ namespace Marvel {
 
 		if (column >= m_headers.size())
 		{
-			mvAppLog::getLogger()->LogError("Column to delete does not exist.");
+			mvAppLog::LogError("Column to delete does not exist.");
 			return;
 		}
 

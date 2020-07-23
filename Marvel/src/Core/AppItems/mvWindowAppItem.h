@@ -1,8 +1,8 @@
 #pragma once
 
 #include "Core/AppItems/mvTypeBases.h"
-#include "Core/mvApp.h"
-#include "Core/mvEventHandler.h"
+#include "mvApp.h"
+#include "mvEventHandler.h"
 
 namespace Marvel {
 

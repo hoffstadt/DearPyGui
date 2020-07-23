@@ -1,6 +1,6 @@
 #include "mvPythonTranslator.h"
-#include "Core/mvApp.h"
-#include "Core/StandardWindows/mvAppLog.h"
+#include "mvApp.h"
+#include "mvAppLog.h"
 
 namespace Marvel {
 
@@ -128,7 +128,7 @@ namespace Marvel {
 
 		if (!PyLong_Check(value))
 		{
-			mvAppLog::getLogger()->LogError(message);
+			mvAppLog::LogError(message);
 			return 0;
 		}
 
@@ -141,7 +141,7 @@ namespace Marvel {
 
 		if (!PyNumber_Check(value))
 		{
-			mvAppLog::getLogger()->LogError(message);
+			mvAppLog::LogError(message);
 			return 0.0f;
 		}
 
@@ -154,7 +154,7 @@ namespace Marvel {
 
 		if (!PyBool_Check(value))
 		{
-			mvAppLog::getLogger()->LogError(message);
+			mvAppLog::LogError(message);
 			return false;
 		}
 
@@ -167,7 +167,7 @@ namespace Marvel {
 
 		if (!PyUnicode_Check(value))
 		{
-			mvAppLog::getLogger()->LogError(message);
+			mvAppLog::LogError(message);
 			return "";
 		}
 
@@ -202,7 +202,7 @@ namespace Marvel {
 		}
 
 		else
-			mvAppLog::getLogger()->LogError(message);
+			mvAppLog::LogError(message);
 
 
 		return items;
@@ -235,7 +235,7 @@ namespace Marvel {
 		}
 
 		else
-			mvAppLog::getLogger()->LogError(message);
+			mvAppLog::LogError(message);
 
 
 		return items;
@@ -268,7 +268,7 @@ namespace Marvel {
 		}
 
 		else
-			mvAppLog::getLogger()->LogError(message);
+			mvAppLog::LogError(message);
 
 
 		return items;
@@ -346,7 +346,7 @@ namespace Marvel {
 		}
 
 		else
-			mvAppLog::getLogger()->LogError(message);
+			mvAppLog::LogError(message);
 
 		return items;
 	}
@@ -368,7 +368,7 @@ namespace Marvel {
 		}
 
 		else
-			mvAppLog::getLogger()->LogError(message);
+			mvAppLog::LogError(message);
 
 		return items;
 	}
@@ -393,7 +393,7 @@ namespace Marvel {
 		}
 
 		else
-			mvAppLog::getLogger()->LogError(message);
+			mvAppLog::LogError(message);
 
 		return items;
 
