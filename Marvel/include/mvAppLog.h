@@ -25,6 +25,7 @@ namespace Marvel {
 		static void     setSize    (unsigned width, unsigned height);
 		static unsigned getLogLevel() { return s_loglevel; }
 		static void     Show() { show = true; }
+		static void     ShowMain() { show = true; mainmode = true; }
 
 	private:
 
@@ -37,6 +38,7 @@ namespace Marvel {
 		static ImVector<int>   LineOffsets;    // Index to lines offset. We maintain this with AddLog() calls, allowing us to have a random access on lines
 		static bool            AutoScroll;     // Keep scrolling if already at the bottom
 		static bool            show;     // Keep scrolling if already at the bottom
+		static bool            mainmode;
 		static int             s_loglevel;
 		static std::chrono::steady_clock::time_point s_start;
 		static unsigned s_width;

@@ -11,7 +11,7 @@ namespace Marvel {
 
 		if (m_error)
 		{
-			mvAppLog::Show();
+			mvAppLog::ShowMain();
 			mvAppLog::setSize(width, height);
 		}
 
