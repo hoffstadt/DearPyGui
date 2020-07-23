@@ -1,12 +1,12 @@
 ﻿cmake_minimum_required (VERSION 3.16)
 
-add_library(marvel SHARED)
-set_target_properties(marvel PROPERTIES SUFFIX ".pyd")
-set_target_properties(marvel PROPERTIES OUTPUT_NAME "marvel$<$<CONFIG:Debug>:_d>")
-set_target_properties(marvel PROPERTIES CXX_STANDARD 17)
+add_library(dearpygui SHARED)
+set_target_properties(dearpygui PROPERTIES SUFFIX ".pyd")
+set_target_properties(dearpygui PROPERTIES OUTPUT_NAME "dearpygui$<$<CONFIG:Debug>:_d>")
+set_target_properties(dearpygui PROPERTIES CXX_STANDARD 17)
 
-add_library(marvelembedded STATIC)
-set_target_properties(marvelembedded PROPERTIES CXX_STANDARD 17)
+add_library(dearpyguiemb STATIC)
+set_target_properties(dearpyguiemb PROPERTIES CXX_STANDARD 17)
 
 set(MARVEL_SOURCES
 
@@ -62,16 +62,16 @@ set(MARVEL_INCLUDE_DIR
 	"src/Vendor/stb/"
 )
 
-target_sources(marvel PRIVATE ${MARVEL_SOURCES} )
-target_sources(marvelembedded PRIVATE ${MARVEL_SOURCES} )
+target_sources(dearpygui PRIVATE ${MARVEL_SOURCES} )
+target_sources(dearpyguiemb PRIVATE ${MARVEL_SOURCES} )
 
-target_include_directories(marvel PRIVATE ${MARVEL_INCLUDE_DIR} )
-target_include_directories(marvelembedded PRIVATE ${MARVEL_INCLUDE_DIR} )
+target_include_directories(dearpygui PRIVATE ${MARVEL_INCLUDE_DIR} )
+target_include_directories(dearpyguiemb PRIVATE ${MARVEL_INCLUDE_DIR} )
 
-target_link_directories(marvel PRIVATE "../Dependencies/cpython/PCbuild/amd64/")
-target_link_directories(marvelembedded PRIVATE "../Dependencies/cpython/PCbuild/amd64/")
+target_link_directories(dearpygui PRIVATE "../Dependencies/cpython/PCbuild/amd64/")
+target_link_directories(dearpyguiemb PRIVATE "../Dependencies/cpython/PCbuild/amd64/")
 
-target_link_libraries(marvel
+target_link_libraries(dearpygui
 
 	PUBLIC
 
@@ -80,14 +80,14 @@ target_link_libraries(marvel
 		$<$<CONFIG:Release>:python38>
 )
 
-target_compile_definitions(marvel
+target_compile_definitions(dearpygui
 
 	PRIVATE
 
 		$<$<CONFIG:Release>:MV_RELEASE>
 )
 
-target_link_libraries(marvelembedded
+target_link_libraries(dearpyguiemb
 
 	PUBLIC
 
@@ -96,7 +96,7 @@ target_link_libraries(marvelembedded
 		$<$<CONFIG:Release>:python38>
 )
 
-target_compile_definitions(marvelembedded
+target_compile_definitions(dearpyguiemb
 
 	PUBLIC
 

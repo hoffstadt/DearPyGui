@@ -7,13 +7,13 @@ namespace Marvel {
 
 	void mvAboutWindow::render(bool& show)
 	{
-		if (!ImGui::Begin("About MarvelSandbox", &show, ImGuiWindowFlags_AlwaysAutoResize))
+		if (!ImGui::Begin("About DearPyGui", &show, ImGuiWindowFlags_AlwaysAutoResize))
 		{
 			ImGui::End();
 			return;
 		}
 
-		ImGui::Text("MarvelSandbox %s", mvApp::GetVersion());
+		ImGui::Text("DearPyGui %s", mvApp::GetVersion());
 		ImGui::Text("Dear ImGui %s", ImGui::GetVersion());
 		ImGui::Separator();
 		ImGui::Text("By Jonathan Hoffstadt and Preston Cothren");

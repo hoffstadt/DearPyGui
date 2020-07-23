@@ -60,7 +60,7 @@ namespace Marvel {
 		else
 			ImGui::SetNextWindowSize(ImVec2(s_width, s_width), ImGuiCond_FirstUseEver);
 
-		if (!ImGui::Begin("Marvel Logger", &show, s_flags))
+		if (!ImGui::Begin("DearPyGui Logger", &show, s_flags))
 		{
 			ImGui::End();
 			return;

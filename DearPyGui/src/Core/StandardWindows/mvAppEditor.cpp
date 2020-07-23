@@ -11,8 +11,8 @@
 #include <iostream>
 #include "Core/mvTextEditor.h"
 
-static const char* initialText = "from marvel import *\n\
-\nadd_button('Button 1')\nstart_marvel()\n";
+static const char* initialText = "from dearpygui import *\n\
+\nadd_button('Button 1')\nstart_dearpygui()\n";
 
 namespace Marvel {
 

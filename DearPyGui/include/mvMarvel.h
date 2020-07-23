@@ -1501,14 +1501,14 @@ namespace Marvel {
 
 	static void AddAppCommands(std::map<std::string, mvPythonParser>* parsers)
 	{
-		parsers->insert({ "start_marvel", mvPythonParser({
-		}, "Starts marvel") });
+		parsers->insert({ "start_dearpygui", mvPythonParser({
+		}, "Starts DearPyGui") });
 
-		parsers->insert({ "start_marvel_editor", mvPythonParser({
-		}, "Starts marvel editor") });
+		parsers->insert({ "start_dearpygui_editor", mvPythonParser({
+		}, "Starts DearPyGui editor") });
 
-		parsers->insert({ "start_marvel_docs", mvPythonParser({
-		}, "Starts marvel documentation") });
+		parsers->insert({ "start_dearpygui_docs", mvPythonParser({
+		}, "Starts DearPyGui documentation") });
 
 		parsers->insert({ "set_global_font_scale", mvPythonParser({
 			{mvPythonDataType::Float, "scale", "default is 1.0"}
@@ -1524,7 +1524,7 @@ namespace Marvel {
 		parsers->insert({ "run_file", mvPythonParser({
 			{mvPythonDataType::String, "file", "Path to python file."},
 			{mvPythonDataType::String, "flags"},
-		}, "Runs a seperate Marvel app.") });
+		}, "Runs a seperate DearPyGui app.") });
 
 		parsers->insert({ "run_async_function", mvPythonParser({
 			{mvPythonDataType::String, "name"},
@@ -1598,13 +1598,13 @@ namespace Marvel {
 		}, "Sets the main window size.") });
 	}
 
-	PyMODINIT_FUNC PyInit_marvel(void);
+	PyMODINIT_FUNC PyInit_dearpygui(void);
 
-	std::map<std::string, mvPythonParser>* BuildMarvelInterface();
+	std::map<std::string, mvPythonParser>* BuildDearPyGuiInterface();
 
 	std::vector<std::pair<std::string, std::string>> GetAllCommands();
 
 	std::vector<std::pair<std::string, long>> GetModuleConstants();
 
-	void start_marvel_error();
+	void start_dearpygui_error();
 }

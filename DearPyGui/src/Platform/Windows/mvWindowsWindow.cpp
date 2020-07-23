@@ -10,10 +10,10 @@ namespace Marvel {
 	mvWindowsWindow::mvWindowsWindow(unsigned width, unsigned height, bool editor, bool error, bool doc) 
 		: mvWindow(width, height, editor, error, doc)
 	{
-		m_wc = { sizeof(WNDCLASSEX), CS_CLASSDC, HandleMsgSetup, 0L, 0L, GetModuleHandle(NULL), NULL, NULL, NULL, NULL, _T("ImGui Example"), NULL };
+		m_wc = { sizeof(WNDCLASSEX), CS_CLASSDC, HandleMsgSetup, 0L, 0L, GetModuleHandle(NULL), NULL, NULL, NULL, NULL, _T("DearPyGui Example"), NULL };
 		RegisterClassEx(&m_wc);
 
-		m_hwnd = CreateWindow(m_wc.lpszClassName, _T("Marvel Sandbox"), WS_OVERLAPPEDWINDOW, 100, 100, width, height, NULL, NULL, m_wc.hInstance, this);
+		m_hwnd = CreateWindow(m_wc.lpszClassName, _T("DearPyGui"), WS_OVERLAPPEDWINDOW, 100, 100, width, height, NULL, NULL, m_wc.hInstance, this);
 
 		// Initialize Direct3D
 		if (!CreateDeviceD3D(m_hwnd))

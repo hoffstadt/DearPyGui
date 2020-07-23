@@ -3180,7 +3180,7 @@ const mvTextEditor::LanguageDefinition& mvTextEditor::LanguageDefinition::Python
 		for (auto& k : cppKeywords)
 			langDef.mKeywords.insert(k);
 
-		auto docmap = BuildMarvelInterface();
+		auto docmap = BuildDearPyGuiInterface();
 		
 		for (auto& k : *docmap)
 		{

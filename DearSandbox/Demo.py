@@ -1,4 +1,4 @@
-from marvel import *
+from dearpygui import *
 from math import sin, cos
 
 set_log_level(0)
@@ -405,5 +405,5 @@ def RetrieveValues(sender, data):
     log_info("Color Picker4: " + str(get_value("Color Picker4##widget")))
     log_info("Tab Bar: " + str(get_value("Tab Bar##widget")))
 
-start_marvel()
-start_marvel_editor()
+start_dearpygui()
+start_dearpygui_editor()

@@ -62,7 +62,7 @@ namespace Marvel {
 			ma->addItem(item);
 	}
 
-	std::map<std::string, mvPythonParser>* BuildMarvelInterface() 
+	std::map<std::string, mvPythonParser>* BuildDearPyGuiInterface() 
 	{
 		
 		std::map<std::string, mvPythonParser>* parsers = new std::map< std::string, mvPythonParser>;
@@ -87,7 +87,7 @@ namespace Marvel {
 
 	std::vector<std::pair<std::string, std::string>> GetAllCommands()
 	{
-		auto mapping = BuildMarvelInterface();
+		auto mapping = BuildDearPyGuiInterface();
 		
 		std::vector<std::pair<std::string, std::string>> result;
 
@@ -99,7 +99,7 @@ namespace Marvel {
 		return std::move(result);
 	}
 
-	PyObject* start_marvel(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* start_dearpygui(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 
 		mvApp::GetApp()->precheck();
@@ -116,7 +116,7 @@ namespace Marvel {
 		return mvPythonTranslator::GetPyNone();
 	}
 
-	PyObject* start_marvel_editor(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* start_dearpygui_editor(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 
 		mvApp::SetAppStarted();
@@ -131,7 +131,7 @@ namespace Marvel {
 		return mvPythonTranslator::GetPyNone();
 	}
 
-	PyObject* start_marvel_docs(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* start_dearpygui_docs(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 
 		// create window
@@ -4982,11 +4982,11 @@ namespace Marvel {
 		return ModuleConstants;
 	}
 
-	static PyMethodDef marvelmethods[]
+	static PyMethodDef dearpyguimethods[]
 	{
-		ADD_PYTHON_FUNCTION(start_marvel)
-		ADD_PYTHON_FUNCTION(start_marvel_editor)
-		ADD_PYTHON_FUNCTION(start_marvel_docs)
+		ADD_PYTHON_FUNCTION(start_dearpygui)
+		ADD_PYTHON_FUNCTION(start_dearpygui_editor)
+		ADD_PYTHON_FUNCTION(start_dearpygui_docs)
 		ADD_PYTHON_FUNCTION(clear_table)
 		ADD_PYTHON_FUNCTION(generate_stub_file)
 		ADD_PYTHON_FUNCTION(get_window_pos)
@@ -5198,16 +5198,16 @@ namespace Marvel {
 		{NULL, NULL, 0, NULL}
 	};
 
-	static PyModuleDef marvelModule = {
-		PyModuleDef_HEAD_INIT, "marvel", NULL, -1, marvelmethods,
+	static PyModuleDef dearpyguiModule = {
+		PyModuleDef_HEAD_INIT, "dearpygui", NULL, -1, dearpyguimethods,
 		NULL, NULL, NULL, NULL
 	};
 
-	PyMODINIT_FUNC PyInit_marvel(void)
+	PyMODINIT_FUNC PyInit_dearpygui(void)
 	{
 		PyObject* m;
 
-		m = PyModule_Create(&marvelModule);
+		m = PyModule_Create(&dearpyguiModule);
 		if (m == NULL)
 			return NULL;
 
@@ -5216,7 +5216,7 @@ namespace Marvel {
 		for (auto& item : constants)
 			PyModule_AddIntConstant(m, item.first.c_str(), item.second);
 
-		auto MarvelError = PyErr_NewException("marvel.error", NULL, NULL);
+		auto MarvelError = PyErr_NewException("dearpygui.error", NULL, NULL);
 		Py_XINCREF(MarvelError);
 		if (PyModule_AddObject(m, "error", MarvelError) < 0) {
 			Py_XDECREF(MarvelError);
@@ -5228,7 +5228,7 @@ namespace Marvel {
 		return m;
 	}
 
-	void start_marvel_error()
+	void start_dearpygui_error()
 	{
 		PyErr_Print();
 
