@@ -126,3 +126,9 @@ with open(debug_dir + "/python38_d._pth", 'w') as file:
 include_dir = script_dir + "/../Dependencies/cpython/Include/"
 config_file = script_dir + "/../Dependencies/cpython/PC/pyconfig.h"
 shutil.copy(config_file, include_dir)
+
+# get pip
+import urllib.request
+urllib.request.urlretrieve('https://bootstrap.pypa.io/get-pip.py', "../Dependencies/cpython/PCbuild/amd64/get-pip.py")
+
+
