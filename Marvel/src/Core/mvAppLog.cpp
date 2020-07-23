@@ -12,6 +12,7 @@ namespace Marvel {
 	std::chrono::steady_clock::time_point mvAppLog::s_start = clock_::now();
 	ImGuiTextBuffer mvAppLog::Buf;
 	bool mvAppLog::show = false;
+	bool mvAppLog::mainmode = false;
 	ImGuiTextFilter mvAppLog::Filter;
 	ImVector<int>   mvAppLog::LineOffsets;    // Index to lines offset. We maintain this with AddLog() calls, allowing us to have a random access on lines
 	bool            mvAppLog::AutoScroll = true;     // Keep scrolling if already at the bottom
@@ -48,7 +49,7 @@ namespace Marvel {
 		if (!show)
 			return;
 
-		if (s_loglevel)
+		if (mainmode)
 		{
 			ImGui::SetNextWindowPos(ImVec2(0.0f, 0.0f));
 			ImGui::SetNextWindowSize(ImVec2(s_width, s_height));

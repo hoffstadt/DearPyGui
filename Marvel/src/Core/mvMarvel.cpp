@@ -23,8 +23,26 @@ namespace Marvel {
 
 		auto ma = mvApp::GetApp();
 
+		// remove bad parent stack item
+		if (item->getType() == mvAppItemType::Window && ma->topParent() != nullptr)
+		{
+			if (ma->topParent()->getName() != "MainWindow")
+			{
+				ma->popParent();
+				mvAppLog::LogWarning("Adding window will remove last item in parent stack. Don't forget to end container types.");
+			}
+		}
+
+		// window runtime adding
+		if (item->getType() == mvAppItemType::Window && mvApp::IsAppStarted())
+			ma->addRuntimeItem("", "", item);
+
+		// window compile adding
+		else if (item->getType() == mvAppItemType::Window)
+			ma->addWindow(item);
+
 		// typical run time adding
-		if ((!std::string(parent).empty() || !std::string(before).empty()) && mvApp::IsAppStarted())
+		else if ((!std::string(parent).empty() || !std::string(before).empty()) && mvApp::IsAppStarted())
 			ma->addRuntimeItem(parent, before, item);
 
 		// adding without specifying before or parent, instead using parent stack
@@ -38,9 +56,6 @@ namespace Marvel {
 		// adding normally but using the runtime style of adding
 		else if (!std::string(parent).empty() && !mvApp::IsAppStarted())
 			ma->addRuntimeItem(parent, before, item);
-
-		else if (std::string(parent).empty() && !mvApp::IsAppStarted() && std::string(before).empty() && item->getType()==mvAppItemType::Window)
-			ma->addWindow(item);
 
 		// typical adding before runtime
 		else if (std::string(parent).empty() && !mvApp::IsAppStarted() && std::string(before).empty())

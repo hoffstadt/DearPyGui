@@ -109,8 +109,6 @@ namespace Marvel {
 			rawname + " --path \"" + pathname + "\" " + "--noconfig " + flags;
 		std::string pname = "MarvelSandbox.exe";
 
-		std::cout << cmd << std::endl;
-
 		// start the program up
 		CreateProcess(const_cast<char*>(pname.c_str()),   // the path
 			const_cast<char*>(cmd.c_str()),        // Command line
