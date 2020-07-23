@@ -7,7 +7,7 @@
 //     
 //-----------------------------------------------------------------------------
 
-//#include "Core/StandardWindows/mvAppLog.h"
+#include "mvAppLog.h"
 #define PY_SSIZE_T_CLEAN
 #include <Python.h>
 #include <string>
@@ -24,7 +24,7 @@ namespace Marvel {
             Py_RETURN_NONE;
         }
 
-        //Marvel::mvAppLog::getLogger()->AddLog("%0s", what);
+        Marvel::mvAppLog::AddLog("%0s", what);
         PyGILState_Release(gstate);
         Py_RETURN_NONE;
     }

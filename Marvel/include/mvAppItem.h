@@ -13,7 +13,7 @@
 #include <vector>
 #include <map>
 #include <imgui.h>
-#include "Core/mvCore.h"
+#include "mvCore.h"
 
 //-----------------------------------------------------------------------------
 // Helper Macro

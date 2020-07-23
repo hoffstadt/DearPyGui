@@ -1,5 +1,5 @@
 #include "mvPythonModule.h"
-#include "Core/mvApp.h"
+#include "mvApp.h"
 
 namespace Marvel {
 

@@ -1,7 +1,7 @@
 #include "mvAppLog.h"
 #include <string>
 #include <mutex>
-#include "Core/mvApp.h"
+#include "mvApp.h"
 #include "Core/mvInput.h"
 
 typedef std::chrono::high_resolution_clock clock_;
@@ -9,30 +9,16 @@ typedef std::chrono::duration<double, std::ratio<1> > second_;
 
 namespace Marvel {
 
-	std::chrono::steady_clock::time_point mvAppLog::s_start;
-	mvAppLog* mvAppLog::s_instance = nullptr;
-
-	mvAppLog* mvAppLog::getLogger()
-	{
-		if (s_instance)
-			return s_instance;
-
-		s_instance = new mvAppLog();
-		s_instance->setSize(500, 500);
-		s_start = clock_::now();
-		return s_instance;
-	}
-
-	mvStandardWindow* mvAppLog::GetLoggerStandardWindow()
-	{
-		return static_cast<mvStandardWindow*>(getLogger());
-	}
-
-	mvAppLog::mvAppLog() : mvStandardWindow()
-	{
-		AutoScroll = true;
-		Clear();
-	}
+	std::chrono::steady_clock::time_point mvAppLog::s_start = clock_::now();
+	ImGuiTextBuffer mvAppLog::Buf;
+	bool mvAppLog::show = false;
+	ImGuiTextFilter mvAppLog::Filter;
+	ImVector<int>   mvAppLog::LineOffsets;    // Index to lines offset. We maintain this with AddLog() calls, allowing us to have a random access on lines
+	bool            mvAppLog::AutoScroll = true;     // Keep scrolling if already at the bottom
+	int             mvAppLog::s_loglevel = 1;
+	unsigned mvAppLog::s_width = 500;
+	unsigned mvAppLog::s_height = 500;
+	ImGuiWindowFlags mvAppLog::s_flags = ImGuiWindowFlags_NoSavedSettings;
 
 	void mvAppLog::Clear()
 	{
@@ -57,20 +43,23 @@ namespace Marvel {
 				LineOffsets.push_back(old_size + 1);
 	}
 
-	void mvAppLog::render(bool& show)
+	void mvAppLog::render()
 	{
-		if (m_mainMode)
+		if (!show)
+			return;
+
+		if (s_loglevel)
 		{
 			ImGui::SetNextWindowPos(ImVec2(0.0f, 0.0f));
-			ImGui::SetNextWindowSize(ImVec2(m_width, m_height));
+			ImGui::SetNextWindowSize(ImVec2(s_width, s_height));
 			
-			m_flags = ImGuiWindowFlags_NoBringToFrontOnFocus | ImGuiWindowFlags_NoSavedSettings
+			s_flags = ImGuiWindowFlags_NoBringToFrontOnFocus | ImGuiWindowFlags_NoSavedSettings
 				| ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoTitleBar;
 		}
 		else
-			ImGui::SetNextWindowSize(ImVec2(m_width, m_width), ImGuiCond_FirstUseEver);
+			ImGui::SetNextWindowSize(ImVec2(s_width, s_width), ImGuiCond_FirstUseEver);
 
-		if (!ImGui::Begin("Marvel Logger", &show, m_flags))
+		if (!ImGui::Begin("Marvel Logger", &show, s_flags))
 		{
 			ImGui::End();
 			return;
@@ -216,7 +205,7 @@ namespace Marvel {
 
 	void mvAppLog::Log(const std::string& text, const std::string& level)
 	{
-		if (m_loglevel < 1)
+		if (s_loglevel < 1)
 		{
 			auto now = std::chrono::high_resolution_clock::now();
 			AddLog("[%0.2f] [%1s]  %2s\n", std::chrono::duration_cast<second_>(clock_::now()-s_start).count(), 
@@ -226,28 +215,28 @@ namespace Marvel {
 
 	void mvAppLog::LogDebug(const std::string& text)
 	{
-		if (m_loglevel < 2)
+		if (s_loglevel < 2)
 			AddLog("[%0.2f] [DEBUG]  %1s\n", std::chrono::duration_cast<second_>(clock_::now() - s_start).count(), 
 				text.c_str());
 	}
 
 	void mvAppLog::LogInfo(const std::string& text)
 	{
-		if (m_loglevel < 3)
+		if (s_loglevel < 3)
 			AddLog("[%0.2f] [INFO]  %1s\n", std::chrono::duration_cast<second_>(clock_::now() - s_start).count(), 
 				text.c_str());
 	}
 
 	void mvAppLog::LogWarning(const std::string& text)
 	{
-		if (m_loglevel < 4)
+		if (s_loglevel < 4)
 			AddLog("[%0.2f] [WARNING]  %1s\n", std::chrono::duration_cast<second_>(clock_::now() - s_start).count(), 
 				text.c_str());
 	}
 
 	void mvAppLog::LogError(const std::string& text)
 	{
-		if (m_loglevel < 5)
+		if (s_loglevel < 5)
 			AddLog("[%0.2f] [ERROR]  %1s\n", std::chrono::duration_cast<second_>(clock_::now() - s_start).count(), 
 				text.c_str());
 	}
@@ -255,6 +244,12 @@ namespace Marvel {
 	void mvAppLog::ClearLog()
 	{
 		Clear();
+	}
+
+	void mvAppLog::setSize(unsigned width, unsigned height)
+	{
+		s_width = width;
+		s_height = height;
 	}
 
 }

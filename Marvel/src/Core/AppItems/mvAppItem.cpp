@@ -1,5 +1,5 @@
 #include "mvAppItem.h"
-#include "Core/mvApp.h"
+#include "mvApp.h"
 #include "Core/mvInput.h"
 #include "Core/mvDataStorage.h"
 

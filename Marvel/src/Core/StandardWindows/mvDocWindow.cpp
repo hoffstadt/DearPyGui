@@ -1,8 +1,8 @@
 #include "mvDocWindow.h"
 #include <imgui.h>
-#include "Core/PythonInterfaces/mvPythonTranslator.h"
+#include "mvPythonTranslator.h"
 #include "Core/PythonInterfaces/mvInterfaceRegistry.h"
-#include "Core/mvApp.h"
+#include "mvApp.h"
 #include "Core/mvInput.h"
 
 namespace Marvel {

@@ -1,5 +1,5 @@
 #include "Platform/Windows/mvWindowsWindow.h"
-#include "Core/mvApp.h"
+#include "mvApp.h"
 #include "Core/StandardWindows/mvAppEditor.h"
 
 // Forward declare message handler from imgui_impl_win32.cpp
@@ -231,7 +231,8 @@ namespace Marvel {
 
 				mvApp::GetApp()->setWindowSize((UINT)LOWORD(lParam), (UINT)HIWORD(lParam));
 				mvApp::GetApp()->runCallback(mvApp::GetApp()->getResizeCallback(), "Main Application");
-				mvAppEditor::GetAppEditor()->setSize((UINT)LOWORD(lParam), (UINT)HIWORD(lParam));
+				if(this)
+					m_appEditor->setSize((UINT)LOWORD(lParam), (UINT)HIWORD(lParam));
 				mvDocWindow::GetWindow()->setSize((UINT)LOWORD(lParam), (UINT)HIWORD(lParam));
 				CleanupRenderTarget();
 				s_pSwapChain->ResizeBuffers(0, (UINT)LOWORD(lParam), (UINT)HIWORD(lParam), DXGI_FORMAT_UNKNOWN, 0);

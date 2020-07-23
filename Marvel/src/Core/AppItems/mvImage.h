@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Core/AppItems/mvAppItem.h"
+#include "mvAppItem.h"
 #include "Core/mvTextureStorage.h"
 
 //-----------------------------------------------------------------------------
@@ -87,7 +87,7 @@ namespace Marvel {
 			if (!PyUnicode_Check(value))
 			{
 				PyGILState_Release(gstate);
-				mvAppLog::getLogger()->LogError(m_name + " type must be a string.");
+				mvAppLog::LogError(m_name + " type must be a string.");
 				return;
 			}
 

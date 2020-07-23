@@ -1,6 +1,8 @@
 #define PY_SSIZE_T_CLEAN
 #include <Python.h>
 #include "mvStdOutput.h"
+#include "mvMarvel.h"
+#include "mvApp.h"
 #include <Windows.h>
 #include <iostream>
 #include <fstream>
@@ -17,10 +19,8 @@ int main(int argc, char* argv[])
 	bool errorMode = false;
 	PyObject* m = nullptr;
 	std::string addedPath;
-	std::string AppName = "";
-	std::string PathName = "";
-	std::string LibraryPath = "";
-	std::string theme = "Dark";
+	std::string AppName = "Demo";
+	std::string PathName = "../../MarvelSandbox";
 	bool documentation = false; // starts application with the documentation window shown
 	bool editorMode = false; // starts application in editor mode
 	bool ignoreConfig = false;
@@ -31,7 +31,6 @@ int main(int argc, char* argv[])
 	// options
 	app.add_option("-a, --app", AppName, "Name of the python file (without extension)");
 	app.add_option("-p, --path", PathName, "Path to app file (default is location of MarvelSandbox.exe)");
-	app.add_option("-l, --libs", LibraryPath, "Path to 3rd party python libraries");
 
 	// flags
 	app.add_flag("-d, --documentation", documentation, "Sets MarvelSandbox to Documentation Mode");
@@ -66,13 +65,11 @@ int main(int argc, char* argv[])
 			}
 
 			if (j.contains("Theme"))
-				theme = j["Theme"];
+				mvApp::GetApp()->setAppTheme(j["Theme"]);
 
 			if (j.contains("Path"))
 				PathName = PathName + std::string(j["Path"]);
 
-			if (j.contains("PythonLibs"))
-				LibraryPath = j["PythonLibs"];
 		}
 	}
 
@@ -94,7 +91,7 @@ int main(int argc, char* argv[])
 
 	addedPath = PathName + "\\";
 
-	PathName = excpath + dependencies + PathName + ";Dependencies/python38.zip;" + LibraryPath + ";";
+	PathName = excpath + dependencies + PathName + ";Dependencies/python38.zip;";
 
 	program = Py_DecodeLocale(argv[0], NULL);
 	if (program == NULL) {
@@ -105,7 +102,8 @@ int main(int argc, char* argv[])
 
 	// initialize python
 	// add our custom module
-	//PyImport_AppendInittab("sandboxout", &PyInit_embOut);
+	PyImport_AppendInittab("sandboxout", &PyInit_embOut);
+	PyImport_AppendInittab("marvel", &PyInit_marvel);
 
 	// set path and start the interpreter
 	wchar_t* deco = Py_DecodeLocale(PathName.c_str(), nullptr);
@@ -120,14 +118,12 @@ int main(int argc, char* argv[])
 		return 1;
 	}
 
-	// import our custom module to capture stdout/stderr
-	//m = PyImport_ImportModule("sandboxout");
-	//PySys_SetObject("stdout", m);
-	//PySys_SetObject("stderr", m);
+	PyObject* mmarvel = PyImport_ImportModule("marvel");
 
-	// get module
-	std::string themeCommand = "from marvel import *\nset_theme(\"" + theme + "\")";
-	PyRun_SimpleString(themeCommand.c_str());
+	// import our custom module to capture stdout/stderr
+	m = PyImport_ImportModule("sandboxout");
+	PySys_SetObject("stdout", m);
+	PySys_SetObject("stderr", m);
 
 	if (editorMode)
 	{
@@ -148,6 +144,7 @@ int main(int argc, char* argv[])
 	if (!PyErr_Occurred() && pModule != nullptr)
 	{
 		Py_XDECREF(pModule);
+		Py_XDECREF(mmarvel);
 		return 0;
 	}
 

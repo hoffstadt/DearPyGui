@@ -1,8 +1,8 @@
 #pragma once
 
-#include "Core/AppItems/mvAppItem.h"
-#include "Core/mvApp.h"
-#include "Core/StandardWindows/mvAppLog.h"
+#include "mvAppItem.h"
+#include "mvApp.h"
+#include "mvAppLog.h"
 
 //-----------------------------------------------------------------------------
 // Widget Index

@@ -1,9 +1,9 @@
 #include "mvMarvel.h"
 #include "mvPythonModule.h"
-#include "Core/mvApp.h"
+#include "mvApp.h"
 #include "Core/mvInput.h"
 #include "Core/mvDataStorage.h"
-#include "Core/StandardWindows/mvAppLog.h"
+#include "mvAppLog.h"
 #include "Core/StandardWindows/mvSourceWindow.h"
 #include "mvPythonTranslator.h"
 #include "Core/AppItems/mvAppItems.h"
@@ -76,13 +76,7 @@ namespace Marvel {
 	PyObject* start_marvel(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 
-		const char* argv0="";
-
-		if (!Parsers["start_marvel"].parse(args, kwargs, __FUNCTION__, &argv0))
-			return mvPythonTranslator::GetPyNone();
-
 		mvApp::GetApp()->precheck();
-		mvApp::GetApp()->setArgv0(argv0);
 		mvApp::SetAppStarted();
 		PyEval_InitThreads();
 
@@ -229,7 +223,7 @@ namespace Marvel {
 		if (item == nullptr)
 		{
 			std::string message = name;
-			mvAppLog::getLogger()->LogWarning(message + " drawing does not exist.");
+			mvAppLog::LogWarning(message + " drawing does not exist.");
 			return mvPythonTranslator::GetPyNone();
 		}
 
@@ -238,7 +232,7 @@ namespace Marvel {
 			dwg = static_cast<mvDrawing*>(item);
 		else
 		{
-			mvAppLog::getLogger()->LogWarning(std::string(name) + " is not a drawing.");
+			mvAppLog::LogWarning(std::string(name) + " is not a drawing.");
 			return mvPythonTranslator::GetPyNone();
 		}
 		dwg->setOrigin(x, y);
@@ -260,7 +254,7 @@ namespace Marvel {
 		if (item == nullptr)
 		{
 			std::string message = name;
-			mvAppLog::getLogger()->LogWarning(message + " drawing does not exist.");
+			mvAppLog::LogWarning(message + " drawing does not exist.");
 			return mvPythonTranslator::GetPyNone();
 		}
 
@@ -269,7 +263,7 @@ namespace Marvel {
 			dwg = static_cast<mvDrawing*>(item);
 		else
 		{
-			mvAppLog::getLogger()->LogWarning(std::string(name) + " is not a drawing.");
+			mvAppLog::LogWarning(std::string(name) + " is not a drawing.");
 			return mvPythonTranslator::GetPyNone();
 		}
 		dwg->setScale(x, y);
@@ -289,7 +283,7 @@ namespace Marvel {
 		if (item == nullptr)
 		{
 			std::string message = name;
-			mvAppLog::getLogger()->LogWarning(message + " drawing does not exist.");
+			mvAppLog::LogWarning(message + " drawing does not exist.");
 			return mvPythonTranslator::GetPyNone();
 		}
 
@@ -298,7 +292,7 @@ namespace Marvel {
 			dwg = static_cast<mvDrawing*>(item);
 		else
 		{
-			mvAppLog::getLogger()->LogWarning(std::string(name) + " is not a drawing.");
+			mvAppLog::LogWarning(std::string(name) + " is not a drawing.");
 			return mvPythonTranslator::GetPyNone();
 		}
 
@@ -317,7 +311,7 @@ namespace Marvel {
 		if (item == nullptr)
 		{
 			std::string message = name;
-			mvAppLog::getLogger()->LogWarning(message + " drawing does not exist.");
+			mvAppLog::LogWarning(message + " drawing does not exist.");
 			return mvPythonTranslator::GetPyNone();
 		}
 
@@ -326,7 +320,7 @@ namespace Marvel {
 			dwg = static_cast<mvDrawing*>(item);
 		else
 		{
-			mvAppLog::getLogger()->LogWarning(std::string(name) + " is not a drawing.");
+			mvAppLog::LogWarning(std::string(name) + " is not a drawing.");
 			return mvPythonTranslator::GetPyNone();
 		}
 
@@ -384,7 +378,7 @@ namespace Marvel {
 		if (item == nullptr)
 		{
 			std::string message = drawing;
-			mvAppLog::getLogger()->LogWarning(message + " drawing does not exist.");
+			mvAppLog::LogWarning(message + " drawing does not exist.");
 			return mvPythonTranslator::GetPyNone();
 		}
 
@@ -393,7 +387,7 @@ namespace Marvel {
 			dwg = static_cast<mvDrawing*>(item);
 		else
 		{
-			mvAppLog::getLogger()->LogWarning(std::string(drawing) + " is not a drawing.");
+			mvAppLog::LogWarning(std::string(drawing) + " is not a drawing.");
 			return mvPythonTranslator::GetPyNone();
 		}
 		dwg->drawImage(file, mpmin, mpmax, muv_min, muv_max, mcolor, tag);
@@ -421,7 +415,7 @@ namespace Marvel {
 		if (item == nullptr)
 		{
 			std::string message = drawing;
-			mvAppLog::getLogger()->LogWarning(message + " drawing does not exist.");
+			mvAppLog::LogWarning(message + " drawing does not exist.");
 			return mvPythonTranslator::GetPyNone();
 		}
 
@@ -430,7 +424,7 @@ namespace Marvel {
 			dwg = static_cast<mvDrawing*>(item);
 		else
 		{
-			mvAppLog::getLogger()->LogWarning(std::string(drawing) + " is not a drawing.");
+			mvAppLog::LogWarning(std::string(drawing) + " is not a drawing.");
 			return mvPythonTranslator::GetPyNone();
 		}
 		dwg->drawLine(mp1, mp2, mcolor, thickness, tag);
@@ -459,7 +453,7 @@ namespace Marvel {
 		if (item == nullptr)
 		{
 			std::string message = drawing;
-			mvAppLog::getLogger()->LogWarning(message + " drawing does not exist.");
+			mvAppLog::LogWarning(message + " drawing does not exist.");
 			return mvPythonTranslator::GetPyNone();
 		}
 
@@ -468,7 +462,7 @@ namespace Marvel {
 			dwg = static_cast<mvDrawing*>(item);
 		else
 		{
-			mvAppLog::getLogger()->LogWarning(std::string(drawing) + " is not a drawing.");
+			mvAppLog::LogWarning(std::string(drawing) + " is not a drawing.");
 			return mvPythonTranslator::GetPyNone();
 		}
 		dwg->drawArrow(mp1, mp2, mcolor, thickness, size, tag);
@@ -500,7 +494,7 @@ namespace Marvel {
 		if (item == nullptr)
 		{
 			std::string message = drawing;
-			mvAppLog::getLogger()->LogWarning(message + " drawing does not exist.");
+			mvAppLog::LogWarning(message + " drawing does not exist.");
 			return mvPythonTranslator::GetPyNone();
 		}
 
@@ -509,7 +503,7 @@ namespace Marvel {
 			dwg = static_cast<mvDrawing*>(item);
 		else
 		{
-			mvAppLog::getLogger()->LogWarning(std::string(drawing) + " is not a drawing.");
+			mvAppLog::LogWarning(std::string(drawing) + " is not a drawing.");
 			return mvPythonTranslator::GetPyNone();
 		}
 		dwg->drawTriangle(mp1, mp2, mp3, mcolor, mfill, thickness, tag);
@@ -540,7 +534,7 @@ namespace Marvel {
 		if (item == nullptr)
 		{
 			std::string message = drawing;
-			mvAppLog::getLogger()->LogWarning(message + " drawing does not exist.");
+			mvAppLog::LogWarning(message + " drawing does not exist.");
 			return mvPythonTranslator::GetPyNone();
 		}
 
@@ -549,7 +543,7 @@ namespace Marvel {
 			dwg = static_cast<mvDrawing*>(item);
 		else
 		{
-			mvAppLog::getLogger()->LogWarning(std::string(drawing) + " is not a drawing.");
+			mvAppLog::LogWarning(std::string(drawing) + " is not a drawing.");
 			return mvPythonTranslator::GetPyNone();
 		}
 		dwg->drawRectangle(mpmin, mpmax, mcolor, mfill, rounding, thickness, tag);
@@ -582,7 +576,7 @@ namespace Marvel {
 		if (item == nullptr)
 		{
 			std::string message = drawing;
-			mvAppLog::getLogger()->LogWarning(message + " drawing does not exist.");
+			mvAppLog::LogWarning(message + " drawing does not exist.");
 			return mvPythonTranslator::GetPyNone();
 		}
 
@@ -591,7 +585,7 @@ namespace Marvel {
 			dwg = static_cast<mvDrawing*>(item);
 		else
 		{
-			mvAppLog::getLogger()->LogWarning(std::string(drawing) + " is not a drawing.");
+			mvAppLog::LogWarning(std::string(drawing) + " is not a drawing.");
 			return mvPythonTranslator::GetPyNone();
 		}
 		dwg->drawQuad(mp1, mp2, mp3, mp4, mcolor, mfill, thickness, tag);
@@ -619,7 +613,7 @@ namespace Marvel {
 		if (item == nullptr)
 		{
 			std::string message = drawing;
-			mvAppLog::getLogger()->LogWarning(message + " drawing does not exist.");
+			mvAppLog::LogWarning(message + " drawing does not exist.");
 			return mvPythonTranslator::GetPyNone();
 		}
 
@@ -628,7 +622,7 @@ namespace Marvel {
 			dwg = static_cast<mvDrawing*>(item);
 		else
 		{
-			mvAppLog::getLogger()->LogWarning(std::string(drawing) + " is not a drawing.");
+			mvAppLog::LogWarning(std::string(drawing) + " is not a drawing.");
 			return mvPythonTranslator::GetPyNone();
 		}
 		dwg->drawText(mpos, text, mcolor, size, tag);
@@ -659,7 +653,7 @@ namespace Marvel {
 		if (item == nullptr)
 		{
 			std::string message = drawing;
-			mvAppLog::getLogger()->LogWarning(message + " drawing does not exist.");
+			mvAppLog::LogWarning(message + " drawing does not exist.");
 			return mvPythonTranslator::GetPyNone();
 		}
 
@@ -668,7 +662,7 @@ namespace Marvel {
 			dwg = static_cast<mvDrawing*>(item);
 		else
 		{
-			mvAppLog::getLogger()->LogWarning(std::string(drawing) + " is not a drawing.");
+			mvAppLog::LogWarning(std::string(drawing) + " is not a drawing.");
 			return mvPythonTranslator::GetPyNone();
 		}
 		dwg->drawCircle(mcenter, radius, mcolor, segments, thickness, mfill, tag);
@@ -696,7 +690,7 @@ namespace Marvel {
 		if (item == nullptr)
 		{
 			std::string message = drawing;
-			mvAppLog::getLogger()->LogWarning(message + " drawing does not exist.");
+			mvAppLog::LogWarning(message + " drawing does not exist.");
 			return mvPythonTranslator::GetPyNone();
 		}
 
@@ -705,7 +699,7 @@ namespace Marvel {
 			dwg = static_cast<mvDrawing*>(item);
 		else
 		{
-			mvAppLog::getLogger()->LogWarning(std::string(drawing) + " is not a drawing.");
+			mvAppLog::LogWarning(std::string(drawing) + " is not a drawing.");
 			return mvPythonTranslator::GetPyNone();
 		}
 		dwg->drawPolyline(mpoints, mcolor, closed, thickness, tag);
@@ -734,7 +728,7 @@ namespace Marvel {
 		if (item == nullptr)
 		{
 			std::string message = drawing;
-			mvAppLog::getLogger()->LogWarning(message + " drawing does not exist.");
+			mvAppLog::LogWarning(message + " drawing does not exist.");
 			return mvPythonTranslator::GetPyNone();
 		}
 
@@ -743,7 +737,7 @@ namespace Marvel {
 			dwg = static_cast<mvDrawing*>(item);
 		else
 		{
-			mvAppLog::getLogger()->LogWarning(std::string(drawing) + " is not a drawing.");
+			mvAppLog::LogWarning(std::string(drawing) + " is not a drawing.");
 			return mvPythonTranslator::GetPyNone();
 		}
 		dwg->drawPolygon(mpoints, mcolor, mfill, thickness, tag);
@@ -774,7 +768,7 @@ namespace Marvel {
 		if (item == nullptr)
 		{
 			std::string message = drawing;
-			mvAppLog::getLogger()->LogWarning(message + " drawing does not exist.");
+			mvAppLog::LogWarning(message + " drawing does not exist.");
 			return mvPythonTranslator::GetPyNone();
 		}
 
@@ -783,7 +777,7 @@ namespace Marvel {
 			dwg = static_cast<mvDrawing*>(item);
 		else
 		{
-			mvAppLog::getLogger()->LogWarning(std::string(drawing) + " is not a drawing.");
+			mvAppLog::LogWarning(std::string(drawing) + " is not a drawing.");
 			return mvPythonTranslator::GetPyNone();
 		}
 		dwg->drawBezierCurve(mp1, mp2, mp3, mp4, mcolor, thickness, segments, tag);
@@ -803,7 +797,7 @@ namespace Marvel {
 		if (item == nullptr)
 		{
 			std::string message = drawing;
-			mvAppLog::getLogger()->LogWarning(message + " drawing does not exist.");
+			mvAppLog::LogWarning(message + " drawing does not exist.");
 			return mvPythonTranslator::GetPyNone();
 		}
 
@@ -812,7 +806,7 @@ namespace Marvel {
 			dwg = static_cast<mvDrawing*>(item);
 		else
 		{
-			mvAppLog::getLogger()->LogWarning(std::string(drawing) + " is not a drawing.");
+			mvAppLog::LogWarning(std::string(drawing) + " is not a drawing.");
 			return mvPythonTranslator::GetPyNone();
 		}
 		dwg->clear();
@@ -831,7 +825,7 @@ namespace Marvel {
 		if (aplot == nullptr)
 		{
 			std::string message = plot;
-			mvAppLog::getLogger()->LogWarning(message + " plot does not exist.");
+			mvAppLog::LogWarning(message + " plot does not exist.");
 			return mvPythonTranslator::GetPyNone();
 		}
 		mvPlot* graph = static_cast<mvPlot*>(aplot);
@@ -852,7 +846,7 @@ namespace Marvel {
 		if (aplot == nullptr)
 		{
 			std::string message = plot;
-			mvAppLog::getLogger()->LogWarning(message + " plot does not exist.");
+			mvAppLog::LogWarning(message + " plot does not exist.");
 			return mvPythonTranslator::GetPyNone();
 		}
 		mvPlot* graph = static_cast<mvPlot*>(aplot);
@@ -873,7 +867,7 @@ namespace Marvel {
 		if (aplot == nullptr)
 		{
 			std::string message = plot;
-			mvAppLog::getLogger()->LogWarning(message + " plot does not exist.");
+			mvAppLog::LogWarning(message + " plot does not exist.");
 			return mvPythonTranslator::GetPyNone();
 		}
 		mvPlot* graph = static_cast<mvPlot*>(aplot);
@@ -896,7 +890,7 @@ namespace Marvel {
 		if (aplot == nullptr)
 		{
 			std::string message = plot;
-			mvAppLog::getLogger()->LogWarning(message + " plot does not exist.");
+			mvAppLog::LogWarning(message + " plot does not exist.");
 			return mvPythonTranslator::GetPyNone();
 		}
 		mvPlot* graph = static_cast<mvPlot*>(aplot);
@@ -919,7 +913,7 @@ namespace Marvel {
 		if (aplot == nullptr)
 		{
 			std::string message = plot;
-			mvAppLog::getLogger()->LogWarning(message + " plot does not exist.");
+			mvAppLog::LogWarning(message + " plot does not exist.");
 			return mvPythonTranslator::GetPyNone();
 		}
 		mvPlot* graph = static_cast<mvPlot*>(aplot);
@@ -940,7 +934,7 @@ namespace Marvel {
 		if (aplot == nullptr)
 		{
 			std::string message = plot;
-			mvAppLog::getLogger()->LogWarning(message + " plot does not exist.");
+			mvAppLog::LogWarning(message + " plot does not exist.");
 			return mvPythonTranslator::GetPyNone();
 		}
 		mvPlot* graph = static_cast<mvPlot*>(aplot);
@@ -959,7 +953,7 @@ namespace Marvel {
 		if (aplot == nullptr)
 		{
 			std::string message = plot;
-			mvAppLog::getLogger()->LogWarning(message + " plot does not exist.");
+			mvAppLog::LogWarning(message + " plot does not exist.");
 			return mvPythonTranslator::GetPyNone();
 		}
 		mvPlot* graph = static_cast<mvPlot*>(aplot);
@@ -981,7 +975,7 @@ namespace Marvel {
 		if (aplot == nullptr)
 		{
 			std::string message = plot;
-			mvAppLog::getLogger()->LogWarning(message + " plot does not exist.");
+			mvAppLog::LogWarning(message + " plot does not exist.");
 			return mvPythonTranslator::GetPyNone();
 		}
 		mvPlot* graph = static_cast<mvPlot*>(aplot);
@@ -1042,7 +1036,7 @@ namespace Marvel {
 		if (!PyList_Check(data))
 		{
 			std::string message = plot;
-			mvAppLog::getLogger()->LogWarning(message + " add line series requires a list of lists.");
+			mvAppLog::LogWarning(message + " add line series requires a list of lists.");
 			return mvPythonTranslator::GetPyNone();
 		}
 
@@ -1051,7 +1045,7 @@ namespace Marvel {
 		if (aplot == nullptr)
 		{
 			std::string message = plot;
-			mvAppLog::getLogger()->LogWarning(message + " plot does not exist.");
+			mvAppLog::LogWarning(message + " plot does not exist.");
 			return mvPythonTranslator::GetPyNone();
 		}
 
@@ -1100,7 +1094,7 @@ namespace Marvel {
 		if (!PyList_Check(data))
 		{
 			std::string message = plot;
-			mvAppLog::getLogger()->LogWarning(message + " add scatter series requires a list of lists.");
+			mvAppLog::LogWarning(message + " add scatter series requires a list of lists.");
 			return mvPythonTranslator::GetPyNone();
 		}
 
@@ -1109,7 +1103,7 @@ namespace Marvel {
 		if (aplot == nullptr)
 		{
 			std::string message = plot;
-			mvAppLog::getLogger()->LogWarning(message + " plot does not exist.");
+			mvAppLog::LogWarning(message + " plot does not exist.");
 			return mvPythonTranslator::GetPyNone();
 		}
 
@@ -1151,7 +1145,7 @@ namespace Marvel {
 		if (aplot == nullptr)
 		{
 			std::string message = plot;
-			mvAppLog::getLogger()->LogWarning(message + " plot does not exist.");
+			mvAppLog::LogWarning(message + " plot does not exist.");
 			return mvPythonTranslator::GetPyNone();
 		}
 		mvPlot* graph = static_cast<mvPlot*>(aplot);
@@ -1165,13 +1159,13 @@ namespace Marvel {
 
 	PyObject* show_logger(PyObject* self, PyObject* args)
 	{
-		mvApp::GetApp()->showStandardWindow("logger");
+		mvAppLog::Show();
 		return mvPythonTranslator::GetPyNone();
 	}
 
 	PyObject* get_log_level(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
-		return mvPythonTranslator::ToPyInt(mvAppLog::getLogger()->getLogLevel());
+		return mvPythonTranslator::ToPyInt(mvAppLog::getLogLevel());
 	}
 
 	PyObject* set_log_level(PyObject* self, PyObject* args, PyObject* kwargs)
@@ -1179,7 +1173,7 @@ namespace Marvel {
 		int level;
 		if (!Parsers["set_log_level"].parse(args, kwargs, __FUNCTION__, &level))
 			return mvPythonTranslator::GetPyNone();
-		mvAppLog::getLogger()->setLogLevel(level);
+		mvAppLog::setLogLevel(level);
 		return mvPythonTranslator::GetPyNone();
 	}
 
@@ -1190,7 +1184,7 @@ namespace Marvel {
 		if (!Parsers["log"].parse(args, kwargs, __FUNCTION__, &message, &level))
 			return mvPythonTranslator::GetPyNone();
 
-		mvAppLog::getLogger()->Log(std::string(message), std::string(level));
+		mvAppLog::Log(std::string(message), std::string(level));
 		return mvPythonTranslator::GetPyNone();
 	}
 
@@ -1201,7 +1195,7 @@ namespace Marvel {
 		if (!Parsers["log_debug"].parse(args, kwargs, __FUNCTION__, &message))
 			return mvPythonTranslator::GetPyNone();
 
-		mvAppLog::getLogger()->LogDebug(std::string(message));
+		mvAppLog::LogDebug(std::string(message));
 		return mvPythonTranslator::GetPyNone();
 	}
 
@@ -1212,7 +1206,7 @@ namespace Marvel {
 		if (!Parsers["log_info"].parse(args, kwargs, __FUNCTION__, &message))
 			return mvPythonTranslator::GetPyNone();
 
-		mvAppLog::getLogger()->LogInfo(std::string(message));
+		mvAppLog::LogInfo(std::string(message));
 		return mvPythonTranslator::GetPyNone();
 	}
 
@@ -1223,7 +1217,7 @@ namespace Marvel {
 		if (!Parsers["log_warning"].parse(args, kwargs, __FUNCTION__, &message))
 			return mvPythonTranslator::GetPyNone();
 
-		mvAppLog::getLogger()->LogWarning(std::string(message));
+		mvAppLog::LogWarning(std::string(message));
 		return mvPythonTranslator::GetPyNone();
 	}
 
@@ -1234,13 +1228,13 @@ namespace Marvel {
 		if (!Parsers["log_error"].parse(args, kwargs, __FUNCTION__, &message))
 			return mvPythonTranslator::GetPyNone();
 
-		mvAppLog::getLogger()->LogError(std::string(message));
+		mvAppLog::LogError(std::string(message));
 		return mvPythonTranslator::GetPyNone();
 	}
 
 	PyObject* clear_log(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
-		mvAppLog::getLogger()->ClearLog();
+		mvAppLog::ClearLog();
 		return mvPythonTranslator::GetPyNone();
 	}
 
@@ -2729,7 +2723,7 @@ namespace Marvel {
 		auto parentItem = mvApp::GetApp()->topParent();
 
 		if (parentItem == nullptr)
-			mvAppLog::getLogger()->LogError("add_tab must follow a call to add_tabbar.");
+			mvAppLog::LogError("add_tab must follow a call to add_tabbar.");
 
 		else if (parentItem->getType() == mvAppItemType::TabBar)
 		{
@@ -2740,7 +2734,7 @@ namespace Marvel {
 		}
 
 		else
-			mvAppLog::getLogger()->LogError("add_tab was called incorrectly. Did you forget to call end_tab?");
+			mvAppLog::LogError("add_tab was called incorrectly. Did you forget to call end_tab?");
 
 		return mvPythonTranslator::GetPyNone();
 	}
@@ -2753,13 +2747,13 @@ namespace Marvel {
 		auto parentItem = mvApp::GetApp()->topParent();
 
 		if (parentItem == nullptr)
-			mvAppLog::getLogger()->LogError("end_tab must follow a call to add_tab.");
+			mvAppLog::LogError("end_tab must follow a call to add_tab.");
 
 		else if (parentItem->getType() == mvAppItemType::TabItem)
 			mvApp::GetApp()->popParent();
 
 		else
-			mvAppLog::getLogger()->LogError("end_tab was called incorrectly and will be ignored");
+			mvAppLog::LogError("end_tab was called incorrectly and will be ignored");
 
 		return mvPythonTranslator::GetPyNone();
 	}
@@ -2772,15 +2766,15 @@ namespace Marvel {
 		auto parentItem = mvApp::GetApp()->topParent();
 
 		if (parentItem == nullptr)
-			mvAppLog::getLogger()->LogError("end_tabbar must follow a call to add_menubar.");
+			mvAppLog::LogError("end_tabbar must follow a call to add_menubar.");
 
 		else if (parentItem->getType() == mvAppItemType::TabBar)
 			mvApp::GetApp()->popParent();
 
 		else
 		{
-			mvAppLog::getLogger()->LogError("add_menubar was called incorrectly. Did you forget to call end_menu?");
-			mvAppLog::getLogger()->LogWarning("Taking corrective action. Clearing parent stack.");
+			mvAppLog::LogError("add_menubar was called incorrectly. Did you forget to call end_menu?");
+			mvAppLog::LogWarning("Taking corrective action. Clearing parent stack.");
 
 			auto item = mvApp::GetApp()->popParent();
 			while (item->getType() != mvAppItemType::TabBar)
@@ -2834,7 +2828,7 @@ namespace Marvel {
 		auto parentItem = mvApp::GetApp()->topParent();
 
 		if (parentItem == nullptr)
-			mvAppLog::getLogger()->LogError("add_menu must follow a call to add_menubar.");
+			mvAppLog::LogError("add_menu must follow a call to add_menubar.");
 
 		else if (parentItem->getType() == mvAppItemType::MenuBar || parentItem->getType() == mvAppItemType::Menu)
 		{
@@ -2845,7 +2839,7 @@ namespace Marvel {
 		}
 
 		else
-			mvAppLog::getLogger()->LogError("add_menu was called incorrectly. Did you forget to call end_menu?");
+			mvAppLog::LogError("add_menu was called incorrectly. Did you forget to call end_menu?");
 
 		return mvPythonTranslator::GetPyNone();
 	}
@@ -2855,13 +2849,13 @@ namespace Marvel {
 		auto parentItem = mvApp::GetApp()->topParent();
 		
 		if(parentItem == nullptr)
-			mvAppLog::getLogger()->LogError("end_menu must follow a call to add_menu.");
+			mvAppLog::LogError("end_menu must follow a call to add_menu.");
 
 		else if (parentItem->getType() == mvAppItemType::Menu)
 			mvApp::GetApp()->popParent();
 
 		else
-			mvAppLog::getLogger()->LogError("end_menu was called incorrectly and will be ignored");
+			mvAppLog::LogError("end_menu was called incorrectly and will be ignored");
 
 		return mvPythonTranslator::GetPyNone();
 	}
@@ -2871,15 +2865,15 @@ namespace Marvel {
 		auto parentItem = mvApp::GetApp()->topParent();
 
 		if (parentItem == nullptr)
-			mvAppLog::getLogger()->LogError("end_menu_bar must follow a call to add_menu_bar.");
+			mvAppLog::LogError("end_menu_bar must follow a call to add_menu_bar.");
 
 		else if (parentItem->getType() == mvAppItemType::MenuBar)
 			mvApp::GetApp()->popParent();
 
 		else
 		{
-			mvAppLog::getLogger()->LogError("end_menu_bar was called incorrectly. Did you forget to call end_menu?");
-			mvAppLog::getLogger()->LogWarning("Taking corrective action. Clearing parent stack.");
+			mvAppLog::LogError("end_menu_bar was called incorrectly. Did you forget to call end_menu?");
+			mvAppLog::LogWarning("Taking corrective action. Clearing parent stack.");
 
 			auto item = mvApp::GetApp()->popParent();
 			while (item != nullptr)
@@ -2999,13 +2993,13 @@ namespace Marvel {
 		auto parentItem = mvApp::GetApp()->topParent();
 
 		if (parentItem == nullptr)
-			mvAppLog::getLogger()->LogError("end_group must follow a call to add_group.");
+			mvAppLog::LogError("end_group must follow a call to add_group.");
 
 		else if (parentItem->getType() == mvAppItemType::Group)
 			mvApp::GetApp()->popParent();
 
 		else
-			mvAppLog::getLogger()->LogError("end_group was called incorrectly and will be ignored");
+			mvAppLog::LogError("end_group was called incorrectly and will be ignored");
 
 		return mvPythonTranslator::GetPyNone();
 	}
@@ -3076,13 +3070,13 @@ namespace Marvel {
 		auto parentItem = mvApp::GetApp()->topParent();
 
 		if (parentItem == nullptr)
-			mvAppLog::getLogger()->LogError("end_window must follow a call to add_window.");
+			mvAppLog::LogError("end_window must follow a call to add_window.");
 
 		else if (parentItem->getType() == mvAppItemType::Window)
 			mvApp::GetApp()->popParent();
 
 		else
-			mvAppLog::getLogger()->LogError("end_window was called incorrectly and will be ignored");
+			mvAppLog::LogError("end_window was called incorrectly and will be ignored");
 
 		return mvPythonTranslator::GetPyNone();
 	}
@@ -3100,7 +3094,7 @@ namespace Marvel {
 
 		if (awindow == nullptr)
 		{
-			mvAppLog::getLogger()->LogError(window + std::string(" window was not found"));
+			mvAppLog::LogError(window + std::string(" window was not found"));
 			return mvPythonTranslator::GetPyNone();
 		}
 
@@ -3120,7 +3114,7 @@ namespace Marvel {
 
 		if (awindow == nullptr)
 		{
-			mvAppLog::getLogger()->LogError(window + std::string(" window was not found"));
+			mvAppLog::LogError(window + std::string(" window was not found"));
 			return mvPythonTranslator::GetPyNone();
 		}
 
@@ -3135,13 +3129,13 @@ namespace Marvel {
 		auto parentItem = mvApp::GetApp()->topParent();
 
 		if (parentItem == nullptr)
-			mvAppLog::getLogger()->LogError("end_child must follow a call to add_child.");
+			mvAppLog::LogError("end_child must follow a call to add_child.");
 
 		else if (parentItem->getType() == mvAppItemType::Child)
 			mvApp::GetApp()->popParent();
 
 		else
-			mvAppLog::getLogger()->LogError("end_child was called incorrectly and will be ignored");
+			mvAppLog::LogError("end_child was called incorrectly and will be ignored");
 
 		return mvPythonTranslator::GetPyNone();
 	}
@@ -3169,13 +3163,13 @@ namespace Marvel {
 		auto parentItem = mvApp::GetApp()->topParent();
 
 		if (parentItem == nullptr)
-			mvAppLog::getLogger()->LogError("end_tooltip must follow a call to add_tooltip.");
+			mvAppLog::LogError("end_tooltip must follow a call to add_tooltip.");
 
 		else if (parentItem->getType() == mvAppItemType::Tooltip)
 			mvApp::GetApp()->popParent();
 
 		else
-			mvAppLog::getLogger()->LogError("end_tooltip was called incorrectly and will be ignored");
+			mvAppLog::LogError("end_tooltip was called incorrectly and will be ignored");
 
 		return mvPythonTranslator::GetPyNone();
 	}
@@ -3215,13 +3209,13 @@ namespace Marvel {
 		auto parentItem = mvApp::GetApp()->topParent();
 
 		if (parentItem == nullptr)
-			mvAppLog::getLogger()->LogError("end_popup must follow a call to add_group.");
+			mvAppLog::LogError("end_popup must follow a call to add_group.");
 
 		else if (parentItem->getType() == mvAppItemType::Popup)
 			mvApp::GetApp()->popParent();
 
 		else
-			mvAppLog::getLogger()->LogError("end_popup was called incorrectly and will be ignored");
+			mvAppLog::LogError("end_popup was called incorrectly and will be ignored");
 
 		return mvPythonTranslator::GetPyNone();
 	}
@@ -3254,13 +3248,13 @@ namespace Marvel {
 		auto parentItem = mvApp::GetApp()->topParent();
 
 		if (parentItem == nullptr)
-			mvAppLog::getLogger()->LogError("end_collapsing_header must follow a call to add_collapsing_header.");
+			mvAppLog::LogError("end_collapsing_header must follow a call to add_collapsing_header.");
 
 		else if (parentItem->getType() == mvAppItemType::CollapsingHeader)
 			mvApp::GetApp()->popParent();
 
 		else
-			mvAppLog::getLogger()->LogError("end_collapsing_header was called incorrectly and will be ignored");
+			mvAppLog::LogError("end_collapsing_header was called incorrectly and will be ignored");
 
 		return mvPythonTranslator::GetPyNone();
 	}
@@ -3292,13 +3286,13 @@ namespace Marvel {
 		auto parentItem = mvApp::GetApp()->topParent();
 
 		if (parentItem == nullptr)
-			mvAppLog::getLogger()->LogError("end_tree_node must follow a call to add_tree_node.");
+			mvAppLog::LogError("end_tree_node must follow a call to add_tree_node.");
 
 		else if (parentItem->getType() == mvAppItemType::TreeNode)
 			mvApp::GetApp()->popParent();
 
 		else
-			mvAppLog::getLogger()->LogError("end_tree_node was called incorrectly and will be ignored");
+			mvAppLog::LogError("end_tree_node was called incorrectly and will be ignored");
 
 		return mvPythonTranslator::GetPyNone();
 	}
@@ -3484,7 +3478,7 @@ namespace Marvel {
 		if (item == nullptr)
 		{
 			std::string message = table;
-			mvAppLog::getLogger()->LogWarning(message + " table does not exist.");
+			mvAppLog::LogWarning(message + " table does not exist.");
 			return mvPythonTranslator::GetPyNone();
 		}
 
@@ -3506,7 +3500,7 @@ namespace Marvel {
 		if (item == nullptr)
 		{
 			std::string message = table;
-			mvAppLog::getLogger()->LogWarning(message + " table does not exist.");
+			mvAppLog::LogWarning(message + " table does not exist.");
 			return mvPythonTranslator::GetPyNone();
 		}
 
@@ -3528,7 +3522,7 @@ namespace Marvel {
 		if (item == nullptr)
 		{
 			std::string message = table;
-			mvAppLog::getLogger()->LogWarning(message + " table does not exist.");
+			mvAppLog::LogWarning(message + " table does not exist.");
 			return mvPythonTranslator::GetPyNone();
 		}
 
@@ -3550,7 +3544,7 @@ namespace Marvel {
 		if (item == nullptr)
 		{
 			std::string message = table;
-			mvAppLog::getLogger()->LogWarning(message + " table does not exist.");
+			mvAppLog::LogWarning(message + " table does not exist.");
 			return mvPythonTranslator::GetPyNone();
 		}
 
@@ -3575,7 +3569,7 @@ namespace Marvel {
 		if (item == nullptr)
 		{
 			std::string message = table;
-			mvAppLog::getLogger()->LogWarning(message + " table does not exist.");
+			mvAppLog::LogWarning(message + " table does not exist.");
 			return mvPythonTranslator::GetPyNone();
 		}
 
@@ -3600,7 +3594,7 @@ namespace Marvel {
 		if (item == nullptr)
 		{
 			std::string message = table;
-			mvAppLog::getLogger()->LogWarning(message + " table does not exist.");
+			mvAppLog::LogWarning(message + " table does not exist.");
 			return mvPythonTranslator::GetPyNone();
 		}
 
@@ -3626,7 +3620,7 @@ namespace Marvel {
 		if (item == nullptr)
 		{
 			std::string message = table;
-			mvAppLog::getLogger()->LogWarning(message + " table does not exist.");
+			mvAppLog::LogWarning(message + " table does not exist.");
 			return mvPythonTranslator::GetPyNone();
 		}
 
@@ -3653,7 +3647,7 @@ namespace Marvel {
 		if (item == nullptr)
 		{
 			std::string message = table;
-			mvAppLog::getLogger()->LogWarning(message + " table does not exist.");
+			mvAppLog::LogWarning(message + " table does not exist.");
 			return mvPythonTranslator::GetPyNone();
 		}
 
@@ -3674,7 +3668,7 @@ namespace Marvel {
 		if (item == nullptr)
 		{
 			std::string message = table;
-			mvAppLog::getLogger()->LogWarning(message + " table does not exist.");
+			mvAppLog::LogWarning(message + " table does not exist.");
 			return mvPythonTranslator::GetPyNone();
 		}
 
@@ -3697,7 +3691,7 @@ namespace Marvel {
 		if (item == nullptr)
 		{
 			std::string message = table;
-			mvAppLog::getLogger()->LogWarning(message + " table does not exist.");
+			mvAppLog::LogWarning(message + " table does not exist.");
 			return mvPythonTranslator::GetPyNone();
 		}
 
@@ -3717,7 +3711,7 @@ namespace Marvel {
 		if (item == nullptr)
 		{
 			std::string message = table;
-			mvAppLog::getLogger()->LogWarning(message + " table does not exist.");
+			mvAppLog::LogWarning(message + " table does not exist.");
 			return mvPythonTranslator::GetPyNone();
 		}
 
@@ -3744,7 +3738,7 @@ namespace Marvel {
 	{
 		if (std::this_thread::get_id() != mvApp::GetApp()->getMainThreadID())
 		{
-			mvAppLog::getLogger()->LogWarning("Items can not be modified outside of the main thread.");
+			mvAppLog::LogWarning("Items can not be modified outside of the main thread.");
 			return mvPythonTranslator::GetPyNone();
 		}
 
@@ -3797,7 +3791,7 @@ namespace Marvel {
 	{
 		if (std::this_thread::get_id() != mvApp::GetApp()->getMainThreadID())
 		{
-			mvAppLog::getLogger()->LogWarning("Items can not be modified outside of the main thread.");
+			mvAppLog::LogWarning("Items can not be modified outside of the main thread.");
 			return mvPythonTranslator::GetPyNone();
 		}
 
@@ -3816,7 +3810,7 @@ namespace Marvel {
 	{
 		if (std::this_thread::get_id() != mvApp::GetApp()->getMainThreadID())
 		{
-			mvAppLog::getLogger()->LogWarning("Items can not be modified outside of the main thread.");
+			mvAppLog::LogWarning("Items can not be modified outside of the main thread.");
 			return mvPythonTranslator::GetPyNone();
 		}
 
@@ -4403,7 +4397,7 @@ namespace Marvel {
 					eventhandler->setRenderCallback(callback);
 				}
 				else
-					mvAppLog::getLogger()->LogWarning("Render callback can only be set for window/child items");
+					mvAppLog::LogWarning("Render callback can only be set for window/child items");
 			}
 		}
 
@@ -4452,7 +4446,7 @@ namespace Marvel {
 					eventhandler->setResizeCallback(callback);
 				}
 				else
-					mvAppLog::getLogger()->LogWarning("Resize callback can only be set for window/child items");
+					mvAppLog::LogWarning("Resize callback can only be set for window/child items");
 			}
 		}
 

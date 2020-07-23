@@ -5,7 +5,7 @@
 #include <cmath>
 
 #include "mvTextEditor.h"
-#include "Core/mvApp.h"
+#include "mvApp.h"
 #include "Core/PythonInterfaces/mvInterfaceRegistry.h"
 
 #define IMGUI_DEFINE_MATH_OPERATORS

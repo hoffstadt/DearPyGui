@@ -6,14 +6,13 @@ namespace Marvel {
 		m_width(width), m_height(height), m_editor(editor), m_error(error), m_doc(doc)
 	{
 		m_app = mvApp::GetAppStandardWindow();
-		m_appEditor = mvAppEditor::GetAppEditor();
+		m_appEditor = new mvAppEditor();
 		m_documentation = mvDocWindow::GetWindow();
-		m_logger = mvAppLog::GetLoggerStandardWindow();
 
 		if (m_error)
 		{
-			m_logger->setToMainMode();
-			m_logger->setSize(width, height);
+			mvAppLog::Show();
+			mvAppLog::setSize(width, height);
 		}
 
 		else if (m_doc)
@@ -21,6 +20,12 @@ namespace Marvel {
 			m_documentation->setToMainMode();
 			m_documentation->setSize(width, height);
 		}
+	}
+
+	mvWindow::~mvWindow()
+	{
+		delete m_appEditor;
+		m_appEditor = nullptr;
 	}
 
 	void mvWindow::run()
@@ -33,9 +38,7 @@ namespace Marvel {
 			
 			if (m_error)
 			{
-				m_logger->prerender();
-				m_logger->render(m_error);
-				m_logger->postrender();
+				mvAppLog::render();
 			}
 
 			else if (m_editor)

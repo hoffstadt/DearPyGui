@@ -1,6 +1,6 @@
 #include "mvDataStorage.h"
 #include "mvApp.h"
-#include "Core/StandardWindows/mvAppLog.h"
+#include "mvAppLog.h"
 #include <thread>
 
 namespace Marvel {
@@ -27,7 +27,7 @@ namespace Marvel {
 	{
 		if (std::this_thread::get_id() != mvApp::GetApp()->getMainThreadID())
 		{
-			mvAppLog::getLogger()->LogWarning("Data can not be modified outside main thread.");
+			mvAppLog::LogWarning("Data can not be modified outside main thread.");
 			return;
 		}
 
@@ -50,13 +50,13 @@ namespace Marvel {
 	{
 		if (std::this_thread::get_id() != mvApp::GetApp()->getMainThreadID())
 		{
-			mvAppLog::getLogger()->LogWarning("Data can not be modified outside main thread.");
+			mvAppLog::LogWarning("Data can not be modified outside main thread.");
 			return;
 		}
 
 		if (s_dataStorage.count(name) == 0)
 		{
-			mvAppLog::getLogger()->LogWarning(name + " does not exists in data storage.");
+			mvAppLog::LogWarning(name + " does not exists in data storage.");
 			return;
 		}
 
@@ -68,13 +68,13 @@ namespace Marvel {
 	{
 		if (std::this_thread::get_id() != mvApp::GetApp()->getMainThreadID())
 		{
-			mvAppLog::getLogger()->LogWarning("Data can not be modified outside main thread.");
+			mvAppLog::LogWarning("Data can not be modified outside main thread.");
 			return nullptr;
 		}
 
 		if (s_dataStorage.count(name) == 0)
 		{
-			mvAppLog::getLogger()->LogWarning(name + " does not exists in data storage.");
+			mvAppLog::LogWarning(name + " does not exists in data storage.");
 			return nullptr;
 		}
 		Py_XINCREF(s_dataStorage.at(name));
