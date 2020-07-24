@@ -47,7 +47,7 @@ start_dearpygui()
 
 ```
 Result:
-<BR>![BasicUsageExample](../../assets/BasicUsageExample1.PNG?raw=true)
+<BR>![BasicUsageExample](https://github.com/RaylockLLC/DearPyGui/blob/assets/BasicUsageExample1.PNG?raw=true)
 
 ### Some Features
 
@@ -55,27 +55,27 @@ Result:
 
 #### Themes
 _DearPyGui_ currently includes 10 themes (a full custom theming system will be available in **v0.2**):
-<BR>![Themes](../../assets/Themes.PNG?raw=true)
+<BR>![Themes](https://github.com/RaylockLLC/DearPyGui/blob/assets/Themes.PNG?raw=true)
 
 #### Plotting/Graphing
 _DearPyGui_ includes a plotting API built using ImPlot.
-<BR>![BasicUsageExample](../../assets/PlottingExample1.PNG?raw=true)
+<BR>![BasicUsageExample](https://github.com/RaylockLLC/DearPyGui/blob/assets/PlottingExample1.PNG?raw=true)
   
 #### Drawings
 _DearPyGui_ includes a drawing API to create custom drawings, plot, and even 2D games.
-<BR>![BasicUsageExample](../../assets/DrawingExample1.PNG?raw=true)
+<BR>![BasicUsageExample](https://github.com/RaylockLLC/DearPyGui/blob/assets/DrawingExample1.PNG?raw=true)
 
 #### Logging
 _DearPyGui_ includes a logging API.
-<BR>![BasicUsageExample](../../assets/LoggingExample1.PNG?raw=true)
+<BR>![BasicUsageExample](https://github.com/RaylockLLC/DearPyGui/blob/assets/LoggingExample1.PNG?raw=true)
   
 #### Built-in IDE (DearSandbox Only)
 If you choose not to use your own IDE, we have provided a basic built-in IDE for creating and testing apps. To use the built-in IDE just call the _DearSandbox_ executable with the **--editor** flag: ```DearSandbox.exe --editor```
-<BR>![BasicUsageExample](../../assets/IDEExample1.PNG?raw=true)
+<BR>![BasicUsageExample](https://github.com/RaylockLLC/DearPyGui/blob/assets/IDEExample1.PNG?raw=true)
   
 #### Built-in Documentation
 Using the ```show_documentation()``` command opens the built-in documentation window which displays all _DearPyGui_ commands and constants, along with information on their usage.
-<BR>![BasicUsageExample](../../assets/DocumentationExample.PNG?raw=true)
+<BR>![BasicUsageExample](https://github.com/RaylockLLC/DearPyGui/blob/assets/DocumentationExample.PNG?raw=true)
   
 ### Current Dependencies
 
@@ -134,8 +134,8 @@ _DearSandbox_ is a program that allows developers using _DearPyGui_ to package t
 
 ---
 
-<BR>![StandardWindowsExample1](../../assets/WidgetsExample1.PNG?raw=true)
-<BR>![StandardWindowsExample1](../../assets/StandardWindowsExample1.PNG?raw=true)
+<BR>![StandardWindowsExample1](https://github.com/RaylockLLC/DearPyGui/blob/assets/WidgetsExample1.PNG?raw=true)
+<BR>![StandardWindowsExample1](https://github.com/RaylockLLC/DearPyGui/blob/assets/StandardWindowsExample1.PNG?raw=true)
 
 ### License
 
