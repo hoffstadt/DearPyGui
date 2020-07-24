@@ -1,5 +1,4 @@
-from marvel import *
-import marvel_constants as mc
+from dearpygui import *
 
 set_main_window_size(270, 110)
 add_group("Group", width=50)
@@ -25,3 +24,5 @@ def Launcher(sender, data):
         
     if sender == "IDE":
         run_file("MarvelSandbox", "", flags="--editor")
+
+start_dearpygui()

@@ -65,10 +65,10 @@ shutil.copy(build_dir + "/vcruntime140.dll", app_depend_dir)
 shutil.copy(build_dir + "/vcruntime140_1.dll", app_depend_dir)
 shutil.copy(build_dir + "/winsound.pyd", app_depend_dir)
 shutil.copy(build_dir + "/xxlimited.pyd", app_depend_dir)
-shutil.copy("../cmake-build-release/MarvelSandbox/MarvelSandbox.exe", window_app_dir)
+shutil.copy("../cmake-build-release/DearSandbox/DearSandbox.exe", window_app_dir)
 shutil.copy("../AppSamples/App.py", window_app_dir)
 shutil.copy("../AppSamples/Manager.py", window_app_dir)
-shutil.copy("../MarvelSandbox/Demo.py", window_app_dir)
+shutil.copy("../DearSandbox/Demo.py", window_app_dir)
 shutil.copy(debug_dir + "/python38.zip", app_depend_dir)
 
 # add python path file for embedding
@@ -80,13 +80,12 @@ with open(app_depend_dir + "/python38._pth", 'w') as file:
     file.write("#import site\n")
 
 # add unused config file
-with open(window_app_dir + "/marvel_config.json", 'w') as file:
+with open(window_app_dir + "/dearpygui_config.json", 'w') as file:
     file.write("{\n")
     file.write("\t\"App\": \"Manager\",\n")
     file.write("\t\"Mode\": \"None\",\n")
     file.write("\t\"Theme\": \"Dark\",\n")
-    file.write("\t\"Path\": \"\",\n")
-    file.write("\t\"PythonLibs\": \"\"\n")
+    file.write("\t\"Path\": \"\"\n")
     file.write("}")
 
 # zip temporary directory

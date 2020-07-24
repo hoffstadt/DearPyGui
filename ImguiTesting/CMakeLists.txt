@@ -10,8 +10,8 @@ target_sources(PureImgui
 		"src/mvWindowsWindow.cpp"
 		
 		# implot
-		"../Marvel/src/Vendor/implot/implot.cpp"
-		"../Marvel/src/Vendor/implot/implot_demo.cpp"
+		"../DearPyGui/src/Vendor/implot/implot.cpp"
+		"../DearPyGui/src/Vendor/implot/implot_demo.cpp"
 
 		# imgui
 		"../Dependencies/imgui/imgui.cpp"
@@ -30,8 +30,8 @@ target_include_directories(PureImgui
 		"src/"
 		"../Dependencies/imgui/"
 		"../Dependencies/imgui/examples/"
-		"../Marvel/src/Vendor/implot/"
-		"../Marvel/src/Vendor/stb/"
+		"../DearPyGui/src/Vendor/implot/"
+		"../DearPyGui/src/Vendor/stb/"
 
 )
 
