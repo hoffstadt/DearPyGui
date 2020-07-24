@@ -20,9 +20,8 @@ int main(int argc, char* argv[])
 	wchar_t* program;
 	bool errorMode = false;
 	PyObject* m = nullptr;
-	std::string addedPath;
 	std::string AppName = "Demo";
-	std::string PathName = "../../DearSandbox";
+	std::string PathName = "";
 	bool documentation = false; // starts application with the documentation window shown
 	bool editorMode = false; // starts application in editor mode
 	bool ignoreConfig = false;
@@ -70,7 +69,7 @@ int main(int argc, char* argv[])
 				mvApp::GetApp()->setAppTheme(j["Theme"]);
 
 			if (j.contains("Path"))
-				PathName = PathName + std::string(j["Path"]);
+				PathName = std::string(j["Path"]);
 
 		}
 	}
@@ -86,14 +85,10 @@ int main(int argc, char* argv[])
 #endif
 
 	// handle paths
-	fs::path p = fs::path(argv[0]);
-	p.replace_extension(" ");
-	auto dependencies = p.parent_path().string() + "/Dependencies;";
-	auto excpath = p.parent_path().string() + ";";
+	auto dependencies = PathName + "/Dependencies/;";
+	auto zipdependencies = PathName + "/Dependencies/python38.zip;";
 
-	addedPath = PathName + "\\";
-
-	PathName = excpath + dependencies + PathName + ";Dependencies/python38.zip;";
+	std::string path = PathName + ";" + dependencies + zipdependencies + "./Dependencies/;" + "./Dependencies/python38.zip;";
 
 	program = Py_DecodeLocale(argv[0], NULL);
 	if (program == NULL) {
@@ -108,7 +103,7 @@ int main(int argc, char* argv[])
 	PyImport_AppendInittab("dearpygui", &PyInit_dearpygui);
 
 	// set path and start the interpreter
-	wchar_t* deco = Py_DecodeLocale(PathName.c_str(), nullptr);
+	wchar_t* deco = Py_DecodeLocale(path.c_str(), nullptr);
 	Py_SetPath(deco);
 	Py_NoSiteFlag = 1; // this must be set to 1
 	Py_DontWriteBytecodeFlag = 1;
