@@ -22,24 +22,6 @@ namespace Marvel {
 			return;
 
 		auto ma = mvApp::GetApp();
-		
-		// remove bad parent stack item
-		if (item->getType() == mvAppItemType::Window && ma->topParent() != nullptr)
-		{
-			if (ma->topParent()->getName() != "MainWindow")
-			{
-				ma->popParent();
-				mvAppLog::getLogger()->LogWarning("Adding window will remove last item in parent stack. Don't forget to end container types.");
-			}
-		}
-
-		// window runtime adding
-		if (item->getType() == mvAppItemType::Window && mvApp::IsAppStarted())
-			ma->addRuntimeItem("", "", item);
-
-		// window compile adding
-		else if (item->getType() == mvAppItemType::Window)
-			ma->addWindow(item);
 
 		// remove bad parent stack item
 		if (item->getType() == mvAppItemType::Window && ma->topParent() != nullptr)
@@ -80,9 +62,9 @@ namespace Marvel {
 			ma->addItem(item);
 	}
 
-	std::map<std::string, mvPythonParser>* BuildDearPyGuiInterface() 
+	std::map<std::string, mvPythonParser>* BuildDearPyGuiInterface()
 	{
-		
+
 		std::map<std::string, mvPythonParser>* parsers = new std::map< std::string, mvPythonParser>;
 
 		AddDrawingCommands(parsers);
@@ -106,7 +88,7 @@ namespace Marvel {
 	std::vector<std::pair<std::string, std::string>> GetAllCommands()
 	{
 		auto mapping = BuildDearPyGuiInterface();
-		
+
 		std::vector<std::pair<std::string, std::string>> result;
 
 		for (const auto& item : *mapping)
@@ -221,7 +203,7 @@ namespace Marvel {
 		item->setWidth(width);
 		item->setHeight(height);
 
-		if(!item)
+		if (!item)
 			return mvPythonTranslator::GetPyNone();
 
 		AddItemWithRuntimeChecks(item, parent, before);
@@ -268,7 +250,7 @@ namespace Marvel {
 		}
 
 		mvDrawing* dwg;
-		if(item->getType() == mvAppItemType::Drawing)
+		if (item->getType() == mvAppItemType::Drawing)
 			dwg = static_cast<mvDrawing*>(item);
 		else
 		{
@@ -1619,7 +1601,7 @@ namespace Marvel {
 		int width = 0;
 		int height = 0;
 
-		if (!(*mvApp::GetApp()->getParsers())["add_simple_plot"].parse(args, kwargs,__FUNCTION__, &name, &value, &autoscale, &overlay, 
+		if (!(*mvApp::GetApp()->getParsers())["add_simple_plot"].parse(args, kwargs, __FUNCTION__, &name, &value, &autoscale, &overlay,
 			&minscale, &maxscale, &histogram, &tip, &parent, &before, &width, &height))
 			return mvPythonTranslator::GetPyNone();
 
@@ -1661,7 +1643,7 @@ namespace Marvel {
 		int width = 0;
 		int height = 0;
 
-		if (!(*mvApp::GetApp()->getParsers())["add_progress_bar"].parse(args, kwargs, __FUNCTION__, &name, &default_value, 
+		if (!(*mvApp::GetApp()->getParsers())["add_progress_bar"].parse(args, kwargs, __FUNCTION__, &name, &default_value,
 			&overlay, &tip, &parent, &before, &data_source, &width, &height))
 			return mvPythonTranslator::GetPyNone();
 
@@ -1704,8 +1686,8 @@ namespace Marvel {
 		PyTuple_SetItem(uv_max, 1, PyFloat_FromDouble(1));
 		const char* secondary_data_source = "";
 
-		if (!(*mvApp::GetApp()->getParsers())["add_image"].parse(args, kwargs, __FUNCTION__, &name, 
-			&value, &tintcolor, &bordercolor, &tip, &parent, &before, &data_source, &width, 
+		if (!(*mvApp::GetApp()->getParsers())["add_image"].parse(args, kwargs, __FUNCTION__, &name,
+			&value, &tintcolor, &bordercolor, &tip, &parent, &before, &data_source, &width,
 			&height, &uv_min, &uv_max, &secondary_data_source))
 			return mvPythonTranslator::GetPyNone();
 
@@ -1736,10 +1718,10 @@ namespace Marvel {
 		const char* format = "%.3f";
 		float power = 1.0f;
 		const char* callback = "";
-		const char*tip = ""; 
-		int width = 0; 
-		const char* before = ""; 
-		const char* parent = ""; 
+		const char* tip = "";
+		int width = 0;
+		const char* before = "";
+		const char* parent = "";
 		const char* data_source = "";
 
 		if (!(*mvApp::GetApp()->getParsers())["add_drag_float"].parse(args, kwargs, __FUNCTION__, &name, &default_value, &speed,
@@ -1747,9 +1729,9 @@ namespace Marvel {
 			return mvPythonTranslator::GetPyNone();
 
 		mvAppItem* item = new mvDragFloat("", name, default_value, speed, min_value, max_value, format, power);
-		item->setCallback(callback); 
-		item->setTip(tip); 
-		item->setDataSource(data_source); 
+		item->setCallback(callback);
+		item->setTip(tip);
+		item->setDataSource(data_source);
 		item->setWidth(width);
 
 		AddItemWithRuntimeChecks(item, parent, before);
@@ -1873,7 +1855,7 @@ namespace Marvel {
 		const char* data_source = "";
 		int width = 0;
 
-		if (!(*mvApp::GetApp()->getParsers())["add_drag_int"].parse(args, kwargs, __FUNCTION__, &name, &default_value, &speed, 
+		if (!(*mvApp::GetApp()->getParsers())["add_drag_int"].parse(args, kwargs, __FUNCTION__, &name, &default_value, &speed,
 			&min_value, &max_value, &format, &callback, &tip, &parent, &before, &data_source, &width))
 			return mvPythonTranslator::GetPyNone();
 
@@ -2002,8 +1984,8 @@ namespace Marvel {
 		int width = 0;
 		int height = 0;
 
-		if (!(*mvApp::GetApp()->getParsers())["add_slider_float"].parse(args, kwargs, __FUNCTION__, &name, &default_value, 
-			&min_value, &max_value, &format, &power, &vertical, &callback, &tip, &parent, &before, 
+		if (!(*mvApp::GetApp()->getParsers())["add_slider_float"].parse(args, kwargs, __FUNCTION__, &name, &default_value,
+			&min_value, &max_value, &format, &power, &vertical, &callback, &tip, &parent, &before,
 			&data_source, &width, &height))
 			return mvPythonTranslator::GetPyNone();
 
@@ -2261,12 +2243,12 @@ namespace Marvel {
 		PyTuple_SetItem(color, 1, PyLong_FromLong(0));
 		PyTuple_SetItem(color, 2, PyLong_FromLong(0));
 		PyTuple_SetItem(color, 3, PyLong_FromLong(255));
-		const char* tip = ""; 
-		const char* before = ""; 
-		const char* parent = ""; 
+		const char* tip = "";
+		const char* before = "";
+		const char* parent = "";
 
 
-		if (!(*mvApp::GetApp()->getParsers())["add_text"].parse(args, kwargs,__FUNCTION__, &name, &wrap, 
+		if (!(*mvApp::GetApp()->getParsers())["add_text"].parse(args, kwargs, __FUNCTION__, &name, &wrap,
 			&color, &bullet, &tip, &parent, &before))
 			return mvPythonTranslator::GetPyNone();
 
@@ -2291,13 +2273,13 @@ namespace Marvel {
 		PyTuple_SetItem(color, 1, PyLong_FromLong(0));
 		PyTuple_SetItem(color, 2, PyLong_FromLong(0));
 		PyTuple_SetItem(color, 3, PyLong_FromLong(255));
-		const char* tip = ""; 
-		const char* before = ""; 
-		const char* parent = ""; 
+		const char* tip = "";
+		const char* before = "";
+		const char* parent = "";
 		const char* data_source = "";
 
 
-		if (!(*mvApp::GetApp()->getParsers())["add_label_text"].parse(args, kwargs,__FUNCTION__, &name, &value, 
+		if (!(*mvApp::GetApp()->getParsers())["add_label_text"].parse(args, kwargs, __FUNCTION__, &name, &value,
 			&color, &tip, &parent, &before, &data_source))
 			return mvPythonTranslator::GetPyNone();
 
@@ -2306,7 +2288,7 @@ namespace Marvel {
 			mcolor.specified = false;
 
 		mvAppItem* item = new mvLabelText("", std::string(name), value, mcolor);
-		item->setTip(tip); 
+		item->setTip(tip);
 		item->setDataSource(data_source);
 		AddItemWithRuntimeChecks(item, parent, before);
 		return mvPythonTranslator::GetPyNone();
@@ -2318,25 +2300,25 @@ namespace Marvel {
 		PyObject* items;
 		int default_value = 0;
 		const char* callback = "";
-		const char* tip = ""; 
-		int width = 0; 
-		int height = 3; 
-		const char* before = ""; 
-		const char* parent = ""; 
+		const char* tip = "";
+		int width = 0;
+		int height = 3;
+		const char* before = "";
+		const char* parent = "";
 		const char* data_source = "";
 		const char* secondary_data_source = "";
 
-		if (!(*mvApp::GetApp()->getParsers())["add_listbox"].parse(args, kwargs,__FUNCTION__, &name, &items, 
-			&default_value, &callback, &tip, &parent, &before, &data_source, &width, 
+		if (!(*mvApp::GetApp()->getParsers())["add_listbox"].parse(args, kwargs, __FUNCTION__, &name, &items,
+			&default_value, &callback, &tip, &parent, &before, &data_source, &width,
 			&height, &secondary_data_source))
 			return mvPythonTranslator::GetPyNone();
 
-		mvAppItem* item = new mvListbox("", name, mvPythonTranslator::ToStringVect(items), 
+		mvAppItem* item = new mvListbox("", name, mvPythonTranslator::ToStringVect(items),
 			default_value, height, secondary_data_source);
-		item->setCallback(callback); 
-		item->setTip(tip); 
-		item->setDataSource(data_source); 
-		item->setWidth(width); 
+		item->setCallback(callback);
+		item->setTip(tip);
+		item->setDataSource(data_source);
+		item->setWidth(width);
 		AddItemWithRuntimeChecks(item, parent, before);
 		return mvPythonTranslator::GetPyNone();
 	}
@@ -2347,22 +2329,22 @@ namespace Marvel {
 		const char* default_value = "";
 		PyObject* items;
 		const char* callback = "";
-		const char* tip = ""; 
+		const char* tip = "";
 		int width = 0;
-		const char* before = ""; 
-		const char* parent = ""; 
+		const char* before = "";
+		const char* parent = "";
 		const char* data_source = "";
 		const char* secondary_data_source = "";
 
-		if (!(*mvApp::GetApp()->getParsers())["add_combo"].parse(args, kwargs,__FUNCTION__, &name, &items, 
+		if (!(*mvApp::GetApp()->getParsers())["add_combo"].parse(args, kwargs, __FUNCTION__, &name, &items,
 			&default_value, &callback, &tip, &parent, &before, &data_source, &width
-			,&secondary_data_source))
+			, &secondary_data_source))
 			return mvPythonTranslator::GetPyNone();
 
 		mvAppItem* item = new mvCombo("", name, mvPythonTranslator::ToStringVect(items), default_value, secondary_data_source);
-		item->setCallback(callback); 
-		item->setTip(tip); 
-		item->setDataSource(data_source); 
+		item->setCallback(callback);
+		item->setTip(tip);
+		item->setDataSource(data_source);
 		item->setWidth(width);
 		AddItemWithRuntimeChecks(item, parent, before);
 		return mvPythonTranslator::GetPyNone();
@@ -2373,18 +2355,18 @@ namespace Marvel {
 		const char* name;
 		int default_value = false;
 		const char* callback = "";
-		const char* tip = ""; 
-		const char* before = ""; 
-		const char* parent = ""; 
+		const char* tip = "";
+		const char* before = "";
+		const char* parent = "";
 		const char* data_source = "";
 
-		if (!(*mvApp::GetApp()->getParsers())["add_selectable"].parse(args, kwargs,__FUNCTION__, &name, 
+		if (!(*mvApp::GetApp()->getParsers())["add_selectable"].parse(args, kwargs, __FUNCTION__, &name,
 			&default_value, &callback, &tip, &parent, &before, &data_source))
 			return mvPythonTranslator::GetPyNone();
 
 		mvAppItem* item = new mvSelectable("", name, default_value);
-		item->setCallback(callback); 
-		item->setTip(tip); 
+		item->setCallback(callback);
+		item->setTip(tip);
 		item->setDataSource(data_source);
 		AddItemWithRuntimeChecks(item, parent, before);
 		return mvPythonTranslator::GetPyNone();
@@ -2397,20 +2379,20 @@ namespace Marvel {
 		int arrow = false;
 		int direction = -1;
 		const char* callback = "";
-		const char* tip = ""; 
-		int width = 0; 
-		int height = 0; 
-		const char* before = ""; 
-		const char* parent = ""; 
+		const char* tip = "";
+		int width = 0;
+		int height = 0;
+		const char* before = "";
+		const char* parent = "";
 
-		if (!(*mvApp::GetApp()->getParsers())["add_button"].parse(args, kwargs,__FUNCTION__, &name, &smallb,
+		if (!(*mvApp::GetApp()->getParsers())["add_button"].parse(args, kwargs, __FUNCTION__, &name, &smallb,
 			&arrow, &direction, &callback, &tip, &parent, &before, &width, &height))
 			return mvPythonTranslator::GetPyNone();
 
 		mvAppItem* item = new mvButton("", name, smallb, arrow, direction);
-		item->setCallback(callback); 
-		item->setTip(tip); 
-		item->setWidth(width); 
+		item->setCallback(callback);
+		item->setTip(tip);
+		item->setWidth(width);
 		item->setHeight(height);
 		AddItemWithRuntimeChecks(item, parent, before);
 		return mvPythonTranslator::GetPyNone();
@@ -2429,15 +2411,15 @@ namespace Marvel {
 		int readonly = false;
 		int password = false;
 		const char* callback = "";
-		const char* tip = ""; 
-		int width = 0; 
-		const char* before = ""; 
-		const char* parent = ""; 
+		const char* tip = "";
+		int width = 0;
+		const char* before = "";
+		const char* parent = "";
 		const char* data_source = "";
 
 		int flags = 0;
 
-		if (!(*mvApp::GetApp()->getParsers())["add_input_text"].parse(args, kwargs,__FUNCTION__, &name, &default_value, &hint, &multiline, &no_spaces, 
+		if (!(*mvApp::GetApp()->getParsers())["add_input_text"].parse(args, kwargs, __FUNCTION__, &name, &default_value, &hint, &multiline, &no_spaces,
 			&uppercase, &decimal, &hexadecimal, &readonly, &password, &callback, &tip, &parent, &before, &data_source, &width))
 			return mvPythonTranslator::GetPyNone();
 
@@ -2449,11 +2431,11 @@ namespace Marvel {
 		if (password) flags |= ImGuiInputTextFlags_Password;
 
 		mvAppItem* item = new mvInputText("", name, default_value, hint, multiline, flags);
-		item->setCallback(callback); 
-		item->setTip(tip); 
-		item->setDataSource(data_source); 
+		item->setCallback(callback);
+		item->setTip(tip);
+		item->setDataSource(data_source);
 		item->setWidth(width);
-				
+
 		AddItemWithRuntimeChecks(item, parent, before);
 		return mvPythonTranslator::GetPyNone();
 	}
@@ -2469,7 +2451,7 @@ namespace Marvel {
 		const char* parent = "";
 		const char* data_source = "";
 
-		if (!(*mvApp::GetApp()->getParsers())["add_input_int"].parse(args, kwargs,__FUNCTION__, &name, 
+		if (!(*mvApp::GetApp()->getParsers())["add_input_int"].parse(args, kwargs, __FUNCTION__, &name,
 			&default_value, &callback, &tip, &parent, &before, &data_source, &width))
 			return mvPythonTranslator::GetPyNone();
 
@@ -2496,7 +2478,7 @@ namespace Marvel {
 		const char* parent = "";
 		const char* data_source = "";
 
-		if (!(*mvApp::GetApp()->getParsers())["add_input_int2"].parse(args, kwargs, __FUNCTION__, &name, 
+		if (!(*mvApp::GetApp()->getParsers())["add_input_int2"].parse(args, kwargs, __FUNCTION__, &name,
 			&default_value, &callback, &tip, &parent, &before, &data_source, &width))
 			return mvPythonTranslator::GetPyNone();
 
@@ -2526,7 +2508,7 @@ namespace Marvel {
 		const char* parent = "";
 		const char* data_source = "";
 
-		if (!(*mvApp::GetApp()->getParsers())["add_input_int3"].parse(args, kwargs, __FUNCTION__, &name, 
+		if (!(*mvApp::GetApp()->getParsers())["add_input_int3"].parse(args, kwargs, __FUNCTION__, &name,
 			&default_value, &callback, &tip, &parent, &before, &data_source, &width))
 			return mvPythonTranslator::GetPyNone();
 
@@ -2537,7 +2519,7 @@ namespace Marvel {
 		item->setTip(tip);
 		item->setDataSource(data_source);
 		item->setWidth(width);
-			
+
 		AddItemWithRuntimeChecks(item, parent, before);
 		return mvPythonTranslator::GetPyNone();
 	}
@@ -2557,7 +2539,7 @@ namespace Marvel {
 		const char* parent = "";
 		const char* data_source = "";
 
-		if (!(*mvApp::GetApp()->getParsers())["add_input_int4"].parse(args, kwargs, __FUNCTION__, &name, 
+		if (!(*mvApp::GetApp()->getParsers())["add_input_int4"].parse(args, kwargs, __FUNCTION__, &name,
 			&default_value, &callback, &tip, &parent, &before, &data_source, &width))
 			return mvPythonTranslator::GetPyNone();
 
@@ -2568,7 +2550,7 @@ namespace Marvel {
 		item->setTip(tip);
 		item->setDataSource(data_source);
 		item->setWidth(width);
-				
+
 		AddItemWithRuntimeChecks(item, parent, before);
 		return mvPythonTranslator::GetPyNone();
 	}
@@ -2585,7 +2567,7 @@ namespace Marvel {
 		const char* parent = "";
 		const char* data_source = "";
 
-		if (!(*mvApp::GetApp()->getParsers())["add_input_float"].parse(args, kwargs, __FUNCTION__, &name, 
+		if (!(*mvApp::GetApp()->getParsers())["add_input_float"].parse(args, kwargs, __FUNCTION__, &name,
 			&default_value, &format, &callback, &tip, &parent, &before, &data_source, &width))
 			return mvPythonTranslator::GetPyNone();
 
@@ -2613,7 +2595,7 @@ namespace Marvel {
 		const char* parent = "";
 		const char* data_source = "";
 
-		if (!(*mvApp::GetApp()->getParsers())["add_input_float2"].parse(args, kwargs, __FUNCTION__, &name, 
+		if (!(*mvApp::GetApp()->getParsers())["add_input_float2"].parse(args, kwargs, __FUNCTION__, &name,
 			&default_value, &format, &callback, &tip, &parent, &before, &data_source, &width))
 			return mvPythonTranslator::GetPyNone();
 
@@ -2644,7 +2626,7 @@ namespace Marvel {
 		const char* parent = "";
 		const char* data_source = "";
 
-		if (!(*mvApp::GetApp()->getParsers())["add_input_float3"].parse(args, kwargs, __FUNCTION__, &name, 
+		if (!(*mvApp::GetApp()->getParsers())["add_input_float3"].parse(args, kwargs, __FUNCTION__, &name,
 			&default_value, &format, &callback, &tip, &parent, &before, &data_source, &width))
 			return mvPythonTranslator::GetPyNone();
 
@@ -2676,7 +2658,7 @@ namespace Marvel {
 		const char* parent = "";
 		const char* data_source = "";
 
-		if (!(*mvApp::GetApp()->getParsers())["add_input_float4"].parse(args, kwargs, __FUNCTION__, &name, 
+		if (!(*mvApp::GetApp()->getParsers())["add_input_float4"].parse(args, kwargs, __FUNCTION__, &name,
 			&default_value, &format, &callback, &tip, &parent, &before, &data_source, &width))
 			return mvPythonTranslator::GetPyNone();
 
@@ -2698,10 +2680,10 @@ namespace Marvel {
 		std::string sname = std::string("indent" + std::to_string(i));
 		const char* name = sname.c_str();
 		float offset = 0.0f;
-		const char* before = ""; 
+		const char* before = "";
 		const char* parent = "";
 
-		if (!(*mvApp::GetApp()->getParsers())["add_indent"].parse(args, kwargs,__FUNCTION__, &name, &offset, 
+		if (!(*mvApp::GetApp()->getParsers())["add_indent"].parse(args, kwargs, __FUNCTION__, &name, &offset,
 			&parent, &before))
 			return mvPythonTranslator::GetPyNone();
 
@@ -2719,7 +2701,7 @@ namespace Marvel {
 		const char* before = "";
 		const char* parent = "";
 
-		if (!(*mvApp::GetApp()->getParsers())["unindent"].parse(args, kwargs,__FUNCTION__, &name, &offset, &parent, &before))
+		if (!(*mvApp::GetApp()->getParsers())["unindent"].parse(args, kwargs, __FUNCTION__, &name, &offset, &parent, &before))
 			return mvPythonTranslator::GetPyNone();
 
 		mvAppItem* item = new mvUnindent("", name, offset);
@@ -2736,12 +2718,12 @@ namespace Marvel {
 		const char* before = "";
 		const char* data_source = "";
 
-		if (!(*mvApp::GetApp()->getParsers())["add_tab_bar"].parse(args, kwargs, __FUNCTION__, &name, &reorderable, 
+		if (!(*mvApp::GetApp()->getParsers())["add_tab_bar"].parse(args, kwargs, __FUNCTION__, &name, &reorderable,
 			&callback, &parent, &before, &data_source))
 			return mvPythonTranslator::GetPyNone();
 
 		mvAppItem* item = new mvTabBar("", name, reorderable);
-		item->setCallback(callback); 
+		item->setCallback(callback);
 		item->setDataSource(data_source);
 		AddItemWithRuntimeChecks(item, parent, before);
 		mvApp::GetApp()->pushParent(item);
@@ -2753,13 +2735,13 @@ namespace Marvel {
 		const char* name;
 		int closeable = false;
 		const char* tip = "";
-		const char* before = ""; 
+		const char* before = "";
 		const char* parent = "";
 
 		if (!(*mvApp::GetApp()->getParsers())["add_tab"].parse(args, kwargs, __FUNCTION__, &name, &closeable,
 			&tip, &parent, &before))
 			return mvPythonTranslator::GetPyNone();
-		
+
 		auto parentItem = mvApp::GetApp()->topParent();
 
 		if (parentItem == nullptr)
@@ -2833,7 +2815,7 @@ namespace Marvel {
 	PyObject* add_menu_bar(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		const char* name;
-		const char* before = ""; 
+		const char* before = "";
 		const char* parent = "";
 
 		if (!(*mvApp::GetApp()->getParsers())["add_menu_bar"].parse(args, kwargs, __FUNCTION__, &name,
@@ -2841,7 +2823,7 @@ namespace Marvel {
 			return mvPythonTranslator::GetPyNone();
 
 		auto parentItem = mvApp::GetApp()->topParent();
-		
+
 		if (parentItem->getType() == mvAppItemType::Window)
 		{
 			auto window = static_cast<mvWindowAppitem*>(parentItem);
@@ -2850,18 +2832,18 @@ namespace Marvel {
 			AddItemWithRuntimeChecks(item, parent, before);
 			mvApp::GetApp()->pushParent(item);
 		}
-		
+
 		return mvPythonTranslator::GetPyNone();
 	}
 
 	PyObject* add_menu(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		const char* name;
-		const char* tip = ""; 
-		const char* before = ""; 
+		const char* tip = "";
+		const char* before = "";
 		const char* parent = "";
 
-		if (!(*mvApp::GetApp()->getParsers())["add_menu"].parse(args, kwargs, __FUNCTION__, &name, 
+		if (!(*mvApp::GetApp()->getParsers())["add_menu"].parse(args, kwargs, __FUNCTION__, &name,
 			&tip, &parent, &before))
 			return mvPythonTranslator::GetPyNone();
 
@@ -2887,8 +2869,8 @@ namespace Marvel {
 	PyObject* end_menu(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		auto parentItem = mvApp::GetApp()->topParent();
-		
-		if(parentItem == nullptr)
+
+		if (parentItem == nullptr)
 			mvAppLog::LogError("end_menu must follow a call to add_menu.");
 
 		else if (parentItem->getType() == mvAppItemType::Menu)
@@ -2931,17 +2913,17 @@ namespace Marvel {
 	{
 		const char* name;
 		const char* callback = "";
-		const char* tip = ""; 
-		const char* before = ""; 
+		const char* tip = "";
+		const char* before = "";
 		const char* parent = "";
 
-		if (!(*mvApp::GetApp()->getParsers())["add_menu_item"].parse(args, kwargs,__FUNCTION__, &name, 
+		if (!(*mvApp::GetApp()->getParsers())["add_menu_item"].parse(args, kwargs, __FUNCTION__, &name,
 			&callback, &tip, &parent, &before))
 			return mvPythonTranslator::GetPyNone();
 
 		mvAppItem* item = new mvMenuItem("", name);
-		item->setCallback(callback); 
-		item->setTip(tip); 
+		item->setCallback(callback);
+		item->setTip(tip);
 		AddItemWithRuntimeChecks(item, parent, before);
 		return mvPythonTranslator::GetPyNone();
 	}
@@ -2952,10 +2934,10 @@ namespace Marvel {
 		std::string sname = std::string("spacing" + std::to_string(i));
 		const char* name = sname.c_str();
 		int count = 1;
-		const char* before = ""; 
+		const char* before = "";
 		const char* parent = "";
 
-		if (!(*mvApp::GetApp()->getParsers())["add_spacing"].parse(args, kwargs,__FUNCTION__, &name, &count,
+		if (!(*mvApp::GetApp()->getParsers())["add_spacing"].parse(args, kwargs, __FUNCTION__, &name, &count,
 			&parent, &before))
 			return mvPythonTranslator::GetPyNone();
 
@@ -2974,7 +2956,7 @@ namespace Marvel {
 		const char* before = "";
 		const char* parent = "";
 
-		if (!(*mvApp::GetApp()->getParsers())["add_same_line"].parse(args, kwargs,__FUNCTION__, &name,
+		if (!(*mvApp::GetApp()->getParsers())["add_same_line"].parse(args, kwargs, __FUNCTION__, &name,
 			&xoffset, &spacing, &parent, &before))
 			return mvPythonTranslator::GetPyNone();
 
@@ -2995,15 +2977,15 @@ namespace Marvel {
 		const char* data_source = "";
 		const char* secondary_data_source = "";
 
-		if (!(*mvApp::GetApp()->getParsers())["add_radio_button"].parse(args, kwargs,__FUNCTION__, &name, &items, 
+		if (!(*mvApp::GetApp()->getParsers())["add_radio_button"].parse(args, kwargs, __FUNCTION__, &name, &items,
 			&default_value, &callback, &tip, &parent, &before, &data_source, &secondary_data_source))
 			return mvPythonTranslator::GetPyNone();
 
 		mvAppItem* item = new mvRadioButton("", name, mvPythonTranslator::ToStringVect(items), default_value,
 			secondary_data_source);
-		item->setCallback(callback); 
-		item->setTip(tip); 
-		item->setDataSource(data_source); 
+		item->setCallback(callback);
+		item->setTip(tip);
+		item->setDataSource(data_source);
 		AddItemWithRuntimeChecks(item, parent, before);
 		return mvPythonTranslator::GetPyNone();
 	}
@@ -3011,12 +2993,12 @@ namespace Marvel {
 	PyObject* add_group(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		const char* name;
-		const char* tip = ""; 
-		int width = 0; 
-		const char* before = ""; 
+		const char* tip = "";
+		int width = 0;
+		const char* before = "";
 		const char* parent = "";
 
-		if (!(*mvApp::GetApp()->getParsers())["add_group"].parse(args, kwargs, __FUNCTION__, &name, 
+		if (!(*mvApp::GetApp()->getParsers())["add_group"].parse(args, kwargs, __FUNCTION__, &name,
 			&tip, &parent, &before, &width))
 			return mvPythonTranslator::GetPyNone();
 
@@ -3054,13 +3036,13 @@ namespace Marvel {
 		const char* parent = "";
 		int border = true;
 
-		if (!(*mvApp::GetApp()->getParsers())["add_child"].parse(args, kwargs, __FUNCTION__, &name, 
+		if (!(*mvApp::GetApp()->getParsers())["add_child"].parse(args, kwargs, __FUNCTION__, &name,
 			&tip, &parent, &before, &width, &height, &border))
 			return mvPythonTranslator::GetPyNone();
 
 		mvAppItem* item = new mvChild("", name, border);
-		item->setTip(tip); 
-		item->setWidth(width); 
+		item->setTip(tip);
+		item->setWidth(width);
 		item->setHeight(height);
 		AddItemWithRuntimeChecks(item, parent, before);
 		mvApp::GetApp()->pushParent(item);
@@ -3082,7 +3064,7 @@ namespace Marvel {
 		int movable = true;
 		const char* closing_callback = "";
 
-		if (!(*mvApp::GetApp()->getParsers())["add_window"].parse(args, kwargs, __FUNCTION__, &name, &width, 
+		if (!(*mvApp::GetApp()->getParsers())["add_window"].parse(args, kwargs, __FUNCTION__, &name, &width,
 			&height, &startx, &starty, &autosize, &resizable, &title_bar, &movable,
 			&hide, &closing_callback))
 			return mvPythonTranslator::GetPyNone();
@@ -3093,7 +3075,7 @@ namespace Marvel {
 			height = 500;
 		}
 
-		mvAppItem* item = new mvWindowAppitem("", name, width, height, startx, starty, 
+		mvAppItem* item = new mvWindowAppitem("", name, width, height, startx, starty,
 			false, autosize, resizable, title_bar, movable, closing_callback);
 		AddItemWithRuntimeChecks(item, "", "");
 		mvApp::GetApp()->pushParent(item);
@@ -3127,7 +3109,7 @@ namespace Marvel {
 		float x;
 		float y;
 
-		if (!(*mvApp::GetApp()->getParsers())["set_window_pos"].parse(args, kwargs, __FUNCTION__, &window,&x, &y))
+		if (!(*mvApp::GetApp()->getParsers())["set_window_pos"].parse(args, kwargs, __FUNCTION__, &window, &x, &y))
 			return mvPythonTranslator::GetPyNone();
 
 		auto awindow = mvApp::GetApp()->getWindow(window);
@@ -3183,11 +3165,11 @@ namespace Marvel {
 	PyObject* add_tooltip(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		const char* tipparent;
-		const char*name;
-		const char* parent = ""; 
-		const char* before = ""; 
+		const char* name;
+		const char* parent = "";
+		const char* before = "";
 
-		if (!(*mvApp::GetApp()->getParsers())["add_tooltip"].parse(args, kwargs, __FUNCTION__, &tipparent, 
+		if (!(*mvApp::GetApp()->getParsers())["add_tooltip"].parse(args, kwargs, __FUNCTION__, &tipparent,
 			&name, &parent, &before))
 			return mvPythonTranslator::GetPyNone();
 
@@ -3225,7 +3207,7 @@ namespace Marvel {
 		const char* before = "";
 		const char* parent = "";
 
-		if (!(*mvApp::GetApp()->getParsers())["add_popup"].parse(args, kwargs, __FUNCTION__, &popupparent, 
+		if (!(*mvApp::GetApp()->getParsers())["add_popup"].parse(args, kwargs, __FUNCTION__, &popupparent,
 			&name, &mousebutton, &modal, &parent, &before, &width, &height))
 			return mvPythonTranslator::GetPyNone();
 
@@ -3237,7 +3219,7 @@ namespace Marvel {
 			mvApp::GetApp()->getItem("MainWindow")->setPopup(name);
 
 		mvAppItem* item = new mvPopup(popupparent, name, mousebutton, modal);
-		item->setWidth(width); 
+		item->setWidth(width);
 		item->setHeight(height);
 		AddItemWithRuntimeChecks(item, parent, before);
 		mvApp::GetApp()->pushParent(item);
@@ -3266,11 +3248,11 @@ namespace Marvel {
 		int default_open = false;
 		int closable = false;
 		int flags = 0;
-		const char* tip = ""; 
-		const char* before = ""; 
+		const char* tip = "";
+		const char* before = "";
 		const char* parent = "";
 
-		if (!(*mvApp::GetApp()->getParsers())["add_collapsing_header"].parse(args, kwargs, __FUNCTION__, &name, 
+		if (!(*mvApp::GetApp()->getParsers())["add_collapsing_header"].parse(args, kwargs, __FUNCTION__, &name,
 			&default_open, &closable, &tip, &parent, &before))
 			return mvPythonTranslator::GetPyNone();
 
@@ -3308,7 +3290,7 @@ namespace Marvel {
 		const char* before = "";
 		const char* parent = "";
 
-		if (!(*mvApp::GetApp()->getParsers())["add_tree_node"].parse(args, kwargs, __FUNCTION__, &name, 
+		if (!(*mvApp::GetApp()->getParsers())["add_tree_node"].parse(args, kwargs, __FUNCTION__, &name,
 			&default_open, &tip, &parent, &before))
 			return mvPythonTranslator::GetPyNone();
 
@@ -3353,10 +3335,10 @@ namespace Marvel {
 		item->setTip(tip);
 
 		AddItemWithRuntimeChecks(item, parent, before);
-		
+
 		return mvPythonTranslator::GetPyNone();
 	}
-	
+
 	PyObject* add_color_edit3(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		const char* name;
@@ -3372,17 +3354,17 @@ namespace Marvel {
 		const char* parent = "";
 		const char* data_source = "";
 
-		if (!(*mvApp::GetApp()->getParsers())["add_color_edit3"].parse(args, kwargs, __FUNCTION__, &name, 
+		if (!(*mvApp::GetApp()->getParsers())["add_color_edit3"].parse(args, kwargs, __FUNCTION__, &name,
 			&default_value, &callback, &tip, &parent, &before, &data_source, &width, &height))
 			return mvPythonTranslator::GetPyNone();
 
 		auto color = mvPythonTranslator::ToColor(default_value);
 
 		mvAppItem* item = new mvColorEdit3("", name, color);
-		item->setCallback(callback); 
-		item->setTip(tip); 
-		item->setDataSource(data_source); 
-		item->setWidth(width); 
+		item->setCallback(callback);
+		item->setTip(tip);
+		item->setDataSource(data_source);
+		item->setWidth(width);
 		item->setHeight(height);
 		AddItemWithRuntimeChecks(item, parent, before);
 		return mvPythonTranslator::GetPyNone();
@@ -3404,7 +3386,7 @@ namespace Marvel {
 		const char* parent = "";
 		const char* data_source = "";
 
-		if (!(*mvApp::GetApp()->getParsers())["add_color_edit4"].parse(args, kwargs,__FUNCTION__, &name, &default_value, &callback, &tip, &parent, &before, &data_source, &width, &height))
+		if (!(*mvApp::GetApp()->getParsers())["add_color_edit4"].parse(args, kwargs, __FUNCTION__, &name, &default_value, &callback, &tip, &parent, &before, &data_source, &width, &height))
 			return mvPythonTranslator::GetPyNone();
 
 		auto color = mvPythonTranslator::ToColor(default_value);
@@ -3465,7 +3447,7 @@ namespace Marvel {
 		const char* parent = "";
 		const char* data_source = "";
 
-		if (!(*mvApp::GetApp()->getParsers())["add_color_picker4"].parse(args, kwargs, __FUNCTION__, &name, 
+		if (!(*mvApp::GetApp()->getParsers())["add_color_picker4"].parse(args, kwargs, __FUNCTION__, &name,
 			&default_value, &callback, &tip, &parent, &before, &data_source, &width, &height))
 			return mvPythonTranslator::GetPyNone();
 
@@ -3491,13 +3473,13 @@ namespace Marvel {
 		const char* parent = "";
 		const char* data_source = "";
 
-		if (!(*mvApp::GetApp()->getParsers())["add_checkbox"].parse(args, kwargs,__FUNCTION__, &name, 
+		if (!(*mvApp::GetApp()->getParsers())["add_checkbox"].parse(args, kwargs, __FUNCTION__, &name,
 			&default_value, &callback, &tip, &parent, &before, &data_source))
 			return mvPythonTranslator::GetPyNone();
 
 		mvAppItem* item = new mvCheckbox("", name, default_value);
-		item->setCallback(callback); 
-		item->setTip(tip); 
+		item->setCallback(callback);
+		item->setTip(tip);
 		item->setDataSource(data_source);
 		AddItemWithRuntimeChecks(item, parent, before);
 		return mvPythonTranslator::GetPyNone();
@@ -4403,7 +4385,7 @@ namespace Marvel {
 		if (!(*mvApp::GetApp()->getParsers())["set_render_callback"].parse(args, kwargs, __FUNCTION__, &callback, &handler))
 			return mvPythonTranslator::GetPyNone();
 
-		if(std::string(handler) == "MainWindow")
+		if (std::string(handler) == "MainWindow")
 			mvApp::GetApp()->setRenderCallback(std::string(callback));
 		else
 		{
@@ -5213,7 +5195,9 @@ namespace Marvel {
 		ADD_PYTHON_FUNCTION(add_line_series)
 		ADD_PYTHON_FUNCTION(add_scatter_series)
 		ADD_PYTHON_FUNCTION(add_text_point)
-		{NULL, NULL, 0, NULL}
+		{
+NULL, NULL, 0, NULL
+}
 	};
 
 	static PyModuleDef dearpyguiModule = {
