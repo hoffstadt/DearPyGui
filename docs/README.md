@@ -1,47 +1,60 @@
-# Dear PyGui (currently transitioning from "MarvelSandbox", please be patient)
+# Dear PyGui
 [![build status](https://github.com/RaylockLLC/DearPyGui/workflows/Windows/badge.svg)](https://github.com/RaylockLLC/DearPyGui/actions?workflow=Windows)
+![Python Version](https://img.shields.io/pypi/pyversions/dearpygui)
+![PYPI](https://img.shields.io/pypi/v/dearpygui)
 
 <sub>(This library is available under a free and permissive license)</sub>
 
-Dear PyGui is a **simple to use (but powerful) Python GUI framework**, built on top of **Dear ImGui**. Although the API may seem similar to Dear ImGui, _DearPyGui_ does not use the immediate mode paradigm, but instead provides a wrapping that simulates a traditional retained mode GUI.
+**Dear PyGui** is a **simple to use (but powerful) Python GUI framework**. _DearPyGui_ provides a wrapping of **DearImGui** that simulates a traditional retained mode GUI, as opposed to _Dear ImGui_'s immediate mode paradigm.
+
+**Dear PyGui is fundamentally different than other Python GUI frameworks**. Under the hood, _DearPyGui_ uses the immediate mode paradigm allowing for extremely dynamic interfaces. Similar to PyQt _DearPyGui_ does not use native widgets, but instead draws the widgets using your computer's graphics card(using _Directx11_, _Metal_, and _Vulkan_ rendering APIs).
 
 In the same manner Dear ImGui provides a simple way to create tools for game developers, _DearPyGui_ provides a simple way for python developers to **create quick and powerful GUIs for scripts**. It's well suited for **beginners** too!
 
-| [Usage](#Usage) - [Features](#features) - [Building](#building)|
+| [Installing](#installing) - [Usage](#usage) - [Features](#some-features) - [Building](#building)|
 :----------------------------------------------------------: |
-| [Upcoming changes](#upcoming-changes) - [Gallery](#gallery) - [License](#license) - [Current Dependencies](#current-dependencies) - [Prebuilt Binaries](#prebuilt-binaries)|
+| [Upcoming changes](#upcoming-changes) - [Gallery](#gallery) - [License](#license) - [Current Dependencies](#current-dependencies) - [Prebuilt Binaries](#dearsandbox-prebuilt-binaries)|
 
-### Simple Usage
+### Installing
 
  ---
  
-**DearSandbox is an all included framework containing its own embedded python interpreter.** Using _DearPyGui_ is a simple as creating a python script like the one below, and calling ```MarvelSandbox.exe --app ScriptName --path PathToScriptDirectory``` from the command line (Windows).
+ ```
+ pip install dearpygui
+ or
+ pip3 install dearpygui
+ ```
+
+### Usage
+
+ ---
+ 
+**DearPyGui is an all included GUI framework.** Using _DearPyGui_ is a simple as creating a python script like the one below:
 
 Code:
 ```Python
-from marvel import *
+from dearpygui.dearpygui import *
 
 add_text("Hello world")
 add_button("Save", callback="SaveCallback")
 add_input_text("string")
 add_float_slider("float")
+
+def SaveCallback(sender, data):
+    print("Save Clicked")
+
+start_dearpygui()
+
 ```
 Result:
 <BR>![BasicUsageExample](../../assets/BasicUsageExample1.PNG?raw=true)
-
-### Prebuilt Binaries
-#### Windows
-- Download [Latest Release](https://github.com/RaylockLLC/DearPyGui/releases/download/v0.1-alpha12/Sandbox.zip)
-- Download _Sandbox.zip_ and unzip anywhere. 
-- Run _DearSandbox.exe_.
-- You can use App.py as a starting point.
 
 ### Some Features
 
 ---
 
 #### Themes
-_DearPyGui_ currently includes 10 themes:
+_DearPyGui_ currently includes 10 themes (a full custom theming system will be available in **v0.2**):
 <BR>![Themes](../../assets/Themes.PNG?raw=true)
 
 #### Plotting/Graphing
@@ -49,15 +62,15 @@ _DearPyGui_ includes a plotting API built using ImPlot.
 <BR>![BasicUsageExample](../../assets/PlottingExample1.PNG?raw=true)
   
 #### Drawings
-_DearPyGui_ includes a drawing API to create custom drawings.
+_DearPyGui_ includes a drawing API to create custom drawings, plot, and even 2D games.
 <BR>![BasicUsageExample](../../assets/DrawingExample1.PNG?raw=true)
 
 #### Logging
-_DearPyGui_ includes a logging API that also acts as a python output console.
+_DearPyGui_ includes a logging API.
 <BR>![BasicUsageExample](../../assets/LoggingExample1.PNG?raw=true)
   
-#### Built-in IDE
-If you choose not to use your own IDE, we have provided a basic built-in IDE for creating and testing apps. To use the built-in IDE just call the _DearPyGui_ executable with the **--editor** flag: ```MarvelSandbox.exe --editor```
+#### Built-in IDE (DearSandbox Only)
+If you choose not to use your own IDE, we have provided a basic built-in IDE for creating and testing apps. To use the built-in IDE just call the _DearSandbox_ executable with the **--editor** flag: ```DearSandbox.exe --editor```
 <BR>![BasicUsageExample](../../assets/IDEExample1.PNG?raw=true)
   
 #### Built-in Documentation
@@ -82,7 +95,7 @@ Using the ```show_documentation()``` command opens the built-in documentation wi
 
 ##### Build Requirements
 
-- [_Visual Studio 2019_ (windows)](https://visualstudio.microsoft.com/vs/)
+- [_Visual Studio 2019_ (windows)](https://visualstudio.microsoft.com/vs/) (with Python workflow selected)
 - [_git_](https://git-scm.com/)
 
 1. From within a local directory, enter the following bash commands:
@@ -106,6 +119,16 @@ Some upcoming features:
 - MacOs and Linux support.
 - Custom Widget API.
 
+### DearSandbox Prebuilt Binaries
+
+---
+
+_DearSandbox_ is a program that allows developers using _DearPyGui_ to package there app and distrubute it to users. _DearSandbox_ includes an embedded version of Python and everything else needed to run _DearPyGui_ without any dependencies.
+#### Windows
+- Download [Latest Release](https://github.com/RaylockLLC/DearPyGui/releases/download/v0.1-alpha12/Sandbox.zip)
+- Download _Sandbox.zip_ and unzip anywhere. 
+- Run _DearSandbox.exe_.
+- Replace _App.py_ with your module.
 
 ### Gallery
 
