@@ -3,7 +3,7 @@ from codecs import open
 from os import path
 
 #with open("README.md", encoding='utf-8') as f:
-with open("README.md") as f:
+with open("../docs/README.md") as f:
     long_description = f.read()
 
 
@@ -14,7 +14,7 @@ class BinaryDistribution(Distribution):
 
 setup(
     name='dearpygui',  # Required
-    version='0.1.0a17',  # Required
+    version='0.1.0a18',  # Required
     description='DearPyGui',  # Required
     long_description=long_description,  # Optional
     long_description_content_type='text/markdown',  # Optional (see note above)

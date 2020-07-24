@@ -5,7 +5,7 @@ project ("DearPyGui")
 set(JSON_BuildTests OFF CACHE INTERNAL "")
 
 add_definitions(-D_USE_MATH_DEFINES)
-add_definitions(-DMV_SANDBOX_VERSION="0.1 alpha 17")
+add_definitions(-DMV_SANDBOX_VERSION="0.1 alpha 18")
 
 # Include sub-projects.
 add_subdirectory ("ImguiTesting")
