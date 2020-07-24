@@ -84,4 +84,6 @@ namespace Marvel {
 		std::string                      m_category;
 
 	};
+
+	void GenerateStubFile(const std::string& file);
 }

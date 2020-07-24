@@ -1,34 +1,34 @@
 from typing import List, Any
 
-def add_button(name: str, small: bool, arrow: bool, direction: int, callback: str, tip: str, parent: str, before: str, width: int, height: int) -> None:
+def add_button(name: str, small: bool = ..., arrow: bool = ..., direction: int = ..., callback: str = ..., tip: str = ..., parent: str = ..., before: str = ..., width: int = ..., height: int = ...) -> None:
 	"""Adds a button."""
 	...
 
-def add_checkbox(name: str, default_value: int, callback: str, tip: str, parent: str, before: str, data_source: str) -> None:
+def add_checkbox(name: str, default_value: int = ..., callback: str = ..., tip: str = ..., parent: str = ..., before: str = ..., data_source: str = ...) -> None:
 	"""Adds a checkbox widget."""
 	...
 
-def add_child(name: str, tip: str, parent: str, before: str, width: int, height: int, border: bool) -> None:
+def add_child(name: str, tip: str = ..., parent: str = ..., before: str = ..., width: int = ..., height: int = ..., border: bool = ...) -> None:
 	"""Adds an embedded child window. Will show scrollbars when items do not fit. Must be followed by a call to end_child."""
 	...
 
-def add_collapsing_header(name: str, default_open: bool, closable: bool, tip: str, parent: str, before: str) -> None:
+def add_collapsing_header(name: str, default_open: bool = ..., closable: bool = ..., tip: str = ..., parent: str = ..., before: str = ...) -> None:
 	"""Adds a collapsing header to add items to. Must be closed with the end_collapsing_header command."""
 	...
 
-def add_color_edit3(name: str, default_value: List[int], callback: str, tip: str, parent: str, before: str, data_source: str, width: int, height: int) -> None:
+def add_color_edit3(name: str, default_value: List[int] = ..., callback: str = ..., tip: str = ..., parent: str = ..., before: str = ..., data_source: str = ..., width: int = ..., height: int = ...) -> None:
 	"""Adds an rgb color editing widget."""
 	...
 
-def add_color_edit4(name: str, default_value: List[int], callback: str, tip: str, parent: str, before: str, data_source: str, width: int, height: int) -> None:
+def add_color_edit4(name: str, default_value: List[int] = ..., callback: str = ..., tip: str = ..., parent: str = ..., before: str = ..., data_source: str = ..., width: int = ..., height: int = ...) -> None:
 	"""Adds an rgba color editing widget."""
 	...
 
-def add_color_picker3(name: str, default_value: List[int], callback: str, tip: str, parent: str, before: str, data_source: str, width: int, height: int) -> None:
+def add_color_picker3(name: str, default_value: List[int] = ..., callback: str = ..., tip: str = ..., parent: str = ..., before: str = ..., data_source: str = ..., width: int = ..., height: int = ...) -> None:
 	"""Adds an rgb color picking widget."""
 	...
 
-def add_color_picker4(name: str, default_value: List[int], callback: str, tip: str, parent: str, before: str, data_source: str, width: int, height: int) -> None:
+def add_color_picker4(name: str, default_value: List[int] = ..., callback: str = ..., tip: str = ..., parent: str = ..., before: str = ..., data_source: str = ..., width: int = ..., height: int = ...) -> None:
 	"""Adds an rgba color picking widget."""
 	...
 
@@ -36,7 +36,7 @@ def add_column(table: str, name: str, column: List[str]) -> None:
 	"""Adds a column to a table."""
 	...
 
-def add_combo(name: str, items: List[str], default_value: str, callback: str, tip: str, parent: str, before: str, data_source: str, width: int, secondary_data_source: str) -> None:
+def add_combo(name: str, items: List[str], default_value: str = ..., callback: str = ..., tip: str = ..., parent: str = ..., before: str = ..., data_source: str = ..., width: int = ..., secondary_data_source: str = ...) -> None:
 	"""Adds a combo."""
 	...
 
@@ -44,87 +44,87 @@ def add_data(name: str, data: object) -> None:
 	"""Adds data for later retrieval."""
 	...
 
-def add_drag_float(name: str, default_value: float, speed: float, min_value: float, max_value: float, format: str, power: float, callback: str, tip: str, parent: str, before: str, data_source: str, width: int) -> None:
+def add_drag_float(name: str, default_value: float = ..., speed: float = ..., min_value: float = ..., max_value: float = ..., format: str = ..., power: float = ..., callback: str = ..., tip: str = ..., parent: str = ..., before: str = ..., data_source: str = ..., width: int = ...) -> None:
 	"""Adds drag for a single float value"""
 	...
 
-def add_drag_float2(name: str, default_value: List[float], speed: float, min_value: float, max_value: float, format: str, power: float, callback: str, tip: str, parent: str, before: str, data_source: str, width: int) -> None:
+def add_drag_float2(name: str, default_value: List[float] = ..., speed: float = ..., min_value: float = ..., max_value: float = ..., format: str = ..., power: float = ..., callback: str = ..., tip: str = ..., parent: str = ..., before: str = ..., data_source: str = ..., width: int = ...) -> None:
 	"""Adds drag for a 2 float values."""
 	...
 
-def add_drag_float3(name: str, default_value: List[float], speed: float, min_value: float, max_value: float, format: str, power: float, callback: str, tip: str, parent: str, before: str, data_source: str, width: int) -> None:
+def add_drag_float3(name: str, default_value: List[float] = ..., speed: float = ..., min_value: float = ..., max_value: float = ..., format: str = ..., power: float = ..., callback: str = ..., tip: str = ..., parent: str = ..., before: str = ..., data_source: str = ..., width: int = ...) -> None:
 	"""Adds drag for a 3 float values."""
 	...
 
-def add_drag_float4(name: str, default_value: List[float], speed: float, min_value: float, max_value: float, format: str, power: float, callback: str, tip: str, parent: str, before: str, data_source: str, width: int) -> None:
+def add_drag_float4(name: str, default_value: List[float] = ..., speed: float = ..., min_value: float = ..., max_value: float = ..., format: str = ..., power: float = ..., callback: str = ..., tip: str = ..., parent: str = ..., before: str = ..., data_source: str = ..., width: int = ...) -> None:
 	"""Adds drag for a 4 float values."""
 	...
 
-def add_drag_int(name: str, default_value: int, speed: float, min_value: int, max_value: int, format: str, callback: str, tip: str, parent: str, before: str, data_source: str, width: int) -> None:
+def add_drag_int(name: str, default_value: int = ..., speed: float = ..., min_value: int = ..., max_value: int = ..., format: str = ..., callback: str = ..., tip: str = ..., parent: str = ..., before: str = ..., data_source: str = ..., width: int = ...) -> None:
 	"""Adds drag for a single int value"""
 	...
 
-def add_drag_int2(name: str, default_value: List[int], speed: float, min_value: int, max_value: int, format: str, callback: str, tip: str, parent: str, before: str, data_source: str, width: int) -> None:
+def add_drag_int2(name: str, default_value: List[int] = ..., speed: float = ..., min_value: int = ..., max_value: int = ..., format: str = ..., callback: str = ..., tip: str = ..., parent: str = ..., before: str = ..., data_source: str = ..., width: int = ...) -> None:
 	"""Adds drag for a 2 int values."""
 	...
 
-def add_drag_int3(name: str, default_value: List[int], speed: float, min_value: int, max_value: int, format: str, callback: str, tip: str, parent: str, before: str, data_source: str, width: int) -> None:
+def add_drag_int3(name: str, default_value: List[int] = ..., speed: float = ..., min_value: int = ..., max_value: int = ..., format: str = ..., callback: str = ..., tip: str = ..., parent: str = ..., before: str = ..., data_source: str = ..., width: int = ...) -> None:
 	"""Adds drag for a 3 int values."""
 	...
 
-def add_drag_int4(name: str, default_value: List[int], speed: float, min_value: int, max_value: int, format: str, callback: str, tip: str, parent: str, before: str, data_source: str, width: int) -> None:
+def add_drag_int4(name: str, default_value: List[int] = ..., speed: float = ..., min_value: int = ..., max_value: int = ..., format: str = ..., callback: str = ..., tip: str = ..., parent: str = ..., before: str = ..., data_source: str = ..., width: int = ...) -> None:
 	"""Adds drag for a 4 int values."""
 	...
 
-def add_drawing(name: str, tip: str, parent: str, before: str, width: int, height: int) -> None:
+def add_drawing(name: str, tip: str = ..., parent: str = ..., before: str = ..., width: int = ..., height: int = ...) -> None:
 	"""Adds a drawing widget."""
 	...
 
-def add_group(name: str, tip: str, parent: str, before: str, width: int) -> None:
+def add_group(name: str, tip: str = ..., parent: str = ..., before: str = ..., width: int = ...) -> None:
 	"""Creates a group that other widgets can belong to. The group allows item commands to be issued for all of its members.				Must be closed with the end_group command unless added at runtime."""
 	...
 
-def add_image(name: str, value: str, tint_color: List[float], border_color: List[float], tip: str, parent: str, before: str, data_source: str, width: int, height: int, uv_min: List[float], uv_max: List[float], secondary_data_source: str) -> None:
+def add_image(name: str, value: str, tint_color: List[float] = ..., border_color: List[float] = ..., tip: str = ..., parent: str = ..., before: str = ..., data_source: str = ..., width: int = ..., height: int = ..., uv_min: List[float] = ..., uv_max: List[float] = ..., secondary_data_source: str = ...) -> None:
 	"""Adds an image."""
 	...
 
-def add_indent(name: str, offset: float, parent: str, before: str) -> None:
+def add_indent(name: str = ..., offset: float = ..., parent: str = ..., before: str = ...) -> None:
 	"""Adds an indent to following items."""
 	...
 
-def add_input_float(name: str, default_value: float, format: str, callback: str, tip: str, parent: str, before: str, data_source: str, width: int) -> None:
+def add_input_float(name: str, default_value: float = ..., format: str = ..., callback: str = ..., tip: str = ..., parent: str = ..., before: str = ..., data_source: str = ..., width: int = ...) -> None:
 	"""Adds input for float values."""
 	...
 
-def add_input_float2(name: str, default_value: List[float], format: str, callback: str, tip: str, parent: str, before: str, data_source: str, width: int) -> None:
+def add_input_float2(name: str, default_value: List[float] = ..., format: str = ..., callback: str = ..., tip: str = ..., parent: str = ..., before: str = ..., data_source: str = ..., width: int = ...) -> None:
 	"""Adds input for 2 float values."""
 	...
 
-def add_input_float3(name: str, default_value: List[float], format: str, callback: str, tip: str, parent: str, before: str, data_source: str, width: int) -> None:
+def add_input_float3(name: str, default_value: List[float] = ..., format: str = ..., callback: str = ..., tip: str = ..., parent: str = ..., before: str = ..., data_source: str = ..., width: int = ...) -> None:
 	"""Adds input for 3 float values."""
 	...
 
-def add_input_float4(name: str, default_value: List[float], format: str, callback: str, tip: str, parent: str, before: str, data_source: str, width: int) -> None:
+def add_input_float4(name: str, default_value: List[float] = ..., format: str = ..., callback: str = ..., tip: str = ..., parent: str = ..., before: str = ..., data_source: str = ..., width: int = ...) -> None:
 	"""Adds input for 4 float values."""
 	...
 
-def add_input_int(name: str, default_value: int, callback: str, tip: str, parent: str, before: str, data_source: str, width: int) -> None:
+def add_input_int(name: str, default_value: int = ..., callback: str = ..., tip: str = ..., parent: str = ..., before: str = ..., data_source: str = ..., width: int = ...) -> None:
 	"""Adds input for integer values."""
 	...
 
-def add_input_int2(name: str, default_value: List[int], callback: str, tip: str, parent: str, before: str, data_source: str, width: int) -> None:
+def add_input_int2(name: str, default_value: List[int] = ..., callback: str = ..., tip: str = ..., parent: str = ..., before: str = ..., data_source: str = ..., width: int = ...) -> None:
 	"""Adds input for 2 integer values."""
 	...
 
-def add_input_int3(name: str, default_value: List[int], callback: str, tip: str, parent: str, before: str, data_source: str, width: int) -> None:
+def add_input_int3(name: str, default_value: List[int] = ..., callback: str = ..., tip: str = ..., parent: str = ..., before: str = ..., data_source: str = ..., width: int = ...) -> None:
 	"""Adds input for 3 integer values."""
 	...
 
-def add_input_int4(name: str, default_value: List[int], callback: str, tip: str, parent: str, before: str, data_source: str, width: int) -> None:
+def add_input_int4(name: str, default_value: List[int] = ..., callback: str = ..., tip: str = ..., parent: str = ..., before: str = ..., data_source: str = ..., width: int = ...) -> None:
 	"""Adds input for 4 integer values."""
 	...
 
-def add_input_text(name: str, default_value: str, hint: str, multiline: bool, no_spaces: bool, uppercase: bool, decimal: bool, hexadecimal: bool, readonly: bool, password: bool, callback: str, tip: str, parent: str, before: str, data_source: str, width: int) -> None:
+def add_input_text(name: str, default_value: str = ..., hint: str = ..., multiline: bool = ..., no_spaces: bool = ..., uppercase: bool = ..., decimal: bool = ..., hexadecimal: bool = ..., readonly: bool = ..., password: bool = ..., callback: str = ..., tip: str = ..., parent: str = ..., before: str = ..., data_source: str = ..., width: int = ...) -> None:
 	"""Adds input for text values."""
 	...
 
@@ -132,43 +132,43 @@ def add_item_color_style(item: str, style: int, color: List[float]) -> None:
 	"""Needs documentation"""
 	...
 
-def add_label_text(name: str, value: str, color: List[float], tip: str, parent: str, before: str, data_source: str) -> None:
+def add_label_text(name: str, value: str, color: List[float] = ..., tip: str = ..., parent: str = ..., before: str = ..., data_source: str = ...) -> None:
 	"""Adds text with a label. Useful for output values."""
 	...
 
-def add_line_series(plot: str, name: str, data: List[float], color: List[float], fill: List[float], weight: float) -> None:
+def add_line_series(plot: str, name: str, data: List[float], color: List[float] = ..., fill: List[float] = ..., weight: float = ...) -> None:
 	"""Adds a line series to a plot."""
 	...
 
-def add_listbox(name: str, items: List[str], default_value: int, callback: str, tip: str, parent: str, before: str, data_source: str, width: int, height: int, secondary_data_source: str) -> None:
+def add_listbox(name: str, items: List[str], default_value: int = ..., callback: str = ..., tip: str = ..., parent: str = ..., before: str = ..., data_source: str = ..., width: int = ..., height: int = ..., secondary_data_source: str = ...) -> None:
 	"""Adds a listbox."""
 	...
 
-def add_menu(name: str, tip: str, parent: str, before: str) -> None:
+def add_menu(name: str, tip: str = ..., parent: str = ..., before: str = ...) -> None:
 	"""Adds a menu to an existing menu bar. Must be followed by a call to end_menu."""
 	...
 
-def add_menu_bar(name: str, parent: str, before: str) -> None:
+def add_menu_bar(name: str, parent: str = ..., before: str = ...) -> None:
 	"""Adds a menu bar to a window. Must be followed by a call to end_menu_bar."""
 	...
 
-def add_menu_item(name: str, callback: str, tip: str, parent: str, before: str) -> None:
+def add_menu_item(name: str, callback: str = ..., tip: str = ..., parent: str = ..., before: str = ...) -> None:
 	"""Adds a menu item to an existing menu."""
 	...
 
-def add_plot(name: str, xAxisName: str, yAxisName: str, flags: int, xflags: int, yflags: int, parent: str, before: str, width: int, height: int, query_callback: str) -> None:
+def add_plot(name: str, xAxisName: str = ..., yAxisName: str = ..., flags: int = ..., xflags: int = ..., yflags: int = ..., parent: str = ..., before: str = ..., width: int = ..., height: int = ..., query_callback: str = ...) -> None:
 	"""Adds a plot widget."""
 	...
 
-def add_popup(popupparent: str, name: str, mousebutton: int, modal: bool, parent: str, before: str, width: int, height: int) -> None:
+def add_popup(popupparent: str, name: str, mousebutton: int = ..., modal: bool = ..., parent: str = ..., before: str = ..., width: int = ..., height: int = ...) -> None:
 	"""Adds a popup window for an item. This command must come immediately after the item the popup is for."""
 	...
 
-def add_progress_bar(name: str, value: float, overlay: str, tip: str, parent: str, before: str, data_source: str, width: int, height: int) -> None:
+def add_progress_bar(name: str, value: float = ..., overlay: str = ..., tip: str = ..., parent: str = ..., before: str = ..., data_source: str = ..., width: int = ..., height: int = ...) -> None:
 	"""Adds a progress bar."""
 	...
 
-def add_radio_button(name: str, items: List[str], default_value: int, callback: str, tip: str, parent: str, before: str, data_source: str, secondary_data_source: str) -> None:
+def add_radio_button(name: str, items: List[str], default_value: int = ..., callback: str = ..., tip: str = ..., parent: str = ..., before: str = ..., data_source: str = ..., secondary_data_source: str = ...) -> None:
 	"""Adds a set of radio buttons."""
 	...
 
@@ -176,95 +176,95 @@ def add_row(table: str, row: List[str]) -> None:
 	"""Adds a row to a table."""
 	...
 
-def add_same_line(name: str, xoffset: float, spacing: float, parent: str, before: str) -> None:
+def add_same_line(name: str = ..., xoffset: float = ..., spacing: float = ..., parent: str = ..., before: str = ...) -> None:
 	"""Places a widget on the same line as the previous widget. Can also be used for horizontal spacing."""
 	...
 
-def add_scatter_series(plot: str, name: str, data: List[float], marker: int, size: float, weight: float, outline: List[float], fill: List[float]) -> None:
+def add_scatter_series(plot: str, name: str, data: List[float], marker: int = ..., size: float = ..., weight: float = ..., outline: List[float] = ..., fill: List[float] = ...) -> None:
 	"""Adds a scatter series to a plot."""
 	...
 
-def add_selectable(name: str, default_value: bool, callback: str, tip: str, parent: str, before: str, data_source: str) -> None:
+def add_selectable(name: str, default_value: bool = ..., callback: str = ..., tip: str = ..., parent: str = ..., before: str = ..., data_source: str = ...) -> None:
 	"""Adds a selectable."""
 	...
 
-def add_seperator(name: str, tip: str, parent: str, before: str) -> None:
+def add_seperator(name: str = ..., tip: str = ..., parent: str = ..., before: str = ...) -> None:
 	"""Adds a horizontal line."""
 	...
 
-def add_simple_plot(name: str, value: List[float], autoscale: bool, overlay: str, minscale: float, maxscale: float, histogram: bool, tip: str, parent: str, before: str, width: int, height: int) -> None:
+def add_simple_plot(name: str, value: List[float], autoscale: bool = ..., overlay: str = ..., minscale: float = ..., maxscale: float = ..., histogram: bool = ..., tip: str = ..., parent: str = ..., before: str = ..., width: int = ..., height: int = ...) -> None:
 	"""A simple plot for visualization of a set of values"""
 	...
 
-def add_slider_float(name: str, default_value: float, min_value: float, max_value: float, format: str, power: float, vertical: bool, callback: str, tip: str, parent: str, before: str, data_source: str, width: int, height: int) -> None:
+def add_slider_float(name: str, default_value: float = ..., min_value: float = ..., max_value: float = ..., format: str = ..., power: float = ..., vertical: bool = ..., callback: str = ..., tip: str = ..., parent: str = ..., before: str = ..., data_source: str = ..., width: int = ..., height: int = ...) -> None:
 	"""Adds slider for a single float value"""
 	...
 
-def add_slider_float2(name: str, default_value: List[float], min_value: float, max_value: float, format: str, power: float, callback: str, tip: str, parent: str, before: str, data_source: str, width: int) -> None:
+def add_slider_float2(name: str, default_value: List[float] = ..., min_value: float = ..., max_value: float = ..., format: str = ..., power: float = ..., callback: str = ..., tip: str = ..., parent: str = ..., before: str = ..., data_source: str = ..., width: int = ...) -> None:
 	"""Adds slider for a 2 float values."""
 	...
 
-def add_slider_float3(name: str, default_value: List[float], min_value: float, max_value: float, format: str, power: float, callback: str, tip: str, parent: str, before: str, data_source: str, width: int) -> None:
+def add_slider_float3(name: str, default_value: List[float] = ..., min_value: float = ..., max_value: float = ..., format: str = ..., power: float = ..., callback: str = ..., tip: str = ..., parent: str = ..., before: str = ..., data_source: str = ..., width: int = ...) -> None:
 	"""Adds slider for a 3 float values."""
 	...
 
-def add_slider_float4(name: str, default_value: List[float], min_value: float, max_value: float, format: str, power: float, callback: str, tip: str, parent: str, before: str, data_source: str, width: int) -> None:
+def add_slider_float4(name: str, default_value: List[float] = ..., min_value: float = ..., max_value: float = ..., format: str = ..., power: float = ..., callback: str = ..., tip: str = ..., parent: str = ..., before: str = ..., data_source: str = ..., width: int = ...) -> None:
 	"""Adds slider for a 4 float values."""
 	...
 
-def add_slider_int(name: str, default_value: int, min_value: int, max_value: int, format: str, vertical: bool, callback: str, tip: str, parent: str, before: str, data_source: str, width: int, height: int) -> None:
+def add_slider_int(name: str, default_value: int = ..., min_value: int = ..., max_value: int = ..., format: str = ..., vertical: bool = ..., callback: str = ..., tip: str = ..., parent: str = ..., before: str = ..., data_source: str = ..., width: int = ..., height: int = ...) -> None:
 	"""Adds slider for a single int value"""
 	...
 
-def add_slider_int2(name: str, default_value: List[int], min_value: int, max_value: int, format: str, callback: str, tip: str, parent: str, before: str, data_source: str, width: int) -> None:
+def add_slider_int2(name: str, default_value: List[int] = ..., min_value: int = ..., max_value: int = ..., format: str = ..., callback: str = ..., tip: str = ..., parent: str = ..., before: str = ..., data_source: str = ..., width: int = ...) -> None:
 	"""Adds slider for a 2 int values."""
 	...
 
-def add_slider_int3(name: str, default_value: List[int], min_value: int, max_value: int, format: str, callback: str, tip: str, parent: str, before: str, data_source: str, width: int) -> None:
+def add_slider_int3(name: str, default_value: List[int] = ..., min_value: int = ..., max_value: int = ..., format: str = ..., callback: str = ..., tip: str = ..., parent: str = ..., before: str = ..., data_source: str = ..., width: int = ...) -> None:
 	"""Adds slider for a 3 int values."""
 	...
 
-def add_slider_int4(name: str, default_value: List[int], min_value: int, max_value: int, format: str, callback: str, tip: str, parent: str, before: str, data_source: str, width: int) -> None:
+def add_slider_int4(name: str, default_value: List[int] = ..., min_value: int = ..., max_value: int = ..., format: str = ..., callback: str = ..., tip: str = ..., parent: str = ..., before: str = ..., data_source: str = ..., width: int = ...) -> None:
 	"""Adds slider for a 4 int values."""
 	...
 
-def add_spacing(name: str, count: int, parent: str, before: str) -> None:
+def add_spacing(name: str = ..., count: int = ..., parent: str = ..., before: str = ...) -> None:
 	"""Adds vertical spacing."""
 	...
 
-def add_tab(name: str, closable: bool, tip: str, parent: str, before: str) -> None:
+def add_tab(name: str, closable: bool = ..., tip: str = ..., parent: str = ..., before: str = ...) -> None:
 	"""Adds a tab to a tab bar."""
 	...
 
-def add_tab_bar(name: str, reorderable: bool, callback: str, parent: str, before: str, data_source: str) -> None:
+def add_tab_bar(name: str, reorderable: bool = ..., callback: str = ..., parent: str = ..., before: str = ..., data_source: str = ...) -> None:
 	"""Adds a tab bar."""
 	...
 
-def add_table(name: str, headers: List[str], callback: str, parent: str, before: str) -> None:
+def add_table(name: str, headers: List[str], callback: str = ..., parent: str = ..., before: str = ...) -> None:
 	"""Adds table."""
 	...
 
-def add_text(name: str, wrap: int, color: List[float], bullet: bool, tip: str, parent: str, before: str) -> None:
+def add_text(name: str, wrap: int = ..., color: List[float] = ..., bullet: bool = ..., tip: str = ..., parent: str = ..., before: str = ...) -> None:
 	"""Adds text"""
 	...
 
-def add_text_point(plot: str, name: str, x: float, y: float, vertical: bool, xoffset: int, yoffset: int) -> None:
+def add_text_point(plot: str, name: str, x: float, y: float, vertical: bool = ..., xoffset: int = ..., yoffset: int = ...) -> None:
 	"""Adds a point with text to a plot."""
 	...
 
-def add_tooltip(tipparent: str, name: str, parent: str, before: str) -> None:
+def add_tooltip(tipparent: str, name: str, parent: str = ..., before: str = ...) -> None:
 	"""Adds an advanced tool tip for an item. This command must come immediately after the item the tip is for."""
 	...
 
-def add_tree_node(name: str, default_open: bool, tip: str, parent: str, before: str) -> None:
+def add_tree_node(name: str, default_open: bool = ..., tip: str = ..., parent: str = ..., before: str = ...) -> None:
 	"""Adds a tree node to add items to. Must be closed with the end_tree_node command."""
 	...
 
-def add_window(name: str, width: int, height: int, start_x: int, start_y: int, autosize: bool, resizable: bool, title_bar: bool, movable: bool, hide: bool) -> None:
+def add_window(name: str, width: int = ..., height: int = ..., start_x: int = ..., start_y: int = ..., autosize: bool = ..., resizable: bool = ..., title_bar: bool = ..., movable: bool = ..., hide: bool = ..., on_close: str = ...) -> None:
 	"""Creates a new window for following items to be added to. Must call end_main_window command before."""
 	...
 
-def change_style_item(item: int, x: float, y: float) -> None:
+def change_style_item(item: int, x: float, y: float = ...) -> None:
 	"""Needs documentation"""
 	...
 
@@ -284,6 +284,10 @@ def clear_plot(plot: str) -> None:
 	"""Clears a plot."""
 	...
 
+def clear_table(table: str) -> None:
+	"""Clears data in a table"""
+	...
+
 def close_popup() -> None:
 	"""Needs documentation"""
 	...
@@ -296,7 +300,7 @@ def delete_data(name: str) -> None:
 	"""Deletes data from storage."""
 	...
 
-def delete_item(item: str, children_only: bool) -> None:
+def delete_item(item: str, children_only: bool = ...) -> None:
 	"""Deletes an item if it exists."""
 	...
 
@@ -304,47 +308,47 @@ def delete_row(table: str, row: int) -> None:
 	"""Delete a row in a table."""
 	...
 
-def draw_arrow(drawing: str, p1: List[float], p2: List[float], color: List[int], thickness: int, size: int, tag: str) -> None:
+def draw_arrow(drawing: str, p1: List[float], p2: List[float], color: List[int], thickness: int, size: int, tag: str = ...) -> None:
 	"""Draws an arrow on a drawing."""
 	...
 
-def draw_bezier_curve(drawing: str, p1: List[float], p2: List[float], p3: List[float], p4: List[float], color: List[int], thickness: float, segments: int, tag: str) -> None:
+def draw_bezier_curve(drawing: str, p1: List[float], p2: List[float], p3: List[float], p4: List[float], color: List[int], thickness: float = ..., segments: int = ..., tag: str = ...) -> None:
 	"""Draws a bezier curve on a drawing."""
 	...
 
-def draw_circle(drawing: str, center: List[float], radius: float, color: List[int], segments: int, thickness: float, fill: List[float], tag: str) -> None:
+def draw_circle(drawing: str, center: List[float], radius: float, color: List[int], segments: int = ..., thickness: float = ..., fill: List[float] = ..., tag: str = ...) -> None:
 	"""Draws a circle on a drawing."""
 	...
 
-def draw_image(drawing: str, file: str, pmin: List[float], pmax: List[float], uv_min: List[float], uv_max: List[float], color: List[int], tag: str) -> None:
+def draw_image(drawing: str, file: str, pmin: List[float], pmax: List[float] = ..., uv_min: List[float] = ..., uv_max: List[float] = ..., color: List[int] = ..., tag: str = ...) -> None:
 	"""Draws an image on a drawing."""
 	...
 
-def draw_line(drawing: str, p1: List[float], p2: List[float], color: List[int], thickness: int, tag: str) -> None:
+def draw_line(drawing: str, p1: List[float], p2: List[float], color: List[int], thickness: int, tag: str = ...) -> None:
 	"""Draws a line on a drawing."""
 	...
 
-def draw_polygon(drawing: str, points: List[float], color: List[int], fill: List[float], thickness: float, tag: str) -> None:
+def draw_polygon(drawing: str, points: List[float], color: List[int], fill: List[float] = ..., thickness: float = ..., tag: str = ...) -> None:
 	"""Draws a polygon on a drawing."""
 	...
 
-def draw_polyline(drawing: str, points: List[float], color: List[int], closed: int, thickness: float, tag: str) -> None:
+def draw_polyline(drawing: str, points: List[float], color: List[int], closed: int = ..., thickness: float = ..., tag: str = ...) -> None:
 	"""Draws lines on a drawing."""
 	...
 
-def draw_quad(drawing: str, p1: List[float], p2: List[float], p3: List[float], p4: List[float], color: List[int], fill: List[float], thickness: float, tag: str) -> None:
+def draw_quad(drawing: str, p1: List[float], p2: List[float], p3: List[float], p4: List[float], color: List[int], fill: List[float] = ..., thickness: float = ..., tag: str = ...) -> None:
 	"""Draws a quad on a drawing."""
 	...
 
-def draw_rectangle(drawing: str, pmin: List[float], pmax: List[float], color: List[int], fill: List[float], rounding: float, thickness: float, tag: str) -> None:
+def draw_rectangle(drawing: str, pmin: List[float], pmax: List[float], color: List[int], fill: List[float] = ..., rounding: float = ..., thickness: float = ..., tag: str = ...) -> None:
 	"""Draws a rectangle on a drawing."""
 	...
 
-def draw_text(drawing: str, pos: List[float], text: str, color: List[int], size: int, tag: str) -> None:
+def draw_text(drawing: str, pos: List[float], text: str, color: List[int] = ..., size: int = ..., tag: str = ...) -> None:
 	"""Draws text on a drawing."""
 	...
 
-def draw_triangle(drawing: str, p1: List[float], p2: List[float], p3: List[float], color: List[int], fill: List[float], thickness: float, tag: str) -> None:
+def draw_triangle(drawing: str, p1: List[float], p2: List[float], p3: List[float], color: List[int], fill: List[float] = ..., thickness: float = ..., tag: str = ...) -> None:
 	"""Draws a triangle on a drawing."""
 	...
 
@@ -472,7 +476,7 @@ def get_mouse_drag_delta() -> (float, float):
 	"""Returns the current mouse drag delta"""
 	...
 
-def get_mouse_pos(local: bool) -> (int, int):
+def get_mouse_pos(local: bool = ...) -> (int, int):
 	"""Returns the current mouse position in relation to the active window (minus titlebar) unless local flag is unset."""
 	...
 
@@ -612,7 +616,7 @@ def is_threadpool_high_performance() -> bool:
 	"""Checks if the threadpool is allowed to use the maximum number of threads."""
 	...
 
-def log(message: str, level: str) -> None:
+def log(message: str, level: str = ...) -> None:
 	"""Logs a trace level log."""
 	...
 
@@ -644,12 +648,12 @@ def open_file_dialog(extensions: List[str]) -> str:
 	"""Opens an 'open file' dialog."""
 	...
 
-def run_async_function(name: str, data: object, return_handler: str) -> None:
+def run_async_function(name: str, data: object, return_handler: str = ...) -> None:
 	"""Runs a function asyncronously."""
 	...
 
-def run_file(name: str, file: str, flags: str) -> None:
-	"""Runs a seperate Marvel app."""
+def run_file(file: str, flags: str) -> None:
+	"""Runs a seperate DearPyGui app."""
 	...
 
 def save_file_dialog(extensions: List[str]) -> str:
@@ -700,15 +704,15 @@ def set_item_width(item: str, width: int) -> None:
 	"""Sets an item's width."""
 	...
 
-def set_key_down_callback(callback: str, handler: str) -> None:
+def set_key_down_callback(callback: str, handler: str = ...) -> None:
 	"""Sets a callback for a key down event."""
 	...
 
-def set_key_press_callback(callback: str, handler: str) -> None:
+def set_key_press_callback(callback: str, handler: str = ...) -> None:
 	"""Sets a callback for a key press event."""
 	...
 
-def set_key_release_callback(callback: str, handler: str) -> None:
+def set_key_release_callback(callback: str, handler: str = ...) -> None:
 	"""Sets a callback for a key release event."""
 	...
 
@@ -720,23 +724,23 @@ def set_main_window_size(width: int, height: int) -> None:
 	"""Sets the main window size."""
 	...
 
-def set_mouse_click_callback(callback: str, handler: str) -> None:
+def set_mouse_click_callback(callback: str, handler: str = ...) -> None:
 	"""Sets a callback for a mouse click event."""
 	...
 
-def set_mouse_double_click_callback(callback: str, handler: str) -> None:
+def set_mouse_double_click_callback(callback: str, handler: str = ...) -> None:
 	"""Sets a callback for a mouse double click event."""
 	...
 
-def set_mouse_down_callback(callback: str, handler: str) -> None:
+def set_mouse_down_callback(callback: str, handler: str = ...) -> None:
 	"""Sets a callback for a mouse down event."""
 	...
 
-def set_mouse_drag_callback(callback: str, threshold: float, handler: str) -> None:
+def set_mouse_drag_callback(callback: str, threshold: float, handler: str = ...) -> None:
 	"""Sets a callback for a mouse drag event."""
 	...
 
-def set_mouse_wheel_callback(callback: str, handler: str) -> None:
+def set_mouse_wheel_callback(callback: str, handler: str = ...) -> None:
 	"""Sets a callback for a mouse wheel event."""
 	...
 
@@ -756,11 +760,11 @@ def set_plot_ylimits_auto(plot: str) -> None:
 	"""Sets plots y limits to be automatic."""
 	...
 
-def set_render_callback(callback: str, handler: str) -> None:
+def set_render_callback(callback: str, handler: str = ...) -> None:
 	"""Sets the callback to be ran every frame."""
 	...
 
-def set_resize_callback(callback: str, handler: str) -> None:
+def set_resize_callback(callback: str, handler: str = ...) -> None:
 	"""Sets a callback for a window resizes."""
 	...
 
@@ -820,14 +824,25 @@ def show_metrics() -> None:
 	"""Shows the metrics window."""
 	...
 
-def show_source() -> None:
-	"""Shows the source code for the current app."""
+def show_source(file: str) -> None:
+	"""Shows the source code for a file."""
 	...
 
-def unindent(name: str, offset: float, parent: str, before: str) -> None:
+def start_dearpygui() -> None:
+	"""Starts DearPyGui"""
+	...
+
+def start_dearpygui_docs() -> None:
+	"""Starts DearPyGui documentation"""
+	...
+
+def start_dearpygui_editor() -> None:
+	"""Starts DearPyGui editor"""
+	...
+
+def unindent(name: str = ..., offset: float = ..., parent: str = ..., before: str = ...) -> None:
 	"""Unindents following items."""
 	...
-
 
 mvPlotFlags_MousePos = 1
 mvPlotFlags_Legend = 2

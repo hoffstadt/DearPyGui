@@ -14,7 +14,7 @@ class BinaryDistribution(Distribution):
 
 setup(
     name='dearpygui',  # Required
-    version='0.1.0a16',  # Required
+    version='0.1.0a17',  # Required
     description='DearPyGui',  # Required
     long_description=long_description,  # Optional
     long_description_content_type='text/markdown',  # Optional (see note above)
@@ -29,7 +29,7 @@ setup(
     ],
     packages=find_packages(exclude=['contrib', 'docs', 'tests']),  # Required
     package_data={  # Optional
-    'dearpygui': ['dearpygui.pyd'],
+    'dearpygui': ['dearpygui.pyd', "dearpygui.pyi"],
     },
     distclass=BinaryDistribution
 

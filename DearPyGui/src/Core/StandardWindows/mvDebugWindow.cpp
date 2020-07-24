@@ -64,7 +64,7 @@ namespace Marvel {
 		auto app = mvApp::GetApp();
 
 		ImGui::SetNextWindowSize(ImVec2(m_width, m_width), ImGuiCond_FirstUseEver);
-		if (!ImGui::Begin("Marvel Debug", &show, m_flags))
+		if (!ImGui::Begin("DearPyGui Debug", &show, m_flags))
 		{
 			ImGui::End();
 			return;
@@ -80,7 +80,7 @@ namespace Marvel {
 				ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / io.Framerate, io.Framerate);
 				ImGui::Text("%d vertices, %d indices (%d triangles)", io.MetricsRenderVertices, io.MetricsRenderIndices, io.MetricsRenderIndices / 3);
 				ImGui::Text("%d active allocations", io.MetricsActiveAllocations);
-				DebugItem("Marvel Version: ", mvApp::GetVersion());
+				DebugItem("DearPyGui Version: ", mvApp::GetVersion());
 				DebugItem("ImGui Version: ", IMGUI_VERSION);
 				DebugItem("App File: ", app->getFile().c_str());
 				DebugItem("Stored Data: ", std::to_string(mvDataStorage::GetDataCount()).c_str());
@@ -244,7 +244,7 @@ namespace Marvel {
 				ImGui::PopItemWidth();
 				if (ImGui::Button("Run##debug"))
 				{
-					std::string command = "from marvel import *\n" + commandstring;
+					std::string command = "from dearpygui import *\n" + commandstring;
 
 					PyGILState_STATE gstate = PyGILState_Ensure();
 					PyRun_SimpleString(command.c_str());
