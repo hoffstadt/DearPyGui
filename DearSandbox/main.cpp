@@ -49,7 +49,7 @@ int main(int argc, char* argv[])
 		{
 			nlohmann::json j = nlohmann::json::parse(stream);
 
-			if (j.contains("App") && AppName.empty())
+			if (j.contains("App") && !AppName.empty())
 			{
 				AppName = j["App"];
 			}

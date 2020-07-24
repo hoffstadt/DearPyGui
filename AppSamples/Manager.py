@@ -24,3 +24,5 @@ def Launcher(sender, data):
         
     if sender == "IDE":
         run_file("MarvelSandbox", "", flags="--editor")
+
+start_dearpygui()
