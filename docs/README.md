@@ -38,7 +38,7 @@ from dearpygui.dearpygui import *
 add_text("Hello world")
 add_button("Save", callback="SaveCallback")
 add_input_text("string")
-add_float_slider("float")
+add_slider_float("float")
 
 def SaveCallback(sender, data):
     print("Save Clicked")
