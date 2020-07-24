@@ -85,7 +85,7 @@ with open(window_app_dir + "/dearpygui_config.json", 'w') as file:
     file.write("\t\"App\": \"Manager\",\n")
     file.write("\t\"Mode\": \"None\",\n")
     file.write("\t\"Theme\": \"Dark\",\n")
-    file.write("\t\"Path\": \"\",\n")
+    file.write("\t\"Path\": \"\"\n")
     file.write("}")
 
 # zip temporary directory
