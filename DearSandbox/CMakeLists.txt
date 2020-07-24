@@ -52,3 +52,7 @@ add_custom_command(TARGET DearSandbox PRE_BUILD
 add_custom_command(TARGET DearSandbox PRE_BUILD
                    COMMAND ${CMAKE_COMMAND} -E copy_if_different
                        ${CMAKE_SOURCE_DIR}/Output/python/Debug/python38$<$<CONFIG:Debug>:_d>.dll $<TARGET_FILE_DIR:DearSandbox>)
+
+add_custom_command(TARGET DearSandbox PRE_BUILD
+                   COMMAND ${CMAKE_COMMAND} -E copy
+                       ${CMAKE_SOURCE_DIR}/DearSandbox/dearpygui_config.json $<TARGET_FILE_DIR:DearSandbox>)
