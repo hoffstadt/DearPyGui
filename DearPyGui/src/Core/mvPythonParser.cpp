@@ -1,7 +1,9 @@
 #include "mvPythonParser.h"
+#include "mvMarvel.h"
 #include "mvApp.h"
 #include "mvPythonTranslator.h"
 #include "mvAppLog.h"
+#include <fstream>
 
 namespace Marvel {
 
@@ -161,4 +163,60 @@ namespace Marvel {
 		m_documentation = documentation;
 	}
 
+	void GenerateStubFile(const std::string& file)
+	{
+		auto commands = BuildDearPyGuiInterface();
+		auto constants = GetModuleConstants();
+
+		std::ofstream stub;
+		stub.open(file + "/dearpygui.pyi");
+
+		stub << "from typing import List, Any\n\n";
+
+		for (const auto& parser : *commands)
+		{
+			stub << "def " << parser.first << "(";
+
+			auto elements = parser.second.getElements();
+
+			bool adddefault = false;
+
+			for (int i = 0; i < elements.size(); i++)
+			{
+				if (elements[i].type == mvPythonDataType::KeywordOnly || elements[i].type == mvPythonDataType::Optional)
+				{
+					adddefault = true;
+					continue;
+				}
+				if (i != elements.size() - 1)
+				{
+					if(adddefault)
+						stub << elements[i].name << ": " << PythonDataTypeActual(elements[i].type) << " = ..., ";
+					
+					else
+						stub << elements[i].name << ": " << PythonDataTypeActual(elements[i].type) << ", ";
+				}
+				else
+					if (adddefault)
+						stub << elements[i].name << ": " << PythonDataTypeActual(elements[i].type) << " = ...) -> "<<
+							parser.second.getReturnType() << ":\n\t\"\"\"" << parser.second.getAbout() << "\"\"\"\n\t...\n\n";
+					else
+						stub << elements[i].name << ": " << PythonDataTypeActual(elements[i].type) <<
+							") -> " << parser.second.getReturnType() << ":\n\t\"\"\"" << parser.second.getAbout() << "\"\"\"\n\t...\n\n";
+			}
+
+			if (elements.size() == 0)
+				stub << ") -> " << parser.second.getReturnType() << ":\n\t\"\"\"" << parser.second.getAbout() << "\"\"\"\n\t...\n\n";
+
+
+
+		}
+
+		for (auto& constant : constants)
+			stub << constant.first << " = " << constant.second << "\n";
+
+		stub.close();
+
+		delete commands;
+	}
 }

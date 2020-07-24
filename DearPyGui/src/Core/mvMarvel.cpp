@@ -151,7 +151,7 @@ namespace Marvel {
 		if (!(*mvApp::GetApp()->getParsers())["generate_stub_file"].parse(args, kwargs, __FUNCTION__, &file))
 			return mvPythonTranslator::GetPyNone();
 
-		//mvInterfaceRegistry::GetRegistry()->generateStubFile(file);
+		GenerateStubFile(file);
 
 		return mvPythonTranslator::GetPyNone();
 	}
