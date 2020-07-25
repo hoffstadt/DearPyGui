@@ -122,7 +122,7 @@ namespace Marvel {
 			PyErr_SetString(PyExc_Exception, message);
 			PyErr_Print();
 			check = false;
-			mvApp::GetApp()->showStandardWindow("logger");
+			mvAppLog::Show();
 		}
 
 		va_end(arguments);

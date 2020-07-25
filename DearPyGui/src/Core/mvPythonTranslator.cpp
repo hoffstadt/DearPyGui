@@ -7,11 +7,6 @@ namespace Marvel {
 	mvGlobalIntepreterLock::mvGlobalIntepreterLock()
 	{
 		m_gstate = PyGILState_Ensure();
-
-		int result = PyGILState_Check();
-
-		if (result != 1)
-			__debugbreak();
 	}
 
 	mvGlobalIntepreterLock::~mvGlobalIntepreterLock()
