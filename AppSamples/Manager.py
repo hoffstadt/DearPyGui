@@ -14,15 +14,15 @@ end_group()
 def Launcher(sender, data):
 
     if sender == "App":
-        run_file("MarvelSandbox", "App.py")
+        run_file("App.py", "")
         
     elif sender == "Demo":
-        run_file("MarvelSandbox", "Demo.py")
+        run_file("Demo.py", "")
         
     if sender == "Documentation":
-        run_file("MarvelSandbox", "", flags="--documentation")
+        run_file("Demo.py", "--documentation --noconfig")
         
     if sender == "IDE":
-        run_file("MarvelSandbox", "", flags="--editor")
+        run_file("Demo.py", "--editor --noconfig")
 
 start_dearpygui()

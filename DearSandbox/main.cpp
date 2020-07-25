@@ -125,13 +125,13 @@ int main(int argc, char* argv[])
 
 	if (editorMode)
 	{
-		PyRun_SimpleString("start_dearpygui_editor()");
+		PyRun_SimpleString("dearpygui.start_dearpygui_editor()");
 		return 0;
 	}
 
 	if (documentation)
 	{
-		PyRun_SimpleString("start_dearpygui_docs()");
+		PyRun_SimpleString("dearpygui.start_dearpygui_docs()");
 		return 0;
 	}
 
