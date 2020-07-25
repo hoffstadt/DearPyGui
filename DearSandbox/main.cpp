@@ -107,7 +107,8 @@ int main(int argc, char* argv[])
 	Py_SetPath(deco);
 	Py_NoSiteFlag = 1; // this must be set to 1
 	Py_DontWriteBytecodeFlag = 1;
-
+	//_PyEval_SetSwitchInterval()
+	
 	Py_Initialize();
 	if (!Py_IsInitialized())
 	{

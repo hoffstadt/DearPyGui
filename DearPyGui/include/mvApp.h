@@ -157,9 +157,10 @@ namespace Marvel {
 		//-----------------------------------------------------------------------------
 		// Callbacks
 		//-----------------------------------------------------------------------------
-		void runCallback     (const std::string& name, const std::string& sender, PyObject* data = nullptr);
-		void runAsyncCallback(std::string name, PyObject* data, std::string returnname);
-		void addMTCallback   (const std::string& name, PyObject* data, const std::string& returnname = "");
+		void runReturnCallback(const std::string& name, const std::string& sender, PyObject* data);
+		void runCallback      (const std::string& name, const std::string& sender, PyObject* data = nullptr);
+		void runAsyncCallback (std::string name, PyObject* data, std::string returnname);
+		void addMTCallback    (const std::string& name, PyObject* data, const std::string& returnname = "");
 
 		template<typename T> 
 		void dispatchRenderCallback(mvAppItemType itemType, mvAppItem* item)
