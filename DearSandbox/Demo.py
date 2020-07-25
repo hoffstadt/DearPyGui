@@ -1,80 +1,409 @@
 from dearpygui import *
-from gaugeworx import *
-import sys
+from math import sin, cos
 
-set_thread_count(4)
 set_log_level(0)
-show_logger()
-show_metrics()
 
-add_button("Trigger", callback="manager_command_launcher")
-add_button("Prepare", callback="manager_command_launcher")
-add_button("Inspect", callback="inspect_command_launcher")
-add_button("Custom Inspect", callback="manager_command_launcher")
-add_button("Review", callback="manager_command_launcher")
-add_button("Results", callback="results_callback")
-add_button("Ref", callback="ref_callback")
+add_data("DataStorage1", {"Key": 34})
+add_data("DataStorage2", [23,42,53])
 
-def ref_callback(sender, data):
-    print(sys.getrefcount(sender))
-    print(sys.getrefcount(data))
-    print(sys.gettotalrefcount())
+add_menu_bar("MenuBar")
 
-def manager_command_launcher(sender, data):
-    run_async_function("manager_command", sender, return_handler="manager_command_return")
+add_menu("Themes")
+add_menu_item("Dark", callback = "ThemeCallback1")
+add_menu_item("Light", callback = "ThemeCallback")
+add_menu_item("Classic", callback = "ThemeCallback")
+add_menu_item("Dark 2", callback = "ThemeCallback")
+add_menu_item("Grey", callback = "ThemeCallback")
+add_menu_item("Dark Grey", callback = "ThemeCallback")
+add_menu_item("Cherry", callback = "ThemeCallback")
+add_menu_item("Purple", callback = "ThemeCallback")
+add_menu_item("Gold", callback = "ThemeCallback")
+add_menu_item("Red", callback = "ThemeCallback")
+end_menu()
 
-def inspect_command_launcher(sender, data):
-    run_async_function("manager_command", sender)
+add_menu("Tools")
+add_menu_item("Show Logger", callback="show_logger")
+add_menu_item("Show About", callback="show_about")
+add_menu_item("Show Metrics", callback="show_metrics")
+add_menu_item("Show Documentation", callback="show_documentation")
+add_menu_item("Show Debug", callback="show_debug")
+end_menu()
 
-def manager_command(sender, data):
+end_menu_bar()
 
-    if data == "Trigger":
-        reset()
-        delete_gauges()
-        delete_toleranced_items()
+# launchers
+add_group("Launch Group", width=200)
+add_button("Widgets", callback="Launcher")
+add_button("Drawing API", callback="Launcher")
+add_button("Plots, Graphs and Charts", callback="Launcher")
+add_button("Logging", callback="Launcher")
+add_button("Asyncronous", callback="Launcher")
+add_button("Input Polling", callback="Launcher")
+add_button("Input Text", callback="Launcher")
+add_button("Text Widget", callback="Launcher")
+add_button("Tooltips/Popups", callback="Launcher")
+add_button("Tables", callback="Launcher")
+end_group()
 
-        add_preparing_item("Data Mover", "Data Mover")
-        add_preparing_item("Run Out Reducer", "Run Out Reducer")
+# tables
+add_window("Tables##dialog", 500, 500, hide=True, on_close="closeit")
+add_button("Delete row 6", callback="DeleteRow")
+add_button("Delete col 1", callback="DeleteCol")
+add_button("Add row ", callback="AddRow")
+add_button("Add col ", callback="AddCol")
+add_button("Insert row 5", callback="InsertRow")
+add_button("Insert col 1 ", callback="InsertCol")
+add_button("Clear Table ", callback="ClearTable")
+add_table("Table##widget", ["Column 1", "Column 2", "Column 3", "Column 4"])
 
-        add_ball_gauge("Root", 0.002, 0.0001, "RootProcedure")
-        add_ball_gauge("Crest", 0.002, 0.0001, "CrestProcedure")
-        add_ball_gauge("Taper", 0.002, 0.0001, "TaperProcedure")
-        add_ball_gauge("Lead", 0.005, 0.0001, "LeadProcedure")
-        add_ball_gauge("Height", 0.005, 0.0001, "HeightProcedure")
+def closeit(sender, data):
+    print("closing tables")
 
-        add_toleranced_item("Taper", 2.0, 0.057, 0.057)
-        add_toleranced_item("ThreadPitch", 0.125, 0.002, 0.002, True)
-        add_toleranced_item("ThreadHeight", 0.03, 0.0005, 0.0005)
-        add_toleranced_item("PitchDiameter", 0.0184, 0.0005, 0.0005)
-        add_toleranced_item("Weiner", 0.0184, 0.0005, 0.0005)
+tabledata = []
+for i in range(0, 10):
+    row = []
+    for j in range(0, 4):
+        row.append("Item"+str(i)+"-"+str(j))
+    tabledata.append(row)
 
-        trigger_collector()
+set_value("Table##widget", tabledata)
+end_window()
 
-    elif data == "Prepare":
-        prepare_data()
+def ClearTable(sender, data):
+    clear_table("Table##widget")
 
-    elif data == "Inspect":
-        inspect_data()
+def DeleteRow(sender, data):
+    delete_row("Table##widget", 6)
 
-    elif data == "Review":
-        review_data()
+def DeleteCol(sender, data):
+    delete_column("Table##widget", 1)
 
-    elif data == "Custom Inspect":
-        add_measurement("Weiner", 42, 0)
-        add_measurement("Weiner", 43, 1)
-        add_measurement("Weiner", 44, 2)
+def AddRow(sender, data):
+    add_row("Table##widget", ["new1", "new2", "new3", "new4"])
 
-    return data
+def AddCol(sender, data):
+    add_column("Table##widget", "New Column", ["new1", "new2", "new3", "new4"])
 
-def manager_command_return(sender, data):
-    print("Returned from ", data)
+def InsertRow(sender, data):
+    insert_row("Table##widget", 5, ["inew1", "inew2", "inew3", "inew4"])
 
-def results_callback(sender, data):
+def InsertCol(sender, data):
+    insert_column("Table##widget", 1,  "Inserted Column", ["inew1", "inew2", "inew3", "inew4"])
 
-    print(get_measurement("Taper", 2))
-    report = get_final_report()
+# tooltip/popup testing
+add_window("Tooltips/Popups##dialog", 200, 200, hide=True)
+add_button("Hover me##tooltips")
+add_tooltip("Hover me##tooltips", "tool_tip##tooltips")
+add_simple_plot("Simpleplot##tooltips", (0.3, 0.9, 2.5, 8.9), height = 80)
+end_tooltip()
+add_button("Modal Window")
+add_popup("Modal Window", "ModalPopup", modal=True)
+add_simple_plot("Simpleplot##modal", (0.3, 0.9, 2.5, 8.9), height = 80)
+add_button("Close Window##modal", callback="close_popup")
+end_popup()
+add_text("Right Click Me")
+#add_popup("Right Click Me", "RegularPopup", mousebutton=mc.mvMouseButton_Right)
+#add_simple_plot("Simpleplot##popup", (0.3, 0.9, 2.5, 8.9), height = 80)
+#end_popup()
+end_window()
 
-    for item in report:
-        print(item + ":\t" + str(report[item]))
-        
+# text testing
+add_window("Text Widget##dialog", 200, 200, start_x=0, start_y=0, hide=True, resizable=False, title_bar=False, movable=True)
+add_text("Regular")
+add_text("Wrapped at 100 pixels", wrap=100)
+add_text("Color", color=(0, 200, 255))
+add_text("Bullet", bullet=True)
+end_window()
+
+# input text testing
+add_window("Input Text##dialog", 500, 500, autosize=True, hide=True)
+add_input_text("Regular##inputtext")
+add_input_text("With hint##inputtext", hint="A hint")
+add_input_text("No spaces##inputtext", no_spaces=True)
+add_input_text("Uppercase##inputtext", uppercase=True)
+add_input_text("Decimal##inputtext", decimal=True)
+add_input_text("Hexdecimal##inputtext", hexadecimal=True)
+add_input_text("Read Only##inputtext", readonly=True, default_value="read only")
+add_input_text("Password##inputtext", password=True)
+add_input_text("Multiline##inputtext", multiline=True)
+end_window()
+
+# widget testing
+add_window("Widgets##dialog", 500, 500, hide=True)
+
+add_button("Get Widget Values", callback="RetrieveValues")
+
+add_tab_bar("Tab Bar##widget")
+add_tab("Basic Widgets##widget")
+
+add_button("Button##widget")
+add_checkbox("Checkbox##widget")
+add_combo("Combo##widget", ("Item 1", "Item 2", "item 3"))
+add_radio_button("Radio Button##widget", ("Item 1", "Item 2", "item 3"))
+add_listbox("Listbox##widget", ("Item 1", "Item 2", "item 3"))
+add_progress_bar("Progress Bar##widget", 0.45, overlay="Progress Bar", height = 100)
+
+add_text("Text")
+add_selectable("Selectable##widget")
+add_input_text("Input Text##widget")
+add_label_text("Label Text##123", "value")
+
+add_color_edit3("Color Edit3##widget", data_source = "DataStorage2")
+add_color_edit4("Color Edit4##widget")
+add_color_picker3("Color Picker3##widget", width=300, data_source = "DataStorage2")
+add_color_picker4("Color Picker4##widget", width=300)
+
+add_input_float("Input Float##widget")
+add_input_float2("Input Float2##widget")
+add_input_float3("Input Float3##widget")
+add_input_float4("Input Float4##widget")
+add_input_int("Input Int##widget")
+add_input_int2("Input Int2##widget")
+add_input_int3("Input Int3##widget", data_source = "DataStorage2")
+add_input_int4("Input Int4##widget")
+
+add_drag_float("Drag Float##widget")
+add_drag_float2("Drag Float2##widget")
+add_drag_float3("Drag Float3##widget")
+add_drag_float4("Drag Float4##widget")
+add_drag_int("Drag Int##widget")
+add_drag_int2("Drag Int2##widget")
+add_drag_int3("Drag Int3##widget", data_source = "DataStorage2")
+add_drag_int4("Drag Int4##widget")
+
+add_slider_float("Slider Float##widget")
+add_slider_float2("Slider Float2##widget")
+add_slider_float3("Slider Float3##widget")
+add_slider_float4("Slider Float4##widget")
+add_slider_int("Slider Int##widget")
+add_slider_int2("Slider Int2##widget")
+add_slider_int3("Slider Int3##widget", data_source = "DataStorage2")
+add_slider_int4("Slider Int4##widget")
+
+end_tab()
+
+add_tab("Container Widgets")
+
+add_tree_node("Tree Node1##widget")
+for i in range(0, 3):
+    add_text("Item" + str(i))
+end_tree_node()
+add_tree_node("Tree Node2##widget")
+for i in range(0, 3):
+    add_text("Item" + str(i))
+end_tree_node()
+
+add_collapsing_header("Collapsing Header##widget")
+for i in range(0, 10):
+    add_text("Item " + str(i) + " belonging to a collapsing header")
+end_collapsing_header()
+
+add_child("Child##widget", width=220, height=100)
+for i in range(0, 10):
+    add_text("Item " + str(i) + " belonging to a child")
+end_child()
+
+add_same_line(spacing=50)
+add_group("Group##widget")
+add_text("Group")
+for i in range(0, 3):
+    add_button("Button" + str(i) + "##widgetgroup")
+end_group()
+
+end_tab()
+end_tab_bar()
+
+end_window()
+
+# logger testing
+add_window("Logging##dialog", 500, 500, autosize=True, hide=True)
+add_button("Test Logger", callback="LogCallback")
+add_same_line(spacing=10)
+add_group("LoggingGroup")
+add_text("Log Level")
+add_radio_button("Log Level##logging", ("Trace", "Debug", "Info", "Warning", "Error", "Off"))
+end_group()
+end_window()
+
+# plot testing
+add_window("Plots, Graphs and Charts##dialog", 500, 500, hide=True)
+add_tab_bar("PlotTabBar")
+add_tab("Plot Widget")
+add_button("Plot data", callback="PlotCallback")
+add_listbox("Colormaps", ("Default", "Dark", "Pastel", "Paired", "Viridis", "Plasma", "Hot", "Cool", "Pink", "Jet"), width=500, height=3, callback="colormapCallback")
+add_plot("Plot", "x-axis", "y-axis", height=-1);
+end_tab()
+add_tab("Simple Plots")
+add_simple_plot("Simpleplot1", (0.3, 0.9, 2.5, 8.9))
+add_simple_plot("Simpleplot2", (0.3, 0.9, 2.5, 8.9), overlay="Overlaying", height=180, histogram=True)
+end_tab()
+end_tab_bar()
+end_window()
+
+# drawing testing
+add_window("Drawing API##dialog", autosize=True, hide=True)
+add_group("Drawing Controls Group")
+add_slider_float("X Origin", vertical=True, min_value = -100, max_value=100, default_value=0, callback="UpdateDrawing")
+add_same_line(spacing=20)
+add_slider_float("Y Origin", vertical=True, min_value = -100, max_value=100, default_value=0, callback="UpdateDrawing")
+add_slider_float("X Scale ", vertical=True, max_value=10, default_value=1, callback="UpdateDrawing")
+add_same_line(spacing=20)
+add_slider_float("Y Scale", vertical=True, max_value=10, default_value=1, callback="UpdateDrawing")
+end_group()
+add_same_line(spacing=20)
+add_drawing("drawing##widget", width=800, height=500)
+draw_rectangle("drawing##widget", (0, 500), (800, 0), (255, 0, 0, 255), fill=(0, 0, 25, 255), rounding=12, thickness = 1.0)
+draw_line("drawing##widget", (10, 10), (100, 100), (255, 0, 0, 255), 1)
+draw_triangle("drawing##widget", (300, 500), (200, 200), (500, 200), (255, 255, 0, 255), thickness = 3.0)
+draw_quad("drawing##widget", (50, 50), (150, 50), (150, 150), (50, 150), (255, 255, 0, 255), thickness = 3.0)
+draw_text("drawing##widget", (50, 300), "Some Text", color=(255, 255, 0, 255), size=15)
+draw_text("drawing##widget", (0, 0), "Origin", color=(255, 255, 0, 255), size=15)
+draw_circle("drawing##widget", (400, 250), 50, (255, 255, 0, 255))
+draw_polyline("drawing##widget", ((300, 500), (200, 200), (500, 700)), (255, 255, 0, 255))
+draw_polygon("drawing##widget", ((363, 471), (100, 498), (50, 220)), (255, 125, 0, 255))
+draw_bezier_curve("drawing##widget", (50, 200), (150, 250), (300, 150), (600, 250), (255, 255, 0, 255), thickness = 2.0)
+draw_arrow("drawing##widget", (50, 70), (100, 65), (0, 200, 255), 1, 10)
+end_window()
+
+# asyncronous testing
+add_window("Asyncronous##dialog", hide=True)
+add_button("Start Long Process", callback="LongCallback")
+add_button("Start Long Asyncronous Process", callback="LongAsyncronousCallback")
+end_window()
+
+# input polling
+add_window("Input Polling##dialog", hide=True, autosize=True)
+add_text("Key Polling")
+add_label_text("A key Down", "False", color=(0,200,255))
+add_label_text("W key Pressed", "False", color=(0,200,255))
+add_label_text("Q key Released", "False", color=(0,200,255))
+add_spacing()
+add_text("Mouse Polling")
+add_label_text("Mouse Position", "(0,0)", color=(0,200,255))
+add_label_text("Left Mouse Dragging", "False", color=(0,200,255))
+add_label_text("Middle Mouse Dragging", "False", color=(0,200,255))
+add_label_text("Right Mouse Dragging", "False", color=(0,200,255))
+add_label_text("Left Mouse Clicked", "False", color=(0,200,255))
+add_label_text("Middle Mouse Clicked", "False", color=(0,200,255))
+add_label_text("Right Mouse Clicked", "False", color=(0,200,255))
+add_label_text("Left Mouse Double Clicked", "False", color=(0,200,255))
+add_label_text("Middle Mouse Double Clicked", "False", color=(0,200,255))
+add_label_text("Right Mouse Double Clicked", "False", color=(0,200,255))
+add_label_text("Left Mouse Down", "False", color=(0,200,255))
+add_label_text("Middle Mouse Down", "False", color=(0,200,255))
+add_label_text("Right Mouse Down", "False", color=(0,200,255))
+add_label_text("Left Mouse Released", "False", color=(0,200,255))
+add_label_text("Middle Mouse Released", "False", color=(0,200,255))
+add_label_text("Right Mouse Released", "False", color=(0,200,255))
+end_window()
+
+# callbacks
+
+set_render_callback("InputPollingMainCallback", "Input Polling##dialog")
+
+def InputPollingMainCallback(sender, data):
+
+    set_value("Mouse Position", str(get_mouse_pos()))
+
+def colormapCallback(sender, data):
+    value = get_value("Colormaps")
+    set_color_map("Plot", value)
+
+def UpdateDrawing(sender, data):
+    set_drawing_origin("drawing##widget", get_value("X Origin"), get_value("Y Origin"))
+    set_drawing_scale("drawing##widget", get_value("X Scale "), get_value("Y Scale"))
+
+def LongAsyncronousCallback(sender, data):
+    run_async_function("LongCallback2", "some_data", return_handler="ReturnFromLongProcess")
+
+def LongCallback(sender, data):
+    for i in range(0, 10000000):
+        pass
+    log_info("Done with long process")
+
+def LongCallback2(sender, data):
+    for i in range(0, 10000000):
+        pass
+    log_info("Done with process from " + data)
+    return 42
+
+def ReturnFromLongProcess(sender, data):
+    log_info("Data returned to main thread: " + str(data))
+
+def Launcher(sender, data):
+ 
+    show_item(sender + "##dialog")
+
+def ThemeCallback(sender, data):
+    set_theme(sender)
+
+def LogCallback(sender, data):
+    show_logger()
+    clear_log()
+    loglevel = get_value("Log Level##logging")
+    set_log_level(loglevel)
+    print("Python Print")
+    log("Trace Message")
+    log_debug("Debug Message")
+    log_info("Info Message")
+    log_warning("Warning Message")
+    log_error("Error Message")
+
+def PlotCallback(sender, data):
+
+    clear_plot("Plot")
+
+    data1 = []
+    for i in range(0, 100):
+        data1.append([3.14*i/180, cos(3*3.14*i/180)])
+
+    data2 = []
+    for i in range(0, 100):
+        data2.append([3.14*i/180, sin(2*3.14*i/180)])
+
+    add_line_series("Plot", "Cos", data1, weight=2, fill=(255, 0, 0, 100))
+    add_scatter_series("Plot", "Sin", data2)
+
+def RetrieveValues(sender, data):
+
+    show_logger()
+    log_info("Data Storage:" + str(get_data("DataStorage1")))
+    log_info("Checkbox: " + str(get_value("Checkbox##widget")))
+    log_info("Combo: " + str(get_value("Combo##widget")))
+    log_info("Radio Button: " + str(get_value("Radio Button##widget")))
+    log_info("Listbox: " + str(get_value("Listbox##widget")))
+    log_info("Progress Bar: " + str(get_value("Progress Bar##widget")))
+    log_info("Selectable: " + str(get_value("Selectable##widget")))
+    log_info("Input Text: " + str(get_value("Input Text##widget")))
+    log_info("Input Float: " + str(get_value("Input Float##widget")))
+    log_info("Input Float2: " + str(get_value("Input Float2##widget")))
+    log_info("Input Float3: " + str(get_value("Input Float3##widget")))
+    log_info("Input Float4: " + str(get_value("Input Float4##widget")))
+    log_info("Input Int: " + str(get_value("Input Int##widget")))
+    log_info("Input Int2: " + str(get_value("Input Int2##widget")))
+    log_info("Input Int3: " + str(get_value("Input Int3##widget")))
+    log_info("Input Int4: " + str(get_value("Input Int4##widget")))
+    log_info("Drag Float: " + str(get_value("Drag Float##widget")))
+    log_info("Drag Float2: " + str(get_value("Drag Float2##widget")))
+    log_info("Drag Float3: " + str(get_value("Drag Float3##widget")))
+    log_info("Drag Float4: " + str(get_value("Drag Float4##widget")))
+    log_info("Drag Int: " + str(get_value("Drag Int##widget")))
+    log_info("Drag Int2: " + str(get_value("Drag Int2##widget")))
+    log_info("Drag Int3: " + str(get_value("Drag Int3##widget")))
+    log_info("Drag Int4: " + str(get_value("Drag Int4##widget")))
+    log_info("Slider Float: " + str(get_value("Slider Float##widget")))
+    log_info("Slider Float2: " + str(get_value("Slider Float2##widget")))
+    log_info("Slider Float3: " + str(get_value("Slider Float3##widget")))
+    log_info("Slider Float4: " + str(get_value("Slider Float4##widget")))
+    log_info("Slider Int: " + str(get_value("Slider Int##widget")))
+    log_info("Slider Int2: " + str(get_value("Slider Int2##widget")))
+    log_info("Slider Int3: " + str(get_value("Slider Int3##widget")))
+    log_info("Slider Int4: " + str(get_value("Slider Int4##widget")))
+    log_info("Color Edit3: " + str(get_value("Color Edit3##widget")))
+    log_info("Color Edit4: " + str(get_value("Color Edit4##widget")))
+    log_info("Color Picker3: " + str(get_value("Color Picker3##widget")))
+    log_info("Color Picker4: " + str(get_value("Color Picker4##widget")))
+    log_info("Tab Bar: " + str(get_value("Tab Bar##widget")))
+
 start_dearpygui()
+start_dearpygui_editor()
