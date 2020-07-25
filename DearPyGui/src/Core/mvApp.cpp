@@ -272,7 +272,7 @@ namespace Marvel {
 
 	void mvApp::addMTCallback(const std::string& name, PyObject* data, const std::string& returnname) 
 	{ 
-		std::lock_guard<std::mutex> lock(m_mutex);
+		Py_XINCREF(data);
 		m_asyncCallbacks.push_back({ name, data, returnname }); 
 	}
 
@@ -292,6 +292,7 @@ namespace Marvel {
 
 	void mvApp::prerender()
 	{
+
 		// check if threadpool is ready to be cleaned up
 		if (m_threadTime > m_threadPoolTimeout)
 		{
@@ -325,7 +326,7 @@ namespace Marvel {
 			while (!m_asyncReturns.empty())
 			{
 				auto& asyncreturn = m_asyncReturns.front();
-				runCallback(asyncreturn.name, "Asyncrounous Callback", asyncreturn.data);
+				runReturnCallback(asyncreturn.name, "Asyncrounous Callback", asyncreturn.data);
 				m_asyncReturns.pop();
 			}
 		}
@@ -370,6 +371,7 @@ namespace Marvel {
 		// resets app items states (i.e. hovered)
 		for (auto window : m_windows)
 			window->resetState();
+
 	}
 
 	void mvApp::render(bool& show)
@@ -542,7 +544,7 @@ namespace Marvel {
 			for (auto& callback : m_asyncCallbacks)
 				m_tpool->submit(std::bind(&mvApp::runAsyncCallback, this, callback.name, callback.data, callback.returnname));
 
-			std::lock_guard<std::mutex> lock(m_mutex);
+			//std::lock_guard<std::mutex> lock(m_mutex);
 			m_asyncCallbacks.clear();
 		}
 
@@ -658,7 +660,10 @@ namespace Marvel {
 	void mvApp::runAsyncCallback(std::string name, PyObject* data, std::string returnname)
 	{
 		if (name.empty())
+		{
+			Py_XDECREF(data);
 			return;
+		}
 
 		mvGlobalIntepreterLock gil;
 
@@ -680,6 +685,7 @@ namespace Marvel {
 
 			}
 			Py_XDECREF(pModules);
+			Py_XDECREF(pModulesKeys);
 		}
 
 		// if callback doesn't exist
@@ -697,9 +703,8 @@ namespace Marvel {
 			PyErr_Clear();
 
 			PyObject* pArgs = PyTuple_New(2);
-			Py_XINCREF(data);
 			PyTuple_SetItem(pArgs, 0, PyUnicode_FromString("Async"));
-			PyTuple_SetItem(pArgs, 1, data);
+			PyTuple_SetItem(pArgs, 1, data); // steals data, so don't deref
 
 			PyObject* result = PyObject_CallObject(pHandler, pArgs);
 
@@ -712,7 +717,7 @@ namespace Marvel {
 
 			if (!returnname.empty())
 			{
-				std::lock_guard<std::mutex> lock(m_mutex);
+				//std::lock_guard<std::mutex> lock(m_mutex);
 				m_asyncReturns.push({ returnname, result });
 			}
 			else
@@ -732,17 +737,45 @@ namespace Marvel {
 			mvAppLog::LogError(name + message);
 		}
 
+		//Py_XDECREF(data);
+
+	}
+
+	void mvApp::runReturnCallback(const std::string& name, const std::string& sender, PyObject* data)
+	{
+		if (name.empty())
+		{
+			if (data != nullptr)
+				Py_XDECREF(data);
+			return;
+		}
+
+
+		if (data == nullptr)
+		{
+			data = Py_None;
+			Py_XINCREF(data);
+		}
+
+		runCallback(name, sender, data);
 	}
 
 	void mvApp::runCallback(const std::string& name, const std::string& sender, PyObject* data)
 	{
 		if (name.empty())
+		{
+			if(data != nullptr)
+				Py_XDECREF(data);
 			return;
+		}
 
 		if (data == nullptr)
+		{
 			data = Py_None;
+			Py_XINCREF(data);
+		}
 
-		//mvGlobalIntepreterLock gil;
+		mvGlobalIntepreterLock gil;
 
 		PyObject* pHandler = PyDict_GetItemString(PyModule_GetDict(PyImport_AddModule("__main__")), name.c_str()); // borrowed
 		if (pHandler == NULL)
@@ -751,7 +784,6 @@ namespace Marvel {
 			PyObject* pModulesKeys = PyDict_Keys(PyImport_GetModuleDict());
 			for (int i = 0; i < PyList_Size(pModules); i++)
 			{
-				//mvAppLog::LogError(_PyUnicode_AsString(PyList_GetItem(pModulesKeys, i)));
 				PyObject* pModule = PyModule_GetDict(PyList_GetItem(pModules, i));
 				if (PyDict_Check(pModule))
 				{
@@ -762,6 +794,7 @@ namespace Marvel {
 
 			}
 			Py_XDECREF(pModules);
+			Py_XDECREF(pModulesKeys);
 		}
 
 		// if callback doesn't exist
@@ -779,9 +812,8 @@ namespace Marvel {
 			PyErr_Clear();
 
 			PyObject* pArgs = PyTuple_New(2);
-			Py_XINCREF(data);
 			PyTuple_SetItem(pArgs, 0, PyUnicode_FromString(sender.c_str()));
-			PyTuple_SetItem(pArgs, 1, data);
+			PyTuple_SetItem(pArgs, 1, data); // steals data, so don't deref
 
 			PyObject* result = PyObject_CallObject(pHandler, pArgs);
 
@@ -807,7 +839,6 @@ namespace Marvel {
 			mvAppLog::LogError(name + message);
 		}
 
-		
 	}
 
 	void mvApp::setAppTheme(const std::string& theme)

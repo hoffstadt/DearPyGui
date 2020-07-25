@@ -104,7 +104,7 @@ namespace Marvel {
 
 		mvApp::GetApp()->precheck();
 		mvApp::SetAppStarted();
-		PyEval_InitThreads();
+		//PyEval_SaveThread();
 
 		// create window
 		mvWindow* window = new mvWindowsWindow(mvApp::GetApp()->getActualWidth(), mvApp::GetApp()->getActualHeight());
