@@ -1,6 +1,7 @@
 #include "mvPythonTranslator.h"
 #include "mvApp.h"
 #include "mvAppLog.h"
+#include "Core/mvPythonExceptions.h"
 
 namespace Marvel {
 
@@ -128,7 +129,7 @@ namespace Marvel {
 
 		if (!PyLong_Check(value))
 		{
-			mvAppLog::LogError(message);
+			ThrowPythonException(message);
 			return 0;
 		}
 
@@ -141,7 +142,7 @@ namespace Marvel {
 
 		if (!PyNumber_Check(value))
 		{
-			mvAppLog::LogError(message);
+			ThrowPythonException(message);
 			return 0.0f;
 		}
 
@@ -154,7 +155,7 @@ namespace Marvel {
 
 		if (!PyBool_Check(value))
 		{
-			mvAppLog::LogError(message);
+			ThrowPythonException(message);
 			return false;
 		}
 
@@ -167,7 +168,7 @@ namespace Marvel {
 
 		if (!PyUnicode_Check(value))
 		{
-			mvAppLog::LogError(message);
+			ThrowPythonException(message);
 			return "";
 		}
 
@@ -202,7 +203,7 @@ namespace Marvel {
 		}
 
 		else
-			mvAppLog::LogError(message);
+			ThrowPythonException(message);
 
 
 		return items;
@@ -235,7 +236,7 @@ namespace Marvel {
 		}
 
 		else
-			mvAppLog::LogError(message);
+			ThrowPythonException(message);
 
 
 		return items;
@@ -268,7 +269,7 @@ namespace Marvel {
 		}
 
 		else
-			mvAppLog::LogError(message);
+			ThrowPythonException(message);
 
 
 		return items;
@@ -346,7 +347,7 @@ namespace Marvel {
 		}
 
 		else
-			mvAppLog::LogError(message);
+			ThrowPythonException(message);
 
 		return items;
 	}
@@ -368,7 +369,7 @@ namespace Marvel {
 		}
 
 		else
-			mvAppLog::LogError(message);
+			ThrowPythonException(message);
 
 		return items;
 	}
@@ -393,7 +394,7 @@ namespace Marvel {
 		}
 
 		else
-			mvAppLog::LogError(message);
+			ThrowPythonException(message);
 
 		return items;
 

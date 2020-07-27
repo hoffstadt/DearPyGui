@@ -2,6 +2,7 @@
 
 #include "mvAppItem.h"
 #include "Core/mvTextureStorage.h"
+#include "Core/mvPythonExceptions.h"
 
 //-----------------------------------------------------------------------------
 // Widget Index
@@ -87,7 +88,7 @@ namespace Marvel {
 			if (!PyUnicode_Check(value))
 			{
 				PyGILState_Release(gstate);
-				mvAppLog::LogError(m_name + " type must be a string.");
+				ThrowPythonException(m_name + " type must be a string.");
 				return;
 			}
 

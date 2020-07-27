@@ -2,6 +2,7 @@
 #include "mvApp.h"
 #include "mvAppLog.h"
 #include <thread>
+#include "Core/mvPythonExceptions.h"
 
 namespace Marvel {
 
@@ -27,7 +28,7 @@ namespace Marvel {
 	{
 		if (std::this_thread::get_id() != mvApp::GetApp()->getMainThreadID())
 		{
-			mvAppLog::LogWarning("Data can not be modified outside main thread.");
+			ThrowPythonException("Data can not be modified outside main thread.");
 			return;
 		}
 
@@ -50,13 +51,13 @@ namespace Marvel {
 	{
 		if (std::this_thread::get_id() != mvApp::GetApp()->getMainThreadID())
 		{
-			mvAppLog::LogWarning("Data can not be modified outside main thread.");
+			ThrowPythonException("Data can not be modified outside main thread.");
 			return;
 		}
 
 		if (s_dataStorage.count(name) == 0)
 		{
-			mvAppLog::LogWarning(name + " does not exists in data storage.");
+			ThrowPythonException(name + " does not exists in data storage.");
 			return;
 		}
 
@@ -68,13 +69,13 @@ namespace Marvel {
 	{
 		if (std::this_thread::get_id() != mvApp::GetApp()->getMainThreadID())
 		{
-			mvAppLog::LogWarning("Data can not be modified outside main thread.");
+			ThrowPythonException("Data can not be modified outside main thread.");
 			return nullptr;
 		}
 
 		if (s_dataStorage.count(name) == 0)
 		{
-			mvAppLog::LogWarning(name + " does not exists in data storage.");
+			ThrowPythonException(name + " does not exists in data storage.");
 			return nullptr;
 		}
 		Py_XINCREF(s_dataStorage.at(name));
