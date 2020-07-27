@@ -255,6 +255,12 @@ namespace Marvel {
 				PyObject* item = PyTuple_GetItem(value, i);
 				if (PyUnicode_Check(item))
 					items.emplace_back(_PyUnicode_AsString(item));
+				else
+				{
+					PyObject* str = PyObject_Str(item);
+					items.emplace_back(_PyUnicode_AsString(str));
+					Py_XDECREF(str);
+				}
 			}
 		}
 
@@ -265,6 +271,12 @@ namespace Marvel {
 				PyObject* item = PyList_GetItem(value, i);
 				if (PyUnicode_Check(item))
 					items.emplace_back(_PyUnicode_AsString(item));
+				else
+				{
+					PyObject* str = PyObject_Str(item);
+					items.emplace_back(_PyUnicode_AsString(str));
+					Py_XDECREF(str);
+				}
 			}
 		}
 
