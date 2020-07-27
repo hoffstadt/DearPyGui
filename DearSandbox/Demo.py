@@ -79,7 +79,7 @@ def DeleteCol(sender, data):
     delete_column("Table##widget", 1)
 
 def AddRow(sender, data):
-    add_row("Table##widget", ["new1", "new2", "new3", "new4"])
+    add_row("Table##widget", ["new1", "new2", "new3", 53])
 
 def AddCol(sender, data):
     add_column("Table##widget", "New Column", ["new1", "new2", "new3", "new4"])
@@ -153,7 +153,7 @@ add_color_edit4("Color Edit4##widget")
 add_color_picker3("Color Picker3##widget", width=300, data_source = "DataStorage2")
 add_color_picker4("Color Picker4##widget", width=300)
 
-add_input_float("Input Float##widget", 5)
+add_input_float("Input Float##widget")
 add_input_float2("Input Float2##widget")
 add_input_float3("Input Float3##widget")
 add_input_float4("Input Float4##widget")
