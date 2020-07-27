@@ -18,11 +18,11 @@ target_include_directories(DearSandbox
 		"../DearPyGui/include/"
 )
 
-target_link_directories(DearSandbox
-
-	PUBLIC
-		"../Dependencies/cpython/PCbuild/amd64/"
-)
+if(CONFIG_32BIT)
+	target_link_directories(DearSandbox PRIVATE "../Dependencies/cpython/PCbuild/win32/")
+else()
+	target_link_directories(DearSandbox PRIVATE "../Dependencies/cpython/PCbuild/amd64/")
+endif()
 
 target_link_libraries(DearSandbox
 
@@ -42,17 +42,31 @@ target_compile_definitions(DearSandbox
 )
 
 add_custom_command(TARGET DearSandbox PRE_BUILD
-                   COMMAND ${CMAKE_COMMAND} -E copy_directory
-                       ${CMAKE_SOURCE_DIR}/Output/python/Debug/ $<TARGET_FILE_DIR:DearSandbox>/Dependencies)
-
-add_custom_command(TARGET DearSandbox PRE_BUILD
-                   COMMAND ${CMAKE_COMMAND} -E copy_if_different
-                       ${CMAKE_SOURCE_DIR}/Output/python/Debug/python3$<$<CONFIG:Debug>:_d>.dll $<TARGET_FILE_DIR:DearSandbox>)
-
-add_custom_command(TARGET DearSandbox PRE_BUILD
-                   COMMAND ${CMAKE_COMMAND} -E copy_if_different
-                       ${CMAKE_SOURCE_DIR}/Output/python/Debug/python38$<$<CONFIG:Debug>:_d>.dll $<TARGET_FILE_DIR:DearSandbox>)
-
-add_custom_command(TARGET DearSandbox PRE_BUILD
                    COMMAND ${CMAKE_COMMAND} -E copy
                        ${CMAKE_SOURCE_DIR}/DearSandbox/dearpygui_config.json $<TARGET_FILE_DIR:DearSandbox>)
+
+if(CONFIG_32BIT)
+	add_custom_command(TARGET DearSandbox PRE_BUILD
+					   COMMAND ${CMAKE_COMMAND} -E copy_directory
+						   ${CMAKE_SOURCE_DIR}/Output/python/Debug32/ $<TARGET_FILE_DIR:DearSandbox>/Dependencies)
+
+	add_custom_command(TARGET DearSandbox PRE_BUILD
+					   COMMAND ${CMAKE_COMMAND} -E copy_if_different
+						   ${CMAKE_SOURCE_DIR}/Output/python/Debug32/python3$<$<CONFIG:Debug>:_d>.dll $<TARGET_FILE_DIR:DearSandbox>)
+
+	add_custom_command(TARGET DearSandbox PRE_BUILD
+					   COMMAND ${CMAKE_COMMAND} -E copy_if_different
+						   ${CMAKE_SOURCE_DIR}/Output/python/Debug32/python38$<$<CONFIG:Debug>:_d>.dll $<TARGET_FILE_DIR:DearSandbox>)
+else()
+	add_custom_command(TARGET DearSandbox PRE_BUILD
+					   COMMAND ${CMAKE_COMMAND} -E copy_directory
+						   ${CMAKE_SOURCE_DIR}/Output/python/Debug/ $<TARGET_FILE_DIR:DearSandbox>/Dependencies)
+
+	add_custom_command(TARGET DearSandbox PRE_BUILD
+					   COMMAND ${CMAKE_COMMAND} -E copy_if_different
+						   ${CMAKE_SOURCE_DIR}/Output/python/Debug/python3$<$<CONFIG:Debug>:_d>.dll $<TARGET_FILE_DIR:DearSandbox>)
+
+	add_custom_command(TARGET DearSandbox PRE_BUILD
+					   COMMAND ${CMAKE_COMMAND} -E copy_if_different
+						   ${CMAKE_SOURCE_DIR}/Output/python/Debug/python38$<$<CONFIG:Debug>:_d>.dll $<TARGET_FILE_DIR:DearSandbox>)
+endif()
