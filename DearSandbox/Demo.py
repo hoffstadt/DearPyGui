@@ -153,7 +153,7 @@ add_color_edit4("Color Edit4##widget")
 add_color_picker3("Color Picker3##widget", width=300, data_source = "DataStorage2")
 add_color_picker4("Color Picker4##widget", width=300)
 
-add_input_float("Input Float##widget")
+add_input_float("Input Float##widget", 5)
 add_input_float2("Input Float2##widget")
 add_input_float3("Input Float3##widget")
 add_input_float4("Input Float4##widget")
@@ -406,4 +406,3 @@ def RetrieveValues(sender, data):
     log_info("Tab Bar: " + str(get_value("Tab Bar##widget")))
 
 start_dearpygui()
-start_dearpygui_editor()

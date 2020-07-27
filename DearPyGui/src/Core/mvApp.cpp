@@ -19,6 +19,7 @@
 #include <chrono>
 #include "Core/mvThreadPool.h"
 #include "Core/AppItems/mvAppItems.h"
+#include <frameobject.h>
 
 namespace Marvel {
 
@@ -124,6 +125,19 @@ namespace Marvel {
 
 		mvTextureStorage::DeleteAllTextures();
 		mvDataStorage::DeleteAllData();
+	}
+
+	bool mvApp::checkIfMainThread()
+	{
+		if (std::this_thread::get_id() != m_mainThreadID)
+		{
+			int line = PyFrame_GetLineNumber(PyEval_GetFrame());
+			PyObject* ex = PyErr_Format(PyExc_Exception,
+				"DearPyGui command on line %d can not be called asycronously", line);
+			PyErr_Print();
+			return false;
+		}
+		return true;
 	}
 
 	void mvApp::routeInputCallbacks()
@@ -261,11 +275,8 @@ namespace Marvel {
 
 	void mvApp::addRuntimeItem(const std::string& parent, const std::string& before, mvAppItem* item) 
 	{ 
-		if (std::this_thread::get_id() != m_mainThreadID)
-		{
-			mvAppLog::LogWarning("This function can't be called outside main thread.");
+		if (!checkIfMainThread())
 			return;
-		}
 
 		m_newItemVec.push_back({ item, before, parent });
 	}
@@ -444,7 +455,7 @@ namespace Marvel {
 			}
 
 			if (!deletedItem)
-				mvAppLog::LogWarning(m_deleteQueue.front() + " not deleted because it was not found");
+				ThrowPythonException(m_deleteQueue.front() + " not deleted because it was not found");
 
 			m_deleteQueue.pop();
 		}
@@ -458,7 +469,7 @@ namespace Marvel {
 			if (auto otheritem = getItem(newItem.item->getName(), true))
 			{
 				std::string message = newItem.item->getName();
-				mvAppLog::LogWarning(message + ": Items of this type must have unique names");
+				ThrowPythonException(message + ": Items of this type must have unique names");
 				delete newItem.item;
 				newItem.item = nullptr;
 				continue;
@@ -479,7 +490,7 @@ namespace Marvel {
 
 			if (!addedItem)
 			{
-				mvAppLog::LogWarning(newItem.item->getName() + " not added because its parent was not found");
+				ThrowPythonException(newItem.item->getName() + " not added because its parent was not found");
 				delete newItem.item;
 				newItem.item = nullptr;
 			}
@@ -503,7 +514,7 @@ namespace Marvel {
 			}
 
 			if (!movedItem)
-				mvAppLog::LogWarning(itemname + " not moved because it was not found");
+				ThrowPythonException(itemname + " not moved because it was not found");
 
 			m_upQueue.pop();
 		}
@@ -523,7 +534,7 @@ namespace Marvel {
 			}
 
 			if (!movedItem)
-				mvAppLog::LogWarning(itemname + " not moved because it was not found");
+				ThrowPythonException(itemname + " not moved because it was not found");
 
 			m_downQueue.pop();
 		}
@@ -565,7 +576,7 @@ namespace Marvel {
 	{
 		if (m_parents.empty())
 		{
-			mvAppLog::LogError("No parent to pop.");
+			ThrowPythonException("No parent to pop.");
 			return nullptr;
 		}
 
@@ -591,11 +602,8 @@ namespace Marvel {
 	mvAppItem* mvApp::getItem(const std::string& name, bool ignoreRuntime)
 	{
 
-		if (std::this_thread::get_id() != m_mainThreadID)
-		{
-			mvAppLog::LogWarning("This function can't be called outside main thread.");
+		if (!checkIfMainThread())
 			return nullptr;
-		}
 
 		mvAppItem* item = nullptr;
 
@@ -620,12 +628,8 @@ namespace Marvel {
 
 	mvAppItem* mvApp::getRuntimeItem(const std::string& name)
 	{
-
-		if (std::this_thread::get_id() != m_mainThreadID)
-		{
-			mvAppLog::LogWarning("This function can't be called outside main thread.");
+		if (!checkIfMainThread())
 			return nullptr;
-		}
 
 		for (auto& item : m_newItemVec)
 		{
@@ -640,11 +644,8 @@ namespace Marvel {
 	mvWindowAppitem* mvApp::getWindow(const std::string& name)
 	{
 
-		if (std::this_thread::get_id() != m_mainThreadID)
-		{
-			mvAppLog::LogWarning("This function can't be called outside main thread.");
+		if (!checkIfMainThread())
 			return nullptr;
-		}
 
 		mvAppItem* item = getRuntimeItem(name);
 		if (item == nullptr)
@@ -693,7 +694,7 @@ namespace Marvel {
 		if (pHandler == NULL)
 		{
 			std::string message(" Callback doesn't exist");
-			mvAppLog::LogWarning(name + message);
+			ThrowPythonException(name + message);
 			
 			return;
 		}
@@ -713,7 +714,7 @@ namespace Marvel {
 			if (!result)
 			{
 				std::string message("Callback failed");
-				mvAppLog::LogError(name + message);
+				ThrowPythonException(name + message);
 			}
 
 			if (!returnname.empty())
@@ -735,7 +736,7 @@ namespace Marvel {
 		else
 		{
 			std::string message(" Callback not callable");
-			mvAppLog::LogError(name + message);
+			ThrowPythonException(name + message);
 		}
 
 		//Py_XDECREF(data);
@@ -802,7 +803,7 @@ namespace Marvel {
 		if (pHandler == NULL)
 		{
 			std::string message(" Callback doesn't exist");
-			mvAppLog::LogWarning(name + message);
+			ThrowPythonException(name + message);
 			return;
 		}
 
@@ -822,7 +823,7 @@ namespace Marvel {
 			if (!result)
 			{
 				std::string message("Callback failed");
-				mvAppLog::LogError(name + message);
+				ThrowPythonException(name + message);
 			}
 
 			Py_XDECREF(pArgs);
@@ -837,7 +838,7 @@ namespace Marvel {
 		else
 		{
 			std::string message(" Callback not callable");
-			mvAppLog::LogError(name + message);
+			ThrowPythonException(name + message);
 		}
 
 	}
@@ -1276,11 +1277,8 @@ namespace Marvel {
 
 	void mvApp::addItem(mvAppItem* item)
 	{
-		if (std::this_thread::get_id() != m_mainThreadID)
-		{
-			mvAppLog::LogWarning("Items can not be added outside main thread.");
+		if (!checkIfMainThread())
 			return;
-		}
 
 		static int count = 0;
 		count++;
@@ -1292,7 +1290,7 @@ namespace Marvel {
 			if (auto otheritem = getItem(item->getName()))
 			{
 				std::string message = item->getName() + " " + std::to_string(count);
-				mvAppLog::LogWarning(message + ": Items of this type must have unique names");
+				ThrowPythonException(message + ": Items of this type must have unique names");
 				return;
 			}
 		}
@@ -1307,11 +1305,8 @@ namespace Marvel {
 
 	void mvApp::addWindow(mvAppItem* item)
 	{
-		if (std::this_thread::get_id() != m_mainThreadID)
-		{
-			mvAppLog::LogWarning("Items can not be added outside main thread.");
+		if (!checkIfMainThread())
 			return;
-		}
 
 		m_windows.push_back(item);
 	}

@@ -185,6 +185,7 @@ namespace Marvel {
 
 		void routeInputCallbacks();
 		void changeTheme();
+		bool checkIfMainThread();
 
 		mvApp          (const mvApp& other) = delete;
 		mvApp          (mvApp&& other)      = delete;

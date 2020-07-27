@@ -4,6 +4,7 @@
 #include "mvPythonTranslator.h"
 #include "mvAppLog.h"
 #include <fstream>
+#include <frameobject.h>
 
 namespace Marvel {
 
@@ -119,10 +120,13 @@ namespace Marvel {
 			const_cast<char**>(m_keywords.data()), arguments))
 		{
 			PyErr_Print();
-			PyErr_SetString(PyExc_Exception, message);
-			PyErr_Print();
 			check = false;
 			mvAppLog::Show();
+			int line = PyFrame_GetLineNumber(PyEval_GetFrame());
+			PyObject* ex = PyErr_Format(PyExc_Exception,
+				"Error parsing DearPyGui %s command on line %d.", message, line);
+			PyErr_Print();
+			Py_XDECREF(ex);
 		}
 
 		va_end(arguments);
