@@ -68,8 +68,13 @@ target_sources(dearpyguiemb PRIVATE ${MARVEL_SOURCES} )
 target_include_directories(dearpygui PRIVATE ${MARVEL_INCLUDE_DIR} )
 target_include_directories(dearpyguiemb PRIVATE ${MARVEL_INCLUDE_DIR} )
 
-target_link_directories(dearpygui PRIVATE "../Dependencies/cpython/PCbuild/amd64/")
-target_link_directories(dearpyguiemb PRIVATE "../Dependencies/cpython/PCbuild/amd64/")
+if(CONFIG_32BIT)
+	target_link_directories(dearpygui PRIVATE "../Dependencies/cpython/PCbuild/win32/")
+	target_link_directories(dearpyguiemb PRIVATE "../Dependencies/cpython/PCbuild/win32/")
+else()
+	target_link_directories(dearpygui PRIVATE "../Dependencies/cpython/PCbuild/amd64/")
+	target_link_directories(dearpyguiemb PRIVATE "../Dependencies/cpython/PCbuild/amd64/")
+endif()
 
 target_link_libraries(dearpygui
 
