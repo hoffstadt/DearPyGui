@@ -16,9 +16,11 @@ In the same manner Dear ImGui provides a simple way to create tools for game dev
 | [Upcoming changes](#upcoming-changes) - [Gallery](#gallery) - [License](#license) - [Current Dependencies](#current-dependencies) - [Prebuilt Binaries](#dearsandbox-prebuilt-binaries)|
 
 ### Installing
+
+---
+
+
 Ensure you have the newest version of Python 3.8 (3.8.5 at the moment).
- ---
- 
  ```
  pip install dearpygui
  or
