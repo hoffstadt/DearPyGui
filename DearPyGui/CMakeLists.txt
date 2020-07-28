@@ -33,8 +33,8 @@ set(MARVEL_SOURCES
 	"src/Core/AppItems/mvDrawing.cpp"
 	"src/Core/AppItems/mvTable.cpp"
 
-	"src/Platform/Windows/mvWindowsWindow.cpp"
-	"src/Platform/Windows/mvUtilities.cpp"
+	"$<$<PLATFORM_ID:Windows>:src/Platform/Windows/mvWindowsWindow.cpp>"
+	"$<$<PLATFORM_ID:Windows>:src/Platform/Windows/mvUtilities.cpp>"
 
 	# implot
 	"src/Vendor/implot/implot.cpp"
@@ -46,8 +46,8 @@ set(MARVEL_SOURCES
 	"../Dependencies/imgui/imgui_demo.cpp"
 	"../Dependencies/imgui/imgui_draw.cpp"
 	"../Dependencies/imgui/imgui_widgets.cpp"
-	"../Dependencies/imgui/examples/imgui_impl_win32.cpp"
-	"../Dependencies/imgui/examples/imgui_impl_dx11.cpp"
+	"$<$<PLATFORM_ID:Windows>:../Dependencies/imgui/examples/imgui_impl_win32.cpp>"
+	"$<$<PLATFORM_ID:Windows>:../Dependencies/imgui/examples/imgui_impl_dx11.cpp>"
 
 )
 
@@ -68,19 +68,23 @@ target_sources(dearpyguiemb PRIVATE ${MARVEL_SOURCES} )
 target_include_directories(dearpygui PRIVATE ${MARVEL_INCLUDE_DIR} )
 target_include_directories(dearpyguiemb PRIVATE ${MARVEL_INCLUDE_DIR} )
 
-if(CONFIG_32BIT)
-	target_link_directories(dearpygui PRIVATE "../Dependencies/cpython/PCbuild/win32/")
-	target_link_directories(dearpyguiemb PRIVATE "../Dependencies/cpython/PCbuild/win32/")
-else()
-	target_link_directories(dearpygui PRIVATE "../Dependencies/cpython/PCbuild/amd64/")
-	target_link_directories(dearpyguiemb PRIVATE "../Dependencies/cpython/PCbuild/amd64/")
+if (WIN32)
+
+	if(CONFIG_32BIT)
+		target_link_directories(dearpygui PRIVATE "../Dependencies/cpython/PCbuild/win32/")
+		target_link_directories(dearpyguiemb PRIVATE "../Dependencies/cpython/PCbuild/win32/")
+	else()
+		target_link_directories(dearpygui PRIVATE "../Dependencies/cpython/PCbuild/amd64/")
+		target_link_directories(dearpyguiemb PRIVATE "../Dependencies/cpython/PCbuild/amd64/")
+	endif()
+
 endif()
 
 target_link_libraries(dearpygui
 
 	PUBLIC
 
-		d3d11
+		$<$<PLATFORM_ID:Windows>:d3d11>
 		$<$<CONFIG:Debug>:python38_d>
 		$<$<CONFIG:Release>:python38>
 )
@@ -96,7 +100,7 @@ target_link_libraries(dearpyguiemb
 
 	PUBLIC
 
-		d3d11
+		$<$<PLATFORM_ID:Windows>:d3d11>
 		$<$<CONFIG:Debug>:python38_d>
 		$<$<CONFIG:Release>:python38>
 )

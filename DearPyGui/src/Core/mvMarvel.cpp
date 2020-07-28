@@ -6,7 +6,10 @@
 #include "Core/StandardWindows/mvSourceWindow.h"
 #include "mvPythonTranslator.h"
 #include "Core/AppItems/mvAppItems.h"
-#include "Platform/Windows/mvWindowsWindow.h"
+#if defined (_WIN32)
+	#include "Platform/Windows/mvWindowsWindow.h"
+#define mvWindowClass mvWindowsWindow
+#endif
 #include "Core/mvPythonExceptions.h"
 
 //-----------------------------------------------------------------------------
@@ -108,7 +111,7 @@ namespace Marvel {
 		//PyEval_SaveThread();
 
 		// create window
-		mvWindow* window = new mvWindowsWindow(mvApp::GetApp()->getActualWidth(), mvApp::GetApp()->getActualHeight());
+		mvWindow* window = new mvWindowClass(mvApp::GetApp()->getActualWidth(), mvApp::GetApp()->getActualHeight());
 		window->show();
 		window->run();
 		delete window;
@@ -123,7 +126,7 @@ namespace Marvel {
 		mvApp::SetAppStarted();
 
 		// create window
-		mvWindow* window = new mvWindowsWindow(mvApp::GetApp()->getActualWidth(), mvApp::GetApp()->getActualHeight(), true);
+		mvWindow* window = new mvWindowClass(mvApp::GetApp()->getActualWidth(), mvApp::GetApp()->getActualHeight(), true);
 		window->show();
 		window->run();
 		delete window;
@@ -136,7 +139,7 @@ namespace Marvel {
 	{
 
 		// create window
-		mvWindow* window = new mvWindowsWindow(mvApp::GetApp()->getActualWidth(), mvApp::GetApp()->getActualHeight(), false, false, true);
+		mvWindow* window = new mvWindowClass(mvApp::GetApp()->getActualWidth(), mvApp::GetApp()->getActualHeight(), false, false, true);
 		window->show();
 		window->run();
 		delete window;
@@ -5236,7 +5239,7 @@ NULL, NULL, 0, NULL
 		PyErr_Print();
 
 		// create window
-		mvWindow* window = new mvWindowsWindow(mvApp::GetApp()->getActualWidth(), mvApp::GetApp()->getActualHeight(), false, true);
+		mvWindow* window = new mvWindowClass(mvApp::GetApp()->getActualWidth(), mvApp::GetApp()->getActualHeight(), false, true);
 		window->show();
 		window->run();
 		delete window;

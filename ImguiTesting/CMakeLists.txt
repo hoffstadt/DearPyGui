@@ -7,7 +7,7 @@ target_sources(PureImgui
 	PRIVATE
 
 		"main.cpp"
-		"src/mvWindowsWindow.cpp"
+		"$<$<PLATFORM_ID:Windows>:src/mvWindowsWindow.cpp>"
 		
 		# implot
 		"../DearPyGui/src/Vendor/implot/implot.cpp"
@@ -18,8 +18,8 @@ target_sources(PureImgui
 		"../Dependencies/imgui/imgui_demo.cpp"
 		"../Dependencies/imgui/imgui_draw.cpp"
 		"../Dependencies/imgui/imgui_widgets.cpp"
-		"../Dependencies/imgui/examples/imgui_impl_win32.cpp"
-		"../Dependencies/imgui/examples/imgui_impl_dx11.cpp"
+		"$<$<PLATFORM_ID:Windows>:../Dependencies/imgui/examples/imgui_impl_win32.cpp>"
+		"$<$<PLATFORM_ID:Windows>:../Dependencies/imgui/examples/imgui_impl_dx11.cpp>"
 
 )
 
@@ -39,6 +39,5 @@ target_link_libraries(PureImgui
 
 	PRIVATE
 
-		d3d11
-
+		$<$<PLATFORM_ID:Windows>:d3d11>
 )
