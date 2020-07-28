@@ -1,12 +1,12 @@
-from dearpygui import *
+from dearpygui.dearpygui import *
 
-add_input_float2("uv_min", default_value = (0, 0), callback="Update")
-add_input_float2("uv_max", default_value = (1, 1), callback="Update" )
+add_input_float2("uv_min", default_value=(0, 0), callback="Update")
+add_input_float2("uv_max", default_value=(1, 1), callback="Update")
 
 add_data("TextureCoordinates", [0, 0, 1, 1])
 
-def Update(sender, data):
 
+def Update(sender, data):
     uvmin = get_value("uv_min")
     uvmax = get_value("uv_max")
     uvminx = uvmin[0]
@@ -17,7 +17,7 @@ def Update(sender, data):
     add_data("TextureCoordinates", [uvminx, uvminy, uvmaxx, uvmaxy])
 
     print(get_data("TextureCoordinates"))
-    
+
 
 add_image("Full", "SpriteMapExample.png")
 add_image("Partial", "SpriteMapExample.png", secondary_data_source="TextureCoordinates")
