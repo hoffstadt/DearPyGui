@@ -18,10 +18,13 @@ target_include_directories(DearSandbox
 		"../DearPyGui/include/"
 )
 
-if(CONFIG_32BIT)
-	target_link_directories(DearSandbox PRIVATE "../Dependencies/cpython/PCbuild/win32/")
-else()
-	target_link_directories(DearSandbox PRIVATE "../Dependencies/cpython/PCbuild/amd64/")
+if (WIN32)
+
+	if(CONFIG_32BIT)
+		target_link_directories(DearSandbox PRIVATE "../Dependencies/cpython/PCbuild/win32/")
+	else()
+		target_link_directories(DearSandbox PRIVATE "../Dependencies/cpython/PCbuild/amd64/")
+	endif()
 endif()
 
 target_link_libraries(DearSandbox
