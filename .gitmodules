@@ -10,3 +10,7 @@
 	path = Dependencies/json
 	url = https://github.com/nlohmann/json
 	branch = master
+[submodule "Dependencies/glfw"]
+	path = Dependencies/glfw
+	url = https://github.com/glfw/glfw
+	branch = master
