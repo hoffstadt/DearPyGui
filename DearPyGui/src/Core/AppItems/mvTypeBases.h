@@ -189,7 +189,7 @@ namespace Marvel {
 
 		virtual void setPyValue(PyObject* value) override
 		{
-			auto ints = mvPythonTranslator::ToIntVect(value, " requires a list or tuple of integers");
+			auto ints = mvPythonTranslator::ToFloatVect(value, " requires a list or tuple of integers");
 			for (int i = 0; i < ints.size(); i++)
 			{
 				if (i > 3)
