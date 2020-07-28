@@ -50,6 +50,9 @@ start_dearpygui()
 ```
 Result:
 <BR>![BasicUsageExample](https://github.com/RaylockLLC/DearPyGui/blob/assets/BasicUsageExample1.PNG?raw=true)
+ 
+ For documentation:
+ [Alpha API Reference/Documentation](https://raylockllc.github.io/DearPyGui/)
 
 ### Some Features
 
