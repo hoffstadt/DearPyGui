@@ -31,7 +31,12 @@ Ensure you have the newest version of Python 3.8 (3.8.5 at the moment).
 
  ---
  
-**DearPyGui is an all included GUI framework.** Using _DearPyGui_ is a simple as creating a python script like the one below:
+**DearPyGui is an all included GUI framework.** A variety of examples demonstrating usage
+can be found in the Examples folder[/Examples](https://github.com/RaylockLLC/DearPyGui/tree/master/Examples).
+Documentation can be found [here](https://raylockllc.github.io/DearPyGui/) or from within the library by 
+using the **show_documentation** command.
+
+Using _DearPyGui_ is a simple as creating a python script like the one below:
 
 Code:
 ```Python
@@ -51,8 +56,6 @@ start_dearpygui()
 Result:
 <BR>![BasicUsageExample](https://github.com/RaylockLLC/DearPyGui/blob/assets/BasicUsageExample1.PNG?raw=true)
  
- For documentation:
- [Alpha API Reference/Documentation](https://raylockllc.github.io/DearPyGui/)
 
 ### Some Features
 
