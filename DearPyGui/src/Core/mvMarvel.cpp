@@ -114,8 +114,8 @@ namespace Marvel {
 		//PyEval_SaveThread();
 
 		// create window
-		mvWindow* window = new mvWindowClass(mvApp::GetApp()->getActualWidth(), mvApp::GetApp()->getActualHeight());
-		window->show();
+		auto window = new mvWindowClass(mvApp::GetApp()->getActualWidth(), mvApp::GetApp()->getActualHeight());
+		//window->show();
 		window->run();
 		delete window;
 		mvApp::DeleteApp();
@@ -129,8 +129,8 @@ namespace Marvel {
 		mvApp::SetAppStarted();
 
 		// create window
-		mvWindow* window = new mvWindowClass(mvApp::GetApp()->getActualWidth(), mvApp::GetApp()->getActualHeight(), true);
-		window->show();
+		auto window = new mvWindowClass(mvApp::GetApp()->getActualWidth(), mvApp::GetApp()->getActualHeight(), true);
+		//window->show();
 		window->run();
 		delete window;
 		mvApp::DeleteApp();
@@ -142,8 +142,8 @@ namespace Marvel {
 	{
 
 		// create window
-		mvWindow* window = new mvWindowClass(mvApp::GetApp()->getActualWidth(), mvApp::GetApp()->getActualHeight(), false, false, true);
-		window->show();
+		auto window = new mvWindowClass(mvApp::GetApp()->getActualWidth(), mvApp::GetApp()->getActualHeight(), false, false, true);
+		//window->show();
 		window->run();
 		delete window;
 		delete mvApp::GetApp();
@@ -5242,8 +5242,8 @@ NULL, NULL, 0, NULL
 		PyErr_Print();
 
 		// create window
-		mvWindow* window = new mvWindowClass(mvApp::GetApp()->getActualWidth(), mvApp::GetApp()->getActualHeight(), false, true);
-		window->show();
+		auto window = new mvWindowClass(mvApp::GetApp()->getActualWidth(), mvApp::GetApp()->getActualHeight(), false, true);
+		//window->show();
 		window->run();
 		delete window;
 		delete mvApp::GetApp();
