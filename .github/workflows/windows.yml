@@ -39,10 +39,4 @@ jobs:
         cd Win64
         dir
         call DistributeTestWheel.bat
-
-    - name: Publish package to TestPyPI
-      uses: pypa/gh-action-pypi-publish@master
-      with:
-        user: RaylockLLC
-        password: ${{ secrets.test_pypi_password }}
-        repository_url: https://test.pypi.org/simple/ dearpygui
+        python3 -m twine upload --repository testpypi ../../dist/* -u __token__ -p ${{ secrets.test_pypi_password }}
