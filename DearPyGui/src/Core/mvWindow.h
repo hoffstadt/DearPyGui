@@ -33,6 +33,7 @@ namespace Marvel {
 		virtual void show      () = 0;
 		virtual void setup     () {}
 		virtual void prerender () {}
+		virtual void render ();
 		virtual void postrender() {}
 		virtual void cleanup   () {}
 

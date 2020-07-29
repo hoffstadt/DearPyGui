@@ -57,8 +57,8 @@ namespace Marvel {
 
 		mvAppItem          (const mvAppItem& other) = delete; // copy constructor
 		mvAppItem          (mvAppItem&& other)      = delete; // move constructor
-		mvAppItem operator=(const mvAppItem& other) = delete; // copy assignment operator
-		mvAppItem operator=(mvAppItem&& other)      = delete; // move assignment operator
+		//mvAppItem operator=(const mvAppItem& other) = delete; // copy assignment operator
+		//mvAppItem operator=(mvAppItem&& other)      = delete; // move assignment operator
 
 		// pure virtual methods
 		virtual mvAppItemType getType      () const = 0;

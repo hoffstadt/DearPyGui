@@ -97,7 +97,9 @@ namespace Marvel {
 		mvAppLog::AddLog("[DearPyGui Version] %0s\n", mvApp::GetVersion());
 		mvAppLog::AddLog("[Python Version] %0s\n", PY_VERSION);
 		mvAppLog::AddLog("[DearImGui Version] %0s\n", IMGUI_VERSION);
-		mvAppLog::AddLog("[Compiler] MSVC version %0d\n", _MSC_VER);
+#if defined (_WIN32)
+		    mvAppLog::AddLog("[Compiler] MSVC version %0d\n", _MSC_VER);
+#endif
 
 		setMainThreadID(std::this_thread::get_id());
 

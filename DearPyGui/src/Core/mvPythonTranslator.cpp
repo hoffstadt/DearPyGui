@@ -60,7 +60,7 @@ namespace Marvel {
 	PyObject* mvPythonTranslator::ToPyPair(const std::string& x, const std::string& y)
 	{
 		mvGlobalIntepreterLock gil;
-		return Py_BuildValue("[ss]", x, y);
+		return Py_BuildValue("[ss]", x.c_str(), y.c_str());
 	}
 
 	PyObject* mvPythonTranslator::ToPyList(const std::vector<int>& value)

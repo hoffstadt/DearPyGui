@@ -1,12 +1,10 @@
 ﻿cmake_minimum_required (VERSION 3.16)
 
 add_library(dearpygui SHARED)
-set_target_properties(dearpygui PROPERTIES SUFFIX ".pyd")
+set_target_properties(dearpygui PROPERTIES SUFFIX ".so")
 set_target_properties(dearpygui PROPERTIES OUTPUT_NAME "dearpygui$<$<CONFIG:Debug>:_d>")
 set_target_properties(dearpygui PROPERTIES CXX_STANDARD 17)
 
-add_library(dearpyguiemb STATIC)
-set_target_properties(dearpyguiemb PROPERTIES CXX_STANDARD 17)
 
 set(MARVEL_SOURCES
 
@@ -19,7 +17,8 @@ set(MARVEL_SOURCES
 	"src/Core/mvTextureStorage.cpp"
 	"src/Core/mvPythonTranslator.cpp"
 	"src/Core/mvPythonParser.cpp"
-	"src/Core/mvMarvel.cpp"
+	"$<$<PLATFORM_ID:Windows>:src/Core/mvMarvel.cpp>"
+	"$<$<PLATFORM_ID:Darwin>:src/Core/mvMarvel.mm>"
 
 	"src/Core/StandardWindows/mvStandardWindow.cpp"
 	"src/Core/StandardWindows/mvAppEditor.cpp"
@@ -36,6 +35,9 @@ set(MARVEL_SOURCES
 	"$<$<PLATFORM_ID:Windows>:src/Platform/Windows/mvWindowsWindow.cpp>"
 	"$<$<PLATFORM_ID:Windows>:src/Platform/Windows/mvUtilities.cpp>"
 
+	"$<$<PLATFORM_ID:Darwin>:src/Platform/Apple/mvAppleWindow.mm>"
+	"$<$<PLATFORM_ID:Darwin>:src/Platform/Apple/mvAppleUtilities.cpp>"
+
 	# implot
 	"src/Vendor/implot/implot.cpp"
 	"src/Vendor/implot/implot_demo.cpp"
@@ -48,6 +50,8 @@ set(MARVEL_SOURCES
 	"../Dependencies/imgui/imgui_widgets.cpp"
 	"$<$<PLATFORM_ID:Windows>:../Dependencies/imgui/examples/imgui_impl_win32.cpp>"
 	"$<$<PLATFORM_ID:Windows>:../Dependencies/imgui/examples/imgui_impl_dx11.cpp>"
+	"$<$<PLATFORM_ID:Darwin>:../Dependencies/imgui/examples/imgui_impl_metal.mm>"
+	"$<$<PLATFORM_ID:Darwin>:../Dependencies/imgui/examples/imgui_impl_glfw.cpp>"
 
 )
 
@@ -55,6 +59,7 @@ set(MARVEL_INCLUDE_DIR
 
 	"include/"
 	"src/"
+	"../Dependencies/glfw/include/"
 	"../Dependencies/imgui/"
 	"../Dependencies/imgui/examples/"
 	"../Dependencies/cpython/Include/"
@@ -62,31 +67,30 @@ set(MARVEL_INCLUDE_DIR
 	"src/Vendor/stb/"
 )
 
+FIND_PACKAGE(Python3 COMPONENTS Development)
+
 target_sources(dearpygui PRIVATE ${MARVEL_SOURCES} )
-target_sources(dearpyguiemb PRIVATE ${MARVEL_SOURCES} )
-
-target_include_directories(dearpygui PRIVATE ${MARVEL_INCLUDE_DIR} )
-target_include_directories(dearpyguiemb PRIVATE ${MARVEL_INCLUDE_DIR} )
-
-if (WIN32)
-
-	if(CONFIG_32BIT)
-		target_link_directories(dearpygui PRIVATE "../Dependencies/cpython/PCbuild/win32/")
-		target_link_directories(dearpyguiemb PRIVATE "../Dependencies/cpython/PCbuild/win32/")
-	else()
-		target_link_directories(dearpygui PRIVATE "../Dependencies/cpython/PCbuild/amd64/")
-		target_link_directories(dearpyguiemb PRIVATE "../Dependencies/cpython/PCbuild/amd64/")
-	endif()
-
-endif()
+#target_include_directories(dearpygui PRIVATE ${MARVEL_INCLUDE_DIR} "../Output/Python.framework/Versions/3.8/include/python3.8")
+target_include_directories(dearpygui PRIVATE ${MARVEL_INCLUDE_DIR} ${PYTHON_INCLUDE_DIR})
+target_link_directories(dearpygui
+		PRIVATE
+		${PYTHON_LIBRARIES})
+SET_PROPERTY(TARGET dearpygui APPEND_STRING PROPERTY COMPILE_FLAGS "-fobjc-arc -Wno-unused-result -Wsign-compare -Wunreachable-code -fno-common -dynamic -DNDEBUG -g -fwrapv -O3 -Wall")
 
 target_link_libraries(dearpygui
 
-	PUBLIC
+	PRIVATE
 
-		$<$<PLATFORM_ID:Windows>:d3d11>
-		$<$<CONFIG:Debug>:python38_d>
-		$<$<CONFIG:Release>:python38>
+		glfw
+		#python3.8
+		Python3::Python
+		"-framework Python"
+		"-framework Metal"
+		"-framework MetalKit"
+		"-framework Cocoa"
+		"-framework CoreVideo"
+		"-framework IOKit"
+		"-framework QuartzCore"
 )
 
 target_compile_definitions(dearpygui
@@ -95,20 +99,3 @@ target_compile_definitions(dearpygui
 
 		$<$<CONFIG:Release>:MV_RELEASE>
 )
-
-target_link_libraries(dearpyguiemb
-
-	PUBLIC
-
-		$<$<PLATFORM_ID:Windows>:d3d11>
-		$<$<CONFIG:Debug>:python38_d>
-		$<$<CONFIG:Release>:python38>
-)
-
-target_compile_definitions(dearpyguiemb
-
-	PUBLIC
-
-		$<$<CONFIG:Release>:MV_RELEASE>
-)
-
