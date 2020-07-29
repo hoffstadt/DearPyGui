@@ -41,11 +41,11 @@ jobs:
     - name: distrubute
       run: |
         cd ..
-        cd Distribution/Apple
+        cd /Users/runner/work/DearPyGui/DearPyGui/Distribution/Apple
         DistributeTestWheel.sh
 
     - uses: actions/upload-artifact@v2
       with:
         name: dearpygui
-        path: /Users/runner/work/DearPyGui/DearPyGui/Apple/dist
+        path: /Users/runner/work/DearPyGui/DearPyGui/Distribution/Apple/dist
         #path: /Users/runner/work/DearPyGui/DearPyGui/cmake-build-release/DearPyGui/dearpygui.so
