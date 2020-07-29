@@ -34,7 +34,7 @@ jobs:
       shell: cmd
       run: |
         cmake --build cmake-build-release --config Release
-        cmake --build cmake-build-release32 --config Release --build build_32 -DCONFIG_32BIT=ON
+        cmake --build cmake-build-release32 --config Release -G "Visual Studio 16 2019" -A Win32 -DCONFIG_32BIT=True
 
     - name: Distrubute Test DearPyGui
       shell: cmd
