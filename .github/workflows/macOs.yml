@@ -2,9 +2,9 @@ name: MacOs
 
 on:
   push:
-    branches: [ macos ]
+    branches: [ master ]
   pull_request:
-    branches: [ macos ]
+    branches: [ master ]
     
 jobs:
 
@@ -49,4 +49,4 @@ jobs:
       if: ${{!startsWith(github.ref, 'ref/tags/')}}
       run: |
         cd /Users/runner/work/DearPyGui/DearPyGui/Distribution/Apple
-        python3 -m twine upload --repository ../../dist/* -u __token__ -p ${{ secrets.pypi_password }}
+        python3 -m twine upload ../../dist/* -u __token__ -p ${{ secrets.pypi_password }}

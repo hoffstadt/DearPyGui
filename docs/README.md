@@ -1,5 +1,6 @@
 # Dear PyGui
 [![build status](https://github.com/RaylockLLC/DearPyGui/workflows/Windows/badge.svg)](https://github.com/RaylockLLC/DearPyGui/actions?workflow=Windows)
+[![build status](https://github.com/RaylockLLC/DearPyGui/workflows/MacOs/badge.svg)](https://github.com/RaylockLLC/DearPyGui/actions?workflow=MacOs)
 ![Python Version](https://img.shields.io/pypi/pyversions/dearpygui)
 ![PYPI](https://img.shields.io/pypi/v/dearpygui)
 
