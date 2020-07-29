@@ -23,7 +23,7 @@ jobs:
       run: |
         cd Dependencies/cpython
         ./configure --enable-framework
-        make && make install
+        sudo make && sudo make install
         cd ..
         cd ..
         mkdir cmake-build-release
