@@ -14,7 +14,7 @@ class BinaryDistribution(Distribution):
 
 setup(
     name='dearpygui',  # Required
-    version='0.1.0a24',  # Required
+    version='0.1.0a101',  # Required
     description='DearPyGui',  # Required
     long_description=long_description,  # Optional
     long_description_content_type='text/markdown',  # Optional (see note above)

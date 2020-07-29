@@ -2,9 +2,9 @@ name: Windows
 
 on:
   push:
-    branches: [ master ]
+    branches: [ macos ]
   pull_request:
-    branches: [ master ]
+    branches: [ macos ]
     
 jobs:
 
@@ -33,3 +33,14 @@ jobs:
     - name: build
       run: |
         cmake --build cmake-build-release --config Release
+        cd ..
+        cd Distribution
+        cd Win64
+        DistributeTestWheel.bat
+
+    - name: Publish package to TestPyPI
+      uses: pypa/gh-action-pypi-publish@master
+      with:
+        user: RaylockLLC
+        password: ${{ secrets.test_pypi_password }}
+        repository_url: https://test.pypi.org/simple/ dearpygui
