@@ -303,7 +303,7 @@ namespace Marvel {
 
     public:
 
-        mvThreadPool::mvThreadPool(unsigned threadcount) :
+        mvThreadPool(unsigned threadcount) :
             m_done(false), m_joiner(m_threads)
         {
 

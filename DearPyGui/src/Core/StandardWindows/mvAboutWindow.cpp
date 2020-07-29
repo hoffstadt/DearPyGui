@@ -43,7 +43,9 @@ namespace Marvel {
 			ImGui::Text("define: __cplusplus=%d", (int)__cplusplus);
 			ImGui::Text("define: _WIN32");
 			ImGui::Text("define: _WIN64");
+#if defined (_WIN32)
 			ImGui::Text("define: _MSC_VER=%d", _MSC_VER);
+#endif
 			ImGui::Separator();
 			ImGui::Text("io.BackendPlatformName: %s", io.BackendPlatformName ? io.BackendPlatformName : "NULL");
 			ImGui::Text("io.BackendRendererName: %s", io.BackendRendererName ? io.BackendRendererName : "NULL");
