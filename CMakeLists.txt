@@ -15,7 +15,6 @@ add_subdirectory ("Dependencies/json")
 
 if(WIN32)
 	add_subdirectory ("DearSandbox")
-	
 else()
 	add_subdirectory ("Dependencies/glfw")
 endif()

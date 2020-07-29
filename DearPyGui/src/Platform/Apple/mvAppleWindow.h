@@ -16,6 +16,7 @@ namespace Marvel {
         mvAppleWindow(unsigned width, unsigned height, bool editor = false, bool error = false, bool doc = false);
         ~mvAppleWindow();
 
+        void show() {}
         void run() {render();}
         void render();
         void cleanup();
