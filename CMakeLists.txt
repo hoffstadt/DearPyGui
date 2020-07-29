@@ -6,7 +6,7 @@ set(JSON_BuildTests OFF CACHE INTERNAL "")
 set(CONFIG_32BIT ${CONFIG_32BIT})
 
 add_definitions(-D_USE_MATH_DEFINES)
-add_definitions(-DMV_SANDBOX_VERSION="0.1 alpha 25")
+add_definitions(-DMV_SANDBOX_VERSION="0.1 alpha 26")
 
 # Include sub-projects.
 add_subdirectory ("ImguiTesting")
