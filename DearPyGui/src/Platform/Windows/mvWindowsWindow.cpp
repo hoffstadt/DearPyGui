@@ -7,9 +7,24 @@ extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg
 
 namespace Marvel {
 
-	mvWindowsWindow::mvWindowsWindow(unsigned width, unsigned height, bool editor, bool error, bool doc) 
-		: mvWindow(width, height, editor, error, doc)
+	mvWindowsWindow::mvWindowsWindow(unsigned width, unsigned height, bool editor, bool error, bool doc)
 	{
+		m_app = mvApp::GetAppStandardWindow();
+		m_appEditor = new mvAppEditor();
+		m_documentation = mvDocWindow::GetWindow();
+
+		if (m_error)
+		{
+			mvAppLog::ShowMain();
+			mvAppLog::setSize(width, height);
+		}
+
+		else if (m_doc)
+		{
+			m_documentation->setToMainMode();
+			m_documentation->setSize(width, height);
+		}
+
 		m_wc = { sizeof(WNDCLASSEX), CS_CLASSDC, HandleMsgSetup, 0L, 0L, GetModuleHandle(NULL), NULL, NULL, NULL, NULL, _T("DearPyGui Example"), NULL };
 		RegisterClassEx(&m_wc);
 
@@ -80,6 +95,51 @@ namespace Marvel {
 		ImGui_ImplDX11_NewFrame();
 		ImGui_ImplWin32_NewFrame();
 		ImGui::NewFrame();
+	}
+
+	void mvWindowsWindow::render()
+	{
+
+	}
+
+	void mvWindowsWindow::run()
+	{
+
+		setup();
+		while (m_running)
+		{
+			prerender();
+
+			if (m_error)
+			{
+				mvAppLog::setSize(m_width, m_height);
+				mvAppLog::render();
+			}
+
+			else if (m_editor)
+			{
+				m_appEditor->prerender();
+				m_appEditor->render(m_editor);
+				m_appEditor->postrender();
+			}
+
+			else if (m_doc)
+			{
+				m_documentation->prerender();
+				m_documentation->render(m_doc);
+				m_documentation->postrender();
+			}
+
+			else if (!m_error)
+			{
+				m_app->prerender();
+				m_app->render(m_running);
+				m_app->postrender();
+			}
+
+			postrender();
+		}
+
 	}
 
 	void mvWindowsWindow::postrender()

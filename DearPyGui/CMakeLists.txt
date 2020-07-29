@@ -1,12 +1,24 @@
 ﻿cmake_minimum_required (VERSION 3.16)
 
-FIND_PACKAGE(Python3 COMPONENTS Development)
+if(WIN32)
 
-add_library(dearpygui SHARED)
-set_target_properties(dearpygui PROPERTIES SUFFIX ".so")
-SET_TARGET_PROPERTIES(dearpygui PROPERTIES PREFIX "")
-#set_target_properties(dearpygui PROPERTIES OUTPUT_NAME "dearpygui$<$<CONFIG:Debug>:_d>")
-set_target_properties(dearpygui PROPERTIES CXX_STANDARD 17)
+	add_library(dearpygui SHARED)
+	set_target_properties(dearpygui PROPERTIES SUFFIX ".pyd")
+	set_target_properties(dearpygui PROPERTIES OUTPUT_NAME "dearpygui$<$<CONFIG:Debug>:_d>")
+	set_target_properties(dearpygui PROPERTIES CXX_STANDARD 17)
+
+	add_library(dearpyguiemb STATIC)
+	set_target_properties(dearpyguiemb PROPERTIES CXX_STANDARD 17)
+
+elseif(APPLE)
+
+	find_package(Python3 COMPONENTS Development)
+	add_library(dearpygui SHARED)
+	set_target_properties(dearpygui PROPERTIES SUFFIX ".so")
+	SET_TARGET_PROPERTIES(dearpygui PROPERTIES PREFIX "")
+	set_target_properties(dearpygui PROPERTIES CXX_STANDARD 17)
+
+endif()
 
 set(MARVEL_SOURCES
 
@@ -34,7 +46,7 @@ set(MARVEL_SOURCES
 	"src/Core/AppItems/mvDrawing.cpp"
 	"src/Core/AppItems/mvTable.cpp"
 
-	#"$<$<PLATFORM_ID:Windows>:src/Platform/Windows/mvWindowsWindow.cpp>"
+	"$<$<PLATFORM_ID:Windows>:src/Platform/Windows/mvWindowsWindow.cpp>"
 	"$<$<PLATFORM_ID:Windows>:src/Platform/Windows/mvUtilities.cpp>"
 
 	"$<$<PLATFORM_ID:Darwin>:src/Platform/Apple/mvAppleWindow.mm>"
@@ -71,30 +83,72 @@ set(MARVEL_INCLUDE_DIR
 
 
 
-target_sources(dearpygui PRIVATE ${MARVEL_SOURCES} )
-#target_include_directories(dearpygui PRIVATE ${MARVEL_INCLUDE_DIR} "../Output/Python.framework/Versions/3.8/include/python3.8")
-target_include_directories(dearpygui PRIVATE ${MARVEL_INCLUDE_DIR} ${PYTHON_INCLUDE_DIR})
-target_link_directories(dearpygui
+
+if(WIN32)
+
+	target_sources(dearpygui PRIVATE ${MARVEL_SOURCES} )
+	target_sources(dearpyguiemb PRIVATE ${MARVEL_SOURCES} )
+
+	target_include_directories(dearpygui PRIVATE ${MARVEL_INCLUDE_DIR} )
+	target_include_directories(dearpyguiemb PRIVATE ${MARVEL_INCLUDE_DIR} )
+
+	if(CONFIG_32BIT)
+		target_link_directories(dearpygui PRIVATE "../Dependencies/cpython/PCbuild/win32/")
+		target_link_directories(dearpyguiemb PRIVATE "../Dependencies/cpython/PCbuild/win32/")
+	else()
+		target_link_directories(dearpygui PRIVATE "../Dependencies/cpython/PCbuild/amd64/")
+		target_link_directories(dearpyguiemb PRIVATE "../Dependencies/cpython/PCbuild/amd64/")
+	endif()
+
+	target_link_libraries(dearpygui
+
+		PUBLIC
+
+			$<$<PLATFORM_ID:Windows>:d3d11>
+			$<$<CONFIG:Debug>:python38_d>
+			$<$<CONFIG:Release>:python38>
+	)
+
+	target_link_libraries(dearpyguiemb
+
+		PUBLIC
+
+			$<$<PLATFORM_ID:Windows>:d3d11>
+			$<$<CONFIG:Debug>:python38_d>
+			$<$<CONFIG:Release>:python38>
+	)
+
+	target_compile_definitions(dearpyguiemb
+
+		PUBLIC
+
+			$<$<CONFIG:Release>:MV_RELEASE>
+	)
+
+elseif(APPLE)
+
+	target_sources(dearpygui PRIVATE ${MARVEL_SOURCES} )
+	target_include_directories(dearpygui PRIVATE ${MARVEL_INCLUDE_DIR} ${PYTHON_INCLUDE_DIR})
+	target_link_directories(dearpygui PRIVATE ${PYTHON_LIBRARIES})
+	SET_PROPERTY(TARGET dearpygui APPEND_STRING PROPERTY COMPILE_FLAGS "-fobjc-arc -Wno-unused-result -Wsign-compare -Wunreachable-code -fno-common -dynamic -DNDEBUG -g -fwrapv -O3 -Wall")
+
+	target_link_libraries(dearpygui
+
 		PRIVATE
-		${PYTHON_LIBRARIES})
-SET_PROPERTY(TARGET dearpygui APPEND_STRING PROPERTY COMPILE_FLAGS "-fobjc-arc -Wno-unused-result -Wsign-compare -Wunreachable-code -fno-common -dynamic -DNDEBUG -g -fwrapv -O3 -Wall")
 
-target_link_libraries(dearpygui
+			glfw
+			"-undefined dynamic_lookup"
+			"-framework Metal"
+			"-framework MetalKit"
+			"-framework Cocoa"
+			"-framework CoreVideo"
+			"-framework IOKit"
+			"-framework QuartzCore"
+	)
 
-	PRIVATE
+endif()
 
-		glfw
-		"-undefined dynamic_lookup"
-		#python3.8
-		#Python3::Python
-		#"-framework Python"
-		"-framework Metal"
-		"-framework MetalKit"
-		"-framework Cocoa"
-		"-framework CoreVideo"
-		"-framework IOKit"
-		"-framework QuartzCore"
-)
+
 
 target_compile_definitions(dearpygui
 

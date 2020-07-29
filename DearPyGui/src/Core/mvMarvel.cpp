@@ -115,7 +115,7 @@ namespace Marvel {
 
 		// create window
 		auto window = new mvWindowClass(mvApp::GetApp()->getActualWidth(), mvApp::GetApp()->getActualHeight());
-		//window->show();
+		window->show();
 		window->run();
 		delete window;
 		mvApp::DeleteApp();
@@ -130,7 +130,7 @@ namespace Marvel {
 
 		// create window
 		auto window = new mvWindowClass(mvApp::GetApp()->getActualWidth(), mvApp::GetApp()->getActualHeight(), true);
-		//window->show();
+		window->show();
 		window->run();
 		delete window;
 		mvApp::DeleteApp();
@@ -143,7 +143,7 @@ namespace Marvel {
 
 		// create window
 		auto window = new mvWindowClass(mvApp::GetApp()->getActualWidth(), mvApp::GetApp()->getActualHeight(), false, false, true);
-		//window->show();
+		window->show();
 		window->run();
 		delete window;
 		delete mvApp::GetApp();
@@ -5243,7 +5243,7 @@ NULL, NULL, 0, NULL
 
 		// create window
 		auto window = new mvWindowClass(mvApp::GetApp()->getActualWidth(), mvApp::GetApp()->getActualHeight(), false, true);
-		//window->show();
+		window->show();
 		window->run();
 		delete window;
 		delete mvApp::GetApp();
