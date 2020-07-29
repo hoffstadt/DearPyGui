@@ -27,14 +27,18 @@ jobs:
         call BuildPythonForWindows.bat --ci
         cd ..
         mkdir cmake-build-release
+        mkdir cmake-build-release32
         cd cmake-build-release
         cmake ..
+        cd ..
+        cd cmake-build-release32
+        cmake .. -G "Visual Studio 16 2019" -A Win32 -DCONFIG_32BIT=True
         
     - name: Build DearPyGui
       shell: cmd
       run: |
         cmake --build cmake-build-release --config Release
-        cmake --build cmake-build-release32 --config Release -G "Visual Studio 16 2019" -A Win32 -DCONFIG_32BIT=True
+        cmake --build cmake-build-release32 --config Release 
 
     - name: Distrubute Test DearPyGui
       shell: cmd
