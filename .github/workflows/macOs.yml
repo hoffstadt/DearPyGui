@@ -21,8 +21,9 @@ jobs:
     
     - name: configure
       run: |
+        brew install openssl
         cd Dependencies/cpython
-        ./configure --enable-framework
+        ./configure --enable-framework --with-openssl=$(brew --prefix openssl)
         sudo make && sudo make install
         cp pyconfig.h Include/pyconfig.h
         cd ..
