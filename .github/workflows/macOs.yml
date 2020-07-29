@@ -21,6 +21,11 @@ jobs:
     
     - name: configure
       run: |
+        cd Dependencies/cpython
+        ./configure --enable-framework
+        make && make install
+        cd ..
+        cd ..
         mkdir cmake-build-release
         cd cmake-build-release
         cmake ..
