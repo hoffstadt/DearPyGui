@@ -27,6 +27,7 @@ if(APPLE)
 
 		PRIVATE
 			"main.mm"
+			"src/mvAppleWindow.mm"
 
 
 			# implot
