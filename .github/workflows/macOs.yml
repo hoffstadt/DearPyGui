@@ -24,6 +24,7 @@ jobs:
         cd Dependencies/cpython
         ./configure --enable-framework
         sudo make && sudo make install
+        cp pyconfig.h Include/pyconfig.h
         cd ..
         cd ..
         mkdir cmake-build-release
