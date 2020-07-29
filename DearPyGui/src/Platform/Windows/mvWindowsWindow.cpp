@@ -8,6 +8,7 @@ extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg
 namespace Marvel {
 
 	mvWindowsWindow::mvWindowsWindow(unsigned width, unsigned height, bool editor, bool error, bool doc)
+		: m_width(width), m_height(height), m_editor(editor), m_error(error), m_doc(doc)
 	{
 		m_app = mvApp::GetAppStandardWindow();
 		m_appEditor = new mvAppEditor();

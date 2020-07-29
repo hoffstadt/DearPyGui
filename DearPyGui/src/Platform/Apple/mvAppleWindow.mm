@@ -20,6 +20,7 @@ namespace Marvel {
     }
 
     mvAppleWindow::mvAppleWindow(unsigned width, unsigned height, bool editor, bool error, bool doc)
+        : m_width(width), m_height(height), m_editor(editor), m_error(error), m_doc(doc)
     {
         // Setup Dear ImGui binding
         IMGUI_CHECKVERSION();
