@@ -8,7 +8,7 @@ on:
     
 jobs:
 
-  build-macOS:
+  build-MacOS:
     
     runs-on: MacOS-latest
 
@@ -27,6 +27,8 @@ jobs:
         cp pyconfig.h Include/pyconfig.h
         cd ..
         cd ..
+        pip3 install wheel
+        pip3 install twine
         mkdir cmake-build-release
         cd cmake-build-release
         cmake ..
@@ -35,7 +37,14 @@ jobs:
       run: |
         cmake --build cmake-build-release --config Release
 
+    - name: distrubute
+      run: |
+        cd ..
+        cd Distribution/Apple
+        DistributeTestWheel.sh
+
     - uses: actions/upload-artifact@v2
       with:
         name: dearpygui
-        path: /Users/runner/work/DearPyGui/DearPyGui/cmake-build-release/DearPyGui/dearpygui.so
+        path: /Users/runner/work/DearPyGui/DearPyGui/Apple/dist
+        #path: /Users/runner/work/DearPyGui/DearPyGui/cmake-build-release/DearPyGui/dearpygui.so
