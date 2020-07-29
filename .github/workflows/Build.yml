@@ -1,4 +1,4 @@
-name: Windows
+name: Build
 
 on:
   push:
@@ -52,9 +52,43 @@ jobs:
         call "%dir%..\..\Dependencies\cpython\PCbuild\win32\python.exe" "%dir%..\..\Distribution\win32\BuildPythonWheel.py"
         call "%dir%..\..\Dependencies\cpython\PCbuild\win32\python.exe" -m setup bdist_wheel --plat-name win32 --dist-dir ../../dist
         call "%dir%..\..\Dependencies\cpython\PCbuild\amd64\python.exe" -m twine upload --repository testpypi ../../dist/* -u __token__ -p ${{ secrets.test_pypi_password }}
-
-    - name: Distrubute Release DearPyGui
-      if: ${{startsWith(github.ref, 'refs/tags/')}}
-      shell: cmd
-      run: |
         call "%dir%..\..\Dependencies\cpython\PCbuild\amd64\python.exe" -m twine upload ../../dist/* -u __token__ -p ${{ secrets.pypi_password }}
+
+  build-MacOS:
+    
+    runs-on: MacOS-latest
+
+    steps:
+
+    - uses: actions/checkout@v2
+
+    - name: Retrieve submodules
+      run: git submodule update --init --recursive
+    
+    - name: configure
+      run: |
+        brew install openssl
+        cd Dependencies/cpython
+        ./configure --enable-framework --with-openssl=$(brew --prefix openssl)
+        sudo make && sudo make install
+        cp pyconfig.h Include/pyconfig.h
+        cd ..
+        cd ..
+        pip3 install wheel
+        pip3 install twine
+        mkdir cmake-build-release
+        cd cmake-build-release
+        cmake ..
+
+    - name: build
+      run: |
+        cmake --build cmake-build-release --config Release
+
+    - name: Distrubute Test DearPyGui
+      run: |
+        cd /Users/runner/work/DearPyGui/DearPyGui/Distribution/Apple
+        python3 BuildPythonWheel.py
+        python3 -m setup bdist_wheel --plat-name macosx-10.6-x86_64 --dist-dir ../../dist
+        python3 -m twine upload --repository testpypi ../../dist/* -u __token__ -p ${{ secrets.test_pypi_password }}
+        cd /Users/runner/work/DearPyGui/DearPyGui/Distribution/Apple
+        python3 -m twine upload ../../dist/* -u __token__ -p ${{ secrets.pypi_password }}
