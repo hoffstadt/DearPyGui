@@ -33,7 +33,6 @@ jobs:
     - name: build
       run: |
         cmake --build cmake-build-release --config Release
-        cd ..
         cd Distribution
         cd Win64
         DistributeTestWheel.bat
