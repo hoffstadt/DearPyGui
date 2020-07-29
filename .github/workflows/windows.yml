@@ -20,7 +20,7 @@ jobs:
       shell: cmd
       run: git submodule update --init --recursive
       
-    - name: configure
+    - name: Build Python
       shell: cmd
       run: |
         cd Scripts
@@ -30,13 +30,16 @@ jobs:
         cd cmake-build-release
         cmake ..
         
-    - name: build
+    - name: Build DearPyGui
       shell: cmd
       run: |
         cmake --build cmake-build-release --config Release
-        dir
+
+    - name: Distrubute DearPyGui
+      shell: cmd
+      run: |
         cd Distribution
         cd Win64
-        dir
-        call DistributeTestWheel.bat
-        python -m twine upload --repository testpypi ../../dist/* -u __token__ -p ${{ secrets.test_pypi_password }}
+        call "%dir%..\..\Dependencies\cpython\PCbuild\amd64\python.exe" "%dir%..\..\Distribution\Win64\BuildPythonWheel.py"
+        call "%dir%..\..\Dependencies\cpython\PCbuild\amd64\python.exe" -m setup bdist_wheel --plat-name win_amd64 --dist-dir ../../dist
+        call "%dir%..\..\Dependencies\cpython\PCbuild\amd64\python.exe" -m twine upload --repository testpypi ../../dist/* -u __token__ -p ${{ secrets.test_pypi_password }}
