@@ -18,7 +18,13 @@ jobs:
 
     - name: Retrieve submodules
       run: git submodule update --init --recursive
-        
+    
+    - name: configure
+      run: |
+        mkdir cmake-build-release
+        cd cmake-build-release
+        cmake ..
+
     - name: build
       run: |
         cmake --build cmake-build-release --config Release
