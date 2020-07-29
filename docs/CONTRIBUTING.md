@@ -7,7 +7,7 @@ We would rather core library contributers hold off until we are finished making 
 
 In the meantime the best ways to contribute:
 
-- Add sample apps to _AppSamples_ directory
+- Add sample apps to _Examples_ directory
 - Improve the documentation
 - Improve the wiki
 - Offer feature suggestions
