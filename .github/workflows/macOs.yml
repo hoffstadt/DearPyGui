@@ -10,7 +10,7 @@ jobs:
 
   build-macOS:
     
-    runs-on: macOS-latest
+    runs-on: MacOS-latest
 
     steps:
 
@@ -38,4 +38,4 @@ jobs:
     - uses: actions/upload-artifact@v2
       with:
         name: dearpygui
-        path: DearPyGui/dearpygui.so
+        path: ./DearPyGui/dearpygui.so
