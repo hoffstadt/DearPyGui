@@ -14,8 +14,10 @@
     <style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
     <script>window.addEventListener('DOMContentLoaded', () => hljs.initHighlighting())</script>
     <style>
-        #welcome a {font-weight: bold;}
+        #about a {font-weight: bold;}
     </style>
+    <link href="code_style.css" rel="stylesheet" type="text/css">
+    <script src="rainbow-custom.min.js"></script>
 </head>
 
 <body>
@@ -24,30 +26,65 @@
 </header>
 <hr>
 <main id="content">
-    <article id="welcome">
-        <h2>Welcome</h2>
+    <article id="what" ><a href="#what"></a>
+        <h2>What is DearPyGui</h2>
         <hr>
-        <h4>
-            Updated: July 27, 2020
-        </h4>
         <p>
-            If you are new to DearPyGui, please start with the <a href="#">Getting Started</a> and follow with the <a href="#">Examples</a> as you go. If you are already familiar with DearPyGui, please refer to the <a href="https://github.com/RaylockLLC/DearPyGui/#dear-pygui">ReadMe</a> for the latest news. Also you can jump directly to the <a href="api_docs.html">API Reference</a> to find out more about the topic you are interested in.
+            DearPyGui is a simple to use (but powerful) Python GUI framework. DearPyGui provides a wrapping of DearImGui that simulates a traditional retained mode GUI, as opposed to Dear ImGui's immediate mode paradigm.
+            <br>
+            <br>
+            Under the hood, DearPyGui uses the immediate mode paradigm allowing for extremely dynamic interfaces. Similar to PyQt, DearPyGui does not use native widgets but instead draws the widgets using your computer's graphics card (using Directx11, Metal, and Vulkan rendering APIs).
+            <br>
+            <br>
+            In the same manner Dear ImGui provides a simple way to create tools for game developers, DearPyGui provides a simple way for python developers to create quick and powerful GUIs for scripts.
         </p>
     </article>
-    <article id="docs">
-        <h3>Docs</h3>
+    <article id="why" ><a href="#why"></a>
+        <h2>Why use DearPyGui</h2>
         <hr>
-        <ul>
-            <li><a href="getting_started.html">Getting Started</a></li>
-            <li><a href="api_docs.html">API Reference</a></li>
-        </ul>
+        <p>
+            When compared with other Python GUI libraries DearPyGui is unique with
+            <ul>
+                <li>Retain mode paradigm while using the Graphics Card for rendering</li>
+                <li>Simple built in Asynchronous function support</li>
+                <li>Prebuilt or custom themes and styles</li>
+                <li>Simple built in logging</li>
+                <li>70+ widgets with hundreds of widget combinations</li>
+                <li>Detailed documentation, examples and unparalleled support</li>
+            </ul>
+        </p>
     </article>
-    <article id="other">
-        <h3>Other Info</h3>
+    <article id="install" ><a href="#install"></a>
+        <h2>Installing</h2>
         <hr>
-        <ul>
-            <li>MIT License - DearPyGui is licensed under the MIT License.</li>
-        </ul>
+        <p>
+            Ensure you have the newest version of Python 3.8 (3.8.5) at the moment.
+        </p>
+        <pre><code data-language="python">pip install dearpygui</code></pre>
+        <p>or</p>
+        <pre><code data-language="python">pip3 install dearpygui</code></pre>
+    </article>
+    <article id="usage" ><a href="#usage"></a>
+        <h2>Usage</h2>
+        <hr>
+        <p>
+            A variety of examples demonstrating usage can be found in the <a href="#">Examples</a> docs. Documentation can be found here and also from within the library by using the show_documentation command.
+            <br><br>
+            Using DearPyGui is a simple as creating a python script like the one below:
+        </p>
+<div class="code">
+<pre><code data-language="python">from dearpygui.dearpygui import *
+
+add_text("Hello world")
+add_button("Save", callback="SaveCallback")
+add_input_text("string")
+add_slider_float("float")
+
+def SaveCallback(sender, data):
+    print("Save Clicked")
+start_dearpygui()
+</code></pre>
+</div>
     </article>
 </main>
 </body>
