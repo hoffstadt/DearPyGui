@@ -34,3 +34,8 @@ jobs:
     - name: build
       run: |
         cmake --build cmake-build-release --config Release
+
+    - uses: actions/upload-artifact@v2
+      with:
+        name: dearpygui
+        path: DearPyGui/dearpygui.so
