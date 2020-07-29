@@ -49,8 +49,8 @@ jobs:
         call "%dir%..\..\Dependencies\cpython\PCbuild\win32\python.exe" -m setup bdist_wheel --plat-name win32 --dist-dir ../../dist
         call "%dir%..\..\Dependencies\cpython\PCbuild\amd64\python.exe" -m twine upload --repository testpypi ../../dist/* -u __token__ -p ${{ secrets.test_pypi_password }}
 
-    - name: Distrubute  Release DearPyGui
-      if: !startsWith(github.ref, 'ref/tags/')
+    - name: Distrubute Release DearPyGui
+      if: ${{!startsWith(github.ref, 'ref/tags/')}}
       shell: cmd
       run: |
         call "%dir%..\..\Dependencies\cpython\PCbuild\amd64\python.exe" -m twine upload ../../dist/* -u __token__ -p ${{ secrets.pypi_password }}
