@@ -42,7 +42,8 @@ jobs:
       run: |
         cd ..
         cd /Users/runner/work/DearPyGui/DearPyGui/Distribution/Apple
-        DistributeTestWheel.sh
+        chmod +x ./DistributeTestWheel.sh
+        ./DistributeTestWheel.sh
 
     - uses: actions/upload-artifact@v2
       with:
