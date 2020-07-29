@@ -6,7 +6,4 @@ call "%dir%..\..\Dependencies\cpython\PCbuild\amd64\python.exe" "%dir%..\..\Dist
 echo Building DearPyGui Wheel
 call "%dir%..\..\Dependencies\cpython\PCbuild\amd64\python.exe" -m setup bdist_wheel --plat-name win_amd64 --dist-dir ../../dist
 
-echo Building DearPyGui Wheel
-rem call "%dir%..\..\Dependencies\cpython\PCbuild\amd64\python.exe" -m twine upload --repository testpypi ../../dist/*
-
 pause
