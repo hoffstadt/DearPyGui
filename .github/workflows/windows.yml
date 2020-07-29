@@ -34,12 +34,23 @@ jobs:
       shell: cmd
       run: |
         cmake --build cmake-build-release --config Release
+        cmake --build cmake-build-release32 --config Release --build build_32 -DCONFIG_32BIT=ON
 
-    - name: Distrubute DearPyGui
+    - name: Distrubute Test DearPyGui
       shell: cmd
       run: |
         cd Distribution
         cd Win64
         call "%dir%..\..\Dependencies\cpython\PCbuild\amd64\python.exe" "%dir%..\..\Distribution\Win64\BuildPythonWheel.py"
         call "%dir%..\..\Dependencies\cpython\PCbuild\amd64\python.exe" -m setup bdist_wheel --plat-name win_amd64 --dist-dir ../../dist
+        cd ..
+        cd Win32
+        call "%dir%..\..\Dependencies\cpython\PCbuild\win32\python.exe" "%dir%..\..\Distribution\win32\BuildPythonWheel.py"
+        call "%dir%..\..\Dependencies\cpython\PCbuild\win32\python.exe" -m setup bdist_wheel --plat-name win32 --dist-dir ../../dist
         call "%dir%..\..\Dependencies\cpython\PCbuild\amd64\python.exe" -m twine upload --repository testpypi ../../dist/* -u __token__ -p ${{ secrets.test_pypi_password }}
+
+    - name: Distrubute  Release DearPyGui
+      if: !startsWith(github.ref, 'ref/tags/')
+      shell: cmd
+      run: |
+        call "%dir%..\..\Dependencies\cpython\PCbuild\amd64\python.exe" -m twine upload ../../dist/* -u __token__ -p ${{ secrets.pypi_password }}
