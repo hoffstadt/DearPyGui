@@ -39,4 +39,4 @@ jobs:
         cd Win64
         dir
         call DistributeTestWheel.bat
-        python3 -m twine upload --repository testpypi ../../dist/* -u __token__ -p ${{ secrets.test_pypi_password }}
+        python -m twine upload --repository testpypi ../../dist/* -u __token__ -p ${{ secrets.test_pypi_password }}
