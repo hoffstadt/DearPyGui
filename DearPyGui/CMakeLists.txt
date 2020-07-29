@@ -64,7 +64,7 @@ set(MARVEL_INCLUDE_DIR
 	"../Dependencies/glfw/include/"
 	"../Dependencies/imgui/"
 	"../Dependencies/imgui/examples/"
-	#"../Dependencies/cpython/Include/"
+	"../Dependencies/cpython/Include/"
 	"src/Vendor/implot/"
 	"src/Vendor/stb/"
 )
