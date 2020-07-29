@@ -11,6 +11,11 @@ add_definitions(-DMV_SANDBOX_VERSION="0.1 alpha 24")
 # Include sub-projects.
 add_subdirectory ("ImguiTesting")
 add_subdirectory ("DearPyGui")
-add_subdirectory ("DearSandbox")
 add_subdirectory ("Dependencies/json")
-add_subdirectory ("Dependencies/glfw")
+
+if(WIN32)
+	add_subdirectory ("DearSandbox")
+	
+else()
+	add_subdirectory ("Dependencies/glfw")
+endif()
