@@ -1,10 +1,12 @@
 ﻿cmake_minimum_required (VERSION 3.16)
 
+FIND_PACKAGE(Python3 COMPONENTS Development)
+
 add_library(dearpygui SHARED)
 set_target_properties(dearpygui PROPERTIES SUFFIX ".so")
-set_target_properties(dearpygui PROPERTIES OUTPUT_NAME "dearpygui$<$<CONFIG:Debug>:_d>")
+SET_TARGET_PROPERTIES(dearpygui PROPERTIES PREFIX "")
+#set_target_properties(dearpygui PROPERTIES OUTPUT_NAME "dearpygui$<$<CONFIG:Debug>:_d>")
 set_target_properties(dearpygui PROPERTIES CXX_STANDARD 17)
-
 
 set(MARVEL_SOURCES
 
@@ -32,7 +34,7 @@ set(MARVEL_SOURCES
 	"src/Core/AppItems/mvDrawing.cpp"
 	"src/Core/AppItems/mvTable.cpp"
 
-	"$<$<PLATFORM_ID:Windows>:src/Platform/Windows/mvWindowsWindow.cpp>"
+	#"$<$<PLATFORM_ID:Windows>:src/Platform/Windows/mvWindowsWindow.cpp>"
 	"$<$<PLATFORM_ID:Windows>:src/Platform/Windows/mvUtilities.cpp>"
 
 	"$<$<PLATFORM_ID:Darwin>:src/Platform/Apple/mvAppleWindow.mm>"
@@ -67,7 +69,7 @@ set(MARVEL_INCLUDE_DIR
 	"src/Vendor/stb/"
 )
 
-FIND_PACKAGE(Python3 COMPONENTS Development)
+
 
 target_sources(dearpygui PRIVATE ${MARVEL_SOURCES} )
 #target_include_directories(dearpygui PRIVATE ${MARVEL_INCLUDE_DIR} "../Output/Python.framework/Versions/3.8/include/python3.8")
@@ -82,9 +84,10 @@ target_link_libraries(dearpygui
 	PRIVATE
 
 		glfw
+		"-undefined dynamic_lookup"
 		#python3.8
-		Python3::Python
-		"-framework Python"
+		#Python3::Python
+		#"-framework Python"
 		"-framework Metal"
 		"-framework MetalKit"
 		"-framework Cocoa"

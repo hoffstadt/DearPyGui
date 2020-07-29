@@ -14,12 +14,12 @@
 namespace Marvel {
 
 
-    static void glfw_error_callback(int error, const char *description) {
+    static void glfw_error_callback(int error, const char *description)
+    {
         fprintf(stderr, "Glfw Error %d: %s\n", error, description);
     }
 
-    mvAppleWindow::mvAppleWindow(unsigned width, unsigned height, bool editor, bool error, bool doc) :
-            mvWindow(width, height)
+    mvAppleWindow::mvAppleWindow(unsigned width, unsigned height, bool editor, bool error, bool doc)
     {
         // Setup Dear ImGui binding
         IMGUI_CHECKVERSION();
@@ -55,57 +55,92 @@ namespace Marvel {
         nswin.contentView.wantsLayer = YES;
 
         m_renderPassDescriptor = [MTLRenderPassDescriptor new];
-    }
 
-    void mvAppleWindow::setup() {
+        m_app = mvApp::GetAppStandardWindow();
+        m_appEditor = new mvAppEditor();
+        m_documentation = mvDocWindow::GetWindow();
 
-    }
-
-    void mvAppleWindow::prerender() {
-        m_running = !glfwWindowShouldClose(m_window);
-
-        @autoreleasepool {
-            // Poll and handle events (inputs, window resize, etc.)
-            // You can read the io.WantCaptureMouse, io.WantCaptureKeyboard flags to tell if dear imgui wants to use your inputs.
-            // - When io.WantCaptureMouse is true, do not dispatch mouse input data to your main application.
-            // - When io.WantCaptureKeyboard is true, do not dispatch keyboard input data to your main application.
-            // Generally you may always pass all inputs to dear imgui, and hide them from your application based on those two flags.
-            glfwPollEvents();
-
-            int width, height;
-            glfwGetFramebufferSize(m_window, &width, &height);
-            m_layer.drawableSize = CGSizeMake(width, height);
-            id <CAMetalDrawable> drawable = [m_layer nextDrawable];
-
-            id <MTLCommandBuffer> commandBuffer = [m_commandQueue commandBuffer];
-            m_renderPassDescriptor.colorAttachments[0].clearColor = MTLClearColorMake(m_clear_color[0],
-                                                                                      m_clear_color[1],
-                                                                                      m_clear_color[2],
-                                                                                      m_clear_color[3]);
-            m_renderPassDescriptor.colorAttachments[0].texture = drawable.texture;
-            m_renderPassDescriptor.colorAttachments[0].loadAction = MTLLoadActionClear;
-            m_renderPassDescriptor.colorAttachments[0].storeAction = MTLStoreActionStore;
-            id <MTLRenderCommandEncoder> m_renderEncoder = [commandBuffer renderCommandEncoderWithDescriptor:m_renderPassDescriptor];
-            [m_renderEncoder pushDebugGroup:@"ImGui demo"];
-
-            // Start the Dear ImGui frame
-            ImGui_ImplMetal_NewFrame(m_renderPassDescriptor);
-            ImGui_ImplGlfw_NewFrame();
-            ImGui::NewFrame();
-
-            render();
-
-            // Rendering
-            ImGui::Render();
-            ImGui_ImplMetal_RenderDrawData(ImGui::GetDrawData(), commandBuffer, m_renderEncoder);
-
-            [m_renderEncoder popDebugGroup];
-            [m_renderEncoder endEncoding];
-
-            [commandBuffer presentDrawable:drawable];
-            [commandBuffer commit];
+        if (m_error)
+        {
+            mvAppLog::ShowMain();
+            mvAppLog::setSize(width, height);
         }
 
+        else if (m_doc)
+        {
+            m_documentation->setToMainMode();
+            m_documentation->setSize(width, height);
+        }
+    }
+
+    mvAppleWindow::~mvAppleWindow()
+    {
+        cleanup();
+        delete m_appEditor;
+        m_appEditor = nullptr;
+    }
+
+    void mvAppleWindow::render() {
+
+        while(!glfwWindowShouldClose(m_window))
+        {
+            @autoreleasepool {
+                // Poll and handle events (inputs, window resize, etc.)
+                // You can read the io.WantCaptureMouse, io.WantCaptureKeyboard flags to tell if dear imgui wants to use your inputs.
+                // - When io.WantCaptureMouse is true, do not dispatch mouse input data to your main application.
+                // - When io.WantCaptureKeyboard is true, do not dispatch keyboard input data to your main application.
+                // Generally you may always pass all inputs to dear imgui, and hide them from your application based on those two flags.
+                glfwPollEvents();
+
+                int width, height;
+                glfwGetFramebufferSize(m_window, &width, &height);
+                m_layer.drawableSize = CGSizeMake(width, height);
+                id <CAMetalDrawable> drawable = [m_layer nextDrawable];
+
+                id <MTLCommandBuffer> commandBuffer = [m_commandQueue commandBuffer];
+                m_renderPassDescriptor.colorAttachments[0].clearColor = MTLClearColorMake(m_clear_color[0],
+                                                                                          m_clear_color[1],
+                                                                                          m_clear_color[2],
+                                                                                          m_clear_color[3]);
+                m_renderPassDescriptor.colorAttachments[0].texture = drawable.texture;
+                m_renderPassDescriptor.colorAttachments[0].loadAction = MTLLoadActionClear;
+                m_renderPassDescriptor.colorAttachments[0].storeAction = MTLStoreActionStore;
+                id <MTLRenderCommandEncoder> m_renderEncoder = [commandBuffer renderCommandEncoderWithDescriptor:m_renderPassDescriptor];
+                [m_renderEncoder pushDebugGroup:@"ImGui demo"];
+
+                // Start the Dear ImGui frame
+                ImGui_ImplMetal_NewFrame(m_renderPassDescriptor);
+                ImGui_ImplGlfw_NewFrame();
+                ImGui::NewFrame();
+
+                if (m_error) {
+                    mvAppLog::setSize(m_width, m_height);
+                    mvAppLog::render();
+                } else if (m_editor) {
+                    m_appEditor->prerender();
+                    m_appEditor->render(m_editor);
+                    m_appEditor->postrender();
+                } else if (m_doc) {
+                    m_documentation->prerender();
+                    m_documentation->render(m_doc);
+                    m_documentation->postrender();
+                } else if (!m_error) {
+                    m_app->prerender();
+                    m_app->render(m_running);
+                    m_app->postrender();
+                }
+
+                // Rendering
+                ImGui::Render();
+                ImGui_ImplMetal_RenderDrawData(ImGui::GetDrawData(), commandBuffer, m_renderEncoder);
+
+                [m_renderEncoder popDebugGroup];
+                [m_renderEncoder endEncoding];
+
+                [commandBuffer presentDrawable:drawable];
+                [commandBuffer commit];
+            }
+        }
     }
 
     void mvAppleWindow::cleanup() {
