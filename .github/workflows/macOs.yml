@@ -46,7 +46,7 @@ jobs:
         python3 -m twine upload --repository testpypi ../../dist/* -u __token__ -p ${{ secrets.test_pypi_password }}
 
     - name: Distrubute Release DearPyGui
-      if: ${{!startsWith(github.ref, 'ref/tags/')}}
+      if: ${{startsWith(github.ref, 'ref/tags/')}}
       run: |
         cd /Users/runner/work/DearPyGui/DearPyGui/Distribution/Apple
         python3 -m twine upload ../../dist/* -u __token__ -p ${{ secrets.pypi_password }}
