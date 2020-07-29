@@ -1,0 +1,25 @@
+name: Windows
+
+on:
+  push:
+    branches: [ macos ]
+  pull_request:
+    branches: [ macos ]
+    
+jobs:
+
+  build-macOS:
+    
+    runs-on: macOS-latest
+
+    steps:
+
+    - uses: actions/checkout@v2
+
+    - name: Retrieve submodules
+      shell: cmd
+      run: git submodule update --init --recursive
+        
+    - name: build
+      run: |
+        cmake --build cmake-build-release --config Release
