@@ -1,4 +1,4 @@
-name: MacOs
+name: MacOS
 
 on:
   push:
