@@ -1,10 +1,10 @@
-name: MacOS
+name: MacOSDev
 
 on:
   push:
-    branches: [ master ]
+    branches: [ development ]
   pull_request:
-    branches: [ master ]
+    branches: [ development ]
     
 jobs:
 
@@ -34,7 +34,7 @@ jobs:
         cd cmake-build-release
         cmake ..
 
-    - name: build
+    - name: Build DearPyGui
       run: |
         cmake --build cmake-build-release --config Release
 
@@ -44,9 +44,3 @@ jobs:
         python3 BuildPythonWheel.py
         python3 -m setup bdist_wheel --plat-name macosx-10.6-x86_64 --dist-dir ../../dist
         python3 -m twine upload --repository testpypi ../../dist/* -u __token__ -p ${{ secrets.test_pypi_password }}
-
-    - name: Distrubute Release DearPyGui
-      if: ${{startsWith(github.ref, 'refs/tags/')}}
-      run: |
-        cd /Users/runner/work/DearPyGui/DearPyGui/Distribution/Apple
-        python3 -m twine upload ../../dist/* -u __token__ -p ${{ secrets.pypi_password }}
