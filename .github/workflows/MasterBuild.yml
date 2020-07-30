@@ -60,8 +60,6 @@ jobs:
         cp pyconfig.h Include/pyconfig.h
         cd ..
         cd ..
-        pip3 install wheel
-        pip3 install twine
         mkdir cmake-build-release
         cd cmake-build-release
         cmake ..
