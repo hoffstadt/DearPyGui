@@ -1,7 +1,8 @@
 # Dear PyGui
 <sub>(This library is available under a free and permissive license)</sub>
 
-[![build status](https://github.com/RaylockLLC/DearPyGui/workflows/Build/badge.svg)](https://github.com/RaylockLLC/DearPyGui/actions?workflow=Build)
+[![build status](https://github.com/RaylockLLC/DearPyGui/workflows/StableBuild/badge.svg)](https://github.com/RaylockLLC/DearPyGui/actions?workflow=StableBuild)
+[![build status](https://github.com/RaylockLLC/DearPyGui/workflows/MasterBuild/badge.svg)](https://github.com/RaylockLLC/DearPyGui/actions?workflow=MasterBuild)
 [![build status](https://github.com/RaylockLLC/DearPyGui/workflows/WindowsDev/badge.svg)](https://github.com/RaylockLLC/DearPyGui/actions?workflow=WindowsDev)
 [![build status](https://github.com/RaylockLLC/DearPyGui/workflows/MacOSDev/badge.svg)](https://github.com/RaylockLLC/DearPyGui/actions?workflow=MacOSDev)
 ![Python Version](https://img.shields.io/pypi/pyversions/dearpygui)
