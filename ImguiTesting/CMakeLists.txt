@@ -2,11 +2,11 @@
 
 add_executable (PureImgui)
 
-
 target_sources(PureImgui
 
 	PRIVATE
 
+		"$<$<PLATFORM_ID:Linux>:main.cpp>"
 		"$<$<PLATFORM_ID:Windows>:main.cpp>"
 		"$<$<PLATFORM_ID:Darwin>:main.mm>"
 		"$<$<PLATFORM_ID:Darwin>:src/mvAppleWindow.mm>"
@@ -26,12 +26,15 @@ target_sources(PureImgui
 		"$<$<PLATFORM_ID:Windows>:../Dependencies/imgui/examples/imgui_impl_dx11.cpp>"
 		"$<$<PLATFORM_ID:Darwin>:../Dependencies/imgui/examples/imgui_impl_metal.mm>"
 		"$<$<PLATFORM_ID:Darwin>:../Dependencies/imgui/examples/imgui_impl_glfw.cpp>"
+
+		"$<$<PLATFORM_ID:Linux>:../Dependencies/imgui/examples/libs/gl3w/GL/gl3w.c>"
+		"$<$<PLATFORM_ID:Linux>:../Dependencies/imgui/examples/imgui_impl_glfw.cpp>"
+		"$<$<PLATFORM_ID:Linux>:../Dependencies/imgui/examples/imgui_impl_opengl3.cpp>"
 		)
 
 
 
 if(APPLE)
-
 	SET_PROPERTY(TARGET PureImgui APPEND_STRING PROPERTY COMPILE_FLAGS "-fobjc-arc")
 
 	set(CMAKE_EXE_LINKER_FLAGS "\
@@ -41,7 +44,11 @@ if(APPLE)
 		-framework IOKit \
 		-framework CoreVideo \
 		-framework QuartzCore")
+elseif(UNIX)
+	SET_PROPERTY(TARGET PureImgui APPEND_STRING PROPERTY COMPILE_FLAGS "-g -Wall -Wformat")
+	add_definitions(-DIMGUI_IMPL_OPENGL_LOADER_GL3W)
 endif()
+
 
 target_include_directories(PureImgui
 
@@ -49,8 +56,10 @@ target_include_directories(PureImgui
 
 		"src/"
 		"../Dependencies/glfw/include/"
+		"../Dependencies/glfw/deps/"
 		"../Dependencies/imgui/"
 		"../Dependencies/imgui/examples/"
+		"../Dependencies/imgui/examples/libs/gl3w"
 		"../DearPyGui/src/Vendor/implot/"
 		"../DearPyGui/src/Vendor/stb/"
 
@@ -60,6 +69,8 @@ target_link_libraries(PureImgui
 
 	PRIVATE
 
+		$<$<PLATFORM_ID:Linux>:GL>
+		$<$<PLATFORM_ID:Linux>:glfw>
 		$<$<PLATFORM_ID:Darwin>:glfw>
 		$<$<PLATFORM_ID:Windows>:d3d11>
 
