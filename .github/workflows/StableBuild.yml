@@ -1,10 +1,10 @@
-name: Build
+name: Stable Build
 
 on:
   push:
-    branches: [ master ]
+    branches: [ stable ]
   pull_request:
-    branches: [ master ]
+    branches: [ stable ]
     
 jobs:
 
@@ -40,7 +40,7 @@ jobs:
         cmake --build cmake-build-release --config Release
         cmake --build cmake-build-release32 --config Release 
 
-    - name: Distrubute Test DearPyGui
+    - name: Distrubute Release DearPyGui
       shell: cmd
       run: |
         cd Distribution
@@ -83,7 +83,7 @@ jobs:
       run: |
         cmake --build cmake-build-release --config Release
 
-    - name: Distrubute Test DearPyGui
+    - name: Distrubute Release DearPyGui
       run: |
         cd /Users/runner/work/DearPyGui/DearPyGui/Distribution/Apple
         python3 BuildPythonWheel.py
