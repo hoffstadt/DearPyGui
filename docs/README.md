@@ -2,11 +2,13 @@
 <sub>(This library is available under a free and permissive license)</sub>
 
 [![build status](https://github.com/RaylockLLC/DearPyGui/workflows/Stable%20Build/badge.svg)](https://github.com/RaylockLLC/DearPyGui/actions?workflow=Stable%20Build)
+![Python Version](https://img.shields.io/pypi/pyversions/dearpygui)
+![PYPI](https://img.shields.io/pypi/v/dearpygui)
+
 [![build status](https://github.com/RaylockLLC/DearPyGui/workflows/Master%20Build/badge.svg)](https://github.com/RaylockLLC/DearPyGui/actions?workflow=Master%20Build)
 [![build status](https://github.com/RaylockLLC/DearPyGui/workflows/WindowsDev/badge.svg)](https://github.com/RaylockLLC/DearPyGui/actions?workflow=WindowsDev)
 [![build status](https://github.com/RaylockLLC/DearPyGui/workflows/MacOSDev/badge.svg)](https://github.com/RaylockLLC/DearPyGui/actions?workflow=MacOSDev)
-![Python Version](https://img.shields.io/pypi/pyversions/dearpygui)
-![PYPI](https://img.shields.io/pypi/v/dearpygui)
+
 
 
 
