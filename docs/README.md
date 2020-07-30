@@ -1,12 +1,14 @@
 # Dear PyGui
 <sub>(This library is available under a free and permissive license)</sub>
 
-[![build status](https://github.com/RaylockLLC/DearPyGui/workflows/StableBuild/badge.svg)](https://github.com/RaylockLLC/DearPyGui/actions?workflow=StableBuild)
-[![build status](https://github.com/RaylockLLC/DearPyGui/workflows/MasterBuild/badge.svg)](https://github.com/RaylockLLC/DearPyGui/actions?workflow=MasterBuild)
-[![build status](https://github.com/RaylockLLC/DearPyGui/workflows/WindowsDev/badge.svg)](https://github.com/RaylockLLC/DearPyGui/actions?workflow=WindowsDev)
-[![build status](https://github.com/RaylockLLC/DearPyGui/workflows/MacOSDev/badge.svg)](https://github.com/RaylockLLC/DearPyGui/actions?workflow=MacOSDev)
+[![build status](https://github.com/RaylockLLC/DearPyGui/workflows/Stable%20Build/badge.svg)](https://github.com/RaylockLLC/DearPyGui/actions?workflow=Stable%20Build)
 ![Python Version](https://img.shields.io/pypi/pyversions/dearpygui)
 ![PYPI](https://img.shields.io/pypi/v/dearpygui)
+
+[![build status](https://github.com/RaylockLLC/DearPyGui/workflows/Master%20Build/badge.svg)](https://github.com/RaylockLLC/DearPyGui/actions?workflow=Master%20Build)
+[![build status](https://github.com/RaylockLLC/DearPyGui/workflows/WindowsDev/badge.svg)](https://github.com/RaylockLLC/DearPyGui/actions?workflow=WindowsDev)
+[![build status](https://github.com/RaylockLLC/DearPyGui/workflows/MacOSDev/badge.svg)](https://github.com/RaylockLLC/DearPyGui/actions?workflow=MacOSDev)
+
 
 
 
@@ -42,7 +44,7 @@ Ensure you have the newest version of Python 3.8 (3.8.5 at the moment).
 **DearPyGui is an all included GUI framework.** A variety of examples demonstrating usage
 can be found in the Examples folder [/Examples](https://github.com/RaylockLLC/DearPyGui/tree/master/Examples).
 Documentation can be found [here](https://raylockllc.github.io/DearPyGui/) or from within the library by 
-using the **show_documentation** command.
+using the **show_documentation** command. Please note that some features are not yet available for Mac(images, file dialogs, etc.).
 
 Using _DearPyGui_ is a simple as creating a python script like the one below:
 

@@ -39,7 +39,7 @@ namespace Marvel {
 
         // Create window with graphics context
         glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
-        m_window = glfwCreateWindow(1280, 720, "Dear ImGui GLFW+Metal example", NULL, NULL);
+        m_window = glfwCreateWindow(1280, 720, "DearPyGui", NULL, NULL);
 
 
         id <MTLDevice> device = MTLCreateSystemDefaultDevice();;
