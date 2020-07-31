@@ -3,8 +3,13 @@ from codecs import open
 from os import path
 
 #with open("README.md", encoding='utf-8') as f:
-with open("../../docs/README.md") as f:
+with open("../docs/README.md") as f:
     long_description = f.read()
+
+with open("distinfo.text") as file:
+    lines = file.readlines()
+    DEARPYGUI_FILE = lines[0]
+    DEARPYGUI_VERSION = lines[1]
 
 
 class BinaryDistribution(Distribution):
@@ -14,7 +19,7 @@ class BinaryDistribution(Distribution):
 
 setup(
     name='dearpygui',  # Required
-    version='0.1.0dev1',  # Required
+    version=DEARPYGUI_VERSION,  # Required
     description='DearPyGui',  # Required
     long_description=long_description,  # Optional
     long_description_content_type='text/markdown',  # Optional (see note above)
@@ -29,7 +34,7 @@ setup(
     ],
     packages=find_packages(exclude=['contrib', 'docs', 'tests']),  # Required
     package_data={  # Optional
-    'dearpygui': ['dearpygui.so', "dearpygui.pyi"],
+    'dearpygui': [DEARPYGUI_FILE, "dearpygui.pyi"],
     },
     distclass=BinaryDistribution
 

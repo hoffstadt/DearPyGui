@@ -1,4 +1,4 @@
 # Include the README
-include ../../docs/*.md
+include ../docs/*.md
 # Include the license file
-include ../../LICENSE
+include ../LICENSE
