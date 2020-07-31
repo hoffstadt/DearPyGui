@@ -44,9 +44,9 @@ jobs:
       shell: cmd
       run: |
         cd Distribution
-        call "%dir%..\Dependencies\cpython\PCbuild\amd64\python.exe" "%dir%..\Distribution\Win64\BuildPythonWheel.py" /../cmake-build-release/DearPyGui/Release/dearpygui.pyd dearpygui.pyd
+        call "%dir%..\Dependencies\cpython\PCbuild\amd64\python.exe" "%dir%..\Distribution\BuildPythonWheel.py" /../cmake-build-release/DearPyGui/Release/dearpygui.pyd dearpygui.pyd
         call "%dir%..\Dependencies\cpython\PCbuild\amd64\python.exe" -m setup bdist_wheel --plat-name win_amd64 --dist-dir ../dist
-        call "%dir%..\Dependencies\cpython\PCbuild\win32\python.exe" "%dir%..\Distribution\win32\BuildPythonWheel.py" /../cmake-build-release32/DearPyGui/Release/dearpygui.pyd dearpygui.pyd
+        call "%dir%..\Dependencies\cpython\PCbuild\win32\python.exe" "%dir%..\Distribution\BuildPythonWheel.py" /../cmake-build-release32/DearPyGui/Release/dearpygui.pyd dearpygui.pyd
         call "%dir%..\Dependencies\cpython\PCbuild\win32\python.exe" -m setup bdist_wheel --plat-name win32 --dist-dir ../dist
 
     - name: Upload Release DearPyGui Wheel
@@ -130,7 +130,7 @@ jobs:
       run: |
         cd /home/runner/work/DearPyGui/DearPyGui/Distribution
         python3 BuildPythonWheel.py /../cmake-build-release/DearPyGui/dearpygui.so dearpygui.so
-        python3 -m setup bdist_wheel --plat-name manylinux1_x86_64 --dist-dir ../../dist
+        python3 -m setup bdist_wheel --plat-name manylinux1_x86_64 --dist-dir ../dist
 
     - name: Upload Test DearPyGui Wheel
       run: |
