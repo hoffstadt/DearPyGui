@@ -51,4 +51,4 @@ jobs:
         cd Win32
         call "%dir%..\..\Dependencies\cpython\PCbuild\win32\python.exe" "%dir%..\..\Distribution\win32\BuildPythonWheel.py"
         call "%dir%..\..\Dependencies\cpython\PCbuild\win32\python.exe" -m setup bdist_wheel --plat-name win32 --dist-dir ../../dist
-        call "%dir%..\..\Dependencies\cpython\PCbuild\amd64\python.exe" -m twine upload --repository testpypi ../../dist/* -u __token__ -p ${{ secrets.test_pypi_password }}
+        call "%dir%..\..\Dependencies\cpython\PCbuild\amd64\python.exe" -m twine upload --repository testpypi ../../dist/* -u __token__ -p ${{ secrets.test_pypi_password }} --skip-existing
