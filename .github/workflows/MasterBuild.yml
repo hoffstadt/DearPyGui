@@ -67,3 +67,35 @@ jobs:
     - name: Build DearPyGui
       run: |
         cmake --build cmake-build-release --config Release
+
+  build-Ubuntu:
+    
+    runs-on: ubuntu-20.04
+
+    steps:
+
+    - uses: actions/checkout@v2
+
+    - name: Retrieve submodules
+      run: git submodule update --init --recursive
+    
+    - name: Build Python
+      run: |
+        sudo apt-get install xorg-dev
+        cd Dependencies/cpython
+        mkdir debug
+        cd debug
+        ../configure --enable-shared --prefix $PWD
+        sudo make && sudo make install
+        cd ..
+        cd ..
+        cd ..
+        pip3 install wheel
+        pip3 install twine
+        mkdir cmake-build-release
+        cd cmake-build-release
+        cmake ..
+
+    - name: Build DearPyGui
+      run: |
+        cmake --build cmake-build-release --config Release

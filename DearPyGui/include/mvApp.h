@@ -35,8 +35,16 @@
 //-----------------------------------------------------------------------------
 typedef std::chrono::high_resolution_clock clock_;
 typedef std::chrono::duration<double, std::ratio<1> > second_;
-typedef std::chrono::steady_clock::time_point time_point_;
+
 typedef std::map<ImGuiStyleVar, ImVec2> mvStyle;
+
+#if defined (_WIN32)
+typedef std::chrono::steady_clock::time_point time_point_;
+#elif defined(__APPLE__)
+typedef std::chrono::steady_clock::time_point time_point_;
+#else
+typedef std::chrono::system_clock::time_point time_point_;
+#endif
 
 namespace Marvel {
 

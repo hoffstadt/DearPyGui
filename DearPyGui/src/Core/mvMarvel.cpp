@@ -12,6 +12,9 @@
 #elif defined(__APPLE__)
     #include "Platform/Apple/mvAppleWindow.h"
     #define mvWindowClass mvAppleWindow
+#else
+    #include "Platform/Linux/mvLinuxWindow.h"
+    #define mvWindowClass mvLinuxWindow
 #endif
 #include "Core/mvPythonExceptions.h"
 
