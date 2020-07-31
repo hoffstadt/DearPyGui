@@ -8,7 +8,7 @@ on:
     
 jobs:
 
-  build-MacOS:
+  build-Ubuntu:
     
     runs-on: ubuntu-20.04
 
@@ -25,9 +25,8 @@ jobs:
         cd Dependencies/cpython
         mkdir debug
         cd debug
-        ../configure --enable-shared --prefix==$PWD
+        ../configure --enable-shared --prefix $PWD
         sudo make && sudo make install
-        cp pyconfig.h Include/pyconfig.h
         cd ..
         cd ..
         cd ..
