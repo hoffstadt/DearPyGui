@@ -40,10 +40,19 @@ namespace Marvel {
 		static bool            show;     // Keep scrolling if already at the bottom
 		static bool            mainmode;
 		static int             s_loglevel;
-		static std::chrono::steady_clock::time_point s_start;
+
+
 		static unsigned s_width;
 		static unsigned s_height;
 		static ImGuiWindowFlags s_flags;
+
+#if defined (_WIN32)
+        static std::chrono::steady_clock::time_point s_start;
+#elif defined(__APPLE__)
+        static std::chrono::steady_clock::time_point s_start;
+#else
+        static std::chrono::system_clock::time_point s_start;
+#endif
 	};
 
 }

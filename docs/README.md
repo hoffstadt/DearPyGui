@@ -2,14 +2,13 @@
 <sub>(This library is available under a free and permissive license)</sub>
 
 [![build status](https://github.com/RaylockLLC/DearPyGui/workflows/Stable%20Build/badge.svg)](https://github.com/RaylockLLC/DearPyGui/actions?workflow=Stable%20Build)
+[![build status](https://github.com/RaylockLLC/DearPyGui/workflows/Master%20Build/badge.svg)](https://github.com/RaylockLLC/DearPyGui/actions?workflow=Master%20Build)
 ![Python Version](https://img.shields.io/pypi/pyversions/dearpygui)
 ![PYPI](https://img.shields.io/pypi/v/dearpygui)
 
-[![build status](https://github.com/RaylockLLC/DearPyGui/workflows/Master%20Build/badge.svg)](https://github.com/RaylockLLC/DearPyGui/actions?workflow=Master%20Build)
 [![build status](https://github.com/RaylockLLC/DearPyGui/workflows/WindowsDev/badge.svg)](https://github.com/RaylockLLC/DearPyGui/actions?workflow=WindowsDev)
+[![build status](https://github.com/RaylockLLC/DearPyGui/workflows/LinuxDev/badge.svg)](https://github.com/RaylockLLC/DearPyGui/actions?workflow=LinuxDev)
 [![build status](https://github.com/RaylockLLC/DearPyGui/workflows/MacOSDev/badge.svg)](https://github.com/RaylockLLC/DearPyGui/actions?workflow=MacOSDev)
-
-
 
 
 **Dear PyGui** is a **simple to use (but powerful) Python GUI framework**. _DearPyGui_ provides a wrapping of **DearImGui** that simulates a traditional retained mode GUI, as opposed to _Dear ImGui_'s immediate mode paradigm.
@@ -23,12 +22,11 @@ simple way for python developers to **create quick and powerful GUIs for scripts
 
 | [Installing](#installing) - [Usage](#usage) - [Features](#some-features) - [Building](#building)|
 :----------------------------------------------------------: |
-| [Upcoming changes](#upcoming-changes) - [Gallery](#gallery) - [License](#license) - [Current Dependencies](#current-dependencies)|
+| [Upcoming changes](#upcoming-changes) - [Gallery](#gallery) - [License](#license)|
 
 ### Installing
 
 ---
-
 
 Ensure you have the newest version of Python 3.8 (3.8.5 at the moment).
  ```
@@ -91,16 +89,6 @@ _DearPyGui_ includes a logging API.
 Using the ```show_documentation()``` command opens the built-in documentation window which displays all _DearPyGui_ commands and constants, along with information on their usage.
 <BR>![BasicUsageExample](https://github.com/RaylockLLC/DearPyGui/blob/assets/DocumentationExample.PNG?raw=true)
   
-### Current Dependencies
-
----
-
-- [Dear ImGui](https://github.com/ocornut/imgui)
-- [CPython](https://github.com/python/cpython)
-- [ImPlot](https://github.com/epezent/implot)
-- [CLI11](https://github.com/CLIUtils/CLI11)
-
-
 ### Building
 
 ---
