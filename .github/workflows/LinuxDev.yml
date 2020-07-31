@@ -39,3 +39,10 @@ jobs:
     - name: Build DearPyGui
       run: |
         cmake --build cmake-build-release --config Release
+
+    - name: Distrubute Test DearPyGui
+      run: |
+        cd /Users/runner/work/DearPyGui/DearPyGui/Distribution/Linux
+        python3 BuildPythonWheel.py
+        python3 -m setup bdist_wheel --plat-name manylinux1_x86_64--dist-dir ../../dist
+        python3 -m twine upload --repository testpypi ../../dist/* -u __token__ -p ${{ secrets.test_pypi_password }}
