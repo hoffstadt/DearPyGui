@@ -8,8 +8,14 @@ typedef std::chrono::high_resolution_clock clock_;
 typedef std::chrono::duration<double, std::ratio<1> > second_;
 
 namespace Marvel {
+#if defined (_WIN32)
+    std::chrono::steady_clock::time_point mvAppLog::s_start = clock_::now();
+#elif defined(__APPLE__)
+    std::chrono::steady_clock::time_point mvAppLog::s_start = clock_::now();
+#else
+    std::chrono::system_clock::time_point mvAppLog::s_start = clock_::now();
+#endif
 
-	std::chrono::steady_clock::time_point mvAppLog::s_start = clock_::now();
 	ImGuiTextBuffer mvAppLog::Buf;
 	bool mvAppLog::show = false;
 	bool mvAppLog::mainmode = false;

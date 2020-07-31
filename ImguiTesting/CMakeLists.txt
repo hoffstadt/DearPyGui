@@ -11,6 +11,7 @@ target_sources(PureImgui
 		"$<$<PLATFORM_ID:Darwin>:main.mm>"
 		"$<$<PLATFORM_ID:Darwin>:src/mvAppleWindow.mm>"
 		"$<$<PLATFORM_ID:Windows>:src/mvWindowsWindow.cpp>"
+		"$<$<PLATFORM_ID:Linux>:src/mvLinuxWindow.cpp>"
 
 
 		# implot
