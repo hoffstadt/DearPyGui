@@ -45,13 +45,11 @@ jobs:
       run: |
         cd Distribution
         cd Win64
-        call "%dir%..\..\Dependencies\cpython\PCbuild\amd64\python.exe" "%dir%..\..\Distribution\Win64\BuildPythonWheel.py"
-        call "%dir%..\..\Dependencies\cpython\PCbuild\amd64\python.exe" -m setup bdist_wheel --plat-name win_amd64 --dist-dir ../../dist
-        cd ..
-        cd Win32
-        call "%dir%..\..\Dependencies\cpython\PCbuild\win32\python.exe" "%dir%..\..\Distribution\win32\BuildPythonWheel.py"
-        call "%dir%..\..\Dependencies\cpython\PCbuild\win32\python.exe" -m setup bdist_wheel --plat-name win32 --dist-dir ../../dist
-        call "%dir%..\..\Dependencies\cpython\PCbuild\amd64\python.exe" -m twine upload ../../dist/* -u __token__ -p ${{ secrets.pypi_password }} --skip-existing
+        call "%dir%..\Dependencies\cpython\PCbuild\amd64\python.exe" "%dir%..\Distribution\Win64\BuildPythonWheel.py" /../cmake-build-release/DearPyGui/dearpygui.pyd dearpygui.pyd
+        call "%dir%..\Dependencies\cpython\PCbuild\amd64\python.exe" -m setup bdist_wheel --plat-name win_amd64 --dist-dir ../dist
+        call "%dir%..\Dependencies\cpython\PCbuild\win32\python.exe" "%dir%..\Distribution\win32\BuildPythonWheel.py" /../cmake-build-release32/DearPyGui/dearpygui.pyd dearpygui.pyd
+        call "%dir%..\Dependencies\cpython\PCbuild\win32\python.exe" -m setup bdist_wheel --plat-name win32 --dist-dir ../dist
+        call "%dir%..\Dependencies\cpython\PCbuild\amd64\python.exe" -m twine upload ../dist/* -u __token__ -p ${{ secrets.pypi_password }} --skip-existing
 
   build-MacOS:
     
@@ -85,11 +83,10 @@ jobs:
 
     - name: Distrubute Release DearPyGui
       run: |
-        cd /Users/runner/work/DearPyGui/DearPyGui/Distribution/Apple
-        python3 BuildPythonWheel.py
-        python3 -m setup bdist_wheel --plat-name macosx-10.6-x86_64 --dist-dir ../../dist
-        cd /Users/runner/work/DearPyGui/DearPyGui/Distribution/Apple
-        python3 -m twine upload ../../dist/* -u __token__ -p ${{ secrets.pypi_password }} --skip-existing
+        cd /Users/runner/work/DearPyGui/DearPyGui/Distribution
+        python3 BuildPythonWheel.py /../cmake-build-release/DearPyGui/dearpygui.so dearpygui.so
+        python3 -m setup bdist_wheel --plat-name macosx-10.6-x86_64 --dist-dir ../dist
+        python3 -m twine upload ../dist/* -u __token__ -p ${{ secrets.pypi_password }} --skip-existing
 
   build-Ubuntu:
 
@@ -125,7 +122,7 @@ jobs:
 
     - name: Distrubute Test DearPyGui
       run: |
-        cd /home/runner/work/DearPyGui/DearPyGui/Distribution/Linux
-        python3 BuildPythonWheel.py
+        cd /home/runner/work/DearPyGui/DearPyGui/Distribution
+        python3 BuildPythonWheel.py /../cmake-build-release/DearPyGui/dearpygui.so dearpygui.so
         python3 -m setup bdist_wheel --plat-name manylinux1_x86_64 --dist-dir ../../dist
-        python3 -m twine upload ../../dist/* -u __token__ -p ${{ secrets.pypi_password }} --skip-existing
+        python3 -m twine upload ../dist/* -u __token__ -p ${{ secrets.pypi_password }} --skip-existing
