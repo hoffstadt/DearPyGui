@@ -15,7 +15,14 @@
 
 **Dear PyGui is fundamentally different than other Python GUI frameworks**. Under the hood, _DearPyGui_ 
 uses the immediate mode paradigm allowing for extremely dynamic interfaces. Similar to PyQt _DearPyGui_ 
-does not use native widgets, but instead draws the widgets using your computer's GPU.
+does not use native widgets, but instead draws the widgets using your computer's GPU. _DearPyGui_ is currently supported on
+the following platforms:
+
+| Platform | Rendering API |
+|----------|---------------|
+| **Windows 10** | _DirectX 11_ |
+| **macOs** | _Metal_ |
+| **Linux** | _OpenGL3_ |
 
 In the same manner Dear ImGui provides a simple way to create tools for game developers, _DearPyGui_ provides a 
 simple way for python developers to **create quick and powerful GUIs for scripts**.
@@ -42,7 +49,7 @@ Ensure you have the newest version of Python 3.8 (3.8.5 at the moment).
 **DearPyGui is an all included GUI framework.** A variety of examples demonstrating usage
 can be found in the Examples folder [/Examples](https://github.com/RaylockLLC/DearPyGui/tree/master/Examples).
 Documentation can be found [here](https://raylockllc.github.io/DearPyGui/) or from within the library by 
-using the **show_documentation** command. Please note that some features are not yet available for Mac(images, file dialogs, etc.).
+using the **show_documentation** command. Please note that some features are not yet available for Mac and Linux(images, file dialogs, etc.).
 
 Using _DearPyGui_ is a simple as creating a python script like the one below:
 
@@ -118,7 +125,6 @@ Some upcoming features:
 - Support for window docking and multiple viewports.
 - More complete theme and style system.
 - 3D widget.
-- Linux support.
 - Custom Widget API.
 
 ### Gallery
