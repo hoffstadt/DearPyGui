@@ -91,6 +91,8 @@ jobs:
         cd /Users/runner/work/DearPyGui/DearPyGui/Distribution/Apple
         python3 -m twine upload ../../dist/* -u __token__ -p ${{ secrets.pypi_password }}
 
+  build-Ubuntu:
+
     runs-on: ubuntu-20.04
 
     steps:
