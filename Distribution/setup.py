@@ -6,7 +6,7 @@ from os import path
 with open("../docs/README.md") as f:
     long_description = f.read()
 
-with open("distinfo.text") as file:
+with open("distinfo.txt") as file:
     lines = file.readlines()
     DEARPYGUI_FILE = lines[0]
     DEARPYGUI_VERSION = lines[1]
