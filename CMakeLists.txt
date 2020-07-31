@@ -26,5 +26,6 @@ elseif(APPLE)
 
 else()
 	add_subdirectory ("ImguiTesting")
+	add_subdirectory ("DearPyGui")
 	add_subdirectory ("Dependencies/glfw")
 endif()
