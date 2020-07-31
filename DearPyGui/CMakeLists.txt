@@ -15,7 +15,13 @@ elseif(APPLE)
 	find_package(Python3 COMPONENTS Development)
 	add_library(dearpygui SHARED)
 	set_target_properties(dearpygui PROPERTIES SUFFIX ".so")
-	SET_TARGET_PROPERTIES(dearpygui PROPERTIES PREFIX "")
+	set_target_properties(dearpygui PROPERTIES PREFIX "")
+	set_target_properties(dearpygui PROPERTIES CXX_STANDARD 17)
+
+else()
+
+	add_library(dearpygui SHARED)
+	set_target_properties(dearpygui PROPERTIES PREFIX "")
 	set_target_properties(dearpygui PROPERTIES CXX_STANDARD 17)
 
 endif()
@@ -32,6 +38,7 @@ set(MARVEL_SOURCES
 	"src/Core/mvPythonTranslator.cpp"
 	"src/Core/mvPythonParser.cpp"
 	"$<$<PLATFORM_ID:Windows>:src/Core/mvMarvel.cpp>"
+	"$<$<PLATFORM_ID:Linux>:src/Core/mvMarvel.cpp>"
 	"$<$<PLATFORM_ID:Darwin>:src/Core/mvMarvel.mm>"
 
 	"src/Core/StandardWindows/mvStandardWindow.cpp"
@@ -52,6 +59,9 @@ set(MARVEL_SOURCES
 	"$<$<PLATFORM_ID:Darwin>:src/Platform/Apple/mvAppleWindow.mm>"
 	"$<$<PLATFORM_ID:Darwin>:src/Platform/Apple/mvAppleUtilities.cpp>"
 
+	"$<$<PLATFORM_ID:Linux>:src/Platform/Linux/mvUtilities.cpp>"
+	"$<$<PLATFORM_ID:Linux>:src/Platform/Linux/mvLinuxWindow.cpp>"
+
 	# implot
 	"src/Vendor/implot/implot.cpp"
 	"src/Vendor/implot/implot_demo.cpp"
@@ -66,6 +76,9 @@ set(MARVEL_SOURCES
 	"$<$<PLATFORM_ID:Windows>:../Dependencies/imgui/examples/imgui_impl_dx11.cpp>"
 	"$<$<PLATFORM_ID:Darwin>:../Dependencies/imgui/examples/imgui_impl_metal.mm>"
 	"$<$<PLATFORM_ID:Darwin>:../Dependencies/imgui/examples/imgui_impl_glfw.cpp>"
+	"$<$<PLATFORM_ID:Linux>:../Dependencies/imgui/examples/libs/gl3w/GL/gl3w.c>"
+	"$<$<PLATFORM_ID:Linux>:../Dependencies/imgui/examples/imgui_impl_glfw.cpp>"
+	"$<$<PLATFORM_ID:Linux>:../Dependencies/imgui/examples/imgui_impl_opengl3.cpp>"
 
 )
 
@@ -74,11 +87,16 @@ set(MARVEL_INCLUDE_DIR
 	"include/"
 	"src/"
 	"../Dependencies/glfw/include/"
+	"../Dependencies/glfw/deps/"
 	"../Dependencies/imgui/"
 	"../Dependencies/imgui/examples/"
+	"../Dependencies/imgui/examples/libs/gl3w"
 	"../Dependencies/cpython/Include/"
 	"src/Vendor/implot/"
 	"src/Vendor/stb/"
+
+	#new
+	"../Dependencies/cpython/debug/"
 )
 
 
@@ -145,7 +163,31 @@ elseif(APPLE)
 			"-framework IOKit"
 			"-framework QuartzCore"
 	)
+else()
+	target_sources(dearpygui PRIVATE ${MARVEL_SOURCES} )
+	#target_sources(dearpyguiemb PRIVATE ${MARVEL_SOURCES} )
 
+	target_include_directories(dearpygui PRIVATE ${MARVEL_INCLUDE_DIR} )
+	#target_include_directories(dearpyguiemb PRIVATE ${MARVEL_INCLUDE_DIR} )
+
+	set_property(TARGET dearpygui APPEND_STRING PROPERTY COMPILE_FLAGS "-fPIC -Wno-unused-result -Wsign-compare -DNDEBUG -g -fwrapv -O3 -Wall")
+	add_definitions(-DIMGUI_IMPL_OPENGL_LOADER_GL3W)
+
+	target_link_directories(dearpygui
+			PRIVATE
+				"../Dependencies/cpython/debug"
+				#"../Dependencies/cpython/debug/lib"
+			)
+
+	target_link_libraries(dearpygui
+
+			PUBLIC
+			"-lcrypt -lpthread -ldl  -lutil -lm"
+			$<$<PLATFORM_ID:Linux>:GL>
+			$<$<PLATFORM_ID:Linux>:glfw>
+			$<$<CONFIG:Debug>:python38_d>
+			$<$<CONFIG:Release>:python3.8>
+			)
 endif()
 
 

@@ -164,44 +164,6 @@ namespace Marvel {
 					ImGui::BulletText("Additional information on specific commands can be found in the commands tab.");
 				}
 
-				if (ImGui::CollapsingHeader("Basics"))
-				{
-					ColorText("MODES:");
-					ImGui::BulletText("Marvel Sandbox can be ran in the following modes:");
-					ImGui::Indent();
-					CodeColorText("Regular - Runs a single app. (default mode)");
-					CodeColorText("Editor - Runs a simple IDE to create/test apps. (use --editor flag)");
-					CodeColorText("Documentation - Runs the documentation app. (use --documentation flag)");
-					ImGui::Unindent();
-					ImGui::Separator();
-
-					ColorText("RUNNING AN APP (EXPLICITLY):");
-					ImGui::BulletText("An app can be ran explicitly 2 ways:");
-					ImGui::Indent();
-					ImGui::BulletText("Call the MarvelSandbox executable with --app YourPythonFile --path PathToFile");
-					ImGui::BulletText("Call the MarvelSandbox executable with --app YourPythonFile (if the file is next to executable)");
-					ImGui::Unindent();
-					ImGui::BulletText("Notes:");
-					ImGui::Indent();
-					ImGui::BulletText("Do NOT leave the python extension when using --app i.e. MarvelSandbox.exe --app Blah (not Blah.py).");
-					ImGui::BulletText("Do NOT have spacing in the python file name.");
-					ImGui::Unindent();
-					ImGui::Separator();
-
-					ColorText("CONFIG FILE:");
-					ImGui::BulletText("A configuration file called 'marvel_config.json', sits next to the MarvelSandbox executable.");
-					ImGui::BulletText("This file is the default method for passing flags and options to the executable (rather than command line).");
-					ImGui::BulletText("The config file is a simple json file.");
-
-					ImGui::BulletText("Config options:");
-					ImGui::Indent();
-					ImGui::BulletText("App - a string matching the name of the app file (without the .py extension)");
-					ImGui::BulletText("Mode - a string for the mode to run (None, Editor, Documentation).");
-					ImGui::BulletText("Theme - a string for initial theme (Dark, Light, Classic, Dark 2, Grey, Dark Grey, Cherry, Purple, Gold, Red).");
-					ImGui::BulletText("Path - a string with the path to the python file relative to the MarvelSandbox executable.");
-					ImGui::BulletText("PythonLibs - a string with the path to 3rd party python libs relative to the MarvelSandbox executable.");
-					ImGui::Unindent();
-				}
 
 				if (ImGui::CollapsingHeader("Logging and Console Output"))
 				{
@@ -515,23 +477,6 @@ namespace Marvel {
 					ImGui::BulletText("All draw commands of the form 'draw_*' accept an optional tag argument.");
 					ImGui::BulletText("The tag argument is a string that acts as an indentifier for the draw item.");
 					ImGui::BulletText("On subsequent calls to the same draw command with the given tag, the item will be updated.");
-				}
-
-				if (ImGui::CollapsingHeader("3rd Party Python Libraries"))
-				{
-					ImGui::BulletText("To use 3rd Party Python Libraries:");
-					ImGui::Indent();
-					ImGui::BulletText("1. Install Python Version 3.8.3 (must be same version as Marvel's embedded version).");
-					ImGui::BulletText("2. Pip install the library you want to use.");
-					ImGui::BulletText("3. Run MarvelSandbox with the --libs PathToSitePackages");
-					ImGui::BulletText("4. Now you can use any pip installed library.");
-					ImGui::Unindent();
-
-					ImGui::BulletText("The path for site packages is typically:");
-					ImGui::Indent();
-					ColorText("PythonInstallLocation/Lib/site-packages");
-					ImGui::Unindent();
-
 				}
 
 				ImGui::EndTabItem();
