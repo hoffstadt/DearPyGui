@@ -18,7 +18,6 @@ if(WIN32)
 elseif(APPLE)
 	add_subdirectory ("Dependencies/json")
 	add_subdirectory ("Dependencies/glfw")
-
 else()
 	add_subdirectory ("Dependencies/glfw")
 endif()
