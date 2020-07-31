@@ -16,6 +16,8 @@
     <style>
         .inline-code {font-family: 'Monaco', 'Menlo', courier, monospace; font-size:1em; color:#fff; background:#303030; padding:0.2em}
         article a {font-weight: bold;}
+        h1 {font-weight:370}
+        h2 {color: #058; font-weight:370}
     </style>
     <link href="code_style.css" rel="stylesheet" type="text/css">
     <script src="rainbow-custom.min.js"></script>
@@ -26,42 +28,180 @@
     <h1><a href="index.html">DearPyGui</a></h1>
 </header>
 <hr>
-<main>
+<main id="content">
     <article><a href="#contents"></a>
         <h2>DearPyGui Contents</h2>
         <hr>
         <ul>
-            <li>The App</li>
-            <li>Widgets</li>
+            <li>Overview</li>
+            <li>Developer Tools</li>
+            <li>Widgets, Containers, and Windows</li>
             <li>Callbacks</li>
             <li>Built-in Logging</li>
-            <li>Windows</li>
             <li>Data Storage</li>
             <li>Containers</li>
+            <li>Menu Bars</li>
             <li>Plotting</li>
             <li>Drawing</li>
             <li>Tables</li>
             <li>Input Polling</li>
-            <li>Asynchronous Functions</li>
+            <li>Multithreading and Asynchronous Functions</li>
             <li>Built-in Widgets</li>
             <li>Themes and Styles</li>
             <li>3rd Party Libraries</li>
         </ul>
     </article>
-    <article><a href="#the_app"></a>
-        <h2>The App</h2>
+
+    <article><a href="#overview"></a>
+        <h2>Overview</h2>
         <hr>
         <p>
-            The App is the base window of your program and must be started at the end of the main python script. This is done
+            DearPyGui consists of an App, and widgets. The App is the main window of your program and is created at the end of the main python script
             by calling the function <code class="inline-code" data-language="python">start_dearpygui()</code>
-        </p>
-        <p>
-            Lets show an example with a simple example using the Built-in Documentation.
+            <br><br>
+            Lets show an example by using the Built-in documentation function.
         </p>
         <pre><code data-language="python">from dearpygui.dearpygui import *
 
+set_main_window_size(800, 800)
 show_documentation()
+
+start_dearpygui()</code> </pre>
+        <p>
+            It is important to remember that DearPyGui (a retained mode paradigm) was made from a wrapping of DearImGui (an immediate mode paradigm).
+            Because of this DearPyGui has the responsibility of using the GPU to render the entire GUI every frame. This can be very beneficial
+            for highly dynamic interfaces, plots, and even games.
+        </p>
+    </article>
+
+    <article><a href="#developer_tools"></a>
+        <h2>Developer Tools</h2>
+        <hr>
+        <p>
+            DearPyGui contains several very useful developer tools which we will utilize throughout the tutorial.
+            <br><br>
+            The <code class="inline-code" data-language="python">show_source()</code> requires an input of a python file name to read.
+            For our example we will use our file name "main.py". These are shown below. You should update this with your file name.
+        <pre><code data-language="python">from dearpygui.dearpygui import *
+
+show_documentation()
+show_debug()
+show_about()
+show_metrics()
+show_source("main.py") //replace"main.py" with your python file name
+show_logger()
+
+start_dearpygui()</code> </pre>
+        </p>
+    </article>
+
+    <article><a href="#widgets_containers_windows"></a>
+        <h2>Widgets, Containers, and Windows</h2>
+        <hr>
+        <p>
+            Widgets can be broken down into regular widgets (ex. controllers and display items)
+            and container widgets (ex. windows, groups, popups, ect.).
+            <br><br>
+            Every widget must have a unique name. In the event that you would like widgets to appear on screen with the
+            same name you must place a "##" so the widget name remains unique.
+        </p>
+        <pre><code data-language="python">from dearpygui.dearpygui import *
+
+add_button("Apply##1")
+add_button("Apply##applier")
+add_button("Apply##2")
+
+start_dearpygui()</code> </pre>
+        <p>
+            Container widgets are used to hold normal widgets and are implemented by starting the container with is "add" function
+            then completing the container with its respective "end" function.
+            <br><br>
+            Widgets, including container widgets, have a parent container and an order in which they are displayed. By default widgets are added to
+            the container in the order they are coded. See the example below.
+        </p>
+        <pre><code data-language="python">from dearpygui.dearpygui import *
+
+add_text("This is some text on the MainWindow")
+
+add_window("window 2")
+add_text("This is some text on window 2")
+end_window()
+
+add_text("More text on the MainWindow")
+
+start_dearpygui()</code> </pre>
+        <p>
+            Widgets can also be added out of order by specifying their "parent" container
+            and if they are to be added "before" a specific widget as in the example below.
+        </p>
+        <pre><code data-language="python">from dearpygui.dearpygui import *
+
+add_text("First coded widget")
+
+add_text("This is some text on window 2", parent="window 2")
+
+add_window("window 2")
+add_checkbox("Checkbox")
+end_window()
+
+add_checkbox("Last coded widget", parent="MainWindow", before="First coded widget")
+
 start_dearpygui()</code> </pre>
     </article>
+
+    <article><a href="#callbacks"></a>
+        <h2>Callbacks</h2>
+        <hr>
+        <p>
+            DearPyGui has widget callbacks which are activated when a widget is interacted with. Also DearPyGui has
+            callbacks which are triggered by specific window type widget events such as rendering, window resizing, window closing.
+            <br><br>
+            Callbacks are used to give functionality to widgets. Almost every widget in DearPyGui can use a callback.
+            callbacks can either be assigned to widgets upon creation or after creation as shown in the code below.
+            <br><br>
+            Every callback function used in DearPyGui must take in a "sender" and "data".
+            <br><br>
+            The "sender" is used by DearPyGui to determine what Widget is running the function and let the user have
+            access to the name of the widget sending the callback request.
+            <br><br>
+            The "data" argument is an optional python object that can be passed into the function. This is mostly useful when
+            chaining widget callbacks.
+        </p>
+        <pre><code data-language="python">from dearpygui.dearpygui import *
+
+add_button("Apply", callback="ApplyButtonCallback")
+
+def ApplyButtonCallback(sender, data):
+    print(sender)
+    print(data)
+
+add_button("Submit Data")
+set_item_callback("Submit Data", "SubmitData")
+
+def SubmitData(sender, data):
+    data = "this is some data that was submitted and also applied"
+    ApplyButtonCallback(sender, data)
+
+start_dearpygui()</code> </pre>
+        <p>
+            The window specific callbacks can be applied to any window type widget by calling the commands
+            <code class="inline-code" data-language="python">set_render_callback()</code>
+            <code class="inline-code" data-language="python">set_resize_callback()</code>
+            By default these functions will apply the callback to the "MainWindow".
+            <br><br>
+            Window Type apps applicable for the render and resize callbacks are listed below:
+            <ul>
+                <li>MainWindow</li>
+                <li>Window</li>
+                <li>Child</li>
+                <li>Popup</li>
+            </ul>
+            The callback that is run on close of a window is specific to the window widget and used by assigning a
+            callback to the "on_close" keyword argument.
+            <br><br>
+        </p>
+    </article>
+
+
 </main>
 </body>
