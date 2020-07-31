@@ -52,7 +52,7 @@ jobs:
     - name: Upload Release DearPyGui Wheel
       shell: cmd
       run: |
-        call "%dir%..\Dependencies\cpython\PCbuild\amd64\python.exe" -m twine upload dist/* -u __token__ -p ${{ secrets.pypi_password }} --skip-existing
+        call "%dir%Dependencies\cpython\PCbuild\amd64\python.exe" -m twine upload dist/* -u __token__ -p ${{ secrets.pypi_password }} --skip-existing
 
   build-MacOS:
     

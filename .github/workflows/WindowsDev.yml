@@ -53,5 +53,4 @@ jobs:
       if: "!contains(github.event.head_commit.message, 'upload skip')"
       shell: cmd
       run: |
-        echo %dir%
-        call "%dir%..\Dependencies\cpython\PCbuild\amd64\python.exe" -m twine upload --repository testpypi dist/* -u __token__ -p ${{ secrets.test_pypi_password }} --skip-existing
+        call "%dir%Dependencies\cpython\PCbuild\amd64\python.exe" -m twine upload --repository testpypi dist/* -u __token__ -p ${{ secrets.test_pypi_password }} --skip-existing
