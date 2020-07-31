@@ -7,10 +7,36 @@ assignees: ''
 
 ---
 
-**Describe the bug**
-A clear and concise description of what the bug is.
+1. PLEASE CAREFULLY READ: [FAQ](https://github.com/RaylockLLC/DearPyGui/wiki/FAQ)
+
+2. PLEASE CAREFULLY READ: Documentation
+
+3. FOR FIRST-TIME USERS ISSUES,  please use the [Discord server](https://discord.com/channels/736279277242417272/736279277242417275).
+
+4. PLEASE MAKE SURE that you have: read the FAQ; explored the examples; searched among Issues; and read the link provided in (1) (2).
+
+5. Be mindful that messages are being sent to the e-mail box of "Watching" users. Try to proof-read your messages before sending them. Edits are not seen by those users.
+
+6. Delete points 1-6 and PLEASE FILL THE TEMPLATE BELOW before submitting your issue.
+
+Thank you!
+
+----
+
+**Version of Dear PyGui:**
+
+Version: XXX
+
+**OS**
+
+Operating System: XXX (Windows 10, macOs xx, Ubuntu 20.04, etc.)
+
+**My Issue/Question**
+
+A clear and concise description of what the issue/question is. Please provide as much context as possible.
 
 **To Reproduce**
+
 Steps to reproduce the behavior:
 1. Go to '...'
 2. Click on '....'
@@ -18,10 +44,18 @@ Steps to reproduce the behavior:
 4. See error
 
 **Expected behavior**
+
 A clear and concise description of what you expected to happen.
 
-**Screenshots**
-If applicable, add screenshots to help explain your problem.
+**Screenshots/Video**
 
-**Additional context**
-Add any other context about the problem here.
+XXX _(you can drag files here)_
+
+**Standalone, minimal, complete and verifiable example:**
+
+```python
+# Here's some code anyone can copy and paste to reproduce your issue
+add_button("Example Bug")
+more_code_to_explain_my_issue()
+start_dearpygui()
+```
