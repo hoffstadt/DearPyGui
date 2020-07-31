@@ -35,3 +35,7 @@ jobs:
         mkdir cmake-build-release
         cd cmake-build-release
         cmake ..
+
+    - name: Build DearPyGui
+      run: |
+        cmake --build cmake-build-release --config Release
