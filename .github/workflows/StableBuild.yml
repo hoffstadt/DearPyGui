@@ -44,7 +44,6 @@ jobs:
       shell: cmd
       run: |
         cd Distribution
-        cd Win64
         call "%dir%..\Dependencies\cpython\PCbuild\amd64\python.exe" "%dir%..\Distribution\Win64\BuildPythonWheel.py" /../cmake-build-release/DearPyGui/Release/dearpygui.pyd dearpygui.pyd
         call "%dir%..\Dependencies\cpython\PCbuild\amd64\python.exe" -m setup bdist_wheel --plat-name win_amd64 --dist-dir ../dist
         call "%dir%..\Dependencies\cpython\PCbuild\win32\python.exe" "%dir%..\Distribution\win32\BuildPythonWheel.py" /../cmake-build-release32/DearPyGui/Release/dearpygui.pyd dearpygui.pyd
@@ -53,7 +52,7 @@ jobs:
     - name: Upload Release DearPyGui Wheel
       shell: cmd
       run: |
-        call "%dir%..\Dependencies\cpython\PCbuild\amd64\python.exe" -m twine upload ../dist/* -u __token__ -p ${{ secrets.pypi_password }} --skip-existing
+        call "%dir%..\Dependencies\cpython\PCbuild\amd64\python.exe" -m twine upload dist/* -u __token__ -p ${{ secrets.pypi_password }} --skip-existing
 
   build-MacOS:
     
@@ -93,7 +92,7 @@ jobs:
 
     - name: Upload Release DearPyGui Wheel
       run: |
-        python3 -m twine upload ../dist/* -u __token__ -p ${{ secrets.pypi_password }} --skip-existing
+        python3 -m twine upload dist/* -u __token__ -p ${{ secrets.pypi_password }} --skip-existing
 
   build-Ubuntu:
 
@@ -135,4 +134,4 @@ jobs:
 
     - name: Upload Test DearPyGui Wheel
       run: |
-        python3 -m twine upload ../dist/* -u __token__ -p ${{ secrets.pypi_password }} --skip-existing
+        python3 -m twine upload dist/* -u __token__ -p ${{ secrets.pypi_password }} --skip-existing
