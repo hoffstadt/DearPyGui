@@ -20,7 +20,7 @@ with open(script_dir + "/dearpygui/__init__.py", 'w') as file:
     file.write("pass\n")
 
 # get version
-with open(script_dir + "../CMakeLists.txt", 'r') as file:
+with open(script_dir + "/../CMakeLists.txt", 'r') as file:
     lines = file.readlines()
     for line in lines:
         if "MV_SANDBOX_VERSION" in line:
