@@ -20,9 +20,7 @@ elseif(APPLE)
 
 else()
 
-	#find_package(Python3 COMPONENTS Development)
 	add_library(dearpygui SHARED)
-	#set_target_properties(dearpygui PROPERTIES SUFFIX ".so")
 	set_target_properties(dearpygui PROPERTIES PREFIX "")
 	set_target_properties(dearpygui PROPERTIES CXX_STANDARD 17)
 
