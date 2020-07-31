@@ -40,7 +40,7 @@ jobs:
         cmake --build cmake-build-release --config Release
         cmake --build cmake-build-release32 --config Release 
 
-    - name: Distrubute Release DearPyGui
+    - name: Build Release DearPyGui Wheel
       shell: cmd
       run: |
         cd Distribution
@@ -49,6 +49,10 @@ jobs:
         call "%dir%..\Dependencies\cpython\PCbuild\amd64\python.exe" -m setup bdist_wheel --plat-name win_amd64 --dist-dir ../dist
         call "%dir%..\Dependencies\cpython\PCbuild\win32\python.exe" "%dir%..\Distribution\win32\BuildPythonWheel.py" /../cmake-build-release32/DearPyGui/dearpygui.pyd dearpygui.pyd
         call "%dir%..\Dependencies\cpython\PCbuild\win32\python.exe" -m setup bdist_wheel --plat-name win32 --dist-dir ../dist
+
+    - name: Upload Release DearPyGui Wheel
+      shell: cmd
+      run: |
         call "%dir%..\Dependencies\cpython\PCbuild\amd64\python.exe" -m twine upload ../dist/* -u __token__ -p ${{ secrets.pypi_password }} --skip-existing
 
   build-MacOS:
@@ -81,11 +85,14 @@ jobs:
       run: |
         cmake --build cmake-build-release --config Release
 
-    - name: Distrubute Release DearPyGui
+    - name: Build Release DearPyGui Wheel
       run: |
         cd /Users/runner/work/DearPyGui/DearPyGui/Distribution
         python3 BuildPythonWheel.py /../cmake-build-release/DearPyGui/dearpygui.so dearpygui.so
         python3 -m setup bdist_wheel --plat-name macosx-10.6-x86_64 --dist-dir ../dist
+
+    - name: Upload Release DearPyGui Wheel
+      run: |
         python3 -m twine upload ../dist/* -u __token__ -p ${{ secrets.pypi_password }} --skip-existing
 
   build-Ubuntu:
@@ -120,9 +127,12 @@ jobs:
       run: |
         cmake --build cmake-build-release --config Release
 
-    - name: Distrubute Test DearPyGui
+    - name: Build Test DearPyGui Wheel
       run: |
         cd /home/runner/work/DearPyGui/DearPyGui/Distribution
         python3 BuildPythonWheel.py /../cmake-build-release/DearPyGui/dearpygui.so dearpygui.so
         python3 -m setup bdist_wheel --plat-name manylinux1_x86_64 --dist-dir ../../dist
+
+    - name: Upload Test DearPyGui Wheel
+      run: |
         python3 -m twine upload ../dist/* -u __token__ -p ${{ secrets.pypi_password }} --skip-existing
