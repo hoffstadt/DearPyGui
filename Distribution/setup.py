@@ -8,8 +8,8 @@ with open("../docs/README.md") as f:
 
 with open("distinfo.txt") as file:
     lines = file.readlines()
-    DEARPYGUI_FILE = lines[0].rstring("\n")
-    DEARPYGUI_VERSION = lines[1].rstring("\n")
+    DEARPYGUI_FILE = lines[0].rstrip("\n")
+    DEARPYGUI_VERSION = lines[1].rstrip("\n")
 
 print("Setup File: ", DEARPYGUI_FILE)
 print("Setup Version: ", DEARPYGUI_VERSION)
