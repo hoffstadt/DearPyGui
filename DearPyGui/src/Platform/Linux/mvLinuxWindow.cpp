@@ -12,29 +12,19 @@
 
 namespace Marvel {
 
+    mvWindow* mvWindow::CreatemvWindow(unsigned width, unsigned height, bool editor, bool error, bool doc)
+    {
+        return new mvLinuxWindow(width, height, editor, error, doc);
+    }
+
     static void glfw_error_callback(int error, const char* description)
     {
         fprintf(stderr, "Glfw Error %d: %s\n", error, description);
     }
 
     mvLinuxWindow::mvLinuxWindow(unsigned width, unsigned height, bool editor, bool error, bool doc)
-		: m_width(width), m_height(height), m_editor(editor), m_error(error), m_doc(doc)
+		: mvWindow(width, height, editor, error, doc)
 	{
-		m_app = mvApp::GetAppStandardWindow();
-		m_appEditor = new mvAppEditor();
-		m_documentation = mvDocWindow::GetWindow();
-
-		if (m_error)
-		{
-			mvAppLog::ShowMain();
-			mvAppLog::setSize(width, height);
-		}
-
-		else if (m_doc)
-		{
-			m_documentation->setToMainMode();
-			m_documentation->setSize(width, height);
-		}
 
         // Setup window
         glfwSetErrorCallback(glfw_error_callback);
@@ -70,7 +60,13 @@ namespace Marvel {
 
     mvLinuxWindow::~mvLinuxWindow()
 	{
-		cleanup();
+        // Cleanup
+        ImGui_ImplOpenGL3_Shutdown();
+        ImGui_ImplGlfw_Shutdown();
+        ImGui::DestroyContext();
+
+        glfwDestroyWindow(m_window);
+        glfwTerminate();
 	}
 
     void mvLinuxWindow::run()
@@ -113,16 +109,6 @@ namespace Marvel {
 
     }
 
-	void mvLinuxWindow::show()
-	{
-
-	}
-
-    void mvLinuxWindow::setup()
-    {
-
-    }
-
     void mvLinuxWindow::prerender()
     {
         m_running = !glfwWindowShouldClose(m_window);
@@ -139,11 +125,6 @@ namespace Marvel {
         ImGui_ImplGlfw_NewFrame();
         ImGui::NewFrame();
 
-
-    }
-
-    void mvLinuxWindow::render()
-    {
 
     }
 

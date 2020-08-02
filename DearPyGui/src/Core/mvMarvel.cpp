@@ -6,16 +6,7 @@
 #include "Core/StandardWindows/mvSourceWindow.h"
 #include "mvPythonTranslator.h"
 #include "Core/AppItems/mvAppItems.h"
-#if defined (_WIN32)
-	#include "Platform/Windows/mvWindowsWindow.h"
-    #define mvWindowClass mvWindowsWindow
-#elif defined(__APPLE__)
-    #include "Platform/Apple/mvAppleWindow.h"
-    #define mvWindowClass mvAppleWindow
-#else
-    #include "Platform/Linux/mvLinuxWindow.h"
-    #define mvWindowClass mvLinuxWindow
-#endif
+#include "mvWindow.h"
 #include "Core/mvPythonExceptions.h"
 
 //-----------------------------------------------------------------------------
@@ -114,10 +105,9 @@ namespace Marvel {
 
 		mvApp::GetApp()->precheck();
 		mvApp::SetAppStarted();
-		//PyEval_SaveThread();
 
 		// create window
-		auto window = new mvWindowClass(mvApp::GetApp()->getActualWidth(), mvApp::GetApp()->getActualHeight());
+		auto window = mvWindow::CreatemvWindow(mvApp::GetApp()->getActualWidth(), mvApp::GetApp()->getActualHeight());
 		window->show();
 		window->run();
 		delete window;
@@ -132,7 +122,7 @@ namespace Marvel {
 		mvApp::SetAppStarted();
 
 		// create window
-		auto window = new mvWindowClass(mvApp::GetApp()->getActualWidth(), mvApp::GetApp()->getActualHeight(), true);
+		auto window = mvWindow::CreatemvWindow(mvApp::GetApp()->getActualWidth(), mvApp::GetApp()->getActualHeight(), true);
 		window->show();
 		window->run();
 		delete window;
@@ -145,7 +135,7 @@ namespace Marvel {
 	{
 
 		// create window
-		auto window = new mvWindowClass(mvApp::GetApp()->getActualWidth(), mvApp::GetApp()->getActualHeight(), false, false, true);
+		auto window = mvWindow::CreatemvWindow(mvApp::GetApp()->getActualWidth(), mvApp::GetApp()->getActualHeight(), false, false, true);
 		window->show();
 		window->run();
 		delete window;
@@ -5245,7 +5235,7 @@ NULL, NULL, 0, NULL
 		PyErr_Print();
 
 		// create window
-		auto window = new mvWindowClass(mvApp::GetApp()->getActualWidth(), mvApp::GetApp()->getActualHeight(), false, true);
+		auto window = mvWindow::CreatemvWindow(mvApp::GetApp()->getActualWidth(), mvApp::GetApp()->getActualHeight(), false, true);
 		window->show();
 		window->run();
 		delete window;

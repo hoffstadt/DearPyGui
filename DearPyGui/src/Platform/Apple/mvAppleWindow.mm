@@ -13,6 +13,10 @@
 
 namespace Marvel {
 
+    mvWindow* mvWindow::CreatemvWindow(unsigned width, unsigned height, bool editor, bool error, bool doc)
+	{
+		return new mvAppleWindow(width, height, editor, error, doc);
+	}
 
     static void glfw_error_callback(int error, const char *description)
     {
@@ -20,7 +24,7 @@ namespace Marvel {
     }
 
     mvAppleWindow::mvAppleWindow(unsigned width, unsigned height, bool editor, bool error, bool doc)
-        : m_width(width), m_height(height), m_editor(editor), m_error(error), m_doc(doc)
+        : mvWindow(width, height, editor, error, doc)
     {
         // Setup Dear ImGui binding
         IMGUI_CHECKVERSION();
@@ -56,27 +60,18 @@ namespace Marvel {
         nswin.contentView.wantsLayer = YES;
 
         m_renderPassDescriptor = [MTLRenderPassDescriptor new];
-
-        m_app = mvApp::GetAppStandardWindow();
-        m_appEditor = new mvAppEditor();
-        m_documentation = mvDocWindow::GetWindow();
-
-        if (m_error)
-        {
-            mvAppLog::ShowMain();
-            mvAppLog::setSize(width, height);
-        }
-
-        else if (m_doc)
-        {
-            m_documentation->setToMainMode();
-            m_documentation->setSize(width, height);
-        }
     }
 
     mvAppleWindow::~mvAppleWindow()
     {
-        cleanup();
+        // Cleanup
+        ImGui_ImplMetal_Shutdown();
+        ImGui_ImplGlfw_Shutdown();
+        ImGui::DestroyContext();
+
+        glfwDestroyWindow(m_window);
+        glfwTerminate();
+
         delete m_appEditor;
         m_appEditor = nullptr;
     }

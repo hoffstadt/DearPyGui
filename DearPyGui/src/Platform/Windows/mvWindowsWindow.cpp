@@ -7,24 +7,14 @@ extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg
 
 namespace Marvel {
 
-	mvWindowsWindow::mvWindowsWindow(unsigned width, unsigned height, bool editor, bool error, bool doc)
-		: m_width(width), m_height(height), m_editor(editor), m_error(error), m_doc(doc)
+	mvWindow* mvWindow::CreatemvWindow(unsigned width, unsigned height, bool editor, bool error, bool doc)
 	{
-		m_app = mvApp::GetAppStandardWindow();
-		m_appEditor = new mvAppEditor();
-		m_documentation = mvDocWindow::GetWindow();
+		return new mvWindowsWindow(width, height, editor, error, doc);
+	}
 
-		if (m_error)
-		{
-			mvAppLog::ShowMain();
-			mvAppLog::setSize(width, height);
-		}
-
-		else if (m_doc)
-		{
-			m_documentation->setToMainMode();
-			m_documentation->setSize(width, height);
-		}
+	mvWindowsWindow::mvWindowsWindow(unsigned width, unsigned height, bool editor, bool error, bool doc)
+		: mvWindow(width, height, editor, error, doc)
+	{
 
 		m_wc = { sizeof(WNDCLASSEX), CS_CLASSDC, HandleMsgSetup, 0L, 0L, GetModuleHandle(NULL), NULL, NULL, NULL, NULL, _T("DearPyGui Example"), NULL };
 		RegisterClassEx(&m_wc);
@@ -42,7 +32,14 @@ namespace Marvel {
 
 	mvWindowsWindow::~mvWindowsWindow()
 	{
-		cleanup();
+		// Cleanup
+		ImGui_ImplDX11_Shutdown();
+		ImGui_ImplWin32_Shutdown();
+		ImGui::DestroyContext();
+
+		CleanupDeviceD3D();
+		::DestroyWindow(m_hwnd);
+		::UnregisterClass(m_wc.lpszClassName, m_wc.hInstance);
 	}
 
 	void mvWindowsWindow::show()
@@ -96,11 +93,6 @@ namespace Marvel {
 		ImGui_ImplDX11_NewFrame();
 		ImGui_ImplWin32_NewFrame();
 		ImGui::NewFrame();
-	}
-
-	void mvWindowsWindow::render()
-	{
-
 	}
 
 	void mvWindowsWindow::run()
