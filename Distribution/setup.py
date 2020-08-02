@@ -11,6 +11,9 @@ with open("distinfo.txt") as file:
     DEARPYGUI_FILE = lines[0]
     DEARPYGUI_VERSION = lines[1]
 
+print("Setup File: ", DEARPYGUI_FILE)
+print("Setup Version: ", DEARPYGUI_VERSION)
+
 
 class BinaryDistribution(Distribution):
     """Distribution which always forces a binary package with platform name"""
