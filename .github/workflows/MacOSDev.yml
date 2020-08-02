@@ -41,8 +41,8 @@ jobs:
     - name: Build Test DearPyGui Wheel
       run: |
         cd /Users/runner/work/DearPyGui/DearPyGui/Distribution
-        python3 BuildPythonWheel.py /../cmake-build-release/DearPyGui/Release/dearpygui.so dearpygui.so
-        python3 -m setup bdist_wheel --plat-name macosx-10.6-x86_64 --dist-dir ../dist
+        python3 BuildPythonWheel.py /Users/runner/work/DearPyGui/DearPyGui/cmake-build-release/DearPyGui/dearpygui.so dearpygui.so
+        python3 -m setup bdist_wheel --plat-name macosx-10.6-x86_64 --dist-dir /Users/runner/work/DearPyGui/DearPyGui/dist
 
     - name: Upload Test DearPyGui Wheel
       if: "!contains(github.event.head_commit.message, 'upload skip')"
