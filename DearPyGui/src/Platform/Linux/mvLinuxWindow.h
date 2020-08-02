@@ -6,7 +6,7 @@ class GLFWwindow;
 
 namespace Marvel {
 
-	class mvLinuxWindow
+	class mvLinuxWindow : public mvWindow
 	{
 
 	public:
@@ -14,14 +14,10 @@ namespace Marvel {
         mvLinuxWindow(unsigned width, unsigned height, bool editor = false, bool error = false, bool doc = false);
 		~mvLinuxWindow();
 
-		virtual void show();
-
-		void setup();
-		void prerender();
-		void render();
-		void postrender();
-		void cleanup();
-		void run();
+		virtual void prerender() override;
+		virtual void postrender() override;
+		virtual void cleanup() override;
+		virtual void run() override;
 
 
 	private:

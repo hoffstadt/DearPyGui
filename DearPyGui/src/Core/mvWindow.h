@@ -26,18 +26,18 @@ namespace Marvel {
 
 	public:
 
-		mvWindow(unsigned width, unsigned height, bool editor = false, bool error = false, bool doc = false);
+		static mvWindow* CreatemvWindow(unsigned width, unsigned height, bool editor = false, bool error = false, bool doc = false);
 
+		mvWindow(unsigned width, unsigned height, bool editor = false, bool error = false, bool doc = false);
 		virtual ~mvWindow();
 
-		virtual void show      () = 0;
+		virtual void show      () {}
+		virtual void run       () {}
 		virtual void setup     () {}
 		virtual void prerender () {}
-		virtual void render ();
+		virtual void render    () {}
 		virtual void postrender() {}
 		virtual void cleanup   () {}
-
-		void run();
 
 	protected:
 
