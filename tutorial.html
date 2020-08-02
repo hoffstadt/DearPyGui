@@ -198,8 +198,50 @@ start_dearpygui()</code> </pre>
             </ul>
             The callback that is run on close of a window is specific to the window widget and used by assigning a
             callback to the "on_close" keyword argument.
-            <br><br>
         </p>
+        <pre><code data-language="python">from dearpygui.dearpygui import *
+
+add_window("close me", on_close="closeCallback")
+add_text("close this window")
+end_window()
+
+def closeCallback(sender, data):
+    print(sender + " has been closed")
+
+start_dearpygui()</code> </pre>
+    </article>
+
+    <article><a href="#logging"></a>
+        <h2>Built-in Logging</h2>
+        <hr>
+        <p>
+            One of the many powerful built in Developer tools is the Logger. This can be accessed through the command
+            <code class="inline-code" data-language="python">show_logger()</code>. The logger has 5 levels
+            <ol>
+                <li>Trace</li>
+                <li>Debug</li>
+                <li>Info</li>
+                <li>Warning</li>
+                <li>Error</li>
+            </ol>
+        The log commands can be filtered by setting the log level to the level of the log desired.
+        The logger will filter out the set level and any levels lower than that level level and all other levels higher.
+        <br><br>
+        "0" log level will show all the commands.
+        <br><br>
+        see below for an example
+        </p>
+        <pre><code>from dearpygui.dearpygui import *
+
+show_logger()
+set_log_level(0)
+log("trace message")
+log_debug("debug message")
+log_info("info message")
+log_warning("warning message")
+log_error("error message")
+
+start_dearpygui()</code> </pre>
     </article>
 
 
