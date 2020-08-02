@@ -13,6 +13,8 @@ if not os.path.isdir(script_dir +  "/dearpygui/"):
     os.mkdir(script_dir + "/dearpygui/")
 
 #shutil.copy(script_dir + "/../../cmake-build-release/DearPyGui/Release/dearpygui.pyd", script_dir + "/dearpygui")
+print("Script Dir: ", script_dir)
+print("Arg 1: ", sys.argv[1])
 shutil.copy(script_dir + sys.argv[1], script_dir +"/dearpygui")
 shutil.copy(script_dir + "/../DearPyGui/stubs/dearpygui.pyi", script_dir + "/dearpygui")
 
