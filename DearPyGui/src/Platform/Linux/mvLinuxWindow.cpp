@@ -35,7 +35,7 @@ namespace Marvel {
         const char* glsl_version = "#version 130";
         glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
         glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 0);
-        m_window = glfwCreateWindow(1280, 720, "Dear ImGui GLFW+Metal example", nullptr, nullptr);
+        m_window = glfwCreateWindow(1280, 720, "DearPyGui", nullptr, nullptr);
 
         glfwMakeContextCurrent(m_window);
         glfwSwapInterval(1); // Enable vsync
