@@ -41,7 +41,7 @@ jobs:
     - name: Build Test DearPyGui Wheel
       run: |
         cd /Users/runner/work/DearPyGui/DearPyGui/Distribution
-        python3 BuildPythonWheel.py /../cmake-build-release/DearPyGui/dearpygui.so dearpygui.so
+        python3 BuildPythonWheel.py /../cmake-build-release/DearPyGui/Release/dearpygui.so dearpygui.so
         python3 -m setup bdist_wheel --plat-name macosx-10.6-x86_64 --dist-dir ../dist
 
     - name: Upload Test DearPyGui Wheel
