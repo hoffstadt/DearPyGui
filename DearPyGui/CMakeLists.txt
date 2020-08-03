@@ -24,6 +24,9 @@ else()
 	set_target_properties(dearpygui PROPERTIES PREFIX "")
 	set_target_properties(dearpygui PROPERTIES CXX_STANDARD 17)
 
+	add_library(dearpyguiemb STATIC)
+	set_target_properties(dearpyguiemb PROPERTIES CXX_STANDARD 17)
+
 endif()
 
 set(MARVEL_SOURCES
@@ -95,6 +98,8 @@ set(MARVEL_INCLUDE_DIR
 	"src/Vendor/implot/"
 	"src/Vendor/stb/"
 
+	"/usr/include/python3.8/"
+
 	#new
 	"../Dependencies/cpython/debug/"
 )
@@ -165,28 +170,29 @@ elseif(APPLE)
 	)
 else()
 	target_sources(dearpygui PRIVATE ${MARVEL_SOURCES} )
-	#target_sources(dearpyguiemb PRIVATE ${MARVEL_SOURCES} )
+	target_sources(dearpyguiemb PRIVATE ${MARVEL_SOURCES} )
 
 	target_include_directories(dearpygui PRIVATE ${MARVEL_INCLUDE_DIR} )
-	#target_include_directories(dearpyguiemb PRIVATE ${MARVEL_INCLUDE_DIR} )
+	target_include_directories(dearpyguiemb PRIVATE ${MARVEL_INCLUDE_DIR})
 
 	set_property(TARGET dearpygui APPEND_STRING PROPERTY COMPILE_FLAGS "-fPIC -Wno-unused-result -Wsign-compare -DNDEBUG -g -fwrapv -O3 -Wall")
+	set_property(TARGET dearpyguiemb APPEND_STRING PROPERTY COMPILE_FLAGS "-fPIC -Wno-unused-result -Wsign-compare -DNDEBUG -g -fwrapv -O3 -Wall")
 	add_definitions(-DIMGUI_IMPL_OPENGL_LOADER_GL3W)
 
-	target_link_directories(dearpygui
-			PRIVATE
-				"../Dependencies/cpython/debug"
-				#"../Dependencies/cpython/debug/lib"
+	target_link_libraries(dearpygui
+			PUBLIC
+			"-L/usr/lib  -lcrypt -lpthread -ldl  -lutil -lm -lm"
+			GL
+			glfw
+			python3.8
 			)
 
-	target_link_libraries(dearpygui
-
+	target_link_libraries(dearpyguiemb
 			PUBLIC
-			"-lcrypt -lpthread -ldl  -lutil -lm"
-			$<$<PLATFORM_ID:Linux>:GL>
-			$<$<PLATFORM_ID:Linux>:glfw>
-			$<$<CONFIG:Debug>:python38_d>
-			$<$<CONFIG:Release>:python3.8>
+			"-L/usr/lib  -lcrypt -lpthread -ldl  -lutil -lm -lm"
+			GL
+			glfw
+			python3.8
 			)
 endif()
 
