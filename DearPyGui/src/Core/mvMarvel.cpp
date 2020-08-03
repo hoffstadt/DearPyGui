@@ -2997,9 +2997,10 @@ namespace Marvel {
 		int width = 0;
 		const char* before = "";
 		const char* parent = "";
+		int hide = false;
 
 		if (!(*mvApp::GetApp()->getParsers())["add_group"].parse(args, kwargs, __FUNCTION__, &name,
-			&tip, &parent, &before, &width))
+			&tip, &parent, &before, &width, &hide))
 			return mvPythonTranslator::GetPyNone();
 
 		mvAppItem* item = new mvGroup("", name);
@@ -3007,6 +3008,8 @@ namespace Marvel {
 		item->setWidth(width);
 		AddItemWithRuntimeChecks(item, parent, before);
 		mvApp::GetApp()->pushParent(item);
+		if (hide)
+			item->hide();
 		return mvPythonTranslator::GetPyNone();
 	}
 
