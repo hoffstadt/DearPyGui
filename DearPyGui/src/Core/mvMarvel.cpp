@@ -4368,14 +4368,21 @@ namespace Marvel {
 	PyObject* hide_item(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		const char* name;
+		int children_only = false;
 
-		if (!(*mvApp::GetApp()->getParsers())["hide_item"].parse(args, kwargs, __FUNCTION__, &name))
+		if (!(*mvApp::GetApp()->getParsers())["hide_item"].parse(args, kwargs, __FUNCTION__, &name, &children_only))
 			return mvPythonTranslator::GetPyNone();
 
 		mvAppItem* item = mvApp::GetApp()->getItem(std::string(name));
 
 		if (item != nullptr)
 			item->hide();
+
+		if (children_only)
+		{
+			item->hideAll();
+			item->show();
+		}
 
 		return mvPythonTranslator::GetPyNone();
 	}
