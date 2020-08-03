@@ -5215,8 +5215,9 @@ NULL, NULL, 0, NULL
 
 		auto constants = GetModuleConstants();
 
-		for (auto& item : constants)
-			PyModule_AddIntConstant(m, item.first.c_str(), item.second);
+		// handled in the stub file
+		//for (auto& item : constants)
+			//PyModule_AddIntConstant(m, item.first.c_str(), item.second);
 
 		auto MarvelError = PyErr_NewException("dearpygui.error", NULL, NULL);
 		Py_XINCREF(MarvelError);
