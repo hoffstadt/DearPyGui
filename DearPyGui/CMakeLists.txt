@@ -18,7 +18,7 @@ elseif(APPLE)
 	set_target_properties(dearpygui PROPERTIES PREFIX "")
 	set_target_properties(dearpygui PROPERTIES CXX_STANDARD 17)
 
-else()
+else() # Linux
 
 	add_library(dearpygui SHARED)
 	set_target_properties(dearpygui PROPERTIES PREFIX "")
@@ -82,7 +82,6 @@ set(MARVEL_SOURCES
 	"$<$<PLATFORM_ID:Linux>:../Dependencies/imgui/examples/libs/gl3w/GL/gl3w.c>"
 	"$<$<PLATFORM_ID:Linux>:../Dependencies/imgui/examples/imgui_impl_glfw.cpp>"
 	"$<$<PLATFORM_ID:Linux>:../Dependencies/imgui/examples/imgui_impl_opengl3.cpp>"
-
 )
 
 set(MARVEL_INCLUDE_DIR
@@ -97,15 +96,13 @@ set(MARVEL_INCLUDE_DIR
 	"../Dependencies/cpython/Include/"
 	"src/Vendor/implot/"
 	"src/Vendor/stb/"
+	"$<$<PLATFORM_ID:Windows>:${CMAKE_SOURCE_DIR}/Dependencies/cpython/PC/>"
 
 	"/usr/include/python3.8/"
 
 	#new
 	"../Dependencies/cpython/debug/"
 )
-
-
-
 
 if(WIN32)
 
@@ -168,7 +165,9 @@ elseif(APPLE)
 			"-framework IOKit"
 			"-framework QuartzCore"
 	)
-else()
+
+else() # Linux
+
 	target_sources(dearpygui PRIVATE ${MARVEL_SOURCES} )
 	target_sources(dearpyguiemb PRIVATE ${MARVEL_SOURCES} )
 
@@ -180,23 +179,26 @@ else()
 	add_definitions(-DIMGUI_IMPL_OPENGL_LOADER_GL3W)
 
 	target_link_libraries(dearpygui
-			PUBLIC
+		
+		PUBLIC
+		
 			"-L/usr/lib  -lcrypt -lpthread -ldl  -lutil -lm -lm"
 			GL
 			glfw
 			python3.8
-			)
+	)
 
 	target_link_libraries(dearpyguiemb
-			PUBLIC
+				
+		PUBLIC
+
 			"-L/usr/lib  -lcrypt -lpthread -ldl  -lutil -lm -lm"
 			GL
 			glfw
 			python3.8
-			)
+	)
+
 endif()
-
-
 
 target_compile_definitions(dearpygui
 

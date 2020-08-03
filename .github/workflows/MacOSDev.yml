@@ -2,9 +2,9 @@ name: MacOSDev
 
 on:
   push:
-    branches: [ development ]
+    branches: [ development, mac ]
   pull_request:
-    branches: [ development ]
+    branches: [ development, mac ]
     
 jobs:
 

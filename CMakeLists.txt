@@ -18,7 +18,7 @@ if(WIN32)
 elseif(APPLE)
 	add_subdirectory ("Dependencies/json")
 	add_subdirectory ("Dependencies/glfw")
-else()
+else() # Linux
 	add_subdirectory ("Dependencies/glfw")
 	add_subdirectory ("DearSandbox")
 endif()

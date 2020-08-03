@@ -2,9 +2,9 @@ name: WindowsDev
 
 on:
   push:
-    branches: [ development ]
+    branches: [ development, windows ]
   pull_request:
-    branches: [ development ]
+    branches: [ development, windows ]
     
 jobs:
 
