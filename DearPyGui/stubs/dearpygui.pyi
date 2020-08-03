@@ -524,7 +524,7 @@ def get_window_pos(window: str) -> List[float]:
 	"""Gets a windows position"""
 	...
 
-def hide_item(name: str) -> None:
+def hide_item(name: str, children_only: bool = False) -> None:
 	"""Hides an item."""
 	...
 
