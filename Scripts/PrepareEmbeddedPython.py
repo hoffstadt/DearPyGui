@@ -144,12 +144,6 @@ with open(debug_dir32 + "/python38._pth", 'w') as file:
     file.write("# Uncomment to run site.main() automatically\n")
     file.write("#import site\n")
 
-
-# copy pyconfig.h to proper location
-include_dir = script_dir + "/../Dependencies/cpython/Include/"
-config_file = script_dir + "/../Dependencies/cpython/PC/pyconfig.h"
-shutil.copy(config_file, include_dir)
-
 # get pip
 import urllib.request
 urllib.request.urlretrieve('https://bootstrap.pypa.io/get-pip.py', "../Dependencies/cpython/PCbuild/amd64/get-pip.py")

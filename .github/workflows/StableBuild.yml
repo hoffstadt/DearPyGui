@@ -65,7 +65,7 @@ jobs:
     - name: Retrieve submodules
       run: git submodule update --init --recursive
     
-    - name: configure
+    - name: Build Python
       run: |
         brew install openssl
         cd Dependencies/cpython
@@ -80,7 +80,7 @@ jobs:
         cd cmake-build-release
         cmake ..
 
-    - name: build
+    - name: Build Dear PyGui
       run: |
         cmake --build cmake-build-release --config Release
 

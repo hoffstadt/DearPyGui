@@ -2,9 +2,9 @@ name: LinuxDev
 
 on:
   push:
-    branches: [ development ]
+    branches: [ development, linux ]
   pull_request:
-    branches: [ development ]
+    branches: [ development, linux ]
     
 jobs:
 
