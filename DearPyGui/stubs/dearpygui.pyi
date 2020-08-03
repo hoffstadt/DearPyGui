@@ -80,7 +80,7 @@ def add_drawing(name: str, tip: str = ..., parent: str = ..., before: str = ...,
 	"""Adds a drawing widget."""
 	...
 
-def add_group(name: str, tip: str = ..., parent: str = ..., before: str = ..., width: int = ...) -> None:
+def add_group(name: str, tip: str = ..., parent: str = ..., before: str = ..., width: int = ..., hide: bool = False) -> None:
 	"""Creates a group that other widgets can belong to. The group allows item commands to be issued for all of its members.				Must be closed with the end_group command unless added at runtime."""
 	...
 
