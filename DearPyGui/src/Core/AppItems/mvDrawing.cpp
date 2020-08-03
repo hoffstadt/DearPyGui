@@ -529,6 +529,12 @@ namespace Marvel {
 			switch (command->getType())
 			{
 
+			case mvDrawingCommandType::DrawImage:
+			{
+				// TODO: figure out how to handle this
+				break;
+			}
+
 			case mvDrawingCommandType::DrawLine:
 			{
 				mvDrawLineCommand& acommand = *static_cast<mvDrawLineCommand*>(command);

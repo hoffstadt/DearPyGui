@@ -53,7 +53,7 @@ namespace Marvel {
 
 				// Regular Tooltip (simple)
 				if (item->getTip() != "" && ImGui::IsItemHovered())
-					ImGui::SetTooltip(item->getTip().c_str());
+					ImGui::SetTooltip("%s", item->getTip().c_str());
 
 
 				item->setHovered(ImGui::IsItemHovered());
@@ -73,7 +73,7 @@ namespace Marvel {
 
 			// TODO check if these work for child
 			if (m_tip != "" && ImGui::IsItemHovered())
-				ImGui::SetTooltip(m_tip.c_str());
+				ImGui::SetTooltip("%s", m_tip.c_str());
 
 			// allows this item to have a render callback
 			registerWindowFocusing();
@@ -132,7 +132,7 @@ namespace Marvel {
 
 				// Regular Tooltip (simple)
 				if (item->getTip() != "" && ImGui::IsItemHovered())
-					ImGui::SetTooltip(item->getTip().c_str());
+					ImGui::SetTooltip("%s", item->getTip().c_str());
 
 
 				item->setHovered(ImGui::IsItemHovered());
@@ -200,7 +200,7 @@ namespace Marvel {
 
 					// Regular Tooltip (simple)
 					if (item->getTip() != "" && ImGui::IsItemHovered())
-						ImGui::SetTooltip(item->getTip().c_str());
+						ImGui::SetTooltip("%s", item->getTip().c_str());
 
 
 					item->setHovered(ImGui::IsItemHovered());
@@ -266,7 +266,7 @@ namespace Marvel {
 
 					// Regular Tooltip (simple)
 					if (item->getTip() != "" && ImGui::IsItemHovered())
-						ImGui::SetTooltip(item->getTip().c_str());
+						ImGui::SetTooltip("%s", item->getTip().c_str());
 
 
 					item->setHovered(ImGui::IsItemHovered());

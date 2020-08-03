@@ -10,23 +10,23 @@ namespace Marvel {
 
 	static void DebugItem(const char* label, const char* item)
 	{
-		ImGui::Text(label);
+		ImGui::Text("%s", label);
 		ImGui::SameLine();
-		ImGui::TextColored(ImVec4(1.0f, 0.0f, 1.0f, 1.0f), item);
+		ImGui::TextColored(ImVec4(1.0f, 0.0f, 1.0f, 1.0f), "%s", item);
 	}
 
 	static void DebugItem(const char* label, float x)
 	{
-		ImGui::Text(label);
+		ImGui::Text("%s", label);
 		ImGui::SameLine();
-		ImGui::TextColored(ImVec4(1.0f, 0.0f, 1.0f, 1.0f), std::to_string(x).c_str());
+		ImGui::TextColored(ImVec4(1.0f, 0.0f, 1.0f, 1.0f), "%s", std::to_string(x).c_str());
 	}
 
 	static void DebugItem(const char* label, float x, float y)
 	{
-		ImGui::Text(label);
+		ImGui::Text("%s", label);
 		ImGui::SameLine();
-		ImGui::TextColored(ImVec4(1.0f, 0.0f, 1.0f, 1.0f), (std::to_string(x) + ", " + std::to_string(y)).c_str());
+		ImGui::TextColored(ImVec4(1.0f, 0.0f, 1.0f, 1.0f), "%s", (std::to_string(x) + ", " + std::to_string(y)).c_str());
 	}
 
 	void mvDebugWindow::renderItem(mvAppItem* item)
@@ -236,7 +236,7 @@ namespace Marvel {
 				ImGui::BeginChild("CommandsDoc##debug", ImVec2(500.0f, 200.0f), true);
 				ImGui::PushStyleColor(ImGuiCol_Text, { 1.0f, 0.0f, 1.0f, 1.0f });
 				ImGui::PushTextWrapPos(500);
-				ImGui::Text(commanddoc);
+				ImGui::Text("%s", commanddoc);
 				ImGui::PopStyleColor();
 				ImGui::PopTextWrapPos();
 				ImGui::EndChild();

@@ -383,7 +383,7 @@ namespace Marvel {
 
 		for (auto& header : m_headers)
 		{
-			ImGui::Text(header.c_str());
+			ImGui::Text("%s", header.c_str());
 			ImGui::NextColumn();
 		}
 		ImGui::Separator();
