@@ -18,9 +18,7 @@ target_include_directories(DearSandbox
 
 		"../Dependencies/cpython/Include/"
 		"$<$<PLATFORM_ID:Windows>:${CMAKE_SOURCE_DIR}/Dependencies/cpython/PC/>"
-		"../Dependencies/json/include/"
 		"../Dependencies/imgui/"
-		"Vendor/CLIUtils/"
 		"../DearPyGui/src/"
 		"../DearPyGui/include/"
 		"$<$<PLATFORM_ID:Linux>:/usr/include/python3.8/>"
@@ -46,14 +44,9 @@ if (WIN32)
 		PUBLIC
 
 			dearpyguiemb
-			nlohmann_json::nlohmann_json
 			$<$<CONFIG:Debug>:python38_d>
 			$<$<CONFIG:Release>:python38>
 	)
-
-	add_custom_command(TARGET DearSandbox PRE_BUILD
-                   COMMAND ${CMAKE_COMMAND} -E copy
-                       ${CMAKE_SOURCE_DIR}/DearSandbox/dearpygui_config.json $<TARGET_FILE_DIR:DearSandbox>)
 
 	if(CONFIG_32BIT)
 		add_custom_command(TARGET DearSandbox PRE_BUILD

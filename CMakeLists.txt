@@ -13,10 +13,8 @@ add_subdirectory ("ImguiTesting")
 add_subdirectory ("DearPyGui")
 
 if(WIN32)
-	add_subdirectory ("Dependencies/json")
 	add_subdirectory ("DearSandbox")
 elseif(APPLE)
-	add_subdirectory ("Dependencies/json")
 	add_subdirectory ("Dependencies/glfw")
 else() # Linux
 	add_subdirectory ("Dependencies/glfw")
