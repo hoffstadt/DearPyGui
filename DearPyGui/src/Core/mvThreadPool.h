@@ -334,10 +334,10 @@ namespace Marvel {
 
         const char* getVersion() const { return "v0.2"; }
 
-        template<typename F>
-        std::future<typename std::result_of<F()>::type> submit(F f)
+        template<typename F, typename ...Args>
+        std::future<typename std::invoke_result<F, Args...>::type> submit(F f)
         {
-            typedef typename std::result_of<F()>::type result_type;
+            typedef typename std::invoke_result<F, Args...>::type result_type;
             std::packaged_task<result_type()> task(std::move(f));
             std::future<result_type> res(task.get_future());
             if (m_local_work_queue)

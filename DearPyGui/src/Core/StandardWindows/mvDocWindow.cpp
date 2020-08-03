@@ -119,12 +119,12 @@ namespace Marvel {
 
 	static void ColorText(const char* item)
 	{
-		ImGui::TextColored(ImVec4(1.0f, 0.0f, 1.0f, 1.0f), item);
+		ImGui::TextColored(ImVec4(1.0f, 0.0f, 1.0f, 1.0f), "%s", item);
 	}
 
 	static void CodeColorText(const char* item)
 	{
-		ImGui::TextColored(ImVec4(0.0f, 1.0f, 1.0f, 1.0f), item);
+		ImGui::TextColored(ImVec4(0.0f, 1.0f, 1.0f, 1.0f), "%s", item);
 	}
 
 	void mvDocWindow::render(bool& show)
@@ -577,7 +577,7 @@ namespace Marvel {
 				ImGui::SameLine();
 				ImGui::BeginChild("DocChild", ImVec2(500, 600), true);
 				ImGui::PushTextWrapPos(ImGui::GetCursorPos().x + 400);
-				ImGui::Text(m_doc);
+				ImGui::Text("%s", m_doc);
 				ImGui::PopTextWrapPos();
 				ImGui::EndChild();
 
@@ -611,7 +611,7 @@ namespace Marvel {
 				ImGui::BeginChild("CommandsDoc##debug", ImVec2(500.0f, 600.0f), true);
 				ImGui::PushStyleColor(ImGuiCol_Text, { 1.0f, 0.0f, 1.0f, 1.0f });
 				ImGui::PushTextWrapPos(500);
-				ImGui::Text(commanddoc);
+				ImGui::Text("%s", commanddoc);
 				ImGui::PopStyleColor();
 				ImGui::PopTextWrapPos();
 				ImGui::EndChild();
