@@ -79,7 +79,7 @@ Result:
 
 
 #### Plotting/Graphing
-_DearPyGui_ includes a plotting API (ImPlot Wrapping)
+_DearPyGui_ includes a plotting API ([ImPlot](https://github.com/epezent/implot) Wrapping)
 
 <img src="https://raw.githubusercontent.com/wiki/epezent/implot/screenshots/controls.gif" width="270"> <img src="https://raw.githubusercontent.com/wiki/epezent/implot/screenshots/dnd.gif" width="270"> <img src="https://raw.githubusercontent.com/wiki/epezent/implot/screenshots/log.gif" width="270">
 
