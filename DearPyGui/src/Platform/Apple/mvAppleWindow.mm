@@ -18,6 +18,15 @@ namespace Marvel {
 		return new mvAppleWindow(width, height, editor, error, doc);
 	}
 
+    static void window_size_callback(GLFWwindow* window, int width, int height)
+    {
+
+        mvApp::GetApp()->setActualSize(width, height);
+        mvApp::GetApp()->setWindowSize(width, height);
+        mvApp::GetApp()->runCallback(mvApp::GetApp()->getResizeCallback(), "Main Application");
+        mvDocWindow::GetWindow()->setSize(width, height);
+    }
+
     static void glfw_error_callback(int error, const char *description)
     {
         fprintf(stderr, "Glfw Error %d: %s\n", error, description);
@@ -43,7 +52,7 @@ namespace Marvel {
 
         // Create window with graphics context
         glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
-        m_window = glfwCreateWindow(1280, 720, "DearPyGui", NULL, NULL);
+        m_window = glfwCreateWindow(width, height, "DearPyGui", NULL, NULL);
 
 
         id <MTLDevice> device = MTLCreateSystemDefaultDevice();;
@@ -60,6 +69,9 @@ namespace Marvel {
         nswin.contentView.wantsLayer = YES;
 
         m_renderPassDescriptor = [MTLRenderPassDescriptor new];
+
+        // Setup callbacks
+        glfwSetWindowSizeCallback(m_window, window_size_callback);
     }
 
     mvAppleWindow::~mvAppleWindow()

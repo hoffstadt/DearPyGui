@@ -22,6 +22,15 @@ namespace Marvel {
         fprintf(stderr, "Glfw Error %d: %s\n", error, description);
     }
 
+    static void window_size_callback(GLFWwindow* window, int width, int height)
+    {
+
+        mvApp::GetApp()->setActualSize(width, height);
+        mvApp::GetApp()->setWindowSize(width, height);
+        mvApp::GetApp()->runCallback(mvApp::GetApp()->getResizeCallback(), "Main Application");
+        mvDocWindow::GetWindow()->setSize(width, height);
+    }
+
     mvLinuxWindow::mvLinuxWindow(unsigned width, unsigned height, bool editor, bool error, bool doc)
 		: mvWindow(width, height, editor, error, doc)
 	{
@@ -35,7 +44,7 @@ namespace Marvel {
         const char* glsl_version = "#version 130";
         glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
         glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 0);
-        m_window = glfwCreateWindow(1280, 720, "DearPyGui", nullptr, nullptr);
+        m_window = glfwCreateWindow(width, height, "DearPyGui", nullptr, nullptr);
 
         glfwMakeContextCurrent(m_window);
         glfwSwapInterval(1); // Enable vsync
@@ -55,6 +64,9 @@ namespace Marvel {
         // Setup Platform/Renderer bindings
         ImGui_ImplGlfw_InitForOpenGL(m_window, true);
         ImGui_ImplOpenGL3_Init(glsl_version);
+
+        // Setup callbacks
+        glfwSetWindowSizeCallback(m_window, window_size_callback);
 
 	}
 
