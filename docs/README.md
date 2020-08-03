@@ -77,14 +77,22 @@ Result:
 
 ---
 
+
+#### Plotting/Graphing
+_DearPyGui_ includes a plotting API (ImPlot Wrapping)
+
+<img src="https://raw.githubusercontent.com/wiki/epezent/implot/screenshots/controls.gif" width="270"> <img src="https://raw.githubusercontent.com/wiki/epezent/implot/screenshots/dnd.gif" width="270"> <img src="https://raw.githubusercontent.com/wiki/epezent/implot/screenshots/log.gif" width="270">
+
+<img src="https://raw.githubusercontent.com/wiki/epezent/implot/screenshots/bar.gif" width="270"> <img src="https://raw.githubusercontent.com/wiki/epezent/implot/screenshots/query.gif" width="270"> 
+<img src="https://raw.githubusercontent.com/wiki/epezent/implot/screenshots/views.gif" width="270"> 
+
+<img src="https://raw.githubusercontent.com/wiki/epezent/implot/screenshots/noise.gif" width="270"> <img src="https://raw.githubusercontent.com/wiki/epezent/implot/screenshots/stock.gif" width="270"> 
+<img src="https://raw.githubusercontent.com/wiki/epezent/implot/screenshots/multiy.gif" width="270"> 
+
 #### Themes
 _DearPyGui_ currently includes 10 themes (a full custom theming system will be available in **v0.2**):
 <BR>![Themes](https://github.com/RaylockLLC/DearPyGui/blob/assets/Themes.PNG?raw=true)
 
-#### Plotting/Graphing
-_DearPyGui_ includes a plotting API built using ImPlot.
-<BR>![BasicUsageExample](https://github.com/RaylockLLC/DearPyGui/blob/assets/PlottingExample1.PNG?raw=true)
-  
 #### Drawings
 _DearPyGui_ includes a drawing API to create custom drawings, plot, and even 2D games.
 <BR>![BasicUsageExample](https://github.com/RaylockLLC/DearPyGui/blob/assets/DrawingExample1.PNG?raw=true)
