@@ -19,6 +19,15 @@ namespace Marvel {
 		{
 			mvTextureStorage::AddTexture(m_file);
 			mvTexture* texture = mvTextureStorage::GetTexture(m_file);
+            if(texture == nullptr)
+            {
+                PyObject* ex = PyErr_Format(PyExc_Exception,
+                                            "Image %s could not be found for draw_image. Check the path to the image "
+                                            "you provided.", m_file.c_str());
+                PyErr_Print();
+                m_file = "";
+                return;
+            }
 			if (m_width == 0) m_width = texture->width * (m_uv_max.x - m_uv_min.x);
 			if (m_height == 0) m_height = texture->height * (m_uv_max.y - m_uv_min.y);
 
