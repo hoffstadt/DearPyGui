@@ -96,23 +96,50 @@ Using the ```show_documentation()``` command opens the built-in documentation wi
 <BR>![BasicUsageExample](https://github.com/RaylockLLC/DearPyGui/blob/assets/DocumentationExample.PNG?raw=true)
   
 ### Building
+The actual builds of _DearPyGui_ are created through github actions however, to develop and test locally, follow the instructions below:
 
 ---
 
-#### Windows
+#### Windows 10
 
 ##### Build Requirements
 
-- [_Visual Studio 2019_ (windows)](https://visualstudio.microsoft.com/vs/) (with Python workflow selected)
+- [_Visual Studio 2019_ (windows)](https://visualstudio.microsoft.com/vs/) with the following workloads:
+  - Python development
+  - Desktop development with C++
+  - Game development with C++
 - [_git_](https://git-scm.com/)
+
+##### Instructions
 
 1. From within a local directory, enter the following bash commands:
 ```
 git clone --recursive https://github.com/RaylockLLC/DearPyGui
 ```
-3. Open the _Scripts_ folder and run the _BuildPythonForWindows.bat_ file.
-4. In Visual Studio, use _Open a local folder_ to open _DearPyGui_ folder.
-5. Switch to the release configuration and run _Build All_.
+2. Open the _Scripts_ folder and run the _BuildPythonForWindows.bat_ file.
+3. In Visual Studio, use _Open a local folder_ to open _DearPyGui_ folder.
+4. Switch to the release configuration and run _Build All_.
+
+#### Ubuntu 20.04
+
+##### Build Requirements
+
+- CLion
+
+##### Instructions
+
+1. From within a local directory, enter the following bash commands:
+```
+git clone --recursive https://github.com/RaylockLLC/DearPyGui
+```
+2. Open the _cpython_ folder inside of _Dependencies_.
+3. Open the terminal and type the following commands:
+```
+./configure --with-pydebug
+sudo make && sudo make install
+```
+4. Open the project in CLion
+5. Switch the configuration to _DearSandbox_ and build.
 
 ### Upcoming Changes
 
