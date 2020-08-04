@@ -1517,17 +1517,8 @@ namespace Marvel {
 			{mvPythonDataType::Float, "scale", "default is 1.0"}
 		}, "Changes the global font scale.") });
 
-		parsers->insert({ "generate_stub_file", mvPythonParser({
-			{mvPythonDataType::String, "directory", ""}
-		}, "Generates stub files.") });
-
 		parsers->insert({ "get_global_font_scale", mvPythonParser({
 		}, "Returns the global font scale.", "float") });
-
-		parsers->insert({ "run_file", mvPythonParser({
-			{mvPythonDataType::String, "file", "Path to python file."},
-			{mvPythonDataType::String, "flags"},
-		}, "Runs a seperate DearPyGui app.") });
 
 		parsers->insert({ "run_async_function", mvPythonParser({
 			{mvPythonDataType::String, "name"},
