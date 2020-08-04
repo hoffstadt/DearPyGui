@@ -1504,6 +1504,15 @@ namespace Marvel {
 
 	static void AddAppCommands(std::map<std::string, mvPythonParser>* parsers)
 	{
+		parsers->insert({ "setup_dearpygui", mvPythonParser({
+		}, "Starts DearPyGui") });
+
+		parsers->insert({ "render_dearpygui_frame", mvPythonParser({
+		}, "Starts DearPyGui") });
+
+		parsers->insert({ "cleanup_dearpygui", mvPythonParser({
+		}, "Starts DearPyGui") });
+
 		parsers->insert({ "start_dearpygui", mvPythonParser({
 		}, "Starts DearPyGui") });
 

@@ -31,13 +31,14 @@ namespace Marvel {
 		mvWindow(unsigned width, unsigned height, bool editor = false, bool error = false, bool doc = false);
 		virtual ~mvWindow();
 
-		virtual void show      () {}
-		virtual void run       () {}
-		virtual void setup     () {}
-		virtual void prerender () {}
-		virtual void render    () {}
-		virtual void postrender() {}
-		virtual void cleanup   () {}
+		virtual void show       () {}
+		virtual void run        () {}
+		virtual void setup      () {}
+		virtual void prerender  () {}
+		virtual void render     () {}
+		virtual void renderFrame() {}
+		virtual void postrender () {}
+		virtual void cleanup    () {}
 
 	protected:
 
