@@ -399,10 +399,6 @@ def end_window() -> None:
 	"""Ends the window created by a call to add_window."""
 	...
 
-def generate_stub_file(directory: str) -> None:
-	"""Generates stub files."""
-	...
-
 def get_active_window() -> str:
 	"""Returns the active window name."""
 	...
@@ -653,10 +649,6 @@ def open_file_dialog(extensions: List[str]) -> str:
 
 def run_async_function(name: str, data: object, return_handler: str = "") -> None:
 	"""Runs a function asyncronously."""
-	...
-
-def run_file(file: str, flags: str) -> None:
-	"""Runs a seperate DearPyGui app."""
 	...
 
 def save_file_dialog(extensions: List[str]) -> str:

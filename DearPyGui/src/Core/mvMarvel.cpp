@@ -144,18 +144,6 @@ namespace Marvel {
 		return mvPythonTranslator::GetPyNone();
 	}
 
-	PyObject* generate_stub_file(PyObject* self, PyObject* args, PyObject* kwargs)
-	{
-		const char* file;
-
-		if (!(*mvApp::GetApp()->getParsers())["generate_stub_file"].parse(args, kwargs, __FUNCTION__, &file))
-			return mvPythonTranslator::GetPyNone();
-
-		GenerateStubFile(file);
-
-		return mvPythonTranslator::GetPyNone();
-	}
-
 	PyObject* set_global_font_scale(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		float scale;
@@ -171,19 +159,6 @@ namespace Marvel {
 	PyObject* get_global_font_scale(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		return mvPythonTranslator::ToPyFloat(mvApp::GetApp()->getGlobalFontScale());
-	}
-
-	PyObject* run_file(PyObject* self, PyObject* args, PyObject* kwargs)
-	{
-		const char* file;
-		const char* flags;
-
-		if (!(*mvApp::GetApp()->getParsers())["run_file"].parse(args, kwargs, __FUNCTION__, &file, &flags))
-			return mvPythonTranslator::GetPyNone();
-
-		RunFile(file, flags);
-
-		return mvPythonTranslator::GetPyNone();
 	}
 
 	PyObject* add_drawing(PyObject* self, PyObject* args, PyObject* kwargs)
@@ -4998,13 +4973,11 @@ namespace Marvel {
 		ADD_PYTHON_FUNCTION(start_dearpygui_editor)
 		ADD_PYTHON_FUNCTION(start_dearpygui_docs)
 		ADD_PYTHON_FUNCTION(clear_table)
-		ADD_PYTHON_FUNCTION(generate_stub_file)
 		ADD_PYTHON_FUNCTION(get_window_pos)
 		ADD_PYTHON_FUNCTION(set_window_pos)
 		ADD_PYTHON_FUNCTION(get_global_font_scale)
 		ADD_PYTHON_FUNCTION(set_global_font_scale)
 		ADD_PYTHON_FUNCTION(select_directory_dialog)
-		ADD_PYTHON_FUNCTION(run_file)
 		ADD_PYTHON_FUNCTION(add_table)
 		ADD_PYTHON_FUNCTION(end_tree_node)
 		ADD_PYTHON_FUNCTION(end_popup)
