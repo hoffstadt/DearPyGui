@@ -14,10 +14,11 @@ namespace Marvel {
         mvLinuxWindow(unsigned width, unsigned height, bool editor = false, bool error = false, bool doc = false);
 		~mvLinuxWindow();
 
-		virtual void prerender() override;
-		virtual void postrender() override;
-		virtual void cleanup() override;
-		virtual void run() override;
+		virtual void prerender  () override;
+		virtual void postrender () override;
+		virtual void renderFrame() override;
+		virtual void cleanup    () override;
+		virtual void run        () override;
 
 
 	private:

@@ -100,6 +100,41 @@ namespace Marvel {
 		return std::move(result);
 	}
 
+	PyObject* setup_dearpygui(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+
+		mvApp::GetApp()->precheck();
+		mvApp::SetAppStarted();
+
+		// create window
+		auto window = mvWindow::CreatemvWindow(mvApp::GetApp()->getActualWidth(), mvApp::GetApp()->getActualHeight());
+		window->show();
+		mvApp::GetApp()->setViewport(window);
+		window->setup();
+
+		return mvPythonTranslator::GetPyNone();
+	}
+
+	PyObject* render_dearpygui_frame(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+
+		auto window = mvApp::GetApp()->getViewport();
+		window->renderFrame();
+
+		return mvPythonTranslator::GetPyNone();
+	}
+
+	PyObject* cleanup_dearpygui(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+
+		auto window = mvApp::GetApp()->getViewport();
+		delete window;
+		mvApp::GetApp()->setViewport(nullptr);
+		mvApp::DeleteApp();
+
+		return mvPythonTranslator::GetPyNone();
+	}
+
 	PyObject* start_dearpygui(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 
@@ -4969,6 +5004,9 @@ namespace Marvel {
 
 	static PyMethodDef dearpyguimethods[]
 	{
+		ADD_PYTHON_FUNCTION(setup_dearpygui)
+		ADD_PYTHON_FUNCTION(render_dearpygui_frame)
+		ADD_PYTHON_FUNCTION(cleanup_dearpygui)
 		ADD_PYTHON_FUNCTION(start_dearpygui)
 		ADD_PYTHON_FUNCTION(start_dearpygui_editor)
 		ADD_PYTHON_FUNCTION(start_dearpygui_docs)

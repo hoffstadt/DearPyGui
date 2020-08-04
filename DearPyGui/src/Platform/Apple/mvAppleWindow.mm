@@ -88,6 +88,11 @@ namespace Marvel {
         m_appEditor = nullptr;
     }
 
+    void mvAppleWindow::renderFrame()
+    {
+    
+	}
+
     void mvAppleWindow::render() {
 
         while(!glfwWindowShouldClose(m_window))
