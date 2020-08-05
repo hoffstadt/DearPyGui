@@ -1213,56 +1213,56 @@ namespace Marvel {
 
 	PyObject* log(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
-		const char* message;
+		PyObject* message;
 		const char* level = "TRACE";
 		if (!(*mvApp::GetApp()->getParsers())["log"].parse(args, kwargs, __FUNCTION__, &message, &level))
 			return mvPythonTranslator::GetPyNone();
 
-		mvAppLog::Log(std::string(message), std::string(level));
+		mvAppLog::Log(mvPythonTranslator::ToString(message), std::string(level));
 		return mvPythonTranslator::GetPyNone();
 	}
 
 	PyObject* log_debug(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
-		const char* message;
+		PyObject* message;
 
 		if (!(*mvApp::GetApp()->getParsers())["log_debug"].parse(args, kwargs, __FUNCTION__, &message))
 			return mvPythonTranslator::GetPyNone();
 
-		mvAppLog::LogDebug(std::string(message));
+		mvAppLog::LogDebug(mvPythonTranslator::ToString(message));
 		return mvPythonTranslator::GetPyNone();
 	}
 
 	PyObject* log_info(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
-		const char* message;
+		PyObject* message;
 
 		if (!(*mvApp::GetApp()->getParsers())["log_info"].parse(args, kwargs, __FUNCTION__, &message))
 			return mvPythonTranslator::GetPyNone();
 
-		mvAppLog::LogInfo(std::string(message));
+		mvAppLog::LogInfo(mvPythonTranslator::ToString(message));
 		return mvPythonTranslator::GetPyNone();
 	}
 
 	PyObject* log_warning(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
-		const char* message;
+		PyObject* message;
 
 		if (!(*mvApp::GetApp()->getParsers())["log_warning"].parse(args, kwargs, __FUNCTION__, &message))
 			return mvPythonTranslator::GetPyNone();
 
-		mvAppLog::LogWarning(std::string(message));
+		mvAppLog::LogWarning(mvPythonTranslator::ToString(message));
 		return mvPythonTranslator::GetPyNone();
 	}
 
 	PyObject* log_error(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
-		const char* message;
+		PyObject* message;
 
 		if (!(*mvApp::GetApp()->getParsers())["log_error"].parse(args, kwargs, __FUNCTION__, &message))
 			return mvPythonTranslator::GetPyNone();
 
-		mvAppLog::LogError(std::string(message));
+		mvAppLog::LogError(mvPythonTranslator::ToString(message));
 		return mvPythonTranslator::GetPyNone();
 	}
 
