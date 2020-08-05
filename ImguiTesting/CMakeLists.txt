@@ -16,9 +16,6 @@ target_sources(PureImgui
 		# implot
 		"../DearPyGui/src/Vendor/implot/implot.cpp"
 		"../DearPyGui/src/Vendor/implot/implot_demo.cpp"
-		
-		# ImGuiFileDialog
-		"../Dependencies/ImGuiFileDialog/ImGuiFileDialog/ImGuiFileDialog.cpp"
 
 		# imgui
 		"../Dependencies/imgui/imgui.cpp"
@@ -38,8 +35,6 @@ target_sources(PureImgui
 
 
 if(APPLE)
-	add_definitions(-DAPPLE)
-	add_definitions(-DUNIX)
 	SET_PROPERTY(TARGET PureImgui APPEND_STRING PROPERTY COMPILE_FLAGS "-fobjc-arc")
 
 	set(CMAKE_EXE_LINKER_FLAGS "\
@@ -50,8 +45,6 @@ if(APPLE)
 		-framework CoreVideo \
 		-framework QuartzCore")
 elseif(UNIX)
-	add_definitions(-DLINUX)
-	add_definitions(-DUNIX)
 	SET_PROPERTY(TARGET PureImgui APPEND_STRING PROPERTY COMPILE_FLAGS "-g -Wall -Wformat")
 	add_definitions(-DIMGUI_IMPL_OPENGL_LOADER_GL3W)
 endif()
@@ -70,7 +63,6 @@ target_include_directories(PureImgui
 		"../Dependencies/imgui/examples/libs/gl3w"
 		"../DearPyGui/src/Vendor/implot/"
 		"../DearPyGui/src/Vendor/stb/"
-	    "$<$<PLATFORM_ID:Windows>:${CMAKE_SOURCE_DIR}/DearPyGui/src/Vendor/dirent/>"
 
 )
 
