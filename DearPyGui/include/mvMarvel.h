@@ -1419,6 +1419,8 @@ namespace Marvel {
 			{mvPythonDataType::String, "before", "Item to add this item before. (runtime adding)"},
 			{mvPythonDataType::Integer, "width",""},
 			{mvPythonDataType::Bool, "hide"},
+			{mvPythonDataType::Bool, "horizontal"},
+			{mvPythonDataType::Float, "horizontal_spacing",""},
 		}, "Creates a group that other widgets can belong to. The group allows item commands to be issued for all of its members.\
 				Must be closed with the end_group command unless added at runtime."
 		, "None", "Containers") });
