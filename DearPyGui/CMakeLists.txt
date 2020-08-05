@@ -69,6 +69,9 @@ set(MARVEL_SOURCES
 	"src/Vendor/implot/implot.cpp"
 	"src/Vendor/implot/implot_demo.cpp"
 
+	# ImGuiFileDialog
+	"../Dependencies/ImGuiFileDialog/ImGuiFileDialog/ImGuiFileDialog.cpp"
+
 	# imgui
 	"../Dependencies/imgui/misc/cpp/imgui_stdlib.cpp"
 	"../Dependencies/imgui/imgui.cpp"
@@ -88,6 +91,8 @@ set(MARVEL_INCLUDE_DIR
 
 	"include/"
 	"src/"
+	"src/Vendor/dirent/"
+	"../Dependencies/ImGuiFileDialog/ImGuiFileDialog/"
 	"../Dependencies/glfw/include/"
 	"../Dependencies/glfw/deps/"
 	"../Dependencies/imgui/"

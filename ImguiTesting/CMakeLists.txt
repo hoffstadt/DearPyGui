@@ -13,10 +13,12 @@ target_sources(PureImgui
 		"$<$<PLATFORM_ID:Windows>:src/mvWindowsWindow.cpp>"
 		"$<$<PLATFORM_ID:Linux>:src/mvLinuxWindow.cpp>"
 
-
 		# implot
 		"../DearPyGui/src/Vendor/implot/implot.cpp"
 		"../DearPyGui/src/Vendor/implot/implot_demo.cpp"
+		
+		# ImGuiFileDialog
+		"../Dependencies/ImGuiFileDialog/ImGuiFileDialog/ImGuiFileDialog.cpp"
 
 		# imgui
 		"../Dependencies/imgui/imgui.cpp"
@@ -59,10 +61,12 @@ target_include_directories(PureImgui
 		"../Dependencies/glfw/include/"
 		"../Dependencies/glfw/deps/"
 		"../Dependencies/imgui/"
+		"../Dependencies/ImGuiFileDialog/ImGuiFileDialog/"
 		"../Dependencies/imgui/examples/"
 		"../Dependencies/imgui/examples/libs/gl3w"
 		"../DearPyGui/src/Vendor/implot/"
 		"../DearPyGui/src/Vendor/stb/"
+		"../DearPyGui/src/Vendor/dirent/"
 
 )
 
