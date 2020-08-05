@@ -17,7 +17,7 @@ namespace Marvel {
 		ImGui::Text("Dear ImGui %s", ImGui::GetVersion());
 		ImGui::Separator();
 		ImGui::Text("By Jonathan Hoffstadt and Preston Cothren");
-		ImGui::Text("MarvelSandbox is licensed under the MIT License, see LICENSE for more information.");
+		ImGui::Text("DearPyGui is licensed under the MIT License, see LICENSE for more information.");
 		ImGui::Separator();
 		ImGui::Text("By Omar Cornut and all Dear ImGui contributors.");
 		ImGui::Text("Dear ImGui is licensed under the MIT License, see LICENSE for more information.");
