@@ -4362,7 +4362,11 @@ namespace Marvel {
 		if (item == nullptr)
 			return mvPythonTranslator::GetPyNone();
 
-		item->setPyValue(value);
+		if(item->getDataSource().empty())
+			item->setPyValue(value);
+		else
+			mvDataStorage::AddData(item->getDataSource(), value);
+
 		return mvPythonTranslator::GetPyNone();
 	}
 

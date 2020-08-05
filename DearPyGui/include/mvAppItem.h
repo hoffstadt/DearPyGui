@@ -94,7 +94,7 @@ namespace Marvel {
 		inline const std::string&       getTip                    () const { return m_tip; }
 		inline const std::string&       getCallback               () const { return m_callback; }
 		inline const std::string&       getPopup                  () const { return m_popup; }
-		inline const std::string&       getDataSource             () const { return m_popup; }
+		inline const std::string&       getDataSource             () const { return m_dataSource; }
 		inline int                      getWidth                  () const { return m_width; }
 		inline int                      getHeight                 () const { return m_height; }
 		inline bool                     isShown                   () const { return m_show; }
