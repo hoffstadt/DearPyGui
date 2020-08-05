@@ -2964,7 +2964,7 @@ namespace Marvel {
 		std::string sname = std::string("sameline" + std::to_string(i));
 		const char* name = sname.c_str();
 		float xoffset = 0.0f;
-		float spacing = 0.0f;
+		float spacing = -1.0f;
 		const char* before = "";
 		const char* parent = "";
 
@@ -3010,12 +3010,14 @@ namespace Marvel {
 		const char* before = "";
 		const char* parent = "";
 		int hide = false;
+		int horizontal = false;
+		float horizontal_spacing = -1.0f;
 
 		if (!(*mvApp::GetApp()->getParsers())["add_group"].parse(args, kwargs, __FUNCTION__, &name,
-			&tip, &parent, &before, &width, &hide))
+			&tip, &parent, &before, &width, &hide, &horizontal, &horizontal_spacing))
 			return mvPythonTranslator::GetPyNone();
 
-		mvAppItem* item = new mvGroup("", name);
+		mvAppItem* item = new mvGroup("", name, horizontal, horizontal_spacing);
 		item->setTip(tip);
 		item->setWidth(width);
 		AddItemWithRuntimeChecks(item, parent, before);

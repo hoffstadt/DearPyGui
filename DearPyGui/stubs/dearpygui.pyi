@@ -80,7 +80,7 @@ def add_drawing(name: str, tip: str = "", parent: str = "", before: str = "", wi
 	"""Adds a drawing widget."""
 	...
 
-def add_group(name: str, tip: str = "", parent: str = "", before: str = "", width: int = 0, hide: bool = False) -> None:
+def add_group(name: str, tip: str = "", parent: str = "", before: str = "", width: int = 0, hide: bool = False, horizontal: bool = False, horizontal_spacing: float = -1.0) -> None:
 	"""Creates a group that other widgets can belong to. The group allows item commands to be issued for all of its members.				Must be closed with the end_group command unless added at runtime."""
 	...
 
@@ -178,7 +178,7 @@ def add_row(table: str, row: List[str]) -> None:
 	"""Adds a row to a table."""
 	...
 
-def add_same_line(name: str = "", xoffset: float = 0.0, spacing: float = 0.0, parent: str = "", before: str = "") -> None:
+def add_same_line(name: str = "", xoffset: float = 0.0, spacing: float = -1.0, parent: str = "", before: str = "") -> None:
 	"""Places a widget on the same line as the previous widget. Can also be used for horizontal spacing."""
 	...
 
