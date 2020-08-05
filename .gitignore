@@ -6,3 +6,4 @@ cmake-build-release/
 cmake-build-release32/
 Output/
 dist/
+.DS_Store
