@@ -10,7 +10,6 @@
 #endif
 
 #include <implot.h>
-#include <ImGuiFileDialog.h>
 
 int main()
 {
