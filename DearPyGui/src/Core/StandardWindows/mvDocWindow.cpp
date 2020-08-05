@@ -159,7 +159,7 @@ namespace Marvel {
 				if (ImGui::CollapsingHeader("Help"))
 				{
 					ColorText("ABOUT THIS GUIDE:");
-					ImGui::BulletText("Sections below cover various aspects of Marvel Sandbox.");
+					ImGui::BulletText("Sections below cover various aspects of DearPyGui.");
 					ImGui::BulletText("This document can be found by calling the \"show_documentation\" command.");
 					ImGui::BulletText("Additional information on specific commands can be found in the commands tab.");
 				}
@@ -168,12 +168,11 @@ namespace Marvel {
 				if (ImGui::CollapsingHeader("Logging and Console Output"))
 				{
 					ColorText("PYTHON PRINTING");
-					ImGui::BulletText("Using the python \"print\" command outputs to the logger window.");
 					ImGui::BulletText("In order to show the logger window, you must use the \"show_logger\" command.");
+					ImGui::BulletText("By Default the logger is set to log level 1.");
 					ImGui::Separator();
 
 					ColorText("LOGGING");
-					ImGui::BulletText("All output is routed to the logger window (python, system errors/warnings, etc.).");
 					ImGui::BulletText("In order to show the logger window, you must use the \"show_logger\" command.");
 					ImGui::BulletText("In order to filter what is displayed, you can set the log level.");
 					ImGui::BulletText("Can be set like \"set_log_level(sbConstants.mvINFO)\"");
@@ -194,7 +193,7 @@ namespace Marvel {
 				if (ImGui::CollapsingHeader("Widgets"))
 				{
 					ColorText("BASICS:");
-					ImGui::BulletText("All widgets are added with a command of the form \"add_*\"");
+					ImGui::BulletText("Widgets are added with a command of the form \"add_*\"");
 					ImGui::BulletText("Some widgets can contain other widgets. These types of widgets have an additional \"end_*\" command.");
 					ImGui::Separator();
 
@@ -204,13 +203,13 @@ namespace Marvel {
 					CodeColorText("child             - an embedded window");
 					CodeColorText("group             - a group of widgets, useful for layouts");
 					CodeColorText("window            - a new window");
-					CodeColorText("collapsing header - a collapsible header (like to one used here)");
-					CodeColorText("tabbar            - contains tabs");
+					CodeColorText("collapsing_header - a collapsible header (like to one used here)");
+					CodeColorText("tab_bar            - contains tabs");
 					CodeColorText("tab               - a tab belonging to a tabbar");
-					CodeColorText("menubar           - contains menus");
+					CodeColorText("menu_bar           - contains menus");
 					CodeColorText("menu              - a menu belonging to a menubar");
-					CodeColorText("tree node         - a collapsible tree item");
-					CodeColorText("tooltip           - a window that appears when hovering an item");
+					CodeColorText("tree_node         - a collapsible tree item");
+					CodeColorText("tool_tip           - a window that appears when hovering an item");
 					CodeColorText("popup             - a window that appears when an item is clicked");
 					ImGui::Unindent();
 					ImGui::Separator();
@@ -221,13 +220,13 @@ namespace Marvel {
 					ImGui::Indent();
 					CodeColorText("seperator");
 					CodeColorText("spacing");
-					CodeColorText("sameline");
+					CodeColorText("same_line");
 					CodeColorText("indent");
 					CodeColorText("unindent");
 					ImGui::Unindent();
 					ImGui::BulletText("The above widget's names are optional (they are auto generated).");
-					ImGui::BulletText("If a widget uses the name to displace text (i.e. button) and you need");
-					ImGui::Text("   multiple buttons to display the same, you can do the following:");
+					ImGui::BulletText("If a widget uses the name to display text (i.e. button) and you need");
+					ImGui::Text("   multiple buttons to display the same text, you can do the following:");
 					ImGui::Indent();
 					CodeColorText("add_button('Press me')");
 					CodeColorText("add_button('Press me##123')");
@@ -258,8 +257,6 @@ namespace Marvel {
 					ImGui::Text("You add widgets to their parent containers using the \"parent\" keyword.");
 					ImGui::Text("Containers are created by calling their add_* command followed immediately");
 					ImGui::Text("by their end_* command.");
-					ImGui::Text("This method is best used for adding widgets at runtime to just a portion");
-					ImGui::Text("of the app, however, it can be used for creating the entire app.");
 					ImGui::Text("Example:");
 					ImGui::Spacing();
 					CodeColorText("add_child(...)");
