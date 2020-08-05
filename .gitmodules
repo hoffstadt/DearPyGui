@@ -10,3 +10,7 @@
 	path = Dependencies/glfw
 	url = https://github.com/glfw/glfw
 	branch = master
+[submodule "Dependencies/ImGuiFileDialog"]
+	path = Dependencies/ImGuiFileDialog
+	url = https://github.com/aiekick/ImGuiFileDialog
+	branch = master
