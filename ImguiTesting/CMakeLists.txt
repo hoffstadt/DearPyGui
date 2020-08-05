@@ -70,7 +70,7 @@ target_include_directories(PureImgui
 		"../Dependencies/imgui/examples/libs/gl3w"
 		"../DearPyGui/src/Vendor/implot/"
 		"../DearPyGui/src/Vendor/stb/"
-		"../DearPyGui/src/Vendor/dirent/"
+	    "$<$<PLATFORM_ID:Windows>:${CMAKE_SOURCE_DIR}/DearPyGui/src/Vendor/dirent/>"
 
 )
 
