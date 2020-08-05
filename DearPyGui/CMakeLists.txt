@@ -15,11 +15,14 @@ elseif(APPLE)
 
 	add_definitions(-DAPPLE)
 	add_definitions(-DUNIX)
-	find_package(Python3 COMPONENTS Development)
+	find_package(Python3 COMPONENTS Interpreter Development)
 	add_library(dearpygui SHARED)
 	set_target_properties(dearpygui PROPERTIES SUFFIX ".so")
 	set_target_properties(dearpygui PROPERTIES PREFIX "")
 	set_target_properties(dearpygui PROPERTIES CXX_STANDARD 17)
+
+	add_library(dearpyguiemb STATIC)
+	set_target_properties(dearpyguiemb PROPERTIES CXX_STANDARD 17)
 
 else() # Linux
 
@@ -104,6 +107,7 @@ set(MARVEL_INCLUDE_DIR
 	"../Dependencies/imgui/"
 	"../Dependencies/imgui/examples/"
 	"../Dependencies/imgui/examples/libs/gl3w"
+	"../Dependencies/cpython/"
 	"../Dependencies/cpython/Include/"
 	"src/Vendor/implot/"
 	"src/Vendor/stb/"
@@ -159,9 +163,13 @@ if(WIN32)
 elseif(APPLE)
 
 	target_sources(dearpygui PRIVATE ${MARVEL_SOURCES} )
-	target_include_directories(dearpygui PRIVATE ${MARVEL_INCLUDE_DIR} ${PYTHON_INCLUDE_DIR})
+	target_sources(dearpyguiemb PRIVATE ${MARVEL_SOURCES} )
+	target_include_directories(dearpygui PRIVATE ${MARVEL_INCLUDE_DIR} ${PYTHON_INCLUDE_DIRS})
+	target_include_directories(dearpyguiemb PRIVATE ${MARVEL_INCLUDE_DIR} ${PYTHON_INCLUDE_DIRS})
 	target_link_directories(dearpygui PRIVATE ${PYTHON_LIBRARIES})
+	target_link_directories(dearpyguiemb PRIVATE /Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/)
 	SET_PROPERTY(TARGET dearpygui APPEND_STRING PROPERTY COMPILE_FLAGS "-fobjc-arc -Wno-unused-result -Wsign-compare -Wunreachable-code -fno-common -dynamic -DNDEBUG -g -fwrapv -O3 -Wall")
+	SET_PROPERTY(TARGET dearpyguiemb APPEND_STRING PROPERTY COMPILE_FLAGS "-fobjc-arc -Wno-unused-result -Wsign-compare -Wunreachable-code -fno-common -dynamic -DNDEBUG -g -fwrapv -O3 -Wall -arch x86_64")
 
 	target_link_libraries(dearpygui
 
@@ -176,6 +184,20 @@ elseif(APPLE)
 			"-framework IOKit"
 			"-framework QuartzCore"
 	)
+
+	target_link_libraries(dearpyguiemb
+
+			PUBLIC
+
+			glfw
+			#"-framework Python"
+			"-framework Metal"
+			"-framework MetalKit"
+			"-framework Cocoa"
+			"-framework CoreVideo"
+			"-framework IOKit"
+			"-framework QuartzCore"
+			)
 
 else() # Linux
 
