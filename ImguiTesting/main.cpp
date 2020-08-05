@@ -42,7 +42,7 @@ int main()
             // action if OK
             if (igfd::ImGuiFileDialog::Instance()->IsOk == true)
             {
-                std::string filePathName = igfd::ImGuiFileDialog::Instance()->GetFilePathName();
+                std::string filePathName = igfd::ImGuiFileDialog::Instance()->GetFilepathName();
                 std::string filePath = igfd::ImGuiFileDialog::Instance()->GetCurrentPath();
                 // action
             }
