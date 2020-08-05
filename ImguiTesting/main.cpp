@@ -35,6 +35,7 @@ int main()
         if (ImGui::Button("Open File Dialog"))
             igfd::ImGuiFileDialog::Instance()->OpenModal("ChooseFileDlgKey", "Choose File", ".cpp,.h,.hpp,.*", ".");
 
+
         // display
         if (igfd::ImGuiFileDialog::Instance()->FileDialog("ChooseFileDlgKey"))
         {

@@ -4,10 +4,12 @@
 #include "Core/mvDataStorage.h"
 #include "mvAppLog.h"
 #include "Core/StandardWindows/mvSourceWindow.h"
+#include "Core/StandardWindows/mvFileDialog.h"
 #include "mvPythonTranslator.h"
 #include "Core/AppItems/mvAppItems.h"
 #include "mvWindow.h"
 #include "Core/mvPythonExceptions.h"
+#include <ImGuiFileDialog.h>
 
 //-----------------------------------------------------------------------------
 // Helper Macro
@@ -3794,32 +3796,36 @@ namespace Marvel {
 
 	PyObject* select_directory_dialog(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
-		std::string file = PickDirectory("");
-		return mvPythonTranslator::ToPyString(file);
+		const char* callback = "";
+
+		if (!(*mvApp::GetApp()->getParsers())["select_directory_dialog"].parse(args, kwargs, __FUNCTION__,&callback))
+			return mvPythonTranslator::GetPyNone();
+
+		igfd::ImGuiFileDialog::Instance()->OpenModal("ChooseFileDlgKey", "Choose Directory", 0, ".");
+		mvStandardWindow* window = mvApp::GetApp()->getStandardWindow("filedialog");
+		auto dialog = static_cast<mvFileDialog*>(window);
+		dialog->setCallback(callback);
+		mvApp::GetApp()->showStandardWindow("filedialog");
+
+		return mvPythonTranslator::GetPyNone();
 	}
 
 	PyObject* open_file_dialog(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
-		PyObject* extensions;
+		const char* callback = "";
+		const char* extensions = "";
 
-		if (!(*mvApp::GetApp()->getParsers())["open_file_dialog"].parse(args, kwargs, __FUNCTION__, &extensions))
+		if (!(*mvApp::GetApp()->getParsers())["open_file_dialog"].parse(args, kwargs, __FUNCTION__, 
+			&callback, &extensions))
 			return mvPythonTranslator::GetPyNone();
 
-		std::string file = OpenFile(mvPythonTranslator::ToVectPairString(extensions));
+		igfd::ImGuiFileDialog::Instance()->OpenModal("ChooseFileDlgKey", "Choose File", extensions, ".");
+		mvStandardWindow* window = mvApp::GetApp()->getStandardWindow("filedialog");
+		auto dialog = static_cast<mvFileDialog*>(window);
+		dialog->setCallback(callback);
+		mvApp::GetApp()->showStandardWindow("filedialog");
 
-		return mvPythonTranslator::ToPyString(file.c_str());
-	}
-
-	PyObject* save_file_dialog(PyObject* self, PyObject* args, PyObject* kwargs)
-	{
-		PyObject* extensions;
-
-		if (!(*mvApp::GetApp()->getParsers())["save_file_dialog"].parse(args, kwargs, __FUNCTION__, &extensions))
-			return mvPythonTranslator::GetPyNone();
-
-		std::string file = SaveFile(mvPythonTranslator::ToVectPairString(extensions));
-
-		return mvPythonTranslator::ToPyString(SaveFile(mvPythonTranslator::ToVectPairString(extensions)).c_str());
+		return mvPythonTranslator::GetPyNone();
 	}
 
 	PyObject* move_item_up(PyObject* self, PyObject* args, PyObject* kwargs)
@@ -5120,7 +5126,6 @@ namespace Marvel {
 		ADD_PYTHON_FUNCTION(delete_data)
 		ADD_PYTHON_FUNCTION(add_data)
 		ADD_PYTHON_FUNCTION(run_async_function)
-		ADD_PYTHON_FUNCTION(save_file_dialog)
 		ADD_PYTHON_FUNCTION(open_file_dialog)
 		ADD_PYTHON_FUNCTION(delete_item)
 		ADD_PYTHON_FUNCTION(move_item_down)
