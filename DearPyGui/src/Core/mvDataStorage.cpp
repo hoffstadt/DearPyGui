@@ -32,6 +32,9 @@ namespace Marvel {
 			return;
 		}
 
+		// data already exists, decrement it recursively until all old objects
+		// are delete then update everything with the new pyobjects (i think)
+		// this system needs to be cleaned up to be less confusing
 		if (s_dataStorage.count(name) > 0)
 		{
 			DeleteData(name);
@@ -41,6 +44,7 @@ namespace Marvel {
 			return;
 		}
 
+		// data doesn't exist, create it for the first time
 		s_dataStorage.insert({ name, data });
 
 		for (auto window : mvApp::GetApp()->getWindows())
