@@ -20,3 +20,4 @@ else() # Linux
 	add_subdirectory ("Dependencies/glfw")
 	add_subdirectory ("DearSandbox")
 endif()
+

@@ -2,6 +2,7 @@
 
 if(WIN32)
 
+	add_definitions(-DWIN32)
 	add_library(dearpygui SHARED)
 	set_target_properties(dearpygui PROPERTIES SUFFIX ".pyd")
 	set_target_properties(dearpygui PROPERTIES OUTPUT_NAME "dearpygui$<$<CONFIG:Debug>:_d>")
@@ -12,6 +13,8 @@ if(WIN32)
 
 elseif(APPLE)
 
+	add_definitions(-DAPPLE)
+	add_definitions(-DUNIX)
 	find_package(Python3 COMPONENTS Development)
 	add_library(dearpygui SHARED)
 	set_target_properties(dearpygui PROPERTIES SUFFIX ".so")
@@ -20,6 +23,8 @@ elseif(APPLE)
 
 else() # Linux
 
+	add_definitions(-DLINUX)
+	add_definitions(-DUNIX)
 	add_library(dearpygui SHARED)
 	set_target_properties(dearpygui PROPERTIES PREFIX "")
 	set_target_properties(dearpygui PROPERTIES CXX_STANDARD 17)
@@ -92,7 +97,7 @@ set(MARVEL_INCLUDE_DIR
 
 	"include/"
 	"src/"
-	"src/Vendor/dirent/"
+	"$<$<PLATFORM_ID:Windows>:src/Vendor/dirent>"
 	"../Dependencies/ImGuiFileDialog/ImGuiFileDialog/"
 	"../Dependencies/glfw/include/"
 	"../Dependencies/glfw/deps/"
