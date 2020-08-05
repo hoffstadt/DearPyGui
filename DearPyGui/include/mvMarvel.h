@@ -1505,13 +1505,13 @@ namespace Marvel {
 	static void AddAppCommands(std::map<std::string, mvPythonParser>* parsers)
 	{
 		parsers->insert({ "setup_dearpygui", mvPythonParser({
-		}, "Starts DearPyGui") });
+		}, "Needs documentation") });
 
 		parsers->insert({ "render_dearpygui_frame", mvPythonParser({
-		}, "Starts DearPyGui") });
+		}, "Needs documentation") });
 
 		parsers->insert({ "cleanup_dearpygui", mvPythonParser({
-		}, "Starts DearPyGui") });
+		}, "Needs documentation") });
 
 		parsers->insert({ "start_dearpygui", mvPythonParser({
 		}, "Starts DearPyGui") });
@@ -1537,15 +1537,15 @@ namespace Marvel {
 		}, "Runs a function asyncronously.") });
 
 		parsers->insert({ "open_file_dialog", mvPythonParser({
-			{mvPythonDataType::StringList, "extensions", "i.e [['Python', '*.py']]"},
-		}, "Opens an 'open file' dialog.", "str") });
+			{mvPythonDataType::Optional},
+			{mvPythonDataType::String, "callback"},
+			{mvPythonDataType::String, "extensions", "i.e '.*, .py'"},
+		}, "Opens an 'open file' dialog.") });
 
 		parsers->insert({ "select_directory_dialog", mvPythonParser({
-		}, "Opens a select directory dialog.", "str") });
-
-		parsers->insert({ "save_file_dialog", mvPythonParser({
-			{mvPythonDataType::StringList, "extensions", "i.e [['Python', '*.py']]"},
-		}, "Opens an 'save file' dialog.", "str") });
+			{mvPythonDataType::Optional},
+			{mvPythonDataType::String, "callback"},
+		}, "Opens a select directory dialog.") });
 
 		parsers->insert({ "add_data", mvPythonParser({
 			{mvPythonDataType::String, "name"},
