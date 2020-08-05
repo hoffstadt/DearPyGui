@@ -615,23 +615,23 @@ def is_threadpool_high_performance() -> bool:
 	"""Checks if the threadpool is allowed to use the maximum number of threads."""
 	...
 
-def log(message: str, level: str = "") -> None:
+def log(message: Any, level: str = "") -> None:
 	"""Logs a trace level log."""
 	...
 
-def log_debug(message: str) -> None:
+def log_debug(message: Any) -> None:
 	"""Logs a debug level log."""
 	...
 
-def log_error(message: str) -> None:
+def log_error(message: Any) -> None:
 	"""Logs a error level log."""
 	...
 
-def log_info(message: str) -> None:
+def log_info(message: Any) -> None:
 	"""Logs a info level log."""
 	...
 
-def log_warning(message: str) -> None:
+def log_warning(message: Any) -> None:
 	"""Logs a warning level log."""
 	...
 

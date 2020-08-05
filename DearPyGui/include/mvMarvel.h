@@ -294,25 +294,25 @@ namespace Marvel {
 		}, "Sets the log level.", "None", "Logging") });
 
 		parsers->insert({ "log", mvPythonParser({
-			{mvPythonDataType::String, "message"},
+			{mvPythonDataType::Object, "message"},
 			{mvPythonDataType::Optional},
 			{mvPythonDataType::String, "level"}
 		}, "Logs a trace level log.", "None", "Logging") });
 
 		parsers->insert({ "log_debug", mvPythonParser({
-			{mvPythonDataType::String, "message"}
+			{mvPythonDataType::Object, "message"}
 		}, "Logs a debug level log.", "None", "Logging") });
 
 		parsers->insert({ "log_info", mvPythonParser({
-			{mvPythonDataType::String, "message"}
+			{mvPythonDataType::Object, "message"}
 		}, "Logs a info level log.", "None", "Logging") });
 
 		parsers->insert({ "log_warning", mvPythonParser({
-			{mvPythonDataType::String, "message"}
+			{mvPythonDataType::Object, "message"}
 		}, "Logs a warning level log.", "None", "Logging") });
 
 		parsers->insert({ "log_error", mvPythonParser({
-			{mvPythonDataType::String, "message"}
+			{mvPythonDataType::Object, "message"}
 		}, "Logs a error level log.", "None", "Logging") });
 	}
 

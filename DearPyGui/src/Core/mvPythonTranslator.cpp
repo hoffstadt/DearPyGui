@@ -164,15 +164,27 @@ namespace Marvel {
 
 	std::string mvPythonTranslator::ToString(PyObject* value, const std::string& message)
 	{
+		std::string result;
+
 		mvGlobalIntepreterLock gil;
 
-		if (!PyUnicode_Check(value))
+		if (PyUnicode_Check(value))
 		{
-			ThrowPythonException(message);
-			return "";
+			result = _PyUnicode_AsString(value);
+		}
+		else 
+		{
+			PyObject* str = PyObject_Str(value);
+			if (str == nullptr)
+			{
+				ThrowPythonException(message);
+				return "";
+			}
+			result = _PyUnicode_AsString(str);
+			Py_XDECREF(str);
 		}
 
-		return _PyUnicode_AsString(value);
+		return result;
 
 	}
 
