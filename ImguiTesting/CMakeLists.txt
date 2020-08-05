@@ -38,6 +38,8 @@ target_sources(PureImgui
 
 
 if(APPLE)
+	add_definitions(-DAPPLE)
+	add_definitions(-DUNIX)
 	SET_PROPERTY(TARGET PureImgui APPEND_STRING PROPERTY COMPILE_FLAGS "-fobjc-arc")
 
 	set(CMAKE_EXE_LINKER_FLAGS "\
@@ -48,6 +50,8 @@ if(APPLE)
 		-framework CoreVideo \
 		-framework QuartzCore")
 elseif(UNIX)
+	add_definitions(-DLINUX)
+	add_definitions(-DUNIX)
 	SET_PROPERTY(TARGET PureImgui APPEND_STRING PROPERTY COMPILE_FLAGS "-g -Wall -Wformat")
 	add_definitions(-DIMGUI_IMPL_OPENGL_LOADER_GL3W)
 endif()
