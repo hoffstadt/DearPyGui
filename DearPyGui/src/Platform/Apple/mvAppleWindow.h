@@ -37,9 +37,5 @@ namespace Marvel {
         id <MTLCommandQueue> m_commandQueue;
         static id <MTLDevice> device;
 
-    public:
-
-        static __strong id<MTLTexture> texture;
-
     };
 }
