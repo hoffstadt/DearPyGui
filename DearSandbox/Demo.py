@@ -31,6 +31,8 @@ end_menu()
 
 end_menu_bar()
 
+#add_image("image", "/Users/jonathanhoffstadt/Desktop/demo.jpg")
+
 # launchers
 add_group("Launch Group", width=200)
 add_button("Widgets", callback="Launcher")
@@ -43,6 +45,8 @@ add_button("Input Text", callback="Launcher")
 add_button("Text Widget", callback="Launcher")
 add_button("Tooltips/Popups", callback="Launcher")
 add_button("Tables", callback="Launcher")
+add_button("Open File", callback="OpenFile")
+add_button("Open Directory", callback="OpenDirectory")
 end_group()
 
 # tables
@@ -427,7 +431,7 @@ def ReturnFromLongProcess(sender, data):
     log_info("Data returned to main thread: " + str(data))
 
 def Launcher(sender, data):
- 
+
     show_item(sender + "##dialog")
 
 def ThemeCallback(sender, data):
@@ -501,4 +505,20 @@ def RetrieveValues(sender, data):
     log_info("Color Picker4: " + str(get_value("Color Picker4##widget")))
     log_info("Tab Bar: " + str(get_value("Tab Bar##widget")))
 
+def OpenFile(sender, data):
+    open_file_dialog("TestFileCallback", ".*,.py")
+
+def OpenDirectory(sender, data):
+    select_directory_dialog("TestFileCallback")
+
+def TestFileCallback(sender, data):
+    print("Called")
+    print(data)
+
 start_dearpygui()
+
+# per frame rendering
+#setup_dearpygui()
+#while get_value("Checkbox##widget") == False:
+#    render_dearpygui_frame()
+#cleanup_dearpygui()

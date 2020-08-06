@@ -294,25 +294,25 @@ namespace Marvel {
 		}, "Sets the log level.", "None", "Logging") });
 
 		parsers->insert({ "log", mvPythonParser({
-			{mvPythonDataType::String, "message"},
+			{mvPythonDataType::Object, "message"},
 			{mvPythonDataType::Optional},
 			{mvPythonDataType::String, "level"}
 		}, "Logs a trace level log.", "None", "Logging") });
 
 		parsers->insert({ "log_debug", mvPythonParser({
-			{mvPythonDataType::String, "message"}
+			{mvPythonDataType::Object, "message"}
 		}, "Logs a debug level log.", "None", "Logging") });
 
 		parsers->insert({ "log_info", mvPythonParser({
-			{mvPythonDataType::String, "message"}
+			{mvPythonDataType::Object, "message"}
 		}, "Logs a info level log.", "None", "Logging") });
 
 		parsers->insert({ "log_warning", mvPythonParser({
-			{mvPythonDataType::String, "message"}
+			{mvPythonDataType::Object, "message"}
 		}, "Logs a warning level log.", "None", "Logging") });
 
 		parsers->insert({ "log_error", mvPythonParser({
-			{mvPythonDataType::String, "message"}
+			{mvPythonDataType::Object, "message"}
 		}, "Logs a error level log.", "None", "Logging") });
 	}
 
@@ -1419,6 +1419,8 @@ namespace Marvel {
 			{mvPythonDataType::String, "before", "Item to add this item before. (runtime adding)"},
 			{mvPythonDataType::Integer, "width",""},
 			{mvPythonDataType::Bool, "hide"},
+			{mvPythonDataType::Bool, "horizontal"},
+			{mvPythonDataType::Float, "horizontal_spacing",""},
 		}, "Creates a group that other widgets can belong to. The group allows item commands to be issued for all of its members.\
 				Must be closed with the end_group command unless added at runtime."
 		, "None", "Containers") });
@@ -1504,6 +1506,15 @@ namespace Marvel {
 
 	static void AddAppCommands(std::map<std::string, mvPythonParser>* parsers)
 	{
+		parsers->insert({ "setup_dearpygui", mvPythonParser({
+		}, "Sets up DearPyGui for user controlled rendering. Only call once and you must call cleanup_deapygui when finished.") });
+
+		parsers->insert({ "render_dearpygui_frame", mvPythonParser({
+		}, "Renders a DearPyGui frame. Should be called within a user's event loop. Must first call setup_dearpygui outside of event loop.") });
+
+		parsers->insert({ "cleanup_dearpygui", mvPythonParser({
+		}, "Cleans up DearPyGui after calling setup_dearpygui.") });
+
 		parsers->insert({ "start_dearpygui", mvPythonParser({
 		}, "Starts DearPyGui") });
 
@@ -1528,15 +1539,15 @@ namespace Marvel {
 		}, "Runs a function asyncronously.") });
 
 		parsers->insert({ "open_file_dialog", mvPythonParser({
-			{mvPythonDataType::StringList, "extensions", "i.e [['Python', '*.py']]"},
-		}, "Opens an 'open file' dialog.", "str") });
+			{mvPythonDataType::Optional},
+			{mvPythonDataType::String, "callback"},
+			{mvPythonDataType::String, "extensions", "i.e '.*, .py'"},
+		}, "Opens an 'open file' dialog.") });
 
 		parsers->insert({ "select_directory_dialog", mvPythonParser({
-		}, "Opens a select directory dialog.", "str") });
-
-		parsers->insert({ "save_file_dialog", mvPythonParser({
-			{mvPythonDataType::StringList, "extensions", "i.e [['Python', '*.py']]"},
-		}, "Opens an 'save file' dialog.", "str") });
+			{mvPythonDataType::Optional},
+			{mvPythonDataType::String, "callback"},
+		}, "Opens a select directory dialog.") });
 
 		parsers->insert({ "add_data", mvPythonParser({
 			{mvPythonDataType::String, "name"},

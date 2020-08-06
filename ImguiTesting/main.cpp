@@ -21,6 +21,8 @@ int main()
     while (window->m_running)
     {
         window->prerender();
+
+        window->prerender();
 #if defined (_WIN32)
         ImGui::ShowDemoWindow();
         ImPlot::ShowDemoWindow();
@@ -31,6 +33,8 @@ int main()
         ImPlot::ShowDemoWindow();
         window->postrender();
 #endif
+
+
     }
 
 }

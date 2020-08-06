@@ -16,9 +16,12 @@ namespace Marvel {
         mvAppleWindow(unsigned width, unsigned height, bool editor = false, bool error = false, bool doc = false);
         ~mvAppleWindow();
 
-        virtual void run() override {render();}
-        virtual void render() override;
-        virtual void cleanup() override;
+        virtual void run        () override {render();}
+        virtual void render     () override;
+        virtual void renderFrame() override;
+        virtual void cleanup    () override;
+
+        static id<MTLDevice> GetDevice() { return device; }
 
     private:
 
@@ -28,6 +31,7 @@ namespace Marvel {
         CAMetalLayer *m_layer;
         MTLRenderPassDescriptor *m_renderPassDescriptor;
         id <MTLCommandQueue> m_commandQueue;
+        static id <MTLDevice> device;
 
     };
 }

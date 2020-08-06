@@ -64,7 +64,7 @@ namespace Marvel {
 			saveFile();
 			if (m_file.empty())
 				return;
-			RunFile(m_file, m_complilerflags);
+			//RunFile(m_file, m_complilerflags);
 		}
 
 	}
@@ -100,7 +100,7 @@ namespace Marvel {
 			saveFile();
 
 		std::vector<std::pair<std::string, std::string> > extensions = { std::make_pair("Python", "*.py") };
-		setFile(OpenFile(extensions));
+		//setFile(OpenFile(extensions));
 		m_saved = true;
 		m_editor->ClearUndo();
 
@@ -130,7 +130,7 @@ namespace Marvel {
 	void mvAppEditor::saveFileAs()
 	{
 		std::vector<std::pair<std::string, std::string> > extensions = { std::make_pair("Python", "*.py") };
-		m_file = SaveFile(extensions);
+		//m_file = SaveFile(extensions);
 		if (m_file.empty())
 			return;
 		saveFile();
@@ -235,7 +235,7 @@ namespace Marvel {
 					saveFile();
 					if (m_file.empty())
 						return;
-					RunFile(m_file, m_complilerflags);
+					//RunFile(m_file, m_complilerflags);
 				}
 
 				ImGui::EndMenu();

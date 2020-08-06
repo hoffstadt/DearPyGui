@@ -80,7 +80,7 @@ def add_drawing(name: str, tip: str = "", parent: str = "", before: str = "", wi
 	"""Adds a drawing widget."""
 	...
 
-def add_group(name: str, tip: str = "", parent: str = "", before: str = "", width: int = 0, hide: bool = False) -> None:
+def add_group(name: str, tip: str = "", parent: str = "", before: str = "", width: int = 0, hide: bool = False, horizontal: bool = False, horizontal_spacing: float = -1.0) -> None:
 	"""Creates a group that other widgets can belong to. The group allows item commands to be issued for all of its members.				Must be closed with the end_group command unless added at runtime."""
 	...
 
@@ -178,7 +178,7 @@ def add_row(table: str, row: List[str]) -> None:
 	"""Adds a row to a table."""
 	...
 
-def add_same_line(name: str = "", xoffset: float = 0.0, spacing: float = 0.0, parent: str = "", before: str = "") -> None:
+def add_same_line(name: str = "", xoffset: float = 0.0, spacing: float = -1.0, parent: str = "", before: str = "") -> None:
 	"""Places a widget on the same line as the previous widget. Can also be used for horizontal spacing."""
 	...
 
@@ -615,23 +615,23 @@ def is_threadpool_high_performance() -> bool:
 	"""Checks if the threadpool is allowed to use the maximum number of threads."""
 	...
 
-def log(message: str, level: str = "") -> None:
+def log(message: Any, level: str = "") -> None:
 	"""Logs a trace level log."""
 	...
 
-def log_debug(message: str) -> None:
+def log_debug(message: Any) -> None:
 	"""Logs a debug level log."""
 	...
 
-def log_error(message: str) -> None:
+def log_error(message: Any) -> None:
 	"""Logs a error level log."""
 	...
 
-def log_info(message: str) -> None:
+def log_info(message: Any) -> None:
 	"""Logs a info level log."""
 	...
 
-def log_warning(message: str) -> None:
+def log_warning(message: Any) -> None:
 	"""Logs a warning level log."""
 	...
 
@@ -643,7 +643,7 @@ def move_item_up(item: str) -> None:
 	"""Moves item up if possible and if it exists."""
 	...
 
-def open_file_dialog(extensions: List[str]) -> str:
+def open_file_dialog(callback: str = "", extensions: str = ".*") -> str:
 	"""Opens an 'open file' dialog."""
 	...
 
@@ -651,11 +651,7 @@ def run_async_function(name: str, data: object, return_handler: str = "") -> Non
 	"""Runs a function asyncronously."""
 	...
 
-def save_file_dialog(extensions: List[str]) -> str:
-	"""Opens an 'save file' dialog."""
-	...
-
-def select_directory_dialog() -> str:
+def select_directory_dialog(callback: str = "") -> None:
 	"""Opens a select directory dialog."""
 	...
 
@@ -821,6 +817,18 @@ def show_metrics() -> None:
 
 def show_source(file: str) -> None:
 	"""Shows the source code for a file."""
+	...
+
+def setup_dearpygui() -> None:
+	"""Sets up DearPyGui for user controlled rendering. Only call once and you must call cleanup_deapygui when finished."""
+	...
+
+def render_dearpygui_frame() -> None:
+	"""Renders a DearPyGui frame. Should be called within a user's event loop. Must first call setup_dearpygui outside of event loop."""
+	...
+
+def cleanup_dearpygui() -> None:
+	"""Cleans up DearPyGui after calling setup_dearpygui."""
 	...
 
 def start_dearpygui() -> None:
