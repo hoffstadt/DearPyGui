@@ -820,15 +820,15 @@ def show_source(file: str) -> None:
 	...
 
 def setup_dearpygui() -> None:
-	"""Starts DearPyGui"""
+	"""Sets up DearPyGui for user controlled rendering. Only call once and you must call cleanup_deapygui when finished."""
 	...
 
 def render_dearpygui_frame() -> None:
-	"""Starts DearPyGui"""
+	"""Renders a DearPyGui frame. Should be called within a user's event loop. Must first call setup_dearpygui outside of event loop."""
 	...
 
 def cleanup_dearpygui() -> None:
-	"""Starts DearPyGui"""
+	"""Cleans up DearPyGui after calling setup_dearpygui."""
 	...
 
 def start_dearpygui() -> None:

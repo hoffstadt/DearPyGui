@@ -1507,13 +1507,13 @@ namespace Marvel {
 	static void AddAppCommands(std::map<std::string, mvPythonParser>* parsers)
 	{
 		parsers->insert({ "setup_dearpygui", mvPythonParser({
-		}, "Needs documentation") });
+		}, "Sets up DearPyGui for user controlled rendering. Only call once and you must call cleanup_deapygui when finished.") });
 
 		parsers->insert({ "render_dearpygui_frame", mvPythonParser({
-		}, "Needs documentation") });
+		}, "Renders a DearPyGui frame. Should be called within a user's event loop. Must first call setup_dearpygui outside of event loop.") });
 
 		parsers->insert({ "cleanup_dearpygui", mvPythonParser({
-		}, "Needs documentation") });
+		}, "Cleans up DearPyGui after calling setup_dearpygui.") });
 
 		parsers->insert({ "start_dearpygui", mvPythonParser({
 		}, "Starts DearPyGui") });
