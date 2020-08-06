@@ -34,22 +34,22 @@
         <hr>
         <ul>
             <li><a href="#overview">Overview</a></li>
-            <li>Developer Tools</li>
-            <li>Widgets, Containers, and Windows</li>
-            <li>Callbacks</li>
-            <li>Built-in Logging</li>
-            <li>Widget Data Source & Cross-Widget Communication</li>
-            <li>Menu Bars</li>
-            <li>Plotting</li>
-            <li>Drawing</li>
-            <li>Tables</li>
-            <li>Input Polling</li>
-            <li>Multithreading & Asynchronous Functions</li>
-            <li>Themes and Styles</li>
+            <li><a href="#developer_tools">Developer Tools</a></li>
+            <li><a href="#widgets_containers_windows">Widgets, Containers, and Windows</a></li>
+            <li><a href="#callbacks">Callbacks</a></li>
+            <li><a href="#logging">Built-in Logging</a></li>
+            <li><a href="#data_storage">Widget Data Source & Cross-Widget Communication</a></li>
+            <li><a href="#menu_bar">Menu Bars</a></li>
+            <li><a href="#plotting">Plotting</a></li>
+            <li><a href="#drawing">Drawing</a></li>
+            <li><a href="#tables">Tables</a></li>
+            <li><a href="#input_polling">Input Polling</a></li>
+            <li><a href="#multithreading">Multithreading & Asynchronous Functions</a></li>
+            <li><a href="#themes_and_styles">Themes and Styles</a></li>
         </ul>
     </article>
 
-    <article><a href="#overview"></a>
+    <article><a name="overview"></a>
         <h2>Overview</h2>
         <hr>
         <p>
@@ -71,7 +71,7 @@ start_dearpygui()</code> </pre>
         </p>
     </article>
 
-    <article><a href="#developer_tools"></a>
+    <article><a name="developer_tools"></a>
         <h2>Developer Tools</h2>
         <hr>
         <p>
@@ -92,7 +92,7 @@ start_dearpygui()</code> </pre>
         </p>
     </article>
 
-    <article><a href="#widgets_containers_windows"></a>
+    <article><a name="widgets_containers_windows"></a>
         <h2>Widgets, Containers, and Windows</h2>
         <hr>
         <p>
@@ -169,7 +169,7 @@ print("Value after setting the Radio Button is: ", get_value("Radio Button"))
 start_dearpygui()</code></pre>
     </article>
 
-    <article><a href="#callbacks"></a>
+    <article><a name="callbacks"></a>
         <h2>Callbacks</h2>
         <hr>
         <p>
@@ -231,7 +231,7 @@ def closeCallback(sender, data):
 start_dearpygui()</code> </pre>
     </article>
 
-    <article><a href="#logging"></a>
+    <article><a name="logging"></a>
         <h2>Built-in Logging</h2>
         <hr>
         <p>
@@ -265,7 +265,7 @@ log_error("error message")
 start_dearpygui()</code></pre>
     </article>
 
-    <article><a href="#data_storage"></a>
+    <article><a name="data_storage"></a>
         <h2>Widget Data Storage & Cross-Widget Communication</h2>
         <hr>
         <p>
@@ -273,19 +273,22 @@ start_dearpygui()</code></pre>
             This can be achieved through the data item <code class="inline-code" data-language="python">add_data()</code>
             and <code class="inline-code" data-language="python">get_data()</code>.
             <br><br>
-            When a data source is used the value and data source changes are mirrored to one another.
+            When a data source is used, the widget's value and data source changes are mirrored to one another.
+            This can be useful to link to any widgets to use the same data.
             An example is shown below.
 
         </p>
         <pre><code data-language="python">from dearpygui.dearpygui import *
 
-add_checkbox("Radio Button", data_source="data1")
+add_checkbox("Radio Button1", data_source="data1")
+add_checkbox("Radio Button2", data_source="data1")
 add_data("data1", True)
 add_button("button", callback="print_me")
 
 
 def print_me(sender, data):
-    print(get_value("Radio Button"))
+    print(get_value("Radio Button1"))
+    print(get_value("Radio Button2"))
     print(get_data("data1"))
 
 
@@ -311,7 +314,7 @@ def print_data(sender, data):
 start_dearpygui()</code></pre>
     </article>
 
-    <article><a href="#menu_bar"></a>
+    <article><a name="menu_bar"></a>
         <h2>Menu Bar</h2>
         <hr>
         <p>
@@ -354,6 +357,124 @@ def print_me(sender, data):
 
 
 start_dearpygui()</code></pre>
+    </article>
+    <article><a name="plotting"></a>
+        <h2>Plotting</h2>
+        <hr>
+        <p>
+            DearPyGui has simple plots and plots both of which have the ability to be dynamic.
+            <br><br>
+            Simple plots take in a list and plot y-axis data against the number of items in the list. These can be
+            line graphs or histograms and are demonstrated below.
+        </p>
+        <pre><code data-language="python">from dearpygui.dearpygui import *
+
+add_simple_plot("Simpleplot1", [0.3, 0.9, 0.5, 0.3], height=300)
+add_simple_plot("Simpleplot2", [0.3, 0.9, 2.5, 8.9], overlay="Overlaying", height=180, histogram=True)
+
+
+start_dearpygui()</code></pre>
+        <p> Plots have much more functionality that simple plots. Plots use both the x and y coordinates. Plots must be created using
+            <code class="inline-code" data-language="python">add_plot()</code> command and then the data can bee added as either a
+            line series or a scatter series.
+            Features of plots are:
+            <ul>
+            <li>Click & Drag: to pan the plot</li>
+            <li>Click & Drag on Axis: to pan the plot in one direction</li>
+            <li>Double Click: scales plot to data</li>
+            <li>Right Click & Drag: to zoom to an area</li>
+            <li>Double Right Click: opens settings</li>
+            <li>Shift + Right Click & Drag: to zoom to an area that fills a current axis</li>
+            <li>Scroll Mouse Wheel: zooms</li>
+            <li>Scroll Mouse Wheel on Axis: zooms only that axis</li>
+            <li>Toggle data sets on the legend to hide them</li>
+            </ul>
+            <br><br>
+            Additionally a text point can be used to place floating text on the plot.
+        </p>
+        <pre><code data-language="python">from dearpygui.dearpygui import *
+from math import cos, sin
+
+add_button("Plot data", callback="plot_callback")
+add_plot("Plot", "x-axis", "y-axis", height=-1)
+
+
+def plot_callback(sender, data):
+    clear_plot("Plot")
+
+    data1 = []
+    for i in range(0, 100):
+        data1.append([3.14 * i / 180, cos(3 * 3.14 * i / 180)])
+
+    data2 = []
+    for i in range(0, 100):
+        data2.append([3.14 * i / 180, sin(2 * 3.14 * i / 180)])
+
+    add_line_series("Plot", "Cos", data1, weight=2, fill=[255, 0, 0, 100])
+    add_scatter_series("Plot", "Sin", data2)
+
+
+start_dearpygui()</code></pre>
+        <p>
+            Simple plots can be made dynamic by changing the value of the plot call with
+            <code class="inline-code" data-language="python">set_value()</code>. This is shown below.
+        </p>
+        <pre><code data-language="python">from dearpygui.dearpygui import *
+from math import sin
+
+add_simple_plot("Simpleplot1", [], autoscale=False, minscale=-1.0, maxscale=1.0, height=300)
+
+add_data("data1", [])
+add_data("frameCount", 0)
+
+set_render_callback("onMainRender")
+
+
+def onMainRender(sender, data):
+    frameCount = get_data("frameCount")
+    frameCount+=1
+    add_data("frameCount", frameCount)
+    data1 = get_data("data1")
+    if len(data1) > 100:
+        data1.pop(0)
+    data1.append(sin(frameCount/30))
+    add_data("data1", data1)
+    set_value("Simpleplot1", data1)
+
+start_dearpygui()</code></pre>
+        <p>
+            Plots are much easier to make dynamic than simple plots. Dynamic function can be applied as easy as clearing
+            the plot and adding new data using a callback such as render or widget.
+            <code class="inline-code" data-language="python">set_value()</code>. This is shown below.
+        </p>
+        <pre><code data-language="python">from dearpygui.dearpygui import *
+from math import cos
+
+show_documentation()
+
+add_plot("Plot", "x-axis", "y-axis", height=-1)
+
+add_data("data1", [])
+add_data("frameCount", 0)
+
+set_render_callback("plot_callback")
+
+def plot_callback(sender, data):
+    frameCount = get_data("frameCount")
+    frameCount+=1
+    data1 = get_data("data1")
+    if len(data1) > 250:
+        frameCount = 0
+        data1.clear()
+    data1.append([3.14 * frameCount / 180, cos(3 * 3.14 * frameCount / 180)])
+    clear_plot("Plot")
+    add_line_series("Plot", "Cos", data1, weight=2, fill=[255, 0, 0, 100])
+    add_data("frameCount", frameCount)
+    add_data("data1", data1)
+
+
+start_dearpygui()</code></pre>
+
     </article>
 
 </main>
