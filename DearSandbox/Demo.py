@@ -31,6 +31,8 @@ end_menu()
 
 end_menu_bar()
 
+#add_image("image", "/Users/jonathanhoffstadt/Desktop/demo.jpg")
+
 # launchers
 add_group("Launch Group", width=200)
 add_button("Widgets", callback="Launcher")

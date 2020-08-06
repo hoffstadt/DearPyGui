@@ -51,7 +51,9 @@ namespace Marvel {
                 }
 				if (m_width == 0) m_width = texture->width*(m_uv_max.x - m_uv_min.x);
 				if (m_height == 0) m_height = texture->height * (m_uv_max.y - m_uv_min.y);
+
 				m_texture = texture->texture;
+
 			}
 
 			if(m_texture)
