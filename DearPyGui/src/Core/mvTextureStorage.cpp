@@ -29,7 +29,6 @@ namespace Marvel {
 
 		mvTexture newTexture = { 0, 0, nullptr, 1 };
 
-		//if (LoadTextureFromFile(name.c_str(), &newTexture.texture, &newTexture.width, &newTexture.height)) {
 		if (LoadTextureFromFile(name.c_str(), newTexture)) {
             s_textures.insert({ name, newTexture });
         }

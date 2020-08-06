@@ -18,23 +18,13 @@ namespace fs = std::filesystem;
 
 namespace Marvel {
 
-	static int CALLBACK BrowseCallbackProc(HWND hwnd, UINT uMsg, LPARAM lParam, LPARAM lpData)
-	{
-
-		if (uMsg == BFFM_INITIALIZED)
-		{
-			std::string tmp = (const char*)lpData;
-			SendMessage(hwnd, BFFM_SETSELECTION, TRUE, lpData);
-		}
-
-		return 0;
-	}
 
     // Simple helper function to load an image into a DX11 texture with common settings
     bool LoadTextureFromFile(const char* filename, mvTexture& storage)
     {
 
-        auto out_srv = static_cast<ID3D11ShaderResourceView**>(storage.texture);
+        //auto out_srv = static_cast<ID3D11ShaderResourceView**>(storage.texture);
+        ID3D11ShaderResourceView* out_srv = nullptr;
 
         // Load from disk into a raw RGBA buffer
         int image_width = 0;
@@ -70,9 +60,10 @@ namespace Marvel {
         srvDesc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2D;
         srvDesc.Texture2D.MipLevels = desc.MipLevels;
         srvDesc.Texture2D.MostDetailedMip = 0;
-        mvWindowsWindow::getDevice()->CreateShaderResourceView(pTexture, &srvDesc, out_srv);
+        mvWindowsWindow::getDevice()->CreateShaderResourceView(pTexture, &srvDesc, &out_srv);
         pTexture->Release();
 
+        storage.texture = out_srv;
         storage.width = image_width;
         storage.height = image_height;
         stbi_image_free(image_data);
