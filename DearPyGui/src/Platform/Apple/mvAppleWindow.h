@@ -22,10 +22,6 @@ namespace Marvel {
         virtual void cleanup    () override;
 
         static id<MTLDevice> GetDevice() { return device; }
-        static void SetTexture(id<MTLTexture> tex)
-        {
-            texture=tex;
-        }
 
     private:
 
