@@ -175,17 +175,17 @@ namespace Marvel {
 					ColorText("LOGGING");
 					ImGui::BulletText("In order to show the logger window, you must use the \"show_logger\" command.");
 					ImGui::BulletText("In order to filter what is displayed, you can set the log level.");
-					ImGui::BulletText("Can be set like \"set_log_level(sbConstants.mvINFO)\"");
+					ImGui::BulletText("Can be set like \"set_log_level(mvINFO)\"");
 					ImGui::BulletText("The log levels are:");
 					ImGui::Indent();
 					CodeColorText("    level   -     constant          -    command");
 					CodeColorText("----------------------------------------------------------");
-					CodeColorText("TRACE   - sbConstants.mvTRACE   - log('some message')");
-					CodeColorText("DEBUG   - sbConstants.mvDEBUG   - log_debug('some message')");
-					CodeColorText("INFO    - sbConstants.mvINFO    - log_info('some message')");
-					CodeColorText("WARNING - sbConstants.mvWARNING - log_warning('some message')");
-					CodeColorText("ERROR   - sbConstants.mvERROR   - log_error('some message')");
-					CodeColorText("OFF     - sbConstants.mvOFF");
+					CodeColorText("TRACE         - mvTRACE   - log('some message')");
+					CodeColorText("DEBUG         - mvDEBUG   - log_debug('some message')");
+					CodeColorText("INFO          - mvINFO    - log_info('some message')");
+					CodeColorText("WARNING       - mvWARNING - log_warning('some message')");
+					CodeColorText("ERROR         - mvERROR   - log_error('some message')");
+					CodeColorText("OFF           - mvOFF");
 					ImGui::Unindent();
 					
 				}
@@ -320,10 +320,10 @@ namespace Marvel {
 				{
 					ColorText("BASICS:");
 					ImGui::BulletText("Callbacks are functions that are ran when some event occurs.");
-					ImGui::BulletText("There are currently 3 'types' of callbacks used in Sandbox:");
+					ImGui::BulletText("There are currently 3 'types' of callbacks used in DearPyGui:");
 					ImGui::Indent();
 					CodeColorText("Render  - ran every frame");
-					CodeColorText("Inputs  - ran when mouse/keyboard events occure");
+					CodeColorText("Inputs  - ran when mouse/keyboard events occurr");
 					CodeColorText("Widgets - ran when certain widgets are interacted with");
 					ImGui::Unindent();
 					ImGui::BulletText("Notes:");
