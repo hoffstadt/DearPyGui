@@ -1,0 +1,32 @@
+Dear PyGui
+ISSUES & TODO LIST
+
+Issue numbers (#) refer to github issues listed at https://github.com/RaylockLLC/DearPyGui/issues
+The list below consist mostly of ideas noted down before they are requested/discussed by users (at which point they usually exist on the github issue tracker).
+It's mostly a bunch of personal notes, probably incomplete. Feel free to query if you have any questions.
+
+- doc: work on the CONTRIBUTING.md file
+- doc/wiki: work on the wiki https://github.com/RaylockLLC/DearPyGui/wiki
+
+- 3d widget: add a 3d widget similar to the one provided in javafx or wpf
+
+- custom widgets: add a fully supported custom widget API to allow users to make their own widgets more easily
+
+- plot: add pie charts
+- plot: add bar graphs
+- plot: add heatmap charts
+- plot: add area plot (not just to the x axis)
+
+- text edit widget: basically open up the widget used in _show_source_ for user control
+- text edit widget: add multifile support
+
+- style/theme: provide a complete and unified system for changing the colors and styles of widgets
+
+- fonts: provide additional fonts and a system for users to import their own
+
+- builds: automate dev version number
+- builds: write tests to ensure everything was actually packaged in the wheel
+
+- misc: deal with deprecation of codecvt
+- misc: create a logo
+- misc: add support for raspberry pi
