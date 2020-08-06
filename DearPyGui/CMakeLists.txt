@@ -116,7 +116,7 @@ set(MARVEL_INCLUDE_DIR
 
 	"/usr/include/python3.8/"
 
-	#new
+	# may can delete this
 	"../Dependencies/cpython/debug/"
 )
 
