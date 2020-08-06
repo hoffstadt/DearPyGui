@@ -100,8 +100,8 @@ namespace Marvel {
 
 		MV_APPITEM_TYPE(mvAppItemType::Group)
 
-		mvGroup(const std::string& parent, const std::string& name)
-			: mvAppItem(parent, name)
+		mvGroup(const std::string& parent, const std::string& name, bool horizontal=false, float spacing=-1.0f)
+			: mvAppItem(parent, name), m_horizontal(horizontal), m_hspacing(spacing)
 		{
 			m_container = true;
 		}
@@ -130,6 +130,9 @@ namespace Marvel {
 				item->draw();
 				item->popColorStyles();
 
+				if (m_horizontal)
+					ImGui::SameLine(0.0, m_hspacing);
+
 				// Regular Tooltip (simple)
 				if (item->getTip() != "" && ImGui::IsItemHovered())
 					ImGui::SetTooltip("%s", item->getTip().c_str());
@@ -156,6 +159,11 @@ namespace Marvel {
 			ImGui::EndGroup();
 
 		}
+
+	private:
+
+		bool  m_horizontal = false;
+		float m_hspacing = -1.0f;
 
 	};
 

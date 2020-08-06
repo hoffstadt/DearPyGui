@@ -50,7 +50,7 @@ jobs:
         call "%dir%..\Dependencies\cpython\PCbuild\win32\python.exe" -m setup bdist_wheel --plat-name win32 --dist-dir D:/a/DearPyGui/DearPyGui/dist
 
     - name: Upload Test DearPyGui Wheel
-      if: "!contains(github.event.head_commit.message, 'upload skip')"
+      if: "contains(github.event.head_commit.message, 'upload run')"
       shell: cmd
       run: |
         call "%dir%Dependencies\cpython\PCbuild\amd64\python.exe" -m twine upload --repository testpypi dist/* -u __token__ -p ${{ secrets.test_pypi_password }} --skip-existing

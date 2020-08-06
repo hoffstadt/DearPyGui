@@ -4,11 +4,16 @@ add_executable (DearSandbox)
 
 set_property(TARGET DearSandbox PROPERTY CXX_STANDARD 17)
 
+if(APPLE)
+find_package(Python3 COMPONENTS Interpreter Development)
+endif()
+
 target_sources(DearSandbox
 	
 	PRIVATE
 
 		"$<$<PLATFORM_ID:Windows>:main.cpp>"
+		"$<$<PLATFORM_ID:Darwin>:main_linux.cpp>"
 		"$<$<PLATFORM_ID:Linux>:main_linux.cpp>"
 )
 
@@ -16,11 +21,12 @@ target_include_directories(DearSandbox
 
 	PRIVATE
 
-		"../Dependencies/cpython/Include/"
 		"$<$<PLATFORM_ID:Windows>:${CMAKE_SOURCE_DIR}/Dependencies/cpython/PC/>"
 		"../Dependencies/imgui/"
 		"../DearPyGui/src/"
 		"../DearPyGui/include/"
+		"../Dependencies/cpython/"
+		"../Dependencies/cpython/Include/"
 		"$<$<PLATFORM_ID:Linux>:/usr/include/python3.8/>"
 )
 
@@ -73,6 +79,19 @@ if (WIN32)
 						   COMMAND ${CMAKE_COMMAND} -E copy_if_different
 							   ${CMAKE_SOURCE_DIR}/Output/python/Debug/python38$<$<CONFIG:Debug>:_d>.dll $<TARGET_FILE_DIR:DearSandbox>)
 	endif()
+elseif(APPLE)
+
+	set_property(TARGET DearSandbox APPEND_STRING PROPERTY COMPILE_FLAGS "-Wno-unused-result -Wsign-compare -Wunreachable-code -fno-common -dynamic -DNDEBUG -g -fwrapv -O3 -Wall -arch x86_64 -g")
+
+	target_link_directories(DearSandbox PRIVATE /Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/config-3.8-darwin)
+
+	target_link_libraries(DearSandbox
+
+			PUBLIC
+
+			dearpyguiemb
+			"python3.8"
+	)
 
 else() # Linux
 

@@ -95,43 +95,46 @@ namespace Marvel {
 		ImGui::NewFrame();
 	}
 
+	void mvWindowsWindow::renderFrame()
+	{
+		prerender();
+
+		if (m_error)
+		{
+			mvAppLog::setSize(m_width, m_height);
+			mvAppLog::render();
+		}
+
+		else if (m_editor)
+		{
+			m_appEditor->prerender();
+			m_appEditor->render(m_editor);
+			m_appEditor->postrender();
+		}
+
+		else if (m_doc)
+		{
+			m_documentation->prerender();
+			m_documentation->render(m_doc);
+			m_documentation->postrender();
+		}
+
+		else if (!m_error)
+		{
+			m_app->prerender();
+			m_app->render(m_running);
+			m_app->postrender();
+		}
+
+		postrender();
+	}
+
 	void mvWindowsWindow::run()
 	{
 
 		setup();
 		while (m_running)
-		{
-			prerender();
-
-			if (m_error)
-			{
-				mvAppLog::setSize(m_width, m_height);
-				mvAppLog::render();
-			}
-
-			else if (m_editor)
-			{
-				m_appEditor->prerender();
-				m_appEditor->render(m_editor);
-				m_appEditor->postrender();
-			}
-
-			else if (m_doc)
-			{
-				m_documentation->prerender();
-				m_documentation->render(m_doc);
-				m_documentation->postrender();
-			}
-
-			else if (!m_error)
-			{
-				m_app->prerender();
-				m_app->render(m_running);
-				m_app->postrender();
-			}
-
-			postrender();
-		}
+			renderFrame();
 
 	}
 
