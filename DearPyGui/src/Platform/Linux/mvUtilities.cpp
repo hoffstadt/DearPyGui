@@ -11,7 +11,6 @@ namespace Marvel {
     // Simple helper function to load an image into a DX11 texture with common settings
     bool LoadTextureFromFile(const char* filename, mvTexture& storage)
     {
-        auto out_srv = static_cast<GLuint*>(storage.texture);
 
         // Load from file
         int image_width = 0;
@@ -34,7 +33,7 @@ namespace Marvel {
         glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, image_width, image_height, 0, GL_RGBA, GL_UNSIGNED_BYTE, image_data);
         stbi_image_free(image_data);
 
-        *out_srv = image_texture;
+        storage.texture = (void *)image_texture;
         storage.width = image_width;
         storage.height = image_height;
 
