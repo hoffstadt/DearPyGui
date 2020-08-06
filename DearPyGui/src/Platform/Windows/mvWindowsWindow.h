@@ -19,12 +19,13 @@ namespace Marvel {
 		mvWindowsWindow(unsigned width, unsigned height, bool editor = false, bool error = false, bool doc = false);
 		virtual ~mvWindowsWindow();
 
-		virtual void show() override;
-		virtual void setup() override;
-		virtual void prerender() override;
-		virtual void postrender() override;
-		virtual void cleanup() override;
-		virtual void run() override;
+		virtual void show       () override;
+		virtual void setup      () override;
+		virtual void prerender  () override;
+		virtual void postrender () override;
+		virtual void renderFrame() override;
+		virtual void cleanup    () override;
+		virtual void run        () override;
 
 	private:
 

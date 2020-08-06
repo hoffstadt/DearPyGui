@@ -55,6 +55,7 @@ namespace Marvel {
 	class mvThreadPool;
 	class mvTextEditor;
 	class mvColor;
+	class mvWindow;
 	
 
 	//-----------------------------------------------------------------------------
@@ -92,6 +93,8 @@ namespace Marvel {
 		virtual void prerender ()           override; // pre rendering (every frame)	
 		virtual void render    (bool& show) override; // actual render loop		
 		virtual void postrender()           override; // post rendering (every frame)
+		void         setViewport(mvWindow* viewport) { m_viewport = viewport; }
+		mvWindow*    getViewport() { return m_viewport; }
 
 		//-----------------------------------------------------------------------------
 		// App Settings
@@ -205,6 +208,7 @@ namespace Marvel {
 		static mvApp* s_instance;
 		static bool   s_started;
 
+		mvWindow*               m_viewport = nullptr;
 		std::string             m_activeWindow = "MainWindow";
 		std::string             m_argv0 = "";
 		std::stack<mvAppItem*>  m_parents;

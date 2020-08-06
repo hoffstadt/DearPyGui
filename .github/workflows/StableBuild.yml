@@ -50,6 +50,7 @@ jobs:
         call "%dir%..\Dependencies\cpython\PCbuild\win32\python.exe" -m setup bdist_wheel --plat-name win32 --dist-dir D:/a/DearPyGui/DearPyGui/dist
 
     - name: Upload Release DearPyGui Wheel
+      if: "contains(github.event.head_commit.message, 'upload run')"
       shell: cmd
       run: |
         call "%dir%Dependencies\cpython\PCbuild\amd64\python.exe" -m twine upload dist/* -u __token__ -p ${{ secrets.pypi_password }} --skip-existing
@@ -91,6 +92,7 @@ jobs:
         python3 -m setup bdist_wheel --plat-name macosx-10.6-x86_64 --dist-dir /Users/runner/work/DearPyGui/DearPyGui/dist
 
     - name: Upload Release DearPyGui Wheel
+      if: "contains(github.event.head_commit.message, 'upload run')"
       run: |
         python3 -m twine upload dist/* -u __token__ -p ${{ secrets.pypi_password }} --skip-existing
 
@@ -133,5 +135,6 @@ jobs:
         python3 -m setup bdist_wheel --plat-name manylinux1_x86_64 --dist-dir /home/runner/work/DearPyGui/DearPyGui/dist
 
     - name: Upload Test DearPyGui Wheel
+      if: "contains(github.event.head_commit.message, 'upload run')"
       run: |
         python3 -m twine upload dist/* -u __token__ -p ${{ secrets.pypi_password }} --skip-existing

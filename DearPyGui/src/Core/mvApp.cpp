@@ -14,6 +14,7 @@
 #include "Core/StandardWindows/mvMetricsWindow.h"
 #include "Core/StandardWindows/mvSourceWindow.h"
 #include "Core/StandardWindows/mvDebugWindow.h"
+#include "Core/StandardWindows/mvFileDialog.h"
 #include <thread>
 #include <future>
 #include <chrono>
@@ -112,6 +113,7 @@ namespace Marvel {
 		addStandardWindow("metrics", new mvMetricsWindow());
 		addStandardWindow("source", new mvSourceWindow());
 		addStandardWindow("debug", new mvDebugWindow());
+		addStandardWindow("filedialog", new mvFileDialog());
 
 	}
 
@@ -347,13 +349,6 @@ namespace Marvel {
 
 		mvAppLog::render();
 
-		// render any standard windows (i.e. debug, etc.)
-		for (auto& entry : m_standardWindows)
-		{
-			if (entry.second.show)
-				entry.second.window->render(entry.second.show);
-		}
-
 		// set imgui style to mvstyle
 		SetStyle(ImGui::GetStyle(), m_style);
 
@@ -367,7 +362,7 @@ namespace Marvel {
 				runCallback(getRenderCallback(), "Main Application");
 		}
 
-		else 
+		else
 		{
 			mvAppItem* item = mvApp::GetApp()->getItem(m_activeWindow);
 
@@ -376,9 +371,9 @@ namespace Marvel {
 			else
 			{
 				dispatchRenderCallback<mvWindowAppitem>(mvAppItemType::Window, item);
-				dispatchRenderCallback<mvChild>        (mvAppItemType::Child , item);
-				dispatchRenderCallback<mvPopup>        (mvAppItemType::Popup , item);
-				dispatchRenderCallback<mvMenu>         (mvAppItemType::Menu  , item);
+				dispatchRenderCallback<mvChild>(mvAppItemType::Child, item);
+				dispatchRenderCallback<mvPopup>(mvAppItemType::Popup, item);
+				dispatchRenderCallback<mvMenu>(mvAppItemType::Menu, item);
 			}
 		}
 
@@ -396,6 +391,13 @@ namespace Marvel {
 
 	void mvApp::postrender()
 	{
+
+		// render any standard windows (i.e. debug, etc.)
+		for (auto& entry : m_standardWindows)
+		{
+			if (entry.second.show)
+				entry.second.window->render(entry.second.show);
+		}
 
 		Py_BEGIN_ALLOW_THREADS
 

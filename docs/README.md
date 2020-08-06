@@ -48,8 +48,9 @@ Ensure you have the newest version of Python 3.8 (3.8.5 at the moment).
  ---
  
 **DearPyGui is an all included GUI framework.** A variety of examples demonstrating usage
-can be found in the Examples folder [/Examples](https://github.com/RaylockLLC/DearPyGui/tree/master/Examples).
-Documentation can be found [here](https://raylockllc.github.io/DearPyGui/) or from within the library by 
+can be found in the Examples folder [/Examples](https://github.com/RaylockLLC/DearPyGui/tree/master/Examples). To get started checkout the [Tutorials](https://raylockllc.github.io/DearPyGui/tutorial.html)
+and for all other references 
+visit the [Documentation](https://raylockllc.github.io/DearPyGui/) or from within the library by 
 using the **show_documentation** command. Please note that some features are not yet available for Mac and Linux(images, file dialogs, etc.).
 
 Using _DearPyGui_ is a simple as creating a python script like the one below:
