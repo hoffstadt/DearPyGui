@@ -46,6 +46,7 @@ set(MARVEL_SOURCES
 	"src/Core/mvTextEditor.cpp"
 	"src/Core/mvDataStorage.cpp"
 	"src/Core/mvTextureStorage.cpp"
+
 	"src/Core/mvPythonTranslator.cpp"
 	"src/Core/mvPythonParser.cpp"
 	"$<$<PLATFORM_ID:Windows>:src/Core/mvMarvel.cpp>"
@@ -69,7 +70,7 @@ set(MARVEL_SOURCES
 	"$<$<PLATFORM_ID:Windows>:src/Platform/Windows/mvUtilities.cpp>"
 
 	"$<$<PLATFORM_ID:Darwin>:src/Platform/Apple/mvAppleWindow.mm>"
-	"$<$<PLATFORM_ID:Darwin>:src/Platform/Apple/mvAppleUtilities.cpp>"
+	"$<$<PLATFORM_ID:Darwin>:src/Platform/Apple/mvAppleUtilities.mm>"
 
 	"$<$<PLATFORM_ID:Linux>:src/Platform/Linux/mvUtilities.cpp>"
 	"$<$<PLATFORM_ID:Linux>:src/Platform/Linux/mvLinuxWindow.cpp>"

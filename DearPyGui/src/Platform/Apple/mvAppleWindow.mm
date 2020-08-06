@@ -13,6 +13,9 @@
 
 namespace Marvel {
 
+    id <MTLDevice> mvAppleWindow::device;
+    __strong id<MTLTexture> mvAppleWindow::texture;
+
     mvWindow* mvWindow::CreatemvWindow(unsigned width, unsigned height, bool editor, bool error, bool doc)
 	{
 		return new mvAppleWindow(width, height, editor, error, doc);
@@ -55,7 +58,7 @@ namespace Marvel {
         m_window = glfwCreateWindow(width, height, "DearPyGui", NULL, NULL);
 
 
-        id <MTLDevice> device = MTLCreateSystemDefaultDevice();;
+        device = MTLCreateSystemDefaultDevice();;
         m_commandQueue = [device newCommandQueue];
 
         ImGui_ImplGlfw_InitForOpenGL(m_window, true);

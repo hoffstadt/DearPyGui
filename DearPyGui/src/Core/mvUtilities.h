@@ -10,14 +10,11 @@
 
 #include <vector>
 #include <string>
+#include "mvTextureStorage.h"
 
 namespace Marvel {
 
-	bool        UnloadTexture      (void* texture);
-	bool        LoadTextureFromFile(const char* filename, void* vout_srv, int* out_width, int* out_height);
-	void        RunFile            (const std::string& file, const std::string& flags);
-	std::string OpenFile           (const std::vector<std::pair<std::string, std::string>>& extensions);
-	std::string SaveFile           (const std::vector<std::pair<std::string, std::string>>& extensions);
-	std::string PickDirectory      (const std::string& directory);
+	bool        UnloadTexture      (const std::string& filename);
+	bool        LoadTextureFromFile(const char* filename, mvTexture& storage);
 
 }

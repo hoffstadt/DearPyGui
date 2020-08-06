@@ -9,9 +9,9 @@
 namespace Marvel {
 
     // Simple helper function to load an image into a DX11 texture with common settings
-    bool LoadTextureFromFile(const char* filename, void* vout_srv, int* out_width, int* out_height)
+    bool LoadTextureFromFile(const char* filename, mvTexture& storage)
     {
-        auto out_srv = static_cast<GLuint*>(vout_srv);
+        auto out_srv = static_cast<GLuint*>(storage.texture);
 
         // Load from file
         int image_width = 0;
@@ -35,37 +35,17 @@ namespace Marvel {
         stbi_image_free(image_data);
 
         *out_srv = image_texture;
-        *out_width = image_width;
-        *out_height = image_height;
+        storage.width = image_width;
+        storage.height = image_height;
 
         return true;
     }
 
-	bool UnloadTexture(void* texture)
+    bool UnloadTexture(const std::string& filename)
 	{
 		// TODO : decide if cleanup is necessary
 		return true;
 	}
 
-	void RunFile(const std::string& file, const std::string& flags)
-	{
-
-	}
-
-	std::string PickDirectory(const std::string& directory)
-	{
-
-		return "";
-	}
-
-	std::string SaveFile(const std::vector<std::pair<std::string, std::string >>& extensions)
-	{
-        return "";
-	}
-
-	std::string OpenFile(const std::vector<std::pair<std::string, std::string>>& extensions)
-	{
-		return "";
-	}
 
 }

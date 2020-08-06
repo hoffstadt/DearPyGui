@@ -31,10 +31,10 @@ namespace Marvel {
 	}
 
     // Simple helper function to load an image into a DX11 texture with common settings
-    bool LoadTextureFromFile(const char* filename, void* vout_srv, int* out_width, int* out_height)
+    bool LoadTextureFromFile(const char* filename, mvTexture& storage)
     {
 
-        auto out_srv = static_cast<ID3D11ShaderResourceView**>(vout_srv);
+        auto out_srv = static_cast<ID3D11ShaderResourceView**>(storage.texture);
 
         // Load from disk into a raw RGBA buffer
         int image_width = 0;
@@ -73,217 +73,17 @@ namespace Marvel {
         mvWindowsWindow::getDevice()->CreateShaderResourceView(pTexture, &srvDesc, out_srv);
         pTexture->Release();
 
-        *out_width = image_width;
-        *out_height = image_height;
+        storage.width = image_width;
+        storage.height = image_height;
         stbi_image_free(image_data);
 
         return true;
     }
 
-	bool UnloadTexture(void* texture)
+    bool UnloadTexture(const std::string& filename)
 	{
 		// TODO : decide if cleanup is necessary
 		return true;
-	}
-
-	void RunFile(const std::string& file, const std::string& flags)
-	{
-		// additional information
-		STARTUPINFO si;
-		PROCESS_INFORMATION pi;
-
-		// set the size of the structures
-		ZeroMemory(&si, sizeof(si));
-		si.cb = sizeof(si);
-		ZeroMemory(&pi, sizeof(pi));
-
-		fs::path p = fs::path(file);
-		p.replace_extension(" ");
-		auto filename = p.filename().string();
-		auto pathname = p.parent_path().string();
-
-		size_t lastindex = filename.find_last_of(".");
-		std::string rawname = filename.substr(0, lastindex);
-
-		std::string cmd = std::string("\"") + std::string(Marvel::mvApp::GetApp()->getArgv0()) + std::string("\" --app ") + 
-			rawname + " --path \"" + pathname + "\" " + "--noconfig " + flags;
-		std::string pname = "DearSandbox.exe";
-
-		// start the program up
-		CreateProcess(const_cast<char*>(pname.c_str()),   // the path
-			const_cast<char*>(cmd.c_str()),        // Command line
-			NULL,           // Process handle not inheritable
-			NULL,           // Thread handle not inheritable
-			FALSE,          // Set handle inheritance to FALSE
-			0,              // No creation flags
-			NULL,           // Use parent's environment block
-			NULL,           // Use parent's starting directory 
-			&si,            // Pointer to STARTUPINFO structure
-			&pi             // Pointer to PROCESS_INFORMATION structure (removed extra parentheses)
-		);
-		// Close process and thread handles. 
-		CloseHandle(pi.hProcess);
-		CloseHandle(pi.hThread);
-	}
-
-	std::string PickDirectory(const std::string& directory)
-	{
-		TCHAR path[MAX_PATH];
-
-		const char* path_param = directory.c_str();
-
-		BROWSEINFO bi = { 0 };
-		bi.lpszTitle = ("Browse for folder...");
-		bi.ulFlags = BIF_RETURNONLYFSDIRS | BIF_NEWDIALOGSTYLE | BIF_EDITBOX;
-		bi.lpfn = BrowseCallbackProc;
-		bi.lParam = (LPARAM)path_param;
-
-		LPITEMIDLIST pidl = SHBrowseForFolder(&bi);
-
-		if (pidl != 0)
-		{
-			//get the name of the folder and put it in path
-			SHGetPathFromIDList(pidl, path);
-
-			//free memory used
-			IMalloc* imalloc = 0;
-			if (SUCCEEDED(SHGetMalloc(&imalloc)))
-			{
-				imalloc->Free(pidl);
-				imalloc->Release();
-			}
-
-			return path;
-		}
-
-		return "";
-	}
-
-	std::string SaveFile(const std::vector<std::pair<std::string, std::string >>& extensions)
-	{
-
-		std::string  result = "";
-
-		std::vector<std::pair<std::wstring, std::wstring >> wextensions;
-
-		for (const auto& item : extensions)
-		{
-			wextensions.emplace_back(std::wstring(L""), std::wstring(L""));
-			wextensions.back().first = std::wstring_convert<std::codecvt_utf8<wchar_t>>().from_bytes(item.first);
-			wextensions.back().second = std::wstring_convert<std::codecvt_utf8<wchar_t>>().from_bytes(item.second);
-		}
-
-		COMDLG_FILTERSPEC* fspecArray = new COMDLG_FILTERSPEC[wextensions.size() + 1];
-		for (int i = 0; i < wextensions.size(); i++)
-		{
-			fspecArray[i].pszName = wextensions[i].first.c_str();
-			fspecArray[i].pszSpec = wextensions[i].second.c_str();
-		}
-
-		HRESULT hr = CoInitializeEx(NULL, COINIT_APARTMENTTHREADED | COINIT_DISABLE_OLE1DDE);
-		if (SUCCEEDED(hr))
-		{
-			CComPtr<IFileSaveDialog> pFileOpen;
-
-			// Create the FileOpenDialog object.
-			hr = pFileOpen.CoCreateInstance(__uuidof(FileSaveDialog));
-
-			hr = pFileOpen->SetFileTypes(extensions.size(), fspecArray);
-			hr = pFileOpen->SetDefaultExtension(fspecArray[0].pszSpec);
-			if (SUCCEEDED(hr))
-			{
-				// Show the Open dialog box.
-				hr = pFileOpen->Show(NULL);
-
-				// Get the file name from the dialog box.
-				if (SUCCEEDED(hr))
-				{
-					CComPtr<IShellItem> pItem;
-					hr = pFileOpen->GetResult(&pItem);
-					if (SUCCEEDED(hr))
-					{
-						PWSTR pszFilePath;
-						hr = pItem->GetDisplayName(SIGDN_FILESYSPATH, &pszFilePath);
-
-						if (SUCCEEDED(hr))
-							result = std::wstring_convert<std::codecvt_utf8<wchar_t>>().to_bytes(pszFilePath);
-
-
-					}
-
-					// pItem goes out of scope.
-				}
-
-				// pFileOpen goes out of scope.
-			}
-			CoUninitialize();
-		}
-
-		delete[] fspecArray;
-		return result;
-	}
-
-	std::string OpenFile(const std::vector<std::pair<std::string, std::string>>& extensions)
-	{
-		std::string result = "";
-
-		std::vector<std::pair<std::wstring, std::wstring >> wextensions;
-
-		for (const auto& item : extensions)
-		{
-			wextensions.emplace_back(std::wstring(L""), std::wstring(L""));
-			wextensions.back().first = std::wstring_convert<std::codecvt_utf8<wchar_t>>().from_bytes(item.first);
-			wextensions.back().second = std::wstring_convert<std::codecvt_utf8<wchar_t>>().from_bytes(item.second);
-		}
-
-		COMDLG_FILTERSPEC* fspecArray = new COMDLG_FILTERSPEC[wextensions.size() + 1];
-		for (int i = 0; i < wextensions.size(); i++)
-		{
-			fspecArray[i].pszName = wextensions[i].first.c_str();
-			fspecArray[i].pszSpec = wextensions[i].second.c_str();
-		}
-
-		HRESULT hr = CoInitializeEx(NULL, COINIT_APARTMENTTHREADED | COINIT_DISABLE_OLE1DDE);
-		if (SUCCEEDED(hr))
-		{
-			CComPtr<IFileOpenDialog> pFileOpen;
-
-			// Create the FileOpenDialog object.
-			hr = pFileOpen.CoCreateInstance(__uuidof(FileOpenDialog));
-			hr = pFileOpen->SetFileTypes(extensions.size(), fspecArray);
-			hr = pFileOpen->SetDefaultExtension(fspecArray[0].pszSpec);
-			if (SUCCEEDED(hr))
-			{
-				// Show the Open dialog box.
-				hr = pFileOpen->Show(NULL);
-
-				// Get the file name from the dialog box.
-				if (SUCCEEDED(hr))
-				{
-					CComPtr<IShellItem> pItem;
-					hr = pFileOpen->GetResult(&pItem);
-					if (SUCCEEDED(hr))
-					{
-						PWSTR pszFilePath;
-						hr = pItem->GetDisplayName(SIGDN_FILESYSPATH, &pszFilePath);
-
-						if (SUCCEEDED(hr))
-							result = std::wstring_convert<std::codecvt_utf8<wchar_t>>().to_bytes(pszFilePath);
-
-					}
-
-
-
-					// pItem goes out of scope.
-				}
-
-				// pFileOpen goes out of scope.
-			}
-			CoUninitialize();
-		}
-
-		delete[] fspecArray;
-		return result;
 	}
 
 }

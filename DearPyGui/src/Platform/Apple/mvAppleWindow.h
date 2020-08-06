@@ -21,6 +21,12 @@ namespace Marvel {
         virtual void renderFrame() override;
         virtual void cleanup    () override;
 
+        static id<MTLDevice> GetDevice() { return device; }
+        static void SetTexture(id<MTLTexture> tex)
+        {
+            texture=tex;
+        }
+
     private:
 
         float m_clear_color[4] = {0.45f, 0.55f, 0.60f, 1.00f};
@@ -29,6 +35,11 @@ namespace Marvel {
         CAMetalLayer *m_layer;
         MTLRenderPassDescriptor *m_renderPassDescriptor;
         id <MTLCommandQueue> m_commandQueue;
+        static id <MTLDevice> device;
+
+    public:
+
+        static __strong id<MTLTexture> texture;
 
     };
 }
