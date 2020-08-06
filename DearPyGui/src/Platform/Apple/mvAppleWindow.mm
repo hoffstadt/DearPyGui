@@ -14,7 +14,6 @@
 namespace Marvel {
 
     id <MTLDevice> mvAppleWindow::device;
-    __strong id<MTLTexture> mvAppleWindow::texture;
 
     mvWindow* mvWindow::CreatemvWindow(unsigned width, unsigned height, bool editor, bool error, bool doc)
 	{

@@ -16,11 +16,6 @@ static std::vector<std::pair<std::string, id<MTLTexture>>> g_textures;
 
 namespace Marvel {
 
-    // Simple helper function to load an image into a DX11 texture with common settings
-    bool LoadTextureFromFile(const char* filename, void* vout_srv, int* out_width, int* out_height) {
-        return true;
-    }
-
     bool LoadTextureFromFile(const char* filename, mvTexture& storage)
     {
         int width, height;
@@ -28,9 +23,6 @@ namespace Marvel {
         unsigned char* image_data = stbi_load(filename, &width, &height, nullptr, 4);
         if (image_data == nullptr)
             return false;
-
-        storage.width = width;
-        storage.height = height;
 
         MTLTextureDescriptor *textureDescriptor = [MTLTextureDescriptor texture2DDescriptorWithPixelFormat:MTLPixelFormatRGBA8Unorm
                                                                                                      width:width
@@ -44,10 +36,9 @@ namespace Marvel {
 
         g_textures.push_back({filename, texture});
 
-        mvAppleWindow::texture = texture;
-
-
         storage.texture = (__bridge void*)g_textures.back().second;
+        storage.width = width;
+        storage.height = height;
 
         return true;
     }
