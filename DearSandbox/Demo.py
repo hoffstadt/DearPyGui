@@ -31,6 +31,8 @@ end_menu()
 
 end_menu_bar()
 
+#add_image("image", "/Users/jonathanhoffstadt/Desktop/demo.jpg")
+
 # launchers
 add_group("Launch Group", width=200)
 add_button("Widgets", callback="Launcher")
@@ -514,3 +516,9 @@ def TestFileCallback(sender, data):
     print(data)
 
 start_dearpygui()
+
+# per frame rendering
+#setup_dearpygui()
+#while get_value("Checkbox##widget") == False:
+#    render_dearpygui_frame()
+#cleanup_dearpygui()
