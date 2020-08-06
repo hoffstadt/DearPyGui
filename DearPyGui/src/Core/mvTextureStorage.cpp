@@ -11,7 +11,7 @@ namespace Marvel {
 	void mvTextureStorage::DeleteAllTextures()
 	{
 		for (auto& texture : s_textures)
-			UnloadTexture(texture.second.texture);
+			UnloadTexture(texture.first);
 
 		s_textures.clear();
 	}
@@ -29,8 +29,9 @@ namespace Marvel {
 
 		mvTexture newTexture = { 0, 0, nullptr, 1 };
 
-		if (LoadTextureFromFile(name.c_str(), &newTexture.texture, &newTexture.width, &newTexture.height))
-			s_textures.insert({ name, newTexture });
+		if (LoadTextureFromFile(name.c_str(), newTexture)) {
+            s_textures.insert({ name, newTexture });
+        }
 
 	}
 
@@ -55,7 +56,7 @@ namespace Marvel {
 		// remove if count reaches 0
 		if (s_textures.at(name).count == 0)
 		{
-			UnloadTexture(s_textures.at(name).texture);
+			UnloadTexture(name);
 			s_textures.erase(name);
 		}
 	}

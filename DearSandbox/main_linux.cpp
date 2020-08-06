@@ -57,7 +57,7 @@ int main(int argc, char* argv[])
 		return 0;
 	}
 
-	else
+    else
 	{
 		start_dearpygui_error();
 		return 0;

@@ -13,6 +13,7 @@
 #include "mvAppItem.h"
 #include "Core/mvUtilities.h"
 #include "mvAppLog.h"
+#include "Core/mvDataStorage.h"
 
 namespace Marvel {
 
@@ -150,6 +151,7 @@ namespace Marvel {
 
 			else
 				m_value = mvPythonTranslator::ToFloatVect(value, " requires a list or tuple of floats.");
+
 		}
 
 		virtual PyObject* getPyValue() const override
@@ -195,8 +197,7 @@ namespace Marvel {
 				if (i > 3)
 					break;
 				m_value[i] = ints[i] / 255.0f;
-			}
-				
+			}		
 		}
 
 		virtual PyObject* getPyValue() const override

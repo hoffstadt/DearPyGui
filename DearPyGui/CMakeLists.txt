@@ -2,6 +2,7 @@
 
 if(WIN32)
 
+	add_definitions(-DWIN32)
 	add_library(dearpygui SHARED)
 	set_target_properties(dearpygui PROPERTIES SUFFIX ".pyd")
 	set_target_properties(dearpygui PROPERTIES OUTPUT_NAME "dearpygui$<$<CONFIG:Debug>:_d>")
@@ -12,14 +13,21 @@ if(WIN32)
 
 elseif(APPLE)
 
-	find_package(Python3 COMPONENTS Development)
+	add_definitions(-DAPPLE)
+	add_definitions(-DUNIX)
+	find_package(Python3 COMPONENTS Interpreter Development)
 	add_library(dearpygui SHARED)
 	set_target_properties(dearpygui PROPERTIES SUFFIX ".so")
 	set_target_properties(dearpygui PROPERTIES PREFIX "")
 	set_target_properties(dearpygui PROPERTIES CXX_STANDARD 17)
 
+	add_library(dearpyguiemb STATIC)
+	set_target_properties(dearpyguiemb PROPERTIES CXX_STANDARD 17)
+
 else() # Linux
 
+	add_definitions(-DLINUX)
+	add_definitions(-DUNIX)
 	add_library(dearpygui SHARED)
 	set_target_properties(dearpygui PROPERTIES PREFIX "")
 	set_target_properties(dearpygui PROPERTIES CXX_STANDARD 17)
@@ -38,6 +46,7 @@ set(MARVEL_SOURCES
 	"src/Core/mvTextEditor.cpp"
 	"src/Core/mvDataStorage.cpp"
 	"src/Core/mvTextureStorage.cpp"
+
 	"src/Core/mvPythonTranslator.cpp"
 	"src/Core/mvPythonParser.cpp"
 	"$<$<PLATFORM_ID:Windows>:src/Core/mvMarvel.cpp>"
@@ -51,6 +60,7 @@ set(MARVEL_SOURCES
 	"src/Core/StandardWindows/mvMetricsWindow.cpp"
 	"src/Core/StandardWindows/mvSourceWindow.cpp"
 	"src/Core/StandardWindows/mvDebugWindow.cpp"
+	"src/Core/StandardWindows/mvFileDialog.cpp"
 
 	"src/Core/AppItems/mvAppItem.cpp"
 	"src/Core/AppItems/mvDrawing.cpp"
@@ -60,7 +70,7 @@ set(MARVEL_SOURCES
 	"$<$<PLATFORM_ID:Windows>:src/Platform/Windows/mvUtilities.cpp>"
 
 	"$<$<PLATFORM_ID:Darwin>:src/Platform/Apple/mvAppleWindow.mm>"
-	"$<$<PLATFORM_ID:Darwin>:src/Platform/Apple/mvAppleUtilities.cpp>"
+	"$<$<PLATFORM_ID:Darwin>:src/Platform/Apple/mvAppleUtilities.mm>"
 
 	"$<$<PLATFORM_ID:Linux>:src/Platform/Linux/mvUtilities.cpp>"
 	"$<$<PLATFORM_ID:Linux>:src/Platform/Linux/mvLinuxWindow.cpp>"
@@ -68,6 +78,9 @@ set(MARVEL_SOURCES
 	# implot
 	"src/Vendor/implot/implot.cpp"
 	"src/Vendor/implot/implot_demo.cpp"
+
+	# ImGuiFileDialog
+	"../Dependencies/ImGuiFileDialog/ImGuiFileDialog/ImGuiFileDialog.cpp"
 
 	# imgui
 	"../Dependencies/imgui/misc/cpp/imgui_stdlib.cpp"
@@ -88,11 +101,14 @@ set(MARVEL_INCLUDE_DIR
 
 	"include/"
 	"src/"
+	"$<$<PLATFORM_ID:Windows>:${CMAKE_SOURCE_DIR}/DearPyGui/src/Vendor/dirent/>"
+	"../Dependencies/ImGuiFileDialog/ImGuiFileDialog/"
 	"../Dependencies/glfw/include/"
 	"../Dependencies/glfw/deps/"
 	"../Dependencies/imgui/"
 	"../Dependencies/imgui/examples/"
 	"../Dependencies/imgui/examples/libs/gl3w"
+	"../Dependencies/cpython/"
 	"../Dependencies/cpython/Include/"
 	"src/Vendor/implot/"
 	"src/Vendor/stb/"
@@ -148,9 +164,13 @@ if(WIN32)
 elseif(APPLE)
 
 	target_sources(dearpygui PRIVATE ${MARVEL_SOURCES} )
-	target_include_directories(dearpygui PRIVATE ${MARVEL_INCLUDE_DIR} ${PYTHON_INCLUDE_DIR})
+	target_sources(dearpyguiemb PRIVATE ${MARVEL_SOURCES} )
+	target_include_directories(dearpygui PRIVATE ${MARVEL_INCLUDE_DIR} ${PYTHON_INCLUDE_DIRS})
+	target_include_directories(dearpyguiemb PRIVATE ${MARVEL_INCLUDE_DIR} ${PYTHON_INCLUDE_DIRS})
 	target_link_directories(dearpygui PRIVATE ${PYTHON_LIBRARIES})
+	target_link_directories(dearpyguiemb PRIVATE /Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/)
 	SET_PROPERTY(TARGET dearpygui APPEND_STRING PROPERTY COMPILE_FLAGS "-fobjc-arc -Wno-unused-result -Wsign-compare -Wunreachable-code -fno-common -dynamic -DNDEBUG -g -fwrapv -O3 -Wall")
+	SET_PROPERTY(TARGET dearpyguiemb APPEND_STRING PROPERTY COMPILE_FLAGS "-fobjc-arc -Wno-unused-result -Wsign-compare -Wunreachable-code -fno-common -dynamic -DNDEBUG -g -fwrapv -O3 -Wall -arch x86_64")
 
 	target_link_libraries(dearpygui
 
@@ -165,6 +185,20 @@ elseif(APPLE)
 			"-framework IOKit"
 			"-framework QuartzCore"
 	)
+
+	target_link_libraries(dearpyguiemb
+
+			PUBLIC
+
+			glfw
+			#"-framework Python"
+			"-framework Metal"
+			"-framework MetalKit"
+			"-framework Cocoa"
+			"-framework CoreVideo"
+			"-framework IOKit"
+			"-framework QuartzCore"
+			)
 
 else() # Linux
 

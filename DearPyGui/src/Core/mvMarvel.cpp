@@ -4,10 +4,12 @@
 #include "Core/mvDataStorage.h"
 #include "mvAppLog.h"
 #include "Core/StandardWindows/mvSourceWindow.h"
+#include "Core/StandardWindows/mvFileDialog.h"
 #include "mvPythonTranslator.h"
 #include "Core/AppItems/mvAppItems.h"
 #include "mvWindow.h"
 #include "Core/mvPythonExceptions.h"
+#include <ImGuiFileDialog.h>
 
 //-----------------------------------------------------------------------------
 // Helper Macro
@@ -98,6 +100,41 @@ namespace Marvel {
 		delete mapping;
 
 		return std::move(result);
+	}
+
+	PyObject* setup_dearpygui(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+
+		mvApp::GetApp()->precheck();
+		mvApp::SetAppStarted();
+
+		// create window
+		auto window = mvWindow::CreatemvWindow(mvApp::GetApp()->getActualWidth(), mvApp::GetApp()->getActualHeight());
+		window->show();
+		mvApp::GetApp()->setViewport(window);
+		window->setup();
+
+		return mvPythonTranslator::GetPyNone();
+	}
+
+	PyObject* render_dearpygui_frame(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+
+		auto window = mvApp::GetApp()->getViewport();
+		window->renderFrame();
+
+		return mvPythonTranslator::GetPyNone();
+	}
+
+	PyObject* cleanup_dearpygui(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+
+		auto window = mvApp::GetApp()->getViewport();
+		delete window;
+		mvApp::GetApp()->setViewport(nullptr);
+		mvApp::DeleteApp();
+
+		return mvPythonTranslator::GetPyNone();
 	}
 
 	PyObject* start_dearpygui(PyObject* self, PyObject* args, PyObject* kwargs)
@@ -1176,56 +1213,56 @@ namespace Marvel {
 
 	PyObject* log(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
-		const char* message;
+		PyObject* message;
 		const char* level = "TRACE";
 		if (!(*mvApp::GetApp()->getParsers())["log"].parse(args, kwargs, __FUNCTION__, &message, &level))
 			return mvPythonTranslator::GetPyNone();
 
-		mvAppLog::Log(std::string(message), std::string(level));
+		mvAppLog::Log(mvPythonTranslator::ToString(message), std::string(level));
 		return mvPythonTranslator::GetPyNone();
 	}
 
 	PyObject* log_debug(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
-		const char* message;
+		PyObject* message;
 
 		if (!(*mvApp::GetApp()->getParsers())["log_debug"].parse(args, kwargs, __FUNCTION__, &message))
 			return mvPythonTranslator::GetPyNone();
 
-		mvAppLog::LogDebug(std::string(message));
+		mvAppLog::LogDebug(mvPythonTranslator::ToString(message));
 		return mvPythonTranslator::GetPyNone();
 	}
 
 	PyObject* log_info(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
-		const char* message;
+		PyObject* message;
 
 		if (!(*mvApp::GetApp()->getParsers())["log_info"].parse(args, kwargs, __FUNCTION__, &message))
 			return mvPythonTranslator::GetPyNone();
 
-		mvAppLog::LogInfo(std::string(message));
+		mvAppLog::LogInfo(mvPythonTranslator::ToString(message));
 		return mvPythonTranslator::GetPyNone();
 	}
 
 	PyObject* log_warning(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
-		const char* message;
+		PyObject* message;
 
 		if (!(*mvApp::GetApp()->getParsers())["log_warning"].parse(args, kwargs, __FUNCTION__, &message))
 			return mvPythonTranslator::GetPyNone();
 
-		mvAppLog::LogWarning(std::string(message));
+		mvAppLog::LogWarning(mvPythonTranslator::ToString(message));
 		return mvPythonTranslator::GetPyNone();
 	}
 
 	PyObject* log_error(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
-		const char* message;
+		PyObject* message;
 
 		if (!(*mvApp::GetApp()->getParsers())["log_error"].parse(args, kwargs, __FUNCTION__, &message))
 			return mvPythonTranslator::GetPyNone();
 
-		mvAppLog::LogError(std::string(message));
+		mvAppLog::LogError(mvPythonTranslator::ToString(message));
 		return mvPythonTranslator::GetPyNone();
 	}
 
@@ -2927,7 +2964,7 @@ namespace Marvel {
 		std::string sname = std::string("sameline" + std::to_string(i));
 		const char* name = sname.c_str();
 		float xoffset = 0.0f;
-		float spacing = 0.0f;
+		float spacing = -1.0f;
 		const char* before = "";
 		const char* parent = "";
 
@@ -2973,12 +3010,14 @@ namespace Marvel {
 		const char* before = "";
 		const char* parent = "";
 		int hide = false;
+		int horizontal = false;
+		float horizontal_spacing = -1.0f;
 
 		if (!(*mvApp::GetApp()->getParsers())["add_group"].parse(args, kwargs, __FUNCTION__, &name,
-			&tip, &parent, &before, &width, &hide))
+			&tip, &parent, &before, &width, &hide, &horizontal, &horizontal_spacing))
 			return mvPythonTranslator::GetPyNone();
 
-		mvAppItem* item = new mvGroup("", name);
+		mvAppItem* item = new mvGroup("", name, horizontal, horizontal_spacing);
 		item->setTip(tip);
 		item->setWidth(width);
 		AddItemWithRuntimeChecks(item, parent, before);
@@ -3759,32 +3798,36 @@ namespace Marvel {
 
 	PyObject* select_directory_dialog(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
-		std::string file = PickDirectory("");
-		return mvPythonTranslator::ToPyString(file);
+		const char* callback = "";
+
+		if (!(*mvApp::GetApp()->getParsers())["select_directory_dialog"].parse(args, kwargs, __FUNCTION__,&callback))
+			return mvPythonTranslator::GetPyNone();
+
+		igfd::ImGuiFileDialog::Instance()->OpenModal("ChooseFileDlgKey", "Choose Directory", 0, ".");
+		mvStandardWindow* window = mvApp::GetApp()->getStandardWindow("filedialog");
+		auto dialog = static_cast<mvFileDialog*>(window);
+		dialog->setCallback(callback);
+		mvApp::GetApp()->showStandardWindow("filedialog");
+
+		return mvPythonTranslator::GetPyNone();
 	}
 
 	PyObject* open_file_dialog(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
-		PyObject* extensions;
+		const char* callback = "";
+		const char* extensions = "";
 
-		if (!(*mvApp::GetApp()->getParsers())["open_file_dialog"].parse(args, kwargs, __FUNCTION__, &extensions))
+		if (!(*mvApp::GetApp()->getParsers())["open_file_dialog"].parse(args, kwargs, __FUNCTION__, 
+			&callback, &extensions))
 			return mvPythonTranslator::GetPyNone();
 
-		std::string file = OpenFile(mvPythonTranslator::ToVectPairString(extensions));
+		igfd::ImGuiFileDialog::Instance()->OpenModal("ChooseFileDlgKey", "Choose File", extensions, ".");
+		mvStandardWindow* window = mvApp::GetApp()->getStandardWindow("filedialog");
+		auto dialog = static_cast<mvFileDialog*>(window);
+		dialog->setCallback(callback);
+		mvApp::GetApp()->showStandardWindow("filedialog");
 
-		return mvPythonTranslator::ToPyString(file.c_str());
-	}
-
-	PyObject* save_file_dialog(PyObject* self, PyObject* args, PyObject* kwargs)
-	{
-		PyObject* extensions;
-
-		if (!(*mvApp::GetApp()->getParsers())["save_file_dialog"].parse(args, kwargs, __FUNCTION__, &extensions))
-			return mvPythonTranslator::GetPyNone();
-
-		std::string file = SaveFile(mvPythonTranslator::ToVectPairString(extensions));
-
-		return mvPythonTranslator::ToPyString(SaveFile(mvPythonTranslator::ToVectPairString(extensions)).c_str());
+		return mvPythonTranslator::GetPyNone();
 	}
 
 	PyObject* move_item_up(PyObject* self, PyObject* args, PyObject* kwargs)
@@ -4321,7 +4364,11 @@ namespace Marvel {
 		if (item == nullptr)
 			return mvPythonTranslator::GetPyNone();
 
-		item->setPyValue(value);
+		if(item->getDataSource().empty())
+			item->setPyValue(value);
+		else
+			mvDataStorage::AddData(item->getDataSource(), value);
+
 		return mvPythonTranslator::GetPyNone();
 	}
 
@@ -4969,6 +5016,9 @@ namespace Marvel {
 
 	static PyMethodDef dearpyguimethods[]
 	{
+		ADD_PYTHON_FUNCTION(setup_dearpygui)
+		ADD_PYTHON_FUNCTION(render_dearpygui_frame)
+		ADD_PYTHON_FUNCTION(cleanup_dearpygui)
 		ADD_PYTHON_FUNCTION(start_dearpygui)
 		ADD_PYTHON_FUNCTION(start_dearpygui_editor)
 		ADD_PYTHON_FUNCTION(start_dearpygui_docs)
@@ -5082,7 +5132,6 @@ namespace Marvel {
 		ADD_PYTHON_FUNCTION(delete_data)
 		ADD_PYTHON_FUNCTION(add_data)
 		ADD_PYTHON_FUNCTION(run_async_function)
-		ADD_PYTHON_FUNCTION(save_file_dialog)
 		ADD_PYTHON_FUNCTION(open_file_dialog)
 		ADD_PYTHON_FUNCTION(delete_item)
 		ADD_PYTHON_FUNCTION(move_item_down)
