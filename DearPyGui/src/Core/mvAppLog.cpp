@@ -214,7 +214,6 @@ namespace Marvel {
 	{
 		if (s_loglevel < 1)
 		{
-			auto now = std::chrono::high_resolution_clock::now();
 			AddLog("[%0.2f] [%1s]  %2s\n", std::chrono::duration_cast<second_>(clock_::now()-s_start).count(), 
 				level.c_str(), text.c_str());
 		}
