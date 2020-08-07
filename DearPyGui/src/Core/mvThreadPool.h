@@ -141,7 +141,7 @@ namespace Marvel {
         {
             std::unique_lock<std::mutex> head_lock(m_head_mutex);
             m_data_cond.wait(head_lock, [&] {return m_head != get_tail(); });
-            return std::move(head_lock);
+            return head_lock;
         }
 
     private:
@@ -170,11 +170,9 @@ namespace Marvel {
 
         ~mvThreadJoiner()
         {
-            for (int i = 0; i < m_threads.size(); i++)
-            {
-                if (m_threads[i].joinable())
-                    m_threads[i].join();
-            }
+            for(auto& thread : m_threads)
+                if(thread.joinable())
+                    thread.join();
         }
 
     private:
@@ -191,15 +189,15 @@ namespace Marvel {
     {
         struct impl_base {
             virtual void call() = 0;
-            virtual ~impl_base() {}
+            virtual ~impl_base() = default;
         };
 
         template<typename F>
         struct impl_type : impl_base
         {
             F f;
-            impl_type(F&& f) : f(std::move(f)) {}
-            void call() { f(); }
+            explicit impl_type(F&& f) : f(std::move(f)) {}
+            void call() override { f(); }
         };
 
     public:

@@ -54,8 +54,8 @@ namespace Marvel {
 	class mvWindowAppitem;
 	class mvThreadPool;
 	class mvTextEditor;
-	class mvColor;
 	class mvWindow;
+    struct mvColor;
 	
 
 	//-----------------------------------------------------------------------------
