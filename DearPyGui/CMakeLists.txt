@@ -1,39 +1,34 @@
 ﻿cmake_minimum_required (VERSION 3.16)
 
+add_library(dearpygui SHARED)
+
+if(NOT MVDIST_ONLY)
+	add_library(dearpyguiemb STATIC)
+	set_target_properties(dearpyguiemb PROPERTIES CXX_STANDARD 17)
+endif()
+
 if(WIN32)
 
 	add_definitions(-DWIN32)
-	add_library(dearpygui SHARED)
 	set_target_properties(dearpygui PROPERTIES SUFFIX ".pyd")
 	set_target_properties(dearpygui PROPERTIES OUTPUT_NAME "dearpygui$<$<CONFIG:Debug>:_d>")
 	set_target_properties(dearpygui PROPERTIES CXX_STANDARD 17)
-
-	add_library(dearpyguiemb STATIC)
-	set_target_properties(dearpyguiemb PROPERTIES CXX_STANDARD 17)
 
 elseif(APPLE)
 
 	add_definitions(-DAPPLE)
 	add_definitions(-DUNIX)
 	find_package(Python3 COMPONENTS Interpreter Development)
-	add_library(dearpygui SHARED)
 	set_target_properties(dearpygui PROPERTIES SUFFIX ".so")
 	set_target_properties(dearpygui PROPERTIES PREFIX "")
 	set_target_properties(dearpygui PROPERTIES CXX_STANDARD 17)
-
-	add_library(dearpyguiemb STATIC)
-	set_target_properties(dearpyguiemb PROPERTIES CXX_STANDARD 17)
 
 else() # Linux
 
 	add_definitions(-DLINUX)
 	add_definitions(-DUNIX)
-	add_library(dearpygui SHARED)
 	set_target_properties(dearpygui PROPERTIES PREFIX "")
 	set_target_properties(dearpygui PROPERTIES CXX_STANDARD 17)
-
-	add_library(dearpyguiemb STATIC)
-	set_target_properties(dearpyguiemb PROPERTIES CXX_STANDARD 17)
 
 endif()
 
@@ -120,20 +115,26 @@ set(MARVEL_INCLUDE_DIR
 	"../Dependencies/cpython/debug/"
 )
 
-if(WIN32)
+target_sources(dearpygui PRIVATE ${MARVEL_SOURCES} )
+target_include_directories(dearpygui PRIVATE ${MARVEL_INCLUDE_DIR} ${PYTHON_INCLUDE_DIRS})
 
-	target_sources(dearpygui PRIVATE ${MARVEL_SOURCES} )
+if(NOT MVDIST_ONLY)
 	target_sources(dearpyguiemb PRIVATE ${MARVEL_SOURCES} )
+	target_include_directories(dearpyguiemb PRIVATE ${MARVEL_INCLUDE_DIR} ${PYTHON_INCLUDE_DIRS})
+endif()
 
-	target_include_directories(dearpygui PRIVATE ${MARVEL_INCLUDE_DIR} )
-	target_include_directories(dearpyguiemb PRIVATE ${MARVEL_INCLUDE_DIR} )
+if(WIN32)
 
 	if(CONFIG_32BIT)
 		target_link_directories(dearpygui PRIVATE "../Dependencies/cpython/PCbuild/win32/")
-		target_link_directories(dearpyguiemb PRIVATE "../Dependencies/cpython/PCbuild/win32/")
+		if(NOT MVDIST_ONLY)
+			target_link_directories(dearpyguiemb PRIVATE "../Dependencies/cpython/PCbuild/win32/")
+		endif()
 	else()
 		target_link_directories(dearpygui PRIVATE "../Dependencies/cpython/PCbuild/amd64/")
-		target_link_directories(dearpyguiemb PRIVATE "../Dependencies/cpython/PCbuild/amd64/")
+		if(NOT MVDIST_ONLY)
+			target_link_directories(dearpyguiemb PRIVATE "../Dependencies/cpython/PCbuild/amd64/")
+		endif()
 	endif()
 
 	target_link_libraries(dearpygui
@@ -145,32 +146,42 @@ if(WIN32)
 			$<$<CONFIG:Release>:python38>
 	)
 
-	target_link_libraries(dearpyguiemb
+	if(NOT MVDIST_ONLY)
+		target_link_libraries(dearpyguiemb
 
-		PUBLIC
+			PUBLIC
 
-			$<$<PLATFORM_ID:Windows>:d3d11>
-			$<$<CONFIG:Debug>:python38_d>
-			$<$<CONFIG:Release>:python38>
-	)
+				$<$<PLATFORM_ID:Windows>:d3d11>
+				$<$<CONFIG:Debug>:python38_d>
+				$<$<CONFIG:Release>:python38>
+		)
+	endif()
 
-	target_compile_definitions(dearpyguiemb
 
-		PUBLIC
-
-			$<$<CONFIG:Release>:MV_RELEASE>
-	)
 
 elseif(APPLE)
 
-	target_sources(dearpygui PRIVATE ${MARVEL_SOURCES} )
-	target_sources(dearpyguiemb PRIVATE ${MARVEL_SOURCES} )
-	target_include_directories(dearpygui PRIVATE ${MARVEL_INCLUDE_DIR} ${PYTHON_INCLUDE_DIRS})
-	target_include_directories(dearpyguiemb PRIVATE ${MARVEL_INCLUDE_DIR} ${PYTHON_INCLUDE_DIRS})
 	target_link_directories(dearpygui PRIVATE ${PYTHON_LIBRARIES})
-	target_link_directories(dearpyguiemb PRIVATE /Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/)
+	
 	SET_PROPERTY(TARGET dearpygui APPEND_STRING PROPERTY COMPILE_FLAGS "-fobjc-arc -Wno-unused-result -Wsign-compare -Wunreachable-code -fno-common -dynamic -DNDEBUG -g -fwrapv -O3 -Wall")
-	SET_PROPERTY(TARGET dearpyguiemb APPEND_STRING PROPERTY COMPILE_FLAGS "-fobjc-arc -Wno-unused-result -Wsign-compare -Wunreachable-code -fno-common -dynamic -DNDEBUG -g -fwrapv -O3 -Wall -arch x86_64")
+
+	if(NOT MVDIST_ONLY)
+		target_link_directories(dearpyguiemb PRIVATE /Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/)
+		SET_PROPERTY(TARGET dearpyguiemb APPEND_STRING PROPERTY COMPILE_FLAGS "-fobjc-arc -Wno-unused-result -Wsign-compare -Wunreachable-code -fno-common -dynamic -DNDEBUG -g -fwrapv -O3 -Wall -arch x86_64")
+		target_link_libraries(dearpyguiemb
+
+			PUBLIC
+
+			glfw
+			#"-framework Python"
+			"-framework Metal"
+			"-framework MetalKit"
+			"-framework Cocoa"
+			"-framework CoreVideo"
+			"-framework IOKit"
+			"-framework QuartzCore"
+			)
+	endif()
 
 	target_link_libraries(dearpygui
 
@@ -186,31 +197,24 @@ elseif(APPLE)
 			"-framework QuartzCore"
 	)
 
-	target_link_libraries(dearpyguiemb
-
-			PUBLIC
-
-			glfw
-			#"-framework Python"
-			"-framework Metal"
-			"-framework MetalKit"
-			"-framework Cocoa"
-			"-framework CoreVideo"
-			"-framework IOKit"
-			"-framework QuartzCore"
-			)
-
 else() # Linux
 
-	target_sources(dearpygui PRIVATE ${MARVEL_SOURCES} )
-	target_sources(dearpyguiemb PRIVATE ${MARVEL_SOURCES} )
-
-	target_include_directories(dearpygui PRIVATE ${MARVEL_INCLUDE_DIR} )
-	target_include_directories(dearpyguiemb PRIVATE ${MARVEL_INCLUDE_DIR})
-
 	set_property(TARGET dearpygui APPEND_STRING PROPERTY COMPILE_FLAGS "-fPIC -Wno-unused-result -Wsign-compare -DNDEBUG -g -fwrapv -O3 -Wall")
-	set_property(TARGET dearpyguiemb APPEND_STRING PROPERTY COMPILE_FLAGS "-fPIC -Wno-unused-result -Wsign-compare -DNDEBUG -g -fwrapv -O3 -Wall")
+	
 	add_definitions(-DIMGUI_IMPL_OPENGL_LOADER_GL3W)
+
+	if(NOT MVDIST_ONLY)
+		set_property(TARGET dearpyguiemb APPEND_STRING PROPERTY COMPILE_FLAGS "-fPIC -Wno-unused-result -Wsign-compare -DNDEBUG -g -fwrapv -O3 -Wall")
+		target_link_libraries(dearpyguiemb
+				
+			PUBLIC
+
+				"-L/usr/lib  -lcrypt -lpthread -ldl  -lutil -lm -lm"
+				GL
+				glfw
+				python3.8
+		)
+	endif()
 
 	target_link_libraries(dearpygui
 		
@@ -222,16 +226,15 @@ else() # Linux
 			python3.8
 	)
 
-	target_link_libraries(dearpyguiemb
-				
+endif()
+
+if(NOT MVDIST_ONLY)
+	target_compile_definitions(dearpyguiemb
+
 		PUBLIC
 
-			"-L/usr/lib  -lcrypt -lpthread -ldl  -lutil -lm -lm"
-			GL
-			glfw
-			python3.8
+			$<$<CONFIG:Release>:MV_RELEASE>
 	)
-
 endif()
 
 target_compile_definitions(dearpygui
