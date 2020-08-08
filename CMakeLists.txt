@@ -10,11 +10,11 @@ add_definitions(-D_USE_MATH_DEFINES)
 add_definitions(-DMV_SANDBOX_VERSION="0.1.0b0")
 
 # Include sub-projects.
-add_subdirectory ("ImguiTesting")
 add_subdirectory ("DearPyGui")
 
 if(NOT MVDIST_ONLY)
     add_subdirectory ("DearSandbox")
+    add_subdirectory ("ImguiTesting")
 endif()
 
 if(WIN32)
