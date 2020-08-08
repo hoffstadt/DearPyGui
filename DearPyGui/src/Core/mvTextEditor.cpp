@@ -7,6 +7,12 @@
 #include "mvApp.h"
 #include "mvMarvel.h"
 
+DISABLE_WARNING_PUSH
+DISABLE_WARNING_UNREFERENCED_FUNCTION
+DISABLE_WARNING_LOSS_DATA1
+DISABLE_WARNING_LOSS_DATA2
+DISABLE_WARNING_UNSIGNED_COMPARISON
+
 #define IMGUI_DEFINE_MATH_OPERATORS
 #include "imgui.h" // for imGui::GetCurrentWindow()
 
@@ -3239,3 +3245,5 @@ const mvTextEditor::LanguageDefinition& mvTextEditor::LanguageDefinition::Python
 	return langDef;
 }
 }
+
+DISABLE_WARNING_POP

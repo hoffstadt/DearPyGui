@@ -25,7 +25,7 @@ namespace Marvel {
 		MV_APPITEM_TYPE(mvAppItemType::TabBar)
 
 		mvTabBar(const std::string& parent, const std::string& name, bool reorderable = false)
-			: mvStringItemBase(parent, name, ""), m_reorderable(reorderable)
+			: mvStringItemBase(parent, name, "")
 		{
 			if (reorderable)
 				m_flags |= ImGuiTabBarFlags_Reorderable;
@@ -75,7 +75,6 @@ namespace Marvel {
 
 	private:
 
-		bool m_reorderable = false;
 		ImGuiTabBarFlags m_flags = ImGuiTabBarFlags_None;
 
 	};

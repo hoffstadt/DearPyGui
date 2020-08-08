@@ -9,6 +9,12 @@
 //     
 //-----------------------------------------------------------------------------
 
+DISABLE_WARNING_PUSH
+DISABLE_WARNING_UNREFERENCED_FUNCTION
+DISABLE_WARNING_LOSS_DATA1
+DISABLE_WARNING_LOSS_DATA2
+DISABLE_WARNING_UNSIGNED_COMPARISON
+
 #include "mvPythonParser.h"
 
 namespace Marvel {
@@ -1613,3 +1619,5 @@ namespace Marvel {
 
 	void start_dearpygui_error();
 }
+
+DISABLE_WARNING_POP
