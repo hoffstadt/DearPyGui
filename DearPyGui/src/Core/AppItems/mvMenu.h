@@ -24,7 +24,7 @@ namespace Marvel {
 
 		MV_APPITEM_TYPE(mvAppItemType::MenuBar)
 
-		mvMenuBar(const std::string& name)
+		explicit mvMenuBar(const std::string& name)
 			: mvBoolItemBase("", name, true)
 		{
 			m_container = true;
@@ -36,7 +36,7 @@ namespace Marvel {
 			m_height = 21;
 		}
 
-		virtual void draw() override
+		void draw() override
 		{
 			if (ImGui::BeginMenuBar())
 			{
@@ -53,7 +53,7 @@ namespace Marvel {
 					item->draw();
 
 					// Regular Tooltip (simple)
-					if (item->getTip() != "" && ImGui::IsItemHovered())
+					if (!item->getTip().empty() && ImGui::IsItemHovered())
 						ImGui::SetTooltip("%s", item->getTip().c_str());
 				}
 				ImGui::EndMenuBar();
@@ -78,7 +78,7 @@ namespace Marvel {
 			m_container = true;
 		}
 
-		virtual void draw() override
+		void draw() override
 		{
 			// create menu and see if its selected
 			if (ImGui::BeginMenu(m_label.c_str()))
@@ -86,7 +86,7 @@ namespace Marvel {
 
 				// set other menus's value false on same level
 				for (mvAppItem* child : m_parent->getChildren())
-					static_cast<mvMenu*>(child)->setValue(false);
+                    ((mvMenu*)child)->setValue(false);
 
 				// set current menu value true
 				m_value = true;
@@ -104,7 +104,7 @@ namespace Marvel {
 					item->draw();
 
 					// Regular Tooltip (simple)
-					if (item->getTip() != "" && ImGui::IsItemHovered())
+					if (!item->getTip().empty() && ImGui::IsItemHovered())
 						ImGui::SetTooltip("%s", item->getTip().c_str());
 				}
 
@@ -128,22 +128,22 @@ namespace Marvel {
 		mvMenuItem(const std::string& parent, const std::string& name)
 			: mvBoolItemBase(parent, name, false){}
 
-		virtual void draw() override
+		void draw() override
 		{
 			// create menuitem and see if its selected
-			if (ImGui::MenuItem(m_label.c_str(), NULL))
+			if (ImGui::MenuItem(m_label.c_str(), nullptr))
 			{
 
 				// set other menusitems's value false on same level
 				for (mvAppItem* child : m_parent->getChildren())
-					static_cast<mvMenuItem*>(child)->setValue(false);
+                    ((mvMenuItem*)child)->setValue(false);
 
 				m_value = true;
 
 				mvApp::GetApp()->runCallback(m_callback, m_name);
 
 				// Context Menu
-				if (getPopup() != "")
+				if (!getPopup().empty())
 					ImGui::OpenPopup(getPopup().c_str());
 
 			}

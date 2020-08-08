@@ -134,7 +134,7 @@ namespace Marvel {
 			ImGuiStyle& style = ImGui::GetStyle();
 			style.WindowRounding = 0.0f;
 			ImGui::SetNextWindowPos(ImVec2(0.0f, 0.0f));
-			ImGui::SetNextWindowSize(ImVec2(m_width, m_height));
+			ImGui::SetNextWindowSize(ImVec2((float)m_width, (float)m_height));
 			m_flags = ImGuiWindowFlags_NoBringToFrontOnFocus | ImGuiWindowFlags_NoSavedSettings
 				| ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoTitleBar;
 		}

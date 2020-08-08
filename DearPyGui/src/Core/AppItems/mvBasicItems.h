@@ -33,7 +33,7 @@ namespace Marvel {
 		{
 		}
 
-		virtual void draw() override
+		void draw() override
 		{
 			if(ImGui::Selectable(m_label.c_str(), &m_value))
 			{
@@ -44,7 +44,7 @@ namespace Marvel {
 				mvApp::GetApp()->runCallback(m_callback, m_name);
 
 				// Context Menu
-				if (getPopup() != "")
+				if (!getPopup().empty())
 					ImGui::OpenPopup(getPopup().c_str());
 			}
 		}
@@ -67,7 +67,7 @@ namespace Marvel {
 		{
 		}
 
-		virtual void draw() override
+		void draw() override
 		{
 			if (m_small)
 			{
@@ -77,7 +77,7 @@ namespace Marvel {
 					mvApp::GetApp()->runCallback(m_callback, m_name);
 
 					// Context Menu
-					if (getPopup() != "")
+					if (!getPopup().empty())
 						ImGui::OpenPopup(getPopup().c_str());
 				}
 
@@ -92,20 +92,20 @@ namespace Marvel {
 					mvApp::GetApp()->runCallback(m_callback, m_name);
 
 					// Context Menu
-					if (getPopup() != "")
+					if (!getPopup().empty())
 						ImGui::OpenPopup(getPopup().c_str());
 				}
 
 				return;
 			}
 
-			if (ImGui::Button(m_label.c_str(), ImVec2(m_width, m_height)))
+			if (ImGui::Button(m_label.c_str(), ImVec2((float)m_width, (float)m_height)))
 			{
 
 				mvApp::GetApp()->runCallback(m_callback, m_name);
 
 				// Context Menu
-				if (getPopup() != "")
+				if (!getPopup().empty())
 					ImGui::OpenPopup(getPopup().c_str());
 			}
 		}
@@ -133,7 +133,7 @@ namespace Marvel {
 		{
 		}
 
-		virtual void draw() override
+		void draw() override
 		{
 			if (ImGui::Checkbox(m_label.c_str(), &m_value))
 			{
@@ -143,7 +143,7 @@ namespace Marvel {
 				mvApp::GetApp()->runCallback(m_callback, m_name);
 
 				// Context Menu
-				if (getPopup() != "")
+				if (!getPopup().empty())
 					ImGui::OpenPopup(getPopup().c_str());
 			}
 		}
@@ -160,25 +160,25 @@ namespace Marvel {
 
 		MV_APPITEM_TYPE(mvAppItemType::Combo)
 
-		mvCombo(const std::string& parent, const std::string& name, const std::vector<std::string>& itemnames, const std::string& default_value,
-			const std::string& listDataSource = "")
-			: mvStringItemBase(parent, name, default_value), m_names(itemnames), m_listDataSource(listDataSource)
+		mvCombo(const std::string& parent, const std::string& name, std::vector<std::string> itemnames, const std::string& default_value,
+			std::string listDataSource = "")
+			: mvStringItemBase(parent, name, default_value), m_names(std::move(itemnames)), m_listDataSource(std::move(listDataSource))
 		{}
 
-		virtual void draw() override
+		void draw() override
 		{
 
 			if (ImGui::BeginCombo(m_label.c_str(), m_value.c_str())) // The second parameter is the label previewed before opening the combo.
 			{
-				for (int i = 0; i < m_names.size(); i++)
+				for (const auto& name : m_names)
 				{
-					bool is_selected = (m_value == m_names[i]);
-					if (ImGui::Selectable((m_names[i] + "##" + m_name).c_str(), is_selected))
+					bool is_selected = (m_value == name);
+					if (ImGui::Selectable((name + "##" + m_name).c_str(), is_selected))
 					{
 						if (!m_dataSource.empty())
 							mvDataStorage::AddData(m_dataSource, getPyValue());
 
-						m_value = m_names[i];
+						m_value = name;
 						mvApp::GetApp()->runCallback(m_callback, m_name);
 
 					}
@@ -188,14 +188,14 @@ namespace Marvel {
 				}
 
 				// Context Menu
-				if (getPopup() != "")
+				if (!getPopup().empty())
 					ImGui::OpenPopup(getPopup().c_str());
 
 				ImGui::EndCombo();
 			}
 		}
 
-		virtual void updateData(const std::string& name) override
+		void updateData(const std::string& name) override
 		{
 			if (name == m_listDataSource)
 			{
@@ -224,15 +224,16 @@ namespace Marvel {
 
 		MV_APPITEM_TYPE(mvAppItemType::Listbox)
 
-		mvListbox(const std::string& parent, const std::string& name, const std::vector<std::string>& itemnames, int default_value = 0, int height = 3,
-			const std::string& listDataSource = "")
-			: mvIntItemBase(parent, name, 1, default_value), m_names(itemnames), m_itemsHeight(height), m_listDataSource(listDataSource)
+		mvListbox(const std::string& parent, const std::string& name, std::vector<std::string> itemnames, int default_value = 0, int height = 3,
+			std::string listDataSource = "")
+			: mvIntItemBase(parent, name, 1, default_value), m_names(std::move(itemnames)), m_itemsHeight(height),
+			m_listDataSource(std::move(listDataSource))
 		{
-			for (const std::string& name : m_names)
-				m_charNames.emplace_back(name.c_str());
+			for (const std::string& item : m_names)
+				m_charNames.emplace_back(item.c_str());
 		}
 
-		virtual void draw() override
+		void draw() override
 		{
 
 			if (ImGui::ListBox(m_label.c_str(), &m_value[0], m_charNames.data(), m_names.size(), m_itemsHeight))
@@ -243,12 +244,12 @@ namespace Marvel {
 				mvApp::GetApp()->runCallback(m_callback, m_name);
 
 				// Context Menu
-				if (getPopup() != "")
+				if (!getPopup().empty())
 					ImGui::OpenPopup(getPopup().c_str());
 			}
 		}
 
-		virtual void updateData(const std::string& name) override
+		void updateData(const std::string& name) override
 		{
 			if (name == m_listDataSource)
 			{
@@ -258,8 +259,8 @@ namespace Marvel {
 
 				m_names = mvPythonTranslator::ToStringVect(data);
 				m_charNames.clear();
-				for (const std::string& name : m_names)
-					m_charNames.emplace_back(name.c_str());
+				for (const std::string& item : m_names)
+					m_charNames.emplace_back(item.c_str());
 			}
 		}
 
@@ -282,14 +283,13 @@ namespace Marvel {
 
 		MV_APPITEM_TYPE(mvAppItemType::RadioButtons)
 
-		mvRadioButton(const std::string& parent, const std::string& name, const std::vector<std::string>& itemnames, int default_value,
-			const std::string& secondaryDataSource = "")
-			: mvIntItemBase(parent, name, 1, default_value), m_listDataSource(secondaryDataSource)
+		mvRadioButton(const std::string& parent, const std::string& name, std::vector<std::string> itemnames, int default_value,
+			std::string secondaryDataSource = "")
+			: mvIntItemBase(parent, name, 1, default_value), m_itemnames(std::move(itemnames)), m_listDataSource(std::move(secondaryDataSource))
 		{
-			m_itemnames = itemnames;
 		}
 
-		virtual void draw() override
+		void draw() override
 		{
 			for (int i = 0; i < m_itemnames.size(); i++)
 			{
@@ -301,14 +301,14 @@ namespace Marvel {
 					mvApp::GetApp()->runCallback(m_callback, m_name);
 
 					// Context Menu
-					if (getPopup() != "")
+					if (!getPopup().empty())
 						ImGui::OpenPopup(getPopup().c_str());
 				}
 			}
 
 		}
 
-		virtual void updateData(const std::string& name) override
+		void updateData(const std::string& name) override
 		{
 			if (name == m_listDataSource)
 			{
@@ -337,18 +337,18 @@ namespace Marvel {
 
 		MV_APPITEM_TYPE(mvAppItemType::ProgressBar)
 
-		mvProgressBar(const std::string& parent, const std::string& name, float default_value = 0.0f, const std::string& overlay = "")
-			: mvFloatItemBase(parent, name, 1, default_value), m_overlay(overlay)
+		mvProgressBar(const std::string& parent, const std::string& name, float default_value = 0.0f, std::string overlay = "")
+			: mvFloatItemBase(parent, name, 1, default_value), m_overlay(std::move(overlay))
 		{
 		}
 
-		virtual void draw() override
+		void draw() override
 		{
 
-			ImGui::ProgressBar(m_value[0], ImVec2(m_width, m_height), m_overlay.c_str());
+			ImGui::ProgressBar(m_value[0], ImVec2((float)m_width, (float)m_height), m_overlay.c_str());
 
 			// Context Menu
-			if (getPopup() != "")
+			if (!getPopup().empty())
 				ImGui::OpenPopup(getPopup().c_str());
 
 		}

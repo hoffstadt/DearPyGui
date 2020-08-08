@@ -111,7 +111,7 @@ namespace Marvel {
 		m_values.push_back(row);
 
 		while (m_values.back().size() < m_headers.size())
-			m_values.back().push_back("");
+			m_values.back().emplace_back("");
 
 		while (m_values.back().size() > m_headers.size())
 			m_values.back().pop_back();
@@ -128,9 +128,10 @@ namespace Marvel {
 		{
 			if (index >= column.size())
 			{
-				row.push_back("");
+				row.emplace_back("");
+                index++;
 				continue;
-				index++;
+
 			}
 
 			row.push_back(column[index]);
@@ -178,7 +179,7 @@ namespace Marvel {
 				if (j == column_index)
 				{
 					if (i >= column.size())
-						row.push_back("");
+						row.emplace_back("");
 					else
 						row.push_back(column[i]);
 					continue;
@@ -246,7 +247,7 @@ namespace Marvel {
 		m_values.push_back(oldValues.back());
 
 		while (m_values[row_index].size() < m_headers.size())
-			m_values[row_index].push_back("");
+			m_values[row_index].emplace_back("");
 
 		while (m_values.back().size() > m_headers.size())
 			m_values.back().pop_back();
@@ -335,14 +336,15 @@ namespace Marvel {
 			m_headers.push_back(oldHeaders[i]);
 		}
 
-		for (int i = 0; i < oldValues.size(); i++)
+		//for (int i = 0; i < oldValues.size(); i++)
+		for (auto& oldvalue : oldValues)
 		{
 			std::vector<std::string> row;
 			for (int j = 0; j < oldHeaders.size(); j++)
 			{
 				if (j == column)
 					continue;
-				row.push_back(oldValues[i][j]);
+				row.push_back(oldvalue[j]);
 			}
 
 			m_values.push_back(row);
@@ -377,9 +379,9 @@ namespace Marvel {
 
 	void mvTable::draw()
 	{
-		ImGui::BeginChild(m_name.c_str(), ImVec2(m_width, m_height));
+		ImGui::BeginChild(m_name.c_str(), ImVec2((float)m_width, (float)m_height));
 		ImGui::Separator();
-		ImGui::Columns(m_columns, 0, true);
+		ImGui::Columns(m_columns, nullptr, true);
 
 		for (auto& header : m_headers)
 		{

@@ -24,9 +24,9 @@ namespace Marvel {
 	//-----------------------------------------------------------------------------
 	struct mvTexture
 	{
-		int   width;
-		int   height;
-		void* texture;
+		int   width = 0;
+		int   height = 0;
+		void* texture = nullptr;
 		int   count = 0;
 	};
 

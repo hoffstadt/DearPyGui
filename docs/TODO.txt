@@ -12,6 +12,8 @@ It's mostly a bunch of personal notes, probably incomplete. Feel free to query i
 
 - custom widgets: add a fully supported custom widget API to allow users to make their own widgets more easily
 
+- drawing: add anti-aliasing options
+
 - plot: add pie charts
 - plot: add bar graphs
 - plot: add heatmap charts

@@ -162,13 +162,10 @@ namespace Marvel{
 				// check children
 				for (mvAppItem* child : m_children)
 				{
-
-					bool parentFound = false;
 					if (child->isContainer())
 					{
-						parentFound = child->addRuntimeChild(parent, before, item);
-
-						if (parentFound)
+						// parent found
+						if (child->addRuntimeChild(parent, before, item))
 							return true;
 					}
 				}
@@ -214,13 +211,10 @@ namespace Marvel{
 		// check children
 		for (mvAppItem* child : m_children)
 		{
-
-			bool parentFound = false;
 			if (child->isContainer())
 			{
-				parentFound = child->addRuntimeChild(parent, before, item);
-
-				if (parentFound)
+				// parent found
+				if (child->addRuntimeChild(parent, before, item))
 					return true;
 			}
 		}
@@ -256,7 +250,7 @@ namespace Marvel{
 
 			m_children.clear();
 
-			for (auto item : oldchildren)
+			for (auto& item : oldchildren)
 			{
 				if (item->getName() == name)
 				{
@@ -275,7 +269,7 @@ namespace Marvel{
 
 	void mvAppItem::deleteChildren()
 	{
-		for (auto child : m_children)
+		for (auto& child : m_children)
 		{
 			delete child;
 			child = nullptr;
@@ -318,7 +312,7 @@ namespace Marvel{
 
 	void mvAppItem::popColorStyles()
 	{
-		if(m_colorStyles.size() > 0)
+		if(!m_colorStyles.empty())
 			ImGui::PopStyleColor(m_colorStyles.size());
 	}
 

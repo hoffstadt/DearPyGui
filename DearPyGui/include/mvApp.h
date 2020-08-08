@@ -80,6 +80,11 @@ namespace Marvel {
 
 	public:
 
+        mvApp          (const mvApp& other) = delete;
+        mvApp          (mvApp&& other)      = delete;
+        mvApp operator=(const mvApp& other) = delete;
+        mvApp operator=(mvApp&& other)      = delete;
+
 		static mvApp*            GetApp              ();
 		static void              DeleteApp           ();
 		static mvStandardWindow* GetAppStandardWindow();
@@ -87,14 +92,14 @@ namespace Marvel {
 		static bool              IsAppStarted        () { return s_started; }
 		static void              SetAppStarted       () { s_started = true; }
 
-		~mvApp();
+		~mvApp() override;
 
-		void         precheck  ();                    // precheck before the main render loop has started
-		virtual void prerender ()           override; // pre rendering (every frame)	
-		virtual void render    (bool& show) override; // actual render loop		
-		virtual void postrender()           override; // post rendering (every frame)
-		void         setViewport(mvWindow* viewport) { m_viewport = viewport; }
-		mvWindow*    getViewport() { return m_viewport; }
+		void      precheck  ();                    // precheck before the main render loop has started
+		void      prerender ()           override; // pre rendering (every frame)
+		void      render    (bool& show) override; // actual render loop
+		void      postrender()           override; // post rendering (every frame)
+		void      setViewport(mvWindow* viewport) { m_viewport = viewport; }
+		mvWindow* getViewport() { return m_viewport; }
 
 		//-----------------------------------------------------------------------------
 		// App Settings
@@ -185,8 +190,8 @@ namespace Marvel {
 		//-----------------------------------------------------------------------------
 		// Timing
 		//-----------------------------------------------------------------------------
-		float  getDeltaTime() { return m_deltaTime; }
-		double getTotalTime() { return m_time; }
+		float  getDeltaTime() const { return m_deltaTime; }
+		double getTotalTime() const { return m_time; }
 
 		std::map<std::string, mvPythonParser>* getParsers() { return m_parsers; }
 			
@@ -198,11 +203,6 @@ namespace Marvel {
 		void changeTheme();
 		bool checkIfMainThread();
 
-		mvApp          (const mvApp& other) = delete;
-		mvApp          (mvApp&& other)      = delete;
-		mvApp operator=(const mvApp& other) = delete;
-		mvApp operator=(mvApp&& other)      = delete;
-
 	private:
 
 		static mvApp* s_instance;
@@ -210,7 +210,7 @@ namespace Marvel {
 
 		mvWindow*               m_viewport = nullptr;
 		std::string             m_activeWindow = "MainWindow";
-		std::string             m_argv0 = "";
+		std::string             m_argv0;
 		std::stack<mvAppItem*>  m_parents;
 		std::vector<mvAppItem*> m_windows;
 		std::string             m_file;

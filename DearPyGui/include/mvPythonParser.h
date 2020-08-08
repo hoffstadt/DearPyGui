@@ -41,8 +41,8 @@ namespace Marvel {
 		mvPythonDataType type;
 		std::string      description;
 
-		mvPythonDataElement(mvPythonDataType type, const char* name = "", const std::string& description = "");
-		const char getSymbol() const;
+		mvPythonDataElement(mvPythonDataType type, const char* name = "", std::string  description = "");
+		[[nodiscard]] char getSymbol() const;
 	};
 
 	const char* PythonDataTypeActual(mvPythonDataType type);
@@ -58,16 +58,15 @@ namespace Marvel {
 		mvPythonParser() = default;
 
 		mvPythonParser(const std::initializer_list<mvPythonDataElement>& elements, 
-			const std::string& about = "", const std::string& returnType = "None", 
-			const std::string& category = "App");
+			std::string  about = "", std::string  returnType = "None",
+			std::string  category = "App");
 
-		bool               parse(PyObject* args, PyObject* kwargs, const char* message, ...);
-		inline const char* getDocumentation() const { return m_documentation.c_str(); }
-		const std::string& getCategory     () const { return m_category; }
-
-		const std::vector<mvPythonDataElement>& getElements() const { return m_elements; }
-		const std::string& getReturnType() const { return m_return; }
-		const std::string& getAbout() const { return m_about; }
+		bool                             parse(PyObject* args, PyObject* kwargs, const char* message, ...);
+        [[nodiscard]] const char*        getDocumentation() const { return m_documentation.c_str(); }
+        [[nodiscard]] const std::string& getCategory     () const { return m_category; }
+		[[nodiscard]] const std::string& getReturnType() const { return m_return; }
+		[[nodiscard]] const std::string& getAbout() const { return m_about; }
+        [[nodiscard]] const std::vector<mvPythonDataElement>& getElements() const { return m_elements; }
 
 		void buildDocumentation();
 

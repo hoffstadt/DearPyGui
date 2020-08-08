@@ -17,8 +17,7 @@ namespace Marvel
 		mvGlobalIntepreterLock gil;
 
 		int line = PyFrame_GetLineNumber(PyEval_GetFrame());
-		PyObject* ex = PyErr_Format(PyExc_Exception,
-			fullMessage.c_str(), line);
+		PyErr_Format(PyExc_Exception, fullMessage.c_str(), line);
 		PyErr_Print();
 	}
 

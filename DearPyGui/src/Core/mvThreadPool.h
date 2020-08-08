@@ -8,6 +8,7 @@
 //     
 //-----------------------------------------------------------------------------
 
+#include <memory>
 #include <mutex>
 #include <atomic>
 #include <memory>
@@ -207,7 +208,7 @@ namespace Marvel {
         template<typename F>
         mvFunctionWrapper(F&& f) : m_impl(new impl_type<F>(std::move(f))) {}
 
-        mvFunctionWrapper(mvFunctionWrapper&& other)
+        mvFunctionWrapper(mvFunctionWrapper&& other) noexcept
             : m_impl(std::move(other.m_impl))
         {
 
@@ -301,7 +302,7 @@ namespace Marvel {
 
     public:
 
-        mvThreadPool(unsigned threadcount) :
+        explicit mvThreadPool(unsigned threadcount) :
             m_done(false), m_joiner(m_threads)
         {
 
@@ -314,11 +315,11 @@ namespace Marvel {
             {
 
                 for (unsigned i = 0; i < thread_count; ++i)
-                    m_queues.push_back(std::unique_ptr<mvWorkStealingQueue>(new mvWorkStealingQueue));
+                    m_queues.push_back(std::make_unique<mvWorkStealingQueue>());
 
                 for (unsigned i = 0; i < thread_count; ++i)
-                    m_threads.push_back(
-                        std::thread(&mvThreadPool::worker_thread, this, i));
+                    m_threads.emplace_back(
+                        &mvThreadPool::worker_thread, this, i);
 
             }
             catch (...)
@@ -330,7 +331,7 @@ namespace Marvel {
 
         ~mvThreadPool() { m_done = true; }
 
-        const char* getVersion() const { return "v0.2"; }
+        static const char* getVersion() { return "v0.2"; }
 
         template<typename F, typename ...Args>
         std::future<typename std::invoke_result<F, Args...>::type> submit(F f)

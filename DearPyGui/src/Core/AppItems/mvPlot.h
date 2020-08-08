@@ -3,6 +3,7 @@
 #include "Core/AppItems/mvTypeBases.h"
 #include <implot.h>
 #include <map>
+#include <utility>
 #include "mvCore.h"
 
 //-----------------------------------------------------------------------------
@@ -22,10 +23,10 @@ namespace Marvel {
 
 	public:
 
-		mvSeries(const std::string& name, const std::vector<mvVec2>& points)
-			: m_name(name)
+		mvSeries(std::string  name, const std::vector<mvVec2>& points)
+			: m_name(std::move(name))
 		{
-			for (auto point : points)
+			for (auto& point : points)
 			{
 				m_xs.push_back(point.x);
 				m_ys.push_back(point.y);
@@ -55,10 +56,13 @@ namespace Marvel {
 
 		MV_APPITEM_TYPE(mvAppItemType::Plot)
 
-		mvPlot(const std::string& parent, const std::string& name, const std::string& xname="", 
-			const std::string& yname="", int width = -1, int height = 0, ImPlotFlags flags = 0, 
-			ImPlotAxisFlags xflags = 0, ImPlotAxisFlags yflags = 0, const std::string& queryCallback = "")
-			: mvAppItem(parent, name), m_xaxisName(xname), m_yaxisName(yname), m_queryCallback(queryCallback)
+		mvPlot(const std::string& parent, const std::string& name, std::string  xname="",
+			std::string  yname="", int width = -1, int height = 0, ImPlotFlags flags = 0,
+			ImPlotAxisFlags xflags = 0, ImPlotAxisFlags yflags = 0, std::string  queryCallback = "")
+			: mvAppItem(parent, name), m_flags(flags), m_xflags(xflags), m_yflags(yflags),
+			m_xaxisName(std::move(xname)),
+			m_yaxisName(std::move(yname)),
+			m_queryCallback(std::move(queryCallback))
 		{
 			m_width = width;
 			m_height = height;
@@ -76,7 +80,7 @@ namespace Marvel {
 
 		void clear()
 		{
-			for (auto series : m_series)
+			for (auto& series : m_series)
 			{
 				delete series;
 				series = nullptr;
@@ -85,7 +89,7 @@ namespace Marvel {
 			m_series.clear();
 		}
 
-		virtual void draw() override
+		void draw() override
 		{
 			ImGui::PushID(m_colormap);
 
@@ -95,7 +99,8 @@ namespace Marvel {
 			if (m_setYLimits)
 				ImPlot::SetNextPlotLimitsY(m_ylimits.x, m_ylimits.y, ImGuiCond_Always);
 
-			if (ImPlot::BeginPlot(m_name.c_str(), m_xaxisName.c_str(), m_yaxisName.c_str(), ImVec2(m_width, m_height), m_flags,
+			if (ImPlot::BeginPlot(m_name.c_str(), m_xaxisName.c_str(), m_yaxisName.c_str(),
+                         ImVec2((float)m_width, (float)m_height), m_flags,
 				m_xflags, m_yflags) )
 			{
 				ImPlot::SetColormap(m_colormap);
@@ -111,10 +116,10 @@ namespace Marvel {
 				if (m_queried)
 				{
 					auto area = ImPlot::GetPlotQuery();
-					m_queryArea[0] = area.X.Min;
-					m_queryArea[1] = area.X.Max;
-					m_queryArea[2] = area.Y.Min;
-					m_queryArea[3] = area.Y.Max;
+					m_queryArea[0] = (float)area.X.Min;
+					m_queryArea[1] = (float)area.X.Max;
+					m_queryArea[2] = (float)area.Y.Min;
+					m_queryArea[3] = (float)area.Y.Max;
 				}
 
 				if (!m_queryCallback.empty() && m_queried)
@@ -157,7 +162,7 @@ namespace Marvel {
 			m_setYLimits = false;
 		}
 
-		bool isPlotQueried() const
+		[[nodiscard]] bool isPlotQueried() const
 		{
 			return m_queried;
 		}
@@ -181,7 +186,7 @@ namespace Marvel {
 		ImVec2          m_ylimits;
 		std::string     m_queryCallback;
 		bool            m_queried = false;
-		float           m_queryArea[4];
+		float           m_queryArea[4] = {0.0f , 0.0f, 0.0f, 0.0f};
 
 		std::vector<mvSeries*> m_series;
 
@@ -201,7 +206,7 @@ namespace Marvel {
 		{
 		}
 
-		virtual void draw() override
+		void draw() override
 		{
 			if (m_color.specified)
 				ImPlot::PushStyleColor(ImPlotCol_Line, m_color);
@@ -243,7 +248,7 @@ namespace Marvel {
 		{
 		}
 
-		virtual void draw() override
+		void draw() override
 		{
 			if (m_markerOutlineColor.specified)
 				ImPlot::PushStyleColor(ImPlotCol_MarkerOutline, m_markerOutlineColor);
@@ -287,9 +292,10 @@ namespace Marvel {
 		{
 		}
 
-		virtual void draw() override
+		void draw() override
 		{
-			ImPlot::PlotText(m_name.c_str(), m_xs[0], m_ys[0], m_vertical, ImVec2(m_xoffset, m_yoffset));
+			ImPlot::PlotText(m_name.c_str(), m_xs[0], m_ys[0], m_vertical,
+                    ImVec2((float)m_xoffset, (float)m_yoffset));
 		}
 
 	private:

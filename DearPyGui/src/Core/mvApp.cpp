@@ -57,8 +57,10 @@ namespace Marvel {
 		style.SelectableTextAlign = { mvstyle[ImGuiStyleVar_SelectableTextAlign].x, mvstyle[ImGuiStyleVar_SelectableTextAlign].y };
 		//style.DisplayWindowPadding = { mvstyle[25].x, mvstyle[25].y };
 		style.DisplaySafeAreaPadding = { mvstyle[25].x, mvstyle[25].y };
-		style.AntiAliasedLines = mvstyle[26].x > 0.5f;
-		style.AntiAliasedFill = mvstyle[27].x > 0.5f;
+		//style.AntiAliasedLines = mvstyle[26].x > 0.5f;
+		//style.AntiAliasedFill = mvstyle[27].x > 0.5f;
+        style.AntiAliasedLines = true;
+        style.AntiAliasedFill = true;
 		style.CurveTessellationTol = mvstyle[28].x;
 		style.CircleSegmentMaxError = mvstyle[29].x;
 	}
