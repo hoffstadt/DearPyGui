@@ -474,8 +474,74 @@ def plot_callback(sender, data):
 
 
 start_dearpygui()</code></pre>
-
     </article>
+    <article><a name="drawing"></a>
+        <h2>Drawing/Canvas</h2>
+        <hr>
+        <p>
+            DearPyGui has a low level drawing API that is well suited for primitive drawing, custom widgets or even dynamic drawings.
+            <br><br>
+            The drawing is started by calling <code class="inline-code" data-language="python">add_drawing()</code> then items can be added
+            by calling their respective draw commands.
+            The origin for the canvas is in the bottom left.
+        </p>
+            <pre><code data-language="python">from dearpygui.dearpygui import *
 
+add_drawing("Drawing_1", width=300, height=300)
+draw_line("Drawing_1", [10, 10], [100, 100], [255, 0, 0, 255], 1)
+draw_text("Drawing_1", [16, 16], "Origin", color=[250, 250, 250, 255], size=15)
+draw_arrow("Drawing_1", [50, 70], [100, 65], [0, 200, 255], 1, 10)
+
+start_dearpygui()</code></pre>
+    <p>
+        Drawings have a scale, origin, and size that can all be accessed and set.
+        The scale is a multiplier of the items x and y values. The size is in pixels.
+    </p>
+        <pre><code data-language="python">from dearpygui.dearpygui import *
+
+show_documentation()
+add_drawing("Drawing_1", width=300, height=300)
+draw_line("Drawing_1", [10, 10], [100, 100], [255, 0, 0, 255], 1)
+draw_text("Drawing_1", [16, 16], "Origin", color=[250, 250, 250, 255], size=15)
+draw_arrow("Drawing_1", [50, 70], [100, 65], [0, 200, 255], 1, 10)
+set_drawing_origin("Drawing_1", 150, 150)
+set_drawing_scale("Drawing_1", 2, 2)
+set_drawing_size("Drawing_1", 400, 500)
+
+start_dearpygui()</code></pre>
+        <p>
+            Although drawings can be made dynamic by clearing and redrawing the entire thing a more efficient method is offered.
+            <br><br>
+            To make a drawing dynamic we should use the tag keyword to tag the items we would like to redraw. Then simply call a draw command
+            using the same tag. This will delete only that one item and redraw it wit the new command.
+        </p>
+        <pre><code data-language="python">from dearpygui.dearpygui import *
+
+show_metrics()
+
+add_drawing("Drawing_1", width=600, height=600)
+draw_circle("Drawing_1", [150, 150], radius=20, color=[255, 255, 255, 255], segments=4, tag="circle##dynamic")
+
+add_data("frameCount", 2)
+
+def onRender(sender, data):
+    frameCount = get_data("frameCount")
+    frameCount += 1
+    if frameCount > 300:
+        frameCount = 2
+    xpos = frameCount
+    ypos = frameCount/2
+    color1 = 0 + frameCount*.8
+    color3 = 0 + frameCount*.3
+    color2 = 0 + frameCount*.8
+    radius = frameCount/3
+    segments = round(35-frameCount/10)
+    draw_circle("Drawing_1", [xpos, ypos], radius, [color1, color3, color2, 255], segments, tag="circle##dynamic")
+    add_data("frameCount", frameCount)
+
+set_render_callback("onRender")
+
+start_dearpygui()</code></pre>
+    </article>
 </main>
 </body>
