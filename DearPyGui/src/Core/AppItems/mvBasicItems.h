@@ -291,7 +291,7 @@ namespace Marvel {
 
 		void draw() override
 		{
-			for (int i = 0; i < m_itemnames.size(); i++)
+			for (size_t i = 0; i < m_itemnames.size(); i++)
 			{
 				if (ImGui::RadioButton((m_itemnames[i] + "##" + m_name).c_str(), &m_value[0], i))
 				{

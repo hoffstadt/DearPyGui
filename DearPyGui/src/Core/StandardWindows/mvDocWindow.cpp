@@ -592,7 +592,7 @@ namespace Marvel {
 				ImGui::PushItemWidth(300);
 				ImGui::BeginChild("CommandsChild##debug", ImVec2(500.0f, 600.0f), true);
 				ImGui::PushStyleColor(ImGuiCol_Text, { 1.0f, 1.0f, 0.0f, 1.0f });
-				for (int i = 0; i < m_commands.size(); i++)
+				for (size_t i = 0; i < m_commands.size(); i++)
 				{
 					auto& item = m_commands[i];
 

@@ -21,7 +21,7 @@ namespace Marvel {
 			return false;
 		}
 
-		if (column > m_columns + 1 || row > m_values.size() + 1)
+		if (column > m_columns + 1 || row > (int)m_values.size() + 1)
 		{
 			ThrowPythonException("Table indices out of range.");
 			return false;
@@ -36,9 +36,9 @@ namespace Marvel {
 
 		m_hashValues = m_values;
 
-		for (int i = 0; i < m_hashValues.size(); i++)
+		for (size_t i = 0; i < m_hashValues.size(); i++)
 		{
-			for (int j = 0; j < m_hashValues[i].size(); j++)
+			for (size_t j = 0; j < m_hashValues[i].size(); j++)
 				m_hashValues[i][j] = m_hashValues[i][j] + "##" + m_name + "-" + std::to_string(i) + "-" + std::to_string(j);
 		}
 	}
@@ -161,7 +161,7 @@ namespace Marvel {
 		m_headers.clear();
 		m_columns++;
 
-		for (int i = 0; i < m_columns; i++)
+		for (size_t i = 0; i < m_columns; i++)
 		{
 			if (i < column_index)
 				m_headers.push_back(oldHeaders[i]);
@@ -171,7 +171,7 @@ namespace Marvel {
 				m_headers.push_back(oldHeaders[i - 1]);
 		}
 
-		for (int i = 0; i < oldValues.size(); i++)
+		for (size_t i = 0; i < oldValues.size(); i++)
 		{
 			std::vector<std::string> row;
 			for (int j = 0; j < oldHeaders.size(); j++)
@@ -231,7 +231,7 @@ namespace Marvel {
 
 		m_values.clear();
 
-		for (int i = 0; i < oldValues.size(); i++)
+		for (size_t i = 0; i < oldValues.size(); i++)
 		{
 			if (i == row_index)
 			{
@@ -329,7 +329,7 @@ namespace Marvel {
 		m_headers.clear();
 		m_columns--;
 
-		for (int i = 0; i < oldHeaders.size(); i++)
+		for (size_t i = 0; i < oldHeaders.size(); i++)
 		{
 			if (i == column)
 				continue;
@@ -340,7 +340,7 @@ namespace Marvel {
 		for (auto& oldvalue : oldValues)
 		{
 			std::vector<std::string> row;
-			for (int j = 0; j < oldHeaders.size(); j++)
+			for (size_t j = 0; j < oldHeaders.size(); j++)
 			{
 				if (j == column)
 					continue;
@@ -391,9 +391,9 @@ namespace Marvel {
 		ImGui::Separator();
 
 		int index = 0;
-		for (int i = 0; i < m_hashValues.size(); i++)
+		for (size_t i = 0; i < m_hashValues.size(); i++)
 		{
-			for (int j = 0; j < m_columns; j++)
+			for (size_t j = 0; j < m_columns; j++)
 			{
 				if (ImGui::Selectable(m_hashValues[i][j].c_str(), m_selections[{i, j}]))
 				{

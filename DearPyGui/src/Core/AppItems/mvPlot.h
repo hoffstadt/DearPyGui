@@ -59,10 +59,8 @@ namespace Marvel {
 		mvPlot(const std::string& parent, const std::string& name, std::string  xname="",
 			std::string  yname="", int width = -1, int height = 0, ImPlotFlags flags = 0,
 			ImPlotAxisFlags xflags = 0, ImPlotAxisFlags yflags = 0, std::string  queryCallback = "")
-			: mvAppItem(parent, name), m_flags(flags), m_xflags(xflags), m_yflags(yflags),
-			m_xaxisName(std::move(xname)),
-			m_yaxisName(std::move(yname)),
-			m_queryCallback(std::move(queryCallback))
+			: mvAppItem(parent, name), m_xaxisName(std::move(xname)), m_yaxisName(std::move(yname)),
+			m_flags(flags), m_xflags(xflags), m_yflags(yflags), m_queryCallback(std::move(queryCallback))
 		{
 			m_width = width;
 			m_height = height;
