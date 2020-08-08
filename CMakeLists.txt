@@ -4,6 +4,7 @@ project ("DearPyGui")
 
 set(JSON_BuildTests OFF CACHE INTERNAL "")
 set(CONFIG_32BIT ${CONFIG_32BIT})
+set(MVDIST_ONLY ${MVDIST_ONLY})
 
 add_definitions(-D_USE_MATH_DEFINES)
 add_definitions(-DMV_SANDBOX_VERSION="0.1.0b0")
@@ -12,13 +13,13 @@ add_definitions(-DMV_SANDBOX_VERSION="0.1.0b0")
 add_subdirectory ("ImguiTesting")
 add_subdirectory ("DearPyGui")
 
+if(NOT MVDIST_ONLY)
+    add_subdirectory ("DearSandbox")
+endif()
+
 if(WIN32)
-	add_subdirectory ("DearSandbox")
-elseif(APPLE)
+    # do nothing
+else() # Apple or Linux
 	add_subdirectory ("Dependencies/glfw")
-	add_subdirectory ("DearSandbox")
-else() # Linux
-	add_subdirectory ("Dependencies/glfw")
-	add_subdirectory ("DearSandbox")
 endif()
 
