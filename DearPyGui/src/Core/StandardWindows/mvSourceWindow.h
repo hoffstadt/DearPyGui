@@ -12,7 +12,7 @@ namespace Marvel {
 
 		void setFile(const std::string& file);
 
-		virtual void render(bool& show) override;
+		void render(bool& show) override;
 
 	private:
 

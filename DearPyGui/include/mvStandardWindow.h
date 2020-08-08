@@ -20,19 +20,19 @@ namespace Marvel {
 
 		mvStandardWindow() : mvEventHandler() {}
 
-		virtual ~mvStandardWindow() {}
+		virtual ~mvStandardWindow() = default;
 
 		virtual void prerender();
 		virtual void render(bool& show) = 0;
 		virtual void postrender() {}
 
-		void              showStandardWindow(const std::string& name);
-		void              addStandardWindow (const std::string& name, mvStandardWindow* window);
-		mvStandardWindow* getStandardWindow (const std::string& name);
-		void              setToMainMode     ();
-		void              setSize           (unsigned width, unsigned height);
-		unsigned          getWindowWidth    () const;
-		unsigned          getWindowHeight   () const;
+		void                   showStandardWindow(const std::string& name);
+		void                   addStandardWindow (const std::string& name, mvStandardWindow* window);
+		mvStandardWindow*      getStandardWindow (const std::string& name);
+		void                   setToMainMode     ();
+		void                   setSize           (unsigned width, unsigned height);
+		[[nodiscard]] unsigned getWindowWidth    () const;
+        [[nodiscard]] unsigned getWindowHeight   () const;
 
 	protected:
 

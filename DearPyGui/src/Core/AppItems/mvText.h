@@ -50,16 +50,16 @@ namespace Marvel {
 		{
 		}
 
-		virtual bool areDuplicatesAllowed() const override { return true; }
+		[[nodiscard]] bool areDuplicatesAllowed() const override { return true; }
 
-		virtual void draw() override
+		void draw() override
 		{
 
 			if (m_color.specified)
 				ImGui::PushStyleColor(ImGuiCol_Text, m_color);
 
 			if (m_wrap != 0)
-				ImGui::PushTextWrapPos(ImGui::GetCursorPos().x + m_wrap);
+				ImGui::PushTextWrapPos(ImGui::GetCursorPos().x + (float)m_wrap);
 
 			if (m_bullet)
 				ImGui::Bullet();
@@ -97,11 +97,8 @@ namespace Marvel {
 			m_label = FindRenderedTextEnd(m_name.c_str());
 		}
 
-		virtual void draw() override
+		void draw() override
 		{
-
-			
-
 			if (m_color.specified)
 				ImGui::PushStyleColor(ImGuiCol_Text, m_color);
 

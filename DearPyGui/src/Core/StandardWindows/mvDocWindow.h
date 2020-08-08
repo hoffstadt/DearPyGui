@@ -16,12 +16,12 @@ namespace Marvel {
 
 		static mvStandardWindow* GetWindow();
 
-		virtual void render(bool& show) override;
+		void render(bool& show) override;
 
 	private:
 
 		mvDocWindow();
-		~mvDocWindow();
+		~mvDocWindow() override;
 		void setup();
 
 		int categorySelection = 0;
@@ -70,7 +70,7 @@ namespace Marvel {
 		std::vector<std::pair<std::string, std::string>> m_commands;
 		std::vector<std::pair<std::string, long>> m_constants;
 		std::vector<std::string> m_constantsValues;
-		std::map<std::string, mvPythonParser>* m_docmap;
+		std::map<std::string, mvPythonParser>* m_docmap = nullptr;
 		
 		static mvDocWindow* s_instance;
 

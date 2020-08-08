@@ -146,7 +146,7 @@ namespace Marvel {
 			return 0.0f;
 		}
 
-		return PyFloat_AsDouble(value);
+		return (float)PyFloat_AsDouble(value);
 	}
 
 	bool mvPythonTranslator::ToBool(PyObject* value, const std::string& message)

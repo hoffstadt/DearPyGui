@@ -14,7 +14,7 @@ namespace Marvel {
 		
 		static void     AddLog     (const char* fmt, ...);
 		static void     Clear      ();
-		static void     setLogLevel(unsigned level) { s_loglevel = level; }
+		static void     setLogLevel(int level) { s_loglevel = level; }
 		static void     Log        (const std::string& text, const std::string& level = "TRACE");
 		static void     LogDebug   (const std::string& text);
 		static void     LogInfo    (const std::string& text);

@@ -1,7 +1,4 @@
 #include "mvTextureStorage.h"
-#include "mvApp.h"
-#include "mvAppLog.h"
-#include <thread>
 #include "Core/mvUtilities.h"
 
 namespace Marvel {
