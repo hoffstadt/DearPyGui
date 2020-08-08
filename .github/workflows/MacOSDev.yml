@@ -32,11 +32,11 @@ jobs:
         pip3 install twine
         mkdir cmake-build-release
         cd cmake-build-release
-        cmake ..
+        cmake ..-DMVDIST_ONLY=True
 
     - name: Build DearPyGui
       run: |
-        cmake -DMVDIST_ONLY=True --build cmake-build-release --config Release
+        cmake --build cmake-build-release --config Release
 
     - name: Build Test DearPyGui Wheel
       run: |
