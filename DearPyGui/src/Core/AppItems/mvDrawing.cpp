@@ -138,14 +138,14 @@ namespace Marvel {
 			/* Determine Y maxima */
 			miny = (int)m_points[0].y;
 			maxy = (int)m_points[0].y;
-			for (i = 1; (i < n); i++)
+			for (i = 1; i < n; i++)
 			{
 				miny = std::min(miny, (int)m_points[i].y);
 				maxy = std::max(maxy, (int)m_points[i].y);
 			}
 
 			/* Draw, scanning y */
-			for (y = miny; (y <= maxy); y++) {
+			for (y = miny; y <= maxy; y++) {
 				ints = 0;
 				for (i = 0; (i < n); i++) {
 					if (!i)
@@ -187,7 +187,7 @@ namespace Marvel {
 
 				qsort(polyints, ints, sizeof(int), compare_int);
 
-				for (i = 0; (i < ints); i += 2) 
+				for (i = 0; i < ints; i += 2) 
 				{
 					draw_list->AddLine({ (float)polyints[i] + start.x, (float)y + start.y },
 						{ (float)polyints[i+1] + start.x, (float)y + start.y }, m_fill, m_thickness);

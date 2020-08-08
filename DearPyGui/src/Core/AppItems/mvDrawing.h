@@ -56,7 +56,7 @@ namespace Marvel {
 
 		mvDrawImageCommand(std::string  file, const mvVec2& pmin, const mvVec2& pmax, const mvVec2& uv_min = { 0, 0 },
 				const mvVec2& uv_max = { 1, 1 }, const mvColor& color = { 255, 255, 255, 255 })
-			: mvDrawingCommand(), m_file(std::move(file)), m_pmax(pmax), m_pmaxo(pmax), m_pmin(pmin), m_pmino(pmin), m_uv_min(uv_min), m_uv_max(uv_max),
+			: mvDrawingCommand(), m_file(std::move(file)), m_pmax(pmax), m_pmin(pmin), m_pmaxo(pmax), m_pmino(pmin), m_uv_min(uv_min), m_uv_max(uv_max),
 			m_color(color)
 		{
 			if (m_pmax.x < 0 && m_pmax.y < 0)
@@ -93,7 +93,7 @@ namespace Marvel {
 		MV_DRAWCOMMAND_TYPE(mvDrawingCommandType::DrawLine)
 
 		mvDrawLineCommand(const mvVec2& p1, const mvVec2& p2, const mvColor& color, float thickness)
-			: mvDrawingCommand(), m_p1(p1), m_p1o(p1), m_p2(p2), m_p2o(p2), m_color(color), m_thickness(thickness)
+			: mvDrawingCommand(), m_p1(p1), m_p2(p2), m_p1o(p1), m_p2o(p2), m_color(color), m_thickness(thickness)
 		{
 		}
 
@@ -119,7 +119,7 @@ namespace Marvel {
 		MV_DRAWCOMMAND_TYPE(mvDrawingCommandType::DrawArrow)
 
 		mvDrawArrowCommand(const mvVec2& p1, const mvVec2& p2, const std::vector<mvVec2>& points, const mvColor& color, float thickness, float size)
-			: mvDrawingCommand(), m_p1(p1), m_p1o(p1), m_p2(p2), m_p2o(p2), m_points(points), m_pointso(points), m_color(color), m_thickness(thickness),
+			: mvDrawingCommand(), m_p1(p1), m_p2(p2), m_p1o(p1), m_p2o(p2), m_points(points), m_pointso(points), m_color(color), m_thickness(thickness),
 			m_size(size)
 		{
 		}
@@ -149,7 +149,7 @@ namespace Marvel {
 		MV_DRAWCOMMAND_TYPE(mvDrawingCommandType::DrawTriangle)
 
 		mvDrawTriangleCommand(const mvVec2& p1, const mvVec2& p2, const mvVec2& p3, const mvColor& color, float thickness, const mvColor& fill)
-			: mvDrawingCommand(), m_p1(p1), m_p1o(p1), m_p2(p2), m_p2o(p2), m_p3(p3), m_p3o(p3), m_color(color), m_fill(fill), m_thickness(thickness)
+			: mvDrawingCommand(), m_p1(p1), m_p2(p2), m_p3(p3), m_p1o(p1), m_p2o(p2), m_p3o(p3), m_color(color), m_fill(fill), m_thickness(thickness)
 		{
 		}
 
@@ -178,7 +178,7 @@ namespace Marvel {
 		MV_DRAWCOMMAND_TYPE(mvDrawingCommandType::DrawCircle)
 
 		mvDrawCircleCommand(const mvVec2& center, float radius, const mvColor& color, int segments, float thickness, const mvColor& fill)
-			: mvDrawingCommand(), m_center(center), m_centero(center), m_radius(radius), m_radiuso(radius), m_segments(segments), m_color(color), m_fill(fill), m_thickness(thickness)
+			: mvDrawingCommand(), m_center(center), m_radius(radius), m_centero(center), m_radiuso(radius), m_segments(segments), m_color(color), m_fill(fill), m_thickness(thickness)
 		{
 		}
 
@@ -232,7 +232,7 @@ namespace Marvel {
 		MV_DRAWCOMMAND_TYPE(mvDrawingCommandType::DrawRect)
 
 		mvDrawRectCommand(const mvVec2& pmin, const mvVec2& pmax, const mvColor& color, const mvColor& fill, float rounding, float thickness)
-			: mvDrawingCommand(), m_pmin(pmin), m_pmino(pmin), m_pmax(pmax), m_pmaxo(pmax), m_rounding(rounding), m_color(color),m_fill(fill), m_thickness(thickness)
+			: mvDrawingCommand(), m_pmin(pmin), m_pmax(pmax), m_pmino(pmin), m_pmaxo(pmax), m_rounding(rounding), m_color(color),m_fill(fill), m_thickness(thickness)
 		{
 		}
 
@@ -261,7 +261,7 @@ namespace Marvel {
 		MV_DRAWCOMMAND_TYPE(mvDrawingCommandType::DrawQuad)
 
 		mvDrawQuadCommand(const mvVec2& p1, const mvVec2& p2, const mvVec2& p3, const mvVec2& p4,const mvColor& color, const mvColor& fill, float thickness)
-			: mvDrawingCommand(), m_p1(p1), m_p1o(p1), m_p2(p2), m_p2o(p2), m_p3(p3), m_p3o(p3), m_p4(p4), m_p4o(p4), m_color(color),m_fill(fill), m_thickness(thickness)
+			: mvDrawingCommand(), m_p1(p1), m_p2(p2), m_p3(p3), m_p4(p4), m_p1o(p1), m_p2o(p2), m_p3o(p3), m_p4o(p4), m_color(color),m_fill(fill), m_thickness(thickness)
 		{
 		}
 
@@ -345,7 +345,7 @@ namespace Marvel {
 		MV_DRAWCOMMAND_TYPE(mvDrawingCommandType::DrawBezierCurve)
 
 		mvDrawBezierCurveCommand(const mvVec2& p1, const mvVec2& p2, const mvVec2& p3, const mvVec2& p4,const mvColor& color, float thickness, int segments)
-			: mvDrawingCommand(), m_p1(p1), m_p1o(p1), m_p2(p2), m_p2o(p2), m_p3(p3), m_p3o(p3), m_p4(p4), m_p4o(p4), m_color(color),m_thickness(thickness), m_segments(segments)
+			: mvDrawingCommand(), m_p1(p1), m_p2(p2), m_p3(p3), m_p4(p4), m_p1o(p1), m_p2o(p2), m_p3o(p3), m_p4o(p4), m_color(color),m_thickness(thickness), m_segments(segments)
 		{
 		}
 

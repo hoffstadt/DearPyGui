@@ -51,7 +51,7 @@ namespace Marvel{
 		int index = 0;
 
 		// check children
-		for (int i = 0; i<m_children.size(); i++)
+		for (size_t i = 0; i<m_children.size(); i++)
 		{
 
 			if (m_children[i]->getName() == name)
@@ -94,7 +94,7 @@ namespace Marvel{
 		int index = 0;
 
 		// check children
-		for (int i = 0; i < m_children.size(); i++)
+		for (size_t i = 0; i < m_children.size(); i++)
 		{
 
 			if (m_children[i]->getName() == name)

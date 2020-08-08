@@ -99,7 +99,7 @@ namespace Marvel {
 
 		delete mapping;
 
-		return std::move(result);
+		return result;
 	}
 
 	PyObject* setup_dearpygui(PyObject* self, PyObject* args, PyObject* kwargs)

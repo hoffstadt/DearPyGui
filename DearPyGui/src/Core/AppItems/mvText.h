@@ -46,7 +46,7 @@ namespace Marvel {
 		MV_APPITEM_TYPE(mvAppItemType::Text)
 
 		mvText(const std::string& parent, const std::string& name, int wrap, mvColor color, bool bullet)
-			: mvStringItemBase(parent, name, name), m_wrap(wrap), m_color(color), m_bullet(bullet)
+			: mvStringItemBase(parent, name, name), m_color(color), m_wrap(wrap), m_bullet(bullet)
 		{
 		}
 
