@@ -36,7 +36,7 @@ jobs:
 
     - name: Build DearPyGui
       run: |
-        cmake --build cmake-build-release --config Release -DMVDIST_ONLY=True
+        cmake -DMVDIST_ONLY=True --build cmake-build-release --config Release
 
     - name: Build Test DearPyGui Wheel
       run: |
