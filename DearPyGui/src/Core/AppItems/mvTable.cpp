@@ -85,7 +85,7 @@ namespace Marvel {
 
 	PyObject* mvTable::getPyValue() const
 	{
-		return mvPythonTranslator::ToPyList(m_hashValues);
+		return mvPythonTranslator::ToPyList(m_values);
 	}
 
 	PyObject* mvTable::getSelections() const
