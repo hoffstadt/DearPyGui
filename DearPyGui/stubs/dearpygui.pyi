@@ -1,5 +1,6 @@
 from typing import List, Any
 
+
 def add_button(name: str, small: bool = False, arrow: bool = False, direction: int = -1, callback: str = "", tip: str = "", parent: str = "", before: str = "", width: int = 0, height: int = 0) -> None:
 	"""Adds a button."""
 	...
