@@ -57,8 +57,10 @@ namespace Marvel {
 		style.SelectableTextAlign = { mvstyle[ImGuiStyleVar_SelectableTextAlign].x, mvstyle[ImGuiStyleVar_SelectableTextAlign].y };
 		//style.DisplayWindowPadding = { mvstyle[25].x, mvstyle[25].y };
 		style.DisplaySafeAreaPadding = { mvstyle[25].x, mvstyle[25].y };
-		style.AntiAliasedLines = mvstyle[26].x > 0.5f;
-		style.AntiAliasedFill = mvstyle[27].x > 0.5f;
+		//style.AntiAliasedLines = mvstyle[26].x > 0.5f;
+		//style.AntiAliasedFill = mvstyle[27].x > 0.5f;
+        style.AntiAliasedLines = true;
+        style.AntiAliasedFill = true;
 		style.CurveTessellationTol = mvstyle[28].x;
 		style.CircleSegmentMaxError = mvstyle[29].x;
 	}
@@ -136,7 +138,7 @@ namespace Marvel {
 		if (std::this_thread::get_id() != m_mainThreadID)
 		{
 			int line = PyFrame_GetLineNumber(PyEval_GetFrame());
-			PyObject* ex = PyErr_Format(PyExc_Exception,
+			PyErr_Format(PyExc_Exception,
 				"DearPyGui command on line %d can not be called asycronously", line);
 			PyErr_Print();
 			return false;
@@ -424,7 +426,6 @@ namespace Marvel {
 			}
 
 			bool windowDeleting = false;
-			bool itemDeleted = false;
 
 			// check if attempting to delete a window
 			for (auto window : m_windows)
@@ -470,7 +471,7 @@ namespace Marvel {
 
 			bool addedItem = false;
 
-			if (auto otheritem = getItem(newItem.item->getName(), true))
+			if (getItem(newItem.item->getName(), true))
 			{
 				std::string message = newItem.item->getName();
 				ThrowPythonException(message + ": Items of this type must have unique names");
@@ -1291,7 +1292,7 @@ namespace Marvel {
 
 		if (!item->areDuplicatesAllowed())
 		{
-			if (auto otheritem = getItem(item->getName()))
+			if (getItem(item->getName()))
 			{
 				std::string message = item->getName() + " " + std::to_string(count);
 				ThrowPythonException(message + ": Items of this type must have unique names");

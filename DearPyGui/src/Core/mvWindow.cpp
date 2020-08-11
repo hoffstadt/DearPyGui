@@ -3,7 +3,7 @@
 namespace Marvel {
 
 	mvWindow::mvWindow(unsigned width, unsigned height, bool editor, bool error, bool doc) :
-		m_width(width), m_height(height), m_editor(editor), m_error(error), m_doc(doc)
+		m_editor(editor), m_error(error), m_doc(doc), m_width(width), m_height(height)
 	{
 		m_app = mvApp::GetAppStandardWindow();
 		m_appEditor = new mvAppEditor();

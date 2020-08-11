@@ -99,7 +99,7 @@ namespace Marvel {
 
 		delete mapping;
 
-		return std::move(result);
+		return result;
 	}
 
 	PyObject* setup_dearpygui(PyObject* self, PyObject* args, PyObject* kwargs)
@@ -1024,9 +1024,9 @@ namespace Marvel {
 		const char* name;
 		const char* xAxisName = "";
 		const char* yAxisName = "";
-		int flags = 0;
-		int xflags = 0;
-		int yflags = 0;
+		int flags = 47;
+		int xflags = 7;
+		int yflags = 7;
 		const char* parent = "";
 		const char* before = "";
 		int width = -1;
@@ -4836,32 +4836,6 @@ namespace Marvel {
 			//-----------------------------------------------------------------------------
 			// Key Codes
 			//-----------------------------------------------------------------------------
-			{ "mvKey_Back"			, 0x08 },
-			{ "mvKey_Tab"			, 0x09 },
-			{ "mvKey_Clear"			, 0x0C },
-			{ "mvKey_Return"		, 0x0D },
-			{ "mvKey_Shift"			, 0x10 },
-			{ "mvKey_Control"		, 0x11 },
-			{ "mvKey_Alt"			, 0x12 },
-			{ "mvKey_Pause"			, 0x13 },
-			{ "mvKey_Capital"		, 0x14 },
-			{ "mvKey_Escape"		, 0x1B },
-			{ "mvKey_Spacebar"		, 0x20 },
-			{ "mvKey_Prior"			, 0x21 },
-			{ "mvKey_Next"			, 0x22 },
-			{ "mvKey_End"			, 0x23 },
-			{ "mvKey_Home"			, 0x24 },
-			{ "mvKey_Left"			, 0x25 },
-			{ "mvKey_Up"			, 0x26 },
-			{ "mvKey_Right"			, 0x27 },
-			{ "mvKey_Down"			, 0x28 },
-			{ "mvKey_Select"		, 0x29 },
-			{ "mvKey_Print"			, 0x2A },
-			{ "mvKey_Execute"		, 0x2B },
-			{ "mvKey_PrintScreen"	, 0x2C },
-			{ "mvKey_Insert"		, 0x2D },
-			{ "mvKey_Delete"		, 0x2E },
-			{ "mvKey_Help"			, 0x2F },
 			{ "mvKey_0"			, 0x30 },
 			{ "mvKey_1"			, 0x31 },
 			{ "mvKey_2"			, 0x32 },
@@ -4898,6 +4872,34 @@ namespace Marvel {
 			{ "mvKey_X"			, 0x58 },
 			{ "mvKey_Y"			, 0x59 },
 			{ "mvKey_Z"			, 0x5A },
+
+#if defined (_WIN32)
+			{ "mvKey_Back"			, 0x08 },
+			{ "mvKey_Tab"			, 0x09 },
+			{ "mvKey_Clear"			, 0x0C },
+			{ "mvKey_Return"		, 0x0D },
+			{ "mvKey_Shift"			, 0x10 },
+			{ "mvKey_Control"		, 0x11 },
+			{ "mvKey_Alt"			, 0x12 },
+			{ "mvKey_Pause"			, 0x13 },
+			{ "mvKey_Capital"		, 0x14 },
+			{ "mvKey_Escape"		, 0x1B },
+			{ "mvKey_Spacebar"		, 0x20 },
+			{ "mvKey_Prior"			, 0x21 },
+			{ "mvKey_Next"			, 0x22 },
+			{ "mvKey_End"			, 0x23 },
+			{ "mvKey_Home"			, 0x24 },
+			{ "mvKey_Left"			, 0x25 },
+			{ "mvKey_Up"			, 0x26 },
+			{ "mvKey_Right"			, 0x27 },
+			{ "mvKey_Down"			, 0x28 },
+			{ "mvKey_Select"		, 0x29 },
+			{ "mvKey_Print"			, 0x2A },
+			{ "mvKey_Execute"		, 0x2B },
+			{ "mvKey_PrintScreen"	, 0x2C },
+			{ "mvKey_Insert"		, 0x2D },
+			{ "mvKey_Delete"		, 0x2E },
+			{ "mvKey_Help"			, 0x2F },
 			{ "mvKey_LWin"		, 0x5B },
 			{ "mvKey_RWin"		, 0x5C },
 			{ "mvKey_Apps"		, 0x5D },
@@ -4979,6 +4981,116 @@ namespace Marvel {
 			{ "mvKey_Backslash"				, 0xDC },
 			{ "mvKey_Close_Brace"			, 0xDD },
 			{ "mvKey_Quote"					, 0xDE },
+#else
+			{ "mvKey_Back",  259 },
+			{"mvKey_Tab",  258 },
+			{"mvKey_Clear",  259 },
+			{"mvKey_Return",  257 },
+			{"mvKey_Shift",  340 },
+			{"mvKey_Control",  241 },
+			{"mvKey_Alt",  342 },
+			{"mvKey_Pause",  284 },
+			{"mvKey_Capital",  280 },
+			{"mvKey_Escape",  256 },
+			{"mvKey_Spacebar",  32 },
+			{"mvKey_Prior",  -1 },
+			{"mvKey_Next",  -1 },
+			{"mvKey_End",  269 },
+			{"mvKey_Home",  268 },
+			{"mvKey_Left",  263 },
+			{"mvKey_Up",  265 },
+			{"mvKey_Right",  262 },
+			{"mvKey_Down",  264 },
+			{"mvKey_Select",  -1 },
+			{"mvKey_Print",  -1 },
+			{"mvKey_Execute",  -1 },
+			{"mvKey_PrintScreen",  286 },
+			{"mvKey_Insert",  260 },
+			{"mvKey_Delete",  261 },
+			{"mvKey_Help",  -1 },
+			{"mvKey_LWin",  343 },
+			{"mvKey_RWin",  347 },
+			{"mvKey_Apps",  -1 },
+			{"mvKey_Sleep",  -1 },
+			{"mvKey_NumPad0",  320 },
+			{"mvKey_NumPad1",  321 },
+			{"mvKey_NumPad2",  322 },
+			{"mvKey_NumPad3",  323 },
+			{"mvKey_NumPad4",  324 },
+			{"mvKey_NumPad5",  325 },
+			{"mvKey_NumPad6",  326 },
+			{"mvKey_NumPad7",  327 },
+			{"mvKey_NumPad8",  328 },
+			{"mvKey_NumPad9",  329 },
+			{"mvKey_Multiply",  332 },
+			{"mvKey_Add",  334 },
+			{"mvKey_Separator",  -1 },
+			{"mvKey_Subtract",  333 },
+			{"mvKey_Decimal",  330 },
+			{"mvKey_Divide",  331 },
+			{"mvKey_F1",  290 },
+			{"mvKey_F2",  291 },
+			{"mvKey_F3",  292 },
+			{"mvKey_F4",  293 },
+			{"mvKey_F5",  294 },
+			{"mvKey_F6",  295 },
+			{"mvKey_F7",  296 },
+			{"mvKey_F8",  297 },
+			{"mvKey_F9",  298 },
+			{"mvKey_F10",  299 },
+			{"mvKey_F11",  300 },
+			{"mvKey_F12",  301 },
+			{"mvKey_F13",  302 },
+			{"mvKey_F14",  303 },
+			{"mvKey_F15",  304 },
+			{"mvKey_F16",  305 },
+			{"mvKey_F17",  306 },
+			{"mvKey_F18",  307 },
+			{"mvKey_F19",  308 },
+			{"mvKey_F20",  309 },
+			{"mvKey_F21",  310 },
+			{"mvKey_F22",  311 },
+			{"mvKey_F23",  312 },
+			{"mvKey_F24",  313 },
+			{"mvKey_F24",  314 },
+			{"mvKey_NumLock",  282 },
+			{"mvKey_ScrollLock",  281 },
+			{"mvKey_LShift",  340 },
+			{"mvKey_RShift",  344 },
+			{"mvKey_LControl",  341 },
+			{"mvKey_RControl",  345 },
+			{"mvKey_LMenu",  -1 },
+			{"mvKey_RMenu",  -1 },
+			{"mvKey_Browser_Back",  -1 },
+			{"mvKey_Browser_Forward",  -1 },
+			{"mvKey_Browser_Refresh",  -1 },
+			{"mvKey_Browser_Stop",  -1 },
+			{"mvKey_Browser_Search",  -1 },
+			{"mvKey_Browser_Favorites",  -1 },
+			{"mvKey_Browser_Home",  -1 },
+			{"mvKey_Volume_Mute",  -1 },
+			{"mvKey_Volume_Down",  -1 },
+			{"mvKey_Volume_Up",  -1 },
+			{"mvKey_Media_Next_Track",  -1 },
+			{"mvKey_Media_Prev_Track",  -1 },
+			{"mvKey_Media_Stop",  -1 },
+			{"mvKey_Media_Play_Pause",  -1 },
+			{"mvKey_Launch_Mail",  -1 },
+			{"mvKey_Launch_Media_Select",  -1 },
+			{"mvKey_Launch_App1",  -1 },
+			{"mvKey_Launch_App2",  -1 },
+			{"mvKey_Colon",  59 },
+			{"mvKey_Plus",  61 },
+			{"mvKey_Comma",  44 },
+			{"mvKey_Minus",  45 },
+			{"mvKey_Period",  46 },
+			{"mvKey_Slash",  47 },
+			{"mvKey_Tilde",  96 },
+			{"mvKey_Open_Brace",  91 },
+			{"mvKey_Backslash",  92 },
+			{"mvKey_Close_Brace",  93 },
+			{"mvKey_Quote",  39 },
+#endif
 
 
 
@@ -5248,8 +5360,8 @@ NULL, NULL, 0, NULL
 		auto constants = GetModuleConstants();
 
 		// handled in the stub file
-		//for (auto& item : constants)
-			//PyModule_AddIntConstant(m, item.first.c_str(), item.second);
+		for (auto& item : constants)
+			PyModule_AddIntConstant(m, item.first.c_str(), item.second);
 
 		auto MarvelError = PyErr_NewException("dearpygui.error", NULL, NULL);
 		Py_XINCREF(MarvelError);

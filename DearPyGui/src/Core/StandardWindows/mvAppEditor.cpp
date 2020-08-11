@@ -1,14 +1,11 @@
 #include "mvAppEditor.h"
 #include "mvCore.h"
 #include <fstream>
-#include <streambuf>
-#include "mvAppLog.h"
 #include "Core/StandardWindows/mvDocWindow.h"
 #include "Core/StandardWindows/mvAboutWindow.h"
 #include "Core/StandardWindows/mvMetricsWindow.h"
 #include "Core/mvUtilities.h"
 #include <misc/cpp/imgui_stdlib.h>
-#include <iostream>
 #include "Core/mvTextEditor.h"
 
 static const char* initialText = "from dearpygui import *\n\
@@ -155,7 +152,7 @@ namespace Marvel {
 		handleKeyEvents();
 
 		ImGui::SetNextWindowPos(ImVec2(0.0f, 0.0f));
-		ImGui::SetNextWindowSize(ImVec2(m_width, m_height));
+		ImGui::SetNextWindowSize(ImVec2((float)m_width, (float)m_height));
 
 		auto cpos = m_editor->GetCursorPosition();
 		ImGui::Begin("App Source", nullptr, ImGuiWindowFlags_NoBringToFrontOnFocus | ImGuiWindowFlags_NoSavedSettings

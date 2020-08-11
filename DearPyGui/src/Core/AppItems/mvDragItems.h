@@ -1,5 +1,7 @@
 #pragma once
 
+#include <utility>
+
 #include "Core/AppItems/mvTypeBases.h"
 
 //-----------------------------------------------------------------------------
@@ -28,14 +30,14 @@ namespace Marvel {
 
 		MV_APPITEM_TYPE(mvAppItemType::DragFloat)
 
-		mvDragFloat(const std::string& parent, const std::string& name, float default_value = 0.0f, float speed = 1.0f, float minv = 0.0f,
-				float maxv = 1.0f, const std::string& format = "%.3f", float power = 1.0f)
-			: mvFloatItemBase(parent, name, 1, default_value), m_speed(speed), m_min(minv), m_max(maxv), m_format(format),
+		mvDragFloat(const std::string& parent, const std::string& name, float default_value = 0.0f, float speed = 1.0f,
+              float minv = 0.0f, float maxv = 1.0f, std::string format = "%.3f", float power = 1.0f)
+			: mvFloatItemBase(parent, name, 1, default_value), m_speed(speed), m_min(minv), m_max(maxv), m_format(std::move(format)),
 			m_power(power)
 		{
 		}
 
-		virtual void draw() override
+		void draw() override
 		{
 
 			if (ImGui::DragFloat(m_label.c_str(), m_value.data(), m_speed, m_min, m_max, m_format.c_str(), m_power))
@@ -46,7 +48,7 @@ namespace Marvel {
 				mvApp::GetApp()->runCallback(m_callback, m_name);
 
 				// Context Menu
-				if (getPopup() != "")
+				if (!getPopup().empty())
 					ImGui::OpenPopup(getPopup().c_str());
 			}
 
@@ -73,13 +75,13 @@ namespace Marvel {
 		MV_APPITEM_TYPE(mvAppItemType::DragFloat2)
 
 		mvDragFloat2(const std::string& parent, const std::string& name, float default_value[2], float speed = 1.0f, float minv = 0.0f,
-				float maxv = 1.0f, const std::string& format = "%.3f", float power = 1.0f)
+				float maxv = 1.0f, std::string  format = "%.3f", float power = 1.0f)
 			: mvFloatItemBase(parent, name, 2, default_value[0], default_value[1]), m_speed(speed),
-			m_min(minv), m_max(maxv), m_format(format), m_power(power)
+			m_min(minv), m_max(maxv), m_format(std::move(format)), m_power(power)
 		{
 		}
 
-		virtual void draw() override
+        void draw() override
 		{
 			if (ImGui::DragFloat2(m_label.c_str(), m_value.data(), m_speed, m_min, m_max, m_format.c_str(), m_power))
 			{
@@ -89,7 +91,7 @@ namespace Marvel {
 				mvApp::GetApp()->runCallback(m_callback, m_name);
 
 				// Context Menu
-				if (getPopup() != "")
+				if (!getPopup().empty())
 					ImGui::OpenPopup(getPopup().c_str());
 			}
 		}
@@ -115,13 +117,13 @@ namespace Marvel {
 		MV_APPITEM_TYPE(mvAppItemType::DragFloat3)
 
 		mvDragFloat3(const std::string& parent, const std::string& name, float default_value[3], float speed = 1.0f, float minv = 0.0f,
-				float maxv = 1.0f, const std::string& format = "%.3f", float power = 1.0f)
+				float maxv = 1.0f, std::string  format = "%.3f", float power = 1.0f)
 			: mvFloatItemBase(parent, name, 3, default_value[0], default_value[1], default_value[2]), m_speed(speed),
-			m_min(minv), m_max(maxv), m_format(format), m_power(power)
+			m_min(minv), m_max(maxv), m_format(std::move(format)), m_power(power)
 		{
 		}
 
-		virtual void draw() override
+        void draw() override
 		{
 			if (ImGui::DragFloat3(m_label.c_str(), m_value.data(), m_speed, m_min, m_max, m_format.c_str(), m_power))
 			{
@@ -131,7 +133,7 @@ namespace Marvel {
 				mvApp::GetApp()->runCallback(m_callback, m_name);
 
 				// Context Menu
-				if (getPopup() != "")
+				if (!getPopup().empty())
 					ImGui::OpenPopup(getPopup().c_str());
 			}
 		}
@@ -157,13 +159,13 @@ namespace Marvel {
 		MV_APPITEM_TYPE(mvAppItemType::DragFloat4)
 
 		mvDragFloat4(const std::string& parent, const std::string& name, float default_value[4], float speed = 1.0f, float minv = 0.0f,
-				float maxv = 1.0f, const std::string& format = "%.3f", float power = 1.0f)
+				float maxv = 1.0f, std::string format = "%.3f", float power = 1.0f)
 			: mvFloatItemBase(parent, name, 4, default_value[0], default_value[1], default_value[2], default_value[3]), m_speed(speed),
-			m_min(minv), m_max(maxv), m_format(format), m_power(power)
+			m_min(minv), m_max(maxv), m_format(std::move(format)), m_power(power)
 		{
 		}
 
-		virtual void draw() override
+        void draw() override
 		{
 			if (ImGui::DragFloat4(m_label.c_str(), m_value.data(), m_speed, m_min, m_max, m_format.c_str(), m_power))
 			{
@@ -173,7 +175,7 @@ namespace Marvel {
 				mvApp::GetApp()->runCallback(m_callback, m_name);
 
 				// Context Menu
-				if (getPopup() != "")
+				if (!getPopup().empty())
 					ImGui::OpenPopup(getPopup().c_str());
 			}
 		}
@@ -199,12 +201,12 @@ namespace Marvel {
 		MV_APPITEM_TYPE(mvAppItemType::DragInt)
 
 		mvDragInt(const std::string& parent, const std::string& name, int default_value = 0, float speed = 1.0f, int minv = 0,
-				int maxv = 100, const std::string& format = "%d")
-			: mvIntItemBase(parent, name, 1, default_value), m_speed(speed), m_min(minv), m_max(maxv), m_format(format)
+				int maxv = 100, std::string  format = "%d")
+			: mvIntItemBase(parent, name, 1, default_value), m_speed(speed), m_min(minv), m_max(maxv), m_format(std::move(format))
 		{
 		}
 
-		virtual void draw() override
+		void draw() override
 		{
 
 			if (ImGui::DragInt(m_label.c_str(), m_value.data(), m_speed, m_min, m_max, m_format.c_str()))
@@ -215,7 +217,7 @@ namespace Marvel {
 				mvApp::GetApp()->runCallback(m_callback, m_name);
 
 				// Context Menu
-				if (getPopup() != "")
+				if (!getPopup().empty())
 					ImGui::OpenPopup(getPopup().c_str());
 			}
 		}
@@ -226,7 +228,6 @@ namespace Marvel {
 		int         m_min;
 		int         m_max;
 		std::string m_format;
-		bool        m_vertical;
 
 	};
 
@@ -241,13 +242,13 @@ namespace Marvel {
 		MV_APPITEM_TYPE(mvAppItemType::DragInt2)
 
 		mvDragInt2(const std::string& parent, const std::string& name, int default_value[2], float speed = 1.0f, int minv = 0,
-				int maxv = 100, const std::string& format = "%d")
+				int maxv = 100, std::string  format = "%d")
 			: mvIntItemBase(parent, name, 2, default_value[0], default_value[1]), m_speed(speed),
-			m_min(minv), m_max(maxv), m_format(format)
+			m_min(minv), m_max(maxv), m_format(std::move(format))
 		{
 		}
 
-		virtual void draw() override
+        void draw() override
 		{
 			if (ImGui::DragInt2(m_label.c_str(), m_value.data(), m_speed, m_min, m_max, m_format.c_str()))
 			{
@@ -257,7 +258,7 @@ namespace Marvel {
 				mvApp::GetApp()->runCallback(m_callback, m_name);
 
 				// Context Menu
-				if (getPopup() != "")
+				if (!getPopup().empty())
 					ImGui::OpenPopup(getPopup().c_str());
 			}
 		}
@@ -282,13 +283,13 @@ namespace Marvel {
 		MV_APPITEM_TYPE(mvAppItemType::DragInt3)
 
 		mvDragInt3(const std::string& parent, const std::string& name, int default_value[3], float speed = 1.0f, int minv = 0,
-				int maxv = 100, const std::string& format = "%d")
+				int maxv = 100, std::string  format = "%d")
 			: mvIntItemBase(parent, name, 3, default_value[0], default_value[1], default_value[2]), m_speed(speed),
-			m_min(minv), m_max(maxv), m_format(format)
+			m_min(minv), m_max(maxv), m_format(std::move(format))
 		{
 		}
 
-		virtual void draw() override
+        void draw() override
 		{
 			if (ImGui::DragInt3(m_label.c_str(), m_value.data(), m_speed, m_min, m_max, m_format.c_str()))
 			{
@@ -298,7 +299,7 @@ namespace Marvel {
 				mvApp::GetApp()->runCallback(m_callback, m_name);
 
 				// Context Menu
-				if (getPopup() != "")
+				if (!getPopup().empty())
 					ImGui::OpenPopup(getPopup().c_str());
 			}
 		}
@@ -323,13 +324,13 @@ namespace Marvel {
 		MV_APPITEM_TYPE(mvAppItemType::DragInt4)
 
 		mvDragInt4(const std::string& parent, const std::string& name, int default_value[4], float speed = 1.0f, int minv = 0,
-				int maxv = 100, const std::string& format = "%d")
+				int maxv = 100, std::string  format = "%d")
 			: mvIntItemBase(parent, name, 4, default_value[0], default_value[1], default_value[2], default_value[3]), m_speed(speed),
-			m_min(minv), m_max(maxv), m_format(format)
+			m_min(minv), m_max(maxv), m_format(std::move(format))
 		{
 		}
 
-		virtual void draw() override
+        void draw() override
 		{
 			if (ImGui::DragInt4(m_label.c_str(), m_value.data(), m_speed, m_min, m_max, m_format.c_str()))
 			{
@@ -339,7 +340,7 @@ namespace Marvel {
 				mvApp::GetApp()->runCallback(m_callback, m_name);
 
 				// Context Menu
-				if (getPopup() != "")
+				if (!getPopup().empty())
 					ImGui::OpenPopup(getPopup().c_str());
 			}
 		}

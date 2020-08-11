@@ -1,6 +1,5 @@
 #include "Platform/Windows/mvWindowsWindow.h"
 #include "mvApp.h"
-#include "Core/StandardWindows/mvAppEditor.h"
 
 // Forward declare message handler from imgui_impl_win32.cpp
 extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
@@ -16,10 +15,10 @@ namespace Marvel {
 		: mvWindow(width, height, editor, error, doc)
 	{
 
-		m_wc = { sizeof(WNDCLASSEX), CS_CLASSDC, HandleMsgSetup, 0L, 0L, GetModuleHandle(NULL), NULL, NULL, NULL, NULL, _T("DearPyGui Example"), NULL };
+		m_wc = { sizeof(WNDCLASSEX), CS_CLASSDC, HandleMsgSetup, 0L, 0L, GetModuleHandle(nullptr), nullptr, nullptr, nullptr, nullptr, _T("DearPyGui Example"), nullptr };
 		RegisterClassEx(&m_wc);
 
-		m_hwnd = CreateWindow(m_wc.lpszClassName, _T("DearPyGui"), WS_OVERLAPPEDWINDOW, 100, 100, width, height, NULL, NULL, m_wc.hInstance, this);
+		m_hwnd = CreateWindow(m_wc.lpszClassName, _T("DearPyGui"), WS_OVERLAPPEDWINDOW, 100, 100, width, height, nullptr, nullptr, m_wc.hInstance, this);
 
 		// Initialize Direct3D
 		if (!CreateDeviceD3D(m_hwnd))
@@ -82,7 +81,7 @@ namespace Marvel {
 		// - When io.WantCaptureMouse is true, do not dispatch mouse input data to your main application.
 		// - When io.WantCaptureKeyboard is true, do not dispatch keyboard input data to your main application.
 		// Generally you may always pass all inputs to dear imgui, and hide them from your application based on those two flags.
-		if (::PeekMessage(&m_msg, NULL, 0U, 0U, PM_REMOVE))
+		if (::PeekMessage(&m_msg, nullptr, 0U, 0U, PM_REMOVE))
 		{
 			::TranslateMessage(&m_msg);
 			::DispatchMessage(&m_msg);
@@ -145,7 +144,7 @@ namespace Marvel {
 
 		// Rendering
 		ImGui::Render();
-		s_pd3dDeviceContext->OMSetRenderTargets(1, &s_mainRenderTargetView, NULL);
+		s_pd3dDeviceContext->OMSetRenderTargets(1, &s_mainRenderTargetView, nullptr);
 		s_pd3dDeviceContext->ClearRenderTargetView(s_mainRenderTargetView, (float*)&clear_color);
 		ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
 
@@ -197,7 +196,7 @@ namespace Marvel {
 		//createDeviceFlags |= D3D11_CREATE_DEVICE_DEBUG;
 		D3D_FEATURE_LEVEL featureLevel;
 		const D3D_FEATURE_LEVEL featureLevelArray[2] = { D3D_FEATURE_LEVEL_11_0, D3D_FEATURE_LEVEL_10_0, };
-		if (D3D11CreateDeviceAndSwapChain(NULL, D3D_DRIVER_TYPE_HARDWARE, NULL,
+		if (D3D11CreateDeviceAndSwapChain(nullptr, D3D_DRIVER_TYPE_HARDWARE, nullptr,
 			createDeviceFlags, featureLevelArray, 2, D3D11_SDK_VERSION, &sd, &s_pSwapChain,
 			&s_pd3dDevice, &featureLevel, &s_pd3dDeviceContext) != S_OK)
 			return false;
@@ -212,19 +211,19 @@ namespace Marvel {
 		if (s_pSwapChain)
 		{
 			s_pSwapChain->Release();
-			s_pSwapChain = NULL;
+			s_pSwapChain = nullptr;
 		}
 
 		if (s_pd3dDeviceContext)
 		{
 			s_pd3dDeviceContext->Release();
-			s_pd3dDeviceContext = NULL;
+			s_pd3dDeviceContext = nullptr;
 		}
 
 		if (s_pd3dDevice)
 		{
 			s_pd3dDevice->Release();
-			s_pd3dDevice = NULL;
+			s_pd3dDevice = nullptr;
 		}
 	}
 
@@ -232,7 +231,7 @@ namespace Marvel {
 	{
 		ID3D11Texture2D* pBackBuffer;
 		s_pSwapChain->GetBuffer(0, IID_PPV_ARGS(&pBackBuffer));
-		s_pd3dDevice->CreateRenderTargetView(pBackBuffer, NULL, &s_mainRenderTargetView);
+		s_pd3dDevice->CreateRenderTargetView(pBackBuffer, nullptr, &s_mainRenderTargetView);
 		pBackBuffer->Release();
 	}
 
@@ -241,7 +240,7 @@ namespace Marvel {
 		if (s_mainRenderTargetView)
 		{
 			s_mainRenderTargetView->Release();
-			s_mainRenderTargetView = NULL;
+			s_mainRenderTargetView = nullptr;
 		}
 	}
 
@@ -252,7 +251,7 @@ namespace Marvel {
 		{
 			// extract ptr to window class from creation data
 			const CREATESTRUCTW* const pCreate = reinterpret_cast<CREATESTRUCTW*>(lParam);
-			mvWindowsWindow* const pWnd = static_cast<mvWindowsWindow*>(pCreate->lpCreateParams);
+			auto const pWnd = static_cast<mvWindowsWindow*>(pCreate->lpCreateParams);
 			// set WinAPI-managed user data to store ptr to window instance
 			SetWindowLongPtr(hWnd, GWLP_USERDATA, reinterpret_cast<LONG_PTR>(pWnd));
 			// set message proc to normal (non-setup) handler now that setup is finished
@@ -267,7 +266,7 @@ namespace Marvel {
 	LRESULT CALLBACK mvWindowsWindow::HandleMsgThunk(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) noexcept
 	{
 		// retrieve ptr to window instance
-		mvWindowsWindow* const pWnd = reinterpret_cast<mvWindowsWindow*>(GetWindowLongPtr(hWnd, GWLP_USERDATA));
+		auto const pWnd = reinterpret_cast<mvWindowsWindow*>(GetWindowLongPtr(hWnd, GWLP_USERDATA));
 		// forward message to window instance handler
 		return pWnd->HandleMsg(hWnd, msg, wParam, lParam);
 	}
@@ -280,7 +279,7 @@ namespace Marvel {
 		switch (msg)
 		{
 		case WM_SIZE:
-			if (s_pd3dDevice != NULL && wParam != SIZE_MINIMIZED)
+			if (s_pd3dDevice != nullptr && wParam != SIZE_MINIMIZED)
 			{
 				RECT rect;
 				if (GetWindowRect(hWnd, &rect))
@@ -311,9 +310,9 @@ namespace Marvel {
 		return ::DefWindowProc(hWnd, msg, wParam, lParam);
 	}
 
-	ID3D11Device* mvWindowsWindow::s_pd3dDevice = NULL;
-	ID3D11DeviceContext* mvWindowsWindow::s_pd3dDeviceContext = NULL;
-	IDXGISwapChain* mvWindowsWindow::s_pSwapChain = NULL;
-	ID3D11RenderTargetView* mvWindowsWindow::s_mainRenderTargetView = NULL;
+	ID3D11Device* mvWindowsWindow::s_pd3dDevice = nullptr;
+	ID3D11DeviceContext* mvWindowsWindow::s_pd3dDeviceContext = nullptr;
+	IDXGISwapChain* mvWindowsWindow::s_pSwapChain = nullptr;
+	ID3D11RenderTargetView* mvWindowsWindow::s_mainRenderTargetView = nullptr;
 
 }

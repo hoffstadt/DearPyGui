@@ -22,7 +22,7 @@ namespace Marvel {
 			m_commands = GetAllCommands();
 		}
 
-		virtual void render(bool& show) override;
+		void render(bool& show) override;
 		void renderItem(mvAppItem* item);
 
 	private:

@@ -8,6 +8,8 @@
 //     
 //-----------------------------------------------------------------------------
 
+#include <utility>
+
 #include "mvPythonTranslator.h"
 #include "mvApp.h"
 #include "mvAppItem.h"
@@ -30,18 +32,18 @@ namespace Marvel {
 		{
 		}
 
-		virtual void setPyValue(PyObject* value) override 
+		void setPyValue(PyObject* value) override
 		{ 
 			m_value = mvPythonTranslator::ToBool(value, m_name + " requires a bool value."); 
 		}
 
-		virtual PyObject* getPyValue() const override
+		[[nodiscard]] PyObject* getPyValue() const override
 		{
 			return mvPythonTranslator::ToPyBool(m_value);
 		}
 
-		inline bool getValue() const { return m_value; }
-		inline void setValue(bool value) { m_value = value; }
+		[[nodiscard]] bool getValue() const { return m_value; }
+		void               setValue(bool value) { m_value = value; }
 
 	protected:
 
@@ -57,23 +59,23 @@ namespace Marvel {
 
 	public:
 
-		mvStringItemBase(const std::string& parent, const std::string& name, const std::string& value)
-			: mvAppItem(parent, name), m_value(value)
+		mvStringItemBase(const std::string& parent, const std::string& name, std::string  value)
+			: mvAppItem(parent, name), m_value(std::move(value))
 		{
 		}
 
-		virtual void setPyValue(PyObject* value) override
+		void setPyValue(PyObject* value) override
 		{
 			m_value = mvPythonTranslator::ToString(value, m_name + " requires a string value.");
 		}
 
-		virtual PyObject* getPyValue() const override
+		[[nodiscard]] PyObject* getPyValue() const override
 		{
 			return mvPythonTranslator::ToPyString(m_value);
 		}
 
-		inline const std::string& getValue() const { return m_value; }
-		inline void setValue(const std::string& value) { m_value = value; }
+		[[nodiscard]] const std::string& getValue() const { return m_value; }
+		inline void                      setValue(const std::string& value) { m_value = value; }
 
 	protected:
 
@@ -99,7 +101,7 @@ namespace Marvel {
 			m_value.push_back(w);
 		}
 
-		virtual void setPyValue(PyObject* value) override
+		void setPyValue(PyObject* value) override
 		{
 
 			if (m_valuecount == 1)
@@ -110,7 +112,7 @@ namespace Marvel {
 
 		}
 
-		virtual PyObject* getPyValue() const override
+		[[nodiscard]] PyObject* getPyValue() const override
 		{
 			if (m_valuecount == 1)
 				return mvPythonTranslator::ToPyInt(m_value[0]);
@@ -144,7 +146,7 @@ namespace Marvel {
 			m_value.push_back(w);
 		}
 
-		virtual void setPyValue(PyObject* value) override
+		void setPyValue(PyObject* value) override
 		{
 			if (m_valuecount == 1)
 				m_value[0] = mvPythonTranslator::ToFloat(value);
@@ -154,7 +156,7 @@ namespace Marvel {
 
 		}
 
-		virtual PyObject* getPyValue() const override
+		[[nodiscard]] PyObject* getPyValue() const override
 		{
 
 			if (m_valuecount == 1)
@@ -183,16 +185,16 @@ namespace Marvel {
 		mvColorItemBase(const std::string& parent, const std::string& name, mvColor color)
 			: mvAppItem(parent, name)
 		{
-			m_value.push_back(color.r/255.0f);
-			m_value.push_back(color.g/255.0f);
-			m_value.push_back(color.b/255.0f);
-			m_value.push_back(color.a/255.0f);
+			m_value.push_back((float)color.r/255.0f);
+			m_value.push_back((float)color.g/255.0f);
+			m_value.push_back((float)color.b/255.0f);
+			m_value.push_back((float)color.a/255.0f);
 		}
 
-		virtual void setPyValue(PyObject* value) override
+		void setPyValue(PyObject* value) override
 		{
 			auto ints = mvPythonTranslator::ToFloatVect(value, " requires a list or tuple of integers");
-			for (int i = 0; i < ints.size(); i++)
+			for (size_t i = 0; i < ints.size(); i++)
 			{
 				if (i > 3)
 					break;
@@ -200,7 +202,7 @@ namespace Marvel {
 			}		
 		}
 
-		virtual PyObject* getPyValue() const override
+		[[nodiscard]] PyObject* getPyValue() const override
 		{
 			std::vector<int> ints;
 			for (const auto& item : m_value)
