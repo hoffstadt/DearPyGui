@@ -176,8 +176,6 @@ Developed by Jonathan Hoffstadt, Preston Cothren, and every direct or indirect c
 
 Aiekick for his work on the [ImGuiFileDialog](https://github.com/aiekick)
 
----
-
 ### Gallery
 
 ---
