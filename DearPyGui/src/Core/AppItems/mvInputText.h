@@ -3,6 +3,7 @@
 #include "Core/AppItems/mvTypeBases.h"
 #include "Core/mvDataStorage.h"
 #include <misc/cpp/imgui_stdlib.h>
+#include <utility>
 
 //-----------------------------------------------------------------------------
 // Widget Index
@@ -20,21 +21,22 @@ namespace Marvel {
 
 		MV_APPITEM_TYPE(mvAppItemType::InputText)
 
-		mvInputText(const std::string& parent, const std::string& name, const std::string& default_value, const std::string& hint, bool multiline, ImGuiInputTextFlags flags)
-			: mvStringItemBase(parent, name, default_value), m_hint(hint), m_multiline(multiline), m_flags(flags)
+		mvInputText(const std::string& parent, const std::string& name, const std::string& default_value,
+              std::string  hint, bool multiline, ImGuiInputTextFlags flags)
+			: mvStringItemBase(parent, name, default_value), m_hint(std::move(hint)), m_multiline(multiline), m_flags(flags)
 		{
 		}
 
-		virtual void draw() override
+		void draw() override
 		{
 			if (m_multiline)
 				m_hint = "";
 
-			if (m_hint == "")
+			if (m_hint.empty())
 			{
 				if(m_multiline)
 				{
-					if (ImGui::InputTextMultiline(m_label.c_str(), &m_value, ImVec2(m_width, m_height)))
+					if (ImGui::InputTextMultiline(m_label.c_str(), &m_value, ImVec2((float)m_width, (float)m_height)))
 					{
 						if (!m_dataSource.empty())
 							mvDataStorage::AddData(m_dataSource, getPyValue());
@@ -42,7 +44,7 @@ namespace Marvel {
 						mvApp::GetApp()->runCallback(m_callback, m_name);
 
 						// Context Menu
-						if (getPopup() != "")
+						if (!getPopup().empty())
 							ImGui::OpenPopup(getPopup().c_str());
 					}
 				}
@@ -56,7 +58,7 @@ namespace Marvel {
 						mvApp::GetApp()->runCallback(m_callback, m_name);
 
 						// Context Menu
-						if (getPopup() != "")
+						if (!getPopup().empty())
 							ImGui::OpenPopup(getPopup().c_str());
 					}
 				}
@@ -72,7 +74,7 @@ namespace Marvel {
 					mvApp::GetApp()->runCallback(m_callback, m_name);
 
 					// Context Menu
-					if (getPopup() != "")
+					if (!getPopup().empty())
 						ImGui::OpenPopup(getPopup().c_str());
 				}
 			}

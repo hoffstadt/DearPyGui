@@ -9,7 +9,7 @@ namespace Marvel {
 
 	public:
 
-		virtual void render(bool& show) override;
+		void render(bool& show) override;
 
 	};
 

@@ -17,15 +17,15 @@ namespace Marvel {
 	public:
 
 		mvWindowsWindow(unsigned width, unsigned height, bool editor = false, bool error = false, bool doc = false);
-		virtual ~mvWindowsWindow();
+		~mvWindowsWindow() override;
 
-		virtual void show       () override;
-		virtual void setup      () override;
-		virtual void prerender  () override;
-		virtual void postrender () override;
-		virtual void renderFrame() override;
-		virtual void cleanup    () override;
-		virtual void run        () override;
+		void show       () override;
+		void setup      () override;
+		void prerender  () override;
+		void postrender () override;
+		void renderFrame() override;
+		void cleanup    () override;
+		void run        () override;
 
 	private:
 
@@ -33,9 +33,9 @@ namespace Marvel {
 
 		void CleanupDeviceD3D();
 
-		void CreateRenderTarget();
+		static void CreateRenderTarget();
 
-		void CleanupRenderTarget();
+		static void CleanupRenderTarget();
 
 	public:
 

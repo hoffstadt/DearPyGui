@@ -25,14 +25,14 @@ namespace Marvel {
 		MV_APPITEM_TYPE(mvAppItemType::TabBar)
 
 		mvTabBar(const std::string& parent, const std::string& name, bool reorderable = false)
-			: mvStringItemBase(parent, name, ""), m_reorderable(reorderable)
+			: mvStringItemBase(parent, name, "")
 		{
 			if (reorderable)
 				m_flags |= ImGuiTabBarFlags_Reorderable;
 		
 		}
 
-		virtual void draw() override
+		void draw() override
 		{
 			if (ImGui::BeginTabBar(m_label.c_str(), m_flags))
 			{
@@ -51,9 +51,8 @@ namespace Marvel {
 					item->popColorStyles();
 
 					// Regular Tooltip (simple)
-					if (item->getTip() != "" && ImGui::IsItemHovered())
+					if (!item->getTip().empty() && ImGui::IsItemHovered())
 						ImGui::SetTooltip("%s", item->getTip().c_str());
-
 
 					item->setHovered(ImGui::IsItemHovered());
 					item->setActive(ImGui::IsItemActive());
@@ -76,7 +75,6 @@ namespace Marvel {
 
 	private:
 
-		bool m_reorderable = false;
 		ImGuiTabBarFlags m_flags = ImGuiTabBarFlags_None;
 
 	};
@@ -96,38 +94,27 @@ namespace Marvel {
 		{
 		}
 
-		virtual void draw() override
+		void draw() override
 		{
 			// cast parent to mvTabBar
-			mvTabBar* parent = static_cast<mvTabBar*>(m_parent);
+			auto parent = (mvTabBar*)m_parent;
 
 			// check if this is first tab
-			if (parent->getValue() == "")
+			if (parent->getValue().empty())
 			{
-
 				// set mvTabBar value to the first tab name
 				parent->setValue(m_name);
 				m_value = true;
-
 			}
 
 			// create tab item and see if it is selected
 			if (ImGui::BeginTabItem(m_label.c_str(), m_closable ? &m_show : nullptr))
 			{
-
-				bool changed = false;
-
-				// change tab bar value to this selected tab
-				if (parent->getValue() != m_name)
-					changed = true;
-				else
-					changed = false;
-
 				parent->setValue(m_name);
 
 				// set other tab's value false
 				for (mvAppItem* child : parent->getChildren())
-					static_cast<mvTab*>(child)->setValue(false);
+                    ((mvTab*)child)->setValue(false);
 
 				// set current tab value true
 				m_value = true;
@@ -135,12 +122,12 @@ namespace Marvel {
 				showAll();
 
 				// run call back if it exists
-				if (changed)
+				if (parent->getValue() != m_name)
 				{
 					mvApp::GetApp()->runCallback(parent->getCallback(), m_name);
 
 					// Context Menu
-					if (getPopup() != "")
+					if (!getPopup().empty())
 						ImGui::OpenPopup(getPopup().c_str());
 				}
 
@@ -159,9 +146,8 @@ namespace Marvel {
 					item->popColorStyles();
 
 					// Regular Tooltip (simple)
-					if (item->getTip() != "" && ImGui::IsItemHovered())
+					if (!item->getTip().empty() && ImGui::IsItemHovered())
 						ImGui::SetTooltip("%s", item->getTip().c_str());
-
 
 					item->setHovered(ImGui::IsItemHovered());
 					item->setActive(ImGui::IsItemActive());

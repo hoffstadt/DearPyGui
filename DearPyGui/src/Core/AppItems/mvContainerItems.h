@@ -32,7 +32,7 @@ namespace Marvel {
 			m_container = true;
 		}
 
-		virtual void draw() override
+		void draw() override
 		{
 			
 			ImGui::BeginChild(m_label.c_str(), ImVec2(float(m_width), float(m_height)), m_border);
@@ -52,7 +52,7 @@ namespace Marvel {
 				item->popColorStyles();
 
 				// Regular Tooltip (simple)
-				if (item->getTip() != "" && ImGui::IsItemHovered())
+				if (!item->getTip().empty() && ImGui::IsItemHovered())
 					ImGui::SetTooltip("%s", item->getTip().c_str());
 
 
@@ -72,14 +72,14 @@ namespace Marvel {
 			}
 
 			// TODO check if these work for child
-			if (m_tip != "" && ImGui::IsItemHovered())
+			if (!m_tip .empty() && ImGui::IsItemHovered())
 				ImGui::SetTooltip("%s", m_tip.c_str());
 
 			// allows this item to have a render callback
 			registerWindowFocusing();
 
-			m_width = ImGui::GetWindowWidth();
-			m_height = ImGui::GetWindowHeight();
+			m_width = (int)ImGui::GetWindowWidth();
+			m_height = (int)ImGui::GetWindowHeight();
 
 			ImGui::EndChild();
 		}
@@ -106,7 +106,7 @@ namespace Marvel {
 			m_container = true;
 		}
 
-		virtual void draw() override
+		void draw() override
 		{
 			if (m_width != 0)
 				ImGui::PushItemWidth((float)m_width);
@@ -134,7 +134,7 @@ namespace Marvel {
 					ImGui::SameLine(0.0, m_hspacing);
 
 				// Regular Tooltip (simple)
-				if (item->getTip() != "" && ImGui::IsItemHovered())
+				if (!item->getTip().empty() && ImGui::IsItemHovered())
 					ImGui::SetTooltip("%s", item->getTip().c_str());
 
 
@@ -183,7 +183,7 @@ namespace Marvel {
 			m_container = true;
 		}
 
-		virtual void draw() override
+		void draw() override
 		{
 			bool* toggle = nullptr;
 			if (m_closable)
@@ -207,7 +207,7 @@ namespace Marvel {
 					item->popColorStyles();
 
 					// Regular Tooltip (simple)
-					if (item->getTip() != "" && ImGui::IsItemHovered())
+					if (!item->getTip().empty() && ImGui::IsItemHovered())
 						ImGui::SetTooltip("%s", item->getTip().c_str());
 
 
@@ -252,7 +252,7 @@ namespace Marvel {
 			m_container = true;
 		}
 
-		virtual void draw() override
+		void draw() override
 		{
 			ImGui::BeginGroup();
 			if (ImGui::TreeNodeEx(m_label.c_str(), m_flags))
@@ -273,7 +273,7 @@ namespace Marvel {
 					item->popColorStyles();
 
 					// Regular Tooltip (simple)
-					if (item->getTip() != "" && ImGui::IsItemHovered())
+					if (!item->getTip().empty() && ImGui::IsItemHovered())
 						ImGui::SetTooltip("%s", item->getTip().c_str());
 
 

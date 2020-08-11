@@ -63,7 +63,7 @@ namespace Marvel {
 
 		auto app = mvApp::GetApp();
 
-		ImGui::SetNextWindowSize(ImVec2(m_width, m_width), ImGuiCond_FirstUseEver);
+		ImGui::SetNextWindowSize(ImVec2((float)m_width, (float)m_width), ImGuiCond_FirstUseEver);
 		if (!ImGui::Begin("DearPyGui Debug", &show, m_flags))
 		{
 			ImGui::End();
@@ -144,7 +144,7 @@ namespace Marvel {
 			if (ImGui::BeginTabItem("App Item Layout"))
 			{
 				auto selectedItem = mvApp::GetApp()->getItem(m_selectedItem);
-				std::string parentName = "";
+				std::string parentName;
 
 				if (selectedItem->getParent())
 					parentName = selectedItem->getParent()->getName();
@@ -152,54 +152,50 @@ namespace Marvel {
 				std::string width = std::to_string(selectedItem->getWidth());
 				std::string height = std::to_string(selectedItem->getHeight());
 
-				if (selectedItem)
-				{
+                ImGui::BeginGroup();
 
-					ImGui::BeginGroup();
+                if (ImGui::ArrowButton("Move Up", ImGuiDir_Up))
+                    app->moveItemUp(m_selectedItem);
+                ImGui::SameLine();
+                if (ImGui::ArrowButton("Move Down", ImGuiDir_Down))
+                    app->moveItemDown(m_selectedItem);
+                ImGui::SameLine();
+                if (ImGui::Button("Delete"))
+                {
+                    app->deleteItem(m_selectedItem);
+                    m_selectedItem = "MainWindow";
+                }
+                ImGui::SameLine();
+                if (ImGui::Button("Show"))
+                    app->getItem(m_selectedItem)->show();
+                ImGui::SameLine();
+                if (ImGui::Button("Hide"))
+                    app->getItem(m_selectedItem)->hide();
 
-					if (ImGui::ArrowButton("Move Up", ImGuiDir_Up))
-						app->moveItemUp(m_selectedItem);
-					ImGui::SameLine();
-					if (ImGui::ArrowButton("Move Down", ImGuiDir_Down))
-						app->moveItemDown(m_selectedItem);
-					ImGui::SameLine();
-					if (ImGui::Button("Delete"))
-					{
-						app->deleteItem(m_selectedItem);
-						m_selectedItem = "MainWindow";
-					}
-					ImGui::SameLine();
-					if (ImGui::Button("Show"))
-						app->getItem(m_selectedItem)->show();
-					ImGui::SameLine();
-					if (ImGui::Button("Hide"))
-						app->getItem(m_selectedItem)->hide();
-
-					ImGui::PushItemWidth(200);
-					DebugItem("Item Name:", m_selectedItem.c_str());
-					DebugItem("Item Type:", selectedItem->getStringType().c_str());
-					DebugItem("Container:", selectedItem->isContainer() ? ts : fs);
-					DebugItem("Item Parent:", parentName.c_str());
-					DebugItem("Item Width:", width.c_str());
-					DebugItem("Item Height:", height.c_str());
-					DebugItem("Item Callback:", selectedItem->getCallback().c_str());
-					DebugItem("Item Tip:", selectedItem->getTip().c_str());
-					DebugItem("Item Popup:", selectedItem->getPopup().c_str());
-					DebugItem("Item Show:", selectedItem->isShown() ? ts : fs);
-					DebugItem("Item Visible:", selectedItem->isItemVisible() ? ts : fs);
-					DebugItem("Item Hovered:", selectedItem->isItemHovered() ? ts : fs);
-					DebugItem("Item Active:", selectedItem->isItemActive() ? ts : fs);
-					DebugItem("Item Focused:", selectedItem->isItemFocused() ? ts : fs);
-					DebugItem("Item Clicked:", selectedItem->isItemClicked() ? ts : fs);
-					DebugItem("Item Edited:", selectedItem->isItemEdited() ? ts : fs);
-					DebugItem("Item Activated:", selectedItem->isItemActivated() ? ts : fs);
-					DebugItem("Item Deactivated:", selectedItem->isItemDeactivated() ? ts : fs);
-					DebugItem("Item DeavtivatedAfterEdit:", selectedItem->isItemDeactivatedAfterEdit() ? ts : fs);
-					DebugItem("Item ToggledOpen:", selectedItem->isItemToogledOpen() ? ts : fs);
-					ImGui::EndGroup();
-					ImGui::PopItemWidth();
-					ImGui::SameLine();
-				}
+                ImGui::PushItemWidth(200);
+                DebugItem("Item Name:", m_selectedItem.c_str());
+                DebugItem("Item Type:", selectedItem->getStringType().c_str());
+                DebugItem("Container:", selectedItem->isContainer() ? ts : fs);
+                DebugItem("Item Parent:", parentName.c_str());
+                DebugItem("Item Width:", width.c_str());
+                DebugItem("Item Height:", height.c_str());
+                DebugItem("Item Callback:", selectedItem->getCallback().c_str());
+                DebugItem("Item Tip:", selectedItem->getTip().c_str());
+                DebugItem("Item Popup:", selectedItem->getPopup().c_str());
+                DebugItem("Item Show:", selectedItem->isShown() ? ts : fs);
+                DebugItem("Item Visible:", selectedItem->isItemVisible() ? ts : fs);
+                DebugItem("Item Hovered:", selectedItem->isItemHovered() ? ts : fs);
+                DebugItem("Item Active:", selectedItem->isItemActive() ? ts : fs);
+                DebugItem("Item Focused:", selectedItem->isItemFocused() ? ts : fs);
+                DebugItem("Item Clicked:", selectedItem->isItemClicked() ? ts : fs);
+                DebugItem("Item Edited:", selectedItem->isItemEdited() ? ts : fs);
+                DebugItem("Item Activated:", selectedItem->isItemActivated() ? ts : fs);
+                DebugItem("Item Deactivated:", selectedItem->isItemDeactivated() ? ts : fs);
+                DebugItem("Item DeavtivatedAfterEdit:", selectedItem->isItemDeactivatedAfterEdit() ? ts : fs);
+                DebugItem("Item ToggledOpen:", selectedItem->isItemToogledOpen() ? ts : fs);
+                ImGui::EndGroup();
+                ImGui::PopItemWidth();
+                ImGui::SameLine();
 
 				ImGui::BeginChild("TreeChild", ImVec2(300.0f, 500.0f), true);
 				for (auto window : mvApp::GetApp()->getWindows())
@@ -220,7 +216,7 @@ namespace Marvel {
 				ImGui::PushItemWidth(300);
 				ImGui::BeginChild("CommandsChild##debug", ImVec2(500.0f, 100.0f), true);
 				ImGui::PushStyleColor(ImGuiCol_Text, { 1.0f, 1.0f, 0.0f, 1.0f });
-				for (int i = 0; i<m_commands.size(); i++)
+				for (size_t i = 0; i<m_commands.size(); i++)
 				{
 					auto& item = m_commands[i];
 

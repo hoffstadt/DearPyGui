@@ -1,5 +1,7 @@
 #pragma once
 
+#include <utility>
+
 #include "Core/AppItems/mvTypeBases.h"
 #include "mvApp.h"
 #include "mvEventHandler.h"
@@ -17,8 +19,8 @@ namespace Marvel {
 		MV_APPITEM_TYPE(mvAppItemType::Window)
 
 		mvWindowAppitem(const std::string& parent, const std::string& name, int width, int height, int xpos, int ypos, 
-			bool mainWindow, bool autosize, bool resizable, bool titlebar, bool movable, const std::string& closing_callback="")
-			: mvAppItem(parent, name), mvEventHandler(), m_xpos(xpos), m_ypos(ypos), m_mainWindow(mainWindow), m_closing_callback(closing_callback)
+			bool mainWindow, bool autosize, bool resizable, bool titlebar, bool movable, std::string  closing_callback="")
+			: mvAppItem(parent, name), mvEventHandler(), m_xpos(xpos), m_ypos(ypos), m_mainWindow(mainWindow), m_closing_callback(std::move(closing_callback))
 		{
 			m_container = true;
 			m_width = width;
@@ -48,20 +50,20 @@ namespace Marvel {
 		
 		void setWindowPos(float x, float y)
 		{
-			m_xpos = x;
-			m_ypos = y;
+			m_xpos = (int)x;
+			m_ypos = (int)y;
 			m_dirty = true;
 		}
 
-		virtual void setWidth(int width) override { m_width = width; m_dirty = true; }
-		virtual void setHeight(int height) override { m_height = height; m_dirty = true; }
+		void setWidth (int width) override { m_width = width; m_dirty = true; }
+		void setHeight(int height) override { m_height = height; m_dirty = true; }
 
-		mvVec2 getWindowPos() const
+		[[nodiscard]] mvVec2 getWindowPos() const
 		{
 			return { (float)m_xpos, (float)m_ypos };
 		}
 
-		virtual void draw() override
+		void draw() override
 		{
 			// shouldn't have to do this but do. Fix later
 			if (!m_show)
@@ -83,13 +85,13 @@ namespace Marvel {
 			if (m_mainWindow)
 			{
 				ImGui::SetNextWindowPos(ImVec2(0.0f, 0.0f));
-				ImGui::SetNextWindowSize(ImVec2(m_width, m_height));
+				ImGui::SetNextWindowSize(ImVec2((float)m_width, (float)m_height));
 			}
 				
 			else if (m_dirty)
 			{
-				ImGui::SetNextWindowPos(ImVec2(m_xpos, m_ypos));
-				ImGui::SetNextWindowSize(ImVec2(m_width, m_height));
+				ImGui::SetNextWindowPos(ImVec2((float)m_xpos, (float)m_ypos));
+				ImGui::SetNextWindowSize(ImVec2((float)m_width, (float)m_height));
 				m_dirty = false;
 			}
 
@@ -114,7 +116,7 @@ namespace Marvel {
 				item->popColorStyles();
 
 				// Regular Tooltip (simple)
-				if (item->getTip() != "" && ImGui::IsItemHovered())
+				if (!item->getTip().empty() && ImGui::IsItemHovered())
 					ImGui::SetTooltip("%s", item->getTip().c_str());
 
 				item->setHovered(ImGui::IsItemHovered());
@@ -139,11 +141,11 @@ namespace Marvel {
 			setRectSize({ ImGui::GetWindowSize().x, ImGui::GetWindowSize().y });
 			setActivated(ImGui::IsWindowCollapsed());
 
-			if (ImGui::GetWindowWidth() != m_width || ImGui::GetWindowHeight() != m_height)
+			if (ImGui::GetWindowWidth() != (float)m_width || ImGui::GetWindowHeight() != (float)m_height)
 				mvApp::GetApp()->runCallback(getResizeCallback(), m_name);
 
-			m_width = ImGui::GetWindowWidth();
-			m_height = ImGui::GetWindowHeight();
+			m_width = (int)ImGui::GetWindowWidth();
+			m_height = (int)ImGui::GetWindowHeight();
 
 			if (ImGui::IsWindowFocused())
 			{
@@ -160,8 +162,8 @@ namespace Marvel {
 
 			}
 
-			m_xpos = ImGui::GetWindowPos().x;
-			m_ypos = ImGui::GetWindowPos().y;
+			m_xpos = (int)ImGui::GetWindowPos().x;
+			m_ypos = (int)ImGui::GetWindowPos().y;
 
 			ImGui::End();
 		}
@@ -174,7 +176,7 @@ namespace Marvel {
 		bool             m_mainWindow = false;
 		bool             m_dirty = true;
 		bool             m_closing = true;
-		std::string      m_closing_callback = "";
+		std::string      m_closing_callback;
 
 	};
 

@@ -1,5 +1,6 @@
 #pragma once
 
+#include <utility>
 #include "mvAppItem.h"
 
 //-----------------------------------------------------------------------------
@@ -31,7 +32,7 @@ namespace Marvel {
 			mvInputInt(const std::string& parent, const std::string& name, int default_value)
 			: mvIntItemBase(parent, name, 1, default_value) {}
 
-		virtual void draw() override
+		void draw() override
 		{
 
 			if (ImGui::InputInt(m_label.c_str(), m_value.data()))
@@ -42,7 +43,7 @@ namespace Marvel {
 				mvApp::GetApp()->runCallback(m_callback, m_name);
 
 				// Context Menu
-				if (getPopup() != "")
+				if (!getPopup().empty())
 					ImGui::OpenPopup(getPopup().c_str());
 			}
 
@@ -63,7 +64,7 @@ namespace Marvel {
 		mvInputInt2(const std::string& parent, const std::string& name, int default_value[2])
 			: mvIntItemBase(parent, name, 2, default_value[0], default_value[1]) {}
 
-		virtual void draw() override
+		void draw() override
 		{
 
 			if (ImGui::InputInt2(m_label.c_str(), m_value.data()))
@@ -74,7 +75,7 @@ namespace Marvel {
 				mvApp::GetApp()->runCallback(m_callback, m_name);
 
 				// Context Menu
-				if (getPopup() != "")
+				if (!getPopup().empty())
 					ImGui::OpenPopup(getPopup().c_str());
 			}
 
@@ -95,7 +96,7 @@ namespace Marvel {
 		mvInputInt3(const std::string& parent, const std::string& name, int default_value[3])
 			: mvIntItemBase(parent, name, 3, default_value[0], default_value[1], default_value[2]) {}
 
-		virtual void draw() override
+		void draw() override
 		{
 
 			if (ImGui::InputInt3(m_label.c_str(), m_value.data()))
@@ -106,7 +107,7 @@ namespace Marvel {
 				mvApp::GetApp()->runCallback(m_callback, m_name);
 
 				// Context Menu
-				if (getPopup() != "")
+				if (!getPopup().empty())
 					ImGui::OpenPopup(getPopup().c_str());
 			}
 
@@ -127,7 +128,7 @@ namespace Marvel {
 		mvInputInt4(const std::string& parent, const std::string& name, int default_value[4])
 			: mvIntItemBase(parent, name, 4, default_value[0], default_value[1], default_value[2], default_value[3]) {}
 
-		virtual void draw() override
+		void draw() override
 		{
 
 			if (ImGui::InputInt4(m_label.c_str(), m_value.data()))
@@ -138,7 +139,7 @@ namespace Marvel {
 				mvApp::GetApp()->runCallback(m_callback, m_name);
 
 				// Context Menu
-				if (getPopup() != "")
+				if (!getPopup().empty())
 					ImGui::OpenPopup(getPopup().c_str());
 			}
 
@@ -156,12 +157,12 @@ namespace Marvel {
 
 		MV_APPITEM_TYPE(mvAppItemType::InputFloat)
 
-		mvInputFloat(const std::string& parent, const std::string& name, float default_value, const std::string& format = "%.3f")
-			: mvFloatItemBase(parent, name, 1, default_value), m_format(format)
+		mvInputFloat(const std::string& parent, const std::string& name, float default_value, std::string  format = "%.3f")
+			: mvFloatItemBase(parent, name, 1, default_value), m_format(std::move(format))
 		{
 		}
 
-		virtual void draw() override
+		void draw() override
 		{
 			if (ImGui::InputFloat(m_label.c_str(), m_value.data(), 0.0f, 0.0f, m_format.c_str()))
 			{
@@ -171,7 +172,7 @@ namespace Marvel {
 				mvApp::GetApp()->runCallback(m_callback, m_name);
 
 				// Context Menu
-				if (getPopup() != "")
+				if (!getPopup().empty())
 					ImGui::OpenPopup(getPopup().c_str());
 			}
 		}
@@ -192,12 +193,12 @@ namespace Marvel {
 
 		MV_APPITEM_TYPE(mvAppItemType::InputFloat2)
 
-		mvInputFloat2(const std::string& parent, const std::string& name, float default_value[2], const std::string& format = "%.3f")
-			: mvFloatItemBase(parent, name, 2, default_value[0], default_value[1]), m_format(format)
+		mvInputFloat2(const std::string& parent, const std::string& name, float default_value[2], std::string  format = "%.3f")
+			: mvFloatItemBase(parent, name, 2, default_value[0], default_value[1]), m_format(std::move(format))
 		{
 		}
 
-		virtual void draw() override
+		void draw() override
 		{
 			if (ImGui::InputFloat2(m_label.c_str(), m_value.data(), m_format.c_str()))
 			{
@@ -207,7 +208,7 @@ namespace Marvel {
 				mvApp::GetApp()->runCallback(m_callback, m_name);
 
 				// Context Menu
-				if (getPopup() != "")
+				if (!getPopup().empty())
 					ImGui::OpenPopup(getPopup().c_str());
 			}
 		}
@@ -228,12 +229,12 @@ namespace Marvel {
 
 		MV_APPITEM_TYPE(mvAppItemType::InputFloat3)
 
-		mvInputFloat3(const std::string& parent, const std::string& name, float default_value[3], const std::string& format = "%.3f")
-			: mvFloatItemBase(parent, name, 3, default_value[0], default_value[1], default_value[2]), m_format(format)
+		mvInputFloat3(const std::string& parent, const std::string& name, float default_value[3], std::string  format = "%.3f")
+			: mvFloatItemBase(parent, name, 3, default_value[0], default_value[1], default_value[2]), m_format(std::move(format))
 		{
 		}
 
-		virtual void draw() override
+		void draw() override
 		{
 			if (ImGui::InputFloat3(m_label.c_str(), m_value.data(), m_format.c_str()))
 			{
@@ -243,7 +244,7 @@ namespace Marvel {
 				mvApp::GetApp()->runCallback(m_callback, m_name);
 
 				// Context Menu
-				if (getPopup() != "")
+				if (!getPopup().empty())
 					ImGui::OpenPopup(getPopup().c_str());
 			}
 		}
@@ -264,12 +265,12 @@ namespace Marvel {
 
 		MV_APPITEM_TYPE(mvAppItemType::InputFloat4)
 
-		mvInputFloat4(const std::string& parent, const std::string& name, float default_value[4], const std::string& format = "%.3f")
-			: mvFloatItemBase(parent, name, 4, default_value[0], default_value[1], default_value[2], default_value[3]), m_format(format)
+		mvInputFloat4(const std::string& parent, const std::string& name, float default_value[4], std::string  format = "%.3f")
+			: mvFloatItemBase(parent, name, 4, default_value[0], default_value[1], default_value[2], default_value[3]), m_format(std::move(format))
 		{
 		}
 
-		virtual void draw() override
+		void draw() override
 		{
 			if (ImGui::InputFloat4(m_label.c_str(), m_value.data(), m_format.c_str()))
 			{
@@ -279,7 +280,7 @@ namespace Marvel {
 				mvApp::GetApp()->runCallback(m_callback, m_name);
 
 				// Context Menu
-				if (getPopup() != "")
+				if (!getPopup().empty())
 					ImGui::OpenPopup(getPopup().c_str());
 			}
 		}

@@ -1,7 +1,6 @@
 #include "mvFileDialog.h"
 #include <imgui.h>
 #include "mvApp.h"
-#include "Core/mvInput.h"
 #include <ImGuiFileDialog.h>
 #include "mvPythonTranslator.h"
 
@@ -16,7 +15,7 @@ namespace Marvel {
 		{
 
 			// action if OK
-			if (igfd::ImGuiFileDialog::Instance()->IsOk == true)
+			if (igfd::ImGuiFileDialog::Instance()->IsOk)
 			{
 				m_filePathName = igfd::ImGuiFileDialog::Instance()->GetFilepathName();
 				m_filePath = igfd::ImGuiFileDialog::Instance()->GetCurrentPath();

@@ -11,7 +11,7 @@ namespace Marvel {
 
 		void setCallback(const char* callback) { m_callback = callback; }
 
-		virtual void render(bool& show) override;
+		void render(bool& show) override;
 
 	private:
 

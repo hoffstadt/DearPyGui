@@ -30,7 +30,7 @@ namespace Marvel {
 				m_parent->setPopup(name);
 		}
 
-		virtual void draw() override
+		void draw() override
 		{
 
 			if (m_modal)
@@ -39,7 +39,7 @@ namespace Marvel {
 				{
 
 					// Context Menu
-					if (getPopup() != "")
+					if (!getPopup().empty())
 						ImGui::OpenPopup(getPopup().c_str());
 
 					for (mvAppItem* item : m_children)
@@ -83,7 +83,7 @@ namespace Marvel {
 				{
 
 					// Context Menu
-					if (getPopup() != "")
+					if (!getPopup().empty())
 						ImGui::OpenPopup(getPopup().c_str());
 
 					for (mvAppItem* item : m_children)
@@ -121,8 +121,6 @@ namespace Marvel {
 				}
 			}
 		}
-
-		inline int getButton() const { return m_button; }
 
 	private:
 

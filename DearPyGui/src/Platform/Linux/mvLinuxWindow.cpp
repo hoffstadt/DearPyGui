@@ -49,7 +49,7 @@ namespace Marvel {
         glfwMakeContextCurrent(m_window);
         glfwSwapInterval(1); // Enable vsync
 
-        bool err = gl3wInit() != 0;
+        gl3wInit();
 
         // Setup Dear ImGui binding
         IMGUI_CHECKVERSION();

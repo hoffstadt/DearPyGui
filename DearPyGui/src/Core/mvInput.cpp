@@ -1,5 +1,3 @@
-#pragma once
-
 #include "mvInput.h"
 #include "mvApp.h"
 
