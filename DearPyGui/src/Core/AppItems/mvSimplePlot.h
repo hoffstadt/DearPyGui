@@ -1,5 +1,7 @@
 #pragma once
 
+#include <utility>
+
 #include "mvAppItem.h"
 #include "mvPythonTranslator.h"
 
@@ -18,35 +20,35 @@ namespace Marvel{
 		MV_APPITEM_TYPE(mvAppItemType::SimplePlot)
 
 	public:
-		mvSimplePlot(const std::string& parent, const std::string& name, const std::vector<float> value, const std::string& overlay, float scale_min, 
-			float scale_max, float height, bool histogram)
-			: mvAppItem(parent, name), m_value(value), m_overlay(overlay), m_min(scale_min), m_max(scale_max), m_height(height), m_histogram(histogram)
+		mvSimplePlot(const std::string& parent, const std::string& name, std::vector<float> value,
+               std::string overlay, float scale_min, float scale_max, float height, bool histogram)
+			: mvAppItem(parent, name), m_value(std::move(value)), m_overlay(std::move(overlay)), m_min(scale_min), m_max(scale_max), m_height(height), m_histogram(histogram)
 		{
 		}
 
-		virtual void draw() override
+		void draw() override
 		{
 
 			if(m_histogram)
 				ImGui::PlotHistogram(m_label.c_str(), m_value.data(), m_value.size(), 0, m_overlay.c_str(), 
-					m_min, m_max, ImVec2(m_width, m_height));
+					m_min, m_max, ImVec2((float)m_width, (float)m_height));
 			else
 				ImGui::PlotLines(m_label.c_str(), m_value.data(), m_value.size(), 0, m_overlay.c_str(), 
-					m_min, m_max, ImVec2(m_width, m_height));
+					m_min, m_max, ImVec2((float)m_width, (float)m_height));
 		}
 
-		virtual void setPyValue(PyObject* value) override
+		void setPyValue(PyObject* value) override
 		{
 			m_value = mvPythonTranslator::ToFloatVect(value, m_name + " requires a list or tuple of floats.");
 		}
 
-		virtual PyObject* getPyValue() const override
+		[[nodiscard]] PyObject* getPyValue() const override
 		{
 			return mvPythonTranslator::ToPyList(m_value);
 		}
 
-		inline void setValue(const std::vector<float>& value){ m_value = value;}
-		inline const std::vector<float>& getValue() const { return m_value; }
+		void setValue(const std::vector<float>& value){ m_value = value;}
+		[[nodiscard]] const std::vector<float>& getValue() const { return m_value; }
 
 	private:
 

@@ -22,7 +22,6 @@ int main()
     {
         window->prerender();
 
-        window->prerender();
 #if defined (_WIN32)
         ImGui::ShowDemoWindow();
         ImPlot::ShowDemoWindow();

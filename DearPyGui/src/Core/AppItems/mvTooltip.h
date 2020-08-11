@@ -33,7 +33,7 @@ namespace Marvel {
 			m_container = true;
 		}
 
-		virtual void draw() override
+		void draw() override
 		{
 			if (ImGui::IsItemHovered())
 			{

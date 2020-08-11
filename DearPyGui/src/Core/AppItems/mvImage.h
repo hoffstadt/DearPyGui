@@ -1,5 +1,7 @@
 #pragma once
 
+#include <utility>
+
 #include "mvAppItem.h"
 #include "Core/mvTextureStorage.h"
 #include "Core/mvPythonExceptions.h"
@@ -20,20 +22,20 @@ namespace Marvel {
 
 		MV_APPITEM_TYPE(mvAppItemType::InputInt)
 
-		mvImage(const std::string& parent, const std::string& name, const std::string& default_value, mvColor tint=MV_DEFAULT_COLOR,
+		mvImage(const std::string& parent, const std::string& name, std::string  default_value, mvColor tint=MV_DEFAULT_COLOR,
 			mvColor border = MV_DEFAULT_COLOR, const mvVec2& uv_min = { 0, 0 }, const mvVec2& uv_max = { 1, 1 },
-			const std::string& secondaryDataSource = "")
-			: mvAppItem(parent, name) , m_value(default_value), m_uv_min(uv_min), m_uv_max(uv_max), m_tintColor(tint), m_borderColor(border),
-			m_secondaryDataSource(secondaryDataSource)
+			std::string  secondaryDataSource = "")
+			: mvAppItem(parent, name) , m_value(std::move(default_value)), m_uv_min(uv_min), m_uv_max(uv_max), m_tintColor(tint), m_borderColor(border),
+			m_secondaryDataSource(std::move(secondaryDataSource))
 		{
 		}
 
-		virtual ~mvImage()
+		~mvImage() override
 		{
 			mvTextureStorage::DecrementTexture(m_value);
 		}
 
-		virtual void draw() override
+		void draw() override
 		{
 
 			if (m_texture == nullptr && !m_value.empty())
@@ -42,32 +44,32 @@ namespace Marvel {
 				mvTexture* texture = mvTextureStorage::GetTexture(m_value);
 				if(texture == nullptr)
                 {
-                    PyObject* ex = PyErr_Format(PyExc_Exception,
+                    PyErr_Format(PyExc_Exception,
                                                 "Image %s could not be found for add_image. Check the path to the image "
                                                 "you provided.", m_value.c_str());
                     PyErr_Print();
                     m_value = "";
                     return;
                 }
-				if (m_width == 0) m_width = texture->width*(m_uv_max.x - m_uv_min.x);
-				if (m_height == 0) m_height = texture->height * (m_uv_max.y - m_uv_min.y);
+				if (m_width == 0) m_width = (int)((float)texture->width*(m_uv_max.x - m_uv_min.x));
+				if (m_height == 0) m_height = (int)((float)texture->height * (m_uv_max.y - m_uv_min.y));
 
 				m_texture = texture->texture;
 
 			}
 
 			if(m_texture)
-				ImGui::Image(m_texture, ImVec2(m_width, m_height), ImVec2(m_uv_min.x,m_uv_min.y), ImVec2(m_uv_max.x, m_uv_max.y),
-					ImVec4(m_tintColor.r, m_tintColor.g, m_tintColor.b, m_tintColor.a),
-					ImVec4(m_borderColor.r, m_borderColor.g, m_borderColor.b, m_borderColor.a));
+				ImGui::Image(m_texture, ImVec2((float)m_width, (float)m_height), ImVec2(m_uv_min.x,m_uv_min.y), ImVec2(m_uv_max.x, m_uv_max.y),
+					ImVec4((float)m_tintColor.r, (float)m_tintColor.g, (float)m_tintColor.b, (float)m_tintColor.a),
+					ImVec4((float)m_borderColor.r, (float)m_borderColor.g, (float)m_borderColor.b, (float)m_borderColor.a));
 
 			// Context Menu
-			if (getPopup() != "")
+			if (!getPopup().empty())
 				ImGui::OpenPopup(getPopup().c_str());
 
 		}
 
-		virtual void updateData(const std::string& name) override
+		void updateData(const std::string& name) override
 		{
 			if (name == m_secondaryDataSource)
 			{
@@ -83,13 +85,13 @@ namespace Marvel {
 
 				if (m_texture)
 				{
-					m_width = mvTextureStorage::GetTexture(m_value)->width * (m_uv_max.x - m_uv_min.x);
-					m_height = mvTextureStorage::GetTexture(m_value)->height * (m_uv_max.y - m_uv_min.y);
+					m_width = (int)((float)mvTextureStorage::GetTexture(m_value)->width * (m_uv_max.x - m_uv_min.x));
+					m_height = (int)((float)mvTextureStorage::GetTexture(m_value)->height * (m_uv_max.y - m_uv_min.y));
 				}
 			}
 		}
 
-		virtual void setPyValue(PyObject* value) override
+		void setPyValue(PyObject* value) override
 		{
 
 			std::string oldvalue = m_value;
@@ -117,12 +119,12 @@ namespace Marvel {
 
 			if (m_texture)
 			{
-				m_width = mvTextureStorage::GetTexture(m_value)->width * (m_uv_max.x - m_uv_min.x);
-				m_height = mvTextureStorage::GetTexture(m_value)->height * (m_uv_max.y - m_uv_min.y);
+				m_width = (int)((float)mvTextureStorage::GetTexture(m_value)->width * (m_uv_max.x - m_uv_min.x));
+				m_height = (int)((float)mvTextureStorage::GetTexture(m_value)->height * (m_uv_max.y - m_uv_min.y));
 			}
 		}
 
-		virtual PyObject* getPyValue() const override
+		[[nodiscard]] PyObject* getPyValue() const override
 		{
 			PyGILState_STATE gstate = PyGILState_Ensure();
 
@@ -132,8 +134,8 @@ namespace Marvel {
 			return pvalue;
 		}
 
-		inline void setValue(const std::string& value) { m_value = value; }
-		inline const std::string& getValue() const { return m_value; }
+		void                             setValue(const std::string& value) { m_value = value; }
+		[[nodiscard]] const std::string& getValue() const { return m_value; }
 
 	private:
 

@@ -28,7 +28,7 @@ namespace Marvel {
 			: mvColorItemBase(parent, name, color)
 		{}
 
-		virtual void draw() override
+		void draw() override
 		{
 
 			if (ImGui::ColorEdit3(m_label.c_str(), m_value.data()))
@@ -39,7 +39,7 @@ namespace Marvel {
 				mvApp::GetApp()->runCallback(m_callback, m_name);
 
 				// Context Menu
-				if (getPopup() != "")
+				if (!getPopup().empty())
 					ImGui::OpenPopup(getPopup().c_str());
 			}
 		}
@@ -60,7 +60,7 @@ namespace Marvel {
 			: mvColorItemBase(parent, name, color)
 		{}
 
-		virtual void draw() override
+		void draw() override
 		{
 
 			if (ImGui::ColorEdit4(m_label.c_str(), m_value.data()))
@@ -71,7 +71,7 @@ namespace Marvel {
 				mvApp::GetApp()->runCallback(m_callback, m_name);
 
 				// Context Menu
-				if (getPopup() != "")
+				if (!getPopup().empty())
 					ImGui::OpenPopup(getPopup().c_str());
 			}
 		}
@@ -92,7 +92,7 @@ namespace Marvel {
 			: mvColorItemBase(parent, name, color)
 		{}
 
-		virtual void draw() override
+		void draw() override
 		{
 
 			if (ImGui::ColorPicker3(m_label.c_str(), m_value.data()))
@@ -103,7 +103,7 @@ namespace Marvel {
 				mvApp::GetApp()->runCallback(m_callback, m_name);
 
 				// Context Menu
-				if (getPopup() != "")
+				if (!getPopup().empty())
 					ImGui::OpenPopup(getPopup().c_str());
 			}
 		}
@@ -124,7 +124,7 @@ namespace Marvel {
 			: mvColorItemBase(parent, name, color)
 		{}
 
-		virtual void draw() override
+		void draw() override
 		{
 
 			if (ImGui::ColorPicker4(m_label.c_str(), m_value.data()))
@@ -135,7 +135,7 @@ namespace Marvel {
 				mvApp::GetApp()->runCallback(m_callback, m_name);
 
 				// Context Menu
-				if (getPopup() != "")
+				if (!getPopup().empty())
 					ImGui::OpenPopup(getPopup().c_str());
 			}
 		}
