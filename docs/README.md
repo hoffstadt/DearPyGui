@@ -12,7 +12,7 @@
 [![build status](https://github.com/RaylockLLC/DearPyGui/workflows/LinuxDev/badge.svg)](https://github.com/RaylockLLC/DearPyGui/actions?workflow=LinuxDev)
 [![build status](https://github.com/RaylockLLC/DearPyGui/workflows/MacOSDev/badge.svg)](https://github.com/RaylockLLC/DearPyGui/actions?workflow=MacOSDev)
 
-**Dear PyGui** is a **simple to use (but powerful) Python GUI framework**. _DearPyGui_ provides a wrapping of **DearImGui** that simulates a traditional retained mode GUI, as opposed to _Dear ImGui_'s immediate mode paradigm.
+**Dear PyGui** is a **simple to use (but powerful) Python GUI framework**. _DearPyGui_ provides a wrapping of **[DearImGui](https://github.com/ocornut/imgui)** that simulates a traditional retained mode GUI, as opposed to _Dear ImGui_'s immediate mode paradigm.
 
 **Dear PyGui is fundamentally different than other Python GUI frameworks**. Under the hood, _DearPyGui_ 
 uses the immediate mode paradigm allowing for extremely dynamic interfaces. _DearPyGui_ 
@@ -30,7 +30,7 @@ simple way for python developers to **create quick and powerful GUIs for scripts
 
 | [Installing](#installing) - [Usage](#usage) - [Features](#some-features) - [Building](#building)|
 :----------------------------------------------------------: |
-| [Upcoming changes](#upcoming-changes) - [Gallery](#gallery) - [License](#license)|
+| [Upcoming changes](#upcoming-changes) - [Gallery](#gallery) - [Credits](#credits) - [License](#license)|
 
 ### Installing
 
@@ -163,6 +163,20 @@ Some upcoming features:
 - More complete theme and style system.
 - 3D widget.
 - Custom Widget API.
+
+### Credits
+
+---
+
+Developed by Jonathan Hoffstadt, Preston Cothren, and every direct or indirect contributor.
+
+[Omar Cornut](http://www.miracleworld.net/) for all his incredible work on [Dear ImGui](https://github.com/ocornut/imgui).
+
+[Evan Pezent](http://evanpezent.com/) for all his work on [ImPlot](https://github.com/epezent/implot)
+
+Aiekick for his work on the [ImGuiFileDialog](https://github.com/aiekick)
+
+---
 
 ### Gallery
 
