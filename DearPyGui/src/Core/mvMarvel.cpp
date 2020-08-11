@@ -2754,21 +2754,46 @@ namespace Marvel {
 			&tip, &parent, &before))
 			return mvPythonTranslator::GetPyNone();
 
-		auto parentItem = mvApp::GetApp()->topParent();
+		
+		
 
-		if (parentItem == nullptr)
-			ThrowPythonException("add_tab must follow a call to add_tabbar.");
-
-		else if (parentItem->getType() == mvAppItemType::TabBar)
+		if (std::string(parent).empty())
 		{
-			mvAppItem* item = new mvTab("", name, closeable);
-			item->setTip(tip);
-			AddItemWithRuntimeChecks(item, parent, before);
-			mvApp::GetApp()->pushParent(item);
+			auto parentItem = mvApp::GetApp()->topParent();
+
+			if (parentItem == nullptr)
+				ThrowPythonException("add_tab must follow a call to add_tabbar.");
+
+			else if (parentItem->getType() == mvAppItemType::TabBar)
+			{
+				mvAppItem* item = new mvTab("", name, closeable);
+				item->setTip(tip);
+				AddItemWithRuntimeChecks(item, parent, before);
+				mvApp::GetApp()->pushParent(item);
+			}
+
+			else
+				ThrowPythonException("add_tab was called incorrectly. Did you forget to call end_tab?");
 		}
 
 		else
-			ThrowPythonException("add_tab was called incorrectly. Did you forget to call end_tab?");
+		{
+			auto parentItem = mvApp::GetApp()->getItem(parent);
+
+			if (parentItem == nullptr)
+				ThrowPythonException("add_tab parent must exist.");
+
+			else if (parentItem->getType() == mvAppItemType::TabBar)
+			{
+				mvAppItem* item = new mvTab("", name, closeable);
+				item->setTip(tip);
+				AddItemWithRuntimeChecks(item, parent, before);
+				mvApp::GetApp()->pushParent(item);
+			}
+
+			else
+				ThrowPythonException("add_tab parent must be a tab bar.");
+		}
 
 		return mvPythonTranslator::GetPyNone();
 	}
@@ -2864,7 +2889,7 @@ namespace Marvel {
 		if (parentItem == nullptr)
 			ThrowPythonException("add_menu must follow a call to add_menubar.");
 
-		else if (parentItem->getType() == mvAppItemType::MenuBar || parentItem->getType() == mvAppItemType::Menu)
+		else
 		{
 			mvAppItem* item = new mvMenu("", name);
 			item->setTip(tip);
@@ -2872,8 +2897,6 @@ namespace Marvel {
 			mvApp::GetApp()->pushParent(item);
 		}
 
-		else
-			ThrowPythonException("add_menu was called incorrectly. Did you forget to call end_menu?");
 
 		return mvPythonTranslator::GetPyNone();
 	}
