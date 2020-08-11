@@ -57,6 +57,12 @@ namespace Marvel {
 		return Py_BuildValue("[ff]", x, y);
 	}
 
+	PyObject* mvPythonTranslator::ToPyPairII(int x, int y)
+	{
+		mvGlobalIntepreterLock gil;
+		return Py_BuildValue("[ii]", x, y);
+	}
+
 	PyObject* mvPythonTranslator::ToPyPair(const std::string& x, const std::string& y)
 	{
 		mvGlobalIntepreterLock gil;
@@ -118,7 +124,7 @@ namespace Marvel {
 		PyObject* result = PyList_New(value.size());
 
 		for (size_t i = 0; i < value.size(); i++)
-			PyList_SetItem(result, i, ToPyPair(value[i].first, value[i].second));
+			PyList_SetItem(result, i, ToPyPairII(value[i].first, value[i].second));
 
 		return result;
 	}
