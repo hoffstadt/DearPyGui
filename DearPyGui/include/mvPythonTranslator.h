@@ -52,6 +52,7 @@ namespace Marvel {
 		static PyObject* ToPyBool  (bool value);
 		static PyObject* ToPyMPair (int x, float y);
 		static PyObject* ToPyPair  (float x, float y);
+		static PyObject* ToPyPairII(int x, int y);
 		static PyObject* ToPyPair  (const std::string& x, const std::string& y);
 		static PyObject* ToPyList  (const std::vector<int>& value);
 		static PyObject* ToPyList  (const std::vector<float>& value);

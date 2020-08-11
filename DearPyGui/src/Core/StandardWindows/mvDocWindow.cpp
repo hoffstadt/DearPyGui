@@ -134,7 +134,7 @@ namespace Marvel {
 			ImGuiStyle& style = ImGui::GetStyle();
 			style.WindowRounding = 0.0f;
 			ImGui::SetNextWindowPos(ImVec2(0.0f, 0.0f));
-			ImGui::SetNextWindowSize(ImVec2(m_width, m_height));
+			ImGui::SetNextWindowSize(ImVec2((float)m_width, (float)m_height));
 			m_flags = ImGuiWindowFlags_NoBringToFrontOnFocus | ImGuiWindowFlags_NoSavedSettings
 				| ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoTitleBar;
 		}
@@ -592,7 +592,7 @@ namespace Marvel {
 				ImGui::PushItemWidth(300);
 				ImGui::BeginChild("CommandsChild##debug", ImVec2(500.0f, 600.0f), true);
 				ImGui::PushStyleColor(ImGuiCol_Text, { 1.0f, 1.0f, 0.0f, 1.0f });
-				for (int i = 0; i < m_commands.size(); i++)
+				for (size_t i = 0; i < m_commands.size(); i++)
 				{
 					auto& item = m_commands[i];
 

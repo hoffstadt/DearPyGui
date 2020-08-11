@@ -4,11 +4,12 @@
 #include "mvPythonTranslator.h"
 #include "mvAppLog.h"
 #include <fstream>
+#include <utility>
 #include <frameobject.h>
 
 namespace Marvel {
 
-	static const char PythonDataTypeSymbol(mvPythonDataType type)
+	static char PythonDataTypeSymbol(mvPythonDataType type)
 	{
 		switch (type)
 		{
@@ -16,12 +17,8 @@ namespace Marvel {
 		case mvPythonDataType::Integer:    return 'i';
 		case mvPythonDataType::Float:      return 'f';
 		case mvPythonDataType::Bool:       return 'p';
-		case mvPythonDataType::StringList: return 'O';
-		case mvPythonDataType::FloatList:  return 'O';
-		case mvPythonDataType::IntList:    return 'O';
 		case mvPythonDataType::Optional:   return '|';
 		case mvPythonDataType::KeywordOnly:return '$';
-		case mvPythonDataType::Object:     return 'O';
 		default:                           return 'O';
 		}
 	}
@@ -55,25 +52,23 @@ namespace Marvel {
 		case mvPythonDataType::StringList: return "List[str]";
 		case mvPythonDataType::FloatList:  return "List[float]";
 		case mvPythonDataType::IntList:    return "List[int]";
-		case mvPythonDataType::Optional:   return "";
-		case mvPythonDataType::KeywordOnly:return "";
 		case mvPythonDataType::Object:     return "object";
-		default:                           return "unknown";
+		default:                           return "";
 		}
 	}
 
-	mvPythonDataElement::mvPythonDataElement(mvPythonDataType type, const char* name, const std::string& description)
-		: name(name), type(type), description(description)
+	mvPythonDataElement::mvPythonDataElement(mvPythonDataType type, const char* name, std::string  description)
+		: name(name), type(type), description(std::move(description))
 	{}
 
-	const char mvPythonDataElement::getSymbol() const 
+	char mvPythonDataElement::getSymbol() const
 	{ 
 		return PythonDataTypeSymbol(type); 
 	}
 
 	mvPythonParser::mvPythonParser(const std::initializer_list<mvPythonDataElement>& elements, 
-		const std::string& about, const std::string& returnType, const std::string& category)
-		: m_elements(elements), m_about(about), m_return(returnType), m_category(category)
+		std::string  about, std::string  returnType, std::string  category)
+		: m_elements(elements), m_about(std::move(about)), m_return(std::move(returnType)), m_category(std::move(category))
 	{
 
 		for (const auto& element : m_elements)
@@ -209,7 +204,7 @@ namespace Marvel {
 							") -> " << parser.second.getReturnType() << ":\n\t\"\"\"" << parser.second.getAbout() << "\"\"\"\n\t...\n\n";
 			}
 
-			if (elements.size() == 0)
+			if (elements.empty())
 				stub << ") -> " << parser.second.getReturnType() << ":\n\t\"\"\"" << parser.second.getAbout() << "\"\"\"\n\t...\n\n";
 
 

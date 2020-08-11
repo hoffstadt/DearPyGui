@@ -33,17 +33,17 @@ namespace Marvel {
 		void deleteColumn(int column);
 		void clearTable  ();
 
-		std::string getTableItem (int row, int column) const;
-		PyObject*   getSelections() const;
+		[[nodiscard]] std::string getTableItem (int row, int column) const;
+		[[nodiscard]] PyObject*   getSelections() const;
 
-		virtual void      setPyValue(PyObject* value) override;
-		virtual PyObject* getPyValue() const override;
-		virtual void      draw      () override;
+		void                    setPyValue(PyObject* value) override;
+		[[nodiscard]] PyObject* getPyValue() const override;
+		void                    draw      () override;
 
 	private:
 
-		bool isIndexValid(int row, int column) const;
-		void updateHashValues();
+		[[nodiscard]] bool isIndexValid(int row, int column) const;
+		void               updateHashValues();
 
 	private:
 

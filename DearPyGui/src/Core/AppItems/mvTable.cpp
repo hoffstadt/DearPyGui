@@ -21,7 +21,7 @@ namespace Marvel {
 			return false;
 		}
 
-		if (column > m_columns + 1 || row > m_values.size() + 1)
+		if (column > m_columns + 1 || row > (int)m_values.size() + 1)
 		{
 			ThrowPythonException("Table indices out of range.");
 			return false;
@@ -36,9 +36,9 @@ namespace Marvel {
 
 		m_hashValues = m_values;
 
-		for (int i = 0; i < m_hashValues.size(); i++)
+		for (size_t i = 0; i < m_hashValues.size(); i++)
 		{
-			for (int j = 0; j < m_hashValues[i].size(); j++)
+			for (size_t j = 0; j < m_hashValues[i].size(); j++)
 				m_hashValues[i][j] = m_hashValues[i][j] + "##" + m_name + "-" + std::to_string(i) + "-" + std::to_string(j);
 		}
 	}
@@ -85,7 +85,7 @@ namespace Marvel {
 
 	PyObject* mvTable::getPyValue() const
 	{
-		return mvPythonTranslator::ToPyList(m_hashValues);
+		return mvPythonTranslator::ToPyList(m_values);
 	}
 
 	PyObject* mvTable::getSelections() const
@@ -111,7 +111,7 @@ namespace Marvel {
 		m_values.push_back(row);
 
 		while (m_values.back().size() < m_headers.size())
-			m_values.back().push_back("");
+			m_values.back().emplace_back("");
 
 		while (m_values.back().size() > m_headers.size())
 			m_values.back().pop_back();
@@ -128,9 +128,10 @@ namespace Marvel {
 		{
 			if (index >= column.size())
 			{
-				row.push_back("");
+				row.emplace_back("");
+                index++;
 				continue;
-				index++;
+
 			}
 
 			row.push_back(column[index]);
@@ -160,7 +161,7 @@ namespace Marvel {
 		m_headers.clear();
 		m_columns++;
 
-		for (int i = 0; i < m_columns; i++)
+		for (size_t i = 0; i < m_columns; i++)
 		{
 			if (i < column_index)
 				m_headers.push_back(oldHeaders[i]);
@@ -170,7 +171,7 @@ namespace Marvel {
 				m_headers.push_back(oldHeaders[i - 1]);
 		}
 
-		for (int i = 0; i < oldValues.size(); i++)
+		for (size_t i = 0; i < oldValues.size(); i++)
 		{
 			std::vector<std::string> row;
 			for (int j = 0; j < oldHeaders.size(); j++)
@@ -178,7 +179,7 @@ namespace Marvel {
 				if (j == column_index)
 				{
 					if (i >= column.size())
-						row.push_back("");
+						row.emplace_back("");
 					else
 						row.push_back(column[i]);
 					continue;
@@ -230,7 +231,7 @@ namespace Marvel {
 
 		m_values.clear();
 
-		for (int i = 0; i < oldValues.size(); i++)
+		for (size_t i = 0; i < oldValues.size(); i++)
 		{
 			if (i == row_index)
 			{
@@ -246,7 +247,7 @@ namespace Marvel {
 		m_values.push_back(oldValues.back());
 
 		while (m_values[row_index].size() < m_headers.size())
-			m_values[row_index].push_back("");
+			m_values[row_index].emplace_back("");
 
 		while (m_values.back().size() > m_headers.size())
 			m_values.back().pop_back();
@@ -328,21 +329,22 @@ namespace Marvel {
 		m_headers.clear();
 		m_columns--;
 
-		for (int i = 0; i < oldHeaders.size(); i++)
+		for (size_t i = 0; i < oldHeaders.size(); i++)
 		{
 			if (i == column)
 				continue;
 			m_headers.push_back(oldHeaders[i]);
 		}
 
-		for (int i = 0; i < oldValues.size(); i++)
+		//for (int i = 0; i < oldValues.size(); i++)
+		for (auto& oldvalue : oldValues)
 		{
 			std::vector<std::string> row;
-			for (int j = 0; j < oldHeaders.size(); j++)
+			for (size_t j = 0; j < oldHeaders.size(); j++)
 			{
 				if (j == column)
 					continue;
-				row.push_back(oldValues[i][j]);
+				row.push_back(oldvalue[j]);
 			}
 
 			m_values.push_back(row);
@@ -377,9 +379,9 @@ namespace Marvel {
 
 	void mvTable::draw()
 	{
-		ImGui::BeginChild(m_name.c_str(), ImVec2(m_width, m_height));
+		ImGui::BeginChild(m_name.c_str(), ImVec2((float)m_width, (float)m_height));
 		ImGui::Separator();
-		ImGui::Columns(m_columns, 0, true);
+		ImGui::Columns(m_columns, nullptr, true);
 
 		for (auto& header : m_headers)
 		{
@@ -389,9 +391,9 @@ namespace Marvel {
 		ImGui::Separator();
 
 		int index = 0;
-		for (int i = 0; i < m_hashValues.size(); i++)
+		for (size_t i = 0; i < m_hashValues.size(); i++)
 		{
-			for (int j = 0; j < m_columns; j++)
+			for (size_t j = 0; j < m_columns; j++)
 			{
 				if (ImGui::Selectable(m_hashValues[i][j].c_str(), m_selections[{i, j}]))
 				{

@@ -58,13 +58,13 @@ namespace Marvel {
 		if (mainmode)
 		{
 			ImGui::SetNextWindowPos(ImVec2(0.0f, 0.0f));
-			ImGui::SetNextWindowSize(ImVec2(s_width, s_height));
+			ImGui::SetNextWindowSize(ImVec2((float)s_width, (float)s_height));
 			
 			s_flags = ImGuiWindowFlags_NoBringToFrontOnFocus | ImGuiWindowFlags_NoSavedSettings
 				| ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoTitleBar;
 		}
 		else
-			ImGui::SetNextWindowSize(ImVec2(s_width, s_width), ImGuiCond_FirstUseEver);
+			ImGui::SetNextWindowSize(ImVec2((float)s_width, (float)s_width), ImGuiCond_FirstUseEver);
 
 		if (!ImGui::Begin("DearPyGui Logger", &show, s_flags))
 		{
@@ -133,7 +133,6 @@ namespace Marvel {
 			{
 				for (int line_no = clipper.DisplayStart; line_no < clipper.DisplayEnd; line_no++)
 				{
-					bool pop_color = false;
 
 					const char* line_start = buf + LineOffsets[line_no];
 					const char* line_end = (line_no + 1 < LineOffsets.Size) ? (buf + LineOffsets[line_no + 1] - 1) : buf_end;
@@ -143,45 +142,26 @@ namespace Marvel {
 					std::string splitstring = mystring.substr(0, 20);
 
 					if (strstr(splitstring.c_str(), "[ERROR]"))
-					{
 						ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(1.0f, 0.0f, 0.0f, 1.0f));
-						pop_color = true;
-					}
+
 					else if (strstr(splitstring.c_str(), "[WARNING]"))
-					{
 						ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(1.0f, 1.0f, 0.0f, 1.0f));
-						pop_color = true;
-					}
 
 					else if (strstr(splitstring.c_str(), "[TRACE]"))
-					{
 						ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(0.0f, 1.0f, 0.0f, 1.0f));
-						pop_color = true;
-					}
 
 					else if (strstr(splitstring.c_str(), "[INFO]"))
-					{
 						ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(1.0f, 1.0f, 1.0f, 1.0f));
-						pop_color = true;
-					}
 
 					else if (strstr(splitstring.c_str(), "[DEBUG]"))
-					{
+
 						ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(0.25f, 0.50f, 1.0f, 1.0f));
-						pop_color = true;
-					}
 
 					else
-					{
 						ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(0.0f, 1.0f, 1.0f, 1.0f));
-						pop_color = true;
-					}
-
 
 					ImGui::TextUnformatted(line_start, line_end);
-
-					if (pop_color)
-						ImGui::PopStyleColor();
+					ImGui::PopStyleColor();
 				}
 			}
 			clipper.End();
@@ -214,7 +194,6 @@ namespace Marvel {
 	{
 		if (s_loglevel < 1)
 		{
-			auto now = std::chrono::high_resolution_clock::now();
 			AddLog("[%0.2f] [%1s]  %2s\n", std::chrono::duration_cast<second_>(clock_::now()-s_start).count(), 
 				level.c_str(), text.c_str());
 		}

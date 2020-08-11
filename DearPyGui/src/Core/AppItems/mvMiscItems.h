@@ -30,12 +30,12 @@ namespace Marvel {
 		{
 		}
 
-		virtual void draw() override
+		void draw() override
 		{
 			ImGui::SameLine(m_xoffset, m_spacing);
 		}
 
-		virtual bool areDuplicatesAllowed() const override { return true; }
+		[[nodiscard]] bool areDuplicatesAllowed() const override { return true; }
 
 	private:
 
@@ -59,12 +59,12 @@ namespace Marvel {
 		{
 		}
 
-		virtual void draw() override
+		void draw() override
 		{
 			ImGui::Separator();
 		}
 
-		virtual bool areDuplicatesAllowed() const override { return true; }
+		[[nodiscard]] bool areDuplicatesAllowed() const override { return true; }
 
 	};
 
@@ -84,15 +84,15 @@ namespace Marvel {
 			m_value = count;
 		}
 
-		virtual void draw() override
+		void draw() override
 		{
 			for (int i = 0; i < m_value; i++)
 				ImGui::Spacing();
 		}
 
-		virtual bool areDuplicatesAllowed() const override { return true; }
+		[[nodiscard]] bool areDuplicatesAllowed() const override { return true; }
 
-		inline int getValue() const { return m_value; }
+		[[nodiscard]] int getValue() const { return m_value; }
 
 	private:
 
@@ -115,12 +115,12 @@ namespace Marvel {
 		{
 		}
 
-		virtual void draw() override
+		void draw() override
 		{
 			ImGui::Indent(m_value[0]);
 		}
 
-		virtual bool areDuplicatesAllowed() const override { return true; }
+		[[nodiscard]] bool areDuplicatesAllowed() const override { return true; }
 
 	};
 
@@ -139,12 +139,12 @@ namespace Marvel {
 		{
 		}
 
-		virtual void draw() override
+		void draw() override
 		{
 			ImGui::Unindent(m_value[0]);
 		}
 
-		virtual bool areDuplicatesAllowed() const override { return true; }
+		[[nodiscard]] bool areDuplicatesAllowed() const override { return true; }
 
 	};
 
