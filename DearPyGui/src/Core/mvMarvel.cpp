@@ -3521,6 +3521,13 @@ namespace Marvel {
 			return mvPythonTranslator::GetPyNone();
 		}
 
+		if (item->getType() != mvAppItemType::Table)
+		{
+			std::string message = table;
+			ThrowPythonException(message + " is not a table.");
+			return mvPythonTranslator::GetPyNone();
+		}
+
 		mvTable* atable = static_cast<mvTable*>(item);
 		atable->setTableItem(row, column, value);
 
@@ -3540,6 +3547,13 @@ namespace Marvel {
 		{
 			std::string message = table;
 			ThrowPythonException(message + " table does not exist.");
+			return mvPythonTranslator::GetPyNone();
+		}
+
+		if (item->getType() != mvAppItemType::Table)
+		{
+			std::string message = table;
+			ThrowPythonException(message + " is not a table.");
 			return mvPythonTranslator::GetPyNone();
 		}
 
@@ -3565,6 +3579,13 @@ namespace Marvel {
 			return mvPythonTranslator::GetPyNone();
 		}
 
+		if (item->getType() != mvAppItemType::Table)
+		{
+			std::string message = table;
+			ThrowPythonException(message + " is not a table.");
+			return mvPythonTranslator::GetPyNone();
+		}
+
 		mvTable* atable = static_cast<mvTable*>(item);
 		atable->deleteColumn(column);
 
@@ -3584,6 +3605,13 @@ namespace Marvel {
 		{
 			std::string message = table;
 			ThrowPythonException(message + " table does not exist.");
+			return mvPythonTranslator::GetPyNone();
+		}
+
+		if (item->getType() != mvAppItemType::Table)
+		{
+			std::string message = table;
+			ThrowPythonException(message + " is not a table.");
 			return mvPythonTranslator::GetPyNone();
 		}
 
@@ -3612,6 +3640,13 @@ namespace Marvel {
 			return mvPythonTranslator::GetPyNone();
 		}
 
+		if (item->getType() != mvAppItemType::Table)
+		{
+			std::string message = table;
+			ThrowPythonException(message + " is not a table.");
+			return mvPythonTranslator::GetPyNone();
+		}
+
 		auto pcolumn = mvPythonTranslator::ToStringVect(column);
 
 		mvTable* atable = static_cast<mvTable*>(item);
@@ -3634,6 +3669,13 @@ namespace Marvel {
 		{
 			std::string message = table;
 			ThrowPythonException(message + " table does not exist.");
+			return mvPythonTranslator::GetPyNone();
+		}
+
+		if (item->getType() != mvAppItemType::Table)
+		{
+			std::string message = table;
+			ThrowPythonException(message + " is not a table.");
 			return mvPythonTranslator::GetPyNone();
 		}
 
@@ -3660,6 +3702,13 @@ namespace Marvel {
 		{
 			std::string message = table;
 			ThrowPythonException(message + " table does not exist.");
+			return mvPythonTranslator::GetPyNone();
+		}
+
+		if (item->getType() != mvAppItemType::Table)
+		{
+			std::string message = table;
+			ThrowPythonException(message + " is not a table.");
 			return mvPythonTranslator::GetPyNone();
 		}
 
@@ -3690,6 +3739,13 @@ namespace Marvel {
 			return mvPythonTranslator::GetPyNone();
 		}
 
+		if (item->getType() != mvAppItemType::Table)
+		{
+			std::string message = table;
+			ThrowPythonException(message + " is not a table.");
+			return mvPythonTranslator::GetPyNone();
+		}
+
 		mvTable* atable = static_cast<mvTable*>(item);
 		atable->setSelection(row, column, value);
 
@@ -3708,6 +3764,13 @@ namespace Marvel {
 		{
 			std::string message = table;
 			ThrowPythonException(message + " table does not exist.");
+			return mvPythonTranslator::GetPyNone();
+		}
+
+		if (item->getType() != mvAppItemType::Table)
+		{
+			std::string message = table;
+			ThrowPythonException(message + " is not a table.");
 			return mvPythonTranslator::GetPyNone();
 		}
 
@@ -3734,6 +3797,13 @@ namespace Marvel {
 			return mvPythonTranslator::GetPyNone();
 		}
 
+		if (item->getType() != mvAppItemType::Table)
+		{
+			std::string message = table;
+			ThrowPythonException(message + " is not a table.");
+			return mvPythonTranslator::GetPyNone();
+		}
+
 		mvTable* atable = static_cast<mvTable*>(item);
 		return Py_BuildValue("s", atable->getTableItem(row, column).c_str());
 
@@ -3751,6 +3821,13 @@ namespace Marvel {
 		{
 			std::string message = table;
 			ThrowPythonException(message + " table does not exist.");
+			return mvPythonTranslator::GetPyNone();
+		}
+
+		if (item->getType() != mvAppItemType::Table)
+		{
+			std::string message = table;
+			ThrowPythonException(message + " is not a table.");
 			return mvPythonTranslator::GetPyNone();
 		}
 
