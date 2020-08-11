@@ -2,7 +2,6 @@
 
 project ("DearPyGui")
 
-set(JSON_BuildTests OFF CACHE INTERNAL "")
 set(CONFIG_32BIT ${CONFIG_32BIT})
 set(MVDIST_ONLY ${MVDIST_ONLY})
 
