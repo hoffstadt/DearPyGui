@@ -123,19 +123,42 @@ namespace Marvel {
 	{
 		m_headers.push_back(name);
 
-		int index = 0;
-		for (auto& row : m_values)
+		if (column.size() > m_values.size())
 		{
-			if (index >= column.size())
+			for (unsigned i = 0; i < column.size(); i++)
 			{
-				row.emplace_back("");
-                index++;
-				continue;
+				// row exists
+				if (i < m_values.size())
+				{
+					m_values[i].emplace_back(column[i]);
+					continue;
+				}
 
+				// row does not exist
+				m_values.push_back({});
+				for (unsigned j = 0; j < m_headers.size() - 1; j++)
+					m_values[i].emplace_back("");
+
+				m_values[i].emplace_back(column[i]);
 			}
+		}
 
-			row.push_back(column[index]);
-			index++;
+		else 
+		{
+			int index = 0;
+			for (auto& row : m_values)
+			{
+				if (index >= column.size())
+				{
+					row.emplace_back("");
+					index++;
+					continue;
+
+				}
+
+				row.push_back(column[index]);
+				index++;
+			}
 		}
 
 		m_columns++;
@@ -171,30 +194,79 @@ namespace Marvel {
 				m_headers.push_back(oldHeaders[i - 1]);
 		}
 
-		for (size_t i = 0; i < oldValues.size(); i++)
+		if (column.size() > oldValues.size())
 		{
-			std::vector<std::string> row;
-			for (int j = 0; j < oldHeaders.size(); j++)
+			for (size_t i = 0; i < column.size(); i++)
 			{
-				if (j == column_index)
+				if (i < oldValues.size())
 				{
-					if (i >= column.size())
-						row.emplace_back("");
-					else
-						row.push_back(column[i]);
-					continue;
+					std::vector<std::string> row;
+					for (size_t j = 0; j < oldHeaders.size(); j++)
+					{
+						if (j == column_index)
+						{
+							row.push_back(column[i]);
+							continue;
+						}
+
+						if (j > column_index)
+							row.push_back(oldValues[i][j - 1]);
+
+						else
+							row.push_back(oldValues[i][j]);
+
+					}
+					row.push_back(oldValues[i].back());
+
+					m_values.push_back(row);
 				}
-
-				if (j > column_index)
-					row.push_back(oldValues[i][j - 1]);
-
+				
 				else
-					row.push_back(oldValues[i][j]);
+				{
+					std::vector<std::string> row;
+					for (size_t j = 0; j < oldHeaders.size(); j++)
+					{
+						if (j == column_index)
+						{
+							row.push_back(column[i]);
+							continue;
+						}
+						row.push_back("");
+					}
+					row.push_back("");
 
+					m_values.push_back(row);
+				}
 			}
-			row.push_back(oldValues[i].back());
+		}
 
-			m_values.push_back(row);
+		else
+		{
+			for (size_t i = 0; i < oldValues.size(); i++)
+			{
+				std::vector<std::string> row;
+				for (size_t j = 0; j < oldHeaders.size(); j++)
+				{
+					if (j == column_index)
+					{
+						if (i >= column.size())
+							row.emplace_back("");
+						else
+							row.push_back(column[i]);
+						continue;
+					}
+
+					if (j > column_index)
+						row.push_back(oldValues[i][j - 1]);
+
+					else
+						row.push_back(oldValues[i][j]);
+
+				}
+				row.push_back(oldValues[i].back());
+
+				m_values.push_back(row);
+			}
 		}
 
 		updateHashValues();
@@ -227,7 +299,7 @@ namespace Marvel {
 			return;
 		}
 
-		auto oldValues = m_hashValues;
+		auto oldValues = m_values;
 
 		m_values.clear();
 
