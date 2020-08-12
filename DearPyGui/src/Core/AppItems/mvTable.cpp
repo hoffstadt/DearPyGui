@@ -106,6 +106,28 @@ namespace Marvel {
 		return mvPythonTranslator::ToPyList(selections);
 	}
 
+	void mvTable::addHeaders(const std::vector<std::string>& headers) 
+	{
+		m_headers = headers; 
+		m_columns = headers.size(); 
+
+		if (m_values.empty())
+			return;
+
+		if (m_columns > m_values[0].size())
+		{
+			for (auto& row : m_values)
+				row.emplace_back("");
+		}
+		else if (m_columns < m_values[0].size())
+		{
+			m_columns = m_values[0].size();
+			while (m_headers.size() < m_columns)
+				m_headers.emplace_back("Header");
+		}
+		updateHashValues();
+	}
+
 	void mvTable::addRow(const std::vector<std::string>& row)
 	{
 		m_values.push_back(row);
@@ -381,7 +403,8 @@ namespace Marvel {
 	{
 		ImGui::BeginChild(m_name.c_str(), ImVec2((float)m_width, (float)m_height));
 		ImGui::Separator();
-		ImGui::Columns(m_columns, nullptr, true);
+		if(m_columns > 0)
+			ImGui::Columns(m_columns, nullptr, true);
 
 		for (auto& header : m_headers)
 		{

@@ -3571,6 +3571,30 @@ namespace Marvel {
 		return mvPythonTranslator::GetPyNone();
 	}
 
+	PyObject* set_headers(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		const char* table;
+		PyObject* headers;
+
+		if (!(*mvApp::GetApp()->getParsers())["set_headers"].parse(args, kwargs, __FUNCTION__, &table, &headers))
+			return mvPythonTranslator::GetPyNone();
+
+		mvAppItem* item = mvApp::GetApp()->getItem(table);
+		if (item == nullptr)
+		{
+			std::string message = table;
+			ThrowPythonException(message + " table does not exist.");
+			return mvPythonTranslator::GetPyNone();
+		}
+
+		auto prow = mvPythonTranslator::ToStringVect(headers);
+		mvTable* atable = static_cast<mvTable*>(item);
+
+		atable->addHeaders(prow);
+
+		return mvPythonTranslator::GetPyNone();
+	}
+
 	PyObject* add_row(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		const char* table;
@@ -3588,8 +3612,16 @@ namespace Marvel {
 		}
 
 		auto prow = mvPythonTranslator::ToStringVect(row);
-
 		mvTable* atable = static_cast<mvTable*>(item);
+
+		if (atable->getColumnCount() == 0)
+		{
+			std::vector<std::string> headers;
+			for (size_t i = 0; i < prow.size(); i++)
+				headers.emplace_back("Header" + std::to_string(i));
+			atable->addHeaders(headers);
+		}
+
 		atable->addRow(prow);
 
 		return mvPythonTranslator::GetPyNone();
@@ -3640,6 +3672,15 @@ namespace Marvel {
 		auto prow = mvPythonTranslator::ToStringVect(row);
 
 		mvTable* atable = static_cast<mvTable*>(item);
+
+		if (atable->getColumnCount() == 0)
+		{
+			std::vector<std::string> headers;
+			for (size_t i = 0; i < prow.size(); i++)
+				headers.emplace_back("Header" + std::to_string(i));
+			atable->addHeaders(headers);
+		}
+
 		atable->insertRow(row_index, prow);
 
 		return mvPythonTranslator::GetPyNone();
@@ -5231,6 +5272,7 @@ namespace Marvel {
 		ADD_PYTHON_FUNCTION(add_column)
 		ADD_PYTHON_FUNCTION(insert_column)
 		ADD_PYTHON_FUNCTION(delete_column)
+		ADD_PYTHON_FUNCTION(set_headers)
 		ADD_PYTHON_FUNCTION(add_row)
 		ADD_PYTHON_FUNCTION(insert_row)
 		ADD_PYTHON_FUNCTION(delete_row)

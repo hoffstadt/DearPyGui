@@ -839,6 +839,11 @@ namespace Marvel {
 			{mvPythonDataType::Integer, "column"}
 		}, "Delete a column in a table.", "None", "Tables") });
 
+		parsers->insert({ "set_headers", mvPythonParser({
+			{mvPythonDataType::String, "table"},
+			{mvPythonDataType::StringList, "headers"},
+		}, "Sets a tables headers.", "None", "Tables") });
+
 		parsers->insert({ "add_row", mvPythonParser({
 			{mvPythonDataType::String, "table"},
 			{mvPythonDataType::StringList, "row"},
