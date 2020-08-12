@@ -1,5 +1,4 @@
 from dearpygui.dearpygui import *
-show_logger()
 
 add_menu_bar("MenuBar")
 
