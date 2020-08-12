@@ -165,7 +165,7 @@ namespace Marvel {
 			}
 		}
 
-		else 
+		else
 		{
 			int index = 0;
 			for (auto& row : m_values)
@@ -242,7 +242,7 @@ namespace Marvel {
 
 					m_values.push_back(row);
 				}
-				
+
 				else
 				{
 					std::vector<std::string> row;
@@ -301,7 +301,7 @@ namespace Marvel {
 		{
 
 			if (item.first.second >= column_index)
-				m_selections[{item.first.first, item.first.second+1}] = item.second;
+				m_selections[{item.first.first, item.first.second + 1}] = item.second;
 
 			else
 				m_selections[item.first] = item.second;
@@ -315,7 +315,7 @@ namespace Marvel {
 		if (!isIndexValid(row_index, 0))
 			return;
 
-		if (row_index == m_hashValues.size())
+		if (row_index >= m_values.size())
 		{
 			addRow(row);
 			return;
