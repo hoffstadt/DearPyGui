@@ -175,6 +175,10 @@ def add_radio_button(name: str, items: List[str], default_value: int = 0, callba
 	"""Adds a set of radio buttons."""
 	...
 
+def set_headers(table: str, headers: List[str]) -> None:
+	"""Sets a tables headers"""
+	...
+
 def add_row(table: str, row: List[str]) -> None:
 	"""Adds a row to a table."""
 	...
