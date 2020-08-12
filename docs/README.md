@@ -1,16 +1,16 @@
-# Dear PyGui
+![Logo](https://github.com/hoffstadt/DearPyGui/blob/assets/TempLogo.png?raw=true)
 <sub>(This library is available under a free and permissive license)</sub>
 
 ![Python Version](https://img.shields.io/pypi/pyversions/dearpygui)
 ![PYPI](https://img.shields.io/pypi/v/dearpygui)
 [![Downloads](https://pepy.tech/badge/dearpygui)](https://pepy.tech/project/dearpygui)
 
-[![build status](https://github.com/RaylockLLC/DearPyGui/workflows/Stable%20Build/badge.svg)](https://github.com/RaylockLLC/DearPyGui/actions?workflow=Stable%20Build)
-[![build status](https://github.com/RaylockLLC/DearPyGui/workflows/Master%20Build/badge.svg)](https://github.com/RaylockLLC/DearPyGui/actions?workflow=Master%20Build)
+[![build status](https://github.com/hoffstadt/DearPyGui/workflows/Stable%20Build/badge.svg)](https://github.com/hoffstadt/DearPyGui/actions?workflow=Stable%20Build)
+[![build status](https://github.com/hoffstadt/DearPyGui/workflows/Master%20Build/badge.svg)](https://github.com/hoffstadt/DearPyGui/actions?workflow=Master%20Build)
 
-[![build status](https://github.com/RaylockLLC/DearPyGui/workflows/WindowsDev/badge.svg)](https://github.com/RaylockLLC/DearPyGui/actions?workflow=WindowsDev)
-[![build status](https://github.com/RaylockLLC/DearPyGui/workflows/LinuxDev/badge.svg)](https://github.com/RaylockLLC/DearPyGui/actions?workflow=LinuxDev)
-[![build status](https://github.com/RaylockLLC/DearPyGui/workflows/MacOSDev/badge.svg)](https://github.com/RaylockLLC/DearPyGui/actions?workflow=MacOSDev)
+[![build status](https://github.com/hoffstadt/DearPyGui/workflows/WindowsDev/badge.svg)](https://github.com/hoffstadt/DearPyGui/actions?workflow=WindowsDev)
+[![build status](https://github.com/hoffstadt/DearPyGui/workflows/LinuxDev/badge.svg)](https://github.com/hoffstadt/DearPyGui/actions?workflow=LinuxDev)
+[![build status](https://github.com/hoffstadt/DearPyGui/workflows/MacOSDev/badge.svg)](https://github.com/hoffstadt/DearPyGui/actions?workflow=MacOSDev)
 
 **Dear PyGui** is a **simple to use (but powerful) Python GUI framework**. _DearPyGui_ provides a wrapping of **[DearImGui](https://github.com/ocornut/imgui)** that simulates a traditional retained mode GUI, as opposed to _Dear ImGui_'s immediate mode paradigm.
 
@@ -48,9 +48,9 @@ Ensure you have the newest version of Python 3.8 (3.8.5 at the moment).
  ---
  
 **DearPyGui is an all included GUI framework.** A variety of examples demonstrating usage
-can be found in the Examples folder [/Examples](https://github.com/RaylockLLC/DearPyGui/tree/master/Examples). To get started checkout the [Tutorials](https://raylockllc.github.io/DearPyGui/tutorial.html)
+can be found in the Examples folder [/Examples](https://github.com/hoffstadt/DearPyGui/tree/master/Examples). To get started checkout the [Tutorials](https://hoffstadt.github.io/DearPyGui/tutorial.html)
 and for all other references 
-visit the [Documentation](https://raylockllc.github.io/DearPyGui/) or from within the library by 
+visit the [Documentation](https://hoffstadt.github.io/DearPyGui/) or from within the library by 
 using the **show_documentation** command.
 
 Using _DearPyGui_ is a simple as creating a python script like the one below:
@@ -92,19 +92,19 @@ _DearPyGui_ includes a plotting API ([ImPlot](https://github.com/epezent/implot)
 
 #### Themes
 _DearPyGui_ currently includes 10 themes (a full custom theming system will be available in **v0.2**):
-<BR>![Themes](https://github.com/RaylockLLC/DearPyGui/blob/assets/Themes.PNG?raw=true)
+<BR>![Themes](https://github.com/hoffstadt/DearPyGui/blob/assets/Themes.PNG?raw=true)
 
 #### Drawings
 _DearPyGui_ includes a drawing API to create custom drawings, plot, and even 2D games.
-<BR>![BasicUsageExample](https://github.com/RaylockLLC/DearPyGui/blob/assets/DrawingExample1.PNG?raw=true)
+<BR>![BasicUsageExample](https://github.com/hoffstadt/DearPyGui/blob/assets/DrawingExample1.PNG?raw=true)
 
 #### Logging
 _DearPyGui_ includes a logging API.
-<BR>![BasicUsageExample](https://github.com/RaylockLLC/DearPyGui/blob/assets/LoggingExample1.PNG?raw=true)
+<BR>![BasicUsageExample](https://github.com/hoffstadt/DearPyGui/blob/assets/LoggingExample1.PNG?raw=true)
 
 #### Built-in Documentation
 Using the ```show_documentation()``` command opens the built-in documentation window which displays all _DearPyGui_ commands and constants, along with information on their usage.
-<BR>![BasicUsageExample](https://github.com/RaylockLLC/DearPyGui/blob/assets/DocumentationExample.PNG?raw=true)
+<BR>![BasicUsageExample](https://github.com/hoffstadt/DearPyGui/blob/assets/DocumentationExample.PNG?raw=true)
   
 ### Building
 The actual builds of _DearPyGui_ are created through github actions however, to develop and test locally, follow the instructions below:
@@ -141,7 +141,7 @@ git clone --recursive https://github.com/RaylockLLC/DearPyGui
 
 1. From within a local directory, enter the following bash commands:
 ```
-git clone --recursive https://github.com/RaylockLLC/DearPyGui
+git clone --recursive https://github.com/hoffstadt/DearPyGui
 ```
 2. Open the _cpython_ folder inside of _Dependencies_.
 3. Open the terminal and type the following commands:
@@ -180,11 +180,11 @@ Aiekick for his work on the [ImGuiFileDialog](https://github.com/aiekick)
 
 ---
 
-<BR>![StandardWindowsExample1](https://github.com/RaylockLLC/DearPyGui/blob/assets/WidgetsExample1.PNG?raw=true)
-<BR>![StandardWindowsExample1](https://github.com/RaylockLLC/DearPyGui/blob/assets/StandardWindowsExample1.PNG?raw=true)
+<BR>![StandardWindowsExample1](https://github.com/hoffstadt/DearPyGui/blob/assets/WidgetsExample1.PNG?raw=true)
+<BR>![StandardWindowsExample1](https://github.com/hoffstadt/DearPyGui/blob/assets/StandardWindowsExample1.PNG?raw=true)
 
 ### License
 
 ---
 
-DearPyGui is licensed under the [MIT License](https://github.com/RaylockLLC/DearPyGui/blob/master/LICENSE).
+DearPyGui is licensed under the [MIT License](https://github.com/hoffstadt/DearPyGui/blob/master/LICENSE).
