@@ -1,0 +1,79 @@
+from dearpygui.dearpygui import *
+show_logger()
+
+add_menu_bar("MenuBar")
+
+add_menu("Show/Hide")
+add_menu_item("Show Tools", callback="showMenu")
+add_menu_item("Hide Tools", callback="hideMenu")
+add_menu_item('Change "Show Docs" Callback', callback="changeCallback")
+add_tooltip('Change "Show Docs" Callback', "tooltip1")
+add_text('this will change the "show Docs" callback to a show metrics callback')
+end_tooltip()
+add_menu("Empty Menu")
+add_menu_item("Nothing")
+end_menu()
+end_menu()
+
+add_menu("Tools")
+add_menu_item("Show Docs", callback="showDocs")
+end_menu()
+add_menu("Add/Remove")
+add_menu_item("Add Themes", callback="addThemes")
+add_menu_item("Delete Themes", callback="deleteThemes")
+end_menu()
+
+end_menu_bar()
+
+add_text("This menu bar demonstrates:")
+add_text('standard menu bar, menus, and menu items', bullet=True)
+add_text('adding menus to menus', bullet=True)
+add_text('showing and hiding the "Tools menu"', bullet=True)
+add_text("changing the callback of an already existing menu item", bullet=True)
+add_text("adding and deleting menus, menu items, app widgets from a menu item", bullet=True)
+add_text("placing a widget into the menu that controlling another widget on the body of the app", bullet=True)
+add_spacing(count = 50)
+
+
+def hideMenu(sender, data):
+    hide_item("Tools")
+
+
+def showMenu(sender, data):
+    show_item("Tools")
+
+
+def changeCallback(sender, data):
+    callbackName=get_item_callback("Show Docs")
+    print(callbackName)
+    if callbackName == "showDocs":
+        set_item_callback("Show Docs", "showMetrics")
+    else:
+        set_item_callback("Show Docs", "showDocs")
+
+
+def showDocs(sender, data):
+    show_documentation()
+
+
+def showMetrics(sender, data):
+    show_metrics()
+
+
+def addThemes(sender, data):
+    add_menu("Themes", parent="MenuBar")
+    end_menu()
+    add_color_picker4("Color Selector", callback="setColor", parent="Themes")
+    add_color_edit4("Color Item", data_source="color1")
+
+
+def deleteThemes(sender, data):
+    delete_item("Themes")
+    delete_item("Color Item")
+
+def setColor(Sender, data):
+    color1 = get_value("Color Selector")
+    add_data("color1", color1)
+
+
+start_dearpygui()
