@@ -2884,18 +2884,13 @@ namespace Marvel {
 			&tip, &parent, &before))
 			return mvPythonTranslator::GetPyNone();
 
-		auto parentItem = mvApp::GetApp()->topParent();
+		//auto parentItem = mvApp::GetApp()->topParent();
 
-		if (parentItem == nullptr)
-			ThrowPythonException("add_menu must follow a call to add_menubar.");
+		mvAppItem* item = new mvMenu("", name);
+		item->setTip(tip);
+		AddItemWithRuntimeChecks(item, parent, before);
+		mvApp::GetApp()->pushParent(item);
 
-		else
-		{
-			mvAppItem* item = new mvMenu("", name);
-			item->setTip(tip);
-			AddItemWithRuntimeChecks(item, parent, before);
-			mvApp::GetApp()->pushParent(item);
-		}
 
 
 		return mvPythonTranslator::GetPyNone();
