@@ -107,7 +107,7 @@ namespace Marvel {
 					series->draw();
 		
 
-				ImPlot::SetColormap(ImPlotColormap_Default);
+				//ImPlot::SetColormap(ImPlotColormap_Default);
 
 				m_queried = ImPlot::IsPlotQueried();
 
@@ -213,7 +213,10 @@ namespace Marvel {
 
 			ImPlot::PushStyleVar(ImPlotStyleVar_LineWeight, m_lineWeight);
 
-			ImPlot::PlotLine(m_name.c_str(), m_xs.data(), m_ys.data(), m_xs.size());
+			if (m_fill.specified)
+				ImPlot::PlotShaded(m_name.c_str(), m_xs.data(), m_ys.data(), m_xs.size());
+			else
+				ImPlot::PlotLine(m_name.c_str(), m_xs.data(), m_ys.data(), m_xs.size());
 
 			if (m_color.specified)
 				ImPlot::PopStyleColor();
