@@ -2754,8 +2754,8 @@ namespace Marvel {
 			&tip, &parent, &before))
 			return mvPythonTranslator::GetPyNone();
 
-		
-		
+
+
 
 		if (std::string(parent).empty())
 		{
@@ -3664,7 +3664,6 @@ namespace Marvel {
 
 		auto prow = mvPythonTranslator::ToStringVect(row);
 		mvTable* atable = static_cast<mvTable*>(item);
-
 		if (atable->getColumnCount() == 0)
 		{
 			std::vector<std::string> headers;
@@ -3672,7 +3671,6 @@ namespace Marvel {
 				headers.emplace_back("Header" + std::to_string(i));
 			atable->addHeaders(headers);
 		}
-
 		atable->addRow(prow);
 
 		return mvPythonTranslator::GetPyNone();
@@ -3735,9 +3733,7 @@ namespace Marvel {
 		}
 
 		auto prow = mvPythonTranslator::ToStringVect(row);
-
 		mvTable* atable = static_cast<mvTable*>(item);
-
 		if (atable->getColumnCount() == 0)
 		{
 			std::vector<std::string> headers;
@@ -3745,7 +3741,6 @@ namespace Marvel {
 				headers.emplace_back("Header" + std::to_string(i));
 			atable->addHeaders(headers);
 		}
-
 		atable->insertRow(row_index, prow);
 
 		return mvPythonTranslator::GetPyNone();
@@ -3941,7 +3936,7 @@ namespace Marvel {
 	{
 		const char* callback = "";
 
-		if (!(*mvApp::GetApp()->getParsers())["select_directory_dialog"].parse(args, kwargs, __FUNCTION__,&callback))
+		if (!(*mvApp::GetApp()->getParsers())["select_directory_dialog"].parse(args, kwargs, __FUNCTION__, &callback))
 			return mvPythonTranslator::GetPyNone();
 
 		igfd::ImGuiFileDialog::Instance()->OpenModal("ChooseFileDlgKey", "Choose Directory", 0, ".");
@@ -3958,7 +3953,7 @@ namespace Marvel {
 		const char* callback = "";
 		const char* extensions = "";
 
-		if (!(*mvApp::GetApp()->getParsers())["open_file_dialog"].parse(args, kwargs, __FUNCTION__, 
+		if (!(*mvApp::GetApp()->getParsers())["open_file_dialog"].parse(args, kwargs, __FUNCTION__,
 			&callback, &extensions))
 			return mvPythonTranslator::GetPyNone();
 
@@ -4505,7 +4500,7 @@ namespace Marvel {
 		if (item == nullptr)
 			return mvPythonTranslator::GetPyNone();
 
-		if(item->getDataSource().empty())
+		if (item->getDataSource().empty())
 			item->setPyValue(value);
 		else
 			mvDataStorage::AddData(item->getDataSource(), value);
@@ -5270,6 +5265,7 @@ namespace Marvel {
 	static PyMethodDef dearpyguimethods[]
 	{
 		ADD_PYTHON_FUNCTION(setup_dearpygui)
+		ADD_PYTHON_FUNCTION(set_headers)
 		ADD_PYTHON_FUNCTION(render_dearpygui_frame)
 		ADD_PYTHON_FUNCTION(cleanup_dearpygui)
 		ADD_PYTHON_FUNCTION(start_dearpygui)
@@ -5372,7 +5368,6 @@ namespace Marvel {
 		ADD_PYTHON_FUNCTION(add_column)
 		ADD_PYTHON_FUNCTION(insert_column)
 		ADD_PYTHON_FUNCTION(delete_column)
-		ADD_PYTHON_FUNCTION(set_headers)
 		ADD_PYTHON_FUNCTION(add_row)
 		ADD_PYTHON_FUNCTION(insert_row)
 		ADD_PYTHON_FUNCTION(delete_row)
