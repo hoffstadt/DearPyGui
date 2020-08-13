@@ -336,11 +336,11 @@ def draw_line(drawing: str, p1: List[float], p2: List[float], color: List[int], 
 	"""Draws a line on a drawing."""
 	...
 
-def draw_polygon(drawing: str, points: List[float], color: List[int], fill: List[float] = ..., thickness: float = 1.0, tag: str = "") -> None:
+def draw_polygon(drawing: str, points: List[List[float]], color: List[int], fill: List[float] = ..., thickness: float = 1.0, tag: str = "") -> None:
 	"""Draws a polygon on a drawing."""
 	...
 
-def draw_polyline(drawing: str, points: List[float], color: List[int], closed: int = False, thickness: float = 1.0, tag: str = "") -> None:
+def draw_polyline(drawing: str, points: List[List[float]], color: List[int], closed: int = False, thickness: float = 1.0, tag: str = "") -> None:
 	"""Draws lines on a drawing."""
 	...
 
