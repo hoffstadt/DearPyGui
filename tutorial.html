@@ -691,5 +691,97 @@ def tablePrinter(sender, data):
 start_dearpygui()
             </code></pre>
     </article>
+    <article><a name="input_polling"></a>
+        <h2>Input Polling</h2>
+        <hr>
+        <p>
+            Input Polling in DearPyGui is done by calling the desired poll command within a function.
+            The function must be set to a windows render callback for polling to occur when that window is active.
+            Because the render callbacks are ran every frame DearPyGui can poll between frames if a specified input is performed.
+            <br><br>
+            A list of all the polling is as follows:
+            <ul>
+            <li>get_mouse_drag_delta()</li>
+            <li>get_mouse_pos()</li>
+            <li>is_key_down()</li>
+            <li>is_key_pressed()</li>
+            <li>is_key_released()</li>
+            <li>is_mouse_button_clicked()</li>
+            <li>is_mouse_button_double_clicked()</li>
+            <li>is_mouse_button_down()</li>
+            <li>is_mouse_button_dragging()</li>
+            <li>is_mouse_button_released()</li>
+            <li>set_key_down_callback()</li>
+            <li>set_key_press_callback()</li>
+            <li>set_key_release_callback()</li>
+            <li>set_mouse_click_callback()</li>
+            <li>set_mouse_double_click_callback()</li>
+            <li>set_mouse_down_callback()</li>
+            <li>set_mouse_drag_callback()</li>
+            <li>set_mouse_wheel_callback()</li>
+            <li>set_render_callback()</li>
+            <li>set_resize_callback()</li>
+            </ul>
+        For information about a specific command see the <a href="api_docs.html">API Reference</a>.
+        <br><br>
+        It is possible to combine polls as many as necessary to achieve desired functionality.
+        </p>
+        <pre><code data-language="python">from dearpygui.dearpygui import *
+
+add_label_text("A key Down", "False", color=[0, 200, 255])
+add_label_text("A key Pressed", "False", color=[0, 200, 255])
+add_label_text("A key Released", "False", color=[0, 200, 255])
+add_spacing()
+add_label_text("Mouse Position", "(0,0)", color=[0, 200, 255])
+add_label_text("Left Mouse Clicked", "False", color=[0, 200, 255])
+add_label_text("Left Mouse Dragging", "False", color=[0, 200, 255])
+add_label_text("Left Mouse Double Clicked", "False", color=[0, 200, 255])
+add_label_text("Shift + Left Mouse Clicked", "False", color=[0, 200, 255])
+
+set_render_callback("main_callback", "MainWindow")
+
+
+def main_callback(sender, data):
+
+    set_value("Mouse Position", str(get_mouse_pos()))
+
+    if is_key_down(mvKey_A):
+        set_value("A key Down", "True")
+    else:
+        set_value("A key Down", "False")
+
+    if is_key_pressed(mvKey_A):
+        set_value("A key Pressed", "True")
+    else:
+        set_value("A key Pressed", "False")
+
+    if is_key_released(mvKey_A):
+        set_value("A key Released", "True")
+    else:
+        set_value("A key Released", "False")
+
+    if is_mouse_button_dragging(mvMouseButton_Left, 10):
+        set_value("Left Mouse Dragging", "True")
+    else:
+        set_value("Left Mouse Dragging", "False")
+
+    if is_mouse_button_clicked(mvMouseButton_Left):
+        set_value("Left Mouse Clicked", "True")
+    else:
+        set_value("Left Mouse Clicked", "False")
+
+    if is_mouse_button_double_clicked(mvMouseButton_Left):
+        set_value("Left Mouse Double Clicked", "True")
+    else:
+        set_value("Left Mouse Double Clicked", "False")
+
+    if is_key_down(mvKey_Shift) and is_mouse_button_clicked(mvMouseButton_Left):
+        set_value("Shift + Left Mouse Clicked", "True")
+    else:
+        set_value("Shift + Left Mouse Clicked", "False")
+
+start_dearpygui()
+            </code></pre>
+    </article>
 </main>
 </body>
