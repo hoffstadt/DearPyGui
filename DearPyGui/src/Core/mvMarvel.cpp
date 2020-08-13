@@ -862,6 +862,14 @@ namespace Marvel {
 			ThrowPythonException(message + " plot does not exist.");
 			return mvPythonTranslator::GetPyNone();
 		}
+
+		if (aplot->getType() != mvAppItemType::Plot)
+		{
+			std::string message = plot;
+			ThrowPythonException(message + " is not a plot.");
+			return mvPythonTranslator::GetPyNone();
+		}
+
 		mvPlot* graph = static_cast<mvPlot*>(aplot);
 
 		graph->clear();
@@ -883,6 +891,14 @@ namespace Marvel {
 			ThrowPythonException(message + " plot does not exist.");
 			return mvPythonTranslator::GetPyNone();
 		}
+
+		if (aplot->getType() != mvAppItemType::Plot)
+		{
+			std::string message = plot;
+			ThrowPythonException(message + " is not a plot.");
+			return mvPythonTranslator::GetPyNone();
+		}
+
 		mvPlot* graph = static_cast<mvPlot*>(aplot);
 
 		graph->resetXTicks();
@@ -904,6 +920,14 @@ namespace Marvel {
 			ThrowPythonException(message + " plot does not exist.");
 			return mvPythonTranslator::GetPyNone();
 		}
+
+		if (aplot->getType() != mvAppItemType::Plot)
+		{
+			std::string message = plot;
+			ThrowPythonException(message + " is not a plot.");
+			return mvPythonTranslator::GetPyNone();
+		}
+
 		mvPlot* graph = static_cast<mvPlot*>(aplot);
 
 		graph->resetXTicks();
@@ -926,6 +950,14 @@ namespace Marvel {
 			ThrowPythonException(message + " plot does not exist.");
 			return mvPythonTranslator::GetPyNone();
 		}
+
+		if (aplot->getType() != mvAppItemType::Plot)
+		{
+			std::string message = plot;
+			ThrowPythonException(message + " is not a plot.");
+			return mvPythonTranslator::GetPyNone();
+		}
+
 		mvPlot* graph = static_cast<mvPlot*>(aplot);
 
 		auto mlabel_pairs = mvPythonTranslator::ToVectPairStringFloat(label_pairs);
@@ -959,6 +991,14 @@ namespace Marvel {
 			ThrowPythonException(message + " plot does not exist.");
 			return mvPythonTranslator::GetPyNone();
 		}
+
+		if (aplot->getType() != mvAppItemType::Plot)
+		{
+			std::string message = plot;
+			ThrowPythonException(message + " is not a plot.");
+			return mvPythonTranslator::GetPyNone();
+		}
+
 		mvPlot* graph = static_cast<mvPlot*>(aplot);
 
 		auto mlabel_pairs = mvPythonTranslator::ToVectPairStringFloat(label_pairs);
@@ -991,6 +1031,13 @@ namespace Marvel {
 			ThrowPythonException(message + " plot does not exist.");
 			return mvPythonTranslator::GetPyNone();
 		}
+
+		if (aplot->getType() != mvAppItemType::Plot)
+		{
+			std::string message = plot;
+			ThrowPythonException(message + " is not a plot.");
+			return mvPythonTranslator::GetPyNone();
+		}
 		mvPlot* graph = static_cast<mvPlot*>(aplot);
 
 		graph->setXLimitsAuto();
@@ -1012,6 +1059,14 @@ namespace Marvel {
 			ThrowPythonException(message + " plot does not exist.");
 			return mvPythonTranslator::GetPyNone();
 		}
+
+		if (aplot->getType() != mvAppItemType::Plot)
+		{
+			std::string message = plot;
+			ThrowPythonException(message + " is not a plot.");
+			return mvPythonTranslator::GetPyNone();
+		}
+
 		mvPlot* graph = static_cast<mvPlot*>(aplot);
 
 		graph->setYLimitsAuto();
@@ -1035,6 +1090,14 @@ namespace Marvel {
 			ThrowPythonException(message + " plot does not exist.");
 			return mvPythonTranslator::GetPyNone();
 		}
+
+		if (aplot->getType() != mvAppItemType::Plot)
+		{
+			std::string message = plot;
+			ThrowPythonException(message + " is not a plot.");
+			return mvPythonTranslator::GetPyNone();
+		}
+
 		mvPlot* graph = static_cast<mvPlot*>(aplot);
 
 		graph->setXLimits(xmin, xmax);
@@ -1058,6 +1121,13 @@ namespace Marvel {
 			ThrowPythonException(message + " plot does not exist.");
 			return mvPythonTranslator::GetPyNone();
 		}
+
+		if (aplot->getType() != mvAppItemType::Plot)
+		{
+			std::string message = plot;
+			ThrowPythonException(message + " is not a plot.");
+			return mvPythonTranslator::GetPyNone();
+		}
 		mvPlot* graph = static_cast<mvPlot*>(aplot);
 
 		graph->setYLimits(ymin, ymax);
@@ -1079,6 +1149,13 @@ namespace Marvel {
 			ThrowPythonException(message + " plot does not exist.");
 			return mvPythonTranslator::GetPyNone();
 		}
+
+		if (aplot->getType() != mvAppItemType::Plot)
+		{
+			std::string message = plot;
+			ThrowPythonException(message + " is not a plot.");
+			return mvPythonTranslator::GetPyNone();
+		}
 		mvPlot* graph = static_cast<mvPlot*>(aplot);
 
 		return Py_BuildValue("b", graph->isPlotQueried());
@@ -1096,6 +1173,13 @@ namespace Marvel {
 		{
 			std::string message = plot;
 			ThrowPythonException(message + " plot does not exist.");
+			return mvPythonTranslator::GetPyNone();
+		}
+
+		if (aplot->getType() != mvAppItemType::Plot)
+		{
+			std::string message = plot;
+			ThrowPythonException(message + " is not a plot.");
 			return mvPythonTranslator::GetPyNone();
 		}
 		mvPlot* graph = static_cast<mvPlot*>(aplot);
@@ -1120,6 +1204,14 @@ namespace Marvel {
 			ThrowPythonException(message + " plot does not exist.");
 			return mvPythonTranslator::GetPyNone();
 		}
+
+		if (aplot->getType() != mvAppItemType::Plot)
+		{
+			std::string message = plot;
+			ThrowPythonException(message + " is not a plot.");
+			return mvPythonTranslator::GetPyNone();
+		}
+
 		mvPlot* graph = static_cast<mvPlot*>(aplot);
 
 		graph->SetColorMap(map);
@@ -1191,6 +1283,13 @@ namespace Marvel {
 			return mvPythonTranslator::GetPyNone();
 		}
 
+		if (aplot->getType() != mvAppItemType::Plot)
+		{
+			std::string message = plot;
+			ThrowPythonException(message + " is not a plot.");
+			return mvPythonTranslator::GetPyNone();
+		}
+
 		mvPlot* graph = static_cast<mvPlot*>(aplot);
 
 		auto datapoints = mvPythonTranslator::ToVectVec2(data);
@@ -1249,6 +1348,13 @@ namespace Marvel {
 			return mvPythonTranslator::GetPyNone();
 		}
 
+		if (aplot->getType() != mvAppItemType::Plot)
+		{
+			std::string message = plot;
+			ThrowPythonException(message + " is not a plot.");
+			return mvPythonTranslator::GetPyNone();
+		}
+
 		mvPlot* graph = static_cast<mvPlot*>(aplot);
 
 		auto datapoints = mvPythonTranslator::ToVectVec2(data);
@@ -1290,6 +1396,14 @@ namespace Marvel {
 			ThrowPythonException(message + " plot does not exist.");
 			return mvPythonTranslator::GetPyNone();
 		}
+
+		if (aplot->getType() != mvAppItemType::Plot)
+		{
+			std::string message = plot;
+			ThrowPythonException(message + " is not a plot.");
+			return mvPythonTranslator::GetPyNone();
+		}
+
 		mvPlot* graph = static_cast<mvPlot*>(aplot);
 
 		mvSeries* series = new mvLabelSeries(name, { {(float)x, (float)y} }, xoffset, yoffset, vertical);
