@@ -869,6 +869,114 @@ namespace Marvel {
 		return mvPythonTranslator::GetPyNone();
 	}
 
+	PyObject* reset_xticks(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		const char* plot;
+
+		if (!(*mvApp::GetApp()->getParsers())["reset_xticks"].parse(args, kwargs, __FUNCTION__, &plot))
+			return mvPythonTranslator::GetPyNone();
+
+		mvAppItem* aplot = mvApp::GetApp()->getItem(plot);
+		if (aplot == nullptr)
+		{
+			std::string message = plot;
+			ThrowPythonException(message + " plot does not exist.");
+			return mvPythonTranslator::GetPyNone();
+		}
+		mvPlot* graph = static_cast<mvPlot*>(aplot);
+
+		graph->resetXTicks();
+
+		return mvPythonTranslator::GetPyNone();
+	}
+
+	PyObject* reset_yticks(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		const char* plot;
+
+		if (!(*mvApp::GetApp()->getParsers())["reset_yticks"].parse(args, kwargs, __FUNCTION__, &plot))
+			return mvPythonTranslator::GetPyNone();
+
+		mvAppItem* aplot = mvApp::GetApp()->getItem(plot);
+		if (aplot == nullptr)
+		{
+			std::string message = plot;
+			ThrowPythonException(message + " plot does not exist.");
+			return mvPythonTranslator::GetPyNone();
+		}
+		mvPlot* graph = static_cast<mvPlot*>(aplot);
+
+		graph->resetXTicks();
+
+		return mvPythonTranslator::GetPyNone();
+	}
+
+	PyObject* set_xticks(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		const char* plot;
+		PyObject* label_pairs;
+
+		if (!(*mvApp::GetApp()->getParsers())["set_xticks"].parse(args, kwargs, __FUNCTION__, &plot, &label_pairs))
+			return mvPythonTranslator::GetPyNone();
+
+		mvAppItem* aplot = mvApp::GetApp()->getItem(plot);
+		if (aplot == nullptr)
+		{
+			std::string message = plot;
+			ThrowPythonException(message + " plot does not exist.");
+			return mvPythonTranslator::GetPyNone();
+		}
+		mvPlot* graph = static_cast<mvPlot*>(aplot);
+
+		auto mlabel_pairs = mvPythonTranslator::ToVectPairStringFloat(label_pairs);
+
+		std::vector<std::string> labels;
+		std::vector<double> locations;
+
+		for (const auto& item : mlabel_pairs)
+		{
+			labels.emplace_back(item.first.c_str());
+			locations.emplace_back((double)item.second);
+		}
+
+		graph->setXTicks(labels, locations);
+
+		return mvPythonTranslator::GetPyNone();
+	}
+
+	PyObject* set_yticks(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		const char* plot;
+		PyObject* label_pairs;
+
+		if (!(*mvApp::GetApp()->getParsers())["set_yticks"].parse(args, kwargs, __FUNCTION__, &plot, &label_pairs))
+			return mvPythonTranslator::GetPyNone();
+
+		mvAppItem* aplot = mvApp::GetApp()->getItem(plot);
+		if (aplot == nullptr)
+		{
+			std::string message = plot;
+			ThrowPythonException(message + " plot does not exist.");
+			return mvPythonTranslator::GetPyNone();
+		}
+		mvPlot* graph = static_cast<mvPlot*>(aplot);
+
+		auto mlabel_pairs = mvPythonTranslator::ToVectPairStringFloat(label_pairs);
+
+		std::vector<std::string> labels;
+		std::vector<double> locations;
+
+		for (const auto& item : mlabel_pairs)
+		{
+			labels.emplace_back(item.first.c_str());
+			locations.emplace_back((double)item.second);
+		}
+
+		graph->setYTicks(labels, locations);
+
+		return mvPythonTranslator::GetPyNone();
+	}
+
 	PyObject* set_plot_xlimits_auto(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		const char* plot;
@@ -5462,6 +5570,10 @@ namespace Marvel {
 		ADD_PYTHON_FUNCTION(is_plot_queried)
 		ADD_PYTHON_FUNCTION(get_plot_query_area)
 		ADD_PYTHON_FUNCTION(clear_plot)
+		ADD_PYTHON_FUNCTION(reset_xticks)
+		ADD_PYTHON_FUNCTION(reset_yticks)
+		ADD_PYTHON_FUNCTION(set_xticks)
+		ADD_PYTHON_FUNCTION(set_yticks)
 		ADD_PYTHON_FUNCTION(set_plot_xlimits_auto)
 		ADD_PYTHON_FUNCTION(set_plot_ylimits_auto)
 		ADD_PYTHON_FUNCTION(set_plot_xlimits)

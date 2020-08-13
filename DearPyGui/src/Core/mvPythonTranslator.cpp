@@ -450,4 +450,37 @@ namespace Marvel {
 
 		return results;
 	}
+
+	std::vector<std::pair<std::string, float>> mvPythonTranslator::ToVectPairStringFloat(PyObject* value, const std::string& message)
+	{
+		std::vector<std::pair<std::string, float>> items;
+		mvGlobalIntepreterLock gil;
+
+		if (PyTuple_Check(value))
+		{
+			for (size_t i = 0; i < PyTuple_Size(value); i++)
+			{
+				PyObject* item = PyTuple_GetItem(value, i);
+				if (PyTuple_Size(item) == 2)
+					items.emplace_back(PyUnicode_AsUTF8(PyTuple_GetItem(item, 0)), (float)PyFloat_AsDouble(PyTuple_GetItem(item, 1)));
+
+			}
+
+		}
+		else if (PyList_Check(value))
+		{
+			for (size_t i = 0; i < PyList_Size(value); i++)
+			{
+				PyObject* item = PyList_GetItem(value, i);
+				if (PyList_Size(item) == 2)
+					items.emplace_back(PyUnicode_AsUTF8(PyList_GetItem(item, 0)), (float)PyFloat_AsDouble(PyList_GetItem(item, 1)));
+
+			}
+		}
+
+		else
+			ThrowPythonException(message);
+
+		return items;
+	}
 }

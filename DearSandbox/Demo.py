@@ -236,6 +236,8 @@ add_tab("Plot Widget")
 add_button("Plot data", callback="PlotCallback")
 add_listbox("Colormaps", ("Default", "Dark", "Pastel", "Paired", "Viridis", "Plasma", "Hot", "Cool", "Pink", "Jet"), width=500, height=3, callback="colormapCallback")
 add_plot("Plot", "x-axis", "y-axis", height=-1);
+set_xticks("Plot", [["X-axis", 0], ["1", 1]])
+set_yticks("Plot", [["Y-axis", 0], ["1", 1]])
 end_tab()
 add_tab("Simple Plots")
 add_simple_plot("Simpleplot1", (0.3, 0.9, 2.5, 8.9))
