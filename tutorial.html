@@ -724,7 +724,7 @@ start_dearpygui()
             </ul>
         For information about a specific command see the <a href="api_docs.html">API Reference</a>.
         <br><br>
-        It is possible to combine polls as many as necessary to achieve desired functionality.
+        It is possible to combine as many polls as necessary to achieve desired functionality.
         </p>
         <pre><code data-language="python">from dearpygui.dearpygui import *
 
@@ -779,6 +779,62 @@ def main_callback(sender, data):
         set_value("Shift + Left Mouse Clicked", "True")
     else:
         set_value("Shift + Left Mouse Clicked", "False")
+
+start_dearpygui()
+            </code></pre>
+    </article>
+    <article><a name="multithreading"></a>
+        <h2>Multithreading & Asynchronous Functions</h2>
+        <hr>
+        <p>
+            For calculations and callbacks that require extended time it can be useful to implement asynchronous functions or functions ran on separate threads.
+            To do this simply call <code class="inline-code" data-language="python">run_async_function()</code>.
+            <br><br>
+            It is important to note that functions ran with the async command cannot call any other DearPyGui API calls.
+        </p>
+        <pre><code data-language="python">from dearpygui.dearpygui import *
+from time import sleep
+show_logger()
+show_metrics()
+add_button("long function", callback="longCallback", tip="this will cause a 3 second freeze")
+add_button("long Asynchronous Function", callback="longAsyncCallback", tip="this will not a freeze")
+
+
+def longAsyncCallback(data,sender):
+    run_async_function("longCallback", None)
+
+
+def longCallback(sender,data):
+    sleep(3)
+    log_debug("Long callback Completed")
+
+start_dearpygui()
+            </code></pre>
+        <p>
+            Asynchronous functions cannot access <code class="inline-code" data-language="python">add_data()</code>
+            or <code class="inline-code" data-language="python">get_data()</code>. So when it is necessary to pass data to the asynchronous
+            function you must use the data and return handler keyworded arguments.
+            Any python object can be made accessible by being sent into the function through the "data" keyword.
+            Additionally, any returned data from the Async function will be accessible through the "data" input in the the return callback.
+        </p>
+        <pre><code data-language="python">from dearpygui.dearpygui import *
+from time import sleep
+show_logger()
+add_input_float("Async Input Data")
+add_button("long Asynchronous Function", callback="longAsyncWrapping", tip="this will not a freeze the GUI")
+
+def longAsyncWrapping(data, sender):
+    floaty = get_value("Async Input Data")
+    run_async_function("longCallback", floaty, return_handler="longAsyncReturn")
+
+
+def longCallback(sender, data):
+    sleep(3)
+    log_debug("Long callback Completed")
+    return data * 2
+
+def longAsyncReturn(sender,data):
+    log_debug(data)
 
 start_dearpygui()
             </code></pre>
