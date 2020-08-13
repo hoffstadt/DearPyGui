@@ -19,19 +19,28 @@ class BinaryDistribution(Distribution):
         return True
 
 setup(
-    name='dearpygui',  # Required
-    version=DEARPYGUI_VERSION,  # Required
-    description='DearPyGui',  # Required
-    long_description=long_description,  # Optional
-    long_description_content_type='text/markdown',  # Optional (see note above)
-    url='https://github.com/RaylockLLC/DearPyGui',  # Optional
+    name='dearpygui',                                      # Required
+    version=DEARPYGUI_VERSION,                             # Required
+    author="Jonathan Hoffstadt and Preston Cothren",       # Optional
+    author_email="jonathanhoffstadt@yahoo.com",            # Optional
+    description='DearPyGui: A simple Python GUI Toolkit',  # Required
+    long_description=long_description,                     # Optional
+    long_description_content_type='text/markdown',         # Optional
+    url='https://github.com/hoffstadt/DearPyGui',          # Optional
     license = 'MIT',
     python_requires='>=3.8',
     classifiers=[
         'Development Status :: 4 - Beta',
+        'Intended Audience :: Education',
         'Intended Audience :: Developers',
+        'Intended Audience :: Science/Research',
         'License :: OSI Approved :: MIT License',
+        'Operating System :: MacOS :: MacOS X',
+        'Operating System :: Microsoft :: Windows :: Windows 10',
+        'Operating System :: POSIX :: Linux',
         'Programming Language :: Python :: 3.8',
+        'Topic :: Software Development :: User Interfaces',
+        'Topic :: Software Development :: Libraries :: Python Modules',
     ],
     packages=find_packages(exclude=['contrib', 'docs', 'tests']),  # Required
     package_data={  # Optional
