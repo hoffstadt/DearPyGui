@@ -744,6 +744,22 @@ def set_plot_xlimits(plot: str, xmin: float, xmax: float) -> None:
 	"""Sets x axis limits of a plot. (can be undone with set_plot_xlimits_auto()"""
 	...
 
+def set_xticks(plot: str, label_pairs: List[List[str, float]]) -> None:
+	"""Sets plots x ticks and labels"""
+	...
+
+def set_yticks(plot: str, label_pairs: List[List[str, float]]) -> None:
+	"""Sets plots x ticks and labels"""
+	...
+
+def reset_xticks(plot: str) -> None:
+	"""Sets plots x ticks and labels back to automatic"""
+	...
+
+def reset_yticks(plot: str) -> None:
+	"""Sets plots y ticks and labels back to automatic"""
+	...
+
 def set_plot_xlimits_auto(plot: str) -> None:
 	"""Sets plots x limits to be automatic."""
 	...

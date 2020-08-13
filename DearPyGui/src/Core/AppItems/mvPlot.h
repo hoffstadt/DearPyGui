@@ -76,6 +76,38 @@ namespace Marvel {
 			m_colormap = colormap;
 		}
 
+		void resetXTicks()
+		{
+			m_xlabels.clear();
+			m_xclabels.clear();
+			m_xlabelLocations.clear();
+		}
+
+		void resetYTicks()
+		{
+			m_ylabels.clear();
+			m_yclabels.clear();
+			m_ylabelLocations.clear();
+		}
+
+		void setXTicks(const std::vector<std::string>& labels, const std::vector<double>& locations)
+		{
+			m_xlabels = labels;
+			m_xlabelLocations = locations;
+
+			for (const auto& item : m_xlabels)
+				m_xclabels.push_back(item.data());
+		}
+
+		void setYTicks(const std::vector<std::string>& labels, const std::vector<double>& locations)
+		{
+			m_ylabels = labels;
+			m_ylabelLocations = locations;
+
+			for (const auto& item : m_ylabels)
+				m_yclabels.push_back(item.data());
+		}
+
 		void clear()
 		{
 			for (auto& series : m_series)
@@ -96,6 +128,17 @@ namespace Marvel {
 
 			if (m_setYLimits)
 				ImPlot::SetNextPlotLimitsY(m_ylimits.x, m_ylimits.y, ImGuiCond_Always);
+
+			if (!m_xlabels.empty())
+			{
+				// TODO: Checks
+				ImPlot::SetNextPlotTicksX(m_xlabelLocations.data(), (int)m_xlabels.size(), m_xclabels.data());
+			}
+			if (!m_ylabels.empty())
+			{
+				// TODO: Checks
+				ImPlot::SetNextPlotTicksY(m_ylabelLocations.data(), (int)m_ylabels.size(), m_yclabels.data());
+			}
 
 			if (ImPlot::BeginPlot(m_name.c_str(), m_xaxisName.c_str(), m_yaxisName.c_str(),
                          ImVec2((float)m_width, (float)m_height), m_flags,
@@ -185,6 +228,13 @@ namespace Marvel {
 		std::string     m_queryCallback;
 		bool            m_queried = false;
 		float           m_queryArea[4] = {0.0f , 0.0f, 0.0f, 0.0f};
+		
+		std::vector<std::string> m_xlabels;
+		std::vector<std::string> m_ylabels;
+		std::vector<const char*> m_xclabels; // to prevent conversion from string to char* every frame
+		std::vector<const char*> m_yclabels; // to prevent conversion from string to char* every frame
+		std::vector<double>      m_xlabelLocations;
+		std::vector<double>      m_ylabelLocations;
 
 		std::vector<mvSeries*> m_series;
 

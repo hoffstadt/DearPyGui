@@ -279,6 +279,24 @@ namespace Marvel {
 			{mvPythonDataType::Integer, "xoffset"},
 			{mvPythonDataType::Integer, "yoffset"}
 		}, "Adds a point with text to a plot.", "None", "Plotting") });
+
+		parsers->insert({ "set_xticks", mvPythonParser({
+			{mvPythonDataType::String, "plot"},
+			{mvPythonDataType::Object, "label_pairs", "list of [str,float]"},
+		}, "Sets plots x ticks and labels", "None", "Plotting") });
+
+		parsers->insert({ "set_yticks", mvPythonParser({
+			{mvPythonDataType::String, "plot"},
+			{mvPythonDataType::Object, "label_pairs", "list of [str,float]"},
+		}, "Sets plots y ticks and labels", "None", "Plotting") });
+
+		parsers->insert({ "reset_xticks", mvPythonParser({
+			{mvPythonDataType::String, "plot"},
+		}, "Sets plots x ticks and labels back to automatic", "None", "Plotting") });
+
+		parsers->insert({ "reset_yticks", mvPythonParser({
+			{mvPythonDataType::String, "plot"},
+		}, "Sets plots y ticks and labels back to automatic", "None", "Plotting") });
 	}
 
 	static void AddLogCommands(std::map<std::string, mvPythonParser>* parsers)
