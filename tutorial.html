@@ -48,6 +48,8 @@
             <li><a href="#tables">Tables</a></li>
             <li><a href="#input_polling">Input Polling</a></li>
             <li><a href="#multithreading">Multithreading & Asynchronous Functions</a></li>
+<!--        TODO: maybe add a section on manual control of the render loop with setup & render & cleanup  -->
+<!--        TODO: maybe add a section on sprite maps  -->
             <li><a href="#themes_and_styles">Themes and Styles</a></li>
         </ul>
     </article>
@@ -800,13 +802,12 @@ add_button("long function", callback="longCallback", tip="this will cause a 3 se
 add_button("long Asynchronous Function", callback="longAsyncCallback", tip="this will not a freeze")
 
 
-def longAsyncCallback(data,sender):
+def longAsyncCallback(data, sender):
     run_async_function("longCallback", None)
 
 
-def longCallback(sender,data):
+def longCallback(sender, data):
     sleep(3)
-    log_debug("Long callback Completed")
 
 start_dearpygui()
             </code></pre>
@@ -814,12 +815,13 @@ start_dearpygui()
             Asynchronous functions cannot access <code class="inline-code" data-language="python">add_data()</code>
             or <code class="inline-code" data-language="python">get_data()</code>. So when it is necessary to pass data to the asynchronous
             function you must use the data and return handler keyworded arguments.
-            Any python object can be made accessible by being sent into the function through the "data" keyword.
-            Additionally, any returned data from the Async function will be accessible through the "data" input in the the return callback.
+            Any python object can be made accessible the the async function by being sent into the function through the "data" keyword.
+            Additionally, any returned data from the Async function will be accessible through the "data" input of the specified return callback.
         </p>
         <pre><code data-language="python">from dearpygui.dearpygui import *
 from time import sleep
 show_logger()
+add_text("input a number and see the logger window for the output of the long callback that would normally freeze the GUI")
 add_input_float("Async Input Data")
 add_button("long Asynchronous Function", callback="longAsyncWrapping", tip="this will not a freeze the GUI")
 
@@ -830,11 +832,54 @@ def longAsyncWrapping(data, sender):
 
 def longCallback(sender, data):
     sleep(3)
-    log_debug("Long callback Completed")
     return data * 2
 
-def longAsyncReturn(sender,data):
+def longAsyncReturn(sender, data):
     log_debug(data)
+
+start_dearpygui()
+            </code></pre>
+        <p>
+            When the asynchronous function method is called a thread pool is created. The aspects of the threadpool that
+            can be configured are the number of threads and the timeout time.
+            <br><br>
+            using <code class="inline-code" data-language="python">set_thread_count()</code> we can set the number of threads in the thread pool.
+            Also we can use <code class="inline-code" data-language="python">set_threadpool_high_performance()</code> to tell the thread pool to
+            max out the number of threads per the users computer. Be aware that this will run the CPU at 100% when calling async functions.
+            <br><br>
+            Setting the timeout time for the threadpool can be done using <code class="inline-code" data-language="python">set_threadpool_timeout()</code>.
+            This will destroy the threadpool and free the resources after the set amount of time.
+        </p>
+    </article>
+    <article><a name="themes_and_styles"></a>
+        <h2>Themes and Styles (beta)</h2>
+        <hr>
+        <p>
+            This feature is in beta and is planning on being reworked.
+            <br><br>
+            Themes and widget styling can be applied to a single widget or the app as a whole.
+            the attributes of the style that can be set are:
+            <ul>
+            <li>font size</li>
+            <li>app color scheme</li>
+            <li>corner roundness</li>
+            </ul>
+            please see the example below
+        </p>
+        <pre><code data-language="python">from dearpygui.dearpygui import *
+
+themes = ["Dark", "Light", "Classic", "Dark 2", "Grey", "Dark Grey", "Cherry", "Purple", "Gold", "Red"]
+add_combo("Themes", themes, default_value="Dark", callback="applyTheme")
+
+add_slider_float("Font Size Multiplier", default_value=1.0, min_value=0.0, max_value=2.0, callback="applyTextMultiplier")
+
+def applyTextMultiplier(sender, data):
+    fontMultiplier = get_value("Font Size Multiplier")
+    set_global_font_scale(fontMultiplier)
+
+def applyTheme(sender, data):
+    theme = get_value("Themes")
+    set_theme(theme)
 
 start_dearpygui()
             </code></pre>
