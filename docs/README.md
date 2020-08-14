@@ -92,11 +92,11 @@ _DearPyGui_ includes a plotting API ([ImPlot](https://github.com/epezent/implot)
 
 #### Themes
 _DearPyGui_ currently includes 10 themes (a full custom theming system will be available in **v0.2**):
-<BR>![Themes](https://github.com/hoffstadt/DearPyGui/blob/assets/linuxthemes.png?raw=true)
+<BR>![Themes](https://github.com/hoffstadt/DearPyGui/blob/assets/linuxthemes.PNG?raw=true)
 
 #### Canvas
 _DearPyGui_ includes a drawing API to create custom drawings, plot, and even 2D games.
-<BR>![BasicUsageExample](https://github.com/hoffstadt/DearPyGui/blob/assets/canvas.PNG?raw=true)
+<BR>![BasicUsageExample](https://github.com/hoffstadt/DearPyGui/blob/assets/canvas.png?raw=true)
  
 #### Tools
 _DearPyGui_ includes several tools to help developers with _DearPyGui_ app development including built-in documentation, logging, source viewer, and other tools:
