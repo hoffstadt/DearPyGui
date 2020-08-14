@@ -127,11 +127,14 @@ git clone --recursive https://github.com/RaylockLLC/DearPyGui
 3. In Visual Studio, use _Open a local folder_ to open _DearPyGui_ folder.
 4. Switch to the release configuration and run _Build All_.
 
-#### Ubuntu 20.04
+#### Linux
+<sub>Only tested on Ubuntu 20.04</sub>
 
 ##### Build Requirements
 
-- CLion
+- cmake
+- Python 3.8
+- xorg-dev
 
 ##### Instructions
 
@@ -139,14 +142,12 @@ git clone --recursive https://github.com/RaylockLLC/DearPyGui
 ```
 git clone --recursive https://github.com/hoffstadt/DearPyGui
 ```
-2. Open the _cpython_ folder inside of _Dependencies_.
+2. Open the _Scripts_ folder.
 3. Open the terminal and type the following commands:
 ```
-./configure --with-pydebug
-sudo make && sudo make install
+chmod +x BuildForLinux.sh
+sudo ./BuildForLinux.sh
 ```
-4. Open the project in CLion
-5. Switch the configuration to _DearSandbox_ and build.
 
 ### Upcoming Changes
 
