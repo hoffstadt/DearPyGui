@@ -267,6 +267,7 @@ draw_polyline("drawing##widget", ((320, 490), (185, 200), (500, 710)), (255, 255
 draw_polygon("drawing##widget", ((363, 471), (153, 498), (59, 220), (363, 471)), (255, 125, 0, 255), thickness=1.0, fill=(255, 125, 0, 50))
 draw_bezier_curve("drawing##widget", (50, 200), (150, 250), (300, 150), (600, 250), (255, 255, 0, 255), thickness = 2.0)
 draw_arrow("drawing##widget", (50, 70), (100, 65), (0, 200, 255), 1, 10)
+draw_image("drawing##widget", "C:/dev/DearPyGui/Examples/SpriteMapExample.png", pmin=[200, 200])
 end_window()
 
 # asyncronous testing

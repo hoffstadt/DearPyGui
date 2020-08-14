@@ -31,6 +31,8 @@ namespace Marvel {
 			if (m_width == 0) m_width = (int)((float)texture->width * (m_uv_max.x - m_uv_min.x));
 			if (m_height == 0) m_height = (int)((float)texture->height * (m_uv_max.y - m_uv_min.y));
 
+			m_texture = texture->texture;
+
 			if (m_autosize)
 				m_pmax = { (float)m_width + m_pmin.x, (float)m_height + m_pmin.y };
 
