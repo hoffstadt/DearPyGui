@@ -497,7 +497,7 @@ namespace Marvel {
 				if (item->tag == tag && item->getType() == mvDrawingCommandType::DrawBezierCurve)
 				{
 					*(mvDrawBezierCurveCommand*)(item) = mvDrawBezierCurveCommand(p1, p2, p3,
-						convertToModelSpace(p4), color, thickness, segments);
+						p4, color, thickness, segments);
 					item->tag = tag;
 					m_dirty = true;
 					return;
