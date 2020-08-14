@@ -96,7 +96,7 @@ _DearPyGui_ currently includes 10 themes (a full custom theming system will be a
 
 #### Canvas
 _DearPyGui_ includes a drawing API to create custom drawings, plot, and even 2D games.
-<BR>![BasicUsageExample](https://github.com/hoffstadt/DearPyGui/blob/assets/canvas.png?raw=true)
+<BR>![BasicUsageExample](https://github.com/hoffstadt/DearPyGui/blob/assets/canvas.PNG?raw=true)
  
 #### Tools
 _DearPyGui_ includes several tools to help developers with _DearPyGui_ app development including built-in documentation, logging, source viewer, and other tools:
