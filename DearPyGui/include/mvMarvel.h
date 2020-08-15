@@ -1592,7 +1592,7 @@ namespace Marvel {
 		}, "Returns time since last frame.", "float") });
 
 		parsers->insert({ "get_main_window_size", mvPythonParser({
-		}, "Returns the size of the main window.", "[float, float]") });
+		}, "Returns the size of the main window.", "[int, int]") });
 
 		parsers->insert({ "get_thread_count", mvPythonParser({
 		}, "Returns the allowable thread count.", "int") });

@@ -468,7 +468,7 @@ def get_log_level() -> int:
 	"""Returns the log level."""
 	...
 
-def get_main_window_size() -> [float, float]:
+def get_main_window_size() -> [int, int]:
 	"""Returns the size of the main window."""
 	...
 
