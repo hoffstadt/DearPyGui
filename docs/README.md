@@ -3,7 +3,7 @@
 <sub>(This library is available under a free and permissive license)</sub>
 
 ![Python Version](https://img.shields.io/pypi/pyversions/dearpygui)
-![PYPI](https://img.shields.io/pypi/v/dearpygui)
+[![PYPI](https://img.shields.io/pypi/v/dearpygui)](https://pypi.org/project/dearpygui/)
 [![Downloads](https://pepy.tech/badge/dearpygui)](https://pepy.tech/project/dearpygui)
 
 [![build status](https://github.com/hoffstadt/DearPyGui/workflows/Stable%20Build/badge.svg)](https://github.com/hoffstadt/DearPyGui/actions?workflow=Stable%20Build)
