@@ -24,7 +24,7 @@ HOW TO UPDATE?
 
 
 -----------------------------------------------------------------------
- VERSION 0.1.0 Beta 6 WIP (In Progress)
+ VERSION 0.1.0 Beta 6
 -----------------------------------------------------------------------
 
 Decorated log: https://github.com/hoffstadt/DearPyGui/releases/tag/v0.1.0-beta6
