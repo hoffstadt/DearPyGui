@@ -42,7 +42,7 @@
             <li><a href="#logging">Built-in Logging</a></li>
             <li><a href="#data_storage">Widget Data Source & Cross-Widget Communication</a></li>
             <li><a href="#menu_bar">Menu Bars</a></li>
-<!--        TODO: maybe add a section on file Dialogue here -->
+            <li><a href="#file_directory_save">File, Directory, & Save Dialogs</a></li>
             <li><a href="#plotting">Plotting</a></li>
             <li><a href="#drawing">Drawing</a></li>
             <li><a href="#tables">Tables</a></li>
@@ -57,6 +57,12 @@
     <article><a name="overview"></a>
         <h2>Overview</h2>
         <hr>
+        <p>
+            This tutorial is intended to demonstrate how to use some features of DearImGui. The examples may not include all
+            of the abilities of the showcased feature. More complex examples included in the
+            <a href="https://github.com/RaylockLLC/DearPyGui/tree/master/Examples" target="_blank">Examples</a> folder on the github.
+            It is also recommended to refer to the <a href="api_docs.html">API Reference</a> for the information on a specific API Method.
+        </p>
         <p>
             DearPyGui consists of an App, and widgets. The App is the main window of your program and is created at the end of the main python script
             by calling the function <code class="inline-code" data-language="python">start_dearpygui()</code>
@@ -420,6 +426,66 @@ def print_me(sender, data):
 
 start_dearpygui()</code></pre>
     </article>
+
+    <article><a name="file_directory_save"></a>
+        <h2>File, Directory, & Save Dialogs</h2>
+        <hr>
+        <p>
+            Directory dialogs are used by calling <code class="inline-code" data-language="python">select_directory_dialog()</code> which
+            must be given a return callback. The return callback's data argument will be filled out with the directory path & folder path as a list of strings.
+            <br><br>
+            Typically directory dialog are called by another widget such as a button so this is how it will be done in the example.
+        </p>
+        <pre><code data-language="python">from dearpygui.dearpygui import *
+
+add_button("Directory Selector", callback="directoryPicker")
+add_text("Directory Path: ")
+add_same_line()
+add_label_text("##filedir", "None Selected", data_source="directory")
+add_text("Folder Path: ")
+add_same_line()
+add_label_text("##file", "None Selected", data_source="folder_path")
+
+
+def directoryPicker(sender, data):
+    select_directory_dialog(callback="applySelectedDirectory")
+
+def applySelectedDirectory(sender, data):
+    directory = data[0]
+    folder_path = data[1]
+    add_data("directory", directory)
+    add_data("folder_path", folder_path)
+
+start_dearpygui()</code></pre>
+        <p>
+            File dialogs are used by calling <code class="inline-code" data-language="python">open_file_dialog()</code> which
+            must be given a return callback. The return callback's data argument will be filled out with the directory path & file path as a list of strings.
+            Extensions are an optional keyword to the file dialog that will give selections to filter the displayed files in the dialog based on their extensions.
+            <br><br>
+            Typically file dialog are called by another widget such as a button so this is how it will be done in the example.
+        </p>
+        <pre><code data-language="python">from dearpygui.dearpygui import *
+
+add_button("File Selector", callback="filePicker")
+add_text("Directory Path: ")
+add_same_line()
+add_label_text("##filedir", "None Selected", data_source="directory")
+add_text("File Path: ")
+add_same_line()
+add_label_text("##file", "None Selected", data_source="file_directory")
+
+
+def filePicker(sender, data):
+    open_file_dialog(callback="applySelectedDirectory", extensions=".*,.py")
+
+def applySelectedDirectory(sender, data):
+    directory = data[0]
+    file_directory = data[1]
+    add_data("directory", directory)
+    add_data("file_directory", file_directory)
+
+start_dearpygui()</code></pre>
+    </article>
     <article><a name="plotting"></a>
         <h2>Plotting</h2>
         <hr>
@@ -576,7 +642,6 @@ start_dearpygui()</code></pre>
         </p>
         <pre><code data-language="python">from dearpygui.dearpygui import *
 
-show_metrics()
 add_drawing("Drawing_1", width=600, height=600)
 draw_circle("Drawing_1", [150, 150], radius=20, color=[255, 255, 255, 255], segments=4, tag="circle##dynamic")
 
