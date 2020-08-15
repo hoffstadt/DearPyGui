@@ -1,0 +1,35 @@
+Dear PyGui
+CHANGELOG
+
+This document holds the user-facing changelog that we also use in release notes.
+We generally fold multiple commits pertaining to the same topic as a single entry.
+Changes to the examples/bindings are included within the individual .cpp files in the examples/ folder.
+
+RELEASE NOTES:                  https://github.com/hoffstadt/DearPyGui/releases
+REPORT ISSUES, ASK QUESTIONS:   https://github.com/hoffstadt/DearPyGui/issues
+COMMITS HISTORY:                https://github.com/hoffstadt/DearPyGui/commits/master
+WIKI                            https://github.com/hoffstadt/DearPyGui/wiki
+
+WHEN TO UPDATE?
+
+- Keeping your copy of Dear PyGui updated regularly is recommended.
+- It is generally safe to sync to the latest commit in master or docking branches
+  The library is fairly stable and regressions tends to be fixed fast when reported.
+
+HOW TO UPDATE?
+
+- pip3 install dearpygui --upgrade
+- Read the `Breaking Changes` section (here in the changelog).
+- Please report any issue!
+
+
+-----------------------------------------------------------------------
+ VERSION 0.1.0 Beta 6 WIP (In Progress)
+-----------------------------------------------------------------------
+
+Decorated log: https://github.com/hoffstadt/DearPyGui/releases/tag/v0.1.0-beta6
+
+Other Changes:
+
+- Drawing API: Fixed bug where draw_bezier_curve() with tags created weird results (Issue #73) (thanks mphirke)
+- Window: Changed the return type of get_main_window_size() from [float, float] to [int, int] (Issue #75)
