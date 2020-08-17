@@ -25,6 +25,7 @@ It's mostly a bunch of personal notes, probably incomplete. Feel free to query i
 - style/theme: provide a complete and unified system for changing the colors and styles of widgets
 
 - fonts: provide additional fonts and a system for users to import their own
+- fonts: allow users to use utf-8 strings more easily
 
 - builds: automate dev version number
 - builds: write tests to ensure everything was actually packaged in the wheel
