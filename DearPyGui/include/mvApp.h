@@ -113,8 +113,6 @@ namespace Marvel {
         void                     setGlobalFontScale(float scale);
         void                     setFont           (const std::string& file, float size = 13.0f, const std::string& glyphRange = "");
         
-
-
         const std::string&       getFile           () const { return m_file; }
         const std::string&       getActiveWindow   () const { return m_activeWindow; }
         std::vector<mvAppItem*>& getWindows        ()       { return m_windows; }
@@ -124,7 +122,6 @@ namespace Marvel {
         const std::string&       getArgv0() const { return m_argv0; }
         ImGuiStyle&              getStyle() { return m_newstyle; }
         
-
         //-----------------------------------------------------------------------------
         // Styles/Themes
         //-----------------------------------------------------------------------------
@@ -231,10 +228,11 @@ namespace Marvel {
         ImGuiStyle  m_newstyle;
         bool        m_firstRender = true;
         bool        m_styleChange = true;
+
+        // fonts
         std::string m_fontFile;
         std::string m_fontGlyphRange;
         float       m_fontSize = 13.0f;
-
 
         // runtime widget modifications
         std::queue<std::string>          m_deleteChildrenQueue;
