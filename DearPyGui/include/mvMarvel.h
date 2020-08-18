@@ -1109,228 +1109,228 @@ namespace Marvel {
 		parsers->insert({ "set_style_window_padding", mvPythonParser({
 			{mvPythonDataType::Float, "x"},
 			{mvPythonDataType::Float, "y"},
-		}, "Needs documentation", "None", "Themes and Styles") });
+		}, "Sets padding within a window.", "None", "Themes and Styles") });
 
 		parsers->insert({ "set_style_frame_padding", mvPythonParser({
 			{mvPythonDataType::Float, "x"},
 			{mvPythonDataType::Float, "y"},
-		}, "Needs documentation", "None", "Themes and Styles") });
+		}, "Sets padding within a framed rectangle (used by most widgets).", "None", "Themes and Styles") });
 
 		parsers->insert({ "set_style_item_spacing", mvPythonParser({
 			{mvPythonDataType::Float, "x"},
 			{mvPythonDataType::Float, "y"},
-		}, "Needs documentation", "None", "Themes and Styles") });
+		}, "Sets horizontal and vertical spacing between widgets/lines.", "None", "Themes and Styles") });
 
 		parsers->insert({ "set_style_item_inner_spacing", mvPythonParser({
 			{mvPythonDataType::Float, "x"},
 			{mvPythonDataType::Float, "y"},
-		}, "Needs documentation", "None", "Themes and Styles") });
+		}, "Sets horizontal and vertical spacing between within elements of a composed widget (e.g. a slider and its label).", "None", "Themes and Styles") });
 
 		parsers->insert({ "set_style_touch_extra_padding", mvPythonParser({
 			{mvPythonDataType::Float, "x"},
 			{mvPythonDataType::Float, "y"},
-		}, "Needs documentation", "None", "Themes and Styles") });
+		}, "Expand reactive bounding box for touch-based system where touch position is not accurate enough. Unfortunately we don't sort widgets so priority on overlap will always be given to the first widget. So don't grow this too much!", "None", "Themes and Styles") });
 
 		parsers->insert({ "set_style_indent_spacing", mvPythonParser({
 			{mvPythonDataType::Float, "value"}
-		}, "Needs documentation", "None", "Themes and Styles") });
+		}, "Sets horizontal indentation when e.g. entering a tree node. Generally == (FontSize + FramePadding.x*2).", "None", "Themes and Styles") });
 
 		parsers->insert({ "set_style_scrollbar_size", mvPythonParser({
 			{mvPythonDataType::Float, "value"}
-		}, "Needs documentation", "None", "Themes and Styles") });
+		}, "Sets width of the vertical scrollbar, Height of the horizontal scrollbar.", "None", "Themes and Styles") });
 
 		parsers->insert({ "set_style_grab_min_size", mvPythonParser({
 			{mvPythonDataType::Float, "value"}
-		}, "Needs documentation", "None", "Themes and Styles") });
+		}, "Sets minimum width/height of a grab box for slider/scrollbar.", "None", "Themes and Styles") });
 
 		parsers->insert({ "set_style_window_border_size", mvPythonParser({
 			{mvPythonDataType::Float, "value"}
-		}, "Needs documentation", "None", "Themes and Styles") });
+		}, "Sets thickness of border around windows. Generally set to 0.0 or 1.0. (Other values are not well tested and more CPU/GPU costly).", "None", "Themes and Styles") });
 
 		parsers->insert({ "set_style_child_border_size", mvPythonParser({
 			{mvPythonDataType::Float, "value"}
-		}, "Needs documentation", "None", "Themes and Styles") });
+		}, "Sets thickness of border around child windows. Generally set to 0.0 or 1.0. (Other values are not well tested and more CPU/GPU costly).", "None", "Themes and Styles") });
 
 		parsers->insert({ "set_style_popup_border_size", mvPythonParser({
 			{mvPythonDataType::Float, "value"}
-		}, "Needs documentation", "None", "Themes and Styles") });
+		}, "Sets thickness of border around popup/tooltip windows. Generally set to 0.0 or 1.0. (Other values are not well tested and more CPU/GPU costly).", "None", "Themes and Styles") });
 
 		parsers->insert({ "set_style_frame_border_size", mvPythonParser({
 			{mvPythonDataType::Float, "value"}
-		}, "Needs documentation", "None", "Themes and Styles") });
+		}, "Sets thickness of border around frames. Generally set to 0.0 or 1.0. (Other values are not well tested and more CPU/GPU costly).", "None", "Themes and Styles") });
 
 		parsers->insert({ "set_style_tab_border_size", mvPythonParser({
 			{mvPythonDataType::Float, "value"}
-		}, "Needs documentation", "None", "Themes and Styles") });
+		}, "Sets thickness of border around tabs.", "None", "Themes and Styles") });
 
 		parsers->insert({ "set_style_window_rounding", mvPythonParser({
 			{mvPythonDataType::Float, "value"}
-		}, "Needs documentation", "None", "Themes and Styles") });
+		}, "Sets Radius of window corners rounding. Set to 0.0fto have rectangular windows. Large values tend to lead to variety of artifacts and are not recommended.", "None", "Themes and Styles") });
 
 		parsers->insert({ "set_style_child_rounding", mvPythonParser({
 			{mvPythonDataType::Float, "value"}
-		}, "Needs documentation", "None", "Themes and Styles") });
+		}, "Sets radius of child window corners rounding. Set to 0.0 to have rectangular windows.", "None", "Themes and Styles") });
 
 		parsers->insert({ "set_style_frame_rounding", mvPythonParser({
 			{mvPythonDataType::Float, "value"}
-		}, "Needs documentation", "None", "Themes and Styles") });
+		}, "Sets radius of frame corners rounding. Set to 0.0 to have rectangular frame (used by most widgets).", "None", "Themes and Styles") });
 
 		parsers->insert({ "set_style_popup_rounding", mvPythonParser({
 			{mvPythonDataType::Float, "value"}
-		}, "Needs documentation", "None", "Themes and Styles") });
+		}, "Sets radius of popup window corners rounding. (Note that tooltip windows use WindowRounding).", "None", "Themes and Styles") });
 
 		parsers->insert({ "set_style_scrollbar_rounding", mvPythonParser({
 			{mvPythonDataType::Float, "value"}
-		}, "Needs documentation", "None", "Themes and Styles") });
+		}, "Sets radius of grab corners for scrollbar.", "None", "Themes and Styles") });
 
 		parsers->insert({ "set_style_grab_rounding", mvPythonParser({
 			{mvPythonDataType::Float, "value"}
-		}, "Needs documentation", "None", "Themes and Styles") });
+		}, "Sets radius of grabs corners rounding. Set to 0.0 to have rectangular slider grabs.", "None", "Themes and Styles") });
 
 		parsers->insert({ "set_style_tab_rounding", mvPythonParser({
 			{mvPythonDataType::Float, "value"}
-		}, "Needs documentation", "None", "Themes and Styles") });
+		}, "Sets radius of upper corners of a tab. Set to 0.0 to have rectangular tabs.", "None", "Themes and Styles") });
 
 		parsers->insert({ "set_style_window_title_align", mvPythonParser({
 			{mvPythonDataType::Float, "x"},
 			{mvPythonDataType::Float, "y"},
-		}, "Needs documentation", "None", "Themes and Styles") });
+		}, "Sets alignment for title bar text. Defaults to (0.0,0.5) for left-aligned,vertically centered.", "None", "Themes and Styles") });
 
 		parsers->insert({ "set_style_window_menu_button_position", mvPythonParser({
 			{mvPythonDataType::Integer, "value"}
-		}, "Needs documentation", "None", "Themes and Styles") });
+		}, "Sets side of the collapsing/docking button in the title bar (None/Left/Right). Defaults to mvGuiDir_Left.", "None", "Themes and Styles") });
 
 		parsers->insert({ "set_style_color_button_position", mvPythonParser({
 			{mvPythonDataType::Integer, "value"}
-		}, "Needs documentation", "None", "Themes and Styles") });
+		}, "Sets side of the color button in the ColorEdit4 widget (left/right). Defaults to mvGuiDir_Right.", "None", "Themes and Styles") });
 
 		parsers->insert({ "set_style_button_text_align", mvPythonParser({
 			{mvPythonDataType::Float, "x"},
 			{mvPythonDataType::Float, "y"},
-		}, "Needs documentation", "None", "Themes and Styles") });
+		}, "Sets alignment of button text when button is larger than text. Defaults to (0.5, 0.5) (centered).", "None", "Themes and Styles") });
 
 		parsers->insert({ "set_style_selectable_text_align", mvPythonParser({
 			{mvPythonDataType::Float, "x"},
 			{mvPythonDataType::Float, "y"},
-		}, "Needs documentation", "None", "Themes and Styles") });
+		}, "Sets alignment of selectable text. Defaults to (0.0, 0.0) (top-left aligned). It's generally important to keep this left-aligned if you want to lay multiple items on a same line.", "None", "Themes and Styles") });
 
 		parsers->insert({ "set_style_display_safe_area_padding", mvPythonParser({
 			{mvPythonDataType::Float, "x"},
 			{mvPythonDataType::Float, "y"},
-		}, "Needs documentation", "None", "Themes and Styles") });
+		}, "Sets if you cannot see the edges of your screen (e.g. on a TV) increase the safe area padding. Apply to popups/tooltips as well regular windows. NB: Prefer configuring your TV sets correctly!", "None", "Themes and Styles") });
 
 		parsers->insert({ "set_style_global_alpha", mvPythonParser({
 			{mvPythonDataType::Float, "value"}
-		}, "Needs documentation", "None", "Themes and Styles") });
+		}, "Sets global alpha applies to everything in Dear PyGui.", "None", "Themes and Styles") });
 
 		parsers->insert({ "set_style_antialiased_lines", mvPythonParser({
 			{mvPythonDataType::Bool, "value"}
-		}, "Needs documentation", "None", "Themes and Styles") });
+		}, "Sets anti-aliasing on lines/borders. Disable if you are really tight on CPU/GPU.", "None", "Themes and Styles") });
 
 		parsers->insert({ "set_style_antialiased_fill", mvPythonParser({
 			{mvPythonDataType::Bool, "value"}
-		}, "Needs documentation", "None", "Themes and Styles") });
+		}, "Sets anti-aliasing on filled shapes (rounded rectangles, circles, etc.).", "None", "Themes and Styles") });
 
 		parsers->insert({ "set_style_curve_tessellation_tolerance", mvPythonParser({
 			{mvPythonDataType::Float, "value"}
-		}, "Needs documentation", "None", "Themes and Styles") });
+		}, "Sets Tessellation tolerance.", "None", "Themes and Styles") });
 
 		parsers->insert({ "set_style_circle_segment_max_error", mvPythonParser({
 			{mvPythonDataType::Float, "value"}
-		}, "Needs documentation", "None", "Themes and Styles") });
+		}, "Sets maximum error (in pixels) allowed when using draw_circle()or drawing rounded corner rectangles with no explicit segment count specified. Decrease for higher quality but more geometry.", "None", "Themes and Styles") });
 
 		parsers->insert({ "get_style_window_padding", mvPythonParser({
-		}, "Needs documentation", "List[float]", "Themes and Styles") });
+		}, "Gets padding within a window.", "List[float]", "Themes and Styles") });
 
 		parsers->insert({ "get_style_frame_padding", mvPythonParser({
-		}, "Needs documentation", "List[float]", "Themes and Styles") });
+		}, "Gets padding within a framed rectangle (used by most widgets).", "List[float]", "Themes and Styles") });
 
 		parsers->insert({ "get_style_item_spacing", mvPythonParser({
-		}, "Needs documentation", "List[float]", "Themes and Styles") });
+		}, "Gets horizontal and vertical spacing between widgets/lines.", "List[float]", "Themes and Styles") });
 
 		parsers->insert({ "get_style_item_inner_spacing", mvPythonParser({
-		}, "Needs documentation", "List[float]", "Themes and Styles") });
+		}, "Gets horizontal and vertical spacing between within elements of a composed widget (e.g. a slider and its label).", "List[float]", "Themes and Styles") });
 
 		parsers->insert({ "get_style_touch_extra_padding", mvPythonParser({
-		}, "Needs documentation", "List[float]", "Themes and Styles") });
+		}, "Get touch extra padding.", "List[float]", "Themes and Styles") });
 
 		parsers->insert({ "get_style_indent_spacing", mvPythonParser({
-		}, "Needs documentation", "float", "Themes and Styles") });
+		}, "Gets horizontal indentation when e.g. entering a tree node. Generally == (FontSize + FramePadding.x*2).", "float", "Themes and Styles") });
 
 		parsers->insert({ "get_style_scrollbar_size", mvPythonParser({
-		}, "Needs documentation", "float", "Themes and Styles") });
+		}, "Gets width of the vertical scrollbar, Height of the horizontal scrollbar.", "float", "Themes and Styles") });
 
 		parsers->insert({ "get_style_grab_min_size", mvPythonParser({
-		}, "Needs documentation", "float", "Themes and Styles") });
+		}, "Gets minimum width/height of a grab box for slider/scrollbar.", "float", "Themes and Styles") });
 
 		parsers->insert({ "get_style_window_border_size", mvPythonParser({
-		}, "Needs documentation", "float", "Themes and Styles") });
+		}, "Gets thickness of border around windows.", "float", "Themes and Styles") });
 
 		parsers->insert({ "get_style_child_border_size", mvPythonParser({
-		}, "Needs documentation", "float", "Themes and Styles") });
+		}, "Gets thickness of border around child windows.", "float", "Themes and Styles") });
 
 		parsers->insert({ "get_style_popup_border_size", mvPythonParser({
-		}, "Needs documentation", "float", "Themes and Styles") });
+		}, "Gets thickness of border around popup/tooltip windows.", "float", "Themes and Styles") });
 
 		parsers->insert({ "get_style_frame_border_size", mvPythonParser({
-		}, "Needs documentation", "float", "Themes and Styles") });
+		}, "Gets thickness of border around frames.", "float", "Themes and Styles") });
 
 		parsers->insert({ "get_style_tab_border_size", mvPythonParser({
-		}, "Needs documentation", "float", "Themes and Styles") });
+		}, "Gets thickness of border around tabs.", "float", "Themes and Styles") });
 
 		parsers->insert({ "get_style_window_rounding", mvPythonParser({
-		}, "Needs documentation", "float", "Themes and Styles") });
+		}, "Gets radius of window corners rounding.", "float", "Themes and Styles") });
 
 		parsers->insert({ "get_style_child_rounding", mvPythonParser({
-		}, "Needs documentation", "float", "Themes and Styles") });
+		}, "Gets radius of child window corners rounding.", "float", "Themes and Styles") });
 
 		parsers->insert({ "get_style_frame_rounding", mvPythonParser({
-		}, "Needs documentation", "float", "Themes and Styles") });
+		}, "Gets radius of frame corners rounding.", "float", "Themes and Styles") });
 
 		parsers->insert({ "get_style_popup_rounding", mvPythonParser({
-		}, "Needs documentation", "float", "Themes and Styles") });
+		}, "Gets radius of popup window corners rounding. (Note that tooltip windows use WindowRounding).", "float", "Themes and Styles") });
 
 		parsers->insert({ "get_style_scrollbar_rounding", mvPythonParser({
-		}, "Needs documentation", "float", "Themes and Styles") });
+		}, "Gets radius of grab corners for scrollbar.", "float", "Themes and Styles") });
 
 		parsers->insert({ "get_style_grab_rounding", mvPythonParser({
-		}, "Needs documentation", "float", "Themes and Styles") });
+		}, "Gets radius of grabs corners rounding. Set to 0.0 to have rectangular slider grabs.", "float", "Themes and Styles") });
 
 		parsers->insert({ "get_style_tab_rounding", mvPythonParser({
-		}, "Needs documentation", "float", "Themes and Styles") });
+		}, "Gets radius of upper corners of a tab. Set to 0.0 to have rectangular tabs.", "float", "Themes and Styles") });
 
 		parsers->insert({ "get_style_window_title_align", mvPythonParser({
-		}, "Needs documentation", "List[float]", "Themes and Styles") });
+		}, "Gets alignment for title bar text. Defaults to (0.0,0.5) for left-aligned,vertically centered.", "List[float]", "Themes and Styles") });
 
 		parsers->insert({ "get_style_window_menu_button_position", mvPythonParser({
-		}, "Needs documentation", "int", "Themes and Styles") });
+		}, "Gets side of the collapsing/docking button in the title bar (None/Left/Right). Defaults to mvGuiDir_Left.", "int", "Themes and Styles") });
 
 		parsers->insert({ "get_style_color_button_position", mvPythonParser({
-		}, "Needs documentation", "int", "Themes and Styles") });
+		}, "Gets side of the color button in the ColorEdit4 widget (left/right). Defaults to mvGuiDir_Right.", "int", "Themes and Styles") });
 
 		parsers->insert({ "get_style_button_text_align", mvPythonParser({
-		}, "Needs documentation", "List[float]", "Themes and Styles") });
+		}, "Gets alignment of button text when button is larger than text. Defaults to (0.5, 0.5) (centered).", "List[float]", "Themes and Styles") });
 
 		parsers->insert({ "get_style_selectable_text_align", mvPythonParser({
-		}, "Needs documentation", "List[float]", "Themes and Styles") });
+		}, "Gets alignment of selectable text. Defaults to (0.0, 0.0) (top-left aligned).", "List[float]", "Themes and Styles") });
 
 		parsers->insert({ "get_style_display_safe_area_padding", mvPythonParser({
-		}, "Needs documentation", "List[float]", "Themes and Styles") });
+		}, "Gets safe area padding. Applies to popups/tooltips as well regular windows.", "List[float]", "Themes and Styles") });
 
 		parsers->insert({ "get_style_global_alpha", mvPythonParser({
-		}, "Needs documentation", "float", "Themes and Styles") });
+		}, "Gets global alpha applies to everything in Dear PyGui.", "float", "Themes and Styles") });
 
 		parsers->insert({ "get_style_antialiased_lines", mvPythonParser({
-		}, "Needs documentation", "bool", "Themes and Styles") });
+		}, "Gets anti-aliasing on lines/borders.", "bool", "Themes and Styles") });
 
 		parsers->insert({ "get_style_antialiased_fill", mvPythonParser({
-		}, "Needs documentation", "bool", "Themes and Styles") });
+		}, "Gets anti-aliasing on filled shapes (rounded rectangles, circles, etc.).", "bool", "Themes and Styles") });
 
 		parsers->insert({ "get_style_curve_tessellation_tolerance", mvPythonParser({
-		}, "Needs documentation", "float", "Themes and Styles") });
+		}, "Gets Tessellation tolerance.", "float", "Themes and Styles") });
 
 		parsers->insert({ "get_style_circle_segment_max_error", mvPythonParser({
-		}, "Needs documentation", "float", "Themes and Styles") });
+		}, "Gets maximum error (in pixels) allowed when using draw_circle()or drawing rounded corner rectangles with no explicit segment count specified.", "float", "Themes and Styles") });
 	}
 
 	static void AddMenuCommands(std::map<std::string, mvPythonParser>* parsers)
