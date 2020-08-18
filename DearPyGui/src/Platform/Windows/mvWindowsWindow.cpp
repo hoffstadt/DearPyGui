@@ -54,8 +54,10 @@ namespace Marvel {
 		ImGuiIO& io = ImGui::GetIO(); (void)io;
 		io.ConfigWindowsMoveFromTitleBarOnly = true;
 
+		setupFonts();
+
 		//io.Fonts->AddFontDefault();
-		//io.Fonts->AddFontFromFileTTF("calibri.ttf", 16.0f);
+		//io.Fonts->AddFontFromFileTTF("C:/Users/Jonathan Hoffstadt/Desktop/calibrili.ttf", 13.0f);
 		//io.Fonts->Build();
 
 		// Setup Dear ImGui style
