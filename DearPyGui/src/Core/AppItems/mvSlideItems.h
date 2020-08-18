@@ -31,9 +31,9 @@ namespace Marvel {
 		MV_APPITEM_TYPE(mvAppItemType::SliderFloat)
 
 		mvSliderFloat(const std::string& parent, const std::string& name, float default_value=0.0f, float minv=0.0f, 
-			float maxv=1.0f, std::string  format="%.3f", float power = 1.0f, bool vertical = false)
+			float maxv=1.0f, std::string  format="%.3f", bool vertical = false)
 			: mvFloatItemBase(parent, name, 1, default_value), m_min(minv), m_max(maxv), m_format(std::move(format)),
-			m_power(power), m_vertical(vertical)
+			m_vertical(vertical)
 		{
 		}
 
@@ -46,7 +46,7 @@ namespace Marvel {
 				if ((float)m_width < 1.0f)
 					m_width = 20.f;
 
-				if (ImGui::VSliderFloat(m_label.c_str(), ImVec2((float)m_width, (float)m_height), m_value.data(), m_min, m_max, m_format.c_str(), m_power))
+				if (ImGui::VSliderFloat(m_label.c_str(), ImVec2((float)m_width, (float)m_height), m_value.data(), m_min, m_max, m_format.c_str()))
 				{
 					if (!m_dataSource.empty())
 						mvDataStorage::AddData(m_dataSource, getPyValue());
@@ -60,7 +60,7 @@ namespace Marvel {
 			}
 			else
 			{
-				if (ImGui::SliderFloat(m_label.c_str(), m_value.data(), m_min, m_max, m_format.c_str(), m_power))
+				if (ImGui::SliderFloat(m_label.c_str(), m_value.data(), m_min, m_max, m_format.c_str()))
 				{
 					if (!m_dataSource.empty())
 						mvDataStorage::AddData(m_dataSource, getPyValue());
@@ -79,7 +79,6 @@ namespace Marvel {
 		float       m_min;
 		float       m_max;
 		std::string m_format;
-		float       m_power;
 		bool        m_vertical;
 
 	};
@@ -95,15 +94,15 @@ namespace Marvel {
 		MV_APPITEM_TYPE(mvAppItemType::SliderFloat2)
 
 		mvSliderFloat2(const std::string& parent, const std::string& name, float default_value[2], float minv = 0.0f,
-				float maxv = 1.0f, std::string  format = "%.3f", float power = 1.0f)
+				float maxv = 1.0f, std::string  format = "%.3f")
 			: mvFloatItemBase(parent, name, 2, default_value[0], default_value[1]),
-			m_min(minv), m_max(maxv), m_format(std::move(format)), m_power(power)
+			m_min(minv), m_max(maxv), m_format(std::move(format))
 		{
 		}
 
 		void draw() override
 		{
-			if (ImGui::SliderFloat2(m_label.c_str(), m_value.data(), m_min, m_max, m_format.c_str(), m_power))
+			if (ImGui::SliderFloat2(m_label.c_str(), m_value.data(), m_min, m_max, m_format.c_str()))
 			{
 				if (!m_dataSource.empty())
 					mvDataStorage::AddData(m_dataSource, getPyValue());
@@ -121,7 +120,6 @@ namespace Marvel {
 		float       m_min;
 		float       m_max;
 		std::string m_format;
-		float       m_power;
 
 	};
 
@@ -136,15 +134,15 @@ namespace Marvel {
 		MV_APPITEM_TYPE(mvAppItemType::SliderFloat3)
 
 		mvSliderFloat3(const std::string& parent, const std::string& name, float default_value[3], float minv = 0.0f,
-				float maxv = 1.0f, std::string  format = "%.3f", float power = 1.0f)
+				float maxv = 1.0f, std::string  format = "%.3f")
 			: mvFloatItemBase(parent, name, 3, default_value[0], default_value[1], default_value[2]),
-			m_min(minv), m_max(maxv), m_format(std::move(format)), m_power(power)
+			m_min(minv), m_max(maxv), m_format(std::move(format))
 		{
 		}
 
 		void draw() override
 		{
-			if (ImGui::SliderFloat3(m_label.c_str(), m_value.data(), m_min, m_max, m_format.c_str(), m_power))
+			if (ImGui::SliderFloat3(m_label.c_str(), m_value.data(), m_min, m_max, m_format.c_str()))
 			{
 				if (!m_dataSource.empty())
 					mvDataStorage::AddData(m_dataSource, getPyValue());
@@ -162,7 +160,6 @@ namespace Marvel {
 		float       m_min;
 		float       m_max;
 		std::string m_format;
-		float       m_power;
 
 	};
 
@@ -177,15 +174,15 @@ namespace Marvel {
 		MV_APPITEM_TYPE(mvAppItemType::SliderFloat4)
 
 		mvSliderFloat4(const std::string& parent, const std::string& name, float default_value[4], float minv = 0.0f,
-				float maxv = 1.0f, std::string  format = "%.3f", float power = 1.0f)
+				float maxv = 1.0f, std::string  format = "%.3f")
 			: mvFloatItemBase(parent, name, 4, default_value[0], default_value[1], default_value[2], default_value[3]), 
-			m_min(minv), m_max(maxv), m_format(std::move(format)), m_power(power)
+			m_min(minv), m_max(maxv), m_format(std::move(format))
 		{
 		}
 
 		void draw() override
 		{
-			if (ImGui::SliderFloat4(m_label.c_str(), m_value.data(), m_min, m_max, m_format.c_str(), m_power))
+			if (ImGui::SliderFloat4(m_label.c_str(), m_value.data(), m_min, m_max, m_format.c_str()))
 			{
 				if (!m_dataSource.empty())
 					mvDataStorage::AddData(m_dataSource, getPyValue());
@@ -203,7 +200,6 @@ namespace Marvel {
 		float       m_min;
 		float       m_max;
 		std::string m_format;
-		float       m_power;
 
 	};
 

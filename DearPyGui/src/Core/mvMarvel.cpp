@@ -2624,9 +2624,8 @@ namespace Marvel {
 		float default_value = 0.0f;
 		float speed = 1.0f;
 		float min_value = 0.0f;
-		float max_value = 1.0f;
+		float max_value = 100.0f;
 		const char* format = "%.3f";
-		float power = 1.0f;
 		const char* callback = "";
 		const char* tip = "";
 		int width = 0;
@@ -2635,10 +2634,10 @@ namespace Marvel {
 		const char* data_source = "";
 
 		if (!(*mvApp::GetApp()->getParsers())["add_drag_float"].parse(args, kwargs, __FUNCTION__, &name, &default_value, &speed,
-			&min_value, &max_value, &format, &power, &callback, &tip, &parent, &before, &data_source, &width))
+			&min_value, &max_value, &format, &callback, &tip, &parent, &before, &data_source, &width))
 			return mvPythonTranslator::GetPyNone();
 
-		mvAppItem* item = new mvDragFloat("", name, default_value, speed, min_value, max_value, format, power);
+		mvAppItem* item = new mvDragFloat("", name, default_value, speed, min_value, max_value, format);
 		item->setCallback(callback);
 		item->setTip(tip);
 		item->setDataSource(data_source);
@@ -2656,9 +2655,8 @@ namespace Marvel {
 		PyTuple_SetItem(default_value, 1, PyFloat_FromDouble(0.0));
 		float speed = 1.0f;
 		float min_value = 0.0f;
-		float max_value = 1.0f;
+		float max_value = 100.0f;
 		const char* format = "%.3f";
-		float power = 1.0f;
 		const char* callback = "";
 		const char* tip = "";
 		const char* parent = "";
@@ -2667,12 +2665,12 @@ namespace Marvel {
 		int width = 0;
 
 		if (!(*mvApp::GetApp()->getParsers())["add_drag_float2"].parse(args, kwargs, __FUNCTION__, &name, &default_value, &speed,
-			&min_value, &max_value, &format, &power, &callback, &tip, &parent, &before, &data_source, &width))
+			&min_value, &max_value, &format, &callback, &tip, &parent, &before, &data_source, &width))
 			return mvPythonTranslator::GetPyNone();
 
 		auto vec = mvPythonTranslator::ToFloatVect(default_value);
 
-		mvAppItem* item = new mvDragFloat2("", name, vec.data(), speed, min_value, max_value, format, power);
+		mvAppItem* item = new mvDragFloat2("", name, vec.data(), speed, min_value, max_value, format);
 		item->setCallback(callback);
 		item->setTip(tip);
 		item->setDataSource(data_source);
@@ -2690,9 +2688,8 @@ namespace Marvel {
 		PyTuple_SetItem(default_value, 2, PyFloat_FromDouble(0.0));
 		float speed = 1.0f;
 		float min_value = 0.0f;
-		float max_value = 1.0f;
+		float max_value = 100.0f;
 		const char* format = "%.3f";
-		float power = 1.0f;
 		const char* callback = "";
 		const char* tip = "";
 		const char* parent = "";
@@ -2701,12 +2698,12 @@ namespace Marvel {
 		int width = 0;
 
 		if (!(*mvApp::GetApp()->getParsers())["add_drag_float3"].parse(args, kwargs, __FUNCTION__, &name, &default_value, &speed,
-			&min_value, &max_value, &format, &power, &callback, &tip, &parent, &before, &data_source, &width))
+			&min_value, &max_value, &format, &callback, &tip, &parent, &before, &data_source, &width))
 			return mvPythonTranslator::GetPyNone();
 
 		auto vec = mvPythonTranslator::ToFloatVect(default_value);
 
-		mvAppItem* item = new mvDragFloat3("", name, vec.data(), speed, min_value, max_value, format, power);
+		mvAppItem* item = new mvDragFloat3("", name, vec.data(), speed, min_value, max_value, format);
 		item->setCallback(callback);
 		item->setTip(tip);
 		item->setDataSource(data_source);
@@ -2725,9 +2722,8 @@ namespace Marvel {
 		PyTuple_SetItem(default_value, 3, PyFloat_FromDouble(0.0));
 		float speed = 1.0f;
 		float min_value = 0.0f;
-		float max_value = 1.0f;
+		float max_value = 100.0f;
 		const char* format = "%.3f";
-		float power = 1.0f;
 		const char* callback = "";
 		const char* tip = "";
 		const char* parent = "";
@@ -2736,12 +2732,12 @@ namespace Marvel {
 		int width = 0;
 
 		if (!(*mvApp::GetApp()->getParsers())["add_drag_float4"].parse(args, kwargs, __FUNCTION__, &name, &default_value, &speed,
-			&min_value, &max_value, &format, &power, &callback, &tip, &parent, &before, &data_source, &width))
+			&min_value, &max_value, &format, &callback, &tip, &parent, &before, &data_source, &width))
 			return mvPythonTranslator::GetPyNone();
 
 		auto vec = mvPythonTranslator::ToFloatVect(default_value);
 
-		mvAppItem* item = new mvDragFloat4("", name, vec.data(), speed, min_value, max_value, format, power);
+		mvAppItem* item = new mvDragFloat4("", name, vec.data(), speed, min_value, max_value, format);
 		item->setCallback(callback);
 		item->setTip(tip);
 		item->setDataSource(data_source);
@@ -2882,9 +2878,8 @@ namespace Marvel {
 		const char* name;
 		float default_value = 0.0f;
 		float min_value = 0.0f;
-		float max_value = 1.0f;
+		float max_value = 100.0f;
 		const char* format = "%.3f";
-		float power = 1.0f;
 		int vertical = false;
 		const char* callback = "";
 		const char* tip = "";
@@ -2895,11 +2890,11 @@ namespace Marvel {
 		int height = 0;
 
 		if (!(*mvApp::GetApp()->getParsers())["add_slider_float"].parse(args, kwargs, __FUNCTION__, &name, &default_value,
-			&min_value, &max_value, &format, &power, &vertical, &callback, &tip, &parent, &before,
+			&min_value, &max_value, &format, &vertical, &callback, &tip, &parent, &before,
 			&data_source, &width, &height))
 			return mvPythonTranslator::GetPyNone();
 
-		mvAppItem* item = new mvSliderFloat("", name, default_value, min_value, max_value, format, power, vertical);
+		mvAppItem* item = new mvSliderFloat("", name, default_value, min_value, max_value, format, vertical);
 		item->setCallback(callback);
 		item->setTip(tip);
 		item->setDataSource(data_source);
@@ -2916,9 +2911,8 @@ namespace Marvel {
 		PyTuple_SetItem(default_value, 0, PyFloat_FromDouble(0.0));
 		PyTuple_SetItem(default_value, 1, PyFloat_FromDouble(0.0));
 		float min_value = 0.0f;
-		float max_value = 1.0f;
+		float max_value = 100.0f;
 		const char* format = "%.3f";
-		float power = 1.0f;
 		const char* callback = "";
 		const char* tip = "";
 		const char* parent = "";
@@ -2927,13 +2921,12 @@ namespace Marvel {
 		int width = 0;
 
 		if (!(*mvApp::GetApp()->getParsers())["add_slider_float2"].parse(args, kwargs, __FUNCTION__, &name, &default_value,
-			&min_value, &max_value, &format, &power, &callback, &tip, &parent, &before, &data_source,
-			&width))
+			&min_value, &max_value, &format, &callback, &tip, &parent, &before, &data_source,&width))
 			return mvPythonTranslator::GetPyNone();
 
 		auto vec = mvPythonTranslator::ToFloatVect(default_value);
 
-		mvAppItem* item = new mvSliderFloat2("", name, vec.data(), min_value, max_value, format, power);
+		mvAppItem* item = new mvSliderFloat2("", name, vec.data(), min_value, max_value, format);
 		item->setCallback(callback);
 		item->setTip(tip);
 		item->setDataSource(data_source);
@@ -2950,9 +2943,8 @@ namespace Marvel {
 		PyTuple_SetItem(default_value, 1, PyFloat_FromDouble(0.0));
 		PyTuple_SetItem(default_value, 2, PyFloat_FromDouble(0.0));
 		float min_value = 0.0f;
-		float max_value = 1.0f;
+		float max_value = 100.0f;
 		const char* format = "%.3f";
-		float power = 1.0f;
 		const char* callback = "";
 		const char* tip = "";
 		const char* parent = "";
@@ -2961,13 +2953,12 @@ namespace Marvel {
 		int width = 0;
 
 		if (!(*mvApp::GetApp()->getParsers())["add_slider_float3"].parse(args, kwargs, __FUNCTION__, &name, &default_value,
-			&min_value, &max_value, &format, &power, &callback, &tip, &parent, &before, &data_source,
-			&width))
+			&min_value, &max_value, &format, &callback, &tip, &parent, &before, &data_source, &width))
 			return mvPythonTranslator::GetPyNone();
 
 		auto vec = mvPythonTranslator::ToFloatVect(default_value);
 
-		mvAppItem* item = new mvSliderFloat3("", name, vec.data(), min_value, max_value, format, power);
+		mvAppItem* item = new mvSliderFloat3("", name, vec.data(), min_value, max_value, format);
 		item->setCallback(callback);
 		item->setTip(tip);
 		item->setDataSource(data_source);
@@ -2985,9 +2976,8 @@ namespace Marvel {
 		PyTuple_SetItem(default_value, 2, PyFloat_FromDouble(0.0));
 		PyTuple_SetItem(default_value, 3, PyFloat_FromDouble(0.0));
 		float min_value = 0.0f;
-		float max_value = 1.0f;
+		float max_value = 100.0f;
 		const char* format = "%.3f";
-		float power = 1.0f;
 		const char* callback = "";
 		const char* tip = "";
 		const char* parent = "";
@@ -2996,13 +2986,13 @@ namespace Marvel {
 		int width = 0;
 
 		if (!(*mvApp::GetApp()->getParsers())["add_slider_float4"].parse(args, kwargs, __FUNCTION__, &name, &default_value,
-			&min_value, &max_value, &format, &power, &callback, &tip, &parent, &before, &data_source,
+			&min_value, &max_value, &format, &callback, &tip, &parent, &before, &data_source,
 			&width))
 			return mvPythonTranslator::GetPyNone();
 
 		auto vec = mvPythonTranslator::ToFloatVect(default_value);
 
-		mvAppItem* item = new mvSliderFloat4("", name, vec.data(), min_value, max_value, format, power);
+		mvAppItem* item = new mvSliderFloat4("", name, vec.data(), min_value, max_value, format);
 		item->setCallback(callback);
 		item->setTip(tip);
 		item->setDataSource(data_source);
