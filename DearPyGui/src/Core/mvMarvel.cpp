@@ -5338,6 +5338,14 @@ namespace Marvel {
 		if (item == nullptr)
 			return mvPythonTranslator::GetPyNone();
 
+		// if compile time, check for data source usage
+		if (!mvApp::IsAppStarted())
+		{
+			std::string datasource = item->getDataSource();
+			if (!datasource.empty())
+				return mvDataStorage::GetData(datasource);
+		}
+
 		return item->getPyValue();
 	}
 

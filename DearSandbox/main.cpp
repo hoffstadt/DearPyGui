@@ -13,7 +13,6 @@ using namespace Marvel;
 
 int main(int argc, char* argv[])
 {
-	mvApp::GetApp()->setArgv0(argv[0]);
 
 #ifdef MV_RELEASE
 	HWND hWnd = GetConsoleWindow();
