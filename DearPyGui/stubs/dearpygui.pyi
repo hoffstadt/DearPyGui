@@ -276,6 +276,10 @@ def change_theme_item(item: int, r: float, g: float, b: float, a: float) -> None
 	"""Needs documentation"""
 	...
 
+def cleanup_dearpygui() -> None:
+	"""Cleans up DearPyGui after calling setup_dearpygui."""
+	...
+
 def clear_drawing(draw: str) -> None:
 	"""Clears a drawing."""
 	...
@@ -484,6 +488,130 @@ def get_plot_query_area(plot: str) -> List[float]:
 	"""Clears a plot."""
 	...
 
+def get_style_antialiased_fill() -> bool:
+	"""Gets anti-aliasing on filled shapes (rounded rectangles, circles, etc.)."""
+	...
+
+def get_style_antialiased_lines() -> bool:
+	"""Gets anti-aliasing on lines/borders."""
+	...
+
+def get_style_button_text_align() -> List[float]:
+	"""Gets alignment of button text when button is larger than text. Defaults to (0.5, 0.5) (centered)."""
+	...
+
+def get_style_child_border_size() -> float:
+	"""Gets thickness of border around child windows."""
+	...
+
+def get_style_child_rounding() -> float:
+	"""Gets radius of child window corners rounding."""
+	...
+
+def get_style_circle_segment_max_error() -> float:
+	"""Gets maximum error (in pixels) allowed when using draw_circle()or drawing rounded corner rectangles with no explicit segment count specified."""
+	...
+
+def get_style_color_button_position() -> int:
+	"""Gets side of the color button in the ColorEdit4 widget (left/right). Defaults to mvGuiDir_Right."""
+	...
+
+def get_style_curve_tessellation_tolerance() -> float:
+	"""Gets Tessellation tolerance."""
+	...
+
+def get_style_display_safe_area_padding() -> List[float]:
+	"""Gets safe area padding. Applies to popups/tooltips as well regular windows."""
+	...
+
+def get_style_frame_border_size() -> float:
+	"""Gets thickness of border around frames."""
+	...
+
+def get_style_frame_padding() -> List[float]:
+	"""Gets padding within a framed rectangle (used by most widgets)."""
+	...
+
+def get_style_frame_rounding() -> float:
+	"""Gets radius of frame corners rounding."""
+	...
+
+def get_style_global_alpha() -> float:
+	"""Gets global alpha applies to everything in Dear PyGui."""
+	...
+
+def get_style_grab_min_size() -> float:
+	"""Gets minimum width/height of a grab box for slider/scrollbar."""
+	...
+
+def get_style_grab_rounding() -> float:
+	"""Gets radius of grabs corners rounding. Set to 0.0 to have rectangular slider grabs."""
+	...
+
+def get_style_indent_spacing() -> float:
+	"""Gets horizontal indentation when e.g. entering a tree node. Generally == (FontSize + FramePadding.x*2)."""
+	...
+
+def get_style_item_inner_spacing() -> List[float]:
+	"""Gets horizontal and vertical spacing between within elements of a composed widget (e.g. a slider and its label)."""
+	...
+
+def get_style_item_spacing() -> List[float]:
+	"""Gets horizontal and vertical spacing between widgets/lines."""
+	...
+
+def get_style_popup_border_size() -> float:
+	"""Gets thickness of border around popup/tooltip windows."""
+	...
+
+def get_style_popup_rounding() -> float:
+	"""Gets radius of popup window corners rounding. (Note that tooltip windows use WindowRounding)."""
+	...
+
+def get_style_scrollbar_rounding() -> float:
+	"""Gets radius of grab corners for scrollbar."""
+	...
+
+def get_style_scollbar_size() -> float:
+	"""Gets width of the vertical scrollbar, Height of the horizontal scrollbar."""
+	...
+
+def get_style_selectable_text_align() -> List[float]:
+	"""Gets alignment of selectable text. Defaults to (0.0, 0.0) (top-left aligned)."""
+	...
+
+def get_style_tab_border_size() -> float:
+	"""Gets thickness of border around tabs."""
+	...
+
+def get_style_tab_rounding() -> float:
+	"""Gets radius of upper corners of a tab. Set to 0.0 to have rectangular tabs."""
+	...
+
+def get_style_touch_extra_padding() -> List[float]:
+	"""Get touch extra padding."""
+	...
+
+def get_style_window_border_size() -> float:
+	"""Gets thickness of border around windows."""
+	...
+
+def get_style_window_menu_button_position() -> int:
+	"""Gets side of the collapsing/docking button in the title bar (None/Left/Right). Defaults to mvGuiDir_Left."""
+	...
+
+def get_style_window_padding() -> List[float]:
+	"""Gets padding within a window."""
+	...
+
+def get_style_window_rounding() -> float:
+	"""Gets radius of window corners rounding."""
+	...
+
+def get_style_window_title_align() -> List[float]:
+	"""Gets alignment for title bar text. Defaults to (0.0,0.5) for left-aligned,vertically centered."""
+	...
+
 def get_table_item(table: str, row: int, column: int) -> str:
 	"""Gets a table's cell value."""
 	...
@@ -644,6 +772,18 @@ def open_file_dialog(callback: str = "", extensions: str = ".*") -> str:
 	"""Opens an 'open file' dialog."""
 	...
 
+def render_dearpygui_frame() -> None:
+	"""Renders a DearPyGui frame. Should be called within a user's event loop. Must first call setup_dearpygui outside of event loop."""
+	...
+
+def reset_xticks(plot: str) -> None:
+	"""Sets plots x ticks and labels back to automatic"""
+	...
+
+def reset_yticks(plot: str) -> None:
+	"""Sets plots y ticks and labels back to automatic"""
+	...
+
 def run_async_function(name: str, data: object, return_handler: str = "") -> None:
 	"""Runs a function asyncronously."""
 	...
@@ -736,22 +876,6 @@ def set_plot_xlimits(plot: str, xmin: float, xmax: float) -> None:
 	"""Sets x axis limits of a plot. (can be undone with set_plot_xlimits_auto()"""
 	...
 
-def set_xticks(plot: str, label_pairs: List[List[str, float]]) -> None:
-	"""Sets plots x ticks and labels"""
-	...
-
-def set_yticks(plot: str, label_pairs: List[List[str, float]]) -> None:
-	"""Sets plots x ticks and labels"""
-	...
-
-def reset_xticks(plot: str) -> None:
-	"""Sets plots x ticks and labels back to automatic"""
-	...
-
-def reset_yticks(plot: str) -> None:
-	"""Sets plots y ticks and labels back to automatic"""
-	...
-
 def set_plot_xlimits_auto(plot: str) -> None:
 	"""Sets plots x limits to be automatic."""
 	...
@@ -770,6 +894,130 @@ def set_render_callback(callback: str, handler: str = "") -> None:
 
 def set_resize_callback(callback: str, handler: str = "") -> None:
 	"""Sets a callback for a window resizes."""
+	...
+
+def set_style_antialiased_fill(value: bool) -> None:
+	"""Sets anti-aliasing on filled shapes (rounded rectangles, circles, etc.)."""
+	...
+
+def set_style_antialiased_lines(value: bool) -> None:
+	"""Sets anti-aliasing on lines/borders. Disable if you are really tight on CPU/GPU."""
+	...
+
+def set_style_button_text_align(x: float, y: float) -> None:
+	"""Sets alignment of button text when button is larger than text. Defaults to (0.5, 0.5) (centered)."""
+	...
+
+def set_style_child_border_size(value: float) -> None:
+	"""Sets thickness of border around child windows. Generally set to 0.0 or 1.0. (Other values are not well tested and more CPU/GPU costly)."""
+	...
+
+def set_style_child_rounding(value: float) -> None:
+	"""Sets radius of child window corners rounding. Set to 0.0 to have rectangular windows."""
+	...
+
+def set_style_circle_segment_max_error(value: float) -> None:
+	"""Sets maximum error (in pixels) allowed when using draw_circle()or drawing rounded corner rectangles with no explicit segment count specified. Decrease for higher quality but more geometry."""
+	...
+
+def set_style_color_button_position(value: int) -> None:
+	"""Sets side of the color button in the ColorEdit4 widget (left/right). Defaults to mvGuiDir_Right."""
+	...
+
+def set_style_curve_tessellation_tolerance(value: float) -> None:
+	"""Sets Tessellation tolerance."""
+	...
+
+def set_style_display_safe_area_padding(x: float, y: float) -> None:
+	"""Sets if you cannot see the edges of your screen (e.g. on a TV) increase the safe area padding. Apply to popups/tooltips as well regular windows. NB: Prefer configuring your TV sets correctly!"""
+	...
+
+def set_style_frame_border_size(value: float) -> None:
+	"""Sets thickness of border around frames. Generally set to 0.0 or 1.0. (Other values are not well tested and more CPU/GPU costly)."""
+	...
+
+def set_style_frame_padding(x: float, y: float) -> None:
+	"""Sets padding within a framed rectangle (used by most widgets)."""
+	...
+
+def set_style_frame_rounding(value: float) -> None:
+	"""Sets radius of frame corners rounding. Set to 0.0 to have rectangular frame (used by most widgets)."""
+	...
+
+def set_style_global_alpha(value: float) -> None:
+	"""Sets global alpha applies to everything in Dear PyGui."""
+	...
+
+def set_style_grab_min_size(value: float) -> None:
+	"""Sets minimum width/height of a grab box for slider/scrollbar."""
+	...
+
+def set_style_grab_rounding(value: float) -> None:
+	"""Sets radius of grabs corners rounding. Set to 0.0 to have rectangular slider grabs."""
+	...
+
+def set_style_indent_spacing(value: float) -> None:
+	"""Sets horizontal indentation when e.g. entering a tree node. Generally == (FontSize + FramePadding.x*2)."""
+	...
+
+def set_style_item_inner_spacing(x: float, y: float) -> None:
+	"""Sets horizontal and vertical spacing between within elements of a composed widget (e.g. a slider and its label)."""
+	...
+
+def set_style_item_spacing(x: float, y: float) -> None:
+	"""Sets horizontal and vertical spacing between widgets/lines."""
+	...
+
+def set_style_popup_border_size(value: float) -> None:
+	"""Sets thickness of border around popup/tooltip windows. Generally set to 0.0 or 1.0. (Other values are not well tested and more CPU/GPU costly)."""
+	...
+
+def set_style_popup_rounding(value: float) -> None:
+	"""Sets radius of popup window corners rounding. (Note that tooltip windows use WindowRounding)."""
+	...
+
+def set_style_scrollbar_rounding(value: float) -> None:
+	"""Sets radius of grab corners for scrollbar."""
+	...
+
+def set_style_scollbar_size(value: float) -> None:
+	"""Sets width of the vertical scrollbar, Height of the horizontal scrollbar."""
+	...
+
+def set_style_selectable_text_align(x: float, y: float) -> None:
+	"""Sets alignment of selectable text. Defaults to (0.0, 0.0) (top-left aligned). It's generally important to keep this left-aligned if you want to lay multiple items on a same line."""
+	...
+
+def set_style_tab_border_size(value: float) -> None:
+	"""Sets thickness of border around tabs."""
+	...
+
+def set_style_tab_rounding(value: float) -> None:
+	"""Sets radius of upper corners of a tab. Set to 0.0 to have rectangular tabs."""
+	...
+
+def set_style_touch_extra_padding(x: float, y: float) -> None:
+	"""Expand reactive bounding box for touch-based system where touch position is not accurate enough. Unfortunately we don't sort widgets so priority on overlap will always be given to the first widget. So don't grow this too much!"""
+	...
+
+def set_style_window_border_size(value: float) -> None:
+	"""Sets thickness of border around windows. Generally set to 0.0 or 1.0. (Other values are not well tested and more CPU/GPU costly)."""
+	...
+
+def set_style_window_menu_button_position(value: int) -> None:
+	"""Sets side of the collapsing/docking button in the title bar (None/Left/Right). Defaults to mvGuiDir_Left."""
+	...
+
+def set_style_window_padding(x: float, y: float) -> None:
+	"""Sets padding within a window."""
+	...
+
+def set_style_window_rounding(value: float) -> None:
+	"""Sets Radius of window corners rounding. Set to 0.0fto have rectangular windows. Large values tend to lead to variety of artifacts and are not recommended."""
+	...
+
+def set_style_window_title_align(x: float, y: float) -> None:
+	"""Sets alignment for title bar text. Defaults to (0.0,0.5) for left-aligned,vertically centered."""
 	...
 
 def set_table_item(table: str, row: int, column: int, value: str) -> None:
@@ -804,6 +1052,18 @@ def set_window_pos(window: str, x: float, y: float) -> None:
 	"""Sets a windows position"""
 	...
 
+def set_xticks(plot: str, label_pairs: List[List[str, float]]) -> None:
+	"""Sets plots x ticks and labels"""
+	...
+
+def set_yticks(plot: str, label_pairs: List[List[str, float]]) -> None:
+	"""Sets plots x ticks and labels"""
+	...
+
+def setup_dearpygui() -> None:
+	"""Sets up DearPyGui for user controlled rendering. Only call once and you must call cleanup_deapygui when finished."""
+	...
+
 def show_about() -> None:
 	"""Shows the about window."""
 	...
@@ -830,18 +1090,6 @@ def show_metrics() -> None:
 
 def show_source(file: str) -> None:
 	"""Shows the source code for a file."""
-	...
-
-def setup_dearpygui() -> None:
-	"""Sets up DearPyGui for user controlled rendering. Only call once and you must call cleanup_deapygui when finished."""
-	...
-
-def render_dearpygui_frame() -> None:
-	"""Renders a DearPyGui frame. Should be called within a user's event loop. Must first call setup_dearpygui outside of event loop."""
-	...
-
-def cleanup_dearpygui() -> None:
-	"""Cleans up DearPyGui after calling setup_dearpygui."""
 	...
 
 def start_dearpygui() -> None:
