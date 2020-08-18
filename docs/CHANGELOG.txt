@@ -98,6 +98,7 @@ Breaking Changes:
 
 - Styles: Removed change_style_item
 - Styles: Removed get_style_item
+- Other:  Changed get_marvel_version to get_dearpygui_version
 
 
 -----------------------------------------------------------------------

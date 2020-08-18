@@ -5009,7 +5009,7 @@ namespace Marvel {
 		return mvPythonTranslator::ToPyString(mvApp::GetApp()->getActiveWindow());
 	}
 
-	PyObject* get_marvel_version(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* get_dearpygui_version(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		return mvPythonTranslator::ToPyString(mvApp::GetApp()->GetVersion());
 	}
@@ -6115,7 +6115,6 @@ namespace Marvel {
 		ADD_PYTHON_FUNCTION(set_style_antialiased_fill)
 		ADD_PYTHON_FUNCTION(set_style_curve_tessellation_tolerance)
 		ADD_PYTHON_FUNCTION(set_style_circle_segment_max_error)
-
 		ADD_PYTHON_FUNCTION(get_style_window_padding)
 		ADD_PYTHON_FUNCTION(get_style_frame_padding)
 		ADD_PYTHON_FUNCTION(get_style_item_spacing)
@@ -6147,8 +6146,6 @@ namespace Marvel {
 		ADD_PYTHON_FUNCTION(get_style_antialiased_fill)
 		ADD_PYTHON_FUNCTION(get_style_curve_tessellation_tolerance)
 		ADD_PYTHON_FUNCTION(get_style_circle_segment_max_error)
-
-
 		ADD_PYTHON_FUNCTION(show_style_editor)
 		ADD_PYTHON_FUNCTION(setup_dearpygui)
 		ADD_PYTHON_FUNCTION(set_headers)
@@ -6283,7 +6280,7 @@ namespace Marvel {
 		ADD_PYTHON_FUNCTION(is_threadpool_high_performance)
 		ADD_PYTHON_FUNCTION(get_threadpool_timeout)
 		ADD_PYTHON_FUNCTION(get_active_window)
-		ADD_PYTHON_FUNCTION(get_marvel_version)
+		ADD_PYTHON_FUNCTION(get_dearpygui_version)
 		ADD_PYTHON_FUNCTION(show_source)
 		ADD_PYTHON_FUNCTION(show_about)
 		ADD_PYTHON_FUNCTION(show_debug)

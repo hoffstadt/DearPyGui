@@ -1824,8 +1824,8 @@ namespace Marvel {
 		parsers->insert({ "get_active_window", mvPythonParser({
 		}, "Returns the active window name.", "str") });
 
-		parsers->insert({ "get_marvel_version", mvPythonParser({
-		}, "Returns the current version of Marvel.", "str") });
+		parsers->insert({ "get_dearpygui_version", mvPythonParser({
+		}, "Returns the current version of Dear PyGui.", "str") });
 
 		parsers->insert({ "set_threadpool_timeout", mvPythonParser({
 			{mvPythonDataType::Float, "time"}
