@@ -117,6 +117,7 @@ The actual builds of _DearPyGui_ are created through github actions however, to 
   - Desktop development with C++
   - Game development with C++
 - [_git_](https://git-scm.com/)
+- Python 3.8
 
 ##### Instructions
 
@@ -124,9 +125,7 @@ The actual builds of _DearPyGui_ are created through github actions however, to 
 ```
 git clone --recursive https://github.com/RaylockLLC/DearPyGui
 ```
-2. Open the _Scripts_ folder and run the _BuildPythonForWindows.bat_ file.
-3. In Visual Studio, use _Open a local folder_ to open _DearPyGui_ folder.
-4. Switch to the release configuration and run _Build All_.
+2. Open the _Scripts_ folder and run the _BuildFor32.bat_ file (or _BuildFor64.bat_ if using 64-bit python).
 
 #### Linux
 <sub>Only tested on Ubuntu 20.04</sub>
