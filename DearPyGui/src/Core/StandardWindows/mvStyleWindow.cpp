@@ -263,7 +263,7 @@ namespace Marvel {
                         const ImVec4& col = style.Colors[i];
                         const char* name = ImGui::GetStyleColorName(i);
                         if (!output_only_modified || memcmp(&col, &ref->Colors[i], sizeof(ImVec4)) != 0)
-                            ImGui::LogText("change_theme_item(mvGuiCol_%s, %i, %i, %i, %i)\r\n",
+                            ImGui::LogText("set_theme_item(mvGuiCol_%s, %i, %i, %i, %i)\r\n",
                                 name, (int)(round(col.x*255.0f)), (int)(round(col.y * 255.0f)), (int)(round(col.z * 255.0f)), 
                                 (int)(round(col.w * 255.0f)));
                     }

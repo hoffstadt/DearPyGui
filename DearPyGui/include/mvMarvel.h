@@ -1098,13 +1098,13 @@ namespace Marvel {
 			{mvPythonDataType::FloatList, "color"}
 		}, "Needs documentation", "None", "Themes and Styles") });
 
-		parsers->insert({ "change_theme_item", mvPythonParser({
+		parsers->insert({ "set_theme_item", mvPythonParser({
 			{mvPythonDataType::Integer, "item"},
 			{mvPythonDataType::Integer, "r"},
 			{mvPythonDataType::Integer, "g"},
 			{mvPythonDataType::Integer, "b"},
 			{mvPythonDataType::Integer, "a"}
-		}, "Needs documentation", "None", "Themes and Styles") });
+		}, "Sets a theme item.", "None", "Themes and Styles") });
 
 		parsers->insert({ "set_style_window_padding", mvPythonParser({
 			{mvPythonDataType::Float, "x"},
