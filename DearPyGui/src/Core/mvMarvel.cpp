@@ -102,6 +102,667 @@ namespace Marvel {
 		return result;
 	}
 
+	PyObject* get_style_window_padding(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		ImGuiStyle& style = mvApp::GetApp()->getStyle();
+		return mvPythonTranslator::ToPyPair(style.WindowPadding.x, style.WindowPadding.y);
+	}
+
+	PyObject* get_style_frame_padding(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		ImGuiStyle& style = mvApp::GetApp()->getStyle();
+		return mvPythonTranslator::ToPyPair(style.FramePadding.x, style.FramePadding.y);
+	}
+
+	PyObject* get_style_item_spacing(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		ImGuiStyle& style = mvApp::GetApp()->getStyle();
+		return mvPythonTranslator::ToPyPair(style.ItemSpacing.x, style.ItemSpacing.y);
+	}
+
+	PyObject* get_style_item_inner_spacing(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		ImGuiStyle& style = mvApp::GetApp()->getStyle();
+		return mvPythonTranslator::ToPyPair(style.ItemInnerSpacing.x, style.ItemInnerSpacing.y);
+	}
+
+	PyObject* get_style_touch_extra_padding(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		ImGuiStyle& style = mvApp::GetApp()->getStyle();
+		return mvPythonTranslator::ToPyPair(style.TouchExtraPadding.x, style.TouchExtraPadding.y);
+	}
+
+	PyObject* get_style_indent_spacing(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		ImGuiStyle& style = mvApp::GetApp()->getStyle();
+		return mvPythonTranslator::ToPyFloat(style.IndentSpacing);
+	}
+
+	PyObject* get_style_scrollbar_size(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		ImGuiStyle& style = mvApp::GetApp()->getStyle();
+		return mvPythonTranslator::ToPyFloat(style.ScrollbarSize);
+	}
+
+	PyObject* get_style_grab_min_size(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		ImGuiStyle& style = mvApp::GetApp()->getStyle();
+		return mvPythonTranslator::ToPyFloat(style.GrabMinSize);
+	}
+
+	PyObject* get_style_window_border_size(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		ImGuiStyle& style = mvApp::GetApp()->getStyle();
+		return mvPythonTranslator::ToPyFloat(style.WindowBorderSize);
+	}
+
+	PyObject* get_style_child_border_size(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		ImGuiStyle& style = mvApp::GetApp()->getStyle();
+		return mvPythonTranslator::ToPyFloat(style.ChildBorderSize);
+	}
+
+	PyObject* get_style_popup_border_size(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		ImGuiStyle& style = mvApp::GetApp()->getStyle();
+		return mvPythonTranslator::ToPyFloat(style.PopupBorderSize);
+	}
+
+	PyObject* get_style_frame_border_size(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		ImGuiStyle& style = mvApp::GetApp()->getStyle();
+		return mvPythonTranslator::ToPyFloat(style.FrameBorderSize);
+	}
+
+	PyObject* get_style_tab_border_size(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		ImGuiStyle& style = mvApp::GetApp()->getStyle();
+		return mvPythonTranslator::ToPyFloat(style.TabBorderSize);
+	}
+
+	PyObject* get_style_window_rounding(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		ImGuiStyle& style = mvApp::GetApp()->getStyle();
+		return mvPythonTranslator::ToPyFloat(style.WindowRounding);
+	}
+
+	PyObject* get_style_child_rounding(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		ImGuiStyle& style = mvApp::GetApp()->getStyle();
+		return mvPythonTranslator::ToPyFloat(style.ChildRounding);
+	}
+
+	PyObject* get_style_frame_rounding(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		ImGuiStyle& style = mvApp::GetApp()->getStyle();
+		return mvPythonTranslator::ToPyFloat(style.FrameRounding);
+	}
+
+	PyObject* get_style_popup_rounding(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		ImGuiStyle& style = mvApp::GetApp()->getStyle();
+		return mvPythonTranslator::ToPyFloat(style.PopupRounding);
+	}
+
+	PyObject* get_style_scrollbar_rounding(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		ImGuiStyle& style = mvApp::GetApp()->getStyle();
+		return mvPythonTranslator::ToPyFloat(style.ScrollbarRounding);
+	}
+
+	PyObject* get_style_grab_rounding(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		ImGuiStyle& style = mvApp::GetApp()->getStyle();
+		return mvPythonTranslator::ToPyFloat(style.GrabRounding);
+	}
+
+	PyObject* get_style_tab_rounding(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		ImGuiStyle& style = mvApp::GetApp()->getStyle();
+		return mvPythonTranslator::ToPyFloat(style.TabRounding);
+	}
+
+	PyObject* get_style_window_title_align(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		ImGuiStyle& style = mvApp::GetApp()->getStyle();
+		return mvPythonTranslator::ToPyPair(style.WindowTitleAlign.x, style.WindowTitleAlign.y);
+	}
+
+	PyObject* get_style_window_menu_button_position(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		ImGuiStyle& style = mvApp::GetApp()->getStyle();
+		return mvPythonTranslator::ToPyInt(style.WindowMenuButtonPosition);
+	}
+
+	PyObject* get_style_color_button_position(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		ImGuiStyle& style = mvApp::GetApp()->getStyle();
+		return mvPythonTranslator::ToPyInt(style.ColorButtonPosition);
+	}
+
+	PyObject* get_style_button_text_align(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		ImGuiStyle& style = mvApp::GetApp()->getStyle();
+		return mvPythonTranslator::ToPyPair(style.ButtonTextAlign.x, style.ButtonTextAlign.y);
+	}
+
+	PyObject* get_style_selectable_text_align(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		ImGuiStyle& style = mvApp::GetApp()->getStyle();
+		return mvPythonTranslator::ToPyPair(style.SelectableTextAlign.x, style.SelectableTextAlign.y);
+	}
+
+	PyObject* get_style_display_safe_area_padding(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		ImGuiStyle& style = mvApp::GetApp()->getStyle();
+		return mvPythonTranslator::ToPyPair(style.DisplaySafeAreaPadding.x, style.DisplaySafeAreaPadding.y);
+	}
+
+	PyObject* get_style_global_alpha(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		ImGuiStyle& style = mvApp::GetApp()->getStyle();
+		return mvPythonTranslator::ToPyFloat(style.Alpha);
+	}
+
+	PyObject* get_style_antialiased_lines(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		ImGuiStyle& style = mvApp::GetApp()->getStyle();
+		return mvPythonTranslator::ToPyBool(style.AntiAliasedLines);
+	}
+
+	PyObject* get_style_antialiased_fill(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		ImGuiStyle& style = mvApp::GetApp()->getStyle();
+		return mvPythonTranslator::ToPyBool(style.AntiAliasedFill);
+	}
+
+	PyObject* get_style_curve_tessellation_tolerance(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		ImGuiStyle& style = mvApp::GetApp()->getStyle();
+		return mvPythonTranslator::ToPyFloat(style.CurveTessellationTol);
+	}
+
+	PyObject* get_style_circle_segment_max_error(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		ImGuiStyle& style = mvApp::GetApp()->getStyle();
+		return mvPythonTranslator::ToPyFloat(style.CircleSegmentMaxError);
+	}
+
+
+	PyObject* set_style_window_padding(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		float x;
+		float y;
+
+		if (!(*mvApp::GetApp()->getParsers())["set_style_window_padding"].parse(args, kwargs, __FUNCTION__, 
+			&x, &y))
+			return mvPythonTranslator::GetPyNone();
+
+		ImGuiStyle& style = mvApp::GetApp()->getStyle();
+		mvApp::GetApp()->setStyleChanged();
+		style.WindowPadding = { x, y };
+
+		return mvPythonTranslator::GetPyNone();
+	}
+
+	PyObject* set_style_frame_padding(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		float x;
+		float y;
+
+		if (!(*mvApp::GetApp()->getParsers())["set_style_frame_padding"].parse(args, kwargs, __FUNCTION__,
+			&x, &y))
+			return mvPythonTranslator::GetPyNone();
+
+		ImGuiStyle& style = mvApp::GetApp()->getStyle();
+		mvApp::GetApp()->setStyleChanged();
+		style.FramePadding = { x, y };
+
+		return mvPythonTranslator::GetPyNone();
+	}
+
+	PyObject* set_style_item_spacing(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		float x;
+		float y;
+
+		if (!(*mvApp::GetApp()->getParsers())["set_style_item_spacing"].parse(args, kwargs, __FUNCTION__,
+			&x, &y))
+			return mvPythonTranslator::GetPyNone();
+
+		ImGuiStyle& style = mvApp::GetApp()->getStyle();
+		mvApp::GetApp()->setStyleChanged();
+		style.ItemSpacing = { x, y };
+
+		return mvPythonTranslator::GetPyNone();
+	}
+
+	PyObject* set_style_item_inner_spacing(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		float x;
+		float y;
+
+		if (!(*mvApp::GetApp()->getParsers())["set_style_item_inner_spacing"].parse(args, kwargs, __FUNCTION__,
+			&x, &y))
+			return mvPythonTranslator::GetPyNone();
+
+		ImGuiStyle& style = mvApp::GetApp()->getStyle();
+		mvApp::GetApp()->setStyleChanged();
+		style.ItemInnerSpacing = { x, y };
+
+		return mvPythonTranslator::GetPyNone();
+	}
+
+	PyObject* set_style_touch_extra_padding(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		float x;
+		float y;
+
+		if (!(*mvApp::GetApp()->getParsers())["set_style_touch_extra_padding"].parse(args, kwargs, __FUNCTION__,
+			&x, &y))
+			return mvPythonTranslator::GetPyNone();
+
+		ImGuiStyle& style = mvApp::GetApp()->getStyle();
+		mvApp::GetApp()->setStyleChanged();
+		style.TouchExtraPadding = { x, y };
+
+		return mvPythonTranslator::GetPyNone();
+	}
+
+	PyObject* set_style_indent_spacing(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		float value;
+
+		if (!(*mvApp::GetApp()->getParsers())["set_style_indent_spacing"].parse(args, kwargs, __FUNCTION__,
+			&value))
+			return mvPythonTranslator::GetPyNone();
+
+		ImGuiStyle& style = mvApp::GetApp()->getStyle();
+		mvApp::GetApp()->setStyleChanged();
+		style.IndentSpacing = value;
+
+		return mvPythonTranslator::GetPyNone();
+	}
+
+	PyObject* set_style_scrollbar_size(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		float value;
+
+		if (!(*mvApp::GetApp()->getParsers())["set_style_scrollbar_size"].parse(args, kwargs, __FUNCTION__,
+			&value))
+			return mvPythonTranslator::GetPyNone();
+
+		ImGuiStyle& style = mvApp::GetApp()->getStyle();
+		mvApp::GetApp()->setStyleChanged();
+		style.ScrollbarSize = value;
+
+		return mvPythonTranslator::GetPyNone();
+	}
+
+	PyObject* set_style_grab_min_size(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		float value;
+
+		if (!(*mvApp::GetApp()->getParsers())["set_style_grab_min_size"].parse(args, kwargs, __FUNCTION__,
+			&value))
+			return mvPythonTranslator::GetPyNone();
+
+		ImGuiStyle& style = mvApp::GetApp()->getStyle();
+		mvApp::GetApp()->setStyleChanged();
+		style.GrabMinSize = value;
+
+		return mvPythonTranslator::GetPyNone();
+	}
+
+	PyObject* set_style_window_border_size(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		float value;
+
+		if (!(*mvApp::GetApp()->getParsers())["set_style_window_border_size"].parse(args, kwargs, __FUNCTION__,
+			&value))
+			return mvPythonTranslator::GetPyNone();
+
+		ImGuiStyle& style = mvApp::GetApp()->getStyle();
+		mvApp::GetApp()->setStyleChanged();
+		style.WindowBorderSize = value;
+
+		return mvPythonTranslator::GetPyNone();
+	}
+
+	PyObject* set_style_child_border_size(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		float value;
+
+		if (!(*mvApp::GetApp()->getParsers())["set_style_child_border_size"].parse(args, kwargs, __FUNCTION__,
+			&value))
+			return mvPythonTranslator::GetPyNone();
+
+		ImGuiStyle& style = mvApp::GetApp()->getStyle();
+		mvApp::GetApp()->setStyleChanged();
+		style.ChildBorderSize = value;
+
+		return mvPythonTranslator::GetPyNone();
+	}
+
+	PyObject* set_style_popup_border_size(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		float value;
+
+		if (!(*mvApp::GetApp()->getParsers())["set_style_popup_border_size"].parse(args, kwargs, __FUNCTION__,
+			&value))
+			return mvPythonTranslator::GetPyNone();
+
+		ImGuiStyle& style = mvApp::GetApp()->getStyle();
+		mvApp::GetApp()->setStyleChanged();
+		style.PopupBorderSize = value;
+
+		return mvPythonTranslator::GetPyNone();
+	}
+
+	PyObject* set_style_frame_border_size(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		float value;
+
+		if (!(*mvApp::GetApp()->getParsers())["set_style_frame_border_size"].parse(args, kwargs, __FUNCTION__,
+			&value))
+			return mvPythonTranslator::GetPyNone();
+
+		ImGuiStyle& style = mvApp::GetApp()->getStyle();
+		mvApp::GetApp()->setStyleChanged();
+		style.FrameBorderSize = value;
+
+		return mvPythonTranslator::GetPyNone();
+	}
+
+	PyObject* set_style_tab_border_size(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		float value;
+
+		if (!(*mvApp::GetApp()->getParsers())["set_style_tab_border_size"].parse(args, kwargs, __FUNCTION__,
+			&value))
+			return mvPythonTranslator::GetPyNone();
+
+		ImGuiStyle& style = mvApp::GetApp()->getStyle();
+		mvApp::GetApp()->setStyleChanged();
+		style.TabBorderSize = value;
+
+		return mvPythonTranslator::GetPyNone();
+	}
+
+	PyObject* set_style_window_rounding(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		float value;
+
+		if (!(*mvApp::GetApp()->getParsers())["set_style_window_rounding"].parse(args, kwargs, __FUNCTION__,
+			&value))
+			return mvPythonTranslator::GetPyNone();
+
+		ImGuiStyle& style = mvApp::GetApp()->getStyle();
+		mvApp::GetApp()->setStyleChanged();
+		style.WindowRounding = value;
+
+		return mvPythonTranslator::GetPyNone();
+	}
+
+	PyObject* set_style_child_rounding(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		float value;
+
+		if (!(*mvApp::GetApp()->getParsers())["set_style_child_rounding"].parse(args, kwargs, __FUNCTION__,
+			&value))
+			return mvPythonTranslator::GetPyNone();
+
+		ImGuiStyle& style = mvApp::GetApp()->getStyle();
+		mvApp::GetApp()->setStyleChanged();
+		style.ChildRounding = value;
+
+		return mvPythonTranslator::GetPyNone();
+	}
+
+	PyObject* set_style_frame_rounding(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		float value;
+
+		if (!(*mvApp::GetApp()->getParsers())["set_style_frame_rounding"].parse(args, kwargs, __FUNCTION__,
+			&value))
+			return mvPythonTranslator::GetPyNone();
+
+		ImGuiStyle& style = mvApp::GetApp()->getStyle();
+		mvApp::GetApp()->setStyleChanged();
+		style.FrameRounding = value;
+
+		return mvPythonTranslator::GetPyNone();
+	}
+
+	PyObject* set_style_popup_rounding(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		float value;
+
+		if (!(*mvApp::GetApp()->getParsers())["set_style_popup_rounding"].parse(args, kwargs, __FUNCTION__,
+			&value))
+			return mvPythonTranslator::GetPyNone();
+
+		ImGuiStyle& style = mvApp::GetApp()->getStyle();
+		mvApp::GetApp()->setStyleChanged();
+		style.PopupRounding = value;
+
+		return mvPythonTranslator::GetPyNone();
+	}
+
+	PyObject* set_style_scrollbar_rounding(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		float value;
+
+		if (!(*mvApp::GetApp()->getParsers())["set_style_scrollbar_rounding"].parse(args, kwargs, __FUNCTION__,
+			&value))
+			return mvPythonTranslator::GetPyNone();
+
+		ImGuiStyle& style = mvApp::GetApp()->getStyle();
+		mvApp::GetApp()->setStyleChanged();
+		style.ScrollbarRounding = value;
+
+		return mvPythonTranslator::GetPyNone();
+	}
+
+	PyObject* set_style_grab_rounding(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		float value;
+
+		if (!(*mvApp::GetApp()->getParsers())["set_style_grab_rounding"].parse(args, kwargs, __FUNCTION__,
+			&value))
+			return mvPythonTranslator::GetPyNone();
+
+		ImGuiStyle& style = mvApp::GetApp()->getStyle();
+		mvApp::GetApp()->setStyleChanged();
+		style.GrabRounding = value;
+
+		return mvPythonTranslator::GetPyNone();
+	}
+
+	PyObject* set_style_tab_rounding(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		float value;
+
+		if (!(*mvApp::GetApp()->getParsers())["set_style_tab_rounding"].parse(args, kwargs, __FUNCTION__,
+			&value))
+			return mvPythonTranslator::GetPyNone();
+
+		ImGuiStyle& style = mvApp::GetApp()->getStyle();
+		mvApp::GetApp()->setStyleChanged();
+		style.TabRounding = value;
+
+		return mvPythonTranslator::GetPyNone();
+	}
+
+	PyObject* set_style_window_title_align(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		float x;
+		float y;
+
+		if (!(*mvApp::GetApp()->getParsers())["set_style_window_title_align"].parse(args, kwargs, __FUNCTION__,
+			&x, &y))
+			return mvPythonTranslator::GetPyNone();
+
+		ImGuiStyle& style = mvApp::GetApp()->getStyle();
+		mvApp::GetApp()->setStyleChanged();
+		style.WindowTitleAlign = { x, y };
+
+		return mvPythonTranslator::GetPyNone();
+	}
+
+	PyObject* set_style_window_menu_button_position(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		int value;
+
+		if (!(*mvApp::GetApp()->getParsers())["set_style_window_menu_button_position"].parse(args, kwargs, __FUNCTION__,
+			&value))
+			return mvPythonTranslator::GetPyNone();
+
+		ImGuiStyle& style = mvApp::GetApp()->getStyle();
+		mvApp::GetApp()->setStyleChanged();
+		style.WindowMenuButtonPosition = value;
+
+		return mvPythonTranslator::GetPyNone();
+	}
+
+	PyObject* set_style_color_button_position(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		int value;
+
+		if (!(*mvApp::GetApp()->getParsers())["set_style_color_button_position"].parse(args, kwargs, __FUNCTION__,
+			&value))
+			return mvPythonTranslator::GetPyNone();
+
+		ImGuiStyle& style = mvApp::GetApp()->getStyle();
+		mvApp::GetApp()->setStyleChanged();
+		style.ColorButtonPosition = value;
+
+		return mvPythonTranslator::GetPyNone();
+	}
+
+	PyObject* set_style_button_text_align(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		float x;
+		float y;
+
+		if (!(*mvApp::GetApp()->getParsers())["set_style_window_title_align"].parse(args, kwargs, __FUNCTION__,
+			&x, &y))
+			return mvPythonTranslator::GetPyNone();
+
+		ImGuiStyle& style = mvApp::GetApp()->getStyle();
+		mvApp::GetApp()->setStyleChanged();
+		style.ButtonTextAlign = { x, y };
+
+		return mvPythonTranslator::GetPyNone();
+	}
+
+	PyObject* set_style_selectable_text_align(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		float x;
+		float y;
+
+		if (!(*mvApp::GetApp()->getParsers())["set_style_selectable_text_align"].parse(args, kwargs, __FUNCTION__,
+			&x, &y))
+			return mvPythonTranslator::GetPyNone();
+
+		ImGuiStyle& style = mvApp::GetApp()->getStyle();
+		mvApp::GetApp()->setStyleChanged();
+		style.SelectableTextAlign = { x, y };
+
+		return mvPythonTranslator::GetPyNone();
+	}
+
+	PyObject* set_style_display_safe_area_padding(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		float x;
+		float y;
+
+		if (!(*mvApp::GetApp()->getParsers())["set_style_display_safe_area_padding"].parse(args, kwargs, __FUNCTION__,
+			&x, &y))
+			return mvPythonTranslator::GetPyNone();
+
+		ImGuiStyle& style = mvApp::GetApp()->getStyle();
+		mvApp::GetApp()->setStyleChanged();
+		style.DisplaySafeAreaPadding = { x, y };
+
+		return mvPythonTranslator::GetPyNone();
+	}
+
+	PyObject* set_style_global_alpha(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		float value;
+
+		if (!(*mvApp::GetApp()->getParsers())["set_style_global_alpha"].parse(args, kwargs, __FUNCTION__,
+			&value))
+			return mvPythonTranslator::GetPyNone();
+
+		ImGuiStyle& style = mvApp::GetApp()->getStyle();
+		mvApp::GetApp()->setStyleChanged();
+		style.Alpha = value;
+
+		return mvPythonTranslator::GetPyNone();
+	}
+
+	PyObject* set_style_curve_tessellation_tolerance(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		float value;
+
+		if (!(*mvApp::GetApp()->getParsers())["set_style_curve_tessellation_tolerance"].parse(args, kwargs, __FUNCTION__,
+			&value))
+			return mvPythonTranslator::GetPyNone();
+
+		ImGuiStyle& style = mvApp::GetApp()->getStyle();
+		mvApp::GetApp()->setStyleChanged();
+		style.CurveTessellationTol = value;
+
+		return mvPythonTranslator::GetPyNone();
+	}
+
+	PyObject* set_style_circle_segment_max_error(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		float value;
+
+		if (!(*mvApp::GetApp()->getParsers())["set_style_circle_segment_max_error"].parse(args, kwargs, __FUNCTION__,
+			&value))
+			return mvPythonTranslator::GetPyNone();
+
+		ImGuiStyle& style = mvApp::GetApp()->getStyle();
+		mvApp::GetApp()->setStyleChanged();
+		style.CircleSegmentMaxError = value;
+
+		return mvPythonTranslator::GetPyNone();
+	}
+
+	PyObject* set_style_antialiased_lines(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		int value;
+
+		if (!(*mvApp::GetApp()->getParsers())["set_style_antialiased_lines"].parse(args, kwargs, __FUNCTION__,
+			&value))
+			return mvPythonTranslator::GetPyNone();
+
+		ImGuiStyle& style = mvApp::GetApp()->getStyle();
+		mvApp::GetApp()->setStyleChanged();
+		style.AntiAliasedLines = value;
+
+		return mvPythonTranslator::GetPyNone();
+	}
+
+	PyObject* set_style_antialiased_fill(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		int value;
+
+		if (!(*mvApp::GetApp()->getParsers())["set_style_antialiased_fill"].parse(args, kwargs, __FUNCTION__,
+			&value))
+			return mvPythonTranslator::GetPyNone();
+
+		ImGuiStyle& style = mvApp::GetApp()->getStyle();
+		mvApp::GetApp()->setStyleChanged();
+		style.AntiAliasedFill = value;
+
+		return mvPythonTranslator::GetPyNone();
+	}
+
 	PyObject* setup_dearpygui(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 
@@ -4221,18 +4882,6 @@ namespace Marvel {
 
 	}
 
-	PyObject* get_style_item(PyObject* self, PyObject* args, PyObject* kwargs)
-	{
-		int item;
-
-		if (!(*mvApp::GetApp()->getParsers())["get_style_item"].parse(args, kwargs, __FUNCTION__, &item))
-			return mvPythonTranslator::GetPyNone();
-
-		auto values = mvApp::GetApp()->getStyleItem(item);
-
-		return mvPythonTranslator::ToPyPair(values.first, values.second);
-	}
-
 	PyObject* get_theme_item(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		int item;
@@ -4379,7 +5028,6 @@ namespace Marvel {
 
 	PyObject* set_thread_count(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
-
 		int threads;
 
 		if (!(*mvApp::GetApp()->getParsers())["set_thread_count"].parse(args, kwargs, __FUNCTION__, &threads))
@@ -4660,20 +5308,6 @@ namespace Marvel {
 		return mvPythonTranslator::GetPyNone();
 	}
 
-	PyObject* change_style_item(PyObject* self, PyObject* args, PyObject* kwargs)
-	{
-		int item;
-		float x = 0.0f;
-		float y = 0.0f;
-
-		if (!(*mvApp::GetApp()->getParsers())["change_style_item"].parse(args, kwargs, __FUNCTION__, &item, &x, &y))
-			return mvPythonTranslator::GetPyNone();
-
-		mvApp::GetApp()->changeStyleItem(item, x, y);
-
-		return mvPythonTranslator::GetPyNone();
-	}
-
 	PyObject* change_theme_item(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		int item;
@@ -4683,8 +5317,6 @@ namespace Marvel {
 			return mvPythonTranslator::GetPyNone();
 
 		mvApp::GetApp()->changeThemeItem(item, { r, g, b, a });
-
-
 
 		return mvPythonTranslator::GetPyNone();
 	}
@@ -4977,6 +5609,12 @@ namespace Marvel {
 		return mvPythonTranslator::GetPyNone();
 	}
 
+	PyObject* show_style_editor(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		mvApp::GetApp()->showStandardWindow("style");
+		return mvPythonTranslator::GetPyNone();
+	}
+
 	PyObject* show_metrics(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		mvApp::GetApp()->showStandardWindow("metrics");
@@ -5149,42 +5787,6 @@ namespace Marvel {
 			{"mvGuiCol_NavWindowingHighlight", 45}, // Highlight window when using CTRL+TAB
 			{"mvGuiCol_NavWindowingDimBg"    , 46}, // Darken/colorize entire screen behind the CTRL+TAB window list, when active 
 			{"mvGuiCol_ModalWindowDimBg"     , 47}, // Darken/colorize entire screen behind a modal window, when one is active
-
-			//-----------------------------------------------------------------------------
-			// Style IDs
-			//-----------------------------------------------------------------------------
-			// Enum name --------------------- // Member in mvGuiStyle structure (see GuiStyle for descriptions)
-			{ "mvGuiStyleVar_Alpha",               0}, // float     Alpha
-			{ "mvGuiStyleVar_WindowPadding",       1}, // mvVec2    WindowPadding
-			{ "mvGuiStyleVar_WindowRounding",      2}, // float     WindowRounding
-			{ "mvGuiStyleVar_WindowBorderSize",    3}, // float     WindowBorderSize
-			{ "mvGuiStyleVar_WindowMinSize",       4}, // mvVec2    WindowMinSize
-			{ "mvGuiStyleVar_WindowTitleAlign",    5}, // mvVec2    WindowTitleAlign
-			{ "mvGuiStyleVar_ChildRounding",       6}, // float     ChildRounding
-			{ "mvGuiStyleVar_ChildBorderSize",     7}, // float     ChildBorderSize
-			{ "mvGuiStyleVar_PopupRounding",       8}, // float     PopupRounding
-			{ "mvGuiStyleVar_PopupBorderSize",     9}, // float     PopupBorderSize
-			{ "mvGuiStyleVar_FramePadding",        10}, // mvVec2    FramePadding
-			{ "mvGuiStyleVar_FrameRounding",       11}, // float     FrameRounding
-			{ "mvGuiStyleVar_FrameBorderSize",     12}, // float     FrameBorderSize
-			{ "mvGuiStyleVar_ItemSpacing",         13}, // mvVec2    ItemSpacing
-			{ "mvGuiStyleVar_ItemInnerSpacing",    14}, // mvVec2    ItemInnerSpacing
-			{ "mvGuiStyleVar_IndentSpacing",       15}, // float     IndentSpacing
-			{ "mvGuiStyleVar_ScrollbarSize",       16}, // float     ScrollbarSize
-			{ "mvGuiStyleVar_ScrollbarRounding",   17}, // float     ScrollbarRounding
-			{ "mvGuiStyleVar_GrabMinSize",         18}, // float     GrabMinSize
-			{ "mvGuiStyleVar_GrabRounding",        19}, // float     GrabRounding
-			{ "mvGuiStyleVar_TabRounding",         20}, // float     TabRounding
-			{ "mvGuiStyleVar_ButtonTextAlign",     21}, // mvVec2    ButtonTextAlign
-			{ "mvGuiStyleVar_SelectableTextAlign", 22}, // mvVec2    SelectableTextAlign
-
-			{ "ImGuiStyleVar_TouchExtraPadding", 23}, // mvVec2    SelectableTextAlign
-			{ "ImGuiStyleVar_TabBorderSize", 24}, // mvVec2    SelectableTextAlign
-			{ "ImGuiStyleVar_DisplaySafeAreaPadding", 25}, // mvVec2    SelectableTextAlign
-			{ "ImGuiStyleVar_AntiAliasedLines", 26}, // mvVec2    SelectableTextAlign
-			{ "ImGuiStyleVar_AntiAliasedFill", 27}, // mvVec2    SelectableTextAlign
-			{ "ImGuiStyleVar_CurveTessellationTol", 28}, // mvVec2    SelectableTextAlign
-			{ "ImGuiStyleVar_CircleSegmentMaxError", 29}, // mvVec2    SelectableTextAlign
 
 			//-----------------------------------------------------------------------------
 			// Key Codes
@@ -5481,6 +6083,73 @@ namespace Marvel {
 
 	static PyMethodDef dearpyguimethods[]
 	{
+		// styles
+		ADD_PYTHON_FUNCTION(set_style_window_padding)
+		ADD_PYTHON_FUNCTION(set_style_frame_padding)
+		ADD_PYTHON_FUNCTION(set_style_item_spacing)
+		ADD_PYTHON_FUNCTION(set_style_item_inner_spacing)
+		ADD_PYTHON_FUNCTION(set_style_touch_extra_padding)
+		ADD_PYTHON_FUNCTION(set_style_indent_spacing)
+		ADD_PYTHON_FUNCTION(set_style_scrollbar_size)
+		ADD_PYTHON_FUNCTION(set_style_grab_min_size)
+		ADD_PYTHON_FUNCTION(set_style_window_border_size)
+		ADD_PYTHON_FUNCTION(set_style_child_border_size)
+		ADD_PYTHON_FUNCTION(set_style_popup_border_size)
+		ADD_PYTHON_FUNCTION(set_style_frame_border_size)
+		ADD_PYTHON_FUNCTION(set_style_tab_border_size)
+		ADD_PYTHON_FUNCTION(set_style_window_rounding)
+		ADD_PYTHON_FUNCTION(set_style_child_rounding)
+		ADD_PYTHON_FUNCTION(set_style_frame_rounding)
+		ADD_PYTHON_FUNCTION(set_style_popup_rounding)
+		ADD_PYTHON_FUNCTION(set_style_scrollbar_rounding)
+		ADD_PYTHON_FUNCTION(set_style_grab_rounding)
+		ADD_PYTHON_FUNCTION(set_style_tab_rounding)
+		ADD_PYTHON_FUNCTION(set_style_window_title_align)
+		ADD_PYTHON_FUNCTION(set_style_window_menu_button_position)
+		ADD_PYTHON_FUNCTION(set_style_color_button_position)
+		ADD_PYTHON_FUNCTION(set_style_button_text_align)
+		ADD_PYTHON_FUNCTION(set_style_selectable_text_align)
+		ADD_PYTHON_FUNCTION(set_style_display_safe_area_padding)
+		ADD_PYTHON_FUNCTION(set_style_global_alpha)
+		ADD_PYTHON_FUNCTION(set_style_antialiased_lines)
+		ADD_PYTHON_FUNCTION(set_style_antialiased_fill)
+		ADD_PYTHON_FUNCTION(set_style_curve_tessellation_tolerance)
+		ADD_PYTHON_FUNCTION(set_style_circle_segment_max_error)
+
+		ADD_PYTHON_FUNCTION(get_style_window_padding)
+		ADD_PYTHON_FUNCTION(get_style_frame_padding)
+		ADD_PYTHON_FUNCTION(get_style_item_spacing)
+		ADD_PYTHON_FUNCTION(get_style_item_inner_spacing)
+		ADD_PYTHON_FUNCTION(get_style_touch_extra_padding)
+		ADD_PYTHON_FUNCTION(get_style_indent_spacing)
+		ADD_PYTHON_FUNCTION(get_style_scrollbar_size)
+		ADD_PYTHON_FUNCTION(get_style_grab_min_size)
+		ADD_PYTHON_FUNCTION(get_style_window_border_size)
+		ADD_PYTHON_FUNCTION(get_style_child_border_size)
+		ADD_PYTHON_FUNCTION(get_style_popup_border_size)
+		ADD_PYTHON_FUNCTION(get_style_frame_border_size)
+		ADD_PYTHON_FUNCTION(get_style_tab_border_size)
+		ADD_PYTHON_FUNCTION(get_style_window_rounding)
+		ADD_PYTHON_FUNCTION(get_style_child_rounding)
+		ADD_PYTHON_FUNCTION(get_style_frame_rounding)
+		ADD_PYTHON_FUNCTION(get_style_popup_rounding)
+		ADD_PYTHON_FUNCTION(get_style_scrollbar_rounding)
+		ADD_PYTHON_FUNCTION(get_style_grab_rounding)
+		ADD_PYTHON_FUNCTION(get_style_tab_rounding)
+		ADD_PYTHON_FUNCTION(get_style_window_title_align)
+		ADD_PYTHON_FUNCTION(get_style_window_menu_button_position)
+		ADD_PYTHON_FUNCTION(get_style_color_button_position)
+		ADD_PYTHON_FUNCTION(get_style_button_text_align)
+		ADD_PYTHON_FUNCTION(get_style_selectable_text_align)
+		ADD_PYTHON_FUNCTION(get_style_display_safe_area_padding)
+		ADD_PYTHON_FUNCTION(get_style_global_alpha)
+		ADD_PYTHON_FUNCTION(get_style_antialiased_lines)
+		ADD_PYTHON_FUNCTION(get_style_antialiased_fill)
+		ADD_PYTHON_FUNCTION(get_style_curve_tessellation_tolerance)
+		ADD_PYTHON_FUNCTION(get_style_circle_segment_max_error)
+
+
+		ADD_PYTHON_FUNCTION(show_style_editor)
 		ADD_PYTHON_FUNCTION(setup_dearpygui)
 		ADD_PYTHON_FUNCTION(set_headers)
 		ADD_PYTHON_FUNCTION(render_dearpygui_frame)
@@ -5602,7 +6271,6 @@ namespace Marvel {
 		ADD_PYTHON_FUNCTION(delete_item)
 		ADD_PYTHON_FUNCTION(move_item_down)
 		ADD_PYTHON_FUNCTION(move_item_up)
-		ADD_PYTHON_FUNCTION(get_style_item)
 		ADD_PYTHON_FUNCTION(get_theme_item)
 		ADD_PYTHON_FUNCTION(get_item_callback)
 		ADD_PYTHON_FUNCTION(get_item_width)
@@ -5641,7 +6309,6 @@ namespace Marvel {
 		ADD_PYTHON_FUNCTION(get_item_rect_min)
 		ADD_PYTHON_FUNCTION(get_item_rect_max)
 		ADD_PYTHON_FUNCTION(get_item_rect_size)
-		ADD_PYTHON_FUNCTION(change_style_item)
 		ADD_PYTHON_FUNCTION(show_item)
 		ADD_PYTHON_FUNCTION(hide_item)
 		ADD_PYTHON_FUNCTION(change_theme_item)

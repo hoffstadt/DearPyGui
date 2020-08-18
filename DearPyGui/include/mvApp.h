@@ -114,10 +114,11 @@ namespace Marvel {
         const std::string&       getFile           () const { return m_file; }
         const std::string&       getActiveWindow   () const { return m_activeWindow; }
         std::vector<mvAppItem*>& getWindows        ()       { return m_windows; }
-        float                    getGlobalFontScale();
+        float&                   getGlobalFontScale();
         int                      getActualWidth() const { return m_actualWidth; }
         int                      getActualHeight() const { return m_actualHeight; }
         const std::string&       getArgv0() const { return m_argv0; }
+        ImGuiStyle&              getStyle() { return m_newstyle; }
         
 
         //-----------------------------------------------------------------------------
@@ -125,11 +126,10 @@ namespace Marvel {
         //-----------------------------------------------------------------------------
         void                    setAppTheme      (const std::string& theme);
         void                    changeThemeItem  (long item, mvColor color);
-        void                    changeStyleItem  (long item, float x, float y);
         void                    addItemColorStyle(const std::string& name, ImGuiCol item, mvColor color);
+        void                    setStyleChanged  () { m_styleChange = true; }
 
         const std::string&      getAppTheme () const { return m_theme; }
-        std::pair<float, float> getStyleItem(long item);
         mvColor                 getThemeItem(long item);
 
         //-----------------------------------------------------------------------------
@@ -201,6 +201,8 @@ namespace Marvel {
         void routeInputCallbacks();
         void changeTheme();
         bool checkIfMainThread();
+        void setNewStyle();
+        void firstRenderFrame();
 
     private:
 
@@ -219,10 +221,12 @@ namespace Marvel {
         std::map<std::string, mvPythonParser>* m_parsers;
         
         // appearance
-        mvStyle     m_style;
         std::string m_theme = "Dark";
         bool        m_compileTimeThemeSet = false; // theme changed at compile time
         float       m_globalFontScale = 1.0f;
+        ImGuiStyle  m_newstyle;
+        bool        m_firstRender = true;
+        bool        m_styleChange = true;
 
         // runtime widget modifications
         std::queue<std::string>          m_deleteChildrenQueue;
