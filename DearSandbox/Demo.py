@@ -9,7 +9,7 @@ add_data("DataStorage2", [23,42,53])
 add_menu_bar("MenuBar")
 
 add_menu("Themes")
-add_menu_item("Dark", callback = "ThemeCallback1")
+add_menu_item("Dark", callback = "ThemeCallback")
 add_menu_item("Light", callback = "ThemeCallback")
 add_menu_item("Classic", callback = "ThemeCallback")
 add_menu_item("Dark 2", callback = "ThemeCallback")
