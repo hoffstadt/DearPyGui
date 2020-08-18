@@ -272,10 +272,6 @@ def add_window(name: str, width: int = -1, height: int = -1, start_x: int = 200,
 	"""Creates a new window for following items to be added to. Must call end_main_window command before."""
 	...
 
-def change_theme_item(item: int, r: float, g: float, b: float, a: float) -> None:
-	"""Needs documentation"""
-	...
-
 def cleanup_dearpygui() -> None:
 	"""Cleans up DearPyGui after calling setup_dearpygui."""
 	...
@@ -1030,6 +1026,10 @@ def set_table_selection(table: str, row: int, column: int, value: bool) -> None:
 
 def set_theme(theme: str) -> None:
 	"""Set the application's theme to a built-in theme."""
+	...
+
+def set_theme_item(item: int, r: float, g: float, b: float, a: float) -> None:
+	"""Sets theme item."""
 	...
 
 def set_thread_count(threads: int) -> None:

@@ -125,7 +125,7 @@ namespace Marvel {
         // Styles/Themes
         //-----------------------------------------------------------------------------
         void                    setAppTheme      (const std::string& theme);
-        void                    changeThemeItem  (long item, mvColor color);
+        void                    setThemeItem     (long item, mvColor color);
         void                    addItemColorStyle(const std::string& name, ImGuiCol item, mvColor color);
         void                    setStyleChanged  () { m_styleChange = true; }
 

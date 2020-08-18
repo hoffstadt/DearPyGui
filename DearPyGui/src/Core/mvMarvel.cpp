@@ -5308,15 +5308,15 @@ namespace Marvel {
 		return mvPythonTranslator::GetPyNone();
 	}
 
-	PyObject* change_theme_item(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* set_theme_item(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		int item;
 		int r, g, b, a;
 
-		if (!(*mvApp::GetApp()->getParsers())["change_theme_item"].parse(args, kwargs, __FUNCTION__, &item, &r, &g, &b, &a))
+		if (!(*mvApp::GetApp()->getParsers())["set_theme_item"].parse(args, kwargs, __FUNCTION__, &item, &r, &g, &b, &a))
 			return mvPythonTranslator::GetPyNone();
 
-		mvApp::GetApp()->changeThemeItem(item, { r, g, b, a });
+		mvApp::GetApp()->setThemeItem(item, { r, g, b, a });
 
 		return mvPythonTranslator::GetPyNone();
 	}
@@ -6308,7 +6308,7 @@ namespace Marvel {
 		ADD_PYTHON_FUNCTION(get_item_rect_size)
 		ADD_PYTHON_FUNCTION(show_item)
 		ADD_PYTHON_FUNCTION(hide_item)
-		ADD_PYTHON_FUNCTION(change_theme_item)
+		ADD_PYTHON_FUNCTION(set_theme_item)
 		ADD_PYTHON_FUNCTION(set_theme)
 		ADD_PYTHON_FUNCTION(set_render_callback)
 		ADD_PYTHON_FUNCTION(set_item_callback)

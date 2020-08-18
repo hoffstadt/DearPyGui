@@ -96,8 +96,7 @@ New Commands:
 
 Breaking Changes:
 
-- Styles: Removed change_style_item
-- Styles: Removed get_style_item
+- Themes: Changed change_style_item to set_theme_item
 - Other:  Changed get_marvel_version to get_dearpygui_version
 
 
