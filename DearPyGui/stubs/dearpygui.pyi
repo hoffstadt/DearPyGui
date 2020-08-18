@@ -272,10 +272,6 @@ def add_window(name: str, width: int = -1, height: int = -1, start_x: int = 200,
 	"""Creates a new window for following items to be added to. Must call end_main_window command before."""
 	...
 
-def change_style_item(item: int, x: float, y: float = ...) -> None:
-	"""Needs documentation"""
-	...
-
 def change_theme_item(item: int, r: float, g: float, b: float, a: float) -> None:
 	"""Needs documentation"""
 	...
@@ -486,10 +482,6 @@ def get_mouse_pos(local: bool = True) -> (int, int):
 
 def get_plot_query_area(plot: str) -> List[float]:
 	"""Clears a plot."""
-	...
-
-def get_style_item(item: int) -> (float, float):
-	"""Returns a style item's value"""
 	...
 
 def get_table_item(table: str, row: int, column: int) -> str:

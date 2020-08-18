@@ -27,6 +27,7 @@ add_menu_item("Show About", callback="show_about")
 add_menu_item("Show Metrics", callback="show_metrics")
 add_menu_item("Show Documentation", callback="show_documentation")
 add_menu_item("Show Debug", callback="show_debug")
+add_menu_item("Show Style Editor", callback="show_style_editor")
 end_menu()
 
 end_menu_bar()

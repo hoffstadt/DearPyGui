@@ -56,6 +56,7 @@ set(MARVEL_SOURCES
 	"src/Core/StandardWindows/mvSourceWindow.cpp"
 	"src/Core/StandardWindows/mvDebugWindow.cpp"
 	"src/Core/StandardWindows/mvFileDialog.cpp"
+	"src/Core/StandardWindows/mvStyleWindow.cpp"
 
 	"src/Core/AppItems/mvAppItem.cpp"
 	"src/Core/AppItems/mvDrawing.cpp"

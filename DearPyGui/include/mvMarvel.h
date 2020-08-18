@@ -1068,6 +1068,9 @@ namespace Marvel {
 		parsers->insert({ "show_debug", mvPythonParser({
 		}, "Shows the debug window.", "None", "Standard Windows") });
 
+		parsers->insert({ "show_style_editor", mvPythonParser({
+		}, "Shows the font window.") });
+
 		parsers->insert({ "close_popup", mvPythonParser({
 		}, "Needs documentation") });
 
@@ -1082,10 +1085,6 @@ namespace Marvel {
 			{mvPythonDataType::String, "theme"}
 		}, "Set the application's theme to a built-in theme.", "None", "Themes and Styles") });
 
-		parsers->insert({ "get_style_item", mvPythonParser({
-			{mvPythonDataType::Integer, "item"}
-		}, "Returns a style item's value", "(float, float)", "Themes and Styles") });
-
 		parsers->insert({ "get_theme_item", mvPythonParser({
 			{mvPythonDataType::Integer, "item"}
 		}, "Returns a theme item's color", "(float, float, float, float)", "Themes and Styles") });
@@ -1099,20 +1098,239 @@ namespace Marvel {
 			{mvPythonDataType::FloatList, "color"}
 		}, "Needs documentation", "None", "Themes and Styles") });
 
-		parsers->insert({ "change_style_item", mvPythonParser({
-			{mvPythonDataType::Integer, "item"},
-			{mvPythonDataType::Float, "x"},
-			{mvPythonDataType::Optional},
-			{mvPythonDataType::Float, "y"}
-		}, "Needs documentation", "None", "Themes and Styles") });
-
 		parsers->insert({ "change_theme_item", mvPythonParser({
 			{mvPythonDataType::Integer, "item"},
-			{mvPythonDataType::Float, "r"},
-			{mvPythonDataType::Float, "g"},
-			{mvPythonDataType::Float, "b"},
-			{mvPythonDataType::Float, "a"}
+			{mvPythonDataType::Integer, "r"},
+			{mvPythonDataType::Integer, "g"},
+			{mvPythonDataType::Integer, "b"},
+			{mvPythonDataType::Integer, "a"}
 		}, "Needs documentation", "None", "Themes and Styles") });
+
+		parsers->insert({ "set_style_window_padding", mvPythonParser({
+			{mvPythonDataType::Float, "x"},
+			{mvPythonDataType::Float, "y"},
+		}, "Needs documentation", "None", "Themes and Styles") });
+
+		parsers->insert({ "set_style_frame_padding", mvPythonParser({
+			{mvPythonDataType::Float, "x"},
+			{mvPythonDataType::Float, "y"},
+		}, "Needs documentation", "None", "Themes and Styles") });
+
+		parsers->insert({ "set_style_item_spacing", mvPythonParser({
+			{mvPythonDataType::Float, "x"},
+			{mvPythonDataType::Float, "y"},
+		}, "Needs documentation", "None", "Themes and Styles") });
+
+		parsers->insert({ "set_style_item_inner_spacing", mvPythonParser({
+			{mvPythonDataType::Float, "x"},
+			{mvPythonDataType::Float, "y"},
+		}, "Needs documentation", "None", "Themes and Styles") });
+
+		parsers->insert({ "set_style_touch_extra_padding", mvPythonParser({
+			{mvPythonDataType::Float, "x"},
+			{mvPythonDataType::Float, "y"},
+		}, "Needs documentation", "None", "Themes and Styles") });
+
+		parsers->insert({ "set_style_indent_spacing", mvPythonParser({
+			{mvPythonDataType::Float, "value"}
+		}, "Needs documentation", "None", "Themes and Styles") });
+
+		parsers->insert({ "set_style_scrollbar_size", mvPythonParser({
+			{mvPythonDataType::Float, "value"}
+		}, "Needs documentation", "None", "Themes and Styles") });
+
+		parsers->insert({ "set_style_grab_min_size", mvPythonParser({
+			{mvPythonDataType::Float, "value"}
+		}, "Needs documentation", "None", "Themes and Styles") });
+
+		parsers->insert({ "set_style_window_border_size", mvPythonParser({
+			{mvPythonDataType::Float, "value"}
+		}, "Needs documentation", "None", "Themes and Styles") });
+
+		parsers->insert({ "set_style_child_border_size", mvPythonParser({
+			{mvPythonDataType::Float, "value"}
+		}, "Needs documentation", "None", "Themes and Styles") });
+
+		parsers->insert({ "set_style_popup_border_size", mvPythonParser({
+			{mvPythonDataType::Float, "value"}
+		}, "Needs documentation", "None", "Themes and Styles") });
+
+		parsers->insert({ "set_style_frame_border_size", mvPythonParser({
+			{mvPythonDataType::Float, "value"}
+		}, "Needs documentation", "None", "Themes and Styles") });
+
+		parsers->insert({ "set_style_tab_border_size", mvPythonParser({
+			{mvPythonDataType::Float, "value"}
+		}, "Needs documentation", "None", "Themes and Styles") });
+
+		parsers->insert({ "set_style_window_rounding", mvPythonParser({
+			{mvPythonDataType::Float, "value"}
+		}, "Needs documentation", "None", "Themes and Styles") });
+
+		parsers->insert({ "set_style_child_rounding", mvPythonParser({
+			{mvPythonDataType::Float, "value"}
+		}, "Needs documentation", "None", "Themes and Styles") });
+
+		parsers->insert({ "set_style_frame_rounding", mvPythonParser({
+			{mvPythonDataType::Float, "value"}
+		}, "Needs documentation", "None", "Themes and Styles") });
+
+		parsers->insert({ "set_style_popup_rounding", mvPythonParser({
+			{mvPythonDataType::Float, "value"}
+		}, "Needs documentation", "None", "Themes and Styles") });
+
+		parsers->insert({ "set_style_scrollbar_rounding", mvPythonParser({
+			{mvPythonDataType::Float, "value"}
+		}, "Needs documentation", "None", "Themes and Styles") });
+
+		parsers->insert({ "set_style_grab_rounding", mvPythonParser({
+			{mvPythonDataType::Float, "value"}
+		}, "Needs documentation", "None", "Themes and Styles") });
+
+		parsers->insert({ "set_style_tab_rounding", mvPythonParser({
+			{mvPythonDataType::Float, "value"}
+		}, "Needs documentation", "None", "Themes and Styles") });
+
+		parsers->insert({ "set_style_window_title_align", mvPythonParser({
+			{mvPythonDataType::Float, "x"},
+			{mvPythonDataType::Float, "y"},
+		}, "Needs documentation", "None", "Themes and Styles") });
+
+		parsers->insert({ "set_style_window_menu_button_position", mvPythonParser({
+			{mvPythonDataType::Integer, "value"}
+		}, "Needs documentation", "None", "Themes and Styles") });
+
+		parsers->insert({ "set_style_color_button_position", mvPythonParser({
+			{mvPythonDataType::Integer, "value"}
+		}, "Needs documentation", "None", "Themes and Styles") });
+
+		parsers->insert({ "set_style_button_text_align", mvPythonParser({
+			{mvPythonDataType::Float, "x"},
+			{mvPythonDataType::Float, "y"},
+		}, "Needs documentation", "None", "Themes and Styles") });
+
+		parsers->insert({ "set_style_selectable_text_align", mvPythonParser({
+			{mvPythonDataType::Float, "x"},
+			{mvPythonDataType::Float, "y"},
+		}, "Needs documentation", "None", "Themes and Styles") });
+
+		parsers->insert({ "set_style_display_safe_area_padding", mvPythonParser({
+			{mvPythonDataType::Float, "x"},
+			{mvPythonDataType::Float, "y"},
+		}, "Needs documentation", "None", "Themes and Styles") });
+
+		parsers->insert({ "set_style_global_alpha", mvPythonParser({
+			{mvPythonDataType::Float, "value"}
+		}, "Needs documentation", "None", "Themes and Styles") });
+
+		parsers->insert({ "set_style_antialiased_lines", mvPythonParser({
+			{mvPythonDataType::Bool, "value"}
+		}, "Needs documentation", "None", "Themes and Styles") });
+
+		parsers->insert({ "set_style_antialiased_fill", mvPythonParser({
+			{mvPythonDataType::Bool, "value"}
+		}, "Needs documentation", "None", "Themes and Styles") });
+
+		parsers->insert({ "set_style_curve_tessellation_tolerance", mvPythonParser({
+			{mvPythonDataType::Float, "value"}
+		}, "Needs documentation", "None", "Themes and Styles") });
+
+		parsers->insert({ "set_style_circle_segment_max_error", mvPythonParser({
+			{mvPythonDataType::Float, "value"}
+		}, "Needs documentation", "None", "Themes and Styles") });
+
+		parsers->insert({ "get_style_window_padding", mvPythonParser({
+		}, "Needs documentation", "List[float]", "Themes and Styles") });
+
+		parsers->insert({ "get_style_frame_padding", mvPythonParser({
+		}, "Needs documentation", "List[float]", "Themes and Styles") });
+
+		parsers->insert({ "get_style_item_spacing", mvPythonParser({
+		}, "Needs documentation", "List[float]", "Themes and Styles") });
+
+		parsers->insert({ "get_style_item_inner_spacing", mvPythonParser({
+		}, "Needs documentation", "List[float]", "Themes and Styles") });
+
+		parsers->insert({ "get_style_touch_extra_padding", mvPythonParser({
+		}, "Needs documentation", "List[float]", "Themes and Styles") });
+
+		parsers->insert({ "get_style_indent_spacing", mvPythonParser({
+		}, "Needs documentation", "float", "Themes and Styles") });
+
+		parsers->insert({ "get_style_scrollbar_size", mvPythonParser({
+		}, "Needs documentation", "float", "Themes and Styles") });
+
+		parsers->insert({ "get_style_grab_min_size", mvPythonParser({
+		}, "Needs documentation", "float", "Themes and Styles") });
+
+		parsers->insert({ "get_style_window_border_size", mvPythonParser({
+		}, "Needs documentation", "float", "Themes and Styles") });
+
+		parsers->insert({ "get_style_child_border_size", mvPythonParser({
+		}, "Needs documentation", "float", "Themes and Styles") });
+
+		parsers->insert({ "get_style_popup_border_size", mvPythonParser({
+		}, "Needs documentation", "float", "Themes and Styles") });
+
+		parsers->insert({ "get_style_frame_border_size", mvPythonParser({
+		}, "Needs documentation", "float", "Themes and Styles") });
+
+		parsers->insert({ "get_style_tab_border_size", mvPythonParser({
+		}, "Needs documentation", "float", "Themes and Styles") });
+
+		parsers->insert({ "get_style_window_rounding", mvPythonParser({
+		}, "Needs documentation", "float", "Themes and Styles") });
+
+		parsers->insert({ "get_style_child_rounding", mvPythonParser({
+		}, "Needs documentation", "float", "Themes and Styles") });
+
+		parsers->insert({ "get_style_frame_rounding", mvPythonParser({
+		}, "Needs documentation", "float", "Themes and Styles") });
+
+		parsers->insert({ "get_style_popup_rounding", mvPythonParser({
+		}, "Needs documentation", "float", "Themes and Styles") });
+
+		parsers->insert({ "get_style_scrollbar_rounding", mvPythonParser({
+		}, "Needs documentation", "float", "Themes and Styles") });
+
+		parsers->insert({ "get_style_grab_rounding", mvPythonParser({
+		}, "Needs documentation", "float", "Themes and Styles") });
+
+		parsers->insert({ "get_style_tab_rounding", mvPythonParser({
+		}, "Needs documentation", "float", "Themes and Styles") });
+
+		parsers->insert({ "get_style_window_title_align", mvPythonParser({
+		}, "Needs documentation", "List[float]", "Themes and Styles") });
+
+		parsers->insert({ "get_style_window_menu_button_position", mvPythonParser({
+		}, "Needs documentation", "int", "Themes and Styles") });
+
+		parsers->insert({ "get_style_color_button_position", mvPythonParser({
+		}, "Needs documentation", "int", "Themes and Styles") });
+
+		parsers->insert({ "get_style_button_text_align", mvPythonParser({
+		}, "Needs documentation", "List[float]", "Themes and Styles") });
+
+		parsers->insert({ "get_style_selectable_text_align", mvPythonParser({
+		}, "Needs documentation", "List[float]", "Themes and Styles") });
+
+		parsers->insert({ "get_style_display_safe_area_padding", mvPythonParser({
+		}, "Needs documentation", "List[float]", "Themes and Styles") });
+
+		parsers->insert({ "get_style_global_alpha", mvPythonParser({
+		}, "Needs documentation", "float", "Themes and Styles") });
+
+		parsers->insert({ "get_style_antialiased_lines", mvPythonParser({
+		}, "Needs documentation", "bool", "Themes and Styles") });
+
+		parsers->insert({ "get_style_antialiased_fill", mvPythonParser({
+		}, "Needs documentation", "bool", "Themes and Styles") });
+
+		parsers->insert({ "get_style_curve_tessellation_tolerance", mvPythonParser({
+		}, "Needs documentation", "float", "Themes and Styles") });
+
+		parsers->insert({ "get_style_circle_segment_max_error", mvPythonParser({
+		}, "Needs documentation", "float", "Themes and Styles") });
 	}
 
 	static void AddMenuCommands(std::map<std::string, mvPythonParser>* parsers)

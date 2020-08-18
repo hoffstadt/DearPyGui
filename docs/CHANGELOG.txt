@@ -22,6 +22,83 @@ HOW TO UPDATE?
 - Read the `Breaking Changes` section (here in the changelog).
 - Please report any issue!
 
+-----------------------------------------------------------------------
+ VERSION 0.1.0 Beta 7
+-----------------------------------------------------------------------
+
+Decorated log: https://github.com/hoffstadt/DearPyGui/releases/tag/v0.1.0-beta6
+
+New Commands:
+
+- Styles: new command set_style_window_padding
+- Styles: new command set_style_frame_padding
+- Styles: new command set_style_item_spacing
+- Styles: new command set_style_item_inner_spacing
+- Styles: new command set_style_touch_extra_padding
+- Styles: new command set_style_indent_spacing
+- Styles: new command set_style_scrollbar_size
+- Styles: new command set_style_grab_min_size
+- Styles: new command set_style_window_border_size
+- Styles: new command set_style_child_border_size
+- Styles: new command set_style_popup_border_size
+- Styles: new command set_style_frame_border_size
+- Styles: new command set_style_tab_border_size
+- Styles: new command set_style_window_rounding
+- Styles: new command set_style_child_rounding
+- Styles: new command set_style_frame_rounding
+- Styles: new command set_style_popup_rounding
+- Styles: new command set_style_scrollbar_rounding
+- Styles: new command set_style_grab_rounding
+- Styles: new command set_style_tab_rounding
+- Styles: new command set_style_window_title_align
+- Styles: new command set_style_window_menu_button_position
+- Styles: new command set_style_color_button_position
+- Styles: new command set_style_button_text_align
+- Styles: new command set_style_selectable_text_align
+- Styles: new command set_style_display_safe_area_padding
+- Styles: new command set_style_global_alpha
+- Styles: new command set_style_antialiased_lines
+- Styles: new command set_style_antialiased_fill
+- Styles: new command set_style_curve_tessellation_tolerance
+- Styles: new command set_style_circle_segment_max_error
+
+- Styles: new command get_style_window_padding
+- Styles: new command get_style_frame_padding
+- Styles: new command get_style_item_spacing
+- Styles: new command get_style_item_inner_spacing
+- Styles: new command get_style_touch_extra_padding
+- Styles: new command get_style_indent_spacing
+- Styles: new command get_style_scrollbar_size
+- Styles: new command get_style_grab_min_size
+- Styles: new command get_style_window_border_size
+- Styles: new command get_style_child_border_size
+- Styles: new command get_style_popup_border_size
+- Styles: new command get_style_frame_border_size
+- Styles: new command get_style_tab_border_size
+- Styles: new command get_style_window_rounding
+- Styles: new command get_style_child_rounding
+- Styles: new command get_style_frame_rounding
+- Styles: new command get_style_popup_rounding
+- Styles: new command get_style_scrollbar_rounding
+- Styles: new command get_style_grab_rounding
+- Styles: new command get_style_tab_rounding
+- Styles: new command get_style_window_title_align
+- Styles: new command get_style_window_menu_button_position
+- Styles: new command get_style_color_button_position
+- Styles: new command get_style_button_text_align
+- Styles: new command get_style_selectable_text_align
+- Styles: new command get_style_display_safe_area_padding
+- Styles: new command get_style_global_alpha
+- Styles: new command get_style_antialiased_lines
+- Styles: new command get_style_antialiased_fill
+- Styles: new command get_style_curve_tessellation_tolerance
+- Styles: new command get_style_circle_segment_max_error
+
+Breaking Changes:
+
+- Styles: Removed change_style_item
+- Styles: Removed get_style_item
+
 
 -----------------------------------------------------------------------
  VERSION 0.1.0 Beta 6

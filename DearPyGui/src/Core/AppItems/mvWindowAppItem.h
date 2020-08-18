@@ -84,6 +84,7 @@ namespace Marvel {
 
 			if (m_mainWindow)
 			{
+				ImGui::PushStyleVar(ImGuiStyleVar_WindowRounding, 0.0f); // to prevent main window corners from showing
 				ImGui::SetNextWindowPos(ImVec2(0.0f, 0.0f));
 				ImGui::SetNextWindowSize(ImVec2((float)m_width, (float)m_height));
 			}
@@ -95,11 +96,17 @@ namespace Marvel {
 				m_dirty = false;
 			}
 
+			
 			if (!ImGui::Begin(m_label.c_str(), &m_show, m_windowflags))
 			{
+				if (m_mainWindow)
+					ImGui::PopStyleVar();
 				ImGui::End();
 				return;
 			}
+
+			if (m_mainWindow)
+				ImGui::PopStyleVar();
 
 			for (mvAppItem* item : m_children)
 			{
