@@ -412,6 +412,10 @@ def get_data(name: str) -> object:
 	"""Retrieves data from storage."""
 	...
 
+def get_dearpygui_version() -> str:
+	"""Returns the current version of Dear PyGui."""
+	...
+
 def get_delta_time() -> float:
 	"""Returns time since last frame."""
 	...
@@ -470,10 +474,6 @@ def get_log_level() -> int:
 
 def get_main_window_size() -> [int, int]:
 	"""Returns the size of the main window."""
-	...
-
-def get_marvel_version() -> str:
-	"""Returns the current version of Marvel."""
 	...
 
 def get_mouse_drag_delta() -> (float, float):
