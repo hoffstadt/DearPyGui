@@ -97,6 +97,13 @@ namespace Marvel {
 		mvDataStorage::DeleteAllData();
 	}
 
+	void mvApp::setFont(const std::string& file, float size, const std::string& glyphRange)
+	{
+		m_fontFile = file;
+		m_fontGlyphRange = glyphRange;
+		m_fontSize = size;
+	}
+
 	void mvApp::setNewStyle()
 	{
 		ImGuiStyle& style = ImGui::GetStyle();
@@ -288,7 +295,7 @@ namespace Marvel {
 		for (int i = 0; i < ImGuiCol_COUNT; i++)
 			if(m_newstyle.Colors[i].x == 0.0f && m_newstyle.Colors[i].y == 0.0f &&
 				m_newstyle.Colors[i].z == 0.0f && m_newstyle.Colors[i].w == 0.0f)
-				m_newstyle.Colors[i] = ImGui::GetStyle().Colors[i];
+				m_newstyle.Colors[i] = ImGui::GetStyle().Colors[i];		
 	}
 
 	void mvApp::prerender()

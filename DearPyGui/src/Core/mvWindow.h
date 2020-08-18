@@ -40,6 +40,8 @@ namespace Marvel {
 		virtual void postrender () {}
 		virtual void cleanup    () {}
 
+		void setupFonts();
+
 	protected:
 
 		bool              m_running       = true;
@@ -51,6 +53,8 @@ namespace Marvel {
 		mvStandardWindow* m_documentation = nullptr;
 		unsigned          m_width;
 		unsigned          m_height;
+
+
 
 	};
 

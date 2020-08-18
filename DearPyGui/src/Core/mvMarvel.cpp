@@ -102,6 +102,21 @@ namespace Marvel {
 		return result;
 	}
 
+	PyObject* add_additional_font(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		const char* file;
+		float size = 13.0f;
+		const char* glyph_ranges = "";
+
+		if (!(*mvApp::GetApp()->getParsers())["add_additional_font"].parse(args, kwargs, __FUNCTION__,
+			&file, &size, &glyph_ranges))
+			return mvPythonTranslator::GetPyNone();
+
+		mvApp::GetApp()->setFont(file, size, glyph_ranges);
+
+		return mvPythonTranslator::GetPyNone();
+	}
+
 	PyObject* get_style_window_padding(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		ImGuiStyle& style = mvApp::GetApp()->getStyle();
@@ -287,7 +302,6 @@ namespace Marvel {
 		ImGuiStyle& style = mvApp::GetApp()->getStyle();
 		return mvPythonTranslator::ToPyFloat(style.CircleSegmentMaxError);
 	}
-
 
 	PyObject* set_style_window_padding(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
@@ -806,6 +820,7 @@ namespace Marvel {
 
 		// create window
 		auto window = mvWindow::CreatemvWindow(mvApp::GetApp()->getActualWidth(), mvApp::GetApp()->getActualHeight());
+		mvApp::GetApp()->setViewport(window);
 		window->show();
 		window->run();
 		delete window;
@@ -6084,6 +6099,7 @@ namespace Marvel {
 	static PyMethodDef dearpyguimethods[]
 	{
 		// styles
+		ADD_PYTHON_FUNCTION(add_additional_font)
 		ADD_PYTHON_FUNCTION(set_style_window_padding)
 		ADD_PYTHON_FUNCTION(set_style_frame_padding)
 		ADD_PYTHON_FUNCTION(set_style_item_spacing)

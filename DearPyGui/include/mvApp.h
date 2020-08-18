@@ -63,6 +63,8 @@ namespace Marvel {
     class mvApp : public mvStandardWindow
     {
 
+        friend class mvWindow;
+
         struct NewRuntimeItem
         {
             mvAppItem*  item;   // new item to add
@@ -109,6 +111,8 @@ namespace Marvel {
         void                     setActualSize     (unsigned width, unsigned height);			
         void                     setActiveWindow   (const std::string& window) { m_activeWindow = window; }
         void                     setGlobalFontScale(float scale);
+        void                     setFont           (const std::string& file, float size = 13.0f, const std::string& glyphRange = "");
+        
 
 
         const std::string&       getFile           () const { return m_file; }
@@ -227,6 +231,10 @@ namespace Marvel {
         ImGuiStyle  m_newstyle;
         bool        m_firstRender = true;
         bool        m_styleChange = true;
+        std::string m_fontFile;
+        std::string m_fontGlyphRange;
+        float       m_fontSize = 13.0f;
+
 
         // runtime widget modifications
         std::queue<std::string>          m_deleteChildrenQueue;

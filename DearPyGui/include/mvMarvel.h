@@ -1081,6 +1081,13 @@ namespace Marvel {
 
 	static void AddThemeCommands(std::map<std::string, mvPythonParser>* parsers)
 	{
+		parsers->insert({ "add_additional_font", mvPythonParser({
+			{mvPythonDataType::String, "file", "ttf or otf file"},
+			{mvPythonDataType::Optional},
+			{mvPythonDataType::Float, "size"},
+			{mvPythonDataType::String, "glyph_ranges", "options: korean, japanese, chinese_full, chinese_simplified_common, cryillic, thai, vietnamese"},
+		}, "Adds additional font.", "None", "Themes and Styles") });
+
 		parsers->insert({ "set_theme", mvPythonParser({
 			{mvPythonDataType::String, "theme"}
 		}, "Set the application's theme to a built-in theme.", "None", "Themes and Styles") });

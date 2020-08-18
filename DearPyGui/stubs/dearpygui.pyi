@@ -1,5 +1,8 @@
 from typing import List, Any
 
+def add_additional_font(file: str, size: float = 13.0, glyph_ranges: str = "") -> None:
+	"""Adds additional font. Glyph_ranges options: korean, japanese, chinese_full, chinese_simplified_common, cryillic, thai, vietnamese"""
+	...
 
 def add_button(name: str, small: bool = False, arrow: bool = False, direction: int = -1, callback: str = "", tip: str = "", parent: str = "", before: str = "", width: int = 0, height: int = 0) -> None:
 	"""Adds a button."""
