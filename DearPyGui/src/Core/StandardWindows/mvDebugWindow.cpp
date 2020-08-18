@@ -82,7 +82,6 @@ namespace Marvel {
 				ImGui::Text("%d active allocations", io.MetricsActiveAllocations);
 				DebugItem("DearPyGui Version: ", mvApp::GetVersion());
 				DebugItem("ImGui Version: ", IMGUI_VERSION);
-				DebugItem("App File: ", app->getFile().c_str());
 				DebugItem("Stored Data: ", std::to_string(mvDataStorage::GetDataCount()).c_str());
 				DebugItem("Stored Textures: ", std::to_string(mvTextureStorage::GetTextureCount()).c_str());
 				DebugItem("Threads Active: ", std::to_string(app->getThreadCount()).c_str());

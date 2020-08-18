@@ -97,183 +97,6 @@ namespace Marvel {
 		mvDataStorage::DeleteAllData();
 	}
 
-	void mvApp::setFont(const std::string& file, float size, const std::string& glyphRange)
-	{
-		m_fontFile = file;
-		m_fontGlyphRange = glyphRange;
-		m_fontSize = size;
-	}
-
-	void mvApp::setNewStyle()
-	{
-		ImGuiStyle& style = ImGui::GetStyle();
-		
-		style = m_newstyle;
-
-		m_styleChange = false;
-	}
-
-	bool mvApp::checkIfMainThread()
-	{
-		if (std::this_thread::get_id() != m_mainThreadID)
-		{
-			int line = PyFrame_GetLineNumber(PyEval_GetFrame());
-			PyErr_Format(PyExc_Exception,
-				"DearPyGui command on line %d can not be called asycronously", line);
-			PyErr_Print();
-			return false;
-		}
-		return true;
-	}
-
-	void mvApp::routeInputCallbacks()
-	{
-		// Note: Events are only routed to the active window
-
-		// default handler is main window
-		mvEventHandler* eventHandler = static_cast<mvEventHandler*>(this);
-		if (m_activeWindow != "MainWindow")
-		{
-			for (auto window : m_windows)
-			{
-				if (window->getName() == m_activeWindow)
-				{
-					auto windowtype = static_cast<mvWindowAppitem*>(window);
-					eventHandler = static_cast<mvEventHandler*>(windowtype);
-					break;
-				}
-			}
-		}
-
-		// early opt out of keyboard events
-		if (eventHandler->isKeyboardHandled())
-		{
-			// route key events
-			for (int i = 0; i < IM_ARRAYSIZE(ImGui::GetIO().KeysDown); i++)
-			{
-				// route key pressed event
-				if (ImGui::IsKeyPressed(i) && !eventHandler->getKeyPressCallback().empty())
-					runCallback(eventHandler->getKeyPressCallback(), std::to_string(i));
-
-				// route key down event
-				if (ImGui::GetIO().KeysDownDuration[i] >= 0.0f && !eventHandler->getKeyDownCallback().empty())
-					runCallback(eventHandler->getKeyDownCallback(), std::to_string(i),
-						mvPythonTranslator::ToPyFloat(ImGui::GetIO().KeysDownDuration[i]));
-
-				// route key released event
-				if (ImGui::IsKeyReleased(i) && !eventHandler->getKeyReleaseCallback().empty())
-					runCallback(eventHandler->getKeyReleaseCallback(), std::to_string(i));
-			}
-		}
-
-		// early opt out of mouse events
-		if (!eventHandler->isMouseHandled())
-			return;
-
-		// route mouse wheel event
-		if (ImGui::GetIO().MouseWheel != 0.0f && !eventHandler->getMouseWheelCallback().empty())
-			runCallback(eventHandler->getMouseWheelCallback(), m_activeWindow,
-				mvPythonTranslator::ToPyMPair(0, ImGui::GetIO().MouseWheel));
-
-		// route mouse dragging event
-		// this must be seperate since only a single button can be dragged
-		if (!eventHandler->getMouseDragCallback().empty())
-		{
-			for (int i = 0; i < 3; i++)
-			{
-				if (ImGui::IsMouseDragging(i, mvInput::getMouseDragThreshold()))
-				{
-					// TODO: send delta
-					mvInput::setMouseDragging(true);
-					mvInput::setMouseDragDelta({ ImGui::GetMouseDragDelta().x, ImGui::GetMouseDragDelta().y });
-					runCallback(eventHandler->getMouseDragCallback(), m_activeWindow,
-						mvPythonTranslator::ToPyMPair(i, 0));
-					ImGui::ResetMouseDragDelta(i);
-					break;
-				}
-
-				// reset, since event has already been dispatched
-				mvInput::setMouseDragging(false);
-				mvInput::setMouseDragDelta({ 0.0f, 0.0f });
-			}
-		}
-
-		// route other mouse events
-		for (int i = 0; i < IM_ARRAYSIZE(ImGui::GetIO().MouseDown); i++)
-		{
-			// route mouse click event
-			if (ImGui::IsMouseClicked(i) && !eventHandler->getMouseClickCallback().empty())
-				runCallback(eventHandler->getMouseClickCallback(), m_activeWindow,
-					mvPythonTranslator::ToPyInt(i));
-
-			// route mouse down event
-			if (ImGui::GetIO().MouseDownDuration[i] >= 0.0f && !eventHandler->getMouseDownCallback().empty())
-				runCallback(eventHandler->getMouseDownCallback(), m_activeWindow,
-					mvPythonTranslator::ToPyMPair(i, ImGui::GetIO().MouseDownDuration[i]));
-
-			// route mouse double clicked event
-			if (ImGui::IsMouseDoubleClicked(i) && !eventHandler->getMouseDoubleClickCallback().empty())
-				runCallback(eventHandler->getMouseDoubleClickCallback(), m_activeWindow,
-					mvPythonTranslator::ToPyInt(i));
-
-			// route mouse released event
-			if (ImGui::IsMouseReleased(i) && !eventHandler->getMouseReleaseCallback().empty())
-				runCallback(eventHandler->getMouseReleaseCallback(), m_activeWindow,
-					mvPythonTranslator::ToPyInt(i));
-		}
-	}
-
-	void mvApp::setGlobalFontScale(float scale)
-	{
-		m_globalFontScale = scale;
-	}
-
-	float& mvApp::getGlobalFontScale()
-	{
-		return m_globalFontScale;
-	}
-
-	void mvApp::setFile(const std::string& file) 
-	{ 
-		m_file = file;
-
-		auto sourcewindow = static_cast<mvSourceWindow*>(m_standardWindows["source"].window);
-		sourcewindow->setFile(file);
-	}
-
-	void mvApp::setWindowSize(unsigned width, unsigned height) 
-	{ 
-
-		// set viewport size
-		setSize(width, height);
-
-		// set imgui window size
-		m_windows[0]->setWidth(width);
-		m_windows[0]->setHeight(height);
-	}
-
-	void mvApp::setActualSize(unsigned width, unsigned height)
-	{
-
-		m_actualWidth = width;
-		m_actualHeight = height;
-	}
-
-	void mvApp::addRuntimeItem(const std::string& parent, const std::string& before, mvAppItem* item) 
-	{ 
-		if (!checkIfMainThread())
-			return;
-
-		m_newItemVec.push_back({ item, before, parent });
-	}
-
-	void mvApp::addMTCallback(const std::string& name, PyObject* data, const std::string& returnname) 
-	{ 
-		Py_XINCREF(data);
-		std::lock_guard<std::mutex> lock(m_mutex);
-		m_asyncCallbacks.push_back({ name, data, returnname }); 
-	}
-
 	void mvApp::precheck()
 	{
 		// prevents the user from having to call
@@ -293,9 +116,9 @@ namespace Marvel {
 		m_firstRender = false;
 
 		for (int i = 0; i < ImGuiCol_COUNT; i++)
-			if(m_newstyle.Colors[i].x == 0.0f && m_newstyle.Colors[i].y == 0.0f &&
+			if (m_newstyle.Colors[i].x == 0.0f && m_newstyle.Colors[i].y == 0.0f &&
 				m_newstyle.Colors[i].z == 0.0f && m_newstyle.Colors[i].w == 0.0f)
-				m_newstyle.Colors[i] = ImGui::GetStyle().Colors[i];		
+				m_newstyle.Colors[i] = ImGui::GetStyle().Colors[i];
 	}
 
 	void mvApp::prerender()
@@ -315,7 +138,7 @@ namespace Marvel {
 				m_threadPool = false;
 				mvAppLog::Log("Threadpool destroyed");
 			}
-			
+
 		}
 
 		if (m_compileTimeThemeSet)
@@ -345,7 +168,7 @@ namespace Marvel {
 		mvAppLog::render();
 
 		// set imgui style to mvstyle
-		if(m_styleChange)
+		if (m_styleChange)
 			setNewStyle();
 
 		// route any registered input callbacks
@@ -397,14 +220,14 @@ namespace Marvel {
 
 		Py_BEGIN_ALLOW_THREADS
 
-		// delete items from the delete queue
-		while (!m_deleteChildrenQueue.empty())
-		{
-			auto item = getItem(m_deleteChildrenQueue.front());
-			if (item)
-				item->deleteChildren();
-			m_deleteChildrenQueue.pop();
-		}
+			// delete items from the delete queue
+			while (!m_deleteChildrenQueue.empty())
+			{
+				auto item = getItem(m_deleteChildrenQueue.front());
+				if (item)
+					item->deleteChildren();
+				m_deleteChildrenQueue.pop();
+			}
 
 		// delete items from the delete queue
 		while (!m_deleteQueue.empty())
@@ -550,7 +373,7 @@ namespace Marvel {
 				mvAppLog::Log("Threadpool created");
 			}
 
-			
+
 			// submit to thread pool
 			for (auto& callback : m_asyncCallbacks)
 				m_tpool->submit(std::bind(&mvApp::runAsyncCallback, this, callback.name, callback.data, callback.returnname));
@@ -560,10 +383,174 @@ namespace Marvel {
 		}
 
 		// update timer if thread pool exists
-		if(m_tpool != nullptr)
+		if (m_tpool != nullptr)
 			m_threadTime = std::chrono::duration_cast<second_>(clock_::now() - m_poolStart).count();
 
 		Py_END_ALLOW_THREADS
+	}
+
+	void mvApp::setWindowSize(unsigned width, unsigned height)
+	{
+
+		// set viewport size
+		setSize(width, height);
+
+		// set imgui window size
+		m_windows[0]->setWidth(width);
+		m_windows[0]->setHeight(height);
+	}
+
+	void mvApp::setActualSize(unsigned width, unsigned height)
+	{
+
+		m_actualWidth = width;
+		m_actualHeight = height;
+	}
+
+	void mvApp::setGlobalFontScale(float scale)
+	{
+		m_globalFontScale = scale;
+	}
+
+	void mvApp::setFont(const std::string& file, float size, const std::string& glyphRange)
+	{
+		m_fontFile = file;
+		m_fontGlyphRange = glyphRange;
+		m_fontSize = size;
+	}
+
+	void mvApp::setNewStyle()
+	{
+		ImGuiStyle& style = ImGui::GetStyle();
+		
+		style = m_newstyle;
+
+		m_styleChange = false;
+	}
+
+	bool mvApp::checkIfMainThread()
+	{
+		if (std::this_thread::get_id() != m_mainThreadID)
+		{
+			int line = PyFrame_GetLineNumber(PyEval_GetFrame());
+			PyErr_Format(PyExc_Exception,
+				"DearPyGui command on line %d can not be called asycronously", line);
+			PyErr_Print();
+			return false;
+		}
+		return true;
+	}
+
+	void mvApp::routeInputCallbacks()
+	{
+		// Note: Events are only routed to the active window
+
+		// default handler is main window
+		mvEventHandler* eventHandler = static_cast<mvEventHandler*>(this);
+		if (m_activeWindow != "MainWindow")
+		{
+			for (auto window : m_windows)
+			{
+				if (window->getName() == m_activeWindow)
+				{
+					auto windowtype = static_cast<mvWindowAppitem*>(window);
+					eventHandler = static_cast<mvEventHandler*>(windowtype);
+					break;
+				}
+			}
+		}
+
+		// early opt out of keyboard events
+		if (eventHandler->isKeyboardHandled())
+		{
+			// route key events
+			for (int i = 0; i < IM_ARRAYSIZE(ImGui::GetIO().KeysDown); i++)
+			{
+				// route key pressed event
+				if (ImGui::IsKeyPressed(i) && !eventHandler->getKeyPressCallback().empty())
+					runCallback(eventHandler->getKeyPressCallback(), std::to_string(i));
+
+				// route key down event
+				if (ImGui::GetIO().KeysDownDuration[i] >= 0.0f && !eventHandler->getKeyDownCallback().empty())
+					runCallback(eventHandler->getKeyDownCallback(), std::to_string(i),
+						mvPythonTranslator::ToPyFloat(ImGui::GetIO().KeysDownDuration[i]));
+
+				// route key released event
+				if (ImGui::IsKeyReleased(i) && !eventHandler->getKeyReleaseCallback().empty())
+					runCallback(eventHandler->getKeyReleaseCallback(), std::to_string(i));
+			}
+		}
+
+		// early opt out of mouse events
+		if (!eventHandler->isMouseHandled())
+			return;
+
+		// route mouse wheel event
+		if (ImGui::GetIO().MouseWheel != 0.0f && !eventHandler->getMouseWheelCallback().empty())
+			runCallback(eventHandler->getMouseWheelCallback(), m_activeWindow,
+				mvPythonTranslator::ToPyMPair(0, ImGui::GetIO().MouseWheel));
+
+		// route mouse dragging event
+		// this must be seperate since only a single button can be dragged
+		if (!eventHandler->getMouseDragCallback().empty())
+		{
+			for (int i = 0; i < 3; i++)
+			{
+				if (ImGui::IsMouseDragging(i, mvInput::getMouseDragThreshold()))
+				{
+					// TODO: send delta
+					mvInput::setMouseDragging(true);
+					mvInput::setMouseDragDelta({ ImGui::GetMouseDragDelta().x, ImGui::GetMouseDragDelta().y });
+					runCallback(eventHandler->getMouseDragCallback(), m_activeWindow,
+						mvPythonTranslator::ToPyMPair(i, 0));
+					ImGui::ResetMouseDragDelta(i);
+					break;
+				}
+
+				// reset, since event has already been dispatched
+				mvInput::setMouseDragging(false);
+				mvInput::setMouseDragDelta({ 0.0f, 0.0f });
+			}
+		}
+
+		// route other mouse events
+		for (int i = 0; i < IM_ARRAYSIZE(ImGui::GetIO().MouseDown); i++)
+		{
+			// route mouse click event
+			if (ImGui::IsMouseClicked(i) && !eventHandler->getMouseClickCallback().empty())
+				runCallback(eventHandler->getMouseClickCallback(), m_activeWindow,
+					mvPythonTranslator::ToPyInt(i));
+
+			// route mouse down event
+			if (ImGui::GetIO().MouseDownDuration[i] >= 0.0f && !eventHandler->getMouseDownCallback().empty())
+				runCallback(eventHandler->getMouseDownCallback(), m_activeWindow,
+					mvPythonTranslator::ToPyMPair(i, ImGui::GetIO().MouseDownDuration[i]));
+
+			// route mouse double clicked event
+			if (ImGui::IsMouseDoubleClicked(i) && !eventHandler->getMouseDoubleClickCallback().empty())
+				runCallback(eventHandler->getMouseDoubleClickCallback(), m_activeWindow,
+					mvPythonTranslator::ToPyInt(i));
+
+			// route mouse released event
+			if (ImGui::IsMouseReleased(i) && !eventHandler->getMouseReleaseCallback().empty())
+				runCallback(eventHandler->getMouseReleaseCallback(), m_activeWindow,
+					mvPythonTranslator::ToPyInt(i));
+		}
+	}
+
+	void mvApp::addRuntimeItem(const std::string& parent, const std::string& before, mvAppItem* item) 
+	{ 
+		if (!checkIfMainThread())
+			return;
+
+		m_newItemVec.push_back({ item, before, parent });
+	}
+
+	void mvApp::addMTCallback(const std::string& name, PyObject* data, const std::string& returnname) 
+	{ 
+		Py_XINCREF(data);
+		std::lock_guard<std::mutex> lock(m_mutex);
+		m_asyncCallbacks.push_back({ name, data, returnname }); 
 	}
 
 	void mvApp::pushParent(mvAppItem* item)

@@ -92,7 +92,7 @@ _DearPyGui_ includes a plotting API ([ImPlot](https://github.com/epezent/implot)
 <img src="https://raw.githubusercontent.com/wiki/epezent/implot/screenshots/multiy.gif" width="270"> 
 
 #### Themes
-_DearPyGui_ currently includes 10 themes (a full custom theming system will be available in **v0.2**):
+_DearPyGui_ currently includes 10 themes and you can create your own:
 <BR>![Themes](https://github.com/hoffstadt/DearPyGui/blob/assets/linuxthemes.PNG?raw=true)
 
 #### Canvas

@@ -9,8 +9,6 @@
 //         * Adding/Removing/Modifying AppItems
 //         * Callback routing
 //         * AppItem parent deduction
-//         * Data storage
-//         * Texture storage
 //     
 //-----------------------------------------------------------------------------
 
@@ -29,14 +27,12 @@
 #include "mvAppItem.h"
 #include "mvPythonParser.h"
 
-
 //-----------------------------------------------------------------------------
 // Typedefs for chrono's ridiculously long names
 //-----------------------------------------------------------------------------
 typedef std::chrono::high_resolution_clock clock_;
 typedef std::chrono::duration<double, std::ratio<1> > second_;
 typedef std::map<ImGuiStyleVar, ImVec2> mvStyle;
-
 #if defined (_WIN32)
 typedef std::chrono::steady_clock::time_point time_point_;
 #elif defined(__APPLE__)
@@ -56,7 +52,6 @@ namespace Marvel {
     class mvWindow;
     struct mvColor;
     
-
     //-----------------------------------------------------------------------------
     // mvApp
     //-----------------------------------------------------------------------------
@@ -95,32 +90,32 @@ namespace Marvel {
 
         ~mvApp() override;
 
-        void      precheck  ();                    // precheck before the main render loop has started
-        void      prerender ()           override; // pre rendering (every frame)
-        void      render    (bool& show) override; // actual render loop
-        void      postrender()           override; // post rendering (every frame)
-        void      setViewport(mvWindow* viewport) { m_viewport = viewport; }
-        mvWindow* getViewport() { return m_viewport; }
-
+        //-----------------------------------------------------------------------------
+        // Rendering
+        //-----------------------------------------------------------------------------
+        void precheck        ();                    // precheck before the main render loop has started
+        void firstRenderFrame();                    // only ran during first frame
+        void prerender       ()           override; // pre rendering (every frame)
+        void render          (bool& show) override; // actual render loop
+        void postrender      ()           override; // post rendering (every frame)
+        
         //-----------------------------------------------------------------------------
         // App Settings
         //-----------------------------------------------------------------------------
-        void                     setFile           (const std::string& file);
-        void                     setArgv0          (const std::string& argv0) { m_argv0 = argv0; }
         void                     setWindowSize     (unsigned width, unsigned height);
         void                     setActualSize     (unsigned width, unsigned height);			
         void                     setActiveWindow   (const std::string& window) { m_activeWindow = window; }
         void                     setGlobalFontScale(float scale);
         void                     setFont           (const std::string& file, float size = 13.0f, const std::string& glyphRange = "");
+        void                     setViewport       (mvWindow* viewport) { m_viewport = viewport; }
         
-        const std::string&       getFile           () const { return m_file; }
         const std::string&       getActiveWindow   () const { return m_activeWindow; }
         std::vector<mvAppItem*>& getWindows        ()       { return m_windows; }
-        float&                   getGlobalFontScale();
-        int                      getActualWidth() const { return m_actualWidth; }
-        int                      getActualHeight() const { return m_actualHeight; }
-        const std::string&       getArgv0() const { return m_argv0; }
-        ImGuiStyle&              getStyle() { return m_newstyle; }
+        float&                   getGlobalFontScale()       { return m_globalFontScale; }
+        int                      getActualWidth    () const { return m_actualWidth; }
+        int                      getActualHeight   () const { return m_actualHeight; }
+        ImGuiStyle&              getStyle          ()       { return m_newstyle; }
+        mvWindow*                getViewport       ()       { return m_viewport; }
         
         //-----------------------------------------------------------------------------
         // Styles/Themes
@@ -137,10 +132,10 @@ namespace Marvel {
         // Concurrency
         //-----------------------------------------------------------------------------
         void            setMainThreadID               (std::thread::id id) { m_mainThreadID = id; }
-        void            setThreadPoolTimeout          (double time) { m_threadPoolTimeout = time; }
-        void            setThreadCount                (unsigned count) { m_threads = count; }
-        void            activateThreadPool            () { m_threadPool = true; }
-        void            setThreadPoolHighPerformance  () { m_threadPoolHighPerformance = true; }
+        void            setThreadPoolTimeout          (double time)        { m_threadPoolTimeout = time; }
+        void            setThreadCount                (unsigned count)     { m_threads = count; }
+        void            activateThreadPool            ()                   { m_threadPool = true; }
+        void            setThreadPoolHighPerformance  ()                   { m_threadPoolHighPerformance = true; }
 
         std::thread::id getMainThreadID               () const { return m_mainThreadID; }
         double          getThreadPoolTimeout          () const { return m_threadPoolTimeout; }
@@ -203,7 +198,7 @@ namespace Marvel {
         void changeTheme();
         bool checkIfMainThread();
         void setNewStyle();
-        void firstRenderFrame();
+        
 
     private:
 
@@ -212,10 +207,8 @@ namespace Marvel {
 
         mvWindow*               m_viewport = nullptr;
         std::string             m_activeWindow = "MainWindow";
-        std::string             m_argv0;
         std::stack<mvAppItem*>  m_parents;
         std::vector<mvAppItem*> m_windows;
-        std::string             m_file;
         int                     m_actualWidth = 1280;
         int                     m_actualHeight = 800;
 
@@ -235,28 +228,28 @@ namespace Marvel {
         float       m_fontSize = 13.0f;
 
         // runtime widget modifications
-        std::queue<std::string>          m_deleteChildrenQueue;
-        std::queue<std::string>          m_deleteQueue;
-        std::queue<std::string>          m_upQueue;
-        std::queue<std::string>          m_downQueue;
-        std::queue<AsyncronousCallback>  m_asyncReturns;
-        std::vector<NewRuntimeItem>      m_newItemVec;
-        std::vector<AsyncronousCallback> m_asyncCallbacks;
+        std::queue<std::string>     m_deleteChildrenQueue;
+        std::queue<std::string>     m_deleteQueue;
+        std::queue<std::string>     m_upQueue;
+        std::queue<std::string>     m_downQueue;
+        std::vector<NewRuntimeItem> m_newItemVec;
 
         // timing
         float  m_deltaTime; // time since last frame
         double m_time;      // total time since starting
         
         // concurrency
-        mvThreadPool*      m_tpool = nullptr;
-        mutable std::mutex m_mutex;
-        std::thread::id    m_mainThreadID;
-        bool               m_threadPool = false;                // is threadpool activated
-        double             m_threadPoolTimeout = 30.0;          // how long til trying to delete pool
-        unsigned           m_threads = 2;                       // how many threads to use
-        bool               m_threadPoolHighPerformance = false; // when true, use max number of threads
-        double             m_threadTime = 0.0;                  // how long threadpool has been active
-        time_point_        m_poolStart;                         // threadpool start time
+        std::queue<AsyncronousCallback>  m_asyncReturns;
+        std::vector<AsyncronousCallback> m_asyncCallbacks;
+        mvThreadPool*                    m_tpool = nullptr;
+        mutable std::mutex               m_mutex;
+        std::thread::id                  m_mainThreadID;
+        bool                             m_threadPool = false;                // is threadpool activated
+        double                           m_threadPoolTimeout = 30.0;          // how long til trying to delete pool
+        unsigned                         m_threads = 2;                       // how many threads to use
+        bool                             m_threadPoolHighPerformance = false; // when true, use max number of threads
+        double                           m_threadTime = 0.0;                  // how long threadpool has been active
+        time_point_                      m_poolStart;                         // threadpool start time
 
     };
 

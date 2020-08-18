@@ -33,17 +33,15 @@ namespace Marvel {
 
 	private:
 
-		static ImGuiTextBuffer Buf;
-		static ImGuiTextFilter Filter;
-		static ImVector<int>   LineOffsets;    // Index to lines offset. We maintain this with AddLog() calls, allowing us to have a random access on lines
-		static bool            AutoScroll;     // Keep scrolling if already at the bottom
-		static bool            show;     // Keep scrolling if already at the bottom
-		static bool            mainmode;
-		static int             s_loglevel;
-
-
-		static unsigned s_width;
-		static unsigned s_height;
+		static ImGuiTextBuffer  Buf;
+		static ImGuiTextFilter  Filter;
+		static ImVector<int>    LineOffsets; // Index to lines offset. We maintain this with AddLog() calls, allowing us to have a random access on lines
+		static bool             AutoScroll;  // Keep scrolling if already at the bottom
+		static bool             show;        // Keep scrolling if already at the bottom
+		static bool             mainmode;
+		static int              s_loglevel;
+		static unsigned         s_width;
+		static unsigned         s_height;
 		static ImGuiWindowFlags s_flags;
 
 #if defined (_WIN32)

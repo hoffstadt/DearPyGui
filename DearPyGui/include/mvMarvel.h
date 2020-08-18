@@ -1816,7 +1816,7 @@ namespace Marvel {
 
 		parsers->insert({ "is_threadpool_high_performance", mvPythonParser({
 		}, "Checks if the threadpool is allowed to use the maximum number of threads.", "bool") });
-
+		
 		parsers->insert({ "get_threadpool_timeout", mvPythonParser({
 		}, "Returns the threadpool timeout in seconds.", "float") });
 
