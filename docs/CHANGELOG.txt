@@ -98,8 +98,12 @@ New Commands:
 
 Breaking Changes:
 
-- Themes: Changed change_style_item to set_theme_item
-- Other:  Changed get_marvel_version to get_dearpygui_version
+- Themes:  Changed change_style_item to set_theme_item
+- Sliders: Removed power keyword from slider widgets
+- Sliders: Changed default max value to 100
+- Drag:    Removed power keyword from drag widgets
+- Drag:    Changed default max value to 100
+- Other:   Changed get_marvel_version to get_dearpygui_version
 
 
 -----------------------------------------------------------------------
