@@ -211,6 +211,48 @@ namespace Marvel {
         {
             if (ImGui::BeginTabItem("Sizes"))
             {
+                HelpMarker(
+                    "Export saves commands to your clipboard. Paste into your file.");
+                ImGui::SameLine();
+                if (ImGui::Button("Export Style"))
+                {
+
+                    ImGui::LogToClipboard();
+
+                    ImGui::LogText("set_style_window_padding(%0.2f, %0.2f)\r\n", style.WindowPadding.x, style.WindowPadding.y);
+                    ImGui::LogText("set_style_frame_padding(%0.2f, %0.2f)\r\n", style.FramePadding.x, style.FramePadding.y);
+                    ImGui::LogText("set_style_item_spacing(%0.2f, %0.2f)\r\n", style.ItemSpacing.x, style.ItemSpacing.y);
+                    ImGui::LogText("set_style_item_inner_spacing(%0.2f, %0.2f)\r\n", style.ItemInnerSpacing.x, style.ItemInnerSpacing.y);
+                    ImGui::LogText("set_style_touch_extra_padding(%0.2f, %0.2f)\r\n", style.TouchExtraPadding.x, style.TouchExtraPadding.y);
+                    ImGui::LogText("set_style_indent_spacing(%0.2f)\r\n", style.IndentSpacing);
+                    ImGui::LogText("set_style_scrollbar_size(%0.2f)\r\n", style.ScrollbarSize);
+                    ImGui::LogText("set_style_grab_min_size(%0.2f)\r\n", style.GrabMinSize);
+                    ImGui::LogText("set_style_window_border_size(%0.2f)\r\n", style.WindowBorderSize);
+                    ImGui::LogText("set_style_child_border_size(%0.2f)\r\n", style.ChildBorderSize);
+                    ImGui::LogText("set_style_popup_border_size(%0.2f)\r\n", style.PopupBorderSize);
+                    ImGui::LogText("set_style_frame_border_size(%0.2f)\r\n", style.FrameBorderSize);
+                    ImGui::LogText("set_style_tab_border_size(%0.2f)\r\n", style.TabBorderSize);
+                    ImGui::LogText("set_style_window_rounding(%0.2f)\r\n", style.WindowRounding);
+                    ImGui::LogText("set_style_child_rounding(%0.2f)\r\n", style.ChildRounding);
+                    ImGui::LogText("set_style_frame_rounding(%0.2f)\r\n", style.FrameRounding);
+                    ImGui::LogText("set_style_popup_rounding(%0.2f)\r\n", style.PopupRounding);
+                    ImGui::LogText("set_style_scrollbar_rounding(%0.2f)\r\n", style.ScrollbarRounding);
+                    ImGui::LogText("set_style_grab_rounding(%0.2f)\r\n", style.GrabRounding);
+                    ImGui::LogText("set_style_tab_rounding(%0.2f)\r\n", style.TabRounding);
+                    ImGui::LogText("set_style_window_title_align(%0.2f, %0.2f)\r\n", style.WindowTitleAlign.x, style.WindowTitleAlign.y);
+                    ImGui::LogText("set_style_window_menu_button_position(%s)\r\n", style.WindowMenuButtonPosition == ImGuiDir_Left ? "mvDir_Left" : "mvDir_Right");
+                    ImGui::LogText("set_style_color_button_position(%s)\r\n", style.ColorButtonPosition == ImGuiDir_Left ? "mvDir_Left" : "mvDir_Right");
+                    ImGui::LogText("set_style_button_text_align(%0.2f, %0.2f)\r\n", style.ButtonTextAlign.x, style.ButtonTextAlign.y);
+                    ImGui::LogText("set_style_selectable_text_align(%0.2f, %0.2f)\r\n", style.SelectableTextAlign.x, style.SelectableTextAlign.y);
+                    ImGui::LogText("set_style_display_safe_area_padding(%0.2f, %0.2f)\r\n", style.DisplaySafeAreaPadding.x, style.DisplaySafeAreaPadding.y);
+                    ImGui::LogText("set_style_global_alpha(%0.2f)\r\n", style.Alpha);
+                    ImGui::LogText("set_style_antialiased_lines(%s)\r\n", style.AntiAliasedLines ? "True" : "False");
+                    ImGui::LogText("set_style_antialiased_fill(%s)\r\n", style.AntiAliasedFill ? "True" : "False");
+                    ImGui::LogText("set_style_curve_tessellation_tolerance(%0.2f)\r\n", style.CurveTessellationTol);
+                    ImGui::LogText("set_style_circle_segment_max_error(%0.2f)\r\n", style.CircleSegmentMaxError);
+                    ImGui::LogFinish();
+                }
+
                 ImGui::Text("Main");
                 ImGui::SliderFloat2("WindowPadding", (float*)&style.WindowPadding, 0.0f, 20.0f, "%.0f");
                 ImGui::SliderFloat2("FramePadding", (float*)&style.FramePadding, 0.0f, 20.0f, "%.0f");
@@ -253,7 +295,10 @@ namespace Marvel {
             if (ImGui::BeginTabItem("Colors"))
             {
                 static bool output_only_modified = true;
-                if (ImGui::Button("Export"))
+                HelpMarker(
+                    "Export saves commands to your clipboard. Paste into your file.");
+                ImGui::SameLine();
+                if (ImGui::Button("Export Colors"))
                 {
 
                     ImGui::LogToClipboard();
