@@ -37,7 +37,7 @@ def add_color_picker4(name: str, default_value: List[int] = [0, 0, 0, 0], callba
 	...
 
 def add_column(table: str, name: str, column: List[str]) -> None:
-	"""Adds a column to a table."""
+	"""Adds a column to the end of a table."""
 	...
 
 def add_combo(name: str, items: List[str], default_value: str = "", callback: str = "", tip: str = "", parent: str = "", before: str = "", data_source: str = "", width: int = 0, secondary_data_source: str = "") -> None:
@@ -85,7 +85,7 @@ def add_drawing(name: str, tip: str = "", parent: str = "", before: str = "", wi
 	...
 
 def add_group(name: str, tip: str = "", parent: str = "", before: str = "", width: int = 0, hide: bool = False, horizontal: bool = False, horizontal_spacing: float = -1.0) -> None:
-	"""Creates a group that other widgets can belong to. The group allows item commands to be issued for all of its members.				Must be closed with the end_group command unless added at runtime."""
+	"""Creates a group that other widgets can belong to. The group allows item commands to be issued for all of its members.				Must be closed with the end_group command."""
 	...
 
 def add_image(name: str, value: str, tint_color: List[float] = [1.0, 1.0, 1.0, 1.0], border_color: List[float] = [0.0, 0.0, 0.0, 0.0], tip: str = "", parent: str = "", before: str = "", data_source: str = "", 
@@ -94,7 +94,7 @@ def add_image(name: str, value: str, tint_color: List[float] = [1.0, 1.0, 1.0, 1
 	...
 
 def add_indent(name: str = "", offset: float = 0.0, parent: str = "", before: str = "") -> None:
-	"""Adds an indent to following items."""
+	"""Adds an indent to following items. Must be closed with the unindent command."""
 	...
 
 def add_input_float(name: str, default_value: float = 0.0, format: str = "%.3f", callback: str = "", tip: str = "", parent: str = "", before: str = "", data_source: str = "", width: int = 0) -> None:
@@ -167,7 +167,7 @@ def add_plot(name: str, xAxisName: str = "", yAxisName: str = "", flags: int = 0
 	...
 
 def add_popup(popupparent: str, name: str, mousebutton: int = 1, modal: bool = False, parent: str = "", before: str = "", width: int = 0, height: int = 0) -> None:
-	"""Adds a popup window for an item. This command must come immediately after the item the popup is for."""
+	"""Adds a popup window for an item. This command must come immediately after the item the popup is for. Must be followed by a call to end_popup."""
 	...
 
 def add_progress_bar(name: str, value: float = 0.0, overlay: str = "", tip: str = "", parent: str = "", before: str = "", data_source: str = "", width: int = 0, height: int = 0) -> None:
@@ -183,7 +183,7 @@ def set_headers(table: str, headers: List[str]) -> None:
 	...
 
 def add_row(table: str, row: List[str]) -> None:
-	"""Adds a row to a table."""
+	"""Adds a row to the end of a table."""
 	...
 
 def add_same_line(name: str = "", xoffset: float = 0.0, spacing: float = -1.0, parent: str = "", before: str = "") -> None:
@@ -243,7 +243,7 @@ def add_spacing(name: str = "", count: int = 1, parent: str = "", before: str = 
 	...
 
 def add_tab(name: str, closable: bool = False, tip: str = "", parent: str = "", before: str = "") -> None:
-	"""Adds a tab to a tab bar."""
+	"""Adds a tab to a tab bar. Must be closed with the end_tab command."""
 	...
 
 def add_tab_bar(name: str, reorderable: bool = False, callback: str = "", parent: str = "", before: str = "", data_source: str = "") -> None:
@@ -272,7 +272,7 @@ def add_tree_node(name: str, default_open: bool = False, tip: str = "", parent: 
 
 def add_window(name: str, width: int = -1, height: int = -1, start_x: int = 200, start_y: int = 200, autosize: bool = False, resizable: bool = True, title_bar: bool = True, 
 			   movable: bool = True, hide: bool = False, on_close: str = "") -> None:
-	"""Creates a new window for following items to be added to. Must call end_main_window command before."""
+	"""Creates a new window for following items to be added to. Must call end_main_window command before adding any new windows."""
 	...
 
 def cleanup_dearpygui() -> None:
@@ -296,7 +296,7 @@ def clear_table(table: str) -> None:
 	...
 
 def close_popup() -> None:
-	"""Needs documentation"""
+	"""Closes the current popup."""
 	...
 
 def delete_column(table: str, column: int) -> None:
@@ -328,7 +328,9 @@ def draw_circle(drawing: str, center: List[float], radius: float, color: List[in
 	...
 
 def draw_image(drawing: str, file: str, pmin: List[float], pmax: List[float] = [-100.0, -100.0], uv_min: List[float] = [0.0, 0.0], uv_max: List[float] = [1.0, 1.0], color: List[int] = ..., tag: str = "") -> None:
-	"""Draws an image on a drawing."""
+	"""Draws an image on a drawing. p_min and p_max represent the upper-left and lower-right corners of the rectangle. 
+		uv_min and uv_max represent the normalized texture coordinates to use for those corners. Using (0,0)->(1,1) texture 
+		coordinates will generally display the entire texture."""
 	...
 
 def draw_line(drawing: str, p1: List[float], p2: List[float], color: List[int], thickness: int, tag: str = "") -> None:
@@ -448,15 +450,15 @@ def get_item_popup(item: str) -> str:
 	...
 
 def get_item_rect_max(item: str) -> [float, float]:
-	"""Returns an item's maximum allowable size."""
+	"""Returns an item's maximum allowable size. [width, height]"""
 	...
 
 def get_item_rect_min(item: str) -> [float, float]:
-	"""Returns an item's minimum allowable size."""
+	"""Returns an item's minimum allowable size. [width, height]"""
 	...
 
 def get_item_rect_size(item: str) -> [float, float]:
-	"""Returns an item's current size."""
+	"""Returns an item's current size. [width, height]"""
 	...
 
 def get_item_tip(item: str) -> str:
@@ -476,7 +478,7 @@ def get_main_window_size() -> [int, int]:
 	...
 
 def get_mouse_drag_delta() -> (float, float):
-	"""Returns the current mouse drag delta"""
+	"""Returns the current mouse drag delta in pixels."""
 	...
 
 def get_mouse_pos(local: bool = True) -> (int, int):
@@ -484,7 +486,7 @@ def get_mouse_pos(local: bool = True) -> (int, int):
 	...
 
 def get_plot_query_area(plot: str) -> List[float]:
-	"""Clears a plot."""
+	"""Returns the bounding axis limits for the query area [x_min, x_max, y_min, y_max]"""
 	...
 
 def get_style_antialiased_fill() -> bool:
@@ -732,7 +734,7 @@ def is_mouse_button_released(button: int) -> bool:
 	...
 
 def is_plot_queried(plot: str) -> bool:
-	"""Clears a plot."""
+	"""Returns true if plot was queried"""
 	...
 
 def is_threadpool_high_performance() -> bool:
@@ -760,7 +762,7 @@ def log_warning(message: Any) -> None:
 	...
 
 def move_item_down(item: str) -> None:
-	"""Moves down up if possible and if it exists."""
+	"""Moves item down if possible and if it exists."""
 	...
 
 def move_item_up(item: str) -> None:
@@ -892,7 +894,7 @@ def set_render_callback(callback: str, handler: str = "") -> None:
 	...
 
 def set_resize_callback(callback: str, handler: str = "") -> None:
-	"""Sets a callback for a window resizes."""
+	"""Sets a callback for a window resize event"""
 	...
 
 def set_style_antialiased_fill(value: bool) -> None:
@@ -1084,7 +1086,7 @@ def show_item(name: str) -> None:
 	...
 
 def show_logger() -> None:
-	"""Shows the logging window."""
+	"""Shows the logging window. The Default log level is Trace"""
 	...
 
 def show_metrics() -> None:
