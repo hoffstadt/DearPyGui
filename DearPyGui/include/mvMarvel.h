@@ -66,7 +66,9 @@ namespace Marvel {
 			{mvPythonDataType::FloatList, "uv_max"},
 			{mvPythonDataType::IntList, "color"},
 			{mvPythonDataType::String, "tag"},
-		}, "Draws an image on a drawing.", "None", "Drawing") });
+		}, ("Draws an image on a drawing. p_min and p_max represent the upper-left and lower-right corners of the rectangle."
+			"uv_min and uv_max represent the normalized texture coordinates to use for those corners. Using (0,0)->(1,1) texture"
+			"coordinates will generally display the entire texture."), "None", "Drawing") });
 
 		parsers->insert({ "draw_line", mvPythonParser({
 			{mvPythonDataType::String, "drawing"},
@@ -212,11 +214,11 @@ namespace Marvel {
 
 		parsers->insert({ "is_plot_queried", mvPythonParser({
 			{mvPythonDataType::String, "plot"},
-		}, "Clears a plot.", "bool", "Plotting") });
+		}, "Returns true if plot was queried", "bool", "Plotting") });
 
 		parsers->insert({ "get_plot_query_area", mvPythonParser({
 			{mvPythonDataType::String, "plot"},
-		}, "Clears a plot.", "List[float]", "Plotting") });
+		}, "Returns the bounding axis limits for the query area [x_min, x_max, y_min, y_max]", "List[float]", "Plotting") });
 		//}, "Clears a plot.", "List(float) -> (x_min, x_max, y_min, y_max)", "Plotting") });
 
 		parsers->insert({ "set_color_map", mvPythonParser({
@@ -349,7 +351,7 @@ namespace Marvel {
 		"(int, int)", "Input Polling") });
 
 		parsers->insert({ "get_mouse_drag_delta", mvPythonParser({
-		}, "Returns the current mouse drag delta", "(float, float)", "Input Polling") });
+		}, "Returns the current mouse drag delta in pixels", "(float, float)", "Input Polling") });
 
 		parsers->insert({ "is_mouse_button_dragging", mvPythonParser({
 			{mvPythonDataType::Integer, "button"},
@@ -388,7 +390,7 @@ namespace Marvel {
 			{mvPythonDataType::String, "callback"},
 			{mvPythonDataType::Optional},
 			{mvPythonDataType::String, "handler", "Callback will be run when event occurs while this window is active (default is main window)"},
-		}, "Sets a callback for a window resizes.", "None", "Input Polling") });
+		}, "Sets a callback for a window resize event.", "None", "Input Polling") });
 
 		parsers->insert({ "set_mouse_down_callback", mvPythonParser({
 			{mvPythonDataType::String, "callback"},
@@ -453,7 +455,7 @@ namespace Marvel {
 			{mvPythonDataType::Bool, "decimal"},
 			{mvPythonDataType::Bool, "hexadecimal"},
 			{mvPythonDataType::Bool, "readonly"},
-			{mvPythonDataType::Bool, "password"},
+			{mvPythonDataType::Bool, "password", "hides text values"},
 			{mvPythonDataType::String, "callback", "Registers a callback"},
 			{mvPythonDataType::String, "tip", "Adds a simple tooltip"},
 			{mvPythonDataType::String, "parent", "Parent to add this item to. (runtime adding)"},
@@ -572,7 +574,7 @@ namespace Marvel {
 			{mvPythonDataType::Float, "min_value"},
 			{mvPythonDataType::Float, "max_value"},
 			{mvPythonDataType::String, "format"},
-			{mvPythonDataType::Bool, "vertical"},
+			{mvPythonDataType::Bool, "vertical", "sets orientation to vertical"},
 			{mvPythonDataType::String, "callback", "Registers a callback"},
 			{mvPythonDataType::String, "tip", "Adds a simple tooltip"},
 			{mvPythonDataType::String, "parent", "Parent to add this item to. (runtime adding)"},
@@ -634,7 +636,7 @@ namespace Marvel {
 			{mvPythonDataType::Integer, "min_value"},
 			{mvPythonDataType::Integer, "max_value"},
 			{mvPythonDataType::String, "format"},
-			{mvPythonDataType::Bool, "vertical"},
+			{mvPythonDataType::Bool, "vertical", "sets orientation to vertical"},
 			{mvPythonDataType::String, "callback", "Registers a callback"},
 			{mvPythonDataType::String, "tip", "Adds a simple tooltip"},
 			{mvPythonDataType::String, "parent", "Parent to add this item to. (runtime adding)"},
@@ -857,7 +859,7 @@ namespace Marvel {
 		parsers->insert({ "add_row", mvPythonParser({
 			{mvPythonDataType::String, "table"},
 			{mvPythonDataType::StringList, "row"},
-		}, "Adds a row to a table.", "None", "Tables") });
+		}, "Adds a row to the end of a table.", "None", "Tables") });
 
 		parsers->insert({ "clear_table", mvPythonParser({
 			{mvPythonDataType::String, "table"}
@@ -867,7 +869,7 @@ namespace Marvel {
 			{mvPythonDataType::String, "table"},
 			{mvPythonDataType::String, "name"},
 			{mvPythonDataType::StringList, "column"},
-		}, "Adds a column to a table.", "None", "Tables") });
+		}, "Adds a column to the end of a table.", "None", "Tables") });
 
 		parsers->insert({ "insert_column", mvPythonParser({
 			{mvPythonDataType::String, "table"},
@@ -924,7 +926,7 @@ namespace Marvel {
 
 		parsers->insert({ "move_item_down", mvPythonParser({
 			{mvPythonDataType::String, "item"}
-		}, "Moves down up if possible and if it exists.", "None", "Widget Commands") });
+		}, "Moves item down if possible and if it exists.", "None", "Widget Commands") });
 
 		parsers->insert({ "get_item_callback", mvPythonParser({
 			{mvPythonDataType::String, "item"}
@@ -988,15 +990,15 @@ namespace Marvel {
 
 		parsers->insert({ "get_item_rect_min", mvPythonParser({
 			{mvPythonDataType::String, "item"},
-		}, "Returns an item's minimum allowable size.", "[float, float]", "Widget Commands") });
+		}, "Returns an item's minimum allowable size. [width, height]", "[float, float]", "Widget Commands") });
 
 		parsers->insert({ "get_item_rect_max", mvPythonParser({
 			{mvPythonDataType::String, "item"},
-		}, "Returns an item's maximum allowable size.", "[float, float]", "Widget Commands") });
+		}, "Returns an item's maximum allowable size. [width, height]", "[float, float]", "Widget Commands") });
 
 		parsers->insert({ "get_item_rect_size", mvPythonParser({
 			{mvPythonDataType::String, "item"},
-		}, "Returns an item's current size.", "[float, float]", "Widget Commands") });
+		}, "Returns an item's current size. [width, height]", "[float, float]", "Widget Commands") });
 
 		parsers->insert({ "get_value", mvPythonParser({
 			{mvPythonDataType::String, "name"}
@@ -1046,7 +1048,7 @@ namespace Marvel {
 	static void AddStdWindowCommands(std::map<std::string, mvPythonParser>* parsers)
 	{
 		parsers->insert({ "show_logger", mvPythonParser({
-		}, "Shows the logging window.", "None", "Standard Windows") });
+		}, "Shows the logging window. The Default log level is Trace", "None", "Standard Windows") });
 
 		parsers->insert({ "show_documentation", mvPythonParser({
 		}, "Shows the documentation window.", "None", "Standard Windows") });
@@ -1064,7 +1066,7 @@ namespace Marvel {
 		}, "Shows the font window.") });
 
 		parsers->insert({ "close_popup", mvPythonParser({
-		}, "Needs documentation") });
+		}, "Closes the current popup") });
 
 		parsers->insert({ "show_source", mvPythonParser({
 			{mvPythonDataType::String, "file"},
@@ -1504,7 +1506,7 @@ namespace Marvel {
 			{mvPythonDataType::Float, "offset"},
 			{mvPythonDataType::String, "parent", "Parent to add this item to. (runtime adding)"},
 			{mvPythonDataType::String, "before", "Item to add this item before. (runtime adding)"},
-		}, "Adds an indent to following items.", "None", "Adding Widgets") });
+		}, "Adds an indent to following items. Must be closed with the unindent command.", "None", "Adding Widgets") });
 
 		parsers->insert({ "unindent", mvPythonParser({
 			{mvPythonDataType::KeywordOnly},
@@ -1614,7 +1616,7 @@ namespace Marvel {
 		parsers->insert({ "add_tab_bar", mvPythonParser({
 			{mvPythonDataType::String, "name"},
 			{mvPythonDataType::KeywordOnly},
-			{mvPythonDataType::Bool, "reorderable"},
+			{mvPythonDataType::Bool, "reorderable", "allows for moveable tabs"},
 			{mvPythonDataType::String, "callback", "Registers a callback"},
 			{mvPythonDataType::String, "parent", "Parent to add this item to. (runtime adding)"},
 			{mvPythonDataType::String, "before", "Item to add this item before. (runtime adding)"},
@@ -1628,7 +1630,7 @@ namespace Marvel {
 			{mvPythonDataType::String, "tip", "Adds a simple tooltip"},
 			{mvPythonDataType::String, "parent", "Parent to add this item to. (runtime adding)"},
 			{mvPythonDataType::String, "before", "Item to add this item before. (runtime adding)"},
-		}, "Adds a tab to a tab bar.", "None", "Containers") });
+		}, "Adds a tab to a tab bar. Must be closed with the end_tab command.", "None", "Containers") });
 
 		parsers->insert({ "add_collapsing_header", mvPythonParser({
 			{mvPythonDataType::String, "name"},
@@ -1662,7 +1664,7 @@ namespace Marvel {
 			{mvPythonDataType::Bool, "horizontal"},
 			{mvPythonDataType::Float, "horizontal_spacing",""},
 		}, "Creates a group that other widgets can belong to. The group allows item commands to be issued for all of its members.\
-				Must be closed with the end_group command unless added at runtime."
+				Must be closed with the end_group command."
 		, "None", "Containers") });
 
 		parsers->insert({ "add_child", mvPythonParser({
@@ -1691,7 +1693,7 @@ namespace Marvel {
 			{mvPythonDataType::Bool, "movable"},
 			{mvPythonDataType::Bool, "hide"},
 			{mvPythonDataType::String, "on_close"},
-		}, "Creates a new window for following items to be added to. Must call end_main_window command before.", 
+		}, "Creates a new window for following items to be added to. Must call end_main_window command before adding any new windows.", 
 			"None", "Containers") });
 
 		parsers->insert({ "add_tooltip", mvPythonParser({
@@ -1713,7 +1715,7 @@ namespace Marvel {
 			{mvPythonDataType::String, "before", "Item to add this item before. (runtime adding)"},
 			{mvPythonDataType::Integer, "width",""},
 			{mvPythonDataType::Integer, "height", ""},
-		}, "Adds a popup window for an item. This command must come immediately after the item the popup is for.", 
+		}, "Adds a popup window for an item. This command must come immediately after the item the popup is for. Must be followed by a call to end_popup.", 
 		"None", "Containers") });
 
 		parsers->insert({ "end_tree_node", mvPythonParser({
@@ -1781,7 +1783,7 @@ namespace Marvel {
 		parsers->insert({ "open_file_dialog", mvPythonParser({
 			{mvPythonDataType::Optional},
 			{mvPythonDataType::String, "callback"},
-			{mvPythonDataType::String, "extensions", "i.e '.*, .py'"},
+			{mvPythonDataType::String, "extensions", "filters items with extensions i.e '.*, .py'"},
 		}, "Opens an 'open file' dialog.") });
 
 		parsers->insert({ "select_directory_dialog", mvPythonParser({
