@@ -15,9 +15,6 @@
 
 namespace Marvel {
 
-	void DrawPolygon(ImDrawList* draw_list, const std::vector<float>& xs, const std::vector<float>& ys, 
-		mvColor color, mvColor fill, float weight);
-
 	//-----------------------------------------------------------------------------
 	// mvSeries
 	//-----------------------------------------------------------------------------
@@ -380,17 +377,19 @@ namespace Marvel {
 			ImPlot::PushPlotClipRect();
 			auto item = ImPlot::RegisterItem(m_name.c_str());
 			if (item->Show)
-				DrawPolygon(ImGui::GetWindowDrawList(), m_xs, m_ys, m_color, m_fill, m_weight);
+				drawPolygon();
 			ImPlot::PopPlotClipRect();
 
 		}
+
+		void drawPolygon();
 
 	private:
 
 		float m_weight = 1.0f;
 		mvColor m_color = MV_DEFAULT_COLOR;
 		mvColor m_fill = MV_DEFAULT_COLOR;
-
+		bool m_firstRender = true;
 	};
 
 }

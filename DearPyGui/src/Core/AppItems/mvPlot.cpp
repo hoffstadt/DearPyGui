@@ -2,20 +2,26 @@
 
 namespace Marvel {
 
-	void DrawPolygon(ImDrawList* draw_list, const std::vector<float>& xs, const std::vector<float>& ys, mvColor color, mvColor fill, float weight)
+	void mvAreaSeries::drawPolygon()
 	{
 
+		ImPlotLimits limits = ImPlot::GetPlotLimits();
+
 		std::vector<ImVec2> points;
-		for (unsigned i = 0; i < xs.size(); i++)
+		for (unsigned i = 0; i < m_xs.size(); i++)
 		{
-			auto p = ImPlot::PlotToPixels({ xs[i], ys[i] });
+			float x = m_xs[i] > limits.X.Max ? limits.X.Max : m_xs[i];
+			x = m_xs[i] < limits.X.Min ? limits.X.Min : x;
+
+			float y = m_ys[i] > limits.Y.Max ? limits.Y.Max : m_ys[i];
+			y = m_ys[i] < limits.Y.Min ? limits.Y.Min : y;
+			auto p = ImPlot::PlotToPixels({ x, y });
 			points.push_back(p);
 		}
 
-		draw_list->AddPolyline((const ImVec2*)const_cast<const ImVec2*>(points.data()), points.size(), color, true, weight);
+		ImGui::GetWindowDrawList()->AddPolyline((const ImVec2*)const_cast<const ImVec2*>(points.data()), points.size(), m_color, true, m_weight);
 
-		//if (m_fill.specified)
-		if (true)
+		if (m_fill.specified)
 		{
 			int i;
 			int y;
@@ -80,7 +86,7 @@ namespace Marvel {
 				qsort(polyints, ints, sizeof(int), compare_int);
 
 				for (i = 0; i < ints; i += 2)
-					draw_list->AddLine({ (float)polyints[i], (float)y }, { (float)polyints[i + 1], (float)y}, fill, 1.0f);
+					ImGui::GetWindowDrawList()->AddLine({ (float)polyints[i], (float)y }, { (float)polyints[i + 1], (float)y}, m_fill, 1.0f);
 			}
 			delete[] polyints;
 		}
