@@ -18,7 +18,7 @@ WHEN TO UPDATE?
 
 HOW TO UPDATE?
 
-- pip3 install dearpygui --upgrade
+- pip or pip3 install dearpygui --upgrade
 - Read the `Breaking Changes` section (here in the changelog).
 - Please report any issue!
 
