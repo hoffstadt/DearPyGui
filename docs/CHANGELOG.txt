@@ -26,7 +26,11 @@ HOW TO UPDATE?
  VERSION 0.1.0 Beta 7
 -----------------------------------------------------------------------
 
-Decorated log: https://github.com/hoffstadt/DearPyGui/releases/tag/v0.1.0-beta6
+Decorated log: https://github.com/hoffstadt/DearPyGui/releases/tag/v0.1.0-beta7
+
+Fixes:
+
+- DataSources: Data sources now act consistent (added before or after a sourced widget) #56
 
 New Commands:
 
