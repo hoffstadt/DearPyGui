@@ -34,6 +34,34 @@
     <section>
         <h2 class="section-title" id="header-functions">Functions</h2>
         <dl>
+            <dt id="dearpygui.dearpygui.add_additional_font"><code class="name flex">
+                <span>def <span class="ident">add_additional_font</span></span>(<span>...)</span>
+            </code></dt>
+            <dd>
+                <div class="desc"><p>Adds additional font.</p>
+                    <p>Return Type: None</p>
+                    <p>Parameters</p>
+                    <hr>
+                    <ul>
+                        <li>
+                            <p>file : str
+                                ttf or otf file</p>
+                        </li>
+                        <li>
+                            <p>Optional Arguments</p>
+                        </li>
+                    </ul>
+                    <hr>
+                    <ul>
+                        <li>
+                            <p>size : float</p>
+                        </li>
+                        <li>
+                            <p>glyph_ranges : str
+                                options: korean, japanese, chinese_full, chinese_simplified_common, cryillic, thai, vietnamese</p>
+                        </li>
+                    </ul></div>
+            </dd>
             <dt id="dearpygui.dearpygui.add_button"><code class="name flex">
                 <span>def <span class="ident">add_button</span></span>(<span>...)</span>
             </code></dt>
@@ -410,7 +438,7 @@
                 <span>def <span class="ident">add_column</span></span>(<span>...)</span>
             </code></dt>
             <dd>
-                <div class="desc"><p>Adds a column to a table.</p>
+                <div class="desc"><p>Adds a column to the end of a table.</p>
                     <p>Return Type: None</p>
                     <p>Parameters</p>
                     <hr>
@@ -530,9 +558,6 @@
                             <p>format : str</p>
                         </li>
                         <li>
-                            <p>power : float</p>
-                        </li>
-                        <li>
                             <p>callback : str
                                 Registers a callback</p>
                         </li>
@@ -589,9 +614,6 @@
                         </li>
                         <li>
                             <p>format : str</p>
-                        </li>
-                        <li>
-                            <p>power : float</p>
                         </li>
                         <li>
                             <p>callback : str
@@ -652,9 +674,6 @@
                             <p>format : str</p>
                         </li>
                         <li>
-                            <p>power : float</p>
-                        </li>
-                        <li>
                             <p>callback : str
                                 Registers a callback</p>
                         </li>
@@ -711,9 +730,6 @@
                         </li>
                         <li>
                             <p>format : str</p>
-                        </li>
-                        <li>
-                            <p>power : float</p>
                         </li>
                         <li>
                             <p>callback : str
@@ -1015,7 +1031,7 @@
             </code></dt>
             <dd>
                 <div class="desc"><p>Creates a group that other widgets can belong to. The group allows item commands to be issued for all of its members.
-                    Must be closed with the end_group command unless added at runtime.</p>
+                    Must be closed with the end_group command.</p>
                     <p>Return Type: None</p>
                     <p>Parameters</p>
                     <hr>
@@ -1120,7 +1136,7 @@
                 <span>def <span class="ident">add_indent</span></span>(<span>...)</span>
             </code></dt>
             <dd>
-                <div class="desc"><p>Adds an indent to following items.</p>
+                <div class="desc"><p>Adds an indent to following items. Must be closed with the unindent command.</p>
                     <p>Return Type: None</p>
                     <p>Parameters</p>
                     <hr>
@@ -1568,7 +1584,8 @@
                             <p>readonly : bool</p>
                         </li>
                         <li>
-                            <p>password : bool</p>
+                            <p>password : bool
+                                hides text values</p>
                         </li>
                         <li>
                             <p>callback : str
@@ -1914,7 +1931,7 @@
                 <span>def <span class="ident">add_popup</span></span>(<span>...)</span>
             </code></dt>
             <dd>
-                <div class="desc"><p>Adds a popup window for an item. This command must come immediately after the item the popup is for.</p>
+                <div class="desc"><p>Adds a popup window for an item. This command must come immediately after the item the popup is for. Must be followed by a call to end_popup.</p>
                     <p>Return Type: None</p>
                     <p>Parameters</p>
                     <hr>
@@ -2061,7 +2078,7 @@
                 <span>def <span class="ident">add_row</span></span>(<span>...)</span>
             </code></dt>
             <dd>
-                <div class="desc"><p>Adds a row to a table.</p>
+                <div class="desc"><p>Adds a row to the end of a table.</p>
                     <p>Return Type: None</p>
                     <p>Parameters</p>
                     <hr>
@@ -2317,10 +2334,8 @@
                             <p>format : str</p>
                         </li>
                         <li>
-                            <p>power : float</p>
-                        </li>
-                        <li>
-                            <p>vertical : bool</p>
+                            <p>vertical : bool
+                                sets orientation to vertical</p>
                         </li>
                         <li>
                             <p>callback : str
@@ -2382,9 +2397,6 @@
                             <p>format : str</p>
                         </li>
                         <li>
-                            <p>power : float</p>
-                        </li>
-                        <li>
                             <p>callback : str
                                 Registers a callback</p>
                         </li>
@@ -2438,9 +2450,6 @@
                         </li>
                         <li>
                             <p>format : str</p>
-                        </li>
-                        <li>
-                            <p>power : float</p>
                         </li>
                         <li>
                             <p>callback : str
@@ -2498,9 +2507,6 @@
                             <p>format : str</p>
                         </li>
                         <li>
-                            <p>power : float</p>
-                        </li>
-                        <li>
                             <p>callback : str
                                 Registers a callback</p>
                         </li>
@@ -2556,7 +2562,8 @@
                             <p>format : str</p>
                         </li>
                         <li>
-                            <p>vertical : bool</p>
+                            <p>vertical : bool
+                                sets orientation to vertical</p>
                         </li>
                         <li>
                             <p>callback : str
@@ -2785,7 +2792,7 @@
                 <span>def <span class="ident">add_tab</span></span>(<span>...)</span>
             </code></dt>
             <dd>
-                <div class="desc"><p>Adds a tab to a tab bar.</p>
+                <div class="desc"><p>Adds a tab to a tab bar. Must be closed with the end_tab command.</p>
                     <p>Return Type: None</p>
                     <p>Parameters</p>
                     <hr>
@@ -2835,7 +2842,8 @@
                     <hr>
                     <ul>
                         <li>
-                            <p>reorderable : bool</p>
+                            <p>reorderable : bool
+                                allows for moveable tabs</p>
                         </li>
                         <li>
                             <p>callback : str
@@ -3046,7 +3054,7 @@
                 <span>def <span class="ident">add_window</span></span>(<span>...)</span>
             </code></dt>
             <dd>
-                <div class="desc"><p>Creates a new window for following items to be added to. Must call end_main_window command before.</p>
+                <div class="desc"><p>Creates a new window for following items to be added to. Must call end_main_window command before adding any new windows.</p>
                     <p>Return Type: None</p>
                     <p>Parameters</p>
                     <hr>
@@ -3095,56 +3103,6 @@
                         </li>
                         <li>
                             <p>on_close : str</p>
-                        </li>
-                    </ul></div>
-            </dd>
-            <dt id="dearpygui.dearpygui.change_style_item"><code class="name flex">
-                <span>def <span class="ident">change_style_item</span></span>(<span>...)</span>
-            </code></dt>
-            <dd>
-                <div class="desc"><p>Needs documentation</p>
-                    <p>Return Type: None</p>
-                    <p>Parameters</p>
-                    <hr>
-                    <ul>
-                        <li>
-                            <p>item : int</p>
-                        </li>
-                        <li>
-                            <p>x : float</p>
-                        </li>
-                        <li>
-                            <p>Optional Arguments</p>
-                        </li>
-                    </ul>
-                    <hr>
-                    <ul>
-                        <li>y : float</li>
-                    </ul></div>
-            </dd>
-            <dt id="dearpygui.dearpygui.change_theme_item"><code class="name flex">
-                <span>def <span class="ident">change_theme_item</span></span>(<span>...)</span>
-            </code></dt>
-            <dd>
-                <div class="desc"><p>Needs documentation</p>
-                    <p>Return Type: None</p>
-                    <p>Parameters</p>
-                    <hr>
-                    <ul>
-                        <li>
-                            <p>item : int</p>
-                        </li>
-                        <li>
-                            <p>r : float</p>
-                        </li>
-                        <li>
-                            <p>g : float</p>
-                        </li>
-                        <li>
-                            <p>b : float</p>
-                        </li>
-                        <li>
-                            <p>a : float</p>
                         </li>
                     </ul></div>
             </dd>
@@ -3202,7 +3160,7 @@
                 <span>def <span class="ident">close_popup</span></span>(<span>...)</span>
             </code></dt>
             <dd>
-                <div class="desc"><p>Needs documentation</p>
+                <div class="desc"><p>Closes the current popup</p>
                     <p>Return Type: None</p></div>
             </dd>
             <dt id="dearpygui.dearpygui.delete_column"><code class="name flex">
@@ -3401,7 +3359,7 @@
                 <span>def <span class="ident">draw_image</span></span>(<span>...)</span>
             </code></dt>
             <dd>
-                <div class="desc"><p>Draws an image on a drawing.</p>
+                <div class="desc"><p>Draws an image on a drawing. p_min and p_max represent the upper-left and lower-right corners of the rectangle.uv_min and uv_max represent the normalized texture coordinates to use for those corners. Using (0,0)-&gt;(1,1) texturecoordinates will generally display the entire texture.</p>
                     <p>Return Type: None</p>
                     <p>Parameters</p>
                     <hr>
@@ -3806,6 +3764,13 @@
                         <li>name : str</li>
                     </ul></div>
             </dd>
+            <dt id="dearpygui.dearpygui.get_dearpygui_version"><code class="name flex">
+                <span>def <span class="ident">get_dearpygui_version</span></span>(<span>...)</span>
+            </code></dt>
+            <dd>
+                <div class="desc"><p>Returns the current version of Dear PyGui.</p>
+                    <p>Return Type: str</p></div>
+            </dd>
             <dt id="dearpygui.dearpygui.get_delta_time"><code class="name flex">
                 <span>def <span class="ident">get_delta_time</span></span>(<span>...)</span>
             </code></dt>
@@ -3896,7 +3861,7 @@
                 <span>def <span class="ident">get_item_rect_max</span></span>(<span>...)</span>
             </code></dt>
             <dd>
-                <div class="desc"><p>Returns an item's maximum allowable size.</p>
+                <div class="desc"><p>Returns an item's maximum allowable size. [width, height]</p>
                     <p>Return Type: [float, float]</p>
                     <p>Parameters</p>
                     <hr>
@@ -3908,7 +3873,7 @@
                 <span>def <span class="ident">get_item_rect_min</span></span>(<span>...)</span>
             </code></dt>
             <dd>
-                <div class="desc"><p>Returns an item's minimum allowable size.</p>
+                <div class="desc"><p>Returns an item's minimum allowable size. [width, height]</p>
                     <p>Return Type: [float, float]</p>
                     <p>Parameters</p>
                     <hr>
@@ -3920,7 +3885,7 @@
                 <span>def <span class="ident">get_item_rect_size</span></span>(<span>...)</span>
             </code></dt>
             <dd>
-                <div class="desc"><p>Returns an item's current size.</p>
+                <div class="desc"><p>Returns an item's current size. [width, height]</p>
                     <p>Return Type: [float, float]</p>
                     <p>Parameters</p>
                     <hr>
@@ -3966,18 +3931,11 @@
                 <div class="desc"><p>Returns the size of the main window.</p>
                     <p>Return Type: [int, int]</p></div>
             </dd>
-            <dt id="dearpygui.dearpygui.get_marvel_version"><code class="name flex">
-                <span>def <span class="ident">get_marvel_version</span></span>(<span>...)</span>
-            </code></dt>
-            <dd>
-                <div class="desc"><p>Returns the current version of Marvel.</p>
-                    <p>Return Type: str</p></div>
-            </dd>
             <dt id="dearpygui.dearpygui.get_mouse_drag_delta"><code class="name flex">
                 <span>def <span class="ident">get_mouse_drag_delta</span></span>(<span>...)</span>
             </code></dt>
             <dd>
-                <div class="desc"><p>Returns the current mouse drag delta</p>
+                <div class="desc"><p>Returns the current mouse drag delta in pixels</p>
                     <p>Return Type: (float, float)</p></div>
             </dd>
             <dt id="dearpygui.dearpygui.get_mouse_pos"><code class="name flex">
@@ -4000,7 +3958,7 @@
                 <span>def <span class="ident">get_plot_query_area</span></span>(<span>...)</span>
             </code></dt>
             <dd>
-                <div class="desc"><p>Clears a plot.</p>
+                <div class="desc"><p>Returns the bounding axis limits for the query area [x_min, x_max, y_min, y_max]</p>
                     <p>Return Type: List[float]</p>
                     <p>Parameters</p>
                     <hr>
@@ -4008,17 +3966,222 @@
                         <li>plot : str</li>
                     </ul></div>
             </dd>
-            <dt id="dearpygui.dearpygui.get_style_item"><code class="name flex">
-                <span>def <span class="ident">get_style_item</span></span>(<span>...)</span>
+            <dt id="dearpygui.dearpygui.get_style_antialiased_fill"><code class="name flex">
+                <span>def <span class="ident">get_style_antialiased_fill</span></span>(<span>...)</span>
             </code></dt>
             <dd>
-                <div class="desc"><p>Returns a style item's value</p>
-                    <p>Return Type: (float, float)</p>
-                    <p>Parameters</p>
-                    <hr>
-                    <ul>
-                        <li>item : int</li>
-                    </ul></div>
+                <div class="desc"><p>Gets anti-aliasing on filled shapes (rounded rectangles, circles, etc.).</p>
+                    <p>Return Type: bool</p></div>
+            </dd>
+            <dt id="dearpygui.dearpygui.get_style_antialiased_lines"><code class="name flex">
+                <span>def <span class="ident">get_style_antialiased_lines</span></span>(<span>...)</span>
+            </code></dt>
+            <dd>
+                <div class="desc"><p>Gets anti-aliasing on lines/borders.</p>
+                    <p>Return Type: bool</p></div>
+            </dd>
+            <dt id="dearpygui.dearpygui.get_style_button_text_align"><code class="name flex">
+                <span>def <span class="ident">get_style_button_text_align</span></span>(<span>...)</span>
+            </code></dt>
+            <dd>
+                <div class="desc"><p>Gets alignment of button text when button is larger than text. Defaults to (0.5, 0.5) (centered).</p>
+                    <p>Return Type: List[float]</p></div>
+            </dd>
+            <dt id="dearpygui.dearpygui.get_style_child_border_size"><code class="name flex">
+                <span>def <span class="ident">get_style_child_border_size</span></span>(<span>...)</span>
+            </code></dt>
+            <dd>
+                <div class="desc"><p>Gets thickness of border around child windows.</p>
+                    <p>Return Type: float</p></div>
+            </dd>
+            <dt id="dearpygui.dearpygui.get_style_child_rounding"><code class="name flex">
+                <span>def <span class="ident">get_style_child_rounding</span></span>(<span>...)</span>
+            </code></dt>
+            <dd>
+                <div class="desc"><p>Gets radius of child window corners rounding.</p>
+                    <p>Return Type: float</p></div>
+            </dd>
+            <dt id="dearpygui.dearpygui.get_style_circle_segment_max_error"><code class="name flex">
+                <span>def <span class="ident">get_style_circle_segment_max_error</span></span>(<span>...)</span>
+            </code></dt>
+            <dd>
+                <div class="desc"><p>Gets maximum error (in pixels) allowed when using draw_circle()or drawing rounded corner rectangles with no explicit segment count specified.</p>
+                    <p>Return Type: float</p></div>
+            </dd>
+            <dt id="dearpygui.dearpygui.get_style_color_button_position"><code class="name flex">
+                <span>def <span class="ident">get_style_color_button_position</span></span>(<span>...)</span>
+            </code></dt>
+            <dd>
+                <div class="desc"><p>Gets side of the color button in the ColorEdit4 widget (left/right). Defaults to mvGuiDir_Right.</p>
+                    <p>Return Type: int</p></div>
+            </dd>
+            <dt id="dearpygui.dearpygui.get_style_curve_tessellation_tolerance"><code class="name flex">
+                <span>def <span class="ident">get_style_curve_tessellation_tolerance</span></span>(<span>...)</span>
+            </code></dt>
+            <dd>
+                <div class="desc"><p>Gets Tessellation tolerance.</p>
+                    <p>Return Type: float</p></div>
+            </dd>
+            <dt id="dearpygui.dearpygui.get_style_display_safe_area_padding"><code class="name flex">
+                <span>def <span class="ident">get_style_display_safe_area_padding</span></span>(<span>...)</span>
+            </code></dt>
+            <dd>
+                <div class="desc"><p>Gets safe area padding. Applies to popups/tooltips as well regular windows.</p>
+                    <p>Return Type: List[float]</p></div>
+            </dd>
+            <dt id="dearpygui.dearpygui.get_style_frame_border_size"><code class="name flex">
+                <span>def <span class="ident">get_style_frame_border_size</span></span>(<span>...)</span>
+            </code></dt>
+            <dd>
+                <div class="desc"><p>Gets thickness of border around frames.</p>
+                    <p>Return Type: float</p></div>
+            </dd>
+            <dt id="dearpygui.dearpygui.get_style_frame_padding"><code class="name flex">
+                <span>def <span class="ident">get_style_frame_padding</span></span>(<span>...)</span>
+            </code></dt>
+            <dd>
+                <div class="desc"><p>Gets padding within a framed rectangle (used by most widgets).</p>
+                    <p>Return Type: List[float]</p></div>
+            </dd>
+            <dt id="dearpygui.dearpygui.get_style_frame_rounding"><code class="name flex">
+                <span>def <span class="ident">get_style_frame_rounding</span></span>(<span>...)</span>
+            </code></dt>
+            <dd>
+                <div class="desc"><p>Gets radius of frame corners rounding.</p>
+                    <p>Return Type: float</p></div>
+            </dd>
+            <dt id="dearpygui.dearpygui.get_style_global_alpha"><code class="name flex">
+                <span>def <span class="ident">get_style_global_alpha</span></span>(<span>...)</span>
+            </code></dt>
+            <dd>
+                <div class="desc"><p>Gets global alpha applies to everything in Dear PyGui.</p>
+                    <p>Return Type: float</p></div>
+            </dd>
+            <dt id="dearpygui.dearpygui.get_style_grab_min_size"><code class="name flex">
+                <span>def <span class="ident">get_style_grab_min_size</span></span>(<span>...)</span>
+            </code></dt>
+            <dd>
+                <div class="desc"><p>Gets minimum width/height of a grab box for slider/scrollbar.</p>
+                    <p>Return Type: float</p></div>
+            </dd>
+            <dt id="dearpygui.dearpygui.get_style_grab_rounding"><code class="name flex">
+                <span>def <span class="ident">get_style_grab_rounding</span></span>(<span>...)</span>
+            </code></dt>
+            <dd>
+                <div class="desc"><p>Gets radius of grabs corners rounding. Set to 0.0 to have rectangular slider grabs.</p>
+                    <p>Return Type: float</p></div>
+            </dd>
+            <dt id="dearpygui.dearpygui.get_style_indent_spacing"><code class="name flex">
+                <span>def <span class="ident">get_style_indent_spacing</span></span>(<span>...)</span>
+            </code></dt>
+            <dd>
+                <div class="desc"><p>Gets horizontal indentation when e.g. entering a tree node. Generally == (FontSize + FramePadding.x*2).</p>
+                    <p>Return Type: float</p></div>
+            </dd>
+            <dt id="dearpygui.dearpygui.get_style_item_inner_spacing"><code class="name flex">
+                <span>def <span class="ident">get_style_item_inner_spacing</span></span>(<span>...)</span>
+            </code></dt>
+            <dd>
+                <div class="desc"><p>Gets horizontal and vertical spacing between within elements of a composed widget (e.g. a slider and its label).</p>
+                    <p>Return Type: List[float]</p></div>
+            </dd>
+            <dt id="dearpygui.dearpygui.get_style_item_spacing"><code class="name flex">
+                <span>def <span class="ident">get_style_item_spacing</span></span>(<span>...)</span>
+            </code></dt>
+            <dd>
+                <div class="desc"><p>Gets horizontal and vertical spacing between widgets/lines.</p>
+                    <p>Return Type: List[float]</p></div>
+            </dd>
+            <dt id="dearpygui.dearpygui.get_style_popup_border_size"><code class="name flex">
+                <span>def <span class="ident">get_style_popup_border_size</span></span>(<span>...)</span>
+            </code></dt>
+            <dd>
+                <div class="desc"><p>Gets thickness of border around popup/tooltip windows.</p>
+                    <p>Return Type: float</p></div>
+            </dd>
+            <dt id="dearpygui.dearpygui.get_style_popup_rounding"><code class="name flex">
+                <span>def <span class="ident">get_style_popup_rounding</span></span>(<span>...)</span>
+            </code></dt>
+            <dd>
+                <div class="desc"><p>Gets radius of popup window corners rounding. (Note that tooltip windows use WindowRounding).</p>
+                    <p>Return Type: float</p></div>
+            </dd>
+            <dt id="dearpygui.dearpygui.get_style_scrollbar_rounding"><code class="name flex">
+                <span>def <span class="ident">get_style_scrollbar_rounding</span></span>(<span>...)</span>
+            </code></dt>
+            <dd>
+                <div class="desc"><p>Gets radius of grab corners for scrollbar.</p>
+                    <p>Return Type: float</p></div>
+            </dd>
+            <dt id="dearpygui.dearpygui.get_style_scrollbar_size"><code class="name flex">
+                <span>def <span class="ident">get_style_scrollbar_size</span></span>(<span>...)</span>
+            </code></dt>
+            <dd>
+                <div class="desc"><p>Gets width of the vertical scrollbar, Height of the horizontal scrollbar.</p>
+                    <p>Return Type: float</p></div>
+            </dd>
+            <dt id="dearpygui.dearpygui.get_style_selectable_text_align"><code class="name flex">
+                <span>def <span class="ident">get_style_selectable_text_align</span></span>(<span>...)</span>
+            </code></dt>
+            <dd>
+                <div class="desc"><p>Gets alignment of selectable text. Defaults to (0.0, 0.0) (top-left aligned).</p>
+                    <p>Return Type: List[float]</p></div>
+            </dd>
+            <dt id="dearpygui.dearpygui.get_style_tab_border_size"><code class="name flex">
+                <span>def <span class="ident">get_style_tab_border_size</span></span>(<span>...)</span>
+            </code></dt>
+            <dd>
+                <div class="desc"><p>Gets thickness of border around tabs.</p>
+                    <p>Return Type: float</p></div>
+            </dd>
+            <dt id="dearpygui.dearpygui.get_style_tab_rounding"><code class="name flex">
+                <span>def <span class="ident">get_style_tab_rounding</span></span>(<span>...)</span>
+            </code></dt>
+            <dd>
+                <div class="desc"><p>Gets radius of upper corners of a tab. Set to 0.0 to have rectangular tabs.</p>
+                    <p>Return Type: float</p></div>
+            </dd>
+            <dt id="dearpygui.dearpygui.get_style_touch_extra_padding"><code class="name flex">
+                <span>def <span class="ident">get_style_touch_extra_padding</span></span>(<span>...)</span>
+            </code></dt>
+            <dd>
+                <div class="desc"><p>Get touch extra padding.</p>
+                    <p>Return Type: List[float]</p></div>
+            </dd>
+            <dt id="dearpygui.dearpygui.get_style_window_border_size"><code class="name flex">
+                <span>def <span class="ident">get_style_window_border_size</span></span>(<span>...)</span>
+            </code></dt>
+            <dd>
+                <div class="desc"><p>Gets thickness of border around windows.</p>
+                    <p>Return Type: float</p></div>
+            </dd>
+            <dt id="dearpygui.dearpygui.get_style_window_menu_button_position"><code class="name flex">
+                <span>def <span class="ident">get_style_window_menu_button_position</span></span>(<span>...)</span>
+            </code></dt>
+            <dd>
+                <div class="desc"><p>Gets side of the collapsing/docking button in the title bar (None/Left/Right). Defaults to mvGuiDir_Left.</p>
+                    <p>Return Type: int</p></div>
+            </dd>
+            <dt id="dearpygui.dearpygui.get_style_window_padding"><code class="name flex">
+                <span>def <span class="ident">get_style_window_padding</span></span>(<span>...)</span>
+            </code></dt>
+            <dd>
+                <div class="desc"><p>Gets padding within a window.</p>
+                    <p>Return Type: List[float]</p></div>
+            </dd>
+            <dt id="dearpygui.dearpygui.get_style_window_rounding"><code class="name flex">
+                <span>def <span class="ident">get_style_window_rounding</span></span>(<span>...)</span>
+            </code></dt>
+            <dd>
+                <div class="desc"><p>Gets radius of window corners rounding.</p>
+                    <p>Return Type: float</p></div>
+            </dd>
+            <dt id="dearpygui.dearpygui.get_style_window_title_align"><code class="name flex">
+                <span>def <span class="ident">get_style_window_title_align</span></span>(<span>...)</span>
+            </code></dt>
+            <dd>
+                <div class="desc"><p>Gets alignment for title bar text. Defaults to (0.0,0.5) for left-aligned,vertically centered.</p>
+                    <p>Return Type: List[float]</p></div>
             </dd>
             <dt id="dearpygui.dearpygui.get_table_item"><code class="name flex">
                 <span>def <span class="ident">get_table_item</span></span>(<span>...)</span>
@@ -4405,7 +4568,7 @@
                 <span>def <span class="ident">is_plot_queried</span></span>(<span>...)</span>
             </code></dt>
             <dd>
-                <div class="desc"><p>Clears a plot.</p>
+                <div class="desc"><p>Returns true if plot was queried</p>
                     <p>Return Type: bool</p>
                     <p>Parameters</p>
                     <hr>
@@ -4493,7 +4656,7 @@
                 <span>def <span class="ident">move_item_down</span></span>(<span>...)</span>
             </code></dt>
             <dd>
-                <div class="desc"><p>Moves down up if possible and if it exists.</p>
+                <div class="desc"><p>Moves item down if possible and if it exists.</p>
                     <p>Return Type: None</p>
                     <p>Parameters</p>
                     <hr>
@@ -4531,7 +4694,7 @@
                         </li>
                         <li>
                             <p>extensions : str
-                                i.e '.*, .py'</p>
+                                filters items with extensions i.e '.*, .py'</p>
                         </li>
                     </ul></div>
             </dd>
@@ -5096,7 +5259,7 @@
                 <span>def <span class="ident">set_resize_callback</span></span>(<span>...)</span>
             </code></dt>
             <dd>
-                <div class="desc"><p>Sets a callback for a window resizes.</p>
+                <div class="desc"><p>Sets a callback for a window resize event.</p>
                     <p>Return Type: None</p>
                     <p>Parameters</p>
                     <hr>
@@ -5112,6 +5275,423 @@
                     <ul>
                         <li>handler : str
                             Callback will be run when event occurs while this window is active (default is main window)</li>
+                    </ul></div>
+            </dd>
+            <dt id="dearpygui.dearpygui.set_style_antialiased_fill"><code class="name flex">
+                <span>def <span class="ident">set_style_antialiased_fill</span></span>(<span>...)</span>
+            </code></dt>
+            <dd>
+                <div class="desc"><p>Sets anti-aliasing on filled shapes (rounded rectangles, circles, etc.).</p>
+                    <p>Return Type: None</p>
+                    <p>Parameters</p>
+                    <hr>
+                    <ul>
+                        <li>value : bool</li>
+                    </ul></div>
+            </dd>
+            <dt id="dearpygui.dearpygui.set_style_antialiased_lines"><code class="name flex">
+                <span>def <span class="ident">set_style_antialiased_lines</span></span>(<span>...)</span>
+            </code></dt>
+            <dd>
+                <div class="desc"><p>Sets anti-aliasing on lines/borders. Disable if you are really tight on CPU/GPU.</p>
+                    <p>Return Type: None</p>
+                    <p>Parameters</p>
+                    <hr>
+                    <ul>
+                        <li>value : bool</li>
+                    </ul></div>
+            </dd>
+            <dt id="dearpygui.dearpygui.set_style_button_text_align"><code class="name flex">
+                <span>def <span class="ident">set_style_button_text_align</span></span>(<span>...)</span>
+            </code></dt>
+            <dd>
+                <div class="desc"><p>Sets alignment of button text when button is larger than text. Defaults to (0.5, 0.5) (centered).</p>
+                    <p>Return Type: None</p>
+                    <p>Parameters</p>
+                    <hr>
+                    <ul>
+                        <li>
+                            <p>x : float</p>
+                        </li>
+                        <li>
+                            <p>y : float</p>
+                        </li>
+                    </ul></div>
+            </dd>
+            <dt id="dearpygui.dearpygui.set_style_child_border_size"><code class="name flex">
+                <span>def <span class="ident">set_style_child_border_size</span></span>(<span>...)</span>
+            </code></dt>
+            <dd>
+                <div class="desc"><p>Sets thickness of border around child windows. Generally set to 0.0 or 1.0. (Other values are not well tested and more CPU/GPU costly).</p>
+                    <p>Return Type: None</p>
+                    <p>Parameters</p>
+                    <hr>
+                    <ul>
+                        <li>value : float</li>
+                    </ul></div>
+            </dd>
+            <dt id="dearpygui.dearpygui.set_style_child_rounding"><code class="name flex">
+                <span>def <span class="ident">set_style_child_rounding</span></span>(<span>...)</span>
+            </code></dt>
+            <dd>
+                <div class="desc"><p>Sets radius of child window corners rounding. Set to 0.0 to have rectangular windows.</p>
+                    <p>Return Type: None</p>
+                    <p>Parameters</p>
+                    <hr>
+                    <ul>
+                        <li>value : float</li>
+                    </ul></div>
+            </dd>
+            <dt id="dearpygui.dearpygui.set_style_circle_segment_max_error"><code class="name flex">
+                <span>def <span class="ident">set_style_circle_segment_max_error</span></span>(<span>...)</span>
+            </code></dt>
+            <dd>
+                <div class="desc"><p>Sets maximum error (in pixels) allowed when using draw_circle()or drawing rounded corner rectangles with no explicit segment count specified. Decrease for higher quality but more geometry.</p>
+                    <p>Return Type: None</p>
+                    <p>Parameters</p>
+                    <hr>
+                    <ul>
+                        <li>value : float</li>
+                    </ul></div>
+            </dd>
+            <dt id="dearpygui.dearpygui.set_style_color_button_position"><code class="name flex">
+                <span>def <span class="ident">set_style_color_button_position</span></span>(<span>...)</span>
+            </code></dt>
+            <dd>
+                <div class="desc"><p>Sets side of the color button in the ColorEdit4 widget (left/right). Defaults to mvGuiDir_Right.</p>
+                    <p>Return Type: None</p>
+                    <p>Parameters</p>
+                    <hr>
+                    <ul>
+                        <li>value : int</li>
+                    </ul></div>
+            </dd>
+            <dt id="dearpygui.dearpygui.set_style_curve_tessellation_tolerance"><code class="name flex">
+                <span>def <span class="ident">set_style_curve_tessellation_tolerance</span></span>(<span>...)</span>
+            </code></dt>
+            <dd>
+                <div class="desc"><p>Sets Tessellation tolerance.</p>
+                    <p>Return Type: None</p>
+                    <p>Parameters</p>
+                    <hr>
+                    <ul>
+                        <li>value : float</li>
+                    </ul></div>
+            </dd>
+            <dt id="dearpygui.dearpygui.set_style_display_safe_area_padding"><code class="name flex">
+                <span>def <span class="ident">set_style_display_safe_area_padding</span></span>(<span>...)</span>
+            </code></dt>
+            <dd>
+                <div class="desc"><p>Sets if you cannot see the edges of your screen (e.g. on a TV) increase the safe area padding. Apply to popups/tooltips as well regular windows. NB: Prefer configuring your TV sets correctly!</p>
+                    <p>Return Type: None</p>
+                    <p>Parameters</p>
+                    <hr>
+                    <ul>
+                        <li>
+                            <p>x : float</p>
+                        </li>
+                        <li>
+                            <p>y : float</p>
+                        </li>
+                    </ul></div>
+            </dd>
+            <dt id="dearpygui.dearpygui.set_style_frame_border_size"><code class="name flex">
+                <span>def <span class="ident">set_style_frame_border_size</span></span>(<span>...)</span>
+            </code></dt>
+            <dd>
+                <div class="desc"><p>Sets thickness of border around frames. Generally set to 0.0 or 1.0. (Other values are not well tested and more CPU/GPU costly).</p>
+                    <p>Return Type: None</p>
+                    <p>Parameters</p>
+                    <hr>
+                    <ul>
+                        <li>value : float</li>
+                    </ul></div>
+            </dd>
+            <dt id="dearpygui.dearpygui.set_style_frame_padding"><code class="name flex">
+                <span>def <span class="ident">set_style_frame_padding</span></span>(<span>...)</span>
+            </code></dt>
+            <dd>
+                <div class="desc"><p>Sets padding within a framed rectangle (used by most widgets).</p>
+                    <p>Return Type: None</p>
+                    <p>Parameters</p>
+                    <hr>
+                    <ul>
+                        <li>
+                            <p>x : float</p>
+                        </li>
+                        <li>
+                            <p>y : float</p>
+                        </li>
+                    </ul></div>
+            </dd>
+            <dt id="dearpygui.dearpygui.set_style_frame_rounding"><code class="name flex">
+                <span>def <span class="ident">set_style_frame_rounding</span></span>(<span>...)</span>
+            </code></dt>
+            <dd>
+                <div class="desc"><p>Sets radius of frame corners rounding. Set to 0.0 to have rectangular frame (used by most widgets).</p>
+                    <p>Return Type: None</p>
+                    <p>Parameters</p>
+                    <hr>
+                    <ul>
+                        <li>value : float</li>
+                    </ul></div>
+            </dd>
+            <dt id="dearpygui.dearpygui.set_style_global_alpha"><code class="name flex">
+                <span>def <span class="ident">set_style_global_alpha</span></span>(<span>...)</span>
+            </code></dt>
+            <dd>
+                <div class="desc"><p>Sets global alpha applies to everything in Dear PyGui.</p>
+                    <p>Return Type: None</p>
+                    <p>Parameters</p>
+                    <hr>
+                    <ul>
+                        <li>value : float</li>
+                    </ul></div>
+            </dd>
+            <dt id="dearpygui.dearpygui.set_style_grab_min_size"><code class="name flex">
+                <span>def <span class="ident">set_style_grab_min_size</span></span>(<span>...)</span>
+            </code></dt>
+            <dd>
+                <div class="desc"><p>Sets minimum width/height of a grab box for slider/scrollbar.</p>
+                    <p>Return Type: None</p>
+                    <p>Parameters</p>
+                    <hr>
+                    <ul>
+                        <li>value : float</li>
+                    </ul></div>
+            </dd>
+            <dt id="dearpygui.dearpygui.set_style_grab_rounding"><code class="name flex">
+                <span>def <span class="ident">set_style_grab_rounding</span></span>(<span>...)</span>
+            </code></dt>
+            <dd>
+                <div class="desc"><p>Sets radius of grabs corners rounding. Set to 0.0 to have rectangular slider grabs.</p>
+                    <p>Return Type: None</p>
+                    <p>Parameters</p>
+                    <hr>
+                    <ul>
+                        <li>value : float</li>
+                    </ul></div>
+            </dd>
+            <dt id="dearpygui.dearpygui.set_style_indent_spacing"><code class="name flex">
+                <span>def <span class="ident">set_style_indent_spacing</span></span>(<span>...)</span>
+            </code></dt>
+            <dd>
+                <div class="desc"><p>Sets horizontal indentation when e.g. entering a tree node. Generally == (FontSize + FramePadding.x*2).</p>
+                    <p>Return Type: None</p>
+                    <p>Parameters</p>
+                    <hr>
+                    <ul>
+                        <li>value : float</li>
+                    </ul></div>
+            </dd>
+            <dt id="dearpygui.dearpygui.set_style_item_inner_spacing"><code class="name flex">
+                <span>def <span class="ident">set_style_item_inner_spacing</span></span>(<span>...)</span>
+            </code></dt>
+            <dd>
+                <div class="desc"><p>Sets horizontal and vertical spacing between within elements of a composed widget (e.g. a slider and its label).</p>
+                    <p>Return Type: None</p>
+                    <p>Parameters</p>
+                    <hr>
+                    <ul>
+                        <li>
+                            <p>x : float</p>
+                        </li>
+                        <li>
+                            <p>y : float</p>
+                        </li>
+                    </ul></div>
+            </dd>
+            <dt id="dearpygui.dearpygui.set_style_item_spacing"><code class="name flex">
+                <span>def <span class="ident">set_style_item_spacing</span></span>(<span>...)</span>
+            </code></dt>
+            <dd>
+                <div class="desc"><p>Sets horizontal and vertical spacing between widgets/lines.</p>
+                    <p>Return Type: None</p>
+                    <p>Parameters</p>
+                    <hr>
+                    <ul>
+                        <li>
+                            <p>x : float</p>
+                        </li>
+                        <li>
+                            <p>y : float</p>
+                        </li>
+                    </ul></div>
+            </dd>
+            <dt id="dearpygui.dearpygui.set_style_popup_border_size"><code class="name flex">
+                <span>def <span class="ident">set_style_popup_border_size</span></span>(<span>...)</span>
+            </code></dt>
+            <dd>
+                <div class="desc"><p>Sets thickness of border around popup/tooltip windows. Generally set to 0.0 or 1.0. (Other values are not well tested and more CPU/GPU costly).</p>
+                    <p>Return Type: None</p>
+                    <p>Parameters</p>
+                    <hr>
+                    <ul>
+                        <li>value : float</li>
+                    </ul></div>
+            </dd>
+            <dt id="dearpygui.dearpygui.set_style_popup_rounding"><code class="name flex">
+                <span>def <span class="ident">set_style_popup_rounding</span></span>(<span>...)</span>
+            </code></dt>
+            <dd>
+                <div class="desc"><p>Sets radius of popup window corners rounding. (Note that tooltip windows use WindowRounding).</p>
+                    <p>Return Type: None</p>
+                    <p>Parameters</p>
+                    <hr>
+                    <ul>
+                        <li>value : float</li>
+                    </ul></div>
+            </dd>
+            <dt id="dearpygui.dearpygui.set_style_scrollbar_rounding"><code class="name flex">
+                <span>def <span class="ident">set_style_scrollbar_rounding</span></span>(<span>...)</span>
+            </code></dt>
+            <dd>
+                <div class="desc"><p>Sets radius of grab corners for scrollbar.</p>
+                    <p>Return Type: None</p>
+                    <p>Parameters</p>
+                    <hr>
+                    <ul>
+                        <li>value : float</li>
+                    </ul></div>
+            </dd>
+            <dt id="dearpygui.dearpygui.set_style_scrollbar_size"><code class="name flex">
+                <span>def <span class="ident">set_style_scrollbar_size</span></span>(<span>...)</span>
+            </code></dt>
+            <dd>
+                <div class="desc"><p>Sets width of the vertical scrollbar, Height of the horizontal scrollbar.</p>
+                    <p>Return Type: None</p>
+                    <p>Parameters</p>
+                    <hr>
+                    <ul>
+                        <li>value : float</li>
+                    </ul></div>
+            </dd>
+            <dt id="dearpygui.dearpygui.set_style_selectable_text_align"><code class="name flex">
+                <span>def <span class="ident">set_style_selectable_text_align</span></span>(<span>...)</span>
+            </code></dt>
+            <dd>
+                <div class="desc"><p>Sets alignment of selectable text. Defaults to (0.0, 0.0) (top-left aligned). It's generally important to keep this left-aligned if you want to lay multiple items on a same line.</p>
+                    <p>Return Type: None</p>
+                    <p>Parameters</p>
+                    <hr>
+                    <ul>
+                        <li>
+                            <p>x : float</p>
+                        </li>
+                        <li>
+                            <p>y : float</p>
+                        </li>
+                    </ul></div>
+            </dd>
+            <dt id="dearpygui.dearpygui.set_style_tab_border_size"><code class="name flex">
+                <span>def <span class="ident">set_style_tab_border_size</span></span>(<span>...)</span>
+            </code></dt>
+            <dd>
+                <div class="desc"><p>Sets thickness of border around tabs.</p>
+                    <p>Return Type: None</p>
+                    <p>Parameters</p>
+                    <hr>
+                    <ul>
+                        <li>value : float</li>
+                    </ul></div>
+            </dd>
+            <dt id="dearpygui.dearpygui.set_style_tab_rounding"><code class="name flex">
+                <span>def <span class="ident">set_style_tab_rounding</span></span>(<span>...)</span>
+            </code></dt>
+            <dd>
+                <div class="desc"><p>Sets radius of upper corners of a tab. Set to 0.0 to have rectangular tabs.</p>
+                    <p>Return Type: None</p>
+                    <p>Parameters</p>
+                    <hr>
+                    <ul>
+                        <li>value : float</li>
+                    </ul></div>
+            </dd>
+            <dt id="dearpygui.dearpygui.set_style_touch_extra_padding"><code class="name flex">
+                <span>def <span class="ident">set_style_touch_extra_padding</span></span>(<span>...)</span>
+            </code></dt>
+            <dd>
+                <div class="desc"><p>Expand reactive bounding box for touch-based system where touch position is not accurate enough. Unfortunately we don't sort widgets so priority on overlap will always be given to the first widget. So don't grow this too much!</p>
+                    <p>Return Type: None</p>
+                    <p>Parameters</p>
+                    <hr>
+                    <ul>
+                        <li>
+                            <p>x : float</p>
+                        </li>
+                        <li>
+                            <p>y : float</p>
+                        </li>
+                    </ul></div>
+            </dd>
+            <dt id="dearpygui.dearpygui.set_style_window_border_size"><code class="name flex">
+                <span>def <span class="ident">set_style_window_border_size</span></span>(<span>...)</span>
+            </code></dt>
+            <dd>
+                <div class="desc"><p>Sets thickness of border around windows. Generally set to 0.0 or 1.0. (Other values are not well tested and more CPU/GPU costly).</p>
+                    <p>Return Type: None</p>
+                    <p>Parameters</p>
+                    <hr>
+                    <ul>
+                        <li>value : float</li>
+                    </ul></div>
+            </dd>
+            <dt id="dearpygui.dearpygui.set_style_window_menu_button_position"><code class="name flex">
+                <span>def <span class="ident">set_style_window_menu_button_position</span></span>(<span>...)</span>
+            </code></dt>
+            <dd>
+                <div class="desc"><p>Sets side of the collapsing/docking button in the title bar (None/Left/Right). Defaults to mvGuiDir_Left.</p>
+                    <p>Return Type: None</p>
+                    <p>Parameters</p>
+                    <hr>
+                    <ul>
+                        <li>value : int</li>
+                    </ul></div>
+            </dd>
+            <dt id="dearpygui.dearpygui.set_style_window_padding"><code class="name flex">
+                <span>def <span class="ident">set_style_window_padding</span></span>(<span>...)</span>
+            </code></dt>
+            <dd>
+                <div class="desc"><p>Sets padding within a window.</p>
+                    <p>Return Type: None</p>
+                    <p>Parameters</p>
+                    <hr>
+                    <ul>
+                        <li>
+                            <p>x : float</p>
+                        </li>
+                        <li>
+                            <p>y : float</p>
+                        </li>
+                    </ul></div>
+            </dd>
+            <dt id="dearpygui.dearpygui.set_style_window_rounding"><code class="name flex">
+                <span>def <span class="ident">set_style_window_rounding</span></span>(<span>...)</span>
+            </code></dt>
+            <dd>
+                <div class="desc"><p>Sets Radius of window corners rounding. Set to 0.0fto have rectangular windows. Large values tend to lead to variety of artifacts and are not recommended.</p>
+                    <p>Return Type: None</p>
+                    <p>Parameters</p>
+                    <hr>
+                    <ul>
+                        <li>value : float</li>
+                    </ul></div>
+            </dd>
+            <dt id="dearpygui.dearpygui.set_style_window_title_align"><code class="name flex">
+                <span>def <span class="ident">set_style_window_title_align</span></span>(<span>...)</span>
+            </code></dt>
+            <dd>
+                <div class="desc"><p>Sets alignment for title bar text. Defaults to (0.0,0.5) for left-aligned,vertically centered.</p>
+                    <p>Return Type: None</p>
+                    <p>Parameters</p>
+                    <hr>
+                    <ul>
+                        <li>
+                            <p>x : float</p>
+                        </li>
+                        <li>
+                            <p>y : float</p>
+                        </li>
                     </ul></div>
             </dd>
             <dt id="dearpygui.dearpygui.set_table_item"><code class="name flex">
@@ -5170,6 +5750,32 @@
                     <hr>
                     <ul>
                         <li>theme : str</li>
+                    </ul></div>
+            </dd>
+            <dt id="dearpygui.dearpygui.set_theme_item"><code class="name flex">
+                <span>def <span class="ident">set_theme_item</span></span>(<span>...)</span>
+            </code></dt>
+            <dd>
+                <div class="desc"><p>Sets a theme item.</p>
+                    <p>Return Type: None</p>
+                    <p>Parameters</p>
+                    <hr>
+                    <ul>
+                        <li>
+                            <p>item : int</p>
+                        </li>
+                        <li>
+                            <p>r : int</p>
+                        </li>
+                        <li>
+                            <p>g : int</p>
+                        </li>
+                        <li>
+                            <p>b : int</p>
+                        </li>
+                        <li>
+                            <p>a : int</p>
+                        </li>
                     </ul></div>
             </dd>
             <dt id="dearpygui.dearpygui.set_thread_count"><code class="name flex">
@@ -5320,7 +5926,7 @@
                 <span>def <span class="ident">show_logger</span></span>(<span>...)</span>
             </code></dt>
             <dd>
-                <div class="desc"><p>Shows the logging window.</p>
+                <div class="desc"><p>Shows the logging window. The Default log level is Trace</p>
                     <p>Return Type: None</p></div>
             </dd>
             <dt id="dearpygui.dearpygui.show_metrics"><code class="name flex">
@@ -5341,6 +5947,13 @@
                     <ul>
                         <li>file : str</li>
                     </ul></div>
+            </dd>
+            <dt id="dearpygui.dearpygui.show_style_editor"><code class="name flex">
+                <span>def <span class="ident">show_style_editor</span></span>(<span>...)</span>
+            </code></dt>
+            <dd>
+                <div class="desc"><p>Shows the font window.</p>
+                    <p>Return Type: None</p></div>
             </dd>
             <dt id="dearpygui.dearpygui.start_dearpygui"><code class="name flex">
                 <span>def <span class="ident">start_dearpygui</span></span>(<span>...)</span>
@@ -5396,7 +6009,7 @@
     </section>
     <section>
     </section>
-</article> 
+</article>
     <nav id="sidebar">
         <h1>Index</h1>
         <div class="toc">
@@ -5405,6 +6018,7 @@
         <ul id="index">
             <li><h3><a href="#header-functions">Functions</a></h3>
                 <ul class="">
+                    <li><code><a title="dearpygui.dearpygui.add_additional_font" href="#dearpygui.dearpygui.add_additional_font">add_additional_font</a></code></li>
                     <li><code><a title="dearpygui.dearpygui.add_button" href="#dearpygui.dearpygui.add_button">add_button</a></code></li>
                     <li><code><a title="dearpygui.dearpygui.add_checkbox" href="#dearpygui.dearpygui.add_checkbox">add_checkbox</a></code></li>
                     <li><code><a title="dearpygui.dearpygui.add_child" href="#dearpygui.dearpygui.add_child">add_child</a></code></li>
@@ -5471,8 +6085,6 @@
                     <li><code><a title="dearpygui.dearpygui.add_tooltip" href="#dearpygui.dearpygui.add_tooltip">add_tooltip</a></code></li>
                     <li><code><a title="dearpygui.dearpygui.add_tree_node" href="#dearpygui.dearpygui.add_tree_node">add_tree_node</a></code></li>
                     <li><code><a title="dearpygui.dearpygui.add_window" href="#dearpygui.dearpygui.add_window">add_window</a></code></li>
-                    <li><code><a title="dearpygui.dearpygui.change_style_item" href="#dearpygui.dearpygui.change_style_item">change_style_item</a></code></li>
-                    <li><code><a title="dearpygui.dearpygui.change_theme_item" href="#dearpygui.dearpygui.change_theme_item">change_theme_item</a></code></li>
                     <li><code><a title="dearpygui.dearpygui.cleanup_dearpygui" href="#dearpygui.dearpygui.cleanup_dearpygui">cleanup_dearpygui</a></code></li>
                     <li><code><a title="dearpygui.dearpygui.clear_drawing" href="#dearpygui.dearpygui.clear_drawing">clear_drawing</a></code></li>
                     <li><code><a title="dearpygui.dearpygui.clear_log" href="#dearpygui.dearpygui.clear_log">clear_log</a></code></li>
@@ -5507,6 +6119,7 @@
                     <li><code><a title="dearpygui.dearpygui.end_window" href="#dearpygui.dearpygui.end_window">end_window</a></code></li>
                     <li><code><a title="dearpygui.dearpygui.get_active_window" href="#dearpygui.dearpygui.get_active_window">get_active_window</a></code></li>
                     <li><code><a title="dearpygui.dearpygui.get_data" href="#dearpygui.dearpygui.get_data">get_data</a></code></li>
+                    <li><code><a title="dearpygui.dearpygui.get_dearpygui_version" href="#dearpygui.dearpygui.get_dearpygui_version">get_dearpygui_version</a></code></li>
                     <li><code><a title="dearpygui.dearpygui.get_delta_time" href="#dearpygui.dearpygui.get_delta_time">get_delta_time</a></code></li>
                     <li><code><a title="dearpygui.dearpygui.get_drawing_origin" href="#dearpygui.dearpygui.get_drawing_origin">get_drawing_origin</a></code></li>
                     <li><code><a title="dearpygui.dearpygui.get_drawing_scale" href="#dearpygui.dearpygui.get_drawing_scale">get_drawing_scale</a></code></li>
@@ -5522,11 +6135,40 @@
                     <li><code><a title="dearpygui.dearpygui.get_item_width" href="#dearpygui.dearpygui.get_item_width">get_item_width</a></code></li>
                     <li><code><a title="dearpygui.dearpygui.get_log_level" href="#dearpygui.dearpygui.get_log_level">get_log_level</a></code></li>
                     <li><code><a title="dearpygui.dearpygui.get_main_window_size" href="#dearpygui.dearpygui.get_main_window_size">get_main_window_size</a></code></li>
-                    <li><code><a title="dearpygui.dearpygui.get_marvel_version" href="#dearpygui.dearpygui.get_marvel_version">get_marvel_version</a></code></li>
                     <li><code><a title="dearpygui.dearpygui.get_mouse_drag_delta" href="#dearpygui.dearpygui.get_mouse_drag_delta">get_mouse_drag_delta</a></code></li>
                     <li><code><a title="dearpygui.dearpygui.get_mouse_pos" href="#dearpygui.dearpygui.get_mouse_pos">get_mouse_pos</a></code></li>
                     <li><code><a title="dearpygui.dearpygui.get_plot_query_area" href="#dearpygui.dearpygui.get_plot_query_area">get_plot_query_area</a></code></li>
-                    <li><code><a title="dearpygui.dearpygui.get_style_item" href="#dearpygui.dearpygui.get_style_item">get_style_item</a></code></li>
+                    <li><code><a title="dearpygui.dearpygui.get_style_antialiased_fill" href="#dearpygui.dearpygui.get_style_antialiased_fill">get_style_antialiased_fill</a></code></li>
+                    <li><code><a title="dearpygui.dearpygui.get_style_antialiased_lines" href="#dearpygui.dearpygui.get_style_antialiased_lines">get_style_antialiased_lines</a></code></li>
+                    <li><code><a title="dearpygui.dearpygui.get_style_button_text_align" href="#dearpygui.dearpygui.get_style_button_text_align">get_style_button_text_align</a></code></li>
+                    <li><code><a title="dearpygui.dearpygui.get_style_child_border_size" href="#dearpygui.dearpygui.get_style_child_border_size">get_style_child_border_size</a></code></li>
+                    <li><code><a title="dearpygui.dearpygui.get_style_child_rounding" href="#dearpygui.dearpygui.get_style_child_rounding">get_style_child_rounding</a></code></li>
+                    <li><code><a title="dearpygui.dearpygui.get_style_circle_segment_max_error" href="#dearpygui.dearpygui.get_style_circle_segment_max_error">get_style_circle_segment_max_error</a></code></li>
+                    <li><code><a title="dearpygui.dearpygui.get_style_color_button_position" href="#dearpygui.dearpygui.get_style_color_button_position">get_style_color_button_position</a></code></li>
+                    <li><code><a title="dearpygui.dearpygui.get_style_curve_tessellation_tolerance" href="#dearpygui.dearpygui.get_style_curve_tessellation_tolerance">get_style_curve_tessellation_tolerance</a></code></li>
+                    <li><code><a title="dearpygui.dearpygui.get_style_display_safe_area_padding" href="#dearpygui.dearpygui.get_style_display_safe_area_padding">get_style_display_safe_area_padding</a></code></li>
+                    <li><code><a title="dearpygui.dearpygui.get_style_frame_border_size" href="#dearpygui.dearpygui.get_style_frame_border_size">get_style_frame_border_size</a></code></li>
+                    <li><code><a title="dearpygui.dearpygui.get_style_frame_padding" href="#dearpygui.dearpygui.get_style_frame_padding">get_style_frame_padding</a></code></li>
+                    <li><code><a title="dearpygui.dearpygui.get_style_frame_rounding" href="#dearpygui.dearpygui.get_style_frame_rounding">get_style_frame_rounding</a></code></li>
+                    <li><code><a title="dearpygui.dearpygui.get_style_global_alpha" href="#dearpygui.dearpygui.get_style_global_alpha">get_style_global_alpha</a></code></li>
+                    <li><code><a title="dearpygui.dearpygui.get_style_grab_min_size" href="#dearpygui.dearpygui.get_style_grab_min_size">get_style_grab_min_size</a></code></li>
+                    <li><code><a title="dearpygui.dearpygui.get_style_grab_rounding" href="#dearpygui.dearpygui.get_style_grab_rounding">get_style_grab_rounding</a></code></li>
+                    <li><code><a title="dearpygui.dearpygui.get_style_indent_spacing" href="#dearpygui.dearpygui.get_style_indent_spacing">get_style_indent_spacing</a></code></li>
+                    <li><code><a title="dearpygui.dearpygui.get_style_item_inner_spacing" href="#dearpygui.dearpygui.get_style_item_inner_spacing">get_style_item_inner_spacing</a></code></li>
+                    <li><code><a title="dearpygui.dearpygui.get_style_item_spacing" href="#dearpygui.dearpygui.get_style_item_spacing">get_style_item_spacing</a></code></li>
+                    <li><code><a title="dearpygui.dearpygui.get_style_popup_border_size" href="#dearpygui.dearpygui.get_style_popup_border_size">get_style_popup_border_size</a></code></li>
+                    <li><code><a title="dearpygui.dearpygui.get_style_popup_rounding" href="#dearpygui.dearpygui.get_style_popup_rounding">get_style_popup_rounding</a></code></li>
+                    <li><code><a title="dearpygui.dearpygui.get_style_scrollbar_rounding" href="#dearpygui.dearpygui.get_style_scrollbar_rounding">get_style_scrollbar_rounding</a></code></li>
+                    <li><code><a title="dearpygui.dearpygui.get_style_scrollbar_size" href="#dearpygui.dearpygui.get_style_scrollbar_size">get_style_scrollbar_size</a></code></li>
+                    <li><code><a title="dearpygui.dearpygui.get_style_selectable_text_align" href="#dearpygui.dearpygui.get_style_selectable_text_align">get_style_selectable_text_align</a></code></li>
+                    <li><code><a title="dearpygui.dearpygui.get_style_tab_border_size" href="#dearpygui.dearpygui.get_style_tab_border_size">get_style_tab_border_size</a></code></li>
+                    <li><code><a title="dearpygui.dearpygui.get_style_tab_rounding" href="#dearpygui.dearpygui.get_style_tab_rounding">get_style_tab_rounding</a></code></li>
+                    <li><code><a title="dearpygui.dearpygui.get_style_touch_extra_padding" href="#dearpygui.dearpygui.get_style_touch_extra_padding">get_style_touch_extra_padding</a></code></li>
+                    <li><code><a title="dearpygui.dearpygui.get_style_window_border_size" href="#dearpygui.dearpygui.get_style_window_border_size">get_style_window_border_size</a></code></li>
+                    <li><code><a title="dearpygui.dearpygui.get_style_window_menu_button_position" href="#dearpygui.dearpygui.get_style_window_menu_button_position">get_style_window_menu_button_position</a></code></li>
+                    <li><code><a title="dearpygui.dearpygui.get_style_window_padding" href="#dearpygui.dearpygui.get_style_window_padding">get_style_window_padding</a></code></li>
+                    <li><code><a title="dearpygui.dearpygui.get_style_window_rounding" href="#dearpygui.dearpygui.get_style_window_rounding">get_style_window_rounding</a></code></li>
+                    <li><code><a title="dearpygui.dearpygui.get_style_window_title_align" href="#dearpygui.dearpygui.get_style_window_title_align">get_style_window_title_align</a></code></li>
                     <li><code><a title="dearpygui.dearpygui.get_table_item" href="#dearpygui.dearpygui.get_table_item">get_table_item</a></code></li>
                     <li><code><a title="dearpygui.dearpygui.get_table_selections" href="#dearpygui.dearpygui.get_table_selections">get_table_selections</a></code></li>
                     <li><code><a title="dearpygui.dearpygui.get_theme" href="#dearpygui.dearpygui.get_theme">get_theme</a></code></li>
@@ -5599,9 +6241,41 @@
                     <li><code><a title="dearpygui.dearpygui.set_plot_ylimits_auto" href="#dearpygui.dearpygui.set_plot_ylimits_auto">set_plot_ylimits_auto</a></code></li>
                     <li><code><a title="dearpygui.dearpygui.set_render_callback" href="#dearpygui.dearpygui.set_render_callback">set_render_callback</a></code></li>
                     <li><code><a title="dearpygui.dearpygui.set_resize_callback" href="#dearpygui.dearpygui.set_resize_callback">set_resize_callback</a></code></li>
+                    <li><code><a title="dearpygui.dearpygui.set_style_antialiased_fill" href="#dearpygui.dearpygui.set_style_antialiased_fill">set_style_antialiased_fill</a></code></li>
+                    <li><code><a title="dearpygui.dearpygui.set_style_antialiased_lines" href="#dearpygui.dearpygui.set_style_antialiased_lines">set_style_antialiased_lines</a></code></li>
+                    <li><code><a title="dearpygui.dearpygui.set_style_button_text_align" href="#dearpygui.dearpygui.set_style_button_text_align">set_style_button_text_align</a></code></li>
+                    <li><code><a title="dearpygui.dearpygui.set_style_child_border_size" href="#dearpygui.dearpygui.set_style_child_border_size">set_style_child_border_size</a></code></li>
+                    <li><code><a title="dearpygui.dearpygui.set_style_child_rounding" href="#dearpygui.dearpygui.set_style_child_rounding">set_style_child_rounding</a></code></li>
+                    <li><code><a title="dearpygui.dearpygui.set_style_circle_segment_max_error" href="#dearpygui.dearpygui.set_style_circle_segment_max_error">set_style_circle_segment_max_error</a></code></li>
+                    <li><code><a title="dearpygui.dearpygui.set_style_color_button_position" href="#dearpygui.dearpygui.set_style_color_button_position">set_style_color_button_position</a></code></li>
+                    <li><code><a title="dearpygui.dearpygui.set_style_curve_tessellation_tolerance" href="#dearpygui.dearpygui.set_style_curve_tessellation_tolerance">set_style_curve_tessellation_tolerance</a></code></li>
+                    <li><code><a title="dearpygui.dearpygui.set_style_display_safe_area_padding" href="#dearpygui.dearpygui.set_style_display_safe_area_padding">set_style_display_safe_area_padding</a></code></li>
+                    <li><code><a title="dearpygui.dearpygui.set_style_frame_border_size" href="#dearpygui.dearpygui.set_style_frame_border_size">set_style_frame_border_size</a></code></li>
+                    <li><code><a title="dearpygui.dearpygui.set_style_frame_padding" href="#dearpygui.dearpygui.set_style_frame_padding">set_style_frame_padding</a></code></li>
+                    <li><code><a title="dearpygui.dearpygui.set_style_frame_rounding" href="#dearpygui.dearpygui.set_style_frame_rounding">set_style_frame_rounding</a></code></li>
+                    <li><code><a title="dearpygui.dearpygui.set_style_global_alpha" href="#dearpygui.dearpygui.set_style_global_alpha">set_style_global_alpha</a></code></li>
+                    <li><code><a title="dearpygui.dearpygui.set_style_grab_min_size" href="#dearpygui.dearpygui.set_style_grab_min_size">set_style_grab_min_size</a></code></li>
+                    <li><code><a title="dearpygui.dearpygui.set_style_grab_rounding" href="#dearpygui.dearpygui.set_style_grab_rounding">set_style_grab_rounding</a></code></li>
+                    <li><code><a title="dearpygui.dearpygui.set_style_indent_spacing" href="#dearpygui.dearpygui.set_style_indent_spacing">set_style_indent_spacing</a></code></li>
+                    <li><code><a title="dearpygui.dearpygui.set_style_item_inner_spacing" href="#dearpygui.dearpygui.set_style_item_inner_spacing">set_style_item_inner_spacing</a></code></li>
+                    <li><code><a title="dearpygui.dearpygui.set_style_item_spacing" href="#dearpygui.dearpygui.set_style_item_spacing">set_style_item_spacing</a></code></li>
+                    <li><code><a title="dearpygui.dearpygui.set_style_popup_border_size" href="#dearpygui.dearpygui.set_style_popup_border_size">set_style_popup_border_size</a></code></li>
+                    <li><code><a title="dearpygui.dearpygui.set_style_popup_rounding" href="#dearpygui.dearpygui.set_style_popup_rounding">set_style_popup_rounding</a></code></li>
+                    <li><code><a title="dearpygui.dearpygui.set_style_scrollbar_rounding" href="#dearpygui.dearpygui.set_style_scrollbar_rounding">set_style_scrollbar_rounding</a></code></li>
+                    <li><code><a title="dearpygui.dearpygui.set_style_scrollbar_size" href="#dearpygui.dearpygui.set_style_scrollbar_size">set_style_scrollbar_size</a></code></li>
+                    <li><code><a title="dearpygui.dearpygui.set_style_selectable_text_align" href="#dearpygui.dearpygui.set_style_selectable_text_align">set_style_selectable_text_align</a></code></li>
+                    <li><code><a title="dearpygui.dearpygui.set_style_tab_border_size" href="#dearpygui.dearpygui.set_style_tab_border_size">set_style_tab_border_size</a></code></li>
+                    <li><code><a title="dearpygui.dearpygui.set_style_tab_rounding" href="#dearpygui.dearpygui.set_style_tab_rounding">set_style_tab_rounding</a></code></li>
+                    <li><code><a title="dearpygui.dearpygui.set_style_touch_extra_padding" href="#dearpygui.dearpygui.set_style_touch_extra_padding">set_style_touch_extra_padding</a></code></li>
+                    <li><code><a title="dearpygui.dearpygui.set_style_window_border_size" href="#dearpygui.dearpygui.set_style_window_border_size">set_style_window_border_size</a></code></li>
+                    <li><code><a title="dearpygui.dearpygui.set_style_window_menu_button_position" href="#dearpygui.dearpygui.set_style_window_menu_button_position">set_style_window_menu_button_position</a></code></li>
+                    <li><code><a title="dearpygui.dearpygui.set_style_window_padding" href="#dearpygui.dearpygui.set_style_window_padding">set_style_window_padding</a></code></li>
+                    <li><code><a title="dearpygui.dearpygui.set_style_window_rounding" href="#dearpygui.dearpygui.set_style_window_rounding">set_style_window_rounding</a></code></li>
+                    <li><code><a title="dearpygui.dearpygui.set_style_window_title_align" href="#dearpygui.dearpygui.set_style_window_title_align">set_style_window_title_align</a></code></li>
                     <li><code><a title="dearpygui.dearpygui.set_table_item" href="#dearpygui.dearpygui.set_table_item">set_table_item</a></code></li>
                     <li><code><a title="dearpygui.dearpygui.set_table_selection" href="#dearpygui.dearpygui.set_table_selection">set_table_selection</a></code></li>
                     <li><code><a title="dearpygui.dearpygui.set_theme" href="#dearpygui.dearpygui.set_theme">set_theme</a></code></li>
+                    <li><code><a title="dearpygui.dearpygui.set_theme_item" href="#dearpygui.dearpygui.set_theme_item">set_theme_item</a></code></li>
                     <li><code><a title="dearpygui.dearpygui.set_thread_count" href="#dearpygui.dearpygui.set_thread_count">set_thread_count</a></code></li>
                     <li><code><a title="dearpygui.dearpygui.set_threadpool_high_performance" href="#dearpygui.dearpygui.set_threadpool_high_performance">set_threadpool_high_performance</a></code></li>
                     <li><code><a title="dearpygui.dearpygui.set_threadpool_timeout" href="#dearpygui.dearpygui.set_threadpool_timeout">set_threadpool_timeout</a></code></li>
@@ -5617,6 +6291,7 @@
                     <li><code><a title="dearpygui.dearpygui.show_logger" href="#dearpygui.dearpygui.show_logger">show_logger</a></code></li>
                     <li><code><a title="dearpygui.dearpygui.show_metrics" href="#dearpygui.dearpygui.show_metrics">show_metrics</a></code></li>
                     <li><code><a title="dearpygui.dearpygui.show_source" href="#dearpygui.dearpygui.show_source">show_source</a></code></li>
+                    <li><code><a title="dearpygui.dearpygui.show_style_editor" href="#dearpygui.dearpygui.show_style_editor">show_style_editor</a></code></li>
                     <li><code><a title="dearpygui.dearpygui.start_dearpygui" href="#dearpygui.dearpygui.start_dearpygui">start_dearpygui</a></code></li>
                     <li><code><a title="dearpygui.dearpygui.start_dearpygui_docs" href="#dearpygui.dearpygui.start_dearpygui_docs">start_dearpygui_docs</a></code></li>
                     <li><code><a title="dearpygui.dearpygui.start_dearpygui_editor" href="#dearpygui.dearpygui.start_dearpygui_editor">start_dearpygui_editor</a></code></li>
