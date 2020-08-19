@@ -282,6 +282,17 @@ namespace Marvel {
 			{mvPythonDataType::Integer, "yoffset"}
 		}, "Adds a point with text to a plot.", "None", "Plotting") });
 
+		parsers->insert({ "add_area_series", mvPythonParser({
+			{mvPythonDataType::String, "plot"},
+			{mvPythonDataType::String, "name"},
+			{mvPythonDataType::FloatList, "data"},
+			{mvPythonDataType::FloatList, "color"},
+			{mvPythonDataType::FloatList, "fill"},
+			{mvPythonDataType::Optional},
+			{mvPythonDataType::KeywordOnly},
+			{mvPythonDataType::Float, "weight"}
+		}, "Adds an area series to a plot.", "None", "Plotting") });
+
 		parsers->insert({ "set_xticks", mvPythonParser({
 			{mvPythonDataType::String, "plot"},
 			{mvPythonDataType::Object, "label_pairs", "list of [str,float]"},

@@ -353,8 +353,7 @@ namespace ImPlot {
     };
 
     // State information for Plot items
-    struct ImPlotItem {
-        ImPlotItem() {
+        ImPlotItem::ImPlotItem() {
             Show = true;
             SeenThisFrame = false;
             Highlight = false;
@@ -362,14 +361,7 @@ namespace ImPlot {
             NameOffset = -1;
             ID = 0;
         }
-        ~ImPlotItem() { ID = 0; }
-        bool Show;
-        bool SeenThisFrame;
-        bool Highlight;
-        ImVec4 Color;
-        int NameOffset;
-        ImGuiID ID;
-    };
+        ImPlotItem::~ImPlotItem() { ID = 0; }
 
     // Holds Plot state information that must persist after EndPlot
     struct ImPlotState {

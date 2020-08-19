@@ -198,8 +198,6 @@ namespace Marvel {
 			delete[] polyints;
 		}
 
-
-
 	}
 
 	void mvDrawing::draw()

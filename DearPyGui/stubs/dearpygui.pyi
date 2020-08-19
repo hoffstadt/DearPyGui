@@ -4,6 +4,10 @@ def add_additional_font(file: str, size: float = 13.0, glyph_ranges: str = "") -
 	"""Adds additional font. Glyph_ranges options: korean, japanese, chinese_full, chinese_simplified_common, cryillic, thai, vietnamese"""
 	...
 
+def add_area_series(plot: str, name: str, data: List[float], color: List[float], fill: List[float], weight: float = 1.0) -> None:
+	"""Adds a area series to a plot."""
+	...
+
 def add_button(name: str, small: bool = False, arrow: bool = False, direction: int = -1, callback: str = "", tip: str = "", parent: str = "", before: str = "", width: int = 0, height: int = 0) -> None:
 	"""Adds a button."""
 	...
