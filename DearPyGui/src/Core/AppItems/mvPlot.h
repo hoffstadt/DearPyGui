@@ -15,6 +15,9 @@
 
 namespace Marvel {
 
+	void DrawPolygon(ImDrawList* draw_list, const std::vector<float>& xs, const std::vector<float>& ys, 
+		mvColor color, mvColor fill, float weight);
+
 	//-----------------------------------------------------------------------------
 	// mvSeries
 	//-----------------------------------------------------------------------------
@@ -354,6 +357,39 @@ namespace Marvel {
 		int m_xoffset;
 		int m_yoffset;
 		bool m_vertical;
+
+	};
+
+	//-----------------------------------------------------------------------------
+	// mvAreaSeries
+	//-----------------------------------------------------------------------------
+	class mvAreaSeries : public mvSeries
+	{
+
+	public:
+
+		mvAreaSeries(const std::string& name, const std::vector<mvVec2>& points, float weight = 1.0f,
+			mvColor color = MV_DEFAULT_COLOR, mvColor fill = MV_DEFAULT_COLOR)
+			: mvSeries(name, points), m_weight(weight), m_color(color), m_fill(fill)
+		{
+		}
+
+		void draw() override
+		{
+
+			ImPlot::PushPlotClipRect();
+			auto item = ImPlot::RegisterItem(m_name.c_str());
+			if (item->Show)
+				DrawPolygon(ImGui::GetWindowDrawList(), m_xs, m_ys, m_color, m_fill, m_weight);
+			ImPlot::PopPlotClipRect();
+
+		}
+
+	private:
+
+		float m_weight = 1.0f;
+		mvColor m_color = MV_DEFAULT_COLOR;
+		mvColor m_fill = MV_DEFAULT_COLOR;
 
 	};
 

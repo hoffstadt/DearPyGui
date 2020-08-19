@@ -213,6 +213,20 @@ namespace ImPlot {
     // of an if statement conditioned on BeginPlot().
     void EndPlot();
 
+    // State information for Plot items
+    struct ImPlotItem {
+        ImPlotItem();
+        ~ImPlotItem();
+        bool Show;
+        bool SeenThisFrame;
+        bool Highlight;
+        ImVec4 Color;
+        int NameOffset;
+        ImGuiID ID;
+    };
+
+    ImPlotItem* RegisterItem(const char* label_id);
+
     //-----------------------------------------------------------------------------
     // Plot Items
     //-----------------------------------------------------------------------------

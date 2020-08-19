@@ -2089,6 +2089,60 @@ namespace Marvel {
 		return mvPythonTranslator::GetPyNone();
 	}
 
+	PyObject* add_area_series(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		const char* plot;
+		const char* name;
+		PyObject* data;
+		PyObject* color;
+		PyObject* fill;
+		float weight = 1.0f;
+
+		if (!(*mvApp::GetApp()->getParsers())["add_area_series"].parse(args, kwargs, __FUNCTION__, &plot, &name, &data, &color, &fill, &weight))
+			return mvPythonTranslator::GetPyNone();
+
+		if (!PyList_Check(data))
+		{
+			std::string message = plot;
+			ThrowPythonException(message + " add area series requires a list of lists.");
+			return mvPythonTranslator::GetPyNone();
+		}
+
+		mvAppItem* aplot = mvApp::GetApp()->getItem(plot);
+
+		if (aplot == nullptr)
+		{
+			std::string message = plot;
+			ThrowPythonException(message + " plot does not exist.");
+			return mvPythonTranslator::GetPyNone();
+		}
+
+		if (aplot->getType() != mvAppItemType::Plot)
+		{
+			std::string message = plot;
+			ThrowPythonException(message + " is not a plot.");
+			return mvPythonTranslator::GetPyNone();
+		}
+
+		mvPlot* graph = static_cast<mvPlot*>(aplot);
+
+		auto datapoints = mvPythonTranslator::ToVectVec2(data);
+
+		auto mcolor = mvPythonTranslator::ToColor(color);
+		if (mcolor.r > 999)
+			mcolor.specified = false;
+
+		auto mfill = mvPythonTranslator::ToColor(fill);
+		if (mfill.r > 999)
+			mfill.specified = false;
+
+		mvSeries* series = new mvAreaSeries(name, datapoints, weight, mcolor, mfill);
+
+		graph->addSeries(series);
+
+		return mvPythonTranslator::GetPyNone();
+	}
+
 	PyObject* show_logger(PyObject* self, PyObject* args)
 	{
 		mvAppLog::Show();
@@ -6374,6 +6428,7 @@ namespace Marvel {
 		ADD_PYTHON_FUNCTION(add_plot)
 		ADD_PYTHON_FUNCTION(add_line_series)
 		ADD_PYTHON_FUNCTION(add_scatter_series)
+		ADD_PYTHON_FUNCTION(add_area_series)
 		ADD_PYTHON_FUNCTION(add_text_point)
 		{
 NULL, NULL, 0, NULL

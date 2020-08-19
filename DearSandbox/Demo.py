@@ -465,8 +465,15 @@ def PlotCallback(sender, data):
     for i in range(0, 100):
         data2.append([3.14*i/180, sin(2*3.14*i/180)])
 
+    data3 = []
+    data3.append([0.5, -0.5])
+    data3.append([1, -0.5])
+    data3.append([1, -1])
+    data3.append([0.5, -1])
+
     add_line_series("Plot", "Cos", data1, weight=2, fill=(255, 0, 0, 100))
     add_scatter_series("Plot", "Sin", data2)
+    add_area_series("Plot", "Custom", data3, (255, 255, 0), (255, 255, 0, 100))
 
 def RetrieveValues(sender, data):
 
