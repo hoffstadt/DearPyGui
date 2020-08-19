@@ -6,6 +6,8 @@ set_log_level(0)
 add_data("DataStorage1", {"Key": 34})
 add_data("DataStorage2", [23,42,53])
 
+add_additional_font("../../Resources/NotoSerifCJKjp-Medium.otf", 20)
+
 add_menu_bar("MenuBar")
 
 add_menu("Themes")
