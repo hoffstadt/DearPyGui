@@ -102,6 +102,11 @@ namespace Marvel {
 		return result;
 	}
 
+	PyObject* is_dearpygui_running(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		return mvPythonTranslator::ToPyBool(mvApp::IsAppStarted());
+	}
+
 	PyObject* set_main_window_title(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		const char* title;
@@ -6167,6 +6172,7 @@ namespace Marvel {
 
 	static PyMethodDef dearpyguimethods[]
 	{
+		ADD_PYTHON_FUNCTION(is_dearpygui_running)
 		ADD_PYTHON_FUNCTION(set_main_window_title)
 		ADD_PYTHON_FUNCTION(add_additional_font)
 		ADD_PYTHON_FUNCTION(set_style_window_padding)

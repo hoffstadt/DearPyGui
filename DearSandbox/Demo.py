@@ -527,10 +527,10 @@ def TestFileCallback(sender, data):
     print("Called")
     print(data)
 
-start_dearpygui()
+#start_dearpygui()
 
-# per frame rendering
-#setup_dearpygui()
-#while get_value("Checkbox##widget") == False:
-#    render_dearpygui_frame()
-#cleanup_dearpygui()
+setup_dearpygui()
+while is_dearpygui_running():
+    # do other stuff
+    render_dearpygui_frame()
+cleanup_dearpygui()

@@ -312,6 +312,7 @@ namespace Marvel {
 				return 0;
 			break;
 		case WM_DESTROY:
+			mvApp::s_started = false;
 			::PostQuitMessage(0);
 			return 0;
 		}

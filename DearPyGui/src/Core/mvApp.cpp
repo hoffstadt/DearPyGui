@@ -47,7 +47,6 @@ namespace Marvel {
 		}
 
 		s_started = false;
-
 	}
 
 	mvStandardWindow* mvApp::GetAppStandardWindow()
