@@ -17,10 +17,14 @@ namespace Marvel {
 			// action if OK
 			if (igfd::ImGuiFileDialog::Instance()->IsOk)
 			{
-				m_filePathName = igfd::ImGuiFileDialog::Instance()->GetFilepathName();
-				m_filePath = igfd::ImGuiFileDialog::Instance()->GetCurrentPath();
+				m_filePathName = igfd::ImGuiFileDialog::Instance()->GetCurrentPath();
+				auto selections = igfd::ImGuiFileDialog::Instance()->GetSelection();
 
-				mvApp::GetApp()->runCallback(m_callback, "File Dialog", mvPythonTranslator::ToPyPair(m_filePath, m_filePathName));
+				// messy. Fix this
+				for (auto& key : selections)
+					m_filePath = key.first;
+
+				mvApp::GetApp()->runCallback(m_callback, "File Dialog", mvPythonTranslator::ToPyPair(m_filePathName, m_filePath));
 				m_filePath = "";
 				m_filePathName = "";
 				m_callback = "";
