@@ -30,7 +30,7 @@ Decorated log: https://github.com/hoffstadt/DearPyGui/releases/tag/v0.1.0-beta8
 
 Fixes:
 
-- None: None
+- File Dialog: Now returns file directory and file name (not path to file)
 
 New Commands:
 
@@ -40,7 +40,7 @@ New Commands:
 
 Breaking Changes:
 
-- None: None
+- File Dialog: File name extension is shown correctly now, fixing issue #88
 
 -----------------------------------------------------------------------
  VERSION 0.1.0 Beta 7
