@@ -56,7 +56,7 @@ namespace Marvel {
 
         // Create window with graphics context
         glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
-        m_window = glfwCreateWindow(width, height, "DearPyGui", NULL, NULL);
+        m_window = glfwCreateWindow(width, height, mvApp::GetApp()->m_title.c_str(), NULL, NULL);
 
 
         device = MTLCreateSystemDefaultDevice();;
@@ -90,6 +90,11 @@ namespace Marvel {
 
         delete m_appEditor;
         m_appEditor = nullptr;
+    }
+
+    void mvAppleWindow::setWindowText(const std::string& name)
+    {
+        glfwSetWindowTitle(m_window, name.c_str());
     }
 
     void mvAppleWindow::renderFrame()

@@ -1759,6 +1759,10 @@ namespace Marvel {
 
 	static void AddAppCommands(std::map<std::string, mvPythonParser>* parsers)
 	{
+		parsers->insert({ "set_main_window_title", mvPythonParser({
+			{mvPythonDataType::String, "title"}
+		}, "Sets the title of the main window.") });
+
 		parsers->insert({ "setup_dearpygui", mvPythonParser({
 		}, "Sets up DearPyGui for user controlled rendering. Only call once and you must call cleanup_deapygui when finished.") });
 
