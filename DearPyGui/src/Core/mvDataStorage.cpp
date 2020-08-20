@@ -26,11 +26,9 @@ namespace Marvel {
 
 	void mvDataStorage::AddData(const std::string& name, PyObject* data)
 	{
-		if (std::this_thread::get_id() != mvApp::GetApp()->getMainThreadID())
-		{
-			ThrowPythonException("Data can not be modified outside main thread.");
+
+		if (!mvApp::GetApp()->checkIfMainThread())
 			return;
-		}
 
 		// data already exists, decrement it recursively until all old objects
 		// are delete then update everything with the new pyobjects (i think)
@@ -53,11 +51,8 @@ namespace Marvel {
 
 	void mvDataStorage::DeleteData(const std::string& name)
 	{
-		if (std::this_thread::get_id() != mvApp::GetApp()->getMainThreadID())
-		{
-			ThrowPythonException("Data can not be modified outside main thread.");
+		if (!mvApp::GetApp()->checkIfMainThread())
 			return;
-		}
 
 		if (s_dataStorage.count(name) == 0)
 		{
@@ -71,11 +66,8 @@ namespace Marvel {
 
 	PyObject* mvDataStorage::GetData(const std::string& name)
 	{
-		if (std::this_thread::get_id() != mvApp::GetApp()->getMainThreadID())
-		{
-			ThrowPythonException("Data can not be modified outside main thread.");
+		if (!mvApp::GetApp()->checkIfMainThread())
 			return nullptr;
-		}
 
 		if (s_dataStorage.count(name) == 0)
 		{

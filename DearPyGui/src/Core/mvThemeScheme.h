@@ -3,8 +3,7 @@
 //-----------------------------------------------------------------------------
 // EditorColorScheme
 //
-//     - This is a temporary class for generating themes. This will be
-//       removed once a proper theme system is implemented in v0.2
+//     - This is a temporary class for generating themes.
 //     
 //-----------------------------------------------------------------------------
 

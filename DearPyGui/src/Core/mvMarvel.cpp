@@ -4870,11 +4870,8 @@ namespace Marvel {
 
 	PyObject* delete_item(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
-		if (std::this_thread::get_id() != mvApp::GetApp()->getMainThreadID())
-		{
-			ThrowPythonException("Items can not be modified outside of the main thread.");
+		if (!mvApp::GetApp()->checkIfMainThread())
 			return mvPythonTranslator::GetPyNone();
-		}
 
 		const char* item;
 		int childrenOnly = false;
@@ -4927,11 +4924,8 @@ namespace Marvel {
 
 	PyObject* move_item_up(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
-		if (std::this_thread::get_id() != mvApp::GetApp()->getMainThreadID())
-		{
-			ThrowPythonException("Items can not be modified outside of the main thread.");
+		if (!mvApp::GetApp()->checkIfMainThread())
 			return mvPythonTranslator::GetPyNone();
-		}
 
 		const char* item;
 
@@ -4946,11 +4940,8 @@ namespace Marvel {
 
 	PyObject* move_item_down(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
-		if (std::this_thread::get_id() != mvApp::GetApp()->getMainThreadID())
-		{
-			ThrowPythonException("Items can not be modified outside of the main thread.");
+		if (!mvApp::GetApp()->checkIfMainThread())
 			return mvPythonTranslator::GetPyNone();
-		}
 
 		const char* item;
 
