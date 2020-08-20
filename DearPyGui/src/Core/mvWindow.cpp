@@ -29,11 +29,12 @@ namespace Marvel {
 		if (!mvApp::GetApp()->m_fontFile.empty())
 		{
 			ImGuiIO& io = ImGui::GetIO();
-			io.Fonts->AddFontDefault();
+			//io.Fonts->AddFontDefault();
 
 			ImFont* font = nullptr;
+
 			if (mvApp::GetApp()->m_fontGlyphRange.empty())
-				font = io.Fonts->AddFontFromFileTTF(mvApp::GetApp()->m_fontFile.c_str(), mvApp::GetApp()->m_fontSize);
+				font = io.Fonts->AddFontFromFileTTF(mvApp::GetApp()->m_fontFile.c_str(), mvApp::GetApp()->m_fontSize,nullptr, io.Fonts->GetGlyphRangesDefault());
 			else if (mvApp::GetApp()->m_fontGlyphRange == std::string("korean"))
 				font = io.Fonts->AddFontFromFileTTF(mvApp::GetApp()->m_fontFile.c_str(), mvApp::GetApp()->m_fontSize, nullptr, io.Fonts->GetGlyphRangesKorean());
 			else if (mvApp::GetApp()->m_fontGlyphRange == std::string("japanese"))
@@ -48,6 +49,17 @@ namespace Marvel {
 				font = io.Fonts->AddFontFromFileTTF(mvApp::GetApp()->m_fontFile.c_str(), mvApp::GetApp()->m_fontSize, nullptr, io.Fonts->GetGlyphRangesThai());
 			else if (mvApp::GetApp()->m_fontGlyphRange == std::string("vietnamese"))
 				font = io.Fonts->AddFontFromFileTTF(mvApp::GetApp()->m_fontFile.c_str(), mvApp::GetApp()->m_fontSize, nullptr, io.Fonts->GetGlyphRangesVietnamese());
+			else
+				io.Fonts->AddFontDefault();
+
+			// Add character ranges and merge into the previous font
+			// The ranges array is not copied by the AddFont* functions and is used lazily
+			// so ensure it is available at the time of building or calling GetTexDataAsRGBA32().
+			static const ImWchar icons_ranges[] = { 0x0370, 0x03ff, 0 }; // Will not be copied by AddFont* so keep in scope.
+			ImFontConfig config;
+			config.MergeMode = true;
+
+			ImFont* fontext = io.Fonts->AddFontFromFileTTF(mvApp::GetApp()->m_fontFile.c_str(), mvApp::GetApp()->m_fontSize, &config, icons_ranges);
 
 			if (font == nullptr)
 			{
@@ -61,7 +73,7 @@ namespace Marvel {
 
 			io.Fonts->Build();
 
-			ImFont* newfont = io.Fonts->Fonts[1];
+			ImFont* newfont = io.Fonts->Fonts[0];
 			io.FontDefault = newfont;
 
 			

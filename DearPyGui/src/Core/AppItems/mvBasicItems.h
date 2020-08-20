@@ -522,19 +522,19 @@ namespace Marvel {
 	};
 
 	//-----------------------------------------------------------------------------
-	// mvDrag
+	// mvDragFloat
 	//-----------------------------------------------------------------------------
-	template<mvAppItemType AppItemType, int num, ImGuiDragCommand<float> imguicommand, typename base, typename T>
-	class mvDrag : public base
+	template<mvAppItemType AppItemType, int num, ImGuiDragCommand<float> imguicommand>
+	class mvDragFloat : public mvFloatItemBase
 	{
 
 	public:
 
 		MV_APPITEM_TYPE(AppItemType)
 
-		mvDrag(const std::string& parent, const std::string& name, T* default_value, float speed,
-				T minv, T maxv, std::string format)
-			: base(parent, name, num, default_value[0], default_value[1], default_value[2], default_value[3]),
+		mvDragFloat(const std::string& parent, const std::string& name, float* default_value, float speed,
+				float minv, float maxv, std::string format)
+			: mvFloatItemBase(parent, name, num, default_value[0], default_value[1], default_value[2], default_value[3]),
 			m_speed(speed), m_min(minv), m_max(maxv), m_format(std::move(format))
 		{
 		}
@@ -557,8 +557,8 @@ namespace Marvel {
 	private:
 
 		float       m_speed;
-		T           m_min;
-		T           m_max;
+		float       m_min;
+		float       m_max;
 		std::string m_format;
 
 	};
