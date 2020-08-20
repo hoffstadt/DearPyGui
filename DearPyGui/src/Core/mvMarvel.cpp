@@ -4372,7 +4372,8 @@ namespace Marvel {
 
 		auto color = mvPythonTranslator::ToColor(default_value);
 
-		mvAppItem* item = new mvColorEdit3("", name, color);
+		//mvAppItem* item = new mvColorEdit3("", name, color);
+		mvAppItem* item = new mvColorItem<mvAppItemType::ColorEdit3, ImGui::ColorEdit3>("", name, color);
 		item->setCallback(callback);
 		item->setTip(tip);
 		item->setDataSource(data_source);
@@ -4402,8 +4403,7 @@ namespace Marvel {
 			return mvPythonTranslator::GetPyNone();
 
 		auto color = mvPythonTranslator::ToColor(default_value);
-
-		mvAppItem* item = new mvColorEdit4("", name, color);
+		mvAppItem* item = new mvColorItem<mvAppItemType::ColorEdit4, ImGui::ColorEdit4>("", name, color);
 		item->setCallback(callback);
 		item->setTip(tip);
 		item->setDataSource(data_source);
@@ -4432,8 +4432,7 @@ namespace Marvel {
 			return mvPythonTranslator::GetPyNone();
 
 		auto color = mvPythonTranslator::ToColor(default_value);
-
-		mvAppItem* item = new mvColorPicker3("", name, color);
+		mvAppItem* item = new mvColorItem<mvAppItemType::ColorPicker3, ImGui::ColorPicker3>("", name, color);
 		item->setCallback(callback);
 		item->setTip(tip);
 		item->setDataSource(data_source);
