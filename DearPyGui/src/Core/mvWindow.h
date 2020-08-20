@@ -39,6 +39,7 @@ namespace Marvel {
 		virtual void renderFrame() {}
 		virtual void postrender () {}
 		virtual void cleanup    () {}
+		virtual void setWindowText(const std::string& name) {}
 
 		void setupFonts();
 
@@ -53,8 +54,6 @@ namespace Marvel {
 		mvStandardWindow* m_documentation = nullptr;
 		unsigned          m_width;
 		unsigned          m_height;
-
-
 
 	};
 

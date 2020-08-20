@@ -26,6 +26,7 @@ namespace Marvel {
 		void renderFrame() override;
 		void cleanup    () override;
 		void run        () override;
+		void setWindowText(const std::string& name) override;
 
 	private:
 

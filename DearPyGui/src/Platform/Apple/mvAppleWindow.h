@@ -16,10 +16,11 @@ namespace Marvel {
         mvAppleWindow(unsigned width, unsigned height, bool editor = false, bool error = false, bool doc = false);
         ~mvAppleWindow();
 
-        virtual void run        () override {render();}
-        virtual void render     () override;
-        virtual void renderFrame() override;
-        virtual void cleanup    () override;
+        void run        () override {render();}
+        void render     () override;
+        void renderFrame() override;
+        void cleanup    () override;
+        void setWindowText(const std::string& name) override;
 
         static id<MTLDevice> GetDevice() { return device; }
 

@@ -857,6 +857,10 @@ def set_main_window_size(width: int, height: int) -> None:
 	"""Sets the main window size."""
 	...
 
+def set_main_window_title(title: str) -> None:
+	"""Sets the main window title."""
+	...
+
 def set_mouse_click_callback(callback: str, handler: str = "") -> None:
 	"""Sets a callback for a mouse click event."""
 	...

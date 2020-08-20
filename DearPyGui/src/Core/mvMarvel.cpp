@@ -102,6 +102,22 @@ namespace Marvel {
 		return result;
 	}
 
+	PyObject* set_main_window_title(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		const char* title;
+
+		if (!(*mvApp::GetApp()->getParsers())["set_main_window_title"].parse(args, kwargs, __FUNCTION__,
+			&title))
+			return mvPythonTranslator::GetPyNone();
+
+		mvApp::GetApp()->setTitle(title);
+
+		if (mvApp::IsAppStarted())
+			mvApp::GetApp()->getViewport()->setWindowText(title);
+
+		return mvPythonTranslator::GetPyNone();
+	}
+
 	PyObject* add_additional_font(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		const char* file;
@@ -6151,7 +6167,7 @@ namespace Marvel {
 
 	static PyMethodDef dearpyguimethods[]
 	{
-		// styles
+		ADD_PYTHON_FUNCTION(set_main_window_title)
 		ADD_PYTHON_FUNCTION(add_additional_font)
 		ADD_PYTHON_FUNCTION(set_style_window_padding)
 		ADD_PYTHON_FUNCTION(set_style_frame_padding)

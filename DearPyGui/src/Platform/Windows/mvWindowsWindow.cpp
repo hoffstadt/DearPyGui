@@ -15,10 +15,11 @@ namespace Marvel {
 		: mvWindow(width, height, editor, error, doc)
 	{
 
-		m_wc = { sizeof(WNDCLASSEX), CS_CLASSDC, HandleMsgSetup, 0L, 0L, GetModuleHandle(nullptr), nullptr, nullptr, nullptr, nullptr, _T("DearPyGui Example"), nullptr };
+		m_wc = { sizeof(WNDCLASSEX), CS_CLASSDC, HandleMsgSetup, 0L, 0L, GetModuleHandle(nullptr), nullptr, nullptr, nullptr, nullptr, 
+			_T(mvApp::GetApp()->m_title.c_str()), nullptr };
 		RegisterClassEx(&m_wc);
 
-		m_hwnd = CreateWindow(m_wc.lpszClassName, _T("DearPyGui"), WS_OVERLAPPEDWINDOW, 100, 100, width, height, nullptr, nullptr, m_wc.hInstance, this);
+		m_hwnd = CreateWindow(m_wc.lpszClassName, _T(mvApp::GetApp()->m_title.c_str()), WS_OVERLAPPEDWINDOW, 100, 100, width, height, nullptr, nullptr, m_wc.hInstance, this);
 
 		// Initialize Direct3D
 		if (!CreateDeviceD3D(m_hwnd))
@@ -39,6 +40,11 @@ namespace Marvel {
 		CleanupDeviceD3D();
 		::DestroyWindow(m_hwnd);
 		::UnregisterClass(m_wc.lpszClassName, m_wc.hInstance);
+	}
+
+	void mvWindowsWindow::setWindowText(const std::string& name)
+	{
+		SetWindowTextA(m_hwnd, name.c_str());
 	}
 
 	void mvWindowsWindow::show()

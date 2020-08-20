@@ -44,7 +44,7 @@ namespace Marvel {
         const char* glsl_version = "#version 130";
         glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
         glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 0);
-        m_window = glfwCreateWindow(width, height, "DearPyGui", nullptr, nullptr);
+        m_window = glfwCreateWindow(width, height, mvApp::GetApp()->m_title.c_str(), nullptr, nullptr);
 
         glfwMakeContextCurrent(m_window);
         glfwSwapInterval(1); // Enable vsync
@@ -82,6 +82,11 @@ namespace Marvel {
         glfwDestroyWindow(m_window);
         glfwTerminate();
 	}
+
+    void mvLinuxWindow::setWindowText(const std::string& name)
+    {
+        glfwSetWindowTitle(m_window, name.c_str());
+    }
 
     void mvLinuxWindow::renderFrame()
     {

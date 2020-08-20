@@ -59,6 +59,9 @@ namespace Marvel {
     {
 
         friend class mvWindow;
+        friend class mvWindowsWindow;
+        friend class mvLinuxWindow;
+        friend class mvAppleWindow;
 
         struct NewRuntimeItem
         {
@@ -108,6 +111,7 @@ namespace Marvel {
         void                     setGlobalFontScale(float scale);
         void                     setFont           (const std::string& file, float size = 13.0f, const std::string& glyphRange = "");
         void                     setViewport       (mvWindow* viewport) { m_viewport = viewport; }
+        void                     setTitle          (const std::string& title) { m_title = title; }
         
         const std::string&       getActiveWindow   () const { return m_activeWindow; }
         std::vector<mvAppItem*>& getWindows        ()       { return m_windows; }
@@ -211,6 +215,7 @@ namespace Marvel {
         std::vector<mvAppItem*> m_windows;
         int                     m_actualWidth = 1280;
         int                     m_actualHeight = 800;
+        std::string             m_title = "DearPyGui";
 
         std::map<std::string, mvPythonParser>* m_parsers;
         
