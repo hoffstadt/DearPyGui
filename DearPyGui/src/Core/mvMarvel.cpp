@@ -2136,9 +2136,10 @@ namespace Marvel {
 		if (mfill.r > 999)
 			mfill.specified = false;
 
-		mvSeries* series = new mvAreaSeries(name, datapoints, weight, mcolor, mfill);
-
-		graph->addSeries(series);
+		mvSeries* series1 = new mvAreaSeries(name, datapoints, weight, mcolor, mfill);
+		mvSeries* series2 = new mvLineSeries(name, datapoints, weight, mcolor, {0,0,0,0,false}); // this allows our custom render to work
+		graph->addSeries(series1);
+		graph->addSeries(series2);
 
 		return mvPythonTranslator::GetPyNone();
 	}
