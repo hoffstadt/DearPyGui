@@ -12,7 +12,6 @@ using namespace Marvel;
 
 int main(int argc, char* argv[])
 {
-	mvApp::GetApp()->setArgv0(argv[0]);
 
 	PyObject* m = nullptr;
 
