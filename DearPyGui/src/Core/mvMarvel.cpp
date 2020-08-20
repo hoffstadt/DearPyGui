@@ -2719,9 +2719,7 @@ namespace Marvel {
 		defaults.push_back(0.0f);
 		defaults.push_back(0.0f);
 
-		auto blah = ImGui::DragInt;
-
-		mvAppItem* item = new mvDragFloat<mvAppItemType::DragFloat, 1, ImGui::DragFloat>("", name, defaults.data(), speed, min_value, max_value, format);
+		mvAppItem* item = new mvDrag<mvAppItemType::DragFloat, 1, ImGui::DragFloat, mvFloatItemBase, float>("", name, defaults.data(), speed, min_value, max_value, format);
 		item->setCallback(callback);
 		item->setTip(tip);
 		item->setDataSource(data_source);
@@ -2755,7 +2753,7 @@ namespace Marvel {
 			return mvPythonTranslator::GetPyNone();
 
 		auto vec = mvPythonTranslator::ToFloatVect(default_value);
-		mvAppItem* item = new mvDragFloat<mvAppItemType::DragFloat2, 2, ImGui::DragFloat2>("", name, vec.data(), speed, min_value, max_value, format);
+		mvAppItem* item = new mvDrag<mvAppItemType::DragFloat2, 2, ImGui::DragFloat2, mvFloatItemBase, float>("", name, vec.data(), speed, min_value, max_value, format);
 		item->setCallback(callback);
 		item->setTip(tip);
 		item->setDataSource(data_source);
@@ -2788,7 +2786,7 @@ namespace Marvel {
 			return mvPythonTranslator::GetPyNone();
 
 		auto vec = mvPythonTranslator::ToFloatVect(default_value);
-		mvAppItem* item = new mvDragFloat<mvAppItemType::DragFloat3, 3, ImGui::DragFloat3>("", name, vec.data(), speed, min_value, max_value, format);
+		mvAppItem* item = new mvDrag<mvAppItemType::DragFloat3, 3, ImGui::DragFloat3, mvFloatItemBase, float>("", name, vec.data(), speed, min_value, max_value, format);
 		item->setCallback(callback);
 		item->setTip(tip);
 		item->setDataSource(data_source);
@@ -2822,7 +2820,7 @@ namespace Marvel {
 
 		auto vec = mvPythonTranslator::ToFloatVect(default_value);
 
-		mvAppItem* item = new mvDragFloat<mvAppItemType::DragFloat4, 4, ImGui::DragFloat4>("", name, vec.data(), speed, min_value, max_value, format);
+		mvAppItem* item = new mvDrag<mvAppItemType::DragFloat4, 4, ImGui::DragFloat4, mvFloatItemBase, float>("", name, vec.data(), speed, min_value, max_value, format);
 		item->setCallback(callback);
 		item->setTip(tip);
 		item->setDataSource(data_source);

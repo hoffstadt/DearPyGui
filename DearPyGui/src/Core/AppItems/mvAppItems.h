@@ -14,16 +14,13 @@
 #include "Core/AppItems/mvPopup.h"
 #include "Core/AppItems/mvDrawing.h"
 #include "Core/AppItems/mvPlot.h"
-#include "Core/AppItems/mvSlideItems.h"
-#include "Core/AppItems/mvDragItems.h"
-#include "Core/AppItems/mvInputItems.h"
 #include "Core/AppItems/mvImage.h"
 #include "Core/AppItems/mvTable.h"
 
 //-----------------------------------------------------------------------------
 // Widget Index
 //
-//     - mvAppItems.h
+//     - mvBasicItems.h
 //         * mvSelectable
 //         * mvButton
 //         * mvCheckbox
@@ -31,6 +28,16 @@
 //         * mvListbox
 //         * mvRadioButton
 //         * mvProgressBar
+//         * mvInputInt
+//         * mvInputIntMulti
+//         * mvInputFloat
+//         * mvInputFloatMulti
+//         * mvDragFloat
+//         * mvDragInt
+//         * mvSliderFloat
+//         * mvSliderInt
+//         * mvSliderFloatMulti
+//         * mvSliderIntMulti
 //
 //     - mvColorItems.h
 //         * mvColorEdit3
@@ -84,36 +91,6 @@
 //
 //     - mvTable.h
 //         * mvTable
-//
-//     - mvSlideItems.h
-//         * mvSliderFloat
-//         * mvSliderFloat2
-//         * mvSliderFloat3
-//         * mvSliderFloat4
-//         * mvSliderInt
-//         * mvSliderInt2
-//         * mvSliderInt3
-//         * mvSliderInt4
-//
-//     - mvDragItems.h
-//         * mvDragFloat
-//         * mvDragFloat2
-//         * mvDragFloat3
-//         * mvDragFloat4
-//         * mvDragInt
-//         * mvDragInt2
-//         * mvDragInt3
-//         * mvDragInt4
-//
-//     - mvInputItems.h
-//         * mvInputFloat
-//         * mvInputFloat2
-//         * mvInputFloat3
-//         * mvInputFloat4
-//         * mvInputInt
-//         * mvInputInt2
-//         * mvInputInt3
-//         * mvInputInt4
 //
 //     - mvImage.h
 //         * mvImage
