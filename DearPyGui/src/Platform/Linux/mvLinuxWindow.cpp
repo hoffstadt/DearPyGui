@@ -22,6 +22,11 @@ namespace Marvel {
         fprintf(stderr, "Glfw Error %d: %s\n", error, description);
     }
 
+    static void window_close_callback(GLFWwindow* window)
+    {
+        mvApp::SetAppStopped();
+    }
+
     static void window_size_callback(GLFWwindow* window, int width, int height)
     {
 
@@ -69,6 +74,7 @@ namespace Marvel {
 
         // Setup callbacks
         glfwSetWindowSizeCallback(m_window, window_size_callback);
+        glfwSetWindowCloseCallback(m_window, window_close_callback);
 
 	}
 

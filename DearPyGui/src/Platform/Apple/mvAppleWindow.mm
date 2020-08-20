@@ -20,6 +20,11 @@ namespace Marvel {
 		return new mvAppleWindow(width, height, editor, error, doc);
 	}
 
+    static void window_close_callback(GLFWwindow* window)
+    {
+        mvApp::SetAppStopped();
+    }
+
     static void window_size_callback(GLFWwindow* window, int width, int height)
     {
 
@@ -56,7 +61,7 @@ namespace Marvel {
 
         // Create window with graphics context
         glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
-        m_window = glfwCreateWindow(width, height, mvApp::GetApp()->m_title.c_str(), NULL, NULL);
+        m_window = glfwCreateWindow(width, height, mvApp::GetApp()->m_title.c_str(), nullptr, nullptr);
 
 
         device = MTLCreateSystemDefaultDevice();;
@@ -76,6 +81,7 @@ namespace Marvel {
 
         // Setup callbacks
         glfwSetWindowSizeCallback(m_window, window_size_callback);
+        glfwSetWindowCloseCallback(m_window, window_close_callback);
     }
 
     mvAppleWindow::~mvAppleWindow()
@@ -91,7 +97,6 @@ namespace Marvel {
         delete m_appEditor;
         m_appEditor = nullptr;
 
-        mvApp::s_started = false;
     }
 
     void mvAppleWindow::setWindowText(const std::string& name)
