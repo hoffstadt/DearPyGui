@@ -389,7 +389,6 @@ namespace Marvel {
 		float m_weight = 1.0f;
 		mvColor m_color = MV_DEFAULT_COLOR;
 		mvColor m_fill = MV_DEFAULT_COLOR;
-		bool m_firstRender = true;
 	};
 
 }

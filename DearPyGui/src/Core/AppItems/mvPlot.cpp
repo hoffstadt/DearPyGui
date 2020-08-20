@@ -19,8 +19,6 @@ namespace Marvel {
 			points.push_back(p);
 		}
 
-		ImGui::GetWindowDrawList()->AddPolyline((const ImVec2*)const_cast<const ImVec2*>(points.data()), points.size(), m_color, true, m_weight);
-
 		if (m_fill.specified)
 		{
 			int i;
