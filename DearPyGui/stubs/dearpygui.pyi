@@ -665,6 +665,10 @@ def insert_row(table: str, row_index: int, row: List[str]) -> None:
 	"""Inserts a row into a table."""
 	...
 
+def is_dearpygui_running() -> bool:
+	""" Checks if dearpygui is running. """
+	...
+
 def is_item_activated(item: str) -> bool:
 	"""Checks if an item has been activated."""
 	...

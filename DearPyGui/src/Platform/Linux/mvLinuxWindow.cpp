@@ -81,6 +81,7 @@ namespace Marvel {
 
         glfwDestroyWindow(m_window);
         glfwTerminate();
+        mvApp::s_started = false;
 	}
 
     void mvLinuxWindow::setWindowText(const std::string& name)

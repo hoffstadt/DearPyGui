@@ -90,6 +90,8 @@ namespace Marvel {
 
         delete m_appEditor;
         m_appEditor = nullptr;
+
+        mvApp::s_started = false;
     }
 
     void mvAppleWindow::setWindowText(const std::string& name)

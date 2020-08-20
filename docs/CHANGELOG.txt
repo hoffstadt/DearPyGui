@@ -36,6 +36,7 @@ New Commands:
 
 - Plots:  new command add_area_series
 - Other:  new command set_main_window_title
+- Other:  new command is_dearpygui_running
 
 Breaking Changes:
 

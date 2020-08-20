@@ -1759,6 +1759,9 @@ namespace Marvel {
 
 	static void AddAppCommands(std::map<std::string, mvPythonParser>* parsers)
 	{
+		parsers->insert({ "is_dearpygui_running", mvPythonParser({
+		}, "Checks if dearpygui is still running", "bool") });
+
 		parsers->insert({ "set_main_window_title", mvPythonParser({
 			{mvPythonDataType::String, "title"}
 		}, "Sets the title of the main window.") });
