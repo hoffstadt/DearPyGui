@@ -10,6 +10,8 @@
 //         * Callback routing
 //         * AppItem parent deduction
 //     
+//     - This class can eventually just contain all static members & methods
+//     
 //-----------------------------------------------------------------------------
 
 #define PY_SSIZE_T_CLEAN
@@ -136,17 +138,16 @@ namespace Marvel {
         //-----------------------------------------------------------------------------
         // Concurrency
         //-----------------------------------------------------------------------------
-        void            setMainThreadID               (std::thread::id id) { m_mainThreadID = id; }
-        void            setThreadPoolTimeout          (double time)        { m_threadPoolTimeout = time; }
-        void            setThreadCount                (unsigned count)     { m_threads = count; }
-        void            activateThreadPool            ()                   { m_threadPool = true; }
-        void            setThreadPoolHighPerformance  ()                   { m_threadPoolHighPerformance = true; }
+        void     setThreadPoolTimeout          (double time)   { m_threadPoolTimeout = time; }
+        void     setThreadCount                (unsigned count){ m_threads = count; }
+        void     activateThreadPool            ()              { m_threadPool = true; }
+        void     setThreadPoolHighPerformance  ()              { m_threadPoolHighPerformance = true; }
 
-        std::thread::id getMainThreadID               () const { return m_mainThreadID; }
-        double          getThreadPoolTimeout          () const { return m_threadPoolTimeout; }
-        unsigned        getThreadCount                () const { return m_threads; }
-        bool            usingThreadPool               () const { return m_threadPool; }
-        bool            usingThreadPoolHighPerformance() const { return m_threadPoolHighPerformance; }
+        bool     checkIfMainThread             () const;
+        double   getThreadPoolTimeout          () const { return m_threadPoolTimeout; }
+        unsigned getThreadCount                () const { return m_threads; }
+        bool     usingThreadPool               () const { return m_threadPool; }
+        bool     usingThreadPoolHighPerformance() const { return m_threadPoolHighPerformance; }
 
         //-----------------------------------------------------------------------------
         // AppItem Operations
@@ -201,23 +202,20 @@ namespace Marvel {
 
         void routeInputCallbacks();
         void changeTheme();
-        bool checkIfMainThread();
-        void setNewStyle();
+        void updateStyle();
         
-
     private:
 
         static mvApp* s_instance;
         static bool   s_started;
 
-        mvWindow*               m_viewport = nullptr;
-        std::string             m_activeWindow = "MainWindow";
-        std::stack<mvAppItem*>  m_parents;
-        std::vector<mvAppItem*> m_windows;
-        int                     m_actualWidth = 1280;
-        int                     m_actualHeight = 800;
-        std::string             m_title = "DearPyGui";
-
+        mvWindow*                              m_viewport = nullptr;
+        std::string                            m_activeWindow = "MainWindow";
+        std::stack<mvAppItem*>                 m_parents;
+        std::vector<mvAppItem*>                m_windows;
+        int                                    m_actualWidth = 1280;
+        int                                    m_actualHeight = 800;
+        std::string                            m_title = "DearPyGui";
         std::map<std::string, mvPythonParser>* m_parsers;
         
         // appearance
