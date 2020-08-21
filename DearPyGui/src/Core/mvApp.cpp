@@ -410,11 +410,15 @@ namespace Marvel {
 		m_globalFontScale = scale;
 	}
 
-	void mvApp::setFont(const std::string& file, float size, const std::string& glyphRange)
+	void mvApp::setFont(const std::string& file, float size, 
+		const std::string& glyphRange, 
+		std::vector<std::array<ImWchar, 3>> customRanges, std::vector<ImWchar> chars)
 	{
 		m_fontFile = file;
 		m_fontGlyphRange = glyphRange;
 		m_fontSize = size;
+		m_fontGlyphRangeCustom = customRanges;
+		m_fontGlyphChars = chars;
 	}
 
 	void mvApp::updateStyle()

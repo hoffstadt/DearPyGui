@@ -1,5 +1,6 @@
 #include "mvWindow.h"
 #include <string>
+#include <array>
 #include "Core/mvPythonExceptions.h"
 
 namespace Marvel {
@@ -29,37 +30,46 @@ namespace Marvel {
 		if (!mvApp::GetApp()->m_fontFile.empty())
 		{
 			ImGuiIO& io = ImGui::GetIO();
-			//io.Fonts->AddFontDefault();
 
-			ImFont* font = nullptr;
+			ImVector<ImWchar> ranges;
+			ImFontGlyphRangesBuilder builder;
 
 			if (mvApp::GetApp()->m_fontGlyphRange.empty())
-				font = io.Fonts->AddFontFromFileTTF(mvApp::GetApp()->m_fontFile.c_str(), mvApp::GetApp()->m_fontSize,nullptr, io.Fonts->GetGlyphRangesDefault());
+				builder.AddRanges(io.Fonts->GetGlyphRangesDefault());
 			else if (mvApp::GetApp()->m_fontGlyphRange == std::string("korean"))
-				font = io.Fonts->AddFontFromFileTTF(mvApp::GetApp()->m_fontFile.c_str(), mvApp::GetApp()->m_fontSize, nullptr, io.Fonts->GetGlyphRangesKorean());
+				builder.AddRanges(io.Fonts->GetGlyphRangesKorean());
 			else if (mvApp::GetApp()->m_fontGlyphRange == std::string("japanese"))
-				font = io.Fonts->AddFontFromFileTTF(mvApp::GetApp()->m_fontFile.c_str(), mvApp::GetApp()->m_fontSize, nullptr, io.Fonts->GetGlyphRangesJapanese());
+				builder.AddRanges(io.Fonts->GetGlyphRangesJapanese());
 			else if (mvApp::GetApp()->m_fontGlyphRange == std::string("chinese_full"))
-				font = io.Fonts->AddFontFromFileTTF(mvApp::GetApp()->m_fontFile.c_str(), mvApp::GetApp()->m_fontSize, nullptr, io.Fonts->GetGlyphRangesChineseFull());
+				builder.AddRanges(io.Fonts->GetGlyphRangesChineseFull());
 			else if (mvApp::GetApp()->m_fontGlyphRange == std::string("chinese_simplified_common"))
-				font = io.Fonts->AddFontFromFileTTF(mvApp::GetApp()->m_fontFile.c_str(), mvApp::GetApp()->m_fontSize, nullptr, io.Fonts->GetGlyphRangesChineseSimplifiedCommon());
+				builder.AddRanges(io.Fonts->GetGlyphRangesChineseSimplifiedCommon());
 			else if (mvApp::GetApp()->m_fontGlyphRange == std::string("cyrillic"))
-				font = io.Fonts->AddFontFromFileTTF(mvApp::GetApp()->m_fontFile.c_str(), mvApp::GetApp()->m_fontSize, nullptr, io.Fonts->GetGlyphRangesCyrillic());
+				builder.AddRanges(io.Fonts->GetGlyphRangesCyrillic());
 			else if (mvApp::GetApp()->m_fontGlyphRange == std::string("thai"))
-				font = io.Fonts->AddFontFromFileTTF(mvApp::GetApp()->m_fontFile.c_str(), mvApp::GetApp()->m_fontSize, nullptr, io.Fonts->GetGlyphRangesThai());
+				builder.AddRanges(io.Fonts->GetGlyphRangesThai());
 			else if (mvApp::GetApp()->m_fontGlyphRange == std::string("vietnamese"))
-				font = io.Fonts->AddFontFromFileTTF(mvApp::GetApp()->m_fontFile.c_str(), mvApp::GetApp()->m_fontSize, nullptr, io.Fonts->GetGlyphRangesVietnamese());
+				builder.AddRanges(io.Fonts->GetGlyphRangesVietnamese());
 			else
 				io.Fonts->AddFontDefault();
 
 			// Add character ranges and merge into the previous font
 			// The ranges array is not copied by the AddFont* functions and is used lazily
 			// so ensure it is available at the time of building or calling GetTexDataAsRGBA32().
-			static const ImWchar icons_ranges[] = { 0x0370, 0x03ff, 0 }; // Will not be copied by AddFont* so keep in scope.
-			ImFontConfig config;
-			config.MergeMode = true;
+			const ImWchar icons_ranges[] = { 0x0370, 0x03ff, 0 }; // Will not be copied by AddFont* so keep in scope.
+			builder.AddRanges(icons_ranges); // Add one of the default ranges
+			
+			for (const auto& range : mvApp::GetApp()->m_fontGlyphRangeCustom)
+				builder.AddRanges(range.data());
+			for (const auto& charitem : mvApp::GetApp()->m_fontGlyphChars)
+				builder.AddChar(charitem);
 
-			ImFont* fontext = io.Fonts->AddFontFromFileTTF(mvApp::GetApp()->m_fontFile.c_str(), mvApp::GetApp()->m_fontSize, &config, icons_ranges);
+			builder.BuildRanges(&ranges);   // Build the final result (ordered ranges with all the unique characters submitted)
+
+			ImFont* font = io.Fonts->AddFontFromFileTTF(mvApp::GetApp()->m_fontFile.c_str(), mvApp::GetApp()->m_fontSize, nullptr, ranges.Data);
+
+			// add default proggy
+			io.Fonts->AddFontDefault();
 
 			if (font == nullptr)
 			{

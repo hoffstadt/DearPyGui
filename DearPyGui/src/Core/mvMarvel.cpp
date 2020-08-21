@@ -128,12 +128,26 @@ namespace Marvel {
 		const char* file;
 		float size = 13.0f;
 		const char* glyph_ranges = "";
+		PyObject* custom_glyph_ranges = nullptr;
+		PyObject* custom_glyph_chars = nullptr;
+
 
 		if (!(*mvApp::GetApp()->getParsers())["add_additional_font"].parse(args, kwargs, __FUNCTION__,
-			&file, &size, &glyph_ranges))
+			&file, &size, &glyph_ranges, &custom_glyph_chars, &custom_glyph_ranges))
 			return mvPythonTranslator::GetPyNone();
 
-		mvApp::GetApp()->setFont(file, size, glyph_ranges);
+		std::vector<int> custom_chars = mvPythonTranslator::ToIntVect(custom_glyph_chars);
+		std::vector<std::pair<int, int>> custom_ranges = mvPythonTranslator::ToVectInt2(custom_glyph_ranges);
+		std::vector<std::array<ImWchar, 3>> imgui_custom_ranges;
+		std::vector<ImWchar> imgui_custom_chars;
+
+		for (auto& item : custom_ranges)
+			imgui_custom_ranges.push_back({ (ImWchar)item.first, (ImWchar)item.second, 0 });
+		for (auto& item : custom_chars)
+			imgui_custom_chars.push_back((ImWchar)item);
+
+
+		mvApp::GetApp()->setFont(file, size, glyph_ranges, imgui_custom_ranges, imgui_custom_chars);
 
 		return mvPythonTranslator::GetPyNone();
 	}

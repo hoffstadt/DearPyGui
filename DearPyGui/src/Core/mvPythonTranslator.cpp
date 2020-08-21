@@ -198,6 +198,8 @@ namespace Marvel {
 	{
 
 		std::vector<int> items;
+		if (value == nullptr)
+			return items;
 		mvGlobalIntepreterLock gil;
 
 		if (PyTuple_Check(value))
@@ -231,6 +233,8 @@ namespace Marvel {
 	{
 
 		std::vector<float> items;
+		if (value == nullptr)
+			return items;
 		mvGlobalIntepreterLock gil;
 
 		if (PyTuple_Check(value))
@@ -264,6 +268,8 @@ namespace Marvel {
 	{
 
 		std::vector<std::string> items;
+		if (value == nullptr)
+			return items;
 		mvGlobalIntepreterLock gil;
 
 		if (PyTuple_Check(value))
@@ -407,6 +413,8 @@ namespace Marvel {
 	std::vector<std::pair<int, int>> mvPythonTranslator::ToVectInt2(PyObject* value, const std::string& message)
 	{
 		std::vector<std::pair<int, int>> items;
+		if (value == nullptr)
+			return items;
 		mvGlobalIntepreterLock gil;
 
 		if (PyTuple_Check(value))
@@ -414,12 +422,30 @@ namespace Marvel {
 			for (size_t i = 0; i < PyTuple_Size(value); i++)
 			{
 				PyObject* point = PyTuple_GetItem(value, i);
-				for (int j = 0; j < PyTuple_Size(point); j++)
+				if (PyTuple_Size(point) >= 2)
 				{
 					int x = PyLong_AsLong(PyTuple_GetItem(point, 0));
 					int y = PyLong_AsLong(PyTuple_GetItem(point, 1));
 					items.emplace_back(x, y);
 				}
+				else
+					items.emplace_back(0, 0);
+			}
+		}
+
+		else if (PyList_Check(value))
+		{
+			for (size_t i = 0; i < PyList_Size(value); i++)
+			{
+				PyObject* point = PyList_GetItem(value, i);
+				if (PyList_Size(point) >= 2)
+				{
+					int x = PyLong_AsLong(PyList_GetItem(point, 0));
+					int y = PyLong_AsLong(PyList_GetItem(point, 1));
+					items.emplace_back(x, y);
+				}
+				else
+					items.emplace_back(0, 0);
 			}
 		}
 
