@@ -112,9 +112,12 @@ namespace Marvel {
         void                     setActualSize     (unsigned width, unsigned height);			
         void                     setActiveWindow   (const std::string& window) { m_activeWindow = window; }
         void                     setGlobalFontScale(float scale);
-        void                     setFont           (const std::string& file, float size = 13.0f, const std::string& glyphRange = "");
         void                     setViewport       (mvWindow* viewport) { m_viewport = viewport; }
         void                     setTitle          (const std::string& title) { m_title = title; }
+        void                     setFont(const std::string& file, float size = 13.0f,
+                                    const std::string& glyphRange = "",
+                                    std::vector<std::array<ImWchar, 3>> customRanges = {},
+                                    std::vector<ImWchar> chars= {});
         
         const std::string&       getActiveWindow   () const { return m_activeWindow; }
         std::vector<mvAppItem*>& getWindows        ()       { return m_windows; }
@@ -227,9 +230,11 @@ namespace Marvel {
         bool        m_styleChange = true;
 
         // fonts
-        std::string m_fontFile;
-        std::string m_fontGlyphRange;
-        float       m_fontSize = 13.0f;
+        std::string                         m_fontFile;
+        std::string                         m_fontGlyphRange;
+        float                               m_fontSize = 13.0f;
+        std::vector<std::array<ImWchar, 3>> m_fontGlyphRangeCustom;
+        std::vector<ImWchar>                m_fontGlyphChars;
 
         // runtime widget modifications
         std::queue<std::string>     m_deleteChildrenQueue;

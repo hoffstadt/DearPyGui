@@ -1091,6 +1091,9 @@ namespace Marvel {
 			{mvPythonDataType::Optional},
 			{mvPythonDataType::Float, "size"},
 			{mvPythonDataType::String, "glyph_ranges", "options: korean, japanese, chinese_full, chinese_simplified_common, cryillic, thai, vietnamese"},
+			{mvPythonDataType::KeywordOnly},
+			{mvPythonDataType::IntList, "custom_glyph_chars", ""},
+			{mvPythonDataType::Object, "custom_glyph_ranges", ""},
 		}, "Adds additional font.", "None", "Themes and Styles") });
 
 		parsers->insert({ "set_theme", mvPythonParser({
