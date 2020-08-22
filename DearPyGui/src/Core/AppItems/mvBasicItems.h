@@ -2,6 +2,8 @@
 
 #include "Core/AppItems/mvTypeBases.h"
 #include "mvPythonTranslator.h"
+#include <utility>
+#include "mvAppItem.h"
 
 //-----------------------------------------------------------------------------
 // Widget Index
@@ -13,10 +15,32 @@
 //     * mvListbox
 //     * mvRadioButton
 //     * mvProgressBar
+//     * mvInputInt
+//     * mvInputIntMulti
+//     * mvInputFloat
+//     * mvInputFloatMulti
+//     * mvDragFloat
+//     * mvDragInt
+//     * mvSliderFloat
+//     * mvSliderInt
+//     * mvSliderFloatMulti
+//     * mvSliderIntMulti
 //
 //-----------------------------------------------------------------------------
 
 namespace Marvel {
+
+	//-----------------------------------------------------------------------------
+	// Helper typedefs
+	//-----------------------------------------------------------------------------
+	template<typename T>
+	using ImGuiSlideCommand = bool(*)(const char*, T*, T, T, const char*, ImGuiSliderFlags);
+	template<typename T>
+	using ImGuiDragCommand = bool(*)(const char*, T*, float, T, T, const char*, ImGuiSliderFlags);
+	using ImGuiIntInputCommand = bool(*)(const char*, int*, ImGuiInputTextFlags);
+	using ImGuiFloatInputCommand = bool(*)(const char*, float*, const char*, ImGuiInputTextFlags);
+	using ImGuiIntCommand = bool(*)(const char*, int*, ImGuiInputTextFlags);
+	using ImGuiFloatCommand = bool(*)(const char*, float*, const char*, ImGuiInputTextFlags);
 
 	//-----------------------------------------------------------------------------
 	// mvSelectable
@@ -359,4 +383,430 @@ namespace Marvel {
 
 	};
 
+	//-----------------------------------------------------------------------------
+	// mvInputInt
+	//-----------------------------------------------------------------------------
+	class mvInputInt : public mvIntItemBase
+	{
+
+	public:
+
+		MV_APPITEM_TYPE(mvAppItemType::InputInt)
+
+		mvInputInt(const std::string& parent, const std::string& name, int default_value)
+			: mvIntItemBase(parent, name, 1, default_value) {}
+
+		void draw() override
+		{
+
+			if (ImGui::InputInt(m_label.c_str(), m_value.data()))
+			{
+				if (!m_dataSource.empty())
+					mvDataStorage::AddData(m_dataSource, getPyValue());
+
+				mvApp::GetApp()->runCallback(m_callback, m_name);
+
+				// Context Menu
+				if (!getPopup().empty())
+					ImGui::OpenPopup(getPopup().c_str());
+			}
+
+		}
+
+	};
+
+	//-----------------------------------------------------------------------------
+	// mvInputIntMulti
+	//-----------------------------------------------------------------------------
+	template<mvAppItemType AppItemType, int num, ImGuiIntInputCommand imguicommand>
+	class mvInputIntMulti : public mvIntItemBase
+	{
+
+	public:
+
+		MV_APPITEM_TYPE(AppItemType)
+
+		mvInputIntMulti(const std::string& parent, const std::string& name, int default_value[2])
+			: mvIntItemBase(parent, name, num, default_value[0], default_value[1], default_value[2], default_value[3]) {}
+
+		void draw() override
+		{
+
+			if (imguicommand(m_label.c_str(), m_value.data(), 0))
+			{
+				if (!m_dataSource.empty())
+					mvDataStorage::AddData(m_dataSource, getPyValue());
+
+				mvApp::GetApp()->runCallback(m_callback, m_name);
+
+				// Context Menu
+				if (!getPopup().empty())
+					ImGui::OpenPopup(getPopup().c_str());
+			}
+
+		}
+
+	};
+
+	//-----------------------------------------------------------------------------
+	// mvInputFloat
+	//-----------------------------------------------------------------------------
+	class mvInputFloat : public mvFloatItemBase
+	{
+
+	public:
+
+		MV_APPITEM_TYPE(mvAppItemType::InputFloat)
+
+			mvInputFloat(const std::string& parent, const std::string& name, float default_value, std::string format)
+			: mvFloatItemBase(parent, name, 1, default_value), m_format(std::move(format))
+		{
+		}
+
+		void draw() override
+		{
+			if (ImGui::InputFloat(m_label.c_str(), m_value.data(), 0.0f, 0.0f, m_format.c_str()))
+			{
+				if (!m_dataSource.empty())
+					mvDataStorage::AddData(m_dataSource, getPyValue());
+
+				mvApp::GetApp()->runCallback(m_callback, m_name);
+
+				// Context Menu
+				if (!getPopup().empty())
+					ImGui::OpenPopup(getPopup().c_str());
+			}
+		}
+
+	private:
+
+		std::string m_format;
+
+	};
+
+	//-----------------------------------------------------------------------------
+	// mvInputFloatMulti
+	//-----------------------------------------------------------------------------
+	template<mvAppItemType AppItemType, int num, ImGuiFloatInputCommand imguicommand>
+	class mvInputFloatMulti : public mvFloatItemBase
+	{
+
+	public:
+
+		MV_APPITEM_TYPE(AppItemType)
+
+			mvInputFloatMulti(const std::string& parent, const std::string& name, float* default_value, std::string  format)
+			: mvFloatItemBase(parent, name, num, default_value[0], default_value[1], default_value[2], default_value[3]), m_format(std::move(format))
+		{
+		}
+
+		void draw() override
+		{
+			if (imguicommand(m_label.c_str(), m_value.data(), m_format.c_str(), 0))
+			{
+				if (!m_dataSource.empty())
+					mvDataStorage::AddData(m_dataSource, getPyValue());
+
+				mvApp::GetApp()->runCallback(m_callback, m_name);
+
+				// Context Menu
+				if (!getPopup().empty())
+					ImGui::OpenPopup(getPopup().c_str());
+			}
+		}
+
+	private:
+
+		std::string m_format;
+
+	};
+
+	//-----------------------------------------------------------------------------
+	// mvDragFloat
+	//-----------------------------------------------------------------------------
+	template<mvAppItemType AppItemType, int num, ImGuiDragCommand<float> imguicommand>
+	class mvDragFloat : public mvFloatItemBase
+	{
+
+	public:
+
+		MV_APPITEM_TYPE(AppItemType)
+
+		mvDragFloat(const std::string& parent, const std::string& name, float* default_value, float speed,
+				float minv, float maxv, std::string format)
+			: mvFloatItemBase(parent, name, num, default_value[0], default_value[1], default_value[2], default_value[3]),
+			m_speed(speed), m_min(minv), m_max(maxv), m_format(std::move(format))
+		{
+		}
+
+		void draw() override
+		{
+			if (imguicommand(m_label.c_str(), m_value.data(), m_speed, m_min, m_max, m_format.c_str(), 0))
+			{
+				if (!m_dataSource.empty())
+					mvDataStorage::AddData(m_dataSource, getPyValue());
+
+				mvApp::GetApp()->runCallback(m_callback, m_name);
+
+				// Context Menu
+				if (!getPopup().empty())
+					ImGui::OpenPopup(getPopup().c_str());
+			}
+		}
+
+	private:
+
+		float       m_speed;
+		float       m_min;
+		float       m_max;
+		std::string m_format;
+
+	};
+
+	//-----------------------------------------------------------------------------
+	// mvDragInt
+	//-----------------------------------------------------------------------------
+	template<mvAppItemType AppItemType, int num, ImGuiDragCommand<int> imguicommand >
+	class mvDragInt : public mvIntItemBase
+	{
+
+	public:
+
+		MV_APPITEM_TYPE(AppItemType)
+
+		mvDragInt(const std::string& parent, const std::string& name, int* default_value, float speed,
+				int minv, float maxv, std::string format)
+			: mvIntItemBase(parent, name, num, default_value[0], default_value[1], default_value[2], default_value[3]),
+			m_speed(speed), m_min(minv), m_max(maxv), m_format(std::move(format))
+		{
+		}
+
+		void draw() override
+		{
+			if (imguicommand(m_label.c_str(), m_value.data(), m_speed, m_min, m_max, m_format.c_str(), 0))
+			{
+				if (!m_dataSource.empty())
+					mvDataStorage::AddData(m_dataSource, getPyValue());
+
+				mvApp::GetApp()->runCallback(m_callback, m_name);
+
+				// Context Menu
+				if (!getPopup().empty())
+					ImGui::OpenPopup(getPopup().c_str());
+			}
+		}
+
+	private:
+
+		float       m_speed;
+		int         m_min;
+		int         m_max;
+		std::string m_format;
+
+	};
+
+	//-----------------------------------------------------------------------------
+	// mvSliderFloat
+	//-----------------------------------------------------------------------------
+	class mvSliderFloat : public mvFloatItemBase
+	{
+
+	public:
+
+		MV_APPITEM_TYPE(mvAppItemType::SliderFloat)
+
+			mvSliderFloat(const std::string& parent, const std::string& name, float default_value = 0.0f, float minv = 0.0f,
+				float maxv = 1.0f, std::string  format = "%.3f", bool vertical = false)
+			: mvFloatItemBase(parent, name, 1, default_value), m_min(minv), m_max(maxv), m_format(std::move(format)),
+			m_vertical(vertical)
+		{
+		}
+
+		void draw() override
+		{
+			if (m_vertical)
+			{
+				if ((float)m_height < 1.0f)
+					m_height = 100.f;
+				if ((float)m_width < 1.0f)
+					m_width = 20.f;
+
+				if (ImGui::VSliderFloat(m_label.c_str(), ImVec2((float)m_width, (float)m_height), m_value.data(), m_min, m_max, m_format.c_str()))
+				{
+					if (!m_dataSource.empty())
+						mvDataStorage::AddData(m_dataSource, getPyValue());
+
+					mvApp::GetApp()->runCallback(m_callback, m_name);
+
+					// Context Menu
+					if (!getPopup().empty())
+						ImGui::OpenPopup(getPopup().c_str());
+				}
+			}
+			else
+			{
+				if (ImGui::SliderFloat(m_label.c_str(), m_value.data(), m_min, m_max, m_format.c_str()))
+				{
+					if (!m_dataSource.empty())
+						mvDataStorage::AddData(m_dataSource, getPyValue());
+
+					mvApp::GetApp()->runCallback(m_callback, m_name);
+
+					// Context Menu
+					if (!getPopup().empty())
+						ImGui::OpenPopup(getPopup().c_str());
+				}
+			}
+		}
+
+	private:
+
+		float       m_min;
+		float       m_max;
+		std::string m_format;
+		bool        m_vertical;
+
+	};
+
+	//-----------------------------------------------------------------------------
+	// mvSliderInt
+	//-----------------------------------------------------------------------------
+	class mvSliderInt : public mvIntItemBase
+	{
+
+	public:
+
+		MV_APPITEM_TYPE(mvAppItemType::SliderInt)
+
+			mvSliderInt(const std::string& parent, const std::string& name, int default_value = 0, int minv = 0,
+				int maxv = 100, std::string  format = "%d", bool vertical = false)
+			: mvIntItemBase(parent, name, 1, default_value), m_min(minv), m_max(maxv), m_format(std::move(format)), m_vertical(vertical)
+		{
+		}
+
+		void draw() override
+		{
+			if (m_vertical)
+			{
+				if ((float)m_height < 1.0f)
+					m_height = 100.f;
+				if ((float)m_width < 1.0f)
+					m_width = 20.f;
+
+				if (ImGui::VSliderInt(m_label.c_str(), ImVec2((float)m_width, (float)m_height), m_value.data(), m_min, m_max, m_format.c_str()))
+				{
+					if (!m_dataSource.empty())
+						mvDataStorage::AddData(m_dataSource, getPyValue());
+
+					mvApp::GetApp()->runCallback(m_callback, m_name);
+
+					// Context Menu
+					if (!getPopup().empty())
+						ImGui::OpenPopup(getPopup().c_str());
+				}
+			}
+			else
+			{
+				if (ImGui::SliderInt(m_label.c_str(), m_value.data(), m_min, m_max, m_format.c_str()))
+				{
+					if (!m_dataSource.empty())
+						mvDataStorage::AddData(m_dataSource, getPyValue());
+
+					mvApp::GetApp()->runCallback(m_callback, m_name);
+
+					// Context Menu
+					if (!getPopup().empty())
+						ImGui::OpenPopup(getPopup().c_str());
+				}
+			}
+		}
+
+	private:
+
+		int         m_min;
+		int         m_max;
+		std::string m_format;
+		bool        m_vertical;
+
+	};
+
+	//-----------------------------------------------------------------------------
+	// mvSliderFloatMulti
+	//-----------------------------------------------------------------------------
+	template<mvAppItemType AppItemType, int num, ImGuiSlideCommand<float> imguicommand, typename T>
+	class mvSliderFloatMulti : public mvFloatItemBase
+	{
+
+	public:
+
+		MV_APPITEM_TYPE(AppItemType)
+
+			mvSliderFloatMulti(const std::string& parent, const std::string& name, T* default_value, T minv, T maxv, std::string  format)
+			: mvFloatItemBase(parent, name, num, default_value[0], default_value[1], default_value[2], default_value[3]),
+			m_min(minv), m_max(maxv), m_format(std::move(format))
+		{
+		}
+
+		void draw() override
+		{
+			if (imguicommand(m_label.c_str(), m_value.data(), m_min, m_max, m_format.c_str(), 0))
+			{
+				if (!m_dataSource.empty())
+					mvDataStorage::AddData(m_dataSource, getPyValue());
+
+				mvApp::GetApp()->runCallback(m_callback, m_name);
+
+				// Context Menu
+				if (!getPopup().empty())
+					ImGui::OpenPopup(getPopup().c_str());
+			}
+		}
+
+	private:
+
+		T       m_min;
+		T       m_max;
+		std::string m_format;
+
+	};
+
+	//-----------------------------------------------------------------------------
+	// mvSliderIntMulti
+	//-----------------------------------------------------------------------------
+	template<mvAppItemType AppItemType, int num, ImGuiSlideCommand<int> imguicommand, typename T>
+	class mvSliderIntMulti : public mvIntItemBase
+	{
+
+	public:
+
+		MV_APPITEM_TYPE(AppItemType)
+
+			mvSliderIntMulti(const std::string& parent, const std::string& name, T* default_value, T minv, T maxv, std::string  format)
+			: mvIntItemBase(parent, name, num, default_value[0], default_value[1], default_value[2], default_value[3]),
+			m_min(minv), m_max(maxv), m_format(std::move(format))
+		{
+		}
+
+		void draw() override
+		{
+			if (imguicommand(m_label.c_str(), m_value.data(), m_min, m_max, m_format.c_str(), 0))
+			{
+				if (!m_dataSource.empty())
+					mvDataStorage::AddData(m_dataSource, getPyValue());
+
+				mvApp::GetApp()->runCallback(m_callback, m_name);
+
+				// Context Menu
+				if (!getPopup().empty())
+					ImGui::OpenPopup(getPopup().c_str());
+			}
+		}
+
+	private:
+
+		T       m_min;
+		T       m_max;
+		std::string m_format;
+
+	};
 }

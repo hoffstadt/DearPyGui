@@ -26,8 +26,6 @@ namespace Marvel {
 
 	mvApp* mvApp::s_instance = nullptr;
 	bool   mvApp::s_started = false;
-	thread_local mvWorkStealingQueue* mvThreadPool::m_local_work_queue;
-	thread_local unsigned mvThreadPool::m_index;
 
 	mvApp* mvApp::GetApp()
 	{
@@ -67,7 +65,7 @@ namespace Marvel {
 		    mvAppLog::AddLog("[Compiler] MSVC version %0d\n", _MSC_VER);
 #endif
 
-		setMainThreadID(std::this_thread::get_id());
+		m_mainThreadID = std::this_thread::get_id();
 
 		m_windows.push_back(new mvWindowAppitem("", "MainWindow", 1280, 800, 0, 0, true, false, true, false, false));
 		m_parents.push(m_windows.back());
@@ -89,7 +87,6 @@ namespace Marvel {
 			delete window;
 			window = nullptr;
 		}
-
 		m_windows.clear();
 
 		mvTextureStorage::DeleteAllTextures();
@@ -114,10 +111,18 @@ namespace Marvel {
 	{
 		m_firstRender = false;
 
+		// if any theme color is not specified, use the default colors
 		for (int i = 0; i < ImGuiCol_COUNT; i++)
 			if (m_newstyle.Colors[i].x == 0.0f && m_newstyle.Colors[i].y == 0.0f &&
 				m_newstyle.Colors[i].z == 0.0f && m_newstyle.Colors[i].w == 0.0f)
 				m_newstyle.Colors[i] = ImGui::GetStyle().Colors[i];
+
+		// if theme was set during compile time, actually make the change now
+		if (m_compileTimeThemeSet)
+		{
+			changeTheme();
+			m_compileTimeThemeSet = false;
+		}
 	}
 
 	void mvApp::prerender()
@@ -140,19 +145,13 @@ namespace Marvel {
 
 		}
 
-		if (m_compileTimeThemeSet)
-		{
-			changeTheme();
-			m_compileTimeThemeSet = false;
-		}
-
 		// update timing
 		m_deltaTime = ImGui::GetIO().DeltaTime;
 		m_time = ImGui::GetTime();
 		ImGui::GetIO().FontGlobalScale = m_globalFontScale;
 
-		// check if any asyncronout functions have returned
-		// and are requesting to send data back
+		// check if any asyncronous functions have returned
+		// and are requesting to send data back to main thread
 		if (!m_asyncReturns.empty())
 		{
 			std::lock_guard<std::mutex> lock(m_mutex);
@@ -168,7 +167,7 @@ namespace Marvel {
 
 		// set imgui style to mvstyle
 		if (m_styleChange)
-			setNewStyle();
+			updateStyle();
 
 		// route any registered input callbacks
 		routeInputCallbacks();
@@ -219,14 +218,14 @@ namespace Marvel {
 
 		Py_BEGIN_ALLOW_THREADS
 
-			// delete items from the delete queue
-			while (!m_deleteChildrenQueue.empty())
-			{
-				auto item = getItem(m_deleteChildrenQueue.front());
-				if (item)
-					item->deleteChildren();
-				m_deleteChildrenQueue.pop();
-			}
+		// delete items from the delete queue
+		while (!m_deleteChildrenQueue.empty())
+		{
+			auto item = getItem(m_deleteChildrenQueue.front());
+			if (item)
+				item->deleteChildren();
+			m_deleteChildrenQueue.pop();
+		}
 
 		// delete items from the delete queue
 		while (!m_deleteQueue.empty())
@@ -411,23 +410,25 @@ namespace Marvel {
 		m_globalFontScale = scale;
 	}
 
-	void mvApp::setFont(const std::string& file, float size, const std::string& glyphRange)
+	void mvApp::setFont(const std::string& file, float size, 
+		const std::string& glyphRange, 
+		std::vector<std::array<ImWchar, 3>> customRanges, std::vector<ImWchar> chars)
 	{
 		m_fontFile = file;
 		m_fontGlyphRange = glyphRange;
 		m_fontSize = size;
+		m_fontGlyphRangeCustom = customRanges;
+		m_fontGlyphChars = chars;
 	}
 
-	void mvApp::setNewStyle()
+	void mvApp::updateStyle()
 	{
 		ImGuiStyle& style = ImGui::GetStyle();
-		
 		style = m_newstyle;
-
 		m_styleChange = false;
 	}
 
-	bool mvApp::checkIfMainThread()
+	bool mvApp::checkIfMainThread() const
 	{
 		if (std::this_thread::get_id() != m_mainThreadID)
 		{
@@ -724,8 +725,6 @@ namespace Marvel {
 			ThrowPythonException(name + message);
 		}
 
-		//Py_XDECREF(data);
-
 	}
 
 	void mvApp::runReturnCallback(const std::string& name, const std::string& sender, PyObject* data)
@@ -736,7 +735,6 @@ namespace Marvel {
 				Py_XDECREF(data);
 			return;
 		}
-
 
 		if (data == nullptr)
 		{
@@ -834,6 +832,8 @@ namespace Marvel {
 
 		if (s_started)
 			changeTheme();
+		
+		// if app hasn't started, defer theme setting
 		else
 			m_compileTimeThemeSet = true;
 
@@ -1215,7 +1215,7 @@ namespace Marvel {
 
 	void mvApp::setThemeItem(long item, mvColor color)
 	{
-		m_newstyle.Colors[item] = ImVec4(color.r/255.0f, color.g / 255.0f, color.b / 255.0f, color.a / 255.0f);
+		m_newstyle.Colors[item] = ImVec4(color.r/255.0f, color.g/255.0f, color.b/255.0f, color.a/255.0f);
 		m_styleChange = true;
 	}
 

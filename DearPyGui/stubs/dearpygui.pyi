@@ -1,6 +1,6 @@
 from typing import List, Any
 
-def add_additional_font(file: str, size: float = 13.0, glyph_ranges: str = "") -> None:
+def add_additional_font(file: str, size: float = 13.0, glyph_ranges: str = "", custom_glyph_chars: List[int] = [], custom_glyph_ranges: List[List[int]] = []) -> None:
 	"""Adds additional font. Glyph_ranges options: korean, japanese, chinese_full, chinese_simplified_common, cryillic, thai, vietnamese"""
 	...
 
@@ -1111,14 +1111,6 @@ def show_source(file: str) -> None:
 
 def start_dearpygui() -> None:
 	"""Starts DearPyGui"""
-	...
-
-def start_dearpygui_docs() -> None:
-	"""Starts DearPyGui documentation"""
-	...
-
-def start_dearpygui_editor() -> None:
-	"""Starts DearPyGui editor"""
 	...
 
 def unindent(name: str = "", offset: float = 0.0, parent: str = "", before: str = "") -> None:

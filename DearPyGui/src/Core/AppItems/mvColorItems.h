@@ -14,88 +14,27 @@
 
 namespace Marvel {
 
+	using ImGuiColorCommand = bool(*)(const char*, float*, ImGuiColorEditFlags);
+
 	//-----------------------------------------------------------------------------
-	// mvColorEdit3
+	// mvColorItem
 	//-----------------------------------------------------------------------------
-	class mvColorEdit3 : public mvColorItemBase
+	template<mvAppItemType AppItemType, ImGuiColorCommand imguicommand>
+	class mvColorItem : public mvColorItemBase
 	{
 
 	public:
 
-		MV_APPITEM_TYPE(mvAppItemType::ColorEdit3)
+		MV_APPITEM_TYPE(AppItemType)
 
-		mvColorEdit3(const std::string& parent, const std::string& name, mvColor color)
+			mvColorItem(const std::string& parent, const std::string& name, mvColor color)
 			: mvColorItemBase(parent, name, color)
 		{}
 
 		void draw() override
 		{
 
-			if (ImGui::ColorEdit3(m_label.c_str(), m_value.data()))
-			{
-				if (!m_dataSource.empty())
-					mvDataStorage::AddData(m_dataSource, getPyValue());
-
-				mvApp::GetApp()->runCallback(m_callback, m_name);
-
-				// Context Menu
-				if (!getPopup().empty())
-					ImGui::OpenPopup(getPopup().c_str());
-			}
-		}
-
-	};
-
-	//-----------------------------------------------------------------------------
-	// mvColorEdit4
-	//-----------------------------------------------------------------------------
-	class mvColorEdit4 : public mvColorItemBase
-	{
-
-	public:
-
-		MV_APPITEM_TYPE(mvAppItemType::ColorEdit4)
-
-		mvColorEdit4(const std::string& parent, const std::string& name, mvColor color)
-			: mvColorItemBase(parent, name, color)
-		{}
-
-		void draw() override
-		{
-
-			if (ImGui::ColorEdit4(m_label.c_str(), m_value.data()))
-			{
-				if (!m_dataSource.empty())
-					mvDataStorage::AddData(m_dataSource, getPyValue());
-
-				mvApp::GetApp()->runCallback(m_callback, m_name);
-
-				// Context Menu
-				if (!getPopup().empty())
-					ImGui::OpenPopup(getPopup().c_str());
-			}
-		}
-
-	};
-
-	//-----------------------------------------------------------------------------
-	// mvColorPicker3
-	//-----------------------------------------------------------------------------
-	class mvColorPicker3 : public mvColorItemBase
-	{
-
-	public:
-
-		MV_APPITEM_TYPE(mvAppItemType::ColorPicker3)
-
-		mvColorPicker3(const std::string& parent, const std::string& name, mvColor color)
-			: mvColorItemBase(parent, name, color)
-		{}
-
-		void draw() override
-		{
-
-			if (ImGui::ColorPicker3(m_label.c_str(), m_value.data()))
+			if (imguicommand(m_label.c_str(), m_value.data(), 0))
 			{
 				if (!m_dataSource.empty())
 					mvDataStorage::AddData(m_dataSource, getPyValue());

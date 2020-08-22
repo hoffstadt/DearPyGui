@@ -9,7 +9,6 @@
 //-----------------------------------------------------------------------------
 
 #include <utility>
-
 #include "mvPythonTranslator.h"
 #include "mvApp.h"
 #include "mvAppItem.h"
@@ -158,7 +157,6 @@ namespace Marvel {
 
 		[[nodiscard]] PyObject* getPyValue() const override
 		{
-
 			if (m_valuecount == 1)
 				return mvPythonTranslator::ToPyFloat(m_value[0]);
 
