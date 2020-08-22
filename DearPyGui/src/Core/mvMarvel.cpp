@@ -864,34 +864,6 @@ namespace Marvel {
 		return mvPythonTranslator::GetPyNone();
 	}
 
-	PyObject* start_dearpygui_editor(PyObject* self, PyObject* args, PyObject* kwargs)
-	{
-
-		mvApp::SetAppStarted();
-
-		// create window
-		auto window = mvWindow::CreatemvWindow(mvApp::GetApp()->getActualWidth(), mvApp::GetApp()->getActualHeight(), true);
-		window->show();
-		window->run();
-		delete window;
-		mvApp::DeleteApp();
-
-		return mvPythonTranslator::GetPyNone();
-	}
-
-	PyObject* start_dearpygui_docs(PyObject* self, PyObject* args, PyObject* kwargs)
-	{
-
-		// create window
-		auto window = mvWindow::CreatemvWindow(mvApp::GetApp()->getActualWidth(), mvApp::GetApp()->getActualHeight(), false, false, true);
-		window->show();
-		window->run();
-		delete window;
-		delete mvApp::GetApp();
-
-		return mvPythonTranslator::GetPyNone();
-	}
-
 	PyObject* set_global_font_scale(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		float scale;
@@ -6260,8 +6232,6 @@ namespace Marvel {
 		ADD_PYTHON_FUNCTION(render_dearpygui_frame)
 		ADD_PYTHON_FUNCTION(cleanup_dearpygui)
 		ADD_PYTHON_FUNCTION(start_dearpygui)
-		ADD_PYTHON_FUNCTION(start_dearpygui_editor)
-		ADD_PYTHON_FUNCTION(start_dearpygui_docs)
 		ADD_PYTHON_FUNCTION(clear_table)
 		ADD_PYTHON_FUNCTION(get_window_pos)
 		ADD_PYTHON_FUNCTION(set_window_pos)

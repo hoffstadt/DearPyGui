@@ -1113,14 +1113,6 @@ def start_dearpygui() -> None:
 	"""Starts DearPyGui"""
 	...
 
-def start_dearpygui_docs() -> None:
-	"""Starts DearPyGui documentation"""
-	...
-
-def start_dearpygui_editor() -> None:
-	"""Starts DearPyGui editor"""
-	...
-
 def unindent(name: str = "", offset: float = 0.0, parent: str = "", before: str = "") -> None:
 	"""Unindents following items."""
 	...
