@@ -23,6 +23,22 @@ HOW TO UPDATE?
 - Please report any issue!
 
 -----------------------------------------------------------------------
+ VERSION 0.1.0 Beta 9
+-----------------------------------------------------------------------
+
+Decorated log: https://github.com/hoffstadt/DearPyGui/releases/tag/v0.1.0-beta9
+
+Fixes:
+
+- Tables:     set_value as an empty list caused crash #93
+- Text:       fixed truncation issue with large strings #92
+- Label Text: fixed truncation issue with large strings #92
+
+New Commands:
+
+- Fonts:  added custom_glyph_chars and custom_glyph_ranges to add_addition_font
+
+-----------------------------------------------------------------------
  VERSION 0.1.0 Beta 8
 -----------------------------------------------------------------------
 

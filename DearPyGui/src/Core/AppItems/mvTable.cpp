@@ -75,8 +75,11 @@ namespace Marvel {
 
 		m_values = values;
 
-		while (m_headers.size() > m_values[0].size())
-			m_headers.pop_back();
+		if (!m_values.empty()) // just in case value is set to an empty list
+		{
+			while (m_headers.size() > m_values[0].size())
+				m_headers.pop_back();
+		}
 
 		updateHashValues();
 
