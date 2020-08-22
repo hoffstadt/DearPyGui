@@ -1781,12 +1781,6 @@ namespace Marvel {
 		parsers->insert({ "start_dearpygui", mvPythonParser({
 		}, "Starts DearPyGui") });
 
-		parsers->insert({ "start_dearpygui_editor", mvPythonParser({
-		}, "Starts DearPyGui editor") });
-
-		parsers->insert({ "start_dearpygui_docs", mvPythonParser({
-		}, "Starts DearPyGui documentation") });
-
 		parsers->insert({ "set_global_font_scale", mvPythonParser({
 			{mvPythonDataType::Float, "scale", "default is 1.0"}
 		}, "Changes the global font scale.") });
