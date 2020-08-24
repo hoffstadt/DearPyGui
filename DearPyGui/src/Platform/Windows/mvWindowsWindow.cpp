@@ -59,6 +59,7 @@ namespace Marvel {
 		ImGui::CreateContext();
 		ImGuiIO& io = ImGui::GetIO(); (void)io;
 		io.ConfigWindowsMoveFromTitleBarOnly = true;
+		io.IniFilename = nullptr;
 
 		setupFonts();
 
