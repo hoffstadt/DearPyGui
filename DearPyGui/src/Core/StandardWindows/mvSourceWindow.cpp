@@ -78,7 +78,7 @@ namespace Marvel {
 			float x = mousePos.x - ImGui::GetWindowPos().x;
 			float y = mousePos.y - ImGui::GetWindowPos().y - titleBarHeight;
 			mvInput::setMousePosition(x, y);
-			mvApp::GetApp()->setActiveWindow("Source");
+			mvApp::GetApp()->setActiveWindow("source");
 
 		}
 		ImGui::End();

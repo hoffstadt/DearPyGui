@@ -173,7 +173,7 @@ namespace Marvel {
 		routeInputCallbacks();
 
 		// run render callbacks
-		if (m_activeWindow == "MainWindow")
+		if (m_activeWindow == "MainWindow" || m_activeWindow == "style" || m_activeWindow == "source" || m_activeWindow == "metrics" || m_activeWindow == "about" || m_activeWindow == "debug")
 		{
 			if (!getRenderCallback().empty())
 				runCallback(getRenderCallback(), "Main Application");
