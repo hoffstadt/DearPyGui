@@ -36,7 +36,7 @@ namespace Marvel {
 			{
 				if(m_multiline)
 				{
-					if (ImGui::InputTextMultiline(m_label.c_str(), &m_value, ImVec2((float)m_width, (float)m_height)))
+					if (ImGui::InputTextMultiline(m_label.c_str(), &m_value, ImVec2((float)m_width, (float)m_height), m_flags))
 					{
 						if (!m_dataSource.empty())
 							mvDataStorage::AddData(m_dataSource, getPyValue());
