@@ -13,7 +13,7 @@
 [![build status](https://github.com/hoffstadt/DearPyGui/workflows/LinuxDev/badge.svg)](https://github.com/hoffstadt/DearPyGui/actions?workflow=LinuxDev)
 [![build status](https://github.com/hoffstadt/DearPyGui/workflows/MacOSDev/badge.svg)](https://github.com/hoffstadt/DearPyGui/actions?workflow=MacOSDev)
 
-**Dear PyGui** is a **simple to use (but powerful) Python GUI framework**. _DearPyGui_ provides a wrapping of **[DearImGui](https://github.com/ocornut/imgui)** that simulates a traditional retained mode GUI, as opposed to _Dear ImGui_'s immediate mode paradigm.
+**Dear PyGui** is a **simple to use (but powerful) Python GUI framework**. _DearPyGui_ provides a wrapping of **[DearImGui](https://github.com/ocornut/imgui)** that provides a hybrid of a traditional retained mode GUI and _Dear ImGui_'s immediate mode paradigm.
 
 **Dear PyGui is fundamentally different than other Python GUI frameworks**. Under the hood, _DearPyGui_ 
 uses the immediate mode paradigm allowing for extremely dynamic interfaces. _DearPyGui_ 
