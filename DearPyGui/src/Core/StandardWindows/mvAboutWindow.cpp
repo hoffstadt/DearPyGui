@@ -7,7 +7,7 @@ namespace Marvel {
 
 	void mvAboutWindow::render(bool& show)
 	{
-		if (!ImGui::Begin("About DearPyGui", &show, ImGuiWindowFlags_AlwaysAutoResize))
+		if (!ImGui::Begin("About DearPyGui", &show, ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_NoSavedSettings))
 		{
 			ImGui::End();
 			return;

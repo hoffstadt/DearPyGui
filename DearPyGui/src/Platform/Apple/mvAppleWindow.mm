@@ -47,6 +47,7 @@ namespace Marvel {
         ImGui::CreateContext();
         ImGuiIO &io = ImGui::GetIO();
         io.ConfigWindowsMoveFromTitleBarOnly = true;
+        io.IniFilename = nullptr;
         (void) io;
         setupFonts();
         //io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;  // Enable Keyboard Controls
