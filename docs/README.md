@@ -37,7 +37,7 @@ simple way for python developers to **create quick and powerful GUIs for scripts
 
 ---
 
-Ensure you have the newest version of Python 3.8 (3.8.5 at the moment).
+Ensure you have the newest version of Python 3.8.
  ```
  pip install dearpygui
  or
