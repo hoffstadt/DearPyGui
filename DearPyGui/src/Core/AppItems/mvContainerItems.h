@@ -35,7 +35,8 @@ namespace Marvel {
 		void draw() override
 		{
 			
-			ImGui::BeginChild(m_label.c_str(), ImVec2(float(m_width), float(m_height)), m_border);
+			ImGui::BeginChild(m_label.c_str(), ImVec2(float(m_width), float(m_height)), m_border, 
+				ImGuiWindowFlags_HorizontalScrollbar);
 
 			for (mvAppItem* item : m_children)
 			{
