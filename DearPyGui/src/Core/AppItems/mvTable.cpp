@@ -2,6 +2,7 @@
 #include "mvPythonTranslator.h"
 #include "mvApp.h"
 #include "mvAppLog.h"
+#include "Core/mvDataStorage.h"
 #include "Core/mvPythonExceptions.h"
 
 namespace Marvel {
@@ -88,6 +89,12 @@ namespace Marvel {
 
 	PyObject* mvTable::getPyValue() const
 	{
+		if (!m_dataSource.empty())
+		{
+			mvPythonTranslator::UpdatePyStringStringList(mvDataStorage::GetData(m_dataSource), m_values);
+			return mvDataStorage::GetData(m_dataSource);
+		}
+
 		return mvPythonTranslator::ToPyList(m_values);
 	}
 

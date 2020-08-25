@@ -2548,12 +2548,15 @@ namespace Marvel {
 		const char* callback = "";
 		const char* parent = "";
 		const char* before = "";
+		const char* data_source = "";
 
-		if (!(*mvApp::GetApp()->getParsers())["add_table"].parse(args, kwargs, __FUNCTION__, &name, &headers, &callback, &parent, &before))
+		if (!(*mvApp::GetApp()->getParsers())["add_table"].parse(args, kwargs, __FUNCTION__, &name, &headers, &callback, &parent,
+			&before, &data_source))
 			return mvPythonTranslator::GetPyNone();
 
 		mvAppItem* item = new mvTable("", name, mvPythonTranslator::ToStringVect(headers));
 		item->setCallback(callback);
+		item->setDataSource(data_source);
 		AddItemWithRuntimeChecks(item, parent, before);
 		return mvPythonTranslator::GetPyNone();
 	}
@@ -2572,9 +2575,10 @@ namespace Marvel {
 		const char* before = "";
 		int width = 0;
 		int height = 0;
+		const char* data_source = "";
 
 		if (!(*mvApp::GetApp()->getParsers())["add_simple_plot"].parse(args, kwargs, __FUNCTION__, &name, &value, &autoscale, &overlay,
-			&minscale, &maxscale, &histogram, &tip, &parent, &before, &width, &height))
+			&minscale, &maxscale, &histogram, &tip, &parent, &before, &width, &height, &data_source))
 			return mvPythonTranslator::GetPyNone();
 
 		std::vector<float> values = mvPythonTranslator::ToFloatVect(value);
@@ -2597,6 +2601,7 @@ namespace Marvel {
 		item->setTip(tip);
 		item->setWidth(width);
 		item->setHeight(height);
+		item->setDataSource(data_source);
 
 		AddItemWithRuntimeChecks(item, parent, before);
 
@@ -4340,10 +4345,11 @@ namespace Marvel {
 	PyObject* add_color_edit3(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		const char* name;
-		PyObject* default_value = PyTuple_New(3);
+		PyObject* default_value = PyTuple_New(4);
 		PyTuple_SetItem(default_value, 0, PyLong_FromLong(0));
 		PyTuple_SetItem(default_value, 1, PyLong_FromLong(0));
 		PyTuple_SetItem(default_value, 2, PyLong_FromLong(0));
+		PyTuple_SetItem(default_value, 3, PyLong_FromLong(255));
 		const char* callback = "";
 		const char* tip = "";
 		int width = 0;
@@ -4402,10 +4408,11 @@ namespace Marvel {
 	PyObject* add_color_picker3(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		const char* name;
-		PyObject* default_value = PyTuple_New(3);
+		PyObject* default_value = PyTuple_New(4);
 		PyTuple_SetItem(default_value, 0, PyLong_FromLong(0));
 		PyTuple_SetItem(default_value, 1, PyLong_FromLong(0));
 		PyTuple_SetItem(default_value, 2, PyLong_FromLong(0));
+		PyTuple_SetItem(default_value, 3, PyLong_FromLong(255));
 		const char* callback = "";
 		const char* tip = "";
 		int width = 0;

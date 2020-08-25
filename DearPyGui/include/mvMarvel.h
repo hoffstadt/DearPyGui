@@ -843,6 +843,7 @@ namespace Marvel {
 			{mvPythonDataType::String, "callback", "Registers a callback"},
 			{mvPythonDataType::String, "parent", "Parent to add this item to. (runtime adding)"},
 			{mvPythonDataType::String, "before","Item to add this item before. (runtime adding)"},
+			{mvPythonDataType::String, "data_source",""},
 		}, "Adds table.", "None", "Tables") });
 
 		parsers->insert({ "set_table_item", mvPythonParser({
@@ -1405,6 +1406,7 @@ namespace Marvel {
 			{mvPythonDataType::String, "before","Item to add this item before. (runtime adding)"},
 			{mvPythonDataType::Integer, "width",""},
 			{mvPythonDataType::Integer, "height",""},
+			{mvPythonDataType::String, "data_source",""},
 		}, "A simple plot for visualization of a set of values", "None", "Adding Widgets") });
 
 		parsers->insert({ "add_progress_bar", mvPythonParser({

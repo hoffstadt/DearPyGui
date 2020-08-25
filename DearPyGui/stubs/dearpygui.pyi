@@ -206,7 +206,8 @@ def add_seperator(name: str = "", tip: str = "", parent: str = "", before: str =
 	"""Adds a horizontal line."""
 	...
 
-def add_simple_plot(name: str, value: List[float], autoscale: bool = True, overlay: str = "", minscale: float = 0.0, maxscale: float = 0.0, histogram: bool = False, tip: str = "", parent: str = "", before: str = "", width: int = 0, height: int = 0) -> None:
+def add_simple_plot(name: str, value: List[float], autoscale: bool = True, overlay: str = "", minscale: float = 0.0, maxscale: float = 0.0, histogram: bool = False, tip: str = "", parent: str = "", 
+					before: str = "", width: int = 0, height: int = 0, data_source: str = "") -> None:
 	"""A simple plot for visualization of a set of values"""
 	...
 
@@ -254,7 +255,7 @@ def add_tab_bar(name: str, reorderable: bool = False, callback: str = "", parent
 	"""Adds a tab bar."""
 	...
 
-def add_table(name: str, headers: List[str], callback: str = "", parent: str = "", before: str = "") -> None:
+def add_table(name: str, headers: List[str], callback: str = "", parent: str = "", before: str = "", data_source: str = "") -> None:
 	"""Adds table."""
 	...
 

@@ -60,6 +60,11 @@ namespace Marvel {
 		static PyObject* ToPyList  (const std::vector<std::vector<std::string>>& value);
 		static PyObject* ToPyList  (const std::vector<std::pair<int, int>>& value);
 
+		// updates
+		static void UpdatePyIntList(PyObject* pyvalue, const std::vector<int>& value);
+		static void UpdatePyFloatList(PyObject* pyvalue, const std::vector<float>& value);
+		static void UpdatePyStringStringList(PyObject* pyvalue, const std::vector<std::vector<std::string>>& value);
+
 		// conversion to c++
 		static int         ToInt   (PyObject* value, const std::string& message = "Type must be an integer.");
 		static float       ToFloat (PyObject* value, const std::string& message = "Type must be a float.");

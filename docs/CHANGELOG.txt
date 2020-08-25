@@ -37,6 +37,15 @@ Fixes:
 - Data Storage:    data storage is now updated at the end of each frame. No need to update by calling add_data again
 - Other:           fixed issue where imgui ini file was appearing
 
+New Commands:
+
+- Simple Plot:  add simple plot now has a "data_source" keyword
+- Table:        add table now has a "data_source" keyword
+
+New Features:
+
+- Data Storage: non primitive types can not by used within reaccessing data_storage
+
 -----------------------------------------------------------------------
  VERSION 0.1.0 Beta 9
 -----------------------------------------------------------------------

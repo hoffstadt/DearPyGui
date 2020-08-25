@@ -113,6 +113,19 @@ namespace Marvel {
 
 		[[nodiscard]] PyObject* getPyValue() const override
 		{
+
+			if (!m_dataSource.empty())
+			{
+				if (m_valuecount == 1)
+					return mvPythonTranslator::ToPyInt(m_value[0]);
+
+				else
+				{
+					mvPythonTranslator::UpdatePyIntList(mvDataStorage::GetData(m_dataSource), m_value);
+					return mvDataStorage::GetData(m_dataSource);
+				}
+			}
+
 			if (m_valuecount == 1)
 				return mvPythonTranslator::ToPyInt(m_value[0]);
 
@@ -157,6 +170,19 @@ namespace Marvel {
 
 		[[nodiscard]] PyObject* getPyValue() const override
 		{
+
+			if (!m_dataSource.empty())
+			{
+				if (m_valuecount == 1)
+					return mvPythonTranslator::ToPyFloat(m_value[0]);
+
+				else
+				{
+					mvPythonTranslator::UpdatePyFloatList(mvDataStorage::GetData(m_dataSource), m_value);
+					return mvDataStorage::GetData(m_dataSource);
+				}
+			}
+
 			if (m_valuecount == 1)
 				return mvPythonTranslator::ToPyFloat(m_value[0]);
 
@@ -205,6 +231,13 @@ namespace Marvel {
 			std::vector<int> ints;
 			for (const auto& item : m_value)
 				ints.push_back(item * 255);
+
+			if (!m_dataSource.empty())
+			{
+				mvPythonTranslator::UpdatePyIntList(mvDataStorage::GetData(m_dataSource), ints);
+				return mvDataStorage::GetData(m_dataSource);
+			}
+
 			return mvPythonTranslator::ToPyList(ints);
 		}
 
