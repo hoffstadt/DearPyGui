@@ -23,6 +23,21 @@ HOW TO UPDATE?
 - Please report any issue!
 
 -----------------------------------------------------------------------
+ VERSION 0.1.0 Beta 10
+-----------------------------------------------------------------------
+
+Decorated log: https://github.com/hoffstadt/DearPyGui/releases/tag/v0.1.0-beta10
+
+Fixes:
+
+- Render Callback: fixed issue with debug window freezing main callback #95
+- Child Widget:    child widget now shows a horizontal scrollbar if contents are too large #91 kinda
+- Multiline:       fixed issue where multiline did not work with other flags (i.e. readonly) #94
+- Logger:          fixed issue with auto-scroll in logger (this is actually a Dear ImGui bug) #97
+- Data Storage:    data storage is now updated at the end of each frame. No need to update by calling add_data again
+- Other:           fixed issue where imgui ini file was appearing
+
+-----------------------------------------------------------------------
  VERSION 0.1.0 Beta 9
 -----------------------------------------------------------------------
 
