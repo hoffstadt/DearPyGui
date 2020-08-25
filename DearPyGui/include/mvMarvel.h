@@ -25,6 +25,11 @@ namespace Marvel {
 			{mvPythonDataType::Integer, "height",""},
 		}, "Adds a drawing widget.", "None", "Drawing")});
 
+		parsers->insert({ "delete_drawing_item", mvPythonParser({
+			{mvPythonDataType::String, "drawing"},
+			{mvPythonDataType::String, "tag"},
+		}, "Deletes a drawing item.", "None", "Drawing") });
+
 		parsers->insert({ "set_drawing_size", mvPythonParser({
 			{mvPythonDataType::String, "name"},
 			{mvPythonDataType::Integer, "width"},

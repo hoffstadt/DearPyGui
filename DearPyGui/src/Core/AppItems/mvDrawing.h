@@ -411,6 +411,8 @@ namespace Marvel {
 		[[nodiscard]] ImVec2 getScale() const { return { m_scalex, m_scaley }; }
 		[[nodiscard]] ImVec2 getOrigin() const { return { m_originx, m_originy }; }
 
+		void deleteCommand(const std::string& tag);
+
 		mvVec2 convertToModelSpace(const mvVec2& point);
 		void convertToModelSpace(std::vector<mvVec2>& points, const std::vector<mvVec2>& pointso);
 

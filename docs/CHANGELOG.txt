@@ -41,6 +41,7 @@ New Commands:
 
 - Simple Plot:  add simple plot now has a "data_source" keyword
 - Table:        add table now has a "data_source" keyword
+- Drawing:      delete_drawing_item
 
 New Features:
 
