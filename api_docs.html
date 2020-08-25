@@ -60,6 +60,18 @@
                             <p>glyph_ranges : str
                                 options: korean, japanese, chinese_full, chinese_simplified_common, cryillic, thai, vietnamese</p>
                         </li>
+                        <li>
+                            <p>Keyword Only Arguments</p>
+                        </li>
+                    </ul>
+                    <hr>
+                    <ul>
+                        <li>
+                            <p>custom_glyph_chars : List[int]</p>
+                        </li>
+                        <li>
+                            <p>custom_glyph_ranges : object</p>
+                        </li>
                     </ul></div>
             </dd>
             <dt id="dearpygui.dearpygui.add_area_series"><code class="name flex">
@@ -2338,6 +2350,9 @@
                         <li>
                             <p>height : int</p>
                         </li>
+                        <li>
+                            <p>data_source : str</p>
+                        </li>
                     </ul></div>
             </dd>
             <dt id="dearpygui.dearpygui.add_slider_float"><code class="name flex">
@@ -2933,6 +2948,9 @@
                             <p>before : str
                                 Item to add this item before. (runtime adding)</p>
                         </li>
+                        <li>
+                            <p>data_source : str</p>
+                        </li>
                     </ul></div>
             </dd>
             <dt id="dearpygui.dearpygui.add_text"><code class="name flex">
@@ -3227,6 +3245,23 @@
                     <hr>
                     <ul>
                         <li>name : str</li>
+                    </ul></div>
+            </dd>
+            <dt id="dearpygui.dearpygui.delete_drawing_item"><code class="name flex">
+                <span>def <span class="ident">delete_drawing_item</span></span>(<span>...)</span>
+            </code></dt>
+            <dd>
+                <div class="desc"><p>Deletes a drawing item.</p>
+                    <p>Return Type: None</p>
+                    <p>Parameters</p>
+                    <hr>
+                    <ul>
+                        <li>
+                            <p>drawing : str</p>
+                        </li>
+                        <li>
+                            <p>tag : str</p>
+                        </li>
                     </ul></div>
             </dd>
             <dt id="dearpygui.dearpygui.delete_item"><code class="name flex">
@@ -6018,20 +6053,6 @@
                 <div class="desc"><p>Starts DearPyGui</p>
                     <p>Return Type: None</p></div>
             </dd>
-            <dt id="dearpygui.dearpygui.start_dearpygui_docs"><code class="name flex">
-                <span>def <span class="ident">start_dearpygui_docs</span></span>(<span>...)</span>
-            </code></dt>
-            <dd>
-                <div class="desc"><p>Starts DearPyGui documentation</p>
-                    <p>Return Type: None</p></div>
-            </dd>
-            <dt id="dearpygui.dearpygui.start_dearpygui_editor"><code class="name flex">
-                <span>def <span class="ident">start_dearpygui_editor</span></span>(<span>...)</span>
-            </code></dt>
-            <dd>
-                <div class="desc"><p>Starts DearPyGui editor</p>
-                    <p>Return Type: None</p></div>
-            </dd>
             <dt id="dearpygui.dearpygui.unindent"><code class="name flex">
                 <span>def <span class="ident">unindent</span></span>(<span>...)</span>
             </code></dt>
@@ -6150,6 +6171,7 @@
                     <li><code><a title="dearpygui.dearpygui.close_popup" href="#dearpygui.dearpygui.close_popup">close_popup</a></code></li>
                     <li><code><a title="dearpygui.dearpygui.delete_column" href="#dearpygui.dearpygui.delete_column">delete_column</a></code></li>
                     <li><code><a title="dearpygui.dearpygui.delete_data" href="#dearpygui.dearpygui.delete_data">delete_data</a></code></li>
+                    <li><code><a title="dearpygui.dearpygui.delete_drawing_item" href="#dearpygui.dearpygui.delete_drawing_item">delete_drawing_item</a></code></li>
                     <li><code><a title="dearpygui.dearpygui.delete_item" href="#dearpygui.dearpygui.delete_item">delete_item</a></code></li>
                     <li><code><a title="dearpygui.dearpygui.delete_row" href="#dearpygui.dearpygui.delete_row">delete_row</a></code></li>
                     <li><code><a title="dearpygui.dearpygui.draw_arrow" href="#dearpygui.dearpygui.draw_arrow">draw_arrow</a></code></li>
@@ -6352,8 +6374,6 @@
                     <li><code><a title="dearpygui.dearpygui.show_source" href="#dearpygui.dearpygui.show_source">show_source</a></code></li>
                     <li><code><a title="dearpygui.dearpygui.show_style_editor" href="#dearpygui.dearpygui.show_style_editor">show_style_editor</a></code></li>
                     <li><code><a title="dearpygui.dearpygui.start_dearpygui" href="#dearpygui.dearpygui.start_dearpygui">start_dearpygui</a></code></li>
-                    <li><code><a title="dearpygui.dearpygui.start_dearpygui_docs" href="#dearpygui.dearpygui.start_dearpygui_docs">start_dearpygui_docs</a></code></li>
-                    <li><code><a title="dearpygui.dearpygui.start_dearpygui_editor" href="#dearpygui.dearpygui.start_dearpygui_editor">start_dearpygui_editor</a></code></li>
                     <li><code><a title="dearpygui.dearpygui.unindent" href="#dearpygui.dearpygui.unindent">unindent</a></code></li>
                 </ul>
             </li>
