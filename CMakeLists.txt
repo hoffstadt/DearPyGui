@@ -7,7 +7,7 @@ set(MVDIST_ONLY ${MVDIST_ONLY})
 
 add_definitions(-D_USE_MATH_DEFINES)
 
-add_definitions(-DMV_SANDBOX_VERSION="0.1.0.dev17")
+add_definitions(-DMV_SANDBOX_VERSION="0.1.0b10")
 
 # Include sub-projects.
 add_subdirectory ("DearPyGui")
