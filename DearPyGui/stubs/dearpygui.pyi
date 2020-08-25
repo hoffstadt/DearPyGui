@@ -312,6 +312,10 @@ def delete_data(name: str) -> None:
 	"""Deletes data from storage."""
 	...
 
+def delete_drawing_item(drawing: str, tag: str) -> None:
+	"""Deletes a drawing item."""
+	...
+
 def delete_item(item: str, children_only: bool = False) -> None:
 	"""Deletes an item if it exists."""
 	...

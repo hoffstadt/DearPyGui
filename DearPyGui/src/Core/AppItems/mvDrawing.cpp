@@ -647,4 +647,36 @@ namespace Marvel {
 		m_originy = y; 
 		m_dirty = true;
 	}
+
+	void mvDrawing::deleteCommand(const std::string& tag)
+	{
+
+		bool tagFound = false;
+		int index = 0;
+
+		for(index = 0; index < m_commands.size(); index++)
+		{
+			if (m_commands[index]->tag == tag)
+			{
+				tagFound = true;
+				delete m_commands[index];
+				m_commands[index] = nullptr;
+				break;
+			}
+		}
+
+		if (!tagFound)
+			return;
+
+		std::vector<mvDrawingCommand*> oldCommands = m_commands;
+		m_commands.clear();
+
+		for(size_t i = 0; i<oldCommands.size(); i++)
+		{
+			if (i != index)
+				m_commands.push_back(oldCommands[i]);
+
+		}
+
+	}
 }

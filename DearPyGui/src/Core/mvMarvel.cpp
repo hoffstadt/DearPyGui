@@ -906,6 +906,36 @@ namespace Marvel {
 		return mvPythonTranslator::GetPyNone();
 	}
 
+	PyObject* delete_drawing_item(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		const char* drawing;
+		const char* tag;
+
+		if (!(*mvApp::GetApp()->getParsers())["delete_drawing_item"].parse(args, kwargs, __FUNCTION__, &drawing, &tag))
+			return mvPythonTranslator::GetPyNone();
+
+		auto item = mvApp::GetApp()->getItem(drawing);
+
+		if (item == nullptr)
+		{
+			ThrowPythonException("Drawing does not exist");
+			return mvPythonTranslator::GetPyNone();
+		}
+
+		mvDrawing* dwg;
+		if (item->getType() == mvAppItemType::Drawing)
+			dwg = static_cast<mvDrawing*>(item);
+		else
+		{
+			ThrowPythonException(std::string(drawing) + " is not a drawing.");
+			return mvPythonTranslator::GetPyNone();
+		}
+		
+		dwg->deleteCommand(tag);
+
+		return mvPythonTranslator::GetPyNone();
+	}
+
 	PyObject* set_drawing_size(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		const char* name;
@@ -6443,6 +6473,7 @@ namespace Marvel {
 		ADD_PYTHON_FUNCTION(set_plot_ylimits)
 		ADD_PYTHON_FUNCTION(set_color_map)
 		ADD_PYTHON_FUNCTION(add_plot)
+		ADD_PYTHON_FUNCTION(delete_drawing_item)
 		ADD_PYTHON_FUNCTION(add_line_series)
 		ADD_PYTHON_FUNCTION(add_scatter_series)
 		ADD_PYTHON_FUNCTION(add_area_series)
