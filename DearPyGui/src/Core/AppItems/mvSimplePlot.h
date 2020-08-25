@@ -44,6 +44,12 @@ namespace Marvel{
 
 		[[nodiscard]] PyObject* getPyValue() const override
 		{
+			if (!m_dataSource.empty())
+			{
+					mvPythonTranslator::UpdatePyFloatList(mvDataStorage::GetData(m_dataSource), m_value);
+					return mvDataStorage::GetData(m_dataSource);
+			}
+
 			return mvPythonTranslator::ToPyList(m_value);
 		}
 

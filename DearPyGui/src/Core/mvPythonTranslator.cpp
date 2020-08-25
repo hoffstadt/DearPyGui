@@ -15,6 +15,69 @@ namespace Marvel {
 		PyGILState_Release(m_gstate);
 	}
 
+	void mvPythonTranslator::UpdatePyIntList(PyObject* pyvalue, const std::vector<int>& value)
+	{
+		mvGlobalIntepreterLock gil;
+
+		if (!PyList_Check(pyvalue))
+		{
+			ThrowPythonException("Python value error");
+			return;
+		}
+		
+
+		for (size_t i = 0; i < PyList_Size(pyvalue); i++)
+		{
+			if (i == value.size())
+				break;
+			PyList_SetItem(pyvalue, i, PyLong_FromLong(value[i]));
+		}
+	}
+
+	void mvPythonTranslator::UpdatePyFloatList(PyObject* pyvalue, const std::vector<float>& value)
+	{
+		mvGlobalIntepreterLock gil;
+
+		if (!PyList_Check(pyvalue))
+		{
+			ThrowPythonException("Python value error");
+			return;
+		}
+
+
+		for (size_t i = 0; i < PyList_Size(pyvalue); i++)
+		{
+			if (i == value.size())
+				break;
+			PyList_SetItem(pyvalue, i, PyFloat_FromDouble(value[i]));
+		}
+	}
+
+	void mvPythonTranslator::UpdatePyStringStringList(PyObject* pyvalue, const std::vector<std::vector<std::string>>& value)
+	{
+		mvGlobalIntepreterLock gil;
+
+		if (!PyList_Check(pyvalue))
+		{
+			ThrowPythonException("Python value error");
+			return;
+		}
+
+
+		for (size_t i = 0; i < PyList_Size(pyvalue); i++)
+		{
+			if (i == value.size())
+				break;
+			PyObject* row = PyList_GetItem(pyvalue, i);
+			for (size_t j = 0; j < PyList_Size(row); j++)
+			{
+				if (j == value[i].size())
+					break;
+				PyList_SetItem(row, i, PyUnicode_FromString(value[i][j].c_str()));
+			}
+		}
+	}
+
 	PyObject* mvPythonTranslator::GetPyNone()
 	{
 		mvGlobalIntepreterLock gil;
