@@ -21,15 +21,10 @@ add_spacing(count=5)
 add_seperator()
 add_spacing(count=5)
 
-
 add_input_float3("Input Float3", data_source="color1")
 add_drag_float3("Drag Float3", min_value=0, max_value=255, speed=1, data_source="color1")
 add_slider_float3("Slider Float3", min_value=0, max_value=255, data_source="color1")
 add_color_edit3("Color Edit3", data_source="color1")
 add_color_picker3("Color Picker3", width=300, data_source="color1")
-
-
-
-
 
 start_dearpygui()

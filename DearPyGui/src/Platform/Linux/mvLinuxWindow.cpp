@@ -1,5 +1,6 @@
 #include "Platform/Linux/mvLinuxWindow.h"
 #include "mvApp.h"
+#include "Core/mvDataStorage.h"
 #include "Core/StandardWindows/mvAppEditor.h"
 
 #include <GL/gl3w.h>
@@ -99,6 +100,8 @@ namespace Marvel {
     void mvLinuxWindow::renderFrame()
     {
         prerender();
+
+        mvDataStorage::UpdateData();
 
         if (m_error)
         {

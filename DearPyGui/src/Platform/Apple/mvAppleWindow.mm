@@ -1,4 +1,5 @@
 #include "mvAppleWindow.h"
+#include "Core/mvDataStorage.h"
 #include <implot.h>
 
 #define GLFW_INCLUDE_NONE
@@ -135,6 +136,8 @@ namespace Marvel {
             ImGui_ImplMetal_NewFrame(m_renderPassDescriptor);
             ImGui_ImplGlfw_NewFrame();
             ImGui::NewFrame();
+
+            mvDataStorage::UpdateData();
 
             if (m_error) {
                 mvAppLog::setSize(m_width, m_height);
