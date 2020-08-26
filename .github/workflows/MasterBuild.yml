@@ -53,13 +53,10 @@ jobs:
     - name: Retrieve submodules
       shell: cmd
       run: |
-        git submodule update --init
+        git submodule update --init --recursive
         cd Dependencies
         cd cpython
         git checkout v3.7.9
-        cd ..
-        cd ..
-        git submodule update --init --recursive
       
     - name: Build Python
       shell: cmd
@@ -121,13 +118,10 @@ jobs:
 
     - name: Retrieve submodules
       run: |
-        git submodule update --init
+        git submodule update --init --recursive
         cd Dependencies
         cd cpython
         git checkout v3.7.9
-        cd ..
-        cd ..
-        git submodule update --init --recursive
     
     - name: Build Python
       run: |
