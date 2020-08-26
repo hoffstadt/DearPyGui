@@ -4,10 +4,15 @@ project ("DearPyGui")
 
 set(CONFIG_32BIT ${CONFIG_32BIT})
 set(MVDIST_ONLY ${MVDIST_ONLY})
+set(MV37DIST ${MV37DIST})
 
 add_definitions(-D_USE_MATH_DEFINES)
-
 add_definitions(-DMV_SANDBOX_VERSION="0.1.0.dev18")
+if(MV37DIST)
+    add_definitions(-DMV_PYTHON_VERSION=37)
+else()
+    add_definitions(-DMV_PYTHON_VERSION=38)
+endif()
 
 # Include sub-projects.
 add_subdirectory ("DearPyGui")
