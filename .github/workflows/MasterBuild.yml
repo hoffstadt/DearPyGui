@@ -41,6 +41,43 @@ jobs:
         cmake --build cmake-build-release --config Release
         cmake --build cmake-build-release32 --config Release
 
+  build-windows37:
+    
+    runs-on: windows-2019
+    if: "contains(github.event.head_commit.message, 'ci run')"
+
+    steps:
+
+    - uses: actions/checkout@v2
+
+    - name: Retrieve submodules
+      shell: cmd
+      run: |
+        git submodule update --init --recursive
+        cd Dependencies
+        cd cpython
+        git checkout v3.7.9
+      
+    - name: Build Python
+      shell: cmd
+      run: |
+        cd Scripts
+        call BuildPythonForWindows.bat --ci
+        cd ..
+        mkdir cmake-build-release
+        mkdir cmake-build-release32
+        cd cmake-build-release
+        cmake ..
+        cd ..
+        cd cmake-build-release32
+        cmake .. -G "Visual Studio 16 2019" -A Win32 -DCONFIG_32BIT=True -DMVDIST_ONLY=True -DMV37DIST=True
+        
+    - name: Build DearPyGui
+      shell: cmd
+      run: |
+        cmake --build cmake-build-release --config Release
+        cmake --build cmake-build-release32 --config Release
+
   build-MacOS:
     
     runs-on: MacOS-latest
@@ -65,6 +102,39 @@ jobs:
         mkdir cmake-build-release
         cd cmake-build-release
         cmake .. -DMVDIST_ONLY=True
+
+    - name: Build DearPyGui
+      run: |
+        cmake --build cmake-build-release --config Release
+
+  build-MacOS37:
+    
+    runs-on: MacOS-latest
+    if: "contains(github.event.head_commit.message, 'ci run')"
+
+    steps:
+
+    - uses: actions/checkout@v2
+
+    - name: Retrieve submodules
+      run: |
+        git submodule update --init --recursive
+        cd Dependencies
+        cd cpython
+        git checkout v3.7.9
+    
+    - name: Build Python
+      run: |
+        brew install openssl
+        cd Dependencies/cpython
+        ./configure --enable-framework --with-openssl=$(brew --prefix openssl)
+        sudo make && sudo make install
+        cp pyconfig.h Include/pyconfig.h
+        cd ..
+        cd ..
+        mkdir cmake-build-release
+        cd cmake-build-release
+        cmake .. -DMVDIST_ONLY=True -DMV37DIST=True
 
     - name: Build DearPyGui
       run: |
@@ -98,6 +168,43 @@ jobs:
         mkdir cmake-build-release
         cd cmake-build-release
         cmake .. -DMVDIST_ONLY=True
+
+    - name: Build DearPyGui
+      run: |
+        cmake --build cmake-build-release --config Release
+
+  build-Ubuntu37:
+    
+    runs-on: ubuntu-20.04
+    if: "contains(github.event.head_commit.message, 'ci run')"
+
+    steps:
+
+    - uses: actions/checkout@v2
+
+    - name: Retrieve submodules
+      run: |
+        git submodule update --init --recursive
+        cd Dependencies
+        cd cpython
+        git checkout v3.7.9
+    
+    - name: Build Python
+      run: |
+        sudo apt-get install xorg-dev
+        cd Dependencies/cpython
+        mkdir debug
+        cd debug
+        ../configure --enable-shared --prefix $PWD
+        sudo make && sudo make install
+        cd ..
+        cd ..
+        cd ..
+        pip3 install wheel
+        pip3 install twine
+        mkdir cmake-build-release
+        cd cmake-build-release
+        cmake .. -DMVDIST_ONLY=True -DMV37DIST=True
 
     - name: Build DearPyGui
       run: |
