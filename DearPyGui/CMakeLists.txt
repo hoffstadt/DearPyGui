@@ -111,6 +111,7 @@ set(MARVEL_INCLUDE_DIR
 	"src/Vendor/stb/"
 	"$<$<PLATFORM_ID:Windows>:${CMAKE_SOURCE_DIR}/Dependencies/cpython/PC/>"
 
+	"/usr/include/python3.7/"
 	"/usr/include/python3.8/"
 
 	# may can delete this
@@ -139,24 +140,14 @@ if(WIN32)
 		endif()
 	endif()
 
-	target_link_libraries(dearpygui
-
-		PUBLIC
-
-			$<$<PLATFORM_ID:Windows>:d3d11>
-			$<$<CONFIG:Debug>:python38_d>
-			$<$<CONFIG:Release>:python38>
-	)
+	if(MV37DIST)
+		target_link_libraries(dearpygui PUBLIC $<$<PLATFORM_ID:Windows>:d3d11> $<$<CONFIG:Debug>:python37_d> $<$<CONFIG:Release>:python37>)
+	else()
+		target_link_libraries(dearpygui PUBLIC $<$<PLATFORM_ID:Windows>:d3d11> $<$<CONFIG:Debug>:python38_d> $<$<CONFIG:Release>:python38>)
+	endif()
 
 	if(NOT MVDIST_ONLY)
-		target_link_libraries(dearpyguiemb
-
-			PUBLIC
-
-				$<$<PLATFORM_ID:Windows>:d3d11>
-				$<$<CONFIG:Debug>:python38_d>
-				$<$<CONFIG:Release>:python38>
-		)
+		target_link_libraries(dearpyguiemb PUBLIC $<$<PLATFORM_ID:Windows>:d3d11> $<$<CONFIG:Debug>:python38_d> $<$<CONFIG:Release>:python38>)
 	endif()
 
 
@@ -168,7 +159,9 @@ elseif(APPLE)
 	SET_PROPERTY(TARGET dearpygui APPEND_STRING PROPERTY COMPILE_FLAGS "-fobjc-arc -Wno-unused-result -Wsign-compare -Wunreachable-code -fno-common -dynamic -DNDEBUG -g -fwrapv -O3 -Wall")
 
 	if(NOT MVDIST_ONLY)
+
 		target_link_directories(dearpyguiemb PRIVATE /Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/)
+		
 		SET_PROPERTY(TARGET dearpyguiemb APPEND_STRING PROPERTY COMPILE_FLAGS "-fobjc-arc -Wno-unused-result -Wsign-compare -Wunreachable-code -fno-common -dynamic -DNDEBUG -g -fwrapv -O3 -Wall -arch x86_64")
 		target_link_libraries(dearpyguiemb
 
@@ -205,28 +198,20 @@ else() # Linux
 	
 	add_definitions(-DIMGUI_IMPL_OPENGL_LOADER_GL3W)
 
+	
+
 	if(NOT MVDIST_ONLY)
 		set_property(TARGET dearpyguiemb APPEND_STRING PROPERTY COMPILE_FLAGS "-fPIC -Wno-unused-result -Wsign-compare -DNDEBUG -g -fwrapv -O3 -Wall")
-		target_link_libraries(dearpyguiemb
-				
-			PUBLIC
-
-				"-L/usr/lib  -lcrypt -lpthread -ldl  -lutil -lm -lm"
-				GL
-				glfw
-				python3.8
-		)
+		target_link_libraries(dearpyguiemb PUBLIC "-L/usr/lib  -lcrypt -lpthread -ldl  -lutil -lm -lm" GL glfw python3.8)
 	endif()
 
-	target_link_libraries(dearpygui
-		
-		PUBLIC
-		
-			"-L/usr/lib  -lcrypt -lpthread -ldl  -lutil -lm -lm"
-			GL
-			glfw
-			python3.8
-	)
+	if(MV37DIST)
+		target_link_directories(dearpygui PRIVATE "/home/runner/work/DearPyGui/DearPyGui/Dependencies/cpython/debug/lib")
+		target_link_libraries(dearpygui PUBLIC "-L/usr/lib  -lcrypt -lpthread -ldl  -lutil -lm -lm" GL glfw python3.7m)
+	else()
+		target_link_libraries(dearpygui PUBLIC "-L/usr/lib  -lcrypt -lpthread -ldl  -lutil -lm -lm" GL glfw python3.8)
+	endif()
+
 
 endif()
 
