@@ -207,6 +207,8 @@ else() # Linux
 	
 	add_definitions(-DIMGUI_IMPL_OPENGL_LOADER_GL3W)
 
+	
+
 	if(NOT MVDIST_ONLY)
 		set_property(TARGET dearpyguiemb APPEND_STRING PROPERTY COMPILE_FLAGS "-fPIC -Wno-unused-result -Wsign-compare -DNDEBUG -g -fwrapv -O3 -Wall")
 
@@ -218,6 +220,7 @@ else() # Linux
 	endif()
 
 	if(MV37DIST)
+		target_link_directories(dearpygui PRIVATE "/home/runner/work/DearPyGui/DearPyGui/Dependencies/cpython/debug/lib/python3.7")
 		target_link_libraries(dearpygui PUBLIC "-L/usr/lib  -lcrypt -lpthread -ldl  -lutil -lm -lm" GL glfw python3.7)
 	else()
 		target_link_libraries(dearpygui PUBLIC "-L/usr/lib  -lcrypt -lpthread -ldl  -lutil -lm -lm" GL glfw python3.8)
