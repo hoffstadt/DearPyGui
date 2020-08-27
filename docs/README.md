@@ -37,7 +37,7 @@ simple way for python developers to **create quick and powerful GUIs for scripts
 
 ---
 
-Ensure you have the newest version of Python 3.8.
+Ensure you have at least Python 3.7.
  ```
  pip install dearpygui
  or
@@ -104,7 +104,8 @@ _DearPyGui_ includes several tools to help developers with _DearPyGui_ app devel
 <BR>![BasicUsageExample](https://github.com/hoffstadt/DearPyGui/blob/assets/tools.png?raw=true)
   
 ### Building
-The actual builds of _DearPyGui_ are created through github actions however, to develop and test locally, follow the instructions below:
+The actual builds of _DearPyGui_ are created through github actions however, to develop and test locally, follow the instructions below. 
+These are not well maintained at the moment and could use some work.
 
 ---
 
@@ -117,7 +118,7 @@ The actual builds of _DearPyGui_ are created through github actions however, to 
   - Desktop development with C++
   - Game development with C++
 - [_git_](https://git-scm.com/)
-- Python 3.8
+- Python 3.7 or 3.8
 
 ##### Instructions
 
@@ -133,7 +134,7 @@ git clone --recursive https://github.com/RaylockLLC/DearPyGui
 ##### Build Requirements
 
 - cmake
-- Python 3.8
+- Python 3.7 or 3.8
 - xorg-dev
 
 ##### Instructions

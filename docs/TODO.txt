@@ -7,6 +7,10 @@ It's mostly a bunch of personal notes, probably incomplete. Feel free to query i
 
 - window class: alot of work needs to happen here to clean this up.
 
+- build system: alot of work to cleanup and simplify this system
+
+- CI/CD system: cleanup and instead of building python, make them use the runner installed python versions.
+
 - doc: work on the CONTRIBUTING.md file
 - doc/wiki: work on the wiki https://github.com/RaylockLLC/DearPyGui/wiki
 
