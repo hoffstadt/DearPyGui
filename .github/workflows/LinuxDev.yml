@@ -55,9 +55,24 @@ jobs:
     
     runs-on: ubuntu-20.04
 
+    strategy:
+      # You can use PyPy versions in python-version.
+      # For example, pypy2 and pypy3
+      matrix:
+        python-version: [3.7]
+
     steps:
 
     - uses: actions/checkout@v2
+
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v2
+      with:
+        python-version: ${{ matrix.python-version }}
+        architecture: 'x64' 
+
+    - name: Display Python version
+      run: python -c "import sys; print(sys.version)"
 
     - name: Retrieve submodules
       run: |
