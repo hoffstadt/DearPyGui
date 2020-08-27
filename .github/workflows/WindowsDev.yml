@@ -80,7 +80,7 @@ jobs:
         mkdir cmake-build-release
         mkdir cmake-build-release32
         cd cmake-build-release
-        cmake ..
+        cmake .. -DMV37DIST=True
         cd ..
         cd cmake-build-release32
         cmake .. -G "Visual Studio 16 2019" -A Win32 -DCONFIG_32BIT=True -DMVDIST_ONLY=True -DMV37DIST=True
