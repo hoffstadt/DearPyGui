@@ -54,3 +54,54 @@ jobs:
       shell: cmd
       run: |
         call "%dir%Dependencies\cpython\PCbuild\amd64\python.exe" -m twine upload --repository testpypi dist/* -u __token__ -p ${{ secrets.test_pypi_password }} --skip-existing
+
+  build-windows37:
+    
+    runs-on: windows-2019
+
+    steps:
+
+    - uses: actions/checkout@v2
+
+    - name: Retrieve submodules
+      shell: cmd
+      run: |
+        git submodule update --init --recursive
+        cd Dependencies
+        cd cpython
+        git checkout v3.7.9
+      
+    - name: Build Python
+      shell: cmd
+      run: |
+        cd Scripts
+        call BuildPythonForWindows.bat --ci
+        cd ..
+        mkdir cmake-build-release
+        mkdir cmake-build-release32
+        cd cmake-build-release
+        cmake ..
+        cd ..
+        cd cmake-build-release32
+        cmake .. -G "Visual Studio 16 2019" -A Win32 -DCONFIG_32BIT=True -DMVDIST_ONLY=True -DMV37DIST=True
+        
+    - name: Build DearPyGui
+      shell: cmd
+      run: |
+        cmake --build cmake-build-release --config Release 
+        cmake --build cmake-build-release32 --config Release
+
+    - name: Build Test DearPyGui Wheel
+      shell: cmd
+      run: |
+        cd Distribution
+        call "%dir%..\Dependencies\cpython\PCbuild\amd64\python.exe" "%dir%BuildPythonWheel.py" D:/a/DearPyGui/DearPyGui/cmake-build-release/DearPyGui/Release/dearpygui.pyd dearpygui.pyd
+        call "%dir%..\Dependencies\cpython\PCbuild\amd64\python.exe" -m setup bdist_wheel --plat-name win_amd64 --dist-dir D:/a/DearPyGui/DearPyGui/dist
+        call "%dir%..\Dependencies\cpython\PCbuild\win32\python.exe" "%dir%BuildPythonWheel.py" D:/a/DearPyGui/DearPyGui/cmake-build-release32/DearPyGui/Release/dearpygui.pyd dearpygui.pyd
+        call "%dir%..\Dependencies\cpython\PCbuild\win32\python.exe" -m setup bdist_wheel --plat-name win32 --dist-dir D:/a/DearPyGui/DearPyGui/dist
+
+    - name: Upload Test DearPyGui Wheel
+      if: "contains(github.event.head_commit.message, 'upload run')"
+      shell: cmd
+      run: |
+        call "%dir%Dependencies\cpython\PCbuild\amd64\python.exe" -m twine upload --repository testpypi dist/* -u __token__ -p ${{ secrets.test_pypi_password }} --skip-existing
