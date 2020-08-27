@@ -27,11 +27,8 @@ int main(int argc, char* argv[])
 	PyImport_AppendInittab("dearpygui", &PyInit_dearpygui);
 
 	// set path and start the interpreter
-#ifdef MV_PYTHON_VERSION == 37
-	wchar_t* path = Py_DecodeLocale("../../DearSandbox/;./Dependencies/;./Dependencies/python37.zip;", nullptr);
-#else
 	wchar_t* path = Py_DecodeLocale("../../DearSandbox/;./Dependencies/;./Dependencies/python38.zip;", nullptr);
-#endif
+
 	Py_SetPath(path);
 	Py_NoSiteFlag = 1; // this must be set to 1
 	Py_DontWriteBytecodeFlag = 1;

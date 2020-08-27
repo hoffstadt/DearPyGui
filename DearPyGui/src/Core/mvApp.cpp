@@ -699,7 +699,8 @@ namespace Marvel {
 			// check if call succeded
 			if (!result)
 			{
-				std::string message("Callback failed");
+				PyErr_Print();
+				std::string message(" Callback failed");
 				ThrowPythonException(name + message);
 			}
 
@@ -805,7 +806,8 @@ namespace Marvel {
 			// check if call succeded
 			if (!result)
 			{
-				std::string message("Callback failed");
+				PyErr_Print();
+				std::string message(" Callback failed");
 				ThrowPythonException(name + message);
 			}
 
