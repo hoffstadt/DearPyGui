@@ -260,7 +260,11 @@ jobs:
       run: python -c "import sys; print(sys.version)"
 
     - name: Retrieve submodules
-      run: git submodule update --init --recursive
+      run: |
+        git submodule update --init --recursive
+        cd Dependencies
+        cd cpython
+        git checkout v3.7.9
     
     - name: Build Python
       run: |
