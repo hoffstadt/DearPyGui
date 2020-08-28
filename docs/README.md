@@ -167,6 +167,9 @@ Some upcoming features:
 - Additional Plot types (bar graph, pie chart, etc.)
 - Support for window docking and multiple viewports.
 - 3D widget.
+- BytesIO and StringIO.
+- Numpy array drawing.
+- Better callback functionality. 
 - Custom Widget API.
 
 ### Credits
