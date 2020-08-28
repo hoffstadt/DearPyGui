@@ -5026,6 +5026,21 @@ namespace Marvel {
 		return mvPythonTranslator::GetPyNone();
 	}
 
+	PyObject* get_item_label(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		const char* item;
+
+		if (!(*mvApp::GetApp()->getParsers())["get_item_label"].parse(args, kwargs, __FUNCTION__, &item))
+			return mvPythonTranslator::GetPyNone();
+
+		auto appitem = mvApp::GetApp()->getItem(item);
+
+		if (appitem)
+			return mvPythonTranslator::ToPyString(appitem->getLabel());
+
+		return mvPythonTranslator::GetPyNone();
+	}
+
 	PyObject* get_item_height(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		const char* item;
@@ -5603,6 +5618,23 @@ namespace Marvel {
 					ThrowPythonException("Resize callback can only be set for window/child items");
 			}
 		}
+
+		return mvPythonTranslator::GetPyNone();
+	}
+
+	PyObject* set_item_label(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		const char* item;
+		const char* label;
+
+		if (!(*mvApp::GetApp()->getParsers())["set_item_label"].parse(args, kwargs, __FUNCTION__, &item, &label))
+			return mvPythonTranslator::GetPyNone();
+
+		mvAppItem* appitem;
+		appitem = mvApp::GetApp()->getItem(item);
+
+		if (appitem)
+			appitem->setLabel(label);
 
 		return mvPythonTranslator::GetPyNone();
 	}
@@ -6389,6 +6421,7 @@ namespace Marvel {
 		ADD_PYTHON_FUNCTION(get_item_height)
 		ADD_PYTHON_FUNCTION(get_item_popup)
 		ADD_PYTHON_FUNCTION(get_item_tip)
+		ADD_PYTHON_FUNCTION(get_item_label)
 		ADD_PYTHON_FUNCTION(get_main_window_size)
 		ADD_PYTHON_FUNCTION(get_theme)
 		ADD_PYTHON_FUNCTION(get_thread_count)
@@ -6408,6 +6441,7 @@ namespace Marvel {
 		ADD_PYTHON_FUNCTION(set_main_window_size)
 		ADD_PYTHON_FUNCTION(add_item_color_style)
 		ADD_PYTHON_FUNCTION(set_item_popup)
+		ADD_PYTHON_FUNCTION(set_item_label)
 		ADD_PYTHON_FUNCTION(is_item_hovered)
 		ADD_PYTHON_FUNCTION(is_item_active)
 		ADD_PYTHON_FUNCTION(is_item_focused)

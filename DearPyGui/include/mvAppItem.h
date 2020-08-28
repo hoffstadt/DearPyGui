@@ -92,6 +92,7 @@ namespace Marvel {
         inline mvAppItem*                getParent                 ()       { return m_parent; }   // can return nullptr
         [[nodiscard]] const std::string& getName                   () const { return m_name; }
         [[nodiscard]] const std::string& getTip                    () const { return m_tip; }
+        [[nodiscard]] const std::string& getLabel                  () const { return m_label; }
         [[nodiscard]] const std::string& getCallback               () const { return m_callback; }
         [[nodiscard]] const std::string& getPopup                  () const { return m_popup; }
         [[nodiscard]] const std::string& getDataSource             () const { return m_dataSource; }
@@ -139,6 +140,7 @@ namespace Marvel {
         inline void  setRectMax             (mvVec2 value)                { m_rectMax = value; }
         inline void  setRectSize            (mvVec2 value)                { m_rectSize = value; }
         inline void  setDataSource          (const std::string& value)    { m_dataSource = value; }
+        inline void  setLabel               (const std::string& value)    { m_label = value; }
 
     protected:
 
