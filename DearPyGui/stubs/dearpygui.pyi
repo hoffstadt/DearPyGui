@@ -1126,9 +1126,10 @@ def start_dearpygui() -> None:
 	"""Starts DearPyGui."""
 	...
 
-def stop_dearpygui() -> None:
-	"""Stops DearPyGui."""
-	...
+# Does not work, temporarily remove from API
+# def stop_dearpygui() -> None:
+# 	"""Stops DearPyGui."""
+#	...
 
 def unindent(name: str = "", offset: float = 0.0, parent: str = "", before: str = "") -> None:
 	"""Unindents following items."""
