@@ -11,7 +11,7 @@ assignees: ''
 
 2. PLEASE CAREFULLY READ: Documentation
 
-3. FOR FIRST-TIME USERS ISSUES,  please use the [Discord server](https://discord.com/channels/736279277242417272/736279277242417275).
+3. FOR FIRST-TIME USERS ISSUES,  please use the [Discord server](https://discord.gg/tyE7Gu4).
 
 4. PLEASE MAKE SURE that you have: read the FAQ; explored the examples; searched among Issues; and read the link provided in (1) (2).
 
