@@ -23,6 +23,17 @@ HOW TO UPDATE?
 - Please report any issue!
 
 -----------------------------------------------------------------------
+ VERSION 0.1.0 Beta 12
+-----------------------------------------------------------------------
+
+Decorated log: https://github.com/hoffstadt/DearPyGui/releases/tag/v0.1.0-beta12
+
+New Commands:
+
+- Widgets:  new command "set_item_label" #99
+- Widgets:  new command "get_item_label" #99
+
+-----------------------------------------------------------------------
  VERSION 0.1.0 Beta 11
 -----------------------------------------------------------------------
 

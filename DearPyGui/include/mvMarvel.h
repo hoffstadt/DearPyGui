@@ -921,6 +921,15 @@ namespace Marvel {
 
 	static void AddItemCommands(std::map<std::string, mvPythonParser>* parsers)
 	{
+		parsers->insert({ "set_item_label", mvPythonParser({
+			{mvPythonDataType::String, "item"},
+			{mvPythonDataType::String, "label"},
+		}, "Sets an item's label.", "None", "Widget Commands") });
+
+		parsers->insert({ "get_item_label", mvPythonParser({
+			{mvPythonDataType::String, "item"}
+		}, "Gets an item's label.", "str", "Widget Commands") });
+
 		parsers->insert({ "set_window_pos", mvPythonParser({
 			{mvPythonDataType::String, "window"},
 			{mvPythonDataType::Float, "x"},

@@ -454,6 +454,10 @@ def get_item_height(item: str) -> float:
 	"""Returns an item's height."""
 	...
 
+def get_item_label(item: str) -> float:
+	"""Returns an item's label."""
+	...
+
 def get_item_popup(item: str) -> str:
 	"""Returns an item's popup."""
 	...
@@ -836,6 +840,10 @@ def set_item_height(item: str, height: int) -> None:
 
 def set_item_popup(item: str, popup: str) -> None:
 	"""Sets an item's popup if applicable."""
+	...
+
+def set_item_label(item: str, tip: str) -> None:
+	"""Sets an item's label."""
 	...
 
 def set_item_tip(item: str, tip: str) -> None:
