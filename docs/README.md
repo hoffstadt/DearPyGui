@@ -29,7 +29,7 @@ the following platforms:
 In the same manner Dear ImGui provides a simple way to create tools for game developers, _DearPyGui_ provides a 
 simple way for python developers to **create quick and powerful GUIs for scripts**.
 
-| [Installing](#installing) - [Usage](#usage) - [Features](#some-features) - [Building](#building) - [Support](#support)|
+| [Installing](#installing) - [Usage](#usage) - [Features](#some-features) - [Support](#support) - [Building](#building)|
 :----------------------------------------------------------: |
 | [Upcoming changes](#upcoming-changes) - [Gallery](#gallery) - [Credits](#credits) - [License](#license)|
 
@@ -102,16 +102,19 @@ _DearPyGui_ includes a drawing API to create custom drawings, plot, and even 2D 
 #### Tools
 _DearPyGui_ includes several tools to help developers with _DearPyGui_ app development including built-in documentation, logging, source viewer, and other tools:
 <BR>![BasicUsageExample](https://github.com/hoffstadt/DearPyGui/blob/assets/tools.png?raw=true)
-  
-### Building
-The actual builds of _DearPyGui_ are created through github actions however, to develop and test locally, follow the instructions below. 
-These are not well maintained at the moment and could use some work.
+
+
+### Support
+If you are having issues or want to help or ask for ways you can help, here are some places you can go!
+- [Github Forum](https://github.com/RaylockLLC/DearPyGui/issues/)
+- [Discord Forum](https://discord.gg/xDsNxyR)
+- [Reddit](https://www.reddit.com/r/DearPyGui/)
 
 ---
 
-### Support
-
-
+### Building
+The actual builds of _DearPyGui_ are created through github actions however, to develop and test locally, follow the instructions below. 
+These are not well maintained at the moment and could use some work.
 
 ---
 
