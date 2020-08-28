@@ -110,7 +110,6 @@ If you are having issues or want to help or ask for ways you can help, here are 
 - [Discord Forum](https://discord.gg/xDsNxyR)
 - [Reddit](https://www.reddit.com/r/DearPyGui/)
 
----
 
 ### Building
 The actual builds of _DearPyGui_ are created through github actions however, to develop and test locally, follow the instructions below. 

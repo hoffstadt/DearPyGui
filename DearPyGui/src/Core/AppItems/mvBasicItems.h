@@ -393,13 +393,13 @@ namespace Marvel {
 
 		MV_APPITEM_TYPE(mvAppItemType::InputInt)
 
-		mvInputInt(const std::string& parent, const std::string& name, int default_value)
-			: mvIntItemBase(parent, name, 1, default_value) {}
+		mvInputInt(const std::string& parent, const std::string& name, int default_value, ImGuiInputTextFlags flags)
+			: mvIntItemBase(parent, name, 1, default_value), m_flags(flags) {}
 
 		void draw() override
 		{
 
-			if (ImGui::InputInt(m_label.c_str(), m_value.data()))
+			if (ImGui::InputInt(m_label.c_str(), m_value.data(), 1, 100, m_flags))
 			{
 				if (!m_dataSource.empty())
 					mvDataStorage::AddData(m_dataSource, getPyValue());
@@ -412,6 +412,10 @@ namespace Marvel {
 			}
 
 		}
+
+	private:
+
+		ImGuiInputTextFlags m_flags = 0;
 
 	};
 
@@ -426,13 +430,14 @@ namespace Marvel {
 
 		MV_APPITEM_TYPE(AppItemType)
 
-		mvInputIntMulti(const std::string& parent, const std::string& name, int default_value[2])
-			: mvIntItemBase(parent, name, num, default_value[0], default_value[1], default_value[2], default_value[3]) {}
+		mvInputIntMulti(const std::string& parent, const std::string& name, int default_value[2], ImGuiInputTextFlags flags)
+			: mvIntItemBase(parent, name, num, default_value[0], default_value[1], default_value[2], default_value[3]),
+			m_flags(flags){}
 
 		void draw() override
 		{
 
-			if (imguicommand(m_label.c_str(), m_value.data(), 0))
+			if (imguicommand(m_label.c_str(), m_value.data(), m_flags))
 			{
 				if (!m_dataSource.empty())
 					mvDataStorage::AddData(m_dataSource, getPyValue());
@@ -446,6 +451,10 @@ namespace Marvel {
 
 		}
 
+	private:
+
+		ImGuiInputTextFlags m_flags = 0;
+
 	};
 
 	//-----------------------------------------------------------------------------
@@ -458,14 +467,14 @@ namespace Marvel {
 
 		MV_APPITEM_TYPE(mvAppItemType::InputFloat)
 
-			mvInputFloat(const std::string& parent, const std::string& name, float default_value, std::string format)
-			: mvFloatItemBase(parent, name, 1, default_value), m_format(std::move(format))
+			mvInputFloat(const std::string& parent, const std::string& name, float default_value, std::string format, ImGuiInputTextFlags flags)
+			: mvFloatItemBase(parent, name, 1, default_value), m_format(std::move(format)), m_flags(flags)
 		{
 		}
 
 		void draw() override
 		{
-			if (ImGui::InputFloat(m_label.c_str(), m_value.data(), 0.0f, 0.0f, m_format.c_str()))
+			if (ImGui::InputFloat(m_label.c_str(), m_value.data(), 0.0f, 0.0f, m_format.c_str(), m_flags))
 			{
 				if (!m_dataSource.empty())
 					mvDataStorage::AddData(m_dataSource, getPyValue());
@@ -480,7 +489,8 @@ namespace Marvel {
 
 	private:
 
-		std::string m_format;
+		std::string         m_format;
+		ImGuiInputTextFlags m_flags = 0;
 
 	};
 
@@ -495,14 +505,15 @@ namespace Marvel {
 
 		MV_APPITEM_TYPE(AppItemType)
 
-			mvInputFloatMulti(const std::string& parent, const std::string& name, float* default_value, std::string  format)
-			: mvFloatItemBase(parent, name, num, default_value[0], default_value[1], default_value[2], default_value[3]), m_format(std::move(format))
+			mvInputFloatMulti(const std::string& parent, const std::string& name, float* default_value, std::string  format, ImGuiInputTextFlags flags)
+			: mvFloatItemBase(parent, name, num, default_value[0], default_value[1], default_value[2], default_value[3]), m_format(std::move(format)),
+				m_flags(flags)
 		{
 		}
 
 		void draw() override
 		{
-			if (imguicommand(m_label.c_str(), m_value.data(), m_format.c_str(), 0))
+			if (imguicommand(m_label.c_str(), m_value.data(), m_format.c_str(), m_flags))
 			{
 				if (!m_dataSource.empty())
 					mvDataStorage::AddData(m_dataSource, getPyValue());
@@ -517,7 +528,8 @@ namespace Marvel {
 
 	private:
 
-		std::string m_format;
+		std::string         m_format;
+		ImGuiInputTextFlags m_flags = 0;
 
 	};
 
@@ -533,15 +545,15 @@ namespace Marvel {
 		MV_APPITEM_TYPE(AppItemType)
 
 		mvDragFloat(const std::string& parent, const std::string& name, float* default_value, float speed,
-				float minv, float maxv, std::string format)
+				float minv, float maxv, std::string format, ImGuiInputTextFlags flags)
 			: mvFloatItemBase(parent, name, num, default_value[0], default_value[1], default_value[2], default_value[3]),
-			m_speed(speed), m_min(minv), m_max(maxv), m_format(std::move(format))
+			m_speed(speed), m_min(minv), m_max(maxv), m_format(std::move(format)), m_flags(flags)
 		{
 		}
 
 		void draw() override
 		{
-			if (imguicommand(m_label.c_str(), m_value.data(), m_speed, m_min, m_max, m_format.c_str(), 0))
+			if (imguicommand(m_label.c_str(), m_value.data(), m_speed, m_min, m_max, m_format.c_str(), m_flags))
 			{
 				if (!m_dataSource.empty())
 					mvDataStorage::AddData(m_dataSource, getPyValue());
@@ -556,10 +568,11 @@ namespace Marvel {
 
 	private:
 
-		float       m_speed;
-		float       m_min;
-		float       m_max;
-		std::string m_format;
+		float               m_speed;
+		float               m_min;
+		float               m_max;
+		std::string         m_format;
+		ImGuiInputTextFlags m_flags = 0;
 
 	};
 
@@ -575,15 +588,15 @@ namespace Marvel {
 		MV_APPITEM_TYPE(AppItemType)
 
 		mvDragInt(const std::string& parent, const std::string& name, int* default_value, float speed,
-				int minv, float maxv, std::string format)
+				int minv, float maxv, std::string format, ImGuiInputTextFlags flags)
 			: mvIntItemBase(parent, name, num, default_value[0], default_value[1], default_value[2], default_value[3]),
-			m_speed(speed), m_min(minv), m_max(maxv), m_format(std::move(format))
+			m_speed(speed), m_min(minv), m_max(maxv), m_format(std::move(format)), m_flags(flags)
 		{
 		}
 
 		void draw() override
 		{
-			if (imguicommand(m_label.c_str(), m_value.data(), m_speed, m_min, m_max, m_format.c_str(), 0))
+			if (imguicommand(m_label.c_str(), m_value.data(), m_speed, m_min, m_max, m_format.c_str(), m_flags))
 			{
 				if (!m_dataSource.empty())
 					mvDataStorage::AddData(m_dataSource, getPyValue());
@@ -598,10 +611,11 @@ namespace Marvel {
 
 	private:
 
-		float       m_speed;
-		int         m_min;
-		int         m_max;
-		std::string m_format;
+		float               m_speed;
+		int                 m_min;
+		int                 m_max;
+		std::string         m_format;
+		ImGuiInputTextFlags m_flags = 0;
 
 	};
 
@@ -616,9 +630,9 @@ namespace Marvel {
 		MV_APPITEM_TYPE(mvAppItemType::SliderFloat)
 
 			mvSliderFloat(const std::string& parent, const std::string& name, float default_value = 0.0f, float minv = 0.0f,
-				float maxv = 1.0f, std::string  format = "%.3f", bool vertical = false)
+				float maxv = 1.0f, std::string  format = "%.3f", bool vertical = false, ImGuiInputTextFlags flags = 0)
 			: mvFloatItemBase(parent, name, 1, default_value), m_min(minv), m_max(maxv), m_format(std::move(format)),
-			m_vertical(vertical)
+			m_vertical(vertical), m_flags(flags)
 		{
 		}
 
@@ -645,7 +659,7 @@ namespace Marvel {
 			}
 			else
 			{
-				if (ImGui::SliderFloat(m_label.c_str(), m_value.data(), m_min, m_max, m_format.c_str()))
+				if (ImGui::SliderFloat(m_label.c_str(), m_value.data(), m_min, m_max, m_format.c_str(), m_flags))
 				{
 					if (!m_dataSource.empty())
 						mvDataStorage::AddData(m_dataSource, getPyValue());
@@ -661,10 +675,11 @@ namespace Marvel {
 
 	private:
 
-		float       m_min;
-		float       m_max;
-		std::string m_format;
-		bool        m_vertical;
+		float               m_min;
+		float               m_max;
+		std::string         m_format;
+		bool                m_vertical;
+		ImGuiInputTextFlags m_flags;
 
 	};
 
@@ -679,8 +694,9 @@ namespace Marvel {
 		MV_APPITEM_TYPE(mvAppItemType::SliderInt)
 
 			mvSliderInt(const std::string& parent, const std::string& name, int default_value = 0, int minv = 0,
-				int maxv = 100, std::string  format = "%d", bool vertical = false)
-			: mvIntItemBase(parent, name, 1, default_value), m_min(minv), m_max(maxv), m_format(std::move(format)), m_vertical(vertical)
+				int maxv = 100, std::string  format = "%d", bool vertical = false, ImGuiInputTextFlags flags = 0)
+			: mvIntItemBase(parent, name, 1, default_value), m_min(minv), m_max(maxv), m_format(std::move(format)), 
+			m_vertical(vertical), m_flags(flags)
 		{
 		}
 
@@ -707,7 +723,7 @@ namespace Marvel {
 			}
 			else
 			{
-				if (ImGui::SliderInt(m_label.c_str(), m_value.data(), m_min, m_max, m_format.c_str()))
+				if (ImGui::SliderInt(m_label.c_str(), m_value.data(), m_min, m_max, m_format.c_str(), m_flags))
 				{
 					if (!m_dataSource.empty())
 						mvDataStorage::AddData(m_dataSource, getPyValue());
@@ -723,10 +739,11 @@ namespace Marvel {
 
 	private:
 
-		int         m_min;
-		int         m_max;
-		std::string m_format;
-		bool        m_vertical;
+		int                 m_min;
+		int                 m_max;
+		std::string         m_format;
+		bool                m_vertical;
+		ImGuiInputTextFlags m_flags;
 
 	};
 
@@ -741,15 +758,15 @@ namespace Marvel {
 
 		MV_APPITEM_TYPE(AppItemType)
 
-			mvSliderFloatMulti(const std::string& parent, const std::string& name, T* default_value, T minv, T maxv, std::string  format)
+			mvSliderFloatMulti(const std::string& parent, const std::string& name, T* default_value, T minv, T maxv, std::string  format, ImGuiInputTextFlags flags)
 			: mvFloatItemBase(parent, name, num, default_value[0], default_value[1], default_value[2], default_value[3]),
-			m_min(minv), m_max(maxv), m_format(std::move(format))
+			m_min(minv), m_max(maxv), m_format(std::move(format)), m_flags(flags)
 		{
 		}
 
 		void draw() override
 		{
-			if (imguicommand(m_label.c_str(), m_value.data(), m_min, m_max, m_format.c_str(), 0))
+			if (imguicommand(m_label.c_str(), m_value.data(), m_min, m_max, m_format.c_str(), m_flags))
 			{
 				if (!m_dataSource.empty())
 					mvDataStorage::AddData(m_dataSource, getPyValue());
@@ -764,9 +781,10 @@ namespace Marvel {
 
 	private:
 
-		T       m_min;
-		T       m_max;
-		std::string m_format;
+		T                   m_min;
+		T                   m_max;
+		std::string         m_format;
+		ImGuiInputTextFlags m_flags = 0;
 
 	};
 
@@ -781,15 +799,15 @@ namespace Marvel {
 
 		MV_APPITEM_TYPE(AppItemType)
 
-			mvSliderIntMulti(const std::string& parent, const std::string& name, T* default_value, T minv, T maxv, std::string  format)
+			mvSliderIntMulti(const std::string& parent, const std::string& name, T* default_value, T minv, T maxv, std::string  format, ImGuiInputTextFlags flags)
 			: mvIntItemBase(parent, name, num, default_value[0], default_value[1], default_value[2], default_value[3]),
-			m_min(minv), m_max(maxv), m_format(std::move(format))
+			m_min(minv), m_max(maxv), m_format(std::move(format)), m_flags(flags)
 		{
 		}
 
 		void draw() override
 		{
-			if (imguicommand(m_label.c_str(), m_value.data(), m_min, m_max, m_format.c_str(), 0))
+			if (imguicommand(m_label.c_str(), m_value.data(), m_min, m_max, m_format.c_str(), m_flags))
 			{
 				if (!m_dataSource.empty())
 					mvDataStorage::AddData(m_dataSource, getPyValue());
@@ -804,9 +822,10 @@ namespace Marvel {
 
 	private:
 
-		T       m_min;
-		T       m_max;
-		std::string m_format;
+		T                   m_min;
+		T                   m_max;
+		std::string         m_format;
+		ImGuiInputTextFlags m_flags = 0;
 
 	};
 }

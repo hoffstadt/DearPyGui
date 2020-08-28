@@ -478,6 +478,7 @@ namespace Marvel {
 			{mvPythonDataType::String, "before", "Item to add this item before. (runtime adding)"},
 			{mvPythonDataType::String, "data_source", "data source for shared data"},
 			{mvPythonDataType::Integer, "width",""},
+			{mvPythonDataType::Bool, "on_enter", "Only runs callback on enter"},
 		}, "Adds input for text values.", "None", "Adding Widgets") });
 
 		parsers->insert({ "add_input_int", mvPythonParser({
@@ -490,6 +491,7 @@ namespace Marvel {
 			{mvPythonDataType::String, "before", "Item to add this item before. (runtime adding)"},
 			{mvPythonDataType::String, "data_source", "data source for shared data"},
 			{mvPythonDataType::Integer, "width",""},
+			{mvPythonDataType::Bool, "on_enter", "Only runs callback on enter"},
 		}, "Adds input for integer values.", "None", "Adding Widgets") });
 
 		parsers->insert({ "add_input_int2", mvPythonParser({
@@ -502,6 +504,7 @@ namespace Marvel {
 			{mvPythonDataType::String, "before", "Item to add this item before. (runtime adding)"},
 			{mvPythonDataType::String, "data_source", "data source for shared data"},
 			{mvPythonDataType::Integer, "width",""},
+			{mvPythonDataType::Bool, "on_enter", "Only runs callback on enter"},
 		}, "Adds input for 2 integer values.", "None", "Adding Widgets") });
 
 		parsers->insert({ "add_input_int3", mvPythonParser({
@@ -514,6 +517,7 @@ namespace Marvel {
 			{mvPythonDataType::String, "before", "Item to add this item before. (runtime adding)"},
 			{mvPythonDataType::String, "data_source", "data source for shared data"},
 			{mvPythonDataType::Integer, "width",""},
+			{mvPythonDataType::Bool, "on_enter", "Only runs callback on enter"},
 		}, "Adds input for 3 integer values.", "None", "Adding Widgets") });
 
 		parsers->insert({ "add_input_int4", mvPythonParser({
@@ -526,6 +530,7 @@ namespace Marvel {
 			{mvPythonDataType::String, "before", "Item to add this item before. (runtime adding)"},
 			{mvPythonDataType::String, "data_source", "data source for shared data"},
 			{mvPythonDataType::Integer, "width",""},
+			{mvPythonDataType::Bool, "on_enter", "Only runs callback on enter"},
 		}, "Adds input for 4 integer values.", "None", "Adding Widgets") });
 
 		parsers->insert({ "add_input_float", mvPythonParser({
@@ -539,6 +544,7 @@ namespace Marvel {
 			{mvPythonDataType::String, "before", "Item to add this item before. (runtime adding)"},
 			{mvPythonDataType::String, "data_source", "data source for shared data"},
 			{mvPythonDataType::Integer, "width",""},
+			{mvPythonDataType::Bool, "on_enter", "Only runs callback on enter"},
 		}, "Adds input for float values.", "None", "Adding Widgets") });
 
 		parsers->insert({ "add_input_float2", mvPythonParser({
@@ -552,6 +558,7 @@ namespace Marvel {
 			{mvPythonDataType::String, "before", "Item to add this item before. (runtime adding)"},
 			{mvPythonDataType::String, "data_source", "data source for shared data"},
 			{mvPythonDataType::Integer, "width",""},
+			{mvPythonDataType::Bool, "on_enter", "Only runs callback on enter"},
 		}, "Adds input for 2 float values.", "None", "Adding Widgets") });
 
 		parsers->insert({ "add_input_float3", mvPythonParser({
@@ -565,6 +572,7 @@ namespace Marvel {
 			{mvPythonDataType::String, "before", "Item to add this item before. (runtime adding)"},
 			{mvPythonDataType::String, "data_source", "data source for shared data"},
 			{mvPythonDataType::Integer, "width",""},
+			{mvPythonDataType::Bool, "on_enter", "Only runs callback on enter"},
 		}, "Adds input for 3 float values.", "None", "Adding Widgets") });
 
 		parsers->insert({ "add_input_float4", mvPythonParser({
@@ -578,6 +586,7 @@ namespace Marvel {
 			{mvPythonDataType::String, "before", "Item to add this item before. (runtime adding)"},
 			{mvPythonDataType::String, "data_source", "data source for shared data"},
 			{mvPythonDataType::Integer, "width",""},
+			{mvPythonDataType::Bool, "on_enter", "Only runs callback on enter"},
 		}, "Adds input for 4 float values.", "None", "Adding Widgets") });
 	}
 
@@ -598,6 +607,7 @@ namespace Marvel {
 			{mvPythonDataType::String, "data_source", "data source for shared data"},
 			{mvPythonDataType::Integer, "width",""},
 			{mvPythonDataType::Integer, "height","Height of a vertical slider"},
+			{mvPythonDataType::Bool, "on_enter", "Only runs callback on enter"},
 		}, "Adds slider for a single float value", "None", "Adding Widgets") });
 
 		parsers->insert({ "add_slider_float2", mvPythonParser({
@@ -612,7 +622,8 @@ namespace Marvel {
 			{mvPythonDataType::String, "parent", "Parent to add this item to. (runtime adding)"},
 			{mvPythonDataType::String, "before", "Item to add this item before. (runtime adding)"},
 			{mvPythonDataType::String, "data_source", "data source for shared data"},
-			{mvPythonDataType::Integer, "width",""}
+			{mvPythonDataType::Integer, "width",""},
+			{mvPythonDataType::Bool, "on_enter", "Only runs callback on enter"},
 		}, "Adds slider for a 2 float values.", "None", "Adding Widgets") });
 
 		parsers->insert({ "add_slider_float3", mvPythonParser({
@@ -627,7 +638,8 @@ namespace Marvel {
 			{mvPythonDataType::String, "parent", "Parent to add this item to. (runtime adding)"},
 			{mvPythonDataType::String, "before", "Item to add this item before. (runtime adding)"},
 			{mvPythonDataType::String, "data_source", "data source for shared data"},
-			{mvPythonDataType::Integer, "width",""}
+			{mvPythonDataType::Integer, "width",""},
+			{mvPythonDataType::Bool, "on_enter", "Only runs callback on enter"},
 		}, "Adds slider for a 3 float values.", "None", "Adding Widgets") });
 
 		parsers->insert({ "add_slider_float4", mvPythonParser({
@@ -642,7 +654,8 @@ namespace Marvel {
 			{mvPythonDataType::String, "parent", "Parent to add this item to. (runtime adding)"},
 			{mvPythonDataType::String, "before", "Item to add this item before. (runtime adding)"},
 			{mvPythonDataType::String, "data_source", "data source for shared data"},
-			{mvPythonDataType::Integer, "width",""}
+			{mvPythonDataType::Integer, "width",""},
+			{mvPythonDataType::Bool, "on_enter", "Only runs callback on enter"},
 		}, "Adds slider for a 4 float values.", "None", "Adding Widgets") });
 
 		parsers->insert({ "add_slider_int", mvPythonParser({
@@ -660,6 +673,7 @@ namespace Marvel {
 			{mvPythonDataType::String, "data_source", "data source for shared data"},
 			{mvPythonDataType::Integer, "width",""},
 			{mvPythonDataType::Integer, "height","Height of a vertical slider"},
+			{mvPythonDataType::Bool, "on_enter", "Only runs callback on enter"},
 		}, "Adds slider for a single int value", "None", "Adding Widgets") });
 
 		parsers->insert({ "add_slider_int2", mvPythonParser({
@@ -674,7 +688,8 @@ namespace Marvel {
 			{mvPythonDataType::String, "parent", "Parent to add this item to. (runtime adding)"},
 			{mvPythonDataType::String, "before", "Item to add this item before. (runtime adding)"},
 			{mvPythonDataType::String, "data_source", "data source for shared data"},
-			{mvPythonDataType::Integer, "width",""}
+			{mvPythonDataType::Integer, "width",""},
+			{mvPythonDataType::Bool, "on_enter", "Only runs callback on enter"},
 		}, "Adds slider for a 2 int values.", "None", "Adding Widgets") });
 
 		parsers->insert({ "add_slider_int3", mvPythonParser({
@@ -689,7 +704,8 @@ namespace Marvel {
 			{mvPythonDataType::String, "parent", "Parent to add this item to. (runtime adding)"},
 			{mvPythonDataType::String, "before", "Item to add this item before. (runtime adding)"},
 			{mvPythonDataType::String, "data_source", "data source for shared data"},
-			{mvPythonDataType::Integer, "width",""}
+			{mvPythonDataType::Integer, "width",""},
+			{mvPythonDataType::Bool, "on_enter", "Only runs callback on enter"},
 		}, "Adds slider for a 3 int values.", "None", "Adding Widgets") });
 
 		parsers->insert({ "add_slider_int4", mvPythonParser({
@@ -704,7 +720,8 @@ namespace Marvel {
 			{mvPythonDataType::String, "parent", "Parent to add this item to. (runtime adding)"},
 			{mvPythonDataType::String, "before", "Item to add this item before. (runtime adding)"},
 			{mvPythonDataType::String, "data_source", "data source for shared data"},
-			{mvPythonDataType::Integer, "width",""}
+			{mvPythonDataType::Integer, "width",""},
+			{mvPythonDataType::Bool, "on_enter", "Only runs callback on enter"},
 		}, "Adds slider for a 4 int values.", "None", "Adding Widgets") });
 	}
 
@@ -723,7 +740,8 @@ namespace Marvel {
 			{mvPythonDataType::String, "parent", "Parent to add this item to. (runtime adding)"},
 			{mvPythonDataType::String, "before", "Item to add this item before. (runtime adding)"},
 			{mvPythonDataType::String, "data_source", "data source for shared data"},
-			{mvPythonDataType::Integer, "width",""}
+			{mvPythonDataType::Integer, "width",""},
+			{mvPythonDataType::Bool, "on_enter", "Only runs callback on enter"},
 		}, "Adds drag for a single float value", "None", "Adding Widgets") });
 
 		parsers->insert({ "add_drag_float2", mvPythonParser({
@@ -739,7 +757,8 @@ namespace Marvel {
 			{mvPythonDataType::String, "parent", "Parent to add this item to. (runtime adding)"},
 			{mvPythonDataType::String, "before", "Item to add this item before. (runtime adding)"},
 			{mvPythonDataType::String, "data_source", "data source for shared data"},
-			{mvPythonDataType::Integer, "width",""}
+			{mvPythonDataType::Integer, "width",""},
+			{mvPythonDataType::Bool, "on_enter", "Only runs callback on enter"},
 		}, "Adds drag for a 2 float values.", "None", "Adding Widgets") });
 
 		parsers->insert({ "add_drag_float3", mvPythonParser({
@@ -755,7 +774,8 @@ namespace Marvel {
 			{mvPythonDataType::String, "parent", "Parent to add this item to. (runtime adding)"},
 			{mvPythonDataType::String, "before", "Item to add this item before. (runtime adding)"},
 			{mvPythonDataType::String, "data_source", "data source for shared data"},
-			{mvPythonDataType::Integer, "width",""}
+			{mvPythonDataType::Integer, "width",""},
+			{mvPythonDataType::Bool, "on_enter", "Only runs callback on enter"},
 		}, "Adds drag for a 3 float values.", "None", "Adding Widgets") });
 
 		parsers->insert({ "add_drag_float4", mvPythonParser({
@@ -771,7 +791,8 @@ namespace Marvel {
 			{mvPythonDataType::String, "parent", "Parent to add this item to. (runtime adding)"},
 			{mvPythonDataType::String, "before", "Item to add this item before. (runtime adding)"},
 			{mvPythonDataType::String, "data_source", "data source for shared data"},
-			{mvPythonDataType::Integer, "width",""}
+			{mvPythonDataType::Integer, "width",""},
+			{mvPythonDataType::Bool, "on_enter", "Only runs callback on enter"},
 		}, "Adds drag for a 4 float values.", "None", "Adding Widgets") });
 
 		parsers->insert({ "add_drag_int", mvPythonParser({
@@ -787,7 +808,8 @@ namespace Marvel {
 			{mvPythonDataType::String, "parent", "Parent to add this item to. (runtime adding)"},
 			{mvPythonDataType::String, "before", "Item to add this item before. (runtime adding)"},
 			{mvPythonDataType::String, "data_source", "data source for shared data"},
-			{mvPythonDataType::Integer, "width",""}
+			{mvPythonDataType::Integer, "width",""},
+			{mvPythonDataType::Bool, "on_enter", "Only runs callback on enter"},
 		}, "Adds drag for a single int value", "None", "Adding Widgets") });
 
 		parsers->insert({ "add_drag_int2", mvPythonParser({
@@ -803,7 +825,8 @@ namespace Marvel {
 			{mvPythonDataType::String, "parent", "Parent to add this item to. (runtime adding)"},
 			{mvPythonDataType::String, "before", "Item to add this item before. (runtime adding)"},
 			{mvPythonDataType::String, "data_source", "data source for shared data"},
-			{mvPythonDataType::Integer, "width",""}
+			{mvPythonDataType::Integer, "width",""},
+			{mvPythonDataType::Bool, "on_enter", "Only runs callback on enter"},
 		}, "Adds drag for a 2 int values.", "None", "Adding Widgets") });
 
 		parsers->insert({ "add_drag_int3", mvPythonParser({
@@ -819,7 +842,8 @@ namespace Marvel {
 			{mvPythonDataType::String, "parent", "Parent to add this item to. (runtime adding)"},
 			{mvPythonDataType::String, "before", "Item to add this item before. (runtime adding)"},
 			{mvPythonDataType::String, "data_source", "data source for shared data"},
-			{mvPythonDataType::Integer, "width",""}
+			{mvPythonDataType::Integer, "width",""},
+			{mvPythonDataType::Bool, "on_enter", "Only runs callback on enter"},
 		}, "Adds drag for a 3 int values.", "None", "Adding Widgets") });
 
 		parsers->insert({ "add_drag_int4", mvPythonParser({
@@ -835,7 +859,8 @@ namespace Marvel {
 			{mvPythonDataType::String, "parent", "Parent to add this item to. (runtime adding)"},
 			{mvPythonDataType::String, "before", "Item to add this item before. (runtime adding)"},
 			{mvPythonDataType::String, "data_source", "data source for shared data"},
-			{mvPythonDataType::Integer, "width",""}
+			{mvPythonDataType::Integer, "width",""},
+			{mvPythonDataType::Bool, "on_enter", "Only runs callback on enter"},
 		}, "Adds drag for a 4 int values.", "None", "Adding Widgets") });
 	}
 

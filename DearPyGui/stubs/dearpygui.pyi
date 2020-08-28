@@ -52,35 +52,35 @@ def add_data(name: str, data: object) -> None:
 	"""Adds data for later retrieval."""
 	...
 
-def add_drag_float(name: str, default_value: float = 0.0, speed: float = 1.0, min_value: float = 0.0, max_value: float = 100.0, format: str = "%.3f", power: float = 1.0, callback: str = "", tip: str = "", parent: str = "", before: str = "", data_source: str = "", width: int = 0) -> None:
+def add_drag_float(name: str, default_value: float = 0.0, speed: float = 1.0, min_value: float = 0.0, max_value: float = 100.0, format: str = "%.3f", power: float = 1.0, callback: str = "", tip: str = "", parent: str = "", before: str = "", data_source: str = "", width: int = 0, on_enter:bool = False) -> None:
 	"""Adds drag for a single float value"""
 	...
 
-def add_drag_float2(name: str, default_value: List[float] = [0.0,0.0], speed: float = 1.0, min_value: float = 0.0, max_value: float = 100.0, format: str = "%.3f", callback: str = "", tip: str = "", parent: str = "", before: str = "", data_source: str = "", width: int = 0) -> None:
+def add_drag_float2(name: str, default_value: List[float] = [0.0,0.0], speed: float = 1.0, min_value: float = 0.0, max_value: float = 100.0, format: str = "%.3f", callback: str = "", tip: str = "", parent: str = "", before: str = "", data_source: str = "", width: int = 0, on_enter:bool = False) -> None:
 	"""Adds drag for a 2 float values."""
 	...
 
-def add_drag_float3(name: str, default_value: List[float] = [0.0, 0.0, 0.0], speed: float = 1.0, min_value: float = 0.0, max_value: float = 100.0, format: str = "%.3f", callback: str = "", tip: str = "", parent: str = "", before: str = "", data_source: str = "", width: int = 0) -> None:
+def add_drag_float3(name: str, default_value: List[float] = [0.0, 0.0, 0.0], speed: float = 1.0, min_value: float = 0.0, max_value: float = 100.0, format: str = "%.3f", callback: str = "", tip: str = "", parent: str = "", before: str = "", data_source: str = "", width: int = 0, on_enter:bool = False) -> None:
 	"""Adds drag for a 3 float values."""
 	...
 
-def add_drag_float4(name: str, default_value: List[float] = [0.0, 0.0, 0.0, 0.0], speed: float = 1.0, min_value: float = 0.0, max_value: float = 100.0, format: str = "%.3f", callback: str = "", tip: str = "", parent: str = "", before: str = "", data_source: str = "", width: int = 0) -> None:
+def add_drag_float4(name: str, default_value: List[float] = [0.0, 0.0, 0.0, 0.0], speed: float = 1.0, min_value: float = 0.0, max_value: float = 100.0, format: str = "%.3f", callback: str = "", tip: str = "", parent: str = "", before: str = "", data_source: str = "", width: int = 0, on_enter:bool = False) -> None:
 	"""Adds drag for a 4 float values."""
 	...
 
-def add_drag_int(name: str, default_value: int = 0, speed: float = 1.0, min_value: int = 0, max_value: int = 100, format: str = "%d", callback: str = "", tip: str = "", parent: str = "", before: str = "", data_source: str = "", width: int = 0) -> None:
+def add_drag_int(name: str, default_value: int = 0, speed: float = 1.0, min_value: int = 0, max_value: int = 100, format: str = "%d", callback: str = "", tip: str = "", parent: str = "", before: str = "", data_source: str = "", width: int = 0, on_enter:bool = False) -> None:
 	"""Adds drag for a single int value"""
 	...
 
-def add_drag_int2(name: str, default_value: List[int] = [0, 0], speed: float = 1.0, min_value: int = 0, max_value: int = 100, format: str = "%d", callback: str = "", tip: str = "", parent: str = "", before: str = "", data_source: str = "", width: int = 0) -> None:
+def add_drag_int2(name: str, default_value: List[int] = [0, 0], speed: float = 1.0, min_value: int = 0, max_value: int = 100, format: str = "%d", callback: str = "", tip: str = "", parent: str = "", before: str = "", data_source: str = "", width: int = 0, on_enter:bool = False) -> None:
 	"""Adds drag for a 2 int values."""
 	...
 
-def add_drag_int3(name: str, default_value: List[int] = [0, 0, 0], speed: float = 1.0, min_value: int = 0, max_value: int = 100, format: str = "%d", callback: str = "", tip: str = "", parent: str = "", before: str = "", data_source: str = "", width: int = 0) -> None:
+def add_drag_int3(name: str, default_value: List[int] = [0, 0, 0], speed: float = 1.0, min_value: int = 0, max_value: int = 100, format: str = "%d", callback: str = "", tip: str = "", parent: str = "", before: str = "", data_source: str = "", width: int = 0, on_enter:bool = False) -> None:
 	"""Adds drag for a 3 int values."""
 	...
 
-def add_drag_int4(name: str, default_value: List[int] = [0, 0, 0, 0], speed: float = 1.0, min_value: int = 0, max_value: int = 100, format: str = "%d", callback: str = "", tip: str = "", parent: str = "", before: str = "", data_source: str = "", width: int = 0) -> None:
+def add_drag_int4(name: str, default_value: List[int] = [0, 0, 0, 0], speed: float = 1.0, min_value: int = 0, max_value: int = 100, format: str = "%d", callback: str = "", tip: str = "", parent: str = "", before: str = "", data_source: str = "", width: int = 0, on_enter:bool = False) -> None:
 	"""Adds drag for a 4 int values."""
 	...
 
@@ -101,40 +101,40 @@ def add_indent(name: str = "", offset: float = 0.0, parent: str = "", before: st
 	"""Adds an indent to following items. Must be closed with the unindent command."""
 	...
 
-def add_input_float(name: str, default_value: float = 0.0, format: str = "%.3f", callback: str = "", tip: str = "", parent: str = "", before: str = "", data_source: str = "", width: int = 0) -> None:
+def add_input_float(name: str, default_value: float = 0.0, format: str = "%.3f", callback: str = "", tip: str = "", parent: str = "", before: str = "", data_source: str = "", width: int = 0, on_enter:bool = False) -> None:
 	"""Adds input for float values."""
 	...
 
-def add_input_float2(name: str, default_value: List[float] = [0.0, 0.0], format: str = "%.3f", callback: str = "", tip: str = "", parent: str = "", before: str = "", data_source: str = "", width: int = 0) -> None:
+def add_input_float2(name: str, default_value: List[float] = [0.0, 0.0], format: str = "%.3f", callback: str = "", tip: str = "", parent: str = "", before: str = "", data_source: str = "", width: int = 0, on_enter:bool = False) -> None:
 	"""Adds input for 2 float values."""
 	...
 
-def add_input_float3(name: str, default_value: List[float] = [0.0, 0.0, 0.0], format: str = "%.3f", callback: str = "", tip: str = "", parent: str = "", before: str = "", data_source: str = "", width: int = 0) -> None:
+def add_input_float3(name: str, default_value: List[float] = [0.0, 0.0, 0.0], format: str = "%.3f", callback: str = "", tip: str = "", parent: str = "", before: str = "", data_source: str = "", width: int = 0, on_enter:bool = False) -> None:
 	"""Adds input for 3 float values."""
 	...
 
-def add_input_float4(name: str, default_value: List[float] = [0.0, 0.0, 0.0, 0.0], format: str = "%.3f", callback: str = "", tip: str = "", parent: str = "", before: str = "", data_source: str = "", width: int = 0) -> None:
+def add_input_float4(name: str, default_value: List[float] = [0.0, 0.0, 0.0, 0.0], format: str = "%.3f", callback: str = "", tip: str = "", parent: str = "", before: str = "", data_source: str = "", width: int = 0, on_enter:bool = False) -> None:
 	"""Adds input for 4 float values."""
 	...
 
-def add_input_int(name: str, default_value: int = 0, callback: str = "", tip: str = "", parent: str = "", before: str = "", data_source: str = "", width: int = 0) -> None:
+def add_input_int(name: str, default_value: int = 0, callback: str = "", tip: str = "", parent: str = "", before: str = "", data_source: str = "", width: int = 0, on_enter:bool = False) -> None:
 	"""Adds input for integer values."""
 	...
 
-def add_input_int2(name: str, default_value: List[int] = [0, 0], callback: str = "", tip: str = "", parent: str = "", before: str = "", data_source: str = "", width: int = 0) -> None:
+def add_input_int2(name: str, default_value: List[int] = [0, 0], callback: str = "", tip: str = "", parent: str = "", before: str = "", data_source: str = "", width: int = 0, on_enter:bool = False) -> None:
 	"""Adds input for 2 integer values."""
 	...
 
-def add_input_int3(name: str, default_value: List[int] = [0, 0, 0], callback: str = "", tip: str = "", parent: str = "", before: str = "", data_source: str = "", width: int = 0) -> None:
+def add_input_int3(name: str, default_value: List[int] = [0, 0, 0], callback: str = "", tip: str = "", parent: str = "", before: str = "", data_source: str = "", width: int = 0, on_enter:bool = False) -> None:
 	"""Adds input for 3 integer values."""
 	...
 
-def add_input_int4(name: str, default_value: List[int] = [0, 0, 0, 0], callback: str = "", tip: str = "", parent: str = "", before: str = "", data_source: str = "", width: int = 0) -> None:
+def add_input_int4(name: str, default_value: List[int] = [0, 0, 0, 0], callback: str = "", tip: str = "", parent: str = "", before: str = "", data_source: str = "", width: int = 0, on_enter:bool = False) -> None:
 	"""Adds input for 4 integer values."""
 	...
 
 def add_input_text(name: str, default_value: str = "", hint: str = "", multiline: bool = False, no_spaces: bool = False, uppercase: bool = False, decimal: bool = False, hexadecimal: bool = False, 
-				   readonly: bool = False, password: bool = False, callback: str = "", tip: str = "", parent: str = "", before: str = "", data_source: str = "", width: int = 0) -> None:
+				   readonly: bool = False, password: bool = False, callback: str = "", tip: str = "", parent: str = "", before: str = "", data_source: str = "", width: int = 0, on_enter:bool = False) -> None:
 	"""Adds input for text values."""
 	...
 
@@ -211,35 +211,35 @@ def add_simple_plot(name: str, value: List[float], autoscale: bool = True, overl
 	"""A simple plot for visualization of a set of values"""
 	...
 
-def add_slider_float(name: str, default_value: float = 0.0, min_value: float = 0.0, max_value: float = 100.0, format: str = "%.3f", vertical: bool = False, callback: str = "", tip: str = "", parent: str = "", before: str = "", data_source: str = "", width: int = 0, height: int = 0) -> None:
+def add_slider_float(name: str, default_value: float = 0.0, min_value: float = 0.0, max_value: float = 100.0, format: str = "%.3f", vertical: bool = False, callback: str = "", tip: str = "", parent: str = "", before: str = "", data_source: str = "", width: int = 0, height: int = 0, on_enter:bool = False) -> None:
 	"""Adds slider for a single float value"""
 	...
 
-def add_slider_float2(name: str, default_value: List[float] = [0.0, 0.0], min_value: float = 0.0, max_value: float = 100.0, format: str = "%.3f", callback: str = "", tip: str = "", parent: str = "", before: str = "", data_source: str = "", width: int = 0) -> None:
+def add_slider_float2(name: str, default_value: List[float] = [0.0, 0.0], min_value: float = 0.0, max_value: float = 100.0, format: str = "%.3f", callback: str = "", tip: str = "", parent: str = "", before: str = "", data_source: str = "", width: int = 0, on_enter:bool = False) -> None:
 	"""Adds slider for a 2 float values."""
 	...
 
-def add_slider_float3(name: str, default_value: List[float] = [0.0, 0.0, 0.0], min_value: float = 0.0, max_value: float = 100.0, format: str = "%.3f", callback: str = "", tip: str = "", parent: str = "", before: str = "", data_source: str = "", width: int = 0) -> None:
+def add_slider_float3(name: str, default_value: List[float] = [0.0, 0.0, 0.0], min_value: float = 0.0, max_value: float = 100.0, format: str = "%.3f", callback: str = "", tip: str = "", parent: str = "", before: str = "", data_source: str = "", width: int = 0, on_enter:bool = False) -> None:
 	"""Adds slider for a 3 float values."""
 	...
 
-def add_slider_float4(name: str, default_value: List[float] = [0.0, 0.0, 0.0, 0.0], min_value: float = 0.0, max_value: float = 100.0, format: str = "%.3f", callback: str = "", tip: str = "", parent: str = "", before: str = "", data_source: str = "", width: int = 0) -> None:
+def add_slider_float4(name: str, default_value: List[float] = [0.0, 0.0, 0.0, 0.0], min_value: float = 0.0, max_value: float = 100.0, format: str = "%.3f", callback: str = "", tip: str = "", parent: str = "", before: str = "", data_source: str = "", width: int = 0, on_enter:bool = False) -> None:
 	"""Adds slider for a 4 float values."""
 	...
 
-def add_slider_int(name: str, default_value: int = 0, min_value: int = 0, max_value: int = 100, format: str = "%d", vertical: bool = False, callback: str = "", tip: str = "", parent: str = "", before: str = "", data_source: str = "", width: int = 0, height: int = 0) -> None:
+def add_slider_int(name: str, default_value: int = 0, min_value: int = 0, max_value: int = 100, format: str = "%d", vertical: bool = False, callback: str = "", tip: str = "", parent: str = "", before: str = "", data_source: str = "", width: int = 0, height: int = 0, on_enter:bool = False) -> None:
 	"""Adds slider for a single int value"""
 	...
 
-def add_slider_int2(name: str, default_value: List[int] = [0, 0], min_value: int = 0, max_value: int = 100, format: str = "%d", callback: str = "", tip: str = "", parent: str = "", before: str = "", data_source: str = "", width: int = 0) -> None:
+def add_slider_int2(name: str, default_value: List[int] = [0, 0], min_value: int = 0, max_value: int = 100, format: str = "%d", callback: str = "", tip: str = "", parent: str = "", before: str = "", data_source: str = "", width: int = 0, on_enter:bool = False) -> None:
 	"""Adds slider for a 2 int values."""
 	...
 
-def add_slider_int3(name: str, default_value: List[int] = [0, 0, 0], min_value: int = 0, max_value: int = 100, format: str = "%d", callback: str = "", tip: str = "", parent: str = "", before: str = "", data_source: str = "", width: int = 0) -> None:
+def add_slider_int3(name: str, default_value: List[int] = [0, 0, 0], min_value: int = 0, max_value: int = 100, format: str = "%d", callback: str = "", tip: str = "", parent: str = "", before: str = "", data_source: str = "", width: int = 0, on_enter:bool = False) -> None:
 	"""Adds slider for a 3 int values."""
 	...
 
-def add_slider_int4(name: str, default_value: List[int] = [0, 0, 0, 0], min_value: int = 0, max_value: int = 100, format: str = "%d", callback: str = "", tip: str = "", parent: str = "", before: str = "", data_source: str = "", width: int = 0) -> None:
+def add_slider_int4(name: str, default_value: List[int] = [0, 0, 0, 0], min_value: int = 0, max_value: int = 100, format: str = "%d", callback: str = "", tip: str = "", parent: str = "", before: str = "", data_source: str = "", width: int = 0, on_enter:bool = False) -> None:
 	"""Adds slider for a 4 int values."""
 	...
 
