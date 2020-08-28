@@ -864,6 +864,12 @@ namespace Marvel {
 		return mvPythonTranslator::GetPyNone();
 	}
 
+	PyObject* stop_dearpygui(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		mvApp::SetAppStopped();
+		return mvPythonTranslator::GetPyNone();
+	}
+
 	PyObject* set_global_font_scale(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		float scale;
@@ -6230,6 +6236,7 @@ namespace Marvel {
 
 	static PyMethodDef dearpyguimethods[]
 	{
+		ADD_PYTHON_FUNCTION(stop_dearpygui)
 		ADD_PYTHON_FUNCTION(is_dearpygui_running)
 		ADD_PYTHON_FUNCTION(set_main_window_title)
 		ADD_PYTHON_FUNCTION(add_additional_font)

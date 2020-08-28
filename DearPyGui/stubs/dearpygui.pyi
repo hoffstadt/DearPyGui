@@ -1123,7 +1123,11 @@ def show_source(file: str) -> None:
 	...
 
 def start_dearpygui() -> None:
-	"""Starts DearPyGui"""
+	"""Starts DearPyGui."""
+	...
+
+def stop_dearpygui() -> None:
+	"""Stops DearPyGui."""
 	...
 
 def unindent(name: str = "", offset: float = 0.0, parent: str = "", before: str = "") -> None:

@@ -108,6 +108,8 @@ namespace Marvel {
 
     void mvAppleWindow::renderFrame()
     {
+        m_running = !glfwWindowShouldClose(m_window);
+
         @autoreleasepool {
             // Poll and handle events (inputs, window resize, etc.)
             // You can read the io.WantCaptureMouse, io.WantCaptureKeyboard flags to tell if dear imgui wants to use your inputs.
@@ -170,7 +172,7 @@ namespace Marvel {
 
     void mvAppleWindow::render() {
 
-        while(!glfwWindowShouldClose(m_window))
+        while(m_running)
             renderFrame();
     }
 
