@@ -37,6 +37,8 @@ Fixes:
 
 New Commands:
 
+- Inputs:   input/slider/drag now have an "on_enter" keyword to only
+	run their callbacks on enter key presses
 - App:      new command "stop_dearpygui" #102
 - Widgets:  new command "set_item_label" #99
 - Widgets:  new command "get_item_label" #99
