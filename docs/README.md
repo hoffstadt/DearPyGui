@@ -29,7 +29,7 @@ the following platforms:
 In the same manner Dear ImGui provides a simple way to create tools for game developers, _DearPyGui_ provides a 
 simple way for python developers to **create quick and powerful GUIs for scripts**.
 
-| [Installing](#installing) - [Usage](#usage) - [Features](#some-features) - [Building](#building)|
+| [Installing](#installing) - [Usage](#usage) - [Features](#some-features) - [Building](#building) - [Support](#support)|
 :----------------------------------------------------------: |
 | [Upcoming changes](#upcoming-changes) - [Gallery](#gallery) - [Credits](#credits) - [License](#license)|
 
@@ -106,6 +106,12 @@ _DearPyGui_ includes several tools to help developers with _DearPyGui_ app devel
 ### Building
 The actual builds of _DearPyGui_ are created through github actions however, to develop and test locally, follow the instructions below. 
 These are not well maintained at the moment and could use some work.
+
+---
+
+### Support
+
+
 
 ---
 
