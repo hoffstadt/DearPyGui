@@ -468,16 +468,17 @@ namespace Marvel {
 			{
 				// route key pressed event
 				if (ImGui::IsKeyPressed(i) && !eventHandler->getKeyPressCallback().empty())
-					runCallback(eventHandler->getKeyPressCallback(), std::to_string(i));
+					runCallback(eventHandler->getKeyPressCallback(), m_activeWindow, 
+						mvPythonTranslator::ToPyInt(i));
 
 				// route key down event
 				if (ImGui::GetIO().KeysDownDuration[i] >= 0.0f && !eventHandler->getKeyDownCallback().empty())
-					runCallback(eventHandler->getKeyDownCallback(), std::to_string(i),
-						mvPythonTranslator::ToPyFloat(ImGui::GetIO().KeysDownDuration[i]));
+					runCallback(eventHandler->getKeyDownCallback(), m_activeWindow,
+						mvPythonTranslator::ToPyMPair(i, ImGui::GetIO().KeysDownDuration[i]));
 
 				// route key released event
 				if (ImGui::IsKeyReleased(i) && !eventHandler->getKeyReleaseCallback().empty())
-					runCallback(eventHandler->getKeyReleaseCallback(), std::to_string(i));
+					runCallback(eventHandler->getKeyReleaseCallback(), m_activeWindow, mvPythonTranslator::ToPyInt(i));
 			}
 		}
 
