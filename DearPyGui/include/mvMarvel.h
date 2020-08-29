@@ -946,6 +946,9 @@ namespace Marvel {
 
 	static void AddItemCommands(std::map<std::string, mvPythonParser>* parsers)
 	{
+		parsers->insert({ "get_windows", mvPythonParser({
+		}, "Returns a list of windows.", "List[str]", "Widget Commands") });
+
 		parsers->insert({ "get_all_items", mvPythonParser({
 		}, "Returns a list of all items.", "List[str]", "Widget Commands") });
 

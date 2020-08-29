@@ -422,6 +422,10 @@ def get_active_window() -> str:
 	"""Returns the active window name."""
 	...
 
+def get_all_items() -> List[str]:
+	"""Returns a list of all items."""
+	...
+
 def get_data(name: str) -> object:
 	"""Retrieves data from storage."""
 	...
@@ -452,6 +456,10 @@ def get_global_font_scale() -> float:
 
 def get_item_callback(item: str) -> str:
 	"""Returns an item' callback"""
+	...
+
+def get_item_children(item: str) -> List[str]:
+	"""Returns a list of an item's children."""
 	...
 
 def get_item_height(item: str) -> float:
@@ -664,6 +672,10 @@ def get_value(name: str) -> Any:
 
 def get_window_pos(window: str) -> List[float]:
 	"""Gets a windows position"""
+	...
+
+def get_windows() -> List[str]:
+	"""Returns a list of windows."""
 	...
 
 def hide_item(name: str, children_only: bool = False) -> None:

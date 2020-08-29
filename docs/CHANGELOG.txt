@@ -38,6 +38,7 @@ New Commands:
 - Widgets: add "does_item_exist" command #119
 - Widgets: add "get_item_children" command #123
 - Widgets: add "get_all_items" command #123
+- Widgets: add "get_windows" command #123
 
 
 -----------------------------------------------------------------------
