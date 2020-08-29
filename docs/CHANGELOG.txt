@@ -32,6 +32,7 @@ Fixes:
 
 - Images: Fixed memory leaks for image textures #122
 - Other:  Fixed stop_dearpygui command #102
+- Labels:  Fixed issue with set_label the same #120
 
 New Commands:
 
