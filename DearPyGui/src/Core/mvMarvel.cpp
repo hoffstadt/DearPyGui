@@ -5279,6 +5279,15 @@ namespace Marvel {
 		return mvPythonTranslator::ToPyList(childList);
 	}
 
+	PyObject* get_windows(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		auto windows = mvApp::GetApp()->getWindows();
+		std::vector<std::string> childList;
+		for (auto window : windows)
+			childList.emplace_back(window->getName());
+		return mvPythonTranslator::ToPyList(childList);
+	}
+
 	PyObject* get_item_tip(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		const char* item;
@@ -6423,6 +6432,7 @@ namespace Marvel {
 
 	static PyMethodDef dearpyguimethods[]
 	{
+		ADD_PYTHON_FUNCTION(get_windows)
 		ADD_PYTHON_FUNCTION(get_all_items)
 		ADD_PYTHON_FUNCTION(get_item_children)
 		ADD_PYTHON_FUNCTION(stop_dearpygui)
