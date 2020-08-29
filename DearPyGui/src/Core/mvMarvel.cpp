@@ -5231,6 +5231,54 @@ namespace Marvel {
 		return mvPythonTranslator::GetPyNone();
 	}
 
+	PyObject* get_item_children(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		const char* item;
+
+		if (!(*mvApp::GetApp()->getParsers())["get_item_children"].parse(args, kwargs, __FUNCTION__, &item))
+			return mvPythonTranslator::GetPyNone();
+
+		auto appitem = mvApp::GetApp()->getItem(item);
+
+		if (appitem)
+		{
+			auto children = appitem->getChildren();
+			std::vector<std::string> childList;
+			for (auto child : children)
+				childList.emplace_back(child->getName());
+
+			return mvPythonTranslator::ToPyList(childList);
+		}
+
+		return mvPythonTranslator::GetPyNone();
+	}
+
+	PyObject* get_all_items(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+
+		std::vector<mvAppItem*>& windows = mvApp::GetApp()->getWindows();
+
+		std::vector<std::string> childList;
+
+		// to help recursively retrieve children
+		std::function<void(mvAppItem*)> ChildRetriever;
+		ChildRetriever = [&childList, &ChildRetriever](mvAppItem* item) {
+			auto children = item->getChildren();
+			for (mvAppItem* child : children)
+			{
+				childList.emplace_back(child->getName());
+				if (child->isContainer())
+					ChildRetriever(child);
+			}
+				
+		};
+
+		for (auto window : windows)
+			ChildRetriever(window);
+
+		return mvPythonTranslator::ToPyList(childList);
+	}
+
 	PyObject* get_item_tip(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		const char* item;
@@ -6375,6 +6423,8 @@ namespace Marvel {
 
 	static PyMethodDef dearpyguimethods[]
 	{
+		ADD_PYTHON_FUNCTION(get_all_items)
+		ADD_PYTHON_FUNCTION(get_item_children)
 		ADD_PYTHON_FUNCTION(stop_dearpygui)
 		ADD_PYTHON_FUNCTION(is_dearpygui_running)
 		ADD_PYTHON_FUNCTION(set_main_window_title)
