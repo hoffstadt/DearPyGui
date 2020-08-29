@@ -971,6 +971,10 @@ namespace Marvel {
 			{mvPythonDataType::Bool, "children_only"}
 		}, "Deletes an item if it exists.", "None", "Widget Commands") });
 
+		parsers->insert({ "does_item_exist", mvPythonParser({
+		{mvPythonDataType::String, "item"},
+		}, "Checks if item exists.", "Bool", "Widget Commands") });
+
 		parsers->insert({ "move_item_up", mvPythonParser({
 			{mvPythonDataType::String, "item"}
 		}, "Moves item up if possible and if it exists.", "None", "Widget Commands") });

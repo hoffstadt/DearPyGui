@@ -5051,6 +5051,23 @@ namespace Marvel {
 
 	}
 
+	PyObject* does_item_exist(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		if (!mvApp::GetApp()->checkIfMainThread())
+			return mvPythonTranslator::GetPyNone();
+
+		const char* item;
+
+		if (!(*mvApp::GetApp()->getParsers())["does_item_exist"].parse(args, kwargs, __FUNCTION__, &item))
+			return mvPythonTranslator::GetPyNone();
+
+		if (!mvApp::GetApp()->getItem(item))
+			return mvPythonTranslator::ToPyBool(false);
+
+		return mvPythonTranslator::ToPyBool(true);
+
+	}
+
 	PyObject* select_directory_dialog(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		const char* callback = "";
@@ -6542,6 +6559,7 @@ namespace Marvel {
 		ADD_PYTHON_FUNCTION(run_async_function)
 		ADD_PYTHON_FUNCTION(open_file_dialog)
 		ADD_PYTHON_FUNCTION(delete_item)
+		ADD_PYTHON_FUNCTION(does_item_exist)
 		ADD_PYTHON_FUNCTION(move_item_down)
 		ADD_PYTHON_FUNCTION(move_item_up)
 		ADD_PYTHON_FUNCTION(get_theme_item)
