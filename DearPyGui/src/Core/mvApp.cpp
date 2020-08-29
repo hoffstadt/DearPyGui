@@ -1,5 +1,6 @@
 #include "mvApp.h"
 #include "mvMarvel.h"
+#include "Core/mvWindow.h"
 #include "mvCore.h"
 #include "mvDataStorage.h"
 #include "mvInput.h"
@@ -50,6 +51,14 @@ namespace Marvel {
 	mvStandardWindow* mvApp::GetAppStandardWindow()
 	{
 		return static_cast<mvStandardWindow*>(GetApp());
+	}
+
+	void mvApp::SetAppStopped() 
+	{ 
+		s_started = false; 
+		auto viewport = s_instance->getViewport();
+		if (viewport)
+			viewport->stop();
 	}
 
 	mvApp::mvApp()
