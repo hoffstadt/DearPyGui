@@ -77,4 +77,11 @@ namespace Marvel {
 		return true;
 	}
 
+    void FreeTexture(mvTexture& storage)
+    {
+        ID3D11ShaderResourceView* out_srv = static_cast<ID3D11ShaderResourceView*>(storage.texture);
+        out_srv->Release();
+        out_srv = nullptr;
+    }
+
 }

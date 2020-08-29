@@ -518,7 +518,8 @@ namespace Marvel {
 			{
 				if (item->tag == tag && item->getType() == mvDrawingCommandType::DrawImage)
 				{
-					*(mvDrawImageCommand*)(item) = mvDrawImageCommand(file, pmin, pmax, uv_min, uv_max, color);
+					delete item;
+					item = new mvDrawImageCommand(file, pmin, pmax, uv_min, uv_max, color);
 					item->tag = tag;
 					m_dirty = true;
 					return;
