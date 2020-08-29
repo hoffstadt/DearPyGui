@@ -10,6 +10,7 @@
 #include "mvWindow.h"
 #include "Core/mvPythonExceptions.h"
 #include <ImGuiFileDialog.h>
+#include <cstdlib>
 
 //-----------------------------------------------------------------------------
 // Helper Macro
@@ -5836,7 +5837,11 @@ namespace Marvel {
 		appitem = mvApp::GetApp()->getItem(item);
 
 		if (appitem)
-			appitem->setLabel(label);
+		{
+			// temporary fix
+			std::string newLabel = label + std::string("##") + std::to_string(rand());
+			appitem->setLabel(newLabel);
+		}
 
 		return mvPythonTranslator::GetPyNone();
 	}
