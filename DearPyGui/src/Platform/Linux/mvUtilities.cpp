@@ -48,7 +48,7 @@ namespace Marvel {
 
     void FreeTexture(mvTexture& storage)
     {
-        GLuint out_srv = static_cast<GLuint>(storage.texture);
+        auto out_srv = (GLuint)(size_t)storage.texture;
         glDeleteTextures(1, &out_srv);
     }
 
