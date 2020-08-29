@@ -324,6 +324,9 @@ def delete_row(table: str, row: int) -> None:
 	"""Delete a row in a table."""
 	...
 
+def does_item_exist(item: str,) -> bool:
+	"""Checks if item exists"""
+
 def draw_arrow(drawing: str, p1: List[float], p2: List[float], color: List[int], thickness: int, size: int, tag: str = "") -> None:
 	"""Draws an arrow on a drawing."""
 	...
