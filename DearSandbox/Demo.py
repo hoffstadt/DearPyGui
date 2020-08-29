@@ -65,6 +65,9 @@ add_button("Clear Table ", callback="ClearTable")
 add_table("Table##widget", ["Column 1", "Column 2", "Column 3", "Column 4"])
 
 def closeit(sender, data):
+    items = get_all_items()
+    for item in items:
+        print(item)
     print("closing tables")
 
 tabledata = []
