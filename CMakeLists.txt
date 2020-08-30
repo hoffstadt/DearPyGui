@@ -2,7 +2,6 @@
 
 project ("DearPyGui")
 
-set(CONFIG_32BIT ${CONFIG_32BIT})
 set(MVDIST_ONLY ${MVDIST_ONLY})
 set(MV37DIST ${MV37DIST})
 
