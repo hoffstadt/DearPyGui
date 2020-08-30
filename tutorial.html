@@ -61,15 +61,15 @@
         <hr>
         <p>
             This tutorial is intended to demonstrate how to use some features of DearImGui. The examples may not include all
-            of the abilities of the showcased feature. More complex examples included in the
-            <a href="https://github.com/RaylockLLC/DearPyGui/tree/master/Examples" target="_blank">Examples</a> folder on the github.
-            It is also recommended to refer to the <a href="api_docs.html">API Reference</a> for the information on a specific API Method.
+            of the abilities of the showcased feature. More complex examples are included in the
+            <a href="https://github.com/RaylockLLC/DearPyGui/tree/master/Examples" target="_blank">Examples</a> folder on github.
+            It is also recommended to refer to the <a href="api_docs.html">API Reference</a> for the information on a specific API function.
         </p>
         <p>
-            DearPyGui consists of an App, and widgets. The App is the main window of your program and is created at the end of the main python script
+            DearPyGui consists of an viewport, windows, and widgets. The viewport is the main window of your program and is created at the end of the main python script
             by calling the function <code class="inline-code" data-language="python">start_dearpygui()</code>
             <br><br>
-            Lets show an example by using the Built-in documentation function.
+            Here is an example using the Built-in documentation function:
         </p>
         <pre><code data-language="python">from dearpygui.dearpygui import *
 
@@ -77,18 +77,13 @@ set_main_window_size(800, 800)
 show_documentation()
 
 start_dearpygui()</code> </pre>
-        <p>
-            It is important to remember that DearPyGui (a retained mode paradigm) was made from a wrapping of DearImGui (an immediate mode paradigm).
-            Because of this DearPyGui has the responsibility of using the GPU to render the entire GUI every frame. This can be very beneficial
-            for highly dynamic interfaces, plots, and even games.
-        </p>
     </article>
 
     <article><a name="developer_tools"></a>
         <h2>Developer Tools</h2>
         <hr>
         <p>
-            DearPyGui contains several very useful developer tools which we will utilize throughout the tutorial.
+            DearPyGui contains several very useful developer tools which we will utilize throughout the tutorials.
             <br><br>
             The <code class="inline-code" data-language="python">show_source()</code> requires an input of a python file name to read.
             For our example we will use our file name "main.py". These are shown below. You should update this with your file name.
@@ -115,7 +110,7 @@ start_dearpygui()</code> </pre>
             <li>container widgets (ex. windows, groups, popups, ect.)</li>
             </ul>
             <br><br>
-            Widgets are added by their respective "add_***" commands
+            Widgets are added by their respective "add_***" commands.
             <br><br>
             Every widget must have a unique name In the event that you would like widgets to appear on screen with the
             same name you must place a "##" trailing the displayed name so the widget name remains unique.
@@ -135,12 +130,11 @@ add_button("Apply##3")
 
 start_dearpygui()</code> </pre>
         <p>
-            Container widgets are used to hold normal widgets and are implemented by starting the container with is "add" function
+            Container widgets are used to hold other widgets and are implemented by starting the container with its "add" function
             then completing the container with its respective "end" function.
             <br><br>
-            Widgets, including container widgets, have a parent container and an order in which they are displayed.
-            The "end" function is used to by the interpreter to auto fill out the parent of the widget. Thus by default widgets are added to
-            the container that is wrapping them with the "add/end" and also in the order they are coded.
+            When container widgets are "added", they are popped onto the parent stack. Any widget added after will belong to the parent on the top of the stack.
+            When a contain widget is "ended" they are popped off of the parent stack.
         </p>
         <pre><code data-language="python">from dearpygui.dearpygui import *
 
@@ -190,28 +184,26 @@ start_dearpygui()</code></pre>
             Each input widget has a callback which is activated when the widget is interacted with.
             <br><br>
             Callbacks are used to give functionality to widgets. Almost every widget in DearPyGui can use a callback.
-            callbacks can either be assigned to widgets upon creation or after creation as shown in the code below.
+            Callbacks can either be assigned to widgets upon creation or after creation as shown in the code below.
             <br><br>
-            Every callback function used in DearPyGui must take in a "sender" and "data".
+            Every callback function used in DearPyGui must take in a "sender" and "data" argument.
             <br><br>
-            The "sender" is used by DearPyGui to determine what Widget is running the function and let the user have
-            access to the name of the widget sending the callback request.
+            The "sender" is used by DearPyGui to inform the callback which which triggered the callback.
             <br><br>
-            The "data" argument is an optional python object that can be passed into the function. This is mostly useful when
-            chaining widget callbacks.
+            The "data" argument is used by various standard callbacks to send additional data.
         </p>
         <pre><code data-language="python">from dearpygui.dearpygui import *
 
-add_button("Apply", callback="ApplyButtonCallback")
+add_button("Apply", callback="button_callback")
 
-def ApplyButtonCallback(sender, data):
+def button_callback(sender, data):
     print(sender)
     print(data)
 
 add_button("Submit Data")
-set_item_callback("Submit Data", "SubmitData")
+set_item_callback("Submit Data", "submit_data")
 
-def SubmitData(sender, data):
+def submit_data(sender, data):
     data = "this is some data that was submitted and also applied"
     ApplyButtonCallback(sender, data)
 
@@ -230,16 +222,16 @@ start_dearpygui()</code> </pre>
                 <li>Child</li>
                 <li>Popup</li>
             </ul>
-            The callback that is run on close of a window is specific to the window widget and used by assigning a
+            The callback that is run on the closing of a window is specific to the window widget and used by assigning a
             callback to the "on_close" keyword argument.
         </p>
         <pre><code data-language="python">from dearpygui.dearpygui import *
 
-add_window("close me", on_close="closeCallback")
+add_window("close me", on_close="close_callback")
 add_text("close this window")
 end_window()
 
-def closeCallback(sender, data):
+def close_callback(sender, data):
     print(sender + " has been closed")
 
 start_dearpygui()</code> </pre>
@@ -343,7 +335,7 @@ start_dearpygui()</code></pre>
             This can be achieved through the data item <code class="inline-code" data-language="python">add_data()</code>
             and <code class="inline-code" data-language="python">get_data()</code>.
             <br><br>
-            When a data source is used, the widget's value and data source changes are mirrored to one another.
+            When a data source is used, the widget's value and data source changes are bound to one another.
             This can be useful to link to any widgets to use the same data.
             An example is shown below.
 
