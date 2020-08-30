@@ -34,7 +34,10 @@ namespace Marvel {
 		if (s_dataStorage.count(name) == 0)
 			s_dataStorage.insert({ name, data });
 		else
+		{
+			Py_XDECREF(s_dataStorage.at(name));
 			s_dataStorage[name] = data;
+		}
 
 		for (auto window : mvApp::GetApp()->getWindows())
 			window->updateDataSource(name);
