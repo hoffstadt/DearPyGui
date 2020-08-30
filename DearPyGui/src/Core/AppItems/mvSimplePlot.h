@@ -46,8 +46,12 @@ namespace Marvel{
 		{
 			if (!m_dataSource.empty())
 			{
+				if (!mvDataStorage::HasData(m_dataSource))
+					mvDataStorage::AddData(m_dataSource, mvPythonTranslator::ToPyList(m_value));
+				else
 					mvPythonTranslator::UpdatePyFloatList(mvDataStorage::GetData(m_dataSource), m_value);
-					return mvDataStorage::GetData(m_dataSource);
+				
+				return mvDataStorage::GetData(m_dataSource);
 			}
 
 			return mvPythonTranslator::ToPyList(m_value);

@@ -20,6 +20,7 @@ end_menu()
 add_menu("Add/Remove")
 add_menu_item("Add Themes", callback="addThemes")
 add_menu_item("Delete Themes", callback="deleteThemes")
+hide_item("Delete Themes")
 end_menu()
 
 end_menu_bar()
@@ -62,17 +63,17 @@ def showMetrics(sender, data):
 def addThemes(sender, data):
     add_menu("Themes", parent="MenuBar")
     end_menu()
-    add_color_picker4("Color Selector", callback="setColor", parent="Themes")
+    add_color_picker4("Color Selector", data_source="color1", parent="Themes")
     add_color_edit4("Color Item", data_source="color1")
+    show_item("Delete Themes")
+    hide_item("Add Themes")
 
 
 def deleteThemes(sender, data):
     delete_item("Themes")
     delete_item("Color Item")
-
-def setColor(Sender, data):
-    color1 = get_value("Color Selector")
-    add_data("color1", color1)
+    show_item("Add Themes")
+    hide_item("Delete Themes")
 
 
 start_dearpygui()
