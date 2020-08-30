@@ -130,6 +130,7 @@ if(WIN32)
 
 	if(CONFIG_32BIT)
 		target_link_directories(dearpygui PRIVATE "../Dependencies/cpython/PCbuild/win32/")
+		set_target_properties(dearpygui PROPERTIES COMPILE_FLAGS "-m32" LINK_FLAGS "-m32")
 		if(NOT MVDIST_ONLY)
 			target_link_directories(dearpyguiemb PRIVATE "../Dependencies/cpython/PCbuild/win32/")
 		endif()
