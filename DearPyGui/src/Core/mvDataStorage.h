@@ -37,6 +37,7 @@ namespace Marvel {
 		static void      AddData      (const std::string& name, PyObject* data);
 		static void      DeleteData   (const std::string& name);
 		static void      UpdateData   ();
+		static bool      HasData      (const std::string& name);
 		static PyObject* GetData      (const std::string& name);
 		static unsigned  GetDataCount ();
 		static void      DeleteAllData();
