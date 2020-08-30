@@ -121,7 +121,12 @@ namespace Marvel {
 
 				else
 				{
-					mvPythonTranslator::UpdatePyIntList(mvDataStorage::GetData(m_dataSource), m_value);
+
+					if (!mvDataStorage::HasData(m_dataSource))
+						mvDataStorage::AddData(m_dataSource, mvPythonTranslator::ToPyList(m_value));
+					else
+						mvPythonTranslator::UpdatePyIntList(mvDataStorage::GetData(m_dataSource), m_value);
+
 					return mvDataStorage::GetData(m_dataSource);
 				}
 			}
@@ -178,7 +183,11 @@ namespace Marvel {
 
 				else
 				{
-					mvPythonTranslator::UpdatePyFloatList(mvDataStorage::GetData(m_dataSource), m_value);
+					if (!mvDataStorage::HasData(m_dataSource))
+						mvDataStorage::AddData(m_dataSource, mvPythonTranslator::ToPyList(m_value));
+					else
+						mvPythonTranslator::UpdatePyFloatList(mvDataStorage::GetData(m_dataSource), m_value);
+
 					return mvDataStorage::GetData(m_dataSource);
 				}
 			}
