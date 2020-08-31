@@ -57,8 +57,10 @@ namespace Marvel {
 
     void FreeTexture(mvTexture& storage)
     {
-        auto out_srv = (GLuint)(size_t)storage.texture;
-        glDeleteTextures(1, &out_srv);
+        id <MTLTexture> out_srv = (__bridge id <MTLTexture>)storage.texture;
+
+        // ARC should take care of this but I'm not sure. This needs to be checked.
+
     }
 
 }
