@@ -28,7 +28,7 @@ jobs:
         cd ..
         mkdir cmake-build-release
         cd cmake-build-release
-        cmake .. -DCONFIG_32BIT=True -DMVDIST_ONLY=True
+        cmake .. -DMVDIST_ONLY=True
         
     - name: Build DearPyGui
       shell: cmd
@@ -72,8 +72,7 @@ jobs:
         cd ..
         mkdir cmake-build-release
         cd cmake-build-release
-        cmake .. -DMV37DIST=True
-        cd .. -DMVDIST_ONLY=True -DMV37DIST=True
+        cmake .. -DMV37DIST=True -DMVDIST_ONLY=True
         
     - name: Build DearPyGui
       shell: cmd
