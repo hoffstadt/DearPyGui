@@ -279,7 +279,7 @@ def add_tab_bar(name: str, reorderable: bool = False, callback: str = "", parent
 	"""Adds a tab bar."""
 	...
 
-def add_table(name: str, headers: List[str], callback: str = "", parent: str = "", before: str = "", data_source: str = "") -> None:
+def add_table(name: str, headers: List[str], callback: str = "", parent: str = "", before: str = "") -> None:
 	"""Adds table."""
 	...
 

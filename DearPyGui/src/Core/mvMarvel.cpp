@@ -2585,15 +2585,13 @@ namespace Marvel {
 		const char* callback = "";
 		const char* parent = "";
 		const char* before = "";
-		const char* data_source = "";
 
 		if (!(*mvApp::GetApp()->getParsers())["add_table"].parse(args, kwargs, __FUNCTION__, &name, &headers, &callback, &parent,
-			&before, &data_source))
+			&before))
 			return mvPythonTranslator::GetPyNone();
 
 		mvAppItem* item = new mvTable("", name, mvPythonTranslator::ToStringVect(headers));
 		item->setCallback(callback);
-		item->setDataSource(data_source);
 		AddItemWithRuntimeChecks(item, parent, before);
 		return mvPythonTranslator::GetPyNone();
 	}
@@ -5386,7 +5384,7 @@ namespace Marvel {
 		if (!(*mvApp::GetApp()->getParsers())["get_data"].parse(args, kwargs, __FUNCTION__, &name))
 			return mvPythonTranslator::GetPyNone();
 
-		auto result = mvDataStorage::GetData(name);
+		auto result = mvDataStorage::GetDataIncRef(name);
 
 		if (result)
 			return result;

@@ -872,8 +872,7 @@ namespace Marvel {
 			{mvPythonDataType::KeywordOnly},
 			{mvPythonDataType::String, "callback", "Registers a callback"},
 			{mvPythonDataType::String, "parent", "Parent this item will be added to. (runtime adding)"},
-			{mvPythonDataType::String, "before","This item will be displayed before the specified item in the parent. (runtime adding)"},
-			{mvPythonDataType::String, "data_source",""},
+			{mvPythonDataType::String, "before","This item will be displayed before the specified item in the parent. (runtime adding)"}
 		}, "Adds table.", "None", "Tables") });
 
 		parsers->insert({ "set_table_item", mvPythonParser({
