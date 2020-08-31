@@ -5384,7 +5384,7 @@ namespace Marvel {
 		if (!(*mvApp::GetApp()->getParsers())["get_data"].parse(args, kwargs, __FUNCTION__, &name))
 			return mvPythonTranslator::GetPyNone();
 
-		auto result = mvDataStorage::GetData(name);
+		auto result = mvDataStorage::GetDataIncRef(name);
 
 		if (result)
 			return result;

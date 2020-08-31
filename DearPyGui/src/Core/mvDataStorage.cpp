@@ -32,11 +32,18 @@ namespace Marvel {
 
 		// data doesn't exist, create it for the first time
 		if (s_dataStorage.count(name) == 0)
+		{
+			Py_XINCREF(data);
 			s_dataStorage.insert({ name, data });
+		}
 		else
 		{
-			Py_XINCREF(s_dataStorage.at(name));
-			s_dataStorage[name] = data;
+			if (s_dataStorage.at(name) != data)
+			{
+				DeleteData(name); // this is different item, delete the old
+				Py_XINCREF(data);
+				s_dataStorage[name] = data;
+			}
 		}
 
 		for (auto window : mvApp::GetApp()->getWindows())
@@ -69,7 +76,7 @@ namespace Marvel {
 		return true;
 	}
 
-	PyObject* mvDataStorage::GetData(const std::string& name)
+	PyObject* mvDataStorage::GetDataIncRef(const std::string& name)
 	{
 		if (!mvApp::GetApp()->checkIfMainThread())
 			return nullptr;
@@ -80,6 +87,19 @@ namespace Marvel {
 			return nullptr;
 		}
 		Py_XINCREF(s_dataStorage.at(name));
+		return s_dataStorage.at(name);
+	}
+
+	PyObject* mvDataStorage::GetData(const std::string& name)
+	{
+		if (!mvApp::GetApp()->checkIfMainThread())
+			return nullptr;
+
+		if (s_dataStorage.count(name) == 0)
+		{
+			ThrowPythonException(name + " does not exists in data storage.");
+			return nullptr;
+		}
 		return s_dataStorage.at(name);
 	}
 
