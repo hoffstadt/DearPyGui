@@ -35,7 +35,7 @@ namespace Marvel {
 			s_dataStorage.insert({ name, data });
 		else
 		{
-			Py_XDECREF(s_dataStorage.at(name));
+			Py_XINCREF(s_dataStorage.at(name));
 			s_dataStorage[name] = data;
 		}
 
