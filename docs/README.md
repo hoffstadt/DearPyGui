@@ -2,6 +2,8 @@
 
 ![Logo](https://github.com/hoffstadt/DearPyGui/blob/assets/TempLogo.png?raw=true)
 
+</a>
+
 <sub>(This library is available under a free and permissive license)</sub>
 
 ![Python Version](https://img.shields.io/pypi/pyversions/dearpygui)
