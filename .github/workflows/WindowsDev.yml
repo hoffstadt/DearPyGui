@@ -27,7 +27,6 @@ jobs:
         call BuildPythonForWindows.bat --ci
         cd ..
         mkdir cmake-build-release
-        mkdir cmake-build-release32
         cd cmake-build-release
         cmake .. -DMVDIST_ONLY=True
         
@@ -35,7 +34,6 @@ jobs:
       shell: cmd
       run: |
         cmake --build cmake-build-release --config Release 
-        cmake --build cmake-build-release32 --config Release
 
     - name: Build Test DearPyGui Wheel
       shell: cmd
@@ -73,7 +71,6 @@ jobs:
         call BuildPythonForWindows.bat --ci
         cd ..
         mkdir cmake-build-release
-        mkdir cmake-build-release32
         cd cmake-build-release
         cmake .. -DMV37DIST=True
         cd .. -DMVDIST_ONLY=True -DMV37DIST=True
