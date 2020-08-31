@@ -412,6 +412,9 @@ namespace Marvel {
 
 		m_actualWidth = width;
 		m_actualHeight = height;
+		
+		// set viewport size
+		setSize(width, height);
 	}
 
 	void mvApp::setGlobalFontScale(float scale)
