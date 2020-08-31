@@ -29,16 +29,12 @@ jobs:
         mkdir cmake-build-release
         mkdir cmake-build-release32
         cd cmake-build-release
-        cmake ..
-        cd ..
-        cd cmake-build-release32
-        cmake .. -G "Visual Studio 16 2019" -A Win32 -DCONFIG_32BIT=True -DMVDIST_ONLY=True
+        cmake .. -DCONFIG_32BIT=True -DMVDIST_ONLY=True
         
     - name: Build DearPyGui
       shell: cmd
       run: |
         cmake --build cmake-build-release --config Release
-        cmake --build cmake-build-release32 --config Release
 
     - name: Build Release DearPyGui Wheel
       shell: cmd
@@ -46,8 +42,6 @@ jobs:
         cd Distribution
         call "%dir%..\Dependencies\cpython\PCbuild\amd64\python.exe" "%dir%BuildPythonWheel.py" D:/a/DearPyGui/DearPyGui/cmake-build-release/DearPyGui/Release/dearpygui.pyd dearpygui.pyd
         call "%dir%..\Dependencies\cpython\PCbuild\amd64\python.exe" -m setup bdist_wheel --plat-name win_amd64 --dist-dir D:/a/DearPyGui/DearPyGui/dist
-        call "%dir%..\Dependencies\cpython\PCbuild\win32\python.exe" "%dir%BuildPythonWheel.py" D:/a/DearPyGui/DearPyGui/cmake-build-release32/DearPyGui/Release/dearpygui.pyd dearpygui.pyd
-        call "%dir%..\Dependencies\cpython\PCbuild\win32\python.exe" -m setup bdist_wheel --plat-name win32 --dist-dir D:/a/DearPyGui/DearPyGui/dist
 
     - name: Upload Release DearPyGui Wheel
       if: "contains(github.event.head_commit.message, 'upload run')"
@@ -81,15 +75,12 @@ jobs:
         mkdir cmake-build-release32
         cd cmake-build-release
         cmake .. -DMV37DIST=True
-        cd ..
-        cd cmake-build-release32
-        cmake .. -G "Visual Studio 16 2019" -A Win32 -DCONFIG_32BIT=True -DMVDIST_ONLY=True -DMV37DIST=True
+        cd .. -DMVDIST_ONLY=True -DMV37DIST=True
         
     - name: Build DearPyGui
       shell: cmd
       run: |
         cmake --build cmake-build-release --config Release
-        cmake --build cmake-build-release32 --config Release
 
     - name: Build Release DearPyGui Wheel
       shell: cmd
@@ -97,8 +88,6 @@ jobs:
         cd Distribution
         call "%dir%..\Dependencies\cpython\PCbuild\amd64\python.exe" "%dir%BuildPythonWheel.py" D:/a/DearPyGui/DearPyGui/cmake-build-release/DearPyGui/Release/dearpygui.pyd dearpygui.pyd
         call "%dir%..\Dependencies\cpython\PCbuild\amd64\python.exe" -m setup bdist_wheel --plat-name win_amd64 --dist-dir D:/a/DearPyGui/DearPyGui/dist
-        call "%dir%..\Dependencies\cpython\PCbuild\win32\python.exe" "%dir%BuildPythonWheel.py" D:/a/DearPyGui/DearPyGui/cmake-build-release32/DearPyGui/Release/dearpygui.pyd dearpygui.pyd
-        call "%dir%..\Dependencies\cpython\PCbuild\win32\python.exe" -m setup bdist_wheel --plat-name win32 --dist-dir D:/a/DearPyGui/DearPyGui/dist
 
     - name: Upload Release DearPyGui Wheel
       if: "contains(github.event.head_commit.message, 'upload run')"

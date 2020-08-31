@@ -26,9 +26,8 @@ namespace Marvel {
 
 		mvTexture newTexture = { 0, 0, nullptr, 1 };
 
-		if (LoadTextureFromFile(name.c_str(), newTexture)) {
+		if (LoadTextureFromFile(name.c_str(), newTexture))
             s_textures.insert({ name, newTexture });
-        }
 
 	}
 
@@ -54,6 +53,7 @@ namespace Marvel {
 		if (s_textures.at(name).count == 0)
 		{
 			UnloadTexture(name);
+			FreeTexture(s_textures.at(name));
 			s_textures.erase(name);
 		}
 	}

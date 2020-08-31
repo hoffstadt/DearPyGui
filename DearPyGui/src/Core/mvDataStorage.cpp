@@ -30,23 +30,21 @@ namespace Marvel {
 		if (!mvApp::GetApp()->checkIfMainThread())
 			return;
 
-		// data already exists, decrement it recursively until all old objects
-		// are delete then update everything with the new pyobjects (i think)
-		// this system needs to be cleaned up to be less confusing
-		if (s_dataStorage.count(name) > 1)
-		{
-			DeleteData(name);
-			AddData(name, data);
-			for (auto window : mvApp::GetApp()->getWindows())
-				window->updateDataSource(name);
-			return;
-		}
-
 		// data doesn't exist, create it for the first time
 		if (s_dataStorage.count(name) == 0)
+		{
+			Py_XINCREF(data);
 			s_dataStorage.insert({ name, data });
+		}
 		else
-			s_dataStorage[name] = data;
+		{
+			if (s_dataStorage.at(name) != data)
+			{
+				DeleteData(name); // this is different item, delete the old
+				Py_XINCREF(data);
+				s_dataStorage[name] = data;
+			}
+		}
 
 		for (auto window : mvApp::GetApp()->getWindows())
 			window->updateDataSource(name);
@@ -67,7 +65,18 @@ namespace Marvel {
 		s_dataStorage.erase(name);
 	}
 
-	PyObject* mvDataStorage::GetData(const std::string& name)
+	bool mvDataStorage::HasData(const std::string& name)
+	{
+		if (!mvApp::GetApp()->checkIfMainThread())
+			return false;
+
+		if (s_dataStorage.count(name) == 0)
+			return false;
+
+		return true;
+	}
+
+	PyObject* mvDataStorage::GetDataIncRef(const std::string& name)
 	{
 		if (!mvApp::GetApp()->checkIfMainThread())
 			return nullptr;
@@ -78,6 +87,19 @@ namespace Marvel {
 			return nullptr;
 		}
 		Py_XINCREF(s_dataStorage.at(name));
+		return s_dataStorage.at(name);
+	}
+
+	PyObject* mvDataStorage::GetData(const std::string& name)
+	{
+		if (!mvApp::GetApp()->checkIfMainThread())
+			return nullptr;
+
+		if (s_dataStorage.count(name) == 0)
+		{
+			ThrowPythonException(name + " does not exists in data storage.");
+			return nullptr;
+		}
 		return s_dataStorage.at(name);
 	}
 

@@ -55,4 +55,10 @@ namespace Marvel {
 		return true;
 	}
 
+    void FreeTexture(mvTexture& storage)
+    {
+        auto out_srv = (GLuint)(size_t)storage.texture;
+        glDeleteTextures(1, &out_srv);
+    }
+
 }

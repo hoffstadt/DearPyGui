@@ -10,6 +10,7 @@
 #include "mvWindow.h"
 #include "Core/mvPythonExceptions.h"
 #include <ImGuiFileDialog.h>
+#include <cstdlib>
 
 //-----------------------------------------------------------------------------
 // Helper Macro
@@ -2584,15 +2585,13 @@ namespace Marvel {
 		const char* callback = "";
 		const char* parent = "";
 		const char* before = "";
-		const char* data_source = "";
 
 		if (!(*mvApp::GetApp()->getParsers())["add_table"].parse(args, kwargs, __FUNCTION__, &name, &headers, &callback, &parent,
-			&before, &data_source))
+			&before))
 			return mvPythonTranslator::GetPyNone();
 
 		mvAppItem* item = new mvTable("", name, mvPythonTranslator::ToStringVect(headers));
 		item->setCallback(callback);
-		item->setDataSource(data_source);
 		AddItemWithRuntimeChecks(item, parent, before);
 		return mvPythonTranslator::GetPyNone();
 	}
@@ -2735,9 +2734,10 @@ namespace Marvel {
 		const char* before = "";
 		const char* parent = "";
 		const char* data_source = "";
+		int on_enter = false;
 
 		if (!(*mvApp::GetApp()->getParsers())["add_drag_float"].parse(args, kwargs, __FUNCTION__, &name, &default_value, &speed,
-			&min_value, &max_value, &format, &callback, &tip, &parent, &before, &data_source, &width))
+			&min_value, &max_value, &format, &callback, &tip, &parent, &before, &data_source, &width, &on_enter))
 			return mvPythonTranslator::GetPyNone();
 
 		std::vector<float> defaults;
@@ -2746,7 +2746,11 @@ namespace Marvel {
 		defaults.push_back(0.0f);
 		defaults.push_back(0.0f);
 
-		mvAppItem* item = new mvDragFloat<mvAppItemType::DragFloat, 1, ImGui::DragFloat>("", name, defaults.data(), speed, min_value, max_value, format);
+		ImGuiInputTextFlags flags = 0;
+		if (on_enter)
+			flags = ImGuiInputTextFlags_EnterReturnsTrue;
+
+		mvAppItem* item = new mvDragFloat<mvAppItemType::DragFloat, 1, ImGui::DragFloat>("", name, defaults.data(), speed, min_value, max_value, format, flags);
 		item->setCallback(callback);
 		item->setTip(tip);
 		item->setDataSource(data_source);
@@ -2774,13 +2778,18 @@ namespace Marvel {
 		const char* before = "";
 		const char* data_source = "";
 		int width = 0;
+		int on_enter = false;
 
 		if (!(*mvApp::GetApp()->getParsers())["add_drag_float2"].parse(args, kwargs, __FUNCTION__, &name, &default_value, &speed,
-			&min_value, &max_value, &format, &callback, &tip, &parent, &before, &data_source, &width))
+			&min_value, &max_value, &format, &callback, &tip, &parent, &before, &data_source, &width, &on_enter))
 			return mvPythonTranslator::GetPyNone();
 
+		ImGuiInputTextFlags flags = 0;
+		if (on_enter)
+			flags = ImGuiInputTextFlags_EnterReturnsTrue;
+
 		auto vec = mvPythonTranslator::ToFloatVect(default_value);
-		mvAppItem* item = new mvDragFloat<mvAppItemType::DragFloat2, 2, ImGui::DragFloat2>("", name, vec.data(), speed, min_value, max_value, format);
+		mvAppItem* item = new mvDragFloat<mvAppItemType::DragFloat2, 2, ImGui::DragFloat2>("", name, vec.data(), speed, min_value, max_value, format, flags);
 		item->setCallback(callback);
 		item->setTip(tip);
 		item->setDataSource(data_source);
@@ -2807,13 +2816,18 @@ namespace Marvel {
 		const char* before = "";
 		const char* data_source = "";
 		int width = 0;
+		int on_enter = false;
 
 		if (!(*mvApp::GetApp()->getParsers())["add_drag_float3"].parse(args, kwargs, __FUNCTION__, &name, &default_value, &speed,
-			&min_value, &max_value, &format, &callback, &tip, &parent, &before, &data_source, &width))
+			&min_value, &max_value, &format, &callback, &tip, &parent, &before, &data_source, &width, &on_enter))
 			return mvPythonTranslator::GetPyNone();
 
+		ImGuiInputTextFlags flags = 0;
+		if (on_enter)
+			flags = ImGuiInputTextFlags_EnterReturnsTrue;
+
 		auto vec = mvPythonTranslator::ToFloatVect(default_value);
-		mvAppItem* item = new mvDragFloat<mvAppItemType::DragFloat3, 3, ImGui::DragFloat3>("", name, vec.data(), speed, min_value, max_value, format);
+		mvAppItem* item = new mvDragFloat<mvAppItemType::DragFloat3, 3, ImGui::DragFloat3>("", name, vec.data(), speed, min_value, max_value, format, flags);
 		item->setCallback(callback);
 		item->setTip(tip);
 		item->setDataSource(data_source);
@@ -2840,14 +2854,19 @@ namespace Marvel {
 		const char* before = "";
 		const char* data_source = "";
 		int width = 0;
+		int on_enter = false;
 
 		if (!(*mvApp::GetApp()->getParsers())["add_drag_float4"].parse(args, kwargs, __FUNCTION__, &name, &default_value, &speed,
-			&min_value, &max_value, &format, &callback, &tip, &parent, &before, &data_source, &width))
+			&min_value, &max_value, &format, &callback, &tip, &parent, &before, &data_source, &width, &on_enter))
 			return mvPythonTranslator::GetPyNone();
+
+		ImGuiInputTextFlags flags = 0;
+		if (on_enter)
+			flags = ImGuiInputTextFlags_EnterReturnsTrue;
 
 		auto vec = mvPythonTranslator::ToFloatVect(default_value);
 
-		mvAppItem* item = new mvDragFloat<mvAppItemType::DragFloat4, 4, ImGui::DragFloat4>("", name, vec.data(), speed, min_value, max_value, format);
+		mvAppItem* item = new mvDragFloat<mvAppItemType::DragFloat4, 4, ImGui::DragFloat4>("", name, vec.data(), speed, min_value, max_value, format, flags);
 		item->setCallback(callback);
 		item->setTip(tip);
 		item->setDataSource(data_source);
@@ -2870,10 +2889,15 @@ namespace Marvel {
 		const char* before = "";
 		const char* data_source = "";
 		int width = 0;
+		int on_enter = false;
 
 		if (!(*mvApp::GetApp()->getParsers())["add_drag_int"].parse(args, kwargs, __FUNCTION__, &name, &default_value, &speed,
-			&min_value, &max_value, &format, &callback, &tip, &parent, &before, &data_source, &width))
+			&min_value, &max_value, &format, &callback, &tip, &parent, &before, &data_source, &width, &on_enter))
 			return mvPythonTranslator::GetPyNone();
+
+		ImGuiInputTextFlags flags = 0;
+		if (on_enter)
+			flags = ImGuiInputTextFlags_EnterReturnsTrue;
 
 		std::vector<int> defaults;
 		defaults.push_back(default_value);
@@ -2881,7 +2905,7 @@ namespace Marvel {
 		defaults.push_back(0.0f);
 		defaults.push_back(0.0f);
 
-		mvAppItem* item = new mvDragInt<mvAppItemType::DragInt, 1, ImGui::DragInt>("", name, defaults.data(), speed, min_value, max_value, format);
+		mvAppItem* item = new mvDragInt<mvAppItemType::DragInt, 1, ImGui::DragInt>("", name, defaults.data(), speed, min_value, max_value, format, flags);
 		item->setCallback(callback);
 		item->setTip(tip);
 		item->setDataSource(data_source);
@@ -2908,13 +2932,18 @@ namespace Marvel {
 		const char* before = "";
 		const char* data_source = "";
 		int width = 0;
+		int on_enter = false;
 
 		if (!(*mvApp::GetApp()->getParsers())["add_drag_int2"].parse(args, kwargs, __FUNCTION__, &name, &default_value, &speed,
-			&min_value, &max_value, &format, &callback, &tip, &parent, &before, &data_source, &width))
+			&min_value, &max_value, &format, &callback, &tip, &parent, &before, &data_source, &width, &on_enter))
 			return mvPythonTranslator::GetPyNone();
 
+		ImGuiInputTextFlags flags = 0;
+		if (on_enter)
+			flags = ImGuiInputTextFlags_EnterReturnsTrue;
+
 		auto vec = mvPythonTranslator::ToIntVect(default_value);
-		mvAppItem* item = new mvDragInt<mvAppItemType::DragInt2, 2, ImGui::DragInt2>("", name, vec.data(), speed, min_value, max_value, format);
+		mvAppItem* item = new mvDragInt<mvAppItemType::DragInt2, 2, ImGui::DragInt2>("", name, vec.data(), speed, min_value, max_value, format, flags);
 		item->setCallback(callback);
 		item->setTip(tip);
 		item->setDataSource(data_source);
@@ -2941,13 +2970,18 @@ namespace Marvel {
 		const char* before = "";
 		const char* data_source = "";
 		int width = 0;
+		int on_enter = false;
 
 		if (!(*mvApp::GetApp()->getParsers())["add_drag_int3"].parse(args, kwargs, __FUNCTION__, &name, &default_value, &speed,
-			&min_value, &max_value, &format, &callback, &tip, &parent, &before, &data_source, &width))
+			&min_value, &max_value, &format, &callback, &tip, &parent, &before, &data_source, &width, &on_enter))
 			return mvPythonTranslator::GetPyNone();
 
+		ImGuiInputTextFlags flags = 0;
+		if (on_enter)
+			flags = ImGuiInputTextFlags_EnterReturnsTrue;
+
 		auto vec = mvPythonTranslator::ToIntVect(default_value);
-		mvAppItem* item = new mvDragInt<mvAppItemType::DragInt3, 3, ImGui::DragInt3>("", name, vec.data(), speed, min_value, max_value, format);
+		mvAppItem* item = new mvDragInt<mvAppItemType::DragInt3, 3, ImGui::DragInt3>("", name, vec.data(), speed, min_value, max_value, format, flags);
 		item->setCallback(callback);
 		item->setTip(tip);
 		item->setDataSource(data_source);
@@ -2974,13 +3008,18 @@ namespace Marvel {
 		const char* before = "";
 		const char* data_source = "";
 		int width = 0;
+		int on_enter = false;
 
 		if (!(*mvApp::GetApp()->getParsers())["add_drag_int4"].parse(args, kwargs, __FUNCTION__, &name, &default_value, &speed,
-			&min_value, &max_value, &format, &callback, &tip, &parent, &before, &data_source, &width))
+			&min_value, &max_value, &format, &callback, &tip, &parent, &before, &data_source, &width, &on_enter))
 			return mvPythonTranslator::GetPyNone();
 
+		ImGuiInputTextFlags flags = 0;
+		if (on_enter)
+			flags = ImGuiInputTextFlags_EnterReturnsTrue;
+
 		auto vec = mvPythonTranslator::ToIntVect(default_value);
-		mvAppItem* item = new mvDragInt<mvAppItemType::DragInt4, 4, ImGui::DragInt4>("", name, vec.data(), speed, min_value, max_value, format);
+		mvAppItem* item = new mvDragInt<mvAppItemType::DragInt4, 4, ImGui::DragInt4>("", name, vec.data(), speed, min_value, max_value, format, flags);
 		item->setCallback(callback);
 		item->setTip(tip);
 		item->setDataSource(data_source);
@@ -3004,13 +3043,18 @@ namespace Marvel {
 		const char* data_source = "";
 		int width = 0;
 		int height = 0;
+		int on_enter = false;
 
 		if (!(*mvApp::GetApp()->getParsers())["add_slider_float"].parse(args, kwargs, __FUNCTION__, &name, &default_value,
 			&min_value, &max_value, &format, &vertical, &callback, &tip, &parent, &before,
-			&data_source, &width, &height))
+			&data_source, &width, &height, &on_enter))
 			return mvPythonTranslator::GetPyNone();
 
-		mvAppItem* item = new mvSliderFloat("", name, default_value, min_value, max_value, format, vertical);
+		ImGuiInputTextFlags flags = 0;
+		if (on_enter)
+			flags = ImGuiInputTextFlags_EnterReturnsTrue;
+
+		mvAppItem* item = new mvSliderFloat("", name, default_value, min_value, max_value, format, vertical, flags);
 		item->setCallback(callback);
 		item->setTip(tip);
 		item->setDataSource(data_source);
@@ -3037,14 +3081,19 @@ namespace Marvel {
 		const char* before = "";
 		const char* data_source = "";
 		int width = 0;
+		int on_enter = false;
 
 		if (!(*mvApp::GetApp()->getParsers())["add_slider_float2"].parse(args, kwargs, __FUNCTION__, &name, &default_value,
-			&min_value, &max_value, &format, &callback, &tip, &parent, &before, &data_source,&width))
+			&min_value, &max_value, &format, &callback, &tip, &parent, &before, &data_source,&width, &on_enter))
 			return mvPythonTranslator::GetPyNone();
+
+		ImGuiInputTextFlags flags = 0;
+		if (on_enter)
+			flags = ImGuiInputTextFlags_EnterReturnsTrue;
 
 		auto vec = mvPythonTranslator::ToFloatVect(default_value);
 
-		mvAppItem* item = new mvSliderFloatMulti<mvAppItemType::SliderFloat2, 2, ImGui::SliderFloat2, float>("", name, vec.data(), min_value, max_value, format);
+		mvAppItem* item = new mvSliderFloatMulti<mvAppItemType::SliderFloat2, 2, ImGui::SliderFloat2, float>("", name, vec.data(), min_value, max_value, format, flags);
 		item->setCallback(callback);
 		item->setTip(tip);
 		item->setDataSource(data_source);
@@ -3070,14 +3119,19 @@ namespace Marvel {
 		const char* before = "";
 		const char* data_source = "";
 		int width = 0;
+		int on_enter = false;
 
 		if (!(*mvApp::GetApp()->getParsers())["add_slider_float3"].parse(args, kwargs, __FUNCTION__, &name, &default_value,
-			&min_value, &max_value, &format, &callback, &tip, &parent, &before, &data_source, &width))
+			&min_value, &max_value, &format, &callback, &tip, &parent, &before, &data_source, &width, &on_enter))
 			return mvPythonTranslator::GetPyNone();
+
+		ImGuiInputTextFlags flags = 0;
+		if (on_enter)
+			flags = ImGuiInputTextFlags_EnterReturnsTrue;
 
 		auto vec = mvPythonTranslator::ToFloatVect(default_value);
 
-		mvAppItem* item = new mvSliderFloatMulti<mvAppItemType::SliderFloat3, 3, ImGui::SliderFloat3, float>("", name, vec.data(), min_value, max_value, format);
+		mvAppItem* item = new mvSliderFloatMulti<mvAppItemType::SliderFloat3, 3, ImGui::SliderFloat3, float>("", name, vec.data(), min_value, max_value, format, flags);
 		item->setCallback(callback);
 		item->setTip(tip);
 		item->setDataSource(data_source);
@@ -3103,14 +3157,19 @@ namespace Marvel {
 		const char* before = "";
 		const char* data_source = "";
 		int width = 0;
+		int on_enter = false;
 
 		if (!(*mvApp::GetApp()->getParsers())["add_slider_float4"].parse(args, kwargs, __FUNCTION__, &name, &default_value,
 			&min_value, &max_value, &format, &callback, &tip, &parent, &before, &data_source,
-			&width))
+			&width, &on_enter))
 			return mvPythonTranslator::GetPyNone();
 
+		ImGuiInputTextFlags flags = 0;
+		if (on_enter)
+			flags = ImGuiInputTextFlags_EnterReturnsTrue;
+
 		auto vec = mvPythonTranslator::ToFloatVect(default_value);
-		mvAppItem* item = new mvSliderFloatMulti<mvAppItemType::SliderFloat4, 4, ImGui::SliderFloat4, float>("", name, vec.data(), min_value, max_value, format);
+		mvAppItem* item = new mvSliderFloatMulti<mvAppItemType::SliderFloat4, 4, ImGui::SliderFloat4, float>("", name, vec.data(), min_value, max_value, format, flags);
 		item->setCallback(callback);
 		item->setTip(tip);
 		item->setDataSource(data_source);
@@ -3134,13 +3193,18 @@ namespace Marvel {
 		const char* data_source = "";
 		int width = 0;
 		int height = 0;
+		int on_enter = false;
 
 		if (!(*mvApp::GetApp()->getParsers())["add_slider_int"].parse(args, kwargs, __FUNCTION__, &name, &default_value,
 			&min_value, &max_value, &format, &vertical, &callback, &tip, &parent, &before, &data_source,
-			&width, &height))
+			&width, &height, &on_enter))
 			return mvPythonTranslator::GetPyNone();
 
-		mvAppItem* item = new mvSliderInt("", name, default_value, min_value, max_value, format, vertical);
+		ImGuiInputTextFlags flags = 0;
+		if (on_enter)
+			flags = ImGuiInputTextFlags_EnterReturnsTrue;
+
+		mvAppItem* item = new mvSliderInt("", name, default_value, min_value, max_value, format, vertical, flags);
 		item->setCallback(callback);
 		item->setTip(tip);
 		item->setDataSource(data_source);
@@ -3165,14 +3229,19 @@ namespace Marvel {
 		const char* before = "";
 		const char* data_source = "";
 		int width = 0;
+		int on_enter = false;
 
 		if (!(*mvApp::GetApp()->getParsers())["add_slider_int2"].parse(args, kwargs, __FUNCTION__, &name, &default_value,
 			&min_value, &max_value, &format, &callback, &tip, &parent, &before, &data_source,
-			&width))
+			&width, &on_enter))
 			return mvPythonTranslator::GetPyNone();
 
+		ImGuiInputTextFlags flags = 0;
+		if (on_enter)
+			flags = ImGuiInputTextFlags_EnterReturnsTrue;
+
 		auto vec = mvPythonTranslator::ToIntVect(default_value);
-		mvAppItem* item = new mvSliderIntMulti<mvAppItemType::SliderInt2, 2, ImGui::SliderInt2, int>("", name, vec.data(), min_value, max_value, format);
+		mvAppItem* item = new mvSliderIntMulti<mvAppItemType::SliderInt2, 2, ImGui::SliderInt2, int>("", name, vec.data(), min_value, max_value, format, flags);
 		item->setCallback(callback);
 		item->setTip(tip);
 		item->setDataSource(data_source);
@@ -3197,14 +3266,19 @@ namespace Marvel {
 		const char* before = "";
 		const char* data_source = "";
 		int width = 0;
+		int on_enter = false;
 
 		if (!(*mvApp::GetApp()->getParsers())["add_slider_int3"].parse(args, kwargs, __FUNCTION__, &name, &default_value,
 			&min_value, &max_value, &format, &callback, &tip, &parent, &before, &data_source,
-			&width))
+			&width, &on_enter))
 			return mvPythonTranslator::GetPyNone();
 
+		ImGuiInputTextFlags flags = 0;
+		if (on_enter)
+			flags = ImGuiInputTextFlags_EnterReturnsTrue;
+
 		auto vec = mvPythonTranslator::ToIntVect(default_value);
-		mvAppItem* item = new mvSliderIntMulti<mvAppItemType::SliderInt3, 3, ImGui::SliderInt3, int>("", name, vec.data(), min_value, max_value, format);
+		mvAppItem* item = new mvSliderIntMulti<mvAppItemType::SliderInt3, 3, ImGui::SliderInt3, int>("", name, vec.data(), min_value, max_value, format, flags);
 		item->setCallback(callback);
 		item->setTip(tip);
 		item->setDataSource(data_source);
@@ -3231,14 +3305,19 @@ namespace Marvel {
 		const char* before = "";
 		const char* data_source = "";
 		int width = 0;
+		int on_enter = false;
 
 		if (!(*mvApp::GetApp()->getParsers())["add_slider_int4"].parse(args, kwargs, __FUNCTION__, &name, &default_value,
 			&min_value, &max_value, &format, &callback, &tip, &parent, &before, &data_source,
-			&width))
+			&width, &on_enter))
 			return mvPythonTranslator::GetPyNone();
 
+		ImGuiInputTextFlags flags = 0;
+		if (on_enter)
+			flags = ImGuiInputTextFlags_EnterReturnsTrue;
+
 		auto vec = mvPythonTranslator::ToIntVect(default_value);
-		mvAppItem* item = new mvSliderIntMulti<mvAppItemType::SliderInt4, 4, ImGui::SliderInt4, int>("", name, vec.data(), min_value, max_value, format);
+		mvAppItem* item = new mvSliderIntMulti<mvAppItemType::SliderInt4, 4, ImGui::SliderInt4, int>("", name, vec.data(), min_value, max_value, format, flags);
 		item->setCallback(callback);
 		item->setTip(tip);
 		item->setDataSource(data_source);
@@ -3431,11 +3510,12 @@ namespace Marvel {
 		const char* before = "";
 		const char* parent = "";
 		const char* data_source = "";
+		int on_enter = false;
 
 		int flags = 0;
 
 		if (!(*mvApp::GetApp()->getParsers())["add_input_text"].parse(args, kwargs, __FUNCTION__, &name, &default_value, &hint, &multiline, &no_spaces,
-			&uppercase, &decimal, &hexadecimal, &readonly, &password, &callback, &tip, &parent, &before, &data_source, &width))
+			&uppercase, &decimal, &hexadecimal, &readonly, &password, &callback, &tip, &parent, &before, &data_source, &width, &on_enter))
 			return mvPythonTranslator::GetPyNone();
 
 		if (no_spaces) flags |= ImGuiInputTextFlags_CharsNoBlank;
@@ -3444,6 +3524,7 @@ namespace Marvel {
 		if (hexadecimal) flags |= ImGuiInputTextFlags_CharsHexadecimal;
 		if (readonly) flags |= ImGuiInputTextFlags_ReadOnly;
 		if (password) flags |= ImGuiInputTextFlags_Password;
+		if (on_enter) flags |= ImGuiInputTextFlags_EnterReturnsTrue;
 
 		mvAppItem* item = new mvInputText("", name, default_value, hint, multiline, flags);
 		item->setCallback(callback);
@@ -3465,12 +3546,17 @@ namespace Marvel {
 		const char* before = "";
 		const char* parent = "";
 		const char* data_source = "";
+		int on_enter = false;
 
 		if (!(*mvApp::GetApp()->getParsers())["add_input_int"].parse(args, kwargs, __FUNCTION__, &name,
-			&default_value, &callback, &tip, &parent, &before, &data_source, &width))
+			&default_value, &callback, &tip, &parent, &before, &data_source, &width, &on_enter))
 			return mvPythonTranslator::GetPyNone();
 
-		mvAppItem* item = new mvInputInt("", name, default_value);
+		ImGuiInputTextFlags flags = 0;
+		if (on_enter)
+			flags = ImGuiInputTextFlags_EnterReturnsTrue;
+
+		mvAppItem* item = new mvInputInt("", name, default_value, flags);
 		item->setCallback(callback);
 		item->setTip(tip);
 		item->setDataSource(data_source);
@@ -3494,14 +3580,19 @@ namespace Marvel {
 		const char* before = "";
 		const char* parent = "";
 		const char* data_source = "";
+		int on_enter = false;
 
 		if (!(*mvApp::GetApp()->getParsers())["add_input_int2"].parse(args, kwargs, __FUNCTION__, &name,
-			&default_value, &callback, &tip, &parent, &before, &data_source, &width))
+			&default_value, &callback, &tip, &parent, &before, &data_source, &width, &on_enter))
 			return mvPythonTranslator::GetPyNone();
+
+		ImGuiInputTextFlags flags = 0;
+		if (on_enter)
+			flags = ImGuiInputTextFlags_EnterReturnsTrue;
 
 		auto vec = mvPythonTranslator::ToIntVect(default_value);
 
-		mvAppItem* item = new mvInputIntMulti<mvAppItemType::InputInt2, 2, ImGui::InputInt2>("", name, vec.data());
+		mvAppItem* item = new mvInputIntMulti<mvAppItemType::InputInt2, 2, ImGui::InputInt2>("", name, vec.data(), flags);
 		item->setCallback(callback);
 		item->setTip(tip);
 		item->setDataSource(data_source);
@@ -3525,14 +3616,19 @@ namespace Marvel {
 		const char* before = "";
 		const char* parent = "";
 		const char* data_source = "";
+		int on_enter = false;
 
 		if (!(*mvApp::GetApp()->getParsers())["add_input_int3"].parse(args, kwargs, __FUNCTION__, &name,
-			&default_value, &callback, &tip, &parent, &before, &data_source, &width))
+			&default_value, &callback, &tip, &parent, &before, &data_source, &width, &on_enter))
 			return mvPythonTranslator::GetPyNone();
+
+		ImGuiInputTextFlags flags = 0;
+		if (on_enter)
+			flags = ImGuiInputTextFlags_EnterReturnsTrue;
 
 		auto vec = mvPythonTranslator::ToIntVect(default_value);
 
-		mvAppItem* item = new mvInputIntMulti<mvAppItemType::InputInt3, 3, ImGui::InputInt3>("", name, vec.data());
+		mvAppItem* item = new mvInputIntMulti<mvAppItemType::InputInt3, 3, ImGui::InputInt3>("", name, vec.data(), flags);
 		item->setCallback(callback);
 		item->setTip(tip);
 		item->setDataSource(data_source);
@@ -3556,13 +3652,18 @@ namespace Marvel {
 		const char* before = "";
 		const char* parent = "";
 		const char* data_source = "";
+		int on_enter = false;
 
 		if (!(*mvApp::GetApp()->getParsers())["add_input_int4"].parse(args, kwargs, __FUNCTION__, &name,
-			&default_value, &callback, &tip, &parent, &before, &data_source, &width))
+			&default_value, &callback, &tip, &parent, &before, &data_source, &width, &on_enter))
 			return mvPythonTranslator::GetPyNone();
 
+		ImGuiInputTextFlags flags = 0;
+		if (on_enter)
+			flags = ImGuiInputTextFlags_EnterReturnsTrue;
+
 		auto vec = mvPythonTranslator::ToIntVect(default_value);
-		mvAppItem* item = new mvInputIntMulti<mvAppItemType::InputInt4, 4, ImGui::InputInt4>("", name, vec.data());
+		mvAppItem* item = new mvInputIntMulti<mvAppItemType::InputInt4, 4, ImGui::InputInt4>("", name, vec.data(), flags);
 		item->setCallback(callback);
 		item->setTip(tip);
 		item->setDataSource(data_source);
@@ -3583,12 +3684,17 @@ namespace Marvel {
 		const char* before = "";
 		const char* parent = "";
 		const char* data_source = "";
+		int on_enter = false;
 
 		if (!(*mvApp::GetApp()->getParsers())["add_input_float"].parse(args, kwargs, __FUNCTION__, &name,
-			&default_value, &format, &callback, &tip, &parent, &before, &data_source, &width))
+			&default_value, &format, &callback, &tip, &parent, &before, &data_source, &width, &on_enter))
 			return mvPythonTranslator::GetPyNone();
 
-		mvAppItem* item = new mvInputFloat("", name, default_value, format);
+		ImGuiInputTextFlags flags = 0;
+		if (on_enter)
+			flags = ImGuiInputTextFlags_EnterReturnsTrue;
+
+		mvAppItem* item = new mvInputFloat("", name, default_value, format, flags);
 		item->setCallback(callback);
 		item->setTip(tip);
 		item->setDataSource(data_source);
@@ -3611,13 +3717,18 @@ namespace Marvel {
 		const char* before = "";
 		const char* parent = "";
 		const char* data_source = "";
+		int on_enter = false;
 
 		if (!(*mvApp::GetApp()->getParsers())["add_input_float2"].parse(args, kwargs, __FUNCTION__, &name,
-			&default_value, &format, &callback, &tip, &parent, &before, &data_source, &width))
+			&default_value, &format, &callback, &tip, &parent, &before, &data_source, &width, &on_enter))
 			return mvPythonTranslator::GetPyNone();
 
+		ImGuiInputTextFlags flags = 0;
+		if (on_enter)
+			flags = ImGuiInputTextFlags_EnterReturnsTrue;
+
 		auto vec = mvPythonTranslator::ToFloatVect(default_value);
-		mvAppItem* item = new mvInputFloatMulti<mvAppItemType::InputFloat2, 2, ImGui::InputFloat2>("", name, vec.data(), format);
+		mvAppItem* item = new mvInputFloatMulti<mvAppItemType::InputFloat2, 2, ImGui::InputFloat2>("", name, vec.data(), format, flags);
 		item->setCallback(callback);
 		item->setTip(tip);
 		item->setDataSource(data_source);
@@ -3641,14 +3752,19 @@ namespace Marvel {
 		const char* before = "";
 		const char* parent = "";
 		const char* data_source = "";
+		int on_enter = false;
 
 		if (!(*mvApp::GetApp()->getParsers())["add_input_float3"].parse(args, kwargs, __FUNCTION__, &name,
-			&default_value, &format, &callback, &tip, &parent, &before, &data_source, &width))
+			&default_value, &format, &callback, &tip, &parent, &before, &data_source, &width, &on_enter))
 			return mvPythonTranslator::GetPyNone();
+
+		ImGuiInputTextFlags flags = 0;
+		if (on_enter)
+			flags = ImGuiInputTextFlags_EnterReturnsTrue;
 
 		auto vec = mvPythonTranslator::ToFloatVect(default_value);
 
-		mvAppItem* item = new mvInputFloatMulti<mvAppItemType::InputFloat3, 3, ImGui::InputFloat3>("", name, vec.data(), format);
+		mvAppItem* item = new mvInputFloatMulti<mvAppItemType::InputFloat3, 3, ImGui::InputFloat3>("", name, vec.data(), format, flags);
 		item->setCallback(callback);
 		item->setTip(tip);
 		item->setDataSource(data_source);
@@ -3673,14 +3789,19 @@ namespace Marvel {
 		const char* before = "";
 		const char* parent = "";
 		const char* data_source = "";
+		int on_enter = false;
 
 		if (!(*mvApp::GetApp()->getParsers())["add_input_float4"].parse(args, kwargs, __FUNCTION__, &name,
-			&default_value, &format, &callback, &tip, &parent, &before, &data_source, &width))
+			&default_value, &format, &callback, &tip, &parent, &before, &data_source, &width, &on_enter))
 			return mvPythonTranslator::GetPyNone();
+
+		ImGuiInputTextFlags flags = 0;
+		if (on_enter)
+			flags = ImGuiInputTextFlags_EnterReturnsTrue;
 
 		auto vec = mvPythonTranslator::ToFloatVect(default_value);
 
-		mvAppItem* item = new mvInputFloatMulti<mvAppItemType::InputFloat4, 4, ImGui::InputFloat4>("", name, vec.data(), format);
+		mvAppItem* item = new mvInputFloatMulti<mvAppItemType::InputFloat4, 4, ImGui::InputFloat4>("", name, vec.data(), format, flags);
 		item->setCallback(callback);
 		item->setTip(tip);
 		item->setDataSource(data_source);
@@ -4929,6 +5050,23 @@ namespace Marvel {
 
 	}
 
+	PyObject* does_item_exist(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		if (!mvApp::GetApp()->checkIfMainThread())
+			return mvPythonTranslator::GetPyNone();
+
+		const char* item;
+
+		if (!(*mvApp::GetApp()->getParsers())["does_item_exist"].parse(args, kwargs, __FUNCTION__, &item))
+			return mvPythonTranslator::GetPyNone();
+
+		if (!mvApp::GetApp()->getItem(item))
+			return mvPythonTranslator::ToPyBool(false);
+
+		return mvPythonTranslator::ToPyBool(true);
+
+	}
+
 	PyObject* select_directory_dialog(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		const char* callback = "";
@@ -5092,6 +5230,63 @@ namespace Marvel {
 		return mvPythonTranslator::GetPyNone();
 	}
 
+	PyObject* get_item_children(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		const char* item;
+
+		if (!(*mvApp::GetApp()->getParsers())["get_item_children"].parse(args, kwargs, __FUNCTION__, &item))
+			return mvPythonTranslator::GetPyNone();
+
+		auto appitem = mvApp::GetApp()->getItem(item);
+
+		if (appitem)
+		{
+			auto children = appitem->getChildren();
+			std::vector<std::string> childList;
+			for (auto child : children)
+				childList.emplace_back(child->getName());
+
+			return mvPythonTranslator::ToPyList(childList);
+		}
+
+		return mvPythonTranslator::GetPyNone();
+	}
+
+	PyObject* get_all_items(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+
+		std::vector<mvAppItem*>& windows = mvApp::GetApp()->getWindows();
+
+		std::vector<std::string> childList;
+
+		// to help recursively retrieve children
+		std::function<void(mvAppItem*)> ChildRetriever;
+		ChildRetriever = [&childList, &ChildRetriever](mvAppItem* item) {
+			auto children = item->getChildren();
+			for (mvAppItem* child : children)
+			{
+				childList.emplace_back(child->getName());
+				if (child->isContainer())
+					ChildRetriever(child);
+			}
+				
+		};
+
+		for (auto window : windows)
+			ChildRetriever(window);
+
+		return mvPythonTranslator::ToPyList(childList);
+	}
+
+	PyObject* get_windows(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		auto windows = mvApp::GetApp()->getWindows();
+		std::vector<std::string> childList;
+		for (auto window : windows)
+			childList.emplace_back(window->getName());
+		return mvPythonTranslator::ToPyList(childList);
+	}
+
 	PyObject* get_item_tip(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		const char* item;
@@ -5189,7 +5384,7 @@ namespace Marvel {
 		if (!(*mvApp::GetApp()->getParsers())["get_data"].parse(args, kwargs, __FUNCTION__, &name))
 			return mvPythonTranslator::GetPyNone();
 
-		auto result = mvDataStorage::GetData(name);
+		auto result = mvDataStorage::GetDataIncRef(name);
 
 		if (result)
 			return result;
@@ -5640,7 +5835,11 @@ namespace Marvel {
 		appitem = mvApp::GetApp()->getItem(item);
 
 		if (appitem)
-			appitem->setLabel(label);
+		{
+			// temporary fix
+			std::string newLabel = label + std::string("##") + std::to_string(rand());
+			appitem->setLabel(newLabel);
+		}
 
 		return mvPythonTranslator::GetPyNone();
 	}
@@ -6236,6 +6435,9 @@ namespace Marvel {
 
 	static PyMethodDef dearpyguimethods[]
 	{
+		ADD_PYTHON_FUNCTION(get_windows)
+		ADD_PYTHON_FUNCTION(get_all_items)
+		ADD_PYTHON_FUNCTION(get_item_children)
 		ADD_PYTHON_FUNCTION(stop_dearpygui)
 		ADD_PYTHON_FUNCTION(is_dearpygui_running)
 		ADD_PYTHON_FUNCTION(set_main_window_title)
@@ -6420,6 +6622,7 @@ namespace Marvel {
 		ADD_PYTHON_FUNCTION(run_async_function)
 		ADD_PYTHON_FUNCTION(open_file_dialog)
 		ADD_PYTHON_FUNCTION(delete_item)
+		ADD_PYTHON_FUNCTION(does_item_exist)
 		ADD_PYTHON_FUNCTION(move_item_down)
 		ADD_PYTHON_FUNCTION(move_item_up)
 		ADD_PYTHON_FUNCTION(get_theme_item)

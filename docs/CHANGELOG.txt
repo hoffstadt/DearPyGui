@@ -23,6 +23,43 @@ HOW TO UPDATE?
 - Please report any issue!
 
 -----------------------------------------------------------------------
+ VERSION 0.1.0 Beta 14
+-----------------------------------------------------------------------
+
+Decorated log: https://github.com/hoffstadt/DearPyGui/releases/tag/v0.1.0-beta14
+
+Fixes:
+
+- Data Source: Fixed seg faults related to data source #127
+- Debug Window: Fixed item deletion crash #128
+- Debug Window: Fixed debug item names #107
+
+Breaking Changes:
+
+- Table Widget: Removed data source from table widget
+
+
+-----------------------------------------------------------------------
+ VERSION 0.1.0 Beta 13
+-----------------------------------------------------------------------
+
+Decorated log: https://github.com/hoffstadt/DearPyGui/releases/tag/v0.1.0-beta13
+
+Fixes:
+
+- Images: Fixed memory leaks for image textures #122
+- Other:  Fixed stop_dearpygui command #102
+- Labels:  Fixed issue with set_label the same #120
+
+New Commands:
+
+- Widgets: add "does_item_exist" command #119
+- Widgets: add "get_item_children" command #123
+- Widgets: add "get_all_items" command #123
+- Widgets: add "get_windows" command #123
+
+
+-----------------------------------------------------------------------
  VERSION 0.1.0 Beta 12
 -----------------------------------------------------------------------
 
@@ -37,6 +74,8 @@ Fixes:
 
 New Commands:
 
+- Inputs:   input/slider/drag now have an "on_enter" keyword to only
+	run their callbacks on enter key presses
 - App:      new command "stop_dearpygui" #102
 - Widgets:  new command "set_item_label" #99
 - Widgets:  new command "get_item_label" #99

@@ -91,7 +91,11 @@ namespace Marvel {
 	{
 		if (!m_dataSource.empty())
 		{
-			mvPythonTranslator::UpdatePyStringStringList(mvDataStorage::GetData(m_dataSource), m_values);
+			if (!mvDataStorage::HasData(m_dataSource))
+				mvDataStorage::AddData(m_dataSource, mvPythonTranslator::ToPyList(m_values));
+			else
+				mvPythonTranslator::UpdatePyStringStringList(mvDataStorage::GetData(m_dataSource), m_values);
+
 			return mvDataStorage::GetData(m_dataSource);
 		}
 

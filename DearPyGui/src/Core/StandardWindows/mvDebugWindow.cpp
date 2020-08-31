@@ -37,8 +37,17 @@ namespace Marvel {
 
 			if (ImGui::TreeNodeEx(container.c_str()))
 			{
-				if (ImGui::Selectable(item->getName().c_str(), item->getName() == m_selectedItem))
-					m_selectedItem = item->getName();
+				auto stringPos = item->getName().find_first_not_of("##");
+				if (stringPos != std::string::npos && stringPos > 0)
+				{
+					if (ImGui::Selectable(item->getName().substr().erase(0, 2).c_str(), item->getName() == m_selectedItem))
+						m_selectedItem = item->getName();
+				}
+				else
+				{
+					if (ImGui::Selectable(item->getName().c_str(), item->getName() == m_selectedItem))
+						m_selectedItem = item->getName();
+				}
 
 				for (mvAppItem* child : item->getChildren())
 					renderItem(child);
@@ -48,8 +57,17 @@ namespace Marvel {
 		}
 		else
 		{
-			if (ImGui::Selectable(item->getName().c_str(), item->getName() == m_selectedItem))
-				m_selectedItem = item->getName();
+			auto stringPos = item->getName().find_first_not_of("##");
+			if (stringPos != std::string::npos && stringPos > 0)
+			{
+				if (ImGui::Selectable(item->getName().substr().erase(0, 2).c_str(), item->getName() == m_selectedItem))
+					m_selectedItem = item->getName();
+			}
+			else
+			{
+				if (ImGui::Selectable(item->getName().c_str(), item->getName() == m_selectedItem))
+					m_selectedItem = item->getName();
+			}
 		}
 	}
 
@@ -145,6 +163,9 @@ namespace Marvel {
 				auto selectedItem = mvApp::GetApp()->getItem(m_selectedItem);
 				std::string parentName;
 
+				if (selectedItem == nullptr)
+					selectedItem = mvApp::GetApp()->getWindows()[0];
+				
 				if (selectedItem->getParent())
 					parentName = selectedItem->getParent()->getName();
 
