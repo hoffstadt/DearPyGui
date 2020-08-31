@@ -11,12 +11,10 @@ lib_dir = script_dir + "/../Dependencies/cpython/Lib/"
 
 # directory where python is build to for x64
 build_dir = script_dir + "/../Dependencies/cpython/PCbuild/amd64/"
-build_dir32 = script_dir + "/../Dependencies/cpython/PCbuild/win32/"
 
 # directories to put prepared files into
 new_python_dir = script_dir + "/../Output/Python/"
 debug_dir = script_dir + "/../Output/Python/Debug/"
-debug_dir32 = script_dir + "/../Output/Python/Debug32/"
 sample_dir = "../AppSamples"
 
 # directory that will be zipped then removed
@@ -90,27 +88,16 @@ shutil.make_archive(
     "zip",
     temporary_dir)
 
-shutil.make_archive(
-    debug_dir32 + "/python38",
-    "zip",
-    temporary_dir)
-
-
-
 # remove temporary directory
 shutil.rmtree(temporary_dir)
 
 # copy interpreters
 shutil.copy(build_dir + "/python.exe", debug_dir)
 shutil.copy(build_dir + "/pythonw.exe", debug_dir)
-shutil.copy(build_dir32 + "/python.exe", debug_dir32)
-shutil.copy(build_dir32 + "/pythonw.exe", debug_dir32)
 
 if(path.exists(build_dir + "/python_d.exe")):
     shutil.copy(build_dir + "/python_d.exe", debug_dir)
     shutil.copy(build_dir + "/pythonw_d.exe", debug_dir)
-    shutil.copy(build_dir32 + "/python_d.exe", debug_dir32)
-    shutil.copy(build_dir32 + "/pythonw_d.exe", debug_dir32)
 
 # TODO actually sperate release and debug libraries.
 #     For now, we can just group them all together.
@@ -123,22 +110,8 @@ for file in glob.glob(build_dir + "/*.dll"):
 for file in glob.glob(build_dir + "/*.pyd"):
     shutil.copy(file, debug_dir)
 
-# copy dll's
-for file in glob.glob(build_dir32 + "/*.dll"):
-    shutil.copy(file, debug_dir32)
-
-# copy python libs
-for file in glob.glob(build_dir32 + "/*.pyd"):
-    shutil.copy(file, debug_dir32)
-
 # add python path file for embedding
 with open(debug_dir + "/python38._pth", 'w') as file:
-    file.write("python38.zip\n")
-    file.write(".\n")
-    file.write("# Uncomment to run site.main() automatically\n")
-    file.write("#import site\n")
-
-with open(debug_dir32 + "/python38._pth", 'w') as file:
     file.write("python38.zip\n")
     file.write(".\n")
     file.write("# Uncomment to run site.main() automatically\n")
