@@ -19,8 +19,8 @@ namespace Marvel {
 			{mvPythonDataType::String, "name"},
 			{mvPythonDataType::KeywordOnly},
 			{mvPythonDataType::String, "tip", "Adds a simple tooltip"},
-			{mvPythonDataType::String, "parent", "Parent to add this item to. (runtime adding)"},
-			{mvPythonDataType::String, "before", "Item to add this item before. (runtime adding)"},
+			{mvPythonDataType::String, "parent", "Parent this item will be added to. (runtime adding)"},
+			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)"},
 			{mvPythonDataType::Integer, "width",""},
 			{mvPythonDataType::Integer, "height",""},
 		}, "Adds a drawing widget.", "None", "Drawing")});
@@ -72,7 +72,7 @@ namespace Marvel {
 			{mvPythonDataType::IntList, "color"},
 			{mvPythonDataType::String, "tag"},
 		}, ("Draws an image on a drawing. p_min and p_max represent the upper-left and lower-right corners of the rectangle."
-			"uv_min and uv_max represent the normalized texture coordinates to use for those corners. Using (0,0)->(1,1) texture"
+			"uv_min and uv_max represent the normalized texture coordinates of the original image that will be shown. Using (0,0)->(1,1) texture"
 			"coordinates will generally display the entire texture."), "None", "Drawing") });
 
 		parsers->insert({ "draw_line", mvPythonParser({
@@ -207,7 +207,7 @@ namespace Marvel {
 		{mvPythonDataType::Integer, "xflags"},
 		{mvPythonDataType::Integer, "yflags"},
 		{mvPythonDataType::String, "parent", "Parent to add this item to. (runtime adding)"},
-		{mvPythonDataType::String, "before", "Item to add this item before. (runtime adding)"},
+		{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)"},
 		{mvPythonDataType::Integer, "width",""},
 		{mvPythonDataType::Integer, "height", ""},
 		{mvPythonDataType::String, "query_callback", "Callback ran when plot is queried. Should be of the form 'def Callback(sender, data)'\n Data is (x_min, x_max, y_min, y_max)."},
@@ -475,7 +475,7 @@ namespace Marvel {
 			{mvPythonDataType::String, "callback", "Registers a callback"},
 			{mvPythonDataType::String, "tip", "Adds a simple tooltip"},
 			{mvPythonDataType::String, "parent", "Parent to add this item to. (runtime adding)"},
-			{mvPythonDataType::String, "before", "Item to add this item before. (runtime adding)"},
+			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)"},
 			{mvPythonDataType::String, "data_source", "data source for shared data"},
 			{mvPythonDataType::Integer, "width",""},
 			{mvPythonDataType::Bool, "on_enter", "Only runs callback on enter"},
@@ -488,7 +488,7 @@ namespace Marvel {
 			{mvPythonDataType::String, "callback", "Registers a callback"},
 			{mvPythonDataType::String, "tip", "Adds a simple tooltip"},
 			{mvPythonDataType::String, "parent", "Parent to add this item to. (runtime adding)"},
-			{mvPythonDataType::String, "before", "Item to add this item before. (runtime adding)"},
+			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)"},
 			{mvPythonDataType::String, "data_source", "data source for shared data"},
 			{mvPythonDataType::Integer, "width",""},
 			{mvPythonDataType::Bool, "on_enter", "Only runs callback on enter"},
@@ -500,8 +500,8 @@ namespace Marvel {
 			{mvPythonDataType::IntList, "default_value"},
 			{mvPythonDataType::String, "callback", "Registers a callback"},
 			{mvPythonDataType::String, "tip", "Adds a simple tooltip"},
-			{mvPythonDataType::String, "parent", "Parent to add this item to. (runtime adding)"},
-			{mvPythonDataType::String, "before", "Item to add this item before. (runtime adding)"},
+			{mvPythonDataType::String, "parent", "Parent this item will be added to. (runtime adding)"},
+			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)"},
 			{mvPythonDataType::String, "data_source", "data source for shared data"},
 			{mvPythonDataType::Integer, "width",""},
 			{mvPythonDataType::Bool, "on_enter", "Only runs callback on enter"},
@@ -513,8 +513,8 @@ namespace Marvel {
 			{mvPythonDataType::IntList, "default_value"},
 			{mvPythonDataType::String, "callback", "Registers a callback"},
 			{mvPythonDataType::String, "tip", "Adds a simple tooltip"},
-			{mvPythonDataType::String, "parent", "Parent to add this item to. (runtime adding)"},
-			{mvPythonDataType::String, "before", "Item to add this item before. (runtime adding)"},
+			{mvPythonDataType::String, "parent", "Parent this item will be added to. (runtime adding)"},
+			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)"},
 			{mvPythonDataType::String, "data_source", "data source for shared data"},
 			{mvPythonDataType::Integer, "width",""},
 			{mvPythonDataType::Bool, "on_enter", "Only runs callback on enter"},
@@ -526,8 +526,8 @@ namespace Marvel {
 			{mvPythonDataType::IntList, "default_value"},
 			{mvPythonDataType::String, "callback", "Registers a callback"},
 			{mvPythonDataType::String, "tip", "Adds a simple tooltip"},
-			{mvPythonDataType::String, "parent", "Parent to add this item to. (runtime adding)"},
-			{mvPythonDataType::String, "before", "Item to add this item before. (runtime adding)"},
+			{mvPythonDataType::String, "parent", "Parent this item will be added to. (runtime adding)"},
+			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)"},
 			{mvPythonDataType::String, "data_source", "data source for shared data"},
 			{mvPythonDataType::Integer, "width",""},
 			{mvPythonDataType::Bool, "on_enter", "Only runs callback on enter"},
@@ -540,8 +540,8 @@ namespace Marvel {
 			{mvPythonDataType::String, "format"},
 			{mvPythonDataType::String, "callback", "Registers a callback"},
 			{mvPythonDataType::String, "tip", "Adds a simple tooltip"},
-			{mvPythonDataType::String, "parent", "Parent to add this item to. (runtime adding)"},
-			{mvPythonDataType::String, "before", "Item to add this item before. (runtime adding)"},
+			{mvPythonDataType::String, "parent", "Parent this item will be added to. (runtime adding)"},
+			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)"},
 			{mvPythonDataType::String, "data_source", "data source for shared data"},
 			{mvPythonDataType::Integer, "width",""},
 			{mvPythonDataType::Bool, "on_enter", "Only runs callback on enter"},
@@ -554,8 +554,8 @@ namespace Marvel {
 			{mvPythonDataType::String, "format"},
 			{mvPythonDataType::String, "callback", "Registers a callback"},
 			{mvPythonDataType::String, "tip", "Adds a simple tooltip"},
-			{mvPythonDataType::String, "parent", "Parent to add this item to. (runtime adding)"},
-			{mvPythonDataType::String, "before", "Item to add this item before. (runtime adding)"},
+			{mvPythonDataType::String, "parent", "Parent this item will be added to. (runtime adding)"},
+			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)"},
 			{mvPythonDataType::String, "data_source", "data source for shared data"},
 			{mvPythonDataType::Integer, "width",""},
 			{mvPythonDataType::Bool, "on_enter", "Only runs callback on enter"},
@@ -568,8 +568,8 @@ namespace Marvel {
 			{mvPythonDataType::String, "format"},
 			{mvPythonDataType::String, "callback", "Registers a callback"},
 			{mvPythonDataType::String, "tip", "Adds a simple tooltip"},
-			{mvPythonDataType::String, "parent", "Parent to add this item to. (runtime adding)"},
-			{mvPythonDataType::String, "before", "Item to add this item before. (runtime adding)"},
+			{mvPythonDataType::String, "parent", "Parent this item will be added to. (runtime adding)"},
+			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)"},
 			{mvPythonDataType::String, "data_source", "data source for shared data"},
 			{mvPythonDataType::Integer, "width",""},
 			{mvPythonDataType::Bool, "on_enter", "Only runs callback on enter"},
@@ -582,8 +582,8 @@ namespace Marvel {
 			{mvPythonDataType::String, "format"},
 			{mvPythonDataType::String, "callback", "Registers a callback"},
 			{mvPythonDataType::String, "tip", "Adds a simple tooltip"},
-			{mvPythonDataType::String, "parent", "Parent to add this item to. (runtime adding)"},
-			{mvPythonDataType::String, "before", "Item to add this item before. (runtime adding)"},
+			{mvPythonDataType::String, "parent", "Parent this item will be added to. (runtime adding)"},
+			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)"},
 			{mvPythonDataType::String, "data_source", "data source for shared data"},
 			{mvPythonDataType::Integer, "width",""},
 			{mvPythonDataType::Bool, "on_enter", "Only runs callback on enter"},
@@ -602,13 +602,13 @@ namespace Marvel {
 			{mvPythonDataType::Bool, "vertical", "sets orientation to vertical"},
 			{mvPythonDataType::String, "callback", "Registers a callback"},
 			{mvPythonDataType::String, "tip", "Adds a simple tooltip"},
-			{mvPythonDataType::String, "parent", "Parent to add this item to. (runtime adding)"},
-			{mvPythonDataType::String, "before", "Item to add this item before. (runtime adding)"},
+			{mvPythonDataType::String, "parent", "Parent this item will be added to. (runtime adding)"},
+			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)"},
 			{mvPythonDataType::String, "data_source", "data source for shared data"},
 			{mvPythonDataType::Integer, "width",""},
 			{mvPythonDataType::Integer, "height","Height of a vertical slider"},
 			{mvPythonDataType::Bool, "on_enter", "Only runs callback on enter"},
-		}, "Adds slider for a single float value", "None", "Adding Widgets") });
+		}, "Adds slider for a single float value. CTRL+Click to directly modify the value.", "None", "Adding Widgets") });
 
 		parsers->insert({ "add_slider_float2", mvPythonParser({
 			{mvPythonDataType::String, "name"},
@@ -619,12 +619,12 @@ namespace Marvel {
 			{mvPythonDataType::String, "format"},
 			{mvPythonDataType::String, "callback", "Registers a callback"},
 			{mvPythonDataType::String, "tip", "Adds a simple tooltip"},
-			{mvPythonDataType::String, "parent", "Parent to add this item to. (runtime adding)"},
-			{mvPythonDataType::String, "before", "Item to add this item before. (runtime adding)"},
+			{mvPythonDataType::String, "parent", "Parent this item will be added to. (runtime adding)"},
+			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)"},
 			{mvPythonDataType::String, "data_source", "data source for shared data"},
 			{mvPythonDataType::Integer, "width",""},
 			{mvPythonDataType::Bool, "on_enter", "Only runs callback on enter"},
-		}, "Adds slider for a 2 float values.", "None", "Adding Widgets") });
+		}, "Adds slider for a 2 float values. CTRL+Click to directly modify the value.", "None", "Adding Widgets") });
 
 		parsers->insert({ "add_slider_float3", mvPythonParser({
 			{mvPythonDataType::String, "name"},
@@ -635,12 +635,12 @@ namespace Marvel {
 			{mvPythonDataType::String, "format"},
 			{mvPythonDataType::String, "callback", "Registers a callback"},
 			{mvPythonDataType::String, "tip", "Adds a simple tooltip"},
-			{mvPythonDataType::String, "parent", "Parent to add this item to. (runtime adding)"},
-			{mvPythonDataType::String, "before", "Item to add this item before. (runtime adding)"},
+			{mvPythonDataType::String, "parent", "Parent this item will be added to. (runtime adding)"},
+			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)"},
 			{mvPythonDataType::String, "data_source", "data source for shared data"},
 			{mvPythonDataType::Integer, "width",""},
 			{mvPythonDataType::Bool, "on_enter", "Only runs callback on enter"},
-		}, "Adds slider for a 3 float values.", "None", "Adding Widgets") });
+		}, "Adds slider for a 3 float values. CTRL+Click to directly modify the value.", "None", "Adding Widgets") });
 
 		parsers->insert({ "add_slider_float4", mvPythonParser({
 			{mvPythonDataType::String, "name"},
@@ -651,12 +651,12 @@ namespace Marvel {
 			{mvPythonDataType::String, "format"},
 			{mvPythonDataType::String, "callback", "Registers a callback"},
 			{mvPythonDataType::String, "tip", "Adds a simple tooltip"},
-			{mvPythonDataType::String, "parent", "Parent to add this item to. (runtime adding)"},
-			{mvPythonDataType::String, "before", "Item to add this item before. (runtime adding)"},
+			{mvPythonDataType::String, "parent", "Parent this item will be added to. (runtime adding)"},
+			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)"},
 			{mvPythonDataType::String, "data_source", "data source for shared data"},
 			{mvPythonDataType::Integer, "width",""},
 			{mvPythonDataType::Bool, "on_enter", "Only runs callback on enter"},
-		}, "Adds slider for a 4 float values.", "None", "Adding Widgets") });
+		}, "Adds slider for a 4 float values. CTRL+Click to directly modify the value.", "None", "Adding Widgets") });
 
 		parsers->insert({ "add_slider_int", mvPythonParser({
 			{mvPythonDataType::String, "name"},
@@ -668,13 +668,13 @@ namespace Marvel {
 			{mvPythonDataType::Bool, "vertical", "sets orientation to vertical"},
 			{mvPythonDataType::String, "callback", "Registers a callback"},
 			{mvPythonDataType::String, "tip", "Adds a simple tooltip"},
-			{mvPythonDataType::String, "parent", "Parent to add this item to. (runtime adding)"},
-			{mvPythonDataType::String, "before", "Item to add this item before. (runtime adding)"},
+			{mvPythonDataType::String, "parent", "Parent this item will be added to. (runtime adding)"},
+			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)"},
 			{mvPythonDataType::String, "data_source", "data source for shared data"},
 			{mvPythonDataType::Integer, "width",""},
 			{mvPythonDataType::Integer, "height","Height of a vertical slider"},
 			{mvPythonDataType::Bool, "on_enter", "Only runs callback on enter"},
-		}, "Adds slider for a single int value", "None", "Adding Widgets") });
+		}, "Adds slider for a single int value. CTRL+Click to directly modify the value.", "None", "Adding Widgets") });
 
 		parsers->insert({ "add_slider_int2", mvPythonParser({
 			{mvPythonDataType::String, "name"},
@@ -685,12 +685,12 @@ namespace Marvel {
 			{mvPythonDataType::String, "format"},
 			{mvPythonDataType::String, "callback", "Registers a callback"},
 			{mvPythonDataType::String, "tip", "Adds a simple tooltip"},
-			{mvPythonDataType::String, "parent", "Parent to add this item to. (runtime adding)"},
-			{mvPythonDataType::String, "before", "Item to add this item before. (runtime adding)"},
+			{mvPythonDataType::String, "parent", "Parent this item will be added to. (runtime adding)"},
+			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)"},
 			{mvPythonDataType::String, "data_source", "data source for shared data"},
 			{mvPythonDataType::Integer, "width",""},
 			{mvPythonDataType::Bool, "on_enter", "Only runs callback on enter"},
-		}, "Adds slider for a 2 int values.", "None", "Adding Widgets") });
+		}, "Adds slider for a 2 int values. CTRL+Click to directly modify the value.", "None", "Adding Widgets") });
 
 		parsers->insert({ "add_slider_int3", mvPythonParser({
 			{mvPythonDataType::String, "name"},
@@ -701,12 +701,12 @@ namespace Marvel {
 			{mvPythonDataType::String, "format"},
 			{mvPythonDataType::String, "callback", "Registers a callback"},
 			{mvPythonDataType::String, "tip", "Adds a simple tooltip"},
-			{mvPythonDataType::String, "parent", "Parent to add this item to. (runtime adding)"},
-			{mvPythonDataType::String, "before", "Item to add this item before. (runtime adding)"},
+			{mvPythonDataType::String, "parent", "Parent this item will be added to. (runtime adding)"},
+			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)"},
 			{mvPythonDataType::String, "data_source", "data source for shared data"},
 			{mvPythonDataType::Integer, "width",""},
 			{mvPythonDataType::Bool, "on_enter", "Only runs callback on enter"},
-		}, "Adds slider for a 3 int values.", "None", "Adding Widgets") });
+		}, "Adds slider for a 3 int values. CTRL+Click to directly modify the value.", "None", "Adding Widgets") });
 
 		parsers->insert({ "add_slider_int4", mvPythonParser({
 			{mvPythonDataType::String, "name"},
@@ -717,12 +717,12 @@ namespace Marvel {
 			{mvPythonDataType::String, "format"},
 			{mvPythonDataType::String, "callback", "Registers a callback"},
 			{mvPythonDataType::String, "tip", "Adds a simple tooltip"},
-			{mvPythonDataType::String, "parent", "Parent to add this item to. (runtime adding)"},
-			{mvPythonDataType::String, "before", "Item to add this item before. (runtime adding)"},
+			{mvPythonDataType::String, "parent", "Parent this item will be added to. (runtime adding)"},
+			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)"},
 			{mvPythonDataType::String, "data_source", "data source for shared data"},
 			{mvPythonDataType::Integer, "width",""},
 			{mvPythonDataType::Bool, "on_enter", "Only runs callback on enter"},
-		}, "Adds slider for a 4 int values.", "None", "Adding Widgets") });
+		}, "Adds slider for a 4 int values. CTRL+Click to directly modify the value.", "None", "Adding Widgets") });
 	}
 
 	static void AddDragWidgets(std::map<std::string, mvPythonParser>* parsers)
@@ -737,12 +737,12 @@ namespace Marvel {
 			{mvPythonDataType::String, "format"},
 			{mvPythonDataType::String, "callback", "Registers a callback"},
 			{mvPythonDataType::String, "tip", "Adds a simple tooltip"},
-			{mvPythonDataType::String, "parent", "Parent to add this item to. (runtime adding)"},
-			{mvPythonDataType::String, "before", "Item to add this item before. (runtime adding)"},
+			{mvPythonDataType::String, "parent", "Parent this item will be added to. (runtime adding)"},
+			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)"},
 			{mvPythonDataType::String, "data_source", "data source for shared data"},
 			{mvPythonDataType::Integer, "width",""},
 			{mvPythonDataType::Bool, "on_enter", "Only runs callback on enter"},
-		}, "Adds drag for a single float value", "None", "Adding Widgets") });
+		}, "Adds drag for a single float value. CTRL+Click to directly modify the value.", "None", "Adding Widgets") });
 
 		parsers->insert({ "add_drag_float2", mvPythonParser({
 			{mvPythonDataType::String, "name"},
@@ -754,12 +754,12 @@ namespace Marvel {
 			{mvPythonDataType::String, "format"},
 			{mvPythonDataType::String, "callback", "Registers a callback"},
 			{mvPythonDataType::String, "tip", "Adds a simple tooltip"},
-			{mvPythonDataType::String, "parent", "Parent to add this item to. (runtime adding)"},
-			{mvPythonDataType::String, "before", "Item to add this item before. (runtime adding)"},
+			{mvPythonDataType::String, "parent", "Parent this item will be added to. (runtime adding)"},
+			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)"},
 			{mvPythonDataType::String, "data_source", "data source for shared data"},
 			{mvPythonDataType::Integer, "width",""},
 			{mvPythonDataType::Bool, "on_enter", "Only runs callback on enter"},
-		}, "Adds drag for a 2 float values.", "None", "Adding Widgets") });
+		}, "Adds drag for a 2 float values. CTRL+Click to directly modify the value.", "None", "Adding Widgets") });
 
 		parsers->insert({ "add_drag_float3", mvPythonParser({
 			{mvPythonDataType::String, "name"},
@@ -771,12 +771,12 @@ namespace Marvel {
 			{mvPythonDataType::String, "format"},
 			{mvPythonDataType::String, "callback", "Registers a callback"},
 			{mvPythonDataType::String, "tip", "Adds a simple tooltip"},
-			{mvPythonDataType::String, "parent", "Parent to add this item to. (runtime adding)"},
-			{mvPythonDataType::String, "before", "Item to add this item before. (runtime adding)"},
+			{mvPythonDataType::String, "parent", "Parent this item will be added to. (runtime adding)"},
+			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)"},
 			{mvPythonDataType::String, "data_source", "data source for shared data"},
 			{mvPythonDataType::Integer, "width",""},
 			{mvPythonDataType::Bool, "on_enter", "Only runs callback on enter"},
-		}, "Adds drag for a 3 float values.", "None", "Adding Widgets") });
+		}, "Adds drag for a 3 float values. CTRL+Click to directly modify the value.", "None", "Adding Widgets") });
 
 		parsers->insert({ "add_drag_float4", mvPythonParser({
 			{mvPythonDataType::String, "name"},
@@ -788,12 +788,12 @@ namespace Marvel {
 			{mvPythonDataType::String, "format"},
 			{mvPythonDataType::String, "callback", "Registers a callback"},
 			{mvPythonDataType::String, "tip", "Adds a simple tooltip"},
-			{mvPythonDataType::String, "parent", "Parent to add this item to. (runtime adding)"},
-			{mvPythonDataType::String, "before", "Item to add this item before. (runtime adding)"},
+			{mvPythonDataType::String, "parent", "Parent this item will be added to. (runtime adding)"},
+			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)"},
 			{mvPythonDataType::String, "data_source", "data source for shared data"},
 			{mvPythonDataType::Integer, "width",""},
 			{mvPythonDataType::Bool, "on_enter", "Only runs callback on enter"},
-		}, "Adds drag for a 4 float values.", "None", "Adding Widgets") });
+		}, "Adds drag for a 4 float values. CTRL+Click to directly modify the value.", "None", "Adding Widgets") });
 
 		parsers->insert({ "add_drag_int", mvPythonParser({
 			{mvPythonDataType::String, "name"},
@@ -805,12 +805,12 @@ namespace Marvel {
 			{mvPythonDataType::String, "format"},
 			{mvPythonDataType::String, "callback", "Registers a callback"},
 			{mvPythonDataType::String, "tip", "Adds a simple tooltip"},
-			{mvPythonDataType::String, "parent", "Parent to add this item to. (runtime adding)"},
-			{mvPythonDataType::String, "before", "Item to add this item before. (runtime adding)"},
+			{mvPythonDataType::String, "parent", "Parent this item will be added to. (runtime adding)"},
+			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)"},
 			{mvPythonDataType::String, "data_source", "data source for shared data"},
 			{mvPythonDataType::Integer, "width",""},
 			{mvPythonDataType::Bool, "on_enter", "Only runs callback on enter"},
-		}, "Adds drag for a single int value", "None", "Adding Widgets") });
+		}, "Adds drag for a single int value. CTRL+Click to directly modify the value.", "None", "Adding Widgets") });
 
 		parsers->insert({ "add_drag_int2", mvPythonParser({
 			{mvPythonDataType::String, "name"},
@@ -822,12 +822,12 @@ namespace Marvel {
 			{mvPythonDataType::String, "format"},
 			{mvPythonDataType::String, "callback", "Registers a callback"},
 			{mvPythonDataType::String, "tip", "Adds a simple tooltip"},
-			{mvPythonDataType::String, "parent", "Parent to add this item to. (runtime adding)"},
-			{mvPythonDataType::String, "before", "Item to add this item before. (runtime adding)"},
+			{mvPythonDataType::String, "parent", "Parent this item will be added to. (runtime adding)"},
+			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)"},
 			{mvPythonDataType::String, "data_source", "data source for shared data"},
 			{mvPythonDataType::Integer, "width",""},
 			{mvPythonDataType::Bool, "on_enter", "Only runs callback on enter"},
-		}, "Adds drag for a 2 int values.", "None", "Adding Widgets") });
+		}, "Adds drag for a 2 int values. CTRL+Click to directly modify the value.", "None", "Adding Widgets") });
 
 		parsers->insert({ "add_drag_int3", mvPythonParser({
 			{mvPythonDataType::String, "name"},
@@ -839,12 +839,12 @@ namespace Marvel {
 			{mvPythonDataType::String, "format"},
 			{mvPythonDataType::String, "callback", "Registers a callback"},
 			{mvPythonDataType::String, "tip", "Adds a simple tooltip"},
-			{mvPythonDataType::String, "parent", "Parent to add this item to. (runtime adding)"},
-			{mvPythonDataType::String, "before", "Item to add this item before. (runtime adding)"},
+			{mvPythonDataType::String, "parent", "Parent this item will be added to. (runtime adding)"},
+			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)"},
 			{mvPythonDataType::String, "data_source", "data source for shared data"},
 			{mvPythonDataType::Integer, "width",""},
 			{mvPythonDataType::Bool, "on_enter", "Only runs callback on enter"},
-		}, "Adds drag for a 3 int values.", "None", "Adding Widgets") });
+		}, "Adds drag for a 3 int values. CTRL+Click to directly modify the value.", "None", "Adding Widgets") });
 
 		parsers->insert({ "add_drag_int4", mvPythonParser({
 			{mvPythonDataType::String, "name"},
@@ -856,12 +856,12 @@ namespace Marvel {
 			{mvPythonDataType::String, "format"},
 			{mvPythonDataType::String, "callback", "Registers a callback"},
 			{mvPythonDataType::String, "tip", "Adds a simple tooltip"},
-			{mvPythonDataType::String, "parent", "Parent to add this item to. (runtime adding)"},
-			{mvPythonDataType::String, "before", "Item to add this item before. (runtime adding)"},
+			{mvPythonDataType::String, "parent", "Parent this item will be added to. (runtime adding)"},
+			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)"},
 			{mvPythonDataType::String, "data_source", "data source for shared data"},
 			{mvPythonDataType::Integer, "width",""},
 			{mvPythonDataType::Bool, "on_enter", "Only runs callback on enter"},
-		}, "Adds drag for a 4 int values.", "None", "Adding Widgets") });
+		}, "Adds drag for a 4 int values. CTRL+Click to directly modify the value.", "None", "Adding Widgets") });
 	}
 
 	static void AddTableCommands(std::map<std::string, mvPythonParser>* parsers)
@@ -871,8 +871,8 @@ namespace Marvel {
 			{mvPythonDataType::StringList, "headers"},
 			{mvPythonDataType::KeywordOnly},
 			{mvPythonDataType::String, "callback", "Registers a callback"},
-			{mvPythonDataType::String, "parent", "Parent to add this item to. (runtime adding)"},
-			{mvPythonDataType::String, "before","Item to add this item before. (runtime adding)"},
+			{mvPythonDataType::String, "parent", "Parent this item will be added to. (runtime adding)"},
+			{mvPythonDataType::String, "before","This item will be displayed before the specified item in the parent. (runtime adding)"}
 		}, "Adds table.", "None", "Tables") });
 
 		parsers->insert({ "set_table_item", mvPythonParser({
@@ -1406,16 +1406,16 @@ namespace Marvel {
 		parsers->insert({ "add_menu_bar", mvPythonParser({
 			{mvPythonDataType::String, "name"},
 			{mvPythonDataType::KeywordOnly},
-			{mvPythonDataType::String, "parent", "Parent to add this item to. (runtime adding)"},
-			{mvPythonDataType::String, "before", "Item to add this item before. (runtime adding)"},
+			{mvPythonDataType::String, "parent", "Parent this item will be added to. (runtime adding)"},
+			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)"},
 		}, "Adds a menu bar to a window. Must be followed by a call to end_menu_bar.", "None", "Containers") });
 
 		parsers->insert({ "add_menu", mvPythonParser({
 			{mvPythonDataType::String, "name"},
 			{mvPythonDataType::KeywordOnly},
 			{mvPythonDataType::String, "tip", "Adds a simple tooltip"},
-			{mvPythonDataType::String, "parent", "Parent to add this item to. (runtime adding)"},
-			{mvPythonDataType::String, "before", "Item to add this item before. (runtime adding)"},
+			{mvPythonDataType::String, "parent", "Parent this item will be added to. (runtime adding)"},
+			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)"},
 		}, "Adds a menu to an existing menu bar. Must be followed by a call to end_menu.", "None", "Containers") });
 
 		parsers->insert({ "add_menu_item", mvPythonParser({
@@ -1423,8 +1423,8 @@ namespace Marvel {
 			{mvPythonDataType::KeywordOnly},
 			{mvPythonDataType::String, "callback", "Registers a callback"},
 			{mvPythonDataType::String, "tip", "Adds a simple tooltip"},
-			{mvPythonDataType::String, "parent", "Parent to add this item to. (runtime adding)"},
-			{mvPythonDataType::String, "before", "Item to add this item before. (runtime adding)"},
+			{mvPythonDataType::String, "parent", "Parent this item will be added to. (runtime adding)"},
+			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)"},
 		}, "Adds a menu item to an existing menu.", "None", "Containers") });
 
 		parsers->insert({ "end_menu", mvPythonParser({
@@ -1440,8 +1440,8 @@ namespace Marvel {
 			{mvPythonDataType::KeywordOnly},
 			{mvPythonDataType::String, "name"},
 			{mvPythonDataType::String, "tip", "Adds a simple tooltip"},
-			{mvPythonDataType::String, "parent", "Parent to add this item to. (runtime adding)"},
-			{mvPythonDataType::String, "before","Item to add this item before. (runtime adding)"},
+			{mvPythonDataType::String, "parent", "Parent this item will be added to. (runtime adding)"},
+			{mvPythonDataType::String, "before","This item will be displayed before the specified item in the parent. (runtime adding)"},
 		}, "Adds a horizontal line.", "None", "Adding Widgets") });
 
 		parsers->insert({ "add_simple_plot", mvPythonParser({
@@ -1454,8 +1454,8 @@ namespace Marvel {
 			{mvPythonDataType::Float, "maxscale", "used if autoscale is false"},
 			{mvPythonDataType::Bool, "histogram", "create a histogram"},
 			{mvPythonDataType::String, "tip", "Adds a simple tooltip"},
-			{mvPythonDataType::String, "parent", "Parent to add this item to. (runtime adding)"},
-			{mvPythonDataType::String, "before","Item to add this item before. (runtime adding)"},
+			{mvPythonDataType::String, "parent", "Parent this item will be added to. (runtime adding)"},
+			{mvPythonDataType::String, "before","This item will be displayed before the specified item in the parent. (runtime adding)"},
 			{mvPythonDataType::Integer, "width",""},
 			{mvPythonDataType::Integer, "height",""},
 			{mvPythonDataType::String, "data_source",""},
@@ -1468,8 +1468,8 @@ namespace Marvel {
 			{mvPythonDataType::KeywordOnly},
 			{mvPythonDataType::String, "overlay"},
 			{mvPythonDataType::String, "tip", "Adds a simple tooltip"},
-			{mvPythonDataType::String, "parent", "Parent to add this item to. (runtime adding)"},
-			{mvPythonDataType::String, "before", "Item to add this item before. (runtime adding)"},
+			{mvPythonDataType::String, "parent", "Parent this item will be added to. (runtime adding)"},
+			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)"},
 			{mvPythonDataType::String, "data_source", "data source for shared data"},
 			{mvPythonDataType::Integer, "width",""},
 			{mvPythonDataType::Integer, "height",""},
@@ -1482,15 +1482,17 @@ namespace Marvel {
 			{mvPythonDataType::FloatList, "tint_color"},
 			{mvPythonDataType::FloatList, "border_color"},
 			{mvPythonDataType::String, "tip", "Adds a simple tooltip"},
-			{mvPythonDataType::String, "parent", "Parent to add this item to. (runtime adding)"},
-			{mvPythonDataType::String, "before", "Item to add this item before. (runtime adding)"},
+			{mvPythonDataType::String, "parent", "Parent this item will be added to. (runtime adding)"},
+			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)"},
 			{mvPythonDataType::String, "data_source", "data source for shared data"},
 			{mvPythonDataType::Integer, "width",""},
 			{mvPythonDataType::Integer, "height",""},
 			{mvPythonDataType::FloatList, "uv_min"},
 			{mvPythonDataType::FloatList, "uv_max"},
 			{mvPythonDataType::String, "secondary_data_source", "Float list for uv_min and uv_max (i.e. float list (minx, miny, maxx, maxy))"},
-		}, "Adds an image.", "None", "Adding Widgets") });
+		}, "Adds an image."
+		"uv_min and uv_max represent the normalized texture coordinates of the original image that will be shown."
+		"Using(0,0)->(1,1) texture coordinates will generally display the entire texture", "None", "Adding Widgets") });
 
 		parsers->insert({ "add_text", mvPythonParser({
 			{mvPythonDataType::String, "name"},
@@ -1499,8 +1501,8 @@ namespace Marvel {
 			{mvPythonDataType::FloatList, "color", "color of the text (rgba)"},
 			{mvPythonDataType::Bool, "bullet", "makes the text bulleted"},
 			{mvPythonDataType::String, "tip", "Adds a simple tooltip"},
-			{mvPythonDataType::String, "parent", "Parent to add this item to. (runtime adding)"},
-			{mvPythonDataType::String, "before", "Item to add this item before. (runtime adding)"},
+			{mvPythonDataType::String, "parent", "Parent this item will be added to. (runtime adding)"},
+			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)"},
 		}, "Adds text", "None", "Adding Widgets") });
 
 		parsers->insert({ "add_label_text", mvPythonParser({
@@ -1509,8 +1511,8 @@ namespace Marvel {
 			{mvPythonDataType::KeywordOnly},
 			{mvPythonDataType::FloatList, "color"},
 			{mvPythonDataType::String, "tip", "Adds a simple tooltip"},
-			{mvPythonDataType::String, "parent", "Parent to add this item to. (runtime adding)"},
-			{mvPythonDataType::String, "before", "Item to add this item before. (runtime adding)"},
+			{mvPythonDataType::String, "parent", "Parent this item will be added to. (runtime adding)"},
+			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)"},
 			{mvPythonDataType::String, "data_source", "data source for shared data"},
 		}, "Adds text with a label. Useful for output values.", "None", "Adding Widgets") });
 
@@ -1521,8 +1523,8 @@ namespace Marvel {
 			{mvPythonDataType::Integer, "default_value"},
 			{mvPythonDataType::String, "callback", "Registers a callback"},
 			{mvPythonDataType::String, "tip", "Adds a simple tooltip"},
-			{mvPythonDataType::String, "parent", "Parent to add this item to. (runtime adding)"},
-			{mvPythonDataType::String, "before", "Item to add this item before. (runtime adding)"},
+			{mvPythonDataType::String, "parent", "Parent this item will be added to. (runtime adding)"},
+			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)"},
 			{mvPythonDataType::String, "data_source", "data source for shared data"},
 			{mvPythonDataType::Integer, "width",""},
 			{mvPythonDataType::Integer, "height", "number of items to show"},
@@ -1536,8 +1538,8 @@ namespace Marvel {
 			{mvPythonDataType::String, "default_value"},
 			{mvPythonDataType::String, "callback", "Registers a callback"},
 			{mvPythonDataType::String, "tip", "Adds a simple tooltip"},
-			{mvPythonDataType::String, "parent", "Parent to add this item to. (runtime adding)"},
-			{mvPythonDataType::String, "before", "Item to add this item before. (runtime adding)"},
+			{mvPythonDataType::String, "parent", "Parent this item will be added to. (runtime adding)"},
+			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)"},
 			{mvPythonDataType::String, "data_source", "data source for shared data"},
 			{mvPythonDataType::Integer, "width",""},
 			{mvPythonDataType::String, "secondary_data_source", "Data source for the combo items."},
@@ -1549,8 +1551,8 @@ namespace Marvel {
 			{mvPythonDataType::Bool, "default_value"},
 			{mvPythonDataType::String, "callback", "Registers a callback"},
 			{mvPythonDataType::String, "tip", "Adds a simple tooltip"},
-			{mvPythonDataType::String, "parent", "Parent to add this item to. (runtime adding)"},
-			{mvPythonDataType::String, "before", "Item to add this item before. (runtime adding)"},
+			{mvPythonDataType::String, "parent", "Parent this item will be added to. (runtime adding)"},
+			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)"},
 			{mvPythonDataType::String, "data_source", "data source for shared data"},
 		}, "Adds a selectable.", "None", "Adding Widgets") });
 
@@ -1563,7 +1565,7 @@ namespace Marvel {
 			{mvPythonDataType::String, "callback", "Registers a callback"},
 			{mvPythonDataType::String, "tip", "Adds a simple tooltip"},
 			{mvPythonDataType::String, "parent", "Parent to add this item to. (runtime adding)"},
-			{mvPythonDataType::String, "before", "Item to add this item before. (runtime adding)"},
+			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)"},
 			{mvPythonDataType::Integer, "width",""},
 			{mvPythonDataType::Integer, "height", ""},
 		}, "Adds a button.", "None", "Adding Widgets") });
@@ -1573,7 +1575,7 @@ namespace Marvel {
 			{mvPythonDataType::String, "name"},
 			{mvPythonDataType::Float, "offset"},
 			{mvPythonDataType::String, "parent", "Parent to add this item to. (runtime adding)"},
-			{mvPythonDataType::String, "before", "Item to add this item before. (runtime adding)"},
+			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)"},
 		}, "Adds an indent to following items. Must be closed with the unindent command.", "None", "Adding Widgets") });
 
 		parsers->insert({ "unindent", mvPythonParser({
@@ -1581,7 +1583,7 @@ namespace Marvel {
 			{mvPythonDataType::String, "name"},
 			{mvPythonDataType::Float, "offset"},
 			{mvPythonDataType::String, "parent", "Parent to add this item to. (runtime adding)"},
-			{mvPythonDataType::String, "before", "Item to add this item before. (runtime adding)"},
+			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)"},
 		}, "Unindents following items.", "None", "Adding Widgets") });
 
 		parsers->insert({ "add_spacing", mvPythonParser({
@@ -1589,7 +1591,7 @@ namespace Marvel {
 			{mvPythonDataType::String, "name"},
 			{mvPythonDataType::Integer, "count"},
 			{mvPythonDataType::String, "parent", "Parent to add this item to. (runtime adding)"},
-			{mvPythonDataType::String, "before", "Item to add this item before. (runtime adding)"},
+			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)"},
 		}, "Adds vertical spacing.", "None", "Adding Widgets") });
 
 		parsers->insert({ "add_same_line", mvPythonParser({
@@ -1598,7 +1600,7 @@ namespace Marvel {
 			{mvPythonDataType::Float, "xoffset"},
 			{mvPythonDataType::Float, "spacing"},
 			{mvPythonDataType::String, "parent", "Parent to add this item to. (runtime adding)"},
-			{mvPythonDataType::String, "before", "Item to add this item before. (runtime adding)"},
+			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)"},
 		}, "Places a widget on the same line as the previous widget. Can also be used for horizontal spacing.", 
 		"None", "Adding Widgets") });
 
@@ -1610,7 +1612,7 @@ namespace Marvel {
 			{mvPythonDataType::String, "callback", "Registers a callback"},
 			{mvPythonDataType::String, "tip", "Adds a simple tooltip"},
 			{mvPythonDataType::String, "parent", "Parent to add this item to. (runtime adding)"},
-			{mvPythonDataType::String, "before", "Item to add this item before. (runtime adding)"},
+			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)"},
 			{mvPythonDataType::String, "data_source", "data source for shared data"},
 			{mvPythonDataType::String, "secondary_data_source", "data source for radio button items"},
 		}, "Adds a set of radio buttons.", "None", "Adding Widgets") });
@@ -1622,11 +1624,11 @@ namespace Marvel {
 			{mvPythonDataType::String, "callback", "Registers a callback"},
 			{mvPythonDataType::String, "tip", "Adds a simple tooltip"},
 			{mvPythonDataType::String, "parent", "Parent to add this item to. (runtime adding)"},
-			{mvPythonDataType::String, "before", "Item to add this item before. (runtime adding)"},
+			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)"},
 			{mvPythonDataType::String, "data_source", "data source for shared data"},
 			{mvPythonDataType::Integer, "width",""},
 			{mvPythonDataType::Integer, "height", ""},
-		}, "Adds an rgb color editing widget.", "None", "Adding Widgets") });
+		}, "Adds an rgb color editing widget. Click and draging the color square will copy the color to be applied on any other color widget.", "None", "Adding Widgets") });
 
 		parsers->insert({ "add_color_edit4", mvPythonParser({
 			{mvPythonDataType::String, "name"},
@@ -1635,11 +1637,11 @@ namespace Marvel {
 			{mvPythonDataType::String, "callback", "Registers a callback"},
 			{mvPythonDataType::String, "tip", "Adds a simple tooltip"},
 			{mvPythonDataType::String, "parent", "Parent to add this item to. (runtime adding)"},
-			{mvPythonDataType::String, "before", "Item to add this item before. (runtime adding)"},
+			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)"},
 			{mvPythonDataType::String, "data_source", "data source for shared data"},
 			{mvPythonDataType::Integer, "width",""},
 			{mvPythonDataType::Integer, "height", ""},
-		}, "Adds an rgba color editing widget.", "None", "Adding Widgets") });
+		}, "Adds an rgba color editing widget. Click and draging the color square will copy the color to be applied on any other color widget.", "None", "Adding Widgets") });
 
 		parsers->insert({ "add_color_picker3", mvPythonParser({
 			{mvPythonDataType::String, "name"},
@@ -1648,11 +1650,11 @@ namespace Marvel {
 			{mvPythonDataType::String, "callback", "Registers a callback"},
 			{mvPythonDataType::String, "tip", "Adds a simple tooltip"},
 			{mvPythonDataType::String, "parent", "Parent to add this item to. (runtime adding)"},
-			{mvPythonDataType::String, "before", "Item to add this item before. (runtime adding)"},
+			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)"},
 			{mvPythonDataType::String, "data_source", "data source for shared data"},
 			{mvPythonDataType::Integer, "width",""},
 			{mvPythonDataType::Integer, "height", ""},
-		}, "Adds an rgb color picking widget.", "None", "Adding Widgets") });
+		}, "Adds an rgb color picking widget. Click and draging the color square will copy the color to be applied on any other color widget. Right Click allows the style of the color picker to be changed.", "None", "Adding Widgets") });
 
 		parsers->insert({ "add_color_picker4", mvPythonParser({
 			{mvPythonDataType::String, "name"},
@@ -1661,11 +1663,11 @@ namespace Marvel {
 			{mvPythonDataType::String, "callback", "Registers a callback"},
 			{mvPythonDataType::String, "tip", "Adds a simple tooltip"},
 			{mvPythonDataType::String, "parent", "Parent to add this item to. (runtime adding)"},
-			{mvPythonDataType::String, "before", "Item to add this item before. (runtime adding)"},
+			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)"},
 			{mvPythonDataType::String, "data_source", "data source for shared data"},
 			{mvPythonDataType::Integer, "width",""},
 			{mvPythonDataType::Integer, "height", ""},
-		}, "Adds an rgba color picking widget.", "None", "Adding Widgets") });
+		}, "Adds an rgba color picking widget. Click and draging the color square will copy the color to be applied on any other color widget. Right Click allows the style of the color picker to be changed", "None", "Adding Widgets") });
 
 		parsers->insert({ "add_checkbox", mvPythonParser({
 			{mvPythonDataType::String, "name"},
@@ -1674,7 +1676,7 @@ namespace Marvel {
 			{mvPythonDataType::String, "callback", "Registers a callback"},
 			{mvPythonDataType::String, "tip", "Adds a simple tooltip"},
 			{mvPythonDataType::String, "parent", "Parent to add this item to. (runtime adding)"},
-			{mvPythonDataType::String, "before", "Item to add this item before. (runtime adding)"},
+			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)"},
 			{mvPythonDataType::String, "data_source", "data source for shared data"}
 		}, "Adds a checkbox widget.", "None", "Adding Widgets") });
 	}
@@ -1687,7 +1689,7 @@ namespace Marvel {
 			{mvPythonDataType::Bool, "reorderable", "allows for moveable tabs"},
 			{mvPythonDataType::String, "callback", "Registers a callback"},
 			{mvPythonDataType::String, "parent", "Parent to add this item to. (runtime adding)"},
-			{mvPythonDataType::String, "before", "Item to add this item before. (runtime adding)"},
+			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)"},
 			{mvPythonDataType::String, "data_source", "data source for shared data"},
 		}, "Adds a tab bar.", "None", "Containers") });
 
@@ -1697,7 +1699,7 @@ namespace Marvel {
 			{mvPythonDataType::Bool, "closable"},
 			{mvPythonDataType::String, "tip", "Adds a simple tooltip"},
 			{mvPythonDataType::String, "parent", "Parent to add this item to. (runtime adding)"},
-			{mvPythonDataType::String, "before", "Item to add this item before. (runtime adding)"},
+			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)"},
 		}, "Adds a tab to a tab bar. Must be closed with the end_tab command.", "None", "Containers") });
 
 		parsers->insert({ "add_collapsing_header", mvPythonParser({
@@ -1707,7 +1709,7 @@ namespace Marvel {
 			{mvPythonDataType::Bool, "closable"},
 			{mvPythonDataType::String, "tip", "Adds a simple tooltip"},
 			{mvPythonDataType::String, "parent", "Parent to add this item to. (runtime adding)"},
-			{mvPythonDataType::String, "before", "Item to add this item before. (runtime adding)"}
+			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)"}
 		}, "Adds a collapsing header to add items to. Must be closed with the end_collapsing_header command.", 
 			"None", "Containers") });
 
@@ -1717,7 +1719,7 @@ namespace Marvel {
 			{mvPythonDataType::Bool, "default_open"},
 			{mvPythonDataType::String, "tip", "Adds a simple tooltip"},
 			{mvPythonDataType::String, "parent", "Parent to add this item to. (runtime adding)"},
-			{mvPythonDataType::String, "before", "Item to add this item before. (runtime adding)"},
+			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)"},
 		}, "Adds a tree node to add items to. Must be closed with the end_tree_node command.", 
 		"None", "Containers") });
 
@@ -1726,7 +1728,7 @@ namespace Marvel {
 			{mvPythonDataType::KeywordOnly},
 			{mvPythonDataType::String, "tip", "Adds a simple tooltip"},
 			{mvPythonDataType::String, "parent", "Parent to add this item to. (runtime adding)"},
-			{mvPythonDataType::String, "before", "Item to add this item before. (runtime adding)"},
+			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)"},
 			{mvPythonDataType::Integer, "width",""},
 			{mvPythonDataType::Bool, "hide"},
 			{mvPythonDataType::Bool, "horizontal"},
@@ -1740,7 +1742,7 @@ namespace Marvel {
 			{mvPythonDataType::KeywordOnly},
 			{mvPythonDataType::String, "tip", "Adds a simple tooltip"},
 			{mvPythonDataType::String, "parent", "Parent to add this item to. (runtime adding)"},
-			{mvPythonDataType::String, "before", "Item to add this item before. (runtime adding)"},
+			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)"},
 			{mvPythonDataType::Integer, "width",""},
 			{mvPythonDataType::Integer, "height", ""},
 			{mvPythonDataType::Bool, "border", ""},
@@ -1753,34 +1755,34 @@ namespace Marvel {
 			{mvPythonDataType::Integer, "width"},
 			{mvPythonDataType::Integer, "height"},
 			{mvPythonDataType::KeywordOnly},
-			{mvPythonDataType::Integer, "start_x"},
-			{mvPythonDataType::Integer, "start_y"},
-			{mvPythonDataType::Bool, "autosize"},
-			{mvPythonDataType::Bool, "resizable"},
-			{mvPythonDataType::Bool, "title_bar"},
-			{mvPythonDataType::Bool, "movable"},
-			{mvPythonDataType::Bool, "hide"},
-			{mvPythonDataType::String, "on_close"},
-		}, "Creates a new window for following items to be added to. Must call end_main_window command before adding any new windows.", 
+			{mvPythonDataType::Integer, "start_x", "x position the window will start at"},
+			{mvPythonDataType::Integer, "start_y", "y position the window will start at"},
+			{mvPythonDataType::Bool, "autosize", "Autosized the window to fit it's items."},
+			{mvPythonDataType::Bool, "resizable", "Allows for the window size to be changed or fixed"},
+			{mvPythonDataType::Bool, "title_bar", "Title name for the title bar of the window"},
+			{mvPythonDataType::Bool, "movable", "Allows for the window's position to be changed or fixed"},
+			{mvPythonDataType::Bool, "hide", "Hides window."},
+			{mvPythonDataType::String, "on_close", "Callback ran when window is closed"},
+		}, "Creates a new window for following items to be added to.", 
 			"None", "Containers") });
 
 		parsers->insert({ "add_tooltip", mvPythonParser({
-			{mvPythonDataType::String, "tipparent"},
+			{mvPythonDataType::String, "tipparent", "Sets the item's tool tip to be the same as the named item's tool tip"},
 			{mvPythonDataType::String, "name"},
 			{mvPythonDataType::KeywordOnly},
 			{mvPythonDataType::String, "parent", "Parent to add this item to. (runtime adding)"},
-			{mvPythonDataType::String, "before", "Item to add this item before. (runtime adding)"}
+			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)"}
 		}, "Adds an advanced tool tip for an item. This command must come immediately after the item the tip is for.", 
 			"None", "Containers") });
 
 		parsers->insert({ "add_popup", mvPythonParser({
-			{mvPythonDataType::String, "popupparent"},
+			{mvPythonDataType::String, "popupparent", "Parent that the popup will be assigned to."},
 			{mvPythonDataType::String, "name"},
 			{mvPythonDataType::KeywordOnly},
-			{mvPythonDataType::Integer, "mousebutton"},
+			{mvPythonDataType::Integer, "mousebutton", "The mouse code that will trigger the popup. Default is 1 or mvMouseButton_Right. (mvMouseButton_Left, mvMouseButton_Right, mvMouseButton_Middle, mvMouseButton_X1, mvMouseButton_X2"},
 			{mvPythonDataType::Bool, "modal"},
 			{mvPythonDataType::String, "parent", "Parent to add this item to. (runtime adding)"},
-			{mvPythonDataType::String, "before", "Item to add this item before. (runtime adding)"},
+			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)"},
 			{mvPythonDataType::Integer, "width",""},
 			{mvPythonDataType::Integer, "height", ""},
 		}, "Adds a popup window for an item. This command must come immediately after the item the popup is for. Must be followed by a call to end_popup.", 
@@ -1847,7 +1849,7 @@ namespace Marvel {
 
 		parsers->insert({ "run_async_function", mvPythonParser({
 			{mvPythonDataType::String, "name"},
-			{mvPythonDataType::Object, "data"},
+			{mvPythonDataType::Object, "data", "Data that will be sent into the async funstion"},
 			{mvPythonDataType::Optional},
 			{mvPythonDataType::String, "return_handler"},
 		}, "Runs a function asyncronously.") });
