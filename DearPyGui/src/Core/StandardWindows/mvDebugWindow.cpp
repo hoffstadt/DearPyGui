@@ -163,6 +163,9 @@ namespace Marvel {
 				auto selectedItem = mvApp::GetApp()->getItem(m_selectedItem);
 				std::string parentName;
 
+				if (selectedItem == nullptr)
+					selectedItem = mvApp::GetApp()->getWindows()[0];
+				
 				if (selectedItem->getParent())
 					parentName = selectedItem->getParent()->getName();
 
