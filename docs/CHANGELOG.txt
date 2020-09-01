@@ -28,6 +28,10 @@ HOW TO UPDATE?
 
 Decorated log: https://github.com/hoffstadt/DearPyGui/releases/tag/v0.1.0-beta15
 
+Fixes:
+
+- Main Window: Fixed set_window_size bug for MacOs/Linus #143
+
 
 -----------------------------------------------------------------------
  VERSION 0.1.0 Beta 14
