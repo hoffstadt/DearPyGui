@@ -9,6 +9,11 @@ namespace Marvel {
 
 	public:
 
+		mvMetricsWindow() : mvStandardWindow("Dear PyGui Metrics") 
+		{
+			m_flags = ImGuiWindowFlags_AlwaysAutoResize;
+		}
+
 		void render(bool& show) override;
 
 	};

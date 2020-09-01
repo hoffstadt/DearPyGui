@@ -2,13 +2,24 @@
 
 namespace Marvel {
 
-	void mvStandardWindow::prerender()
+	bool mvStandardWindow::prerender(bool& show)
 	{
-		for (auto& entry : m_standardWindows)
+
+		if (m_dirty)
 		{
-			if (entry.second.show)
-				entry.second.window->render(entry.second.show);
+			ImGui::SetNextWindowPos(ImVec2((float)m_xpos, (float)m_ypos));
+			ImGui::SetNextWindowSize(ImVec2((float)m_width, (float)m_height));
+			m_dirty = false;
 		}
+
+
+		if (!ImGui::Begin(m_name.c_str(), &show, m_flags))
+		{
+			ImGui::End();
+			return false;
+		}
+
+		return true;
 	}
 
 	void mvStandardWindow::showStandardWindow(const std::string& name)

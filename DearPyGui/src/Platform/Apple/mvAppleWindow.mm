@@ -16,9 +16,9 @@ namespace Marvel {
 
     id <MTLDevice> mvAppleWindow::device;
 
-    mvWindow* mvWindow::CreatemvWindow(unsigned width, unsigned height, bool editor, bool error, bool doc)
+    mvWindow* mvWindow::CreatemvWindow(unsigned width, unsigned height, bool error)
 	{
-		return new mvAppleWindow(width, height, editor, error, doc);
+		return new mvAppleWindow(width, height, error);
 	}
 
     static void window_close_callback(GLFWwindow* window)
@@ -32,7 +32,6 @@ namespace Marvel {
         mvApp::GetApp()->setActualSize(width, height);
         mvApp::GetApp()->setWindowSize(width, height);
         mvApp::GetApp()->runCallback(mvApp::GetApp()->getResizeCallback(), "Main Application");
-        mvDocWindow::GetWindow()->setSize(width, height);
     }
 
     static void glfw_error_callback(int error, const char *description)
@@ -40,8 +39,8 @@ namespace Marvel {
         fprintf(stderr, "Glfw Error %d: %s\n", error, description);
     }
 
-    mvAppleWindow::mvAppleWindow(unsigned width, unsigned height, bool editor, bool error, bool doc)
-        : mvWindow(width, height, editor, error, doc)
+    mvAppleWindow::mvAppleWindow(unsigned width, unsigned height, bool error)
+        : mvWindow(width, height, error)
     {
         // Setup Dear ImGui binding
         IMGUI_CHECKVERSION();
@@ -64,7 +63,7 @@ namespace Marvel {
         // Create window with graphics context
         glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
         m_window = glfwCreateWindow(width, height, mvApp::GetApp()->m_title.c_str(), nullptr, nullptr);
-	mvApp::GetApp()->setWindowSize(width, height);
+	    mvApp::GetApp()->setWindowSize(width, height);
 
         device = MTLCreateSystemDefaultDevice();;
         m_commandQueue = [device newCommandQueue];
@@ -95,9 +94,6 @@ namespace Marvel {
 
         glfwDestroyWindow(m_window);
         glfwTerminate();
-
-        delete m_appEditor;
-        m_appEditor = nullptr;
 
     }
 
@@ -141,19 +137,14 @@ namespace Marvel {
 
             mvDataStorage::UpdateData();
 
-            if (m_error) {
+            if (m_error) 
+            {
                 mvAppLog::setSize(m_width, m_height);
                 mvAppLog::render();
-            } else if (m_editor) {
-                m_appEditor->prerender();
-                m_appEditor->render(m_editor);
-                m_appEditor->postrender();
-            } else if (m_doc) {
-                m_documentation->prerender();
-                m_documentation->render(m_doc);
-                m_documentation->postrender();
-            } else if (!m_error) {
-                m_app->prerender();
+            } 
+            else
+            {
+                m_app->prerender(m_running);
                 m_app->render(m_running);
                 m_app->postrender();
             }

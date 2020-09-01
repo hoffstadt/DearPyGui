@@ -10,6 +10,8 @@ namespace Marvel {
 
 	public:
 
+		mvSourceWindow();
+
 		void setFile(const std::string& file);
 
 		void render(bool& show) override;

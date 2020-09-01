@@ -61,7 +61,7 @@ namespace Marvel {
 			viewport->stop();
 	}
 
-	mvApp::mvApp()
+	mvApp::mvApp() : mvStandardWindow("MainApplication")
 	{
 		m_parsers = BuildDearPyGuiInterface();
 
@@ -79,13 +79,13 @@ namespace Marvel {
 		m_windows.push_back(new mvWindowAppitem("", "MainWindow", 1280, 800, 0, 0, true, false, true, false, false));
 		m_parents.push(m_windows.back());
 
-		addStandardWindow("documentation", mvDocWindow::GetWindow());
-		addStandardWindow("about", new mvAboutWindow());
-		addStandardWindow("metrics", new mvMetricsWindow());
-		addStandardWindow("source", new mvSourceWindow());
-		addStandardWindow("debug", new mvDebugWindow());
+		addStandardWindow("documentation##standard", mvDocWindow::GetWindow());
+		addStandardWindow("about##standard", new mvAboutWindow());
+		addStandardWindow("metrics##standard", new mvMetricsWindow());
+		addStandardWindow("source##standard", new mvSourceWindow());
+		addStandardWindow("debug##standard", new mvDebugWindow());
 		addStandardWindow("filedialog", new mvFileDialog());
-		addStandardWindow("style", new mvStyleWindow());
+		addStandardWindow("style##standard", new mvStyleWindow());
 
 	}
 
@@ -134,7 +134,7 @@ namespace Marvel {
 		}
 	}
 
-	void mvApp::prerender()
+	bool mvApp::prerender(bool& show)
 	{
 
 		if (m_firstRender)
@@ -207,6 +207,7 @@ namespace Marvel {
 		for (auto window : m_windows)
 			window->resetState();
 
+		return true;
 	}
 
 	void mvApp::render(bool& show)
@@ -222,7 +223,10 @@ namespace Marvel {
 		for (auto& entry : m_standardWindows)
 		{
 			if (entry.second.show)
-				entry.second.window->render(entry.second.show);
+			{
+				if(entry.second.window->prerender(entry.second.show))
+					entry.second.window->render(entry.second.show);
+			}
 		}
 
 		Py_BEGIN_ALLOW_THREADS

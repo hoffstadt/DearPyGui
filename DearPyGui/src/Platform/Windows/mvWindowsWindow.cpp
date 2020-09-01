@@ -7,16 +7,22 @@ extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg
 
 namespace Marvel {
 
-	mvWindow* mvWindow::CreatemvWindow(unsigned width, unsigned height, bool editor, bool error, bool doc)
+	mvWindow* mvWindow::CreatemvWindow(unsigned width, unsigned height, bool error)
 	{
-		return new mvWindowsWindow(width, height, editor, error, doc);
+		return new mvWindowsWindow(width, height, error);
 	}
 
-	mvWindowsWindow::mvWindowsWindow(unsigned width, unsigned height, bool editor, bool error, bool doc)
-		: mvWindow(width, height, editor, error, doc)
+	mvWindowsWindow::mvWindowsWindow(unsigned width, unsigned height, bool error)
+		: mvWindow(width, height, error)
 	{
 
-		m_wc = { sizeof(WNDCLASSEX), CS_CLASSDC, HandleMsgSetup, 0L, 0L, GetModuleHandle(nullptr), nullptr, nullptr, nullptr, nullptr, 
+		m_wc = { 
+			sizeof(WNDCLASSEX), 
+			CS_CLASSDC, 
+			HandleMsgSetup, 
+			0L, 
+			0L, 
+			GetModuleHandle(nullptr), nullptr, nullptr, nullptr, nullptr, 
 			_T(mvApp::GetApp()->m_title.c_str()), nullptr };
 		RegisterClassEx(&m_wc);
 
@@ -116,23 +122,9 @@ namespace Marvel {
 			mvAppLog::render();
 		}
 
-		else if (m_editor)
+		else
 		{
-			m_appEditor->prerender();
-			m_appEditor->render(m_editor);
-			m_appEditor->postrender();
-		}
-
-		else if (m_doc)
-		{
-			m_documentation->prerender();
-			m_documentation->render(m_doc);
-			m_documentation->postrender();
-		}
-
-		else if (!m_error)
-		{
-			m_app->prerender();
+			m_app->prerender(m_running);
 			m_app->render(m_running);
 			m_app->postrender();
 		}
@@ -304,7 +296,6 @@ namespace Marvel {
 				m_height = (UINT)HIWORD(lParam);
 				mvApp::GetApp()->setWindowSize((UINT)LOWORD(lParam), (UINT)HIWORD(lParam));
 				mvApp::GetApp()->runCallback(mvApp::GetApp()->getResizeCallback(), "Main Application");
-				m_appEditor->setSize((UINT)LOWORD(lParam), (UINT)HIWORD(lParam));
 				mvDocWindow::GetWindow()->setSize((UINT)LOWORD(lParam), (UINT)HIWORD(lParam));
 				CleanupRenderTarget();
 				s_pSwapChain->ResizeBuffers(0, (UINT)LOWORD(lParam), (UINT)HIWORD(lParam), DXGI_FORMAT_UNKNOWN, 0);

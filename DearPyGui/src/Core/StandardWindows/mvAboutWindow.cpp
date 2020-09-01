@@ -5,13 +5,13 @@
 
 namespace Marvel {
 
+	mvAboutWindow::mvAboutWindow() : mvStandardWindow("About Dear PyGui")
+	{
+		m_flags = ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_NoSavedSettings;
+	}
+
 	void mvAboutWindow::render(bool& show)
 	{
-		if (!ImGui::Begin("About DearPyGui", &show, ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_NoSavedSettings))
-		{
-			ImGui::End();
-			return;
-		}
 
 		ImGui::Text("DearPyGui %s", mvApp::GetVersion());
 		ImGui::Text("Dear ImGui %s", ImGui::GetVersion());

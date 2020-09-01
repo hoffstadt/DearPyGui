@@ -7,6 +7,11 @@
 
 namespace Marvel {
 
+	mvSourceWindow::mvSourceWindow() : mvStandardWindow("Source")
+	{
+		m_flags = ImGuiWindowFlags_HorizontalScrollbar | ImGuiWindowFlags_MenuBar;
+	}
+
 	void mvSourceWindow::setFile(const std::string& file)
 	{
 		m_file = file;

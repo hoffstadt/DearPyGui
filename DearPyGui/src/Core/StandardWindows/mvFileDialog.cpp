@@ -6,8 +6,6 @@
 
 namespace Marvel {
 
-
-
 	void mvFileDialog::render(bool& show)
 	{
 		// display

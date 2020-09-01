@@ -13,7 +13,7 @@ namespace Marvel {
 
     public:
 
-        mvAppleWindow(unsigned width, unsigned height, bool editor = false, bool error = false, bool doc = false);
+        mvAppleWindow(unsigned width, unsigned height, bool error = false);
         ~mvAppleWindow();
 
         void run        () override {render();}

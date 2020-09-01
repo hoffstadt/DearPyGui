@@ -11,7 +11,7 @@ namespace Marvel {
 
 	public:
 
-        mvLinuxWindow(unsigned width, unsigned height, bool editor = false, bool error = false, bool doc = false);
+        mvLinuxWindow(unsigned width, unsigned height, bool error = false);
 		~mvLinuxWindow();
 
 		void prerender  () override;
