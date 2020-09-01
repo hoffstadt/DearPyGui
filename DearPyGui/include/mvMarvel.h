@@ -1818,6 +1818,11 @@ namespace Marvel {
 
 	static void AddAppCommands(std::map<std::string, mvPythonParser>* parsers)
 	{
+
+		parsers->insert({ "set_vsync", mvPythonParser({
+			{mvPythonDataType::Bool, "value"},
+		}, "Sets vsync on or off.") });
+
 		parsers->insert({ "is_dearpygui_running", mvPythonParser({
 		}, "Checks if dearpygui is still running", "bool") });
 

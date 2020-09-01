@@ -10,7 +10,7 @@
 
 namespace Marvel {
 
-    mvWindow* mvWindow::CreatemvWindow(unsigned width, unsigned height, bool error)
+    mvWindow* mvWindow::CreatemvWindow(unsigned width, unsigned height, bool error, bool vsync)
     {
         return new mvLinuxWindow(width, height, error);
     }
@@ -50,7 +50,6 @@ namespace Marvel {
 	    mvApp::GetApp()->setWindowSize(width, height);
 
         glfwMakeContextCurrent(m_window);
-        glfwSwapInterval(1); // Enable vsync
 
         gl3wInit();
 
@@ -99,6 +98,8 @@ namespace Marvel {
         prerender();
 
         mvDataStorage::UpdateData();
+
+        glfwSwapInterval(mvApp::GetApp()->getVSync() ? 1 : 0); // Enable vsync
 
         if (m_error)
         {

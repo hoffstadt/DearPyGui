@@ -153,10 +153,10 @@ namespace Marvel {
 		ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
 
 		//s_pSwapChain->Present(1, 0); // Present with vsync
-		//g_pSwapChain->Present(0, 0); // Present without vsync
+		//s_pSwapChain->Present(0, 0); // Present without vsync
 
 		static UINT presentFlags = 0;
-		if (s_pSwapChain->Present(1, presentFlags) == DXGI_STATUS_OCCLUDED) {
+		if (s_pSwapChain->Present(mvApp::GetApp()->getVSync() ? 1 : 0, presentFlags) == DXGI_STATUS_OCCLUDED) {
 			presentFlags = DXGI_PRESENT_TEST;
 			Sleep(20);
 		}

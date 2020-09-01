@@ -16,7 +16,7 @@ namespace Marvel {
 
     id <MTLDevice> mvAppleWindow::device;
 
-    mvWindow* mvWindow::CreatemvWindow(unsigned width, unsigned height, bool error)
+    mvWindow* mvWindow::CreatemvWindow(unsigned width, unsigned height, bool error, bool vsync)
 	{
 		return new mvAppleWindow(width, height, error);
 	}
@@ -113,6 +113,8 @@ namespace Marvel {
             // - When io.WantCaptureKeyboard is true, do not dispatch keyboard input data to your main application.
             // Generally you may always pass all inputs to dear imgui, and hide them from your application based on those two flags.
             glfwPollEvents();
+
+            glfwSwapInterval(mvApp::GetApp()->getVSync() ? 1 : 0); // Enable vsync
 
             int width, height;
             glfwGetFramebufferSize(m_window, &width, &height);

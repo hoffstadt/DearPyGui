@@ -813,6 +813,19 @@ namespace Marvel {
 		return mvPythonTranslator::GetPyNone();
 	}
 
+	PyObject* set_vsync(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+
+		int value;
+
+		if (!(*mvApp::GetApp()->getParsers())["set_vsync"].parse(args, kwargs, __FUNCTION__,
+			&value))
+			return mvPythonTranslator::GetPyNone();
+
+		mvApp::GetApp()->setVSync(value);
+		return mvPythonTranslator::GetPyNone();
+	}
+
 	PyObject* setup_dearpygui(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 
@@ -820,7 +833,7 @@ namespace Marvel {
 		mvApp::SetAppStarted();
 
 		// create window
-		auto window = mvWindow::CreatemvWindow(mvApp::GetApp()->getActualWidth(), mvApp::GetApp()->getActualHeight());
+		auto window = mvWindow::CreatemvWindow(mvApp::GetApp()->getActualWidth(), mvApp::GetApp()->getActualHeight(), false);
 		window->show();
 		mvApp::GetApp()->setViewport(window);
 		window->setup();
@@ -855,7 +868,7 @@ namespace Marvel {
 		mvApp::SetAppStarted();
 
 		// create window
-		auto window = mvWindow::CreatemvWindow(mvApp::GetApp()->getActualWidth(), mvApp::GetApp()->getActualHeight());
+		auto window = mvWindow::CreatemvWindow(mvApp::GetApp()->getActualWidth(), mvApp::GetApp()->getActualHeight(), false);
 		mvApp::GetApp()->setViewport(window);
 		window->show();
 		window->run();
@@ -6514,6 +6527,7 @@ namespace Marvel {
 
 	static PyMethodDef dearpyguimethods[]
 	{
+		ADD_PYTHON_FUNCTION(set_vsync)
 		ADD_PYTHON_FUNCTION(get_windows)
 		ADD_PYTHON_FUNCTION(get_all_items)
 		ADD_PYTHON_FUNCTION(get_item_children)
