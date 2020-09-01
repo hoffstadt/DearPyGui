@@ -10,7 +10,7 @@
 
 namespace Marvel {
 
-    mvWindow* mvWindow::CreatemvWindow(unsigned width, unsigned height, bool error, bool vsync)
+    mvWindow* mvWindow::CreatemvWindow(unsigned width, unsigned height, bool error)
     {
         return new mvLinuxWindow(width, height, error);
     }

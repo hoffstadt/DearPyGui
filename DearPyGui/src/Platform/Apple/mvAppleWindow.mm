@@ -16,7 +16,7 @@ namespace Marvel {
 
     id <MTLDevice> mvAppleWindow::device;
 
-    mvWindow* mvWindow::CreatemvWindow(unsigned width, unsigned height, bool error, bool vsync)
+    mvWindow* mvWindow::CreatemvWindow(unsigned width, unsigned height, bool error)
 	{
 		return new mvAppleWindow(width, height, error);
 	}
