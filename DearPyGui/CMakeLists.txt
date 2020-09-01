@@ -201,6 +201,7 @@ else() # Linux
 		target_link_directories(dearpygui PRIVATE "/home/runner/work/DearPyGui/DearPyGui/Dependencies/cpython/debug/lib")
 		target_link_libraries(dearpygui PUBLIC "-L/usr/lib  -lcrypt -lpthread -ldl  -lutil -lm -lm" GL glfw python3.7m)
 	else()
+		target_link_directories(dearpygui PRIVATE "/home/runner/work/DearPyGui/DearPyGui/Dependencies/cpython/debug/lib")
 		target_link_libraries(dearpygui PUBLIC "-L/usr/lib  -lcrypt -lpthread -ldl  -lutil -lm -lm" GL glfw python3.8)
 	endif()
 
