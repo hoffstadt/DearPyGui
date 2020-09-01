@@ -10,17 +10,33 @@ jobs:
 
   build-Ubuntu:
     
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-18.04
+
+    strategy:
+      # You can use PyPy versions in python-version.
+      # For example, pypy2 and pypy3
+      matrix:
+        python-version: [3.8]
 
     steps:
 
     - uses: actions/checkout@v2
+
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v2
+      with:
+        python-version: ${{ matrix.python-version }}
+        architecture: 'x64' 
+
+    - name: Display Python version
+      run: python -c "import sys; print(sys.version)"
 
     - name: Retrieve submodules
       run: git submodule update --init --recursive
     
     - name: Build Python
       run: |
+        sudo apt-get install libgl1-mesa-dev
         sudo apt-get install xorg-dev
         cd Dependencies/cpython
         mkdir debug
@@ -43,19 +59,20 @@ jobs:
     - name: Build Test DearPyGui Wheel
       run: |
         cd /home/runner/work/DearPyGui/DearPyGui/Distribution
-        python3 BuildPythonWheel.py /home/runner/work/DearPyGui/DearPyGui/cmake-build-release/DearPyGui/dearpygui.so dearpygui.so
-        python3 -m setup bdist_wheel --plat-name manylinux1_x86_64 --dist-dir /home/runner/work/DearPyGui/DearPyGui/dist
+        python BuildPythonWheel.py /home/runner/work/DearPyGui/DearPyGui/cmake-build-release/DearPyGui/dearpygui.so dearpygui.so
+        python -m setup bdist_wheel --plat-name manylinux1_x86_64 --dist-dir /home/runner/work/DearPyGui/DearPyGui/dist
 
     - name: Upload Test DearPyGui Wheel
       if: "contains(github.event.head_commit.message, 'upload run')"
       run: |
-        python3 -m twine upload --repository testpypi dist/* -u __token__ -p ${{ secrets.test_pypi_password }} --skip-existing
+        python -m twine upload --repository testpypi dist/* -u __token__ -p ${{ secrets.test_pypi_password }} --skip-existing
 
   build-Ubuntu37:
     
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-18.04
 
     strategy:
+
       # You can use PyPy versions in python-version.
       # For example, pypy2 and pypy3
       matrix:
@@ -83,6 +100,7 @@ jobs:
     
     - name: Build Python
       run: |
+        sudo apt-get install libgl1-mesa-dev
         sudo apt-get install xorg-dev
         cd Dependencies/cpython
         mkdir debug
