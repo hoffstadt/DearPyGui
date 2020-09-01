@@ -12,15 +12,28 @@ jobs:
     
     runs-on: ubuntu-18.04
 
+    strategy:
+      # You can use PyPy versions in python-version.
+      # For example, pypy2 and pypy3
+      matrix:
+        python-version: [3.8]
+
     steps:
 
     - uses: actions/checkout@v2
+
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v2
+      with:
+        python-version: ${{ matrix.python-version }}
+        architecture: 'x64' 
 
     - name: Retrieve submodules
       run: git submodule update --init --recursive
     
     - name: Build Python
       run: |
+        sudo apt-get install libgl1-mesa-dev
         sudo apt-get install xorg-dev
         cd Dependencies/cpython
         mkdir debug
@@ -83,6 +96,7 @@ jobs:
     
     - name: Build Python
       run: |
+        sudo apt-get install libgl1-mesa-dev
         sudo apt-get install xorg-dev
         cd Dependencies/cpython
         mkdir debug
