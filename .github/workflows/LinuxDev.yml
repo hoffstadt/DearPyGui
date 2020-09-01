@@ -10,7 +10,7 @@ jobs:
 
   build-Ubuntu:
     
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-18.04
 
     steps:
 
@@ -53,7 +53,7 @@ jobs:
 
   build-Ubuntu37:
     
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-18.04
 
     strategy:
       # You can use PyPy versions in python-version.
