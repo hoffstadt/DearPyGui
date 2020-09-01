@@ -215,6 +215,7 @@ jobs:
     
     - name: Build Python
       run: |
+        sudo apt-get install libgl1-mesa-dev
         sudo apt-get install xorg-dev
         cd Dependencies/cpython
         mkdir debug
