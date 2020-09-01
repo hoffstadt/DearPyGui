@@ -1118,6 +1118,10 @@ def set_value(name: str, value: object) -> None:
 	"""Sets an item's value if applicable."""
 	...
 
+def set_vsync(value: bool) -> None:
+	"""Sets vsync on or off."""
+	...
+
 def set_window_pos(window: str, x: float, y: float) -> None:
 	"""Sets a windows position"""
 	...

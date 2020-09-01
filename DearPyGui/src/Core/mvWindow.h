@@ -46,8 +46,8 @@ namespace Marvel {
 	protected:
 
 		bool              m_running       = true;
+		mvStandardWindow* m_app = nullptr;
 		bool              m_error         = false;
-		mvStandardWindow* m_app           = nullptr;
 		unsigned          m_width;
 		unsigned          m_height;
 

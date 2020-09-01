@@ -30,6 +30,7 @@ Decorated log: https://github.com/hoffstadt/DearPyGui/releases/tag/v0.1.0-beta15
 
 New Commands:
 
+- Application:      "set_vsync" now availble
 - Standard Windows: "set_window_pos" now works for standard windows #146
 - Standard Windows: "get_window_pos" now works for standard windows #146
 - Standard Windows: "set_item_height" now works for standard windows #146
