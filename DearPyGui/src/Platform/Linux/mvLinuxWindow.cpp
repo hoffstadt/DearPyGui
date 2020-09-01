@@ -51,6 +51,7 @@ namespace Marvel {
         glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
         glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 0);
         m_window = glfwCreateWindow(width, height, mvApp::GetApp()->m_title.c_str(), nullptr, nullptr);
+	mvApp::GetApp()->setWindowSize(width, height);
 
         glfwMakeContextCurrent(m_window);
         glfwSwapInterval(1); // Enable vsync
