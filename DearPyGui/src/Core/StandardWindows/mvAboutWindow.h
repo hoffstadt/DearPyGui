@@ -9,6 +9,8 @@ namespace Marvel {
 
 	public:
 
+		mvAboutWindow();
+
 		void render(bool& show) override;
 
 	};

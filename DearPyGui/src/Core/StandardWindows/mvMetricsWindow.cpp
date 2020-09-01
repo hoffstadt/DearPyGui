@@ -7,12 +7,6 @@ namespace Marvel {
 
 	void mvMetricsWindow::render(bool& show)
 	{
-		if (!ImGui::Begin("MarvelSandbox Metrics", &show, ImGuiWindowFlags_NoSavedSettings))
-		{
-			ImGui::End();
-			return;
-		}
-
 		ImGuiIO& io = ImGui::GetIO();
 		ImGui::Text("MarvelSandbox %s", mvApp::GetVersion());
 		ImGui::Text("Dear ImGui %s", ImGui::GetVersion());

@@ -49,7 +49,6 @@ set(MARVEL_SOURCES
 	"$<$<PLATFORM_ID:Darwin>:src/Core/mvMarvel.mm>"
 
 	"src/Core/StandardWindows/mvStandardWindow.cpp"
-	"src/Core/StandardWindows/mvAppEditor.cpp"
 	"src/Core/StandardWindows/mvDocWindow.cpp"
 	"src/Core/StandardWindows/mvAboutWindow.cpp"
 	"src/Core/StandardWindows/mvMetricsWindow.cpp"

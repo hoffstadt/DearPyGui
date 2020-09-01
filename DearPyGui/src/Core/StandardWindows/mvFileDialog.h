@@ -9,8 +9,10 @@ namespace Marvel {
 
 	public:
 
-		void setCallback(const char* callback) { m_callback = callback; }
+		mvFileDialog() : mvStandardWindow("FileDialog") {}
 
+		bool prerender(bool& show) override { return true; }
+		void setCallback(const char* callback) { m_callback = callback; }
 		void render(bool& show) override;
 
 	private:

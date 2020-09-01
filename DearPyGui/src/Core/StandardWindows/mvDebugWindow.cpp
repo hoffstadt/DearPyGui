@@ -81,13 +81,6 @@ namespace Marvel {
 
 		auto app = mvApp::GetApp();
 
-		ImGui::SetNextWindowSize(ImVec2((float)m_width, (float)m_width), ImGuiCond_FirstUseEver);
-		if (!ImGui::Begin("DearPyGui Debug", &show, m_flags))
-		{
-			ImGui::End();
-			return;
-		}
-
 		if (ImGui::BeginTabBar("Main Tabbar"))
 		{
 			if (ImGui::BeginTabItem("App State"))
@@ -288,7 +281,6 @@ namespace Marvel {
 		}
 		
 		ImGui::End();
-
 
 	}
 

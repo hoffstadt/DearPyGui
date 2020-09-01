@@ -9,6 +9,8 @@ namespace Marvel {
 
 	public:
 
+		mvStyleWindow() : mvStandardWindow("Dear PyGui Style Editor") {}
+
 		void render(bool& show) override;
 
 	};

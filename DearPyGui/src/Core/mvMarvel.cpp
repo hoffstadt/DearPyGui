@@ -4272,17 +4272,35 @@ namespace Marvel {
 		if (!(*mvApp::GetApp()->getParsers())["set_window_pos"].parse(args, kwargs, __FUNCTION__, &window, &x, &y))
 			return mvPythonTranslator::GetPyNone();
 
-		auto awindow = mvApp::GetApp()->getWindow(window);
+		if (std::string(window) == "logger##standard")
+		{
+			mvAppLog::SetWindowPos(x, y);
+			return mvPythonTranslator::GetPyNone();
+		}
 
+		// check if item is a regular item
+		mvWindowAppitem* awindow = mvApp::GetApp()->getWindow(window);
+
+		// check if item is a standard window
+		mvStandardWindow* swindow = nullptr;
 		if (awindow == nullptr)
+			swindow = mvApp::GetApp()->getStandardWindow(window);
+		else
+		{
+			awindow->setWindowPos(x, y);
+			return mvPythonTranslator::GetPyNone();
+		}
+
+		if (swindow == nullptr)
 		{
 			ThrowPythonException(window + std::string(" window was not found"));
 			return mvPythonTranslator::GetPyNone();
 		}
-
-		awindow->setWindowPos(x, y);
-
-		return mvPythonTranslator::GetPyNone();
+		else
+		{
+			swindow->setWindowPos(x, y);
+			return mvPythonTranslator::GetPyNone();
+		}
 	}
 
 	PyObject* get_window_pos(PyObject* self, PyObject* args, PyObject* kwargs)
@@ -4292,17 +4310,27 @@ namespace Marvel {
 		if (!(*mvApp::GetApp()->getParsers())["get_window_pos"].parse(args, kwargs, __FUNCTION__, &window))
 			return mvPythonTranslator::GetPyNone();
 
-		auto awindow = mvApp::GetApp()->getWindow(window);
+		if (std::string(window) == "logger##standard")
+			return mvPythonTranslator::ToPyPair(mvAppLog::GetWindowWidth(), mvAppLog::GetWindowHeight());
 
+		// check if item is a regular item
+		mvWindowAppitem* awindow = mvApp::GetApp()->getWindow(window);
+		
+		// check if item is a standard window
+		mvStandardWindow* swindow = nullptr;
 		if (awindow == nullptr)
+			swindow = mvApp::GetApp()->getStandardWindow(window);
+		else
+			return mvPythonTranslator::ToPyPair(awindow->getWindowPos().x, awindow->getWindowPos().y);
+
+		if (swindow == nullptr)
 		{
 			ThrowPythonException(window + std::string(" window was not found"));
 			return mvPythonTranslator::GetPyNone();
 		}
+		else
+			return mvPythonTranslator::ToPyPair(swindow->getWindowWidth(), swindow->getWindowHeight());
 
-		mvVec2 pos = awindow->getWindowPos();
-
-		return mvPythonTranslator::ToPyPair(pos.x, pos.y);
 	}
 
 	PyObject* end_child(PyObject* self, PyObject* args, PyObject* kwargs)
@@ -5192,11 +5220,23 @@ namespace Marvel {
 		if (!(*mvApp::GetApp()->getParsers())["get_item_height"].parse(args, kwargs, __FUNCTION__, &item))
 			return mvPythonTranslator::GetPyNone();
 
-		auto appitem = mvApp::GetApp()->getItem(item);
+		if (std::string(item) == "logger##standard")
+			return mvPythonTranslator::ToPyInt(mvAppLog::GetWindowHeight());
 
+		// check if item is a regular item
+		mvAppItem* appitem = mvApp::GetApp()->getItem(item);
 		if (appitem)
 			return mvPythonTranslator::ToPyInt(appitem->getHeight());
 
+		// check if item is a standard window
+		if (appitem == nullptr)
+		{
+			mvStandardWindow* swindow = mvApp::GetApp()->getStandardWindow(item);
+			if (swindow)
+				return mvPythonTranslator::ToPyInt(swindow->getWindowHeight());
+			else
+				ThrowPythonException(item + std::string(" item was not found"));
+		}
 		return mvPythonTranslator::GetPyNone();
 	}
 
@@ -5207,11 +5247,23 @@ namespace Marvel {
 		if (!(*mvApp::GetApp()->getParsers())["get_item_width"].parse(args, kwargs, __FUNCTION__, &item))
 			return mvPythonTranslator::GetPyNone();
 
-		auto appitem = mvApp::GetApp()->getItem(item);
+		if (std::string(item) == "logger##standard")
+			return mvPythonTranslator::ToPyInt(mvAppLog::GetWindowWidth());
 
+		// check if item is a regular item
+		mvAppItem* appitem = mvApp::GetApp()->getItem(item);
 		if (appitem)
 			return mvPythonTranslator::ToPyInt(appitem->getWidth());
 
+		// check if item is a standard window
+		if (appitem == nullptr)
+		{
+			mvStandardWindow* swindow = mvApp::GetApp()->getStandardWindow(item);
+			if (swindow)
+				return mvPythonTranslator::ToPyInt(swindow->getWindowWidth());
+			else
+				ThrowPythonException(item + std::string(" item was not found"));
+		}
 		return mvPythonTranslator::GetPyNone();
 	}
 
@@ -5900,12 +5952,26 @@ namespace Marvel {
 		if (!(*mvApp::GetApp()->getParsers())["set_item_width"].parse(args, kwargs, __FUNCTION__, &item, &width))
 			return mvPythonTranslator::GetPyNone();
 
-		auto appitem = mvApp::GetApp()->getItem(item);
+		if (std::string(item) == "logger##standard")
+		{
+			mvAppLog::SetWidth(width);
+			return mvPythonTranslator::GetPyNone();
+		}
 
+		// check if item is a regular item
+		mvAppItem* appitem = mvApp::GetApp()->getItem(item);
 		if (appitem)
 			appitem->setWidth(width);
 
-
+		// check if item is a standard window
+		if (appitem == nullptr)
+		{
+			mvStandardWindow* swindow = mvApp::GetApp()->getStandardWindow(item);
+			if (swindow)
+				swindow->setWidth(width);
+			else
+				ThrowPythonException(item + std::string(" item was not found"));
+		}
 		return mvPythonTranslator::GetPyNone();
 	}
 
@@ -5917,12 +5983,25 @@ namespace Marvel {
 		if (!(*mvApp::GetApp()->getParsers())["set_item_height"].parse(args, kwargs, __FUNCTION__, &item, &height))
 			return mvPythonTranslator::GetPyNone();
 
-		auto appitem = mvApp::GetApp()->getItem(item);
+		if (std::string(item) == "logger##standard")
+		{
+			mvAppLog::SetHeight(height);
+			return mvPythonTranslator::GetPyNone();
+		}
 
+		mvAppItem* appitem = mvApp::GetApp()->getItem(item);
 		if (appitem)
 			appitem->setHeight(height);
 
-
+		// check if item is a standard window
+		if (appitem == nullptr)
+		{
+			mvStandardWindow* swindow = mvApp::GetApp()->getStandardWindow(item);
+			if (swindow)
+				swindow->setHeight(height);
+			else
+				ThrowPythonException(item + std::string(" item was not found"));
+		}
 		return mvPythonTranslator::GetPyNone();
 	}
 
@@ -5963,19 +6042,19 @@ namespace Marvel {
 
 	PyObject* show_style_editor(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
-		mvApp::GetApp()->showStandardWindow("style");
+		mvApp::GetApp()->showStandardWindow("style##standard");
 		return mvPythonTranslator::GetPyNone();
 	}
 
 	PyObject* show_metrics(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
-		mvApp::GetApp()->showStandardWindow("metrics");
+		mvApp::GetApp()->showStandardWindow("metrics##standard");
 		return mvPythonTranslator::GetPyNone();
 	}
 
 	PyObject* show_about(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
-		mvApp::GetApp()->showStandardWindow("about");
+		mvApp::GetApp()->showStandardWindow("about##standard");
 		return mvPythonTranslator::GetPyNone();
 	}
 
@@ -5986,7 +6065,7 @@ namespace Marvel {
 		if (!(*mvApp::GetApp()->getParsers())["show_source"].parse(args, kwargs, __FUNCTION__, &file))
 			return mvPythonTranslator::GetPyNone();
 
-		mvApp::GetApp()->showStandardWindow("source");
+		mvApp::GetApp()->showStandardWindow("source##standard");
 		auto window = static_cast<mvSourceWindow*>(mvApp::GetApp()->getStandardWindow("source"));
 		window->setFile(file);
 		return mvPythonTranslator::GetPyNone();
@@ -5994,13 +6073,13 @@ namespace Marvel {
 
 	PyObject* show_debug(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
-		mvApp::GetApp()->showStandardWindow("debug");
+		mvApp::GetApp()->showStandardWindow("debug##standard");
 		return mvPythonTranslator::GetPyNone();
 	}
 
 	PyObject* show_documentation(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
-		mvApp::GetApp()->showStandardWindow("documentation");
+		mvApp::GetApp()->showStandardWindow("documentation##standard");
 		return mvPythonTranslator::GetPyNone();
 	}
 
@@ -6763,7 +6842,7 @@ NULL, NULL, 0, NULL
 		PyErr_Print();
 
 		// create window
-		auto window = mvWindow::CreatemvWindow(mvApp::GetApp()->getActualWidth(), mvApp::GetApp()->getActualHeight(), false, true);
+		auto window = mvWindow::CreatemvWindow(mvApp::GetApp()->getActualWidth(), mvApp::GetApp()->getActualHeight(), true);
 		window->show();
 		window->run();
 		delete window;

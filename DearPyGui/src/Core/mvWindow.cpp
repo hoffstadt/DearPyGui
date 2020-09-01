@@ -5,12 +5,10 @@
 
 namespace Marvel {
 
-	mvWindow::mvWindow(unsigned width, unsigned height, bool editor, bool error, bool doc) :
-		m_editor(editor), m_error(error), m_doc(doc), m_width(width), m_height(height)
+	mvWindow::mvWindow(unsigned width, unsigned height, bool error) :
+		m_error(error), m_width(width), m_height(height)
 	{
 		m_app = mvApp::GetAppStandardWindow();
-		m_appEditor = new mvAppEditor();
-		m_documentation = mvDocWindow::GetWindow();
 
 		if (m_error)
 		{
@@ -18,11 +16,6 @@ namespace Marvel {
 			mvAppLog::setSize(width, height);
 		}
 
-		else if (m_doc)
-		{
-			m_documentation->setToMainMode();
-			m_documentation->setSize(width, height);
-		}
 	}
 
 	void mvWindow::setupFonts()
@@ -88,12 +81,6 @@ namespace Marvel {
 
 			
 		}
-	}
-
-	mvWindow::~mvWindow()
-	{
-		delete m_appEditor;
-		m_appEditor = nullptr;
 	}
 
 }

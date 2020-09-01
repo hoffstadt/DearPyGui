@@ -26,6 +26,9 @@ namespace Marvel {
 	unsigned mvAppLog::s_width = 500;
 	unsigned mvAppLog::s_height = 500;
 	ImGuiWindowFlags mvAppLog::s_flags = ImGuiWindowFlags_NoSavedSettings;
+	int  mvAppLog::s_xpos = 200;
+	int  mvAppLog::s_ypos = 200;
+	bool mvAppLog::s_dirty = true;
 
 	void mvAppLog::Clear()
 	{
@@ -63,10 +66,16 @@ namespace Marvel {
 			s_flags = ImGuiWindowFlags_NoBringToFrontOnFocus | ImGuiWindowFlags_NoSavedSettings
 				| ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoTitleBar;
 		}
-		else
-			ImGui::SetNextWindowSize(ImVec2((float)s_width, (float)s_width), ImGuiCond_FirstUseEver);
 
-		if (!ImGui::Begin("DearPyGui Logger", &show, s_flags))
+		if (s_dirty)
+		{
+			ImGui::SetNextWindowPos(ImVec2((float)s_xpos, (float)s_ypos));
+			ImGui::SetNextWindowSize(ImVec2((float)s_width, (float)s_height));
+			s_dirty = false;
+		}
+
+
+		if (!ImGui::Begin("Dear PyGui Logger", &show, s_flags))
 		{
 			ImGui::End();
 			return;

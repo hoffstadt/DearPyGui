@@ -158,11 +158,6 @@ namespace Marvel {
 
     void mvStyleWindow::render(bool& show)
     {
-        if (!ImGui::Begin("DearPyGui Style Editor", &show, m_flags))
-        {
-            ImGui::End();
-            return;
-        }
 
         ImGuiStyle* ref = nullptr;
 

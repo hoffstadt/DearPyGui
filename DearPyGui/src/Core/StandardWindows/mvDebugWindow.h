@@ -13,7 +13,7 @@ namespace Marvel {
 
 	public:
 
-		mvDebugWindow() : mvStandardWindow() 
+		mvDebugWindow() : mvStandardWindow("Dear PyGui Debug") 
 		{ 
 			m_width = 500; 
 			m_height = 500;  

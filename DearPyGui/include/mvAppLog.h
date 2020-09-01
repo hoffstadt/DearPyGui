@@ -26,6 +26,17 @@ namespace Marvel {
 		static unsigned getLogLevel() { return s_loglevel; }
 		static void     Show() { show = true; }
 		static void     ShowMain() { show = true; mainmode = true; }
+		static void     SetWindowPos(float x, float y)
+		{
+			s_xpos = (int)x;
+			s_ypos = (int)y;
+			s_dirty = true;
+		}
+		static void     SetWidth(int width) { s_width = width; s_dirty = true; }
+		static void     SetHeight(int height) { s_height = height; s_dirty = true; }
+
+		[[nodiscard]] static unsigned GetWindowWidth() { return s_width; }
+		[[nodiscard]] static unsigned GetWindowHeight() { return s_height; }
 
 	private:
 
@@ -44,6 +55,9 @@ namespace Marvel {
 		static unsigned         s_width;
 		static unsigned         s_height;
 		static ImGuiWindowFlags s_flags;
+		static int              s_xpos;
+		static int              s_ypos;
+		static bool             s_dirty;
 
 #if defined (_WIN32)
         static std::chrono::steady_clock::time_point s_start;

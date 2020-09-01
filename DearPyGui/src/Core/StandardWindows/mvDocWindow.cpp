@@ -9,7 +9,7 @@ namespace Marvel {
 
 	mvDocWindow* mvDocWindow::s_instance = nullptr;
 
-	mvDocWindow::mvDocWindow() : mvStandardWindow()
+	mvDocWindow::mvDocWindow() : mvStandardWindow("Dear PyGui Documentation")
 	{
 		setup();
 	}
@@ -129,27 +129,6 @@ namespace Marvel {
 
 	void mvDocWindow::render(bool& show)
 	{
-		if (m_mainMode)
-		{
-			ImGuiStyle& style = ImGui::GetStyle();
-			style.WindowRounding = 0.0f;
-			ImGui::SetNextWindowPos(ImVec2(0.0f, 0.0f));
-			ImGui::SetNextWindowSize(ImVec2((float)m_width, (float)m_height));
-			m_flags = ImGuiWindowFlags_NoBringToFrontOnFocus | ImGuiWindowFlags_NoSavedSettings
-				| ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoTitleBar;
-		}
-
-		else
-		{
-			ImGui::SetNextWindowPos(ImVec2(0.0f, 0.0f), ImGuiCond_FirstUseEver);
-			ImGui::SetNextWindowSize(ImVec2(700, 500), ImGuiCond_FirstUseEver);
-		}
-
-		if (!ImGui::Begin("Documentation##doc", &show, m_flags))
-		{
-			ImGui::End();
-			return;
-		}
 
 		if (ImGui::BeginTabBar("Main Tabbar##doc"))
 		{

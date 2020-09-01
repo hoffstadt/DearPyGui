@@ -18,11 +18,11 @@ namespace Marvel {
 
     public:
 
-        mvStandardWindow() : mvEventHandler() {}
+        mvStandardWindow(const char* name) : mvEventHandler(), m_name(name){}
 
         virtual ~mvStandardWindow() = default;
 
-        virtual void prerender();
+        virtual bool prerender(bool& show);
         virtual void render(bool& show) = 0;
         virtual void postrender() {}
 
@@ -34,12 +34,25 @@ namespace Marvel {
         [[nodiscard]] unsigned getWindowWidth    () const;
         [[nodiscard]] unsigned getWindowHeight   () const;
 
+        void setWindowPos(float x, float y)
+        {
+            m_xpos = (int)x;
+            m_ypos = (int)y;
+            m_dirty = true;
+        }
+        void setWidth(int width) { m_width = width; m_dirty = true; }
+        void setHeight(int height) { m_height = height; m_dirty = true; }
+
     protected:
 
         bool             m_mainMode = false;
-        unsigned         m_width = 1280;
-        unsigned         m_height = 800;
+        unsigned         m_width = 500;
+        unsigned         m_height = 500;
+        int              m_xpos = 200;
+        int              m_ypos = 200;
+        bool             m_dirty = true;
         ImGuiWindowFlags m_flags = ImGuiWindowFlags_NoSavedSettings;
+        std::string      m_name;
 
         std::map<std::string, StandardWindowEntry> m_standardWindows;
 

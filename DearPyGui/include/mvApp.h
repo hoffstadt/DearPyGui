@@ -101,7 +101,7 @@ namespace Marvel {
         //-----------------------------------------------------------------------------
         void precheck        ();                    // precheck before the main render loop has started
         void firstRenderFrame();                    // only ran during first frame
-        void prerender       ()           override; // pre rendering (every frame)
+        bool prerender       (bool& show) override; // pre rendering (every frame)
         void render          (bool& show) override; // actual render loop
         void postrender      ()           override; // post rendering (every frame)
         
