@@ -114,7 +114,9 @@ namespace Marvel {
             // Generally you may always pass all inputs to dear imgui, and hide them from your application based on those two flags.
             glfwPollEvents();
 
-            glfwSwapInterval(mvApp::GetApp()->getVSync() ? 1 : 0); // Enable vsync
+            //glfwSwapInterval(mvApp::GetApp()->getVSync() ? 1 : 0); // Enable vsync
+
+            m_layer.displaySyncEnabled = mvApp::GetApp()->getVSync();
 
             int width, height;
             glfwGetFramebufferSize(m_window, &width, &height);
