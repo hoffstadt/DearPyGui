@@ -134,18 +134,34 @@ jobs:
 
   build-Ubuntu:
     
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-18.04
     if: "contains(github.event.head_commit.message, 'ci run')"
+
+    strategy:
+      # You can use PyPy versions in python-version.
+      # For example, pypy2 and pypy3
+      matrix:
+        python-version: [3.8]
 
     steps:
 
     - uses: actions/checkout@v2
+
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v2
+      with:
+        python-version: ${{ matrix.python-version }}
+        architecture: 'x64' 
+
+    - name: Display Python version
+      run: python -c "import sys; print(sys.version)"
 
     - name: Retrieve submodules
       run: git submodule update --init --recursive
     
     - name: Build Python
       run: |
+        sudo apt-get install libgl1-mesa-dev
         sudo apt-get install xorg-dev
         cd Dependencies/cpython
         mkdir debug
@@ -167,8 +183,28 @@ jobs:
 
   build-Ubuntu37:
     
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-18.04
     if: "contains(github.event.head_commit.message, 'ci run')"
+
+    strategy:
+
+      # You can use PyPy versions in python-version.
+      # For example, pypy2 and pypy3
+      matrix:
+        python-version: [3.7]
+
+    steps:
+
+    - uses: actions/checkout@v2
+
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v2
+      with:
+        python-version: ${{ matrix.python-version }}
+        architecture: 'x64' 
+
+    - name: Display Python version
+      run: python -c "import sys; print(sys.version)"
 
     steps:
 
