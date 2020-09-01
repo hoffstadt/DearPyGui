@@ -206,10 +206,6 @@ jobs:
     - name: Display Python version
       run: python -c "import sys; print(sys.version)"
 
-    steps:
-
-    - uses: actions/checkout@v2
-
     - name: Retrieve submodules
       run: |
         git submodule update --init --recursive
