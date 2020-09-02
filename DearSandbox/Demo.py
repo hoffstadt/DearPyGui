@@ -33,6 +33,21 @@ add_menu_item("Show Debug", callback="show_debug")
 add_menu_item("Show Style Editor", callback="show_style_editor")
 end_menu()
 
+add_menu("Oddities")
+add_button("A Button")
+add_simple_plot("A menu plot", (0.3, 0.9, 2.5, 8.9), height = 80)
+add_table("A Menu Table", ["Column 1", "Column 2", "Column 3", "Column 4"])
+set_item_height("A Menu Table", 200)
+tabledata1 = []
+for i in range(0, 10):
+    row = []
+    for j in range(0, 4):
+        row.append("Item"+str(i)+"-"+str(j))
+    tabledata1.append(row)
+
+set_value("A Menu Table", tabledata1)
+end_menu()
+
 end_menu_bar()
 
 #add_image("image", "/Users/jonathanhoffstadt/Desktop/demo.jpg")
