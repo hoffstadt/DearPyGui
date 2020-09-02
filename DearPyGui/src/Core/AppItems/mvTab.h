@@ -27,6 +27,7 @@ namespace Marvel {
 		mvTabBar(const std::string& parent, const std::string& name, bool reorderable = false)
 			: mvStringItemBase(parent, name, "")
 		{
+			m_container = true;
 			if (reorderable)
 				m_flags |= ImGuiTabBarFlags_Reorderable;
 		
@@ -92,6 +93,7 @@ namespace Marvel {
 		mvTab(const std::string& parent, const std::string& name, bool closable = false)
 			: mvBoolItemBase(parent, name, false), m_closable(closable)
 		{
+			m_container = true;
 		}
 
 		void draw() override
