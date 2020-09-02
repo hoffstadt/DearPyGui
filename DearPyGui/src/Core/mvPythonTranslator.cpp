@@ -506,12 +506,22 @@ namespace Marvel {
 			for (size_t i = 0; i < PyTuple_Size(value); i++)
 			{
 				PyObject* point = PyTuple_GetItem(value, i);
-				if (PyTuple_Size(point) >= 2)
+				if(PyTuple_Check(point))
 				{
-					int x = PyLong_AsLong(PyTuple_GetItem(point, 0));
-					int y = PyLong_AsLong(PyTuple_GetItem(point, 1));
-					items.emplace_back(x, y);
-				}
+                    if (PyTuple_Size(point) >= 2) {
+                        int x = PyLong_AsLong(PyTuple_GetItem(point, 0));
+                        int y = PyLong_AsLong(PyTuple_GetItem(point, 1));
+                        items.emplace_back(x, y);
+                    }
+                }
+                else if(PyList_Check(point))
+                {
+                    if (PyList_Size(point) >= 2) {
+                        int x = PyLong_AsLong(PyList_GetItem(point, 0));
+                        int y = PyLong_AsLong(PyList_GetItem(point, 1));
+                        items.emplace_back(x, y);
+                    }
+                }
 				else
 					items.emplace_back(0, 0);
 			}
@@ -522,12 +532,22 @@ namespace Marvel {
 			for (size_t i = 0; i < PyList_Size(value); i++)
 			{
 				PyObject* point = PyList_GetItem(value, i);
-				if (PyList_Size(point) >= 2)
-				{
-					int x = PyLong_AsLong(PyList_GetItem(point, 0));
-					int y = PyLong_AsLong(PyList_GetItem(point, 1));
-					items.emplace_back(x, y);
-				}
+                if(PyTuple_Check(point))
+                {
+                    if (PyTuple_Size(point) >= 2) {
+                        int x = PyLong_AsLong(PyTuple_GetItem(point, 0));
+                        int y = PyLong_AsLong(PyTuple_GetItem(point, 1));
+                        items.emplace_back(x, y);
+                    }
+                }
+                else if(PyList_Check(point))
+                {
+                    if (PyList_Size(point) >= 2) {
+                        int x = PyLong_AsLong(PyList_GetItem(point, 0));
+                        int y = PyLong_AsLong(PyList_GetItem(point, 1));
+                        items.emplace_back(x, y);
+                    }
+                }
 				else
 					items.emplace_back(0, 0);
 			}
