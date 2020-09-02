@@ -30,6 +30,7 @@ Decorated log: https://github.com/hoffstadt/DearPyGui/releases/tag/v0.1.0-beta17
 
 Fixes:
 
+- Plot:  Adding new data to a plot bring all data into view
 - MacOs: Fixed unthrottled event loop when minimized
 - Linux: Fixed unthrottled event loop when minimized
 
