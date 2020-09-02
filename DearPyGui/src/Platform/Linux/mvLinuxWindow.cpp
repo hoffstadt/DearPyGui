@@ -130,6 +130,12 @@ namespace Marvel {
     {
         m_running = !glfwWindowShouldClose(m_window);
 
+        if(glfwGetWindowAttrib(m_window, GLFW_ICONIFIED))
+        {
+            glfwWaitEvents();
+            return;
+        }
+
         // Poll and handle events (inputs, window resize, etc.)
         // You can read the io.WantCaptureMouse, io.WantCaptureKeyboard flags to tell if dear imgui wants to use your inputs.
         // - When io.WantCaptureMouse is true, do not dispatch mouse input data to your main application.
