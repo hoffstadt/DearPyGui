@@ -21,13 +21,27 @@ namespace Marvel {
 	class mvSeries
 	{
 
+        friend class mvPlot;
+
 	public:
 
 		mvSeries(std::string  name, const std::vector<mvVec2>& points)
 			: m_name(std::move(name))
 		{
+		    if(!points.empty())
+            {
+		        m_maxX = points[0].x;
+		        m_minX = points[0].x;
+		        m_maxY = points[0].y;
+		        m_minY = points[0].y;
+            }
+
 			for (auto& point : points)
 			{
+			    if(point.x > m_maxX) m_maxX = point.x;
+			    if(point.y > m_maxY) m_maxY = point.y;
+			    if(point.x < m_minX) m_minX = point.x;
+			    if(point.y < m_minY) m_minY = point.y;
 				m_xs.push_back(point.x);
 				m_ys.push_back(point.y);
 			}
@@ -43,6 +57,10 @@ namespace Marvel {
 		std::string        m_name;
 		std::vector<float> m_xs;
 		std::vector<float> m_ys;
+		float              m_maxX;
+		float              m_maxY;
+		float              m_minX;
+		float              m_minY;
 
 	};
 
@@ -68,7 +86,14 @@ namespace Marvel {
 
 		void addSeries(mvSeries* series)
 		{
+		    if(series->m_minX < m_xlimits.x ) m_xlimits.x = series->m_minX;
+		    if(series->m_minY < m_ylimits.x ) m_ylimits.x = series->m_minY;
+		    if(series->m_maxX > m_xlimits.y ) m_xlimits.y = series->m_maxX;
+		    if(series->m_maxY > m_ylimits.y ) m_ylimits.y = series->m_maxY;
+
 			m_series.push_back(series);
+
+			m_dirty = true;
 		}
 
 		void SetColorMap(ImPlotColormap colormap)
@@ -117,17 +142,21 @@ namespace Marvel {
 			}
 
 			m_series.clear();
+
 		}
 
 		void draw() override
 		{
 			ImGui::PushID(m_colormap);
 
-			if (m_setXLimits)
-				ImPlot::SetNextPlotLimitsX(m_xlimits.x, m_xlimits.y, ImGuiCond_Always);
+			if (m_setXLimits || m_dirty)
+                ImPlot::SetNextPlotLimitsX(m_xlimits.x, m_xlimits.y, ImGuiCond_Always);
 
-			if (m_setYLimits)
+			if (m_setYLimits || m_dirty)
 				ImPlot::SetNextPlotLimitsY(m_ylimits.x, m_ylimits.y, ImGuiCond_Always);
+
+			// resets automatic sizing when new data is added
+			if(m_dirty) m_dirty = false;
 
 			if (!m_xlabels.empty())
 			{
@@ -228,6 +257,7 @@ namespace Marvel {
 		std::string     m_queryCallback;
 		bool            m_queried = false;
 		float           m_queryArea[4] = {0.0f , 0.0f, 0.0f, 0.0f};
+		bool            m_dirty = false;
 		
 		std::vector<std::string> m_xlabels;
 		std::vector<std::string> m_ylabels;
