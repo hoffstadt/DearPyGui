@@ -99,8 +99,12 @@ namespace Marvel {
 			{
 
 				// set other menus's value false on same level
-				for (mvAppItem* child : m_parent->getChildren())
-                    ((mvMenu*)child)->setValue(false);
+                for (mvAppItem* sibling : m_parent->getChildren())
+                {
+                    // ensure sibling
+                    if(sibling->getType() == mvAppItemType::Menu)
+                        ((mvMenu *) sibling)->setValue(false);
+                }
 
 				// set current menu value true
 				m_value = true;
@@ -162,9 +166,13 @@ namespace Marvel {
 			if (ImGui::MenuItem(m_label.c_str(), nullptr))
 			{
 
-				// set other menusitems's value false on same level
-				for (mvAppItem* child : m_parent->getChildren())
-                    ((mvMenuItem*)child)->setValue(false);
+				// set other menuitems's value false on same level
+				for (mvAppItem* sibling : m_parent->getChildren())
+				{
+				    // ensure sibling
+				    if(sibling->getType() == mvAppItemType::MenuItem)
+                        ((mvMenuItem *) sibling)->setValue(false);
+                }
 
 				m_value = true;
 
