@@ -180,6 +180,21 @@ namespace Marvel {
 		if (AutoScroll && ImGui::GetScrollY() >= ImGui::GetScrollMaxY())
 			ImGui::SetScrollHereY(0.0f);
 
+		if (ImGui::IsWindowFocused())
+		{
+
+			float titleBarHeight = ImGui::GetStyle().FramePadding.y * 2 + ImGui::GetFontSize();
+
+			// update mouse
+			ImVec2 mousePos = ImGui::GetMousePos();
+			mvInput::setGlobalMousePosition(mousePos.x, mousePos.y);
+			float x = mousePos.x - ImGui::GetWindowPos().x;
+			float y = mousePos.y - ImGui::GetWindowPos().y - titleBarHeight;
+			mvInput::setMousePosition(x, y);
+			mvApp::GetApp()->setActiveWindow("logger##standard");
+
+		}
+
 		ImGui::EndChild();
 
 		if (ImGui::IsWindowFocused())

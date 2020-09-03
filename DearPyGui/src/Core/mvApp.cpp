@@ -185,7 +185,9 @@ namespace Marvel {
 		routeInputCallbacks();
 
 		// run render callbacks
-		if (m_activeWindow == "MainWindow" || m_activeWindow == "style" || m_activeWindow == "source" || m_activeWindow == "metrics" || m_activeWindow == "about" || m_activeWindow == "debug")
+		if (m_activeWindow == "MainWindow" || m_activeWindow == "style##standard" ||
+			m_activeWindow == "source##standard" || m_activeWindow == "metrics##standard" || 
+			m_activeWindow == "about##standard" || m_activeWindow == "debug##standard")
 		{
 			if (!getRenderCallback().empty())
 				runCallback(getRenderCallback(), "Main Application");
@@ -462,16 +464,34 @@ namespace Marvel {
 		// Note: Events are only routed to the active window
 
 		// default handler is main window
+		if (m_activeWindow == "logger##standard") 
+			m_activeWindow = "MainWindow";
 		mvEventHandler* eventHandler = static_cast<mvEventHandler*>(this);
 		if (m_activeWindow != "MainWindow")
 		{
+
+			bool handler_found = false;
 			for (auto window : m_windows)
 			{
 				if (window->getName() == m_activeWindow)
 				{
 					auto windowtype = static_cast<mvWindowAppitem*>(window);
 					eventHandler = static_cast<mvEventHandler*>(windowtype);
+					handler_found = true;
 					break;
+				}
+			}
+
+			if (!handler_found)
+			{
+				for (auto& entrypair : m_standardWindows)
+				{
+					if (entrypair.first == m_activeWindow)
+					{
+						eventHandler = static_cast<mvEventHandler*>(entrypair.second.window);
+						handler_found = true;
+						break;
+					}
 				}
 			}
 		}
