@@ -3,9 +3,9 @@
 //-----------------------------------------------------------------------------
 // mvEventHandler
 //
-//     - This is a temporary class for v0.1 until a more complete event 
+//     - This is a temporary class for v1.0 until a more complete event 
 //       handling system is put in place. Which will be required for the
-//       upcoming v0.2 custom widget API.
+//       upcoming v2.0 custom widget API.
 //     
 //     - Currently this is used by mvWindowAppItem and mvApp
 //-----------------------------------------------------------------------------
@@ -32,15 +32,17 @@ namespace Marvel {
         //-----------------------------------------------------------------------------
         void setRenderCallback          (const std::string& callback) { m_renderCallback = callback; }
         void setResizeCallback          (const std::string& callback) { m_resizeCallback = callback; }
-        void setMouseClickCallback      (const std::string& callback) { m_handleMouse = true; m_mouseClickCallback = callback; }
-        void setMouseDownCallback       (const std::string& callback) { m_handleMouse = true; m_mouseDownCallback = callback; }
-        void setMouseDoubleClickCallback(const std::string& callback) { m_handleMouse = true; m_mouseDoubleClickCallback = callback; }
-        void setMouseReleaseCallback    (const std::string& callback) { m_handleMouse = true; m_mouseReleaseCallback = callback; }
-        void setMouseWheelCallback      (const std::string& callback) { m_handleMouse = true; m_mouseWheelCallback = callback; }
-        void setMouseDragCallback       (const std::string& callback) { m_handleMouse = true; m_mouseDragCallback = callback; }
+        void setMouseMoveCallback       (const std::string& callback) { m_mouseMoveCallback = callback; }
+        void setMouseClickCallback      (const std::string& callback) { m_handleMouse    = true; m_mouseClickCallback = callback; }
+        void setMouseDownCallback       (const std::string& callback) { m_handleMouse    = true; m_mouseDownCallback = callback; }
+        void setMouseDoubleClickCallback(const std::string& callback) { m_handleMouse    = true; m_mouseDoubleClickCallback = callback; }
+        void setMouseReleaseCallback    (const std::string& callback) { m_handleMouse    = true; m_mouseReleaseCallback = callback; }
+        void setMouseWheelCallback      (const std::string& callback) { m_handleMouse    = true; m_mouseWheelCallback = callback; }
+        void setMouseDragCallback       (const std::string& callback) { m_handleMouse    = true; m_mouseDragCallback = callback; }
         void setKeyDownCallback         (const std::string& callback) { m_handleKeyboard = true; m_keyDownCallback = callback; }
         void setKeyPressCallback        (const std::string& callback) { m_handleKeyboard = true; m_keyPressCallback = callback; }
         void setKeyReleaseCallback      (const std::string& callback) { m_handleKeyboard = true; m_keyReleaseCallback = callback; }
+
 
         [[nodiscard]] const std::string& getRenderCallback          () const { return m_renderCallback; }
         [[nodiscard]] const std::string& getResizeCallback          () const { return m_resizeCallback; }
@@ -53,6 +55,7 @@ namespace Marvel {
         [[nodiscard]] const std::string& getKeyPressCallback        () const { return m_keyPressCallback; }
         [[nodiscard]] const std::string& getKeyReleaseCallback      () const { return m_keyReleaseCallback; }
         [[nodiscard]] const std::string& getMouseWheelCallback      () const { return m_mouseWheelCallback; }
+        [[nodiscard]] const std::string& getMouseMoveCallback       () const { return m_mouseMoveCallback; }
 
     private:
 
@@ -68,9 +71,10 @@ namespace Marvel {
         std::string m_keyPressCallback;
         std::string m_keyReleaseCallback;
         std::string m_resizeCallback;
+        std::string m_mouseMoveCallback;
 
-        bool m_handleMouse    = false;
-        bool m_handleKeyboard = false;
+        bool   m_handleMouse    = false;
+        bool   m_handleKeyboard = false;  
 
     };
 

@@ -3,6 +3,7 @@
 #include "mvApp.h"
 #include "mvStyleWindow.h"
 #include "Core/mvInput.h"
+#include "mvPythonTranslator.h"
 
 #define IM_MIN(A, B)            (((A) < (B)) ? (A) : (B))
 #define IM_MAX(A, B)            (((A) >= (B)) ? (A) : (B))
@@ -411,13 +412,24 @@ namespace Marvel {
                 float titleBarHeight = ImGui::GetStyle().FramePadding.y * 2 + ImGui::GetFontSize();
 
                 // update mouse
+                mvVec2 oldMousePos = mvInput::getGlobalMousePosition();
                 ImVec2 mousePos = ImGui::GetMousePos();
                 mvInput::setGlobalMousePosition(mousePos.x, mousePos.y);
                 float x = mousePos.x - ImGui::GetWindowPos().x;
                 float y = mousePos.y - ImGui::GetWindowPos().y - titleBarHeight;
                 mvInput::setMousePosition(x, y);
 
-                mvApp::GetApp()->setActiveWindow("Style");
+                mvApp::GetApp()->setActiveWindow("style##standard");
+
+                // mouse move callback
+                if (!getMouseMoveCallback().empty())
+                {
+                    if (oldMousePos.x != mousePos.x || oldMousePos.y != mousePos.y)
+                    {
+                        mvApp::GetApp()->runCallback(getMouseMoveCallback(), m_name,
+                            mvPythonTranslator::ToPyPair(x, y));
+                    }
+                }
 
             }
 

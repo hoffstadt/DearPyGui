@@ -354,6 +354,12 @@ namespace Marvel {
 
 	static void AddInputCommands(std::map<std::string, mvPythonParser>* parsers)
 	{
+		parsers->insert({ "set_mouse_move_callback", mvPythonParser({
+			{mvPythonDataType::String, "callback"},
+			{mvPythonDataType::Optional},
+			{mvPythonDataType::String, "handler", "Callback will be run when event occurs while this window is active (default is main window)"},
+		}, "Sets a callback for a mouse move event. Data is the mouse position in local coordinates.", "None", "Input Polling") });
+
 		parsers->insert({ "set_render_callback", mvPythonParser({
 			{mvPythonDataType::String, "callback"},
 			{mvPythonDataType::Optional},

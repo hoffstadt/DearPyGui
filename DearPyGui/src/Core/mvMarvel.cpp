@@ -2405,16 +2405,35 @@ namespace Marvel {
 			return mvPythonTranslator::GetPyNone();
 
 		if (std::string(handler) == "MainWindow")
-			mvApp::GetApp()->setMouseDownCallback(std::string(callback));
+			mvApp::GetApp()->setMouseDownCallback(callback);
 		else
 		{
-			mvAppItem* item;
-			item = mvApp::GetApp()->getItem(handler);
+			mvAppItem* item = mvApp::GetApp()->getItem(handler);
 			if (item)
 			{
-				auto windowtype = static_cast<mvWindowAppitem*>(item);
-				static_cast<mvEventHandler*>(windowtype)->setMouseDownCallback(callback);
+				if (item->getType() == mvAppItemType::Window)
+				{
+					auto windowtype = static_cast<mvWindowAppitem*>(item);
+					windowtype->setMouseDownCallback(callback);
+					return mvPythonTranslator::GetPyNone();
+				}
+				else
+				{
+					ThrowPythonException(std::string(handler) + " handler is not a window.");
+					return mvPythonTranslator::GetPyNone();
+				}
 			}
+
+
+			// check if item is a standard window
+			mvStandardWindow* window = mvApp::GetApp()->getStandardWindow(handler);
+			if (window == nullptr)
+			{
+				ThrowPythonException(std::string(handler) + " handler item was not found.");
+				return mvPythonTranslator::GetPyNone();
+			}
+
+			window->setMouseDownCallback(callback);
 		}
 
 		return mvPythonTranslator::GetPyNone();
@@ -2432,16 +2451,35 @@ namespace Marvel {
 		mvInput::setMouseDragThreshold(threshold);
 
 		if (std::string(handler) == "MainWindow")
-			mvApp::GetApp()->setMouseDragCallback(std::string(callback));
+			mvApp::GetApp()->setMouseDragCallback(callback);
 		else
 		{
-			mvAppItem* item;
-			item = mvApp::GetApp()->getItem(handler);
+			mvAppItem* item = mvApp::GetApp()->getItem(handler);
 			if (item)
 			{
-				auto windowtype = static_cast<mvWindowAppitem*>(item);
-				static_cast<mvEventHandler*>(windowtype)->setMouseDragCallback(callback);
+				if (item->getType() == mvAppItemType::Window)
+				{
+					auto windowtype = static_cast<mvWindowAppitem*>(item);
+					windowtype->setMouseDragCallback(callback);
+					return mvPythonTranslator::GetPyNone();
+				}
+				else
+				{
+					ThrowPythonException(std::string(handler) + " handler is not a window.");
+					return mvPythonTranslator::GetPyNone();
+				}
 			}
+
+
+			// check if item is a standard window
+			mvStandardWindow* window = mvApp::GetApp()->getStandardWindow(handler);
+			if (window == nullptr)
+			{
+				ThrowPythonException(std::string(handler) + " handler item was not found.");
+				return mvPythonTranslator::GetPyNone();
+			}
+
+			window->setMouseDragCallback(callback);
 		}
 
 		return mvPythonTranslator::GetPyNone();
@@ -2456,16 +2494,35 @@ namespace Marvel {
 			return mvPythonTranslator::GetPyNone();
 
 		if (std::string(handler) == "MainWindow")
-			mvApp::GetApp()->setMouseDoubleClickCallback(std::string(callback));
+			mvApp::GetApp()->setMouseDoubleClickCallback(callback);
 		else
 		{
-			mvAppItem* item;
-			item = mvApp::GetApp()->getItem(handler);
+			mvAppItem* item = mvApp::GetApp()->getItem(handler);
 			if (item)
 			{
-				auto windowtype = static_cast<mvWindowAppitem*>(item);
-				static_cast<mvEventHandler*>(windowtype)->setMouseDoubleClickCallback(callback);
+				if (item->getType() == mvAppItemType::Window)
+				{
+					auto windowtype = static_cast<mvWindowAppitem*>(item);
+					windowtype->setMouseDoubleClickCallback(callback);
+					return mvPythonTranslator::GetPyNone();
+				}
+				else
+				{
+					ThrowPythonException(std::string(handler) + " handler is not a window.");
+					return mvPythonTranslator::GetPyNone();
+				}
 			}
+
+
+			// check if item is a standard window
+			mvStandardWindow* window = mvApp::GetApp()->getStandardWindow(handler);
+			if (window == nullptr)
+			{
+				ThrowPythonException(std::string(handler) + " handler item was not found.");
+				return mvPythonTranslator::GetPyNone();
+			}
+
+			window->setMouseDoubleClickCallback(callback);
 		}
 
 		return mvPythonTranslator::GetPyNone();
@@ -2480,16 +2537,35 @@ namespace Marvel {
 			return mvPythonTranslator::GetPyNone();
 
 		if (std::string(handler) == "MainWindow")
-			mvApp::GetApp()->setMouseClickCallback(std::string(callback));
+			mvApp::GetApp()->setMouseClickCallback(callback);
 		else
 		{
-			mvAppItem* item;
-			item = mvApp::GetApp()->getItem(handler);
+			mvAppItem* item = mvApp::GetApp()->getItem(handler);
 			if (item)
 			{
-				auto windowtype = static_cast<mvWindowAppitem*>(item);
-				static_cast<mvEventHandler*>(windowtype)->setMouseClickCallback(callback);
+				if (item->getType() == mvAppItemType::Window)
+				{
+					auto windowtype = static_cast<mvWindowAppitem*>(item);
+					windowtype->setMouseClickCallback(callback);
+					return mvPythonTranslator::GetPyNone();
+				}
+				else
+				{
+					ThrowPythonException(std::string(handler) + " handler is not a window.");
+					return mvPythonTranslator::GetPyNone();
+				}
 			}
+
+
+			// check if item is a standard window
+			mvStandardWindow* window = mvApp::GetApp()->getStandardWindow(handler);
+			if (window == nullptr)
+			{
+				ThrowPythonException(std::string(handler) + " handler item was not found.");
+				return mvPythonTranslator::GetPyNone();
+			}
+
+			window->setMouseClickCallback(callback);
 		}
 
 		return mvPythonTranslator::GetPyNone();
@@ -2504,16 +2580,35 @@ namespace Marvel {
 			return mvPythonTranslator::GetPyNone();
 
 		if (std::string(handler) == "MainWindow")
-			mvApp::GetApp()->setKeyDownCallback(std::string(callback));
+			mvApp::GetApp()->setKeyDownCallback(callback);
 		else
 		{
-			mvAppItem* item;
-			item = mvApp::GetApp()->getItem(handler);
+			mvAppItem* item = mvApp::GetApp()->getItem(handler);
 			if (item)
 			{
-				auto windowtype = static_cast<mvWindowAppitem*>(item);
-				static_cast<mvEventHandler*>(windowtype)->setKeyDownCallback(callback);
+				if (item->getType() == mvAppItemType::Window)
+				{
+					auto windowtype = static_cast<mvWindowAppitem*>(item);
+					windowtype->setKeyDownCallback(callback);
+					return mvPythonTranslator::GetPyNone();
+				}
+				else
+				{
+					ThrowPythonException(std::string(handler) + " handler is not a window.");
+					return mvPythonTranslator::GetPyNone();
+				}
 			}
+
+
+			// check if item is a standard window
+			mvStandardWindow* window = mvApp::GetApp()->getStandardWindow(handler);
+			if (window == nullptr)
+			{
+				ThrowPythonException(std::string(handler) + " handler item was not found.");
+				return mvPythonTranslator::GetPyNone();
+			}
+
+			window->setKeyDownCallback(callback);
 		}
 
 		return mvPythonTranslator::GetPyNone();
@@ -2528,16 +2623,35 @@ namespace Marvel {
 			return mvPythonTranslator::GetPyNone();
 
 		if (std::string(handler) == "MainWindow")
-			mvApp::GetApp()->setKeyPressCallback(std::string(callback));
+			mvApp::GetApp()->setKeyPressCallback(callback);
 		else
 		{
-			mvAppItem* item;
-			item = mvApp::GetApp()->getItem(handler);
+			mvAppItem* item = mvApp::GetApp()->getItem(handler);
 			if (item)
 			{
-				auto windowtype = static_cast<mvWindowAppitem*>(item);
-				static_cast<mvEventHandler*>(windowtype)->setKeyPressCallback(callback);
+				if (item->getType() == mvAppItemType::Window)
+				{
+					auto windowtype = static_cast<mvWindowAppitem*>(item);
+					windowtype->setKeyPressCallback(callback);
+					return mvPythonTranslator::GetPyNone();
+				}
+				else
+				{
+					ThrowPythonException(std::string(handler) + " handler is not a window.");
+					return mvPythonTranslator::GetPyNone();
+				}
 			}
+
+
+			// check if item is a standard window
+			mvStandardWindow* window = mvApp::GetApp()->getStandardWindow(handler);
+			if (window == nullptr)
+			{
+				ThrowPythonException(std::string(handler) + " handler item was not found.");
+				return mvPythonTranslator::GetPyNone();
+			}
+
+			window->setKeyPressCallback(callback);
 		}
 
 		return mvPythonTranslator::GetPyNone();
@@ -2552,16 +2666,35 @@ namespace Marvel {
 			return mvPythonTranslator::GetPyNone();
 
 		if (std::string(handler) == "MainWindow")
-			mvApp::GetApp()->setKeyReleaseCallback(std::string(callback));
+			mvApp::GetApp()->setKeyReleaseCallback(callback);
 		else
 		{
-			mvAppItem* item;
-			item = mvApp::GetApp()->getItem(handler);
+			mvAppItem* item = mvApp::GetApp()->getItem(handler);
 			if (item)
 			{
-				auto windowtype = static_cast<mvWindowAppitem*>(item);
-				static_cast<mvEventHandler*>(windowtype)->setKeyReleaseCallback(callback);
+				if (item->getType() == mvAppItemType::Window)
+				{
+					auto windowtype = static_cast<mvWindowAppitem*>(item);
+					windowtype->setKeyReleaseCallback(callback);
+					return mvPythonTranslator::GetPyNone();
+				}
+				else
+				{
+					ThrowPythonException(std::string(handler) + " handler is not a window.");
+					return mvPythonTranslator::GetPyNone();
+				}
 			}
+
+
+			// check if item is a standard window
+			mvStandardWindow* window = mvApp::GetApp()->getStandardWindow(handler);
+			if (window == nullptr)
+			{
+				ThrowPythonException(std::string(handler) + " handler item was not found.");
+				return mvPythonTranslator::GetPyNone();
+			}
+
+			window->setKeyReleaseCallback(callback);
 		}
 
 		return mvPythonTranslator::GetPyNone();
@@ -2576,16 +2709,78 @@ namespace Marvel {
 			return mvPythonTranslator::GetPyNone();
 
 		if (std::string(handler) == "MainWindow")
-			mvApp::GetApp()->setMouseWheelCallback(std::string(callback));
+			mvApp::GetApp()->setMouseWheelCallback(callback);
 		else
 		{
-			mvAppItem* item;
-			item = mvApp::GetApp()->getItem(handler);
+			mvAppItem* item = mvApp::GetApp()->getItem(handler);
 			if (item)
 			{
-				auto windowtype = static_cast<mvWindowAppitem*>(item);
-				static_cast<mvEventHandler*>(windowtype)->setMouseWheelCallback(callback);
+				if (item->getType() == mvAppItemType::Window)
+				{
+					auto windowtype = static_cast<mvWindowAppitem*>(item);
+					windowtype->setMouseWheelCallback(callback);
+					return mvPythonTranslator::GetPyNone();
+				}
+				else
+				{
+					ThrowPythonException(std::string(handler) + " handler is not a window.");
+					return mvPythonTranslator::GetPyNone();
+				}
 			}
+
+
+			// check if item is a standard window
+			mvStandardWindow* window = mvApp::GetApp()->getStandardWindow(handler);
+			if (window == nullptr)
+			{
+				ThrowPythonException(std::string(handler) + " handler item was not found.");
+				return mvPythonTranslator::GetPyNone();
+			}
+
+			window->setMouseWheelCallback(callback);
+		}
+
+		return mvPythonTranslator::GetPyNone();
+	}
+
+	PyObject* set_mouse_move_callback(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		const char* callback;
+		const char* handler = "MainWindow";
+
+		if (!(*mvApp::GetApp()->getParsers())["set_mouse_move_callback"].parse(args, kwargs, __FUNCTION__, &callback, &handler))
+			return mvPythonTranslator::GetPyNone();
+
+		if (std::string(handler) == "MainWindow")
+			mvApp::GetApp()->setMouseMoveCallback(callback);
+		else
+		{
+			mvAppItem* item = mvApp::GetApp()->getItem(handler);
+			if (item)
+			{
+				if (item->getType() == mvAppItemType::Window)
+				{
+					auto windowtype = static_cast<mvWindowAppitem*>(item);
+					windowtype->setMouseMoveCallback(callback);
+					return mvPythonTranslator::GetPyNone();
+				}
+				else
+				{
+					ThrowPythonException(std::string(handler) + " handler is not a window.");
+					return mvPythonTranslator::GetPyNone();
+				}
+			}
+
+
+			// check if item is a standard window
+			mvStandardWindow* window = mvApp::GetApp()->getStandardWindow(handler);
+			if (window == nullptr)
+			{
+				ThrowPythonException(std::string(handler) + " handler item was not found.");
+				return mvPythonTranslator::GetPyNone();
+			}
+			
+			window->setMouseMoveCallback(callback);
 		}
 
 		return mvPythonTranslator::GetPyNone();
@@ -6788,6 +6983,7 @@ namespace Marvel {
 		ADD_PYTHON_FUNCTION(set_key_press_callback)
 		ADD_PYTHON_FUNCTION(set_key_release_callback)
 		ADD_PYTHON_FUNCTION(set_resize_callback)
+		ADD_PYTHON_FUNCTION(set_mouse_move_callback)
 		ADD_PYTHON_FUNCTION(get_log_level)
 		ADD_PYTHON_FUNCTION(clear_log)
 		ADD_PYTHON_FUNCTION(show_logger)
