@@ -6330,7 +6330,7 @@ namespace Marvel {
 			return mvPythonTranslator::GetPyNone();
 
 		mvApp::GetApp()->showStandardWindow("source##standard");
-		auto window = static_cast<mvSourceWindow*>(mvApp::GetApp()->getStandardWindow("source"));
+		auto window = static_cast<mvSourceWindow*>(mvApp::GetApp()->getStandardWindow("source##standard"));
 		window->setFile(file);
 		return mvPythonTranslator::GetPyNone();
 	}

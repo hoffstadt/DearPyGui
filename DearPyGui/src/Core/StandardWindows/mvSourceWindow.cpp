@@ -33,8 +33,6 @@ namespace Marvel {
 	void mvSourceWindow::render(bool& show)
 	{
 		auto cpos = m_editor.GetCursorPosition();
-		ImGui::Begin("App Source", &show, ImGuiWindowFlags_HorizontalScrollbar | ImGuiWindowFlags_MenuBar);
-		ImGui::SetWindowSize(ImVec2(800, 600), ImGuiCond_FirstUseEver);
 		if (ImGui::BeginMenuBar())
 		{
 			if (ImGui::BeginMenu("Edit"))
