@@ -327,6 +327,11 @@ end_window()
 # callbacks
 
 set_render_callback("InputPollingMainCallback", "Input Polling##dialog")
+set_mouse_move_callback("mouse_move_callback", "Input Polling##dialog")
+
+def mouse_move_callback(sender, data):
+
+    print(sender, " : ", data)
 
 def InputPollingMainCallback(sender, data):
 

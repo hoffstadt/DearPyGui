@@ -934,6 +934,10 @@ def set_mouse_drag_callback(callback: str, threshold: float, handler: str = "") 
 	"""Sets a callback for a mouse drag event."""
 	...
 
+def set_mouse_move_callback(callback: str, handler: str = "") -> None:
+	"""Sets a callback for a mouse move event. Data is the mouse position in local coordinates."""
+	...
+
 def set_mouse_wheel_callback(callback: str, handler: str = "") -> None:
 	"""Sets a callback for a mouse wheel event."""
 	...

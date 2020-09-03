@@ -271,12 +271,23 @@ namespace Marvel {
 			float titleBarHeight = ImGui::GetStyle().FramePadding.y * 2 + ImGui::GetFontSize();
 
 			// update mouse
+			mvVec2 oldMousePos = mvInput::getGlobalMousePosition();
 			ImVec2 mousePos = ImGui::GetMousePos();
 			mvInput::setGlobalMousePosition(mousePos.x, mousePos.y);
 			float x = mousePos.x - ImGui::GetWindowPos().x;
 			float y = mousePos.y - ImGui::GetWindowPos().y - titleBarHeight;
 			mvInput::setMousePosition(x, y);
-			mvApp::GetApp()->setActiveWindow("debug");
+			mvApp::GetApp()->setActiveWindow("debug##standard");
+
+			// mouse move callback
+			if (!getMouseMoveCallback().empty())
+			{
+				if (oldMousePos.x != mousePos.x || oldMousePos.y != mousePos.y)
+				{
+					mvApp::GetApp()->runCallback(getMouseMoveCallback(), m_name,
+						mvPythonTranslator::ToPyPair(x, y));
+				}
+			}
 
 		}
 		

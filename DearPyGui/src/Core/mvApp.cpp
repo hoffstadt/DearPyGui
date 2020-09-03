@@ -527,7 +527,7 @@ namespace Marvel {
 			}
 		}
 
-		// route other mouse events
+		// route other mouse events (note mouse move callbacks are handled in mvWindowAppItem)
 		for (int i = 0; i < IM_ARRAYSIZE(ImGui::GetIO().MouseDown); i++)
 		{
 			// route mouse click event
@@ -550,6 +550,7 @@ namespace Marvel {
 				runCallback(eventHandler->getMouseReleaseCallback(), m_activeWindow,
 					mvPythonTranslator::ToPyInt(i));
 		}
+
 	}
 
 	void mvApp::addRuntimeItem(const std::string& parent, const std::string& before, mvAppItem* item) 
