@@ -149,6 +149,7 @@ git clone --recursive https://github.com/RaylockLLC/DearPyGui
 - cmake
 - Python 3.7 or 3.8
 - xorg-dev
+- libgl1-mesa-dev
 
 ##### Instructions
 
