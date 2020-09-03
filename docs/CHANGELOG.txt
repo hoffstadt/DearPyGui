@@ -23,10 +23,10 @@ HOW TO UPDATE?
 - Please report any issue!
 
 -----------------------------------------------------------------------
- VERSION 0.1.0 Beta 18
+ VERSION 0.1.0 (9/2/2020)
 -----------------------------------------------------------------------
 
-Decorated log: https://github.com/hoffstadt/DearPyGui/releases/tag/v0.1.0-beta18
+Decorated log: https://github.com/hoffstadt/DearPyGui/releases/tag/v0.1.0
 
 New Commands:
 
