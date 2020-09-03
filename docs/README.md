@@ -10,9 +10,7 @@
 [![PYPI](https://img.shields.io/pypi/v/dearpygui)](https://pypi.org/project/dearpygui/)
 [![Downloads](https://pepy.tech/badge/dearpygui)](https://pepy.tech/project/dearpygui)
 
-[![build status](https://github.com/hoffstadt/DearPyGui/workflows/Stable%20Build/badge.svg)](https://github.com/hoffstadt/DearPyGui/actions?workflow=Stable%20Build)
 [![build status](https://github.com/hoffstadt/DearPyGui/workflows/Master%20Build/badge.svg)](https://github.com/hoffstadt/DearPyGui/actions?workflow=Master%20Build)
-
 [![build status](https://github.com/hoffstadt/DearPyGui/workflows/WindowsDev/badge.svg)](https://github.com/hoffstadt/DearPyGui/actions?workflow=WindowsDev)
 [![build status](https://github.com/hoffstadt/DearPyGui/workflows/LinuxDev/badge.svg)](https://github.com/hoffstadt/DearPyGui/actions?workflow=LinuxDev)
 [![build status](https://github.com/hoffstadt/DearPyGui/workflows/MacOSDev/badge.svg)](https://github.com/hoffstadt/DearPyGui/actions?workflow=MacOSDev)
