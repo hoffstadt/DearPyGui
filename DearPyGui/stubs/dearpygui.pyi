@@ -866,6 +866,10 @@ def set_drawing_size(name: str, width: int, height: int) -> None:
 	"""Sets the size of a drawing widget."""
 	...
 
+def set_exit_callback(callback: str) -> None:
+	"""Callback to run when exiting main window."""
+	...
+
 def set_global_font_scale(scale: float) -> None:
 	"""Changes the global font scale."""
 	...
@@ -940,6 +944,10 @@ def set_mouse_move_callback(callback: str, handler: str = "") -> None:
 
 def set_mouse_wheel_callback(callback: str, handler: str = "") -> None:
 	"""Sets a callback for a mouse wheel event."""
+	...
+
+def set_mouse_release_callback(callback: str, handler: str = "") -> None:
+	"""Sets a callback for a mouse release event."""
 	...
 
 def set_plot_xlimits(plot: str, xmin: float, xmax: float) -> None:

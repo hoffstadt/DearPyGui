@@ -2584,6 +2584,49 @@ namespace Marvel {
 		return mvPythonTranslator::GetPyNone();
 	}
 
+	PyObject* set_mouse_release_callback(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		const char* callback;
+		const char* handler = "MainWindow";
+
+		if (!(*mvApp::GetApp()->getParsers())["set_mouse_release_callback"].parse(args, kwargs, __FUNCTION__, &callback, &handler))
+			return mvPythonTranslator::GetPyNone();
+
+		if (std::string(handler) == "MainWindow")
+			mvApp::GetApp()->setMouseReleaseCallback(callback);
+		else
+		{
+			mvAppItem* item = mvApp::GetApp()->getItem(handler);
+			if (item)
+			{
+				if (item->getType() == mvAppItemType::Window)
+				{
+					auto windowtype = static_cast<mvWindowAppitem*>(item);
+					windowtype->setMouseReleaseCallback(callback);
+					return mvPythonTranslator::GetPyNone();
+				}
+				else
+				{
+					ThrowPythonException(std::string(handler) + " handler is not a window.");
+					return mvPythonTranslator::GetPyNone();
+				}
+			}
+
+
+			// check if item is a standard window
+			mvStandardWindow* window = mvApp::GetApp()->getStandardWindow(handler);
+			if (window == nullptr)
+			{
+				ThrowPythonException(std::string(handler) + " handler item was not found.");
+				return mvPythonTranslator::GetPyNone();
+			}
+
+			window->setMouseReleaseCallback(callback);
+		}
+
+		return mvPythonTranslator::GetPyNone();
+	}
+
 	PyObject* set_key_down_callback(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		const char* callback;
@@ -6735,6 +6778,7 @@ namespace Marvel {
 
 	static PyMethodDef dearpyguimethods[]
 	{
+		ADD_PYTHON_FUNCTION(set_mouse_release_callback)
 		ADD_PYTHON_FUNCTION(set_exit_callback)
 		ADD_PYTHON_FUNCTION(set_vsync)
 		ADD_PYTHON_FUNCTION(get_windows)

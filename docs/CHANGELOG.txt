@@ -32,6 +32,7 @@ New Commands:
 
 - Events:    Added "set_mouse_move_callback" #117
 - Callbacks: Added "set_exit_callback" #142
+- Callbacks: Added "set_mouse_release_callback" #161
 
 Fixes:
 

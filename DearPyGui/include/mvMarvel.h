@@ -414,6 +414,12 @@ namespace Marvel {
 			{mvPythonDataType::String, "handler", "Callback will be run when event occurs while this window is active (default is main window)"},
 		}, "Sets a callback for a window resize event.", "None", "Input Polling") });
 
+		parsers->insert({ "set_mouse_release_callback", mvPythonParser({
+			{mvPythonDataType::String, "callback"},
+			{mvPythonDataType::Optional},
+			{mvPythonDataType::String, "handler", "Callback will be run when event occurs while this window is active (default is main window)"},
+		}, "Sets a callback for a mouse release event.", "None", "Input Polling") });
+
 		parsers->insert({ "set_mouse_down_callback", mvPythonParser({
 			{mvPythonDataType::String, "callback"},
 			{mvPythonDataType::Optional},
