@@ -30,7 +30,8 @@ Decorated log: https://github.com/hoffstadt/DearPyGui/releases/tag/v0.1.0-beta18
 
 New Commands:
 
-- Events: Added "set_mouse_move_callback" #117
+- Events:    Added "set_mouse_move_callback" #117
+- Callbacks: Added "set_exit_callback" #142
 
 Fixes:
 

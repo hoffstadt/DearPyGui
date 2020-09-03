@@ -856,6 +856,7 @@ namespace Marvel {
 		auto window = mvApp::GetApp()->getViewport();
 		delete window;
 		mvApp::GetApp()->setViewport(nullptr);
+		mvApp::SetAppStopped();
 		mvApp::DeleteApp();
 
 		return mvPythonTranslator::GetPyNone();
@@ -873,8 +874,20 @@ namespace Marvel {
 		window->show();
 		window->run();
 		delete window;
+		mvApp::SetAppStopped();
 		mvApp::DeleteApp();
 
+		return mvPythonTranslator::GetPyNone();
+	}
+
+	PyObject* set_exit_callback(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		const char* callback = "";
+
+		if (!(*mvApp::GetApp()->getParsers())["set_exit_callback"].parse(args, kwargs, __FUNCTION__, &callback))
+			return mvPythonTranslator::GetPyNone();
+
+		mvApp::GetApp()->setOnCloseCallback(callback);
 		return mvPythonTranslator::GetPyNone();
 	}
 
@@ -6722,6 +6735,7 @@ namespace Marvel {
 
 	static PyMethodDef dearpyguimethods[]
 	{
+		ADD_PYTHON_FUNCTION(set_exit_callback)
 		ADD_PYTHON_FUNCTION(set_vsync)
 		ADD_PYTHON_FUNCTION(get_windows)
 		ADD_PYTHON_FUNCTION(get_all_items)
