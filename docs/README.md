@@ -107,10 +107,10 @@ _DearPyGui_ includes several tools to help developers with _DearPyGui_ app devel
 
 
 ### Support
-- [Sponsor](https://github.com/sponsors/hoffstadt) If you Enjoy DearPyGui please consider becoming a sponsor 
-- [Paypal](https://www.paypal.com/paypalme/JonathanHoffstadt) For those who dont like rewards
+- [Sponsor](https://github.com/sponsors/hoffstadt) If you Enjoy Dear PyGui please consider becoming a sponsor.
+- [Paypal](https://www.paypal.com/paypalme/JonathanHoffstadt) For those who don't like rewards.
 
-If you are having issues or want to help or ask for ways you can help, here are some places you can go!
+If you are having issues or want to help, here are some places you can go:
 - [Github Forum](https://github.com/RaylockLLC/DearPyGui/issues/)
 - [Discord Forum](https://discord.gg/tyE7Gu4)
 - [Reddit](https://www.reddit.com/r/DearPyGui/)
@@ -142,7 +142,7 @@ git clone --recursive https://github.com/RaylockLLC/DearPyGui
 2. Open the _Scripts_ folder and run the _BuildFor32.bat_ file (or _BuildFor64.bat_ if using 64-bit python).
 
 #### Linux
-<sub>Only tested on Ubuntu 20.04</sub>
+<sub>Only tested on Ubuntu 18.04 and 20.04</sub>
 
 ##### Build Requirements
 
