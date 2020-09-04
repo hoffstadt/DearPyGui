@@ -2808,7 +2808,8 @@ namespace Marvel {
 			return mvPythonTranslator::GetPyNone();
 
 		if (std::string(handler) == "MainWindow")
-			mvApp::GetApp()->setMouseMoveCallback(callback);
+			mvApp::GetApp()->getWindow("MainWindow")->setMouseMoveCallback(callback);
+
 		else
 		{
 			mvAppItem* item = mvApp::GetApp()->getItem(handler);
