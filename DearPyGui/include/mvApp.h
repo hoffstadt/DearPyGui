@@ -206,7 +206,6 @@ namespace Marvel {
         mvApp();
 
         void routeInputCallbacks();
-        void changeTheme();
         void updateStyle();
         
     private:
@@ -225,7 +224,6 @@ namespace Marvel {
         
         // appearance
         std::string m_theme = "Dark";
-        bool        m_compileTimeThemeSet = false; // theme changed at compile time
         float       m_globalFontScale = 1.0f;
         ImGuiStyle  m_newstyle;
         bool        m_firstRender = true;
