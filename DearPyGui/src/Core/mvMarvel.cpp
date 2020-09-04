@@ -6188,8 +6188,12 @@ namespace Marvel {
 
 		if (appitem)
 		{
+			std::string newLabel = label;
+
 			// temporary fix
-			std::string newLabel = label + std::string("##") + std::to_string(rand());
+			if(appitem->getType() != mvAppItemType::LabelText)
+				newLabel = label + std::string("##") + std::to_string(rand());
+
 			appitem->setLabel(newLabel);
 		}
 
