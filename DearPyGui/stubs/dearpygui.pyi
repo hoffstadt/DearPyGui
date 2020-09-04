@@ -348,6 +348,10 @@ def delete_row(table: str, row: int) -> None:
 	"""Delete a row in a table."""
 	...
 
+def delete_series(plot: str, series: str) -> None:
+	"""Deletes a plot series if it exist."""
+	...
+
 def does_item_exist(item: str) -> bool:
 	"""Checks if item exists"""
 	...
@@ -912,6 +916,10 @@ def set_key_release_callback(callback: str, handler: str = "") -> None:
 
 def set_log_level(level: int) -> None:
 	"""Sets the log level."""
+	...
+
+def set_main_window_resizable(resizable: bool) -> None:
+	"""Sets the main window as resizable."""
 	...
 
 def set_main_window_size(width: int, height: int) -> None:
