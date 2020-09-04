@@ -58,14 +58,16 @@ namespace Marvel {
 
 			}
 
-			if(m_texture)
-				ImGui::Image(m_texture, ImVec2((float)m_width, (float)m_height), ImVec2(m_uv_min.x,m_uv_min.y), ImVec2(m_uv_max.x, m_uv_max.y),
+			if (m_texture)
+			{
+				ImGui::Image(m_texture, ImVec2((float)m_width, (float)m_height), ImVec2(m_uv_min.x, m_uv_min.y), ImVec2(m_uv_max.x, m_uv_max.y),
 					ImVec4((float)m_tintColor.r, (float)m_tintColor.g, (float)m_tintColor.b, (float)m_tintColor.a),
 					ImVec4((float)m_borderColor.r, (float)m_borderColor.g, (float)m_borderColor.b, (float)m_borderColor.a));
 
-			// Context Menu
-			if (!getPopup().empty())
-				ImGui::OpenPopup(getPopup().c_str());
+				// Regular Tooltip (simple)
+				if (!getTip().empty() && ImGui::IsItemHovered())
+					ImGui::SetTooltip("%s", getTip().c_str());
+			}
 
 		}
 

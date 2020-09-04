@@ -71,6 +71,10 @@ namespace Marvel {
 				if (!getPopup().empty())
 					ImGui::OpenPopup(getPopup().c_str());
 			}
+
+			// Regular Tooltip (simple)
+			if (!getTip().empty() && ImGui::IsItemHovered())
+				ImGui::SetTooltip("%s", getTip().c_str());
 		}
 
 	};
@@ -132,6 +136,10 @@ namespace Marvel {
 				if (!getPopup().empty())
 					ImGui::OpenPopup(getPopup().c_str());
 			}
+
+			// Regular Tooltip (simple)
+			if (!getTip().empty() && ImGui::IsItemHovered())
+				ImGui::SetTooltip("%s", getTip().c_str());
 		}
 
 	private:
@@ -170,6 +178,10 @@ namespace Marvel {
 				if (!getPopup().empty())
 					ImGui::OpenPopup(getPopup().c_str());
 			}
+
+			// Regular Tooltip (simple)
+			if (!getTip().empty() && ImGui::IsItemHovered())
+				ImGui::SetTooltip("%s", getTip().c_str());
 		}
 
 	};
@@ -217,6 +229,10 @@ namespace Marvel {
 
 				ImGui::EndCombo();
 			}
+
+			// Regular Tooltip (simple)
+			if (!getTip().empty() && ImGui::IsItemHovered())
+				ImGui::SetTooltip("%s", getTip().c_str());
 		}
 
 		void updateData(const std::string& name) override
@@ -271,6 +287,10 @@ namespace Marvel {
 				if (!getPopup().empty())
 					ImGui::OpenPopup(getPopup().c_str());
 			}
+
+			// Regular Tooltip (simple)
+			if (!getTip().empty() && ImGui::IsItemHovered())
+				ImGui::SetTooltip("%s", getTip().c_str());
 		}
 
 		void updateData(const std::string& name) override
@@ -328,6 +348,10 @@ namespace Marvel {
 					if (!getPopup().empty())
 						ImGui::OpenPopup(getPopup().c_str());
 				}
+
+				// Regular Tooltip (simple)
+				if (!getTip().empty() && ImGui::IsItemHovered())
+					ImGui::SetTooltip("%s", getTip().c_str());
 			}
 
 		}
@@ -375,6 +399,10 @@ namespace Marvel {
 			if (!getPopup().empty())
 				ImGui::OpenPopup(getPopup().c_str());
 
+			// Regular Tooltip (simple)
+			if (!getTip().empty() && ImGui::IsItemHovered())
+				ImGui::SetTooltip("%s", getTip().c_str());
+
 		}
 
 	private:
@@ -410,6 +438,10 @@ namespace Marvel {
 				if (!getPopup().empty())
 					ImGui::OpenPopup(getPopup().c_str());
 			}
+
+			// Regular Tooltip (simple)
+			if (!getTip().empty() && ImGui::IsItemHovered())
+				ImGui::SetTooltip("%s", getTip().c_str());
 
 		}
 
@@ -449,6 +481,10 @@ namespace Marvel {
 					ImGui::OpenPopup(getPopup().c_str());
 			}
 
+			// Regular Tooltip (simple)
+			if (!getTip().empty() && ImGui::IsItemHovered())
+				ImGui::SetTooltip("%s", getTip().c_str());
+
 		}
 
 	private:
@@ -485,6 +521,10 @@ namespace Marvel {
 				if (!getPopup().empty())
 					ImGui::OpenPopup(getPopup().c_str());
 			}
+
+			// Regular Tooltip (simple)
+			if (!getTip().empty() && ImGui::IsItemHovered())
+				ImGui::SetTooltip("%s", getTip().c_str());
 		}
 
 	private:
@@ -524,6 +564,10 @@ namespace Marvel {
 				if (!getPopup().empty())
 					ImGui::OpenPopup(getPopup().c_str());
 			}
+
+			// Regular Tooltip (simple)
+			if (!getTip().empty() && ImGui::IsItemHovered())
+				ImGui::SetTooltip("%s", getTip().c_str());
 		}
 
 	private:
@@ -564,6 +608,10 @@ namespace Marvel {
 				if (!getPopup().empty())
 					ImGui::OpenPopup(getPopup().c_str());
 			}
+
+			// Regular Tooltip (simple)
+			if (!getTip().empty() && ImGui::IsItemHovered())
+				ImGui::SetTooltip("%s", getTip().c_str());
 		}
 
 	private:
@@ -607,6 +655,10 @@ namespace Marvel {
 				if (!getPopup().empty())
 					ImGui::OpenPopup(getPopup().c_str());
 			}
+
+			// Regular Tooltip (simple)
+			if (!getTip().empty() && ImGui::IsItemHovered())
+				ImGui::SetTooltip("%s", getTip().c_str());
 		}
 
 	private:
@@ -656,6 +708,10 @@ namespace Marvel {
 					if (!getPopup().empty())
 						ImGui::OpenPopup(getPopup().c_str());
 				}
+
+				// Regular Tooltip (simple)
+				if (!getTip().empty() && ImGui::IsItemHovered())
+					ImGui::SetTooltip("%s", getTip().c_str());
 			}
 			else
 			{
@@ -670,6 +726,10 @@ namespace Marvel {
 					if (!getPopup().empty())
 						ImGui::OpenPopup(getPopup().c_str());
 				}
+
+				// Regular Tooltip (simple)
+				if (!getTip().empty() && ImGui::IsItemHovered())
+					ImGui::SetTooltip("%s", getTip().c_str());
 			}
 		}
 
@@ -720,6 +780,10 @@ namespace Marvel {
 					if (!getPopup().empty())
 						ImGui::OpenPopup(getPopup().c_str());
 				}
+
+				// Regular Tooltip (simple)
+				if (!getTip().empty() && ImGui::IsItemHovered())
+					ImGui::SetTooltip("%s", getTip().c_str());
 			}
 			else
 			{
@@ -734,6 +798,10 @@ namespace Marvel {
 					if (!getPopup().empty())
 						ImGui::OpenPopup(getPopup().c_str());
 				}
+
+				// Regular Tooltip (simple)
+				if (!getTip().empty() && ImGui::IsItemHovered())
+					ImGui::SetTooltip("%s", getTip().c_str());
 			}
 		}
 
@@ -777,6 +845,10 @@ namespace Marvel {
 				if (!getPopup().empty())
 					ImGui::OpenPopup(getPopup().c_str());
 			}
+
+			// Regular Tooltip (simple)
+			if (!getTip().empty() && ImGui::IsItemHovered())
+				ImGui::SetTooltip("%s", getTip().c_str());
 		}
 
 	private:
@@ -818,6 +890,10 @@ namespace Marvel {
 				if (!getPopup().empty())
 					ImGui::OpenPopup(getPopup().c_str());
 			}
+
+			// Regular Tooltip (simple)
+			if (!getTip().empty() && ImGui::IsItemHovered())
+				ImGui::SetTooltip("%s", getTip().c_str());
 		}
 
 	private:

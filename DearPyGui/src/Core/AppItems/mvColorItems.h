@@ -45,6 +45,10 @@ namespace Marvel {
 				if (!getPopup().empty())
 					ImGui::OpenPopup(getPopup().c_str());
 			}
+
+			// Regular Tooltip (simple)
+			if (!getTip().empty() && ImGui::IsItemHovered())
+				ImGui::SetTooltip("%s", getTip().c_str());
 		}
 
 	};
@@ -77,6 +81,10 @@ namespace Marvel {
 				if (!getPopup().empty())
 					ImGui::OpenPopup(getPopup().c_str());
 			}
+
+			// Regular Tooltip (simple)
+			if (!getTip().empty() && ImGui::IsItemHovered())
+				ImGui::SetTooltip("%s", getTip().c_str());
 		}
 
 	};

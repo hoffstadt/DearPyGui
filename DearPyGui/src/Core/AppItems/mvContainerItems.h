@@ -52,11 +52,6 @@ namespace Marvel {
 				item->draw();
 				item->popColorStyles();
 
-				// Regular Tooltip (simple)
-				if (!item->getTip().empty() && ImGui::IsItemHovered())
-					ImGui::SetTooltip("%s", item->getTip().c_str());
-
-
 				item->setHovered(ImGui::IsItemHovered());
 				item->setActive(ImGui::IsItemActive());
 				item->setFocused(ImGui::IsItemFocused());
@@ -134,11 +129,6 @@ namespace Marvel {
 				if (m_horizontal)
 					ImGui::SameLine(0.0, m_hspacing);
 
-				// Regular Tooltip (simple)
-				if (!item->getTip().empty() && ImGui::IsItemHovered())
-					ImGui::SetTooltip("%s", item->getTip().c_str());
-
-
 				item->setHovered(ImGui::IsItemHovered());
 				item->setActive(ImGui::IsItemActive());
 				item->setFocused(ImGui::IsItemFocused());
@@ -158,7 +148,6 @@ namespace Marvel {
 				ImGui::PopItemWidth();
 
 			ImGui::EndGroup();
-
 		}
 
 	private:
@@ -193,6 +182,10 @@ namespace Marvel {
 			if (ImGui::CollapsingHeader(m_label.c_str(), toggle, m_flags))
 			{
 
+				// Regular Tooltip (simple)
+				if (!getTip().empty() && ImGui::IsItemHovered())
+					ImGui::SetTooltip("%s", getTip().c_str());
+
 				for (mvAppItem* item : m_children)
 				{
 					// skip item if it's not shown
@@ -206,11 +199,6 @@ namespace Marvel {
 					item->pushColorStyles();
 					item->draw();
 					item->popColorStyles();
-
-					// Regular Tooltip (simple)
-					if (!item->getTip().empty() && ImGui::IsItemHovered())
-						ImGui::SetTooltip("%s", item->getTip().c_str());
-
 
 					item->setHovered(ImGui::IsItemHovered());
 					item->setActive(ImGui::IsItemActive());
@@ -227,6 +215,15 @@ namespace Marvel {
 					item->setRectSize({ ImGui::GetItemRectSize().x, ImGui::GetItemRectSize().y });
 				}
 			}
+
+			else
+			{
+				// Regular Tooltip (simple)
+				if (!getTip().empty() && ImGui::IsItemHovered())
+					ImGui::SetTooltip("%s", getTip().c_str());
+			}
+
+
 
 		}
 
@@ -273,11 +270,6 @@ namespace Marvel {
 					item->draw();
 					item->popColorStyles();
 
-					// Regular Tooltip (simple)
-					if (!item->getTip().empty() && ImGui::IsItemHovered())
-						ImGui::SetTooltip("%s", item->getTip().c_str());
-
-
 					item->setHovered(ImGui::IsItemHovered());
 					item->setActive(ImGui::IsItemActive());
 					item->setFocused(ImGui::IsItemFocused());
@@ -295,6 +287,11 @@ namespace Marvel {
 
 				ImGui::TreePop();
 			}
+
+			// Regular Tooltip (simple)
+			if (!getTip().empty() && ImGui::IsItemHovered())
+				ImGui::SetTooltip("%s", getTip().c_str());
+
 			ImGui::EndGroup();
 		}
 

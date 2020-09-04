@@ -72,6 +72,10 @@ namespace Marvel {
 
 			if (m_color.specified)
 				ImGui::PopStyleColor();
+
+			// Regular Tooltip (simple)
+			if (!getTip().empty() && ImGui::IsItemHovered())
+				ImGui::SetTooltip("%s", getTip().c_str());
 		}
 
 	private:
@@ -110,6 +114,10 @@ namespace Marvel {
 
 			ImGui::SameLine();
 			ImGui::TextUnformatted(m_label.c_str());
+
+			// Regular Tooltip (simple)
+			if (!getTip().empty() && ImGui::IsItemHovered())
+				ImGui::SetTooltip("%s", getTip().c_str());
 
 		}
 
