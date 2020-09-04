@@ -51,10 +51,6 @@ namespace Marvel {
 					item->draw();
 					item->popColorStyles();
 
-					// Regular Tooltip (simple)
-					if (!item->getTip().empty() && ImGui::IsItemHovered())
-						ImGui::SetTooltip("%s", item->getTip().c_str());
-
 					item->setHovered(ImGui::IsItemHovered());
 					item->setActive(ImGui::IsItemActive());
 					item->setFocused(ImGui::IsItemFocused());
@@ -72,6 +68,7 @@ namespace Marvel {
 
 				ImGui::EndTabBar();
 			}
+
 		}
 
 	private:
@@ -112,6 +109,10 @@ namespace Marvel {
 			// create tab item and see if it is selected
 			if (ImGui::BeginTabItem(m_label.c_str(), m_closable ? &m_show : nullptr))
 			{
+				// Regular Tooltip (simple)
+				if (!getTip().empty() && ImGui::IsItemHovered())
+					ImGui::SetTooltip("%s", getTip().c_str());
+
 				parent->setValue(m_name);
 
 				// set other tab's value false
@@ -147,10 +148,6 @@ namespace Marvel {
 					item->draw();
 					item->popColorStyles();
 
-					// Regular Tooltip (simple)
-					if (!item->getTip().empty() && ImGui::IsItemHovered())
-						ImGui::SetTooltip("%s", item->getTip().c_str());
-
 					item->setHovered(ImGui::IsItemHovered());
 					item->setActive(ImGui::IsItemActive());
 					item->setFocused(ImGui::IsItemFocused());
@@ -168,6 +165,15 @@ namespace Marvel {
 
 				ImGui::EndTabItem();
 			}
+
+			else
+			{
+				// Regular Tooltip (simple)
+				if (!getTip().empty() && ImGui::IsItemHovered())
+					ImGui::SetTooltip("%s", getTip().c_str());
+			}
+
+
 		}
 
 	private:

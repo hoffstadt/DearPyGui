@@ -62,6 +62,10 @@ namespace Marvel {
 		void draw() override
 		{
 			ImGui::Separator();
+
+			// Regular Tooltip (simple)
+			if (!getTip().empty() && ImGui::IsItemHovered())
+				ImGui::SetTooltip("%s", getTip().c_str());
 		}
 
 		[[nodiscard]] bool areDuplicatesAllowed() const override { return true; }

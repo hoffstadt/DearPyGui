@@ -52,10 +52,6 @@ namespace Marvel {
 
 					item->draw();
 
-					// Regular Tooltip (simple)
-					if (!item->getTip().empty() && ImGui::IsItemHovered())
-						ImGui::SetTooltip("%s", item->getTip().c_str());
-
 					item->setHovered(ImGui::IsItemHovered());
 					item->setActive(ImGui::IsItemActive());
 					item->setFocused(ImGui::IsItemFocused());
@@ -72,6 +68,10 @@ namespace Marvel {
 				}
 				ImGui::EndMenuBar();
 			}
+
+			// Regular Tooltip (simple)
+			if (!getTip().empty() && ImGui::IsItemHovered())
+				ImGui::SetTooltip("%s", getTip().c_str());
 		}
 
 	};
