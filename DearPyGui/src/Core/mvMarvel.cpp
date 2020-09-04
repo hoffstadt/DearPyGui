@@ -124,6 +124,19 @@ namespace Marvel {
 		return mvPythonTranslator::GetPyNone();
 	}
 
+	PyObject* set_main_window_resizable(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		int resizable = true;
+
+		if (!(*mvApp::GetApp()->getParsers())["set_main_window_resizable"].parse(args, kwargs, __FUNCTION__,
+			&resizable))
+			return mvPythonTranslator::GetPyNone();
+
+		mvApp::GetApp()->setResizable(resizable);
+
+		return mvPythonTranslator::GetPyNone();
+	}
+
 	PyObject* add_additional_font(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		const char* file;
@@ -6801,6 +6814,7 @@ namespace Marvel {
 
 	static PyMethodDef dearpyguimethods[]
 	{
+		ADD_PYTHON_FUNCTION(set_main_window_resizable)
 		ADD_PYTHON_FUNCTION(delete_series)
 		ADD_PYTHON_FUNCTION(set_mouse_release_callback)
 		ADD_PYTHON_FUNCTION(set_exit_callback)

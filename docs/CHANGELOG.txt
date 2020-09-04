@@ -35,7 +35,8 @@ New Features:
 
 New Commands:
 
-- Plot:    Can now delete series in a plot "delete_series" #163
+- Plot:        Can now delete series in a plot "delete_series" #163
+- Main Window: Added "set_main_window_resizable" command #134
 
 Fixes:
 

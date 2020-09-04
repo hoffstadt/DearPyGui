@@ -109,6 +109,7 @@ namespace Marvel {
         // App Settings
         //-----------------------------------------------------------------------------
         void                     setVSync          (bool value) { m_vsync = value; }
+        void                     setResizable      (bool value) { m_resizable = value; }
         void                     setWindowSize     (unsigned width, unsigned height);
         void                     setActualSize     (unsigned width, unsigned height);			
         void                     setActiveWindow   (const std::string& window) { m_activeWindow = window; }
@@ -128,6 +129,7 @@ namespace Marvel {
         ImGuiStyle&              getStyle          ()       { return m_newstyle; }
         mvWindow*                getViewport       ()       { return m_viewport; }
         bool                     getVSync          () const { return m_vsync; }
+        bool                     getResizable      () const { return m_resizable; }
         
         //-----------------------------------------------------------------------------
         // Styles/Themes
@@ -229,6 +231,7 @@ namespace Marvel {
         bool        m_firstRender = true;
         bool        m_styleChange = true;
         bool        m_vsync = true;
+        bool        m_resizable = true;
 
         // fonts
         std::string                         m_fontFile;
