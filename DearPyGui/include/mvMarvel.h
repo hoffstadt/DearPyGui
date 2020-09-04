@@ -1850,6 +1850,10 @@ namespace Marvel {
 			{mvPythonDataType::String, "title"}
 		}, "Sets the title of the main window.") });
 
+		parsers->insert({ "set_main_window_resizable", mvPythonParser({
+			{mvPythonDataType::Bool, "resizable"}
+		}, "Sets the main window to be resizable.") });
+
 		parsers->insert({ "setup_dearpygui", mvPythonParser({
 		}, "Sets up DearPyGui for user controlled rendering. Only call once and you must call cleanup_deapygui when finished.") });
 
