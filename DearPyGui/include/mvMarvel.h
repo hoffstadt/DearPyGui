@@ -224,12 +224,16 @@ namespace Marvel {
 		parsers->insert({ "get_plot_query_area", mvPythonParser({
 			{mvPythonDataType::String, "plot"},
 		}, "Returns the bounding axis limits for the query area [x_min, x_max, y_min, y_max]", "List[float]", "Plotting") });
-		//}, "Clears a plot.", "List(float) -> (x_min, x_max, y_min, y_max)", "Plotting") });
 
 		parsers->insert({ "set_color_map", mvPythonParser({
 			{mvPythonDataType::String, "plot"},
 			{mvPythonDataType::Integer, "map"}
 		}, "Sets the color map of the plot's series.", "None", "Plotting") });
+
+		parsers->insert({ "delete_series", mvPythonParser({
+			{mvPythonDataType::String, "plot"},
+			{mvPythonDataType::String, "series"}
+		}, "Deletes a series if it exists.", "None", "Plotting") });
 
 		parsers->insert({ "set_plot_xlimits", mvPythonParser({
 			{mvPythonDataType::String, "plot"},

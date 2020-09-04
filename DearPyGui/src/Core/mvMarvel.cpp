@@ -1992,6 +1992,35 @@ namespace Marvel {
 		return mvPythonTranslator::GetPyNone();
 	}
 
+	PyObject* delete_series(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		const char* plot;
+		const char* series;
+
+		if (!(*mvApp::GetApp()->getParsers())["delete_series"].parse(args, kwargs, __FUNCTION__, &plot, &series))
+			return mvPythonTranslator::GetPyNone();
+
+		mvAppItem* aplot = mvApp::GetApp()->getItem(plot);
+
+		if (aplot == nullptr)
+		{
+			std::string message = plot;
+			ThrowPythonException(message + " plot does not exist.");
+			return mvPythonTranslator::GetPyNone();
+		}
+
+		if (aplot->getType() != mvAppItemType::Plot)
+		{
+			std::string message = plot;
+			ThrowPythonException(message + " is not a plot.");
+			return mvPythonTranslator::GetPyNone();
+		}
+
+		mvPlot* graph = static_cast<mvPlot*>(aplot);
+		graph->deleteSeries(series);
+		return mvPythonTranslator::GetPyNone();
+	}
+
 	PyObject* add_line_series(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		const char* plot;
@@ -2048,9 +2077,7 @@ namespace Marvel {
 		if (mfill.r > 999)
 			mfill.specified = false;
 
-		mvSeries* series = new mvLineSeries(name, datapoints, weight, mcolor, mfill);
-
-		graph->addSeries(series);
+		graph->updateSeries(new mvLineSeries(name, datapoints, weight, mcolor, mfill));
 
 		return mvPythonTranslator::GetPyNone();
 	}
@@ -2113,10 +2140,8 @@ namespace Marvel {
 		if (mmarkerFillColor.r > 999)
 			mmarkerFillColor.specified = false;
 
-		mvSeries* series = new mvScatterSeries(name, datapoints, marker, size, weight, mmarkerOutlineColor,
-			mmarkerFillColor);
-
-		graph->addSeries(series);
+		graph->updateSeries(new mvScatterSeries(name, datapoints, marker, size, weight, mmarkerOutlineColor,
+			mmarkerFillColor));
 
 		return mvPythonTranslator::GetPyNone();
 	}
@@ -2152,9 +2177,7 @@ namespace Marvel {
 
 		mvPlot* graph = static_cast<mvPlot*>(aplot);
 
-		mvSeries* series = new mvLabelSeries(name, { {(float)x, (float)y} }, xoffset, yoffset, vertical);
-
-		graph->addSeries(series);
+		graph->updateSeries(new mvLabelSeries(name, { {(float)x, (float)y} }, xoffset, yoffset, vertical));
 
 		return mvPythonTranslator::GetPyNone();
 	}
@@ -2206,10 +2229,9 @@ namespace Marvel {
 		if (mfill.r > 999)
 			mfill.specified = false;
 
-		mvSeries* series1 = new mvAreaSeries(name, datapoints, weight, mcolor, mfill);
-		mvSeries* series2 = new mvLineSeries(name, datapoints, weight, mcolor, {0,0,0,0,false}); // this allows our custom render to work
-		graph->addSeries(series1);
-		graph->addSeries(series2);
+		graph->deleteSeries(name);
+		graph->addSeries(new mvAreaSeries(name, datapoints, weight, mcolor, mfill));
+		graph->addSeries(new mvLineSeries(name, datapoints, weight, mcolor, { 0,0,0,0,false })); // this allows our custom render to work
 
 		return mvPythonTranslator::GetPyNone();
 	}
@@ -6779,6 +6801,7 @@ namespace Marvel {
 
 	static PyMethodDef dearpyguimethods[]
 	{
+		ADD_PYTHON_FUNCTION(delete_series)
 		ADD_PYTHON_FUNCTION(set_mouse_release_callback)
 		ADD_PYTHON_FUNCTION(set_exit_callback)
 		ADD_PYTHON_FUNCTION(set_vsync)

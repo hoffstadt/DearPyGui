@@ -52,6 +52,8 @@ namespace Marvel {
 
 		virtual void draw() = 0;
 
+		const std::string& getName() const { return m_name; }
+
 	protected:
 
 		std::string        m_name;
@@ -74,191 +76,27 @@ namespace Marvel {
 
 		MV_APPITEM_TYPE(mvAppItemType::Plot)
 
-		mvPlot(const std::string& parent, const std::string& name, std::string  xname="",
-			std::string  yname="", int width = -1, int height = 0, ImPlotFlags flags = ImPlotFlags_Default,
-			ImPlotAxisFlags xflags = ImPlotAxisFlags_Default, ImPlotAxisFlags yflags = ImPlotAxisFlags_Default, std::string  queryCallback = "")
-			: mvAppItem(parent, name), m_xaxisName(std::move(xname)), m_yaxisName(std::move(yname)),
-			m_flags(flags), m_xflags(xflags), m_yflags(yflags), m_queryCallback(std::move(queryCallback))
-		{
-			m_width = width;
-			m_height = height;
-		}
+			mvPlot(const std::string& parent, const std::string& name, std::string  xname = "",
+				std::string  yname = "", int width = -1, int height = 0, ImPlotFlags flags = ImPlotFlags_Default,
+				ImPlotAxisFlags xflags = ImPlotAxisFlags_Default, ImPlotAxisFlags yflags = ImPlotAxisFlags_Default, 
+				std::string  queryCallback = "");
 
-		void addSeries(mvSeries* series)
-		{
-
-			if (m_series.empty())
-			{
-				if (!m_setXLimits)
-				{
-					m_xlimits.x = series->m_minX;
-					m_xlimits.y = series->m_maxX;
-				}
-
-				if (!m_setYLimits)
-				{
-					m_ylimits.x = series->m_minY;
-					m_ylimits.y = series->m_maxY;
-				}
-			}
-			else
-			{
-				if (series->m_minX < m_xlimits.x && !m_setXLimits) m_xlimits.x = series->m_minX;
-				if (series->m_minY < m_ylimits.x && !m_setYLimits) m_ylimits.x = series->m_minY;
-				if (series->m_maxX > m_xlimits.y && !m_setXLimits) m_xlimits.y = series->m_maxX;
-				if (series->m_maxY > m_ylimits.y && !m_setYLimits) m_ylimits.y = series->m_maxY;
-			}
-
-			m_series.push_back(series);
-
-			m_dirty = true;
-		}
-
-		void SetColorMap(ImPlotColormap colormap)
-		{
-			m_colormap = colormap;
-		}
-
-		void resetXTicks()
-		{
-			m_xlabels.clear();
-			m_xclabels.clear();
-			m_xlabelLocations.clear();
-		}
-
-		void resetYTicks()
-		{
-			m_ylabels.clear();
-			m_yclabels.clear();
-			m_ylabelLocations.clear();
-		}
-
-		void setXTicks(const std::vector<std::string>& labels, const std::vector<double>& locations)
-		{
-			m_xlabels = labels;
-			m_xlabelLocations = locations;
-
-			for (const auto& item : m_xlabels)
-				m_xclabels.push_back(item.data());
-		}
-
-		void setYTicks(const std::vector<std::string>& labels, const std::vector<double>& locations)
-		{
-			m_ylabels = labels;
-			m_ylabelLocations = locations;
-
-			for (const auto& item : m_ylabels)
-				m_yclabels.push_back(item.data());
-		}
-
-		void clear()
-		{
-			for (auto& series : m_series)
-			{
-				delete series;
-				series = nullptr;
-			}
-
-			m_series.clear();
-
-		}
-
-		void draw() override
-		{
-			ImGui::PushID(m_colormap);
-
-			if (m_setXLimits || m_dirty)
-                ImPlot::SetNextPlotLimitsX(m_xlimits.x, m_xlimits.y, ImGuiCond_Always);
-
-			if (m_setYLimits || m_dirty)
-				ImPlot::SetNextPlotLimitsY(m_ylimits.x, m_ylimits.y, ImGuiCond_Always);
-
-			// resets automatic sizing when new data is added
-			if(m_dirty) m_dirty = false;
-
-			if (!m_xlabels.empty())
-			{
-				// TODO: Checks
-				ImPlot::SetNextPlotTicksX(m_xlabelLocations.data(), (int)m_xlabels.size(), m_xclabels.data());
-			}
-			if (!m_ylabels.empty())
-			{
-				// TODO: Checks
-				ImPlot::SetNextPlotTicksY(m_ylabelLocations.data(), (int)m_ylabels.size(), m_yclabels.data());
-			}
-
-			if (ImPlot::BeginPlot(m_name.c_str(), m_xaxisName.c_str(), m_yaxisName.c_str(),
-                         ImVec2((float)m_width, (float)m_height), m_flags,
-				m_xflags, m_yflags) )
-			{
-				ImPlot::SetColormap(m_colormap);
-
-				for (auto series : m_series)
-					series->draw();
-		
-
-				//ImPlot::SetColormap(ImPlotColormap_Default);
-
-				m_queried = ImPlot::IsPlotQueried();
-
-				if (m_queried)
-				{
-					auto area = ImPlot::GetPlotQuery();
-					m_queryArea[0] = (float)area.X.Min;
-					m_queryArea[1] = (float)area.X.Max;
-					m_queryArea[2] = (float)area.Y.Min;
-					m_queryArea[3] = (float)area.Y.Max;
-				}
-
-				if (!m_queryCallback.empty() && m_queried)
-				{
-					PyGILState_STATE gstate = PyGILState_Ensure();
-					PyObject* area = PyTuple_New(4);
-					PyTuple_SetItem(area, 0, PyFloat_FromDouble(m_queryArea[0]));
-					PyTuple_SetItem(area, 1, PyFloat_FromDouble(m_queryArea[1]));
-					PyTuple_SetItem(area, 2, PyFloat_FromDouble(m_queryArea[2]));
-					PyTuple_SetItem(area, 3, PyFloat_FromDouble(m_queryArea[3]));
-					PyGILState_Release(gstate);
-					mvApp::GetApp()->runCallback(m_queryCallback, m_name, area);
-				}
-
-				ImPlot::EndPlot();
-			}
-
-			ImGui::PopID();
-		}
-
-		void setXLimits(float x_min, float x_max)
-		{
-			m_setXLimits = true;
-			m_xlimits = ImVec2(x_min, x_max);
-		}
-
-		void setYLimits(float y_min, float y_max)
-		{
-			m_setYLimits = true;
-			m_ylimits = ImVec2(y_min, y_max);
-		}
-
-		void setXLimitsAuto()
-		{
-			m_setXLimits = false;
-		}
-
-		void setYLimitsAuto()
-		{
-			m_setYLimits = false;
-		}
-
-		[[nodiscard]] bool isPlotQueried() const
-		{
-			return m_queried;
-		}
-
-		float* getPlotQueryArea()
-		{
-			return m_queryArea;
-		}
+		void addSeries   (mvSeries* series);
+		void updateSeries(mvSeries* series);
+		void deleteSeries(const std::string& name);
+		void SetColorMap(ImPlotColormap colormap);
+		void resetXTicks();
+		void resetYTicks();
+		void setXTicks(const std::vector<std::string>& labels, const std::vector<double>& locations);
+		void setYTicks(const std::vector<std::string>& labels, const std::vector<double>& locations);
+		void clear();
+		void draw() override;
+		void setXLimits(float x_min, float x_max);
+		void setYLimits(float y_min, float y_max);
+		void setXLimitsAuto();
+		void setYLimitsAuto();
+		[[nodiscard]] bool isPlotQueried() const;
+		float* getPlotQueryArea();
 
 	private:
 

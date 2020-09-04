@@ -480,8 +480,6 @@ def LogCallback(sender, data):
 
 def PlotCallback(sender, data):
 
-    clear_plot("Plot")
-
     data1 = []
     for i in range(0, 100):
         data1.append([3.14*i/180, cos(3*3.14*i/180)])
