@@ -161,6 +161,7 @@ jobs:
     
     - name: Build Python
       run: |
+        sudo apt-get update
         sudo apt-get install libgl1-mesa-dev
         sudo apt-get install xorg-dev
         cd Dependencies/cpython
@@ -215,6 +216,7 @@ jobs:
     
     - name: Build Python
       run: |
+        sudo apt-get update
         sudo apt-get install libgl1-mesa-dev
         sudo apt-get install xorg-dev
         cd Dependencies/cpython
