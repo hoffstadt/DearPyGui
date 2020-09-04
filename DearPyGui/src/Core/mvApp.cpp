@@ -129,12 +129,6 @@ namespace Marvel {
 				m_newstyle.Colors[i].z == 0.0f && m_newstyle.Colors[i].w == 0.0f)
 				m_newstyle.Colors[i] = ImGui::GetStyle().Colors[i];
 
-		// if theme was set during compile time, actually make the change now
-		if (m_compileTimeThemeSet)
-		{
-			changeTheme();
-			m_compileTimeThemeSet = false;
-		}
 	}
 
 	bool mvApp::prerender(bool& show)
@@ -869,20 +863,7 @@ namespace Marvel {
 	void mvApp::setAppTheme(const std::string& theme)
 	{
 		m_theme = theme;
-
-		if (s_started)
-			changeTheme();
-		
-		// if app hasn't started, defer theme setting
-		else
-			m_compileTimeThemeSet = true;
-
 		m_styleChange = true;
-
-	}
-
-	void mvApp::changeTheme()
-	{
 
 		// TODO: All themes borrowed from online need to be
 		//       cleaned up for consistency and completed.
@@ -1250,7 +1231,7 @@ namespace Marvel {
 		}
 
 		else
-			ImGui::StyleColorsDark();
+			ImGui::StyleColorsDark(&m_newstyle);
 	}
 
 	void mvApp::setThemeItem(long item, mvColor color)
