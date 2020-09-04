@@ -86,10 +86,28 @@ namespace Marvel {
 
 		void addSeries(mvSeries* series)
 		{
-		    if(series->m_minX < m_xlimits.x ) m_xlimits.x = series->m_minX;
-		    if(series->m_minY < m_ylimits.x ) m_ylimits.x = series->m_minY;
-		    if(series->m_maxX > m_xlimits.y ) m_xlimits.y = series->m_maxX;
-		    if(series->m_maxY > m_ylimits.y ) m_ylimits.y = series->m_maxY;
+
+			if (m_series.empty())
+			{
+				if (!m_setXLimits)
+				{
+					m_xlimits.x = series->m_minX;
+					m_xlimits.y = series->m_maxX;
+				}
+
+				if (!m_setYLimits)
+				{
+					m_ylimits.x = series->m_minY;
+					m_ylimits.y = series->m_maxY;
+				}
+			}
+			else
+			{
+				if (series->m_minX < m_xlimits.x && !m_setXLimits) m_xlimits.x = series->m_minX;
+				if (series->m_minY < m_ylimits.x && !m_setYLimits) m_ylimits.x = series->m_minY;
+				if (series->m_maxX > m_xlimits.y && !m_setXLimits) m_xlimits.y = series->m_maxX;
+				if (series->m_maxY > m_ylimits.y && !m_setYLimits) m_ylimits.y = series->m_maxY;
+			}
 
 			m_series.push_back(series);
 
