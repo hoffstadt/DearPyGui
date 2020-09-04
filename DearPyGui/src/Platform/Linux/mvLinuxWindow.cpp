@@ -41,6 +41,9 @@ namespace Marvel {
         glfwSetErrorCallback(glfw_error_callback);
         glfwInit();
 
+        if (!mvApp::GetApp()->getResizable())
+            glfwWindowHint(GLFW_RESIZABLE, GLFW_FALSE);
+
         // Create window with graphics context
         // GL 3.0 + GLSL 130
         const char* glsl_version = "#version 130";
