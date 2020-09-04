@@ -60,6 +60,9 @@ namespace Marvel {
         glfwSetErrorCallback(glfw_error_callback);
         glfwInit();
 
+        if (!mvApp::GetApp()->getResizable())
+            glfwWindowHint(GLFW_RESIZABLE, GLFW_FALSE);
+
         // Create window with graphics context
         glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
         m_window = glfwCreateWindow(width, height, mvApp::GetApp()->m_title.c_str(), nullptr, nullptr);
