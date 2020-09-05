@@ -39,7 +39,7 @@ namespace Marvel{
 
 		void setPyValue(PyObject* value) override
 		{
-			m_value = mvPythonTranslator::ToFloatVect(value, m_name + " requires a list or tuple of floats.");
+			m_value = ToFloatVect(value, m_name + " requires a list or tuple of floats.");
 		}
 
 		[[nodiscard]] PyObject* getPyValue() const override
@@ -47,14 +47,14 @@ namespace Marvel{
 			if (!m_dataSource.empty())
 			{
 				if (!mvDataStorage::HasData(m_dataSource))
-					mvDataStorage::AddData(m_dataSource, mvPythonTranslator::ToPyList(m_value));
+					mvDataStorage::AddData(m_dataSource, ToPyList(m_value));
 				else
-					mvPythonTranslator::UpdatePyFloatList(mvDataStorage::GetData(m_dataSource), m_value);
+					UpdatePyFloatList(mvDataStorage::GetDataIncRef(m_dataSource), m_value);
 				
 				return mvDataStorage::GetData(m_dataSource);
 			}
 
-			return mvPythonTranslator::ToPyList(m_value);
+			return ToPyList(m_value);
 		}
 
 		void setValue(const std::vector<float>& value){ m_value = value;}

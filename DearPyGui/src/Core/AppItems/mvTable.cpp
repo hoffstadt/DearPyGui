@@ -72,7 +72,7 @@ namespace Marvel {
 
 	void mvTable::setPyValue(PyObject* value)
 	{
-		auto values = mvPythonTranslator::ToVectVectString(value, m_name + " requires a list/tuple or list/tuple of strings.");
+		auto values = ToVectVectString(value, m_name + " requires a list/tuple or list/tuple of strings.");
 
 		m_values = values;
 
@@ -92,14 +92,14 @@ namespace Marvel {
 		if (!m_dataSource.empty())
 		{
 			if (!mvDataStorage::HasData(m_dataSource))
-				mvDataStorage::AddData(m_dataSource, mvPythonTranslator::ToPyList(m_values));
+				mvDataStorage::AddData(m_dataSource, ToPyList(m_values));
 			else
-				mvPythonTranslator::UpdatePyStringStringList(mvDataStorage::GetData(m_dataSource), m_values);
+				UpdatePyStringStringList(mvDataStorage::GetData(m_dataSource), m_values);
 
 			return mvDataStorage::GetData(m_dataSource);
 		}
 
-		return mvPythonTranslator::ToPyList(m_values);
+		return ToPyList(m_values);
 	}
 
 	PyObject* mvTable::getSelections() const
@@ -117,7 +117,7 @@ namespace Marvel {
 				selections.emplace_back(item.first.first, item.first.second);
 		}
 		
-		return mvPythonTranslator::ToPyList(selections);
+		return ToPyList(selections);
 	}
 
 	void mvTable::addHeaders(const std::vector<std::string>& headers) 

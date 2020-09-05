@@ -4,7 +4,7 @@ from math import sin, cos
 set_log_level(0)
 
 add_data("DataStorage1", {"Key": 34})
-add_data("DataStorage2", [23,42,53])
+add_data("DataStorage2", [23,42,53, 5])
 
 set_main_window_title("DearPyGui Demo")
 set_main_window_size(500, 500)

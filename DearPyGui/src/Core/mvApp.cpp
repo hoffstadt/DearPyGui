@@ -499,16 +499,16 @@ namespace Marvel {
 				// route key pressed event
 				if (ImGui::IsKeyPressed(i) && !eventHandler->getKeyPressCallback().empty())
 					runCallback(eventHandler->getKeyPressCallback(), m_activeWindow, 
-						mvPythonTranslator::ToPyInt(i));
+						ToPyInt(i));
 
 				// route key down event
 				if (ImGui::GetIO().KeysDownDuration[i] >= 0.0f && !eventHandler->getKeyDownCallback().empty())
 					runCallback(eventHandler->getKeyDownCallback(), m_activeWindow,
-						mvPythonTranslator::ToPyMPair(i, ImGui::GetIO().KeysDownDuration[i]));
+						ToPyMPair(i, ImGui::GetIO().KeysDownDuration[i]));
 
 				// route key released event
 				if (ImGui::IsKeyReleased(i) && !eventHandler->getKeyReleaseCallback().empty())
-					runCallback(eventHandler->getKeyReleaseCallback(), m_activeWindow, mvPythonTranslator::ToPyInt(i));
+					runCallback(eventHandler->getKeyReleaseCallback(), m_activeWindow, ToPyInt(i));
 			}
 		}
 
@@ -519,7 +519,7 @@ namespace Marvel {
 		// route mouse wheel event
 		if (ImGui::GetIO().MouseWheel != 0.0f && !eventHandler->getMouseWheelCallback().empty())
 			runCallback(eventHandler->getMouseWheelCallback(), m_activeWindow,
-				mvPythonTranslator::ToPyMPair(0, ImGui::GetIO().MouseWheel));
+				ToPyMPair(0, ImGui::GetIO().MouseWheel));
 
 		// route mouse dragging event
 		// this must be seperate since only a single button can be dragged
@@ -533,7 +533,7 @@ namespace Marvel {
 					mvInput::setMouseDragging(true);
 					mvInput::setMouseDragDelta({ ImGui::GetMouseDragDelta().x, ImGui::GetMouseDragDelta().y });
 					runCallback(eventHandler->getMouseDragCallback(), m_activeWindow,
-						mvPythonTranslator::ToPyMPair(i, 0));
+						ToPyMPair(i, 0));
 					ImGui::ResetMouseDragDelta(i);
 					break;
 				}
@@ -550,22 +550,22 @@ namespace Marvel {
 			// route mouse click event
 			if (ImGui::IsMouseClicked(i) && !eventHandler->getMouseClickCallback().empty())
 				runCallback(eventHandler->getMouseClickCallback(), m_activeWindow,
-					mvPythonTranslator::ToPyInt(i));
+					ToPyInt(i));
 
 			// route mouse down event
 			if (ImGui::GetIO().MouseDownDuration[i] >= 0.0f && !eventHandler->getMouseDownCallback().empty())
 				runCallback(eventHandler->getMouseDownCallback(), m_activeWindow,
-					mvPythonTranslator::ToPyMPair(i, ImGui::GetIO().MouseDownDuration[i]));
+					ToPyMPair(i, ImGui::GetIO().MouseDownDuration[i]));
 
 			// route mouse double clicked event
 			if (ImGui::IsMouseDoubleClicked(i) && !eventHandler->getMouseDoubleClickCallback().empty())
 				runCallback(eventHandler->getMouseDoubleClickCallback(), m_activeWindow,
-					mvPythonTranslator::ToPyInt(i));
+					ToPyInt(i));
 
 			// route mouse released event
 			if (ImGui::IsMouseReleased(i) && !eventHandler->getMouseReleaseCallback().empty())
 				runCallback(eventHandler->getMouseReleaseCallback(), m_activeWindow,
-					mvPythonTranslator::ToPyInt(i));
+					ToPyInt(i));
 		}
 
 	}

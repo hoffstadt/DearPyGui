@@ -15,7 +15,7 @@ namespace Marvel {
 		PyGILState_Release(m_gstate);
 	}
 
-	void mvPythonTranslator::UpdatePyIntList(PyObject* pyvalue, const std::vector<int>& value)
+	void UpdatePyIntList(PyObject* pyvalue, const std::vector<int>& value)
 	{
 		if (pyvalue == nullptr)
 			return;
@@ -36,7 +36,7 @@ namespace Marvel {
 		}
 	}
 
-	void mvPythonTranslator::UpdatePyFloatList(PyObject* pyvalue, const std::vector<float>& value)
+	void UpdatePyFloatList(PyObject* pyvalue, const std::vector<float>& value)
 	{
 		if (pyvalue == nullptr)
 			return;
@@ -57,7 +57,7 @@ namespace Marvel {
 		}
 	}
 
-	void mvPythonTranslator::UpdatePyStringStringList(PyObject* pyvalue, const std::vector<std::vector<std::string>>& value)
+	void UpdatePyStringStringList(PyObject* pyvalue, const std::vector<std::vector<std::string>>& value)
 	{
 		if (pyvalue == nullptr)
 			return;
@@ -84,61 +84,61 @@ namespace Marvel {
 		}
 	}
 
-	PyObject* mvPythonTranslator::GetPyNone()
+	PyObject* GetPyNone()
 	{
 		mvGlobalIntepreterLock gil;
 		Py_RETURN_NONE;
 	}
 
-	PyObject* mvPythonTranslator::ToPyString(const std::string& value)
+	PyObject* ToPyString(const std::string& value)
 	{
 		mvGlobalIntepreterLock gil;
 		return PyUnicode_FromString(value.c_str());
 	}
 
-	PyObject* mvPythonTranslator::ToPyFloat(float value)
+	PyObject* ToPyFloat(float value)
 	{
 		mvGlobalIntepreterLock gil;
 		return PyFloat_FromDouble(value);
 	}
 
-	PyObject* mvPythonTranslator::ToPyInt(int value)
+	PyObject* ToPyInt(int value)
 	{
 		mvGlobalIntepreterLock gil;
 		return PyLong_FromLong(value);
 	}
 
-	PyObject* mvPythonTranslator::ToPyBool(bool value)
+	PyObject* ToPyBool(bool value)
 	{
 		mvGlobalIntepreterLock gil;
 		return PyBool_FromLong(value);
 	}
 
-	PyObject* mvPythonTranslator::ToPyMPair(int x, float y)
+	PyObject* ToPyMPair(int x, float y)
 	{
 		mvGlobalIntepreterLock gil;
 		return Py_BuildValue("[if]", x, y);
 	}
 
-	PyObject* mvPythonTranslator::ToPyPair(float x, float y)
+	PyObject* ToPyPair(float x, float y)
 	{
 		mvGlobalIntepreterLock gil;
 		return Py_BuildValue("[ff]", x, y);
 	}
 
-	PyObject* mvPythonTranslator::ToPyPairII(int x, int y)
+	PyObject* ToPyPairII(int x, int y)
 	{
 		mvGlobalIntepreterLock gil;
 		return Py_BuildValue("[ii]", x, y);
 	}
 
-	PyObject* mvPythonTranslator::ToPyPair(const std::string& x, const std::string& y)
+	PyObject* ToPyPair(const std::string& x, const std::string& y)
 	{
 		mvGlobalIntepreterLock gil;
 		return Py_BuildValue("[ss]", x.c_str(), y.c_str());
 	}
 
-	PyObject* mvPythonTranslator::ToPyList(const std::vector<int>& value)
+	PyObject* ToPyList(const std::vector<int>& value)
 	{
 		mvGlobalIntepreterLock gil;
 		
@@ -150,7 +150,7 @@ namespace Marvel {
 		return result;
 	}
 
-	PyObject* mvPythonTranslator::ToPyList(const std::vector<float>& value)
+	PyObject* ToPyList(const std::vector<float>& value)
 	{
 		mvGlobalIntepreterLock gil;
 
@@ -162,7 +162,7 @@ namespace Marvel {
 		return result;
 	}
 
-	PyObject* mvPythonTranslator::ToPyList(const std::vector<std::string>& value)
+	PyObject* ToPyList(const std::vector<std::string>& value)
 	{
 		mvGlobalIntepreterLock gil;
 
@@ -174,7 +174,7 @@ namespace Marvel {
 		return result;
 	}
 
-	PyObject* mvPythonTranslator::ToPyList(const std::vector<std::vector<std::string>>& value)
+	PyObject* ToPyList(const std::vector<std::vector<std::string>>& value)
 	{
 		mvGlobalIntepreterLock gil;
 
@@ -186,7 +186,7 @@ namespace Marvel {
 		return result;
 	}
 
-	PyObject* mvPythonTranslator::ToPyList(const std::vector<std::pair<int, int>>& value)
+	PyObject* ToPyList(const std::vector<std::pair<int, int>>& value)
 	{
 		mvGlobalIntepreterLock gil;
 
@@ -198,7 +198,7 @@ namespace Marvel {
 		return result;
 	}
 
-	int mvPythonTranslator::ToInt(PyObject* value, const std::string& message)
+	int ToInt(PyObject* value, const std::string& message)
 	{
 		if (value == nullptr)
 			return 0;
@@ -213,7 +213,7 @@ namespace Marvel {
 		return PyLong_AsLong(value);
 	}
 
-	float mvPythonTranslator::ToFloat(PyObject* value, const std::string& message)
+	float ToFloat(PyObject* value, const std::string& message)
 	{
 		if (value == nullptr)
 			return 0.0f;
@@ -228,7 +228,7 @@ namespace Marvel {
 		return (float)PyFloat_AsDouble(value);
 	}
 
-	bool mvPythonTranslator::ToBool(PyObject* value, const std::string& message)
+	bool ToBool(PyObject* value, const std::string& message)
 	{
 		if (value == nullptr)
 			return false;
@@ -243,7 +243,7 @@ namespace Marvel {
 		return PyLong_AsLong(value);
 	}
 
-	std::string mvPythonTranslator::ToString(PyObject* value, const std::string& message)
+	std::string ToString(PyObject* value, const std::string& message)
 	{
 		std::string result;
 		if (value == nullptr)
@@ -271,7 +271,7 @@ namespace Marvel {
 
 	}
 
-	std::vector<int> mvPythonTranslator::ToIntVect(PyObject* value, const std::string& message)
+	std::vector<int> ToIntVect(PyObject* value, const std::string& message)
 	{
 
 		std::vector<int> items;
@@ -306,7 +306,7 @@ namespace Marvel {
 		return items;
 	}
 
-	std::vector<float> mvPythonTranslator::ToFloatVect(PyObject* value, const std::string& message)
+	std::vector<float> ToFloatVect(PyObject* value, const std::string& message)
 	{
 
 		std::vector<float> items;
@@ -341,7 +341,7 @@ namespace Marvel {
 		return items;
 	}
 
-	std::vector<std::string> mvPythonTranslator::ToStringVect(PyObject* value, const std::string& message)
+	std::vector<std::string> ToStringVect(PyObject* value, const std::string& message)
 	{
 
 		std::vector<std::string> items;
@@ -388,7 +388,7 @@ namespace Marvel {
 		return items;
 	}
 
-	mvColor mvPythonTranslator::ToColor(PyObject* value, const std::string& message)
+	mvColor ToColor(PyObject* value, const std::string& message)
 	{
 		int color[4] = { 255, 255, 255, 255 };
 
@@ -420,7 +420,7 @@ namespace Marvel {
 		return mvColor{ color[0], color[1], color[2], color[3], true };
 	}
 
-	mvVec2 mvPythonTranslator::ToVec2(PyObject* value, const std::string& message)
+	mvVec2 ToVec2(PyObject* value, const std::string& message)
 	{
 		if (value == nullptr)
 			return { 0.0f, 0.0f };
@@ -435,7 +435,7 @@ namespace Marvel {
 			return { 0.0f, 0.0f };
 	}
 
-	std::vector<std::pair<std::string, std::string>> mvPythonTranslator::ToVectPairString(PyObject* value, const std::string& message)
+	std::vector<std::pair<std::string, std::string>> ToVectPairString(PyObject* value, const std::string& message)
 	{
 		std::vector<std::pair<std::string, std::string>> items;
 		if (value == nullptr)
@@ -470,7 +470,7 @@ namespace Marvel {
 		return items;
 	}
 
-	std::vector<mvVec2> mvPythonTranslator::ToVectVec2(PyObject* value, const std::string& message)
+	std::vector<mvVec2> ToVectVec2(PyObject* value, const std::string& message)
 	{
 		std::vector<mvVec2> items;
 		if (value == nullptr)
@@ -494,7 +494,7 @@ namespace Marvel {
 		return items;
 	}
 
-	std::vector<std::pair<int, int>> mvPythonTranslator::ToVectInt2(PyObject* value, const std::string& message)
+	std::vector<std::pair<int, int>> ToVectInt2(PyObject* value, const std::string& message)
 	{
 		std::vector<std::pair<int, int>> items;
 		if (value == nullptr)
@@ -560,7 +560,7 @@ namespace Marvel {
 
 	}
 
-	std::vector<std::vector<std::string>> mvPythonTranslator::ToVectVectString(PyObject* value, const std::string& message)
+	std::vector<std::vector<std::string>> ToVectVectString(PyObject* value, const std::string& message)
 	{
 		std::vector<std::vector<std::string>> items;
 		if (value == nullptr)
@@ -582,7 +582,7 @@ namespace Marvel {
 		return items;
 	}
 
-	std::vector<std::pair<std::string, float>> mvPythonTranslator::ToVectPairStringFloat(PyObject* value, const std::string& message)
+	std::vector<std::pair<std::string, float>> ToVectPairStringFloat(PyObject* value, const std::string& message)
 	{
 		std::vector<std::pair<std::string, float>> items;
 		if (value == nullptr)

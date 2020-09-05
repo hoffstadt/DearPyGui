@@ -79,7 +79,7 @@ namespace Marvel {
 				if (data == nullptr)
 					return;
 
-				auto floats = mvPythonTranslator::ToFloatVect(data);
+				auto floats = ToFloatVect(data);
 				m_uv_min.x = floats[0];
 				m_uv_min.y = floats[1];
 				m_uv_max.x = floats[2];

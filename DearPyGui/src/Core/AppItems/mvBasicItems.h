@@ -243,7 +243,7 @@ namespace Marvel {
 				if (data == nullptr)
 					return;
 
-				m_names = mvPythonTranslator::ToStringVect(data);
+				m_names = ToStringVect(data);
 			}
 		}
 
@@ -301,7 +301,7 @@ namespace Marvel {
 				if (data == nullptr)
 					return;
 
-				m_names = mvPythonTranslator::ToStringVect(data);
+				m_names = ToStringVect(data);
 				m_charNames.clear();
 				for (const std::string& item : m_names)
 					m_charNames.emplace_back(item.c_str());
@@ -364,7 +364,7 @@ namespace Marvel {
 				if (data == nullptr)
 					return;
 
-				m_itemnames = mvPythonTranslator::ToStringVect(data);
+				m_itemnames = ToStringVect(data);
 			}
 		}
 
