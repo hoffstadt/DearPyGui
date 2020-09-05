@@ -159,9 +159,9 @@ namespace Marvel {
         //-----------------------------------------------------------------------------
         // AppItem Operations
         //-----------------------------------------------------------------------------
-        void             addItem           (mvAppItem* item);
-        void             addWindow         (mvAppItem* item);
-        void             addRuntimeItem    (const std::string& parent, const std::string& before, mvAppItem* item);
+        bool             addItem           (mvAppItem* item);
+        bool             addWindow         (mvAppItem* item);
+        bool             addRuntimeItem    (const std::string& parent, const std::string& before, mvAppItem* item);
         void             deleteItem        (const std::string& name) { if(name!="MainWindow") m_deleteQueue.push(name); }
         void             deleteItemChildren(const std::string& name) { m_deleteChildrenQueue.push(name); }
         void             moveItemUp        (const std::string& name) { m_upQueue.push(name); }

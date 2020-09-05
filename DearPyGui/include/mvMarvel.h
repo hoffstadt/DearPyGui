@@ -1442,12 +1442,6 @@ namespace Marvel {
 			{mvPythonDataType::String, "parent", "Parent this item will be added to. (runtime adding)"},
 			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)"},
 		}, "Adds a menu item to an existing menu.", "None", "Containers") });
-
-		parsers->insert({ "end_menu", mvPythonParser({
-		}, "Ends the menu created by a call to add_menu.", "None", "Containers") });
-
-		parsers->insert({ "end_menu_bar", mvPythonParser({
-		}, "Ends the menu bar created by a call to add_menu_bar.", "None", "Containers") });
 	}
 
 	static void AddBasicWidgets(std::map<std::string, mvPythonParser>* parsers)
@@ -1804,32 +1798,9 @@ namespace Marvel {
 		}, "Adds a popup window for an item. This command must come immediately after the item the popup is for. Must be followed by a call to end_popup.", 
 		"None", "Containers") });
 
-		parsers->insert({ "end_tree_node", mvPythonParser({
-		}, "Ends the tree node created by a call to add_tree_node.", "None", "Containers") });
+		parsers->insert({ "end", mvPythonParser({
+		}, "Ends a container.", "None", "Containers") });
 
-		parsers->insert({ "end_popup", mvPythonParser({
-		}, "Ends the popup created by a call to add_popup.", "None", "Containers") });
-
-		parsers->insert({ "end_window", mvPythonParser({
-		}, "Ends the window created by a call to add_window.", "None", "Containers") });
-
-		parsers->insert({ "end_group", mvPythonParser({
-		}, "Ends the group created by a call to add_group.", "None", "Containers") });
-
-		parsers->insert({ "end_child", mvPythonParser({
-		}, "Ends the child created by a call to add_child.", "None", "Containers") });
-
-		parsers->insert({ "end_tab", mvPythonParser({
-		}, "Ends the tab created by a call to add_tab.", "None", "Containers") });
-
-		parsers->insert({ "end_tab_bar", mvPythonParser({
-		}, "Ends the tab bar created by a call to add_tab_bar", "None", "Containers") });
-
-		parsers->insert({ "end_tooltip", mvPythonParser({
-		}, "Ends the tooltip created by a call to add_tooltip.", "None", "Containers") });
-
-		parsers->insert({ "end_collapsing_header", mvPythonParser({
-		}, "Ends the collapsing header created by a call to add_collapsing_header.", "None", "Containers") });
 	}
 
 	static void AddAppCommands(std::map<std::string, mvPythonParser>* parsers)
