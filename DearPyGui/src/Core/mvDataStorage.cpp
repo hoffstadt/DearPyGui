@@ -87,6 +87,7 @@ namespace Marvel {
 			return nullptr;
 		}
 		Py_XINCREF(s_dataStorage.at(name));
+		auto blah = s_dataStorage.at(name);
 		return s_dataStorage.at(name);
 	}
 

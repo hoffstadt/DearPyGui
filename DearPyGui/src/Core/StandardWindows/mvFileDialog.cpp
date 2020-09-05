@@ -22,7 +22,7 @@ namespace Marvel {
 				for (auto& key : selections)
 					m_filePath = key.first;
 
-				mvApp::GetApp()->runCallback(m_callback, "File Dialog", mvPythonTranslator::ToPyPair(m_filePathName, m_filePath));
+				mvApp::GetApp()->runCallback(m_callback, "File Dialog", ToPyPair(m_filePathName, m_filePath));
 				m_filePath = "";
 				m_filePathName = "";
 				m_callback = "";

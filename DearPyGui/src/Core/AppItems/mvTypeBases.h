@@ -33,12 +33,12 @@ namespace Marvel {
 
 		void setPyValue(PyObject* value) override
 		{ 
-			m_value = mvPythonTranslator::ToBool(value, m_name + " requires a bool value."); 
+			m_value = ToBool(value, m_name + " requires a bool value."); 
 		}
 
 		[[nodiscard]] PyObject* getPyValue() const override
 		{
-			return mvPythonTranslator::ToPyBool(m_value);
+			return ToPyBool(m_value);
 		}
 
 		[[nodiscard]] bool getValue() const { return m_value; }
@@ -65,12 +65,12 @@ namespace Marvel {
 
 		void setPyValue(PyObject* value) override
 		{
-			m_value = mvPythonTranslator::ToString(value, m_name + " requires a string value.");
+			m_value = ToString(value, m_name + " requires a string value.");
 		}
 
 		[[nodiscard]] PyObject* getPyValue() const override
 		{
-			return mvPythonTranslator::ToPyString(m_value);
+			return ToPyString(m_value);
 		}
 
 		[[nodiscard]] const std::string& getValue() const { return m_value; }
@@ -104,10 +104,10 @@ namespace Marvel {
 		{
 
 			if (m_valuecount == 1)
-				m_value[0] = mvPythonTranslator::ToInt(value);
+				m_value[0] = ToInt(value);
 
 			else
-				m_value = mvPythonTranslator::ToIntVect(value, " requires a list or tuple of integers.");
+				m_value = ToIntVect(value, " requires a list or tuple of integers.");
 
 		}
 
@@ -117,25 +117,25 @@ namespace Marvel {
 			if (!m_dataSource.empty())
 			{
 				if (m_valuecount == 1)
-					return mvPythonTranslator::ToPyInt(m_value[0]);
+					return ToPyInt(m_value[0]);
 
 				else
 				{
 
 					if (!mvDataStorage::HasData(m_dataSource))
-						mvDataStorage::AddData(m_dataSource, mvPythonTranslator::ToPyList(m_value));
+						mvDataStorage::AddData(m_dataSource, ToPyList(m_value));
 					else
-						mvPythonTranslator::UpdatePyIntList(mvDataStorage::GetData(m_dataSource), m_value);
+						UpdatePyIntList(mvDataStorage::GetDataIncRef(m_dataSource), m_value);
 
 					return mvDataStorage::GetData(m_dataSource);
 				}
 			}
 
 			if (m_valuecount == 1)
-				return mvPythonTranslator::ToPyInt(m_value[0]);
+				return ToPyInt(m_value[0]);
 
 			else
-				return mvPythonTranslator::ToPyList(m_value);
+				return ToPyList(m_value);
 		}
 
 	protected:
@@ -166,10 +166,10 @@ namespace Marvel {
 		void setPyValue(PyObject* value) override
 		{
 			if (m_valuecount == 1)
-				m_value[0] = mvPythonTranslator::ToFloat(value);
+				m_value[0] = ToFloat(value);
 
 			else
-				m_value = mvPythonTranslator::ToFloatVect(value, " requires a list or tuple of floats.");
+				m_value = ToFloatVect(value, " requires a list or tuple of floats.");
 
 		}
 
@@ -179,24 +179,24 @@ namespace Marvel {
 			if (!m_dataSource.empty())
 			{
 				if (m_valuecount == 1)
-					return mvPythonTranslator::ToPyFloat(m_value[0]);
+					return ToPyFloat(m_value[0]);
 
 				else
 				{
 					if (!mvDataStorage::HasData(m_dataSource))
-						mvDataStorage::AddData(m_dataSource, mvPythonTranslator::ToPyList(m_value));
+						mvDataStorage::AddData(m_dataSource, ToPyList(m_value));
 					else
-						mvPythonTranslator::UpdatePyFloatList(mvDataStorage::GetData(m_dataSource), m_value);
+						UpdatePyFloatList(mvDataStorage::GetDataIncRef(m_dataSource), m_value);
 
 					return mvDataStorage::GetData(m_dataSource);
 				}
 			}
 
 			if (m_valuecount == 1)
-				return mvPythonTranslator::ToPyFloat(m_value[0]);
+				return ToPyFloat(m_value[0]);
 
 			else
-				return mvPythonTranslator::ToPyList(m_value);
+				return ToPyList(m_value);
 		}
 
 	protected:
@@ -226,7 +226,7 @@ namespace Marvel {
 
 		void setPyValue(PyObject* value) override
 		{
-			auto ints = mvPythonTranslator::ToFloatVect(value, " requires a list or tuple of integers");
+			auto ints = ToFloatVect(value, " requires a list or tuple of integers");
 			for (size_t i = 0; i < ints.size(); i++)
 			{
 				if (i > 3)
@@ -244,14 +244,14 @@ namespace Marvel {
 			if (!m_dataSource.empty())
 			{
 				if (!mvDataStorage::HasData(m_dataSource))
-					mvDataStorage::AddData(m_dataSource, mvPythonTranslator::ToPyList(ints));
+					mvDataStorage::AddData(m_dataSource, ToPyList(ints));
 				else
-					mvPythonTranslator::UpdatePyIntList(mvDataStorage::GetData(m_dataSource), ints);
+					UpdatePyIntList(mvDataStorage::GetDataIncRef(m_dataSource), ints);
 
 				return mvDataStorage::GetData(m_dataSource);
 			}
 
-			return mvPythonTranslator::ToPyList(ints);
+			return ToPyList(ints);
 		}
 
 	protected:
