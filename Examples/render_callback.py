@@ -20,6 +20,7 @@ add_spacing()
 add_slider_int("Horizontal Speed", default_value=1)
 add_slider_int("Vertical Speed", default_value=1)
 add_checkbox("Use Delta Time")
+add_checkbox("Use Vsync", default_value=1)
 add_progress_bar("Center X", 0, overlay="x position")
 add_progress_bar("Center Y", 0, overlay="y position")
 
@@ -42,7 +43,8 @@ def drag_callback(sender, data):
 
 
 def render(sender, data):
-
+    
+    set_vsync(get_value("Use Vsync"))
     center = get_data("center")
     horizontal_direction = get_data("horizontal direction")
     vertical_direction = get_data("vertical direction")
