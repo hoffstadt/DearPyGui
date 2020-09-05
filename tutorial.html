@@ -159,7 +159,7 @@ add_text("This is some text on window 2", parent="window 2")
 
 add_window("window 2") #this is a group widget
 add_checkbox("Checkbox") #this is a input widget
-end_window()
+end()
 
 add_checkbox("Last coded widget", parent="MainWindow", before="First coded widget")
 
@@ -229,7 +229,7 @@ start_dearpygui()</code> </pre>
 
 add_window("close me", on_close="close_callback")
 add_text("close this window")
-end_window()
+end()
 
 def close_callback(sender, data):
     print(sender + " has been closed")
@@ -256,7 +256,7 @@ show_debug()
 add_button("Add Buttons", callback="addButtons")
 add_button("Delete Buttons", callback="deleteButtons")
 add_window("Secondary Window")
-end_window()
+end()
 
 def addButtons(sender, data):
     add_button("New Button")
@@ -403,15 +403,15 @@ add_menu_item("Save As", callback="print_me")
 add_menu("Settings")
 add_menu_item("Setting 1", callback="print_me")
 add_menu_item("Setting 2", callback="print_me")
-end_menu()
-end_menu()
+end()
+end()
 add_menu_item("Help", callback="print_me")
 add_menu("Widget Items")
 add_checkbox("Pick Me", callback="print_me")
 add_button("Press Me", callback="print_me")
 add_color_picker4("Color Me", callback="print_me")
-end_menu()
-end_menu_bar()
+end()
+end()
 
 
 def print_me(sender, data):
