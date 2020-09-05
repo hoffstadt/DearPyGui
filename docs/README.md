@@ -17,6 +17,8 @@
 
 **Dear PyGui** is a **simple to use (but powerful) Python GUI framework**. _DearPyGui_ provides a wrapping of **[DearImGui](https://github.com/ocornut/imgui)** that provides a hybrid of a traditional retained mode GUI and _Dear ImGui_'s immediate mode paradigm.
 
+<BR>![Themes](https://github.com/hoffstadt/DearPyGui/blob/assets/linuxthemes.PNG?raw=true)
+
 **Dear PyGui is fundamentally different than other Python GUI frameworks**. Under the hood, _DearPyGui_ 
 uses the immediate mode paradigm allowing for extremely dynamic interfaces. _DearPyGui_ 
 does not use native widgets, but instead draws the widgets using your computer's GPU. _DearPyGui_ is currently supported on
