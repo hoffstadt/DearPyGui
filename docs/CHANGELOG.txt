@@ -23,10 +23,15 @@ HOW TO UPDATE?
 - Please report any issue!
 
 -----------------------------------------------------------------------
- VERSION 0.2.0 WIP
+ VERSION 0.2.0 (9/5/2020)
 -----------------------------------------------------------------------
 
 Decorated log: https://github.com/hoffstadt/DearPyGui/releases/tag/v0.2.0
+
+New Features:
+
+- Context Managers: You can now import dearpygui.wrappers to use context
+	manager versions of all containers
 
 Changes:
 
