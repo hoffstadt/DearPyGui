@@ -14,6 +14,83 @@ def item_checked(item):
     delete_item(item)
     add_label_text(item + "##checklist", value="Not Checked", color=[255, 0, 0], parent="CompleteChecklistGroup")
 
+########################################################################################################################
+# Context Managers : normally in dearpygui.wrappers
+########################################################################################################################
+
+@contextmanager
+def window(name: str, width: int = -1, height: int = -1, start_x: int = 200, start_y: int = 200, 
+           autosize: bool = False, resizable: bool = True, title_bar: bool = True, 
+           movable: bool = True, hide: bool = False, on_close: str = ""):
+    try: 
+        yield add_window(name, width, height, start_x=start_x, start_y=start_y, autosize=autosize, 
+                         resizable=resizable, title_bar=title_bar, movable=movable, hide=hide,
+                         on_close=on_close)
+    finally: end()
+
+@contextmanager
+def menu_bar(name: str, parent: str = "", before: str = ""):
+    try: yield add_menu_bar(name, parent=parent, before=before)
+    finally: end()
+
+@contextmanager
+def menu(name: str, tip: str = "", parent: str = "", before: str = ""):
+    try: yield add_menu(name, tip=tip, parent=parent, before=before)
+    finally: end()
+
+@contextmanager
+def child(name: str, tip: str = "", parent: str = "", before: str = "", width: int = 0, height: int = 0, border: bool = True):
+    try: 
+        yield add_child(name, tip=tip, parent=parent, before=before, width=width, 
+                        height=height, border=border)
+    finally: end()
+
+@contextmanager
+def collapsing_header(name: str, default_open: bool = False, closable: bool = False, tip: str = "", parent: str = "", before: str = ""):
+    try:
+        yield add_collapsing_header(name, default_open=default_open, closable=closable, tip=tip, parent=parent, before=before)
+    finally: end()
+
+@contextmanager
+def group(name: str, tip: str = "", parent: str = "", before: str = "", width: int = 0, hide: bool = False, 
+			  horizontal: bool = False, horizontal_spacing: float = -1.0):
+    try:
+        yield add_group(name, tip=tip, parent=parent, before=before, width=width, hide=hide, horizontal=horizontal,
+                        horizontal_spacing=horizontal_spacing)
+    finally: end()
+
+@contextmanager
+def tab_bar(name: str, reorderable: bool = False, callback: str = "", parent: str = "", before: str = "", data_source: str = ""):
+    try:
+        yield add_tab_bar(name, reorderable=reorderable, callback=callback, parent=parent, before=before, data_source=data_source)
+    finally: end()
+
+@contextmanager
+def tab(name: str, closable: bool = False, tip: str = "", parent: str = "", before: str = ""):
+    try:
+        yield add_tab(name, closable=closable, tip=tip, parent=parent, before=before)
+    finally: end()
+
+@contextmanager
+def tree_node(name: str, default_open: bool = False, tip: str = "", parent: str = "", before: str = ""):
+    try:
+        yield add_tree_node(name, default_open=default_open, tip=tip, parent=parent, before=before)
+    finally: end()
+
+@contextmanager
+def tooltip(tipparent: str, name: str, parent: str = "", before: str = ""):
+    try:
+        yield add_tooltip(tipparent, name, parent=parent, before=before)
+    finally: end()
+
+@contextmanager
+def popup(popupparent: str, name: str, mousebutton: int = 1, modal: bool = False, parent: str = "", 
+          before: str = "", width: int = 0, height: int = 0):
+    try:
+        yield add_popup(popupparent, name, mousebutton=mousebutton, modal=modal, parent=parent,
+                        before=before, width=width, height=height)
+    finally: end()
+
 
 ########################################################################################################################
 # Settings and Data Storage
@@ -31,31 +108,31 @@ add_additional_font("C:/dev/DearPyGui/Resources/NotoSerifCJKjp-Medium.otf", 20)
 ########################################################################################################################
 # Menu
 ########################################################################################################################
-if add_menu_bar("MenuBar"):
+with menu_bar("MenuBar"):
 
-    if add_menu("Themes"):
+    with menu("Themes"):
         add_menu_item("Dark", callback = "ThemeCallback")
         add_menu_item("Light", callback = "ThemeCallback")
         add_menu_item("Classic", callback = "ThemeCallback")
-        add_menu_item("Dark 2", callback = "ThemeCallback")
-        add_menu_item("Grey", callback = "ThemeCallback")
-        add_menu_item("Dark Grey", callback = "ThemeCallback")
-        add_menu_item("Cherry", callback = "ThemeCallback")
-        add_menu_item("Purple", callback = "ThemeCallback")
-        add_menu_item("Gold", callback = "ThemeCallback")
-        add_menu_item("Red", callback = "ThemeCallback")
-        end()
 
-    if add_menu("Tools"):
+        with menu("Other Themes"):
+            add_menu_item("Dark 2", callback = "ThemeCallback")
+            add_menu_item("Grey", callback = "ThemeCallback")
+            add_menu_item("Dark Grey", callback = "ThemeCallback")
+            add_menu_item("Cherry", callback = "ThemeCallback")
+            add_menu_item("Purple", callback = "ThemeCallback")
+            add_menu_item("Gold", callback = "ThemeCallback")
+            add_menu_item("Red", callback = "ThemeCallback")
+
+    with menu("Tools"):
         add_menu_item("Show Logger", callback="show_logger")
         add_menu_item("Show About", callback="show_about")
         add_menu_item("Show Metrics", callback="show_metrics")
         add_menu_item("Show Documentation", callback="show_documentation")
         add_menu_item("Show Debug", callback="show_debug")
         add_menu_item("Show Style Editor", callback="show_style_editor")
-        end()
 
-    if add_menu("Oddities"):
+    with menu("Oddities"):
         add_button("A Button")
         add_simple_plot("A menu plot", (0.3, 0.9, 2.5, 8.9), height = 80)
         add_table("A Menu Table", ["Column 1", "Column 2", "Column 3", "Column 4"])
@@ -68,13 +145,12 @@ if add_menu_bar("MenuBar"):
             tabledata1.append(row)
 
         set_value("A Menu Table", tabledata1)
-        end()
-    end()
+
 
 ########################################################################################################################
 # checklist
 ########################################################################################################################
-if add_child("ChecklistGroup", width=300):
+with child("ChecklistGroup", width=300):
     add_item_to_check("Widgets")
     add_item_to_check("Widgets")
     add_item_to_check("Drawing API")
@@ -88,19 +164,20 @@ if add_child("ChecklistGroup", width=300):
     add_item_to_check("Tables")
     add_item_to_check("Open File")
     add_item_to_check("Open Directory")
-    end()
-    add_same_line()
 
-if add_child("CompleteChecklistGroup", width=300):
-    end()
-    add_same_line()
+add_same_line()
+
+with child("CompleteChecklistGroup", width=300):
+    pass
+
+add_same_line()
 
 #add_image("image", "/Users/jonathanhoffstadt/Desktop/demo.jpg")
 
 ########################################################################################################################
 # Launchers
 ########################################################################################################################
-if add_group("Launch Group", width=200):
+with group("Launch Group", width=200):
     add_button("Widgets", callback="Launcher")
     add_button("Drawing API", callback="Launcher")
     add_button("Plots, Graphs and Charts", callback="Launcher")
@@ -113,12 +190,11 @@ if add_group("Launch Group", width=200):
     add_button("Tables", callback="Launcher")
     add_button("Open File", callback="OpenFile")
     add_button("Open Directory", callback="OpenDirectory")
-    end()
 
 ########################################################################################################################
 # Tables
 ########################################################################################################################
-if add_window("Tables##dialog", 500, 500, hide=True, on_close="closeit"):
+with window("Tables##dialog", 500, 500, hide=True, on_close="closeit"):
     add_button("Delete row 6", callback="DeleteRow")
     add_button("Delete col 1", callback="DeleteCol")
     add_button("Add row ", callback="AddRow")
@@ -127,77 +203,71 @@ if add_window("Tables##dialog", 500, 500, hide=True, on_close="closeit"):
     add_button("Insert col 1 ", callback="InsertCol")
     add_button("Clear Table ", callback="ClearTable")
     add_table("Table##widget", ["Column 1", "Column 2", "Column 3", "Column 4"])
-    end()
 
-def closeit(sender, data):
-    items = get_windows()
-    for item in items:
-        print(item)
-    print("closing tables")
+    def closeit(sender, data):
+        items = get_windows()
+        for item in items:
+            print(item)
+        print("closing tables")
 
-tabledata = []
-for i in range(0, 10):
-    row = []
-    for j in range(0, 4):
-        row.append("Item"+str(i)+"-"+str(j))
-    tabledata.append(row)
+    tabledata = []
+    for i in range(0, 10):
+        row = []
+        for j in range(0, 4):
+            row.append("Item"+str(i)+"-"+str(j))
+        tabledata.append(row)
 
-set_value("Table##widget", tabledata)
+    set_value("Table##widget", tabledata)
 
-def ClearTable(sender, data):
-    clear_table("Table##widget")
+    def ClearTable(sender, data):
+        clear_table("Table##widget")
 
-def DeleteRow(sender, data):
-    delete_row("Table##widget", 6)
+    def DeleteRow(sender, data):
+        delete_row("Table##widget", 6)
 
-def DeleteCol(sender, data):
-    delete_column("Table##widget", 1)
+    def DeleteCol(sender, data):
+        delete_column("Table##widget", 1)
 
-def AddRow(sender, data):
-    add_row("Table##widget", ["new1", "new2", "new3", 53])
+    def AddRow(sender, data):
+        add_row("Table##widget", ["new1", "new2", "new3", 53])
 
-def AddCol(sender, data):
-    add_column("Table##widget", "New Column", ["new1", "new2", "new3", "new4"])
+    def AddCol(sender, data):
+        add_column("Table##widget", "New Column", ["new1", "new2", "new3", "new4"])
 
-def InsertRow(sender, data):
-    insert_row("Table##widget", 5, ["inew1", "inew2", "inew3", "inew4"])
+    def InsertRow(sender, data):
+        insert_row("Table##widget", 5, ["inew1", "inew2", "inew3", "inew4"])
 
-def InsertCol(sender, data):
-    insert_column("Table##widget", 1,  "Inserted Column", ["inew1", "inew2", "inew3", "inew4"])
+    def InsertCol(sender, data):
+        insert_column("Table##widget", 1,  "Inserted Column", ["inew1", "inew2", "inew3", "inew4"])
 
 ########################################################################################################################
 # Tooltips and Popups
 ########################################################################################################################
-if add_window("Tooltips/Popups##dialog", 200, 200, hide=True):
+with window("Tooltips/Popups##dialog", 200, 200, hide=True):
+
     add_button("Hover me##tooltips")
-    if add_tooltip("Hover me##tooltips", "tool_tip##tooltips"):
+    with tooltip("Hover me##tooltips", "tool_tip##tooltips"):
         add_simple_plot("Simpleplot##tooltips", (0.3, 0.9, 2.5, 8.9), height = 80)
-        end()
+    
     add_button("Modal Window")
-    if add_popup("Modal Window", "ModalPopup", modal=True):
+    with popup("Modal Window", "ModalPopup", modal=True):
         add_simple_plot("Simpleplot##modal", (0.3, 0.9, 2.5, 8.9), height = 80)
         add_button("Close Window##modal", callback="close_popup")
-        end()
     add_text("Right Click Me", tip="not hooked up")
-    #add_popup("Right Click Me", "RegularPopup", mousebutton=mc.mvMouseButton_Right)
-    #add_simple_plot("Simpleplot##popup", (0.3, 0.9, 2.5, 8.9), height = 80)
-    #end()
-    end()
 
 ########################################################################################################################
 # Text
 ########################################################################################################################
-if add_window("Text Widget##dialog", 200, 200, start_x=0, start_y=0, hide=True, resizable=False, title_bar=False, movable=True):
+with window("Text Widget##dialog", 200, 200, start_x=0, start_y=0, hide=True, resizable=False, title_bar=False, movable=True):
     add_text("Regular")
     add_text("Wrapped at 100 pixels", wrap=100)
     add_text("Color", color=(0, 200, 255))
     add_text("Bullet", bullet=True)
-    end()
 
 ########################################################################################################################
 # Input Text
 ########################################################################################################################
-if add_window("Input Text##dialog", 500, 500, autosize=True, hide=True):
+with window("Input Text##dialog", 500, 500, autosize=True, hide=True):
     add_input_text("Regular##inputtext")
     add_input_text("With hint##inputtext", hint="A hint")
     add_input_text("No spaces##inputtext", no_spaces=True)
@@ -207,17 +277,16 @@ if add_window("Input Text##dialog", 500, 500, autosize=True, hide=True):
     add_input_text("Read Only##inputtext", readonly=True, default_value="read only")
     add_input_text("Password##inputtext", password=True)
     add_input_text("Multiline##inputtext", multiline=True)
-    end()
 
 ########################################################################################################################
 # Widgets
 ########################################################################################################################
-if add_window("Widgets##dialog", 500, 500, hide=True):
+with window("Widgets##dialog", 500, 500, hide=True):
     add_button("Get Widget Values", callback="RetrieveValues")
 
-    if add_tab_bar("Tab Bar##widget"):
+    with tab_bar("Tab Bar##widget"):
 
-        if add_tab("Basic Widgets##widget"):
+        with tab("Basic Widgets##widget"):
             add_button("Button##widget")
             add_checkbox("Checkbox##widget")
             add_combo("Combo##widget", ("Item 1", "Item 2", "item 3"))
@@ -256,94 +325,81 @@ if add_window("Widgets##dialog", 500, 500, hide=True):
             add_slider_int2("Slider Int2##widget")
             add_slider_int3("Slider Int3##widget", data_source = "DataStorage2")
             add_slider_int4("Slider Int4##widget")
-            end()
 
-        if add_tab("Container Widgets"):
+        with tab("Container Widgets"):
 
-            if add_tree_node("Tree Node1##widget"):
+            with tree_node("Tree Node1##widget"):
                 for i in range(0, 3):
                     add_text("Item" + str(i))
-                end()
 
-            if add_tree_node("Tree Node2##widget"):
+            with tree_node("Tree Node2##widget"):
                 for i in range(0, 3):
                     add_text("Item" + str(i))
-                end()
 
-            if add_collapsing_header("Collapsing Header##widget"):
+            with collapsing_header("Collapsing Header##widget"):
                 for i in range(0, 10):
                     add_text("Item " + str(i) + " belonging to a collapsing header")
-                end()
 
-            if add_child("Child##widget", width=220, height=100):
+            with child("Child##widget", width=220, height=100):
                 for i in range(0, 10):
                     add_text("Item " + str(i) + " belonging to a child")
-                end()
 
             add_same_line(spacing=50)
 
-            if add_group("Group##widget"):
+            with group("Group##widget"):
                 add_text("Group")
                 for i in range(0, 3):
                     add_button("Button" + str(i) + "##widgetgroup")
-                end()
-            end()
-        end()
-    end()
 
 ########################################################################################################################
 # Logger
 ########################################################################################################################
-if add_window("Logging##dialog", 500, 500, autosize=True, hide=True):
+with window("Logging##dialog", 500, 500, autosize=True, hide=True):
     add_button("Test Logger", callback="LogCallback")
     add_same_line(spacing=10)
-    if add_group("LoggingGroup"):
+    with group("LoggingGroup"):
         add_text("Log Level")
         add_radio_button("Log Level##logging", ("Trace", "Debug", "Info", "Warning", "Error", "Off"))
-        end()
-    end()
 
 ########################################################################################################################
 # Plots
 ########################################################################################################################
-if add_window("Plots, Graphs and Charts##dialog", 500, 500, hide=True):
-    if add_tab_bar("PlotTabBar"):
-        if add_tab("Plot Widget"):
+with window("Plots, Graphs and Charts##dialog", 500, 500, hide=True):
+
+    with tab_bar("PlotTabBar"):
+
+        with tab("Plot Widget"):
             add_button("Plot data", callback="PlotCallback")
             add_listbox("Colormaps", ("Default", "Dark", "Pastel", "Paired", "Viridis", "Plasma", "Hot", "Cool", "Pink", "Jet"), width=500, height=3, callback="colormapCallback")
             add_plot("Plot", "x-axis", "y-axis", height=-1);
-            end()
-        if add_tab("Simple Plots"):
+
+        with tab("Simple Plots"):
             add_simple_plot("Simpleplot1", (0.3, 0.9, 2.5, 8.9))
             add_simple_plot("Simpleplot2", (0.3, 0.9, 2.5, 8.9), overlay="Overlaying", height=180, histogram=True)
-            end()
-        end()
-    end()
 
-def PlotCallback(sender, data):
+    def PlotCallback(sender, data):
 
-    data1 = []
-    for i in range(0, 100):
-        data1.append([3.14*i/180, cos(3*3.14*i/180)])
+        data1 = []
+        for i in range(0, 100):
+            data1.append([3.14*i/180, cos(3*3.14*i/180)])
 
-    data3 = [[0.5, -0.5], [1, -0.5], [1, -1], [0.5, -1]]
+        data3 = [[0.5, -0.5], [1, -0.5], [1, -1], [0.5, -1]]
 
-    add_line_series("Plot", "Cos", data1, weight=2, fill=[255, 0, 0, 100])
-    add_scatter_series("Plot", "Sin", data1)
-    add_area_series("Plot", "Custom", data3, [255, 255, 0], [255, 255, 0, 100])
+        add_line_series("Plot", "Cos", data1, weight=2, fill=[255, 0, 0, 100])
+        add_scatter_series("Plot", "Sin", data1)
+        add_area_series("Plot", "Custom", data3, [255, 255, 0], [255, 255, 0, 100])
 
 ########################################################################################################################
 # Canvas
 ########################################################################################################################
-if add_window("Drawing API##dialog", autosize=True, hide=True):
-    if add_group("Drawing Controls Group"):
+with window("Drawing API##dialog", autosize=True, hide=True):
+    with group("Drawing Controls Group"):
         add_slider_float("X Origin", vertical=True, min_value = -100, max_value=100, default_value=0, callback="UpdateDrawing")
         add_same_line(spacing=20)
         add_slider_float("Y Origin", vertical=True, min_value = -100, max_value=100, default_value=0, callback="UpdateDrawing")
         add_slider_float("X Scale ", vertical=True, max_value=10, default_value=1, callback="UpdateDrawing")
         add_same_line(spacing=20)
         add_slider_float("Y Scale", vertical=True, max_value=10, default_value=1, callback="UpdateDrawing")
-        end()
     add_same_line(spacing=20)
     add_drawing("drawing##widget", width=800, height=500)
     draw_rectangle("drawing##widget", (0, 500), (800, 0), (255, 0, 0, 255), fill=(0, 0, 25, 255), rounding=12, thickness = 1.0)
@@ -358,24 +414,22 @@ if add_window("Drawing API##dialog", autosize=True, hide=True):
     draw_bezier_curve("drawing##widget", (50, 200), (150, 250), (300, 150), (600, 250), (255, 255, 0, 255), thickness = 2.0)
     draw_arrow("drawing##widget", (50, 70), (100, 65), (0, 200, 255), 1, 10)
     #draw_image("drawing##widget", "C:/dev/DearPyGui/Examples/SpriteMapExample.png", pmin=[200, 200])
-    end()
 
-def UpdateDrawing(sender, data):
-    set_drawing_origin("drawing##widget", get_value("X Origin"), get_value("Y Origin"))
-    set_drawing_scale("drawing##widget", get_value("X Scale "), get_value("Y Scale"))
+    def UpdateDrawing(sender, data):
+        set_drawing_origin("drawing##widget", get_value("X Origin"), get_value("Y Origin"))
+        set_drawing_scale("drawing##widget", get_value("X Scale "), get_value("Y Scale"))
 
 ########################################################################################################################
 # Asyncronous
 ########################################################################################################################
-if add_window("Asyncronous##dialog", hide=True):
+with window("Asyncronous##dialog", hide=True):
     add_button("Start Long Process", callback="LongCallback")
     add_button("Start Long Asyncronous Process", callback="LongAsyncronousCallback")
-    end()
 
 ########################################################################################################################
 # Input Polling
 ########################################################################################################################
-if add_window("Input Polling##dialog", hide=True, autosize=True):
+with window("Input Polling##dialog", hide=True, autosize=True):
     add_text("Key Polling")
     add_label_text("A key Down", "False", color=(0,200,255))
     add_label_text("W key Pressed", "False", color=(0,200,255))
@@ -398,7 +452,6 @@ if add_window("Input Polling##dialog", hide=True, autosize=True):
     add_label_text("Left Mouse Released", "False", color=(0,200,255))
     add_label_text("Middle Mouse Released", "False", color=(0,200,255))
     add_label_text("Right Mouse Released", "False", color=(0,200,255))
-    end()
 
 # callbacks
 
@@ -513,8 +566,6 @@ def InputPollingMainCallback(sender, data):
 def colormapCallback(sender, data):
     value = get_value("Colormaps")
     set_color_map("Plot", value)
-
-
 
 def LongAsyncronousCallback(sender, data):
     run_async_function("LongCallback2", "some_data", return_handler="ReturnFromLongProcess")
