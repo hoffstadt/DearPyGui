@@ -19,11 +19,11 @@
 
 namespace Marvel {
 
-	static void AddItemWithRuntimeChecks(mvAppItem* item, const char* parent, const char* before)
+	static bool AddItemWithRuntimeChecks(mvAppItem* item, const char* parent, const char* before)
 	{
 
 		if (item == nullptr)
-			return;
+			return false;
 
 		auto ma = mvApp::GetApp();
 
@@ -39,31 +39,31 @@ namespace Marvel {
 
 		// window runtime adding
 		if (item->getType() == mvAppItemType::Window && mvApp::IsAppStarted())
-			ma->addRuntimeItem("", "", item);
+			return ma->addRuntimeItem("", "", item);
 
 		// window compile adding
 		else if (item->getType() == mvAppItemType::Window)
-			ma->addWindow(item);
+			return ma->addWindow(item);
 
 		// typical run time adding
 		else if ((!std::string(parent).empty() || !std::string(before).empty()) && mvApp::IsAppStarted())
-			ma->addRuntimeItem(parent, before, item);
+			return ma->addRuntimeItem(parent, before, item);
 
 		// adding without specifying before or parent, instead using parent stack
 		else if (std::string(parent).empty() && std::string(before).empty() && mvApp::IsAppStarted() && ma->topParent() != nullptr)
-			ma->addRuntimeItem(ma->topParent()->getName(), before, item);
+			return ma->addRuntimeItem(ma->topParent()->getName(), before, item);
 
 		// adding without specifying before or parent, but with empty stack (add to main window)
 		else if (std::string(parent).empty() && std::string(before).empty() && mvApp::IsAppStarted())
-			ma->addRuntimeItem("MainWindow", "", item);
+			return ma->addRuntimeItem("MainWindow", "", item);
 
 		// adding normally but using the runtime style of adding
 		else if (!std::string(parent).empty() && !mvApp::IsAppStarted())
-			ma->addRuntimeItem(parent, before, item);
+			return ma->addRuntimeItem(parent, before, item);
 
 		// typical adding before runtime
 		else if (std::string(parent).empty() && !mvApp::IsAppStarted() && std::string(before).empty())
-			ma->addItem(item);
+			return ma->addItem(item);
 	}
 
 	std::map<std::string, mvPythonParser>* BuildDearPyGuiInterface()
@@ -937,7 +937,7 @@ namespace Marvel {
 		int height = 0;
 
 		if (!(*mvApp::GetApp()->getParsers())["add_drawing"].parse(args, kwargs, __FUNCTION__, &name, &tip, &parent, &before, &width, &height))
-			return GetPyNone();
+			return ToPyBool(false);
 
 		mvAppItem* item = new mvDrawing("", name, width, height);
 		item->setTip(tip);
@@ -945,11 +945,9 @@ namespace Marvel {
 		item->setHeight(height);
 
 		if (!item)
-			return GetPyNone();
+			return ToPyBool(false);
 
-		AddItemWithRuntimeChecks(item, parent, before);
-
-		return GetPyNone();
+		return ToPyBool(AddItemWithRuntimeChecks(item, parent, before));
 	}
 
 	PyObject* delete_drawing_item(PyObject* self, PyObject* args, PyObject* kwargs)
@@ -1994,15 +1992,13 @@ namespace Marvel {
 
 		if (!(*mvApp::GetApp()->getParsers())["add_plot"].parse(args, kwargs, __FUNCTION__, &name, &xAxisName, &yAxisName, &flags,
 			&xflags, &yflags, &parent, &before, &width, &height, &query_callback))
-			return GetPyNone();
+			return ToPyBool(false);
 
 		mvAppItem* item = new mvPlot("", name, xAxisName, yAxisName, width, height, flags, xflags, yflags, query_callback);
 		item->setWidth(width);
 		item->setHeight(height);
 
-		AddItemWithRuntimeChecks(item, parent, before);
-
-		return GetPyNone();
+		return ToPyBool(AddItemWithRuntimeChecks(item, parent, before));
 	}
 
 	PyObject* delete_series(PyObject* self, PyObject* args, PyObject* kwargs)
@@ -2888,12 +2884,11 @@ namespace Marvel {
 
 		if (!(*mvApp::GetApp()->getParsers())["add_table"].parse(args, kwargs, __FUNCTION__, &name, &headers, &callback, &parent,
 			&before))
-			return GetPyNone();
+			return ToPyBool(false);
 
 		mvAppItem* item = new mvTable("", name, ToStringVect(headers));
 		item->setCallback(callback);
-		AddItemWithRuntimeChecks(item, parent, before);
-		return GetPyNone();
+		return ToPyBool(AddItemWithRuntimeChecks(item, parent, before));
 	}
 
 	PyObject* add_simple_plot(PyObject* self, PyObject* args, PyObject* kwargs)
@@ -2914,7 +2909,7 @@ namespace Marvel {
 
 		if (!(*mvApp::GetApp()->getParsers())["add_simple_plot"].parse(args, kwargs, __FUNCTION__, &name, &value, &autoscale, &overlay,
 			&minscale, &maxscale, &histogram, &tip, &parent, &before, &width, &height, &data_source))
-			return GetPyNone();
+			return ToPyBool(false);
 
 		std::vector<float> values = ToFloatVect(value);
 
@@ -2938,9 +2933,7 @@ namespace Marvel {
 		item->setHeight(height);
 		item->setDataSource(data_source);
 
-		AddItemWithRuntimeChecks(item, parent, before);
-
-		return GetPyNone();
+		return ToPyBool(AddItemWithRuntimeChecks(item, parent, before));
 	}
 
 	PyObject* add_progress_bar(PyObject* self, PyObject* args, PyObject* kwargs)
@@ -2957,7 +2950,7 @@ namespace Marvel {
 
 		if (!(*mvApp::GetApp()->getParsers())["add_progress_bar"].parse(args, kwargs, __FUNCTION__, &name, &default_value,
 			&overlay, &tip, &parent, &before, &data_source, &width, &height))
-			return GetPyNone();
+			return ToPyBool(false);
 
 		mvAppItem* item = new mvProgressBar("", name, default_value, overlay);
 		item->setTip(tip);
@@ -2965,9 +2958,7 @@ namespace Marvel {
 		item->setHeight(height);
 		item->setDataSource(data_source);
 
-		AddItemWithRuntimeChecks(item, parent, before);
-
-		return GetPyNone();
+		return ToPyBool(AddItemWithRuntimeChecks(item, parent, before));
 	}
 
 	PyObject* add_image(PyObject* self, PyObject* args, PyObject* kwargs)
@@ -3001,7 +2992,7 @@ namespace Marvel {
 		if (!(*mvApp::GetApp()->getParsers())["add_image"].parse(args, kwargs, __FUNCTION__, &name,
 			&value, &tintcolor, &bordercolor, &tip, &parent, &before, &data_source, &width,
 			&height, &uv_min, &uv_max, &secondary_data_source))
-			return GetPyNone();
+			return ToPyBool(false);
 
 		auto mtintcolor = ToColor(tintcolor);
 		auto mbordercolor = ToColor(bordercolor);
@@ -3015,9 +3006,7 @@ namespace Marvel {
 		item->setHeight(height);
 		item->setDataSource(data_source);
 
-		AddItemWithRuntimeChecks(item, parent, before);
-
-		return GetPyNone();
+		return ToPyBool(AddItemWithRuntimeChecks(item, parent, before));
 	}
 
 	PyObject* add_drag_float(PyObject* self, PyObject* args, PyObject* kwargs)
@@ -3038,7 +3027,7 @@ namespace Marvel {
 
 		if (!(*mvApp::GetApp()->getParsers())["add_drag_float"].parse(args, kwargs, __FUNCTION__, &name, &default_value, &speed,
 			&min_value, &max_value, &format, &callback, &tip, &parent, &before, &data_source, &width, &on_enter))
-			return GetPyNone();
+			return ToPyBool(false);
 
 		std::vector<float> defaults;
 		defaults.push_back(default_value);
@@ -3056,8 +3045,7 @@ namespace Marvel {
 		item->setDataSource(data_source);
 		item->setWidth(width);
 
-		AddItemWithRuntimeChecks(item, parent, before);
-		return GetPyNone();
+		return ToPyBool(AddItemWithRuntimeChecks(item, parent, before));
 	}
 
 	PyObject* add_drag_float2(PyObject* self, PyObject* args, PyObject* kwargs)
@@ -3082,7 +3070,7 @@ namespace Marvel {
 
 		if (!(*mvApp::GetApp()->getParsers())["add_drag_float2"].parse(args, kwargs, __FUNCTION__, &name, &default_value, &speed,
 			&min_value, &max_value, &format, &callback, &tip, &parent, &before, &data_source, &width, &on_enter))
-			return GetPyNone();
+			return ToPyBool(false);
 
 		ImGuiInputTextFlags flags = 0;
 		if (on_enter)
@@ -3094,8 +3082,7 @@ namespace Marvel {
 		item->setTip(tip);
 		item->setDataSource(data_source);
 		item->setWidth(width);
-		AddItemWithRuntimeChecks(item, parent, before);
-		return GetPyNone();
+		return ToPyBool(AddItemWithRuntimeChecks(item, parent, before));
 	}
 
 	PyObject* add_drag_float3(PyObject* self, PyObject* args, PyObject* kwargs)
@@ -3120,7 +3107,7 @@ namespace Marvel {
 
 		if (!(*mvApp::GetApp()->getParsers())["add_drag_float3"].parse(args, kwargs, __FUNCTION__, &name, &default_value, &speed,
 			&min_value, &max_value, &format, &callback, &tip, &parent, &before, &data_source, &width, &on_enter))
-			return GetPyNone();
+			return ToPyBool(false);
 
 		ImGuiInputTextFlags flags = 0;
 		if (on_enter)
@@ -3132,8 +3119,7 @@ namespace Marvel {
 		item->setTip(tip);
 		item->setDataSource(data_source);
 		item->setWidth(width);
-		AddItemWithRuntimeChecks(item, parent, before);
-		return GetPyNone();
+		return ToPyBool(AddItemWithRuntimeChecks(item, parent, before));
 	}
 
 	PyObject* add_drag_float4(PyObject* self, PyObject* args, PyObject* kwargs)
@@ -3158,7 +3144,7 @@ namespace Marvel {
 
 		if (!(*mvApp::GetApp()->getParsers())["add_drag_float4"].parse(args, kwargs, __FUNCTION__, &name, &default_value, &speed,
 			&min_value, &max_value, &format, &callback, &tip, &parent, &before, &data_source, &width, &on_enter))
-			return GetPyNone();
+			return ToPyBool(false);
 
 		ImGuiInputTextFlags flags = 0;
 		if (on_enter)
@@ -3171,8 +3157,7 @@ namespace Marvel {
 		item->setTip(tip);
 		item->setDataSource(data_source);
 		item->setWidth(width);
-		AddItemWithRuntimeChecks(item, parent, before);
-		return GetPyNone();
+		return ToPyBool(AddItemWithRuntimeChecks(item, parent, before));
 	}
 
 	PyObject* add_drag_int(PyObject* self, PyObject* args, PyObject* kwargs)
@@ -3193,7 +3178,7 @@ namespace Marvel {
 
 		if (!(*mvApp::GetApp()->getParsers())["add_drag_int"].parse(args, kwargs, __FUNCTION__, &name, &default_value, &speed,
 			&min_value, &max_value, &format, &callback, &tip, &parent, &before, &data_source, &width, &on_enter))
-			return GetPyNone();
+			return ToPyBool(false);
 
 		ImGuiInputTextFlags flags = 0;
 		if (on_enter)
@@ -3210,8 +3195,7 @@ namespace Marvel {
 		item->setTip(tip);
 		item->setDataSource(data_source);
 		item->setWidth(width);
-		AddItemWithRuntimeChecks(item, parent, before);
-		return GetPyNone();
+		return ToPyBool(AddItemWithRuntimeChecks(item, parent, before));
 	}
 
 	PyObject* add_drag_int2(PyObject* self, PyObject* args, PyObject* kwargs)
@@ -3236,7 +3220,7 @@ namespace Marvel {
 
 		if (!(*mvApp::GetApp()->getParsers())["add_drag_int2"].parse(args, kwargs, __FUNCTION__, &name, &default_value, &speed,
 			&min_value, &max_value, &format, &callback, &tip, &parent, &before, &data_source, &width, &on_enter))
-			return GetPyNone();
+			return ToPyBool(false);
 
 		ImGuiInputTextFlags flags = 0;
 		if (on_enter)
@@ -3248,8 +3232,7 @@ namespace Marvel {
 		item->setTip(tip);
 		item->setDataSource(data_source);
 		item->setWidth(width);
-		AddItemWithRuntimeChecks(item, parent, before);
-		return GetPyNone();
+		return ToPyBool(AddItemWithRuntimeChecks(item, parent, before));
 	}
 
 	PyObject* add_drag_int3(PyObject* self, PyObject* args, PyObject* kwargs)
@@ -3274,7 +3257,7 @@ namespace Marvel {
 
 		if (!(*mvApp::GetApp()->getParsers())["add_drag_int3"].parse(args, kwargs, __FUNCTION__, &name, &default_value, &speed,
 			&min_value, &max_value, &format, &callback, &tip, &parent, &before, &data_source, &width, &on_enter))
-			return GetPyNone();
+			return ToPyBool(false);
 
 		ImGuiInputTextFlags flags = 0;
 		if (on_enter)
@@ -3286,8 +3269,7 @@ namespace Marvel {
 		item->setTip(tip);
 		item->setDataSource(data_source);
 		item->setWidth(width);
-		AddItemWithRuntimeChecks(item, parent, before);
-		return GetPyNone();
+		return ToPyBool(AddItemWithRuntimeChecks(item, parent, before));
 	}
 
 	PyObject* add_drag_int4(PyObject* self, PyObject* args, PyObject* kwargs)
@@ -3312,7 +3294,7 @@ namespace Marvel {
 
 		if (!(*mvApp::GetApp()->getParsers())["add_drag_int4"].parse(args, kwargs, __FUNCTION__, &name, &default_value, &speed,
 			&min_value, &max_value, &format, &callback, &tip, &parent, &before, &data_source, &width, &on_enter))
-			return GetPyNone();
+			return ToPyBool(false);
 
 		ImGuiInputTextFlags flags = 0;
 		if (on_enter)
@@ -3324,8 +3306,7 @@ namespace Marvel {
 		item->setTip(tip);
 		item->setDataSource(data_source);
 		item->setWidth(width);
-		AddItemWithRuntimeChecks(item, parent, before);
-		return GetPyNone();
+		return ToPyBool(AddItemWithRuntimeChecks(item, parent, before));
 	}
 
 	PyObject* add_slider_float(PyObject* self, PyObject* args, PyObject* kwargs)
@@ -3348,7 +3329,7 @@ namespace Marvel {
 		if (!(*mvApp::GetApp()->getParsers())["add_slider_float"].parse(args, kwargs, __FUNCTION__, &name, &default_value,
 			&min_value, &max_value, &format, &vertical, &callback, &tip, &parent, &before,
 			&data_source, &width, &height, &on_enter))
-			return GetPyNone();
+			return ToPyBool(false);
 
 		ImGuiInputTextFlags flags = 0;
 		if (on_enter)
@@ -3360,8 +3341,7 @@ namespace Marvel {
 		item->setDataSource(data_source);
 		item->setWidth(width);
 		item->setHeight(height);
-		AddItemWithRuntimeChecks(item, parent, before);
-		return GetPyNone();
+		return ToPyBool(AddItemWithRuntimeChecks(item, parent, before));
 	}
 
 	PyObject* add_slider_float2(PyObject* self, PyObject* args, PyObject* kwargs)
@@ -3385,7 +3365,7 @@ namespace Marvel {
 
 		if (!(*mvApp::GetApp()->getParsers())["add_slider_float2"].parse(args, kwargs, __FUNCTION__, &name, &default_value,
 			&min_value, &max_value, &format, &callback, &tip, &parent, &before, &data_source,&width, &on_enter))
-			return GetPyNone();
+			return ToPyBool(false);
 
 		ImGuiInputTextFlags flags = 0;
 		if (on_enter)
@@ -3398,8 +3378,7 @@ namespace Marvel {
 		item->setTip(tip);
 		item->setDataSource(data_source);
 		item->setWidth(width);
-		AddItemWithRuntimeChecks(item, parent, before);
-		return GetPyNone();
+		return ToPyBool(AddItemWithRuntimeChecks(item, parent, before));
 	}
 
 	PyObject* add_slider_float3(PyObject* self, PyObject* args, PyObject* kwargs)
@@ -3423,7 +3402,7 @@ namespace Marvel {
 
 		if (!(*mvApp::GetApp()->getParsers())["add_slider_float3"].parse(args, kwargs, __FUNCTION__, &name, &default_value,
 			&min_value, &max_value, &format, &callback, &tip, &parent, &before, &data_source, &width, &on_enter))
-			return GetPyNone();
+			return ToPyBool(false);
 
 		ImGuiInputTextFlags flags = 0;
 		if (on_enter)
@@ -3436,8 +3415,7 @@ namespace Marvel {
 		item->setTip(tip);
 		item->setDataSource(data_source);
 		item->setWidth(width);
-		AddItemWithRuntimeChecks(item, parent, before);
-		return GetPyNone();
+		return ToPyBool(AddItemWithRuntimeChecks(item, parent, before));
 	}
 
 	PyObject* add_slider_float4(PyObject* self, PyObject* args, PyObject* kwargs)
@@ -3462,7 +3440,7 @@ namespace Marvel {
 		if (!(*mvApp::GetApp()->getParsers())["add_slider_float4"].parse(args, kwargs, __FUNCTION__, &name, &default_value,
 			&min_value, &max_value, &format, &callback, &tip, &parent, &before, &data_source,
 			&width, &on_enter))
-			return GetPyNone();
+			return ToPyBool(false);
 
 		ImGuiInputTextFlags flags = 0;
 		if (on_enter)
@@ -3474,8 +3452,7 @@ namespace Marvel {
 		item->setTip(tip);
 		item->setDataSource(data_source);
 		item->setWidth(width);
-		AddItemWithRuntimeChecks(item, parent, before);
-		return GetPyNone();
+		return ToPyBool(AddItemWithRuntimeChecks(item, parent, before));
 	}
 
 	PyObject* add_slider_int(PyObject* self, PyObject* args, PyObject* kwargs)
@@ -3498,7 +3475,7 @@ namespace Marvel {
 		if (!(*mvApp::GetApp()->getParsers())["add_slider_int"].parse(args, kwargs, __FUNCTION__, &name, &default_value,
 			&min_value, &max_value, &format, &vertical, &callback, &tip, &parent, &before, &data_source,
 			&width, &height, &on_enter))
-			return GetPyNone();
+			return ToPyBool(false);
 
 		ImGuiInputTextFlags flags = 0;
 		if (on_enter)
@@ -3510,8 +3487,7 @@ namespace Marvel {
 		item->setDataSource(data_source);
 		item->setWidth(width);
 		item->setHeight(height);
-		AddItemWithRuntimeChecks(item, parent, before);
-		return GetPyNone();
+		return ToPyBool(AddItemWithRuntimeChecks(item, parent, before));
 	}
 
 	PyObject* add_slider_int2(PyObject* self, PyObject* args, PyObject* kwargs)
@@ -3536,7 +3512,7 @@ namespace Marvel {
 		if (!(*mvApp::GetApp()->getParsers())["add_slider_int2"].parse(args, kwargs, __FUNCTION__, &name, &default_value,
 			&min_value, &max_value, &format, &callback, &tip, &parent, &before, &data_source,
 			&width, &on_enter))
-			return GetPyNone();
+			return ToPyBool(false);
 
 		ImGuiInputTextFlags flags = 0;
 		if (on_enter)
@@ -3548,8 +3524,7 @@ namespace Marvel {
 		item->setTip(tip);
 		item->setDataSource(data_source);
 		item->setWidth(width);
-		AddItemWithRuntimeChecks(item, parent, before);
-		return GetPyNone();
+		return ToPyBool(AddItemWithRuntimeChecks(item, parent, before));
 	}
 
 	PyObject* add_slider_int3(PyObject* self, PyObject* args, PyObject* kwargs)
@@ -3574,7 +3549,7 @@ namespace Marvel {
 		if (!(*mvApp::GetApp()->getParsers())["add_slider_int3"].parse(args, kwargs, __FUNCTION__, &name, &default_value,
 			&min_value, &max_value, &format, &callback, &tip, &parent, &before, &data_source,
 			&width, &on_enter))
-			return GetPyNone();
+			return ToPyBool(false);
 
 		ImGuiInputTextFlags flags = 0;
 		if (on_enter)
@@ -3587,8 +3562,7 @@ namespace Marvel {
 		item->setDataSource(data_source);
 		item->setWidth(width);
 
-		AddItemWithRuntimeChecks(item, parent, before);
-		return GetPyNone();
+		return ToPyBool(AddItemWithRuntimeChecks(item, parent, before));
 	}
 
 	PyObject* add_slider_int4(PyObject* self, PyObject* args, PyObject* kwargs)
@@ -3613,7 +3587,7 @@ namespace Marvel {
 		if (!(*mvApp::GetApp()->getParsers())["add_slider_int4"].parse(args, kwargs, __FUNCTION__, &name, &default_value,
 			&min_value, &max_value, &format, &callback, &tip, &parent, &before, &data_source,
 			&width, &on_enter))
-			return GetPyNone();
+			return ToPyBool(false);
 
 		ImGuiInputTextFlags flags = 0;
 		if (on_enter)
@@ -3625,9 +3599,7 @@ namespace Marvel {
 		item->setTip(tip);
 		item->setDataSource(data_source);
 		item->setWidth(width);
-
-		AddItemWithRuntimeChecks(item, parent, before);
-		return GetPyNone();
+		return ToPyBool(AddItemWithRuntimeChecks(item, parent, before));
 	}
 
 	PyObject* add_text(PyObject* self, PyObject* args, PyObject* kwargs)
@@ -3647,7 +3619,7 @@ namespace Marvel {
 
 		if (!(*mvApp::GetApp()->getParsers())["add_text"].parse(args, kwargs, __FUNCTION__, &name, &wrap,
 			&color, &bullet, &tip, &parent, &before))
-			return GetPyNone();
+			return ToPyBool(false);
 
 		auto mcolor = ToColor(color);
 
@@ -3656,8 +3628,7 @@ namespace Marvel {
 
 		mvAppItem* item = new mvText("", name, wrap, mcolor, bullet);
 		item->setTip(tip);
-		AddItemWithRuntimeChecks(item, parent, before);
-		return GetPyNone();
+		return ToPyBool(AddItemWithRuntimeChecks(item, parent, before));
 	}
 
 	PyObject* add_label_text(PyObject* self, PyObject* args, PyObject* kwargs)
@@ -3678,7 +3649,7 @@ namespace Marvel {
 
 		if (!(*mvApp::GetApp()->getParsers())["add_label_text"].parse(args, kwargs, __FUNCTION__, &name, &value,
 			&color, &tip, &parent, &before, &data_source))
-			return GetPyNone();
+			return ToPyBool(false);
 
 		auto mcolor = ToColor(color);
 		if (mcolor.r > 500)
@@ -3687,8 +3658,7 @@ namespace Marvel {
 		mvAppItem* item = new mvLabelText("", std::string(name), value, mcolor);
 		item->setTip(tip);
 		item->setDataSource(data_source);
-		AddItemWithRuntimeChecks(item, parent, before);
-		return GetPyNone();
+		return ToPyBool(AddItemWithRuntimeChecks(item, parent, before));
 	}
 
 	PyObject* add_listbox(PyObject* self, PyObject* args, PyObject* kwargs)
@@ -3708,7 +3678,7 @@ namespace Marvel {
 		if (!(*mvApp::GetApp()->getParsers())["add_listbox"].parse(args, kwargs, __FUNCTION__, &name, &items,
 			&default_value, &callback, &tip, &parent, &before, &data_source, &width,
 			&height, &secondary_data_source))
-			return GetPyNone();
+			return ToPyBool(false);
 
 		mvAppItem* item = new mvListbox("", name, ToStringVect(items),
 			default_value, height, secondary_data_source);
@@ -3716,8 +3686,7 @@ namespace Marvel {
 		item->setTip(tip);
 		item->setDataSource(data_source);
 		item->setWidth(width);
-		AddItemWithRuntimeChecks(item, parent, before);
-		return GetPyNone();
+		return ToPyBool(AddItemWithRuntimeChecks(item, parent, before));
 	}
 
 	PyObject* add_combo(PyObject* self, PyObject* args, PyObject* kwargs)
@@ -3736,15 +3705,14 @@ namespace Marvel {
 		if (!(*mvApp::GetApp()->getParsers())["add_combo"].parse(args, kwargs, __FUNCTION__, &name, &items,
 			&default_value, &callback, &tip, &parent, &before, &data_source, &width
 			, &secondary_data_source))
-			return GetPyNone();
+			return ToPyBool(false);
 
 		mvAppItem* item = new mvCombo("", name, ToStringVect(items), default_value, secondary_data_source);
 		item->setCallback(callback);
 		item->setTip(tip);
 		item->setDataSource(data_source);
 		item->setWidth(width);
-		AddItemWithRuntimeChecks(item, parent, before);
-		return GetPyNone();
+		return ToPyBool(AddItemWithRuntimeChecks(item, parent, before));
 	}
 
 	PyObject* add_selectable(PyObject* self, PyObject* args, PyObject* kwargs)
@@ -3759,14 +3727,13 @@ namespace Marvel {
 
 		if (!(*mvApp::GetApp()->getParsers())["add_selectable"].parse(args, kwargs, __FUNCTION__, &name,
 			&default_value, &callback, &tip, &parent, &before, &data_source))
-			return GetPyNone();
+			return ToPyBool(false);
 
 		mvAppItem* item = new mvSelectable("", name, default_value);
 		item->setCallback(callback);
 		item->setTip(tip);
 		item->setDataSource(data_source);
-		AddItemWithRuntimeChecks(item, parent, before);
-		return GetPyNone();
+		return ToPyBool(AddItemWithRuntimeChecks(item, parent, before));
 	}
 
 	PyObject* add_button(PyObject* self, PyObject* args, PyObject* kwargs)
@@ -3784,15 +3751,14 @@ namespace Marvel {
 
 		if (!(*mvApp::GetApp()->getParsers())["add_button"].parse(args, kwargs, __FUNCTION__, &name, &smallb,
 			&arrow, &direction, &callback, &tip, &parent, &before, &width, &height))
-			return GetPyNone();
+			return ToPyBool(false);
 
 		mvAppItem* item = new mvButton("", name, smallb, arrow, direction);
 		item->setCallback(callback);
 		item->setTip(tip);
 		item->setWidth(width);
 		item->setHeight(height);
-		AddItemWithRuntimeChecks(item, parent, before);
-		return GetPyNone();
+		return ToPyBool(AddItemWithRuntimeChecks(item, parent, before));
 	}
 
 	PyObject* add_input_text(PyObject* self, PyObject* args, PyObject* kwargs)
@@ -3819,7 +3785,7 @@ namespace Marvel {
 
 		if (!(*mvApp::GetApp()->getParsers())["add_input_text"].parse(args, kwargs, __FUNCTION__, &name, &default_value, &hint, &multiline, &no_spaces,
 			&uppercase, &decimal, &hexadecimal, &readonly, &password, &callback, &tip, &parent, &before, &data_source, &width, &on_enter))
-			return GetPyNone();
+			return ToPyBool(false);
 
 		if (no_spaces) flags |= ImGuiInputTextFlags_CharsNoBlank;
 		if (uppercase) flags |= ImGuiInputTextFlags_CharsUppercase;
@@ -3834,9 +3800,7 @@ namespace Marvel {
 		item->setTip(tip);
 		item->setDataSource(data_source);
 		item->setWidth(width);
-
-		AddItemWithRuntimeChecks(item, parent, before);
-		return GetPyNone();
+		return ToPyBool(AddItemWithRuntimeChecks(item, parent, before));
 	}
 
 	PyObject* add_input_int(PyObject* self, PyObject* args, PyObject* kwargs)
@@ -3853,7 +3817,7 @@ namespace Marvel {
 
 		if (!(*mvApp::GetApp()->getParsers())["add_input_int"].parse(args, kwargs, __FUNCTION__, &name,
 			&default_value, &callback, &tip, &parent, &before, &data_source, &width, &on_enter))
-			return GetPyNone();
+			return ToPyBool(false);
 
 		ImGuiInputTextFlags flags = 0;
 		if (on_enter)
@@ -3864,9 +3828,7 @@ namespace Marvel {
 		item->setTip(tip);
 		item->setDataSource(data_source);
 		item->setWidth(width);
-
-		AddItemWithRuntimeChecks(item, parent, before);
-		return GetPyNone();
+		return ToPyBool(AddItemWithRuntimeChecks(item, parent, before));
 	}
 
 	PyObject* add_input_int2(PyObject* self, PyObject* args, PyObject* kwargs)
@@ -3887,7 +3849,7 @@ namespace Marvel {
 
 		if (!(*mvApp::GetApp()->getParsers())["add_input_int2"].parse(args, kwargs, __FUNCTION__, &name,
 			&default_value, &callback, &tip, &parent, &before, &data_source, &width, &on_enter))
-			return GetPyNone();
+			return ToPyBool(false);
 
 		ImGuiInputTextFlags flags = 0;
 		if (on_enter)
@@ -3900,9 +3862,7 @@ namespace Marvel {
 		item->setTip(tip);
 		item->setDataSource(data_source);
 		item->setWidth(width);
-
-		AddItemWithRuntimeChecks(item, parent, before);
-		return GetPyNone();
+		return ToPyBool(AddItemWithRuntimeChecks(item, parent, before));
 	}
 
 	PyObject* add_input_int3(PyObject* self, PyObject* args, PyObject* kwargs)
@@ -3923,7 +3883,7 @@ namespace Marvel {
 
 		if (!(*mvApp::GetApp()->getParsers())["add_input_int3"].parse(args, kwargs, __FUNCTION__, &name,
 			&default_value, &callback, &tip, &parent, &before, &data_source, &width, &on_enter))
-			return GetPyNone();
+			return ToPyBool(false);
 
 		ImGuiInputTextFlags flags = 0;
 		if (on_enter)
@@ -3936,9 +3896,7 @@ namespace Marvel {
 		item->setTip(tip);
 		item->setDataSource(data_source);
 		item->setWidth(width);
-
-		AddItemWithRuntimeChecks(item, parent, before);
-		return GetPyNone();
+		return ToPyBool(AddItemWithRuntimeChecks(item, parent, before));
 	}
 
 	PyObject* add_input_int4(PyObject* self, PyObject* args, PyObject* kwargs)
@@ -3959,7 +3917,7 @@ namespace Marvel {
 
 		if (!(*mvApp::GetApp()->getParsers())["add_input_int4"].parse(args, kwargs, __FUNCTION__, &name,
 			&default_value, &callback, &tip, &parent, &before, &data_source, &width, &on_enter))
-			return GetPyNone();
+			return ToPyBool(false);
 
 		ImGuiInputTextFlags flags = 0;
 		if (on_enter)
@@ -3971,9 +3929,7 @@ namespace Marvel {
 		item->setTip(tip);
 		item->setDataSource(data_source);
 		item->setWidth(width);
-
-		AddItemWithRuntimeChecks(item, parent, before);
-		return GetPyNone();
+		return ToPyBool(AddItemWithRuntimeChecks(item, parent, before));
 	}
 
 	PyObject* add_input_float(PyObject* self, PyObject* args, PyObject* kwargs)
@@ -3991,7 +3947,7 @@ namespace Marvel {
 
 		if (!(*mvApp::GetApp()->getParsers())["add_input_float"].parse(args, kwargs, __FUNCTION__, &name,
 			&default_value, &format, &callback, &tip, &parent, &before, &data_source, &width, &on_enter))
-			return GetPyNone();
+			return ToPyBool(false);
 
 		ImGuiInputTextFlags flags = 0;
 		if (on_enter)
@@ -4002,9 +3958,7 @@ namespace Marvel {
 		item->setTip(tip);
 		item->setDataSource(data_source);
 		item->setWidth(width);
-
-		AddItemWithRuntimeChecks(item, parent, before);
-		return GetPyNone();
+		return ToPyBool(AddItemWithRuntimeChecks(item, parent, before));
 	}
 
 	PyObject* add_input_float2(PyObject* self, PyObject* args, PyObject* kwargs)
@@ -4024,7 +3978,7 @@ namespace Marvel {
 
 		if (!(*mvApp::GetApp()->getParsers())["add_input_float2"].parse(args, kwargs, __FUNCTION__, &name,
 			&default_value, &format, &callback, &tip, &parent, &before, &data_source, &width, &on_enter))
-			return GetPyNone();
+			return ToPyBool(false);
 
 		ImGuiInputTextFlags flags = 0;
 		if (on_enter)
@@ -4036,9 +3990,7 @@ namespace Marvel {
 		item->setTip(tip);
 		item->setDataSource(data_source);
 		item->setWidth(width);
-
-		AddItemWithRuntimeChecks(item, parent, before);
-		return GetPyNone();
+		return ToPyBool(AddItemWithRuntimeChecks(item, parent, before));
 	}
 
 	PyObject* add_input_float3(PyObject* self, PyObject* args, PyObject* kwargs)
@@ -4059,22 +4011,20 @@ namespace Marvel {
 
 		if (!(*mvApp::GetApp()->getParsers())["add_input_float3"].parse(args, kwargs, __FUNCTION__, &name,
 			&default_value, &format, &callback, &tip, &parent, &before, &data_source, &width, &on_enter))
-			return GetPyNone();
+			return ToPyBool(false);
 
-		ImGuiInputTextFlags flags = 0;
-		if (on_enter)
-			flags = ImGuiInputTextFlags_EnterReturnsTrue;
+ImGuiInputTextFlags flags = 0;
+if (on_enter)
+flags = ImGuiInputTextFlags_EnterReturnsTrue;
 
-		auto vec = ToFloatVect(default_value);
+auto vec = ToFloatVect(default_value);
 
-		mvAppItem* item = new mvInputFloatMulti<mvAppItemType::InputFloat3, 3, ImGui::InputFloat3>("", name, vec.data(), format, flags);
-		item->setCallback(callback);
-		item->setTip(tip);
-		item->setDataSource(data_source);
-		item->setWidth(width);
-
-		AddItemWithRuntimeChecks(item, parent, before);
-		return GetPyNone();
+mvAppItem* item = new mvInputFloatMulti<mvAppItemType::InputFloat3, 3, ImGui::InputFloat3>("", name, vec.data(), format, flags);
+item->setCallback(callback);
+item->setTip(tip);
+item->setDataSource(data_source);
+item->setWidth(width);
+return ToPyBool(AddItemWithRuntimeChecks(item, parent, before));
 	}
 
 	PyObject* add_input_float4(PyObject* self, PyObject* args, PyObject* kwargs)
@@ -4096,7 +4046,7 @@ namespace Marvel {
 
 		if (!(*mvApp::GetApp()->getParsers())["add_input_float4"].parse(args, kwargs, __FUNCTION__, &name,
 			&default_value, &format, &callback, &tip, &parent, &before, &data_source, &width, &on_enter))
-			return GetPyNone();
+			return ToPyBool(false);
 
 		ImGuiInputTextFlags flags = 0;
 		if (on_enter)
@@ -4109,9 +4059,7 @@ namespace Marvel {
 		item->setTip(tip);
 		item->setDataSource(data_source);
 		item->setWidth(width);
-
-		AddItemWithRuntimeChecks(item, parent, before);
-		return GetPyNone();
+		return ToPyBool(AddItemWithRuntimeChecks(item, parent, before));
 	}
 
 	PyObject* add_indent(PyObject* self, PyObject* args, PyObject* kwargs)
@@ -4125,11 +4073,10 @@ namespace Marvel {
 
 		if (!(*mvApp::GetApp()->getParsers())["add_indent"].parse(args, kwargs, __FUNCTION__, &name, &offset,
 			&parent, &before))
-			return GetPyNone();
+			return ToPyBool(false);
 
 		mvAppItem* item = new mvIndent("", name, offset);
-		AddItemWithRuntimeChecks(item, parent, before);
-		return GetPyNone();
+		return ToPyBool(AddItemWithRuntimeChecks(item, parent, before));
 	}
 
 	PyObject* unindent(PyObject* self, PyObject* args, PyObject* kwargs)
@@ -4142,11 +4089,10 @@ namespace Marvel {
 		const char* parent = "";
 
 		if (!(*mvApp::GetApp()->getParsers())["unindent"].parse(args, kwargs, __FUNCTION__, &name, &offset, &parent, &before))
-			return GetPyNone();
+			return ToPyBool(false);
 
 		mvAppItem* item = new mvUnindent("", name, offset);
-		AddItemWithRuntimeChecks(item, parent, before);
-		return GetPyNone();
+		return ToPyBool(AddItemWithRuntimeChecks(item, parent, before));
 	}
 
 	PyObject* add_tab_bar(PyObject* self, PyObject* args, PyObject* kwargs)
@@ -4160,14 +4106,17 @@ namespace Marvel {
 
 		if (!(*mvApp::GetApp()->getParsers())["add_tab_bar"].parse(args, kwargs, __FUNCTION__, &name, &reorderable,
 			&callback, &parent, &before, &data_source))
-			return GetPyNone();
+			return ToPyBool(false);
 
 		mvAppItem* item = new mvTabBar("", name, reorderable);
 		item->setCallback(callback);
 		item->setDataSource(data_source);
-		AddItemWithRuntimeChecks(item, parent, before);
-		mvApp::GetApp()->pushParent(item);
-		return GetPyNone();
+		if (AddItemWithRuntimeChecks(item, parent, before))
+		{
+			mvApp::GetApp()->pushParent(item);
+			return ToPyBool(true);
+		}
+		return ToPyBool(false);
 	}
 
 	PyObject* add_tab(PyObject* self, PyObject* args, PyObject* kwargs)
@@ -4180,24 +4129,27 @@ namespace Marvel {
 
 		if (!(*mvApp::GetApp()->getParsers())["add_tab"].parse(args, kwargs, __FUNCTION__, &name, &closeable,
 			&tip, &parent, &before))
-			return GetPyNone();
-
-
-
+			return ToPyBool(false);
 
 		if (std::string(parent).empty())
 		{
 			auto parentItem = mvApp::GetApp()->topParent();
 
 			if (parentItem == nullptr)
+			{
 				ThrowPythonException("add_tab must follow a call to add_tabbar.");
+				return ToPyBool(false);
+			}
 
 			else if (parentItem->getType() == mvAppItemType::TabBar)
 			{
 				mvAppItem* item = new mvTab("", name, closeable);
 				item->setTip(tip);
-				AddItemWithRuntimeChecks(item, parent, before);
-				mvApp::GetApp()->pushParent(item);
+				if (AddItemWithRuntimeChecks(item, parent, before))
+				{
+					mvApp::GetApp()->pushParent(item);
+					return ToPyBool(true);
+				}
 			}
 
 			else
@@ -4209,72 +4161,30 @@ namespace Marvel {
 			auto parentItem = mvApp::GetApp()->getItem(parent);
 
 			if (parentItem == nullptr)
+			{
 				ThrowPythonException("add_tab parent must exist.");
+				return ToPyBool(false);
+			}
 
 			else if (parentItem->getType() == mvAppItemType::TabBar)
 			{
 				mvAppItem* item = new mvTab("", name, closeable);
 				item->setTip(tip);
-				AddItemWithRuntimeChecks(item, parent, before);
-				mvApp::GetApp()->pushParent(item);
+				if (AddItemWithRuntimeChecks(item, parent, before))
+				{
+					mvApp::GetApp()->pushParent(item);
+					return ToPyBool(true);
+				}
 			}
 
 			else
-				ThrowPythonException("add_tab parent must be a tab bar.");
-		}
-
-		return GetPyNone();
-	}
-
-	PyObject* end_tab(PyObject* self, PyObject* args, PyObject* kwargs)
-	{
-		mvApp::GetApp()->popParent();
-		return GetPyNone();
-
-		auto parentItem = mvApp::GetApp()->topParent();
-
-		if (parentItem == nullptr)
-			ThrowPythonException("end_tab must follow a call to add_tab.");
-
-		else if (parentItem->getType() == mvAppItemType::TabItem)
-			mvApp::GetApp()->popParent();
-
-		else
-			ThrowPythonException("end_tab was called incorrectly and will be ignored");
-
-		return GetPyNone();
-	}
-
-	PyObject* end_tab_bar(PyObject* self, PyObject* args, PyObject* kwargs)
-	{
-		mvApp::GetApp()->popParent();
-		return GetPyNone();
-
-		auto parentItem = mvApp::GetApp()->topParent();
-
-		if (parentItem == nullptr)
-			ThrowPythonException("end_tabbar must follow a call to add_menubar.");
-
-		else if (parentItem->getType() == mvAppItemType::TabBar)
-			mvApp::GetApp()->popParent();
-
-		else
-		{
-			ThrowPythonException("add_menubar was called incorrectly. Did you forget to call end_menu?");
-			ThrowPythonException("Taking corrective action. Clearing parent stack.");
-
-			auto item = mvApp::GetApp()->popParent();
-			while (item->getType() != mvAppItemType::TabBar)
 			{
-				mvApp::GetApp()->popParent();
-				item = mvApp::GetApp()->topParent();
-
-				if (item == nullptr)
-					break;
+				ThrowPythonException("add_tab parent must be a tab bar.");
+				return ToPyBool(false);
 			}
 		}
 
-		return GetPyNone();
+		return ToPyBool(false);
 	}
 
 	PyObject* add_menu_bar(PyObject* self, PyObject* args, PyObject* kwargs)
@@ -4285,7 +4195,7 @@ namespace Marvel {
 
 		if (!(*mvApp::GetApp()->getParsers())["add_menu_bar"].parse(args, kwargs, __FUNCTION__, &name,
 			&parent, &before))
-			return GetPyNone();
+			return ToPyBool(false);
 
 		auto parentItem = mvApp::GetApp()->topParent();
 
@@ -4294,11 +4204,14 @@ namespace Marvel {
 			auto window = static_cast<mvWindowAppitem*>(parentItem);
 			window->addFlag(ImGuiWindowFlags_MenuBar);
 			mvAppItem* item = new mvMenuBar(name);
-			AddItemWithRuntimeChecks(item, parent, before);
-			mvApp::GetApp()->pushParent(item);
+			if (AddItemWithRuntimeChecks(item, parent, before))
+			{
+				mvApp::GetApp()->pushParent(item);
+				return ToPyBool(true);
+			}
 		}
 
-		return GetPyNone();
+		return ToPyBool(false);
 	}
 
 	PyObject* add_menu(PyObject* self, PyObject* args, PyObject* kwargs)
@@ -4310,61 +4223,18 @@ namespace Marvel {
 
 		if (!(*mvApp::GetApp()->getParsers())["add_menu"].parse(args, kwargs, __FUNCTION__, &name,
 			&tip, &parent, &before))
-			return GetPyNone();
+			return ToPyBool(false);
 
 		//auto parentItem = mvApp::GetApp()->topParent();
 
 		mvAppItem* item = new mvMenu("", name);
 		item->setTip(tip);
-		AddItemWithRuntimeChecks(item, parent, before);
-		mvApp::GetApp()->pushParent(item);
-
-
-
-		return GetPyNone();
-	}
-
-	PyObject* end_menu(PyObject* self, PyObject* args, PyObject* kwargs)
-	{
-		auto parentItem = mvApp::GetApp()->topParent();
-
-		if (parentItem == nullptr)
-			ThrowPythonException("end_menu must follow a call to add_menu.");
-
-		else if (parentItem->getType() == mvAppItemType::Menu)
-			mvApp::GetApp()->popParent();
-
-		else
-			ThrowPythonException("end_menu was called incorrectly and will be ignored");
-
-		return GetPyNone();
-	}
-
-	PyObject* end_menu_bar(PyObject* self, PyObject* args, PyObject* kwargs)
-	{
-		auto parentItem = mvApp::GetApp()->topParent();
-
-		if (parentItem == nullptr)
-			ThrowPythonException("end_menu_bar must follow a call to add_menu_bar.");
-
-		else if (parentItem->getType() == mvAppItemType::MenuBar)
-			mvApp::GetApp()->popParent();
-
-		else
+		if (AddItemWithRuntimeChecks(item, parent, before))
 		{
-			ThrowPythonException("end_menu_bar was called incorrectly. Did you forget to call end_menu?");
-			ThrowPythonException("Taking corrective action. Clearing parent stack.");
-
-			auto item = mvApp::GetApp()->popParent();
-			while (item != nullptr)
-			{
-				mvApp::GetApp()->popParent();
-				item = mvApp::GetApp()->topParent();
-			}
-
+			mvApp::GetApp()->pushParent(item);
+			return ToPyBool(true);
 		}
-
-		return GetPyNone();
+		return ToPyBool(false);
 	}
 
 	PyObject* add_menu_item(PyObject* self, PyObject* args, PyObject* kwargs)
@@ -4377,13 +4247,12 @@ namespace Marvel {
 
 		if (!(*mvApp::GetApp()->getParsers())["add_menu_item"].parse(args, kwargs, __FUNCTION__, &name,
 			&callback, &tip, &parent, &before))
-			return GetPyNone();
+			return ToPyBool(false);
 
 		mvAppItem* item = new mvMenuItem("", name);
 		item->setCallback(callback);
 		item->setTip(tip);
-		AddItemWithRuntimeChecks(item, parent, before);
-		return GetPyNone();
+		return ToPyBool(AddItemWithRuntimeChecks(item, parent, before));
 	}
 
 	PyObject* add_spacing(PyObject* self, PyObject* args, PyObject* kwargs)
@@ -4397,11 +4266,10 @@ namespace Marvel {
 
 		if (!(*mvApp::GetApp()->getParsers())["add_spacing"].parse(args, kwargs, __FUNCTION__, &name, &count,
 			&parent, &before))
-			return GetPyNone();
+			return ToPyBool(false);
 
 		mvAppItem* item = new mvSpacing("", name, count);
-		AddItemWithRuntimeChecks(item, parent, before);
-		return GetPyNone();
+		return ToPyBool(AddItemWithRuntimeChecks(item, parent, before));
 	}
 
 	PyObject* add_same_line(PyObject* self, PyObject* args, PyObject* kwargs)
@@ -4416,11 +4284,10 @@ namespace Marvel {
 
 		if (!(*mvApp::GetApp()->getParsers())["add_same_line"].parse(args, kwargs, __FUNCTION__, &name,
 			&xoffset, &spacing, &parent, &before))
-			return GetPyNone();
+			return ToPyBool(false);
 
 		mvAppItem* item = new mvSameLine("", name, xoffset, spacing);
-		AddItemWithRuntimeChecks(item, parent, before);
-		return GetPyNone();
+		return ToPyBool(AddItemWithRuntimeChecks(item, parent, before));
 	}
 
 	PyObject* add_radio_button(PyObject* self, PyObject* args, PyObject* kwargs)
@@ -4437,15 +4304,14 @@ namespace Marvel {
 
 		if (!(*mvApp::GetApp()->getParsers())["add_radio_button"].parse(args, kwargs, __FUNCTION__, &name, &items,
 			&default_value, &callback, &tip, &parent, &before, &data_source, &secondary_data_source))
-			return GetPyNone();
+			return ToPyBool(false);
 
 		mvAppItem* item = new mvRadioButton("", name, ToStringVect(items), default_value,
 			secondary_data_source);
 		item->setCallback(callback);
 		item->setTip(tip);
 		item->setDataSource(data_source);
-		AddItemWithRuntimeChecks(item, parent, before);
-		return GetPyNone();
+		return ToPyBool(AddItemWithRuntimeChecks(item, parent, before));
 	}
 
 	PyObject* add_group(PyObject* self, PyObject* args, PyObject* kwargs)
@@ -4461,32 +4327,20 @@ namespace Marvel {
 
 		if (!(*mvApp::GetApp()->getParsers())["add_group"].parse(args, kwargs, __FUNCTION__, &name,
 			&tip, &parent, &before, &width, &hide, &horizontal, &horizontal_spacing))
-			return GetPyNone();
+			return ToPyBool(false);
 
 		mvAppItem* item = new mvGroup("", name, horizontal, horizontal_spacing);
 		item->setTip(tip);
 		item->setWidth(width);
-		AddItemWithRuntimeChecks(item, parent, before);
-		mvApp::GetApp()->pushParent(item);
-		if (hide)
-			item->hide();
-		return GetPyNone();
-	}
+		if (AddItemWithRuntimeChecks(item, parent, before))
+		{
+			mvApp::GetApp()->pushParent(item);
+			if (hide)
+				item->hide();
 
-	PyObject* end_group(PyObject* self, PyObject* args, PyObject* kwargs)
-	{
-		auto parentItem = mvApp::GetApp()->topParent();
-
-		if (parentItem == nullptr)
-			ThrowPythonException("end_group must follow a call to add_group.");
-
-		else if (parentItem->getType() == mvAppItemType::Group)
-			mvApp::GetApp()->popParent();
-
-		else
-			ThrowPythonException("end_group was called incorrectly and will be ignored");
-
-		return GetPyNone();
+			return ToPyBool(true);
+		}
+		return ToPyBool(false);
 	}
 
 	PyObject* add_child(PyObject* self, PyObject* args, PyObject* kwargs)
@@ -4501,16 +4355,19 @@ namespace Marvel {
 
 		if (!(*mvApp::GetApp()->getParsers())["add_child"].parse(args, kwargs, __FUNCTION__, &name,
 			&tip, &parent, &before, &width, &height, &border))
-			return GetPyNone();
+			return ToPyBool(false);
 
 		mvAppItem* item = new mvChild("", name, border);
 		item->setTip(tip);
 		item->setWidth(width);
 		item->setHeight(height);
-		AddItemWithRuntimeChecks(item, parent, before);
-		mvApp::GetApp()->pushParent(item);
+		if (AddItemWithRuntimeChecks(item, parent, before))
+		{
+			mvApp::GetApp()->pushParent(item);
+			return ToPyBool(true);
+		}
 
-		return GetPyNone();
+		return ToPyBool(false);
 	}
 
 	PyObject* add_window(PyObject* self, PyObject* args, PyObject* kwargs)
@@ -4530,7 +4387,7 @@ namespace Marvel {
 		if (!(*mvApp::GetApp()->getParsers())["add_window"].parse(args, kwargs, __FUNCTION__, &name, &width,
 			&height, &startx, &starty, &autosize, &resizable, &title_bar, &movable,
 			&hide, &closing_callback))
-			return GetPyNone();
+			return ToPyBool(false);
 
 		if (width == -1 && height == -1)
 		{
@@ -4540,30 +4397,18 @@ namespace Marvel {
 
 		mvAppItem* item = new mvWindowAppitem("", name, width, height, startx, starty,
 			false, autosize, resizable, title_bar, movable, closing_callback);
-		AddItemWithRuntimeChecks(item, "", "");
-		mvApp::GetApp()->pushParent(item);
 
-		if (hide)
-			item->hide();
+		if (AddItemWithRuntimeChecks(item, "", ""))
+		{
+			mvApp::GetApp()->pushParent(item);
 
-		return GetPyNone();
-	}
+			if (hide)
+				item->hide();
 
-	PyObject* end_window(PyObject* self, PyObject* args, PyObject* kwargs)
-	{
+			return ToPyBool(true);
+		}
 
-		auto parentItem = mvApp::GetApp()->topParent();
-
-		if (parentItem == nullptr)
-			ThrowPythonException("end_window must follow a call to add_window.");
-
-		else if (parentItem->getType() == mvAppItemType::Window)
-			mvApp::GetApp()->popParent();
-
-		else
-			ThrowPythonException("end_window was called incorrectly and will be ignored");
-
-		return GetPyNone();
+		return ToPyBool(false);
 	}
 
 	PyObject* set_window_pos(PyObject* self, PyObject* args, PyObject* kwargs)
@@ -4636,23 +4481,6 @@ namespace Marvel {
 
 	}
 
-	PyObject* end_child(PyObject* self, PyObject* args, PyObject* kwargs)
-	{
-
-		auto parentItem = mvApp::GetApp()->topParent();
-
-		if (parentItem == nullptr)
-			ThrowPythonException("end_child must follow a call to add_child.");
-
-		else if (parentItem->getType() == mvAppItemType::Child)
-			mvApp::GetApp()->popParent();
-
-		else
-			ThrowPythonException("end_child was called incorrectly and will be ignored");
-
-		return GetPyNone();
-	}
-
 	PyObject* add_tooltip(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		const char* tipparent;
@@ -4662,29 +4490,16 @@ namespace Marvel {
 
 		if (!(*mvApp::GetApp()->getParsers())["add_tooltip"].parse(args, kwargs, __FUNCTION__, &tipparent,
 			&name, &parent, &before))
-			return GetPyNone();
+			return ToPyBool(false);
 
 		mvAppItem* item = new mvTooltip(tipparent, name);
-		AddItemWithRuntimeChecks(item, parent, before);
-		mvApp::GetApp()->pushParent(item);
-		return GetPyNone();
-	}
 
-	PyObject* end_tooltip(PyObject* self, PyObject* args, PyObject* kwargs)
-	{
-
-		auto parentItem = mvApp::GetApp()->topParent();
-
-		if (parentItem == nullptr)
-			ThrowPythonException("end_tooltip must follow a call to add_tooltip.");
-
-		else if (parentItem->getType() == mvAppItemType::Tooltip)
-			mvApp::GetApp()->popParent();
-
-		else
-			ThrowPythonException("end_tooltip was called incorrectly and will be ignored");
-
-		return GetPyNone();
+		if (AddItemWithRuntimeChecks(item, parent, before))
+		{
+			mvApp::GetApp()->pushParent(item);
+			return ToPyBool(true);
+		}
+		return ToPyBool(false);
 	}
 
 	PyObject* add_popup(PyObject* self, PyObject* args, PyObject* kwargs)
@@ -4700,7 +4515,7 @@ namespace Marvel {
 
 		if (!(*mvApp::GetApp()->getParsers())["add_popup"].parse(args, kwargs, __FUNCTION__, &popupparent,
 			&name, &mousebutton, &modal, &parent, &before, &width, &height))
-			return GetPyNone();
+			return ToPyBool(false);
 
 		auto PopupParent = mvApp::GetApp()->getItem(popupparent);
 		if (PopupParent)
@@ -4712,24 +4527,18 @@ namespace Marvel {
 		mvAppItem* item = new mvPopup(popupparent, name, mousebutton, modal);
 		item->setWidth(width);
 		item->setHeight(height);
-		AddItemWithRuntimeChecks(item, parent, before);
-		mvApp::GetApp()->pushParent(item);
-		return GetPyNone();
+
+		if (AddItemWithRuntimeChecks(item, parent, before))
+		{
+			mvApp::GetApp()->pushParent(item);
+			return ToPyBool(true);
+		}
+		return ToPyBool(false);
 	}
 
-	PyObject* end_popup(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* end(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
-		auto parentItem = mvApp::GetApp()->topParent();
-
-		if (parentItem == nullptr)
-			ThrowPythonException("end_popup must follow a call to add_group.");
-
-		else if (parentItem->getType() == mvAppItemType::Popup)
-			mvApp::GetApp()->popParent();
-
-		else
-			ThrowPythonException("end_popup was called incorrectly and will be ignored");
-
+		mvApp::GetApp()->popParent();
 		return GetPyNone();
 	}
 
@@ -4745,31 +4554,19 @@ namespace Marvel {
 
 		if (!(*mvApp::GetApp()->getParsers())["add_collapsing_header"].parse(args, kwargs, __FUNCTION__, &name,
 			&default_open, &closable, &tip, &parent, &before))
-			return GetPyNone();
+			return ToPyBool(false);
 
 		if (default_open) flags |= ImGuiTreeNodeFlags_DefaultOpen;
 
 		mvAppItem* item = new mvCollapsingHeader("", name, flags, closable);
 		item->setTip(tip);
-		AddItemWithRuntimeChecks(item, parent, before);
-		mvApp::GetApp()->pushParent(item);
-		return GetPyNone();
-	}
 
-	PyObject* end_collapsing_header(PyObject* self, PyObject* args, PyObject* kwargs)
-	{
-		auto parentItem = mvApp::GetApp()->topParent();
-
-		if (parentItem == nullptr)
-			ThrowPythonException("end_collapsing_header must follow a call to add_collapsing_header.");
-
-		else if (parentItem->getType() == mvAppItemType::CollapsingHeader)
-			mvApp::GetApp()->popParent();
-
-		else
-			ThrowPythonException("end_collapsing_header was called incorrectly and will be ignored");
-
-		return GetPyNone();
+		if (AddItemWithRuntimeChecks(item, parent, before))
+		{
+			mvApp::GetApp()->pushParent(item);
+			return ToPyBool(true);
+		}
+		return ToPyBool(false);
 	}
 
 	PyObject* add_tree_node(PyObject* self, PyObject* args, PyObject* kwargs)
@@ -4783,31 +4580,18 @@ namespace Marvel {
 
 		if (!(*mvApp::GetApp()->getParsers())["add_tree_node"].parse(args, kwargs, __FUNCTION__, &name,
 			&default_open, &tip, &parent, &before))
-			return GetPyNone();
+			return ToPyBool(false);
 
 		if (default_open) flags |= ImGuiTreeNodeFlags_DefaultOpen;
 
 		mvAppItem* item = new mvTreeNode("", name, flags);
 		item->setTip(tip);
-		AddItemWithRuntimeChecks(item, parent, before);
-		mvApp::GetApp()->pushParent(item);
-		return GetPyNone();
-	}
-
-	PyObject* end_tree_node(PyObject* self, PyObject* args, PyObject* kwargs)
-	{
-		auto parentItem = mvApp::GetApp()->topParent();
-
-		if (parentItem == nullptr)
-			ThrowPythonException("end_tree_node must follow a call to add_tree_node.");
-
-		else if (parentItem->getType() == mvAppItemType::TreeNode)
-			mvApp::GetApp()->popParent();
-
-		else
-			ThrowPythonException("end_tree_node was called incorrectly and will be ignored");
-
-		return GetPyNone();
+		if (AddItemWithRuntimeChecks(item, parent, before))
+		{
+			mvApp::GetApp()->pushParent(item);
+			return ToPyBool(true);
+		}
+		return ToPyBool(false);
 	}
 
 	PyObject* add_seperator(PyObject* self, PyObject* args, PyObject* kwargs)
@@ -4820,14 +4604,11 @@ namespace Marvel {
 		const char* before = "";
 
 		if (!(*mvApp::GetApp()->getParsers())["add_seperator"].parse(args, kwargs, __FUNCTION__, &name, &tip, &parent, &before))
-			return GetPyNone();
+			return ToPyBool(false);
 
 		mvAppItem* item = new mvSeparator("", name);
 		item->setTip(tip);
-
-		AddItemWithRuntimeChecks(item, parent, before);
-
-		return GetPyNone();
+		return ToPyBool(AddItemWithRuntimeChecks(item, parent, before));
 	}
 
 	PyObject* add_color_edit3(PyObject* self, PyObject* args, PyObject* kwargs)
@@ -4848,7 +4629,7 @@ namespace Marvel {
 
 		if (!(*mvApp::GetApp()->getParsers())["add_color_edit3"].parse(args, kwargs, __FUNCTION__, &name,
 			&default_value, &callback, &tip, &parent, &before, &data_source, &width, &height))
-			return GetPyNone();
+			return ToPyBool(false);
 
 		auto color = ToColor(default_value);
 
@@ -4859,8 +4640,7 @@ namespace Marvel {
 		item->setDataSource(data_source);
 		item->setWidth(width);
 		item->setHeight(height);
-		AddItemWithRuntimeChecks(item, parent, before);
-		return GetPyNone();
+		return ToPyBool(AddItemWithRuntimeChecks(item, parent, before));
 	}
 
 	PyObject* add_color_edit4(PyObject* self, PyObject* args, PyObject* kwargs)
@@ -4880,7 +4660,7 @@ namespace Marvel {
 		const char* data_source = "";
 
 		if (!(*mvApp::GetApp()->getParsers())["add_color_edit4"].parse(args, kwargs, __FUNCTION__, &name, &default_value, &callback, &tip, &parent, &before, &data_source, &width, &height))
-			return GetPyNone();
+			return ToPyBool(false);
 
 		auto color = ToColor(default_value);
 		mvAppItem* item = new mvColorItem<mvAppItemType::ColorEdit4, ImGui::ColorEdit4>("", name, color);
@@ -4889,8 +4669,7 @@ namespace Marvel {
 		item->setDataSource(data_source);
 		item->setWidth(width);
 		item->setHeight(height);
-		AddItemWithRuntimeChecks(item, parent, before);
-		return GetPyNone();
+		return ToPyBool(AddItemWithRuntimeChecks(item, parent, before));
 	}
 
 	PyObject* add_color_picker3(PyObject* self, PyObject* args, PyObject* kwargs)
@@ -4910,7 +4689,7 @@ namespace Marvel {
 		const char* data_source = "";
 
 		if (!(*mvApp::GetApp()->getParsers())["add_color_picker3"].parse(args, kwargs, __FUNCTION__, &name, &default_value, &callback, &tip, &parent, &before, &data_source, &width, &height))
-			return GetPyNone();
+			return ToPyBool(false);
 
 		auto color = ToColor(default_value);
 		mvAppItem* item = new mvColorItem<mvAppItemType::ColorPicker3, ImGui::ColorPicker3>("", name, color);
@@ -4919,8 +4698,7 @@ namespace Marvel {
 		item->setDataSource(data_source);
 		item->setWidth(width);
 		item->setHeight(height);
-		AddItemWithRuntimeChecks(item, parent, before);
-		return GetPyNone();
+		return ToPyBool(AddItemWithRuntimeChecks(item, parent, before));
 	}
 
 	PyObject* add_color_picker4(PyObject* self, PyObject* args, PyObject* kwargs)
@@ -4941,7 +4719,7 @@ namespace Marvel {
 
 		if (!(*mvApp::GetApp()->getParsers())["add_color_picker4"].parse(args, kwargs, __FUNCTION__, &name,
 			&default_value, &callback, &tip, &parent, &before, &data_source, &width, &height))
-			return GetPyNone();
+			return ToPyBool(false);
 
 		auto color = ToColor(default_value);
 
@@ -4951,8 +4729,7 @@ namespace Marvel {
 		item->setDataSource(data_source);
 		item->setWidth(width);
 		item->setHeight(height);
-		AddItemWithRuntimeChecks(item, parent, before);
-		return GetPyNone();
+		return ToPyBool(AddItemWithRuntimeChecks(item, parent, before));
 	}
 
 	PyObject* add_checkbox(PyObject* self, PyObject* args, PyObject* kwargs)
@@ -4967,14 +4744,13 @@ namespace Marvel {
 
 		if (!(*mvApp::GetApp()->getParsers())["add_checkbox"].parse(args, kwargs, __FUNCTION__, &name,
 			&default_value, &callback, &tip, &parent, &before, &data_source))
-			return GetPyNone();
+			return ToPyBool(false);
 
 		mvAppItem* item = new mvCheckbox("", name, default_value);
 		item->setCallback(callback);
 		item->setTip(tip);
 		item->setDataSource(data_source);
-		AddItemWithRuntimeChecks(item, parent, before);
-		return GetPyNone();
+		return ToPyBool(AddItemWithRuntimeChecks(item, parent, before));
 	}
 
 	PyObject* set_table_item(PyObject* self, PyObject* args, PyObject* kwargs)
@@ -6908,17 +6684,7 @@ namespace Marvel {
 		ADD_PYTHON_FUNCTION(set_global_font_scale)
 		ADD_PYTHON_FUNCTION(select_directory_dialog)
 		ADD_PYTHON_FUNCTION(add_table)
-		ADD_PYTHON_FUNCTION(end_tree_node)
-		ADD_PYTHON_FUNCTION(end_popup)
-		ADD_PYTHON_FUNCTION(end_window)
-		ADD_PYTHON_FUNCTION(end_group)
-		ADD_PYTHON_FUNCTION(end_child)
-		ADD_PYTHON_FUNCTION(end_tab)
-		ADD_PYTHON_FUNCTION(end_tab_bar)
-		ADD_PYTHON_FUNCTION(end_menu)
-		ADD_PYTHON_FUNCTION(end_menu_bar)
-		ADD_PYTHON_FUNCTION(end_tooltip)
-		ADD_PYTHON_FUNCTION(end_collapsing_header)
+		ADD_PYTHON_FUNCTION(end)
 		ADD_PYTHON_FUNCTION(add_image)
 		ADD_PYTHON_FUNCTION(add_progress_bar)
 		ADD_PYTHON_FUNCTION(add_drag_float)

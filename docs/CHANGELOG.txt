@@ -23,10 +23,19 @@ HOW TO UPDATE?
 - Please report any issue!
 
 -----------------------------------------------------------------------
- VERSION 0.1.5 WIP
+ VERSION 0.2.0 WIP
 -----------------------------------------------------------------------
 
-Decorated log: https://github.com/hoffstadt/DearPyGui/releases/tag/v0.1.5
+Decorated log: https://github.com/hoffstadt/DearPyGui/releases/tag/v0.2.0
+
+Changes:
+
+- Widgets: All "add_widget" commands now return true on successful
+	adding or false.
+
+Breaking Changes:
+
+- Container Widgets: Replaced all "end_*" commands with a single "end" command
 
 -----------------------------------------------------------------------
  VERSION 0.1.4 (9/4/2020)

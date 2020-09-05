@@ -570,12 +570,14 @@ namespace Marvel {
 
 	}
 
-	void mvApp::addRuntimeItem(const std::string& parent, const std::string& before, mvAppItem* item) 
+	bool mvApp::addRuntimeItem(const std::string& parent, const std::string& before, mvAppItem* item) 
 	{ 
 		if (!checkIfMainThread())
-			return;
+			return false;
 
 		m_newItemVec.push_back({ item, before, parent });
+
+		return true;
 	}
 
 	void mvApp::addMTCallback(const std::string& name, PyObject* data, const std::string& returnname) 
@@ -1248,10 +1250,10 @@ namespace Marvel {
 		return color;
 	}
 
-	void mvApp::addItem(mvAppItem* item)
+	bool mvApp::addItem(mvAppItem* item)
 	{
 		if (!checkIfMainThread())
-			return;
+			return false;
 
 		static int count = 0;
 		count++;
@@ -1264,7 +1266,7 @@ namespace Marvel {
 			{
 				std::string message = item->getName() + " " + std::to_string(count);
 				ThrowPythonException(message + ": Items of this type must have unique names");
-				return;
+				return false;
 			}
 		}
 
@@ -1274,14 +1276,17 @@ namespace Marvel {
 
 		item->setParent(parentitem);
 		parentitem->addChild(item);
+
+		return true;
 	}
 
-	void mvApp::addWindow(mvAppItem* item)
+	bool mvApp::addWindow(mvAppItem* item)
 	{
 		if (!checkIfMainThread())
-			return;
+			return false;
 
 		m_windows.push_back(item);
+		return true;
 	}
 
 }
