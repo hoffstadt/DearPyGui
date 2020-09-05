@@ -581,7 +581,7 @@ namespace Marvel {
 	void mvApp::addMTCallback(const std::string& name, PyObject* data, const std::string& returnname) 
 	{ 
 		Py_XINCREF(data);
-		std::lock_guard<std::mutex> lock(m_mutex);
+		//std::lock_guard<std::mutex> lock(m_mutex);
 		m_asyncCallbacks.push_back({ name, data, returnname }); 
 	}
 
