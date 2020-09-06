@@ -59,6 +59,11 @@ namespace Marvel {
 
 			builder.BuildRanges(&ranges);   // Build the final result (ordered ranges with all the unique characters submitted)
 
+			//ImFontConfig config;
+			//config.OversampleH = 1;
+			//config.OversampleV = 1;
+			//config.GlyphExtraSpacing.x = 1.1f;
+
 			ImFont* font = io.Fonts->AddFontFromFileTTF(mvApp::GetApp()->m_fontFile.c_str(), mvApp::GetApp()->m_fontSize, nullptr, ranges.Data);
 
 			// add default proggy
