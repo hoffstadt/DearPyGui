@@ -34,7 +34,7 @@ def window_creator(sender, data):
                movable=movable, on_close="on_window_close")
     for i in range(0, 10):
         add_button("button" + str(i))
-    end_window()
+    end()
 
     hide_item("Create Window")
 
