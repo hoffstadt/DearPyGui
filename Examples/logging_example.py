@@ -5,7 +5,7 @@ add_same_line(spacing=10)
 add_group("LoggingGroup")
 add_text("Log Level")
 add_radio_button("Log Level##logging", ["Trace", "Debug", "Info", "Warning", "Error", "Off"])
-end_group()
+end()
 
 
 def log_callback(sender, data):
