@@ -184,10 +184,6 @@ def add_input_text(name: str, default_value: str = "", hint: str = "", multiline
 	"""Adds input for text values."""
 	...
 
-def add_item_color_style(item: str, style: int, color: List[float]) -> None:
-	"""Needs documentation"""
-	...
-
 def add_label_text(name: str, value: str, color: List[float] = [0.0, 0.0, 0.0, 255], tip: str = "", parent: str = "", before: str = "", data_source: str = "") -> bool:
 	"""Adds text with a label. Useful for output values."""
 	...
@@ -343,6 +339,10 @@ def cleanup_dearpygui() -> None:
 
 def clear_drawing(draw: str) -> None:
 	"""Clears a drawing."""
+	...
+
+def clear_item_color(item: str) -> None:
+	"""Clears individual color styles for an item."""
 	...
 
 def clear_log() -> None:
@@ -873,6 +873,10 @@ def set_global_font_scale(scale: float) -> None:
 
 def set_item_callback(item: str, callback: str) -> None:
 	"""Sets an item's callback if applicable."""
+	...
+
+def set_item_color(item: str, style: int, color: List[float]) -> None:
+	"""Sets an color style for a single item."""
 	...
 
 def set_item_height(item: str, height: int) -> None:

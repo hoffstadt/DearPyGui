@@ -33,6 +33,8 @@ namespace Marvel {
 		void draw() override
 		{
 
+			pushColorStyles();
+
 			if (m_modal)
 			{
 				if (ImGui::BeginPopupModal(m_name.c_str(), nullptr, ImGuiWindowFlags_AlwaysAutoResize))
@@ -120,6 +122,8 @@ namespace Marvel {
 					ImGui::EndPopup();
 				}
 			}
+
+			popColorStyles();
 		}
 
 	private:

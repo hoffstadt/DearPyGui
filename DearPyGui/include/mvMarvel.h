@@ -1176,11 +1176,15 @@ namespace Marvel {
 		parsers->insert({ "get_theme", mvPythonParser({
 		}, "Returns the current theme.", "str", "Themes and Styles") });
 
-		parsers->insert({ "add_item_color_style", mvPythonParser({
+		parsers->insert({ "set_item_color", mvPythonParser({
 			{mvPythonDataType::String, "item"},
 			{mvPythonDataType::Integer, "style"},
 			{mvPythonDataType::FloatList, "color"}
-		}, "Needs documentation", "None", "Themes and Styles") });
+		}, "Sets an color style for a single item.", "None", "Themes and Styles") });
+
+		parsers->insert({ "clear_item_color", mvPythonParser({
+			{mvPythonDataType::String, "item"},
+		}, "Clears individual color styles for an item.", "None", "Themes and Styles") });
 
 		parsers->insert({ "set_theme_item", mvPythonParser({
 			{mvPythonDataType::Integer, "item"},

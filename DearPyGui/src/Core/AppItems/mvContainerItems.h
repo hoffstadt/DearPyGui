@@ -34,6 +34,8 @@ namespace Marvel {
 
 		void draw() override
 		{
+
+			pushColorStyles();
 			
 			ImGui::BeginChild(m_label.c_str(), ImVec2(float(m_width), float(m_height)), m_border, 
 				ImGuiWindowFlags_HorizontalScrollbar);
@@ -78,6 +80,8 @@ namespace Marvel {
 			m_height = (int)ImGui::GetWindowHeight();
 
 			ImGui::EndChild();
+
+			popColorStyles();
 		}
 
 	private:
@@ -104,6 +108,8 @@ namespace Marvel {
 
 		void draw() override
 		{
+			pushColorStyles();
+
 			if (m_width != 0)
 				ImGui::PushItemWidth((float)m_width);
 
@@ -148,6 +154,8 @@ namespace Marvel {
 				ImGui::PopItemWidth();
 
 			ImGui::EndGroup();
+
+			popColorStyles();
 		}
 
 	private:
@@ -175,6 +183,8 @@ namespace Marvel {
 
 		void draw() override
 		{
+			pushColorStyles();
+
 			bool* toggle = nullptr;
 			if (m_closable)
 				toggle = &m_value;
@@ -223,8 +233,7 @@ namespace Marvel {
 					ImGui::SetTooltip("%s", getTip().c_str());
 			}
 
-
-
+			popColorStyles();
 		}
 
 	private:
@@ -252,6 +261,8 @@ namespace Marvel {
 
 		void draw() override
 		{
+			pushColorStyles();
+
 			ImGui::BeginGroup();
 			if (ImGui::TreeNodeEx(m_label.c_str(), m_flags))
 			{
@@ -293,6 +304,8 @@ namespace Marvel {
 				ImGui::SetTooltip("%s", getTip().c_str());
 
 			ImGui::EndGroup();
+
+			popColorStyles();
 		}
 
 	private:

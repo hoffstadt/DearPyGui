@@ -301,19 +301,24 @@ namespace Marvel{
 
 	void mvAppItem::addColorStyle(ImGuiCol item, mvColor color)
 	{
-		m_colorStyles[item] = color;
+		m_colors.push_back({ item,  color });
 	}
 
 	void mvAppItem::pushColorStyles()
 	{
-		for (auto& item : m_colorStyles)
-			ImGui::PushStyleColor(item.first, item.second);
+		for (auto& item : m_colors)
+			ImGui::PushStyleColor(item.idx, item.color);
 	}
 
 	void mvAppItem::popColorStyles()
 	{
-		if(!m_colorStyles.empty())
-			ImGui::PopStyleColor(m_colorStyles.size());
+		if(!m_colors.empty())
+			ImGui::PopStyleColor(m_colors.size());
+	}
+
+	void mvAppItem::clearColors()
+	{
+		m_colors.clear();
 	}
 
 	mvAppItem* mvAppItem::getChild(const std::string& name)

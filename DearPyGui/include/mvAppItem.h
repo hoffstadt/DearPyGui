@@ -49,6 +49,12 @@ namespace Marvel {
     class mvAppItem
     {
 
+        struct StyleColor
+        {
+            ImGuiCol idx;
+            mvColor color;
+        };
+
     public:
 
         mvAppItem(const std::string& parent, const std::string& name);
@@ -71,10 +77,11 @@ namespace Marvel {
         [[nodiscard]] virtual PyObject* getPyValue          () const { Py_RETURN_NONE; }
         [[nodiscard]] virtual bool      areDuplicatesAllowed() const { return false; }
 
-        // color styles for runtime (WORK NEEDED HERE)
+        // color styles for runtime
         void addColorStyle  (ImGuiCol item, mvColor color);
         void pushColorStyles();
         void popColorStyles ();
+        void clearColors();
 
         // runtime modifications
         bool addRuntimeChild       (const std::string& parent, const std::string& before, mvAppItem* item);
@@ -166,10 +173,11 @@ namespace Marvel {
         bool                        m_toggledOpen          = false;
         mvAppItem*                  m_parent               = nullptr;
         std::vector<mvAppItem*>     m_children;
-        std::map<ImGuiCol, mvColor> m_colorStyles;
         mvVec2                      m_rectMin = {0.0f, 0.0f};
         mvVec2                      m_rectMax = {0.0f, 0.0f};
         mvVec2                      m_rectSize = {0.0f, 0.0f};
+
+        std::vector<StyleColor>      m_colors;
 
     };
 

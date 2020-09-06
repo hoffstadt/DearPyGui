@@ -226,7 +226,7 @@ namespace Marvel {
 				static ImGuiTextFilter filter;
 				filter.Draw();
 
-				ImGui::PushItemWidth(300);
+				ImGui::PushItemWidth(500);
 				ImGui::BeginChild("CommandsChild##debug", ImVec2(500.0f, 100.0f), true);
 				ImGui::PushStyleColor(ImGuiCol_Text, { 1.0f, 1.0f, 0.0f, 1.0f });
 				for (size_t i = 0; i<m_commands.size(); i++)

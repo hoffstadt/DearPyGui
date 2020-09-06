@@ -612,13 +612,6 @@ namespace Marvel {
 		return nullptr;
 	}
 
-	void mvApp::addItemColorStyle(const std::string& name, ImGuiCol item, mvColor color)
-	{
-		auto aitem = getItem(name);
-		if (aitem)
-			aitem->addColorStyle(item, color);
-	}
-
 	mvAppItem* mvApp::getItem(const std::string& name, bool ignoreRuntime)
 	{
 
