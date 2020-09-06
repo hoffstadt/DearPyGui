@@ -19,12 +19,12 @@ add_listbox("Colormaps", ["Default", "Dark", "Pastel", "Paired", "Viridis",
                           "Plasma", "Hot", "Cool", "Pink", "Jet"],
             width=500, height=3, callback="colormap_callback")
 add_plot("Plot", "x-axis", "y-axis", height=-1)
-end_tab()
+end()
 add_tab("Simple Plots")
 add_simple_plot("Simpleplot1", [0.3, 0.9, 2.5, 8.9], height=300)
 add_simple_plot("Simpleplot2", [0.3, 0.9, 2.5, 8.9], overlay="Overlaying",
                 height=180, histogram=True)
-end_tab()
+end()
 
 
 def colormap_callback(sender, data):
