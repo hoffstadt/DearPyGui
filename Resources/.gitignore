@@ -1,4 +1,5 @@
 *
+!*.ttf
 !*.otf
 !.gitignore
 !*.py
