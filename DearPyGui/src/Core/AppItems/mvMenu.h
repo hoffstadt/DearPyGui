@@ -38,6 +38,8 @@ namespace Marvel {
 
 		void draw() override
 		{
+			pushColorStyles();
+
 			if (ImGui::BeginMenuBar())
 			{
 				for (mvAppItem* item : m_children)
@@ -72,6 +74,8 @@ namespace Marvel {
 			// Regular Tooltip (simple)
 			if (!getTip().empty() && ImGui::IsItemHovered())
 				ImGui::SetTooltip("%s", getTip().c_str());
+
+			popColorStyles();
 		}
 
 	};
@@ -94,6 +98,8 @@ namespace Marvel {
 
 		void draw() override
 		{
+			pushColorStyles();
+
 			// create menu and see if its selected
 			if (ImGui::BeginMenu(m_label.c_str()))
 			{
@@ -143,6 +149,8 @@ namespace Marvel {
 				registerWindowFocusing();
 				ImGui::EndMenu();
 			}
+
+			popColorStyles();
 		}
 
 	};
@@ -162,6 +170,8 @@ namespace Marvel {
 
 		void draw() override
 		{
+			pushColorStyles();
+
 			// create menuitem and see if its selected
 			if (ImGui::MenuItem(m_label.c_str(), nullptr))
 			{
@@ -183,6 +193,8 @@ namespace Marvel {
 					ImGui::OpenPopup(getPopup().c_str());
 
 			}
+
+			popColorStyles();
 		}
 
 	};

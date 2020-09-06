@@ -37,7 +37,7 @@ namespace Marvel {
 		{
 			if (ImGui::IsItemHovered())
 			{
-
+				pushColorStyles();
 				ImGui::BeginTooltip();
 				for (mvAppItem* item : m_children)
 				{
@@ -70,6 +70,8 @@ namespace Marvel {
 
 				}
 				ImGui::EndTooltip();
+
+				popColorStyles();
 			}
 
 		}

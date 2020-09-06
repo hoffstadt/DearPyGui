@@ -113,12 +113,15 @@ namespace Marvel {
 				ImGui::PopStyleColor();
 
 			ImGui::SameLine();
+
+			pushColorStyles();
 			ImGui::TextUnformatted(m_label.c_str());
 
 			// Regular Tooltip (simple)
 			if (!getTip().empty() && ImGui::IsItemHovered())
 				ImGui::SetTooltip("%s", getTip().c_str());
 
+			popColorStyles();
 		}
 
 	private:

@@ -5542,18 +5542,36 @@ return ToPyBool(AddItemWithRuntimeChecks(item, parent, before));
 		return GetPyNone();
 	}
 
-	PyObject* add_item_color_style(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* set_item_color(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		const char* item;
 		int style;
 		PyObject* color;
 
-		if (!(*mvApp::GetApp()->getParsers())["add_item_color_style"].parse(args, kwargs, __FUNCTION__, &item, &style, &color))
+		if (!(*mvApp::GetApp()->getParsers())["set_item_color"].parse(args, kwargs, __FUNCTION__, &item, &style, &color))
 			return GetPyNone();
 
 		auto mcolor = ToColor(color);
 
-		mvApp::GetApp()->addItemColorStyle(item, style, mcolor);
+		mvAppItem* appitem = mvApp::GetApp()->getItem(item);
+
+		if (appitem)
+			appitem->addColorStyle(style, mcolor);
+
+		return GetPyNone();
+	}
+
+	PyObject* clear_item_color(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		const char* item;
+
+		if (!(*mvApp::GetApp()->getParsers())["clear_item_color"].parse(args, kwargs, __FUNCTION__, &item))
+			return GetPyNone();
+
+		mvAppItem* appitem = mvApp::GetApp()->getItem(item);
+
+		if (appitem)
+			appitem->clearColors();
 
 		return GetPyNone();
 	}
@@ -6597,6 +6615,8 @@ return ToPyBool(AddItemWithRuntimeChecks(item, parent, before));
 
 	static PyMethodDef dearpyguimethods[]
 	{
+		ADD_PYTHON_FUNCTION(set_item_color)
+		ADD_PYTHON_FUNCTION(clear_item_color)
 		ADD_PYTHON_FUNCTION(set_main_window_resizable)
 		ADD_PYTHON_FUNCTION(delete_series)
 		ADD_PYTHON_FUNCTION(set_mouse_release_callback)
@@ -6806,7 +6826,6 @@ return ToPyBool(AddItemWithRuntimeChecks(item, parent, before));
 		ADD_PYTHON_FUNCTION(set_thread_count)
 		ADD_PYTHON_FUNCTION(set_threadpool_high_performance)
 		ADD_PYTHON_FUNCTION(set_main_window_size)
-		ADD_PYTHON_FUNCTION(add_item_color_style)
 		ADD_PYTHON_FUNCTION(set_item_popup)
 		ADD_PYTHON_FUNCTION(set_item_label)
 		ADD_PYTHON_FUNCTION(is_item_hovered)
