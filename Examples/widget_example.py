@@ -51,37 +51,37 @@ add_slider_int2("Slider Int2##widget")
 add_slider_int3("Slider Int3##widget")
 add_slider_int4("Slider Int4##widget")
 
-end_tab()
+end()
 
 add_tab("Container Widgets")
 
 add_tree_node("Tree Node1##widget")
 for i in range(0, 3):
     add_text("Item" + str(i))
-end_tree_node()
+end()
 add_tree_node("Tree Node2##widget")
 for i in range(0, 3):
     add_text("Item" + str(i))
-end_tree_node()
+end()
 
 add_collapsing_header("Collapsing Header##widget")
 for i in range(0, 10):
     add_text("Item " + str(i) + " belonging to a collapsing header")
-end_collapsing_header()
+end()
 
 add_child("Child##widget", width=220, height=100)
 for i in range(0, 10):
     add_text("Item " + str(i) + " belonging to a child")
-end_child()
+end()
 
 add_same_line(spacing=50)
 add_group("Group##widget")
 add_text("Group")
 for i in range(0, 3):
     add_button("Button" + str(i) + "##widgetgroup")
-end_group()
+end()
 
-end_tab()
+end()
 
 add_tab("Tables")
 add_table("Table##widget", ["Column 1", "Column 2", "Column 3", "Column 4"])
@@ -93,9 +93,9 @@ for i in range(0, 10):
     tabledata.append(row)
 
 set_value("Table##widget", tabledata)
-end_tab()
+end()
 
-end_tab_bar()
+end()
 
 
 def retrieve_values(sender, data):
