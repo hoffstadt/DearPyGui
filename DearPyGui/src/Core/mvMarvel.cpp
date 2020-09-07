@@ -895,7 +895,7 @@ namespace Marvel {
 
 	PyObject* set_exit_callback(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
-		const char* callback = "";
+		PyObject* callback;
 
 		if (!(*mvApp::GetApp()->getParsers())["set_exit_callback"].parse(args, kwargs, __FUNCTION__, &callback))
 			return GetPyNone();
@@ -1988,7 +1988,7 @@ namespace Marvel {
 		const char* before = "";
 		int width = -1;
 		int height = -1;
-		const char* query_callback = "";
+		PyObject* query_callback = nullptr;
 
 		if (!(*mvApp::GetApp()->getParsers())["add_plot"].parse(args, kwargs, __FUNCTION__, &name, &xAxisName, &yAxisName, &flags,
 			&xflags, &yflags, &parent, &before, &width, &height, &query_callback))
@@ -2442,7 +2442,7 @@ namespace Marvel {
 
 	PyObject* set_mouse_down_callback(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
-		const char* callback;
+		PyObject* callback;
 		const char* handler = "MainWindow";
 
 		if (!(*mvApp::GetApp()->getParsers())["set_mouse_down_callback"].parse(args, kwargs, __FUNCTION__, &callback, &handler))
@@ -2485,7 +2485,7 @@ namespace Marvel {
 
 	PyObject* set_mouse_drag_callback(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
-		const char* callback;
+		PyObject* callback;
 		float threshold;
 		const char* handler = "MainWindow";
 
@@ -2531,7 +2531,7 @@ namespace Marvel {
 
 	PyObject* set_mouse_double_click_callback(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
-		const char* callback;
+		PyObject* callback;
 		const char* handler;
 
 		if (!(*mvApp::GetApp()->getParsers())["set_mouse_double_click_callback"].parse(args, kwargs, __FUNCTION__, &callback, &handler))
@@ -2574,7 +2574,7 @@ namespace Marvel {
 
 	PyObject* set_mouse_click_callback(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
-		const char* callback;
+		PyObject* callback;
 		const char* handler = "MainWindow";
 
 		if (!(*mvApp::GetApp()->getParsers())["set_mouse_click_callback"].parse(args, kwargs, __FUNCTION__, &callback, &handler))
@@ -2617,7 +2617,7 @@ namespace Marvel {
 
 	PyObject* set_mouse_release_callback(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
-		const char* callback;
+		PyObject* callback;
 		const char* handler = "MainWindow";
 
 		if (!(*mvApp::GetApp()->getParsers())["set_mouse_release_callback"].parse(args, kwargs, __FUNCTION__, &callback, &handler))
@@ -2660,7 +2660,7 @@ namespace Marvel {
 
 	PyObject* set_key_down_callback(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
-		const char* callback;
+		PyObject* callback;
 		const char* handler = "MainWindow";
 
 		if (!(*mvApp::GetApp()->getParsers())["set_key_down_callback"].parse(args, kwargs, __FUNCTION__, &callback, &handler))
@@ -2703,7 +2703,7 @@ namespace Marvel {
 
 	PyObject* set_key_press_callback(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
-		const char* callback;
+		PyObject* callback;
 		const char* handler = "MainWindow";
 
 		if (!(*mvApp::GetApp()->getParsers())["set_key_press_callback"].parse(args, kwargs, __FUNCTION__, &callback, &handler))
@@ -2746,7 +2746,7 @@ namespace Marvel {
 
 	PyObject* set_key_release_callback(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
-		const char* callback;
+		PyObject* callback;
 		const char* handler = "MainWindow";
 
 		if (!(*mvApp::GetApp()->getParsers())["set_key_release_callback"].parse(args, kwargs, __FUNCTION__, &callback, &handler))
@@ -2789,7 +2789,7 @@ namespace Marvel {
 
 	PyObject* set_mouse_wheel_callback(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
-		const char* callback;
+		PyObject* callback;
 		const char* handler = "MainWindow";
 
 		if (!(*mvApp::GetApp()->getParsers())["set_mouse_wheel_callback"].parse(args, kwargs, __FUNCTION__, &callback, &handler))
@@ -2832,7 +2832,7 @@ namespace Marvel {
 
 	PyObject* set_mouse_move_callback(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
-		const char* callback;
+		PyObject* callback;
 		const char* handler = "MainWindow";
 
 		if (!(*mvApp::GetApp()->getParsers())["set_mouse_move_callback"].parse(args, kwargs, __FUNCTION__, &callback, &handler))
@@ -2878,16 +2878,22 @@ namespace Marvel {
 	{
 		const char* name;
 		PyObject* headers;
-		const char* callback = "";
+		PyObject* callback = nullptr;
+		PyObject* callback_data = nullptr;
 		const char* parent = "";
 		const char* before = "";
 
-		if (!(*mvApp::GetApp()->getParsers())["add_table"].parse(args, kwargs, __FUNCTION__, &name, &headers, &callback, &parent,
+		if (!(*mvApp::GetApp()->getParsers())["add_table"].parse(args, kwargs, __FUNCTION__, &name, &headers, &callback, &callback_data, &parent,
 			&before))
 			return ToPyBool(false);
 
 		mvAppItem* item = new mvTable("", name, ToStringVect(headers));
+		if (callback)
+			Py_XINCREF(callback);
 		item->setCallback(callback);
+		if (callback_data)
+			Py_XINCREF(callback_data);
+		item->setCallbackData(callback_data);
 		return ToPyBool(AddItemWithRuntimeChecks(item, parent, before));
 	}
 
@@ -3017,7 +3023,8 @@ namespace Marvel {
 		float min_value = 0.0f;
 		float max_value = 100.0f;
 		const char* format = "%.3f";
-		const char* callback = "";
+		PyObject* callback = nullptr;
+		PyObject* callback_data = nullptr;
 		const char* tip = "";
 		int width = 0;
 		const char* before = "";
@@ -3026,7 +3033,7 @@ namespace Marvel {
 		int on_enter = false;
 
 		if (!(*mvApp::GetApp()->getParsers())["add_drag_float"].parse(args, kwargs, __FUNCTION__, &name, &default_value, &speed,
-			&min_value, &max_value, &format, &callback, &tip, &parent, &before, &data_source, &width, &on_enter))
+			&min_value, &max_value, &format, &callback, &callback_data, &tip, &parent, &before, &data_source, &width, &on_enter))
 			return ToPyBool(false);
 
 		std::vector<float> defaults;
@@ -3040,7 +3047,12 @@ namespace Marvel {
 			flags = ImGuiInputTextFlags_EnterReturnsTrue;
 
 		mvAppItem* item = new mvDragFloat<mvAppItemType::DragFloat, 1, ImGui::DragFloat>("", name, defaults.data(), speed, min_value, max_value, format, flags);
+		if (callback)
+			Py_XINCREF(callback);
 		item->setCallback(callback);
+		if (callback_data)
+			Py_XINCREF(callback_data);
+		item->setCallbackData(callback_data);
 		item->setTip(tip);
 		item->setDataSource(data_source);
 		item->setWidth(width);
@@ -3060,7 +3072,8 @@ namespace Marvel {
 		float min_value = 0.0f;
 		float max_value = 100.0f;
 		const char* format = "%.3f";
-		const char* callback = "";
+		PyObject* callback = nullptr;
+		PyObject* callback_data = nullptr;
 		const char* tip = "";
 		const char* parent = "";
 		const char* before = "";
@@ -3069,7 +3082,7 @@ namespace Marvel {
 		int on_enter = false;
 
 		if (!(*mvApp::GetApp()->getParsers())["add_drag_float2"].parse(args, kwargs, __FUNCTION__, &name, &default_value, &speed,
-			&min_value, &max_value, &format, &callback, &tip, &parent, &before, &data_source, &width, &on_enter))
+			&min_value, &max_value, &format, &callback, &callback_data, &tip, &parent, &before, &data_source, &width, &on_enter))
 			return ToPyBool(false);
 
 		ImGuiInputTextFlags flags = 0;
@@ -3078,7 +3091,12 @@ namespace Marvel {
 
 		auto vec = ToFloatVect(default_value);
 		mvAppItem* item = new mvDragFloat<mvAppItemType::DragFloat2, 2, ImGui::DragFloat2>("", name, vec.data(), speed, min_value, max_value, format, flags);
+		if (callback)
+			Py_XINCREF(callback);
 		item->setCallback(callback);
+		if (callback_data)
+			Py_XINCREF(callback_data);
+		item->setCallbackData(callback_data);
 		item->setTip(tip);
 		item->setDataSource(data_source);
 		item->setWidth(width);
@@ -3097,7 +3115,8 @@ namespace Marvel {
 		float min_value = 0.0f;
 		float max_value = 100.0f;
 		const char* format = "%.3f";
-		const char* callback = "";
+		PyObject* callback = nullptr;
+		PyObject* callback_data = nullptr;
 		const char* tip = "";
 		const char* parent = "";
 		const char* before = "";
@@ -3106,7 +3125,7 @@ namespace Marvel {
 		int on_enter = false;
 
 		if (!(*mvApp::GetApp()->getParsers())["add_drag_float3"].parse(args, kwargs, __FUNCTION__, &name, &default_value, &speed,
-			&min_value, &max_value, &format, &callback, &tip, &parent, &before, &data_source, &width, &on_enter))
+			&min_value, &max_value, &format, &callback, &callback_data, &tip, &parent, &before, &data_source, &width, &on_enter))
 			return ToPyBool(false);
 
 		ImGuiInputTextFlags flags = 0;
@@ -3115,7 +3134,12 @@ namespace Marvel {
 
 		auto vec = ToFloatVect(default_value);
 		mvAppItem* item = new mvDragFloat<mvAppItemType::DragFloat3, 3, ImGui::DragFloat3>("", name, vec.data(), speed, min_value, max_value, format, flags);
+		if (callback)
+			Py_XINCREF(callback);
 		item->setCallback(callback);
+		if (callback_data)
+			Py_XINCREF(callback_data);
+		item->setCallbackData(callback_data);
 		item->setTip(tip);
 		item->setDataSource(data_source);
 		item->setWidth(width);
@@ -3134,7 +3158,8 @@ namespace Marvel {
 		float min_value = 0.0f;
 		float max_value = 100.0f;
 		const char* format = "%.3f";
-		const char* callback = "";
+		PyObject* callback = nullptr;
+		PyObject* callback_data = nullptr;
 		const char* tip = "";
 		const char* parent = "";
 		const char* before = "";
@@ -3143,7 +3168,7 @@ namespace Marvel {
 		int on_enter = false;
 
 		if (!(*mvApp::GetApp()->getParsers())["add_drag_float4"].parse(args, kwargs, __FUNCTION__, &name, &default_value, &speed,
-			&min_value, &max_value, &format, &callback, &tip, &parent, &before, &data_source, &width, &on_enter))
+			&min_value, &max_value, &format, &callback, &callback_data, &tip, &parent, &before, &data_source, &width, &on_enter))
 			return ToPyBool(false);
 
 		ImGuiInputTextFlags flags = 0;
@@ -3153,7 +3178,12 @@ namespace Marvel {
 		auto vec = ToFloatVect(default_value);
 
 		mvAppItem* item = new mvDragFloat<mvAppItemType::DragFloat4, 4, ImGui::DragFloat4>("", name, vec.data(), speed, min_value, max_value, format, flags);
+		if (callback)
+			Py_XINCREF(callback);
 		item->setCallback(callback);
+		if (callback_data)
+			Py_XINCREF(callback_data);
+		item->setCallbackData(callback_data);
 		item->setTip(tip);
 		item->setDataSource(data_source);
 		item->setWidth(width);
@@ -3168,7 +3198,8 @@ namespace Marvel {
 		int min_value = 0;
 		int max_value = 100;
 		const char* format = "%d";
-		const char* callback = "";
+		PyObject* callback = nullptr;
+		PyObject* callback_data = nullptr;
 		const char* tip = "";
 		const char* parent = "";
 		const char* before = "";
@@ -3177,7 +3208,7 @@ namespace Marvel {
 		int on_enter = false;
 
 		if (!(*mvApp::GetApp()->getParsers())["add_drag_int"].parse(args, kwargs, __FUNCTION__, &name, &default_value, &speed,
-			&min_value, &max_value, &format, &callback, &tip, &parent, &before, &data_source, &width, &on_enter))
+			&min_value, &max_value, &format, &callback, &callback_data, &tip, &parent, &before, &data_source, &width, &on_enter))
 			return ToPyBool(false);
 
 		ImGuiInputTextFlags flags = 0;
@@ -3191,7 +3222,12 @@ namespace Marvel {
 		defaults.push_back(0.0f);
 
 		mvAppItem* item = new mvDragInt<mvAppItemType::DragInt, 1, ImGui::DragInt>("", name, defaults.data(), speed, min_value, max_value, format, flags);
+		if (callback)
+			Py_XINCREF(callback);
 		item->setCallback(callback);
+		if (callback_data)
+			Py_XINCREF(callback_data);
+		item->setCallbackData(callback_data);
 		item->setTip(tip);
 		item->setDataSource(data_source);
 		item->setWidth(width);
@@ -3210,7 +3246,8 @@ namespace Marvel {
 		int min_value = 0;
 		int max_value = 100;
 		const char* format = "%d";
-		const char* callback = "";
+		PyObject* callback = nullptr;
+		PyObject* callback_data = nullptr;
 		const char* tip = "";
 		const char* parent = "";
 		const char* before = "";
@@ -3219,7 +3256,7 @@ namespace Marvel {
 		int on_enter = false;
 
 		if (!(*mvApp::GetApp()->getParsers())["add_drag_int2"].parse(args, kwargs, __FUNCTION__, &name, &default_value, &speed,
-			&min_value, &max_value, &format, &callback, &tip, &parent, &before, &data_source, &width, &on_enter))
+			&min_value, &max_value, &format, &callback, &callback_data, &tip, &parent, &before, &data_source, &width, &on_enter))
 			return ToPyBool(false);
 
 		ImGuiInputTextFlags flags = 0;
@@ -3228,7 +3265,12 @@ namespace Marvel {
 
 		auto vec = ToIntVect(default_value);
 		mvAppItem* item = new mvDragInt<mvAppItemType::DragInt2, 2, ImGui::DragInt2>("", name, vec.data(), speed, min_value, max_value, format, flags);
+		if (callback)
+			Py_XINCREF(callback);
 		item->setCallback(callback);
+		if (callback_data)
+			Py_XINCREF(callback_data);
+		item->setCallbackData(callback_data);
 		item->setTip(tip);
 		item->setDataSource(data_source);
 		item->setWidth(width);
@@ -3247,7 +3289,8 @@ namespace Marvel {
 		int min_value = 0;
 		int max_value = 100;
 		const char* format = "%d";
-		const char* callback = "";
+		PyObject* callback = nullptr;
+		PyObject* callback_data = nullptr;
 		const char* tip = "";
 		const char* parent = "";
 		const char* before = "";
@@ -3256,7 +3299,7 @@ namespace Marvel {
 		int on_enter = false;
 
 		if (!(*mvApp::GetApp()->getParsers())["add_drag_int3"].parse(args, kwargs, __FUNCTION__, &name, &default_value, &speed,
-			&min_value, &max_value, &format, &callback, &tip, &parent, &before, &data_source, &width, &on_enter))
+			&min_value, &max_value, &format, &callback, &callback_data, &tip, &parent, &before, &data_source, &width, &on_enter))
 			return ToPyBool(false);
 
 		ImGuiInputTextFlags flags = 0;
@@ -3265,7 +3308,12 @@ namespace Marvel {
 
 		auto vec = ToIntVect(default_value);
 		mvAppItem* item = new mvDragInt<mvAppItemType::DragInt3, 3, ImGui::DragInt3>("", name, vec.data(), speed, min_value, max_value, format, flags);
+		if (callback)
+			Py_XINCREF(callback);
 		item->setCallback(callback);
+		if (callback_data)
+			Py_XINCREF(callback_data);
+		item->setCallbackData(callback_data);
 		item->setTip(tip);
 		item->setDataSource(data_source);
 		item->setWidth(width);
@@ -3284,7 +3332,8 @@ namespace Marvel {
 		int min_value = 0;
 		int max_value = 100;
 		const char* format = "%d";
-		const char* callback = "";
+		PyObject* callback = nullptr;
+		PyObject* callback_data = nullptr;
 		const char* tip = "";
 		const char* parent = "";
 		const char* before = "";
@@ -3293,7 +3342,7 @@ namespace Marvel {
 		int on_enter = false;
 
 		if (!(*mvApp::GetApp()->getParsers())["add_drag_int4"].parse(args, kwargs, __FUNCTION__, &name, &default_value, &speed,
-			&min_value, &max_value, &format, &callback, &tip, &parent, &before, &data_source, &width, &on_enter))
+			&min_value, &max_value, &format, &callback, &callback_data, &tip, &parent, &before, &data_source, &width, &on_enter))
 			return ToPyBool(false);
 
 		ImGuiInputTextFlags flags = 0;
@@ -3302,7 +3351,12 @@ namespace Marvel {
 
 		auto vec = ToIntVect(default_value);
 		mvAppItem* item = new mvDragInt<mvAppItemType::DragInt4, 4, ImGui::DragInt4>("", name, vec.data(), speed, min_value, max_value, format, flags);
+		if (callback)
+			Py_XINCREF(callback);
 		item->setCallback(callback);
+		if (callback_data)
+			Py_XINCREF(callback_data);
+		item->setCallbackData(callback_data);
 		item->setTip(tip);
 		item->setDataSource(data_source);
 		item->setWidth(width);
@@ -3317,7 +3371,8 @@ namespace Marvel {
 		float max_value = 100.0f;
 		const char* format = "%.3f";
 		int vertical = false;
-		const char* callback = "";
+		PyObject* callback = nullptr;
+		PyObject* callback_data = nullptr;
 		const char* tip = "";
 		const char* parent = "";
 		const char* before = "";
@@ -3327,7 +3382,7 @@ namespace Marvel {
 		int on_enter = false;
 
 		if (!(*mvApp::GetApp()->getParsers())["add_slider_float"].parse(args, kwargs, __FUNCTION__, &name, &default_value,
-			&min_value, &max_value, &format, &vertical, &callback, &tip, &parent, &before,
+			&min_value, &max_value, &format, &vertical, &callback, &callback_data, &tip, &parent, &before,
 			&data_source, &width, &height, &on_enter))
 			return ToPyBool(false);
 
@@ -3336,7 +3391,12 @@ namespace Marvel {
 			flags = ImGuiInputTextFlags_EnterReturnsTrue;
 
 		mvAppItem* item = new mvSliderFloat("", name, default_value, min_value, max_value, format, vertical, flags);
+		if (callback)
+			Py_XINCREF(callback);
 		item->setCallback(callback);
+		if (callback_data)
+			Py_XINCREF(callback_data);
+		item->setCallbackData(callback_data);
 		item->setTip(tip);
 		item->setDataSource(data_source);
 		item->setWidth(width);
@@ -3355,7 +3415,8 @@ namespace Marvel {
 		float min_value = 0.0f;
 		float max_value = 100.0f;
 		const char* format = "%.3f";
-		const char* callback = "";
+		PyObject* callback = nullptr;
+		PyObject* callback_data = nullptr;
 		const char* tip = "";
 		const char* parent = "";
 		const char* before = "";
@@ -3364,7 +3425,7 @@ namespace Marvel {
 		int on_enter = false;
 
 		if (!(*mvApp::GetApp()->getParsers())["add_slider_float2"].parse(args, kwargs, __FUNCTION__, &name, &default_value,
-			&min_value, &max_value, &format, &callback, &tip, &parent, &before, &data_source,&width, &on_enter))
+			&min_value, &max_value, &format, &callback, &callback_data, &tip, &parent, &before, &data_source,&width, &on_enter))
 			return ToPyBool(false);
 
 		ImGuiInputTextFlags flags = 0;
@@ -3374,7 +3435,12 @@ namespace Marvel {
 		auto vec = ToFloatVect(default_value);
 
 		mvAppItem* item = new mvSliderFloatMulti<mvAppItemType::SliderFloat2, 2, ImGui::SliderFloat2, float>("", name, vec.data(), min_value, max_value, format, flags);
+		if (callback)
+			Py_XINCREF(callback);
 		item->setCallback(callback);
+		if (callback_data)
+			Py_XINCREF(callback_data);
+		item->setCallbackData(callback_data);
 		item->setTip(tip);
 		item->setDataSource(data_source);
 		item->setWidth(width);
@@ -3392,7 +3458,8 @@ namespace Marvel {
 		float min_value = 0.0f;
 		float max_value = 100.0f;
 		const char* format = "%.3f";
-		const char* callback = "";
+		PyObject* callback = nullptr;
+		PyObject* callback_data = nullptr;
 		const char* tip = "";
 		const char* parent = "";
 		const char* before = "";
@@ -3401,7 +3468,7 @@ namespace Marvel {
 		int on_enter = false;
 
 		if (!(*mvApp::GetApp()->getParsers())["add_slider_float3"].parse(args, kwargs, __FUNCTION__, &name, &default_value,
-			&min_value, &max_value, &format, &callback, &tip, &parent, &before, &data_source, &width, &on_enter))
+			&min_value, &max_value, &format, &callback, &callback_data, &tip, &parent, &before, &data_source, &width, &on_enter))
 			return ToPyBool(false);
 
 		ImGuiInputTextFlags flags = 0;
@@ -3411,7 +3478,12 @@ namespace Marvel {
 		auto vec = ToFloatVect(default_value);
 
 		mvAppItem* item = new mvSliderFloatMulti<mvAppItemType::SliderFloat3, 3, ImGui::SliderFloat3, float>("", name, vec.data(), min_value, max_value, format, flags);
+		if (callback)
+			Py_XINCREF(callback);
 		item->setCallback(callback);
+		if (callback_data)
+			Py_XINCREF(callback_data);
+		item->setCallbackData(callback_data);
 		item->setTip(tip);
 		item->setDataSource(data_source);
 		item->setWidth(width);
@@ -3429,7 +3501,8 @@ namespace Marvel {
 		float min_value = 0.0f;
 		float max_value = 100.0f;
 		const char* format = "%.3f";
-		const char* callback = "";
+		PyObject* callback = nullptr;
+		PyObject* callback_data = nullptr;
 		const char* tip = "";
 		const char* parent = "";
 		const char* before = "";
@@ -3438,7 +3511,7 @@ namespace Marvel {
 		int on_enter = false;
 
 		if (!(*mvApp::GetApp()->getParsers())["add_slider_float4"].parse(args, kwargs, __FUNCTION__, &name, &default_value,
-			&min_value, &max_value, &format, &callback, &tip, &parent, &before, &data_source,
+			&min_value, &max_value, &format, &callback, &callback_data, &tip, &parent, &before, &data_source,
 			&width, &on_enter))
 			return ToPyBool(false);
 
@@ -3448,7 +3521,12 @@ namespace Marvel {
 
 		auto vec = ToFloatVect(default_value);
 		mvAppItem* item = new mvSliderFloatMulti<mvAppItemType::SliderFloat4, 4, ImGui::SliderFloat4, float>("", name, vec.data(), min_value, max_value, format, flags);
+		if (callback)
+			Py_XINCREF(callback);
 		item->setCallback(callback);
+		if (callback_data)
+			Py_XINCREF(callback_data);
+		item->setCallbackData(callback_data);
 		item->setTip(tip);
 		item->setDataSource(data_source);
 		item->setWidth(width);
@@ -3463,7 +3541,8 @@ namespace Marvel {
 		int max_value = 100;
 		const char* format = "%d";
 		int vertical = false;
-		const char* callback = "";
+		PyObject* callback = nullptr;
+		PyObject* callback_data = nullptr;
 		const char* tip = "";
 		const char* parent = "";
 		const char* before = "";
@@ -3473,7 +3552,7 @@ namespace Marvel {
 		int on_enter = false;
 
 		if (!(*mvApp::GetApp()->getParsers())["add_slider_int"].parse(args, kwargs, __FUNCTION__, &name, &default_value,
-			&min_value, &max_value, &format, &vertical, &callback, &tip, &parent, &before, &data_source,
+			&min_value, &max_value, &format, &vertical, &callback, &callback_data, &tip, &parent, &before, &data_source,
 			&width, &height, &on_enter))
 			return ToPyBool(false);
 
@@ -3482,7 +3561,12 @@ namespace Marvel {
 			flags = ImGuiInputTextFlags_EnterReturnsTrue;
 
 		mvAppItem* item = new mvSliderInt("", name, default_value, min_value, max_value, format, vertical, flags);
+		if (callback)
+			Py_XINCREF(callback);
 		item->setCallback(callback);
+		if (callback_data)
+			Py_XINCREF(callback_data);
+		item->setCallbackData(callback_data);
 		item->setTip(tip);
 		item->setDataSource(data_source);
 		item->setWidth(width);
@@ -3501,7 +3585,8 @@ namespace Marvel {
 		int min_value = 0;
 		int max_value = 100;
 		const char* format = "%d";
-		const char* callback = "";
+		PyObject* callback = nullptr;
+		PyObject* callback_data = nullptr;
 		const char* tip = "";
 		const char* parent = "";
 		const char* before = "";
@@ -3510,7 +3595,7 @@ namespace Marvel {
 		int on_enter = false;
 
 		if (!(*mvApp::GetApp()->getParsers())["add_slider_int2"].parse(args, kwargs, __FUNCTION__, &name, &default_value,
-			&min_value, &max_value, &format, &callback, &tip, &parent, &before, &data_source,
+			&min_value, &max_value, &format, &callback, &callback_data, &tip, &parent, &before, &data_source,
 			&width, &on_enter))
 			return ToPyBool(false);
 
@@ -3520,7 +3605,12 @@ namespace Marvel {
 
 		auto vec = ToIntVect(default_value);
 		mvAppItem* item = new mvSliderIntMulti<mvAppItemType::SliderInt2, 2, ImGui::SliderInt2, int>("", name, vec.data(), min_value, max_value, format, flags);
+		if (callback)
+			Py_XINCREF(callback);
 		item->setCallback(callback);
+		if (callback_data)
+			Py_XINCREF(callback_data);
+		item->setCallbackData(callback_data);
 		item->setTip(tip);
 		item->setDataSource(data_source);
 		item->setWidth(width);
@@ -3538,7 +3628,8 @@ namespace Marvel {
 		int min_value = 0;
 		int max_value = 100;
 		const char* format = "%d";
-		const char* callback = "";
+		PyObject* callback = nullptr;
+		PyObject* callback_data = nullptr;
 		const char* tip = "";
 		const char* parent = "";
 		const char* before = "";
@@ -3547,7 +3638,7 @@ namespace Marvel {
 		int on_enter = false;
 
 		if (!(*mvApp::GetApp()->getParsers())["add_slider_int3"].parse(args, kwargs, __FUNCTION__, &name, &default_value,
-			&min_value, &max_value, &format, &callback, &tip, &parent, &before, &data_source,
+			&min_value, &max_value, &format, &callback, &callback_data, &tip, &parent, &before, &data_source,
 			&width, &on_enter))
 			return ToPyBool(false);
 
@@ -3557,7 +3648,12 @@ namespace Marvel {
 
 		auto vec = ToIntVect(default_value);
 		mvAppItem* item = new mvSliderIntMulti<mvAppItemType::SliderInt3, 3, ImGui::SliderInt3, int>("", name, vec.data(), min_value, max_value, format, flags);
+		if (callback)
+			Py_XINCREF(callback);
 		item->setCallback(callback);
+		if (callback_data)
+			Py_XINCREF(callback_data);
+		item->setCallbackData(callback_data);
 		item->setTip(tip);
 		item->setDataSource(data_source);
 		item->setWidth(width);
@@ -3576,7 +3672,8 @@ namespace Marvel {
 		int min_value = 0;
 		int max_value = 100;
 		const char* format = "%d";
-		const char* callback = "";
+		PyObject* callback = nullptr;
+		PyObject* callback_data = nullptr;
 		const char* tip = "";
 		const char* parent = "";
 		const char* before = "";
@@ -3585,7 +3682,7 @@ namespace Marvel {
 		int on_enter = false;
 
 		if (!(*mvApp::GetApp()->getParsers())["add_slider_int4"].parse(args, kwargs, __FUNCTION__, &name, &default_value,
-			&min_value, &max_value, &format, &callback, &tip, &parent, &before, &data_source,
+			&min_value, &max_value, &format, &callback, &callback_data, &tip, &parent, &before, &data_source,
 			&width, &on_enter))
 			return ToPyBool(false);
 
@@ -3595,7 +3692,12 @@ namespace Marvel {
 
 		auto vec = ToIntVect(default_value);
 		mvAppItem* item = new mvSliderIntMulti<mvAppItemType::SliderInt4, 4, ImGui::SliderInt4, int>("", name, vec.data(), min_value, max_value, format, flags);
+		if (callback)
+			Py_XINCREF(callback);
 		item->setCallback(callback);
+		if (callback_data)
+			Py_XINCREF(callback_data);
+		item->setCallbackData(callback_data);
 		item->setTip(tip);
 		item->setDataSource(data_source);
 		item->setWidth(width);
@@ -3666,7 +3768,8 @@ namespace Marvel {
 		const char* name;
 		PyObject* items;
 		int default_value = 0;
-		const char* callback = "";
+		PyObject* callback = nullptr;
+		PyObject* callback_data = nullptr;
 		const char* tip = "";
 		int width = 0;
 		int height = 3;
@@ -3676,13 +3779,18 @@ namespace Marvel {
 		const char* secondary_data_source = "";
 
 		if (!(*mvApp::GetApp()->getParsers())["add_listbox"].parse(args, kwargs, __FUNCTION__, &name, &items,
-			&default_value, &callback, &tip, &parent, &before, &data_source, &width,
+			&default_value, &callback, &callback_data, &tip, &parent, &before, &data_source, &width,
 			&height, &secondary_data_source))
 			return ToPyBool(false);
 
 		mvAppItem* item = new mvListbox("", name, ToStringVect(items),
 			default_value, height, secondary_data_source);
+		if (callback)
+			Py_XINCREF(callback);
 		item->setCallback(callback);
+		if (callback_data)
+			Py_XINCREF(callback_data);
+		item->setCallbackData(callback_data);
 		item->setTip(tip);
 		item->setDataSource(data_source);
 		item->setWidth(width);
@@ -3694,7 +3802,8 @@ namespace Marvel {
 		const char* name;
 		const char* default_value = "";
 		PyObject* items;
-		const char* callback = "";
+		PyObject* callback = nullptr;
+		PyObject* callback_data = nullptr;
 		const char* tip = "";
 		int width = 0;
 		const char* before = "";
@@ -3703,12 +3812,17 @@ namespace Marvel {
 		const char* secondary_data_source = "";
 
 		if (!(*mvApp::GetApp()->getParsers())["add_combo"].parse(args, kwargs, __FUNCTION__, &name, &items,
-			&default_value, &callback, &tip, &parent, &before, &data_source, &width
+			&default_value, &callback, &callback_data, &tip, &parent, &before, &data_source, &width
 			, &secondary_data_source))
 			return ToPyBool(false);
 
 		mvAppItem* item = new mvCombo("", name, ToStringVect(items), default_value, secondary_data_source);
+		if (callback)
+			Py_XINCREF(callback);
 		item->setCallback(callback);
+		if (callback_data)
+			Py_XINCREF(callback_data);
+		item->setCallbackData(callback_data);
 		item->setTip(tip);
 		item->setDataSource(data_source);
 		item->setWidth(width);
@@ -3719,18 +3833,24 @@ namespace Marvel {
 	{
 		const char* name;
 		int default_value = false;
-		const char* callback = "";
+		PyObject* callback = nullptr;
+		PyObject* callback_data = nullptr;
 		const char* tip = "";
 		const char* before = "";
 		const char* parent = "";
 		const char* data_source = "";
 
 		if (!(*mvApp::GetApp()->getParsers())["add_selectable"].parse(args, kwargs, __FUNCTION__, &name,
-			&default_value, &callback, &tip, &parent, &before, &data_source))
+			&default_value, &callback, &callback_data, &tip, &parent, &before, &data_source))
 			return ToPyBool(false);
 
 		mvAppItem* item = new mvSelectable("", name, default_value);
+		if (callback)
+			Py_XINCREF(callback);
 		item->setCallback(callback);
+		if (callback_data)
+			Py_XINCREF(callback_data);
+		item->setCallbackData(callback_data);
 		item->setTip(tip);
 		item->setDataSource(data_source);
 		return ToPyBool(AddItemWithRuntimeChecks(item, parent, before));
@@ -3742,7 +3862,8 @@ namespace Marvel {
 		int smallb = false;
 		int arrow = false;
 		int direction = -1;
-		const char* callback = "";
+		PyObject* callback = nullptr;
+		PyObject* callback_data = nullptr;
 		const char* tip = "";
 		int width = 0;
 		int height = 0;
@@ -3750,11 +3871,16 @@ namespace Marvel {
 		const char* parent = "";
 
 		if (!(*mvApp::GetApp()->getParsers())["add_button"].parse(args, kwargs, __FUNCTION__, &name, &smallb,
-			&arrow, &direction, &callback, &tip, &parent, &before, &width, &height))
+			&arrow, &direction, &callback, &callback_data, &callback_data, &tip, &parent, &before, &width, &height))
 			return ToPyBool(false);
 
 		mvAppItem* item = new mvButton("", name, smallb, arrow, direction);
+		if (callback)
+			Py_XINCREF(callback);
 		item->setCallback(callback);
+		if (callback_data)
+			Py_XINCREF(callback_data);
+		item->setCallbackData(callback_data);
 		item->setTip(tip);
 		item->setWidth(width);
 		item->setHeight(height);
@@ -3773,7 +3899,8 @@ namespace Marvel {
 		int hexadecimal = false;
 		int readonly = false;
 		int password = false;
-		const char* callback = "";
+		PyObject* callback = nullptr;
+		PyObject* callback_data = nullptr;
 		const char* tip = "";
 		int width = 0;
 		const char* before = "";
@@ -3784,7 +3911,7 @@ namespace Marvel {
 		int flags = 0;
 
 		if (!(*mvApp::GetApp()->getParsers())["add_input_text"].parse(args, kwargs, __FUNCTION__, &name, &default_value, &hint, &multiline, &no_spaces,
-			&uppercase, &decimal, &hexadecimal, &readonly, &password, &callback, &tip, &parent, &before, &data_source, &width, &on_enter))
+			&uppercase, &decimal, &hexadecimal, &readonly, &password, &callback, &callback_data, &tip, &parent, &before, &data_source, &width, &on_enter))
 			return ToPyBool(false);
 
 		if (no_spaces) flags |= ImGuiInputTextFlags_CharsNoBlank;
@@ -3796,7 +3923,12 @@ namespace Marvel {
 		if (on_enter) flags |= ImGuiInputTextFlags_EnterReturnsTrue;
 
 		mvAppItem* item = new mvInputText("", name, default_value, hint, multiline, flags);
+		if (callback)
+			Py_XINCREF(callback);
 		item->setCallback(callback);
+		if (callback_data)
+			Py_XINCREF(callback_data);
+		item->setCallbackData(callback_data);
 		item->setTip(tip);
 		item->setDataSource(data_source);
 		item->setWidth(width);
@@ -3807,7 +3939,8 @@ namespace Marvel {
 	{
 		const char* name;
 		int default_value = 0;
-		const char* callback = "";
+		PyObject* callback = nullptr;
+		PyObject* callback_data = nullptr;
 		const char* tip = "";
 		int width = 0;
 		const char* before = "";
@@ -3816,7 +3949,7 @@ namespace Marvel {
 		int on_enter = false;
 
 		if (!(*mvApp::GetApp()->getParsers())["add_input_int"].parse(args, kwargs, __FUNCTION__, &name,
-			&default_value, &callback, &tip, &parent, &before, &data_source, &width, &on_enter))
+			&default_value, &callback, &callback_data, &tip, &parent, &before, &data_source, &width, &on_enter))
 			return ToPyBool(false);
 
 		ImGuiInputTextFlags flags = 0;
@@ -3824,7 +3957,12 @@ namespace Marvel {
 			flags = ImGuiInputTextFlags_EnterReturnsTrue;
 
 		mvAppItem* item = new mvInputInt("", name, default_value, flags);
+		if (callback)
+			Py_XINCREF(callback);
 		item->setCallback(callback);
+		if (callback_data)
+			Py_XINCREF(callback_data);
+		item->setCallbackData(callback_data);
 		item->setTip(tip);
 		item->setDataSource(data_source);
 		item->setWidth(width);
@@ -3839,7 +3977,8 @@ namespace Marvel {
 		PyTuple_SetItem(default_value, 1, PyLong_FromLong(0));
 		PyTuple_SetItem(default_value, 2, PyLong_FromLong(0));
 		PyTuple_SetItem(default_value, 3, PyLong_FromLong(0));
-		const char* callback = "";
+		PyObject* callback = nullptr;
+		PyObject* callback_data = nullptr;
 		const char* tip = "";
 		int width = 0;
 		const char* before = "";
@@ -3848,7 +3987,7 @@ namespace Marvel {
 		int on_enter = false;
 
 		if (!(*mvApp::GetApp()->getParsers())["add_input_int2"].parse(args, kwargs, __FUNCTION__, &name,
-			&default_value, &callback, &tip, &parent, &before, &data_source, &width, &on_enter))
+			&default_value, &callback, &callback_data, &tip, &parent, &before, &data_source, &width, &on_enter))
 			return ToPyBool(false);
 
 		ImGuiInputTextFlags flags = 0;
@@ -3858,7 +3997,12 @@ namespace Marvel {
 		auto vec = ToIntVect(default_value);
 
 		mvAppItem* item = new mvInputIntMulti<mvAppItemType::InputInt2, 2, ImGui::InputInt2>("", name, vec.data(), flags);
+		if (callback)
+			Py_XINCREF(callback);
 		item->setCallback(callback);
+		if (callback_data)
+			Py_XINCREF(callback_data);
+		item->setCallbackData(callback_data);
 		item->setTip(tip);
 		item->setDataSource(data_source);
 		item->setWidth(width);
@@ -3873,7 +4017,8 @@ namespace Marvel {
 		PyTuple_SetItem(default_value, 1, PyLong_FromLong(0));
 		PyTuple_SetItem(default_value, 2, PyLong_FromLong(0));
 		PyTuple_SetItem(default_value, 3, PyLong_FromLong(0));
-		const char* callback = "";
+		PyObject* callback = nullptr;
+		PyObject* callback_data = nullptr;
 		const char* tip = "";
 		int width = 0;
 		const char* before = "";
@@ -3882,7 +4027,7 @@ namespace Marvel {
 		int on_enter = false;
 
 		if (!(*mvApp::GetApp()->getParsers())["add_input_int3"].parse(args, kwargs, __FUNCTION__, &name,
-			&default_value, &callback, &tip, &parent, &before, &data_source, &width, &on_enter))
+			&default_value, &callback, &callback_data, &tip, &parent, &before, &data_source, &width, &on_enter))
 			return ToPyBool(false);
 
 		ImGuiInputTextFlags flags = 0;
@@ -3892,7 +4037,12 @@ namespace Marvel {
 		auto vec = ToIntVect(default_value);
 
 		mvAppItem* item = new mvInputIntMulti<mvAppItemType::InputInt3, 3, ImGui::InputInt3>("", name, vec.data(), flags);
+		if (callback)
+			Py_XINCREF(callback);
 		item->setCallback(callback);
+		if (callback_data)
+			Py_XINCREF(callback_data);
+		item->setCallbackData(callback_data);
 		item->setTip(tip);
 		item->setDataSource(data_source);
 		item->setWidth(width);
@@ -3907,7 +4057,8 @@ namespace Marvel {
 		PyTuple_SetItem(default_value, 1, PyLong_FromLong(0));
 		PyTuple_SetItem(default_value, 2, PyLong_FromLong(0));
 		PyTuple_SetItem(default_value, 3, PyLong_FromLong(0));
-		const char* callback = "";
+		PyObject* callback = nullptr;
+		PyObject* callback_data = nullptr;
 		const char* tip = "";
 		int width = 0;
 		const char* before = "";
@@ -3916,7 +4067,7 @@ namespace Marvel {
 		int on_enter = false;
 
 		if (!(*mvApp::GetApp()->getParsers())["add_input_int4"].parse(args, kwargs, __FUNCTION__, &name,
-			&default_value, &callback, &tip, &parent, &before, &data_source, &width, &on_enter))
+			&default_value, &callback, &callback_data, &tip, &parent, &before, &data_source, &width, &on_enter))
 			return ToPyBool(false);
 
 		ImGuiInputTextFlags flags = 0;
@@ -3925,7 +4076,12 @@ namespace Marvel {
 
 		auto vec = ToIntVect(default_value);
 		mvAppItem* item = new mvInputIntMulti<mvAppItemType::InputInt4, 4, ImGui::InputInt4>("", name, vec.data(), flags);
+		if (callback)
+			Py_XINCREF(callback);
 		item->setCallback(callback);
+		if (callback_data)
+			Py_XINCREF(callback_data);
+		item->setCallbackData(callback_data);
 		item->setTip(tip);
 		item->setDataSource(data_source);
 		item->setWidth(width);
@@ -3937,7 +4093,8 @@ namespace Marvel {
 		const char* name;
 		float default_value = 0.0f;
 		const char* format = "%.3f";
-		const char* callback = "";
+		PyObject* callback = nullptr;
+		PyObject* callback_data = nullptr;
 		const char* tip = "";
 		int width = 0;
 		const char* before = "";
@@ -3946,7 +4103,7 @@ namespace Marvel {
 		int on_enter = false;
 
 		if (!(*mvApp::GetApp()->getParsers())["add_input_float"].parse(args, kwargs, __FUNCTION__, &name,
-			&default_value, &format, &callback, &tip, &parent, &before, &data_source, &width, &on_enter))
+			&default_value, &format, &callback, &callback_data, &tip, &parent, &before, &data_source, &width, &on_enter))
 			return ToPyBool(false);
 
 		ImGuiInputTextFlags flags = 0;
@@ -3954,7 +4111,12 @@ namespace Marvel {
 			flags = ImGuiInputTextFlags_EnterReturnsTrue;
 
 		mvAppItem* item = new mvInputFloat("", name, default_value, format, flags);
+		if (callback)
+			Py_XINCREF(callback);
 		item->setCallback(callback);
+		if (callback_data)
+			Py_XINCREF(callback_data);
+		item->setCallbackData(callback_data);
 		item->setTip(tip);
 		item->setDataSource(data_source);
 		item->setWidth(width);
@@ -3968,7 +4130,8 @@ namespace Marvel {
 		PyTuple_SetItem(default_value, 0, PyLong_FromLong(0));
 		PyTuple_SetItem(default_value, 1, PyLong_FromLong(0));
 		const char* format = "%.3f";
-		const char* callback = "";
+		PyObject* callback = nullptr;
+		PyObject* callback_data = nullptr;
 		const char* tip = "";
 		int width = 0;
 		const char* before = "";
@@ -3977,7 +4140,7 @@ namespace Marvel {
 		int on_enter = false;
 
 		if (!(*mvApp::GetApp()->getParsers())["add_input_float2"].parse(args, kwargs, __FUNCTION__, &name,
-			&default_value, &format, &callback, &tip, &parent, &before, &data_source, &width, &on_enter))
+			&default_value, &format, &callback, &callback_data, &tip, &parent, &before, &data_source, &width, &on_enter))
 			return ToPyBool(false);
 
 		ImGuiInputTextFlags flags = 0;
@@ -3986,7 +4149,12 @@ namespace Marvel {
 
 		auto vec = ToFloatVect(default_value);
 		mvAppItem* item = new mvInputFloatMulti<mvAppItemType::InputFloat2, 2, ImGui::InputFloat2>("", name, vec.data(), format, flags);
+		if (callback)
+			Py_XINCREF(callback);
 		item->setCallback(callback);
+		if (callback_data)
+			Py_XINCREF(callback_data);
+		item->setCallbackData(callback_data);
 		item->setTip(tip);
 		item->setDataSource(data_source);
 		item->setWidth(width);
@@ -4001,7 +4169,8 @@ namespace Marvel {
 		PyTuple_SetItem(default_value, 1, PyLong_FromLong(0));
 		PyTuple_SetItem(default_value, 2, PyLong_FromLong(0));
 		const char* format = "%.3f";
-		const char* callback = "";
+		PyObject* callback = nullptr;
+		PyObject* callback_data = nullptr;
 		const char* tip = "";
 		int width = 0;
 		const char* before = "";
@@ -4010,21 +4179,26 @@ namespace Marvel {
 		int on_enter = false;
 
 		if (!(*mvApp::GetApp()->getParsers())["add_input_float3"].parse(args, kwargs, __FUNCTION__, &name,
-			&default_value, &format, &callback, &tip, &parent, &before, &data_source, &width, &on_enter))
+			&default_value, &format, &callback, &callback_data, &tip, &parent, &before, &data_source, &width, &on_enter))
 			return ToPyBool(false);
 
-ImGuiInputTextFlags flags = 0;
-if (on_enter)
-flags = ImGuiInputTextFlags_EnterReturnsTrue;
+		ImGuiInputTextFlags flags = 0;
+		if (on_enter)
+		flags = ImGuiInputTextFlags_EnterReturnsTrue;
 
-auto vec = ToFloatVect(default_value);
+		auto vec = ToFloatVect(default_value);
 
-mvAppItem* item = new mvInputFloatMulti<mvAppItemType::InputFloat3, 3, ImGui::InputFloat3>("", name, vec.data(), format, flags);
-item->setCallback(callback);
-item->setTip(tip);
-item->setDataSource(data_source);
-item->setWidth(width);
-return ToPyBool(AddItemWithRuntimeChecks(item, parent, before));
+		mvAppItem* item = new mvInputFloatMulti<mvAppItemType::InputFloat3, 3, ImGui::InputFloat3>("", name, vec.data(), format, flags);
+		if (callback)
+			Py_XINCREF(callback);
+		item->setCallback(callback);
+		if (callback_data)
+			Py_XINCREF(callback_data);
+		item->setCallbackData(callback_data);
+		item->setTip(tip);
+		item->setDataSource(data_source);
+		item->setWidth(width);
+		return ToPyBool(AddItemWithRuntimeChecks(item, parent, before));
 	}
 
 	PyObject* add_input_float4(PyObject* self, PyObject* args, PyObject* kwargs)
@@ -4036,7 +4210,8 @@ return ToPyBool(AddItemWithRuntimeChecks(item, parent, before));
 		PyTuple_SetItem(default_value, 2, PyLong_FromLong(0));
 		PyTuple_SetItem(default_value, 3, PyLong_FromLong(0));
 		const char* format = "%.3f";
-		const char* callback = "";
+		PyObject* callback = nullptr;
+		PyObject* callback_data = nullptr;
 		const char* tip = "";
 		int width = 0;
 		const char* before = "";
@@ -4045,7 +4220,7 @@ return ToPyBool(AddItemWithRuntimeChecks(item, parent, before));
 		int on_enter = false;
 
 		if (!(*mvApp::GetApp()->getParsers())["add_input_float4"].parse(args, kwargs, __FUNCTION__, &name,
-			&default_value, &format, &callback, &tip, &parent, &before, &data_source, &width, &on_enter))
+			&default_value, &format, &callback, &callback_data, &tip, &parent, &before, &data_source, &width, &on_enter))
 			return ToPyBool(false);
 
 		ImGuiInputTextFlags flags = 0;
@@ -4055,7 +4230,12 @@ return ToPyBool(AddItemWithRuntimeChecks(item, parent, before));
 		auto vec = ToFloatVect(default_value);
 
 		mvAppItem* item = new mvInputFloatMulti<mvAppItemType::InputFloat4, 4, ImGui::InputFloat4>("", name, vec.data(), format, flags);
+		if (callback)
+			Py_XINCREF(callback);
 		item->setCallback(callback);
+		if (callback_data)
+			Py_XINCREF(callback_data);
+		item->setCallbackData(callback_data);
 		item->setTip(tip);
 		item->setDataSource(data_source);
 		item->setWidth(width);
@@ -4099,17 +4279,23 @@ return ToPyBool(AddItemWithRuntimeChecks(item, parent, before));
 	{
 		const char* name;
 		int reorderable = false;
-		const char* callback = "";
+		PyObject* callback = nullptr;
+		PyObject* callback_data = nullptr;
 		const char* parent = "";
 		const char* before = "";
 		const char* data_source = "";
 
 		if (!(*mvApp::GetApp()->getParsers())["add_tab_bar"].parse(args, kwargs, __FUNCTION__, &name, &reorderable,
-			&callback, &parent, &before, &data_source))
+			&callback, &callback_data, &parent, &before, &data_source))
 			return ToPyBool(false);
 
 		mvAppItem* item = new mvTabBar("", name, reorderable);
+		if (callback)
+			Py_XINCREF(callback);
 		item->setCallback(callback);
+		if (callback_data)
+			Py_XINCREF(callback_data);
+		item->setCallbackData(callback_data);
 		item->setDataSource(data_source);
 		if (AddItemWithRuntimeChecks(item, parent, before))
 		{
@@ -4240,17 +4426,23 @@ return ToPyBool(AddItemWithRuntimeChecks(item, parent, before));
 	PyObject* add_menu_item(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		const char* name;
-		const char* callback = "";
+		PyObject* callback = nullptr;
+		PyObject* callback_data = nullptr;
 		const char* tip = "";
 		const char* before = "";
 		const char* parent = "";
 
 		if (!(*mvApp::GetApp()->getParsers())["add_menu_item"].parse(args, kwargs, __FUNCTION__, &name,
-			&callback, &tip, &parent, &before))
+			&callback, &callback_data, &tip, &parent, &before))
 			return ToPyBool(false);
 
 		mvAppItem* item = new mvMenuItem("", name);
+		if (callback)
+			Py_XINCREF(callback);
 		item->setCallback(callback);
+		if (callback_data)
+			Py_XINCREF(callback_data);
+		item->setCallbackData(callback_data);
 		item->setTip(tip);
 		return ToPyBool(AddItemWithRuntimeChecks(item, parent, before));
 	}
@@ -4295,7 +4487,8 @@ return ToPyBool(AddItemWithRuntimeChecks(item, parent, before));
 		const char* name;
 		PyObject* items;
 		int default_value = 0;
-		const char* callback = "";
+		PyObject* callback = nullptr;
+		PyObject* callback_data = nullptr;
 		const char* tip = "";
 		const char* before = "";
 		const char* parent = "";
@@ -4303,12 +4496,17 @@ return ToPyBool(AddItemWithRuntimeChecks(item, parent, before));
 		const char* secondary_data_source = "";
 
 		if (!(*mvApp::GetApp()->getParsers())["add_radio_button"].parse(args, kwargs, __FUNCTION__, &name, &items,
-			&default_value, &callback, &tip, &parent, &before, &data_source, &secondary_data_source))
+			&default_value, &callback, &callback_data, &tip, &parent, &before, &data_source, &secondary_data_source))
 			return ToPyBool(false);
 
 		mvAppItem* item = new mvRadioButton("", name, ToStringVect(items), default_value,
 			secondary_data_source);
+		if (callback)
+			Py_XINCREF(callback);
 		item->setCallback(callback);
+		if (callback_data)
+			Py_XINCREF(callback_data);
+		item->setCallbackData(callback_data);
 		item->setTip(tip);
 		item->setDataSource(data_source);
 		return ToPyBool(AddItemWithRuntimeChecks(item, parent, before));
@@ -4382,7 +4580,7 @@ return ToPyBool(AddItemWithRuntimeChecks(item, parent, before));
 		int resizable = true;
 		int title_bar = true;
 		int movable = true;
-		const char* closing_callback = "";
+		PyObject* closing_callback = nullptr;
 
 		if (!(*mvApp::GetApp()->getParsers())["add_window"].parse(args, kwargs, __FUNCTION__, &name, &width,
 			&height, &startx, &starty, &autosize, &resizable, &title_bar, &movable,
@@ -4619,7 +4817,8 @@ return ToPyBool(AddItemWithRuntimeChecks(item, parent, before));
 		PyTuple_SetItem(default_value, 1, PyLong_FromLong(0));
 		PyTuple_SetItem(default_value, 2, PyLong_FromLong(0));
 		PyTuple_SetItem(default_value, 3, PyLong_FromLong(255));
-		const char* callback = "";
+		PyObject* callback = nullptr;
+		PyObject* callback_data = nullptr;
 		const char* tip = "";
 		int width = 0;
 		int height = 0;
@@ -4628,14 +4827,19 @@ return ToPyBool(AddItemWithRuntimeChecks(item, parent, before));
 		const char* data_source = "";
 
 		if (!(*mvApp::GetApp()->getParsers())["add_color_edit3"].parse(args, kwargs, __FUNCTION__, &name,
-			&default_value, &callback, &tip, &parent, &before, &data_source, &width, &height))
+			&default_value, &callback, &callback_data, &tip, &parent, &before, &data_source, &width, &height))
 			return ToPyBool(false);
 
 		auto color = ToColor(default_value);
 
 		//mvAppItem* item = new mvColorEdit3("", name, color);
 		mvAppItem* item = new mvColorItem<mvAppItemType::ColorEdit3, ImGui::ColorEdit3>("", name, color);
+		if (callback)
+			Py_XINCREF(callback);
 		item->setCallback(callback);
+		if (callback_data)
+			Py_XINCREF(callback_data);
+		item->setCallbackData(callback_data);
 		item->setTip(tip);
 		item->setDataSource(data_source);
 		item->setWidth(width);
@@ -4651,7 +4855,8 @@ return ToPyBool(AddItemWithRuntimeChecks(item, parent, before));
 		PyTuple_SetItem(default_value, 1, PyLong_FromLong(0));
 		PyTuple_SetItem(default_value, 2, PyLong_FromLong(0));
 		PyTuple_SetItem(default_value, 3, PyLong_FromLong(0));
-		const char* callback = "";
+		PyObject* callback = nullptr;
+		PyObject* callback_data = nullptr;
 		const char* tip = "";
 		int width = 0;
 		int height = 0;
@@ -4659,12 +4864,18 @@ return ToPyBool(AddItemWithRuntimeChecks(item, parent, before));
 		const char* parent = "";
 		const char* data_source = "";
 
-		if (!(*mvApp::GetApp()->getParsers())["add_color_edit4"].parse(args, kwargs, __FUNCTION__, &name, &default_value, &callback, &tip, &parent, &before, &data_source, &width, &height))
+		if (!(*mvApp::GetApp()->getParsers())["add_color_edit4"].parse(args, kwargs, __FUNCTION__, &name, &default_value, 
+			&callback, &callback_data, &tip, &parent, &before, &data_source, &width, &height))
 			return ToPyBool(false);
 
 		auto color = ToColor(default_value);
 		mvAppItem* item = new mvColorItem<mvAppItemType::ColorEdit4, ImGui::ColorEdit4>("", name, color);
+		if (callback)
+			Py_XINCREF(callback);
 		item->setCallback(callback);
+		if (callback_data)
+			Py_XINCREF(callback_data);
+		item->setCallbackData(callback_data);
 		item->setTip(tip);
 		item->setDataSource(data_source);
 		item->setWidth(width);
@@ -4680,7 +4891,8 @@ return ToPyBool(AddItemWithRuntimeChecks(item, parent, before));
 		PyTuple_SetItem(default_value, 1, PyLong_FromLong(0));
 		PyTuple_SetItem(default_value, 2, PyLong_FromLong(0));
 		PyTuple_SetItem(default_value, 3, PyLong_FromLong(255));
-		const char* callback = "";
+		PyObject* callback = nullptr;
+		PyObject* callback_data = nullptr;
 		const char* tip = "";
 		int width = 0;
 		int height = 0;
@@ -4688,12 +4900,18 @@ return ToPyBool(AddItemWithRuntimeChecks(item, parent, before));
 		const char* parent = "";
 		const char* data_source = "";
 
-		if (!(*mvApp::GetApp()->getParsers())["add_color_picker3"].parse(args, kwargs, __FUNCTION__, &name, &default_value, &callback, &tip, &parent, &before, &data_source, &width, &height))
+		if (!(*mvApp::GetApp()->getParsers())["add_color_picker3"].parse(args, kwargs, __FUNCTION__, &name, &default_value, 
+			&callback, &callback_data, &tip, &parent, &before, &data_source, &width, &height))
 			return ToPyBool(false);
 
 		auto color = ToColor(default_value);
 		mvAppItem* item = new mvColorItem<mvAppItemType::ColorPicker3, ImGui::ColorPicker3>("", name, color);
+		if (callback)
+			Py_XINCREF(callback);
 		item->setCallback(callback);
+		if (callback_data)
+			Py_XINCREF(callback_data);
+		item->setCallbackData(callback_data);
 		item->setTip(tip);
 		item->setDataSource(data_source);
 		item->setWidth(width);
@@ -4709,7 +4927,8 @@ return ToPyBool(AddItemWithRuntimeChecks(item, parent, before));
 		PyTuple_SetItem(default_value, 1, PyLong_FromLong(0));
 		PyTuple_SetItem(default_value, 2, PyLong_FromLong(0));
 		PyTuple_SetItem(default_value, 3, PyLong_FromLong(1));
-		const char* callback = "";
+		PyObject* callback = nullptr;
+		PyObject* callback_data = nullptr;
 		const char* tip = "";
 		int width = 0;
 		int height = 0;
@@ -4718,13 +4937,18 @@ return ToPyBool(AddItemWithRuntimeChecks(item, parent, before));
 		const char* data_source = "";
 
 		if (!(*mvApp::GetApp()->getParsers())["add_color_picker4"].parse(args, kwargs, __FUNCTION__, &name,
-			&default_value, &callback, &tip, &parent, &before, &data_source, &width, &height))
+			&default_value, &callback, &callback_data, &tip, &parent, &before, &data_source, &width, &height))
 			return ToPyBool(false);
 
 		auto color = ToColor(default_value);
 
 		mvAppItem* item = new mvColorPicker4("", name, color);
+		if (callback)
+			Py_XINCREF(callback);
 		item->setCallback(callback);
+		if (callback_data)
+			Py_XINCREF(callback_data);
+		item->setCallbackData(callback_data);
 		item->setTip(tip);
 		item->setDataSource(data_source);
 		item->setWidth(width);
@@ -4736,18 +4960,24 @@ return ToPyBool(AddItemWithRuntimeChecks(item, parent, before));
 	{
 		const char* name;
 		int default_value = 0;
-		const char* callback = "";
+		PyObject* callback = nullptr;
+		PyObject* callback_data = nullptr;
 		const char* tip = "";
 		const char* before = "";
 		const char* parent = "";
 		const char* data_source = "";
 
 		if (!(*mvApp::GetApp()->getParsers())["add_checkbox"].parse(args, kwargs, __FUNCTION__, &name,
-			&default_value, &callback, &tip, &parent, &before, &data_source))
+			&default_value, &callback, &callback_data, &tip, &parent, &before, &data_source))
 			return ToPyBool(false);
 
 		mvAppItem* item = new mvCheckbox("", name, default_value);
+		if (callback)
+			Py_XINCREF(callback);
 		item->setCallback(callback);
+		if (callback_data)
+			Py_XINCREF(callback_data);
+		item->setCallbackData(callback_data);
 		item->setTip(tip);
 		item->setDataSource(data_source);
 		return ToPyBool(AddItemWithRuntimeChecks(item, parent, before));
@@ -5124,14 +5354,14 @@ return ToPyBool(AddItemWithRuntimeChecks(item, parent, before));
 
 	PyObject* run_async_function(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
-		const char* name;
-		const char* return_handler = "";
+		PyObject* callback;
+		PyObject* return_handler = nullptr;
 		PyObject* data;
 
-		if (!(*mvApp::GetApp()->getParsers())["run_async_function"].parse(args, kwargs, __FUNCTION__, &name, &data, &return_handler))
+		if (!(*mvApp::GetApp()->getParsers())["run_async_function"].parse(args, kwargs, __FUNCTION__, &callback, &data, &return_handler))
 			return GetPyNone();
 
-		mvApp::GetApp()->addMTCallback(name, data, return_handler);
+		mvApp::GetApp()->addMTCallback(callback, data, return_handler);
 
 		return GetPyNone();
 
@@ -5176,7 +5406,7 @@ return ToPyBool(AddItemWithRuntimeChecks(item, parent, before));
 
 	PyObject* select_directory_dialog(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
-		const char* callback = "";
+		PyObject* callback = nullptr;
 
 		if (!(*mvApp::GetApp()->getParsers())["select_directory_dialog"].parse(args, kwargs, __FUNCTION__, &callback))
 			return GetPyNone();
@@ -5192,7 +5422,7 @@ return ToPyBool(AddItemWithRuntimeChecks(item, parent, before));
 
 	PyObject* open_file_dialog(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
-		const char* callback = "";
+		PyObject* callback = nullptr;
 		const char* extensions = "";
 
 		if (!(*mvApp::GetApp()->getParsers())["open_file_dialog"].parse(args, kwargs, __FUNCTION__,
@@ -5272,7 +5502,15 @@ return ToPyBool(AddItemWithRuntimeChecks(item, parent, before));
 		auto appitem = mvApp::GetApp()->getItem(item);
 
 		if (appitem)
-			return ToPyString(appitem->getCallback());
+		{
+			PyObject* callback = appitem->getCallback();
+			if (callback)
+			{
+				Py_XINCREF(callback);
+				return callback;
+			}
+		
+		}
 
 		return GetPyNone();
 	}
@@ -5876,14 +6114,14 @@ return ToPyBool(AddItemWithRuntimeChecks(item, parent, before));
 
 	PyObject* set_render_callback(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
-		const char* callback;
+		PyObject* callback = nullptr;
 		const char* handler = "MainWindow";
 
 		if (!(*mvApp::GetApp()->getParsers())["set_render_callback"].parse(args, kwargs, __FUNCTION__, &callback, &handler))
 			return GetPyNone();
 
 		if (std::string(handler) == "MainWindow")
-			mvApp::GetApp()->setRenderCallback(std::string(callback));
+			mvApp::GetApp()->setRenderCallback(callback);
 		else
 		{
 
@@ -5925,14 +6163,14 @@ return ToPyBool(AddItemWithRuntimeChecks(item, parent, before));
 
 	PyObject* set_resize_callback(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
-		const char* callback;
+		PyObject* callback = nullptr;
 		const char* handler = "MainWindow";
 
 		if (!(*mvApp::GetApp()->getParsers())["set_resize_callback"].parse(args, kwargs, __FUNCTION__, &callback, &handler))
 			return GetPyNone();
 
 		if (std::string(handler) == "MainWindow")
-			mvApp::GetApp()->setResizeCallback(std::string(callback));
+			mvApp::GetApp()->setResizeCallback(callback);
 		else
 		{
 			mvAppItem* item;
@@ -5999,7 +6237,8 @@ return ToPyBool(AddItemWithRuntimeChecks(item, parent, before));
 
 	PyObject* set_item_callback(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
-		const char* callback;
+		PyObject* callback;
+		PyObject* callback_data = nullptr;
 		const char* item;
 
 		if (!(*mvApp::GetApp()->getParsers())["set_item_callback"].parse(args, kwargs, __FUNCTION__, &item, &callback))
@@ -6009,7 +6248,18 @@ return ToPyBool(AddItemWithRuntimeChecks(item, parent, before));
 		appitem = mvApp::GetApp()->getItem(item);
 
 		if (appitem)
+		{
+			if (appitem->getCallback() != callback)
+				Py_XINCREF(callback);
 			appitem->setCallback(callback);
+
+			if (callback_data)
+			{
+				if (appitem->getCallbackData() != callback)
+					Py_XINCREF(callback_data);
+				appitem->setCallbackData(callback_data);
+			}
+		}
 
 		return GetPyNone();
 	}

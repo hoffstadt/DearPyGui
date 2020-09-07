@@ -422,7 +422,7 @@ namespace Marvel {
                 mvApp::GetApp()->setActiveWindow("style##standard");
 
                 // mouse move callback
-                if (!getMouseMoveCallback().empty())
+                if (getMouseMoveCallback() != nullptr)
                 {
                     if (oldMousePos.x != mousePos.x || oldMousePos.y != mousePos.y)
                     {

@@ -25,7 +25,7 @@ namespace Marvel {
 				mvApp::GetApp()->runCallback(m_callback, "File Dialog", ToPyPair(m_filePathName, m_filePath));
 				m_filePath = "";
 				m_filePathName = "";
-				m_callback = "";
+				m_callback = nullptr;
 				// action
 			}
 			// close

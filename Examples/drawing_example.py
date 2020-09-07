@@ -1,12 +1,16 @@
 from dearpygui.dearpygui import *
 
+def update_drawing(sender, data):
+    set_drawing_origin("drawing##widget", get_value("X Origin"), get_value("Y Origin"))
+    set_drawing_scale("drawing##widget", get_value("X Scale "), get_value("Y Scale"))
+
 add_group("Drawing Controls Group")
-add_slider_float("X Origin", vertical=True, min_value=-100, max_value=100, default_value=0, callback="update_drawing")
+add_slider_float("X Origin", vertical=True, min_value=-100, max_value=100, default_value=0, callback=update_drawing)
 add_same_line(spacing=20)
-add_slider_float("Y Origin", vertical=True, min_value=-100, max_value=100, default_value=0, callback="update_drawing")
-add_slider_float("X Scale ", vertical=True, max_value=10, default_value=1, callback="update_drawing")
+add_slider_float("Y Origin", vertical=True, min_value=-100, max_value=100, default_value=0, callback=update_drawing)
+add_slider_float("X Scale ", vertical=True, max_value=10, default_value=1, callback=update_drawing)
 add_same_line(spacing=20)
-add_slider_float("Y Scale", vertical=True, max_value=10, default_value=1, callback="update_drawing")
+add_slider_float("Y Scale", vertical=True, max_value=10, default_value=1, callback=update_drawing)
 end_group()
 add_same_line(spacing=20)
 add_drawing("drawing##widget", width=800, height=500)
@@ -22,11 +26,5 @@ draw_polyline("drawing##widget", [[300, 500], [200, 200], [500, 700]], [255, 255
 draw_polygon("drawing##widget", [[363, 471], [100, 498], [50, 220]], [255, 125, 0, 255])
 draw_bezier_curve("drawing##widget", [50, 200], [150, 250], [300, 150], [600, 250], [255, 255, 0, 255], thickness=2.0)
 draw_arrow("drawing##widget", [50, 70], [100, 65], [0, 200, 255], 1, 10)
-
-
-def update_drawing(sender, data):
-    set_drawing_origin("drawing##widget", get_value("X Origin"), get_value("Y Origin"))
-    set_drawing_scale("drawing##widget", get_value("X Scale "), get_value("Y Scale"))
-
 
 start_dearpygui()
