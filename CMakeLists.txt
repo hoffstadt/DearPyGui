@@ -8,6 +8,7 @@ set(MV37DIST ${MV37DIST})
 add_definitions(-D_USE_MATH_DEFINES)
 add_definitions(-DMV_SANDBOX_VERSION="0.3.0b0")
 
+
 if(MV37DIST)
     add_definitions(-DMV_PYTHON_VERSION=37)
 else()
