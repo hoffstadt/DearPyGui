@@ -23,17 +23,17 @@ HOW TO UPDATE?
 - Please report any issue!
 
 -----------------------------------------------------------------------
- VERSION 0.3.1 WIP
+ VERSION 0.3.2 WIP
+-----------------------------------------------------------------------
+
+Decorated log: https://github.com/hoffstadt/DearPyGui/releases/tag/v0.3.2
+
+
+-----------------------------------------------------------------------
+ VERSION 0.3.1 (9/7/2020)
 -----------------------------------------------------------------------
 
 Decorated log: https://github.com/hoffstadt/DearPyGui/releases/tag/v0.3.1
-
-
------------------------------------------------------------------------
- VERSION 0.3.0 (9/7/2020)
------------------------------------------------------------------------
-
-Decorated log: https://github.com/hoffstadt/DearPyGui/releases/tag/v0.3.0
 
 Breaking Changes:
 
