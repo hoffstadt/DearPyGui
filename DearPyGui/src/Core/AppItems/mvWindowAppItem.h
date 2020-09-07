@@ -124,10 +124,6 @@ namespace Marvel {
 				item->draw();
 				item->popColorStyles();
 
-				// Regular Tooltip (simple)
-				if (!item->getTip().empty() && ImGui::IsItemHovered())
-					ImGui::SetTooltip("%s", item->getTip().c_str());
-
 				item->setHovered(ImGui::IsItemHovered());
 				item->setActive(ImGui::IsItemActive());
 				item->setFocused(ImGui::IsItemFocused());
