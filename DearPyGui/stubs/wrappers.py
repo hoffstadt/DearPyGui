@@ -7,7 +7,7 @@ def wrap_container(container):
     @wraps(container)
     def container_context(*args,**kwargs):
         try: yield container(*args,**kwargs)
-        finally: end()
+        finally: gui.end()
     return container_context
 
 window = wrap_container(gui.add_window)
