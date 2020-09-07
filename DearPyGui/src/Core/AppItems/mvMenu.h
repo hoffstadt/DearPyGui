@@ -186,7 +186,7 @@ namespace Marvel {
 
 				m_value = true;
 
-				mvApp::GetApp()->runCallback(m_callback, m_name);
+				mvApp::GetApp()->runCallback(m_callback, m_name, m_callbackData);
 
 				// Context Menu
 				if (!getPopup().empty())

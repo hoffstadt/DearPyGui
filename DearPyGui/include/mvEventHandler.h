@@ -11,6 +11,8 @@
 //-----------------------------------------------------------------------------
 
 #include <string>
+#define PY_SSIZE_T_CLEAN
+#include <Python.h>
 
 namespace Marvel {
 
@@ -30,50 +32,50 @@ namespace Marvel {
         //-----------------------------------------------------------------------------
         // Callbacks
         //-----------------------------------------------------------------------------
-        void setRenderCallback          (const std::string& callback) { m_renderCallback = callback; }
-        void setResizeCallback          (const std::string& callback) { m_resizeCallback = callback; }
-        void setMouseMoveCallback       (const std::string& callback) { m_mouseMoveCallback = callback; }
-        void setOnCloseCallback         (const std::string& callback) { m_onCloseCallback = callback; }
-        void setMouseClickCallback      (const std::string& callback) { m_handleMouse    = true; m_mouseClickCallback = callback; }
-        void setMouseDownCallback       (const std::string& callback) { m_handleMouse    = true; m_mouseDownCallback = callback; }
-        void setMouseDoubleClickCallback(const std::string& callback) { m_handleMouse    = true; m_mouseDoubleClickCallback = callback; }
-        void setMouseReleaseCallback    (const std::string& callback) { m_handleMouse    = true; m_mouseReleaseCallback = callback; }
-        void setMouseWheelCallback      (const std::string& callback) { m_handleMouse    = true; m_mouseWheelCallback = callback; }
-        void setMouseDragCallback       (const std::string& callback) { m_handleMouse    = true; m_mouseDragCallback = callback; }
-        void setKeyDownCallback         (const std::string& callback) { m_handleKeyboard = true; m_keyDownCallback = callback; }
-        void setKeyPressCallback        (const std::string& callback) { m_handleKeyboard = true; m_keyPressCallback = callback; }
-        void setKeyReleaseCallback      (const std::string& callback) { m_handleKeyboard = true; m_keyReleaseCallback = callback; }
+        void setRenderCallback          (PyObject* callback) { m_renderCallback = callback; }
+        void setResizeCallback          (PyObject* callback) { m_resizeCallback = callback; }
+        void setMouseMoveCallback       (PyObject* callback) { m_mouseMoveCallback = callback; }
+        void setOnCloseCallback         (PyObject* callback) { m_onCloseCallback = callback; }
+        void setMouseClickCallback      (PyObject* callback) { m_handleMouse    = true; m_mouseClickCallback = callback; }
+        void setMouseDownCallback       (PyObject* callback) { m_handleMouse    = true; m_mouseDownCallback = callback; }
+        void setMouseDoubleClickCallback(PyObject* callback) { m_handleMouse    = true; m_mouseDoubleClickCallback = callback; }
+        void setMouseReleaseCallback    (PyObject* callback) { m_handleMouse    = true; m_mouseReleaseCallback = callback; }
+        void setMouseWheelCallback      (PyObject* callback) { m_handleMouse    = true; m_mouseWheelCallback = callback; }
+        void setMouseDragCallback       (PyObject* callback) { m_handleMouse    = true; m_mouseDragCallback = callback; }
+        void setKeyDownCallback         (PyObject* callback) { m_handleKeyboard = true; m_keyDownCallback = callback; }
+        void setKeyPressCallback        (PyObject* callback) { m_handleKeyboard = true; m_keyPressCallback = callback; }
+        void setKeyReleaseCallback      (PyObject* callback) { m_handleKeyboard = true; m_keyReleaseCallback = callback; }
 
-        [[nodiscard]] const std::string& getRenderCallback          () const { return m_renderCallback; }
-        [[nodiscard]] const std::string& getResizeCallback          () const { return m_resizeCallback; }
-        [[nodiscard]] const std::string& getMouseReleaseCallback    () const { return m_mouseReleaseCallback; }
-        [[nodiscard]] const std::string& getMouseClickCallback      () const { return m_mouseClickCallback; }
-        [[nodiscard]] const std::string& getMouseDownCallback       () const { return m_mouseDownCallback; }
-        [[nodiscard]] const std::string& getMouseDoubleClickCallback() const { return m_mouseDoubleClickCallback; }
-        [[nodiscard]] const std::string& getMouseDragCallback       () const { return m_mouseDragCallback; }
-        [[nodiscard]] const std::string& getKeyDownCallback         () const { return m_keyDownCallback; }
-        [[nodiscard]] const std::string& getKeyPressCallback        () const { return m_keyPressCallback; }
-        [[nodiscard]] const std::string& getKeyReleaseCallback      () const { return m_keyReleaseCallback; }
-        [[nodiscard]] const std::string& getMouseWheelCallback      () const { return m_mouseWheelCallback; }
-        [[nodiscard]] const std::string& getMouseMoveCallback       () const { return m_mouseMoveCallback; }
-        [[nodiscard]] const std::string& getOnCloseCallback         () const { return m_onCloseCallback; }
+        [[nodiscard]] PyObject* getRenderCallback          (){ return m_renderCallback; }
+        [[nodiscard]] PyObject* getResizeCallback          (){ return m_resizeCallback; }
+        [[nodiscard]] PyObject* getMouseReleaseCallback    (){ return m_mouseReleaseCallback; }
+        [[nodiscard]] PyObject* getMouseClickCallback      (){ return m_mouseClickCallback; }
+        [[nodiscard]] PyObject* getMouseDownCallback       (){ return m_mouseDownCallback; }
+        [[nodiscard]] PyObject* getMouseDoubleClickCallback(){ return m_mouseDoubleClickCallback; }
+        [[nodiscard]] PyObject* getMouseDragCallback       (){ return m_mouseDragCallback; }
+        [[nodiscard]] PyObject* getKeyDownCallback         (){ return m_keyDownCallback; }
+        [[nodiscard]] PyObject* getKeyPressCallback        (){ return m_keyPressCallback; }
+        [[nodiscard]] PyObject* getKeyReleaseCallback      (){ return m_keyReleaseCallback; }
+        [[nodiscard]] PyObject* getMouseWheelCallback      (){ return m_mouseWheelCallback; }
+        [[nodiscard]] PyObject* getMouseMoveCallback       (){ return m_mouseMoveCallback; }
+        [[nodiscard]] PyObject* getOnCloseCallback         (){ return m_onCloseCallback; }
 
     private:
 
         // standard callbacks
-        std::string m_renderCallback;
-        std::string m_mouseDownCallback;
-        std::string m_mouseClickCallback;
-        std::string m_mouseReleaseCallback;
-        std::string m_mouseDoubleClickCallback;
-        std::string m_mouseWheelCallback;
-        std::string m_mouseDragCallback;
-        std::string m_keyDownCallback;
-        std::string m_keyPressCallback;
-        std::string m_keyReleaseCallback;
-        std::string m_resizeCallback;
-        std::string m_mouseMoveCallback;
-        std::string m_onCloseCallback;
+        PyObject* m_renderCallback;
+        PyObject* m_mouseDownCallback;
+        PyObject* m_mouseClickCallback;
+        PyObject* m_mouseReleaseCallback;
+        PyObject* m_mouseDoubleClickCallback;
+        PyObject* m_mouseWheelCallback;
+        PyObject* m_mouseDragCallback;
+        PyObject* m_keyDownCallback;
+        PyObject* m_keyPressCallback;
+        PyObject* m_keyReleaseCallback;
+        PyObject* m_resizeCallback;
+        PyObject* m_mouseMoveCallback;
+        PyObject* m_onCloseCallback;
 
         bool   m_handleMouse    = false;
         bool   m_handleKeyboard = false;  
