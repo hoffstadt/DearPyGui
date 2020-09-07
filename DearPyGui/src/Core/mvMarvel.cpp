@@ -3884,7 +3884,7 @@ namespace Marvel {
 		const char* parent = "";
 
 		if (!(*mvApp::GetApp()->getParsers())["add_button"].parse(args, kwargs, __FUNCTION__, &name, &smallb,
-			&arrow, &direction, &callback, &callback_data, &callback_data, &tip, &parent, &before, &width, &height))
+			&arrow, &direction, &callback, &callback_data, &tip, &parent, &before, &width, &height))
 			return ToPyBool(false);
 
 		mvAppItem* item = new mvButton("", name, smallb, arrow, direction);

@@ -36,7 +36,7 @@ namespace Marvel {
 		case mvPythonDataType::IntList:    return " : List[int]";
 		case mvPythonDataType::Optional:   return "Optional Arguments\n____________________";
 		case mvPythonDataType::KeywordOnly:return "Keyword Only Arguments\n____________________";
-		case mvPythonDataType::Object:     return " : object";
+		case mvPythonDataType::Object:     return " : Any";
 		default:                           return " : unknown";
 		}
 	}
@@ -52,7 +52,7 @@ namespace Marvel {
 		case mvPythonDataType::StringList: return "List[str]";
 		case mvPythonDataType::FloatList:  return "List[float]";
 		case mvPythonDataType::IntList:    return "List[int]";
-		case mvPythonDataType::Object:     return "object";
+		case mvPythonDataType::Object:     return "Any";
 		default:                           return "";
 		}
 	}
