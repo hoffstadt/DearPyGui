@@ -11,14 +11,14 @@ add_text("It can also be used to have widgets with similar underlying "
 add_text("Move one of the widgets around", bullet=True)
 
 add_spacing()
-add_seperator()
+add_separator()
 add_spacing()
 
 add_slider_float("Slider 1", vertical=True, data_source="float1")
 add_progress_bar("Progress 1", 0.5, data_source="float1")
 
 add_spacing(count=5)
-add_seperator()
+add_separator()
 add_spacing(count=5)
 
 add_input_float3("Input Float3", data_source="color1")

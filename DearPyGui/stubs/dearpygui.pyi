@@ -251,7 +251,7 @@ def add_selectable(name: str, default_value: bool = False, callback: Callable = 
 	"""Adds a selectable."""
 	...
 
-def add_seperator(name: str = "", tip: str = "", parent: str = "", before: str = "") -> bool:
+def add_separator(name: str = "", tip: str = "", parent: str = "", before: str = "") -> bool:
 	"""Adds a horizontal line."""
 	...
 

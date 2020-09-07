@@ -9,7 +9,7 @@ add_text("Documentation - tips, command, and searchable documentation.", bullet=
 add_text("Debug         - useful for debugging", bullet=True)
 
 add_spacing()
-add_seperator()
+add_separator()
 add_spacing()
 
 add_button("Show Logger", callback=show_logger)
