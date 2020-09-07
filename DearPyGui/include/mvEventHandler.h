@@ -36,6 +36,7 @@ namespace Marvel {
         void setResizeCallback          (PyObject* callback) { m_resizeCallback = callback; }
         void setMouseMoveCallback       (PyObject* callback) { m_mouseMoveCallback = callback; }
         void setOnCloseCallback         (PyObject* callback) { m_onCloseCallback = callback; }
+        void setOnStartCallback         (PyObject* callback) { m_onStartCallback = callback; }
         void setMouseClickCallback      (PyObject* callback) { m_handleMouse    = true; m_mouseClickCallback = callback; }
         void setMouseDownCallback       (PyObject* callback) { m_handleMouse    = true; m_mouseDownCallback = callback; }
         void setMouseDoubleClickCallback(PyObject* callback) { m_handleMouse    = true; m_mouseDoubleClickCallback = callback; }
@@ -59,6 +60,7 @@ namespace Marvel {
         [[nodiscard]] PyObject* getMouseWheelCallback      (){ return m_mouseWheelCallback; }
         [[nodiscard]] PyObject* getMouseMoveCallback       (){ return m_mouseMoveCallback; }
         [[nodiscard]] PyObject* getOnCloseCallback         (){ return m_onCloseCallback; }
+        [[nodiscard]] PyObject* getOnStartCallback         (){ return m_onStartCallback; }
 
     private:
 
@@ -76,6 +78,7 @@ namespace Marvel {
         PyObject* m_resizeCallback;
         PyObject* m_mouseMoveCallback;
         PyObject* m_onCloseCallback;
+        PyObject* m_onStartCallback;
 
         bool   m_handleMouse    = false;
         bool   m_handleKeyboard = false;  

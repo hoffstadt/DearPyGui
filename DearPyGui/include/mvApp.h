@@ -91,7 +91,7 @@ namespace Marvel {
         static mvStandardWindow* GetAppStandardWindow();
         static const char*       GetVersion          () { return MV_SANDBOX_VERSION; }
         static bool              IsAppStarted        () { return s_started; }
-        static void              SetAppStarted       () { s_started = true; }
+        static void              SetAppStarted       ();
         static void              SetAppStopped       ();
 
         ~mvApp() override;
