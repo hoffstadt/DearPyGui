@@ -6254,7 +6254,7 @@ namespace Marvel {
 		PyObject* callback_data = nullptr;
 		const char* item;
 
-		if (!(*mvApp::GetApp()->getParsers())["set_item_callback"].parse(args, kwargs, __FUNCTION__, &item, &callback))
+		if (!(*mvApp::GetApp()->getParsers())["set_item_callback"].parse(args, kwargs, __FUNCTION__, &item, &callback, &callback_data))
 			return GetPyNone();
 
 		mvAppItem* appitem;
@@ -6268,7 +6268,7 @@ namespace Marvel {
 
 			if (callback_data)
 			{
-				if (appitem->getCallbackData() != callback)
+				if (appitem->getCallbackData() != callback_data)
 					Py_XINCREF(callback_data);
 				appitem->setCallbackData(callback_data);
 			}
