@@ -1,4 +1,4 @@
-﻿cmake_minimum_required (VERSION 3.16)
+cmake_minimum_required (VERSION 3.13)
 
 add_library(dearpygui SHARED)
 
@@ -13,23 +13,18 @@ if(WIN32)
 	set_target_properties(dearpygui PROPERTIES SUFFIX ".pyd")
 	set_target_properties(dearpygui PROPERTIES OUTPUT_NAME "dearpygui$<$<CONFIG:Debug>:_d>")
 	set_target_properties(dearpygui PROPERTIES CXX_STANDARD 17)
-
-elseif(APPLE)
-
-	add_definitions(-DAPPLE)
+else()
 	add_definitions(-DUNIX)
 	find_package(Python3 COMPONENTS Interpreter Development)
-	set_target_properties(dearpygui PROPERTIES SUFFIX ".so")
-	set_target_properties(dearpygui PROPERTIES PREFIX "")
-	set_target_properties(dearpygui PROPERTIES CXX_STANDARD 17)
-
-else() # Linux
-
-	add_definitions(-DLINUX)
-	add_definitions(-DUNIX)
-	set_target_properties(dearpygui PROPERTIES PREFIX "")
-	set_target_properties(dearpygui PROPERTIES CXX_STANDARD 17)
-
+    find_package(PythonLibs REQUIRED)
+    set_target_properties(dearpygui PROPERTIES PREFIX "")
+    set_target_properties(dearpygui PROPERTIES CXX_STANDARD 17)
+    if(APPLE)
+        add_definitions(-DAPPLE)
+	    set_target_properties(dearpygui PROPERTIES SUFFIX ".so")
+    else() # Linux
+	    add_definitions(-DLINUX)
+    endif()
 endif()
 
 set(MARVEL_SOURCES
@@ -104,14 +99,13 @@ set(MARVEL_INCLUDE_DIR
 	"../Dependencies/imgui/"
 	"../Dependencies/imgui/examples/"
 	"../Dependencies/imgui/examples/libs/gl3w"
-	"../Dependencies/cpython/"
-	"../Dependencies/cpython/Include/"
+    "../Dependencies/cpython/"
+    "../Dependencies/cpython/Include/"
 	"src/Vendor/implot/"
 	"src/Vendor/stb/"
 	"$<$<PLATFORM_ID:Windows>:${CMAKE_SOURCE_DIR}/Dependencies/cpython/PC/>"
 
-	"/usr/include/python3.7/"
-	"/usr/include/python3.8/"
+	"${PYTHON_INCLUDE_DIRS}"
 
 	# may can delete this
 	"../Dependencies/cpython/debug/"
@@ -185,27 +179,16 @@ elseif(APPLE)
 	)
 
 else() # Linux
-
 	set_property(TARGET dearpygui APPEND_STRING PROPERTY COMPILE_FLAGS "-fPIC -Wno-unused-result -Wsign-compare -DNDEBUG -g -fwrapv -O3 -Wall")
-	
 	add_definitions(-DIMGUI_IMPL_OPENGL_LOADER_GL3W)
-
-	
 
 	if(NOT MVDIST_ONLY)
 		set_property(TARGET dearpyguiemb APPEND_STRING PROPERTY COMPILE_FLAGS "-fPIC -Wno-unused-result -Wsign-compare -DNDEBUG -g -fwrapv -O3 -Wall")
-		target_link_libraries(dearpyguiemb PUBLIC "-L/usr/lib  -lcrypt -lpthread -ldl  -lutil -lm -lm" GL glfw python3.8)
+		target_link_libraries(dearpyguiemb PUBLIC "-L/usr/lib  -lcrypt -lpthread -ldl  -lutil -lm -lm" GL glfw ${PYTHON_LIBRARIES})
 	endif()
 
-	if(MV37DIST)
-		target_link_directories(dearpygui PRIVATE "/home/runner/work/DearPyGui/DearPyGui/Dependencies/cpython/debug/lib")
-		target_link_libraries(dearpygui PUBLIC "-L/usr/lib  -lcrypt -lpthread -ldl  -lutil -lm -lm" GL glfw python3.7m)
-	else()
-		target_link_directories(dearpygui PRIVATE "/home/runner/work/DearPyGui/DearPyGui/Dependencies/cpython/debug/lib")
-		target_link_libraries(dearpygui PUBLIC "-L/usr/lib  -lcrypt -lpthread -ldl  -lutil -lm -lm" GL glfw python3.8)
-	endif()
-
-
+    target_link_directories(dearpygui PRIVATE "/home/runner/work/DearPyGui/DearPyGui/Dependencies/cpython/debug/lib")
+    target_link_libraries(dearpygui PUBLIC "-L/usr/lib  -lcrypt -lpthread -ldl  -lutil -lm -lm" GL glfw ${PYTHON_LIBRARIES} )
 endif()
 
 if(NOT MVDIST_ONLY)

@@ -1,11 +1,12 @@
-﻿cmake_minimum_required (VERSION 3.16)
+cmake_minimum_required (VERSION 3.13)
 
 add_executable (DearSandbox)
 
 set_property(TARGET DearSandbox PROPERTY CXX_STANDARD 17)
 
-if(APPLE)
-find_package(Python3 COMPONENTS Interpreter Development)
+if(NOT WIN32)
+    find_package(PythonLibs REQUIRED)
+    find_package(Python3 COMPONENTS Interpreter Development)
 endif()
 
 target_sources(DearSandbox
@@ -27,11 +28,7 @@ target_include_directories(DearSandbox
 		"../DearPyGui/include/"
 		"../Dependencies/cpython/"
 		"../Dependencies/cpython/Include/"
-		if(MV37DIST)
-			"$<$<PLATFORM_ID:Linux>:/usr/include/python3.7/>"
-		else()
-			"$<$<PLATFORM_ID:Linux>:/usr/include/python3.8/>"
-		endif()
+		"$<$<PLATFORM_ID:Linux>:${PYTHON_INCLUDE_DIRS}/>"
 )
 
 target_compile_definitions(DearSandbox
