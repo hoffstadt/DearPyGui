@@ -100,7 +100,8 @@ namespace Marvel {
         [[nodiscard]] const std::string& getName                   () const { return m_name; }
         [[nodiscard]] const std::string& getTip                    () const { return m_tip; }
         [[nodiscard]] const std::string& getLabel                  () const { return m_label; }
-        [[nodiscard]] const std::string& getCallback               () const { return m_callback; }
+        [[nodiscard]] PyObject*          getCallback               () { return m_callback; }
+        [[nodiscard]] PyObject*          getCallbackData           () { return m_callbackData; }
         [[nodiscard]] const std::string& getPopup                  () const { return m_popup; }
         [[nodiscard]] const std::string& getDataSource             () const { return m_dataSource; }
         [[nodiscard]] int                getWidth                  () const { return m_width; }
@@ -128,7 +129,8 @@ namespace Marvel {
         void         addChild               (mvAppItem* child);
         inline void  show                   ()                            { m_show = true; }
         inline void  hide                   ()                            { m_show = false; }
-        inline void  setCallback            (const std::string& callback) { m_callback = callback; }
+        inline void  setCallback            (PyObject* callback)          { m_callback = callback; }
+        inline void  setCallbackData        (PyObject* data)              { m_callbackData = data; }
         inline void  setPopup               (const std::string& popup)    { m_popup = popup; }
         inline void  setTip                 (const std::string& tip)      { m_tip = tip; }
         virtual void setWidth               (int width)                   { m_width = width; }
@@ -156,7 +158,8 @@ namespace Marvel {
         std::string                 m_label;
         std::string                 m_popup;
         std::string                 m_tip;
-        std::string                 m_callback;
+        PyObject*                   m_callback = nullptr;
+        PyObject*                   m_callbackData = nullptr;
         int                         m_width  = 0;
         int                         m_height = 0;
         bool                        m_show                 = true; // determines whether to attempt rendering

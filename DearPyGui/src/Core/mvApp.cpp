@@ -183,7 +183,7 @@ namespace Marvel {
 			m_activeWindow == "source##standard" || m_activeWindow == "metrics##standard" || 
 			m_activeWindow == "about##standard" || m_activeWindow == "debug##standard")
 		{
-			if (!getRenderCallback().empty())
+			if (getRenderCallback() != nullptr)
 				runCallback(getRenderCallback(), "Main Application");
 		}
 
@@ -497,17 +497,17 @@ namespace Marvel {
 			for (int i = 0; i < IM_ARRAYSIZE(ImGui::GetIO().KeysDown); i++)
 			{
 				// route key pressed event
-				if (ImGui::IsKeyPressed(i) && !eventHandler->getKeyPressCallback().empty())
+				if (ImGui::IsKeyPressed(i) && eventHandler->getKeyPressCallback() != nullptr)
 					runCallback(eventHandler->getKeyPressCallback(), m_activeWindow, 
 						ToPyInt(i));
 
 				// route key down event
-				if (ImGui::GetIO().KeysDownDuration[i] >= 0.0f && !eventHandler->getKeyDownCallback().empty())
+				if (ImGui::GetIO().KeysDownDuration[i] >= 0.0f && eventHandler->getKeyDownCallback() != nullptr)
 					runCallback(eventHandler->getKeyDownCallback(), m_activeWindow,
 						ToPyMPair(i, ImGui::GetIO().KeysDownDuration[i]));
 
 				// route key released event
-				if (ImGui::IsKeyReleased(i) && !eventHandler->getKeyReleaseCallback().empty())
+				if (ImGui::IsKeyReleased(i) && eventHandler->getKeyReleaseCallback() != nullptr)
 					runCallback(eventHandler->getKeyReleaseCallback(), m_activeWindow, ToPyInt(i));
 			}
 		}
@@ -517,13 +517,13 @@ namespace Marvel {
 			return;
 
 		// route mouse wheel event
-		if (ImGui::GetIO().MouseWheel != 0.0f && !eventHandler->getMouseWheelCallback().empty())
+		if (ImGui::GetIO().MouseWheel != 0.0f && eventHandler->getMouseWheelCallback() != nullptr)
 			runCallback(eventHandler->getMouseWheelCallback(), m_activeWindow,
 				ToPyMPair(0, ImGui::GetIO().MouseWheel));
 
 		// route mouse dragging event
 		// this must be seperate since only a single button can be dragged
-		if (!eventHandler->getMouseDragCallback().empty())
+		if (eventHandler->getMouseDragCallback() != nullptr)
 		{
 			for (int i = 0; i < 3; i++)
 			{
@@ -548,22 +548,22 @@ namespace Marvel {
 		for (int i = 0; i < IM_ARRAYSIZE(ImGui::GetIO().MouseDown); i++)
 		{
 			// route mouse click event
-			if (ImGui::IsMouseClicked(i) && !eventHandler->getMouseClickCallback().empty())
+			if (ImGui::IsMouseClicked(i) && eventHandler->getMouseClickCallback() != nullptr)
 				runCallback(eventHandler->getMouseClickCallback(), m_activeWindow,
 					ToPyInt(i));
 
 			// route mouse down event
-			if (ImGui::GetIO().MouseDownDuration[i] >= 0.0f && !eventHandler->getMouseDownCallback().empty())
+			if (ImGui::GetIO().MouseDownDuration[i] >= 0.0f && eventHandler->getMouseDownCallback() != nullptr)
 				runCallback(eventHandler->getMouseDownCallback(), m_activeWindow,
 					ToPyMPair(i, ImGui::GetIO().MouseDownDuration[i]));
 
 			// route mouse double clicked event
-			if (ImGui::IsMouseDoubleClicked(i) && !eventHandler->getMouseDoubleClickCallback().empty())
+			if (ImGui::IsMouseDoubleClicked(i) && eventHandler->getMouseDoubleClickCallback() != nullptr)
 				runCallback(eventHandler->getMouseDoubleClickCallback(), m_activeWindow,
 					ToPyInt(i));
 
 			// route mouse released event
-			if (ImGui::IsMouseReleased(i) && !eventHandler->getMouseReleaseCallback().empty())
+			if (ImGui::IsMouseReleased(i) && eventHandler->getMouseReleaseCallback() != nullptr)
 				runCallback(eventHandler->getMouseReleaseCallback(), m_activeWindow,
 					ToPyInt(i));
 		}
@@ -580,11 +580,11 @@ namespace Marvel {
 		return true;
 	}
 
-	void mvApp::addMTCallback(const std::string& name, PyObject* data, const std::string& returnname) 
+	void mvApp::addMTCallback(PyObject* callback, PyObject* data, PyObject* returnname)
 	{ 
 		Py_XINCREF(data);
 		//std::lock_guard<std::mutex> lock(m_mutex);
-		m_asyncCallbacks.push_back({ name, data, returnname }); 
+		m_asyncCallbacks.push_back({ callback, data, returnname }); 
 	}
 
 	void mvApp::pushParent(mvAppItem* item)
@@ -672,9 +672,9 @@ namespace Marvel {
 		return nullptr;
 	}
 
-	void mvApp::runAsyncCallback(std::string name, PyObject* data, std::string returnname)
+	void mvApp::runAsyncCallback(PyObject* callback, PyObject* data, PyObject* returnname)
 	{
-		if (name.empty())
+		if (callback == nullptr)
 		{
 			Py_XDECREF(data);
 			return;
@@ -682,38 +682,8 @@ namespace Marvel {
 
 		mvGlobalIntepreterLock gil;
 
-		PyObject* pHandler = PyDict_GetItemString(PyModule_GetDict(PyImport_AddModule("__main__")), name.c_str()); // borrowed
-		if (pHandler == NULL)
-		{
-			PyObject* pModules = PyDict_Values(PyImport_GetModuleDict());
-			PyObject* pModulesKeys = PyDict_Keys(PyImport_GetModuleDict());
-			for (int i = 0; i < PyList_Size(pModules); i++)
-			{
-				//mvAppLog::LogError(_PyUnicode_AsString(PyList_GetItem(pModulesKeys, i)));
-				PyObject* pModule = PyModule_GetDict(PyList_GetItem(pModules, i));
-				if (PyDict_Check(pModule))
-				{
-					pHandler = PyDict_GetItemString(pModule, name.c_str()); // borrowed reference
-					if (pHandler)
-						break;
-				}
-
-			}
-			Py_XDECREF(pModules);
-			Py_XDECREF(pModulesKeys);
-		}
-
-		// if callback doesn't exist
-		if (pHandler == NULL)
-		{
-			std::string message(" Callback doesn't exist");
-			ThrowPythonException(name + message);
-			
-			return;
-		}
-
 		// check if handler is callable
-		if (PyCallable_Check(pHandler))
+		if (PyCallable_Check(callback))
 		{
 			PyErr_Clear();
 
@@ -721,17 +691,16 @@ namespace Marvel {
 			PyTuple_SetItem(pArgs, 0, PyUnicode_FromString("Async"));
 			PyTuple_SetItem(pArgs, 1, data); // steals data, so don't deref
 
-			PyObject* result = PyObject_CallObject(pHandler, pArgs);
+			PyObject* result = PyObject_CallObject(callback, pArgs);
 
 			// check if call succeded
 			if (!result)
 			{
 				PyErr_Print();
-				std::string message(" Callback failed");
-				ThrowPythonException(name + message);
+				ThrowPythonException("Callback failed");
 			}
 
-			if (!returnname.empty())
+			if (returnname)
 			{
 				std::lock_guard<std::mutex> lock(m_mutex);
 				m_asyncReturns.push({ returnname, result });
@@ -748,16 +717,14 @@ namespace Marvel {
 		}
 
 		else
-		{
-			std::string message(" Callback not callable");
-			ThrowPythonException(name + message);
-		}
+			ThrowPythonException("Callback not callable");
+
 
 	}
 
-	void mvApp::runReturnCallback(const std::string& name, const std::string& sender, PyObject* data)
+	void mvApp::runReturnCallback(PyObject* callback, const std::string& sender, PyObject* data)
 	{
-		if (name.empty())
+		if (callback == nullptr)
 		{
 			if (data != nullptr)
 				Py_XDECREF(data);
@@ -770,15 +737,26 @@ namespace Marvel {
 			Py_XINCREF(data);
 		}
 
-		runCallback(name, sender, data);
+		runCallback(callback, sender, data);
 	}
 
-	void mvApp::runCallback(const std::string& name, const std::string& sender, PyObject* data)
+	void mvApp::runCallback(PyObject* callable, const std::string& sender, PyObject* data)
 	{
-		if (name.empty())
+
+		if (callable == nullptr)
 		{
-			if(data != nullptr)
+			if (data != nullptr)
 				Py_XDECREF(data);
+			return;
+		}
+
+		mvGlobalIntepreterLock gil;
+
+		if (!PyCallable_Check(callable))
+		{
+			if (data != nullptr)
+				Py_XDECREF(data);
+			ThrowPythonException("Callable not callable.");
 			return;
 		}
 
@@ -788,70 +766,30 @@ namespace Marvel {
 			Py_XINCREF(data);
 		}
 
-		mvGlobalIntepreterLock gil;
+		Py_XINCREF(data);
 
-		PyObject* pHandler = PyDict_GetItemString(PyModule_GetDict(PyImport_AddModule("__main__")), name.c_str()); // borrowed
-		if (pHandler == NULL)
+		PyErr_Clear();
+
+		PyObject* pArgs = PyTuple_New(2);
+		PyTuple_SetItem(pArgs, 0, PyUnicode_FromString(sender.c_str()));
+		PyTuple_SetItem(pArgs, 1, data); // steals data, so don't deref
+		
+
+		PyObject* result = PyObject_CallObject(callable, pArgs);
+
+		// check if call succeded
+		if (!result)
 		{
-			PyObject* pModules = PyDict_Values(PyImport_GetModuleDict());
-			PyObject* pModulesKeys = PyDict_Keys(PyImport_GetModuleDict());
-			for (int i = 0; i < PyList_Size(pModules); i++)
-			{
-				PyObject* pModule = PyModule_GetDict(PyList_GetItem(pModules, i));
-				if (PyDict_Check(pModule))
-				{
-					pHandler = PyDict_GetItemString(pModule, name.c_str()); // borrowed reference
-					if (pHandler)
-						break;
-				}
-
-			}
-			Py_XDECREF(pModules);
-			Py_XDECREF(pModulesKeys);
+			PyErr_Print();
+			ThrowPythonException("Callable failed");
 		}
 
-		// if callback doesn't exist
-		if (pHandler == NULL)
-		{
-			std::string message(" Callback doesn't exist");
-			ThrowPythonException(name + message);
-			return;
-		}
+		Py_XDECREF(pArgs);
+		Py_XDECREF(result);
 
-		// check if handler is callable
-		if (PyCallable_Check(pHandler))
-		{
-
-			PyErr_Clear();
-
-			PyObject* pArgs = PyTuple_New(2);
-			PyTuple_SetItem(pArgs, 0, PyUnicode_FromString(sender.c_str()));
-			PyTuple_SetItem(pArgs, 1, data); // steals data, so don't deref
-
-			PyObject* result = PyObject_CallObject(pHandler, pArgs);
-
-			// check if call succeded
-			if (!result)
-			{
-				PyErr_Print();
-				std::string message(" Callback failed");
-				ThrowPythonException(name + message);
-			}
-
-			Py_XDECREF(pArgs);
-			Py_XDECREF(result);
-
-			// check if error occurred
-			if (PyErr_Occurred())
-				PyErr_Print();
-
-		}
-
-		else
-		{
-			std::string message(" Callback not callable");
-			ThrowPythonException(name + message);
-		}
+		// check if error occurred
+		if (PyErr_Occurred())
+			PyErr_Print();
 
 	}
 

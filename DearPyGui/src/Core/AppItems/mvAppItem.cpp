@@ -348,6 +348,11 @@ namespace Marvel{
 	mvAppItem::~mvAppItem()
 	{
 		deleteChildren();
+
+		if (m_callback)
+			Py_DECREF(m_callback);
+		if (m_callbackData)
+			Py_DECREF(m_callbackData);
 	}
 
 }

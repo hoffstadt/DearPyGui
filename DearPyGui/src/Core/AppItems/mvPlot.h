@@ -79,7 +79,7 @@ namespace Marvel {
 			mvPlot(const std::string& parent, const std::string& name, std::string  xname = "",
 				std::string  yname = "", int width = -1, int height = 0, ImPlotFlags flags = ImPlotFlags_Default,
 				ImPlotAxisFlags xflags = ImPlotAxisFlags_Default, ImPlotAxisFlags yflags = ImPlotAxisFlags_Default, 
-				std::string  queryCallback = "");
+				PyObject* queryCallback = nullptr);
 
 		void addSeries   (mvSeries* series);
 		void updateSeries(mvSeries* series);
@@ -110,7 +110,7 @@ namespace Marvel {
 		bool            m_setYLimits = false;
 		ImVec2          m_xlimits;
 		ImVec2          m_ylimits;
-		std::string     m_queryCallback;
+		PyObject*       m_queryCallback;
 		bool            m_queried = false;
 		float           m_queryArea[4] = {0.0f , 0.0f, 0.0f, 0.0f};
 		bool            m_dirty = false;

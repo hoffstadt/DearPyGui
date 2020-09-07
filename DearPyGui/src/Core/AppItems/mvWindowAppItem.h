@@ -19,8 +19,8 @@ namespace Marvel {
 		MV_APPITEM_TYPE(mvAppItemType::Window)
 
 		mvWindowAppitem(const std::string& parent, const std::string& name, int width, int height, int xpos, int ypos, 
-			bool mainWindow, bool autosize, bool resizable, bool titlebar, bool movable, std::string  closing_callback="")
-			: mvAppItem(parent, name), mvEventHandler(), m_xpos(xpos), m_ypos(ypos), m_mainWindow(mainWindow), m_closing_callback(std::move(closing_callback))
+			bool mainWindow, bool autosize, bool resizable, bool titlebar, bool movable, PyObject*  closing_callback=nullptr)
+			: mvAppItem(parent, name), mvEventHandler(), m_xpos(xpos), m_ypos(ypos), m_mainWindow(mainWindow), m_closing_callback(closing_callback)
 		{
 			m_container = true;
 			m_width = width;
@@ -171,7 +171,7 @@ namespace Marvel {
 				mvApp::GetApp()->setActiveWindow(m_name);
 
 				// mouse move callback
-				if (!getMouseMoveCallback().empty())
+				if (getMouseMoveCallback() != nullptr)
 				{
 					if (oldMousePos.x != mousePos.x || oldMousePos.y != mousePos.y)
 					{
@@ -197,7 +197,7 @@ namespace Marvel {
 		bool             m_mainWindow = false;
 		bool             m_dirty = true;
 		bool             m_closing = true;
-		std::string      m_closing_callback;
+		PyObject*        m_closing_callback;
 
 	};
 
