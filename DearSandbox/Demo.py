@@ -583,4 +583,4 @@ set_mouse_release_callback(mouse_move_callback)
 setup_dearpygui()
 while is_dearpygui_running():
     render_dearpygui_frame()
-cleanup_dearpyui()
+cleanup_dearpygui()
