@@ -1850,6 +1850,10 @@ namespace Marvel {
 	static void AddAppCommands(std::map<std::string, mvPythonParser>* parsers)
 	{
 
+		parsers->insert({ "set_start_callback", mvPythonParser({
+			{mvPythonDataType::Object, "callback"},
+		}, "Callback to run when starting main window.") });
+
 		parsers->insert({ "set_exit_callback", mvPythonParser({
 			{mvPythonDataType::Object, "callback"},
 		}, "Callback to run when exiting main window.") });

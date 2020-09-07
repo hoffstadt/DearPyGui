@@ -64,6 +64,8 @@ namespace Marvel {
 		// typical adding before runtime
 		else if (std::string(parent).empty() && !mvApp::IsAppStarted() && std::string(before).empty())
 			return ma->addItem(item);
+
+		return false;
 	}
 
 	std::map<std::string, mvPythonParser>* BuildDearPyGuiInterface()
@@ -890,6 +892,17 @@ namespace Marvel {
 		mvApp::SetAppStopped();
 		mvApp::DeleteApp();
 
+		return GetPyNone();
+	}
+
+	PyObject* set_start_callback(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		PyObject* callback;
+
+		if (!(*mvApp::GetApp()->getParsers())["set_start_callback"].parse(args, kwargs, __FUNCTION__, &callback))
+			return GetPyNone();
+
+		mvApp::GetApp()->setOnStartCallback(callback);
 		return GetPyNone();
 	}
 
@@ -6865,6 +6878,7 @@ namespace Marvel {
 
 	static PyMethodDef dearpyguimethods[]
 	{
+		ADD_PYTHON_FUNCTION(set_start_callback)
 		ADD_PYTHON_FUNCTION(set_item_color)
 		ADD_PYTHON_FUNCTION(clear_item_color)
 		ADD_PYTHON_FUNCTION(set_main_window_resizable)

@@ -38,6 +38,7 @@ Changes:
 
 New Commands:
 - Widgets: Added "clear_item_color"
+- App:     Added "set_start_callback" #187
 
 -----------------------------------------------------------------------
  VERSION 0.2.0 (9/5/2020)

@@ -53,6 +53,13 @@ namespace Marvel {
 		return static_cast<mvStandardWindow*>(GetApp());
 	}
 
+	void mvApp::SetAppStarted() 
+	{
+		if (GetApp())
+			GetApp()->runCallback(GetApp()->getOnStartCallback(), "Main Application");
+		s_started = true; 
+	}
+
 	void mvApp::SetAppStopped() 
 	{ 
 		if(GetApp())
