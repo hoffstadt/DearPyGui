@@ -1,12 +1,14 @@
 #include "mvPlot.h"
+#define PY_SSIZE_T_CLEAN
+#include <Python.h>
 
 namespace Marvel {
 
 	mvPlot::mvPlot(const std::string& parent, const std::string& name, std::string  xname,
 		std::string yname, int width, int height, ImPlotFlags flags,
-		ImPlotAxisFlags xflags, ImPlotAxisFlags yflags, std::string  queryCallback)
+		ImPlotAxisFlags xflags, ImPlotAxisFlags yflags, PyObject* queryCallback)
 		: mvAppItem(parent, name), m_xaxisName(std::move(xname)), m_yaxisName(std::move(yname)),
-		m_flags(flags), m_xflags(xflags), m_yflags(yflags), m_queryCallback(std::move(queryCallback))
+		m_flags(flags), m_xflags(xflags), m_yflags(yflags), m_queryCallback(queryCallback)
 	{
 		m_width = width;
 		m_height = height;
@@ -211,7 +213,7 @@ namespace Marvel {
 				m_queryArea[3] = (float)area.Y.Max;
 			}
 
-			if (!m_queryCallback.empty() && m_queried)
+			if (m_queryCallback != nullptr && m_queried)
 			{
 				PyGILState_STATE gstate = PyGILState_Ensure();
 				PyObject* area = PyTuple_New(4);

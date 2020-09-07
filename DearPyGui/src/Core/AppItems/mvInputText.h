@@ -43,7 +43,7 @@ namespace Marvel {
 						if (!m_dataSource.empty())
 							mvDataStorage::AddData(m_dataSource, getPyValue());
 
-						mvApp::GetApp()->runCallback(m_callback, m_name);
+						mvApp::GetApp()->runCallback(m_callback, m_name, m_callbackData);
 
 						// Context Menu
 						if (!getPopup().empty())
@@ -73,7 +73,7 @@ namespace Marvel {
 					if (!m_dataSource.empty())
 						mvDataStorage::AddData(m_dataSource, getPyValue());
 
-					mvApp::GetApp()->runCallback(m_callback, m_name);
+					mvApp::GetApp()->runCallback(m_callback, m_name, m_callbackData);
 
 					// Context Menu
 					if (!getPopup().empty())

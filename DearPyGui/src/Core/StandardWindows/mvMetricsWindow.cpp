@@ -32,7 +32,7 @@ namespace Marvel {
 			mvApp::GetApp()->setActiveWindow("metrics##standard");
 
 			// mouse move callback
-			if (!getMouseMoveCallback().empty())
+			if (getMouseMoveCallback() != nullptr)
 			{
 				if (oldMousePos.x != mousePos.x || oldMousePos.y != mousePos.y)
 				{

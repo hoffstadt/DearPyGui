@@ -23,9 +23,6 @@ add_label_text("Left Mouse Released", "False", color=[0, 200, 255])
 add_label_text("Middle Mouse Released", "False", color=[0, 200, 255])
 add_label_text("Right Mouse Released", "False", color=[0, 200, 255])
 
-set_render_callback("main_callback", "MainWindow")
-
-
 def main_callback(sender, data):
 
     set_value("Mouse Position", str(get_mouse_pos()))
@@ -125,5 +122,7 @@ def main_callback(sender, data):
         set_value("Middle Mouse Released", "True")
     else:
         set_value("Middle Mouse Released", "False")
+
+set_render_callback(main_callback, "MainWindow")
 
 start_dearpygui()

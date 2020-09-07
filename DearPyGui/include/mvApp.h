@@ -74,9 +74,9 @@ namespace Marvel {
 
         struct AsyncronousCallback
         {
-            std::string name;       // name of function to run
-            PyObject*   data;       // any data need by the function
-            std::string returnname; // optional return function
+            PyObject* name;       // name of function to run
+            PyObject* data;       // any data need by the function
+            PyObject* returnname; // optional return function
         };
 
     public:
@@ -180,10 +180,10 @@ namespace Marvel {
         //-----------------------------------------------------------------------------
         // Callbacks
         //-----------------------------------------------------------------------------
-        void runReturnCallback(const std::string& name, const std::string& sender, PyObject* data);
-        void runCallback      (const std::string& name, const std::string& sender, PyObject* data = nullptr);
-        void runAsyncCallback (std::string name, PyObject* data, std::string returnname);
-        void addMTCallback    (const std::string& name, PyObject* data, const std::string& returnname = "");
+        void runReturnCallback(PyObject* callback, const std::string& sender, PyObject* data);
+        void runCallback      (PyObject* callback, const std::string& sender, PyObject* data = nullptr);
+        void runAsyncCallback (PyObject* callback, PyObject* data, PyObject* returnname);
+        void addMTCallback    (PyObject* name, PyObject* data, PyObject* returnname = nullptr);
 
         template<typename T> 
         void dispatchRenderCallback(mvAppItemType itemType, mvAppItem* item)

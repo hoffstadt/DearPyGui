@@ -359,13 +359,13 @@ namespace Marvel {
 	static void AddInputCommands(std::map<std::string, mvPythonParser>* parsers)
 	{
 		parsers->insert({ "set_mouse_move_callback", mvPythonParser({
-			{mvPythonDataType::String, "callback"},
+			{mvPythonDataType::Object, "callback", "Registers a callback"},
 			{mvPythonDataType::Optional},
 			{mvPythonDataType::String, "handler", "Callback will be run when event occurs while this window is active (default is main window)"},
 		}, "Sets a callback for a mouse move event. Data is the mouse position in local coordinates.", "None", "Input Polling") });
 
 		parsers->insert({ "set_render_callback", mvPythonParser({
-			{mvPythonDataType::String, "callback"},
+			{mvPythonDataType::Object, "callback", "Registers a callback"},
 			{mvPythonDataType::Optional},
 			{mvPythonDataType::String, "handler", "Callback will be run when event occurs while this window/child/popup/menu is active (default is main window)"},
 		}, "Sets the callback to be ran every frame.", "None", "Input Polling") });
@@ -413,62 +413,62 @@ namespace Marvel {
 		}, "Checks if the key is down.", "bool", "Input Polling") });
 
 		parsers->insert({ "set_resize_callback", mvPythonParser({
-			{mvPythonDataType::String, "callback"},
+			{mvPythonDataType::Object, "callback", "Registers a callback"},
 			{mvPythonDataType::Optional},
 			{mvPythonDataType::String, "handler", "Callback will be run when event occurs while this window is active (default is main window)"},
 		}, "Sets a callback for a window resize event.", "None", "Input Polling") });
 
 		parsers->insert({ "set_mouse_release_callback", mvPythonParser({
-			{mvPythonDataType::String, "callback"},
+			{mvPythonDataType::Object, "callback", "Registers a callback"},
 			{mvPythonDataType::Optional},
 			{mvPythonDataType::String, "handler", "Callback will be run when event occurs while this window is active (default is main window)"},
 		}, "Sets a callback for a mouse release event.", "None", "Input Polling") });
 
 		parsers->insert({ "set_mouse_down_callback", mvPythonParser({
-			{mvPythonDataType::String, "callback"},
+			{mvPythonDataType::Object, "callback", "Registers a callback"},
 			{mvPythonDataType::Optional},
 			{mvPythonDataType::String, "handler", "Callback will be run when event occurs while this window is active (default is main window)"},
 		}, "Sets a callback for a mouse down event.", "None", "Input Polling") });
 
 		parsers->insert({ "set_mouse_drag_callback", mvPythonParser({
-			{mvPythonDataType::String, "callback"},
+			{mvPythonDataType::Object, "callback", "Registers a callback"},
 			{mvPythonDataType::Float, "threshold"},
 			{mvPythonDataType::Optional},
 			{mvPythonDataType::String, "handler", "Callback will be run when event occurs while this window is active (default is main window)"},
 		}, "Sets a callback for a mouse drag event.", "None", "Input Polling") });
 
 		parsers->insert({ "set_mouse_wheel_callback", mvPythonParser({
-			{mvPythonDataType::String, "callback"},
+			{mvPythonDataType::Object, "callback", "Registers a callback"},
 			{mvPythonDataType::Optional},
 			{mvPythonDataType::String, "handler", "Callback will be run when event occurs while this window is active (default is main window)"},
 		}, "Sets a callback for a mouse wheel event.", "None", "Input Polling") });
 
 		parsers->insert({ "set_mouse_double_click_callback", mvPythonParser({
-			{mvPythonDataType::String, "callback"},
+			{mvPythonDataType::Object, "callback", "Registers a callback"},
 			{mvPythonDataType::Optional},
 			{mvPythonDataType::String, "handler", "Callback will be run when event occurs while this window is active (default is main window)"},
 		}, "Sets a callback for a mouse double click event.", "None", "Input Polling") });
 
 		parsers->insert({ "set_mouse_click_callback", mvPythonParser({
-			{mvPythonDataType::String, "callback"},
+			{mvPythonDataType::Object, "callback", "Registers a callback"},
 			{mvPythonDataType::Optional},
 			{mvPythonDataType::String, "handler", "Callback will be run when event occurs while this window is active (default is main window)"},
 		}, "Sets a callback for a mouse click event.", "None", "Input Polling") });
 
 		parsers->insert({ "set_key_down_callback", mvPythonParser({
-			{mvPythonDataType::String, "callback"},
+			{mvPythonDataType::Object, "callback", "Registers a callback"},
 			{mvPythonDataType::Optional},
 			{mvPythonDataType::String, "handler", "Callback will be run when event occurs while this window is active (default is main window)"},
 		}, "Sets a callback for a key down event.", "None", "Input Polling") }),
 
 		parsers->insert({ "set_key_press_callback", mvPythonParser({
-			{mvPythonDataType::String, "callback"},
+			{mvPythonDataType::Object, "callback", "Registers a callback"},
 			{mvPythonDataType::Optional},
 			{mvPythonDataType::String, "handler", "Callback will be run when event occurs while this window is active (default is main window)"},
 			}, "Sets a callback for a key press event.", "None", "Input Polling") });
 
 		parsers->insert({ "set_key_release_callback", mvPythonParser({
-			{mvPythonDataType::String, "callback"},
+			{mvPythonDataType::Object, "callback", "Registers a callback"},
 			{mvPythonDataType::Optional},
 			{mvPythonDataType::String, "handler", "Callback will be run when event occurs while this window is active (default is main window)"},
 		}, "Sets a callback for a key release event.", "None", "Input Polling") });
@@ -488,7 +488,8 @@ namespace Marvel {
 			{mvPythonDataType::Bool, "hexadecimal"},
 			{mvPythonDataType::Bool, "readonly"},
 			{mvPythonDataType::Bool, "password", "hides text values"},
-			{mvPythonDataType::String, "callback", "Registers a callback"},
+			{mvPythonDataType::Object, "callback", "Registers a callback"},
+			{mvPythonDataType::Object, "callback_data", "Callback data"},
 			{mvPythonDataType::String, "tip", "Adds a simple tooltip"},
 			{mvPythonDataType::String, "parent", "Parent to add this item to. (runtime adding)"},
 			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)"},
@@ -501,7 +502,8 @@ namespace Marvel {
 			{mvPythonDataType::String, "name"},
 			{mvPythonDataType::KeywordOnly},
 			{mvPythonDataType::Integer, "default_value"},
-			{mvPythonDataType::String, "callback", "Registers a callback"},
+			{mvPythonDataType::Object, "callback", "Registers a callback"},
+			{mvPythonDataType::Object, "callback_data", "Callback data"},
 			{mvPythonDataType::String, "tip", "Adds a simple tooltip"},
 			{mvPythonDataType::String, "parent", "Parent to add this item to. (runtime adding)"},
 			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)"},
@@ -514,7 +516,8 @@ namespace Marvel {
 			{mvPythonDataType::String, "name"},
 			{mvPythonDataType::KeywordOnly},
 			{mvPythonDataType::IntList, "default_value"},
-			{mvPythonDataType::String, "callback", "Registers a callback"},
+			{mvPythonDataType::Object, "callback", "Registers a callback"},
+			{mvPythonDataType::Object, "callback_data", "Callback data"},
 			{mvPythonDataType::String, "tip", "Adds a simple tooltip"},
 			{mvPythonDataType::String, "parent", "Parent this item will be added to. (runtime adding)"},
 			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)"},
@@ -527,7 +530,8 @@ namespace Marvel {
 			{mvPythonDataType::String, "name"},
 			{mvPythonDataType::KeywordOnly},
 			{mvPythonDataType::IntList, "default_value"},
-			{mvPythonDataType::String, "callback", "Registers a callback"},
+			{mvPythonDataType::Object, "callback", "Registers a callback"},
+			{mvPythonDataType::Object, "callback_data", "Callback data"},
 			{mvPythonDataType::String, "tip", "Adds a simple tooltip"},
 			{mvPythonDataType::String, "parent", "Parent this item will be added to. (runtime adding)"},
 			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)"},
@@ -540,7 +544,8 @@ namespace Marvel {
 			{mvPythonDataType::String, "name"},
 			{mvPythonDataType::KeywordOnly},
 			{mvPythonDataType::IntList, "default_value"},
-			{mvPythonDataType::String, "callback", "Registers a callback"},
+			{mvPythonDataType::Object, "callback", "Registers a callback"},
+			{mvPythonDataType::Object, "callback_data", "Callback data"},
 			{mvPythonDataType::String, "tip", "Adds a simple tooltip"},
 			{mvPythonDataType::String, "parent", "Parent this item will be added to. (runtime adding)"},
 			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)"},
@@ -554,7 +559,8 @@ namespace Marvel {
 			{mvPythonDataType::KeywordOnly},
 			{mvPythonDataType::Float, "default_value"},
 			{mvPythonDataType::String, "format"},
-			{mvPythonDataType::String, "callback", "Registers a callback"},
+			{mvPythonDataType::Object, "callback", "Registers a callback"},
+			{mvPythonDataType::Object, "callback_data", "Callback data"},
 			{mvPythonDataType::String, "tip", "Adds a simple tooltip"},
 			{mvPythonDataType::String, "parent", "Parent this item will be added to. (runtime adding)"},
 			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)"},
@@ -568,7 +574,8 @@ namespace Marvel {
 			{mvPythonDataType::KeywordOnly},
 			{mvPythonDataType::FloatList, "default_value"},
 			{mvPythonDataType::String, "format"},
-			{mvPythonDataType::String, "callback", "Registers a callback"},
+			{mvPythonDataType::Object, "callback", "Registers a callback"},
+			{mvPythonDataType::Object, "callback_data", "Callback data"},
 			{mvPythonDataType::String, "tip", "Adds a simple tooltip"},
 			{mvPythonDataType::String, "parent", "Parent this item will be added to. (runtime adding)"},
 			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)"},
@@ -582,7 +589,8 @@ namespace Marvel {
 			{mvPythonDataType::KeywordOnly},
 			{mvPythonDataType::FloatList, "default_value"},
 			{mvPythonDataType::String, "format"},
-			{mvPythonDataType::String, "callback", "Registers a callback"},
+			{mvPythonDataType::Object, "callback", "Registers a callback"},
+			{mvPythonDataType::Object, "callback_data", "Callback data"},
 			{mvPythonDataType::String, "tip", "Adds a simple tooltip"},
 			{mvPythonDataType::String, "parent", "Parent this item will be added to. (runtime adding)"},
 			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)"},
@@ -596,7 +604,8 @@ namespace Marvel {
 			{mvPythonDataType::KeywordOnly},
 			{mvPythonDataType::FloatList, "default_value"},
 			{mvPythonDataType::String, "format"},
-			{mvPythonDataType::String, "callback", "Registers a callback"},
+			{mvPythonDataType::Object, "callback", "Registers a callback"},
+			{mvPythonDataType::Object, "callback_data", "Callback data"},
 			{mvPythonDataType::String, "tip", "Adds a simple tooltip"},
 			{mvPythonDataType::String, "parent", "Parent this item will be added to. (runtime adding)"},
 			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)"},
@@ -616,7 +625,8 @@ namespace Marvel {
 			{mvPythonDataType::Float, "max_value"},
 			{mvPythonDataType::String, "format"},
 			{mvPythonDataType::Bool, "vertical", "sets orientation to vertical"},
-			{mvPythonDataType::String, "callback", "Registers a callback"},
+			{mvPythonDataType::Object, "callback", "Registers a callback"},
+			{mvPythonDataType::Object, "callback_data", "Callback data"},
 			{mvPythonDataType::String, "tip", "Adds a simple tooltip"},
 			{mvPythonDataType::String, "parent", "Parent this item will be added to. (runtime adding)"},
 			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)"},
@@ -633,7 +643,8 @@ namespace Marvel {
 			{mvPythonDataType::Float, "min_value"},
 			{mvPythonDataType::Float, "max_value"},
 			{mvPythonDataType::String, "format"},
-			{mvPythonDataType::String, "callback", "Registers a callback"},
+			{mvPythonDataType::Object, "callback", "Registers a callback"},
+			{mvPythonDataType::Object, "callback_data", "Callback data"},
 			{mvPythonDataType::String, "tip", "Adds a simple tooltip"},
 			{mvPythonDataType::String, "parent", "Parent this item will be added to. (runtime adding)"},
 			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)"},
@@ -649,7 +660,8 @@ namespace Marvel {
 			{mvPythonDataType::Float, "min_value"},
 			{mvPythonDataType::Float, "max_value"},
 			{mvPythonDataType::String, "format"},
-			{mvPythonDataType::String, "callback", "Registers a callback"},
+			{mvPythonDataType::Object, "callback", "Registers a callback"},
+			{mvPythonDataType::Object, "callback_data", "Callback data"},
 			{mvPythonDataType::String, "tip", "Adds a simple tooltip"},
 			{mvPythonDataType::String, "parent", "Parent this item will be added to. (runtime adding)"},
 			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)"},
@@ -665,7 +677,8 @@ namespace Marvel {
 			{mvPythonDataType::Float, "min_value"},
 			{mvPythonDataType::Float, "max_value"},
 			{mvPythonDataType::String, "format"},
-			{mvPythonDataType::String, "callback", "Registers a callback"},
+			{mvPythonDataType::Object, "callback", "Registers a callback"},
+			{mvPythonDataType::Object, "callback_data", "Callback data"},
 			{mvPythonDataType::String, "tip", "Adds a simple tooltip"},
 			{mvPythonDataType::String, "parent", "Parent this item will be added to. (runtime adding)"},
 			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)"},
@@ -682,7 +695,8 @@ namespace Marvel {
 			{mvPythonDataType::Integer, "max_value"},
 			{mvPythonDataType::String, "format"},
 			{mvPythonDataType::Bool, "vertical", "sets orientation to vertical"},
-			{mvPythonDataType::String, "callback", "Registers a callback"},
+			{mvPythonDataType::Object, "callback", "Registers a callback"},
+			{mvPythonDataType::Object, "callback_data", "Callback data"},
 			{mvPythonDataType::String, "tip", "Adds a simple tooltip"},
 			{mvPythonDataType::String, "parent", "Parent this item will be added to. (runtime adding)"},
 			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)"},
@@ -699,7 +713,8 @@ namespace Marvel {
 			{mvPythonDataType::Integer, "min_value"},
 			{mvPythonDataType::Integer, "max_value"},
 			{mvPythonDataType::String, "format"},
-			{mvPythonDataType::String, "callback", "Registers a callback"},
+			{mvPythonDataType::Object, "callback", "Registers a callback"},
+			{mvPythonDataType::Object, "callback_data", "Callback data"},
 			{mvPythonDataType::String, "tip", "Adds a simple tooltip"},
 			{mvPythonDataType::String, "parent", "Parent this item will be added to. (runtime adding)"},
 			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)"},
@@ -715,7 +730,8 @@ namespace Marvel {
 			{mvPythonDataType::Integer, "min_value"},
 			{mvPythonDataType::Integer, "max_value"},
 			{mvPythonDataType::String, "format"},
-			{mvPythonDataType::String, "callback", "Registers a callback"},
+			{mvPythonDataType::Object, "callback", "Registers a callback"},
+			{mvPythonDataType::Object, "callback_data", "Callback data"},
 			{mvPythonDataType::String, "tip", "Adds a simple tooltip"},
 			{mvPythonDataType::String, "parent", "Parent this item will be added to. (runtime adding)"},
 			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)"},
@@ -731,7 +747,8 @@ namespace Marvel {
 			{mvPythonDataType::Integer, "min_value"},
 			{mvPythonDataType::Integer, "max_value"},
 			{mvPythonDataType::String, "format"},
-			{mvPythonDataType::String, "callback", "Registers a callback"},
+			{mvPythonDataType::Object, "callback", "Registers a callback"},
+			{mvPythonDataType::Object, "callback_data", "Callback data"},
 			{mvPythonDataType::String, "tip", "Adds a simple tooltip"},
 			{mvPythonDataType::String, "parent", "Parent this item will be added to. (runtime adding)"},
 			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)"},
@@ -751,7 +768,8 @@ namespace Marvel {
 			{mvPythonDataType::Float, "min_value"},
 			{mvPythonDataType::Float, "max_value"},
 			{mvPythonDataType::String, "format"},
-			{mvPythonDataType::String, "callback", "Registers a callback"},
+			{mvPythonDataType::Object, "callback", "Registers a callback"},
+			{mvPythonDataType::Object, "callback_data", "Callback data"},
 			{mvPythonDataType::String, "tip", "Adds a simple tooltip"},
 			{mvPythonDataType::String, "parent", "Parent this item will be added to. (runtime adding)"},
 			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)"},
@@ -768,7 +786,8 @@ namespace Marvel {
 			{mvPythonDataType::Float, "min_value"},
 			{mvPythonDataType::Float, "max_value"},
 			{mvPythonDataType::String, "format"},
-			{mvPythonDataType::String, "callback", "Registers a callback"},
+			{mvPythonDataType::Object, "callback", "Registers a callback"},
+			{mvPythonDataType::Object, "callback_data", "Callback data"},
 			{mvPythonDataType::String, "tip", "Adds a simple tooltip"},
 			{mvPythonDataType::String, "parent", "Parent this item will be added to. (runtime adding)"},
 			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)"},
@@ -785,7 +804,8 @@ namespace Marvel {
 			{mvPythonDataType::Float, "min_value"},
 			{mvPythonDataType::Float, "max_value"},
 			{mvPythonDataType::String, "format"},
-			{mvPythonDataType::String, "callback", "Registers a callback"},
+			{mvPythonDataType::Object, "callback", "Registers a callback"},
+			{mvPythonDataType::Object, "callback_data", "Callback data"},
 			{mvPythonDataType::String, "tip", "Adds a simple tooltip"},
 			{mvPythonDataType::String, "parent", "Parent this item will be added to. (runtime adding)"},
 			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)"},
@@ -802,7 +822,8 @@ namespace Marvel {
 			{mvPythonDataType::Float, "min_value"},
 			{mvPythonDataType::Float, "max_value"},
 			{mvPythonDataType::String, "format"},
-			{mvPythonDataType::String, "callback", "Registers a callback"},
+			{mvPythonDataType::Object, "callback", "Registers a callback"},
+			{mvPythonDataType::Object, "callback_data", "Callback data"},
 			{mvPythonDataType::String, "tip", "Adds a simple tooltip"},
 			{mvPythonDataType::String, "parent", "Parent this item will be added to. (runtime adding)"},
 			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)"},
@@ -819,7 +840,8 @@ namespace Marvel {
 			{mvPythonDataType::Integer, "min_value"},
 			{mvPythonDataType::Integer, "max_value"},
 			{mvPythonDataType::String, "format"},
-			{mvPythonDataType::String, "callback", "Registers a callback"},
+			{mvPythonDataType::Object, "callback", "Registers a callback"},
+			{mvPythonDataType::Object, "callback_data", "Callback data"},
 			{mvPythonDataType::String, "tip", "Adds a simple tooltip"},
 			{mvPythonDataType::String, "parent", "Parent this item will be added to. (runtime adding)"},
 			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)"},
@@ -836,7 +858,8 @@ namespace Marvel {
 			{mvPythonDataType::Integer, "min_value"},
 			{mvPythonDataType::Integer, "max_value"},
 			{mvPythonDataType::String, "format"},
-			{mvPythonDataType::String, "callback", "Registers a callback"},
+			{mvPythonDataType::Object, "callback", "Registers a callback"},
+			{mvPythonDataType::Object, "callback_data", "Callback data"},
 			{mvPythonDataType::String, "tip", "Adds a simple tooltip"},
 			{mvPythonDataType::String, "parent", "Parent this item will be added to. (runtime adding)"},
 			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)"},
@@ -853,7 +876,8 @@ namespace Marvel {
 			{mvPythonDataType::Integer, "min_value"},
 			{mvPythonDataType::Integer, "max_value"},
 			{mvPythonDataType::String, "format"},
-			{mvPythonDataType::String, "callback", "Registers a callback"},
+			{mvPythonDataType::Object, "callback", "Registers a callback"},
+			{mvPythonDataType::Object, "callback_data", "Callback data"},
 			{mvPythonDataType::String, "tip", "Adds a simple tooltip"},
 			{mvPythonDataType::String, "parent", "Parent this item will be added to. (runtime adding)"},
 			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)"},
@@ -870,7 +894,8 @@ namespace Marvel {
 			{mvPythonDataType::Integer, "min_value"},
 			{mvPythonDataType::Integer, "max_value"},
 			{mvPythonDataType::String, "format"},
-			{mvPythonDataType::String, "callback", "Registers a callback"},
+			{mvPythonDataType::Object, "callback", "Registers a callback"},
+			{mvPythonDataType::Object, "callback_data", "Callback data"},
 			{mvPythonDataType::String, "tip", "Adds a simple tooltip"},
 			{mvPythonDataType::String, "parent", "Parent this item will be added to. (runtime adding)"},
 			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)"},
@@ -886,7 +911,8 @@ namespace Marvel {
 			{mvPythonDataType::String, "name"},
 			{mvPythonDataType::StringList, "headers"},
 			{mvPythonDataType::KeywordOnly},
-			{mvPythonDataType::String, "callback", "Registers a callback"},
+			{mvPythonDataType::Object, "callback", "Registers a callback"},
+			{mvPythonDataType::Object, "callback_data", "Callback data"},
 			{mvPythonDataType::String, "parent", "Parent this item will be added to. (runtime adding)"},
 			{mvPythonDataType::String, "before","This item will be displayed before the specified item in the parent. (runtime adding)"}
 		}, "Adds table.", "None", "Tables") });
@@ -1010,7 +1036,7 @@ namespace Marvel {
 
 		parsers->insert({ "get_item_callback", mvPythonParser({
 			{mvPythonDataType::String, "item"}
-		}, "Returns an item' callback", "str", "Widget Commands") });
+		}, "Returns an item' callback", "Callable", "Widget Commands") });
 
 		parsers->insert({ "get_item_height", mvPythonParser({
 			{mvPythonDataType::String, "item"}
@@ -1101,7 +1127,9 @@ namespace Marvel {
 
 		parsers->insert({ "set_item_callback", mvPythonParser({
 			{mvPythonDataType::String, "item"},
-			{mvPythonDataType::String, "callback"}
+			{mvPythonDataType::Object, "callback", "Registers a callback"},
+			{mvPythonDataType::Optional},
+			{mvPythonDataType::Object, "callback_data", "Callback data"},
 		}, "Sets an item's callback if applicable.", "None", "Widget Commands") });
 
 		parsers->insert({ "set_item_popup", mvPythonParser({
@@ -1441,7 +1469,8 @@ namespace Marvel {
 		parsers->insert({ "add_menu_item", mvPythonParser({
 			{mvPythonDataType::String, "name"},
 			{mvPythonDataType::KeywordOnly},
-			{mvPythonDataType::String, "callback", "Registers a callback"},
+			{mvPythonDataType::Object, "callback", "Registers a callback"},
+			{mvPythonDataType::Object, "callback_data", "Callback data"},
 			{mvPythonDataType::String, "tip", "Adds a simple tooltip"},
 			{mvPythonDataType::String, "parent", "Parent this item will be added to. (runtime adding)"},
 			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)"},
@@ -1535,7 +1564,8 @@ namespace Marvel {
 			{mvPythonDataType::StringList, "items"},
 			{mvPythonDataType::KeywordOnly},
 			{mvPythonDataType::Integer, "default_value"},
-			{mvPythonDataType::String, "callback", "Registers a callback"},
+			{mvPythonDataType::Object, "callback", "Registers a callback"},
+			{mvPythonDataType::Object, "callback_data", "Callback data"},
 			{mvPythonDataType::String, "tip", "Adds a simple tooltip"},
 			{mvPythonDataType::String, "parent", "Parent this item will be added to. (runtime adding)"},
 			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)"},
@@ -1550,7 +1580,8 @@ namespace Marvel {
 			{mvPythonDataType::StringList, "items"},
 			{mvPythonDataType::KeywordOnly},
 			{mvPythonDataType::String, "default_value"},
-			{mvPythonDataType::String, "callback", "Registers a callback"},
+			{mvPythonDataType::Object, "callback", "Registers a callback"},
+			{mvPythonDataType::Object, "callback_data", "Callback data"},
 			{mvPythonDataType::String, "tip", "Adds a simple tooltip"},
 			{mvPythonDataType::String, "parent", "Parent this item will be added to. (runtime adding)"},
 			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)"},
@@ -1563,7 +1594,8 @@ namespace Marvel {
 			{mvPythonDataType::String, "name"},
 			{mvPythonDataType::KeywordOnly},
 			{mvPythonDataType::Bool, "default_value"},
-			{mvPythonDataType::String, "callback", "Registers a callback"},
+			{mvPythonDataType::Object, "callback", "Registers a callback"},
+			{mvPythonDataType::Object, "callback_data", "Callback data"},
 			{mvPythonDataType::String, "tip", "Adds a simple tooltip"},
 			{mvPythonDataType::String, "parent", "Parent this item will be added to. (runtime adding)"},
 			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)"},
@@ -1576,7 +1608,8 @@ namespace Marvel {
 			{mvPythonDataType::Bool, "small", "Small button, useful for embedding in text."},
 			{mvPythonDataType::Bool, "arrow", "Arrow button."},
 			{mvPythonDataType::Integer, "direction", "A cardinal direction"},
-			{mvPythonDataType::String, "callback", "Registers a callback"},
+			{mvPythonDataType::Object, "callback", "Registers a callback"},
+			{mvPythonDataType::Object, "callback_data", "Callback data"},
 			{mvPythonDataType::String, "tip", "Adds a simple tooltip"},
 			{mvPythonDataType::String, "parent", "Parent to add this item to. (runtime adding)"},
 			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)"},
@@ -1623,7 +1656,8 @@ namespace Marvel {
 			{mvPythonDataType::StringList, "items"},
 			{mvPythonDataType::KeywordOnly},
 			{mvPythonDataType::Integer, "default_value"},
-			{mvPythonDataType::String, "callback", "Registers a callback"},
+			{mvPythonDataType::Object, "callback", "Registers a callback"},
+			{mvPythonDataType::Object, "callback_data", "Callback data"},
 			{mvPythonDataType::String, "tip", "Adds a simple tooltip"},
 			{mvPythonDataType::String, "parent", "Parent to add this item to. (runtime adding)"},
 			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)"},
@@ -1635,7 +1669,8 @@ namespace Marvel {
 			{mvPythonDataType::String, "name"},
 			{mvPythonDataType::KeywordOnly},
 			{mvPythonDataType::IntList, "default_value"},
-			{mvPythonDataType::String, "callback", "Registers a callback"},
+			{mvPythonDataType::Object, "callback", "Registers a callback"},
+			{mvPythonDataType::Object, "callback_data", "Callback data"},
 			{mvPythonDataType::String, "tip", "Adds a simple tooltip"},
 			{mvPythonDataType::String, "parent", "Parent to add this item to. (runtime adding)"},
 			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)"},
@@ -1648,7 +1683,8 @@ namespace Marvel {
 			{mvPythonDataType::String, "name"},
 			{mvPythonDataType::KeywordOnly},
 			{mvPythonDataType::IntList, "default_value"},
-			{mvPythonDataType::String, "callback", "Registers a callback"},
+			{mvPythonDataType::Object, "callback", "Registers a callback"},
+			{mvPythonDataType::Object, "callback_data", "Callback data"},
 			{mvPythonDataType::String, "tip", "Adds a simple tooltip"},
 			{mvPythonDataType::String, "parent", "Parent to add this item to. (runtime adding)"},
 			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)"},
@@ -1661,7 +1697,8 @@ namespace Marvel {
 			{mvPythonDataType::String, "name"},
 			{mvPythonDataType::KeywordOnly},
 			{mvPythonDataType::IntList, "default_value"},
-			{mvPythonDataType::String, "callback", "Registers a callback"},
+			{mvPythonDataType::Object, "callback", "Registers a callback"},
+			{mvPythonDataType::Object, "callback_data", "Callback data"},
 			{mvPythonDataType::String, "tip", "Adds a simple tooltip"},
 			{mvPythonDataType::String, "parent", "Parent to add this item to. (runtime adding)"},
 			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)"},
@@ -1674,7 +1711,8 @@ namespace Marvel {
 			{mvPythonDataType::String, "name"},
 			{mvPythonDataType::KeywordOnly},
 			{mvPythonDataType::IntList, "default_value"},
-			{mvPythonDataType::String, "callback", "Registers a callback"},
+			{mvPythonDataType::Object, "callback", "Registers a callback"},
+			{mvPythonDataType::Object, "callback_data", "Callback data"},
 			{mvPythonDataType::String, "tip", "Adds a simple tooltip"},
 			{mvPythonDataType::String, "parent", "Parent to add this item to. (runtime adding)"},
 			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)"},
@@ -1687,7 +1725,8 @@ namespace Marvel {
 			{mvPythonDataType::String, "name"},
 			{mvPythonDataType::KeywordOnly},
 			{mvPythonDataType::Integer, "default_value"},
-			{mvPythonDataType::String, "callback", "Registers a callback"},
+			{mvPythonDataType::Object, "callback", "Registers a callback"},
+			{mvPythonDataType::Object, "callback_data", "Callback data"},
 			{mvPythonDataType::String, "tip", "Adds a simple tooltip"},
 			{mvPythonDataType::String, "parent", "Parent to add this item to. (runtime adding)"},
 			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)"},
@@ -1701,7 +1740,8 @@ namespace Marvel {
 			{mvPythonDataType::String, "name"},
 			{mvPythonDataType::KeywordOnly},
 			{mvPythonDataType::Bool, "reorderable", "allows for moveable tabs"},
-			{mvPythonDataType::String, "callback", "Registers a callback"},
+			{mvPythonDataType::Object, "callback", "Registers a callback"},
+			{mvPythonDataType::Object, "callback_data", "Callback data"},
 			{mvPythonDataType::String, "parent", "Parent to add this item to. (runtime adding)"},
 			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)"},
 			{mvPythonDataType::String, "data_source", "data source for shared data"},
@@ -1776,7 +1816,7 @@ namespace Marvel {
 			{mvPythonDataType::Bool, "title_bar", "Title name for the title bar of the window"},
 			{mvPythonDataType::Bool, "movable", "Allows for the window's position to be changed or fixed"},
 			{mvPythonDataType::Bool, "hide", "Hides window."},
-			{mvPythonDataType::String, "on_close", "Callback ran when window is closed"},
+			{mvPythonDataType::Object, "on_close", "Callback ran when window is closed"},
 		}, "Creates a new window for following items to be added to.", 
 			"None", "Containers") });
 
@@ -1811,7 +1851,7 @@ namespace Marvel {
 	{
 
 		parsers->insert({ "set_exit_callback", mvPythonParser({
-			{mvPythonDataType::String, "callback"},
+			{mvPythonDataType::Object, "callback"},
 		}, "Callback to run when exiting main window.") });
 
 		parsers->insert({ "set_vsync", mvPythonParser({
@@ -1852,21 +1892,21 @@ namespace Marvel {
 		}, "Returns the global font scale.", "float") });
 
 		parsers->insert({ "run_async_function", mvPythonParser({
-			{mvPythonDataType::String, "name"},
+			{mvPythonDataType::Object, "name"},
 			{mvPythonDataType::Object, "data", "Data that will be sent into the async funstion"},
 			{mvPythonDataType::Optional},
-			{mvPythonDataType::String, "return_handler"},
+			{mvPythonDataType::Object, "return_handler"},
 		}, "Runs a function asyncronously.") });
 
 		parsers->insert({ "open_file_dialog", mvPythonParser({
 			{mvPythonDataType::Optional},
-			{mvPythonDataType::String, "callback"},
+			{mvPythonDataType::Object, "callback"},
 			{mvPythonDataType::String, "extensions", "filters items with extensions i.e '.*, .py'"},
 		}, "Opens an 'open file' dialog.") });
 
 		parsers->insert({ "select_directory_dialog", mvPythonParser({
 			{mvPythonDataType::Optional},
-			{mvPythonDataType::String, "callback"},
+			{mvPythonDataType::Object, "callback"},
 		}, "Opens a select directory dialog.") });
 
 		parsers->insert({ "add_data", mvPythonParser({

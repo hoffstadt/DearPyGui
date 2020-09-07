@@ -23,10 +23,14 @@ HOW TO UPDATE?
 - Please report any issue!
 
 -----------------------------------------------------------------------
- VERSION 0.2.1 WIP
+ VERSION 0.3 WIP
 -----------------------------------------------------------------------
 
-Decorated log: https://github.com/hoffstadt/DearPyGui/releases/tag/v0.2.1
+Decorated log: https://github.com/hoffstadt/DearPyGui/releases/tag/v0.3.0
+
+Breaking Changes:
+
+- Callbacks: All callbacks are now callables (not strings)
 
 Changes:
 - Widgets: Changed "add_item_color style" to "set_item_color"

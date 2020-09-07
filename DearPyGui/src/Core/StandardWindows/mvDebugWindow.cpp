@@ -99,15 +99,6 @@ namespace Marvel {
 				DebugItem("Threadpool Timeout: ", std::to_string(app->getThreadPoolTimeout()).c_str());
 				DebugItem("Threadpool Active: ", app->usingThreadPool() ? ts : fs);
 				DebugItem("Threadpool High: ", app->usingThreadPoolHighPerformance() ? ts : fs);
-				DebugItem("Main Callback: ", app->getRenderCallback().c_str());
-				DebugItem("Mouse Release Callback: ", app->getMouseReleaseCallback().c_str());
-				DebugItem("Mouse Click Callback: ", app->getMouseClickCallback().c_str());
-				DebugItem("Mouse Double Click Callback: ", app->getMouseDoubleClickCallback().c_str());
-				DebugItem("Mouse Drag Callback: ", app->getMouseDragCallback().c_str());
-				DebugItem("Mouse Wheel Callback: ", app->getMouseWheelCallback().c_str());
-				DebugItem("Key Down Callback: ", app->getKeyDownCallback().c_str());
-				DebugItem("Key Press Callback: ", app->getKeyPressCallback().c_str());
-				DebugItem("Key Release Callback: ", app->getKeyReleaseCallback().c_str());
 
 				ImGui::EndGroup();
 				ImGui::PopItemWidth();
@@ -192,7 +183,6 @@ namespace Marvel {
                 DebugItem("Item Parent:", parentName.c_str());
                 DebugItem("Item Width:", width.c_str());
                 DebugItem("Item Height:", height.c_str());
-                DebugItem("Item Callback:", selectedItem->getCallback().c_str());
                 DebugItem("Item Tip:", selectedItem->getTip().c_str());
                 DebugItem("Item Popup:", selectedItem->getPopup().c_str());
                 DebugItem("Item Show:", selectedItem->isShown() ? ts : fs);
@@ -280,7 +270,7 @@ namespace Marvel {
 			mvApp::GetApp()->setActiveWindow("debug##standard");
 
 			// mouse move callback
-			if (!getMouseMoveCallback().empty())
+			if (getMouseMoveCallback() != nullptr)
 			{
 				if (oldMousePos.x != mousePos.x || oldMousePos.y != mousePos.y)
 				{

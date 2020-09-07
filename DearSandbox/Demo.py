@@ -56,29 +56,30 @@ add_additional_font("C:/dev/DearPyGui/Resources/NotoSerifCJKjp-Medium.otf", 20)
 ########################################################################################################################
 # Menu
 ########################################################################################################################
+def ThemeCallback(sender, data):
+    set_theme(sender)
+
 with menu_bar("MenuBar"):
 
     with menu("Themes"):
-        add_menu_item("Dark", callback = "ThemeCallback")
-        add_menu_item("Light", callback = "ThemeCallback")
-        add_menu_item("Classic", callback = "ThemeCallback")
-
-        with menu("Other Themes"):
-            add_menu_item("Dark 2", callback = "ThemeCallback")
-            add_menu_item("Grey", callback = "ThemeCallback")
-            add_menu_item("Dark Grey", callback = "ThemeCallback")
-            add_menu_item("Cherry", callback = "ThemeCallback")
-            add_menu_item("Purple", callback = "ThemeCallback")
-            add_menu_item("Gold", callback = "ThemeCallback")
-            add_menu_item("Red", callback = "ThemeCallback")
+        add_menu_item("Dark", callback = ThemeCallback)
+        add_menu_item("Light", callback = ThemeCallback)
+        add_menu_item("Classic", callback = ThemeCallback)
+        add_menu_item("Dark 2", callback = ThemeCallback)
+        add_menu_item("Grey", callback = ThemeCallback)
+        add_menu_item("Dark Grey", callback = ThemeCallback)
+        add_menu_item("Cherry", callback = ThemeCallback)
+        add_menu_item("Purple", callback = ThemeCallback)
+        add_menu_item("Gold", callback = ThemeCallback)
+        add_menu_item("Red", callback = ThemeCallback)
 
     with menu("Tools"):
-        add_menu_item("Show Logger", callback="show_logger")
-        add_menu_item("Show About", callback="show_about")
-        add_menu_item("Show Metrics", callback="show_metrics")
-        add_menu_item("Show Documentation", callback="show_documentation")
-        add_menu_item("Show Debug", callback="show_debug")
-        add_menu_item("Show Style Editor", callback="show_style_editor")
+        add_menu_item("Show Logger", callback=show_logger)
+        add_menu_item("Show About", callback=show_about)
+        add_menu_item("Show Metrics", callback=show_metrics)
+        add_menu_item("Show Documentation", callback=show_documentation)
+        add_menu_item("Show Debug", callback=show_debug)
+        add_menu_item("Show Style Editor", callback=show_style_editor)
 
     with menu("Oddities"):
         add_button("A Button")
@@ -125,47 +126,49 @@ add_same_line()
 ########################################################################################################################
 # Launchers
 ########################################################################################################################
+def Launcher(sender, data):
+    delete_item(sender + "##checklist")
+    add_label_text(sender + "##checklist", value="Checked", color=[0, 255, 0], parent="CompleteChecklistGroup")
+    show_item(sender + "##dialog")
+
+def TestFileCallback(sender, data):
+    print("Called")
+    print(data)
+
+def OpenFile(sender, data):
+    open_file_dialog(TestFileCallback, ".*,.py")
+
+def OpenDirectory(sender, data):
+    select_directory_dialog(TestFileCallback)
+
 with group("Launch Group", width=200):
-    add_button("Widgets", callback="Launcher")
-    add_button("Drawing API", callback="Launcher")
-    add_button("Plots, Graphs and Charts", callback="Launcher")
-    add_button("Logging", callback="Launcher")
-    add_button("Asyncronous", callback="Launcher")
-    add_button("Input Polling", callback="Launcher")
-    add_button("Input Text", callback="Launcher")
-    add_button("Text Widget", callback="Launcher")
-    add_button("Tooltips/Popups", callback="Launcher")
-    add_button("Tables", callback="Launcher")
-    add_button("Open File", callback="OpenFile")
-    add_button("Open Directory", callback="OpenDirectory")
+    add_button("Widgets", callback=Launcher)
+    add_button("Drawing API", callback=Launcher)
+    add_button("Plots, Graphs and Charts", callback=Launcher)
+    add_button("Logging", callback=Launcher)
+    add_button("Asyncronous", callback=Launcher)
+    add_button("Input Polling", callback=Launcher)
+    add_button("Input Text", callback=Launcher)
+    add_button("Text Widget", callback=Launcher)
+    add_button("Tooltips/Popups", callback=Launcher)
+    add_button("Tables", callback=Launcher)
+    add_button("Open File", callback=OpenFile)
+    add_button("Open Directory", callback=OpenDirectory)
 
 ########################################################################################################################
 # Tables
 ########################################################################################################################
-with window("Tables##dialog", 500, 500, hide=True, on_close="closeit"):
-    add_button("Delete row 6", callback="DeleteRow")
-    add_button("Delete col 1", callback="DeleteCol")
-    add_button("Add row ", callback="AddRow")
-    add_button("Add col ", callback="AddCol")
-    add_button("Insert row 5", callback="InsertRow")
-    add_button("Insert col 1 ", callback="InsertCol")
-    add_button("Clear Table ", callback="ClearTable")
-    add_table("Table##widget", ["Column 1", "Column 2", "Column 3", "Column 4"])
+def closeit(sender, data):
+    items = get_windows()
+    for item in items:
+        print(item)
+    print("closing tables")
 
-    def closeit(sender, data):
-        items = get_windows()
-        for item in items:
-            print(item)
-        print("closing tables")
+    print(does_item_exist("Widgets"))
+    callback = get_item_callback("Widgets")
+    callback("Widgets", None)
 
-    tabledata = []
-    for i in range(0, 10):
-        row = []
-        for j in range(0, 4):
-            row.append("Item"+str(i)+"-"+str(j))
-        tabledata.append(row)
-
-    set_value("Table##widget", tabledata)
+with window("Tables##dialog", 500, 500, hide=True, on_close=closeit):
 
     def ClearTable(sender, data):
         clear_table("Table##widget")
@@ -188,6 +191,24 @@ with window("Tables##dialog", 500, 500, hide=True, on_close="closeit"):
     def InsertCol(sender, data):
         insert_column("Table##widget", 1,  "Inserted Column", ["inew1", "inew2", "inew3", "inew4"])
 
+    add_button("Delete row 6", callback=DeleteRow)
+    add_button("Delete col 1", callback=DeleteCol)
+    add_button("Add row ", callback=AddRow)
+    add_button("Add col ", callback=AddCol)
+    add_button("Insert row 5", callback=InsertRow)
+    add_button("Insert col 1 ", callback=InsertCol)
+    add_button("Clear Table ", callback=ClearTable)
+    add_table("Table##widget", ["Column 1", "Column 2", "Column 3", "Column 4"])
+
+    tabledata = []
+    for i in range(0, 10):
+        row = []
+        for j in range(0, 4):
+            row.append("Item"+str(i)+"-"+str(j))
+        tabledata.append(row)
+
+    set_value("Table##widget", tabledata)
+
 ########################################################################################################################
 # Tooltips and Popups
 ########################################################################################################################
@@ -200,7 +221,7 @@ with window("Tooltips/Popups##dialog", 200, 200, hide=True):
     add_button("Modal Window")
     with popup("Modal Window", "ModalPopup", modal=True):
         add_simple_plot("Simpleplot##modal", (0.3, 0.9, 2.5, 8.9), height = 80)
-        add_button("Close Window##modal", callback="close_popup")
+        add_button("Close Window##modal", callback=close_popup)
     add_text("Right Click Me", tip="not hooked up")
 
 ########################################################################################################################
@@ -229,8 +250,20 @@ with window("Input Text##dialog", 500, 500, autosize=True, hide=True):
 ########################################################################################################################
 # Widgets
 ########################################################################################################################
+def RetrieveValues(sender, data):
+
+    # update checklist
+    delete_item("Widgets##checklist")
+    add_label_text("Widgets##checklist", value="Checked", color=[0, 255, 0], parent="ChecklistGroup")
+
+    show_logger()
+
+    items = get_item_children("Basic Widgets##widget")
+    for item in items:
+        log_info(item + ":\t" + str(get_value(item)))
+
 with window("Widgets##dialog", 500, 500, hide=True):
-    add_button("Get Widget Values", callback="RetrieveValues")
+    add_button("Get Widget Values", callback=RetrieveValues)
 
     with tab_bar("Tab Bar##widget"):
 
@@ -303,7 +336,20 @@ with window("Widgets##dialog", 500, 500, hide=True):
 # Logger
 ########################################################################################################################
 with window("Logging##dialog", 500, 500, autosize=True, hide=True):
-    add_button("Test Logger", callback="LogCallback")
+
+    def LogCallback(sender, data):
+        show_logger()
+        clear_log()
+        loglevel = get_value("Log Level##logging")
+        set_log_level(loglevel)
+        print("Python Print")
+        log("Trace Message")
+        log_debug("Debug Message")
+        log_info("Info Message")
+        log_warning("Warning Message")
+        log_error("Error Message")
+
+    add_button("Test Logger", callback=LogCallback)
     add_same_line(spacing=10)
     with group("LoggingGroup"):
         add_text("Log Level")
@@ -313,17 +359,6 @@ with window("Logging##dialog", 500, 500, autosize=True, hide=True):
 # Plots
 ########################################################################################################################
 with window("Plots, Graphs and Charts##dialog", 500, 500, hide=True):
-
-    with tab_bar("PlotTabBar"):
-
-        with tab("Plot Widget"):
-            add_button("Plot data", callback="PlotCallback")
-            add_listbox("Colormaps", ("Default", "Dark", "Pastel", "Paired", "Viridis", "Plasma", "Hot", "Cool", "Pink", "Jet"), width=500, height=3, callback="colormapCallback")
-            add_plot("Plot", "x-axis", "y-axis", height=-1);
-
-        with tab("Simple Plots"):
-            add_simple_plot("Simpleplot1", (0.3, 0.9, 2.5, 8.9))
-            add_simple_plot("Simpleplot2", (0.3, 0.9, 2.5, 8.9), overlay="Overlaying", height=180, histogram=True)
 
     def PlotCallback(sender, data):
 
@@ -337,17 +372,38 @@ with window("Plots, Graphs and Charts##dialog", 500, 500, hide=True):
         add_scatter_series("Plot", "Sin", data1)
         add_area_series("Plot", "Custom", data3, [255, 255, 0], [255, 255, 0, 100])
 
+    def colormapCallback(sender, data):
+        value = get_value("Colormaps")
+        set_color_map("Plot", value)
+
+    with tab_bar("PlotTabBar"):
+
+        with tab("Plot Widget"):
+            add_button("Plot data", callback=PlotCallback)
+            add_listbox("Colormaps", ("Default", "Dark", "Pastel", "Paired", "Viridis", "Plasma", "Hot", 
+                                      "Cool", "Pink", "Jet"), width=500, height=3, callback=colormapCallback)
+            add_plot("Plot", "x-axis", "y-axis", height=-1);
+
+        with tab("Simple Plots"):
+            add_simple_plot("Simpleplot1", (0.3, 0.9, 2.5, 8.9))
+            add_simple_plot("Simpleplot2", (0.3, 0.9, 2.5, 8.9), overlay="Overlaying", height=180, histogram=True)
+
 ########################################################################################################################
 # Canvas
 ########################################################################################################################
 with window("Drawing API##dialog", autosize=True, hide=True):
+
+    def UpdateDrawing(sender, data):
+        set_drawing_origin("drawing##widget", get_value("X Origin"), get_value("Y Origin"))
+        set_drawing_scale("drawing##widget", get_value("X Scale "), get_value("Y Scale"))
+
     with group("Drawing Controls Group"):
-        add_slider_float("X Origin", vertical=True, min_value = -100, max_value=100, default_value=0, callback="UpdateDrawing")
+        add_slider_float("X Origin", vertical=True, min_value = -100, max_value=100, default_value=0, callback=UpdateDrawing)
         add_same_line(spacing=20)
-        add_slider_float("Y Origin", vertical=True, min_value = -100, max_value=100, default_value=0, callback="UpdateDrawing")
-        add_slider_float("X Scale ", vertical=True, max_value=10, default_value=1, callback="UpdateDrawing")
+        add_slider_float("Y Origin", vertical=True, min_value = -100, max_value=100, default_value=0, callback=UpdateDrawing)
+        add_slider_float("X Scale ", vertical=True, max_value=10, default_value=1, callback=UpdateDrawing)
         add_same_line(spacing=20)
-        add_slider_float("Y Scale", vertical=True, max_value=10, default_value=1, callback="UpdateDrawing")
+        add_slider_float("Y Scale", vertical=True, max_value=10, default_value=1, callback=UpdateDrawing)
     add_same_line(spacing=20)
     add_drawing("drawing##widget", width=800, height=500)
     draw_rectangle("drawing##widget", (0, 500), (800, 0), (255, 0, 0, 255), fill=(0, 0, 25, 255), rounding=12, thickness = 1.0)
@@ -363,16 +419,30 @@ with window("Drawing API##dialog", autosize=True, hide=True):
     draw_arrow("drawing##widget", (50, 70), (100, 65), (0, 200, 255), 1, 10)
     #draw_image("drawing##widget", "C:/dev/DearPyGui/Examples/SpriteMapExample.png", pmin=[200, 200])
 
-    def UpdateDrawing(sender, data):
-        set_drawing_origin("drawing##widget", get_value("X Origin"), get_value("Y Origin"))
-        set_drawing_scale("drawing##widget", get_value("X Scale "), get_value("Y Scale"))
-
 ########################################################################################################################
 # Asyncronous
 ########################################################################################################################
 with window("Asyncronous##dialog", hide=True):
-    add_button("Start Long Process", callback="LongCallback")
-    add_button("Start Long Asyncronous Process", callback="LongAsyncronousCallback")
+
+    def LongCallback2(sender, data):
+        for i in range(0, 10000000):
+            pass
+        log_info("Done with process from " + data)
+        return 42
+
+    def ReturnFromLongProcess(sender, data):
+        log_info("Data returned to main thread: " + str(data))
+
+    def LongAsyncronousCallback(sender, data):
+        run_async_function(LongCallback2, "some_data", return_handler=ReturnFromLongProcess)
+
+    def LongCallback(sender, data):
+        for i in range(0, 10000000):
+            pass
+        log_info("Done with long process")
+
+    add_button("Start Long Process", callback=LongCallback)
+    add_button("Start Long Asyncronous Process", callback=LongAsyncronousCallback)
 
 ########################################################################################################################
 # Input Polling
@@ -401,11 +471,6 @@ with window("Input Polling##dialog", hide=True, autosize=True):
     add_label_text("Middle Mouse Released", "False", color=(0,200,255))
     add_label_text("Right Mouse Released", "False", color=(0,200,255))
 
-# callbacks
-
-set_render_callback("InputPollingMainCallback", "Input Polling##dialog")
-set_mouse_move_callback("mouse_move_callback", "Input Polling##dialog")
-set_mouse_release_callback("mouse_move_callback")
 
 def mouse_move_callback(sender, data):
 
@@ -511,109 +576,15 @@ def InputPollingMainCallback(sender, data):
     else:
         set_value("Middle Mouse Released", "False")
 
-def colormapCallback(sender, data):
-    value = get_value("Colormaps")
-    set_color_map("Plot", value)
-
-def LongAsyncronousCallback(sender, data):
-    run_async_function("LongCallback2", "some_data", return_handler="ReturnFromLongProcess")
-
-def LongCallback(sender, data):
-    for i in range(0, 10000000):
-        pass
-    log_info("Done with long process")
-
-def LongCallback2(sender, data):
-    for i in range(0, 10000000):
-        pass
-    log_info("Done with process from " + data)
-    return 42
-
-def ReturnFromLongProcess(sender, data):
-    log_info("Data returned to main thread: " + str(data))
-
-def Launcher(sender, data):
-
-    delete_item(sender + "##checklist")
-    add_label_text(sender + "##checklist", value="Checked", color=[0, 255, 0], parent="CompleteChecklistGroup")
-    show_item(sender + "##dialog")
-
-def ThemeCallback(sender, data):
-    set_theme(sender)
-
-def LogCallback(sender, data):
-    show_logger()
-    clear_log()
-    loglevel = get_value("Log Level##logging")
-    set_log_level(loglevel)
-    print("Python Print")
-    log("Trace Message")
-    log_debug("Debug Message")
-    log_info("Info Message")
-    log_warning("Warning Message")
-    log_error("Error Message")
-
-
-
-def RetrieveValues(sender, data):
-
-    # update checklist
-    delete_item("Widgets##checklist")
-    add_label_text("Widgets##checklist", value="Checked", color=[0, 255, 0], parent="ChecklistGroup")
-
-    show_logger()
-    log_info("Data Storage:" + str(get_data("DataStorage1")))
-    log_info("Checkbox: " + str(get_value("Checkbox##widget")))
-    log_info("Combo: " + str(get_value("Combo##widget")))
-    log_info("Radio Button: " + str(get_value("Radio Button##widget")))
-    log_info("Listbox: " + str(get_value("Listbox##widget")))
-    log_info("Progress Bar: " + str(get_value("Progress Bar##widget")))
-    log_info("Selectable: " + str(get_value("Selectable##widget")))
-    log_info("Input Text: " + str(get_value("Input Text##widget")))
-    log_info("Input Float: " + str(get_value("Input Float##widget")))
-    log_info("Input Float2: " + str(get_value("Input Float2##widget")))
-    log_info("Input Float3: " + str(get_value("Input Float3##widget")))
-    log_info("Input Float4: " + str(get_value("Input Float4##widget")))
-    log_info("Input Int: " + str(get_value("Input Int##widget")))
-    log_info("Input Int2: " + str(get_value("Input Int2##widget")))
-    log_info("Input Int3: " + str(get_value("Input Int3##widget")))
-    log_info("Input Int4: " + str(get_value("Input Int4##widget")))
-    log_info("Drag Float: " + str(get_value("Drag Float##widget")))
-    log_info("Drag Float2: " + str(get_value("Drag Float2##widget")))
-    log_info("Drag Float3: " + str(get_value("Drag Float3##widget")))
-    log_info("Drag Float4: " + str(get_value("Drag Float4##widget")))
-    log_info("Drag Int: " + str(get_value("Drag Int##widget")))
-    log_info("Drag Int2: " + str(get_value("Drag Int2##widget")))
-    log_info("Drag Int3: " + str(get_value("Drag Int3##widget")))
-    log_info("Drag Int4: " + str(get_value("Drag Int4##widget")))
-    log_info("Slider Float: " + str(get_value("Slider Float##widget")))
-    log_info("Slider Float2: " + str(get_value("Slider Float2##widget")))
-    log_info("Slider Float3: " + str(get_value("Slider Float3##widget")))
-    log_info("Slider Float4: " + str(get_value("Slider Float4##widget")))
-    log_info("Slider Int: " + str(get_value("Slider Int##widget")))
-    log_info("Slider Int2: " + str(get_value("Slider Int2##widget")))
-    log_info("Slider Int3: " + str(get_value("Slider Int3##widget")))
-    log_info("Slider Int4: " + str(get_value("Slider Int4##widget")))
-    log_info("Color Edit3: " + str(get_value("Color Edit3##widget")))
-    log_info("Color Edit4: " + str(get_value("Color Edit4##widget")))
-    log_info("Color Picker3: " + str(get_value("Color Picker3##widget")))
-    log_info("Color Picker4: " + str(get_value("Color Picker4##widget")))
-    log_info("Tab Bar: " + str(get_value("Tab Bar##widget")))
-
-def OpenFile(sender, data):
-    open_file_dialog("TestFileCallback", ".*,.py")
-
-def OpenDirectory(sender, data):
-    select_directory_dialog("TestFileCallback")
-
-def TestFileCallback(sender, data):
-    print("Called")
-    print(data)
-
-#start_dearpygui()
+set_render_callback(InputPollingMainCallback, "Input Polling##dialog")
+set_mouse_move_callback(mouse_move_callback, "Input Polling##dialog")
+set_mouse_release_callback(mouse_move_callback)
 
 setup_dearpygui()
 while is_dearpygui_running():
-    # do other stuff
+
+    set_item_callback("Widgets", Launcher)
+
     render_dearpygui_frame()
-cleanup_dearpygui()
+
+cleanup_dearpyui()
