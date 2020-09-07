@@ -1479,7 +1479,7 @@ namespace Marvel {
 
 	static void AddBasicWidgets(std::map<std::string, mvPythonParser>* parsers)
 	{
-		parsers->insert({ "add_seperator", mvPythonParser({
+		parsers->insert({ "add_separator", mvPythonParser({
 			{mvPythonDataType::KeywordOnly},
 			{mvPythonDataType::String, "name"},
 			{mvPythonDataType::String, "tip", "Adds a simple tooltip"},

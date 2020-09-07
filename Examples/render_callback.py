@@ -83,7 +83,7 @@ add_text("If delta time is not checked, the position calculation is frame rate b
 add_text("The threshold in the mouse drag callback is the distance a drag needs to be (in pixels) to register.", bullet=True)
 
 add_spacing()
-add_seperator()
+add_separator()
 add_spacing()
 
 add_slider_int("Horizontal Speed", default_value=1)

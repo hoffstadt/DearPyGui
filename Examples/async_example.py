@@ -36,7 +36,7 @@ add_text("If you need to return something from the asyncronous function, just re
 
 
 add_spacing()
-add_seperator()
+add_separator()
 add_spacing()
 
 add_button("Start Long Process", callback=long_callback)

@@ -4792,16 +4792,16 @@ namespace Marvel {
 		return ToPyBool(false);
 	}
 
-	PyObject* add_seperator(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* add_separator(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		static int i = 0; i++;
-		std::string sname = std::string("seperator" + std::to_string(i));
+		std::string sname = std::string("separator" + std::to_string(i));
 		const char* name = sname.c_str();
 		const char* tip = "";
 		const char* parent = "";
 		const char* before = "";
 
-		if (!(*mvApp::GetApp()->getParsers())["add_seperator"].parse(args, kwargs, __FUNCTION__, &name, &tip, &parent, &before))
+		if (!(*mvApp::GetApp()->getParsers())["add_separator"].parse(args, kwargs, __FUNCTION__, &name, &tip, &parent, &before))
 			return ToPyBool(false);
 
 		mvAppItem* item = new mvSeparator("", name);
@@ -6988,7 +6988,7 @@ namespace Marvel {
 		ADD_PYTHON_FUNCTION(add_color_edit4)
 		ADD_PYTHON_FUNCTION(add_color_picker3)
 		ADD_PYTHON_FUNCTION(add_color_picker4)
-		ADD_PYTHON_FUNCTION(add_seperator)
+		ADD_PYTHON_FUNCTION(add_separator)
 		ADD_PYTHON_FUNCTION(add_button)
 		ADD_PYTHON_FUNCTION(add_input_text)
 		ADD_PYTHON_FUNCTION(add_input_int)

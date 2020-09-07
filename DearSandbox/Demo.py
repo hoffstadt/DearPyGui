@@ -582,9 +582,5 @@ set_mouse_release_callback(mouse_move_callback)
 
 setup_dearpygui()
 while is_dearpygui_running():
-
-    set_item_callback("Widgets", Launcher)
-
     render_dearpygui_frame()
-
 cleanup_dearpyui()

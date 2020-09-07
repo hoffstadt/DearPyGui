@@ -25,18 +25,6 @@
       "variables": []
     },
     {
-      "name": "x86-Release",
-      "generator": "Ninja",
-      "configurationType": "Release",
-      "buildRoot": "${projectDir}\\cmake-build-release32",
-      "installRoot": "${projectDir}\\out\\install\\${name}",
-      "cmakeCommandArgs": "",
-      "buildCommandArgs": "",
-      "ctestCommandArgs": "",
-      "inheritEnvironments": [ "msvc_x86" ],
-      "variables": []
-    },
-    {
       "name": "x64-Clang-Debug",
       "generator": "Ninja",
       "configurationType": "Debug",
