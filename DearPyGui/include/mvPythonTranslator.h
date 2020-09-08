@@ -40,25 +40,25 @@ namespace Marvel {
 	// mvPythonTranslator
 	//-----------------------------------------------------------------------------
 	// conversion to python
-	PyObject* GetPyNone ();
-	PyObject* ToPyString(const std::string& value);
-	PyObject* ToPyFloat (float value);
-	PyObject* ToPyInt   (int value);
-	PyObject* ToPyBool  (bool value);
-	PyObject* ToPyMPair (int x, float y);
-	PyObject* ToPyPair  (float x, float y);
-	PyObject* ToPyPairII(int x, int y);
-	PyObject* ToPyPair  (const std::string& x, const std::string& y);
-	PyObject* ToPyList  (const std::vector<int>& value);
-	PyObject* ToPyList  (const std::vector<float>& value);
-	PyObject* ToPyList  (const std::vector<std::string>& value);
-	PyObject* ToPyList  (const std::vector<std::vector<std::string>>& value);
-	PyObject* ToPyList  (const std::vector<std::pair<int, int>>& value);
+	PyObject*   GetPyNone ();
+	PyObject*   ToPyString(const std::string& value);
+	PyObject*   ToPyFloat (float value);
+	PyObject*   ToPyInt   (int value);
+	PyObject*   ToPyBool  (bool value);
+	PyObject*   ToPyMPair (int x, float y);
+	PyObject*   ToPyPair  (float x, float y);
+	PyObject*   ToPyPairII(int x, int y);
+	PyObject*   ToPyPair  (const std::string& x, const std::string& y);
+	PyObject*   ToPyList  (const std::vector<int>& value);
+	PyObject*   ToPyList  (const std::vector<float>& value);
+	PyObject*   ToPyList  (const std::vector<std::string>& value);
+	PyObject*   ToPyList  (const std::vector<std::vector<std::string>>& value);
+	PyObject*   ToPyList  (const std::vector<std::pair<int, int>>& value);
 
 	// updates
-	void UpdatePyIntList         (PyObject* pyvalue, const std::vector<int>& value);
-	void UpdatePyFloatList       (PyObject* pyvalue, const std::vector<float>& value);
-	void UpdatePyStringStringList(PyObject* pyvalue, const std::vector<std::vector<std::string>>& value);
+	void        UpdatePyIntList         (PyObject* pyvalue, const std::vector<int>& value);
+	void        UpdatePyFloatList       (PyObject* pyvalue, const std::vector<float>& value);
+	void        UpdatePyStringStringList(PyObject* pyvalue, const std::vector<std::vector<std::string>>& value);
 
 	// conversion to c++
 	int         ToInt   (PyObject* value, const std::string& message = "Type must be an integer.");

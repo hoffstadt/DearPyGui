@@ -10,7 +10,7 @@
 //         * Categorizes Python Commands
 //         * Builds the Python parse string
 //
-//     - Should probably be reworked for v0.2 to be clearer
+//     - Should probably be reworked for v1.0 to be clearer
 //     
 //-----------------------------------------------------------------------------
 
