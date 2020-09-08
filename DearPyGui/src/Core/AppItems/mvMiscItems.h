@@ -10,6 +10,7 @@
 //     * mvSpacing
 //     * mvIndent
 //     * mvUnindent
+//     * mvDummy
 //
 //-----------------------------------------------------------------------------
 
@@ -150,6 +151,30 @@ namespace Marvel {
 		void draw() override
 		{
 			ImGui::Unindent(m_value[0]);
+		}
+
+		[[nodiscard]] bool areDuplicatesAllowed() const override { return true; }
+
+	};
+
+	//-----------------------------------------------------------------------------
+	// mvDummy
+	//-----------------------------------------------------------------------------
+	class mvDummy : public mvAppItem
+	{
+
+	public:
+
+		MV_APPITEM_TYPE(mvAppItemType::Dummy)
+
+		mvDummy(const std::string& parent, const std::string& name)
+			: mvAppItem(parent, name)
+		{
+		}
+
+		void draw() override
+		{
+			ImGui::Dummy({ (float)m_width, (float)m_height });
 		}
 
 		[[nodiscard]] bool areDuplicatesAllowed() const override { return true; }

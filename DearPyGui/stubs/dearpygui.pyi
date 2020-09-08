@@ -127,6 +127,10 @@ def add_drawing(name: str, tip: str = "", parent: str = "", before: str = "", wi
 	"""Adds a drawing widget."""
 	...
 
+def add_dummy(width: int, height, int, name: str = "", parent: str = "", before: str = "") -> bool:
+	"""Adds a spacer or 'dummy' object."""
+	...
+
 def add_group(name: str, tip: str = "", parent: str = "", before: str = "", width: int = 0, hide: bool = False, 
 			  horizontal: bool = False, horizontal_spacing: float = -1.0) -> bool:
 	"""Creates a group that other widgets can belong to. The group allows item commands to be issued for all of its members.				Must be closed with the end_group command."""
@@ -229,10 +233,6 @@ def add_progress_bar(name: str, value: float = 0.0, overlay: str = "", tip: str 
 
 def add_radio_button(name: str, items: List[str], default_value: int = 0, callback: Callable = None, callback_data: Any = None, tip: str = "", parent: str = "", before: str = "", data_source: str = "", secondary_data_source: str = "") -> bool:
 	"""Adds a set of radio buttons."""
-	...
-
-def set_headers(table: str, headers: List[str]) -> None:
-	"""Sets a tables headers"""
 	...
 
 def add_row(table: str, row: List[str]) -> None:
@@ -888,6 +888,10 @@ def set_exit_callback(callback: Callable) -> None:
 
 def set_global_font_scale(scale: float) -> None:
 	"""Changes the global font scale."""
+	...
+
+def set_headers(table: str, headers: List[str]) -> None:
+	"""Sets a tables headers"""
 	...
 
 def set_item_callback(item: str, callback: Callable = None, callback_data: Any = None) -> None:
