@@ -177,6 +177,17 @@ Some upcoming features:
 - 3D widget.
 - Custom Widget API.
 
+### Sponsors
+
+---
+
+Ongoing Dear PyGui development is financially supported by users and private sponsors.
+
+These include:
+* 🥇 [Caden Bloxham](https://github.com/cubic-unit) _Gold Sponsor_
+
+Thank you to all other sponsors for keeping this project moving forward!
+
 ### Credits
 
 ---
