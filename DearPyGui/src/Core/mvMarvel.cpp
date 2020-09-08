@@ -4477,6 +4477,26 @@ namespace Marvel {
 		return ToPyBool(AddItemWithRuntimeChecks(item, parent, before));
 	}
 
+	PyObject* add_dummy(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		static int i = 0; i++;
+		std::string sname = std::string("dummy" + std::to_string(i));
+		const char* name = sname.c_str();
+		int width;
+		int height;
+		const char* before = "";
+		const char* parent = "";
+
+		if (!(*mvApp::GetApp()->getParsers())["add_dummy"].parse(args, kwargs, __FUNCTION__, &width, &height, &name,
+			&parent, &before))
+			return ToPyBool(false);
+
+		mvAppItem* item = new mvDummy("", name);
+		item->setWidth(width);
+		item->setHeight(height);
+		return ToPyBool(AddItemWithRuntimeChecks(item, parent, before));
+	}
+
 	PyObject* add_same_line(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		static int i = 0; i++;
@@ -6878,6 +6898,7 @@ namespace Marvel {
 
 	static PyMethodDef dearpyguimethods[]
 	{
+		ADD_PYTHON_FUNCTION(add_dummy)
 		ADD_PYTHON_FUNCTION(set_start_callback)
 		ADD_PYTHON_FUNCTION(set_item_color)
 		ADD_PYTHON_FUNCTION(clear_item_color)

@@ -1732,6 +1732,15 @@ namespace Marvel {
 			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)"},
 			{mvPythonDataType::String, "data_source", "data source for shared data"}
 		}, "Adds a checkbox widget.", "None", "Adding Widgets") });
+
+		parsers->insert({ "add_dummy", mvPythonParser({
+			{mvPythonDataType::Integer, "width"},
+			{mvPythonDataType::Integer, "height"},
+			{mvPythonDataType::KeywordOnly},
+			{mvPythonDataType::String, "name"},
+			{mvPythonDataType::String, "parent", "Parent to add this item to. (runtime adding)"},
+			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)"},
+		}, "Adds a spacer or 'dummy' object.", "None", "Adding Widgets") });
 	}
 
 	static void AddContainterWidgets(std::map<std::string, mvPythonParser>* parsers)

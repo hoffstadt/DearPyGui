@@ -40,7 +40,7 @@ namespace Marvel {
         Listbox, Text, LabelText, Combo, Plot, SimplePlot,
         Indent, Unindent, Drawing, Window,
         Popup, Selectable, TreeNode, ProgressBar,
-        Table
+        Table, Dummy
     };
 
     //-----------------------------------------------------------------------------
