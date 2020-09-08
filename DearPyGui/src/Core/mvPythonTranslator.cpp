@@ -401,6 +401,8 @@ namespace Marvel {
 		{
 			for (size_t i = 0; i < PyTuple_Size(value); i++)
 			{
+				if (i >= 4)
+					break;
 				PyObject* item = PyTuple_GetItem(value, i);
 				if(PyNumber_Check(item))
 					color[i] = (int)PyFloat_AsDouble(item);
@@ -411,6 +413,8 @@ namespace Marvel {
 		{
 			for (size_t i = 0; i < PyList_Size(value); i++)
 			{
+				if (i >= 4)
+					break;
 				PyObject* item = PyList_GetItem(value, i);
 				if (PyNumber_Check(item))
 					color[i] = (int)PyFloat_AsDouble(item);
