@@ -67,4 +67,4 @@ namespace Marvel {
 }
 
 #define MV_DEFAULT_COLOR Marvel::mvColor{255, 255, 255, 255, false}
-#define MV_TRANSPARENT Marvel::mvColor{255, 255, 255, 0, true}
+#define MV_TRANSPARENT   Marvel::mvColor{255, 255, 255,   0, true }

@@ -82,7 +82,5 @@ namespace Marvel {
 
         bool   m_handleMouse    = false;
         bool   m_handleKeyboard = false;  
-
     };
-
 }

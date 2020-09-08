@@ -30,6 +30,56 @@ namespace Marvel {
 	int  mvAppLog::s_ypos = 200;
 	bool mvAppLog::s_dirty = true;
 
+	unsigned mvAppLog::getLogLevel() 
+	{ 
+		return s_loglevel; 
+	}
+
+	void mvAppLog::Show() 
+	{ 
+		show = true; 
+	}
+
+	void mvAppLog::ShowMain() 
+	{ 
+		show = true; 
+		mainmode = true; 
+	}
+
+	void mvAppLog::SetWindowPos(float x, float y)
+	{
+		s_xpos = (int)x;
+		s_ypos = (int)y;
+		s_dirty = true;
+	}
+
+	void mvAppLog::SetWidth(int width) 
+	{ 
+		s_width = width; 
+		s_dirty = true; 
+	}
+
+	void mvAppLog::SetHeight(int height) 
+	{ 
+		s_height = height; 
+		s_dirty = true; 
+	}
+
+	void mvAppLog::setLogLevel(int level) 
+	{ 
+		s_loglevel = level; 
+	}
+
+	unsigned mvAppLog::GetWindowWidth() 
+	{ 
+		return s_width; 
+	}
+
+	unsigned mvAppLog::GetWindowHeight() 
+	{ 
+		return s_height; 
+	}
+	
 	void mvAppLog::Clear()
 	{
 		Buf.clear();

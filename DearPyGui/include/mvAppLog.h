@@ -12,31 +12,25 @@ namespace Marvel {
 
 	public:
 		
-		static void     AddLog     (const char* fmt, ...);
-		static void     Clear      ();
-		static void     setLogLevel(int level) { s_loglevel = level; }
-		static void     Log        (const std::string& text, const std::string& level = "TRACE");
-		static void     LogDebug   (const std::string& text);
-		static void     LogInfo    (const std::string& text);
-		static void     LogWarning (const std::string& text);
-		static void     LogError   (const std::string& text);
-		static void     ClearLog   ();
-		static void     render     ();
-		static void     setSize    (unsigned width, unsigned height);
-		static unsigned getLogLevel() { return s_loglevel; }
-		static void     Show() { show = true; }
-		static void     ShowMain() { show = true; mainmode = true; }
-		static void     SetWindowPos(float x, float y)
-		{
-			s_xpos = (int)x;
-			s_ypos = (int)y;
-			s_dirty = true;
-		}
-		static void     SetWidth(int width) { s_width = width; s_dirty = true; }
-		static void     SetHeight(int height) { s_height = height; s_dirty = true; }
-
-		[[nodiscard]] static unsigned GetWindowWidth() { return s_width; }
-		[[nodiscard]] static unsigned GetWindowHeight() { return s_height; }
+		static void                   AddLog         (const char* fmt, ...);
+		static void                   Clear          ();
+		static void                   setLogLevel    (int level);
+		static void                   Log            (const std::string& text, const std::string& level = "TRACE");
+		static void                   LogDebug       (const std::string& text);
+		static void                   LogInfo        (const std::string& text);
+		static void                   LogWarning     (const std::string& text);
+		static void                   LogError       (const std::string& text);
+		static void                   ClearLog       ();
+		static void                   render         ();
+		static void                   setSize        (unsigned width, unsigned height);
+		static unsigned               getLogLevel    ();
+		static void                   Show           ();
+		static void                   ShowMain       ();
+		static void                   SetWindowPos   (float x, float y);
+		static void                   SetWidth       (int width);
+		static void                   SetHeight      (int height);
+		[[nodiscard]] static unsigned GetWindowWidth ();
+		[[nodiscard]] static unsigned GetWindowHeight();
 
 	private:
 

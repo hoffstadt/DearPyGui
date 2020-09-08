@@ -99,11 +99,11 @@ namespace Marvel {
         //-----------------------------------------------------------------------------
         // Rendering
         //-----------------------------------------------------------------------------
-        void precheck        ();                    // precheck before the main render loop has started
-        void firstRenderFrame();                    // only ran during first frame
-        bool prerender       (bool& show) override; // pre rendering (every frame)
-        void render          (bool& show) override; // actual render loop
-        void postrender      ()           override; // post rendering (every frame)
+        void                     precheck        ();                    // precheck before the main render loop has started
+        void                     firstRenderFrame();                    // only ran during first frame
+        bool                     prerender       (bool& show) override; // pre rendering (every frame)
+        void                     render          (bool& show) override; // actual render loop
+        void                     postrender      ()           override; // post rendering (every frame)
         
         //-----------------------------------------------------------------------------
         // App Settings
@@ -116,8 +116,7 @@ namespace Marvel {
         void                     setGlobalFontScale(float scale);
         void                     setViewport       (mvWindow* viewport) { m_viewport = viewport; }
         void                     setTitle          (const std::string& title) { m_title = title; }
-        void                     setFont(const std::string& file, float size = 13.0f,
-                                    const std::string& glyphRange = "",
+        void                     setFont(const std::string& file, float size = 13.0f, const std::string& glyphRange = "",
                                     std::vector<std::array<ImWchar, 3>> customRanges = {},
                                     std::vector<ImWchar> chars= {});
         
@@ -134,56 +133,56 @@ namespace Marvel {
         //-----------------------------------------------------------------------------
         // Styles/Themes
         //-----------------------------------------------------------------------------
-        void                    setAppTheme      (const std::string& theme);
-        void                    setThemeItem     (long item, mvColor color);
-        void                    setStyleChanged  () { m_styleChange = true; }
-
-        const std::string&      getAppTheme () const { return m_theme; }
-        mvColor                 getThemeItem(long item);
+        void                     setAppTheme      (const std::string& theme);
+        void                     setThemeItem     (long item, mvColor color);
+        void                     setStyleChanged  () { m_styleChange = true; }
+                                 
+        const std::string&       getAppTheme () const { return m_theme; }
+        mvColor                  getThemeItem(long item);
 
         //-----------------------------------------------------------------------------
         // Concurrency
         //-----------------------------------------------------------------------------
-        void     setThreadPoolTimeout          (double time)   { m_threadPoolTimeout = time; }
-        void     setThreadCount                (unsigned count){ m_threads = count; }
-        void     activateThreadPool            ()              { m_threadPool = true; }
-        void     setThreadPoolHighPerformance  ()              { m_threadPoolHighPerformance = true; }
-
-        bool     checkIfMainThread             () const;
-        double   getThreadPoolTimeout          () const { return m_threadPoolTimeout; }
-        unsigned getThreadCount                () const { return m_threads; }
-        bool     usingThreadPool               () const { return m_threadPool; }
-        bool     usingThreadPoolHighPerformance() const { return m_threadPoolHighPerformance; }
+        void                     setThreadPoolTimeout          (double time)   { m_threadPoolTimeout = time; }
+        void                     setThreadCount                (unsigned count){ m_threads = count; }
+        void                     activateThreadPool            ()              { m_threadPool = true; }
+        void                     setThreadPoolHighPerformance  ()              { m_threadPoolHighPerformance = true; }
+                                 
+        bool                     checkIfMainThread             () const;
+        double                   getThreadPoolTimeout          () const { return m_threadPoolTimeout; }
+        unsigned                 getThreadCount                () const { return m_threads; }
+        bool                     usingThreadPool               () const { return m_threadPool; }
+        bool                     usingThreadPoolHighPerformance() const { return m_threadPoolHighPerformance; }
 
         //-----------------------------------------------------------------------------
         // AppItem Operations
         //-----------------------------------------------------------------------------
-        bool             addItem           (mvAppItem* item);
-        bool             addWindow         (mvAppItem* item);
-        bool             addRuntimeItem    (const std::string& parent, const std::string& before, mvAppItem* item);
-        void             deleteItem        (const std::string& name) { if(name!="MainWindow") m_deleteQueue.push(name); }
-        void             deleteItemChildren(const std::string& name) { m_deleteChildrenQueue.push(name); }
-        void             moveItemUp        (const std::string& name) { m_upQueue.push(name); }
-        void             moveItemDown      (const std::string& name) { m_downQueue.push(name); }
-        mvAppItem*       getItem           (const std::string& name, bool ignoreRuntime = false);
-        mvAppItem*       getRuntimeItem    (const std::string& name);
-        mvWindowAppitem* getWindow         (const std::string& name);
+        bool                     addItem           (mvAppItem* item);
+        bool                     addWindow         (mvAppItem* item);
+        bool                     addRuntimeItem    (const std::string& parent, const std::string& before, mvAppItem* item);
+        void                     deleteItem        (const std::string& name) { if(name!="MainWindow") m_deleteQueue.push(name); }
+        void                     deleteItemChildren(const std::string& name) { m_deleteChildrenQueue.push(name); }
+        void                     moveItemUp        (const std::string& name) { m_upQueue.push(name); }
+        void                     moveItemDown      (const std::string& name) { m_downQueue.push(name); }
+        mvAppItem*               getItem           (const std::string& name, bool ignoreRuntime = false);
+        mvAppItem*               getRuntimeItem    (const std::string& name);
+        mvWindowAppitem*         getWindow         (const std::string& name);
         
         //-----------------------------------------------------------------------------
         // Parent stack operations
         //     - used for automatic parent deduction
         //-----------------------------------------------------------------------------
-        void       pushParent(mvAppItem* item); // pushes parent onto stack
-        mvAppItem* popParent();                 // pop parent off stack and return it
-        mvAppItem* topParent();                 // returns top parent without popping
+        void                     pushParent(mvAppItem* item); // pushes parent onto stack
+        mvAppItem*               popParent();                 // pop parent off stack and return it
+        mvAppItem*               topParent();                 // returns top parent without popping
 
         //-----------------------------------------------------------------------------
         // Callbacks
         //-----------------------------------------------------------------------------
-        void runReturnCallback(PyObject* callback, const std::string& sender, PyObject* data);
-        void runCallback      (PyObject* callback, const std::string& sender, PyObject* data = nullptr);
-        void runAsyncCallback (PyObject* callback, PyObject* data, PyObject* returnname);
-        void addMTCallback    (PyObject* name, PyObject* data, PyObject* returnname = nullptr);
+        void                     runReturnCallback(PyObject* callback, const std::string& sender, PyObject* data);
+        void                     runCallback      (PyObject* callback, const std::string& sender, PyObject* data = nullptr);
+        void                     runAsyncCallback (PyObject* callback, PyObject* data, PyObject* returnname);
+        void                     addMTCallback    (PyObject* name, PyObject* data, PyObject* returnname = nullptr);
 
         template<typename T> 
         void dispatchRenderCallback(mvAppItemType itemType, mvAppItem* item)
@@ -197,8 +196,8 @@ namespace Marvel {
         //-----------------------------------------------------------------------------
         // Timing
         //-----------------------------------------------------------------------------
-        float  getDeltaTime() const { return m_deltaTime; }
-        double getTotalTime() const { return m_time; }
+        float                    getDeltaTime() const { return m_deltaTime; }
+        double                   getTotalTime() const { return m_time; }
 
         std::map<std::string, mvPythonParser>* getParsers() { return m_parsers; }
             
