@@ -23,7 +23,7 @@ HOW TO UPDATE?
 - Please report any issue!
 
 -----------------------------------------------------------------------
- VERSION 0.3.2 WIP
+ VERSION 0.3.2 (9/9/2020)
 -----------------------------------------------------------------------
 
 Decorated log: https://github.com/hoffstadt/DearPyGui/releases/tag/v0.3.2
