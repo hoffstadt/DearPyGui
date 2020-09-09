@@ -35,7 +35,7 @@ namespace Marvel {
 			if (autosize)
 				m_windowflags |= ImGuiWindowFlags_AlwaysAutoResize;
 
-			if(!resizable)
+			if (!resizable)
 				m_windowflags |= ImGuiWindowFlags_NoResize;
 
 			if (!titlebar)
@@ -95,7 +95,7 @@ namespace Marvel {
 				m_dirty_pos = false;
 			}
 
-			else if (m_dirty_size)
+			if (m_dirty_size)
 			{
 				ImGui::SetNextWindowSize(ImVec2((float)m_width, (float)m_height));
 				m_dirty_size = false;
@@ -196,10 +196,11 @@ namespace Marvel {
 		int              m_xpos = 200;
 		int              m_ypos = 200;
 		bool             m_mainWindow = false;
+		PyObject*        m_closing_callback;
 		bool             m_dirty_pos = true;
 		bool             m_dirty_size = true;
 		bool             m_closing = true;
-		PyObject*        m_closing_callback;
+		
 
 	};
 

@@ -448,6 +448,7 @@ with window("Asyncronous##dialog", hide=True):
 # Input Polling
 ########################################################################################################################
 with window("Input Polling##dialog", hide=True, autosize=True):
+    set_window_pos("Input Polling##dialog", 700, 50)
     add_text("Key Polling")
     add_label_text("A key Down", "False", color=(0,200,255))
     add_label_text("W key Pressed", "False", color=(0,200,255))
