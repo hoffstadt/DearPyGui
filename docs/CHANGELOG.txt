@@ -33,6 +33,7 @@ New Commands:
 
 Fixes:
 - Colors: Fixed crash when adding a color more than 4 items long
+- Window: fixed window changing position while autosizing #196
 
 
 -----------------------------------------------------------------------
