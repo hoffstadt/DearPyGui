@@ -52,11 +52,11 @@ namespace Marvel {
 		{
 			m_xpos = (int)x;
 			m_ypos = (int)y;
-			m_dirty = true;
+			m_dirty_pos = true;
 		}
 
-		void setWidth (int width) override { m_width = width; m_dirty = true; }
-		void setHeight(int height) override { m_height = height; m_dirty = true; }
+		void setWidth (int width) override { m_width = width; m_dirty_size = true; }
+		void setHeight(int height) override { m_height = height; m_dirty_size = true; }
 
 		[[nodiscard]] mvVec2 getWindowPos() const
 		{
@@ -89,11 +89,16 @@ namespace Marvel {
 				ImGui::SetNextWindowSize(ImVec2((float)m_width, (float)m_height));
 			}
 				
-			else if (m_dirty)
+			else if (m_dirty_pos)
 			{
 				ImGui::SetNextWindowPos(ImVec2((float)m_xpos, (float)m_ypos));
+				m_dirty_pos = false;
+			}
+
+			else if (m_dirty_size)
+			{
 				ImGui::SetNextWindowSize(ImVec2((float)m_width, (float)m_height));
-				m_dirty = false;
+				m_dirty_size = false;
 			}
 
 			
@@ -191,7 +196,8 @@ namespace Marvel {
 		int              m_xpos = 200;
 		int              m_ypos = 200;
 		bool             m_mainWindow = false;
-		bool             m_dirty = true;
+		bool             m_dirty_pos = true;
+		bool             m_dirty_size = true;
 		bool             m_closing = true;
 		PyObject*        m_closing_callback;
 
