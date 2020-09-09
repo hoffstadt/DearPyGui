@@ -26,7 +26,7 @@ def position_login_window(sender, data):
     set_window_pos('Login Window', (main_width/2 - login_width/2), (main_height/2 - login_height/2))
 
 with window('Login Window', title_bar=False, movable=False, autosize=True, resizable=False):
-    add_input_text('password', hint='hover me for password', password=True, tip='the password is password')
+    add_input_text('Password', hint='hover me for password', password=True, tip='the password is "password"')
     add_button('Login', callback=try_login)
     add_text('Incorrect Password.', color=[255, 0, 0], parent='Login Window')
     hide_item('Incorrect Password.')
