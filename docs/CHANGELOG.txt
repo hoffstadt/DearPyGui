@@ -30,6 +30,9 @@ Decorated log: https://github.com/hoffstadt/DearPyGui/releases/tag/v0.3.5
 
 New Commands:
 - Menu Item: added "check" and "shortcut" keywords #186
+- Widgets:   added "is_item_container" #203
+- Widgets:   added "get_item_parent" #203
+- Widgets:   added "is_item_shown" #203
 
 -----------------------------------------------------------------------
  VERSION 0.3.4 (9/9/2020)
