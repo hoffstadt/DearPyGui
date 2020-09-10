@@ -510,6 +510,10 @@ def get_item_label(item: str) -> float:
 	"""Returns an item's label."""
 	...
 
+def get_item_parent(item: str) -> str:
+	"""Returns an item's parent."""
+	...
+
 def get_item_popup(item: str) -> str:
 	"""Returns an item's popup."""
 	...
@@ -746,6 +750,10 @@ def is_item_clicked(item: str) -> bool:
 	"""Checks if an item is clicked."""
 	...
 
+def is_item_container(item: str) -> bool:
+	"""Checks if an item is container."""
+	...
+
 def is_item_deactivated(item: str) -> bool:
 	"""Checks if an item has been deactivated."""
 	...
@@ -764,6 +772,10 @@ def is_item_focused(item: str) -> bool:
 
 def is_item_hovered(item: str) -> bool:
 	"""Checks if an item is hovered."""
+	...
+
+def is_item_shown(item: str) -> bool:
+	"""Checks if an item is shown."""
 	...
 
 def is_item_toggled_open(item: str) -> bool:

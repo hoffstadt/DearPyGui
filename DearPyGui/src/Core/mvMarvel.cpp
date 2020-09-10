@@ -5619,6 +5619,21 @@ namespace Marvel {
 		return GetPyNone();
 	}
 
+	PyObject* get_item_parent(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		const char* item;
+
+		if (!(*mvApp::GetApp()->getParsers())["get_item_parent"].parse(args, kwargs, __FUNCTION__, &item))
+			return GetPyNone();
+
+		auto appitem = mvApp::GetApp()->getItem(item);
+
+		if (appitem)
+			return ToPyString(appitem->getParent()->getName());
+
+		return GetPyNone();
+	}
+	
 	PyObject* get_item_popup(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		const char* item;
@@ -5864,6 +5879,21 @@ namespace Marvel {
 		return GetPyNone();
 	}
 
+	PyObject* is_item_shown(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		const char* item;
+
+		if (!(*mvApp::GetApp()->getParsers())["is_item_shown"].parse(args, kwargs, __FUNCTION__, &item))
+			return GetPyNone();
+
+		auto appitem = mvApp::GetApp()->getItem(item);
+
+		if (appitem)
+			return ToPyBool(appitem->isShown());
+
+		return GetPyNone();
+	}
+
 	PyObject* is_item_active(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		const char* item;
@@ -5905,6 +5935,21 @@ namespace Marvel {
 
 		if (appitem)
 			return ToPyBool(appitem->isItemClicked());
+
+		return GetPyNone();
+	}
+
+	PyObject* is_item_container(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		const char* item;
+
+		if (!(*mvApp::GetApp()->getParsers())["is_item_container"].parse(args, kwargs, __FUNCTION__, &item))
+			return GetPyNone();
+
+		auto appitem = mvApp::GetApp()->getItem(item);
+
+		if (appitem)
+			return ToPyBool(appitem->isContainer());
 
 		return GetPyNone();
 	}
@@ -7093,6 +7138,7 @@ namespace Marvel {
 		ADD_PYTHON_FUNCTION(get_item_callback)
 		ADD_PYTHON_FUNCTION(get_item_width)
 		ADD_PYTHON_FUNCTION(get_item_height)
+		ADD_PYTHON_FUNCTION(get_item_parent)
 		ADD_PYTHON_FUNCTION(get_item_popup)
 		ADD_PYTHON_FUNCTION(get_item_tip)
 		ADD_PYTHON_FUNCTION(get_item_label)
@@ -7116,9 +7162,11 @@ namespace Marvel {
 		ADD_PYTHON_FUNCTION(set_item_popup)
 		ADD_PYTHON_FUNCTION(set_item_label)
 		ADD_PYTHON_FUNCTION(is_item_hovered)
+		ADD_PYTHON_FUNCTION(is_item_shown)
 		ADD_PYTHON_FUNCTION(is_item_active)
 		ADD_PYTHON_FUNCTION(is_item_focused)
 		ADD_PYTHON_FUNCTION(is_item_clicked)
+		ADD_PYTHON_FUNCTION(is_item_container)
 		ADD_PYTHON_FUNCTION(is_item_visible)
 		ADD_PYTHON_FUNCTION(is_item_edited)
 		ADD_PYTHON_FUNCTION(is_item_activated)
