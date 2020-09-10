@@ -4439,6 +4439,8 @@ namespace Marvel {
 	PyObject* add_menu_item(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		const char* name;
+		const char* shortcut = "";
+		int check = false;
 		PyObject* callback = nullptr;
 		PyObject* callback_data = nullptr;
 		const char* tip = "";
@@ -4446,10 +4448,10 @@ namespace Marvel {
 		const char* parent = "";
 
 		if (!(*mvApp::GetApp()->getParsers())["add_menu_item"].parse(args, kwargs, __FUNCTION__, &name,
-			&callback, &callback_data, &tip, &parent, &before))
+			&shortcut, &check, &callback, &callback_data, &tip, &parent, &before))
 			return ToPyBool(false);
 
-		mvAppItem* item = new mvMenuItem("", name);
+		mvAppItem* item = new mvMenuItem("", name, shortcut, check);
 		if (callback)
 			Py_XINCREF(callback);
 		item->setCallback(callback);

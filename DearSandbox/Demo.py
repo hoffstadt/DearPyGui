@@ -62,16 +62,16 @@ def ThemeCallback(sender, data):
 with menu_bar("MenuBar"):
 
     with menu("Themes"):
-        add_menu_item("Dark", callback = ThemeCallback)
-        add_menu_item("Light", callback = ThemeCallback)
-        add_menu_item("Classic", callback = ThemeCallback)
-        add_menu_item("Dark 2", callback = ThemeCallback)
-        add_menu_item("Grey", callback = ThemeCallback)
-        add_menu_item("Dark Grey", callback = ThemeCallback)
-        add_menu_item("Cherry", callback = ThemeCallback)
-        add_menu_item("Purple", callback = ThemeCallback)
-        add_menu_item("Gold", callback = ThemeCallback)
-        add_menu_item("Red", callback = ThemeCallback)
+        add_menu_item("Dark", callback = ThemeCallback, check=True,shortcut="Ctrl + D")
+        add_menu_item("Light", callback = ThemeCallback, check=True)
+        add_menu_item("Classic", callback = ThemeCallback, check=True)
+        add_menu_item("Dark 2", callback = ThemeCallback, check=True)
+        add_menu_item("Grey", callback = ThemeCallback, check=True)
+        add_menu_item("Dark Grey", callback = ThemeCallback, check=True)
+        add_menu_item("Cherry", callback = ThemeCallback, check=True)
+        add_menu_item("Purple", callback = ThemeCallback, check=True)
+        add_menu_item("Gold", callback = ThemeCallback, check=True)
+        add_menu_item("Red", callback = ThemeCallback, check=True)
 
     with menu("Tools"):
         add_menu_item("Show Logger", callback=show_logger)

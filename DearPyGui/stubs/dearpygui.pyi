@@ -215,7 +215,7 @@ def add_menu_bar(name: str, parent: str = "", before: str = "") -> bool:
 	"""Adds a menu bar to a window. Must be followed by a call to end_menu_bar."""
 	...
 
-def add_menu_item(name: str, callback: Callable = None, callback_data: Any = None, tip: str = "", parent: str = "", before: str = "") -> bool:
+def add_menu_item(name: str, shortcut: str = "", check: bool = False, callback: Callable = None, callback_data: Any = None, tip: str = "", parent: str = "", before: str = "") -> bool:
 	"""Adds a menu item to an existing menu."""
 	...
 
