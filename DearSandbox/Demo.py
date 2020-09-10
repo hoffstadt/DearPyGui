@@ -95,12 +95,10 @@ with menu_bar("MenuBar"):
 
         set_value("A Menu Table", tabledata1)
 
-
 ########################################################################################################################
 # checklist
 ########################################################################################################################
 with child("ChecklistGroup", width=300):
-    add_item_to_check("Widgets")
     add_item_to_check("Widgets")
     add_item_to_check("Drawing API")
     add_item_to_check("Plots, Graphs and Charts")

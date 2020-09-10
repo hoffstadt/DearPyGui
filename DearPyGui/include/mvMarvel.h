@@ -1046,6 +1046,10 @@ namespace Marvel {
 			{mvPythonDataType::String, "item"}
 		}, "Returns an item's width.", "float", "Widget Commands") });
 
+		parsers->insert({ "get_item_parent", mvPythonParser({
+		{mvPythonDataType::String, "item"}
+		}, "Returns an item's parent.", "str", "Widget Commands") });
+
 		parsers->insert({ "get_item_popup", mvPythonParser({
 			{mvPythonDataType::String, "item"}
 		}, "Returns an item's popup.", "str", "Widget Commands") });
@@ -1057,6 +1061,10 @@ namespace Marvel {
 		parsers->insert({ "is_item_hovered", mvPythonParser({
 			{mvPythonDataType::String, "item"},
 		}, "Checks if an item is hovered.", "bool", "Widget Commands") });
+
+		parsers->insert({ "is_item_shown", mvPythonParser({
+		{mvPythonDataType::String, "item"},
+		}, "Checks if an item is shown.", "bool", "Widget Commands") });
 
 		parsers->insert({ "is_item_active", mvPythonParser({
 			{mvPythonDataType::String, "item"},
@@ -1070,9 +1078,13 @@ namespace Marvel {
 			{mvPythonDataType::String, "item"},
 		}, "Checks if an item is clicked.", "bool", "Widget Commands") });
 
+		parsers->insert({ "is_item_container", mvPythonParser({
+		{mvPythonDataType::String, "item"},
+		}, "Checks if an item is container.", "bool", "Widget Commands") });
+
 		parsers->insert({ "is_item_visible", mvPythonParser({
 			{mvPythonDataType::String, "item"},
-		}, "Checks if an item is visible.", "bool", "Widget Commands") });
+		}, "Checks if an item is visible on screen.", "bool", "Widget Commands") });
 
 		parsers->insert({ "is_item_edited", mvPythonParser({
 			{mvPythonDataType::String, "item"},

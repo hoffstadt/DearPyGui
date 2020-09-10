@@ -157,7 +157,7 @@ namespace Marvel {
 			m_width = (int)ImGui::GetWindowWidth();
 			m_height = (int)ImGui::GetWindowHeight();
 
-			if (ImGui::IsWindowFocused())
+			if (m_focused)
 			{
 
 				float titleBarHeight = ImGui::GetStyle().FramePadding.y * 2 + ImGui::GetFontSize();
