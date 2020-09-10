@@ -1469,6 +1469,8 @@ namespace Marvel {
 		parsers->insert({ "add_menu_item", mvPythonParser({
 			{mvPythonDataType::String, "name"},
 			{mvPythonDataType::KeywordOnly},
+			{mvPythonDataType::String, "shortcut", "Adds a shortcut"},
+			{mvPythonDataType::Bool, "check", "Makes menu with checkmarks."},
 			{mvPythonDataType::Object, "callback", "Registers a callback"},
 			{mvPythonDataType::Object, "callback_data", "Callback data"},
 			{mvPythonDataType::String, "tip", "Adds a simple tooltip"},

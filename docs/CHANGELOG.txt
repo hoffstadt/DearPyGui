@@ -28,6 +28,9 @@ HOW TO UPDATE?
 
 Decorated log: https://github.com/hoffstadt/DearPyGui/releases/tag/v0.3.5
 
+New Commands:
+- Menu Item: added "check" and "shortcut" keywords #186
+
 -----------------------------------------------------------------------
  VERSION 0.3.4 (9/9/2020)
 -----------------------------------------------------------------------

@@ -165,15 +165,16 @@ namespace Marvel {
 
 		MV_APPITEM_TYPE(mvAppItemType::MenuItem)
 
-		mvMenuItem(const std::string& parent, const std::string& name)
-			: mvBoolItemBase(parent, name, false){}
+		mvMenuItem(const std::string& parent, const std::string& name, 
+			const std::string& shortcut, bool check)
+			: mvBoolItemBase(parent, name, false), m_shortcut(shortcut), m_check(check){}
 
 		void draw() override
 		{
 			pushColorStyles();
 
 			// create menuitem and see if its selected
-			if (ImGui::MenuItem(m_label.c_str(), nullptr))
+			if (ImGui::MenuItem(m_label.c_str(), m_shortcut.c_str(), m_check ? &m_value : nullptr))
 			{
 
 				// set other menuitems's value false on same level
@@ -196,6 +197,11 @@ namespace Marvel {
 
 			popColorStyles();
 		}
+
+	private:
+
+		std::string m_shortcut;
+		bool        m_check;
 
 	};
 
