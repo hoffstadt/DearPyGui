@@ -119,52 +119,9 @@ If you are having issues or want to help, here are some places you can go:
 
 
 ### Building
-The actual builds of _DearPyGui_ are created through github actions however, to develop and test locally, follow the instructions below. 
-These are not well maintained at the moment and could use some work.
+- [Building From Source (Users)](https://github.com/hoffstadt/DearPyGui/wiki/Building-For-Users)
+- [Building For Contributors](https://github.com/hoffstadt/DearPyGui/wiki/Building-For-Contributors)
 
----
-
-#### Windows 10
-
-##### Build Requirements
-
-- [_Visual Studio 2019_ (windows)](https://visualstudio.microsoft.com/vs/) with the following workloads:
-  - Python development
-  - Desktop development with C++
-  - Game development with C++
-- [_git_](https://git-scm.com/)
-- Python 3.7 or 3.8
-
-##### Instructions
-
-1. From within a local directory, enter the following bash commands:
-```
-git clone --recursive https://github.com/RaylockLLC/DearPyGui
-```
-2. Open the _Scripts_ folder and run the _BuildFor32.bat_ file (or _BuildFor64.bat_ if using 64-bit python).
-
-#### Linux
-<sub>Only tested on Ubuntu 18.04 and 20.04</sub>
-
-##### Build Requirements
-
-- cmake
-- Python 3.7 or 3.8
-- xorg-dev
-- libgl1-mesa-dev
-
-##### Instructions
-
-1. From within a local directory, enter the following bash commands:
-```
-git clone --recursive https://github.com/hoffstadt/DearPyGui
-```
-2. Open the _Scripts_ folder.
-3. Open the terminal and type the following commands:
-```
-chmod +x BuildForLinux.sh
-sudo ./BuildForLinux.sh
-```
 
 ### Upcoming Changes
 
