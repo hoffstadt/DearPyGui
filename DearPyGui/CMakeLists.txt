@@ -73,6 +73,7 @@ set(MARVEL_SOURCES
 
 	# implot
 	"src/Vendor/implot/implot.cpp"
+	"src/Vendor/implot/implot_items.cpp"
 	"src/Vendor/implot/implot_demo.cpp"
 
 	# ImGuiFileDialog

@@ -1994,9 +1994,9 @@ namespace Marvel {
 		const char* name;
 		const char* xAxisName = "";
 		const char* yAxisName = "";
-		int flags = 47;
-		int xflags = 7;
-		int yflags = 7;
+		int flags = 0;
+		int xflags = 0;
+		int yflags = 0;
 		const char* parent = "";
 		const char* before = "";
 		int width = -1;

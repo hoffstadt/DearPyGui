@@ -2,6 +2,7 @@
 
 #include "Core/AppItems/mvTypeBases.h"
 #include <implot.h>
+#include <implot_internal.h>
 #include <map>
 #include <utility>
 #include "mvCore.h"
@@ -77,8 +78,8 @@ namespace Marvel {
 		MV_APPITEM_TYPE(mvAppItemType::Plot)
 
 			mvPlot(const std::string& parent, const std::string& name, std::string  xname = "",
-				std::string  yname = "", int width = -1, int height = 0, ImPlotFlags flags = ImPlotFlags_Default,
-				ImPlotAxisFlags xflags = ImPlotAxisFlags_Default, ImPlotAxisFlags yflags = ImPlotAxisFlags_Default, 
+				std::string  yname = "", int width = -1, int height = 0, ImPlotFlags flags = 0,
+				ImPlotAxisFlags xflags = 0, ImPlotAxisFlags yflags = 0, 
 				PyObject* queryCallback = nullptr);
 
 		void addSeries   (mvSeries* series);
@@ -102,9 +103,9 @@ namespace Marvel {
 
 		std::string     m_xaxisName;
 		std::string     m_yaxisName;
-		ImPlotFlags     m_flags    = ImPlotFlags_Default;
-		ImPlotAxisFlags m_xflags  = ImPlotAxisFlags_Default;
-		ImPlotAxisFlags m_yflags  = ImPlotAxisFlags_Default;
+		ImPlotFlags     m_flags    = 0;
+		ImPlotAxisFlags m_xflags  = 0;
+		ImPlotAxisFlags m_yflags  = 0;
 		ImPlotColormap  m_colormap = ImPlotColormap_Default;
 		bool            m_setXLimits = false;
 		bool            m_setYLimits = false;
@@ -143,9 +144,9 @@ namespace Marvel {
 		void draw() override
 		{
 			if (m_color.specified)
-				ImPlot::PushStyleColor(ImPlotCol_Line, m_color);
+				ImPlot::SetNextLineStyle(m_color.toVec4());
 			if (m_fill.specified)
-				ImPlot::PushStyleColor(ImPlotCol_Fill, m_fill);
+				ImPlot::SetNextFillStyle(m_fill.toVec4());
 
 			ImPlot::PushStyleVar(ImPlotStyleVar_LineWeight, m_lineWeight);
 
@@ -154,10 +155,6 @@ namespace Marvel {
 			else
 				ImPlot::PlotLine(m_name.c_str(), m_xs.data(), m_ys.data(), m_xs.size());
 
-			if (m_color.specified)
-				ImPlot::PopStyleColor();
-			if (m_fill.specified)
-				ImPlot::PopStyleColor();
 
 			ImPlot::PopStyleVar();
 		}
@@ -191,7 +188,7 @@ namespace Marvel {
 				ImPlot::PushStyleColor(ImPlotCol_MarkerOutline, m_markerOutlineColor);
 			if (m_markerFillColor.specified)
 				ImPlot::PushStyleColor(ImPlotCol_MarkerFill, m_markerFillColor);
-				
+
 			ImPlot::PushStyleVar(ImPlotStyleVar_Marker, m_marker);
 			ImPlot::PushStyleVar(ImPlotStyleVar_MarkerSize, m_markerSize);
 			ImPlot::PushStyleVar(ImPlotStyleVar_MarkerWeight, m_markerWeight);
@@ -261,7 +258,7 @@ namespace Marvel {
 		{
 
 			ImPlot::PushPlotClipRect();
-			auto item = ImPlot::RegisterItem(m_name.c_str());
+			auto item = ImPlot::RegisterOrGetItem(m_name.c_str());
 			if (item->Show)
 				drawPolygon();
 			ImPlot::PopPlotClipRect();

@@ -120,6 +120,7 @@ namespace Marvel {
 	void mvPlot::SetColorMap(ImPlotColormap colormap)
 	{
 		m_colormap = colormap;
+		m_dirty = true;
 	}
 
 	void mvPlot::resetXTicks()
@@ -194,13 +195,12 @@ namespace Marvel {
 			ImVec2((float)m_width, (float)m_height), m_flags,
 			m_xflags, m_yflags))
 		{
-			ImPlot::SetColormap(m_colormap);
+			ImPlot::PushColormap(m_colormap);
 
 			for (auto series : m_series)
 				series->draw();
 
-
-			//ImPlot::SetColormap(ImPlotColormap_Default);
+			ImPlot::PopColormap();
 
 			m_queried = ImPlot::IsPlotQueried();
 

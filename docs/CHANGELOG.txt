@@ -28,6 +28,8 @@ HOW TO UPDATE?
 
 Decorated log: https://github.com/hoffstadt/DearPyGui/releases/tag/v0.3.6
 
+- ImPlot: upgraded to commit 4f0a09f
+
 -----------------------------------------------------------------------
  VERSION 0.3.5 (9/10/2020)
 -----------------------------------------------------------------------
