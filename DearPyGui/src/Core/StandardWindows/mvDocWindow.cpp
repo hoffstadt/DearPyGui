@@ -138,9 +138,10 @@ namespace Marvel {
 				if (ImGui::CollapsingHeader("Help"))
 				{
 					ColorText("ABOUT THIS GUIDE:");
-					ImGui::BulletText("Sections below cover various aspects of DearPyGui.");
+					ImGui::BulletText("Sections below cover a few basic aspects of DearPyGui.");
 					ImGui::BulletText("This document can be found by calling the \"show_documentation\" command.");
 					ImGui::BulletText("Additional information on specific commands can be found in the commands tab.");
+					ImGui::BulletText("The complete documentation can be found at: https://hoffstadt.github.io/DearPyGui/");
 				}
 
 
@@ -228,18 +229,18 @@ namespace Marvel {
 					CodeColorText("add_group(...)   # belongs to child");
 					CodeColorText("add_button(...)  # belongs to group");
 					CodeColorText("add_button(...)  # belongs to group");
-					CodeColorText("end_group()");
-					CodeColorText("end_child()");
+					CodeColorText("end()");
+					CodeColorText("end()");
 					ImGui::Unindent();
 					ImGui::BulletText("METHOD 2:");
 					ImGui::Indent();
 					ImGui::Text("You add widgets to their parent containers using the \"parent\" keyword.");
 					ImGui::Text("Containers are created by calling their add_* command followed immediately");
-					ImGui::Text("by their end_* command.");
+					ImGui::Text("by an end command.");
 					ImGui::Text("Example:");
 					ImGui::Spacing();
 					CodeColorText("add_child(...)");
-					CodeColorText("end_child()");
+					CodeColorText("end()");
 					CodeColorText("add_button(..., parent='childname')");
 					ImGui::Unindent();
 					ImGui::Unindent();
