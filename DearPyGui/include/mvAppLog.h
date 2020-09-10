@@ -31,6 +31,7 @@ namespace Marvel {
 		static void                   SetHeight      (int height);
 		[[nodiscard]] static unsigned GetWindowWidth ();
 		[[nodiscard]] static unsigned GetWindowHeight();
+		static mvVec2                 GetWindowPos   ();
 
 	private:
 
@@ -51,7 +52,8 @@ namespace Marvel {
 		static ImGuiWindowFlags s_flags;
 		static int              s_xpos;
 		static int              s_ypos;
-		static bool             s_dirty;
+		static bool             s_dirty_pos;
+		static bool             s_dirty_size;
 
 #if defined (_WIN32)
         static std::chrono::steady_clock::time_point s_start;

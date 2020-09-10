@@ -34,6 +34,10 @@ New Commands:
 - Widgets:   added "get_item_parent" #203
 - Widgets:   added "is_item_shown" #203
 
+Fixes:
+- Other: Fixed get_window_pos for built-in windows #202
+- Other: Fixed get_window_width/height for built-in windows #202
+
 -----------------------------------------------------------------------
  VERSION 0.3.4 (9/9/2020)
 -----------------------------------------------------------------------

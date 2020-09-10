@@ -4692,7 +4692,7 @@ namespace Marvel {
 			return GetPyNone();
 
 		if (std::string(window) == "logger##standard")
-			return ToPyPair(mvAppLog::GetWindowWidth(), mvAppLog::GetWindowHeight());
+			return ToPyPair(mvAppLog::GetWindowPos().x, mvAppLog::GetWindowPos().y);
 
 		// check if item is a regular item
 		mvWindowAppitem* awindow = mvApp::GetApp()->getWindow(window);
@@ -4710,7 +4710,7 @@ namespace Marvel {
 			return GetPyNone();
 		}
 		else
-			return ToPyPair(swindow->getWindowWidth(), swindow->getWindowHeight());
+			return ToPyPair(swindow->getWindowPos().x, swindow->getWindowPos().y);
 
 	}
 

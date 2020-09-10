@@ -28,7 +28,8 @@ namespace Marvel {
 	ImGuiWindowFlags mvAppLog::s_flags = ImGuiWindowFlags_NoSavedSettings;
 	int  mvAppLog::s_xpos = 200;
 	int  mvAppLog::s_ypos = 200;
-	bool mvAppLog::s_dirty = true;
+	bool mvAppLog::s_dirty_pos = true;
+	bool mvAppLog::s_dirty_size = true;
 
 	unsigned mvAppLog::getLogLevel() 
 	{ 
@@ -50,19 +51,19 @@ namespace Marvel {
 	{
 		s_xpos = (int)x;
 		s_ypos = (int)y;
-		s_dirty = true;
+		s_dirty_pos = true;
 	}
 
 	void mvAppLog::SetWidth(int width) 
 	{ 
 		s_width = width; 
-		s_dirty = true; 
+		s_dirty_size = true; 
 	}
 
 	void mvAppLog::SetHeight(int height) 
 	{ 
 		s_height = height; 
-		s_dirty = true; 
+		s_dirty_size = true; 
 	}
 
 	void mvAppLog::setLogLevel(int level) 
@@ -103,6 +104,11 @@ namespace Marvel {
 				LineOffsets.push_back(old_size + 1);
 	}
 
+	mvVec2 mvAppLog::GetWindowPos()
+	{
+		return { (float)s_xpos, (float)s_ypos };
+	}
+
 	void mvAppLog::render()
 	{
 		if (!show)
@@ -117,13 +123,17 @@ namespace Marvel {
 				| ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoTitleBar;
 		}
 
-		if (s_dirty)
+		else if (s_dirty_pos)
 		{
 			ImGui::SetNextWindowPos(ImVec2((float)s_xpos, (float)s_ypos));
-			ImGui::SetNextWindowSize(ImVec2((float)s_width, (float)s_height));
-			s_dirty = false;
+			s_dirty_pos = false;
 		}
 
+		if (s_dirty_size)
+		{
+			ImGui::SetNextWindowSize(ImVec2((float)s_width, (float)s_height));
+			s_dirty_size = false;
+		}
 
 		if (!ImGui::Begin("Dear PyGui Logger", &show, s_flags))
 		{
@@ -261,6 +271,12 @@ namespace Marvel {
 			mvApp::GetApp()->setActiveWindow("logger##standard");
 
 		}
+
+		s_width = (int)ImGui::GetWindowWidth();
+		s_height = (int)ImGui::GetWindowHeight();
+		s_xpos = (int)ImGui::GetWindowPos().x;
+		s_ypos = (int)ImGui::GetWindowPos().y;
+
 		ImGui::End();
 	}
 
