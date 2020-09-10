@@ -109,6 +109,9 @@ _DearPyGui_ includes several tools to help developers with _DearPyGui_ app devel
 
 
 ### Support
+
+---
+
 - [Sponsor](https://github.com/sponsors/hoffstadt) If you Enjoy Dear PyGui please consider becoming a sponsor.
 - [Paypal](https://www.paypal.com/paypalme/JonathanHoffstadt) For those who don't like rewards.
 
@@ -119,6 +122,9 @@ If you are having issues or want to help, here are some places you can go:
 
 
 ### Building
+
+---
+
 - [Building From Source (Users)](https://github.com/hoffstadt/DearPyGui/wiki/Building-For-Users)
 - [Building For Contributors](https://github.com/hoffstadt/DearPyGui/wiki/Building-For-Contributors)
 
