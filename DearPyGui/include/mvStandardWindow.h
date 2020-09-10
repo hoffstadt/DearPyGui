@@ -4,6 +4,7 @@
 #include <map>
 #include <string>
 #include "mvEventHandler.h"
+#include "mvCore.h"
 
 namespace Marvel {
 
@@ -40,6 +41,12 @@ namespace Marvel {
             m_ypos = (int)y;
             m_dirty = true;
         }
+
+        [[nodiscard]] mvVec2 getWindowPos() const
+        {
+            return { (float)m_xpos, (float)m_ypos };
+        }
+
         void setWidth(int width) { m_width = width; m_dirty = true; }
         void setHeight(int height) { m_height = height; m_dirty = true; }
 
