@@ -2168,6 +2168,70 @@ namespace Marvel {
 		return GetPyNone();
 	}
 
+	PyObject* add_stem_series(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		const char* plot;
+		const char* name;
+		PyObject* data;
+		int marker = 2;
+		float size = 4.0f;
+		float weight = 1.0f;
+		PyObject* outline = PyTuple_New(4);
+		PyTuple_SetItem(outline, 0, PyLong_FromLong(1000));
+		PyTuple_SetItem(outline, 1, PyLong_FromLong(0));
+		PyTuple_SetItem(outline, 2, PyLong_FromLong(0));
+		PyTuple_SetItem(outline, 3, PyLong_FromLong(255));
+		PyObject* fill = PyTuple_New(4);
+		PyTuple_SetItem(fill, 0, PyLong_FromLong(1000));
+		PyTuple_SetItem(fill, 1, PyLong_FromLong(0));
+		PyTuple_SetItem(fill, 2, PyLong_FromLong(0));
+		PyTuple_SetItem(fill, 3, PyLong_FromLong(255));
+
+		if (!(*mvApp::GetApp()->getParsers())["add_stem_series"].parse(args, kwargs, __FUNCTION__, &plot, &name, &data, &marker,
+			&size, &weight, &outline, &fill))
+			return GetPyNone();
+
+		if (!PyList_Check(data))
+		{
+			std::string message = plot;
+			ThrowPythonException(message + " add stem series requires a list of lists.");
+			return GetPyNone();
+		}
+
+		mvAppItem* aplot = mvApp::GetApp()->getItem(plot);
+
+		if (aplot == nullptr)
+		{
+			std::string message = plot;
+			ThrowPythonException(message + " plot does not exist.");
+			return GetPyNone();
+		}
+
+		if (aplot->getType() != mvAppItemType::Plot)
+		{
+			std::string message = plot;
+			ThrowPythonException(message + " is not a plot.");
+			return GetPyNone();
+		}
+
+		mvPlot* graph = static_cast<mvPlot*>(aplot);
+
+		auto datapoints = ToVectVec2(data);
+
+		auto mmarkerOutlineColor = ToColor(outline);
+		if (mmarkerOutlineColor.r > 999)
+			mmarkerOutlineColor.specified = false;
+
+		auto mmarkerFillColor = ToColor(fill);
+		if (mmarkerFillColor.r > 999)
+			mmarkerFillColor.specified = false;
+
+		graph->updateSeries(new mvStemSeries(name, datapoints, marker, size, weight, mmarkerOutlineColor,
+			mmarkerFillColor));
+
+		return GetPyNone();
+	}
+
 	PyObject* add_text_point(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		const char* plot;
@@ -7233,6 +7297,7 @@ namespace Marvel {
 		ADD_PYTHON_FUNCTION(add_line_series)
 		ADD_PYTHON_FUNCTION(add_scatter_series)
 		ADD_PYTHON_FUNCTION(add_area_series)
+		ADD_PYTHON_FUNCTION(add_stem_series)
 		ADD_PYTHON_FUNCTION(add_text_point)
 		{
 NULL, NULL, 0, NULL

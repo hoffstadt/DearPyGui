@@ -366,9 +366,10 @@ with window("Plots, Graphs and Charts##dialog", 500, 500, hide=True):
 
         data3 = [[0.5, -0.5], [1, -0.5], [1, -1], [0.5, -1]]
 
-        add_line_series("Plot", "Cos", data1, weight=2, fill=[255, 0, 0, 100])
-        add_scatter_series("Plot", "Sin", data1)
-        add_area_series("Plot", "Custom", data3, [255, 255, 0], [255, 255, 0, 100])
+        add_line_series("Plot", "Line", data1, weight=2, fill=[255, 0, 0, 100])
+        add_scatter_series("Plot", "Scatter", data1)
+        add_stem_series("Plot", "Stem", data1)
+        add_area_series("Plot", "Area", data3, [255, 255, 0], [255, 255, 0, 100])
 
     def colormapCallback(sender, data):
         value = get_value("Colormaps")

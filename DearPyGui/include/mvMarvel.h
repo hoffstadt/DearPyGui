@@ -279,6 +279,19 @@ namespace Marvel {
 			{mvPythonDataType::FloatList, "fill"},
 		}, "Adds a scatter series to a plot.", "None", "Plotting") });
 
+		parsers->insert({ "add_stem_series", mvPythonParser({
+			{mvPythonDataType::String, "plot"},
+			{mvPythonDataType::String, "name"},
+			{mvPythonDataType::FloatList, "data"},
+			{mvPythonDataType::Optional},
+			{mvPythonDataType::KeywordOnly},
+			{mvPythonDataType::Integer, "marker"},
+			{mvPythonDataType::Float, "size"},
+			{mvPythonDataType::Float, "weight"},
+			{mvPythonDataType::FloatList, "outline"},
+			{mvPythonDataType::FloatList, "fill"},
+		}, "Adds a stem series to a plot.", "None", "Plotting") });
+
 		parsers->insert({ "add_text_point", mvPythonParser({
 			{mvPythonDataType::String, "plot"},
 			{mvPythonDataType::String, "name"},
