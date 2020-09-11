@@ -3,6 +3,7 @@
 #include "Core/mvDataStorage.h"
 #include <GL/gl3w.h>
 #include <GLFW/glfw3.h>
+#include "implot.h"
 #include "imgui.h"
 #include "imgui_impl_glfw.h"
 #include "imgui_impl_opengl3.h"
@@ -59,6 +60,7 @@ namespace Marvel {
         // Setup Dear ImGui binding
         IMGUI_CHECKVERSION();
         ImGui::CreateContext();
+        ImPlot::CreateContext();
         ImGuiIO& io = ImGui::GetIO(); (void)io;
         io.ConfigWindowsMoveFromTitleBarOnly = true;
         io.IniFilename = nullptr;
@@ -173,6 +175,7 @@ namespace Marvel {
         // Cleanup
         ImGui_ImplOpenGL3_Shutdown();
         ImGui_ImplGlfw_Shutdown();
+        ImPlot::DestroyContext();
         ImGui::DestroyContext();
 
         glfwDestroyWindow(m_window);
