@@ -2080,6 +2080,14 @@ This item will be displayed before the specified item in the parent. (runtime ad
 <hr>
 <ul>
 <li>
+<p>shortcut : str
+Adds a shortcut</p>
+</li>
+<li>
+<p>check : bool
+Makes menu with checkmarks.</p>
+</li>
+<li>
 <p>callback : Any
 Registers a callback</p>
 </li>
@@ -4192,6 +4200,18 @@ Callback ran when window is closed</p>
 <li>item : str</li>
 </ul></div>
 </dd>
+<dt id="dearpygui.dearpygui.get_item_parent"><code class="name flex">
+<span>def <span class="ident">get_item_parent</span></span>(<span>...)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Returns an item's parent.</p>
+<p>Return Type: str</p>
+<p>Parameters</p>
+<hr>
+<ul>
+<li>item : str</li>
+</ul></div>
+</dd>
 <dt id="dearpygui.dearpygui.get_item_popup"><code class="name flex">
 <span>def <span class="ident">get_item_popup</span></span>(<span>...)</span>
 </code></dt>
@@ -4740,6 +4760,18 @@ Callback ran when window is closed</p>
 <li>item : str</li>
 </ul></div>
 </dd>
+<dt id="dearpygui.dearpygui.is_item_container"><code class="name flex">
+<span>def <span class="ident">is_item_container</span></span>(<span>...)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Checks if an item is container.</p>
+<p>Return Type: bool</p>
+<p>Parameters</p>
+<hr>
+<ul>
+<li>item : str</li>
+</ul></div>
+</dd>
 <dt id="dearpygui.dearpygui.is_item_deactivated"><code class="name flex">
 <span>def <span class="ident">is_item_deactivated</span></span>(<span>...)</span>
 </code></dt>
@@ -4800,6 +4832,18 @@ Callback ran when window is closed</p>
 <li>item : str</li>
 </ul></div>
 </dd>
+<dt id="dearpygui.dearpygui.is_item_shown"><code class="name flex">
+<span>def <span class="ident">is_item_shown</span></span>(<span>...)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Checks if an item is shown.</p>
+<p>Return Type: bool</p>
+<p>Parameters</p>
+<hr>
+<ul>
+<li>item : str</li>
+</ul></div>
+</dd>
 <dt id="dearpygui.dearpygui.is_item_toggled_open"><code class="name flex">
 <span>def <span class="ident">is_item_toggled_open</span></span>(<span>...)</span>
 </code></dt>
@@ -4816,7 +4860,7 @@ Callback ran when window is closed</p>
 <span>def <span class="ident">is_item_visible</span></span>(<span>...)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Checks if an item is visible.</p>
+<div class="desc"><p>Checks if an item is visible on screen.</p>
 <p>Return Type: bool</p>
 <p>Parameters</p>
 <hr>
@@ -6642,6 +6686,7 @@ This item will be displayed before the specified item in the parent. (runtime ad
 <li><code><a title="dearpygui.dearpygui.get_item_children" href="#dearpygui.dearpygui.get_item_children">get_item_children</a></code></li>
 <li><code><a title="dearpygui.dearpygui.get_item_height" href="#dearpygui.dearpygui.get_item_height">get_item_height</a></code></li>
 <li><code><a title="dearpygui.dearpygui.get_item_label" href="#dearpygui.dearpygui.get_item_label">get_item_label</a></code></li>
+<li><code><a title="dearpygui.dearpygui.get_item_parent" href="#dearpygui.dearpygui.get_item_parent">get_item_parent</a></code></li>
 <li><code><a title="dearpygui.dearpygui.get_item_popup" href="#dearpygui.dearpygui.get_item_popup">get_item_popup</a></code></li>
 <li><code><a title="dearpygui.dearpygui.get_item_rect_max" href="#dearpygui.dearpygui.get_item_rect_max">get_item_rect_max</a></code></li>
 <li><code><a title="dearpygui.dearpygui.get_item_rect_min" href="#dearpygui.dearpygui.get_item_rect_min">get_item_rect_min</a></code></li>
@@ -6701,11 +6746,13 @@ This item will be displayed before the specified item in the parent. (runtime ad
 <li><code><a title="dearpygui.dearpygui.is_item_activated" href="#dearpygui.dearpygui.is_item_activated">is_item_activated</a></code></li>
 <li><code><a title="dearpygui.dearpygui.is_item_active" href="#dearpygui.dearpygui.is_item_active">is_item_active</a></code></li>
 <li><code><a title="dearpygui.dearpygui.is_item_clicked" href="#dearpygui.dearpygui.is_item_clicked">is_item_clicked</a></code></li>
+<li><code><a title="dearpygui.dearpygui.is_item_container" href="#dearpygui.dearpygui.is_item_container">is_item_container</a></code></li>
 <li><code><a title="dearpygui.dearpygui.is_item_deactivated" href="#dearpygui.dearpygui.is_item_deactivated">is_item_deactivated</a></code></li>
 <li><code><a title="dearpygui.dearpygui.is_item_deactivated_after_edit" href="#dearpygui.dearpygui.is_item_deactivated_after_edit">is_item_deactivated_after_edit</a></code></li>
 <li><code><a title="dearpygui.dearpygui.is_item_edited" href="#dearpygui.dearpygui.is_item_edited">is_item_edited</a></code></li>
 <li><code><a title="dearpygui.dearpygui.is_item_focused" href="#dearpygui.dearpygui.is_item_focused">is_item_focused</a></code></li>
 <li><code><a title="dearpygui.dearpygui.is_item_hovered" href="#dearpygui.dearpygui.is_item_hovered">is_item_hovered</a></code></li>
+<li><code><a title="dearpygui.dearpygui.is_item_shown" href="#dearpygui.dearpygui.is_item_shown">is_item_shown</a></code></li>
 <li><code><a title="dearpygui.dearpygui.is_item_toggled_open" href="#dearpygui.dearpygui.is_item_toggled_open">is_item_toggled_open</a></code></li>
 <li><code><a title="dearpygui.dearpygui.is_item_visible" href="#dearpygui.dearpygui.is_item_visible">is_item_visible</a></code></li>
 <li><code><a title="dearpygui.dearpygui.is_key_down" href="#dearpygui.dearpygui.is_key_down">is_key_down</a></code></li>
