@@ -198,20 +198,41 @@ namespace Marvel {
 	static void AddPlotCommands(std::map<std::string, mvPythonParser>* parsers)
 	{
 		parsers->insert({ "add_plot", mvPythonParser({
-		{mvPythonDataType::String, "name"},
-		{mvPythonDataType::Optional},
-		{mvPythonDataType::String, "xAxisName"},
-		{mvPythonDataType::String, "yAxisName"},
-		{mvPythonDataType::KeywordOnly},
-		{mvPythonDataType::Integer, "flags"},
-		{mvPythonDataType::Integer, "xflags"},
-		{mvPythonDataType::Integer, "yflags"},
-		{mvPythonDataType::String, "parent", "Parent to add this item to. (runtime adding)"},
-		{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)"},
-		{mvPythonDataType::Integer, "width",""},
-		{mvPythonDataType::Integer, "height", ""},
-		{mvPythonDataType::String, "query_callback", "Callback ran when plot is queried. Should be of the form 'def Callback(sender, data)'\n Data is (x_min, x_max, y_min, y_max)."},
-	}, "Adds a plot widget.", "None", "Plotting") });
+			{mvPythonDataType::String, "name"},
+			{mvPythonDataType::Optional},
+			{mvPythonDataType::String, "xAxisName"},
+			{mvPythonDataType::String, "yAxisName"},
+			{mvPythonDataType::KeywordOnly},
+			{mvPythonDataType::Integer, "flags"},
+			{mvPythonDataType::Integer, "xflags"},
+			{mvPythonDataType::Integer, "yflags"},
+			{mvPythonDataType::String, "parent", "Parent to add this item to. (runtime adding)"},
+			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)"},
+			{mvPythonDataType::Integer, "width",""},
+			{mvPythonDataType::Integer, "height", ""},
+			{mvPythonDataType::String, "query_callback", "Callback ran when plot is queried. Should be of the form 'def Callback(sender, data)'\n Data is (x_min, x_max, y_min, y_max)."},
+		}, "Adds a plot widget.", "None", "Plotting") });
+
+		parsers->insert({ "add_pie_chart", mvPythonParser({
+			{mvPythonDataType::String, "name"},
+			{mvPythonDataType::Optional},
+			{mvPythonDataType::KeywordOnly},
+			{mvPythonDataType::Bool, "normalize"},
+			{mvPythonDataType::String, "format"},
+			{mvPythonDataType::String, "parent", "Parent to add this item to. (runtime adding)"},
+			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)"},
+			{mvPythonDataType::Integer, "width",""},
+			{mvPythonDataType::Integer, "height", ""},
+		}, "Adds a pie chart widget.", "None", "Plotting") });
+
+		parsers->insert({ "add_pie_chart_data", mvPythonParser({
+			{mvPythonDataType::String, "plot"},
+			{mvPythonDataType::Object, "data", "list of [str,float]"},
+		}, "Sets data for a pie chart", "None", "Plotting") });
+
+		parsers->insert({ "clear_pie_chart_data", mvPythonParser({
+			{mvPythonDataType::String, "plot"}
+		}, "Clears data for a pie chart", "None", "Plotting") });
 
 		parsers->insert({ "clear_plot", mvPythonParser({
 			{mvPythonDataType::String, "plot"},
@@ -332,6 +353,8 @@ namespace Marvel {
 		parsers->insert({ "reset_yticks", mvPythonParser({
 			{mvPythonDataType::String, "plot"},
 		}, "Sets plots y ticks and labels back to automatic", "None", "Plotting") });
+
+
 	}
 
 	static void AddLogCommands(std::map<std::string, mvPythonParser>* parsers)

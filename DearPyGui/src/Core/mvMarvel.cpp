@@ -6,7 +6,7 @@
 #include "Core/StandardWindows/mvSourceWindow.h"
 #include "Core/StandardWindows/mvFileDialog.h"
 #include "mvPythonTranslator.h"
-#include "Core/AppItems/mvAppItems.h"
+#include "Core/mvAppItems.h"
 #include "mvWindow.h"
 #include "Core/mvPythonExceptions.h"
 #include <ImGuiFileDialog.h>
@@ -2007,11 +2007,95 @@ namespace Marvel {
 			&xflags, &yflags, &parent, &before, &width, &height, &query_callback))
 			return ToPyBool(false);
 
-		mvAppItem* item = new mvPlot("", name, xAxisName, yAxisName, width, height, flags, xflags, yflags, query_callback);
+		mvAppItem* item = new mvPlot("", name, xAxisName, yAxisName, flags, xflags, yflags, query_callback);
 		item->setWidth(width);
 		item->setHeight(height);
 
 		return ToPyBool(AddItemWithRuntimeChecks(item, parent, before));
+	}
+
+	PyObject* add_pie_chart(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		const char* name;
+		int normalize = false;
+		const char* format = "%.1f";
+		const char* parent = "";
+		const char* before = "";
+		int width = -1;
+		int height = -1;
+		PyObject* query_callback = nullptr;
+
+		if (!(*mvApp::GetApp()->getParsers())["add_pie_chart"].parse(args, kwargs, __FUNCTION__, &name,
+			&normalize, &format, &parent, &before, &width, &height))
+			return ToPyBool(false);
+
+		mvAppItem* item = new mvPieChart("", name, normalize, format);
+		item->setWidth(width);
+		item->setHeight(height);
+
+		return ToPyBool(AddItemWithRuntimeChecks(item, parent, before));
+	}
+
+	PyObject* add_pie_chart_data(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		const char* plot;
+		PyObject* data;
+
+		if (!(*mvApp::GetApp()->getParsers())["add_pie_chart_data"].parse(args, kwargs, __FUNCTION__,
+			&plot, &data))
+			return GetPyNone();
+
+		mvAppItem* aplot = mvApp::GetApp()->getItem(plot);
+		if (aplot == nullptr)
+		{
+			std::string message = plot;
+			ThrowPythonException(message + " pie chart does not exist.");
+			return GetPyNone();
+		}
+
+		if (aplot->getType() != mvAppItemType::PieChart)
+		{
+			std::string message = plot;
+			ThrowPythonException(message + " is not a pie chart.");
+			return GetPyNone();
+		}
+
+		mvPieChart* graph = static_cast<mvPieChart*>(aplot);
+
+		auto mlabel_pairs = ToVectPairStringFloat(data);
+
+		graph->addData(mlabel_pairs);
+
+		return GetPyNone();
+	}
+
+	PyObject* clear_pie_chart_data(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		const char* plot;
+
+		if (!(*mvApp::GetApp()->getParsers())["clear_pie_chart_data"].parse(args, kwargs, __FUNCTION__,
+			&plot))
+			return GetPyNone();
+
+		mvAppItem* aplot = mvApp::GetApp()->getItem(plot);
+
+		if (aplot == nullptr)
+		{
+			std::string message = plot;
+			ThrowPythonException(message + " pie chart does not exist.");
+			return GetPyNone();
+		}
+
+		if (aplot->getType() != mvAppItemType::PieChart)
+		{
+			std::string message = plot;
+			ThrowPythonException(message + " is not a pie chart.");
+			return GetPyNone();
+		}
+
+		mvPieChart* graph = static_cast<mvPieChart*>(aplot);
+		graph->clearData();
+		return GetPyNone();
 	}
 
 	PyObject* delete_series(PyObject* self, PyObject* args, PyObject* kwargs)
@@ -7009,6 +7093,10 @@ namespace Marvel {
 
 	static PyMethodDef dearpyguimethods[]
 	{
+		ADD_PYTHON_FUNCTION(add_pie_chart)
+		ADD_PYTHON_FUNCTION(add_pie_chart_data)
+		ADD_PYTHON_FUNCTION(clear_pie_chart_data)
+
 		ADD_PYTHON_FUNCTION(add_dummy)
 		ADD_PYTHON_FUNCTION(set_start_callback)
 		ADD_PYTHON_FUNCTION(set_item_color)

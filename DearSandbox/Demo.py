@@ -387,6 +387,10 @@ with window("Plots, Graphs and Charts##dialog", 500, 500, hide=True):
             add_simple_plot("Simpleplot1", (0.3, 0.9, 2.5, 8.9))
             add_simple_plot("Simpleplot2", (0.3, 0.9, 2.5, 8.9), overlay="Overlaying", height=180, histogram=True)
 
+        with tab("Pie Chart"):
+            add_pie_chart("PieChart1", normalize=True);
+            add_pie_chart_data("PieChart1", [["fish", 0.25], ["Cow", 0.30], ["Chicken", 0.30]])
+
 ########################################################################################################################
 # Canvas
 ########################################################################################################################
