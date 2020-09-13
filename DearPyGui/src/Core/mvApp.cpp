@@ -700,7 +700,7 @@ namespace Marvel {
 
 			PyObject* result = PyObject_CallObject(callback, pArgs);
 
-			// check if call succeded
+			// check if call succeeded
 			if (!result)
 			{
 				PyErr_Print();
@@ -784,7 +784,7 @@ namespace Marvel {
 
 		PyObject* result = PyObject_CallObject(callable, pArgs);
 
-		// check if call succeded
+		// check if call succeeded
 		if (!result)
 		{
 			PyErr_Print();
