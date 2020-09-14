@@ -144,6 +144,14 @@ def add_image(name: str, value: str, tint_color: List[float] = [1.0, 1.0, 1.0, 1
 	Using (0,0)->(1,1) texture coordinates will generally display the entire texture"""
 	...
 
+def add_image_button(name: str, value: str, callback: Callable = None, callback_data: Any = None, tint_color: List[float] = [1.0, 1.0, 1.0, 1.0], 
+					 background_color: List[float] = [0.0, 0.0, 0.0, 0.0], tip: str = "", parent: str = "", before: str = "", 
+			  width: int = 0, height: int = 0, frame_padding: int = -1, uv_min: List[float] = [0.0, 0.0], uv_max: List[float] = [1.0, 1.0]) -> bool:
+	"""Adds an image button.
+	uv_min and uv_max represent the normalized texture coordinates of the original image that will be shown
+	Using (0,0)->(1,1) texture coordinates will generally display the entire texture"""
+	...
+
 def add_indent(name: str = "", offset: float = 0.0, parent: str = "", before: str = "") -> bool:
 	"""Adds an indent to following items. Must be closed with the unindent command."""
 	...
@@ -217,6 +225,14 @@ def add_menu_bar(name: str, parent: str = "", before: str = "") -> bool:
 
 def add_menu_item(name: str, shortcut: str = "", check: bool = False, callback: Callable = None, callback_data: Any = None, tip: str = "", parent: str = "", before: str = "") -> bool:
 	"""Adds a menu item to an existing menu."""
+	...
+
+def add_pie_chart(name: str, normalize: bool = False, format: str = "%.1f", parent: str = "", before: str = "", width: int = -1, height: int = -1) -> bool:
+	""" Adds a pie chart widget. """
+	...
+
+def add_pie_chart_data(plot: str, data: List[[str, float]]) -> None:
+	"""Sets data for a pie chart."""
 	...
 
 def add_plot(name: str, xAxisName: str = "", yAxisName: str = "", flags: int = 0, xflags: int = 0, yflags: int = 0, parent: str = "", before: str = "", width: int = -1, height: int = -1, query_callback: str = "") -> bool:
@@ -317,6 +333,10 @@ def add_spacing(name: str = "", count: int = 1, parent: str = "", before: str = 
 	"""Adds vertical spacing."""
 	...
 
+def add_stem_series(plot: str, name: str, data: List[float], marker: int = 2, size: float = 4.0, weight: float = 1.0, outline: List[float] = ..., fill: List[float] = ...) -> None:
+	"""Adds a stem series to a plot."""
+	...
+
 def add_tab(name: str, closable: bool = False, tip: str = "", parent: str = "", before: str = "") -> bool:
 	"""Adds a tab to a tab bar. Must be closed with the end_tab command."""
 	...
@@ -366,6 +386,10 @@ def clear_item_color(item: str) -> None:
 
 def clear_log() -> None:
 	"""Clears the logger."""
+	...
+
+def clear_pie_chart_data(plot:str) -> None:
+	""" Clears data for a pie chart. """
 	...
 
 def clear_plot(plot: str) -> None:

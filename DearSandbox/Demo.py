@@ -151,7 +151,9 @@ with group("Launch Group", width=200):
     add_button("Open File", callback=OpenFile)
     add_button("Open Directory", callback=OpenDirectory)
     #add_image_button("image", "C:/Users/Jonathan Hoffstadt/Desktop/avacado.PNG")
-    add_image_button("image", "C:/dev/DearPyGui/Examples/SpriteMapExample.png")
+   
+#add_image("image1", "C:/dev/DearPyGui/Examples/SpriteMapExample.png")
+#add_image_button("image", "C:/dev/DearPyGui/Examples/SpriteMapExample.png")
 
 ########################################################################################################################
 # Tables

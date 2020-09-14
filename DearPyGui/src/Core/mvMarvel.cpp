@@ -3183,10 +3183,10 @@ namespace Marvel {
 		PyObject* callback = nullptr;
 		PyObject* callback_data = nullptr;
 		PyObject* tintcolor = PyTuple_New(4);
-		PyTuple_SetItem(tintcolor, 0, PyFloat_FromDouble(1.0));
-		PyTuple_SetItem(tintcolor, 1, PyFloat_FromDouble(1.0));
-		PyTuple_SetItem(tintcolor, 2, PyFloat_FromDouble(1.0));
-		PyTuple_SetItem(tintcolor, 3, PyFloat_FromDouble(1.0));
+		PyTuple_SetItem(tintcolor, 0, PyFloat_FromDouble(255.0));
+		PyTuple_SetItem(tintcolor, 1, PyFloat_FromDouble(255.0));
+		PyTuple_SetItem(tintcolor, 2, PyFloat_FromDouble(255.0));
+		PyTuple_SetItem(tintcolor, 3, PyFloat_FromDouble(255.0));
 		PyObject* backgroundColor = PyTuple_New(4);
 		PyTuple_SetItem(backgroundColor, 0, PyFloat_FromDouble(0.0));
 		PyTuple_SetItem(backgroundColor, 1, PyFloat_FromDouble(0.0));
