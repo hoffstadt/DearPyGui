@@ -58,9 +58,11 @@ set(MARVEL_SOURCES
 	"src/Core/StandardWindows/mvStyleWindow.cpp"
 
 	"src/Core/AppItems/mvAppItem.cpp"
-	"src/Core/AppItems/mvPlot.cpp"
 	"src/Core/AppItems/mvDrawing.cpp"
 	"src/Core/AppItems/mvTable.cpp"
+
+	"src/Core/PlotAppItems/mvPlot.cpp"
+	"src/Core/PlotAppItems/mvAreaSeries.cpp"
 
 	"$<$<PLATFORM_ID:Windows>:src/Platform/Windows/mvWindowsWindow.cpp>"
 	"$<$<PLATFORM_ID:Windows>:src/Platform/Windows/mvUtilities.cpp>"
@@ -73,6 +75,7 @@ set(MARVEL_SOURCES
 
 	# implot
 	"src/Vendor/implot/implot.cpp"
+	"src/Vendor/implot/implot_items.cpp"
 	"src/Vendor/implot/implot_demo.cpp"
 
 	# ImGuiFileDialog

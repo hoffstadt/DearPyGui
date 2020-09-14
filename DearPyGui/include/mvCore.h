@@ -61,6 +61,10 @@ namespace Marvel {
 			return ImGui::ColorConvertFloat4ToU32({ r/255.0f, g/255.0f, b/255.0f, a/255.0f });
 		}
 
+		ImVec4 toVec4() const
+		{
+			return { r / 255.0f, g / 255.0f, b / 255.0f, a / 255.0f };
+		}
 
 	};
 

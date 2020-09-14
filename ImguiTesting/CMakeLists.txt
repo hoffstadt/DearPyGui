@@ -15,6 +15,7 @@ target_sources(PureImgui
 
 		# implot
 		"../DearPyGui/src/Vendor/implot/implot.cpp"
+		"../DearPyGui/src/Vendor/implot/implot_items.cpp"
 		"../DearPyGui/src/Vendor/implot/implot_demo.cpp"
 
 		# imgui

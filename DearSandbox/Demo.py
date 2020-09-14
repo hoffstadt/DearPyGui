@@ -49,7 +49,7 @@ add_data("DataStorage1", {"Key": 34})
 add_data("DataStorage2", [23, 42, 53, 5])
 
 set_main_window_title("DearPyGui Demo")
-set_main_window_size(1000, 1000)
+set_main_window_size(1000, 800)
 add_additional_font("C:/dev/DearPyGui/Resources/NotoSerifCJKjp-Medium.otf", 20)
 
 
@@ -119,8 +119,6 @@ with child("CompleteChecklistGroup", width=300):
 
 add_same_line()
 
-#add_image("image", "/Users/jonathanhoffstadt/Desktop/demo.jpg")
-
 ########################################################################################################################
 # Launchers
 ########################################################################################################################
@@ -152,6 +150,10 @@ with group("Launch Group", width=200):
     add_button("Tables", callback=Launcher)
     add_button("Open File", callback=OpenFile)
     add_button("Open Directory", callback=OpenDirectory)
+    #add_image_button("image", "C:/Users/Jonathan Hoffstadt/Desktop/avacado.PNG")
+   
+#add_image("image1", "C:/dev/DearPyGui/Examples/SpriteMapExample.png")
+#add_image_button("image", "C:/dev/DearPyGui/Examples/SpriteMapExample.png")
 
 ########################################################################################################################
 # Tables
@@ -366,9 +368,10 @@ with window("Plots, Graphs and Charts##dialog", 500, 500, hide=True):
 
         data3 = [[0.5, -0.5], [1, -0.5], [1, -1], [0.5, -1]]
 
-        add_line_series("Plot", "Cos", data1, weight=2, fill=[255, 0, 0, 100])
-        add_scatter_series("Plot", "Sin", data1)
-        add_area_series("Plot", "Custom", data3, [255, 255, 0], [255, 255, 0, 100])
+        add_line_series("Plot", "Line", data1, weight=2, fill=[255, 0, 0, 100])
+        add_scatter_series("Plot", "Scatter", data1)
+        add_stem_series("Plot", "Stem", data1)
+        add_area_series("Plot", "Area", data3, [255, 255, 0], [255, 255, 0, 100])
 
     def colormapCallback(sender, data):
         value = get_value("Colormaps")
@@ -385,6 +388,10 @@ with window("Plots, Graphs and Charts##dialog", 500, 500, hide=True):
         with tab("Simple Plots"):
             add_simple_plot("Simpleplot1", (0.3, 0.9, 2.5, 8.9))
             add_simple_plot("Simpleplot2", (0.3, 0.9, 2.5, 8.9), overlay="Overlaying", height=180, histogram=True)
+
+        with tab("Pie Chart"):
+            add_pie_chart("PieChart1", normalize=True);
+            add_pie_chart_data("PieChart1", [["fish", 0.25], ["Cow", 0.30], ["Chicken", 0.30]])
 
 ########################################################################################################################
 # Canvas

@@ -1,5 +1,6 @@
 #include "Platform/Windows/mvWindowsWindow.h"
 #include "mvApp.h"
+#include "implot.h"
 #include "Core/mvDataStorage.h"
 
 // Forward declare message handler from imgui_impl_win32.cpp
@@ -45,6 +46,7 @@ namespace Marvel {
 		// Cleanup
 		ImGui_ImplDX11_Shutdown();
 		ImGui_ImplWin32_Shutdown();
+		ImPlot::DestroyContext();
 		ImGui::DestroyContext();
 
 		CleanupDeviceD3D();
@@ -67,6 +69,7 @@ namespace Marvel {
 		// Setup Dear ImGui context
 		IMGUI_CHECKVERSION();
 		ImGui::CreateContext();
+		ImPlot::CreateContext();
 		ImGuiIO& io = ImGui::GetIO(); (void)io;
 		io.ConfigWindowsMoveFromTitleBarOnly = true;
 		io.IniFilename = nullptr;

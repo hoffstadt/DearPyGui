@@ -8,6 +8,7 @@
 #include <GLFW/glfw3native.h>
 
 #include "imgui.h"
+#include "implot.h"
 #include "imgui_impl_glfw.h"
 #include "imgui_impl_metal.h"
 #include <stdio.h>
@@ -45,6 +46,7 @@ namespace Marvel {
         // Setup Dear ImGui binding
         IMGUI_CHECKVERSION();
         ImGui::CreateContext();
+        ImPlot::CreateContext();
         ImGuiIO &io = ImGui::GetIO();
         io.ConfigWindowsMoveFromTitleBarOnly = true;
         io.IniFilename = nullptr;
@@ -93,6 +95,7 @@ namespace Marvel {
         // Cleanup
         ImGui_ImplMetal_Shutdown();
         ImGui_ImplGlfw_Shutdown();
+        ImPlot::DestroyContext();
         ImGui::DestroyContext();
 
         glfwDestroyWindow(m_window);
