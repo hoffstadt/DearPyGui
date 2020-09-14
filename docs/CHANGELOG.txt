@@ -28,6 +28,17 @@ HOW TO UPDATE?
 
 Decorated log: https://github.com/hoffstadt/DearPyGui/releases/tag/v0.3.6
 
+Updates:
+- ImPlot: upgraded to commit 4f0a09f
+
+New Commands:
+- Widgets: Added "add_image_button" command
+- Plots:   Added "add_pie_chart" command
+- Plots:   Added "add_pie_chart_data" command
+- Plots:   Added "clear_pie_chart_data" command
+- Plots:   Added "add_stem_series" command
+
+
 -----------------------------------------------------------------------
  VERSION 0.3.5 (9/10/2020)
 -----------------------------------------------------------------------

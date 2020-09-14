@@ -40,7 +40,8 @@ namespace Marvel {
         ColorPicker3, ColorPicker4, Tooltip, CollapsingHeader, 
         Separator, Checkbox, Listbox, Text, LabelText, Combo, 
         Plot, SimplePlot, Indent, Unindent, Drawing, Window,
-        Popup, Selectable, TreeNode, ProgressBar, Table, Dummy
+        Popup, Selectable, TreeNode, ProgressBar, Table, Dummy,
+        PieChart, ImageButton
     };
 
     //-----------------------------------------------------------------------------

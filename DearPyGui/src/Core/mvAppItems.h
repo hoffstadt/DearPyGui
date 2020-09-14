@@ -9,13 +9,20 @@
 #include "Core/AppItems/mvTooltip.h"
 #include "Core/AppItems/mvColorItems.h"
 #include "Core/AppItems/mvText.h"
-#include "Core/AppItems/mvSimplePlot.h"
 #include "Core/AppItems/mvWindowAppItem.h"
 #include "Core/AppItems/mvPopup.h"
 #include "Core/AppItems/mvDrawing.h"
-#include "Core/AppItems/mvPlot.h"
 #include "Core/AppItems/mvImage.h"
 #include "Core/AppItems/mvTable.h"
+
+#include "Core/PlotAppItems/mvPlot.h"
+#include "Core/PlotAppItems/mvSimplePlot.h"
+#include "Core/PlotAppItems/mvPieChart.h"
+#include "Core/PlotAppItems/mvLineSeries.h"
+#include "Core/PlotAppItems/mvScatterSeries.h"
+#include "Core/PlotAppItems/mvAreaSeries.h"
+#include "Core/PlotAppItems/mvStemSeries.h"
+#include "Core/PlotAppItems/mvLabelSeries.h"
 
 //-----------------------------------------------------------------------------
 // Widget Index
@@ -73,6 +80,9 @@
 //     - mvPlot.h
 //         * mvPlot
 //
+//     - mvPieChart.h
+//         * mvPieChart
+//
 //     - mvPopup.h
 //         * mvPopup
 //
@@ -95,5 +105,6 @@
 //
 //     - mvImage.h
 //         * mvImage
+//         * mvImageButton
 //
 //-----------------------------------------------------------------------------

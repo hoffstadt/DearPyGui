@@ -20,7 +20,7 @@
 #include <future>
 #include <chrono>
 #include "Core/mvThreadPool.h"
-#include "Core/AppItems/mvAppItems.h"
+#include "Core/mvAppItems.h"
 #include <frameobject.h>
 
 namespace Marvel {

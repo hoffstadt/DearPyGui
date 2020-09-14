@@ -198,20 +198,41 @@ namespace Marvel {
 	static void AddPlotCommands(std::map<std::string, mvPythonParser>* parsers)
 	{
 		parsers->insert({ "add_plot", mvPythonParser({
-		{mvPythonDataType::String, "name"},
-		{mvPythonDataType::Optional},
-		{mvPythonDataType::String, "xAxisName"},
-		{mvPythonDataType::String, "yAxisName"},
-		{mvPythonDataType::KeywordOnly},
-		{mvPythonDataType::Integer, "flags"},
-		{mvPythonDataType::Integer, "xflags"},
-		{mvPythonDataType::Integer, "yflags"},
-		{mvPythonDataType::String, "parent", "Parent to add this item to. (runtime adding)"},
-		{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)"},
-		{mvPythonDataType::Integer, "width",""},
-		{mvPythonDataType::Integer, "height", ""},
-		{mvPythonDataType::String, "query_callback", "Callback ran when plot is queried. Should be of the form 'def Callback(sender, data)'\n Data is (x_min, x_max, y_min, y_max)."},
-	}, "Adds a plot widget.", "None", "Plotting") });
+			{mvPythonDataType::String, "name"},
+			{mvPythonDataType::Optional},
+			{mvPythonDataType::String, "xAxisName"},
+			{mvPythonDataType::String, "yAxisName"},
+			{mvPythonDataType::KeywordOnly},
+			{mvPythonDataType::Integer, "flags"},
+			{mvPythonDataType::Integer, "xflags"},
+			{mvPythonDataType::Integer, "yflags"},
+			{mvPythonDataType::String, "parent", "Parent to add this item to. (runtime adding)"},
+			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)"},
+			{mvPythonDataType::Integer, "width",""},
+			{mvPythonDataType::Integer, "height", ""},
+			{mvPythonDataType::String, "query_callback", "Callback ran when plot is queried. Should be of the form 'def Callback(sender, data)'\n Data is (x_min, x_max, y_min, y_max)."},
+		}, "Adds a plot widget.", "None", "Plotting") });
+
+		parsers->insert({ "add_pie_chart", mvPythonParser({
+			{mvPythonDataType::String, "name"},
+			{mvPythonDataType::Optional},
+			{mvPythonDataType::KeywordOnly},
+			{mvPythonDataType::Bool, "normalize"},
+			{mvPythonDataType::String, "format"},
+			{mvPythonDataType::String, "parent", "Parent to add this item to. (runtime adding)"},
+			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)"},
+			{mvPythonDataType::Integer, "width",""},
+			{mvPythonDataType::Integer, "height", ""},
+		}, "Adds a pie chart widget.", "None", "Plotting") });
+
+		parsers->insert({ "add_pie_chart_data", mvPythonParser({
+			{mvPythonDataType::String, "plot"},
+			{mvPythonDataType::Object, "data", "list of [str,float]"},
+		}, "Sets data for a pie chart", "None", "Plotting") });
+
+		parsers->insert({ "clear_pie_chart_data", mvPythonParser({
+			{mvPythonDataType::String, "plot"}
+		}, "Clears data for a pie chart", "None", "Plotting") });
 
 		parsers->insert({ "clear_plot", mvPythonParser({
 			{mvPythonDataType::String, "plot"},
@@ -279,6 +300,19 @@ namespace Marvel {
 			{mvPythonDataType::FloatList, "fill"},
 		}, "Adds a scatter series to a plot.", "None", "Plotting") });
 
+		parsers->insert({ "add_stem_series", mvPythonParser({
+			{mvPythonDataType::String, "plot"},
+			{mvPythonDataType::String, "name"},
+			{mvPythonDataType::FloatList, "data"},
+			{mvPythonDataType::Optional},
+			{mvPythonDataType::KeywordOnly},
+			{mvPythonDataType::Integer, "marker"},
+			{mvPythonDataType::Float, "size"},
+			{mvPythonDataType::Float, "weight"},
+			{mvPythonDataType::FloatList, "outline"},
+			{mvPythonDataType::FloatList, "fill"},
+		}, "Adds a stem series to a plot.", "None", "Plotting") });
+
 		parsers->insert({ "add_text_point", mvPythonParser({
 			{mvPythonDataType::String, "plot"},
 			{mvPythonDataType::String, "name"},
@@ -319,6 +353,8 @@ namespace Marvel {
 		parsers->insert({ "reset_yticks", mvPythonParser({
 			{mvPythonDataType::String, "plot"},
 		}, "Sets plots y ticks and labels back to automatic", "None", "Plotting") });
+
+
 	}
 
 	static void AddLogCommands(std::map<std::string, mvPythonParser>* parsers)
@@ -1548,6 +1584,26 @@ namespace Marvel {
 			{mvPythonDataType::FloatList, "uv_max"},
 			{mvPythonDataType::String, "secondary_data_source", "Float list for uv_min and uv_max (i.e. float list (minx, miny, maxx, maxy))"},
 		}, "Adds an image."
+		"uv_min and uv_max represent the normalized texture coordinates of the original image that will be shown."
+		"Using(0,0)->(1,1) texture coordinates will generally display the entire texture", "None", "Adding Widgets") });
+
+		parsers->insert({ "add_image_button", mvPythonParser({
+			{mvPythonDataType::String, "name"},
+			{mvPythonDataType::String, "value"},
+			{mvPythonDataType::KeywordOnly},
+			{mvPythonDataType::Object, "callback", "Registers a callback"},
+			{mvPythonDataType::Object, "callback_data", "Callback data"},
+			{mvPythonDataType::FloatList, "tint_color"},
+			{mvPythonDataType::FloatList, "background_color"},
+			{mvPythonDataType::String, "tip", "Adds a simple tooltip"},
+			{mvPythonDataType::String, "parent", "Parent this item will be added to. (runtime adding)"},
+			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)"},
+			{mvPythonDataType::Integer, "width",""},
+			{mvPythonDataType::Integer, "height",""},
+			{mvPythonDataType::Integer, "frame_padding",""},
+			{mvPythonDataType::FloatList, "uv_min"},
+			{mvPythonDataType::FloatList, "uv_max"},
+		}, "Adds an image button."
 		"uv_min and uv_max represent the normalized texture coordinates of the original image that will be shown."
 		"Using(0,0)->(1,1) texture coordinates will generally display the entire texture", "None", "Adding Widgets") });
 

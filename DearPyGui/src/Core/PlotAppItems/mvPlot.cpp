@@ -4,14 +4,35 @@
 
 namespace Marvel {
 
+	mvSeries::mvSeries(std::string  name, const std::vector<mvVec2>& points)
+		: m_name(std::move(name))
+	{
+		if (!points.empty())
+		{
+			m_maxX = points[0].x;
+			m_minX = points[0].x;
+			m_maxY = points[0].y;
+			m_minY = points[0].y;
+		}
+
+		for (auto& point : points)
+		{
+			if (point.x > m_maxX) m_maxX = point.x;
+			if (point.y > m_maxY) m_maxY = point.y;
+			if (point.x < m_minX) m_minX = point.x;
+			if (point.y < m_minY) m_minY = point.y;
+			m_xs.push_back(point.x);
+			m_ys.push_back(point.y);
+		}
+
+	}
+
 	mvPlot::mvPlot(const std::string& parent, const std::string& name, std::string  xname,
-		std::string yname, int width, int height, ImPlotFlags flags,
+		std::string yname, ImPlotFlags flags,
 		ImPlotAxisFlags xflags, ImPlotAxisFlags yflags, PyObject* queryCallback)
 		: mvAppItem(parent, name), m_xaxisName(std::move(xname)), m_yaxisName(std::move(yname)),
 		m_flags(flags), m_xflags(xflags), m_yflags(yflags), m_queryCallback(queryCallback)
 	{
-		m_width = width;
-		m_height = height;
 	}
 
 	void mvPlot::addSeries(mvSeries* series)
@@ -120,6 +141,7 @@ namespace Marvel {
 	void mvPlot::SetColorMap(ImPlotColormap colormap)
 	{
 		m_colormap = colormap;
+		m_dirty = true;
 	}
 
 	void mvPlot::resetXTicks()
@@ -194,13 +216,12 @@ namespace Marvel {
 			ImVec2((float)m_width, (float)m_height), m_flags,
 			m_xflags, m_yflags))
 		{
-			ImPlot::SetColormap(m_colormap);
+			ImPlot::PushColormap(m_colormap);
 
 			for (auto series : m_series)
 				series->draw();
 
-
-			//ImPlot::SetColormap(ImPlotColormap_Default);
+			ImPlot::PopColormap();
 
 			m_queried = ImPlot::IsPlotQueried();
 
@@ -262,94 +283,4 @@ namespace Marvel {
 	{
 		return m_queryArea;
 	}
-
-	void mvAreaSeries::drawPolygon()
-	{
-
-		ImPlotLimits limits = ImPlot::GetPlotLimits();
-
-		std::vector<ImVec2> points;
-		for (unsigned i = 0; i < m_xs.size(); i++)
-		{
-			float x = m_xs[i] > limits.X.Max ? limits.X.Max : m_xs[i];
-			x = m_xs[i] < limits.X.Min ? limits.X.Min : x;
-
-			float y = m_ys[i] > limits.Y.Max ? limits.Y.Max : m_ys[i];
-			y = m_ys[i] < limits.Y.Min ? limits.Y.Min : y;
-			auto p = ImPlot::PlotToPixels({ x, y });
-			points.push_back(p);
-		}
-
-		if (m_fill.specified)
-		{
-			int i;
-			int y;
-			int miny, maxy;
-			int x1, y1;
-			int x2, y2;
-			int ind1, ind2;
-			int ints;
-			size_t n = points.size();
-			int* polyints = new int[n];
-
-			/* Determine Y maxima */
-			miny = (int)points[0].y;
-			maxy = (int)points[0].y;
-			for (i = 1; i < n; i++)
-			{
-				miny = std::min(miny, (int)points[i].y);
-				maxy = std::max(maxy, (int)points[i].y);
-			}
-
-			/* Draw, scanning y */
-			for (y = miny; y <= maxy; y++) {
-				ints = 0;
-				for (i = 0; (i < n); i++) {
-					if (!i)
-					{
-						ind1 = (int)n - 1;
-						ind2 = 0;
-					}
-					else
-					{
-						ind1 = i - 1;
-						ind2 = i;
-					}
-					y1 = (int)points[ind1].y;
-					y2 = (int)points[ind2].y;
-					if (y1 < y2)
-					{
-						x1 = (int)points[ind1].x;
-						x2 = (int)points[ind2].x;
-					}
-					else if (y1 > y2)
-					{
-						y2 = (int)points[ind1].y;
-						y1 = (int)points[ind2].y;
-						x2 = (int)points[ind1].x;
-						x1 = (int)points[ind2].x;
-					}
-					else
-						continue;
-
-					if (((y >= y1) && (y < y2)) || ((y == maxy) && (y > y1) && (y <= y2)))
-						polyints[ints++] = (y - y1) * (x2 - x1) / (y2 - y1) + x1;
-
-				}
-
-				auto compare_int = [](const void* a, const void* b)
-				{
-					return (*(const int*)a) - (*(const int*)b);
-				};
-
-				qsort(polyints, ints, sizeof(int), compare_int);
-
-				for (i = 0; i < ints; i += 2)
-					ImGui::GetWindowDrawList()->AddLine({ (float)polyints[i], (float)y }, { (float)polyints[i + 1], (float)y}, m_fill, 1.0f);
-			}
-			delete[] polyints;
-		}
-
-	}
-
 }

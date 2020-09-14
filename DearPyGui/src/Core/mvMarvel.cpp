@@ -6,7 +6,7 @@
 #include "Core/StandardWindows/mvSourceWindow.h"
 #include "Core/StandardWindows/mvFileDialog.h"
 #include "mvPythonTranslator.h"
-#include "Core/AppItems/mvAppItems.h"
+#include "Core/mvAppItems.h"
 #include "mvWindow.h"
 #include "Core/mvPythonExceptions.h"
 #include <ImGuiFileDialog.h>
@@ -1994,9 +1994,9 @@ namespace Marvel {
 		const char* name;
 		const char* xAxisName = "";
 		const char* yAxisName = "";
-		int flags = 47;
-		int xflags = 7;
-		int yflags = 7;
+		int flags = 0;
+		int xflags = 0;
+		int yflags = 0;
 		const char* parent = "";
 		const char* before = "";
 		int width = -1;
@@ -2007,11 +2007,95 @@ namespace Marvel {
 			&xflags, &yflags, &parent, &before, &width, &height, &query_callback))
 			return ToPyBool(false);
 
-		mvAppItem* item = new mvPlot("", name, xAxisName, yAxisName, width, height, flags, xflags, yflags, query_callback);
+		mvAppItem* item = new mvPlot("", name, xAxisName, yAxisName, flags, xflags, yflags, query_callback);
 		item->setWidth(width);
 		item->setHeight(height);
 
 		return ToPyBool(AddItemWithRuntimeChecks(item, parent, before));
+	}
+
+	PyObject* add_pie_chart(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		const char* name;
+		int normalize = false;
+		const char* format = "%.1f";
+		const char* parent = "";
+		const char* before = "";
+		int width = -1;
+		int height = -1;
+		PyObject* query_callback = nullptr;
+
+		if (!(*mvApp::GetApp()->getParsers())["add_pie_chart"].parse(args, kwargs, __FUNCTION__, &name,
+			&normalize, &format, &parent, &before, &width, &height))
+			return ToPyBool(false);
+
+		mvAppItem* item = new mvPieChart("", name, normalize, format);
+		item->setWidth(width);
+		item->setHeight(height);
+
+		return ToPyBool(AddItemWithRuntimeChecks(item, parent, before));
+	}
+
+	PyObject* add_pie_chart_data(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		const char* plot;
+		PyObject* data;
+
+		if (!(*mvApp::GetApp()->getParsers())["add_pie_chart_data"].parse(args, kwargs, __FUNCTION__,
+			&plot, &data))
+			return GetPyNone();
+
+		mvAppItem* aplot = mvApp::GetApp()->getItem(plot);
+		if (aplot == nullptr)
+		{
+			std::string message = plot;
+			ThrowPythonException(message + " pie chart does not exist.");
+			return GetPyNone();
+		}
+
+		if (aplot->getType() != mvAppItemType::PieChart)
+		{
+			std::string message = plot;
+			ThrowPythonException(message + " is not a pie chart.");
+			return GetPyNone();
+		}
+
+		mvPieChart* graph = static_cast<mvPieChart*>(aplot);
+
+		auto mlabel_pairs = ToVectPairStringFloat(data);
+
+		graph->addData(mlabel_pairs);
+
+		return GetPyNone();
+	}
+
+	PyObject* clear_pie_chart_data(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		const char* plot;
+
+		if (!(*mvApp::GetApp()->getParsers())["clear_pie_chart_data"].parse(args, kwargs, __FUNCTION__,
+			&plot))
+			return GetPyNone();
+
+		mvAppItem* aplot = mvApp::GetApp()->getItem(plot);
+
+		if (aplot == nullptr)
+		{
+			std::string message = plot;
+			ThrowPythonException(message + " pie chart does not exist.");
+			return GetPyNone();
+		}
+
+		if (aplot->getType() != mvAppItemType::PieChart)
+		{
+			std::string message = plot;
+			ThrowPythonException(message + " is not a pie chart.");
+			return GetPyNone();
+		}
+
+		mvPieChart* graph = static_cast<mvPieChart*>(aplot);
+		graph->clearData();
+		return GetPyNone();
 	}
 
 	PyObject* delete_series(PyObject* self, PyObject* args, PyObject* kwargs)
@@ -2163,6 +2247,70 @@ namespace Marvel {
 			mmarkerFillColor.specified = false;
 
 		graph->updateSeries(new mvScatterSeries(name, datapoints, marker, size, weight, mmarkerOutlineColor,
+			mmarkerFillColor));
+
+		return GetPyNone();
+	}
+
+	PyObject* add_stem_series(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		const char* plot;
+		const char* name;
+		PyObject* data;
+		int marker = 2;
+		float size = 4.0f;
+		float weight = 1.0f;
+		PyObject* outline = PyTuple_New(4);
+		PyTuple_SetItem(outline, 0, PyLong_FromLong(1000));
+		PyTuple_SetItem(outline, 1, PyLong_FromLong(0));
+		PyTuple_SetItem(outline, 2, PyLong_FromLong(0));
+		PyTuple_SetItem(outline, 3, PyLong_FromLong(255));
+		PyObject* fill = PyTuple_New(4);
+		PyTuple_SetItem(fill, 0, PyLong_FromLong(1000));
+		PyTuple_SetItem(fill, 1, PyLong_FromLong(0));
+		PyTuple_SetItem(fill, 2, PyLong_FromLong(0));
+		PyTuple_SetItem(fill, 3, PyLong_FromLong(255));
+
+		if (!(*mvApp::GetApp()->getParsers())["add_stem_series"].parse(args, kwargs, __FUNCTION__, &plot, &name, &data, &marker,
+			&size, &weight, &outline, &fill))
+			return GetPyNone();
+
+		if (!PyList_Check(data))
+		{
+			std::string message = plot;
+			ThrowPythonException(message + " add stem series requires a list of lists.");
+			return GetPyNone();
+		}
+
+		mvAppItem* aplot = mvApp::GetApp()->getItem(plot);
+
+		if (aplot == nullptr)
+		{
+			std::string message = plot;
+			ThrowPythonException(message + " plot does not exist.");
+			return GetPyNone();
+		}
+
+		if (aplot->getType() != mvAppItemType::Plot)
+		{
+			std::string message = plot;
+			ThrowPythonException(message + " is not a plot.");
+			return GetPyNone();
+		}
+
+		mvPlot* graph = static_cast<mvPlot*>(aplot);
+
+		auto datapoints = ToVectVec2(data);
+
+		auto mmarkerOutlineColor = ToColor(outline);
+		if (mmarkerOutlineColor.r > 999)
+			mmarkerOutlineColor.specified = false;
+
+		auto mmarkerFillColor = ToColor(fill);
+		if (mmarkerFillColor.r > 999)
+			mmarkerFillColor.specified = false;
+
+		graph->updateSeries(new mvStemSeries(name, datapoints, marker, size, weight, mmarkerOutlineColor,
 			mmarkerFillColor));
 
 		return GetPyNone();
@@ -3024,6 +3172,61 @@ namespace Marvel {
 		item->setWidth(width);
 		item->setHeight(height);
 		item->setDataSource(data_source);
+
+		return ToPyBool(AddItemWithRuntimeChecks(item, parent, before));
+	}
+
+	PyObject* add_image_button(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		const char* name;
+		const char* value;
+		PyObject* callback = nullptr;
+		PyObject* callback_data = nullptr;
+		PyObject* tintcolor = PyTuple_New(4);
+		PyTuple_SetItem(tintcolor, 0, PyFloat_FromDouble(255.0));
+		PyTuple_SetItem(tintcolor, 1, PyFloat_FromDouble(255.0));
+		PyTuple_SetItem(tintcolor, 2, PyFloat_FromDouble(255.0));
+		PyTuple_SetItem(tintcolor, 3, PyFloat_FromDouble(255.0));
+		PyObject* backgroundColor = PyTuple_New(4);
+		PyTuple_SetItem(backgroundColor, 0, PyFloat_FromDouble(0.0));
+		PyTuple_SetItem(backgroundColor, 1, PyFloat_FromDouble(0.0));
+		PyTuple_SetItem(backgroundColor, 2, PyFloat_FromDouble(0.0));
+		PyTuple_SetItem(backgroundColor, 3, PyFloat_FromDouble(0.0));
+		const char* tip = "";
+		const char* parent = "";
+		const char* before = "";
+		int width = 0;
+		int height = 0;
+		int frame_padding = -1;
+		PyObject* uv_min = PyTuple_New(2);
+		PyTuple_SetItem(uv_min, 0, PyFloat_FromDouble(0));
+		PyTuple_SetItem(uv_min, 1, PyFloat_FromDouble(0));
+		PyObject* uv_max = PyTuple_New(2);
+		PyTuple_SetItem(uv_max, 0, PyFloat_FromDouble(1));
+		PyTuple_SetItem(uv_max, 1, PyFloat_FromDouble(1));
+
+		if (!(*mvApp::GetApp()->getParsers())["add_image_button"].parse(args, kwargs, __FUNCTION__, 
+			&name, &value, &callback, &callback_data, &tintcolor, &backgroundColor, &tip, &parent, 
+			&before, &width, &height, &frame_padding, &uv_min, &uv_max))
+			return ToPyBool(false);
+
+		auto mtintcolor = ToColor(tintcolor);
+		auto mbackgroundColor = ToColor(backgroundColor);
+		mvVec2 muv_min = ToVec2(uv_min);
+		mvVec2 muv_max = ToVec2(uv_max);
+
+		mvAppItem* item = new mvImageButton("", name, value, mtintcolor, 
+			mbackgroundColor, muv_min, muv_max,
+			frame_padding);
+		if (callback)
+			Py_XINCREF(callback);
+		item->setCallback(callback);
+		if (callback_data)
+			Py_XINCREF(callback_data);
+		item->setCallbackData(callback_data);
+		item->setTip(tip);
+		item->setWidth(width);
+		item->setHeight(height);
 
 		return ToPyBool(AddItemWithRuntimeChecks(item, parent, before));
 	}
@@ -6945,6 +7148,10 @@ namespace Marvel {
 
 	static PyMethodDef dearpyguimethods[]
 	{
+		ADD_PYTHON_FUNCTION(add_pie_chart)
+		ADD_PYTHON_FUNCTION(add_pie_chart_data)
+		ADD_PYTHON_FUNCTION(clear_pie_chart_data)
+
 		ADD_PYTHON_FUNCTION(add_dummy)
 		ADD_PYTHON_FUNCTION(set_start_callback)
 		ADD_PYTHON_FUNCTION(set_item_color)
@@ -7038,6 +7245,7 @@ namespace Marvel {
 		ADD_PYTHON_FUNCTION(add_table)
 		ADD_PYTHON_FUNCTION(end)
 		ADD_PYTHON_FUNCTION(add_image)
+		ADD_PYTHON_FUNCTION(add_image_button)
 		ADD_PYTHON_FUNCTION(add_progress_bar)
 		ADD_PYTHON_FUNCTION(add_drag_float)
 		ADD_PYTHON_FUNCTION(add_drag_int)
@@ -7233,6 +7441,7 @@ namespace Marvel {
 		ADD_PYTHON_FUNCTION(add_line_series)
 		ADD_PYTHON_FUNCTION(add_scatter_series)
 		ADD_PYTHON_FUNCTION(add_area_series)
+		ADD_PYTHON_FUNCTION(add_stem_series)
 		ADD_PYTHON_FUNCTION(add_text_point)
 		{
 NULL, NULL, 0, NULL
