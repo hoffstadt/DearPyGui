@@ -27,6 +27,16 @@ namespace Marvel{
 		}
 	}
 
+	void mvAppItem::setCallback(PyObject* callback) 
+	{ 
+		if (callback == Py_None)
+		{
+			m_callback = nullptr;
+			return;
+		}
+		m_callback = callback; 
+	}
+
 	void mvAppItem::resetState()
 	{
 		m_hovered = false;
