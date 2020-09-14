@@ -300,6 +300,8 @@ namespace Marvel {
 
         typedef mvFunctionWrapper task_type;
 
+        std::atomic_bool ready_to_delete = false;
+
     public:
 
         explicit mvThreadPool(unsigned threadcount) :
@@ -330,6 +332,10 @@ namespace Marvel {
         }
 
         ~mvThreadPool() { m_done = true; }
+
+        bool isReadyToDelete() const { return ready_to_delete; }
+
+        void setDone() { m_done = true; }
 
         static const char* getVersion() { return "v0.2"; }
 
@@ -367,10 +373,18 @@ namespace Marvel {
                 pop_task_from_other_thread_queue(task))
             {
                 task();
+
+                if (m_done)
+                    ready_to_delete = true;
             }
 
             else
+            {
                 std::this_thread::yield();
+
+                if (m_done)
+                    ready_to_delete = true;
+            }
         }
 
         bool pop_task_from_local_queue(task_type& task)
