@@ -146,7 +146,6 @@ namespace Marvel {
 					item->setRectSize({ ImGui::GetItemRectSize().x, ImGui::GetItemRectSize().y });
 				}
 
-				registerWindowFocusing();
 				ImGui::EndMenu();
 			}
 

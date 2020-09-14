@@ -74,7 +74,6 @@ namespace Marvel {
 
 					}
 
-					registerWindowFocusing();
 					ImGui::EndPopup();
 				}
 			}
@@ -118,7 +117,6 @@ namespace Marvel {
 
 					}
 
-					registerWindowFocusing();
 					ImGui::EndPopup();
 				}
 			}
