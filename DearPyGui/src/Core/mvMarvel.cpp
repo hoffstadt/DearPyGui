@@ -3176,6 +3176,61 @@ namespace Marvel {
 		return ToPyBool(AddItemWithRuntimeChecks(item, parent, before));
 	}
 
+	PyObject* add_image_button(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		const char* name;
+		const char* value;
+		PyObject* callback = nullptr;
+		PyObject* callback_data = nullptr;
+		PyObject* tintcolor = PyTuple_New(4);
+		PyTuple_SetItem(tintcolor, 0, PyFloat_FromDouble(1.0));
+		PyTuple_SetItem(tintcolor, 1, PyFloat_FromDouble(1.0));
+		PyTuple_SetItem(tintcolor, 2, PyFloat_FromDouble(1.0));
+		PyTuple_SetItem(tintcolor, 3, PyFloat_FromDouble(1.0));
+		PyObject* backgroundColor = PyTuple_New(4);
+		PyTuple_SetItem(backgroundColor, 0, PyFloat_FromDouble(0.0));
+		PyTuple_SetItem(backgroundColor, 1, PyFloat_FromDouble(0.0));
+		PyTuple_SetItem(backgroundColor, 2, PyFloat_FromDouble(0.0));
+		PyTuple_SetItem(backgroundColor, 3, PyFloat_FromDouble(0.0));
+		const char* tip = "";
+		const char* parent = "";
+		const char* before = "";
+		int width = 0;
+		int height = 0;
+		int frame_padding = -1;
+		PyObject* uv_min = PyTuple_New(2);
+		PyTuple_SetItem(uv_min, 0, PyFloat_FromDouble(0));
+		PyTuple_SetItem(uv_min, 1, PyFloat_FromDouble(0));
+		PyObject* uv_max = PyTuple_New(2);
+		PyTuple_SetItem(uv_max, 0, PyFloat_FromDouble(1));
+		PyTuple_SetItem(uv_max, 1, PyFloat_FromDouble(1));
+
+		if (!(*mvApp::GetApp()->getParsers())["add_image_button"].parse(args, kwargs, __FUNCTION__, 
+			&name, &value, &callback, &callback_data, &tintcolor, &backgroundColor, &tip, &parent, 
+			&before, &width, &height, &frame_padding, &uv_min, &uv_max))
+			return ToPyBool(false);
+
+		auto mtintcolor = ToColor(tintcolor);
+		auto mbackgroundColor = ToColor(backgroundColor);
+		mvVec2 muv_min = ToVec2(uv_min);
+		mvVec2 muv_max = ToVec2(uv_max);
+
+		mvAppItem* item = new mvImageButton("", name, value, mtintcolor, 
+			mbackgroundColor, muv_min, muv_max,
+			frame_padding);
+		if (callback)
+			Py_XINCREF(callback);
+		item->setCallback(callback);
+		if (callback_data)
+			Py_XINCREF(callback_data);
+		item->setCallbackData(callback_data);
+		item->setTip(tip);
+		item->setWidth(width);
+		item->setHeight(height);
+
+		return ToPyBool(AddItemWithRuntimeChecks(item, parent, before));
+	}
+
 	PyObject* add_drag_float(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		const char* name;
@@ -7190,6 +7245,7 @@ namespace Marvel {
 		ADD_PYTHON_FUNCTION(add_table)
 		ADD_PYTHON_FUNCTION(end)
 		ADD_PYTHON_FUNCTION(add_image)
+		ADD_PYTHON_FUNCTION(add_image_button)
 		ADD_PYTHON_FUNCTION(add_progress_bar)
 		ADD_PYTHON_FUNCTION(add_drag_float)
 		ADD_PYTHON_FUNCTION(add_drag_int)

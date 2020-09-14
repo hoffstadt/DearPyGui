@@ -49,7 +49,7 @@ add_data("DataStorage1", {"Key": 34})
 add_data("DataStorage2", [23, 42, 53, 5])
 
 set_main_window_title("DearPyGui Demo")
-set_main_window_size(1000, 1000)
+set_main_window_size(1000, 800)
 add_additional_font("C:/dev/DearPyGui/Resources/NotoSerifCJKjp-Medium.otf", 20)
 
 
@@ -119,8 +119,6 @@ with child("CompleteChecklistGroup", width=300):
 
 add_same_line()
 
-#add_image("image", "/Users/jonathanhoffstadt/Desktop/demo.jpg")
-
 ########################################################################################################################
 # Launchers
 ########################################################################################################################
@@ -152,6 +150,8 @@ with group("Launch Group", width=200):
     add_button("Tables", callback=Launcher)
     add_button("Open File", callback=OpenFile)
     add_button("Open Directory", callback=OpenDirectory)
+    #add_image_button("image", "C:/Users/Jonathan Hoffstadt/Desktop/avacado.PNG")
+    add_image_button("image", "C:/dev/DearPyGui/Examples/SpriteMapExample.png")
 
 ########################################################################################################################
 # Tables

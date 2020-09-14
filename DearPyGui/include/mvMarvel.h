@@ -1587,6 +1587,26 @@ namespace Marvel {
 		"uv_min and uv_max represent the normalized texture coordinates of the original image that will be shown."
 		"Using(0,0)->(1,1) texture coordinates will generally display the entire texture", "None", "Adding Widgets") });
 
+		parsers->insert({ "add_image_button", mvPythonParser({
+			{mvPythonDataType::String, "name"},
+			{mvPythonDataType::String, "value"},
+			{mvPythonDataType::KeywordOnly},
+			{mvPythonDataType::Object, "callback", "Registers a callback"},
+			{mvPythonDataType::Object, "callback_data", "Callback data"},
+			{mvPythonDataType::FloatList, "tint_color"},
+			{mvPythonDataType::FloatList, "background_color"},
+			{mvPythonDataType::String, "tip", "Adds a simple tooltip"},
+			{mvPythonDataType::String, "parent", "Parent this item will be added to. (runtime adding)"},
+			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)"},
+			{mvPythonDataType::Integer, "width",""},
+			{mvPythonDataType::Integer, "height",""},
+			{mvPythonDataType::Integer, "frame_padding",""},
+			{mvPythonDataType::FloatList, "uv_min"},
+			{mvPythonDataType::FloatList, "uv_max"},
+		}, "Adds an image button."
+		"uv_min and uv_max represent the normalized texture coordinates of the original image that will be shown."
+		"Using(0,0)->(1,1) texture coordinates will generally display the entire texture", "None", "Adding Widgets") });
+
 		parsers->insert({ "add_text", mvPythonParser({
 			{mvPythonDataType::String, "name"},
 			{mvPythonDataType::KeywordOnly},
