@@ -23,7 +23,7 @@ def showMetrics(sender, data):
 
 def addThemes(sender, data):
     add_menu("Themes", parent="MenuBar")
-    end_menu()
+    end()
     add_color_picker4("Color Selector", data_source="color1", parent="Themes")
     add_color_edit4("Color Item", data_source="color1")
     show_item("Delete Themes")
@@ -46,19 +46,19 @@ add_text('this will change the "show Docs" callback to a show metrics callback')
 end_tooltip()
 add_menu("Empty Menu")
 add_menu_item("Nothing")
-end_menu()
-end_menu()
+end()
+end()
 
 add_menu("Tools")
 add_menu_item("Show Docs", callback=showDocs)
-end_menu()
+end()
 add_menu("Add/Remove")
 add_menu_item("Add Themes", callback=addThemes)
 add_menu_item("Delete Themes", callback=deleteThemes)
 hide_item("Delete Themes")
-end_menu()
+end()
 
-end_menu_bar()
+end()
 
 add_text("This menu bar demonstrates:")
 add_text('standard menu bar, menus, and menu items', bullet=True)

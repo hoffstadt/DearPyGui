@@ -97,7 +97,7 @@ add_window("Canvas Window", width=320, height=340)
 add_drawing("Canvas", width=301, height=301)
 draw_circle("Canvas", [25, 25], 25, [255, 100, 0], fill=[255, 100, 0], segments=20, tag="ball")
 draw_rectangle("Canvas", [0, 1], [300, 300], color=[0, 0, 255], fill=[0, 0, 255, 50], tag="background")
-end_window()
+end()
 
 set_render_callback(render)
 set_render_callback(render, handler="Canvas Window")

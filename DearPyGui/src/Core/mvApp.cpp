@@ -201,12 +201,7 @@ namespace Marvel {
 			if (item == nullptr)
 				m_activeWindow = "MainWindow";
 			else
-			{
 				dispatchRenderCallback<mvWindowAppitem>(mvAppItemType::Window, item);
-				dispatchRenderCallback<mvChild>(mvAppItemType::Child, item);
-				dispatchRenderCallback<mvPopup>(mvAppItemType::Popup, item);
-				dispatchRenderCallback<mvMenu>(mvAppItemType::Menu, item);
-			}
 		}
 
 		// resets app items states (i.e. hovered)
@@ -700,7 +695,7 @@ namespace Marvel {
 
 			PyObject* result = PyObject_CallObject(callback, pArgs);
 
-			// check if call succeded
+			// check if call succeeded
 			if (!result)
 			{
 				PyErr_Print();
@@ -784,7 +779,7 @@ namespace Marvel {
 
 		PyObject* result = PyObject_CallObject(callable, pArgs);
 
-		// check if call succeded
+		// check if call succeeded
 		if (!result)
 		{
 			PyErr_Print();

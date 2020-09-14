@@ -52,13 +52,13 @@ add_input_float2("Range", default_value=[-10, 10], callback=plot_callback)
 add_spacing(count=5)
 add_color_picker4("Color", default_value=[255, 0, 0, 255], callback=plot_callback)
 add_color_picker4("Fill", default_value=[255, 0, 0, 100], callback=plot_callback)
-end_group()
+end()
 add_same_line()
 add_plot("Plot1", "x-axis", "y-axis", height=-1, query_callback=query)
 
 add_window("Plot Window", width=500, height=500, hide=True)
 add_plot("Plot2", "x-axis", "y-axis", height=-1)
-end_window()
+end()
 
 
 
