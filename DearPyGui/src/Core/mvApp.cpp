@@ -149,11 +149,19 @@ namespace Marvel {
 		{
 			if (m_tpool != nullptr)
 			{
-				delete m_tpool;
-				m_tpool = nullptr;
-				m_threadTime = 0.0;
-				m_threadPool = false;
-				mvAppLog::Log("Threadpool destroyed");
+
+				// set pool to delete when finishing last task
+				m_tpool->setDone();
+
+				// check if last task is complete
+				if (m_tpool->isReadyToDelete())
+				{
+					delete m_tpool;
+					m_tpool = nullptr;
+					m_threadTime = 0.0;
+					m_threadPool = false;
+					mvAppLog::Log("Threadpool destroyed");
+				}
 			}
 
 		}
