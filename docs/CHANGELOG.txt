@@ -23,7 +23,7 @@ HOW TO UPDATE?
 - Please report any issue!
 
 -----------------------------------------------------------------------
- VERSION 0.3.6 WIP
+ VERSION 0.3.6 (9/14/2020)
 -----------------------------------------------------------------------
 
 Decorated log: https://github.com/hoffstadt/DearPyGui/releases/tag/v0.3.6
@@ -37,6 +37,9 @@ New Commands:
 - Plots:   Added "add_pie_chart_data" command
 - Plots:   Added "clear_pie_chart_data" command
 - Plots:   Added "add_stem_series" command
+
+Fixes:
+- Threadpool: Fixed issue with threads freezing
 
 
 -----------------------------------------------------------------------
