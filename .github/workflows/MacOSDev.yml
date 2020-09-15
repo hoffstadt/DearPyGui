@@ -47,7 +47,7 @@ jobs:
     - name: Upload Test DearPyGui Wheel
       if: "contains(github.event.head_commit.message, 'upload run')"
       run: |
-        python3 -m twine upload --repository testpypi dist/* -u __token__ -p ${{ secrets.test_pypi_password }} --skip-existing
+        python3 -m twine upload --repository-url https://test.pypi.org/legacy/ dist/* -u __token__ -p ${{ secrets.test_pypi_password }} --skip-existing
 
   build-MacOS37:
     
@@ -92,4 +92,4 @@ jobs:
     - name: Upload Test DearPyGui Wheel
       if: "contains(github.event.head_commit.message, 'upload run')"
       run: |
-        python3 -m twine upload --repository testpypi dist/* -u __token__ -p ${{ secrets.test_pypi_password }} --skip-existing
+        python3 -m twine upload --repository-url https://test.pypi.org/legacy/ dist/* -u __token__ -p ${{ secrets.test_pypi_password }} --skip-existing
