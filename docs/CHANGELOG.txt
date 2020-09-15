@@ -23,16 +23,16 @@ HOW TO UPDATE?
 - Please report any issue!
 
 -----------------------------------------------------------------------
- VERSION 0.3.7 WIP
+ VERSION 0.3.8 WIP
 -----------------------------------------------------------------------
 
-Decorated log: https://github.com/hoffstadt/DearPyGui/releases/tag/v0.3.6
+Decorated log: https://github.com/hoffstadt/DearPyGui/releases/tag/v0.3.8
 
 -----------------------------------------------------------------------
- VERSION 0.3.6 (9/14/2020)
+ VERSION 0.3.7 (9/14/2020)
 -----------------------------------------------------------------------
 
-Decorated log: https://github.com/hoffstadt/DearPyGui/releases/tag/v0.3.6
+Decorated log: https://github.com/hoffstadt/DearPyGui/releases/tag/v0.3.7
 
 Updates:
 - ImPlot: upgraded to commit 4f0a09f
