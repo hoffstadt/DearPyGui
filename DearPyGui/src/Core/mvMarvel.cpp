@@ -6418,24 +6418,6 @@ namespace Marvel {
 					mvEventHandler* eventhandler = static_cast<mvEventHandler*>(windowtype);
 					eventhandler->setRenderCallback(callback);
 				}
-				else if (item->getType() == mvAppItemType::Child)
-				{
-					auto childType = static_cast<mvChild*>(item);
-					mvEventHandler* eventhandler = static_cast<mvEventHandler*>(childType);
-					eventhandler->setRenderCallback(callback);
-				}
-				else if (item->getType() == mvAppItemType::Popup)
-				{
-					auto childType = static_cast<mvPopup*>(item);
-					mvEventHandler* eventhandler = static_cast<mvEventHandler*>(childType);
-					eventhandler->setRenderCallback(callback);
-				}
-				else if (item->getType() == mvAppItemType::Menu)
-				{
-					auto childType = static_cast<mvMenu*>(item);
-					mvEventHandler* eventhandler = static_cast<mvEventHandler*>(childType);
-					eventhandler->setRenderCallback(callback);
-				}
 				else
 					ThrowPythonException("Render callback can only be set for window/child items");
 			}
@@ -6465,24 +6447,6 @@ namespace Marvel {
 				{
 					auto windowtype = static_cast<mvWindowAppitem*>(item);
 					mvEventHandler* eventhandler = static_cast<mvEventHandler*>(windowtype);
-					eventhandler->setResizeCallback(callback);
-				}
-				else if (item->getType() == mvAppItemType::Child)
-				{
-					auto childType = static_cast<mvChild*>(item);
-					mvEventHandler* eventhandler = static_cast<mvEventHandler*>(childType);
-					eventhandler->setResizeCallback(callback);
-				}
-				else if (item->getType() == mvAppItemType::Popup)
-				{
-					auto childType = static_cast<mvPopup*>(item);
-					mvEventHandler* eventhandler = static_cast<mvEventHandler*>(childType);
-					eventhandler->setResizeCallback(callback);
-				}
-				else if (item->getType() == mvAppItemType::Menu)
-				{
-					auto childType = static_cast<mvMenu*>(item);
-					mvEventHandler* eventhandler = static_cast<mvEventHandler*>(childType);
 					eventhandler->setResizeCallback(callback);
 				}
 				else
@@ -7151,7 +7115,6 @@ namespace Marvel {
 		ADD_PYTHON_FUNCTION(add_pie_chart)
 		ADD_PYTHON_FUNCTION(add_pie_chart_data)
 		ADD_PYTHON_FUNCTION(clear_pie_chart_data)
-
 		ADD_PYTHON_FUNCTION(add_dummy)
 		ADD_PYTHON_FUNCTION(set_start_callback)
 		ADD_PYTHON_FUNCTION(set_item_color)
