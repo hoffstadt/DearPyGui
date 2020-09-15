@@ -1306,6 +1306,70 @@ Float list for uv_min and uv_max (i.e. float list (minx, miny, maxx, maxy))</p>
 </li>
 </ul></div>
 </dd>
+<dt id="dearpygui.dearpygui.add_image_button"><code class="name flex">
+<span>def <span class="ident">add_image_button</span></span>(<span>...)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Adds an image button.uv_min and uv_max represent the normalized texture coordinates of the original image that will be shown.Using(0,0)-&gt;(1,1) texture coordinates will generally display the entire texture</p>
+<p>Return Type: None</p>
+<p>Parameters</p>
+<hr>
+<ul>
+<li>
+<p>name : str</p>
+</li>
+<li>
+<p>value : str</p>
+</li>
+<li>
+<p>Keyword Only Arguments</p>
+</li>
+</ul>
+<hr>
+<ul>
+<li>
+<p>callback : Any
+Registers a callback</p>
+</li>
+<li>
+<p>callback_data : Any
+Callback data</p>
+</li>
+<li>
+<p>tint_color : List[float]</p>
+</li>
+<li>
+<p>background_color : List[float]</p>
+</li>
+<li>
+<p>tip : str
+Adds a simple tooltip</p>
+</li>
+<li>
+<p>parent : str
+Parent this item will be added to. (runtime adding)</p>
+</li>
+<li>
+<p>before : str
+This item will be displayed before the specified item in the parent. (runtime adding)</p>
+</li>
+<li>
+<p>width : int</p>
+</li>
+<li>
+<p>height : int</p>
+</li>
+<li>
+<p>frame_padding : int</p>
+</li>
+<li>
+<p>uv_min : List[float]</p>
+</li>
+<li>
+<p>uv_max : List[float]</p>
+</li>
+</ul></div>
+</dd>
 <dt id="dearpygui.dearpygui.add_indent"><code class="name flex">
 <span>def <span class="ident">add_indent</span></span>(<span>...)</span>
 </code></dt>
@@ -2106,6 +2170,68 @@ Parent this item will be added to. (runtime adding)</p>
 <li>
 <p>before : str
 This item will be displayed before the specified item in the parent. (runtime adding)</p>
+</li>
+</ul></div>
+</dd>
+<dt id="dearpygui.dearpygui.add_pie_chart"><code class="name flex">
+<span>def <span class="ident">add_pie_chart</span></span>(<span>...)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Adds a pie chart widget.</p>
+<p>Return Type: None</p>
+<p>Parameters</p>
+<hr>
+<ul>
+<li>
+<p>name : str</p>
+</li>
+<li>
+<p>Optional Arguments</p>
+</li>
+</ul>
+<hr>
+<ul>
+<li>Keyword Only Arguments</li>
+</ul>
+<hr>
+<ul>
+<li>
+<p>normalize : bool</p>
+</li>
+<li>
+<p>format : str</p>
+</li>
+<li>
+<p>parent : str
+Parent to add this item to. (runtime adding)</p>
+</li>
+<li>
+<p>before : str
+This item will be displayed before the specified item in the parent. (runtime adding)</p>
+</li>
+<li>
+<p>width : int</p>
+</li>
+<li>
+<p>height : int</p>
+</li>
+</ul></div>
+</dd>
+<dt id="dearpygui.dearpygui.add_pie_chart_data"><code class="name flex">
+<span>def <span class="ident">add_pie_chart_data</span></span>(<span>...)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Sets data for a pie chart</p>
+<p>Return Type: None</p>
+<p>Parameters</p>
+<hr>
+<ul>
+<li>
+<p>plot : str</p>
+</li>
+<li>
+<p>data : Any
+list of [str,float]</p>
 </li>
 </ul></div>
 </dd>
@@ -3107,6 +3233,51 @@ This item will be displayed before the specified item in the parent. (runtime ad
 </li>
 </ul></div>
 </dd>
+<dt id="dearpygui.dearpygui.add_stem_series"><code class="name flex">
+<span>def <span class="ident">add_stem_series</span></span>(<span>...)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Adds a stem series to a plot.</p>
+<p>Return Type: None</p>
+<p>Parameters</p>
+<hr>
+<ul>
+<li>
+<p>plot : str</p>
+</li>
+<li>
+<p>name : str</p>
+</li>
+<li>
+<p>data : List[float]</p>
+</li>
+<li>
+<p>Optional Arguments</p>
+</li>
+</ul>
+<hr>
+<ul>
+<li>Keyword Only Arguments</li>
+</ul>
+<hr>
+<ul>
+<li>
+<p>marker : int</p>
+</li>
+<li>
+<p>size : float</p>
+</li>
+<li>
+<p>weight : float</p>
+</li>
+<li>
+<p>outline : List[float]</p>
+</li>
+<li>
+<p>fill : List[float]</p>
+</li>
+</ul></div>
+</dd>
 <dt id="dearpygui.dearpygui.add_tab"><code class="name flex">
 <span>def <span class="ident">add_tab</span></span>(<span>...)</span>
 </code></dt>
@@ -3479,6 +3650,18 @@ Callback ran when window is closed</p>
 <dd>
 <div class="desc"><p>Clears the logger.</p>
 <p>Return Type: None</p></div>
+</dd>
+<dt id="dearpygui.dearpygui.clear_pie_chart_data"><code class="name flex">
+<span>def <span class="ident">clear_pie_chart_data</span></span>(<span>...)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Clears data for a pie chart</p>
+<p>Return Type: None</p>
+<p>Parameters</p>
+<hr>
+<ul>
+<li>plot : str</li>
+</ul></div>
 </dd>
 <dt id="dearpygui.dearpygui.clear_plot"><code class="name flex">
 <span>def <span class="ident">clear_plot</span></span>(<span>...)</span>
@@ -6604,6 +6787,7 @@ This item will be displayed before the specified item in the parent. (runtime ad
 <li><code><a title="dearpygui.dearpygui.add_dummy" href="#dearpygui.dearpygui.add_dummy">add_dummy</a></code></li>
 <li><code><a title="dearpygui.dearpygui.add_group" href="#dearpygui.dearpygui.add_group">add_group</a></code></li>
 <li><code><a title="dearpygui.dearpygui.add_image" href="#dearpygui.dearpygui.add_image">add_image</a></code></li>
+<li><code><a title="dearpygui.dearpygui.add_image_button" href="#dearpygui.dearpygui.add_image_button">add_image_button</a></code></li>
 <li><code><a title="dearpygui.dearpygui.add_indent" href="#dearpygui.dearpygui.add_indent">add_indent</a></code></li>
 <li><code><a title="dearpygui.dearpygui.add_input_float" href="#dearpygui.dearpygui.add_input_float">add_input_float</a></code></li>
 <li><code><a title="dearpygui.dearpygui.add_input_float2" href="#dearpygui.dearpygui.add_input_float2">add_input_float2</a></code></li>
@@ -6620,6 +6804,8 @@ This item will be displayed before the specified item in the parent. (runtime ad
 <li><code><a title="dearpygui.dearpygui.add_menu" href="#dearpygui.dearpygui.add_menu">add_menu</a></code></li>
 <li><code><a title="dearpygui.dearpygui.add_menu_bar" href="#dearpygui.dearpygui.add_menu_bar">add_menu_bar</a></code></li>
 <li><code><a title="dearpygui.dearpygui.add_menu_item" href="#dearpygui.dearpygui.add_menu_item">add_menu_item</a></code></li>
+<li><code><a title="dearpygui.dearpygui.add_pie_chart" href="#dearpygui.dearpygui.add_pie_chart">add_pie_chart</a></code></li>
+<li><code><a title="dearpygui.dearpygui.add_pie_chart_data" href="#dearpygui.dearpygui.add_pie_chart_data">add_pie_chart_data</a></code></li>
 <li><code><a title="dearpygui.dearpygui.add_plot" href="#dearpygui.dearpygui.add_plot">add_plot</a></code></li>
 <li><code><a title="dearpygui.dearpygui.add_popup" href="#dearpygui.dearpygui.add_popup">add_popup</a></code></li>
 <li><code><a title="dearpygui.dearpygui.add_progress_bar" href="#dearpygui.dearpygui.add_progress_bar">add_progress_bar</a></code></li>
@@ -6639,6 +6825,7 @@ This item will be displayed before the specified item in the parent. (runtime ad
 <li><code><a title="dearpygui.dearpygui.add_slider_int3" href="#dearpygui.dearpygui.add_slider_int3">add_slider_int3</a></code></li>
 <li><code><a title="dearpygui.dearpygui.add_slider_int4" href="#dearpygui.dearpygui.add_slider_int4">add_slider_int4</a></code></li>
 <li><code><a title="dearpygui.dearpygui.add_spacing" href="#dearpygui.dearpygui.add_spacing">add_spacing</a></code></li>
+<li><code><a title="dearpygui.dearpygui.add_stem_series" href="#dearpygui.dearpygui.add_stem_series">add_stem_series</a></code></li>
 <li><code><a title="dearpygui.dearpygui.add_tab" href="#dearpygui.dearpygui.add_tab">add_tab</a></code></li>
 <li><code><a title="dearpygui.dearpygui.add_tab_bar" href="#dearpygui.dearpygui.add_tab_bar">add_tab_bar</a></code></li>
 <li><code><a title="dearpygui.dearpygui.add_table" href="#dearpygui.dearpygui.add_table">add_table</a></code></li>
@@ -6651,6 +6838,7 @@ This item will be displayed before the specified item in the parent. (runtime ad
 <li><code><a title="dearpygui.dearpygui.clear_drawing" href="#dearpygui.dearpygui.clear_drawing">clear_drawing</a></code></li>
 <li><code><a title="dearpygui.dearpygui.clear_item_color" href="#dearpygui.dearpygui.clear_item_color">clear_item_color</a></code></li>
 <li><code><a title="dearpygui.dearpygui.clear_log" href="#dearpygui.dearpygui.clear_log">clear_log</a></code></li>
+<li><code><a title="dearpygui.dearpygui.clear_pie_chart_data" href="#dearpygui.dearpygui.clear_pie_chart_data">clear_pie_chart_data</a></code></li>
 <li><code><a title="dearpygui.dearpygui.clear_plot" href="#dearpygui.dearpygui.clear_plot">clear_plot</a></code></li>
 <li><code><a title="dearpygui.dearpygui.clear_table" href="#dearpygui.dearpygui.clear_table">clear_table</a></code></li>
 <li><code><a title="dearpygui.dearpygui.close_popup" href="#dearpygui.dearpygui.close_popup">close_popup</a></code></li>
