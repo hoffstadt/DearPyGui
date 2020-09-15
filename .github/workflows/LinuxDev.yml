@@ -66,7 +66,7 @@ jobs:
     - name: Upload Test DearPyGui Wheel
       if: "contains(github.event.head_commit.message, 'upload run')"
       run: |
-        python -m twine upload --repository testpypi dist/* -u __token__ -p ${{ secrets.test_pypi_password }} --skip-existing
+        python -m twine upload --repository testpypi dist/* -u __token__ -p ${{ secrets.test_pypi_password }} --skip-existing --verbose
 
   build-Ubuntu37:
     
