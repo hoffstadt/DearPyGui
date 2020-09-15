@@ -46,7 +46,7 @@ jobs:
       if: "contains(github.event.head_commit.message, 'save artifact')"
       uses: actions/upload-artifact@v2
       with:
-        name: windows_wheel
+        name: wheels
         path: D:/a/DearPyGui/DearPyGui/dist/*
 
     - name: Upload Test DearPyGui Wheel
@@ -97,7 +97,7 @@ jobs:
       if: "contains(github.event.head_commit.message, 'save artifact')"
       uses: actions/upload-artifact@v2
       with:
-        name: windows37_wheel
+        name: wheels
         path: D:/a/DearPyGui/DearPyGui/dist/*
 
     - name: Upload Test DearPyGui Wheel
@@ -127,7 +127,7 @@ jobs:
         cd ..
         cd ..
         pip3 install wheel
-        pip3 install twine
+        pip3 install twine --upgrade
         mkdir cmake-build-release
         cd cmake-build-release
         cmake .. -DMVDIST_ONLY=True
@@ -146,7 +146,7 @@ jobs:
       if: "contains(github.event.head_commit.message, 'save artifact')"
       uses: actions/upload-artifact@v2
       with:
-        name: mac_wheel
+        name: wheels
         path: /Users/runner/work/DearPyGui/DearPyGui/dist/*
 
     - name: Upload Test DearPyGui Wheel
@@ -179,7 +179,7 @@ jobs:
         cd ..
         cd ..
         pip3 install wheel
-        pip3 install twine
+        pip3 install twine --upgrade
         mkdir cmake-build-release
         cd cmake-build-release
         cmake .. -DMVDIST_ONLY=True -DMV37DIST=True
@@ -198,7 +198,7 @@ jobs:
       if: "contains(github.event.head_commit.message, 'save artifact')"
       uses: actions/upload-artifact@v2
       with:
-        name: mac37_wheel
+        name: wheels
         path: /Users/runner/work/DearPyGui/DearPyGui/dist/*
 
     - name: Upload Test DearPyGui Wheel
@@ -246,7 +246,7 @@ jobs:
         cd ..
         cd ..
         pip3 install wheel
-        pip3 install twine
+        pip3 install twine --upgrade
         mkdir cmake-build-release
         cd cmake-build-release
         cmake .. -DMVDIST_ONLY=True
@@ -265,7 +265,7 @@ jobs:
       if: "contains(github.event.head_commit.message, 'save artifact')"
       uses: actions/upload-artifact@v2
       with:
-        name: linux_wheel
+        name: wheels
         path: /home/runner/work/DearPyGui/DearPyGui/dist/*
 
     - name: Upload Test DearPyGui Wheel
@@ -318,7 +318,7 @@ jobs:
         cd ..
         cd ..
         pip3 install wheel
-        pip3 install twine
+        pip3 install twine --upgrade
         mkdir cmake-build-release
         cd cmake-build-release
         cmake .. -DMVDIST_ONLY=True -DMV37DIST=True
@@ -337,7 +337,7 @@ jobs:
       if: "contains(github.event.head_commit.message, 'save artifact')"
       uses: actions/upload-artifact@v2
       with:
-        name: linux37_wheel
+        name: wheels
         path: /home/runner/work/DearPyGui/DearPyGui/dist/*
 
     - name: Upload Test DearPyGui Wheel
