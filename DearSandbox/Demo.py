@@ -432,7 +432,7 @@ with window("Asyncronous##dialog", hide=True):
     def LongCallback2(sender, data):
         for i in range(0, 10000000):
             pass
-        log_info("Done with process from " + data)
+        #log_info("Done with process from " + data)
         return 42
 
     def ReturnFromLongProcess(sender, data):
