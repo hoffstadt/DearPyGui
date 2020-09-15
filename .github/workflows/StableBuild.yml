@@ -42,6 +42,13 @@ jobs:
         call "%dir%..\Dependencies\cpython\PCbuild\amd64\python.exe" "%dir%BuildPythonWheel.py" D:/a/DearPyGui/DearPyGui/cmake-build-release/DearPyGui/Release/dearpygui.pyd dearpygui.pyd
         call "%dir%..\Dependencies\cpython\PCbuild\amd64\python.exe" -m setup bdist_wheel --plat-name win_amd64 --dist-dir D:/a/DearPyGui/DearPyGui/dist
 
+    - name: Save Test DearPyGui Wheel
+      if: "contains(github.event.head_commit.message, 'save artifact')"
+      uses: actions/upload-artifact@v2
+      with:
+        name: windows_wheel
+        path: D:/a/DearPyGui/DearPyGui/dist/*
+
     - name: Upload Release DearPyGui Wheel
       if: "contains(github.event.head_commit.message, 'upload run')"
       shell: cmd
@@ -86,6 +93,13 @@ jobs:
         call "%dir%..\Dependencies\cpython\PCbuild\amd64\python.exe" "%dir%BuildPythonWheel.py" D:/a/DearPyGui/DearPyGui/cmake-build-release/DearPyGui/Release/dearpygui.pyd dearpygui.pyd
         call "%dir%..\Dependencies\cpython\PCbuild\amd64\python.exe" -m setup bdist_wheel --plat-name win_amd64 --dist-dir D:/a/DearPyGui/DearPyGui/dist
 
+    - name: Save Test DearPyGui Wheel
+      if: "contains(github.event.head_commit.message, 'save artifact')"
+      uses: actions/upload-artifact@v2
+      with:
+        name: windows37_wheel
+        path: D:/a/DearPyGui/DearPyGui/dist/*
+
     - name: Upload Release DearPyGui Wheel
       if: "contains(github.event.head_commit.message, 'upload run')"
       shell: cmd
@@ -128,6 +142,13 @@ jobs:
         cd /Users/runner/work/DearPyGui/DearPyGui/Distribution
         python3 BuildPythonWheel.py /Users/runner/work/DearPyGui/DearPyGui/cmake-build-release/DearPyGui/dearpygui.so dearpygui.so
         python3 -m setup bdist_wheel --plat-name macosx-10.6-x86_64 --dist-dir /Users/runner/work/DearPyGui/DearPyGui/dist
+
+    - name: Save Test DearPyGui Wheel
+      if: "contains(github.event.head_commit.message, 'save artifact')"
+      uses: actions/upload-artifact@v2
+      with:
+        name: mac_wheel
+        path: /Users/runner/work/DearPyGui/DearPyGui/dist/*
 
     - name: Upload Release DearPyGui Wheel
       if: "contains(github.event.head_commit.message, 'upload run')"
@@ -173,6 +194,13 @@ jobs:
         cd /Users/runner/work/DearPyGui/DearPyGui/Distribution
         python3 BuildPythonWheel.py /Users/runner/work/DearPyGui/DearPyGui/cmake-build-release/DearPyGui/dearpygui.so dearpygui.so
         python3 -m setup bdist_wheel --plat-name macosx-10.6-x86_64 --dist-dir /Users/runner/work/DearPyGui/DearPyGui/dist
+
+    - name: Save Test DearPyGui Wheel
+      if: "contains(github.event.head_commit.message, 'save artifact')"
+      uses: actions/upload-artifact@v2
+      with:
+        name: mac37_wheel
+        path: /Users/runner/work/DearPyGui/DearPyGui/dist/*
 
     - name: Upload Release DearPyGui Wheel
       if: "contains(github.event.head_commit.message, 'upload run')"
@@ -233,6 +261,13 @@ jobs:
         cd /home/runner/work/DearPyGui/DearPyGui/Distribution
         python BuildPythonWheel.py /home/runner/work/DearPyGui/DearPyGui/cmake-build-release/DearPyGui/dearpygui.so dearpygui.so
         python -m setup bdist_wheel --plat-name manylinux1_x86_64 --dist-dir /home/runner/work/DearPyGui/DearPyGui/dist
+
+    - name: Save Test DearPyGui Wheel
+      if: "contains(github.event.head_commit.message, 'save artifact')"
+      uses: actions/upload-artifact@v2
+      with:
+        name: linux_wheel
+        path: /home/runner/work/DearPyGui/DearPyGui/dist/*
 
     - name: Upload Test DearPyGui Wheel
       if: "contains(github.event.head_commit.message, 'upload run')"
@@ -297,6 +332,13 @@ jobs:
         cd /home/runner/work/DearPyGui/DearPyGui/Distribution
         python BuildPythonWheel.py /home/runner/work/DearPyGui/DearPyGui/cmake-build-release/DearPyGui/dearpygui.so dearpygui.so
         python -m setup bdist_wheel --plat-name manylinux1_x86_64 --dist-dir /home/runner/work/DearPyGui/DearPyGui/dist
+
+    - name: Save Test DearPyGui Wheel
+      if: "contains(github.event.head_commit.message, 'save artifact')"
+      uses: actions/upload-artifact@v2
+      with:
+        name: linux37_wheel
+        path: /home/runner/work/DearPyGui/DearPyGui/dist/*
 
     - name: Upload Test DearPyGui Wheel
       if: "contains(github.event.head_commit.message, 'upload run')"
