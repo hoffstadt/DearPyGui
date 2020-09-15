@@ -53,7 +53,7 @@ jobs:
       if: "contains(github.event.head_commit.message, 'upload run')"
       shell: cmd
       run: |
-        call "%dir%Dependencies\cpython\PCbuild\amd64\python.exe" -m twine upload --repository-url https://test.pypi.org/legacy/ dist/* -u RaylockLLC -p ${{ secrets.test_pypi_password }} --skip-existing
+        call "%dir%Dependencies\cpython\PCbuild\amd64\python.exe" -m twine upload --repository testpypi dist/* -u RaylockLLC -p ${{ secrets.test_pypi_password }} --skip-existing
 
   build-windows37:
     
@@ -104,7 +104,7 @@ jobs:
       if: "contains(github.event.head_commit.message, 'upload run')"
       shell: cmd
       run: |
-        call "%dir%Dependencies\cpython\PCbuild\amd64\python.exe" -m twine upload --repository-url https://test.pypi.org/legacy/ dist/* -u RaylockLLC -p ${{ secrets.test_pypi_password }} --skip-existing
+        call "%dir%Dependencies\cpython\PCbuild\amd64\python.exe" -m twine upload --repository testpypi dist/* -u RaylockLLC -p ${{ secrets.test_pypi_password }} --skip-existing
 
   build-MacOS:
     
@@ -152,7 +152,7 @@ jobs:
     - name: Upload Test DearPyGui Wheel
       if: "contains(github.event.head_commit.message, 'upload run')"
       run: |
-        python3 -m twine upload --repository-url https://test.pypi.org/legacy/ dist/* -u RaylockLLC -p ${{ secrets.test_pypi_password }} --skip-existing
+        python3 -m twine upload --repository testpypi dist/* -u RaylockLLC -p ${{ secrets.test_pypi_password }} --skip-existing
 
   build-MacOS37:
     
@@ -204,7 +204,7 @@ jobs:
     - name: Upload Test DearPyGui Wheel
       if: "contains(github.event.head_commit.message, 'upload run')"
       run: |
-        python3 -m twine upload --repository-url https://test.pypi.org/legacy/ dist/* -u RaylockLLC -p ${{ secrets.test_pypi_password }} --skip-existing
+        python3 -m twine upload --repository testpypi dist/* -u RaylockLLC -p ${{ secrets.test_pypi_password }} --skip-existing
 
   build-Ubuntu:
     
@@ -271,7 +271,7 @@ jobs:
     - name: Upload Test DearPyGui Wheel
       if: "contains(github.event.head_commit.message, 'upload run')"
       run: |
-        python -m twine upload --repository-url https://upload.pypi.org/legacy/ dist/* -u RaylockLLC -p ${{ secrets.test_pypi_password }} --skip-existing --verbose
+        python -m twine upload --repository testpypi dist/* -u RaylockLLC -p ${{ secrets.test_pypi_password }} --skip-existing --verbose
 
   build-Ubuntu37:
     
@@ -343,4 +343,4 @@ jobs:
     - name: Upload Test DearPyGui Wheel
       if: "contains(github.event.head_commit.message, 'upload run')"
       run: |
-        python -m twine upload --repository-url https://upload.pypi.org/legacy/ dist/* -u RaylockLLC -p ${{ secrets.test_pypi_password }} --skip-existing
+        python -m twine upload --repository testpypi dist/* -u RaylockLLC -p ${{ secrets.test_pypi_password }} --skip-existing
