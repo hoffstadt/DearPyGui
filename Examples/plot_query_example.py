@@ -54,7 +54,7 @@ add_color_picker4("Color", default_value=[255, 0, 0, 255], callback=plot_callbac
 add_color_picker4("Fill", default_value=[255, 0, 0, 100], callback=plot_callback)
 end()
 add_same_line()
-add_plot("Plot1", "x-axis", "y-axis", height=-1, query_callback=query)
+add_plot("Plot1", "x-axis", "y-axis", height=-1, query_callback="query")
 
 add_window("Plot Window", width=500, height=500, hide=True)
 add_plot("Plot2", "x-axis", "y-axis", height=-1)

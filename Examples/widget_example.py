@@ -3,7 +3,6 @@ from dearpygui.dearpygui import *
 # callback
 def retrieve_values(sender, data):
     show_logger()
-    log_info("Data Storage:" + str(get_data("DataStorage1")))
     log_info("Checkbox: " + str(get_value("Checkbox##widget")))
     log_info("Combo: " + str(get_value("Combo##widget")))
     log_info("Radio Button: " + str(get_value("Radio Button##widget")))
