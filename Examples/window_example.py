@@ -17,7 +17,7 @@ def window_creator(sender, data):
 
     add_window(title, width, height, start_x=start_x, start_y=start_y,
                autosize=autosize, resizable=resizable, title_bar=title_bar,
-               movable=movable, on_close="on_window_close")
+               movable=movable, on_close=on_window_close)
     for i in range(0, 10):
         add_button("button" + str(i))
     end()
