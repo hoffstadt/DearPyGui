@@ -10,10 +10,10 @@ def showMenu(sender, data):
 def changeCallback(sender, data):
     callbackName=get_item_callback("Show Docs")
     print(callbackName)
-    if callbackName == "showDocs":
-        set_item_callback("Show Docs", "showMetrics")
+    if callbackName == showDocs:
+        set_item_callback("Show Docs", showMetrics)
     else:
-        set_item_callback("Show Docs", "showDocs")
+        set_item_callback("Show Docs", showDocs)
 
 def showDocs(sender, data):
     show_documentation()
@@ -43,22 +43,22 @@ add_menu_item("Hide Tools", callback=hideMenu)
 add_menu_item('Change "Show Docs" Callback', callback=changeCallback)
 add_tooltip('Change "Show Docs" Callback', "tooltip1")
 add_text('this will change the "show Docs" callback to a show metrics callback')
-end_tooltip()
+end() # tooltip
 add_menu("Empty Menu")
 add_menu_item("Nothing")
-end()
-end()
+end() # menu::Empty Menu
+end() # menu::Show/Hide
 
 add_menu("Tools")
 add_menu_item("Show Docs", callback=showDocs)
-end()
+end() # menu::Tools
 add_menu("Add/Remove")
 add_menu_item("Add Themes", callback=addThemes)
 add_menu_item("Delete Themes", callback=deleteThemes)
 hide_item("Delete Themes")
-end()
+end() # menu::Add/Remove
 
-end()
+end() # menu::MenuBar
 
 add_text("This menu bar demonstrates:")
 add_text('standard menu bar, menus, and menu items', bullet=True)
