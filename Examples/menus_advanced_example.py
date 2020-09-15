@@ -10,10 +10,10 @@ def showMenu(sender, data):
 def changeCallback(sender, data):
     callbackName=get_item_callback("Show Docs")
     print(callbackName)
-    if callbackName == "showDocs":
-        set_item_callback("Show Docs", "showMetrics")
+    if callbackName == showDocs:
+        set_item_callback("Show Docs", showMetrics)
     else:
-        set_item_callback("Show Docs", "showDocs")
+        set_item_callback("Show Docs", showDocs)
 
 def showDocs(sender, data):
     show_documentation()
