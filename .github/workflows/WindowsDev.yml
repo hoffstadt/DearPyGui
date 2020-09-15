@@ -46,7 +46,7 @@ jobs:
       if: "contains(github.event.head_commit.message, 'upload run')"
       shell: cmd
       run: |
-        call "%dir%Dependencies\cpython\PCbuild\amd64\python.exe" -m twine upload --repository testpypi dist/* -u __token__ -p ${{ secrets.test_pypi_password }} --skip-existing
+        call "%dir%Dependencies\cpython\PCbuild\amd64\python.exe" -m twine upload --repository-url https://test.pypi.org/legacy/ dist/* -u __token__ -p ${{ secrets.test_pypi_password }} --skip-existing
 
   build-windows37:
     
@@ -90,4 +90,4 @@ jobs:
       if: "contains(github.event.head_commit.message, 'upload run')"
       shell: cmd
       run: |
-        call "%dir%Dependencies\cpython\PCbuild\amd64\python.exe" -m twine upload --repository testpypi dist/* -u __token__ -p ${{ secrets.test_pypi_password }} --skip-existing
+        call "%dir%Dependencies\cpython\PCbuild\amd64\python.exe" -m twine upload --repository-url https://test.pypi.org/legacy/ dist/* -u __token__ -p ${{ secrets.test_pypi_password }} --skip-existing
