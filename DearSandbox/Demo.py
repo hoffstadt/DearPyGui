@@ -381,6 +381,10 @@ with window("Plots, Graphs and Charts##dialog", 500, 500, hide=True):
         set_plot_xlimits("PieChart1", 0, 1)
         set_plot_ylimits("PieChart1", 0, 1)
 
+        add_bar_series("BarChart", "Final Exam", [[10, 100], [20, 75], [30,90]], weight=1)
+        add_bar_series("BarChart", "Midterm Exam", [[11, 83], [21, 75], [31,72]], weight=1)
+        add_bar_series("BarChart", "Course Grade", [[12, 42], [22, 68], [32,23]], weight=1)
+
     def colormapCallback(sender, data):
         value = get_value("Colormaps")
         set_color_map("Plot", value)
@@ -400,8 +404,11 @@ with window("Plots, Graphs and Charts##dialog", 500, 500, hide=True):
         with tab("Pie Chart"):
             add_plot("PieChart1", "", "", no_mouse_pos=True, 
                      xaxis_no_gridlines=True, xaxis_no_tick_marks=True, xaxis_no_tick_labels=True,
-                     yaxis_no_gridlines=True, yaxis_no_tick_marks=True, yaxis_no_tick_labels=True
-                     )
+                     yaxis_no_gridlines=True, yaxis_no_tick_marks=True, yaxis_no_tick_labels=True)
+
+        with tab("Bar Chart"):
+            add_plot("BarChart", "Student", "Score", height=-1)
+            set_xticks("BarChart", [["S1", 10], ["S2", 20], ["S3", 30]])
 
 ########################################################################################################################
 # Canvas

@@ -39,6 +39,7 @@ Breaking Changes:
 New Commands:
 - Widgets: Added "add_pie_series" command
 - Plots:   Added "add_shade_series" command
+- Plots:   Added "add_bar_series" command
 
 -----------------------------------------------------------------------
  VERSION 0.3.7 (9/14/2020)

@@ -311,6 +311,16 @@ namespace Marvel {
 			{mvPythonDataType::Float, "weight"}
 		}, "Adds a line series to a plot.", "None", "Plotting") });
 
+		parsers->insert({ "add_bar_series", mvPythonParser({
+			{mvPythonDataType::String, "plot"},
+			{mvPythonDataType::String, "name"},
+			{mvPythonDataType::FloatList, "data"},
+			{mvPythonDataType::Optional},
+			{mvPythonDataType::KeywordOnly},
+			{mvPythonDataType::Float, "weight"}
+			{mvPythonDataType::Bool, "horizontal"}
+		}, "Adds a bar series to a plot.", "None", "Plotting") });
+
 		parsers->insert({ "add_shade_series", mvPythonParser({
 			{mvPythonDataType::String, "plot"},
 			{mvPythonDataType::String, "name"},

@@ -8,6 +8,10 @@ def add_area_series(plot: str, name: str, data: List[float], color: List[float],
 	"""Adds a area series to a plot."""
 	...
 
+def add_bar_series(plot: str, name: str, data: List[float], weight: float = 1.0, horizontal: bool = False) -> None:
+	"""Adds a bar series to a plot."""
+	...
+
 def add_button(name: str, small: bool = False, arrow: bool = False, direction: int = -1, callback: Callable = None, callback_data: Any = None, 
 			   tip: str = "", parent: str = "", before: str = "", width: int = 0, height: int = 0) -> bool:
 	"""Adds a button."""

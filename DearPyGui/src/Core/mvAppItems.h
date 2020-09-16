@@ -18,6 +18,7 @@
 #include "Core/PlotAppItems/mvPlot.h"
 #include "Core/PlotAppItems/mvSimplePlot.h"
 #include "Core/PlotAppItems/mvLineSeries.h"
+#include "Core/PlotAppItems/mvBarSeries.h"
 #include "Core/PlotAppItems/mvScatterSeries.h"
 #include "Core/PlotAppItems/mvAreaSeries.h"
 #include "Core/PlotAppItems/mvStemSeries.h"

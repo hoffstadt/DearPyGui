@@ -2234,6 +2234,52 @@ namespace Marvel {
 		return GetPyNone();
 	}
 
+	PyObject* add_bar_series(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		const char* plot;
+		const char* name;
+		PyObject* data;
+		float weight = 1.0f;
+		int horizontal = false;
+
+		if (!(*mvApp::GetApp()->getParsers())["add_bar_series"].parse(args, kwargs, __FUNCTION__, &plot, &name, &data, &weight, &horizontal))
+			return GetPyNone();
+
+		if (!PyList_Check(data))
+		{
+			std::string message = plot;
+			ThrowPythonException(message + " add line series requires a list of lists.");
+			return GetPyNone();
+		}
+
+		mvAppItem* aplot = mvApp::GetApp()->getItem(plot);
+
+		if (aplot == nullptr)
+		{
+			std::string message = plot;
+			ThrowPythonException(message + " plot does not exist.");
+			return GetPyNone();
+		}
+
+		if (aplot->getType() != mvAppItemType::Plot)
+		{
+			std::string message = plot;
+			ThrowPythonException(message + " is not a plot.");
+			return GetPyNone();
+		}
+
+		mvPlot* graph = static_cast<mvPlot*>(aplot);
+
+		auto datapoints = ToVectVec2(data);
+
+
+		auto series = new mvBarSeries(name, datapoints, horizontal);
+		series->setWeight(weight);
+		graph->updateSeries(series);
+
+		return GetPyNone();
+	}
+
 	PyObject* add_shade_series(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		const char* plot;
@@ -7481,6 +7527,7 @@ namespace Marvel {
 		ADD_PYTHON_FUNCTION(add_plot)
 		ADD_PYTHON_FUNCTION(delete_drawing_item)
 		ADD_PYTHON_FUNCTION(add_shade_series)
+		ADD_PYTHON_FUNCTION(add_bar_series)
 		ADD_PYTHON_FUNCTION(add_line_series)
 		ADD_PYTHON_FUNCTION(add_pie_series)
 		ADD_PYTHON_FUNCTION(add_scatter_series)
