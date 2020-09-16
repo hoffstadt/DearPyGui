@@ -235,7 +235,11 @@ def add_pie_series(plot: str, name: str, data: List[[str, float]], x: float, y: 
 	"""Adds a pie series to a plot."""
 	...
 
-def add_plot(name: str, xAxisName: str = "", yAxisName: str = "", flags: int = 0, xflags: int = 0, yflags: int = 0, parent: str = "", before: str = "", width: int = -1, height: int = -1, query_callback: str = "") -> bool:
+def add_plot(name: str, xAxisName: str = "", yAxisName: str = "", 
+			 no_legend: bool = False, no_menus: bool = False, no_box_select: bool = False, no_mouse_pos: bool = False, no_highlight: bool = False, no_child: bool = False, query: bool = False, crosshairs: bool = False, antialiased: bool = False,
+			 xaxis_no_gridlines: bool = False, xaxis_no_tick_marks: bool = False, xaxis_no_tick_labels: bool = False, xaxis_log_scale: bool = False, xaxis_time: bool = False, xaxis_invert: bool = False, xaxis_lock_min: bool = False, xaxis_lock_max: bool = False,
+			 yaxis_no_gridlines: bool = False, yaxis_no_tick_marks: bool = False, yaxis_no_tick_labels: bool = False, yaxis_log_scale: bool = False, yaxis_invert: bool = False, yaxis_lock_min: bool = False, yaxis_lock_max: bool = False,
+			parent: str = "", before: str = "", width: int = -1, height: int = -1, query_callback: str = "") -> bool:
 	"""Adds a plot widget."""
 	...
 
