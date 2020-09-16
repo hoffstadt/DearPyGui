@@ -34,6 +34,8 @@ namespace Marvel {
 
 		const std::string& getName() const { return m_name; }
 
+		void setWeight(float weight) { m_weight = weight; }
+
 	protected:
 
 		std::string        m_name;
@@ -43,6 +45,7 @@ namespace Marvel {
 		float              m_maxY;
 		float              m_minX;
 		float              m_minY;
+		float              m_weight;
 
 	};
 
@@ -56,9 +59,9 @@ namespace Marvel {
 
 		MV_APPITEM_TYPE(mvAppItemType::Plot)
 
-			mvPlot(const std::string& name, std::string  xname = "",
-				std::string  yname = "", ImPlotFlags flags = 0, ImPlotAxisFlags xflags = 0, ImPlotAxisFlags yflags = 0, 
-				PyObject* queryCallback = nullptr);
+			mvPlot(const std::string& name, std::string xname,
+				std::string yname, ImPlotFlags flags, ImPlotAxisFlags xflags, ImPlotAxisFlags yflags, 
+				PyObject* queryCallback);
 
 		void addSeries   (mvSeries* series);
 		void updateSeries(mvSeries* series);
@@ -79,11 +82,16 @@ namespace Marvel {
 
 	private:
 
+		// new
 		std::string     m_xaxisName;
 		std::string     m_yaxisName;
 		ImPlotFlags     m_flags    = 0;
 		ImPlotAxisFlags m_xflags  = 0;
 		ImPlotAxisFlags m_yflags  = 0;
+		ImPlotAxisFlags m_y2flags  = 0;
+		ImPlotAxisFlags m_y3flags  = 0;
+
+
 		ImPlotColormap  m_colormap = ImPlotColormap_Default;
 		bool            m_setXLimits = false;
 		bool            m_setYLimits = false;

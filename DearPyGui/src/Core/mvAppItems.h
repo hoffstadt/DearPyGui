@@ -17,12 +17,13 @@
 
 #include "Core/PlotAppItems/mvPlot.h"
 #include "Core/PlotAppItems/mvSimplePlot.h"
-#include "Core/PlotAppItems/mvPieChart.h"
 #include "Core/PlotAppItems/mvLineSeries.h"
 #include "Core/PlotAppItems/mvScatterSeries.h"
 #include "Core/PlotAppItems/mvAreaSeries.h"
 #include "Core/PlotAppItems/mvStemSeries.h"
 #include "Core/PlotAppItems/mvLabelSeries.h"
+#include "Core/PlotAppItems/mvPieSeries.h"
+#include "Core/PlotAppItems/mvShadeSeries.h"
 
 //-----------------------------------------------------------------------------
 // Widget Index

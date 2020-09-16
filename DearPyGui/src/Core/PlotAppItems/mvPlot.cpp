@@ -214,7 +214,7 @@ namespace Marvel {
 
 		if (ImPlot::BeginPlot(m_name.c_str(), m_xaxisName.c_str(), m_yaxisName.c_str(),
 			ImVec2((float)m_width, (float)m_height), m_flags,
-			m_xflags, m_yflags))
+			m_xflags, m_yflags, m_y2flags, m_y3flags))
 		{
 			ImPlot::PushColormap(m_colormap);
 

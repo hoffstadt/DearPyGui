@@ -203,32 +203,43 @@ namespace Marvel {
 			{mvPythonDataType::String, "xAxisName"},
 			{mvPythonDataType::String, "yAxisName"},
 			{mvPythonDataType::KeywordOnly},
-			{mvPythonDataType::Integer, "flags"},
-			{mvPythonDataType::Integer, "xflags"},
-			{mvPythonDataType::Integer, "yflags"},
+
+			// plot flags
+			{mvPythonDataType::Bool, "no_legend"},
+			{mvPythonDataType::Bool, "no_menus"},
+			{mvPythonDataType::Bool, "no_box_select"},
+			{mvPythonDataType::Bool, "no_mouse_pos"},
+			{mvPythonDataType::Bool, "no_highlight"},
+			{mvPythonDataType::Bool, "no_child"},
+			{mvPythonDataType::Bool, "query"},
+			{mvPythonDataType::Bool, "crosshairs"},
+			{mvPythonDataType::Bool, "antialiased"},
+			
+			// x axis flags
+			{mvPythonDataType::Bool, "xaxis_no_gridlines"},
+			{mvPythonDataType::Bool, "xaxis_no_tick_marks"},
+			{mvPythonDataType::Bool, "xaxis_no_tick_labels"},
+			{mvPythonDataType::Bool, "xaxis_log_scale"},
+			{mvPythonDataType::Bool, "xaxis_time"},
+			{mvPythonDataType::Bool, "xaxis_invert"},
+			{mvPythonDataType::Bool, "xaxis_lock_min"},
+			{mvPythonDataType::Bool, "xaxis_lock_max"},
+
+			// y axis flags
+			{mvPythonDataType::Bool, "yaxis_no_gridlines"},
+			{mvPythonDataType::Bool, "yaxis_no_tick_marks"},
+			{mvPythonDataType::Bool, "yaxis_no_tick_labels"},
+			{mvPythonDataType::Bool, "yaxis_log_scale"},
+			{mvPythonDataType::Bool, "yaxis_invert"},
+			{mvPythonDataType::Bool, "yaxis_lock_min"},
+			{mvPythonDataType::Bool, "yaxis_lock_max"},
+
 			{mvPythonDataType::String, "parent", "Parent to add this item to. (runtime adding)"},
 			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)"},
 			{mvPythonDataType::Integer, "width",""},
 			{mvPythonDataType::Integer, "height", ""},
 			{mvPythonDataType::String, "query_callback", "Callback ran when plot is queried. Should be of the form 'def Callback(sender, data)'\n Data is (x_min, x_max, y_min, y_max)."},
 		}, "Adds a plot widget.", "None", "Plotting") });
-
-		parsers->insert({ "add_pie_chart", mvPythonParser({
-			{mvPythonDataType::String, "name"},
-			{mvPythonDataType::Optional},
-			{mvPythonDataType::KeywordOnly},
-			{mvPythonDataType::Bool, "normalize"},
-			{mvPythonDataType::String, "format"},
-			{mvPythonDataType::String, "parent", "Parent to add this item to. (runtime adding)"},
-			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)"},
-			{mvPythonDataType::Integer, "width",""},
-			{mvPythonDataType::Integer, "height", ""},
-		}, "Adds a pie chart widget.", "None", "Plotting") });
-
-		parsers->insert({ "add_pie_chart_data", mvPythonParser({
-			{mvPythonDataType::String, "plot"},
-			{mvPythonDataType::Object, "data", "list of [str,float]"},
-		}, "Sets data for a pie chart", "None", "Plotting") });
 
 		parsers->insert({ "clear_pie_chart_data", mvPythonParser({
 			{mvPythonDataType::String, "plot"}
@@ -276,7 +287,31 @@ namespace Marvel {
 			{mvPythonDataType::String, "plot"},
 		}, "Sets plots y limits to be automatic.", "None", "Plotting") });
 
+		parsers->insert({ "add_pie_series", mvPythonParser({
+			{mvPythonDataType::String, "plot"},
+			{mvPythonDataType::String, "name"},
+			{mvPythonDataType::Object, "data", "list of [str,float]"},
+			{mvPythonDataType::Float, "x"},
+			{mvPythonDataType::Float, "y"},
+			{mvPythonDataType::Float, "radius"},
+			{mvPythonDataType::Optional},
+			{mvPythonDataType::KeywordOnly},
+			{mvPythonDataType::Bool, "normalize"},
+			{mvPythonDataType::Float, "angle"},
+			{mvPythonDataType::String, "format"}
+		}, "Adds a pie series to a plot.", "None", "Plotting") });
+
 		parsers->insert({ "add_line_series", mvPythonParser({
+			{mvPythonDataType::String, "plot"},
+			{mvPythonDataType::String, "name"},
+			{mvPythonDataType::FloatList, "data"},
+			{mvPythonDataType::Optional},
+			{mvPythonDataType::KeywordOnly},
+			{mvPythonDataType::FloatList, "color"},
+			{mvPythonDataType::Float, "weight"}
+		}, "Adds a line series to a plot.", "None", "Plotting") });
+
+		parsers->insert({ "add_shade_series", mvPythonParser({
 			{mvPythonDataType::String, "plot"},
 			{mvPythonDataType::String, "name"},
 			{mvPythonDataType::FloatList, "data"},
@@ -285,7 +320,7 @@ namespace Marvel {
 			{mvPythonDataType::FloatList, "color"},
 			{mvPythonDataType::FloatList, "fill"},
 			{mvPythonDataType::Float, "weight"}
-		}, "Adds a line series to a plot.", "None", "Plotting") });
+		}, "Adds a shade series to a plot.", "None", "Plotting") });
 
 		parsers->insert({ "add_scatter_series", mvPythonParser({
 			{mvPythonDataType::String, "plot"},
