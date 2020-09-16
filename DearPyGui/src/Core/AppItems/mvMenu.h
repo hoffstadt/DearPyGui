@@ -25,7 +25,7 @@ namespace Marvel {
 		MV_APPITEM_TYPE(mvAppItemType::MenuBar)
 
 		explicit mvMenuBar(const std::string& name)
-			: mvBoolItemBase("", name, true)
+			: mvBoolItemBase(name, true)
 		{
 			m_container = true;
 			
@@ -90,8 +90,8 @@ namespace Marvel {
 
 		MV_APPITEM_TYPE(mvAppItemType::Menu)
 
-		mvMenu(const std::string& parent, const std::string& name)
-			: mvBoolItemBase(parent, name, false), mvEventHandler()
+		mvMenu( const std::string& name)
+			: mvBoolItemBase(name, false), mvEventHandler()
 		{
 			m_container = true;
 		}
@@ -164,9 +164,9 @@ namespace Marvel {
 
 		MV_APPITEM_TYPE(mvAppItemType::MenuItem)
 
-		mvMenuItem(const std::string& parent, const std::string& name, 
+		mvMenuItem(const std::string& name, 
 			const std::string& shortcut, bool check)
-			: mvBoolItemBase(parent, name, false), m_shortcut(shortcut), m_check(check){}
+			: mvBoolItemBase(name, false), m_shortcut(shortcut), m_check(check){}
 
 		void draw() override
 		{

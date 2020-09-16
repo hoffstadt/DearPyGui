@@ -27,8 +27,8 @@ namespace Marvel {
 
 		MV_APPITEM_TYPE(AppItemType)
 
-			mvColorItem(const std::string& parent, const std::string& name, mvColor color)
-			: mvColorItemBase(parent, name, color)
+			mvColorItem(const std::string& name, mvColor color)
+			: mvColorItemBase(name, color)
 		{}
 
 		void draw() override
@@ -63,8 +63,8 @@ namespace Marvel {
 
 		MV_APPITEM_TYPE(mvAppItemType::ColorPicker4)
 
-		mvColorPicker4(const std::string& parent, const std::string& name, mvColor color)
-			: mvColorItemBase(parent, name, color)
+		mvColorPicker4(const std::string& name, mvColor color)
+			: mvColorItemBase(name, color)
 		{}
 
 		void draw() override

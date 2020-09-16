@@ -21,9 +21,9 @@ namespace Marvel {
 
 		MV_APPITEM_TYPE(mvAppItemType::InputText)
 
-		mvInputText(const std::string& parent, const std::string& name, const std::string& default_value,
+		mvInputText(const std::string& name, const std::string& default_value,
               std::string  hint, bool multiline, ImGuiInputTextFlags flags)
-			: mvStringItemBase(parent, name, default_value), m_hint(std::move(hint)), m_multiline(multiline), m_flags(flags)
+			: mvStringItemBase(name, default_value), m_hint(std::move(hint)), m_multiline(multiline), m_flags(flags)
 		{
 		}
 

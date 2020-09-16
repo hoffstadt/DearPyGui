@@ -7,8 +7,8 @@
 
 namespace Marvel {
 
-	mvTable::mvTable(const std::string& parent, const std::string& name, const std::vector<std::string>& headers)
-		: mvAppItem(parent, name)
+	mvTable::mvTable(const std::string& name, const std::vector<std::string>& headers)
+		: mvAppItem(name)
 	{
 		m_headers = headers;
 		m_columns = headers.size();
