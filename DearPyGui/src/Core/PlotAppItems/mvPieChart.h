@@ -26,8 +26,8 @@ namespace Marvel {
 
 		MV_APPITEM_TYPE(mvAppItemType::PieChart)
 
-		mvPieChart(const std::string& parent, const std::string& name, bool normalize, const std::string& format)
-			: mvAppItem(parent, name), m_normalize(normalize), m_format(format)
+		mvPieChart(const std::string& name, bool normalize, const std::string& format)
+			: mvAppItem(name), m_normalize(normalize), m_format(format)
 		{
 
 		}

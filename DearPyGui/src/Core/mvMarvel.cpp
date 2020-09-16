@@ -952,7 +952,7 @@ namespace Marvel {
 		if (!(*mvApp::GetApp()->getParsers())["add_drawing"].parse(args, kwargs, __FUNCTION__, &name, &tip, &parent, &before, &width, &height))
 			return ToPyBool(false);
 
-		mvAppItem* item = new mvDrawing("", name, width, height);
+		mvAppItem* item = new mvDrawing(name, width, height);
 		item->setTip(tip);
 		item->setWidth(width);
 		item->setHeight(height);
@@ -2007,7 +2007,7 @@ namespace Marvel {
 			&xflags, &yflags, &parent, &before, &width, &height, &query_callback))
 			return ToPyBool(false);
 
-		mvAppItem* item = new mvPlot("", name, xAxisName, yAxisName, flags, xflags, yflags, query_callback);
+		mvAppItem* item = new mvPlot(name, xAxisName, yAxisName, flags, xflags, yflags, query_callback);
 		item->setWidth(width);
 		item->setHeight(height);
 
@@ -2029,7 +2029,7 @@ namespace Marvel {
 			&normalize, &format, &parent, &before, &width, &height))
 			return ToPyBool(false);
 
-		mvAppItem* item = new mvPieChart("", name, normalize, format);
+		mvAppItem* item = new mvPieChart(name, normalize, format);
 		item->setWidth(width);
 		item->setHeight(height);
 
@@ -3048,7 +3048,7 @@ namespace Marvel {
 			&before))
 			return ToPyBool(false);
 
-		mvAppItem* item = new mvTable("", name, ToStringVect(headers));
+		mvAppItem* item = new mvTable(name, ToStringVect(headers));
 		if (callback)
 			Py_XINCREF(callback);
 		item->setCallback(callback);
@@ -3094,7 +3094,7 @@ namespace Marvel {
 			}
 		}
 
-		mvAppItem* item = new mvSimplePlot("", name, values, overlay, minscale, maxscale, height, histogram);
+		mvAppItem* item = new mvSimplePlot(name, values, overlay, minscale, maxscale, height, histogram);
 		item->setTip(tip);
 		item->setWidth(width);
 		item->setHeight(height);
@@ -3119,7 +3119,7 @@ namespace Marvel {
 			&overlay, &tip, &parent, &before, &data_source, &width, &height))
 			return ToPyBool(false);
 
-		mvAppItem* item = new mvProgressBar("", name, default_value, overlay);
+		mvAppItem* item = new mvProgressBar(name, default_value, overlay);
 		item->setTip(tip);
 		item->setWidth(width);
 		item->setHeight(height);
@@ -3166,7 +3166,7 @@ namespace Marvel {
 		mvVec2 muv_min = ToVec2(uv_min);
 		mvVec2 muv_max = ToVec2(uv_max);
 
-		mvAppItem* item = new mvImage("", name, value, mtintcolor, mbordercolor, muv_min, muv_max,
+		mvAppItem* item = new mvImage(name, value, mtintcolor, mbordercolor, muv_min, muv_max,
 			secondary_data_source);
 		item->setTip(tip);
 		item->setWidth(width);
@@ -3215,7 +3215,7 @@ namespace Marvel {
 		mvVec2 muv_min = ToVec2(uv_min);
 		mvVec2 muv_max = ToVec2(uv_max);
 
-		mvAppItem* item = new mvImageButton("", name, value, mtintcolor, 
+		mvAppItem* item = new mvImageButton(name, value, mtintcolor, 
 			mbackgroundColor, muv_min, muv_max,
 			frame_padding);
 		if (callback)
@@ -3262,7 +3262,7 @@ namespace Marvel {
 		if (on_enter)
 			flags = ImGuiInputTextFlags_EnterReturnsTrue;
 
-		mvAppItem* item = new mvDragFloat<mvAppItemType::DragFloat, 1, ImGui::DragFloat>("", name, defaults.data(), speed, min_value, max_value, format, flags);
+		mvAppItem* item = new mvDragFloat<mvAppItemType::DragFloat, 1, ImGui::DragFloat>(name, defaults.data(), speed, min_value, max_value, format, flags);
 		if (callback)
 			Py_XINCREF(callback);
 		item->setCallback(callback);
@@ -3306,7 +3306,7 @@ namespace Marvel {
 			flags = ImGuiInputTextFlags_EnterReturnsTrue;
 
 		auto vec = ToFloatVect(default_value);
-		mvAppItem* item = new mvDragFloat<mvAppItemType::DragFloat2, 2, ImGui::DragFloat2>("", name, vec.data(), speed, min_value, max_value, format, flags);
+		mvAppItem* item = new mvDragFloat<mvAppItemType::DragFloat2, 2, ImGui::DragFloat2>(name, vec.data(), speed, min_value, max_value, format, flags);
 		if (callback)
 			Py_XINCREF(callback);
 		item->setCallback(callback);
@@ -3349,7 +3349,7 @@ namespace Marvel {
 			flags = ImGuiInputTextFlags_EnterReturnsTrue;
 
 		auto vec = ToFloatVect(default_value);
-		mvAppItem* item = new mvDragFloat<mvAppItemType::DragFloat3, 3, ImGui::DragFloat3>("", name, vec.data(), speed, min_value, max_value, format, flags);
+		mvAppItem* item = new mvDragFloat<mvAppItemType::DragFloat3, 3, ImGui::DragFloat3>(name, vec.data(), speed, min_value, max_value, format, flags);
 		if (callback)
 			Py_XINCREF(callback);
 		item->setCallback(callback);
@@ -3393,7 +3393,7 @@ namespace Marvel {
 
 		auto vec = ToFloatVect(default_value);
 
-		mvAppItem* item = new mvDragFloat<mvAppItemType::DragFloat4, 4, ImGui::DragFloat4>("", name, vec.data(), speed, min_value, max_value, format, flags);
+		mvAppItem* item = new mvDragFloat<mvAppItemType::DragFloat4, 4, ImGui::DragFloat4>(name, vec.data(), speed, min_value, max_value, format, flags);
 		if (callback)
 			Py_XINCREF(callback);
 		item->setCallback(callback);
@@ -3437,7 +3437,7 @@ namespace Marvel {
 		defaults.push_back(0.0f);
 		defaults.push_back(0.0f);
 
-		mvAppItem* item = new mvDragInt<mvAppItemType::DragInt, 1, ImGui::DragInt>("", name, defaults.data(), speed, min_value, max_value, format, flags);
+		mvAppItem* item = new mvDragInt<mvAppItemType::DragInt, 1, ImGui::DragInt>(name, defaults.data(), speed, min_value, max_value, format, flags);
 		if (callback)
 			Py_XINCREF(callback);
 		item->setCallback(callback);
@@ -3480,7 +3480,7 @@ namespace Marvel {
 			flags = ImGuiInputTextFlags_EnterReturnsTrue;
 
 		auto vec = ToIntVect(default_value);
-		mvAppItem* item = new mvDragInt<mvAppItemType::DragInt2, 2, ImGui::DragInt2>("", name, vec.data(), speed, min_value, max_value, format, flags);
+		mvAppItem* item = new mvDragInt<mvAppItemType::DragInt2, 2, ImGui::DragInt2>(name, vec.data(), speed, min_value, max_value, format, flags);
 		if (callback)
 			Py_XINCREF(callback);
 		item->setCallback(callback);
@@ -3523,7 +3523,7 @@ namespace Marvel {
 			flags = ImGuiInputTextFlags_EnterReturnsTrue;
 
 		auto vec = ToIntVect(default_value);
-		mvAppItem* item = new mvDragInt<mvAppItemType::DragInt3, 3, ImGui::DragInt3>("", name, vec.data(), speed, min_value, max_value, format, flags);
+		mvAppItem* item = new mvDragInt<mvAppItemType::DragInt3, 3, ImGui::DragInt3>(name, vec.data(), speed, min_value, max_value, format, flags);
 		if (callback)
 			Py_XINCREF(callback);
 		item->setCallback(callback);
@@ -3566,7 +3566,7 @@ namespace Marvel {
 			flags = ImGuiInputTextFlags_EnterReturnsTrue;
 
 		auto vec = ToIntVect(default_value);
-		mvAppItem* item = new mvDragInt<mvAppItemType::DragInt4, 4, ImGui::DragInt4>("", name, vec.data(), speed, min_value, max_value, format, flags);
+		mvAppItem* item = new mvDragInt<mvAppItemType::DragInt4, 4, ImGui::DragInt4>(name, vec.data(), speed, min_value, max_value, format, flags);
 		if (callback)
 			Py_XINCREF(callback);
 		item->setCallback(callback);
@@ -3606,7 +3606,7 @@ namespace Marvel {
 		if (on_enter)
 			flags = ImGuiInputTextFlags_EnterReturnsTrue;
 
-		mvAppItem* item = new mvSliderFloat("", name, default_value, min_value, max_value, format, vertical, flags);
+		mvAppItem* item = new mvSliderFloat(name, default_value, min_value, max_value, format, vertical, flags);
 		if (callback)
 			Py_XINCREF(callback);
 		item->setCallback(callback);
@@ -3650,7 +3650,7 @@ namespace Marvel {
 
 		auto vec = ToFloatVect(default_value);
 
-		mvAppItem* item = new mvSliderFloatMulti<mvAppItemType::SliderFloat2, 2, ImGui::SliderFloat2, float>("", name, vec.data(), min_value, max_value, format, flags);
+		mvAppItem* item = new mvSliderFloatMulti<mvAppItemType::SliderFloat2, 2, ImGui::SliderFloat2, float>(name, vec.data(), min_value, max_value, format, flags);
 		if (callback)
 			Py_XINCREF(callback);
 		item->setCallback(callback);
@@ -3693,7 +3693,7 @@ namespace Marvel {
 
 		auto vec = ToFloatVect(default_value);
 
-		mvAppItem* item = new mvSliderFloatMulti<mvAppItemType::SliderFloat3, 3, ImGui::SliderFloat3, float>("", name, vec.data(), min_value, max_value, format, flags);
+		mvAppItem* item = new mvSliderFloatMulti<mvAppItemType::SliderFloat3, 3, ImGui::SliderFloat3, float>(name, vec.data(), min_value, max_value, format, flags);
 		if (callback)
 			Py_XINCREF(callback);
 		item->setCallback(callback);
@@ -3736,7 +3736,7 @@ namespace Marvel {
 			flags = ImGuiInputTextFlags_EnterReturnsTrue;
 
 		auto vec = ToFloatVect(default_value);
-		mvAppItem* item = new mvSliderFloatMulti<mvAppItemType::SliderFloat4, 4, ImGui::SliderFloat4, float>("", name, vec.data(), min_value, max_value, format, flags);
+		mvAppItem* item = new mvSliderFloatMulti<mvAppItemType::SliderFloat4, 4, ImGui::SliderFloat4, float>(name, vec.data(), min_value, max_value, format, flags);
 		if (callback)
 			Py_XINCREF(callback);
 		item->setCallback(callback);
@@ -3776,7 +3776,7 @@ namespace Marvel {
 		if (on_enter)
 			flags = ImGuiInputTextFlags_EnterReturnsTrue;
 
-		mvAppItem* item = new mvSliderInt("", name, default_value, min_value, max_value, format, vertical, flags);
+		mvAppItem* item = new mvSliderInt(name, default_value, min_value, max_value, format, vertical, flags);
 		if (callback)
 			Py_XINCREF(callback);
 		item->setCallback(callback);
@@ -3820,7 +3820,7 @@ namespace Marvel {
 			flags = ImGuiInputTextFlags_EnterReturnsTrue;
 
 		auto vec = ToIntVect(default_value);
-		mvAppItem* item = new mvSliderIntMulti<mvAppItemType::SliderInt2, 2, ImGui::SliderInt2, int>("", name, vec.data(), min_value, max_value, format, flags);
+		mvAppItem* item = new mvSliderIntMulti<mvAppItemType::SliderInt2, 2, ImGui::SliderInt2, int>(name, vec.data(), min_value, max_value, format, flags);
 		if (callback)
 			Py_XINCREF(callback);
 		item->setCallback(callback);
@@ -3863,7 +3863,7 @@ namespace Marvel {
 			flags = ImGuiInputTextFlags_EnterReturnsTrue;
 
 		auto vec = ToIntVect(default_value);
-		mvAppItem* item = new mvSliderIntMulti<mvAppItemType::SliderInt3, 3, ImGui::SliderInt3, int>("", name, vec.data(), min_value, max_value, format, flags);
+		mvAppItem* item = new mvSliderIntMulti<mvAppItemType::SliderInt3, 3, ImGui::SliderInt3, int>(name, vec.data(), min_value, max_value, format, flags);
 		if (callback)
 			Py_XINCREF(callback);
 		item->setCallback(callback);
@@ -3907,7 +3907,7 @@ namespace Marvel {
 			flags = ImGuiInputTextFlags_EnterReturnsTrue;
 
 		auto vec = ToIntVect(default_value);
-		mvAppItem* item = new mvSliderIntMulti<mvAppItemType::SliderInt4, 4, ImGui::SliderInt4, int>("", name, vec.data(), min_value, max_value, format, flags);
+		mvAppItem* item = new mvSliderIntMulti<mvAppItemType::SliderInt4, 4, ImGui::SliderInt4, int>(name, vec.data(), min_value, max_value, format, flags);
 		if (callback)
 			Py_XINCREF(callback);
 		item->setCallback(callback);
@@ -3944,7 +3944,7 @@ namespace Marvel {
 		if (mcolor.r > 500)
 			mcolor.specified = false;
 
-		mvAppItem* item = new mvText("", name, wrap, mcolor, bullet);
+		mvAppItem* item = new mvText(name, wrap, mcolor, bullet);
 		item->setTip(tip);
 		return ToPyBool(AddItemWithRuntimeChecks(item, parent, before));
 	}
@@ -3973,7 +3973,7 @@ namespace Marvel {
 		if (mcolor.r > 500)
 			mcolor.specified = false;
 
-		mvAppItem* item = new mvLabelText("", std::string(name), value, mcolor);
+		mvAppItem* item = new mvLabelText(std::string(name), value, mcolor);
 		item->setTip(tip);
 		item->setDataSource(data_source);
 		return ToPyBool(AddItemWithRuntimeChecks(item, parent, before));
@@ -3999,7 +3999,7 @@ namespace Marvel {
 			&height, &secondary_data_source))
 			return ToPyBool(false);
 
-		mvAppItem* item = new mvListbox("", name, ToStringVect(items),
+		mvAppItem* item = new mvListbox(name, ToStringVect(items),
 			default_value, height, secondary_data_source);
 		if (callback)
 			Py_XINCREF(callback);
@@ -4032,7 +4032,7 @@ namespace Marvel {
 			, &secondary_data_source))
 			return ToPyBool(false);
 
-		mvAppItem* item = new mvCombo("", name, ToStringVect(items), default_value, secondary_data_source);
+		mvAppItem* item = new mvCombo(name, ToStringVect(items), default_value, secondary_data_source);
 		if (callback)
 			Py_XINCREF(callback);
 		item->setCallback(callback);
@@ -4060,7 +4060,7 @@ namespace Marvel {
 			&default_value, &callback, &callback_data, &tip, &parent, &before, &data_source))
 			return ToPyBool(false);
 
-		mvAppItem* item = new mvSelectable("", name, default_value);
+		mvAppItem* item = new mvSelectable(name, default_value);
 		if (callback)
 			Py_XINCREF(callback);
 		item->setCallback(callback);
@@ -4090,7 +4090,7 @@ namespace Marvel {
 			&arrow, &direction, &callback, &callback_data, &tip, &parent, &before, &width, &height))
 			return ToPyBool(false);
 
-		mvAppItem* item = new mvButton("", name, smallb, arrow, direction);
+		mvAppItem* item = new mvButton(name, smallb, arrow, direction);
 		if (callback)
 			Py_XINCREF(callback);
 		item->setCallback(callback);
@@ -4138,7 +4138,7 @@ namespace Marvel {
 		if (password) flags |= ImGuiInputTextFlags_Password;
 		if (on_enter) flags |= ImGuiInputTextFlags_EnterReturnsTrue;
 
-		mvAppItem* item = new mvInputText("", name, default_value, hint, multiline, flags);
+		mvAppItem* item = new mvInputText(name, default_value, hint, multiline, flags);
 		if (callback)
 			Py_XINCREF(callback);
 		item->setCallback(callback);
@@ -4172,7 +4172,7 @@ namespace Marvel {
 		if (on_enter)
 			flags = ImGuiInputTextFlags_EnterReturnsTrue;
 
-		mvAppItem* item = new mvInputInt("", name, default_value, flags);
+		mvAppItem* item = new mvInputInt(name, default_value, flags);
 		if (callback)
 			Py_XINCREF(callback);
 		item->setCallback(callback);
@@ -4212,7 +4212,7 @@ namespace Marvel {
 
 		auto vec = ToIntVect(default_value);
 
-		mvAppItem* item = new mvInputIntMulti<mvAppItemType::InputInt2, 2, ImGui::InputInt2>("", name, vec.data(), flags);
+		mvAppItem* item = new mvInputIntMulti<mvAppItemType::InputInt2, 2, ImGui::InputInt2>(name, vec.data(), flags);
 		if (callback)
 			Py_XINCREF(callback);
 		item->setCallback(callback);
@@ -4252,7 +4252,7 @@ namespace Marvel {
 
 		auto vec = ToIntVect(default_value);
 
-		mvAppItem* item = new mvInputIntMulti<mvAppItemType::InputInt3, 3, ImGui::InputInt3>("", name, vec.data(), flags);
+		mvAppItem* item = new mvInputIntMulti<mvAppItemType::InputInt3, 3, ImGui::InputInt3>(name, vec.data(), flags);
 		if (callback)
 			Py_XINCREF(callback);
 		item->setCallback(callback);
@@ -4291,7 +4291,7 @@ namespace Marvel {
 			flags = ImGuiInputTextFlags_EnterReturnsTrue;
 
 		auto vec = ToIntVect(default_value);
-		mvAppItem* item = new mvInputIntMulti<mvAppItemType::InputInt4, 4, ImGui::InputInt4>("", name, vec.data(), flags);
+		mvAppItem* item = new mvInputIntMulti<mvAppItemType::InputInt4, 4, ImGui::InputInt4>(name, vec.data(), flags);
 		if (callback)
 			Py_XINCREF(callback);
 		item->setCallback(callback);
@@ -4326,7 +4326,7 @@ namespace Marvel {
 		if (on_enter)
 			flags = ImGuiInputTextFlags_EnterReturnsTrue;
 
-		mvAppItem* item = new mvInputFloat("", name, default_value, format, flags);
+		mvAppItem* item = new mvInputFloat(name, default_value, format, flags);
 		if (callback)
 			Py_XINCREF(callback);
 		item->setCallback(callback);
@@ -4364,7 +4364,7 @@ namespace Marvel {
 			flags = ImGuiInputTextFlags_EnterReturnsTrue;
 
 		auto vec = ToFloatVect(default_value);
-		mvAppItem* item = new mvInputFloatMulti<mvAppItemType::InputFloat2, 2, ImGui::InputFloat2>("", name, vec.data(), format, flags);
+		mvAppItem* item = new mvInputFloatMulti<mvAppItemType::InputFloat2, 2, ImGui::InputFloat2>(name, vec.data(), format, flags);
 		if (callback)
 			Py_XINCREF(callback);
 		item->setCallback(callback);
@@ -4404,7 +4404,7 @@ namespace Marvel {
 
 		auto vec = ToFloatVect(default_value);
 
-		mvAppItem* item = new mvInputFloatMulti<mvAppItemType::InputFloat3, 3, ImGui::InputFloat3>("", name, vec.data(), format, flags);
+		mvAppItem* item = new mvInputFloatMulti<mvAppItemType::InputFloat3, 3, ImGui::InputFloat3>(name, vec.data(), format, flags);
 		if (callback)
 			Py_XINCREF(callback);
 		item->setCallback(callback);
@@ -4445,7 +4445,7 @@ namespace Marvel {
 
 		auto vec = ToFloatVect(default_value);
 
-		mvAppItem* item = new mvInputFloatMulti<mvAppItemType::InputFloat4, 4, ImGui::InputFloat4>("", name, vec.data(), format, flags);
+		mvAppItem* item = new mvInputFloatMulti<mvAppItemType::InputFloat4, 4, ImGui::InputFloat4>(name, vec.data(), format, flags);
 		if (callback)
 			Py_XINCREF(callback);
 		item->setCallback(callback);
@@ -4471,7 +4471,7 @@ namespace Marvel {
 			&parent, &before))
 			return ToPyBool(false);
 
-		mvAppItem* item = new mvIndent("", name, offset);
+		mvAppItem* item = new mvIndent(name, offset);
 		return ToPyBool(AddItemWithRuntimeChecks(item, parent, before));
 	}
 
@@ -4487,7 +4487,7 @@ namespace Marvel {
 		if (!(*mvApp::GetApp()->getParsers())["unindent"].parse(args, kwargs, __FUNCTION__, &name, &offset, &parent, &before))
 			return ToPyBool(false);
 
-		mvAppItem* item = new mvUnindent("", name, offset);
+		mvAppItem* item = new mvUnindent(name, offset);
 		return ToPyBool(AddItemWithRuntimeChecks(item, parent, before));
 	}
 
@@ -4505,7 +4505,7 @@ namespace Marvel {
 			&callback, &callback_data, &parent, &before, &data_source))
 			return ToPyBool(false);
 
-		mvAppItem* item = new mvTabBar("", name, reorderable);
+		mvAppItem* item = new mvTabBar(name, reorderable);
 		if (callback)
 			Py_XINCREF(callback);
 		item->setCallback(callback);
@@ -4545,7 +4545,7 @@ namespace Marvel {
 
 			else if (parentItem->getType() == mvAppItemType::TabBar)
 			{
-				mvAppItem* item = new mvTab("", name, closeable);
+				mvAppItem* item = new mvTab(name, closeable);
 				item->setTip(tip);
 				if (AddItemWithRuntimeChecks(item, parent, before))
 				{
@@ -4570,7 +4570,7 @@ namespace Marvel {
 
 			else if (parentItem->getType() == mvAppItemType::TabBar)
 			{
-				mvAppItem* item = new mvTab("", name, closeable);
+				mvAppItem* item = new mvTab(name, closeable);
 				item->setTip(tip);
 				if (AddItemWithRuntimeChecks(item, parent, before))
 				{
@@ -4629,7 +4629,7 @@ namespace Marvel {
 
 		//auto parentItem = mvApp::GetApp()->topParent();
 
-		mvAppItem* item = new mvMenu("", name);
+		mvAppItem* item = new mvMenu(name);
 		item->setTip(tip);
 		if (AddItemWithRuntimeChecks(item, parent, before))
 		{
@@ -4654,7 +4654,7 @@ namespace Marvel {
 			&shortcut, &check, &callback, &callback_data, &tip, &parent, &before))
 			return ToPyBool(false);
 
-		mvAppItem* item = new mvMenuItem("", name, shortcut, check);
+		mvAppItem* item = new mvMenuItem(name, shortcut, check);
 		if (callback)
 			Py_XINCREF(callback);
 		item->setCallback(callback);
@@ -4678,7 +4678,7 @@ namespace Marvel {
 			&parent, &before))
 			return ToPyBool(false);
 
-		mvAppItem* item = new mvSpacing("", name, count);
+		mvAppItem* item = new mvSpacing(name, count);
 		return ToPyBool(AddItemWithRuntimeChecks(item, parent, before));
 	}
 
@@ -4696,7 +4696,7 @@ namespace Marvel {
 			&parent, &before))
 			return ToPyBool(false);
 
-		mvAppItem* item = new mvDummy("", name);
+		mvAppItem* item = new mvDummy(name);
 		item->setWidth(width);
 		item->setHeight(height);
 		return ToPyBool(AddItemWithRuntimeChecks(item, parent, before));
@@ -4716,7 +4716,7 @@ namespace Marvel {
 			&xoffset, &spacing, &parent, &before))
 			return ToPyBool(false);
 
-		mvAppItem* item = new mvSameLine("", name, xoffset, spacing);
+		mvAppItem* item = new mvSameLine(name, xoffset, spacing);
 		return ToPyBool(AddItemWithRuntimeChecks(item, parent, before));
 	}
 
@@ -4737,7 +4737,7 @@ namespace Marvel {
 			&default_value, &callback, &callback_data, &tip, &parent, &before, &data_source, &secondary_data_source))
 			return ToPyBool(false);
 
-		mvAppItem* item = new mvRadioButton("", name, ToStringVect(items), default_value,
+		mvAppItem* item = new mvRadioButton(name, ToStringVect(items), default_value,
 			secondary_data_source);
 		if (callback)
 			Py_XINCREF(callback);
@@ -4765,7 +4765,7 @@ namespace Marvel {
 			&tip, &parent, &before, &width, &hide, &horizontal, &horizontal_spacing))
 			return ToPyBool(false);
 
-		mvAppItem* item = new mvGroup("", name, horizontal, horizontal_spacing);
+		mvAppItem* item = new mvGroup(name, horizontal, horizontal_spacing);
 		item->setTip(tip);
 		item->setWidth(width);
 		if (AddItemWithRuntimeChecks(item, parent, before))
@@ -4793,7 +4793,7 @@ namespace Marvel {
 			&tip, &parent, &before, &width, &height, &border))
 			return ToPyBool(false);
 
-		mvAppItem* item = new mvChild("", name, border);
+		mvAppItem* item = new mvChild(name, border);
 		item->setTip(tip);
 		item->setWidth(width);
 		item->setHeight(height);
@@ -4831,7 +4831,7 @@ namespace Marvel {
 			height = 500;
 		}
 
-		mvAppItem* item = new mvWindowAppitem("", name, width, height, startx, starty,
+		mvAppItem* item = new mvWindowAppitem(name, width, height, startx, starty,
 			false, autosize, resizable, title_bar, movable, closing_callback);
 
 		if (AddItemWithRuntimeChecks(item, "", ""))
@@ -4928,7 +4928,7 @@ namespace Marvel {
 			&name, &parent, &before))
 			return ToPyBool(false);
 
-		mvAppItem* item = new mvTooltip(tipparent, name);
+		mvAppItem* item = new mvTooltip(name);
 
 		if (AddItemWithRuntimeChecks(item, parent, before))
 		{
@@ -4960,7 +4960,7 @@ namespace Marvel {
 		if (std::string(popupparent) == "")
 			mvApp::GetApp()->getItem("MainWindow")->setPopup(name);
 
-		mvAppItem* item = new mvPopup(popupparent, name, mousebutton, modal);
+		mvAppItem* item = new mvPopup(name, mousebutton, modal);
 		item->setWidth(width);
 		item->setHeight(height);
 
@@ -4994,7 +4994,7 @@ namespace Marvel {
 
 		if (default_open) flags |= ImGuiTreeNodeFlags_DefaultOpen;
 
-		mvAppItem* item = new mvCollapsingHeader("", name, flags, closable);
+		mvAppItem* item = new mvCollapsingHeader(name, flags, closable);
 		item->setTip(tip);
 
 		if (AddItemWithRuntimeChecks(item, parent, before))
@@ -5020,7 +5020,7 @@ namespace Marvel {
 
 		if (default_open) flags |= ImGuiTreeNodeFlags_DefaultOpen;
 
-		mvAppItem* item = new mvTreeNode("", name, flags);
+		mvAppItem* item = new mvTreeNode(name, flags);
 		item->setTip(tip);
 		if (AddItemWithRuntimeChecks(item, parent, before))
 		{
@@ -5042,7 +5042,7 @@ namespace Marvel {
 		if (!(*mvApp::GetApp()->getParsers())["add_separator"].parse(args, kwargs, __FUNCTION__, &name, &tip, &parent, &before))
 			return ToPyBool(false);
 
-		mvAppItem* item = new mvSeparator("", name);
+		mvAppItem* item = new mvSeparator(name);
 		item->setTip(tip);
 		return ToPyBool(AddItemWithRuntimeChecks(item, parent, before));
 	}
@@ -5071,7 +5071,7 @@ namespace Marvel {
 		auto color = ToColor(default_value);
 
 		//mvAppItem* item = new mvColorEdit3("", name, color);
-		mvAppItem* item = new mvColorItem<mvAppItemType::ColorEdit3, ImGui::ColorEdit3>("", name, color);
+		mvAppItem* item = new mvColorItem<mvAppItemType::ColorEdit3, ImGui::ColorEdit3>(name, color);
 		if (callback)
 			Py_XINCREF(callback);
 		item->setCallback(callback);
@@ -5107,7 +5107,7 @@ namespace Marvel {
 			return ToPyBool(false);
 
 		auto color = ToColor(default_value);
-		mvAppItem* item = new mvColorItem<mvAppItemType::ColorEdit4, ImGui::ColorEdit4>("", name, color);
+		mvAppItem* item = new mvColorItem<mvAppItemType::ColorEdit4, ImGui::ColorEdit4>(name, color);
 		if (callback)
 			Py_XINCREF(callback);
 		item->setCallback(callback);
@@ -5143,7 +5143,7 @@ namespace Marvel {
 			return ToPyBool(false);
 
 		auto color = ToColor(default_value);
-		mvAppItem* item = new mvColorItem<mvAppItemType::ColorPicker3, ImGui::ColorPicker3>("", name, color);
+		mvAppItem* item = new mvColorItem<mvAppItemType::ColorPicker3, ImGui::ColorPicker3>(name, color);
 		if (callback)
 			Py_XINCREF(callback);
 		item->setCallback(callback);
@@ -5180,7 +5180,7 @@ namespace Marvel {
 
 		auto color = ToColor(default_value);
 
-		mvAppItem* item = new mvColorPicker4("", name, color);
+		mvAppItem* item = new mvColorPicker4(name, color);
 		if (callback)
 			Py_XINCREF(callback);
 		item->setCallback(callback);
@@ -5209,7 +5209,7 @@ namespace Marvel {
 			&default_value, &callback, &callback_data, &tip, &parent, &before, &data_source))
 			return ToPyBool(false);
 
-		mvAppItem* item = new mvCheckbox("", name, default_value);
+		mvAppItem* item = new mvCheckbox(name, default_value);
 		if (callback)
 			Py_XINCREF(callback);
 		item->setCallback(callback);

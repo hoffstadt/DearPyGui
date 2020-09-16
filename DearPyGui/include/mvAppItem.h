@@ -58,7 +58,7 @@ namespace Marvel {
 
     public:
 
-        mvAppItem(const std::string& parent, const std::string& name);
+        mvAppItem(const std::string& name);
 
         virtual ~mvAppItem();
 

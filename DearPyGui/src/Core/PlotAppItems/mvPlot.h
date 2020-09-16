@@ -56,7 +56,7 @@ namespace Marvel {
 
 		MV_APPITEM_TYPE(mvAppItemType::Plot)
 
-			mvPlot(const std::string& parent, const std::string& name, std::string  xname = "",
+			mvPlot(const std::string& name, std::string  xname = "",
 				std::string  yname = "", ImPlotFlags flags = 0, ImPlotAxisFlags xflags = 0, ImPlotAxisFlags yflags = 0, 
 				PyObject* queryCallback = nullptr);
 
