@@ -1,4 +1,5 @@
 from dearpygui.dearpygui import *
+from dearpygui.wrappers import *
 
 def theme_callback(sender, data):
     set_theme(sender)
