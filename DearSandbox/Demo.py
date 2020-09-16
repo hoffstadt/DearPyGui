@@ -371,10 +371,15 @@ with window("Plots, Graphs and Charts##dialog", 500, 500, hide=True):
 
         data3 = [[0.5, -0.5], [1, -0.5], [1, -1], [0.5, -1]]
 
-        add_line_series("Plot", "Line", data1, weight=2, fill=[255, 0, 0, 100])
+        add_line_series("Plot", "Line", data1, weight=2)
+        add_shade_series("Plot", "Shade", data1, weight=2, fill=[255, 0, 0, 100])
         add_scatter_series("Plot", "Scatter", data1)
         add_stem_series("Plot", "Stem", data1)
         add_area_series("Plot", "Area", data3, [255, 255, 0], [255, 255, 0, 100])
+
+        add_pie_series("PieChart1", "PieChart1", [["fish", 0.25], ["Cow", 0.30], ["Chicken", 0.30]], 0.5, 0.5, 0.5, normalize=True)
+        set_plot_xlimits("PieChart1", 0, 1)
+        set_plot_ylimits("PieChart1", 0, 1)
 
     def colormapCallback(sender, data):
         value = get_value("Colormaps")
@@ -386,15 +391,17 @@ with window("Plots, Graphs and Charts##dialog", 500, 500, hide=True):
             add_button("Plot data", callback=PlotCallback)
             add_listbox("Colormaps", ("Default", "Dark", "Pastel", "Paired", "Viridis", "Plasma", "Hot", 
                                       "Cool", "Pink", "Jet"), width=500, height=3, callback=colormapCallback)
-            add_plot("Plot", "x-axis", "y-axis", height=-1);
+            add_plot("Plot", "x-axis", "y-axis", height=-1)
 
         with tab("Simple Plots"):
             add_simple_plot("Simpleplot1", (0.3, 0.9, 2.5, 8.9))
             add_simple_plot("Simpleplot2", (0.3, 0.9, 2.5, 8.9), overlay="Overlaying", height=180, histogram=True)
 
         with tab("Pie Chart"):
-            add_pie_chart("PieChart1", normalize=True);
-            add_pie_chart_data("PieChart1", [["fish", 0.25], ["Cow", 0.30], ["Chicken", 0.30]])
+            add_plot("PieChart1", "", "", no_mouse_pos=True, 
+                     xaxis_no_gridlines=True, xaxis_no_tick_marks=True, xaxis_no_tick_labels=True,
+                     yaxis_no_gridlines=True, yaxis_no_tick_marks=True, yaxis_no_tick_labels=True
+                     )
 
 ########################################################################################################################
 # Canvas

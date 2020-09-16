@@ -1994,108 +1994,102 @@ namespace Marvel {
 		const char* name;
 		const char* xAxisName = "";
 		const char* yAxisName = "";
-		int flags = 0;
-		int xflags = 0;
-		int yflags = 0;
+
+		// plot flags
+		int no_legend     = false;
+		int no_menus      = false;
+		int no_box_select = false;
+		int no_mouse_pos  = false;
+		int no_highlight  = false;
+		int no_child      = false;
+		int query         = false;
+		int crosshairs    = false;
+		int antialiased   = false;
+
+		// x axis flags
+		int xaxis_no_gridlines   = false;
+		int xaxis_no_tick_marks  = false;
+		int xaxis_no_tick_labels = false;
+		int xaxis_log_scale      = false;
+		int xaxis_time           = false;
+		int xaxis_invert         = false;
+		int xaxis_lock_min       = false;
+		int xaxis_lock_max       = false;
+
+		// y axis flags
+		int yaxis_no_gridlines   = false;
+		int yaxis_no_tick_marks  = false;
+		int yaxis_no_tick_labels = false;
+		int yaxis_log_scale      = false;
+		int yaxis_invert         = false;
+		int yaxis_lock_min       = false;
+		int yaxis_lock_max       = false;
+
 		const char* parent = "";
 		const char* before = "";
 		int width = -1;
 		int height = -1;
 		PyObject* query_callback = nullptr;
 
-		if (!(*mvApp::GetApp()->getParsers())["add_plot"].parse(args, kwargs, __FUNCTION__, &name, &xAxisName, &yAxisName, &flags,
-			&xflags, &yflags, &parent, &before, &width, &height, &query_callback))
+		if (!(*mvApp::GetApp()->getParsers())["add_plot"].parse(args, kwargs, __FUNCTION__, &name, &xAxisName, &yAxisName,
+			&no_legend,&no_menus,&no_box_select,&no_mouse_pos,&no_highlight,&no_child,&query,&crosshairs,&antialiased,
+			&xaxis_no_gridlines,
+		    &xaxis_no_tick_marks,
+		    &xaxis_no_tick_labels,
+		    &xaxis_log_scale,
+		    &xaxis_time,
+		    &xaxis_invert,
+		    &xaxis_lock_min,
+		    &xaxis_lock_max,
+			&yaxis_no_gridlines,
+			&yaxis_no_tick_marks,
+			&yaxis_no_tick_labels,
+			&yaxis_log_scale,
+			&yaxis_invert,
+			&yaxis_lock_min,
+			&yaxis_lock_max,
+			&parent, &before, &width, &height, &query_callback))
 			return ToPyBool(false);
+
+		int flags = 0;
+		int xflags = 0;
+		int yflags = 0;
+
+		// plot flags
+		if(no_legend)     flags |= ImPlotFlags_NoLegend;
+		if(no_menus)      flags |= ImPlotFlags_NoMenus;
+		if(no_box_select) flags |= ImPlotFlags_NoBoxSelect;
+		if(no_mouse_pos)  flags |= ImPlotFlags_NoMousePos;
+		if(no_highlight)  flags |= ImPlotFlags_NoHighlight;
+		if(no_child)	  flags |= ImPlotFlags_NoChild;
+		if(query)         flags |= ImPlotFlags_Query;
+		if(crosshairs)    flags |= ImPlotFlags_Crosshairs;
+		if(antialiased)   flags |= ImPlotFlags_AntiAliased;
+
+		// x axis flags
+		if(xaxis_no_gridlines)   xflags |= ImPlotAxisFlags_NoGridLines;
+		if(xaxis_no_tick_marks)  xflags |= ImPlotAxisFlags_NoTickMarks;
+		if(xaxis_no_tick_labels) xflags |= ImPlotAxisFlags_NoTickLabels;
+		if(xaxis_log_scale)      xflags |= ImPlotAxisFlags_LogScale;
+		if(xaxis_time)           xflags |= ImPlotAxisFlags_Time;
+		if(xaxis_invert)         xflags |= ImPlotAxisFlags_Invert;
+		if(xaxis_lock_min)       xflags |= ImPlotAxisFlags_LockMin;
+		if(xaxis_lock_max)       xflags |= ImPlotAxisFlags_LockMax;
+
+		// y axis flags
+		if (yaxis_no_gridlines)   yflags |= ImPlotAxisFlags_NoGridLines;
+		if (yaxis_no_tick_marks)  yflags |= ImPlotAxisFlags_NoTickMarks;
+		if (yaxis_no_tick_labels) yflags |= ImPlotAxisFlags_NoTickLabels;
+		if (yaxis_log_scale)      yflags |= ImPlotAxisFlags_LogScale;
+		if (yaxis_invert)         yflags |= ImPlotAxisFlags_Invert;
+		if (yaxis_lock_min)       yflags |= ImPlotAxisFlags_LockMin;
+		if (yaxis_lock_max)       yflags |= ImPlotAxisFlags_LockMax;
 
 		mvAppItem* item = new mvPlot(name, xAxisName, yAxisName, flags, xflags, yflags, query_callback);
 		item->setWidth(width);
 		item->setHeight(height);
 
 		return ToPyBool(AddItemWithRuntimeChecks(item, parent, before));
-	}
-
-	PyObject* add_pie_chart(PyObject* self, PyObject* args, PyObject* kwargs)
-	{
-		const char* name;
-		int normalize = false;
-		const char* format = "%.1f";
-		const char* parent = "";
-		const char* before = "";
-		int width = -1;
-		int height = -1;
-		PyObject* query_callback = nullptr;
-
-		if (!(*mvApp::GetApp()->getParsers())["add_pie_chart"].parse(args, kwargs, __FUNCTION__, &name,
-			&normalize, &format, &parent, &before, &width, &height))
-			return ToPyBool(false);
-
-		mvAppItem* item = new mvPieChart(name, normalize, format);
-		item->setWidth(width);
-		item->setHeight(height);
-
-		return ToPyBool(AddItemWithRuntimeChecks(item, parent, before));
-	}
-
-	PyObject* add_pie_chart_data(PyObject* self, PyObject* args, PyObject* kwargs)
-	{
-		const char* plot;
-		PyObject* data;
-
-		if (!(*mvApp::GetApp()->getParsers())["add_pie_chart_data"].parse(args, kwargs, __FUNCTION__,
-			&plot, &data))
-			return GetPyNone();
-
-		mvAppItem* aplot = mvApp::GetApp()->getItem(plot);
-		if (aplot == nullptr)
-		{
-			std::string message = plot;
-			ThrowPythonException(message + " pie chart does not exist.");
-			return GetPyNone();
-		}
-
-		if (aplot->getType() != mvAppItemType::PieChart)
-		{
-			std::string message = plot;
-			ThrowPythonException(message + " is not a pie chart.");
-			return GetPyNone();
-		}
-
-		mvPieChart* graph = static_cast<mvPieChart*>(aplot);
-
-		auto mlabel_pairs = ToVectPairStringFloat(data);
-
-		graph->addData(mlabel_pairs);
-
-		return GetPyNone();
-	}
-
-	PyObject* clear_pie_chart_data(PyObject* self, PyObject* args, PyObject* kwargs)
-	{
-		const char* plot;
-
-		if (!(*mvApp::GetApp()->getParsers())["clear_pie_chart_data"].parse(args, kwargs, __FUNCTION__,
-			&plot))
-			return GetPyNone();
-
-		mvAppItem* aplot = mvApp::GetApp()->getItem(plot);
-
-		if (aplot == nullptr)
-		{
-			std::string message = plot;
-			ThrowPythonException(message + " pie chart does not exist.");
-			return GetPyNone();
-		}
-
-		if (aplot->getType() != mvAppItemType::PieChart)
-		{
-			std::string message = plot;
-			ThrowPythonException(message + " is not a pie chart.");
-			return GetPyNone();
-		}
-
-		mvPieChart* graph = static_cast<mvPieChart*>(aplot);
-		graph->clearData();
-		return GetPyNone();
 	}
 
 	PyObject* delete_series(PyObject* self, PyObject* args, PyObject* kwargs)
@@ -2127,7 +2121,120 @@ namespace Marvel {
 		return GetPyNone();
 	}
 
+	PyObject* add_pie_series(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		const char* plot;
+		const char* name;
+		PyObject* data;
+		float x;
+		float y;
+		float radius;
+		int normalize = false;
+		double angle = 90.0;
+		const char* format = "%0.2f";
+
+
+		if (!(*mvApp::GetApp()->getParsers())["add_pie_series"].parse(args, kwargs, __FUNCTION__, &plot, &name, &data, &x,
+			&y, &radius, &normalize, &angle, &format))
+			return GetPyNone();
+
+		if (!PyList_Check(data))
+		{
+			std::string message = plot;
+			ThrowPythonException(message + " add line series requires a list of lists.");
+			return GetPyNone();
+		}
+
+		mvAppItem* aplot = mvApp::GetApp()->getItem(plot);
+
+		if (aplot == nullptr)
+		{
+			std::string message = plot;
+			ThrowPythonException(message + " plot does not exist.");
+			return GetPyNone();
+		}
+
+		if (aplot->getType() != mvAppItemType::Plot)
+		{
+			std::string message = plot;
+			ThrowPythonException(message + " is not a plot.");
+			return GetPyNone();
+		}
+
+		mvPlot* graph = static_cast<mvPlot*>(aplot);
+
+		auto mlabel_pairs = ToVectPairStringFloat(data);
+
+		std::vector<mvVec2> points;
+		std::vector<std::string> labels;
+		for (const auto& item : mlabel_pairs)
+		{
+			points.push_back({ item.second, 0.0f });
+			labels.push_back(item.first);
+		}
+
+		auto series = new mvPieSeries(name, points, x, y, radius, normalize, angle, format, labels);
+
+		graph->updateSeries(series);
+
+
+		return GetPyNone();
+	}
+
 	PyObject* add_line_series(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		const char* plot;
+		const char* name;
+		PyObject* data;
+		float weight = 1.0f;
+		PyObject* color = PyTuple_New(4);
+		PyTuple_SetItem(color, 0, PyLong_FromLong(1000));
+		PyTuple_SetItem(color, 1, PyLong_FromLong(0));
+		PyTuple_SetItem(color, 2, PyLong_FromLong(0));
+		PyTuple_SetItem(color, 3, PyLong_FromLong(255));
+
+		if (!(*mvApp::GetApp()->getParsers())["add_line_series"].parse(args, kwargs, __FUNCTION__, &plot, &name, &data, &color, &weight))
+			return GetPyNone();
+
+		if (!PyList_Check(data))
+		{
+			std::string message = plot;
+			ThrowPythonException(message + " add line series requires a list of lists.");
+			return GetPyNone();
+		}
+
+		mvAppItem* aplot = mvApp::GetApp()->getItem(plot);
+
+		if (aplot == nullptr)
+		{
+			std::string message = plot;
+			ThrowPythonException(message + " plot does not exist.");
+			return GetPyNone();
+		}
+
+		if (aplot->getType() != mvAppItemType::Plot)
+		{
+			std::string message = plot;
+			ThrowPythonException(message + " is not a plot.");
+			return GetPyNone();
+		}
+
+		mvPlot* graph = static_cast<mvPlot*>(aplot);
+
+		auto datapoints = ToVectVec2(data);
+
+		auto mcolor = ToColor(color);
+		if (mcolor.r > 999)
+			mcolor.specified = false;
+
+		auto series = new mvLineSeries(name, datapoints, mcolor);
+		series->setWeight(weight);
+		graph->updateSeries(series);
+
+		return GetPyNone();
+	}
+
+	PyObject* add_shade_series(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		const char* plot;
 		const char* name;
@@ -2145,7 +2252,7 @@ namespace Marvel {
 		PyTuple_SetItem(fill, 2, PyLong_FromLong(0));
 		PyTuple_SetItem(fill, 3, PyLong_FromLong(255));
 
-		if (!(*mvApp::GetApp()->getParsers())["add_line_series"].parse(args, kwargs, __FUNCTION__, &plot, &name, &data, &color, &fill, &weight))
+		if (!(*mvApp::GetApp()->getParsers())["add_shade_series"].parse(args, kwargs, __FUNCTION__, &plot, &name, &data, &color, &fill, &weight))
 			return GetPyNone();
 
 		if (!PyList_Check(data))
@@ -2183,7 +2290,9 @@ namespace Marvel {
 		if (mfill.r > 999)
 			mfill.specified = false;
 
-		graph->updateSeries(new mvLineSeries(name, datapoints, weight, mcolor, mfill));
+		auto series = new mvShadeSeries(name, datapoints, mcolor, mfill);
+		series->setWeight(weight);
+		graph->updateSeries(series);
 
 		return GetPyNone();
 	}
@@ -2400,8 +2509,12 @@ namespace Marvel {
 			mfill.specified = false;
 
 		graph->deleteSeries(name);
-		graph->addSeries(new mvAreaSeries(name, datapoints, weight, mcolor, mfill));
-		graph->addSeries(new mvLineSeries(name, datapoints, weight, mcolor, { 0,0,0,0,false })); // this allows our custom render to work
+		auto aseries = new mvAreaSeries(name, datapoints, mcolor, mfill);
+		auto lseries = new mvLineSeries(name, datapoints, mcolor);
+		aseries->setWeight(weight);
+		lseries->setWeight(weight);
+		graph->addSeries(aseries);
+		graph->addSeries(lseries); // this allows our custom render to work
 
 		return GetPyNone();
 	}
@@ -6685,37 +6798,6 @@ namespace Marvel {
 	{
 		std::vector<std::pair<std::string, long>> ModuleConstants =
 		{
-			//-----------------------------------------------------------------------------
-			// Plot Flags
-			//-----------------------------------------------------------------------------
-			{"mvPlotFlags_MousePos"   , 1 << 0},  // the mouse position, in plot coordinates, will be displayed in the bottom-right
-			{"mvPlotFlags_Legend"     , 1 << 1},  // a legend will be displayed in the top-left
-			{"mvPlotFlags_Highlight"  , 1 << 2},  // plot items will be highlighted when their legend entry is hovered
-			{"mvPlotFlags_BoxSelect"  , 1 << 3},  // the user will be able to box-select with right-mouse
-			{"mvPlotFlags_Query"      , 1 << 4},  // the user will be able to draw query rects with middle-mouse
-			{"mvPlotFlags_ContextMenu", 1 << 5},  // the user will be able to open a context menu with double-right click
-			{"mvPlotFlags_Crosshairs" , 1 << 6},  // the default mouse cursor will be replaced with a crosshair when hovered
-			{"mvPlotFlags_CullData"   , 1 << 7},  // plot data outside the plot area will be culled from rendering
-			{"mvPlotFlags_AntiAliased", 1 << 8},  // lines and fills will be anti-aliased (not recommended)
-			{"mvPlotFlags_NoChild"    , 1 << 9},  // a child window region will not be used to capture mouse scroll (can boost performance for single ImGui window applications)
-			{"mvPlotFlags_YAxis2"     , 1 << 10}, // enable a 2nd y axis
-			{"mvPlotFlags_YAxis3"     , 1 << 11}, // enable a 3rd y axis
-			{"mvPlotFlags_Default"    ,     175},
-
-			//-----------------------------------------------------------------------------
-			// Axis Flags
-			//-----------------------------------------------------------------------------
-			{"mvPlotAxisFlags_GridLines" , 1 << 0}, // grid lines will be displayed
-			{"mvPlotAxisFlags_TickMarks" , 1 << 1}, // tick marks will be displayed for each grid line
-			{"mvPlotAxisFlags_TickLabels", 1 << 2}, // text labels will be displayed for each grid line
-			{"mvPlotAxisFlags_Invert"    , 1 << 3}, // the axis will be inverted
-			{"mvPlotAxisFlags_LockMin"   , 1 << 4}, // the axis minimum value will be locked when panning/zooming
-			{"mvPlotAxisFlags_LockMax"   , 1 << 5}, // the axis maximum value will be locked when panning/zooming
-			{"mvPlotAxisFlags_Adaptive"  , 1 << 6}, // grid divisions will adapt to the current pixel size the axis
-			{"mvPlotAxisFlags_LogScale"  , 1 << 7}, // a logartithmic (base 10) axis scale will be used
-			{"mvPlotAxisFlags_Scientific", 1 << 8}, // scientific notation will be used for tick labels if displayed (WIP, not very good yet)
-			{"mvPlotAxisFlags_Default"   ,     71},
-			{"mvPlotAxisFlags_Auxiliary" ,     70},
 
 			//-----------------------------------------------------------------------------
 			// Plot Colors
@@ -7112,9 +7194,6 @@ namespace Marvel {
 
 	static PyMethodDef dearpyguimethods[]
 	{
-		ADD_PYTHON_FUNCTION(add_pie_chart)
-		ADD_PYTHON_FUNCTION(add_pie_chart_data)
-		ADD_PYTHON_FUNCTION(clear_pie_chart_data)
 		ADD_PYTHON_FUNCTION(add_dummy)
 		ADD_PYTHON_FUNCTION(set_start_callback)
 		ADD_PYTHON_FUNCTION(set_item_color)
@@ -7401,7 +7480,9 @@ namespace Marvel {
 		ADD_PYTHON_FUNCTION(set_color_map)
 		ADD_PYTHON_FUNCTION(add_plot)
 		ADD_PYTHON_FUNCTION(delete_drawing_item)
+		ADD_PYTHON_FUNCTION(add_shade_series)
 		ADD_PYTHON_FUNCTION(add_line_series)
+		ADD_PYTHON_FUNCTION(add_pie_series)
 		ADD_PYTHON_FUNCTION(add_scatter_series)
 		ADD_PYTHON_FUNCTION(add_area_series)
 		ADD_PYTHON_FUNCTION(add_stem_series)

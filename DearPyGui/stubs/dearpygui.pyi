@@ -207,7 +207,7 @@ def add_label_text(name: str, value: str, color: List[float] = [0.0, 0.0, 0.0, 2
 	"""Adds text with a label. Useful for output values."""
 	...
 
-def add_line_series(plot: str, name: str, data: List[float], color: List[float] = ..., fill: List[float] = ..., weight: float = 1.0) -> None:
+def add_line_series(plot: str, name: str, data: List[float], color: List[float] = ..., weight: float = 1.0) -> None:
 	"""Adds a line series to a plot."""
 	...
 
@@ -227,12 +227,8 @@ def add_menu_item(name: str, shortcut: str = "", check: bool = False, callback: 
 	"""Adds a menu item to an existing menu."""
 	...
 
-def add_pie_chart(name: str, normalize: bool = False, format: str = "%.1f", parent: str = "", before: str = "", width: int = -1, height: int = -1) -> bool:
-	""" Adds a pie chart widget. """
-	...
-
-def add_pie_chart_data(plot: str, data: List[[str, float]]) -> None:
-	"""Sets data for a pie chart."""
+def add_pie_series(plot: str, name: str, data: List[[str, float]], x: float, y: float, radius: float, normalize: bool = False, angle: float = 90.0, format: str = "%0.2f") -> None:
+	"""Adds a pie series to a plot."""
 	...
 
 def add_plot(name: str, xAxisName: str = "", yAxisName: str = "", flags: int = 0, xflags: int = 0, yflags: int = 0, parent: str = "", before: str = "", width: int = -1, height: int = -1, query_callback: str = "") -> bool:
@@ -269,6 +265,10 @@ def add_selectable(name: str, default_value: bool = False, callback: Callable = 
 
 def add_separator(name: str = "", tip: str = "", parent: str = "", before: str = "") -> bool:
 	"""Adds a horizontal line."""
+	...
+
+def add_shade_series(plot: str, name: str, data: List[float], color: List[float] = ..., fill: List[float] = ..., weight: float = 1.0) -> None:
+	"""Adds a shade series to a plot."""
 	...
 
 def add_simple_plot(name: str, value: List[float], autoscale: bool = True, overlay: str = "", minscale: float = 0.0, maxscale: float = 0.0, histogram: bool = False, tip: str = "", parent: str = "", 
@@ -386,10 +386,6 @@ def clear_item_color(item: str) -> None:
 
 def clear_log() -> None:
 	"""Clears the logger."""
-	...
-
-def clear_pie_chart_data(plot:str) -> None:
-	""" Clears data for a pie chart. """
 	...
 
 def clear_plot(plot: str) -> None:
