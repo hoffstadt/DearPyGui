@@ -4,7 +4,7 @@
 
 namespace Marvel {
 
-	mvSeries::mvSeries(std::string  name, const std::vector<mvVec2>& points)
+	mvSeries::mvSeries(std::string name, const std::vector<mvVec2>& points)
 		: m_name(std::move(name))
 	{
 		if (!points.empty())
@@ -27,10 +27,10 @@ namespace Marvel {
 
 	}
 
-	mvPlot::mvPlot(const std::string& parent, const std::string& name, std::string  xname,
+	mvPlot::mvPlot(const std::string& name, std::string  xname,
 		std::string yname, ImPlotFlags flags,
 		ImPlotAxisFlags xflags, ImPlotAxisFlags yflags, PyObject* queryCallback)
-		: mvAppItem(parent, name), m_xaxisName(std::move(xname)), m_yaxisName(std::move(yname)),
+		: mvAppItem(name), m_xaxisName(std::move(xname)), m_yaxisName(std::move(yname)),
 		m_flags(flags), m_xflags(xflags), m_yflags(yflags), m_queryCallback(queryCallback)
 	{
 	}

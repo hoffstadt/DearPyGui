@@ -52,8 +52,8 @@ namespace Marvel {
 
 		MV_APPITEM_TYPE(mvAppItemType::Selectable)
 
-		mvSelectable(const std::string& parent, const std::string& name, bool default_value)
-			: mvBoolItemBase(parent, name, default_value)
+		mvSelectable(const std::string& name, bool default_value)
+			: mvBoolItemBase(name, default_value)
 		{
 		}
 
@@ -93,9 +93,9 @@ namespace Marvel {
 
 		MV_APPITEM_TYPE(mvAppItemType::Button)
 
-		mvButton(const std::string& parent, const std::string& name, bool small = false, 
+		mvButton(const std::string& name, bool small = false, 
 			bool arrow = false, ImGuiDir direction = ImGuiDir_None)
-			: mvAppItem(parent, name), m_small(small), m_arrow(arrow), m_direction(direction)
+			: mvAppItem(name), m_small(small), m_arrow(arrow), m_direction(direction)
 		{
 		}
 
@@ -166,8 +166,8 @@ namespace Marvel {
 
 		MV_APPITEM_TYPE(mvAppItemType::Checkbox)
 
-		mvCheckbox(const std::string& parent, const std::string& name, bool default_value)
-			: mvBoolItemBase(parent, name, default_value)
+		mvCheckbox(const std::string& name, bool default_value)
+			: mvBoolItemBase(name, default_value)
 		{
 		}
 
@@ -206,9 +206,9 @@ namespace Marvel {
 
 		MV_APPITEM_TYPE(mvAppItemType::Combo)
 
-		mvCombo(const std::string& parent, const std::string& name, std::vector<std::string> itemnames, const std::string& default_value,
+		mvCombo(const std::string& name, std::vector<std::string> itemnames, const std::string& default_value,
 			std::string listDataSource = "")
-			: mvStringItemBase(parent, name, default_value), m_names(std::move(itemnames)), m_listDataSource(std::move(listDataSource))
+			: mvStringItemBase(name, default_value), m_names(std::move(itemnames)), m_listDataSource(std::move(listDataSource))
 		{}
 
 		void draw() override
@@ -278,9 +278,9 @@ namespace Marvel {
 
 		MV_APPITEM_TYPE(mvAppItemType::Listbox)
 
-		mvListbox(const std::string& parent, const std::string& name, std::vector<std::string> itemnames, int default_value = 0, int height = 3,
+		mvListbox(const std::string& name, std::vector<std::string> itemnames, int default_value = 0, int height = 3,
 			std::string listDataSource = "")
-			: mvIntItemBase(parent, name, 1, default_value), m_names(std::move(itemnames)), m_itemsHeight(height),
+			: mvIntItemBase(name, 1, default_value), m_names(std::move(itemnames)), m_itemsHeight(height),
 			m_listDataSource(std::move(listDataSource))
 		{
 			for (const std::string& item : m_names)
@@ -345,9 +345,9 @@ namespace Marvel {
 
 		MV_APPITEM_TYPE(mvAppItemType::RadioButtons)
 
-		mvRadioButton(const std::string& parent, const std::string& name, std::vector<std::string> itemnames, int default_value,
+		mvRadioButton(const std::string& name, std::vector<std::string> itemnames, int default_value,
 			std::string secondaryDataSource = "")
-			: mvIntItemBase(parent, name, 1, default_value), m_itemnames(std::move(itemnames)), m_listDataSource(std::move(secondaryDataSource))
+			: mvIntItemBase(name, 1, default_value), m_itemnames(std::move(itemnames)), m_listDataSource(std::move(secondaryDataSource))
 		{
 		}
 
@@ -407,8 +407,8 @@ namespace Marvel {
 
 		MV_APPITEM_TYPE(mvAppItemType::ProgressBar)
 
-		mvProgressBar(const std::string& parent, const std::string& name, float default_value = 0.0f, std::string overlay = "")
-			: mvFloatItemBase(parent, name, 1, default_value), m_overlay(std::move(overlay))
+		mvProgressBar(const std::string& name, float default_value = 0.0f, std::string overlay = "")
+			: mvFloatItemBase(name, 1, default_value), m_overlay(std::move(overlay))
 		{
 		}
 
@@ -447,8 +447,8 @@ namespace Marvel {
 
 		MV_APPITEM_TYPE(mvAppItemType::InputInt)
 
-		mvInputInt(const std::string& parent, const std::string& name, int default_value, ImGuiInputTextFlags flags)
-			: mvIntItemBase(parent, name, 1, default_value), m_flags(flags) {}
+		mvInputInt(const std::string& name, int default_value, ImGuiInputTextFlags flags)
+			: mvIntItemBase(name, 1, default_value), m_flags(flags) {}
 
 		void draw() override
 		{
@@ -491,8 +491,8 @@ namespace Marvel {
 
 		MV_APPITEM_TYPE(AppItemType)
 
-		mvInputIntMulti(const std::string& parent, const std::string& name, int default_value[2], ImGuiInputTextFlags flags)
-			: mvIntItemBase(parent, name, num, default_value[0], default_value[1], default_value[2], default_value[3]),
+		mvInputIntMulti(const std::string& name, int default_value[2], ImGuiInputTextFlags flags)
+			: mvIntItemBase(name, num, default_value[0], default_value[1], default_value[2], default_value[3]),
 			m_flags(flags){}
 
 		void draw() override
@@ -535,8 +535,8 @@ namespace Marvel {
 
 		MV_APPITEM_TYPE(mvAppItemType::InputFloat)
 
-			mvInputFloat(const std::string& parent, const std::string& name, float default_value, std::string format, ImGuiInputTextFlags flags)
-			: mvFloatItemBase(parent, name, 1, default_value), m_format(std::move(format)), m_flags(flags)
+			mvInputFloat(const std::string& name, float default_value, std::string format, ImGuiInputTextFlags flags)
+			: mvFloatItemBase(name, 1, default_value), m_format(std::move(format)), m_flags(flags)
 		{
 		}
 
@@ -581,8 +581,8 @@ namespace Marvel {
 
 		MV_APPITEM_TYPE(AppItemType)
 
-			mvInputFloatMulti(const std::string& parent, const std::string& name, float* default_value, std::string  format, ImGuiInputTextFlags flags)
-			: mvFloatItemBase(parent, name, num, default_value[0], default_value[1], default_value[2], default_value[3]), m_format(std::move(format)),
+			mvInputFloatMulti(const std::string& name, float* default_value, std::string  format, ImGuiInputTextFlags flags)
+			: mvFloatItemBase(name, num, default_value[0], default_value[1], default_value[2], default_value[3]), m_format(std::move(format)),
 				m_flags(flags)
 		{
 		}
@@ -628,9 +628,9 @@ namespace Marvel {
 
 		MV_APPITEM_TYPE(AppItemType)
 
-		mvDragFloat(const std::string& parent, const std::string& name, float* default_value, float speed,
+		mvDragFloat(const std::string& name, float* default_value, float speed,
 				float minv, float maxv, std::string format, ImGuiInputTextFlags flags)
-			: mvFloatItemBase(parent, name, num, default_value[0], default_value[1], default_value[2], default_value[3]),
+			: mvFloatItemBase(name, num, default_value[0], default_value[1], default_value[2], default_value[3]),
 			m_speed(speed), m_min(minv), m_max(maxv), m_format(std::move(format)), m_flags(flags)
 		{
 		}
@@ -679,9 +679,9 @@ namespace Marvel {
 
 		MV_APPITEM_TYPE(AppItemType)
 
-		mvDragInt(const std::string& parent, const std::string& name, int* default_value, float speed,
+		mvDragInt(const std::string& name, int* default_value, float speed,
 				int minv, float maxv, std::string format, ImGuiInputTextFlags flags)
-			: mvIntItemBase(parent, name, num, default_value[0], default_value[1], default_value[2], default_value[3]),
+			: mvIntItemBase(name, num, default_value[0], default_value[1], default_value[2], default_value[3]),
 			m_speed(speed), m_min(minv), m_max(maxv), m_format(std::move(format)), m_flags(flags)
 		{
 		}
@@ -729,9 +729,9 @@ namespace Marvel {
 
 		MV_APPITEM_TYPE(mvAppItemType::SliderFloat)
 
-			mvSliderFloat(const std::string& parent, const std::string& name, float default_value = 0.0f, float minv = 0.0f,
+			mvSliderFloat(const std::string& name, float default_value = 0.0f, float minv = 0.0f,
 				float maxv = 1.0f, std::string  format = "%.3f", bool vertical = false, ImGuiInputTextFlags flags = 0)
-			: mvFloatItemBase(parent, name, 1, default_value), m_min(minv), m_max(maxv), m_format(std::move(format)),
+			: mvFloatItemBase(name, 1, default_value), m_min(minv), m_max(maxv), m_format(std::move(format)),
 			m_vertical(vertical), m_flags(flags)
 		{
 		}
@@ -805,9 +805,9 @@ namespace Marvel {
 
 		MV_APPITEM_TYPE(mvAppItemType::SliderInt)
 
-			mvSliderInt(const std::string& parent, const std::string& name, int default_value = 0, int minv = 0,
+			mvSliderInt(const std::string& name, int default_value = 0, int minv = 0,
 				int maxv = 100, std::string  format = "%d", bool vertical = false, ImGuiInputTextFlags flags = 0)
-			: mvIntItemBase(parent, name, 1, default_value), m_min(minv), m_max(maxv), m_format(std::move(format)), 
+			: mvIntItemBase(name, 1, default_value), m_min(minv), m_max(maxv), m_format(std::move(format)), 
 			m_vertical(vertical), m_flags(flags)
 		{
 		}
@@ -882,8 +882,8 @@ namespace Marvel {
 
 		MV_APPITEM_TYPE(AppItemType)
 
-			mvSliderFloatMulti(const std::string& parent, const std::string& name, T* default_value, T minv, T maxv, std::string  format, ImGuiInputTextFlags flags)
-			: mvFloatItemBase(parent, name, num, default_value[0], default_value[1], default_value[2], default_value[3]),
+			mvSliderFloatMulti(const std::string& name, T* default_value, T minv, T maxv, std::string  format, ImGuiInputTextFlags flags)
+			: mvFloatItemBase(name, num, default_value[0], default_value[1], default_value[2], default_value[3]),
 			m_min(minv), m_max(maxv), m_format(std::move(format)), m_flags(flags)
 		{
 		}
@@ -931,8 +931,8 @@ namespace Marvel {
 
 		MV_APPITEM_TYPE(AppItemType)
 
-			mvSliderIntMulti(const std::string& parent, const std::string& name, T* default_value, T minv, T maxv, std::string  format, ImGuiInputTextFlags flags)
-			: mvIntItemBase(parent, name, num, default_value[0], default_value[1], default_value[2], default_value[3]),
+			mvSliderIntMulti(const std::string& name, T* default_value, T minv, T maxv, std::string  format, ImGuiInputTextFlags flags)
+			: mvIntItemBase(name, num, default_value[0], default_value[1], default_value[2], default_value[3]),
 			m_min(minv), m_max(maxv), m_format(std::move(format)), m_flags(flags)
 		{
 		}

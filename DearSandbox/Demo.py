@@ -1,4 +1,5 @@
 from dearpygui import *
+from time import sleep
 from contextlib import contextmanager
 from functools import wraps
 from math import sin, cos
@@ -102,7 +103,7 @@ with child("ChecklistGroup", width=300):
     add_item_to_check("Widgets")
     add_item_to_check("Drawing API")
     add_item_to_check("Plots, Graphs and Charts")
-    add_item_to_check("Logging##checklist")
+    add_item_to_check("Logging")
     add_item_to_check("Asyncronous")
     add_item_to_check("Input Polling")
     add_item_to_check("Input Text")
@@ -133,9 +134,11 @@ def TestFileCallback(sender, data):
 
 def OpenFile(sender, data):
     open_file_dialog(TestFileCallback, ".*,.py")
+    Launcher(sender, data)
 
 def OpenDirectory(sender, data):
     select_directory_dialog(TestFileCallback)
+    Launcher(sender, data)
 
 with group("Launch Group", width=200):
     add_button("Widgets", callback=Launcher)
@@ -428,22 +431,23 @@ with window("Drawing API##dialog", autosize=True, hide=True):
 # Asyncronous
 ########################################################################################################################
 with window("Asyncronous##dialog", hide=True):
-
+    add_data('threadNumber', 0)
     def LongCallback2(sender, data):
-        for i in range(0, 10000000):
-            pass
-        #log_info("Done with process from " + data)
-        return 42
+        sleep(5)
+        return data
 
     def ReturnFromLongProcess(sender, data):
-        log_info("Data returned to main thread: " + str(data))
+        log_info("Completed process number: " + str(data))
+        add_data('threadNumber', get_data('threadNumber')-1)
 
     def LongAsyncronousCallback(sender, data):
-        run_async_function(LongCallback2, "some_data", return_handler=ReturnFromLongProcess)
+        current_number = get_data('threadNumber')
+        run_async_function(LongCallback2, current_number, return_handler=ReturnFromLongProcess)
+        log_info("Start process number: " + str(current_number))
+        add_data('threadNumber', current_number+1)
 
     def LongCallback(sender, data):
-        for i in range(0, 10000000):
-            pass
+        sleep(5)
         log_info("Done with long process")
 
     add_button("Start Long Process", callback=LongCallback)

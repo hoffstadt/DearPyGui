@@ -5,7 +5,7 @@
 
 namespace Marvel{
 
-	mvAppItem::mvAppItem(const std::string& parent, const std::string& name)
+	mvAppItem::mvAppItem(const std::string& name)
 	{
 		m_name = name;
 		m_label = name;

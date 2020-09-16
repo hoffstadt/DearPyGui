@@ -7,7 +7,6 @@
 // Widget Index
 //
 //     * mvTabBar
-//     * mvEndTabBar
 //     * mvTab
 //
 //-----------------------------------------------------------------------------
@@ -24,8 +23,8 @@ namespace Marvel {
 
 		MV_APPITEM_TYPE(mvAppItemType::TabBar)
 
-		mvTabBar(const std::string& parent, const std::string& name, bool reorderable = false)
-			: mvStringItemBase(parent, name, "")
+		mvTabBar(const std::string& name, bool reorderable = false)
+			: mvStringItemBase(name, "")
 		{
 			m_container = true;
 			if (reorderable)
@@ -90,8 +89,8 @@ namespace Marvel {
 
 		MV_APPITEM_TYPE(mvAppItemType::TabItem)
 
-		mvTab(const std::string& parent, const std::string& name, bool closable = false)
-			: mvBoolItemBase(parent, name, false), m_closable(closable)
+		mvTab(const std::string& name, bool closable = false)
+			: mvBoolItemBase(name, false), m_closable(closable)
 		{
 			m_container = true;
 		}

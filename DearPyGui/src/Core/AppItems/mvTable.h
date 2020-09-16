@@ -20,7 +20,7 @@ namespace Marvel {
 
 		MV_APPITEM_TYPE(mvAppItemType::Table)
 
-		mvTable(const std::string& parent, const std::string& name, const std::vector<std::string>& headers);
+		mvTable(const std::string& name, const std::vector<std::string>& headers);
 
 		// table operations
 		void setTableItem  (int row, int column, const std::string& value);
