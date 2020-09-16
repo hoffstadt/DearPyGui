@@ -317,7 +317,7 @@ namespace Marvel {
 			{mvPythonDataType::FloatList, "data"},
 			{mvPythonDataType::Optional},
 			{mvPythonDataType::KeywordOnly},
-			{mvPythonDataType::Float, "weight"}
+			{mvPythonDataType::Float, "weight"},
 			{mvPythonDataType::Bool, "horizontal"}
 		}, "Adds a bar series to a plot.", "None", "Plotting") });
 
