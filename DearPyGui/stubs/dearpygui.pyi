@@ -418,6 +418,15 @@ def close_popup() -> None:
 	"""Closes the current popup."""
 	...
 
+def configure_plot(name: str, xAxisName: str = "", yAxisName: str = "", 
+			 no_legend: bool = False, no_menus: bool = False, no_box_select: bool = False, no_mouse_pos: bool = False, no_highlight: bool = False, no_child: bool = False, query: bool = False, crosshairs: bool = False, antialiased: bool = False,
+			 xaxis_no_gridlines: bool = False, xaxis_no_tick_marks: bool = False, xaxis_no_tick_labels: bool = False, xaxis_log_scale: bool = False, xaxis_time: bool = False, xaxis_invert: bool = False, xaxis_lock_min: bool = False, xaxis_lock_max: bool = False,
+			 yaxis_no_gridlines: bool = False, yaxis_no_tick_marks: bool = False, yaxis_no_tick_labels: bool = False, yaxis_log_scale: bool = False, yaxis_invert: bool = False, yaxis_lock_min: bool = False, yaxis_lock_max: bool = False,
+			show_color_scale: bool = False, 
+			scale_min: float = 0.0, scale_max: float = 1.0, scale_height: int = 100) -> bool:
+	"""Configures an existing plot widget."""
+	...
+
 def delete_column(table: str, column: int) -> None:
 	"""Delete a column in a table."""
 	...

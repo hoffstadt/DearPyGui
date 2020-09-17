@@ -55,6 +55,50 @@ namespace Marvel {
 
 		}, "Adds a plot widget.", "None", "Plotting") });
 
+		parsers->insert({ "configure_plot", mvPythonParser({
+			{mvPythonDataType::String, "name"},
+			{mvPythonDataType::Optional},
+			{mvPythonDataType::KeywordOnly},
+			{mvPythonDataType::String, "xAxisName"},
+			{mvPythonDataType::String, "yAxisName"},
+			
+			// plot flags
+			{mvPythonDataType::Bool, "no_legend"},
+			{mvPythonDataType::Bool, "no_menus"},
+			{mvPythonDataType::Bool, "no_box_select"},
+			{mvPythonDataType::Bool, "no_mouse_pos"},
+			{mvPythonDataType::Bool, "no_highlight"},
+			{mvPythonDataType::Bool, "no_child"},
+			{mvPythonDataType::Bool, "query"},
+			{mvPythonDataType::Bool, "crosshairs"},
+			{mvPythonDataType::Bool, "antialiased"},
+
+			// x axis flags
+			{mvPythonDataType::Bool, "xaxis_no_gridlines"},
+			{mvPythonDataType::Bool, "xaxis_no_tick_marks"},
+			{mvPythonDataType::Bool, "xaxis_no_tick_labels"},
+			{mvPythonDataType::Bool, "xaxis_log_scale"},
+			{mvPythonDataType::Bool, "xaxis_time"},
+			{mvPythonDataType::Bool, "xaxis_invert"},
+			{mvPythonDataType::Bool, "xaxis_lock_min"},
+			{mvPythonDataType::Bool, "xaxis_lock_max"},
+
+			// y axis flags
+			{mvPythonDataType::Bool, "yaxis_no_gridlines"},
+			{mvPythonDataType::Bool, "yaxis_no_tick_marks"},
+			{mvPythonDataType::Bool, "yaxis_no_tick_labels"},
+			{mvPythonDataType::Bool, "yaxis_log_scale"},
+			{mvPythonDataType::Bool, "yaxis_invert"},
+			{mvPythonDataType::Bool, "yaxis_lock_min"},
+			{mvPythonDataType::Bool, "yaxis_lock_max"},
+
+			{mvPythonDataType::Bool, "show_color_scale"},
+			{mvPythonDataType::Float, "scale_min"},
+			{mvPythonDataType::Float, "scale_max"},
+			{mvPythonDataType::Integer, "scale_height"},
+
+		}, "Configures an existing plot widget.", "None", "Plotting") });
+
 		parsers->insert({ "clear_plot", mvPythonParser({
 			{mvPythonDataType::String, "plot"},
 		}, "Clears a plot.", "None", "Plotting") });
@@ -242,8 +286,6 @@ namespace Marvel {
 		parsers->insert({ "reset_yticks", mvPythonParser({
 			{mvPythonDataType::String, "plot"},
 		}, "Sets plots y ticks and labels back to automatic", "None", "Plotting") });
-
-
 	}
 
 	PyObject* clear_plot(PyObject* self, PyObject* args, PyObject* kwargs)
@@ -1311,6 +1353,157 @@ namespace Marvel {
 		graph->updateSeries(series, update_bounds);
 
 		return GetPyNone();
+	}
+
+	PyObject* configure_plot(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		const char* name;
+		const char* xAxisName = "117.0";
+		const char* yAxisName = "117.0";
+
+		// plot flags
+		int no_legend = -1;
+		int no_menus = -1;
+		int no_box_select = -1;
+		int no_mouse_pos = -1;
+		int no_highlight = -1;
+		int no_child = -1;
+		int query = -1;
+		int crosshairs = -1;
+		int antialiased = -1;
+
+		// x axis flags
+		int xaxis_no_gridlines = -1;
+		int xaxis_no_tick_marks = -1;
+		int xaxis_no_tick_labels = -1;
+		int xaxis_log_scale = -1;
+		int xaxis_time = -1;
+		int xaxis_invert = -1;
+		int xaxis_lock_min = -1;
+		int xaxis_lock_max = -1;
+
+		// y axis flags
+		int yaxis_no_gridlines = -1;
+		int yaxis_no_tick_marks = -1;
+		int yaxis_no_tick_labels = -1;
+		int yaxis_log_scale = -1;
+		int yaxis_invert = -1;
+		int yaxis_lock_min = -1;
+		int yaxis_lock_max = -1;
+
+		int show_color_scale = -1;
+		float scale_min = -1171170.0f;
+		float scale_max = -1171170.0f;
+		int scale_height = -50000;
+
+		if (!(*mvApp::GetApp()->getParsers())["configure_plot"].parse(args, kwargs, __FUNCTION__, &name, &xAxisName, &yAxisName,
+			&no_legend, &no_menus, &no_box_select, &no_mouse_pos, &no_highlight, &no_child, &query, &crosshairs, &antialiased,
+			&xaxis_no_gridlines,
+			&xaxis_no_tick_marks,
+			&xaxis_no_tick_labels,
+			&xaxis_log_scale,
+			&xaxis_time,
+			&xaxis_invert,
+			&xaxis_lock_min,
+			&xaxis_lock_max,
+			&yaxis_no_gridlines,
+			&yaxis_no_tick_marks,
+			&yaxis_no_tick_labels,
+			&yaxis_log_scale,
+			&yaxis_invert,
+			&yaxis_lock_min,
+			&yaxis_lock_max,
+			&show_color_scale, &scale_min, &scale_max,
+			&scale_height))
+			return ToPyBool(false);
+
+		mvAppItem* aplot = mvApp::GetApp()->getItem(name);
+
+		if (aplot == nullptr)
+		{
+			std::string message = name;
+			ThrowPythonException(message + " plot does not exist.");
+			return GetPyNone();
+		}
+
+		if (aplot->getType() != mvAppItemType::Plot)
+		{
+			std::string message = name;
+			ThrowPythonException(message + " is not a plot.");
+			return GetPyNone();
+		}
+
+		mvPlot* graph = static_cast<mvPlot*>(aplot);
+		int currentFlags = graph->getFlags();
+		int currentXFlags = graph->getXFlags();
+		int currentYFlags = graph->getYFlags();
+
+		int flags = 0;
+		int xflags = 0;
+		int yflags = 0;
+
+		// plot flags
+		if (no_legend == -1) currentFlags& ImPlotFlags_NoLegend ? flags |= ImPlotFlags_NoLegend : flags;
+		else if (no_legend) flags |= ImPlotFlags_NoLegend;
+		if (no_menus == -1) currentFlags& ImPlotFlags_NoMenus ? flags |= ImPlotFlags_NoMenus : flags;
+		else if (no_menus) flags |= ImPlotFlags_NoMenus;
+		if (no_box_select == -1) currentFlags& ImPlotFlags_NoBoxSelect ? flags |= ImPlotFlags_NoBoxSelect : flags;
+		else if (no_box_select) flags |= ImPlotFlags_NoBoxSelect;
+		if (no_mouse_pos == -1) currentFlags& ImPlotFlags_NoMousePos ? flags |= ImPlotFlags_NoMousePos : flags;
+		else if (no_mouse_pos) flags |= ImPlotFlags_NoMousePos;
+		if (no_highlight == -1) currentFlags& ImPlotFlags_NoHighlight ? flags |= ImPlotFlags_NoHighlight : flags;
+		else if (no_highlight) flags |= ImPlotFlags_NoHighlight;
+		if (no_child == -1) currentFlags& ImPlotFlags_NoChild ? flags |= ImPlotFlags_NoChild : flags;
+		else if (no_child) flags |= ImPlotFlags_NoChild;
+		if (query == -1) currentFlags& ImPlotFlags_Query ? flags |= ImPlotFlags_Query : flags;
+		else if (query) flags |= ImPlotFlags_Query;
+		if (crosshairs == -1) currentFlags& ImPlotFlags_Crosshairs ? flags |= ImPlotFlags_Crosshairs : flags;
+		else if (crosshairs) flags |= ImPlotFlags_Crosshairs;
+		if (antialiased == -1) currentFlags& ImPlotFlags_AntiAliased ? flags |= ImPlotFlags_AntiAliased : flags;
+		else if (antialiased) flags |= ImPlotFlags_AntiAliased;
+		
+		// x axis flags
+		if (xaxis_no_gridlines == -1) currentXFlags& ImPlotAxisFlags_NoGridLines ? xflags |= ImPlotAxisFlags_NoGridLines : xflags;
+		else if (xaxis_no_gridlines) xflags |= ImPlotAxisFlags_NoGridLines;
+		if (xaxis_no_tick_marks == -1) currentXFlags& ImPlotAxisFlags_NoTickMarks ? xflags |= ImPlotAxisFlags_NoTickMarks : xflags;
+		else if (xaxis_no_tick_marks) xflags |= ImPlotAxisFlags_NoTickMarks;
+		if (xaxis_no_tick_labels == -1) currentXFlags& ImPlotAxisFlags_NoTickLabels ? xflags |= ImPlotAxisFlags_NoTickLabels : xflags;
+		else if (xaxis_no_tick_labels) xflags |= ImPlotAxisFlags_NoTickLabels;
+		if (xaxis_log_scale == -1) currentXFlags& ImPlotAxisFlags_LogScale ? xflags |= ImPlotAxisFlags_LogScale : xflags;
+		else if (xaxis_log_scale) xflags |= ImPlotAxisFlags_LogScale;
+		if (xaxis_time == -1) currentXFlags& ImPlotAxisFlags_Time ? xflags |= ImPlotAxisFlags_Time : xflags;
+		else if (xaxis_time) xflags |= ImPlotAxisFlags_Time;
+		if (xaxis_invert == -1) currentXFlags& ImPlotAxisFlags_Invert ? xflags |= ImPlotAxisFlags_Invert : xflags;
+		else if (xaxis_invert) xflags |= ImPlotAxisFlags_Invert;
+		if (xaxis_lock_min == -1) currentXFlags& ImPlotAxisFlags_LockMin ? xflags |= ImPlotAxisFlags_LockMin : xflags;
+		else if (xaxis_lock_min) xflags |= ImPlotAxisFlags_LockMin;
+		if (xaxis_lock_max == -1) currentXFlags& ImPlotAxisFlags_LockMax ? xflags |= ImPlotAxisFlags_LockMax : xflags;
+		else if (xaxis_lock_max) xflags |= ImPlotAxisFlags_LockMax;
+
+		// y axis flags
+		if (yaxis_no_gridlines == -1) currentYFlags& ImPlotAxisFlags_NoGridLines ? yflags |= ImPlotAxisFlags_NoGridLines : yflags;
+		else if (yaxis_no_gridlines) yflags |= ImPlotAxisFlags_NoGridLines;
+		if (yaxis_no_tick_marks == -1) currentYFlags& ImPlotAxisFlags_NoTickMarks ? yflags |= ImPlotAxisFlags_NoTickMarks : yflags;
+		else if (yaxis_no_tick_marks) yflags |= ImPlotAxisFlags_NoTickMarks;
+		if (yaxis_no_tick_labels == -1) currentYFlags& ImPlotAxisFlags_NoTickLabels ? yflags |= ImPlotAxisFlags_NoTickLabels : yflags;
+		else if (yaxis_no_tick_labels) yflags |= ImPlotAxisFlags_NoTickLabels;
+		if (yaxis_log_scale == -1) currentYFlags& ImPlotAxisFlags_LogScale ? yflags |= ImPlotAxisFlags_LogScale : yflags;
+		else if (yaxis_log_scale) yflags |= ImPlotAxisFlags_LogScale;
+		if (yaxis_invert == -1) currentYFlags& ImPlotAxisFlags_Invert ? yflags |= ImPlotAxisFlags_Invert : yflags;
+		else if (yaxis_invert) yflags |= ImPlotAxisFlags_Invert;
+		if (yaxis_lock_min == -1) currentYFlags& ImPlotAxisFlags_LockMin ? yflags |= ImPlotAxisFlags_LockMin : yflags;
+		else if (yaxis_lock_min) yflags |= ImPlotAxisFlags_LockMin;
+		
+		if (show_color_scale == -1) show_color_scale = graph->isColorScaleShown();
+		if (scale_height == -50000) scale_height = graph->getScaleHeight();
+		if (scale_min < -1160000.0f) scale_height = graph->getScaleMin();
+		if (scale_max < -1160000.0f) scale_height = graph->getScaleMax();
+		if (std::string("117.0") == xAxisName) xAxisName = graph->getXAxisName().c_str();
+		if (std::string("117.0") == yAxisName) yAxisName = graph->getYAxisName().c_str();
+
+		graph->configure(xAxisName, yAxisName, show_color_scale, scale_min, scale_max, scale_height, flags, xflags, yflags);
+
+		return ToPyBool(true);
 	}
 
 }

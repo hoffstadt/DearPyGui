@@ -64,10 +64,14 @@ namespace Marvel {
 
 		MV_APPITEM_TYPE(mvAppItemType::Plot)
 
-			mvPlot(const std::string& name, std::string xname, std::string yname, 
-				bool colormapScale, float scale_min, float scale_max, int scale_height,
-				ImPlotFlags flags, ImPlotAxisFlags xflags, ImPlotAxisFlags yflags, 
-				PyObject* queryCallback);
+		mvPlot(const std::string& name, std::string xname, std::string yname, 
+			bool colormapScale, float scale_min, float scale_max, int scale_height,
+			ImPlotFlags flags, ImPlotAxisFlags xflags, ImPlotAxisFlags yflags, 
+			PyObject* queryCallback);
+
+		void configure(std::string xname, std::string yname,
+			bool colormapScale, float scale_min, float scale_max, int scale_height,
+			ImPlotFlags flags, ImPlotAxisFlags xflags, ImPlotAxisFlags yflags);
 
 		void addSeries   (mvSeries* series, bool updateBounds);
 		void updateSeries(mvSeries* series, bool updateBounds);
@@ -85,6 +89,17 @@ namespace Marvel {
 		void setYLimitsAuto();
 		[[nodiscard]] bool isPlotQueried() const;
 		float* getPlotQueryArea();
+		
+		ImPlotFlags        getFlags         () const { return m_flags; }
+		ImPlotAxisFlags    getXFlags        () const { return m_xflags; }
+		ImPlotAxisFlags    getYFlags        () const { return m_yflags; }
+		bool               isColorScaleShown() const { return m_colormapscale; }
+		int                getScaleHeight   () const { return m_scale_height; }
+		float              getScaleMin      () const { return m_scale_min; }
+		float              getScaleMax      () const { return m_scale_max; }
+		const std::string& getXAxisName     () const { return m_xaxisName; }
+		const std::string& getYAxisName     () const { return m_yaxisName; }
+		PyObject*          getQueryCallback ()       { return m_queryCallback; }
 
 	private:
 
