@@ -663,4 +663,26 @@ namespace Marvel {
 
 		return items;
 	}
+
+	std::vector<std::vector<float>> ToVectVectFloat(PyObject* value, const std::string& message)
+	{
+		std::vector<std::vector<float>> items;
+		if (value == nullptr)
+			return items;
+		mvGlobalIntepreterLock gil;
+
+		if (PyTuple_Check(value))
+		{
+			for (size_t i = 0; i < PyTuple_Size(value); i++)
+				items.emplace_back(ToFloatVect(PyTuple_GetItem(value, i), message));
+		}
+
+		else if (PyList_Check(value))
+		{
+			for (size_t i = 0; i < PyList_Size(value); i++)
+				items.emplace_back(ToFloatVect(PyList_GetItem(value, i), message));
+		}
+
+		return items;
+	}
 }

@@ -52,11 +52,24 @@ namespace Marvel {
 
 	}
 
+	mvSeries::mvSeries(std::string name, const std::vector<std::vector<float>>& points)
+		: m_name(std::move(name))
+	{
+
+		m_maxX = 1;
+		m_minX = 0;
+		m_maxY = 1;
+		m_minY = 0;
+		m_extra3 = points;
+	}
+
 	mvPlot::mvPlot(const std::string& name, std::string  xname,
-		std::string yname, ImPlotFlags flags,
+		std::string yname, bool colormapScale, float scale_min, float scale_max, int scale_height, ImPlotFlags flags,
 		ImPlotAxisFlags xflags, ImPlotAxisFlags yflags, PyObject* queryCallback)
 		: mvAppItem(name), m_xaxisName(std::move(xname)), m_yaxisName(std::move(yname)),
-		m_flags(flags), m_xflags(xflags), m_yflags(yflags), m_queryCallback(queryCallback)
+		m_flags(flags), m_xflags(xflags), m_yflags(yflags), m_queryCallback(queryCallback), 
+		m_colormapscale(colormapScale), m_scale_min(scale_min), m_scale_max(scale_max), 
+		m_scale_height(scale_height)
 	{
 	}
 
@@ -215,6 +228,12 @@ namespace Marvel {
 
 	void mvPlot::draw()
 	{
+		if (m_colormapscale)
+		{
+			ImPlot::ShowColormapScale(m_scale_min, m_scale_max, m_scale_height);
+			ImGui::SameLine();
+		}
+
 		ImGui::PushID(m_colormap);
 
 		if (m_setXLimits || m_dirty)

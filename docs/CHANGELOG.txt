@@ -41,6 +41,7 @@ New Commands:
 - Plots:          Added "add_shade_series" command
 - Plots:          Added "add_bar_series" command
 - Plots:          Added "add_error_series" command
+- Plots:          Added "add_heat_series" command
 - Radio Button:   Added "horizontal" keyword to radio button #215
 
 -----------------------------------------------------------------------

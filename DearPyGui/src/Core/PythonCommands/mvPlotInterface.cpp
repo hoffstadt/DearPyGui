@@ -47,6 +47,12 @@ namespace Marvel {
 			{mvPythonDataType::Integer, "width",""},
 			{mvPythonDataType::Integer, "height", ""},
 			{mvPythonDataType::String, "query_callback", "Callback ran when plot is queried. Should be of the form 'def Callback(sender, data)'\n Data is (x_min, x_max, y_min, y_max)."},
+			
+			{mvPythonDataType::Bool, "show_color_scale"},
+			{mvPythonDataType::Float, "scale_min"},
+			{mvPythonDataType::Float, "scale_max"},
+			{mvPythonDataType::Integer, "scale_height"},
+
 		}, "Adds a plot widget.", "None", "Plotting") });
 
 		parsers->insert({ "clear_plot", mvPythonParser({
@@ -193,6 +199,21 @@ namespace Marvel {
 			{mvPythonDataType::KeywordOnly},
 			{mvPythonDataType::Float, "weight"}
 		}, "Adds an area series to a plot.", "None", "Plotting") });
+
+		parsers->insert({ "add_heat_series", mvPythonParser({
+			{mvPythonDataType::String, "plot"},
+			{mvPythonDataType::String, "name"},
+			{mvPythonDataType::Object, "data"},
+			{mvPythonDataType::Integer, "rows"},
+			{mvPythonDataType::Integer, "columns"},
+			{mvPythonDataType::Double, "scale_min"},
+			{mvPythonDataType::Double, "scale_max"},
+			{mvPythonDataType::Optional},
+			{mvPythonDataType::KeywordOnly},
+			{mvPythonDataType::String, "format"},
+			{mvPythonDataType::FloatList, "bounds_min"},
+			{mvPythonDataType::FloatList, "bounds_max"},
+		}, "Adds a heat series to a plot.", "None", "Plotting") });
 
 		parsers->insert({ "set_xticks", mvPythonParser({
 			{mvPythonDataType::String, "plot"},
@@ -628,6 +649,11 @@ namespace Marvel {
 		int height = -1;
 		PyObject* query_callback = nullptr;
 
+		int show_color_scale = false;
+		float scale_min = 0.0f;
+		float scale_max = 1.0f;
+		int scale_height = 100;
+
 		if (!(*mvApp::GetApp()->getParsers())["add_plot"].parse(args, kwargs, __FUNCTION__, &name, &xAxisName, &yAxisName,
 			&no_legend, &no_menus, &no_box_select, &no_mouse_pos, &no_highlight, &no_child, &query, &crosshairs, &antialiased,
 			&xaxis_no_gridlines,
@@ -645,7 +671,8 @@ namespace Marvel {
 			&yaxis_invert,
 			&yaxis_lock_min,
 			&yaxis_lock_max,
-			&parent, &before, &width, &height, &query_callback))
+			&parent, &before, &width, &height, &query_callback, &show_color_scale, &scale_min, &scale_max,
+			&scale_height))
 			return ToPyBool(false);
 
 		int flags = 0;
@@ -682,7 +709,8 @@ namespace Marvel {
 		if (yaxis_lock_min)       yflags |= ImPlotAxisFlags_LockMin;
 		if (yaxis_lock_max)       yflags |= ImPlotAxisFlags_LockMax;
 
-		mvAppItem* item = new mvPlot(name, xAxisName, yAxisName, flags, xflags, yflags, query_callback);
+		mvAppItem* item = new mvPlot(name, xAxisName, yAxisName, show_color_scale,
+			scale_min, scale_max, scale_height, flags, xflags, yflags, query_callback);
 		item->setWidth(width);
 		item->setHeight(height);
 
@@ -845,7 +873,7 @@ namespace Marvel {
 		if (!PyList_Check(data))
 		{
 			std::string message = plot;
-			ThrowPythonException(message + " add line series requires a list of lists.");
+			ThrowPythonException(message + " add bar series requires a list of lists.");
 			return GetPyNone();
 		}
 
@@ -901,7 +929,7 @@ namespace Marvel {
 		if (!PyList_Check(data))
 		{
 			std::string message = plot;
-			ThrowPythonException(message + " add line series requires a list of lists.");
+			ThrowPythonException(message + " add shade series requires a list of lists.");
 			return GetPyNone();
 		}
 
@@ -1176,7 +1204,7 @@ namespace Marvel {
 		if (!PyList_Check(data))
 		{
 			std::string message = plot;
-			ThrowPythonException(message + " add line series requires a list of lists.");
+			ThrowPythonException(message + " add error series requires a list of lists.");
 			return GetPyNone();
 		}
 
@@ -1200,6 +1228,64 @@ namespace Marvel {
 
 		auto datapoints = ToVectVec4(data);
 		auto series = new mvErrorSeries(name, datapoints, horizontal);
+		graph->updateSeries(series);
+
+		return GetPyNone();
+	}
+
+	PyObject* add_heat_series(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		const char* plot;
+		const char* name;
+		PyObject* data;
+		int rows;
+		int columns;
+		double scale_min;
+		double scale_max;
+		const char* format = "%0.1f";
+		PyObject* bounds_min = PyTuple_New(2);
+		PyTuple_SetItem(bounds_min, 0, PyLong_FromLong(0));
+		PyTuple_SetItem(bounds_min, 1, PyLong_FromLong(0));
+		PyObject* bounds_max = PyTuple_New(2);
+		PyTuple_SetItem(bounds_max, 0, PyLong_FromLong(1));
+		PyTuple_SetItem(bounds_max, 1, PyLong_FromLong(1));
+
+
+		if (!(*mvApp::GetApp()->getParsers())["add_heat_series"].parse(args, kwargs, __FUNCTION__, 
+			&plot, &name, &data, &rows, &columns, &scale_min, &scale_max, &format, &bounds_min, &bounds_max))
+			return GetPyNone();
+
+		if (!PyList_Check(data))
+		{
+			std::string message = plot;
+			ThrowPythonException(message + " add heat series requires a list of lists.");
+			return GetPyNone();
+		}
+
+		mvAppItem* aplot = mvApp::GetApp()->getItem(plot);
+
+		if (aplot == nullptr)
+		{
+			std::string message = plot;
+			ThrowPythonException(message + " plot does not exist.");
+			return GetPyNone();
+		}
+
+		if (aplot->getType() != mvAppItemType::Plot)
+		{
+			std::string message = plot;
+			ThrowPythonException(message + " is not a plot.");
+			return GetPyNone();
+		}
+
+		mvPlot* graph = static_cast<mvPlot*>(aplot);
+
+		auto datapoints = ToVectVectFloat(data);
+		auto mbounds_min = ToVec2(bounds_min);
+		auto mbounds_max = ToVec2(bounds_max);
+
+		auto series = new mvHeatSeries(name, datapoints, rows, columns, scale_min,
+			scale_max, format, mbounds_min, mbounds_max);
 		graph->updateSeries(series);
 
 		return GetPyNone();
