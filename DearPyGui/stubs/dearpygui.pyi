@@ -251,7 +251,9 @@ def add_progress_bar(name: str, value: float = 0.0, overlay: str = "", tip: str 
 	"""Adds a progress bar."""
 	...
 
-def add_radio_button(name: str, items: List[str], default_value: int = 0, callback: Callable = None, callback_data: Any = None, tip: str = "", parent: str = "", before: str = "", data_source: str = "", secondary_data_source: str = "") -> bool:
+def add_radio_button(name: str, items: List[str], default_value: int = 0, callback: Callable = None, callback_data: Any = None, 
+					 tip: str = "", parent: str = "", before: str = "", data_source: str = "", secondary_data_source: str = "",
+					 horizontal: bool = False) -> bool:
 	"""Adds a set of radio buttons."""
 	...
 

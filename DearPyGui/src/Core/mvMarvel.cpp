@@ -3222,13 +3222,15 @@ namespace Marvel {
 		const char* parent = "";
 		const char* data_source = "";
 		const char* secondary_data_source = "";
+		int horizontal = false;
 
 		if (!(*mvApp::GetApp()->getParsers())["add_radio_button"].parse(args, kwargs, __FUNCTION__, &name, &items,
-			&default_value, &callback, &callback_data, &tip, &parent, &before, &data_source, &secondary_data_source))
+			&default_value, &callback, &callback_data, &tip, &parent, &before, &data_source, &secondary_data_source,
+			&horizontal))
 			return ToPyBool(false);
 
 		mvAppItem* item = new mvRadioButton(name, ToStringVect(items), default_value,
-			secondary_data_source);
+			secondary_data_source, horizontal);
 		if (callback)
 			Py_XINCREF(callback);
 		item->setCallback(callback);

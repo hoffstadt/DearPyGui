@@ -1389,6 +1389,7 @@ namespace Marvel {
 			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)"},
 			{mvPythonDataType::String, "data_source", "data source for shared data"},
 			{mvPythonDataType::String, "secondary_data_source", "data source for radio button items"},
+			{mvPythonDataType::Bool, "horizontal"},
 		}, "Adds a set of radio buttons.", "None", "Adding Widgets") });
 
 		parsers->insert({ "add_color_edit3", mvPythonParser({
