@@ -16,6 +16,8 @@
 #include "Core/PythonCommands/mvInterfaceCore.h"
 #include "Core/PythonCommands/mvPlotInterface.h"
 #include "Core/PythonCommands/mvDrawingInterface.h"
+#include "Core/PythonCommands/mvTableInterface.h"
+#include "Core/PythonCommands/mvThemeInterface.h"
 
 //-----------------------------------------------------------------------------
 // Helper Macro
@@ -91,695 +93,6 @@ namespace Marvel {
 			return GetPyNone();
 
 		mvApp::GetApp()->setResizable(resizable);
-
-		return GetPyNone();
-	}
-
-	PyObject* add_additional_font(PyObject* self, PyObject* args, PyObject* kwargs)
-	{
-		const char* file;
-		float size = 13.0f;
-		const char* glyph_ranges = "";
-		PyObject* custom_glyph_ranges = nullptr;
-		PyObject* custom_glyph_chars = nullptr;
-
-
-		if (!(*mvApp::GetApp()->getParsers())["add_additional_font"].parse(args, kwargs, __FUNCTION__,
-			&file, &size, &glyph_ranges, &custom_glyph_chars, &custom_glyph_ranges))
-			return GetPyNone();
-
-		std::vector<int> custom_chars = ToIntVect(custom_glyph_chars);
-		std::vector<std::pair<int, int>> custom_ranges = ToVectInt2(custom_glyph_ranges);
-		std::vector<std::array<ImWchar, 3>> imgui_custom_ranges;
-		std::vector<ImWchar> imgui_custom_chars;
-
-		for (auto& item : custom_ranges)
-			imgui_custom_ranges.push_back({ (ImWchar)item.first, (ImWchar)item.second, 0 });
-		for (auto& item : custom_chars)
-			imgui_custom_chars.push_back((ImWchar)item);
-
-
-		mvApp::GetApp()->setFont(file, size, glyph_ranges, imgui_custom_ranges, imgui_custom_chars);
-
-		return GetPyNone();
-	}
-
-	PyObject* get_style_window_padding(PyObject* self, PyObject* args, PyObject* kwargs)
-	{
-		ImGuiStyle& style = mvApp::GetApp()->getStyle();
-		return ToPyPair(style.WindowPadding.x, style.WindowPadding.y);
-	}
-
-	PyObject* get_style_frame_padding(PyObject* self, PyObject* args, PyObject* kwargs)
-	{
-		ImGuiStyle& style = mvApp::GetApp()->getStyle();
-		return ToPyPair(style.FramePadding.x, style.FramePadding.y);
-	}
-
-	PyObject* get_style_item_spacing(PyObject* self, PyObject* args, PyObject* kwargs)
-	{
-		ImGuiStyle& style = mvApp::GetApp()->getStyle();
-		return ToPyPair(style.ItemSpacing.x, style.ItemSpacing.y);
-	}
-
-	PyObject* get_style_item_inner_spacing(PyObject* self, PyObject* args, PyObject* kwargs)
-	{
-		ImGuiStyle& style = mvApp::GetApp()->getStyle();
-		return ToPyPair(style.ItemInnerSpacing.x, style.ItemInnerSpacing.y);
-	}
-
-	PyObject* get_style_touch_extra_padding(PyObject* self, PyObject* args, PyObject* kwargs)
-	{
-		ImGuiStyle& style = mvApp::GetApp()->getStyle();
-		return ToPyPair(style.TouchExtraPadding.x, style.TouchExtraPadding.y);
-	}
-
-	PyObject* get_style_indent_spacing(PyObject* self, PyObject* args, PyObject* kwargs)
-	{
-		ImGuiStyle& style = mvApp::GetApp()->getStyle();
-		return ToPyFloat(style.IndentSpacing);
-	}
-
-	PyObject* get_style_scrollbar_size(PyObject* self, PyObject* args, PyObject* kwargs)
-	{
-		ImGuiStyle& style = mvApp::GetApp()->getStyle();
-		return ToPyFloat(style.ScrollbarSize);
-	}
-
-	PyObject* get_style_grab_min_size(PyObject* self, PyObject* args, PyObject* kwargs)
-	{
-		ImGuiStyle& style = mvApp::GetApp()->getStyle();
-		return ToPyFloat(style.GrabMinSize);
-	}
-
-	PyObject* get_style_window_border_size(PyObject* self, PyObject* args, PyObject* kwargs)
-	{
-		ImGuiStyle& style = mvApp::GetApp()->getStyle();
-		return ToPyFloat(style.WindowBorderSize);
-	}
-
-	PyObject* get_style_child_border_size(PyObject* self, PyObject* args, PyObject* kwargs)
-	{
-		ImGuiStyle& style = mvApp::GetApp()->getStyle();
-		return ToPyFloat(style.ChildBorderSize);
-	}
-
-	PyObject* get_style_popup_border_size(PyObject* self, PyObject* args, PyObject* kwargs)
-	{
-		ImGuiStyle& style = mvApp::GetApp()->getStyle();
-		return ToPyFloat(style.PopupBorderSize);
-	}
-
-	PyObject* get_style_frame_border_size(PyObject* self, PyObject* args, PyObject* kwargs)
-	{
-		ImGuiStyle& style = mvApp::GetApp()->getStyle();
-		return ToPyFloat(style.FrameBorderSize);
-	}
-
-	PyObject* get_style_tab_border_size(PyObject* self, PyObject* args, PyObject* kwargs)
-	{
-		ImGuiStyle& style = mvApp::GetApp()->getStyle();
-		return ToPyFloat(style.TabBorderSize);
-	}
-
-	PyObject* get_style_window_rounding(PyObject* self, PyObject* args, PyObject* kwargs)
-	{
-		ImGuiStyle& style = mvApp::GetApp()->getStyle();
-		return ToPyFloat(style.WindowRounding);
-	}
-
-	PyObject* get_style_child_rounding(PyObject* self, PyObject* args, PyObject* kwargs)
-	{
-		ImGuiStyle& style = mvApp::GetApp()->getStyle();
-		return ToPyFloat(style.ChildRounding);
-	}
-
-	PyObject* get_style_frame_rounding(PyObject* self, PyObject* args, PyObject* kwargs)
-	{
-		ImGuiStyle& style = mvApp::GetApp()->getStyle();
-		return ToPyFloat(style.FrameRounding);
-	}
-
-	PyObject* get_style_popup_rounding(PyObject* self, PyObject* args, PyObject* kwargs)
-	{
-		ImGuiStyle& style = mvApp::GetApp()->getStyle();
-		return ToPyFloat(style.PopupRounding);
-	}
-
-	PyObject* get_style_scrollbar_rounding(PyObject* self, PyObject* args, PyObject* kwargs)
-	{
-		ImGuiStyle& style = mvApp::GetApp()->getStyle();
-		return ToPyFloat(style.ScrollbarRounding);
-	}
-
-	PyObject* get_style_grab_rounding(PyObject* self, PyObject* args, PyObject* kwargs)
-	{
-		ImGuiStyle& style = mvApp::GetApp()->getStyle();
-		return ToPyFloat(style.GrabRounding);
-	}
-
-	PyObject* get_style_tab_rounding(PyObject* self, PyObject* args, PyObject* kwargs)
-	{
-		ImGuiStyle& style = mvApp::GetApp()->getStyle();
-		return ToPyFloat(style.TabRounding);
-	}
-
-	PyObject* get_style_window_title_align(PyObject* self, PyObject* args, PyObject* kwargs)
-	{
-		ImGuiStyle& style = mvApp::GetApp()->getStyle();
-		return ToPyPair(style.WindowTitleAlign.x, style.WindowTitleAlign.y);
-	}
-
-	PyObject* get_style_window_menu_button_position(PyObject* self, PyObject* args, PyObject* kwargs)
-	{
-		ImGuiStyle& style = mvApp::GetApp()->getStyle();
-		return ToPyInt(style.WindowMenuButtonPosition);
-	}
-
-	PyObject* get_style_color_button_position(PyObject* self, PyObject* args, PyObject* kwargs)
-	{
-		ImGuiStyle& style = mvApp::GetApp()->getStyle();
-		return ToPyInt(style.ColorButtonPosition);
-	}
-
-	PyObject* get_style_button_text_align(PyObject* self, PyObject* args, PyObject* kwargs)
-	{
-		ImGuiStyle& style = mvApp::GetApp()->getStyle();
-		return ToPyPair(style.ButtonTextAlign.x, style.ButtonTextAlign.y);
-	}
-
-	PyObject* get_style_selectable_text_align(PyObject* self, PyObject* args, PyObject* kwargs)
-	{
-		ImGuiStyle& style = mvApp::GetApp()->getStyle();
-		return ToPyPair(style.SelectableTextAlign.x, style.SelectableTextAlign.y);
-	}
-
-	PyObject* get_style_display_safe_area_padding(PyObject* self, PyObject* args, PyObject* kwargs)
-	{
-		ImGuiStyle& style = mvApp::GetApp()->getStyle();
-		return ToPyPair(style.DisplaySafeAreaPadding.x, style.DisplaySafeAreaPadding.y);
-	}
-
-	PyObject* get_style_global_alpha(PyObject* self, PyObject* args, PyObject* kwargs)
-	{
-		ImGuiStyle& style = mvApp::GetApp()->getStyle();
-		return ToPyFloat(style.Alpha);
-	}
-
-	PyObject* get_style_antialiased_lines(PyObject* self, PyObject* args, PyObject* kwargs)
-	{
-		ImGuiStyle& style = mvApp::GetApp()->getStyle();
-		return ToPyBool(style.AntiAliasedLines);
-	}
-
-	PyObject* get_style_antialiased_fill(PyObject* self, PyObject* args, PyObject* kwargs)
-	{
-		ImGuiStyle& style = mvApp::GetApp()->getStyle();
-		return ToPyBool(style.AntiAliasedFill);
-	}
-
-	PyObject* get_style_curve_tessellation_tolerance(PyObject* self, PyObject* args, PyObject* kwargs)
-	{
-		ImGuiStyle& style = mvApp::GetApp()->getStyle();
-		return ToPyFloat(style.CurveTessellationTol);
-	}
-
-	PyObject* get_style_circle_segment_max_error(PyObject* self, PyObject* args, PyObject* kwargs)
-	{
-		ImGuiStyle& style = mvApp::GetApp()->getStyle();
-		return ToPyFloat(style.CircleSegmentMaxError);
-	}
-
-	PyObject* set_style_window_padding(PyObject* self, PyObject* args, PyObject* kwargs)
-	{
-		float x;
-		float y;
-
-		if (!(*mvApp::GetApp()->getParsers())["set_style_window_padding"].parse(args, kwargs, __FUNCTION__, 
-			&x, &y))
-			return GetPyNone();
-
-		ImGuiStyle& style = mvApp::GetApp()->getStyle();
-		mvApp::GetApp()->setStyleChanged();
-		style.WindowPadding = { x, y };
-
-		return GetPyNone();
-	}
-
-	PyObject* set_style_frame_padding(PyObject* self, PyObject* args, PyObject* kwargs)
-	{
-		float x;
-		float y;
-
-		if (!(*mvApp::GetApp()->getParsers())["set_style_frame_padding"].parse(args, kwargs, __FUNCTION__,
-			&x, &y))
-			return GetPyNone();
-
-		ImGuiStyle& style = mvApp::GetApp()->getStyle();
-		mvApp::GetApp()->setStyleChanged();
-		style.FramePadding = { x, y };
-
-		return GetPyNone();
-	}
-
-	PyObject* set_style_item_spacing(PyObject* self, PyObject* args, PyObject* kwargs)
-	{
-		float x;
-		float y;
-
-		if (!(*mvApp::GetApp()->getParsers())["set_style_item_spacing"].parse(args, kwargs, __FUNCTION__,
-			&x, &y))
-			return GetPyNone();
-
-		ImGuiStyle& style = mvApp::GetApp()->getStyle();
-		mvApp::GetApp()->setStyleChanged();
-		style.ItemSpacing = { x, y };
-
-		return GetPyNone();
-	}
-
-	PyObject* set_style_item_inner_spacing(PyObject* self, PyObject* args, PyObject* kwargs)
-	{
-		float x;
-		float y;
-
-		if (!(*mvApp::GetApp()->getParsers())["set_style_item_inner_spacing"].parse(args, kwargs, __FUNCTION__,
-			&x, &y))
-			return GetPyNone();
-
-		ImGuiStyle& style = mvApp::GetApp()->getStyle();
-		mvApp::GetApp()->setStyleChanged();
-		style.ItemInnerSpacing = { x, y };
-
-		return GetPyNone();
-	}
-
-	PyObject* set_style_touch_extra_padding(PyObject* self, PyObject* args, PyObject* kwargs)
-	{
-		float x;
-		float y;
-
-		if (!(*mvApp::GetApp()->getParsers())["set_style_touch_extra_padding"].parse(args, kwargs, __FUNCTION__,
-			&x, &y))
-			return GetPyNone();
-
-		ImGuiStyle& style = mvApp::GetApp()->getStyle();
-		mvApp::GetApp()->setStyleChanged();
-		style.TouchExtraPadding = { x, y };
-
-		return GetPyNone();
-	}
-
-	PyObject* set_style_indent_spacing(PyObject* self, PyObject* args, PyObject* kwargs)
-	{
-		float value;
-
-		if (!(*mvApp::GetApp()->getParsers())["set_style_indent_spacing"].parse(args, kwargs, __FUNCTION__,
-			&value))
-			return GetPyNone();
-
-		ImGuiStyle& style = mvApp::GetApp()->getStyle();
-		mvApp::GetApp()->setStyleChanged();
-		style.IndentSpacing = value;
-
-		return GetPyNone();
-	}
-
-	PyObject* set_style_scrollbar_size(PyObject* self, PyObject* args, PyObject* kwargs)
-	{
-		float value;
-
-		if (!(*mvApp::GetApp()->getParsers())["set_style_scrollbar_size"].parse(args, kwargs, __FUNCTION__,
-			&value))
-			return GetPyNone();
-
-		ImGuiStyle& style = mvApp::GetApp()->getStyle();
-		mvApp::GetApp()->setStyleChanged();
-		style.ScrollbarSize = value;
-
-		return GetPyNone();
-	}
-
-	PyObject* set_style_grab_min_size(PyObject* self, PyObject* args, PyObject* kwargs)
-	{
-		float value;
-
-		if (!(*mvApp::GetApp()->getParsers())["set_style_grab_min_size"].parse(args, kwargs, __FUNCTION__,
-			&value))
-			return GetPyNone();
-
-		ImGuiStyle& style = mvApp::GetApp()->getStyle();
-		mvApp::GetApp()->setStyleChanged();
-		style.GrabMinSize = value;
-
-		return GetPyNone();
-	}
-
-	PyObject* set_style_window_border_size(PyObject* self, PyObject* args, PyObject* kwargs)
-	{
-		float value;
-
-		if (!(*mvApp::GetApp()->getParsers())["set_style_window_border_size"].parse(args, kwargs, __FUNCTION__,
-			&value))
-			return GetPyNone();
-
-		ImGuiStyle& style = mvApp::GetApp()->getStyle();
-		mvApp::GetApp()->setStyleChanged();
-		style.WindowBorderSize = value;
-
-		return GetPyNone();
-	}
-
-	PyObject* set_style_child_border_size(PyObject* self, PyObject* args, PyObject* kwargs)
-	{
-		float value;
-
-		if (!(*mvApp::GetApp()->getParsers())["set_style_child_border_size"].parse(args, kwargs, __FUNCTION__,
-			&value))
-			return GetPyNone();
-
-		ImGuiStyle& style = mvApp::GetApp()->getStyle();
-		mvApp::GetApp()->setStyleChanged();
-		style.ChildBorderSize = value;
-
-		return GetPyNone();
-	}
-
-	PyObject* set_style_popup_border_size(PyObject* self, PyObject* args, PyObject* kwargs)
-	{
-		float value;
-
-		if (!(*mvApp::GetApp()->getParsers())["set_style_popup_border_size"].parse(args, kwargs, __FUNCTION__,
-			&value))
-			return GetPyNone();
-
-		ImGuiStyle& style = mvApp::GetApp()->getStyle();
-		mvApp::GetApp()->setStyleChanged();
-		style.PopupBorderSize = value;
-
-		return GetPyNone();
-	}
-
-	PyObject* set_style_frame_border_size(PyObject* self, PyObject* args, PyObject* kwargs)
-	{
-		float value;
-
-		if (!(*mvApp::GetApp()->getParsers())["set_style_frame_border_size"].parse(args, kwargs, __FUNCTION__,
-			&value))
-			return GetPyNone();
-
-		ImGuiStyle& style = mvApp::GetApp()->getStyle();
-		mvApp::GetApp()->setStyleChanged();
-		style.FrameBorderSize = value;
-
-		return GetPyNone();
-	}
-
-	PyObject* set_style_tab_border_size(PyObject* self, PyObject* args, PyObject* kwargs)
-	{
-		float value;
-
-		if (!(*mvApp::GetApp()->getParsers())["set_style_tab_border_size"].parse(args, kwargs, __FUNCTION__,
-			&value))
-			return GetPyNone();
-
-		ImGuiStyle& style = mvApp::GetApp()->getStyle();
-		mvApp::GetApp()->setStyleChanged();
-		style.TabBorderSize = value;
-
-		return GetPyNone();
-	}
-
-	PyObject* set_style_window_rounding(PyObject* self, PyObject* args, PyObject* kwargs)
-	{
-		float value;
-
-		if (!(*mvApp::GetApp()->getParsers())["set_style_window_rounding"].parse(args, kwargs, __FUNCTION__,
-			&value))
-			return GetPyNone();
-
-		ImGuiStyle& style = mvApp::GetApp()->getStyle();
-		mvApp::GetApp()->setStyleChanged();
-		style.WindowRounding = value;
-
-		return GetPyNone();
-	}
-
-	PyObject* set_style_child_rounding(PyObject* self, PyObject* args, PyObject* kwargs)
-	{
-		float value;
-
-		if (!(*mvApp::GetApp()->getParsers())["set_style_child_rounding"].parse(args, kwargs, __FUNCTION__,
-			&value))
-			return GetPyNone();
-
-		ImGuiStyle& style = mvApp::GetApp()->getStyle();
-		mvApp::GetApp()->setStyleChanged();
-		style.ChildRounding = value;
-
-		return GetPyNone();
-	}
-
-	PyObject* set_style_frame_rounding(PyObject* self, PyObject* args, PyObject* kwargs)
-	{
-		float value;
-
-		if (!(*mvApp::GetApp()->getParsers())["set_style_frame_rounding"].parse(args, kwargs, __FUNCTION__,
-			&value))
-			return GetPyNone();
-
-		ImGuiStyle& style = mvApp::GetApp()->getStyle();
-		mvApp::GetApp()->setStyleChanged();
-		style.FrameRounding = value;
-
-		return GetPyNone();
-	}
-
-	PyObject* set_style_popup_rounding(PyObject* self, PyObject* args, PyObject* kwargs)
-	{
-		float value;
-
-		if (!(*mvApp::GetApp()->getParsers())["set_style_popup_rounding"].parse(args, kwargs, __FUNCTION__,
-			&value))
-			return GetPyNone();
-
-		ImGuiStyle& style = mvApp::GetApp()->getStyle();
-		mvApp::GetApp()->setStyleChanged();
-		style.PopupRounding = value;
-
-		return GetPyNone();
-	}
-
-	PyObject* set_style_scrollbar_rounding(PyObject* self, PyObject* args, PyObject* kwargs)
-	{
-		float value;
-
-		if (!(*mvApp::GetApp()->getParsers())["set_style_scrollbar_rounding"].parse(args, kwargs, __FUNCTION__,
-			&value))
-			return GetPyNone();
-
-		ImGuiStyle& style = mvApp::GetApp()->getStyle();
-		mvApp::GetApp()->setStyleChanged();
-		style.ScrollbarRounding = value;
-
-		return GetPyNone();
-	}
-
-	PyObject* set_style_grab_rounding(PyObject* self, PyObject* args, PyObject* kwargs)
-	{
-		float value;
-
-		if (!(*mvApp::GetApp()->getParsers())["set_style_grab_rounding"].parse(args, kwargs, __FUNCTION__,
-			&value))
-			return GetPyNone();
-
-		ImGuiStyle& style = mvApp::GetApp()->getStyle();
-		mvApp::GetApp()->setStyleChanged();
-		style.GrabRounding = value;
-
-		return GetPyNone();
-	}
-
-	PyObject* set_style_tab_rounding(PyObject* self, PyObject* args, PyObject* kwargs)
-	{
-		float value;
-
-		if (!(*mvApp::GetApp()->getParsers())["set_style_tab_rounding"].parse(args, kwargs, __FUNCTION__,
-			&value))
-			return GetPyNone();
-
-		ImGuiStyle& style = mvApp::GetApp()->getStyle();
-		mvApp::GetApp()->setStyleChanged();
-		style.TabRounding = value;
-
-		return GetPyNone();
-	}
-
-	PyObject* set_style_window_title_align(PyObject* self, PyObject* args, PyObject* kwargs)
-	{
-		float x;
-		float y;
-
-		if (!(*mvApp::GetApp()->getParsers())["set_style_window_title_align"].parse(args, kwargs, __FUNCTION__,
-			&x, &y))
-			return GetPyNone();
-
-		ImGuiStyle& style = mvApp::GetApp()->getStyle();
-		mvApp::GetApp()->setStyleChanged();
-		style.WindowTitleAlign = { x, y };
-
-		return GetPyNone();
-	}
-
-	PyObject* set_style_window_menu_button_position(PyObject* self, PyObject* args, PyObject* kwargs)
-	{
-		int value;
-
-		if (!(*mvApp::GetApp()->getParsers())["set_style_window_menu_button_position"].parse(args, kwargs, __FUNCTION__,
-			&value))
-			return GetPyNone();
-
-		ImGuiStyle& style = mvApp::GetApp()->getStyle();
-		mvApp::GetApp()->setStyleChanged();
-		style.WindowMenuButtonPosition = value;
-
-		return GetPyNone();
-	}
-
-	PyObject* set_style_color_button_position(PyObject* self, PyObject* args, PyObject* kwargs)
-	{
-		int value;
-
-		if (!(*mvApp::GetApp()->getParsers())["set_style_color_button_position"].parse(args, kwargs, __FUNCTION__,
-			&value))
-			return GetPyNone();
-
-		ImGuiStyle& style = mvApp::GetApp()->getStyle();
-		mvApp::GetApp()->setStyleChanged();
-		style.ColorButtonPosition = value;
-
-		return GetPyNone();
-	}
-
-	PyObject* set_style_button_text_align(PyObject* self, PyObject* args, PyObject* kwargs)
-	{
-		float x;
-		float y;
-
-		if (!(*mvApp::GetApp()->getParsers())["set_style_window_title_align"].parse(args, kwargs, __FUNCTION__,
-			&x, &y))
-			return GetPyNone();
-
-		ImGuiStyle& style = mvApp::GetApp()->getStyle();
-		mvApp::GetApp()->setStyleChanged();
-		style.ButtonTextAlign = { x, y };
-
-		return GetPyNone();
-	}
-
-	PyObject* set_style_selectable_text_align(PyObject* self, PyObject* args, PyObject* kwargs)
-	{
-		float x;
-		float y;
-
-		if (!(*mvApp::GetApp()->getParsers())["set_style_selectable_text_align"].parse(args, kwargs, __FUNCTION__,
-			&x, &y))
-			return GetPyNone();
-
-		ImGuiStyle& style = mvApp::GetApp()->getStyle();
-		mvApp::GetApp()->setStyleChanged();
-		style.SelectableTextAlign = { x, y };
-
-		return GetPyNone();
-	}
-
-	PyObject* set_style_display_safe_area_padding(PyObject* self, PyObject* args, PyObject* kwargs)
-	{
-		float x;
-		float y;
-
-		if (!(*mvApp::GetApp()->getParsers())["set_style_display_safe_area_padding"].parse(args, kwargs, __FUNCTION__,
-			&x, &y))
-			return GetPyNone();
-
-		ImGuiStyle& style = mvApp::GetApp()->getStyle();
-		mvApp::GetApp()->setStyleChanged();
-		style.DisplaySafeAreaPadding = { x, y };
-
-		return GetPyNone();
-	}
-
-	PyObject* set_style_global_alpha(PyObject* self, PyObject* args, PyObject* kwargs)
-	{
-		float value;
-
-		if (!(*mvApp::GetApp()->getParsers())["set_style_global_alpha"].parse(args, kwargs, __FUNCTION__,
-			&value))
-			return GetPyNone();
-
-		ImGuiStyle& style = mvApp::GetApp()->getStyle();
-		mvApp::GetApp()->setStyleChanged();
-		style.Alpha = value;
-
-		return GetPyNone();
-	}
-
-	PyObject* set_style_curve_tessellation_tolerance(PyObject* self, PyObject* args, PyObject* kwargs)
-	{
-		float value;
-
-		if (!(*mvApp::GetApp()->getParsers())["set_style_curve_tessellation_tolerance"].parse(args, kwargs, __FUNCTION__,
-			&value))
-			return GetPyNone();
-
-		ImGuiStyle& style = mvApp::GetApp()->getStyle();
-		mvApp::GetApp()->setStyleChanged();
-		style.CurveTessellationTol = value;
-
-		return GetPyNone();
-	}
-
-	PyObject* set_style_circle_segment_max_error(PyObject* self, PyObject* args, PyObject* kwargs)
-	{
-		float value;
-
-		if (!(*mvApp::GetApp()->getParsers())["set_style_circle_segment_max_error"].parse(args, kwargs, __FUNCTION__,
-			&value))
-			return GetPyNone();
-
-		ImGuiStyle& style = mvApp::GetApp()->getStyle();
-		mvApp::GetApp()->setStyleChanged();
-		style.CircleSegmentMaxError = value;
-
-		return GetPyNone();
-	}
-
-	PyObject* set_style_antialiased_lines(PyObject* self, PyObject* args, PyObject* kwargs)
-	{
-		int value;
-
-		if (!(*mvApp::GetApp()->getParsers())["set_style_antialiased_lines"].parse(args, kwargs, __FUNCTION__,
-			&value))
-			return GetPyNone();
-
-		ImGuiStyle& style = mvApp::GetApp()->getStyle();
-		mvApp::GetApp()->setStyleChanged();
-		style.AntiAliasedLines = value;
-
-		return GetPyNone();
-	}
-
-	PyObject* set_style_antialiased_fill(PyObject* self, PyObject* args, PyObject* kwargs)
-	{
-		int value;
-
-		if (!(*mvApp::GetApp()->getParsers())["set_style_antialiased_fill"].parse(args, kwargs, __FUNCTION__,
-			&value))
-			return GetPyNone();
-
-		ImGuiStyle& style = mvApp::GetApp()->getStyle();
-		mvApp::GetApp()->setStyleChanged();
-		style.AntiAliasedFill = value;
 
 		return GetPyNone();
 	}
@@ -1523,29 +836,6 @@ namespace Marvel {
 		}
 
 		return GetPyNone();
-	}
-
-	PyObject* add_table(PyObject* self, PyObject* args, PyObject* kwargs)
-	{
-		const char* name;
-		PyObject* headers;
-		PyObject* callback = nullptr;
-		PyObject* callback_data = nullptr;
-		const char* parent = "";
-		const char* before = "";
-
-		if (!(*mvApp::GetApp()->getParsers())["add_table"].parse(args, kwargs, __FUNCTION__, &name, &headers, &callback, &callback_data, &parent,
-			&before))
-			return ToPyBool(false);
-
-		mvAppItem* item = new mvTable(name, ToStringVect(headers));
-		if (callback)
-			Py_XINCREF(callback);
-		item->setCallback(callback);
-		if (callback_data)
-			Py_XINCREF(callback_data);
-		item->setCallbackData(callback_data);
-		return ToPyBool(AddItemWithRuntimeChecks(item, parent, before));
 	}
 
 	PyObject* add_simple_plot(PyObject* self, PyObject* args, PyObject* kwargs)
@@ -3713,375 +3003,6 @@ namespace Marvel {
 		return ToPyBool(AddItemWithRuntimeChecks(item, parent, before));
 	}
 
-	PyObject* set_table_item(PyObject* self, PyObject* args, PyObject* kwargs)
-	{
-		const char* table;
-		int row;
-		int column;
-		const char* value;
-
-		if (!(*mvApp::GetApp()->getParsers())["set_table_item"].parse(args, kwargs, __FUNCTION__, &table, &row,
-			&column, &value))
-			return GetPyNone();
-
-		mvAppItem* item = mvApp::GetApp()->getItem(table);
-		if (item == nullptr)
-		{
-			std::string message = table;
-			ThrowPythonException(message + " table does not exist.");
-			return GetPyNone();
-		}
-
-		if (item->getType() != mvAppItemType::Table)
-		{
-			std::string message = table;
-			ThrowPythonException(message + " is not a table.");
-			return GetPyNone();
-		}
-
-		mvTable* atable = static_cast<mvTable*>(item);
-		atable->setTableItem(row, column, value);
-
-		return GetPyNone();
-	}
-
-	PyObject* delete_row(PyObject* self, PyObject* args, PyObject* kwargs)
-	{
-		const char* table;
-		int row;
-
-		if (!(*mvApp::GetApp()->getParsers())["delete_row"].parse(args, kwargs, __FUNCTION__, &table, &row))
-			return GetPyNone();
-
-		mvAppItem* item = mvApp::GetApp()->getItem(table);
-		if (item == nullptr)
-		{
-			std::string message = table;
-			ThrowPythonException(message + " table does not exist.");
-			return GetPyNone();
-		}
-
-		if (item->getType() != mvAppItemType::Table)
-		{
-			std::string message = table;
-			ThrowPythonException(message + " is not a table.");
-			return GetPyNone();
-		}
-
-		mvTable* atable = static_cast<mvTable*>(item);
-		atable->deleteRow(row);
-
-		return GetPyNone();
-	}
-
-	PyObject* delete_column(PyObject* self, PyObject* args, PyObject* kwargs)
-	{
-		const char* table;
-		int column;
-
-		if (!(*mvApp::GetApp()->getParsers())["delete_column"].parse(args, kwargs, __FUNCTION__, &table, &column))
-			return GetPyNone();
-
-		mvAppItem* item = mvApp::GetApp()->getItem(table);
-		if (item == nullptr)
-		{
-			std::string message = table;
-			ThrowPythonException(message + " table does not exist.");
-			return GetPyNone();
-		}
-
-		if (item->getType() != mvAppItemType::Table)
-		{
-			std::string message = table;
-			ThrowPythonException(message + " is not a table.");
-			return GetPyNone();
-		}
-
-		mvTable* atable = static_cast<mvTable*>(item);
-		atable->deleteColumn(column);
-
-		return GetPyNone();
-	}
-
-	PyObject* set_headers(PyObject* self, PyObject* args, PyObject* kwargs)
-	{
-		const char* table;
-		PyObject* headers;
-
-		if (!(*mvApp::GetApp()->getParsers())["set_headers"].parse(args, kwargs, __FUNCTION__, &table, &headers))
-			return GetPyNone();
-
-		mvAppItem* item = mvApp::GetApp()->getItem(table);
-		if (item == nullptr)
-		{
-			std::string message = table;
-			ThrowPythonException(message + " table does not exist.");
-			return GetPyNone();
-		}
-
-		auto prow = ToStringVect(headers);
-		mvTable* atable = static_cast<mvTable*>(item);
-
-		atable->addHeaders(prow);
-
-		return GetPyNone();
-	}
-
-	PyObject* add_row(PyObject* self, PyObject* args, PyObject* kwargs)
-	{
-		const char* table;
-		PyObject* row;
-
-		if (!(*mvApp::GetApp()->getParsers())["add_row"].parse(args, kwargs, __FUNCTION__, &table, &row))
-			return GetPyNone();
-
-		mvAppItem* item = mvApp::GetApp()->getItem(table);
-		if (item == nullptr)
-		{
-			std::string message = table;
-			ThrowPythonException(message + " table does not exist.");
-			return GetPyNone();
-		}
-
-		if (item->getType() != mvAppItemType::Table)
-		{
-			std::string message = table;
-			ThrowPythonException(message + " is not a table.");
-			return GetPyNone();
-		}
-
-		auto prow = ToStringVect(row);
-		mvTable* atable = static_cast<mvTable*>(item);
-		if (atable->getColumnCount() == 0)
-		{
-			std::vector<std::string> headers;
-			for (size_t i = 0; i < prow.size(); i++)
-				headers.emplace_back("Header" + std::to_string(i));
-			atable->addHeaders(headers);
-		}
-		atable->addRow(prow);
-
-		return GetPyNone();
-	}
-
-	PyObject* add_column(PyObject* self, PyObject* args, PyObject* kwargs)
-	{
-		const char* table;
-		const char* name;
-		PyObject* column;
-
-		if (!(*mvApp::GetApp()->getParsers())["add_column"].parse(args, kwargs, __FUNCTION__, &table, &name, &column))
-			return GetPyNone();
-
-		mvAppItem* item = mvApp::GetApp()->getItem(table);
-		if (item == nullptr)
-		{
-			std::string message = table;
-			ThrowPythonException(message + " table does not exist.");
-			return GetPyNone();
-		}
-
-		if (item->getType() != mvAppItemType::Table)
-		{
-			std::string message = table;
-			ThrowPythonException(message + " is not a table.");
-			return GetPyNone();
-		}
-
-		auto pcolumn = ToStringVect(column);
-
-		mvTable* atable = static_cast<mvTable*>(item);
-		atable->addColumn(name, pcolumn);
-
-		return GetPyNone();
-	}
-
-	PyObject* insert_row(PyObject* self, PyObject* args, PyObject* kwargs)
-	{
-		const char* table;
-		int row_index;
-		PyObject* row;
-
-		if (!(*mvApp::GetApp()->getParsers())["insert_row"].parse(args, kwargs, __FUNCTION__, &table, &row_index, &row))
-			return GetPyNone();
-
-		mvAppItem* item = mvApp::GetApp()->getItem(table);
-		if (item == nullptr)
-		{
-			std::string message = table;
-			ThrowPythonException(message + " table does not exist.");
-			return GetPyNone();
-		}
-
-		if (item->getType() != mvAppItemType::Table)
-		{
-			std::string message = table;
-			ThrowPythonException(message + " is not a table.");
-			return GetPyNone();
-		}
-
-		auto prow = ToStringVect(row);
-		mvTable* atable = static_cast<mvTable*>(item);
-		if (atable->getColumnCount() == 0)
-		{
-			std::vector<std::string> headers;
-			for (size_t i = 0; i < prow.size(); i++)
-				headers.emplace_back("Header" + std::to_string(i));
-			atable->addHeaders(headers);
-		}
-		atable->insertRow(row_index, prow);
-
-		return GetPyNone();
-	}
-
-	PyObject* insert_column(PyObject* self, PyObject* args, PyObject* kwargs)
-	{
-		const char* table;
-		int column_index;
-		const char* name;
-		PyObject* column;
-
-		if (!(*mvApp::GetApp()->getParsers())["insert_column"].parse(args, kwargs, __FUNCTION__, &table, &column_index, &name, &column))
-			return GetPyNone();
-
-		mvAppItem* item = mvApp::GetApp()->getItem(table);
-		if (item == nullptr)
-		{
-			std::string message = table;
-			ThrowPythonException(message + " table does not exist.");
-			return GetPyNone();
-		}
-
-		if (item->getType() != mvAppItemType::Table)
-		{
-			std::string message = table;
-			ThrowPythonException(message + " is not a table.");
-			return GetPyNone();
-		}
-
-		auto prow = ToStringVect(column);
-
-		mvTable* atable = static_cast<mvTable*>(item);
-		atable->insertColumn(column_index, name, prow);
-
-		return GetPyNone();
-	}
-
-	PyObject* set_table_selection(PyObject* self, PyObject* args, PyObject* kwargs)
-	{
-		const char* table;
-		int row;
-		int column;
-		int value;
-
-		if (!(*mvApp::GetApp()->getParsers())["set_table_selection"].parse(args, kwargs, __FUNCTION__, &table, &row,
-			&column, &value))
-			return GetPyNone();
-
-		mvAppItem* item = mvApp::GetApp()->getItem(table);
-		if (item == nullptr)
-		{
-			std::string message = table;
-			ThrowPythonException(message + " table does not exist.");
-			return GetPyNone();
-		}
-
-		if (item->getType() != mvAppItemType::Table)
-		{
-			std::string message = table;
-			ThrowPythonException(message + " is not a table.");
-			return GetPyNone();
-		}
-
-		mvTable* atable = static_cast<mvTable*>(item);
-		atable->setSelection(row, column, value);
-
-		return GetPyNone();
-	}
-
-	PyObject* clear_table(PyObject* self, PyObject* args, PyObject* kwargs)
-	{
-		const char* table;
-
-		if (!(*mvApp::GetApp()->getParsers())["clear_table"].parse(args, kwargs, __FUNCTION__, &table))
-			return GetPyNone();
-
-		mvAppItem* item = mvApp::GetApp()->getItem(table);
-		if (item == nullptr)
-		{
-			std::string message = table;
-			ThrowPythonException(message + " table does not exist.");
-			return GetPyNone();
-		}
-
-		if (item->getType() != mvAppItemType::Table)
-		{
-			std::string message = table;
-			ThrowPythonException(message + " is not a table.");
-			return GetPyNone();
-		}
-
-		mvTable* atable = static_cast<mvTable*>(item);
-		atable->clearTable();
-		Py_RETURN_NONE;
-	}
-
-	PyObject* get_table_item(PyObject* self, PyObject* args, PyObject* kwargs)
-	{
-		const char* table;
-		int row;
-		int column;
-
-		if (!(*mvApp::GetApp()->getParsers())["get_table_item"].parse(args, kwargs, __FUNCTION__, &table, &row,
-			&column))
-			return GetPyNone();
-
-		mvAppItem* item = mvApp::GetApp()->getItem(table);
-		if (item == nullptr)
-		{
-			std::string message = table;
-			ThrowPythonException(message + " table does not exist.");
-			return GetPyNone();
-		}
-
-		if (item->getType() != mvAppItemType::Table)
-		{
-			std::string message = table;
-			ThrowPythonException(message + " is not a table.");
-			return GetPyNone();
-		}
-
-		mvTable* atable = static_cast<mvTable*>(item);
-		return Py_BuildValue("s", atable->getTableItem(row, column).c_str());
-
-	}
-
-	PyObject* get_table_selections(PyObject* self, PyObject* args, PyObject* kwargs)
-	{
-		const char* table;
-
-		if (!(*mvApp::GetApp()->getParsers())["get_table_selections"].parse(args, kwargs, __FUNCTION__, &table))
-			return GetPyNone();
-
-		mvAppItem* item = mvApp::GetApp()->getItem(table);
-		if (item == nullptr)
-		{
-			std::string message = table;
-			ThrowPythonException(message + " table does not exist.");
-			return GetPyNone();
-		}
-
-		if (item->getType() != mvAppItemType::Table)
-		{
-			std::string message = table;
-			ThrowPythonException(message + " is not a table.");
-			return GetPyNone();
-		}
-
-		mvTable* atable = static_cast<mvTable*>(item);
-		return atable->getSelections();
-	}
-
 	PyObject* run_async_function(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		PyObject* callback;
@@ -5588,82 +4509,16 @@ namespace Marvel {
 		ADD_PYTHON_FUNCTION(stop_dearpygui)
 		ADD_PYTHON_FUNCTION(is_dearpygui_running)
 		ADD_PYTHON_FUNCTION(set_main_window_title)
-		ADD_PYTHON_FUNCTION(add_additional_font)
-		ADD_PYTHON_FUNCTION(set_style_window_padding)
-		ADD_PYTHON_FUNCTION(set_style_frame_padding)
-		ADD_PYTHON_FUNCTION(set_style_item_spacing)
-		ADD_PYTHON_FUNCTION(set_style_item_inner_spacing)
-		ADD_PYTHON_FUNCTION(set_style_touch_extra_padding)
-		ADD_PYTHON_FUNCTION(set_style_indent_spacing)
-		ADD_PYTHON_FUNCTION(set_style_scrollbar_size)
-		ADD_PYTHON_FUNCTION(set_style_grab_min_size)
-		ADD_PYTHON_FUNCTION(set_style_window_border_size)
-		ADD_PYTHON_FUNCTION(set_style_child_border_size)
-		ADD_PYTHON_FUNCTION(set_style_popup_border_size)
-		ADD_PYTHON_FUNCTION(set_style_frame_border_size)
-		ADD_PYTHON_FUNCTION(set_style_tab_border_size)
-		ADD_PYTHON_FUNCTION(set_style_window_rounding)
-		ADD_PYTHON_FUNCTION(set_style_child_rounding)
-		ADD_PYTHON_FUNCTION(set_style_frame_rounding)
-		ADD_PYTHON_FUNCTION(set_style_popup_rounding)
-		ADD_PYTHON_FUNCTION(set_style_scrollbar_rounding)
-		ADD_PYTHON_FUNCTION(set_style_grab_rounding)
-		ADD_PYTHON_FUNCTION(set_style_tab_rounding)
-		ADD_PYTHON_FUNCTION(set_style_window_title_align)
-		ADD_PYTHON_FUNCTION(set_style_window_menu_button_position)
-		ADD_PYTHON_FUNCTION(set_style_color_button_position)
-		ADD_PYTHON_FUNCTION(set_style_button_text_align)
-		ADD_PYTHON_FUNCTION(set_style_selectable_text_align)
-		ADD_PYTHON_FUNCTION(set_style_display_safe_area_padding)
-		ADD_PYTHON_FUNCTION(set_style_global_alpha)
-		ADD_PYTHON_FUNCTION(set_style_antialiased_lines)
-		ADD_PYTHON_FUNCTION(set_style_antialiased_fill)
-		ADD_PYTHON_FUNCTION(set_style_curve_tessellation_tolerance)
-		ADD_PYTHON_FUNCTION(set_style_circle_segment_max_error)
-		ADD_PYTHON_FUNCTION(get_style_window_padding)
-		ADD_PYTHON_FUNCTION(get_style_frame_padding)
-		ADD_PYTHON_FUNCTION(get_style_item_spacing)
-		ADD_PYTHON_FUNCTION(get_style_item_inner_spacing)
-		ADD_PYTHON_FUNCTION(get_style_touch_extra_padding)
-		ADD_PYTHON_FUNCTION(get_style_indent_spacing)
-		ADD_PYTHON_FUNCTION(get_style_scrollbar_size)
-		ADD_PYTHON_FUNCTION(get_style_grab_min_size)
-		ADD_PYTHON_FUNCTION(get_style_window_border_size)
-		ADD_PYTHON_FUNCTION(get_style_child_border_size)
-		ADD_PYTHON_FUNCTION(get_style_popup_border_size)
-		ADD_PYTHON_FUNCTION(get_style_frame_border_size)
-		ADD_PYTHON_FUNCTION(get_style_tab_border_size)
-		ADD_PYTHON_FUNCTION(get_style_window_rounding)
-		ADD_PYTHON_FUNCTION(get_style_child_rounding)
-		ADD_PYTHON_FUNCTION(get_style_frame_rounding)
-		ADD_PYTHON_FUNCTION(get_style_popup_rounding)
-		ADD_PYTHON_FUNCTION(get_style_scrollbar_rounding)
-		ADD_PYTHON_FUNCTION(get_style_grab_rounding)
-		ADD_PYTHON_FUNCTION(get_style_tab_rounding)
-		ADD_PYTHON_FUNCTION(get_style_window_title_align)
-		ADD_PYTHON_FUNCTION(get_style_window_menu_button_position)
-		ADD_PYTHON_FUNCTION(get_style_color_button_position)
-		ADD_PYTHON_FUNCTION(get_style_button_text_align)
-		ADD_PYTHON_FUNCTION(get_style_selectable_text_align)
-		ADD_PYTHON_FUNCTION(get_style_display_safe_area_padding)
-		ADD_PYTHON_FUNCTION(get_style_global_alpha)
-		ADD_PYTHON_FUNCTION(get_style_antialiased_lines)
-		ADD_PYTHON_FUNCTION(get_style_antialiased_fill)
-		ADD_PYTHON_FUNCTION(get_style_curve_tessellation_tolerance)
-		ADD_PYTHON_FUNCTION(get_style_circle_segment_max_error)
 		ADD_PYTHON_FUNCTION(show_style_editor)
 		ADD_PYTHON_FUNCTION(setup_dearpygui)
-		ADD_PYTHON_FUNCTION(set_headers)
 		ADD_PYTHON_FUNCTION(render_dearpygui_frame)
 		ADD_PYTHON_FUNCTION(cleanup_dearpygui)
 		ADD_PYTHON_FUNCTION(start_dearpygui)
-		ADD_PYTHON_FUNCTION(clear_table)
 		ADD_PYTHON_FUNCTION(get_window_pos)
 		ADD_PYTHON_FUNCTION(set_window_pos)
 		ADD_PYTHON_FUNCTION(get_global_font_scale)
 		ADD_PYTHON_FUNCTION(set_global_font_scale)
 		ADD_PYTHON_FUNCTION(select_directory_dialog)
-		ADD_PYTHON_FUNCTION(add_table)
 		ADD_PYTHON_FUNCTION(end)
 		ADD_PYTHON_FUNCTION(add_image)
 		ADD_PYTHON_FUNCTION(add_image_button)
@@ -5723,16 +4578,6 @@ namespace Marvel {
 		ADD_PYTHON_FUNCTION(add_same_line)
 		ADD_PYTHON_FUNCTION(add_tooltip)
 		ADD_PYTHON_FUNCTION(add_collapsing_header)
-		ADD_PYTHON_FUNCTION(add_column)
-		ADD_PYTHON_FUNCTION(insert_column)
-		ADD_PYTHON_FUNCTION(delete_column)
-		ADD_PYTHON_FUNCTION(add_row)
-		ADD_PYTHON_FUNCTION(insert_row)
-		ADD_PYTHON_FUNCTION(delete_row)
-		ADD_PYTHON_FUNCTION(get_table_item)
-		ADD_PYTHON_FUNCTION(set_table_item)
-		ADD_PYTHON_FUNCTION(set_table_selection)
-		ADD_PYTHON_FUNCTION(get_table_selections)
 		ADD_PYTHON_FUNCTION(get_delta_time)
 		ADD_PYTHON_FUNCTION(get_total_time)
 		ADD_PYTHON_FUNCTION(get_data)
@@ -5826,7 +4671,87 @@ namespace Marvel {
 		ADD_PYTHON_FUNCTION(log_info)
 		ADD_PYTHON_FUNCTION(log_warning)
 		ADD_PYTHON_FUNCTION(log_error)
+
+		// Theme commands
+		ADD_PYTHON_FUNCTION(add_additional_font)
+		ADD_PYTHON_FUNCTION(set_style_window_padding)
+		ADD_PYTHON_FUNCTION(set_style_frame_padding)
+		ADD_PYTHON_FUNCTION(set_style_item_spacing)
+		ADD_PYTHON_FUNCTION(set_style_item_inner_spacing)
+		ADD_PYTHON_FUNCTION(set_style_touch_extra_padding)
+		ADD_PYTHON_FUNCTION(set_style_indent_spacing)
+		ADD_PYTHON_FUNCTION(set_style_scrollbar_size)
+		ADD_PYTHON_FUNCTION(set_style_grab_min_size)
+		ADD_PYTHON_FUNCTION(set_style_window_border_size)
+		ADD_PYTHON_FUNCTION(set_style_child_border_size)
+		ADD_PYTHON_FUNCTION(set_style_popup_border_size)
+		ADD_PYTHON_FUNCTION(set_style_frame_border_size)
+		ADD_PYTHON_FUNCTION(set_style_tab_border_size)
+		ADD_PYTHON_FUNCTION(set_style_window_rounding)
+		ADD_PYTHON_FUNCTION(set_style_child_rounding)
+		ADD_PYTHON_FUNCTION(set_style_frame_rounding)
+		ADD_PYTHON_FUNCTION(set_style_popup_rounding)
+		ADD_PYTHON_FUNCTION(set_style_scrollbar_rounding)
+		ADD_PYTHON_FUNCTION(set_style_grab_rounding)
+		ADD_PYTHON_FUNCTION(set_style_tab_rounding)
+		ADD_PYTHON_FUNCTION(set_style_window_title_align)
+		ADD_PYTHON_FUNCTION(set_style_window_menu_button_position)
+		ADD_PYTHON_FUNCTION(set_style_color_button_position)
+		ADD_PYTHON_FUNCTION(set_style_button_text_align)
+		ADD_PYTHON_FUNCTION(set_style_selectable_text_align)
+		ADD_PYTHON_FUNCTION(set_style_display_safe_area_padding)
+		ADD_PYTHON_FUNCTION(set_style_global_alpha)
+		ADD_PYTHON_FUNCTION(set_style_antialiased_lines)
+		ADD_PYTHON_FUNCTION(set_style_antialiased_fill)
+		ADD_PYTHON_FUNCTION(set_style_curve_tessellation_tolerance)
+		ADD_PYTHON_FUNCTION(set_style_circle_segment_max_error)
+		ADD_PYTHON_FUNCTION(get_style_window_padding)
+		ADD_PYTHON_FUNCTION(get_style_frame_padding)
+		ADD_PYTHON_FUNCTION(get_style_item_spacing)
+		ADD_PYTHON_FUNCTION(get_style_item_inner_spacing)
+		ADD_PYTHON_FUNCTION(get_style_touch_extra_padding)
+		ADD_PYTHON_FUNCTION(get_style_indent_spacing)
+		ADD_PYTHON_FUNCTION(get_style_scrollbar_size)
+		ADD_PYTHON_FUNCTION(get_style_grab_min_size)
+		ADD_PYTHON_FUNCTION(get_style_window_border_size)
+		ADD_PYTHON_FUNCTION(get_style_child_border_size)
+		ADD_PYTHON_FUNCTION(get_style_popup_border_size)
+		ADD_PYTHON_FUNCTION(get_style_frame_border_size)
+		ADD_PYTHON_FUNCTION(get_style_tab_border_size)
+		ADD_PYTHON_FUNCTION(get_style_window_rounding)
+		ADD_PYTHON_FUNCTION(get_style_child_rounding)
+		ADD_PYTHON_FUNCTION(get_style_frame_rounding)
+		ADD_PYTHON_FUNCTION(get_style_popup_rounding)
+		ADD_PYTHON_FUNCTION(get_style_scrollbar_rounding)
+		ADD_PYTHON_FUNCTION(get_style_grab_rounding)
+		ADD_PYTHON_FUNCTION(get_style_tab_rounding)
+		ADD_PYTHON_FUNCTION(get_style_window_title_align)
+		ADD_PYTHON_FUNCTION(get_style_window_menu_button_position)
+		ADD_PYTHON_FUNCTION(get_style_color_button_position)
+		ADD_PYTHON_FUNCTION(get_style_button_text_align)
+		ADD_PYTHON_FUNCTION(get_style_selectable_text_align)
+		ADD_PYTHON_FUNCTION(get_style_display_safe_area_padding)
+		ADD_PYTHON_FUNCTION(get_style_global_alpha)
+		ADD_PYTHON_FUNCTION(get_style_antialiased_lines)
+		ADD_PYTHON_FUNCTION(get_style_antialiased_fill)
+		ADD_PYTHON_FUNCTION(get_style_curve_tessellation_tolerance)
+		ADD_PYTHON_FUNCTION(get_style_circle_segment_max_error)
 		
+		// table commands
+		ADD_PYTHON_FUNCTION(add_table)
+		ADD_PYTHON_FUNCTION(set_headers)
+		ADD_PYTHON_FUNCTION(clear_table)
+		ADD_PYTHON_FUNCTION(get_table_item)
+		ADD_PYTHON_FUNCTION(set_table_item)
+		ADD_PYTHON_FUNCTION(get_table_selections)
+		ADD_PYTHON_FUNCTION(set_table_selection)
+		ADD_PYTHON_FUNCTION(add_column)
+		ADD_PYTHON_FUNCTION(insert_column)
+		ADD_PYTHON_FUNCTION(delete_column)
+		ADD_PYTHON_FUNCTION(add_row)
+		ADD_PYTHON_FUNCTION(insert_row)
+		ADD_PYTHON_FUNCTION(delete_row)
+
 		// drawing commands
 		ADD_PYTHON_FUNCTION(draw_arrow)
 		ADD_PYTHON_FUNCTION(get_drawing_origin)
