@@ -439,6 +439,25 @@ namespace Marvel {
 			return { 0.0f, 0.0f };
 	}
 
+	mvVec4 ToVec4(PyObject* value, const std::string& message)
+	{
+		if (value == nullptr)
+			return { 0.0f, 0.0f, 0.0f, 0.0f };
+
+		std::vector<float> result = ToFloatVect(value, message);
+
+		if (result.size() > 3)
+			return { result[0], result[1], result[2], result[3] };
+		else if (result.size() > 2)
+			return { result[0], result[1], result[2], 0.0f };
+		else if (result.size() > 1)
+			return { result[0], result[1], 0.0f, 0.0f };
+		else if (result.size() == 1)
+			return { result[0], 0.0f, 0.0f, 0.0f };
+		else
+			return { 0.0f, 0.0f, 0.0f, 0.0f };
+	}
+
 	std::vector<std::pair<std::string, std::string>> ToVectPairString(PyObject* value, const std::string& message)
 	{
 		std::vector<std::pair<std::string, std::string>> items;
@@ -490,6 +509,30 @@ namespace Marvel {
 		{
 			for (size_t i = 0; i < PyList_Size(value); i++)
 				items.push_back(ToVec2(PyList_GetItem(value, i)));
+		}
+
+		else
+			ThrowPythonException(message);
+
+		return items;
+	}
+
+	std::vector<mvVec4> ToVectVec4(PyObject* value, const std::string& message)
+	{
+		std::vector<mvVec4> items;
+		if (value == nullptr)
+			return items;
+		mvGlobalIntepreterLock gil;
+
+		if (PyTuple_Check(value))
+		{
+			for (size_t i = 0; i < PyTuple_Size(value); i++)
+				items.push_back(ToVec4(PyTuple_GetItem(value, i)));
+		}
+		else if (PyList_Check(value))
+		{
+			for (size_t i = 0; i < PyList_Size(value); i++)
+				items.push_back(ToVec4(PyList_GetItem(value, i)));
 		}
 
 		else

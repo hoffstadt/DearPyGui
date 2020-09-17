@@ -66,9 +66,11 @@ namespace Marvel {
 	bool        ToBool  (PyObject* value, const std::string& message = "Type must be a bool.");
 	mvColor     ToColor (PyObject* value, const std::string& message = "Type must be a list or tuple of ints.");
 	mvVec2      ToVec2  (PyObject* value, const std::string& message = "Type must be a list or tuple of floats.");
+	mvVec4      ToVec4  (PyObject* value, const std::string& message = "Type must be a list or tuple of floats.");
 	std::string ToString(PyObject* value, const std::string& message = "Type must be a string.");
 
 	std::vector<mvVec2>                              ToVectVec2           (PyObject* value, const std::string& message = "Type must be a list/tuple of list/tuple.");
+	std::vector<mvVec4>                              ToVectVec4           (PyObject* value, const std::string& message = "Type must be a list/tuple of list/tuple.");
 	std::vector<int>                                 ToIntVect            (PyObject* value, const std::string& message = "Type must be a list or tuple of integers.");
 	std::vector<float>                               ToFloatVect          (PyObject* value, const std::string& message = "Type must be a list or tuple of floats.");
 	std::vector<std::string>                         ToStringVect         (PyObject* value, const std::string& message = "Type must be a list or tuple of strings.");

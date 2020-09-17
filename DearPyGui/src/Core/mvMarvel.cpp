@@ -5870,6 +5870,7 @@ namespace Marvel {
 		ADD_PYTHON_FUNCTION(add_scatter_series)
 		ADD_PYTHON_FUNCTION(add_area_series)
 		ADD_PYTHON_FUNCTION(add_stem_series)
+		ADD_PYTHON_FUNCTION(add_error_series)
 		ADD_PYTHON_FUNCTION(add_text_point)
 		{NULL, NULL, 0, NULL}
 	};

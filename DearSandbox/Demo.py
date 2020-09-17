@@ -370,13 +370,20 @@ with window("Plots, Graphs and Charts##dialog", 500, 500, hide=True):
         for i in range(0, 100):
             data1.append([3.14*i/180, cos(3*3.14*i/180)])
 
-        data3 = [[0.5, -0.5], [1, -0.5], [1, -1], [0.5, -1]]
+        data2 = [[0.5, -0.5], [1, -0.5], [1, -1], [0.5, -1]]
+
+        data3 = []
+        for i in range(0, 25):
+            data3.append([3.14*i/180, 10*cos(3*3.14*i/180), 0.5*cos(3*3.14*i/180), 0.5*sin(3*3.14*i/180)])
+
+        add_error_series("Error Plot", "Errors1", data3)
+        add_line_series("Error Plot", "Errors2", data3)
 
         add_line_series("Plot", "Line", data1, weight=2)
         add_shade_series("Plot", "Shade", data1, weight=2, fill=[255, 0, 0, 100])
         add_scatter_series("Plot", "Scatter", data1)
         add_stem_series("Plot", "Stem", data1)
-        add_area_series("Plot", "Area", data3, [255, 255, 0], [255, 255, 0, 100])
+        add_area_series("Plot", "Area", data2, [255, 255, 0], [255, 255, 0, 100])
 
         add_pie_series("PieChart1", "PieChart1", [["fish", 0.25], ["Cow", 0.30], ["Chicken", 0.30]], 0.5, 0.5, 0.5, normalize=True)
         set_plot_xlimits("PieChart1", 0, 1)
@@ -410,6 +417,9 @@ with window("Plots, Graphs and Charts##dialog", 500, 500, hide=True):
         with tab("Bar Chart"):
             add_plot("BarChart", "Student", "Score", height=-1)
             set_xticks("BarChart", [["S1", 10], ["S2", 20], ["S3", 30]])
+
+        with tab("Error Plots"):
+            add_plot("Error Plot", "x-axis", "y-axis", height=-1)
 
 ########################################################################################################################
 # Canvas

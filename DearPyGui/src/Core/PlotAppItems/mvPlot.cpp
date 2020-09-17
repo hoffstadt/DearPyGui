@@ -27,6 +27,31 @@ namespace Marvel {
 
 	}
 
+	mvSeries::mvSeries(std::string name, const std::vector<mvVec4>& points)
+		: m_name(std::move(name))
+	{
+		if (!points.empty())
+		{
+			m_maxX = points[0].x;
+			m_minX = points[0].x;
+			m_maxY = points[0].y;
+			m_minY = points[0].y;
+		}
+
+		for (auto& point : points)
+		{
+			if (point.x > m_maxX) m_maxX = point.x;
+			if (point.y > m_maxY) m_maxY = point.y;
+			if (point.x < m_minX) m_minX = point.x;
+			if (point.y < m_minY) m_minY = point.y;
+			m_xs.push_back(point.x);
+			m_ys.push_back(point.y);
+			m_extra1.push_back(point.z);
+			m_extra2.push_back(point.w);
+		}
+
+	}
+
 	mvPlot::mvPlot(const std::string& name, std::string  xname,
 		std::string yname, ImPlotFlags flags,
 		ImPlotAxisFlags xflags, ImPlotAxisFlags yflags, PyObject* queryCallback)

@@ -115,6 +115,15 @@ namespace Marvel {
 			{mvPythonDataType::Float, "weight"}
 		}, "Adds a line series to a plot.", "None", "Plotting") });
 
+		parsers->insert({ "add_error_series", mvPythonParser({
+			{mvPythonDataType::String, "plot"},
+			{mvPythonDataType::String, "name"},
+			{mvPythonDataType::FloatList, "data"},
+			{mvPythonDataType::Optional},
+			{mvPythonDataType::KeywordOnly},
+			{mvPythonDataType::Bool, "horizontal"}
+		}, "Adds an error series to a plot.", "None", "Plotting") });
+
 		parsers->insert({ "add_bar_series", mvPythonParser({
 			{mvPythonDataType::String, "plot"},
 			{mvPythonDataType::String, "name"},
@@ -1149,6 +1158,49 @@ namespace Marvel {
 		lseries->setWeight(weight);
 		graph->addSeries(aseries);
 		graph->addSeries(lseries); // this allows our custom render to work
+
+		return GetPyNone();
+	}
+
+	PyObject* add_error_series(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		const char* plot;
+		const char* name;
+		PyObject* data;
+		int horizontal = false;
+
+		if (!(*mvApp::GetApp()->getParsers())["add_error_series"].parse(args, kwargs, __FUNCTION__, 
+			&plot, &name, &data, &horizontal))
+			return GetPyNone();
+
+		if (!PyList_Check(data))
+		{
+			std::string message = plot;
+			ThrowPythonException(message + " add line series requires a list of lists.");
+			return GetPyNone();
+		}
+
+		mvAppItem* aplot = mvApp::GetApp()->getItem(plot);
+
+		if (aplot == nullptr)
+		{
+			std::string message = plot;
+			ThrowPythonException(message + " plot does not exist.");
+			return GetPyNone();
+		}
+
+		if (aplot->getType() != mvAppItemType::Plot)
+		{
+			std::string message = plot;
+			ThrowPythonException(message + " is not a plot.");
+			return GetPyNone();
+		}
+
+		mvPlot* graph = static_cast<mvPlot*>(aplot);
+
+		auto datapoints = ToVectVec4(data);
+		auto series = new mvErrorSeries(name, datapoints, horizontal);
+		graph->updateSeries(series);
 
 		return GetPyNone();
 	}

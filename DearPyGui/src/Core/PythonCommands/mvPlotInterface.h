@@ -39,5 +39,6 @@ namespace Marvel {
 	PyObject* add_stem_series      (PyObject* self, PyObject* args, PyObject* kwargs);
 	PyObject* add_text_point       (PyObject* self, PyObject* args, PyObject* kwargs);
 	PyObject* add_area_series      (PyObject* self, PyObject* args, PyObject* kwargs);
+	PyObject* add_error_series     (PyObject* self, PyObject* args, PyObject* kwargs);
 
 }
