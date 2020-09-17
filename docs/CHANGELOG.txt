@@ -41,6 +41,7 @@ New Commands:
 - Plots:          Added "add_bar_series" command
 - Plots:          Added "add_error_series" command
 - Plots:          Added "add_heat_series" command
+- Plots:          Added "configure_plot" command
 - Radio Button:   Added "horizontal" keyword to radio button #215
 - Radio Button:   Added "update_bounds" keyword to add_*_series commands
 
