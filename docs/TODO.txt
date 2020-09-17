@@ -18,8 +18,6 @@ It's mostly a bunch of personal notes, probably incomplete. Feel free to query i
 
 - custom widgets: add a fully supported custom widget API to allow users to make their own widgets more easily
 
-- plot: add pie charts
-- plot: add bar graphs
 - plot: add heatmap charts
 
 - text edit widget: basically open up the widget used in _show_source_ for user control
@@ -36,3 +34,5 @@ It's mostly a bunch of personal notes, probably incomplete. Feel free to query i
 - layouts: because there is not a way to know boarder sizes on things like the main window and also the childs it maks sizing hard same for menu. its hard to set a child to fill the main window width
 - layout: doing add_spacing in count when everything is in pixels is weird
 - layout: group has no height attribute which would be useful for when the croup is set to horizontal
+
+- Marvel: Split into mvDrawingInterface, mvPlotInterface, mvTableInterface, mvThemeInterface, mvInputInterface, mvWidgetInterface, mvAppItemInterface, mvAppInterface

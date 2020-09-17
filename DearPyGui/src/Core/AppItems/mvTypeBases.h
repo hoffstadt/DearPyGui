@@ -26,8 +26,8 @@ namespace Marvel {
 
 	public:
 
-		mvBoolItemBase(const std::string& parent, const std::string& name, bool value)
-			: mvAppItem(parent, name), m_value(value)
+		mvBoolItemBase(const std::string& name, bool value)
+			: mvAppItem(name), m_value(value)
 		{
 		}
 
@@ -58,8 +58,8 @@ namespace Marvel {
 
 	public:
 
-		mvStringItemBase(const std::string& parent, const std::string& name, std::string  value)
-			: mvAppItem(parent, name), m_value(std::move(value))
+		mvStringItemBase(const std::string& name, std::string value)
+			: mvAppItem(name), m_value(std::move(value))
 		{
 		}
 
@@ -90,9 +90,9 @@ namespace Marvel {
 
 	public:
 
-		mvIntItemBase(const std::string& parent, const std::string& name, unsigned count,
+		mvIntItemBase(const std::string& name, unsigned count,
 			int x, int y=0, int z=0, int w=0)
-			: mvAppItem(parent, name), m_valuecount(count)
+			: mvAppItem(name), m_valuecount(count)
 		{
 			m_value.push_back(x);
 			m_value.push_back(y);
@@ -153,9 +153,9 @@ namespace Marvel {
 
 	public:
 
-		mvFloatItemBase(const std::string& parent, const std::string& name, unsigned count, 
+		mvFloatItemBase(const std::string& name, unsigned count, 
 			float x, float y=0.0f, float z=0.0f, float w=0.0f)
-			: mvAppItem(parent, name), m_valuecount(count)
+			: mvAppItem(name), m_valuecount(count)
 		{
 			m_value.push_back(x);
 			m_value.push_back(y);
@@ -215,8 +215,8 @@ namespace Marvel {
 
 	public:
 
-		mvColorItemBase(const std::string& parent, const std::string& name, mvColor color)
-			: mvAppItem(parent, name)
+		mvColorItemBase(const std::string& name, mvColor color)
+			: mvAppItem(name)
 		{
 			m_value.push_back((float)color.r/255.0f);
 			m_value.push_back((float)color.g/255.0f);

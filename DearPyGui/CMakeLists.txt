@@ -44,6 +44,11 @@ set(MARVEL_SOURCES
 
 	"src/Core/mvPythonTranslator.cpp"
 	"src/Core/mvPythonParser.cpp"
+
+	"src/Core/PythonCommands/mvInterfaceCore.cpp"
+	"src/Core/PythonCommands/mvPlotInterface.cpp"
+	"src/Core/PythonCommands/mvDrawingInterface.cpp"
+
 	"$<$<PLATFORM_ID:Windows>:src/Core/mvMarvel.cpp>"
 	"$<$<PLATFORM_ID:Linux>:src/Core/mvMarvel.cpp>"
 	"$<$<PLATFORM_ID:Darwin>:src/Core/mvMarvel.mm>"

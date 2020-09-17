@@ -26,8 +26,8 @@ namespace Marvel {
 
 		MV_APPITEM_TYPE(mvAppItemType::Child)
 
-		mvChild(const std::string& parent, const std::string& name, bool border)
-			: mvBoolItemBase(parent, name, false), mvEventHandler(), m_border(border)
+		mvChild(const std::string& name, bool border)
+			: mvBoolItemBase(name, false), mvEventHandler(), m_border(border)
 		{
 			m_container = true;
 		}
@@ -100,8 +100,8 @@ namespace Marvel {
 
 		MV_APPITEM_TYPE(mvAppItemType::Group)
 
-		mvGroup(const std::string& parent, const std::string& name, bool horizontal=false, float spacing=-1.0f)
-			: mvAppItem(parent, name), m_horizontal(horizontal), m_hspacing(spacing)
+		mvGroup(const std::string& name, bool horizontal=false, float spacing=-1.0f)
+			: mvAppItem(name), m_horizontal(horizontal), m_hspacing(spacing)
 		{
 			m_container = true;
 		}
@@ -175,8 +175,8 @@ namespace Marvel {
 
 		MV_APPITEM_TYPE(mvAppItemType::CollapsingHeader)
 
-		mvCollapsingHeader(const std::string& parent, const std::string& name, ImGuiTreeNodeFlags flags = 0, bool closable = false)
-			: mvBoolItemBase(parent, name, true), m_flags(flags), m_closable(closable)
+		mvCollapsingHeader(const std::string& name, ImGuiTreeNodeFlags flags = 0, bool closable = false)
+			: mvBoolItemBase(name, true), m_flags(flags), m_closable(closable)
 		{
 			m_container = true;
 		}
@@ -253,8 +253,8 @@ namespace Marvel {
 
 		MV_APPITEM_TYPE(mvAppItemType::TreeNode)
 
-		mvTreeNode(const std::string& parent, const std::string& name, ImGuiTreeNodeFlags flags = 0)
-			: mvBoolItemBase(parent, name, false), m_flags(flags)
+		mvTreeNode(const std::string& name, ImGuiTreeNodeFlags flags = 0)
+			: mvBoolItemBase(name, false), m_flags(flags)
 		{
 			m_container = true;
 		}

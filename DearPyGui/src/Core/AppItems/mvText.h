@@ -45,8 +45,8 @@ namespace Marvel {
 
 		MV_APPITEM_TYPE(mvAppItemType::Text)
 
-		mvText(const std::string& parent, const std::string& name, int wrap, mvColor color, bool bullet)
-			: mvStringItemBase(parent, name, name), m_color(color), m_wrap(wrap), m_bullet(bullet)
+		mvText(const std::string& name, int wrap, mvColor color, bool bullet)
+			: mvStringItemBase(name, name), m_color(color), m_wrap(wrap), m_bullet(bullet)
 		{
 		}
 
@@ -96,8 +96,8 @@ namespace Marvel {
 
 		MV_APPITEM_TYPE(mvAppItemType::LabelText)
 
-			mvLabelText(const std::string& parent, const std::string& name, const std::string& value, mvColor color)
-			: mvStringItemBase(parent, name, value), m_color(color)
+			mvLabelText(const std::string& name, const std::string& value, mvColor color)
+			: mvStringItemBase(name, value), m_color(color)
 		{
 			m_label = FindRenderedTextEnd(m_name.c_str());
 		}

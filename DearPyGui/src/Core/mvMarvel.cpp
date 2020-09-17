@@ -12,61 +12,17 @@
 #include <ImGuiFileDialog.h>
 #include <cstdlib>
 
+// new includes
+#include "Core/PythonCommands/mvInterfaceCore.h"
+#include "Core/PythonCommands/mvPlotInterface.h"
+#include "Core/PythonCommands/mvDrawingInterface.h"
+
 //-----------------------------------------------------------------------------
 // Helper Macro
 //-----------------------------------------------------------------------------
 #define ADD_PYTHON_FUNCTION(Function) { #Function, (PyCFunction)Function, METH_VARARGS | METH_KEYWORDS, (*mvApp::GetApp()->getParsers())[#Function].getDocumentation() },
 
 namespace Marvel {
-
-	static bool AddItemWithRuntimeChecks(mvAppItem* item, const char* parent, const char* before)
-	{
-
-		if (item == nullptr)
-			return false;
-
-		auto ma = mvApp::GetApp();
-
-		// remove bad parent stack item
-		if (item->getType() == mvAppItemType::Window && ma->topParent() != nullptr)
-		{
-			if (ma->topParent()->getName() != "MainWindow")
-			{
-				ma->popParent();
-				ThrowPythonException("Adding window will remove last item in parent stack. Don't forget to end container types.");
-			}
-		}
-
-		// window runtime adding
-		if (item->getType() == mvAppItemType::Window && mvApp::IsAppStarted())
-			return ma->addRuntimeItem("", "", item);
-
-		// window compile adding
-		else if (item->getType() == mvAppItemType::Window)
-			return ma->addWindow(item);
-
-		// typical run time adding
-		else if ((!std::string(parent).empty() || !std::string(before).empty()) && mvApp::IsAppStarted())
-			return ma->addRuntimeItem(parent, before, item);
-
-		// adding without specifying before or parent, instead using parent stack
-		else if (std::string(parent).empty() && std::string(before).empty() && mvApp::IsAppStarted() && ma->topParent() != nullptr)
-			return ma->addRuntimeItem(ma->topParent()->getName(), before, item);
-
-		// adding without specifying before or parent, but with empty stack (add to main window)
-		else if (std::string(parent).empty() && std::string(before).empty() && mvApp::IsAppStarted())
-			return ma->addRuntimeItem("MainWindow", "", item);
-
-		// adding normally but using the runtime style of adding
-		else if (!std::string(parent).empty() && !mvApp::IsAppStarted())
-			return ma->addRuntimeItem(parent, before, item);
-
-		// typical adding before runtime
-		else if (std::string(parent).empty() && !mvApp::IsAppStarted() && std::string(before).empty())
-			return ma->addItem(item);
-
-		return false;
-	}
 
 	std::map<std::string, mvPythonParser>* BuildDearPyGuiInterface()
 	{
@@ -940,1472 +896,6 @@ namespace Marvel {
 		return ToPyFloat(mvApp::GetApp()->getGlobalFontScale());
 	}
 
-	PyObject* add_drawing(PyObject* self, PyObject* args, PyObject* kwargs)
-	{
-		const char* name;
-		const char* tip = "";
-		const char* parent = "";
-		const char* before = "";
-		int width = 0;
-		int height = 0;
-
-		if (!(*mvApp::GetApp()->getParsers())["add_drawing"].parse(args, kwargs, __FUNCTION__, &name, &tip, &parent, &before, &width, &height))
-			return ToPyBool(false);
-
-		mvAppItem* item = new mvDrawing("", name, width, height);
-		item->setTip(tip);
-		item->setWidth(width);
-		item->setHeight(height);
-
-		if (!item)
-			return ToPyBool(false);
-
-		return ToPyBool(AddItemWithRuntimeChecks(item, parent, before));
-	}
-
-	PyObject* delete_drawing_item(PyObject* self, PyObject* args, PyObject* kwargs)
-	{
-		const char* drawing;
-		const char* tag;
-
-		if (!(*mvApp::GetApp()->getParsers())["delete_drawing_item"].parse(args, kwargs, __FUNCTION__, &drawing, &tag))
-			return GetPyNone();
-
-		auto item = mvApp::GetApp()->getItem(drawing);
-
-		if (item == nullptr)
-		{
-			ThrowPythonException("Drawing does not exist");
-			return GetPyNone();
-		}
-
-		mvDrawing* dwg;
-		if (item->getType() == mvAppItemType::Drawing)
-			dwg = static_cast<mvDrawing*>(item);
-		else
-		{
-			ThrowPythonException(std::string(drawing) + " is not a drawing.");
-			return GetPyNone();
-		}
-		
-		dwg->deleteCommand(tag);
-
-		return GetPyNone();
-	}
-
-	PyObject* set_drawing_size(PyObject* self, PyObject* args, PyObject* kwargs)
-	{
-		const char* name;
-		int width;
-		int height;
-
-		if (!(*mvApp::GetApp()->getParsers())["set_drawing_size"].parse(args, kwargs, __FUNCTION__, &name, &width, &height))
-			return GetPyNone();
-
-		auto drawing = mvApp::GetApp()->getItem(name);
-
-		if (drawing)
-		{
-			drawing->setWidth(width);
-			drawing->setHeight(height);
-		}
-
-		return GetPyNone();
-	}
-
-	PyObject* set_drawing_origin(PyObject* self, PyObject* args, PyObject* kwargs)
-	{
-		const char* name;
-		float x;
-		float y;
-
-		if (!(*mvApp::GetApp()->getParsers())["set_drawing_origin"].parse(args, kwargs, __FUNCTION__, &name, &x, &y))
-			return GetPyNone();
-
-		auto item = mvApp::GetApp()->getItem(name);
-
-		if (item == nullptr)
-		{
-			std::string message = name;
-			ThrowPythonException("Drawing does not exist");
-			return GetPyNone();
-		}
-
-		mvDrawing* dwg;
-		if (item->getType() == mvAppItemType::Drawing)
-			dwg = static_cast<mvDrawing*>(item);
-		else
-		{
-			ThrowPythonException(std::string(name) + " is not a drawing.");
-			return GetPyNone();
-		}
-		dwg->setOrigin(x, y);
-
-		return GetPyNone();
-	}
-
-	PyObject* set_drawing_scale(PyObject* self, PyObject* args, PyObject* kwargs)
-	{
-		const char* name;
-		float x;
-		float y;
-
-		if (!(*mvApp::GetApp()->getParsers())["set_drawing_scale"].parse(args, kwargs, __FUNCTION__, &name, &x, &y))
-			return GetPyNone();
-
-		auto item = mvApp::GetApp()->getItem(name);
-
-		if (item == nullptr)
-		{
-			std::string message = name;
-			ThrowPythonException("Drawing does not exist");
-			return GetPyNone();
-		}
-
-		mvDrawing* dwg;
-		if (item->getType() == mvAppItemType::Drawing)
-			dwg = static_cast<mvDrawing*>(item);
-		else
-		{
-			ThrowPythonException(std::string(name) + " is not a drawing.");
-			return GetPyNone();
-		}
-		dwg->setScale(x, y);
-
-		return GetPyNone();
-	}
-
-	PyObject* get_drawing_origin(PyObject* self, PyObject* args, PyObject* kwargs)
-	{
-		const char* name;
-
-		if (!(*mvApp::GetApp()->getParsers())["get_drawing_origin"].parse(args, kwargs, __FUNCTION__, &name))
-			return GetPyNone();
-
-		auto item = mvApp::GetApp()->getItem(name);
-
-		if (item == nullptr)
-		{
-			std::string message = name;
-			ThrowPythonException("Drawing does not exist");
-			return GetPyNone();
-		}
-
-		mvDrawing* dwg;
-		if (item->getType() == mvAppItemType::Drawing)
-			dwg = static_cast<mvDrawing*>(item);
-		else
-		{
-			ThrowPythonException(std::string(name) + " is not a drawing.");
-			return GetPyNone();
-		}
-
-		return ToPyPair(dwg->getOrigin().x, dwg->getOrigin().y);
-	}
-
-	PyObject* get_drawing_scale(PyObject* self, PyObject* args, PyObject* kwargs)
-	{
-		const char* name;
-
-		if (!(*mvApp::GetApp()->getParsers())["get_drawing_scale"].parse(args, kwargs, __FUNCTION__, &name))
-			return GetPyNone();
-
-		auto item = mvApp::GetApp()->getItem(name);
-
-		if (item == nullptr)
-		{
-			std::string message = name;
-			ThrowPythonException(message + " drawing does not exist.");
-			return GetPyNone();
-		}
-
-		mvDrawing* dwg;
-		if (item->getType() == mvAppItemType::Drawing)
-			dwg = static_cast<mvDrawing*>(item);
-		else
-		{
-			ThrowPythonException(std::string(name) + " is not a drawing.");
-			return GetPyNone();
-		}
-
-		return ToPyPair(dwg->getScale().x, dwg->getScale().y);
-	}
-
-	PyObject* get_drawing_size(PyObject* self, PyObject* args, PyObject* kwargs)
-	{
-		const char* name;
-
-		if (!(*mvApp::GetApp()->getParsers())["get_drawing_size"].parse(args, kwargs, __FUNCTION__, &name))
-			return GetPyNone();
-
-		auto drawing = mvApp::GetApp()->getItem(name);
-
-		if (drawing)
-			return ToPyPair(drawing->getWidth(), drawing->getHeight());
-
-		return GetPyNone();
-	}
-
-	PyObject* draw_image(PyObject* self, PyObject* args, PyObject* kwargs)
-	{
-		const char* drawing;
-		const char* file;
-		PyObject* pmin;
-		PyObject* pmax = PyTuple_New(2);
-		PyTuple_SetItem(pmax, 0, PyFloat_FromDouble(-100));
-		PyTuple_SetItem(pmax, 1, PyFloat_FromDouble(-100));
-		PyObject* uv_min = PyTuple_New(2);
-		PyTuple_SetItem(uv_min, 0, PyFloat_FromDouble(0));
-		PyTuple_SetItem(uv_min, 1, PyFloat_FromDouble(0));
-		PyObject* uv_max = PyTuple_New(2);
-		PyTuple_SetItem(uv_max, 0, PyFloat_FromDouble(1));
-		PyTuple_SetItem(uv_max, 1, PyFloat_FromDouble(1));
-		PyObject* color = PyTuple_New(4);
-		PyTuple_SetItem(color, 0, PyFloat_FromDouble(255));
-		PyTuple_SetItem(color, 1, PyFloat_FromDouble(255));
-		PyTuple_SetItem(color, 2, PyFloat_FromDouble(255));
-		PyTuple_SetItem(color, 3, PyFloat_FromDouble(255));
-		const char* tag = "";
-
-		if (!(*mvApp::GetApp()->getParsers())["draw_image"].parse(args, kwargs, __FUNCTION__, &drawing, &file,
-			&pmin, &pmax, &uv_min, &uv_max, &color, &tag))
-			return GetPyNone();
-
-		mvVec2 mpmin = ToVec2(pmin);
-		mvVec2 mpmax = ToVec2(pmax);
-		mvVec2 muv_min = ToVec2(uv_min);
-		mvVec2 muv_max = ToVec2(uv_max);
-		mvColor mcolor = ToColor(color);
-
-		auto item = mvApp::GetApp()->getItem(drawing);
-
-		if (item == nullptr)
-		{
-			std::string message = drawing;
-			ThrowPythonException(message + " drawing does not exist.");
-			return GetPyNone();
-		}
-
-		mvDrawing* dwg;
-		if (item->getType() == mvAppItemType::Drawing)
-			dwg = static_cast<mvDrawing*>(item);
-		else
-		{
-			ThrowPythonException(std::string(drawing) + " is not a drawing.");
-			return GetPyNone();
-		}
-		dwg->drawImage(file, mpmin, mpmax, muv_min, muv_max, mcolor, tag);
-
-		return GetPyNone();
-	}
-
-	PyObject* draw_line(PyObject* self, PyObject* args, PyObject* kwargs)
-	{
-		const char* drawing;
-		int thickness;
-		PyObject* p1, * p2;
-		PyObject* color;
-		const char* tag = "";
-
-		if (!(*mvApp::GetApp()->getParsers())["draw_line"].parse(args, kwargs, __FUNCTION__, &drawing, &p1, &p2, &color, &thickness, &tag))
-			return GetPyNone();
-
-		mvVec2 mp1 = ToVec2(p1);
-		mvVec2 mp2 = ToVec2(p2);
-		mvColor mcolor = ToColor(color);
-
-		auto item = mvApp::GetApp()->getItem(drawing);
-
-		if (item == nullptr)
-		{
-			std::string message = drawing;
-			ThrowPythonException(message + " drawing does not exist.");
-			return GetPyNone();
-		}
-
-		mvDrawing* dwg;
-		if (item->getType() == mvAppItemType::Drawing)
-			dwg = static_cast<mvDrawing*>(item);
-		else
-		{
-			ThrowPythonException(std::string(drawing) + " is not a drawing.");
-			return GetPyNone();
-		}
-		dwg->drawLine(mp1, mp2, mcolor, thickness, tag);
-
-		return GetPyNone();
-	}
-
-	PyObject* draw_arrow(PyObject* self, PyObject* args, PyObject* kwargs)
-	{
-		const char* drawing;
-		int thickness;
-		int size;
-		PyObject* p1, * p2;
-		PyObject* color;
-		const char* tag = "";
-
-		if (!(*mvApp::GetApp()->getParsers())["draw_arrow"].parse(args, kwargs, __FUNCTION__, &drawing, &p1, &p2, &color, &thickness, &size, &tag))
-			return GetPyNone();
-
-		mvVec2 mp1 = ToVec2(p1);
-		mvVec2 mp2 = ToVec2(p2);
-		mvColor mcolor = ToColor(color);
-
-		auto item = mvApp::GetApp()->getItem(drawing);
-
-		if (item == nullptr)
-		{
-			std::string message = drawing;
-			ThrowPythonException(message + " drawing does not exist.");
-			return GetPyNone();
-		}
-
-		mvDrawing* dwg;
-		if (item->getType() == mvAppItemType::Drawing)
-			dwg = static_cast<mvDrawing*>(item);
-		else
-		{
-			ThrowPythonException(std::string(drawing) + " is not a drawing.");
-			return GetPyNone();
-		}
-		dwg->drawArrow(mp1, mp2, mcolor, thickness, size, tag);
-
-		return GetPyNone();
-	}
-
-	PyObject* draw_triangle(PyObject* self, PyObject* args, PyObject* kwargs)
-	{
-		const char* drawing;
-		float thickness = 1.0f;
-		PyObject* p1, * p2, * p3;
-		PyObject* color;
-		PyObject* fill = nullptr;
-		const char* tag = "";
-
-		if (!(*mvApp::GetApp()->getParsers())["draw_triangle"].parse(args, kwargs, __FUNCTION__, &drawing, &p1, &p2, &p3, &color, &fill, &thickness, &tag))
-			return GetPyNone();
-
-
-		mvVec2 mp1 = ToVec2(p1);
-		mvVec2 mp2 = ToVec2(p2);
-		mvVec2 mp3 = ToVec2(p3);
-		mvColor mcolor = ToColor(color);
-		mvColor mfill = ToColor(fill);
-
-		auto item = mvApp::GetApp()->getItem(drawing);
-
-		if (item == nullptr)
-		{
-			std::string message = drawing;
-			ThrowPythonException(message + " drawing does not exist.");
-			return GetPyNone();
-		}
-
-		mvDrawing* dwg;
-		if (item->getType() == mvAppItemType::Drawing)
-			dwg = static_cast<mvDrawing*>(item);
-		else
-		{
-			ThrowPythonException(std::string(drawing) + " is not a drawing.");
-			return GetPyNone();
-		}
-		dwg->drawTriangle(mp1, mp2, mp3, mcolor, mfill, thickness, tag);
-
-		return GetPyNone();
-	}
-
-	PyObject* draw_rectangle(PyObject* self, PyObject* args, PyObject* kwargs)
-	{
-		const char* drawing;
-		float thickness = 1.0f, rounding = 0.0f;
-		PyObject* pmin, * pmax;
-		PyObject* color;
-		PyObject* fill = nullptr;
-		const char* tag = "";
-
-		if (!(*mvApp::GetApp()->getParsers())["draw_rectangle"].parse(args, kwargs, __FUNCTION__, &drawing, &pmin, &pmax, &color, &fill, &rounding, &thickness, &tag))
-			return GetPyNone();
-
-
-		mvVec2 mpmax = ToVec2(pmax);
-		mvVec2 mpmin = ToVec2(pmin);
-		mvColor mcolor = ToColor(color);
-		mvColor mfill = ToColor(fill);
-
-		auto item = mvApp::GetApp()->getItem(drawing);
-
-		if (item == nullptr)
-		{
-			std::string message = drawing;
-			ThrowPythonException(message + " drawing does not exist.");
-			return GetPyNone();
-		}
-
-		mvDrawing* dwg;
-		if (item->getType() == mvAppItemType::Drawing)
-			dwg = static_cast<mvDrawing*>(item);
-		else
-		{
-			ThrowPythonException(std::string(drawing) + " is not a drawing.");
-			return GetPyNone();
-		}
-		dwg->drawRectangle(mpmin, mpmax, mcolor, mfill, rounding, thickness, tag);
-
-		return GetPyNone();
-	}
-
-	PyObject* draw_quad(PyObject* self, PyObject* args, PyObject* kwargs)
-	{
-		const char* drawing;
-		float thickness = 1.0f;
-		PyObject* p1, * p2, * p3, * p4;
-		PyObject* color;
-		PyObject* fill = nullptr;
-		const char* tag = "";
-
-		if (!(*mvApp::GetApp()->getParsers())["draw_quad"].parse(args, kwargs, __FUNCTION__, &drawing, &p1, &p2, &p3, &p4, &color, &fill, &thickness, &tag))
-			return GetPyNone();
-
-
-		mvVec2 mp1 = ToVec2(p1);
-		mvVec2 mp2 = ToVec2(p2);
-		mvVec2 mp3 = ToVec2(p3);
-		mvVec2 mp4 = ToVec2(p4);
-		mvColor mcolor = ToColor(color);
-		mvColor mfill = ToColor(fill);
-
-		auto item = mvApp::GetApp()->getItem(drawing);
-
-		if (item == nullptr)
-		{
-			std::string message = drawing;
-			ThrowPythonException(message + " drawing does not exist.");
-			return GetPyNone();
-		}
-
-		mvDrawing* dwg;
-		if (item->getType() == mvAppItemType::Drawing)
-			dwg = static_cast<mvDrawing*>(item);
-		else
-		{
-			ThrowPythonException(std::string(drawing) + " is not a drawing.");
-			return GetPyNone();
-		}
-		dwg->drawQuad(mp1, mp2, mp3, mp4, mcolor, mfill, thickness, tag);
-
-		return GetPyNone();
-	}
-
-	PyObject* draw_text(PyObject* self, PyObject* args, PyObject* kwargs)
-	{
-		const char* drawing;
-		const char* text;
-		PyObject* pos;
-		int size = 10;
-		PyObject* color = nullptr;
-		const char* tag = "";
-
-		if (!(*mvApp::GetApp()->getParsers())["draw_text"].parse(args, kwargs, __FUNCTION__, &drawing, &pos, &text, &color, &size, &tag))
-			return GetPyNone();
-
-		mvVec2 mpos = ToVec2(pos);
-		mvColor mcolor = ToColor(color);
-
-		auto item = mvApp::GetApp()->getItem(drawing);
-
-		if (item == nullptr)
-		{
-			std::string message = drawing;
-			ThrowPythonException(message + " drawing does not exist.");
-			return GetPyNone();
-		}
-
-		mvDrawing* dwg;
-		if (item->getType() == mvAppItemType::Drawing)
-			dwg = static_cast<mvDrawing*>(item);
-		else
-		{
-			ThrowPythonException(std::string(drawing) + " is not a drawing.");
-			return GetPyNone();
-		}
-		dwg->drawText(mpos, text, mcolor, size, tag);
-
-		return GetPyNone();
-	}
-
-	PyObject* draw_circle(PyObject* self, PyObject* args, PyObject* kwargs)
-	{
-		const char* drawing;
-		PyObject* center;
-		float radius;
-		PyObject* color;
-		int segments = 12;
-		float thickness = 1.0f;
-		PyObject* fill = nullptr;
-		const char* tag = "";
-
-		if (!(*mvApp::GetApp()->getParsers())["draw_circle"].parse(args, kwargs, __FUNCTION__, &drawing, &center, &radius, &color, &segments, &thickness, &fill, &tag))
-			return GetPyNone();
-
-		mvVec2 mcenter = ToVec2(center);
-		mvColor mcolor = ToColor(color);
-		mvColor mfill = ToColor(fill);
-
-		auto item = mvApp::GetApp()->getItem(drawing);
-
-		if (item == nullptr)
-		{
-			std::string message = drawing;
-			ThrowPythonException(message + " drawing does not exist.");
-			return GetPyNone();
-		}
-
-		mvDrawing* dwg;
-		if (item->getType() == mvAppItemType::Drawing)
-			dwg = static_cast<mvDrawing*>(item);
-		else
-		{
-			ThrowPythonException(std::string(drawing) + " is not a drawing.");
-			return GetPyNone();
-		}
-		dwg->drawCircle(mcenter, radius, mcolor, segments, thickness, mfill, tag);
-
-		return GetPyNone();
-	}
-
-	PyObject* draw_polyline(PyObject* self, PyObject* args, PyObject* kwargs)
-	{
-		const char* drawing;
-		PyObject* points;
-		PyObject* color;
-		int closed = false;
-		float thickness = 1.0f;
-		const char* tag = "";
-
-		if (!(*mvApp::GetApp()->getParsers())["draw_polyline"].parse(args, kwargs, __FUNCTION__, &drawing, &points, &color, &closed, &thickness, &tag))
-			return GetPyNone();
-
-		auto mpoints = ToVectVec2(points);
-		mvColor mcolor = ToColor(color);
-
-		auto item = mvApp::GetApp()->getItem(drawing);
-
-		if (item == nullptr)
-		{
-			std::string message = drawing;
-			ThrowPythonException(message + " drawing does not exist.");
-			return GetPyNone();
-		}
-
-		mvDrawing* dwg;
-		if (item->getType() == mvAppItemType::Drawing)
-			dwg = static_cast<mvDrawing*>(item);
-		else
-		{
-			ThrowPythonException(std::string(drawing) + " is not a drawing.");
-			return GetPyNone();
-		}
-		dwg->drawPolyline(mpoints, mcolor, closed, thickness, tag);
-
-		return GetPyNone();
-	}
-
-	PyObject* draw_polygon(PyObject* self, PyObject* args, PyObject* kwargs)
-	{
-		const char* drawing;
-		PyObject* points;
-		PyObject* color;
-		PyObject* fill = nullptr;
-		float thickness = 1.0f;
-		const char* tag = "";
-
-		if (!(*mvApp::GetApp()->getParsers())["draw_polygon"].parse(args, kwargs, __FUNCTION__, &drawing, &points, &color, &fill, &thickness, &tag))
-			return GetPyNone();
-
-		auto mpoints = ToVectVec2(points);
-		mvColor mcolor = ToColor(color);
-		mvColor mfill = ToColor(fill);
-
-		auto item = mvApp::GetApp()->getItem(drawing);
-
-		if (item == nullptr)
-		{
-			std::string message = drawing;
-			ThrowPythonException(message + " drawing does not exist.");
-			return GetPyNone();
-		}
-
-		mvDrawing* dwg;
-		if (item->getType() == mvAppItemType::Drawing)
-			dwg = static_cast<mvDrawing*>(item);
-		else
-		{
-			ThrowPythonException(std::string(drawing) + " is not a drawing.");
-			return GetPyNone();
-		}
-		dwg->drawPolygon(mpoints, mcolor, mfill, thickness, tag);
-
-		return GetPyNone();
-	}
-
-	PyObject* draw_bezier_curve(PyObject* self, PyObject* args, PyObject* kwargs)
-	{
-		const char* drawing;
-		float thickness = 1.0f;
-		PyObject* p1, * p2, * p3, * p4;
-		PyObject* color;
-		int segments = 0;
-		const char* tag = "";
-
-		if (!(*mvApp::GetApp()->getParsers())["draw_bezier_curve"].parse(args, kwargs, __FUNCTION__, &drawing, &p1, &p2, &p3, &p4, &color, &thickness, &segments, &tag))
-			return GetPyNone();
-
-		mvVec2 mp1 = ToVec2(p1);
-		mvVec2 mp2 = ToVec2(p2);
-		mvVec2 mp3 = ToVec2(p3);
-		mvVec2 mp4 = ToVec2(p4);
-		mvColor mcolor = ToColor(color);
-
-		auto item = mvApp::GetApp()->getItem(drawing);
-
-		if (item == nullptr)
-		{
-			std::string message = drawing;
-			ThrowPythonException(message + " drawing does not exist.");
-			return GetPyNone();
-		}
-
-		mvDrawing* dwg;
-		if (item->getType() == mvAppItemType::Drawing)
-			dwg = static_cast<mvDrawing*>(item);
-		else
-		{
-			ThrowPythonException(std::string(drawing) + " is not a drawing.");
-			return GetPyNone();
-		}
-		dwg->drawBezierCurve(mp1, mp2, mp3, mp4, mcolor, thickness, segments, tag);
-
-		return GetPyNone();
-	}
-
-	PyObject* clear_drawing(PyObject* self, PyObject* args, PyObject* kwargs)
-	{
-		const char* drawing;
-
-		if (!(*mvApp::GetApp()->getParsers())["clear_drawing"].parse(args, kwargs, __FUNCTION__, &drawing))
-			return GetPyNone();
-
-		auto item = mvApp::GetApp()->getItem(drawing);
-
-		if (item == nullptr)
-		{
-			std::string message = drawing;
-			ThrowPythonException(message + " drawing does not exist.");
-			return GetPyNone();
-		}
-
-		mvDrawing* dwg;
-		if (item->getType() == mvAppItemType::Drawing)
-			dwg = static_cast<mvDrawing*>(item);
-		else
-		{
-			ThrowPythonException(std::string(drawing) + " is not a drawing.");
-			return GetPyNone();
-		}
-		dwg->clear();
-
-		return GetPyNone();
-	}
-
-	PyObject* clear_plot(PyObject* self, PyObject* args, PyObject* kwargs)
-	{
-		const char* plot;
-
-		if (!(*mvApp::GetApp()->getParsers())["clear_plot"].parse(args, kwargs, __FUNCTION__, &plot))
-			return GetPyNone();
-
-		mvAppItem* aplot = mvApp::GetApp()->getItem(plot);
-		if (aplot == nullptr)
-		{
-			std::string message = plot;
-			ThrowPythonException(message + " plot does not exist.");
-			return GetPyNone();
-		}
-
-		if (aplot->getType() != mvAppItemType::Plot)
-		{
-			std::string message = plot;
-			ThrowPythonException(message + " is not a plot.");
-			return GetPyNone();
-		}
-
-		mvPlot* graph = static_cast<mvPlot*>(aplot);
-
-		graph->clear();
-
-		return GetPyNone();
-	}
-
-	PyObject* reset_xticks(PyObject* self, PyObject* args, PyObject* kwargs)
-	{
-		const char* plot;
-
-		if (!(*mvApp::GetApp()->getParsers())["reset_xticks"].parse(args, kwargs, __FUNCTION__, &plot))
-			return GetPyNone();
-
-		mvAppItem* aplot = mvApp::GetApp()->getItem(plot);
-		if (aplot == nullptr)
-		{
-			std::string message = plot;
-			ThrowPythonException(message + " plot does not exist.");
-			return GetPyNone();
-		}
-
-		if (aplot->getType() != mvAppItemType::Plot)
-		{
-			std::string message = plot;
-			ThrowPythonException(message + " is not a plot.");
-			return GetPyNone();
-		}
-
-		mvPlot* graph = static_cast<mvPlot*>(aplot);
-
-		graph->resetXTicks();
-
-		return GetPyNone();
-	}
-
-	PyObject* reset_yticks(PyObject* self, PyObject* args, PyObject* kwargs)
-	{
-		const char* plot;
-
-		if (!(*mvApp::GetApp()->getParsers())["reset_yticks"].parse(args, kwargs, __FUNCTION__, &plot))
-			return GetPyNone();
-
-		mvAppItem* aplot = mvApp::GetApp()->getItem(plot);
-		if (aplot == nullptr)
-		{
-			std::string message = plot;
-			ThrowPythonException(message + " plot does not exist.");
-			return GetPyNone();
-		}
-
-		if (aplot->getType() != mvAppItemType::Plot)
-		{
-			std::string message = plot;
-			ThrowPythonException(message + " is not a plot.");
-			return GetPyNone();
-		}
-
-		mvPlot* graph = static_cast<mvPlot*>(aplot);
-
-		graph->resetXTicks();
-
-		return GetPyNone();
-	}
-
-	PyObject* set_xticks(PyObject* self, PyObject* args, PyObject* kwargs)
-	{
-		const char* plot;
-		PyObject* label_pairs;
-
-		if (!(*mvApp::GetApp()->getParsers())["set_xticks"].parse(args, kwargs, __FUNCTION__, &plot, &label_pairs))
-			return GetPyNone();
-
-		mvAppItem* aplot = mvApp::GetApp()->getItem(plot);
-		if (aplot == nullptr)
-		{
-			std::string message = plot;
-			ThrowPythonException(message + " plot does not exist.");
-			return GetPyNone();
-		}
-
-		if (aplot->getType() != mvAppItemType::Plot)
-		{
-			std::string message = plot;
-			ThrowPythonException(message + " is not a plot.");
-			return GetPyNone();
-		}
-
-		mvPlot* graph = static_cast<mvPlot*>(aplot);
-
-		auto mlabel_pairs = ToVectPairStringFloat(label_pairs);
-
-		std::vector<std::string> labels;
-		std::vector<double> locations;
-
-		for (const auto& item : mlabel_pairs)
-		{
-			labels.emplace_back(item.first.c_str());
-			locations.emplace_back((double)item.second);
-		}
-
-		graph->setXTicks(labels, locations);
-
-		return GetPyNone();
-	}
-
-	PyObject* set_yticks(PyObject* self, PyObject* args, PyObject* kwargs)
-	{
-		const char* plot;
-		PyObject* label_pairs;
-
-		if (!(*mvApp::GetApp()->getParsers())["set_yticks"].parse(args, kwargs, __FUNCTION__, &plot, &label_pairs))
-			return GetPyNone();
-
-		mvAppItem* aplot = mvApp::GetApp()->getItem(plot);
-		if (aplot == nullptr)
-		{
-			std::string message = plot;
-			ThrowPythonException(message + " plot does not exist.");
-			return GetPyNone();
-		}
-
-		if (aplot->getType() != mvAppItemType::Plot)
-		{
-			std::string message = plot;
-			ThrowPythonException(message + " is not a plot.");
-			return GetPyNone();
-		}
-
-		mvPlot* graph = static_cast<mvPlot*>(aplot);
-
-		auto mlabel_pairs = ToVectPairStringFloat(label_pairs);
-
-		std::vector<std::string> labels;
-		std::vector<double> locations;
-
-		for (const auto& item : mlabel_pairs)
-		{
-			labels.emplace_back(item.first.c_str());
-			locations.emplace_back((double)item.second);
-		}
-
-		graph->setYTicks(labels, locations);
-
-		return GetPyNone();
-	}
-
-	PyObject* set_plot_xlimits_auto(PyObject* self, PyObject* args, PyObject* kwargs)
-	{
-		const char* plot;
-
-		if (!(*mvApp::GetApp()->getParsers())["set_plot_xlimits_auto"].parse(args, kwargs, __FUNCTION__, &plot))
-			return GetPyNone();
-
-		mvAppItem* aplot = mvApp::GetApp()->getItem(plot);
-		if (aplot == nullptr)
-		{
-			std::string message = plot;
-			ThrowPythonException(message + " plot does not exist.");
-			return GetPyNone();
-		}
-
-		if (aplot->getType() != mvAppItemType::Plot)
-		{
-			std::string message = plot;
-			ThrowPythonException(message + " is not a plot.");
-			return GetPyNone();
-		}
-		mvPlot* graph = static_cast<mvPlot*>(aplot);
-
-		graph->setXLimitsAuto();
-
-		return GetPyNone();
-	}
-
-	PyObject* set_plot_ylimits_auto(PyObject* self, PyObject* args, PyObject* kwargs)
-	{
-		const char* plot;
-
-		if (!(*mvApp::GetApp()->getParsers())["set_plot_ylimits_auto"].parse(args, kwargs, __FUNCTION__, &plot))
-			return GetPyNone();
-
-		mvAppItem* aplot = mvApp::GetApp()->getItem(plot);
-		if (aplot == nullptr)
-		{
-			std::string message = plot;
-			ThrowPythonException(message + " plot does not exist.");
-			return GetPyNone();
-		}
-
-		if (aplot->getType() != mvAppItemType::Plot)
-		{
-			std::string message = plot;
-			ThrowPythonException(message + " is not a plot.");
-			return GetPyNone();
-		}
-
-		mvPlot* graph = static_cast<mvPlot*>(aplot);
-
-		graph->setYLimitsAuto();
-
-		return GetPyNone();
-	}
-
-	PyObject* set_plot_xlimits(PyObject* self, PyObject* args, PyObject* kwargs)
-	{
-		const char* plot;
-		float xmin;
-		float xmax;
-
-		if (!(*mvApp::GetApp()->getParsers())["set_plot_xlimits"].parse(args, kwargs, __FUNCTION__, &plot, &xmin, &xmax))
-			return GetPyNone();
-
-		mvAppItem* aplot = mvApp::GetApp()->getItem(plot);
-		if (aplot == nullptr)
-		{
-			std::string message = plot;
-			ThrowPythonException(message + " plot does not exist.");
-			return GetPyNone();
-		}
-
-		if (aplot->getType() != mvAppItemType::Plot)
-		{
-			std::string message = plot;
-			ThrowPythonException(message + " is not a plot.");
-			return GetPyNone();
-		}
-
-		mvPlot* graph = static_cast<mvPlot*>(aplot);
-
-		graph->setXLimits(xmin, xmax);
-
-		return GetPyNone();
-	}
-
-	PyObject* set_plot_ylimits(PyObject* self, PyObject* args, PyObject* kwargs)
-	{
-		const char* plot;
-		float ymin;
-		float ymax;
-
-		if (!(*mvApp::GetApp()->getParsers())["set_plot_ylimits"].parse(args, kwargs, __FUNCTION__, &plot, &ymin, &ymax))
-			return GetPyNone();
-
-		mvAppItem* aplot = mvApp::GetApp()->getItem(plot);
-		if (aplot == nullptr)
-		{
-			std::string message = plot;
-			ThrowPythonException(message + " plot does not exist.");
-			return GetPyNone();
-		}
-
-		if (aplot->getType() != mvAppItemType::Plot)
-		{
-			std::string message = plot;
-			ThrowPythonException(message + " is not a plot.");
-			return GetPyNone();
-		}
-		mvPlot* graph = static_cast<mvPlot*>(aplot);
-
-		graph->setYLimits(ymin, ymax);
-
-		return GetPyNone();
-	}
-
-	PyObject* is_plot_queried(PyObject* self, PyObject* args, PyObject* kwargs)
-	{
-		const char* plot;
-
-		if (!(*mvApp::GetApp()->getParsers())["is_plot_queried"].parse(args, kwargs, __FUNCTION__, &plot))
-			return GetPyNone();
-
-		mvAppItem* aplot = mvApp::GetApp()->getItem(plot);
-		if (aplot == nullptr)
-		{
-			std::string message = plot;
-			ThrowPythonException(message + " plot does not exist.");
-			return GetPyNone();
-		}
-
-		if (aplot->getType() != mvAppItemType::Plot)
-		{
-			std::string message = plot;
-			ThrowPythonException(message + " is not a plot.");
-			return GetPyNone();
-		}
-		mvPlot* graph = static_cast<mvPlot*>(aplot);
-
-		return Py_BuildValue("b", graph->isPlotQueried());
-	}
-
-	PyObject* get_plot_query_area(PyObject* self, PyObject* args, PyObject* kwargs)
-	{
-		const char* plot;
-
-		if (!(*mvApp::GetApp()->getParsers())["get_plot_query_area"].parse(args, kwargs, __FUNCTION__, &plot))
-			return GetPyNone();
-
-		mvAppItem* aplot = mvApp::GetApp()->getItem(plot);
-		if (aplot == nullptr)
-		{
-			std::string message = plot;
-			ThrowPythonException(message + " plot does not exist.");
-			return GetPyNone();
-		}
-
-		if (aplot->getType() != mvAppItemType::Plot)
-		{
-			std::string message = plot;
-			ThrowPythonException(message + " is not a plot.");
-			return GetPyNone();
-		}
-		mvPlot* graph = static_cast<mvPlot*>(aplot);
-
-		auto area = graph->getPlotQueryArea();
-
-		return Py_BuildValue("(ffff)", area[0], area[1], area[2], area[3]);
-	}
-
-	PyObject* set_color_map(PyObject* self, PyObject* args, PyObject* kwargs)
-	{
-		const char* plot;
-		int map;
-
-		if (!(*mvApp::GetApp()->getParsers())["set_color_map"].parse(args, kwargs, __FUNCTION__, &plot, &map))
-			return GetPyNone();
-
-		mvAppItem* aplot = mvApp::GetApp()->getItem(plot);
-		if (aplot == nullptr)
-		{
-			std::string message = plot;
-			ThrowPythonException(message + " plot does not exist.");
-			return GetPyNone();
-		}
-
-		if (aplot->getType() != mvAppItemType::Plot)
-		{
-			std::string message = plot;
-			ThrowPythonException(message + " is not a plot.");
-			return GetPyNone();
-		}
-
-		mvPlot* graph = static_cast<mvPlot*>(aplot);
-
-		graph->SetColorMap(map);
-
-		return GetPyNone();
-	}
-
-	PyObject* add_plot(PyObject* self, PyObject* args, PyObject* kwargs)
-	{
-		const char* name;
-		const char* xAxisName = "";
-		const char* yAxisName = "";
-		int flags = 0;
-		int xflags = 0;
-		int yflags = 0;
-		const char* parent = "";
-		const char* before = "";
-		int width = -1;
-		int height = -1;
-		PyObject* query_callback = nullptr;
-
-		if (!(*mvApp::GetApp()->getParsers())["add_plot"].parse(args, kwargs, __FUNCTION__, &name, &xAxisName, &yAxisName, &flags,
-			&xflags, &yflags, &parent, &before, &width, &height, &query_callback))
-			return ToPyBool(false);
-
-		mvAppItem* item = new mvPlot("", name, xAxisName, yAxisName, flags, xflags, yflags, query_callback);
-		item->setWidth(width);
-		item->setHeight(height);
-
-		return ToPyBool(AddItemWithRuntimeChecks(item, parent, before));
-	}
-
-	PyObject* add_pie_chart(PyObject* self, PyObject* args, PyObject* kwargs)
-	{
-		const char* name;
-		int normalize = false;
-		const char* format = "%.1f";
-		const char* parent = "";
-		const char* before = "";
-		int width = -1;
-		int height = -1;
-		PyObject* query_callback = nullptr;
-
-		if (!(*mvApp::GetApp()->getParsers())["add_pie_chart"].parse(args, kwargs, __FUNCTION__, &name,
-			&normalize, &format, &parent, &before, &width, &height))
-			return ToPyBool(false);
-
-		mvAppItem* item = new mvPieChart("", name, normalize, format);
-		item->setWidth(width);
-		item->setHeight(height);
-
-		return ToPyBool(AddItemWithRuntimeChecks(item, parent, before));
-	}
-
-	PyObject* add_pie_chart_data(PyObject* self, PyObject* args, PyObject* kwargs)
-	{
-		const char* plot;
-		PyObject* data;
-
-		if (!(*mvApp::GetApp()->getParsers())["add_pie_chart_data"].parse(args, kwargs, __FUNCTION__,
-			&plot, &data))
-			return GetPyNone();
-
-		mvAppItem* aplot = mvApp::GetApp()->getItem(plot);
-		if (aplot == nullptr)
-		{
-			std::string message = plot;
-			ThrowPythonException(message + " pie chart does not exist.");
-			return GetPyNone();
-		}
-
-		if (aplot->getType() != mvAppItemType::PieChart)
-		{
-			std::string message = plot;
-			ThrowPythonException(message + " is not a pie chart.");
-			return GetPyNone();
-		}
-
-		mvPieChart* graph = static_cast<mvPieChart*>(aplot);
-
-		auto mlabel_pairs = ToVectPairStringFloat(data);
-
-		graph->addData(mlabel_pairs);
-
-		return GetPyNone();
-	}
-
-	PyObject* clear_pie_chart_data(PyObject* self, PyObject* args, PyObject* kwargs)
-	{
-		const char* plot;
-
-		if (!(*mvApp::GetApp()->getParsers())["clear_pie_chart_data"].parse(args, kwargs, __FUNCTION__,
-			&plot))
-			return GetPyNone();
-
-		mvAppItem* aplot = mvApp::GetApp()->getItem(plot);
-
-		if (aplot == nullptr)
-		{
-			std::string message = plot;
-			ThrowPythonException(message + " pie chart does not exist.");
-			return GetPyNone();
-		}
-
-		if (aplot->getType() != mvAppItemType::PieChart)
-		{
-			std::string message = plot;
-			ThrowPythonException(message + " is not a pie chart.");
-			return GetPyNone();
-		}
-
-		mvPieChart* graph = static_cast<mvPieChart*>(aplot);
-		graph->clearData();
-		return GetPyNone();
-	}
-
-	PyObject* delete_series(PyObject* self, PyObject* args, PyObject* kwargs)
-	{
-		const char* plot;
-		const char* series;
-
-		if (!(*mvApp::GetApp()->getParsers())["delete_series"].parse(args, kwargs, __FUNCTION__, &plot, &series))
-			return GetPyNone();
-
-		mvAppItem* aplot = mvApp::GetApp()->getItem(plot);
-
-		if (aplot == nullptr)
-		{
-			std::string message = plot;
-			ThrowPythonException(message + " plot does not exist.");
-			return GetPyNone();
-		}
-
-		if (aplot->getType() != mvAppItemType::Plot)
-		{
-			std::string message = plot;
-			ThrowPythonException(message + " is not a plot.");
-			return GetPyNone();
-		}
-
-		mvPlot* graph = static_cast<mvPlot*>(aplot);
-		graph->deleteSeries(series);
-		return GetPyNone();
-	}
-
-	PyObject* add_line_series(PyObject* self, PyObject* args, PyObject* kwargs)
-	{
-		const char* plot;
-		const char* name;
-		PyObject* data;
-		float weight = 1.0f;
-		PyObject* color = PyTuple_New(4);
-		PyTuple_SetItem(color, 0, PyLong_FromLong(1000));
-		PyTuple_SetItem(color, 1, PyLong_FromLong(0));
-		PyTuple_SetItem(color, 2, PyLong_FromLong(0));
-		PyTuple_SetItem(color, 3, PyLong_FromLong(255));
-
-		PyObject* fill = PyTuple_New(4);
-		PyTuple_SetItem(fill, 0, PyLong_FromLong(1000));
-		PyTuple_SetItem(fill, 1, PyLong_FromLong(0));
-		PyTuple_SetItem(fill, 2, PyLong_FromLong(0));
-		PyTuple_SetItem(fill, 3, PyLong_FromLong(255));
-
-		if (!(*mvApp::GetApp()->getParsers())["add_line_series"].parse(args, kwargs, __FUNCTION__, &plot, &name, &data, &color, &fill, &weight))
-			return GetPyNone();
-
-		if (!PyList_Check(data))
-		{
-			std::string message = plot;
-			ThrowPythonException(message + " add line series requires a list of lists.");
-			return GetPyNone();
-		}
-
-		mvAppItem* aplot = mvApp::GetApp()->getItem(plot);
-
-		if (aplot == nullptr)
-		{
-			std::string message = plot;
-			ThrowPythonException(message + " plot does not exist.");
-			return GetPyNone();
-		}
-
-		if (aplot->getType() != mvAppItemType::Plot)
-		{
-			std::string message = plot;
-			ThrowPythonException(message + " is not a plot.");
-			return GetPyNone();
-		}
-
-		mvPlot* graph = static_cast<mvPlot*>(aplot);
-
-		auto datapoints = ToVectVec2(data);
-
-		auto mcolor = ToColor(color);
-		if (mcolor.r > 999)
-			mcolor.specified = false;
-
-		auto mfill = ToColor(fill);
-		if (mfill.r > 999)
-			mfill.specified = false;
-
-		graph->updateSeries(new mvLineSeries(name, datapoints, weight, mcolor, mfill));
-
-		return GetPyNone();
-	}
-
-	PyObject* add_scatter_series(PyObject* self, PyObject* args, PyObject* kwargs)
-	{
-		const char* plot;
-		const char* name;
-		PyObject* data;
-		int marker = 2;
-		float size = 4.0f;
-		float weight = 1.0f;
-		PyObject* outline = PyTuple_New(4);
-		PyTuple_SetItem(outline, 0, PyLong_FromLong(1000));
-		PyTuple_SetItem(outline, 1, PyLong_FromLong(0));
-		PyTuple_SetItem(outline, 2, PyLong_FromLong(0));
-		PyTuple_SetItem(outline, 3, PyLong_FromLong(255));
-		PyObject* fill = PyTuple_New(4);
-		PyTuple_SetItem(fill, 0, PyLong_FromLong(1000));
-		PyTuple_SetItem(fill, 1, PyLong_FromLong(0));
-		PyTuple_SetItem(fill, 2, PyLong_FromLong(0));
-		PyTuple_SetItem(fill, 3, PyLong_FromLong(255));
-
-		if (!(*mvApp::GetApp()->getParsers())["add_scatter_series"].parse(args, kwargs, __FUNCTION__, &plot, &name, &data, &marker,
-			&size, &weight, &outline, &fill))
-			return GetPyNone();
-
-		if (!PyList_Check(data))
-		{
-			std::string message = plot;
-			ThrowPythonException(message + " add scatter series requires a list of lists.");
-			return GetPyNone();
-		}
-
-		mvAppItem* aplot = mvApp::GetApp()->getItem(plot);
-
-		if (aplot == nullptr)
-		{
-			std::string message = plot;
-			ThrowPythonException(message + " plot does not exist.");
-			return GetPyNone();
-		}
-
-		if (aplot->getType() != mvAppItemType::Plot)
-		{
-			std::string message = plot;
-			ThrowPythonException(message + " is not a plot.");
-			return GetPyNone();
-		}
-
-		mvPlot* graph = static_cast<mvPlot*>(aplot);
-
-		auto datapoints = ToVectVec2(data);
-
-		auto mmarkerOutlineColor = ToColor(outline);
-		if (mmarkerOutlineColor.r > 999)
-			mmarkerOutlineColor.specified = false;
-
-		auto mmarkerFillColor = ToColor(fill);
-		if (mmarkerFillColor.r > 999)
-			mmarkerFillColor.specified = false;
-
-		graph->updateSeries(new mvScatterSeries(name, datapoints, marker, size, weight, mmarkerOutlineColor,
-			mmarkerFillColor));
-
-		return GetPyNone();
-	}
-
-	PyObject* add_stem_series(PyObject* self, PyObject* args, PyObject* kwargs)
-	{
-		const char* plot;
-		const char* name;
-		PyObject* data;
-		int marker = 2;
-		float size = 4.0f;
-		float weight = 1.0f;
-		PyObject* outline = PyTuple_New(4);
-		PyTuple_SetItem(outline, 0, PyLong_FromLong(1000));
-		PyTuple_SetItem(outline, 1, PyLong_FromLong(0));
-		PyTuple_SetItem(outline, 2, PyLong_FromLong(0));
-		PyTuple_SetItem(outline, 3, PyLong_FromLong(255));
-		PyObject* fill = PyTuple_New(4);
-		PyTuple_SetItem(fill, 0, PyLong_FromLong(1000));
-		PyTuple_SetItem(fill, 1, PyLong_FromLong(0));
-		PyTuple_SetItem(fill, 2, PyLong_FromLong(0));
-		PyTuple_SetItem(fill, 3, PyLong_FromLong(255));
-
-		if (!(*mvApp::GetApp()->getParsers())["add_stem_series"].parse(args, kwargs, __FUNCTION__, &plot, &name, &data, &marker,
-			&size, &weight, &outline, &fill))
-			return GetPyNone();
-
-		if (!PyList_Check(data))
-		{
-			std::string message = plot;
-			ThrowPythonException(message + " add stem series requires a list of lists.");
-			return GetPyNone();
-		}
-
-		mvAppItem* aplot = mvApp::GetApp()->getItem(plot);
-
-		if (aplot == nullptr)
-		{
-			std::string message = plot;
-			ThrowPythonException(message + " plot does not exist.");
-			return GetPyNone();
-		}
-
-		if (aplot->getType() != mvAppItemType::Plot)
-		{
-			std::string message = plot;
-			ThrowPythonException(message + " is not a plot.");
-			return GetPyNone();
-		}
-
-		mvPlot* graph = static_cast<mvPlot*>(aplot);
-
-		auto datapoints = ToVectVec2(data);
-
-		auto mmarkerOutlineColor = ToColor(outline);
-		if (mmarkerOutlineColor.r > 999)
-			mmarkerOutlineColor.specified = false;
-
-		auto mmarkerFillColor = ToColor(fill);
-		if (mmarkerFillColor.r > 999)
-			mmarkerFillColor.specified = false;
-
-		graph->updateSeries(new mvStemSeries(name, datapoints, marker, size, weight, mmarkerOutlineColor,
-			mmarkerFillColor));
-
-		return GetPyNone();
-	}
-
-	PyObject* add_text_point(PyObject* self, PyObject* args, PyObject* kwargs)
-	{
-		const char* plot;
-		const char* name;
-		float x;
-		float y;
-		int vertical = false;
-		int xoffset = 0;
-		int yoffset = 0;
-
-		if (!(*mvApp::GetApp()->getParsers())["add_text_point"].parse(args, kwargs, __FUNCTION__,
-			&plot, &name, &x, &y, &vertical, &xoffset, &yoffset))
-			return GetPyNone();
-
-		mvAppItem* aplot = mvApp::GetApp()->getItem(plot);
-		if (aplot == nullptr)
-		{
-			std::string message = plot;
-			ThrowPythonException(message + " plot does not exist.");
-			return GetPyNone();
-		}
-
-		if (aplot->getType() != mvAppItemType::Plot)
-		{
-			std::string message = plot;
-			ThrowPythonException(message + " is not a plot.");
-			return GetPyNone();
-		}
-
-		mvPlot* graph = static_cast<mvPlot*>(aplot);
-
-		graph->updateSeries(new mvLabelSeries(name, { {(float)x, (float)y} }, xoffset, yoffset, vertical));
-
-		return GetPyNone();
-	}
-
-	PyObject* add_area_series(PyObject* self, PyObject* args, PyObject* kwargs)
-	{
-		const char* plot;
-		const char* name;
-		PyObject* data;
-		PyObject* color;
-		PyObject* fill;
-		float weight = 1.0f;
-
-		if (!(*mvApp::GetApp()->getParsers())["add_area_series"].parse(args, kwargs, __FUNCTION__, &plot, &name, &data, &color, &fill, &weight))
-			return GetPyNone();
-
-		if (!PyList_Check(data))
-		{
-			std::string message = plot;
-			ThrowPythonException(message + " add area series requires a list of lists.");
-			return GetPyNone();
-		}
-
-		mvAppItem* aplot = mvApp::GetApp()->getItem(plot);
-
-		if (aplot == nullptr)
-		{
-			std::string message = plot;
-			ThrowPythonException(message + " plot does not exist.");
-			return GetPyNone();
-		}
-
-		if (aplot->getType() != mvAppItemType::Plot)
-		{
-			std::string message = plot;
-			ThrowPythonException(message + " is not a plot.");
-			return GetPyNone();
-		}
-
-		mvPlot* graph = static_cast<mvPlot*>(aplot);
-
-		auto datapoints = ToVectVec2(data);
-
-		auto mcolor = ToColor(color);
-		if (mcolor.r > 999)
-			mcolor.specified = false;
-
-		auto mfill = ToColor(fill);
-		if (mfill.r > 999)
-			mfill.specified = false;
-
-		graph->deleteSeries(name);
-		graph->addSeries(new mvAreaSeries(name, datapoints, weight, mcolor, mfill));
-		graph->addSeries(new mvLineSeries(name, datapoints, weight, mcolor, { 0,0,0,0,false })); // this allows our custom render to work
-
-		return GetPyNone();
-	}
-
 	PyObject* show_logger(PyObject* self, PyObject* args)
 	{
 		mvAppLog::Show();
@@ -3048,7 +1538,7 @@ namespace Marvel {
 			&before))
 			return ToPyBool(false);
 
-		mvAppItem* item = new mvTable("", name, ToStringVect(headers));
+		mvAppItem* item = new mvTable(name, ToStringVect(headers));
 		if (callback)
 			Py_XINCREF(callback);
 		item->setCallback(callback);
@@ -3094,7 +1584,7 @@ namespace Marvel {
 			}
 		}
 
-		mvAppItem* item = new mvSimplePlot("", name, values, overlay, minscale, maxscale, height, histogram);
+		mvAppItem* item = new mvSimplePlot(name, values, overlay, minscale, maxscale, height, histogram);
 		item->setTip(tip);
 		item->setWidth(width);
 		item->setHeight(height);
@@ -3119,7 +1609,7 @@ namespace Marvel {
 			&overlay, &tip, &parent, &before, &data_source, &width, &height))
 			return ToPyBool(false);
 
-		mvAppItem* item = new mvProgressBar("", name, default_value, overlay);
+		mvAppItem* item = new mvProgressBar(name, default_value, overlay);
 		item->setTip(tip);
 		item->setWidth(width);
 		item->setHeight(height);
@@ -3166,7 +1656,7 @@ namespace Marvel {
 		mvVec2 muv_min = ToVec2(uv_min);
 		mvVec2 muv_max = ToVec2(uv_max);
 
-		mvAppItem* item = new mvImage("", name, value, mtintcolor, mbordercolor, muv_min, muv_max,
+		mvAppItem* item = new mvImage(name, value, mtintcolor, mbordercolor, muv_min, muv_max,
 			secondary_data_source);
 		item->setTip(tip);
 		item->setWidth(width);
@@ -3215,7 +1705,7 @@ namespace Marvel {
 		mvVec2 muv_min = ToVec2(uv_min);
 		mvVec2 muv_max = ToVec2(uv_max);
 
-		mvAppItem* item = new mvImageButton("", name, value, mtintcolor, 
+		mvAppItem* item = new mvImageButton(name, value, mtintcolor, 
 			mbackgroundColor, muv_min, muv_max,
 			frame_padding);
 		if (callback)
@@ -3262,7 +1752,7 @@ namespace Marvel {
 		if (on_enter)
 			flags = ImGuiInputTextFlags_EnterReturnsTrue;
 
-		mvAppItem* item = new mvDragFloat<mvAppItemType::DragFloat, 1, ImGui::DragFloat>("", name, defaults.data(), speed, min_value, max_value, format, flags);
+		mvAppItem* item = new mvDragFloat<mvAppItemType::DragFloat, 1, ImGui::DragFloat>(name, defaults.data(), speed, min_value, max_value, format, flags);
 		if (callback)
 			Py_XINCREF(callback);
 		item->setCallback(callback);
@@ -3306,7 +1796,7 @@ namespace Marvel {
 			flags = ImGuiInputTextFlags_EnterReturnsTrue;
 
 		auto vec = ToFloatVect(default_value);
-		mvAppItem* item = new mvDragFloat<mvAppItemType::DragFloat2, 2, ImGui::DragFloat2>("", name, vec.data(), speed, min_value, max_value, format, flags);
+		mvAppItem* item = new mvDragFloat<mvAppItemType::DragFloat2, 2, ImGui::DragFloat2>(name, vec.data(), speed, min_value, max_value, format, flags);
 		if (callback)
 			Py_XINCREF(callback);
 		item->setCallback(callback);
@@ -3349,7 +1839,7 @@ namespace Marvel {
 			flags = ImGuiInputTextFlags_EnterReturnsTrue;
 
 		auto vec = ToFloatVect(default_value);
-		mvAppItem* item = new mvDragFloat<mvAppItemType::DragFloat3, 3, ImGui::DragFloat3>("", name, vec.data(), speed, min_value, max_value, format, flags);
+		mvAppItem* item = new mvDragFloat<mvAppItemType::DragFloat3, 3, ImGui::DragFloat3>(name, vec.data(), speed, min_value, max_value, format, flags);
 		if (callback)
 			Py_XINCREF(callback);
 		item->setCallback(callback);
@@ -3393,7 +1883,7 @@ namespace Marvel {
 
 		auto vec = ToFloatVect(default_value);
 
-		mvAppItem* item = new mvDragFloat<mvAppItemType::DragFloat4, 4, ImGui::DragFloat4>("", name, vec.data(), speed, min_value, max_value, format, flags);
+		mvAppItem* item = new mvDragFloat<mvAppItemType::DragFloat4, 4, ImGui::DragFloat4>(name, vec.data(), speed, min_value, max_value, format, flags);
 		if (callback)
 			Py_XINCREF(callback);
 		item->setCallback(callback);
@@ -3437,7 +1927,7 @@ namespace Marvel {
 		defaults.push_back(0.0f);
 		defaults.push_back(0.0f);
 
-		mvAppItem* item = new mvDragInt<mvAppItemType::DragInt, 1, ImGui::DragInt>("", name, defaults.data(), speed, min_value, max_value, format, flags);
+		mvAppItem* item = new mvDragInt<mvAppItemType::DragInt, 1, ImGui::DragInt>(name, defaults.data(), speed, min_value, max_value, format, flags);
 		if (callback)
 			Py_XINCREF(callback);
 		item->setCallback(callback);
@@ -3480,7 +1970,7 @@ namespace Marvel {
 			flags = ImGuiInputTextFlags_EnterReturnsTrue;
 
 		auto vec = ToIntVect(default_value);
-		mvAppItem* item = new mvDragInt<mvAppItemType::DragInt2, 2, ImGui::DragInt2>("", name, vec.data(), speed, min_value, max_value, format, flags);
+		mvAppItem* item = new mvDragInt<mvAppItemType::DragInt2, 2, ImGui::DragInt2>(name, vec.data(), speed, min_value, max_value, format, flags);
 		if (callback)
 			Py_XINCREF(callback);
 		item->setCallback(callback);
@@ -3523,7 +2013,7 @@ namespace Marvel {
 			flags = ImGuiInputTextFlags_EnterReturnsTrue;
 
 		auto vec = ToIntVect(default_value);
-		mvAppItem* item = new mvDragInt<mvAppItemType::DragInt3, 3, ImGui::DragInt3>("", name, vec.data(), speed, min_value, max_value, format, flags);
+		mvAppItem* item = new mvDragInt<mvAppItemType::DragInt3, 3, ImGui::DragInt3>(name, vec.data(), speed, min_value, max_value, format, flags);
 		if (callback)
 			Py_XINCREF(callback);
 		item->setCallback(callback);
@@ -3566,7 +2056,7 @@ namespace Marvel {
 			flags = ImGuiInputTextFlags_EnterReturnsTrue;
 
 		auto vec = ToIntVect(default_value);
-		mvAppItem* item = new mvDragInt<mvAppItemType::DragInt4, 4, ImGui::DragInt4>("", name, vec.data(), speed, min_value, max_value, format, flags);
+		mvAppItem* item = new mvDragInt<mvAppItemType::DragInt4, 4, ImGui::DragInt4>(name, vec.data(), speed, min_value, max_value, format, flags);
 		if (callback)
 			Py_XINCREF(callback);
 		item->setCallback(callback);
@@ -3606,7 +2096,7 @@ namespace Marvel {
 		if (on_enter)
 			flags = ImGuiInputTextFlags_EnterReturnsTrue;
 
-		mvAppItem* item = new mvSliderFloat("", name, default_value, min_value, max_value, format, vertical, flags);
+		mvAppItem* item = new mvSliderFloat(name, default_value, min_value, max_value, format, vertical, flags);
 		if (callback)
 			Py_XINCREF(callback);
 		item->setCallback(callback);
@@ -3650,7 +2140,7 @@ namespace Marvel {
 
 		auto vec = ToFloatVect(default_value);
 
-		mvAppItem* item = new mvSliderFloatMulti<mvAppItemType::SliderFloat2, 2, ImGui::SliderFloat2, float>("", name, vec.data(), min_value, max_value, format, flags);
+		mvAppItem* item = new mvSliderFloatMulti<mvAppItemType::SliderFloat2, 2, ImGui::SliderFloat2, float>(name, vec.data(), min_value, max_value, format, flags);
 		if (callback)
 			Py_XINCREF(callback);
 		item->setCallback(callback);
@@ -3693,7 +2183,7 @@ namespace Marvel {
 
 		auto vec = ToFloatVect(default_value);
 
-		mvAppItem* item = new mvSliderFloatMulti<mvAppItemType::SliderFloat3, 3, ImGui::SliderFloat3, float>("", name, vec.data(), min_value, max_value, format, flags);
+		mvAppItem* item = new mvSliderFloatMulti<mvAppItemType::SliderFloat3, 3, ImGui::SliderFloat3, float>(name, vec.data(), min_value, max_value, format, flags);
 		if (callback)
 			Py_XINCREF(callback);
 		item->setCallback(callback);
@@ -3736,7 +2226,7 @@ namespace Marvel {
 			flags = ImGuiInputTextFlags_EnterReturnsTrue;
 
 		auto vec = ToFloatVect(default_value);
-		mvAppItem* item = new mvSliderFloatMulti<mvAppItemType::SliderFloat4, 4, ImGui::SliderFloat4, float>("", name, vec.data(), min_value, max_value, format, flags);
+		mvAppItem* item = new mvSliderFloatMulti<mvAppItemType::SliderFloat4, 4, ImGui::SliderFloat4, float>(name, vec.data(), min_value, max_value, format, flags);
 		if (callback)
 			Py_XINCREF(callback);
 		item->setCallback(callback);
@@ -3776,7 +2266,7 @@ namespace Marvel {
 		if (on_enter)
 			flags = ImGuiInputTextFlags_EnterReturnsTrue;
 
-		mvAppItem* item = new mvSliderInt("", name, default_value, min_value, max_value, format, vertical, flags);
+		mvAppItem* item = new mvSliderInt(name, default_value, min_value, max_value, format, vertical, flags);
 		if (callback)
 			Py_XINCREF(callback);
 		item->setCallback(callback);
@@ -3820,7 +2310,7 @@ namespace Marvel {
 			flags = ImGuiInputTextFlags_EnterReturnsTrue;
 
 		auto vec = ToIntVect(default_value);
-		mvAppItem* item = new mvSliderIntMulti<mvAppItemType::SliderInt2, 2, ImGui::SliderInt2, int>("", name, vec.data(), min_value, max_value, format, flags);
+		mvAppItem* item = new mvSliderIntMulti<mvAppItemType::SliderInt2, 2, ImGui::SliderInt2, int>(name, vec.data(), min_value, max_value, format, flags);
 		if (callback)
 			Py_XINCREF(callback);
 		item->setCallback(callback);
@@ -3863,7 +2353,7 @@ namespace Marvel {
 			flags = ImGuiInputTextFlags_EnterReturnsTrue;
 
 		auto vec = ToIntVect(default_value);
-		mvAppItem* item = new mvSliderIntMulti<mvAppItemType::SliderInt3, 3, ImGui::SliderInt3, int>("", name, vec.data(), min_value, max_value, format, flags);
+		mvAppItem* item = new mvSliderIntMulti<mvAppItemType::SliderInt3, 3, ImGui::SliderInt3, int>(name, vec.data(), min_value, max_value, format, flags);
 		if (callback)
 			Py_XINCREF(callback);
 		item->setCallback(callback);
@@ -3907,7 +2397,7 @@ namespace Marvel {
 			flags = ImGuiInputTextFlags_EnterReturnsTrue;
 
 		auto vec = ToIntVect(default_value);
-		mvAppItem* item = new mvSliderIntMulti<mvAppItemType::SliderInt4, 4, ImGui::SliderInt4, int>("", name, vec.data(), min_value, max_value, format, flags);
+		mvAppItem* item = new mvSliderIntMulti<mvAppItemType::SliderInt4, 4, ImGui::SliderInt4, int>(name, vec.data(), min_value, max_value, format, flags);
 		if (callback)
 			Py_XINCREF(callback);
 		item->setCallback(callback);
@@ -3944,7 +2434,7 @@ namespace Marvel {
 		if (mcolor.r > 500)
 			mcolor.specified = false;
 
-		mvAppItem* item = new mvText("", name, wrap, mcolor, bullet);
+		mvAppItem* item = new mvText(name, wrap, mcolor, bullet);
 		item->setTip(tip);
 		return ToPyBool(AddItemWithRuntimeChecks(item, parent, before));
 	}
@@ -3973,7 +2463,7 @@ namespace Marvel {
 		if (mcolor.r > 500)
 			mcolor.specified = false;
 
-		mvAppItem* item = new mvLabelText("", std::string(name), value, mcolor);
+		mvAppItem* item = new mvLabelText(std::string(name), value, mcolor);
 		item->setTip(tip);
 		item->setDataSource(data_source);
 		return ToPyBool(AddItemWithRuntimeChecks(item, parent, before));
@@ -3999,7 +2489,7 @@ namespace Marvel {
 			&height, &secondary_data_source))
 			return ToPyBool(false);
 
-		mvAppItem* item = new mvListbox("", name, ToStringVect(items),
+		mvAppItem* item = new mvListbox(name, ToStringVect(items),
 			default_value, height, secondary_data_source);
 		if (callback)
 			Py_XINCREF(callback);
@@ -4032,7 +2522,7 @@ namespace Marvel {
 			, &secondary_data_source))
 			return ToPyBool(false);
 
-		mvAppItem* item = new mvCombo("", name, ToStringVect(items), default_value, secondary_data_source);
+		mvAppItem* item = new mvCombo(name, ToStringVect(items), default_value, secondary_data_source);
 		if (callback)
 			Py_XINCREF(callback);
 		item->setCallback(callback);
@@ -4060,7 +2550,7 @@ namespace Marvel {
 			&default_value, &callback, &callback_data, &tip, &parent, &before, &data_source))
 			return ToPyBool(false);
 
-		mvAppItem* item = new mvSelectable("", name, default_value);
+		mvAppItem* item = new mvSelectable(name, default_value);
 		if (callback)
 			Py_XINCREF(callback);
 		item->setCallback(callback);
@@ -4090,7 +2580,7 @@ namespace Marvel {
 			&arrow, &direction, &callback, &callback_data, &tip, &parent, &before, &width, &height))
 			return ToPyBool(false);
 
-		mvAppItem* item = new mvButton("", name, smallb, arrow, direction);
+		mvAppItem* item = new mvButton(name, smallb, arrow, direction);
 		if (callback)
 			Py_XINCREF(callback);
 		item->setCallback(callback);
@@ -4138,7 +2628,7 @@ namespace Marvel {
 		if (password) flags |= ImGuiInputTextFlags_Password;
 		if (on_enter) flags |= ImGuiInputTextFlags_EnterReturnsTrue;
 
-		mvAppItem* item = new mvInputText("", name, default_value, hint, multiline, flags);
+		mvAppItem* item = new mvInputText(name, default_value, hint, multiline, flags);
 		if (callback)
 			Py_XINCREF(callback);
 		item->setCallback(callback);
@@ -4172,7 +2662,7 @@ namespace Marvel {
 		if (on_enter)
 			flags = ImGuiInputTextFlags_EnterReturnsTrue;
 
-		mvAppItem* item = new mvInputInt("", name, default_value, flags);
+		mvAppItem* item = new mvInputInt(name, default_value, flags);
 		if (callback)
 			Py_XINCREF(callback);
 		item->setCallback(callback);
@@ -4212,7 +2702,7 @@ namespace Marvel {
 
 		auto vec = ToIntVect(default_value);
 
-		mvAppItem* item = new mvInputIntMulti<mvAppItemType::InputInt2, 2, ImGui::InputInt2>("", name, vec.data(), flags);
+		mvAppItem* item = new mvInputIntMulti<mvAppItemType::InputInt2, 2, ImGui::InputInt2>(name, vec.data(), flags);
 		if (callback)
 			Py_XINCREF(callback);
 		item->setCallback(callback);
@@ -4252,7 +2742,7 @@ namespace Marvel {
 
 		auto vec = ToIntVect(default_value);
 
-		mvAppItem* item = new mvInputIntMulti<mvAppItemType::InputInt3, 3, ImGui::InputInt3>("", name, vec.data(), flags);
+		mvAppItem* item = new mvInputIntMulti<mvAppItemType::InputInt3, 3, ImGui::InputInt3>(name, vec.data(), flags);
 		if (callback)
 			Py_XINCREF(callback);
 		item->setCallback(callback);
@@ -4291,7 +2781,7 @@ namespace Marvel {
 			flags = ImGuiInputTextFlags_EnterReturnsTrue;
 
 		auto vec = ToIntVect(default_value);
-		mvAppItem* item = new mvInputIntMulti<mvAppItemType::InputInt4, 4, ImGui::InputInt4>("", name, vec.data(), flags);
+		mvAppItem* item = new mvInputIntMulti<mvAppItemType::InputInt4, 4, ImGui::InputInt4>(name, vec.data(), flags);
 		if (callback)
 			Py_XINCREF(callback);
 		item->setCallback(callback);
@@ -4326,7 +2816,7 @@ namespace Marvel {
 		if (on_enter)
 			flags = ImGuiInputTextFlags_EnterReturnsTrue;
 
-		mvAppItem* item = new mvInputFloat("", name, default_value, format, flags);
+		mvAppItem* item = new mvInputFloat(name, default_value, format, flags);
 		if (callback)
 			Py_XINCREF(callback);
 		item->setCallback(callback);
@@ -4364,7 +2854,7 @@ namespace Marvel {
 			flags = ImGuiInputTextFlags_EnterReturnsTrue;
 
 		auto vec = ToFloatVect(default_value);
-		mvAppItem* item = new mvInputFloatMulti<mvAppItemType::InputFloat2, 2, ImGui::InputFloat2>("", name, vec.data(), format, flags);
+		mvAppItem* item = new mvInputFloatMulti<mvAppItemType::InputFloat2, 2, ImGui::InputFloat2>(name, vec.data(), format, flags);
 		if (callback)
 			Py_XINCREF(callback);
 		item->setCallback(callback);
@@ -4404,7 +2894,7 @@ namespace Marvel {
 
 		auto vec = ToFloatVect(default_value);
 
-		mvAppItem* item = new mvInputFloatMulti<mvAppItemType::InputFloat3, 3, ImGui::InputFloat3>("", name, vec.data(), format, flags);
+		mvAppItem* item = new mvInputFloatMulti<mvAppItemType::InputFloat3, 3, ImGui::InputFloat3>(name, vec.data(), format, flags);
 		if (callback)
 			Py_XINCREF(callback);
 		item->setCallback(callback);
@@ -4445,7 +2935,7 @@ namespace Marvel {
 
 		auto vec = ToFloatVect(default_value);
 
-		mvAppItem* item = new mvInputFloatMulti<mvAppItemType::InputFloat4, 4, ImGui::InputFloat4>("", name, vec.data(), format, flags);
+		mvAppItem* item = new mvInputFloatMulti<mvAppItemType::InputFloat4, 4, ImGui::InputFloat4>(name, vec.data(), format, flags);
 		if (callback)
 			Py_XINCREF(callback);
 		item->setCallback(callback);
@@ -4471,7 +2961,7 @@ namespace Marvel {
 			&parent, &before))
 			return ToPyBool(false);
 
-		mvAppItem* item = new mvIndent("", name, offset);
+		mvAppItem* item = new mvIndent(name, offset);
 		return ToPyBool(AddItemWithRuntimeChecks(item, parent, before));
 	}
 
@@ -4487,7 +2977,7 @@ namespace Marvel {
 		if (!(*mvApp::GetApp()->getParsers())["unindent"].parse(args, kwargs, __FUNCTION__, &name, &offset, &parent, &before))
 			return ToPyBool(false);
 
-		mvAppItem* item = new mvUnindent("", name, offset);
+		mvAppItem* item = new mvUnindent(name, offset);
 		return ToPyBool(AddItemWithRuntimeChecks(item, parent, before));
 	}
 
@@ -4505,7 +2995,7 @@ namespace Marvel {
 			&callback, &callback_data, &parent, &before, &data_source))
 			return ToPyBool(false);
 
-		mvAppItem* item = new mvTabBar("", name, reorderable);
+		mvAppItem* item = new mvTabBar(name, reorderable);
 		if (callback)
 			Py_XINCREF(callback);
 		item->setCallback(callback);
@@ -4545,7 +3035,7 @@ namespace Marvel {
 
 			else if (parentItem->getType() == mvAppItemType::TabBar)
 			{
-				mvAppItem* item = new mvTab("", name, closeable);
+				mvAppItem* item = new mvTab(name, closeable);
 				item->setTip(tip);
 				if (AddItemWithRuntimeChecks(item, parent, before))
 				{
@@ -4570,7 +3060,7 @@ namespace Marvel {
 
 			else if (parentItem->getType() == mvAppItemType::TabBar)
 			{
-				mvAppItem* item = new mvTab("", name, closeable);
+				mvAppItem* item = new mvTab(name, closeable);
 				item->setTip(tip);
 				if (AddItemWithRuntimeChecks(item, parent, before))
 				{
@@ -4629,7 +3119,7 @@ namespace Marvel {
 
 		//auto parentItem = mvApp::GetApp()->topParent();
 
-		mvAppItem* item = new mvMenu("", name);
+		mvAppItem* item = new mvMenu(name);
 		item->setTip(tip);
 		if (AddItemWithRuntimeChecks(item, parent, before))
 		{
@@ -4654,7 +3144,7 @@ namespace Marvel {
 			&shortcut, &check, &callback, &callback_data, &tip, &parent, &before))
 			return ToPyBool(false);
 
-		mvAppItem* item = new mvMenuItem("", name, shortcut, check);
+		mvAppItem* item = new mvMenuItem(name, shortcut, check);
 		if (callback)
 			Py_XINCREF(callback);
 		item->setCallback(callback);
@@ -4678,7 +3168,7 @@ namespace Marvel {
 			&parent, &before))
 			return ToPyBool(false);
 
-		mvAppItem* item = new mvSpacing("", name, count);
+		mvAppItem* item = new mvSpacing(name, count);
 		return ToPyBool(AddItemWithRuntimeChecks(item, parent, before));
 	}
 
@@ -4696,7 +3186,7 @@ namespace Marvel {
 			&parent, &before))
 			return ToPyBool(false);
 
-		mvAppItem* item = new mvDummy("", name);
+		mvAppItem* item = new mvDummy(name);
 		item->setWidth(width);
 		item->setHeight(height);
 		return ToPyBool(AddItemWithRuntimeChecks(item, parent, before));
@@ -4716,7 +3206,7 @@ namespace Marvel {
 			&xoffset, &spacing, &parent, &before))
 			return ToPyBool(false);
 
-		mvAppItem* item = new mvSameLine("", name, xoffset, spacing);
+		mvAppItem* item = new mvSameLine(name, xoffset, spacing);
 		return ToPyBool(AddItemWithRuntimeChecks(item, parent, before));
 	}
 
@@ -4732,13 +3222,15 @@ namespace Marvel {
 		const char* parent = "";
 		const char* data_source = "";
 		const char* secondary_data_source = "";
+		int horizontal = false;
 
 		if (!(*mvApp::GetApp()->getParsers())["add_radio_button"].parse(args, kwargs, __FUNCTION__, &name, &items,
-			&default_value, &callback, &callback_data, &tip, &parent, &before, &data_source, &secondary_data_source))
+			&default_value, &callback, &callback_data, &tip, &parent, &before, &data_source, &secondary_data_source,
+			&horizontal))
 			return ToPyBool(false);
 
-		mvAppItem* item = new mvRadioButton("", name, ToStringVect(items), default_value,
-			secondary_data_source);
+		mvAppItem* item = new mvRadioButton(name, ToStringVect(items), default_value,
+			secondary_data_source, horizontal);
 		if (callback)
 			Py_XINCREF(callback);
 		item->setCallback(callback);
@@ -4765,7 +3257,7 @@ namespace Marvel {
 			&tip, &parent, &before, &width, &hide, &horizontal, &horizontal_spacing))
 			return ToPyBool(false);
 
-		mvAppItem* item = new mvGroup("", name, horizontal, horizontal_spacing);
+		mvAppItem* item = new mvGroup(name, horizontal, horizontal_spacing);
 		item->setTip(tip);
 		item->setWidth(width);
 		if (AddItemWithRuntimeChecks(item, parent, before))
@@ -4793,7 +3285,7 @@ namespace Marvel {
 			&tip, &parent, &before, &width, &height, &border))
 			return ToPyBool(false);
 
-		mvAppItem* item = new mvChild("", name, border);
+		mvAppItem* item = new mvChild(name, border);
 		item->setTip(tip);
 		item->setWidth(width);
 		item->setHeight(height);
@@ -4831,7 +3323,7 @@ namespace Marvel {
 			height = 500;
 		}
 
-		mvAppItem* item = new mvWindowAppitem("", name, width, height, startx, starty,
+		mvAppItem* item = new mvWindowAppitem(name, width, height, startx, starty,
 			false, autosize, resizable, title_bar, movable, closing_callback);
 
 		if (AddItemWithRuntimeChecks(item, "", ""))
@@ -4928,7 +3420,7 @@ namespace Marvel {
 			&name, &parent, &before))
 			return ToPyBool(false);
 
-		mvAppItem* item = new mvTooltip(tipparent, name);
+		mvAppItem* item = new mvTooltip(name);
 
 		if (AddItemWithRuntimeChecks(item, parent, before))
 		{
@@ -4960,7 +3452,7 @@ namespace Marvel {
 		if (std::string(popupparent) == "")
 			mvApp::GetApp()->getItem("MainWindow")->setPopup(name);
 
-		mvAppItem* item = new mvPopup(popupparent, name, mousebutton, modal);
+		mvAppItem* item = new mvPopup(name, mousebutton, modal);
 		item->setWidth(width);
 		item->setHeight(height);
 
@@ -4994,7 +3486,7 @@ namespace Marvel {
 
 		if (default_open) flags |= ImGuiTreeNodeFlags_DefaultOpen;
 
-		mvAppItem* item = new mvCollapsingHeader("", name, flags, closable);
+		mvAppItem* item = new mvCollapsingHeader(name, flags, closable);
 		item->setTip(tip);
 
 		if (AddItemWithRuntimeChecks(item, parent, before))
@@ -5020,7 +3512,7 @@ namespace Marvel {
 
 		if (default_open) flags |= ImGuiTreeNodeFlags_DefaultOpen;
 
-		mvAppItem* item = new mvTreeNode("", name, flags);
+		mvAppItem* item = new mvTreeNode(name, flags);
 		item->setTip(tip);
 		if (AddItemWithRuntimeChecks(item, parent, before))
 		{
@@ -5042,7 +3534,7 @@ namespace Marvel {
 		if (!(*mvApp::GetApp()->getParsers())["add_separator"].parse(args, kwargs, __FUNCTION__, &name, &tip, &parent, &before))
 			return ToPyBool(false);
 
-		mvAppItem* item = new mvSeparator("", name);
+		mvAppItem* item = new mvSeparator(name);
 		item->setTip(tip);
 		return ToPyBool(AddItemWithRuntimeChecks(item, parent, before));
 	}
@@ -5071,7 +3563,7 @@ namespace Marvel {
 		auto color = ToColor(default_value);
 
 		//mvAppItem* item = new mvColorEdit3("", name, color);
-		mvAppItem* item = new mvColorItem<mvAppItemType::ColorEdit3, ImGui::ColorEdit3>("", name, color);
+		mvAppItem* item = new mvColorItem<mvAppItemType::ColorEdit3, ImGui::ColorEdit3>(name, color);
 		if (callback)
 			Py_XINCREF(callback);
 		item->setCallback(callback);
@@ -5107,7 +3599,7 @@ namespace Marvel {
 			return ToPyBool(false);
 
 		auto color = ToColor(default_value);
-		mvAppItem* item = new mvColorItem<mvAppItemType::ColorEdit4, ImGui::ColorEdit4>("", name, color);
+		mvAppItem* item = new mvColorItem<mvAppItemType::ColorEdit4, ImGui::ColorEdit4>(name, color);
 		if (callback)
 			Py_XINCREF(callback);
 		item->setCallback(callback);
@@ -5143,7 +3635,7 @@ namespace Marvel {
 			return ToPyBool(false);
 
 		auto color = ToColor(default_value);
-		mvAppItem* item = new mvColorItem<mvAppItemType::ColorPicker3, ImGui::ColorPicker3>("", name, color);
+		mvAppItem* item = new mvColorItem<mvAppItemType::ColorPicker3, ImGui::ColorPicker3>(name, color);
 		if (callback)
 			Py_XINCREF(callback);
 		item->setCallback(callback);
@@ -5180,7 +3672,7 @@ namespace Marvel {
 
 		auto color = ToColor(default_value);
 
-		mvAppItem* item = new mvColorPicker4("", name, color);
+		mvAppItem* item = new mvColorPicker4(name, color);
 		if (callback)
 			Py_XINCREF(callback);
 		item->setCallback(callback);
@@ -5209,7 +3701,7 @@ namespace Marvel {
 			&default_value, &callback, &callback_data, &tip, &parent, &before, &data_source))
 			return ToPyBool(false);
 
-		mvAppItem* item = new mvCheckbox("", name, default_value);
+		mvAppItem* item = new mvCheckbox(name, default_value);
 		if (callback)
 			Py_XINCREF(callback);
 		item->setCallback(callback);
@@ -6685,37 +5177,6 @@ namespace Marvel {
 	{
 		std::vector<std::pair<std::string, long>> ModuleConstants =
 		{
-			//-----------------------------------------------------------------------------
-			// Plot Flags
-			//-----------------------------------------------------------------------------
-			{"mvPlotFlags_MousePos"   , 1 << 0},  // the mouse position, in plot coordinates, will be displayed in the bottom-right
-			{"mvPlotFlags_Legend"     , 1 << 1},  // a legend will be displayed in the top-left
-			{"mvPlotFlags_Highlight"  , 1 << 2},  // plot items will be highlighted when their legend entry is hovered
-			{"mvPlotFlags_BoxSelect"  , 1 << 3},  // the user will be able to box-select with right-mouse
-			{"mvPlotFlags_Query"      , 1 << 4},  // the user will be able to draw query rects with middle-mouse
-			{"mvPlotFlags_ContextMenu", 1 << 5},  // the user will be able to open a context menu with double-right click
-			{"mvPlotFlags_Crosshairs" , 1 << 6},  // the default mouse cursor will be replaced with a crosshair when hovered
-			{"mvPlotFlags_CullData"   , 1 << 7},  // plot data outside the plot area will be culled from rendering
-			{"mvPlotFlags_AntiAliased", 1 << 8},  // lines and fills will be anti-aliased (not recommended)
-			{"mvPlotFlags_NoChild"    , 1 << 9},  // a child window region will not be used to capture mouse scroll (can boost performance for single ImGui window applications)
-			{"mvPlotFlags_YAxis2"     , 1 << 10}, // enable a 2nd y axis
-			{"mvPlotFlags_YAxis3"     , 1 << 11}, // enable a 3rd y axis
-			{"mvPlotFlags_Default"    ,     175},
-
-			//-----------------------------------------------------------------------------
-			// Axis Flags
-			//-----------------------------------------------------------------------------
-			{"mvPlotAxisFlags_GridLines" , 1 << 0}, // grid lines will be displayed
-			{"mvPlotAxisFlags_TickMarks" , 1 << 1}, // tick marks will be displayed for each grid line
-			{"mvPlotAxisFlags_TickLabels", 1 << 2}, // text labels will be displayed for each grid line
-			{"mvPlotAxisFlags_Invert"    , 1 << 3}, // the axis will be inverted
-			{"mvPlotAxisFlags_LockMin"   , 1 << 4}, // the axis minimum value will be locked when panning/zooming
-			{"mvPlotAxisFlags_LockMax"   , 1 << 5}, // the axis maximum value will be locked when panning/zooming
-			{"mvPlotAxisFlags_Adaptive"  , 1 << 6}, // grid divisions will adapt to the current pixel size the axis
-			{"mvPlotAxisFlags_LogScale"  , 1 << 7}, // a logartithmic (base 10) axis scale will be used
-			{"mvPlotAxisFlags_Scientific", 1 << 8}, // scientific notation will be used for tick labels if displayed (WIP, not very good yet)
-			{"mvPlotAxisFlags_Default"   ,     71},
-			{"mvPlotAxisFlags_Auxiliary" ,     70},
 
 			//-----------------------------------------------------------------------------
 			// Plot Colors
@@ -7112,9 +5573,6 @@ namespace Marvel {
 
 	static PyMethodDef dearpyguimethods[]
 	{
-		ADD_PYTHON_FUNCTION(add_pie_chart)
-		ADD_PYTHON_FUNCTION(add_pie_chart_data)
-		ADD_PYTHON_FUNCTION(clear_pie_chart_data)
 		ADD_PYTHON_FUNCTION(add_dummy)
 		ADD_PYTHON_FUNCTION(set_start_callback)
 		ADD_PYTHON_FUNCTION(set_item_color)
@@ -7265,25 +5723,6 @@ namespace Marvel {
 		ADD_PYTHON_FUNCTION(add_same_line)
 		ADD_PYTHON_FUNCTION(add_tooltip)
 		ADD_PYTHON_FUNCTION(add_collapsing_header)
-		ADD_PYTHON_FUNCTION(draw_arrow)
-		ADD_PYTHON_FUNCTION(get_drawing_origin)
-		ADD_PYTHON_FUNCTION(get_drawing_scale)
-		ADD_PYTHON_FUNCTION(set_drawing_origin)
-		ADD_PYTHON_FUNCTION(set_drawing_scale)
-		ADD_PYTHON_FUNCTION(get_drawing_size)
-		ADD_PYTHON_FUNCTION(set_drawing_size)
-		ADD_PYTHON_FUNCTION(add_drawing)
-		ADD_PYTHON_FUNCTION(draw_image)
-		ADD_PYTHON_FUNCTION(draw_line)
-		ADD_PYTHON_FUNCTION(draw_triangle)
-		ADD_PYTHON_FUNCTION(draw_rectangle)
-		ADD_PYTHON_FUNCTION(draw_quad)
-		ADD_PYTHON_FUNCTION(draw_text)
-		ADD_PYTHON_FUNCTION(draw_circle)
-		ADD_PYTHON_FUNCTION(draw_polyline)
-		ADD_PYTHON_FUNCTION(draw_polygon)
-		ADD_PYTHON_FUNCTION(draw_bezier_curve)
-		ADD_PYTHON_FUNCTION(clear_drawing)
 		ADD_PYTHON_FUNCTION(add_column)
 		ADD_PYTHON_FUNCTION(insert_column)
 		ADD_PYTHON_FUNCTION(delete_column)
@@ -7387,6 +5826,31 @@ namespace Marvel {
 		ADD_PYTHON_FUNCTION(log_info)
 		ADD_PYTHON_FUNCTION(log_warning)
 		ADD_PYTHON_FUNCTION(log_error)
+		
+		// drawing commands
+		ADD_PYTHON_FUNCTION(draw_arrow)
+		ADD_PYTHON_FUNCTION(get_drawing_origin)
+		ADD_PYTHON_FUNCTION(get_drawing_scale)
+		ADD_PYTHON_FUNCTION(set_drawing_origin)
+		ADD_PYTHON_FUNCTION(set_drawing_scale)
+		ADD_PYTHON_FUNCTION(get_drawing_size)
+		ADD_PYTHON_FUNCTION(set_drawing_size)
+		ADD_PYTHON_FUNCTION(add_drawing)
+		ADD_PYTHON_FUNCTION(draw_image)
+		ADD_PYTHON_FUNCTION(draw_line)
+		ADD_PYTHON_FUNCTION(draw_triangle)
+		ADD_PYTHON_FUNCTION(draw_rectangle)
+		ADD_PYTHON_FUNCTION(draw_quad)
+		ADD_PYTHON_FUNCTION(draw_text)
+		ADD_PYTHON_FUNCTION(draw_circle)
+		ADD_PYTHON_FUNCTION(draw_polyline)
+		ADD_PYTHON_FUNCTION(draw_polygon)
+		ADD_PYTHON_FUNCTION(draw_bezier_curve)
+		ADD_PYTHON_FUNCTION(clear_drawing)
+		ADD_PYTHON_FUNCTION(delete_drawing_item)
+
+		// plot commands
+		ADD_PYTHON_FUNCTION(configure_plot)
 		ADD_PYTHON_FUNCTION(is_plot_queried)
 		ADD_PYTHON_FUNCTION(get_plot_query_area)
 		ADD_PYTHON_FUNCTION(clear_plot)
@@ -7400,15 +5864,17 @@ namespace Marvel {
 		ADD_PYTHON_FUNCTION(set_plot_ylimits)
 		ADD_PYTHON_FUNCTION(set_color_map)
 		ADD_PYTHON_FUNCTION(add_plot)
-		ADD_PYTHON_FUNCTION(delete_drawing_item)
+		ADD_PYTHON_FUNCTION(add_shade_series)
+		ADD_PYTHON_FUNCTION(add_bar_series)
 		ADD_PYTHON_FUNCTION(add_line_series)
+		ADD_PYTHON_FUNCTION(add_pie_series)
 		ADD_PYTHON_FUNCTION(add_scatter_series)
 		ADD_PYTHON_FUNCTION(add_area_series)
 		ADD_PYTHON_FUNCTION(add_stem_series)
+		ADD_PYTHON_FUNCTION(add_error_series)
+		ADD_PYTHON_FUNCTION(add_heat_series)
 		ADD_PYTHON_FUNCTION(add_text_point)
-		{
-NULL, NULL, 0, NULL
-}
+		{NULL, NULL, 0, NULL}
 	};
 
 	static PyModuleDef dearpyguiModule = {

@@ -18,9 +18,9 @@ namespace Marvel {
 
 		MV_APPITEM_TYPE(mvAppItemType::Window)
 
-		mvWindowAppitem(const std::string& parent, const std::string& name, int width, int height, int xpos, int ypos, 
+		mvWindowAppitem(const std::string& name, int width, int height, int xpos, int ypos, 
 			bool mainWindow, bool autosize, bool resizable, bool titlebar, bool movable, PyObject*  closing_callback=nullptr)
-			: mvAppItem(parent, name), mvEventHandler(), m_xpos(xpos), m_ypos(ypos), m_mainWindow(mainWindow), m_closing_callback(closing_callback)
+			: mvAppItem(name), mvEventHandler(), m_xpos(xpos), m_ypos(ypos), m_mainWindow(mainWindow), m_closing_callback(closing_callback)
 		{
 			m_container = true;
 			m_width = width;

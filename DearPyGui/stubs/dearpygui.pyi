@@ -4,8 +4,12 @@ def add_additional_font(file: str, size: float = 13.0, glyph_ranges: str = "", c
 	"""Adds additional font. Glyph_ranges options: korean, japanese, chinese_full, chinese_simplified_common, cryillic, thai, vietnamese"""
 	...
 
-def add_area_series(plot: str, name: str, data: List[float], color: List[float], fill: List[float], weight: float = 1.0) -> None:
+def add_area_series(plot: str, name: str, data: List[float], color: List[float], fill: List[float], weight: float = 1.0, update_bounds: bool = True) -> None:
 	"""Adds a area series to a plot."""
+	...
+
+def add_bar_series(plot: str, name: str, data: List[float], weight: float = 1.0, horizontal: bool = False, update_bounds: bool = True) -> None:
+	"""Adds a bar series to a plot."""
 	...
 
 def add_button(name: str, small: bool = False, arrow: bool = False, direction: int = -1, callback: Callable = None, callback_data: Any = None, 
@@ -131,6 +135,10 @@ def add_dummy(width: int, height, int, name: str = "", parent: str = "", before:
 	"""Adds a spacer or 'dummy' object."""
 	...
 
+def add_error_series(plot: str, name: str, data: List[List[float]], horizontal: bool = False, update_bounds: bool = True) -> None:
+	"""Adds an error series to a plot."""
+	...
+
 def add_group(name: str, tip: str = "", parent: str = "", before: str = "", width: int = 0, hide: bool = False, 
 			  horizontal: bool = False, horizontal_spacing: float = -1.0) -> bool:
 	"""Creates a group that other widgets can belong to. The group allows item commands to be issued for all of its members.				Must be closed with the end_group command."""
@@ -207,7 +215,7 @@ def add_label_text(name: str, value: str, color: List[float] = [0.0, 0.0, 0.0, 2
 	"""Adds text with a label. Useful for output values."""
 	...
 
-def add_line_series(plot: str, name: str, data: List[float], color: List[float] = ..., fill: List[float] = ..., weight: float = 1.0) -> None:
+def add_line_series(plot: str, name: str, data: List[List[float]], color: List[float] = ..., weight: float = 1.0, update_bounds: bool = True) -> None:
 	"""Adds a line series to a plot."""
 	...
 
@@ -227,15 +235,17 @@ def add_menu_item(name: str, shortcut: str = "", check: bool = False, callback: 
 	"""Adds a menu item to an existing menu."""
 	...
 
-def add_pie_chart(name: str, normalize: bool = False, format: str = "%.1f", parent: str = "", before: str = "", width: int = -1, height: int = -1) -> bool:
-	""" Adds a pie chart widget. """
+def add_pie_series(plot: str, name: str, data: List[[str, float]], x: float, y: float, radius: float, normalize: bool = False, 
+				   angle: float = 90.0, format: str = "%0.2f", update_bounds: bool = True) -> None:
+	"""Adds a pie series to a plot."""
 	...
 
-def add_pie_chart_data(plot: str, data: List[[str, float]]) -> None:
-	"""Sets data for a pie chart."""
-	...
-
-def add_plot(name: str, xAxisName: str = "", yAxisName: str = "", flags: int = 0, xflags: int = 0, yflags: int = 0, parent: str = "", before: str = "", width: int = -1, height: int = -1, query_callback: str = "") -> bool:
+def add_plot(name: str, xAxisName: str = "", yAxisName: str = "", 
+			 no_legend: bool = False, no_menus: bool = False, no_box_select: bool = False, no_mouse_pos: bool = False, no_highlight: bool = False, no_child: bool = False, query: bool = False, crosshairs: bool = False, antialiased: bool = False,
+			 xaxis_no_gridlines: bool = False, xaxis_no_tick_marks: bool = False, xaxis_no_tick_labels: bool = False, xaxis_log_scale: bool = False, xaxis_time: bool = False, xaxis_invert: bool = False, xaxis_lock_min: bool = False, xaxis_lock_max: bool = False,
+			 yaxis_no_gridlines: bool = False, yaxis_no_tick_marks: bool = False, yaxis_no_tick_labels: bool = False, yaxis_log_scale: bool = False, yaxis_invert: bool = False, yaxis_lock_min: bool = False, yaxis_lock_max: bool = False,
+			parent: str = "", before: str = "", width: int = -1, height: int = -1, query_callback: str = "", show_color_scale: bool = False, 
+			scale_min: float = 0.0, scale_max: float = 1.0, scale_height: int = 100) -> bool:
 	"""Adds a plot widget."""
 	...
 
@@ -247,7 +257,9 @@ def add_progress_bar(name: str, value: float = 0.0, overlay: str = "", tip: str 
 	"""Adds a progress bar."""
 	...
 
-def add_radio_button(name: str, items: List[str], default_value: int = 0, callback: Callable = None, callback_data: Any = None, tip: str = "", parent: str = "", before: str = "", data_source: str = "", secondary_data_source: str = "") -> bool:
+def add_radio_button(name: str, items: List[str], default_value: int = 0, callback: Callable = None, callback_data: Any = None, 
+					 tip: str = "", parent: str = "", before: str = "", data_source: str = "", secondary_data_source: str = "",
+					 horizontal: bool = False) -> bool:
 	"""Adds a set of radio buttons."""
 	...
 
@@ -259,7 +271,8 @@ def add_same_line(name: str = "", xoffset: float = 0.0, spacing: float = -1.0, p
 	"""Places a widget on the same line as the previous widget. Can also be used for horizontal spacing."""
 	...
 
-def add_scatter_series(plot: str, name: str, data: List[float], marker: int = 2, size: float = 4.0, weight: float = 1.0, outline: List[float] = ..., fill: List[float] = ...) -> None:
+def add_scatter_series(plot: str, name: str, data: List[List[float]], marker: int = 2, size: float = 4.0, 
+					   weight: float = 1.0, outline: List[float] = ..., fill: List[float] = ..., update_bounds: bool = True) -> None:
 	"""Adds a scatter series to a plot."""
 	...
 
@@ -269,6 +282,10 @@ def add_selectable(name: str, default_value: bool = False, callback: Callable = 
 
 def add_separator(name: str = "", tip: str = "", parent: str = "", before: str = "") -> bool:
 	"""Adds a horizontal line."""
+	...
+
+def add_shade_series(plot: str, name: str, data: List[List[float]], color: List[float] = ..., fill: List[float] = ..., weight: float = 1.0) -> None:
+	"""Adds a shade series to a plot."""
 	...
 
 def add_simple_plot(name: str, value: List[float], autoscale: bool = True, overlay: str = "", minscale: float = 0.0, maxscale: float = 0.0, histogram: bool = False, tip: str = "", parent: str = "", 
@@ -333,7 +350,8 @@ def add_spacing(name: str = "", count: int = 1, parent: str = "", before: str = 
 	"""Adds vertical spacing."""
 	...
 
-def add_stem_series(plot: str, name: str, data: List[float], marker: int = 2, size: float = 4.0, weight: float = 1.0, outline: List[float] = ..., fill: List[float] = ...) -> None:
+def add_stem_series(plot: str, name: str, data: List[List[float]], marker: int = 2, size: float = 4.0, 
+					weight: float = 1.0, outline: List[float] = ..., fill: List[float] = ..., update_bounds: bool = True) -> None:
 	"""Adds a stem series to a plot."""
 	...
 
@@ -354,7 +372,7 @@ def add_text(name: str, wrap: int = 0, color: List[float] = ..., bullet: bool = 
 	"""Adds text"""
 	...
 
-def add_text_point(plot: str, name: str, x: float, y: float, vertical: bool = False, xoffset: int = 0, yoffset: int = 0) -> None:
+def add_text_point(plot: str, name: str, x: float, y: float, vertical: bool = False, xoffset: int = 0, yoffset: int = 0, update_bounds: bool = True) -> None:
 	"""Adds a point with text to a plot."""
 	...
 
@@ -388,10 +406,6 @@ def clear_log() -> None:
 	"""Clears the logger."""
 	...
 
-def clear_pie_chart_data(plot:str) -> None:
-	""" Clears data for a pie chart. """
-	...
-
 def clear_plot(plot: str) -> None:
 	"""Clears a plot."""
 	...
@@ -402,6 +416,15 @@ def clear_table(table: str) -> None:
 
 def close_popup() -> None:
 	"""Closes the current popup."""
+	...
+
+def configure_plot(name: str, xAxisName: str = "", yAxisName: str = "", 
+			 no_legend: bool = False, no_menus: bool = False, no_box_select: bool = False, no_mouse_pos: bool = False, no_highlight: bool = False, no_child: bool = False, query: bool = False, crosshairs: bool = False, antialiased: bool = False,
+			 xaxis_no_gridlines: bool = False, xaxis_no_tick_marks: bool = False, xaxis_no_tick_labels: bool = False, xaxis_log_scale: bool = False, xaxis_time: bool = False, xaxis_invert: bool = False, xaxis_lock_min: bool = False, xaxis_lock_max: bool = False,
+			 yaxis_no_gridlines: bool = False, yaxis_no_tick_marks: bool = False, yaxis_no_tick_labels: bool = False, yaxis_log_scale: bool = False, yaxis_invert: bool = False, yaxis_lock_min: bool = False, yaxis_lock_max: bool = False,
+			show_color_scale: bool = False, 
+			scale_min: float = 0.0, scale_max: float = 1.0, scale_height: int = 100) -> bool:
+	"""Configures an existing plot widget."""
 	...
 
 def delete_column(table: str, column: int) -> None:

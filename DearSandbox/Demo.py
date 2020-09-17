@@ -1,4 +1,5 @@
 from dearpygui import *
+from time import sleep
 from contextlib import contextmanager
 from functools import wraps
 from math import sin, cos
@@ -56,10 +57,10 @@ add_additional_font("C:/dev/DearPyGui/Resources/NotoSerifCJKjp-Medium.otf", 20)
 ########################################################################################################################
 # Menu
 ########################################################################################################################
-def ThemeCallback(sender, data):
-    set_theme(sender)
-
 with menu_bar("MenuBar"):
+
+    def ThemeCallback(sender, data):
+        set_theme(sender)
 
     with menu("Themes"):
         add_menu_item("Dark", callback = ThemeCallback, check=True,shortcut="Ctrl + D")
@@ -102,7 +103,7 @@ with child("ChecklistGroup", width=300):
     add_item_to_check("Widgets")
     add_item_to_check("Drawing API")
     add_item_to_check("Plots, Graphs and Charts")
-    add_item_to_check("Logging##checklist")
+    add_item_to_check("Logging")
     add_item_to_check("Asyncronous")
     add_item_to_check("Input Polling")
     add_item_to_check("Input Text")
@@ -133,9 +134,11 @@ def TestFileCallback(sender, data):
 
 def OpenFile(sender, data):
     open_file_dialog(TestFileCallback, ".*,.py")
+    Launcher(sender, data)
 
 def OpenDirectory(sender, data):
     select_directory_dialog(TestFileCallback)
+    Launcher(sender, data)
 
 with group("Launch Group", width=200):
     add_button("Widgets", callback=Launcher)
@@ -250,19 +253,20 @@ with window("Input Text##dialog", 500, 500, autosize=True, hide=True):
 ########################################################################################################################
 # Widgets
 ########################################################################################################################
-def RetrieveValues(sender, data):
-
-    # update checklist
-    delete_item("Widgets##checklist")
-    add_label_text("Widgets##checklist", value="Checked", color=[0, 255, 0], parent="ChecklistGroup")
-
-    show_logger()
-
-    items = get_item_children("Basic Widgets##widget")
-    for item in items:
-        log_info(item + ":\t" + str(get_value(item)))
-
 with window("Widgets##dialog", 500, 500, hide=True):
+
+    def RetrieveValues(sender, data):
+
+        # update checklist
+        delete_item("Widgets##checklist")
+        add_label_text("Widgets##checklist", value="Checked", color=[0, 255, 0], parent="ChecklistGroup")
+
+        show_logger()
+
+        items = get_item_children("Basic Widgets##widget")
+        for item in items:
+            log_info(item + ":\t" + str(get_value(item)))
+
     add_button("Get Widget Values", callback=RetrieveValues)
 
     with tab_bar("Tab Bar##widget"):
@@ -271,7 +275,7 @@ with window("Widgets##dialog", 500, 500, hide=True):
             add_button("Button##widget")
             add_checkbox("Checkbox##widget")
             add_combo("Combo##widget", ("Item 1", "Item 2", "item 3"))
-            add_radio_button("Radio Button##widget", ("Item 1", "Item 2", "item 3"))
+            add_radio_button("Radio Button##widget", ("Item 1", "Item 2", "item 3"), horizontal=True)
             add_listbox("Listbox##widget", ("Item 1", "Item 2", "item 3"))
             add_progress_bar("Progress Bar##widget", 0.45, overlay="Progress Bar", height = 100)
             add_text("Text")
@@ -366,12 +370,42 @@ with window("Plots, Graphs and Charts##dialog", 500, 500, hide=True):
         for i in range(0, 100):
             data1.append([3.14*i/180, cos(3*3.14*i/180)])
 
-        data3 = [[0.5, -0.5], [1, -0.5], [1, -1], [0.5, -1]]
+        data2 = [[0.5, -0.5], [1, -0.5], [1, -1], [0.5, -1]]
 
-        add_line_series("Plot", "Line", data1, weight=2, fill=[255, 0, 0, 100])
+        data3 = []
+        for i in range(0, 25):
+            data3.append([3.14*i/180, 10*cos(3*3.14*i/180), 0.5*cos(3*3.14*i/180), 0.5*sin(3*3.14*i/180)])
+
+        # error charts
+        add_error_series("Error Plot", "Errors1", data3)
+        add_line_series("Error Plot", "Errors2", data3)
+
+        # regular charts
+        add_line_series("Plot", "Line", data1, weight=2)
+        add_shade_series("Plot", "Shade", data1, weight=2, fill=[255, 0, 0, 100])
         add_scatter_series("Plot", "Scatter", data1)
         add_stem_series("Plot", "Stem", data1)
-        add_area_series("Plot", "Area", data3, [255, 255, 0], [255, 255, 0, 100])
+        add_area_series("Plot", "Area", data2, [255, 255, 0], [255, 255, 0, 100])
+
+        # pie charts
+        add_pie_series("PieChart1", "PieChart1", [["fish", 0.25], ["Cow", 0.30], ["Chicken", 0.30]], 0.5, 0.5, 0.5, normalize=True)
+        set_plot_xlimits("PieChart1", 0, 1)
+        set_plot_ylimits("PieChart1", 0, 1)
+
+        # bar charts
+        add_bar_series("BarChart", "Final Exam", [[10, 100], [20, 75], [30,90]], weight=1)
+        add_bar_series("BarChart", "Midterm Exam", [[11, 83], [21, 75], [31,72]], weight=1)
+        add_bar_series("BarChart", "Course Grade", [[12, 42], [22, 68], [32,23]], weight=1)
+
+        # heat charts
+        values = [[0.8, 2.4, 2.5, 3.9, 0.0, 4.0, 0.0],
+                  [2.4, 0.0, 4.0, 1.0, 2.7, 0.0, 0.0],
+                  [1.1, 2.4, 0.8, 4.3, 1.9, 4.4, 0.0],
+                  [0.6, 0.0, 0.3, 0.0, 3.1, 0.0, 0.0],
+                  [0.7, 1.7, 0.6, 2.6, 2.2, 6.2, 0.0],
+                  [1.3, 1.2, 0.0, 0.0, 0.0, 3.2, 5.1],
+                  [0.1, 2.0, 0.0, 1.4, 0.0, 1.9, 6.3]]
+        add_heat_series("Heat Plot", "heat data", values, 7, 7, 0, 6)
 
     def colormapCallback(sender, data):
         value = get_value("Colormaps")
@@ -383,15 +417,30 @@ with window("Plots, Graphs and Charts##dialog", 500, 500, hide=True):
             add_button("Plot data", callback=PlotCallback)
             add_listbox("Colormaps", ("Default", "Dark", "Pastel", "Paired", "Viridis", "Plasma", "Hot", 
                                       "Cool", "Pink", "Jet"), width=500, height=3, callback=colormapCallback)
-            add_plot("Plot", "x-axis", "y-axis", height=-1);
+            add_plot("Plot", "x-axis", "y-axis", height=-1)
 
         with tab("Simple Plots"):
             add_simple_plot("Simpleplot1", (0.3, 0.9, 2.5, 8.9))
             add_simple_plot("Simpleplot2", (0.3, 0.9, 2.5, 8.9), overlay="Overlaying", height=180, histogram=True)
 
         with tab("Pie Chart"):
-            add_pie_chart("PieChart1", normalize=True);
-            add_pie_chart_data("PieChart1", [["fish", 0.25], ["Cow", 0.30], ["Chicken", 0.30]])
+            add_plot("PieChart1", "", "", no_mouse_pos=True, 
+                     xaxis_no_gridlines=True, xaxis_no_tick_marks=True, xaxis_no_tick_labels=True,
+                     yaxis_no_gridlines=True, yaxis_no_tick_marks=True, yaxis_no_tick_labels=True)
+
+        with tab("Bar Chart"):
+            add_plot("BarChart", "Student", "Score", height=-1)
+            set_xticks("BarChart", [["S1", 10], ["S2", 20], ["S3", 30]])
+
+        with tab("Error Plots"):
+            add_plot("Error Plot", "x-axis", "y-axis", height=-1)
+
+        with tab("Heat Plots"):
+            #add_plot("Heat Plot", "", "", show_color_scale=True)
+            add_plot("Heat Plot", "", "", show_color_scale=True, scale_min=0.0, scale_max=6.0, 
+                     scale_height=500, no_legend=True, 
+                     no_mouse_pos=True, xaxis_lock_min=True, xaxis_lock_max=True, xaxis_no_gridlines=True, xaxis_no_tick_marks=True,
+                     yaxis_no_gridlines=True, yaxis_no_tick_marks=True, yaxis_lock_min=True, yaxis_lock_max=True)
 
 ########################################################################################################################
 # Canvas
@@ -428,22 +477,23 @@ with window("Drawing API##dialog", autosize=True, hide=True):
 # Asyncronous
 ########################################################################################################################
 with window("Asyncronous##dialog", hide=True):
-
+    add_data('threadNumber', 0)
     def LongCallback2(sender, data):
-        for i in range(0, 10000000):
-            pass
-        #log_info("Done with process from " + data)
-        return 42
+        sleep(5)
+        return data
 
     def ReturnFromLongProcess(sender, data):
-        log_info("Data returned to main thread: " + str(data))
+        log_info("Completed process number: " + str(data))
+        add_data('threadNumber', get_data('threadNumber')-1)
 
     def LongAsyncronousCallback(sender, data):
-        run_async_function(LongCallback2, "some_data", return_handler=ReturnFromLongProcess)
+        current_number = get_data('threadNumber')
+        run_async_function(LongCallback2, current_number, return_handler=ReturnFromLongProcess)
+        log_info("Start process number: " + str(current_number))
+        add_data('threadNumber', current_number+1)
 
     def LongCallback(sender, data):
-        for i in range(0, 10000000):
-            pass
+        sleep(5)
         log_info("Done with long process")
 
     add_button("Start Long Process", callback=LongCallback)
