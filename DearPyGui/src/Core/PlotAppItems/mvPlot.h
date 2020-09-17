@@ -28,6 +28,7 @@ namespace Marvel {
 
 		mvSeries(std::string  name, const std::vector<mvVec2>& points);
 		mvSeries(std::string  name, const std::vector<mvVec4>& points);
+		mvSeries(std::string  name, const std::vector<std::vector<float>>& points);
 
 		virtual ~mvSeries() = default;
 
@@ -39,16 +40,17 @@ namespace Marvel {
 
 	protected:
 
-		std::string        m_name;
-		std::vector<float> m_xs;
-		std::vector<float> m_ys;
-		std::vector<float> m_extra1;
-		std::vector<float> m_extra2;
-		float              m_maxX;
-		float              m_maxY;
-		float              m_minX;
-		float              m_minY;
-		float              m_weight;
+		std::string                     m_name;
+		std::vector<float>              m_xs;
+		std::vector<float>              m_ys;
+		std::vector<float>              m_extra1;
+		std::vector<float>              m_extra2;
+		std::vector<std::vector<float>> m_extra3;
+		float                           m_maxX;
+		float                           m_maxY;
+		float                           m_minX;
+		float                           m_minY;
+		float                           m_weight;
 
 	};
 
@@ -62,8 +64,9 @@ namespace Marvel {
 
 		MV_APPITEM_TYPE(mvAppItemType::Plot)
 
-			mvPlot(const std::string& name, std::string xname,
-				std::string yname, ImPlotFlags flags, ImPlotAxisFlags xflags, ImPlotAxisFlags yflags, 
+			mvPlot(const std::string& name, std::string xname, std::string yname, 
+				bool colormapScale, float scale_min, float scale_max, int scale_height,
+				ImPlotFlags flags, ImPlotAxisFlags xflags, ImPlotAxisFlags yflags, 
 				PyObject* queryCallback);
 
 		void addSeries   (mvSeries* series);
@@ -104,6 +107,10 @@ namespace Marvel {
 		bool            m_queried = false;
 		float           m_queryArea[4] = {0.0f , 0.0f, 0.0f, 0.0f};
 		bool            m_dirty = false;
+		bool            m_colormapscale;
+		float           m_scale_min;
+		float           m_scale_max;
+		int             m_scale_height;
 		
 		std::vector<std::string> m_xlabels;
 		std::vector<std::string> m_ylabels;
@@ -113,7 +120,6 @@ namespace Marvel {
 		std::vector<double>      m_ylabelLocations;
 
 		std::vector<mvSeries*> m_series;
-
 	};
 
 }

@@ -376,22 +376,36 @@ with window("Plots, Graphs and Charts##dialog", 500, 500, hide=True):
         for i in range(0, 25):
             data3.append([3.14*i/180, 10*cos(3*3.14*i/180), 0.5*cos(3*3.14*i/180), 0.5*sin(3*3.14*i/180)])
 
+        # error charts
         add_error_series("Error Plot", "Errors1", data3)
         add_line_series("Error Plot", "Errors2", data3)
 
+        # regular charts
         add_line_series("Plot", "Line", data1, weight=2)
         add_shade_series("Plot", "Shade", data1, weight=2, fill=[255, 0, 0, 100])
         add_scatter_series("Plot", "Scatter", data1)
         add_stem_series("Plot", "Stem", data1)
         add_area_series("Plot", "Area", data2, [255, 255, 0], [255, 255, 0, 100])
 
+        # pie charts
         add_pie_series("PieChart1", "PieChart1", [["fish", 0.25], ["Cow", 0.30], ["Chicken", 0.30]], 0.5, 0.5, 0.5, normalize=True)
         set_plot_xlimits("PieChart1", 0, 1)
         set_plot_ylimits("PieChart1", 0, 1)
 
+        # bar charts
         add_bar_series("BarChart", "Final Exam", [[10, 100], [20, 75], [30,90]], weight=1)
         add_bar_series("BarChart", "Midterm Exam", [[11, 83], [21, 75], [31,72]], weight=1)
         add_bar_series("BarChart", "Course Grade", [[12, 42], [22, 68], [32,23]], weight=1)
+
+        # heat charts
+        values = [[0.8, 2.4, 2.5, 3.9, 0.0, 4.0, 0.0],
+                  [2.4, 0.0, 4.0, 1.0, 2.7, 0.0, 0.0],
+                  [1.1, 2.4, 0.8, 4.3, 1.9, 4.4, 0.0],
+                  [0.6, 0.0, 0.3, 0.0, 3.1, 0.0, 0.0],
+                  [0.7, 1.7, 0.6, 2.6, 2.2, 6.2, 0.0],
+                  [1.3, 1.2, 0.0, 0.0, 0.0, 3.2, 5.1],
+                  [0.1, 2.0, 0.0, 1.4, 0.0, 1.9, 6.3]]
+        add_heat_series("Heat Plot", "heat data", values, 7, 7, 0, 6)
 
     def colormapCallback(sender, data):
         value = get_value("Colormaps")
@@ -420,6 +434,13 @@ with window("Plots, Graphs and Charts##dialog", 500, 500, hide=True):
 
         with tab("Error Plots"):
             add_plot("Error Plot", "x-axis", "y-axis", height=-1)
+
+        with tab("Heat Plots"):
+            #add_plot("Heat Plot", "", "", show_color_scale=True)
+            add_plot("Heat Plot", "", "", show_color_scale=True, scale_min=0.0, scale_max=6.0, 
+                     scale_height=500, no_legend=True, 
+                     no_mouse_pos=True, xaxis_lock_min=True, xaxis_lock_max=True, xaxis_no_gridlines=True, xaxis_no_tick_marks=True,
+                     yaxis_no_gridlines=True, yaxis_no_tick_marks=True, yaxis_lock_min=True, yaxis_lock_max=True)
 
 ########################################################################################################################
 # Canvas
