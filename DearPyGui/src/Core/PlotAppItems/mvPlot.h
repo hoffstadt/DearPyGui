@@ -27,6 +27,7 @@ namespace Marvel {
 	public:
 
 		mvSeries(std::string  name, const std::vector<mvVec2>& points);
+		mvSeries(std::string  name, const std::vector<mvVec4>& points);
 
 		virtual ~mvSeries() = default;
 
@@ -41,6 +42,8 @@ namespace Marvel {
 		std::string        m_name;
 		std::vector<float> m_xs;
 		std::vector<float> m_ys;
+		std::vector<float> m_extra1;
+		std::vector<float> m_extra2;
 		float              m_maxX;
 		float              m_maxY;
 		float              m_minX;

@@ -25,6 +25,7 @@
 #include "Core/PlotAppItems/mvLabelSeries.h"
 #include "Core/PlotAppItems/mvPieSeries.h"
 #include "Core/PlotAppItems/mvShadeSeries.h"
+#include "Core/PlotAppItems/mvErrorSeries.h"
 
 //-----------------------------------------------------------------------------
 // Widget Index
