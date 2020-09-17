@@ -108,7 +108,8 @@ namespace Marvel {
 			{mvPythonDataType::KeywordOnly},
 			{mvPythonDataType::Bool, "normalize"},
 			{mvPythonDataType::Float, "angle"},
-			{mvPythonDataType::String, "format"}
+			{mvPythonDataType::String, "format"},
+			{mvPythonDataType::Bool, "update_bounds"},
 		}, "Adds a pie series to a plot.", "None", "Plotting") });
 
 		parsers->insert({ "add_line_series", mvPythonParser({
@@ -118,7 +119,8 @@ namespace Marvel {
 			{mvPythonDataType::Optional},
 			{mvPythonDataType::KeywordOnly},
 			{mvPythonDataType::FloatList, "color"},
-			{mvPythonDataType::Float, "weight"}
+			{mvPythonDataType::Float, "weight"},
+			{mvPythonDataType::Bool, "update_bounds"},
 		}, "Adds a line series to a plot.", "None", "Plotting") });
 
 		parsers->insert({ "add_error_series", mvPythonParser({
@@ -127,7 +129,8 @@ namespace Marvel {
 			{mvPythonDataType::FloatList, "data"},
 			{mvPythonDataType::Optional},
 			{mvPythonDataType::KeywordOnly},
-			{mvPythonDataType::Bool, "horizontal"}
+			{mvPythonDataType::Bool, "horizontal"},
+			{mvPythonDataType::Bool, "update_bounds"},
 		}, "Adds an error series to a plot.", "None", "Plotting") });
 
 		parsers->insert({ "add_bar_series", mvPythonParser({
@@ -137,7 +140,8 @@ namespace Marvel {
 			{mvPythonDataType::Optional},
 			{mvPythonDataType::KeywordOnly},
 			{mvPythonDataType::Float, "weight"},
-			{mvPythonDataType::Bool, "horizontal"}
+			{mvPythonDataType::Bool, "horizontal"},
+			{mvPythonDataType::Bool, "update_bounds"},
 		}, "Adds a bar series to a plot.", "None", "Plotting") });
 
 		parsers->insert({ "add_shade_series", mvPythonParser({
@@ -148,7 +152,8 @@ namespace Marvel {
 			{mvPythonDataType::KeywordOnly},
 			{mvPythonDataType::FloatList, "color"},
 			{mvPythonDataType::FloatList, "fill"},
-			{mvPythonDataType::Float, "weight"}
+			{mvPythonDataType::Float, "weight"},
+			{mvPythonDataType::Bool, "update_bounds"},
 		}, "Adds a shade series to a plot.", "None", "Plotting") });
 
 		parsers->insert({ "add_scatter_series", mvPythonParser({
@@ -162,6 +167,7 @@ namespace Marvel {
 			{mvPythonDataType::Float, "weight"},
 			{mvPythonDataType::FloatList, "outline"},
 			{mvPythonDataType::FloatList, "fill"},
+			{mvPythonDataType::Bool, "update_bounds"},
 		}, "Adds a scatter series to a plot.", "None", "Plotting") });
 
 		parsers->insert({ "add_stem_series", mvPythonParser({
@@ -175,6 +181,7 @@ namespace Marvel {
 			{mvPythonDataType::Float, "weight"},
 			{mvPythonDataType::FloatList, "outline"},
 			{mvPythonDataType::FloatList, "fill"},
+			{mvPythonDataType::Bool, "update_bounds"},
 		}, "Adds a stem series to a plot.", "None", "Plotting") });
 
 		parsers->insert({ "add_text_point", mvPythonParser({
@@ -186,7 +193,8 @@ namespace Marvel {
 			{mvPythonDataType::KeywordOnly},
 			{mvPythonDataType::Bool, "vertical"},
 			{mvPythonDataType::Integer, "xoffset"},
-			{mvPythonDataType::Integer, "yoffset"}
+			{mvPythonDataType::Integer, "yoffset"},
+			{mvPythonDataType::Bool, "update_bounds"},
 		}, "Adds a point with text to a plot.", "None", "Plotting") });
 
 		parsers->insert({ "add_area_series", mvPythonParser({
@@ -197,7 +205,8 @@ namespace Marvel {
 			{mvPythonDataType::FloatList, "fill"},
 			{mvPythonDataType::Optional},
 			{mvPythonDataType::KeywordOnly},
-			{mvPythonDataType::Float, "weight"}
+			{mvPythonDataType::Float, "weight"},
+			{mvPythonDataType::Bool, "update_bounds"},
 		}, "Adds an area series to a plot.", "None", "Plotting") });
 
 		parsers->insert({ "add_heat_series", mvPythonParser({
@@ -213,6 +222,7 @@ namespace Marvel {
 			{mvPythonDataType::String, "format"},
 			{mvPythonDataType::FloatList, "bounds_min"},
 			{mvPythonDataType::FloatList, "bounds_max"},
+			{mvPythonDataType::Bool, "update_bounds"},
 		}, "Adds a heat series to a plot.", "None", "Plotting") });
 
 		parsers->insert({ "set_xticks", mvPythonParser({
@@ -757,10 +767,10 @@ namespace Marvel {
 		int normalize = false;
 		double angle = 90.0;
 		const char* format = "%0.2f";
-
+		int update_bounds = true;
 
 		if (!(*mvApp::GetApp()->getParsers())["add_pie_series"].parse(args, kwargs, __FUNCTION__, &plot, &name, &data, &x,
-			&y, &radius, &normalize, &angle, &format))
+			&y, &radius, &normalize, &angle, &format, &update_bounds))
 			return GetPyNone();
 
 		if (!PyList_Check(data))
@@ -800,7 +810,7 @@ namespace Marvel {
 
 		auto series = new mvPieSeries(name, points, x, y, radius, normalize, angle, format, labels);
 
-		graph->updateSeries(series);
+		graph->updateSeries(series, update_bounds);
 
 
 		return GetPyNone();
@@ -817,8 +827,10 @@ namespace Marvel {
 		PyTuple_SetItem(color, 1, PyLong_FromLong(0));
 		PyTuple_SetItem(color, 2, PyLong_FromLong(0));
 		PyTuple_SetItem(color, 3, PyLong_FromLong(255));
+		int update_bounds = true;
 
-		if (!(*mvApp::GetApp()->getParsers())["add_line_series"].parse(args, kwargs, __FUNCTION__, &plot, &name, &data, &color, &weight))
+		if (!(*mvApp::GetApp()->getParsers())["add_line_series"].parse(args, kwargs, __FUNCTION__, 
+			&plot, &name, &data, &color, &weight, &update_bounds))
 			return GetPyNone();
 
 		if (!PyList_Check(data))
@@ -854,7 +866,7 @@ namespace Marvel {
 
 		auto series = new mvLineSeries(name, datapoints, mcolor);
 		series->setWeight(weight);
-		graph->updateSeries(series);
+		graph->updateSeries(series, update_bounds);
 
 		return GetPyNone();
 	}
@@ -866,8 +878,10 @@ namespace Marvel {
 		PyObject* data;
 		float weight = 1.0f;
 		int horizontal = false;
+		int update_bounds = true;
 
-		if (!(*mvApp::GetApp()->getParsers())["add_bar_series"].parse(args, kwargs, __FUNCTION__, &plot, &name, &data, &weight, &horizontal))
+		if (!(*mvApp::GetApp()->getParsers())["add_bar_series"].parse(args, kwargs, __FUNCTION__, 
+			&plot, &name, &data, &weight, &horizontal, &update_bounds))
 			return GetPyNone();
 
 		if (!PyList_Check(data))
@@ -897,10 +911,9 @@ namespace Marvel {
 
 		auto datapoints = ToVectVec2(data);
 
-
 		auto series = new mvBarSeries(name, datapoints, horizontal);
 		series->setWeight(weight);
-		graph->updateSeries(series);
+		graph->updateSeries(series, update_bounds);
 
 		return GetPyNone();
 	}
@@ -922,8 +935,10 @@ namespace Marvel {
 		PyTuple_SetItem(fill, 1, PyLong_FromLong(0));
 		PyTuple_SetItem(fill, 2, PyLong_FromLong(0));
 		PyTuple_SetItem(fill, 3, PyLong_FromLong(255));
+		int update_bounds = true;
 
-		if (!(*mvApp::GetApp()->getParsers())["add_shade_series"].parse(args, kwargs, __FUNCTION__, &plot, &name, &data, &color, &fill, &weight))
+		if (!(*mvApp::GetApp()->getParsers())["add_shade_series"].parse(args, kwargs, __FUNCTION__, 
+			&plot, &name, &data, &color, &fill, &weight, &update_bounds))
 			return GetPyNone();
 
 		if (!PyList_Check(data))
@@ -963,7 +978,7 @@ namespace Marvel {
 
 		auto series = new mvShadeSeries(name, datapoints, mcolor, mfill);
 		series->setWeight(weight);
-		graph->updateSeries(series);
+		graph->updateSeries(series, update_bounds);
 
 		return GetPyNone();
 	}
@@ -986,9 +1001,10 @@ namespace Marvel {
 		PyTuple_SetItem(fill, 1, PyLong_FromLong(0));
 		PyTuple_SetItem(fill, 2, PyLong_FromLong(0));
 		PyTuple_SetItem(fill, 3, PyLong_FromLong(255));
+		int update_bounds = true;
 
 		if (!(*mvApp::GetApp()->getParsers())["add_scatter_series"].parse(args, kwargs, __FUNCTION__, &plot, &name, &data, &marker,
-			&size, &weight, &outline, &fill))
+			&size, &weight, &outline, &fill, &update_bounds))
 			return GetPyNone();
 
 		if (!PyList_Check(data))
@@ -1027,7 +1043,7 @@ namespace Marvel {
 			mmarkerFillColor.specified = false;
 
 		graph->updateSeries(new mvScatterSeries(name, datapoints, marker, size, weight, mmarkerOutlineColor,
-			mmarkerFillColor));
+			mmarkerFillColor), update_bounds);
 
 		return GetPyNone();
 	}
@@ -1050,9 +1066,10 @@ namespace Marvel {
 		PyTuple_SetItem(fill, 1, PyLong_FromLong(0));
 		PyTuple_SetItem(fill, 2, PyLong_FromLong(0));
 		PyTuple_SetItem(fill, 3, PyLong_FromLong(255));
+		int update_bounds = true;
 
 		if (!(*mvApp::GetApp()->getParsers())["add_stem_series"].parse(args, kwargs, __FUNCTION__, &plot, &name, &data, &marker,
-			&size, &weight, &outline, &fill))
+			&size, &weight, &outline, &fill, &update_bounds))
 			return GetPyNone();
 
 		if (!PyList_Check(data))
@@ -1091,7 +1108,7 @@ namespace Marvel {
 			mmarkerFillColor.specified = false;
 
 		graph->updateSeries(new mvStemSeries(name, datapoints, marker, size, weight, mmarkerOutlineColor,
-			mmarkerFillColor));
+			mmarkerFillColor), update_bounds);
 
 		return GetPyNone();
 	}
@@ -1105,9 +1122,10 @@ namespace Marvel {
 		int vertical = false;
 		int xoffset = 0;
 		int yoffset = 0;
+		int update_bounds = true;
 
 		if (!(*mvApp::GetApp()->getParsers())["add_text_point"].parse(args, kwargs, __FUNCTION__,
-			&plot, &name, &x, &y, &vertical, &xoffset, &yoffset))
+			&plot, &name, &x, &y, &vertical, &xoffset, &yoffset, &update_bounds))
 			return GetPyNone();
 
 		mvAppItem* aplot = mvApp::GetApp()->getItem(plot);
@@ -1127,7 +1145,7 @@ namespace Marvel {
 
 		mvPlot* graph = static_cast<mvPlot*>(aplot);
 
-		graph->updateSeries(new mvLabelSeries(name, { {(float)x, (float)y} }, xoffset, yoffset, vertical));
+		graph->updateSeries(new mvLabelSeries(name, { {(float)x, (float)y} }, xoffset, yoffset, vertical), update_bounds);
 
 		return GetPyNone();
 	}
@@ -1140,8 +1158,10 @@ namespace Marvel {
 		PyObject* color;
 		PyObject* fill;
 		float weight = 1.0f;
+		int update_bounds = true;
 
-		if (!(*mvApp::GetApp()->getParsers())["add_area_series"].parse(args, kwargs, __FUNCTION__, &plot, &name, &data, &color, &fill, &weight))
+		if (!(*mvApp::GetApp()->getParsers())["add_area_series"].parse(args, kwargs, __FUNCTION__, 
+			&plot, &name, &data, &color, &fill, &weight, &update_bounds))
 			return GetPyNone();
 
 		if (!PyList_Check(data))
@@ -1184,8 +1204,9 @@ namespace Marvel {
 		auto lseries = new mvLineSeries(name, datapoints, mcolor);
 		aseries->setWeight(weight);
 		lseries->setWeight(weight);
-		graph->addSeries(aseries);
-		graph->addSeries(lseries); // this allows our custom render to work
+		graph->addSeries(aseries, update_bounds);
+		graph->addSeries(lseries, update_bounds); // this allows our custom render to work
+
 
 		return GetPyNone();
 	}
@@ -1196,9 +1217,10 @@ namespace Marvel {
 		const char* name;
 		PyObject* data;
 		int horizontal = false;
+		int update_bounds = true;
 
 		if (!(*mvApp::GetApp()->getParsers())["add_error_series"].parse(args, kwargs, __FUNCTION__, 
-			&plot, &name, &data, &horizontal))
+			&plot, &name, &data, &horizontal, &update_bounds))
 			return GetPyNone();
 
 		if (!PyList_Check(data))
@@ -1228,7 +1250,7 @@ namespace Marvel {
 
 		auto datapoints = ToVectVec4(data);
 		auto series = new mvErrorSeries(name, datapoints, horizontal);
-		graph->updateSeries(series);
+		graph->updateSeries(series, update_bounds);
 
 		return GetPyNone();
 	}
@@ -1249,10 +1271,10 @@ namespace Marvel {
 		PyObject* bounds_max = PyTuple_New(2);
 		PyTuple_SetItem(bounds_max, 0, PyLong_FromLong(1));
 		PyTuple_SetItem(bounds_max, 1, PyLong_FromLong(1));
-
+		int update_bounds = true;
 
 		if (!(*mvApp::GetApp()->getParsers())["add_heat_series"].parse(args, kwargs, __FUNCTION__, 
-			&plot, &name, &data, &rows, &columns, &scale_min, &scale_max, &format, &bounds_min, &bounds_max))
+			&plot, &name, &data, &rows, &columns, &scale_min, &scale_max, &format, &bounds_min, &bounds_max, &update_bounds))
 			return GetPyNone();
 
 		if (!PyList_Check(data))
@@ -1286,7 +1308,7 @@ namespace Marvel {
 
 		auto series = new mvHeatSeries(name, datapoints, rows, columns, scale_min,
 			scale_max, format, mbounds_min, mbounds_max);
-		graph->updateSeries(series);
+		graph->updateSeries(series, update_bounds);
 
 		return GetPyNone();
 	}

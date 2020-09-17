@@ -73,7 +73,7 @@ namespace Marvel {
 	{
 	}
 
-	void mvPlot::addSeries(mvSeries* series)
+	void mvPlot::addSeries(mvSeries* series, bool updateBounds)
 	{
 
 		if (m_series.empty())
@@ -100,10 +100,11 @@ namespace Marvel {
 
 		m_series.push_back(series);
 
-		m_dirty = true;
+		if(updateBounds)
+			m_dirty = true;
 	}
 
-	void mvPlot::updateSeries(mvSeries* series)
+	void mvPlot::updateSeries(mvSeries* series, bool updateBounds)
 	{
 
 		// check if series exist
@@ -128,7 +129,7 @@ namespace Marvel {
 				{
 					delete item;
 					item = nullptr;
-					addSeries(series);
+					addSeries(series, updateBounds);
 					continue;
 				}
 
@@ -138,7 +139,7 @@ namespace Marvel {
 			return;
 		}
 
-		addSeries(series);
+		addSeries(series, updateBounds);
 	}
 
 	void mvPlot::deleteSeries(const std::string& name)
