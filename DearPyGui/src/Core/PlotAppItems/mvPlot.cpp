@@ -4,7 +4,7 @@
 
 namespace Marvel {
 
-	mvSeries::mvSeries(std::string  name, const std::vector<mvVec2>& points)
+	mvSeries::mvSeries(std::string name, const std::vector<mvVec2>& points)
 		: m_name(std::move(name))
 	{
 		if (!points.empty())
@@ -27,15 +27,68 @@ namespace Marvel {
 
 	}
 
-	mvPlot::mvPlot(const std::string& parent, const std::string& name, std::string  xname,
-		std::string yname, ImPlotFlags flags,
+	mvSeries::mvSeries(std::string name, const std::vector<mvVec4>& points)
+		: m_name(std::move(name))
+	{
+		if (!points.empty())
+		{
+			m_maxX = points[0].x;
+			m_minX = points[0].x;
+			m_maxY = points[0].y;
+			m_minY = points[0].y;
+		}
+
+		for (auto& point : points)
+		{
+			if (point.x > m_maxX) m_maxX = point.x;
+			if (point.y > m_maxY) m_maxY = point.y;
+			if (point.x < m_minX) m_minX = point.x;
+			if (point.y < m_minY) m_minY = point.y;
+			m_xs.push_back(point.x);
+			m_ys.push_back(point.y);
+			m_extra1.push_back(point.z);
+			m_extra2.push_back(point.w);
+		}
+
+	}
+
+	mvSeries::mvSeries(std::string name, const std::vector<std::vector<float>>& points)
+		: m_name(std::move(name))
+	{
+
+		m_maxX = 1;
+		m_minX = 0;
+		m_maxY = 1;
+		m_minY = 0;
+		m_extra3 = points;
+	}
+
+	mvPlot::mvPlot(const std::string& name, std::string  xname,
+		std::string yname, bool colormapScale, float scale_min, float scale_max, int scale_height, ImPlotFlags flags,
 		ImPlotAxisFlags xflags, ImPlotAxisFlags yflags, PyObject* queryCallback)
-		: mvAppItem(parent, name), m_xaxisName(std::move(xname)), m_yaxisName(std::move(yname)),
-		m_flags(flags), m_xflags(xflags), m_yflags(yflags), m_queryCallback(queryCallback)
+		: mvAppItem(name), m_xaxisName(std::move(xname)), m_yaxisName(std::move(yname)),
+		m_flags(flags), m_xflags(xflags), m_yflags(yflags), m_queryCallback(queryCallback), 
+		m_colormapscale(colormapScale), m_scale_min(scale_min), m_scale_max(scale_max), 
+		m_scale_height(scale_height)
 	{
 	}
 
-	void mvPlot::addSeries(mvSeries* series)
+	void mvPlot::configure(std::string  xname,
+		std::string yname, bool colormapScale, float scale_min, float scale_max, int scale_height, ImPlotFlags flags,
+		ImPlotAxisFlags xflags, ImPlotAxisFlags yflags)
+	{
+		m_xaxisName = std::move(xname);
+		m_yaxisName = std::move(yname);
+		m_colormapscale = colormapScale;
+		m_scale_min = scale_min;
+		m_scale_max = scale_max;
+		m_scale_height = scale_height;
+		m_flags = flags;
+		m_xflags = xflags;
+		m_yflags = yflags;
+	}
+
+	void mvPlot::addSeries(mvSeries* series, bool updateBounds)
 	{
 
 		if (m_series.empty())
@@ -62,10 +115,11 @@ namespace Marvel {
 
 		m_series.push_back(series);
 
-		m_dirty = true;
+		if(updateBounds)
+			m_dirty = true;
 	}
 
-	void mvPlot::updateSeries(mvSeries* series)
+	void mvPlot::updateSeries(mvSeries* series, bool updateBounds)
 	{
 
 		// check if series exist
@@ -90,7 +144,7 @@ namespace Marvel {
 				{
 					delete item;
 					item = nullptr;
-					addSeries(series);
+					addSeries(series, updateBounds);
 					continue;
 				}
 
@@ -100,7 +154,7 @@ namespace Marvel {
 			return;
 		}
 
-		addSeries(series);
+		addSeries(series, updateBounds);
 	}
 
 	void mvPlot::deleteSeries(const std::string& name)
@@ -190,6 +244,12 @@ namespace Marvel {
 
 	void mvPlot::draw()
 	{
+		if (m_colormapscale)
+		{
+			ImPlot::ShowColormapScale(m_scale_min, m_scale_max, m_scale_height);
+			ImGui::SameLine();
+		}
+
 		ImGui::PushID(m_colormap);
 
 		if (m_setXLimits || m_dirty)
@@ -214,7 +274,7 @@ namespace Marvel {
 
 		if (ImPlot::BeginPlot(m_name.c_str(), m_xaxisName.c_str(), m_yaxisName.c_str(),
 			ImVec2((float)m_width, (float)m_height), m_flags,
-			m_xflags, m_yflags))
+			m_xflags, m_yflags, m_y2flags, m_y3flags))
 		{
 			ImPlot::PushColormap(m_colormap);
 

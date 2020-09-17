@@ -16,6 +16,7 @@ namespace Marvel {
 		case mvPythonDataType::String:     return 's';
 		case mvPythonDataType::Integer:    return 'i';
 		case mvPythonDataType::Float:      return 'f';
+		case mvPythonDataType::Double:     return 'd';
 		case mvPythonDataType::Bool:       return 'p';
 		case mvPythonDataType::Optional:   return '|';
 		case mvPythonDataType::KeywordOnly:return '$';
@@ -30,6 +31,7 @@ namespace Marvel {
 		case mvPythonDataType::String:     return " : str";
 		case mvPythonDataType::Integer:    return " : int";
 		case mvPythonDataType::Float:      return " : float";
+		case mvPythonDataType::Double:     return " : float";
 		case mvPythonDataType::Bool:       return " : bool";
 		case mvPythonDataType::StringList: return " : List[str]";
 		case mvPythonDataType::FloatList:  return " : List[float]";
@@ -48,6 +50,7 @@ namespace Marvel {
 		case mvPythonDataType::String:     return "str";
 		case mvPythonDataType::Integer:    return "int";
 		case mvPythonDataType::Float:      return "float";
+		case mvPythonDataType::Double:     return "float";
 		case mvPythonDataType::Bool:       return "bool";
 		case mvPythonDataType::StringList: return "List[str]";
 		case mvPythonDataType::FloatList:  return "List[float]";

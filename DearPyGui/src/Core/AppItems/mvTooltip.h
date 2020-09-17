@@ -22,8 +22,8 @@ namespace Marvel {
 
 		MV_APPITEM_TYPE(mvAppItemType::Tooltip)
 
-		mvTooltip(const std::string& parent, const std::string& name)
-			: mvBoolItemBase(parent, name, false)
+		mvTooltip(const std::string& name)
+			: mvBoolItemBase(name, false)
 		{
 			// TODO fix parent ugliness
 

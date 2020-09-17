@@ -374,8 +374,8 @@ namespace Marvel {
 
 		MV_APPITEM_TYPE(mvAppItemType::Drawing)
 
-		mvDrawing(const std::string& parent, const std::string& name, int width, int height)
-			: mvAppItem(parent, name)
+		mvDrawing(const std::string& name, int width, int height)
+			: mvAppItem(name)
 		{
 			m_width = width;
 			m_height = height;

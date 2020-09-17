@@ -1,4 +1,5 @@
 from dearpygui.dearpygui import *
+from dearpygui.wrappers import *
 
 def theme_callback(sender, data):
     set_theme(sender)
@@ -36,5 +37,11 @@ add_menu_item("Show Logger##2", callback=show_logger)
 end()
 end()
 end()
+
+# Third window with a menu - basically the same as the secondary window
+with window("Third Window"):
+    with menu_bar("MenuBar3"):
+        with menu("Tools##2"):
+            add_menu_item("Show Logger##2", callback=show_logger)
 
 start_dearpygui()

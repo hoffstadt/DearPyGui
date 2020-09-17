@@ -20,9 +20,9 @@ namespace Marvel{
 		MV_APPITEM_TYPE(mvAppItemType::SimplePlot)
 
 	public:
-		mvSimplePlot(const std::string& parent, const std::string& name, std::vector<float> value,
+		mvSimplePlot(const std::string& name, std::vector<float> value,
                std::string overlay, float scale_min, float scale_max, float height, bool histogram)
-			: mvAppItem(parent, name), m_value(std::move(value)), m_overlay(std::move(overlay)), m_min(scale_min), m_max(scale_max), m_height(height), m_histogram(histogram)
+			: mvAppItem(name), m_value(std::move(value)), m_overlay(std::move(overlay)), m_min(scale_min), m_max(scale_max), m_height(height), m_histogram(histogram)
 		{
 		}
 

@@ -8,9 +8,9 @@ namespace Marvel {
 
 	public:
 
-		mvAreaSeries(const std::string& name, const std::vector<mvVec2>& points, float weight = 1.0f,
-			mvColor color = MV_DEFAULT_COLOR, mvColor fill = MV_DEFAULT_COLOR)
-			: mvSeries(name, points), m_weight(weight), m_color(color), m_fill(fill)
+		mvAreaSeries(const std::string& name, const std::vector<mvVec2>& points,
+			mvColor color, mvColor fill)
+			: mvSeries(name, points), m_color(color), m_fill(fill)
 		{
 		}
 
@@ -29,7 +29,6 @@ namespace Marvel {
 
 	private:
 
-		float m_weight = 1.0f;
 		mvColor m_color = MV_DEFAULT_COLOR;
 		mvColor m_fill = MV_DEFAULT_COLOR;
 	};

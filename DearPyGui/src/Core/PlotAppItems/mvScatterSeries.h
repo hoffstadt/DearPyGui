@@ -8,8 +8,8 @@ namespace Marvel {
 
 	public:
 
-		mvScatterSeries(const std::string& name, const std::vector<mvVec2>& points, int marker = 2, float markerSize = 4.0f, float markerWeight = 1.0f,
-			mvColor markerOutlineColor = MV_DEFAULT_COLOR, mvColor markerFillColor = MV_DEFAULT_COLOR)
+		mvScatterSeries(const std::string& name, const std::vector<mvVec2>& points, int marker, float markerSize, float markerWeight,
+			mvColor markerOutlineColor, mvColor markerFillColor)
 			: mvSeries(name, points), m_marker(marker), m_markerSize(markerSize), m_markerWeight(markerWeight),
 			m_markerOutlineColor(markerOutlineColor), m_markerFillColor(markerFillColor)
 		{
