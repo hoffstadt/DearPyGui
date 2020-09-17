@@ -57,10 +57,10 @@ add_additional_font("C:/dev/DearPyGui/Resources/NotoSerifCJKjp-Medium.otf", 20)
 ########################################################################################################################
 # Menu
 ########################################################################################################################
-def ThemeCallback(sender, data):
-    set_theme(sender)
-
 with menu_bar("MenuBar"):
+
+    def ThemeCallback(sender, data):
+        set_theme(sender)
 
     with menu("Themes"):
         add_menu_item("Dark", callback = ThemeCallback, check=True,shortcut="Ctrl + D")
@@ -253,19 +253,20 @@ with window("Input Text##dialog", 500, 500, autosize=True, hide=True):
 ########################################################################################################################
 # Widgets
 ########################################################################################################################
-def RetrieveValues(sender, data):
-
-    # update checklist
-    delete_item("Widgets##checklist")
-    add_label_text("Widgets##checklist", value="Checked", color=[0, 255, 0], parent="ChecklistGroup")
-
-    show_logger()
-
-    items = get_item_children("Basic Widgets##widget")
-    for item in items:
-        log_info(item + ":\t" + str(get_value(item)))
-
 with window("Widgets##dialog", 500, 500, hide=True):
+
+    def RetrieveValues(sender, data):
+
+        # update checklist
+        delete_item("Widgets##checklist")
+        add_label_text("Widgets##checklist", value="Checked", color=[0, 255, 0], parent="ChecklistGroup")
+
+        show_logger()
+
+        items = get_item_children("Basic Widgets##widget")
+        for item in items:
+            log_info(item + ":\t" + str(get_value(item)))
+
     add_button("Get Widget Values", callback=RetrieveValues)
 
     with tab_bar("Tab Bar##widget"):
@@ -274,7 +275,7 @@ with window("Widgets##dialog", 500, 500, hide=True):
             add_button("Button##widget")
             add_checkbox("Checkbox##widget")
             add_combo("Combo##widget", ("Item 1", "Item 2", "item 3"))
-            add_radio_button("Radio Button##widget", ("Item 1", "Item 2", "item 3"))
+            add_radio_button("Radio Button##widget", ("Item 1", "Item 2", "item 3"), horizontal=True)
             add_listbox("Listbox##widget", ("Item 1", "Item 2", "item 3"))
             add_progress_bar("Progress Bar##widget", 0.45, overlay="Progress Bar", height = 100)
             add_text("Text")

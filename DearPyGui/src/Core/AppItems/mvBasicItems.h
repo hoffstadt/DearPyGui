@@ -346,8 +346,9 @@ namespace Marvel {
 		MV_APPITEM_TYPE(mvAppItemType::RadioButtons)
 
 		mvRadioButton(const std::string& name, std::vector<std::string> itemnames, int default_value,
-			std::string secondaryDataSource = "")
-			: mvIntItemBase(name, 1, default_value), m_itemnames(std::move(itemnames)), m_listDataSource(std::move(secondaryDataSource))
+			std::string secondaryDataSource, bool horizontal)
+			: mvIntItemBase(name, 1, default_value), m_itemnames(std::move(itemnames)), 
+			m_listDataSource(std::move(secondaryDataSource)), m_horizontal(horizontal)
 		{
 		}
 
@@ -357,6 +358,9 @@ namespace Marvel {
 
 			for (size_t i = 0; i < m_itemnames.size(); i++)
 			{
+				if (m_horizontal && i != 0)
+					ImGui::SameLine();
+
 				if (ImGui::RadioButton((m_itemnames[i] + "##" + m_name).c_str(), &m_value[0], i))
 				{
 					if (!m_dataSource.empty())
@@ -394,6 +398,7 @@ namespace Marvel {
 
 		std::vector<std::string> m_itemnames;
 		std::string              m_listDataSource;
+		bool                     m_horizontal;
 
 	};
 
