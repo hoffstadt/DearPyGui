@@ -69,8 +69,8 @@ namespace Marvel {
 				ImPlotFlags flags, ImPlotAxisFlags xflags, ImPlotAxisFlags yflags, 
 				PyObject* queryCallback);
 
-		void addSeries   (mvSeries* series);
-		void updateSeries(mvSeries* series);
+		void addSeries   (mvSeries* series, bool updateBounds);
+		void updateSeries(mvSeries* series, bool updateBounds);
 		void deleteSeries(const std::string& name);
 		void SetColorMap(ImPlotColormap colormap);
 		void resetXTicks();

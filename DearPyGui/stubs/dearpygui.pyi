@@ -4,11 +4,11 @@ def add_additional_font(file: str, size: float = 13.0, glyph_ranges: str = "", c
 	"""Adds additional font. Glyph_ranges options: korean, japanese, chinese_full, chinese_simplified_common, cryillic, thai, vietnamese"""
 	...
 
-def add_area_series(plot: str, name: str, data: List[float], color: List[float], fill: List[float], weight: float = 1.0) -> None:
+def add_area_series(plot: str, name: str, data: List[float], color: List[float], fill: List[float], weight: float = 1.0, update_bounds: bool = True) -> None:
 	"""Adds a area series to a plot."""
 	...
 
-def add_bar_series(plot: str, name: str, data: List[float], weight: float = 1.0, horizontal: bool = False) -> None:
+def add_bar_series(plot: str, name: str, data: List[float], weight: float = 1.0, horizontal: bool = False, update_bounds: bool = True) -> None:
 	"""Adds a bar series to a plot."""
 	...
 
@@ -135,7 +135,7 @@ def add_dummy(width: int, height, int, name: str = "", parent: str = "", before:
 	"""Adds a spacer or 'dummy' object."""
 	...
 
-def add_error_series(plot: str, name: str, data: List[List[float]], horizontal: bool = False) -> None:
+def add_error_series(plot: str, name: str, data: List[List[float]], horizontal: bool = False, update_bounds: bool = True) -> None:
 	"""Adds an error series to a plot."""
 	...
 
@@ -215,7 +215,7 @@ def add_label_text(name: str, value: str, color: List[float] = [0.0, 0.0, 0.0, 2
 	"""Adds text with a label. Useful for output values."""
 	...
 
-def add_line_series(plot: str, name: str, data: List[List[float]], color: List[float] = ..., weight: float = 1.0) -> None:
+def add_line_series(plot: str, name: str, data: List[List[float]], color: List[float] = ..., weight: float = 1.0, update_bounds: bool = True) -> None:
 	"""Adds a line series to a plot."""
 	...
 
@@ -235,7 +235,8 @@ def add_menu_item(name: str, shortcut: str = "", check: bool = False, callback: 
 	"""Adds a menu item to an existing menu."""
 	...
 
-def add_pie_series(plot: str, name: str, data: List[[str, float]], x: float, y: float, radius: float, normalize: bool = False, angle: float = 90.0, format: str = "%0.2f") -> None:
+def add_pie_series(plot: str, name: str, data: List[[str, float]], x: float, y: float, radius: float, normalize: bool = False, 
+				   angle: float = 90.0, format: str = "%0.2f", update_bounds: bool = True) -> None:
 	"""Adds a pie series to a plot."""
 	...
 
@@ -270,7 +271,8 @@ def add_same_line(name: str = "", xoffset: float = 0.0, spacing: float = -1.0, p
 	"""Places a widget on the same line as the previous widget. Can also be used for horizontal spacing."""
 	...
 
-def add_scatter_series(plot: str, name: str, data: List[List[float]], marker: int = 2, size: float = 4.0, weight: float = 1.0, outline: List[float] = ..., fill: List[float] = ...) -> None:
+def add_scatter_series(plot: str, name: str, data: List[List[float]], marker: int = 2, size: float = 4.0, 
+					   weight: float = 1.0, outline: List[float] = ..., fill: List[float] = ..., update_bounds: bool = True) -> None:
 	"""Adds a scatter series to a plot."""
 	...
 
@@ -348,7 +350,8 @@ def add_spacing(name: str = "", count: int = 1, parent: str = "", before: str = 
 	"""Adds vertical spacing."""
 	...
 
-def add_stem_series(plot: str, name: str, data: List[List[float]], marker: int = 2, size: float = 4.0, weight: float = 1.0, outline: List[float] = ..., fill: List[float] = ...) -> None:
+def add_stem_series(plot: str, name: str, data: List[List[float]], marker: int = 2, size: float = 4.0, 
+					weight: float = 1.0, outline: List[float] = ..., fill: List[float] = ..., update_bounds: bool = True) -> None:
 	"""Adds a stem series to a plot."""
 	...
 
@@ -369,7 +372,7 @@ def add_text(name: str, wrap: int = 0, color: List[float] = ..., bullet: bool = 
 	"""Adds text"""
 	...
 
-def add_text_point(plot: str, name: str, x: float, y: float, vertical: bool = False, xoffset: int = 0, yoffset: int = 0) -> None:
+def add_text_point(plot: str, name: str, x: float, y: float, vertical: bool = False, xoffset: int = 0, yoffset: int = 0, update_bounds: bool = True) -> None:
 	"""Adds a point with text to a plot."""
 	...
 
