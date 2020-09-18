@@ -6,6 +6,7 @@ namespace Marvel {
 	void AddPlotCommands(std::map<std::string, mvPythonParser>* parsers);
 
 	PyObject* add_plot             (PyObject* self, PyObject* args, PyObject* kwargs);
+	PyObject* configure_plot       (PyObject* self, PyObject* args, PyObject* kwargs);
 
 	// data removal
 	PyObject* clear_plot           (PyObject* self, PyObject* args, PyObject* kwargs);
@@ -40,5 +41,6 @@ namespace Marvel {
 	PyObject* add_text_point       (PyObject* self, PyObject* args, PyObject* kwargs);
 	PyObject* add_area_series      (PyObject* self, PyObject* args, PyObject* kwargs);
 	PyObject* add_error_series     (PyObject* self, PyObject* args, PyObject* kwargs);
+	PyObject* add_heat_series      (PyObject* self, PyObject* args, PyObject* kwargs);
 
 }

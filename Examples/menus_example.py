@@ -41,7 +41,7 @@ end()
 # Third window with a menu - basically the same as the secondary window
 with window("Third Window"):
     with menu_bar("MenuBar3"):
-        with menu("Tools##2"):
-            add_menu_item("Show Logger##2", callback=show_logger)
+        with menu("Tools##3"):
+            add_menu_item("Show Logger##3", callback=show_logger)
 
 start_dearpygui()

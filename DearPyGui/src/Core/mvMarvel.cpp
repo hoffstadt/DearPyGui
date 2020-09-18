@@ -755,6 +755,7 @@ namespace Marvel {
 		ADD_PYTHON_FUNCTION(delete_drawing_item)
 
 		// plot commands
+		ADD_PYTHON_FUNCTION(configure_plot)
 		ADD_PYTHON_FUNCTION(is_plot_queried)
 		ADD_PYTHON_FUNCTION(get_plot_query_area)
 		ADD_PYTHON_FUNCTION(clear_plot)
@@ -777,6 +778,7 @@ namespace Marvel {
 		ADD_PYTHON_FUNCTION(add_stem_series)
 		ADD_PYTHON_FUNCTION(add_error_series)
 		ADD_PYTHON_FUNCTION(delete_series)
+		ADD_PYTHON_FUNCTION(add_heat_series)
 		ADD_PYTHON_FUNCTION(add_text_point)
 		{NULL, NULL, 0, NULL}
 	};

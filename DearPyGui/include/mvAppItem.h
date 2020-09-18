@@ -71,10 +71,14 @@ namespace Marvel {
         virtual void                        draw         ()       = 0; // actual imgui draw commands
 
         // virtual methods
-        virtual void                        setPyValue          (PyObject* value) {}
-        virtual void                        updateData          (const std::string& name) {}
-        [[nodiscard]] virtual PyObject*     getPyValue          () const { Py_RETURN_NONE; }
-        [[nodiscard]] virtual bool          areDuplicatesAllowed() const { return false; }
+        virtual void                        setPyValue           (PyObject* value) {}
+        virtual void                        updateData           (const std::string& name) {}
+        [[nodiscard]] virtual PyObject*     getPyValue           () const { Py_RETURN_NONE; }
+        [[nodiscard]] virtual bool          areDuplicatesAllowed () const { return false; }
+        void                                setConfigDict        (PyObject* dict);
+        virtual void                        setExtraConfigDict   (PyObject* dict) {}
+        void                                updateConfigDict     (PyObject* dict);
+        virtual void                        updateExtraConfigDict(PyObject* dict) {}
 
         // color styles for runtime
         void                                addColorStyle  (ImGuiCol item, mvColor color);
