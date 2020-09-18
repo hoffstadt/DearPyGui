@@ -2652,23 +2652,33 @@ namespace Marvel {
 		const char* before = "";
 		const char* data_source = "";
 
+		ImGuiTabBarFlags flags = ImGuiTabBarFlags_None;
+
 		if (!(*mvApp::GetApp()->getParsers())["add_tab_bar"].parse(args, kwargs, __FUNCTION__, &name, &reorderable,
 			&callback, &callback_data, &parent, &before, &data_source))
 			return ToPyBool(false);
 
+		if (reorderable) flags |= ImGuiTabBarFlags_Reorderable;
+
 		mvAppItem* item = new mvTabBar(name, reorderable);
+
 		if (callback)
 			Py_XINCREF(callback);
+
 		item->setCallback(callback);
+
 		if (callback_data)
 			Py_XINCREF(callback_data);
+
 		item->setCallbackData(callback_data);
 		item->setDataSource(data_source);
+
 		if (AddItemWithRuntimeChecks(item, parent, before))
 		{
 			mvApp::GetApp()->pushParent(item);
 			return ToPyBool(true);
 		}
+
 		return ToPyBool(false);
 	}
 
