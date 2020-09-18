@@ -297,7 +297,7 @@ with window("Tooltips/Popups##dialog", 200, 200, hide=True):
 ########################################################################################################################
 # Text
 ########################################################################################################################
-with window("Text Widget##dialog", 200, 200, start_x=0, start_y=0, hide=True, resizable=False, title_bar=False, movable=True):
+with window("Text Widget##dialog", 200, 200, x_pos=0, y_pos=0, hide=True, no_resize=True, no_title_bar=True, no_move=False):
     add_text("Regular")
     add_text("Wrapped at 100 pixels", wrap=100)
     add_text("Color", color=(0, 200, 255))

@@ -24,7 +24,7 @@ namespace Marvel {
 		parsers->insert({ "get_item_children", mvPythonParser({
 			{mvPythonDataType::String, "item"}
 		}, "Returns a list of an item's children.", "List[str]", "Widget Commands") });
-
+		
 		parsers->insert({ "set_item_label", mvPythonParser({
 			{mvPythonDataType::String, "item"},
 			{mvPythonDataType::String, "label"},

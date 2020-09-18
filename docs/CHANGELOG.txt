@@ -34,8 +34,14 @@ Breaking Changes:
 - Pie Chart:      Removed "add_pie_chart"
 - Pie Chart:      Removed "add_pie_chart_data"
 - Pie Chart:      Removed "clear_pie_chart_data"
+- Window:         For the "add_window" command, we changed start_x,start_y
+                  to x_pos, y_pos
+- Window:         For the "add_window" command, changed resizable keyword to no_resize
+- Window:         For the "add_window" command, changed title_bar keyword to no_title_bar
+- Window:         For the "add_window" command, changed movable keyword to no_move
 
 New Commands:
+
 - Widgets:        Added "configure_item" command
 - Widgets:        Added "get_item_configuration" command
 - Widgets:        Added "add_pie_series" command
