@@ -518,8 +518,7 @@ namespace Marvel {
 			{mvPythonDataType::Integer, "width",""},
 			{mvPythonDataType::Integer, "height",""},
 			{mvPythonDataType::FloatList, "uv_min"},
-			{mvPythonDataType::FloatList, "uv_max"},
-			{mvPythonDataType::String, "secondary_data_source", "Float list for uv_min and uv_max (i.e. float list (minx, miny, maxx, maxy))"},
+			{mvPythonDataType::FloatList, "uv_max"}
 		}, "Adds an image."
 		"uv_min and uv_max represent the normalized texture coordinates of the original image that will be shown."
 		"Using(0,0)->(1,1) texture coordinates will generally display the entire texture", "None", "Adding Widgets") });
@@ -2077,11 +2076,10 @@ namespace Marvel {
 		PyObject* uv_max = PyTuple_New(2);
 		PyTuple_SetItem(uv_max, 0, PyFloat_FromDouble(1));
 		PyTuple_SetItem(uv_max, 1, PyFloat_FromDouble(1));
-		const char* secondary_data_source = "";
 
 		if (!(*mvApp::GetApp()->getParsers())["add_image"].parse(args, kwargs, __FUNCTION__, &name,
 			&value, &tintcolor, &bordercolor, &tip, &parent, &before, &data_source, &width,
-			&height, &uv_min, &uv_max, &secondary_data_source))
+			&height, &uv_min, &uv_max))
 			return ToPyBool(false);
 
 		auto mtintcolor = ToColor(tintcolor);
@@ -2089,8 +2087,7 @@ namespace Marvel {
 		mvVec2 muv_min = ToVec2(uv_min);
 		mvVec2 muv_max = ToVec2(uv_max);
 
-		mvAppItem* item = new mvImage(name, value, mtintcolor, mbordercolor, muv_min, muv_max,
-			secondary_data_source);
+		mvAppItem* item = new mvImage(name, value, mtintcolor, mbordercolor, muv_min, muv_max);
 		item->setTip(tip);
 		item->setWidth(width);
 		item->setHeight(height);
