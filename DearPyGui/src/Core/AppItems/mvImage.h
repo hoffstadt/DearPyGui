@@ -143,6 +143,24 @@ namespace Marvel {
 		void                             setValue(const std::string& value) { m_value = value; }
 		[[nodiscard]] const std::string& getValue() const { return m_value; }
 
+		void setExtraConfigDict(PyObject* dict) override
+		{
+			mvGlobalIntepreterLock gil;
+			if (PyObject* item = PyDict_GetItemString(dict, "uv_min")) m_uv_min = ToVec2(item);
+			if (PyObject* item = PyDict_GetItemString(dict, "uv_max")) m_uv_max = ToVec2(item);
+			if (PyObject* item = PyDict_GetItemString(dict, "tint_color")) m_tintColor = ToColor(item);
+			if (PyObject* item = PyDict_GetItemString(dict, "border_color")) m_borderColor = ToColor(item);
+		}
+
+		void getExtraConfigDict(PyObject* dict) override
+		{
+			mvGlobalIntepreterLock gil;
+			PyDict_SetItemString(dict, "uv_min", ToPyPair(m_uv_min.x, m_uv_min.y));
+			PyDict_SetItemString(dict, "uv_max", ToPyPair(m_uv_max.x, m_uv_max.y));
+			PyDict_SetItemString(dict, "tint_color", ToPyColor(m_tintColor));
+			PyDict_SetItemString(dict, "border_color", ToPyColor(m_borderColor));
+		}
+
 	private:
 
 		std::string m_value;
@@ -221,6 +239,24 @@ namespace Marvel {
 					ImGui::SetTooltip("%s", getTip().c_str());
 			}
 
+		}
+
+		void setExtraConfigDict(PyObject* dict) override
+		{
+			mvGlobalIntepreterLock gil;
+			if (PyObject* item = PyDict_GetItemString(dict, "uv_min")) m_uv_min = ToVec2(item);
+			if (PyObject* item = PyDict_GetItemString(dict, "uv_max")) m_uv_max = ToVec2(item);
+			if (PyObject* item = PyDict_GetItemString(dict, "tint_color")) m_tintColor = ToColor(item);
+			if (PyObject* item = PyDict_GetItemString(dict, "background_color")) m_backgroundColor = ToColor(item);
+		}
+
+		void getExtraConfigDict(PyObject* dict) override
+		{
+			mvGlobalIntepreterLock gil;
+			PyDict_SetItemString(dict, "uv_min", ToPyPair(m_uv_min.x, m_uv_min.y));
+			PyDict_SetItemString(dict, "uv_max", ToPyPair(m_uv_max.x, m_uv_max.y));
+			PyDict_SetItemString(dict, "tint_color", ToPyColor(m_tintColor));
+			PyDict_SetItemString(dict, "background_color", ToPyColor(m_backgroundColor));
 		}
 
 	private:

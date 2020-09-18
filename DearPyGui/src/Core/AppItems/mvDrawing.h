@@ -416,6 +416,24 @@ namespace Marvel {
 		mvVec2 convertToModelSpace(const mvVec2& point);
 		void convertToModelSpace(std::vector<mvVec2>& points, const std::vector<mvVec2>& pointso);
 
+		void setExtraConfigDict(PyObject* dict) override
+		{
+			mvGlobalIntepreterLock gil;
+			if (PyObject* item = PyDict_GetItemString(dict, "originx")) { m_originx = ToFloat(item); m_dirty = true; }
+			if (PyObject* item = PyDict_GetItemString(dict, "originy")) { m_originy = ToFloat(item); m_dirty = true; }
+			if (PyObject* item = PyDict_GetItemString(dict, "scalex")) { m_scalex = ToFloat(item); m_dirty = true; }
+			if (PyObject* item = PyDict_GetItemString(dict, "scaley")) { m_scaley = ToFloat(item); m_dirty = true; }
+		}
+
+		void getExtraConfigDict(PyObject* dict) override
+		{
+			mvGlobalIntepreterLock gil;
+			PyDict_SetItemString(dict, "originx", ToPyFloat(m_originx));
+			PyDict_SetItemString(dict, "origin", ToPyFloat(m_originy));
+			PyDict_SetItemString(dict, "scalex", ToPyFloat(m_scalex));
+			PyDict_SetItemString(dict, "scaley", ToPyFloat(m_scaley));
+		}
+
 	private:
 
 		void updateCommands();

@@ -84,6 +84,18 @@ namespace Marvel {
 			popColorStyles();
 		}
 
+		void setExtraConfigDict(PyObject* dict) override
+		{
+			mvGlobalIntepreterLock gil;
+			if (PyObject* item = PyDict_GetItemString(dict, "border")) m_border = ToBool(item);
+		}
+
+		void getExtraConfigDict(PyObject* dict) override
+		{
+			mvGlobalIntepreterLock gil;
+			PyDict_SetItemString(dict, "border", ToPyBool(m_border));
+		}
+
 	private:
 
 		bool m_border;
@@ -156,6 +168,20 @@ namespace Marvel {
 			ImGui::EndGroup();
 
 			popColorStyles();
+		}
+
+		void setExtraConfigDict(PyObject* dict) override
+		{
+			mvGlobalIntepreterLock gil;
+			if (PyObject* item = PyDict_GetItemString(dict, "horizontal")) m_horizontal = ToBool(item);
+			if (PyObject* item = PyDict_GetItemString(dict, "horizontal_spacing")) m_hspacing = ToFloat(item);
+		}
+
+		void getExtraConfigDict(PyObject* dict) override
+		{
+			mvGlobalIntepreterLock gil;
+			PyDict_SetItemString(dict, "horizontal", ToPyBool(m_horizontal));
+			PyDict_SetItemString(dict, "horizontal_spacing", ToPyFloat(m_hspacing));
 		}
 
 	private:

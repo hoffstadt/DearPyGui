@@ -222,9 +222,8 @@ namespace Marvel {
 
 		MV_APPITEM_TYPE(mvAppItemType::Combo)
 
-		mvCombo(const std::string& name, std::vector<std::string> itemnames, const std::string& default_value,
-			std::string listDataSource = "")
-			: mvStringItemBase(name, default_value), m_items(std::move(itemnames)), m_listDataSource(std::move(listDataSource))
+		mvCombo(const std::string& name, std::vector<std::string> itemnames, const std::string& default_value)
+			: mvStringItemBase(name, default_value), m_items(std::move(itemnames))
 		{}
 
 		void draw() override
@@ -265,18 +264,6 @@ namespace Marvel {
 			popColorStyles();
 		}
 
-		void updateData(const std::string& name) override
-		{
-			if (name == m_listDataSource)
-			{
-				PyObject* data = mvDataStorage::GetData(name);
-				if (data == nullptr)
-					return;
-
-				m_items = ToStringVect(data);
-			}
-		}
-
 		void setExtraConfigDict(PyObject* dict) override
 		{
 			mvGlobalIntepreterLock gil;
@@ -292,8 +279,6 @@ namespace Marvel {
 	private:
 
 		std::vector<std::string> m_items;
-		std::string              m_listDataSource;
-
 	};
 
 	//-----------------------------------------------------------------------------
@@ -306,10 +291,8 @@ namespace Marvel {
 
 		MV_APPITEM_TYPE(mvAppItemType::Listbox)
 
-		mvListbox(const std::string& name, std::vector<std::string> itemnames, int default_value = 0, int height = 3,
-			std::string listDataSource = "")
-			: mvIntItemBase(name, 1, default_value), m_names(std::move(itemnames)), m_itemsHeight(height),
-			m_listDataSource(std::move(listDataSource))
+		mvListbox(const std::string& name, std::vector<std::string> itemnames, int default_value, int height)
+			: mvIntItemBase(name, 1, default_value), m_names(std::move(itemnames)), m_itemsHeight(height)
 		{
 			for (const std::string& item : m_names)
 				m_charNames.emplace_back(item.c_str());
@@ -339,21 +322,6 @@ namespace Marvel {
 			popColorStyles();
 		}
 
-		void updateData(const std::string& name) override
-		{
-			if (name == m_listDataSource)
-			{
-				PyObject* data = mvDataStorage::GetData(name);
-				if (data == nullptr)
-					return;
-
-				m_names = ToStringVect(data);
-				m_charNames.clear();
-				for (const std::string& item : m_names)
-					m_charNames.emplace_back(item.c_str());
-			}
-		}
-
 		void setExtraConfigDict(PyObject* dict) override
 		{
 			mvGlobalIntepreterLock gil;
@@ -377,7 +345,6 @@ namespace Marvel {
 		std::vector<std::string> m_names;
 		int                      m_itemsHeight; // number of items to show (default -1)
 		std::vector<const char*> m_charNames;
-		std::string              m_listDataSource;
 
 	};
 
@@ -391,10 +358,8 @@ namespace Marvel {
 
 		MV_APPITEM_TYPE(mvAppItemType::RadioButtons)
 
-		mvRadioButton(const std::string& name, std::vector<std::string> itemnames, int default_value,
-			std::string secondaryDataSource, bool horizontal)
-			: mvIntItemBase(name, 1, default_value), m_itemnames(std::move(itemnames)), 
-			m_listDataSource(std::move(secondaryDataSource)), m_horizontal(horizontal)
+		mvRadioButton(const std::string& name, std::vector<std::string> itemnames, int default_value, bool horizontal)
+			: mvIntItemBase(name, 1, default_value), m_itemnames(std::move(itemnames)), m_horizontal(horizontal)
 		{
 		}
 
@@ -428,18 +393,6 @@ namespace Marvel {
 
 		}
 
-		void updateData(const std::string& name) override
-		{
-			if (name == m_listDataSource)
-			{
-				PyObject* data = mvDataStorage::GetData(name);
-				if (data == nullptr)
-					return;
-
-				m_itemnames = ToStringVect(data);
-			}
-		}
-
 		void setExtraConfigDict(PyObject* dict) override
 		{
 			mvGlobalIntepreterLock gil;
@@ -457,7 +410,6 @@ namespace Marvel {
 	private:
 
 		std::vector<std::string> m_itemnames;
-		std::string              m_listDataSource;
 		bool                     m_horizontal;
 
 	};
@@ -494,6 +446,18 @@ namespace Marvel {
 
 			popColorStyles();
 
+		}
+
+		void setExtraConfigDict(PyObject* dict) override
+		{
+			mvGlobalIntepreterLock gil;
+			if (PyObject* item = PyDict_GetItemString(dict, "overlay")) m_overlay = ToString(item);
+		}
+
+		void getExtraConfigDict(PyObject* dict) override
+		{
+			mvGlobalIntepreterLock gil;
+			PyDict_SetItemString(dict, "overlay", ToPyString(m_overlay));
 		}
 
 	private:

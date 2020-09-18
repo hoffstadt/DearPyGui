@@ -38,6 +38,21 @@ namespace Marvel {
 
 		[[nodiscard]] bool areDuplicatesAllowed() const override { return true; }
 
+		void setExtraConfigDict(PyObject* dict) override
+		{
+			mvGlobalIntepreterLock gil;
+			if (PyObject* item = PyDict_GetItemString(dict, "xoffset")) m_xoffset = ToFloat(item);
+			if (PyObject* item = PyDict_GetItemString(dict, "spacing")) m_spacing = ToFloat(item);
+
+		}
+
+		void getExtraConfigDict(PyObject* dict) override
+		{
+			mvGlobalIntepreterLock gil;
+			PyDict_SetItemString(dict, "xoffset", ToPyFloat(m_xoffset));
+			PyDict_SetItemString(dict, "spacing", ToPyFloat(m_spacing));
+		}
+
 	private:
 
 		float m_xoffset;

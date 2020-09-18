@@ -578,8 +578,7 @@ namespace Marvel {
 			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)"},
 			{mvPythonDataType::String, "data_source", "data source for shared data"},
 			{mvPythonDataType::Integer, "width",""},
-			{mvPythonDataType::Integer, "height", "number of items to show"},
-			{mvPythonDataType::String, "secondary_data_source", "Data source for the list items."},
+			{mvPythonDataType::Integer, "height", "number of items to show"}
 		}, "Adds a listbox.", "None", "Adding Widgets") });
 
 		parsers->insert({ "add_combo", mvPythonParser({
@@ -593,8 +592,7 @@ namespace Marvel {
 			{mvPythonDataType::String, "parent", "Parent this item will be added to. (runtime adding)"},
 			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)"},
 			{mvPythonDataType::String, "data_source", "data source for shared data"},
-			{mvPythonDataType::Integer, "width",""},
-			{mvPythonDataType::String, "secondary_data_source", "Data source for the combo items."},
+			{mvPythonDataType::Integer, "width",""}
 		}, "Adds a combo.", "None", "Adding Widgets") });
 
 		parsers->insert({ "add_selectable", mvPythonParser({
@@ -669,7 +667,6 @@ namespace Marvel {
 			{mvPythonDataType::String, "parent", "Parent to add this item to. (runtime adding)"},
 			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)"},
 			{mvPythonDataType::String, "data_source", "data source for shared data"},
-			{mvPythonDataType::String, "secondary_data_source", "data source for radio button items"},
 			{mvPythonDataType::Bool, "horizontal"},
 		}, "Adds a set of radio buttons.", "None", "Adding Widgets") });
 
@@ -2229,15 +2226,14 @@ namespace Marvel {
 		const char* before = "";
 		const char* parent = "";
 		const char* data_source = "";
-		const char* secondary_data_source = "";
 
 		if (!(*mvApp::GetApp()->getParsers())["add_listbox"].parse(args, kwargs, __FUNCTION__, &name, &items,
 			&default_value, &callback, &callback_data, &tip, &parent, &before, &data_source, &width,
-			&height, &secondary_data_source))
+			&height))
 			return ToPyBool(false);
 
 		mvAppItem* item = new mvListbox(name, ToStringVect(items),
-			default_value, height, secondary_data_source);
+			default_value, height);
 		if (callback)
 			Py_XINCREF(callback);
 		item->setCallback(callback);
@@ -2262,14 +2258,12 @@ namespace Marvel {
 		const char* before = "";
 		const char* parent = "";
 		const char* data_source = "";
-		const char* secondary_data_source = "";
 
 		if (!(*mvApp::GetApp()->getParsers())["add_combo"].parse(args, kwargs, __FUNCTION__, &name, &items,
-			&default_value, &callback, &callback_data, &tip, &parent, &before, &data_source, &width
-			, &secondary_data_source))
+			&default_value, &callback, &callback_data, &tip, &parent, &before, &data_source, &width))
 			return ToPyBool(false);
 
-		mvAppItem* item = new mvCombo(name, ToStringVect(items), default_value, secondary_data_source);
+		mvAppItem* item = new mvCombo(name, ToStringVect(items), default_value);
 		if (callback)
 			Py_XINCREF(callback);
 		item->setCallback(callback);
@@ -2439,16 +2433,13 @@ namespace Marvel {
 		const char* before = "";
 		const char* parent = "";
 		const char* data_source = "";
-		const char* secondary_data_source = "";
 		int horizontal = false;
 
 		if (!(*mvApp::GetApp()->getParsers())["add_radio_button"].parse(args, kwargs, __FUNCTION__, &name, &items,
-			&default_value, &callback, &callback_data, &tip, &parent, &before, &data_source, &secondary_data_source,
-			&horizontal))
+			&default_value, &callback, &callback_data, &tip, &parent, &before, &data_source,&horizontal))
 			return ToPyBool(false);
 
-		mvAppItem* item = new mvRadioButton(name, ToStringVect(items), default_value,
-			secondary_data_source, horizontal);
+		mvAppItem* item = new mvRadioButton(name, ToStringVect(items), default_value, horizontal);
 		if (callback)
 			Py_XINCREF(callback);
 		item->setCallback(callback);

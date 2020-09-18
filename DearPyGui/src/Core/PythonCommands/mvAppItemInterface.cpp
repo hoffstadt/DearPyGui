@@ -392,21 +392,6 @@ namespace Marvel {
 		return GetPyNone();
 	}
 
-	PyObject* get_item_label(PyObject * self, PyObject * args, PyObject * kwargs)
-	{
-		const char* item;
-
-		if (!(*mvApp::GetApp()->getParsers())["get_item_label"].parse(args, kwargs, __FUNCTION__, &item))
-			return GetPyNone();
-
-		auto appitem = mvApp::GetApp()->getItem(item);
-
-		if (appitem)
-			return ToPyString(appitem->getLabel());
-
-		return GetPyNone();
-	}
-
 	PyObject* get_item_children(PyObject * self, PyObject * args, PyObject * kwargs)
 	{
 		const char* item;
@@ -464,85 +449,6 @@ namespace Marvel {
 		return ToPyList(childList);
 	}
 
-	PyObject* set_item_label(PyObject * self, PyObject * args, PyObject * kwargs)
-	{
-		const char* item;
-		const char* label;
-
-		if (!(*mvApp::GetApp()->getParsers())["set_item_label"].parse(args, kwargs, __FUNCTION__, &item, &label))
-			return GetPyNone();
-
-		mvAppItem* appitem;
-		appitem = mvApp::GetApp()->getItem(item);
-
-		if (appitem)
-		{
-			std::string newLabel = label;
-
-			// temporary fix
-			if (appitem->getType() != mvAppItemType::LabelText)
-				newLabel = label + std::string("##") + std::to_string(rand());
-
-			appitem->setLabel(newLabel);
-		}
-
-		return GetPyNone();
-	}
-
-	PyObject* get_item_height(PyObject* self, PyObject* args, PyObject* kwargs)
-	{
-		const char* item;
-
-		if (!(*mvApp::GetApp()->getParsers())["get_item_height"].parse(args, kwargs, __FUNCTION__, &item))
-			return GetPyNone();
-
-		if (std::string(item) == "logger##standard")
-			return ToPyInt(mvAppLog::GetWindowHeight());
-
-		// check if item is a regular item
-		mvAppItem* appitem = mvApp::GetApp()->getItem(item);
-		if (appitem)
-			return ToPyInt(appitem->getHeight());
-
-		// check if item is a standard window
-		if (appitem == nullptr)
-		{
-			mvStandardWindow* swindow = mvApp::GetApp()->getStandardWindow(item);
-			if (swindow)
-				return ToPyInt(swindow->getWindowHeight());
-			else
-				ThrowPythonException(item + std::string(" item was not found"));
-		}
-		return GetPyNone();
-	}
-
-	PyObject* get_item_width(PyObject* self, PyObject* args, PyObject* kwargs)
-	{
-		const char* item;
-
-		if (!(*mvApp::GetApp()->getParsers())["get_item_width"].parse(args, kwargs, __FUNCTION__, &item))
-			return GetPyNone();
-
-		if (std::string(item) == "logger##standard")
-			return ToPyInt(mvAppLog::GetWindowWidth());
-
-		// check if item is a regular item
-		mvAppItem* appitem = mvApp::GetApp()->getItem(item);
-		if (appitem)
-			return ToPyInt(appitem->getWidth());
-
-		// check if item is a standard window
-		if (appitem == nullptr)
-		{
-			mvStandardWindow* swindow = mvApp::GetApp()->getStandardWindow(item);
-			if (swindow)
-				return ToPyInt(swindow->getWindowWidth());
-			else
-				ThrowPythonException(item + std::string(" item was not found"));
-		}
-		return GetPyNone();
-	}
-
 	PyObject* get_item_parent(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		const char* item;
@@ -554,36 +460,6 @@ namespace Marvel {
 
 		if (appitem)
 			return ToPyString(appitem->getParent()->getName());
-
-		return GetPyNone();
-	}
-
-	PyObject* get_item_popup(PyObject* self, PyObject* args, PyObject* kwargs)
-	{
-		const char* item;
-
-		if (!(*mvApp::GetApp()->getParsers())["get_item_popup"].parse(args, kwargs, __FUNCTION__, &item))
-			return GetPyNone();
-
-		auto appitem = mvApp::GetApp()->getItem(item);
-
-		if (appitem)
-			return ToPyString(appitem->getPopup());
-
-		return GetPyNone();
-	}
-
-	PyObject* get_item_tip(PyObject* self, PyObject* args, PyObject* kwargs)
-	{
-		const char* item;
-
-		if (!(*mvApp::GetApp()->getParsers())["get_item_tip"].parse(args, kwargs, __FUNCTION__, &item))
-			return GetPyNone();
-
-		auto appitem = mvApp::GetApp()->getItem(item);
-
-		if (appitem)
-			return ToPyString(appitem->getTip());
 
 		return GetPyNone();
 	}
@@ -866,43 +742,6 @@ namespace Marvel {
 		return GetPyNone();
 	}
 
-	PyObject* show_item(PyObject* self, PyObject* args, PyObject* kwargs)
-	{
-		const char* name;
-
-		if (!(*mvApp::GetApp()->getParsers())["show_item"].parse(args, kwargs, __FUNCTION__, &name))
-			return GetPyNone();
-
-		mvAppItem* item = mvApp::GetApp()->getItem(std::string(name));
-
-		if (item != nullptr)
-			item->show();
-
-		return GetPyNone();
-	}
-
-	PyObject* hide_item(PyObject* self, PyObject* args, PyObject* kwargs)
-	{
-		const char* name;
-		int children_only = false;
-
-		if (!(*mvApp::GetApp()->getParsers())["hide_item"].parse(args, kwargs, __FUNCTION__, &name, &children_only))
-			return GetPyNone();
-
-		mvAppItem* item = mvApp::GetApp()->getItem(std::string(name));
-
-		if (item != nullptr)
-			item->hide();
-
-		if (children_only)
-		{
-			item->hideAll();
-			item->show();
-		}
-
-		return GetPyNone();
-	}
-
 	PyObject* set_item_callback(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		PyObject* callback;
@@ -929,98 +768,6 @@ namespace Marvel {
 			}
 		}
 
-		return GetPyNone();
-	}
-
-	PyObject* set_item_popup(PyObject* self, PyObject* args, PyObject* kwargs)
-	{
-		const char* popup;
-		const char* item;
-
-		if (!(*mvApp::GetApp()->getParsers())["set_item_popup"].parse(args, kwargs, __FUNCTION__, &item, &popup))
-			return GetPyNone();
-
-		auto appitem = mvApp::GetApp()->getItem(item);
-
-		if (appitem)
-			appitem->setPopup(popup);
-
-		return GetPyNone();
-	}
-
-	PyObject* set_item_tip(PyObject* self, PyObject* args, PyObject* kwargs)
-	{
-		const char* tip, * item;
-
-		if (!(*mvApp::GetApp()->getParsers())["set_item_tip"].parse(args, kwargs, __FUNCTION__, &item, &tip))
-			return GetPyNone();
-
-		auto appitem = mvApp::GetApp()->getItem(item);
-
-		if (appitem)
-			appitem->setTip(tip);
-
-		return GetPyNone();
-	}
-
-	PyObject* set_item_width(PyObject* self, PyObject* args, PyObject* kwargs)
-	{
-		const char* item;
-		int width;
-
-		if (!(*mvApp::GetApp()->getParsers())["set_item_width"].parse(args, kwargs, __FUNCTION__, &item, &width))
-			return GetPyNone();
-
-		if (std::string(item) == "logger##standard")
-		{
-			mvAppLog::SetWidth(width);
-			return GetPyNone();
-		}
-
-		// check if item is a regular item
-		mvAppItem* appitem = mvApp::GetApp()->getItem(item);
-		if (appitem)
-			appitem->setWidth(width);
-
-		// check if item is a standard window
-		if (appitem == nullptr)
-		{
-			mvStandardWindow* swindow = mvApp::GetApp()->getStandardWindow(item);
-			if (swindow)
-				swindow->setWidth(width);
-			else
-				ThrowPythonException(item + std::string(" item was not found"));
-		}
-		return GetPyNone();
-	}
-
-	PyObject* set_item_height(PyObject* self, PyObject* args, PyObject* kwargs)
-	{
-		const char* item;
-		int height;
-
-		if (!(*mvApp::GetApp()->getParsers())["set_item_height"].parse(args, kwargs, __FUNCTION__, &item, &height))
-			return GetPyNone();
-
-		if (std::string(item) == "logger##standard")
-		{
-			mvAppLog::SetHeight(height);
-			return GetPyNone();
-		}
-
-		mvAppItem* appitem = mvApp::GetApp()->getItem(item);
-		if (appitem)
-			appitem->setHeight(height);
-
-		// check if item is a standard window
-		if (appitem == nullptr)
-		{
-			mvStandardWindow* swindow = mvApp::GetApp()->getStandardWindow(item);
-			if (swindow)
-				swindow->setHeight(height);
-			else
-				ThrowPythonException(item + std::string(" item was not found"));
-		}
 		return GetPyNone();
 	}
 }
