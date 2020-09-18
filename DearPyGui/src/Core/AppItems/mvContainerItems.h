@@ -262,6 +262,39 @@ namespace Marvel {
 			popColorStyles();
 		}
 
+		void setExtraConfigDict(PyObject* dict) override
+		{
+			mvGlobalIntepreterLock gil;
+			if (PyObject* item = PyDict_GetItemString(dict, "closable")) m_closable = ToBool(item);
+
+			// helper for bit flipping
+			auto flagop = [dict](const char* keyword, int flag, int& flags)
+			{
+				if (PyObject* item = PyDict_GetItemString(dict, keyword)) ToBool(item) ? flags |= flag : flags &= ~flag;
+			};
+
+			// flags
+			//flagop("autosize", ImGuiWindowFlags_AlwaysAutoResize, m_windowflags);
+
+
+		}
+
+		void getExtraConfigDict(PyObject* dict) override
+		{
+			mvGlobalIntepreterLock gil;
+			PyDict_SetItemString(dict, "closable", ToPyBool(m_closable));
+
+			// helper to check and set bit
+			auto checkbitset = [dict](const char* keyword, int flag, const int& flags)
+			{
+				PyDict_SetItemString(dict, keyword, ToPyBool(flags & flag));
+			};
+
+			// flags
+			//checkbitset("autosize", ImGuiWindowFlags_AlwaysAutoResize, m_windowflags);
+
+		}
+
 	private:
 
 		ImGuiTreeNodeFlags m_flags;
