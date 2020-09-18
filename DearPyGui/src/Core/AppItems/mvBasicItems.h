@@ -503,6 +503,18 @@ namespace Marvel {
 			popColorStyles();
 		}
 
+		void setExtraConfigDict(PyObject* dict) override
+		{
+			mvGlobalIntepreterLock gil;
+			if (PyObject* item = PyDict_GetItemString(dict, "on_enter")) ToBool(item) ? m_flags |= ImGuiInputTextFlags_EnterReturnsTrue : m_flags &= ~ImGuiInputTextFlags_EnterReturnsTrue;
+		}
+
+		void getExtraConfigDict(PyObject* dict) override
+		{
+			mvGlobalIntepreterLock gil;
+			PyDict_SetItemString(dict, "on_enter", ToPyBool(m_flags & ImGuiInputTextFlags_EnterReturnsTrue));
+		}
+
 	private:
 
 		ImGuiInputTextFlags m_flags = 0;
@@ -546,6 +558,18 @@ namespace Marvel {
 				ImGui::SetTooltip("%s", getTip().c_str());
 
 			popColorStyles();
+		}
+
+		void setExtraConfigDict(PyObject* dict) override
+		{
+			mvGlobalIntepreterLock gil;
+			if (PyObject* item = PyDict_GetItemString(dict, "on_enter")) ToBool(item) ? m_flags |= ImGuiInputTextFlags_EnterReturnsTrue : m_flags &= ~ImGuiInputTextFlags_EnterReturnsTrue;
+		}
+
+		void getExtraConfigDict(PyObject* dict) override
+		{
+			mvGlobalIntepreterLock gil;
+			PyDict_SetItemString(dict, "on_enter", ToPyBool(m_flags & ImGuiInputTextFlags_EnterReturnsTrue));
 		}
 
 	private:

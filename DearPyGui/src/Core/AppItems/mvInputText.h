@@ -88,6 +88,50 @@ namespace Marvel {
 			popColorStyles();
 		}
 
+		void setExtraConfigDict(PyObject* dict) override
+		{
+			mvGlobalIntepreterLock gil;
+			if (PyObject* item = PyDict_GetItemString(dict, "hint")) m_hint = ToString(item);
+			if (PyObject* item = PyDict_GetItemString(dict, "multiline")) m_multiline = ToBool(item);
+
+			// helper for bit flipping
+			auto flagop = [dict](const char* keyword, int flag, int& flags)
+			{
+				if (PyObject* item = PyDict_GetItemString(dict, keyword)) ToBool(item) ? flags |= flag : flags &= ~flag;
+			};
+
+			// flags
+			flagop("no_spaces",   ImGuiInputTextFlags_CharsNoBlank,     m_flags);
+			flagop("uppercase",   ImGuiInputTextFlags_CharsUppercase,   m_flags);
+			flagop("decimal",     ImGuiInputTextFlags_CharsDecimal,     m_flags);
+			flagop("hexadecimal", ImGuiInputTextFlags_CharsHexadecimal, m_flags);
+			flagop("readonly",    ImGuiInputTextFlags_ReadOnly,         m_flags);
+			flagop("password",    ImGuiInputTextFlags_Password,         m_flags);
+			flagop("on_enter",    ImGuiInputTextFlags_EnterReturnsTrue, m_flags);
+		}
+
+		void getExtraConfigDict(PyObject* dict) override
+		{
+			mvGlobalIntepreterLock gil;
+			PyDict_SetItemString(dict, "hint", ToPyString(m_hint));
+			PyDict_SetItemString(dict, "multline", ToPyBool(m_multiline));
+
+			// helper to check and set bit
+			auto checkbitset = [dict](const char* keyword, int flag, const int& flags)
+			{
+				PyDict_SetItemString(dict, keyword, ToPyBool(flags & flag));
+			};
+
+			// window flags
+			checkbitset("no_spaces",   ImGuiInputTextFlags_CharsNoBlank,     m_flags);
+			checkbitset("uppercase",   ImGuiInputTextFlags_CharsUppercase,   m_flags);
+			checkbitset("decimal",     ImGuiInputTextFlags_CharsDecimal,     m_flags);
+			checkbitset("hexadecimal", ImGuiInputTextFlags_CharsHexadecimal, m_flags);
+			checkbitset("readonly",    ImGuiInputTextFlags_ReadOnly,         m_flags);
+			checkbitset("password",    ImGuiInputTextFlags_Password,         m_flags);
+			checkbitset("on_enter",    ImGuiInputTextFlags_EnterReturnsTrue, m_flags);
+		}
+
 	private:
 
 		std::string         m_hint;
