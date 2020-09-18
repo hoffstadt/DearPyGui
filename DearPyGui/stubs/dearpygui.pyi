@@ -552,6 +552,10 @@ def get_item_rect_size(item: str) -> [float, float]:
 	"""Returns an item's current size. [width, height]"""
 	...
 
+def get_item_type(item: str) -> str:
+	"""Returns an item's type."""
+	...
+
 def get_log_level() -> int:
 	"""Returns the log level."""
 	...

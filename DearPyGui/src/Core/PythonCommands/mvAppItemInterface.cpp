@@ -6,6 +6,10 @@ namespace Marvel {
 
 	void AddItemCommands(std::map<std::string, mvPythonParser>* parsers)
 	{
+		parsers->insert({ "get_item_type", mvPythonParser({
+			{mvPythonDataType::String, "item"}
+		}, "Returns an item's type", "str", "Widget Commands") });
+
 		parsers->insert({ "get_item_configuration", mvPythonParser({
 			{mvPythonDataType::String, "item"}
 		}, "Returns an items configuration", "dict", "Widget Commands") });
@@ -689,5 +693,20 @@ namespace Marvel {
 		}
 
 		return GetPyNone();
+	}
+
+	PyObject* get_item_type(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		const char* name;
+
+		if (!(*mvApp::GetApp()->getParsers())["get_item_type"].parse(args, kwargs, __FUNCTION__, &name))
+			return GetPyNone();
+
+		mvAppItem* item = mvApp::GetApp()->getItem(std::string(name));
+
+		if (item == nullptr)
+			return GetPyNone();
+
+		return ToPyString(item->getStringType());
 	}
 }
