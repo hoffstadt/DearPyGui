@@ -544,8 +544,6 @@ namespace Marvel {
 		ADD_PYTHON_FUNCTION(does_item_exist)
 		ADD_PYTHON_FUNCTION(move_item_down)
 		ADD_PYTHON_FUNCTION(move_item_up)
-		ADD_PYTHON_FUNCTION(get_window_pos)
-		ADD_PYTHON_FUNCTION(set_window_pos)
 		ADD_PYTHON_FUNCTION(get_windows)
 		ADD_PYTHON_FUNCTION(get_all_items)
 		ADD_PYTHON_FUNCTION(get_item_children)
