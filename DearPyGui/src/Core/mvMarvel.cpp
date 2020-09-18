@@ -519,7 +519,6 @@ namespace Marvel {
 		ADD_PYTHON_FUNCTION(log_warning)
 		ADD_PYTHON_FUNCTION(log_error)
 
-
 		// app item interface
 		ADD_PYTHON_FUNCTION(set_item_callback)
 		ADD_PYTHON_FUNCTION(get_value)
@@ -637,7 +636,6 @@ namespace Marvel {
 		ADD_PYTHON_FUNCTION(set_render_callback)
 		ADD_PYTHON_FUNCTION(set_resize_callback)
 
-
 		// Theme commands
 		ADD_PYTHON_FUNCTION(add_additional_font)
 		ADD_PYTHON_FUNCTION(set_item_color)
@@ -741,7 +739,6 @@ namespace Marvel {
 		ADD_PYTHON_FUNCTION(delete_drawing_item)
 
 		// plot commands
-		ADD_PYTHON_FUNCTION(configure_plot)
 		ADD_PYTHON_FUNCTION(is_plot_queried)
 		ADD_PYTHON_FUNCTION(get_plot_query_area)
 		ADD_PYTHON_FUNCTION(clear_plot)
