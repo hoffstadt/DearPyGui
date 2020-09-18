@@ -50,6 +50,10 @@ set(MARVEL_SOURCES
 	"src/Core/PythonCommands/mvDrawingInterface.cpp"
 	"src/Core/PythonCommands/mvTableInterface.cpp"
 	"src/Core/PythonCommands/mvThemeInterface.cpp"
+	"src/Core/PythonCommands/mvInputInterface.cpp"
+	"src/Core/PythonCommands/mvWidgetInterface.cpp"
+	"src/Core/PythonCommands/mvAppItemInterface.cpp"
+	"src/Core/PythonCommands/mvAppInterface.cpp"
 
 	"$<$<PLATFORM_ID:Windows>:src/Core/mvMarvel.cpp>"
 	"$<$<PLATFORM_ID:Linux>:src/Core/mvMarvel.cpp>"

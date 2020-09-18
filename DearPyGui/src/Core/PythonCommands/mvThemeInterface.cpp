@@ -301,6 +301,82 @@ namespace Marvel {
 		return GetPyNone();
 	}
 
+	PyObject* get_theme_item(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		int item;
+
+		if (!(*mvApp::GetApp()->getParsers())["get_theme_item"].parse(args, kwargs, __FUNCTION__, &item))
+			return GetPyNone();
+
+		auto color = mvApp::GetApp()->getThemeItem(item);
+
+		return ToPyList(std::vector<int>{ color.r, color.g, color.b, color.a });
+	}
+
+	PyObject* get_theme(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		return ToPyString(mvApp::GetApp()->getAppTheme());
+	}
+
+	PyObject* set_theme_item(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		int item;
+		int r, g, b, a;
+
+		if (!(*mvApp::GetApp()->getParsers())["set_theme_item"].parse(args, kwargs, __FUNCTION__, &item, &r, &g, &b, &a))
+			return GetPyNone();
+
+		mvApp::GetApp()->setThemeItem(item, { r, g, b, a });
+
+		return GetPyNone();
+	}
+
+	PyObject* set_item_color(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		const char* item;
+		int style;
+		PyObject* color;
+
+		if (!(*mvApp::GetApp()->getParsers())["set_item_color"].parse(args, kwargs, __FUNCTION__, &item, &style, &color))
+			return GetPyNone();
+
+		auto mcolor = ToColor(color);
+
+		mvAppItem* appitem = mvApp::GetApp()->getItem(item);
+
+		if (appitem)
+			appitem->addColorStyle(style, mcolor);
+
+		return GetPyNone();
+	}
+
+	PyObject* clear_item_color(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		const char* item;
+
+		if (!(*mvApp::GetApp()->getParsers())["clear_item_color"].parse(args, kwargs, __FUNCTION__, &item))
+			return GetPyNone();
+
+		mvAppItem* appitem = mvApp::GetApp()->getItem(item);
+
+		if (appitem)
+			appitem->clearColors();
+
+		return GetPyNone();
+	}
+
+	PyObject* set_theme(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		const char* theme;
+
+		if (!(*mvApp::GetApp()->getParsers())["set_theme"].parse(args, kwargs, __FUNCTION__, &theme))
+			return GetPyNone();
+
+		mvApp::GetApp()->setAppTheme(std::string(theme));
+
+		return GetPyNone();
+	}
+
 	PyObject* get_style_window_padding(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		ImGuiStyle& style = mvApp::GetApp()->getStyle();
