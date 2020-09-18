@@ -33,82 +33,6 @@ namespace Marvel {
 		}, "Adds a menu item to an existing menu.", "None", "Containers") });
 	}
 
-	PyObject* add_menu_bar(PyObject* self, PyObject* args, PyObject* kwargs)
-	{
-		const char* name;
-		const char* before = "";
-		const char* parent = "";
-
-		if (!(*mvApp::GetApp()->getParsers())["add_menu_bar"].parse(args, kwargs, __FUNCTION__, &name,
-			&parent, &before))
-			return ToPyBool(false);
-
-		auto parentItem = mvApp::GetApp()->topParent();
-
-		if (parentItem->getType() == mvAppItemType::Window)
-		{
-			auto window = static_cast<mvWindowAppitem*>(parentItem);
-			window->addFlag(ImGuiWindowFlags_MenuBar);
-			mvAppItem* item = new mvMenuBar(name);
-			if (AddItemWithRuntimeChecks(item, parent, before))
-			{
-				mvApp::GetApp()->pushParent(item);
-				return ToPyBool(true);
-			}
-		}
-
-		return ToPyBool(false);
-	}
-
-	PyObject* add_menu(PyObject* self, PyObject* args, PyObject* kwargs)
-	{
-		const char* name;
-		const char* tip = "";
-		const char* before = "";
-		const char* parent = "";
-
-		if (!(*mvApp::GetApp()->getParsers())["add_menu"].parse(args, kwargs, __FUNCTION__, &name,
-			&tip, &parent, &before))
-			return ToPyBool(false);
-
-		//auto parentItem = mvApp::GetApp()->topParent();
-
-		mvAppItem* item = new mvMenu(name);
-		item->setTip(tip);
-		if (AddItemWithRuntimeChecks(item, parent, before))
-		{
-			mvApp::GetApp()->pushParent(item);
-			return ToPyBool(true);
-		}
-		return ToPyBool(false);
-	}
-
-	PyObject* add_menu_item(PyObject* self, PyObject* args, PyObject* kwargs)
-	{
-		const char* name;
-		const char* shortcut = "";
-		int check = false;
-		PyObject* callback = nullptr;
-		PyObject* callback_data = nullptr;
-		const char* tip = "";
-		const char* before = "";
-		const char* parent = "";
-
-		if (!(*mvApp::GetApp()->getParsers())["add_menu_item"].parse(args, kwargs, __FUNCTION__, &name,
-			&shortcut, &check, &callback, &callback_data, &tip, &parent, &before))
-			return ToPyBool(false);
-
-		mvAppItem* item = new mvMenuItem(name, shortcut, check);
-		if (callback)
-			Py_XINCREF(callback);
-		item->setCallback(callback);
-		if (callback_data)
-			Py_XINCREF(callback_data);
-		item->setCallbackData(callback_data);
-		item->setTip(tip);
-		return ToPyBool(AddItemWithRuntimeChecks(item, parent, before));
-	}
-
 	void AddInputWidgets(std::map<std::string, mvPythonParser>* parsers)
 	{
 		parsers->insert({ "add_input_text", mvPythonParser({
@@ -248,6 +172,772 @@ namespace Marvel {
 			{mvPythonDataType::Integer, "width",""},
 			{mvPythonDataType::Bool, "on_enter", "Only runs callback on enter"},
 		}, "Adds input for 4 float values.", "None", "Adding Widgets") });
+	}
+
+	void AddSliderWidgets(std::map<std::string, mvPythonParser>* parsers)
+	{
+		parsers->insert({ "add_slider_float", mvPythonParser({
+			{mvPythonDataType::String, "name"},
+			{mvPythonDataType::KeywordOnly},
+			{mvPythonDataType::Float, "default_value"},
+			{mvPythonDataType::Float, "min_value"},
+			{mvPythonDataType::Float, "max_value"},
+			{mvPythonDataType::String, "format"},
+			{mvPythonDataType::Bool, "vertical", "sets orientation to vertical"},
+			{mvPythonDataType::Object, "callback", "Registers a callback"},
+			{mvPythonDataType::Object, "callback_data", "Callback data"},
+			{mvPythonDataType::String, "tip", "Adds a simple tooltip"},
+			{mvPythonDataType::String, "parent", "Parent this item will be added to. (runtime adding)"},
+			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)"},
+			{mvPythonDataType::String, "data_source", "data source for shared data"},
+			{mvPythonDataType::Integer, "width",""},
+			{mvPythonDataType::Integer, "height","Height of a vertical slider"},
+			{mvPythonDataType::Bool, "on_enter", "Only runs callback on enter"},
+		}, "Adds slider for a single float value. CTRL+Click to directly modify the value.", "None", "Adding Widgets") });
+
+		parsers->insert({ "add_slider_float2", mvPythonParser({
+			{mvPythonDataType::String, "name"},
+			{mvPythonDataType::KeywordOnly},
+			{mvPythonDataType::FloatList, "default_value"},
+			{mvPythonDataType::Float, "min_value"},
+			{mvPythonDataType::Float, "max_value"},
+			{mvPythonDataType::String, "format"},
+			{mvPythonDataType::Object, "callback", "Registers a callback"},
+			{mvPythonDataType::Object, "callback_data", "Callback data"},
+			{mvPythonDataType::String, "tip", "Adds a simple tooltip"},
+			{mvPythonDataType::String, "parent", "Parent this item will be added to. (runtime adding)"},
+			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)"},
+			{mvPythonDataType::String, "data_source", "data source for shared data"},
+			{mvPythonDataType::Integer, "width",""},
+			{mvPythonDataType::Bool, "on_enter", "Only runs callback on enter"},
+		}, "Adds slider for a 2 float values. CTRL+Click to directly modify the value.", "None", "Adding Widgets") });
+
+		parsers->insert({ "add_slider_float3", mvPythonParser({
+			{mvPythonDataType::String, "name"},
+			{mvPythonDataType::KeywordOnly},
+			{mvPythonDataType::FloatList, "default_value"},
+			{mvPythonDataType::Float, "min_value"},
+			{mvPythonDataType::Float, "max_value"},
+			{mvPythonDataType::String, "format"},
+			{mvPythonDataType::Object, "callback", "Registers a callback"},
+			{mvPythonDataType::Object, "callback_data", "Callback data"},
+			{mvPythonDataType::String, "tip", "Adds a simple tooltip"},
+			{mvPythonDataType::String, "parent", "Parent this item will be added to. (runtime adding)"},
+			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)"},
+			{mvPythonDataType::String, "data_source", "data source for shared data"},
+			{mvPythonDataType::Integer, "width",""},
+			{mvPythonDataType::Bool, "on_enter", "Only runs callback on enter"},
+		}, "Adds slider for a 3 float values. CTRL+Click to directly modify the value.", "None", "Adding Widgets") });
+
+		parsers->insert({ "add_slider_float4", mvPythonParser({
+			{mvPythonDataType::String, "name"},
+			{mvPythonDataType::KeywordOnly},
+			{mvPythonDataType::FloatList, "default_value"},
+			{mvPythonDataType::Float, "min_value"},
+			{mvPythonDataType::Float, "max_value"},
+			{mvPythonDataType::String, "format"},
+			{mvPythonDataType::Object, "callback", "Registers a callback"},
+			{mvPythonDataType::Object, "callback_data", "Callback data"},
+			{mvPythonDataType::String, "tip", "Adds a simple tooltip"},
+			{mvPythonDataType::String, "parent", "Parent this item will be added to. (runtime adding)"},
+			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)"},
+			{mvPythonDataType::String, "data_source", "data source for shared data"},
+			{mvPythonDataType::Integer, "width",""},
+			{mvPythonDataType::Bool, "on_enter", "Only runs callback on enter"},
+		}, "Adds slider for a 4 float values. CTRL+Click to directly modify the value.", "None", "Adding Widgets") });
+
+		parsers->insert({ "add_slider_int", mvPythonParser({
+			{mvPythonDataType::String, "name"},
+			{mvPythonDataType::KeywordOnly},
+			{mvPythonDataType::Integer, "default_value"},
+			{mvPythonDataType::Integer, "min_value"},
+			{mvPythonDataType::Integer, "max_value"},
+			{mvPythonDataType::String, "format"},
+			{mvPythonDataType::Bool, "vertical", "sets orientation to vertical"},
+			{mvPythonDataType::Object, "callback", "Registers a callback"},
+			{mvPythonDataType::Object, "callback_data", "Callback data"},
+			{mvPythonDataType::String, "tip", "Adds a simple tooltip"},
+			{mvPythonDataType::String, "parent", "Parent this item will be added to. (runtime adding)"},
+			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)"},
+			{mvPythonDataType::String, "data_source", "data source for shared data"},
+			{mvPythonDataType::Integer, "width",""},
+			{mvPythonDataType::Integer, "height","Height of a vertical slider"},
+			{mvPythonDataType::Bool, "on_enter", "Only runs callback on enter"},
+		}, "Adds slider for a single int value. CTRL+Click to directly modify the value.", "None", "Adding Widgets") });
+
+		parsers->insert({ "add_slider_int2", mvPythonParser({
+			{mvPythonDataType::String, "name"},
+			{mvPythonDataType::KeywordOnly},
+			{mvPythonDataType::IntList, "default_value"},
+			{mvPythonDataType::Integer, "min_value"},
+			{mvPythonDataType::Integer, "max_value"},
+			{mvPythonDataType::String, "format"},
+			{mvPythonDataType::Object, "callback", "Registers a callback"},
+			{mvPythonDataType::Object, "callback_data", "Callback data"},
+			{mvPythonDataType::String, "tip", "Adds a simple tooltip"},
+			{mvPythonDataType::String, "parent", "Parent this item will be added to. (runtime adding)"},
+			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)"},
+			{mvPythonDataType::String, "data_source", "data source for shared data"},
+			{mvPythonDataType::Integer, "width",""},
+			{mvPythonDataType::Bool, "on_enter", "Only runs callback on enter"},
+		}, "Adds slider for a 2 int values. CTRL+Click to directly modify the value.", "None", "Adding Widgets") });
+
+		parsers->insert({ "add_slider_int3", mvPythonParser({
+			{mvPythonDataType::String, "name"},
+			{mvPythonDataType::KeywordOnly},
+			{mvPythonDataType::IntList, "default_value"},
+			{mvPythonDataType::Integer, "min_value"},
+			{mvPythonDataType::Integer, "max_value"},
+			{mvPythonDataType::String, "format"},
+			{mvPythonDataType::Object, "callback", "Registers a callback"},
+			{mvPythonDataType::Object, "callback_data", "Callback data"},
+			{mvPythonDataType::String, "tip", "Adds a simple tooltip"},
+			{mvPythonDataType::String, "parent", "Parent this item will be added to. (runtime adding)"},
+			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)"},
+			{mvPythonDataType::String, "data_source", "data source for shared data"},
+			{mvPythonDataType::Integer, "width",""},
+			{mvPythonDataType::Bool, "on_enter", "Only runs callback on enter"},
+		}, "Adds slider for a 3 int values. CTRL+Click to directly modify the value.", "None", "Adding Widgets") });
+
+		parsers->insert({ "add_slider_int4", mvPythonParser({
+			{mvPythonDataType::String, "name"},
+			{mvPythonDataType::KeywordOnly},
+			{mvPythonDataType::IntList, "default_value"},
+			{mvPythonDataType::Integer, "min_value"},
+			{mvPythonDataType::Integer, "max_value"},
+			{mvPythonDataType::String, "format"},
+			{mvPythonDataType::Object, "callback", "Registers a callback"},
+			{mvPythonDataType::Object, "callback_data", "Callback data"},
+			{mvPythonDataType::String, "tip", "Adds a simple tooltip"},
+			{mvPythonDataType::String, "parent", "Parent this item will be added to. (runtime adding)"},
+			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)"},
+			{mvPythonDataType::String, "data_source", "data source for shared data"},
+			{mvPythonDataType::Integer, "width",""},
+			{mvPythonDataType::Bool, "on_enter", "Only runs callback on enter"},
+		}, "Adds slider for a 4 int values. CTRL+Click to directly modify the value.", "None", "Adding Widgets") });
+	}
+
+	void AddDragWidgets(std::map<std::string, mvPythonParser>* parsers)
+	{
+		parsers->insert({ "add_drag_float", mvPythonParser({
+			{mvPythonDataType::String, "name"},
+			{mvPythonDataType::KeywordOnly},
+			{mvPythonDataType::Float, "default_value"},
+			{mvPythonDataType::Float, "speed"},
+			{mvPythonDataType::Float, "min_value"},
+			{mvPythonDataType::Float, "max_value"},
+			{mvPythonDataType::String, "format"},
+			{mvPythonDataType::Object, "callback", "Registers a callback"},
+			{mvPythonDataType::Object, "callback_data", "Callback data"},
+			{mvPythonDataType::String, "tip", "Adds a simple tooltip"},
+			{mvPythonDataType::String, "parent", "Parent this item will be added to. (runtime adding)"},
+			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)"},
+			{mvPythonDataType::String, "data_source", "data source for shared data"},
+			{mvPythonDataType::Integer, "width",""},
+			{mvPythonDataType::Bool, "on_enter", "Only runs callback on enter"},
+		}, "Adds drag for a single float value. CTRL+Click to directly modify the value.", "None", "Adding Widgets") });
+
+		parsers->insert({ "add_drag_float2", mvPythonParser({
+			{mvPythonDataType::String, "name"},
+			{mvPythonDataType::KeywordOnly},
+			{mvPythonDataType::FloatList, "default_value"},
+			{mvPythonDataType::Float, "speed"},
+			{mvPythonDataType::Float, "min_value"},
+			{mvPythonDataType::Float, "max_value"},
+			{mvPythonDataType::String, "format"},
+			{mvPythonDataType::Object, "callback", "Registers a callback"},
+			{mvPythonDataType::Object, "callback_data", "Callback data"},
+			{mvPythonDataType::String, "tip", "Adds a simple tooltip"},
+			{mvPythonDataType::String, "parent", "Parent this item will be added to. (runtime adding)"},
+			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)"},
+			{mvPythonDataType::String, "data_source", "data source for shared data"},
+			{mvPythonDataType::Integer, "width",""},
+			{mvPythonDataType::Bool, "on_enter", "Only runs callback on enter"},
+		}, "Adds drag for a 2 float values. CTRL+Click to directly modify the value.", "None", "Adding Widgets") });
+
+		parsers->insert({ "add_drag_float3", mvPythonParser({
+			{mvPythonDataType::String, "name"},
+			{mvPythonDataType::KeywordOnly},
+			{mvPythonDataType::FloatList, "default_value"},
+			{mvPythonDataType::Float, "speed"},
+			{mvPythonDataType::Float, "min_value"},
+			{mvPythonDataType::Float, "max_value"},
+			{mvPythonDataType::String, "format"},
+			{mvPythonDataType::Object, "callback", "Registers a callback"},
+			{mvPythonDataType::Object, "callback_data", "Callback data"},
+			{mvPythonDataType::String, "tip", "Adds a simple tooltip"},
+			{mvPythonDataType::String, "parent", "Parent this item will be added to. (runtime adding)"},
+			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)"},
+			{mvPythonDataType::String, "data_source", "data source for shared data"},
+			{mvPythonDataType::Integer, "width",""},
+			{mvPythonDataType::Bool, "on_enter", "Only runs callback on enter"},
+		}, "Adds drag for a 3 float values. CTRL+Click to directly modify the value.", "None", "Adding Widgets") });
+
+		parsers->insert({ "add_drag_float4", mvPythonParser({
+			{mvPythonDataType::String, "name"},
+			{mvPythonDataType::KeywordOnly},
+			{mvPythonDataType::FloatList, "default_value"},
+			{mvPythonDataType::Float, "speed"},
+			{mvPythonDataType::Float, "min_value"},
+			{mvPythonDataType::Float, "max_value"},
+			{mvPythonDataType::String, "format"},
+			{mvPythonDataType::Object, "callback", "Registers a callback"},
+			{mvPythonDataType::Object, "callback_data", "Callback data"},
+			{mvPythonDataType::String, "tip", "Adds a simple tooltip"},
+			{mvPythonDataType::String, "parent", "Parent this item will be added to. (runtime adding)"},
+			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)"},
+			{mvPythonDataType::String, "data_source", "data source for shared data"},
+			{mvPythonDataType::Integer, "width",""},
+			{mvPythonDataType::Bool, "on_enter", "Only runs callback on enter"},
+		}, "Adds drag for a 4 float values. CTRL+Click to directly modify the value.", "None", "Adding Widgets") });
+
+		parsers->insert({ "add_drag_int", mvPythonParser({
+			{mvPythonDataType::String, "name"},
+			{mvPythonDataType::KeywordOnly},
+			{mvPythonDataType::Integer, "default_value"},
+			{mvPythonDataType::Float, "speed"},
+			{mvPythonDataType::Integer, "min_value"},
+			{mvPythonDataType::Integer, "max_value"},
+			{mvPythonDataType::String, "format"},
+			{mvPythonDataType::Object, "callback", "Registers a callback"},
+			{mvPythonDataType::Object, "callback_data", "Callback data"},
+			{mvPythonDataType::String, "tip", "Adds a simple tooltip"},
+			{mvPythonDataType::String, "parent", "Parent this item will be added to. (runtime adding)"},
+			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)"},
+			{mvPythonDataType::String, "data_source", "data source for shared data"},
+			{mvPythonDataType::Integer, "width",""},
+			{mvPythonDataType::Bool, "on_enter", "Only runs callback on enter"},
+		}, "Adds drag for a single int value. CTRL+Click to directly modify the value.", "None", "Adding Widgets") });
+
+		parsers->insert({ "add_drag_int2", mvPythonParser({
+			{mvPythonDataType::String, "name"},
+			{mvPythonDataType::KeywordOnly},
+			{mvPythonDataType::IntList, "default_value"},
+			{mvPythonDataType::Float, "speed"},
+			{mvPythonDataType::Integer, "min_value"},
+			{mvPythonDataType::Integer, "max_value"},
+			{mvPythonDataType::String, "format"},
+			{mvPythonDataType::Object, "callback", "Registers a callback"},
+			{mvPythonDataType::Object, "callback_data", "Callback data"},
+			{mvPythonDataType::String, "tip", "Adds a simple tooltip"},
+			{mvPythonDataType::String, "parent", "Parent this item will be added to. (runtime adding)"},
+			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)"},
+			{mvPythonDataType::String, "data_source", "data source for shared data"},
+			{mvPythonDataType::Integer, "width",""},
+			{mvPythonDataType::Bool, "on_enter", "Only runs callback on enter"},
+		}, "Adds drag for a 2 int values. CTRL+Click to directly modify the value.", "None", "Adding Widgets") });
+
+		parsers->insert({ "add_drag_int3", mvPythonParser({
+			{mvPythonDataType::String, "name"},
+			{mvPythonDataType::KeywordOnly},
+			{mvPythonDataType::IntList, "default_value"},
+			{mvPythonDataType::Float, "speed"},
+			{mvPythonDataType::Integer, "min_value"},
+			{mvPythonDataType::Integer, "max_value"},
+			{mvPythonDataType::String, "format"},
+			{mvPythonDataType::Object, "callback", "Registers a callback"},
+			{mvPythonDataType::Object, "callback_data", "Callback data"},
+			{mvPythonDataType::String, "tip", "Adds a simple tooltip"},
+			{mvPythonDataType::String, "parent", "Parent this item will be added to. (runtime adding)"},
+			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)"},
+			{mvPythonDataType::String, "data_source", "data source for shared data"},
+			{mvPythonDataType::Integer, "width",""},
+			{mvPythonDataType::Bool, "on_enter", "Only runs callback on enter"},
+		}, "Adds drag for a 3 int values. CTRL+Click to directly modify the value.", "None", "Adding Widgets") });
+
+		parsers->insert({ "add_drag_int4", mvPythonParser({
+			{mvPythonDataType::String, "name"},
+			{mvPythonDataType::KeywordOnly},
+			{mvPythonDataType::IntList, "default_value"},
+			{mvPythonDataType::Float, "speed"},
+			{mvPythonDataType::Integer, "min_value"},
+			{mvPythonDataType::Integer, "max_value"},
+			{mvPythonDataType::String, "format"},
+			{mvPythonDataType::Object, "callback", "Registers a callback"},
+			{mvPythonDataType::Object, "callback_data", "Callback data"},
+			{mvPythonDataType::String, "tip", "Adds a simple tooltip"},
+			{mvPythonDataType::String, "parent", "Parent this item will be added to. (runtime adding)"},
+			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)"},
+			{mvPythonDataType::String, "data_source", "data source for shared data"},
+			{mvPythonDataType::Integer, "width",""},
+			{mvPythonDataType::Bool, "on_enter", "Only runs callback on enter"},
+		}, "Adds drag for a 4 int values. CTRL+Click to directly modify the value.", "None", "Adding Widgets") });
+	}
+
+	void AddBasicWidgets(std::map<std::string, mvPythonParser>* parsers)
+	{
+		parsers->insert({ "add_separator", mvPythonParser({
+			{mvPythonDataType::KeywordOnly},
+			{mvPythonDataType::String, "name"},
+			{mvPythonDataType::String, "tip", "Adds a simple tooltip"},
+			{mvPythonDataType::String, "parent", "Parent this item will be added to. (runtime adding)"},
+			{mvPythonDataType::String, "before","This item will be displayed before the specified item in the parent. (runtime adding)"},
+		}, "Adds a horizontal line.", "None", "Adding Widgets") });
+
+		parsers->insert({ "add_simple_plot", mvPythonParser({
+			{mvPythonDataType::String, "name"},
+			{mvPythonDataType::FloatList, "value", "Tuple of float values"},
+			{mvPythonDataType::KeywordOnly},
+			{mvPythonDataType::Bool, "autoscale", "autoscales range based on data (default is True)"},
+			{mvPythonDataType::String, "overlay", "overlays text (similar to a plot title)"},
+			{mvPythonDataType::Float, "minscale", "used if autoscale is false"},
+			{mvPythonDataType::Float, "maxscale", "used if autoscale is false"},
+			{mvPythonDataType::Bool, "histogram", "create a histogram"},
+			{mvPythonDataType::String, "tip", "Adds a simple tooltip"},
+			{mvPythonDataType::String, "parent", "Parent this item will be added to. (runtime adding)"},
+			{mvPythonDataType::String, "before","This item will be displayed before the specified item in the parent. (runtime adding)"},
+			{mvPythonDataType::Integer, "width",""},
+			{mvPythonDataType::Integer, "height",""},
+			{mvPythonDataType::String, "data_source",""},
+		}, "A simple plot for visualization of a set of values", "None", "Adding Widgets") });
+
+		parsers->insert({ "add_progress_bar", mvPythonParser({
+			{mvPythonDataType::String, "name"},
+			{mvPythonDataType::Optional},
+			{mvPythonDataType::Float, "value"},
+			{mvPythonDataType::KeywordOnly},
+			{mvPythonDataType::String, "overlay"},
+			{mvPythonDataType::String, "tip", "Adds a simple tooltip"},
+			{mvPythonDataType::String, "parent", "Parent this item will be added to. (runtime adding)"},
+			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)"},
+			{mvPythonDataType::String, "data_source", "data source for shared data"},
+			{mvPythonDataType::Integer, "width",""},
+			{mvPythonDataType::Integer, "height",""},
+		}, "Adds a progress bar.", "None", "Adding Widgets") });
+
+		parsers->insert({ "add_image", mvPythonParser({
+			{mvPythonDataType::String, "name"},
+			{mvPythonDataType::String, "value"},
+			{mvPythonDataType::KeywordOnly},
+			{mvPythonDataType::FloatList, "tint_color"},
+			{mvPythonDataType::FloatList, "border_color"},
+			{mvPythonDataType::String, "tip", "Adds a simple tooltip"},
+			{mvPythonDataType::String, "parent", "Parent this item will be added to. (runtime adding)"},
+			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)"},
+			{mvPythonDataType::String, "data_source", "data source for shared data"},
+			{mvPythonDataType::Integer, "width",""},
+			{mvPythonDataType::Integer, "height",""},
+			{mvPythonDataType::FloatList, "uv_min"},
+			{mvPythonDataType::FloatList, "uv_max"},
+			{mvPythonDataType::String, "secondary_data_source", "Float list for uv_min and uv_max (i.e. float list (minx, miny, maxx, maxy))"},
+		}, "Adds an image."
+		"uv_min and uv_max represent the normalized texture coordinates of the original image that will be shown."
+		"Using(0,0)->(1,1) texture coordinates will generally display the entire texture", "None", "Adding Widgets") });
+
+		parsers->insert({ "add_image_button", mvPythonParser({
+			{mvPythonDataType::String, "name"},
+			{mvPythonDataType::String, "value"},
+			{mvPythonDataType::KeywordOnly},
+			{mvPythonDataType::Object, "callback", "Registers a callback"},
+			{mvPythonDataType::Object, "callback_data", "Callback data"},
+			{mvPythonDataType::FloatList, "tint_color"},
+			{mvPythonDataType::FloatList, "background_color"},
+			{mvPythonDataType::String, "tip", "Adds a simple tooltip"},
+			{mvPythonDataType::String, "parent", "Parent this item will be added to. (runtime adding)"},
+			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)"},
+			{mvPythonDataType::Integer, "width",""},
+			{mvPythonDataType::Integer, "height",""},
+			{mvPythonDataType::Integer, "frame_padding",""},
+			{mvPythonDataType::FloatList, "uv_min"},
+			{mvPythonDataType::FloatList, "uv_max"},
+		}, "Adds an image button."
+		"uv_min and uv_max represent the normalized texture coordinates of the original image that will be shown."
+		"Using(0,0)->(1,1) texture coordinates will generally display the entire texture", "None", "Adding Widgets") });
+
+		parsers->insert({ "add_text", mvPythonParser({
+			{mvPythonDataType::String, "name"},
+			{mvPythonDataType::KeywordOnly},
+			{mvPythonDataType::Integer, "wrap", "number of characters until wraping"},
+			{mvPythonDataType::FloatList, "color", "color of the text (rgba)"},
+			{mvPythonDataType::Bool, "bullet", "makes the text bulleted"},
+			{mvPythonDataType::String, "tip", "Adds a simple tooltip"},
+			{mvPythonDataType::String, "parent", "Parent this item will be added to. (runtime adding)"},
+			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)"},
+		}, "Adds text", "None", "Adding Widgets") });
+
+		parsers->insert({ "add_label_text", mvPythonParser({
+			{mvPythonDataType::String, "name"},
+			{mvPythonDataType::String, "value"},
+			{mvPythonDataType::KeywordOnly},
+			{mvPythonDataType::FloatList, "color"},
+			{mvPythonDataType::String, "tip", "Adds a simple tooltip"},
+			{mvPythonDataType::String, "parent", "Parent this item will be added to. (runtime adding)"},
+			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)"},
+			{mvPythonDataType::String, "data_source", "data source for shared data"},
+		}, "Adds text with a label. Useful for output values.", "None", "Adding Widgets") });
+
+		parsers->insert({ "add_listbox", mvPythonParser({
+			{mvPythonDataType::String, "name", "Name of the listbox"},
+			{mvPythonDataType::StringList, "items"},
+			{mvPythonDataType::KeywordOnly},
+			{mvPythonDataType::Integer, "default_value"},
+			{mvPythonDataType::Object, "callback", "Registers a callback"},
+			{mvPythonDataType::Object, "callback_data", "Callback data"},
+			{mvPythonDataType::String, "tip", "Adds a simple tooltip"},
+			{mvPythonDataType::String, "parent", "Parent this item will be added to. (runtime adding)"},
+			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)"},
+			{mvPythonDataType::String, "data_source", "data source for shared data"},
+			{mvPythonDataType::Integer, "width",""},
+			{mvPythonDataType::Integer, "height", "number of items to show"},
+			{mvPythonDataType::String, "secondary_data_source", "Data source for the list items."},
+		}, "Adds a listbox.", "None", "Adding Widgets") });
+
+		parsers->insert({ "add_combo", mvPythonParser({
+			{mvPythonDataType::String, "name"},
+			{mvPythonDataType::StringList, "items"},
+			{mvPythonDataType::KeywordOnly},
+			{mvPythonDataType::String, "default_value"},
+			{mvPythonDataType::Object, "callback", "Registers a callback"},
+			{mvPythonDataType::Object, "callback_data", "Callback data"},
+			{mvPythonDataType::String, "tip", "Adds a simple tooltip"},
+			{mvPythonDataType::String, "parent", "Parent this item will be added to. (runtime adding)"},
+			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)"},
+			{mvPythonDataType::String, "data_source", "data source for shared data"},
+			{mvPythonDataType::Integer, "width",""},
+			{mvPythonDataType::String, "secondary_data_source", "Data source for the combo items."},
+		}, "Adds a combo.", "None", "Adding Widgets") });
+
+		parsers->insert({ "add_selectable", mvPythonParser({
+			{mvPythonDataType::String, "name"},
+			{mvPythonDataType::KeywordOnly},
+			{mvPythonDataType::Bool, "default_value"},
+			{mvPythonDataType::Object, "callback", "Registers a callback"},
+			{mvPythonDataType::Object, "callback_data", "Callback data"},
+			{mvPythonDataType::String, "tip", "Adds a simple tooltip"},
+			{mvPythonDataType::String, "parent", "Parent this item will be added to. (runtime adding)"},
+			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)"},
+			{mvPythonDataType::String, "data_source", "data source for shared data"},
+		}, "Adds a selectable.", "None", "Adding Widgets") });
+
+		parsers->insert({ "add_button", mvPythonParser({
+			{mvPythonDataType::String, "name"},
+			{mvPythonDataType::KeywordOnly},
+			{mvPythonDataType::Bool, "small", "Small button, useful for embedding in text."},
+			{mvPythonDataType::Bool, "arrow", "Arrow button."},
+			{mvPythonDataType::Integer, "direction", "A cardinal direction"},
+			{mvPythonDataType::Object, "callback", "Registers a callback"},
+			{mvPythonDataType::Object, "callback_data", "Callback data"},
+			{mvPythonDataType::String, "tip", "Adds a simple tooltip"},
+			{mvPythonDataType::String, "parent", "Parent to add this item to. (runtime adding)"},
+			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)"},
+			{mvPythonDataType::Integer, "width",""},
+			{mvPythonDataType::Integer, "height", ""},
+		}, "Adds a button.", "None", "Adding Widgets") });
+
+		parsers->insert({ "add_indent", mvPythonParser({
+			{mvPythonDataType::KeywordOnly},
+			{mvPythonDataType::String, "name"},
+			{mvPythonDataType::Float, "offset"},
+			{mvPythonDataType::String, "parent", "Parent to add this item to. (runtime adding)"},
+			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)"},
+		}, "Adds an indent to following items. Must be closed with the unindent command.", "None", "Adding Widgets") });
+
+		parsers->insert({ "unindent", mvPythonParser({
+			{mvPythonDataType::KeywordOnly},
+			{mvPythonDataType::String, "name"},
+			{mvPythonDataType::Float, "offset"},
+			{mvPythonDataType::String, "parent", "Parent to add this item to. (runtime adding)"},
+			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)"},
+		}, "Unindents following items.", "None", "Adding Widgets") });
+
+		parsers->insert({ "add_spacing", mvPythonParser({
+			{mvPythonDataType::KeywordOnly},
+			{mvPythonDataType::String, "name"},
+			{mvPythonDataType::Integer, "count"},
+			{mvPythonDataType::String, "parent", "Parent to add this item to. (runtime adding)"},
+			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)"},
+		}, "Adds vertical spacing.", "None", "Adding Widgets") });
+
+		parsers->insert({ "add_same_line", mvPythonParser({
+			{mvPythonDataType::KeywordOnly},
+			{mvPythonDataType::String, "name"},
+			{mvPythonDataType::Float, "xoffset"},
+			{mvPythonDataType::Float, "spacing"},
+			{mvPythonDataType::String, "parent", "Parent to add this item to. (runtime adding)"},
+			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)"},
+		}, "Places a widget on the same line as the previous widget. Can also be used for horizontal spacing.",
+		"None", "Adding Widgets") });
+
+		parsers->insert({ "add_radio_button", mvPythonParser({
+			{mvPythonDataType::String, "name"},
+			{mvPythonDataType::StringList, "items"},
+			{mvPythonDataType::KeywordOnly},
+			{mvPythonDataType::Integer, "default_value"},
+			{mvPythonDataType::Object, "callback", "Registers a callback"},
+			{mvPythonDataType::Object, "callback_data", "Callback data"},
+			{mvPythonDataType::String, "tip", "Adds a simple tooltip"},
+			{mvPythonDataType::String, "parent", "Parent to add this item to. (runtime adding)"},
+			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)"},
+			{mvPythonDataType::String, "data_source", "data source for shared data"},
+			{mvPythonDataType::String, "secondary_data_source", "data source for radio button items"},
+			{mvPythonDataType::Bool, "horizontal"},
+		}, "Adds a set of radio buttons.", "None", "Adding Widgets") });
+
+		parsers->insert({ "add_color_edit3", mvPythonParser({
+			{mvPythonDataType::String, "name"},
+			{mvPythonDataType::KeywordOnly},
+			{mvPythonDataType::IntList, "default_value"},
+			{mvPythonDataType::Object, "callback", "Registers a callback"},
+			{mvPythonDataType::Object, "callback_data", "Callback data"},
+			{mvPythonDataType::String, "tip", "Adds a simple tooltip"},
+			{mvPythonDataType::String, "parent", "Parent to add this item to. (runtime adding)"},
+			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)"},
+			{mvPythonDataType::String, "data_source", "data source for shared data"},
+			{mvPythonDataType::Integer, "width",""},
+			{mvPythonDataType::Integer, "height", ""},
+		}, "Adds an rgb color editing widget. Click and draging the color square will copy the color to be applied on any other color widget.", "None", "Adding Widgets") });
+
+		parsers->insert({ "add_color_edit4", mvPythonParser({
+			{mvPythonDataType::String, "name"},
+			{mvPythonDataType::KeywordOnly},
+			{mvPythonDataType::IntList, "default_value"},
+			{mvPythonDataType::Object, "callback", "Registers a callback"},
+			{mvPythonDataType::Object, "callback_data", "Callback data"},
+			{mvPythonDataType::String, "tip", "Adds a simple tooltip"},
+			{mvPythonDataType::String, "parent", "Parent to add this item to. (runtime adding)"},
+			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)"},
+			{mvPythonDataType::String, "data_source", "data source for shared data"},
+			{mvPythonDataType::Integer, "width",""},
+			{mvPythonDataType::Integer, "height", ""},
+		}, "Adds an rgba color editing widget. Click and draging the color square will copy the color to be applied on any other color widget.", "None", "Adding Widgets") });
+
+		parsers->insert({ "add_color_picker3", mvPythonParser({
+			{mvPythonDataType::String, "name"},
+			{mvPythonDataType::KeywordOnly},
+			{mvPythonDataType::IntList, "default_value"},
+			{mvPythonDataType::Object, "callback", "Registers a callback"},
+			{mvPythonDataType::Object, "callback_data", "Callback data"},
+			{mvPythonDataType::String, "tip", "Adds a simple tooltip"},
+			{mvPythonDataType::String, "parent", "Parent to add this item to. (runtime adding)"},
+			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)"},
+			{mvPythonDataType::String, "data_source", "data source for shared data"},
+			{mvPythonDataType::Integer, "width",""},
+			{mvPythonDataType::Integer, "height", ""},
+		}, "Adds an rgb color picking widget. Click and draging the color square will copy the color to be applied on any other color widget. Right Click allows the style of the color picker to be changed.", "None", "Adding Widgets") });
+
+		parsers->insert({ "add_color_picker4", mvPythonParser({
+			{mvPythonDataType::String, "name"},
+			{mvPythonDataType::KeywordOnly},
+			{mvPythonDataType::IntList, "default_value"},
+			{mvPythonDataType::Object, "callback", "Registers a callback"},
+			{mvPythonDataType::Object, "callback_data", "Callback data"},
+			{mvPythonDataType::String, "tip", "Adds a simple tooltip"},
+			{mvPythonDataType::String, "parent", "Parent to add this item to. (runtime adding)"},
+			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)"},
+			{mvPythonDataType::String, "data_source", "data source for shared data"},
+			{mvPythonDataType::Integer, "width",""},
+			{mvPythonDataType::Integer, "height", ""},
+		}, "Adds an rgba color picking widget. Click and draging the color square will copy the color to be applied on any other color widget. Right Click allows the style of the color picker to be changed", "None", "Adding Widgets") });
+
+		parsers->insert({ "add_checkbox", mvPythonParser({
+			{mvPythonDataType::String, "name"},
+			{mvPythonDataType::KeywordOnly},
+			{mvPythonDataType::Integer, "default_value"},
+			{mvPythonDataType::Object, "callback", "Registers a callback"},
+			{mvPythonDataType::Object, "callback_data", "Callback data"},
+			{mvPythonDataType::String, "tip", "Adds a simple tooltip"},
+			{mvPythonDataType::String, "parent", "Parent to add this item to. (runtime adding)"},
+			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)"},
+			{mvPythonDataType::String, "data_source", "data source for shared data"}
+		}, "Adds a checkbox widget.", "None", "Adding Widgets") });
+
+		parsers->insert({ "add_dummy", mvPythonParser({
+			{mvPythonDataType::Integer, "width"},
+			{mvPythonDataType::Integer, "height"},
+			{mvPythonDataType::KeywordOnly},
+			{mvPythonDataType::String, "name"},
+			{mvPythonDataType::String, "parent", "Parent to add this item to. (runtime adding)"},
+			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)"},
+		}, "Adds a spacer or 'dummy' object.", "None", "Adding Widgets") });
+	}
+
+	void AddContainerWidgets(std::map<std::string, mvPythonParser>* parsers)
+	{
+		parsers->insert({ "add_tab_bar", mvPythonParser({
+			{mvPythonDataType::String, "name"},
+			{mvPythonDataType::KeywordOnly},
+			{mvPythonDataType::Bool, "reorderable", "allows for moveable tabs"},
+			{mvPythonDataType::Object, "callback", "Registers a callback"},
+			{mvPythonDataType::Object, "callback_data", "Callback data"},
+			{mvPythonDataType::String, "parent", "Parent to add this item to. (runtime adding)"},
+			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)"},
+			{mvPythonDataType::String, "data_source", "data source for shared data"},
+		}, "Adds a tab bar.", "None", "Containers") });
+
+		parsers->insert({ "add_tab", mvPythonParser({
+			{mvPythonDataType::String, "name"},
+			{mvPythonDataType::KeywordOnly},
+			{mvPythonDataType::Bool, "closable"},
+			{mvPythonDataType::String, "tip", "Adds a simple tooltip"},
+			{mvPythonDataType::String, "parent", "Parent to add this item to. (runtime adding)"},
+			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)"},
+		}, "Adds a tab to a tab bar. Must be closed with the end_tab command.", "None", "Containers") });
+
+		parsers->insert({ "add_collapsing_header", mvPythonParser({
+			{mvPythonDataType::String, "name"},
+			{mvPythonDataType::KeywordOnly},
+			{mvPythonDataType::Bool, "default_open"},
+			{mvPythonDataType::Bool, "closable"},
+			{mvPythonDataType::String, "tip", "Adds a simple tooltip"},
+			{mvPythonDataType::String, "parent", "Parent to add this item to. (runtime adding)"},
+			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)"}
+		}, "Adds a collapsing header to add items to. Must be closed with the end_collapsing_header command.",
+			"None", "Containers") });
+
+		parsers->insert({ "add_tree_node", mvPythonParser({
+			{mvPythonDataType::String, "name"},
+			{mvPythonDataType::KeywordOnly},
+			{mvPythonDataType::Bool, "default_open"},
+			{mvPythonDataType::String, "tip", "Adds a simple tooltip"},
+			{mvPythonDataType::String, "parent", "Parent to add this item to. (runtime adding)"},
+			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)"},
+		}, "Adds a tree node to add items to. Must be closed with the end_tree_node command.",
+		"None", "Containers") });
+
+		parsers->insert({ "add_group", mvPythonParser({
+			{mvPythonDataType::String, "name"},
+			{mvPythonDataType::KeywordOnly},
+			{mvPythonDataType::String, "tip", "Adds a simple tooltip"},
+			{mvPythonDataType::String, "parent", "Parent to add this item to. (runtime adding)"},
+			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)"},
+			{mvPythonDataType::Integer, "width",""},
+			{mvPythonDataType::Bool, "hide"},
+			{mvPythonDataType::Bool, "horizontal"},
+			{mvPythonDataType::Float, "horizontal_spacing",""},
+		}, "Creates a group that other widgets can belong to. The group allows item commands to be issued for all of its members.\
+				Must be closed with the end_group command."
+		, "None", "Containers") });
+
+		parsers->insert({ "add_child", mvPythonParser({
+			{mvPythonDataType::String, "name"},
+			{mvPythonDataType::KeywordOnly},
+			{mvPythonDataType::String, "tip", "Adds a simple tooltip"},
+			{mvPythonDataType::String, "parent", "Parent to add this item to. (runtime adding)"},
+			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)"},
+			{mvPythonDataType::Integer, "width",""},
+			{mvPythonDataType::Integer, "height", ""},
+			{mvPythonDataType::Bool, "border", ""},
+		}, "Adds an embedded child window. Will show scrollbars when items do not fit. Must be followed by a call to end_child.",
+		"None", "Containers") });
+
+		parsers->insert({ "add_window", mvPythonParser({
+			{mvPythonDataType::String, "name"},
+			{mvPythonDataType::Optional},
+			{mvPythonDataType::Integer, "width"},
+			{mvPythonDataType::Integer, "height"},
+			{mvPythonDataType::KeywordOnly},
+			{mvPythonDataType::Integer, "start_x", "x position the window will start at"},
+			{mvPythonDataType::Integer, "start_y", "y position the window will start at"},
+			{mvPythonDataType::Bool, "autosize", "Autosized the window to fit it's items."},
+			{mvPythonDataType::Bool, "resizable", "Allows for the window size to be changed or fixed"},
+			{mvPythonDataType::Bool, "title_bar", "Title name for the title bar of the window"},
+			{mvPythonDataType::Bool, "movable", "Allows for the window's position to be changed or fixed"},
+			{mvPythonDataType::Bool, "hide", "Hides window."},
+			{mvPythonDataType::Object, "on_close", "Callback ran when window is closed"},
+		}, "Creates a new window for following items to be added to.",
+			"None", "Containers") });
+
+		parsers->insert({ "add_tooltip", mvPythonParser({
+			{mvPythonDataType::String, "tipparent", "Sets the item's tool tip to be the same as the named item's tool tip"},
+			{mvPythonDataType::String, "name"},
+			{mvPythonDataType::KeywordOnly},
+			{mvPythonDataType::String, "parent", "Parent to add this item to. (runtime adding)"},
+			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)"}
+		}, "Adds an advanced tool tip for an item. This command must come immediately after the item the tip is for.",
+			"None", "Containers") });
+
+		parsers->insert({ "add_popup", mvPythonParser({
+			{mvPythonDataType::String, "popupparent", "Parent that the popup will be assigned to."},
+			{mvPythonDataType::String, "name"},
+			{mvPythonDataType::KeywordOnly},
+			{mvPythonDataType::Integer, "mousebutton", "The mouse code that will trigger the popup. Default is 1 or mvMouseButton_Right. (mvMouseButton_Left, mvMouseButton_Right, mvMouseButton_Middle, mvMouseButton_X1, mvMouseButton_X2"},
+			{mvPythonDataType::Bool, "modal"},
+			{mvPythonDataType::String, "parent", "Parent to add this item to. (runtime adding)"},
+			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)"},
+			{mvPythonDataType::Integer, "width",""},
+			{mvPythonDataType::Integer, "height", ""},
+		}, "Adds a popup window for an item. This command must come immediately after the item the popup is for. Must be followed by a call to end_popup.",
+		"None", "Containers") });
+
+		parsers->insert({ "end", mvPythonParser({
+		}, "Ends a container.", "None", "Containers") });
+
+	}
+
+	PyObject* add_menu_bar(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		const char* name;
+		const char* before = "";
+		const char* parent = "";
+
+		if (!(*mvApp::GetApp()->getParsers())["add_menu_bar"].parse(args, kwargs, __FUNCTION__, &name,
+			&parent, &before))
+			return ToPyBool(false);
+
+		auto parentItem = mvApp::GetApp()->topParent();
+
+		if (parentItem->getType() == mvAppItemType::Window)
+		{
+			auto window = static_cast<mvWindowAppitem*>(parentItem);
+			window->addFlag(ImGuiWindowFlags_MenuBar);
+			mvAppItem* item = new mvMenuBar(name);
+			if (AddItemWithRuntimeChecks(item, parent, before))
+			{
+				mvApp::GetApp()->pushParent(item);
+				return ToPyBool(true);
+			}
+		}
+
+		return ToPyBool(false);
+	}
+
+	PyObject* add_menu(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		const char* name;
+		const char* tip = "";
+		const char* before = "";
+		const char* parent = "";
+
+		if (!(*mvApp::GetApp()->getParsers())["add_menu"].parse(args, kwargs, __FUNCTION__, &name,
+			&tip, &parent, &before))
+			return ToPyBool(false);
+
+		//auto parentItem = mvApp::GetApp()->topParent();
+
+		mvAppItem* item = new mvMenu(name);
+		item->setTip(tip);
+		if (AddItemWithRuntimeChecks(item, parent, before))
+		{
+			mvApp::GetApp()->pushParent(item);
+			return ToPyBool(true);
+		}
+		return ToPyBool(false);
+	}
+
+	PyObject* add_menu_item(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		const char* name;
+		const char* shortcut = "";
+		int check = false;
+		PyObject* callback = nullptr;
+		PyObject* callback_data = nullptr;
+		const char* tip = "";
+		const char* before = "";
+		const char* parent = "";
+
+		if (!(*mvApp::GetApp()->getParsers())["add_menu_item"].parse(args, kwargs, __FUNCTION__, &name,
+			&shortcut, &check, &callback, &callback_data, &tip, &parent, &before))
+			return ToPyBool(false);
+
+		mvAppItem* item = new mvMenuItem(name, shortcut, check);
+		if (callback)
+			Py_XINCREF(callback);
+		item->setCallback(callback);
+		if (callback_data)
+			Py_XINCREF(callback_data);
+		item->setCallbackData(callback_data);
+		item->setTip(tip);
+		return ToPyBool(AddItemWithRuntimeChecks(item, parent, before));
 	}
 
 	PyObject* add_input_text(PyObject* self, PyObject* args, PyObject* kwargs)
@@ -605,149 +1295,6 @@ namespace Marvel {
 		return ToPyBool(AddItemWithRuntimeChecks(item, parent, before));
 	}
 
-	void AddSliderWidgets(std::map<std::string, mvPythonParser>* parsers)
-	{
-		parsers->insert({ "add_slider_float", mvPythonParser({
-			{mvPythonDataType::String, "name"},
-			{mvPythonDataType::KeywordOnly},
-			{mvPythonDataType::Float, "default_value"},
-			{mvPythonDataType::Float, "min_value"},
-			{mvPythonDataType::Float, "max_value"},
-			{mvPythonDataType::String, "format"},
-			{mvPythonDataType::Bool, "vertical", "sets orientation to vertical"},
-			{mvPythonDataType::Object, "callback", "Registers a callback"},
-			{mvPythonDataType::Object, "callback_data", "Callback data"},
-			{mvPythonDataType::String, "tip", "Adds a simple tooltip"},
-			{mvPythonDataType::String, "parent", "Parent this item will be added to. (runtime adding)"},
-			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)"},
-			{mvPythonDataType::String, "data_source", "data source for shared data"},
-			{mvPythonDataType::Integer, "width",""},
-			{mvPythonDataType::Integer, "height","Height of a vertical slider"},
-			{mvPythonDataType::Bool, "on_enter", "Only runs callback on enter"},
-		}, "Adds slider for a single float value. CTRL+Click to directly modify the value.", "None", "Adding Widgets") });
-
-		parsers->insert({ "add_slider_float2", mvPythonParser({
-			{mvPythonDataType::String, "name"},
-			{mvPythonDataType::KeywordOnly},
-			{mvPythonDataType::FloatList, "default_value"},
-			{mvPythonDataType::Float, "min_value"},
-			{mvPythonDataType::Float, "max_value"},
-			{mvPythonDataType::String, "format"},
-			{mvPythonDataType::Object, "callback", "Registers a callback"},
-			{mvPythonDataType::Object, "callback_data", "Callback data"},
-			{mvPythonDataType::String, "tip", "Adds a simple tooltip"},
-			{mvPythonDataType::String, "parent", "Parent this item will be added to. (runtime adding)"},
-			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)"},
-			{mvPythonDataType::String, "data_source", "data source for shared data"},
-			{mvPythonDataType::Integer, "width",""},
-			{mvPythonDataType::Bool, "on_enter", "Only runs callback on enter"},
-		}, "Adds slider for a 2 float values. CTRL+Click to directly modify the value.", "None", "Adding Widgets") });
-
-		parsers->insert({ "add_slider_float3", mvPythonParser({
-			{mvPythonDataType::String, "name"},
-			{mvPythonDataType::KeywordOnly},
-			{mvPythonDataType::FloatList, "default_value"},
-			{mvPythonDataType::Float, "min_value"},
-			{mvPythonDataType::Float, "max_value"},
-			{mvPythonDataType::String, "format"},
-			{mvPythonDataType::Object, "callback", "Registers a callback"},
-			{mvPythonDataType::Object, "callback_data", "Callback data"},
-			{mvPythonDataType::String, "tip", "Adds a simple tooltip"},
-			{mvPythonDataType::String, "parent", "Parent this item will be added to. (runtime adding)"},
-			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)"},
-			{mvPythonDataType::String, "data_source", "data source for shared data"},
-			{mvPythonDataType::Integer, "width",""},
-			{mvPythonDataType::Bool, "on_enter", "Only runs callback on enter"},
-		}, "Adds slider for a 3 float values. CTRL+Click to directly modify the value.", "None", "Adding Widgets") });
-
-		parsers->insert({ "add_slider_float4", mvPythonParser({
-			{mvPythonDataType::String, "name"},
-			{mvPythonDataType::KeywordOnly},
-			{mvPythonDataType::FloatList, "default_value"},
-			{mvPythonDataType::Float, "min_value"},
-			{mvPythonDataType::Float, "max_value"},
-			{mvPythonDataType::String, "format"},
-			{mvPythonDataType::Object, "callback", "Registers a callback"},
-			{mvPythonDataType::Object, "callback_data", "Callback data"},
-			{mvPythonDataType::String, "tip", "Adds a simple tooltip"},
-			{mvPythonDataType::String, "parent", "Parent this item will be added to. (runtime adding)"},
-			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)"},
-			{mvPythonDataType::String, "data_source", "data source for shared data"},
-			{mvPythonDataType::Integer, "width",""},
-			{mvPythonDataType::Bool, "on_enter", "Only runs callback on enter"},
-		}, "Adds slider for a 4 float values. CTRL+Click to directly modify the value.", "None", "Adding Widgets") });
-
-		parsers->insert({ "add_slider_int", mvPythonParser({
-			{mvPythonDataType::String, "name"},
-			{mvPythonDataType::KeywordOnly},
-			{mvPythonDataType::Integer, "default_value"},
-			{mvPythonDataType::Integer, "min_value"},
-			{mvPythonDataType::Integer, "max_value"},
-			{mvPythonDataType::String, "format"},
-			{mvPythonDataType::Bool, "vertical", "sets orientation to vertical"},
-			{mvPythonDataType::Object, "callback", "Registers a callback"},
-			{mvPythonDataType::Object, "callback_data", "Callback data"},
-			{mvPythonDataType::String, "tip", "Adds a simple tooltip"},
-			{mvPythonDataType::String, "parent", "Parent this item will be added to. (runtime adding)"},
-			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)"},
-			{mvPythonDataType::String, "data_source", "data source for shared data"},
-			{mvPythonDataType::Integer, "width",""},
-			{mvPythonDataType::Integer, "height","Height of a vertical slider"},
-			{mvPythonDataType::Bool, "on_enter", "Only runs callback on enter"},
-		}, "Adds slider for a single int value. CTRL+Click to directly modify the value.", "None", "Adding Widgets") });
-
-		parsers->insert({ "add_slider_int2", mvPythonParser({
-			{mvPythonDataType::String, "name"},
-			{mvPythonDataType::KeywordOnly},
-			{mvPythonDataType::IntList, "default_value"},
-			{mvPythonDataType::Integer, "min_value"},
-			{mvPythonDataType::Integer, "max_value"},
-			{mvPythonDataType::String, "format"},
-			{mvPythonDataType::Object, "callback", "Registers a callback"},
-			{mvPythonDataType::Object, "callback_data", "Callback data"},
-			{mvPythonDataType::String, "tip", "Adds a simple tooltip"},
-			{mvPythonDataType::String, "parent", "Parent this item will be added to. (runtime adding)"},
-			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)"},
-			{mvPythonDataType::String, "data_source", "data source for shared data"},
-			{mvPythonDataType::Integer, "width",""},
-			{mvPythonDataType::Bool, "on_enter", "Only runs callback on enter"},
-		}, "Adds slider for a 2 int values. CTRL+Click to directly modify the value.", "None", "Adding Widgets") });
-
-		parsers->insert({ "add_slider_int3", mvPythonParser({
-			{mvPythonDataType::String, "name"},
-			{mvPythonDataType::KeywordOnly},
-			{mvPythonDataType::IntList, "default_value"},
-			{mvPythonDataType::Integer, "min_value"},
-			{mvPythonDataType::Integer, "max_value"},
-			{mvPythonDataType::String, "format"},
-			{mvPythonDataType::Object, "callback", "Registers a callback"},
-			{mvPythonDataType::Object, "callback_data", "Callback data"},
-			{mvPythonDataType::String, "tip", "Adds a simple tooltip"},
-			{mvPythonDataType::String, "parent", "Parent this item will be added to. (runtime adding)"},
-			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)"},
-			{mvPythonDataType::String, "data_source", "data source for shared data"},
-			{mvPythonDataType::Integer, "width",""},
-			{mvPythonDataType::Bool, "on_enter", "Only runs callback on enter"},
-		}, "Adds slider for a 3 int values. CTRL+Click to directly modify the value.", "None", "Adding Widgets") });
-
-		parsers->insert({ "add_slider_int4", mvPythonParser({
-			{mvPythonDataType::String, "name"},
-			{mvPythonDataType::KeywordOnly},
-			{mvPythonDataType::IntList, "default_value"},
-			{mvPythonDataType::Integer, "min_value"},
-			{mvPythonDataType::Integer, "max_value"},
-			{mvPythonDataType::String, "format"},
-			{mvPythonDataType::Object, "callback", "Registers a callback"},
-			{mvPythonDataType::Object, "callback_data", "Callback data"},
-			{mvPythonDataType::String, "tip", "Adds a simple tooltip"},
-			{mvPythonDataType::String, "parent", "Parent this item will be added to. (runtime adding)"},
-			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)"},
-			{mvPythonDataType::String, "data_source", "data source for shared data"},
-			{mvPythonDataType::Integer, "width",""},
-			{mvPythonDataType::Bool, "on_enter", "Only runs callback on enter"},
-		}, "Adds slider for a 4 int values. CTRL+Click to directly modify the value.", "None", "Adding Widgets") });
-	}
-
 	PyObject* add_slider_float(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		const char* name;
@@ -1087,153 +1634,6 @@ namespace Marvel {
 		item->setDataSource(data_source);
 		item->setWidth(width);
 		return ToPyBool(AddItemWithRuntimeChecks(item, parent, before));
-	}
-
-	void AddDragWidgets(std::map<std::string, mvPythonParser>* parsers)
-	{
-		parsers->insert({ "add_drag_float", mvPythonParser({
-			{mvPythonDataType::String, "name"},
-			{mvPythonDataType::KeywordOnly},
-			{mvPythonDataType::Float, "default_value"},
-			{mvPythonDataType::Float, "speed"},
-			{mvPythonDataType::Float, "min_value"},
-			{mvPythonDataType::Float, "max_value"},
-			{mvPythonDataType::String, "format"},
-			{mvPythonDataType::Object, "callback", "Registers a callback"},
-			{mvPythonDataType::Object, "callback_data", "Callback data"},
-			{mvPythonDataType::String, "tip", "Adds a simple tooltip"},
-			{mvPythonDataType::String, "parent", "Parent this item will be added to. (runtime adding)"},
-			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)"},
-			{mvPythonDataType::String, "data_source", "data source for shared data"},
-			{mvPythonDataType::Integer, "width",""},
-			{mvPythonDataType::Bool, "on_enter", "Only runs callback on enter"},
-		}, "Adds drag for a single float value. CTRL+Click to directly modify the value.", "None", "Adding Widgets") });
-
-		parsers->insert({ "add_drag_float2", mvPythonParser({
-			{mvPythonDataType::String, "name"},
-			{mvPythonDataType::KeywordOnly},
-			{mvPythonDataType::FloatList, "default_value"},
-			{mvPythonDataType::Float, "speed"},
-			{mvPythonDataType::Float, "min_value"},
-			{mvPythonDataType::Float, "max_value"},
-			{mvPythonDataType::String, "format"},
-			{mvPythonDataType::Object, "callback", "Registers a callback"},
-			{mvPythonDataType::Object, "callback_data", "Callback data"},
-			{mvPythonDataType::String, "tip", "Adds a simple tooltip"},
-			{mvPythonDataType::String, "parent", "Parent this item will be added to. (runtime adding)"},
-			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)"},
-			{mvPythonDataType::String, "data_source", "data source for shared data"},
-			{mvPythonDataType::Integer, "width",""},
-			{mvPythonDataType::Bool, "on_enter", "Only runs callback on enter"},
-		}, "Adds drag for a 2 float values. CTRL+Click to directly modify the value.", "None", "Adding Widgets") });
-
-		parsers->insert({ "add_drag_float3", mvPythonParser({
-			{mvPythonDataType::String, "name"},
-			{mvPythonDataType::KeywordOnly},
-			{mvPythonDataType::FloatList, "default_value"},
-			{mvPythonDataType::Float, "speed"},
-			{mvPythonDataType::Float, "min_value"},
-			{mvPythonDataType::Float, "max_value"},
-			{mvPythonDataType::String, "format"},
-			{mvPythonDataType::Object, "callback", "Registers a callback"},
-			{mvPythonDataType::Object, "callback_data", "Callback data"},
-			{mvPythonDataType::String, "tip", "Adds a simple tooltip"},
-			{mvPythonDataType::String, "parent", "Parent this item will be added to. (runtime adding)"},
-			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)"},
-			{mvPythonDataType::String, "data_source", "data source for shared data"},
-			{mvPythonDataType::Integer, "width",""},
-			{mvPythonDataType::Bool, "on_enter", "Only runs callback on enter"},
-		}, "Adds drag for a 3 float values. CTRL+Click to directly modify the value.", "None", "Adding Widgets") });
-
-		parsers->insert({ "add_drag_float4", mvPythonParser({
-			{mvPythonDataType::String, "name"},
-			{mvPythonDataType::KeywordOnly},
-			{mvPythonDataType::FloatList, "default_value"},
-			{mvPythonDataType::Float, "speed"},
-			{mvPythonDataType::Float, "min_value"},
-			{mvPythonDataType::Float, "max_value"},
-			{mvPythonDataType::String, "format"},
-			{mvPythonDataType::Object, "callback", "Registers a callback"},
-			{mvPythonDataType::Object, "callback_data", "Callback data"},
-			{mvPythonDataType::String, "tip", "Adds a simple tooltip"},
-			{mvPythonDataType::String, "parent", "Parent this item will be added to. (runtime adding)"},
-			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)"},
-			{mvPythonDataType::String, "data_source", "data source for shared data"},
-			{mvPythonDataType::Integer, "width",""},
-			{mvPythonDataType::Bool, "on_enter", "Only runs callback on enter"},
-		}, "Adds drag for a 4 float values. CTRL+Click to directly modify the value.", "None", "Adding Widgets") });
-
-		parsers->insert({ "add_drag_int", mvPythonParser({
-			{mvPythonDataType::String, "name"},
-			{mvPythonDataType::KeywordOnly},
-			{mvPythonDataType::Integer, "default_value"},
-			{mvPythonDataType::Float, "speed"},
-			{mvPythonDataType::Integer, "min_value"},
-			{mvPythonDataType::Integer, "max_value"},
-			{mvPythonDataType::String, "format"},
-			{mvPythonDataType::Object, "callback", "Registers a callback"},
-			{mvPythonDataType::Object, "callback_data", "Callback data"},
-			{mvPythonDataType::String, "tip", "Adds a simple tooltip"},
-			{mvPythonDataType::String, "parent", "Parent this item will be added to. (runtime adding)"},
-			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)"},
-			{mvPythonDataType::String, "data_source", "data source for shared data"},
-			{mvPythonDataType::Integer, "width",""},
-			{mvPythonDataType::Bool, "on_enter", "Only runs callback on enter"},
-		}, "Adds drag for a single int value. CTRL+Click to directly modify the value.", "None", "Adding Widgets") });
-
-		parsers->insert({ "add_drag_int2", mvPythonParser({
-			{mvPythonDataType::String, "name"},
-			{mvPythonDataType::KeywordOnly},
-			{mvPythonDataType::IntList, "default_value"},
-			{mvPythonDataType::Float, "speed"},
-			{mvPythonDataType::Integer, "min_value"},
-			{mvPythonDataType::Integer, "max_value"},
-			{mvPythonDataType::String, "format"},
-			{mvPythonDataType::Object, "callback", "Registers a callback"},
-			{mvPythonDataType::Object, "callback_data", "Callback data"},
-			{mvPythonDataType::String, "tip", "Adds a simple tooltip"},
-			{mvPythonDataType::String, "parent", "Parent this item will be added to. (runtime adding)"},
-			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)"},
-			{mvPythonDataType::String, "data_source", "data source for shared data"},
-			{mvPythonDataType::Integer, "width",""},
-			{mvPythonDataType::Bool, "on_enter", "Only runs callback on enter"},
-		}, "Adds drag for a 2 int values. CTRL+Click to directly modify the value.", "None", "Adding Widgets") });
-
-		parsers->insert({ "add_drag_int3", mvPythonParser({
-			{mvPythonDataType::String, "name"},
-			{mvPythonDataType::KeywordOnly},
-			{mvPythonDataType::IntList, "default_value"},
-			{mvPythonDataType::Float, "speed"},
-			{mvPythonDataType::Integer, "min_value"},
-			{mvPythonDataType::Integer, "max_value"},
-			{mvPythonDataType::String, "format"},
-			{mvPythonDataType::Object, "callback", "Registers a callback"},
-			{mvPythonDataType::Object, "callback_data", "Callback data"},
-			{mvPythonDataType::String, "tip", "Adds a simple tooltip"},
-			{mvPythonDataType::String, "parent", "Parent this item will be added to. (runtime adding)"},
-			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)"},
-			{mvPythonDataType::String, "data_source", "data source for shared data"},
-			{mvPythonDataType::Integer, "width",""},
-			{mvPythonDataType::Bool, "on_enter", "Only runs callback on enter"},
-		}, "Adds drag for a 3 int values. CTRL+Click to directly modify the value.", "None", "Adding Widgets") });
-
-		parsers->insert({ "add_drag_int4", mvPythonParser({
-			{mvPythonDataType::String, "name"},
-			{mvPythonDataType::KeywordOnly},
-			{mvPythonDataType::IntList, "default_value"},
-			{mvPythonDataType::Float, "speed"},
-			{mvPythonDataType::Integer, "min_value"},
-			{mvPythonDataType::Integer, "max_value"},
-			{mvPythonDataType::String, "format"},
-			{mvPythonDataType::Object, "callback", "Registers a callback"},
-			{mvPythonDataType::Object, "callback_data", "Callback data"},
-			{mvPythonDataType::String, "tip", "Adds a simple tooltip"},
-			{mvPythonDataType::String, "parent", "Parent this item will be added to. (runtime adding)"},
-			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)"},
-			{mvPythonDataType::String, "data_source", "data source for shared data"},
-			{mvPythonDataType::Integer, "width",""},
-			{mvPythonDataType::Bool, "on_enter", "Only runs callback on enter"},
-		}, "Adds drag for a 4 int values. CTRL+Click to directly modify the value.", "None", "Adding Widgets") });
 	}
 
 	PyObject* add_drag_float(PyObject* self, PyObject* args, PyObject* kwargs)
@@ -1584,293 +1984,6 @@ namespace Marvel {
 		return ToPyBool(AddItemWithRuntimeChecks(item, parent, before));
 	}
 
-	void AddBasicWidgets(std::map<std::string, mvPythonParser>* parsers)
-	{
-		parsers->insert({ "add_separator", mvPythonParser({
-			{mvPythonDataType::KeywordOnly},
-			{mvPythonDataType::String, "name"},
-			{mvPythonDataType::String, "tip", "Adds a simple tooltip"},
-			{mvPythonDataType::String, "parent", "Parent this item will be added to. (runtime adding)"},
-			{mvPythonDataType::String, "before","This item will be displayed before the specified item in the parent. (runtime adding)"},
-		}, "Adds a horizontal line.", "None", "Adding Widgets") });
-
-		parsers->insert({ "add_simple_plot", mvPythonParser({
-			{mvPythonDataType::String, "name"},
-			{mvPythonDataType::FloatList, "value", "Tuple of float values"},
-			{mvPythonDataType::KeywordOnly},
-			{mvPythonDataType::Bool, "autoscale", "autoscales range based on data (default is True)"},
-			{mvPythonDataType::String, "overlay", "overlays text (similar to a plot title)"},
-			{mvPythonDataType::Float, "minscale", "used if autoscale is false"},
-			{mvPythonDataType::Float, "maxscale", "used if autoscale is false"},
-			{mvPythonDataType::Bool, "histogram", "create a histogram"},
-			{mvPythonDataType::String, "tip", "Adds a simple tooltip"},
-			{mvPythonDataType::String, "parent", "Parent this item will be added to. (runtime adding)"},
-			{mvPythonDataType::String, "before","This item will be displayed before the specified item in the parent. (runtime adding)"},
-			{mvPythonDataType::Integer, "width",""},
-			{mvPythonDataType::Integer, "height",""},
-			{mvPythonDataType::String, "data_source",""},
-		}, "A simple plot for visualization of a set of values", "None", "Adding Widgets") });
-
-		parsers->insert({ "add_progress_bar", mvPythonParser({
-			{mvPythonDataType::String, "name"},
-			{mvPythonDataType::Optional},
-			{mvPythonDataType::Float, "value"},
-			{mvPythonDataType::KeywordOnly},
-			{mvPythonDataType::String, "overlay"},
-			{mvPythonDataType::String, "tip", "Adds a simple tooltip"},
-			{mvPythonDataType::String, "parent", "Parent this item will be added to. (runtime adding)"},
-			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)"},
-			{mvPythonDataType::String, "data_source", "data source for shared data"},
-			{mvPythonDataType::Integer, "width",""},
-			{mvPythonDataType::Integer, "height",""},
-		}, "Adds a progress bar.", "None", "Adding Widgets") });
-
-		parsers->insert({ "add_image", mvPythonParser({
-			{mvPythonDataType::String, "name"},
-			{mvPythonDataType::String, "value"},
-			{mvPythonDataType::KeywordOnly},
-			{mvPythonDataType::FloatList, "tint_color"},
-			{mvPythonDataType::FloatList, "border_color"},
-			{mvPythonDataType::String, "tip", "Adds a simple tooltip"},
-			{mvPythonDataType::String, "parent", "Parent this item will be added to. (runtime adding)"},
-			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)"},
-			{mvPythonDataType::String, "data_source", "data source for shared data"},
-			{mvPythonDataType::Integer, "width",""},
-			{mvPythonDataType::Integer, "height",""},
-			{mvPythonDataType::FloatList, "uv_min"},
-			{mvPythonDataType::FloatList, "uv_max"},
-			{mvPythonDataType::String, "secondary_data_source", "Float list for uv_min and uv_max (i.e. float list (minx, miny, maxx, maxy))"},
-		}, "Adds an image."
-		"uv_min and uv_max represent the normalized texture coordinates of the original image that will be shown."
-		"Using(0,0)->(1,1) texture coordinates will generally display the entire texture", "None", "Adding Widgets") });
-
-		parsers->insert({ "add_image_button", mvPythonParser({
-			{mvPythonDataType::String, "name"},
-			{mvPythonDataType::String, "value"},
-			{mvPythonDataType::KeywordOnly},
-			{mvPythonDataType::Object, "callback", "Registers a callback"},
-			{mvPythonDataType::Object, "callback_data", "Callback data"},
-			{mvPythonDataType::FloatList, "tint_color"},
-			{mvPythonDataType::FloatList, "background_color"},
-			{mvPythonDataType::String, "tip", "Adds a simple tooltip"},
-			{mvPythonDataType::String, "parent", "Parent this item will be added to. (runtime adding)"},
-			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)"},
-			{mvPythonDataType::Integer, "width",""},
-			{mvPythonDataType::Integer, "height",""},
-			{mvPythonDataType::Integer, "frame_padding",""},
-			{mvPythonDataType::FloatList, "uv_min"},
-			{mvPythonDataType::FloatList, "uv_max"},
-		}, "Adds an image button."
-		"uv_min and uv_max represent the normalized texture coordinates of the original image that will be shown."
-		"Using(0,0)->(1,1) texture coordinates will generally display the entire texture", "None", "Adding Widgets") });
-
-		parsers->insert({ "add_text", mvPythonParser({
-			{mvPythonDataType::String, "name"},
-			{mvPythonDataType::KeywordOnly},
-			{mvPythonDataType::Integer, "wrap", "number of characters until wraping"},
-			{mvPythonDataType::FloatList, "color", "color of the text (rgba)"},
-			{mvPythonDataType::Bool, "bullet", "makes the text bulleted"},
-			{mvPythonDataType::String, "tip", "Adds a simple tooltip"},
-			{mvPythonDataType::String, "parent", "Parent this item will be added to. (runtime adding)"},
-			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)"},
-		}, "Adds text", "None", "Adding Widgets") });
-
-		parsers->insert({ "add_label_text", mvPythonParser({
-			{mvPythonDataType::String, "name"},
-			{mvPythonDataType::String, "value"},
-			{mvPythonDataType::KeywordOnly},
-			{mvPythonDataType::FloatList, "color"},
-			{mvPythonDataType::String, "tip", "Adds a simple tooltip"},
-			{mvPythonDataType::String, "parent", "Parent this item will be added to. (runtime adding)"},
-			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)"},
-			{mvPythonDataType::String, "data_source", "data source for shared data"},
-		}, "Adds text with a label. Useful for output values.", "None", "Adding Widgets") });
-
-		parsers->insert({ "add_listbox", mvPythonParser({
-			{mvPythonDataType::String, "name", "Name of the listbox"},
-			{mvPythonDataType::StringList, "items"},
-			{mvPythonDataType::KeywordOnly},
-			{mvPythonDataType::Integer, "default_value"},
-			{mvPythonDataType::Object, "callback", "Registers a callback"},
-			{mvPythonDataType::Object, "callback_data", "Callback data"},
-			{mvPythonDataType::String, "tip", "Adds a simple tooltip"},
-			{mvPythonDataType::String, "parent", "Parent this item will be added to. (runtime adding)"},
-			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)"},
-			{mvPythonDataType::String, "data_source", "data source for shared data"},
-			{mvPythonDataType::Integer, "width",""},
-			{mvPythonDataType::Integer, "height", "number of items to show"},
-			{mvPythonDataType::String, "secondary_data_source", "Data source for the list items."},
-		}, "Adds a listbox.", "None", "Adding Widgets") });
-
-		parsers->insert({ "add_combo", mvPythonParser({
-			{mvPythonDataType::String, "name"},
-			{mvPythonDataType::StringList, "items"},
-			{mvPythonDataType::KeywordOnly},
-			{mvPythonDataType::String, "default_value"},
-			{mvPythonDataType::Object, "callback", "Registers a callback"},
-			{mvPythonDataType::Object, "callback_data", "Callback data"},
-			{mvPythonDataType::String, "tip", "Adds a simple tooltip"},
-			{mvPythonDataType::String, "parent", "Parent this item will be added to. (runtime adding)"},
-			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)"},
-			{mvPythonDataType::String, "data_source", "data source for shared data"},
-			{mvPythonDataType::Integer, "width",""},
-			{mvPythonDataType::String, "secondary_data_source", "Data source for the combo items."},
-		}, "Adds a combo.", "None", "Adding Widgets") });
-
-		parsers->insert({ "add_selectable", mvPythonParser({
-			{mvPythonDataType::String, "name"},
-			{mvPythonDataType::KeywordOnly},
-			{mvPythonDataType::Bool, "default_value"},
-			{mvPythonDataType::Object, "callback", "Registers a callback"},
-			{mvPythonDataType::Object, "callback_data", "Callback data"},
-			{mvPythonDataType::String, "tip", "Adds a simple tooltip"},
-			{mvPythonDataType::String, "parent", "Parent this item will be added to. (runtime adding)"},
-			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)"},
-			{mvPythonDataType::String, "data_source", "data source for shared data"},
-		}, "Adds a selectable.", "None", "Adding Widgets") });
-
-		parsers->insert({ "add_button", mvPythonParser({
-			{mvPythonDataType::String, "name"},
-			{mvPythonDataType::KeywordOnly},
-			{mvPythonDataType::Bool, "small", "Small button, useful for embedding in text."},
-			{mvPythonDataType::Bool, "arrow", "Arrow button."},
-			{mvPythonDataType::Integer, "direction", "A cardinal direction"},
-			{mvPythonDataType::Object, "callback", "Registers a callback"},
-			{mvPythonDataType::Object, "callback_data", "Callback data"},
-			{mvPythonDataType::String, "tip", "Adds a simple tooltip"},
-			{mvPythonDataType::String, "parent", "Parent to add this item to. (runtime adding)"},
-			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)"},
-			{mvPythonDataType::Integer, "width",""},
-			{mvPythonDataType::Integer, "height", ""},
-		}, "Adds a button.", "None", "Adding Widgets") });
-
-		parsers->insert({ "add_indent", mvPythonParser({
-			{mvPythonDataType::KeywordOnly},
-			{mvPythonDataType::String, "name"},
-			{mvPythonDataType::Float, "offset"},
-			{mvPythonDataType::String, "parent", "Parent to add this item to. (runtime adding)"},
-			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)"},
-		}, "Adds an indent to following items. Must be closed with the unindent command.", "None", "Adding Widgets") });
-
-		parsers->insert({ "unindent", mvPythonParser({
-			{mvPythonDataType::KeywordOnly},
-			{mvPythonDataType::String, "name"},
-			{mvPythonDataType::Float, "offset"},
-			{mvPythonDataType::String, "parent", "Parent to add this item to. (runtime adding)"},
-			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)"},
-		}, "Unindents following items.", "None", "Adding Widgets") });
-
-		parsers->insert({ "add_spacing", mvPythonParser({
-			{mvPythonDataType::KeywordOnly},
-			{mvPythonDataType::String, "name"},
-			{mvPythonDataType::Integer, "count"},
-			{mvPythonDataType::String, "parent", "Parent to add this item to. (runtime adding)"},
-			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)"},
-		}, "Adds vertical spacing.", "None", "Adding Widgets") });
-
-		parsers->insert({ "add_same_line", mvPythonParser({
-			{mvPythonDataType::KeywordOnly},
-			{mvPythonDataType::String, "name"},
-			{mvPythonDataType::Float, "xoffset"},
-			{mvPythonDataType::Float, "spacing"},
-			{mvPythonDataType::String, "parent", "Parent to add this item to. (runtime adding)"},
-			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)"},
-		}, "Places a widget on the same line as the previous widget. Can also be used for horizontal spacing.",
-		"None", "Adding Widgets") });
-
-		parsers->insert({ "add_radio_button", mvPythonParser({
-			{mvPythonDataType::String, "name"},
-			{mvPythonDataType::StringList, "items"},
-			{mvPythonDataType::KeywordOnly},
-			{mvPythonDataType::Integer, "default_value"},
-			{mvPythonDataType::Object, "callback", "Registers a callback"},
-			{mvPythonDataType::Object, "callback_data", "Callback data"},
-			{mvPythonDataType::String, "tip", "Adds a simple tooltip"},
-			{mvPythonDataType::String, "parent", "Parent to add this item to. (runtime adding)"},
-			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)"},
-			{mvPythonDataType::String, "data_source", "data source for shared data"},
-			{mvPythonDataType::String, "secondary_data_source", "data source for radio button items"},
-			{mvPythonDataType::Bool, "horizontal"},
-		}, "Adds a set of radio buttons.", "None", "Adding Widgets") });
-
-		parsers->insert({ "add_color_edit3", mvPythonParser({
-			{mvPythonDataType::String, "name"},
-			{mvPythonDataType::KeywordOnly},
-			{mvPythonDataType::IntList, "default_value"},
-			{mvPythonDataType::Object, "callback", "Registers a callback"},
-			{mvPythonDataType::Object, "callback_data", "Callback data"},
-			{mvPythonDataType::String, "tip", "Adds a simple tooltip"},
-			{mvPythonDataType::String, "parent", "Parent to add this item to. (runtime adding)"},
-			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)"},
-			{mvPythonDataType::String, "data_source", "data source for shared data"},
-			{mvPythonDataType::Integer, "width",""},
-			{mvPythonDataType::Integer, "height", ""},
-		}, "Adds an rgb color editing widget. Click and draging the color square will copy the color to be applied on any other color widget.", "None", "Adding Widgets") });
-
-		parsers->insert({ "add_color_edit4", mvPythonParser({
-			{mvPythonDataType::String, "name"},
-			{mvPythonDataType::KeywordOnly},
-			{mvPythonDataType::IntList, "default_value"},
-			{mvPythonDataType::Object, "callback", "Registers a callback"},
-			{mvPythonDataType::Object, "callback_data", "Callback data"},
-			{mvPythonDataType::String, "tip", "Adds a simple tooltip"},
-			{mvPythonDataType::String, "parent", "Parent to add this item to. (runtime adding)"},
-			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)"},
-			{mvPythonDataType::String, "data_source", "data source for shared data"},
-			{mvPythonDataType::Integer, "width",""},
-			{mvPythonDataType::Integer, "height", ""},
-		}, "Adds an rgba color editing widget. Click and draging the color square will copy the color to be applied on any other color widget.", "None", "Adding Widgets") });
-
-		parsers->insert({ "add_color_picker3", mvPythonParser({
-			{mvPythonDataType::String, "name"},
-			{mvPythonDataType::KeywordOnly},
-			{mvPythonDataType::IntList, "default_value"},
-			{mvPythonDataType::Object, "callback", "Registers a callback"},
-			{mvPythonDataType::Object, "callback_data", "Callback data"},
-			{mvPythonDataType::String, "tip", "Adds a simple tooltip"},
-			{mvPythonDataType::String, "parent", "Parent to add this item to. (runtime adding)"},
-			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)"},
-			{mvPythonDataType::String, "data_source", "data source for shared data"},
-			{mvPythonDataType::Integer, "width",""},
-			{mvPythonDataType::Integer, "height", ""},
-		}, "Adds an rgb color picking widget. Click and draging the color square will copy the color to be applied on any other color widget. Right Click allows the style of the color picker to be changed.", "None", "Adding Widgets") });
-
-		parsers->insert({ "add_color_picker4", mvPythonParser({
-			{mvPythonDataType::String, "name"},
-			{mvPythonDataType::KeywordOnly},
-			{mvPythonDataType::IntList, "default_value"},
-			{mvPythonDataType::Object, "callback", "Registers a callback"},
-			{mvPythonDataType::Object, "callback_data", "Callback data"},
-			{mvPythonDataType::String, "tip", "Adds a simple tooltip"},
-			{mvPythonDataType::String, "parent", "Parent to add this item to. (runtime adding)"},
-			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)"},
-			{mvPythonDataType::String, "data_source", "data source for shared data"},
-			{mvPythonDataType::Integer, "width",""},
-			{mvPythonDataType::Integer, "height", ""},
-		}, "Adds an rgba color picking widget. Click and draging the color square will copy the color to be applied on any other color widget. Right Click allows the style of the color picker to be changed", "None", "Adding Widgets") });
-
-		parsers->insert({ "add_checkbox", mvPythonParser({
-			{mvPythonDataType::String, "name"},
-			{mvPythonDataType::KeywordOnly},
-			{mvPythonDataType::Integer, "default_value"},
-			{mvPythonDataType::Object, "callback", "Registers a callback"},
-			{mvPythonDataType::Object, "callback_data", "Callback data"},
-			{mvPythonDataType::String, "tip", "Adds a simple tooltip"},
-			{mvPythonDataType::String, "parent", "Parent to add this item to. (runtime adding)"},
-			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)"},
-			{mvPythonDataType::String, "data_source", "data source for shared data"}
-		}, "Adds a checkbox widget.", "None", "Adding Widgets") });
-
-		parsers->insert({ "add_dummy", mvPythonParser({
-			{mvPythonDataType::Integer, "width"},
-			{mvPythonDataType::Integer, "height"},
-			{mvPythonDataType::KeywordOnly},
-			{mvPythonDataType::String, "name"},
-			{mvPythonDataType::String, "parent", "Parent to add this item to. (runtime adding)"},
-			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)"},
-		}, "Adds a spacer or 'dummy' object.", "None", "Adding Widgets") });
-	}
-
 	PyObject* add_simple_plot(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		const char* name;
@@ -2201,7 +2314,7 @@ namespace Marvel {
 		const char* name;
 		int smallb = false;
 		int arrow = false;
-		int direction = -1;
+		int direction = 2;
 		PyObject* callback = nullptr;
 		PyObject* callback_data = nullptr;
 		const char* tip = "";
@@ -2536,120 +2649,6 @@ namespace Marvel {
 		item->setTip(tip);
 		item->setDataSource(data_source);
 		return ToPyBool(AddItemWithRuntimeChecks(item, parent, before));
-	}
-
-
-	void AddContainterWidgets(std::map<std::string, mvPythonParser>* parsers)
-	{
-		parsers->insert({ "add_tab_bar", mvPythonParser({
-			{mvPythonDataType::String, "name"},
-			{mvPythonDataType::KeywordOnly},
-			{mvPythonDataType::Bool, "reorderable", "allows for moveable tabs"},
-			{mvPythonDataType::Object, "callback", "Registers a callback"},
-			{mvPythonDataType::Object, "callback_data", "Callback data"},
-			{mvPythonDataType::String, "parent", "Parent to add this item to. (runtime adding)"},
-			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)"},
-			{mvPythonDataType::String, "data_source", "data source for shared data"},
-		}, "Adds a tab bar.", "None", "Containers") });
-
-		parsers->insert({ "add_tab", mvPythonParser({
-			{mvPythonDataType::String, "name"},
-			{mvPythonDataType::KeywordOnly},
-			{mvPythonDataType::Bool, "closable"},
-			{mvPythonDataType::String, "tip", "Adds a simple tooltip"},
-			{mvPythonDataType::String, "parent", "Parent to add this item to. (runtime adding)"},
-			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)"},
-		}, "Adds a tab to a tab bar. Must be closed with the end_tab command.", "None", "Containers") });
-
-		parsers->insert({ "add_collapsing_header", mvPythonParser({
-			{mvPythonDataType::String, "name"},
-			{mvPythonDataType::KeywordOnly},
-			{mvPythonDataType::Bool, "default_open"},
-			{mvPythonDataType::Bool, "closable"},
-			{mvPythonDataType::String, "tip", "Adds a simple tooltip"},
-			{mvPythonDataType::String, "parent", "Parent to add this item to. (runtime adding)"},
-			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)"}
-		}, "Adds a collapsing header to add items to. Must be closed with the end_collapsing_header command.",
-			"None", "Containers") });
-
-		parsers->insert({ "add_tree_node", mvPythonParser({
-			{mvPythonDataType::String, "name"},
-			{mvPythonDataType::KeywordOnly},
-			{mvPythonDataType::Bool, "default_open"},
-			{mvPythonDataType::String, "tip", "Adds a simple tooltip"},
-			{mvPythonDataType::String, "parent", "Parent to add this item to. (runtime adding)"},
-			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)"},
-		}, "Adds a tree node to add items to. Must be closed with the end_tree_node command.",
-		"None", "Containers") });
-
-		parsers->insert({ "add_group", mvPythonParser({
-			{mvPythonDataType::String, "name"},
-			{mvPythonDataType::KeywordOnly},
-			{mvPythonDataType::String, "tip", "Adds a simple tooltip"},
-			{mvPythonDataType::String, "parent", "Parent to add this item to. (runtime adding)"},
-			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)"},
-			{mvPythonDataType::Integer, "width",""},
-			{mvPythonDataType::Bool, "hide"},
-			{mvPythonDataType::Bool, "horizontal"},
-			{mvPythonDataType::Float, "horizontal_spacing",""},
-		}, "Creates a group that other widgets can belong to. The group allows item commands to be issued for all of its members.\
-				Must be closed with the end_group command."
-		, "None", "Containers") });
-
-		parsers->insert({ "add_child", mvPythonParser({
-			{mvPythonDataType::String, "name"},
-			{mvPythonDataType::KeywordOnly},
-			{mvPythonDataType::String, "tip", "Adds a simple tooltip"},
-			{mvPythonDataType::String, "parent", "Parent to add this item to. (runtime adding)"},
-			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)"},
-			{mvPythonDataType::Integer, "width",""},
-			{mvPythonDataType::Integer, "height", ""},
-			{mvPythonDataType::Bool, "border", ""},
-		}, "Adds an embedded child window. Will show scrollbars when items do not fit. Must be followed by a call to end_child.",
-		"None", "Containers") });
-
-		parsers->insert({ "add_window", mvPythonParser({
-			{mvPythonDataType::String, "name"},
-			{mvPythonDataType::Optional},
-			{mvPythonDataType::Integer, "width"},
-			{mvPythonDataType::Integer, "height"},
-			{mvPythonDataType::KeywordOnly},
-			{mvPythonDataType::Integer, "start_x", "x position the window will start at"},
-			{mvPythonDataType::Integer, "start_y", "y position the window will start at"},
-			{mvPythonDataType::Bool, "autosize", "Autosized the window to fit it's items."},
-			{mvPythonDataType::Bool, "resizable", "Allows for the window size to be changed or fixed"},
-			{mvPythonDataType::Bool, "title_bar", "Title name for the title bar of the window"},
-			{mvPythonDataType::Bool, "movable", "Allows for the window's position to be changed or fixed"},
-			{mvPythonDataType::Bool, "hide", "Hides window."},
-			{mvPythonDataType::Object, "on_close", "Callback ran when window is closed"},
-		}, "Creates a new window for following items to be added to.",
-			"None", "Containers") });
-
-		parsers->insert({ "add_tooltip", mvPythonParser({
-			{mvPythonDataType::String, "tipparent", "Sets the item's tool tip to be the same as the named item's tool tip"},
-			{mvPythonDataType::String, "name"},
-			{mvPythonDataType::KeywordOnly},
-			{mvPythonDataType::String, "parent", "Parent to add this item to. (runtime adding)"},
-			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)"}
-		}, "Adds an advanced tool tip for an item. This command must come immediately after the item the tip is for.",
-			"None", "Containers") });
-
-		parsers->insert({ "add_popup", mvPythonParser({
-			{mvPythonDataType::String, "popupparent", "Parent that the popup will be assigned to."},
-			{mvPythonDataType::String, "name"},
-			{mvPythonDataType::KeywordOnly},
-			{mvPythonDataType::Integer, "mousebutton", "The mouse code that will trigger the popup. Default is 1 or mvMouseButton_Right. (mvMouseButton_Left, mvMouseButton_Right, mvMouseButton_Middle, mvMouseButton_X1, mvMouseButton_X2"},
-			{mvPythonDataType::Bool, "modal"},
-			{mvPythonDataType::String, "parent", "Parent to add this item to. (runtime adding)"},
-			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)"},
-			{mvPythonDataType::Integer, "width",""},
-			{mvPythonDataType::Integer, "height", ""},
-		}, "Adds a popup window for an item. This command must come immediately after the item the popup is for. Must be followed by a call to end_popup.",
-		"None", "Containers") });
-
-		parsers->insert({ "end", mvPythonParser({
-		}, "Ends a container.", "None", "Containers") });
-
 	}
 
 	PyObject* add_tab_bar(PyObject* self, PyObject* args, PyObject* kwargs)

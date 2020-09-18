@@ -272,6 +272,23 @@ namespace Marvel {
 		}, "Gets maximum error (in pixels) allowed when using draw_circle()or drawing rounded corner rectangles with no explicit segment count specified.", "float", "Themes and Styles") });
 	}
 
+	PyObject* set_global_font_scale(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		float scale;
+
+		if (!(*mvApp::GetApp()->getParsers())["set_global_font_scale"].parse(args, kwargs, __FUNCTION__, &scale))
+			return GetPyNone();
+
+		mvApp::GetApp()->setGlobalFontScale(scale);
+
+		return GetPyNone();
+	}
+
+	PyObject* get_global_font_scale(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		return ToPyFloat(mvApp::GetApp()->getGlobalFontScale());
+	}
+
 	PyObject* add_additional_font(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		const char* file;

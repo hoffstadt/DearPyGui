@@ -48,7 +48,7 @@ namespace Marvel {
 		AddMenuCommands(parsers);
 		AddThemeCommands(parsers);
 		AddBasicWidgets(parsers);
-		AddContainterWidgets(parsers);
+		AddContainerWidgets(parsers);
 		AddAppCommands(parsers);
 		return parsers;
 	}

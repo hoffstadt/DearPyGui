@@ -128,6 +128,69 @@ namespace Marvel {
 		}, "Sets the main window size.") });
 	}
 
+	void AddLogCommands(std::map<std::string, mvPythonParser>* parsers)
+	{
+		parsers->insert({ "get_log_level", mvPythonParser({
+		}, "Returns the log level.", "int", "Logging") });
+
+		parsers->insert({ "clear_log", mvPythonParser({
+		}, "Clears the logger.", "None", "Logging") });
+
+		parsers->insert({ "set_log_level", mvPythonParser({
+			{mvPythonDataType::Integer, "level"}
+		}, "Sets the log level.", "None", "Logging") });
+
+		parsers->insert({ "log", mvPythonParser({
+			{mvPythonDataType::Object, "message"},
+			{mvPythonDataType::Optional},
+			{mvPythonDataType::String, "level"}
+		}, "Logs a trace level log.", "None", "Logging") });
+
+		parsers->insert({ "log_debug", mvPythonParser({
+			{mvPythonDataType::Object, "message"}
+		}, "Logs a debug level log.", "None", "Logging") });
+
+		parsers->insert({ "log_info", mvPythonParser({
+			{mvPythonDataType::Object, "message"}
+		}, "Logs a info level log.", "None", "Logging") });
+
+		parsers->insert({ "log_warning", mvPythonParser({
+			{mvPythonDataType::Object, "message"}
+		}, "Logs a warning level log.", "None", "Logging") });
+
+		parsers->insert({ "log_error", mvPythonParser({
+			{mvPythonDataType::Object, "message"}
+		}, "Logs a error level log.", "None", "Logging") });
+	}
+
+	void AddStdWindowCommands(std::map<std::string, mvPythonParser>* parsers)
+	{
+		parsers->insert({ "show_logger", mvPythonParser({
+		}, "Shows the logging window. The Default log level is Trace", "None", "Standard Windows") });
+
+		parsers->insert({ "show_documentation", mvPythonParser({
+		}, "Shows the documentation window.", "None", "Standard Windows") });
+
+		parsers->insert({ "show_about", mvPythonParser({
+		}, "Shows the about window.", "None", "Standard Windows") });
+
+		parsers->insert({ "show_metrics", mvPythonParser({
+		}, "Shows the metrics window.", "None", "Standard Windows") });
+
+		parsers->insert({ "show_debug", mvPythonParser({
+		}, "Shows the debug window.", "None", "Standard Windows") });
+
+		parsers->insert({ "show_style_editor", mvPythonParser({
+		}, "Shows the font window.") });
+
+		parsers->insert({ "close_popup", mvPythonParser({
+		}, "Closes the current popup") });
+
+		parsers->insert({ "show_source", mvPythonParser({
+			{mvPythonDataType::String, "file"},
+		}, "Shows the source code for a file.", "None", "Standard Windows") });
+	}
+
 	PyObject* is_dearpygui_running(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		return ToPyBool(mvApp::IsAppStarted());
@@ -255,23 +318,6 @@ namespace Marvel {
 	{
 		mvApp::SetAppStopped();
 		return GetPyNone();
-	}
-
-	PyObject* set_global_font_scale(PyObject* self, PyObject* args, PyObject* kwargs)
-	{
-		float scale;
-
-		if (!(*mvApp::GetApp()->getParsers())["set_global_font_scale"].parse(args, kwargs, __FUNCTION__, &scale))
-			return GetPyNone();
-
-		mvApp::GetApp()->setGlobalFontScale(scale);
-
-		return GetPyNone();
-	}
-
-	PyObject* get_global_font_scale(PyObject* self, PyObject* args, PyObject* kwargs)
-	{
-		return ToPyFloat(mvApp::GetApp()->getGlobalFontScale());
 	}
 
 	PyObject* run_async_function(PyObject* self, PyObject* args, PyObject* kwargs)
@@ -450,41 +496,6 @@ namespace Marvel {
 		return GetPyNone();
 	}
 
-	void AddLogCommands(std::map<std::string, mvPythonParser>* parsers)
-	{
-		parsers->insert({ "get_log_level", mvPythonParser({
-		}, "Returns the log level.", "int", "Logging") });
-
-		parsers->insert({ "clear_log", mvPythonParser({
-		}, "Clears the logger.", "None", "Logging") });
-
-		parsers->insert({ "set_log_level", mvPythonParser({
-			{mvPythonDataType::Integer, "level"}
-		}, "Sets the log level.", "None", "Logging") });
-
-		parsers->insert({ "log", mvPythonParser({
-			{mvPythonDataType::Object, "message"},
-			{mvPythonDataType::Optional},
-			{mvPythonDataType::String, "level"}
-		}, "Logs a trace level log.", "None", "Logging") });
-
-		parsers->insert({ "log_debug", mvPythonParser({
-			{mvPythonDataType::Object, "message"}
-		}, "Logs a debug level log.", "None", "Logging") });
-
-		parsers->insert({ "log_info", mvPythonParser({
-			{mvPythonDataType::Object, "message"}
-		}, "Logs a info level log.", "None", "Logging") });
-
-		parsers->insert({ "log_warning", mvPythonParser({
-			{mvPythonDataType::Object, "message"}
-		}, "Logs a warning level log.", "None", "Logging") });
-
-		parsers->insert({ "log_error", mvPythonParser({
-			{mvPythonDataType::Object, "message"}
-		}, "Logs a error level log.", "None", "Logging") });
-	}
-
 	PyObject* get_log_level(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		return ToPyInt(mvAppLog::getLogLevel());
@@ -560,34 +571,6 @@ namespace Marvel {
 		return GetPyNone();
 	}
 
-	void AddStdWindowCommands(std::map<std::string, mvPythonParser>* parsers)
-	{
-		parsers->insert({ "show_logger", mvPythonParser({
-		}, "Shows the logging window. The Default log level is Trace", "None", "Standard Windows") });
-
-		parsers->insert({ "show_documentation", mvPythonParser({
-		}, "Shows the documentation window.", "None", "Standard Windows") });
-
-		parsers->insert({ "show_about", mvPythonParser({
-		}, "Shows the about window.", "None", "Standard Windows") });
-
-		parsers->insert({ "show_metrics", mvPythonParser({
-		}, "Shows the metrics window.", "None", "Standard Windows") });
-
-		parsers->insert({ "show_debug", mvPythonParser({
-		}, "Shows the debug window.", "None", "Standard Windows") });
-
-		parsers->insert({ "show_style_editor", mvPythonParser({
-		}, "Shows the font window.") });
-
-		parsers->insert({ "close_popup", mvPythonParser({
-		}, "Closes the current popup") });
-
-		parsers->insert({ "show_source", mvPythonParser({
-			{mvPythonDataType::String, "file"},
-		}, "Shows the source code for a file.", "None", "Standard Windows") });
-	}
-
 	PyObject* show_logger(PyObject* self, PyObject* args)
 	{
 		mvAppLog::Show();
@@ -646,6 +629,4 @@ namespace Marvel {
 		mvApp::GetApp()->showStandardWindow("documentation##standard");
 		return GetPyNone();
 	}
-
-
 }
