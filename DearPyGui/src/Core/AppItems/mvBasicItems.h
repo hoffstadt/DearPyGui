@@ -616,6 +616,38 @@ namespace Marvel {
 			popColorStyles();
 		}
 
+		void setExtraConfigDict(PyObject* dict) override
+		{
+			mvGlobalIntepreterLock gil;
+			if (PyObject* item = PyDict_GetItemString(dict, "format")) m_format = ToString(item);
+
+			// helper for bit flipping
+			auto flagop = [dict](const char* keyword, int flag, int& flags)
+			{
+				if (PyObject* item = PyDict_GetItemString(dict, keyword)) ToBool(item) ? flags |= flag : flags &= ~flag;
+			};
+
+			// flags
+			flagop("on_enter", ImGuiInputTextFlags_EnterReturnsTrue, m_flags);
+
+		}
+
+		void getExtraConfigDict(PyObject* dict) override
+		{
+			mvGlobalIntepreterLock gil;
+			PyDict_SetItemString(dict, "format", ToPyString(m_format));
+
+			// helper to check and set bit
+			auto checkbitset = [dict](const char* keyword, int flag, const int& flags)
+			{
+				PyDict_SetItemString(dict, keyword, ToPyBool(flags & flag));
+			};
+
+			// window flags
+			checkbitset("on_enter", ImGuiInputTextFlags_EnterReturnsTrue, m_flags);
+
+		}
+
 	private:
 
 		std::string         m_format;
@@ -661,6 +693,38 @@ namespace Marvel {
 				ImGui::SetTooltip("%s", getTip().c_str());
 
 			popColorStyles();
+		}
+
+		void setExtraConfigDict(PyObject* dict) override
+		{
+			mvGlobalIntepreterLock gil;
+			if (PyObject* item = PyDict_GetItemString(dict, "format")) m_format = ToString(item);
+
+			// helper for bit flipping
+			auto flagop = [dict](const char* keyword, int flag, int& flags)
+			{
+				if (PyObject* item = PyDict_GetItemString(dict, keyword)) ToBool(item) ? flags |= flag : flags &= ~flag;
+			};
+
+			// flags
+			flagop("on_enter", ImGuiInputTextFlags_EnterReturnsTrue, m_flags);
+
+		}
+
+		void getExtraConfigDict(PyObject* dict) override
+		{
+			mvGlobalIntepreterLock gil;
+			PyDict_SetItemString(dict, "format", ToPyString(m_format));
+
+			// helper to check and set bit
+			auto checkbitset = [dict](const char* keyword, int flag, const int& flags)
+			{
+				PyDict_SetItemString(dict, keyword, ToPyBool(flags & flag));
+			};
+
+			// window flags
+			checkbitset("on_enter", ImGuiInputTextFlags_EnterReturnsTrue, m_flags);
+
 		}
 
 	private:
@@ -709,6 +773,44 @@ namespace Marvel {
 				ImGui::SetTooltip("%s", getTip().c_str());
 
 			popColorStyles();
+		}
+
+		void setExtraConfigDict(PyObject* dict) override
+		{
+			mvGlobalIntepreterLock gil;
+			if (PyObject* item = PyDict_GetItemString(dict, "format")) m_format = ToString(item);
+			if (PyObject* item = PyDict_GetItemString(dict, "speed")) m_speed = ToFloat(item);
+			if (PyObject* item = PyDict_GetItemString(dict, "min_value")) m_min = ToFloat(item);
+			if (PyObject* item = PyDict_GetItemString(dict, "max_value")) m_max = ToFloat(item);
+
+			// helper for bit flipping
+			auto flagop = [dict](const char* keyword, int flag, int& flags)
+			{
+				if (PyObject* item = PyDict_GetItemString(dict, keyword)) ToBool(item) ? flags |= flag : flags &= ~flag;
+			};
+
+			// flags
+			flagop("on_enter", ImGuiInputTextFlags_EnterReturnsTrue, m_flags);
+
+		}
+
+		void getExtraConfigDict(PyObject* dict) override
+		{
+			mvGlobalIntepreterLock gil;
+			PyDict_SetItemString(dict, "format", ToPyString(m_format));
+			PyDict_SetItemString(dict, "speed", ToPyFloat(m_speed));
+			PyDict_SetItemString(dict, "min_value", ToPyFloat(m_min));
+			PyDict_SetItemString(dict, "max_value", ToPyFloat(m_max));
+
+			// helper to check and set bit
+			auto checkbitset = [dict](const char* keyword, int flag, const int& flags)
+			{
+				PyDict_SetItemString(dict, keyword, ToPyBool(flags & flag));
+			};
+
+			// window flags
+			checkbitset("on_enter", ImGuiInputTextFlags_EnterReturnsTrue, m_flags);
+
 		}
 
 	private:
@@ -760,6 +862,44 @@ namespace Marvel {
 				ImGui::SetTooltip("%s", getTip().c_str());
 
 			popColorStyles();
+		}
+
+		void setExtraConfigDict(PyObject* dict) override
+		{
+			mvGlobalIntepreterLock gil;
+			if (PyObject* item = PyDict_GetItemString(dict, "format")) m_format = ToString(item);
+			if (PyObject* item = PyDict_GetItemString(dict, "speed")) m_speed = ToFloat(item);
+			if (PyObject* item = PyDict_GetItemString(dict, "min_value")) m_min = ToFloat(item);
+			if (PyObject* item = PyDict_GetItemString(dict, "max_value")) m_max = ToFloat(item);
+
+			// helper for bit flipping
+			auto flagop = [dict](const char* keyword, int flag, int& flags)
+			{
+				if (PyObject* item = PyDict_GetItemString(dict, keyword)) ToBool(item) ? flags |= flag : flags &= ~flag;
+			};
+
+			// flags
+			flagop("on_enter", ImGuiInputTextFlags_EnterReturnsTrue, m_flags);
+
+		}
+
+		void getExtraConfigDict(PyObject* dict) override
+		{
+			mvGlobalIntepreterLock gil;
+			PyDict_SetItemString(dict, "format", ToPyString(m_format));
+			PyDict_SetItemString(dict, "speed", ToPyFloat(m_speed));
+			PyDict_SetItemString(dict, "min_value", ToPyFloat(m_min));
+			PyDict_SetItemString(dict, "max_value", ToPyFloat(m_max));
+
+			// helper to check and set bit
+			auto checkbitset = [dict](const char* keyword, int flag, const int& flags)
+			{
+				PyDict_SetItemString(dict, keyword, ToPyBool(flags & flag));
+			};
+
+			// window flags
+			checkbitset("on_enter", ImGuiInputTextFlags_EnterReturnsTrue, m_flags);
+
 		}
 
 	private:
@@ -838,6 +978,44 @@ namespace Marvel {
 			popColorStyles();
 		}
 
+		void setExtraConfigDict(PyObject* dict) override
+		{
+			mvGlobalIntepreterLock gil;
+			if (PyObject* item = PyDict_GetItemString(dict, "format")) m_format = ToString(item);
+			if (PyObject* item = PyDict_GetItemString(dict, "vertical")) m_vertical = ToBool(item);
+			if (PyObject* item = PyDict_GetItemString(dict, "min_value")) m_min = ToFloat(item);
+			if (PyObject* item = PyDict_GetItemString(dict, "max_value")) m_max = ToFloat(item);
+
+			// helper for bit flipping
+			auto flagop = [dict](const char* keyword, int flag, int& flags)
+			{
+				if (PyObject* item = PyDict_GetItemString(dict, keyword)) ToBool(item) ? flags |= flag : flags &= ~flag;
+			};
+
+			// flags
+			flagop("on_enter", ImGuiInputTextFlags_EnterReturnsTrue, m_flags);
+
+		}
+
+		void getExtraConfigDict(PyObject* dict) override
+		{
+			mvGlobalIntepreterLock gil;
+			PyDict_SetItemString(dict, "format", ToPyString(m_format));
+			PyDict_SetItemString(dict, "vertical", ToPyBool(m_vertical));
+			PyDict_SetItemString(dict, "min_value", ToPyFloat(m_min));
+			PyDict_SetItemString(dict, "max_value", ToPyFloat(m_max));
+
+			// helper to check and set bit
+			auto checkbitset = [dict](const char* keyword, int flag, const int& flags)
+			{
+				PyDict_SetItemString(dict, keyword, ToPyBool(flags & flag));
+			};
+
+			// window flags
+			checkbitset("on_enter", ImGuiInputTextFlags_EnterReturnsTrue, m_flags);
+
+		}
+
 	private:
 
 		float               m_min;
@@ -914,6 +1092,44 @@ namespace Marvel {
 			popColorStyles();
 		}
 
+		void setExtraConfigDict(PyObject* dict) override
+		{
+			mvGlobalIntepreterLock gil;
+			if (PyObject* item = PyDict_GetItemString(dict, "format")) m_format = ToString(item);
+			if (PyObject* item = PyDict_GetItemString(dict, "vertical")) m_vertical = ToBool(item);
+			if (PyObject* item = PyDict_GetItemString(dict, "min_value")) m_min = ToFloat(item);
+			if (PyObject* item = PyDict_GetItemString(dict, "max_value")) m_max = ToFloat(item);
+
+			// helper for bit flipping
+			auto flagop = [dict](const char* keyword, int flag, int& flags)
+			{
+				if (PyObject* item = PyDict_GetItemString(dict, keyword)) ToBool(item) ? flags |= flag : flags &= ~flag;
+			};
+
+			// flags
+			flagop("on_enter", ImGuiInputTextFlags_EnterReturnsTrue, m_flags);
+
+		}
+
+		void getExtraConfigDict(PyObject* dict) override
+		{
+			mvGlobalIntepreterLock gil;
+			PyDict_SetItemString(dict, "format", ToPyString(m_format));
+			PyDict_SetItemString(dict, "vertical", ToPyBool(m_vertical));
+			PyDict_SetItemString(dict, "min_value", ToPyFloat(m_min));
+			PyDict_SetItemString(dict, "max_value", ToPyFloat(m_max));
+
+			// helper to check and set bit
+			auto checkbitset = [dict](const char* keyword, int flag, const int& flags)
+			{
+				PyDict_SetItemString(dict, keyword, ToPyBool(flags & flag));
+			};
+
+			// window flags
+			checkbitset("on_enter", ImGuiInputTextFlags_EnterReturnsTrue, m_flags);
+
+		}
+
 	private:
 
 		int                 m_min;
@@ -935,7 +1151,7 @@ namespace Marvel {
 
 		MV_APPITEM_TYPE(AppItemType)
 
-			mvSliderFloatMulti(const std::string& name, T* default_value, T minv, T maxv, std::string  format, ImGuiInputTextFlags flags)
+			mvSliderFloatMulti(const std::string& name, float* default_value, float minv, float maxv, std::string  format, ImGuiInputTextFlags flags)
 			: mvFloatItemBase(name, num, default_value[0], default_value[1], default_value[2], default_value[3]),
 			m_min(minv), m_max(maxv), m_format(std::move(format)), m_flags(flags)
 		{
@@ -964,10 +1180,46 @@ namespace Marvel {
 			popColorStyles();
 		}
 
+		void setExtraConfigDict(PyObject* dict) override
+		{
+			mvGlobalIntepreterLock gil;
+			if (PyObject* item = PyDict_GetItemString(dict, "format")) m_format = ToString(item);
+			if (PyObject* item = PyDict_GetItemString(dict, "min_value")) m_min = ToFloat(item);
+			if (PyObject* item = PyDict_GetItemString(dict, "max_value")) m_max = ToFloat(item);
+
+			// helper for bit flipping
+			auto flagop = [dict](const char* keyword, int flag, int& flags)
+			{
+				if (PyObject* item = PyDict_GetItemString(dict, keyword)) ToBool(item) ? flags |= flag : flags &= ~flag;
+			};
+
+			// flags
+			flagop("on_enter", ImGuiInputTextFlags_EnterReturnsTrue, m_flags);
+
+		}
+
+		void getExtraConfigDict(PyObject* dict) override
+		{
+			mvGlobalIntepreterLock gil;
+			PyDict_SetItemString(dict, "format", ToPyString(m_format));
+			PyDict_SetItemString(dict, "min_value", ToPyFloat(m_min));
+			PyDict_SetItemString(dict, "max_value", ToPyFloat(m_max));
+
+			// helper to check and set bit
+			auto checkbitset = [dict](const char* keyword, int flag, const int& flags)
+			{
+				PyDict_SetItemString(dict, keyword, ToPyBool(flags & flag));
+			};
+
+			// window flags
+			checkbitset("on_enter", ImGuiInputTextFlags_EnterReturnsTrue, m_flags);
+
+		}
+
 	private:
 
-		T                   m_min;
-		T                   m_max;
+		float               m_min;
+		float               m_max;
 		std::string         m_format;
 		ImGuiInputTextFlags m_flags = 0;
 
@@ -984,7 +1236,7 @@ namespace Marvel {
 
 		MV_APPITEM_TYPE(AppItemType)
 
-			mvSliderIntMulti(const std::string& name, T* default_value, T minv, T maxv, std::string  format, ImGuiInputTextFlags flags)
+			mvSliderIntMulti(const std::string& name, int* default_value, int minv, int maxv, std::string  format, ImGuiInputTextFlags flags)
 			: mvIntItemBase(name, num, default_value[0], default_value[1], default_value[2], default_value[3]),
 			m_min(minv), m_max(maxv), m_format(std::move(format)), m_flags(flags)
 		{
@@ -1013,10 +1265,46 @@ namespace Marvel {
 			popColorStyles();
 		}
 
+		void setExtraConfigDict(PyObject* dict) override
+		{
+			mvGlobalIntepreterLock gil;
+			if (PyObject* item = PyDict_GetItemString(dict, "format")) m_format = ToString(item);
+			if (PyObject* item = PyDict_GetItemString(dict, "min_value")) m_min = ToFloat(item);
+			if (PyObject* item = PyDict_GetItemString(dict, "max_value")) m_max = ToFloat(item);
+
+			// helper for bit flipping
+			auto flagop = [dict](const char* keyword, int flag, int& flags)
+			{
+				if (PyObject* item = PyDict_GetItemString(dict, keyword)) ToBool(item) ? flags |= flag : flags &= ~flag;
+			};
+
+			// flags
+			flagop("on_enter", ImGuiInputTextFlags_EnterReturnsTrue, m_flags);
+
+		}
+
+		void getExtraConfigDict(PyObject* dict) override
+		{
+			mvGlobalIntepreterLock gil;
+			PyDict_SetItemString(dict, "format", ToPyString(m_format));
+			PyDict_SetItemString(dict, "min_value", ToPyFloat(m_min));
+			PyDict_SetItemString(dict, "max_value", ToPyFloat(m_max));
+
+			// helper to check and set bit
+			auto checkbitset = [dict](const char* keyword, int flag, const int& flags)
+			{
+				PyDict_SetItemString(dict, keyword, ToPyBool(flags & flag));
+			};
+
+			// window flags
+			checkbitset("on_enter", ImGuiInputTextFlags_EnterReturnsTrue, m_flags);
+
+		}
+
 	private:
 
-		T                   m_min;
-		T                   m_max;
+		int                 m_min;
+		int                 m_max;
 		std::string         m_format;
 		ImGuiInputTextFlags m_flags = 0;
 
