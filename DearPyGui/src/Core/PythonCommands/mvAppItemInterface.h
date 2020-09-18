@@ -11,21 +11,6 @@ namespace Marvel {
 	// replacing
 	PyObject* set_item_callback(PyObject* self, PyObject* args, PyObject* kwargs);
 
-	//PyObject* set_item_popup(PyObject* self, PyObject* args, PyObject* kwargs);
-	//PyObject* set_item_tip(PyObject* self, PyObject* args, PyObject* kwargs);
-	//PyObject* set_item_width(PyObject* self, PyObject* args, PyObject* kwargs);
-	//PyObject* set_item_height(PyObject* self, PyObject* args, PyObject* kwargs);
-	//PyObject* get_item_label(PyObject* self, PyObject* args, PyObject* kwargs);
-	//PyObject* set_item_label(PyObject* self, PyObject* args, PyObject* kwargs);
-	//PyObject* get_item_height(PyObject* self, PyObject* args, PyObject* kwargs);
-	//PyObject* get_item_width(PyObject* self, PyObject* args, PyObject* kwargs);
-	//PyObject* get_item_popup(PyObject* self, PyObject* args, PyObject* kwargs);
-	//PyObject* get_item_tip(PyObject* self, PyObject* args, PyObject* kwargs);
-	//PyObject* show_item(PyObject* self, PyObject* args, PyObject* kwargs);
-	//PyObject* hide_item(PyObject* self, PyObject* args, PyObject* kwargs);
-
-	PyObject* set_window_pos(PyObject* self, PyObject* args, PyObject* kwargs);
-	PyObject* get_window_pos(PyObject* self, PyObject* args, PyObject* kwargs);
 	PyObject* delete_item(PyObject* self, PyObject* args, PyObject* kwargs);
 	PyObject* does_item_exist(PyObject* self, PyObject* args, PyObject* kwargs);
 	PyObject* move_item_up(PyObject* self, PyObject* args, PyObject* kwargs);

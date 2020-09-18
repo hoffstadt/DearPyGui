@@ -39,6 +39,7 @@ Breaking Changes:
 - Window:         For the "add_window" command, changed resizable keyword to no_resize
 - Window:         For the "add_window" command, changed title_bar keyword to no_title_bar
 - Window:         For the "add_window" command, changed movable keyword to no_move
+- Images:         Removed secondary data source from images
 
 New Commands:
 

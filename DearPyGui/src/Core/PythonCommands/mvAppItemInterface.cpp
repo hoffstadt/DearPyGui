@@ -34,16 +34,6 @@ namespace Marvel {
 			{mvPythonDataType::String, "item"}
 		}, "Gets an item's label.", "str", "Widget Commands") });
 
-		parsers->insert({ "set_window_pos", mvPythonParser({
-			{mvPythonDataType::String, "window"},
-			{mvPythonDataType::Float, "x"},
-			{mvPythonDataType::Float, "y"}
-		}, "Sets a windows position", "None", "Widget Commands") });
-
-		parsers->insert({ "get_window_pos", mvPythonParser({
-			{mvPythonDataType::String, "window"}
-		}, "Gets a windows position", "List[float]", "Widget Commands") });
-
 		parsers->insert({ "delete_item", mvPythonParser({
 			{mvPythonDataType::String, "item"},
 			{mvPythonDataType::Optional},
@@ -228,76 +218,6 @@ namespace Marvel {
 		}
 
 		return GetPyNone();
-	}
-
-	PyObject* set_window_pos(PyObject * self, PyObject * args, PyObject * kwargs)
-	{
-		const char* window;
-		float x;
-		float y;
-
-		if (!(*mvApp::GetApp()->getParsers())["set_window_pos"].parse(args, kwargs, __FUNCTION__, &window, &x, &y))
-			return GetPyNone();
-
-		if (std::string(window) == "logger##standard")
-		{
-			mvAppLog::SetWindowPos(x, y);
-			return GetPyNone();
-		}
-
-		// check if item is a regular item
-		mvWindowAppitem* awindow = mvApp::GetApp()->getWindow(window);
-
-		// check if item is a standard window
-		mvStandardWindow* swindow = nullptr;
-		if (awindow == nullptr)
-			swindow = mvApp::GetApp()->getStandardWindow(window);
-		else
-		{
-			awindow->setWindowPos(x, y);
-			return GetPyNone();
-		}
-
-		if (swindow == nullptr)
-		{
-			ThrowPythonException(window + std::string(" window was not found"));
-			return GetPyNone();
-		}
-		else
-		{
-			swindow->setWindowPos(x, y);
-			return GetPyNone();
-		}
-	}
-
-	PyObject* get_window_pos(PyObject * self, PyObject * args, PyObject * kwargs)
-	{
-		const char* window;
-
-		if (!(*mvApp::GetApp()->getParsers())["get_window_pos"].parse(args, kwargs, __FUNCTION__, &window))
-			return GetPyNone();
-
-		if (std::string(window) == "logger##standard")
-			return ToPyPair(mvAppLog::GetWindowPos().x, mvAppLog::GetWindowPos().y);
-
-		// check if item is a regular item
-		mvWindowAppitem* awindow = mvApp::GetApp()->getWindow(window);
-
-		// check if item is a standard window
-		mvStandardWindow* swindow = nullptr;
-		if (awindow == nullptr)
-			swindow = mvApp::GetApp()->getStandardWindow(window);
-		else
-			return ToPyPair(awindow->getWindowPos().x, awindow->getWindowPos().y);
-
-		if (swindow == nullptr)
-		{
-			ThrowPythonException(window + std::string(" window was not found"));
-			return GetPyNone();
-		}
-		else
-			return ToPyPair(swindow->getWindowPos().x, swindow->getWindowPos().y);
-
 	}
 
 	PyObject* delete_item(PyObject * self, PyObject * args, PyObject * kwargs)

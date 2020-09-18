@@ -728,10 +728,6 @@ def get_value(name: str) -> Any:
 	"""Returns an item's value or None if there is none."""
 	...
 
-def get_window_pos(window: str) -> List[float]:
-	"""Gets a windows position"""
-	...
-
 def get_windows() -> List[str]:
 	"""Returns a list of windows."""
 	...
@@ -1150,10 +1146,6 @@ def set_value(name: str, value: object) -> None:
 
 def set_vsync(value: bool) -> None:
 	"""Sets vsync on or off."""
-	...
-
-def set_window_pos(window: str, x: float, y: float) -> None:
-	"""Sets a windows position"""
 	...
 
 def set_xticks(plot: str, label_pairs: List[List[str, float]]) -> None:
