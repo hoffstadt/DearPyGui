@@ -145,8 +145,7 @@ def add_group(name: str, tip: str = "", parent: str = "", before: str = "", widt
 	...
 
 def add_image(name: str, value: str, tint_color: List[float] = [1.0, 1.0, 1.0, 1.0], border_color: List[float] = [0.0, 0.0, 0.0, 0.0], tip: str = "", parent: str = "", before: str = "", data_source: str = "", 
-			  width: int = 0, height: int = 0, uv_min: List[float] = [0.0, 0.0], uv_max: List[float] = [1.0, 1.0], 
-			  secondary_data_source: str = "") -> bool:
+			  width: int = 0, height: int = 0, uv_min: List[float] = [0.0, 0.0], uv_max: List[float] = [1.0, 1.0]) -> bool:
 	"""Adds an image.
 	uv_min and uv_max represent the normalized texture coordinates of the original image that will be shown
 	Using (0,0)->(1,1) texture coordinates will generally display the entire texture"""
