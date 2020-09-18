@@ -198,6 +198,20 @@ namespace Marvel {
 		return result;
 	}
 
+	PyObject* ToPyColor(const mvColor& color)
+	{
+		mvGlobalIntepreterLock gil;
+
+		PyObject* result = PyList_New(4);
+
+		PyList_SetItem(result, 0, ToPyFloat(color.r));
+		PyList_SetItem(result, 1, ToPyFloat(color.g));
+		PyList_SetItem(result, 2, ToPyFloat(color.b));
+		PyList_SetItem(result, 3, ToPyFloat(color.a));
+
+		return result;
+	}
+
 	int ToInt(PyObject* value, const std::string& message)
 	{
 		if (value == nullptr)

@@ -525,18 +525,6 @@ def get_delta_time() -> float:
 	"""Returns time since last frame."""
 	...
 
-def get_drawing_origin(name: str) -> (float, float):
-	"""Returns the drawing origin."""
-	...
-
-def get_drawing_scale(name: str) -> (float, float):
-	"""Returns the drawing scale."""
-	...
-
-def get_drawing_size(name: str) -> (float, float):
-	"""Returns the size of a drawing widget."""
-	...
-
 def get_global_font_scale() -> float:
 	"""Returns the global font scale."""
 	...
@@ -549,20 +537,8 @@ def get_item_children(item: str) -> List[str]:
 	"""Returns a list of an item's children."""
 	...
 
-def get_item_height(item: str) -> float:
-	"""Returns an item's height."""
-	...
-
-def get_item_label(item: str) -> float:
-	"""Returns an item's label."""
-	...
-
 def get_item_parent(item: str) -> str:
 	"""Returns an item's parent."""
-	...
-
-def get_item_popup(item: str) -> str:
-	"""Returns an item's popup."""
 	...
 
 def get_item_rect_max(item: str) -> [float, float]:
@@ -575,14 +551,6 @@ def get_item_rect_min(item: str) -> [float, float]:
 
 def get_item_rect_size(item: str) -> [float, float]:
 	"""Returns an item's current size. [width, height]"""
-	...
-
-def get_item_tip(item: str) -> str:
-	"""Returns an item's tip."""
-	...
-
-def get_item_width(item: str) -> float:
-	"""Returns an item's width."""
 	...
 
 def get_log_level() -> int:
@@ -769,10 +737,6 @@ def get_windows() -> List[str]:
 	"""Returns a list of windows."""
 	...
 
-def hide_item(name: str, children_only: bool = False) -> None:
-	"""Hides an item."""
-	...
-
 def insert_column(table: str, column_index: int, name: str, column: List[str]) -> None:
 	"""Inserts a column into a table."""
 	...
@@ -929,18 +893,6 @@ def set_color_map(plot: str, map: int) -> None:
 	"""Sets the color map of the plot's series."""
 	...
 
-def set_drawing_origin(name: str, x: float, y: float) -> None:
-	"""Sets the drawing origin (default is 0,0)."""
-	...
-
-def set_drawing_scale(name: str, x: float, y: float) -> None:
-	"""Sets the drawing scale (default is (1,1))."""
-	...
-
-def set_drawing_size(name: str, width: int, height: int) -> None:
-	"""Sets the size of a drawing widget."""
-	...
-
 def set_exit_callback(callback: Callable) -> None:
 	"""Callback to run when exiting main window."""
 	...
@@ -959,26 +911,6 @@ def set_item_callback(item: str, callback: Callable = None, callback_data: Any =
 
 def set_item_color(item: str, style: int, color: List[float]) -> None:
 	"""Sets an color style for a single item."""
-	...
-
-def set_item_height(item: str, height: int) -> None:
-	"""Sets an item's height if applicable."""
-	...
-
-def set_item_popup(item: str, popup: str) -> None:
-	"""Sets an item's popup if applicable."""
-	...
-
-def set_item_label(item: str, tip: str) -> None:
-	"""Sets an item's label."""
-	...
-
-def set_item_tip(item: str, tip: str) -> None:
-	"""Sets a simple tooltip for an item."""
-	...
-
-def set_item_width(item: str, width: int) -> None:
-	"""Sets an item's width."""
 	...
 
 def set_key_down_callback(callback: Callable, handler: str = "") -> None:
@@ -1247,10 +1179,6 @@ def show_debug() -> None:
 
 def show_documentation() -> None:
 	"""Shows the documentation window."""
-	...
-
-def show_item(name: str) -> None:
-	"""Shows an item if it was hidden."""
 	...
 
 def show_logger() -> None:

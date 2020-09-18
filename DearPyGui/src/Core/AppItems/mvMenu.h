@@ -197,6 +197,21 @@ namespace Marvel {
 			popColorStyles();
 		}
 
+		void setExtraConfigDict(PyObject* dict) override
+		{
+			mvGlobalIntepreterLock gil;
+			if (PyObject* item = PyDict_GetItemString(dict, "shortcut")) m_shortcut = ToString(item);
+			if (PyObject* item = PyDict_GetItemString(dict, "check")) m_check = ToBool(item);
+
+		}
+
+		void getExtraConfigDict(PyObject* dict) override
+		{
+			mvGlobalIntepreterLock gil;
+			PyDict_SetItemString(dict, "shortcut", ToPyString(m_shortcut));
+			PyDict_SetItemString(dict, "check", ToPyBool(m_check));
+		}
+
 	private:
 
 		std::string m_shortcut;

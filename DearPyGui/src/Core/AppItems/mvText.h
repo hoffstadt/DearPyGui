@@ -78,6 +78,23 @@ namespace Marvel {
 				ImGui::SetTooltip("%s", getTip().c_str());
 		}
 
+		void setExtraConfigDict(PyObject* dict) override
+		{
+			mvGlobalIntepreterLock gil;
+			if (PyObject* item = PyDict_GetItemString(dict, "color")) m_color = ToColor(item);
+			if (PyObject* item = PyDict_GetItemString(dict, "wrap")) m_wrap = ToInt(item);
+			if (PyObject* item = PyDict_GetItemString(dict, "bullet")) m_bullet = ToBool(item);
+
+		}
+
+		void getExtraConfigDict(PyObject* dict) override
+		{
+			mvGlobalIntepreterLock gil;
+			PyDict_SetItemString(dict, "color", ToPyColor(m_color));
+			PyDict_SetItemString(dict, "wrap", ToPyInt(m_wrap));
+			PyDict_SetItemString(dict, "bullet", ToPyBool(m_bullet));
+		}
+
 	private:
 
 		mvColor m_color;
@@ -122,6 +139,18 @@ namespace Marvel {
 				ImGui::SetTooltip("%s", getTip().c_str());
 
 			popColorStyles();
+		}
+
+		void setExtraConfigDict(PyObject* dict) override
+		{
+			mvGlobalIntepreterLock gil;
+			if (PyObject* item = PyDict_GetItemString(dict, "color")) m_color = ToColor(item);
+		}
+
+		void getExtraConfigDict(PyObject* dict) override
+		{
+			mvGlobalIntepreterLock gil;
+			PyDict_SetItemString(dict, "color", ToPyColor(m_color));
 		}
 
 	private:

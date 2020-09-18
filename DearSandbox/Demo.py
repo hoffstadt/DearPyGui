@@ -40,6 +40,73 @@ tree_node = wrap_container(add_tree_node)
 tooltip = wrap_container(add_tooltip)
 popup = wrap_container(add_popup)
 
+########################################################################################################################
+# Old Commands
+########################################################################################################################
+
+def set_item_name(item, name):
+    configure_item(item, name=name)
+
+def set_item_label(item, label):
+    configure_item(item, label=label)
+
+def set_item_popup(item, popup):
+    configure_item(item, popup=popup)
+
+def set_item_tip(item, tip):
+    configure_item(item, tip=tip)
+
+def show_item(item):
+    configure_item(item, show=True)
+
+def get_item_label(item):
+    return get_item_configuration(item)["label"]
+
+def get_item_popup(item):
+    return get_item_configuration(item)["popup"]
+
+def get_item_tip(item):
+    return get_item_configuration(item)["tip"]
+
+def get_item_width(item):
+    return get_item_configuration(item)["width"]
+
+def get_item_height(item):
+    return get_item_configuration(item)["height"]
+
+def hide_item(item):
+    configure_item(item, show=False)
+
+def set_item_width(item, width):
+    configure_item(item, width=width)
+
+def set_item_height(item, height):
+    configure_item(item, height=height)
+
+def show_item(item):
+    configure_item(item, show=True)
+
+def set_drawing_origin(drawing, x, y):
+    configure_item(drawing, originx=x, originy=y)
+
+def set_drawing_scale(drawing, x, y):
+    configure_item(drawing, scalex=x, scaley=y)
+
+def set_drawing_size(drawing, x, y):
+    configure_item(drawing, width=x, height=y)
+
+def get_drawing_origin(drawing):
+    config = get_item_configuration(drawing)
+    return [config["originx"], config["originy"]]
+
+def get_drawing_scale(drawing):
+    config = get_item_configuration(drawing)
+    return [config["scalex"], config["scaley"]]
+
+def get_drawing_size(drawing):
+    config = get_item_configuration(drawing)
+    return [config["width"], config["height"]]
+
 
 ########################################################################################################################
 # Settings and Data Storage
