@@ -520,6 +520,7 @@ namespace Marvel {
 		ADD_PYTHON_FUNCTION(log_error)
 
 		// app item interface
+		ADD_PYTHON_FUNCTION(get_item_type)
 		ADD_PYTHON_FUNCTION(set_item_callback)
 		ADD_PYTHON_FUNCTION(get_value)
 		ADD_PYTHON_FUNCTION(set_value)

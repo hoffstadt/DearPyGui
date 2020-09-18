@@ -43,6 +43,7 @@ Breaking Changes:
 
 New Commands:
 
+- Widgets:        Added "get_item_type" command
 - Widgets:        Added "configure_item" command
 - Widgets:        Added "get_item_configuration" command
 - Widgets:        Added "add_pie_series" command
