@@ -2,6 +2,7 @@
 #include "mvInterfaceCore.h"
 
 namespace Marvel {
+
 	void AddInputCommands(std::map<std::string, mvPythonParser>* parsers)
 	{
 		parsers->insert({ "set_mouse_move_callback", mvPythonParser({
