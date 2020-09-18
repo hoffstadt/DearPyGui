@@ -183,14 +183,14 @@ namespace Marvel {
 		void setExtraConfigDict(PyObject* dict) override
 		{
 			mvGlobalIntepreterLock gil;
-			if (PyObject* item = PyDict_GetItemString(dict, "closable")) m_closable = ToBool(item);
+			//if (PyObject* item = PyDict_GetItemString(dict, "closable")) m_closable = ToBool(item);
 
 		}
 
 		void getExtraConfigDict(PyObject* dict) override
 		{
 			mvGlobalIntepreterLock gil;
-			PyDict_SetItemString(dict, "closable", ToPyBool(m_closable));
+			//PyDict_SetItemString(dict, "closable", ToPyBool(m_closable));
 		}
 
 	private:

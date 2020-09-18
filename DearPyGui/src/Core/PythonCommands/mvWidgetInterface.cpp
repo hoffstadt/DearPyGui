@@ -823,12 +823,12 @@ namespace Marvel {
 			{mvPythonDataType::Integer, "width"},
 			{mvPythonDataType::Integer, "height"},
 			{mvPythonDataType::KeywordOnly},
-			{mvPythonDataType::Integer, "start_x", "x position the window will start at"},
-			{mvPythonDataType::Integer, "start_y", "y position the window will start at"},
+			{mvPythonDataType::Integer, "x_pos", "x position the window will start at"},
+			{mvPythonDataType::Integer, "y_pos", "y position the window will start at"},
 			{mvPythonDataType::Bool, "autosize", "Autosized the window to fit it's items."},
-			{mvPythonDataType::Bool, "resizable", "Allows for the window size to be changed or fixed"},
-			{mvPythonDataType::Bool, "title_bar", "Title name for the title bar of the window"},
-			{mvPythonDataType::Bool, "movable", "Allows for the window's position to be changed or fixed"},
+			{mvPythonDataType::Bool, "no_resize", "Allows for the window size to be changed or fixed"},
+			{mvPythonDataType::Bool, "no_title_bar", "Title name for the title bar of the window"},
+			{mvPythonDataType::Bool, "no_move", "Allows for the window's position to be changed or fixed"},
 			{mvPythonDataType::Bool, "hide", "Hides window."},
 			{mvPythonDataType::Object, "on_close", "Callback ran when window is closed"},
 		}, "Creates a new window for following items to be added to.",
@@ -2801,17 +2801,19 @@ namespace Marvel {
 		const char* name;
 		int width = -1;
 		int height = -1;
-		int startx = 200;
-		int starty = 200;
+		int x_pos = 200;
+		int y_pos = 200;
 		int autosize = false;
 		int hide = false;
-		int resizable = true;
-		int title_bar = true;
-		int movable = true;
+		int no_resize = false;
+		int no_title_bar = false;
+		int no_move = false;
 		PyObject* closing_callback = nullptr;
 
+		ImGuiWindowFlags flags = ImGuiWindowFlags_NoSavedSettings;
+
 		if (!(*mvApp::GetApp()->getParsers())["add_window"].parse(args, kwargs, __FUNCTION__, &name, &width,
-			&height, &startx, &starty, &autosize, &resizable, &title_bar, &movable,
+			&height, &x_pos, &y_pos, &autosize, &no_resize, &no_title_bar, &no_move,
 			&hide, &closing_callback))
 			return ToPyBool(false);
 
@@ -2821,8 +2823,13 @@ namespace Marvel {
 			height = 500;
 		}
 
-		mvAppItem* item = new mvWindowAppitem(name, width, height, startx, starty,
-			false, autosize, resizable, title_bar, movable, closing_callback);
+		if (autosize)   flags |= ImGuiWindowFlags_AlwaysAutoResize;
+		if (no_resize) flags |= ImGuiWindowFlags_NoResize;
+		if (no_title_bar) flags |= ImGuiWindowFlags_NoTitleBar;
+		if (no_move)   flags |= ImGuiWindowFlags_NoMove;
+
+		mvAppItem* item = new mvWindowAppitem(name, width, height, x_pos, y_pos,
+			false, flags, closing_callback);
 
 		if (AddItemWithRuntimeChecks(item, "", ""))
 		{

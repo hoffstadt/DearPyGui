@@ -384,9 +384,9 @@ def add_tree_node(name: str, default_open: bool = False, tip: str = "", parent: 
 	"""Adds a tree node to add items to. Must be closed with the end_tree_node command."""
 	...
 
-def add_window(name: str, width: int = -1, height: int = -1, start_x: int = 200, start_y: int = 200, autosize: bool = False, 
-			   resizable: bool = True, title_bar: bool = True, 
-			   movable: bool = True, hide: bool = False, on_close: Callable = None) -> bool:
+def add_window(name: str, width: int = -1, height: int = -1, x_pos: int = 200, y_pos: int = 200, autosize: bool = False, 
+			   no_resize: bool = False, no_title_bar: bool = False, 
+			   no_move: bool = False, hide: bool = False, on_close: Callable = None) -> bool:
 	"""Creates a new window for following items to be added to. Must call end_main_window command before adding any new windows."""
 	...
 
