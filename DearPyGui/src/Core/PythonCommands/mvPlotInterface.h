@@ -6,7 +6,6 @@ namespace Marvel {
 	void AddPlotCommands(std::map<std::string, mvPythonParser>* parsers);
 
 	PyObject* add_plot             (PyObject* self, PyObject* args, PyObject* kwargs);
-	PyObject* configure_plot       (PyObject* self, PyObject* args, PyObject* kwargs);
 
 	// data removal
 	PyObject* clear_plot           (PyObject* self, PyObject* args, PyObject* kwargs);

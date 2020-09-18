@@ -23,7 +23,7 @@ HOW TO UPDATE?
 - Please report any issue!
 
 -----------------------------------------------------------------------
- VERSION 0.3.8 WIP
+ VERSION 0.4.0 WIP
 -----------------------------------------------------------------------
 
 Decorated log: https://github.com/hoffstadt/DearPyGui/releases/tag/v0.3.8
@@ -36,12 +36,13 @@ Breaking Changes:
 - Pie Chart:      Removed "clear_pie_chart_data"
 
 New Commands:
+- Widgets:        Added "configure_item" command
+- Widgets:        Added "get_item_configuration" command
 - Widgets:        Added "add_pie_series" command
 - Plots:          Added "add_shade_series" command
 - Plots:          Added "add_bar_series" command
 - Plots:          Added "add_error_series" command
 - Plots:          Added "add_heat_series" command
-- Plots:          Added "configure_plot" command
 - Radio Button:   Added "horizontal" keyword to radio button #215
 - Radio Button:   Added "update_bounds" keyword to add_*_series commands
 
