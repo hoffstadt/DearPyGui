@@ -93,8 +93,8 @@ namespace Marvel {
 
 		MV_APPITEM_TYPE(mvAppItemType::Button)
 
-		mvButton(const std::string& name, bool small = false, 
-			bool arrow = false, ImGuiDir direction = ImGuiDir_None)
+		mvButton(const std::string& name, bool small, 
+			bool arrow, ImGuiDir direction)
 			: mvAppItem(name), m_small(small), m_arrow(arrow), m_direction(direction)
 		{
 		}
@@ -156,7 +156,7 @@ namespace Marvel {
 			if (PyObject* item = PyDict_GetItemString(dict, "direction")) m_direction = ToInt(item);
 		}
 
-		void updateExtraConfigDict(PyObject* dict) override
+		void getExtraConfigDict(PyObject* dict) override
 		{
 			mvGlobalIntepreterLock gil;
 			PyDict_SetItemString(dict, "small", ToPyBool(m_small));
@@ -168,7 +168,7 @@ namespace Marvel {
 
 		bool     m_small;
 		bool     m_arrow;
-		ImGuiDir m_direction = ImGuiDir_None;
+		ImGuiDir m_direction = ImGuiDir_Up;
 
 	};
 
@@ -224,7 +224,7 @@ namespace Marvel {
 
 		mvCombo(const std::string& name, std::vector<std::string> itemnames, const std::string& default_value,
 			std::string listDataSource = "")
-			: mvStringItemBase(name, default_value), m_names(std::move(itemnames)), m_listDataSource(std::move(listDataSource))
+			: mvStringItemBase(name, default_value), m_items(std::move(itemnames)), m_listDataSource(std::move(listDataSource))
 		{}
 
 		void draw() override
@@ -234,7 +234,7 @@ namespace Marvel {
 
 			if (ImGui::BeginCombo(m_label.c_str(), m_value.c_str())) // The second parameter is the label previewed before opening the combo.
 			{
-				for (const auto& name : m_names)
+				for (const auto& name : m_items)
 				{
 					bool is_selected = (m_value == name);
 					if (ImGui::Selectable((name + "##" + m_name).c_str(), is_selected))
@@ -273,13 +273,25 @@ namespace Marvel {
 				if (data == nullptr)
 					return;
 
-				m_names = ToStringVect(data);
+				m_items = ToStringVect(data);
 			}
+		}
+
+		void setExtraConfigDict(PyObject* dict) override
+		{
+			mvGlobalIntepreterLock gil;
+			if (PyObject* item = PyDict_GetItemString(dict, "items")) m_items = ToStringVect(item);
+		}
+
+		void getExtraConfigDict(PyObject* dict) override
+		{
+			mvGlobalIntepreterLock gil;
+			PyDict_SetItemString(dict, "items", ToPyList(m_items));
 		}
 
 	private:
 
-		std::vector<std::string> m_names;
+		std::vector<std::string> m_items;
 		std::string              m_listDataSource;
 
 	};
@@ -340,6 +352,24 @@ namespace Marvel {
 				for (const std::string& item : m_names)
 					m_charNames.emplace_back(item.c_str());
 			}
+		}
+
+		void setExtraConfigDict(PyObject* dict) override
+		{
+			mvGlobalIntepreterLock gil;
+			if (PyObject* item = PyDict_GetItemString(dict, "items"))
+			{
+				m_names = ToStringVect(item);
+				m_charNames.clear();
+				for (const std::string& item : m_names)
+					m_charNames.emplace_back(item.c_str());
+			}
+		}
+
+		void getExtraConfigDict(PyObject* dict) override
+		{
+			mvGlobalIntepreterLock gil;
+			PyDict_SetItemString(dict, "items", ToPyList(m_names));
 		}
 
 	private:
@@ -408,6 +438,20 @@ namespace Marvel {
 
 				m_itemnames = ToStringVect(data);
 			}
+		}
+
+		void setExtraConfigDict(PyObject* dict) override
+		{
+			mvGlobalIntepreterLock gil;
+			if (PyObject* item = PyDict_GetItemString(dict, "items")) m_itemnames = ToStringVect(item);
+			if (PyObject* item = PyDict_GetItemString(dict, "horizontal")) m_horizontal = ToBool(item);
+		}
+
+		void getExtraConfigDict(PyObject* dict) override
+		{
+			mvGlobalIntepreterLock gil;
+			PyDict_SetItemString(dict, "items", ToPyList(m_itemnames));
+			PyDict_SetItemString(dict, "horizontal", ToPyBool(m_horizontal));
 		}
 
 	private:

@@ -2567,7 +2567,7 @@ namespace Marvel {
 		const char* name;
 		int smallb = false;
 		int arrow = false;
-		int direction = -1;
+		int direction = 2;
 		PyObject* callback = nullptr;
 		PyObject* callback_data = nullptr;
 		const char* tip = "";
@@ -5173,6 +5173,43 @@ namespace Marvel {
 		return GetPyNone();
 	}
 
+	PyObject* get_item_configuration(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		const char* item;
+
+		if (!(*mvApp::GetApp()->getParsers())["get_item_configuration"].parse(args, kwargs, __FUNCTION__, &item))
+			return GetPyNone();
+
+		auto appitem = mvApp::GetApp()->getItem(item);
+
+		if (appitem)
+		{
+			PyObject* pdict = PyDict_New();
+			appitem->getConfigDict(pdict);
+			appitem->getExtraConfigDict(pdict);
+			return pdict;
+		}
+
+		return GetPyNone();
+	}
+
+	PyObject* configure_item(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		mvGlobalIntepreterLock gil;
+
+		std::string item = ToString(PyTuple_GetItem(args, 0));
+
+		auto appitem = mvApp::GetApp()->getItem(item);
+
+		if (appitem)
+		{
+			appitem->setConfigDict(kwargs);
+			appitem->setExtraConfigDict(kwargs);
+		}
+
+		return GetPyNone();
+	}
+
 	std::vector<std::pair<std::string, long>> GetModuleConstants()
 	{
 		std::vector<std::pair<std::string, long>> ModuleConstants =
@@ -5573,6 +5610,8 @@ namespace Marvel {
 
 	static PyMethodDef dearpyguimethods[]
 	{
+		ADD_PYTHON_FUNCTION(get_item_configuration)
+		ADD_PYTHON_FUNCTION(configure_item)
 		ADD_PYTHON_FUNCTION(add_dummy)
 		ADD_PYTHON_FUNCTION(set_start_callback)
 		ADD_PYTHON_FUNCTION(set_item_color)
