@@ -75,10 +75,12 @@ namespace Marvel {
         virtual void                        updateData           (const std::string& name) {}
         [[nodiscard]] virtual PyObject*     getPyValue           () const { Py_RETURN_NONE; }
         [[nodiscard]] virtual bool          areDuplicatesAllowed () const { return false; }
-        void                                setConfigDict        (PyObject* dict);
-        virtual void                        setExtraConfigDict   (PyObject* dict) {}
-        void                                updateConfigDict     (PyObject* dict);
-        virtual void                        updateExtraConfigDict(PyObject* dict) {}
+
+        // configuration get/set
+        void                                setConfigDict     (PyObject* dict);
+        virtual void                        setExtraConfigDict(PyObject* dict) {}
+        void                                getConfigDict     (PyObject* dict);
+        virtual void                        getExtraConfigDict(PyObject* dict) {}
 
         // color styles for runtime
         void                                addColorStyle  (ImGuiCol item, mvColor color);

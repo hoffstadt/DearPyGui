@@ -15,7 +15,6 @@ namespace Marvel{
 	void mvAppItem::setConfigDict(PyObject* dict)
 	{
 		mvGlobalIntepreterLock gil;
-
 		if (PyObject* item = PyDict_GetItemString(dict, "name")) m_name = ToString(item);
 		if (PyObject* item = PyDict_GetItemString(dict, "label")) setLabel(ToString(item));
 		if (PyObject* item = PyDict_GetItemString(dict, "popup")) setPopup(ToString(item));
@@ -23,13 +22,11 @@ namespace Marvel{
 		if (PyObject* item = PyDict_GetItemString(dict, "width")) setWidth(ToInt(item));
 		if (PyObject* item = PyDict_GetItemString(dict, "height")) setHeight(ToInt(item));
 		if (PyObject* item = PyDict_GetItemString(dict, "show")) m_show =ToBool(item);
-
 	}
 
-	void mvAppItem::updateConfigDict(PyObject* dict)
+	void mvAppItem::getConfigDict(PyObject* dict)
 	{
 		mvGlobalIntepreterLock gil;
-
 		PyDict_SetItemString(dict, "name", ToPyString(m_name));
 		PyDict_SetItemString(dict, "label", ToPyString(m_label));
 		PyDict_SetItemString(dict, "popup", ToPyString(m_popup));
@@ -37,7 +34,6 @@ namespace Marvel{
 		PyDict_SetItemString(dict, "width", ToPyInt(m_width));
 		PyDict_SetItemString(dict, "height", ToPyInt(m_height));
 		PyDict_SetItemString(dict, "show", ToPyBool(m_show));
-
 	}
 
 	void mvAppItem::registerWindowFocusing()
