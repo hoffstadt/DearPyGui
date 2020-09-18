@@ -148,6 +148,22 @@ namespace Marvel {
 			popColorStyles();
 		}
 
+		void setExtraConfigDict(PyObject* dict) override
+		{
+			mvGlobalIntepreterLock gil;
+			if (PyObject* item = PyDict_GetItemString(dict, "small")) m_small = ToBool(item);
+			if (PyObject* item = PyDict_GetItemString(dict, "arrow")) m_arrow = ToBool(item);
+			if (PyObject* item = PyDict_GetItemString(dict, "direction")) m_direction = ToInt(item);
+		}
+
+		void updateExtraConfigDict(PyObject* dict) override
+		{
+			mvGlobalIntepreterLock gil;
+			PyDict_SetItemString(dict, "small", ToPyBool(m_small));
+			PyDict_SetItemString(dict, "arrow", ToPyBool(m_arrow));
+			PyDict_SetItemString(dict, "direction", ToPyInt(m_direction));
+		}
+
 	private:
 
 		bool     m_small;

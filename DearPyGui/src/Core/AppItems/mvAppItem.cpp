@@ -38,10 +38,6 @@ namespace Marvel{
 		PyDict_SetItemString(dict, "height", ToPyInt(m_height));
 		PyDict_SetItemString(dict, "show", ToPyBool(m_show));
 
-
-		//PyDict_SetItemString(dict, "callback", m_callback); // need to incref
-		//PyDict_SetItemString(dict, "callback_data", m_callbackData); // need to incref
-
 	}
 
 	void mvAppItem::registerWindowFocusing()
