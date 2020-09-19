@@ -14,6 +14,8 @@ It's mostly a bunch of personal notes, probably incomplete. Feel free to query i
 - doc: work on the CONTRIBUTING.md file
 - doc/wiki: work on the wiki https://github.com/RaylockLLC/DearPyGui/wiki
 
+- widgets: combo flags for height and no_preview and no_arrow need to be implemeted as flag system to prevent oversetting flag crash, fyi align_left does nothing
+
 - 3d widget: add a 3d widget similar to the one provided in javafx or wpf
 
 - custom widgets: add a fully supported custom widget API to allow users to make their own widgets more easily
