@@ -2285,8 +2285,6 @@ namespace Marvel {
 		const char* parent = "";
 		const char* data_source = "";
 		int disabled = false;
-		int double_click = false;
-
 
 		ImGuiSelectableFlags flags = ImGuiSelectableFlags_None;
 
