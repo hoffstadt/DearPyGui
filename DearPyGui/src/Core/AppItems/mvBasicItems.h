@@ -52,8 +52,8 @@ namespace Marvel {
 
 		MV_APPITEM_TYPE(mvAppItemType::Selectable)
 
-		mvSelectable(const std::string& name, bool default_value)
-			: mvBoolItemBase(name, default_value)
+		mvSelectable(const std::string& name, bool default_value, ImGuiSelectableFlags flags)
+			: mvBoolItemBase(name, default_value), m_flags(flags)
 		{
 		}
 
@@ -61,7 +61,7 @@ namespace Marvel {
 		{
 			pushColorStyles();
 
-			if(ImGui::Selectable(m_label.c_str(), &m_value))
+			if(ImGui::Selectable(m_label.c_str(), &m_value, m_flags))
 			{
 
 				if (!m_dataSource.empty())
@@ -80,6 +80,37 @@ namespace Marvel {
 
 			popColorStyles();
 		}
+
+		void setExtraConfigDict(PyObject* dict) override
+		{
+			mvGlobalIntepreterLock gil;
+
+			// helper for bit flipping
+			auto flagop = [dict](const char* keyword, int flag, int& flags)
+			{
+				if (PyObject* item = PyDict_GetItemString(dict, keyword)) ToBool(item) ? flags |= flag : flags &= ~flag;
+			};
+
+			// window flags
+			flagop("disabled", ImGuiSelectableFlags_Disabled, m_flags);
+
+		}
+
+		void getExtraConfigDict(PyObject* dict) override
+		{
+			mvGlobalIntepreterLock gil;
+
+			// helper to check and set bit
+			auto checkbitset = [dict](const char* keyword, int flag, const int& flags)
+			{
+				PyDict_SetItemString(dict, keyword, ToPyBool(flags & flag));
+			};
+
+			// window flags
+			checkbitset("disabled", ImGuiSelectableFlags_Disabled, m_flags);
+		}
+	private:
+		ImGuiSelectableFlags m_flags = ImGuiSelectableFlags_None;
 
 	};
 
