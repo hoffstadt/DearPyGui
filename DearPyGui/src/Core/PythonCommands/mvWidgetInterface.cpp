@@ -630,6 +630,7 @@ namespace Marvel {
 			{mvPythonDataType::String, "parent", "Parent this item will be added to. (runtime adding)"},
 			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)"},
 			{mvPythonDataType::String, "data_source", "data source for shared data"},
+			{mvPythonDataType::Bool, "disabled", "Display grayed out text so selectable cannot be selected"},
 		}, "Adds a selectable.", "None", "Adding Widgets") });
 
 		parsers->insert({ "add_button", mvPythonParser({
@@ -2361,12 +2362,17 @@ namespace Marvel {
 		const char* before = "";
 		const char* parent = "";
 		const char* data_source = "";
+		int disabled = false;
+
+		ImGuiSelectableFlags flags = ImGuiSelectableFlags_None;
 
 		if (!(*mvApp::GetApp()->getParsers())["add_selectable"].parse(args, kwargs, __FUNCTION__, &name,
-			&default_value, &callback, &callback_data, &tip, &parent, &before, &data_source))
+			&default_value, &callback, &callback_data, &tip, &parent, &before, &data_source, &disabled))
 			return ToPyBool(false);
 
-		mvAppItem* item = new mvSelectable(name, default_value);
+		if (disabled) flags |= ImGuiSelectableFlags_Disabled;
+
+		mvAppItem* item = new mvSelectable(name, default_value, flags);
 		if (callback)
 			Py_XINCREF(callback);
 		item->setCallback(callback);
