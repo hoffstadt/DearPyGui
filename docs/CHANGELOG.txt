@@ -28,6 +28,9 @@ HOW TO UPDATE?
 
 Decorated log: https://github.com/hoffstadt/DearPyGui/releases/tag/v0.3.8
 
+Updates:
+- ImPlot: upgraded to commit 0ed6307
+
 Breaking Changes:
 - Line Series:    Removed "fill" keyword (use the new shade series)
 - Plots:          Removed all flags in favor of keywords
