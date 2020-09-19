@@ -188,6 +188,7 @@ struct ImPlotPoint {
     double x, y;
     ImPlotPoint()                         { x = y = 0.0; }
     ImPlotPoint(double _x, double _y)     { x = _x; y = _y; }
+    ImPlotPoint(const ImVec2& p)          { x = p.x; y = p.y; }
     double  operator[] (size_t idx) const { return (&x)[idx]; }
     double& operator[] (size_t idx)       { return (&x)[idx]; }
 #ifdef IMPLOT_POINT_CLASS_EXTRA
@@ -243,6 +244,7 @@ struct ImPlotStyle {
     // settings/flags
     bool    AntiAliasedLines;        // = false,  enable global anti-aliasing on plot lines (overrides ImPlotFlags_AntiAliased)
     bool    UseLocalTime;            // = false,  axis labels will be formatted for your timezone when ImPlotAxisFlag_Time is enabled
+    bool    Use24HourClock;          // = false,  hours will be formatted for 24 hour clock
     IMPLOT_API ImPlotStyle();
 };
 
@@ -345,55 +347,58 @@ IMPLOT_API void EndPlot();
 // if you try plotting extremely large 64-bit integral types. Proceed with caution!
 
 // Plots a standard 2D line plot.
-template <typename T> IMPLOT_API void PlotLine(const char* label_id, const T* values, int count, int offset = 0, int stride = sizeof(T));
-template <typename T> IMPLOT_API void PlotLine(const char* label_id, const T* xs, const T* ys, int count, int offset = 0, int stride = sizeof(T));
-                      IMPLOT_API void PlotLineG(const char* label_id, ImPlotPoint (*getter)(void* data, int idx), void* data, int count, int offset = 0);
+template <typename T> IMPLOT_API void PlotLine(const char* label_id, const T* values, int count, double xscale=1, double x0=0, int offset=0, int stride=sizeof(T));
+template <typename T> IMPLOT_API void PlotLine(const char* label_id, const T* xs, const T* ys, int count, int offset=0, int stride=sizeof(T));
+                      IMPLOT_API void PlotLineG(const char* label_id, ImPlotPoint (*getter)(void* data, int idx), void* data, int count, int offset=0);
 
 // Plots a standard 2D scatter plot. Default marker is ImPlotMarker_Circle.
-template <typename T> IMPLOT_API  void PlotScatter(const char* label_id, const T* values, int count, int offset = 0, int stride = sizeof(T));
-template <typename T> IMPLOT_API  void PlotScatter(const char* label_id, const T* xs, const T* ys, int count, int offset = 0, int stride = sizeof(T));
-                      IMPLOT_API  void PlotScatterG(const char* label_id, ImPlotPoint (*getter)(void* data, int idx), void* data, int count, int offset = 0);
+template <typename T> IMPLOT_API  void PlotScatter(const char* label_id, const T* values, int count, double xscale=1, double x0=0, int offset=0, int stride=sizeof(T));
+template <typename T> IMPLOT_API  void PlotScatter(const char* label_id, const T* xs, const T* ys, int count, int offset=0, int stride=sizeof(T));
+                      IMPLOT_API  void PlotScatterG(const char* label_id, ImPlotPoint (*getter)(void* data, int idx), void* data, int count, int offset=0);
 
 // Plots a shaded (filled) region between two lines, or a line and a horizontal reference.
-template <typename T> IMPLOT_API void PlotShaded(const char* label_id, const T* values, int count, double y_ref = 0, int offset = 0, int stride = sizeof(T));
-template <typename T> IMPLOT_API void PlotShaded(const char* label_id, const T* xs, const T* ys, int count, double y_ref = 0, int offset = 0, int stride = sizeof(T));
-template <typename T> IMPLOT_API void PlotShaded(const char* label_id, const T* xs, const T* ys1, const T* ys2, int count, int offset = 0, int stride = sizeof(T));
-                      IMPLOT_API void PlotShadedG(const char* label_id, ImPlotPoint (*getter1)(void* data, int idx), void* data1, ImPlotPoint (*getter2)(void* data, int idx), void* data2, int count, int offset = 0);
+template <typename T> IMPLOT_API void PlotShaded(const char* label_id, const T* values, int count, double y_ref=0, double xscale=1, double x0=0, int offset=0, int stride=sizeof(T));
+template <typename T> IMPLOT_API void PlotShaded(const char* label_id, const T* xs, const T* ys, int count, double y_ref=0, int offset=0, int stride=sizeof(T));
+template <typename T> IMPLOT_API void PlotShaded(const char* label_id, const T* xs, const T* ys1, const T* ys2, int count, int offset=0, int stride=sizeof(T));
+                      IMPLOT_API void PlotShadedG(const char* label_id, ImPlotPoint (*getter1)(void* data, int idx), void* data1, ImPlotPoint (*getter2)(void* data, int idx), void* data2, int count, int offset=0);
 
 // Plots a vertical bar graph. #width and #shift are in X units.
-template <typename T> IMPLOT_API void PlotBars(const char* label_id, const T* values, int count, double width = 0.67, double shift = 0, int offset = 0, int stride = sizeof(T));
-template <typename T> IMPLOT_API void PlotBars(const char* label_id, const T* xs, const T* ys, int count, double width, int offset = 0, int stride = sizeof(T));
-                      IMPLOT_API void PlotBarsG(const char* label_id, ImPlotPoint (*getter)(void* data, int idx), void* data, int count, double width, int offset = 0);
+template <typename T> IMPLOT_API void PlotBars(const char* label_id, const T* values, int count, double width=0.67, double shift=0, int offset=0, int stride=sizeof(T));
+template <typename T> IMPLOT_API void PlotBars(const char* label_id, const T* xs, const T* ys, int count, double width, int offset=0, int stride=sizeof(T));
+                      IMPLOT_API void PlotBarsG(const char* label_id, ImPlotPoint (*getter)(void* data, int idx), void* data, int count, double width, int offset=0);
 
 // Plots a horizontal bar graph. #height and #shift are in Y units.
-template <typename T> IMPLOT_API void PlotBarsH(const char* label_id, const T* values, int count, double height = 0.67, double shift = 0, int offset = 0, int stride = sizeof(T));
-template <typename T> IMPLOT_API void PlotBarsH(const char* label_id, const T* xs, const T* ys, int count, double height, int offset = 0, int stride = sizeof(T));
-                      IMPLOT_API void PlotBarsHG(const char* label_id, ImPlotPoint (*getter)(void* data, int idx), void* data, int count, double height,  int offset = 0);
+template <typename T> IMPLOT_API void PlotBarsH(const char* label_id, const T* values, int count, double height=0.67, double shift=0, int offset=0, int stride=sizeof(T));
+template <typename T> IMPLOT_API void PlotBarsH(const char* label_id, const T* xs, const T* ys, int count, double height, int offset=0, int stride=sizeof(T));
+                      IMPLOT_API void PlotBarsHG(const char* label_id, ImPlotPoint (*getter)(void* data, int idx), void* data, int count, double height,  int offset=0);
 
 // Plots vertical error bar. The label_id should be the same as the label_id of the associated line or bar plot.
-template <typename T> IMPLOT_API void PlotErrorBars(const char* label_id, const T* xs, const T* ys, const T* err, int count, int offset = 0, int stride = sizeof(T));
-template <typename T> IMPLOT_API void PlotErrorBars(const char* label_id, const T* xs, const T* ys, const T* neg, const T* pos, int count, int offset = 0, int stride = sizeof(T));
+template <typename T> IMPLOT_API void PlotErrorBars(const char* label_id, const T* xs, const T* ys, const T* err, int count, int offset=0, int stride=sizeof(T));
+template <typename T> IMPLOT_API void PlotErrorBars(const char* label_id, const T* xs, const T* ys, const T* neg, const T* pos, int count, int offset=0, int stride=sizeof(T));
 
 // Plots horizontal error bars. The label_id should be the same as the label_id of the associated line or bar plot.
-template <typename T> IMPLOT_API void PlotErrorBarsH(const char* label_id, const T* xs, const T* ys, const T* err, int count, int offset = 0, int stride = sizeof(T));
-template <typename T> IMPLOT_API void PlotErrorBarsH(const char* label_id, const T* xs, const T* ys, const T* neg, const T* pos, int count, int offset = 0, int stride = sizeof(T));
+template <typename T> IMPLOT_API void PlotErrorBarsH(const char* label_id, const T* xs, const T* ys, const T* err, int count, int offset=0, int stride=sizeof(T));
+template <typename T> IMPLOT_API void PlotErrorBarsH(const char* label_id, const T* xs, const T* ys, const T* neg, const T* pos, int count, int offset=0, int stride=sizeof(T));
 
 /// Plots vertical stems.
-template <typename T> IMPLOT_API void PlotStems(const char* label_id, const T* values, int count, double y_ref = 0, int offset = 0, int stride = sizeof(T));
-template <typename T> IMPLOT_API void PlotStems(const char* label_id, const T* xs, const T* ys, int count, double y_ref = 0, int offset = 0, int stride = sizeof(T));
+template <typename T> IMPLOT_API void PlotStems(const char* label_id, const T* values, int count, double y_ref=0, double xscale=1, double x0=0, int offset=0, int stride=sizeof(T));
+template <typename T> IMPLOT_API void PlotStems(const char* label_id, const T* xs, const T* ys, int count, double y_ref=0, int offset=0, int stride=sizeof(T));
 
 // Plots a pie chart. If the sum of values > 1 or normalize is true, each value will be normalized. Center and radius are in plot units. #label_fmt can be set to NULL for no labels.
-template <typename T> IMPLOT_API void PlotPieChart(const char* const label_ids[], const T* values, int count, double x, double y, double radius, bool normalize = false, const char* label_fmt = "%.1f", double angle0 = 90);
+template <typename T> IMPLOT_API void PlotPieChart(const char* const label_ids[], const T* values, int count, double x, double y, double radius, bool normalize=false, const char* label_fmt="%.1f", double angle0=90);
 
 // Plots a 2D heatmap chart. Values are expected to be in row-major order. #label_fmt can be set to NULL for no labels.
-template <typename T> IMPLOT_API void PlotHeatmap(const char* label_id, const T* values, int rows, int cols, double scale_min, double scale_max, const char* label_fmt = "%.1f", const ImPlotPoint& bounds_min = ImPlotPoint(0,0), const ImPlotPoint& bounds_max = ImPlotPoint(1,1));
+template <typename T> IMPLOT_API void PlotHeatmap(const char* label_id, const T* values, int rows, int cols, double scale_min, double scale_max, const char* label_fmt="%.1f", const ImPlotPoint& bounds_min=ImPlotPoint(0,0), const ImPlotPoint& bounds_max=ImPlotPoint(1,1));
 
 // Plots digital data. Digital plots do not respond to y drag or zoom, and are always referenced to the bottom of the plot.
-template <typename T> IMPLOT_API void PlotDigital(const char* label_id, const T* xs, const T* ys, int count, int offset = 0, int stride = sizeof(T));
-                      IMPLOT_API void PlotDigitalG(const char* label_id, ImPlotPoint (*getter)(void* data, int idx), void* data, int count, int offset = 0);
+template <typename T> IMPLOT_API void PlotDigital(const char* label_id, const T* xs, const T* ys, int count, int offset=0, int stride=sizeof(T));
+                      IMPLOT_API void PlotDigitalG(const char* label_id, ImPlotPoint (*getter)(void* data, int idx), void* data, int count, int offset=0);
+
+// Plots an axis-aligned image. #bounds_min/bounds_max are in plot coordinatse (y-up) and #uv0/uv1 are in texture coordinates (y-down).
+IMPLOT_API void PlotImage(const char* label_id, ImTextureID user_texture_id, const ImPlotPoint& bounds_min, const ImPlotPoint& bounds_max, const ImVec2& uv0=ImVec2(0,0), const ImVec2& uv1=ImVec2(1,1), const ImVec4& tint_col=ImVec4(1,1,1,1));
 
 // Plots a centered text label at point x,y with optional pixel offset. Text color can be changed with ImPlot::PushStyleColor(ImPlotCol_InlayText, ...).
-IMPLOT_API void PlotText(const char* text, double x, double y, bool vertical = false, const ImVec2& pixel_offset = ImVec2(0,0));
+IMPLOT_API void PlotText(const char* text, double x, double y, bool vertical=false, const ImVec2& pixel_offset=ImVec2(0,0));
 
 //-----------------------------------------------------------------------------
 // Plot Utils
@@ -428,6 +433,9 @@ IMPLOT_API ImPlotPoint PixelsToPlot(float x, float y, int y_axis = IMPLOT_AUTO);
 // Convert a position in the current plot's coordinate system to pixels. A negative y_axis uses the current value of SetPlotYAxis (0 initially).
 IMPLOT_API ImVec2 PlotToPixels(const ImPlotPoint& plt, int y_axis = IMPLOT_AUTO);
 IMPLOT_API ImVec2 PlotToPixels(double x, double y, int y_axis = IMPLOT_AUTO);
+
+// Hides or shows the next plot item (i.e. as if it were toggled from the legend). Use ImGuiCond_Always if you need to change this every frame.
+IMPLOT_API void HideNextItem(bool hidden = true, ImGuiCond cond = ImGuiCond_Once);
 
 //-----------------------------------------------------------------------------
 // Plot Queries
@@ -586,7 +594,7 @@ IMPLOT_API void ShowStyleEditor(ImPlotStyle* ref = NULL);
 IMPLOT_API void ShowUserGuide();
 
 // Sets the current _ImGui_ context. This is ONLY necessary if you are compiling
-// ImPlot as a DLL (not recommended) separate from your ImGui  compilation. It
+// ImPlot as a DLL (not recommended) separate from your ImGui compilation. It
 // sets the global variable GImGui, which is not shared across DLL boundaries.
 // See GImGui documentation in imgui.cpp for more details.
 IMPLOT_API void SetImGuiContext(ImGuiContext* ctx);
