@@ -212,6 +212,49 @@ namespace Marvel {
 		return result;
 	}
 
+	PyObject* ToPyTime(const tm& time)
+	{
+		mvGlobalIntepreterLock gil;
+		PyObject* dict = PyDict_New();
+		PyDict_SetItemString(dict, "sec",              ToPyInt(time.tm_sec));
+		PyDict_SetItemString(dict, "min",              ToPyInt(time.tm_min));
+		PyDict_SetItemString(dict, "hour",             ToPyInt(time.tm_hour));
+		PyDict_SetItemString(dict, "month_day",        ToPyInt(time.tm_mday));
+		PyDict_SetItemString(dict, "month",            ToPyInt(time.tm_mon));
+		PyDict_SetItemString(dict, "year",             ToPyInt(time.tm_year));
+		PyDict_SetItemString(dict, "week_day",         ToPyInt(time.tm_wday));
+		PyDict_SetItemString(dict, "year_day",         ToPyInt(time.tm_yday));
+		PyDict_SetItemString(dict, "daylight_savings", ToPyInt(time.tm_isdst));
+		return dict;
+	}
+
+	tm ToTime(PyObject* value, const std::string& message)
+	{
+		tm result = {};
+		if (value == nullptr)
+			return result;
+
+		if (!PyDict_Check(value))
+		{
+			ThrowPythonException(message);
+			return result;
+		}
+
+		if (PyObject* item = PyDict_GetItemString(value, "sec"))              result.tm_sec = ToInt(item);
+		if (PyObject* item = PyDict_GetItemString(value, "min"))              result.tm_min = ToInt(item);
+		if (PyObject* item = PyDict_GetItemString(value, "hour"))             result.tm_hour = ToInt(item);
+		if (PyObject* item = PyDict_GetItemString(value, "month_day"))        result.tm_mday = ToInt(item);
+		else result.tm_mday = 1;
+		if (PyObject* item = PyDict_GetItemString(value, "month"))            result.tm_mon = ToInt(item);
+		if (PyObject* item = PyDict_GetItemString(value, "year"))             result.tm_year = ToInt(item);
+		else result.tm_year = 1970;
+		if (PyObject* item = PyDict_GetItemString(value, "week_day"))         result.tm_wday = ToInt(item);
+		if (PyObject* item = PyDict_GetItemString(value, "year_day"))         result.tm_yday = ToInt(item);
+		if (PyObject* item = PyDict_GetItemString(value, "daylight_savings")) result.tm_isdst = ToInt(item);
+
+		return result;
+	}
+
 	int ToInt(PyObject* value, const std::string& message)
 	{
 		if (value == nullptr)

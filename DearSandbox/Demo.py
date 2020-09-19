@@ -341,6 +341,10 @@ with window("Widgets##dialog", 500, 500, hide=True):
         for item in items:
             log_info(item + ":\t" + str(get_value(item)))
 
+        items = get_item_children("Time/Date Widgets##widget")
+        for item in items:
+            log_info(item + ":\t" + str(get_value(item)))
+
     add_button("Get Widget Values", callback=RetrieveValues)
 
     with tab_bar("Tab Bar##widget"):
@@ -409,6 +413,17 @@ with window("Widgets##dialog", 500, 500, hide=True):
                 add_text("Group")
                 for i in range(0, 3):
                     add_button("Button" + str(i) + "##widgetgroup")
+
+        with tab("Time/Date Widgets##widget"):
+            add_time_picker("Time Picker")
+            add_separator()
+            add_date_picker("Date Picker1", level=0, default_value={'month_day': 8, 'year':93, 'month':5})
+            add_separator()
+            add_date_picker("Date Picker2", level=1, default_value={'month_day': 8, 'year':93, 'month':5})
+            add_separator()
+            add_date_picker("Date Picker3", level=2, default_value={'month_day': 8, 'year':93, 'month':5})
+            add_separator()
+
 
 ########################################################################################################################
 # Logger

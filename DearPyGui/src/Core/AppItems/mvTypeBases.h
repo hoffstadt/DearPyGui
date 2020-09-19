@@ -9,6 +9,8 @@
 //-----------------------------------------------------------------------------
 
 #include <utility>
+#include <implot.h>
+#include <implot_internal.h>
 #include "mvPythonTranslator.h"
 #include "mvApp.h"
 #include "mvAppItem.h"
@@ -258,6 +260,45 @@ namespace Marvel {
 
 		std::vector<float> m_value;
 
+	};
+
+	//-----------------------------------------------------------------------------
+	// mvTimeItemBase
+	//-----------------------------------------------------------------------------
+	class mvTimeItemBase : public mvAppItem
+	{
+
+	public:
+
+
+		mvTimeItemBase(const std::string& name, tm default_value)
+			: mvAppItem(name), m_value(default_value)
+		{
+			m_imvalue = ImPlot::MkGmtTime(&m_value);
+		}
+
+		void setPyValue(PyObject* value) override
+		{
+			m_value = ToTime(value);
+			m_imvalue = ImPlot::MakeTime(
+				m_value.tm_year,
+				m_value.tm_mon,
+				m_value.tm_mday,
+				m_value.tm_hour,
+				m_value.tm_min,
+				m_value.tm_sec);
+		}
+
+		[[nodiscard]] PyObject* getPyValue() const override
+		{
+			return ToPyTime(m_value);
+		}
+
+	protected:
+
+		tm         m_value;
+		ImPlotTime m_imvalue;
+	
 	};
 
 }

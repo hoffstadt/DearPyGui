@@ -466,6 +466,32 @@ namespace Marvel {
 
 	void AddBasicWidgets(std::map<std::string, mvPythonParser>* parsers)
 	{
+		parsers->insert({ "add_time_picker", mvPythonParser({
+			{mvPythonDataType::String, "name"},
+			{mvPythonDataType::Optional},
+			{mvPythonDataType::KeywordOnly},
+			{mvPythonDataType::Object, "default_value"},
+			{mvPythonDataType::Bool, "hour24"},
+			{mvPythonDataType::Object, "callback", "Registers a callback"},
+			{mvPythonDataType::Object, "callback_data", "Callback data"},
+			{mvPythonDataType::String, "tip", "Adds a simple tooltip"},
+			{mvPythonDataType::String, "parent", "Parent this item will be added to. (runtime adding)"},
+			{mvPythonDataType::String, "before","This item will be displayed before the specified item in the parent. (runtime adding)"},
+		}, "Adds a time selector widget.", "None", "Adding Widgets") });
+
+		parsers->insert({ "add_date_picker", mvPythonParser({
+			{mvPythonDataType::String, "name"},
+			{mvPythonDataType::Optional},
+			{mvPythonDataType::KeywordOnly},
+			{mvPythonDataType::Object, "default_value"},
+			{mvPythonDataType::Integer, "level"},
+			{mvPythonDataType::Object, "callback", "Registers a callback"},
+			{mvPythonDataType::Object, "callback_data", "Callback data"},
+			{mvPythonDataType::String, "tip", "Adds a simple tooltip"},
+			{mvPythonDataType::String, "parent", "Parent this item will be added to. (runtime adding)"},
+			{mvPythonDataType::String, "before","This item will be displayed before the specified item in the parent. (runtime adding)"},
+		}, "Adds a data selector widget.", "None", "Adding Widgets") });
+
 		parsers->insert({ "add_separator", mvPythonParser({
 			{mvPythonDataType::KeywordOnly},
 			{mvPythonDataType::String, "name"},
@@ -858,6 +884,58 @@ namespace Marvel {
 		parsers->insert({ "end", mvPythonParser({
 		}, "Ends a container.", "None", "Containers") });
 
+	}
+
+	PyObject* add_time_picker(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		const char* name;
+		PyObject* default_value = nullptr;
+		int hour24 = false;
+		PyObject* callback = nullptr;
+		PyObject* callback_data = nullptr;
+		const char* tip = "";
+		const char* before = "";
+		const char* parent = "";
+
+		if (!(*mvApp::GetApp()->getParsers())["add_time_picker"].parse(args, kwargs, __FUNCTION__, 
+			&name, &default_value, &hour24, &callback, &callback_data, &tip, &parent, &before))
+			return ToPyBool(false);
+
+		mvAppItem* item = new mvTimePicker(name, ToTime(default_value), hour24);
+		item->setTip(tip);
+		if (callback)
+			Py_XINCREF(callback);
+		item->setCallback(callback);
+		if (callback_data)
+			Py_XINCREF(callback_data);
+		item->setCallbackData(callback_data);
+		return ToPyBool(AddItemWithRuntimeChecks(item, parent, before));
+	}
+
+	PyObject* add_date_picker(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		const char* name;
+		PyObject* default_value = nullptr;
+		int level = 0;
+		PyObject* callback = nullptr;
+		PyObject* callback_data = nullptr;
+		const char* tip = "";
+		const char* before = "";
+		const char* parent = "";
+
+		if (!(*mvApp::GetApp()->getParsers())["add_date_picker"].parse(args, kwargs, __FUNCTION__,
+			&name, &default_value, &level, &callback, &callback_data, &tip, &parent, &before))
+			return ToPyBool(false);
+
+		mvAppItem* item = new mvDatePicker(name, ToTime(default_value), level);
+		item->setTip(tip);
+		if (callback)
+			Py_XINCREF(callback);
+		item->setCallback(callback);
+		if (callback_data)
+			Py_XINCREF(callback_data);
+		item->setCallbackData(callback_data);
+		return ToPyBool(AddItemWithRuntimeChecks(item, parent, before));
 	}
 
 	PyObject* add_menu_bar(PyObject* self, PyObject* args, PyObject* kwargs)
