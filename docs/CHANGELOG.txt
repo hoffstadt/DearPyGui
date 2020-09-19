@@ -46,6 +46,8 @@ Breaking Changes:
 
 New Commands:
 
+- Widgets:        Added "add_time_picker" command
+- Widgets:        Added "add_date_picker" command
 - Widgets:        Added "get_item_type" command
 - Widgets:        Added "configure_item" command
 - Widgets:        Added "get_item_configuration" command

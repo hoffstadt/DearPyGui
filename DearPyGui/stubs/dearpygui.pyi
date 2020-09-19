@@ -69,6 +69,11 @@ def add_data(name: str, data: object) -> None:
 	"""Adds data for later retrieval."""
 	...
 
+def add_date_selector(name: str, default_value: dict = ..., level: int = 0, callback: Callable = None, callback_data: Any = None, tip: str = "",
+					  parent: str = "", before: str = "") -> bool:
+	"""Adds a data selector widget."""
+	...
+
 def add_drag_float(name: str, default_value: float = 0.0, speed: float = 1.0, min_value: float = 0.0, 
 				   max_value: float = 100.0, format: str = "%.3f", power: float = 1.0, callback: Callable = None, callback_data: Any = None, 
 				   tip: str = "", parent: str = "", before: str = "", data_source: str = "", width: int = 0, on_enter:bool = False) -> bool:
@@ -373,6 +378,11 @@ def add_text(name: str, wrap: int = 0, color: List[float] = ..., bullet: bool = 
 
 def add_text_point(plot: str, name: str, x: float, y: float, vertical: bool = False, xoffset: int = 0, yoffset: int = 0, update_bounds: bool = True) -> None:
 	"""Adds a point with text to a plot."""
+	...
+
+def add_time_selector(name: str, default_value: dict = ..., hour24: bool = False, callback: Callable = None, callback_data: Any = None, tip: str = "",
+					  parent: str = "", before: str = "") -> bool:
+	"""Adds a data selector widget."""
 	...
 
 def add_tooltip(tipparent: str, name: str, parent: str = "", before: str = "") -> bool:

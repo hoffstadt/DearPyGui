@@ -14,6 +14,8 @@
 #include "Core/AppItems/mvDrawing.h"
 #include "Core/AppItems/mvImage.h"
 #include "Core/AppItems/mvTable.h"
+#include "Core/AppItems/mvTimePicker.h"
+#include "Core/AppItems/mvDatePicker.h"
 
 #include "Core/PlotAppItems/mvPlot.h"
 #include "Core/PlotAppItems/mvSimplePlot.h"
@@ -61,6 +63,12 @@
 //         * mvGroup
 //         * mvCollapsingHeader
 //         * mvTreeNode
+//
+//     - mvTimePicker.h
+//         * mvTimePicker
+//
+//     - mvDatePicker.h
+//         * mvDatePicker
 //
 //     - mvDrawing.h
 //         * mvDrawing

@@ -14,6 +14,7 @@
 #include "mvCore.h"
 #define PY_SSIZE_T_CLEAN
 #include <Python.h>
+#include <time.h>
 
 namespace Marvel {
 
@@ -55,6 +56,7 @@ namespace Marvel {
 	PyObject*   ToPyList  (const std::vector<std::vector<std::string>>& value);
 	PyObject*   ToPyList  (const std::vector<std::pair<int, int>>& value);
 	PyObject*   ToPyColor (const mvColor& color);
+	PyObject*   ToPyTime  (const tm& time);
 
 	// updates
 	void        UpdatePyIntList         (PyObject* pyvalue, const std::vector<int>& value);
@@ -69,6 +71,7 @@ namespace Marvel {
 	mvVec2      ToVec2  (PyObject* value, const std::string& message = "Type must be a list or tuple of floats.");
 	mvVec4      ToVec4  (PyObject* value, const std::string& message = "Type must be a list or tuple of floats.");
 	std::string ToString(PyObject* value, const std::string& message = "Type must be a string.");
+	tm          ToTime  (PyObject* value, const std::string& message = "Type must be a dict");
 
 	std::vector<mvVec2>                              ToVectVec2           (PyObject* value, const std::string& message = "Type must be a list/tuple of list/tuple.");
 	std::vector<mvVec4>                              ToVectVec4           (PyObject* value, const std::string& message = "Type must be a list/tuple of list/tuple.");

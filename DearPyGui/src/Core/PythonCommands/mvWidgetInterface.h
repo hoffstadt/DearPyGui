@@ -63,6 +63,8 @@ namespace Marvel {
 	PyObject* add_image_button     (PyObject* self, PyObject* args, PyObject* kwargs);
 
 	// misc
+	PyObject* add_date_picker      (PyObject* self, PyObject* args, PyObject* kwargs);
+	PyObject* add_time_picker      (PyObject* self, PyObject* args, PyObject* kwargs);
 	PyObject* add_indent           (PyObject* self, PyObject* args, PyObject* kwargs);
 	PyObject* unindent             (PyObject* self, PyObject* args, PyObject* kwargs);
 	PyObject* add_spacing          (PyObject* self, PyObject* args, PyObject* kwargs);
