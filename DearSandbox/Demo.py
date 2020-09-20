@@ -1,4 +1,4 @@
-from dearpygui import *
+from core import *
 from time import sleep
 from contextlib import contextmanager
 from functools import wraps
