@@ -203,6 +203,8 @@ namespace Marvel {
 			appitem->getExtraConfigDict(pdict);
 			return pdict;
 		}
+		else
+			ThrowPythonException(std::string(item) + " does not exist");
 
 		return GetPyNone();
 	}
@@ -220,6 +222,8 @@ namespace Marvel {
 			appitem->setConfigDict(kwargs);
 			appitem->setExtraConfigDict(kwargs);
 		}
+		else
+			ThrowPythonException(item + " does not exist.");
 
 		return GetPyNone();
 	}
