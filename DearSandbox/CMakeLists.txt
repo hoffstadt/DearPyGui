@@ -46,9 +46,9 @@ if (WIN32)
 	target_link_directories(DearSandbox PRIVATE "../Dependencies/cpython/PCbuild/amd64/")
 	
 	if(MV37DIST)
-		target_link_libraries(DearSandbox PUBLIC dearpyguiemb $<$<CONFIG:Debug>:python37_d> $<$<CONFIG:Release>:python37>)
+		target_link_libraries(DearSandbox PUBLIC coreemb $<$<CONFIG:Debug>:python37_d> $<$<CONFIG:Release>:python37>)
 	else()
-		target_link_libraries(DearSandbox PUBLIC dearpyguiemb $<$<CONFIG:Debug>:python38_d> $<$<CONFIG:Release>:python38>)
+		target_link_libraries(DearSandbox PUBLIC coreemb $<$<CONFIG:Debug>:python38_d> $<$<CONFIG:Release>:python38>)
 	endif()
 
 
@@ -76,9 +76,9 @@ elseif(APPLE)
 	endif()
 
 	if(MV37DIST)
-		target_link_libraries(DearSandbox PUBLIC dearpyguiemb "python3.7")
+		target_link_libraries(DearSandbox PUBLIC coreemb "python3.7")
 	else()
-		target_link_libraries(DearSandbox PUBLIC dearpyguiemb "python3.8")
+		target_link_libraries(DearSandbox PUBLIC coreemb "python3.8")
 	endif()
 
 else() # Linux
@@ -87,6 +87,6 @@ else() # Linux
 
 		PUBLIC
 			"-lcrypt -lpthread -ldl  -lutil -lm"
-			dearpyguiemb
+			coreemb
 	)
 endif()

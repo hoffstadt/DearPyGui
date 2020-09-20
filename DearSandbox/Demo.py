@@ -1,4 +1,9 @@
-from dearpygui import *
+# if using this file outside of DPG development comment this line out
+# and uncomment the next line
+from core import *
+# from dearpygui.core import *
+
+
 from time import sleep
 from contextlib import contextmanager
 from functools import wraps
