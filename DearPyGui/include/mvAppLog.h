@@ -4,6 +4,7 @@
 #include <string>
 #include <chrono>
 #include "mvCore.h"
+#include "mvPythonTranslator.h"
 
 namespace Marvel {
 
@@ -32,6 +33,8 @@ namespace Marvel {
 		[[nodiscard]] static unsigned GetWindowWidth ();
 		[[nodiscard]] static unsigned GetWindowHeight();
 		static mvVec2                 GetWindowPos   ();
+		static void                   SetConfigDict(PyObject* dict);
+		static void                   GetConfigDict(PyObject* dict);
 
 	private:
 
