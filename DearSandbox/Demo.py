@@ -22,7 +22,7 @@ def item_checked(item):
     add_label_text(item + "##checklist", value="Not Checked", color=[255, 0, 0], parent="CompleteChecklistGroup")
 
 ########################################################################################################################
-# Context Managers : normally in dearpygui.wrappers
+# Context Managers : normally in dearpygui.simple
 ########################################################################################################################
 
 def wrap_container(container):

@@ -32,6 +32,8 @@ Updates:
 - ImPlot: upgraded to commit 0ed6307
 
 Breaking Changes:
+- Modules:        dearpygui module is now called core
+- Modules:        wrapper module is now called simple
 - Line Series:    Removed "fill" keyword (use the new shade series)
 - Plots:          Removed all flags in favor of keywords
 - Pie Chart:      Removed "add_pie_chart"
