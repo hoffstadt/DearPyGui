@@ -67,6 +67,7 @@ namespace Marvel {
         [[nodiscard]] const std::string& getReturnType                   () const { return m_return; }
         [[nodiscard]] const std::string& getAbout                        () const { return m_about; }
         [[nodiscard]] const std::vector<mvPythonDataElement>& getElements() const { return m_elements; }
+        [[nodiscard]] const std::vector<const char*>& getKeywords        () const { return m_keywords; }
 
         void buildDocumentation();
 
