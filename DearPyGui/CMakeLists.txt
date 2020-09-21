@@ -11,7 +11,7 @@ if(WIN32)
 
 	add_definitions(-DWIN32)
 	set_target_properties(core PROPERTIES SUFFIX ".pyd")
-	set_target_properties(core PROPERTIES OUTPUT_NAME "core<$<CONFIG:Debug>:_d>")
+	set_target_properties(core PROPERTIES OUTPUT_NAME "core$<$<CONFIG:Debug>:_d>")
 	set_target_properties(core PROPERTIES CXX_STANDARD 17)
 
 elseif(APPLE)
