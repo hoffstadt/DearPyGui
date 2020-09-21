@@ -42,7 +42,7 @@ namespace Marvel {
         {
             m_xpos = (int)x;
             m_ypos = (int)y;
-            m_dirty = true;
+            m_dirty_pos = true;
         }
 
         [[nodiscard]] mvVec2 getWindowPos() const
@@ -50,8 +50,10 @@ namespace Marvel {
             return { (float)m_xpos, (float)m_ypos };
         }
 
-        void setWidth(int width) { m_width = width; m_dirty = true; }
-        void setHeight(int height) { m_height = height; m_dirty = true; }
+        void setWidth (int width)  { m_width = width; m_dirty_size = true; }
+        void setHeight(int height) { m_height = height; m_dirty_size = true; }
+        void setXPos  (int x)      { m_xpos = x; m_dirty_pos = true; }
+        void setYPos  (int y)      { m_ypos = y; m_dirty_pos = true; }
 
     protected:
 
@@ -60,7 +62,8 @@ namespace Marvel {
         unsigned         m_height = 500;
         int              m_xpos = 200;
         int              m_ypos = 200;
-        bool             m_dirty = true;
+        bool             m_dirty_pos = true;
+        bool             m_dirty_size = true;
         ImGuiWindowFlags m_flags = ImGuiWindowFlags_NoSavedSettings;
         std::string      m_name;
 
