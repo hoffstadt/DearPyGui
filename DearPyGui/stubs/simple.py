@@ -3,11 +3,11 @@ import dearpygui.core as gui
 
 @contextmanager
 def window(name: str, width: int = -1, height: int = -1, x_pos: int = 200, y_pos: int = 200, 
-           autosize: bool = False, resizable: bool = True, title_bar: bool = True, 
-           movable: bool = True, hide: bool = False, on_close: str = ""):
+           autosize: bool = False, no_resize: bool = False, no_title_bar: bool = False, 
+           no_move: bool = True, hide: bool = False, on_close: str = ""):
     try: 
         yield gui.add_window(name, width, height, x_pos=x_pos, y_pos=y_pos, autosize=autosize, 
-                         resizable=resizable, title_bar=title_bar, movable=movable, hide=hide,
+                         no_resize=no_resize, no_title_bar=no_title_bar, no_move=no_move, hide=hide,
                          on_close=on_close)
     finally: gui.end()
 

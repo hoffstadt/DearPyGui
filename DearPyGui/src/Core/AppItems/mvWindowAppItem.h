@@ -201,8 +201,8 @@ namespace Marvel {
 		void getExtraConfigDict(PyObject* dict) override
 		{
 			mvGlobalIntepreterLock gil;
-			PyDict_SetItemString(dict, "xpos", ToPyInt(m_xpos));
-			PyDict_SetItemString(dict, "ypos", ToPyInt(m_ypos));
+			PyDict_SetItemString(dict, "x_pos", ToPyInt(m_xpos));
+			PyDict_SetItemString(dict, "y_pos", ToPyInt(m_ypos));
 
 			// helper to check and set bit
 			auto checkbitset = [dict](const char* keyword, int flag, const int& flags)
