@@ -1,6 +1,7 @@
 #include "mvPlot.h"
 #define PY_SSIZE_T_CLEAN
 #include <Python.h>
+#include "Core/mvInput.h"
 
 namespace Marvel {
 
@@ -306,6 +307,10 @@ namespace Marvel {
 				mvApp::GetApp()->runCallback(m_queryCallback, m_name, area);
 			}
 
+
+			if (ImPlot::IsPlotHovered())
+				mvInput::setPlotMousePosition(ImPlot::GetPlotMousePos().x, ImPlot::GetPlotMousePos().y);
+
 			ImPlot::EndPlot();
 		}
 
@@ -342,5 +347,102 @@ namespace Marvel {
 	float* mvPlot::getPlotQueryArea()
 	{
 		return m_queryArea;
+	}
+
+	void mvPlot::setExtraConfigDict(PyObject* dict)
+	{
+		mvGlobalIntepreterLock gil;
+
+		if (PyObject* item = PyDict_GetItemString(dict, "xAxisName")) m_xaxisName = ToString(item);
+		if (PyObject* item = PyDict_GetItemString(dict, "yAxisName")) m_yaxisName = ToString(item);
+		if (PyObject* item = PyDict_GetItemString(dict, "show_color_scale")) m_colormapscale = ToBool(item);
+		if (PyObject* item = PyDict_GetItemString(dict, "scale_min")) m_scale_min = ToFloat(item);
+		if (PyObject* item = PyDict_GetItemString(dict, "scale_max")) m_scale_max = ToFloat(item);
+		if (PyObject* item = PyDict_GetItemString(dict, "scale_height")) m_scale_height = ToInt(item);
+
+		// helper for bit flipping
+		auto flagop = [dict](const char* keyword, int flag, int& flags)
+		{
+			if (PyObject* item = PyDict_GetItemString(dict, keyword)) ToBool(item) ? flags |= flag : flags &= ~flag;
+		};
+
+		// plot flags
+		flagop("no_legend",            ImPlotFlags_NoLegend,         m_flags);
+		flagop("no_menus",             ImPlotFlags_NoMenus,          m_flags);
+		flagop("no_box_select",        ImPlotFlags_NoBoxSelect,      m_flags);
+		flagop("no_mouse_pos",         ImPlotFlags_NoMousePos,       m_flags);
+		flagop("no_highlight",         ImPlotFlags_NoHighlight,      m_flags);
+		flagop("no_child",             ImPlotFlags_NoChild,          m_flags);
+		flagop("query",                ImPlotFlags_Query,            m_flags);
+		flagop("crosshairs",           ImPlotFlags_Crosshairs,       m_flags);
+		flagop("anti_aliased",         ImPlotFlags_AntiAliased,      m_flags);
+
+		// x axis flags
+		flagop("xaxis_no_gridlines",   ImPlotAxisFlags_NoGridLines,  m_xflags);
+		flagop("xaxis_no_tick_marks",  ImPlotAxisFlags_NoTickMarks,  m_xflags);
+		flagop("xaxis_no_tick_labels", ImPlotAxisFlags_NoTickLabels, m_xflags);
+		flagop("xaxis_log_scale",      ImPlotAxisFlags_LogScale,     m_xflags);
+		flagop("xaxis_time",           ImPlotAxisFlags_Time,         m_xflags);
+		flagop("xaxis_invert",         ImPlotAxisFlags_Invert,       m_xflags);
+		flagop("xaxis_lock_min",       ImPlotAxisFlags_LockMin,      m_xflags);
+		flagop("xaxis_lock_max",       ImPlotAxisFlags_LockMax,      m_xflags);
+
+		// y axis flags
+		flagop("yaxis_no_gridlines",   ImPlotAxisFlags_NoGridLines,  m_yflags);
+		flagop("yaxis_no_tick_marks",  ImPlotAxisFlags_NoTickMarks,  m_yflags);
+		flagop("yaxis_no_tick_labels", ImPlotAxisFlags_NoTickLabels, m_yflags);
+		flagop("yaxis_log_scale",      ImPlotAxisFlags_LogScale,     m_yflags);
+		flagop("yaxis_invert",         ImPlotAxisFlags_Invert,       m_yflags);
+		flagop("yaxis_lock_min",       ImPlotAxisFlags_LockMin,      m_yflags);
+		flagop("yaxis_lock_max",       ImPlotAxisFlags_LockMax,      m_yflags);
+
+	}
+
+	void mvPlot::getExtraConfigDict(PyObject* dict)
+	{
+		mvGlobalIntepreterLock gil;
+
+		PyDict_SetItemString(dict, "xAxisName", ToPyString(m_xaxisName));
+		PyDict_SetItemString(dict, "yAxisName", ToPyString(m_yaxisName));
+		PyDict_SetItemString(dict, "show_color_scale", ToPyBool(m_colormapscale));
+		PyDict_SetItemString(dict, "scale_min", ToPyFloat(m_scale_min));
+		PyDict_SetItemString(dict, "scale_max", ToPyFloat(m_scale_max));
+		PyDict_SetItemString(dict, "scale_height", ToPyFloat(m_scale_height));
+
+		// helper to check and set bit
+		auto checkbitset = [dict](const char* keyword, int flag, const int& flags)
+		{
+			PyDict_SetItemString(dict, keyword, ToPyBool(flags & flag));
+		};
+
+		// plot flags
+		checkbitset("no_legend",            ImPlotFlags_NoLegend,         m_flags);
+		checkbitset("no_menus",             ImPlotFlags_NoMenus,          m_flags);
+		checkbitset("no_box_select",        ImPlotFlags_NoBoxSelect,      m_flags);
+		checkbitset("no_mouse_pos",         ImPlotFlags_NoMousePos,       m_flags);
+		checkbitset("no_highlight",         ImPlotFlags_NoHighlight,      m_flags);
+		checkbitset("no_child",             ImPlotFlags_NoChild,          m_flags);
+		checkbitset("query",                ImPlotFlags_Query,            m_flags);
+		checkbitset("crosshairs",           ImPlotFlags_Crosshairs,       m_flags);
+		checkbitset("anti_aliased",         ImPlotFlags_AntiAliased,      m_flags);
+
+		// x axis flags
+		checkbitset("xaxis_no_gridlines",   ImPlotAxisFlags_NoGridLines,  m_xflags);
+		checkbitset("xaxis_no_tick_marks",  ImPlotAxisFlags_NoTickMarks,  m_xflags);
+		checkbitset("xaxis_no_tick_labels", ImPlotAxisFlags_NoTickLabels, m_xflags);
+		checkbitset("xaxis_log_scale",      ImPlotAxisFlags_LogScale,     m_xflags);
+		checkbitset("xaxis_time",           ImPlotAxisFlags_Time,         m_xflags);
+		checkbitset("xaxis_invert",         ImPlotAxisFlags_Invert,       m_xflags);
+		checkbitset("xaxis_lock_min",       ImPlotAxisFlags_LockMin,      m_xflags);
+		checkbitset("xaxis_lock_max",       ImPlotAxisFlags_LockMax,      m_xflags);
+
+		// y axis flags
+		checkbitset("yaxis_no_gridlines",   ImPlotAxisFlags_NoGridLines,  m_yflags);
+		checkbitset("yaxis_no_tick_marks",  ImPlotAxisFlags_NoTickMarks,  m_yflags);
+		checkbitset("yaxis_no_tick_labels", ImPlotAxisFlags_NoTickLabels, m_yflags);
+		checkbitset("yaxis_log_scale",      ImPlotAxisFlags_LogScale,     m_yflags);
+		checkbitset("yaxis_invert",         ImPlotAxisFlags_Invert,       m_yflags);
+		checkbitset("yaxis_lock_min",       ImPlotAxisFlags_LockMin,      m_yflags);
+		checkbitset("yaxis_lock_max",       ImPlotAxisFlags_LockMax,      m_yflags);
 	}
 }

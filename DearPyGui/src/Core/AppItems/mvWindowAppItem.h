@@ -19,8 +19,8 @@ namespace Marvel {
 		MV_APPITEM_TYPE(mvAppItemType::Window)
 
 		mvWindowAppitem(const std::string& name, int width, int height, int xpos, int ypos, 
-			bool mainWindow, bool autosize, bool resizable, bool titlebar, bool movable, PyObject*  closing_callback=nullptr)
-			: mvAppItem(name), mvEventHandler(), m_xpos(xpos), m_ypos(ypos), m_mainWindow(mainWindow), m_closing_callback(closing_callback)
+			bool mainWindow, ImGuiWindowFlags flags, PyObject* closing_callback=nullptr)
+			: mvAppItem(name), mvEventHandler(), m_windowflags(flags), m_xpos(xpos), m_ypos(ypos), m_mainWindow(mainWindow), m_closing_callback(closing_callback)
 		{
 			m_container = true;
 			m_width = width;
@@ -31,18 +31,6 @@ namespace Marvel {
 				m_windowflags = ImGuiWindowFlags_NoBringToFrontOnFocus | ImGuiWindowFlags_NoSavedSettings
 					| ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoTitleBar;
 			}
-
-			if (autosize)
-				m_windowflags |= ImGuiWindowFlags_AlwaysAutoResize;
-
-			if (!resizable)
-				m_windowflags |= ImGuiWindowFlags_NoResize;
-
-			if (!titlebar)
-				m_windowflags |= ImGuiWindowFlags_NoTitleBar;
-
-			if (!movable)
-				m_windowflags |= ImGuiWindowFlags_NoMove;
 		}
 
 		void addFlag(ImGuiWindowFlags flag) { m_windowflags |= flag; }
@@ -188,6 +176,45 @@ namespace Marvel {
 			ImGui::End();
 
 			popColorStyles();
+		}
+
+		void setExtraConfigDict(PyObject* dict) override
+		{
+			mvGlobalIntepreterLock gil;
+			if (PyObject* item = PyDict_GetItemString(dict, "x_pos")) setWindowPos(ToInt(item), m_ypos);
+			if (PyObject* item = PyDict_GetItemString(dict, "y_pos")) setWindowPos(m_xpos, ToInt(item));
+
+			// helper for bit flipping
+			auto flagop = [dict](const char* keyword, int flag, int& flags)
+			{
+				if (PyObject* item = PyDict_GetItemString(dict, keyword)) ToBool(item) ? flags |= flag : flags &= ~flag;
+			};
+
+			// window flags
+			flagop("autosize",     ImGuiWindowFlags_AlwaysAutoResize, m_windowflags);
+			flagop("no_resize",    ImGuiWindowFlags_NoResize,         m_windowflags);
+			flagop("no_title_bar", ImGuiWindowFlags_NoTitleBar,       m_windowflags);
+			flagop("no_move",      ImGuiWindowFlags_NoMove,           m_windowflags);
+
+		}
+
+		void getExtraConfigDict(PyObject* dict) override
+		{
+			mvGlobalIntepreterLock gil;
+			PyDict_SetItemString(dict, "xpos", ToPyInt(m_xpos));
+			PyDict_SetItemString(dict, "ypos", ToPyInt(m_ypos));
+
+			// helper to check and set bit
+			auto checkbitset = [dict](const char* keyword, int flag, const int& flags)
+			{
+				PyDict_SetItemString(dict, keyword, ToPyBool(flags & flag));
+			};
+
+			// window flags
+			checkbitset("autosize",     ImGuiWindowFlags_AlwaysAutoResize, m_windowflags);
+			checkbitset("no_resize",    ImGuiWindowFlags_NoResize,         m_windowflags);
+			checkbitset("no_title_bar", ImGuiWindowFlags_NoTitleBar,       m_windowflags);
+			checkbitset("no_move",      ImGuiWindowFlags_NoMove,           m_windowflags);
 		}
 
 	private:

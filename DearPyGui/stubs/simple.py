@@ -2,11 +2,11 @@ from contextlib import contextmanager
 import dearpygui.dearpygui as gui
 
 @contextmanager
-def window(name: str, width: int = -1, height: int = -1, start_x: int = 200, start_y: int = 200, 
+def window(name: str, width: int = -1, height: int = -1, x_pos: int = 200, y_pos: int = 200, 
            autosize: bool = False, resizable: bool = True, title_bar: bool = True, 
            movable: bool = True, hide: bool = False, on_close: str = ""):
     try: 
-        yield gui.add_window(name, width, height, start_x=start_x, start_y=start_y, autosize=autosize, 
+        yield gui.add_window(name, width, height, x_pos=x_pos, y_pos=y_pos, autosize=autosize, 
                          resizable=resizable, title_bar=title_bar, movable=movable, hide=hide,
                          on_close=on_close)
     finally: gui.end()

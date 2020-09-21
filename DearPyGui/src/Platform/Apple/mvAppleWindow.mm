@@ -68,6 +68,7 @@ namespace Marvel {
         // Create window with graphics context
         glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
         m_window = glfwCreateWindow(width, height, mvApp::GetApp()->m_title.c_str(), nullptr, nullptr);
+        glfwSetWindowPos(m_window, mvApp::GetApp()->m_mainXPos, mvApp::GetApp()->m_mainYPos);
 	    mvApp::GetApp()->setWindowSize(width, height);
 
         device = MTLCreateSystemDefaultDevice();;

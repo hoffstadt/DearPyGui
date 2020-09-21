@@ -86,7 +86,7 @@ namespace Marvel {
 
 		m_mainThreadID = std::this_thread::get_id();
 
-		m_windows.push_back(new mvWindowAppitem("MainWindow", 1280, 800, 0, 0, true, false, true, false, false));
+		m_windows.push_back(new mvWindowAppitem("MainWindow", 1280, 800, 0, 0, true, 0, nullptr));
 		m_parents.push(m_windows.back());
 
 		addStandardWindow("documentation##standard", mvDocWindow::GetWindow());
@@ -425,6 +425,13 @@ namespace Marvel {
 
 		m_actualWidth = width;
 		m_actualHeight = height;
+	}
+
+	void mvApp::setMainPos(int x, int y)
+	{
+
+		m_mainXPos = x;
+		m_mainYPos = y;
 	}
 
 	void mvApp::setGlobalFontScale(float scale)

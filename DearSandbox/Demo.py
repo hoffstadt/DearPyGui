@@ -1,4 +1,9 @@
-from dearpygui import *
+# if using this file outside of DPG development comment this line out
+# and uncomment the next line
+from core import *
+# from dearpygui.core import *
+
+
 from time import sleep
 from contextlib import contextmanager
 from functools import wraps
@@ -17,7 +22,7 @@ def item_checked(item):
     add_label_text(item + "##checklist", value="Not Checked", color=[255, 0, 0], parent="CompleteChecklistGroup")
 
 ########################################################################################################################
-# Context Managers : normally in dearpygui.wrappers
+# Context Managers : normally in dearpygui.simple
 ########################################################################################################################
 
 def wrap_container(container):
@@ -40,6 +45,80 @@ tree_node = wrap_container(add_tree_node)
 tooltip = wrap_container(add_tooltip)
 popup = wrap_container(add_popup)
 
+########################################################################################################################
+# Old Commands
+########################################################################################################################
+
+def set_window_pos(window, x, y):
+    configure_item(window, xpos=x, ypos=y)
+
+def get_window_pos(window):
+    config = get_item_configuration(window)
+    return [config["xpos"], config["ypos"]]
+
+def set_item_name(item, name):
+    configure_item(item, name=name)
+
+def set_item_label(item, label):
+    configure_item(item, label=label)
+
+def set_item_popup(item, popup):
+    configure_item(item, popup=popup)
+
+def set_item_tip(item, tip):
+    configure_item(item, tip=tip)
+
+def show_item(item):
+    configure_item(item, show=True)
+
+def get_item_label(item):
+    return get_item_configuration(item)["label"]
+
+def get_item_popup(item):
+    return get_item_configuration(item)["popup"]
+
+def get_item_tip(item):
+    return get_item_configuration(item)["tip"]
+
+def get_item_width(item):
+    return get_item_configuration(item)["width"]
+
+def get_item_height(item):
+    return get_item_configuration(item)["height"]
+
+def hide_item(item):
+    configure_item(item, show=False)
+
+def set_item_width(item, width):
+    configure_item(item, width=width)
+
+def set_item_height(item, height):
+    configure_item(item, height=height)
+
+def show_item(item):
+    configure_item(item, show=True)
+
+def set_drawing_origin(drawing, x, y):
+    configure_item(drawing, originx=x, originy=y)
+
+def set_drawing_scale(drawing, x, y):
+    configure_item(drawing, scalex=x, scaley=y)
+
+def set_drawing_size(drawing, x, y):
+    configure_item(drawing, width=x, height=y)
+
+def get_drawing_origin(drawing):
+    config = get_item_configuration(drawing)
+    return [config["originx"], config["originy"]]
+
+def get_drawing_scale(drawing):
+    config = get_item_configuration(drawing)
+    return [config["scalex"], config["scaley"]]
+
+def get_drawing_size(drawing):
+    config = get_item_configuration(drawing)
+    return [config["width"], config["height"]]
+
 
 ########################################################################################################################
 # Settings and Data Storage
@@ -51,6 +130,7 @@ add_data("DataStorage2", [23, 42, 53, 5])
 
 set_main_window_title("DearPyGui Demo")
 set_main_window_size(1000, 800)
+set_main_window_pos(0, 0)
 add_additional_font("C:/dev/DearPyGui/Resources/NotoSerifCJKjp-Medium.otf", 20)
 
 
@@ -230,7 +310,7 @@ with window("Tooltips/Popups##dialog", 200, 200, hide=True):
 ########################################################################################################################
 # Text
 ########################################################################################################################
-with window("Text Widget##dialog", 200, 200, start_x=0, start_y=0, hide=True, resizable=False, title_bar=False, movable=True):
+with window("Text Widget##dialog", 200, 200, x_pos=0, y_pos=0, hide=True, no_resize=True, no_title_bar=True, no_move=False):
     add_text("Regular")
     add_text("Wrapped at 100 pixels", wrap=100)
     add_text("Color", color=(0, 200, 255))
@@ -264,6 +344,10 @@ with window("Widgets##dialog", 500, 500, hide=True):
         show_logger()
 
         items = get_item_children("Basic Widgets##widget")
+        for item in items:
+            log_info(item + ":\t" + str(get_value(item)))
+
+        items = get_item_children("Time/Date Widgets##widget")
         for item in items:
             log_info(item + ":\t" + str(get_value(item)))
 
@@ -335,6 +419,17 @@ with window("Widgets##dialog", 500, 500, hide=True):
                 add_text("Group")
                 for i in range(0, 3):
                     add_button("Button" + str(i) + "##widgetgroup")
+
+        with tab("Time/Date Widgets##widget"):
+            add_time_picker("Time Picker")
+            add_separator()
+            add_date_picker("Date Picker1", level=0, default_value={'month_day': 8, 'year':93, 'month':5})
+            add_separator()
+            add_date_picker("Date Picker2", level=1, default_value={'month_day': 8, 'year':93, 'month':5})
+            add_separator()
+            add_date_picker("Date Picker3", level=2, default_value={'month_day': 8, 'year':93, 'month':5})
+            add_separator()
+
 
 ########################################################################################################################
 # Logger

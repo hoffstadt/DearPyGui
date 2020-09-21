@@ -116,6 +116,7 @@ namespace Marvel {
 				DebugItem("Active Window: ", app->getActiveWindow().c_str());
 				DebugItem("Local Mouse Position:", mousepos.x, mousepos.y);
 				DebugItem("Global Mouse Position:", io.MousePos.x, io.MousePos.y);
+				DebugItem("Plot Mouse Position:", mvInput::getPlotMousePosition().x, mvInput::getPlotMousePosition().y);
 				DebugItem("Mouse Drag Delta:", mvInput::getMouseDragDelta().x, mvInput::getMouseDragDelta().y);
 				DebugItem("Mouse Drag Threshold:", mvInput::getMouseDragThreshold());
 
@@ -243,7 +244,7 @@ namespace Marvel {
 				ImGui::PopItemWidth();
 				if (ImGui::Button("Run##debug"))
 				{
-					std::string command = "from dearpygui import *\n" + commandstring;
+					std::string command = "from core import *\n" + commandstring;
 
 					PyGILState_STATE gstate = PyGILState_Ensure();
 					PyRun_SimpleString(command.c_str());

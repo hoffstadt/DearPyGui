@@ -187,16 +187,17 @@ enum ImPlotTimeFmt_ {
     ImPlotTimeFmt_SUs,             // :29.428 552
     ImPlotTimeFmt_SMs,             // :29.428
     ImPlotTimeFmt_S,               // :29
-    ImPlotTimeFmt_HrMinS,          // 7:21:29pm
-    ImPlotTimeFmt_HrMin,           // 7:21pm
-    ImPlotTimeFmt_Hr,              // 7pm
+    ImPlotTimeFmt_HrMinSMs,        // 7:21:29.428pm (19:21:29.428)
+    ImPlotTimeFmt_HrMinS,          // 7:21:29pm (19:21:29)
+    ImPlotTimeFmt_HrMin,           // 7:21pm (19:21)
+    ImPlotTimeFmt_Hr,              // 7pm (19:00)
     ImPlotTimeFmt_DayMo,           // 10/3
-    ImPlotTimeFmt_DayMoHr,         // 10/3 7pm
-    ImPlotTimeFmt_DayMoHrMin,      // 10/3 7:21pm
+    ImPlotTimeFmt_DayMoHr,         // 10/3 7pm (10/3 19:00)
+    ImPlotTimeFmt_DayMoHrMin,      // 10/3 7:21pm (10/3 19:21)
     ImPlotTimeFmt_DayMoYr,         // 10/3/91
-    ImPlotTimeFmt_DayMoYrHrMin,    // 10/3/91 7:21pm
-    ImPlotTimeFmt_DayMoYrHrMinS,   // 10/3/91 7:21:29pm
-    ImPlotTimeFmt_DayMoYrHrMinSUs, // 10/3/1991 7:21:29.123456pm
+    ImPlotTimeFmt_DayMoYrHrMin,    // 10/3/91 7:21pm (10/3/91 19:21)
+    ImPlotTimeFmt_DayMoYrHrMinS,   // 10/3/91 7:21:29pm (10/3/91 19:21:29)
+    ImPlotTimeFmt_DayMoYrHrMinSUs, // 10/3/1991 7:21:29.123456pm (10/3/1991 19:21:29.123456)
     ImPlotTimeFmt_MoYr,            // Oct 1991
     ImPlotTimeFmt_Mo,              // Oct
     ImPlotTimeFmt_Yr               // 1991
@@ -510,7 +511,7 @@ struct ImPlotNextPlotData
 };
 
 // Temporary data storage for upcoming item
-struct ImPlotItemStyle {
+struct ImPlotNextItemData {
     ImVec4       Colors[5]; // ImPlotCol_Line, ImPlotCol_Fill, ImPlotCol_MarkerOutline, ImPlotCol_MarkerFill, ImPlotCol_ErrorBar
     float        LineWeight;
     ImPlotMarker Marker;
@@ -525,11 +526,15 @@ struct ImPlotItemStyle {
     bool         RenderFill;
     bool         RenderMarkerLine;
     bool         RenderMarkerFill;
-    ImPlotItemStyle() {
+    bool         HasHidden;
+    bool         Hidden;
+    ImGuiCond    HiddenCond;
+    ImPlotNextItemData() {
         for (int i = 0; i < 5; ++i)
             Colors[i] = IMPLOT_AUTO_COL;
-        LineWeight = MarkerSize = MarkerWeight = FillAlpha = ErrorBarSize = ErrorBarWeight = DigitalBitHeight = DigitalBitGap = IMPLOT_AUTO;
-        Marker = IMPLOT_AUTO;
+        LineWeight    = MarkerSize = MarkerWeight = FillAlpha = ErrorBarSize = ErrorBarWeight = DigitalBitHeight = DigitalBitGap = IMPLOT_AUTO;
+        Marker        = IMPLOT_AUTO;
+        HasHidden     = Hidden = false;
     }
 };
 
@@ -603,7 +608,7 @@ struct ImPlotContext {
     int                DigitalPlotItemCnt;
     int                DigitalPlotOffset;
     ImPlotNextPlotData NextPlotData;
-    ImPlotItemStyle    NextItemStyle;
+    ImPlotNextItemData NextItemData;
     ImPlotInputMap     InputMap;
     ImPlotPoint        MousePos[IMPLOT_Y_AXES];
 };
@@ -659,7 +664,7 @@ IMPLOT_API bool BeginItem(const char* label_id, ImPlotCol recolor_from = -1);
 IMPLOT_API void EndItem();
 
 // Register or get an existing item from the current plot
-IMPLOT_API ImPlotItem* RegisterOrGetItem(const char* label_id);
+IMPLOT_API ImPlotItem* RegisterOrGetItem(const char* label_id, bool* just_created = NULL);
 // Get the ith plot item from the current plot
 IMPLOT_API ImPlotItem* GetItem(int i);
 // Get a plot item from the current plot
@@ -720,14 +725,14 @@ IMPLOT_API void LabelTickDefault(ImPlotTick& tick, ImGuiTextBuffer& buffer);
 // Label a tick with scientific formating.
 IMPLOT_API void LabelTickScientific(ImPlotTick& tick, ImGuiTextBuffer& buffer);
 // Label a tick with time formatting.
-IMPLOT_API void LabelTickTime(ImPlotTick& tick, ImGuiTextBuffer& buffer, const ImPlotTime& t, ImPlotTimeFmt fmt);
+IMPLOT_API void LabelTickTime(ImPlotTick& tick, ImGuiTextBuffer& buffer, const ImPlotTime& t, ImPlotTimeFmt fmt, bool hour24);
 
 // Populates a list of ImPlotTicks with normal spaced and formatted ticks
 IMPLOT_API void AddTicksDefault(const ImPlotRange& range, int nMajor, int nMinor, ImPlotTickCollection& ticks);
 // Populates a list of ImPlotTicks with logarithmic space and formatted ticks
 IMPLOT_API void AddTicksLogarithmic(const ImPlotRange& range, int nMajor, ImPlotTickCollection& ticks);
 // Populates a list of ImPlotTicks with time formatted ticks.
-IMPLOT_API void AddTicksTime(const ImPlotRange& range, int nMajor, ImPlotTickCollection& ticks);
+IMPLOT_API void AddTicksTime(const ImPlotRange& range, int nMajor, bool hour24, ImPlotTickCollection& ticks);
 // Populates a list of ImPlotTicks with custom spaced and labeled ticks
 IMPLOT_API void AddTicksCustom(const double* values, const char* const labels[], int n, ImPlotTickCollection& ticks);
 
@@ -736,7 +741,7 @@ IMPLOT_API void AddTicksCustom(const double* values, const char* const labels[],
 //-----------------------------------------------------------------------------
 
 // Get styling data for next item (call between Begin/EndItem)
-inline const ImPlotItemStyle& GetItemStyle() { return GImPlot->NextItemStyle; }
+inline const ImPlotNextItemData& GetItemData() { return GImPlot->NextItemData; }
 
 // Returns true if a color is set to be automatically determined
 inline bool IsColorAuto(const ImVec4& col) { return col.w == -1; }
@@ -844,8 +849,10 @@ IMPLOT_API ImPlotTime RoundTime(const ImPlotTime& t, ImPlotTimeUnit unit);
 // Combines the date of one timestamp with the time-of-day of another timestamp.
 IMPLOT_API ImPlotTime CombineDateTime(const ImPlotTime& date_part, const ImPlotTime& time_part);
 
-// Formulates a timestamp t into a buffer according to fmt.
-IMPLOT_API int FormatTime(const ImPlotTime& t, char* buffer, int size, ImPlotTimeFmt fmt);
+// Formats a timestamp t into a buffer according to #fmt for 12 hour clock
+IMPLOT_API int FormatTime12(const ImPlotTime& t, char* buffer, int size, ImPlotTimeFmt fmt);
+// Formats a timestamp t into a buffer according to #fmt for 24 hour clock.
+IMPLOT_API int FormatTime24(const ImPlotTime& t, char* buffer, int size, ImPlotTimeFmt fmt);
 // Prints a timestamp to console
 IMPLOT_API void PrintTime(const ImPlotTime& t, ImPlotTimeFmt fmt = ImPlotTimeFmt_DayMoYrHrMinSUs);
 
@@ -854,9 +861,9 @@ IMPLOT_API void PrintTime(const ImPlotTime& t, ImPlotTimeFmt fmt = ImPlotTimeFmt
 // #t will be set when a day is clicked and the function will return true.
 // #t1 and #t2 are optional dates to highlight.
 IMPLOT_API bool ShowDatePicker(const char* id, int* level, ImPlotTime* t, const ImPlotTime* t1 = NULL, const ImPlotTime* t2 = NULL);
-// Shows a time picker widget block (hour/min/sec).
+// Shows a time picker widget block (hour/min/sec). #hour24 will format time for 24 hour clock.
 // #t will be set when a new hour, minute, or sec is selected or am/pm is toggled, and the function will return true.
-IMPLOT_API bool ShowTimePicker(const char* id, ImPlotTime* t);
+IMPLOT_API bool ShowTimePicker(const char* id, ImPlotTime* t, bool hour24);
 
 //-----------------------------------------------------------------------------
 // [SECTION] Internal / Experimental Plotters
