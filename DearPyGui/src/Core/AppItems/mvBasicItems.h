@@ -322,6 +322,8 @@ namespace Marvel {
 
 		MV_APPITEM_TYPE(mvAppItemType::Listbox)
 
+		std::string getParserCommand() const override { return "add_listbox"; }
+
 		mvListbox(const std::string& name, std::vector<std::string> itemnames, int default_value, int height)
 			: mvIntItemBase(name, 1, default_value), m_names(std::move(itemnames)), m_itemsHeight(height)
 		{
