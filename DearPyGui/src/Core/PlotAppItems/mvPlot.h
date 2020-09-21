@@ -101,6 +101,9 @@ namespace Marvel {
 		const std::string& getYAxisName     () const { return m_yaxisName; }
 		PyObject*          getQueryCallback ()       { return m_queryCallback; }
 
+		void setExtraConfigDict(PyObject* dict) override;
+		void getExtraConfigDict(PyObject* dict) override;
+
 	private:
 
 		// new

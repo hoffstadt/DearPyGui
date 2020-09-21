@@ -22,6 +22,8 @@ int main()
     {
         window->prerender();
 
+        // place test code here
+
 #if defined (_WIN32)
         ImGui::ShowDemoWindow();
         ImPlot::ShowDemoWindow();

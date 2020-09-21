@@ -23,13 +23,10 @@ namespace Marvel {
 
 		MV_APPITEM_TYPE(mvAppItemType::TabBar)
 
-		mvTabBar(const std::string& name, bool reorderable = false)
-			: mvStringItemBase(name, "")
+		mvTabBar(const std::string& name, ImGuiTabBarFlags flags)
+			: mvStringItemBase(name, ""), m_flags(flags)
 		{
-			m_container = true;
-			if (reorderable)
-				m_flags |= ImGuiTabBarFlags_Reorderable;
-		
+			m_container = true;		
 		}
 
 		void draw() override
@@ -71,6 +68,35 @@ namespace Marvel {
 			}
 
 			popColorStyles();
+		}
+
+		void setExtraConfigDict(PyObject* dict) override
+		{
+			mvGlobalIntepreterLock gil;
+
+			// helper for bit flipping
+			auto flagop = [dict](const char* keyword, int flag, int& flags)
+			{
+				if (PyObject* item = PyDict_GetItemString(dict, keyword)) ToBool(item) ? flags |= flag : flags &= ~flag;
+			};
+
+			// window flags
+			flagop("reorderable", ImGuiTabBarFlags_Reorderable, m_flags);
+
+		}
+
+		void getExtraConfigDict(PyObject* dict) override
+		{
+			mvGlobalIntepreterLock gil;
+
+			// helper to check and set bit
+			auto checkbitset = [dict](const char* keyword, int flag, const int& flags)
+			{
+				PyDict_SetItemString(dict, keyword, ToPyBool(flags & flag));
+			};
+
+			// window flags
+			checkbitset("reorderable", ImGuiTabBarFlags_Reorderable, m_flags);
 		}
 
 	private:
@@ -178,6 +204,19 @@ namespace Marvel {
 			}
 
 			popColorStyles();
+		}
+
+		void setExtraConfigDict(PyObject* dict) override
+		{
+			mvGlobalIntepreterLock gil;
+			//if (PyObject* item = PyDict_GetItemString(dict, "closable")) m_closable = ToBool(item);
+
+		}
+
+		void getExtraConfigDict(PyObject* dict) override
+		{
+			mvGlobalIntepreterLock gil;
+			//PyDict_SetItemString(dict, "closable", ToPyBool(m_closable));
 		}
 
 	private:

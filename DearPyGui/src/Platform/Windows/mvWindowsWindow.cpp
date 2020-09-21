@@ -28,9 +28,12 @@ namespace Marvel {
 		RegisterClassEx(&m_wc);
 
 		if(mvApp::GetApp()->getResizable())
-			m_hwnd = CreateWindow(m_wc.lpszClassName, _T(mvApp::GetApp()->m_title.c_str()), WS_OVERLAPPEDWINDOW, 100, 100, width, height, nullptr, nullptr, m_wc.hInstance, this);
+			m_hwnd = CreateWindow(m_wc.lpszClassName, _T(mvApp::GetApp()->m_title.c_str()), WS_OVERLAPPEDWINDOW, mvApp::GetApp()->m_mainXPos,
+				mvApp::GetApp()->m_mainYPos, width, height, nullptr, nullptr, m_wc.hInstance, this);
 		else
-			m_hwnd = CreateWindow(m_wc.lpszClassName, _T(mvApp::GetApp()->m_title.c_str()), WS_OVERLAPPED | WS_CAPTION | WS_SYSMENU | WS_MINIMIZEBOX | WS_MAXIMIZEBOX, 100, 100, width, height, nullptr, nullptr, m_wc.hInstance, this);
+			m_hwnd = CreateWindow(m_wc.lpszClassName, _T(mvApp::GetApp()->m_title.c_str()),
+				WS_OVERLAPPED | WS_CAPTION | WS_SYSMENU | WS_MINIMIZEBOX | WS_MAXIMIZEBOX, 
+				mvApp::GetApp()->m_mainXPos, mvApp::GetApp()->m_mainYPos, width, height, nullptr, nullptr, m_wc.hInstance, this);
 
 		// Initialize Direct3D
 		if (!CreateDeviceD3D(m_hwnd))

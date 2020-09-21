@@ -84,6 +84,18 @@ namespace Marvel {
 			popColorStyles();
 		}
 
+		void setExtraConfigDict(PyObject* dict) override
+		{
+			mvGlobalIntepreterLock gil;
+			if (PyObject* item = PyDict_GetItemString(dict, "border")) m_border = ToBool(item);
+		}
+
+		void getExtraConfigDict(PyObject* dict) override
+		{
+			mvGlobalIntepreterLock gil;
+			PyDict_SetItemString(dict, "border", ToPyBool(m_border));
+		}
+
 	private:
 
 		bool m_border;
@@ -156,6 +168,20 @@ namespace Marvel {
 			ImGui::EndGroup();
 
 			popColorStyles();
+		}
+
+		void setExtraConfigDict(PyObject* dict) override
+		{
+			mvGlobalIntepreterLock gil;
+			if (PyObject* item = PyDict_GetItemString(dict, "horizontal")) m_horizontal = ToBool(item);
+			if (PyObject* item = PyDict_GetItemString(dict, "horizontal_spacing")) m_hspacing = ToFloat(item);
+		}
+
+		void getExtraConfigDict(PyObject* dict) override
+		{
+			mvGlobalIntepreterLock gil;
+			PyDict_SetItemString(dict, "horizontal", ToPyBool(m_horizontal));
+			PyDict_SetItemString(dict, "horizontal_spacing", ToPyFloat(m_hspacing));
 		}
 
 	private:
@@ -236,6 +262,39 @@ namespace Marvel {
 			popColorStyles();
 		}
 
+		void setExtraConfigDict(PyObject* dict) override
+		{
+			mvGlobalIntepreterLock gil;
+			if (PyObject* item = PyDict_GetItemString(dict, "closable")) m_closable = ToBool(item);
+
+			// helper for bit flipping
+			auto flagop = [dict](const char* keyword, int flag, int& flags)
+			{
+				if (PyObject* item = PyDict_GetItemString(dict, keyword)) ToBool(item) ? flags |= flag : flags &= ~flag;
+			};
+
+			// flags
+			//flagop("autosize", ImGuiWindowFlags_AlwaysAutoResize, m_windowflags);
+
+
+		}
+
+		void getExtraConfigDict(PyObject* dict) override
+		{
+			mvGlobalIntepreterLock gil;
+			PyDict_SetItemString(dict, "closable", ToPyBool(m_closable));
+
+			// helper to check and set bit
+			auto checkbitset = [dict](const char* keyword, int flag, const int& flags)
+			{
+				PyDict_SetItemString(dict, keyword, ToPyBool(flags & flag));
+			};
+
+			// flags
+			//checkbitset("autosize", ImGuiWindowFlags_AlwaysAutoResize, m_windowflags);
+
+		}
+
 	private:
 
 		ImGuiTreeNodeFlags m_flags;
@@ -306,6 +365,37 @@ namespace Marvel {
 			ImGui::EndGroup();
 
 			popColorStyles();
+		}
+
+		void setExtraConfigDict(PyObject* dict) override
+		{
+			mvGlobalIntepreterLock gil;
+
+			// helper for bit flipping
+			auto flagop = [dict](const char* keyword, int flag, int& flags)
+			{
+				if (PyObject* item = PyDict_GetItemString(dict, keyword)) ToBool(item) ? flags |= flag : flags &= ~flag;
+			};
+
+			// flags
+			flagop("default_open", ImGuiTreeNodeFlags_DefaultOpen, m_flags);
+
+
+		}
+
+		void getExtraConfigDict(PyObject* dict) override
+		{
+			mvGlobalIntepreterLock gil;
+
+			// helper to check and set bit
+			auto checkbitset = [dict](const char* keyword, int flag, const int& flags)
+			{
+				PyDict_SetItemString(dict, keyword, ToPyBool(flags & flag));
+			};
+
+			// flags
+			checkbitset("default_open", ImGuiTreeNodeFlags_DefaultOpen, m_flags);
+
 		}
 
 	private:

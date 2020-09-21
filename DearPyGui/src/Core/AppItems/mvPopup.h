@@ -123,6 +123,21 @@ namespace Marvel {
 			popColorStyles();
 		}
 
+		void setExtraConfigDict(PyObject* dict) override
+		{
+			mvGlobalIntepreterLock gil;
+			if (PyObject* item = PyDict_GetItemString(dict, "model")) m_modal = ToBool(item);
+			if (PyObject* item = PyDict_GetItemString(dict, "button")) m_button = ToInt(item);
+
+		}
+
+		void getExtraConfigDict(PyObject* dict) override
+		{
+			mvGlobalIntepreterLock gil;
+			PyDict_SetItemString(dict, "modal", ToPyBool(m_modal));
+			PyDict_SetItemString(dict, "button", ToPyInt(m_button));
+		}
+
 	private:
 
 		bool m_modal;

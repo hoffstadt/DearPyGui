@@ -61,12 +61,17 @@ def add_column(table: str, name: str, column: List[str]) -> None:
 	...
 
 def add_combo(name: str, items: List[str], default_value: str = "", callback: Callable = None, callback_data: Any = None, tip: str = "", 
-			  parent: str = "", before: str = "", data_source: str = "", width: int = 0, secondary_data_source: str = "") -> bool:
+			  parent: str = "", before: str = "", data_source: str = "", width: int = 0) -> bool:
 	"""Adds a combo."""
 	...
 
 def add_data(name: str, data: object) -> None:
 	"""Adds data for later retrieval."""
+	...
+
+def add_date_selector(name: str, default_value: dict = ..., level: int = 0, callback: Callable = None, callback_data: Any = None, tip: str = "",
+					  parent: str = "", before: str = "") -> bool:
+	"""Adds a data selector widget."""
 	...
 
 def add_drag_float(name: str, default_value: float = 0.0, speed: float = 1.0, min_value: float = 0.0, 
@@ -145,8 +150,7 @@ def add_group(name: str, tip: str = "", parent: str = "", before: str = "", widt
 	...
 
 def add_image(name: str, value: str, tint_color: List[float] = [1.0, 1.0, 1.0, 1.0], border_color: List[float] = [0.0, 0.0, 0.0, 0.0], tip: str = "", parent: str = "", before: str = "", data_source: str = "", 
-			  width: int = 0, height: int = 0, uv_min: List[float] = [0.0, 0.0], uv_max: List[float] = [1.0, 1.0], 
-			  secondary_data_source: str = "") -> bool:
+			  width: int = 0, height: int = 0, uv_min: List[float] = [0.0, 0.0], uv_max: List[float] = [1.0, 1.0]) -> bool:
 	"""Adds an image.
 	uv_min and uv_max represent the normalized texture coordinates of the original image that will be shown
 	Using (0,0)->(1,1) texture coordinates will generally display the entire texture"""
@@ -219,7 +223,8 @@ def add_line_series(plot: str, name: str, data: List[List[float]], color: List[f
 	"""Adds a line series to a plot."""
 	...
 
-def add_listbox(name: str, items: List[str], default_value: int = 0, callback: Callable = None, callback_data: Any = None, tip: str = "", parent: str = "", before: str = "", data_source: str = "", width: int = 0, height: int = 0, secondary_data_source: str = "") -> bool:
+def add_listbox(name: str, items: List[str], default_value: int = 0, callback: Callable = None, callback_data: Any = None, tip: str = "", 
+				parent: str = "", before: str = "", data_source: str = "", width: int = 0, height: int = 0) -> bool:
 	"""Adds a listbox."""
 	...
 
@@ -241,7 +246,7 @@ def add_pie_series(plot: str, name: str, data: List[[str, float]], x: float, y: 
 	...
 
 def add_plot(name: str, xAxisName: str = "", yAxisName: str = "", 
-			 no_legend: bool = False, no_menus: bool = False, no_box_select: bool = False, no_mouse_pos: bool = False, no_highlight: bool = False, no_child: bool = False, query: bool = False, crosshairs: bool = False, antialiased: bool = False,
+			 no_legend: bool = False, no_menus: bool = False, no_box_select: bool = False, no_mouse_pos: bool = False, no_highlight: bool = False, no_child: bool = False, query: bool = False, crosshairs: bool = False, anti_aliased: bool = False,
 			 xaxis_no_gridlines: bool = False, xaxis_no_tick_marks: bool = False, xaxis_no_tick_labels: bool = False, xaxis_log_scale: bool = False, xaxis_time: bool = False, xaxis_invert: bool = False, xaxis_lock_min: bool = False, xaxis_lock_max: bool = False,
 			 yaxis_no_gridlines: bool = False, yaxis_no_tick_marks: bool = False, yaxis_no_tick_labels: bool = False, yaxis_log_scale: bool = False, yaxis_invert: bool = False, yaxis_lock_min: bool = False, yaxis_lock_max: bool = False,
 			parent: str = "", before: str = "", width: int = -1, height: int = -1, query_callback: str = "", show_color_scale: bool = False, 
@@ -258,8 +263,7 @@ def add_progress_bar(name: str, value: float = 0.0, overlay: str = "", tip: str 
 	...
 
 def add_radio_button(name: str, items: List[str], default_value: int = 0, callback: Callable = None, callback_data: Any = None, 
-					 tip: str = "", parent: str = "", before: str = "", data_source: str = "", secondary_data_source: str = "",
-					 horizontal: bool = False) -> bool:
+					 tip: str = "", parent: str = "", before: str = "", data_source: str = "", horizontal: bool = False) -> bool:
 	"""Adds a set of radio buttons."""
 	...
 
@@ -376,6 +380,11 @@ def add_text_point(plot: str, name: str, x: float, y: float, vertical: bool = Fa
 	"""Adds a point with text to a plot."""
 	...
 
+def add_time_selector(name: str, default_value: dict = ..., hour24: bool = False, callback: Callable = None, callback_data: Any = None, tip: str = "",
+					  parent: str = "", before: str = "") -> bool:
+	"""Adds a data selector widget."""
+	...
+
 def add_tooltip(tipparent: str, name: str, parent: str = "", before: str = "") -> bool:
 	"""Adds an advanced tool tip for an item. This command must come immediately after the item the tip is for."""
 	...
@@ -384,9 +393,9 @@ def add_tree_node(name: str, default_open: bool = False, tip: str = "", parent: 
 	"""Adds a tree node to add items to. Must be closed with the end_tree_node command."""
 	...
 
-def add_window(name: str, width: int = -1, height: int = -1, start_x: int = 200, start_y: int = 200, autosize: bool = False, 
-			   resizable: bool = True, title_bar: bool = True, 
-			   movable: bool = True, hide: bool = False, on_close: Callable = None) -> bool:
+def add_window(name: str, width: int = -1, height: int = -1, x_pos: int = 200, y_pos: int = 200, autosize: bool = False, 
+			   no_resize: bool = False, no_title_bar: bool = False, 
+			   no_move: bool = False, hide: bool = False, on_close: Callable = None) -> bool:
 	"""Creates a new window for following items to be added to. Must call end_main_window command before adding any new windows."""
 	...
 
@@ -525,18 +534,6 @@ def get_delta_time() -> float:
 	"""Returns time since last frame."""
 	...
 
-def get_drawing_origin(name: str) -> (float, float):
-	"""Returns the drawing origin."""
-	...
-
-def get_drawing_scale(name: str) -> (float, float):
-	"""Returns the drawing scale."""
-	...
-
-def get_drawing_size(name: str) -> (float, float):
-	"""Returns the size of a drawing widget."""
-	...
-
 def get_global_font_scale() -> float:
 	"""Returns the global font scale."""
 	...
@@ -549,20 +546,8 @@ def get_item_children(item: str) -> List[str]:
 	"""Returns a list of an item's children."""
 	...
 
-def get_item_height(item: str) -> float:
-	"""Returns an item's height."""
-	...
-
-def get_item_label(item: str) -> float:
-	"""Returns an item's label."""
-	...
-
 def get_item_parent(item: str) -> str:
 	"""Returns an item's parent."""
-	...
-
-def get_item_popup(item: str) -> str:
-	"""Returns an item's popup."""
 	...
 
 def get_item_rect_max(item: str) -> [float, float]:
@@ -577,12 +562,8 @@ def get_item_rect_size(item: str) -> [float, float]:
 	"""Returns an item's current size. [width, height]"""
 	...
 
-def get_item_tip(item: str) -> str:
-	"""Returns an item's tip."""
-	...
-
-def get_item_width(item: str) -> float:
-	"""Returns an item's width."""
+def get_item_type(item: str) -> str:
+	"""Returns an item's type."""
 	...
 
 def get_log_level() -> int:
@@ -599,6 +580,10 @@ def get_mouse_drag_delta() -> (float, float):
 
 def get_mouse_pos(local: bool = True) -> (int, int):
 	"""Returns the current mouse position in relation to the active window (minus titlebar) unless local flag is unset."""
+	...
+
+def get_plot_mouse_pos() -> (int, int):
+	"""Returns the current mouse position in the currently hovered plot."""
 	...
 
 def get_plot_query_area(plot: str) -> List[float]:
@@ -761,16 +746,8 @@ def get_value(name: str) -> Any:
 	"""Returns an item's value or None if there is none."""
 	...
 
-def get_window_pos(window: str) -> List[float]:
-	"""Gets a windows position"""
-	...
-
 def get_windows() -> List[str]:
 	"""Returns a list of windows."""
-	...
-
-def hide_item(name: str, children_only: bool = False) -> None:
-	"""Hides an item."""
 	...
 
 def insert_column(table: str, column_index: int, name: str, column: List[str]) -> None:
@@ -929,18 +906,6 @@ def set_color_map(plot: str, map: int) -> None:
 	"""Sets the color map of the plot's series."""
 	...
 
-def set_drawing_origin(name: str, x: float, y: float) -> None:
-	"""Sets the drawing origin (default is 0,0)."""
-	...
-
-def set_drawing_scale(name: str, x: float, y: float) -> None:
-	"""Sets the drawing scale (default is (1,1))."""
-	...
-
-def set_drawing_size(name: str, width: int, height: int) -> None:
-	"""Sets the size of a drawing widget."""
-	...
-
 def set_exit_callback(callback: Callable) -> None:
 	"""Callback to run when exiting main window."""
 	...
@@ -961,26 +926,6 @@ def set_item_color(item: str, style: int, color: List[float]) -> None:
 	"""Sets an color style for a single item."""
 	...
 
-def set_item_height(item: str, height: int) -> None:
-	"""Sets an item's height if applicable."""
-	...
-
-def set_item_popup(item: str, popup: str) -> None:
-	"""Sets an item's popup if applicable."""
-	...
-
-def set_item_label(item: str, tip: str) -> None:
-	"""Sets an item's label."""
-	...
-
-def set_item_tip(item: str, tip: str) -> None:
-	"""Sets a simple tooltip for an item."""
-	...
-
-def set_item_width(item: str, width: int) -> None:
-	"""Sets an item's width."""
-	...
-
 def set_key_down_callback(callback: Callable, handler: str = "") -> None:
 	"""Sets a callback for a key down event."""
 	...
@@ -995,6 +940,10 @@ def set_key_release_callback(callback: Callable, handler: str = "") -> None:
 
 def set_log_level(level: int) -> None:
 	"""Sets the log level."""
+	...
+
+def set_main_window_pos(x: int, y: int) -> None:
+	"""Sets the main window position."""
 	...
 
 def set_main_window_resizable(resizable: bool) -> None:
@@ -1221,10 +1170,6 @@ def set_vsync(value: bool) -> None:
 	"""Sets vsync on or off."""
 	...
 
-def set_window_pos(window: str, x: float, y: float) -> None:
-	"""Sets a windows position"""
-	...
-
 def set_xticks(plot: str, label_pairs: List[List[str, float]]) -> None:
 	"""Sets plots x ticks and labels"""
 	...
@@ -1247,10 +1192,6 @@ def show_debug() -> None:
 
 def show_documentation() -> None:
 	"""Shows the documentation window."""
-	...
-
-def show_item(name: str) -> None:
-	"""Shows an item if it was hidden."""
 	...
 
 def show_logger() -> None:

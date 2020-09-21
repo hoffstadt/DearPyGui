@@ -12,12 +12,12 @@ namespace Marvel {
 	PyObject* clear_drawing      (PyObject* self, PyObject* args, PyObject* kwargs);
 
 	// settings
-	PyObject* set_drawing_size   (PyObject* self, PyObject* args, PyObject* kwargs);
-	PyObject* set_drawing_origin (PyObject* self, PyObject* args, PyObject* kwargs);
-	PyObject* set_drawing_scale  (PyObject* self, PyObject* args, PyObject* kwargs);
-	PyObject* get_drawing_origin (PyObject* self, PyObject* args, PyObject* kwargs);
-	PyObject* get_drawing_scale  (PyObject* self, PyObject* args, PyObject* kwargs);
-	PyObject* get_drawing_size   (PyObject* self, PyObject* args, PyObject* kwargs);
+	//PyObject* set_drawing_size   (PyObject* self, PyObject* args, PyObject* kwargs);
+	//PyObject* set_drawing_origin (PyObject* self, PyObject* args, PyObject* kwargs);
+	//PyObject* set_drawing_scale  (PyObject* self, PyObject* args, PyObject* kwargs);
+	//PyObject* get_drawing_origin (PyObject* self, PyObject* args, PyObject* kwargs);
+	//PyObject* get_drawing_scale  (PyObject* self, PyObject* args, PyObject* kwargs);
+	//PyObject* get_drawing_size   (PyObject* self, PyObject* args, PyObject* kwargs);
 								 
 	// drawing primitives		 
 	PyObject* draw_image         (PyObject* self, PyObject* args, PyObject* kwargs);

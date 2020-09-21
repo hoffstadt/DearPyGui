@@ -23,25 +23,43 @@ HOW TO UPDATE?
 - Please report any issue!
 
 -----------------------------------------------------------------------
- VERSION 0.3.8 WIP
+ VERSION 0.4.0 WIP
 -----------------------------------------------------------------------
 
 Decorated log: https://github.com/hoffstadt/DearPyGui/releases/tag/v0.3.8
 
+Updates:
+- ImPlot: upgraded to commit 0ed6307
+
 Breaking Changes:
+- Modules:        dearpygui module is now called core
+- Modules:        wrapper module is now called simple
 - Line Series:    Removed "fill" keyword (use the new shade series)
 - Plots:          Removed all flags in favor of keywords
 - Pie Chart:      Removed "add_pie_chart"
 - Pie Chart:      Removed "add_pie_chart_data"
 - Pie Chart:      Removed "clear_pie_chart_data"
+- Window:         For the "add_window" command, we changed start_x,start_y
+                  to x_pos, y_pos
+- Window:         For the "add_window" command, changed resizable keyword to no_resize
+- Window:         For the "add_window" command, changed title_bar keyword to no_title_bar
+- Window:         For the "add_window" command, changed movable keyword to no_move
+- Images:         Removed secondary data source from images
 
 New Commands:
+
+- Main Window:    Added "set_main_window_pos" command #193
+- Inputs:         Added "get_plot_mouse_pos" command #225
+- Widgets:        Added "add_time_picker" command
+- Widgets:        Added "add_date_picker" command
+- Widgets:        Added "get_item_type" command
+- Widgets:        Added "configure_item" command
+- Widgets:        Added "get_item_configuration" command
 - Widgets:        Added "add_pie_series" command
 - Plots:          Added "add_shade_series" command
 - Plots:          Added "add_bar_series" command
 - Plots:          Added "add_error_series" command
 - Plots:          Added "add_heat_series" command
-- Plots:          Added "configure_plot" command
 - Radio Button:   Added "horizontal" keyword to radio button #215
 - Radio Button:   Added "update_bounds" keyword to add_*_series commands
 
