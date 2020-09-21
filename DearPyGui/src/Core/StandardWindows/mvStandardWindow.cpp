@@ -6,11 +6,16 @@ namespace Marvel {
 	bool mvStandardWindow::prerender(bool& show)
 	{
 
-		if (m_dirty)
+		if (m_dirty_size)
+		{
+			ImGui::SetNextWindowSize(ImVec2((float)m_width, (float)m_height));
+			m_dirty_size = false;
+		}
+
+		if (m_dirty_pos)
 		{
 			ImGui::SetNextWindowPos(ImVec2((float)m_xpos, (float)m_ypos));
-			ImGui::SetNextWindowSize(ImVec2((float)m_width, (float)m_height));
-			m_dirty = false;
+			m_dirty_pos = false;
 		}
 
 
@@ -26,10 +31,10 @@ namespace Marvel {
 	void mvStandardWindow::setConfigDict(PyObject* dict)
 	{
 		mvGlobalIntepreterLock gil;
-		if (PyObject* item = PyDict_GetItemString(dict, "width")) m_width = ToInt(item);
-		if (PyObject* item = PyDict_GetItemString(dict, "height")) m_height = ToInt(item);
-		if (PyObject* item = PyDict_GetItemString(dict, "x_pos")) m_xpos = ToInt(item);
-		if (PyObject* item = PyDict_GetItemString(dict, "y_pos")) m_ypos = ToInt(item);
+		if (PyObject* item = PyDict_GetItemString(dict, "width")) setWidth(ToInt(item));
+		if (PyObject* item = PyDict_GetItemString(dict, "height")) setHeight(ToInt(item));
+		if (PyObject* item = PyDict_GetItemString(dict, "x_pos")) setXPos(ToInt(item));
+		if (PyObject* item = PyDict_GetItemString(dict, "y_pos")) setYPos(ToInt(item));
 	}
 
 	void mvStandardWindow::getConfigDict(PyObject* dict)
@@ -63,8 +68,8 @@ namespace Marvel {
 
 	void mvStandardWindow::setSize(unsigned width, unsigned height) 
 	{ 
-		m_width = width; 
-		m_height = height; 
+		setWidth(width);
+		setHeight(height);
 	}
 
 	unsigned mvStandardWindow::getWindowWidth() const
