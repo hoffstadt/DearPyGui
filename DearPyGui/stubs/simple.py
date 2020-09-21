@@ -1,5 +1,5 @@
 from contextlib import contextmanager
-import dearpygui.dearpygui as gui
+import dearpygui.core as gui
 
 @contextmanager
 def window(name: str, width: int = -1, height: int = -1, x_pos: int = 200, y_pos: int = 200, 
