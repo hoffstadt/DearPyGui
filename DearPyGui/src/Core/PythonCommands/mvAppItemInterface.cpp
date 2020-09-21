@@ -194,6 +194,13 @@ namespace Marvel {
 		if (!(*mvApp::GetApp()->getParsers())["get_item_configuration"].parse(args, kwargs, __FUNCTION__, &item))
 			return GetPyNone();
 
+		if (std::string(item) == "logger##standard")
+		{
+			PyObject* pdict = PyDict_New();
+			mvAppLog::GetConfigDict(pdict);
+			return pdict;
+		}
+
 		auto appitem = mvApp::GetApp()->getItem(item);
 
 		if (appitem)
@@ -203,8 +210,20 @@ namespace Marvel {
 			appitem->getExtraConfigDict(pdict);
 			return pdict;
 		}
-		else
-			ThrowPythonException(std::string(item) + " does not exist");
+
+		// check if item is a standard window
+		else if (appitem == nullptr)
+		{
+			mvStandardWindow* swindow = mvApp::GetApp()->getStandardWindow(item);
+			if (swindow)
+			{
+				PyObject* pdict = PyDict_New();
+				appitem->getConfigDict(kwargs);
+				return pdict;
+			}
+			else
+				ThrowPythonException(item + std::string(" item was not found"));
+		}
 
 		return GetPyNone();
 	}
@@ -215,6 +234,12 @@ namespace Marvel {
 
 		std::string item = ToString(PyTuple_GetItem(args, 0));
 
+		if (std::string(item) == "logger##standard")
+		{
+			mvAppLog::SetConfigDict(kwargs);
+			return GetPyNone();
+		}
+
 		auto appitem = mvApp::GetApp()->getItem(item);
 
 		if (appitem)
@@ -222,8 +247,16 @@ namespace Marvel {
 			appitem->setConfigDict(kwargs);
 			appitem->setExtraConfigDict(kwargs);
 		}
-		else
-			ThrowPythonException(item + " does not exist.");
+
+		// check if item is a standard window
+		else if (appitem == nullptr)
+		{
+			mvStandardWindow* swindow = mvApp::GetApp()->getStandardWindow(item);
+			if (swindow)
+				appitem->setConfigDict(kwargs);
+			else
+				ThrowPythonException(item + std::string(" item was not found"));
+		}
 
 		return GetPyNone();
 	}

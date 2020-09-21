@@ -1,4 +1,5 @@
 #include "mvStandardWindow.h"
+#include "mvPythonTranslator.h"
 
 namespace Marvel {
 
@@ -20,6 +21,24 @@ namespace Marvel {
 		}
 
 		return true;
+	}
+
+	void mvStandardWindow::setConfigDict(PyObject* dict)
+	{
+		mvGlobalIntepreterLock gil;
+		if (PyObject* item = PyDict_GetItemString(dict, "width")) m_width = ToInt(item);
+		if (PyObject* item = PyDict_GetItemString(dict, "height")) m_height = ToInt(item);
+		if (PyObject* item = PyDict_GetItemString(dict, "x_pos")) m_xpos = ToInt(item);
+		if (PyObject* item = PyDict_GetItemString(dict, "y_pos")) m_ypos = ToInt(item);
+	}
+
+	void mvStandardWindow::getConfigDict(PyObject* dict)
+	{
+		mvGlobalIntepreterLock gil;
+		PyDict_SetItemString(dict, "width", ToPyInt(m_width));
+		PyDict_SetItemString(dict, "height", ToPyInt(m_height));
+		PyDict_SetItemString(dict, "x_pos", ToPyInt(m_xpos));
+		PyDict_SetItemString(dict, "y_pos", ToPyInt(m_ypos));
 	}
 
 	void mvStandardWindow::showStandardWindow(const std::string& name)

@@ -27,6 +27,9 @@ namespace Marvel {
         virtual void render(bool& show) = 0;
         virtual void postrender() {}
 
+        void         setConfigDict(PyObject* dict);
+        void         getConfigDict(PyObject* dict);
+
         void                   showStandardWindow(const std::string& name);
         void                   addStandardWindow (const std::string& name, mvStandardWindow* window);
         mvStandardWindow*      getStandardWindow (const std::string& name);
