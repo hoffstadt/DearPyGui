@@ -774,7 +774,7 @@ namespace Marvel {
 		NULL, NULL, NULL, NULL
 	};
 
-	PyMODINIT_FUNC PyInit_dearpygui(void)
+	PyMODINIT_FUNC PyInit_core(void)
 	{
 		PyObject* m;
 
