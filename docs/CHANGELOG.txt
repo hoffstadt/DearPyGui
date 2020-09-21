@@ -46,6 +46,7 @@ Breaking Changes:
 
 New Commands:
 
+- Inputs:         Added "get_plot_mouse_pos" command #225
 - Widgets:        Added "add_time_picker" command
 - Widgets:        Added "add_date_picker" command
 - Widgets:        Added "get_item_type" command

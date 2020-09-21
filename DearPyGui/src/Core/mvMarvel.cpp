@@ -624,6 +624,7 @@ namespace Marvel {
 		ADD_PYTHON_FUNCTION(get_mouse_drag_delta)
 		ADD_PYTHON_FUNCTION(set_mouse_wheel_callback)
 		ADD_PYTHON_FUNCTION(get_mouse_pos)
+		ADD_PYTHON_FUNCTION(get_plot_mouse_pos)
 		ADD_PYTHON_FUNCTION(is_key_pressed)
 		ADD_PYTHON_FUNCTION(is_key_released)
 		ADD_PYTHON_FUNCTION(is_key_down)

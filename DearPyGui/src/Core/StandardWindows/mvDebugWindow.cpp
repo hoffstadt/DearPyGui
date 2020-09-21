@@ -116,6 +116,7 @@ namespace Marvel {
 				DebugItem("Active Window: ", app->getActiveWindow().c_str());
 				DebugItem("Local Mouse Position:", mousepos.x, mousepos.y);
 				DebugItem("Global Mouse Position:", io.MousePos.x, io.MousePos.y);
+				DebugItem("Plot Mouse Position:", mvInput::getPlotMousePosition().x, mvInput::getPlotMousePosition().y);
 				DebugItem("Mouse Drag Delta:", mvInput::getMouseDragDelta().x, mvInput::getMouseDragDelta().y);
 				DebugItem("Mouse Drag Threshold:", mvInput::getMouseDragThreshold());
 
