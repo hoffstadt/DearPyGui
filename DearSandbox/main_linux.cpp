@@ -18,7 +18,7 @@ int main(int argc, char* argv[])
 	// initialize python
 	// add our custom module
 	PyImport_AppendInittab("sandboxout", &PyInit_embOut);
-	PyImport_AppendInittab("core", &PyInit_dearpygui);
+	PyImport_AppendInittab("core", &PyInit_core);
 
 	// set path and start the interpreter
 	std::string pathpath = ":../../DearSandbox";
