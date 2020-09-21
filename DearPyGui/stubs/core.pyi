@@ -942,6 +942,10 @@ def set_log_level(level: int) -> None:
 	"""Sets the log level."""
 	...
 
+def set_main_window_pos(x: int, y: int) -> None:
+	"""Sets the main window position."""
+	...
+
 def set_main_window_resizable(resizable: bool) -> None:
 	"""Sets the main window as resizable."""
 	...

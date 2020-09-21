@@ -48,6 +48,7 @@ Breaking Changes:
 
 New Commands:
 
+- Main Window:    Added "set_main_window_pos" command #193
 - Inputs:         Added "get_plot_mouse_pos" command #225
 - Widgets:        Added "add_time_picker" command
 - Widgets:        Added "add_date_picker" command

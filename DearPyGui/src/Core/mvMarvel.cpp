@@ -500,6 +500,7 @@ namespace Marvel {
 		ADD_PYTHON_FUNCTION(stop_dearpygui)
 		ADD_PYTHON_FUNCTION(is_dearpygui_running)
 		ADD_PYTHON_FUNCTION(set_main_window_title)
+		ADD_PYTHON_FUNCTION(set_main_window_pos)
 		ADD_PYTHON_FUNCTION(set_main_window_resizable)
 		ADD_PYTHON_FUNCTION(set_start_callback)
 		ADD_PYTHON_FUNCTION(show_style_editor)
