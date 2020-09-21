@@ -582,6 +582,10 @@ def get_mouse_pos(local: bool = True) -> (int, int):
 	"""Returns the current mouse position in relation to the active window (minus titlebar) unless local flag is unset."""
 	...
 
+def get_plot_mouse_pos() -> (int, int):
+	"""Returns the current mouse position in the currently hovered plot."""
+	...
+
 def get_plot_query_area(plot: str) -> List[float]:
 	"""Returns the bounding axis limits for the query area [x_min, x_max, y_min, y_max]"""
 	...
