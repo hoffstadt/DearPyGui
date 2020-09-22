@@ -50,7 +50,7 @@ popup = wrap_container(add_popup)
 ########################################################################################################################
 
 def set_window_pos(window, x, y):
-    configure_item(window, xpos=x, ypos=y)
+    configure_item(window, x_pos=x, y_pos=y)
 
 def get_window_pos(window):
     config = get_item_configuration(window)
