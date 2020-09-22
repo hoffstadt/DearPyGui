@@ -20,7 +20,7 @@ namespace Marvel {
 
 	public:
 
-		MV_APPITEM_TYPE(mvAppItemType::Tooltip)
+		MV_APPITEM_TYPE(mvAppItemType::Tooltip, "add_tooltip")
 
 		mvTooltip(const std::string& name)
 			: mvBoolItemBase(name, false)

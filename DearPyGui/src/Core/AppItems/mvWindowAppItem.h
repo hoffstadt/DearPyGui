@@ -16,7 +16,7 @@ namespace Marvel {
 
 	public:
 
-		MV_APPITEM_TYPE(mvAppItemType::Window)
+		MV_APPITEM_TYPE(mvAppItemType::Window, "add_window")
 
 		mvWindowAppitem(const std::string& name, int width, int height, int xpos, int ypos, 
 			bool mainWindow, ImGuiWindowFlags flags, PyObject* closing_callback=nullptr)

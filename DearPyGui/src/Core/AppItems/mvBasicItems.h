@@ -50,7 +50,7 @@ namespace Marvel {
 
 	public:
 
-		MV_APPITEM_TYPE(mvAppItemType::Selectable)
+		MV_APPITEM_TYPE(mvAppItemType::Selectable, "add_selectable")
 
 		mvSelectable(const std::string& name, bool default_value, ImGuiSelectableFlags flags)
 			: mvBoolItemBase(name, default_value), m_flags(flags)
@@ -122,7 +122,7 @@ namespace Marvel {
 
 	public:
 
-		MV_APPITEM_TYPE(mvAppItemType::Button)
+		MV_APPITEM_TYPE(mvAppItemType::Button, "add_button")
 
 		mvButton(const std::string& name, bool small, 
 			bool arrow, ImGuiDir direction)
@@ -211,7 +211,7 @@ namespace Marvel {
 
 	public:
 
-		MV_APPITEM_TYPE(mvAppItemType::Checkbox)
+		MV_APPITEM_TYPE(mvAppItemType::Checkbox, "add_checkbox")
 
 		mvCheckbox(const std::string& name, bool default_value)
 			: mvBoolItemBase(name, default_value)
@@ -251,7 +251,7 @@ namespace Marvel {
 
 	public:
 
-		MV_APPITEM_TYPE(mvAppItemType::Combo)
+		MV_APPITEM_TYPE(mvAppItemType::Combo, "add_combo")
 
 		mvCombo(const std::string& name, std::vector<std::string> itemnames, const std::string& default_value)
 			: mvStringItemBase(name, default_value), m_items(std::move(itemnames))
@@ -320,9 +320,7 @@ namespace Marvel {
 
 	public:
 
-		MV_APPITEM_TYPE(mvAppItemType::Listbox)
-
-		std::string getParserCommand() const override { return "add_listbox"; }
+		MV_APPITEM_TYPE(mvAppItemType::Listbox, "add_listbox")
 
 		mvListbox(const std::string& name, std::vector<std::string> itemnames, int default_value, int height)
 			: mvIntItemBase(name, 1, default_value), m_names(std::move(itemnames)), m_itemsHeight(height)
@@ -389,7 +387,7 @@ namespace Marvel {
 
 	public:
 
-		MV_APPITEM_TYPE(mvAppItemType::RadioButtons)
+		MV_APPITEM_TYPE(mvAppItemType::RadioButtons, "add_radio_button")
 
 		mvRadioButton(const std::string& name, std::vector<std::string> itemnames, int default_value, bool horizontal)
 			: mvIntItemBase(name, 1, default_value), m_itemnames(std::move(itemnames)), m_horizontal(horizontal)
@@ -455,7 +453,7 @@ namespace Marvel {
 
 	public:
 
-		MV_APPITEM_TYPE(mvAppItemType::ProgressBar)
+		MV_APPITEM_TYPE(mvAppItemType::ProgressBar, "add_progress_bar")
 
 		mvProgressBar(const std::string& name, float default_value = 0.0f, std::string overlay = "")
 			: mvFloatItemBase(name, 1, default_value), m_overlay(std::move(overlay))
@@ -507,7 +505,7 @@ namespace Marvel {
 
 	public:
 
-		MV_APPITEM_TYPE(mvAppItemType::InputInt)
+		MV_APPITEM_TYPE(mvAppItemType::InputInt, "add_input_int")
 
 		mvInputInt(const std::string& name, int default_value, ImGuiInputTextFlags flags)
 			: mvIntItemBase(name, 1, default_value), m_flags(flags) {}
@@ -563,7 +561,7 @@ namespace Marvel {
 
 	public:
 
-		MV_APPITEM_TYPE(AppItemType)
+		MV_APPITEM_TYPE(AppItemType, "add_input_int2")
 
 		mvInputIntMulti(const std::string& name, int default_value[2], ImGuiInputTextFlags flags)
 			: mvIntItemBase(name, num, default_value[0], default_value[1], default_value[2], default_value[3]),
@@ -619,7 +617,7 @@ namespace Marvel {
 
 	public:
 
-		MV_APPITEM_TYPE(mvAppItemType::InputFloat)
+		MV_APPITEM_TYPE(mvAppItemType::InputFloat, "add_input_float")
 
 			mvInputFloat(const std::string& name, float default_value, std::string format, ImGuiInputTextFlags flags)
 			: mvFloatItemBase(name, 1, default_value), m_format(std::move(format)), m_flags(flags)
@@ -697,7 +695,7 @@ namespace Marvel {
 
 	public:
 
-		MV_APPITEM_TYPE(AppItemType)
+		MV_APPITEM_TYPE(AppItemType, "add_input_float2")
 
 			mvInputFloatMulti(const std::string& name, float* default_value, std::string  format, ImGuiInputTextFlags flags)
 			: mvFloatItemBase(name, num, default_value[0], default_value[1], default_value[2], default_value[3]), m_format(std::move(format)),
@@ -776,7 +774,7 @@ namespace Marvel {
 
 	public:
 
-		MV_APPITEM_TYPE(AppItemType)
+		MV_APPITEM_TYPE(AppItemType, "add_drag_float")
 
 		mvDragFloat(const std::string& name, float* default_value, float speed,
 				float minv, float maxv, std::string format, ImGuiInputTextFlags flags)
@@ -865,7 +863,7 @@ namespace Marvel {
 
 	public:
 
-		MV_APPITEM_TYPE(AppItemType)
+		MV_APPITEM_TYPE(AppItemType, "add_drag_int")
 
 		mvDragInt(const std::string& name, int* default_value, float speed,
 				int minv, float maxv, std::string format, ImGuiInputTextFlags flags)
@@ -953,7 +951,7 @@ namespace Marvel {
 
 	public:
 
-		MV_APPITEM_TYPE(mvAppItemType::SliderFloat)
+		MV_APPITEM_TYPE(mvAppItemType::SliderFloat, "add_slider_float")
 
 			mvSliderFloat(const std::string& name, float default_value = 0.0f, float minv = 0.0f,
 				float maxv = 1.0f, std::string  format = "%.3f", bool vertical = false, ImGuiInputTextFlags flags = 0)
@@ -1067,7 +1065,7 @@ namespace Marvel {
 
 	public:
 
-		MV_APPITEM_TYPE(mvAppItemType::SliderInt)
+		MV_APPITEM_TYPE(mvAppItemType::SliderInt, "add_slider_int")
 
 			mvSliderInt(const std::string& name, int default_value = 0, int minv = 0,
 				int maxv = 100, std::string  format = "%d", bool vertical = false, ImGuiInputTextFlags flags = 0)
@@ -1182,7 +1180,7 @@ namespace Marvel {
 
 	public:
 
-		MV_APPITEM_TYPE(AppItemType)
+		MV_APPITEM_TYPE(AppItemType, "add_slider_float2")
 
 			mvSliderFloatMulti(const std::string& name, float* default_value, float minv, float maxv, std::string  format, ImGuiInputTextFlags flags)
 			: mvFloatItemBase(name, num, default_value[0], default_value[1], default_value[2], default_value[3]),
@@ -1267,7 +1265,7 @@ namespace Marvel {
 
 	public:
 
-		MV_APPITEM_TYPE(AppItemType)
+		MV_APPITEM_TYPE(AppItemType, "add_slider_int2")
 
 			mvSliderIntMulti(const std::string& name, int* default_value, int minv, int maxv, std::string  format, ImGuiInputTextFlags flags)
 			: mvIntItemBase(name, num, default_value[0], default_value[1], default_value[2], default_value[3]),
