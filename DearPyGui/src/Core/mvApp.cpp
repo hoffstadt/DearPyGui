@@ -162,7 +162,11 @@ namespace Marvel {
 					m_threadPool = false;
 					mvAppLog::Log("Threadpool destroyed");
 				}
+				else
+					m_poolStart = clock_::now();
 			}
+			else
+				m_poolStart = clock_::now();
 
 		}
 
@@ -381,6 +385,8 @@ namespace Marvel {
 			m_downQueue.pop();
 		}
 
+		Py_END_ALLOW_THREADS
+
 		// async callbacks
 		if (!m_asyncCallbacks.empty())
 		{
@@ -392,7 +398,6 @@ namespace Marvel {
 				m_threadPool = true;
 				mvAppLog::Log("Threadpool created");
 			}
-
 
 			// submit to thread pool
 			for (auto& callback : m_asyncCallbacks)
@@ -406,7 +411,7 @@ namespace Marvel {
 		if (m_tpool != nullptr)
 			m_threadTime = std::chrono::duration_cast<second_>(clock_::now() - m_poolStart).count();
 
-		Py_END_ALLOW_THREADS
+		
 	}
 
 	void mvApp::setWindowSize(unsigned width, unsigned height)
