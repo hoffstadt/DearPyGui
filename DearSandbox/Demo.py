@@ -1,12 +1,6 @@
-# if using this file outside of DPG development comment this line out
-# and uncomment the next line
-from core import *
-# from dearpygui.core import *
-
-
+from dearpygui.core import *
+from dearpygui.simple import *
 from time import sleep
-from contextlib import contextmanager
-from functools import wraps
 from math import sin, cos
 
 ########################################################################################################################
@@ -20,104 +14,6 @@ def add_item_to_check(item):
 def item_checked(item):
     delete_item(item)
     add_label_text(item + "##checklist", value="Not Checked", color=[255, 0, 0], parent="CompleteChecklistGroup")
-
-########################################################################################################################
-# Context Managers : normally in dearpygui.simple
-########################################################################################################################
-
-def wrap_container(container):
-    @contextmanager
-    @wraps(container)
-    def container_context(*args,**kwargs):
-        try: yield container(*args,**kwargs)
-        finally: end()
-    return container_context
-
-window = wrap_container(add_window)
-menu_bar = wrap_container(add_menu_bar)
-menu = wrap_container(add_menu)
-child = wrap_container(add_child)
-collapsing_header = wrap_container(add_collapsing_header)
-group = wrap_container(add_group)
-tab_bar = wrap_container(add_tab_bar)
-tab = wrap_container(add_tab)
-tree_node = wrap_container(add_tree_node)
-tooltip = wrap_container(add_tooltip)
-popup = wrap_container(add_popup)
-
-########################################################################################################################
-# Old Commands
-########################################################################################################################
-
-def set_window_pos(window, x, y):
-    configure_item(window, xpos=x, ypos=y)
-
-def get_window_pos(window):
-    config = get_item_configuration(window)
-    return [config["xpos"], config["ypos"]]
-
-def set_item_name(item, name):
-    configure_item(item, name=name)
-
-def set_item_label(item, label):
-    configure_item(item, label=label)
-
-def set_item_popup(item, popup):
-    configure_item(item, popup=popup)
-
-def set_item_tip(item, tip):
-    configure_item(item, tip=tip)
-
-def show_item(item):
-    configure_item(item, show=True)
-
-def get_item_label(item):
-    return get_item_configuration(item)["label"]
-
-def get_item_popup(item):
-    return get_item_configuration(item)["popup"]
-
-def get_item_tip(item):
-    return get_item_configuration(item)["tip"]
-
-def get_item_width(item):
-    return get_item_configuration(item)["width"]
-
-def get_item_height(item):
-    return get_item_configuration(item)["height"]
-
-def hide_item(item):
-    configure_item(item, show=False)
-
-def set_item_width(item, width):
-    configure_item(item, width=width)
-
-def set_item_height(item, height):
-    configure_item(item, height=height)
-
-def show_item(item):
-    configure_item(item, show=True)
-
-def set_drawing_origin(drawing, x, y):
-    configure_item(drawing, originx=x, originy=y)
-
-def set_drawing_scale(drawing, x, y):
-    configure_item(drawing, scalex=x, scaley=y)
-
-def set_drawing_size(drawing, x, y):
-    configure_item(drawing, width=x, height=y)
-
-def get_drawing_origin(drawing):
-    config = get_item_configuration(drawing)
-    return [config["originx"], config["originy"]]
-
-def get_drawing_scale(drawing):
-    config = get_item_configuration(drawing)
-    return [config["scalex"], config["scaley"]]
-
-def get_drawing_size(drawing):
-    config = get_item_configuration(drawing)
-    return [config["width"], config["height"]]
 
 
 ########################################################################################################################

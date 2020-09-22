@@ -152,7 +152,7 @@ namespace Marvel {
 				// set current tab value true
 				m_value = true;
 
-				showAll();
+				//showAll();
 
 				// run call back if it exists
 				if (parent->getValue() != m_name)
