@@ -24,7 +24,7 @@ namespace Marvel {
 
 	public:
 
-		MV_APPITEM_TYPE(mvAppItemType::SameLine)
+		MV_APPITEM_TYPE(mvAppItemType::SameLine, "add_same_line")
 
 		mvSameLine(const std::string& name, float xoffset, float spacing)
 			: mvAppItem(name), m_xoffset(xoffset), m_spacing(spacing)
@@ -68,7 +68,7 @@ namespace Marvel {
 
 	public:
 
-		MV_APPITEM_TYPE(mvAppItemType::Separator)
+		MV_APPITEM_TYPE(mvAppItemType::Separator, "add_separator")
 
 		mvSeparator(const std::string& name)
 			: mvAppItem(name)
@@ -100,7 +100,7 @@ namespace Marvel {
 
 	public:
 
-		MV_APPITEM_TYPE(mvAppItemType::Spacing)
+		MV_APPITEM_TYPE(mvAppItemType::Spacing, "add_spacing")
 
 		mvSpacing(const std::string& name, int count)
 			: mvAppItem(name)
@@ -132,7 +132,7 @@ namespace Marvel {
 
 	public:
 
-		MV_APPITEM_TYPE(mvAppItemType::Indent)
+		MV_APPITEM_TYPE(mvAppItemType::Indent, "add_indent")
 
 		mvIndent(const std::string& name, float default_value)
 			: mvFloatItemBase(name, 1, default_value)
@@ -156,7 +156,7 @@ namespace Marvel {
 
 	public:
 
-		MV_APPITEM_TYPE(mvAppItemType::Unindent)
+		MV_APPITEM_TYPE(mvAppItemType::Unindent, "unindent")
 
 		mvUnindent(const std::string& name, float default_value)
 			: mvFloatItemBase(name, 1, default_value)
@@ -180,7 +180,7 @@ namespace Marvel {
 
 	public:
 
-		MV_APPITEM_TYPE(mvAppItemType::Dummy)
+		MV_APPITEM_TYPE(mvAppItemType::Dummy, "add_dummy")
 
 		mvDummy(const std::string& name)
 			: mvAppItem(name)

@@ -24,7 +24,7 @@ namespace Marvel {
 
 	public:
 
-		MV_APPITEM_TYPE(mvAppItemType::InputInt)
+		MV_APPITEM_TYPE(mvAppItemType::InputInt, "add_image")
 
 		mvImage(const std::string& name, std::string  default_value, mvColor tint, mvColor border, const mvVec2& uv_min, const mvVec2& uv_max)
 			: mvAppItem(name) , m_value(std::move(default_value)), m_uv_min(uv_min), m_uv_max(uv_max), m_tintColor(tint), m_borderColor(border)
@@ -155,7 +155,7 @@ namespace Marvel {
 
 	public:
 
-		MV_APPITEM_TYPE(mvAppItemType::ImageButton)
+		MV_APPITEM_TYPE(mvAppItemType::ImageButton, "add_image_button")
 
 		mvImageButton(const std::string& name, std::string  default_value, mvColor tint,
 				mvColor backgroundColor, const mvVec2& uv_min, const mvVec2& uv_max, int framePadding)
