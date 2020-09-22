@@ -23,6 +23,10 @@ namespace Marvel {
 		}, "Returns the current mouse position in relation to the active window (minus titlebar) unless local flag is unset.",
 		"(int, int)", "Input Polling") });
 
+		parsers->insert({ "get_plot_mouse_pos", mvPythonParser({
+		}, "Returns the current mouse position in the currently hovered plot.",
+		"(int, int)", "Input Polling") });
+
 		parsers->insert({ "get_mouse_drag_delta", mvPythonParser({
 		}, "Returns the current mouse drag delta in pixels", "(float, float)", "Input Polling") });
 
@@ -131,6 +135,18 @@ namespace Marvel {
 		mvVec2 pos = mvInput::getMousePosition();
 		if (!local)
 			pos = mvInput::getGlobalMousePosition();
+		PyObject* pvalue = ToPyPair(pos.x, pos.y);
+		return pvalue;
+	}
+
+	PyObject* get_plot_mouse_pos(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		int local = true;
+
+		if (!(*mvApp::GetApp()->getParsers())["get_plot_mouse_pos"].parse(args, kwargs, __FUNCTION__, &local))
+			return GetPyNone();
+
+		mvVec2 pos = mvInput::getPlotMousePosition();
 		PyObject* pvalue = ToPyPair(pos.x, pos.y);
 		return pvalue;
 	}

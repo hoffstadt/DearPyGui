@@ -34,6 +34,11 @@ namespace Marvel {
 			{mvPythonDataType::Bool, "resizable"}
 		}, "Sets the main window to be resizable.") });
 
+		parsers->insert({ "set_main_window_pos", mvPythonParser({
+			{mvPythonDataType::Integer, "x"},
+			{mvPythonDataType::Integer, "y"},
+		}, "Sets the main window position.") });
+
 		parsers->insert({ "setup_dearpygui", mvPythonParser({
 		}, "Sets up DearPyGui for user controlled rendering. Only call once and you must call cleanup_deapygui when finished.") });
 
@@ -208,6 +213,20 @@ namespace Marvel {
 
 		if (mvApp::IsAppStarted())
 			mvApp::GetApp()->getViewport()->setWindowText(title);
+
+		return GetPyNone();
+	}
+
+	PyObject* set_main_window_pos(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		int x;
+		int y;
+
+		if (!(*mvApp::GetApp()->getParsers())["set_main_window_pos"].parse(args, kwargs, __FUNCTION__,
+			&x, &y))
+			return GetPyNone();
+
+		mvApp::GetApp()->setMainPos(x, y);
 
 		return GetPyNone();
 	}

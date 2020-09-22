@@ -427,6 +427,13 @@ namespace Marvel {
 		m_actualHeight = height;
 	}
 
+	void mvApp::setMainPos(int x, int y)
+	{
+
+		m_mainXPos = x;
+		m_mainYPos = y;
+	}
+
 	void mvApp::setGlobalFontScale(float scale)
 	{
 		m_globalFontScale = scale;

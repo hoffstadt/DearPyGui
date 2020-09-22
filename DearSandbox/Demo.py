@@ -22,7 +22,7 @@ def item_checked(item):
     add_label_text(item + "##checklist", value="Not Checked", color=[255, 0, 0], parent="CompleteChecklistGroup")
 
 ########################################################################################################################
-# Context Managers : normally in dearpygui.wrappers
+# Context Managers : normally in dearpygui.simple
 ########################################################################################################################
 
 def wrap_container(container):
@@ -130,6 +130,7 @@ add_data("DataStorage2", [23, 42, 53, 5])
 
 set_main_window_title("DearPyGui Demo")
 set_main_window_size(1000, 800)
+set_main_window_pos(0, 0)
 add_additional_font("C:/dev/DearPyGui/Resources/NotoSerifCJKjp-Medium.otf", 20)
 
 
