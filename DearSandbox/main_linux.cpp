@@ -21,7 +21,7 @@ int main(int argc, char* argv[])
 	PyImport_AppendInittab("core", &PyInit_core);
 
 	// set path and start the interpreter
-	std::string pathpath = ":../../DearSandbox";
+	std::string pathpath = ":../../DearSandbox;../../DearPyGui/;";
 	wchar_t* deco = Py_DecodeLocale(pathpath.c_str(), nullptr);
 
 	wchar_t* oldpath = Py_GetPath();
