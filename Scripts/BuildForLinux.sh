@@ -12,6 +12,6 @@ cd ..
 cmake --build cmake-build-release --config Release
 ls
 cd Distribution
-python3 BuildPythonWheel.py ../cmake-build-release/DearPyGui/dearpygui.so dearpygui.so
+python3 BuildPythonWheel.py ../cmake-build-release/DearPyGui/core.so core.so
 python3 setup.py bdist_wheel --plat-name manylinux1_x86_64 --dist-dir ../dist
 pip3 install ../dist/*.whl

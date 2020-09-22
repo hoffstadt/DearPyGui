@@ -133,6 +133,10 @@ set_main_window_size(1000, 800)
 set_main_window_pos(0, 0)
 add_additional_font("C:/dev/DearPyGui/Resources/NotoSerifCJKjp-Medium.otf", 20)
 
+show_debug()
+configure_item("debug##standard", x_pos=0, y_pos=0)
+print(get_item_configuration("debug##standard"))
+
 
 ########################################################################################################################
 # Menu
