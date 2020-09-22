@@ -770,11 +770,11 @@ namespace Marvel {
 	};
 
 	static PyModuleDef dearpyguiModule = {
-		PyModuleDef_HEAD_INIT, "dearpygui", NULL, -1, dearpyguimethods,
+		PyModuleDef_HEAD_INIT, "core", NULL, -1, dearpyguimethods,
 		NULL, NULL, NULL, NULL
 	};
 
-	PyMODINIT_FUNC PyInit_dearpygui(void)
+	PyMODINIT_FUNC PyInit_core(void)
 	{
 		PyObject* m;
 

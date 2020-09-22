@@ -13,7 +13,7 @@
 
 namespace Marvel {
 
-	PyMODINIT_FUNC PyInit_dearpygui(void);
+	PyMODINIT_FUNC PyInit_core(void);
 
 	std::map<std::string, mvPythonParser>* BuildDearPyGuiInterface();
 

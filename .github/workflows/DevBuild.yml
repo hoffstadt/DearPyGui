@@ -39,7 +39,7 @@ jobs:
       shell: cmd
       run: |
         cd Distribution
-        call "%dir%..\Dependencies\cpython\PCbuild\amd64\python.exe" "%dir%BuildPythonWheel.py" D:/a/DearPyGui/DearPyGui/cmake-build-release/DearPyGui/Release/dearpygui.pyd dearpygui.pyd
+        call "%dir%..\Dependencies\cpython\PCbuild\amd64\python.exe" "%dir%BuildPythonWheel.py" D:/a/DearPyGui/DearPyGui/cmake-build-release/DearPyGui/Release/core.pyd core.pyd
         call "%dir%..\Dependencies\cpython\PCbuild\amd64\python.exe" -m setup bdist_wheel --plat-name win_amd64 --dist-dir D:/a/DearPyGui/DearPyGui/dist
 
     - name: Save Test DearPyGui Wheel
@@ -90,7 +90,7 @@ jobs:
       shell: cmd
       run: |
         cd Distribution
-        call "%dir%..\Dependencies\cpython\PCbuild\amd64\python.exe" "%dir%BuildPythonWheel.py" D:/a/DearPyGui/DearPyGui/cmake-build-release/DearPyGui/Release/dearpygui.pyd dearpygui.pyd
+        call "%dir%..\Dependencies\cpython\PCbuild\amd64\python.exe" "%dir%BuildPythonWheel.py" D:/a/DearPyGui/DearPyGui/cmake-build-release/DearPyGui/Release/core.pyd core.pyd
         call "%dir%..\Dependencies\cpython\PCbuild\amd64\python.exe" -m setup bdist_wheel --plat-name win_amd64 --dist-dir D:/a/DearPyGui/DearPyGui/dist
 
     - name: Save Test DearPyGui Wheel
@@ -139,7 +139,7 @@ jobs:
     - name: Build Test DearPyGui Wheel
       run: |
         cd /Users/runner/work/DearPyGui/DearPyGui/Distribution
-        python3 BuildPythonWheel.py /Users/runner/work/DearPyGui/DearPyGui/cmake-build-release/DearPyGui/dearpygui.so dearpygui.so
+        python3 BuildPythonWheel.py /Users/runner/work/DearPyGui/DearPyGui/cmake-build-release/DearPyGui/core.so core.so
         python3 -m setup bdist_wheel --plat-name macosx-10.6-x86_64 --dist-dir /Users/runner/work/DearPyGui/DearPyGui/dist
 
     - name: Save Test DearPyGui Wheel
@@ -191,7 +191,7 @@ jobs:
     - name: Build Test DearPyGui Wheel
       run: |
         cd /Users/runner/work/DearPyGui/DearPyGui/Distribution
-        python3 BuildPythonWheel.py /Users/runner/work/DearPyGui/DearPyGui/cmake-build-release/DearPyGui/dearpygui.so dearpygui.so
+        python3 BuildPythonWheel.py /Users/runner/work/DearPyGui/DearPyGui/cmake-build-release/DearPyGui/core.so core.so
         python3 -m setup bdist_wheel --plat-name macosx-10.6-x86_64 --dist-dir /Users/runner/work/DearPyGui/DearPyGui/dist
 
     - name: Save Test DearPyGui Wheel
@@ -258,7 +258,7 @@ jobs:
     - name: Build Test DearPyGui Wheel
       run: |
         cd /home/runner/work/DearPyGui/DearPyGui/Distribution
-        python BuildPythonWheel.py /home/runner/work/DearPyGui/DearPyGui/cmake-build-release/DearPyGui/dearpygui.so dearpygui.so
+        python BuildPythonWheel.py /home/runner/work/DearPyGui/DearPyGui/cmake-build-release/DearPyGui/core.so core.so
         python -m setup bdist_wheel --plat-name manylinux1_x86_64 --dist-dir /home/runner/work/DearPyGui/DearPyGui/dist
 
     - name: Save Test DearPyGui Wheel
@@ -330,7 +330,7 @@ jobs:
     - name: Build Test DearPyGui Wheel
       run: |
         cd /home/runner/work/DearPyGui/DearPyGui/Distribution
-        python BuildPythonWheel.py /home/runner/work/DearPyGui/DearPyGui/cmake-build-release/DearPyGui/dearpygui.so dearpygui.so
+        python BuildPythonWheel.py /home/runner/work/DearPyGui/DearPyGui/cmake-build-release/DearPyGui/core.so core.so
         python -m setup bdist_wheel --plat-name manylinux1_x86_64 --dist-dir /home/runner/work/DearPyGui/DearPyGui/dist
 
     - name: Save Test DearPyGui Wheel

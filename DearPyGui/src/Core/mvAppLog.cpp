@@ -31,6 +31,24 @@ namespace Marvel {
 	bool mvAppLog::s_dirty_pos = true;
 	bool mvAppLog::s_dirty_size = true;
 
+	void mvAppLog::SetConfigDict(PyObject* dict)
+	{
+		mvGlobalIntepreterLock gil;
+		if (PyObject* item = PyDict_GetItemString(dict, "width")) s_width = ToInt(item);
+		if (PyObject* item = PyDict_GetItemString(dict, "height")) s_height = ToInt(item);
+		if (PyObject* item = PyDict_GetItemString(dict, "x_pos")) s_xpos = ToInt(item);
+		if (PyObject* item = PyDict_GetItemString(dict, "y_pos")) s_ypos = ToInt(item);
+	}
+
+	void mvAppLog::GetConfigDict(PyObject* dict)
+	{
+		mvGlobalIntepreterLock gil;
+		PyDict_SetItemString(dict, "width", ToPyInt(s_width));
+		PyDict_SetItemString(dict, "height", ToPyInt(s_height));
+		PyDict_SetItemString(dict, "x_pos", ToPyInt(s_xpos));
+		PyDict_SetItemString(dict, "y_pos", ToPyInt(s_ypos));
+	}
+
 	unsigned mvAppLog::getLogLevel() 
 	{ 
 		return s_loglevel; 
