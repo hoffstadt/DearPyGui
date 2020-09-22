@@ -343,6 +343,8 @@ namespace Marvel {
             typedef typename std::invoke_result<F, Args...>::type result_type;
             std::packaged_task<result_type()> task(std::move(f));
             std::future<result_type> res(task.get_future());
+            m_done = false;
+            m_taskCount++;
             if (m_local_work_queue)
                 m_local_work_queue->push(std::move(task));
             else
@@ -359,7 +361,7 @@ namespace Marvel {
 
             m_local_work_queue = m_queues[m_index].get();
 
-            while (!m_done)
+            while (!m_done || !isReadyToDelete())
                 run_pending_task();
         }
 
@@ -370,10 +372,8 @@ namespace Marvel {
                 pop_task_from_pool_queue(task) ||
                 pop_task_from_other_thread_queue(task))
             {
-                m_taskCount++;
                 task();
                 m_taskCount--;
-
             }
 
             else
