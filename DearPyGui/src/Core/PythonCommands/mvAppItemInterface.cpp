@@ -218,7 +218,7 @@ namespace Marvel {
 			if (swindow)
 			{
 				PyObject* pdict = PyDict_New();
-				appitem->getConfigDict(kwargs);
+				swindow->getConfigDict(pdict);
 				return pdict;
 			}
 			else
@@ -253,7 +253,7 @@ namespace Marvel {
 		{
 			mvStandardWindow* swindow = mvApp::GetApp()->getStandardWindow(item);
 			if (swindow)
-				appitem->setConfigDict(kwargs);
+				swindow->setConfigDict(kwargs);
 			else
 				ThrowPythonException(item + std::string(" item was not found"));
 		}
