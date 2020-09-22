@@ -12,7 +12,9 @@ namespace Marvel{
 			{mvPythonDataType::Object, "callback", "Registers a callback"},
 			{mvPythonDataType::Object, "callback_data", "Callback data"},
 			{mvPythonDataType::String, "parent", "Parent this item will be added to. (runtime adding)"},
-			{mvPythonDataType::String, "before","This item will be displayed before the specified item in the parent. (runtime adding)"}
+			{mvPythonDataType::String, "before","This item will be displayed before the specified item in the parent. (runtime adding)"},
+			{mvPythonDataType::Integer, "width",""},
+			{mvPythonDataType::Integer, "height",""}
 		}, "Adds table.", "None", "Tables") });
 
 		parsers->insert({ "set_headers", mvPythonParser({
@@ -92,9 +94,11 @@ namespace Marvel{
 		PyObject* callback_data = nullptr;
 		const char* parent = "";
 		const char* before = "";
+		int width = 0;
+		int height = 0;
 
 		if (!(*mvApp::GetApp()->getParsers())["add_table"].parse(args, kwargs, __FUNCTION__, &name, &headers, &callback, &callback_data, &parent,
-			&before))
+			&before, &width, &height))
 			return ToPyBool(false);
 
 		mvAppItem* item = new mvTable(name, ToStringVect(headers));
@@ -104,6 +108,8 @@ namespace Marvel{
 		if (callback_data)
 			Py_XINCREF(callback_data);
 		item->setCallbackData(callback_data);
+		item->setHeight(width);
+		item->setHeight(height);
 		return ToPyBool(AddItemWithRuntimeChecks(item, parent, before));
 	}
 
