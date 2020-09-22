@@ -1,6 +1,7 @@
 #include "mvPlot.h"
 #define PY_SSIZE_T_CLEAN
 #include <Python.h>
+#include "Core/mvInput.h"
 
 namespace Marvel {
 
@@ -305,6 +306,10 @@ namespace Marvel {
 				PyGILState_Release(gstate);
 				mvApp::GetApp()->runCallback(m_queryCallback, m_name, area);
 			}
+
+
+			if (ImPlot::IsPlotHovered())
+				mvInput::setPlotMousePosition(ImPlot::GetPlotMousePos().x, ImPlot::GetPlotMousePos().y);
 
 			ImPlot::EndPlot();
 		}

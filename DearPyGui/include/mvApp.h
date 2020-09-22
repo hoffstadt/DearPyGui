@@ -112,6 +112,7 @@ namespace Marvel {
         void                     setResizable      (bool value) { m_resizable = value; }
         void                     setWindowSize     (unsigned width, unsigned height);
         void                     setActualSize     (unsigned width, unsigned height);			
+        void                     setMainPos        (int x, int y);			
         void                     setActiveWindow   (const std::string& window) { m_activeWindow = window; }
         void                     setGlobalFontScale(float scale);
         void                     setViewport       (mvWindow* viewport) { m_viewport = viewport; }
@@ -219,6 +220,8 @@ namespace Marvel {
         std::vector<mvAppItem*>                m_windows;
         int                                    m_actualWidth = 1280;
         int                                    m_actualHeight = 800;
+        int                                    m_mainXPos = 100;
+        int                                    m_mainYPos = 100;
         std::string                            m_title = "DearPyGui";
         std::map<std::string, mvPythonParser>* m_parsers;
         

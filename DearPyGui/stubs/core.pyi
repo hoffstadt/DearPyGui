@@ -582,6 +582,10 @@ def get_mouse_pos(local: bool = True) -> (int, int):
 	"""Returns the current mouse position in relation to the active window (minus titlebar) unless local flag is unset."""
 	...
 
+def get_plot_mouse_pos() -> (int, int):
+	"""Returns the current mouse position in the currently hovered plot."""
+	...
+
 def get_plot_query_area(plot: str) -> List[float]:
 	"""Returns the bounding axis limits for the query area [x_min, x_max, y_min, y_max]"""
 	...
@@ -936,6 +940,10 @@ def set_key_release_callback(callback: Callable, handler: str = "") -> None:
 
 def set_log_level(level: int) -> None:
 	"""Sets the log level."""
+	...
+
+def set_main_window_pos(x: int, y: int) -> None:
+	"""Sets the main window position."""
 	...
 
 def set_main_window_resizable(resizable: bool) -> None:

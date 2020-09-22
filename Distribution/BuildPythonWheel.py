@@ -17,7 +17,7 @@ if not os.path.isdir(script_dir +  "/dearpygui/"):
 # copy add items to temporary location
 shutil.copy(location, script_dir +"/dearpygui")
 shutil.copy(script_dir + "/../DearPyGui/stubs/core.pyi", script_dir + "/dearpygui")
-shutil.copy(script_dir + "/../DearPyGui/stubs/wrappers.py", script_dir + "/dearpygui")
+shutil.copy(script_dir + "/../DearPyGui/stubs/simple.py", script_dir + "/dearpygui")
 
 with open(script_dir + "/dearpygui/__init__.py", 'w') as file:
     file.write("pass\n")
