@@ -22,7 +22,7 @@ namespace Marvel {
 
 	public:
 
-		MV_APPITEM_TYPE(mvAppItemType::MenuBar)
+		MV_APPITEM_TYPE(mvAppItemType::MenuBar, "add_menu_bar")
 
 		explicit mvMenuBar(const std::string& name)
 			: mvBoolItemBase(name, true)
@@ -88,7 +88,7 @@ namespace Marvel {
 
 	public:
 
-		MV_APPITEM_TYPE(mvAppItemType::Menu)
+		MV_APPITEM_TYPE(mvAppItemType::Menu, "add_menu")
 
 		mvMenu( const std::string& name)
 			: mvBoolItemBase(name, false), mvEventHandler()
@@ -162,7 +162,7 @@ namespace Marvel {
 
 	public:
 
-		MV_APPITEM_TYPE(mvAppItemType::MenuItem)
+		MV_APPITEM_TYPE(mvAppItemType::MenuItem, "add_menu_item")
 
 		mvMenuItem(const std::string& name, 
 			const std::string& shortcut, bool check)

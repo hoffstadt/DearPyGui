@@ -24,11 +24,10 @@ namespace Marvel{
 			ThrowPythonException("\"" + getName() + "\" could not find a parser that matched \"" + getParserCommand() + "\".");
 			return;
 		}
-		//bool found = false;
 		for (auto key : configKeys)
 		{
 			int i = 0;
-			if (i < parserKeywords.size() - 1)
+			while (i < parserKeywords.size() - 1)
 			{
 				if (key == parserKeywords[i])
 				{

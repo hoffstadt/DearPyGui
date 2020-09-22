@@ -18,8 +18,10 @@
 //-----------------------------------------------------------------------------
 // Helper Macro
 //-----------------------------------------------------------------------------
-#define MV_APPITEM_TYPE(x) virtual mvAppItemType getType() const override { return x; }\
- virtual std::string getStringType() const override { return std::string(#x); }
+#define MV_APPITEM_TYPE(x, parser)\
+    virtual mvAppItemType getType() const override { return x; }\
+    virtual std::string getStringType() const override { return std::string(#x); }\
+    virtual std::string getParserCommand() const override { return parser; }
 
 namespace Marvel {
 

@@ -17,7 +17,7 @@ namespace Marvel{
 	class mvSimplePlot : public mvAppItem
 	{
 
-		MV_APPITEM_TYPE(mvAppItemType::SimplePlot)
+		MV_APPITEM_TYPE(mvAppItemType::SimplePlot, "add_simple_plot")
 
 	public:
 		mvSimplePlot(const std::string& name, std::vector<float> value,

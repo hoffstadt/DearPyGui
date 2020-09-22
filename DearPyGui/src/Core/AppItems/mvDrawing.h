@@ -372,7 +372,7 @@ namespace Marvel {
 
 	public:
 
-		MV_APPITEM_TYPE(mvAppItemType::Drawing)
+		MV_APPITEM_TYPE(mvAppItemType::Drawing, "add_drawing")
 
 		mvDrawing(const std::string& name, int width, int height)
 			: mvAppItem(name)
