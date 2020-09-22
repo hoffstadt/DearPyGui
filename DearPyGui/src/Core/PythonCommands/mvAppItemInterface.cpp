@@ -244,6 +244,7 @@ namespace Marvel {
 
 		if (appitem)
 		{
+			appitem->checkConfigDict(kwargs);
 			appitem->setConfigDict(kwargs);
 			appitem->setExtraConfigDict(kwargs);
 		}

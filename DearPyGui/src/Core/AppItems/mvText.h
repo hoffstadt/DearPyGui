@@ -43,7 +43,7 @@ namespace Marvel {
 
 	public:
 
-		MV_APPITEM_TYPE(mvAppItemType::Text)
+		MV_APPITEM_TYPE(mvAppItemType::Text, "add_text")
 
 		mvText(const std::string& name, int wrap, mvColor color, bool bullet)
 			: mvStringItemBase(name, name), m_color(color), m_wrap(wrap), m_bullet(bullet)
@@ -111,7 +111,7 @@ namespace Marvel {
 
 	public:
 
-		MV_APPITEM_TYPE(mvAppItemType::LabelText)
+		MV_APPITEM_TYPE(mvAppItemType::LabelText, "add_label_text")
 
 			mvLabelText(const std::string& name, const std::string& value, mvColor color)
 			: mvStringItemBase(name, value), m_color(color)

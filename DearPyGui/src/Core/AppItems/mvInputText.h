@@ -19,7 +19,7 @@ namespace Marvel {
 
 	public:
 
-		MV_APPITEM_TYPE(mvAppItemType::InputText)
+		MV_APPITEM_TYPE(mvAppItemType::InputText, "add_input_text")
 
 		mvInputText(const std::string& name, const std::string& default_value,
               std::string  hint, bool multiline, ImGuiInputTextFlags flags)

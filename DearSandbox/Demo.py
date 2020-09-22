@@ -50,7 +50,7 @@ popup = wrap_container(add_popup)
 ########################################################################################################################
 
 def set_window_pos(window, x, y):
-    configure_item(window, xpos=x, ypos=y)
+    configure_item(window, x_pos=x, y_pos=y)
 
 def get_window_pos(window):
     config = get_item_configuration(window)
@@ -255,7 +255,7 @@ def closeit(sender, data):
     callback = get_item_callback("Widgets")
     callback("Widgets", None)
 
-with window("Tables##dialog", 500, 500, hide=True, on_close=closeit):
+with window("Tables##dialog", 500, 500, show=False, on_close=closeit):
 
     def ClearTable(sender, data):
         clear_table("Table##widget")
@@ -299,7 +299,7 @@ with window("Tables##dialog", 500, 500, hide=True, on_close=closeit):
 ########################################################################################################################
 # Tooltips and Popups
 ########################################################################################################################
-with window("Tooltips/Popups##dialog", 200, 200, hide=True):
+with window("Tooltips/Popups##dialog", 200, 200, show=False):
 
     add_button("Hover me##tooltips")
     with tooltip("Hover me##tooltips", "tool_tip##tooltips"):
@@ -314,7 +314,7 @@ with window("Tooltips/Popups##dialog", 200, 200, hide=True):
 ########################################################################################################################
 # Text
 ########################################################################################################################
-with window("Text Widget##dialog", 200, 200, x_pos=0, y_pos=0, hide=True, no_resize=True, no_title_bar=True, no_move=False):
+with window("Text Widget##dialog", 200, 200, x_pos=0, y_pos=0, show=False, no_resize=True, no_title_bar=True, no_move=False):
     add_text("Regular")
     add_text("Wrapped at 100 pixels", wrap=100)
     add_text("Color", color=(0, 200, 255))
@@ -323,7 +323,7 @@ with window("Text Widget##dialog", 200, 200, x_pos=0, y_pos=0, hide=True, no_res
 ########################################################################################################################
 # Input Text
 ########################################################################################################################
-with window("Input Text##dialog", 500, 500, autosize=True, hide=True):
+with window("Input Text##dialog", 500, 500, autosize=True, show=False):
     add_input_text("Regular##inputtext")
     add_input_text("With hint##inputtext", hint="A hint")
     add_input_text("No spaces##inputtext", no_spaces=True)
@@ -337,7 +337,7 @@ with window("Input Text##dialog", 500, 500, autosize=True, hide=True):
 ########################################################################################################################
 # Widgets
 ########################################################################################################################
-with window("Widgets##dialog", 500, 500, hide=True):
+with window("Widgets##dialog", 500, 500, show=False):
 
     def RetrieveValues(sender, data):
 
@@ -438,7 +438,7 @@ with window("Widgets##dialog", 500, 500, hide=True):
 ########################################################################################################################
 # Logger
 ########################################################################################################################
-with window("Logging##dialog", 500, 500, autosize=True, hide=True):
+with window("Logging##dialog", 500, 500, autosize=True, show=False):
 
     def LogCallback(sender, data):
         show_logger()
@@ -461,7 +461,7 @@ with window("Logging##dialog", 500, 500, autosize=True, hide=True):
 ########################################################################################################################
 # Plots
 ########################################################################################################################
-with window("Plots, Graphs and Charts##dialog", 500, 500, hide=True):
+with window("Plots, Graphs and Charts##dialog", 500, 500, show=False):
 
     def PlotCallback(sender, data):
 
@@ -544,7 +544,7 @@ with window("Plots, Graphs and Charts##dialog", 500, 500, hide=True):
 ########################################################################################################################
 # Canvas
 ########################################################################################################################
-with window("Drawing API##dialog", autosize=True, hide=True):
+with window("Drawing API##dialog", autosize=True, show=False):
 
     def UpdateDrawing(sender, data):
         set_drawing_origin("drawing##widget", get_value("X Origin"), get_value("Y Origin"))
@@ -575,7 +575,7 @@ with window("Drawing API##dialog", autosize=True, hide=True):
 ########################################################################################################################
 # Asyncronous
 ########################################################################################################################
-with window("Asyncronous##dialog", hide=True):
+with window("Asyncronous##dialog", show=False):
     add_data('threadNumber', 0)
     def LongCallback2(sender, data):
         sleep(5)
@@ -601,7 +601,7 @@ with window("Asyncronous##dialog", hide=True):
 ########################################################################################################################
 # Input Polling
 ########################################################################################################################
-with window("Input Polling##dialog", hide=True, autosize=True):
+with window("Input Polling##dialog", show=False, autosize=True):
     set_window_pos("Input Polling##dialog", 700, 50)
     add_text("Key Polling")
     add_label_text("A key Down", "False", color=(0,200,255))
