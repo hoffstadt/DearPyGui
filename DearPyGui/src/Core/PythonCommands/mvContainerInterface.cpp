@@ -490,7 +490,7 @@ namespace Marvel {
 		item->setConfigDict(kwargs);
 		item->setExtraConfigDict(kwargs);
 
-		if (AddItemWithRuntimeChecks(item, parent, before))
+		if (AddItemWithRuntimeChecks(item, tipparent, before))
 		{
 			mvApp::GetApp()->pushParent(item);
 			return ToPyBool(true);
@@ -527,7 +527,7 @@ namespace Marvel {
 		item->setConfigDict(kwargs);
 		item->setExtraConfigDict(kwargs);
 
-		if (AddItemWithRuntimeChecks(item, parent, before))
+		if (AddItemWithRuntimeChecks(item, popupparent, before))
 		{
 			mvApp::GetApp()->pushParent(item);
 			return ToPyBool(true);

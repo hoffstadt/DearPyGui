@@ -31,6 +31,11 @@ Decorated log: https://github.com/hoffstadt/DearPyGui/releases/tag/v0.4.0
 Updates:
 - ImPlot: upgraded to commit 0ed6307
 
+Fixes:
+- Threadpool: Fixed issue with some tasks going uncompleted
+- Popups:     Can now be added anywhere (don't have to be right after their parent)
+- Tooltips:   Can now be added anywhere (don't have to be right after their parent)
+
 Breaking Changes:
 - Modules:        dearpygui module is now called core
 - Modules:        wrapper module is now called simple

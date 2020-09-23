@@ -293,6 +293,60 @@ namespace Marvel{
 		return false;
 	}
 
+	bool mvAppItem::addChildAfter(const std::string& prev, mvAppItem* item)
+	{
+		if (prev.empty())
+			return false;
+
+
+		bool prevFound = false;
+
+		// check children
+		for (mvAppItem* child : m_children)
+		{
+
+			if (child->getName() == prev)
+			{
+				item->setParent(this);
+				prevFound = true;
+				break;
+			}
+
+		}
+
+		// prev item is in this container
+		if (prevFound)
+		{
+			//item->setParent(this);
+
+			std::vector<mvAppItem*> oldchildren = m_children;
+			m_children.clear();
+
+			for (auto child : oldchildren)
+			{
+				m_children.push_back(child);
+				if (child->getName() == prev)
+					m_children.push_back(item);
+			}
+
+			return true;
+		}
+		
+
+		// check children
+		for (mvAppItem* child : m_children)
+		{
+			if (child->isContainer())
+			{
+				// parent found
+				if (child->addChildAfter(prev, item))
+					return true;
+			}
+		}
+
+		return false;
+	}
+
 	bool mvAppItem::deleteChild(const std::string& name)
 	{
 
