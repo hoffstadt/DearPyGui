@@ -15,6 +15,7 @@ namespace Marvel{
 			{mvPythonDataType::String, "before","This item will be displayed before the specified item in the parent. (runtime adding)"},
 			{mvPythonDataType::Integer, "width",""},
 			{mvPythonDataType::Integer, "height",""}
+			{mvPythonDataType::Bool, "show",""}
 		}, "Adds table.", "None", "Tables") });
 
 		parsers->insert({ "set_headers", mvPythonParser({
@@ -96,9 +97,11 @@ namespace Marvel{
 		const char* before = "";
 		int width = 0;
 		int height = 0;
+		int show = true;
 
-		if (!(*mvApp::GetApp()->getParsers())["add_table"].parse(args, kwargs, __FUNCTION__, &name, &headers, &callback, &callback_data, &parent,
-			&before, &width, &height))
+		if (!(*mvApp::GetApp()->getParsers())["add_table"].parse(args, kwargs, __FUNCTION__, 
+			&name, &headers, &callback, &callback_data, &parent,
+			&before, &width, &height, &show))
 			return ToPyBool(false);
 
 		mvAppItem* item = new mvTable(name, ToStringVect(headers));
@@ -108,8 +111,11 @@ namespace Marvel{
 		if (callback_data)
 			Py_XINCREF(callback_data);
 		item->setCallbackData(callback_data);
-		item->setHeight(width);
-		item->setHeight(height);
+		
+		item->checkConfigDict(kwargs);
+		item->setConfigDict(kwargs);
+		item->setExtraConfigDict(kwargs);
+
 		return ToPyBool(AddItemWithRuntimeChecks(item, parent, before));
 	}
 

@@ -88,7 +88,6 @@ namespace Marvel {
 		parsers->insert({ "add_group", mvPythonParser({
 			{mvPythonDataType::String, "name"},
 			{mvPythonDataType::KeywordOnly},
-			{mvPythonDataType::String, "label"},
 			{mvPythonDataType::Bool, "show"},
 			{mvPythonDataType::String, "tip", "Adds a simple tooltip"},
 			{mvPythonDataType::String, "parent", "Parent to add this item to. (runtime adding)"},
@@ -96,7 +95,7 @@ namespace Marvel {
 			{mvPythonDataType::Integer, "width",""},
 			{mvPythonDataType::Bool, "horizontal"},
 			{mvPythonDataType::Float, "horizontal_spacing",""},
-			{mvPythonDataType::Bool, "hide"},
+			{mvPythonDataType::String, "popup"},
 		}, "Creates a group that other widgets can belong to. The group allows item commands to be issued for all of its members.\
 				Must be closed with the end_group command."
 		, "None", "Containers") });
@@ -104,7 +103,6 @@ namespace Marvel {
 		parsers->insert({ "add_child", mvPythonParser({
 			{mvPythonDataType::String, "name"},
 			{mvPythonDataType::KeywordOnly},
-			{mvPythonDataType::String, "label"},
 			{mvPythonDataType::Bool, "show"},
 			{mvPythonDataType::String, "tip", "Adds a simple tooltip"},
 			{mvPythonDataType::String, "parent", "Parent to add this item to. (runtime adding)"},
@@ -112,15 +110,16 @@ namespace Marvel {
 			{mvPythonDataType::Integer, "width",""},
 			{mvPythonDataType::Integer, "height", ""},
 			{mvPythonDataType::Bool, "border", ""},
+			{mvPythonDataType::String, "popup", ""},
 		}, "Adds an embedded child window. Will show scrollbars when items do not fit. Must be followed by a call to end_child.",
 		"None", "Containers") });
 
 		parsers->insert({ "add_window", mvPythonParser({
 			{mvPythonDataType::String, "name"},
 			{mvPythonDataType::Optional},
+			{mvPythonDataType::KeywordOnly},
 			{mvPythonDataType::Integer, "width"},
 			{mvPythonDataType::Integer, "height"},
-			{mvPythonDataType::KeywordOnly},
 			{mvPythonDataType::Integer, "x_pos", "x position the window will start at"},
 			{mvPythonDataType::Integer, "y_pos", "y position the window will start at"},
 			{mvPythonDataType::Bool, "autosize", "Autosized the window to fit it's items."},
@@ -138,7 +137,8 @@ namespace Marvel {
 			{mvPythonDataType::String, "name"},
 			{mvPythonDataType::KeywordOnly},
 			{mvPythonDataType::String, "parent", "Parent to add this item to. (runtime adding)"},
-			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)"}
+			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)"},
+			{mvPythonDataType::Bool, "show",""},
 		}, "Adds an advanced tool tip for an item. This command must come immediately after the item the tip is for.",
 			"None", "Containers") });
 
@@ -146,13 +146,13 @@ namespace Marvel {
 			{mvPythonDataType::String, "popupparent", "Parent that the popup will be assigned to."},
 			{mvPythonDataType::String, "name"},
 			{mvPythonDataType::KeywordOnly},
-			{mvPythonDataType::String, "label"},
 			{mvPythonDataType::Integer, "mousebutton", "The mouse code that will trigger the popup. Default is 1 or mvMouseButton_Right. (mvMouseButton_Left, mvMouseButton_Right, mvMouseButton_Middle, mvMouseButton_X1, mvMouseButton_X2"},
 			{mvPythonDataType::Bool, "modal"},
 			{mvPythonDataType::String, "parent", "Parent to add this item to. (runtime adding)"},
 			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)"},
 			{mvPythonDataType::Integer, "width",""},
 			{mvPythonDataType::Integer, "height", ""},
+			{mvPythonDataType::Bool, "show", ""},
 		}, "Adds a popup window for an item. This command must come immediately after the item the popup is for. Must be followed by a call to end_popup.",
 		"None", "Containers") });
 
@@ -181,6 +181,7 @@ namespace Marvel {
 
 			mvAppItem* item = new mvMenuBar(name);
 
+			item->setConfigDict(kwargs);
 			item->setConfigDict(kwargs);
 			item->setExtraConfigDict(kwargs);
 
@@ -211,6 +212,7 @@ namespace Marvel {
 
 		mvAppItem* item = new mvMenu(name);
 
+		item->checkConfigDict(kwargs);
 		item->setConfigDict(kwargs);
 		item->setExtraConfigDict(kwargs);
 
@@ -247,6 +249,7 @@ namespace Marvel {
 			Py_XINCREF(callback_data);
 		item->setCallbackData(callback_data);
 		item->setConfigDict(kwargs);
+		item->setConfigDict(kwargs);
 		item->setExtraConfigDict(kwargs);
 
 		return ToPyBool(AddItemWithRuntimeChecks(item, parent, before));
@@ -279,6 +282,7 @@ namespace Marvel {
 
 		item->setCallbackData(callback_data);
 		item->setDataSource(data_source);
+		item->checkConfigDict(kwargs);
 		item->setConfigDict(kwargs);
 		item->setExtraConfigDict(kwargs);
 
@@ -318,6 +322,7 @@ namespace Marvel {
 			else if (parentItem->getType() == mvAppItemType::TabBar)
 			{
 				mvAppItem* item = new mvTab(name);
+				item->checkConfigDict(kwargs);
 				item->setConfigDict(kwargs);
 				item->setExtraConfigDict(kwargs);
 				if (AddItemWithRuntimeChecks(item, parent, before))
@@ -344,6 +349,7 @@ namespace Marvel {
 			else if (parentItem->getType() == mvAppItemType::TabBar)
 			{
 				mvAppItem* item = new mvTab(name);
+				item->checkConfigDict(kwargs);
 				item->setConfigDict(kwargs);
 				item->setExtraConfigDict(kwargs);
 				if (AddItemWithRuntimeChecks(item, parent, before))
@@ -366,7 +372,6 @@ namespace Marvel {
 	PyObject* add_group(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		const char* name;
-		const char* label = "";
 		int show = true;
 		const char* tip = "";
 		const char* parent = "";
@@ -374,15 +379,18 @@ namespace Marvel {
 		int width = 0;
 		int horizontal = false;
 		float horizontal_spacing = -1.0f;
-		int hide = false;
+		const char* popup = "";
 
 		if (!(*mvApp::GetApp()->getParsers())["add_group"].parse(args, kwargs, __FUNCTION__, &name,
-			&label, &show, &tip, &parent, &before, &width, &horizontal, &horizontal_spacing, &hide))
+			&show, &tip, &parent, &before, &width, &horizontal, &horizontal_spacing, &popup))
 			return ToPyBool(false);
 
 		mvAppItem* item = new mvGroup(name);
+
+		item->checkConfigDict(kwargs);
 		item->setConfigDict(kwargs);
 		item->setExtraConfigDict(kwargs);
+
 		if (AddItemWithRuntimeChecks(item, parent, before))
 		{
 			mvApp::GetApp()->pushParent(item);
@@ -397,7 +405,6 @@ namespace Marvel {
 	PyObject* add_child(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		const char* name;
-		const char* label = "";
 		int show = true;
 		const char* tip = "";
 		const char* parent = "";
@@ -405,12 +412,14 @@ namespace Marvel {
 		int width = 0;
 		int height = 0;
 		int border = true;
+		const char* popup = "";
 
 		if (!(*mvApp::GetApp()->getParsers())["add_child"].parse(args, kwargs, __FUNCTION__, &name,
-			&label, &show, &tip, &parent, &before, &width, &height, &border))
+			&show, &tip, &parent, &before, &width, &height, &border, &popup))
 			return ToPyBool(false);
 
 		mvAppItem* item = new mvChild(name);
+		item->checkConfigDict(kwargs);
 		item->setConfigDict(kwargs);
 		item->setExtraConfigDict(kwargs);
 		if (AddItemWithRuntimeChecks(item, parent, before))
@@ -444,15 +453,9 @@ namespace Marvel {
 			&label, &show, &closing_callback))
 			return ToPyBool(false);
 
-		if (width == -1 && height == -1)
-		{
-			width = 500;
-			height = 500;
-		}
+		mvAppItem* item = new mvWindowAppitem(name, false, closing_callback);
 
-		mvAppItem* item = new mvWindowAppitem(name, width, height, x_pos, y_pos,
-			false, flags, closing_callback);
-
+		item->checkConfigDict(kwargs);
 		item->setConfigDict(kwargs);
 		item->setExtraConfigDict(kwargs);
 
@@ -475,12 +478,17 @@ namespace Marvel {
 		const char* name;
 		const char* parent = "";
 		const char* before = "";
+		int show = true;
 
 		if (!(*mvApp::GetApp()->getParsers())["add_tooltip"].parse(args, kwargs, __FUNCTION__, &tipparent,
-			&name, &parent, &before))
+			&name, &parent, &before, &show))
 			return ToPyBool(false);
 
 		mvAppItem* item = new mvTooltip(name);
+
+		item->checkConfigDict(kwargs);
+		item->setConfigDict(kwargs);
+		item->setExtraConfigDict(kwargs);
 
 		if (AddItemWithRuntimeChecks(item, parent, before))
 		{
@@ -494,16 +502,16 @@ namespace Marvel {
 	{
 		const char* popupparent;
 		const char* name;
-		const char* label = "";
 		int mousebutton = 1;
 		int modal = false;
 		const char* parent = "";
 		const char* before = "";
 		int width = 0;
 		int height = 0;
+		int show = true;
 
 		if (!(*mvApp::GetApp()->getParsers())["add_popup"].parse(args, kwargs, __FUNCTION__, &popupparent,
-			&name, &label, &mousebutton, &modal, &parent, &before, &width, &height ))
+			&name, &mousebutton, &modal, &parent, &before, &width, &height, &show))
 			return ToPyBool(false);
 
 		auto PopupParent = mvApp::GetApp()->getItem(popupparent);
@@ -514,6 +522,8 @@ namespace Marvel {
 			mvApp::GetApp()->getItem("MainWindow")->setPopup(name);
 
 		mvAppItem* item = new mvPopup(name);
+
+		item->checkConfigDict(kwargs);
 		item->setConfigDict(kwargs);
 		item->setExtraConfigDict(kwargs);
 
@@ -547,6 +557,7 @@ namespace Marvel {
 			return ToPyBool(false);
 
 		mvAppItem* item = new mvCollapsingHeader(name);
+		item->checkConfigDict(kwargs);
 		item->setConfigDict(kwargs);
 		item->setExtraConfigDict(kwargs);
 
@@ -573,6 +584,7 @@ namespace Marvel {
 			return ToPyBool(false);
 
 		mvAppItem* item = new mvTreeNode(name);
+		item->checkConfigDict(kwargs);
 		item->setConfigDict(kwargs);
 		item->setExtraConfigDict(kwargs);
 		if (AddItemWithRuntimeChecks(item, parent, before))
