@@ -29,6 +29,7 @@
 #include "Core/PlotAppItems/mvShadeSeries.h"
 #include "Core/PlotAppItems/mvErrorSeries.h"
 #include "Core/PlotAppItems/mvHeatSeries.h"
+#include "Core/PlotAppItems/mvImageSeries.h"
 
 //-----------------------------------------------------------------------------
 // Widget Index

@@ -5,6 +5,15 @@
 
 namespace Marvel {
 
+	mvSeries::mvSeries(std::string name, ImPlotPoint& boundsMin, ImPlotPoint& boundsMax)
+		: m_name(std::move(name))
+	{
+		m_maxX = boundsMax.x;
+		m_maxY = boundsMax.y;
+		m_minX = boundsMin.x;
+		m_minY = boundsMin.y;
+	}
+
 	mvSeries::mvSeries(std::string name, const std::vector<mvVec2>& points)
 		: m_name(std::move(name))
 	{
