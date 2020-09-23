@@ -84,7 +84,7 @@ ImPlotItem* GetItem(const char* label_id) {
 }
 
 ImPlotItem* GetItem(const char* plot_title, const char* item_label_id) {
-    ImPlotState* plot = GetPlot(plot_title);
+    ImPlotPlot* plot = GetPlot(plot_title);
     if (plot) {
         ImGuiID id = ImGui::GetID(item_label_id);
         return plot->Items.GetByKey(id);
@@ -125,6 +125,13 @@ void SetNextErrorBarStyle(const ImVec4& col, float size, float weight) {
     gp.NextItemData.ErrorBarWeight             = weight;
 }
 
+ImVec4 GetLastItemColor() {
+    ImPlotContext& gp = *GImPlot;
+    if (gp.PreviousItem)
+        return gp.PreviousItem->Color;
+    return ImVec4();
+}
+
 void HideNextItem(bool hidden, ImGuiCond cond) {
     ImPlotContext& gp = *GImPlot;
     gp.NextItemData.HasHidden  = true;
@@ -135,7 +142,7 @@ void HideNextItem(bool hidden, ImGuiCond cond) {
 void BustItemCache() {
     ImPlotContext& gp = *GImPlot;
     for (int p = 0; p < gp.Plots.GetSize(); ++p) {
-        ImPlotState& plot = *gp.Plots.GetByIndex(p);
+        ImPlotPlot& plot = *gp.Plots.GetByIndex(p);
         plot.ColormapIdx = 0;
         plot.Items.Clear();
     }
@@ -151,29 +158,29 @@ bool BeginItem(const char* label_id, ImPlotCol recolor_from) {
     IM_ASSERT_USER_ERROR(gp.CurrentPlot != NULL, "PlotX() needs to be called between BeginPlot() and EndPlot()!");
     bool just_created;
     ImPlotItem* item = RegisterOrGetItem(label_id, &just_created);
-
+    // set current item
+    gp.CurrentItem = item;
+    ImPlotNextItemData& s = gp.NextItemData;
+    // override item color
+    if (recolor_from != -1) {
+        if (!IsColorAuto(s.Colors[recolor_from]))
+            item->Color = s.Colors[recolor_from];
+        else if (!IsColorAuto(gp.Style.Colors[recolor_from]))
+            item->Color = gp.Style.Colors[recolor_from];
+    }
     // hide/show item
     if (gp.NextItemData.HasHidden) {
         if (just_created || gp.NextItemData.HiddenCond == ImGuiCond_Always)
             item->Show = !gp.NextItemData.Hidden;
     }
-
     if (!item->Show) {
         // reset next item data
         gp.NextItemData = ImPlotNextItemData();
+        gp.PreviousItem = item;
+        gp.CurrentItem  = NULL;
         return false;
     }
     else {
-        // set current item
-        gp.CurrentItem = item;
-        ImPlotNextItemData& s = gp.NextItemData;
-        // override item color
-        if (recolor_from != -1) {
-            if (!IsColorAuto(s.Colors[recolor_from]))
-                item->Color = s.Colors[recolor_from];
-            else if (!IsColorAuto(gp.Style.Colors[recolor_from]))
-                item->Color = gp.Style.Colors[recolor_from];
-        }
         // stage next item colors
         s.Colors[ImPlotCol_Line]           = IsColorAuto(s.Colors[ImPlotCol_Line])          ? ( IsColorAuto(ImPlotCol_Line)           ? item->Color                : gp.Style.Colors[ImPlotCol_Line]          ) : s.Colors[ImPlotCol_Line];
         s.Colors[ImPlotCol_Fill]           = IsColorAuto(s.Colors[ImPlotCol_Fill])          ? ( IsColorAuto(ImPlotCol_Fill)           ? item->Color                : gp.Style.Colors[ImPlotCol_Fill]          ) : s.Colors[ImPlotCol_Fill];
@@ -218,7 +225,8 @@ void EndItem() {
     // reset next item data
     gp.NextItemData = ImPlotNextItemData();
     // set current item
-    gp.CurrentItem = NULL;
+    gp.PreviousItem = gp.CurrentItem;
+    gp.CurrentItem  = NULL;
 }
 
 //-----------------------------------------------------------------------------

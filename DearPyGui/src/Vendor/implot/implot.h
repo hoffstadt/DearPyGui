@@ -125,29 +125,30 @@ enum ImPlotCol_ {
 // Plot styling variables.
 enum ImPlotStyleVar_ {
     // item styling variables
-    ImPlotStyleVar_LineWeight,       // float,  plot item line weight in pixels
-    ImPlotStyleVar_Marker,           // int,    marker specification
-    ImPlotStyleVar_MarkerSize,       // float,  marker size in pixels (roughly the marker's "radius")
-    ImPlotStyleVar_MarkerWeight,     // float,  plot outline weight of markers in pixels
-    ImPlotStyleVar_FillAlpha,        // float,  alpha modifier applied to all plot item fills
-    ImPlotStyleVar_ErrorBarSize,     // float,  error bar whisker width in pixels
-    ImPlotStyleVar_ErrorBarWeight,   // float,  error bar whisker weight in pixels
-    ImPlotStyleVar_DigitalBitHeight, // float,  digital channels bit height (at 1) in pixels
-    ImPlotStyleVar_DigitalBitGap,    // float,  digital channels bit padding gap in pixels
+    ImPlotStyleVar_LineWeight,        // float,  plot item line weight in pixels
+    ImPlotStyleVar_Marker,            // int,    marker specification
+    ImPlotStyleVar_MarkerSize,        // float,  marker size in pixels (roughly the marker's "radius")
+    ImPlotStyleVar_MarkerWeight,      // float,  plot outline weight of markers in pixels
+    ImPlotStyleVar_FillAlpha,         // float,  alpha modifier applied to all plot item fills
+    ImPlotStyleVar_ErrorBarSize,      // float,  error bar whisker width in pixels
+    ImPlotStyleVar_ErrorBarWeight,    // float,  error bar whisker weight in pixels
+    ImPlotStyleVar_DigitalBitHeight,  // float,  digital channels bit height (at 1) in pixels
+    ImPlotStyleVar_DigitalBitGap,     // float,  digital channels bit padding gap in pixels
     // plot styling variables
-    ImPlotStyleVar_PlotBorderSize,   // float,  thickness of border around plot area
-    ImPlotStyleVar_MinorAlpha,       // float,  alpha multiplier applied to minor axis grid lines
-    ImPlotStyleVar_MajorTickLen,     // ImVec2, major tick lengths for X and Y axes
-    ImPlotStyleVar_MinorTickLen,     // ImVec2, minor tick lengths for X and Y axes
-    ImPlotStyleVar_MajorTickSize,    // ImVec2, line thickness of major ticks
-    ImPlotStyleVar_MinorTickSize,    // ImVec2, line thickness of minor ticks
-    ImPlotStyleVar_MajorGridSize,    // ImVec2, line thickness of major grid lines
-    ImPlotStyleVar_MinorGridSize,    // ImVec2, line thickness of minor grid lines
-    ImPlotStyleVar_PlotPadding,      // ImVec2, padding between widget frame and plot area and/or labels
-    ImPlotStyleVar_LabelPadding,     // ImVec2, padding between axes labels, tick labels, and plot edge
-    ImPlotStyleVar_LegendPadding,    // ImVec2, legend padding from top-left of plot
-    ImPlotStyleVar_InfoPadding,      // ImVec2, padding between plot edge and interior info text
-    ImPlotStyleVar_PlotMinSize,      // ImVec2, minimum size plot frame can be when shrunk
+    ImPlotStyleVar_PlotBorderSize,    // float,  thickness of border around plot area
+    ImPlotStyleVar_MinorAlpha,        // float,  alpha multiplier applied to minor axis grid lines
+    ImPlotStyleVar_MajorTickLen,      // ImVec2, major tick lengths for X and Y axes
+    ImPlotStyleVar_MinorTickLen,      // ImVec2, minor tick lengths for X and Y axes
+    ImPlotStyleVar_MajorTickSize,     // ImVec2, line thickness of major ticks
+    ImPlotStyleVar_MinorTickSize,     // ImVec2, line thickness of minor ticks
+    ImPlotStyleVar_MajorGridSize,     // ImVec2, line thickness of major grid lines
+    ImPlotStyleVar_MinorGridSize,     // ImVec2, line thickness of minor grid lines
+    ImPlotStyleVar_PlotPadding,       // ImVec2, padding between widget frame and plot area and/or labels
+    ImPlotStyleVar_LabelPadding,      // ImVec2, padding between axes labels, tick labels, and plot edge
+    ImPlotStyleVar_LegendPadding,     // ImVec2, legend padding from top-left of plot
+    ImPlotStyleVar_InfoPadding,       // ImVec2, padding between plot edge and interior info text
+    ImPlotStyleVar_AnnotationPadding, // ImVec2, text padding around annotation labels
+    ImPlotStyleVar_PlotMinSize,       // ImVec2, minimum size plot frame can be when shrunk
     ImPlotStyleVar_COUNT
 };
 
@@ -238,6 +239,7 @@ struct ImPlotStyle {
     ImVec2  LabelPadding;            // = 5,5     padding between axes labels, tick labels, and plot edge
     ImVec2  LegendPadding;           // = 10,10   legend padding from top-left of plot
     ImVec2  InfoPadding;             // = 10,10   padding between plot edge and interior info text
+    ImVec2  AnnotationPadding;       // = 2,2     text padding around annotation labels
     ImVec2  PlotMinSize;             // = 300,225 minimum size plot frame can be when shrunk
     // colors
     ImVec4  Colors[ImPlotCol_COUNT]; //           array of plot specific colors
@@ -398,11 +400,13 @@ template <typename T> IMPLOT_API void PlotDigital(const char* label_id, const T*
 IMPLOT_API void PlotImage(const char* label_id, ImTextureID user_texture_id, const ImPlotPoint& bounds_min, const ImPlotPoint& bounds_max, const ImVec2& uv0=ImVec2(0,0), const ImVec2& uv1=ImVec2(1,1), const ImVec4& tint_col=ImVec4(1,1,1,1));
 
 // Plots a centered text label at point x,y with optional pixel offset. Text color can be changed with ImPlot::PushStyleColor(ImPlotCol_InlayText, ...).
-IMPLOT_API void PlotText(const char* text, double x, double y, bool vertical=false, const ImVec2& pixel_offset=ImVec2(0,0));
+IMPLOT_API void PlotText(const char* text, double x, double y, bool vertical=false, const ImVec2& pix_offset=ImVec2(0,0));
 
 //-----------------------------------------------------------------------------
 // Plot Utils
 //-----------------------------------------------------------------------------
+
+// The following functions MUST be called before BeginPlot!
 
 // Set the axes range limits of the next plot. Call right before BeginPlot(). If ImGuiCond_Always is used, the axes limits will be locked.
 IMPLOT_API void SetNextPlotLimits(double xmin, double xmax, double ymin, double ymax, ImGuiCond cond = ImGuiCond_Once);
@@ -423,27 +427,19 @@ IMPLOT_API void SetNextPlotTicksX(double x_min, double x_max, int n_ticks, const
 IMPLOT_API void SetNextPlotTicksY(const double* values, int n_ticks, const char* const labels[] = NULL, bool show_default = false, int y_axis = 0);
 IMPLOT_API void SetNextPlotTicksY(double y_min, double y_max, int n_ticks, const char* const labels[] = NULL, bool show_default = false, int y_axis = 0);
 
+// The following functions MUST be called between Begin/EndPlot!
+
 // Select which Y axis will be used for subsequent plot elements. The default is '0', or the first (left) Y axis. Enable 2nd and 3rd axes with ImPlotFlags_YAxisX.
 IMPLOT_API void SetPlotYAxis(int y_axis);
+// Hides or shows the next plot item (i.e. as if it were toggled from the legend). Use ImGuiCond_Always if you need to change this every frame.
+IMPLOT_API void HideNextItem(bool hidden = true, ImGuiCond cond = ImGuiCond_Once);
 
 // Convert pixels to a position in the current plot's coordinate system. A negative y_axis uses the current value of SetPlotYAxis (0 initially).
 IMPLOT_API ImPlotPoint PixelsToPlot(const ImVec2& pix, int y_axis = IMPLOT_AUTO);
 IMPLOT_API ImPlotPoint PixelsToPlot(float x, float y, int y_axis = IMPLOT_AUTO);
-
 // Convert a position in the current plot's coordinate system to pixels. A negative y_axis uses the current value of SetPlotYAxis (0 initially).
 IMPLOT_API ImVec2 PlotToPixels(const ImPlotPoint& plt, int y_axis = IMPLOT_AUTO);
 IMPLOT_API ImVec2 PlotToPixels(double x, double y, int y_axis = IMPLOT_AUTO);
-
-// Hides or shows the next plot item (i.e. as if it were toggled from the legend). Use ImGuiCond_Always if you need to change this every frame.
-IMPLOT_API void HideNextItem(bool hidden = true, ImGuiCond cond = ImGuiCond_Once);
-
-//-----------------------------------------------------------------------------
-// Plot Queries
-//-----------------------------------------------------------------------------
-
-// Use these functions to retrieve information about the current plot. They
-// MUST be called between BeginPlot and EndPlot!
-
 // Get the current Plot position (top-left) in pixels.
 IMPLOT_API ImVec2 GetPlotPos();
 // Get the curent Plot size in pixels.
@@ -458,10 +454,44 @@ IMPLOT_API bool IsPlotYAxisHovered(int y_axis = 0);
 IMPLOT_API ImPlotPoint GetPlotMousePos(int y_axis = IMPLOT_AUTO);
 // Returns the current plot axis range. A negative y_axis uses the current value of SetPlotYAxis (0 initially).
 IMPLOT_API ImPlotLimits GetPlotLimits(int y_axis = IMPLOT_AUTO);
-// Returns true if the current plot is being queried.
+
+// Returns true if the current plot is being queried. Query must be enabled with ImPlotFlags_Query.
 IMPLOT_API bool IsPlotQueried();
-// Returns the current plot query bounds.
+// Returns the current plot query bounds. Query must be enabled with ImPlotFlags_Query.
 IMPLOT_API ImPlotLimits GetPlotQuery(int y_axis = IMPLOT_AUTO);
+
+//-----------------------------------------------------------------------------
+// Plot Tools
+//-----------------------------------------------------------------------------
+
+// Shows an annotation callout at a chosen point. 
+IMPLOT_API void Annotate(double x, double y, const ImVec2& pix_offset, const char* fmt, ...)                             IM_FMTARGS(4);
+IMPLOT_API void Annotate(double x, double y, const ImVec2& pix_offset, const ImVec4& color, const char* fmt, ...)        IM_FMTARGS(5);
+// Same as above, but the annotation will always be clamped to stay inside the plot area.
+IMPLOT_API void AnnotateClamped(double x, double y, const ImVec2& pix_offset, const char* fmt, ...)                      IM_FMTARGS(4);
+IMPLOT_API void AnnotateClamped(double x, double y, const ImVec2& pix_offset, const ImVec4& color, const char* fmt, ...) IM_FMTARGS(5);
+
+// Shows a draggable vertical guide line at an x-value. #col defaults to ImGuiCol_Text.
+IMPLOT_API bool DragLineX(const char* id, double* x_value, bool show_label = true, const ImVec4& col = IMPLOT_AUTO_COL, float thickness = 1);
+// Shows a draggable horizontal guide line at a y-value. #col defaults to ImGuiCol_Text.
+IMPLOT_API bool DragLineY(const char* id, double* y_value, bool show_label = true, const ImVec4& col = IMPLOT_AUTO_COL, float thickness = 1);
+// Shows a draggable point at x,y. #col defaults to ImGuiCol_Text.
+IMPLOT_API bool DragPoint(const char* id, double* x, double* y, bool show_label = true, const ImVec4& col = IMPLOT_AUTO_COL, float radius = 4);
+
+//-----------------------------------------------------------------------------
+// Legend Utils and Tools
+//-----------------------------------------------------------------------------
+
+// Returns true if a plot item legend entry is hovered.
+IMPLOT_API bool IsLegendEntryHovered(const char* label_id);
+// Begin a drag and drop source from a legend entry. The only supported flag is SourceNoPreviewTooltip
+IMPLOT_API bool BeginLegendDragDropSource(const char* label_id, ImGuiDragDropFlags flags = 0);
+// End legend drag and drop source.
+IMPLOT_API void EndLegendDragDropSource();
+// Begin a popup for a legend entry.
+IMPLOT_API bool BeginLegendPopup(const char* label_id, ImGuiMouseButton mouse_button = 1);
+// End a popup for a legend entry.
+IMPLOT_API void EndLegendPopup();
 
 //-----------------------------------------------------------------------------
 // Plot and Item Styling
@@ -512,10 +542,13 @@ IMPLOT_API void SetNextMarkerStyle(ImPlotMarker marker = IMPLOT_AUTO, float size
 // Set the error bar style for the next item only.
 IMPLOT_API void SetNextErrorBarStyle(const ImVec4& col = IMPLOT_AUTO_COL, float size = IMPLOT_AUTO, float weight = IMPLOT_AUTO);
 
+// Gets the last item primary color (i.e. its legend icon color)
+IMPLOT_API ImVec4 GetLastItemColor();
+
 // Returns the null terminated string name for an ImPlotCol.
-IMPLOT_API const char* GetStyleColorName(ImPlotCol color);
+IMPLOT_API const char* GetStyleColorName(ImPlotCol idx);
 // Returns the null terminated string name for an ImPlotMarker.
-IMPLOT_API const char* GetMarkerName(ImPlotMarker marker);
+IMPLOT_API const char* GetMarkerName(ImPlotMarker idx);
 
 //-----------------------------------------------------------------------------
 // Colormaps
@@ -556,21 +589,6 @@ IMPLOT_API void ShowColormapScale(double scale_min, double scale_max, float heig
 
 // Returns a null terminated string name for a built-in colormap.
 IMPLOT_API const char* GetColormapName(ImPlotColormap colormap);
-
-//-----------------------------------------------------------------------------
-// Legend Utils
-//-----------------------------------------------------------------------------
-
-// Returns true if a plot item legend entry is hovered.
-IMPLOT_API bool IsLegendEntryHovered(const char* label_id);
-// Begin a drag and drop source from a legend entry. The only supported flag is SourceNoPreviewTooltip
-IMPLOT_API bool BeginLegendDragDropSource(const char* label_id, ImGuiDragDropFlags flags = 0);
-// End legend drag and drop source.
-IMPLOT_API void EndLegendDragDropSource();
-// Begin a popup for a legend entry.
-IMPLOT_API bool BeginLegendPopup(const char* label_id, ImGuiMouseButton mouse_button = 1);
-// End a popup for a legend entry.
-IMPLOT_API void EndLegendPopup();
 
 //-----------------------------------------------------------------------------
 // Miscellaneous

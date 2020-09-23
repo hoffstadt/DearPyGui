@@ -29,7 +29,7 @@ HOW TO UPDATE?
 Decorated log: https://github.com/hoffstadt/DearPyGui/releases/tag/v0.4.0
 
 Updates:
-- ImPlot: upgraded to commit 0ed6307
+- ImPlot: upgraded to commit 90cbb56
 
 Fixes:
 - Threadpool: Fixed issue with some tasks going uncompleted
