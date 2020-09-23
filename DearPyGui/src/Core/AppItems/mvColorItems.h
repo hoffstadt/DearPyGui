@@ -25,7 +25,7 @@ namespace Marvel {
 
 	public:
 
-		MV_APPITEM_TYPE(AppItemType)
+		MV_APPITEM_TYPE(AppItemType, "add_color_edit3")
 
 			mvColorItem(const std::string& name, mvColor color)
 			: mvColorItemBase(name, color)
@@ -61,7 +61,7 @@ namespace Marvel {
 
 	public:
 
-		MV_APPITEM_TYPE(mvAppItemType::ColorPicker4)
+		MV_APPITEM_TYPE(mvAppItemType::ColorPicker4, "add_color_picker3")
 
 		mvColorPicker4(const std::string& name, mvColor color)
 			: mvColorItemBase(name, color)

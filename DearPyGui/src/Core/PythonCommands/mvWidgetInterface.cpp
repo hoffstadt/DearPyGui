@@ -855,7 +855,7 @@ namespace Marvel {
 			{mvPythonDataType::Bool, "no_resize", "Allows for the window size to be changed or fixed"},
 			{mvPythonDataType::Bool, "no_title_bar", "Title name for the title bar of the window"},
 			{mvPythonDataType::Bool, "no_move", "Allows for the window's position to be changed or fixed"},
-			{mvPythonDataType::Bool, "hide", "Hides window."},
+			{mvPythonDataType::Bool, "show", "sets if the item is shown or not window."},
 			{mvPythonDataType::Object, "on_close", "Callback ran when window is closed"},
 		}, "Creates a new window for following items to be added to.",
 			"None", "Containers") });
@@ -2895,7 +2895,7 @@ namespace Marvel {
 		int x_pos = 200;
 		int y_pos = 200;
 		int autosize = false;
-		int hide = false;
+		int show = true;
 		int no_resize = false;
 		int no_title_bar = false;
 		int no_move = false;
@@ -2905,7 +2905,7 @@ namespace Marvel {
 
 		if (!(*mvApp::GetApp()->getParsers())["add_window"].parse(args, kwargs, __FUNCTION__, &name, &width,
 			&height, &x_pos, &y_pos, &autosize, &no_resize, &no_title_bar, &no_move,
-			&hide, &closing_callback))
+			&show, &closing_callback))
 			return ToPyBool(false);
 
 		if (width == -1 && height == -1)
@@ -2926,7 +2926,7 @@ namespace Marvel {
 		{
 			mvApp::GetApp()->pushParent(item);
 
-			if (hide)
+			if (!show)
 				item->hide();
 
 			return ToPyBool(true);

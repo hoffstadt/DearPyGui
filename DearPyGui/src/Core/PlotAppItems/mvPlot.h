@@ -62,7 +62,7 @@ namespace Marvel {
 
 	public:
 
-		MV_APPITEM_TYPE(mvAppItemType::Plot)
+		MV_APPITEM_TYPE(mvAppItemType::Plot, "add_plot")
 
 		mvPlot(const std::string& name, std::string xname, std::string yname, 
 			bool colormapScale, float scale_min, float scale_max, int scale_height,

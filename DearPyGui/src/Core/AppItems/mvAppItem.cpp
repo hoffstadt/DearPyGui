@@ -3,6 +3,8 @@
 #include "Core/mvInput.h"
 #include "Core/mvDataStorage.h"
 #include "mvPythonTranslator.h"
+#include "Core/mvPythonExceptions.h"
+#include "mvMarvel.h"
 
 namespace Marvel{
 
@@ -10,6 +12,34 @@ namespace Marvel{
 	{
 		m_name = name;
 		m_label = name;
+	}
+
+	void mvAppItem::checkConfigDict(PyObject* dict)
+	{
+		mvGlobalIntepreterLock gil;
+		auto configKeys = ToStringVect(PyDict_Keys(dict));
+		auto parserKeywords = (*mvApp::GetApp()->getParsers())[getParserCommand()].getKeywords();
+		if (parserKeywords.empty())
+		{
+			ThrowPythonException("\"" + getName() + "\" could not find a parser that matched \"" + getParserCommand() + "\".");
+			return;
+		}
+		for (auto key : configKeys)
+		{
+			int i = 0;
+			while (i < parserKeywords.size() - 1)
+			{
+				if (key == parserKeywords[i])
+				{
+					break;
+				}
+				i++;
+			}
+			if (i == parserKeywords.size() - 1)
+			{
+				ThrowPythonException("\"" + key + "\" configuration does not exist in \"" + getName() + "\".");
+			}
+		}
 	}
 
 	void mvAppItem::setConfigDict(PyObject* dict)

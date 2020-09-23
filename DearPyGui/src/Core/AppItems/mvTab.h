@@ -21,7 +21,7 @@ namespace Marvel {
 
 	public:
 
-		MV_APPITEM_TYPE(mvAppItemType::TabBar)
+		MV_APPITEM_TYPE(mvAppItemType::TabBar, "add_tab_bar")
 
 		mvTabBar(const std::string& name, ImGuiTabBarFlags flags)
 			: mvStringItemBase(name, ""), m_flags(flags)
@@ -113,7 +113,7 @@ namespace Marvel {
 
 	public:
 
-		MV_APPITEM_TYPE(mvAppItemType::TabItem)
+		MV_APPITEM_TYPE(mvAppItemType::TabItem, "add_tab")
 
 		mvTab(const std::string& name, bool closable = false)
 			: mvBoolItemBase(name, false), m_closable(closable)
