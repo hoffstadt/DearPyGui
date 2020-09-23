@@ -99,6 +99,20 @@ namespace Marvel {
 			{mvPythonDataType::String, "plot"},
 		}, "Sets plots y limits to be automatic.", "None", "Plotting") });
 
+		parsers->insert({ "add_image_series", mvPythonParser({
+			{mvPythonDataType::String, "plot"},
+			{mvPythonDataType::String, "name"},
+			{mvPythonDataType::String, "value"},
+			{mvPythonDataType::FloatList, "bounds_min"},
+			{mvPythonDataType::FloatList, "bounds_max"},
+			{mvPythonDataType::Optional},
+			{mvPythonDataType::KeywordOnly},
+			{mvPythonDataType::FloatList, "uv_min"},
+			{mvPythonDataType::FloatList, "uv_max"},
+			{mvPythonDataType::IntList, "tint_color"},
+			{mvPythonDataType::Bool, "update_bounds"},
+		}, "Adds a image series to a plot.", "None", "Plotting") });
+
 		parsers->insert({ "add_pie_series", mvPythonParser({
 			{mvPythonDataType::String, "plot"},
 			{mvPythonDataType::String, "name"},
@@ -724,6 +738,67 @@ namespace Marvel {
 
 		mvPlot* graph = static_cast<mvPlot*>(aplot);
 		graph->deleteSeries(series);
+		return GetPyNone();
+	}
+
+	PyObject* add_image_series(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		const char* plot;
+		const char* name;
+		const char* value;
+		PyObject* bounds_min;
+		PyObject* bounds_max;
+
+		PyObject* uv_min = PyTuple_New(2);
+		PyTuple_SetItem(uv_min, 0, PyFloat_FromDouble(0));
+		PyTuple_SetItem(uv_min, 1, PyFloat_FromDouble(0));
+
+		PyObject* uv_max = PyTuple_New(2);
+		PyTuple_SetItem(uv_max, 0, PyFloat_FromDouble(1));
+		PyTuple_SetItem(uv_max, 1, PyFloat_FromDouble(1));
+
+		PyObject* tintcolor = PyTuple_New(4);
+		PyTuple_SetItem(tintcolor, 0, PyFloat_FromDouble(255.0));
+		PyTuple_SetItem(tintcolor, 1, PyFloat_FromDouble(255.0));
+		PyTuple_SetItem(tintcolor, 2, PyFloat_FromDouble(255.0));
+		PyTuple_SetItem(tintcolor, 3, PyFloat_FromDouble(255.0));
+		int update_bounds = true;
+
+		if (!(*mvApp::GetApp()->getParsers())["add_image_series"].parse(args, kwargs, __FUNCTION__, 
+			&plot, &name, &value, &bounds_min, &bounds_max, &uv_min, &uv_max, &tintcolor, &update_bounds))
+			return GetPyNone();
+
+
+		mvAppItem* aplot = mvApp::GetApp()->getItem(plot);
+
+		if (aplot == nullptr)
+		{
+			std::string message = plot;
+			ThrowPythonException(message + " plot does not exist.");
+			return GetPyNone();
+		}
+
+		if (aplot->getType() != mvAppItemType::Plot)
+		{
+			std::string message = plot;
+			ThrowPythonException(message + " is not a plot.");
+			return GetPyNone();
+		}
+
+		mvPlot* graph = static_cast<mvPlot*>(aplot);
+
+		auto mbounds_min = ToFloatVect(bounds_min);
+		auto mbounds_max = ToFloatVect(bounds_max);
+		auto muv_min = ToVec2(uv_min);
+		auto muv_max = ToVec2(uv_max);
+		auto mcolor = ToColor(tintcolor);
+
+		auto series = new mvImageSeries(name, value, ImPlotPoint(mbounds_min[0], mbounds_min[1]), ImPlotPoint(mbounds_max[0], mbounds_max[1]),
+			muv_min, muv_max, mcolor);
+
+		graph->updateSeries(series, update_bounds);
+
+
 		return GetPyNone();
 	}
 

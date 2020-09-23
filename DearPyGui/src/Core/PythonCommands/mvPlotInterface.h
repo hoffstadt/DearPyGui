@@ -31,6 +31,7 @@ namespace Marvel {
 	PyObject* set_plot_ylimits     (PyObject* self, PyObject* args, PyObject* kwargs);
 
 	// series
+	PyObject* add_image_series       (PyObject* self, PyObject* args, PyObject* kwargs);
 	PyObject* add_pie_series       (PyObject* self, PyObject* args, PyObject* kwargs);
 	PyObject* add_line_series      (PyObject* self, PyObject* args, PyObject* kwargs);
 	PyObject* add_bar_series       (PyObject* self, PyObject* args, PyObject* kwargs);

@@ -383,6 +383,8 @@ with window("Plots, Graphs and Charts##dialog", 500, 500, show=False):
         add_stem_series("Plot", "Stem", data1)
         add_area_series("Plot", "Area", data2, [255, 255, 0], [255, 255, 0, 100])
 
+        add_image_series("Plot", "image", "C:/dev/DearPyGui/Examples/SpriteMapExample.png", [0,0], [1,1], update_bounds=False)
+
         # pie charts
         add_pie_series("PieChart1", "PieChart1", [["fish", 0.25], ["Cow", 0.30], ["Chicken", 0.30]], 0.5, 0.5, 0.5, normalize=True)
         set_plot_xlimits("PieChart1", 0, 1)
