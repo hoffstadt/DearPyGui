@@ -45,8 +45,8 @@ namespace Marvel {
 
 		MV_APPITEM_TYPE(mvAppItemType::Text, "add_text")
 
-		mvText(const std::string& name, int wrap, mvColor color, bool bullet)
-			: mvStringItemBase(name, name), m_color(color), m_wrap(wrap), m_bullet(bullet)
+		mvText(const std::string& name)
+			: mvStringItemBase(name, name)
 		{
 		}
 
@@ -80,6 +80,8 @@ namespace Marvel {
 
 		void setExtraConfigDict(PyObject* dict) override
 		{
+			if (dict == nullptr)
+				return;
 			mvGlobalIntepreterLock gil;
 			if (PyObject* item = PyDict_GetItemString(dict, "color")) m_color = ToColor(item);
 			if (PyObject* item = PyDict_GetItemString(dict, "wrap")) m_wrap = ToInt(item);
@@ -89,6 +91,8 @@ namespace Marvel {
 
 		void getExtraConfigDict(PyObject* dict) override
 		{
+			if (dict == nullptr)
+				return;
 			mvGlobalIntepreterLock gil;
 			PyDict_SetItemString(dict, "color", ToPyColor(m_color));
 			PyDict_SetItemString(dict, "wrap", ToPyInt(m_wrap));
@@ -97,9 +101,9 @@ namespace Marvel {
 
 	private:
 
-		mvColor m_color;
-		int     m_wrap;
-		bool    m_bullet;
+		mvColor m_color = {1000, 0, 0, 255, false};
+		int     m_wrap = 0;
+		bool    m_bullet = false;
 
 	};
 
@@ -113,8 +117,8 @@ namespace Marvel {
 
 		MV_APPITEM_TYPE(mvAppItemType::LabelText, "add_label_text")
 
-			mvLabelText(const std::string& name, const std::string& value, mvColor color)
-			: mvStringItemBase(name, value), m_color(color)
+			mvLabelText(const std::string& name, const std::string& value)
+			: mvStringItemBase(name, value)
 		{
 			m_label = FindRenderedTextEnd(m_name.c_str());
 		}
@@ -143,19 +147,23 @@ namespace Marvel {
 
 		void setExtraConfigDict(PyObject* dict) override
 		{
+			if (dict == nullptr)
+				return;
 			mvGlobalIntepreterLock gil;
 			if (PyObject* item = PyDict_GetItemString(dict, "color")) m_color = ToColor(item);
 		}
 
 		void getExtraConfigDict(PyObject* dict) override
 		{
+			if (dict == nullptr)
+				return;
 			mvGlobalIntepreterLock gil;
 			PyDict_SetItemString(dict, "color", ToPyColor(m_color));
 		}
 
 	private:
 
-		mvColor m_color;
+		mvColor m_color = { 1000, 0, 0, 255, false };
 
 	};
 

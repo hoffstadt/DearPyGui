@@ -22,6 +22,9 @@ namespace Marvel {
 			{mvPythonDataType::Integer, "width",""},
 			{mvPythonDataType::Integer, "height","Height of a vertical slider"},
 			{mvPythonDataType::Bool, "on_enter", "Only runs callback on enter"},
+			{mvPythonDataType::String, "label"},
+			{mvPythonDataType::String, "popup"},
+			{mvPythonDataType::Bool, "show"},
 		}, "Adds slider for a single float value. CTRL+Click to directly modify the value.", "None", "Adding Widgets") });
 
 		parsers->insert({ "add_slider_float2", mvPythonParser({
@@ -39,6 +42,9 @@ namespace Marvel {
 			{mvPythonDataType::String, "data_source", "data source for shared data"},
 			{mvPythonDataType::Integer, "width",""},
 			{mvPythonDataType::Bool, "on_enter", "Only runs callback on enter"},
+			{mvPythonDataType::String, "label"},
+			{mvPythonDataType::String, "popup"},
+			{mvPythonDataType::Bool, "show"},
 		}, "Adds slider for a 2 float values. CTRL+Click to directly modify the value.", "None", "Adding Widgets") });
 
 		parsers->insert({ "add_slider_float3", mvPythonParser({
@@ -56,6 +62,9 @@ namespace Marvel {
 			{mvPythonDataType::String, "data_source", "data source for shared data"},
 			{mvPythonDataType::Integer, "width",""},
 			{mvPythonDataType::Bool, "on_enter", "Only runs callback on enter"},
+			{mvPythonDataType::String, "label"},
+			{mvPythonDataType::String, "popup"},
+			{mvPythonDataType::Bool, "show"},
 		}, "Adds slider for a 3 float values. CTRL+Click to directly modify the value.", "None", "Adding Widgets") });
 
 		parsers->insert({ "add_slider_float4", mvPythonParser({
@@ -73,6 +82,9 @@ namespace Marvel {
 			{mvPythonDataType::String, "data_source", "data source for shared data"},
 			{mvPythonDataType::Integer, "width",""},
 			{mvPythonDataType::Bool, "on_enter", "Only runs callback on enter"},
+			{mvPythonDataType::String, "label"},
+			{mvPythonDataType::String, "popup"},
+			{mvPythonDataType::Bool, "show"},
 		}, "Adds slider for a 4 float values. CTRL+Click to directly modify the value.", "None", "Adding Widgets") });
 
 		parsers->insert({ "add_slider_int", mvPythonParser({
@@ -92,6 +104,9 @@ namespace Marvel {
 			{mvPythonDataType::Integer, "width",""},
 			{mvPythonDataType::Integer, "height","Height of a vertical slider"},
 			{mvPythonDataType::Bool, "on_enter", "Only runs callback on enter"},
+			{mvPythonDataType::String, "label"},
+			{mvPythonDataType::String, "popup"},
+			{mvPythonDataType::Bool, "show"},
 		}, "Adds slider for a single int value. CTRL+Click to directly modify the value.", "None", "Adding Widgets") });
 
 		parsers->insert({ "add_slider_int2", mvPythonParser({
@@ -109,6 +124,9 @@ namespace Marvel {
 			{mvPythonDataType::String, "data_source", "data source for shared data"},
 			{mvPythonDataType::Integer, "width",""},
 			{mvPythonDataType::Bool, "on_enter", "Only runs callback on enter"},
+			{mvPythonDataType::String, "label"},
+			{mvPythonDataType::String, "popup"},
+			{mvPythonDataType::Bool, "show"},
 		}, "Adds slider for a 2 int values. CTRL+Click to directly modify the value.", "None", "Adding Widgets") });
 
 		parsers->insert({ "add_slider_int3", mvPythonParser({
@@ -126,6 +144,9 @@ namespace Marvel {
 			{mvPythonDataType::String, "data_source", "data source for shared data"},
 			{mvPythonDataType::Integer, "width",""},
 			{mvPythonDataType::Bool, "on_enter", "Only runs callback on enter"},
+			{mvPythonDataType::String, "label"},
+			{mvPythonDataType::String, "popup"},
+			{mvPythonDataType::Bool, "show"},
 		}, "Adds slider for a 3 int values. CTRL+Click to directly modify the value.", "None", "Adding Widgets") });
 
 		parsers->insert({ "add_slider_int4", mvPythonParser({
@@ -143,6 +164,9 @@ namespace Marvel {
 			{mvPythonDataType::String, "data_source", "data source for shared data"},
 			{mvPythonDataType::Integer, "width",""},
 			{mvPythonDataType::Bool, "on_enter", "Only runs callback on enter"},
+			{mvPythonDataType::String, "label"},
+			{mvPythonDataType::String, "popup"},
+			{mvPythonDataType::Bool, "show"},
 		}, "Adds slider for a 4 int values. CTRL+Click to directly modify the value.", "None", "Adding Widgets") });
 	}
 
@@ -163,10 +187,13 @@ namespace Marvel {
 		int width = 0;
 		int height = 0;
 		int on_enter = false;
+		const char* label = "";
+		const char* popup = "";
+		int show = true;
 
 		if (!(*mvApp::GetApp()->getParsers())["add_slider_float"].parse(args, kwargs, __FUNCTION__, &name, &default_value,
 			&min_value, &max_value, &format, &vertical, &callback, &callback_data, &tip, &parent, &before,
-			&data_source, &width, &height, &on_enter))
+			&data_source, &width, &height, &on_enter, &label, &popup, &show))
 			return ToPyBool(false);
 
 		mvAppItem* item = new mvSliderFloat(name, default_value);
@@ -204,9 +231,13 @@ namespace Marvel {
 		const char* data_source = "";
 		int width = 0;
 		int on_enter = false;
+		const char* label = "";
+		const char* popup = "";
+		int show = true;
 
 		if (!(*mvApp::GetApp()->getParsers())["add_slider_float2"].parse(args, kwargs, __FUNCTION__, &name, &default_value,
-			&min_value, &max_value, &format, &callback, &callback_data, &tip, &parent, &before, &data_source, &width, &on_enter))
+			&min_value, &max_value, &format, &callback, &callback_data, &tip, &parent, &before, &data_source, &width, 
+			&on_enter, &label, &popup, &show))
 			return ToPyBool(false);
 
 		ImGuiInputTextFlags flags = 0;
@@ -250,9 +281,13 @@ namespace Marvel {
 		const char* data_source = "";
 		int width = 0;
 		int on_enter = false;
+		const char* label = "";
+		const char* popup = "";
+		int show = true;
 
 		if (!(*mvApp::GetApp()->getParsers())["add_slider_float3"].parse(args, kwargs, __FUNCTION__, &name, &default_value,
-			&min_value, &max_value, &format, &callback, &callback_data, &tip, &parent, &before, &data_source, &width, &on_enter))
+			&min_value, &max_value, &format, &callback, &callback_data, &tip, &parent, &before, &data_source, &width, 
+			&on_enter, &label, &popup, &show))
 			return ToPyBool(false);
 
 		auto vec = ToFloatVect(default_value);
@@ -292,10 +327,13 @@ namespace Marvel {
 		const char* data_source = "";
 		int width = 0;
 		int on_enter = false;
+		const char* label = "";
+		const char* popup = "";
+		int show = true;
 
 		if (!(*mvApp::GetApp()->getParsers())["add_slider_float4"].parse(args, kwargs, __FUNCTION__, &name, &default_value,
 			&min_value, &max_value, &format, &callback, &callback_data, &tip, &parent, &before, &data_source,
-			&width, &on_enter))
+			&width, &on_enter, &label, &popup, &show))
 			return ToPyBool(false);
 
 		auto vec = ToFloatVect(default_value);
@@ -332,10 +370,13 @@ namespace Marvel {
 		int width = 0;
 		int height = 0;
 		int on_enter = false;
+		const char* label = "";
+		const char* popup = "";
+		int show = true;
 
 		if (!(*mvApp::GetApp()->getParsers())["add_slider_int"].parse(args, kwargs, __FUNCTION__, &name, &default_value,
 			&min_value, &max_value, &format, &vertical, &callback, &callback_data, &tip, &parent, &before, &data_source,
-			&width, &height, &on_enter))
+			&width, &height, &on_enter, &label, &popup, &show))
 			return ToPyBool(false);
 
 		mvAppItem* item = new mvSliderInt(name, default_value);
@@ -373,10 +414,13 @@ namespace Marvel {
 		const char* data_source = "";
 		int width = 0;
 		int on_enter = false;
+		const char* label = "";
+		const char* popup = "";
+		int show = true;
 
 		if (!(*mvApp::GetApp()->getParsers())["add_slider_int2"].parse(args, kwargs, __FUNCTION__, &name, &default_value,
 			&min_value, &max_value, &format, &callback, &callback_data, &tip, &parent, &before, &data_source,
-			&width, &on_enter))
+			&width, &on_enter, &label, &popup, &show))
 			return ToPyBool(false);
 
 		auto vec = ToIntVect(default_value);
@@ -415,10 +459,13 @@ namespace Marvel {
 		const char* data_source = "";
 		int width = 0;
 		int on_enter = false;
+		const char* label = "";
+		const char* popup = "";
+		int show = true;
 
 		if (!(*mvApp::GetApp()->getParsers())["add_slider_int3"].parse(args, kwargs, __FUNCTION__, &name, &default_value,
 			&min_value, &max_value, &format, &callback, &callback_data, &tip, &parent, &before, &data_source,
-			&width, &on_enter))
+			&width, &on_enter, &label, &popup, &show))
 			return ToPyBool(false);
 
 		auto vec = ToIntVect(default_value);
@@ -457,10 +504,13 @@ namespace Marvel {
 		const char* data_source = "";
 		int width = 0;
 		int on_enter = false;
+		const char* label = "";
+		const char* popup = "";
+		int show = true;
 
 		if (!(*mvApp::GetApp()->getParsers())["add_slider_int4"].parse(args, kwargs, __FUNCTION__, &name, &default_value,
 			&min_value, &max_value, &format, &callback, &callback_data, &tip, &parent, &before, &data_source,
-			&width, &on_enter))
+			&width, &on_enter, &label, &popup, &show))
 			return ToPyBool(false);
 
 		auto vec = ToIntVect(default_value);

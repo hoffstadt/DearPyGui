@@ -21,6 +21,9 @@ namespace Marvel {
 			{mvPythonDataType::String, "data_source", "data source for shared data"},
 			{mvPythonDataType::Integer, "width",""},
 			{mvPythonDataType::Bool, "on_enter", "Only runs callback on enter"},
+			{mvPythonDataType::String, "label"},
+			{mvPythonDataType::String, "popup"},
+			{mvPythonDataType::Bool, "show"},
 		}, "Adds drag for a single float value. CTRL+Click to directly modify the value.", "None", "Adding Widgets") });
 
 		parsers->insert({ "add_drag_float2", mvPythonParser({
@@ -39,6 +42,9 @@ namespace Marvel {
 			{mvPythonDataType::String, "data_source", "data source for shared data"},
 			{mvPythonDataType::Integer, "width",""},
 			{mvPythonDataType::Bool, "on_enter", "Only runs callback on enter"},
+			{mvPythonDataType::String, "label"},
+			{mvPythonDataType::String, "popup"},
+			{mvPythonDataType::Bool, "show"},
 		}, "Adds drag for a 2 float values. CTRL+Click to directly modify the value.", "None", "Adding Widgets") });
 
 		parsers->insert({ "add_drag_float3", mvPythonParser({
@@ -57,6 +63,9 @@ namespace Marvel {
 			{mvPythonDataType::String, "data_source", "data source for shared data"},
 			{mvPythonDataType::Integer, "width",""},
 			{mvPythonDataType::Bool, "on_enter", "Only runs callback on enter"},
+			{mvPythonDataType::String, "label"},
+			{mvPythonDataType::String, "popup"},
+			{mvPythonDataType::Bool, "show"},
 		}, "Adds drag for a 3 float values. CTRL+Click to directly modify the value.", "None", "Adding Widgets") });
 
 		parsers->insert({ "add_drag_float4", mvPythonParser({
@@ -75,6 +84,9 @@ namespace Marvel {
 			{mvPythonDataType::String, "data_source", "data source for shared data"},
 			{mvPythonDataType::Integer, "width",""},
 			{mvPythonDataType::Bool, "on_enter", "Only runs callback on enter"},
+			{mvPythonDataType::String, "label"},
+			{mvPythonDataType::String, "popup"},
+			{mvPythonDataType::Bool, "show"},
 		}, "Adds drag for a 4 float values. CTRL+Click to directly modify the value.", "None", "Adding Widgets") });
 
 		parsers->insert({ "add_drag_int", mvPythonParser({
@@ -93,6 +105,9 @@ namespace Marvel {
 			{mvPythonDataType::String, "data_source", "data source for shared data"},
 			{mvPythonDataType::Integer, "width",""},
 			{mvPythonDataType::Bool, "on_enter", "Only runs callback on enter"},
+			{mvPythonDataType::String, "label"},
+			{mvPythonDataType::String, "popup"},
+			{mvPythonDataType::Bool, "show"},
 		}, "Adds drag for a single int value. CTRL+Click to directly modify the value.", "None", "Adding Widgets") });
 
 		parsers->insert({ "add_drag_int2", mvPythonParser({
@@ -111,6 +126,9 @@ namespace Marvel {
 			{mvPythonDataType::String, "data_source", "data source for shared data"},
 			{mvPythonDataType::Integer, "width",""},
 			{mvPythonDataType::Bool, "on_enter", "Only runs callback on enter"},
+			{mvPythonDataType::String, "label"},
+			{mvPythonDataType::String, "popup"},
+			{mvPythonDataType::Bool, "show"},
 		}, "Adds drag for a 2 int values. CTRL+Click to directly modify the value.", "None", "Adding Widgets") });
 
 		parsers->insert({ "add_drag_int3", mvPythonParser({
@@ -129,6 +147,9 @@ namespace Marvel {
 			{mvPythonDataType::String, "data_source", "data source for shared data"},
 			{mvPythonDataType::Integer, "width",""},
 			{mvPythonDataType::Bool, "on_enter", "Only runs callback on enter"},
+			{mvPythonDataType::String, "label"},
+			{mvPythonDataType::String, "popup"},
+			{mvPythonDataType::Bool, "show"},
 		}, "Adds drag for a 3 int values. CTRL+Click to directly modify the value.", "None", "Adding Widgets") });
 
 		parsers->insert({ "add_drag_int4", mvPythonParser({
@@ -147,6 +168,9 @@ namespace Marvel {
 			{mvPythonDataType::String, "data_source", "data source for shared data"},
 			{mvPythonDataType::Integer, "width",""},
 			{mvPythonDataType::Bool, "on_enter", "Only runs callback on enter"},
+			{mvPythonDataType::String, "label"},
+			{mvPythonDataType::String, "popup"},
+			{mvPythonDataType::Bool, "show"},
 		}, "Adds drag for a 4 int values. CTRL+Click to directly modify the value.", "None", "Adding Widgets") });
 	}
 
@@ -166,9 +190,13 @@ namespace Marvel {
 		const char* parent = "";
 		const char* data_source = "";
 		int on_enter = false;
+		const char* label = "";
+		const char* popup = "";
+		int show = true;
 
 		if (!(*mvApp::GetApp()->getParsers())["add_drag_float"].parse(args, kwargs, __FUNCTION__, &name, &default_value, &speed,
-			&min_value, &max_value, &format, &callback, &callback_data, &tip, &parent, &before, &data_source, &width, &on_enter))
+			&min_value, &max_value, &format, &callback, &callback_data, &tip, &parent, &before, &data_source, &width, &on_enter,
+			&label, &popup, &show))
 			return ToPyBool(false);
 
 		std::vector<float> defaults;
@@ -213,9 +241,13 @@ namespace Marvel {
 		const char* data_source = "";
 		int width = 0;
 		int on_enter = false;
+		const char* label = "";
+		const char* popup = "";
+		int show = true;
 
 		if (!(*mvApp::GetApp()->getParsers())["add_drag_float2"].parse(args, kwargs, __FUNCTION__, &name, &default_value, &speed,
-			&min_value, &max_value, &format, &callback, &callback_data, &tip, &parent, &before, &data_source, &width, &on_enter))
+			&min_value, &max_value, &format, &callback, &callback_data, &tip, &parent, &before, &data_source, &width, &on_enter,
+			&label, &popup, &show))
 			return ToPyBool(false);
 
 		auto vec = ToFloatVect(default_value);
@@ -255,9 +287,13 @@ namespace Marvel {
 		const char* data_source = "";
 		int width = 0;
 		int on_enter = false;
+		const char* label = "";
+		const char* popup = "";
+		int show = true;
 
 		if (!(*mvApp::GetApp()->getParsers())["add_drag_float3"].parse(args, kwargs, __FUNCTION__, &name, &default_value, &speed,
-			&min_value, &max_value, &format, &callback, &callback_data, &tip, &parent, &before, &data_source, &width, &on_enter))
+			&min_value, &max_value, &format, &callback, &callback_data, &tip, &parent, &before, &data_source, &width, &on_enter,
+			&label, &popup, &show))
 			return ToPyBool(false);
 
 		auto vec = ToFloatVect(default_value);
@@ -297,9 +333,13 @@ namespace Marvel {
 		const char* data_source = "";
 		int width = 0;
 		int on_enter = false;
+		const char* label = "";
+		const char* popup = "";
+		int show = true;
 
 		if (!(*mvApp::GetApp()->getParsers())["add_drag_float4"].parse(args, kwargs, __FUNCTION__, &name, &default_value, &speed,
-			&min_value, &max_value, &format, &callback, &callback_data, &tip, &parent, &before, &data_source, &width, &on_enter))
+			&min_value, &max_value, &format, &callback, &callback_data, &tip, &parent, &before, &data_source, &width, &on_enter,
+			&label, &popup, &show))
 			return ToPyBool(false);
 
 		auto vec = ToFloatVect(default_value);
@@ -336,9 +376,13 @@ namespace Marvel {
 		const char* data_source = "";
 		int width = 0;
 		int on_enter = false;
+		const char* label = "";
+		const char* popup = "";
+		int show = true;
 
 		if (!(*mvApp::GetApp()->getParsers())["add_drag_int"].parse(args, kwargs, __FUNCTION__, &name, &default_value, &speed,
-			&min_value, &max_value, &format, &callback, &callback_data, &tip, &parent, &before, &data_source, &width, &on_enter))
+			&min_value, &max_value, &format, &callback, &callback_data, &tip, &parent, &before, &data_source, &width, &on_enter,
+			&label, &popup, &show))
 			return ToPyBool(false);
 
 		std::vector<int> defaults;
@@ -383,9 +427,13 @@ namespace Marvel {
 		const char* data_source = "";
 		int width = 0;
 		int on_enter = false;
+		const char* label = "";
+		const char* popup = "";
+		int show = true;
 
 		if (!(*mvApp::GetApp()->getParsers())["add_drag_int2"].parse(args, kwargs, __FUNCTION__, &name, &default_value, &speed,
-			&min_value, &max_value, &format, &callback, &callback_data, &tip, &parent, &before, &data_source, &width, &on_enter))
+			&min_value, &max_value, &format, &callback, &callback_data, &tip, &parent, &before, &data_source, &width, &on_enter,
+			&label, &popup, &show))
 			return ToPyBool(false);
 
 		auto vec = ToIntVect(default_value);
@@ -425,9 +473,13 @@ namespace Marvel {
 		const char* data_source = "";
 		int width = 0;
 		int on_enter = false;
+		const char* label = "";
+		const char* popup = "";
+		int show = true;
 
 		if (!(*mvApp::GetApp()->getParsers())["add_drag_int3"].parse(args, kwargs, __FUNCTION__, &name, &default_value, &speed,
-			&min_value, &max_value, &format, &callback, &callback_data, &tip, &parent, &before, &data_source, &width, &on_enter))
+			&min_value, &max_value, &format, &callback, &callback_data, &tip, &parent, &before, &data_source, &width, &on_enter,
+			&label, &popup, &show))
 			return ToPyBool(false);
 
 		auto vec = ToIntVect(default_value);
@@ -467,9 +519,13 @@ namespace Marvel {
 		const char* data_source = "";
 		int width = 0;
 		int on_enter = false;
+		const char* label = "";
+		const char* popup = "";
+		int show = true;
 
 		if (!(*mvApp::GetApp()->getParsers())["add_drag_int4"].parse(args, kwargs, __FUNCTION__, &name, &default_value, &speed,
-			&min_value, &max_value, &format, &callback, &callback_data, &tip, &parent, &before, &data_source, &width, &on_enter))
+			&min_value, &max_value, &format, &callback, &callback_data, &tip, &parent, &before, &data_source, &width, &on_enter,
+			&label, &popup, &show))
 			return ToPyBool(false);
 
 		auto vec = ToIntVect(default_value);

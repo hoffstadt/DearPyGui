@@ -27,7 +27,7 @@ namespace Marvel {
 
 		MV_APPITEM_TYPE(AppItemType, "add_color_edit3")
 
-			mvColorItem(const std::string& name, mvColor color)
+		mvColorItem(const std::string& name, mvColor color)
 			: mvColorItemBase(name, color)
 		{}
 

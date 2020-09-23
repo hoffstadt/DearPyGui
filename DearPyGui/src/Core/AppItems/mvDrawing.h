@@ -374,11 +374,9 @@ namespace Marvel {
 
 		MV_APPITEM_TYPE(mvAppItemType::Drawing, "add_drawing")
 
-		mvDrawing(const std::string& name, int width, int height)
+		mvDrawing(const std::string& name)
 			: mvAppItem(name)
 		{
-			m_width = width;
-			m_height = height;
 		}
 
 		~mvDrawing()  override
@@ -418,6 +416,8 @@ namespace Marvel {
 
 		void setExtraConfigDict(PyObject* dict) override
 		{
+			if (dict == nullptr)
+				return;
 			mvGlobalIntepreterLock gil;
 			if (PyObject* item = PyDict_GetItemString(dict, "originx")) { m_originx = ToFloat(item); m_dirty = true; }
 			if (PyObject* item = PyDict_GetItemString(dict, "originy")) { m_originy = ToFloat(item); m_dirty = true; }
@@ -427,6 +427,8 @@ namespace Marvel {
 
 		void getExtraConfigDict(PyObject* dict) override
 		{
+			if (dict == nullptr)
+				return;
 			mvGlobalIntepreterLock gil;
 			PyDict_SetItemString(dict, "originx", ToPyFloat(m_originx));
 			PyDict_SetItemString(dict, "origin", ToPyFloat(m_originy));

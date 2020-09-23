@@ -20,10 +20,20 @@ namespace Marvel{
 		MV_APPITEM_TYPE(mvAppItemType::SimplePlot, "add_simple_plot")
 
 	public:
-		mvSimplePlot(const std::string& name, std::vector<float> value,
-               std::string overlay, float scale_min, float scale_max, float height, bool histogram)
-			: mvAppItem(name), m_value(std::move(value)), m_overlay(std::move(overlay)), m_min(scale_min), m_max(scale_max), m_height(height), m_histogram(histogram)
+		mvSimplePlot(const std::string& name, std::vector<float> value)
+			: mvAppItem(name), m_value(std::move(value))
 		{
+
+			m_max = m_value[0];
+			m_min = m_value[0];
+
+			for (auto& item : m_value)
+			{
+				if (item > m_max)
+					m_max = item;
+				if (item < m_min)
+					m_min = item;
+			}
 		}
 
 		void draw() override
@@ -60,17 +70,41 @@ namespace Marvel{
 			return ToPyList(m_value);
 		}
 
-		void setValue(const std::vector<float>& value){ m_value = value;}
+		void setValue(const std::vector<float>& value)
+		{ 
+			m_value = value;
+		}
 		[[nodiscard]] const std::vector<float>& getValue() const { return m_value; }
+
+		void setExtraConfigDict(PyObject* dict) override
+		{
+			if (dict == nullptr)
+				return;
+			mvGlobalIntepreterLock gil;
+			if (PyObject* item = PyDict_GetItemString(dict, "overlay")) m_overlay = ToString(item);
+			if (PyObject* item = PyDict_GetItemString(dict, "minscale")) m_min = ToFloat(item);
+			if (PyObject* item = PyDict_GetItemString(dict, "maxscale")) m_max = ToFloat(item);
+			if (PyObject* item = PyDict_GetItemString(dict, "histogram")) m_histogram = ToBool(item);
+		}
+
+		void getExtraConfigDict(PyObject* dict) override
+		{
+			if (dict == nullptr)
+				return;
+			mvGlobalIntepreterLock gil;
+			PyDict_SetItemString(dict, "overlay", ToPyString(m_overlay));
+			PyDict_SetItemString(dict, "minscale", ToPyFloat(m_min));
+			PyDict_SetItemString(dict, "maxscale", ToPyFloat(m_max));
+			PyDict_SetItemString(dict, "histogram", ToPyBool(m_histogram));
+		}
 
 	private:
 
 		std::vector<float> m_value;
 		std::string        m_overlay;
-		float              m_min;
-		float              m_max;
-		float              m_height;
-		bool               m_histogram;
+		float              m_min = 0.0f;
+		float              m_max = 0.0f;
+		bool               m_histogram = false;
 
 	};
 

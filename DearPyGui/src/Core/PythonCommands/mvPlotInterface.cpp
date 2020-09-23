@@ -52,6 +52,8 @@ namespace Marvel {
 			{mvPythonDataType::Float, "scale_min"},
 			{mvPythonDataType::Float, "scale_max"},
 			{mvPythonDataType::Integer, "scale_height"},
+			{mvPythonDataType::String, "label"},
+			{mvPythonDataType::Bool, "show"},
 
 		}, "Adds a plot widget.", "None", "Plotting") });
 
@@ -662,6 +664,9 @@ namespace Marvel {
 		float scale_max = 1.0f;
 		int scale_height = 100;
 
+		const char* label = "";
+		int show = true;
+
 		if (!(*mvApp::GetApp()->getParsers())["add_plot"].parse(args, kwargs, __FUNCTION__, &name, &xAxisName, &yAxisName,
 			&no_legend, &no_menus, &no_box_select, &no_mouse_pos, &no_highlight, &no_child, &query, &crosshairs, &antialiased,
 			&xaxis_no_gridlines,
@@ -680,47 +685,15 @@ namespace Marvel {
 			&yaxis_lock_min,
 			&yaxis_lock_max,
 			&parent, &before, &width, &height, &query_callback, &show_color_scale, &scale_min, &scale_max,
-			&scale_height))
+			&scale_height, &label, &show))
 			return ToPyBool(false);
 
-		int flags = 0;
-		int xflags = 0;
-		int yflags = 0;
 
-		// plot flags
-		if (no_legend)     flags |= ImPlotFlags_NoLegend;
-		if (no_menus)      flags |= ImPlotFlags_NoMenus;
-		if (no_box_select) flags |= ImPlotFlags_NoBoxSelect;
-		if (no_mouse_pos)  flags |= ImPlotFlags_NoMousePos;
-		if (no_highlight)  flags |= ImPlotFlags_NoHighlight;
-		if (no_child)	  flags |= ImPlotFlags_NoChild;
-		if (query)         flags |= ImPlotFlags_Query;
-		if (crosshairs)    flags |= ImPlotFlags_Crosshairs;
-		if (antialiased)   flags |= ImPlotFlags_AntiAliased;
+		mvAppItem* item = new mvPlot(name, query_callback);
 
-		// x axis flags
-		if (xaxis_no_gridlines)   xflags |= ImPlotAxisFlags_NoGridLines;
-		if (xaxis_no_tick_marks)  xflags |= ImPlotAxisFlags_NoTickMarks;
-		if (xaxis_no_tick_labels) xflags |= ImPlotAxisFlags_NoTickLabels;
-		if (xaxis_log_scale)      xflags |= ImPlotAxisFlags_LogScale;
-		if (xaxis_time)           xflags |= ImPlotAxisFlags_Time;
-		if (xaxis_invert)         xflags |= ImPlotAxisFlags_Invert;
-		if (xaxis_lock_min)       xflags |= ImPlotAxisFlags_LockMin;
-		if (xaxis_lock_max)       xflags |= ImPlotAxisFlags_LockMax;
-
-		// y axis flags
-		if (yaxis_no_gridlines)   yflags |= ImPlotAxisFlags_NoGridLines;
-		if (yaxis_no_tick_marks)  yflags |= ImPlotAxisFlags_NoTickMarks;
-		if (yaxis_no_tick_labels) yflags |= ImPlotAxisFlags_NoTickLabels;
-		if (yaxis_log_scale)      yflags |= ImPlotAxisFlags_LogScale;
-		if (yaxis_invert)         yflags |= ImPlotAxisFlags_Invert;
-		if (yaxis_lock_min)       yflags |= ImPlotAxisFlags_LockMin;
-		if (yaxis_lock_max)       yflags |= ImPlotAxisFlags_LockMax;
-
-		mvAppItem* item = new mvPlot(name, xAxisName, yAxisName, show_color_scale,
-			scale_min, scale_max, scale_height, flags, xflags, yflags, query_callback);
-		item->setWidth(width);
-		item->setHeight(height);
+		item->checkConfigDict(kwargs);
+		item->setConfigDict(kwargs);
+		item->setExtraConfigDict(kwargs);
 
 		return ToPyBool(AddItemWithRuntimeChecks(item, parent, before));
 	}

@@ -21,9 +21,8 @@ namespace Marvel {
 
 		MV_APPITEM_TYPE(mvAppItemType::InputText, "add_input_text")
 
-		mvInputText(const std::string& name, const std::string& default_value,
-              std::string  hint, bool multiline, ImGuiInputTextFlags flags)
-			: mvStringItemBase(name, default_value), m_hint(std::move(hint)), m_multiline(multiline), m_flags(flags)
+		mvInputText(const std::string& name, const std::string& default_value)
+			: mvStringItemBase(name, default_value)
 		{
 		}
 
@@ -90,6 +89,8 @@ namespace Marvel {
 
 		void setExtraConfigDict(PyObject* dict) override
 		{
+			if (dict == nullptr)
+				return;
 			mvGlobalIntepreterLock gil;
 			if (PyObject* item = PyDict_GetItemString(dict, "hint")) m_hint = ToString(item);
 			if (PyObject* item = PyDict_GetItemString(dict, "multiline")) m_multiline = ToBool(item);
@@ -112,6 +113,8 @@ namespace Marvel {
 
 		void getExtraConfigDict(PyObject* dict) override
 		{
+			if (dict == nullptr)
+				return;
 			mvGlobalIntepreterLock gil;
 			PyDict_SetItemString(dict, "hint", ToPyString(m_hint));
 			PyDict_SetItemString(dict, "multline", ToPyBool(m_multiline));
@@ -136,7 +139,7 @@ namespace Marvel {
 
 		std::string         m_hint;
 		bool                m_multiline;
-		ImGuiInputTextFlags m_flags;
+		ImGuiInputTextFlags m_flags = 0;
 
 	};
 

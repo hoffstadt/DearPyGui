@@ -85,7 +85,6 @@ namespace Marvel {
 		{
 			if (dict == nullptr)
 				return;
-
 			mvGlobalIntepreterLock gil;
 
 			// helper for bit flipping
@@ -103,7 +102,6 @@ namespace Marvel {
 		{
 			if (dict == nullptr)
 				return;
-
 			mvGlobalIntepreterLock gil;
 
 			// helper to check and set bit

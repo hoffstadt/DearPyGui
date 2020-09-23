@@ -24,8 +24,8 @@ namespace Marvel {
 
 		MV_APPITEM_TYPE(mvAppItemType::TimePicker, "add_time_picker")
 
-		mvTimePicker(const std::string& name, tm default_value, bool hour24)
-			: mvTimeItemBase(name, default_value), m_hour24(hour24)
+		mvTimePicker(const std::string& name, tm default_value)
+			: mvTimeItemBase(name, default_value)
 		{
 		}
 
@@ -41,6 +41,22 @@ namespace Marvel {
 
 
 			popColorStyles();
+		}
+
+		void setExtraConfigDict(PyObject* dict) override
+		{
+			if (dict == nullptr)
+				return;
+			mvGlobalIntepreterLock gil;
+			if (PyObject* item = PyDict_GetItemString(dict, "hour24")) m_hour24 = ToBool(item);
+		}
+
+		void getExtraConfigDict(PyObject* dict) override
+		{
+			if (dict == nullptr)
+				return;
+			mvGlobalIntepreterLock gil;
+			PyDict_SetItemString(dict, "hour24", ToPyBool(m_hour24));
 		}
 
 	private:

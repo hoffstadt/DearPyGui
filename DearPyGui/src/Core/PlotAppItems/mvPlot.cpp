@@ -64,29 +64,11 @@ namespace Marvel {
 		m_extra3 = points;
 	}
 
-	mvPlot::mvPlot(const std::string& name, std::string  xname,
-		std::string yname, bool colormapScale, float scale_min, float scale_max, int scale_height, ImPlotFlags flags,
-		ImPlotAxisFlags xflags, ImPlotAxisFlags yflags, PyObject* queryCallback)
-		: mvAppItem(name), m_xaxisName(std::move(xname)), m_yaxisName(std::move(yname)),
-		m_flags(flags), m_xflags(xflags), m_yflags(yflags), m_queryCallback(queryCallback), 
-		m_colormapscale(colormapScale), m_scale_min(scale_min), m_scale_max(scale_max), 
-		m_scale_height(scale_height)
+	mvPlot::mvPlot(const std::string& name, PyObject* queryCallback)
+		: mvAppItem(name), m_queryCallback(queryCallback)
 	{
-	}
-
-	void mvPlot::configure(std::string  xname,
-		std::string yname, bool colormapScale, float scale_min, float scale_max, int scale_height, ImPlotFlags flags,
-		ImPlotAxisFlags xflags, ImPlotAxisFlags yflags)
-	{
-		m_xaxisName = std::move(xname);
-		m_yaxisName = std::move(yname);
-		m_colormapscale = colormapScale;
-		m_scale_min = scale_min;
-		m_scale_max = scale_max;
-		m_scale_height = scale_height;
-		m_flags = flags;
-		m_xflags = xflags;
-		m_yflags = yflags;
+		m_width = -1;
+		m_height = -1;
 	}
 
 	void mvPlot::addSeries(mvSeries* series, bool updateBounds)

@@ -26,8 +26,8 @@ namespace Marvel {
 
 		MV_APPITEM_TYPE(mvAppItemType::InputInt, "add_image")
 
-		mvImage(const std::string& name, std::string  default_value, mvColor tint, mvColor border, const mvVec2& uv_min, const mvVec2& uv_max)
-			: mvAppItem(name) , m_value(std::move(default_value)), m_uv_min(uv_min), m_uv_max(uv_max), m_tintColor(tint), m_borderColor(border)
+		mvImage(const std::string& name, std::string default_value)
+			: mvAppItem(name) , m_value(std::move(default_value))
 		{
 		}
 
@@ -120,6 +120,8 @@ namespace Marvel {
 
 		void setExtraConfigDict(PyObject* dict) override
 		{
+			if (dict == nullptr)
+				return;
 			mvGlobalIntepreterLock gil;
 			if (PyObject* item = PyDict_GetItemString(dict, "uv_min")) m_uv_min = ToVec2(item);
 			if (PyObject* item = PyDict_GetItemString(dict, "uv_max")) m_uv_max = ToVec2(item);
@@ -129,6 +131,8 @@ namespace Marvel {
 
 		void getExtraConfigDict(PyObject* dict) override
 		{
+			if (dict == nullptr)
+				return;
 			mvGlobalIntepreterLock gil;
 			PyDict_SetItemString(dict, "uv_min", ToPyPair(m_uv_min.x, m_uv_min.y));
 			PyDict_SetItemString(dict, "uv_max", ToPyPair(m_uv_max.x, m_uv_max.y));
@@ -139,10 +143,10 @@ namespace Marvel {
 	private:
 
 		std::string m_value;
-		mvVec2	    m_uv_min;
-		mvVec2	    m_uv_max;
-		mvColor     m_tintColor;
-		mvColor     m_borderColor;
+		mvVec2	    m_uv_min = {0.0f, 0.0f};
+		mvVec2	    m_uv_max = {1.0f, 1.0f};
+		mvColor     m_tintColor = {255, 255, 255, 255, true};
+		mvColor     m_borderColor = {0, 0, 0, 0, true};
 		void*       m_texture = nullptr;
 
 	};
@@ -157,10 +161,8 @@ namespace Marvel {
 
 		MV_APPITEM_TYPE(mvAppItemType::ImageButton, "add_image_button")
 
-		mvImageButton(const std::string& name, std::string  default_value, mvColor tint,
-				mvColor backgroundColor, const mvVec2& uv_min, const mvVec2& uv_max, int framePadding)
-			: mvAppItem(name), m_value(std::move(default_value)), m_uv_min(uv_min), m_uv_max(uv_max), m_tintColor(tint), 
-			m_backgroundColor(backgroundColor), m_framePadding(framePadding)
+		mvImageButton(const std::string& name, std::string  default_value)
+			: mvAppItem(name), m_value(std::move(default_value))
 		{
 		}
 
@@ -281,12 +283,12 @@ namespace Marvel {
 	private:
 
 		std::string m_value;
-		mvVec2	    m_uv_min;
-		mvVec2	    m_uv_max;
-		mvColor     m_tintColor;
-		mvColor     m_backgroundColor;
+		mvVec2	    m_uv_min = { 0.0f, 0.0f };
+		mvVec2	    m_uv_max = {1.0f, 1.0f};
+		mvColor     m_tintColor = {255, 255, 255, 255, true};
+		mvColor     m_backgroundColor = {0, 0, 0, 0, true};
 		void*       m_texture = nullptr;
-		int         m_framePadding;
+		int         m_framePadding = -1;
 
 	};
 
