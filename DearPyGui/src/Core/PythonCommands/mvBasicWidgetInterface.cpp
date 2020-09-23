@@ -708,16 +708,17 @@ namespace Marvel {
 			&arrow, &direction, &callback, &callback_data, &tip, &parent, &before, &width, &height))
 			return ToPyBool(false);
 
-		mvAppItem* item = new mvButton(name, smallb, arrow, direction);
+		mvAppItem* item = new mvButton(name);
 		if (callback)
 			Py_XINCREF(callback);
 		item->setCallback(callback);
 		if (callback_data)
 			Py_XINCREF(callback_data);
 		item->setCallbackData(callback_data);
-		item->setTip(tip);
-		item->setWidth(width);
-		item->setHeight(height);
+
+		item->checkConfigDict(kwargs);
+		item->setConfigDict(kwargs);
+		item->setExtraConfigDict(kwargs);
 		return ToPyBool(AddItemWithRuntimeChecks(item, parent, before));
 	}
 
