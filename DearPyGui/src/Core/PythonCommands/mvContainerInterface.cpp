@@ -8,6 +8,7 @@ namespace Marvel {
 		parsers->insert({ "add_menu_bar", mvPythonParser({
 			{mvPythonDataType::String, "name"},
 			{mvPythonDataType::KeywordOnly},
+			{mvPythonDataType::Bool, "show", "sets if the item is shown or not window."},
 			{mvPythonDataType::String, "parent", "Parent this item will be added to. (runtime adding)"},
 			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)"},
 		}, "Adds a menu bar to a window. Must be followed by a call to end_menu_bar.", "None", "Containers") });
@@ -146,11 +147,12 @@ namespace Marvel {
 	PyObject* add_menu_bar(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		const char* name;
+		int show = true;
 		const char* before = "";
 		const char* parent = "";
 
 		if (!(*mvApp::GetApp()->getParsers())["add_menu_bar"].parse(args, kwargs, __FUNCTION__, &name,
-			&parent, &before))
+			&show, &parent, &before))
 			return ToPyBool(false);
 
 		auto parentItem = mvApp::GetApp()->topParent();
