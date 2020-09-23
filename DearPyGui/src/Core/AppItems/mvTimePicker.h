@@ -22,7 +22,7 @@ namespace Marvel {
 
 	public:
 
-		MV_APPITEM_TYPE(mvAppItemType::TimePicker)
+		MV_APPITEM_TYPE(mvAppItemType::TimePicker, "add_time_picker")
 
 		mvTimePicker(const std::string& name, tm default_value, bool hour24)
 			: mvTimeItemBase(name, default_value), m_hour24(hour24)
