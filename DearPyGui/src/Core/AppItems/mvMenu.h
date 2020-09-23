@@ -215,7 +215,7 @@ namespace Marvel {
 	private:
 
 		std::string m_shortcut;
-		bool        m_check;
+		bool        m_check = false;
 
 	};
 
