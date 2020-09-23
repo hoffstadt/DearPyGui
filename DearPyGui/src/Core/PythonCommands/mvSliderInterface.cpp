@@ -169,21 +169,19 @@ namespace Marvel {
 			&data_source, &width, &height, &on_enter))
 			return ToPyBool(false);
 
-		ImGuiInputTextFlags flags = 0;
-		if (on_enter)
-			flags = ImGuiInputTextFlags_EnterReturnsTrue;
-
-		mvAppItem* item = new mvSliderFloat(name, default_value, min_value, max_value, format, vertical, flags);
+		mvAppItem* item = new mvSliderFloat(name, default_value);
 		if (callback)
 			Py_XINCREF(callback);
 		item->setCallback(callback);
 		if (callback_data)
 			Py_XINCREF(callback_data);
 		item->setCallbackData(callback_data);
-		item->setTip(tip);
+
+		item->checkConfigDict(kwargs);
+		item->setConfigDict(kwargs);
+		item->setExtraConfigDict(kwargs);
+
 		item->setDataSource(data_source);
-		item->setWidth(width);
-		item->setHeight(height);
 		return ToPyBool(AddItemWithRuntimeChecks(item, parent, before));
 	}
 
@@ -217,16 +215,19 @@ namespace Marvel {
 
 		auto vec = ToFloatVect(default_value);
 
-		mvAppItem* item = new mvSliderFloatMulti<mvAppItemType::SliderFloat2, 2, ImGui::SliderFloat2, float>(name, vec.data(), min_value, max_value, format, flags);
+		mvAppItem* item = new mvSliderFloatMulti<mvAppItemType::SliderFloat2, 2, ImGui::SliderFloat2, float>(name, vec.data());
 		if (callback)
 			Py_XINCREF(callback);
 		item->setCallback(callback);
 		if (callback_data)
 			Py_XINCREF(callback_data);
 		item->setCallbackData(callback_data);
-		item->setTip(tip);
+
+		item->checkConfigDict(kwargs);
+		item->setConfigDict(kwargs);
+		item->setExtraConfigDict(kwargs);
+
 		item->setDataSource(data_source);
-		item->setWidth(width);
 		return ToPyBool(AddItemWithRuntimeChecks(item, parent, before));
 	}
 
@@ -254,22 +255,21 @@ namespace Marvel {
 			&min_value, &max_value, &format, &callback, &callback_data, &tip, &parent, &before, &data_source, &width, &on_enter))
 			return ToPyBool(false);
 
-		ImGuiInputTextFlags flags = 0;
-		if (on_enter)
-			flags = ImGuiInputTextFlags_EnterReturnsTrue;
-
 		auto vec = ToFloatVect(default_value);
 
-		mvAppItem* item = new mvSliderFloatMulti<mvAppItemType::SliderFloat3, 3, ImGui::SliderFloat3, float>(name, vec.data(), min_value, max_value, format, flags);
+		mvAppItem* item = new mvSliderFloatMulti<mvAppItemType::SliderFloat3, 3, ImGui::SliderFloat3, float>(name, vec.data());
 		if (callback)
 			Py_XINCREF(callback);
 		item->setCallback(callback);
 		if (callback_data)
 			Py_XINCREF(callback_data);
 		item->setCallbackData(callback_data);
-		item->setTip(tip);
+
+		item->checkConfigDict(kwargs);
+		item->setConfigDict(kwargs);
+		item->setExtraConfigDict(kwargs);
+
 		item->setDataSource(data_source);
-		item->setWidth(width);
 		return ToPyBool(AddItemWithRuntimeChecks(item, parent, before));
 	}
 
@@ -298,21 +298,20 @@ namespace Marvel {
 			&width, &on_enter))
 			return ToPyBool(false);
 
-		ImGuiInputTextFlags flags = 0;
-		if (on_enter)
-			flags = ImGuiInputTextFlags_EnterReturnsTrue;
-
 		auto vec = ToFloatVect(default_value);
-		mvAppItem* item = new mvSliderFloatMulti<mvAppItemType::SliderFloat4, 4, ImGui::SliderFloat4, float>(name, vec.data(), min_value, max_value, format, flags);
+		mvAppItem* item = new mvSliderFloatMulti<mvAppItemType::SliderFloat4, 4, ImGui::SliderFloat4, float>(name, vec.data());
 		if (callback)
 			Py_XINCREF(callback);
 		item->setCallback(callback);
 		if (callback_data)
 			Py_XINCREF(callback_data);
 		item->setCallbackData(callback_data);
-		item->setTip(tip);
+
+		item->checkConfigDict(kwargs);
+		item->setConfigDict(kwargs);
+		item->setExtraConfigDict(kwargs);
+
 		item->setDataSource(data_source);
-		item->setWidth(width);
 		return ToPyBool(AddItemWithRuntimeChecks(item, parent, before));
 	}
 
@@ -339,21 +338,19 @@ namespace Marvel {
 			&width, &height, &on_enter))
 			return ToPyBool(false);
 
-		ImGuiInputTextFlags flags = 0;
-		if (on_enter)
-			flags = ImGuiInputTextFlags_EnterReturnsTrue;
-
-		mvAppItem* item = new mvSliderInt(name, default_value, min_value, max_value, format, vertical, flags);
+		mvAppItem* item = new mvSliderInt(name, default_value);
 		if (callback)
 			Py_XINCREF(callback);
 		item->setCallback(callback);
 		if (callback_data)
 			Py_XINCREF(callback_data);
 		item->setCallbackData(callback_data);
-		item->setTip(tip);
+
+		item->checkConfigDict(kwargs);
+		item->setConfigDict(kwargs);
+		item->setExtraConfigDict(kwargs);
+
 		item->setDataSource(data_source);
-		item->setWidth(width);
-		item->setHeight(height);
 		return ToPyBool(AddItemWithRuntimeChecks(item, parent, before));
 	}
 
@@ -382,21 +379,20 @@ namespace Marvel {
 			&width, &on_enter))
 			return ToPyBool(false);
 
-		ImGuiInputTextFlags flags = 0;
-		if (on_enter)
-			flags = ImGuiInputTextFlags_EnterReturnsTrue;
-
 		auto vec = ToIntVect(default_value);
-		mvAppItem* item = new mvSliderIntMulti<mvAppItemType::SliderInt2, 2, ImGui::SliderInt2, int>(name, vec.data(), min_value, max_value, format, flags);
+		mvAppItem* item = new mvSliderIntMulti<mvAppItemType::SliderInt2, 2, ImGui::SliderInt2, int>(name, vec.data());
 		if (callback)
 			Py_XINCREF(callback);
 		item->setCallback(callback);
 		if (callback_data)
 			Py_XINCREF(callback_data);
 		item->setCallbackData(callback_data);
-		item->setTip(tip);
+
+		item->checkConfigDict(kwargs);
+		item->setConfigDict(kwargs);
+		item->setExtraConfigDict(kwargs);
+
 		item->setDataSource(data_source);
-		item->setWidth(width);
 		return ToPyBool(AddItemWithRuntimeChecks(item, parent, before));
 	}
 
@@ -425,22 +421,20 @@ namespace Marvel {
 			&width, &on_enter))
 			return ToPyBool(false);
 
-		ImGuiInputTextFlags flags = 0;
-		if (on_enter)
-			flags = ImGuiInputTextFlags_EnterReturnsTrue;
-
 		auto vec = ToIntVect(default_value);
-		mvAppItem* item = new mvSliderIntMulti<mvAppItemType::SliderInt3, 3, ImGui::SliderInt3, int>(name, vec.data(), min_value, max_value, format, flags);
+		mvAppItem* item = new mvSliderIntMulti<mvAppItemType::SliderInt3, 3, ImGui::SliderInt3, int>(name, vec.data());
 		if (callback)
 			Py_XINCREF(callback);
 		item->setCallback(callback);
 		if (callback_data)
 			Py_XINCREF(callback_data);
 		item->setCallbackData(callback_data);
-		item->setTip(tip);
-		item->setDataSource(data_source);
-		item->setWidth(width);
 
+		item->checkConfigDict(kwargs);
+		item->setConfigDict(kwargs);
+		item->setExtraConfigDict(kwargs);
+
+		item->setDataSource(data_source);
 		return ToPyBool(AddItemWithRuntimeChecks(item, parent, before));
 	}
 
@@ -469,21 +463,20 @@ namespace Marvel {
 			&width, &on_enter))
 			return ToPyBool(false);
 
-		ImGuiInputTextFlags flags = 0;
-		if (on_enter)
-			flags = ImGuiInputTextFlags_EnterReturnsTrue;
-
 		auto vec = ToIntVect(default_value);
-		mvAppItem* item = new mvSliderIntMulti<mvAppItemType::SliderInt4, 4, ImGui::SliderInt4, int>(name, vec.data(), min_value, max_value, format, flags);
+		mvAppItem* item = new mvSliderIntMulti<mvAppItemType::SliderInt4, 4, ImGui::SliderInt4, int>(name, vec.data());
 		if (callback)
 			Py_XINCREF(callback);
 		item->setCallback(callback);
 		if (callback_data)
 			Py_XINCREF(callback_data);
 		item->setCallbackData(callback_data);
-		item->setTip(tip);
+
+		item->checkConfigDict(kwargs);
+		item->setConfigDict(kwargs);
+		item->setExtraConfigDict(kwargs);
+
 		item->setDataSource(data_source);
-		item->setWidth(width);
 		return ToPyBool(AddItemWithRuntimeChecks(item, parent, before));
 	}
 }

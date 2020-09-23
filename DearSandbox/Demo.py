@@ -253,9 +253,9 @@ with window("Widgets##dialog", 500, 500, show=False):
         with tab("Basic Widgets##widget"):
             add_button("Button##widget")
             add_checkbox("Checkbox##widget")
-            add_combo("Combo##widget", ("Item 1", "Item 2", "item 3"))
-            add_radio_button("Radio Button##widget", ("Item 1", "Item 2", "item 3"), horizontal=True)
-            add_listbox("Listbox##widget", ("Item 1", "Item 2", "item 3"))
+            add_combo("Combo##widget", items=("Item 1", "Item 2", "item 3"))
+            add_radio_button("Radio Button##widget", items=("Item 1", "Item 2", "item 3"), horizontal=True)
+            add_listbox("Listbox##widget", items=("Item 1", "Item 2", "item 3"))
             add_progress_bar("Progress Bar##widget", 0.45, overlay="Progress Bar", height = 100)
             add_text("Text")
             add_selectable("Selectable##widget")
@@ -347,7 +347,7 @@ with window("Logging##dialog", 500, 500, autosize=True, show=False):
     add_same_line(spacing=10)
     with group("LoggingGroup"):
         add_text("Log Level")
-        add_radio_button("Log Level##logging", ("Trace", "Debug", "Info", "Warning", "Error", "Off"))
+        add_radio_button("Log Level##logging", items=("Trace", "Debug", "Info", "Warning", "Error", "Off"))
 
 ########################################################################################################################
 # Plots
@@ -405,8 +405,8 @@ with window("Plots, Graphs and Charts##dialog", 500, 500, show=False):
 
         with tab("Plot Widget"):
             add_button("Plot data", callback=PlotCallback)
-            add_listbox("Colormaps", ("Default", "Dark", "Pastel", "Paired", "Viridis", "Plasma", "Hot", 
-                                      "Cool", "Pink", "Jet"), width=500, height=3, callback=colormapCallback)
+            add_listbox("Colormaps", items=("Default", "Dark", "Pastel", "Paired", "Viridis", "Plasma", "Hot", 
+                                      "Cool", "Pink", "Jet"), width=500, num_items=3, callback=colormapCallback)
             add_plot("Plot", "x-axis", "y-axis", height=-1)
 
         with tab("Simple Plots"):

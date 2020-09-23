@@ -132,8 +132,8 @@ namespace Marvel {
 
 		parsers->insert({ "add_listbox", mvPythonParser({
 			{mvPythonDataType::String, "name", "Name of the listbox"},
-			{mvPythonDataType::StringList, "items"},
 			{mvPythonDataType::KeywordOnly},
+			{mvPythonDataType::StringList, "items"},
 			{mvPythonDataType::Integer, "default_value"},
 			{mvPythonDataType::Object, "callback", "Registers a callback"},
 			{mvPythonDataType::Object, "callback_data", "Callback data"},
@@ -142,13 +142,13 @@ namespace Marvel {
 			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)"},
 			{mvPythonDataType::String, "data_source", "data source for shared data"},
 			{mvPythonDataType::Integer, "width",""},
-			{mvPythonDataType::Integer, "height", "number of items to show"}
+			{mvPythonDataType::Integer, "num_items", "number of items to show"}
 		}, "Adds a listbox.", "None", "Adding Widgets") });
 
 		parsers->insert({ "add_combo", mvPythonParser({
 			{mvPythonDataType::String, "name"},
-			{mvPythonDataType::StringList, "items"},
 			{mvPythonDataType::KeywordOnly},
+			{mvPythonDataType::StringList, "items"},
 			{mvPythonDataType::String, "default_value"},
 			{mvPythonDataType::Object, "callback", "Registers a callback"},
 			{mvPythonDataType::Object, "callback_data", "Callback data"},
@@ -223,8 +223,8 @@ namespace Marvel {
 
 		parsers->insert({ "add_radio_button", mvPythonParser({
 			{mvPythonDataType::String, "name"},
-			{mvPythonDataType::StringList, "items"},
 			{mvPythonDataType::KeywordOnly},
+			{mvPythonDataType::StringList, "items"},
 			{mvPythonDataType::Integer, "default_value"},
 			{mvPythonDataType::Object, "callback", "Registers a callback"},
 			{mvPythonDataType::Object, "callback_data", "Callback data"},
@@ -426,10 +426,12 @@ namespace Marvel {
 			&overlay, &tip, &parent, &before, &data_source, &width, &height))
 			return ToPyBool(false);
 
-		mvAppItem* item = new mvProgressBar(name, default_value, overlay);
-		item->setTip(tip);
-		item->setWidth(width);
-		item->setHeight(height);
+		mvAppItem* item = new mvProgressBar(name, default_value);
+
+		item->checkConfigDict(kwargs);
+		item->setConfigDict(kwargs);
+		item->setExtraConfigDict(kwargs);
+
 		item->setDataSource(data_source);
 
 		return ToPyBool(AddItemWithRuntimeChecks(item, parent, before));
@@ -604,27 +606,29 @@ namespace Marvel {
 		PyObject* callback_data = nullptr;
 		const char* tip = "";
 		int width = 0;
-		int height = 3;
+		int num_items = 3;
 		const char* before = "";
 		const char* parent = "";
 		const char* data_source = "";
 
 		if (!(*mvApp::GetApp()->getParsers())["add_listbox"].parse(args, kwargs, __FUNCTION__, &name, &items,
 			&default_value, &callback, &callback_data, &tip, &parent, &before, &data_source, &width,
-			&height))
+			&num_items))
 			return ToPyBool(false);
 
-		mvAppItem* item = new mvListbox(name, ToStringVect(items),
-			default_value, height);
+		mvAppItem* item = new mvListbox(name, default_value);
 		if (callback)
 			Py_XINCREF(callback);
 		item->setCallback(callback);
 		if (callback_data)
 			Py_XINCREF(callback_data);
 		item->setCallbackData(callback_data);
-		item->setTip(tip);
+		
+		item->checkConfigDict(kwargs);
+		item->setConfigDict(kwargs);
+		item->setExtraConfigDict(kwargs);
+
 		item->setDataSource(data_source);
-		item->setWidth(width);
 		return ToPyBool(AddItemWithRuntimeChecks(item, parent, before));
 	}
 
@@ -645,16 +649,19 @@ namespace Marvel {
 			&default_value, &callback, &callback_data, &tip, &parent, &before, &data_source, &width))
 			return ToPyBool(false);
 
-		mvAppItem* item = new mvCombo(name, ToStringVect(items), default_value);
+		mvAppItem* item = new mvCombo(name, default_value);
 		if (callback)
 			Py_XINCREF(callback);
 		item->setCallback(callback);
 		if (callback_data)
 			Py_XINCREF(callback_data);
 		item->setCallbackData(callback_data);
-		item->setTip(tip);
+
+		item->checkConfigDict(kwargs);
+		item->setConfigDict(kwargs);
+		item->setExtraConfigDict(kwargs);
+
 		item->setDataSource(data_source);
-		item->setWidth(width);
 		return ToPyBool(AddItemWithRuntimeChecks(item, parent, before));
 	}
 
@@ -676,16 +683,18 @@ namespace Marvel {
 			&default_value, &callback, &callback_data, &tip, &parent, &before, &data_source, &disabled))
 			return ToPyBool(false);
 
-		if (disabled) flags |= ImGuiSelectableFlags_Disabled;
-
-		mvAppItem* item = new mvSelectable(name, default_value, flags);
+		mvAppItem* item = new mvSelectable(name, default_value);
 		if (callback)
 			Py_XINCREF(callback);
 		item->setCallback(callback);
 		if (callback_data)
 			Py_XINCREF(callback_data);
 		item->setCallbackData(callback_data);
-		item->setTip(tip);
+		
+		item->checkConfigDict(kwargs);
+		item->setConfigDict(kwargs);
+		item->setExtraConfigDict(kwargs);
+
 		item->setDataSource(data_source);
 		return ToPyBool(AddItemWithRuntimeChecks(item, parent, before));
 	}
@@ -827,14 +836,18 @@ namespace Marvel {
 			&default_value, &callback, &callback_data, &tip, &parent, &before, &data_source,&horizontal))
 			return ToPyBool(false);
 
-		mvAppItem* item = new mvRadioButton(name, ToStringVect(items), default_value, horizontal);
+		mvAppItem* item = new mvRadioButton(name, default_value);
 		if (callback)
 			Py_XINCREF(callback);
 		item->setCallback(callback);
 		if (callback_data)
 			Py_XINCREF(callback_data);
 		item->setCallbackData(callback_data);
-		item->setTip(tip);
+
+		item->checkConfigDict(kwargs);
+		item->setConfigDict(kwargs);
+		item->setExtraConfigDict(kwargs);
+
 		item->setDataSource(data_source);
 		return ToPyBool(AddItemWithRuntimeChecks(item, parent, before));
 	}
@@ -1025,7 +1038,11 @@ namespace Marvel {
 		if (callback_data)
 			Py_XINCREF(callback_data);
 		item->setCallbackData(callback_data);
-		item->setTip(tip);
+		
+		item->checkConfigDict(kwargs);
+		item->setConfigDict(kwargs);
+		item->setExtraConfigDict(kwargs);
+
 		item->setDataSource(data_source);
 		return ToPyBool(AddItemWithRuntimeChecks(item, parent, before));
 	}
