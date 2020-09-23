@@ -24,8 +24,8 @@ namespace Marvel {
 
 		MV_APPITEM_TYPE(mvAppItemType::DatePicker, "add_date_picker")
 
-			mvDatePicker(const std::string& name, tm default_value, int level)
-			: mvTimeItemBase(name, default_value), m_level(level)
+			mvDatePicker(const std::string& name, tm default_value)
+			: mvTimeItemBase(name, default_value)
 		{
 		}
 
@@ -41,6 +41,22 @@ namespace Marvel {
 
 
 			popColorStyles();
+		}
+
+		void setExtraConfigDict(PyObject* dict) override
+		{
+			if (dict == nullptr)
+				return;
+			mvGlobalIntepreterLock gil;
+			if (PyObject* item = PyDict_GetItemString(dict, "level")) m_level = ToInt(item);
+		}
+
+		void getExtraConfigDict(PyObject* dict) override
+		{
+			if (dict == nullptr)
+				return;
+			mvGlobalIntepreterLock gil;
+			PyDict_SetItemString(dict, "level", ToPyInt(m_level));
 		}
 
 	private:

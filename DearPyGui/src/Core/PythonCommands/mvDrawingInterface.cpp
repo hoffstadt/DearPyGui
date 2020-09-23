@@ -13,6 +13,12 @@ namespace Marvel {
 			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)"},
 			{mvPythonDataType::Integer, "width",""},
 			{mvPythonDataType::Integer, "height",""},
+			{mvPythonDataType::String, "popup",""},
+			{mvPythonDataType::Bool, "show",""},
+			{mvPythonDataType::Float, "originx"},
+			{mvPythonDataType::Float, "originy"},
+			{mvPythonDataType::Float, "scalex"},
+			{mvPythonDataType::Float, "scaley"},
 		}, "Adds a drawing widget.", "None", "Drawing") });
 
 		parsers->insert({ "delete_drawing_item", mvPythonParser({
@@ -163,14 +169,22 @@ namespace Marvel {
 		const char* before = "";
 		int width = 0;
 		int height = 0;
+		const char* popup = "";
+		int show = true;
+		float originx = 0.0f;
+		float originy = 0.0f;
+		float scalex = 0.0f;
+		float scaley = 0.0f;
 
-		if (!(*mvApp::GetApp()->getParsers())["add_drawing"].parse(args, kwargs, __FUNCTION__, &name, &tip, &parent, &before, &width, &height))
+		if (!(*mvApp::GetApp()->getParsers())["add_drawing"].parse(args, kwargs, __FUNCTION__, 
+			&name, &tip, &parent, &before, &width, &height, &popup, &show, &originx, &originy, &scalex, &scaley))
 			return ToPyBool(false);
 
-		mvAppItem* item = new mvDrawing(name, width, height);
-		item->setTip(tip);
-		item->setWidth(width);
-		item->setHeight(height);
+		mvAppItem* item = new mvDrawing(name);
+
+		item->checkConfigDict(kwargs);
+		item->setConfigDict(kwargs);
+		item->setExtraConfigDict(kwargs);
 
 		if (!item)
 			return ToPyBool(false);

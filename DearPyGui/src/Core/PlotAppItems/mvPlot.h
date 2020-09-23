@@ -64,14 +64,7 @@ namespace Marvel {
 
 		MV_APPITEM_TYPE(mvAppItemType::Plot, "add_plot")
 
-		mvPlot(const std::string& name, std::string xname, std::string yname, 
-			bool colormapScale, float scale_min, float scale_max, int scale_height,
-			ImPlotFlags flags, ImPlotAxisFlags xflags, ImPlotAxisFlags yflags, 
-			PyObject* queryCallback);
-
-		void configure(std::string xname, std::string yname,
-			bool colormapScale, float scale_min, float scale_max, int scale_height,
-			ImPlotFlags flags, ImPlotAxisFlags xflags, ImPlotAxisFlags yflags);
+		mvPlot(const std::string& name, PyObject* queryCallback);
 
 		void addSeries   (mvSeries* series, bool updateBounds);
 		void updateSeries(mvSeries* series, bool updateBounds);
@@ -125,10 +118,10 @@ namespace Marvel {
 		bool            m_queried = false;
 		float           m_queryArea[4] = {0.0f , 0.0f, 0.0f, 0.0f};
 		bool            m_dirty = false;
-		bool            m_colormapscale;
-		float           m_scale_min;
-		float           m_scale_max;
-		int             m_scale_height;
+		bool            m_colormapscale = false;
+		float           m_scale_min = 0.0f;
+		float           m_scale_max = 1.0f;
+		int             m_scale_height = 100;
 		
 		std::vector<std::string> m_xlabels;
 		std::vector<std::string> m_ylabels;

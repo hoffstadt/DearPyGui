@@ -26,8 +26,8 @@ namespace Marvel {
 
 		MV_APPITEM_TYPE(mvAppItemType::SameLine, "add_same_line")
 
-		mvSameLine(const std::string& name, float xoffset, float spacing)
-			: mvAppItem(name), m_xoffset(xoffset), m_spacing(spacing)
+		mvSameLine(const std::string& name)
+			: mvAppItem(name)
 		{
 		}
 
@@ -40,6 +40,8 @@ namespace Marvel {
 
 		void setExtraConfigDict(PyObject* dict) override
 		{
+			if (dict == nullptr)
+				return;
 			mvGlobalIntepreterLock gil;
 			if (PyObject* item = PyDict_GetItemString(dict, "xoffset")) m_xoffset = ToFloat(item);
 			if (PyObject* item = PyDict_GetItemString(dict, "spacing")) m_spacing = ToFloat(item);
@@ -48,6 +50,8 @@ namespace Marvel {
 
 		void getExtraConfigDict(PyObject* dict) override
 		{
+			if (dict == nullptr)
+				return;
 			mvGlobalIntepreterLock gil;
 			PyDict_SetItemString(dict, "xoffset", ToPyFloat(m_xoffset));
 			PyDict_SetItemString(dict, "spacing", ToPyFloat(m_spacing));
@@ -55,8 +59,8 @@ namespace Marvel {
 
 	private:
 
-		float m_xoffset;
-		float m_spacing;
+		float m_xoffset = 0.0f;
+		float m_spacing = -1.0f;
 
 	};
 
@@ -95,7 +99,7 @@ namespace Marvel {
 	//-----------------------------------------------------------------------------
 	// mvSpacing
 	//-----------------------------------------------------------------------------
-	class mvSpacing : public mvAppItem
+	class mvSpacing : public mvIntItemBase
 	{
 
 	public:
@@ -103,25 +107,17 @@ namespace Marvel {
 		MV_APPITEM_TYPE(mvAppItemType::Spacing, "add_spacing")
 
 		mvSpacing(const std::string& name, int count)
-			: mvAppItem(name)
+			: mvIntItemBase(name, 1, count)
 		{
-			m_value = count;
 		}
 
 		void draw() override
 		{
-			for (int i = 0; i < m_value; i++)
+			for (int i = 0; i < m_value[0]; i++)
 				ImGui::Spacing();
 		}
 
 		[[nodiscard]] bool areDuplicatesAllowed() const override { return true; }
-
-		[[nodiscard]] int getValue() const { return m_value; }
-
-	private:
-
-		int m_value;
-
 	};
 
 	//-----------------------------------------------------------------------------
