@@ -21,8 +21,8 @@ namespace Marvel {
 
 		MV_APPITEM_TYPE(mvAppItemType::Popup, "add_popup")
 
-		mvPopup(const std::string& name, int mousebutton = 1, bool modal=false)
-			: mvBoolItemBase(name, false), mvEventHandler(), m_modal(modal), m_button(mousebutton)
+		mvPopup(const std::string& name)
+			: mvBoolItemBase(name, false), mvEventHandler()
 		{
 			m_container = true;
 			if (m_parent)

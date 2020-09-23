@@ -23,8 +23,8 @@ namespace Marvel {
 
 		MV_APPITEM_TYPE(mvAppItemType::TabBar, "add_tab_bar")
 
-		mvTabBar(const std::string& name, ImGuiTabBarFlags flags)
-			: mvStringItemBase(name, ""), m_flags(flags)
+		mvTabBar(const std::string& name)
+			: mvStringItemBase(name, "")
 		{
 			m_container = true;		
 		}
@@ -115,8 +115,8 @@ namespace Marvel {
 
 		MV_APPITEM_TYPE(mvAppItemType::TabItem, "add_tab")
 
-		mvTab(const std::string& name, bool closable = false)
-			: mvBoolItemBase(name, false), m_closable(closable)
+		mvTab(const std::string& name)
+			: mvBoolItemBase(name, false)
 		{
 			m_container = true;
 		}
@@ -209,14 +209,14 @@ namespace Marvel {
 		void setExtraConfigDict(PyObject* dict) override
 		{
 			mvGlobalIntepreterLock gil;
-			//if (PyObject* item = PyDict_GetItemString(dict, "closable")) m_closable = ToBool(item);
+			if (PyObject* item = PyDict_GetItemString(dict, "closable")) m_closable = ToBool(item);
 
 		}
 
 		void getExtraConfigDict(PyObject* dict) override
 		{
 			mvGlobalIntepreterLock gil;
-			//PyDict_SetItemString(dict, "closable", ToPyBool(m_closable));
+			PyDict_SetItemString(dict, "closable", ToPyBool(m_closable));
 		}
 
 	private:

@@ -71,6 +71,7 @@ namespace Marvel {
 				ImGui::EndMenuBar();
 			}
 
+
 			popColorStyles();
 		}
 
@@ -160,9 +161,8 @@ namespace Marvel {
 
 		MV_APPITEM_TYPE(mvAppItemType::MenuItem, "add_menu_item")
 
-		mvMenuItem(const std::string& name, 
-			const std::string& shortcut, bool check)
-			: mvBoolItemBase(name, false), m_shortcut(shortcut), m_check(check){}
+		mvMenuItem(const std::string& name)
+			: mvBoolItemBase(name, false){}
 
 		void draw() override
 		{
