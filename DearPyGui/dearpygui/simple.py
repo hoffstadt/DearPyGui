@@ -80,11 +80,11 @@ def popup(popupparent: str, name: str, mousebutton: int = 1, modal: bool = False
 ########################################################################################################################
 
 def set_window_pos(window, x, y):
-    dpg.configure_item(window, xpos=x, ypos=y)
+    dpg.configure_item(window, x_pos=x, y_pos=y)
 
 def get_window_pos(window):
     config = dpg.get_item_configuration(window)
-    return [config["xpos"], config["ypos"]]
+    return [config["x_pos"], config["y_pos"]]
 
 def set_item_name(item, name):
     dpg.configure_item(item, name=name)
