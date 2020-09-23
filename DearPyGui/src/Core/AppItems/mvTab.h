@@ -71,7 +71,9 @@ namespace Marvel {
 		}
 
 		void setExtraConfigDict(PyObject* dict) override
-		{
+		{	
+			if (dict == nullptr)
+				return;
 			mvGlobalIntepreterLock gil;
 
 			// helper for bit flipping
@@ -87,6 +89,8 @@ namespace Marvel {
 
 		void getExtraConfigDict(PyObject* dict) override
 		{
+			if (dict == nullptr)
+				return;
 			mvGlobalIntepreterLock gil;
 
 			// helper to check and set bit
@@ -208,6 +212,8 @@ namespace Marvel {
 
 		void setExtraConfigDict(PyObject* dict) override
 		{
+			if (dict == nullptr)
+				return;
 			mvGlobalIntepreterLock gil;
 			if (PyObject* item = PyDict_GetItemString(dict, "closable")) m_closable = ToBool(item);
 
@@ -215,6 +221,8 @@ namespace Marvel {
 
 		void getExtraConfigDict(PyObject* dict) override
 		{
+			if (dict == nullptr)
+				return;
 			mvGlobalIntepreterLock gil;
 			PyDict_SetItemString(dict, "closable", ToPyBool(m_closable));
 		}

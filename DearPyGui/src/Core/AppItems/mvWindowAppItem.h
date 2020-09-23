@@ -18,13 +18,13 @@ namespace Marvel {
 
 		MV_APPITEM_TYPE(mvAppItemType::Window, "add_window")
 
-		mvWindowAppitem(const std::string& name, int width, int height, int xpos, int ypos, 
-			bool mainWindow, ImGuiWindowFlags flags, PyObject* closing_callback=nullptr)
-			: mvAppItem(name), mvEventHandler(), m_windowflags(flags), m_xpos(xpos), m_ypos(ypos), m_mainWindow(mainWindow), m_closing_callback(closing_callback)
+		mvWindowAppitem(const std::string& name, bool mainWindow, PyObject* closing_callback)
+			: mvAppItem(name), mvEventHandler(), m_mainWindow(mainWindow), m_closing_callback(closing_callback)
 		{
 			m_container = true;
-			m_width = width;
-			m_height = height;
+
+			m_width = 500;
+			m_height = 500;
 
 			if (mainWindow)
 			{
@@ -180,6 +180,8 @@ namespace Marvel {
 
 		void setExtraConfigDict(PyObject* dict) override
 		{
+			if (dict == nullptr)
+				return;
 			mvGlobalIntepreterLock gil;
 			if (PyObject* item = PyDict_GetItemString(dict, "x_pos")) setWindowPos(ToInt(item), m_ypos);
 			if (PyObject* item = PyDict_GetItemString(dict, "y_pos")) setWindowPos(m_xpos, ToInt(item));
@@ -200,6 +202,8 @@ namespace Marvel {
 
 		void getExtraConfigDict(PyObject* dict) override
 		{
+			if (dict == nullptr)
+				return;
 			mvGlobalIntepreterLock gil;
 			PyDict_SetItemString(dict, "x_pos", ToPyInt(m_xpos));
 			PyDict_SetItemString(dict, "y_pos", ToPyInt(m_ypos));
@@ -223,7 +227,7 @@ namespace Marvel {
 		int              m_xpos = 200;
 		int              m_ypos = 200;
 		bool             m_mainWindow = false;
-		PyObject*        m_closing_callback;
+		PyObject*        m_closing_callback = nullptr;
 		bool             m_dirty_pos = true;
 		bool             m_dirty_size = true;
 		bool             m_closing = true;
