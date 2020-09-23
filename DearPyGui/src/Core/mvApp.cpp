@@ -243,174 +243,12 @@ namespace Marvel {
 		}
 
 		Py_BEGIN_ALLOW_THREADS
-
-		// delete items from the delete queue
-		while (!m_deleteChildrenQueue.empty())
-		{
-			auto item = getItem(m_deleteChildrenQueue.front());
-			if (item)
-				item->deleteChildren();
-			m_deleteChildrenQueue.pop();
-		}
-
-		// delete items from the delete queue
-		while (!m_deleteQueue.empty())
-		{
-			bool deletedItem = false;
-
-			// try to delete item
-			for (auto window : m_windows)
-			{
-				deletedItem = window->deleteChild(m_deleteQueue.front());
-				if (deletedItem)
-					break;
-			}
-
-			bool windowDeleting = false;
-
-			// check if attempting to delete a window
-			for (auto window : m_windows)
-			{
-				if (window->getName() == m_deleteQueue.front())
-				{
-					windowDeleting = true;
-					break;
-				}
-			}
-
-			// delete window and update window vector
-			// this should be changed to a different data
-			// structure
-			if (windowDeleting)
-			{
-				std::vector<mvAppItem*> oldwindows = m_windows;
-
-				m_windows.clear();
-
-				for (auto window : oldwindows)
-				{
-					if (window->getName() == m_deleteQueue.front())
-					{
-						delete window;
-						window = nullptr;
-						deletedItem = true;
-						continue;
-					}
-					m_windows.push_back(window);
-				}
-			}
-
-			if (!deletedItem)
-				ThrowPythonException(m_deleteQueue.front() + " not deleted because it was not found");
-
-			m_deleteQueue.pop();
-		}
-
-		// add runtime items
-		for (auto& newItem : m_newItemVec)
-		{
-
-			bool addedItem = false;
-
-			if (getItem(newItem.item->getName(), true))
-			{
-				std::string message = newItem.item->getName();
-				ThrowPythonException(message + ": Items of this type must have unique names");
-				delete newItem.item;
-				newItem.item = nullptr;
-				continue;
-			}
-
-			if (newItem.item->getType() == mvAppItemType::Window)
-			{
-				m_windows.push_back(newItem.item);
-				continue;
-			}
-
-			for (auto window : m_windows)
-			{
-				addedItem = window->addRuntimeChild(newItem.parent, newItem.before, newItem.item);
-				if (addedItem)
-					break;
-			}
-
-			if (!addedItem)
-			{
-				ThrowPythonException(newItem.item->getName() + " not added because its parent was not found");
-				delete newItem.item;
-				newItem.item = nullptr;
-			}
-
-		}
-
-		m_newItemVec.clear();
-
-		// move items up
-		while (!m_upQueue.empty())
-		{
-			std::string& itemname = m_upQueue.front();
-
-			bool movedItem = false;
-
-			for (auto window : m_windows)
-			{
-				movedItem = window->moveChildUp(itemname);
-				if (movedItem)
-					break;
-			}
-
-			if (!movedItem)
-				ThrowPythonException(itemname + " not moved because it was not found");
-
-			m_upQueue.pop();
-		}
-
-		// move items down
-		while (!m_downQueue.empty())
-		{
-			std::string& itemname = m_downQueue.front();
-
-			bool movedItem = false;
-
-			for (auto window : m_windows)
-			{
-				movedItem = window->moveChildDown(itemname);
-				if (movedItem)
-					break;
-			}
-
-			if (!movedItem)
-				ThrowPythonException(itemname + " not moved because it was not found");
-
-			m_downQueue.pop();
-		}
-
+		postDeleteItems();
+		postAddItems();
+		postAddPopups();
+		postMoveItems();
+		postAsync();
 		Py_END_ALLOW_THREADS
-
-		// async callbacks
-		if (!m_asyncCallbacks.empty())
-		{
-			// check if threadpool is valid, if not, create it
-			if (m_tpool == nullptr)
-			{
-				m_tpool = new mvThreadPool(m_threadPoolHighPerformance ? 0 : m_threads);
-				m_poolStart = clock_::now();
-				m_threadPool = true;
-				mvAppLog::Log("Threadpool created");
-			}
-
-			// submit to thread pool
-			for (auto& callback : m_asyncCallbacks)
-				m_tpool->submit(std::bind(&mvApp::runAsyncCallback, this, callback.name, callback.data, callback.returnname));
-
-			//std::lock_guard<std::mutex> lock(m_mutex);
-			m_asyncCallbacks.clear();
-		}
-
-		// update timer if thread pool exists
-		if (m_tpool != nullptr)
-			m_threadTime = std::chrono::duration_cast<second_>(clock_::now() - m_poolStart).count();
-
 		
 	}
 
@@ -599,6 +437,15 @@ namespace Marvel {
 
 		m_newItemVec.push_back({ item, before, parent });
 
+		return true;
+	}
+
+	bool mvApp::addItemAfter(const std::string& prev, mvAppItem* item)
+	{
+		if (!checkIfMainThread())
+			return false;
+
+		m_orderedVec.push_back({ item, prev });
 		return true;
 	}
 
@@ -1219,6 +1066,8 @@ namespace Marvel {
 			{
 				std::string message = item->getName() + " " + std::to_string(count);
 				ThrowPythonException(message + ": Items of this type must have unique names");
+				delete item;
+				item = nullptr;
 				return false;
 			}
 		}
@@ -1240,6 +1089,218 @@ namespace Marvel {
 
 		m_windows.push_back(item);
 		return true;
+	}
+
+	void mvApp::postDeleteItems()
+	{
+		// delete items from the delete queue
+		while (!m_deleteChildrenQueue.empty())
+		{
+			auto item = getItem(m_deleteChildrenQueue.front());
+			if (item)
+				item->deleteChildren();
+			m_deleteChildrenQueue.pop();
+		}
+
+		// delete items from the delete queue
+		while (!m_deleteQueue.empty())
+		{
+			bool deletedItem = false;
+
+			// try to delete item
+			for (auto window : m_windows)
+			{
+				deletedItem = window->deleteChild(m_deleteQueue.front());
+				if (deletedItem)
+					break;
+			}
+
+			bool windowDeleting = false;
+
+			// check if attempting to delete a window
+			for (auto window : m_windows)
+			{
+				if (window->getName() == m_deleteQueue.front())
+				{
+					windowDeleting = true;
+					break;
+				}
+			}
+
+			// delete window and update window vector
+			// this should be changed to a different data
+			// structure
+			if (windowDeleting)
+			{
+				std::vector<mvAppItem*> oldwindows = m_windows;
+
+				m_windows.clear();
+
+				for (auto window : oldwindows)
+				{
+					if (window->getName() == m_deleteQueue.front())
+					{
+						delete window;
+						window = nullptr;
+						deletedItem = true;
+						continue;
+					}
+					m_windows.push_back(window);
+				}
+			}
+
+			if (!deletedItem)
+				ThrowPythonException(m_deleteQueue.front() + " not deleted because it was not found");
+
+			m_deleteQueue.pop();
+		}
+	}
+
+	void mvApp::postAddItems()
+	{
+		// add runtime items
+		for (auto& newItem : m_newItemVec)
+		{
+
+			bool addedItem = false;
+
+			if (getItem(newItem.item->getName(), true))
+			{
+				std::string message = newItem.item->getName();
+				ThrowPythonException(message + ": Items of this type must have unique names");
+				delete newItem.item;
+				newItem.item = nullptr;
+				continue;
+			}
+
+			if (newItem.item->getType() == mvAppItemType::Window)
+			{
+				m_windows.push_back(newItem.item);
+				continue;
+			}
+
+			for (auto window : m_windows)
+			{
+				addedItem = window->addRuntimeChild(newItem.parent, newItem.before, newItem.item);
+				if (addedItem)
+					break;
+			}
+
+			if (!addedItem)
+			{
+				ThrowPythonException(newItem.item->getName() + " not added because its parent was not found");
+				delete newItem.item;
+				newItem.item = nullptr;
+			}
+
+		}
+
+		m_newItemVec.clear();
+	}
+
+	void mvApp::postAddPopups()
+	{
+		// add popup items
+		for (auto& popup : m_orderedVec)
+		{
+
+			bool addedItem = false;
+
+			if (getItem(popup.item->getName(), true))
+			{
+				std::string message = popup.item->getName();
+				ThrowPythonException(message + ": Items of this type must have unique names");
+				delete popup.item;
+				popup.item = nullptr;
+				continue;
+			}
+
+			for (auto window : m_windows)
+			{
+				addedItem = window->addChildAfter(popup.prev, popup.item);
+				if (addedItem)
+					break;
+			}
+
+			if (!addedItem)
+			{
+				ThrowPythonException(popup.item->getName() + " not added because its parent was not found");
+				delete popup.item;
+				popup.item = nullptr;
+			}
+
+		}
+		m_orderedVec.clear();
+	}
+
+	void mvApp::postMoveItems()
+	{
+		// move items up
+		while (!m_upQueue.empty())
+		{
+			std::string& itemname = m_upQueue.front();
+
+			bool movedItem = false;
+
+			for (auto window : m_windows)
+			{
+				movedItem = window->moveChildUp(itemname);
+				if (movedItem)
+					break;
+			}
+
+			if (!movedItem)
+				ThrowPythonException(itemname + " not moved because it was not found");
+
+			m_upQueue.pop();
+		}
+
+		// move items down
+		while (!m_downQueue.empty())
+		{
+			std::string& itemname = m_downQueue.front();
+
+			bool movedItem = false;
+
+			for (auto window : m_windows)
+			{
+				movedItem = window->moveChildDown(itemname);
+				if (movedItem)
+					break;
+			}
+
+			if (!movedItem)
+				ThrowPythonException(itemname + " not moved because it was not found");
+
+			m_downQueue.pop();
+		}
+	}
+
+	void mvApp::postAsync()
+	{
+		// async callbacks
+		if (!m_asyncCallbacks.empty())
+		{
+			// check if threadpool is valid, if not, create it
+			if (m_tpool == nullptr)
+			{
+				m_tpool = new mvThreadPool(m_threadPoolHighPerformance ? 0 : m_threads);
+				m_poolStart = clock_::now();
+				m_threadPool = true;
+				mvAppLog::Log("Threadpool created");
+			}
+
+			// submit to thread pool
+			for (auto& callback : m_asyncCallbacks)
+				m_tpool->submit(std::bind(&mvApp::runAsyncCallback, this, callback.name, callback.data, callback.returnname));
+
+			//std::lock_guard<std::mutex> lock(m_mutex);
+			m_asyncCallbacks.clear();
+		}
+
+		// update timer if thread pool exists
+		if (m_tpool != nullptr)
+			m_threadTime = std::chrono::duration_cast<second_>(clock_::now() - m_poolStart).count();
 	}
 
 }

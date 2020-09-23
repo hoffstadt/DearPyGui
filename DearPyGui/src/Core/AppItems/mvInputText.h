@@ -138,7 +138,7 @@ namespace Marvel {
 	private:
 
 		std::string         m_hint;
-		bool                m_multiline;
+		bool                m_multiline = false;
 		ImGuiInputTextFlags m_flags = 0;
 
 	};

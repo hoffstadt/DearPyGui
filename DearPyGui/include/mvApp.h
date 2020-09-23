@@ -65,6 +65,12 @@ namespace Marvel {
         friend class mvLinuxWindow;
         friend class mvAppleWindow;
 
+        struct OrderedItem
+        {
+            mvAppItem* item;   // new item to add
+            std::string prev; // what item to add item after
+        };
+
         struct NewRuntimeItem
         {
             mvAppItem*  item;   // new item to add
@@ -159,6 +165,7 @@ namespace Marvel {
         // AppItem Operations
         //-----------------------------------------------------------------------------
         bool                     addItem           (mvAppItem* item);
+        bool                     addItemAfter      (const std::string& prev, mvAppItem* item);
         bool                     addWindow         (mvAppItem* item);
         bool                     addRuntimeItem    (const std::string& parent, const std::string& before, mvAppItem* item);
         void                     deleteItem        (const std::string& name) { if(name!="MainWindow") m_deleteQueue.push(name); }
@@ -204,6 +211,15 @@ namespace Marvel {
             
     private:
 
+        //-----------------------------------------------------------------------------
+        // Post Rendering Methods
+        //-----------------------------------------------------------------------------
+        void postDeleteItems();
+        void postAddItems();
+        void postAddPopups();
+        void postMoveItems();
+        void postAsync();
+
         mvApp();
 
         void routeInputCallbacks();
@@ -247,6 +263,7 @@ namespace Marvel {
         std::queue<std::string>     m_upQueue;
         std::queue<std::string>     m_downQueue;
         std::vector<NewRuntimeItem> m_newItemVec;
+        std::vector<OrderedItem>    m_orderedVec;
 
         // timing
         float  m_deltaTime; // time since last frame

@@ -192,6 +192,7 @@ with window("Tables##dialog", 500, 500, show=False, on_close=closeit):
 ########################################################################################################################
 with window("Tooltips/Popups##dialog", 200, 200, show=False):
 
+
     add_button("Hover me##tooltips")
     with tooltip("Hover me##tooltips", "tool_tip##tooltips"):
         add_simple_plot("Simpleplot##tooltips", (0.3, 0.9, 2.5, 8.9), height = 80)
@@ -200,7 +201,12 @@ with window("Tooltips/Popups##dialog", 200, 200, show=False):
     with popup("Modal Window", "ModalPopup", modal=True):
         add_simple_plot("Simpleplot##modal", (0.3, 0.9, 2.5, 8.9), height = 80)
         add_button("Close Window##modal", callback=close_popup)
-    add_text("Right Click Me", tip="not hooked up")
+    
+    with popup("Right Click Me now", "Popup window"):
+        add_simple_plot("Simpleplot##notmodal", (0.3, 0.9, 2.5, 8.9), height = 80)
+        add_button("Close Window##notmodal", callback=close_popup)
+    add_text("Right Click Me now", popup="Popup window")
+
 
 ########################################################################################################################
 # Text

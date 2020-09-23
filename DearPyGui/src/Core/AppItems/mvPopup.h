@@ -25,8 +25,8 @@ namespace Marvel {
 			: mvBoolItemBase(name, false), mvEventHandler()
 		{
 			m_container = true;
-			if (m_parent)
-				m_parent->setPopup(name);
+			//if (m_parent)
+				//m_parent->setPopup(name);
 		}
 
 		void draw() override
@@ -144,8 +144,8 @@ namespace Marvel {
 
 	private:
 
-		bool m_modal;
-		int  m_button;
+		bool m_modal = false;
+		int  m_button = 1;
 
 	};
 

@@ -22,6 +22,9 @@ namespace Marvel {
 			}
 		}
 
+		if (item->getType() == mvAppItemType::Popup || item->getType() == mvAppItemType::Tooltip)
+			return ma->addItemAfter(parent, item);
+
 		// window runtime adding
 		if (item->getType() == mvAppItemType::Window && mvApp::IsAppStarted())
 			return ma->addRuntimeItem("", "", item);

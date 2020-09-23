@@ -14,7 +14,7 @@ namespace Marvel{
 			{mvPythonDataType::String, "parent", "Parent this item will be added to. (runtime adding)"},
 			{mvPythonDataType::String, "before","This item will be displayed before the specified item in the parent. (runtime adding)"},
 			{mvPythonDataType::Integer, "width",""},
-			{mvPythonDataType::Integer, "height",""}
+			{mvPythonDataType::Integer, "height",""},
 			{mvPythonDataType::Bool, "show",""}
 		}, "Adds table.", "None", "Tables") });
 
