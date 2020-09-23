@@ -573,7 +573,7 @@ void ShowDemoWindow(bool* p_open) {
             ImS8 ys[2] = {10,11};
 
             // filled markers
-            for (int m = 1; m < ImPlotMarker_COUNT; ++m) {
+            for (int m = 0; m < ImPlotMarker_COUNT; ++m) {
                 ImGui::PushID(m);
                 ImPlot::SetNextMarkerStyle(m, mk_size, IMPLOT_AUTO_COL, mk_weight);
                 ImPlot::PlotLine("##Filled", xs, ys, 2);
@@ -582,7 +582,7 @@ void ShowDemoWindow(bool* p_open) {
             }
             xs[0] = 6; xs[1] = 9; ys[0] = 10; ys[1] = 11;
             // open markers
-            for (int m = 1; m < ImPlotMarker_COUNT; ++m) {
+            for (int m = 0; m < ImPlotMarker_COUNT; ++m) {
                 ImGui::PushID(m);
                 ImPlot::SetNextMarkerStyle(m, mk_size, ImVec4(0,0,0,0), mk_weight);
                 ImPlot::PlotLine("##Open", xs, ys, 2);
@@ -659,6 +659,7 @@ void ShowDemoWindow(bool* p_open) {
             double t_now = (double)time(0);
             double y_now = HugeTimeData::GetY(t_now);
             ImPlot::PlotScatter("Now",&t_now,&y_now,1);
+            ImPlot::Annotate(t_now,y_now,ImVec2(10,10),ImPlot::GetLastItemColor(),"Now");
             ImPlot::EndPlot();
         }
     }
@@ -801,6 +802,82 @@ void ShowDemoWindow(bool* p_open) {
             ImPlot::PlotLine("Signal 1", x_data, y_data1, 512);
             ImPlot::PlotLine("Signal 2", x_data, y_data2, 512);
             ImPlot::PlotLine("Signal 3", x_data, y_data3, 512);
+            ImPlot::EndPlot();
+        }
+    }
+    //-------------------------------------------------------------------------
+    if (ImGui::CollapsingHeader("Drag Lines and Points")) {
+        ImGui::BulletText("Click and drag the horizontal and vertical lines.");
+        static double x1 = 0.2;
+        static double x2 = 0.8;
+        static double y1 = 0.25;
+        static double y2 = 0.75;
+        static double f = 0.1;
+        static bool show_labels = true;
+        ImGui::Checkbox("Show Labels##1",&show_labels);
+        if (ImPlot::BeginPlot("##guides",0,0,ImVec2(-1,0),ImPlotFlags_YAxis2)) {
+            ImPlot::DragLineX("x1",&x1,show_labels);
+            ImPlot::DragLineX("x2",&x2,show_labels);
+            ImPlot::DragLineY("y1",&y1,show_labels);
+            ImPlot::DragLineY("y2",&y2,show_labels);
+            double xs[1000], ys[1000];
+            for (int i = 0; i < 1000; ++i) {
+                xs[i] = (x2+x1)/2+abs(x2-x1)*(i/1000.0f - 0.5f);
+                ys[i] = (y1+y2)/2+abs(y2-y1)/2*sin(f*i/10);
+            }
+            ImPlot::PlotLine("Interactive Data", xs, ys, 1000);
+            ImPlot::SetPlotYAxis(1);
+            ImPlot::DragLineY("f",&f,show_labels,ImVec4(1,0.5f,1,1));
+            ImPlot::EndPlot();
+        }
+        ImGui::BulletText("Click and drag any point.");
+        ImGui::Checkbox("Show Labels##2",&show_labels);
+        ImPlotAxisFlags flags = ImPlotAxisFlags_NoTickLabels | ImPlotAxisFlags_NoTickMarks;
+        if (ImPlot::BeginPlot("##Bezier",0,0,ImVec2(-1,0),ImPlotFlags_CanvasOnly,flags,flags)) {
+            static ImPlotPoint P[] = {ImPlotPoint(.05f,.05f), ImPlotPoint(0.2,0.4),  ImPlotPoint(0.8,0.6),  ImPlotPoint(.95f,.95f)};
+            static ImPlotPoint B[100];
+            for (int i = 0; i < 100; ++i) {
+                double t  = i / 99.0;
+                double u  = 1 - t;
+                double w1 = u*u*u;
+                double w2 = 3*u*u*t;
+                double w3 = 3*u*t*t;
+                double w4 = t*t*t;
+                B[i] = ImPlotPoint(w1*P[0].x + w2*P[1].x + w3*P[2].x + w4*P[3].x, w1*P[0].y + w2*P[1].y + w3*P[2].y + w4*P[3].y);
+            }
+            ImPlot::SetNextLineStyle(ImVec4(0,0.9f,0,1), 2);
+            ImPlot::PlotLine("##bez",&B[0].x, &B[0].y, 100, 0, sizeof(ImPlotPoint));
+            ImPlot::SetNextLineStyle(ImVec4(1,0.5f,1,1));
+            ImPlot::PlotLine("##h1",&P[0].x, &P[0].y, 2, 0, sizeof(ImPlotPoint));
+            ImPlot::SetNextLineStyle(ImVec4(0,0.5f,1,1));
+            ImPlot::PlotLine("##h2",&P[2].x, &P[2].y, 2, 0, sizeof(ImPlotPoint));
+            ImPlot::DragPoint("P0",&P[0].x,&P[0].y, show_labels, ImVec4(0,0.9f,0,1));
+            ImPlot::DragPoint("P1",&P[1].x,&P[1].y, show_labels, ImVec4(1,0.5f,1,1));
+            ImPlot::DragPoint("P2",&P[2].x,&P[2].y, show_labels, ImVec4(0,0.5f,1,1));
+            ImPlot::DragPoint("P3",&P[3].x,&P[3].y, show_labels, ImVec4(0,0.9f,0,1));
+            ImPlot::EndPlot();
+        }
+    }
+    if (ImGui::CollapsingHeader("Annotations")) {
+        static bool clamp = false;
+        ImGui::Checkbox("Clamp",&clamp);
+        ImPlot::SetNextPlotLimits(0,2,0,1);
+        if (ImPlot::BeginPlot("##Annotations")) {
+
+            static float p[] = {0.25f, 0.25f, 0.75f, 0.75f, 0.25f};
+            ImPlot::PlotScatter("##Points",&p[0],&p[1],4);
+            ImVec4 col = GetLastItemColor();
+            clamp ? ImPlot::AnnotateClamped(0.25,0.25,ImVec2(-15,15),col,"BL") : ImPlot::Annotate(0.25,0.25,ImVec2(-15,15),col,"BL");
+            clamp ? ImPlot::AnnotateClamped(0.75,0.25,ImVec2(15,15),col,"BR") : ImPlot::Annotate(0.75,0.25,ImVec2(15,15),col,"BR");
+            clamp ? ImPlot::AnnotateClamped(0.75,0.75,ImVec2(15,-15),col,"TR") : ImPlot::Annotate(0.75,0.75,ImVec2(15,-15),col,"TR");
+            clamp ? ImPlot::AnnotateClamped(0.25,0.75,ImVec2(-15,-15),col,"TL") : ImPlot::Annotate(0.25,0.75,ImVec2(-15,-15),col,"TL");
+            clamp ? ImPlot::AnnotateClamped(0.5,0.5,ImVec2(0,0),col,"Center") : ImPlot::Annotate(0.5,0.5,ImVec2(0,0),col,"Center");
+
+            float bx[] = {1.2f,1.5f,1.8f};
+            float by[] = {0.25f, 0.5f, 0.75f};
+            ImPlot::PlotBars("##Bars",bx,by,3,0.2);
+            for (int i = 0; i < 3; ++i) 
+                ImPlot::Annotate(bx[i],by[i],ImVec2(0,-5),"B[%d]=%.2f",i,by[i]);            
             ImPlot::EndPlot();
         }
     }
