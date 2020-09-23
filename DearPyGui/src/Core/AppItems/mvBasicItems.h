@@ -461,7 +461,7 @@ namespace Marvel {
 	private:
 
 		std::vector<std::string> m_itemnames;
-		bool                     m_horizontal;
+		bool                     m_horizontal = false;
 
 	};
 
