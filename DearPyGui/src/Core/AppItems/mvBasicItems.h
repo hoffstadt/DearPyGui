@@ -124,9 +124,8 @@ namespace Marvel {
 
 		MV_APPITEM_TYPE(mvAppItemType::Button, "add_button")
 
-		mvButton(const std::string& name, bool small, 
-			bool arrow, ImGuiDir direction)
-			: mvAppItem(name), m_small(small), m_arrow(arrow), m_direction(direction)
+		mvButton(const std::string& name)
+			: mvAppItem(name)
 		{
 		}
 
@@ -181,7 +180,10 @@ namespace Marvel {
 
 		void setExtraConfigDict(PyObject* dict) override
 		{
+			if (dict == nullptr)
+				return;
 			mvGlobalIntepreterLock gil;
+
 			if (PyObject* item = PyDict_GetItemString(dict, "small")) m_small = ToBool(item);
 			if (PyObject* item = PyDict_GetItemString(dict, "arrow")) m_arrow = ToBool(item);
 			if (PyObject* item = PyDict_GetItemString(dict, "direction")) m_direction = ToInt(item);
@@ -189,6 +191,8 @@ namespace Marvel {
 
 		void getExtraConfigDict(PyObject* dict) override
 		{
+			if (dict == nullptr)
+				return;
 			mvGlobalIntepreterLock gil;
 			PyDict_SetItemString(dict, "small", ToPyBool(m_small));
 			PyDict_SetItemString(dict, "arrow", ToPyBool(m_arrow));
@@ -197,8 +201,8 @@ namespace Marvel {
 
 	private:
 
-		bool     m_small;
-		bool     m_arrow;
+		bool     m_small = false;
+		bool     m_arrow = false;
 		ImGuiDir m_direction = ImGuiDir_Up;
 
 	};

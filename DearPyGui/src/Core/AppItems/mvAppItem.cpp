@@ -16,6 +16,8 @@ namespace Marvel{
 
 	void mvAppItem::checkConfigDict(PyObject* dict)
 	{
+		if (dict == nullptr)
+			return;
 		mvGlobalIntepreterLock gil;
 		auto configKeys = ToStringVect(PyDict_Keys(dict));
 		auto parserKeywords = (*mvApp::GetApp()->getParsers())[getParserCommand()].getKeywords();
@@ -44,6 +46,8 @@ namespace Marvel{
 
 	void mvAppItem::setConfigDict(PyObject* dict)
 	{
+		if (dict == nullptr)
+			return;
 		mvGlobalIntepreterLock gil;
 		if (PyObject* item = PyDict_GetItemString(dict, "name")) m_name = ToString(item);
 		if (PyObject* item = PyDict_GetItemString(dict, "label")) setLabel(ToString(item));
@@ -56,6 +60,8 @@ namespace Marvel{
 
 	void mvAppItem::getConfigDict(PyObject* dict)
 	{
+		if (dict == nullptr)
+			return;
 		mvGlobalIntepreterLock gil;
 		PyDict_SetItemString(dict, "name", ToPyString(m_name));
 		PyDict_SetItemString(dict, "label", ToPyString(m_label));
