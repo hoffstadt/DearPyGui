@@ -817,13 +817,6 @@ start_dearpygui()</code></pre>
         </p>
         <pre><code data-language="python">from dearpygui.dearpygui import *
 
-add_table("Table Example", ["Header 0", "Header 1"], callback="tablePrinter")
-add_row("Table Example", ["awesome row", "text"])
-add_row("Table Example", ["super unique", "unique text"])
-add_column("Table Example", "Header 3", ["text from column", "text from column"])
-add_row("Table Example", ["boring row"])
-
-
 def tablePrinter(sender, data):
     print("Table Called: ", sender)
     coordList = get_table_selections("Table Example")
@@ -833,6 +826,11 @@ def tablePrinter(sender, data):
         names.append(get_table_item("Table Example", coordinates[0], coordinates[1]))
     print(names)
 
+add_table("Table Example", ["Header 0", "Header 1"], callback=tablePrinter)
+add_row("Table Example", ["awesome row", "text"])
+add_row("Table Example", ["super unique", "unique text"])
+add_column("Table Example", "Header 3", ["text from column", "text from column"])
+add_row("Table Example", ["boring row"])
 
 start_dearpygui()
             </code></pre>
