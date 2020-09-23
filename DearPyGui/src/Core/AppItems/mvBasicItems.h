@@ -52,8 +52,8 @@ namespace Marvel {
 
 		MV_APPITEM_TYPE(mvAppItemType::Selectable, "add_selectable")
 
-		mvSelectable(const std::string& name, bool default_value, ImGuiSelectableFlags flags)
-			: mvBoolItemBase(name, default_value), m_flags(flags)
+		mvSelectable(const std::string& name, bool default_value)
+			: mvBoolItemBase(name, default_value)
 		{
 		}
 
@@ -83,6 +83,9 @@ namespace Marvel {
 
 		void setExtraConfigDict(PyObject* dict) override
 		{
+			if (dict == nullptr)
+				return;
+
 			mvGlobalIntepreterLock gil;
 
 			// helper for bit flipping
@@ -98,6 +101,9 @@ namespace Marvel {
 
 		void getExtraConfigDict(PyObject* dict) override
 		{
+			if (dict == nullptr)
+				return;
+
 			mvGlobalIntepreterLock gil;
 
 			// helper to check and set bit
@@ -257,8 +263,8 @@ namespace Marvel {
 
 		MV_APPITEM_TYPE(mvAppItemType::Combo, "add_combo")
 
-		mvCombo(const std::string& name, std::vector<std::string> itemnames, const std::string& default_value)
-			: mvStringItemBase(name, default_value), m_items(std::move(itemnames))
+		mvCombo(const std::string& name, const std::string& default_value)
+			: mvStringItemBase(name, default_value)
 		{}
 
 		void draw() override
@@ -301,12 +307,16 @@ namespace Marvel {
 
 		void setExtraConfigDict(PyObject* dict) override
 		{
+			if (dict == nullptr)
+				return;
 			mvGlobalIntepreterLock gil;
 			if (PyObject* item = PyDict_GetItemString(dict, "items")) m_items = ToStringVect(item);
 		}
 
 		void getExtraConfigDict(PyObject* dict) override
 		{
+			if (dict == nullptr)
+				return;
 			mvGlobalIntepreterLock gil;
 			PyDict_SetItemString(dict, "items", ToPyList(m_items));
 		}
@@ -326,11 +336,9 @@ namespace Marvel {
 
 		MV_APPITEM_TYPE(mvAppItemType::Listbox, "add_listbox")
 
-		mvListbox(const std::string& name, std::vector<std::string> itemnames, int default_value, int height)
-			: mvIntItemBase(name, 1, default_value), m_names(std::move(itemnames)), m_itemsHeight(height)
+		mvListbox(const std::string& name, int default_value)
+			: mvIntItemBase(name, 1, default_value)
 		{
-			for (const std::string& item : m_names)
-				m_charNames.emplace_back(item.c_str());
 		}
 
 		void draw() override
@@ -359,7 +367,10 @@ namespace Marvel {
 
 		void setExtraConfigDict(PyObject* dict) override
 		{
+			if (dict == nullptr)
+				return;
 			mvGlobalIntepreterLock gil;
+			if (PyObject* item = PyDict_GetItemString(dict, "num_items")) m_itemsHeight = ToInt(item);
 			if (PyObject* item = PyDict_GetItemString(dict, "items"))
 			{
 				m_names = ToStringVect(item);
@@ -371,8 +382,11 @@ namespace Marvel {
 
 		void getExtraConfigDict(PyObject* dict) override
 		{
+			if (dict == nullptr)
+				return;
 			mvGlobalIntepreterLock gil;
 			PyDict_SetItemString(dict, "items", ToPyList(m_names));
+			PyDict_SetItemString(dict, "num_items", ToPyInt(m_itemsHeight));
 		}
 
 	private:
@@ -393,8 +407,8 @@ namespace Marvel {
 
 		MV_APPITEM_TYPE(mvAppItemType::RadioButtons, "add_radio_button")
 
-		mvRadioButton(const std::string& name, std::vector<std::string> itemnames, int default_value, bool horizontal)
-			: mvIntItemBase(name, 1, default_value), m_itemnames(std::move(itemnames)), m_horizontal(horizontal)
+		mvRadioButton(const std::string& name, int default_value)
+			: mvIntItemBase(name, 1, default_value)
 		{
 		}
 
@@ -430,6 +444,8 @@ namespace Marvel {
 
 		void setExtraConfigDict(PyObject* dict) override
 		{
+			if (dict == nullptr)
+				return;
 			mvGlobalIntepreterLock gil;
 			if (PyObject* item = PyDict_GetItemString(dict, "items")) m_itemnames = ToStringVect(item);
 			if (PyObject* item = PyDict_GetItemString(dict, "horizontal")) m_horizontal = ToBool(item);
@@ -437,6 +453,8 @@ namespace Marvel {
 
 		void getExtraConfigDict(PyObject* dict) override
 		{
+			if (dict == nullptr)
+				return;
 			mvGlobalIntepreterLock gil;
 			PyDict_SetItemString(dict, "items", ToPyList(m_itemnames));
 			PyDict_SetItemString(dict, "horizontal", ToPyBool(m_horizontal));
@@ -459,8 +477,8 @@ namespace Marvel {
 
 		MV_APPITEM_TYPE(mvAppItemType::ProgressBar, "add_progress_bar")
 
-		mvProgressBar(const std::string& name, float default_value = 0.0f, std::string overlay = "")
-			: mvFloatItemBase(name, 1, default_value), m_overlay(std::move(overlay))
+		mvProgressBar(const std::string& name, float default_value = 0.0f)
+			: mvFloatItemBase(name, 1, default_value)
 		{
 		}
 
@@ -485,12 +503,16 @@ namespace Marvel {
 
 		void setExtraConfigDict(PyObject* dict) override
 		{
+			if (dict == nullptr)
+				return;
 			mvGlobalIntepreterLock gil;
 			if (PyObject* item = PyDict_GetItemString(dict, "overlay")) m_overlay = ToString(item);
 		}
 
 		void getExtraConfigDict(PyObject* dict) override
 		{
+			if (dict == nullptr)
+				return;
 			mvGlobalIntepreterLock gil;
 			PyDict_SetItemString(dict, "overlay", ToPyString(m_overlay));
 		}
@@ -511,8 +533,8 @@ namespace Marvel {
 
 		MV_APPITEM_TYPE(mvAppItemType::InputInt, "add_input_int")
 
-		mvInputInt(const std::string& name, int default_value, ImGuiInputTextFlags flags)
-			: mvIntItemBase(name, 1, default_value), m_flags(flags) {}
+		mvInputInt(const std::string& name, int default_value)
+			: mvIntItemBase(name, 1, default_value){}
 
 		void draw() override
 		{
@@ -540,12 +562,16 @@ namespace Marvel {
 
 		void setExtraConfigDict(PyObject* dict) override
 		{
+			if (dict == nullptr)
+				return;
 			mvGlobalIntepreterLock gil;
 			if (PyObject* item = PyDict_GetItemString(dict, "on_enter")) ToBool(item) ? m_flags |= ImGuiInputTextFlags_EnterReturnsTrue : m_flags &= ~ImGuiInputTextFlags_EnterReturnsTrue;
 		}
 
 		void getExtraConfigDict(PyObject* dict) override
 		{
+			if (dict == nullptr)
+				return;
 			mvGlobalIntepreterLock gil;
 			PyDict_SetItemString(dict, "on_enter", ToPyBool(m_flags & ImGuiInputTextFlags_EnterReturnsTrue));
 		}
@@ -567,9 +593,8 @@ namespace Marvel {
 
 		MV_APPITEM_TYPE(AppItemType, "add_input_int2")
 
-		mvInputIntMulti(const std::string& name, int default_value[2], ImGuiInputTextFlags flags)
-			: mvIntItemBase(name, num, default_value[0], default_value[1], default_value[2], default_value[3]),
-			m_flags(flags){}
+		mvInputIntMulti(const std::string& name, int default_value[2])
+			: mvIntItemBase(name, num, default_value[0], default_value[1], default_value[2], default_value[3]){}
 
 		void draw() override
 		{
@@ -597,12 +622,16 @@ namespace Marvel {
 
 		void setExtraConfigDict(PyObject* dict) override
 		{
+			if (dict == nullptr)
+				return;
 			mvGlobalIntepreterLock gil;
 			if (PyObject* item = PyDict_GetItemString(dict, "on_enter")) ToBool(item) ? m_flags |= ImGuiInputTextFlags_EnterReturnsTrue : m_flags &= ~ImGuiInputTextFlags_EnterReturnsTrue;
 		}
 
 		void getExtraConfigDict(PyObject* dict) override
 		{
+			if (dict == nullptr)
+				return;
 			mvGlobalIntepreterLock gil;
 			PyDict_SetItemString(dict, "on_enter", ToPyBool(m_flags & ImGuiInputTextFlags_EnterReturnsTrue));
 		}
@@ -623,8 +652,8 @@ namespace Marvel {
 
 		MV_APPITEM_TYPE(mvAppItemType::InputFloat, "add_input_float")
 
-			mvInputFloat(const std::string& name, float default_value, std::string format, ImGuiInputTextFlags flags)
-			: mvFloatItemBase(name, 1, default_value), m_format(std::move(format)), m_flags(flags)
+			mvInputFloat(const std::string& name, float default_value)
+			: mvFloatItemBase(name, 1, default_value)
 		{
 		}
 
@@ -653,6 +682,8 @@ namespace Marvel {
 
 		void setExtraConfigDict(PyObject* dict) override
 		{
+			if (dict == nullptr)
+				return;
 			mvGlobalIntepreterLock gil;
 			if (PyObject* item = PyDict_GetItemString(dict, "format")) m_format = ToString(item);
 
@@ -669,6 +700,8 @@ namespace Marvel {
 
 		void getExtraConfigDict(PyObject* dict) override
 		{
+			if (dict == nullptr)
+				return;
 			mvGlobalIntepreterLock gil;
 			PyDict_SetItemString(dict, "format", ToPyString(m_format));
 
@@ -685,7 +718,7 @@ namespace Marvel {
 
 	private:
 
-		std::string         m_format;
+		std::string         m_format = "%.3f";
 		ImGuiInputTextFlags m_flags = 0;
 
 	};
@@ -701,9 +734,8 @@ namespace Marvel {
 
 		MV_APPITEM_TYPE(AppItemType, "add_input_float2")
 
-			mvInputFloatMulti(const std::string& name, float* default_value, std::string  format, ImGuiInputTextFlags flags)
-			: mvFloatItemBase(name, num, default_value[0], default_value[1], default_value[2], default_value[3]), m_format(std::move(format)),
-				m_flags(flags)
+			mvInputFloatMulti(const std::string& name, float* default_value)
+			: mvFloatItemBase(name, num, default_value[0], default_value[1], default_value[2], default_value[3])
 		{
 		}
 
@@ -732,6 +764,8 @@ namespace Marvel {
 
 		void setExtraConfigDict(PyObject* dict) override
 		{
+			if (dict == nullptr)
+				return;
 			mvGlobalIntepreterLock gil;
 			if (PyObject* item = PyDict_GetItemString(dict, "format")) m_format = ToString(item);
 
@@ -748,6 +782,8 @@ namespace Marvel {
 
 		void getExtraConfigDict(PyObject* dict) override
 		{
+			if (dict == nullptr)
+				return;
 			mvGlobalIntepreterLock gil;
 			PyDict_SetItemString(dict, "format", ToPyString(m_format));
 
@@ -764,7 +800,7 @@ namespace Marvel {
 
 	private:
 
-		std::string         m_format;
+		std::string         m_format = "%.3f";
 		ImGuiInputTextFlags m_flags = 0;
 
 	};
@@ -780,10 +816,8 @@ namespace Marvel {
 
 		MV_APPITEM_TYPE(AppItemType, "add_drag_float")
 
-		mvDragFloat(const std::string& name, float* default_value, float speed,
-				float minv, float maxv, std::string format, ImGuiInputTextFlags flags)
-			: mvFloatItemBase(name, num, default_value[0], default_value[1], default_value[2], default_value[3]),
-			m_speed(speed), m_min(minv), m_max(maxv), m_format(std::move(format)), m_flags(flags)
+		mvDragFloat(const std::string& name, float* default_value)
+			: mvFloatItemBase(name, num, default_value[0], default_value[1], default_value[2], default_value[3])
 		{
 		}
 
@@ -812,6 +846,8 @@ namespace Marvel {
 
 		void setExtraConfigDict(PyObject* dict) override
 		{
+			if (dict == nullptr)
+				return;
 			mvGlobalIntepreterLock gil;
 			if (PyObject* item = PyDict_GetItemString(dict, "format")) m_format = ToString(item);
 			if (PyObject* item = PyDict_GetItemString(dict, "speed")) m_speed = ToFloat(item);
@@ -831,6 +867,8 @@ namespace Marvel {
 
 		void getExtraConfigDict(PyObject* dict) override
 		{
+			if (dict == nullptr)
+				return;
 			mvGlobalIntepreterLock gil;
 			PyDict_SetItemString(dict, "format", ToPyString(m_format));
 			PyDict_SetItemString(dict, "speed", ToPyFloat(m_speed));
@@ -850,10 +888,10 @@ namespace Marvel {
 
 	private:
 
-		float               m_speed;
-		float               m_min;
-		float               m_max;
-		std::string         m_format;
+		float               m_speed = 1.0f;
+		float               m_min = 0.0f;
+		float               m_max = 100.0f;
+		std::string         m_format = "%.3f";
 		ImGuiInputTextFlags m_flags = 0;
 
 	};
@@ -869,10 +907,8 @@ namespace Marvel {
 
 		MV_APPITEM_TYPE(AppItemType, "add_drag_int")
 
-		mvDragInt(const std::string& name, int* default_value, float speed,
-				int minv, float maxv, std::string format, ImGuiInputTextFlags flags)
-			: mvIntItemBase(name, num, default_value[0], default_value[1], default_value[2], default_value[3]),
-			m_speed(speed), m_min(minv), m_max(maxv), m_format(std::move(format)), m_flags(flags)
+		mvDragInt(const std::string& name, int* default_value)
+			: mvIntItemBase(name, num, default_value[0], default_value[1], default_value[2], default_value[3])
 		{
 		}
 
@@ -901,6 +937,8 @@ namespace Marvel {
 
 		void setExtraConfigDict(PyObject* dict) override
 		{
+			if (dict == nullptr)
+				return;
 			mvGlobalIntepreterLock gil;
 			if (PyObject* item = PyDict_GetItemString(dict, "format")) m_format = ToString(item);
 			if (PyObject* item = PyDict_GetItemString(dict, "speed")) m_speed = ToFloat(item);
@@ -920,6 +958,8 @@ namespace Marvel {
 
 		void getExtraConfigDict(PyObject* dict) override
 		{
+			if (dict == nullptr)
+				return;
 			mvGlobalIntepreterLock gil;
 			PyDict_SetItemString(dict, "format", ToPyString(m_format));
 			PyDict_SetItemString(dict, "speed", ToPyFloat(m_speed));
@@ -939,10 +979,10 @@ namespace Marvel {
 
 	private:
 
-		float               m_speed;
-		int                 m_min;
-		int                 m_max;
-		std::string         m_format;
+		float               m_speed = 1.0f;
+		int                 m_min = 0.0f;
+		int                 m_max = 100.0f;
+		std::string         m_format = "%.3f";
 		ImGuiInputTextFlags m_flags = 0;
 
 	};
@@ -957,10 +997,8 @@ namespace Marvel {
 
 		MV_APPITEM_TYPE(mvAppItemType::SliderFloat, "add_slider_float")
 
-			mvSliderFloat(const std::string& name, float default_value = 0.0f, float minv = 0.0f,
-				float maxv = 1.0f, std::string  format = "%.3f", bool vertical = false, ImGuiInputTextFlags flags = 0)
-			: mvFloatItemBase(name, 1, default_value), m_min(minv), m_max(maxv), m_format(std::move(format)),
-			m_vertical(vertical), m_flags(flags)
+		mvSliderFloat(const std::string& name, float default_value)
+			: mvFloatItemBase(name, 1, default_value)
 		{
 		}
 
@@ -1015,6 +1053,8 @@ namespace Marvel {
 
 		void setExtraConfigDict(PyObject* dict) override
 		{
+			if (dict == nullptr)
+				return;
 			mvGlobalIntepreterLock gil;
 			if (PyObject* item = PyDict_GetItemString(dict, "format")) m_format = ToString(item);
 			if (PyObject* item = PyDict_GetItemString(dict, "vertical")) m_vertical = ToBool(item);
@@ -1034,6 +1074,8 @@ namespace Marvel {
 
 		void getExtraConfigDict(PyObject* dict) override
 		{
+			if (dict == nullptr)
+				return;
 			mvGlobalIntepreterLock gil;
 			PyDict_SetItemString(dict, "format", ToPyString(m_format));
 			PyDict_SetItemString(dict, "vertical", ToPyBool(m_vertical));
@@ -1053,11 +1095,11 @@ namespace Marvel {
 
 	private:
 
-		float               m_min;
-		float               m_max;
-		std::string         m_format;
-		bool                m_vertical;
-		ImGuiInputTextFlags m_flags;
+		float               m_min = 0.0f;
+		float               m_max = 100.0f;
+		std::string         m_format = "%.3f";
+		bool                m_vertical = false;
+		ImGuiInputTextFlags m_flags = 0;
 
 	};
 
@@ -1071,10 +1113,8 @@ namespace Marvel {
 
 		MV_APPITEM_TYPE(mvAppItemType::SliderInt, "add_slider_int")
 
-			mvSliderInt(const std::string& name, int default_value = 0, int minv = 0,
-				int maxv = 100, std::string  format = "%d", bool vertical = false, ImGuiInputTextFlags flags = 0)
-			: mvIntItemBase(name, 1, default_value), m_min(minv), m_max(maxv), m_format(std::move(format)), 
-			m_vertical(vertical), m_flags(flags)
+			mvSliderInt(const std::string& name, int default_value)
+			: mvIntItemBase(name, 1, default_value)
 		{
 		}
 
@@ -1129,6 +1169,8 @@ namespace Marvel {
 
 		void setExtraConfigDict(PyObject* dict) override
 		{
+			if (dict == nullptr)
+				return;
 			mvGlobalIntepreterLock gil;
 			if (PyObject* item = PyDict_GetItemString(dict, "format")) m_format = ToString(item);
 			if (PyObject* item = PyDict_GetItemString(dict, "vertical")) m_vertical = ToBool(item);
@@ -1148,6 +1190,8 @@ namespace Marvel {
 
 		void getExtraConfigDict(PyObject* dict) override
 		{
+			if (dict == nullptr)
+				return;
 			mvGlobalIntepreterLock gil;
 			PyDict_SetItemString(dict, "format", ToPyString(m_format));
 			PyDict_SetItemString(dict, "vertical", ToPyBool(m_vertical));
@@ -1167,11 +1211,11 @@ namespace Marvel {
 
 	private:
 
-		int                 m_min;
-		int                 m_max;
-		std::string         m_format;
-		bool                m_vertical;
-		ImGuiInputTextFlags m_flags;
+		int                 m_min = 0;
+		int                 m_max = 100;
+		std::string         m_format = "%d";
+		bool                m_vertical = false;
+		ImGuiInputTextFlags m_flags = 0;
 
 	};
 
@@ -1186,9 +1230,8 @@ namespace Marvel {
 
 		MV_APPITEM_TYPE(AppItemType, "add_slider_float2")
 
-			mvSliderFloatMulti(const std::string& name, float* default_value, float minv, float maxv, std::string  format, ImGuiInputTextFlags flags)
-			: mvFloatItemBase(name, num, default_value[0], default_value[1], default_value[2], default_value[3]),
-			m_min(minv), m_max(maxv), m_format(std::move(format)), m_flags(flags)
+			mvSliderFloatMulti(const std::string& name, float* default_value)
+			: mvFloatItemBase(name, num, default_value[0], default_value[1], default_value[2], default_value[3])
 		{
 		}
 
@@ -1217,6 +1260,8 @@ namespace Marvel {
 
 		void setExtraConfigDict(PyObject* dict) override
 		{
+			if (dict == nullptr)
+				return;
 			mvGlobalIntepreterLock gil;
 			if (PyObject* item = PyDict_GetItemString(dict, "format")) m_format = ToString(item);
 			if (PyObject* item = PyDict_GetItemString(dict, "min_value")) m_min = ToFloat(item);
@@ -1235,6 +1280,8 @@ namespace Marvel {
 
 		void getExtraConfigDict(PyObject* dict) override
 		{
+			if (dict == nullptr)
+				return;
 			mvGlobalIntepreterLock gil;
 			PyDict_SetItemString(dict, "format", ToPyString(m_format));
 			PyDict_SetItemString(dict, "min_value", ToPyFloat(m_min));
@@ -1253,9 +1300,9 @@ namespace Marvel {
 
 	private:
 
-		float               m_min;
-		float               m_max;
-		std::string         m_format;
+		float               m_min = 0.0f;
+		float               m_max = 100.0f;
+		std::string         m_format = "%.3f";
 		ImGuiInputTextFlags m_flags = 0;
 
 	};
@@ -1271,9 +1318,8 @@ namespace Marvel {
 
 		MV_APPITEM_TYPE(AppItemType, "add_slider_int2")
 
-			mvSliderIntMulti(const std::string& name, int* default_value, int minv, int maxv, std::string  format, ImGuiInputTextFlags flags)
-			: mvIntItemBase(name, num, default_value[0], default_value[1], default_value[2], default_value[3]),
-			m_min(minv), m_max(maxv), m_format(std::move(format)), m_flags(flags)
+			mvSliderIntMulti(const std::string& name, int* default_value)
+			: mvIntItemBase(name, num, default_value[0], default_value[1], default_value[2], default_value[3])
 		{
 		}
 
@@ -1302,6 +1348,8 @@ namespace Marvel {
 
 		void setExtraConfigDict(PyObject* dict) override
 		{
+			if (dict == nullptr)
+				return;
 			mvGlobalIntepreterLock gil;
 			if (PyObject* item = PyDict_GetItemString(dict, "format")) m_format = ToString(item);
 			if (PyObject* item = PyDict_GetItemString(dict, "min_value")) m_min = ToFloat(item);
@@ -1320,6 +1368,8 @@ namespace Marvel {
 
 		void getExtraConfigDict(PyObject* dict) override
 		{
+			if (dict == nullptr)
+				return;
 			mvGlobalIntepreterLock gil;
 			PyDict_SetItemString(dict, "format", ToPyString(m_format));
 			PyDict_SetItemString(dict, "min_value", ToPyFloat(m_min));
@@ -1338,9 +1388,9 @@ namespace Marvel {
 
 	private:
 
-		int                 m_min;
-		int                 m_max;
-		std::string         m_format;
+		int                 m_min = 0;
+		int                 m_max = 100;
+		std::string         m_format = "%d";
 		ImGuiInputTextFlags m_flags = 0;
 
 	};
