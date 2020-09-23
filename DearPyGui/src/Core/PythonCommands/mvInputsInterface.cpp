@@ -210,20 +210,19 @@ namespace Marvel {
 			&default_value, &callback, &callback_data, &tip, &parent, &before, &data_source, &width, &on_enter))
 			return ToPyBool(false);
 
-		ImGuiInputTextFlags flags = 0;
-		if (on_enter)
-			flags = ImGuiInputTextFlags_EnterReturnsTrue;
-
-		mvAppItem* item = new mvInputInt(name, default_value, flags);
+		mvAppItem* item = new mvInputInt(name, default_value);
 		if (callback)
 			Py_XINCREF(callback);
 		item->setCallback(callback);
 		if (callback_data)
 			Py_XINCREF(callback_data);
 		item->setCallbackData(callback_data);
-		item->setTip(tip);
+
+		item->checkConfigDict(kwargs);
+		item->setConfigDict(kwargs);
+		item->setExtraConfigDict(kwargs);
+
 		item->setDataSource(data_source);
-		item->setWidth(width);
 		return ToPyBool(AddItemWithRuntimeChecks(item, parent, before));
 	}
 
@@ -248,22 +247,21 @@ namespace Marvel {
 			&default_value, &callback, &callback_data, &tip, &parent, &before, &data_source, &width, &on_enter))
 			return ToPyBool(false);
 
-		ImGuiInputTextFlags flags = 0;
-		if (on_enter)
-			flags = ImGuiInputTextFlags_EnterReturnsTrue;
-
 		auto vec = ToIntVect(default_value);
 
-		mvAppItem* item = new mvInputIntMulti<mvAppItemType::InputInt2, 2, ImGui::InputInt2>(name, vec.data(), flags);
+		mvAppItem* item = new mvInputIntMulti<mvAppItemType::InputInt2, 2, ImGui::InputInt2>(name, vec.data());
 		if (callback)
 			Py_XINCREF(callback);
 		item->setCallback(callback);
 		if (callback_data)
 			Py_XINCREF(callback_data);
 		item->setCallbackData(callback_data);
-		item->setTip(tip);
+
+		item->checkConfigDict(kwargs);
+		item->setConfigDict(kwargs);
+		item->setExtraConfigDict(kwargs);
+
 		item->setDataSource(data_source);
-		item->setWidth(width);
 		return ToPyBool(AddItemWithRuntimeChecks(item, parent, before));
 	}
 
@@ -288,22 +286,21 @@ namespace Marvel {
 			&default_value, &callback, &callback_data, &tip, &parent, &before, &data_source, &width, &on_enter))
 			return ToPyBool(false);
 
-		ImGuiInputTextFlags flags = 0;
-		if (on_enter)
-			flags = ImGuiInputTextFlags_EnterReturnsTrue;
-
 		auto vec = ToIntVect(default_value);
 
-		mvAppItem* item = new mvInputIntMulti<mvAppItemType::InputInt3, 3, ImGui::InputInt3>(name, vec.data(), flags);
+		mvAppItem* item = new mvInputIntMulti<mvAppItemType::InputInt3, 3, ImGui::InputInt3>(name, vec.data());
 		if (callback)
 			Py_XINCREF(callback);
 		item->setCallback(callback);
 		if (callback_data)
 			Py_XINCREF(callback_data);
 		item->setCallbackData(callback_data);
-		item->setTip(tip);
+
+		item->checkConfigDict(kwargs);
+		item->setConfigDict(kwargs);
+		item->setExtraConfigDict(kwargs);
+
 		item->setDataSource(data_source);
-		item->setWidth(width);
 		return ToPyBool(AddItemWithRuntimeChecks(item, parent, before));
 	}
 
@@ -328,21 +325,20 @@ namespace Marvel {
 			&default_value, &callback, &callback_data, &tip, &parent, &before, &data_source, &width, &on_enter))
 			return ToPyBool(false);
 
-		ImGuiInputTextFlags flags = 0;
-		if (on_enter)
-			flags = ImGuiInputTextFlags_EnterReturnsTrue;
-
 		auto vec = ToIntVect(default_value);
-		mvAppItem* item = new mvInputIntMulti<mvAppItemType::InputInt4, 4, ImGui::InputInt4>(name, vec.data(), flags);
+		mvAppItem* item = new mvInputIntMulti<mvAppItemType::InputInt4, 4, ImGui::InputInt4>(name, vec.data());
 		if (callback)
 			Py_XINCREF(callback);
 		item->setCallback(callback);
 		if (callback_data)
 			Py_XINCREF(callback_data);
 		item->setCallbackData(callback_data);
-		item->setTip(tip);
+
+		item->checkConfigDict(kwargs);
+		item->setConfigDict(kwargs);
+		item->setExtraConfigDict(kwargs);
+
 		item->setDataSource(data_source);
-		item->setWidth(width);
 		return ToPyBool(AddItemWithRuntimeChecks(item, parent, before));
 	}
 
@@ -364,20 +360,19 @@ namespace Marvel {
 			&default_value, &format, &callback, &callback_data, &tip, &parent, &before, &data_source, &width, &on_enter))
 			return ToPyBool(false);
 
-		ImGuiInputTextFlags flags = 0;
-		if (on_enter)
-			flags = ImGuiInputTextFlags_EnterReturnsTrue;
-
-		mvAppItem* item = new mvInputFloat(name, default_value, format, flags);
+		mvAppItem* item = new mvInputFloat(name, default_value);
 		if (callback)
 			Py_XINCREF(callback);
 		item->setCallback(callback);
 		if (callback_data)
 			Py_XINCREF(callback_data);
 		item->setCallbackData(callback_data);
-		item->setTip(tip);
+
+		item->checkConfigDict(kwargs);
+		item->setConfigDict(kwargs);
+		item->setExtraConfigDict(kwargs);
+
 		item->setDataSource(data_source);
-		item->setWidth(width);
 		return ToPyBool(AddItemWithRuntimeChecks(item, parent, before));
 	}
 
@@ -401,21 +396,20 @@ namespace Marvel {
 			&default_value, &format, &callback, &callback_data, &tip, &parent, &before, &data_source, &width, &on_enter))
 			return ToPyBool(false);
 
-		ImGuiInputTextFlags flags = 0;
-		if (on_enter)
-			flags = ImGuiInputTextFlags_EnterReturnsTrue;
-
 		auto vec = ToFloatVect(default_value);
-		mvAppItem* item = new mvInputFloatMulti<mvAppItemType::InputFloat2, 2, ImGui::InputFloat2>(name, vec.data(), format, flags);
+		mvAppItem* item = new mvInputFloatMulti<mvAppItemType::InputFloat2, 2, ImGui::InputFloat2>(name, vec.data());
 		if (callback)
 			Py_XINCREF(callback);
 		item->setCallback(callback);
 		if (callback_data)
 			Py_XINCREF(callback_data);
 		item->setCallbackData(callback_data);
-		item->setTip(tip);
+
+		item->checkConfigDict(kwargs);
+		item->setConfigDict(kwargs);
+		item->setExtraConfigDict(kwargs);
+
 		item->setDataSource(data_source);
-		item->setWidth(width);
 		return ToPyBool(AddItemWithRuntimeChecks(item, parent, before));
 	}
 
@@ -440,22 +434,21 @@ namespace Marvel {
 			&default_value, &format, &callback, &callback_data, &tip, &parent, &before, &data_source, &width, &on_enter))
 			return ToPyBool(false);
 
-		ImGuiInputTextFlags flags = 0;
-		if (on_enter)
-			flags = ImGuiInputTextFlags_EnterReturnsTrue;
-
 		auto vec = ToFloatVect(default_value);
 
-		mvAppItem* item = new mvInputFloatMulti<mvAppItemType::InputFloat3, 3, ImGui::InputFloat3>(name, vec.data(), format, flags);
+		mvAppItem* item = new mvInputFloatMulti<mvAppItemType::InputFloat3, 3, ImGui::InputFloat3>(name, vec.data());
 		if (callback)
 			Py_XINCREF(callback);
 		item->setCallback(callback);
 		if (callback_data)
 			Py_XINCREF(callback_data);
 		item->setCallbackData(callback_data);
-		item->setTip(tip);
+
+		item->checkConfigDict(kwargs);
+		item->setConfigDict(kwargs);
+		item->setExtraConfigDict(kwargs);
+
 		item->setDataSource(data_source);
-		item->setWidth(width);
 		return ToPyBool(AddItemWithRuntimeChecks(item, parent, before));
 	}
 
@@ -481,22 +474,21 @@ namespace Marvel {
 			&default_value, &format, &callback, &callback_data, &tip, &parent, &before, &data_source, &width, &on_enter))
 			return ToPyBool(false);
 
-		ImGuiInputTextFlags flags = 0;
-		if (on_enter)
-			flags = ImGuiInputTextFlags_EnterReturnsTrue;
-
 		auto vec = ToFloatVect(default_value);
 
-		mvAppItem* item = new mvInputFloatMulti<mvAppItemType::InputFloat4, 4, ImGui::InputFloat4>(name, vec.data(), format, flags);
+		mvAppItem* item = new mvInputFloatMulti<mvAppItemType::InputFloat4, 4, ImGui::InputFloat4>(name, vec.data());
 		if (callback)
 			Py_XINCREF(callback);
 		item->setCallback(callback);
 		if (callback_data)
 			Py_XINCREF(callback_data);
 		item->setCallbackData(callback_data);
-		item->setTip(tip);
+
+		item->checkConfigDict(kwargs);
+		item->setConfigDict(kwargs);
+		item->setExtraConfigDict(kwargs);
+
 		item->setDataSource(data_source);
-		item->setWidth(width);
 		return ToPyBool(AddItemWithRuntimeChecks(item, parent, before));
 	}
 

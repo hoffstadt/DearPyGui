@@ -177,21 +177,19 @@ namespace Marvel {
 		defaults.push_back(0.0f);
 		defaults.push_back(0.0f);
 
-		ImGuiInputTextFlags flags = 0;
-		if (on_enter)
-			flags = ImGuiInputTextFlags_EnterReturnsTrue;
-
-		mvAppItem* item = new mvDragFloat<mvAppItemType::DragFloat, 1, ImGui::DragFloat>(name, defaults.data(), speed, min_value, max_value, format, flags);
+		mvAppItem* item = new mvDragFloat<mvAppItemType::DragFloat, 1, ImGui::DragFloat>(name, defaults.data());
 		if (callback)
 			Py_XINCREF(callback);
 		item->setCallback(callback);
 		if (callback_data)
 			Py_XINCREF(callback_data);
 		item->setCallbackData(callback_data);
-		item->setTip(tip);
-		item->setDataSource(data_source);
-		item->setWidth(width);
 
+		item->checkConfigDict(kwargs);
+		item->setConfigDict(kwargs);
+		item->setExtraConfigDict(kwargs);
+
+		item->setDataSource(data_source);
 		return ToPyBool(AddItemWithRuntimeChecks(item, parent, before));
 	}
 
@@ -220,21 +218,20 @@ namespace Marvel {
 			&min_value, &max_value, &format, &callback, &callback_data, &tip, &parent, &before, &data_source, &width, &on_enter))
 			return ToPyBool(false);
 
-		ImGuiInputTextFlags flags = 0;
-		if (on_enter)
-			flags = ImGuiInputTextFlags_EnterReturnsTrue;
-
 		auto vec = ToFloatVect(default_value);
-		mvAppItem* item = new mvDragFloat<mvAppItemType::DragFloat2, 2, ImGui::DragFloat2>(name, vec.data(), speed, min_value, max_value, format, flags);
+		mvAppItem* item = new mvDragFloat<mvAppItemType::DragFloat2, 2, ImGui::DragFloat2>(name, vec.data());
 		if (callback)
 			Py_XINCREF(callback);
 		item->setCallback(callback);
 		if (callback_data)
 			Py_XINCREF(callback_data);
 		item->setCallbackData(callback_data);
-		item->setTip(tip);
+
+		item->checkConfigDict(kwargs);
+		item->setConfigDict(kwargs);
+		item->setExtraConfigDict(kwargs);
+
 		item->setDataSource(data_source);
-		item->setWidth(width);
 		return ToPyBool(AddItemWithRuntimeChecks(item, parent, before));
 	}
 
@@ -263,21 +260,20 @@ namespace Marvel {
 			&min_value, &max_value, &format, &callback, &callback_data, &tip, &parent, &before, &data_source, &width, &on_enter))
 			return ToPyBool(false);
 
-		ImGuiInputTextFlags flags = 0;
-		if (on_enter)
-			flags = ImGuiInputTextFlags_EnterReturnsTrue;
-
 		auto vec = ToFloatVect(default_value);
-		mvAppItem* item = new mvDragFloat<mvAppItemType::DragFloat3, 3, ImGui::DragFloat3>(name, vec.data(), speed, min_value, max_value, format, flags);
+		mvAppItem* item = new mvDragFloat<mvAppItemType::DragFloat3, 3, ImGui::DragFloat3>(name, vec.data());
 		if (callback)
 			Py_XINCREF(callback);
 		item->setCallback(callback);
 		if (callback_data)
 			Py_XINCREF(callback_data);
 		item->setCallbackData(callback_data);
-		item->setTip(tip);
+
+		item->checkConfigDict(kwargs);
+		item->setConfigDict(kwargs);
+		item->setExtraConfigDict(kwargs);
+
 		item->setDataSource(data_source);
-		item->setWidth(width);
 		return ToPyBool(AddItemWithRuntimeChecks(item, parent, before));
 	}
 
@@ -306,22 +302,21 @@ namespace Marvel {
 			&min_value, &max_value, &format, &callback, &callback_data, &tip, &parent, &before, &data_source, &width, &on_enter))
 			return ToPyBool(false);
 
-		ImGuiInputTextFlags flags = 0;
-		if (on_enter)
-			flags = ImGuiInputTextFlags_EnterReturnsTrue;
-
 		auto vec = ToFloatVect(default_value);
 
-		mvAppItem* item = new mvDragFloat<mvAppItemType::DragFloat4, 4, ImGui::DragFloat4>(name, vec.data(), speed, min_value, max_value, format, flags);
+		mvAppItem* item = new mvDragFloat<mvAppItemType::DragFloat4, 4, ImGui::DragFloat4>(name, vec.data());
 		if (callback)
 			Py_XINCREF(callback);
 		item->setCallback(callback);
 		if (callback_data)
 			Py_XINCREF(callback_data);
 		item->setCallbackData(callback_data);
-		item->setTip(tip);
+
+		item->checkConfigDict(kwargs);
+		item->setConfigDict(kwargs);
+		item->setExtraConfigDict(kwargs);
+
 		item->setDataSource(data_source);
-		item->setWidth(width);
 		return ToPyBool(AddItemWithRuntimeChecks(item, parent, before));
 	}
 
@@ -346,26 +341,25 @@ namespace Marvel {
 			&min_value, &max_value, &format, &callback, &callback_data, &tip, &parent, &before, &data_source, &width, &on_enter))
 			return ToPyBool(false);
 
-		ImGuiInputTextFlags flags = 0;
-		if (on_enter)
-			flags = ImGuiInputTextFlags_EnterReturnsTrue;
-
 		std::vector<int> defaults;
 		defaults.push_back(default_value);
 		defaults.push_back(0.0f);
 		defaults.push_back(0.0f);
 		defaults.push_back(0.0f);
 
-		mvAppItem* item = new mvDragInt<mvAppItemType::DragInt, 1, ImGui::DragInt>(name, defaults.data(), speed, min_value, max_value, format, flags);
+		mvAppItem* item = new mvDragInt<mvAppItemType::DragInt, 1, ImGui::DragInt>(name, defaults.data());
 		if (callback)
 			Py_XINCREF(callback);
 		item->setCallback(callback);
 		if (callback_data)
 			Py_XINCREF(callback_data);
 		item->setCallbackData(callback_data);
-		item->setTip(tip);
+
+		item->checkConfigDict(kwargs);
+		item->setConfigDict(kwargs);
+		item->setExtraConfigDict(kwargs);
+
 		item->setDataSource(data_source);
-		item->setWidth(width);
 		return ToPyBool(AddItemWithRuntimeChecks(item, parent, before));
 	}
 
@@ -394,21 +388,20 @@ namespace Marvel {
 			&min_value, &max_value, &format, &callback, &callback_data, &tip, &parent, &before, &data_source, &width, &on_enter))
 			return ToPyBool(false);
 
-		ImGuiInputTextFlags flags = 0;
-		if (on_enter)
-			flags = ImGuiInputTextFlags_EnterReturnsTrue;
-
 		auto vec = ToIntVect(default_value);
-		mvAppItem* item = new mvDragInt<mvAppItemType::DragInt2, 2, ImGui::DragInt2>(name, vec.data(), speed, min_value, max_value, format, flags);
+		mvAppItem* item = new mvDragInt<mvAppItemType::DragInt2, 2, ImGui::DragInt2>(name, vec.data());
 		if (callback)
 			Py_XINCREF(callback);
 		item->setCallback(callback);
 		if (callback_data)
 			Py_XINCREF(callback_data);
 		item->setCallbackData(callback_data);
-		item->setTip(tip);
+
+		item->checkConfigDict(kwargs);
+		item->setConfigDict(kwargs);
+		item->setExtraConfigDict(kwargs);
+
 		item->setDataSource(data_source);
-		item->setWidth(width);
 		return ToPyBool(AddItemWithRuntimeChecks(item, parent, before));
 	}
 
@@ -437,21 +430,20 @@ namespace Marvel {
 			&min_value, &max_value, &format, &callback, &callback_data, &tip, &parent, &before, &data_source, &width, &on_enter))
 			return ToPyBool(false);
 
-		ImGuiInputTextFlags flags = 0;
-		if (on_enter)
-			flags = ImGuiInputTextFlags_EnterReturnsTrue;
-
 		auto vec = ToIntVect(default_value);
-		mvAppItem* item = new mvDragInt<mvAppItemType::DragInt3, 3, ImGui::DragInt3>(name, vec.data(), speed, min_value, max_value, format, flags);
+		mvAppItem* item = new mvDragInt<mvAppItemType::DragInt3, 3, ImGui::DragInt3>(name, vec.data());
 		if (callback)
 			Py_XINCREF(callback);
 		item->setCallback(callback);
 		if (callback_data)
 			Py_XINCREF(callback_data);
 		item->setCallbackData(callback_data);
-		item->setTip(tip);
+
+		item->checkConfigDict(kwargs);
+		item->setConfigDict(kwargs);
+		item->setExtraConfigDict(kwargs);
+
 		item->setDataSource(data_source);
-		item->setWidth(width);
 		return ToPyBool(AddItemWithRuntimeChecks(item, parent, before));
 	}
 
@@ -480,21 +472,20 @@ namespace Marvel {
 			&min_value, &max_value, &format, &callback, &callback_data, &tip, &parent, &before, &data_source, &width, &on_enter))
 			return ToPyBool(false);
 
-		ImGuiInputTextFlags flags = 0;
-		if (on_enter)
-			flags = ImGuiInputTextFlags_EnterReturnsTrue;
-
 		auto vec = ToIntVect(default_value);
-		mvAppItem* item = new mvDragInt<mvAppItemType::DragInt4, 4, ImGui::DragInt4>(name, vec.data(), speed, min_value, max_value, format, flags);
+		mvAppItem* item = new mvDragInt<mvAppItemType::DragInt4, 4, ImGui::DragInt4>(name, vec.data());
 		if (callback)
 			Py_XINCREF(callback);
 		item->setCallback(callback);
 		if (callback_data)
 			Py_XINCREF(callback_data);
 		item->setCallbackData(callback_data);
-		item->setTip(tip);
+
+		item->checkConfigDict(kwargs);
+		item->setConfigDict(kwargs);
+		item->setExtraConfigDict(kwargs);
+
 		item->setDataSource(data_source);
-		item->setWidth(width);
 		return ToPyBool(AddItemWithRuntimeChecks(item, parent, before));
 	}
 
