@@ -19,7 +19,11 @@
 #include "Core/PythonCommands/mvTableInterface.h"
 #include "Core/PythonCommands/mvThemeInterface.h"
 #include "Core/PythonCommands/mvInputInterface.h"
-#include "Core/PythonCommands/mvWidgetInterface.h"
+#include "Core/PythonCommands/mvBasicWidgetInterface.h"
+#include "Core/PythonCommands/mvSliderInterface.h"
+#include "Core/PythonCommands/mvInputsInterface.h"
+#include "Core/PythonCommands/mvDragInterface.h"
+#include "Core/PythonCommands/mvContainerInterface.h"
 #include "Core/PythonCommands/mvAppItemInterface.h"
 #include "Core/PythonCommands/mvAppInterface.h"
 
@@ -45,7 +49,6 @@ namespace Marvel {
 		AddTableCommands(parsers);
 		AddItemCommands(parsers);
 		AddStdWindowCommands(parsers);
-		AddMenuCommands(parsers);
 		AddThemeCommands(parsers);
 		AddBasicWidgets(parsers);
 		AddContainerWidgets(parsers);

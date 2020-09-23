@@ -51,7 +51,11 @@ set(MARVEL_SOURCES
 	"src/Core/PythonCommands/mvTableInterface.cpp"
 	"src/Core/PythonCommands/mvThemeInterface.cpp"
 	"src/Core/PythonCommands/mvInputInterface.cpp"
-	"src/Core/PythonCommands/mvWidgetInterface.cpp"
+	"src/Core/PythonCommands/mvBasicWidgetInterface.cpp"
+	"src/Core/PythonCommands/mvSliderInterface.cpp"
+	"src/Core/PythonCommands/mvInputsInterface.cpp"
+	"src/Core/PythonCommands/mvDragInterface.cpp"
+	"src/Core/PythonCommands/mvContainerInterface.cpp"
 	"src/Core/PythonCommands/mvAppItemInterface.cpp"
 	"src/Core/PythonCommands/mvAppInterface.cpp"
 
