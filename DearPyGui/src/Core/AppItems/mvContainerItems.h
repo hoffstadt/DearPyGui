@@ -32,13 +32,15 @@ namespace Marvel {
 			m_container = true;
 		}
 
+		void addFlag(ImGuiWindowFlags flag) { m_windowflags |= flag; }
+		void removeFlag(ImGuiWindowFlags flag) { m_windowflags &= ~flag; }
+
 		void draw() override
 		{
 
 			pushColorStyles();
 			
-			ImGui::BeginChild(m_label.c_str(), ImVec2(float(m_width), float(m_height)), m_border, 
-				ImGuiWindowFlags_HorizontalScrollbar);
+			ImGui::BeginChild(m_label.c_str(), ImVec2(float(m_width), float(m_height)), m_border, m_windowflags);
 
 			for (mvAppItem* item : m_children)
 			{
@@ -103,6 +105,7 @@ namespace Marvel {
 	private:
 
 		bool m_border = true;
+		ImGuiWindowFlags m_windowflags = ImGuiWindowFlags_NoSavedSettings | ImGuiWindowFlags_HorizontalScrollbar;
 
 	};
 
