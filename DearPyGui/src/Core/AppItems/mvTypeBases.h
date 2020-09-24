@@ -49,6 +49,14 @@ namespace Marvel {
 				mvValueStorage::DecrementRef(m_dataSource);
 		}
 
+		void setDataSource(const std::string& dataSource) override
+		{
+			if (dataSource == m_dataSource) return;
+			mvValueStorage::DecrementRef(m_dataSource);
+			m_value = mvValueStorage::AddIntValue(dataSource);
+			m_dataSource = dataSource;
+		}
+
 	protected:
 
 		int* m_value = nullptr;
@@ -79,6 +87,14 @@ namespace Marvel {
 				mvValueStorage::DecrementRef(m_name);
 			else
 				mvValueStorage::DecrementRef(m_dataSource);
+		}
+
+		void setDataSource(const std::string& dataSource) override
+		{
+			if (dataSource == m_dataSource) return;
+			mvValueStorage::DecrementRef(m_dataSource);
+			m_value = mvValueStorage::AddInt2Value(dataSource);
+			m_dataSource = dataSource;
 		}
 
 	protected:
@@ -113,6 +129,14 @@ namespace Marvel {
 				mvValueStorage::DecrementRef(m_dataSource);
 		}
 
+		void setDataSource(const std::string& dataSource) override
+		{
+			if (dataSource == m_dataSource) return;
+			mvValueStorage::DecrementRef(m_dataSource);
+			m_value = mvValueStorage::AddInt3Value(dataSource);
+			m_dataSource = dataSource;
+		}
+
 	protected:
 
 		int* m_value = nullptr;
@@ -143,6 +167,14 @@ namespace Marvel {
 				mvValueStorage::DecrementRef(m_name);
 			else
 				mvValueStorage::DecrementRef(m_dataSource);
+		}
+
+		void setDataSource(const std::string& dataSource) override
+		{
+			if (dataSource == m_dataSource) return;
+			mvValueStorage::DecrementRef(m_dataSource);
+			m_value = mvValueStorage::AddInt4Value(dataSource);
+			m_dataSource = dataSource;
 		}
 
 	protected:
@@ -177,6 +209,14 @@ namespace Marvel {
 				mvValueStorage::DecrementRef(m_dataSource);
 		}
 
+		void setDataSource(const std::string& dataSource) override
+		{
+			if (dataSource == m_dataSource) return;
+			mvValueStorage::DecrementRef(m_dataSource);
+			m_value = mvValueStorage::AddFloatValue(dataSource);
+			m_dataSource = dataSource;
+		}
+
 	protected:
 
 		float* m_value = nullptr;
@@ -207,6 +247,14 @@ namespace Marvel {
 				mvValueStorage::DecrementRef(m_name);
 			else
 				mvValueStorage::DecrementRef(m_dataSource);
+		}
+
+		void setDataSource(const std::string& dataSource) override
+		{
+			if (dataSource == m_dataSource) return;
+			mvValueStorage::DecrementRef(m_dataSource);
+			m_value = mvValueStorage::AddFloat2Value(dataSource);
+			m_dataSource = dataSource;
 		}
 
 	protected:
@@ -241,6 +289,14 @@ namespace Marvel {
 				mvValueStorage::DecrementRef(m_dataSource);
 		}
 
+		void setDataSource(const std::string& dataSource) override
+		{
+			if (dataSource == m_dataSource) return;
+			mvValueStorage::DecrementRef(m_dataSource);
+			m_value = mvValueStorage::AddFloat3Value(dataSource);
+			m_dataSource = dataSource;
+		}
+
 	protected:
 
 		float* m_value = nullptr;
@@ -271,6 +327,14 @@ namespace Marvel {
 				mvValueStorage::DecrementRef(m_name);
 			else
 				mvValueStorage::DecrementRef(m_dataSource);
+		}
+
+		void setDataSource(const std::string& dataSource) override
+		{
+			if (dataSource == m_dataSource) return;
+			mvValueStorage::DecrementRef(m_dataSource);
+			m_value = mvValueStorage::AddFloat4Value(dataSource);
+			m_dataSource = dataSource;
 		}
 
 	protected:
@@ -305,6 +369,14 @@ namespace Marvel {
 				mvValueStorage::DecrementRef(m_dataSource);
 		}
 
+		void setDataSource(const std::string& dataSource) override
+		{
+			if (dataSource == m_dataSource) return;
+			mvValueStorage::DecrementRef(m_dataSource);
+			m_value = mvValueStorage::AddBoolValue(dataSource);
+			m_dataSource = dataSource;
+		}
+
 	protected:
 
 		bool* m_value = nullptr;
@@ -335,6 +407,14 @@ namespace Marvel {
 				mvValueStorage::DecrementRef(m_name);
 			else
 				mvValueStorage::DecrementRef(m_dataSource);
+		}
+
+		void setDataSource(const std::string& dataSource) override
+		{
+			if (dataSource == m_dataSource) return;
+			mvValueStorage::DecrementRef(m_dataSource);
+			m_value = mvValueStorage::AddStringValue(dataSource);
+			m_dataSource = dataSource;
 		}
 
 	protected:
@@ -406,6 +486,14 @@ namespace Marvel {
 				mvValueStorage::DecrementRef(m_name);
 			else
 				mvValueStorage::DecrementRef(m_dataSource);
+		}
+
+		void setDataSource(const std::string& dataSource) override
+		{
+			if (dataSource == m_dataSource) return;
+			mvValueStorage::DecrementRef(m_dataSource);
+			m_value = mvValueStorage::AddFloatVectorValue(dataSource);
+			m_dataSource = dataSource;
 		}
 
 	protected:

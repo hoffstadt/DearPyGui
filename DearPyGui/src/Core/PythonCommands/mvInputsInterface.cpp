@@ -215,7 +215,7 @@ namespace Marvel {
 		item->setConfigDict(kwargs);
 		item->setExtraConfigDict(kwargs);
 
-		item->setDataSource(data_source);
+		
 		return ToPyBool(AddItemWithRuntimeChecks(item, parent, before));
 	}
 
@@ -252,7 +252,7 @@ namespace Marvel {
 		item->setConfigDict(kwargs);
 		item->setExtraConfigDict(kwargs);
 
-		item->setDataSource(data_source);
+		
 		return ToPyBool(AddItemWithRuntimeChecks(item, parent, before));
 	}
 
@@ -293,7 +293,7 @@ namespace Marvel {
 		item->setConfigDict(kwargs);
 		item->setExtraConfigDict(kwargs);
 
-		item->setDataSource(data_source);
+		
 		return ToPyBool(AddItemWithRuntimeChecks(item, parent, before));
 	}
 
@@ -335,7 +335,7 @@ namespace Marvel {
 		item->setConfigDict(kwargs);
 		item->setExtraConfigDict(kwargs);
 
-		item->setDataSource(data_source);
+		
 		return ToPyBool(AddItemWithRuntimeChecks(item, parent, before));
 	}
 
@@ -377,7 +377,7 @@ namespace Marvel {
 		item->setConfigDict(kwargs);
 		item->setExtraConfigDict(kwargs);
 
-		item->setDataSource(data_source);
+		
 		return ToPyBool(AddItemWithRuntimeChecks(item, parent, before));
 	}
 
@@ -415,7 +415,7 @@ namespace Marvel {
 		item->setConfigDict(kwargs);
 		item->setExtraConfigDict(kwargs);
 
-		item->setDataSource(data_source);
+		
 		return ToPyBool(AddItemWithRuntimeChecks(item, parent, before));
 	}
 
@@ -456,7 +456,7 @@ namespace Marvel {
 		item->setConfigDict(kwargs);
 		item->setExtraConfigDict(kwargs);
 
-		item->setDataSource(data_source);
+		
 		return ToPyBool(AddItemWithRuntimeChecks(item, parent, before));
 	}
 
@@ -499,7 +499,7 @@ namespace Marvel {
 		item->setConfigDict(kwargs);
 		item->setExtraConfigDict(kwargs);
 
-		item->setDataSource(data_source);
+		
 		return ToPyBool(AddItemWithRuntimeChecks(item, parent, before));
 	}
 
@@ -543,7 +543,7 @@ namespace Marvel {
 		item->setConfigDict(kwargs);
 		item->setExtraConfigDict(kwargs);
 
-		item->setDataSource(data_source);
+		
 		return ToPyBool(AddItemWithRuntimeChecks(item, parent, before));
 	}
 

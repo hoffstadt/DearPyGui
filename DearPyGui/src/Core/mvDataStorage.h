@@ -3,12 +3,7 @@
 //-----------------------------------------------------------------------------
 // mvDataStorage
 //
-//     - This class acts as a manager for data storage by the users. The 
-//       data storage system serves 3 purposes:
-//
-//         * Allows some widgets to share the same underlying data.
-//         * Allows some widgets secondary data be modified (i.e. listbox list items)
-//         * Allows the user to store data for any other purpose where
+//     *  Allows the user to store data for any purpose where
 //           the data can be retrieved at a later time.
 //
 //     - AddData is also used to update existing data. We probably need to add
