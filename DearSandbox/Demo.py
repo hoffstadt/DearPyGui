@@ -185,7 +185,7 @@ with window("Tables##dialog", 500, 500, show=False, on_close=closeit):
             row.append("Item"+str(i)+"-"+str(j))
         tabledata.append(row)
 
-    set_value("Table##widget", tabledata)
+    set_table_data("Table##widget", tabledata)
 
 ########################################################################################################################
 # Tooltips and Popups

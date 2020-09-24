@@ -37,6 +37,7 @@ Fixes:
 - Tooltips:   Can now be added anywhere (don't have to be right after their parent)
 
 Breaking Changes:
+- Tables:         tables no longer use set/get value
 - Modules:        dearpygui module is now called core
 - Modules:        wrapper module is now called simple
 - Line Series:    Removed "fill" keyword (use the new shade series)
@@ -59,6 +60,8 @@ Breaking Changes:
 
 New Commands:
 
+- Tables:         Added "set_table_data"
+- Tables:         Added "get_table_data"
 - Widgets:        Added "add_value"
 - Widgets:        Added "incref_value"
 - Widgets:        Added "decref_value"
