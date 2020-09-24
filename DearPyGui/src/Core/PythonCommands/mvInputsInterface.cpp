@@ -203,7 +203,7 @@ namespace Marvel {
 			return ToPyBool(false);
 
 
-		mvAppItem* item = new mvInputText(name, default_value);
+		mvAppItem* item = new mvInputText(name, default_value, data_source);
 		if (callback)
 			Py_XINCREF(callback);
 		item->setCallback(callback);
@@ -240,7 +240,7 @@ namespace Marvel {
 			&label, &popup, &show))
 			return ToPyBool(false);
 
-		mvAppItem* item = new mvInputInt(name, default_value);
+		mvAppItem* item = new mvInputInt(name, default_value, data_source);
 		if (callback)
 			Py_XINCREF(callback);
 		item->setCallback(callback);
@@ -259,11 +259,9 @@ namespace Marvel {
 	PyObject* add_input_int2(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		const char* name;
-		PyObject* default_value = PyTuple_New(4);
+		PyObject* default_value = PyTuple_New(2);
 		PyTuple_SetItem(default_value, 0, PyLong_FromLong(0));
 		PyTuple_SetItem(default_value, 1, PyLong_FromLong(0));
-		PyTuple_SetItem(default_value, 2, PyLong_FromLong(0));
-		PyTuple_SetItem(default_value, 3, PyLong_FromLong(0));
 		PyObject* callback = nullptr;
 		PyObject* callback_data = nullptr;
 		const char* tip = "";
@@ -283,7 +281,7 @@ namespace Marvel {
 
 		auto vec = ToIntVect(default_value);
 
-		mvAppItem* item = new mvInputIntMulti<mvAppItemType::InputInt2, 2, ImGui::InputInt2>(name, vec.data());
+		mvAppItem* item = new mvInputInt2(name, vec.data(), data_source);
 		if (callback)
 			Py_XINCREF(callback);
 		item->setCallback(callback);
@@ -302,11 +300,10 @@ namespace Marvel {
 	PyObject* add_input_int3(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		const char* name;
-		PyObject* default_value = PyTuple_New(4);
+		PyObject* default_value = PyTuple_New(3);
 		PyTuple_SetItem(default_value, 0, PyLong_FromLong(0));
 		PyTuple_SetItem(default_value, 1, PyLong_FromLong(0));
 		PyTuple_SetItem(default_value, 2, PyLong_FromLong(0));
-		PyTuple_SetItem(default_value, 3, PyLong_FromLong(0));
 		PyObject* callback = nullptr;
 		PyObject* callback_data = nullptr;
 		const char* tip = "";
@@ -326,7 +323,7 @@ namespace Marvel {
 
 		auto vec = ToIntVect(default_value);
 
-		mvAppItem* item = new mvInputIntMulti<mvAppItemType::InputInt3, 3, ImGui::InputInt3>(name, vec.data());
+		mvAppItem* item = new mvInputInt3(name, vec.data(), data_source);
 		if (callback)
 			Py_XINCREF(callback);
 		item->setCallback(callback);
@@ -368,7 +365,7 @@ namespace Marvel {
 			return ToPyBool(false);
 
 		auto vec = ToIntVect(default_value);
-		mvAppItem* item = new mvInputIntMulti<mvAppItemType::InputInt4, 4, ImGui::InputInt4>(name, vec.data());
+		mvAppItem* item = new mvInputInt4(name, vec.data(), data_source);
 		if (callback)
 			Py_XINCREF(callback);
 		item->setCallback(callback);
@@ -406,7 +403,7 @@ namespace Marvel {
 			&label, &popup, &show))
 			return ToPyBool(false);
 
-		mvAppItem* item = new mvInputFloat(name, default_value);
+		mvAppItem* item = new mvInputFloat(name, default_value, data_source);
 		if (callback)
 			Py_XINCREF(callback);
 		item->setCallback(callback);
@@ -447,7 +444,7 @@ namespace Marvel {
 			return ToPyBool(false);
 
 		auto vec = ToFloatVect(default_value);
-		mvAppItem* item = new mvInputFloatMulti<mvAppItemType::InputFloat2, 2, ImGui::InputFloat2>(name, vec.data());
+		mvAppItem* item = new mvInputFloat2(name, vec.data(), data_source);
 		if (callback)
 			Py_XINCREF(callback);
 		item->setCallback(callback);
@@ -490,7 +487,7 @@ namespace Marvel {
 
 		auto vec = ToFloatVect(default_value);
 
-		mvAppItem* item = new mvInputFloatMulti<mvAppItemType::InputFloat3, 3, ImGui::InputFloat3>(name, vec.data());
+		mvAppItem* item = new mvInputFloat3(name, vec.data(), data_source);
 		if (callback)
 			Py_XINCREF(callback);
 		item->setCallback(callback);
@@ -534,7 +531,7 @@ namespace Marvel {
 
 		auto vec = ToFloatVect(default_value);
 
-		mvAppItem* item = new mvInputFloatMulti<mvAppItemType::InputFloat4, 4, ImGui::InputFloat4>(name, vec.data());
+		mvAppItem* item = new mvInputFloat4(name, vec.data(), data_source);
 		if (callback)
 			Py_XINCREF(callback);
 		item->setCallback(callback);

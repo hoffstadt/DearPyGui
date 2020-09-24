@@ -38,7 +38,7 @@ namespace Marvel {
 	//-----------------------------------------------------------------------------
 	// mvText
 	//-----------------------------------------------------------------------------
-	class mvText : public mvStringItemBase
+	class mvText : public mvStringPtrBase
 	{
 
 	public:
@@ -46,7 +46,7 @@ namespace Marvel {
 		MV_APPITEM_TYPE(mvAppItemType::Text, "add_text")
 
 		mvText(const std::string& name)
-			: mvStringItemBase(name, name)
+			: mvStringPtrBase(name, name, name)
 		{
 		}
 
@@ -65,7 +65,7 @@ namespace Marvel {
 				ImGui::Bullet();
 
 			//ImGui::Text("%s", m_value.c_str());
-			ImGui::TextUnformatted(m_value.c_str()); // this doesn't have a buffer size limit
+			ImGui::TextUnformatted(m_value->c_str()); // this doesn't have a buffer size limit
 
 			if (m_wrap != 0)
 				ImGui::PopTextWrapPos();
@@ -110,15 +110,15 @@ namespace Marvel {
 	//-----------------------------------------------------------------------------
 	// mvLabelText
 	//-----------------------------------------------------------------------------
-	class mvLabelText : public mvStringItemBase
+	class mvLabelText : public mvStringPtrBase
 	{
 
 	public:
 
 		MV_APPITEM_TYPE(mvAppItemType::LabelText, "add_label_text")
 
-			mvLabelText(const std::string& name, const std::string& value)
-			: mvStringItemBase(name, value)
+			mvLabelText(const std::string& name, const std::string& value, const std::string& dataSource)
+			: mvStringPtrBase(name, value, dataSource)
 		{
 			m_label = FindRenderedTextEnd(m_name.c_str());
 		}
@@ -128,7 +128,7 @@ namespace Marvel {
 			if (m_color.specified)
 				ImGui::PushStyleColor(ImGuiCol_Text, m_color);
 
-			ImGui::TextUnformatted(m_value.c_str());
+			ImGui::TextUnformatted(m_value->c_str());
 
 			if (m_color.specified)
 				ImGui::PopStyleColor();

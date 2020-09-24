@@ -199,13 +199,7 @@ namespace Marvel {
 			&label, &popup, &show))
 			return ToPyBool(false);
 
-		std::vector<float> defaults;
-		defaults.push_back(default_value);
-		defaults.push_back(0.0f);
-		defaults.push_back(0.0f);
-		defaults.push_back(0.0f);
-
-		mvAppItem* item = new mvDragFloat<mvAppItemType::DragFloat, 1, ImGui::DragFloat>(name, defaults.data());
+		mvAppItem* item = new mvDragFloat(name, default_value, data_source);
 		if (callback)
 			Py_XINCREF(callback);
 		item->setCallback(callback);
@@ -224,11 +218,9 @@ namespace Marvel {
 	PyObject* add_drag_float2(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		const char* name;
-		PyObject* default_value = PyTuple_New(4);
+		PyObject* default_value = PyTuple_New(2);
 		PyTuple_SetItem(default_value, 0, PyFloat_FromDouble(0.0));
 		PyTuple_SetItem(default_value, 1, PyFloat_FromDouble(0.0));
-		PyTuple_SetItem(default_value, 2, PyFloat_FromDouble(0.0));
-		PyTuple_SetItem(default_value, 3, PyFloat_FromDouble(0.0));
 		float speed = 1.0f;
 		float min_value = 0.0f;
 		float max_value = 100.0f;
@@ -251,7 +243,7 @@ namespace Marvel {
 			return ToPyBool(false);
 
 		auto vec = ToFloatVect(default_value);
-		mvAppItem* item = new mvDragFloat<mvAppItemType::DragFloat2, 2, ImGui::DragFloat2>(name, vec.data());
+		mvAppItem* item = new mvDragFloat2(name, vec.data(), data_source);
 		if (callback)
 			Py_XINCREF(callback);
 		item->setCallback(callback);
@@ -270,11 +262,10 @@ namespace Marvel {
 	PyObject* add_drag_float3(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		const char* name;
-		PyObject* default_value = PyTuple_New(4);
+		PyObject* default_value = PyTuple_New(3);
 		PyTuple_SetItem(default_value, 0, PyFloat_FromDouble(0.0));
 		PyTuple_SetItem(default_value, 1, PyFloat_FromDouble(0.0));
 		PyTuple_SetItem(default_value, 2, PyFloat_FromDouble(0.0));
-		PyTuple_SetItem(default_value, 3, PyFloat_FromDouble(0.0));
 		float speed = 1.0f;
 		float min_value = 0.0f;
 		float max_value = 100.0f;
@@ -297,7 +288,7 @@ namespace Marvel {
 			return ToPyBool(false);
 
 		auto vec = ToFloatVect(default_value);
-		mvAppItem* item = new mvDragFloat<mvAppItemType::DragFloat3, 3, ImGui::DragFloat3>(name, vec.data());
+		mvAppItem* item = new mvDragFloat3(name, vec.data(), data_source);
 		if (callback)
 			Py_XINCREF(callback);
 		item->setCallback(callback);
@@ -344,7 +335,7 @@ namespace Marvel {
 
 		auto vec = ToFloatVect(default_value);
 
-		mvAppItem* item = new mvDragFloat<mvAppItemType::DragFloat4, 4, ImGui::DragFloat4>(name, vec.data());
+		mvAppItem* item = new mvDragFloat4(name, vec.data(), data_source);
 		if (callback)
 			Py_XINCREF(callback);
 		item->setCallback(callback);
@@ -385,13 +376,7 @@ namespace Marvel {
 			&label, &popup, &show))
 			return ToPyBool(false);
 
-		std::vector<int> defaults;
-		defaults.push_back(default_value);
-		defaults.push_back(0.0f);
-		defaults.push_back(0.0f);
-		defaults.push_back(0.0f);
-
-		mvAppItem* item = new mvDragInt<mvAppItemType::DragInt, 1, ImGui::DragInt>(name, defaults.data());
+		mvAppItem* item = new mvDragInt(name, default_value, data_source);
 		if (callback)
 			Py_XINCREF(callback);
 		item->setCallback(callback);
@@ -410,11 +395,9 @@ namespace Marvel {
 	PyObject* add_drag_int2(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		const char* name;
-		PyObject* default_value = PyTuple_New(4);
+		PyObject* default_value = PyTuple_New(2);
 		PyTuple_SetItem(default_value, 0, PyLong_FromLong(0));
 		PyTuple_SetItem(default_value, 1, PyLong_FromLong(0));
-		PyTuple_SetItem(default_value, 2, PyLong_FromLong(0));
-		PyTuple_SetItem(default_value, 3, PyLong_FromLong(0));
 		float speed = 1.0f;
 		int min_value = 0;
 		int max_value = 100;
@@ -437,7 +420,7 @@ namespace Marvel {
 			return ToPyBool(false);
 
 		auto vec = ToIntVect(default_value);
-		mvAppItem* item = new mvDragInt<mvAppItemType::DragInt2, 2, ImGui::DragInt2>(name, vec.data());
+		mvAppItem* item = new mvDragInt2(name, vec.data(), data_source);
 		if (callback)
 			Py_XINCREF(callback);
 		item->setCallback(callback);
@@ -456,11 +439,10 @@ namespace Marvel {
 	PyObject* add_drag_int3(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		const char* name;
-		PyObject* default_value = PyTuple_New(4);
+		PyObject* default_value = PyTuple_New(3);
 		PyTuple_SetItem(default_value, 0, PyLong_FromLong(0));
 		PyTuple_SetItem(default_value, 1, PyLong_FromLong(0));
 		PyTuple_SetItem(default_value, 2, PyLong_FromLong(0));
-		PyTuple_SetItem(default_value, 3, PyLong_FromLong(0));
 		float speed = 1.0f;
 		int min_value = 0;
 		int max_value = 100;
@@ -483,7 +465,7 @@ namespace Marvel {
 			return ToPyBool(false);
 
 		auto vec = ToIntVect(default_value);
-		mvAppItem* item = new mvDragInt<mvAppItemType::DragInt3, 3, ImGui::DragInt3>(name, vec.data());
+		mvAppItem* item = new mvDragInt3(name, vec.data(), data_source);
 		if (callback)
 			Py_XINCREF(callback);
 		item->setCallback(callback);
@@ -529,7 +511,7 @@ namespace Marvel {
 			return ToPyBool(false);
 
 		auto vec = ToIntVect(default_value);
-		mvAppItem* item = new mvDragInt<mvAppItemType::DragInt4, 4, ImGui::DragInt4>(name, vec.data());
+		mvAppItem* item = new mvDragInt4(name, vec.data(), data_source);
 		if (callback)
 			Py_XINCREF(callback);
 		item->setCallback(callback);

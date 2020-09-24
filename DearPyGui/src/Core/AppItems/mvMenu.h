@@ -17,7 +17,7 @@ namespace Marvel {
 	//-----------------------------------------------------------------------------
 	// mvMenuBar
 	//-----------------------------------------------------------------------------
-	class mvMenuBar : public mvBoolItemBase
+	class mvMenuBar : public mvBoolPtrBase
 	{
 
 	public:
@@ -25,7 +25,7 @@ namespace Marvel {
 		MV_APPITEM_TYPE(mvAppItemType::MenuBar, "add_menu_bar")
 
 		explicit mvMenuBar(const std::string& name)
-			: mvBoolItemBase(name, true)
+			: mvBoolPtrBase(name, true, name)
 		{
 			m_container = true;
 			
@@ -80,7 +80,7 @@ namespace Marvel {
 	//-----------------------------------------------------------------------------
 	// mvMenu
 	//-----------------------------------------------------------------------------
-	class mvMenu : public mvBoolItemBase, public mvEventHandler
+	class mvMenu : public mvBoolPtrBase, public mvEventHandler
 	{
 
 	public:
@@ -88,7 +88,7 @@ namespace Marvel {
 		MV_APPITEM_TYPE(mvAppItemType::Menu, "add_menu")
 
 		mvMenu( const std::string& name)
-			: mvBoolItemBase(name, false), mvEventHandler()
+			: mvBoolPtrBase(name, false, name), mvEventHandler()
 		{
 			m_container = true;
 		}
@@ -106,11 +106,11 @@ namespace Marvel {
                 {
                     // ensure sibling
                     if(sibling->getType() == mvAppItemType::Menu)
-                        ((mvMenu *) sibling)->setValue(false);
+                        *((mvMenu *) sibling)->m_value = false;
                 }
 
 				// set current menu value true
-				m_value = true;
+				*m_value = true;
 
 				for (mvAppItem* item : m_children)
 				{
@@ -154,7 +154,7 @@ namespace Marvel {
 	//-----------------------------------------------------------------------------
 	// mvMenuItem
 	//-----------------------------------------------------------------------------
-	class mvMenuItem : public mvBoolItemBase
+	class mvMenuItem : public mvBoolPtrBase
 	{
 
 	public:
@@ -162,14 +162,14 @@ namespace Marvel {
 		MV_APPITEM_TYPE(mvAppItemType::MenuItem, "add_menu_item")
 
 		mvMenuItem(const std::string& name)
-			: mvBoolItemBase(name, false){}
+			: mvBoolPtrBase(name, false, name){}
 
 		void draw() override
 		{
 			pushColorStyles();
 
 			// create menuitem and see if its selected
-			if (ImGui::MenuItem(m_label.c_str(), m_shortcut.c_str(), m_check ? &m_value : nullptr))
+			if (ImGui::MenuItem(m_label.c_str(), m_shortcut.c_str(), m_check ? m_value : nullptr))
 			{
 
 				// set other menuitems's value false on same level
@@ -177,10 +177,10 @@ namespace Marvel {
 				{
 				    // ensure sibling
 				    if(sibling->getType() == mvAppItemType::MenuItem)
-                        ((mvMenuItem *) sibling)->setValue(false);
+                        *((mvMenuItem *) sibling)->m_value = false;
                 }
 
-				m_value = true;
+				*m_value = true;
 
 				mvApp::GetApp()->runCallback(m_callback, m_name, m_callbackData);
 

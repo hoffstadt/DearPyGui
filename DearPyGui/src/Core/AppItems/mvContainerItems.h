@@ -19,7 +19,7 @@ namespace Marvel {
 	//-----------------------------------------------------------------------------
 	// mvChild
 	//-----------------------------------------------------------------------------
-	class mvChild : public mvBoolItemBase, public mvEventHandler
+	class mvChild : public mvBoolPtrBase, public mvEventHandler
 	{
 
 	public:
@@ -27,7 +27,7 @@ namespace Marvel {
 		MV_APPITEM_TYPE(mvAppItemType::Child, "add_child")
 
 		mvChild(const std::string& name)
-			: mvBoolItemBase(name, false), mvEventHandler()
+			: mvBoolPtrBase(name, false, name), mvEventHandler()
 		{
 			m_container = true;
 		}
@@ -202,7 +202,7 @@ namespace Marvel {
 	//-----------------------------------------------------------------------------
 	// mvCollapsingHeader
 	//-----------------------------------------------------------------------------
-	class mvCollapsingHeader : public mvBoolItemBase
+	class mvCollapsingHeader : public mvBoolPtrBase
 	{
 
 	public:
@@ -210,7 +210,7 @@ namespace Marvel {
 		MV_APPITEM_TYPE(mvAppItemType::CollapsingHeader, "add_collapsing_header")
 
 		mvCollapsingHeader(const std::string& name)
-			: mvBoolItemBase(name, true)
+			: mvBoolPtrBase(name, true, name)
 		{
 			m_container = true;
 		}
@@ -221,7 +221,7 @@ namespace Marvel {
 
 			bool* toggle = nullptr;
 			if (m_closable)
-				toggle = &m_value;
+				toggle = m_value;
 
 			if (ImGui::CollapsingHeader(m_label.c_str(), toggle, m_flags))
 			{
@@ -317,7 +317,7 @@ namespace Marvel {
 	//-----------------------------------------------------------------------------
 	// mvTreeNode
 	//-----------------------------------------------------------------------------
-	class mvTreeNode : public mvBoolItemBase
+	class mvTreeNode : public mvBoolPtrBase
 	{
 
 	public:
@@ -325,7 +325,7 @@ namespace Marvel {
 		MV_APPITEM_TYPE(mvAppItemType::TreeNode, "add_tree_node")
 
 		mvTreeNode(const std::string& name)
-			: mvBoolItemBase(name, false)
+			: mvBoolPtrBase(name, false, name)
 		{
 			m_container = true;
 		}

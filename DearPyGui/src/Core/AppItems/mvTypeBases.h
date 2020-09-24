@@ -18,248 +18,378 @@
 #include "mvAppLog.h"
 #include "Core/mvDataStorage.h"
 
+#include "Core/mvValueStorage.h"
+
 namespace Marvel {
 
 	//-----------------------------------------------------------------------------
-	// mvBoolItemBase
+	// mvIntPtrBase
 	//-----------------------------------------------------------------------------
-	class mvBoolItemBase : public mvAppItem
+	class mvIntPtrBase : public mvAppItem
 	{
 
 	public:
 
-		mvBoolItemBase(const std::string& name, bool value)
-			: mvAppItem(name), m_value(value)
+		mvIntPtrBase(const std::string& name, int default_value, const std::string& dataSource)
+			: mvAppItem(name), m_backupvalue(default_value)
 		{
+			if (dataSource.empty())
+				m_value = mvValueStorage::AddIntValue(name, default_value);
+			else
+				m_value = mvValueStorage::AddIntValue(dataSource, default_value);
+
+			// TODO: throw warning
+			if (m_value == nullptr)
+				m_value = &m_backupvalue;
+
+			m_dataSource = dataSource;
 		}
 
-		void setPyValue(PyObject* value) override
-		{ 
-			m_value = ToBool(value, m_name + " requires a bool value."); 
-		}
-
-		[[nodiscard]] PyObject* getPyValue() const override
+		~mvIntPtrBase()
 		{
-			return ToPyBool(m_value);
+			if (m_dataSource.empty())
+				mvValueStorage::DecrementRef(m_name);
+			else
+				mvValueStorage::DecrementRef(m_dataSource);
 		}
-
-		[[nodiscard]] bool getValue() const { return m_value; }
-		void               setValue(bool value) { m_value = value; }
 
 	protected:
 
-		bool m_value;
-
+		int* m_value = nullptr;
+		int m_backupvalue;
 	};
 
 	//-----------------------------------------------------------------------------
-	// mvStringItemBase
+	// mvInt2PtrBase
 	//-----------------------------------------------------------------------------
-	class mvStringItemBase : public mvAppItem
+	class mvInt2PtrBase : public mvAppItem
 	{
 
 	public:
 
-		mvStringItemBase(const std::string& name, std::string value)
-			: mvAppItem(name), m_value(std::move(value))
+		mvInt2PtrBase(const std::string& name, int* default_value, const std::string& dataSource)
+			: mvAppItem(name), m_backupvalue({default_value[0], default_value[1]})
 		{
+			if (dataSource.empty())
+				m_value = mvValueStorage::AddInt2Value(name, m_backupvalue);
+			else
+				m_value = mvValueStorage::AddInt2Value(dataSource, m_backupvalue);
+
+			// TODO: throw warning
+			if (m_value == nullptr)
+				m_value = m_backupvalue.data();
+
+			m_dataSource = dataSource;
 		}
 
-		void setPyValue(PyObject* value) override
+		~mvInt2PtrBase()
 		{
-			m_value = ToString(value, m_name + " requires a string value.");
+			if (m_dataSource.empty())
+				mvValueStorage::DecrementRef(m_name);
+			else
+				mvValueStorage::DecrementRef(m_dataSource);
 		}
-
-		[[nodiscard]] PyObject* getPyValue() const override
-		{
-			return ToPyString(m_value);
-		}
-
-		[[nodiscard]] const std::string& getValue() const { return m_value; }
-		inline void                      setValue(const std::string& value) { m_value = value; }
 
 	protected:
 
-		std::string m_value;
-
+		int* m_value = nullptr;
+		std::array<int, 2> m_backupvalue;
 	};
 
 	//-----------------------------------------------------------------------------
-	// mvIntItemBase
+	// mvInt3PtrBase
 	//-----------------------------------------------------------------------------
-	class mvIntItemBase : public mvAppItem
+	class mvInt3PtrBase : public mvAppItem
 	{
 
 	public:
 
-		mvIntItemBase(const std::string& name, unsigned count,
-			int x, int y=0, int z=0, int w=0)
-			: mvAppItem(name), m_valuecount(count)
+		mvInt3PtrBase(const std::string& name, int* default_value, const std::string& dataSource)
+			: mvAppItem(name), m_backupvalue({ default_value[0], default_value[1], default_value[2] })
 		{
-			m_value.push_back(x);
-			m_value.push_back(y);
-			m_value.push_back(z);
-			m_value.push_back(w);
+			if (dataSource.empty())
+				m_value = mvValueStorage::AddInt3Value(name, m_backupvalue);
+			else
+				m_value = mvValueStorage::AddInt3Value(dataSource, m_backupvalue);
+
+			// TODO: throw warning
+			if (m_value == nullptr)
+				m_value = m_backupvalue.data();
+
+			m_dataSource = dataSource;
 		}
 
-		void setPyValue(PyObject* value) override
+		~mvInt3PtrBase()
 		{
-
-			if (m_valuecount == 1)
-				m_value[0] = ToInt(value);
-
+			if (m_dataSource.empty())
+				mvValueStorage::DecrementRef(m_name);
 			else
-				m_value = ToIntVect(value, " requires a list or tuple of integers.");
-
-		}
-
-		[[nodiscard]] PyObject* getPyValue() const override
-		{
-
-			if (!m_dataSource.empty())
-			{
-				if (m_valuecount == 1)
-					return ToPyInt(m_value[0]);
-
-				else
-				{
-
-					if (!mvDataStorage::HasData(m_dataSource))
-						mvDataStorage::AddData(m_dataSource, ToPyList(m_value));
-					else
-						UpdatePyIntList(mvDataStorage::GetDataIncRef(m_dataSource), m_value);
-
-					return mvDataStorage::GetData(m_dataSource);
-				}
-			}
-
-			if (m_valuecount == 1)
-				return ToPyInt(m_value[0]);
-
-			else
-				return ToPyList(m_value);
+				mvValueStorage::DecrementRef(m_dataSource);
 		}
 
 	protected:
 
-		unsigned         m_valuecount = 1;
-		std::vector<int> m_value;
-
+		int* m_value = nullptr;
+		std::array<int, 3> m_backupvalue;
 	};
 
 	//-----------------------------------------------------------------------------
-	// mvFloatItemBase
+	// mvInt4PtrBase
 	//-----------------------------------------------------------------------------
-	class mvFloatItemBase : public mvAppItem
+	class mvInt4PtrBase : public mvAppItem
 	{
 
 	public:
 
-		mvFloatItemBase(const std::string& name, unsigned count, 
-			float x, float y=0.0f, float z=0.0f, float w=0.0f)
-			: mvAppItem(name), m_valuecount(count)
+		mvInt4PtrBase(const std::string& name, int* default_value, const std::string& dataSource)
+			: mvAppItem(name), m_backupvalue({ default_value[0], default_value[1], default_value[2] , default_value[3]})
 		{
-			m_value.push_back(x);
-			m_value.push_back(y);
-			m_value.push_back(z);
-			m_value.push_back(w);
+			if (dataSource.empty())
+				m_value = mvValueStorage::AddInt4Value(name, m_backupvalue);
+			else
+				m_value = mvValueStorage::AddInt4Value(dataSource, m_backupvalue);
+
+			// TODO: throw warning
+			if (m_value == nullptr)
+				m_value = m_backupvalue.data();
+
+			m_dataSource = dataSource;
 		}
 
-		void setPyValue(PyObject* value) override
+		~mvInt4PtrBase()
 		{
-			if (m_valuecount == 1)
-				m_value[0] = ToFloat(value);
-
+			if (m_dataSource.empty())
+				mvValueStorage::DecrementRef(m_name);
 			else
-				m_value = ToFloatVect(value, " requires a list or tuple of floats.");
-
-		}
-
-		[[nodiscard]] PyObject* getPyValue() const override
-		{
-
-			if (!m_dataSource.empty())
-			{
-				if (m_valuecount == 1)
-					return ToPyFloat(m_value[0]);
-
-				else
-				{
-					if (!mvDataStorage::HasData(m_dataSource))
-						mvDataStorage::AddData(m_dataSource, ToPyList(m_value));
-					else
-						UpdatePyFloatList(mvDataStorage::GetDataIncRef(m_dataSource), m_value);
-
-					return mvDataStorage::GetData(m_dataSource);
-				}
-			}
-
-			if (m_valuecount == 1)
-				return ToPyFloat(m_value[0]);
-
-			else
-				return ToPyList(m_value);
+				mvValueStorage::DecrementRef(m_dataSource);
 		}
 
 	protected:
 
-		unsigned           m_valuecount = 1;
-		std::vector<float> m_value;
-
+		int* m_value = nullptr;
+		std::array<int, 4> m_backupvalue;
 	};
 
-
 	//-----------------------------------------------------------------------------
-	// mvColorItemBase
+	// mvFloatPtrBase
 	//-----------------------------------------------------------------------------
-	class mvColorItemBase : public mvAppItem
+	class mvFloatPtrBase : public mvAppItem
 	{
 
 	public:
 
-		mvColorItemBase(const std::string& name, mvColor color)
-			: mvAppItem(name)
+		mvFloatPtrBase(const std::string& name, float default_value, const std::string& dataSource)
+			: mvAppItem(name), m_backupvalue(default_value)
 		{
-			m_value.push_back((float)color.r/255.0f);
-			m_value.push_back((float)color.g/255.0f);
-			m_value.push_back((float)color.b/255.0f);
-			m_value.push_back((float)color.a/255.0f);
+			if (dataSource.empty())
+				m_value = mvValueStorage::AddFloatValue(name, default_value);
+			else
+				m_value = mvValueStorage::AddFloatValue(dataSource, default_value);
+
+			// TODO: throw warning
+			if (m_value == nullptr)
+				m_value = &m_backupvalue;
+
+			m_dataSource = dataSource;
 		}
 
-		void setPyValue(PyObject* value) override
+		~mvFloatPtrBase()
 		{
-			auto ints = ToFloatVect(value, " requires a list or tuple of integers");
-			for (size_t i = 0; i < ints.size(); i++)
-			{
-				if (i > 3)
-					break;
-				m_value[i] = ints[i] / 255.0f;
-			}		
-		}
-
-		[[nodiscard]] PyObject* getPyValue() const override
-		{
-			std::vector<int> ints;
-			for (const auto& item : m_value)
-				ints.push_back(item * 255);
-
-			if (!m_dataSource.empty())
-			{
-				if (!mvDataStorage::HasData(m_dataSource))
-					mvDataStorage::AddData(m_dataSource, ToPyList(ints));
-				else
-					UpdatePyIntList(mvDataStorage::GetDataIncRef(m_dataSource), ints);
-
-				return mvDataStorage::GetData(m_dataSource);
-			}
-
-			return ToPyList(ints);
+			if (m_dataSource.empty())
+				mvValueStorage::DecrementRef(m_name);
+			else
+				mvValueStorage::DecrementRef(m_dataSource);
 		}
 
 	protected:
 
-		std::vector<float> m_value;
+		float* m_value = nullptr;
+		float m_backupvalue;
+	};
 
+	//-----------------------------------------------------------------------------
+	// mvFloat2PtrBase
+	//-----------------------------------------------------------------------------
+	class mvFloat2PtrBase : public mvAppItem
+	{
+
+	public:
+
+		mvFloat2PtrBase(const std::string& name, float* default_value, const std::string& dataSource)
+			: mvAppItem(name), m_backupvalue({ default_value[0], default_value[1] })
+		{
+			if (dataSource.empty())
+				m_value = mvValueStorage::AddFloat2Value(name, m_backupvalue);
+			else
+				m_value = mvValueStorage::AddFloat2Value(dataSource, m_backupvalue);
+
+			// TODO: throw warning
+			if (m_value == nullptr)
+				m_value = m_backupvalue.data();
+
+			m_dataSource = dataSource;
+		}
+
+		~mvFloat2PtrBase()
+		{
+			if (m_dataSource.empty())
+				mvValueStorage::DecrementRef(m_name);
+			else
+				mvValueStorage::DecrementRef(m_dataSource);
+		}
+
+	protected:
+
+		float* m_value = nullptr;
+		std::array<float, 2> m_backupvalue;
+	};
+
+	//-----------------------------------------------------------------------------
+	// mvFloat3PtrBase
+	//-----------------------------------------------------------------------------
+	class mvFloat3PtrBase : public mvAppItem
+	{
+
+	public:
+
+		mvFloat3PtrBase(const std::string& name, float* default_value, const std::string& dataSource)
+			: mvAppItem(name), m_backupvalue({ default_value[0], default_value[1], default_value[2] })
+		{
+			if (dataSource.empty())
+				m_value = mvValueStorage::AddFloat3Value(name, m_backupvalue);
+			else
+				m_value = mvValueStorage::AddFloat3Value(dataSource, m_backupvalue);
+
+			// TODO: throw warning
+			if (m_value == nullptr)
+				m_value = m_backupvalue.data();
+
+			m_dataSource = dataSource;
+		}
+
+		~mvFloat3PtrBase()
+		{
+			if (m_dataSource.empty())
+				mvValueStorage::DecrementRef(m_name);
+			else
+				mvValueStorage::DecrementRef(m_dataSource);
+		}
+
+	protected:
+
+		float* m_value = nullptr;
+		std::array<float, 3> m_backupvalue;
+	};
+
+	//-----------------------------------------------------------------------------
+	// mvFloat4PtrBase
+	//-----------------------------------------------------------------------------
+	class mvFloat4PtrBase : public mvAppItem
+	{
+
+	public:
+
+		mvFloat4PtrBase(const std::string& name, float* default_value, const std::string& dataSource)
+			: mvAppItem(name), m_backupvalue({ default_value[0], default_value[1], default_value[2], default_value[3] })
+		{
+			if (dataSource.empty())
+				m_value = mvValueStorage::AddFloat4Value(name, m_backupvalue);
+			else
+				m_value = mvValueStorage::AddFloat4Value(dataSource, m_backupvalue);
+
+			// TODO: throw warning
+			if (m_value == nullptr)
+				m_value = m_backupvalue.data();
+
+			m_dataSource = dataSource;
+		}
+
+		~mvFloat4PtrBase()
+		{
+			if (m_dataSource.empty())
+				mvValueStorage::DecrementRef(m_name);
+			else
+				mvValueStorage::DecrementRef(m_dataSource);
+		}
+
+	protected:
+
+		float* m_value = nullptr;
+		std::array<float, 4> m_backupvalue;
+	};
+
+	//-----------------------------------------------------------------------------
+	// mvBoolPtrBase
+	//-----------------------------------------------------------------------------
+	class mvBoolPtrBase : public mvAppItem
+	{
+
+	public:
+
+		mvBoolPtrBase(const std::string& name, bool default_value, const std::string& dataSource)
+			: mvAppItem(name), m_backupvalue(default_value)
+		{
+			if (dataSource.empty())
+				m_value = mvValueStorage::AddBoolValue(name, default_value);
+			else
+				m_value = mvValueStorage::AddBoolValue(dataSource, default_value);
+
+			// TODO: throw warning
+			if (m_value == nullptr)
+				m_value = &m_backupvalue;
+
+			m_dataSource = dataSource;
+		}
+
+		~mvBoolPtrBase()
+		{
+			if (m_dataSource.empty())
+				mvValueStorage::DecrementRef(m_name);
+			else
+				mvValueStorage::DecrementRef(m_dataSource);
+		}
+
+	protected:
+
+		bool* m_value = nullptr;
+		bool m_backupvalue;
+	};
+
+	//-----------------------------------------------------------------------------
+	// mvStringPtrBase
+	//-----------------------------------------------------------------------------
+	class mvStringPtrBase : public mvAppItem
+	{
+
+	public:
+
+		mvStringPtrBase(const std::string& name, const std::string& default_value, const std::string& dataSource)
+			: mvAppItem(name), m_backupvalue(default_value)
+		{
+			if (dataSource.empty())
+				m_value = mvValueStorage::AddStringValue(name, default_value);
+			else
+				m_value = mvValueStorage::AddStringValue(dataSource, default_value);
+
+			// TODO: throw warning
+			if (m_value == nullptr)
+				m_value = &m_backupvalue;
+
+			m_dataSource = dataSource;
+		}
+
+		~mvStringPtrBase()
+		{
+			if (m_dataSource.empty())
+				mvValueStorage::DecrementRef(m_name);
+			else
+				mvValueStorage::DecrementRef(m_dataSource);
+		}
+
+	protected:
+
+		std::string* m_value = nullptr;
+		std::string  m_backupvalue;
 	};
 
 	//-----------------------------------------------------------------------------

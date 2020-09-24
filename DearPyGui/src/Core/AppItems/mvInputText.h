@@ -14,15 +14,15 @@
 
 namespace Marvel {
 
-	class mvInputText : public mvStringItemBase
+	class mvInputText : public mvStringPtrBase
 	{
 
 	public:
 
 		MV_APPITEM_TYPE(mvAppItemType::InputText, "add_input_text")
 
-		mvInputText(const std::string& name, const std::string& default_value)
-			: mvStringItemBase(name, default_value)
+		mvInputText(const std::string& name, const std::string& default_value, const std::string& dataSource)
+			: mvStringPtrBase(name, default_value, dataSource)
 		{
 		}
 
@@ -37,10 +37,8 @@ namespace Marvel {
 			{
 				if(m_multiline)
 				{
-					if (ImGui::InputTextMultiline(m_label.c_str(), &m_value, ImVec2((float)m_width, (float)m_height), m_flags))
+					if (ImGui::InputTextMultiline(m_label.c_str(), m_value, ImVec2((float)m_width, (float)m_height), m_flags))
 					{
-						if (!m_dataSource.empty())
-							mvDataStorage::AddData(m_dataSource, getPyValue());
 
 						mvApp::GetApp()->runCallback(m_callback, m_name, m_callbackData);
 
@@ -51,10 +49,8 @@ namespace Marvel {
 				}
 				else
 				{
-					if (ImGui::InputText(m_label.c_str(), &m_value, m_flags))
+					if (ImGui::InputText(m_label.c_str(), m_value, m_flags))
 					{
-						if (!m_dataSource.empty())
-							mvDataStorage::AddData(m_dataSource, getPyValue());
 
 						mvApp::GetApp()->runCallback(m_callback, m_name);
 
@@ -67,10 +63,8 @@ namespace Marvel {
 
 			else
 			{
-				if (ImGui::InputTextWithHint(m_label.c_str(), m_hint.c_str(), &m_value, m_flags))
+				if (ImGui::InputTextWithHint(m_label.c_str(), m_hint.c_str(), m_value, m_flags))
 				{
-					if (!m_dataSource.empty())
-						mvDataStorage::AddData(m_dataSource, getPyValue());
 
 					mvApp::GetApp()->runCallback(m_callback, m_name, m_callbackData);
 
