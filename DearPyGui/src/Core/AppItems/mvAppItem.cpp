@@ -206,9 +206,6 @@ namespace Marvel{
 
 		updateData(name);
 
-		if (name == m_dataSource)
-			setPyValue(mvDataStorage::GetData(name));
-
 		for (auto child : m_children)
 			child->updateDataSource(name);
 	}

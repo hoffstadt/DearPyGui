@@ -38,8 +38,8 @@ namespace Marvel {
 		[[nodiscard]] std::string getTableItem (int row, int column) const;
 		[[nodiscard]] PyObject*   getSelections() const;
 
-		void                    setPyValue(PyObject* value) override;
-		[[nodiscard]] PyObject* getPyValue() const override;
+		void                    setPyValue(PyObject* value);
+		[[nodiscard]] PyObject* getPyValue() const;
 		void                    draw      () override;
 
 	private:
