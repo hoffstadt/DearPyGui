@@ -156,7 +156,7 @@ namespace Marvel {
         inline void                         setRectMin                (mvVec2 value)            { m_rectMin = value; }
         inline void                         setRectMax                (mvVec2 value)            { m_rectMax = value; }
         inline void                         setRectSize               (mvVec2 value)            { m_rectSize = value; }
-        inline void                         setDataSource             (const std::string& value){ m_dataSource = value; }
+        virtual void                        setDataSource             (const std::string& value){ m_dataSource = value; }
         inline void                         setLabel                  (const std::string& value){ m_label = value; }
 
     protected:
