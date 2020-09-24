@@ -16,7 +16,7 @@ namespace Marvel {
 	//-----------------------------------------------------------------------------
 	// mvTabBar
 	//-----------------------------------------------------------------------------
-	class mvTabBar : public mvStringItemBase
+	class mvTabBar : public mvStringPtrBase
 	{
 
 	public:
@@ -24,10 +24,13 @@ namespace Marvel {
 		MV_APPITEM_TYPE(mvAppItemType::TabBar, "add_tab_bar")
 
 		mvTabBar(const std::string& name)
-			: mvStringItemBase(name, "")
+			: mvStringPtrBase(name, "", name)
 		{
 			m_container = true;		
 		}
+
+		std::string& getValue() { return *m_value; }
+		void setValue(const std::string& value) { *m_value = value; }
 
 		void draw() override
 		{
@@ -112,7 +115,7 @@ namespace Marvel {
 	//-----------------------------------------------------------------------------
 	// mvTab
 	//-----------------------------------------------------------------------------
-	class mvTab : public mvBoolItemBase
+	class mvTab : public mvBoolPtrBase
 	{
 
 	public:
@@ -120,7 +123,7 @@ namespace Marvel {
 		MV_APPITEM_TYPE(mvAppItemType::TabItem, "add_tab")
 
 		mvTab(const std::string& name)
-			: mvBoolItemBase(name, false)
+			: mvBoolPtrBase(name, false, name)
 		{
 			m_container = true;
 		}
@@ -137,7 +140,7 @@ namespace Marvel {
 			{
 				// set mvTabBar value to the first tab name
 				parent->setValue(m_name);
-				m_value = true;
+				*m_value = true;
 			}
 
 			// create tab item and see if it is selected
@@ -151,10 +154,10 @@ namespace Marvel {
 
 				// set other tab's value false
 				for (mvAppItem* child : parent->getChildren())
-                    ((mvTab*)child)->setValue(false);
+                    *((mvTab*)child)->m_value =false;
 
 				// set current tab value true
-				m_value = true;
+				*m_value = true;
 
 				//showAll();
 

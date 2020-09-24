@@ -476,7 +476,7 @@ namespace Marvel {
 			&overlay, &tip, &parent, &before, &data_source, &width, &height, &popup, &show))
 			return ToPyBool(false);
 
-		mvAppItem* item = new mvProgressBar(name, default_value);
+		mvAppItem* item = new mvProgressBar(name, default_value, data_source);
 
 		item->checkConfigDict(kwargs);
 		item->setConfigDict(kwargs);
@@ -647,7 +647,7 @@ namespace Marvel {
 			return ToPyBool(false);
 
 
-		mvAppItem* item = new mvLabelText(std::string(name), value);
+		mvAppItem* item = new mvLabelText(std::string(name), value, data_source);
 
 		item->checkConfigDict(kwargs);
 		item->setConfigDict(kwargs);
@@ -679,7 +679,7 @@ namespace Marvel {
 			&num_items, &label, &popup, &show))
 			return ToPyBool(false);
 
-		mvAppItem* item = new mvListbox(name, default_value);
+		mvAppItem* item = new mvListbox(name, default_value, data_source);
 		if (callback)
 			Py_XINCREF(callback);
 		item->setCallback(callback);
@@ -716,7 +716,7 @@ namespace Marvel {
 			&label, &popup, &show))
 			return ToPyBool(false);
 
-		mvAppItem* item = new mvCombo(name, default_value);
+		mvAppItem* item = new mvCombo(name, default_value, data_source);
 		if (callback)
 			Py_XINCREF(callback);
 		item->setCallback(callback);
@@ -754,7 +754,7 @@ namespace Marvel {
 			&label, &popup, &show))
 			return ToPyBool(false);
 
-		mvAppItem* item = new mvSelectable(name, default_value);
+		mvAppItem* item = new mvSelectable(name, default_value, data_source);
 		if (callback)
 			Py_XINCREF(callback);
 		item->setCallback(callback);
@@ -944,7 +944,7 @@ namespace Marvel {
 			&popup, &show))
 			return ToPyBool(false);
 
-		mvAppItem* item = new mvRadioButton(name, default_value);
+		mvAppItem* item = new mvRadioButton(name, default_value, data_source);
 		if (callback)
 			Py_XINCREF(callback);
 		item->setCallback(callback);
@@ -980,11 +980,10 @@ namespace Marvel {
 	PyObject* add_color_edit3(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		const char* name;
-		PyObject* default_value = PyTuple_New(4);
+		PyObject* default_value = PyTuple_New(3);
 		PyTuple_SetItem(default_value, 0, PyLong_FromLong(0));
 		PyTuple_SetItem(default_value, 1, PyLong_FromLong(0));
 		PyTuple_SetItem(default_value, 2, PyLong_FromLong(0));
-		PyTuple_SetItem(default_value, 3, PyLong_FromLong(255));
 		PyObject* callback = nullptr;
 		PyObject* callback_data = nullptr;
 		const char* tip = "";
@@ -1004,7 +1003,8 @@ namespace Marvel {
 		auto color = ToColor(default_value);
 
 		//mvAppItem* item = new mvColorEdit3("", name, color);
-		mvAppItem* item = new mvColorItem<mvAppItemType::ColorEdit3, ImGui::ColorEdit3>(name, color);
+		ImVec4 v = color.toVec4();
+		mvAppItem* item = new mvColorEdit3(name, &v.x, data_source);
 		if (callback)
 			Py_XINCREF(callback);
 		item->setCallback(callback);
@@ -1044,7 +1044,8 @@ namespace Marvel {
 			return ToPyBool(false);
 
 		auto color = ToColor(default_value);
-		mvAppItem* item = new mvColorItem<mvAppItemType::ColorEdit4, ImGui::ColorEdit4>(name, color);
+		ImVec4 v = color.toVec4();
+		mvAppItem* item = new mvColorEdit4(name, &v.x, data_source);
 		if (callback)
 			Py_XINCREF(callback);
 		item->setCallback(callback);
@@ -1063,11 +1064,10 @@ namespace Marvel {
 	PyObject* add_color_picker3(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		const char* name;
-		PyObject* default_value = PyTuple_New(4);
+		PyObject* default_value = PyTuple_New(3);
 		PyTuple_SetItem(default_value, 0, PyLong_FromLong(0));
 		PyTuple_SetItem(default_value, 1, PyLong_FromLong(0));
 		PyTuple_SetItem(default_value, 2, PyLong_FromLong(0));
-		PyTuple_SetItem(default_value, 3, PyLong_FromLong(255));
 		PyObject* callback = nullptr;
 		PyObject* callback_data = nullptr;
 		const char* tip = "";
@@ -1084,7 +1084,8 @@ namespace Marvel {
 			return ToPyBool(false);
 
 		auto color = ToColor(default_value);
-		mvAppItem* item = new mvColorItem<mvAppItemType::ColorPicker3, ImGui::ColorPicker3>(name, color);
+		ImVec4 v = color.toVec4();
+		mvAppItem* item = new mvColorPicker3(name, &v.x, data_source);
 		if (callback)
 			Py_XINCREF(callback);
 		item->setCallback(callback);
@@ -1125,8 +1126,8 @@ namespace Marvel {
 			return ToPyBool(false);
 
 		auto color = ToColor(default_value);
-
-		mvAppItem* item = new mvColorPicker4(name, color);
+		ImVec4 v = color.toVec4();
+		mvAppItem* item = new mvColorPicker4(name, &v.x, data_source);
 		if (callback)
 			Py_XINCREF(callback);
 		item->setCallback(callback);
@@ -1161,7 +1162,7 @@ namespace Marvel {
 			&label, &popup, &show))
 			return ToPyBool(false);
 
-		mvAppItem* item = new mvCheckbox(name, default_value);
+		mvAppItem* item = new mvCheckbox(name, default_value, data_source);
 		if (callback)
 			Py_XINCREF(callback);
 		item->setCallback(callback);

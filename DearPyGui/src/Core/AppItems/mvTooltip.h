@@ -15,7 +15,7 @@ namespace Marvel {
 	//-----------------------------------------------------------------------------
 	// mvTooltip
 	//-----------------------------------------------------------------------------
-	class mvTooltip : public mvBoolItemBase
+	class mvTooltip : public mvBoolPtrBase
 	{
 
 	public:
@@ -23,7 +23,7 @@ namespace Marvel {
 		MV_APPITEM_TYPE(mvAppItemType::Tooltip, "add_tooltip")
 
 		mvTooltip(const std::string& name)
-			: mvBoolItemBase(name, false)
+			: mvBoolPtrBase(name, false, name)
 		{
 			// TODO fix parent ugliness
 

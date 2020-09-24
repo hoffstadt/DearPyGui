@@ -14,27 +14,96 @@
 
 namespace Marvel {
 
-	using ImGuiColorCommand = bool(*)(const char*, float*, ImGuiColorEditFlags);
-
 	//-----------------------------------------------------------------------------
-	// mvColorItem
+	// mvColorEdit3
 	//-----------------------------------------------------------------------------
-	template<mvAppItemType AppItemType, ImGuiColorCommand imguicommand>
-	class mvColorItem : public mvColorItemBase
+	class mvColorEdit3 : public mvFloat3PtrBase
 	{
 
 	public:
 
-		MV_APPITEM_TYPE(AppItemType, "add_color_edit3")
+		MV_APPITEM_TYPE(mvAppItemType::ColorEdit3, "add_color_edit3")
 
-		mvColorItem(const std::string& name, mvColor color)
-			: mvColorItemBase(name, color)
+		mvColorEdit3(const std::string& name, float* color, const std::string& dataSource)
+			: mvFloat3PtrBase(name, color, dataSource)
 		{}
 
 		void draw() override
 		{
 
-			if (imguicommand(m_label.c_str(), m_value.data(), 0))
+			if (ImGui::ColorEdit3(m_label.c_str(), m_value, 0))
+			{
+				if (!m_dataSource.empty())
+					mvDataStorage::AddData(m_dataSource, getPyValue());
+
+				mvApp::GetApp()->runCallback(m_callback, m_name, m_callbackData);
+
+				// Context Menu
+				if (!getPopup().empty())
+					ImGui::OpenPopup(getPopup().c_str());
+			}
+
+			// Regular Tooltip (simple)
+			if (!getTip().empty() && ImGui::IsItemHovered())
+				ImGui::SetTooltip("%s", getTip().c_str());
+		}
+
+	};
+
+	//-----------------------------------------------------------------------------
+	// mvColorEdit4
+	//-----------------------------------------------------------------------------
+	class mvColorEdit4 : public mvFloat4PtrBase
+	{
+
+	public:
+
+		MV_APPITEM_TYPE(mvAppItemType::ColorEdit4, "add_color_edit4")
+
+		mvColorEdit4(const std::string& name, float* color, const std::string& dataSource)
+			: mvFloat4PtrBase(name, color, dataSource)
+		{}
+
+		void draw() override
+		{
+
+			if (ImGui::ColorEdit4(m_label.c_str(), m_value, 0))
+			{
+				if (!m_dataSource.empty())
+					mvDataStorage::AddData(m_dataSource, getPyValue());
+
+				mvApp::GetApp()->runCallback(m_callback, m_name, m_callbackData);
+
+				// Context Menu
+				if (!getPopup().empty())
+					ImGui::OpenPopup(getPopup().c_str());
+			}
+
+			// Regular Tooltip (simple)
+			if (!getTip().empty() && ImGui::IsItemHovered())
+				ImGui::SetTooltip("%s", getTip().c_str());
+		}
+
+	};
+
+	//-----------------------------------------------------------------------------
+	// mvColorPicker3
+	//-----------------------------------------------------------------------------
+	class mvColorPicker3 : public mvFloat3PtrBase
+	{
+
+	public:
+
+		MV_APPITEM_TYPE(mvAppItemType::ColorPicker3, "add_color_picker3")
+
+		mvColorPicker3(const std::string& name, float* color, const std::string& dataSource)
+			: mvFloat3PtrBase(name, color, dataSource)
+		{}
+
+		void draw() override
+		{
+
+			if (ImGui::ColorPicker3(m_label.c_str(), m_value, 0))
 			{
 				if (!m_dataSource.empty())
 					mvDataStorage::AddData(m_dataSource, getPyValue());
@@ -56,21 +125,21 @@ namespace Marvel {
 	//-----------------------------------------------------------------------------
 	// mvColorPicker4
 	//-----------------------------------------------------------------------------
-	class mvColorPicker4 : public mvColorItemBase
+	class mvColorPicker4 : public mvFloat4PtrBase
 	{
 
 	public:
 
-		MV_APPITEM_TYPE(mvAppItemType::ColorPicker4, "add_color_picker3")
+		MV_APPITEM_TYPE(mvAppItemType::ColorPicker4, "add_color_picker4")
 
-		mvColorPicker4(const std::string& name, mvColor color)
-			: mvColorItemBase(name, color)
+		mvColorPicker4(const std::string& name, float* color, const std::string& dataSource)
+			: mvFloat4PtrBase(name, color, dataSource)
 		{}
 
 		void draw() override
 		{
 
-			if (ImGui::ColorPicker4(m_label.c_str(), m_value.data()))
+			if (ImGui::ColorPicker4(m_label.c_str(), m_value))
 			{
 				if (!m_dataSource.empty())
 					mvDataStorage::AddData(m_dataSource, getPyValue());

@@ -41,6 +41,7 @@ set(MARVEL_SOURCES
 	"src/Core/mvTextEditor.cpp"
 	"src/Core/mvDataStorage.cpp"
 	"src/Core/mvTextureStorage.cpp"
+	"src/Core/mvValueStorage.cpp"
 
 	"src/Core/mvPythonTranslator.cpp"
 	"src/Core/mvPythonParser.cpp"

@@ -14,7 +14,7 @@ namespace Marvel {
 	//-----------------------------------------------------------------------------
 	// mvPopup
 	//-----------------------------------------------------------------------------
-	class mvPopup : public mvBoolItemBase, public mvEventHandler
+	class mvPopup : public mvBoolPtrBase, public mvEventHandler
 	{
 
 	public:
@@ -22,7 +22,7 @@ namespace Marvel {
 		MV_APPITEM_TYPE(mvAppItemType::Popup, "add_popup")
 
 		mvPopup(const std::string& name)
-			: mvBoolItemBase(name, false), mvEventHandler()
+			: mvBoolPtrBase(name, false, name), mvEventHandler()
 		{
 			m_container = true;
 			//if (m_parent)

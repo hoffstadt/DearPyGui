@@ -196,7 +196,7 @@ namespace Marvel {
 			&data_source, &width, &height, &on_enter, &label, &popup, &show))
 			return ToPyBool(false);
 
-		mvAppItem* item = new mvSliderFloat(name, default_value);
+		mvAppItem* item = new mvSliderFloat(name, default_value, data_source);
 		if (callback)
 			Py_XINCREF(callback);
 		item->setCallback(callback);
@@ -215,11 +215,9 @@ namespace Marvel {
 	PyObject* add_slider_float2(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		const char* name;
-		PyObject* default_value = PyTuple_New(4);
+		PyObject* default_value = PyTuple_New(2);
 		PyTuple_SetItem(default_value, 0, PyFloat_FromDouble(0.0));
 		PyTuple_SetItem(default_value, 1, PyFloat_FromDouble(0.0));
-		PyTuple_SetItem(default_value, 2, PyFloat_FromDouble(0.0));
-		PyTuple_SetItem(default_value, 3, PyFloat_FromDouble(0.0));
 		float min_value = 0.0f;
 		float max_value = 100.0f;
 		const char* format = "%.3f";
@@ -246,7 +244,7 @@ namespace Marvel {
 
 		auto vec = ToFloatVect(default_value);
 
-		mvAppItem* item = new mvSliderFloatMulti<mvAppItemType::SliderFloat2, 2, ImGui::SliderFloat2, float>(name, vec.data());
+		mvAppItem* item = new mvSliderFloat2(name, vec.data(), data_source);
 		if (callback)
 			Py_XINCREF(callback);
 		item->setCallback(callback);
@@ -265,11 +263,10 @@ namespace Marvel {
 	PyObject* add_slider_float3(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		const char* name;
-		PyObject* default_value = PyTuple_New(4);
+		PyObject* default_value = PyTuple_New(3);
 		PyTuple_SetItem(default_value, 0, PyFloat_FromDouble(0.0));
 		PyTuple_SetItem(default_value, 1, PyFloat_FromDouble(0.0));
 		PyTuple_SetItem(default_value, 2, PyFloat_FromDouble(0.0));
-		PyTuple_SetItem(default_value, 3, PyFloat_FromDouble(0.0));
 		float min_value = 0.0f;
 		float max_value = 100.0f;
 		const char* format = "%.3f";
@@ -292,7 +289,7 @@ namespace Marvel {
 
 		auto vec = ToFloatVect(default_value);
 
-		mvAppItem* item = new mvSliderFloatMulti<mvAppItemType::SliderFloat3, 3, ImGui::SliderFloat3, float>(name, vec.data());
+		mvAppItem* item = new mvSliderFloat3(name, vec.data(), data_source);
 		if (callback)
 			Py_XINCREF(callback);
 		item->setCallback(callback);
@@ -337,7 +334,7 @@ namespace Marvel {
 			return ToPyBool(false);
 
 		auto vec = ToFloatVect(default_value);
-		mvAppItem* item = new mvSliderFloatMulti<mvAppItemType::SliderFloat4, 4, ImGui::SliderFloat4, float>(name, vec.data());
+		mvAppItem* item = new mvSliderFloat4(name, vec.data(), data_source);
 		if (callback)
 			Py_XINCREF(callback);
 		item->setCallback(callback);
@@ -379,7 +376,7 @@ namespace Marvel {
 			&width, &height, &on_enter, &label, &popup, &show))
 			return ToPyBool(false);
 
-		mvAppItem* item = new mvSliderInt(name, default_value);
+		mvAppItem* item = new mvSliderInt(name, default_value, data_source);
 		if (callback)
 			Py_XINCREF(callback);
 		item->setCallback(callback);
@@ -398,11 +395,9 @@ namespace Marvel {
 	PyObject* add_slider_int2(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		const char* name;
-		PyObject* default_value = PyTuple_New(4);
+		PyObject* default_value = PyTuple_New(2);
 		PyTuple_SetItem(default_value, 0, PyLong_FromLong(0));
 		PyTuple_SetItem(default_value, 1, PyLong_FromLong(0));
-		PyTuple_SetItem(default_value, 2, PyLong_FromLong(0));
-		PyTuple_SetItem(default_value, 3, PyLong_FromLong(0));
 		int min_value = 0;
 		int max_value = 100;
 		const char* format = "%d";
@@ -424,7 +419,7 @@ namespace Marvel {
 			return ToPyBool(false);
 
 		auto vec = ToIntVect(default_value);
-		mvAppItem* item = new mvSliderIntMulti<mvAppItemType::SliderInt2, 2, ImGui::SliderInt2, int>(name, vec.data());
+		mvAppItem* item = new mvSliderInt2(name, vec.data(), data_source);
 		if (callback)
 			Py_XINCREF(callback);
 		item->setCallback(callback);
@@ -443,11 +438,10 @@ namespace Marvel {
 	PyObject* add_slider_int3(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		const char* name;
-		PyObject* default_value = PyTuple_New(4);
+		PyObject* default_value = PyTuple_New(3);
 		PyTuple_SetItem(default_value, 0, PyLong_FromLong(0));
 		PyTuple_SetItem(default_value, 1, PyLong_FromLong(0));
 		PyTuple_SetItem(default_value, 2, PyLong_FromLong(0));
-		PyTuple_SetItem(default_value, 3, PyLong_FromLong(0));
 		int min_value = 0;
 		int max_value = 100;
 		const char* format = "%d";
@@ -469,7 +463,7 @@ namespace Marvel {
 			return ToPyBool(false);
 
 		auto vec = ToIntVect(default_value);
-		mvAppItem* item = new mvSliderIntMulti<mvAppItemType::SliderInt3, 3, ImGui::SliderInt3, int>(name, vec.data());
+		mvAppItem* item = new mvSliderInt3(name, vec.data(), data_source);
 		if (callback)
 			Py_XINCREF(callback);
 		item->setCallback(callback);
@@ -514,7 +508,7 @@ namespace Marvel {
 			return ToPyBool(false);
 
 		auto vec = ToIntVect(default_value);
-		mvAppItem* item = new mvSliderIntMulti<mvAppItemType::SliderInt4, 4, ImGui::SliderInt4, int>(name, vec.data());
+		mvAppItem* item = new mvSliderInt4(name, vec.data(), data_source);
 		if (callback)
 			Py_XINCREF(callback);
 		item->setCallback(callback);
