@@ -17,15 +17,15 @@
 
 namespace Marvel {
 
-	class mvDatePicker : public mvTimeItemBase
+	class mvDatePicker : public mvTimePtrBase
 	{
 
 	public:
 
 		MV_APPITEM_TYPE(mvAppItemType::DatePicker, "add_date_picker")
 
-			mvDatePicker(const std::string& name, tm default_value)
-			: mvTimeItemBase(name, default_value)
+		mvDatePicker(const std::string& name, tm default_value)
+			: mvTimePtrBase(name, default_value, name)
 		{
 		}
 
@@ -33,12 +33,11 @@ namespace Marvel {
 		{
 			pushColorStyles();
 
-			if (ImPlot::ShowDatePicker(m_name.c_str(), &m_level, &m_imvalue, &m_imvalue))
+			if (ImPlot::ShowDatePicker(m_name.c_str(), &m_level, m_imvalue, m_imvalue))
 			{
-				ImPlot::GetGmtTime(m_imvalue, &m_value);
+				ImPlot::GetGmtTime(*m_imvalue, m_value);
 				mvApp::GetApp()->runCallback(m_callback, m_name, m_callbackData);
 			}
-
 
 			popColorStyles();
 		}

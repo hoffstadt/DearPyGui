@@ -1,7 +1,7 @@
 #pragma once
 
 //-----------------------------------------------------------------------------
-// mvDataStorage
+// mvValueStorage
 //
 //     - This class acts as a manager for data storage by the users. The 
 //       data storage system serves 3 purposes:
@@ -23,6 +23,11 @@
 #include <map>
 #include <set>
 #include <array>
+#include <vector>
+#include <implot.h>
+#include <implot_internal.h>
+#define PY_SSIZE_T_CLEAN
+#include <Python.h>
 
 namespace Marvel {
 
@@ -43,35 +48,46 @@ namespace Marvel {
 			Float2,
 			Float3,
 			Float4,
+			FloatVect,
 			Bool,
-			String
+			String,
+			Time
 		};
 
 	public:
 
+		static PyObject* GetPyValue(const std::string& name);
+		static bool      SetPyValue(const std::string& name, PyObject* value);
+		static void      AddPyValue(const std::string& name, PyObject* value);
+
 		// adders
-		static int*         AddIntValue    (const std::string& name, int value);
-		static int*         AddInt2Value   (const std::string& name, const std::array<int, 2>& value);
-		static int*         AddInt3Value   (const std::string& name, const std::array<int, 3>& value);
-		static int*         AddInt4Value   (const std::string& name, const std::array<int, 4>& value);
-		static float*       AddFloatValue  (const std::string& name, float value);
-		static float*       AddFloat2Value (const std::string& name, const std::array<float, 2>& value);
-		static float*       AddFloat3Value (const std::string& name, const std::array<float, 3>& value);
-		static float*       AddFloat4Value (const std::string& name, const std::array<float, 4>& value);
-		static bool*        AddBoolValue   (const std::string& name, bool value);
-		static std::string* AddStringValue (const std::string& name, const std::string& value);
+		static int*                AddIntValue    (const std::string& name, int value);
+		static int*                AddInt2Value   (const std::string& name, const std::array<int, 2>& value);
+		static int*                AddInt3Value   (const std::string& name, const std::array<int, 3>& value);
+		static int*                AddInt4Value   (const std::string& name, const std::array<int, 4>& value);
+		static float*              AddFloatValue  (const std::string& name, float value);
+		static float*              AddFloat2Value (const std::string& name, const std::array<float, 2>& value);
+		static float*              AddFloat3Value (const std::string& name, const std::array<float, 3>& value);
+		static float*              AddFloat4Value (const std::string& name, const std::array<float, 4>& value);
+		static std::vector<float>* AddFloatVectorValue (const std::string& name, const std::vector<float>& value);
+		static bool*               AddBoolValue   (const std::string& name, bool value);
+		static std::string*        AddStringValue (const std::string& name, const std::string& value);
+		static tm*                 AddTimeValue (const std::string& name, const tm& value);
 
 		// getters
-		static int*         GetIntValue    (const std::string& name);
-		static int*         GetInt2Value   (const std::string& name);
-		static int*         GetInt3Value   (const std::string& name);
-		static int*         GetInt4Value   (const std::string& name);
-		static float*       GetFloatValue  (const std::string& name);
-		static float*       GetFloat2Value (const std::string& name);
-		static float*       GetFloat3Value (const std::string& name);
-		static float*       GetFloat4Value (const std::string& name);
-		static bool*        GetBoolValue   (const std::string& name);
-		static std::string* GetStringValue (const std::string& name);
+		static int*                GetIntValue    (const std::string& name);
+		static int*                GetInt2Value   (const std::string& name);
+		static int*                GetInt3Value   (const std::string& name);
+		static int*                GetInt4Value   (const std::string& name);
+		static float*              GetFloatValue  (const std::string& name);
+		static float*              GetFloat2Value (const std::string& name);
+		static float*              GetFloat3Value (const std::string& name);
+		static float*              GetFloat4Value (const std::string& name);
+		static std::vector<float>* GetFloatVectorValue(const std::string& name);
+		static bool*               GetBoolValue   (const std::string& name);
+		static std::string*        GetStringValue (const std::string& name);
+		static tm*                 GetTimeValue   (const std::string& name);
+		static ImPlotTime*         GetImTimeValue   (const std::string& name);
 
 		static bool HasValue(const std::string& name);
 
@@ -107,6 +123,9 @@ namespace Marvel {
 
 		static std::map<std::string, bool>        s_bools;      // int items
 		static std::map<std::string, std::string> s_strings;      // int items
+		static std::map<std::string, std::vector<float>> s_floatvects;      // int items
+		static std::map<std::string, tm> s_times;      // int items
+		static std::map<std::string, ImPlotTime> s_imtimes;      // int items
 
 	};
 

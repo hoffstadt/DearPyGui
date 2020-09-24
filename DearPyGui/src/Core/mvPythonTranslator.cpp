@@ -228,6 +228,30 @@ namespace Marvel {
 		return dict;
 	}
 
+	PyObject* ToPyIntList(int* value, int count)
+	{
+		mvGlobalIntepreterLock gil;
+
+		PyObject* result = PyList_New(count);
+
+		for (size_t i = 0; i < count; i++)
+			PyList_SetItem(result, i, PyLong_FromLong(value[i]));
+
+		return result;
+	}
+
+	PyObject* ToPyFloatList(float* value, int count)
+	{
+		mvGlobalIntepreterLock gil;
+
+		PyObject* result = PyList_New(count);
+
+		for (size_t i = 0; i < count; i++)
+			PyList_SetItem(result, i, PyFloat_FromDouble(value[i]));
+
+		return result;
+	}
+
 	tm ToTime(PyObject* value, const std::string& message)
 	{
 		tm result = {};

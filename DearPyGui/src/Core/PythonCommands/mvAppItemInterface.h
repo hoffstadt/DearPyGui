@@ -41,6 +41,9 @@ namespace Marvel {
 	PyObject* get_item_rect_size(PyObject* self, PyObject* args, PyObject* kwargs);
 	PyObject* get_value(PyObject* self, PyObject* args, PyObject* kwargs);
 	PyObject* set_value(PyObject* self, PyObject* args, PyObject* kwargs);
+	PyObject* add_value(PyObject* self, PyObject* args, PyObject* kwargs);
+	PyObject* incref_value(PyObject* self, PyObject* args, PyObject* kwargs);
+	PyObject* decref_value(PyObject* self, PyObject* args, PyObject* kwargs);
 
 
 }

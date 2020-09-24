@@ -1,6 +1,7 @@
 #include "mvAppItemInterface.h"
 #include "mvInterfaceCore.h"
 #include <ImGuiFileDialog.h>
+#include "Core/mvValueStorage.h"
 
 namespace Marvel {
 
@@ -147,7 +148,20 @@ namespace Marvel {
 		parsers->insert({ "set_value", mvPythonParser({
 			{mvPythonDataType::String, "name"},
 			{mvPythonDataType::Object, "value"}
-		}, "Sets an item's value if applicable.", "None", "Widget Commands") });
+		}, "Sets an item's value if applicable.", "bool", "Widget Commands") });
+
+		parsers->insert({ "add_value", mvPythonParser({
+			{mvPythonDataType::String, "name"},
+			{mvPythonDataType::Object, "value"}
+		}, "Adds a value to the value storage.", "None", "Widget Commands") });
+
+		parsers->insert({ "incref_value", mvPythonParser({
+			{mvPythonDataType::String, "name"}
+		}, "Increases the reference count of a value.", "None", "Widget Commands") });
+
+		parsers->insert({ "decref_value", mvPythonParser({
+			{mvPythonDataType::String, "name"}
+		}, "Decreases the reference count of a value.", "None", "Widget Commands") });
 
 		parsers->insert({ "show_item", mvPythonParser({
 			{mvPythonDataType::String, "name"}
@@ -667,20 +681,7 @@ namespace Marvel {
 		if (!(*mvApp::GetApp()->getParsers())["get_value"].parse(args, kwargs, __FUNCTION__, &name))
 			return GetPyNone();
 
-		mvAppItem* item = mvApp::GetApp()->getItem(std::string(name));
-
-		if (item == nullptr)
-			return GetPyNone();
-
-		// if compile time, check for data source usage
-		if (!mvApp::IsAppStarted())
-		{
-			std::string datasource = item->getDataSource();
-			if (!datasource.empty())
-				return mvDataStorage::GetData(datasource);
-		}
-
-		return item->getPyValue();
+		return mvValueStorage::GetPyValue(name);
 	}
 
 	PyObject* set_value(PyObject* self, PyObject* args, PyObject* kwargs)
@@ -691,16 +692,40 @@ namespace Marvel {
 		if (!(*mvApp::GetApp()->getParsers())["set_value"].parse(args, kwargs, __FUNCTION__, &name, &value))
 			return GetPyNone();
 
-		mvAppItem* item = mvApp::GetApp()->getItem(std::string(name));
+		return ToPyBool(mvValueStorage::SetPyValue(name, value));
+	}
 
-		if (item == nullptr)
+	PyObject* add_value(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		const char* name;
+		PyObject* value;
+
+		if (!(*mvApp::GetApp()->getParsers())["add_value"].parse(args, kwargs, __FUNCTION__, &name, &value))
 			return GetPyNone();
 
-		if (item->getDataSource().empty())
-			item->setPyValue(value);
-		else
-			mvDataStorage::AddData(item->getDataSource(), value);
+		mvValueStorage::AddPyValue(name, value);
+		return GetPyNone();
+	}
 
+	PyObject* incref_value(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		const char* name;
+
+		if (!(*mvApp::GetApp()->getParsers())["incref_value"].parse(args, kwargs, __FUNCTION__, &name))
+			return GetPyNone();
+
+		mvValueStorage::IncrementRef(name);
+		return GetPyNone();
+	}
+
+	PyObject* decref_value(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		const char* name;
+
+		if (!(*mvApp::GetApp()->getParsers())["decref_value"].parse(args, kwargs, __FUNCTION__, &name))
+			return GetPyNone();
+
+		mvValueStorage::DecrementRef(name);
 		return GetPyNone();
 	}
 

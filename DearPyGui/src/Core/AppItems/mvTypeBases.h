@@ -31,16 +31,12 @@ namespace Marvel {
 	public:
 
 		mvIntPtrBase(const std::string& name, int default_value, const std::string& dataSource)
-			: mvAppItem(name), m_backupvalue(default_value)
+			: mvAppItem(name)
 		{
 			if (dataSource.empty())
 				m_value = mvValueStorage::AddIntValue(name, default_value);
 			else
 				m_value = mvValueStorage::AddIntValue(dataSource, default_value);
-
-			// TODO: throw warning
-			if (m_value == nullptr)
-				m_value = &m_backupvalue;
 
 			m_dataSource = dataSource;
 		}
@@ -56,7 +52,6 @@ namespace Marvel {
 	protected:
 
 		int* m_value = nullptr;
-		int m_backupvalue;
 	};
 
 	//-----------------------------------------------------------------------------
@@ -68,16 +63,12 @@ namespace Marvel {
 	public:
 
 		mvInt2PtrBase(const std::string& name, int* default_value, const std::string& dataSource)
-			: mvAppItem(name), m_backupvalue({default_value[0], default_value[1]})
+			: mvAppItem(name)
 		{
 			if (dataSource.empty())
-				m_value = mvValueStorage::AddInt2Value(name, m_backupvalue);
+				m_value = mvValueStorage::AddInt2Value(name, { default_value[0], default_value[1] });
 			else
-				m_value = mvValueStorage::AddInt2Value(dataSource, m_backupvalue);
-
-			// TODO: throw warning
-			if (m_value == nullptr)
-				m_value = m_backupvalue.data();
+				m_value = mvValueStorage::AddInt2Value(dataSource, { default_value[0], default_value[1]});
 
 			m_dataSource = dataSource;
 		}
@@ -93,7 +84,6 @@ namespace Marvel {
 	protected:
 
 		int* m_value = nullptr;
-		std::array<int, 2> m_backupvalue;
 	};
 
 	//-----------------------------------------------------------------------------
@@ -105,16 +95,12 @@ namespace Marvel {
 	public:
 
 		mvInt3PtrBase(const std::string& name, int* default_value, const std::string& dataSource)
-			: mvAppItem(name), m_backupvalue({ default_value[0], default_value[1], default_value[2] })
+			: mvAppItem(name)
 		{
 			if (dataSource.empty())
-				m_value = mvValueStorage::AddInt3Value(name, m_backupvalue);
+				m_value = mvValueStorage::AddInt3Value(name, { default_value[0], default_value[1], default_value[2]});
 			else
-				m_value = mvValueStorage::AddInt3Value(dataSource, m_backupvalue);
-
-			// TODO: throw warning
-			if (m_value == nullptr)
-				m_value = m_backupvalue.data();
+				m_value = mvValueStorage::AddInt3Value(dataSource, { default_value[0], default_value[1], default_value[2]});
 
 			m_dataSource = dataSource;
 		}
@@ -130,7 +116,6 @@ namespace Marvel {
 	protected:
 
 		int* m_value = nullptr;
-		std::array<int, 3> m_backupvalue;
 	};
 
 	//-----------------------------------------------------------------------------
@@ -142,16 +127,12 @@ namespace Marvel {
 	public:
 
 		mvInt4PtrBase(const std::string& name, int* default_value, const std::string& dataSource)
-			: mvAppItem(name), m_backupvalue({ default_value[0], default_value[1], default_value[2] , default_value[3]})
+			: mvAppItem(name)
 		{
 			if (dataSource.empty())
-				m_value = mvValueStorage::AddInt4Value(name, m_backupvalue);
+				m_value = mvValueStorage::AddInt4Value(name, { default_value[0], default_value[1], default_value[2], default_value[3] });
 			else
-				m_value = mvValueStorage::AddInt4Value(dataSource, m_backupvalue);
-
-			// TODO: throw warning
-			if (m_value == nullptr)
-				m_value = m_backupvalue.data();
+				m_value = mvValueStorage::AddInt4Value(dataSource, { default_value[0], default_value[1], default_value[2], default_value[3] });
 
 			m_dataSource = dataSource;
 		}
@@ -167,7 +148,6 @@ namespace Marvel {
 	protected:
 
 		int* m_value = nullptr;
-		std::array<int, 4> m_backupvalue;
 	};
 
 	//-----------------------------------------------------------------------------
@@ -179,16 +159,12 @@ namespace Marvel {
 	public:
 
 		mvFloatPtrBase(const std::string& name, float default_value, const std::string& dataSource)
-			: mvAppItem(name), m_backupvalue(default_value)
+			: mvAppItem(name)
 		{
 			if (dataSource.empty())
 				m_value = mvValueStorage::AddFloatValue(name, default_value);
 			else
 				m_value = mvValueStorage::AddFloatValue(dataSource, default_value);
-
-			// TODO: throw warning
-			if (m_value == nullptr)
-				m_value = &m_backupvalue;
 
 			m_dataSource = dataSource;
 		}
@@ -204,7 +180,6 @@ namespace Marvel {
 	protected:
 
 		float* m_value = nullptr;
-		float m_backupvalue;
 	};
 
 	//-----------------------------------------------------------------------------
@@ -216,16 +191,12 @@ namespace Marvel {
 	public:
 
 		mvFloat2PtrBase(const std::string& name, float* default_value, const std::string& dataSource)
-			: mvAppItem(name), m_backupvalue({ default_value[0], default_value[1] })
+			: mvAppItem(name)
 		{
 			if (dataSource.empty())
-				m_value = mvValueStorage::AddFloat2Value(name, m_backupvalue);
+				m_value = mvValueStorage::AddFloat2Value(name, { default_value[0], default_value[1] });
 			else
-				m_value = mvValueStorage::AddFloat2Value(dataSource, m_backupvalue);
-
-			// TODO: throw warning
-			if (m_value == nullptr)
-				m_value = m_backupvalue.data();
+				m_value = mvValueStorage::AddFloat2Value(dataSource, { default_value[0], default_value[1]});
 
 			m_dataSource = dataSource;
 		}
@@ -241,7 +212,6 @@ namespace Marvel {
 	protected:
 
 		float* m_value = nullptr;
-		std::array<float, 2> m_backupvalue;
 	};
 
 	//-----------------------------------------------------------------------------
@@ -253,16 +223,12 @@ namespace Marvel {
 	public:
 
 		mvFloat3PtrBase(const std::string& name, float* default_value, const std::string& dataSource)
-			: mvAppItem(name), m_backupvalue({ default_value[0], default_value[1], default_value[2] })
+			: mvAppItem(name)
 		{
 			if (dataSource.empty())
-				m_value = mvValueStorage::AddFloat3Value(name, m_backupvalue);
+				m_value = mvValueStorage::AddFloat3Value(name, { default_value[0], default_value[1], default_value[2]});
 			else
-				m_value = mvValueStorage::AddFloat3Value(dataSource, m_backupvalue);
-
-			// TODO: throw warning
-			if (m_value == nullptr)
-				m_value = m_backupvalue.data();
+				m_value = mvValueStorage::AddFloat3Value(dataSource, { default_value[0], default_value[1], default_value[2]});
 
 			m_dataSource = dataSource;
 		}
@@ -278,7 +244,6 @@ namespace Marvel {
 	protected:
 
 		float* m_value = nullptr;
-		std::array<float, 3> m_backupvalue;
 	};
 
 	//-----------------------------------------------------------------------------
@@ -290,16 +255,12 @@ namespace Marvel {
 	public:
 
 		mvFloat4PtrBase(const std::string& name, float* default_value, const std::string& dataSource)
-			: mvAppItem(name), m_backupvalue({ default_value[0], default_value[1], default_value[2], default_value[3] })
+			: mvAppItem(name)
 		{
 			if (dataSource.empty())
-				m_value = mvValueStorage::AddFloat4Value(name, m_backupvalue);
+				m_value = mvValueStorage::AddFloat4Value(name, { default_value[0], default_value[1], default_value[2], default_value[3] });
 			else
-				m_value = mvValueStorage::AddFloat4Value(dataSource, m_backupvalue);
-
-			// TODO: throw warning
-			if (m_value == nullptr)
-				m_value = m_backupvalue.data();
+				m_value = mvValueStorage::AddFloat4Value(dataSource, { default_value[0], default_value[1], default_value[2], default_value[3] });
 
 			m_dataSource = dataSource;
 		}
@@ -315,7 +276,6 @@ namespace Marvel {
 	protected:
 
 		float* m_value = nullptr;
-		std::array<float, 4> m_backupvalue;
 	};
 
 	//-----------------------------------------------------------------------------
@@ -327,16 +287,12 @@ namespace Marvel {
 	public:
 
 		mvBoolPtrBase(const std::string& name, bool default_value, const std::string& dataSource)
-			: mvAppItem(name), m_backupvalue(default_value)
+			: mvAppItem(name)
 		{
 			if (dataSource.empty())
 				m_value = mvValueStorage::AddBoolValue(name, default_value);
 			else
 				m_value = mvValueStorage::AddBoolValue(dataSource, default_value);
-
-			// TODO: throw warning
-			if (m_value == nullptr)
-				m_value = &m_backupvalue;
 
 			m_dataSource = dataSource;
 		}
@@ -352,7 +308,6 @@ namespace Marvel {
 	protected:
 
 		bool* m_value = nullptr;
-		bool m_backupvalue;
 	};
 
 	//-----------------------------------------------------------------------------
@@ -364,16 +319,12 @@ namespace Marvel {
 	public:
 
 		mvStringPtrBase(const std::string& name, const std::string& default_value, const std::string& dataSource)
-			: mvAppItem(name), m_backupvalue(default_value)
+			: mvAppItem(name)
 		{
 			if (dataSource.empty())
 				m_value = mvValueStorage::AddStringValue(name, default_value);
 			else
 				m_value = mvValueStorage::AddStringValue(dataSource, default_value);
-
-			// TODO: throw warning
-			if (m_value == nullptr)
-				m_value = &m_backupvalue;
 
 			m_dataSource = dataSource;
 		}
@@ -389,46 +340,77 @@ namespace Marvel {
 	protected:
 
 		std::string* m_value = nullptr;
-		std::string  m_backupvalue;
 	};
 
 	//-----------------------------------------------------------------------------
-	// mvTimeItemBase
+	// mvTimePtrBase
 	//-----------------------------------------------------------------------------
-	class mvTimeItemBase : public mvAppItem
+	class mvTimePtrBase : public mvAppItem
 	{
 
 	public:
 
-
-		mvTimeItemBase(const std::string& name, tm default_value)
-			: mvAppItem(name), m_value(default_value)
+		mvTimePtrBase(const std::string& name, const tm& default_value, const std::string& dataSource)
+			: mvAppItem(name)
 		{
-			m_imvalue = ImPlot::MkGmtTime(&m_value);
+			if (dataSource.empty())
+			{
+				m_value = mvValueStorage::AddTimeValue(name, default_value);
+				m_imvalue = mvValueStorage::GetImTimeValue(name);
+			}
+			else
+			{
+				m_value = mvValueStorage::AddTimeValue(dataSource, default_value);
+				m_imvalue = mvValueStorage::GetImTimeValue(dataSource);
+			}
+
+			m_dataSource = dataSource;
 		}
 
-		void setPyValue(PyObject* value) override
+		~mvTimePtrBase()
 		{
-			m_value = ToTime(value);
-			m_imvalue = ImPlot::MakeTime(
-				m_value.tm_year,
-				m_value.tm_mon,
-				m_value.tm_mday,
-				m_value.tm_hour,
-				m_value.tm_min,
-				m_value.tm_sec);
-		}
-
-		[[nodiscard]] PyObject* getPyValue() const override
-		{
-			return ToPyTime(m_value);
+			if (m_dataSource.empty())
+				mvValueStorage::DecrementRef(m_name);
+			else
+				mvValueStorage::DecrementRef(m_dataSource);
 		}
 
 	protected:
 
-		tm         m_value;
-		ImPlotTime m_imvalue;
-	
+		tm* m_value = nullptr;
+		ImPlotTime* m_imvalue = nullptr;
+	};
+
+	//-----------------------------------------------------------------------------
+	// mvFloatVectPtrBase
+	//-----------------------------------------------------------------------------
+	class mvFloatVectPtrBase : public mvAppItem
+	{
+
+	public:
+
+		mvFloatVectPtrBase(const std::string& name, const std::vector<float>& default_value, const std::string& dataSource)
+			: mvAppItem(name)
+		{
+			if (dataSource.empty())
+				m_value = mvValueStorage::AddFloatVectorValue(name, default_value);
+			else
+				m_value = mvValueStorage::AddFloatVectorValue(dataSource, default_value);
+
+			m_dataSource = dataSource;
+		}
+
+		~mvFloatVectPtrBase()
+		{
+			if (m_dataSource.empty())
+				mvValueStorage::DecrementRef(m_name);
+			else
+				mvValueStorage::DecrementRef(m_dataSource);
+		}
+
+	protected:
+
+		std::vector<float>* m_value = nullptr;
 	};
 
 }
