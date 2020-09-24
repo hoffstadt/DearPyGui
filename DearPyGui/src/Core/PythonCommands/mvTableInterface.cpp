@@ -18,6 +18,15 @@ namespace Marvel{
 			{mvPythonDataType::Bool, "show",""}
 		}, "Adds table.", "None", "Tables") });
 
+		parsers->insert({ "set_table_data", mvPythonParser({
+			{mvPythonDataType::String, "name"},
+			{mvPythonDataType::Object, "data"}
+		}, "Adds table data.", "None", "Tables") });
+
+		parsers->insert({ "get_table_data", mvPythonParser({
+			{mvPythonDataType::String, "name"},
+		}, "Adds table data.", "List[List[str]]", "Tables") });
+
 		parsers->insert({ "set_headers", mvPythonParser({
 			{mvPythonDataType::String, "table"},
 			{mvPythonDataType::StringList, "headers"},
@@ -85,6 +94,61 @@ namespace Marvel{
 			{mvPythonDataType::Bool, "value"},
 		}, "Sets a table's cell selection value.", "None", "Tables") });
 
+	}
+
+	PyObject* get_table_data(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		const char* name;
+
+		if (!(*mvApp::GetApp()->getParsers())["get_table_data"].parse(args, kwargs, __FUNCTION__, &name))
+			return GetPyNone();
+
+		mvAppItem* item = mvApp::GetApp()->getItem(std::string(name));
+
+		if (item == nullptr)
+		{
+			std::string message = name;
+			ThrowPythonException(message + " table does not exist.");
+			return GetPyNone();
+		}
+
+		if (item->getType() != mvAppItemType::Table)
+		{
+			std::string message = name;
+			ThrowPythonException(message + " is not a table.");
+			return GetPyNone();
+		}
+
+		return static_cast<mvTable*>(item)->getPyValue();
+	}
+
+	PyObject* set_table_data(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		const char* name;
+		PyObject* value;
+
+		if (!(*mvApp::GetApp()->getParsers())["set_table_data"].parse(args, kwargs, __FUNCTION__, &name, &value))
+			return GetPyNone();
+
+		mvAppItem* item = mvApp::GetApp()->getItem(std::string(name));
+
+		if (item == nullptr)
+		{
+			std::string message = name;
+			ThrowPythonException(message + " table does not exist.");
+			return GetPyNone();
+		}
+
+		if (item->getType() != mvAppItemType::Table)
+		{
+			std::string message = name;
+			ThrowPythonException(message + " is not a table.");
+			return GetPyNone();
+		}
+
+		static_cast<mvTable*>(item)->setPyValue(value);
+
+		return GetPyNone();
 	}
 
 	PyObject* add_table(PyObject* self, PyObject* args, PyObject* kwargs)
