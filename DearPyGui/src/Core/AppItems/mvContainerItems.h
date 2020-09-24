@@ -102,7 +102,7 @@ namespace Marvel {
 
 	private:
 
-		bool m_border;
+		bool m_border = true;
 
 	};
 
@@ -309,8 +309,8 @@ namespace Marvel {
 
 	private:
 
-		ImGuiTreeNodeFlags m_flags;
-		bool               m_closable;
+		ImGuiTreeNodeFlags m_flags = 0;
+		bool               m_closable = false;
 
 	};
 
@@ -416,7 +416,7 @@ namespace Marvel {
 
 	private:
 
-		ImGuiTreeNodeFlags m_flags;
+		ImGuiTreeNodeFlags m_flags = 0;
 
 	};
 
