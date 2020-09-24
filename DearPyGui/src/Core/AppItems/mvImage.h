@@ -72,48 +72,38 @@ namespace Marvel {
 
 		}
 
-		void setPyValue(PyObject* value) override
-		{
+		//void setPyValue(PyObject* value) override
+		//{
 
-			std::string oldvalue = m_value;
+		//	std::string oldvalue = m_value;
 
-			PyGILState_STATE gstate = PyGILState_Ensure();
+		//	PyGILState_STATE gstate = PyGILState_Ensure();
 
-			if (!PyUnicode_Check(value))
-			{
-				PyGILState_Release(gstate);
-				ThrowPythonException(m_name + " type must be a string.");
-				return;
-			}
+		//	if (!PyUnicode_Check(value))
+		//	{
+		//		PyGILState_Release(gstate);
+		//		ThrowPythonException(m_name + " type must be a string.");
+		//		return;
+		//	}
 
-			m_value = PyUnicode_AsUTF8(value);
-			PyGILState_Release(gstate);
+		//	m_value = PyUnicode_AsUTF8(value);
+		//	PyGILState_Release(gstate);
 
-			// clean up old resource
-			if (!m_value.empty() && oldvalue != m_value)
-			{
-				mvTextureStorage::DecrementTexture(oldvalue);
-				mvTextureStorage::AddTexture(m_value);
-			}
+		//	// clean up old resource
+		//	if (!m_value.empty() && oldvalue != m_value)
+		//	{
+		//		mvTextureStorage::DecrementTexture(oldvalue);
+		//		mvTextureStorage::AddTexture(m_value);
+		//	}
 
-			m_texture = mvTextureStorage::GetTexture(m_value);
+		//	m_texture = mvTextureStorage::GetTexture(m_value);
 
-			if (m_texture)
-			{
-				m_width = (int)((float)mvTextureStorage::GetTexture(m_value)->width * (m_uv_max.x - m_uv_min.x));
-				m_height = (int)((float)mvTextureStorage::GetTexture(m_value)->height * (m_uv_max.y - m_uv_min.y));
-			}
-		}
-
-		[[nodiscard]] PyObject* getPyValue() const override
-		{
-			PyGILState_STATE gstate = PyGILState_Ensure();
-
-			PyObject* pvalue = Py_BuildValue("s", m_value.c_str());
-
-			PyGILState_Release(gstate);
-			return pvalue;
-		}
+		//	if (m_texture)
+		//	{
+		//		m_width = (int)((float)mvTextureStorage::GetTexture(m_value)->width * (m_uv_max.x - m_uv_min.x));
+		//		m_height = (int)((float)mvTextureStorage::GetTexture(m_value)->height * (m_uv_max.y - m_uv_min.y));
+		//	}
+		//}
 
 		void                             setValue(const std::string& value) { m_value = value; }
 		[[nodiscard]] const std::string& getValue() const { return m_value; }
@@ -171,48 +161,48 @@ namespace Marvel {
 			mvTextureStorage::DecrementTexture(m_value);
 		}
 
-		void setPyValue(PyObject* value) override
-		{
+		//void setPyValue(PyObject* value) override
+		//{
 
-			std::string oldvalue = m_value;
+		//	std::string oldvalue = m_value;
 
-			PyGILState_STATE gstate = PyGILState_Ensure();
+		//	PyGILState_STATE gstate = PyGILState_Ensure();
 
-			if (!PyUnicode_Check(value))
-			{
-				PyGILState_Release(gstate);
-				ThrowPythonException(m_name + " type must be a string.");
-				return;
-			}
+		//	if (!PyUnicode_Check(value))
+		//	{
+		//		PyGILState_Release(gstate);
+		//		ThrowPythonException(m_name + " type must be a string.");
+		//		return;
+		//	}
 
-			m_value = PyUnicode_AsUTF8(value);
-			PyGILState_Release(gstate);
+		//	m_value = PyUnicode_AsUTF8(value);
+		//	PyGILState_Release(gstate);
 
-			// clean up old resource
-			if (!m_value.empty() && oldvalue != m_value)
-			{
-				mvTextureStorage::DecrementTexture(oldvalue);
-				mvTextureStorage::AddTexture(m_value);
-			}
+		//	// clean up old resource
+		//	if (!m_value.empty() && oldvalue != m_value)
+		//	{
+		//		mvTextureStorage::DecrementTexture(oldvalue);
+		//		mvTextureStorage::AddTexture(m_value);
+		//	}
 
-			m_texture = mvTextureStorage::GetTexture(m_value);
+		//	m_texture = mvTextureStorage::GetTexture(m_value);
 
-			if (m_texture)
-			{
-				m_width = (int)((float)mvTextureStorage::GetTexture(m_value)->width * (m_uv_max.x - m_uv_min.x));
-				m_height = (int)((float)mvTextureStorage::GetTexture(m_value)->height * (m_uv_max.y - m_uv_min.y));
-			}
-		}
+		//	if (m_texture)
+		//	{
+		//		m_width = (int)((float)mvTextureStorage::GetTexture(m_value)->width * (m_uv_max.x - m_uv_min.x));
+		//		m_height = (int)((float)mvTextureStorage::GetTexture(m_value)->height * (m_uv_max.y - m_uv_min.y));
+		//	}
+		//}
 
-		[[nodiscard]] PyObject* getPyValue() const override
-		{
-			PyGILState_STATE gstate = PyGILState_Ensure();
+		//[[nodiscard]] PyObject* getPyValue() const override
+		//{
+		//	PyGILState_STATE gstate = PyGILState_Ensure();
 
-			PyObject* pvalue = Py_BuildValue("s", m_value.c_str());
+		//	PyObject* pvalue = Py_BuildValue("s", m_value.c_str());
 
-			PyGILState_Release(gstate);
-			return pvalue;
-		}
+		//	PyGILState_Release(gstate);
+		//	return pvalue;
+		//}
 
 		void draw() override
 		{
