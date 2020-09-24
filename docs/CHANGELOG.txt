@@ -59,6 +59,9 @@ Breaking Changes:
 
 New Commands:
 
+- Widgets:        Added "add_value"
+- Widgets:        Added "incref_value"
+- Widgets:        Added "decref_value"
 - Main Window:    Added "set_main_window_pos" command #193
 - Inputs:         Added "get_plot_mouse_pos" command #225
 - Widgets:        Added "add_time_picker" command

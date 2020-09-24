@@ -257,6 +257,7 @@ with window("Widgets##dialog", 500, 500, show=False):
     with tab_bar("Tab Bar##widget"):
 
         with tab("Basic Widgets##widget"):
+            add_value("float", [0.3, 45, 33, 44])
             add_button("Button##widget")
             add_checkbox("Checkbox##widget", data_source="bool")
             add_combo("Combo##widget", items=("Item 1", "Item 2", "item 3"), data_source="string")
@@ -270,7 +271,7 @@ with window("Widgets##dialog", 500, 500, show=False):
             add_color_edit3("Color Edit3##widget", data_source = "float3")
             add_color_edit4("Color Edit4##widget", data_source = "float4")
             add_color_picker3("Color Picker3##widget", width=300, data_source = "float3")
-            add_color_picker4("Color Picker4##widget", width=300, data_source = "float4")
+            add_color_picker4("Color Picker4##widget", width=300, data_source = "float")
             add_input_float("Input Float##widget", data_source="float")
             add_input_float2("Input Float2##widget", data_source="float2")
             add_input_float3("Input Float3##widget", data_source="float3")

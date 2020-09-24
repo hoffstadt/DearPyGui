@@ -17,7 +17,7 @@
 
 namespace Marvel {
 
-	class mvTimePicker : public mvTimeItemBase
+	class mvTimePicker : public mvTimePtrBase
 	{
 
 	public:
@@ -25,7 +25,7 @@ namespace Marvel {
 		MV_APPITEM_TYPE(mvAppItemType::TimePicker, "add_time_picker")
 
 		mvTimePicker(const std::string& name, tm default_value)
-			: mvTimeItemBase(name, default_value)
+			: mvTimePtrBase(name, default_value, name)
 		{
 		}
 
@@ -33,9 +33,9 @@ namespace Marvel {
 		{
 			pushColorStyles();
 
-			if (ImPlot::ShowTimePicker(m_name.c_str(), &m_imvalue, m_hour24))
+			if (ImPlot::ShowTimePicker(m_name.c_str(), m_imvalue, m_hour24))
 			{
-				ImPlot::GetGmtTime(m_imvalue, &m_value);
+				ImPlot::GetGmtTime(*m_imvalue, m_value);
 				mvApp::GetApp()->runCallback(m_callback, m_name, m_callbackData);
 			}
 
@@ -61,7 +61,7 @@ namespace Marvel {
 
 	private:
 
-		bool m_hour24;
+		bool m_hour24 = false;
 
 	};
 

@@ -2,7 +2,7 @@
 
 #include <utility>
 
-#include "mvAppItem.h"
+#include "Core/AppItems/mvTypeBases.h"
 #include "mvPythonTranslator.h"
 
 //-----------------------------------------------------------------------------
@@ -14,20 +14,20 @@
 
 namespace Marvel{
 
-	class mvSimplePlot : public mvAppItem
+	class mvSimplePlot : public mvFloatVectPtrBase
 	{
 
 		MV_APPITEM_TYPE(mvAppItemType::SimplePlot, "add_simple_plot")
 
 	public:
-		mvSimplePlot(const std::string& name, std::vector<float> value)
-			: mvAppItem(name), m_value(std::move(value))
+		mvSimplePlot(const std::string& name, const std::vector<float>& value)
+			: mvFloatVectPtrBase(name, value, name) 
 		{
 
-			m_max = m_value[0];
-			m_min = m_value[0];
+			m_max = (*m_value)[0];
+			m_min = (*m_value)[0];
 
-			for (auto& item : m_value)
+			for (auto& item : *m_value)
 			{
 				if (item > m_max)
 					m_max = item;
@@ -41,10 +41,10 @@ namespace Marvel{
 			pushColorStyles();
 
 			if(m_histogram)
-				ImGui::PlotHistogram(m_label.c_str(), m_value.data(), m_value.size(), 0, m_overlay.c_str(), 
+				ImGui::PlotHistogram(m_label.c_str(), m_value->data(), m_value->size(), 0, m_overlay.c_str(), 
 					m_min, m_max, ImVec2((float)m_width, (float)m_height));
 			else
-				ImGui::PlotLines(m_label.c_str(), m_value.data(), m_value.size(), 0, m_overlay.c_str(), 
+				ImGui::PlotLines(m_label.c_str(), m_value->data(), m_value->size(), 0, m_overlay.c_str(),
 					m_min, m_max, ImVec2((float)m_width, (float)m_height));
 
 			popColorStyles();
@@ -52,7 +52,7 @@ namespace Marvel{
 
 		void setPyValue(PyObject* value) override
 		{
-			m_value = ToFloatVect(value, m_name + " requires a list or tuple of floats.");
+			*m_value = ToFloatVect(value, m_name + " requires a list or tuple of floats.");
 		}
 
 		[[nodiscard]] PyObject* getPyValue() const override
@@ -60,21 +60,21 @@ namespace Marvel{
 			if (!m_dataSource.empty())
 			{
 				if (!mvDataStorage::HasData(m_dataSource))
-					mvDataStorage::AddData(m_dataSource, ToPyList(m_value));
+					mvDataStorage::AddData(m_dataSource, ToPyList(*m_value));
 				else
-					UpdatePyFloatList(mvDataStorage::GetDataIncRef(m_dataSource), m_value);
+					UpdatePyFloatList(mvDataStorage::GetDataIncRef(m_dataSource), *m_value);
 				
 				return mvDataStorage::GetData(m_dataSource);
 			}
 
-			return ToPyList(m_value);
+			return ToPyList(*m_value);
 		}
 
 		void setValue(const std::vector<float>& value)
 		{ 
-			m_value = value;
+			*m_value = value;
 		}
-		[[nodiscard]] const std::vector<float>& getValue() const { return m_value; }
+		[[nodiscard]] const std::vector<float>& getValue() const { return *m_value; }
 
 		void setExtraConfigDict(PyObject* dict) override
 		{
@@ -100,7 +100,7 @@ namespace Marvel{
 
 	private:
 
-		std::vector<float> m_value;
+		//std::vector<float> m_value;
 		std::string        m_overlay;
 		float              m_min = 0.0f;
 		float              m_max = 0.0f;
