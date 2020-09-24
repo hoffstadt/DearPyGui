@@ -71,6 +71,9 @@ with menu_bar("MenuBar"):
 
         set_value("A Menu Table", tabledata1)
 
+    with menu("Disabled", enabled=False):
+        pass
+
 ########################################################################################################################
 # checklist
 ########################################################################################################################
@@ -321,6 +324,12 @@ with window("Widgets##dialog", 500, 500, show=False):
                 add_text("Group")
                 for i in range(0, 3):
                     add_button("Button" + str(i) + "##widgetgroup")
+
+            with child("Child2##widget", width=220, height=100):
+                with menu_bar("ChildMenuBar"):
+                    add_text("Decoration")
+                for i in range(0, 10):
+                    add_text("Item " + str(i) + " belonging to a child2")
 
         with tab("Time/Date Widgets##widget"):
             add_time_picker("Time Picker")

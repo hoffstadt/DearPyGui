@@ -18,8 +18,8 @@ def menu_bar(name: str, parent: str = "", before: str = ""):
     finally: dpg.end()
 
 @contextmanager
-def menu(name: str, tip: str = "", parent: str = "", before: str = ""):
-    try: yield dpg.add_menu(name, tip=tip, parent=parent, before=before)
+def menu(name: str, tip: str = "", parent: str = "", before: str = "", enabled: bool = True):
+    try: yield dpg.add_menu(name, tip=tip, parent=parent, before=before, enabled=enabled)
     finally: dpg.end()
 
 @contextmanager

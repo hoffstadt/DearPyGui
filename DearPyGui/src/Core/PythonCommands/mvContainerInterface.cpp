@@ -21,6 +21,7 @@ namespace Marvel {
 			{mvPythonDataType::String, "tip", "Adds a simple tooltip"},
 			{mvPythonDataType::String, "parent", "Parent this item will be added to. (runtime adding)"},
 			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)"},
+			{mvPythonDataType::Bool, "enabled"},
 		}, "Adds a menu to an existing menu bar. Must be followed by a call to end_menu.", "None", "Containers") });
 
 		parsers->insert({ "add_menu_item", mvPythonParser({
@@ -192,6 +193,24 @@ namespace Marvel {
 			}
 		}
 
+		else if (parentItem->getType() == mvAppItemType::Child)
+		{
+			auto child = static_cast<mvChild*>(parentItem);
+			child->addFlag(ImGuiWindowFlags_MenuBar);
+
+			mvAppItem* item = new mvMenuBar(name);
+
+			item->setConfigDict(kwargs);
+			item->setConfigDict(kwargs);
+			item->setExtraConfigDict(kwargs);
+
+			if (AddItemWithRuntimeChecks(item, parent, before))
+			{
+				mvApp::GetApp()->pushParent(item);
+				return ToPyBool(true);
+			}
+		}
+
 		return ToPyBool(false);
 	}
 
@@ -203,12 +222,11 @@ namespace Marvel {
 		const char* tip = "";
 		const char* parent = "";
 		const char* before = "";
+		int enabled = true;
 
 		if (!(*mvApp::GetApp()->getParsers())["add_menu"].parse(args, kwargs, __FUNCTION__, &name,
-			&label, &show, &tip, &parent, &before))
+			&label, &show, &tip, &parent, &before, &enabled))
 			return ToPyBool(false);
-
-		//auto parentItem = mvApp::GetApp()->topParent();
 
 		mvAppItem* item = new mvMenu(name);
 

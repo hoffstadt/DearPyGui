@@ -98,7 +98,7 @@ namespace Marvel {
 			pushColorStyles();
 
 			// create menu and see if its selected
-			if (ImGui::BeginMenu(m_label.c_str()))
+			if (ImGui::BeginMenu(m_label.c_str(), m_enabled))
 			{
 
 				// set other menus's value false on same level
@@ -148,6 +148,27 @@ namespace Marvel {
 
 			popColorStyles();
 		}
+
+		void setExtraConfigDict(PyObject* dict) override
+		{
+			if (dict == nullptr)
+				return;
+			mvGlobalIntepreterLock gil;
+			if (PyObject* item = PyDict_GetItemString(dict, "enabled")) m_enabled = ToBool(item);
+
+		}
+
+		void getExtraConfigDict(PyObject* dict) override
+		{
+			if (dict == nullptr)
+				return;
+			mvGlobalIntepreterLock gil;
+			PyDict_SetItemString(dict, "enabled", ToPyBool(m_enabled));
+		}
+
+	private:
+
+		bool m_enabled = true;
 
 	};
 
