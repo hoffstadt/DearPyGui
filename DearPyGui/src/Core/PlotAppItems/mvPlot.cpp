@@ -80,6 +80,138 @@ namespace Marvel {
 		m_height = -1;
 	}
 
+	void mvPlot::addDragPoint(const std::string& name, bool show_label, const mvColor& color, float radius, PyObject* callback, double* dummyValue, const std::string& source)
+	{
+		float* value = mvValueStorage::AddFloat2Value(source, { (float)dummyValue[0], (float)dummyValue[1] });
+
+		m_dragPoints.push_back({ name, value, show_label, color, radius, callback, value[0], value[1] });
+	}
+
+	void mvPlot::updateDragPoint(const std::string& name, bool show_label, const mvColor& color, float radius, PyObject* callback, double* dummyValue, const std::string& source)
+	{
+		// check if drag point exist
+		bool exists = false;
+		for (auto& item : m_dragPoints)
+		{
+			if (item.name == name)
+			{
+				exists = true;
+				item.name = name;
+				if (item.source != source)
+				{
+					mvValueStorage::DecrementRef(source);
+					item.value = mvValueStorage::AddFloat2Value(source, { (float)dummyValue[0], (float)dummyValue[1] });
+				}
+				item.show_label = show_label;
+				item.color = color;
+				item.radius = radius;
+				item.callback = callback;
+				item.dummyx = dummyValue[0];
+				item.dummyy = dummyValue[1];
+				item.source = source;
+				break;
+			}
+		}
+
+		if (!exists)
+			addDragPoint(name, show_label, color, radius, callback, dummyValue, source);
+	}
+
+	void mvPlot::addDragLine(const std::string& name, bool show_label, const mvColor& color, float thickness, bool y_line, PyObject* callback, double dummyValue, const std::string& source)
+	{
+		float* value = mvValueStorage::AddFloatValue(source, dummyValue);
+
+		m_dragLines.push_back({ name, value, show_label, color, thickness, y_line, callback, *value});
+	}
+
+	void mvPlot::updateDragLine(const std::string& name, bool show_label, const mvColor& color, float thickness, bool y_line, PyObject* callback, double dummyValue, const std::string& source)
+	{
+		// check if drag line exist
+		bool exists = false;
+		for (auto& item : m_dragLines)
+		{
+			if (item.name == name)
+			{
+				exists = true;
+				item.name = name;
+				if (item.source != source)
+				{
+					mvValueStorage::DecrementRef(source);
+					item.value = mvValueStorage::AddFloatValue(source, dummyValue);
+				}
+				item.show_label = show_label;
+				item.color = color;
+				item.thickness = thickness;
+				item.y_line = y_line;
+				item.callback = callback;
+				item.dummyValue = dummyValue;
+				item.source = source;
+				break;
+			}
+		}
+
+		if (!exists)
+			addDragLine(name, show_label, color, thickness, y_line, callback, dummyValue, source);
+	}
+
+	void mvPlot::deleteDragPoint(const std::string& name)
+	{
+		// check if annotations exist
+		bool exists = false;
+		for (auto item : m_dragPoints)
+		{
+			if (item.name == name)
+				exists = true;
+		}
+
+		if (exists)
+		{
+			auto oldDragPoints = m_dragPoints;
+			m_dragPoints.clear();
+
+			for (auto item : oldDragPoints)
+			{
+				if (item.name == name)
+				{
+					mvValueStorage::DecrementRef(item.source);
+					continue;
+				}
+
+				m_dragPoints.push_back(item);
+			}
+
+		}
+	}
+
+	void mvPlot::deleteDragLine(const std::string& name)
+	{
+		// check if annotations exist
+		bool exists = false;
+		for (auto item : m_dragLines)
+		{
+			if (item.name == name)
+				exists = true;
+		}
+
+		if (exists)
+		{
+			auto oldDragLines = m_dragLines;
+			m_dragLines.clear();
+
+			for (auto item : oldDragLines)
+			{
+				if (item.name == name)
+				{
+					mvValueStorage::DecrementRef(item.source);
+					continue;
+				}
+
+				m_dragLines.push_back(item);
+			}
+
+		}
+	}
+
 	void mvPlot::addAnnotation(const std::string& name, double x, double y, float xoffset, float yoffset, const mvColor& color, const std::string& text, bool clamped)
 	{
 		m_annotations.push_back({ name, x, y, { xoffset, yoffset }, color, text, clamped });
@@ -291,8 +423,16 @@ namespace Marvel {
 			series = nullptr;
 		}
 
+		for (auto& line : m_dragLines)
+			mvValueStorage::DecrementRef(line.source);
+
+		for (auto& point : m_dragPoints)
+			mvValueStorage::DecrementRef(point.source);
+
 		m_series.clear();
 		m_annotations.clear();
+		m_dragLines.clear();
+		m_dragPoints.clear();
 
 	}
 
@@ -345,6 +485,47 @@ namespace Marvel {
 						ImPlot::AnnotateClamped(annotation.x, annotation.y, annotation.pix_offset, annotation.color.toVec4(), annotation.text.c_str());
 					else
 						ImPlot::Annotate(annotation.x, annotation.y, annotation.pix_offset, annotation.color.toVec4(), annotation.text.c_str());
+				}
+			}
+
+			// drag lines
+			if (m_showDragLines)
+			{
+				for (auto& line : m_dragLines)
+				{
+					line.dummyValue = *line.value;
+					if (line.y_line)
+					{
+						if (ImPlot::DragLineY(line.name.c_str(), &line.dummyValue, line.show_label, line.color.toVec4(), line.thickness))
+						{
+							*line.value = line.dummyValue;
+							mvApp::GetApp()->runCallback(line.callback, line.name, nullptr);
+						}
+					}
+					else
+					{
+						if (ImPlot::DragLineX(line.name.c_str(), &line.dummyValue, line.show_label, line.color.toVec4(), line.thickness))
+						{
+							*line.value = line.dummyValue;
+							mvApp::GetApp()->runCallback(line.callback, line.name, nullptr);
+						}
+					}
+				}
+			}
+
+			// drag points
+			if (m_showDragPoints)
+			{
+				for (auto& point : m_dragPoints)
+				{
+					point.dummyx = point.value[0];
+					point.dummyy = point.value[1];
+					if (ImPlot::DragPoint(point.name.c_str(), &point.dummyx, &point.dummyy, point.show_label, point.color.toVec4(), point.radius))
+					{
+						point.value[0] = point.dummyx;
+						point.value[1] = point.dummyy;
+						mvApp::GetApp()->runCallback(point.callback, point.name, nullptr);
+					}
 				}
 			}
 
@@ -423,6 +604,8 @@ namespace Marvel {
 		if (PyObject* item = PyDict_GetItemString(dict, "yAxisName")) m_yaxisName = ToString(item);
 		if (PyObject* item = PyDict_GetItemString(dict, "show_color_scale")) m_colormapscale = ToBool(item);
 		if (PyObject* item = PyDict_GetItemString(dict, "show_annotations")) m_showAnnotations = ToBool(item);
+		if (PyObject* item = PyDict_GetItemString(dict, "show_drag_lines")) m_showDragLines = ToBool(item);
+		if (PyObject* item = PyDict_GetItemString(dict, "show_drag_points")) m_showDragPoints = ToBool(item);
 		if (PyObject* item = PyDict_GetItemString(dict, "scale_min")) m_scale_min = ToFloat(item);
 		if (PyObject* item = PyDict_GetItemString(dict, "scale_max")) m_scale_max = ToFloat(item);
 		if (PyObject* item = PyDict_GetItemString(dict, "scale_height")) m_scale_height = ToInt(item);
@@ -473,6 +656,8 @@ namespace Marvel {
 		PyDict_SetItemString(dict, "yAxisName", ToPyString(m_yaxisName));
 		PyDict_SetItemString(dict, "show_color_scale", ToPyBool(m_colormapscale));
 		PyDict_SetItemString(dict, "show_annotations", ToPyBool(m_showAnnotations));
+		PyDict_SetItemString(dict, "show_drag_lines", ToPyBool(m_showDragLines));
+		PyDict_SetItemString(dict, "show_drag_points", ToPyBool(m_showDragPoints));
 		PyDict_SetItemString(dict, "scale_min", ToPyFloat(m_scale_min));
 		PyDict_SetItemString(dict, "scale_max", ToPyFloat(m_scale_max));
 		PyDict_SetItemString(dict, "scale_height", ToPyFloat(m_scale_height));

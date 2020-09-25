@@ -61,6 +61,10 @@ Breaking Changes:
 
 New Commands:
 
+- Plots:          Added "add_drag_point"
+- Plots:          Added "add_drag_line"
+- Plots:          Added "delete_drag_line"
+- Plots:          Added "delete_drag_point"
 - Plots:          Added "add_annotation"
 - Plots:          Added "delete_annotation"
 - Tables:         Added "set_table_data"

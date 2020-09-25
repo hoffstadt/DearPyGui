@@ -608,22 +608,43 @@ namespace Marvel {
 
 	int* mvValueStorage::GetIntValue(const std::string& name)
 	{
-		if (HasValue(name) && GetType(name) == ValueTypes::Int)
-			return &s_ints[name];
+		if (HasValue(name))
+		{
+			switch (GetType(name))
+			{
+			case ValueTypes::Int: return &s_ints[name];
+			case ValueTypes::Int2: return s_int2s[name].data();
+			case ValueTypes::Int3: return s_int3s[name].data();
+			case ValueTypes::Int4: return s_int4s[name].data();
+			}
+		}
 		return &s_ints["common"];
 	}
 
 	int* mvValueStorage::GetInt2Value(const std::string& name)
 	{
-		if (HasValue(name) && GetType(name) == ValueTypes::Int2)
-			return s_int2s[name].data();
+		if (HasValue(name))
+		{
+			switch (GetType(name))
+			{
+			case ValueTypes::Int2: return s_int2s[name].data();
+			case ValueTypes::Int3: return s_int3s[name].data();
+			case ValueTypes::Int4: return s_int4s[name].data();
+			}
+		}
 		return s_int2s["common"].data();
 	}
 
 	int* mvValueStorage::GetInt3Value(const std::string& name)
 	{
-		if (HasValue(name) && GetType(name) == ValueTypes::Int3)
-			return s_int3s[name].data();
+		if (HasValue(name))
+		{
+			switch (GetType(name))
+			{
+			case ValueTypes::Int3: return s_int3s[name].data();
+			case ValueTypes::Int4: return s_int4s[name].data();
+			}
+		}
 		return s_int3s["common"].data();
 	}
 
@@ -636,29 +657,59 @@ namespace Marvel {
 
 	float* mvValueStorage::GetFloatValue(const std::string& name)
 	{
-		if (HasValue(name) && GetType(name) == ValueTypes::Float)
-			return &s_floats[name];
+		if (HasValue(name))
+		{
+			switch (GetType(name))
+			{
+			case ValueTypes::Float: return &s_floats[name];
+			case ValueTypes::Float2: return s_float2s[name].data();
+			case ValueTypes::Float3: return s_float3s[name].data();
+			case ValueTypes::Float4: return s_float4s[name].data();
+			case ValueTypes::FloatVect: return s_floatvects[name].data();
+			}
+		}
 		return &s_floats["common"];
 	}
 
 	float* mvValueStorage::GetFloat2Value(const std::string& name)
 	{
-		if (HasValue(name) && GetType(name) == ValueTypes::Float2)
-			return s_float2s[name].data();
+		if (HasValue(name))
+		{
+			switch (GetType(name))
+			{
+			case ValueTypes::Float2: return s_float2s[name].data();
+			case ValueTypes::Float3: return s_float3s[name].data();
+			case ValueTypes::Float4: return s_float4s[name].data();
+			case ValueTypes::FloatVect: return s_floatvects[name].data();
+			}
+		}
 		return s_float2s["common"].data();
 	}
 
 	float* mvValueStorage::GetFloat3Value(const std::string& name)
 	{
-		if (HasValue(name) && GetType(name) == ValueTypes::Float3)
-			return s_float3s[name].data();
+		if (HasValue(name))
+		{
+			switch (GetType(name))
+			{
+			case ValueTypes::Float3: return s_float3s[name].data();
+			case ValueTypes::Float4: return s_float4s[name].data();
+			case ValueTypes::FloatVect: return s_floatvects[name].data();
+			}
+		}
 		return s_float3s["common"].data();
 	}
 
 	float* mvValueStorage::GetFloat4Value(const std::string& name)
 	{
-		if (HasValue(name) && GetType(name) == ValueTypes::Float4)
-			return s_float4s[name].data();
+		if (HasValue(name))
+		{
+			switch (GetType(name))
+			{
+			case ValueTypes::Float4: return s_float4s[name].data();
+			case ValueTypes::FloatVect: return s_floatvects[name].data();
+			}
+		}
 		return s_float4s["common"].data();
 	}
 

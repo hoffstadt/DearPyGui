@@ -750,6 +750,10 @@ namespace Marvel {
 		ADD_PYTHON_FUNCTION(delete_drawing_item)
 
 		// plot commands
+		ADD_PYTHON_FUNCTION(add_drag_point)
+		ADD_PYTHON_FUNCTION(delete_drag_point)
+		ADD_PYTHON_FUNCTION(add_drag_line)
+		ADD_PYTHON_FUNCTION(delete_drag_line)
 		ADD_PYTHON_FUNCTION(add_annotation)
 		ADD_PYTHON_FUNCTION(delete_annotation)
 		ADD_PYTHON_FUNCTION(is_plot_queried)

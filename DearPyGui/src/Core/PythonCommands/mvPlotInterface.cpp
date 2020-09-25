@@ -55,6 +55,8 @@ namespace Marvel {
 			{mvPythonDataType::String, "label"},
 			{mvPythonDataType::Bool, "show"},
 			{mvPythonDataType::Bool, "show_annotations"},
+			{mvPythonDataType::Bool, "show_drag_lines"},
+			{mvPythonDataType::Bool, "show_drag_points"},
 
 		}, "Adds a plot widget.", "None", "Plotting") });
 
@@ -74,6 +76,16 @@ namespace Marvel {
 			{mvPythonDataType::String, "plot"},
 			{mvPythonDataType::Integer, "map"}
 		}, "Sets the color map of the plot's series.", "None", "Plotting") });
+
+		parsers->insert({ "delete_drag_line", mvPythonParser({
+			{mvPythonDataType::String, "plot"},
+			{mvPythonDataType::String, "name"}
+		}, "Deletes a drag line if it exists.", "None", "Plotting") });
+
+		parsers->insert({ "delete_drag_point", mvPythonParser({
+			{mvPythonDataType::String, "plot"},
+			{mvPythonDataType::String, "name"}
+		}, "Deletes a drag point if it exists.", "None", "Plotting") });
 
 		parsers->insert({ "delete_series", mvPythonParser({
 			{mvPythonDataType::String, "plot"},
@@ -104,6 +116,34 @@ namespace Marvel {
 			{mvPythonDataType::String, "plot"},
 			{mvPythonDataType::String, "name"},
 		}, "Deletes an annotation", "None", "Plotting") });
+
+		parsers->insert({ "add_drag_line", mvPythonParser({
+			{mvPythonDataType::String, "plot"},
+			{mvPythonDataType::String, "name"},
+			{mvPythonDataType::String, "source"},
+			{mvPythonDataType::Optional},
+			{mvPythonDataType::KeywordOnly},
+			{mvPythonDataType::FloatList, "color"},
+			{mvPythonDataType::Float, "thickness"},
+			{mvPythonDataType::Bool, "y_line"},
+			{mvPythonDataType::Bool, "show_label"},
+			{mvPythonDataType::Object, "callback"},
+			{mvPythonDataType::Float, "default_value"},
+		}, "Adds a drag line to a plot.", "None", "Plotting") });
+
+		parsers->insert({ "add_drag_point", mvPythonParser({
+			{mvPythonDataType::String, "plot"},
+			{mvPythonDataType::String, "name"},
+			{mvPythonDataType::String, "source"},
+			{mvPythonDataType::Optional},
+			{mvPythonDataType::KeywordOnly},
+			{mvPythonDataType::FloatList, "color"},
+			{mvPythonDataType::Float, "radius"},
+			{mvPythonDataType::Bool, "show_label"},
+			{mvPythonDataType::Object, "callback"},
+			{mvPythonDataType::Float, "default_x"},
+			{mvPythonDataType::Float, "default_y"},
+		}, "Adds a drag line to a plot.", "None", "Plotting") });
 
 		parsers->insert({ "add_annotation", mvPythonParser({
 			{mvPythonDataType::String, "plot"},
@@ -318,6 +358,95 @@ namespace Marvel {
 
 		mvPlot* graph = static_cast<mvPlot*>(aplot);
 		graph->updateAnnotation(tag, x, y, xoffset, yoffset, ToColor(color), text, clamped);
+		return GetPyNone();
+	}
+
+	PyObject* add_drag_line(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		const char* plot;
+		const char* name;
+		const char* source;
+		PyObject* color = PyTuple_New(4);
+		PyTuple_SetItem(color, 0, PyLong_FromLong(0));
+		PyTuple_SetItem(color, 1, PyLong_FromLong(0));
+		PyTuple_SetItem(color, 2, PyLong_FromLong(0));
+		PyTuple_SetItem(color, 3, PyLong_FromLong(-1));
+		float thickness = 1.0f;
+		int y_line = false;
+		int show_label = true;
+		PyObject* callback = nullptr;
+		float default_value = 0.0f;
+
+		if (!(*mvApp::GetApp()->getParsers())["add_drag_line"].parse(args, kwargs, __FUNCTION__,
+			&plot, &name, &source, &color, &thickness, &y_line, &show_label, &callback, &default_value))
+			return GetPyNone();
+
+		mvAppItem* aplot = mvApp::GetApp()->getItem(plot);
+
+		if (aplot == nullptr)
+		{
+			std::string message = plot;
+			ThrowPythonException(message + " plot does not exist.");
+			return GetPyNone();
+		}
+
+		if (aplot->getType() != mvAppItemType::Plot)
+		{
+			std::string message = plot;
+			ThrowPythonException(message + " is not a plot.");
+			return GetPyNone();
+		}
+
+		if (callback)
+			Py_XINCREF(callback);
+
+		mvPlot* graph = static_cast<mvPlot*>(aplot);
+		graph->updateDragLine(name, show_label, ToColor(color), thickness, y_line, callback, default_value, source);
+		return GetPyNone();
+	}
+
+	PyObject* add_drag_point(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		const char* plot;
+		const char* name;
+		const char* source;
+		PyObject* color = PyTuple_New(4);
+		PyTuple_SetItem(color, 0, PyLong_FromLong(0));
+		PyTuple_SetItem(color, 1, PyLong_FromLong(0));
+		PyTuple_SetItem(color, 2, PyLong_FromLong(0));
+		PyTuple_SetItem(color, 3, PyLong_FromLong(-1));
+		float radius = 4.0f;
+		int show_label = true;
+		PyObject* callback = nullptr;
+		float default_x = 0.0f;
+		float default_y = 0.0f;
+
+		if (!(*mvApp::GetApp()->getParsers())["add_drag_point"].parse(args, kwargs, __FUNCTION__,
+			&plot, &name, &source, &color, &radius, &show_label, &callback, &default_x, &default_y))
+			return GetPyNone();
+
+		mvAppItem* aplot = mvApp::GetApp()->getItem(plot);
+
+		if (aplot == nullptr)
+		{
+			std::string message = plot;
+			ThrowPythonException(message + " plot does not exist.");
+			return GetPyNone();
+		}
+
+		if (aplot->getType() != mvAppItemType::Plot)
+		{
+			std::string message = plot;
+			ThrowPythonException(message + " is not a plot.");
+			return GetPyNone();
+		}
+
+		if (callback)
+			Py_XINCREF(callback);
+
+		mvPlot* graph = static_cast<mvPlot*>(aplot);
+		double defaults[2] = { (double)default_x, (double)default_y };
+		graph->updateDragPoint(name, show_label, ToColor(color), radius, callback, defaults, source);
 		return GetPyNone();
 	}
 
@@ -742,6 +871,8 @@ namespace Marvel {
 		const char* label = "";
 		int show = true;
 		int show_annotations = true;
+		int show_drag_lines = true;
+		int show_drag_points = true;
 
 		if (!(*mvApp::GetApp()->getParsers())["add_plot"].parse(args, kwargs, __FUNCTION__, &name, &xAxisName, &yAxisName,
 			&no_legend, &no_menus, &no_box_select, &no_mouse_pos, &no_highlight, &no_child, &query, &crosshairs, &antialiased,
@@ -761,7 +892,7 @@ namespace Marvel {
 			&yaxis_lock_min,
 			&yaxis_lock_max,
 			&parent, &before, &width, &height, &query_callback, &show_color_scale, &scale_min, &scale_max,
-			&scale_height, &label, &show, &show_annotations))
+			&scale_height, &label, &show, &show_annotations, &show_drag_lines, &show_drag_points))
 			return ToPyBool(false);
 
 
@@ -830,6 +961,66 @@ namespace Marvel {
 
 		mvPlot* graph = static_cast<mvPlot*>(aplot);
 		graph->deleteAnnotation(name);
+		return GetPyNone();
+	}
+
+	PyObject* delete_drag_line(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		const char* plot;
+		const char* name;
+
+		if (!(*mvApp::GetApp()->getParsers())["delete_drag_line"].parse(args, kwargs, __FUNCTION__,
+			&plot, &name))
+			return GetPyNone();
+
+		mvAppItem* aplot = mvApp::GetApp()->getItem(plot);
+
+		if (aplot == nullptr)
+		{
+			std::string message = plot;
+			ThrowPythonException(message + " plot does not exist.");
+			return GetPyNone();
+		}
+
+		if (aplot->getType() != mvAppItemType::Plot)
+		{
+			std::string message = plot;
+			ThrowPythonException(message + " is not a plot.");
+			return GetPyNone();
+		}
+
+		mvPlot* graph = static_cast<mvPlot*>(aplot);
+		graph->deleteDragLine(name);
+		return GetPyNone();
+	}
+
+	PyObject* delete_drag_point(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		const char* plot;
+		const char* name;
+
+		if (!(*mvApp::GetApp()->getParsers())["delete_drag_point"].parse(args, kwargs, __FUNCTION__,
+			&plot, &name))
+			return GetPyNone();
+
+		mvAppItem* aplot = mvApp::GetApp()->getItem(plot);
+
+		if (aplot == nullptr)
+		{
+			std::string message = plot;
+			ThrowPythonException(message + " plot does not exist.");
+			return GetPyNone();
+		}
+
+		if (aplot->getType() != mvAppItemType::Plot)
+		{
+			std::string message = plot;
+			ThrowPythonException(message + " is not a plot.");
+			return GetPyNone();
+		}
+
+		mvPlot* graph = static_cast<mvPlot*>(aplot);
+		graph->deleteDragPoint(name);
 		return GetPyNone();
 	}
 
