@@ -210,7 +210,6 @@ with window("Tooltips/Popups##dialog", 200, 200, show=False):
         add_button("Close Window##notmodal", callback=close_popup)
     add_text("Right Click Me now", popup="Popup window")
 
-
 ########################################################################################################################
 # Text
 ########################################################################################################################
@@ -338,7 +337,7 @@ with window("Widgets##dialog", 500, 500, show=False):
                     add_text("Item " + str(i) + " belonging to a child2")
 
         with tab("Time/Date Widgets##widget"):
-            add_time_picker("Time Picker")
+            add_time_picker("Time Picker", default_value={'hour': 14, 'min': 32, 'sec': 23})
             add_separator()
             add_date_picker("Date Picker1", level=0, default_value={'month_day': 8, 'year':93, 'month':5})
             add_separator()
@@ -346,7 +345,6 @@ with window("Widgets##dialog", 500, 500, show=False):
             add_separator()
             add_date_picker("Date Picker3", level=2, default_value={'month_day': 8, 'year':93, 'month':5})
             add_separator()
-
 
 ########################################################################################################################
 # Logger

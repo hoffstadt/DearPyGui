@@ -288,7 +288,7 @@ namespace Marvel {
 		parsers->insert({ "add_heat_series", mvPythonParser({
 			{mvPythonDataType::String, "plot"},
 			{mvPythonDataType::String, "name"},
-			{mvPythonDataType::Object, "data"},
+			{mvPythonDataType::Object, "data", "List[List[float]]"},
 			{mvPythonDataType::Integer, "rows"},
 			{mvPythonDataType::Integer, "columns"},
 			{mvPythonDataType::Double, "scale_min"},

@@ -10,7 +10,6 @@ namespace Marvel {
 
 	void AddAppCommands(std::map<std::string, mvPythonParser>* parsers)
 	{
-
 		parsers->insert({ "set_start_callback", mvPythonParser({
 			{mvPythonDataType::Object, "callback"},
 		}, "Callback to run when starting main window.") });
@@ -63,7 +62,7 @@ namespace Marvel {
 
 		parsers->insert({ "run_async_function", mvPythonParser({
 			{mvPythonDataType::Object, "name"},
-			{mvPythonDataType::Object, "data", "Data that will be sent into the async funstion"},
+			{mvPythonDataType::Object, "data", "Data that will be sent into the async function."},
 			{mvPythonDataType::Optional},
 			{mvPythonDataType::Object, "return_handler"},
 		}, "Runs a function asyncronously.") });
