@@ -5,74 +5,92 @@ import dearpygui.core as dpg
 @contextmanager
 def window(name: str, width: int = -1, height: int = -1, x_pos: int = 200, y_pos: int = 200, 
            autosize: bool = False, no_resize: bool = False, no_title_bar: bool = False, 
-           no_move: bool = False, show: bool = True, on_close: Callable = None):
-    try: 
-        yield dpg.add_window(name, width=width, height=height, x_pos=x_pos, y_pos=y_pos, autosize=autosize, 
+           no_move: bool = False, label: str = "__DearPyGuiDefault", show: bool = True, on_close: Callable = None):
+    try:
+        if label == "__DearPyGuiDefault":
+            yield dpg.add_window(name, width=width, height=height, x_pos=x_pos, y_pos=y_pos, autosize=autosize, 
                          no_resize=no_resize, no_title_bar=no_title_bar, no_move=no_move, show=show,
+                         on_close=on_close)
+        else:
+            yield dpg.add_window(name, width=width, height=height, x_pos=x_pos, y_pos=y_pos, autosize=autosize, 
+                         no_resize=no_resize, no_title_bar=no_title_bar, no_move=no_move, label=label, show=show,
                          on_close=on_close)
     finally: dpg.end()
 
 @contextmanager
-def menu_bar(name: str, parent: str = "", before: str = ""):
-    try: yield dpg.add_menu_bar(name, parent=parent, before=before)
+def menu_bar(name: str, show: bool = True, parent: str = "", before: str = ""):
+    try: yield dpg.add_menu_bar(name, show=show, parent=parent, before=before)
     finally: dpg.end()
 
 @contextmanager
-def menu(name: str, tip: str = "", parent: str = "", before: str = "", enabled: bool = True):
-    try: yield dpg.add_menu(name, tip=tip, parent=parent, before=before, enabled=enabled)
-    finally: dpg.end()
-
-@contextmanager
-def child(name: str, tip: str = "", parent: str = "", before: str = "", width: int = 0, height: int = 0, border: bool = True):
+def menu(name: str, label: str = "__DearPyGuiDefault", show: bool = True, tip: str = "", parent: str = "", before: str = "", enabled: bool = True):
     try: 
-        yield dpg.add_child(name, tip=tip, parent=parent, before=before, width=width, 
-                        height=height, border=border)
+        if label == "__DearPyGuiDefault":
+            yield dpg.add_menu(name, show=show, tip=tip, parent=parent, before=before, enabled=enabled)
+        else:
+            yield dpg.add_menu(name, label=label, show=show, tip=tip, parent=parent, before=before, enabled=enabled)
     finally: dpg.end()
 
 @contextmanager
-def collapsing_header(name: str, default_open: bool = False, closable: bool = False, tip: str = "", parent: str = "", before: str = ""):
+def child(name: str, show: bool = True, tip: str = "", parent: str = "", before: str = "", width: int = 0, height: int = 0, border: bool = True, popup: str = ""):
+    try: 
+        yield dpg.add_child(name, show=show, tip=tip, parent=parent, before=before, width=width, 
+                        height=height, border=border, popup=popup)
+    finally: dpg.end()
+
+@contextmanager
+def collapsing_header(name: str, default_open: bool = False, closable: bool = False, label: str = "__DearPyGuiDefault", show: bool = True, tip: str = "", parent: str = "", before: str = ""):
     try:
-        yield dpg.add_collapsing_header(name, default_open=default_open, closable=closable, tip=tip, parent=parent, before=before)
+        if label == "__DearPyGuiDefault":
+            yield dpg.add_collapsing_header(name, default_open=default_open, closable=closable, label=label, show=show, tip=tip, parent=parent, before=before)
+        else:
+            yield dpg.add_collapsing_header(name, default_open=default_open, closable=closable, show=show, tip=tip, parent=parent, before=before)
     finally: dpg.end()
 
 @contextmanager
-def group(name: str, tip: str = "", parent: str = "", before: str = "", width: int = 0, show: bool = True, 
+def group(name: str, show: bool = True, tip: str = "", parent: str = "", before: str = "", width: int = 0, 
 			  horizontal: bool = False, horizontal_spacing: float = -1.0):
     try:
-        yield dpg.add_group(name, tip=tip, parent=parent, before=before, width=width, show=show, horizontal=horizontal,
+        yield dpg.add_group(name, show=show, tip=tip, parent=parent, before=before, width=width, horizontal=horizontal,
                         horizontal_spacing=horizontal_spacing)
     finally: dpg.end()
 
 @contextmanager
-def tab_bar(name: str, reorderable: bool = False, callback: str = "", parent: str = "", before: str = ""):
+def tab_bar(name: str, reorderable: bool = False, callback: str = "", callback_data: str = "",  show: bool = True, parent: str = "", before: str = ""):
     try:
-        yield dpg.add_tab_bar(name, reorderable=reorderable, callback=callback, parent=parent, before=before)
+        yield dpg.add_tab_bar(name, reorderable=reorderable, callback=callback, callback_data=callback_data, show=show, parent=parent, before=before)
     finally: dpg.end()
 
 @contextmanager
-def tab(name: str, closable: bool = False, tip: str = "", parent: str = "", before: str = ""):
+def tab(name: str, closable: bool = False, label: str = "__DearPyGuiDefault", show: bool = True, tip: str = "", parent: str = "", before: str = ""):
     try:
-        yield dpg.add_tab(name, closable=closable, tip=tip, parent=parent, before=before)
+        if label == "__DearPyGuiDefault":
+            yield dpg.add_tab(name, closable=closable, label=label, show=show, tip=tip, parent=parent, before=before)
+        else:
+            yield dpg.add_tab(name, closable=closable, show=show, tip=tip, parent=parent, before=before)
     finally: dpg.end()
 
 @contextmanager
-def tree_node(name: str, default_open: bool = False, tip: str = "", parent: str = "", before: str = ""):
+def tree_node(name: str, default_open: bool = False, label: str = "__DearPyGuiDefault", show: bool = True, tip: str = "", parent: str = "", before: str = ""):
     try:
-        yield dpg.add_tree_node(name, default_open=default_open, tip=tip, parent=parent, before=before)
+        if label == "__DearPyGuiDefault":
+            yield dpg.add_tree_node(name, default_open=default_open, label=label, show=show, tip=tip, parent=parent, before=before)
+        else:
+            yield dpg.add_tree_node(name, default_open=default_open, show=show, tip=tip, parent=parent, before=before)
     finally: dpg.end()
 
 @contextmanager
-def tooltip(tipparent: str, name: str, parent: str = "", before: str = ""):
+def tooltip(tipparent: str, name: str, parent: str = "", before: str = "", show: bool = True):
     try:
-        yield dpg.add_tooltip(tipparent, name, parent=parent, before=before)
+        yield dpg.add_tooltip(tipparent, name, parent=parent, before=before, show=show)
     finally: dpg.end()
 
 @contextmanager
 def popup(popupparent: str, name: str, mousebutton: int = 1, modal: bool = False, parent: str = "", 
-          before: str = "", width: int = 0, height: int = 0):
+          before: str = "", width: int = 0, height: int = 0, show: bool = True):
     try:
         yield dpg.add_popup(popupparent, name, mousebutton=mousebutton, modal=modal, parent=parent,
-                        before=before, width=width, height=height)
+                        before=before, width=width, height=height, show=show)
     finally: dpg.end() 
 
 ########################################################################################################################
