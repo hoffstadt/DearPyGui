@@ -61,6 +61,7 @@ Breaking Changes:
 
 New Commands:
 
+- Widgets:        Added "add_color_button"
 - Plots:          Added "add_drag_point"
 - Plots:          Added "add_drag_line"
 - Plots:          Added "delete_drag_line"

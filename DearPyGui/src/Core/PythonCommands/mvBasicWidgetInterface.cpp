@@ -215,6 +215,21 @@ namespace Marvel {
 			{mvPythonDataType::Bool, "show", ""},
 		}, "Adds a button.", "None", "Adding Widgets") });
 
+		parsers->insert({ "add_color_button", mvPythonParser({
+			{mvPythonDataType::String, "name"},
+			{mvPythonDataType::FloatList, "color"},
+			{mvPythonDataType::KeywordOnly},
+			{mvPythonDataType::Object, "callback", "Registers a callback"},
+			{mvPythonDataType::Object, "callback_data", "Callback data"},
+			{mvPythonDataType::String, "tip", "Adds a simple tooltip"},
+			{mvPythonDataType::String, "parent", "Parent to add this item to. (runtime adding)"},
+			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)"},
+			{mvPythonDataType::Integer, "width",""},
+			{mvPythonDataType::Integer, "height", ""},
+			{mvPythonDataType::String, "popup", ""},
+			{mvPythonDataType::Bool, "show", ""},
+		}, "Adds a color button.", "None", "Adding Widgets") });
+
 		parsers->insert({ "add_indent", mvPythonParser({
 			{mvPythonDataType::KeywordOnly},
 			{mvPythonDataType::String, "name"},
@@ -1130,6 +1145,40 @@ namespace Marvel {
 		item->setExtraConfigDict(kwargs);
 
 		
+		return ToPyBool(AddItemWithRuntimeChecks(item, parent, before));
+	}
+
+	PyObject* add_color_button(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		const char* name;
+		PyObject* color;
+		PyObject* callback = nullptr;
+		PyObject* callback_data = nullptr;
+		const char* tip = "";
+		int width = 0;
+		int height = 0;
+		const char* before = "";
+		const char* parent = "";
+		const char* popup = "";
+		int show = true;
+
+		if (!(*mvApp::GetApp()->getParsers())["add_color_button"].parse(args, kwargs, __FUNCTION__,
+			&name, &color, &callback, &callback_data, &tip, &width, &height, &before,
+			&parent, &popup, &show))
+			return ToPyBool(false);
+
+		mvAppItem* item = new mvColorButton(name, ToColor(color));
+		if (callback)
+			Py_XINCREF(callback);
+		item->setCallback(callback);
+		if (callback_data)
+			Py_XINCREF(callback_data);
+		item->setCallbackData(callback_data);
+
+		item->checkConfigDict(kwargs);
+		item->setConfigDict(kwargs);
+		item->setExtraConfigDict(kwargs);
+
 		return ToPyBool(AddItemWithRuntimeChecks(item, parent, before));
 	}
 

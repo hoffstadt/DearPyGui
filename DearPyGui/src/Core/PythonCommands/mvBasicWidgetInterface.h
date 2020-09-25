@@ -35,6 +35,7 @@ namespace Marvel {
 	PyObject* add_separator        (PyObject* self, PyObject* args, PyObject* kwargs);
 
 	// colors
+	PyObject* add_color_button     (PyObject* self, PyObject* args, PyObject* kwargs);
 	PyObject* add_color_edit3      (PyObject* self, PyObject* args, PyObject* kwargs);
 	PyObject* add_color_edit4      (PyObject* self, PyObject* args, PyObject* kwargs);
 	PyObject* add_color_picker3    (PyObject* self, PyObject* args, PyObject* kwargs);
