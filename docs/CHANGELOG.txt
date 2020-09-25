@@ -37,6 +37,7 @@ Fixes:
 - Tooltips:   Can now be added anywhere (don't have to be right after their parent)
 
 Breaking Changes:
+- Data Source:    data_source keywords changed to "source"
 - Tables:         tables no longer use set/get value
 - Modules:        dearpygui module is now called core
 - Modules:        wrapper module is now called simple
