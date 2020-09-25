@@ -52,8 +52,8 @@ namespace Marvel {
 
 		// annotations
 		void addAnnotation  (const std::string& name, double x, double y, float xoffset, float yoffset, const mvColor& color, const std::string& text, bool clamped);
-		void updateAnnotatio(const std::string& name, double x, double y, float xoffset, float yoffset, const mvColor& color, const std::string& text, bool clamped);
-		void deleteAnnotatio(const std::string& name);
+		void updateAnnotation(const std::string& name, double x, double y, float xoffset, float yoffset, const mvColor& color, const std::string& text, bool clamped);
+		void deleteAnnotation(const std::string& name);
 
 		// series
 		void addSeries      (mvSeries* series, bool updateBounds);
