@@ -6,12 +6,16 @@
 #include <map>
 #include <utility>
 #include "mvCore.h"
+#define PY_SSIZE_T_CLEAN
+#include <Python.h>
 
 //-----------------------------------------------------------------------------
 // Widget Index
 //
 //     * mvPlot
 //     * mvPlotAnnotation
+//     * mvDragLine
+//     * mvDragPoint
 //     * mvSeries
 //
 //-----------------------------------------------------------------------------
@@ -21,6 +25,8 @@ namespace Marvel {
 	// forward declarations
 	class mvSeries;
 	struct mvPlotAnnotation;
+	struct mvDragLine;
+	struct mvDragPoint;
 
 	//-----------------------------------------------------------------------------
 	// mvPlot
@@ -34,29 +40,39 @@ namespace Marvel {
 
 		mvPlot(const std::string& name, PyObject* queryCallback);
 
+		// drag lines
+		void addDragPoint   (const std::string& name, bool show_label, const mvColor& color, float radius, PyObject* callback, double* dummyValue, const std::string& source);
+		void updateDragPoint(const std::string& name, bool show_label, const mvColor& color, float radius, PyObject* callback, double* dummyValue, const std::string& source);
+		void deleteDragPoint(const std::string& name);
+
+		// drag lines
+		void addDragLine    (const std::string& name, bool show_label, const mvColor& color, float thickness, bool y_line, PyObject* callback, double dummyValue, const std::string& source);
+		void updateDragLine (const std::string& name, bool show_label, const mvColor& color, float thickness, bool y_line, PyObject* callback, double dummyValue, const std::string& source);
+		void deleteDragLine (const std::string& name);
 
 		// annotations
-		void addAnnotation(const std::string& name, double x, double y, float xoffset, float yoffset, const mvColor& color, const std::string& text, bool clamped);
-		void updateAnnotation(const std::string& name, double x, double y, float xoffset, float yoffset, const mvColor& color, const std::string& text, bool clamped);
-		void deleteAnnotation(const std::string& name);
+		void addAnnotation  (const std::string& name, double x, double y, float xoffset, float yoffset, const mvColor& color, const std::string& text, bool clamped);
+		void updateAnnotatio(const std::string& name, double x, double y, float xoffset, float yoffset, const mvColor& color, const std::string& text, bool clamped);
+		void deleteAnnotatio(const std::string& name);
 
 		// series
-		void addSeries   (mvSeries* series, bool updateBounds);
-		void updateSeries(mvSeries* series, bool updateBounds);
-		void deleteSeries(const std::string& name);
+		void addSeries      (mvSeries* series, bool updateBounds);
+		void updateSeries   (mvSeries* series, bool updateBounds);
+		void deleteSeries   (const std::string& name);
 
 		// settings
-		void SetColorMap(ImPlotColormap colormap);
-		void resetXTicks();
-		void resetYTicks();
-		void setXTicks(const std::vector<std::string>& labels, const std::vector<double>& locations);
-		void setYTicks(const std::vector<std::string>& labels, const std::vector<double>& locations);
-		void clear();
-		void draw() override;
-		void setXLimits(float x_min, float x_max);
-		void setYLimits(float y_min, float y_max);
-		void setXLimitsAuto();
-		void setYLimitsAuto();
+		void SetColorMap    (ImPlotColormap colormap);
+		void resetXTicks    ();
+		void resetYTicks    ();
+		void setXTicks      (const std::vector<std::string>& labels, const std::vector<double>& locations);
+		void setYTicks      (const std::vector<std::string>& labels, const std::vector<double>& locations);
+		void clear          ();
+		void draw           () override;
+		void setXLimits     (float x_min, float x_max);
+		void setYLimits     (float y_min, float y_max);
+		void setXLimitsAuto ();
+		void setYLimitsAuto ();
+
 		[[nodiscard]] bool isPlotQueried() const;
 		float* getPlotQueryArea();
 		
@@ -77,39 +93,43 @@ namespace Marvel {
 	private:
 
 		// new
-		std::string     m_xaxisName;
-		std::string     m_yaxisName;
-		ImPlotFlags     m_flags    = 0;
-		ImPlotAxisFlags m_xflags  = 0;
-		ImPlotAxisFlags m_yflags  = 0;
-		ImPlotAxisFlags m_y2flags  = 0;
-		ImPlotAxisFlags m_y3flags  = 0;
-		bool            m_showAnnotations = true;
+		std::string                   m_xaxisName;
+		std::string                   m_yaxisName;
+		ImPlotFlags                   m_flags    = 0;
+		ImPlotAxisFlags               m_xflags  = 0;
+		ImPlotAxisFlags               m_yflags  = 0;
+		ImPlotAxisFlags               m_y2flags  = 0;
+		ImPlotAxisFlags               m_y3flags  = 0;
+		bool                          m_showAnnotations = true;
+		bool                          m_showDragLines = true;
+		bool                          m_showDragPoints = true;
 
 
-		ImPlotColormap  m_colormap = ImPlotColormap_Default;
-		bool            m_setXLimits = false;
-		bool            m_setYLimits = false;
-		ImVec2          m_xlimits;
-		ImVec2          m_ylimits;
-		PyObject*       m_queryCallback;
-		bool            m_queried = false;
-		float           m_queryArea[4] = {0.0f , 0.0f, 0.0f, 0.0f};
-		bool            m_dirty = false;
-		bool            m_colormapscale = false;
-		float           m_scale_min = 0.0f;
-		float           m_scale_max = 1.0f;
-		int             m_scale_height = 100;
+		ImPlotColormap                m_colormap = ImPlotColormap_Default;
+		bool                          m_setXLimits = false;
+		bool                          m_setYLimits = false;
+		ImVec2                        m_xlimits;
+		ImVec2                        m_ylimits;
+		PyObject*                     m_queryCallback;
+		bool                          m_queried = false;
+		float                         m_queryArea[4] = {0.0f , 0.0f, 0.0f, 0.0f};
+		bool                          m_dirty = false;
+		bool                          m_colormapscale = false;
+		float                         m_scale_min = 0.0f;
+		float                         m_scale_max = 1.0f;
+		int                           m_scale_height = 100;
 		
-		std::vector<std::string> m_xlabels;
-		std::vector<std::string> m_ylabels;
-		std::vector<const char*> m_xclabels; // to prevent conversion from string to char* every frame
-		std::vector<const char*> m_yclabels; // to prevent conversion from string to char* every frame
-		std::vector<double>      m_xlabelLocations;
-		std::vector<double>      m_ylabelLocations;
+		std::vector<std::string>      m_xlabels;
+		std::vector<std::string>      m_ylabels;
+		std::vector<const char*>      m_xclabels; // to prevent conversion from string to char* every frame
+		std::vector<const char*>      m_yclabels; // to prevent conversion from string to char* every frame
+		std::vector<double>           m_xlabelLocations;
+		std::vector<double>           m_ylabelLocations;
 
 		std::vector<mvSeries*>        m_series;
 		std::vector<mvPlotAnnotation> m_annotations;
+		std::vector<mvDragLine>       m_dragLines;
+		std::vector<mvDragPoint>      m_dragPoints;
 	};
 
 	//-----------------------------------------------------------------------------
@@ -118,12 +138,44 @@ namespace Marvel {
 	struct mvPlotAnnotation
 	{
 		std::string name;
-		double x;
-		double y;
-		ImVec2 pix_offset;
-		mvColor color;
+		double      x;
+		double      y;
+		ImVec2      pix_offset;
+		mvColor     color;
 		std::string text;
-		bool clamped;
+		bool        clamped;
+	};
+
+	//-----------------------------------------------------------------------------
+	// mvDragLine
+	//-----------------------------------------------------------------------------
+	struct mvDragLine
+	{
+		std::string name;
+		float*      value;
+		bool        show_label;
+		mvColor     color;
+		float       thickness;
+		bool        y_line;
+		PyObject*   callback;
+		double      dummyValue;
+		std::string source;
+	};
+
+	//-----------------------------------------------------------------------------
+	// mvDragPoint
+	//-----------------------------------------------------------------------------
+	struct mvDragPoint
+	{
+		std::string name;
+		float*      value;
+		bool        show_label;
+		mvColor     color;
+		float       radius;
+		PyObject*   callback;
+		double      dummyx;
+		double      dummyy;
+		std::string source;
 	};
 
 	//-----------------------------------------------------------------------------

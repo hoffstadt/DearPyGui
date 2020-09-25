@@ -56,7 +56,7 @@ namespace Marvel{
 		if (PyObject* item = PyDict_GetItemString(dict, "width")) setWidth(ToInt(item));
 		if (PyObject* item = PyDict_GetItemString(dict, "height")) setHeight(ToInt(item));
 		if (PyObject* item = PyDict_GetItemString(dict, "show")) m_show =ToBool(item);
-		if (PyObject* item = PyDict_GetItemString(dict, "data_source")) setDataSource(ToString(item));
+		if (PyObject* item = PyDict_GetItemString(dict, "source")) setDataSource(ToString(item));
 	}
 
 	void mvAppItem::getConfigDict(PyObject* dict)
@@ -66,7 +66,7 @@ namespace Marvel{
 		mvGlobalIntepreterLock gil;
 		PyDict_SetItemString(dict, "name", ToPyString(m_name));
 		PyDict_SetItemString(dict, "label", ToPyString(m_label));
-		PyDict_SetItemString(dict, "data_source", ToPyString(m_dataSource));
+		PyDict_SetItemString(dict, "source", ToPyString(m_dataSource));
 		PyDict_SetItemString(dict, "popup", ToPyString(m_popup));
 		PyDict_SetItemString(dict, "tip", ToPyString(m_tip));
 		PyDict_SetItemString(dict, "width", ToPyInt(m_width));

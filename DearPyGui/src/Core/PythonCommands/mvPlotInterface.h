@@ -30,6 +30,14 @@ namespace Marvel {
 	PyObject* set_plot_xlimits     (PyObject* self, PyObject* args, PyObject* kwargs);
 	PyObject* set_plot_ylimits     (PyObject* self, PyObject* args, PyObject* kwargs);
 
+	// drag points
+	PyObject* add_drag_point       (PyObject* self, PyObject* args, PyObject* kwargs);
+	PyObject* delete_drag_point    (PyObject* self, PyObject* args, PyObject* kwargs);
+
+	// drag lines
+	PyObject* add_drag_line        (PyObject* self, PyObject* args, PyObject* kwargs);
+	PyObject* delete_drag_line     (PyObject* self, PyObject* args, PyObject* kwargs);
+
 	// annotations
 	PyObject* add_annotation       (PyObject* self, PyObject* args, PyObject* kwargs);
 	PyObject* delete_annotation    (PyObject* self, PyObject* args, PyObject* kwargs);

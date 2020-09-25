@@ -274,7 +274,7 @@ with window("Widgets##dialog", 500, 500, show=False):
             add_color_edit3("Color Edit3##widget", source = "float3")
             add_color_edit4("Color Edit4##widget", source = "float4")
             add_color_picker3("Color Picker3##widget", width=300, source = "float3")
-            add_color_picker4("Color Picker4##widget", width=300, source = "float")
+            add_color_picker4("Color Picker4##widget", width=300, source = "float4")
             add_input_float("Input Float##widget", source="float")
             add_input_float2("Input Float2##widget", source="float2")
             add_input_float3("Input Float3##widget", source="float3")
@@ -426,10 +426,17 @@ with window("Plots, Graphs and Charts##dialog", 500, 500, show=False):
             add_listbox("Colormaps", items=("Default", "Dark", "Pastel", "Paired", "Viridis", "Plasma", "Hot", 
                                       "Cool", "Pink", "Jet"), width=500, num_items=3, callback=colormapCallback)
             add_checkbox("Show Annotations", default_value=True, callback=lambda sender, data: configure_item("Plot", show_annotations=get_value("Show Annotations")))
+            add_same_line()
+            add_checkbox("Show Drag Lines", default_value=True, callback=lambda sender, data: configure_item("Plot", show_drag_lines=get_value("Show Drag Lines")))
+            add_same_line()
+            add_checkbox("Show Drag Points", default_value=True, callback=lambda sender, data: configure_item("Plot", show_drag_points=get_value("Show Drag Points")))
             add_plot("Plot", "x-axis", "y-axis", height=-1)
             add_annotation("Plot", "y = 0", 1.57, 0, 10, 10, color=[255, 255, 0, 255])
             add_annotation("Plot", "y = 0", 0.523, 0, 10, 10, color=[255, 0, 255, 255], clamped=False)
             add_annotation("Plot", "y = 0", 0, 0, 10, 10)
+            add_drag_line("Plot", "dline1", "float", color=[255, 0, 0, 255])
+            add_drag_line("Plot", "dline2", "float4", color=[255, 255, 0, 255], y_line=True)
+            add_drag_point("Plot", "dpoint1", "float2", color=[255, 0, 255, 255])
 
         with tab("Simple Plots"):
             add_simple_plot("Simpleplot1", (0.3, 0.9, 2.5, 8.9))
