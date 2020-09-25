@@ -5,7 +5,7 @@
 
 namespace Marvel {
 
-	mvSeries::mvSeries(std::string name, ImPlotPoint& boundsMin, ImPlotPoint& boundsMax)
+	mvSeries::mvSeries(std::string name, const ImPlotPoint& boundsMin, const ImPlotPoint& boundsMax)
 		: m_name(std::move(name))
 	{
 		m_maxX = boundsMax.x;
