@@ -121,7 +121,7 @@ namespace Marvel {
 		void draw() override
 		{
 
-			if (ImGui::ColorEdit4(m_label.c_str(), m_value, 0))
+			if (ImGui::ColorEdit4(m_label.c_str(), m_value, ImGuiColorEditFlags_AlphaPreview))
 			{
 
 				mvApp::GetApp()->runCallback(m_callback, m_name, m_callbackData);
@@ -189,7 +189,7 @@ namespace Marvel {
 		void draw() override
 		{
 
-			if (ImGui::ColorPicker4(m_label.c_str(), m_value))
+			if (ImGui::ColorPicker4(m_label.c_str(), m_value, ImGuiColorEditFlags_AlphaPreview | ImGuiColorEditFlags_AlphaBar))
 			{
 
 				mvApp::GetApp()->runCallback(m_callback, m_name, m_callbackData);

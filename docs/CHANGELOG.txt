@@ -89,6 +89,10 @@ New Commands:
 - Radio Button:   Added "horizontal" keyword to radio button #215
 - Radio Button:   Added "update_bounds" keyword to add_*_series commands
 
+Other:
+
+- ColorPicker:    Now shows an alpha bar
+
 -----------------------------------------------------------------------
  VERSION 0.3.7 (9/14/2020)
 -----------------------------------------------------------------------
