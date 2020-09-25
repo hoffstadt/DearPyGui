@@ -47,7 +47,6 @@ namespace Marvel {
 			{mvPythonDataType::Bool, "show"},
 			{mvPythonDataType::String, "parent", "Parent to add this item to. (runtime adding)"},
 			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)"},
-			{mvPythonDataType::String, "source", "data source for shared data"},
 		}, "Adds a tab bar.", "None", "Containers") });
 
 		parsers->insert({ "add_tab", mvPythonParser({
@@ -182,7 +181,7 @@ namespace Marvel {
 
 			mvAppItem* item = new mvMenuBar(name);
 
-			item->setConfigDict(kwargs);
+			item->checkConfigDict(kwargs);
 			item->setConfigDict(kwargs);
 			item->setExtraConfigDict(kwargs);
 
@@ -200,7 +199,7 @@ namespace Marvel {
 
 			mvAppItem* item = new mvMenuBar(name);
 
-			item->setConfigDict(kwargs);
+			item->checkConfigDict(kwargs);
 			item->setConfigDict(kwargs);
 			item->setExtraConfigDict(kwargs);
 
