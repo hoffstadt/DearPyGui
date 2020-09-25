@@ -173,8 +173,8 @@ namespace Marvel {
 		int show = true;
 		float originx = 0.0f;
 		float originy = 0.0f;
-		float scalex = 0.0f;
-		float scaley = 0.0f;
+		float scalex = 1.0f;
+		float scaley = 1.0f;
 
 		if (!(*mvApp::GetApp()->getParsers())["add_drawing"].parse(args, kwargs, __FUNCTION__, 
 			&name, &tip, &parent, &before, &width, &height, &popup, &show, &originx, &originy, &scalex, &scaley))

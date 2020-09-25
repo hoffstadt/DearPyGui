@@ -271,7 +271,7 @@ namespace Marvel {
 		else result.tm_mday = 1;
 		if (PyObject* item = PyDict_GetItemString(value, "month"))            result.tm_mon = ToInt(item);
 		if (PyObject* item = PyDict_GetItemString(value, "year"))             result.tm_year = ToInt(item);
-		else result.tm_year = 1970;
+		else result.tm_year = 70;
 		if (PyObject* item = PyDict_GetItemString(value, "week_day"))         result.tm_wday = ToInt(item);
 		if (PyObject* item = PyDict_GetItemString(value, "year_day"))         result.tm_yday = ToInt(item);
 		if (PyObject* item = PyDict_GetItemString(value, "daylight_savings")) result.tm_isdst = ToInt(item);
