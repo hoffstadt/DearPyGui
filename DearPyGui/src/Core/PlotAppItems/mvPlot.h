@@ -26,7 +26,7 @@ namespace Marvel {
 
 	public:
 
-		mvSeries(std::string  name, ImPlotPoint& boundsMin, ImPlotPoint& boundsMax);
+		mvSeries(std::string  name, const ImPlotPoint& boundsMin, const ImPlotPoint& boundsMax);
 		mvSeries(std::string  name, const std::vector<mvVec2>& points);
 		mvSeries(std::string  name, const std::vector<mvVec4>& points);
 		mvSeries(std::string  name, const std::vector<std::vector<float>>& points);
