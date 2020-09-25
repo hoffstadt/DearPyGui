@@ -262,6 +262,12 @@ with window("Widgets##dialog", 500, 500, show=False):
         with tab("Basic Widgets##widget"):
             add_value("float", [0.3, 45, 33, 44])
             add_button("Button##widget")
+
+            with group("Color Buttons", horizontal=True):
+                add_color_button("ColorButton1", [255, 0, 0, 150])
+                add_color_button("ColorButton2", [0, 255, 0, 150])
+                add_color_button("ColorButton3", [0, 0, 255, 150])
+
             add_checkbox("Checkbox##widget", source="bool")
             add_combo("Combo##widget", items=("Item 1", "Item 2", "item 3"), source="string")
             add_radio_button("Radio Button##widget", items=("Item 1", "Item 2", "item 3"), horizontal=True, source="int")

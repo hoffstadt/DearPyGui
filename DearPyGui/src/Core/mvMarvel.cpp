@@ -599,6 +599,7 @@ namespace Marvel {
 		ADD_PYTHON_FUNCTION(add_text)
 		ADD_PYTHON_FUNCTION(add_label_text)
 		ADD_PYTHON_FUNCTION(add_listbox)
+		ADD_PYTHON_FUNCTION(add_color_button)
 		ADD_PYTHON_FUNCTION(add_color_edit3)
 		ADD_PYTHON_FUNCTION(add_color_edit4)
 		ADD_PYTHON_FUNCTION(add_color_picker3)
