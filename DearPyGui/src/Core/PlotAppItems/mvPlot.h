@@ -11,49 +11,16 @@
 // Widget Index
 //
 //     * mvPlot
+//     * mvPlotAnnotation
+//     * mvSeries
 //
 //-----------------------------------------------------------------------------
 
 namespace Marvel {
 
-	//-----------------------------------------------------------------------------
-	// mvSeries
-	//-----------------------------------------------------------------------------
-	class mvSeries
-	{
-
-        friend class mvPlot;
-
-	public:
-
-		mvSeries(std::string  name, const ImPlotPoint& boundsMin, const ImPlotPoint& boundsMax);
-		mvSeries(std::string  name, const std::vector<mvVec2>& points);
-		mvSeries(std::string  name, const std::vector<mvVec4>& points);
-		mvSeries(std::string  name, const std::vector<std::vector<float>>& points);
-
-		virtual ~mvSeries() = default;
-
-		virtual void draw() = 0;
-
-		const std::string& getName() const { return m_name; }
-
-		void setWeight(float weight) { m_weight = weight; }
-
-	protected:
-
-		std::string                     m_name;
-		std::vector<float>              m_xs;
-		std::vector<float>              m_ys;
-		std::vector<float>              m_extra1;
-		std::vector<float>              m_extra2;
-		std::vector<std::vector<float>> m_extra3;
-		float                           m_maxX;
-		float                           m_maxY;
-		float                           m_minX;
-		float                           m_minY;
-		float                           m_weight;
-
-	};
+	// forward declarations
+	class mvSeries;
+	struct mvPlotAnnotation;
 
 	//-----------------------------------------------------------------------------
 	// mvPlot
@@ -67,9 +34,18 @@ namespace Marvel {
 
 		mvPlot(const std::string& name, PyObject* queryCallback);
 
+
+		// annotations
+		void addAnnotation(const std::string& name, double x, double y, float xoffset, float yoffset, const mvColor& color, const std::string& text, bool clamped);
+		void updateAnnotation(const std::string& name, double x, double y, float xoffset, float yoffset, const mvColor& color, const std::string& text, bool clamped);
+		void deleteAnnotation(const std::string& name);
+
+		// series
 		void addSeries   (mvSeries* series, bool updateBounds);
 		void updateSeries(mvSeries* series, bool updateBounds);
 		void deleteSeries(const std::string& name);
+
+		// settings
 		void SetColorMap(ImPlotColormap colormap);
 		void resetXTicks();
 		void resetYTicks();
@@ -108,6 +84,7 @@ namespace Marvel {
 		ImPlotAxisFlags m_yflags  = 0;
 		ImPlotAxisFlags m_y2flags  = 0;
 		ImPlotAxisFlags m_y3flags  = 0;
+		bool            m_showAnnotations = true;
 
 
 		ImPlotColormap  m_colormap = ImPlotColormap_Default;
@@ -131,7 +108,59 @@ namespace Marvel {
 		std::vector<double>      m_xlabelLocations;
 		std::vector<double>      m_ylabelLocations;
 
-		std::vector<mvSeries*> m_series;
+		std::vector<mvSeries*>        m_series;
+		std::vector<mvPlotAnnotation> m_annotations;
 	};
 
+	//-----------------------------------------------------------------------------
+	// mvPlotAnnotation
+	//-----------------------------------------------------------------------------
+	struct mvPlotAnnotation
+	{
+		std::string name;
+		double x;
+		double y;
+		ImVec2 pix_offset;
+		mvColor color;
+		std::string text;
+		bool clamped;
+	};
+
+	//-----------------------------------------------------------------------------
+	// mvSeries
+	//-----------------------------------------------------------------------------
+	class mvSeries
+	{
+
+		friend class mvPlot;
+
+	public:
+
+		mvSeries(std::string  name, const ImPlotPoint& boundsMin, const ImPlotPoint& boundsMax);
+		mvSeries(std::string  name, const std::vector<mvVec2>& points);
+		mvSeries(std::string  name, const std::vector<mvVec4>& points);
+		mvSeries(std::string  name, const std::vector<std::vector<float>>& points);
+
+		virtual ~mvSeries() = default;
+
+		virtual void draw() = 0;
+
+		const std::string& getName() const { return m_name; }
+
+		void setWeight(float weight) { m_weight = weight; }
+
+	protected:
+
+		std::string                     m_name;
+		std::vector<float>              m_xs;
+		std::vector<float>              m_ys;
+		std::vector<float>              m_extra1;
+		std::vector<float>              m_extra2;
+		std::vector<std::vector<float>> m_extra3;
+		float                           m_maxX;
+		float                           m_maxY;
+		float                           m_minX;
+		float                           m_minY;
+		float                           m_weight;
+	};
 }

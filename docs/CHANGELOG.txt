@@ -60,6 +60,8 @@ Breaking Changes:
 
 New Commands:
 
+- Plots:          Added "add_annotation"
+- Plots:          Added "delete_annotation"
 - Tables:         Added "set_table_data"
 - Tables:         Added "get_table_data"
 - Widgets:        Added "add_value"
