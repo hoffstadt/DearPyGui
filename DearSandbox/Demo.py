@@ -434,9 +434,10 @@ with window("Plots, Graphs and Charts##dialog", 500, 500, show=False):
             add_annotation("Plot", "y = 0", 1.57, 0, 10, 10, color=[255, 255, 0, 255])
             add_annotation("Plot", "y = 0", 0.523, 0, 10, 10, color=[255, 0, 255, 255], clamped=False)
             add_annotation("Plot", "y = 0", 0, 0, 10, 10)
-            add_drag_line("Plot", "dline1", "float", color=[255, 0, 0, 255])
-            add_drag_line("Plot", "dline2", "float4", color=[255, 255, 0, 255], y_line=True)
-            add_drag_point("Plot", "dpoint1", "float2", color=[255, 0, 255, 255])
+            add_drag_line("Plot", "dline1", source="float", color=[255, 0, 0, 255])
+            add_drag_line("Plot", "dline2", source="float4", color=[255, 255, 0, 255], y_line=True)
+            add_drag_point("Plot", "dpoint1", source="float2", color=[255, 0, 255, 255])
+            add_drag_point("Plot", "dpoint2", color=[255, 0, 255, 255])
 
         with tab("Simple Plots"):
             add_simple_plot("Simpleplot1", (0.3, 0.9, 2.5, 8.9))

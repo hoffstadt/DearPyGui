@@ -120,9 +120,9 @@ namespace Marvel {
 		parsers->insert({ "add_drag_line", mvPythonParser({
 			{mvPythonDataType::String, "plot"},
 			{mvPythonDataType::String, "name"},
-			{mvPythonDataType::String, "source"},
 			{mvPythonDataType::Optional},
 			{mvPythonDataType::KeywordOnly},
+			{mvPythonDataType::String, "source"},
 			{mvPythonDataType::FloatList, "color"},
 			{mvPythonDataType::Float, "thickness"},
 			{mvPythonDataType::Bool, "y_line"},
@@ -134,9 +134,9 @@ namespace Marvel {
 		parsers->insert({ "add_drag_point", mvPythonParser({
 			{mvPythonDataType::String, "plot"},
 			{mvPythonDataType::String, "name"},
-			{mvPythonDataType::String, "source"},
 			{mvPythonDataType::Optional},
 			{mvPythonDataType::KeywordOnly},
+			{mvPythonDataType::String, "source"},
 			{mvPythonDataType::FloatList, "color"},
 			{mvPythonDataType::Float, "radius"},
 			{mvPythonDataType::Bool, "show_label"},
@@ -365,7 +365,7 @@ namespace Marvel {
 	{
 		const char* plot;
 		const char* name;
-		const char* source;
+		const char* source = "";
 		PyObject* color = PyTuple_New(4);
 		PyTuple_SetItem(color, 0, PyLong_FromLong(0));
 		PyTuple_SetItem(color, 1, PyLong_FromLong(0));
@@ -409,7 +409,7 @@ namespace Marvel {
 	{
 		const char* plot;
 		const char* name;
-		const char* source;
+		const char* source = "";
 		PyObject* color = PyTuple_New(4);
 		PyTuple_SetItem(color, 0, PyLong_FromLong(0));
 		PyTuple_SetItem(color, 1, PyLong_FromLong(0));

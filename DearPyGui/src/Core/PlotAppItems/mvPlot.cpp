@@ -99,8 +99,8 @@ namespace Marvel {
 				item.name = name;
 				if (item.source != source)
 				{
-					mvValueStorage::DecrementRef(source);
-					item.value = mvValueStorage::AddFloat2Value(source, { (float)dummyValue[0], (float)dummyValue[1] });
+					mvValueStorage::DecrementRef(source.empty() ? name : source);
+					item.value = mvValueStorage::AddFloat2Value(source.empty() ? name : source, { (float)dummyValue[0], (float)dummyValue[1] });
 				}
 				item.show_label = show_label;
 				item.color = color;
@@ -114,7 +114,7 @@ namespace Marvel {
 		}
 
 		if (!exists)
-			addDragPoint(name, show_label, color, radius, callback, dummyValue, source);
+			addDragPoint(name, show_label, color, radius, callback, dummyValue, source.empty() ? name : source);
 	}
 
 	void mvPlot::addDragLine(const std::string& name, bool show_label, const mvColor& color, float thickness, bool y_line, PyObject* callback, double dummyValue, const std::string& source)
@@ -126,6 +126,7 @@ namespace Marvel {
 
 	void mvPlot::updateDragLine(const std::string& name, bool show_label, const mvColor& color, float thickness, bool y_line, PyObject* callback, double dummyValue, const std::string& source)
 	{
+
 		// check if drag line exist
 		bool exists = false;
 		for (auto& item : m_dragLines)
@@ -136,8 +137,8 @@ namespace Marvel {
 				item.name = name;
 				if (item.source != source)
 				{
-					mvValueStorage::DecrementRef(source);
-					item.value = mvValueStorage::AddFloatValue(source, dummyValue);
+					mvValueStorage::DecrementRef(source.empty() ? name : source);
+					item.value = mvValueStorage::AddFloatValue(source.empty() ? name : source, dummyValue);
 				}
 				item.show_label = show_label;
 				item.color = color;
@@ -151,7 +152,7 @@ namespace Marvel {
 		}
 
 		if (!exists)
-			addDragLine(name, show_label, color, thickness, y_line, callback, dummyValue, source);
+			addDragLine(name, show_label, color, thickness, y_line, callback, dummyValue, source.empty() ? name : source);
 	}
 
 	void mvPlot::deleteDragPoint(const std::string& name)
