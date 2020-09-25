@@ -415,6 +415,7 @@ with window("Plots, Graphs and Charts##dialog", 500, 500, show=False):
                   [0.1, 2.0, 0.0, 1.4, 0.0, 1.9, 6.3]]
         add_heat_series("Heat Plot", "heat data", values, 7, 7, 0, 6)
 
+
     def colormapCallback(sender, data):
         value = get_value("Colormaps")
         set_color_map("Plot", value)
