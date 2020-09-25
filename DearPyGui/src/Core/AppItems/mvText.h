@@ -125,24 +125,30 @@ namespace Marvel {
 
 		void draw() override
 		{
+
 			if (m_color.specified)
+			{
 				ImGui::PushStyleColor(ImGuiCol_Text, m_color);
 
-			ImGui::TextUnformatted(m_value->c_str());
+				ImGui::TextUnformatted(m_value->c_str());
 
-			if (m_color.specified)
 				ImGui::PopStyleColor();
 
-			ImGui::SameLine();
+				ImGui::SameLine();
 
-			pushColorStyles();
-			ImGui::TextUnformatted(m_label.c_str());
+				pushColorStyles();
+				ImGui::TextUnformatted(m_label.c_str());
+				popColorStyles();
+			}
+
+			else
+				ImGui::LabelText(m_label.c_str(), m_value->c_str());
 
 			// Regular Tooltip (simple)
 			if (!getTip().empty() && ImGui::IsItemHovered())
 				ImGui::SetTooltip("%s", getTip().c_str());
 
-			popColorStyles();
+			
 		}
 
 		void setExtraConfigDict(PyObject* dict) override
