@@ -42,9 +42,9 @@ def child(name: str, show: bool = True, tip: str = "", parent: str = "", before:
 def collapsing_header(name: str, default_open: bool = False, closable: bool = False, label: str = "__DearPyGuiDefault", show: bool = True, tip: str = "", parent: str = "", before: str = ""):
     try:
         if label == "__DearPyGuiDefault":
-            yield dpg.add_collapsing_header(name, default_open=default_open, closable=closable, label=label, show=show, tip=tip, parent=parent, before=before)
-        else:
             yield dpg.add_collapsing_header(name, default_open=default_open, closable=closable, show=show, tip=tip, parent=parent, before=before)
+        else:
+            yield dpg.add_collapsing_header(name, default_open=default_open, closable=closable, label=label, show=show, tip=tip, parent=parent, before=before)
     finally: dpg.end()
 
 @contextmanager
@@ -65,18 +65,18 @@ def tab_bar(name: str, reorderable: bool = False, callback: str = "", callback_d
 def tab(name: str, closable: bool = False, label: str = "__DearPyGuiDefault", show: bool = True, tip: str = "", parent: str = "", before: str = ""):
     try:
         if label == "__DearPyGuiDefault":
-            yield dpg.add_tab(name, closable=closable, label=label, show=show, tip=tip, parent=parent, before=before)
-        else:
             yield dpg.add_tab(name, closable=closable, show=show, tip=tip, parent=parent, before=before)
+        else:
+            yield dpg.add_tab(name, closable=closable, label=label, show=show, tip=tip, parent=parent, before=before)
     finally: dpg.end()
 
 @contextmanager
 def tree_node(name: str, default_open: bool = False, label: str = "__DearPyGuiDefault", show: bool = True, tip: str = "", parent: str = "", before: str = ""):
     try:
         if label == "__DearPyGuiDefault":
-            yield dpg.add_tree_node(name, default_open=default_open, label=label, show=show, tip=tip, parent=parent, before=before)
-        else:
             yield dpg.add_tree_node(name, default_open=default_open, show=show, tip=tip, parent=parent, before=before)
+        else:
+            yield dpg.add_tree_node(name, default_open=default_open, label=label, show=show, tip=tip, parent=parent, before=before)
     finally: dpg.end()
 
 @contextmanager
