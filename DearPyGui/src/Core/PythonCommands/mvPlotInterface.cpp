@@ -54,6 +54,7 @@ namespace Marvel {
 			{mvPythonDataType::Integer, "scale_height"},
 			{mvPythonDataType::String, "label"},
 			{mvPythonDataType::Bool, "show"},
+			{mvPythonDataType::Bool, "show_annotations"},
 
 		}, "Adds a plot widget.", "None", "Plotting") });
 
@@ -98,6 +99,25 @@ namespace Marvel {
 		parsers->insert({ "set_plot_ylimits_auto", mvPythonParser({
 			{mvPythonDataType::String, "plot"},
 		}, "Sets plots y limits to be automatic.", "None", "Plotting") });
+
+		parsers->insert({ "delete_annotation", mvPythonParser({
+			{mvPythonDataType::String, "plot"},
+			{mvPythonDataType::String, "name"},
+		}, "Deletes an annotation", "None", "Plotting") });
+
+		parsers->insert({ "add_annotation", mvPythonParser({
+			{mvPythonDataType::String, "plot"},
+			{mvPythonDataType::String, "text"},
+			{mvPythonDataType::Double, "x"},
+			{mvPythonDataType::Double, "y"},
+			{mvPythonDataType::Float, "xoffset"},
+			{mvPythonDataType::Float, "yoffset"},
+			{mvPythonDataType::Optional},
+			{mvPythonDataType::KeywordOnly},
+			{mvPythonDataType::FloatList, "color"},
+			{mvPythonDataType::Bool, "clamped"},
+			{mvPythonDataType::String, "tag"},
+		}, "Adds an annotation to a plot.", "None", "Plotting") });
 
 		parsers->insert({ "add_image_series", mvPythonParser({
 			{mvPythonDataType::String, "plot"},
@@ -258,6 +278,47 @@ namespace Marvel {
 		parsers->insert({ "reset_yticks", mvPythonParser({
 			{mvPythonDataType::String, "plot"},
 		}, "Sets plots y ticks and labels back to automatic", "None", "Plotting") });
+	}
+
+	PyObject* add_annotation(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		const char* plot;
+		const char* text;
+		double x;
+		double y;
+		float xoffset;
+		float yoffset;
+		PyObject* color = PyTuple_New(4);
+		PyTuple_SetItem(color, 0, PyLong_FromLong(0));
+		PyTuple_SetItem(color, 1, PyLong_FromLong(0));
+		PyTuple_SetItem(color, 2, PyLong_FromLong(0));
+		PyTuple_SetItem(color, 3, PyLong_FromLong(0));
+		int clamped = true;
+		const char* tag = "";
+
+		if (!(*mvApp::GetApp()->getParsers())["add_annotation"].parse(args, kwargs, __FUNCTION__,
+			&plot, &text, &x, &y, &xoffset, &yoffset, &color, &clamped, &tag))
+			return GetPyNone();
+
+		mvAppItem* aplot = mvApp::GetApp()->getItem(plot);
+
+		if (aplot == nullptr)
+		{
+			std::string message = plot;
+			ThrowPythonException(message + " plot does not exist.");
+			return GetPyNone();
+		}
+
+		if (aplot->getType() != mvAppItemType::Plot)
+		{
+			std::string message = plot;
+			ThrowPythonException(message + " is not a plot.");
+			return GetPyNone();
+		}
+
+		mvPlot* graph = static_cast<mvPlot*>(aplot);
+		graph->updateAnnotation(tag, x, y, xoffset, yoffset, ToColor(color), text, clamped);
+		return GetPyNone();
 	}
 
 	PyObject* clear_plot(PyObject* self, PyObject* args, PyObject* kwargs)
@@ -680,6 +741,7 @@ namespace Marvel {
 
 		const char* label = "";
 		int show = true;
+		int show_annotations = true;
 
 		if (!(*mvApp::GetApp()->getParsers())["add_plot"].parse(args, kwargs, __FUNCTION__, &name, &xAxisName, &yAxisName,
 			&no_legend, &no_menus, &no_box_select, &no_mouse_pos, &no_highlight, &no_child, &query, &crosshairs, &antialiased,
@@ -699,7 +761,7 @@ namespace Marvel {
 			&yaxis_lock_min,
 			&yaxis_lock_max,
 			&parent, &before, &width, &height, &query_callback, &show_color_scale, &scale_min, &scale_max,
-			&scale_height, &label, &show))
+			&scale_height, &label, &show, &show_annotations))
 			return ToPyBool(false);
 
 
@@ -738,6 +800,36 @@ namespace Marvel {
 
 		mvPlot* graph = static_cast<mvPlot*>(aplot);
 		graph->deleteSeries(series);
+		return GetPyNone();
+	}
+
+	PyObject* delete_annotation(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		const char* plot;
+		const char* name;
+
+		if (!(*mvApp::GetApp()->getParsers())["delete_annotation"].parse(args, kwargs, __FUNCTION__, 
+			&plot, &name))
+			return GetPyNone();
+
+		mvAppItem* aplot = mvApp::GetApp()->getItem(plot);
+
+		if (aplot == nullptr)
+		{
+			std::string message = plot;
+			ThrowPythonException(message + " plot does not exist.");
+			return GetPyNone();
+		}
+
+		if (aplot->getType() != mvAppItemType::Plot)
+		{
+			std::string message = plot;
+			ThrowPythonException(message + " is not a plot.");
+			return GetPyNone();
+		}
+
+		mvPlot* graph = static_cast<mvPlot*>(aplot);
+		graph->deleteAnnotation(name);
 		return GetPyNone();
 	}
 

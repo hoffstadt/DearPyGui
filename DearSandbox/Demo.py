@@ -393,7 +393,7 @@ with window("Plots, Graphs and Charts##dialog", 500, 500, show=False):
         add_stem_series("Plot", "Stem", data1)
         add_area_series("Plot", "Area", data2, [255, 255, 0], [255, 255, 0, 100])
 
-        add_image_series("Plot", "image", "C:/dev/DearPyGui/Examples/SpriteMapExample.png", [0,0], [1,1], update_bounds=False)
+        #add_image_series("Plot", "image", "C:/dev/DearPyGui/Examples/SpriteMapExample.png", [0,0], [1,1], update_bounds=False)
 
         # pie charts
         add_pie_series("PieChart1", "PieChart1", [["fish", 0.25], ["Cow", 0.30], ["Chicken", 0.30]], 0.5, 0.5, 0.5, normalize=True)
@@ -425,7 +425,11 @@ with window("Plots, Graphs and Charts##dialog", 500, 500, show=False):
             add_button("Plot data", callback=PlotCallback)
             add_listbox("Colormaps", items=("Default", "Dark", "Pastel", "Paired", "Viridis", "Plasma", "Hot", 
                                       "Cool", "Pink", "Jet"), width=500, num_items=3, callback=colormapCallback)
+            add_checkbox("Show Annotations", default_value=True, callback=lambda sender, data: configure_item("Plot", show_annotations=get_value("Show Annotations")))
             add_plot("Plot", "x-axis", "y-axis", height=-1)
+            add_annotation("Plot", "y = 0", 1.57, 0, 10, 10, color=[255, 255, 0, 255])
+            add_annotation("Plot", "y = 0", 0.523, 0, 10, 10, color=[255, 0, 255, 255], clamped=False)
+            add_annotation("Plot", "y = 0", 0, 0, 10, 10)
 
         with tab("Simple Plots"):
             add_simple_plot("Simpleplot1", (0.3, 0.9, 2.5, 8.9))

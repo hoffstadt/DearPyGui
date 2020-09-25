@@ -80,6 +80,67 @@ namespace Marvel {
 		m_height = -1;
 	}
 
+	void mvPlot::addAnnotation(const std::string& name, double x, double y, float xoffset, float yoffset, const mvColor& color, const std::string& text, bool clamped)
+	{
+		m_annotations.push_back({ name, x, y, { xoffset, yoffset }, color, text, clamped });
+	}
+
+	void mvPlot::updateAnnotation(const std::string& name, double x, double y, float xoffset, float yoffset, const mvColor& color, const std::string& text, bool clamped)
+	{
+		if (name.empty())
+		{
+			addAnnotation(name, x, y, xoffset, yoffset, color, text, clamped);
+			return;
+		}
+
+		// check if annotation exist
+		bool exists = false;
+		for (auto& item : m_annotations)
+		{
+			if (item.name == name)
+			{
+				exists = true;
+				item.name = name;
+				item.x = x;
+				item.y = y;
+				item.pix_offset.x = xoffset;
+				item.pix_offset.y = yoffset;
+				item.color = color;
+				item.text = text;
+				item.clamped = clamped;
+			}
+		}
+
+		if(!exists)
+			addAnnotation(name, x, y, xoffset, yoffset, color, text, clamped);
+	}
+
+	void mvPlot::deleteAnnotation(const std::string& name)
+	{
+		// check if annotations exist
+		bool exists = false;
+		for (auto item : m_annotations)
+		{
+			if (item.name == name)
+				exists = true;
+		}
+
+		if (exists)
+		{
+			auto oldAnnotations = m_annotations;
+			m_annotations.clear();
+
+			for (auto item : oldAnnotations)
+			{
+				if (item.name == name)
+					continue;
+
+				m_annotations.push_back(item);
+			}
+
+		}
+	}
+
 	void mvPlot::addSeries(mvSeries* series, bool updateBounds)
 	{
 
@@ -231,6 +292,7 @@ namespace Marvel {
 		}
 
 		m_series.clear();
+		m_annotations.clear();
 
 	}
 
@@ -270,8 +332,21 @@ namespace Marvel {
 		{
 			ImPlot::PushColormap(m_colormap);
 
+			// series
 			for (auto series : m_series)
 				series->draw();
+
+			// annotations
+			if (m_showAnnotations)
+			{
+				for (const auto& annotation : m_annotations)
+				{
+					if (annotation.clamped)
+						ImPlot::AnnotateClamped(annotation.x, annotation.y, annotation.pix_offset, annotation.color.toVec4(), annotation.text.c_str());
+					else
+						ImPlot::Annotate(annotation.x, annotation.y, annotation.pix_offset, annotation.color.toVec4(), annotation.text.c_str());
+				}
+			}
 
 			ImPlot::PopColormap();
 
@@ -347,6 +422,7 @@ namespace Marvel {
 		if (PyObject* item = PyDict_GetItemString(dict, "xAxisName")) m_xaxisName = ToString(item);
 		if (PyObject* item = PyDict_GetItemString(dict, "yAxisName")) m_yaxisName = ToString(item);
 		if (PyObject* item = PyDict_GetItemString(dict, "show_color_scale")) m_colormapscale = ToBool(item);
+		if (PyObject* item = PyDict_GetItemString(dict, "show_annotations")) m_showAnnotations = ToBool(item);
 		if (PyObject* item = PyDict_GetItemString(dict, "scale_min")) m_scale_min = ToFloat(item);
 		if (PyObject* item = PyDict_GetItemString(dict, "scale_max")) m_scale_max = ToFloat(item);
 		if (PyObject* item = PyDict_GetItemString(dict, "scale_height")) m_scale_height = ToInt(item);
@@ -396,6 +472,7 @@ namespace Marvel {
 		PyDict_SetItemString(dict, "xAxisName", ToPyString(m_xaxisName));
 		PyDict_SetItemString(dict, "yAxisName", ToPyString(m_yaxisName));
 		PyDict_SetItemString(dict, "show_color_scale", ToPyBool(m_colormapscale));
+		PyDict_SetItemString(dict, "show_annotations", ToPyBool(m_showAnnotations));
 		PyDict_SetItemString(dict, "scale_min", ToPyFloat(m_scale_min));
 		PyDict_SetItemString(dict, "scale_max", ToPyFloat(m_scale_max));
 		PyDict_SetItemString(dict, "scale_height", ToPyFloat(m_scale_height));
