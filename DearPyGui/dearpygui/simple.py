@@ -1,6 +1,10 @@
 from contextlib import contextmanager
-from typing import List, Any, Callable
+from typing import List, Any, Callable, Union
 import dearpygui.core as dpg
+
+########################################################################################################################
+# context manager container wrappers
+########################################################################################################################
 
 @contextmanager
 def window(name: str, width: int = -1, height: int = -1, x_pos: int = 200, y_pos: int = 200, 
@@ -97,72 +101,72 @@ def popup(popupparent: str, name: str, mousebutton: int = 1, modal: bool = False
 # Old Commands
 ########################################################################################################################
 
-def set_window_pos(window, x, y):
+# window configure
+def set_window_pos(window: str, x: int, y: int):
     dpg.configure_item(window, x_pos=x, y_pos=y)
 
-def get_window_pos(window):
+def get_window_pos(window: str) -> Union[List[int], None]:
     config = dpg.get_item_configuration(window)
     return [config["x_pos"], config["y_pos"]]
 
-def set_item_name(item, name):
+# item configure commands
+def set_item_name(item: str, name: str):
     dpg.configure_item(item, name=name)
 
-def set_item_label(item, label):
+def set_item_label(item: str, label: str):
     dpg.configure_item(item, label=label)
 
-def set_item_popup(item, popup):
+def set_item_popup(item: str, popup: str):
     dpg.configure_item(item, popup=popup)
 
-def set_item_tip(item, tip):
-   dpg. configure_item(item, tip=tip)
+def set_item_tip(item: str, tip: str):
+    dpg.configure_item(item, tip=tip)
 
-def show_item(item):
-    dpg.configure_item(item, show=True)
-
-def get_item_label(item):
-    return dpg.get_item_configuration(item)["label"]
-
-def get_item_popup(item):
-    return dpg.get_item_configuration(item)["popup"]
-
-def get_item_tip(item):
-    return dpg.get_item_configuration(item)["tip"]
-
-def get_item_width(item):
-    return dpg.get_item_configuration(item)["width"]
-
-def get_item_height(item):
-    return dpg.get_item_configuration(item)["height"]
-
-def hide_item(item):
-    dpg.configure_item(item, show=False)
-
-def set_item_width(item, width):
+def set_item_width(item: str, width: int):
     dpg.configure_item(item, width=width)
 
-def set_item_height(item, height):
+def set_item_height(item: str, height: int):
     dpg.configure_item(item, height=height)
 
-def show_item(item):
+def get_item_label(item: str) -> Union[str, None]:
+    return dpg.get_item_configuration(item)["label"]
+
+def get_item_popup(item: str) -> Union[str, None]:
+    return dpg.get_item_configuration(item)["popup"]
+
+def get_item_tip(item: str) -> Union[str, None]:
+    return dpg.get_item_configuration(item)["tip"]
+
+def get_item_width(item: str) -> Union[int, None]:
+    return dpg.get_item_configuration(item)["width"]
+
+def get_item_height(item: str) -> Union[int, None]:
+    return dpg.get_item_configuration(item)["height"]
+
+def show_item(item: str):
     dpg.configure_item(item, show=True)
 
-def set_drawing_origin(drawing, x, y):
+def hide_item(item: str):
+    dpg.configure_item(item, show=False)
+
+# drawing configure commands
+def set_drawing_origin(drawing: str, x: float, y: float):
     dpg.configure_item(drawing, originx=x, originy=y)
 
-def set_drawing_scale(drawing, x, y):
+def set_drawing_scale(drawing: str, x: float, y: float):
     dpg.configure_item(drawing, scalex=x, scaley=y)
 
-def set_drawing_size(drawing, x, y):
+def set_drawing_size(drawing: str, x: int, y: int):
     dpg.configure_item(drawing, width=x, height=y)
 
-def get_drawing_origin(drawing):
+def get_drawing_origin(drawing: str) -> Union[List[float], None]:
     config = dpg.get_item_configuration(drawing)
     return [config["originx"], config["originy"]]
 
-def get_drawing_scale(drawing):
+def get_drawing_scale(drawing: str) -> Union[List[float], None]:
     config = dpg.get_item_configuration(drawing)
     return [config["scalex"], config["scaley"]]
 
-def get_drawing_size(drawing):
+def get_drawing_size(drawing: str) -> Union[List[int], None]:
     config = dpg.get_item_configuration(drawing)
     return [config["width"], config["height"]]
