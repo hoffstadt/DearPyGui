@@ -54,7 +54,7 @@ namespace Marvel {
 			{mvPythonDataType::String, "before","This item will be displayed before the specified item in the parent. (runtime adding)"},
 			{mvPythonDataType::Integer, "width",""},
 			{mvPythonDataType::Integer, "height",""},
-			{mvPythonDataType::String, "data_source",""},
+			{mvPythonDataType::String, "source",""},
 			{mvPythonDataType::String, "label"},
 			{mvPythonDataType::String, "popup"},
 			{mvPythonDataType::Bool, "show"},
@@ -69,7 +69,7 @@ namespace Marvel {
 			{mvPythonDataType::String, "tip", "Adds a simple tooltip"},
 			{mvPythonDataType::String, "parent", "Parent this item will be added to. (runtime adding)"},
 			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)"},
-			{mvPythonDataType::String, "data_source", "data source for shared data"},
+			{mvPythonDataType::String, "source", "data source for shared data"},
 			{mvPythonDataType::Integer, "width",""},
 			{mvPythonDataType::Integer, "height",""},
 			{mvPythonDataType::String, "popup"},
@@ -85,7 +85,7 @@ namespace Marvel {
 			{mvPythonDataType::String, "tip", "Adds a simple tooltip"},
 			{mvPythonDataType::String, "parent", "Parent this item will be added to. (runtime adding)"},
 			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)"},
-			{mvPythonDataType::String, "data_source", "data source for shared data"},
+			{mvPythonDataType::String, "source", "data source for shared data"},
 			{mvPythonDataType::Integer, "width",""},
 			{mvPythonDataType::Integer, "height",""},
 			{mvPythonDataType::FloatList, "uv_min"},
@@ -140,7 +140,7 @@ namespace Marvel {
 			{mvPythonDataType::String, "tip", "Adds a simple tooltip"},
 			{mvPythonDataType::String, "parent", "Parent this item will be added to. (runtime adding)"},
 			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)"},
-			{mvPythonDataType::String, "data_source", "data source for shared data"},
+			{mvPythonDataType::String, "source", "data source for shared data"},
 			{mvPythonDataType::String, "label"},
 			{mvPythonDataType::String, "popup"},
 			{mvPythonDataType::Bool, "show"},
@@ -156,7 +156,7 @@ namespace Marvel {
 			{mvPythonDataType::String, "tip", "Adds a simple tooltip"},
 			{mvPythonDataType::String, "parent", "Parent this item will be added to. (runtime adding)"},
 			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)"},
-			{mvPythonDataType::String, "data_source", "data source for shared data"},
+			{mvPythonDataType::String, "source", "data source for shared data"},
 			{mvPythonDataType::Integer, "width",""},
 			{mvPythonDataType::Integer, "num_items", "number of items to show"},
 			{mvPythonDataType::String, "label",""},
@@ -174,7 +174,7 @@ namespace Marvel {
 			{mvPythonDataType::String, "tip", "Adds a simple tooltip"},
 			{mvPythonDataType::String, "parent", "Parent this item will be added to. (runtime adding)"},
 			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)"},
-			{mvPythonDataType::String, "data_source", "data source for shared data"},
+			{mvPythonDataType::String, "source", "data source for shared data"},
 			{mvPythonDataType::Integer, "width",""},
 			{mvPythonDataType::String, "label",""},
 			{mvPythonDataType::String, "popup",""},
@@ -190,7 +190,7 @@ namespace Marvel {
 			{mvPythonDataType::String, "tip", "Adds a simple tooltip"},
 			{mvPythonDataType::String, "parent", "Parent this item will be added to. (runtime adding)"},
 			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)"},
-			{mvPythonDataType::String, "data_source", "data source for shared data"},
+			{mvPythonDataType::String, "source", "data source for shared data"},
 			{mvPythonDataType::Bool, "disabled", "Display grayed out text so selectable cannot be selected"},
 			{mvPythonDataType::String, "label"},
 			{mvPythonDataType::String, "popup"},
@@ -263,7 +263,7 @@ namespace Marvel {
 			{mvPythonDataType::String, "tip", "Adds a simple tooltip"},
 			{mvPythonDataType::String, "parent", "Parent to add this item to. (runtime adding)"},
 			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)"},
-			{mvPythonDataType::String, "data_source", "data source for shared data"},
+			{mvPythonDataType::String, "source", "data source for shared data"},
 			{mvPythonDataType::Bool, "horizontal"},
 			{mvPythonDataType::String, "popup"},
 			{mvPythonDataType::Bool, "show"},
@@ -278,7 +278,7 @@ namespace Marvel {
 			{mvPythonDataType::String, "tip", "Adds a simple tooltip"},
 			{mvPythonDataType::String, "parent", "Parent to add this item to. (runtime adding)"},
 			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)"},
-			{mvPythonDataType::String, "data_source", "data source for shared data"},
+			{mvPythonDataType::String, "source", "data source for shared data"},
 			{mvPythonDataType::Integer, "width",""},
 			{mvPythonDataType::Integer, "height", ""},
 			{mvPythonDataType::String, "label"},
@@ -294,7 +294,7 @@ namespace Marvel {
 			{mvPythonDataType::String, "tip", "Adds a simple tooltip"},
 			{mvPythonDataType::String, "parent", "Parent to add this item to. (runtime adding)"},
 			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)"},
-			{mvPythonDataType::String, "data_source", "data source for shared data"},
+			{mvPythonDataType::String, "source", "data source for shared data"},
 			{mvPythonDataType::Integer, "width",""},
 			{mvPythonDataType::Integer, "height", ""},
 			{mvPythonDataType::String, "label"},
@@ -310,7 +310,7 @@ namespace Marvel {
 			{mvPythonDataType::String, "tip", "Adds a simple tooltip"},
 			{mvPythonDataType::String, "parent", "Parent to add this item to. (runtime adding)"},
 			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)"},
-			{mvPythonDataType::String, "data_source", "data source for shared data"},
+			{mvPythonDataType::String, "source", "data source for shared data"},
 			{mvPythonDataType::Integer, "width",""},
 			{mvPythonDataType::Integer, "height", ""},
 			{mvPythonDataType::String, "label"},
@@ -326,7 +326,7 @@ namespace Marvel {
 			{mvPythonDataType::String, "tip", "Adds a simple tooltip"},
 			{mvPythonDataType::String, "parent", "Parent to add this item to. (runtime adding)"},
 			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)"},
-			{mvPythonDataType::String, "data_source", "data source for shared data"},
+			{mvPythonDataType::String, "source", "data source for shared data"},
 			{mvPythonDataType::Integer, "width",""},
 			{mvPythonDataType::Integer, "height", ""},
 			{mvPythonDataType::String, "label"},
@@ -342,7 +342,7 @@ namespace Marvel {
 			{mvPythonDataType::String, "tip", "Adds a simple tooltip"},
 			{mvPythonDataType::String, "parent", "Parent to add this item to. (runtime adding)"},
 			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)"},
-			{mvPythonDataType::String, "data_source", "data source for shared data"},
+			{mvPythonDataType::String, "source", "data source for shared data"},
 			{mvPythonDataType::String, "label", ""},
 			{mvPythonDataType::String, "popup", ""},
 			{mvPythonDataType::Bool, "show", ""}
@@ -436,13 +436,13 @@ namespace Marvel {
 		const char* before = "";
 		int width = 0;
 		int height = 0;
-		const char* data_source = "";
+		const char* source = "";
 		const char* label = "";
 		const char* popup = "";
 		int show = true;
 
 		if (!(*mvApp::GetApp()->getParsers())["add_simple_plot"].parse(args, kwargs, __FUNCTION__, &name, &value, &overlay,
-			&minscale, &maxscale, &histogram, &tip, &parent, &before, &width, &height, &data_source, &label, &popup, &show))
+			&minscale, &maxscale, &histogram, &tip, &parent, &before, &width, &height, &source, &label, &popup, &show))
 			return ToPyBool(false);
 
 		std::vector<float> values = ToFloatVect(value);
@@ -464,17 +464,17 @@ namespace Marvel {
 		const char* tip = "";
 		const char* parent = "";
 		const char* before = "";
-		const char* data_source = "";
+		const char* source = "";
 		int width = 0;
 		int height = 0;
 		const char* popup = "";
 		int show = true;
 
 		if (!(*mvApp::GetApp()->getParsers())["add_progress_bar"].parse(args, kwargs, __FUNCTION__, &name, &default_value,
-			&overlay, &tip, &parent, &before, &data_source, &width, &height, &popup, &show))
+			&overlay, &tip, &parent, &before, &source, &width, &height, &popup, &show))
 			return ToPyBool(false);
 
-		mvAppItem* item = new mvProgressBar(name, default_value, data_source);
+		mvAppItem* item = new mvProgressBar(name, default_value, source);
 
 		item->checkConfigDict(kwargs);
 		item->setConfigDict(kwargs);
@@ -500,7 +500,7 @@ namespace Marvel {
 		const char* tip = "";
 		const char* parent = "";
 		const char* before = "";
-		const char* data_source = "";
+		const char* source = "";
 		int width = 0;
 		int height = 0;
 		PyObject* uv_min = PyTuple_New(2);
@@ -513,7 +513,7 @@ namespace Marvel {
 		int show = true;
 
 		if (!(*mvApp::GetApp()->getParsers())["add_image"].parse(args, kwargs, __FUNCTION__, &name,
-			&value, &tintcolor, &bordercolor, &tip, &parent, &before, &data_source, &width,
+			&value, &tintcolor, &bordercolor, &tip, &parent, &before, &source, &width,
 			&height, &uv_min, &uv_max, &popup, &show))
 			return ToPyBool(false);
 
@@ -631,18 +631,18 @@ namespace Marvel {
 		const char* tip = "";
 		const char* before = "";
 		const char* parent = "";
-		const char* data_source = "";
+		const char* source = "";
 		const char* label = "";
 		const char* popup = "";
 		int show = false;
 
 
 		if (!(*mvApp::GetApp()->getParsers())["add_label_text"].parse(args, kwargs, __FUNCTION__, &name, &value,
-			&color, &tip, &parent, &before, &data_source, &label, &popup, &show))
+			&color, &tip, &parent, &before, &source, &label, &popup, &show))
 			return ToPyBool(false);
 
 
-		mvAppItem* item = new mvLabelText(std::string(name), value, data_source);
+		mvAppItem* item = new mvLabelText(std::string(name), value, source);
 
 		item->checkConfigDict(kwargs);
 		item->setConfigDict(kwargs);
@@ -663,17 +663,17 @@ namespace Marvel {
 		int num_items = 3;
 		const char* before = "";
 		const char* parent = "";
-		const char* data_source = "";
+		const char* source = "";
 		const char* label = "";
 		const char* popup = "";
 		int show = false;
 
 		if (!(*mvApp::GetApp()->getParsers())["add_listbox"].parse(args, kwargs, __FUNCTION__, &name, &items,
-			&default_value, &callback, &callback_data, &tip, &parent, &before, &data_source, &width,
+			&default_value, &callback, &callback_data, &tip, &parent, &before, &source, &width,
 			&num_items, &label, &popup, &show))
 			return ToPyBool(false);
 
-		mvAppItem* item = new mvListbox(name, default_value, data_source);
+		mvAppItem* item = new mvListbox(name, default_value, source);
 		if (callback)
 			Py_XINCREF(callback);
 		item->setCallback(callback);
@@ -699,17 +699,17 @@ namespace Marvel {
 		int width = 0;
 		const char* before = "";
 		const char* parent = "";
-		const char* data_source = "";
+		const char* source = "";
 		const char* label = "";
 		const char* popup = "";
 		int show = true;
 
 		if (!(*mvApp::GetApp()->getParsers())["add_combo"].parse(args, kwargs, __FUNCTION__, &name, &items,
-			&default_value, &callback, &callback_data, &tip, &parent, &before, &data_source, &width,
+			&default_value, &callback, &callback_data, &tip, &parent, &before, &source, &width,
 			&label, &popup, &show))
 			return ToPyBool(false);
 
-		mvAppItem* item = new mvCombo(name, default_value, data_source);
+		mvAppItem* item = new mvCombo(name, default_value, source);
 		if (callback)
 			Py_XINCREF(callback);
 		item->setCallback(callback);
@@ -733,7 +733,7 @@ namespace Marvel {
 		const char* tip = "";
 		const char* before = "";
 		const char* parent = "";
-		const char* data_source = "";
+		const char* source = "";
 		int disabled = false;
 		const char* label = "";
 		const char* popup = "";
@@ -742,11 +742,11 @@ namespace Marvel {
 		ImGuiSelectableFlags flags = ImGuiSelectableFlags_None;
 
 		if (!(*mvApp::GetApp()->getParsers())["add_selectable"].parse(args, kwargs, __FUNCTION__, &name,
-			&default_value, &callback, &callback_data, &tip, &parent, &before, &data_source, &disabled,
+			&default_value, &callback, &callback_data, &tip, &parent, &before, &source, &disabled,
 			&label, &popup, &show))
 			return ToPyBool(false);
 
-		mvAppItem* item = new mvSelectable(name, default_value, data_source);
+		mvAppItem* item = new mvSelectable(name, default_value, source);
 		if (callback)
 			Py_XINCREF(callback);
 		item->setCallback(callback);
@@ -925,17 +925,17 @@ namespace Marvel {
 		const char* tip = "";
 		const char* before = "";
 		const char* parent = "";
-		const char* data_source = "";
+		const char* source = "";
 		int horizontal = false;
 		const char* popup = "";
 		int show = true;
 
 		if (!(*mvApp::GetApp()->getParsers())["add_radio_button"].parse(args, kwargs, __FUNCTION__, &name, &items,
-			&default_value, &callback, &callback_data, &tip, &parent, &before, &data_source,&horizontal,
+			&default_value, &callback, &callback_data, &tip, &parent, &before, &source,&horizontal,
 			&popup, &show))
 			return ToPyBool(false);
 
-		mvAppItem* item = new mvRadioButton(name, default_value, data_source);
+		mvAppItem* item = new mvRadioButton(name, default_value, source);
 		if (callback)
 			Py_XINCREF(callback);
 		item->setCallback(callback);
@@ -982,12 +982,12 @@ namespace Marvel {
 		int height = 0;
 		const char* before = "";
 		const char* parent = "";
-		const char* data_source = "";
+		const char* source = "";
 		const char* label = "";
 		int show = true;
 
 		if (!(*mvApp::GetApp()->getParsers())["add_color_edit3"].parse(args, kwargs, __FUNCTION__, &name,
-			&default_value, &callback, &callback_data, &tip, &parent, &before, &data_source, &width, &height,
+			&default_value, &callback, &callback_data, &tip, &parent, &before, &source, &width, &height,
 			&label, &show))
 			return ToPyBool(false);
 
@@ -995,7 +995,7 @@ namespace Marvel {
 
 		//mvAppItem* item = new mvColorEdit3("", name, color);
 		ImVec4 v = color.toVec4();
-		mvAppItem* item = new mvColorEdit3(name, &v.x, data_source);
+		mvAppItem* item = new mvColorEdit3(name, &v.x, source);
 		if (callback)
 			Py_XINCREF(callback);
 		item->setCallback(callback);
@@ -1025,17 +1025,17 @@ namespace Marvel {
 		int height = 0;
 		const char* before = "";
 		const char* parent = "";
-		const char* data_source = "";
+		const char* source = "";
 		const char* label = "";
 		int show = true;
 
 		if (!(*mvApp::GetApp()->getParsers())["add_color_edit4"].parse(args, kwargs, __FUNCTION__, &name, &default_value,
-			&callback, &callback_data, &tip, &parent, &before, &data_source, &width, &height, &label, &show))
+			&callback, &callback_data, &tip, &parent, &before, &source, &width, &height, &label, &show))
 			return ToPyBool(false);
 
 		auto color = ToColor(default_value);
 		ImVec4 v = color.toVec4();
-		mvAppItem* item = new mvColorEdit4(name, &v.x, data_source);
+		mvAppItem* item = new mvColorEdit4(name, &v.x, source);
 		if (callback)
 			Py_XINCREF(callback);
 		item->setCallback(callback);
@@ -1065,17 +1065,17 @@ namespace Marvel {
 		int height = 0;
 		const char* before = "";
 		const char* parent = "";
-		const char* data_source = "";
+		const char* source = "";
 		const char* label = "";
 		int show = true;
 
 		if (!(*mvApp::GetApp()->getParsers())["add_color_picker3"].parse(args, kwargs, __FUNCTION__, &name, &default_value,
-			&callback, &callback_data, &tip, &parent, &before, &data_source, &width, &height, &label, &show))
+			&callback, &callback_data, &tip, &parent, &before, &source, &width, &height, &label, &show))
 			return ToPyBool(false);
 
 		auto color = ToColor(default_value);
 		ImVec4 v = color.toVec4();
-		mvAppItem* item = new mvColorPicker3(name, &v.x, data_source);
+		mvAppItem* item = new mvColorPicker3(name, &v.x, source);
 		if (callback)
 			Py_XINCREF(callback);
 		item->setCallback(callback);
@@ -1106,18 +1106,18 @@ namespace Marvel {
 		int height = 0;
 		const char* before = "";
 		const char* parent = "";
-		const char* data_source = "";
+		const char* source = "";
 		const char* label = "";
 		int show = true;
 
 		if (!(*mvApp::GetApp()->getParsers())["add_color_picker4"].parse(args, kwargs, __FUNCTION__, &name,
-			&default_value, &callback, &callback_data, &tip, &parent, &before, &data_source, &width, &height,
+			&default_value, &callback, &callback_data, &tip, &parent, &before, &source, &width, &height,
 			&label, &show))
 			return ToPyBool(false);
 
 		auto color = ToColor(default_value);
 		ImVec4 v = color.toVec4();
-		mvAppItem* item = new mvColorPicker4(name, &v.x, data_source);
+		mvAppItem* item = new mvColorPicker4(name, &v.x, source);
 		if (callback)
 			Py_XINCREF(callback);
 		item->setCallback(callback);
@@ -1142,17 +1142,17 @@ namespace Marvel {
 		const char* tip = "";
 		const char* before = "";
 		const char* parent = "";
-		const char* data_source = "";
+		const char* source = "";
 		const char* label = "";
 		const char* popup = "";
 		int show = true;
 
 		if (!(*mvApp::GetApp()->getParsers())["add_checkbox"].parse(args, kwargs, __FUNCTION__, &name,
-			&default_value, &callback, &callback_data, &tip, &parent, &before, &data_source,
+			&default_value, &callback, &callback_data, &tip, &parent, &before, &source,
 			&label, &popup, &show))
 			return ToPyBool(false);
 
-		mvAppItem* item = new mvCheckbox(name, default_value, data_source);
+		mvAppItem* item = new mvCheckbox(name, default_value, source);
 		if (callback)
 			Py_XINCREF(callback);
 		item->setCallback(callback);

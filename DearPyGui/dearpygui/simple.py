@@ -44,9 +44,9 @@ def group(name: str, tip: str = "", parent: str = "", before: str = "", width: i
     finally: dpg.end()
 
 @contextmanager
-def tab_bar(name: str, reorderable: bool = False, callback: str = "", parent: str = "", before: str = "", data_source: str = ""):
+def tab_bar(name: str, reorderable: bool = False, callback: str = "", parent: str = "", before: str = ""):
     try:
-        yield dpg.add_tab_bar(name, reorderable=reorderable, callback=callback, parent=parent, before=before, data_source=data_source)
+        yield dpg.add_tab_bar(name, reorderable=reorderable, callback=callback, parent=parent, before=before)
     finally: dpg.end()
 
 @contextmanager
