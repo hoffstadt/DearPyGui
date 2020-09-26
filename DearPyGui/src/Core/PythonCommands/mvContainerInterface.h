@@ -21,5 +21,6 @@ namespace Marvel {
 	PyObject* add_popup            (PyObject* self, PyObject* args, PyObject* kwargs);
 	PyObject* add_collapsing_header(PyObject* self, PyObject* args, PyObject* kwargs);
 	PyObject* add_tree_node        (PyObject* self, PyObject* args, PyObject* kwargs);
+	PyObject* add_managed_columns  (PyObject* self, PyObject* args, PyObject* kwargs);
 
 }

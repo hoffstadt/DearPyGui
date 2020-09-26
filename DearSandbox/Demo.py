@@ -245,6 +245,16 @@ with window("Dear PyGui Demo", x_pos=100, y_pos=100, width=800, height=800):
                 add_same_line()
                 add_slider_float("##vs4", vertical=True, max_value=1.0, height=160, source="##v4", width=40)
 
+        with tree_node("Time/Date Widgets"):
+            add_time_picker("Time Picker", default_value={'hour': 14, 'min': 32, 'sec': 23})
+            add_separator()
+            with managed_columns("Date Columns", 3):
+                add_date_picker("Date Picker1", level=0, default_value={'month_day': 8, 'year':93, 'month':5})
+                add_date_picker("Date Picker2", level=1, default_value={'month_day': 8, 'year':93, 'month':5})
+                add_date_picker("Date Picker3", level=2, default_value={'month_day': 8, 'year':93, 'month':5})
+            add_separator()
+
+
     with collapsing_header("Layout & Scolling"):
 
         with tree_node("Child windows"):
@@ -299,4 +309,82 @@ with window("Dear PyGui Demo", x_pos=100, y_pos=100, width=800, height=800):
                 add_same_line()
                 add_button("Cancel##modal", width=75, callback=lambda sender, data: close_popup())
 
+    with collapsing_header("Columns"):
+
+        with tree_node("Basic##columns"):
+            add_text("Without border:")
+            add_separator()
+            with managed_columns("columns1", 3, border=False):
+                for i in range(0, 14):
+                    add_selectable(f"Item {i}##columns1")
+            add_separator()
+
+            add_text("With border:")
+            add_separator()
+            with managed_columns("columns2", 4):
+                add_text("ID")
+                add_text("Name")
+                add_text("Path")
+                with group("Just to get separator in the same cell"):
+                    add_text("Hovered")
+                    add_separator()
+
+                add_selectable("0000")
+                add_text("One")
+                add_text("/path/one")
+                add_text("0")
+
+                add_selectable("0001")
+                add_text("Two")
+                add_text("/path/two")
+                add_text("0")
+
+                add_selectable("0003")
+                add_text("Three")
+                add_text("/path/three")
+                add_text("0")
+            add_separator()
+
+        with tree_node("Borders##columns"):
+
+            with managed_columns("Columns3", 4):
+
+                def replicated_cell(i):
+                    with group(f"replicated_group##{i}"):
+                        if i % 4 == 0:
+                            add_separator()
+                        add_text(f"aaa##{i}")
+                        add_input_text(f"##inputcolumns{i}")
+                        add_button(f"Button##repl{i}")
+
+                for i in range(0, 12):
+                    replicated_cell(i)
+            add_separator()
+
+    with collapsing_header("Drawings"):
+
+        def UpdateDrawing(sender, data):
+            set_drawing_origin("drawing##widget", get_value("X Origin"), get_value("Y Origin"))
+            set_drawing_scale("drawing##widget", get_value("X Scale "), get_value("Y Scale"))
+
+        with group("Drawing Controls Group"):
+            add_slider_float("X Origin", vertical=True, min_value = -100, max_value=100, default_value=0, callback=UpdateDrawing)
+            add_same_line(spacing=20)
+            add_slider_float("Y Origin", vertical=True, min_value = -100, max_value=100, default_value=0, callback=UpdateDrawing)
+            add_slider_float("X Scale ", vertical=True, max_value=10, default_value=1, callback=UpdateDrawing)
+            add_same_line(spacing=20)
+            add_slider_float("Y Scale", vertical=True, max_value=10, default_value=1, callback=UpdateDrawing)
+        add_same_line(spacing=20)
+        add_drawing("drawing##widget", width=800, height=500)
+        draw_rectangle("drawing##widget", (0, 500), (800, 0), (255, 0, 0, 255), fill=(0, 0, 25, 255), rounding=12, thickness = 1.0)
+        draw_line("drawing##widget", (10, 10), (100, 100), (255, 0, 0, 255), 1)
+        draw_triangle("drawing##widget", (300, 500), (200, 200), (500, 200), (255, 255, 0, 255), thickness = 3.0)
+        draw_quad("drawing##widget", (50, 50), (150, 50), (150, 150), (50, 150), (255, 255, 0, 255), thickness = 3.0)
+        draw_text("drawing##widget", (50, 300), "Some Text", color=(255, 255, 0, 255), size=15)
+        draw_text("drawing##widget", (0, 0), "Origin", color=(255, 255, 0, 255), size=15)
+        draw_circle("drawing##widget", (400, 250), 50, (255, 255, 0, 255))
+        draw_polyline("drawing##widget", ((320, 490), (185, 200), (500, 710)), (255, 255, 0, 255), thickness=1.0)
+        draw_polygon("drawing##widget", ((363, 471), (153, 498), (59, 220), (363, 471)), (255, 125, 0, 255), thickness=1.0, fill=(255, 125, 0, 50))
+        draw_bezier_curve("drawing##widget", (50, 200), (150, 250), (300, 150), (600, 250), (255, 255, 0, 255), thickness = 2.0)
+        draw_arrow("drawing##widget", (50, 70), (100, 65), (0, 200, 255), 1, 10)
 start_dearpygui()

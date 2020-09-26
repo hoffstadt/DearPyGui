@@ -620,6 +620,7 @@ namespace Marvel {
 		ADD_PYTHON_FUNCTION(add_tooltip)
 		ADD_PYTHON_FUNCTION(add_collapsing_header)
 		ADD_PYTHON_FUNCTION(add_dummy)
+		ADD_PYTHON_FUNCTION(add_managed_columns)
 
 		// input commands
 		ADD_PYTHON_FUNCTION(set_mouse_move_callback)
