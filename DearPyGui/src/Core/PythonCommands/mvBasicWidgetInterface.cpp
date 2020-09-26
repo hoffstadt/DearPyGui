@@ -179,6 +179,13 @@ namespace Marvel {
 			{mvPythonDataType::String, "label",""},
 			{mvPythonDataType::String, "popup",""},
 			{mvPythonDataType::Bool, "show",""},
+			{mvPythonDataType::Bool, "popup_align_left","Align the popup toward the left by default"},
+			{mvPythonDataType::Bool, "height_small","Max ~4 items visible"},
+			{mvPythonDataType::Bool, "height_regular","Max ~8 items visible (default)"},
+			{mvPythonDataType::Bool, "height_large","Max ~20 items visible"},
+			{mvPythonDataType::Bool, "height_largest","As many items visible as possible"},
+			{mvPythonDataType::Bool, "no_arrow_button","Display on the preview box without the square arrow button"},
+			{mvPythonDataType::Bool, "no_preview","Display only a square arrow button"},
 		}, "Adds a combo.", "None", "Adding Widgets") });
 
 		parsers->insert({ "add_selectable", mvPythonParser({
@@ -718,10 +725,19 @@ namespace Marvel {
 		const char* label = "";
 		const char* popup = "";
 		int show = true;
+		int popup_align_left = false;
+		int height_small = false;
+		int height_regular = false;
+		int height_large = false;
+		int height_largest = false;
+		int no_arrow_button = false;
+		int no_preview = false;
+
 
 		if (!(*mvApp::GetApp()->getParsers())["add_combo"].parse(args, kwargs, __FUNCTION__, &name, &items,
 			&default_value, &callback, &callback_data, &tip, &parent, &before, &source, &width,
-			&label, &popup, &show))
+			&label, &popup, &show, &popup_align_left, &height_small, &height_regular, &height_large, 
+			&height_largest, &no_arrow_button, &no_preview))
 			return ToPyBool(false);
 
 		mvAppItem* item = new mvCombo(name, default_value, source);
