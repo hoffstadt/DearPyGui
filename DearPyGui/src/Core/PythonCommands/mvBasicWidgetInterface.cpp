@@ -228,6 +228,8 @@ namespace Marvel {
 			{mvPythonDataType::Integer, "height", ""},
 			{mvPythonDataType::String, "popup", ""},
 			{mvPythonDataType::Bool, "show", ""},
+			{mvPythonDataType::Bool, "no_alpha", "ignore Alpha component"},
+			{mvPythonDataType::Bool, "no_border", "disable border (which is enforced by default)"},
 		}, "Adds a color button.", "None", "Adding Widgets") });
 
 		parsers->insert({ "add_indent", mvPythonParser({
@@ -298,6 +300,23 @@ namespace Marvel {
 			{mvPythonDataType::Integer, "height", ""},
 			{mvPythonDataType::String, "label"},
 			{mvPythonDataType::Bool, "show"},
+			{mvPythonDataType::Bool, "no_alpha", "ignore Alpha component"},
+			{mvPythonDataType::Bool, "no_picker", "disable picker when clicking on colored square."},
+			{mvPythonDataType::Bool, "no_small_preview", "disable colored square preview next to the inputs. (e.g. to show only the inputs). This only displays if the side preview is not shown."},
+			{mvPythonDataType::Bool, "no_inputs", "disable inputs sliders/text widgets (e.g. to show only the small preview colored square)"},
+			{mvPythonDataType::Bool, "no_tooltip", "disable tooltip when hovering the preview."},
+			{mvPythonDataType::Bool, "no_label", "disable display of inline text label"},
+			{mvPythonDataType::Bool, "alpha_bar", "show vertical alpha bar/gradient in picker."},
+			{mvPythonDataType::Bool, "alpha_preview", "display preview as a transparent color over a checkerboard, instead of opaque."},
+			{mvPythonDataType::Bool, "alpha_preview_half", "display half opaque / half checkerboard, instead of opaque."},
+			{mvPythonDataType::Bool, "display_rgb", "override _display_ type among RGB/HSV/Hex."},
+			{mvPythonDataType::Bool, "display_hsv", "override _display_ type among RGB/HSV/Hex."},
+			{mvPythonDataType::Bool, "display_hex", "override _display_ type among RGB/HSV/Hex."},
+			{mvPythonDataType::Bool, "uint8", "display values formatted as 0..255"},
+			{mvPythonDataType::Bool, "floats", "display values formatted as 0.0f..1.0f floats instead of 0..255 integers."},
+			{mvPythonDataType::Bool, "input_rgb", "input and output data in RGB format."},
+			{mvPythonDataType::Bool, "input_hsv", "input and output data in HSV format."},
+
 		}, "Adds an rgb color editing widget. Click and draging the color square will copy the color to be applied on any other color widget.", "None", "Adding Widgets") });
 
 		parsers->insert({ "add_color_edit4", mvPythonParser({
@@ -314,6 +333,23 @@ namespace Marvel {
 			{mvPythonDataType::Integer, "height", ""},
 			{mvPythonDataType::String, "label"},
 			{mvPythonDataType::Bool, "show"},
+			{mvPythonDataType::Bool, "no_alpha", "ignore Alpha component"},
+			{mvPythonDataType::Bool, "no_picker", "disable picker when clicking on colored square."},
+			{mvPythonDataType::Bool, "no_small_preview", "disable colored square preview next to the inputs. (e.g. to show only the inputs). This only displays if the side preview is not shown."},
+			{mvPythonDataType::Bool, "no_inputs", "disable inputs sliders/text widgets (e.g. to show only the small preview colored square)"},
+			{mvPythonDataType::Bool, "no_tooltip", "disable tooltip when hovering the preview."},
+			{mvPythonDataType::Bool, "no_label", "disable display of inline text label"},
+			{mvPythonDataType::Bool, "alpha_bar", "show vertical alpha bar/gradient in picker."},
+			{mvPythonDataType::Bool, "alpha_preview", "display preview as a transparent color over a checkerboard, instead of opaque."},
+			{mvPythonDataType::Bool, "alpha_preview_half", "display half opaque / half checkerboard, instead of opaque."},
+			{mvPythonDataType::Bool, "display_rgb", "override _display_ type among RGB/HSV/Hex."},
+			{mvPythonDataType::Bool, "display_hsv", "override _display_ type among RGB/HSV/Hex."},
+			{mvPythonDataType::Bool, "display_hex", "override _display_ type among RGB/HSV/Hex."},
+			{mvPythonDataType::Bool, "uint8", "display values formatted as 0..255"},
+			{mvPythonDataType::Bool, "floats", "display values formatted as 0.0f..1.0f floats instead of 0..255 integers."},
+			{mvPythonDataType::Bool, "input_rgb", "input and output data in RGB format."},
+			{mvPythonDataType::Bool, "input_hsv", "input and output data in HSV format."},
+
 		}, "Adds an rgba color editing widget. Click and draging the color square will copy the color to be applied on any other color widget.", "None", "Adding Widgets") });
 
 		parsers->insert({ "add_color_picker3", mvPythonParser({
@@ -330,6 +366,24 @@ namespace Marvel {
 			{mvPythonDataType::Integer, "height", ""},
 			{mvPythonDataType::String, "label"},
 			{mvPythonDataType::Bool, "show"},
+			{mvPythonDataType::Bool, "no_alpha", "ignore Alpha component"},
+			{mvPythonDataType::Bool, "no_small_preview", "disable colored square preview next to the inputs. (e.g. to show only the inputs). This only displays if the side preview is not shown."},
+			{mvPythonDataType::Bool, "no_inputs", "disable inputs sliders/text widgets (e.g. to show only the small preview colored square)"},
+			{mvPythonDataType::Bool, "no_tooltip", "disable tooltip when hovering the preview."},
+			{mvPythonDataType::Bool, "no_label", "disable display of inline text label"},
+			{mvPythonDataType::Bool, "no_side_preview", "disable bigger color preview on right side of the picker, use small colored square preview instead , unless small preview is also hidden"},
+			{mvPythonDataType::Bool, "alpha_bar", "show vertical alpha bar/gradient in picker."},
+			{mvPythonDataType::Bool, "alpha_preview", "display preview as a transparent color over a checkerboard, instead of opaque."},
+			{mvPythonDataType::Bool, "alpha_preview_half", "display half opaque / half checkerboard, instead of opaque."},
+			{mvPythonDataType::Bool, "display_rgb", "override _display_ type among RGB/HSV/Hex."},
+			{mvPythonDataType::Bool, "display_hsv", "override _display_ type among RGB/HSV/Hex."},
+			{mvPythonDataType::Bool, "display_hex", "override _display_ type among RGB/HSV/Hex."},
+			{mvPythonDataType::Bool, "uint8", "display values formatted as 0..255"},
+			{mvPythonDataType::Bool, "floats", "display values formatted as 0.0f..1.0f floats instead of 0..255 integers."},
+			{mvPythonDataType::Bool, "picker_hue_bar", "bar for Hue, rectangle for Sat/Value."},
+			{mvPythonDataType::Bool, "picker_hue_wheel", "wheel for Hue, triangle for Sat/Value."},
+			{mvPythonDataType::Bool, "input_rgb", "input and output data in RGB format."},
+			{mvPythonDataType::Bool, "input_hsv", "input and output data in HSV format."},
 		}, "Adds an rgb color picking widget. Click and draging the color square will copy the color to be applied on any other color widget. Right Click allows the style of the color picker to be changed.", "None", "Adding Widgets") });
 
 		parsers->insert({ "add_color_picker4", mvPythonParser({
@@ -346,6 +400,24 @@ namespace Marvel {
 			{mvPythonDataType::Integer, "height", ""},
 			{mvPythonDataType::String, "label"},
 			{mvPythonDataType::Bool, "show"},
+			{mvPythonDataType::Bool, "no_alpha", "ignore Alpha component"},
+			{mvPythonDataType::Bool, "no_small_preview", "disable colored square preview next to the inputs. (e.g. to show only the inputs). This only displays if the side preview is not shown."},
+			{mvPythonDataType::Bool, "no_inputs", "disable inputs sliders/text widgets (e.g. to show only the small preview colored square)"},
+			{mvPythonDataType::Bool, "no_tooltip", "disable tooltip when hovering the preview."},
+			{mvPythonDataType::Bool, "no_label", "disable display of inline text label"},
+			{mvPythonDataType::Bool, "no_side_preview", "disable bigger color preview on right side of the picker, use small colored square preview instead , unless small preview is also hidden"},
+			{mvPythonDataType::Bool, "alpha_bar", "show vertical alpha bar/gradient in picker."},
+			{mvPythonDataType::Bool, "alpha_preview", "display preview as a transparent color over a checkerboard, instead of opaque."},
+			{mvPythonDataType::Bool, "alpha_preview_half", "display half opaque / half checkerboard, instead of opaque."},
+			{mvPythonDataType::Bool, "display_rgb", "override _display_ type among RGB/HSV/Hex."},
+			{mvPythonDataType::Bool, "display_hsv", "override _display_ type among RGB/HSV/Hex."},
+			{mvPythonDataType::Bool, "display_hex", "override _display_ type among RGB/HSV/Hex."},
+			{mvPythonDataType::Bool, "uint8", "display values formatted as 0..255"},
+			{mvPythonDataType::Bool, "floats", "display values formatted as 0.0f..1.0f floats instead of 0..255 integers."},
+			{mvPythonDataType::Bool, "picker_hue_bar", "bar for Hue, rectangle for Sat/Value."},
+			{mvPythonDataType::Bool, "picker_hue_wheel", "wheel for Hue, triangle for Sat/Value."},
+			{mvPythonDataType::Bool, "input_rgb", "input and output data in RGB format."},
+			{mvPythonDataType::Bool, "input_hsv", "input and output data in HSV format."},
 		}, "Adds an rgba color picking widget. Click and draging the color square will copy the color to be applied on any other color widget. Right Click allows the style of the color picker to be changed", "None", "Adding Widgets") });
 
 		parsers->insert({ "add_checkbox", mvPythonParser({
@@ -1000,15 +1072,34 @@ namespace Marvel {
 		const char* source = "";
 		const char* label = "";
 		int show = true;
+		int no_alpha = false;
+		int no_picker = false;
+		int no_options = false;
+		int no_small_preview = false;
+		int no_inputs = false;
+		int no_tooltip = false;
+		int no_label = false;
+		int no_drag_drop = false;
+		int alpha_bar = false;
+		int alpha_preview = false;
+		int alpha_preview_half = false;
+		int display_rgb = false;
+		int display_hsv = false;
+		int display_hex = false;
+		int unit8 = false;
+		int floats = false;
+		int input_rgb = false;
+		int input_hsv = false;
+
 
 		if (!(*mvApp::GetApp()->getParsers())["add_color_edit3"].parse(args, kwargs, __FUNCTION__, &name,
 			&default_value, &callback, &callback_data, &tip, &parent, &before, &source, &width, &height,
-			&label, &show))
+			&label, &show, &no_alpha, &no_picker, &no_options, &no_small_preview, &no_inputs, &no_tooltip, &no_label, &no_drag_drop,
+			&alpha_bar, &alpha_preview, &alpha_preview_half, &display_rgb, &display_hsv, &display_hex, &unit8, &floats, &input_rgb, &input_hsv))
 			return ToPyBool(false);
 
 		auto color = ToColor(default_value);
 
-		//mvAppItem* item = new mvColorEdit3("", name, color);
 		ImVec4 v = color.toVec4();
 		mvAppItem* item = new mvColorEdit3(name, &v.x, source);
 		if (callback)
@@ -1043,9 +1134,29 @@ namespace Marvel {
 		const char* source = "";
 		const char* label = "";
 		int show = true;
+		int no_alpha = false;
+		int no_picker = false;
+		int no_options = false;
+		int no_small_preview = false;
+		int no_inputs = false;
+		int no_tooltip = false;
+		int no_label = false;
+		int no_drag_drop = false;
+		int alpha_bar = false;
+		int alpha_preview = false;
+		int alpha_preview_half = false;
+		int display_rgb = false;
+		int display_hsv = false;
+		int display_hex = false;
+		int unit8 = false;
+		int floats = false;
+		int input_rgb = false;
+		int input_hsv = false;
 
 		if (!(*mvApp::GetApp()->getParsers())["add_color_edit4"].parse(args, kwargs, __FUNCTION__, &name, &default_value,
-			&callback, &callback_data, &tip, &parent, &before, &source, &width, &height, &label, &show))
+			&callback, &callback_data, &tip, &parent, &before, &source, &width, &height, &label, &show,
+			&no_alpha, &no_picker, &no_options, &no_small_preview, &no_inputs, &no_tooltip, &no_label, &no_drag_drop,
+			&alpha_bar, &alpha_preview, &alpha_preview_half, &display_rgb, &display_hsv, &display_hex, &unit8, &floats, &input_rgb, &input_hsv))
 			return ToPyBool(false);
 
 		auto color = ToColor(default_value);
@@ -1083,9 +1194,31 @@ namespace Marvel {
 		const char* source = "";
 		const char* label = "";
 		int show = true;
+		int no_alpha = false;
+		int no_small_preview = false;
+		int no_inputs = false;
+		int no_tooltip = false;
+		int no_label = false;
+		int no_side_preview = false;
+		int alpha_bar = false;
+		int alpha_preview = false;
+		int alpha_preview_half = false;
+		int display_rgb = false;
+		int display_hsv = false;
+		int display_hex = false;
+		int uint8 = false;
+		int floats = false;
+		int picker_hue_bar = false;
+		int picker_hue_wheel = false;
+		int input_rgb = false;
+		int input_hsv = false;
+
 
 		if (!(*mvApp::GetApp()->getParsers())["add_color_picker3"].parse(args, kwargs, __FUNCTION__, &name, &default_value,
-			&callback, &callback_data, &tip, &parent, &before, &source, &width, &height, &label, &show))
+			&callback, &callback_data, &tip, &parent, &before, &source, &width, &height, &label, &show, 
+			&no_alpha, &no_small_preview, &no_inputs, &no_tooltip, &no_label, &no_side_preview, &alpha_bar,
+			&alpha_preview, &alpha_preview_half, &display_rgb, &display_hsv, &display_hex, &uint8, &floats, &picker_hue_bar,
+			&picker_hue_wheel, &input_rgb, &input_hsv))
 			return ToPyBool(false);
 
 		auto color = ToColor(default_value);
@@ -1124,10 +1257,30 @@ namespace Marvel {
 		const char* source = "";
 		const char* label = "";
 		int show = true;
+		int no_alpha = false;
+		int no_small_preview = false;
+		int no_inputs = false;
+		int no_tooltip = false;
+		int no_label = false;
+		int no_side_preview = false;
+		int alpha_bar = false;
+		int alpha_preview = false;
+		int alpha_preview_half = false;
+		int display_rgb = false;
+		int display_hsv = false;
+		int display_hex = false;
+		int uint8 = false;
+		int floats = false;
+		int picker_hue_bar = false;
+		int picker_hue_wheel = false;
+		int input_rgb = false;
+		int input_hsv = false;
 
 		if (!(*mvApp::GetApp()->getParsers())["add_color_picker4"].parse(args, kwargs, __FUNCTION__, &name,
 			&default_value, &callback, &callback_data, &tip, &parent, &before, &source, &width, &height,
-			&label, &show))
+			&label, &show, &no_alpha, &no_small_preview, &no_inputs, &no_tooltip, &no_label, &no_side_preview, &alpha_bar, 
+			&alpha_preview,	&alpha_preview_half, &display_rgb, &display_hsv, &display_hex, &uint8, &floats, &picker_hue_bar, 
+			&picker_hue_wheel, &input_rgb, &input_hsv))
 			return ToPyBool(false);
 
 		auto color = ToColor(default_value);
@@ -1161,10 +1314,12 @@ namespace Marvel {
 		const char* parent = "";
 		const char* popup = "";
 		int show = true;
+		int no_alpha = false;
+		int no_border = false;
 
 		if (!(*mvApp::GetApp()->getParsers())["add_color_button"].parse(args, kwargs, __FUNCTION__,
 			&name, &color, &callback, &callback_data, &tip, &width, &height, &before,
-			&parent, &popup, &show))
+			&parent, &popup, &show, &no_alpha, &no_border))
 			return ToPyBool(false);
 
 		mvAppItem* item = new mvColorButton(name, ToColor(color));

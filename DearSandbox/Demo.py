@@ -279,7 +279,7 @@ with window("Widgets##dialog", 500, 500, show=False):
             add_color_edit3("Color Edit3##widget", source = "float3")
             add_color_edit4("Color Edit4##widget", source = "float4")
             add_color_picker3("Color Picker3##widget", width=300, source = "float3")
-            add_color_picker4("Color Picker4##widget", width=300, source = "float4")
+            add_color_picker4("Color Picker4##widget", width=300, source = "float4", picker_hue_wheel=True)
             add_input_float("Input Float##widget", source="float")
             add_input_float2("Input Float2##widget", source="float2")
             add_input_float3("Input Float3##widget", source="float3")
