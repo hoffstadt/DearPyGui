@@ -7,6 +7,13 @@ import dearpygui.core as dpg
 ########################################################################################################################
 
 @contextmanager
+def managed_columns(name: str, columns: int, border: bool = True, show: bool = True, parent: str = "", before: str = ""):
+    try:
+        yield dpg.add_managed_columns(name, columns, border=border, show=show, parent=parent, before=before)
+
+    finally: dpg.end()
+
+@contextmanager
 def window(name: str, width: int = -1, height: int = -1, x_pos: int = 200, y_pos: int = 200, 
            autosize: bool = False, no_resize: bool = False, no_title_bar: bool = False, 
            no_move: bool = False, label: str = "__DearPyGuiDefault", show: bool = True, on_close: Callable = None):

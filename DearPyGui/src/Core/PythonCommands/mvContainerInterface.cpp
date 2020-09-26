@@ -5,6 +5,16 @@ namespace Marvel {
 
 	void AddContainerWidgets(std::map<std::string, mvPythonParser>* parsers)
 	{
+		parsers->insert({ "add_managed_columns", mvPythonParser({
+			{mvPythonDataType::String, "name"},
+			{mvPythonDataType::Integer, "columns"},
+			{mvPythonDataType::KeywordOnly},
+			{mvPythonDataType::Bool, "border"},
+			{mvPythonDataType::Bool, "show"},
+			{mvPythonDataType::String, "parent", "Parent this item will be added to. (runtime adding)"},
+			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)"},
+		}, "Adds managed columns.", "None", "Containers") });
+
 		parsers->insert({ "add_menu_bar", mvPythonParser({
 			{mvPythonDataType::String, "name"},
 			{mvPythonDataType::KeywordOnly},
@@ -434,6 +444,33 @@ namespace Marvel {
 			return ToPyBool(false);
 
 		mvAppItem* item = new mvChild(name);
+		item->checkConfigDict(kwargs);
+		item->setConfigDict(kwargs);
+		item->setExtraConfigDict(kwargs);
+		if (AddItemWithRuntimeChecks(item, parent, before))
+		{
+			mvApp::GetApp()->pushParent(item);
+			return ToPyBool(true);
+		}
+
+		return ToPyBool(false);
+	}
+
+	PyObject* add_managed_columns(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		const char* name;
+		int columns;
+		int border = true;
+		int show = true;
+		const char* parent = "";
+		const char* before = "";
+		
+
+		if (!(*mvApp::GetApp()->getParsers())["add_managed_columns"].parse(args, kwargs, __FUNCTION__, 
+			&name, &columns, &border, &show, &parent, &before))
+			return ToPyBool(false);
+
+		mvAppItem* item = new mvManagedColumns(name, columns);
 		item->checkConfigDict(kwargs);
 		item->setConfigDict(kwargs);
 		item->setExtraConfigDict(kwargs);
