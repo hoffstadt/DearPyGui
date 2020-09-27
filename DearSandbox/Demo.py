@@ -214,15 +214,15 @@ with window("Dear PyGui Demo", x_pos=100, y_pos=100, width=800, height=800):
             helpmarker("using no inputs and no label leaves only the preview\n"
                        "click the color edit preview will reveal the color picker.")
             add_color_edit4("Color Edit 4 (with custom popup)", source="colorvalue", no_inputs=True, no_picker=True, popup="custom picker popup")
-            helpmarker("we can override the popup with our own custom popup")
+            helpmarker("we can override the popup with our own custom popup that includes a color pallet")
             with popup("Color Edit 4 (with custom popup)", "custom picker popup", mousebutton=0):
                 add_color_picker4("custom picker", no_tooltip=True, picker_hue_wheel=True)
-                for i in range(19):
-                    add_color_button(f"color button {i}", hsv_to_rgb(i/19,1,1))
-                    if i<9:
-                        add_same_line()
-                    if i>9 and i<20:
-                        add_same_line()
+                add_text("Color Pallet")
+                for i in range(30):
+                    add_color_button(f"color button {i}", hsv_to_rgb(i/30,1,1))
+                    if i<9: add_same_line()
+                    if i>9 and i<19: add_same_line()
+                    if i>19 and i<29: add_same_line()
 
         with tree_node("Multi-component Widgets"):
         
