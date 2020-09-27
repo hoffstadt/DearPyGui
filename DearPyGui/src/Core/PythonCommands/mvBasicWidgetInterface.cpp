@@ -230,6 +230,7 @@ namespace Marvel {
 			{mvPythonDataType::Bool, "show", ""},
 			{mvPythonDataType::Bool, "no_alpha", "ignore Alpha component"},
 			{mvPythonDataType::Bool, "no_border", "disable border (which is enforced by default)"},
+			{mvPythonDataType::Bool, "no_drag_drop", "disable display of inline text label"},
 		}, "Adds a color button.", "None", "Adding Widgets") });
 
 		parsers->insert({ "add_indent", mvPythonParser({
@@ -302,10 +303,12 @@ namespace Marvel {
 			{mvPythonDataType::Bool, "show"},
 			{mvPythonDataType::Bool, "no_alpha", "ignore Alpha component"},
 			{mvPythonDataType::Bool, "no_picker", "disable picker when clicking on colored square."},
-			{mvPythonDataType::Bool, "no_small_preview", "disable colored square preview next to the inputs. (e.g. to show only the inputs). This only displays if the side preview is not shown."},
+			{mvPythonDataType::Bool, "no_options", " disable toggling options menu when right-clicking on inputs/small preview."},
+			{mvPythonDataType::Bool, "no_small_preview", "disable colored square preview next to the inputs. For color pickers this only shows if the side preview is not shown."},
 			{mvPythonDataType::Bool, "no_inputs", "disable inputs sliders/text widgets (e.g. to show only the small preview colored square)"},
 			{mvPythonDataType::Bool, "no_tooltip", "disable tooltip when hovering the preview."},
 			{mvPythonDataType::Bool, "no_label", "disable display of inline text label"},
+			{mvPythonDataType::Bool, "no_drag_drop", "disable display of inline text label"},
 			{mvPythonDataType::Bool, "alpha_bar", "show vertical alpha bar/gradient in picker."},
 			{mvPythonDataType::Bool, "alpha_preview", "display preview as a transparent color over a checkerboard, instead of opaque."},
 			{mvPythonDataType::Bool, "alpha_preview_half", "display half opaque / half checkerboard, instead of opaque."},
@@ -335,10 +338,12 @@ namespace Marvel {
 			{mvPythonDataType::Bool, "show"},
 			{mvPythonDataType::Bool, "no_alpha", "ignore Alpha component"},
 			{mvPythonDataType::Bool, "no_picker", "disable picker when clicking on colored square."},
+			{mvPythonDataType::Bool, "no_options", " disable toggling options menu when right-clicking on inputs/small preview."},
 			{mvPythonDataType::Bool, "no_small_preview", "disable colored square preview next to the inputs. (e.g. to show only the inputs). This only displays if the side preview is not shown."},
 			{mvPythonDataType::Bool, "no_inputs", "disable inputs sliders/text widgets (e.g. to show only the small preview colored square)"},
 			{mvPythonDataType::Bool, "no_tooltip", "disable tooltip when hovering the preview."},
 			{mvPythonDataType::Bool, "no_label", "disable display of inline text label"},
+			{mvPythonDataType::Bool, "no_drag_drop", "disable display of inline text label"},
 			{mvPythonDataType::Bool, "alpha_bar", "show vertical alpha bar/gradient in picker."},
 			{mvPythonDataType::Bool, "alpha_preview", "display preview as a transparent color over a checkerboard, instead of opaque."},
 			{mvPythonDataType::Bool, "alpha_preview_half", "display half opaque / half checkerboard, instead of opaque."},
@@ -1316,10 +1321,11 @@ namespace Marvel {
 		int show = true;
 		int no_alpha = false;
 		int no_border = false;
+		int no_drag_drop = false;
 
 		if (!(*mvApp::GetApp()->getParsers())["add_color_button"].parse(args, kwargs, __FUNCTION__,
 			&name, &color, &callback, &callback_data, &tip, &width, &height, &before,
-			&parent, &popup, &show, &no_alpha, &no_border))
+			&parent, &popup, &show, &no_alpha, &no_border, &no_drag_drop))
 			return ToPyBool(false);
 
 		mvAppItem* item = new mvColorButton(name, ToColor(color));
