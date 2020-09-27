@@ -163,15 +163,15 @@ namespace Marvel {
 			flagop("display_hsv", ImGuiColorEditFlags_DisplayHSV, m_flags);
 			flagop("display_hex", ImGuiColorEditFlags_DisplayHex, m_flags);
 
-			std::vector<std::string> AlphaPreviewKeywords{ "alpha_preview", "alpha_preview_half" };
-			std::vector<int> AlphaPreviewFlags{ ImGuiColorEditFlags_AlphaPreview, ImGuiColorEditFlags_AlphaPreviewHalf };
+			static std::vector<std::string> AlphaPreviewKeywords{ "alpha_preview", "alpha_preview_half" };
+			static std::vector<int> AlphaPreviewFlags{ ImGuiColorEditFlags_AlphaPreview, ImGuiColorEditFlags_AlphaPreviewHalf };
 
-			std::vector<std::string> DisplayValueTypeKeywords{ "uint8", "floats" };
-			std::vector<int> DisplayValueTypeFlags{ ImGuiColorEditFlags_Uint8, ImGuiColorEditFlags_Float };
+			static std::vector<std::string> DisplayValueTypeKeywords{ "uint8", "floats" };
+			static std::vector<int> DisplayValueTypeFlags{ ImGuiColorEditFlags_Uint8, ImGuiColorEditFlags_Float };
 
 
-			std::vector<std::string> IOTypeKeywords{ "input_rgb", "input_hsv" };
-			std::vector<int> IOTypeFlags{ ImGuiColorEditFlags_InputRGB, ImGuiColorEditFlags_InputHSV };
+			static std::vector<std::string> IOTypeKeywords{ "input_rgb", "input_hsv" };
+			static std::vector<int> IOTypeFlags{ ImGuiColorEditFlags_InputRGB, ImGuiColorEditFlags_InputHSV };
 
 			conflictingflagop(AlphaPreviewKeywords, AlphaPreviewFlags, m_flags);
 			conflictingflagop(DisplayValueTypeKeywords, DisplayValueTypeFlags, m_flags);
@@ -289,15 +289,15 @@ namespace Marvel {
 			flagop("display_hsv", ImGuiColorEditFlags_DisplayHSV, m_flags);
 			flagop("display_hex", ImGuiColorEditFlags_DisplayHex, m_flags);
 
-			std::vector<std::string> AlphaPreviewKeywords{ "alpha_preview", "alpha_preview_half" };
-			std::vector<int> AlphaPreviewFlags{ ImGuiColorEditFlags_AlphaPreview, ImGuiColorEditFlags_AlphaPreviewHalf };
+			static std::vector<std::string> AlphaPreviewKeywords{ "alpha_preview", "alpha_preview_half" };
+			static std::vector<int> AlphaPreviewFlags{ ImGuiColorEditFlags_AlphaPreview, ImGuiColorEditFlags_AlphaPreviewHalf };
 
-			std::vector<std::string> DisplayValueTypeKeywords{ "uint8", "floats" };
-			std::vector<int> DisplayValueTypeFlags{ ImGuiColorEditFlags_Uint8, ImGuiColorEditFlags_Float };
+			static std::vector<std::string> DisplayValueTypeKeywords{ "uint8", "floats" };
+			static std::vector<int> DisplayValueTypeFlags{ ImGuiColorEditFlags_Uint8, ImGuiColorEditFlags_Float };
 
 
-			std::vector<std::string> IOTypeKeywords{ "input_rgb", "input_hsv" };
-			std::vector<int> IOTypeFlags{ ImGuiColorEditFlags_InputRGB, ImGuiColorEditFlags_InputHSV };
+			static std::vector<std::string> IOTypeKeywords{ "input_rgb", "input_hsv" };
+			static std::vector<int> IOTypeFlags{ ImGuiColorEditFlags_InputRGB, ImGuiColorEditFlags_InputHSV };
 
 			conflictingflagop(AlphaPreviewKeywords, AlphaPreviewFlags, m_flags);
 			conflictingflagop(DisplayValueTypeKeywords, DisplayValueTypeFlags, m_flags);
@@ -412,17 +412,17 @@ namespace Marvel {
 			flagop("display_hsv", ImGuiColorEditFlags_DisplayHSV, m_flags);
 			flagop("display_hex", ImGuiColorEditFlags_DisplayHex, m_flags);
 
-			std::vector<std::string> AlphaPreviewKeywords{ "alpha_preview", "alpha_preview_half" };
-			std::vector<int> AlphaPreviewFlags{ ImGuiColorEditFlags_AlphaPreview, ImGuiColorEditFlags_AlphaPreviewHalf };
-
-			std::vector<std::string> DisplayValueTypeKeywords{ "uint8", "floats" };
-			std::vector<int> DisplayValueTypeFlags{ ImGuiColorEditFlags_Uint8, ImGuiColorEditFlags_Float };
-
-			std::vector<std::string> PickerTypeKeywords{ "picker_hue_bar", "picker_hue_wheel" };
-			std::vector<int> PickerTypeFlags{ ImGuiColorEditFlags_PickerHueBar, ImGuiColorEditFlags_PickerHueWheel };
-
-			std::vector<std::string> IOTypeKeywords{ "input_rgb", "input_hsv" };
-			std::vector<int> IOTypeFlags{ ImGuiColorEditFlags_InputRGB, ImGuiColorEditFlags_InputHSV };
+			static std::vector<std::string> AlphaPreviewKeywords{ "alpha_preview", "alpha_preview_half" };
+			static std::vector<int> AlphaPreviewFlags{ ImGuiColorEditFlags_AlphaPreview, ImGuiColorEditFlags_AlphaPreviewHalf };
+			 
+			static std::vector<std::string> DisplayValueTypeKeywords{ "uint8", "floats" };
+			static std::vector<int> DisplayValueTypeFlags{ ImGuiColorEditFlags_Uint8, ImGuiColorEditFlags_Float };
+			 
+			static std::vector<std::string> PickerTypeKeywords{ "picker_hue_bar", "picker_hue_wheel" };
+			static std::vector<int> PickerTypeFlags{ ImGuiColorEditFlags_PickerHueBar, ImGuiColorEditFlags_PickerHueWheel };
+			 
+			static std::vector<std::string> IOTypeKeywords{ "input_rgb", "input_hsv" };
+			static std::vector<int> IOTypeFlags{ ImGuiColorEditFlags_InputRGB, ImGuiColorEditFlags_InputHSV };
 
 			conflictingflagop(AlphaPreviewKeywords, AlphaPreviewFlags, m_flags);
 			conflictingflagop(DisplayValueTypeKeywords, DisplayValueTypeFlags, m_flags);
@@ -538,17 +538,17 @@ namespace Marvel {
 			flagop("display_hsv", ImGuiColorEditFlags_DisplayHSV, m_flags);
 			flagop("display_hex", ImGuiColorEditFlags_DisplayHex, m_flags);
 
-			std::vector<std::string> AlphaPreviewKeywords{ "alpha_preview", "alpha_preview_half" };
-			std::vector<int> AlphaPreviewFlags{ ImGuiColorEditFlags_AlphaPreview, ImGuiColorEditFlags_AlphaPreviewHalf };
-
-			std::vector<std::string> DisplayValueTypeKeywords{"uint8", "floats"};
-			std::vector<int> DisplayValueTypeFlags{ImGuiColorEditFlags_Uint8, ImGuiColorEditFlags_Float};
-
-			std::vector<std::string> PickerTypeKeywords{"picker_hue_bar", "picker_hue_wheel"};
-			std::vector<int> PickerTypeFlags{ImGuiColorEditFlags_PickerHueBar, ImGuiColorEditFlags_PickerHueWheel};
-
-			std::vector<std::string> IOTypeKeywords{"input_rgb", "input_hsv"};
-			std::vector<int> IOTypeFlags{ImGuiColorEditFlags_InputRGB, ImGuiColorEditFlags_InputHSV};
+			static std::vector<std::string> AlphaPreviewKeywords{ "alpha_preview", "alpha_preview_half" };
+			static std::vector<int> AlphaPreviewFlags{ ImGuiColorEditFlags_AlphaPreview, ImGuiColorEditFlags_AlphaPreviewHalf };
+			 
+			static std::vector<std::string> DisplayValueTypeKeywords{"uint8", "floats"};
+			static std::vector<int> DisplayValueTypeFlags{ImGuiColorEditFlags_Uint8, ImGuiColorEditFlags_Float};
+			 
+			static std::vector<std::string> PickerTypeKeywords{"picker_hue_bar", "picker_hue_wheel"};
+			static std::vector<int> PickerTypeFlags{ImGuiColorEditFlags_PickerHueBar, ImGuiColorEditFlags_PickerHueWheel};
+			 
+			static std::vector<std::string> IOTypeKeywords{"input_rgb", "input_hsv"};
+			static std::vector<int> IOTypeFlags{ImGuiColorEditFlags_InputRGB, ImGuiColorEditFlags_InputHSV};
 
 			conflictingflagop(AlphaPreviewKeywords, AlphaPreviewFlags, m_flags);
 			conflictingflagop(DisplayValueTypeKeywords, DisplayValueTypeFlags, m_flags);
