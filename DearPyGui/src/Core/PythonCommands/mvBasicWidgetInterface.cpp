@@ -224,6 +224,7 @@ namespace Marvel {
 			{mvPythonDataType::String, "tip", "Adds a simple tooltip"},
 			{mvPythonDataType::String, "parent", "Parent to add this item to. (runtime adding)"},
 			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)"},
+			{mvPythonDataType::String, "source", "data source for shared data"},
 			{mvPythonDataType::Integer, "width",""},
 			{mvPythonDataType::Integer, "height", ""},
 			{mvPythonDataType::String, "popup", ""},
@@ -300,6 +301,7 @@ namespace Marvel {
 			{mvPythonDataType::Integer, "width",""},
 			{mvPythonDataType::Integer, "height", ""},
 			{mvPythonDataType::String, "label"},
+			{mvPythonDataType::String, "popup"},
 			{mvPythonDataType::Bool, "show"},
 			{mvPythonDataType::Bool, "no_alpha", "ignore Alpha component"},
 			{mvPythonDataType::Bool, "no_picker", "disable picker when clicking on colored square."},
@@ -335,6 +337,7 @@ namespace Marvel {
 			{mvPythonDataType::Integer, "width",""},
 			{mvPythonDataType::Integer, "height", ""},
 			{mvPythonDataType::String, "label"},
+			{mvPythonDataType::String, "popup"},
 			{mvPythonDataType::Bool, "show"},
 			{mvPythonDataType::Bool, "no_alpha", "ignore Alpha component"},
 			{mvPythonDataType::Bool, "no_picker", "disable picker when clicking on colored square."},
@@ -370,6 +373,7 @@ namespace Marvel {
 			{mvPythonDataType::Integer, "width",""},
 			{mvPythonDataType::Integer, "height", ""},
 			{mvPythonDataType::String, "label"},
+			{mvPythonDataType::String, "popup"},
 			{mvPythonDataType::Bool, "show"},
 			{mvPythonDataType::Bool, "no_alpha", "ignore Alpha component"},
 			{mvPythonDataType::Bool, "no_small_preview", "disable colored square preview next to the inputs. (e.g. to show only the inputs). This only displays if the side preview is not shown."},
@@ -404,6 +408,7 @@ namespace Marvel {
 			{mvPythonDataType::Integer, "width",""},
 			{mvPythonDataType::Integer, "height", ""},
 			{mvPythonDataType::String, "label"},
+			{mvPythonDataType::String, "popup"},
 			{mvPythonDataType::Bool, "show"},
 			{mvPythonDataType::Bool, "no_alpha", "ignore Alpha component"},
 			{mvPythonDataType::Bool, "no_small_preview", "disable colored square preview next to the inputs. (e.g. to show only the inputs). This only displays if the side preview is not shown."},
@@ -1076,6 +1081,7 @@ namespace Marvel {
 		const char* parent = "";
 		const char* source = "";
 		const char* label = "";
+		const char* popup = "";
 		int show = true;
 		int no_alpha = false;
 		int no_picker = false;
@@ -1099,7 +1105,7 @@ namespace Marvel {
 
 		if (!(*mvApp::GetApp()->getParsers())["add_color_edit3"].parse(args, kwargs, __FUNCTION__, &name,
 			&default_value, &callback, &callback_data, &tip, &parent, &before, &source, &width, &height,
-			&label, &show, &no_alpha, &no_picker, &no_options, &no_small_preview, &no_inputs, &no_tooltip, &no_label, &no_drag_drop,
+			&label, &popup, &show, &no_alpha, &no_picker, &no_options, &no_small_preview, &no_inputs, &no_tooltip, &no_label, &no_drag_drop,
 			&alpha_bar, &alpha_preview, &alpha_preview_half, &display_rgb, &display_hsv, &display_hex, &unit8, &floats, &input_rgb, &input_hsv))
 			return ToPyBool(false);
 
@@ -1138,6 +1144,7 @@ namespace Marvel {
 		const char* parent = "";
 		const char* source = "";
 		const char* label = "";
+		const char* popup = "";
 		int show = true;
 		int no_alpha = false;
 		int no_picker = false;
@@ -1159,7 +1166,7 @@ namespace Marvel {
 		int input_hsv = false;
 
 		if (!(*mvApp::GetApp()->getParsers())["add_color_edit4"].parse(args, kwargs, __FUNCTION__, &name, &default_value,
-			&callback, &callback_data, &tip, &parent, &before, &source, &width, &height, &label, &show,
+			&callback, &callback_data, &tip, &parent, &before, &source, &width, &height, &label, &popup, &show,
 			&no_alpha, &no_picker, &no_options, &no_small_preview, &no_inputs, &no_tooltip, &no_label, &no_drag_drop,
 			&alpha_bar, &alpha_preview, &alpha_preview_half, &display_rgb, &display_hsv, &display_hex, &unit8, &floats, &input_rgb, &input_hsv))
 			return ToPyBool(false);
@@ -1198,6 +1205,7 @@ namespace Marvel {
 		const char* parent = "";
 		const char* source = "";
 		const char* label = "";
+		const char* popup = "";
 		int show = true;
 		int no_alpha = false;
 		int no_small_preview = false;
@@ -1220,7 +1228,7 @@ namespace Marvel {
 
 
 		if (!(*mvApp::GetApp()->getParsers())["add_color_picker3"].parse(args, kwargs, __FUNCTION__, &name, &default_value,
-			&callback, &callback_data, &tip, &parent, &before, &source, &width, &height, &label, &show, 
+			&callback, &callback_data, &tip, &parent, &before, &source, &width, &height, &label, &popup, &show, 
 			&no_alpha, &no_small_preview, &no_inputs, &no_tooltip, &no_label, &no_side_preview, &alpha_bar,
 			&alpha_preview, &alpha_preview_half, &display_rgb, &display_hsv, &display_hex, &uint8, &floats, &picker_hue_bar,
 			&picker_hue_wheel, &input_rgb, &input_hsv))
@@ -1261,6 +1269,7 @@ namespace Marvel {
 		const char* parent = "";
 		const char* source = "";
 		const char* label = "";
+		const char* popup = "";
 		int show = true;
 		int no_alpha = false;
 		int no_small_preview = false;
@@ -1283,7 +1292,7 @@ namespace Marvel {
 
 		if (!(*mvApp::GetApp()->getParsers())["add_color_picker4"].parse(args, kwargs, __FUNCTION__, &name,
 			&default_value, &callback, &callback_data, &tip, &parent, &before, &source, &width, &height,
-			&label, &show, &no_alpha, &no_small_preview, &no_inputs, &no_tooltip, &no_label, &no_side_preview, &alpha_bar, 
+			&label, &popup, &show, &no_alpha, &no_small_preview, &no_inputs, &no_tooltip, &no_label, &no_side_preview, &alpha_bar, 
 			&alpha_preview,	&alpha_preview_half, &display_rgb, &display_hsv, &display_hex, &uint8, &floats, &picker_hue_bar, 
 			&picker_hue_wheel, &input_rgb, &input_hsv))
 			return ToPyBool(false);
@@ -1316,6 +1325,7 @@ namespace Marvel {
 		int width = 0;
 		int height = 0;
 		const char* before = "";
+		const char* source = "";
 		const char* parent = "";
 		const char* popup = "";
 		int show = true;
@@ -1324,7 +1334,7 @@ namespace Marvel {
 		int no_drag_drop = false;
 
 		if (!(*mvApp::GetApp()->getParsers())["add_color_button"].parse(args, kwargs, __FUNCTION__,
-			&name, &color, &callback, &callback_data, &tip, &width, &height, &before,
+			&name, &color, &callback, &callback_data, &tip, &width, &height, &before, &source,
 			&parent, &popup, &show, &no_alpha, &no_border, &no_drag_drop))
 			return ToPyBool(false);
 

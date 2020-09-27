@@ -192,8 +192,10 @@ with window("Dear PyGui Demo", x_pos=100, y_pos=100, width=800, height=800):
 
             add_checkbox("With Alpha Preview", callback=lambda sender, data: configure_items(color_edit_names, alpha_preview = get_value(sender)))
             add_checkbox("With Half Alpha Preview", callback=lambda sender, data: configure_items(color_edit_names, alpha_preview_half = get_value(sender)))
-            add_checkbox("With Drag and Drop", callback=lambda sender, data: configure_items(color_edit_names, no_drag_drop = get_value(sender)))
-            add_checkbox("With Options Menu", callback=lambda sender, data: configure_items(color_edit_names, no_options = get_value(sender)))
+            add_checkbox("With No Drag and Drop", callback=lambda sender, data: configure_items(color_edit_names, no_drag_drop = get_value(sender)))
+            helpmarker("Click and drag a preview square, drop on another color widget to apply the color")
+            add_checkbox("With No Options Menu", callback=lambda sender, data: configure_items(color_edit_names, no_options = get_value(sender)))
+            helpmarker("Right clicking a color widget brings up an options context menu")
             add_checkbox("With No Small Preview", callback=lambda sender, data: configure_items(color_edit_names, no_small_preview = get_value(sender)))
             add_checkbox("With No Inputs", callback=lambda sender, data: configure_items(color_edit_names, no_inputs = get_value(sender)))
             add_checkbox("With No Tooltip", callback=lambda sender, data: configure_items(color_edit_names, no_tooltip = get_value(sender)))
@@ -211,8 +213,18 @@ with window("Dear PyGui Demo", x_pos=100, y_pos=100, width=800, height=800):
             add_color_edit4("Color Edit 4##2", source="colorvalue", no_inputs=True, no_label=True)
             helpmarker("using no inputs and no label leaves only the preview\n"
                        "click the color edit preview will reveal the color picker.")
-            add_color_edit4("Color Edit 4 (with custom popup)", source="colorvalue", no_inputs=True)
-            helpmarker("we can override the pupup")
+            add_color_edit4("Color Edit 4 (with custom popup)", source="colorvalue", no_inputs=True, no_picker=True, popup="custom picker popup")
+            helpmarker("we can override the popup with our own custom popup")
+            with popup("Color Edit 4 (with custom popup)", "custom picker popup", mousebutton=0):
+                add_color_picker4("custom picker", no_tooltip=True, picker_hue_wheel=True)
+                for i in range(19):
+                    add_color_button(f"color button {i}", hsv_to_rgb(i/19,1,1))
+                    if i<9:
+                        add_same_line()
+                    if i>9 and i<20:
+                        add_same_line()
+
+
 
         with tree_node("Multi-component Widgets"):
         
