@@ -63,6 +63,7 @@ namespace Marvel {
 			};
 			flagop("no_alpha", ImGuiColorEditFlags_NoAlpha, m_flags);
 			flagop("no_border", ImGuiColorEditFlags_NoBorder, m_flags);
+			flagop("no_drag_drop", ImGuiColorEditFlags_NoDragDrop, m_flags);
 		}
 
 		void getExtraConfigDict(PyObject* dict) override
@@ -80,6 +81,7 @@ namespace Marvel {
 
 			checkbitset("no_alpha", ImGuiColorEditFlags_NoAlpha, m_flags);
 			checkbitset("no_border", ImGuiColorEditFlags_NoBorder, m_flags);
+			checkbitset("no_drag_drop", ImGuiColorEditFlags_NoDragDrop, m_flags);
 		}
 
 	private:
@@ -156,12 +158,8 @@ namespace Marvel {
 			flagop("no_inputs", ImGuiColorEditFlags_NoInputs, m_flags);
 			flagop("no_tooltip", ImGuiColorEditFlags_NoTooltip, m_flags);
 			flagop("no_label", ImGuiColorEditFlags_NoLabel, m_flags);
-			flagop("no_side_preview", ImGuiColorEditFlags_NoSidePreview, m_flags);
 			flagop("no_drag_drop", ImGuiColorEditFlags_NoDragDrop, m_flags);
 			flagop("alpha_bar", ImGuiColorEditFlags_AlphaBar, m_flags);
-			flagop("display_rgb", ImGuiColorEditFlags_DisplayRGB, m_flags);
-			flagop("display_hsv", ImGuiColorEditFlags_DisplayHSV, m_flags);
-			flagop("display_hex", ImGuiColorEditFlags_DisplayHex, m_flags);
 
 			static std::vector<std::string> AlphaPreviewKeywords{ "alpha_preview", "alpha_preview_half" };
 			static std::vector<int> AlphaPreviewFlags{ ImGuiColorEditFlags_AlphaPreview, ImGuiColorEditFlags_AlphaPreviewHalf };
@@ -169,12 +167,15 @@ namespace Marvel {
 			static std::vector<std::string> DisplayValueTypeKeywords{ "uint8", "floats" };
 			static std::vector<int> DisplayValueTypeFlags{ ImGuiColorEditFlags_Uint8, ImGuiColorEditFlags_Float };
 
+			std::vector<std::string> DisplayTypeKeywords{ "display_rgb", "display_hsv", "display_hex" };
+			std::vector<int> DisplayTypeFlags{ ImGuiColorEditFlags_DisplayRGB, ImGuiColorEditFlags_DisplayHSV, ImGuiColorEditFlags_DisplayHex };
 
 			static std::vector<std::string> IOTypeKeywords{ "input_rgb", "input_hsv" };
 			static std::vector<int> IOTypeFlags{ ImGuiColorEditFlags_InputRGB, ImGuiColorEditFlags_InputHSV };
 
 			conflictingflagop(AlphaPreviewKeywords, AlphaPreviewFlags, m_flags);
 			conflictingflagop(DisplayValueTypeKeywords, DisplayValueTypeFlags, m_flags);
+			conflictingflagop(DisplayTypeKeywords, DisplayTypeFlags, m_flags);
 			conflictingflagop(IOTypeKeywords, IOTypeFlags, m_flags);
 
 		}
@@ -285,9 +286,6 @@ namespace Marvel {
 			flagop("no_side_preview", ImGuiColorEditFlags_NoSidePreview, m_flags);
 			flagop("no_drag_drop", ImGuiColorEditFlags_NoDragDrop, m_flags);
 			flagop("alpha_bar", ImGuiColorEditFlags_AlphaBar, m_flags);
-			flagop("display_rgb", ImGuiColorEditFlags_DisplayRGB, m_flags);
-			flagop("display_hsv", ImGuiColorEditFlags_DisplayHSV, m_flags);
-			flagop("display_hex", ImGuiColorEditFlags_DisplayHex, m_flags);
 
 			static std::vector<std::string> AlphaPreviewKeywords{ "alpha_preview", "alpha_preview_half" };
 			static std::vector<int> AlphaPreviewFlags{ ImGuiColorEditFlags_AlphaPreview, ImGuiColorEditFlags_AlphaPreviewHalf };
@@ -295,12 +293,15 @@ namespace Marvel {
 			static std::vector<std::string> DisplayValueTypeKeywords{ "uint8", "floats" };
 			static std::vector<int> DisplayValueTypeFlags{ ImGuiColorEditFlags_Uint8, ImGuiColorEditFlags_Float };
 
+			std::vector<std::string> DisplayTypeKeywords{ "display_rgb", "display_hsv", "display_hex" };
+			std::vector<int> DisplayTypeFlags{ ImGuiColorEditFlags_DisplayRGB, ImGuiColorEditFlags_DisplayHSV, ImGuiColorEditFlags_DisplayHex };
 
 			static std::vector<std::string> IOTypeKeywords{ "input_rgb", "input_hsv" };
 			static std::vector<int> IOTypeFlags{ ImGuiColorEditFlags_InputRGB, ImGuiColorEditFlags_InputHSV };
 
 			conflictingflagop(AlphaPreviewKeywords, AlphaPreviewFlags, m_flags);
 			conflictingflagop(DisplayValueTypeKeywords, DisplayValueTypeFlags, m_flags);
+			conflictingflagop(DisplayTypeKeywords, DisplayTypeFlags, m_flags);
 			conflictingflagop(IOTypeKeywords, IOTypeFlags, m_flags);
 
 		}
