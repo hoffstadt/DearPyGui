@@ -186,7 +186,44 @@ with window("Dear PyGui Demo", x_pos=100, y_pos=100, width=800, height=800):
             add_progress_bar("##Progress Bar", value=0.78, overlay="1367/1753")
 
         with tree_node("Color/Picker Widgets"):
-            pass
+            # helper for configuring items
+            def configure_items(names, **kwargs):
+                for name in names:
+                    configure_item(name, **kwargs)
+
+            add_checkbox("With Alpha Preview", callback=lambda sender, data: configure_items(color_edit_names, alpha_preview = get_value(sender)))
+            add_checkbox("With Half Alpha Preview", callback=lambda sender, data: configure_items(color_edit_names, alpha_preview_half = get_value(sender)))
+            add_checkbox("With No Drag and Drop", callback=lambda sender, data: configure_items(color_edit_names, no_drag_drop = get_value(sender)))
+            helpmarker("Click and drag a preview square, drop on another color widget to apply the color")
+            add_checkbox("With No Options Menu", callback=lambda sender, data: configure_items(color_edit_names, no_options = get_value(sender)))
+            helpmarker("Right clicking a color widget brings up an options context menu")
+            add_checkbox("With No Small Preview", callback=lambda sender, data: configure_items(color_edit_names, no_small_preview = get_value(sender)))
+            add_checkbox("With No Inputs", callback=lambda sender, data: configure_items(color_edit_names, no_inputs = get_value(sender)))
+            add_checkbox("With No Tooltip", callback=lambda sender, data: configure_items(color_edit_names, no_tooltip = get_value(sender)))
+            add_checkbox("With RGB", callback=lambda sender, data: configure_items(color_edit_names, display_rgb = get_value(sender)))
+            add_checkbox("With HSV", callback=lambda sender, data: configure_items(color_edit_names, display_hsv = get_value(sender)))
+            add_checkbox("With HEX", callback=lambda sender, data: configure_items(color_edit_names, display_hex = get_value(sender)))
+            add_checkbox("With Ints", callback=lambda sender, data: configure_items(color_edit_names, uint8 = get_value(sender)))
+            add_checkbox("With Floats", callback=lambda sender, data: configure_items(color_edit_names, floats = get_value(sender)))
+            helpmarker("Right-click on the individual color widget to show options.")
+
+            add_value("colorvalue", [0.0, 0.0, 0.0, 0.0])
+            color_edit_names = ["Color Edit 3", "Color Edit 4"]
+            add_color_edit3(color_edit_names[0], source="colorvalue")
+            add_color_edit4(color_edit_names[1], source="colorvalue")
+            add_color_edit4("Color Edit 4##2", source="colorvalue", no_inputs=True, no_label=True)
+            helpmarker("using no inputs and no label leaves only the preview\n"
+                       "click the color edit preview will reveal the color picker.")
+            add_color_edit4("Color Edit 4 (with custom popup)", source="colorvalue", no_inputs=True, no_picker=True, popup="custom picker popup")
+            helpmarker("we can override the popup with our own custom popup that includes a color pallet")
+            with popup("Color Edit 4 (with custom popup)", "custom picker popup", mousebutton=0):
+                add_color_picker4("custom picker", no_tooltip=True, picker_hue_wheel=True)
+                add_text("Color Pallet")
+                for i in range(30):
+                    add_color_button(f"color button {i}", hsv_to_rgb(i/30,1,1))
+                    if i<9: add_same_line()
+                    if i>9 and i<19: add_same_line()
+                    if i>19 and i<29: add_same_line()
 
         with tree_node("Multi-component Widgets"):
         
