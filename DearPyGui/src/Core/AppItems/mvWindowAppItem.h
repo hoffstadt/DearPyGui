@@ -193,10 +193,14 @@ namespace Marvel {
 			};
 
 			// window flags
-			flagop("autosize",     ImGuiWindowFlags_AlwaysAutoResize, m_windowflags);
-			flagop("no_resize",    ImGuiWindowFlags_NoResize,         m_windowflags);
-			flagop("no_title_bar", ImGuiWindowFlags_NoTitleBar,       m_windowflags);
-			flagop("no_move",      ImGuiWindowFlags_NoMove,           m_windowflags);
+			flagop("autosize",						ImGuiWindowFlags_AlwaysAutoResize,		m_windowflags);
+			flagop("no_resize",						ImGuiWindowFlags_NoResize,				m_windowflags);
+			flagop("no_title_bar",					ImGuiWindowFlags_NoTitleBar,			m_windowflags);
+			flagop("no_scrollbar",					ImGuiWindowFlags_NoScrollbar,			m_windowflags);
+			flagop("no_collapse",					ImGuiWindowFlags_NoCollapse,			m_windowflags);
+			flagop("horizontal_scrollbar",			ImGuiWindowFlags_HorizontalScrollbar,	m_windowflags);
+			flagop("no_focus_on_appearing",			ImGuiWindowFlags_NoFocusOnAppearing,	m_windowflags);
+			flagop("no_bring_to_front_on_focus",	ImGuiWindowFlags_NoBringToFrontOnFocus,	m_windowflags);
 
 		}
 
@@ -215,10 +219,15 @@ namespace Marvel {
 			};
 
 			// window flags
-			checkbitset("autosize",     ImGuiWindowFlags_AlwaysAutoResize, m_windowflags);
-			checkbitset("no_resize",    ImGuiWindowFlags_NoResize,         m_windowflags);
-			checkbitset("no_title_bar", ImGuiWindowFlags_NoTitleBar,       m_windowflags);
-			checkbitset("no_move",      ImGuiWindowFlags_NoMove,           m_windowflags);
+			checkbitset("autosize",						ImGuiWindowFlags_AlwaysAutoResize,		m_windowflags);
+			checkbitset("no_resize",					ImGuiWindowFlags_NoResize,				m_windowflags);
+			checkbitset("no_title_bar",					ImGuiWindowFlags_NoTitleBar,			m_windowflags);
+			checkbitset("no_move",						ImGuiWindowFlags_NoMove,				m_windowflags);
+			checkbitset("no_scrollbar",					ImGuiWindowFlags_NoScrollbar,			m_windowflags);
+			checkbitset("no_collapse",					ImGuiWindowFlags_NoCollapse,			m_windowflags);
+			checkbitset("horizontal_scrollbar",			ImGuiWindowFlags_HorizontalScrollbar,	m_windowflags);
+			checkbitset("no_focus_on_appearing",		ImGuiWindowFlags_NoFocusOnAppearing,	m_windowflags);
+			checkbitset("no_bring_to_front_on_focus",	ImGuiWindowFlags_NoBringToFrontOnFocus,	m_windowflags);
 		}
 
 	private:

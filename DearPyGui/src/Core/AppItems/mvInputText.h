@@ -103,6 +103,7 @@ namespace Marvel {
 			flagop("readonly",    ImGuiInputTextFlags_ReadOnly,         m_flags);
 			flagop("password",    ImGuiInputTextFlags_Password,         m_flags);
 			flagop("on_enter",    ImGuiInputTextFlags_EnterReturnsTrue, m_flags);
+			flagop("scientific",  ImGuiInputTextFlags_CharsScientific,  m_flags);
 		}
 
 		void getExtraConfigDict(PyObject* dict) override
@@ -127,6 +128,7 @@ namespace Marvel {
 			checkbitset("readonly",    ImGuiInputTextFlags_ReadOnly,         m_flags);
 			checkbitset("password",    ImGuiInputTextFlags_Password,         m_flags);
 			checkbitset("on_enter",    ImGuiInputTextFlags_EnterReturnsTrue, m_flags);
+			checkbitset("scientific",  ImGuiInputTextFlags_CharsScientific,  m_flags);
 		}
 
 	private:
