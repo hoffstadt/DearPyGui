@@ -143,7 +143,6 @@ namespace Marvel {
 			{mvPythonDataType::Bool, "horizontal_scrollbar" ,"Allow horizontal scrollbar to appear (off by default)."},
 			{mvPythonDataType::Bool, "no_focus_on_appearing" ,"Disable taking focus when transitioning from hidden to visible state"},
 			{mvPythonDataType::Bool, "no_bring_to_front_on_focus" ,"Disable bringing window to front when taking focus (e.g. clicking on it or programmatically giving it focus)"},
-
 			{mvPythonDataType::String, "label"},
 			{mvPythonDataType::Bool, "show", "sets if the item is shown or not window."},
 			{mvPythonDataType::Object, "on_close", "Callback ran when window is closed"},
