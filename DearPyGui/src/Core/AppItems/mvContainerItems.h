@@ -396,6 +396,8 @@ namespace Marvel {
 
 			// flags
 			flagop("default_open", ImGuiTreeNodeFlags_DefaultOpen, m_flags);
+			flagop("leaf",		   ImGuiTreeNodeFlags_Leaf,        m_flags);
+			flagop("bullet",       ImGuiTreeNodeFlags_Bullet,      m_flags);
 
 
 		}
@@ -414,6 +416,8 @@ namespace Marvel {
 
 			// flags
 			checkbitset("default_open", ImGuiTreeNodeFlags_DefaultOpen, m_flags);
+			checkbitset("leaf",			ImGuiTreeNodeFlags_Leaf,		m_flags);
+			checkbitset("bullet",		ImGuiTreeNodeFlags_Bullet,		m_flags);
 
 		}
 

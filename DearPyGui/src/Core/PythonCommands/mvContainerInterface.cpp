@@ -92,6 +92,8 @@ namespace Marvel {
 			{mvPythonDataType::String, "tip", "Adds a simple tooltip"},
 			{mvPythonDataType::String, "parent", "Parent to add this item to. (runtime adding)"},
 			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)"},
+			{mvPythonDataType::Bool, "leaf", "No collapsing, no arrow (use as a convenience for leaf nodes)."},
+			{mvPythonDataType::Bool, "bullet", "Display a bullet instead of arrow"},
 		}, "Adds a tree node to add items to. Must be closed with the end_tree_node command.",
 		"None", "Containers") });
 
@@ -136,6 +138,12 @@ namespace Marvel {
 			{mvPythonDataType::Bool, "no_resize", "Allows for the window size to be changed or fixed"},
 			{mvPythonDataType::Bool, "no_title_bar", "Title name for the title bar of the window"},
 			{mvPythonDataType::Bool, "no_move", "Allows for the window's position to be changed or fixed"},
+			{mvPythonDataType::Bool, "no_scrollbar" ," Disable scrollbars (window can still scroll with mouse or programmatically)"},
+			{mvPythonDataType::Bool, "no_collapse" ,"Disable user collapsing window by double-clicking on it"},
+			{mvPythonDataType::Bool, "horizontal_scrollbar" ,"Allow horizontal scrollbar to appear (off by default)."},
+			{mvPythonDataType::Bool, "no_focus_on_appearing" ,"Disable taking focus when transitioning from hidden to visible state"},
+			{mvPythonDataType::Bool, "no_bring_to_front_on_focus" ,"Disable bringing window to front when taking focus (e.g. clicking on it or programmatically giving it focus)"},
+
 			{mvPythonDataType::String, "label"},
 			{mvPythonDataType::Bool, "show", "sets if the item is shown or not window."},
 			{mvPythonDataType::Object, "on_close", "Callback ran when window is closed"},
@@ -494,6 +502,13 @@ namespace Marvel {
 		int no_resize = false;
 		int no_title_bar = false;
 		int no_move = false;
+		int no_scrollbar = false;
+		int no_collapse = false;
+		int horizontal_scrollbar = false;
+		int no_focus_on_appearing = false;
+		int no_bring_to_front_on_focus = false;
+
+
 		const char* label = "";
 		int show = true;
 		PyObject* closing_callback = nullptr;
@@ -501,7 +516,8 @@ namespace Marvel {
 		ImGuiWindowFlags flags = ImGuiWindowFlags_NoSavedSettings;
 
 		if (!(*mvApp::GetApp()->getParsers())["add_window"].parse(args, kwargs, __FUNCTION__, &name, &width,
-			&height, &x_pos, &y_pos, &autosize, &no_resize, &no_title_bar, &no_move,
+			&height, &x_pos, &y_pos, &autosize, &no_resize, &no_title_bar, &no_move, &no_scrollbar, 
+			&no_collapse, &horizontal_scrollbar, &no_focus_on_appearing, &no_bring_to_front_on_focus,
 			&label, &show, &closing_callback))
 			return ToPyBool(false);
 
@@ -630,9 +646,11 @@ namespace Marvel {
 		const char* tip = "";
 		const char* parent = "";
 		const char* before = "";
+		int leaf = false;
+		int bullet = false;
 
 		if (!(*mvApp::GetApp()->getParsers())["add_tree_node"].parse(args, kwargs, __FUNCTION__, &name,
-			&default_open, &label, &show, &tip, &parent, &before))
+			&default_open, &label, &show, &tip, &parent, &before, &leaf, &bullet))
 			return ToPyBool(false);
 
 		mvAppItem* item = new mvTreeNode(name);
