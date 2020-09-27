@@ -224,8 +224,6 @@ with window("Dear PyGui Demo", x_pos=100, y_pos=100, width=800, height=800):
                     if i>9 and i<20:
                         add_same_line()
 
-
-
         with tree_node("Multi-component Widgets"):
         
             add_input_float2("input float2", source="float2")
