@@ -11,12 +11,13 @@ namespace Marvel {
 			{mvPythonDataType::String, "default_value"},
 			{mvPythonDataType::String, "hint"},
 			{mvPythonDataType::Bool, "multiline"},
-			{mvPythonDataType::Bool, "no_spaces"},
+			{mvPythonDataType::Bool, "no_spaces", "Filter out spaces, tabs"},
 			{mvPythonDataType::Bool, "uppercase"},
-			{mvPythonDataType::Bool, "decimal"},
-			{mvPythonDataType::Bool, "hexadecimal"},
+			{mvPythonDataType::Bool, "decimal", "Allow 0123456789.+-*/"},
+			{mvPythonDataType::Bool, "hexadecimal", "Allow 0123456789ABCDEFabcdef"},
 			{mvPythonDataType::Bool, "readonly"},
-			{mvPythonDataType::Bool, "password", "hides text values"},
+			{mvPythonDataType::Bool, "password", "Password mode, display all characters as '*'"},
+			{mvPythonDataType::Bool, "scientific", "Allow 0123456789.+-*/eE (Scientific notation input)"},
 			{mvPythonDataType::Object, "callback", "Registers a callback"},
 			{mvPythonDataType::Object, "callback_data", "Callback data"},
 			{mvPythonDataType::String, "tip", "Adds a simple tooltip"},
@@ -183,6 +184,7 @@ namespace Marvel {
 		int hexadecimal = false;
 		int readonly = false;
 		int password = false;
+		int scientific = false;
 		PyObject* callback = nullptr;
 		PyObject* callback_data = nullptr;
 		const char* tip = "";
@@ -198,7 +200,7 @@ namespace Marvel {
 		int flags = 0;
 
 		if (!(*mvApp::GetApp()->getParsers())["add_input_text"].parse(args, kwargs, __FUNCTION__, &name, &default_value, &hint, &multiline, &no_spaces,
-			&uppercase, &decimal, &hexadecimal, &readonly, &password, &callback, &callback_data, &tip, &parent, &before, &source, &width, &on_enter,
+			&uppercase, &decimal, &hexadecimal, &readonly, &password, &scientific, &callback, &callback_data, &tip, &parent, &before, &source, &width, &on_enter,
 			&label, &popup, &show))
 			return ToPyBool(false);
 

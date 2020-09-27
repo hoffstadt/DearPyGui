@@ -163,6 +163,7 @@ with window("Dear PyGui Demo", x_pos=100, y_pos=100, width=800, height=800):
                 add_input_text("hexdecimal", hexadecimal=True)
                 add_input_text("uppercase", uppercase=True)
                 add_input_text("no blank", no_spaces=True)
+                add_input_text("scientific", scientific=True)
             
             with tree_node("Password Input"):
                 add_input_text("password", password=True, source="password")
