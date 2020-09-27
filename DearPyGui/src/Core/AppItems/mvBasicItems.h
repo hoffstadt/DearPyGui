@@ -235,7 +235,7 @@ namespace Marvel {
 
 		MV_APPITEM_TYPE(mvAppItemType::Combo, "add_combo")
 
-		mvCombo(const std::string& name, const std::string& default_value, const std::string& dataSource)
+			mvCombo(const std::string& name, const std::string& default_value, const std::string& dataSource)
 			: mvStringPtrBase(name, default_value, dataSource)
 		{}
 
@@ -244,7 +244,7 @@ namespace Marvel {
 
 			pushColorStyles();
 
-			if (ImGui::BeginCombo(m_label.c_str(), m_value->c_str())) // The second parameter is the label previewed before opening the combo.
+			if (ImGui::BeginCombo(m_label.c_str(), m_value->c_str(), m_flags)) // The second parameter is the label previewed before opening the combo.
 			{
 				for (const auto& name : m_items)
 				{
@@ -280,6 +280,47 @@ namespace Marvel {
 				return;
 			mvGlobalIntepreterLock gil;
 			if (PyObject* item = PyDict_GetItemString(dict, "items")) m_items = ToStringVect(item);
+
+			// helpers for bit flipping
+			auto flagop = [dict](const char* keyword, int flag, int& flags)
+			{
+				if (PyObject* item = PyDict_GetItemString(dict, keyword)) ToBool(item) ? flags |= flag : flags &= ~flag;
+			};
+
+			auto conflictingflagop = [dict](const std::vector<std::string>& keywords, std::vector<int> flags, int& mflags)
+			{
+
+				for (int i = 0; i < keywords.size(); i++)
+				{
+					if (PyObject* item = PyDict_GetItemString(dict, keywords[i].c_str()))
+					{
+						//turning all conflicting flags false
+						for (const auto& flag : flags) mflags &= ~flag;
+						//writing only the first conflicting flag
+						ToBool(item) ? mflags |= flags[i] : mflags &= ~flags[i];
+						break;
+					}
+				}
+
+			};
+
+			flagop("popup_align_left", ImGuiComboFlags_PopupAlignLeft, m_flags);
+			flagop("no_arrow_button", ImGuiComboFlags_NoArrowButton, m_flags);
+			flagop("no_preview", ImGuiComboFlags_NoPreview, m_flags);
+
+			std::vector<std::string> HeightKeywords{
+				"height_small",
+				"height_regular",
+				"height_large",
+				"height_largest" };
+			std::vector<int> HeightFlags{
+				ImGuiComboFlags_HeightSmall,
+				ImGuiComboFlags_HeightRegular,
+				ImGuiComboFlags_HeightLarge,
+				ImGuiComboFlags_HeightLargest };
+
+			conflictingflagop(HeightKeywords, HeightFlags, m_flags);
+
 		}
 
 		void getExtraConfigDict(PyObject* dict) override
@@ -288,10 +329,23 @@ namespace Marvel {
 				return;
 			mvGlobalIntepreterLock gil;
 			PyDict_SetItemString(dict, "items", ToPyList(m_items));
+
+			// helper to check and set bit
+			auto checkbitset = [dict](const char* keyword, int flag, const int& flags)
+			{
+				PyDict_SetItemString(dict, keyword, ToPyBool(flags & flag));
+			};
+			checkbitset("popup_align_left", ImGuiComboFlags_PopupAlignLeft, m_flags);
+			checkbitset("height_small", ImGuiComboFlags_HeightSmall, m_flags);
+			checkbitset("height_regular", ImGuiComboFlags_HeightRegular, m_flags);
+			checkbitset("height_large", ImGuiComboFlags_HeightLarge, m_flags);
+			checkbitset("height_largest", ImGuiComboFlags_HeightLargest, m_flags);
+			checkbitset("no_arrow_button", ImGuiComboFlags_NoArrowButton, m_flags);
+			checkbitset("no_preview", ImGuiComboFlags_NoPreview, m_flags);
 		}
 
 	private:
-
+		ImGuiComboFlags m_flags = ImGuiComboFlags_None;
 		std::vector<std::string> m_items;
 	};
 
