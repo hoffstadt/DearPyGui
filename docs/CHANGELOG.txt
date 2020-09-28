@@ -23,7 +23,7 @@ HOW TO UPDATE?
 - Please report any issue!
 
 -----------------------------------------------------------------------
- VERSION 0.4.0 WIP
+ VERSION 0.4.0 (9/28/2020)
 -----------------------------------------------------------------------
 
 Decorated log: https://github.com/hoffstadt/DearPyGui/releases/tag/v0.4.0
@@ -32,6 +32,7 @@ Updates:
 - ImPlot: upgraded to commit 90cbb56
 
 Fixes:
+- Other:      Too many fixes to count.
 - Threadpool: Fixed issue with some tasks going uncompleted
 - Popups:     Can now be added anywhere (don't have to be right after their parent)
 - Tooltips:   Can now be added anywhere (don't have to be right after their parent)
@@ -43,9 +44,7 @@ Breaking Changes:
 - Modules:        wrapper module is now called simple
 - Line Series:    Removed "fill" keyword (use the new shade series)
 - Plots:          Removed all flags in favor of keywords
-- Pie Chart:      Removed "add_pie_chart"
-- Pie Chart:      Removed "add_pie_chart_data"
-- Pie Chart:      Removed "clear_pie_chart_data"
+- Plots:          x/y_axis_name keyword now required
 - Window:         For the "add_window" command, we changed start_x,start_y
                   to x_pos, y_pos
 - Window:         For the "add_window" command, changed resizable keyword to no_resize
@@ -61,6 +60,7 @@ Breaking Changes:
 
 New Commands:
 
+- Demo:           Added "show_demo" command to dearpygui.demo
 - Widgets:        Added "add_color_button"
 - Plots:          Added "add_drag_point"
 - Plots:          Added "add_drag_line"
@@ -88,10 +88,11 @@ New Commands:
 - Plots:          Added "add_heat_series" command
 - Radio Button:   Added "horizontal" keyword to radio button #215
 - Radio Button:   Added "update_bounds" keyword to add_*_series commands
-
-Other:
-
-- ColorPicker:    Now shows an alpha bar
+- Color Items:    Alot of new flags
+- Columns:        Added "managed_columns"
+- Columns:        Added "add_columns"
+- Columns:        Added "add_next_column"
+- Selectable:     Added "span_columns" keyword
 
 -----------------------------------------------------------------------
  VERSION 0.3.7 (9/14/2020)
