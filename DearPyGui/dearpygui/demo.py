@@ -22,9 +22,115 @@ def hsv_to_rgb(h, s, v):
     if i == 4: return (255*t, 255*p, 255*v)
     if i == 5: return (255*v, 255*p, 255*q)
 
+def demo_main_callback(sender, data):
+
+    set_value("Mouse Position##demo", str(get_mouse_pos()))
+
+    # keys
+    if is_key_down(mvKey_A):
+        set_value("A key Down##demo", "True")
+    else:
+        set_value("A key Down##demo", "False")
+
+    if is_key_pressed(mvKey_W):
+        set_value("W key Pressed##demo", "True")
+    else:
+        set_value("W key Pressed##demo", "False")
+
+    if is_key_released(mvKey_Q):
+        set_value("Q key Released##demo", "True")
+    else:
+        set_value("Q key Released##demo", "False")
+
+    # mouse dragging
+    if is_mouse_button_dragging(mvMouseButton_Left, 10):
+        set_value("Left Mouse Dragging##demo", "True")
+    else:
+        set_value("Left Mouse Dragging##demo", "False")
+
+    if is_mouse_button_dragging(mvMouseButton_Right, 10):
+        set_value("Right Mouse Dragging##demo", "True")
+    else:
+        set_value("Right Mouse Dragging##demo", "False")
+
+    if is_mouse_button_dragging(mvMouseButton_Middle, 10):
+        set_value("Middle Mouse Dragging##demo", "True")
+    else:
+        set_value("Middle Mouse Dragging##demo", "False")
+
+    # mouse down
+    if is_mouse_button_down(mvMouseButton_Left):
+        set_value("Left Mouse Down##demo", "True")
+    else:
+        set_value("Left Mouse Down##demo", "False")
+
+    if is_mouse_button_down(mvMouseButton_Right):
+        set_value("Right Mouse Down##demo", "True")
+    else:
+        set_value("Right Mouse Down##demo", "False")
+
+    if is_mouse_button_down(mvMouseButton_Middle):
+        set_value("Middle Mouse Down##demo", "True")
+    else:
+        set_value("Middle Mouse Down##demo", "False")
+
+    # mouse clicked
+    if is_mouse_button_clicked(mvMouseButton_Left):
+        set_value("Left Mouse Clicked##demo", "True")
+    else:
+        set_value("Left Mouse Clicked", "False")
+
+    if is_mouse_button_clicked(mvMouseButton_Right):
+        set_value("Right Mouse Clicked##demo", "True")
+    else:
+        set_value("Right Mouse Clicked##demo", "False")
+
+    if is_mouse_button_clicked(mvMouseButton_Middle):
+        set_value("Middle Mouse Clicked##demo", "True")
+    else:
+        set_value("Middle Mouse Clicked##demo", "False")
+
+    # mouse double clicked
+    if is_mouse_button_double_clicked(mvMouseButton_Left):
+        set_value("Left Mouse Double Clicked##demo", "True")
+    else:
+        set_value("Left Mouse Double Clicked##demo", "False")
+
+    if is_mouse_button_double_clicked(mvMouseButton_Right):
+        set_value("Right Mouse Double Clicked##demo", "True")
+    else:
+        set_value("Right Mouse Double Clicked##demo", "False")
+
+    if is_mouse_button_double_clicked(mvMouseButton_Middle):
+        set_value("Middle Mouse Double Clicked##demo", "True")
+    else:
+        set_value("Middle Mouse Double Clicked##demo", "False")
+
+    # mouse released
+    if is_mouse_button_released(mvMouseButton_Left):
+        set_value("Left Mouse Released##demo", "True")
+    else:
+        set_value("Left Mouse Released##demo", "False")
+
+    if is_mouse_button_released(mvMouseButton_Right):
+        set_value("Right Mouse Released##demo", "True")
+    else:
+        set_value("Right Mouse Released##demo", "False")
+
+    if is_mouse_button_released(mvMouseButton_Middle):
+        set_value("Middle Mouse Released##demo", "True")
+    else:
+        set_value("Middle Mouse Released##demo", "False")
+
 def show_demo():
 
-    with window("Dear PyGui Demo", x_pos=100, y_pos=100, width=800, height=800):
+    set_render_callback(demo_main_callback)
+
+    def on_demo_close(sender, data):
+        delete_item("Dear PyGui Demo")
+        set_render_callback(None)
+
+    with window("Dear PyGui Demo", x_pos=100, y_pos=100, width=800, height=800, on_close=on_demo_close):
 
         with menu_bar("MenuBar##demo"):
 
@@ -240,6 +346,8 @@ def show_demo():
                 #add_text("Color button only:")
                 add_text("This section is not ready! But will completed sometime during the 0.4.x releases!")
 
+
+
             with tree_node("Multi-component Widgets##demo"):
         
                 add_input_float2("input float2##demo", source="float2")
@@ -326,6 +434,74 @@ def show_demo():
                         for i in range(0, 100):
                             add_button(f"{i}##childbutton##demo")
 
+            with tree_node("Widgets Width##demo"):
+                
+                add_text("Width=100")
+                add_drag_float("float##demowidths1", width=100)
+
+                add_text("Width=-100")
+                add_drag_float("float##demowidths2", width=-100)
+
+                add_text("Width=-1")
+                add_drag_float("float##demowidths3", width=-1)
+
+                add_text("group with width=75")
+                with group("##demowidgetWidthgroup", width=75):
+                    add_drag_float("float##demowidths4")
+                    add_drag_float("float##demowidths5")
+                    add_drag_float("float##demowidths6")
+
+            with tree_node("Basic Horizontal Layout##demo"):
+                add_text("(Use add_same_line(), to keep adding items to the right of the preceding item)")
+                add_text("Normal buttons")
+                add_same_line()
+                add_button("Banana##demo")
+                add_same_line()
+                add_button("Apple##demo")
+                add_same_line()
+                add_button("Corniflower##demo")
+
+                add_text("Small buttons")
+                add_same_line()
+                add_button("Like this one##demo", small=True)
+                add_same_line()
+                add_text("can fit within a text block")
+
+                add_text("Aligned")
+                add_same_line(xoffset=150)
+                add_text("x=150")
+                add_same_line(xoffset=300)
+                add_text("x=300")
+
+                add_text("Aligned")
+                add_same_line(xoffset=150)
+                add_button("x=150##demo1", small=True)
+                add_same_line(xoffset=300)
+                add_button("x=300##demo1", small=True)
+
+                add_checkbox("My##demo")
+                add_same_line()
+                add_checkbox("Tailor##demo")
+                add_same_line()
+                add_checkbox("is##demo")
+                add_same_line()
+                add_checkbox("rich##demo")
+
+                add_text("Lists:")
+                add_listbox("##demolistbox1", items=["AAAA", "BBBB", "CCCC", "DDDD"], default_value=0, width=100)
+                add_same_line()
+                add_listbox("##demolistbox2", items=["AAAA", "BBBB", "CCCC", "DDDD"], default_value=1, width=100)
+                add_same_line()
+                add_listbox("##demolistbox3", items=["AAAA", "BBBB", "CCCC", "DDDD"], default_value=2, width=100)
+                add_same_line()
+                add_listbox("##demolistbox4", items=["AAAA", "BBBB", "CCCC", "DDDD"], default_value=3, width=100)
+                
+
+                add_text("Spacing(100):")
+                add_button("A##demospacing", width=50, height=50)
+                add_same_line(spacing=100)
+                add_button("B##demospacing", width=50, height=50)
+
             with tree_node("Tabs##demo"):
                 with tree_node("Basic##tabs##demo"):
                     with tab_bar("Basic Tabbar##demo"):
@@ -335,6 +511,19 @@ def show_demo():
                             add_text("This is the broccoli tab!")
                         with tab("Cucumber##demo"):
                             add_text("This is the cucumber tab!")
+
+            with tree_node("Groups##demo123"):
+                add_text("Groups can be used to bundle widths together so that you can use functions such as is_item_hovered or add_same_line on the whole group.")
+                with group("group##demotabexamples", tip="The group is hovered"):
+                    add_button("AAA##demogroup")
+                    add_button("BBB##demogroup")
+                    add_button("CCC##demogroup")
+
+                add_text("Horizontal group:")
+                with group("group##demotabexamples1", horizontal=True):
+                    add_button("AAA##demogroup1")
+                    add_button("BBB##demogroup1")
+                    add_button("CCC##demogroup1")
 
         with collapsing_header("Tooltips##demo"):
             add_text("Hover me for a fancy tooltip")
@@ -379,11 +568,18 @@ def show_demo():
                     log_info(data)
                 add_button("Select Directory##demo", callback = lambda sender, data: select_directory_dialog(directory_selected))
 
+            with tree_node("Menus inside a regular window##demo"):
+                add_text("Below we are testing adding menu items to a regular window. It's rather unusual but should work")
+                add_separator()
+                add_menu_item("Menu item##demotestingmenus", shortcut="CTRL+M")
+                with menu("Menu inside a regular window##demo"):
+                    add_menu_item("Disabled item##demotestingmenus", enabled=False)
+                    add_menu_item("New##demotestingmenus")
+
         with collapsing_header("Columns##demo"):
 
-            add_text("This section is not ready! But will completed sometime during the 0.4.x releases!")
-
             with tree_node("Basic##columns##demo"):
+                add_text("This uses managed columns (add_managed_columns)")
                 add_text("Without border:")
                 add_separator()
                 with managed_columns("columns1##demo", 3, border=False):
@@ -419,6 +615,7 @@ def show_demo():
 
             with tree_node("Borders##columns##demo"):
 
+                add_text("This uses managed columns (add_managed_columns)")
                 with managed_columns("Columns3##demo", 4):
 
                     def replicated_cell(i):
@@ -433,8 +630,45 @@ def show_demo():
                         replicated_cell(i)
                 add_separator()
 
-        with collapsing_header("Drawings##demo"):
+            with tree_node("Mixed items##columns##demo"):
+                add_text("This uses raw columns (add_columns/add_next_column)")
+                add_separator()
+                add_columns("demo##columns", 3)
+                add_text("Hello")
+                add_next_column()
+                add_text("PyGui")
+                add_next_column()
+                add_text("Sailer")
+                add_next_column()
+                add_button("Banana##democolumns")
+                add_next_column()
+                add_button("Apple##democolumns")
+                add_next_column()
+                add_button("Corniflower##democolumns")
+                add_next_column()
+                add_next_column()
+                add_input_float("red##democoluns")
+                add_next_column()
+                add_input_float("blue##democoluns")
+                add_next_column()
+                add_next_column()
+                add_text("An extra line here")
+                add_next_column()
+                add_next_column()
+                with collapsing_header("Category A##democolumns"):
+                    add_text("blah blah")
+                    add_separator()
+                add_next_column()
+                with collapsing_header("Category B##democolumns"):
+                    add_text("blah blah")
+                add_next_column()
+                with collapsing_header("Category C##democolumns"):
+                    add_text("blah blah")
+                add_columns("demo##columnsend", 1)
+                add_separator()
 
+        with collapsing_header("Drawings##demo"):
+            add_text("This section is not ready! But will completed sometime during the 0.4.x releases!")
             def UpdateDrawing(sender, data):
                 set_drawing_origin("drawing##widget##demo", get_value("X Origin"), get_value("Y Origin##demo"))
                 set_drawing_scale("drawing##widget##demo", get_value("X Scale##demo"), get_value("Y Scale##demo"))
@@ -503,7 +737,7 @@ def show_demo():
                 for i in range(0, 100):
                     x2data.append([1/(i+1), (1/(i+1))**2])
 
-                add_text("Anit-aliasing can be enabled from the plot's context menu (see Help).", bullet=True)
+                add_text("Anti-aliasing can be enabled from the plot's context menu (see Help).", bullet=True)
                 add_plot("Line Plot##demo", x_axis_name="x", y_axis_name="y", height=400)
                 add_line_series("Line Plot##demo", "0.5 + 0.5 * sin(x)", sindata)
                 add_line_series("Line Plot##demo", "x^2", x2data)
@@ -607,6 +841,45 @@ def show_demo():
                           [0.1, 2.0, 0.0, 1.4, 0.0, 1.9, 6.3]]
                 add_heat_series("Heat Plot##demo", "heat data", values, 7, 7, 0, 6)
 
+            with tree_node("Annotations##demo"):
+                
+                add_plot("Annotations##plotsdemo", height=400)
+                add_annotation("Annotations##plotsdemo", "BL", 0.25, 0.25, -15, 15, color=[255, 255, 0, 255])
+                add_annotation("Annotations##plotsdemo", "BR", 0.75, 0.25, 15, 15, color=[255, 255, 0, 255])
+                add_annotation("Annotations##plotsdemo", "TR not clampled", 0.75, 0.75, -15, -15, color=[255, 255, 0, 255], clamped=False)
+                add_annotation("Annotations##plotsdemo", "TL", 0.25, 0.75, -15, -15, color=[255, 255, 0, 255])
+                add_annotation("Annotations##plotsdemo", "Center", 0.5, 0.5, 0, 0, color=[255, 255, 0, 255])
+
+            with tree_node("Drag Lines and Points##demo"):
+                
+                add_plot("##dragplotsdemo", height=400)
+                add_drag_line("##dragplotsdemo", "dline1", source="floatpp", color=[255, 0, 0, 255])
+                add_drag_line("##dragplotsdemo", "dline2", source="float4pp", color=[255, 255, 0, 255], y_line=True)
+                add_drag_point("##dragplotsdemo", "dpoint1", source="float2pp", color=[255, 0, 255, 255])
+
+            with tree_node("Querying##demo"):
+                add_text("Click and drag the middle mouse button!")
+                def query(sender, data):
+                    set_plot_xlimits("Plot2##demoquery", data[0], data[1])
+                    set_plot_ylimits("Plot2##demoquery", data[2], data[3])
+
+                def plot_callback(sender, data):
+                    clear_plot("Plot1##demoquery")
+                    clear_plot("Plot2##demoquery")
+
+                    sindata = []
+                    for i in range(0, 1000):
+                        sindata.append([i/1000, 0.5 + 0.5*sin(50*i/1000)])
+
+                sindata = []
+                for i in range(0, 1000):
+                    sindata.append([i/1000, 0.5 + 0.5*sin(50*i/1000)])
+     
+                add_plot("Plot1##demoquery", height=400, query_callback=query, query=True, no_menus=True)
+                add_plot("Plot2##demoquery", height=400, query_callback=query, no_menus=True, no_legend=True)
+                add_line_series("Plot1##demoquery", "0.5 + 0.5 * sin(x)", sindata)
+                add_line_series("Plot2##demoquery", "0.5 + 0.5 * sin(x)", sindata)
+
         with collapsing_header("Simple Tables##demo"):
 
             add_button("Delete row 6##demo", callback=lambda sender, data: delete_row("Table##widget##demo", 6))
@@ -657,3 +930,26 @@ def show_demo():
 
         with collapsing_header("Inputs, Navigation, & Focus##demo"):
             add_text("This section is not ready! But will completed sometime during the 0.4.x releases!")
+
+            add_text("Key Polling:")
+            add_label_text("A key Down##demo", value="False", color=(0,200,255))
+            add_label_text("W key Pressed##demo", value="False", color=(0,200,255))
+            add_label_text("Q key Released##demo", value="False", color=(0,200,255))
+            add_spacing()
+            add_text("Mouse Polling:")
+            add_label_text("Mouse Position##demo", value="(0,0)", color=(0,200,255))
+            add_label_text("Left Mouse Dragging##demo", value="False", color=(0,200,255))
+            add_label_text("Middle Mouse Dragging##demo", value="False", color=(0,200,255))
+            add_label_text("Right Mouse Dragging##demo", value="False", color=(0,200,255))
+            add_label_text("Left Mouse Clicked##demo", value="False", color=(0,200,255))
+            add_label_text("Middle Mouse Clicked##demo", value="False", color=(0,200,255))
+            add_label_text("Right Mouse Clicked##demo", value="False", color=(0,200,255))
+            add_label_text("Left Mouse Double Clicked##demo", value="False", color=(0,200,255))
+            add_label_text("Middle Mouse Double Clicked##demo", value="False", color=(0,200,255))
+            add_label_text("Right Mouse Double Clicked##demo", value="False", color=(0,200,255))
+            add_label_text("Left Mouse Down##demo", value="False", color=(0,200,255))
+            add_label_text("Middle Mouse Down##demo", value="False", color=(0,200,255))
+            add_label_text("Right Mouse Down##demo", value="False", color=(0,200,255))
+            add_label_text("Left Mouse Released##demo", value="False", color=(0,200,255))
+            add_label_text("Middle Mouse Released##demo", value="False", color=(0,200,255))
+            add_label_text("Right Mouse Released##demo", value="False", color=(0,200,255))
