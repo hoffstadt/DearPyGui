@@ -119,4 +119,85 @@ namespace Marvel {
 
 	};
 
+	//-----------------------------------------------------------------------------
+	// mvColumn
+	//-----------------------------------------------------------------------------
+	class mvColumn : public mvAppItem
+	{
+
+	public:
+
+		MV_APPITEM_TYPE(mvAppItemType::ColumnSet, "add_columns")
+
+			mvColumn(const std::string& name, int columns)
+			: mvAppItem(name)
+		{
+			if (columns < 2)
+				m_columns = 2;
+			else if (columns > 64)
+				m_columns = 64;
+			else
+				m_columns = columns;
+		}
+
+		void draw() override
+		{
+			ImGui::Columns(m_columns, m_name.c_str(), m_border);
+		}
+
+		void setExtraConfigDict(PyObject* dict) override
+		{
+			if (dict == nullptr)
+				return;
+			mvGlobalIntepreterLock gil;
+			if (PyObject* item = PyDict_GetItemString(dict, "border")) m_border = ToBool(item);
+			if (PyObject* item = PyDict_GetItemString(dict, "columns"))
+			{
+				m_columns = ToInt(item);
+
+				if (m_columns < 2)
+					m_columns = 2;
+				else if (m_columns > 64)
+					m_columns = 64;
+			}
+		}
+
+		void getExtraConfigDict(PyObject* dict) override
+		{
+			if (dict == nullptr)
+				return;
+			mvGlobalIntepreterLock gil;
+			PyDict_SetItemString(dict, "border", ToPyBool(m_border));
+			PyDict_SetItemString(dict, "columns", ToPyInt(m_columns));
+		}
+
+	private:
+
+		int                m_columns = 1;
+		bool               m_border = true;
+
+	};
+
+	//-----------------------------------------------------------------------------
+	// mvNextColumn
+	//-----------------------------------------------------------------------------
+	class mvNextColumn : public mvAppItem
+	{
+
+	public:
+
+		MV_APPITEM_TYPE(mvAppItemType::NextColumn, "add_next_column")
+
+		mvNextColumn(const std::string& name)
+			: mvAppItem(name)
+		{
+		}
+
+		void draw() override
+		{
+			ImGui::NextColumn();
+		}
+
+	};
+
 }
