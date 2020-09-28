@@ -155,7 +155,7 @@ with window("Dear PyGui Demo", x_pos=100, y_pos=100, width=800, height=800):
                     " processors (all in the P5 microarchitecture).\n"
                     "*/\n\n"
                     "label:\n"
-                    "\tlock cmpxchg8b eax\n")
+                    "\tlock cmpxchg8b eax\n", height=300)
 
             with tree_node("Filtered Text Input"):
                 add_input_text("default")
@@ -367,17 +367,17 @@ with window("Dear PyGui Demo", x_pos=100, y_pos=100, width=800, height=800):
                     add_text("Hovered")
                     add_separator()
 
-                add_selectable("0000")
+                add_selectable("0000", span_columns=True)
                 add_text("One")
                 add_text("/path/one")
                 add_text("0")
 
-                add_selectable("0001")
+                add_selectable("0001", span_columns=True)
                 add_text("Two")
                 add_text("/path/two")
                 add_text("0")
 
-                add_selectable("0003")
+                add_selectable("0003", span_columns=True)
                 add_text("Three")
                 add_text("/path/three")
                 add_text("0")

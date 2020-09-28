@@ -202,6 +202,7 @@ namespace Marvel {
 			{mvPythonDataType::String, "label"},
 			{mvPythonDataType::String, "popup"},
 			{mvPythonDataType::Bool, "show"},
+			{mvPythonDataType::Bool, "span_columns"},
 		}, "Adds a selectable.", "None", "Adding Widgets") });
 
 		parsers->insert({ "add_button", mvPythonParser({
@@ -851,12 +852,13 @@ namespace Marvel {
 		const char* label = "";
 		const char* popup = "";
 		int show = true;
+		int span_columns = false;
 
 		ImGuiSelectableFlags flags = ImGuiSelectableFlags_None;
 
 		if (!(*mvApp::GetApp()->getParsers())["add_selectable"].parse(args, kwargs, __FUNCTION__, &name,
 			&default_value, &callback, &callback_data, &tip, &parent, &before, &source, &disabled,
-			&label, &popup, &show))
+			&label, &popup, &show, &span_columns))
 			return ToPyBool(false);
 
 		mvAppItem* item = new mvSelectable(name, default_value, source);

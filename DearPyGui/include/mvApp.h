@@ -192,15 +192,6 @@ namespace Marvel {
         void                     runAsyncCallback (PyObject* callback, PyObject* data, PyObject* returnname);
         void                     addMTCallback    (PyObject* name, PyObject* data, PyObject* returnname = nullptr);
 
-        template<typename T> 
-        void dispatchRenderCallback(mvAppItemType itemType, mvAppItem* item)
-        {
-            if (item->getType() != itemType) return;
-            T* renderType = static_cast<T*>(item);
-            auto handler = static_cast<mvEventHandler*>(renderType);
-            runCallback(handler->getRenderCallback(), m_activeWindow);
-        }
-
         //-----------------------------------------------------------------------------
         // Timing
         //-----------------------------------------------------------------------------

@@ -230,7 +230,7 @@ def add_input_int4(name: str, default_value: List[int] = ..., callback: Callable
 def add_input_text(name: str, default_value: str = "", hint: str = "", multiline: bool = False, no_spaces: bool = False, 
 				   uppercase: bool = False, decimal: bool = False, hexadecimal: bool = False, readonly: bool = False, 
 				   password: bool = False, scientific: bool = False, callback: Callable = None, callback_data: Any = None, tip: str = "", 
-				   parent: str = "", before: str = "", source: str = "", width: int = 0, on_enter: bool = False, 
+				   parent: str = "", before: str = "", source: str = "", width: int = 0, height: int = 0, on_enter: bool = False, 
 				   label: str = "", popup: str = "", show: bool = True) -> None:
 	"""Adds input for text values."""
 	...
@@ -247,6 +247,10 @@ def add_line_series(plot: str, name: str, data: List[List[float]], color: List[f
 def add_listbox(name: str, items: List[str], default_value: int = 0, callback: Callable = None, callback_data: Any = None, tip: str = "", 
 				parent: str = "", before: str = "", source: str = "", width: int = 0, num_items: int = 3, label: str = "", popup: str = "", show: bool = True) -> None:
 	"""Adds a listbox."""
+	...
+
+def add_managed_columns(name: str, columns: int, border: bool = True, show: bool = True, parent: str = "", before: str = "") -> None:
+	"""Adds a menu to an existing menu bar. Must be followed by a call to end_menu."""
 	...
 
 def add_menu(name: str, label: str = "", show: bool = True, tip: str = "", parent: str = "", before: str = "", enabled: bool = True) -> None:
@@ -309,7 +313,8 @@ def add_scatter_series(plot: str, name: str, data: List[float], marker: int = 2,
 	...
 
 def add_selectable(name: str, default_value: bool = False, callback: Callable = None, callback_data: Any = None, tip: str = "", parent: str = "", 
-				   before: str = "", source: str = "", disabled: bool = False, label: str = "", popup: str = "", show: bool = True) -> None:
+				   before: str = "", source: str = "", disabled: bool = False, label: str = "", popup: str = "", 
+				   show: bool = True, span_columns: bool = False) -> None:
 	"""Adds a selectable."""
 	...
 
