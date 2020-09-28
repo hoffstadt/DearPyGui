@@ -15,12 +15,12 @@ namespace Marvel {
 		{
 		}
 
+		mvSeriesType getSeriesType() override { return mvSeriesType::Scatter; }
+
 		void draw() override
 		{
-			if (m_markerOutlineColor.specified)
-				ImPlot::PushStyleColor(ImPlotCol_MarkerOutline, m_markerOutlineColor);
-			if (m_markerFillColor.specified)
-				ImPlot::PushStyleColor(ImPlotCol_MarkerFill, m_markerFillColor);
+			ImPlot::PushStyleColor(ImPlotCol_MarkerOutline, m_markerOutlineColor.toVec4());
+			ImPlot::PushStyleColor(ImPlotCol_MarkerFill, m_markerFillColor.toVec4());
 
 			ImPlot::PushStyleVar(ImPlotStyleVar_Marker, m_marker);
 			ImPlot::PushStyleVar(ImPlotStyleVar_MarkerSize, m_markerSize);
@@ -28,11 +28,8 @@ namespace Marvel {
 
 			ImPlot::PlotScatter(m_name.c_str(), m_xs.data(), m_ys.data(), m_xs.size());
 
-			if (m_markerOutlineColor.specified)
-				ImPlot::PopStyleColor();
-			if (m_markerFillColor.specified)
-				ImPlot::PopStyleColor();
-
+			ImPlot::PopStyleColor();
+			ImPlot::PopStyleColor();
 			ImPlot::PopStyleVar(3);
 		}
 

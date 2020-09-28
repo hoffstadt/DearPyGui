@@ -12,9 +12,7 @@ namespace Marvel {
 		}, "Sets a callback for a mouse move event. Data is the mouse position in local coordinates.", "None", "Input Polling") });
 
 		parsers->insert({ "set_render_callback", mvPythonParser({
-			{mvPythonDataType::Object, "callback", "Registers a callback"},
-			{mvPythonDataType::Optional},
-			{mvPythonDataType::String, "handler", "Callback will be run when event occurs while this window/child/popup/menu is active (default is main window)"},
+			{mvPythonDataType::Object, "callback", "Registers a callback"}
 		}, "Sets the callback to be ran every frame.", "None", "Input Polling") });
 
 		parsers->insert({ "get_mouse_pos", mvPythonParser({
@@ -688,31 +686,11 @@ namespace Marvel {
 	PyObject* set_render_callback(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		PyObject* callback = nullptr;
-		const char* handler = "MainWindow";
 
-		if (!(*mvApp::GetApp()->getParsers())["set_render_callback"].parse(args, kwargs, __FUNCTION__, &callback, &handler))
+		if (!(*mvApp::GetApp()->getParsers())["set_render_callback"].parse(args, kwargs, __FUNCTION__, &callback))
 			return GetPyNone();
 
-		if (std::string(handler) == "MainWindow")
-			mvApp::GetApp()->setRenderCallback(callback);
-		else
-		{
-
-			mvAppItem* item;
-			item = mvApp::GetApp()->getItem(handler);
-			if (item)
-			{
-				if (item->getType() == mvAppItemType::Window)
-				{
-					auto windowtype = static_cast<mvWindowAppitem*>(item);
-					mvEventHandler* eventhandler = static_cast<mvEventHandler*>(windowtype);
-					eventhandler->setRenderCallback(callback);
-				}
-				else
-					ThrowPythonException("Render callback can only be set for window/child items");
-			}
-		}
-
+		mvApp::GetApp()->setRenderCallback(callback);
 		return GetPyNone();
 	}
 
@@ -740,7 +718,7 @@ namespace Marvel {
 					eventhandler->setResizeCallback(callback);
 				}
 				else
-					ThrowPythonException("Resize callback can only be set for window/child items");
+					ThrowPythonException("Resize callback can only be set for window items");
 			}
 		}
 

@@ -39,6 +39,8 @@ namespace Marvel {
 
 		operator ImVec4()
 		{
+			if (x < 0 || y < 0 || z < 0 || w < 0)
+				return ImVec4(0, 0, 0, -1);
 			return ImVec4{ x, y , z, w};
 		}
 
@@ -58,11 +60,13 @@ namespace Marvel {
 
 		operator ImU32()
 		{
-			return ImGui::ColorConvertFloat4ToU32({ r/255.0f, g/255.0f, b/255.0f, a/255.0f });
+			return ImGui::ColorConvertFloat4ToU32(toVec4());
 		}
 
 		ImVec4 toVec4() const
 		{
+			if (r < 0 || g < 0 || b < 0 || a < 0)
+				return ImVec4(0, 0, 0, -1);
 			return { r / 255.0f, g / 255.0f, b / 255.0f, a / 255.0f };
 		}
 

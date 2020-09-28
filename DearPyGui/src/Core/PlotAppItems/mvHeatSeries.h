@@ -26,6 +26,8 @@ namespace Marvel {
 			}
 		}
 
+		mvSeriesType getSeriesType() override { return mvSeriesType::Heat; }
+
 		void draw() override
 		{
 

@@ -98,8 +98,8 @@ namespace Marvel {
 		ImPlotFlags                   m_flags    = 0;
 		ImPlotAxisFlags               m_xflags  = 0;
 		ImPlotAxisFlags               m_yflags  = 0;
-		ImPlotAxisFlags               m_y2flags  = 0;
-		ImPlotAxisFlags               m_y3flags  = 0;
+		ImPlotAxisFlags               m_y2flags  = ImPlotAxisFlags_NoDecorations;
+		ImPlotAxisFlags               m_y3flags  = ImPlotAxisFlags_NoDecorations;
 		bool                          m_showAnnotations = true;
 		bool                          m_showDragLines = true;
 		bool                          m_showDragPoints = true;
@@ -188,6 +188,11 @@ namespace Marvel {
 
 	public:
 
+		enum class mvSeriesType
+		{
+			None = 0, Line, Area, Bar, Error, Heat, Image, Label, Pie, Scatter, Stem, Shade
+		};
+
 		mvSeries(std::string  name, const ImPlotPoint& boundsMin, const ImPlotPoint& boundsMax);
 		mvSeries(std::string  name, const std::vector<mvVec2>& points);
 		mvSeries(std::string  name, const std::vector<mvVec4>& points);
@@ -196,6 +201,7 @@ namespace Marvel {
 		virtual ~mvSeries() = default;
 
 		virtual void draw() = 0;
+		virtual mvSeriesType getSeriesType() = 0;
 
 		const std::string& getName() const { return m_name; }
 

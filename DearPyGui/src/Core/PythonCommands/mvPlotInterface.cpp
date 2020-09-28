@@ -8,10 +8,10 @@ namespace Marvel {
 		parsers->insert({ "add_plot", mvPythonParser({
 			{mvPythonDataType::String, "name"},
 			{mvPythonDataType::Optional},
-			{mvPythonDataType::String, "xAxisName"},
-			{mvPythonDataType::String, "yAxisName"},
 			{mvPythonDataType::KeywordOnly},
-
+			{mvPythonDataType::String, "x_axis_name"},
+			{mvPythonDataType::String, "y_axis_name"},
+			
 			// plot flags
 			{mvPythonDataType::Bool, "no_legend"},
 			{mvPythonDataType::Bool, "no_menus"},
@@ -207,6 +207,7 @@ namespace Marvel {
 			{mvPythonDataType::KeywordOnly},
 			{mvPythonDataType::Bool, "horizontal"},
 			{mvPythonDataType::Bool, "update_bounds"},
+			{mvPythonDataType::FloatList, "color"},
 		}, "Adds an error series to a plot.", "None", "Plotting") });
 
 		parsers->insert({ "add_bar_series", mvPythonParser({
@@ -1152,7 +1153,7 @@ namespace Marvel {
 		PyObject* data;
 		float weight = 1.0f;
 		PyObject* color = PyTuple_New(4);
-		PyTuple_SetItem(color, 0, PyLong_FromLong(1000));
+		PyTuple_SetItem(color, 0, PyLong_FromLong(-255));
 		PyTuple_SetItem(color, 1, PyLong_FromLong(0));
 		PyTuple_SetItem(color, 2, PyLong_FromLong(0));
 		PyTuple_SetItem(color, 3, PyLong_FromLong(255));
@@ -1190,8 +1191,9 @@ namespace Marvel {
 		auto datapoints = ToVectVec2(data);
 
 		auto mcolor = ToColor(color);
-		if (mcolor.r > 999)
-			mcolor.specified = false;
+
+		if (datapoints.size() == 0)
+			return GetPyNone();
 
 		auto series = new mvLineSeries(name, datapoints, mcolor);
 		series->setWeight(weight);
@@ -1240,6 +1242,9 @@ namespace Marvel {
 
 		auto datapoints = ToVectVec2(data);
 
+		if (datapoints.size() == 0)
+			return GetPyNone();
+
 		auto series = new mvBarSeries(name, datapoints, horizontal);
 		series->setWeight(weight);
 		graph->updateSeries(series, update_bounds);
@@ -1254,13 +1259,13 @@ namespace Marvel {
 		PyObject* data;
 		float weight = 1.0f;
 		PyObject* color = PyTuple_New(4);
-		PyTuple_SetItem(color, 0, PyLong_FromLong(1000));
+		PyTuple_SetItem(color, 0, PyLong_FromLong(-255));
 		PyTuple_SetItem(color, 1, PyLong_FromLong(0));
 		PyTuple_SetItem(color, 2, PyLong_FromLong(0));
 		PyTuple_SetItem(color, 3, PyLong_FromLong(255));
 
 		PyObject* fill = PyTuple_New(4);
-		PyTuple_SetItem(fill, 0, PyLong_FromLong(1000));
+		PyTuple_SetItem(fill, 0, PyLong_FromLong(-255));
 		PyTuple_SetItem(fill, 1, PyLong_FromLong(0));
 		PyTuple_SetItem(fill, 2, PyLong_FromLong(0));
 		PyTuple_SetItem(fill, 3, PyLong_FromLong(255));
@@ -1298,12 +1303,10 @@ namespace Marvel {
 		auto datapoints = ToVectVec2(data);
 
 		auto mcolor = ToColor(color);
-		if (mcolor.r > 999)
-			mcolor.specified = false;
-
 		auto mfill = ToColor(fill);
-		if (mfill.r > 999)
-			mfill.specified = false;
+
+		if(datapoints.size() == 0)
+			return GetPyNone();
 
 		auto series = new mvShadeSeries(name, datapoints, mcolor, mfill);
 		series->setWeight(weight);
@@ -1317,16 +1320,16 @@ namespace Marvel {
 		const char* plot;
 		const char* name;
 		PyObject* data;
-		int marker = 2;
+		int marker = ImPlotMarker_Circle;
 		float size = 4.0f;
 		float weight = 1.0f;
 		PyObject* outline = PyTuple_New(4);
-		PyTuple_SetItem(outline, 0, PyLong_FromLong(1000));
+		PyTuple_SetItem(outline, 0, PyLong_FromLong(-255));
 		PyTuple_SetItem(outline, 1, PyLong_FromLong(0));
 		PyTuple_SetItem(outline, 2, PyLong_FromLong(0));
 		PyTuple_SetItem(outline, 3, PyLong_FromLong(255));
 		PyObject* fill = PyTuple_New(4);
-		PyTuple_SetItem(fill, 0, PyLong_FromLong(1000));
+		PyTuple_SetItem(fill, 0, PyLong_FromLong(-255));
 		PyTuple_SetItem(fill, 1, PyLong_FromLong(0));
 		PyTuple_SetItem(fill, 2, PyLong_FromLong(0));
 		PyTuple_SetItem(fill, 3, PyLong_FromLong(255));
@@ -1364,12 +1367,11 @@ namespace Marvel {
 		auto datapoints = ToVectVec2(data);
 
 		auto mmarkerOutlineColor = ToColor(outline);
-		if (mmarkerOutlineColor.r > 999)
-			mmarkerOutlineColor.specified = false;
 
 		auto mmarkerFillColor = ToColor(fill);
-		if (mmarkerFillColor.r > 999)
-			mmarkerFillColor.specified = false;
+
+		if (datapoints.size() == 0)
+			return GetPyNone();
 
 		graph->updateSeries(new mvScatterSeries(name, datapoints, marker, size, weight, mmarkerOutlineColor,
 			mmarkerFillColor), update_bounds);
@@ -1382,16 +1384,16 @@ namespace Marvel {
 		const char* plot;
 		const char* name;
 		PyObject* data;
-		int marker = 2;
+		int marker = 1;
 		float size = 4.0f;
 		float weight = 1.0f;
 		PyObject* outline = PyTuple_New(4);
-		PyTuple_SetItem(outline, 0, PyLong_FromLong(1000));
+		PyTuple_SetItem(outline, 0, PyLong_FromLong(-255));
 		PyTuple_SetItem(outline, 1, PyLong_FromLong(0));
 		PyTuple_SetItem(outline, 2, PyLong_FromLong(0));
 		PyTuple_SetItem(outline, 3, PyLong_FromLong(255));
 		PyObject* fill = PyTuple_New(4);
-		PyTuple_SetItem(fill, 0, PyLong_FromLong(1000));
+		PyTuple_SetItem(fill, 0, PyLong_FromLong(-255));
 		PyTuple_SetItem(fill, 1, PyLong_FromLong(0));
 		PyTuple_SetItem(fill, 2, PyLong_FromLong(0));
 		PyTuple_SetItem(fill, 3, PyLong_FromLong(255));
@@ -1429,12 +1431,10 @@ namespace Marvel {
 		auto datapoints = ToVectVec2(data);
 
 		auto mmarkerOutlineColor = ToColor(outline);
-		if (mmarkerOutlineColor.r > 999)
-			mmarkerOutlineColor.specified = false;
-
 		auto mmarkerFillColor = ToColor(fill);
-		if (mmarkerFillColor.r > 999)
-			mmarkerFillColor.specified = false;
+
+		if (datapoints.size() == 0)
+			return GetPyNone();
 
 		graph->updateSeries(new mvStemSeries(name, datapoints, marker, size, weight, mmarkerOutlineColor,
 			mmarkerFillColor), update_bounds);
@@ -1520,13 +1520,11 @@ namespace Marvel {
 
 		auto datapoints = ToVectVec2(data);
 
-		auto mcolor = ToColor(color);
-		if (mcolor.r > 999)
-			mcolor.specified = false;
+		if (datapoints.size() == 0)
+			return GetPyNone();
 
+		auto mcolor = ToColor(color);
 		auto mfill = ToColor(fill);
-		if (mfill.r > 999)
-			mfill.specified = false;
 
 		graph->deleteSeries(name);
 		auto aseries = new mvAreaSeries(name, datapoints, mcolor, mfill);
@@ -1547,9 +1545,14 @@ namespace Marvel {
 		PyObject* data;
 		int horizontal = false;
 		int update_bounds = true;
+		PyObject* color = PyTuple_New(4);
+		PyTuple_SetItem(color, 0, PyLong_FromLong(-255));
+		PyTuple_SetItem(color, 1, PyLong_FromLong(0));
+		PyTuple_SetItem(color, 2, PyLong_FromLong(0));
+		PyTuple_SetItem(color, 3, PyLong_FromLong(255));
 
 		if (!(*mvApp::GetApp()->getParsers())["add_error_series"].parse(args, kwargs, __FUNCTION__, 
-			&plot, &name, &data, &horizontal, &update_bounds))
+			&plot, &name, &data, &horizontal, &update_bounds, &color))
 			return GetPyNone();
 
 		if (!PyList_Check(data))
@@ -1578,7 +1581,11 @@ namespace Marvel {
 		mvPlot* graph = static_cast<mvPlot*>(aplot);
 
 		auto datapoints = ToVectVec4(data);
-		auto series = new mvErrorSeries(name, datapoints, horizontal);
+		if (datapoints.size() == 0)
+			return GetPyNone();
+
+		auto mcolor = ToColor(color);
+		auto series = new mvErrorSeries(name, datapoints, horizontal, mcolor);
 		graph->updateSeries(series, update_bounds);
 
 		return GetPyNone();
@@ -1634,6 +1641,8 @@ namespace Marvel {
 		auto datapoints = ToVectVectFloat(data);
 		auto mbounds_min = ToVec2(bounds_min);
 		auto mbounds_max = ToVec2(bounds_max);
+		if (datapoints.size() == 0)
+			return GetPyNone();
 
 		auto series = new mvHeatSeries(name, datapoints, rows, columns, scale_min,
 			scale_max, format, mbounds_min, mbounds_max);
