@@ -13,6 +13,8 @@ namespace Marvel {
 		{
 		}
 
+		mvSeriesType getSeriesType() override { return mvSeriesType::Bar; }
+
 		void draw() override
 		{
 			if(m_horizontal)

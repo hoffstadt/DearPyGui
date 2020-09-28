@@ -62,12 +62,16 @@ def add_column(table: str, name: str, column: List[str]) -> None:
 	"""Adds a column to the end of a table."""
 	...
 
+def add_columns(name:str, columns: int, border: bool = True, show: bool = True, parent: str = "", before: str = "") -> None:
+	"""Sets columns"""
+	...
+
 def add_combo(name: str, items: List[str] = [], default_value: str = "", callback: Callable = None, callback_data: Any = None, tip: str = "", parent: str = "", 
 			  before: str = "", source: str = "", width: int = 0, label: str = "", popup: str = "", show: bool = True) -> None:
 	"""Adds a combo."""
 	...
 
-def add_data(name: str, data: Any) -> None:
+def add_data(name: str, data: Any) -> Any:
 	"""Adds data for later retrieval."""
 	...
 
@@ -145,7 +149,7 @@ def add_dummy(width: int, height: int, name: str = "dummy", parent: str = "", be
 	"""Adds a spacer or 'dummy' object."""
 	...
 
-def add_error_series(plot: str, name: str, data: List[float], horizontal: bool = False, update_bounds: bool = True) -> None:
+def add_error_series(plot: str, name: str, data: List[float], horizontal: bool = False, update_bounds: bool = True, color: List[float] = [0, 0, 0, -1]) -> None:
 	"""Adds an error series to a plot."""
 	...
 
@@ -235,7 +239,7 @@ def add_input_text(name: str, default_value: str = "", hint: str = "", multiline
 	"""Adds input for text values."""
 	...
 
-def add_label_text(name: str, value: str, color: List[float] = [0, 0, 0, -1], tip: str = "", parent: str = "", 
+def add_label_text(name: str, value: str = "", color: List[float] = [0, 0, 0, -1], tip: str = "", parent: str = "", 
 				   before: str = "", source: str = "", label: str = "", popup: str = "", show: bool = True) -> None:
 	"""Adds text with a label. Useful for output values."""
 	...
@@ -266,12 +270,16 @@ def add_menu_item(name: str, shortcut: str = "", check: bool = False, callback: 
 	"""Adds a menu item to an existing menu."""
 	...
 
+def add_next_column(name:str="", show: bool = True, parent: str = "", before: str = "") -> None:
+	"""Changes to next column."""
+	...
+
 def add_pie_series(plot: str, name: str, data: List[List[str, float]], x: float, y: float, radius: float, normalize: bool = False, 
 				   angle: float = 90.0, format: str = "%0.2f", update_bounds: bool = True) -> None:
 	"""Adds a pie series to a plot."""
 	...
 
-def add_plot(name: str, xAxisName: str = "", yAxisName: str = "", no_legend: bool = False, 
+def add_plot(name: str, x_axis_name: str = "", y_axis_name: str = "", no_legend: bool = False, 
 			 no_menus: bool = False, no_box_select: bool = False, no_mouse_pos: bool = False,
 			no_highlight: bool = False, no_child: bool = False, query: bool = False, crosshairs: bool = False, 
 			anti_aliased: bool = False, xaxis_no_gridlines: bool = False, xaxis_no_tick_marks: bool = False, 
@@ -327,7 +335,7 @@ def add_shade_series(plot: str, name: str, data: List[float], color: List[float]
 	"""Adds a shade series to a plot."""
 	...
 
-def add_simple_plot(name: str, value: List[float], overlay: str = "", minscale: float = 0.0, maxscale: float = 0.0, histogram: bool = False, 
+def add_simple_plot(name: str, value: List[float] = [], overlay: str = "", minscale: float = 0.0, maxscale: float = 0.0, histogram: bool = False, 
 					tip: str = "", parent: str = "", before: str = "", width: int = 0, height: int = 0, source: str = "", label: str = "", popup: str = "", show: bool = True) -> None:
 	"""A simple plot for visualization of a set of values"""
 	...
@@ -1103,7 +1111,7 @@ def set_plot_ylimits_auto(plot: str) -> None:
 	"""Sets plots y limits to be automatic."""
 	...
 
-def set_render_callback(callback: Callable, handler: str = "") -> None:
+def set_render_callback(callback: Callable) -> None:
 	"""Sets the callback to be ran every frame."""
 	...
 

@@ -43,8 +43,8 @@ namespace Marvel {
 
 		parsers->insert({ "add_simple_plot", mvPythonParser({
 			{mvPythonDataType::String, "name"},
-			{mvPythonDataType::FloatList, "value", "Tuple of float values"},
 			{mvPythonDataType::KeywordOnly},
+			{mvPythonDataType::FloatList, "value", "Tuple of float values"},
 			{mvPythonDataType::String, "overlay", "overlays text (similar to a plot title)"},
 			{mvPythonDataType::Float, "minscale", "used if autoscale is false"},
 			{mvPythonDataType::Float, "maxscale", "used if autoscale is false"},
@@ -134,8 +134,8 @@ namespace Marvel {
 
 		parsers->insert({ "add_label_text", mvPythonParser({
 			{mvPythonDataType::String, "name"},
-			{mvPythonDataType::String, "value"},
 			{mvPythonDataType::KeywordOnly},
+			{mvPythonDataType::String, "value"},
 			{mvPythonDataType::FloatList, "color"},
 			{mvPythonDataType::String, "tip", "Adds a simple tooltip"},
 			{mvPythonDataType::String, "parent", "Parent this item will be added to. (runtime adding)"},
@@ -294,7 +294,7 @@ namespace Marvel {
 			{mvPythonDataType::Bool, "horizontal"},
 			{mvPythonDataType::String, "popup"},
 			{mvPythonDataType::Bool, "show"},
-		}, "Adds a set of radio buttons.", "None", "Adding Widgets") });
+		}, "Adds a set of radio buttons. If items is empty, nothing will be shown.", "None", "Adding Widgets") });
 
 		parsers->insert({ "add_color_edit3", mvPythonParser({
 			{mvPythonDataType::String, "name"},
@@ -535,7 +535,7 @@ namespace Marvel {
 		float minscale = 0.0f;
 		float maxscale = 0.0f;
 		int histogram = false;
-		PyObject* value;
+		PyObject* value = nullptr;
 		const char* tip = "";
 		const char* parent = "";
 		const char* before = "";
@@ -727,7 +727,7 @@ namespace Marvel {
 	{
 
 		const char* name;
-		const char* value;
+		const char* value = "";
 		PyObject* color = PyTuple_New(4);
 		PyTuple_SetItem(color, 0, PyLong_FromLong(1000));
 		PyTuple_SetItem(color, 1, PyLong_FromLong(0));

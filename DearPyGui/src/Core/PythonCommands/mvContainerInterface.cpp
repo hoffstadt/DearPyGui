@@ -15,6 +15,24 @@ namespace Marvel {
 			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)"},
 		}, "Adds managed columns.", "None", "Containers") });
 
+		parsers->insert({ "add_columns", mvPythonParser({
+			{mvPythonDataType::String, "name"},
+			{mvPythonDataType::Integer, "columns"},
+			{mvPythonDataType::KeywordOnly},
+			{mvPythonDataType::Bool, "border"},
+			{mvPythonDataType::Bool, "show"},
+			{mvPythonDataType::String, "parent", "Parent this item will be added to. (runtime adding)"},
+			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)"},
+		}, "Sets columns.", "None", "Containers") });
+
+		parsers->insert({ "add_next_column", mvPythonParser({
+			{mvPythonDataType::KeywordOnly},
+			{mvPythonDataType::String, "name"},
+			{mvPythonDataType::Bool, "show"},
+			{mvPythonDataType::String, "parent", "Parent this item will be added to. (runtime adding)"},
+			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)"},
+		}, "Changes to next column.", "None", "Containers") });
+
 		parsers->insert({ "add_menu_bar", mvPythonParser({
 			{mvPythonDataType::String, "name"},
 			{mvPythonDataType::KeywordOnly},
@@ -486,6 +504,53 @@ namespace Marvel {
 			mvApp::GetApp()->pushParent(item);
 			return ToPyBool(true);
 		}
+
+		return ToPyBool(false);
+	}
+
+	PyObject* add_columns(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		const char* name;
+		int columns;
+		int border = true;
+		int show = true;
+		const char* parent = "";
+		const char* before = "";
+
+
+		if (!(*mvApp::GetApp()->getParsers())["add_columns"].parse(args, kwargs, __FUNCTION__,
+			&name, &columns, &border, &show, &parent, &before))
+			return ToPyBool(false);
+
+		mvAppItem* item = new mvColumn(name, columns);
+		item->checkConfigDict(kwargs);
+		item->setConfigDict(kwargs);
+		item->setExtraConfigDict(kwargs);
+		if (AddItemWithRuntimeChecks(item, parent, before))
+			return ToPyBool(true);
+
+		return ToPyBool(false);
+	}
+
+	PyObject* add_next_column(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		static int i = 0; i++;
+		std::string sname = std::string("next_column" + std::to_string(i));
+		const char* name = sname.c_str();
+		const char* before = "";
+		const char* parent = "";
+		int show = true;
+
+		if (!(*mvApp::GetApp()->getParsers())["add_next_column"].parse(args, kwargs, __FUNCTION__,
+			&name, &show, &parent, &before))
+			return ToPyBool(false);
+
+		mvAppItem* item = new mvNextColumn(name);
+		item->checkConfigDict(kwargs);
+		item->setConfigDict(kwargs);
+		item->setExtraConfigDict(kwargs);
+		if (AddItemWithRuntimeChecks(item, parent, before))
+			return ToPyBool(true);
 
 		return ToPyBool(false);
 	}

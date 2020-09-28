@@ -97,31 +97,32 @@ namespace Marvel {
 			//-----------------------------------------------------------------------------
 			// Plot Marker Specifications
 			//-----------------------------------------------------------------------------
-			{"mvPlotMarker_None"    , 1 << 0},  // no marker
-			{"mvPlotMarker_Circle"  , 1 << 1},  // a circle marker will be rendered at each point
-			{"mvPlotMarker_Square"  , 1 << 2},  // a square maker will be rendered at each point
-			{"mvPlotMarker_Diamond" , 1 << 3},  // a diamond marker will be rendered at each point
-			{"mvPlotMarker_Up"      , 1 << 4},  // an upward-pointing triangle marker will up rendered at each point
-			{"mvPlotMarker_Down"    , 1 << 5},  // an downward-pointing triangle marker will up rendered at each point
-			{"mvPlotMarker_Left"    , 1 << 6},  // an leftward-pointing triangle marker will up rendered at each point
-			{"mvPlotMarker_Right"   , 1 << 7},  // an rightward-pointing triangle marker will up rendered at each point
-			{"mvPlotMarker_Cross"   , 1 << 8},  // a cross marker will be rendered at each point (not filled)
-			{"mvPlotMarker_Plus"    , 1 << 9},  // a plus marker will be rendered at each point (not filled)
-			{"mvPlotMarker_Asterisk", 1 << 10}, // a asterisk marker will be rendered at each point (not filled)
+			{"mvPlotMarker_None"    , -1},  // no marker
+			{"mvPlotMarker_Circle"  , 0},  // a circle marker will be rendered at each point
+			{"mvPlotMarker_Square"  , 1},  // a square maker will be rendered at each point
+			{"mvPlotMarker_Diamond" , 2},  // a diamond marker will be rendered at each point
+			{"mvPlotMarker_Up"      , 3},  // an upward-pointing triangle marker will up rendered at each point
+			{"mvPlotMarker_Down"    , 4},  // an downward-pointing triangle marker will up rendered at each point
+			{"mvPlotMarker_Left"    , 5},  // an leftward-pointing triangle marker will up rendered at each point
+			{"mvPlotMarker_Right"   , 6},  // an rightward-pointing triangle marker will up rendered at each point
+			{"mvPlotMarker_Cross"   , 7},  // a cross marker will be rendered at each point (not filled)
+			{"mvPlotMarker_Plus"    , 8},  // a plus marker will be rendered at each point (not filled)
+			{"mvPlotMarker_Asterisk", 9}, // a asterisk marker will be rendered at each point (not filled)
 
 			//-----------------------------------------------------------------------------
 			// Built-in ImPlot Color maps
 			//-----------------------------------------------------------------------------
 			{"mvPlotColormap_Default",  0}, // ImPlot default colormap         (n=10)
-			{"mvPlotColormap_Dark"   ,  1}, // a.k.a. matplotlib "Set1"        (n=9)
-			{"mvPlotColormap_Pastel" ,  2}, // a.k.a. matplotlib "Pastel1"     (n=9)
-			{"mvPlotColormap_Paired" ,  3}, // a.k.a. matplotlib "Paired"      (n=12)
-			{"mvPlotColormap_Viridis",  4}, // a.k.a. matplotlib "viridis"     (n=11)
-			{"mvPlotColormap_Plasma" ,  5}, // a.k.a. matplotlib "plasma"      (n=11)
-			{"mvPlotColormap_Hot"    ,  6}, // a.k.a. matplotlib/MATLAB "hot"  (n=11)
-			{"mvPlotColormap_Cool"   ,  7}, // a.k.a. matplotlib/MATLAB "cool" (n=11)
-			{"mvPlotColormap_Pink"   ,  8}, // a.k.a. matplotlib/MATLAB "pink" (n=11)
-			{"mvPlotColormap_Jet"    ,  9}, // a.k.a. MATLAB "jet"             (n=11)
+			{"mvPlotColormap_Deep"   ,  1}, // a.k.a. matplotlib "Set1"        (n=9)
+			{"mvPlotColormap_Dark"   ,  2}, // a.k.a. matplotlib "Set1"        (n=9)
+			{"mvPlotColormap_Pastel" ,  3}, // a.k.a. matplotlib "Pastel1"     (n=9)
+			{"mvPlotColormap_Paired" ,  4}, // a.k.a. matplotlib "Paired"      (n=12)
+			{"mvPlotColormap_Viridis",  5}, // a.k.a. matplotlib "viridis"     (n=11)
+			{"mvPlotColormap_Plasma" ,  6}, // a.k.a. matplotlib "plasma"      (n=11)
+			{"mvPlotColormap_Hot"    ,  7}, // a.k.a. matplotlib/MATLAB "hot"  (n=11)
+			{"mvPlotColormap_Cool"   ,  8}, // a.k.a. matplotlib/MATLAB "cool" (n=11)
+			{"mvPlotColormap_Pink"   ,  9}, // a.k.a. matplotlib/MATLAB "pink" (n=11)
+			{"mvPlotColormap_Jet"    ,  10}, // a.k.a. MATLAB "jet"             (n=11)
 
 			//-----------------------------------------------------------------------------
 			// Theme Color IDs
@@ -557,6 +558,8 @@ namespace Marvel {
 		ADD_PYTHON_FUNCTION(get_item_children)
 
 		// widget commands
+		ADD_PYTHON_FUNCTION(add_next_column)
+		ADD_PYTHON_FUNCTION(add_columns)
 		ADD_PYTHON_FUNCTION(add_date_picker)
 		ADD_PYTHON_FUNCTION(add_time_picker)
 		ADD_PYTHON_FUNCTION(add_input_text)
