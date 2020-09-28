@@ -558,6 +558,8 @@ namespace Marvel {
 		ADD_PYTHON_FUNCTION(get_item_children)
 
 		// widget commands
+		ADD_PYTHON_FUNCTION(add_next_column)
+		ADD_PYTHON_FUNCTION(add_columns)
 		ADD_PYTHON_FUNCTION(add_date_picker)
 		ADD_PYTHON_FUNCTION(add_time_picker)
 		ADD_PYTHON_FUNCTION(add_input_text)

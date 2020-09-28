@@ -65,7 +65,7 @@ namespace Marvel {
 
 		~mvDrawImageCommand() override;
 
-	private:
+	public:
 
 		std::string m_file;
 		mvVec2		m_pmax;

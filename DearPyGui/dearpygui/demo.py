@@ -49,8 +49,10 @@ def show_demo():
                 add_menu_item("Show Style Editor", callback=show_style_editor)
 
         add_text(f'Dear PyGui says hello. ({get_dearpygui_version()})')
+        add_text("This demo is not complete but will continue to be added to throughout the 0.4.x releases!")
 
         with collapsing_header("Window options"):
+            add_text("This section is not ready! But will completed sometime during the 0.4.x releases!")
             add_checkbox("No titlebar", callback=lambda sender, data: configure_item("Dear PyGui Demo", no_title_bar=get_value(sender)))
             add_checkbox("No move", callback=lambda sender, data: configure_item("Dear PyGui Demo", no_move=get_value(sender)))
             add_checkbox("No resize", callback=lambda sender, data: configure_item("Dear PyGui Demo", no_resize=get_value(sender)))
@@ -226,7 +228,7 @@ def show_demo():
                 #        if i>19 and i<29: add_same_line()
                 #
                 #add_text("Color button only:")
-                add_color_button("##colorbutton", color=[255, 255, 0, 150])
+                add_text("This section is not ready! But will completed sometime during the 0.4.x releases!")
 
             with tree_node("Multi-component Widgets"):
         
@@ -297,6 +299,8 @@ def show_demo():
 
         with collapsing_header("Layout & Scolling"):
 
+            add_text("This section is not ready! But will completed sometime during the 0.4.x releases!")
+
             with tree_node("Child windows"):
 
                 with child("child", border=False, width=400):
@@ -366,6 +370,8 @@ def show_demo():
                 add_button("Select Directory", callback = lambda sender, data: select_directory_dialog(directory_selected))
 
         with collapsing_header("Columns"):
+
+            add_text("This section is not ready! But will completed sometime during the 0.4.x releases!")
 
             with tree_node("Basic##columns"):
                 add_text("Without border:")
@@ -445,6 +451,8 @@ def show_demo():
             draw_arrow("drawing##widget", (50, 70), (100, 65), (0, 200, 255), 1, 10)
 
         with collapsing_header("Plots"):
+
+            add_text("This section is not ready! But will completed sometime during the 0.4.x releases!")
 
             with tree_node("Help##plots"):
                 add_text("Plotting User Guide")
@@ -588,3 +596,54 @@ def show_demo():
                           [1.3, 1.2, 0.0, 0.0, 0.0, 3.2, 5.1],
                           [0.1, 2.0, 0.0, 1.4, 0.0, 1.9, 6.3]]
                 add_heat_series("Heat Plot", "heat data", values, 7, 7, 0, 6)
+
+        with collapsing_header("Simple Tables"):
+
+            add_button("Delete row 6", callback=lambda sender, data: delete_row("Table##widget", 6))
+            add_same_line()
+            add_button("Delete col 1", callback=lambda sender, data: delete_column("Table##widget", 1))   
+            add_same_line()
+            add_button("Add row ", callback=lambda sender, data: add_row("Table##widget", ["new1", "new2", "new3", 53]))
+            add_same_line()
+            add_button("Add col ", callback=lambda sender, data: add_column("Table##widget", "New Column", ["new1", "new2", "new3", "new4"]))
+            add_same_line()
+            add_button("Insert row 5", callback=lambda sender, data: insert_row("Table##widget", 5, ["inew1", "inew2", "inew3", "inew4"]))
+            add_same_line()
+            add_button("Insert col 1 ", callback=lambda sender, data:insert_column("Table##widget", 1,  "Inserted Column", ["inew1", "inew2", "inew3", "inew4"]))
+            add_same_line()
+            add_button("Clear Table ", callback=lambda sender, data: clear_table("Table##widget"))
+            add_table("Table##widget", ["Column 1", "Column 2", "Column 3", "Column 4"])
+
+            tabledata = []
+            for i in range(0, 10):
+                row = []
+                for j in range(0, 4):
+                    row.append("Item"+str(i)+"-"+str(j))
+                tabledata.append(row)
+
+            set_table_data("Table##widget", tabledata)
+
+        with collapsing_header("Logging"):
+
+            def LogCallback(sender, data):
+                show_logger()
+                clear_log()
+                loglevel = get_value("Log Level##logging")
+                set_log_level(loglevel)
+                log("Trace Message")
+                log_debug("Debug Message")
+                log_info("Info Message")
+                log_warning("Warning Message")
+                log_error("Error Message")
+
+            add_button("Test Logger", callback=LogCallback)
+            add_same_line(spacing=10)
+            with group("LoggingGroup"):
+                add_text("Log Level")
+                add_radio_button("Log Level##logging", items=("Trace", "Debug", "Info", "Warning", "Error", "Off"))
+
+        with collapsing_header("Filtering"):
+            add_text("This section is not ready! But will completed sometime during the 0.4.x releases!")
+
+        with collapsing_header("Inputs, Navigation, & Focus"):
+            add_text("This section is not ready! But will completed sometime during the 0.4.x releases!")

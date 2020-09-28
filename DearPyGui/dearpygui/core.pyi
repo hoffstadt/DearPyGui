@@ -62,6 +62,10 @@ def add_column(table: str, name: str, column: List[str]) -> None:
 	"""Adds a column to the end of a table."""
 	...
 
+def add_columns(name:str, columns: int, border: bool = True, show: bool = True, parent: str = "", before: str = "") -> None:
+	"""Sets columns"""
+	...
+
 def add_combo(name: str, items: List[str] = [], default_value: str = "", callback: Callable = None, callback_data: Any = None, tip: str = "", parent: str = "", 
 			  before: str = "", source: str = "", width: int = 0, label: str = "", popup: str = "", show: bool = True) -> None:
 	"""Adds a combo."""
@@ -264,6 +268,10 @@ def add_menu_bar(name: str, show: bool = True, parent: str = "", before: str = "
 def add_menu_item(name: str, shortcut: str = "", check: bool = False, callback: Callable = None, callback_data: Any = None, label: str = "", 
 				  show: bool = True, tip: str = "", parent: str = "", before: str = "") -> None:
 	"""Adds a menu item to an existing menu."""
+	...
+
+def add_next_column(name:str="", show: bool = True, parent: str = "", before: str = "") -> None:
+	"""Changes to next column."""
 	...
 
 def add_pie_series(plot: str, name: str, data: List[List[str, float]], x: float, y: float, radius: float, normalize: bool = False, 
