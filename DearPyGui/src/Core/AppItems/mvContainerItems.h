@@ -76,7 +76,7 @@ namespace Marvel {
 				ImGui::SetTooltip("%s", m_tip.c_str());
 
 			// allows this item to have a render callback
-			//registerWindowFocusing();
+			registerWindowFocusing();
 
 			m_width = (int)ImGui::GetWindowWidth();
 			m_height = (int)ImGui::GetWindowHeight();

@@ -129,6 +129,16 @@ def show_demo():
     def on_demo_close(sender, data):
         delete_item("Dear PyGui Demo")
         set_render_callback(None)
+        set_mouse_down_callback(None)
+        set_mouse_drag_callback(None, 10)
+        set_mouse_move_callback(None)
+        set_mouse_double_click_callback(None)
+        set_mouse_click_callback(None)
+        set_mouse_release_callback(None)
+        set_mouse_wheel_callback(None)
+        set_key_down_callback(None)
+        set_key_press_callback(None)
+        set_key_release_callback(None)
 
     with window("Dear PyGui Demo", x_pos=100, y_pos=100, width=800, height=800, on_close=on_demo_close):
 
@@ -345,8 +355,6 @@ def show_demo():
                 #
                 #add_text("Color button only:")
                 add_text("This section is not ready! But will completed sometime during the 0.4.x releases!")
-
-
 
             with tree_node("Multi-component Widgets##demo"):
         
@@ -931,25 +939,53 @@ def show_demo():
         with collapsing_header("Inputs, Navigation, & Focus##demo"):
             add_text("This section is not ready! But will completed sometime during the 0.4.x releases!")
 
-            add_text("Key Polling:")
-            add_label_text("A key Down##demo", value="False", color=(0,200,255))
-            add_label_text("W key Pressed##demo", value="False", color=(0,200,255))
-            add_label_text("Q key Released##demo", value="False", color=(0,200,255))
-            add_spacing()
-            add_text("Mouse Polling:")
-            add_label_text("Mouse Position##demo", value="(0,0)", color=(0,200,255))
-            add_label_text("Left Mouse Dragging##demo", value="False", color=(0,200,255))
-            add_label_text("Middle Mouse Dragging##demo", value="False", color=(0,200,255))
-            add_label_text("Right Mouse Dragging##demo", value="False", color=(0,200,255))
-            add_label_text("Left Mouse Clicked##demo", value="False", color=(0,200,255))
-            add_label_text("Middle Mouse Clicked##demo", value="False", color=(0,200,255))
-            add_label_text("Right Mouse Clicked##demo", value="False", color=(0,200,255))
-            add_label_text("Left Mouse Double Clicked##demo", value="False", color=(0,200,255))
-            add_label_text("Middle Mouse Double Clicked##demo", value="False", color=(0,200,255))
-            add_label_text("Right Mouse Double Clicked##demo", value="False", color=(0,200,255))
-            add_label_text("Left Mouse Down##demo", value="False", color=(0,200,255))
-            add_label_text("Middle Mouse Down##demo", value="False", color=(0,200,255))
-            add_label_text("Right Mouse Down##demo", value="False", color=(0,200,255))
-            add_label_text("Left Mouse Released##demo", value="False", color=(0,200,255))
-            add_label_text("Middle Mouse Released##demo", value="False", color=(0,200,255))
-            add_label_text("Right Mouse Released##demo", value="False", color=(0,200,255))
+            with tree_node("Polling##demoinputs"):
+                add_text("Key Polling:")
+                add_label_text("A key Down##demo", value="False", color=(0,200,255))
+                add_label_text("W key Pressed##demo", value="False", color=(0,200,255))
+                add_label_text("Q key Released##demo", value="False", color=(0,200,255))
+                add_spacing()
+                add_text("Mouse Polling:")
+                add_label_text("Mouse Position##demo", value="(0,0)", color=(0,200,255))
+                add_label_text("Left Mouse Dragging##demo", value="False", color=(0,200,255))
+                add_label_text("Middle Mouse Dragging##demo", value="False", color=(0,200,255))
+                add_label_text("Right Mouse Dragging##demo", value="False", color=(0,200,255))
+                add_label_text("Left Mouse Clicked##demo", value="False", color=(0,200,255))
+                add_label_text("Middle Mouse Clicked##demo", value="False", color=(0,200,255))
+                add_label_text("Right Mouse Clicked##demo", value="False", color=(0,200,255))
+                add_label_text("Left Mouse Double Clicked##demo", value="False", color=(0,200,255))
+                add_label_text("Middle Mouse Double Clicked##demo", value="False", color=(0,200,255))
+                add_label_text("Right Mouse Double Clicked##demo", value="False", color=(0,200,255))
+                add_label_text("Left Mouse Down##demo", value="False", color=(0,200,255))
+                add_label_text("Middle Mouse Down##demo", value="False", color=(0,200,255))
+                add_label_text("Right Mouse Down##demo", value="False", color=(0,200,255))
+                add_label_text("Left Mouse Released##demo", value="False", color=(0,200,255))
+                add_label_text("Middle Mouse Released##demo", value="False", color=(0,200,255))
+                add_label_text("Right Mouse Released##demo", value="False", color=(0,200,255))
+
+
+
+            with tree_node("Event Callbacks##demoinputs"):
+                add_text("Note: these only show the last event!")
+                set_mouse_down_callback(lambda sender, data: set_value("Mouse down##demoevents", data))
+                set_mouse_drag_callback(lambda sender, data: set_value("Mouse drag##demoevents", data), 10)
+                set_mouse_move_callback(lambda sender, data: set_value("Mouse pos##demoevents", data))
+                set_mouse_double_click_callback(lambda sender, data: set_value("Mouse dblclick##demoevents", data))
+                set_mouse_click_callback(lambda sender, data: set_value("Mouse clicked##demoevents", data))
+                set_mouse_release_callback(lambda sender, data: set_value("Mouse released##demoevents", data))
+                set_mouse_wheel_callback(lambda sender, data: set_value("Mouse wheel##demoevents", data))
+                set_key_down_callback(lambda sender, data: set_value("Keys down##demoevents", data))
+                set_key_press_callback(lambda sender, data: set_value("Keys pressed##demoevents", data))
+                set_key_release_callback(lambda sender, data: set_value("Keys released##demoevents", data))
+
+                add_label_text("Mouse pos##demoevents")
+                add_label_text("Mouse drag##demoevents")
+                add_label_text("Mouse down##demoevents")
+                add_label_text("Mouse clicked##demoevents")
+                add_label_text("Mouse dblclick##demoevents")
+                add_label_text("Mouse released##demoevents")
+                add_label_text("Mouse wheel##demoevents")
+                
+                add_label_text("Keys down##demoevents")
+                add_label_text("Keys pressed##demoevents")
+                add_label_text("Keys released##demoevents")

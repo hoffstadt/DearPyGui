@@ -1039,15 +1039,15 @@ def set_item_width(item: str, width: int) -> None:
 	"""Sets an item's width."""
 	...
 
-def set_key_down_callback(callback: Callable, handler: str = "") -> None:
+def set_key_down_callback(callback: Callable) -> None:
 	"""Sets a callback for a key down event."""
 	...
 
-def set_key_press_callback(callback: Callable, handler: str = "") -> None:
+def set_key_press_callback(callback: Callable) -> None:
 	"""Sets a callback for a key press event."""
 	...
 
-def set_key_release_callback(callback: Callable, handler: str = "") -> None:
+def set_key_release_callback(callback: Callable) -> None:
 	"""Sets a callback for a key release event."""
 	...
 
@@ -1071,31 +1071,31 @@ def set_main_window_title(title: str) -> None:
 	"""Sets the title of the main window."""
 	...
 
-def set_mouse_click_callback(callback: Callable, handler: str = "") -> None:
+def set_mouse_click_callback(callback: Callable) -> None:
 	"""Sets a callback for a mouse click event."""
 	...
 
-def set_mouse_double_click_callback(callback: Callable, handler: str = "") -> None:
+def set_mouse_double_click_callback(callback: Callable) -> None:
 	"""Sets a callback for a mouse double click event."""
 	...
 
-def set_mouse_down_callback(callback: Callable, handler: str = "") -> None:
+def set_mouse_down_callback(callback: Callable) -> None:
 	"""Sets a callback for a mouse down event."""
 	...
 
-def set_mouse_drag_callback(callback: Callable, threshold: float, handler: str = "") -> None:
+def set_mouse_drag_callback(callback: Callable, threshold: float) -> None:
 	"""Sets a callback for a mouse drag event."""
 	...
 
-def set_mouse_move_callback(callback: Callable, handler: str = "") -> None:
+def set_mouse_move_callback(callback: Callable) -> None:
 	"""Sets a callback for a mouse move event. Data is the mouse position in local coordinates."""
 	...
 
-def set_mouse_release_callback(callback: Callable, handler: str = "") -> None:
+def set_mouse_release_callback(callback: Callable) -> None:
 	"""Sets a callback for a mouse release event."""
 	...
 
-def set_mouse_wheel_callback(callback: Callable, handler: str = "") -> None:
+def set_mouse_wheel_callback(callback: Callable) -> None:
 	"""Sets a callback for a mouse wheel event."""
 	...
 

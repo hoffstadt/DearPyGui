@@ -120,6 +120,12 @@ namespace Marvel {
 		return Py_BuildValue("[if]", x, y);
 	}
 
+	PyObject* ToPyMTrip(int i, float x, float y)
+	{
+		mvGlobalIntepreterLock gil;
+		return Py_BuildValue("[iff]", i, x, y);
+	}
+
 	PyObject* ToPyPair(float x, float y)
 	{
 		mvGlobalIntepreterLock gil;
