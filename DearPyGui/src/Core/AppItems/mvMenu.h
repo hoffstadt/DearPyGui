@@ -71,7 +71,6 @@ namespace Marvel {
 				ImGui::EndMenuBar();
 			}
 
-
 			popColorStyles();
 		}
 
@@ -142,6 +141,8 @@ namespace Marvel {
 					item->setRectMax({ ImGui::GetItemRectMax().x, ImGui::GetItemRectMax().y });
 					item->setRectSize({ ImGui::GetItemRectSize().x, ImGui::GetItemRectSize().y });
 				}
+
+				registerWindowFocusing();
 
 				ImGui::EndMenu();
 			}

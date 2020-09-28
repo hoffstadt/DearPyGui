@@ -116,6 +116,9 @@ namespace Marvel {
 
 					}
 
+					// allows this item to have a render callback
+					registerWindowFocusing();
+
 					ImGui::EndPopup();
 				}
 			}

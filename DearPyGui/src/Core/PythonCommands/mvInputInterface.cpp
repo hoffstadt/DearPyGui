@@ -6,9 +6,7 @@ namespace Marvel {
 	void AddInputCommands(std::map<std::string, mvPythonParser>* parsers)
 	{
 		parsers->insert({ "set_mouse_move_callback", mvPythonParser({
-			{mvPythonDataType::Object, "callback", "Registers a callback"},
-			{mvPythonDataType::Optional},
-			{mvPythonDataType::String, "handler", "Callback will be run when event occurs while this window is active (default is main window)"},
+			{mvPythonDataType::Object, "callback", "Registers a callback"}
 		}, "Sets a callback for a mouse move event. Data is the mouse position in local coordinates.", "None", "Input Polling") });
 
 		parsers->insert({ "set_render_callback", mvPythonParser({
@@ -68,58 +66,40 @@ namespace Marvel {
 		}, "Sets a callback for a window resize event.", "None", "Input Polling") });
 
 		parsers->insert({ "set_mouse_release_callback", mvPythonParser({
-			{mvPythonDataType::Object, "callback", "Registers a callback"},
-			{mvPythonDataType::Optional},
-			{mvPythonDataType::String, "handler", "Callback will be run when event occurs while this window is active (default is main window)"},
+			{mvPythonDataType::Object, "callback", "Registers a callback"}
 		}, "Sets a callback for a mouse release event.", "None", "Input Polling") });
 
 		parsers->insert({ "set_mouse_down_callback", mvPythonParser({
-			{mvPythonDataType::Object, "callback", "Registers a callback"},
-			{mvPythonDataType::Optional},
-			{mvPythonDataType::String, "handler", "Callback will be run when event occurs while this window is active (default is main window)"},
+			{mvPythonDataType::Object, "callback", "Registers a callback"}
 		}, "Sets a callback for a mouse down event.", "None", "Input Polling") });
 
 		parsers->insert({ "set_mouse_drag_callback", mvPythonParser({
 			{mvPythonDataType::Object, "callback", "Registers a callback"},
-			{mvPythonDataType::Float, "threshold"},
-			{mvPythonDataType::Optional},
-			{mvPythonDataType::String, "handler", "Callback will be run when event occurs while this window is active (default is main window)"},
+			{mvPythonDataType::Float, "threshold"}
 		}, "Sets a callback for a mouse drag event.", "None", "Input Polling") });
 
 		parsers->insert({ "set_mouse_wheel_callback", mvPythonParser({
-			{mvPythonDataType::Object, "callback", "Registers a callback"},
-			{mvPythonDataType::Optional},
-			{mvPythonDataType::String, "handler", "Callback will be run when event occurs while this window is active (default is main window)"},
+			{mvPythonDataType::Object, "callback", "Registers a callback"}
 		}, "Sets a callback for a mouse wheel event.", "None", "Input Polling") });
 
 		parsers->insert({ "set_mouse_double_click_callback", mvPythonParser({
-			{mvPythonDataType::Object, "callback", "Registers a callback"},
-			{mvPythonDataType::Optional},
-			{mvPythonDataType::String, "handler", "Callback will be run when event occurs while this window is active (default is main window)"},
+			{mvPythonDataType::Object, "callback", "Registers a callback"}
 		}, "Sets a callback for a mouse double click event.", "None", "Input Polling") });
 
 		parsers->insert({ "set_mouse_click_callback", mvPythonParser({
-			{mvPythonDataType::Object, "callback", "Registers a callback"},
-			{mvPythonDataType::Optional},
-			{mvPythonDataType::String, "handler", "Callback will be run when event occurs while this window is active (default is main window)"},
+			{mvPythonDataType::Object, "callback", "Registers a callback"}
 		}, "Sets a callback for a mouse click event.", "None", "Input Polling") });
 
 		parsers->insert({ "set_key_down_callback", mvPythonParser({
-			{mvPythonDataType::Object, "callback", "Registers a callback"},
-			{mvPythonDataType::Optional},
-			{mvPythonDataType::String, "handler", "Callback will be run when event occurs while this window is active (default is main window)"},
+			{mvPythonDataType::Object, "callback", "Registers a callback"}
 		}, "Sets a callback for a key down event.", "None", "Input Polling") }),
 
 		parsers->insert({ "set_key_press_callback", mvPythonParser({
-			{mvPythonDataType::Object, "callback", "Registers a callback"},
-			{mvPythonDataType::Optional},
-			{mvPythonDataType::String, "handler", "Callback will be run when event occurs while this window is active (default is main window)"},
+			{mvPythonDataType::Object, "callback", "Registers a callback"}
 			}, "Sets a callback for a key press event.", "None", "Input Polling") });
 
 		parsers->insert({ "set_key_release_callback", mvPythonParser({
-			{mvPythonDataType::Object, "callback", "Registers a callback"},
-			{mvPythonDataType::Optional},
-			{mvPythonDataType::String, "handler", "Callback will be run when event occurs while this window is active (default is main window)"},
+			{mvPythonDataType::Object, "callback", "Registers a callback"}
 		}, "Sets a callback for a key release event.", "None", "Input Polling") });
 	}
 
@@ -252,42 +232,14 @@ namespace Marvel {
 	PyObject* set_mouse_down_callback(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		PyObject* callback;
-		const char* handler = "MainWindow";
 
-		if (!(*mvApp::GetApp()->getParsers())["set_mouse_down_callback"].parse(args, kwargs, __FUNCTION__, &callback, &handler))
+		if (!(*mvApp::GetApp()->getParsers())["set_mouse_down_callback"].parse(args, kwargs, __FUNCTION__, 
+			&callback))
 			return GetPyNone();
 
-		if (std::string(handler) == "MainWindow")
-			mvApp::GetApp()->setMouseDownCallback(callback);
-		else
-		{
-			mvAppItem* item = mvApp::GetApp()->getItem(handler);
-			if (item)
-			{
-				if (item->getType() == mvAppItemType::Window)
-				{
-					auto windowtype = static_cast<mvWindowAppitem*>(item);
-					windowtype->setMouseDownCallback(callback);
-					return GetPyNone();
-				}
-				else
-				{
-					ThrowPythonException(std::string(handler) + " handler is not a window.");
-					return GetPyNone();
-				}
-			}
-
-
-			// check if item is a standard window
-			mvStandardWindow* window = mvApp::GetApp()->getStandardWindow(handler);
-			if (window == nullptr)
-			{
-				ThrowPythonException(std::string(handler) + " handler item was not found.");
-				return GetPyNone();
-			}
-
-			window->setMouseDownCallback(callback);
-		}
+		if (callback)
+			Py_XINCREF(callback);
+		mvApp::GetApp()->setMouseDownCallback(callback);
 
 		return GetPyNone();
 	}
@@ -296,44 +248,16 @@ namespace Marvel {
 	{
 		PyObject* callback;
 		float threshold;
-		const char* handler = "MainWindow";
 
-		if (!(*mvApp::GetApp()->getParsers())["set_mouse_drag_callback"].parse(args, kwargs, __FUNCTION__, &callback, &threshold, &handler))
+		if (!(*mvApp::GetApp()->getParsers())["set_mouse_drag_callback"].parse(args, kwargs, __FUNCTION__, 
+			&callback, &threshold))
 			return GetPyNone();
 
 		mvInput::setMouseDragThreshold(threshold);
 
-		if (std::string(handler) == "MainWindow")
-			mvApp::GetApp()->setMouseDragCallback(callback);
-		else
-		{
-			mvAppItem* item = mvApp::GetApp()->getItem(handler);
-			if (item)
-			{
-				if (item->getType() == mvAppItemType::Window)
-				{
-					auto windowtype = static_cast<mvWindowAppitem*>(item);
-					windowtype->setMouseDragCallback(callback);
-					return GetPyNone();
-				}
-				else
-				{
-					ThrowPythonException(std::string(handler) + " handler is not a window.");
-					return GetPyNone();
-				}
-			}
-
-
-			// check if item is a standard window
-			mvStandardWindow* window = mvApp::GetApp()->getStandardWindow(handler);
-			if (window == nullptr)
-			{
-				ThrowPythonException(std::string(handler) + " handler item was not found.");
-				return GetPyNone();
-			}
-
-			window->setMouseDragCallback(callback);
-		}
+		if (callback)
+			Py_XINCREF(callback);
+		mvApp::GetApp()->setMouseDragCallback(callback);
 
 		return GetPyNone();
 	}
@@ -341,42 +265,14 @@ namespace Marvel {
 	PyObject* set_mouse_double_click_callback(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		PyObject* callback;
-		const char* handler;
 
-		if (!(*mvApp::GetApp()->getParsers())["set_mouse_double_click_callback"].parse(args, kwargs, __FUNCTION__, &callback, &handler))
+		if (!(*mvApp::GetApp()->getParsers())["set_mouse_double_click_callback"].parse(args, kwargs, __FUNCTION__,
+			&callback))
 			return GetPyNone();
 
-		if (std::string(handler) == "MainWindow")
-			mvApp::GetApp()->setMouseDoubleClickCallback(callback);
-		else
-		{
-			mvAppItem* item = mvApp::GetApp()->getItem(handler);
-			if (item)
-			{
-				if (item->getType() == mvAppItemType::Window)
-				{
-					auto windowtype = static_cast<mvWindowAppitem*>(item);
-					windowtype->setMouseDoubleClickCallback(callback);
-					return GetPyNone();
-				}
-				else
-				{
-					ThrowPythonException(std::string(handler) + " handler is not a window.");
-					return GetPyNone();
-				}
-			}
-
-
-			// check if item is a standard window
-			mvStandardWindow* window = mvApp::GetApp()->getStandardWindow(handler);
-			if (window == nullptr)
-			{
-				ThrowPythonException(std::string(handler) + " handler item was not found.");
-				return GetPyNone();
-			}
-
-			window->setMouseDoubleClickCallback(callback);
-		}
+		if (callback)
+			Py_XINCREF(callback);
+		mvApp::GetApp()->setMouseDoubleClickCallback(callback);
 
 		return GetPyNone();
 	}
@@ -384,85 +280,26 @@ namespace Marvel {
 	PyObject* set_mouse_click_callback(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		PyObject* callback;
-		const char* handler = "MainWindow";
 
-		if (!(*mvApp::GetApp()->getParsers())["set_mouse_click_callback"].parse(args, kwargs, __FUNCTION__, &callback, &handler))
+		if (!(*mvApp::GetApp()->getParsers())["set_mouse_click_callback"].parse(args, kwargs, __FUNCTION__, 
+			&callback))
 			return GetPyNone();
-
-		if (std::string(handler) == "MainWindow")
-			mvApp::GetApp()->setMouseClickCallback(callback);
-		else
-		{
-			mvAppItem* item = mvApp::GetApp()->getItem(handler);
-			if (item)
-			{
-				if (item->getType() == mvAppItemType::Window)
-				{
-					auto windowtype = static_cast<mvWindowAppitem*>(item);
-					windowtype->setMouseClickCallback(callback);
-					return GetPyNone();
-				}
-				else
-				{
-					ThrowPythonException(std::string(handler) + " handler is not a window.");
-					return GetPyNone();
-				}
-			}
-
-
-			// check if item is a standard window
-			mvStandardWindow* window = mvApp::GetApp()->getStandardWindow(handler);
-			if (window == nullptr)
-			{
-				ThrowPythonException(std::string(handler) + " handler item was not found.");
-				return GetPyNone();
-			}
-
-			window->setMouseClickCallback(callback);
-		}
-
+		if (callback)
+			Py_XINCREF(callback);
+		mvApp::GetApp()->setMouseClickCallback(callback);
 		return GetPyNone();
 	}
 
 	PyObject* set_mouse_release_callback(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		PyObject* callback;
-		const char* handler = "MainWindow";
 
-		if (!(*mvApp::GetApp()->getParsers())["set_mouse_release_callback"].parse(args, kwargs, __FUNCTION__, &callback, &handler))
+		if (!(*mvApp::GetApp()->getParsers())["set_mouse_release_callback"].parse(args, kwargs, __FUNCTION__, 
+			&callback))
 			return GetPyNone();
-
-		if (std::string(handler) == "MainWindow")
-			mvApp::GetApp()->setMouseReleaseCallback(callback);
-		else
-		{
-			mvAppItem* item = mvApp::GetApp()->getItem(handler);
-			if (item)
-			{
-				if (item->getType() == mvAppItemType::Window)
-				{
-					auto windowtype = static_cast<mvWindowAppitem*>(item);
-					windowtype->setMouseReleaseCallback(callback);
-					return GetPyNone();
-				}
-				else
-				{
-					ThrowPythonException(std::string(handler) + " handler is not a window.");
-					return GetPyNone();
-				}
-			}
-
-
-			// check if item is a standard window
-			mvStandardWindow* window = mvApp::GetApp()->getStandardWindow(handler);
-			if (window == nullptr)
-			{
-				ThrowPythonException(std::string(handler) + " handler item was not found.");
-				return GetPyNone();
-			}
-
-			window->setMouseReleaseCallback(callback);
-		}
+		if (callback)
+			Py_XINCREF(callback);
+		mvApp::GetApp()->setMouseReleaseCallback(callback);
 
 		return GetPyNone();
 	}
@@ -470,42 +307,13 @@ namespace Marvel {
 	PyObject* set_key_down_callback(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		PyObject* callback;
-		const char* handler = "MainWindow";
 
-		if (!(*mvApp::GetApp()->getParsers())["set_key_down_callback"].parse(args, kwargs, __FUNCTION__, &callback, &handler))
+		if (!(*mvApp::GetApp()->getParsers())["set_key_down_callback"].parse(args, kwargs, __FUNCTION__, 
+			&callback))
 			return GetPyNone();
-
-		if (std::string(handler) == "MainWindow")
-			mvApp::GetApp()->setKeyDownCallback(callback);
-		else
-		{
-			mvAppItem* item = mvApp::GetApp()->getItem(handler);
-			if (item)
-			{
-				if (item->getType() == mvAppItemType::Window)
-				{
-					auto windowtype = static_cast<mvWindowAppitem*>(item);
-					windowtype->setKeyDownCallback(callback);
-					return GetPyNone();
-				}
-				else
-				{
-					ThrowPythonException(std::string(handler) + " handler is not a window.");
-					return GetPyNone();
-				}
-			}
-
-
-			// check if item is a standard window
-			mvStandardWindow* window = mvApp::GetApp()->getStandardWindow(handler);
-			if (window == nullptr)
-			{
-				ThrowPythonException(std::string(handler) + " handler item was not found.");
-				return GetPyNone();
-			}
-
-			window->setKeyDownCallback(callback);
-		}
+		if (callback)
+			Py_XINCREF(callback);
+		mvApp::GetApp()->setKeyDownCallback(callback);
 
 		return GetPyNone();
 	}
@@ -513,42 +321,13 @@ namespace Marvel {
 	PyObject* set_key_press_callback(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		PyObject* callback;
-		const char* handler = "MainWindow";
 
-		if (!(*mvApp::GetApp()->getParsers())["set_key_press_callback"].parse(args, kwargs, __FUNCTION__, &callback, &handler))
+		if (!(*mvApp::GetApp()->getParsers())["set_key_press_callback"].parse(args, kwargs, __FUNCTION__, 
+			&callback))
 			return GetPyNone();
-
-		if (std::string(handler) == "MainWindow")
-			mvApp::GetApp()->setKeyPressCallback(callback);
-		else
-		{
-			mvAppItem* item = mvApp::GetApp()->getItem(handler);
-			if (item)
-			{
-				if (item->getType() == mvAppItemType::Window)
-				{
-					auto windowtype = static_cast<mvWindowAppitem*>(item);
-					windowtype->setKeyPressCallback(callback);
-					return GetPyNone();
-				}
-				else
-				{
-					ThrowPythonException(std::string(handler) + " handler is not a window.");
-					return GetPyNone();
-				}
-			}
-
-
-			// check if item is a standard window
-			mvStandardWindow* window = mvApp::GetApp()->getStandardWindow(handler);
-			if (window == nullptr)
-			{
-				ThrowPythonException(std::string(handler) + " handler item was not found.");
-				return GetPyNone();
-			}
-
-			window->setKeyPressCallback(callback);
-		}
+		if (callback)
+			Py_XINCREF(callback);
+		mvApp::GetApp()->setKeyPressCallback(callback);
 
 		return GetPyNone();
 	}
@@ -556,85 +335,26 @@ namespace Marvel {
 	PyObject* set_key_release_callback(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		PyObject* callback;
-		const char* handler = "MainWindow";
 
-		if (!(*mvApp::GetApp()->getParsers())["set_key_release_callback"].parse(args, kwargs, __FUNCTION__, &callback, &handler))
+		if (!(*mvApp::GetApp()->getParsers())["set_key_release_callback"].parse(args, kwargs, __FUNCTION__, 
+			&callback))
 			return GetPyNone();
-
-		if (std::string(handler) == "MainWindow")
-			mvApp::GetApp()->setKeyReleaseCallback(callback);
-		else
-		{
-			mvAppItem* item = mvApp::GetApp()->getItem(handler);
-			if (item)
-			{
-				if (item->getType() == mvAppItemType::Window)
-				{
-					auto windowtype = static_cast<mvWindowAppitem*>(item);
-					windowtype->setKeyReleaseCallback(callback);
-					return GetPyNone();
-				}
-				else
-				{
-					ThrowPythonException(std::string(handler) + " handler is not a window.");
-					return GetPyNone();
-				}
-			}
-
-
-			// check if item is a standard window
-			mvStandardWindow* window = mvApp::GetApp()->getStandardWindow(handler);
-			if (window == nullptr)
-			{
-				ThrowPythonException(std::string(handler) + " handler item was not found.");
-				return GetPyNone();
-			}
-
-			window->setKeyReleaseCallback(callback);
-		}
-
+		if (callback)
+			Py_XINCREF(callback);
+		mvApp::GetApp()->setKeyReleaseCallback(callback);
 		return GetPyNone();
 	}
 
 	PyObject* set_mouse_wheel_callback(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		PyObject* callback;
-		const char* handler = "MainWindow";
 
-		if (!(*mvApp::GetApp()->getParsers())["set_mouse_wheel_callback"].parse(args, kwargs, __FUNCTION__, &callback, &handler))
+		if (!(*mvApp::GetApp()->getParsers())["set_mouse_wheel_callback"].parse(args, kwargs, __FUNCTION__, 
+			&callback))
 			return GetPyNone();
-
-		if (std::string(handler) == "MainWindow")
-			mvApp::GetApp()->setMouseWheelCallback(callback);
-		else
-		{
-			mvAppItem* item = mvApp::GetApp()->getItem(handler);
-			if (item)
-			{
-				if (item->getType() == mvAppItemType::Window)
-				{
-					auto windowtype = static_cast<mvWindowAppitem*>(item);
-					windowtype->setMouseWheelCallback(callback);
-					return GetPyNone();
-				}
-				else
-				{
-					ThrowPythonException(std::string(handler) + " handler is not a window.");
-					return GetPyNone();
-				}
-			}
-
-
-			// check if item is a standard window
-			mvStandardWindow* window = mvApp::GetApp()->getStandardWindow(handler);
-			if (window == nullptr)
-			{
-				ThrowPythonException(std::string(handler) + " handler item was not found.");
-				return GetPyNone();
-			}
-
-			window->setMouseWheelCallback(callback);
-		}
+		if (callback)
+			Py_XINCREF(callback);
+		mvApp::GetApp()->setMouseWheelCallback(callback);
 
 		return GetPyNone();
 	}
@@ -642,43 +362,13 @@ namespace Marvel {
 	PyObject* set_mouse_move_callback(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		PyObject* callback;
-		const char* handler = "MainWindow";
 
-		if (!(*mvApp::GetApp()->getParsers())["set_mouse_move_callback"].parse(args, kwargs, __FUNCTION__, &callback, &handler))
+		if (!(*mvApp::GetApp()->getParsers())["set_mouse_move_callback"].parse(args, kwargs, __FUNCTION__,
+			&callback))
 			return GetPyNone();
-
-		if (std::string(handler) == "MainWindow")
-			mvApp::GetApp()->getWindow("MainWindow")->setMouseMoveCallback(callback);
-
-		else
-		{
-			mvAppItem* item = mvApp::GetApp()->getItem(handler);
-			if (item)
-			{
-				if (item->getType() == mvAppItemType::Window)
-				{
-					auto windowtype = static_cast<mvWindowAppitem*>(item);
-					windowtype->setMouseMoveCallback(callback);
-					return GetPyNone();
-				}
-				else
-				{
-					ThrowPythonException(std::string(handler) + " handler is not a window.");
-					return GetPyNone();
-				}
-			}
-
-
-			// check if item is a standard window
-			mvStandardWindow* window = mvApp::GetApp()->getStandardWindow(handler);
-			if (window == nullptr)
-			{
-				ThrowPythonException(std::string(handler) + " handler item was not found.");
-				return GetPyNone();
-			}
-
-			window->setMouseMoveCallback(callback);
-		}
+		if (callback)
+			Py_XINCREF(callback);
+		mvApp::GetApp()->setMouseMoveCallback(callback);
 
 		return GetPyNone();
 	}
@@ -689,7 +379,8 @@ namespace Marvel {
 
 		if (!(*mvApp::GetApp()->getParsers())["set_render_callback"].parse(args, kwargs, __FUNCTION__, &callback))
 			return GetPyNone();
-
+		if (callback)
+			Py_XINCREF(callback);
 		mvApp::GetApp()->setRenderCallback(callback);
 		return GetPyNone();
 	}
@@ -699,9 +390,11 @@ namespace Marvel {
 		PyObject* callback = nullptr;
 		const char* handler = "MainWindow";
 
-		if (!(*mvApp::GetApp()->getParsers())["set_resize_callback"].parse(args, kwargs, __FUNCTION__, &callback, &handler))
+		if (!(*mvApp::GetApp()->getParsers())["set_resize_callback"].parse(args, kwargs, __FUNCTION__, 
+			&callback, &handler))
 			return GetPyNone();
-
+		if (callback)
+			Py_XINCREF(callback);
 		if (std::string(handler) == "MainWindow")
 			mvApp::GetApp()->setResizeCallback(callback);
 		else

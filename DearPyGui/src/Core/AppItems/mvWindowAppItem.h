@@ -160,14 +160,12 @@ namespace Marvel {
 				mvApp::GetApp()->setActiveWindow(m_name);
 
 				// mouse move callback
-				if (getMouseMoveCallback() != nullptr)
+				if (oldMousePos.x != mousePos.x || oldMousePos.y != mousePos.y)
 				{
-					if (oldMousePos.x != mousePos.x || oldMousePos.y != mousePos.y)
-					{
-						mvApp::GetApp()->runCallback(getMouseMoveCallback(), m_name, 
-							ToPyPair(x, y));
-					}
+					mvApp::GetApp()->runCallback(mvApp::GetAppStandardWindow()->getMouseMoveCallback(), m_name,
+						ToPyPair(x, y));
 				}
+
 			}
 
 			m_xpos = (int)ImGui::GetWindowPos().x;
