@@ -45,7 +45,7 @@ setup(
     ],
     packages=find_packages(exclude=['contrib', 'docs', 'tests']),  # Required
     package_data={  # Optional
-    'dearpygui': [DEARPYGUI_FILE, "core.pyi", "simple.py"],
+    'dearpygui': [DEARPYGUI_FILE, "core.pyi", "simple.py", "demo.py"],
     },
     distclass=BinaryDistribution
 )

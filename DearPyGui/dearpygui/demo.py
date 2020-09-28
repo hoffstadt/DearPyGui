@@ -554,7 +554,7 @@ def show_demo():
                 add_error_series("##errorbars", "Line", error_data2, color=[0, 255, 0])
 
             with tree_node("Stem Plots"):
-                add_plot("Stem Plots##plot")
+                add_plot("Stem Plots##plot", height=400)
 
                 stem_data1 = []
                 stem_data2 = []
@@ -612,7 +612,7 @@ def show_demo():
             add_button("Insert col 1 ", callback=lambda sender, data:insert_column("Table##widget", 1,  "Inserted Column", ["inew1", "inew2", "inew3", "inew4"]))
             add_same_line()
             add_button("Clear Table ", callback=lambda sender, data: clear_table("Table##widget"))
-            add_table("Table##widget", ["Column 1", "Column 2", "Column 3", "Column 4"])
+            add_table("Table##widget", ["Column 1", "Column 2", "Column 3", "Column 4"], height=400)
 
             tabledata = []
             for i in range(0, 10):
