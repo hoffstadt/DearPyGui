@@ -28,6 +28,8 @@ namespace Marvel {
 			m_texture = texture->texture;
 		}
 
+		mvSeriesType getSeriesType() override { return mvSeriesType::Image; }
+
 		void draw() override
 		{
 			if(m_texture)

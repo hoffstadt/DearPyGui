@@ -312,7 +312,7 @@ namespace Marvel {
 		bool exists = false;
 		for (auto item : m_series)
 		{
-			if (item->getName() == series->getName())
+			if (item->getName() == series->getName() && series->getSeriesType() == item->getSeriesType())
 			{
 				exists = true;
 				break;
@@ -326,7 +326,7 @@ namespace Marvel {
 
 			for (auto item : oldSeries)
 			{
-				if (item->getName() == series->getName())
+				if (item->getName() == series->getName() && series->getSeriesType() == item->getSeriesType())
 				{
 					delete item;
 					item = nullptr;
@@ -467,7 +467,7 @@ namespace Marvel {
 			ImPlot::SetNextPlotTicksY(m_ylabelLocations.data(), (int)m_ylabels.size(), m_yclabels.data());
 		}
 
-		if (ImPlot::BeginPlot(m_name.c_str(), m_xaxisName.c_str(), m_yaxisName.c_str(),
+		if (ImPlot::BeginPlot(m_name.c_str(), m_xaxisName.empty() ? nullptr : m_xaxisName.c_str(), m_yaxisName.empty() ? nullptr : m_yaxisName.c_str(),
 			ImVec2((float)m_width, (float)m_height), m_flags,
 			m_xflags, m_yflags, m_y2flags, m_y3flags))
 		{
@@ -599,10 +599,13 @@ namespace Marvel {
 
 	void mvPlot::setExtraConfigDict(PyObject* dict)
 	{
+		if (dict == nullptr)
+			return;
+
 		mvGlobalIntepreterLock gil;
 
-		if (PyObject* item = PyDict_GetItemString(dict, "xAxisName")) m_xaxisName = ToString(item);
-		if (PyObject* item = PyDict_GetItemString(dict, "yAxisName")) m_yaxisName = ToString(item);
+		if (PyObject* item = PyDict_GetItemString(dict, "x_axis_name"))m_xaxisName = ToString(item);
+		if (PyObject* item = PyDict_GetItemString(dict, "y_axis_name")) m_yaxisName = ToString(item);
 		if (PyObject* item = PyDict_GetItemString(dict, "show_color_scale")) m_colormapscale = ToBool(item);
 		if (PyObject* item = PyDict_GetItemString(dict, "show_annotations")) m_showAnnotations = ToBool(item);
 		if (PyObject* item = PyDict_GetItemString(dict, "show_drag_lines")) m_showDragLines = ToBool(item);
@@ -651,10 +654,13 @@ namespace Marvel {
 
 	void mvPlot::getExtraConfigDict(PyObject* dict)
 	{
+		if (dict == nullptr)
+			return;
+
 		mvGlobalIntepreterLock gil;
 
-		PyDict_SetItemString(dict, "xAxisName", ToPyString(m_xaxisName));
-		PyDict_SetItemString(dict, "yAxisName", ToPyString(m_yaxisName));
+		PyDict_SetItemString(dict, "x_axis_name", ToPyString(m_xaxisName));
+		PyDict_SetItemString(dict, "y_axis_name", ToPyString(m_yaxisName));
 		PyDict_SetItemString(dict, "show_color_scale", ToPyBool(m_colormapscale));
 		PyDict_SetItemString(dict, "show_annotations", ToPyBool(m_showAnnotations));
 		PyDict_SetItemString(dict, "show_drag_lines", ToPyBool(m_showDragLines));
