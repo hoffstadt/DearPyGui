@@ -116,6 +116,18 @@ def get_window_pos(window: str) -> Union[List[int], None]:
     config = internalDPG.get_item_configuration(window)
     return [config["x_pos"], config["y_pos"]]
 
+def show_item(item: str):
+    internalDPG.configure_item(item, show=True)
+
+def hide_item(item: str, children_only: bool = False):
+    if children_only:
+        children = internalDPG.get_item_children(item)
+        for child in children:
+            internalDPG.configure_item(child, show=False)
+    else:
+        internalDPG.configure_item(item, show=False)
+
+
 # item configure commands
 def set_item_name(item: str, name: str):
     internalDPG.configure_item(item, name=name)
