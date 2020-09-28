@@ -266,7 +266,7 @@ def add_menu_bar(name: str, show: bool = True, parent: str = "", before: str = "
 	...
 
 def add_menu_item(name: str, shortcut: str = "", check: bool = False, callback: Callable = None, callback_data: Any = None, label: str = "", 
-				  show: bool = True, tip: str = "", parent: str = "", before: str = "") -> None:
+				  show: bool = True, enabled: bool = True, tip: str = "", parent: str = "", before: str = "") -> None:
 	"""Adds a menu item to an existing menu."""
 	...
 

@@ -46,7 +46,7 @@ namespace Marvel {
 			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)"},
 			{mvPythonDataType::Integer, "width",""},
 			{mvPythonDataType::Integer, "height", ""},
-			{mvPythonDataType::String, "query_callback", "Callback ran when plot is queried. Should be of the form 'def Callback(sender, data)'\n Data is (x_min, x_max, y_min, y_max)."},
+			{mvPythonDataType::Object, "query_callback", "Callback ran when plot is queried. Should be of the form 'def Callback(sender, data)'\n Data is (x_min, x_max, y_min, y_max)."},
 			
 			{mvPythonDataType::Bool, "show_color_scale"},
 			{mvPythonDataType::Float, "scale_min"},
@@ -896,6 +896,8 @@ namespace Marvel {
 			&scale_height, &label, &show, &show_annotations, &show_drag_lines, &show_drag_points))
 			return ToPyBool(false);
 
+		if (query_callback)
+			Py_XINCREF(query_callback);
 
 		mvAppItem* item = new mvPlot(name, query_callback);
 

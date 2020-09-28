@@ -61,6 +61,7 @@ namespace Marvel {
 			{mvPythonDataType::Object, "callback_data", "Callback data"},
 			{mvPythonDataType::String, "label"},
 			{mvPythonDataType::Bool, "show"},
+			{mvPythonDataType::Bool, "enabled"},
 			{mvPythonDataType::String, "tip", "Adds a simple tooltip"},
 			{mvPythonDataType::String, "parent", "Parent this item will be added to. (runtime adding)"},
 			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)"},
@@ -288,12 +289,13 @@ namespace Marvel {
 		PyObject* callback_data = nullptr;
 		const char* label = "";
 		int show = true;
+		int enabled = true;
 		const char* tip = "";
 		const char* parent = "";
 		const char* before = "";
 
 		if (!(*mvApp::GetApp()->getParsers())["add_menu_item"].parse(args, kwargs, __FUNCTION__, &name,
-			&shortcut, &check, &callback, &callback_data, &label, &show, &tip, &parent, &before))
+			&shortcut, &check, &callback, &callback_data, &label, &show, &enabled, &tip, &parent, &before))
 			return ToPyBool(false);
 
 		mvAppItem* item = new mvMenuItem(name);
@@ -589,6 +591,9 @@ namespace Marvel {
 			&no_collapse, &horizontal_scrollbar, &no_focus_on_appearing, &no_bring_to_front_on_focus, &menubar,
 			&noclose, &no_background, &label, &show, &closing_callback))
 			return ToPyBool(false);
+
+		if (closing_callback)
+			Py_XINCREF(closing_callback);
 
 		mvAppItem* item = new mvWindowAppitem(name, false, closing_callback);
 
