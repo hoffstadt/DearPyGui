@@ -1,5 +1,5 @@
-from dearpygui.dearpygui import *
-from dearpygui.wrappers import *
+from dearpygui.core import *
+from dearpygui.simple import *
 
 def recursively_show(container):
     for item in get_item_children(container):
