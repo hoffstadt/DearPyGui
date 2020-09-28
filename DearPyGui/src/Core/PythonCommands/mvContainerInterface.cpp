@@ -161,6 +161,9 @@ namespace Marvel {
 			{mvPythonDataType::Bool, "horizontal_scrollbar" ,"Allow horizontal scrollbar to appear (off by default)."},
 			{mvPythonDataType::Bool, "no_focus_on_appearing" ,"Disable taking focus when transitioning from hidden to visible state"},
 			{mvPythonDataType::Bool, "no_bring_to_front_on_focus" ,"Disable bringing window to front when taking focus (e.g. clicking on it or programmatically giving it focus)"},
+			{mvPythonDataType::Bool, "menubar"},
+			{mvPythonDataType::Bool, "no_close"},
+			{mvPythonDataType::Bool, "no_background"},
 			{mvPythonDataType::String, "label"},
 			{mvPythonDataType::Bool, "show", "sets if the item is shown or not window."},
 			{mvPythonDataType::Object, "on_close", "Callback ran when window is closed"},
@@ -571,7 +574,9 @@ namespace Marvel {
 		int horizontal_scrollbar = false;
 		int no_focus_on_appearing = false;
 		int no_bring_to_front_on_focus = false;
-
+		int menubar = false;
+		int noclose = false;
+		int no_background = false;
 
 		const char* label = "";
 		int show = true;
@@ -581,8 +586,8 @@ namespace Marvel {
 
 		if (!(*mvApp::GetApp()->getParsers())["add_window"].parse(args, kwargs, __FUNCTION__, &name, &width,
 			&height, &x_pos, &y_pos, &autosize, &no_resize, &no_title_bar, &no_move, &no_scrollbar, 
-			&no_collapse, &horizontal_scrollbar, &no_focus_on_appearing, &no_bring_to_front_on_focus,
-			&label, &show, &closing_callback))
+			&no_collapse, &horizontal_scrollbar, &no_focus_on_appearing, &no_bring_to_front_on_focus, &menubar,
+			&noclose, &no_background, &label, &show, &closing_callback))
 			return ToPyBool(false);
 
 		mvAppItem* item = new mvWindowAppitem(name, false, closing_callback);
