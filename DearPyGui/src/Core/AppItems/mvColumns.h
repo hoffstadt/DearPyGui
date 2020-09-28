@@ -25,7 +25,13 @@ namespace Marvel {
 		mvManagedColumns(const std::string& name, int columns)
 			: mvAppItem(name)
 		{
-			m_columns = columns;
+			if (columns < 2)
+				m_columns = 2;
+			else if (columns > 64)
+				m_columns = 64;
+			else
+				m_columns = columns;
+
 			for (size_t i = 0; i < m_columns; i++)
 				m_widths.push_back(0);
 			m_container = true;
@@ -83,6 +89,12 @@ namespace Marvel {
 			if (PyObject* item = PyDict_GetItemString(dict, "columns"))
 			{
 				m_columns = ToInt(item);
+
+				if (m_columns < 2)
+					m_columns = 2;
+				else if (m_columns > 64)
+					m_columns = 64;
+
 				m_widths.clear();
 				for (size_t i = 0; i < m_columns; i++)
 					m_widths.push_back(0);

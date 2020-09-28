@@ -198,23 +198,8 @@ namespace Marvel {
 		routeInputCallbacks();
 
 		// run render callbacks
-		if (m_activeWindow == "MainWindow" || m_activeWindow == "style##standard" ||
-			m_activeWindow == "source##standard" || m_activeWindow == "metrics##standard" || 
-			m_activeWindow == "about##standard" || m_activeWindow == "debug##standard")
-		{
-			if (getRenderCallback() != nullptr)
-				runCallback(getRenderCallback(), "Main Application");
-		}
-
-		else
-		{
-			mvAppItem* item = mvApp::GetApp()->getItem(m_activeWindow);
-
-			if (item == nullptr)
-				m_activeWindow = "MainWindow";
-			else
-				dispatchRenderCallback<mvWindowAppitem>(mvAppItemType::Window, item);
-		}
+		if (getRenderCallback() != nullptr)
+			runCallback(getRenderCallback(), "Main Application");
 
 		// resets app items states (i.e. hovered)
 		for (auto window : m_windows)

@@ -72,6 +72,7 @@ namespace Marvel {
 
 			// window flags
 			flagop("disabled", ImGuiSelectableFlags_Disabled, m_flags);
+			flagop("span_columns", ImGuiSelectableFlags_SpanAllColumns, m_flags);
 
 		}
 
@@ -89,6 +90,7 @@ namespace Marvel {
 
 			// window flags
 			checkbitset("disabled", ImGuiSelectableFlags_Disabled, m_flags);
+			checkbitset("span_columns", ImGuiSelectableFlags_SpanAllColumns, m_flags);
 		}
 	private:
 		ImGuiSelectableFlags m_flags = ImGuiSelectableFlags_None;
