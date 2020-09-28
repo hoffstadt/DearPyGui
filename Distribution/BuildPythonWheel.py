@@ -18,6 +18,7 @@ if not os.path.isdir(script_dir +  "/dearpygui/"):
 shutil.copy(location, script_dir +"/dearpygui")
 shutil.copy(script_dir + "/../DearPyGui/dearpygui/core.pyi", script_dir + "/dearpygui")
 shutil.copy(script_dir + "/../DearPyGui/dearpygui/simple.py", script_dir + "/dearpygui")
+shutil.copy(script_dir + "/../DearPyGui/dearpygui/demo.py", script_dir + "/dearpygui")
 
 with open(script_dir + "/dearpygui/__init__.py", 'w') as file:
     file.write("pass\n")
