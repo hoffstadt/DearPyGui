@@ -18,6 +18,8 @@ namespace Marvel {
 				m_clabels.push_back(item.c_str());
 		}
 
+		mvSeriesType getSeriesType() override { return mvSeriesType::Pie; }
+
 		void draw() override
 		{
 			ImPlot::PlotPieChart(m_clabels.data(), m_xs.data(), m_labels.size(),

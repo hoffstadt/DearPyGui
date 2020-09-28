@@ -13,6 +13,8 @@ namespace Marvel {
 		{
 		}
 
+		mvSeriesType getSeriesType() override { return mvSeriesType::Label; }
+
 		void draw() override
 		{
 			ImPlot::PlotText(m_name.c_str(), m_xs[0], m_ys[0], m_vertical,

@@ -652,7 +652,7 @@ namespace Marvel {
 	{
 		if (HasValue(name) && GetType(name) == ValueTypes::Int4)
 			return s_int4s[name].data();
-		s_int4s["common"].data();
+		return s_int4s["common"].data();
 	}
 
 	float* mvValueStorage::GetFloatValue(const std::string& name)

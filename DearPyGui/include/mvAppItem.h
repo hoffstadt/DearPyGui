@@ -44,7 +44,7 @@ namespace Marvel {
         Plot, SimplePlot, Indent, Unindent, Drawing, Window,
         Popup, Selectable, TreeNode, ProgressBar, Table, Dummy,
         ImageButton, TimePicker, DatePicker, ColorButton,
-        ManagedColumns
+        ManagedColumns, ColumnSet, NextColumn
     };
 
     //-----------------------------------------------------------------------------

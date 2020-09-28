@@ -39,6 +39,8 @@ namespace Marvel {
 		}
 
 		mvVec2 start = draw->getStart();
+		if (m_autosize)
+			m_pmax = { (float)m_width + m_pmin.x, (float)m_height + m_pmin.y };
 		if(m_texture)
 			draw_list->AddImage(m_texture, m_pmin + start, m_pmax+start, m_uv_min, m_uv_max, m_color);
 	}
@@ -518,8 +520,9 @@ namespace Marvel {
 			{
 				if (item->tag == tag && item->getType() == mvDrawingCommandType::DrawImage)
 				{
-					delete item;
-					item = new mvDrawImageCommand(file, pmin, pmax, uv_min, uv_max, color);
+					if(((mvDrawImageCommand*)(item))->m_file != file)
+						mvTextureStorage::DecrementTexture(((mvDrawImageCommand*)(item))->m_file);
+					*(mvDrawImageCommand*)(item) = mvDrawImageCommand(file, pmin, pmax, uv_min, uv_max, color);
 					item->tag = tag;
 					m_dirty = true;
 					return;
@@ -541,7 +544,9 @@ namespace Marvel {
 
 			case mvDrawingCommandType::DrawImage:
 			{
-				// TODO: figure out how to handle this
+				mvDrawImageCommand& acommand = *(mvDrawImageCommand*)(command);
+				acommand.m_pmin = convertToModelSpace(acommand.m_pmino);
+				acommand.m_pmax = convertToModelSpace(acommand.m_pmaxo);
 				break;
 			}
 

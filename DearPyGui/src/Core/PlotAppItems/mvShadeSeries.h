@@ -14,10 +14,11 @@ namespace Marvel {
 		{
 		}
 
+		mvSeriesType getSeriesType() override { return mvSeriesType::Shade; }
+
 		void draw() override
 		{
-			if (m_color.specified)
-				ImPlot::SetNextLineStyle(m_color.toVec4());
+			ImPlot::SetNextLineStyle(m_color.toVec4());
 	
 			ImPlot::SetNextFillStyle(m_fill.toVec4());
 			ImPlot::PushStyleVar(ImPlotStyleVar_LineWeight, m_weight);

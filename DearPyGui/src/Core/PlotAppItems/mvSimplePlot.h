@@ -24,15 +24,18 @@ namespace Marvel{
 			: mvFloatVectPtrBase(name, value, name) 
 		{
 
-			m_max = (*m_value)[0];
-			m_min = (*m_value)[0];
-
-			for (auto& item : *m_value)
+			if (!value.empty())
 			{
-				if (item > m_max)
-					m_max = item;
-				if (item < m_min)
-					m_min = item;
+				m_max = (*m_value)[0];
+				m_min = (*m_value)[0];
+
+				for (auto& item : *m_value)
+				{
+					if (item > m_max)
+						m_max = item;
+					if (item < m_min)
+						m_min = item;
+				}
 			}
 		}
 

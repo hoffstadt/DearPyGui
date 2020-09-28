@@ -14,6 +14,8 @@ namespace Marvel {
 		{
 		}
 
+		mvSeriesType getSeriesType() override { return mvSeriesType::Area; }
+
 		void draw() override
 		{
 
