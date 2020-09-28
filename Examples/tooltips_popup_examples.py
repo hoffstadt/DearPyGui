@@ -1,4 +1,5 @@
-from dearpygui.dearpygui import *
+from dearpygui.core import *
+from dearpygui.simple import *
 
 add_button("Hover me##tooltips")
 add_tooltip("Hover me##tooltips", "tool_tip##tooltips")

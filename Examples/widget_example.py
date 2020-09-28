@@ -1,4 +1,5 @@
-from dearpygui.dearpygui import *
+from dearpygui.core import *
+from dearpygui.simple import *
 
 # callback
 def retrieve_values(sender, data):

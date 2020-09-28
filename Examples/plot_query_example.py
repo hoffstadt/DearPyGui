@@ -1,4 +1,5 @@
-from dearpygui.dearpygui import *
+from dearpygui.core import *
+from dearpygui.simple import *
 from math import sin, cos, tan, factorial, exp, log, sqrt, log1p, log2, log10, acos, asin, atan, atan2, acosh, asinh
 from math import atanh, e, pi, fmod, expm1, pow, hypot, degrees, radians,erf, erfc, gamma, lgamma, fabs
 

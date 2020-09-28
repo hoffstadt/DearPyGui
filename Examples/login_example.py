@@ -1,5 +1,3 @@
-from dearpygui.dearpygui import *
-from dearpygui.wrappers import *
 
 def recursively_show(container):
     for item in get_item_children(container):
@@ -25,7 +23,7 @@ def position_login_window(sender, data):
     login_height = get_item_height('Login Window')
     set_window_pos('Login Window', (main_width/2 - login_width/2), (main_height/2 - login_height/2))
 
-with window('Login Window', title_bar=False, movable=False, autosize=True, resizable=False):
+with window('Login Window', no_title_bar=True, no_move=True, autosize=True, no_resize=True):
     add_input_text('Password', hint='hover me for password', password=True, tip='the password is "password"')
     add_button('Login', callback=try_login)
     add_text('Incorrect Password.', color=[255, 0, 0], parent='Login Window')

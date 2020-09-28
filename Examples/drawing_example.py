@@ -1,4 +1,5 @@
-from dearpygui.dearpygui import *
+from dearpygui.core import *
+from dearpygui.simple import *
 
 def update_drawing(sender, data):
     set_drawing_origin("drawing##widget", get_value("X Origin"), get_value("Y Origin"))
