@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
     <meta name="generator" content="pdoc 0.8.4" />
-    <title>dearpygui.dearpygui API documentation</title>
+    <title>DPG Intro</title>
     <meta name="description" content="" />
     <link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/sanitize.min.css" integrity="sha256-PK9q560IAAa6WVRRh76LtCaI8pjTJ2z11v0miyNNjrs=" crossorigin>
     <link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/typography.min.css" integrity="sha256-7l/o7C8jubJiy74VsKTidCy1yBkRtiUGbVkYBylBqUg=" crossorigin>
@@ -79,16 +79,19 @@
             <br><br>
             Code:
         </p>
-<pre><code data-language="python">from dearpygui.dearpygui import *
+<pre><code data-language="python">import dearpygui.core as dpg
 
-add_text("Hello world")
-add_button("Save", callback="SaveCallback")
-add_input_text("string")
-add_slider_float("float")
 
-def SaveCallback(sender, data):
+def save_callback(sender, data):
     print("Save Clicked")
-start_dearpygui()
+
+
+dpg.add_text("Hello, world")
+dpg.add_button("Save", callback=save_callback)
+dpg.add_input_text("string", default_value="Quick brown fox")
+dpg.add_slider_float("float", default_value=0.273, max_value=1)
+
+dpg.start_dearpygui()
 </code></pre>
         <p>
             Result:<br>
