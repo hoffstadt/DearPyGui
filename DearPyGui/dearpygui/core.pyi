@@ -39,22 +39,22 @@ def add_color_button(name: str, color: List[float], callback: Callable = None, c
 	...
 
 def add_color_edit3(name: str, default_value: List[int] = [0, 0, 0], callback: Callable = None, callback_data: Any = None, tip: str = "", parent: str = "", 
-					before: str = "", source: str = "", width: int = 0, height: int = 0, label: str = "", show: bool = True) -> None:
+					before: str = "", source: str = "", width: int = 0, height: int = 0, label: str = "", popup: str = "", show: bool = True) -> None:
 	"""Adds an rgb color editing widget. Click and draging the color square will copy the color to be applied on any other color widget."""
 	...
 
 def add_color_edit4(name: str, default_value: List[int] = [0, 0, 0, 0], callback: Callable = None, callback_data: Any = None, tip: str = "", 
-					parent: str = "", before: str = "", source: str = "", width: int = 0, height: int = 0, label: str = "", show: bool = True) -> None:
+					parent: str = "", before: str = "", source: str = "", width: int = 0, height: int = 0, label: str = "", popup: str = "", show: bool = True) -> None:
 	"""Adds an rgba color editing widget. Click and draging the color square will copy the color to be applied on any other color widget."""
 	...
 
 def add_color_picker3(name: str, default_value: List[int] = [0, 0, 0], callback: Callable = None, callback_data: Any = None, tip: str = "", parent: str = "", 
-					  before: str = "", source: str = "", width: int = 0, height: int = 0, label: str = "", show: bool = True) -> None:
+					  before: str = "", source: str = "", width: int = 0, height: int = 0, label: str = "", popup: str = "", show: bool = True) -> None:
 	"""Adds an rgb color picking widget. Click and draging the color square will copy the color to be applied on any other color widget. Right Click allows the style of the color picker to be changed."""
 	...
 
 def add_color_picker4(name: str, default_value: List[int] = [0, 0, 0, 0], callback: Callable = None, callback_data: Any = None, tip: str = "", parent: str = "", 
-					  before: str = "", source: str = "", width: int = 0, height: int = 0, label: str = "", show: bool = True) -> None:
+					  before: str = "", source: str = "", width: int = 0, height: int = 0, label: str = "", popup: str = "", show: bool = True) -> None:
 	"""Adds an rgba color picking widget. Click and draging the color square will copy the color to be applied on any other color widget. Right Click allows the style of the color picker to be changed"""
 	...
 
@@ -229,8 +229,8 @@ def add_input_int4(name: str, default_value: List[int] = ..., callback: Callable
 
 def add_input_text(name: str, default_value: str = "", hint: str = "", multiline: bool = False, no_spaces: bool = False, 
 				   uppercase: bool = False, decimal: bool = False, hexadecimal: bool = False, readonly: bool = False, 
-				   password: bool = False, callback: Callable = None, callback_data: Any = None, tip: str = "", 
-				   parent: str = "", before: str = "", source: str = "", width: int = 0, on_enter: bool = False, 
+				   password: bool = False, scientific: bool = False, callback: Callable = None, callback_data: Any = None, tip: str = "", 
+				   parent: str = "", before: str = "", source: str = "", width: int = 0, height: int = 0, on_enter: bool = False, 
 				   label: str = "", popup: str = "", show: bool = True) -> None:
 	"""Adds input for text values."""
 	...
@@ -247,6 +247,10 @@ def add_line_series(plot: str, name: str, data: List[List[float]], color: List[f
 def add_listbox(name: str, items: List[str], default_value: int = 0, callback: Callable = None, callback_data: Any = None, tip: str = "", 
 				parent: str = "", before: str = "", source: str = "", width: int = 0, num_items: int = 3, label: str = "", popup: str = "", show: bool = True) -> None:
 	"""Adds a listbox."""
+	...
+
+def add_managed_columns(name: str, columns: int, border: bool = True, show: bool = True, parent: str = "", before: str = "") -> None:
+	"""Adds a menu to an existing menu bar. Must be followed by a call to end_menu."""
 	...
 
 def add_menu(name: str, label: str = "", show: bool = True, tip: str = "", parent: str = "", before: str = "", enabled: bool = True) -> None:
@@ -309,7 +313,8 @@ def add_scatter_series(plot: str, name: str, data: List[float], marker: int = 2,
 	...
 
 def add_selectable(name: str, default_value: bool = False, callback: Callable = None, callback_data: Any = None, tip: str = "", parent: str = "", 
-				   before: str = "", source: str = "", disabled: bool = False, label: str = "", popup: str = "", show: bool = True) -> None:
+				   before: str = "", source: str = "", disabled: bool = False, label: str = "", popup: str = "", 
+				   show: bool = True, span_columns: bool = False) -> None:
 	"""Adds a selectable."""
 	...
 
@@ -415,7 +420,7 @@ def add_tooltip(tipparent: str, name: str, parent: str = "", before: str = "", s
 	"""Adds an advanced tool tip for an item. This command must come immediately after the item the tip is for."""
 	...
 
-def add_tree_node(name: str, default_open: bool = False, label: str = "", show: bool = True, tip: str = "", parent: str = "", before: str = "") -> None:
+def add_tree_node(name: str, default_open: bool = False, label: str = "", show: bool = True, tip: str = "", parent: str = "", before: str = "", leaf: str= "", bullet: str= "") -> None:
 	"""Adds a tree node to add items to. Must be closed with the end_tree_node command."""
 	...
 
@@ -424,7 +429,7 @@ def add_value(name: str, value: Any) -> None:
 	...
 
 def add_window(name: str, width: int = -1, height: int = -1, x_pos: int = 200, y_pos: int = 200, autosize: bool = False, 
-			   no_resize: bool = False, no_title_bar: bool = False, no_move: bool = False, label: str = "", show: bool = True, on_close: Callable = None) -> None:
+			   no_resize: bool = False, no_title_bar: bool = False, no_move: bool = False, no_scrollbar: bool = False, no_collapse: bool = False, horizontal_scrollbar: bool = False, no_focus_on_appearing: bool = False, no_bring_to_front_on_focus: bool = False, label: str = "", show: bool = True, on_close: Callable = None) -> None:
 	"""Creates a new window for following items to be added to."""
 	...
 
