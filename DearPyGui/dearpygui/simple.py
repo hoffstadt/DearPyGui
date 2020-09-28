@@ -150,12 +150,6 @@ def get_item_width(item: str) -> Union[int, None]:
 def get_item_height(item: str) -> Union[int, None]:
     return internalDPG.get_item_configuration(item)["height"]
 
-def show_item(item: str):
-    internalDPG.configure_item(item, show=True)
-
-def hide_item(item: str):
-    internalDPG.configure_item(item, show=False)
-
 # drawing configure commands
 def set_drawing_origin(drawing: str, x: float, y: float):
     internalDPG.configure_item(drawing, originx=x, originy=y)
