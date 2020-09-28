@@ -25,6 +25,7 @@ namespace Marvel {
 			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)"},
 			{mvPythonDataType::String, "source", "data source for shared data"},
 			{mvPythonDataType::Integer, "width",""},
+			{mvPythonDataType::Integer, "height",""},
 			{mvPythonDataType::Bool, "on_enter", "Only runs callback on enter"},
 			{mvPythonDataType::String, "label"},
 			{mvPythonDataType::String, "popup"},
@@ -189,6 +190,7 @@ namespace Marvel {
 		PyObject* callback_data = nullptr;
 		const char* tip = "";
 		int width = 0;
+		int height = 0;
 		const char* before = "";
 		const char* parent = "";
 		const char* source = "";
@@ -199,8 +201,10 @@ namespace Marvel {
 
 		int flags = 0;
 
-		if (!(*mvApp::GetApp()->getParsers())["add_input_text"].parse(args, kwargs, __FUNCTION__, &name, &default_value, &hint, &multiline, &no_spaces,
-			&uppercase, &decimal, &hexadecimal, &readonly, &password, &scientific, &callback, &callback_data, &tip, &parent, &before, &source, &width, &on_enter,
+		if (!(*mvApp::GetApp()->getParsers())["add_input_text"].parse(args, kwargs, __FUNCTION__, 
+			&name, &default_value, &hint, &multiline, &no_spaces,
+			&uppercase, &decimal, &hexadecimal, &readonly, &password, &scientific, &callback, 
+			&callback_data, &tip, &parent, &before, &source, &width, &height, &on_enter,
 			&label, &popup, &show))
 			return ToPyBool(false);
 
