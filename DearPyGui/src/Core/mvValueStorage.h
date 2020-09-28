@@ -30,6 +30,8 @@ namespace Marvel {
 	class mvValueStorage
 	{
 
+		friend class mvDebugWindow;
+
 		enum class ValueTypes 
 		{
 			None = 0,
@@ -82,11 +84,13 @@ namespace Marvel {
 		static void                DecrementRef        (const std::string& name);
 		static void                DeleteValue         (const std::string& name);
 
+		
+
 	private:
 
 		mvValueStorage() = default;
 
-		static std::map<std::string, ValueTypes>           s_typeStorage;  // keeps track of reference count
+		static std::map<std::string, ValueTypes>           s_typeStorage;  // keeps track of value mapping
 		static std::map<std::string, int>                  s_refStorage;   // keeps track of reference count
 		static std::set<std::string>                       s_itemStorage;  // keeps track of registered items
 

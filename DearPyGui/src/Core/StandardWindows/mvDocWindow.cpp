@@ -11,6 +11,8 @@ namespace Marvel {
 
 	mvDocWindow::mvDocWindow() : mvStandardWindow("Dear PyGui Documentation")
 	{
+		m_width = 700;
+		m_height = 500;
 		setup();
 	}
 

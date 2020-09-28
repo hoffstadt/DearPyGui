@@ -305,7 +305,7 @@ namespace Marvel {
 				m_height = (UINT)HIWORD(lParam);
 				mvApp::GetApp()->setWindowSize((UINT)LOWORD(lParam), (UINT)HIWORD(lParam));
 				mvApp::GetApp()->runCallback(mvApp::GetApp()->getResizeCallback(), "Main Application");
-				mvDocWindow::GetWindow()->setSize((UINT)LOWORD(lParam), (UINT)HIWORD(lParam));
+				//mvDocWindow::GetWindow()->setSize((UINT)LOWORD(lParam), (UINT)HIWORD(lParam));
 				CleanupRenderTarget();
 				s_pSwapChain->ResizeBuffers(0, (UINT)LOWORD(lParam), (UINT)HIWORD(lParam), DXGI_FORMAT_UNKNOWN, 0);
 				CreateRenderTarget();

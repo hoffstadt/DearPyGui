@@ -234,6 +234,13 @@ namespace Marvel {
 			checkbitset("no_background",                ImGuiWindowFlags_NoBackground,          m_windowflags);
 		}
 
+		~mvWindowAppitem()
+		{
+			mvGlobalIntepreterLock gil;
+			if (m_closing_callback)
+				Py_XDECREF(m_closing_callback);
+		}
+
 	private:
 
 		ImGuiWindowFlags m_windowflags = ImGuiWindowFlags_NoSavedSettings;
