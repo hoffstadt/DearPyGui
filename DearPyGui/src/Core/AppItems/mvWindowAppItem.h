@@ -92,7 +92,7 @@ namespace Marvel {
 			
 			pushColorStyles();
 
-			if (!ImGui::Begin(m_label.c_str(), &m_show, m_windowflags))
+			if (!ImGui::Begin(m_label.c_str(), m_noclose ? nullptr : &m_show, m_windowflags))
 			{
 				if (m_mainWindow)
 					ImGui::PopStyleVar();
@@ -185,6 +185,7 @@ namespace Marvel {
 			mvGlobalIntepreterLock gil;
 			if (PyObject* item = PyDict_GetItemString(dict, "x_pos")) setWindowPos(ToInt(item), m_ypos);
 			if (PyObject* item = PyDict_GetItemString(dict, "y_pos")) setWindowPos(m_xpos, ToInt(item));
+			if (PyObject* item = PyDict_GetItemString(dict, "no_close")) m_noclose = ToBool(item);
 
 			// helper for bit flipping
 			auto flagop = [dict](const char* keyword, int flag, int& flags)
@@ -201,6 +202,8 @@ namespace Marvel {
 			flagop("horizontal_scrollbar",			ImGuiWindowFlags_HorizontalScrollbar,	m_windowflags);
 			flagop("no_focus_on_appearing",			ImGuiWindowFlags_NoFocusOnAppearing,	m_windowflags);
 			flagop("no_bring_to_front_on_focus",	ImGuiWindowFlags_NoBringToFrontOnFocus,	m_windowflags);
+			flagop("menubar",                       ImGuiWindowFlags_MenuBar,	            m_windowflags);
+			flagop("no_background",                 ImGuiWindowFlags_NoBackground,          m_windowflags);
 
 		}
 
@@ -211,6 +214,7 @@ namespace Marvel {
 			mvGlobalIntepreterLock gil;
 			PyDict_SetItemString(dict, "x_pos", ToPyInt(m_xpos));
 			PyDict_SetItemString(dict, "y_pos", ToPyInt(m_ypos));
+			PyDict_SetItemString(dict, "no_close", ToPyBool(m_closing));
 
 			// helper to check and set bit
 			auto checkbitset = [dict](const char* keyword, int flag, const int& flags)
@@ -228,6 +232,8 @@ namespace Marvel {
 			checkbitset("horizontal_scrollbar",			ImGuiWindowFlags_HorizontalScrollbar,	m_windowflags);
 			checkbitset("no_focus_on_appearing",		ImGuiWindowFlags_NoFocusOnAppearing,	m_windowflags);
 			checkbitset("no_bring_to_front_on_focus",	ImGuiWindowFlags_NoBringToFrontOnFocus,	m_windowflags);
+			checkbitset("menubar",                      ImGuiWindowFlags_MenuBar,	            m_windowflags);
+			checkbitset("no_background",                ImGuiWindowFlags_NoBackground,          m_windowflags);
 		}
 
 	private:
@@ -240,6 +246,7 @@ namespace Marvel {
 		bool             m_dirty_pos = true;
 		bool             m_dirty_size = true;
 		bool             m_closing = true;
+		bool             m_noclose = false;
 		
 
 	};

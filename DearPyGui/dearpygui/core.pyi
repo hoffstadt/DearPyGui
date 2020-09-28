@@ -437,7 +437,11 @@ def add_value(name: str, value: Any) -> None:
 	...
 
 def add_window(name: str, width: int = -1, height: int = -1, x_pos: int = 200, y_pos: int = 200, autosize: bool = False, 
-			   no_resize: bool = False, no_title_bar: bool = False, no_move: bool = False, no_scrollbar: bool = False, no_collapse: bool = False, horizontal_scrollbar: bool = False, no_focus_on_appearing: bool = False, no_bring_to_front_on_focus: bool = False, label: str = "", show: bool = True, on_close: Callable = None) -> None:
+			   no_resize: bool = False, no_title_bar: bool = False, no_move: bool = False, no_scrollbar: bool = False, 
+			   no_collapse: bool = False, horizontal_scrollbar: bool = False, no_focus_on_appearing: bool = False, 
+			   no_bring_to_front_on_focus: bool = False, menubar: bool = False, no_close: bool = False, 
+			   no_background: bool = False, label: str = "", 
+			   show: bool = True, on_close: Callable = None) -> None:
 	"""Creates a new window for following items to be added to."""
 	...
 
