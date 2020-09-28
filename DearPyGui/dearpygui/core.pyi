@@ -473,7 +473,7 @@ def close_popup() -> None:
 	"""Closes the current popup"""
 	...
 
-def configure_item(item: str, config: Any) -> None:
+def configure_item(item: str, **kwargs) -> None:
 	"""Configures an item"""
 	...
 

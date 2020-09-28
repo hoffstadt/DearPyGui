@@ -15,9 +15,9 @@ namespace Marvel {
 
 		mvDebugWindow() : mvStandardWindow("Dear PyGui Debug") 
 		{ 
-			m_width = 500; 
+			m_width = 700; 
 			m_height = 500;  
-			m_flags |= ImGuiWindowFlags_AlwaysAutoResize;
+			//m_flags |= ImGuiWindowFlags_AlwaysAutoResize;
 
 			m_commands = GetAllCommands();
 		}
@@ -28,6 +28,7 @@ namespace Marvel {
 	private:
 
 		std::string m_selectedItem = "MainWindow";
+		ImGuiID     m_selectedID;
 		std::vector<std::pair<std::string, std::string>> m_commands;
 
 	};
