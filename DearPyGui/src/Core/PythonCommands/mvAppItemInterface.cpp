@@ -167,12 +167,6 @@ namespace Marvel {
 			{mvPythonDataType::String, "name"}
 		}, "Shows an item if it was hidden.", "None", "Widget Commands") });
 
-		parsers->insert({ "hide_item", mvPythonParser({
-			{mvPythonDataType::String, "name"},
-			{mvPythonDataType::Optional},
-			{mvPythonDataType::Bool, "children_only"}
-		}, "Hides an item.", "None", "Widget Commands") });
-
 		parsers->insert({ "set_item_callback", mvPythonParser({
 			{mvPythonDataType::String, "item"},
 			{mvPythonDataType::Object, "callback", "Registers a callback"},
