@@ -1086,10 +1086,11 @@ namespace Marvel {
 	PyObject* add_color_edit3(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		const char* name;
-		PyObject* default_value = PyTuple_New(3);
+		PyObject* default_value = PyTuple_New(4);
 		PyTuple_SetItem(default_value, 0, PyLong_FromLong(0));
 		PyTuple_SetItem(default_value, 1, PyLong_FromLong(0));
 		PyTuple_SetItem(default_value, 2, PyLong_FromLong(0));
+		PyTuple_SetItem(default_value, 2, PyLong_FromLong(255));
 		PyObject* callback = nullptr;
 		PyObject* callback_data = nullptr;
 		const char* tip = "";
@@ -1152,7 +1153,7 @@ namespace Marvel {
 		PyTuple_SetItem(default_value, 0, PyLong_FromLong(0));
 		PyTuple_SetItem(default_value, 1, PyLong_FromLong(0));
 		PyTuple_SetItem(default_value, 2, PyLong_FromLong(0));
-		PyTuple_SetItem(default_value, 3, PyLong_FromLong(0));
+		PyTuple_SetItem(default_value, 3, PyLong_FromLong(255));
 		PyObject* callback = nullptr;
 		PyObject* callback_data = nullptr;
 		const char* tip = "";
@@ -1210,10 +1211,11 @@ namespace Marvel {
 	PyObject* add_color_picker3(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		const char* name;
-		PyObject* default_value = PyTuple_New(3);
+		PyObject* default_value = PyTuple_New(4);
 		PyTuple_SetItem(default_value, 0, PyLong_FromLong(0));
 		PyTuple_SetItem(default_value, 1, PyLong_FromLong(0));
 		PyTuple_SetItem(default_value, 2, PyLong_FromLong(0));
+		PyTuple_SetItem(default_value, 2, PyLong_FromLong(255));
 		PyObject* callback = nullptr;
 		PyObject* callback_data = nullptr;
 		const char* tip = "";
@@ -1277,7 +1279,7 @@ namespace Marvel {
 		PyTuple_SetItem(default_value, 0, PyLong_FromLong(0));
 		PyTuple_SetItem(default_value, 1, PyLong_FromLong(0));
 		PyTuple_SetItem(default_value, 2, PyLong_FromLong(0));
-		PyTuple_SetItem(default_value, 3, PyLong_FromLong(1));
+		PyTuple_SetItem(default_value, 3, PyLong_FromLong(255));
 		PyObject* callback = nullptr;
 		PyObject* callback_data = nullptr;
 		const char* tip = "";

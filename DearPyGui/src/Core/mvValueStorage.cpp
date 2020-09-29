@@ -13,6 +13,13 @@ namespace Marvel {
 		switch (GetType(name))
 		{
 
+		case mvValueStorage::ValueTypes::Color:
+		{
+			float* fcolor = GetFloat4Value(name);
+			mvColor color = { (int)(fcolor[0]*255), (int)(fcolor[1] * 255), (int)(fcolor[2] * 255), (int)(fcolor[3] * 255), true };
+			return ToPyColor(color);
+		}
+
 		case mvValueStorage::ValueTypes::Int:
 			return ToPyInt(*GetIntValue(name));
 
@@ -142,6 +149,18 @@ namespace Marvel {
 			return true;
 		}
 
+		case mvValueStorage::ValueTypes::Color:
+		{
+			std::vector<float> temp = ToFloatVect(value);
+			for (size_t i = 0; i < temp.size(); i++)
+			{
+				if (i > 3)
+					break;
+				GetFloat4Value(name)[i] = temp[i]/255.0f;
+			}
+			return true;
+		}
+
 		case mvValueStorage::ValueTypes::String:
 			*GetStringValue(name) = ToString(value);
 			return true;
@@ -233,6 +252,46 @@ namespace Marvel {
 
 			else
 					AddFloatVectorValue(name, ToFloatVect(value));
+		}
+
+		// tuple (color)
+		else if (PyTuple_Check(value))
+		{
+
+			if (PyTuple_Size(value) == 0)
+				return;
+			else if (PyTuple_Size(value) == 1)
+			{
+				PyObject* item = PyTuple_GetItem(value, 0);
+				if (PyNumber_Check(item))
+					AddColorValue(name, { (float)PyFloat_AsDouble(item), 0.0f, 0.0f, 255.0f });
+				else return;
+			}
+
+			else if (PyTuple_Size(value) == 2)
+			{
+				PyObject* item = PyTuple_GetItem(value, 0);
+				if (PyNumber_Check(item))
+					AddColorValue(name, { ToFloat(PyTuple_GetItem(value, 0)), ToFloat(PyTuple_GetItem(value, 1)), 0.0f, 255.0f});
+				else return;
+			}
+
+			else if (PyTuple_Size(value) == 3)
+			{
+				PyObject* item = PyTuple_GetItem(value, 0);
+				if (PyNumber_Check(item))
+					AddColorValue(name, { ToFloat(PyTuple_GetItem(value, 0)), ToFloat(PyTuple_GetItem(value, 1)), ToFloat(PyTuple_GetItem(value, 1)), 255.0f });
+				else return;
+			}
+
+			else if (PyTuple_Size(value) == 4)
+			{
+				PyObject* item = PyTuple_GetItem(value, 0);
+				if (PyNumber_Check(item))
+					AddColorValue(name, { ToFloat(PyTuple_GetItem(value, 0)), ToFloat(PyTuple_GetItem(value, 1)), ToFloat(PyTuple_GetItem(value, 2)), ToFloat(PyTuple_GetItem(value, 3)) });
+				else return;
+			}
+
 		}
 
 	}
@@ -521,6 +580,43 @@ namespace Marvel {
 		return s_float4s[name].data();
 	}
 
+	float* mvValueStorage::AddColorValue(const std::string& name, const std::array<float, 4>& value)
+	{
+		// value exists and is compatible type
+		if (HasValue(name))
+		{
+			switch (GetType(name))
+			{
+
+			case mvValueStorage::ValueTypes::Color:
+				IncrementRef(name);
+				return GetFloat4Value(name);
+
+			case mvValueStorage::ValueTypes::Float4:
+				IncrementRef(name);
+				return GetFloat4Value(name);
+
+			case mvValueStorage::ValueTypes::FloatVect:
+				if (GetFloatVectorValue(name)->size() > 3)
+				{
+					IncrementRef(name);
+					return GetFloatVectorValue(name)->data();
+				}
+
+			default: // incompatible type
+				return s_float4s["common"].data();
+			}
+
+		}
+
+		// doesn't have value
+		s_typeStorage[name] = ValueTypes::Color;
+		s_refStorage[name] = 1;
+		s_itemStorage.insert(name);
+		s_float4s[name] = value;
+		return s_float4s[name].data();
+	}
+
 	std::vector<float>* mvValueStorage::AddFloatVectorValue(const std::string& name, const std::vector<float>& value)
 	{
 		// value exists and is proper type
@@ -706,6 +802,7 @@ namespace Marvel {
 		{
 			switch (GetType(name))
 			{
+			case ValueTypes::Color: return s_float4s[name].data();
 			case ValueTypes::Float4: return s_float4s[name].data();
 			case ValueTypes::FloatVect: return s_floatvects[name].data();
 			}
@@ -790,6 +887,7 @@ namespace Marvel {
 			case ValueTypes::Float2: s_float2s.erase(name); break;
 			case ValueTypes::Float3: s_float3s.erase(name); break;
 			case ValueTypes::Float4: s_float4s.erase(name); break;
+			case ValueTypes::Color: s_float4s.erase(name); break;
 			case ValueTypes::String: s_strings.erase(name); break;
 			case ValueTypes::Bool: s_bools.erase(name); break;
 			case ValueTypes::FloatVect: s_floatvects.erase(name); break;
