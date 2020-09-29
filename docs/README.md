@@ -54,13 +54,13 @@ Ensure you have at least Python 3.7.
 can be found in the Examples folder [/Examples](https://github.com/hoffstadt/DearPyGui/tree/master/Examples). To get started checkout the [Tutorials](https://hoffstadt.github.io/DearPyGui/tutorial.html)
 and for all other references 
 visit the [Documentation](https://hoffstadt.github.io/DearPyGui/) or from within the library by 
-using the **show_documentation** command.
+using the **show_documentation** command. You can also view the demo using the **show_demo** command found in _dearpygui.demo_.
 
 Using _DearPyGui_ is a simple as creating a python script like the one below:
 
 Code:
 ```Python
-from dearpygui.dearpygui import *
+from dearpygui.core import *
 
 def save_callback(sender, data):
     print("Save Clicked")
@@ -133,7 +133,6 @@ If you are having issues or want to help, here are some places you can go:
 
 Some upcoming features:
 - An object oriented interface
-- Additional Plot types (bar graph, pie chart, etc.)
 - Support for window docking and multiple viewports.
 - 3D widget.
 - Custom Widget API.

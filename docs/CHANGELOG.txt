@@ -39,6 +39,7 @@ Fixes:
 - Widgets:    Can widths can now be negative (size from the right side of screen)
 
 Breaking Changes:
+- Handlers:       removed "handler" from all callbacks except resize
 - Data Source:    data_source keywords changed to "source"
 - Tables:         tables no longer use set/get value
 - Modules:        dearpygui module is now called core
