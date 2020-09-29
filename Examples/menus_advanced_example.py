@@ -23,10 +23,10 @@ def showMetrics(sender, data):
     show_metrics()
 
 def addThemes(sender, data):
-    add_menu("Themes", parent="MenuBar")
-    end()
-    add_color_picker4("Color Selector", data_source="color1", parent="Themes")
-    add_color_edit4("Color Item", data_source="color1")
+    with menu("Themes", parent="MenuBar"):
+        pass
+    add_color_picker4("Color Selector", source="color1", parent="Themes")
+    add_color_edit4("Color Item", source="color1")
     show_item("Delete Themes")
     hide_item("Add Themes")
 
@@ -36,30 +36,23 @@ def deleteThemes(sender, data):
     show_item("Add Themes")
     hide_item("Delete Themes")
 
-add_menu_bar("MenuBar")
+with menu_bar("MenuBar"):
+    with menu("Show/Hide"):
+        add_menu_item("Show Tools", callback=showMenu)
+        add_menu_item("Hide Tools", callback=hideMenu)
+        add_menu_item('Change "Show Docs" Callback', callback=changeCallback)
+        with tooltip('Change "Show Docs" Callback', "tooltip1"):
+            add_text('this will change the "show Docs" callback to a show metrics callback')
+        with menu("Empty Menu"):
+            add_menu_item("Nothing")
+    with menu("Tools"):
+        add_menu_item("Show Docs", callback=showDocs)
+        with menu("Add/Remove"):
+            add_menu_item("Add Themes", callback=addThemes)
+            add_menu_item("Delete Themes", callback=deleteThemes)
+            hide_item("Delete Themes")
 
-add_menu("Show/Hide")
-add_menu_item("Show Tools", callback=showMenu)
-add_menu_item("Hide Tools", callback=hideMenu)
-add_menu_item('Change "Show Docs" Callback', callback=changeCallback)
-add_tooltip('Change "Show Docs" Callback', "tooltip1")
-add_text('this will change the "show Docs" callback to a show metrics callback')
-end() # tooltip
-add_menu("Empty Menu")
-add_menu_item("Nothing")
-end() # menu::Empty Menu
-end() # menu::Show/Hide
 
-add_menu("Tools")
-add_menu_item("Show Docs", callback=showDocs)
-end() # menu::Tools
-add_menu("Add/Remove")
-add_menu_item("Add Themes", callback=addThemes)
-add_menu_item("Delete Themes", callback=deleteThemes)
-hide_item("Delete Themes")
-end() # menu::Add/Remove
-
-end() # menu::MenuBar
 
 add_text("This menu bar demonstrates:")
 add_text('standard menu bar, menus, and menu items', bullet=True)

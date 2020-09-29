@@ -5,14 +5,14 @@ def update_drawing(sender, data):
     set_drawing_origin("drawing##widget", get_value("X Origin"), get_value("Y Origin"))
     set_drawing_scale("drawing##widget", get_value("X Scale "), get_value("Y Scale"))
 
-add_group("Drawing Controls Group")
-add_slider_float("X Origin", vertical=True, min_value=-100, max_value=100, default_value=0, callback=update_drawing)
-add_same_line(spacing=20)
-add_slider_float("Y Origin", vertical=True, min_value=-100, max_value=100, default_value=0, callback=update_drawing)
-add_slider_float("X Scale ", vertical=True, max_value=10, default_value=1, callback=update_drawing)
-add_same_line(spacing=20)
-add_slider_float("Y Scale", vertical=True, max_value=10, default_value=1, callback=update_drawing)
-end()
+with group("Drawing Controls Group"):
+    add_slider_float("X Origin", vertical=True, min_value=-100, max_value=100, default_value=0, callback=update_drawing)
+    add_same_line(spacing=20)
+    add_slider_float("Y Origin", vertical=True, min_value=-100, max_value=100, default_value=0, callback=update_drawing)
+    add_slider_float("X Scale ", vertical=True, max_value=10, default_value=1, callback=update_drawing)
+    add_same_line(spacing=20)
+    add_slider_float("Y Scale", vertical=True, max_value=10, default_value=1, callback=update_drawing)
+
 add_same_line(spacing=20)
 add_drawing("drawing##widget", width=800, height=500)
 draw_rectangle("drawing##widget", [0, 500], [800, 0], [255, 0, 0, 255], fill=[0, 0, 25, 255], rounding=12,

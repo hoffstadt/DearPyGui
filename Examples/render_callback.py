@@ -94,14 +94,14 @@ add_checkbox("Use Vsync", default_value=1)
 add_progress_bar("Center X", 0, overlay="x position")
 add_progress_bar("Center Y", 0, overlay="y position")
 
-add_window("Canvas Window", width=320, height=340)
-add_drawing("Canvas", width=301, height=301)
-draw_circle("Canvas", [25, 25], 25, [255, 100, 0], fill=[255, 100, 0], segments=20, tag="ball")
-draw_rectangle("Canvas", [0, 1], [300, 300], color=[0, 0, 255], fill=[0, 0, 255, 50], tag="background")
-end()
+with window("Canvas Window", width=320, height=340):
+    add_drawing("Canvas", width=301, height=301)
+    draw_circle("Canvas", [25, 25], 25, [255, 100, 0], fill=[255, 100, 0], segments=20, tag="ball")
+    draw_rectangle("Canvas", [0, 1], [300, 300], color=[0, 0, 255], fill=[0, 0, 255, 50], tag="background")
 
 set_render_callback(render)
-set_render_callback(render, handler="Canvas Window")
-set_mouse_drag_callback(drag_callback, 10, handler="Canvas Window")
+set_render_callback(render)
+set_mouse_drag_callback(drag_callback, 10)
 
 start_dearpygui()
+

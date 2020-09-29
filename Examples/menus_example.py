@@ -44,4 +44,5 @@ with window("Third Window"):
         with menu("Tools##3"):
             add_menu_item("Show Logger##3", callback=show_logger)
 
+add_text("this is a basic menu, it does not use context managers from dearpygui.simple which are recomended.")
 start_dearpygui()
