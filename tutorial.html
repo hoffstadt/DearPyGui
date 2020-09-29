@@ -132,14 +132,14 @@ dpg.start_dearpygui()</code> </pre>
         The log commands can be filtered by setting the log level.
         The logger will filter out the set level and any levels lower than that level.
         <br><br>
-        "0" log level will show all the commands.
+        "mvTRACE" log level will show all the commands.
         <br><br>
         see below for an example
         </p>
         <pre><code data-language="python">import dearpygui.core as dpg
 
 dpg.show_logger()
-dpg.set_log_level(0)
+dpg.set_log_level(dbp.mvTRACE)
 dpg.log("trace message")
 dpg.log_debug("debug message")
 dpg.log_info("info message")
@@ -166,7 +166,7 @@ dpg.start_dearpygui()</code></pre>
                 <li>1. place a "##" trailing the name (ex. "displayed_name##unique_part") anything after the "##" will be hidden from the displayed name.</li>
                 <li>2. use the label keyword which will display the label instead of the name for the item.</li>
             </ul>
-            Some item names are auto generated for items without name arguments in the method. (i.e.same_line(), spacing(), separator(), unindent(), add_indent()).
+            Some item names are auto generated for items without name arguments in the method. (i.e.same_line, spacing, separator, unindent, add_indent).
             However these have an optional name keyword which can be filled out if you need to reference the item at a later time.
 
         </p>
@@ -187,8 +187,8 @@ dpg.start_dearpygui()</code> </pre>
             <li>starting the container with its "add***()" function, then completing the container the "end()" function.</li>
             <li>(recommended) using "dearpygui.simple" and and the corresponding containers context manager.</li>
             </ul>
-            When container items are "added", they are popped onto the parent stack. Any item added after will belong to the parent on the top of the stack.
-            When a containr item is "ended" they are popped off of the parent stack.
+            When container items are "added", they are pushed onto the parent stack. Any item added after will belong to the parent on the top of the stack.
+            When a container item is "ended" they are popped off of the parent stack.
         </p>
         <pre><code data-language="python">import dearpygui.core as dpg
 
@@ -421,7 +421,7 @@ dpg.start_dearpygui()</code> </pre>
             The value can be gotten using <code class="inline-code" data-language="python">get_value("source name")</code>.
             <br><br>
             The value can be manually set using <code class="inline-code" data-language="python">set_value("source name")</code>.
-            <br><br><
+            <br><br>
             Typically a value source item is created with the first item that uses the keyword to name it.
             <br>
             Most of the time this is good enough but in the rare case where the value needs to exist before the item that uses it we can use <code class="inline-code" data-language="python">add_value()</code>.
@@ -946,7 +946,7 @@ dpg.start_dearpygui()</code></pre>
         <h2>Tables</h2>
         <hr>
         <p>
-            DearPyGui has a low level table API that is well suited for static and dynamic tables.
+            DearPyGui has a simple table API that is well suited for static and dynamic tables.
             <br><br>
             The table widget is started by calling <code class="inline-code" data-language="python">add_table()</code>.
             <br><br>
@@ -1198,13 +1198,13 @@ dpg.start_dearpygui()</code></pre>
             For a much more complete example please see the <code class="inline-code" data-language="python">show_demo()</code>
             <br><br>
             Themes and widget styling can be applied to a single widget or the app as a whole.
-            the attributes of the style that can be set are:
+            Some examples of attributes of the style that can be set are:
             <ul>
             <li>font size</li>
             <li>app color scheme</li>
             <li>corner roundness</li>
             </ul>
-            please see the example below
+            Please see the example below:
         </p>
         <pre><code data-language="python">import dearpygui.core as dpg
 
