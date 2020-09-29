@@ -1,5 +1,6 @@
 #include "mvTextureStorage.h"
 #include "Core/mvUtilities.h"
+#include <imgui.h>
 
 namespace Marvel {
 
@@ -22,6 +23,11 @@ namespace Marvel {
 		{
 			IncrementTexture(name);
 			return;
+		}
+
+		if (name == "INTERNAL_DPG_FONT_ATLAS")
+		{
+			s_textures.insert({ name, {ImGui::GetIO().Fonts->TexWidth, ImGui::GetIO().Fonts->TexHeight, ImGui::GetIO().Fonts->TexID, 1} });
 		}
 
 		mvTexture newTexture = { 0, 0, nullptr, 1 };
@@ -50,7 +56,7 @@ namespace Marvel {
 		s_textures.at(name).count--;
 
 		// remove if count reaches 0
-		if (s_textures.at(name).count == 0)
+		if (s_textures.at(name).count == 0 && name != "INTERNAL_DPG_FONT_ATLAS")
 		{
 			UnloadTexture(name);
 			FreeTexture(s_textures.at(name));
@@ -60,7 +66,6 @@ namespace Marvel {
 
 	mvTexture* mvTextureStorage::GetTexture(const std::string& name)
 	{
-
 		if (s_textures.count(name) == 0)
 			return nullptr;
 

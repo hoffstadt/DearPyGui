@@ -264,6 +264,14 @@ def show_demo():
                     add_text("Pink", color=[255, 0, 255])
                     add_text("Yellow", color=[255, 255, 0])
     
+            with tree_node("Images##demo"):
+                add_text("Below we are displaying the font texture (which is the only texture we have access to in this demo).")
+                add_image("image##demo", "INTERNAL_DPG_FONT_ATLAS", uv_max=[1, 1])
+                add_text("Here is an image button using a portion of the font atlas")
+                add_image_button("#image##button1", "INTERNAL_DPG_FONT_ATLAS", uv_max=[0.1, 0.1])
+                add_same_line()
+                add_image_button("#image##button2", "INTERNAL_DPG_FONT_ATLAS", uv_min=[0.1, 0.1], uv_max=[0.2, 0.2])
+
             with tree_node("Text Input##demo"):
         
                 with tree_node("Multi-line Text Input##demo"):
@@ -678,7 +686,7 @@ def show_demo():
         with collapsing_header("Drawings##demo"):
             add_text("This section is not ready! But will completed sometime during the 0.4.x releases!")
             def UpdateDrawing(sender, data):
-                set_drawing_origin("drawing##widget##demo", get_value("X Origin"), get_value("Y Origin##demo"))
+                set_drawing_origin("drawing##widget##demo", get_value("X Origin##demo"), get_value("Y Origin##demo"))
                 set_drawing_scale("drawing##widget##demo", get_value("X Scale##demo"), get_value("Y Scale##demo"))
 
             with group("Drawing Controls Group##demo"):
@@ -701,6 +709,7 @@ def show_demo():
             draw_polygon("drawing##widget##demo", ((363, 471), (153, 498), (59, 220), (363, 471)), (255, 125, 0, 255), thickness=1.0, fill=(255, 125, 0, 50))
             draw_bezier_curve("drawing##widget##demo", (50, 200), (150, 250), (300, 150), (600, 250), (255, 255, 0, 255), thickness = 2.0)
             draw_arrow("drawing##widget##demo", (50, 70), (100, 65), (0, 200, 255), 1, 10)
+            draw_image("drawing##widget##demo", "INTERNAL_DPG_FONT_ATLAS", pmin=[0,400], uv_max=[0.1, 0.1])
 
         with collapsing_header("Plots##demo"):
 
@@ -749,6 +758,21 @@ def show_demo():
                 add_plot("Line Plot##demo", x_axis_name="x", y_axis_name="y", height=400)
                 add_line_series("Line Plot##demo", "0.5 + 0.5 * sin(x)", sindata)
                 add_line_series("Line Plot##demo", "x^2", x2data)
+
+            with tree_node("Time Plots##demo"):
+
+                timedata = []
+                
+                time_index = 0
+                while time_index < 739497600:
+                    timedata.append([time_index, time_index/(60*60*24)])
+                    time_index+=60*60*24*7
+                
+                add_text("When time is enabled, x-axis values are interpreted as UNIX timestamps in seconds (e.g. 1599243545).", bullet=True)
+                add_text("UNIX timestamps are seconds since 00:00:00 UTC on 1 January 1970", bullet=True)
+                add_plot("Time Plot##demo", y_axis_name="Days since 1970", height=400, xaxis_time=True)
+                add_line_series("Time Plot##demo", "Days", timedata)
+                
 
             with tree_node("Shade Plots##demo"):
 

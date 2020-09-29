@@ -54,12 +54,12 @@ namespace Marvel {
 
 		MV_DRAWCOMMAND_TYPE(mvDrawingCommandType::DrawImage)
 
-		mvDrawImageCommand(std::string  file, const mvVec2& pmin, const mvVec2& pmax, const mvVec2& uv_min = { 0, 0 },
+		mvDrawImageCommand(std::string file, const mvVec2& pmin, const mvVec2& pmax, const mvVec2& uv_min = { 0, 0 },
 				const mvVec2& uv_max = { 1, 1 }, const mvColor& color = { 255, 255, 255, 255 })
 			: mvDrawingCommand(), m_file(std::move(file)), m_pmax(pmax), m_pmin(pmin), m_pmaxo(pmax), m_pmino(pmin), m_uv_min(uv_min), m_uv_max(uv_max),
 			m_color(color)
 		{
-			if (m_pmax.x < 0 && m_pmax.y < 0)
+			if (m_pmax.x == m_pmin.x || m_pmax.y == m_pmin.y)
 				m_autosize = true;
 		}
 

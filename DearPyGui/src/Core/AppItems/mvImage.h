@@ -59,6 +59,14 @@ namespace Marvel {
 
 			}
 
+			if (m_dirty)
+			{
+				mvTexture* texture = mvTextureStorage::GetTexture(m_value);
+				m_width = (int)((float)texture->width * (m_uv_max.x - m_uv_min.x));
+				m_height = (int)((float)texture->height * (m_uv_max.y - m_uv_min.y));
+				m_dirty = false;
+			}
+
 			if (m_texture)
 			{
 				ImGui::Image(m_texture, ImVec2((float)m_width, (float)m_height), ImVec2(m_uv_min.x, m_uv_min.y), ImVec2(m_uv_max.x, m_uv_max.y),
@@ -72,39 +80,6 @@ namespace Marvel {
 
 		}
 
-		//void setPyValue(PyObject* value) override
-		//{
-
-		//	std::string oldvalue = m_value;
-
-		//	PyGILState_STATE gstate = PyGILState_Ensure();
-
-		//	if (!PyUnicode_Check(value))
-		//	{
-		//		PyGILState_Release(gstate);
-		//		ThrowPythonException(m_name + " type must be a string.");
-		//		return;
-		//	}
-
-		//	m_value = PyUnicode_AsUTF8(value);
-		//	PyGILState_Release(gstate);
-
-		//	// clean up old resource
-		//	if (!m_value.empty() && oldvalue != m_value)
-		//	{
-		//		mvTextureStorage::DecrementTexture(oldvalue);
-		//		mvTextureStorage::AddTexture(m_value);
-		//	}
-
-		//	m_texture = mvTextureStorage::GetTexture(m_value);
-
-		//	if (m_texture)
-		//	{
-		//		m_width = (int)((float)mvTextureStorage::GetTexture(m_value)->width * (m_uv_max.x - m_uv_min.x));
-		//		m_height = (int)((float)mvTextureStorage::GetTexture(m_value)->height * (m_uv_max.y - m_uv_min.y));
-		//	}
-		//}
-
 		void                             setValue(const std::string& value) { m_value = value; }
 		[[nodiscard]] const std::string& getValue() const { return m_value; }
 
@@ -113,8 +88,16 @@ namespace Marvel {
 			if (dict == nullptr)
 				return;
 			mvGlobalIntepreterLock gil;
-			if (PyObject* item = PyDict_GetItemString(dict, "uv_min")) m_uv_min = ToVec2(item);
-			if (PyObject* item = PyDict_GetItemString(dict, "uv_max")) m_uv_max = ToVec2(item);
+			if (PyObject* item = PyDict_GetItemString(dict, "uv_min")) 
+			{
+				m_uv_min = ToVec2(item); 
+				m_dirty = true;
+			}
+			if (PyObject* item = PyDict_GetItemString(dict, "uv_max"))
+			{
+				m_uv_max = ToVec2(item);
+				m_dirty = true;
+			}
 			if (PyObject* item = PyDict_GetItemString(dict, "tint_color")) m_tintColor = ToColor(item);
 			if (PyObject* item = PyDict_GetItemString(dict, "border_color")) m_borderColor = ToColor(item);
 		}
@@ -138,6 +121,7 @@ namespace Marvel {
 		mvColor     m_tintColor = {255, 255, 255, 255, true};
 		mvColor     m_borderColor = {0, 0, 0, 0, true};
 		void*       m_texture = nullptr;
+		bool        m_dirty = false;
 
 	};
 
@@ -161,48 +145,6 @@ namespace Marvel {
 			mvTextureStorage::DecrementTexture(m_value);
 		}
 
-		//void setPyValue(PyObject* value) override
-		//{
-
-		//	std::string oldvalue = m_value;
-
-		//	PyGILState_STATE gstate = PyGILState_Ensure();
-
-		//	if (!PyUnicode_Check(value))
-		//	{
-		//		PyGILState_Release(gstate);
-		//		ThrowPythonException(m_name + " type must be a string.");
-		//		return;
-		//	}
-
-		//	m_value = PyUnicode_AsUTF8(value);
-		//	PyGILState_Release(gstate);
-
-		//	// clean up old resource
-		//	if (!m_value.empty() && oldvalue != m_value)
-		//	{
-		//		mvTextureStorage::DecrementTexture(oldvalue);
-		//		mvTextureStorage::AddTexture(m_value);
-		//	}
-
-		//	m_texture = mvTextureStorage::GetTexture(m_value);
-
-		//	if (m_texture)
-		//	{
-		//		m_width = (int)((float)mvTextureStorage::GetTexture(m_value)->width * (m_uv_max.x - m_uv_min.x));
-		//		m_height = (int)((float)mvTextureStorage::GetTexture(m_value)->height * (m_uv_max.y - m_uv_min.y));
-		//	}
-		//}
-
-		//[[nodiscard]] PyObject* getPyValue() const override
-		//{
-		//	PyGILState_STATE gstate = PyGILState_Ensure();
-
-		//	PyObject* pvalue = Py_BuildValue("s", m_value.c_str());
-
-		//	PyGILState_Release(gstate);
-		//	return pvalue;
-		//}
 
 		void draw() override
 		{
@@ -227,11 +169,16 @@ namespace Marvel {
 
 			}
 
+			if (m_dirty)
+			{
+				mvTexture* texture = mvTextureStorage::GetTexture(m_value);
+				m_width = (int)((float)texture->width * (m_uv_max.x - m_uv_min.x));
+				m_height = (int)((float)texture->height * (m_uv_max.y - m_uv_min.y));
+				m_dirty = false;
+			}
+
 			if (m_texture)
 			{
-				//if (ImGui::ImageButton(m_texture, ImVec2((float)m_width, (float)m_height),
-				//	ImVec2(m_uv_min.x, m_uv_min.y), ImVec2(m_uv_max.x, m_uv_max.y), m_framePadding,
-				//	m_backgroundColor.toVec4(), m_tintColor.toVec4()))
 				if (ImGui::ImageButton(m_texture, ImVec2((float)m_width, (float)m_height),
 					ImVec2(m_uv_min.x, m_uv_min.y), ImVec2(m_uv_max.x, m_uv_max.y), m_framePadding,
 					m_backgroundColor.toVec4(), m_tintColor.toVec4()))
@@ -255,8 +202,16 @@ namespace Marvel {
 			if (dict == nullptr)
 				return;
 			mvGlobalIntepreterLock gil;
-			if (PyObject* item = PyDict_GetItemString(dict, "uv_min")) m_uv_min = ToVec2(item);
-			if (PyObject* item = PyDict_GetItemString(dict, "uv_max")) m_uv_max = ToVec2(item);
+			if (PyObject* item = PyDict_GetItemString(dict, "uv_min"))
+			{
+				m_uv_min = ToVec2(item);
+				m_dirty = true;
+			}
+			if (PyObject* item = PyDict_GetItemString(dict, "uv_max"))
+			{
+				m_uv_max = ToVec2(item);
+				m_dirty = true;
+			}
 			if (PyObject* item = PyDict_GetItemString(dict, "tint_color")) m_tintColor = ToColor(item);
 			if (PyObject* item = PyDict_GetItemString(dict, "background_color")) m_backgroundColor = ToColor(item);
 			if (PyObject* item = PyDict_GetItemString(dict, "frame_padding")) m_framePadding = ToInt(item);
@@ -283,6 +238,7 @@ namespace Marvel {
 		mvColor     m_backgroundColor = {0, 0, 0, 0, true};
 		void*       m_texture = nullptr;
 		int         m_framePadding = -1;
+		bool        m_dirty = false;
 
 	};
 
