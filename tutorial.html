@@ -452,7 +452,7 @@ dpg.add_button("Print source values", callback=print_me)
 dpg.add_button("Reset source values", callback=reset)
 
 # special case when linking a smaller input type widget to a larger one create the large value first
-dpg.add_value("color4", [0.0, 0.0, 0.0, 0.0])
+dpg.add_value("color4", (0.0, 0.0, 0.0, 0.0))
 dpg.add_color_edit3("color edit 3", source="color4")
 dpg.add_color_edit4("color edit 4", source="color4")
 
@@ -807,11 +807,11 @@ dpg.start_dearpygui()</code></pre>
 
 # please update the image directory argument with a path to an image on your computer for this example
 dpg.add_drawing("Drawing_1", width=700, height=700)
-dpg.draw_image("Drawing_1", 'SpriteMapExample.png', [0, 0], pmax=[-100, -100], uv_min=[0, 0], uv_max=[1, 1], tag="image")
-dpg.draw_image("Drawing_1", 'SpriteMapExample.png', [0, 0], pmax=[-100, -100], uv_min=[0, 0], uv_max=[1, 1])
-dpg.draw_image("Drawing_1", 'SpriteMapExample.png', [0, 100], pmax=[200, 200], uv_min=[0, 0], uv_max=[1, 1])
-dpg.draw_image("Drawing_1", 'SpriteMapExample.png', [0, 200], pmax=[-100, -100], uv_min=[0, 0], uv_max=[0.5, 0.5])
-dpg.draw_image("Drawing_1", 'SpriteMapExample.png', [0, 300], pmax=[-100, -100], uv_min=[0, 0], uv_max=[3.5, 2.5])
+dpg.draw_image("Drawing_1", 'SpriteMapExample.png', [0, 700], pmax=[200, 500], uv_min=[0, 0], uv_max=[1, 1], tag="image")
+dpg.draw_image("Drawing_1", 'SpriteMapExample.png', [0, 600], pmax=[200, 300], uv_min=[0, 0], uv_max=[1, 1])
+dpg.draw_image("Drawing_1", 'SpriteMapExample.png', [0, 500], pmax=[200, 100], uv_min=[0, 0], uv_max=[1, 1])
+dpg.draw_image("Drawing_1", 'SpriteMapExample.png', [400, 600], pmax=[600, 400], uv_min=[0, 0], uv_max=[0.5, 0.5])
+dpg.draw_image("Drawing_1", 'SpriteMapExample.png', [400, 400], pmax=[700, 50], uv_min=[0, 0], uv_max=[3.5, 2.5])
 
 dpg.start_dearpygui()</code></pre>
 
