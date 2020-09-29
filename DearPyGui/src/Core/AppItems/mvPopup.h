@@ -21,8 +21,8 @@ namespace Marvel {
 
 		MV_APPITEM_TYPE(mvAppItemType::Popup, "add_popup")
 
-		mvPopup(const std::string& name)
-			: mvBoolPtrBase(name, false, name), mvEventHandler()
+		mvPopup(const std::string& name, mvAppItem* parentAddress)
+			: mvBoolPtrBase(name, false, name), mvEventHandler(), m_parentAddress(parentAddress)
 		{
 			m_container = true;
 			//if (m_parent)
@@ -33,6 +33,7 @@ namespace Marvel {
 		{
 
 			pushColorStyles();
+			ImGui::PushID(m_parentAddress);
 
 			if (m_modal)
 			{
@@ -123,6 +124,7 @@ namespace Marvel {
 				}
 			}
 
+			ImGui::PopID();
 			popColorStyles();
 		}
 
@@ -149,6 +151,7 @@ namespace Marvel {
 
 		bool m_modal = false;
 		int  m_button = 1;
+		mvAppItem* m_parentAddress = nullptr;
 
 	};
 

@@ -40,6 +40,7 @@ namespace Marvel {
 		void draw() override
 		{
 			pushColorStyles();
+			ImGui::PushID(this);
 
 			if(ImGui::Selectable(m_label.c_str(), m_value, m_flags))
 			{
@@ -55,6 +56,7 @@ namespace Marvel {
 			if (!getTip().empty() && ImGui::IsItemHovered())
 				ImGui::SetTooltip("%s", getTip().c_str());
 
+			ImGui::PopID();
 			popColorStyles();
 		}
 
@@ -114,6 +116,7 @@ namespace Marvel {
 		void draw() override
 		{
 			pushColorStyles();
+			ImGui::PushID(this);
 
 			if (m_small)
 			{
@@ -126,6 +129,7 @@ namespace Marvel {
 						ImGui::OpenPopup(getPopup().c_str());
 				}
 
+				ImGui::PopID();
 				return;
 			}
 
@@ -140,6 +144,7 @@ namespace Marvel {
 						ImGui::OpenPopup(getPopup().c_str());
 				}
 
+				ImGui::PopID();
 				return;
 			}
 
@@ -157,6 +162,7 @@ namespace Marvel {
 			if (!getTip().empty() && ImGui::IsItemHovered())
 				ImGui::SetTooltip("%s", getTip().c_str());
 
+			ImGui::PopID();
 			popColorStyles();
 		}
 
@@ -207,6 +213,7 @@ namespace Marvel {
 		void draw() override
 		{
 			pushColorStyles();
+			ImGui::PushID(this);
 
 			if (ImGui::Checkbox(m_label.c_str(), m_value))
 			{
@@ -222,6 +229,7 @@ namespace Marvel {
 			if (!getTip().empty() && ImGui::IsItemHovered())
 				ImGui::SetTooltip("%s", getTip().c_str());
 
+			ImGui::PopID();
 			popColorStyles();
 		}
 
@@ -245,6 +253,7 @@ namespace Marvel {
 		{
 
 			pushColorStyles();
+			ImGui::PushID(this);
 
 			if (ImGui::BeginCombo(m_label.c_str(), m_value->c_str(), m_flags)) // The second parameter is the label previewed before opening the combo.
 			{
@@ -273,6 +282,7 @@ namespace Marvel {
 			if (!getTip().empty() && ImGui::IsItemHovered())
 				ImGui::SetTooltip("%s", getTip().c_str());
 
+			ImGui::PopID();
 			popColorStyles();
 		}
 
@@ -368,8 +378,8 @@ namespace Marvel {
 
 		void draw() override
 		{
-
 			pushColorStyles();
+			ImGui::PushID(this);
 
 			if (ImGui::ListBox(m_label.c_str(), m_value, m_charNames.data(), m_names.size(), m_itemsHeight))
 			{
@@ -385,6 +395,7 @@ namespace Marvel {
 			if (!getTip().empty() && ImGui::IsItemHovered())
 				ImGui::SetTooltip("%s", getTip().c_str());
 
+			ImGui::PopID();
 			popColorStyles();
 		}
 
@@ -439,6 +450,7 @@ namespace Marvel {
 		void draw() override
 		{
 			pushColorStyles();
+			ImGui::PushID(this);
 
 			for (size_t i = 0; i < m_itemnames.size(); i++)
 			{
@@ -460,8 +472,8 @@ namespace Marvel {
 					ImGui::SetTooltip("%s", getTip().c_str());
 			}
 
+			ImGui::PopID();
 			popColorStyles();
-
 		}
 
 		void setExtraConfigDict(PyObject* dict) override
@@ -506,8 +518,8 @@ namespace Marvel {
 
 		void draw() override
 		{
-
 			pushColorStyles();
+			ImGui::PushID(this);
 
 			ImGui::ProgressBar(*m_value, ImVec2((float)m_width, (float)m_height), m_overlay.c_str());
 
@@ -519,8 +531,8 @@ namespace Marvel {
 			if (!getTip().empty() && ImGui::IsItemHovered())
 				ImGui::SetTooltip("%s", getTip().c_str());
 
+			ImGui::PopID();
 			popColorStyles();
-
 		}
 
 		void setExtraConfigDict(PyObject* dict) override

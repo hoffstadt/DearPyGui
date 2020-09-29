@@ -35,6 +35,7 @@ namespace Marvel {
 		void draw() override
 		{
 			pushColorStyles();
+			ImGui::PushID(this);
 
 			if (ImGui::BeginTabBar(m_label.c_str(), m_flags))
 			{
@@ -70,6 +71,7 @@ namespace Marvel {
 				ImGui::EndTabBar();
 			}
 
+			ImGui::PopID();
 			popColorStyles();
 		}
 
@@ -131,6 +133,7 @@ namespace Marvel {
 		void draw() override
 		{
 			pushColorStyles();
+			ImGui::PushID(this);
 
 			// cast parent to mvTabBar
 			auto parent = (mvTabBar*)m_parent;
@@ -210,6 +213,7 @@ namespace Marvel {
 					ImGui::SetTooltip("%s", getTip().c_str());
 			}
 
+			ImGui::PopID();
 			popColorStyles();
 		}
 

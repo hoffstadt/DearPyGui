@@ -95,6 +95,7 @@ namespace Marvel {
 		void draw() override
 		{
 			pushColorStyles();
+			ImGui::PushID(this);
 
 			// create menu and see if its selected
 			if (ImGui::BeginMenu(m_label.c_str(), m_enabled))
@@ -147,6 +148,7 @@ namespace Marvel {
 				ImGui::EndMenu();
 			}
 
+			ImGui::PopID();
 			popColorStyles();
 		}
 
@@ -189,6 +191,7 @@ namespace Marvel {
 		void draw() override
 		{
 			pushColorStyles();
+			ImGui::PushID(this);
 
 			// create menuitem and see if its selected
 			if (ImGui::MenuItem(m_label.c_str(), m_shortcut.c_str(), m_check ? m_value : nullptr, m_enabled))
@@ -212,6 +215,7 @@ namespace Marvel {
 
 			}
 
+			ImGui::PopID();
 			popColorStyles();
 		}
 

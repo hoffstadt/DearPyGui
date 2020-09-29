@@ -41,6 +41,7 @@ namespace Marvel {
 		void draw() override
 		{
 			pushColorStyles();
+			ImGui::PushID(this);
 
 			if (m_vertical)
 			{
@@ -80,6 +81,7 @@ namespace Marvel {
 					ImGui::SetTooltip("%s", getTip().c_str());
 			}
 
+			ImGui::PopID();
 			popColorStyles();
 		}
 
@@ -153,6 +155,7 @@ namespace Marvel {
 		void draw() override
 		{
 			pushColorStyles();
+			ImGui::PushID(this);
 
 			if (m_vertical)
 			{
@@ -191,6 +194,7 @@ namespace Marvel {
 					ImGui::SetTooltip("%s", getTip().c_str());
 			}
 
+			ImGui::PopID();
 			popColorStyles();
 		}
 
@@ -264,6 +268,7 @@ namespace Marvel {
 		void draw() override
 		{
 			pushColorStyles();
+			ImGui::PushID(this);
 
 			if (ImGui::SliderFloat2(m_label.c_str(), m_value, m_min, m_max, m_format.c_str(), m_flags))
 			{
@@ -279,6 +284,7 @@ namespace Marvel {
 			if (!getTip().empty() && ImGui::IsItemHovered())
 				ImGui::SetTooltip("%s", getTip().c_str());
 
+			ImGui::PopID();
 			popColorStyles();
 		}
 
@@ -349,6 +355,7 @@ namespace Marvel {
 		void draw() override
 		{
 			pushColorStyles();
+			ImGui::PushID(this);
 
 			if (ImGui::SliderFloat3(m_label.c_str(), m_value, m_min, m_max, m_format.c_str(), m_flags))
 			{
@@ -364,6 +371,7 @@ namespace Marvel {
 			if (!getTip().empty() && ImGui::IsItemHovered())
 				ImGui::SetTooltip("%s", getTip().c_str());
 
+			ImGui::PopID();
 			popColorStyles();
 		}
 
@@ -434,6 +442,7 @@ namespace Marvel {
 		void draw() override
 		{
 			pushColorStyles();
+			ImGui::PushID(this);
 
 			if (ImGui::SliderFloat4(m_label.c_str(), m_value, m_min, m_max, m_format.c_str(), m_flags))
 			{
@@ -449,6 +458,7 @@ namespace Marvel {
 			if (!getTip().empty() && ImGui::IsItemHovered())
 				ImGui::SetTooltip("%s", getTip().c_str());
 
+			ImGui::PopID();
 			popColorStyles();
 		}
 
@@ -519,6 +529,7 @@ namespace Marvel {
 		void draw() override
 		{
 			pushColorStyles();
+			ImGui::PushID(this);
 
 			if (ImGui::SliderInt2(m_label.c_str(), m_value, m_min, m_max, m_format.c_str(), m_flags))
 			{
@@ -534,6 +545,7 @@ namespace Marvel {
 			if (!getTip().empty() && ImGui::IsItemHovered())
 				ImGui::SetTooltip("%s", getTip().c_str());
 
+			ImGui::PopID();
 			popColorStyles();
 		}
 
@@ -604,6 +616,7 @@ namespace Marvel {
 		void draw() override
 		{
 			pushColorStyles();
+			ImGui::PushID(this);
 
 			if (ImGui::SliderInt3(m_label.c_str(), m_value, m_min, m_max, m_format.c_str(), m_flags))
 			{
@@ -619,6 +632,7 @@ namespace Marvel {
 			if (!getTip().empty() && ImGui::IsItemHovered())
 				ImGui::SetTooltip("%s", getTip().c_str());
 
+			ImGui::PopID();
 			popColorStyles();
 		}
 
@@ -689,6 +703,7 @@ namespace Marvel {
 		void draw() override
 		{
 			pushColorStyles();
+			ImGui::PushID(this);
 
 			if (ImGui::SliderInt4(m_label.c_str(), m_value, m_min, m_max, m_format.c_str(), m_flags))
 			{
@@ -704,6 +719,7 @@ namespace Marvel {
 			if (!getTip().empty() && ImGui::IsItemHovered())
 				ImGui::SetTooltip("%s", getTip().c_str());
 
+			ImGui::PopID();
 			popColorStyles();
 		}
 

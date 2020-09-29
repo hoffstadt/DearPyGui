@@ -29,6 +29,7 @@ namespace Marvel {
 		void draw() override
 		{
 			pushColorStyles();
+			ImGui::PushID(this);
 
 			if (m_multiline)
 				m_hint = "";
@@ -78,6 +79,7 @@ namespace Marvel {
 			if (!getTip().empty() && ImGui::IsItemHovered())
 				ImGui::SetTooltip("%s", getTip().c_str());
 
+			ImGui::PopID();
 			popColorStyles();
 		}
 

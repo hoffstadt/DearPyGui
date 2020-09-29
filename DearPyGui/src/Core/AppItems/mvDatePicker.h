@@ -32,6 +32,7 @@ namespace Marvel {
 		void draw() override
 		{
 			pushColorStyles();
+			ImGui::PushID(this);
 
 			if (ImPlot::ShowDatePicker(m_name.c_str(), &m_level, m_imvalue, m_imvalue))
 			{
@@ -39,6 +40,7 @@ namespace Marvel {
 				mvApp::GetApp()->runCallback(m_callback, m_name, m_callbackData);
 			}
 
+			ImGui::PopID();
 			popColorStyles();
 		}
 

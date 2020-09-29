@@ -38,6 +38,7 @@ namespace Marvel {
 		if (PyObject* item = PyDict_GetItemString(dict, "height")) s_height = ToInt(item);
 		if (PyObject* item = PyDict_GetItemString(dict, "x_pos")) s_xpos = ToInt(item);
 		if (PyObject* item = PyDict_GetItemString(dict, "y_pos")) s_ypos = ToInt(item);
+		if (PyObject* item = PyDict_GetItemString(dict, "show")) show = ToBool(item);
 	}
 
 	void mvAppLog::GetConfigDict(PyObject* dict)
@@ -47,6 +48,7 @@ namespace Marvel {
 		PyDict_SetItemString(dict, "height", ToPyInt(s_height));
 		PyDict_SetItemString(dict, "x_pos", ToPyInt(s_xpos));
 		PyDict_SetItemString(dict, "y_pos", ToPyInt(s_ypos));
+		PyDict_SetItemString(dict, "show", ToPyBool(show));
 	}
 
 	unsigned mvAppLog::getLogLevel() 

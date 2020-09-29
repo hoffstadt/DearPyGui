@@ -31,7 +31,7 @@ namespace Marvel {
 
 		void draw() override
 		{
-
+			ImGui::PushID(this);
 			if (ImGui::ColorButton(m_label.c_str(), m_color, m_flags, ImVec2((float)m_width, (float)m_height)))
 			{
 
@@ -45,6 +45,8 @@ namespace Marvel {
 			// Regular Tooltip (simple)
 			if (!getTip().empty() && ImGui::IsItemHovered())
 				ImGui::SetTooltip("%s", getTip().c_str());
+
+			ImGui::PopID();
 		}
 
 		void setExtraConfigDict(PyObject* dict) override
@@ -106,6 +108,7 @@ namespace Marvel {
 
 		void draw() override
 		{
+			ImGui::PushID(this);
 
 			if (ImGui::ColorEdit3(m_label.c_str(), m_value, m_flags))
 			{
@@ -116,6 +119,8 @@ namespace Marvel {
 				if (!getPopup().empty())
 					ImGui::OpenPopup(getPopup().c_str());
 			}
+
+			ImGui::PopID();
 
 			// Regular Tooltip (simple)
 			if (!getTip().empty() && ImGui::IsItemHovered())
@@ -232,6 +237,7 @@ namespace Marvel {
 
 		void draw() override
 		{
+			ImGui::PushID(this);
 
 			if (ImGui::ColorEdit4(m_label.c_str(), m_value, m_flags))
 			{
@@ -242,6 +248,8 @@ namespace Marvel {
 				if (!getPopup().empty())
 					ImGui::OpenPopup(getPopup().c_str());
 			}
+
+			ImGui::PopID();
 
 			// Regular Tooltip (simple)
 			if (!getTip().empty() && ImGui::IsItemHovered())
@@ -359,6 +367,8 @@ namespace Marvel {
 		void draw() override
 		{
 
+			ImGui::PushID(this);
+
 			if (ImGui::ColorPicker3(m_label.c_str(), m_value, m_flags))
 			{
 
@@ -368,6 +378,8 @@ namespace Marvel {
 				if (!getPopup().empty())
 					ImGui::OpenPopup(getPopup().c_str());
 			}
+
+			ImGui::PopID();
 
 			// Regular Tooltip (simple)
 			if (!getTip().empty() && ImGui::IsItemHovered())
@@ -485,6 +497,8 @@ namespace Marvel {
 		void draw() override
 		{
 
+			ImGui::PushID(this);
+
 			if (ImGui::ColorPicker4(m_label.c_str(), m_value, m_flags))
 			{
 
@@ -494,6 +508,8 @@ namespace Marvel {
 				if (!getPopup().empty())
 					ImGui::OpenPopup(getPopup().c_str());
 			}
+
+			ImGui::PopID();
 
 			// Regular Tooltip (simple)
 			if (!getTip().empty() && ImGui::IsItemHovered())
