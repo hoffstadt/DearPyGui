@@ -5,6 +5,7 @@
 #include "Core/mvInput.h"
 #include "Core/mvDataStorage.h"
 #include "Core/mvTextureStorage.h"
+#include "Core/mvValueStorage.h"
 
 namespace Marvel {
 
@@ -31,44 +32,76 @@ namespace Marvel {
 
 	void mvDebugWindow::renderItem(mvAppItem* item)
 	{
+		
+
 		if (item->isContainer())
 		{
 			std::string container = item->getName() + "*";
 
+			ImGui::PushID(item);
 			if (ImGui::TreeNodeEx(container.c_str()))
 			{
+				
 				auto stringPos = item->getName().find_first_not_of("##");
 				if (stringPos != std::string::npos && stringPos > 0)
 				{
-					if (ImGui::Selectable(item->getName().substr().erase(0, 2).c_str(), item->getName() == m_selectedItem))
+					ImGui::PushID(item);
+					if (ImGui::Selectable(item->getName().substr().erase(0, 2).c_str(), 
+						item->getName() == m_selectedItem && ImGui::GetID(item->getName().substr().erase(0, 2).c_str()) == m_selectedID))
+					{
 						m_selectedItem = item->getName();
+						m_selectedID = ImGui::GetID(item->getName().substr().erase(0, 2).c_str());
+					}
+					ImGui::PopID();
 				}
 				else
 				{
-					if (ImGui::Selectable(item->getName().c_str(), item->getName() == m_selectedItem))
+					ImGui::PushID(item);
+					if (ImGui::Selectable(item->getName().c_str(),
+						item->getName() == m_selectedItem && ImGui::GetID(item->getName().c_str()) == m_selectedID))
+					{
 						m_selectedItem = item->getName();
-				}
+						m_selectedID = ImGui::GetID(item->getName().c_str());
+					}
+					ImGui::PopID();
+				}			
 
 				for (mvAppItem* child : item->getChildren())
 					renderItem(child);
 
 				ImGui::TreePop();
 			}
+			ImGui::PopID();
 		}
 		else
 		{
 			auto stringPos = item->getName().find_first_not_of("##");
 			if (stringPos != std::string::npos && stringPos > 0)
 			{
-				if (ImGui::Selectable(item->getName().substr().erase(0, 2).c_str(), item->getName() == m_selectedItem))
+				ImGui::PushID(item);
+				if (ImGui::Selectable(item->getName().substr().erase(0, 2).c_str(),
+					item->getName() == m_selectedItem && ImGui::GetID(item->getName().substr().erase(0, 2).c_str()) == m_selectedID))
+				{
 					m_selectedItem = item->getName();
+					m_selectedID = ImGui::GetID(item->getName().substr().erase(0, 2).c_str());
+				}
+				ImGui::PopID();
 			}
 			else
 			{
-				if (ImGui::Selectable(item->getName().c_str(), item->getName() == m_selectedItem))
+				ImGui::PushID(item);
+				if (ImGui::Selectable(item->getName().c_str(),
+					item->getName() == m_selectedItem && ImGui::GetID(item->getName().c_str()) == m_selectedID))
+				{
 					m_selectedItem = item->getName();
+					m_selectedID = ImGui::GetID(item->getName().c_str());
+				}
+				ImGui::PopID();
 			}
+			
 		}
+
+		
 	}
 
 	void mvDebugWindow::render(bool& show)
@@ -99,6 +132,24 @@ namespace Marvel {
 				DebugItem("Threadpool Timeout: ", std::to_string(app->getThreadPoolTimeout()).c_str());
 				DebugItem("Threadpool Active: ", app->usingThreadPool() ? ts : fs);
 				DebugItem("Threadpool High: ", app->usingThreadPoolHighPerformance() ? ts : fs);
+				ImGui::Separator();
+				DebugItem("Int Values", std::to_string(mvValueStorage::s_ints.size()).c_str());
+				DebugItem("Int2 Values", std::to_string(mvValueStorage::s_int2s.size()).c_str());
+				DebugItem("Int3 Values", std::to_string(mvValueStorage::s_int3s.size()).c_str());
+				DebugItem("Int4 Values", std::to_string(mvValueStorage::s_int4s.size()).c_str());
+				ImGui::Separator();
+				auto & yy = mvValueStorage::s_refStorage;
+				auto & xx = mvValueStorage::s_floats;
+				DebugItem("Float Values", std::to_string(mvValueStorage::s_floats.size()).c_str());
+				DebugItem("Float2 Values", std::to_string(mvValueStorage::s_float2s.size()).c_str());
+				DebugItem("Float3 Values", std::to_string(mvValueStorage::s_float3s.size()).c_str());
+				DebugItem("Float4 Values", std::to_string(mvValueStorage::s_float4s.size()).c_str());
+				ImGui::Separator();
+				DebugItem("Bool Values", std::to_string(mvValueStorage::s_bools.size()).c_str());
+				DebugItem("String Values", std::to_string(mvValueStorage::s_strings.size()).c_str());
+				DebugItem("Times Values", std::to_string(mvValueStorage::s_times.size()).c_str());
+				DebugItem("ImTimes Values", std::to_string(mvValueStorage::s_imtimes.size()).c_str());
+
 
 				ImGui::EndGroup();
 				ImGui::PopItemWidth();
@@ -201,7 +252,7 @@ namespace Marvel {
                 ImGui::PopItemWidth();
                 ImGui::SameLine();
 
-				ImGui::BeginChild("TreeChild", ImVec2(300.0f, 500.0f), true);
+				ImGui::BeginChild("TreeChild", ImVec2(-1.0f, -1.0f), true);
 				for (auto window : mvApp::GetApp()->getWindows())
 					renderItem(window);
 				ImGui::EndChild();
@@ -217,8 +268,8 @@ namespace Marvel {
 				static ImGuiTextFilter filter;
 				filter.Draw();
 
-				ImGui::PushItemWidth(500);
-				ImGui::BeginChild("CommandsChild##debug", ImVec2(500.0f, 100.0f), true);
+				ImGui::PushItemWidth(-1);
+				ImGui::BeginChild("CommandsChild##debug", ImVec2(400.0f, 400.0f), true);
 				ImGui::PushStyleColor(ImGuiCol_Text, { 1.0f, 1.0f, 0.0f, 1.0f });
 				for (size_t i = 0; i<m_commands.size(); i++)
 				{
@@ -232,15 +283,15 @@ namespace Marvel {
 				}
 				ImGui::PopStyleColor();
 				ImGui::EndChild();
-				
-				ImGui::BeginChild("CommandsDoc##debug", ImVec2(500.0f, 200.0f), true);
+				ImGui::SameLine();
+				ImGui::BeginChild("CommandsDoc##debug", ImVec2(-1.0f, 400.0f), true);
 				ImGui::PushStyleColor(ImGuiCol_Text, { 1.0f, 0.0f, 1.0f, 1.0f });
 				ImGui::PushTextWrapPos(500);
 				ImGui::Text("%s", commanddoc);
 				ImGui::PopStyleColor();
 				ImGui::PopTextWrapPos();
 				ImGui::EndChild();
-				ImGui::InputTextMultiline("Command##debug", &commandstring);
+				ImGui::InputTextMultiline("Command##debug", &commandstring, ImVec2(-1, -50));
 				ImGui::PopItemWidth();
 				if (ImGui::Button("Run##debug"))
 				{

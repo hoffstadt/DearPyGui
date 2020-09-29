@@ -69,6 +69,7 @@ namespace Marvel {
 					item->setRectSize({ ImGui::GetItemRectSize().x, ImGui::GetItemRectSize().y });
 
 				}
+
 				ImGui::EndTooltip();
 
 				popColorStyles();

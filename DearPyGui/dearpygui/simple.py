@@ -14,18 +14,23 @@ def managed_columns(name: str, columns: int, border: bool = True, show: bool = T
     finally: internalDPG.end()
 
 @contextmanager
-def window(name: str, width: int = 500, height: int = 500, x_pos: int = 200, y_pos: int = 200, 
-           autosize: bool = False, no_resize: bool = False, no_title_bar: bool = False, 
-           no_move: bool = False, label: str = "__DearPyGuiDefault", show: bool = True, on_close: Callable = None):
+def window(name: str, width: int = 200, height: int = 200, x_pos: int = 200, y_pos: int = 200, autosize: bool = False, 
+			   no_resize: bool = False, no_title_bar: bool = False, no_move: bool = False, no_scrollbar: bool = False, 
+			   no_collapse: bool = False, horizontal_scrollbar: bool = False, no_focus_on_appearing: bool = False, 
+			   no_bring_to_front_on_focus: bool = False, menubar: bool = False, no_close: bool = False, no_background: bool = False,
+               label: str = "__DearPyGuiDefault", show: bool = True, on_close: Callable = None):
     try:
         if label == "__DearPyGuiDefault":
             yield internalDPG.add_window(name, width=width, height=height, x_pos=x_pos, y_pos=y_pos, autosize=autosize, 
-                         no_resize=no_resize, no_title_bar=no_title_bar, no_move=no_move, show=show,
-                         on_close=on_close)
+                         no_resize=no_resize, no_title_bar=no_title_bar, no_move=no_move, no_scrollbar=no_scrollbar, no_collapse=no_collapse,
+                         horizontal_scrollbar=horizontal_scrollbar, no_focus_on_appearing=no_focus_on_appearing, 
+                         no_bring_to_front_on_focus=no_bring_to_front_on_focus,
+                         menubar=menubar, no_close=no_close, no_background=no_background, show=show, on_close=on_close)
         else:
             yield internalDPG.add_window(name, width=width, height=height, x_pos=x_pos, y_pos=y_pos, autosize=autosize, 
-                         no_resize=no_resize, no_title_bar=no_title_bar, no_move=no_move, label=label, show=show,
-                         on_close=on_close)
+                         no_resize=no_resize, no_title_bar=no_title_bar, no_move=no_move, no_scrollbar=no_scrollbar, no_collapse=no_collapse,
+                         horizontal_scrollbar=horizontal_scrollbar, no_focus_on_appearing=no_focus_on_appearing, no_bring_to_front_on_focus=no_bring_to_front_on_focus,
+                         menubar=menubar, no_close=no_close, no_background=no_background, label=label, show=show, on_close=on_close)
     finally: internalDPG.end()
 
 @contextmanager
@@ -115,6 +120,18 @@ def set_window_pos(window: str, x: int, y: int):
 def get_window_pos(window: str) -> Union[List[int], None]:
     config = internalDPG.get_item_configuration(window)
     return [config["x_pos"], config["y_pos"]]
+
+def show_item(item: str):
+    internalDPG.configure_item(item, show=True)
+
+def hide_item(item: str, children_only: bool = False):
+    if children_only:
+        children = internalDPG.get_item_children(item)
+        for child in children:
+            internalDPG.configure_item(child, show=False)
+    else:
+        internalDPG.configure_item(item, show=False)
+
 
 # item configure commands
 def set_item_name(item: str, name: str):

@@ -49,7 +49,7 @@ namespace Marvel {
 						continue;
 
 					// set item width
-					if (item->getWidth() > 0)
+					if (item->getWidth() != 0)
 						ImGui::SetNextItemWidth((float)item->getWidth());
 
 					item->draw();
@@ -70,7 +70,6 @@ namespace Marvel {
 				}
 				ImGui::EndMenuBar();
 			}
-
 
 			popColorStyles();
 		}
@@ -119,7 +118,7 @@ namespace Marvel {
 						continue;
 
 					// set item width
-					if (item->getWidth() > 0)
+					if (item->getWidth() != 0)
 						ImGui::SetNextItemWidth((float)item->getWidth());
 
 					item->draw();
@@ -142,6 +141,8 @@ namespace Marvel {
 					item->setRectMax({ ImGui::GetItemRectMax().x, ImGui::GetItemRectMax().y });
 					item->setRectSize({ ImGui::GetItemRectSize().x, ImGui::GetItemRectSize().y });
 				}
+
+				registerWindowFocusing();
 
 				ImGui::EndMenu();
 			}
@@ -190,7 +191,7 @@ namespace Marvel {
 			pushColorStyles();
 
 			// create menuitem and see if its selected
-			if (ImGui::MenuItem(m_label.c_str(), m_shortcut.c_str(), m_check ? m_value : nullptr))
+			if (ImGui::MenuItem(m_label.c_str(), m_shortcut.c_str(), m_check ? m_value : nullptr, m_enabled))
 			{
 
 				// set other menuitems's value false on same level
@@ -221,6 +222,7 @@ namespace Marvel {
 			mvGlobalIntepreterLock gil;
 			if (PyObject* item = PyDict_GetItemString(dict, "shortcut")) m_shortcut = ToString(item);
 			if (PyObject* item = PyDict_GetItemString(dict, "check")) m_check = ToBool(item);
+			if (PyObject* item = PyDict_GetItemString(dict, "enabled")) m_enabled = ToBool(item);
 
 		}
 
@@ -231,12 +233,14 @@ namespace Marvel {
 			mvGlobalIntepreterLock gil;
 			PyDict_SetItemString(dict, "shortcut", ToPyString(m_shortcut));
 			PyDict_SetItemString(dict, "check", ToPyBool(m_check));
+			PyDict_SetItemString(dict, "enabled", ToPyBool(m_enabled));
 		}
 
 	private:
 
 		std::string m_shortcut;
 		bool        m_check = false;
+		bool        m_enabled = true;
 
 	};
 

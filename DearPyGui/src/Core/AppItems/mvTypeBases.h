@@ -343,6 +343,46 @@ namespace Marvel {
 	};
 
 	//-----------------------------------------------------------------------------
+	// mvColorPtrBase
+	//-----------------------------------------------------------------------------
+	class mvColorPtrBase : public mvAppItem
+	{
+
+	public:
+
+		mvColorPtrBase(const std::string& name, float* default_value, const std::string& dataSource)
+			: mvAppItem(name)
+		{
+			if (dataSource.empty())
+				m_value = mvValueStorage::AddColorValue(name, { default_value[0], default_value[1], default_value[2], default_value[3] });
+			else
+				m_value = mvValueStorage::AddColorValue(dataSource, { default_value[0], default_value[1], default_value[2], default_value[3] });
+
+			m_dataSource = dataSource;
+		}
+
+		~mvColorPtrBase()
+		{
+			if (m_dataSource.empty())
+				mvValueStorage::DecrementRef(m_name);
+			else
+				mvValueStorage::DecrementRef(m_dataSource);
+		}
+
+		void setDataSource(const std::string& dataSource) override
+		{
+			if (dataSource == m_dataSource) return;
+			mvValueStorage::DecrementRef(m_dataSource);
+			m_value = mvValueStorage::AddFloat4Value(dataSource);
+			m_dataSource = dataSource;
+		}
+
+	protected:
+
+		float* m_value = nullptr;
+	};
+
+	//-----------------------------------------------------------------------------
 	// mvBoolPtrBase
 	//-----------------------------------------------------------------------------
 	class mvBoolPtrBase : public mvAppItem
