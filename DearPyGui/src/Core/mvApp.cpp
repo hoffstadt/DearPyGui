@@ -476,6 +476,13 @@ namespace Marvel {
 				return item.item;
 		}
 
+		for (auto& item : m_orderedVec)
+		{
+
+			if (item.item->getName() == name)
+				return item.item;
+		}
+
 		return nullptr;
 	}
 
@@ -1120,13 +1127,16 @@ namespace Marvel {
 
 			bool addedItem = false;
 
-			if (getItem(newItem.item->getName(), true))
+			if (!newItem.item->areDuplicatesAllowed())
 			{
-				std::string message = newItem.item->getName();
-				ThrowPythonException(message + ": Items of this type must have unique names");
-				delete newItem.item;
-				newItem.item = nullptr;
-				continue;
+				if (getItem(newItem.item->getName(), true))
+				{
+					std::string message = newItem.item->getName();
+					ThrowPythonException(message + ": Items of this type must have unique names");
+					delete newItem.item;
+					newItem.item = nullptr;
+					continue;
+				}
 			}
 
 			if (newItem.item->getType() == mvAppItemType::Window)
@@ -1140,6 +1150,16 @@ namespace Marvel {
 				addedItem = window->addRuntimeChild(newItem.parent, newItem.before, newItem.item);
 				if (addedItem)
 					break;
+			}
+
+			if (!addedItem)
+			{
+				for (auto otherItems : m_orderedVec)
+				{
+					addedItem = otherItems.item->addRuntimeChild(newItem.parent, newItem.before, newItem.item);
+					if (addedItem)
+						break;
+				}
 			}
 
 			if (!addedItem)

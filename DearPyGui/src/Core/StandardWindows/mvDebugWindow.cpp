@@ -295,7 +295,7 @@ namespace Marvel {
 				ImGui::PopItemWidth();
 				if (ImGui::Button("Run##debug"))
 				{
-					std::string command = "from dearpygui.core import *\nfrom dearpygui.simple import *\n" + commandstring;
+					std::string command = "from dearpygui.core import *\nfrom dearpygui.simple import *\nfrom dearpygui.demo import *\n" + commandstring;
 					PyGILState_STATE gstate = PyGILState_Ensure();
 					PyRun_SimpleString(command.c_str());
 					PyGILState_Release(gstate);
