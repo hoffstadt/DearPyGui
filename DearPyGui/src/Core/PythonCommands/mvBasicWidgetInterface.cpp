@@ -739,7 +739,7 @@ namespace Marvel {
 		const char* source = "";
 		const char* label = "";
 		const char* popup = "";
-		int show = false;
+		int show = true;
 
 
 		if (!(*mvApp::GetApp()->getParsers())["add_label_text"].parse(args, kwargs, __FUNCTION__, &name, &value,
@@ -771,7 +771,7 @@ namespace Marvel {
 		const char* source = "";
 		const char* label = "";
 		const char* popup = "";
-		int show = false;
+		int show = true;
 
 		if (!(*mvApp::GetApp()->getParsers())["add_listbox"].parse(args, kwargs, __FUNCTION__, &name, &items,
 			&default_value, &callback, &callback_data, &tip, &parent, &before, &source, &width,

@@ -46,7 +46,7 @@ int main(int argc, char* argv[])
 	PySys_SetObject("stdout", m);
 	PySys_SetObject("stderr", m);
 
-	PyObject* pModule = PyImport_ImportModule("Demo"); // new reference
+	PyObject* pModule = PyImport_ImportModule("sandbox"); // new reference
 
 	// check if error occurred
 	if (!PyErr_Occurred() && pModule != nullptr)
