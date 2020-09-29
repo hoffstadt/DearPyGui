@@ -1,4 +1,5 @@
-from dearpygui.dearpygui import *
+from dearpygui.core import *
+from dearpygui.simple import *
 
 set_main_window_size(500, 500)
 
