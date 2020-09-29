@@ -1,4 +1,5 @@
-from dearpygui.dearpygui import *
+from dearpygui.core import *
+from dearpygui.simple import *
 
 add_text("Tips")
 add_text("These are some of the standard dialogs used by Dear PyGui.", bullet=True)
