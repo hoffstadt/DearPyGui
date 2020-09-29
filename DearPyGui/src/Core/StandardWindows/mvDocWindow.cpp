@@ -9,7 +9,7 @@ namespace Marvel {
 
 	mvDocWindow* mvDocWindow::s_instance = nullptr;
 
-	mvDocWindow::mvDocWindow() : mvStandardWindow("Dear PyGui Documentation")
+	mvDocWindow::mvDocWindow() : mvStandardWindow("Dear PyGui Core Documentation")
 	{
 		m_width = 700;
 		m_height = 500;
@@ -121,12 +121,22 @@ namespace Marvel {
 
 	static void ColorText(const char* item)
 	{
-		ImGui::TextColored(ImVec4(1.0f, 0.0f, 1.0f, 1.0f), "%s", item);
+		ImGui::TextColored(ImGui::GetStyleColorVec4(ImGuiCol_PlotLinesHovered), "%s", item);
 	}
 
 	static void CodeColorText(const char* item)
 	{
-		ImGui::TextColored(ImVec4(0.0f, 1.0f, 1.0f, 1.0f), "%s", item);
+		ImGui::TextColored(ImGui::GetStyleColorVec4(ImGuiCol_CheckMark), "%s", item);
+	}
+
+	static void WidgetTableEntry(const char* widget, const char* container, const char* callback, const char* source, const char* desc)
+	{
+		ImGui::Separator();
+		ImGui::TextColored(ImGui::GetStyleColorVec4(ImGuiCol_DragDropTarget), widget); ImGui::NextColumn();
+		ImGui::TextColored(ImGui::GetStyleColorVec4(ImGuiCol_CheckMark), container); ImGui::NextColumn();
+		ImGui::TextColored(ImGui::GetStyleColorVec4(ImGuiCol_PlotHistogramHovered), callback); ImGui::NextColumn();
+		ImGui::TextColored(ImGui::GetStyleColorVec4(ImGuiCol_PlotLinesHovered), source); ImGui::NextColumn();
+		ImGui::TextColored(ImGui::GetStyleColorVec4(ImGuiCol_Text), desc); ImGui::NextColumn();
 	}
 
 	void mvDocWindow::render(bool& show)
@@ -137,65 +147,146 @@ namespace Marvel {
 			if (ImGui::BeginTabItem("Help##doc"))
 			{
 
-				if (ImGui::CollapsingHeader("Help"))
-				{
-					ColorText("ABOUT THIS GUIDE:");
-					ImGui::BulletText("Sections below cover a few basic aspects of DearPyGui.");
-					ImGui::BulletText("This document can be found by calling the \"show_documentation\" command.");
-					ImGui::BulletText("Additional information on specific commands can be found in the commands tab.");
-					ImGui::BulletText("The complete documentation can be found at: https://hoffstadt.github.io/DearPyGui/");
-				}
+
+				ColorText("ABOUT THIS GUIDE:");
+				ImGui::BulletText("Sections below cover the basic aspects of DearPyGui Core.");
+				ImGui::BulletText("This document can be found by calling the \"show_documentation\" command.");
+				ImGui::BulletText("Additional information on specific commands can be found in the commands tab.");
+				ImGui::BulletText("The complete documentation can be found at: https://hoffstadt.github.io/DearPyGui/");
 
 
 				if (ImGui::CollapsingHeader("Logging and Console Output"))
 				{
-					ColorText("PYTHON PRINTING");
-					ImGui::BulletText("In order to show the logger window, you must use the \"show_logger\" command.");
-					ImGui::BulletText("By Default the logger is set to log level 1.");
-					ImGui::Separator();
 
 					ColorText("LOGGING");
 					ImGui::BulletText("In order to show the logger window, you must use the \"show_logger\" command.");
 					ImGui::BulletText("In order to filter what is displayed, you can set the log level.");
+					ImGui::BulletText("By Default the logger is set to log level mvDebug.");
 					ImGui::BulletText("Can be set like \"set_log_level(mvINFO)\"");
 					ImGui::BulletText("The log levels are:");
-					ImGui::Indent();
-					CodeColorText("    level   -     constant          -    command");
-					CodeColorText("----------------------------------------------------------");
-					CodeColorText("TRACE         - mvTRACE   - log('some message')");
-					CodeColorText("DEBUG         - mvDEBUG   - log_debug('some message')");
-					CodeColorText("INFO          - mvINFO    - log_info('some message')");
-					CodeColorText("WARNING       - mvWARNING - log_warning('some message')");
-					CodeColorText("ERROR         - mvERROR   - log_error('some message')");
-					CodeColorText("OFF           - mvOFF");
-					ImGui::Unindent();
+					
+					ImGui::Columns(3);
+					ImGui::Separator();
+					ImGui::TextColored(ImGui::GetStyleColorVec4(ImGuiCol_DragDropTarget), "level"); ImGui::NextColumn();
+					ImGui::TextColored(ImGui::GetStyleColorVec4(ImGuiCol_DragDropTarget), "constant"); ImGui::NextColumn();
+					ImGui::TextColored(ImGui::GetStyleColorVec4(ImGuiCol_DragDropTarget), "command"); ImGui::NextColumn();
+					
+					ImGui::Separator();
+					CodeColorText("TRACE"); ImGui::NextColumn();
+					ColorText("mvTRACE"); ImGui::NextColumn();
+					CodeColorText("log('some message')"); ImGui::NextColumn();
+
+					ImGui::Separator();
+					CodeColorText("DEBUG"); ImGui::NextColumn();
+					ColorText("mvDEBUG"); ImGui::NextColumn();
+					CodeColorText("log_debug('some message')"); ImGui::NextColumn();
+
+					ImGui::Separator();
+					CodeColorText("INFO"); ImGui::NextColumn();
+					ColorText("mvINFO"); ImGui::NextColumn();
+					CodeColorText("log_info('some message')"); ImGui::NextColumn();
+
+					ImGui::Separator();
+					CodeColorText("WARNING"); ImGui::NextColumn();
+					ColorText("mvWARNING"); ImGui::NextColumn();
+					CodeColorText("log_warning('some message')"); ImGui::NextColumn();
+
+					ImGui::Separator();
+					CodeColorText("ERROR"); ImGui::NextColumn();
+					ColorText("ERROR"); ImGui::NextColumn();
+					CodeColorText("log_error('some message')"); ImGui::NextColumn();
+
+					ImGui::Separator();
+					CodeColorText("OFF"); ImGui::NextColumn();
+					ColorText("mvOFF"); ImGui::NextColumn(); ImGui::NextColumn();
+
+					ImGui::Columns(1);
+
 					
 				}
 
+
 				if (ImGui::CollapsingHeader("Widgets"))
+				{
+
+					ColorText("WIDGETS:");
+					ImGui::Columns(5);
+					WidgetTableEntry("WIDGET", "CONTAINER", "CALLBACK", "SOURCE TYPE", "DESCRIPTION");
+					WidgetTableEntry("button", "", "yes", "", "button");
+					WidgetTableEntry("checkbox", "", "yes", "bool", "checkbox");
+					WidgetTableEntry("child", "yes", "", "bool", "embedded window");
+					WidgetTableEntry("collapsing header", "yes", "", "bool", "collapsible header");
+					WidgetTableEntry("color button", "", "yes", "", "color button");
+					WidgetTableEntry("color edit3", "", "yes", "color", "rgb color editing widget");
+					WidgetTableEntry("color edit4", "", "yes", "color", "rgba color editing widget");
+					WidgetTableEntry("color picker3", "", "yes", "color", "rgb color picking widget");
+					WidgetTableEntry("color picker4", "", "yes", "color", "rgba color picking widget");
+					WidgetTableEntry("columns", "yes", "", "", "a layout widget");
+					WidgetTableEntry("combo", "", "yes", "string", "dropdown combo box");
+					WidgetTableEntry("date picker", "", "yes", "time", "data selector widget");
+					WidgetTableEntry("drag float", "", "yes", "float", "drag widget");
+					WidgetTableEntry("drag float2", "", "yes", "[float, float]", "drag widget");
+					WidgetTableEntry("drag float3", "", "yes", "[float, float, float]", "drag widget");
+					WidgetTableEntry("drag float4", "", "yes", "[float, float, float, float]", "drag widget");
+					WidgetTableEntry("drag int", "", "yes", "int", "drag widget");
+					WidgetTableEntry("drag int2", "", "yes", "[int, int]", "drag widget");
+					WidgetTableEntry("drag int3", "", "yes", "[int, int, int]", "drag widget");
+					WidgetTableEntry("drag int4", "", "yes", "[int, int, int, int]", "drag widget");
+					WidgetTableEntry("drawing", "", "", "", "embeddable canvas");
+					WidgetTableEntry("dummy", "", "", "", "spacing widget");
+					WidgetTableEntry("group", "yes", "", "", "grouping/layout widget");
+					WidgetTableEntry("image", "", "", "", "image widget");
+					WidgetTableEntry("image button", "", "yes", "", "clickable image");
+					WidgetTableEntry("indent", "", "", "float", "layout widget, indents until unindent called");
+					WidgetTableEntry("input float", "", "yes", "float", "input widget");
+					WidgetTableEntry("input float2", "", "yes", "[float, float]", "input widget");
+					WidgetTableEntry("input float3", "", "yes", "[float, float, float]", "input widget");
+					WidgetTableEntry("input float4", "", "yes", "[float, float, float, float]", "input widget");
+					WidgetTableEntry("input int", "", "yes", "int", "input widget");
+					WidgetTableEntry("input int2", "", "yes", "[int, int]", "input widget");
+					WidgetTableEntry("input int3", "", "yes", "[int, int, int]", "input widget");
+					WidgetTableEntry("input int4", "", "yes", "[int, int, int, int]", "input widget");
+					WidgetTableEntry("input text", "", "yes", "string", "input widget");
+					WidgetTableEntry("listbox", "", "yes", "int", "item list widget");
+					WidgetTableEntry("managed columns", "yes", "", "", "layout widget");
+					WidgetTableEntry("menu", "yes", "", "bool", "menu widget");
+					WidgetTableEntry("menu bar", "yes", "", "bool", "menu bar widget");
+					WidgetTableEntry("menu item", "yes", "", "bool", "menu item widget");
+					WidgetTableEntry("next column", "", "", "", "layout widget");
+					WidgetTableEntry("popup", "yes", "", "bool", "popup window");
+					WidgetTableEntry("progress bar", "", "", "float", "progress bar widget");
+					WidgetTableEntry("radio button", "", "yes", "int", "set of radio buttons");
+					WidgetTableEntry("same line", "", "", "", "layout widget, places next item on same line");
+					WidgetTableEntry("selectable", "", "yes", "bool", "selectable widget");
+					WidgetTableEntry("seperator", "", "", "", "horizontal line");
+					WidgetTableEntry("simple plot", "", "", "List[float]", "simple plot for data visualization");
+					WidgetTableEntry("slider float", "", "yes", "float", "slider widget");
+					WidgetTableEntry("slider float2", "", "yes", "[float, float]", "slider widget");
+					WidgetTableEntry("slider float3", "", "yes", "[float, float, float]", "slider widget");
+					WidgetTableEntry("slider float4", "", "yes", "[float, float, float, float]", "slider widget");
+					WidgetTableEntry("slider int", "", "yes", "int", "slider widget");
+					WidgetTableEntry("slider int2", "", "yes", "[int, int]", "slider widget");
+					WidgetTableEntry("slider int3", "", "yes", "[int, int, int]", "slider widget");
+					WidgetTableEntry("slider int4", "", "yes", "[int, int, int, int]", "slider widget");
+					WidgetTableEntry("spacing", "", "", "int", "layout widget, vertical spacing");
+					WidgetTableEntry("tab", "yes", "", "bool", "layout widget, tab widget");
+					WidgetTableEntry("tab bar", "yes", "", "string", "layout widget, tab container");
+					WidgetTableEntry("table", "", "yes", "", "simple table widget");
+					WidgetTableEntry("text", "", "", "string", "text widget");
+					WidgetTableEntry("time picker", "", "yes", "time", "time selecting widget");
+					WidgetTableEntry("tooltip", "yes", "", "bool", "window that appears on hovering another item");
+					WidgetTableEntry("tree node", "yes", "", "bool", "collapsing node widget");
+					WidgetTableEntry("window", "yes", "", "", "new window widget");
+
+					ImGui::Columns(1);
+					
+				}
+
+				if (ImGui::CollapsingHeader("Widget Basics"))
 				{
 					ColorText("BASICS:");
 					ImGui::BulletText("Widgets are added with a command of the form \"add_*\"");
-					ImGui::BulletText("Some widgets can contain other widgets. These types of widgets have an additional \"end_*\" command.");
-					ImGui::Separator();
-
-					ColorText("CONTAINER WIDGETS:");
-					ImGui::BulletText("The following widgets are container types:");
-					ImGui::Indent();
-					CodeColorText("child             - an embedded window");
-					CodeColorText("group             - a group of widgets, useful for layouts");
-					CodeColorText("window            - a new window");
-					CodeColorText("collapsing_header - a collapsible header (like to one used here)");
-					CodeColorText("tab_bar           - contains tabs");
-					CodeColorText("tab               - a tab belonging to a tabbar");
-					CodeColorText("menu_bar          - contains menus");
-					CodeColorText("menu              - a menu belonging to a menubar");
-					CodeColorText("tree_node         - a collapsible tree item");
-					CodeColorText("tool_tip          - a window that appears when hovering an item");
-					CodeColorText("popup             - a window that appears when an item is clicked");
-					CodeColorText("managed_columns   - splits a layout into columns");
-					CodeColorText("columns           - splits a layout into columns");
-					ImGui::Unindent();
+					ImGui::BulletText("Some widgets can contain other widgets.");
 					ImGui::Separator();
 
 					ColorText("WIDGETS NAMING:");
@@ -215,7 +306,7 @@ namespace Marvel {
 					ImGui::Indent();
 					CodeColorText("add_button('Press me')");
 					CodeColorText("add_button('Press me##123')");
-					CodeColorText("add_button('Press me##fish')");
+					CodeColorText("add_button('Some unique name', label='Press me')");
 					ImGui::Unindent();
 					ImGui::Separator();
 
@@ -248,27 +339,6 @@ namespace Marvel {
 					CodeColorText("end()");
 					CodeColorText("add_button(..., parent='childname')");
 					ImGui::Unindent();
-					ImGui::Unindent();
-
-				}
-
-				if (ImGui::CollapsingHeader("Tables"))
-				{
-					ColorText("BASICS");
-					ImGui::BulletText("Tables are useful for viewing large amounts of data.");
-					ImGui::BulletText("The following commands are related to tables:");
-					ImGui::Indent();
-					CodeColorText("add_table");
-					CodeColorText("set_table_item");
-					CodeColorText("set_table_data");
-					CodeColorText("get_table_data");
-					CodeColorText("set_table_selection");
-					CodeColorText("get_table_selections");
-					CodeColorText("get_table_item");
-					CodeColorText("delete_row");
-					CodeColorText("delete_column");
-					CodeColorText("insert_row");
-					CodeColorText("insert_column");
 					ImGui::Unindent();
 
 				}
@@ -365,23 +435,7 @@ namespace Marvel {
 
 					ColorText("WIDGET CALLBACKS:");
 					ImGui::BulletText("Useful for performing actions during widget interactions.");
-					ImGui::BulletText("Commands take the form of 'set_*_callback(...)'");
-					ImGui::BulletText("The folling widgets support callbacks:");
-					ImGui::Indent();
-					CodeColorText(" - button");
-					CodeColorText(" - selectable");
-					CodeColorText(" - checkbox");
-					CodeColorText(" - combo");
-					CodeColorText(" - listbox");
-					CodeColorText(" - radiobutton");
-					CodeColorText(" - coloredit family");
-					CodeColorText(" - colorpicker family");
-					CodeColorText(" - drag family");
-					CodeColorText(" - slide family");
-					CodeColorText(" - input family");
-					CodeColorText(" - menuitem");
-					CodeColorText(" - tab");
-					ImGui::Unindent();
+					ImGui::BulletText("Set using the 'callback' keyword.");
 					ImGui::BulletText("Should take the following form:");
 					ImGui::Indent();
 					CodeColorText("def callbackname(sender, data):");
@@ -460,11 +514,7 @@ namespace Marvel {
 					ImGui::BulletText("The drawing API is a low-level drawing API useful as a canvas or custom widget.");
 					ImGui::BulletText("Drawings are added using the 'add_drawing(...)' command.");
 					ImGui::BulletText("All drawing commands' first argument is the name of the drawing you are refering to.");
-					ImGui::BulletText("The drawings scale and coordinate origin can be set with the following commands:");
-					ImGui::Indent();
-					CodeColorText("set_drawing_scale(...)  # default is 1.0 and 1.0");
-					CodeColorText("set_drawing_origin(...) # origin is in pixels, default is 0,0 (bottom left corner)");
-					ImGui::Unindent();
+					ImGui::BulletText("The drawings scale and coordinate origin can be set through keywords");
 					ImGui::Separator();
 
 					ColorText("TAGS:");
