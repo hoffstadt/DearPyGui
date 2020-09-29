@@ -47,6 +47,7 @@ namespace Marvel {
 	PyObject*   ToPyInt   (int value);
 	PyObject*   ToPyBool  (bool value);
 	PyObject*   ToPyMPair (int x, float y);
+	PyObject*   ToPyMTrip (int i, float x, float y);
 	PyObject*   ToPyPair  (float x, float y);
 	PyObject*   ToPyPairII(int x, int y);
 	PyObject*   ToPyPair  (const std::string& x, const std::string& y);

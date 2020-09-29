@@ -84,7 +84,7 @@ namespace Marvel {
 	{
 		float* value = mvValueStorage::AddFloat2Value(source, { (float)dummyValue[0], (float)dummyValue[1] });
 
-		m_dragPoints.push_back({ name, value, show_label, color, radius, callback, value[0], value[1] });
+		m_dragPoints.push_back({ name, value, show_label, color, radius, callback, value[0], value[1], source});
 	}
 
 	void mvPlot::updateDragPoint(const std::string& name, bool show_label, const mvColor& color, float radius, PyObject* callback, double* dummyValue, const std::string& source)
@@ -121,7 +121,7 @@ namespace Marvel {
 	{
 		float* value = mvValueStorage::AddFloatValue(source, dummyValue);
 
-		m_dragLines.push_back({ name, value, show_label, color, thickness, y_line, callback, *value});
+		m_dragLines.push_back({ name, value, show_label, color, thickness, y_line, callback, *value, source});
 	}
 
 	void mvPlot::updateDragLine(const std::string& name, bool show_label, const mvColor& color, float thickness, bool y_line, PyObject* callback, double dummyValue, const std::string& source)

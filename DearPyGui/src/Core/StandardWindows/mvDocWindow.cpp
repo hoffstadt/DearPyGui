@@ -11,6 +11,8 @@ namespace Marvel {
 
 	mvDocWindow::mvDocWindow() : mvStandardWindow("Dear PyGui Documentation")
 	{
+		m_width = 700;
+		m_height = 500;
 		setup();
 	}
 
@@ -184,13 +186,15 @@ namespace Marvel {
 					CodeColorText("group             - a group of widgets, useful for layouts");
 					CodeColorText("window            - a new window");
 					CodeColorText("collapsing_header - a collapsible header (like to one used here)");
-					CodeColorText("tab_bar            - contains tabs");
+					CodeColorText("tab_bar           - contains tabs");
 					CodeColorText("tab               - a tab belonging to a tabbar");
-					CodeColorText("menu_bar           - contains menus");
+					CodeColorText("menu_bar          - contains menus");
 					CodeColorText("menu              - a menu belonging to a menubar");
 					CodeColorText("tree_node         - a collapsible tree item");
-					CodeColorText("tool_tip           - a window that appears when hovering an item");
+					CodeColorText("tool_tip          - a window that appears when hovering an item");
 					CodeColorText("popup             - a window that appears when an item is clicked");
+					CodeColorText("managed_columns   - splits a layout into columns");
+					CodeColorText("columns           - splits a layout into columns");
 					ImGui::Unindent();
 					ImGui::Separator();
 
@@ -203,6 +207,7 @@ namespace Marvel {
 					CodeColorText("same_line");
 					CodeColorText("indent");
 					CodeColorText("unindent");
+					CodeColorText("next_column");
 					ImGui::Unindent();
 					ImGui::BulletText("The above widget's names are optional (they are auto generated).");
 					ImGui::BulletText("If a widget uses the name to display text (i.e. button) and you need");
@@ -255,6 +260,8 @@ namespace Marvel {
 					ImGui::Indent();
 					CodeColorText("add_table");
 					CodeColorText("set_table_item");
+					CodeColorText("set_table_data");
+					CodeColorText("get_table_data");
 					CodeColorText("set_table_selection");
 					CodeColorText("get_table_selections");
 					CodeColorText("get_table_item");
@@ -268,6 +275,19 @@ namespace Marvel {
 
 				if (ImGui::CollapsingHeader("Data Storage"))
 				{
+
+					ColorText("USE CASE");
+					ImGui::BulletText("To store data for later usage, just use the following commands:");
+					ImGui::Indent();
+					CodeColorText("add_data");
+					CodeColorText("get_data");
+					ImGui::Unindent();
+					ImGui::Separator();
+
+				}
+
+				if (ImGui::CollapsingHeader("Value Storage"))
+				{
 					ColorText("BASICS");
 					ImGui::BulletText("There are 3 use cases for the data storage system:");
 					ImGui::Indent();
@@ -278,7 +298,7 @@ namespace Marvel {
 					ImGui::Separator();
 
 					ColorText("USE CASE 1");
-					ImGui::BulletText("To share the underlying data of multiple widgets, just use the 'data_source' keyword when adding the widget.");
+					ImGui::BulletText("To share the underlying data of multiple widgets, just use the 'source' keyword when adding the widget.");
 					ImGui::BulletText("Ensure the underlying data structures match or it will not work.");
 					ImGui::BulletText("Some widgets have a 'secondary_data_source' (i.e. listbox, which allows modification of the listed items)");
 					ImGui::Separator();
@@ -286,13 +306,14 @@ namespace Marvel {
 					ColorText("USE CASE 2");
 					ImGui::BulletText("To store data for later usage, just use the following commands:");
 					ImGui::Indent();
-					CodeColorText("add_data");
+					CodeColorText("add_value");
 					CodeColorText("get_data");
+					CodeColorText("set_data");
 					ImGui::Unindent();
 					ImGui::Separator();
 
 					ColorText("USE CASE 3");
-					ImGui::BulletText("With this use case, you store data with 'add_data' and use that data with the 'data_source' keyword.");
+					ImGui::BulletText("With this use case, you store data with 'add_data' and use that data with the 'ource' keyword.");
 
 				}
 
@@ -318,16 +339,13 @@ namespace Marvel {
 					ColorText("RENDER CALLBACK:");
 					ImGui::BulletText("Useful for live updating (for example a progress bar)");
 					ImGui::BulletText("The command is 'set_render_callback(...)'");
-					ImGui::BulletText("The optional 'handler' keyword will set which window triggers the callback.");
 					ImGui::BulletText("Notes:");
 					ImGui::Indent();
-					ImGui::BulletText("Works for: Window, Child, Popup, Menu");
 					ImGui::BulletText("Should take the following form:");
 					ImGui::Indent();
 					CodeColorText("def callbackname(sender, data):");
 					CodeColorText("    ...");
 					ImGui::Unindent();
-					ImGui::BulletText("The 'sender' parameter is the name of widget the callback was sent from.");
 					ImGui::BulletText("The data parameter depends on the actual callback. Check the documentation.");
 					ImGui::Unindent();
 					ImGui::Separator();

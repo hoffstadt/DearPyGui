@@ -80,12 +80,20 @@ namespace Marvel{
 		{
 
 			// update mouse
+			mvVec2 oldMousePos = mvInput::getGlobalMousePosition();
 			ImVec2 mousePos = ImGui::GetMousePos();
 			mvInput::setGlobalMousePosition(mousePos.x, mousePos.y);
 			float x = mousePos.x - ImGui::GetWindowPos().x;
 			float y = mousePos.y - ImGui::GetWindowPos().y;
 			mvInput::setMousePosition(x, y);
 			mvApp::GetApp()->setActiveWindow(m_name);
+
+			// mouse move callback
+			if (oldMousePos.x != mousePos.x || oldMousePos.y != mousePos.y)
+			{
+				mvApp::GetApp()->runCallback(mvApp::GetAppStandardWindow()->getMouseMoveCallback(), m_name,
+					ToPyPair(x, y));
+			}
 
 		}
 	}
@@ -472,6 +480,8 @@ namespace Marvel{
 	mvAppItem::~mvAppItem()
 	{
 		deleteChildren();
+
+		mvGlobalIntepreterLock gil;
 
 		if (m_callback)
 			Py_DECREF(m_callback);

@@ -39,6 +39,7 @@ namespace Marvel {
 		MV_APPITEM_TYPE(mvAppItemType::Plot, "add_plot")
 
 		mvPlot(const std::string& name, PyObject* queryCallback);
+		~mvPlot(){clear();}
 
 		// drag lines
 		void addDragPoint   (const std::string& name, bool show_label, const mvColor& color, float radius, PyObject* callback, double* dummyValue, const std::string& source);

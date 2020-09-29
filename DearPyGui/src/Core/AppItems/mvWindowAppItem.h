@@ -19,7 +19,7 @@ namespace Marvel {
 		MV_APPITEM_TYPE(mvAppItemType::Window, "add_window")
 
 		mvWindowAppitem(const std::string& name, bool mainWindow, PyObject* closing_callback)
-			: mvAppItem(name), mvEventHandler(), m_mainWindow(mainWindow), m_closing_callback(closing_callback)
+			: mvAppItem(name), mvEventHandler(), m_mainWindow(mainWindow), m_closing_callback(SanitizeCallback(closing_callback))
 		{
 			m_container = true;
 
@@ -92,7 +92,7 @@ namespace Marvel {
 			
 			pushColorStyles();
 
-			if (!ImGui::Begin(m_label.c_str(), &m_show, m_windowflags))
+			if (!ImGui::Begin(m_label.c_str(), m_noclose ? nullptr : &m_show, m_windowflags))
 			{
 				if (m_mainWindow)
 					ImGui::PopStyleVar();
@@ -110,7 +110,7 @@ namespace Marvel {
 					continue;
 
 				// set item width
-				if (item->getWidth() > 0)
+				if (item->getWidth() != 0)
 					ImGui::SetNextItemWidth((float)item->getWidth());
 
 				item->pushColorStyles();
@@ -160,14 +160,12 @@ namespace Marvel {
 				mvApp::GetApp()->setActiveWindow(m_name);
 
 				// mouse move callback
-				if (getMouseMoveCallback() != nullptr)
+				if (oldMousePos.x != mousePos.x || oldMousePos.y != mousePos.y)
 				{
-					if (oldMousePos.x != mousePos.x || oldMousePos.y != mousePos.y)
-					{
-						mvApp::GetApp()->runCallback(getMouseMoveCallback(), m_name, 
-							ToPyPair(x, y));
-					}
+					mvApp::GetApp()->runCallback(mvApp::GetAppStandardWindow()->getMouseMoveCallback(), m_name,
+						ToPyPair(x, y));
 				}
+
 			}
 
 			m_xpos = (int)ImGui::GetWindowPos().x;
@@ -185,6 +183,7 @@ namespace Marvel {
 			mvGlobalIntepreterLock gil;
 			if (PyObject* item = PyDict_GetItemString(dict, "x_pos")) setWindowPos(ToInt(item), m_ypos);
 			if (PyObject* item = PyDict_GetItemString(dict, "y_pos")) setWindowPos(m_xpos, ToInt(item));
+			if (PyObject* item = PyDict_GetItemString(dict, "no_close")) m_noclose = ToBool(item);
 
 			// helper for bit flipping
 			auto flagop = [dict](const char* keyword, int flag, int& flags)
@@ -201,6 +200,8 @@ namespace Marvel {
 			flagop("horizontal_scrollbar",			ImGuiWindowFlags_HorizontalScrollbar,	m_windowflags);
 			flagop("no_focus_on_appearing",			ImGuiWindowFlags_NoFocusOnAppearing,	m_windowflags);
 			flagop("no_bring_to_front_on_focus",	ImGuiWindowFlags_NoBringToFrontOnFocus,	m_windowflags);
+			flagop("menubar",                       ImGuiWindowFlags_MenuBar,	            m_windowflags);
+			flagop("no_background",                 ImGuiWindowFlags_NoBackground,          m_windowflags);
 
 		}
 
@@ -211,6 +212,7 @@ namespace Marvel {
 			mvGlobalIntepreterLock gil;
 			PyDict_SetItemString(dict, "x_pos", ToPyInt(m_xpos));
 			PyDict_SetItemString(dict, "y_pos", ToPyInt(m_ypos));
+			PyDict_SetItemString(dict, "no_close", ToPyBool(m_closing));
 
 			// helper to check and set bit
 			auto checkbitset = [dict](const char* keyword, int flag, const int& flags)
@@ -228,6 +230,15 @@ namespace Marvel {
 			checkbitset("horizontal_scrollbar",			ImGuiWindowFlags_HorizontalScrollbar,	m_windowflags);
 			checkbitset("no_focus_on_appearing",		ImGuiWindowFlags_NoFocusOnAppearing,	m_windowflags);
 			checkbitset("no_bring_to_front_on_focus",	ImGuiWindowFlags_NoBringToFrontOnFocus,	m_windowflags);
+			checkbitset("menubar",                      ImGuiWindowFlags_MenuBar,	            m_windowflags);
+			checkbitset("no_background",                ImGuiWindowFlags_NoBackground,          m_windowflags);
+		}
+
+		~mvWindowAppitem()
+		{
+			mvGlobalIntepreterLock gil;
+			if (m_closing_callback)
+				Py_XDECREF(m_closing_callback);
 		}
 
 	private:
@@ -240,6 +251,7 @@ namespace Marvel {
 		bool             m_dirty_pos = true;
 		bool             m_dirty_size = true;
 		bool             m_closing = true;
+		bool             m_noclose = false;
 		
 
 	};
