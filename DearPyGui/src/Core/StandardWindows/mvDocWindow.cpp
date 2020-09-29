@@ -307,8 +307,8 @@ namespace Marvel {
 					ImGui::BulletText("To store data for later usage, just use the following commands:");
 					ImGui::Indent();
 					CodeColorText("add_value");
-					CodeColorText("get_data");
-					CodeColorText("set_data");
+					CodeColorText("get_value");
+					CodeColorText("set_value");
 					ImGui::Unindent();
 					ImGui::Separator();
 
