@@ -663,7 +663,7 @@ namespace Marvel {
 		if (std::string(popupparent) == "")
 			mvApp::GetApp()->getItem("MainWindow")->setPopup(name);
 
-		mvAppItem* item = new mvPopup(name);
+		mvAppItem* item = new mvPopup(name, PopupParent);
 
 		item->checkConfigDict(kwargs);
 		item->setConfigDict(kwargs);

@@ -41,6 +41,7 @@ namespace Marvel {
 		void draw() override
 		{
 			pushColorStyles();
+			ImGui::PushID(this);
 
 			if (ImGui::DragFloat(m_label.c_str(), m_value, m_speed, m_min, m_max, m_format.c_str(), m_flags))
 			{
@@ -55,6 +56,7 @@ namespace Marvel {
 			if (!getTip().empty() && ImGui::IsItemHovered())
 				ImGui::SetTooltip("%s", getTip().c_str());
 
+			ImGui::PopID();
 			popColorStyles();
 		}
 
@@ -128,6 +130,7 @@ namespace Marvel {
 		void draw() override
 		{
 			pushColorStyles();
+			ImGui::PushID(this);
 
 			if (ImGui::DragFloat2(m_label.c_str(), m_value, m_speed, m_min, m_max, m_format.c_str(), m_flags))
 			{
@@ -142,6 +145,7 @@ namespace Marvel {
 			if (!getTip().empty() && ImGui::IsItemHovered())
 				ImGui::SetTooltip("%s", getTip().c_str());
 
+			ImGui::PopID();
 			popColorStyles();
 		}
 
@@ -215,6 +219,7 @@ namespace Marvel {
 		void draw() override
 		{
 			pushColorStyles();
+			ImGui::PushID(this);
 
 			if (ImGui::DragFloat3(m_label.c_str(), m_value, m_speed, m_min, m_max, m_format.c_str(), m_flags))
 			{
@@ -229,6 +234,7 @@ namespace Marvel {
 			if (!getTip().empty() && ImGui::IsItemHovered())
 				ImGui::SetTooltip("%s", getTip().c_str());
 
+			ImGui::PopID();
 			popColorStyles();
 		}
 
@@ -302,6 +308,7 @@ namespace Marvel {
 		void draw() override
 		{
 			pushColorStyles();
+			ImGui::PushID(this);
 
 			if (ImGui::DragFloat4(m_label.c_str(), m_value, m_speed, m_min, m_max, m_format.c_str(), m_flags))
 			{
@@ -316,6 +323,7 @@ namespace Marvel {
 			if (!getTip().empty() && ImGui::IsItemHovered())
 				ImGui::SetTooltip("%s", getTip().c_str());
 
+			ImGui::PopID();
 			popColorStyles();
 		}
 
@@ -390,6 +398,7 @@ namespace Marvel {
 		void draw() override
 		{
 			pushColorStyles();
+			ImGui::PushID(this);
 
 			if (ImGui::DragInt(m_label.c_str(), m_value, m_speed, m_min, m_max, m_format.c_str(), m_flags))
 			{
@@ -405,6 +414,7 @@ namespace Marvel {
 			if (!getTip().empty() && ImGui::IsItemHovered())
 				ImGui::SetTooltip("%s", getTip().c_str());
 
+			ImGui::PopID();
 			popColorStyles();
 		}
 
@@ -479,6 +489,7 @@ namespace Marvel {
 		void draw() override
 		{
 			pushColorStyles();
+			ImGui::PushID(this);
 
 			if (ImGui::DragInt2(m_label.c_str(), m_value, m_speed, m_min, m_max, m_format.c_str(), m_flags))
 			{
@@ -494,6 +505,7 @@ namespace Marvel {
 			if (!getTip().empty() && ImGui::IsItemHovered())
 				ImGui::SetTooltip("%s", getTip().c_str());
 
+			ImGui::PopID();
 			popColorStyles();
 		}
 
@@ -568,6 +580,7 @@ namespace Marvel {
 		void draw() override
 		{
 			pushColorStyles();
+			ImGui::PushID(this);
 
 			if (ImGui::DragInt3(m_label.c_str(), m_value, m_speed, m_min, m_max, m_format.c_str(), m_flags))
 			{
@@ -583,6 +596,7 @@ namespace Marvel {
 			if (!getTip().empty() && ImGui::IsItemHovered())
 				ImGui::SetTooltip("%s", getTip().c_str());
 
+			ImGui::PopID();
 			popColorStyles();
 		}
 
@@ -657,6 +671,7 @@ namespace Marvel {
 		void draw() override
 		{
 			pushColorStyles();
+			ImGui::PushID(this);
 
 			if (ImGui::DragInt4(m_label.c_str(), m_value, m_speed, m_min, m_max, m_format.c_str(), m_flags))
 			{
@@ -671,6 +686,7 @@ namespace Marvel {
 			if (!getTip().empty() && ImGui::IsItemHovered())
 				ImGui::SetTooltip("%s", getTip().c_str());
 
+			ImGui::PopID();
 			popColorStyles();
 		}
 

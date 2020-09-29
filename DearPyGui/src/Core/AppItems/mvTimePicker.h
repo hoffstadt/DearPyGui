@@ -32,6 +32,7 @@ namespace Marvel {
 		void draw() override
 		{
 			pushColorStyles();
+			ImGui::PushID(this);
 
 			if (ImPlot::ShowTimePicker(m_name.c_str(), m_imvalue, m_hour24))
 			{
@@ -39,7 +40,7 @@ namespace Marvel {
 				mvApp::GetApp()->runCallback(m_callback, m_name, m_callbackData);
 			}
 
-
+			ImGui::PopID();
 			popColorStyles();
 		}
 

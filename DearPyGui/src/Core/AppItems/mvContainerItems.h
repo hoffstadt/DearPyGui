@@ -37,9 +37,9 @@ namespace Marvel {
 
 		void draw() override
 		{
-
 			pushColorStyles();
-			
+			ImGui::PushID(this);
+
 			ImGui::BeginChild(m_label.c_str(), ImVec2(float(m_width), float(m_height)), m_border, m_windowflags);
 
 			for (mvAppItem* item : m_children)
@@ -82,7 +82,7 @@ namespace Marvel {
 			m_height = (int)ImGui::GetWindowHeight();
 
 			ImGui::EndChild();
-
+			ImGui::PopID();
 			popColorStyles();
 		}
 
@@ -224,6 +224,7 @@ namespace Marvel {
 		void draw() override
 		{
 			pushColorStyles();
+			ImGui::PushID(this);
 
 			bool* toggle = nullptr;
 			if (m_closable)
@@ -273,6 +274,7 @@ namespace Marvel {
 					ImGui::SetTooltip("%s", getTip().c_str());
 			}
 
+			ImGui::PopID();
 			popColorStyles();
 		}
 
@@ -339,7 +341,8 @@ namespace Marvel {
 		void draw() override
 		{
 			pushColorStyles();
-
+			ImGui::PushID(this);
+			
 			ImGui::BeginGroup();
 			if (ImGui::TreeNodeEx(m_label.c_str(), m_flags))
 			{
@@ -372,7 +375,6 @@ namespace Marvel {
 					item->setRectMax({ ImGui::GetItemRectMax().x, ImGui::GetItemRectMax().y });
 					item->setRectSize({ ImGui::GetItemRectSize().x, ImGui::GetItemRectSize().y });
 				}
-
 				ImGui::TreePop();
 			}
 
@@ -381,7 +383,7 @@ namespace Marvel {
 				ImGui::SetTooltip("%s", getTip().c_str());
 
 			ImGui::EndGroup();
-
+			ImGui::PopID();
 			popColorStyles();
 		}
 

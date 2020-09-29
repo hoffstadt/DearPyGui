@@ -42,6 +42,7 @@ namespace Marvel{
 		void draw() override
 		{
 			pushColorStyles();
+			ImGui::PushID(this);
 
 			if(m_histogram)
 				ImGui::PlotHistogram(m_label.c_str(), m_value->data(), m_value->size(), 0, m_overlay.c_str(), 
@@ -50,6 +51,7 @@ namespace Marvel{
 				ImGui::PlotLines(m_label.c_str(), m_value->data(), m_value->size(), 0, m_overlay.c_str(),
 					m_min, m_max, ImVec2((float)m_width, (float)m_height));
 
+			ImGui::PopID();
 			popColorStyles();
 		}
 

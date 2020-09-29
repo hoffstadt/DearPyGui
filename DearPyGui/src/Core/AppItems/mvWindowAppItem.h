@@ -91,6 +91,7 @@ namespace Marvel {
 
 			
 			pushColorStyles();
+			ImGui::PushID(this);
 
 			if (!ImGui::Begin(m_label.c_str(), m_noclose ? nullptr : &m_show, m_windowflags))
 			{
@@ -171,8 +172,9 @@ namespace Marvel {
 			m_xpos = (int)ImGui::GetWindowPos().x;
 			m_ypos = (int)ImGui::GetWindowPos().y;
 
+			
 			ImGui::End();
-
+			ImGui::PopID();
 			popColorStyles();
 		}
 
