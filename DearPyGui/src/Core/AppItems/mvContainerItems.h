@@ -49,7 +49,7 @@ namespace Marvel {
 					continue;
 
 				// set item width
-				if (item->getWidth() > 0)
+				if (item->getWidth() != 0)
 					ImGui::SetNextItemWidth((float)item->getWidth());
 
 				item->pushColorStyles();
@@ -76,7 +76,7 @@ namespace Marvel {
 				ImGui::SetTooltip("%s", m_tip.c_str());
 
 			// allows this item to have a render callback
-			//registerWindowFocusing();
+			registerWindowFocusing();
 
 			m_width = (int)ImGui::GetWindowWidth();
 			m_height = (int)ImGui::GetWindowHeight();
@@ -144,7 +144,7 @@ namespace Marvel {
 					continue;
 
 				// set item width
-				if (item->getWidth() > 0)
+				if (item->getWidth() != 0)
 					ImGui::SetNextItemWidth((float)item->getWidth());
 
 				item->pushColorStyles();
@@ -173,6 +173,9 @@ namespace Marvel {
 				ImGui::PopItemWidth();
 
 			ImGui::EndGroup();
+
+			if (!m_tip.empty() && ImGui::IsItemHovered())
+				ImGui::SetTooltip("%s", m_tip.c_str());
 
 			popColorStyles();
 		}
@@ -240,7 +243,7 @@ namespace Marvel {
 						continue;
 
 					// set item width
-					if (item->getWidth() > 0)
+					if (item->getWidth() != 0)
 						ImGui::SetNextItemWidth((float)item->getWidth());
 
 					item->pushColorStyles();
@@ -348,7 +351,7 @@ namespace Marvel {
 						continue;
 
 					// set item width
-					if (item->getWidth() > 0)
+					if (item->getWidth() != 0)
 						ImGui::SetNextItemWidth((float)item->getWidth());
 
 					item->pushColorStyles();

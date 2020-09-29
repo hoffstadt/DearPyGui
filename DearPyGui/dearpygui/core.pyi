@@ -266,7 +266,7 @@ def add_menu_bar(name: str, show: bool = True, parent: str = "", before: str = "
 	...
 
 def add_menu_item(name: str, shortcut: str = "", check: bool = False, callback: Callable = None, callback_data: Any = None, label: str = "", 
-				  show: bool = True, tip: str = "", parent: str = "", before: str = "") -> None:
+				  show: bool = True, enabled: bool = True, tip: str = "", parent: str = "", before: str = "") -> None:
 	"""Adds a menu item to an existing menu."""
 	...
 
@@ -437,7 +437,11 @@ def add_value(name: str, value: Any) -> None:
 	...
 
 def add_window(name: str, width: int = -1, height: int = -1, x_pos: int = 200, y_pos: int = 200, autosize: bool = False, 
-			   no_resize: bool = False, no_title_bar: bool = False, no_move: bool = False, no_scrollbar: bool = False, no_collapse: bool = False, horizontal_scrollbar: bool = False, no_focus_on_appearing: bool = False, no_bring_to_front_on_focus: bool = False, label: str = "", show: bool = True, on_close: Callable = None) -> None:
+			   no_resize: bool = False, no_title_bar: bool = False, no_move: bool = False, no_scrollbar: bool = False, 
+			   no_collapse: bool = False, horizontal_scrollbar: bool = False, no_focus_on_appearing: bool = False, 
+			   no_bring_to_front_on_focus: bool = False, menubar: bool = False, no_close: bool = False, 
+			   no_background: bool = False, label: str = "", 
+			   show: bool = True, on_close: Callable = None) -> None:
 	"""Creates a new window for following items to be added to."""
 	...
 
@@ -469,7 +473,7 @@ def close_popup() -> None:
 	"""Closes the current popup"""
 	...
 
-def configure_item(item: str, config: Any) -> None:
+def configure_item(item: str, **kwargs) -> None:
 	"""Configures an item"""
 	...
 
@@ -1035,15 +1039,15 @@ def set_item_width(item: str, width: int) -> None:
 	"""Sets an item's width."""
 	...
 
-def set_key_down_callback(callback: Callable, handler: str = "") -> None:
+def set_key_down_callback(callback: Callable) -> None:
 	"""Sets a callback for a key down event."""
 	...
 
-def set_key_press_callback(callback: Callable, handler: str = "") -> None:
+def set_key_press_callback(callback: Callable) -> None:
 	"""Sets a callback for a key press event."""
 	...
 
-def set_key_release_callback(callback: Callable, handler: str = "") -> None:
+def set_key_release_callback(callback: Callable) -> None:
 	"""Sets a callback for a key release event."""
 	...
 
@@ -1067,31 +1071,31 @@ def set_main_window_title(title: str) -> None:
 	"""Sets the title of the main window."""
 	...
 
-def set_mouse_click_callback(callback: Callable, handler: str = "") -> None:
+def set_mouse_click_callback(callback: Callable) -> None:
 	"""Sets a callback for a mouse click event."""
 	...
 
-def set_mouse_double_click_callback(callback: Callable, handler: str = "") -> None:
+def set_mouse_double_click_callback(callback: Callable) -> None:
 	"""Sets a callback for a mouse double click event."""
 	...
 
-def set_mouse_down_callback(callback: Callable, handler: str = "") -> None:
+def set_mouse_down_callback(callback: Callable) -> None:
 	"""Sets a callback for a mouse down event."""
 	...
 
-def set_mouse_drag_callback(callback: Callable, threshold: float, handler: str = "") -> None:
+def set_mouse_drag_callback(callback: Callable, threshold: float) -> None:
 	"""Sets a callback for a mouse drag event."""
 	...
 
-def set_mouse_move_callback(callback: Callable, handler: str = "") -> None:
+def set_mouse_move_callback(callback: Callable) -> None:
 	"""Sets a callback for a mouse move event. Data is the mouse position in local coordinates."""
 	...
 
-def set_mouse_release_callback(callback: Callable, handler: str = "") -> None:
+def set_mouse_release_callback(callback: Callable) -> None:
 	"""Sets a callback for a mouse release event."""
 	...
 
-def set_mouse_wheel_callback(callback: Callable, handler: str = "") -> None:
+def set_mouse_wheel_callback(callback: Callable) -> None:
 	"""Sets a callback for a mouse wheel event."""
 	...
 

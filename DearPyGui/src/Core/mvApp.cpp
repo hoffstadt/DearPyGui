@@ -303,37 +303,8 @@ namespace Marvel {
 		// Note: Events are only routed to the active window
 
 		// default handler is main window
-		if (m_activeWindow == "logger##standard") 
-			m_activeWindow = "MainWindow";
 		mvEventHandler* eventHandler = static_cast<mvEventHandler*>(this);
-		if (m_activeWindow != "MainWindow")
-		{
 
-			bool handler_found = false;
-			for (auto window : m_windows)
-			{
-				if (window->getName() == m_activeWindow)
-				{
-					auto windowtype = static_cast<mvWindowAppitem*>(window);
-					eventHandler = static_cast<mvEventHandler*>(windowtype);
-					handler_found = true;
-					break;
-				}
-			}
-
-			if (!handler_found)
-			{
-				for (auto& entrypair : m_standardWindows)
-				{
-					if (entrypair.first == m_activeWindow)
-					{
-						eventHandler = static_cast<mvEventHandler*>(entrypair.second.window);
-						handler_found = true;
-						break;
-					}
-				}
-			}
-		}
 
 		// early opt out of keyboard events
 		if (eventHandler->isKeyboardHandled())
@@ -378,7 +349,7 @@ namespace Marvel {
 					mvInput::setMouseDragging(true);
 					mvInput::setMouseDragDelta({ ImGui::GetMouseDragDelta().x, ImGui::GetMouseDragDelta().y });
 					runCallback(eventHandler->getMouseDragCallback(), m_activeWindow,
-						ToPyMPair(i, 0));
+						ToPyMTrip(i, ImGui::GetMouseDragDelta().x, ImGui::GetMouseDragDelta().y));
 					ImGui::ResetMouseDragDelta(i);
 					break;
 				}

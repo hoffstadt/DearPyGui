@@ -36,6 +36,7 @@ Fixes:
 - Threadpool: Fixed issue with some tasks going uncompleted
 - Popups:     Can now be added anywhere (don't have to be right after their parent)
 - Tooltips:   Can now be added anywhere (don't have to be right after their parent)
+- Widgets:    Can widths can now be negative (size from the right side of screen)
 
 Breaking Changes:
 - Data Source:    data_source keywords changed to "source"

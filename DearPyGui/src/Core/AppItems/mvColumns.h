@@ -25,8 +25,8 @@ namespace Marvel {
 		mvManagedColumns(const std::string& name, int columns)
 			: mvAppItem(name)
 		{
-			if (columns < 2)
-				m_columns = 2;
+			if (columns < 1)
+				m_columns = 1;
 			else if (columns > 64)
 				m_columns = 64;
 			else
@@ -48,7 +48,7 @@ namespace Marvel {
 					continue;
 
 				// set item width
-				if (item->getWidth() > 0)
+				if (item->getWidth() != 0)
 					ImGui::SetNextItemWidth((float)item->getWidth());
 
 				item->pushColorStyles();
@@ -90,8 +90,8 @@ namespace Marvel {
 			{
 				m_columns = ToInt(item);
 
-				if (m_columns < 2)
-					m_columns = 2;
+				if (m_columns < 1)
+					m_columns = 1;
 				else if (m_columns > 64)
 					m_columns = 64;
 
@@ -132,8 +132,8 @@ namespace Marvel {
 			mvColumn(const std::string& name, int columns)
 			: mvAppItem(name)
 		{
-			if (columns < 2)
-				m_columns = 2;
+			if (columns < 1)
+				m_columns = 1;
 			else if (columns > 64)
 				m_columns = 64;
 			else
@@ -155,8 +155,8 @@ namespace Marvel {
 			{
 				m_columns = ToInt(item);
 
-				if (m_columns < 2)
-					m_columns = 2;
+				if (m_columns < 1)
+					m_columns = 1;
 				else if (m_columns > 64)
 					m_columns = 64;
 			}

@@ -21,6 +21,8 @@ namespace Marvel {
 	PyObject* set_mouse_double_click_callback(PyObject* self, PyObject* args, PyObject* kwargs);
 	PyObject* set_mouse_click_callback       (PyObject* self, PyObject* args, PyObject* kwargs);
 	PyObject* set_mouse_release_callback     (PyObject* self, PyObject* args, PyObject* kwargs);
+	PyObject* set_mouse_wheel_callback       (PyObject* self, PyObject* args, PyObject* kwargs);
+	PyObject* set_mouse_move_callback        (PyObject* self, PyObject* args, PyObject* kwargs);
 
 	// key polling
 	PyObject* is_key_pressed                 (PyObject* self, PyObject* args, PyObject* kwargs);
@@ -31,8 +33,6 @@ namespace Marvel {
 	PyObject* set_key_down_callback          (PyObject* self, PyObject* args, PyObject* kwargs);
 	PyObject* set_key_press_callback         (PyObject* self, PyObject* args, PyObject* kwargs);
 	PyObject* set_key_release_callback       (PyObject* self, PyObject* args, PyObject* kwargs);
-	PyObject* set_mouse_wheel_callback       (PyObject* self, PyObject* args, PyObject* kwargs);
-	PyObject* set_mouse_move_callback        (PyObject* self, PyObject* args, PyObject* kwargs);
 
 	// app callbacks
 	PyObject* set_render_callback            (PyObject* self, PyObject* args, PyObject* kwargs);

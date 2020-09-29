@@ -1,44 +1,42 @@
 from dearpygui.core import *
 from dearpygui.simple import *
+from dearpygui.demo import *
+from math import sin, cos
+import random
 
-def recursively_show(container):
-    for item in get_item_children(container):
-        if get_item_children(item):
-            show_item(item)
-            recursively_show(item)
-        else:
-            show_item(item)
+########################################################################################################################
+# Settings and Data Storage
+########################################################################################################################
+set_log_level(0)
 
-def try_login(sender, data):
-    print(sender)
-    print(data)
-    if get_value('Password') == 'password':
-        delete_item('Login Window')
-        recursively_show('MainWindow')
-    else:
-        show_item('Incorrect Password.')
+set_main_window_title("DearPyGui Demo")
+set_main_window_size(1000, 800)
+set_main_window_pos(0, 0)
+add_additional_font("C:/dev/DearPyGui/Resources/NotoSerifCJKjp-Medium.otf", 20)
 
-def position_login_window(sender, data):
-    main_width = get_item_width('MainWindow')
-    main_height = get_item_height('MainWindow')
-    login_width = get_item_width('Login Window')
-    login_height = get_item_height('Login Window')
-    set_window_pos('Login Window', (main_width/2 - login_width/2), (main_height/2 - login_height/2))
+show_demo()
 
-with window('Login Window', no_title_bar=True, no_move=True, autosize=True, no_resize=True):
-    add_input_text('Password', hint='hover me for password', password=True, tip='the password is "password"')
-    add_button('Login', callback=try_login)
-    add_text('Incorrect Password.', color=[255, 0, 0], parent='Login Window')
-    hide_item('Incorrect Password.')
-    set_render_callback(position_login_window, 'Login Window')
+with window("Asyncronous##dialog", show=False):
+    add_data('threadNumber', 0)
+    def LongCallback2(sender, data):
+        sleep(5)
+        return data
 
-with menu_bar('menu bar'):
-    with menu('menu 1'):
-        add_menu_item('menu item')
-    with menu('menu 2'):
-        pass
+    def ReturnFromLongProcess(sender, data):
+        log_info("Completed process number: " + str(data))
+        add_data('threadNumber', get_data('threadNumber')-1)
 
-add_text('Congrats!, you may now use the app')
-add_button('Button 1')
-hide_item('MainWindow', children_only=True)
+    def LongAsyncronousCallback(sender, data):
+        current_number = get_data('threadNumber')
+        run_async_function(LongCallback2, current_number, return_handler=ReturnFromLongProcess)
+        log_info("Start process number: " + str(current_number))
+        add_data('threadNumber', current_number+1)
+
+    def LongCallback(sender, data):
+        sleep(5)
+        log_info("Done with long process")
+
+    add_button("Start Long Process", callback=LongCallback)
+    add_button("Start Long Asyncronous Process", callback=LongAsyncronousCallback)
+
 start_dearpygui()
