@@ -93,7 +93,7 @@ namespace Marvel {
 	//-----------------------------------------------------------------------------
 	// mvColorEdit3
 	//-----------------------------------------------------------------------------
-	class mvColorEdit3 : public mvFloat3PtrBase
+	class mvColorEdit3 : public mvColorPtrBase
 	{
 
 	public:
@@ -101,7 +101,7 @@ namespace Marvel {
 		MV_APPITEM_TYPE(mvAppItemType::ColorEdit3, "add_color_edit3")
 
 		mvColorEdit3(const std::string& name, float* color, const std::string& dataSource)
-			: mvFloat3PtrBase(name, color, dataSource)
+			: mvColorPtrBase(name, color, dataSource)
 		{}
 
 		void draw() override
@@ -219,7 +219,7 @@ namespace Marvel {
 	//-----------------------------------------------------------------------------
 	// mvColorEdit4
 	//-----------------------------------------------------------------------------
-	class mvColorEdit4 : public mvFloat4PtrBase
+	class mvColorEdit4 : public mvColorPtrBase
 	{
 
 	public:
@@ -227,7 +227,7 @@ namespace Marvel {
 		MV_APPITEM_TYPE(mvAppItemType::ColorEdit4, "add_color_edit4")
 
 		mvColorEdit4(const std::string& name, float* color, const std::string& dataSource)
-			: mvFloat4PtrBase(name, color, dataSource)
+			: mvColorPtrBase(name, color, dataSource)
 		{}
 
 		void draw() override
@@ -345,7 +345,7 @@ namespace Marvel {
 	//-----------------------------------------------------------------------------
 	// mvColorPicker3
 	//-----------------------------------------------------------------------------
-	class mvColorPicker3 : public mvFloat3PtrBase
+	class mvColorPicker3 : public mvColorPtrBase
 	{
 
 	public:
@@ -353,7 +353,7 @@ namespace Marvel {
 		MV_APPITEM_TYPE(mvAppItemType::ColorPicker3, "add_color_picker3")
 
 		mvColorPicker3(const std::string& name, float* color, const std::string& dataSource)
-			: mvFloat3PtrBase(name, color, dataSource)
+			: mvColorPtrBase(name, color, dataSource)
 		{}
 
 		void draw() override
@@ -471,7 +471,7 @@ namespace Marvel {
 	//-----------------------------------------------------------------------------
 	// mvColorPicker4
 	//-----------------------------------------------------------------------------
-	class mvColorPicker4 : public mvFloat4PtrBase
+	class mvColorPicker4 : public mvColorPtrBase
 	{
 
 	public:
@@ -479,7 +479,7 @@ namespace Marvel {
 		MV_APPITEM_TYPE(mvAppItemType::ColorPicker4, "add_color_picker4")
 
 		mvColorPicker4(const std::string& name, float* color, const std::string& dataSource)
-			: mvFloat4PtrBase(name, color, dataSource)
+			: mvColorPtrBase(name, color, dataSource)
 		{}
 
 		void draw() override

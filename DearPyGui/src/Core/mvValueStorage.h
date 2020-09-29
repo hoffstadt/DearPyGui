@@ -39,7 +39,7 @@ namespace Marvel {
 			Float, Float2, Float3, Float4, FloatVect,
 			Bool,
 			String,
-			Time
+			Time, Color
 		};
 
 	public:
@@ -58,6 +58,7 @@ namespace Marvel {
 		static float*              AddFloat2Value      (const std::string& name, const std::array<float, 2>& value = {});
 		static float*              AddFloat3Value      (const std::string& name, const std::array<float, 3>& value = {});
 		static float*              AddFloat4Value      (const std::string& name, const std::array<float, 4>& value = {});
+		static float*              AddColorValue       (const std::string& name, const std::array<float, 4>& value = {});
 		static std::vector<float>* AddFloatVectorValue (const std::string& name, const std::vector<float>& value = {});
 		static bool*               AddBoolValue        (const std::string& name, bool value = false);
 		static std::string*        AddStringValue      (const std::string& name, const std::string& value = "");
