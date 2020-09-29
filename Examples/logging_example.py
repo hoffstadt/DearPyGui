@@ -1,4 +1,5 @@
-from dearpygui.dearpygui import *
+from dearpygui.core import *
+from dearpygui.simple import *
 
 def log_callback(sender, data):
     show_logger()
@@ -14,9 +15,8 @@ def log_callback(sender, data):
 
 add_button("Test Logger", callback=log_callback)
 add_same_line(spacing=10)
-add_group("LoggingGroup")
-add_text("Log Level")
-add_radio_button("Log Level##logging", ["Trace", "Debug", "Info", "Warning", "Error", "Off"])
-end()
+with group("LoggingGroup"):
+    add_text("Log Level")
+    add_radio_button("Log Level##logging", items=["Trace", "Debug", "Info", "Warning", "Error", "Off"])
 
 start_dearpygui()
