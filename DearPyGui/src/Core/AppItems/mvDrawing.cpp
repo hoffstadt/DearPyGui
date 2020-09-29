@@ -15,23 +15,26 @@ namespace Marvel {
 
 	void mvDrawImageCommand::draw(mvDrawing* draw, ImDrawList* draw_list)
 	{
+
 		if (m_texture == nullptr && !m_file.empty())
 		{
+
 			mvTextureStorage::AddTexture(m_file);
 			mvTexture* texture = mvTextureStorage::GetTexture(m_file);
-            if(texture == nullptr)
-            {
-                PyErr_Format(PyExc_Exception,
-                                            "Image %s could not be found for draw_image. Check the path to the image "
-                                            "you provided.", m_file.c_str());
-                PyErr_Print();
-                m_file = "";
-                return;
-            }
-			if (m_width == 0) m_width = (int)((float)texture->width * (m_uv_max.x - m_uv_min.x));
-			if (m_height == 0) m_height = (int)((float)texture->height * (m_uv_max.y - m_uv_min.y));
+			if (texture == nullptr)
+			{
+				PyErr_Format(PyExc_Exception,
+					"Image %s could not be found for draw_image. Check the path to the image "
+					"you provided.", m_file.c_str());
+				PyErr_Print();
+				m_file = "";
+				return;
+			}
 
 			m_texture = texture->texture;
+
+			if (m_width == 0) m_width = (int)((float)texture->width * (m_uv_max.x - m_uv_min.x));
+			if (m_height == 0) m_height = (int)((float)texture->height * (m_uv_max.y - m_uv_min.y));
 
 			if (m_autosize)
 				m_pmax = { (float)m_width + m_pmin.x, (float)m_height + m_pmin.y };
@@ -40,7 +43,7 @@ namespace Marvel {
 
 		mvVec2 start = draw->getStart();
 		if (m_autosize)
-			m_pmax = { (float)m_width + m_pmin.x, (float)m_height + m_pmin.y };
+			m_pmax = { (float)m_width* draw->getScale().x + m_pmin.x, (float)m_height*draw->getScale().y + m_pmin.y };
 		if(m_texture)
 			draw_list->AddImage(m_texture, m_pmin + start, m_pmax+start, m_uv_min, m_uv_max, m_color);
 	}
@@ -546,7 +549,7 @@ namespace Marvel {
 			{
 				mvDrawImageCommand& acommand = *(mvDrawImageCommand*)(command);
 				acommand.m_pmin = convertToModelSpace(acommand.m_pmino);
-				acommand.m_pmax = convertToModelSpace(acommand.m_pmaxo);
+				acommand.m_pmax = { acommand.m_pmin.x + m_scalex * m_width, acommand.m_pmin.y + m_scaley * m_height };
 				break;
 			}
 

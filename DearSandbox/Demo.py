@@ -14,6 +14,9 @@ set_main_window_size(1000, 800)
 set_main_window_pos(0, 0)
 add_additional_font("C:/dev/DearPyGui/Resources/NotoSerifCJKjp-Medium.otf", 20)
 
+#add_image("image1", "C:/dev/DearPyGui/Examples/SpriteMapExample.png")
+#add_image_button("image", "C:/dev/DearPyGui/Examples/SpriteMapExample.png")
+
 show_demo()
 
 with window("Asyncronous##dialog", show=False):

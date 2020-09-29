@@ -228,8 +228,8 @@ namespace Marvel {
 		const char* file;
 		PyObject* pmin;
 		PyObject* pmax = PyTuple_New(2);
-		PyTuple_SetItem(pmax, 0, PyFloat_FromDouble(-100));
-		PyTuple_SetItem(pmax, 1, PyFloat_FromDouble(-100));
+		PyTuple_SetItem(pmax, 0, PyFloat_FromDouble(0));
+		PyTuple_SetItem(pmax, 1, PyFloat_FromDouble(0));
 		PyObject* uv_min = PyTuple_New(2);
 		PyTuple_SetItem(uv_min, 0, PyFloat_FromDouble(0));
 		PyTuple_SetItem(uv_min, 1, PyFloat_FromDouble(0));
