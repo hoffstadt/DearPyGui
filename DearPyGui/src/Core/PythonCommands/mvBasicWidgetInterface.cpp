@@ -232,7 +232,6 @@ namespace Marvel {
 			{mvPythonDataType::String, "tip", "Adds a simple tooltip"},
 			{mvPythonDataType::String, "parent", "Parent to add this item to. (runtime adding)"},
 			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)"},
-			{mvPythonDataType::String, "source", "data source for shared data"},
 			{mvPythonDataType::Integer, "width",""},
 			{mvPythonDataType::Integer, "height", ""},
 			{mvPythonDataType::String, "popup", ""},
@@ -1342,11 +1341,10 @@ namespace Marvel {
 		PyObject* callback = nullptr;
 		PyObject* callback_data = nullptr;
 		const char* tip = "";
+		const char* parent = "";
+		const char* before = "";
 		int width = 0;
 		int height = 0;
-		const char* before = "";
-		const char* source = "";
-		const char* parent = "";
 		const char* popup = "";
 		int show = true;
 		int no_alpha = false;
@@ -1354,8 +1352,8 @@ namespace Marvel {
 		int no_drag_drop = false;
 
 		if (!(*mvApp::GetApp()->getParsers())["add_color_button"].parse(args, kwargs, __FUNCTION__,
-			&name, &color, &callback, &callback_data, &tip, &width, &height, &before, &source,
-			&parent, &popup, &show, &no_alpha, &no_border, &no_drag_drop))
+			&name, &color, &callback, &callback_data, &tip, &parent, &before, &width, &height,
+			&popup, &show, &no_alpha, &no_border, &no_drag_drop))
 			return ToPyBool(false);
 
 		mvAppItem* item = new mvColorButton(name, ToColor(color));
