@@ -23,14 +23,15 @@ HOW TO UPDATE?
 - Please report any issue!
 
 -----------------------------------------------------------------------
- VERSION 0.4.1 WIP
+ VERSION 0.4.1 (9/30/2020)
 -----------------------------------------------------------------------
 
 Decorated log: https://github.com/hoffstadt/DearPyGui/releases/tag/v0.4.1
 
 Fixes:
-- Logger:      show_item/hide_item now working
-- ID Stack:    unique labels withing a widget "path" not required anymore
+- Logger:       show_item/hide_item now working
+- ID Stack:     unique labels withing a widget "path" not required anymore
+- Demo:         updates for colors
 
 -----------------------------------------------------------------------
  VERSION 0.4.0 (9/28/2020)
