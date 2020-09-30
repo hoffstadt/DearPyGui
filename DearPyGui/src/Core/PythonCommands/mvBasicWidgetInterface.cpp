@@ -127,7 +127,6 @@ namespace Marvel {
 			{mvPythonDataType::String, "tip", "Adds a simple tooltip"},
 			{mvPythonDataType::String, "parent", "Parent this item will be added to. (runtime adding)"},
 			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)"},
-			{mvPythonDataType::String, "label"},
 			{mvPythonDataType::String, "popup"},
 			{mvPythonDataType::Bool, "show"},
 		}, "Adds text", "None", "Adding Widgets") });
@@ -704,13 +703,12 @@ namespace Marvel {
 		const char* tip = "";
 		const char* before = "";
 		const char* parent = "";
-		const char* label = "";
 		const char* popup = "";
 		int show = true;
 
 
 		if (!(*mvApp::GetApp()->getParsers())["add_text"].parse(args, kwargs, __FUNCTION__, &name, &wrap,
-			&color, &bullet, &tip, &parent, &before, &label, &popup, &show))
+			&color, &bullet, &tip, &parent, &before, &popup, &show))
 			return ToPyBool(false);
 
 		mvAppItem* item = new mvText(name);
