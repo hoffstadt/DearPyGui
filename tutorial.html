@@ -78,7 +78,8 @@
 set_main_window_size(800, 800)
 show_about()
 show_documentation()
-# when running this code please look at the about window and it will report which version of DearPyGUI is running
+
+# when running this code please look at the about window and it will report which version of Dear PyGUI is running
 # Even if you just did a pip install please ensure you your environment is using the latest package
 start_dearpygui()</code> </pre>
         <p>
@@ -211,8 +212,11 @@ start_dearpygui()</code> </pre>
 from dearpygui.simple import *
 
 add_text("This is some text on the MainWindow")
-with window("window 2"): # simple
+
+with window("window 2"):                            # simple
+
     add_text("This is some text on window 2")
+    
 add_text("More text on the MainWindow")
 
 start_dearpygui()</code> </pre>
@@ -226,12 +230,12 @@ start_dearpygui()</code> </pre>
         <pre><code data-language="python">from dearpygui.core import *
 from dearpygui.simple import *
 
-add_text("First coded widget")  # this is a display item
+add_text("First coded widget") 
 add_text("This is some text on window 2", parent="window 2")  # we can even specify the parent before it was coded
-add_text("This is some text on child 1", parent="child 1")  # we can even specify the parent before it was coded
-with window("window 1"):  # simple
-    with child("child 1"):  # simple
-        add_checkbox("Checkbox")  # this is a input item added inside of the child
+add_text("This is some text on child 1", parent="child 1")    # we can even specify the parent before it was coded
+with window("window 1"):                                      # simple
+    with child("child 1"):                                    # simple
+        add_checkbox("Checkbox")                              # this is a input item added inside of the child
 add_checkbox("Last coded widget", parent="MainWindow", before="First coded widget")
 add_checkbox("Last coded widget 2", parent="child 1", before="Checkbox")
 
@@ -308,8 +312,8 @@ def resize_me(sender, data):
     log_debug(f"window {sender} has ran a rezise callback")
 
 
-show_logger()  # were going to use the logger to display callback replies
-with window("Tester", on_close=close_me): # simple
+show_logger()                                      # were going to use the logger to display callback replies
+with window("Tester", on_close=close_me):          # simple
     add_text('resize this window resize callback will occur')
     add_text('close this window using the "x" button and a close callback will occur')
 
@@ -499,14 +503,14 @@ def print_me(sender, data):
 
 
 show_logger()
-with menu_bar("Main Menu Bar"): # simple
+with menu_bar("Main Menu Bar"):                    # simple
 
-    with menu("File"): #simple
+    with menu("File"):                             # simple
     
         add_menu_item("Save", callback=print_me)
         add_menu_item("Save As", callback=print_me)
         
-        with menu("Settings"): # simple
+        with menu("Settings"):                     # simple
         
             add_menu_item("Setting 1", callback=print_me)
             add_menu_item("Setting 2", callback=print_me)
@@ -1135,7 +1139,7 @@ show_logger()
 add_text(
     "input a number and see the logger window for the output of the long callback that would normally freeze the GUI")
 add_input_float("Async Input Data", default_value=1.0)
-add_button("long Function", callback=long_callback2, callback_data=dpg.get_value("Async Input Data"), tip="This is the long callback that will freeze the gui")
+add_button("long Function", callback=long_callback2, callback_data=get_value("Async Input Data"), tip="This is the long callback that will freeze the gui")
 add_button("long Asynchronous Function", callback=long_async_preparer, tip="this will not a freeze the GUI")
 
 start_dearpygui()</code></pre>
