@@ -315,54 +315,79 @@ def show_demo():
                 add_progress_bar("##Progress Bar##demo", value=0.78, overlay="1367/1753")
 
             with tree_node("Color/Picker Widgets##demo"):
-                # helper for configuring items
+                # wrapper to apply configuration to all items passed in as a list
+                def configure_items(names, **kwargs):
+                    for name in names:
+                        configure_item(name, **kwargs)
+                color_edit_names = ["MyColor##1", "MyColor##2", "MyColor##3"]
 
-                #def configure_items(names, **kwargs):
-                #    for name in names:
-                #        configure_item(name, **kwargs)
-                #
-                #add_checkbox("With Alpha Preview", callback=lambda sender, data: configure_items(color_edit_names, alpha_preview = get_value(sender)))
-                #add_checkbox("With Half Alpha Preview", callback=lambda sender, data: configure_items(color_edit_names, alpha_preview_half = get_value(sender)))
-                #add_checkbox("With No Drag and Drop", callback=lambda sender, data: configure_items(color_edit_names, no_drag_drop = get_value(sender)))
-                #helpmarker("Click and drag a preview square, drop on another color widget to apply the color")
-                #add_checkbox("With No Options Menu", callback=lambda sender, data: configure_items(color_edit_names, no_options = get_value(sender)))
-                #helpmarker("Right clicking a color widget brings up an options context menu")
-                #add_checkbox("With No Small Preview", callback=lambda sender, data: configure_items(color_edit_names, no_small_preview = get_value(sender)))
-                #add_checkbox("With No Inputs", callback=lambda sender, data: configure_items(color_edit_names, no_inputs = get_value(sender)))
-                #add_checkbox("With No Tooltip", callback=lambda sender, data: configure_items(color_edit_names, no_tooltip = get_value(sender)))
-                #add_checkbox("With RGB", callback=lambda sender, data: configure_items(color_edit_names, display_rgb = get_value(sender)))
-                #add_checkbox("With HSV", callback=lambda sender, data: configure_items(color_edit_names, display_hsv = get_value(sender)))
-                #add_checkbox("With HEX", callback=lambda sender, data: configure_items(color_edit_names, display_hex = get_value(sender)))
-                #add_checkbox("With Ints", callback=lambda sender, data: configure_items(color_edit_names, uint8 = get_value(sender)))
-                #add_checkbox("With Floats", callback=lambda sender, data: configure_items(color_edit_names, floats = get_value(sender)))
-                #helpmarker("Right-click on the individual color widget to show options.")
-                #
-                #add_value("colorvalue", [0.0, 0.0, 0.0, 0.0])
-                #color_edit_names = ["MyColor##1", "MyColor##2", "MyColor##3"]
-                #add_text("Color Widget:")
-                #add_color_edit3(color_edit_names[0], source="colorvalue")
-                #
-                #add_text("Color Widget HSV with Alpha:")
-                #add_color_edit4(color_edit_names[1], source="colorvalue", display_hsv=True, alpha_preview=True)
-                #add_text("Color button with Picker:")
-                #helpmarker("using no inputs and no label leaves only the preview\n"
-                #           "click the color edit preview will reveal the color picker.")
-                #add_color_edit4("Color Edit 4##2", source="colorvalue", no_inputs=True, no_label=True)
-                #
-                #add_text("Color button with Custom Picker Popup:")
-                #add_color_edit4("Color Edit 4 (with custom popup)", source="colorvalue", no_inputs=True, no_picker=True, popup="custom picker popup")
-                #helpmarker("we can override the popup with our own custom popup that includes a color pallet")
-                #with popup("Color Edit 4 (with custom popup)", "custom picker popup", mousebutton=0):
-                #    add_color_picker4("custom picker", no_tooltip=True, picker_hue_wheel=True)
-                #    add_text("Color Pallet")
-                #    for i in range(30):
-                #        add_color_button(f"color button {i}", hsv_to_rgb(i/30,1,1))
-                #        if i<9: add_same_line()
-                #        if i>9 and i<19: add_same_line()
-                #        if i>19 and i<29: add_same_line()
-                #
-                #add_text("Color button only:")
-                add_text("This section is not ready! But will completed sometime during the 0.4.x releases!")
+                add_checkbox("With Alpha Preview", callback=lambda sender, data: configure_items(color_edit_names, alpha_preview = get_value(sender)))
+                add_checkbox("With Half Alpha Preview", callback=lambda sender, data: configure_items(color_edit_names, alpha_preview_half = get_value(sender)))
+                add_checkbox("With No Drag and Drop", callback=lambda sender, data: configure_items(color_edit_names, no_drag_drop = get_value(sender)))
+                helpmarker("Click and drag a preview square, drop on another color widget to apply the color")
+                add_checkbox("With No Options Menu", callback=lambda sender, data: configure_items(color_edit_names, no_options = get_value(sender)))
+                helpmarker("Right clicking a color widget brings up an options context menu")
+                add_checkbox("With No Small Preview", callback=lambda sender, data: configure_items(color_edit_names, no_small_preview = get_value(sender)))
+                add_checkbox("With No Inputs", callback=lambda sender, data: configure_items(color_edit_names, no_inputs = get_value(sender)))
+                add_checkbox("With No Tooltip", callback=lambda sender, data: configure_items(color_edit_names, no_tooltip = get_value(sender)))
+                add_checkbox("With RGB", callback=lambda sender, data: configure_items(color_edit_names, display_rgb = get_value(sender)))
+                add_checkbox("With HSV", callback=lambda sender, data: configure_items(color_edit_names, display_hsv = get_value(sender)))
+                add_checkbox("With HEX", callback=lambda sender, data: configure_items(color_edit_names, display_hex = get_value(sender)))
+                add_checkbox("With Ints", callback=lambda sender, data: configure_items(color_edit_names, uint8 = get_value(sender)))
+                add_checkbox("With Floats", callback=lambda sender, data: configure_items(color_edit_names, floats = get_value(sender)))
+                helpmarker("Right-click on the individual color widget to show options.")
+                
+                add_value("colorvalue", [0.0, 0.0, 0.0, 0.0])
+                add_text("Color Widget:")
+                add_color_edit3(color_edit_names[0], source="colorvalue")
+                
+                add_text("Color Widget HSV with Alpha:")
+                add_color_edit4(color_edit_names[1], source="colorvalue", display_hsv=True, alpha_preview=True)
+                add_text("Color button with Picker:")
+                helpmarker("using no inputs and no label leaves only the preview\n"
+                           "click the color edit preview will reveal the color picker.")
+                add_color_edit4("Color Edit 4##2", source="colorvalue", no_inputs=True, no_label=True)
+                
+                add_text("Color button with Custom Picker Popup:")
+                add_color_edit4("Color Edit 4 (with custom popup)", source="colorvalue", no_inputs=True, no_picker=True, popup="custom picker popup")
+                helpmarker("we can override the popup with our own custom popup that includes a color pallet")
+                with popup("Color Edit 4 (with custom popup)", "custom picker popup", mousebutton=0):
+                    add_color_picker4("custom picker", no_tooltip=True, picker_hue_wheel=True)
+                    add_text("Color Pallet")
+                    for i in range(30):
+                        add_color_button(f"color button {i}", hsv_to_rgb(i/30,1,1))
+                        if i<9: add_same_line()
+                        if i>9 and i<19: add_same_line()
+                        if i>19 and i<29: add_same_line()
+                
+                add_text("Color button only:")
+                add_checkbox("no_border", callback=lambda sender, data: configure_item("Color Button", no_border=get_value(sender)))
+                add_color_button("Color Button", (255, 50, 255, 0), width=50, height=50)
+                add_checkbox("With Alpha", default_value=True, callback=lambda sender, data: configure_item("Color Picker 4", alpha_preview = get_value(sender)))
+                add_checkbox("With Alpha Bar", default_value=True, callback=lambda sender, data: configure_item("Color Picker 4", alpha_bar = get_value(sender)))
+                add_checkbox("With Side Preview", callback=lambda sender, data: configure_item("Color Picker 4", no_side_preview = get_value(sender)))
+                add_checkbox("Display RGB", callback=lambda sender, data: configure_item("Color Picker 4", display_rgb = get_value(sender)))
+                add_checkbox("Display HSV", callback=lambda sender, data: configure_item("Color Picker 4", display_hsv = get_value(sender)))
+                add_checkbox("Display HEX", callback=lambda sender, data: configure_item("Color Picker 4", display_hex = get_value(sender)))
+                def apply_hue(sender, data):
+                    log_debug(get_value(sender))
+                    if(get_value(sender) == 0): 
+                        configure_item("Color Picker 4", picker_hue_bar = True)
+                    elif(get_value(sender) == 1): 
+                        configure_item("Color Picker 4", picker_hue_wheel = True)
+                add_radio_button("Display Type", items=["Hue Bar", "Hue Wheel"], callback=apply_hue)
+                add_color_picker4("Color Picker 4", source="colorvalue", alpha_preview= True, alpha_bar=True)
+                show_logger()
+                add_value("list_color_value", [0.5,0.5,0.5,1.0])
+                add_color_edit4("Color Edit 4 (float values)", source="list_color_value", alpha_preview= True, floats=True, callback=lambda sender, data: configure_item("float_values", label=f"{get_value('list_color_value')}", color=hsv_to_rgb(get_value('list_color_value')[0],get_value('list_color_value')[1],get_value('list_color_value')[2])))
+                helpmarker("Color item values given to the widget as a list will cause the \n"
+                           "color item to store and return colors as scalar floats from 0.0-1.0.\n"
+                           "setting floats=True will turn the inputs also to a float (although this is not necessary)")
+                add_label_text("float_values", value="Color List: ",label=f"{get_value('list_color_value')}",color=hsv_to_rgb(get_value('list_color_value')[0],get_value('list_color_value')[1],get_value('list_color_value')[2]))
+                add_color_edit4("Color Edit 4 (ints value)", default_value=(125,125,125,255), alpha_preview= True, callback=lambda sender, data: configure_item("ints_values", label=f"({get_value(sender)[0]}, {get_value(sender)[1]}, {get_value(sender)[2]}, {get_value(sender)[3]})",color=get_value(sender)))
+                helpmarker("Color item values given to the widget as a tuple will cause the \n"
+                           "color item to store and return colors as ints from 0-255.")
+                add_label_text("ints_values", value="Color Tuple: ", label=f"{get_value('Color Edit 4 (ints value)')}", color=get_value('Color Edit 4 (ints value)'))
 
             with tree_node("Multi-component Widgets##demo"):
         
