@@ -10,5 +10,5 @@ cd Distribution
 call "%dir%..\Dependencies\cpython\PCbuild\amd64\python.exe" "BuildPythonWheel.py" ../cmake-build-release/DearPyGui/Release/core.pyd core.pyd
 call "%dir%..\Dependencies\cpython\PCbuild\amd64\python.exe" -m setup bdist_wheel --plat-name win_amd64 --dist-dir ../dist
 call "%dir%..\Dependencies\cpython\PCbuild\amd64\python.exe" BuildPythonWheel.py ../cmake-build-release/DearPyGui/Release/core.pyd core.pyd
-call python -m pip install "%dir%../dist/dearpygui-0.4.1b2-cp38-cp38-win_amd64.whl"
+call python -m pip install "%dir%../dist/dearpygui-0.4.2b0-cp38-cp38-win_amd64.whl"
 pause
