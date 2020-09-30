@@ -14,13 +14,9 @@ It's mostly a bunch of personal notes, probably incomplete. Feel free to query i
 - doc: work on the CONTRIBUTING.md file
 - doc/wiki: work on the wiki https://github.com/RaylockLLC/DearPyGui/wiki
 
-- widgets: combo flags for height and no_preview and no_arrow need to be implemeted as flag system to prevent oversetting flag crash, fyi align_left does nothing
-
 - 3d widget: add a 3d widget similar to the one provided in javafx or wpf
 
 - custom widgets: add a fully supported custom widget API to allow users to make their own widgets more easily
-
-- plot: add heatmap charts
 
 - text edit widget: basically open up the widget used in _show_source_ for user control
 - text edit widget: add multifile support
@@ -35,4 +31,4 @@ It's mostly a bunch of personal notes, probably incomplete. Feel free to query i
 
 - layouts: because there is not a way to know boarder sizes on things like the main window and also the childs it maks sizing hard same for menu. its hard to set a child to fill the main window width
 - layout: doing add_spacing in count when everything is in pixels is weird
-- layout: group has no height attribute which would be useful for when the croup is set to horizontal
+- layout: group has no height attribute which would be useful for when the group is set to horizontal
