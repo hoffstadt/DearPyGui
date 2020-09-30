@@ -33,10 +33,10 @@
         <h2>What is DearPyGui</h2>
         <hr>
         <p>
-            DearPyGui is a simple to use (but powerful) Python GUI framework. DearPyGui provides a wrapping of DearImGui that simulates a traditional retained mode GUI, as opposed to Dear ImGui's immediate mode paradigm.
+            Dear PyGui is a simple to use (but powerful) Python GUI framework. Dear PyGui provides a wrapping of Dear ImGui that simulates a traditional retained mode GUI, as opposed to Dear ImGui's immediate mode paradigm.
             <br>
             <br>
-            Under the hood, DearPyGui uses the immediate mode paradigm allowing for extremely dynamic interfaces. Similar to PyQt, DearPyGui does not use native widgets but instead draws the widgets using your computer's graphics card (using Directx11, Metal, and Vulkan rendering APIs).
+            Under the hood, Dea rPyGui uses the immediate mode paradigm allowing for extremely dynamic interfaces. Similar to PyQt, Dear PyGui does not use native widgets but instead draws the widgets using your computer's graphics card (using Directx11, Metal, and Vulkan rendering APIs).
             <br>
             <br>
             In the same manner Dear ImGui provides a simple way to create tools for game developers, DearPyGui provides a simple way for python developers to create quick and powerful GUIs for scripts.
@@ -46,12 +46,12 @@
         <h2>Why use DearPyGui</h2>
         <hr>
         <p>
-            When compared with other Python GUI libraries DearPyGui is unique with
+            When compared with other Python GUI libraries Dear PyGui is unique with:
             <ul>
-                <li>Retain mode paradigm while using the Graphics Card for rendering</li>
-                <li>Simple built in Asynchronous function support</li>
-                <li>Prebuilt or custom themes and styles</li>
-                <li>Simple built in logging</li>
+                <li>GPU Rendering</li>
+                <li>Simple built-in Asynchronous function support</li>
+                <li>Complete theme and sytle control</li>
+                <li>Simple built-in logging window</li>
                 <li>70+ widgets with hundreds of widget combinations</li>
                 <li>Detailed documentation, examples and unparalleled support</li>
             </ul>
@@ -61,41 +61,39 @@
         <h2>Installing</h2>
         <hr>
         <p>
-            Ensure you have the newest version of Python 3.8 (3.8.5) at the moment.
+            Ensure you have at least Python 3.7 (64 bit) installed.
         </p>
         <code class="inline-code" data-language="python">pip install dearpygui</code>
-        <p>or</p>
-        <code class="inline-code" data-language="python">pip3 install dearpygui</code>
     </article>
     <article><a href="#usage"></a>
         <h2>First Run</h2>
         <hr>
         <p>
-            A variety of examples demonstrating usage can be found in the <a href="#">Examples</a> docs. Documentation can be found here and also from within the library by using the <code class="inline-code" data-language="python">show_documentation()</code> command.
+            A variety of examples demonstrating usage can be found in the <a href="#">Examples</a> folder on github. Documentation can be found here and also from within the library by using the <code class="inline-code" data-language="python">show_documentation()</code> command.
             <br><br>
-            Using DearPyGui is a simple as creating a python script like the one below
+            Using Dear PyGui is a simple as creating a python script like the one below
             <br><br>
             <b>The main script must always conclude with</b> <code class="inline-code" data-language="python">start_dearpygui()</code>
             <br><br>
             Code:
         </p>
-<pre><code data-language="python">import dearpygui.core as dpg
+<pre><code data-language="python">from dearpygui.core import *
 
 
 def save_callback(sender, data):
     print("Save Clicked")
 
 
-dpg.add_text("Hello, world")
-dpg.add_button("Save", callback=save_callback)
-dpg.add_input_text("string", default_value="Quick brown fox")
-dpg.add_slider_float("float", default_value=0.273, max_value=1)
+add_text("Hello, world")
+add_button("Save", callback=save_callback)
+add_input_text("string", default_value="Quick brown fox")
+add_slider_float("float", default_value=0.273, max_value=1)
 
-dpg.start_dearpygui()
+start_dearpygui()
 </code></pre>
         <p>
             Result:<br>
-            <img src="https://raw.githubusercontent.com/RaylockLLC/DearPyGui/assets/BasicUsageExample1.PNG" height="189" width="311"/></p>
+            <img src="https://raw.githubusercontent.com/hoffstadt/DearPyGui/assets/BasicUsageExample1.PNG" height="189" width="311"/></p>
     </article>
 </main>
 </body>
