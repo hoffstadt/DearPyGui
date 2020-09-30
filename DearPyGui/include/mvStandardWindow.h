@@ -66,6 +66,7 @@ namespace Marvel {
         bool             m_dirty_size = true;
         ImGuiWindowFlags m_flags = ImGuiWindowFlags_NoSavedSettings;
         std::string      m_name;
+        bool             m_show = true;
 
         std::map<std::string, StandardWindowEntry> m_standardWindows;
 

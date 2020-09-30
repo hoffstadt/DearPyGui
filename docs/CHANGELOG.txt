@@ -23,10 +23,14 @@ HOW TO UPDATE?
 - Please report any issue!
 
 -----------------------------------------------------------------------
- VERSION 0.4.2 WIP
+ VERSION 0.4.2 (9/30/2020)
 -----------------------------------------------------------------------
 
 Decorated log: https://github.com/hoffstadt/DearPyGui/releases/tag/v0.4.2
+
+Fixes:
+- Standard Windows: fixed show/hide of standard windows
+- Windows:          fixed run time adding crashes when collapsing
 
 -----------------------------------------------------------------------
  VERSION 0.4.1 (9/30/2020)
