@@ -61,15 +61,15 @@
         <h2>Overview</h2>
         <hr>
         <p>
-            This tutorial is intended to demonstrate how to use some features of DearImGui. The examples do not showcase every ability in DearPyGUI "DPG". More complex examples are included in the
-            <a href="https://github.com/RaylockLLC/DearPyGui/tree/master/Examples" target="_blank">Examples</a> folder on github.
+            This tutorial is intended to demonstrate how to use some features of Dear PyGui. The examples do not showcase every ability in Dear PyGUI "DPG". More complex examples are included in the
+            <a href="https://github.com/hoffstadt/DearPyGui/tree/master/Examples" target="_blank">Examples</a> folder on github.
             It is also recommended to refer to the <a href="api_docs.html">API Reference</a> for the information on a specific function.
         </p>
         <p>
             DearPyGui consists of a program window, windows, and widgets. The program window is the main window of your program and is created at the end of the main python script
             by calling the function <code class="inline-code" data-language="python">start_dearpygui()</code>
             <br><br>
-            In the next example please look at the about window and verify that you have the latest DearPyGUI package installed even if you just did a pip install.
+            In the next example please look at the about window and verify that you have the latest Dear PyGUI package installed even if you just did a pip install.
             some IDE's use virtual environments which can lead to multiple instances of packages being installed.
             <br><br>
             Here is an example of the program window and another window showing documentation using the Built-in documentation function:
@@ -83,7 +83,7 @@ dpg.show_documentation()
 # Even if you just did a pip install please ensure you your environment is using the latest package
 dpg.start_dearpygui()</code> </pre>
         <p>
-            DPG is made up of two modules "dearpygui.core" and "dearpygui.simple".
+            DPG is currently made up of two modules "dearpygui.core" and "dearpygui.simple".
             <br><br>
             "dearpygui.core" contains the base functionality of DearPyGUI. Everything can be done with core.
             <br><br>
@@ -163,10 +163,10 @@ dpg.start_dearpygui()</code></pre>
             Every item must have a unique name. By default the name is what is shown on the screen.
             In the event that you would like widgets to appear on screen with the same name you may either
             <ul>
-                <li>1. place a "##" trailing the name (ex. "displayed_name##unique_part") anything after the "##" will be hidden from the displayed name.</li>
-                <li>2. use the label keyword which will display the label instead of the name for the item.</li>
+                <li>Place a "##" trailing the name (ex. "displayed_name##unique_part") anything after the "##" will be hidden from the displayed name.</li>
+                <li>Use the label keyword which will display the label instead of the name for the item.</li>
             </ul>
-            Some item names are auto generated for items without name arguments in the method. (i.e.same_line, spacing, separator, unindent, add_indent).
+            Some item names are auto generated for items without name arguments in the function. (i.e.same_line, spacing, separator, unindent, add_indent).
             However these have an optional name keyword which can be filled out if you need to reference the item at a later time.
 
         </p>
@@ -184,11 +184,11 @@ dpg.start_dearpygui()</code> </pre>
         <p>
             Container items are used to hold other items and are implemented by either
             <ul>
-            <li>starting the container with its "add***()" function, then completing the container the "end()" function.</li>
-            <li>(recommended) using "dearpygui.simple" and and the corresponding containers context manager.</li>
+            <li>Starting the container with its "add***()" function, then completing the container the "end()" function.</li>
+            <li>Using "dearpygui.simple" and and the corresponding containers context manager (recommended).</li>
             </ul>
             When container items are "added", they are pushed onto the parent stack. Any item added after will belong to the parent on the top of the stack.
-            When a container item is "ended" they are popped off of the parent stack.
+            When a container item is "ended" they are popped off of the parent stack. The root parent is the main window.
         </p>
         <pre><code data-language="python">import dearpygui.core as dpg
 
@@ -212,18 +212,18 @@ dpg.add_text("More text on the MainWindow")
 
 dpg.start_dearpygui()</code> </pre>
         <p>
-            By default items are created in the order they are coded.
+            By default items are created in the order they are submitted.
             <br><br>
-            However, items can be added out of order by specifying a "parent" container
-            and where inside of the container by specifying the "before" keyword. If "before" is not specified
-            to be added before an item then it will be appended to the end of the container.
+            However, items can be added out of order by specifying a "parent" container. Using the "parent" keyword will insert
+            the widget at the end of the parent's child list. If you would like to insert it somewhere else, use "before" in combination
+            with "parent" to place the item before another item in the child list.
         </p>
         <pre><code data-language="python">import dearpygui.core as dpg
 
 dpg.add_text("First coded widget")  # this is a display item
 dpg.add_text("This is some text on window 2", parent="window 2")  # we can even specify the parent before it was coded
 dpg.add_text("This is some text on child 1", parent="child 1")  # we can even specify the parent before it was coded
-dpg.add_window("window 2")  # this is a group item
+dpg.add_window("window 2")  # this is a with item
 dpg.add_child("child 1")  # this is a child container item
 dpg.add_checkbox("Checkbox")  # this is a input item added inside of the child
 dpg.end()
@@ -243,7 +243,7 @@ import dearpygui.simple as simple
 dpg.add_text("First coded widget")  # this is a display item
 dpg.add_text("This is some text on window 2", parent="window 2")  # we can even specify the parent before it was coded
 dpg.add_text("This is some text on child 1", parent="child 1")  # we can even specify the parent before it was coded
-with simple.window("window 1"):  # this is a group item
+with simple.window("window 1"):  # this is a window item
     with simple.child("child 1"):  # this is a child container item
         dpg.add_checkbox("Checkbox")  # this is a input item added inside of the child
 dpg.add_checkbox("Last coded widget", parent="MainWindow", before="First coded widget")
@@ -255,8 +255,7 @@ with simple.window("window 3"):
 dpg.start_dearpygui()
 </code></pre>
         <p> Every input item has a value which can be set using the "default_value" keyword when being created. Also
-            this can be set at runtime by the commands <code class="inline-code" data-language="python">set_value()</code>
-            <code class="inline-code" data-language="python">get_value()</code>. This is demonstrated below.</p>
+            this can be set at runtime by the commands <code class="inline-code" data-language="python">set_value()</code>. This is demonstrated below.</p>
         <pre><code data-language="python">import dearpygui.core as dpg
 
 dpg.add_checkbox("Radio Button", default_value=False)
@@ -303,18 +302,9 @@ dpg.start_dearpygui()</code> </pre>
             <code class="inline-code" data-language="python">set_resize_callback()</code>
             will run on every resize of the container and can be set to any specific window by using the handler keyword, the default is the "MainWindow"
             <br><br>
-            Container Type items applicable for the resize callbacks are listed below:
-            <ul>
-                <li>MainWindow</li>
-                <li>Window</li>
-                <li>Child</li>
-                <li>Popup</li>
-            </ul>
-        Callbacks can be run on every completion of the render loop by using
+        If you would like a callback to be ran every frame, you can use
         <code class="inline-code" data-language="python">set_render_callback()</code>
-        <br>
-        <em><b>render callbacks will run every frame.</b></em>
-        </p>
+            
         <pre><code data-language="python">import dearpygui.core as dpg
 
 
@@ -345,9 +335,9 @@ dpg.start_dearpygui()</code> </pre>
         <h2>Run-time Adding & Deleting Widgets</h2>
         <hr>
         <p>
-            With DearPyGui you can dynamically add and delete any items at runtime. This can be done by using a callback method
+            With Dear PyGui you can dynamically add and delete any items at runtime. This can be done by using a callback
             to run the desired item's "add" command and specifying the parent the item will belong to. By default the widget will be added to the
-            MainWindow if there is not a parent specified.
+            MainWindow if there is no parent specified.
             <br>
             By using the keyword "before" when adding a item you can control which item in the parent the new item will come before. Default will place the new widget at the end.
             <br><br>
@@ -500,12 +490,11 @@ dpg.start_dearpygui()</code></pre>
                 <li>The Menu Bar - The main menu ribbon</li>
                 <li>Menus - Drop down menus "sub-menus"</li>
                 <li>Menu Items - Items that can run callbacks (basically selectables)</li>
-                <li>Any Widget - Plot, drawing, ect</li>
             </ol>
             The Menu Bar and Menu are both container widgets and must be concluded with the respective "end" call. Using containers from "dearpygui.simple" will automate this.
             Items are added to the Menu Bar from right to left. Items are added to the menus from top to bottom.
             <br><br>
-            Menus can be cascaded as much as necessary.
+            Menus can be nested as much as necessary.
             <br><br>
             Any widget can be added to a menu.
         </p>
