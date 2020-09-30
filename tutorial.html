@@ -412,18 +412,19 @@ dpg.start_dearpygui()</code> </pre>
         <h2>Linking Item Values & Data Storage</h2>
         <hr>
         <p>
-            When a new widget is added, a value is added to value storage system. The identifier to this value is the name of the widget by default.
+            When a new widget is added, a value is added to the value storage system. The identifier to this value is the name of the widget by default.
             You can override the identifier by using the source keyword. One of the benefits of doing this is to have multiple widgets control the same value.
-            
+            <br><br>
             Values are retrieved from the value system using <code class="inline-code" data-language="python">get_value("source name")</code>.
-            
-            Values can be changed manually by using <code class="inline-code" data-language="python">set_value("source name")</code>.
+            <br><br>
+            Values can be changed manually using <code class="inline-code" data-language="python">set_value("source name")</code>.
             <br><br>
             You must be mindful of the data type used by the widget. For widgets to use the same value in the storage system, they must be of the same type or a larger list of the same type.
+            <br><br>
             For example, when a input_float3 is created, the value type stored is a [float, float, float]. A later created input_float2 could use the same source as the input_float3.
-            
+            <br><br>
             However, if you were to first add the input_float2, then later try to share its source with an input_float3, it would not work.
-            
+            <br><br>
             In order for the input_float3 and input_float2 to share the same source, either the input_float3 needs to be created first or you can add the value to the system directly prior to adding
             either width. This is accomplished with <code class="inline-code" data-language="python">add_value()</code>.
 
