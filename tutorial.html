@@ -412,21 +412,20 @@ dpg.start_dearpygui()</code> </pre>
         <h2>Linking Item Values & Data Storage</h2>
         <hr>
         <p>
-            It may become necessary for one widget to control another widgets value directly or for 2 widgets to control the same value.
-            This can be achieved through the source value item.
+            When a new widget is added, a value is added to value storage system. The identifier to this value is the name of the widget by default.
+            You can override the identifier by using the source keyword. One of the benefits of doing this is to have multiple widgets control the same value.
+            
+            Values are retrieved from the value system using <code class="inline-code" data-language="python">get_value("source name")</code>.
+            
+            Values can be changed manually by using <code class="inline-code" data-language="python">set_value("source name")</code>.
             <br><br>
-            When a source keyword is used, the widget's value changes are bound to a value item.
-            This can be useful to link to any widgets to use the same value.
-            <br><br>
-            The value can be gotten using <code class="inline-code" data-language="python">get_value("source name")</code>.
-            <br><br>
-            The value can be manually set using <code class="inline-code" data-language="python">set_value("source name")</code>.
-            <br><br>
-            Typically a value source item is created with the first item that uses the keyword to name it.
-            <br>
-            Most of the time this is good enough but in the rare case where the value needs to exist before the item that uses it we can use <code class="inline-code" data-language="python">add_value()</code>.
-            <br>
-            This is typically useful when you need to link a input3 type widget to an input 4 type widget.
+            You must be mindful of the data type used by the widget. For widgets to use the same value in the storage system, they must be of the same type or a larger list of the same type.
+            For example, when a input_float3 is created, the value type stored is a [float, float, float]. A later created input_float2 could use the same source as the input_float3.
+            
+            However, if you were to first add the input_float2, then later try to share its source with an input_float3, it would not work.
+            
+            In order for the input_float3 and input_float2 to share the same source, either the input_float3 needs to be created first or you can add the value to the system directly prior to adding
+            either width. This is accomplished with <code class="inline-code" data-language="python">add_value()</code>.
 
         </p>
         <pre><code data-language="python">import dearpygui.core as dpg
