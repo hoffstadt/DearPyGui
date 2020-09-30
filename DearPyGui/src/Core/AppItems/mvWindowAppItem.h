@@ -97,7 +97,9 @@ namespace Marvel {
 			{
 				if (m_mainWindow)
 					ImGui::PopStyleVar();
+				
 				ImGui::End();
+				ImGui::PopID();
 				return;
 			}
 
