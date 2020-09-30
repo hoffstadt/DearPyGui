@@ -66,31 +66,35 @@
             It is also recommended to refer to the <a href="api_docs.html">API Reference</a> for the information on a specific function.
         </p>
         <p>
-            DearPyGui consists of a program window, windows, and widgets. The program window is the main window of your program and is created at the end of the main python script
+            Dear PyGui consists of a program window, windows, and widgets. The program window is the main window of your program and is created at the end of the main python script
             by calling the function <code class="inline-code" data-language="python">start_dearpygui()</code>
             <br><br>
-            In the next example please look at the about window and verify that you have the latest Dear PyGUI package installed even if you just did a pip install.
-            some IDE's use virtual environments which can lead to multiple instances of packages being installed.
+            In the next example please look at the about window and verify that you have the latest Dear PyGUI package installed.
             <br><br>
             Here is an example of the program window and another window showing documentation using the Built-in documentation function:
         </p>
-        <pre><code data-language="python">import dearpygui.core as dpg
+        <pre><code data-language="python">from dearpygui.core import *
 
-dpg.set_main_window_size(800, 800)
-dpg.show_about()
-dpg.show_documentation()
+set_main_window_size(800, 800)
+show_about()
+show_documentation()
 # when running this code please look at the about window and it will report which version of DearPyGUI is running
 # Even if you just did a pip install please ensure you your environment is using the latest package
-dpg.start_dearpygui()</code> </pre>
+start_dearpygui()</code> </pre>
         <p>
-            DPG is currently made up of two modules "dearpygui.core" and "dearpygui.simple".
+            DPG is currently made up of two modules <i>dearpygui.core</i> and <i>dearpygui.simple</i>.
             <br><br>
-            "dearpygui.core" contains the base functionality of DearPyGUI. Everything can be done with core.
+            <i>dearpygui.core</i> contains the base functionality of Dear PyGUI. Everything can be done with core. This is the
+            actual C extension module that the <i>simple</i> module is wrapping.
             <br><br>
-            "dearpygui.simple" contains simple wrappers created from core to aid in cleaner and faster code. As your code
-            complexity grows its recommended to start using simple.
+            <i>dearpygui.simple</i> contains simple wrappers and other utilities created from <i>core</i> to provide a more pleasant interface to DPG. As your code
+            complexity grows its recommended to start using the <i>simple</i> module when applicable.
             <br><br>
-            Throughout the tutorial we will show each example using both methods core only and simple.
+            Throughout the tutorial we will use the recommended procedures for accomplishing various tasks. This will include a mix of <i>core</i> and <i>simple</i>
+            functions. We will comment features found in the <i>simple</i> module.
+            <br><br>
+            It is also worth mentioning that we will be using <i>from module import *</i> which is against best practices however will be less distracting while learning the
+            DPG module.
         </p>
     </article>
 
@@ -98,20 +102,20 @@ dpg.start_dearpygui()</code> </pre>
         <h2>Developer Tools</h2>
         <hr>
         <p>
-            DearPyGui contains several very useful developer tools which we will utilize throughout the tutorials.
+            Dear PyGui contains several very useful developer tools which we will utilize throughout the tutorials.
             <br><br>
             The <code class="inline-code" data-language="python">show_source()</code> requires an input of a python file name to read.
             For our example our file name is "main.py" so we are using "main.py". You should replace "main.py" with your file name.
-        <pre><code data-language="python">import dearpygui.core as dpg
+        <pre><code data-language="python">from dearpygui.core import *
 
-dpg.show_documentation()
-dpg.show_debug()
-dpg.show_about()
-dpg.show_metrics()
-dpg.show_source("main.py")  # replace"main.py" with your python file name
-dpg.show_logger()
+show_documentation()
+show_debug()
+show_about()
+show_metrics()
+show_source("main.py")  # replace "main.py" with your python file name
+show_logger()
 
-dpg.start_dearpygui()</code> </pre>
+start_dearpygui()</code> </pre>
         </p>
     </article>
 
@@ -119,7 +123,7 @@ dpg.start_dearpygui()</code> </pre>
         <h2>Built-in Logging</h2>
         <hr>
         <p>
-            One of the many powerful built in developer tools is the Logger. This can be accessed through the command
+            One of the many powerful built in developer tools is the <b>Logger</b>. This can be accessed through the command
             <code class="inline-code" data-language="python">show_logger()</code>. The logger has 6 log levels:
         <ol>
             <li>Trace</li>
@@ -132,138 +136,121 @@ dpg.start_dearpygui()</code> </pre>
         The log commands can be filtered by setting the log level.
         The logger will filter out the set level and any levels lower than that level.
         <br><br>
-        "mvTRACE" log level will show all the commands.
+        <i>mvTRACE</i> log level will show all the commands.
         <br><br>
         see below for an example
         </p>
-        <pre><code data-language="python">import dearpygui.core as dpg
+        <pre><code data-language="python">from dearpygui.core import *
 
-dpg.show_logger()
-dpg.set_log_level(dbp.mvTRACE)
-dpg.log("trace message")
-dpg.log_debug("debug message")
-dpg.log_info("info message")
-dpg.log_warning("warning message")
-dpg.log_error("error message")
+show_logger()
+set_log_level(mvTRACE)
+log("trace message")
+log_debug("debug message")
+log_info("info message")
+log_warning("warning message")
+log_error("error message")
 
-dpg.start_dearpygui()</code></pre>
+start_dearpygui()</code></pre>
     </article>
 
     <article><a name="widgets_containers_windows"></a>
         <h2>Creating Widgets and Containers</h2>
         <hr>
         <p>
-            DPG items can be broken dow into :
+            DPG items can be broken down into :
             <ul>
-                <li>regular items (ex. inputs, buttons, and display items)</li>
-                <li>container items (ex. window, group, popup, tooltip, child, ect)</li>
+                <li> regular items (i.e. inputs, buttons)</li>
+                <li> container items (ex. window, popup, tooltip, child)</li>
+                <li> layout items (i.e. group, next_column)</li>
             </ul>
-            Items are added by their respective "add_***" commands.
+        Items are added with their respective <i>add_***</i> commands.
             <br><br>
-            Every item must have a unique name. By default the name is what is shown on the screen.
-            In the event that you would like widgets to appear on screen with the same name you may either
+            Every item must have a unique name. By default the name will become the label (if applicable).
+            In the event that you would like to change the widget's label you may
             <ul>
                 <li>Place a "##" trailing the name (ex. "displayed_name##unique_part") anything after the "##" will be hidden from the displayed name.</li>
                 <li>Use the label keyword which will display the label instead of the name for the item.</li>
             </ul>
-            Some item names are auto generated for items without name arguments in the function. (i.e.same_line, spacing, separator, unindent, add_indent).
+            Some item names are auto generated for items without name arguments in the function. (i.e. same_line).
             However these have an optional name keyword which can be filled out if you need to reference the item at a later time.
 
         </p>
-        <pre><code data-language="python">import dearpygui.core as dpg
+        <pre><code data-language="python">from dearpygui.core import *
 
-dpg.add_button("Apply")
-dpg.add_same_line(spacing=10)
-dpg.add_button("Apply##1")
-dpg.add_same_line(spacing=10, name="sameline1")
-dpg.add_button("Apply2", label="Apply")
-dpg.add_spacing(count=5, name="spacing1")
-dpg.add_button("Apply##3")
+add_button("Apply")
+add_same_line(spacing=10)
+add_button("Apply##1")
+add_same_line(spacing=10, name="sameline1")
+add_button("Apply2", label="Apply")
+add_spacing(count=5, name="spacing1")
+add_button("Apply##3")
 
-dpg.start_dearpygui()</code> </pre>
+start_dearpygui()</code> </pre>
         <p>
             Container items are used to hold other items and are implemented by either
             <ul>
-            <li>Starting the container with its "add***()" function, then completing the container the "end()" function.</li>
-            <li>Using "dearpygui.simple" and and the corresponding containers context manager (recommended).</li>
+                <li>Starting the container with its <i>add_***</i> function, then completing the container the <i>end</i> function.</li>
+                <li>Using <i>dearpygui.simple</i> and and the corresponding containers context manager (recommended method).</li>
             </ul>
             When container items are "added", they are pushed onto the parent stack. Any item added after will belong to the parent on the top of the stack.
             When a container item is "ended" they are popped off of the parent stack. The root parent is the main window.
         </p>
-        <pre><code data-language="python">import dearpygui.core as dpg
+        <pre><code data-language="python">from dearpygui.core import *
 
-dpg.add_text("This is some text on the MainWindow")
-dpg.add_window("window 2")
-dpg.add_text("This is some text on window 2")
-dpg.end()
-dpg.add_text("More text on the MainWindow")
+add_text("This is some text on the MainWindow")
+add_window("window 2")
+add_text("This is some text on window 2")
+end()
+add_text("More text on the MainWindow")
 
-dpg.start_dearpygui()</code> </pre>
+start_dearpygui()</code> </pre>
         <p>
-            "dearpygui.simple" automates calling the function "end()", allows for code folding and shows a hierarchy in the code itself.
+            <i>dearpygui.simple</i>'s context managers automate calling the <i>end</i> function and allows for code folding and shows a hierarchy in the code itself.
         </p>
-        <pre><code data-language="python">import dearpygui.core as dpg
-import dearpygui.simple as simple
+        <pre><code data-language="python">from dearpygui.core import *
+from dearpygui.simple import *
 
-dpg.add_text("This is some text on the MainWindow")
-with simple.window("window 2"):
-    dpg.add_text("This is some text on window 2")
-dpg.add_text("More text on the MainWindow")
+add_text("This is some text on the MainWindow")
+with window("window 2"): # simple
+    add_text("This is some text on window 2")
+add_text("More text on the MainWindow")
 
-dpg.start_dearpygui()</code> </pre>
+start_dearpygui()</code> </pre>
         <p>
             By default items are created in the order they are submitted.
             <br><br>
-            However, items can be added out of order by specifying a "parent" container. Using the "parent" keyword will insert
-            the widget at the end of the parent's child list. If you would like to insert it somewhere else, use "before" in combination
-            with "parent" to place the item before another item in the child list.
+            However, items can be added out of order by specifying a <i>parent</i> container. Using the <i>parent</i> keyword will insert
+            the widget at the end of the parent's child list. If you would like to insert it somewhere else, use <i>before</i> in combination
+            with <i>parent</i> keyword to place the item before another item in the child list.
         </p>
-        <pre><code data-language="python">import dearpygui.core as dpg
+        <pre><code data-language="python">from dearpygui.core import *
+from dearpygui.simple import *
 
-dpg.add_text("First coded widget")  # this is a display item
-dpg.add_text("This is some text on window 2", parent="window 2")  # we can even specify the parent before it was coded
-dpg.add_text("This is some text on child 1", parent="child 1")  # we can even specify the parent before it was coded
-dpg.add_window("window 2")  # this is a with item
-dpg.add_child("child 1")  # this is a child container item
-dpg.add_checkbox("Checkbox")  # this is a input item added inside of the child
-dpg.end()
-dpg.end()
-dpg.add_checkbox("Last coded widget", parent="MainWindow", before="First coded widget")
-dpg.add_checkbox("Last coded widget 2", parent="child 1", before="Checkbox")
-# empty window
-dpg.add_window("window 3")
-dpg.end()
-dpg.start_dearpygui()</code></pre>
-        <p>
-            Now the same example but with "dearpygui.simple"
-        </p>
-        <pre><code data-language="python">import dearpygui.core as dpg
-import dearpygui.simple as simple
+add_text("First coded widget")  # this is a display item
+add_text("This is some text on window 2", parent="window 2")  # we can even specify the parent before it was coded
+add_text("This is some text on child 1", parent="child 1")  # we can even specify the parent before it was coded
+with window("window 1"):  # simple
+    with child("child 1"):  # simple
+        add_checkbox("Checkbox")  # this is a input item added inside of the child
+add_checkbox("Last coded widget", parent="MainWindow", before="First coded widget")
+add_checkbox("Last coded widget 2", parent="child 1", before="Checkbox")
 
-dpg.add_text("First coded widget")  # this is a display item
-dpg.add_text("This is some text on window 2", parent="window 2")  # we can even specify the parent before it was coded
-dpg.add_text("This is some text on child 1", parent="child 1")  # we can even specify the parent before it was coded
-with simple.window("window 1"):  # this is a window item
-    with simple.child("child 1"):  # this is a child container item
-        dpg.add_checkbox("Checkbox")  # this is a input item added inside of the child
-dpg.add_checkbox("Last coded widget", parent="MainWindow", before="First coded widget")
-dpg.add_checkbox("Last coded widget 2", parent="child 1", before="Checkbox")
 # empty window
-with simple.window("window 3"):
+with window("window 3"): # simple
     pass
 
-dpg.start_dearpygui()
+start_dearpygui()
 </code></pre>
-        <p> Every input item has a value which can be set using the "default_value" keyword when being created. Also
+<p> Every input item has a value which can be set using the <i>default_value</i> keyword when being created. Also
             this can be set at runtime by the commands <code class="inline-code" data-language="python">set_value()</code>. This is demonstrated below.</p>
-        <pre><code data-language="python">import dearpygui.core as dpg
+        <pre><code data-language="python">from dearpygui.core import *
 
-dpg.add_checkbox("Radio Button", default_value=False)
-print("First value of the Radio Button is: ", dpg.get_value("Radio Button"))
-dpg.set_value("Radio Button", True)
-print("Value after setting the Radio Button is: ", dpg.get_value("Radio Button"))
+add_checkbox("Radio Button", default_value=False)
+print("First value of the Radio Button is: ", get_value("Radio Button"))
+set_value("Radio Button", True)
+print("Value after setting the Radio Button is: ", get_value("Radio Button"))
 
-dpg.start_dearpygui()</code></pre>
+start_dearpygui()</code></pre>
     </article>
 
     <article><a name="callbacks"></a>
@@ -272,63 +259,64 @@ dpg.start_dearpygui()</code></pre>
         <p>
             Each input widget has a callback which is activated when the widget is interacted with.
             <br><br>
-            Callbacks are used to give functionality to widgets. Almost every widget in DearPyGui can use a callback.
+            Callbacks are used to give functionality to widgets. Many widgets in Dear PyGui can use a callback.
             Callbacks can either be assigned to widgets upon creation or after creation using <code class="inline-code" data-language="python">set_item_callback()</code> as shown in the code below.
             <br><br>
-            <em><b>Every callback function applied to an item in DearPyGui must take in a "sender" and "data" argument.</b></em>
+            <em><b>Every callback function applied to an item in Dear PyGui must take in a <i>sender</i> and <i>data</i> argument.</b></em>
             <br><br>
-            The "sender" is used by DearPyGui to inform the callback which widget triggered the callback bu sending the name.
+            The <i>sender</i> is used by Dea rPyGui to inform the callback which widget triggered the callback by sending the name.
             <br><br>
-            The "data" argument is used by various standard callbacks to send additional data by specifying the callback <code class="inline-code" data-language="python">callback_data</code>.
+            The <i>data</i> argument is used by various standard callbacks to send additional data by specifying the callback <code class="inline-code" data-language="python">callback_data</code>.
         </p>
-        <pre><code data-language="python">import dearpygui.core as dpg
+        <pre><code data-language="python">from dearpygui.core import *
 
 
 def button_callback(sender, data):
-    dpg.log_debug(f"sender is: {sender}")
-    dpg.log_debug(f"data is: {data}")
+    log_debug(f"sender is: {sender}")
+    log_debug(f"data is: {data}")
 
 
-dpg.show_logger()  # were going to use the logger here to show the result
-dpg.add_input_text("Input Text", default_value="Hello World!")
-dpg.add_button("Apply", callback=button_callback, callback_data=dpg.get_value("Input Text"))
-dpg.add_button("Apply##2", tip="callback was set after item was created")
-dpg.set_item_callback("Apply##2", callback=button_callback, callback_data=dpg.get_value("Input Text"))
-dpg.start_dearpygui()</code> </pre>
+show_logger()  # were going to use the logger here to show the result
+add_input_text("Input Text", default_value="Hello World!")
+add_button("Apply", callback=button_callback, callback_data=get_value("Input Text"))
+add_button("Apply##2", tip="callback was set after item was created")
+set_item_callback("Apply##2", callback=button_callback, callback_data=get_value("Input Text"))
+start_dearpygui()</code> </pre>
         <p>
             Window type widgets have special callbacks that are triggered on events such as window resizing and window closing.
             The window specific callbacks can be applied to any window type widget.
-            "on_close" will run the callback assigned to the keyword on window close and
+            <i>on_close</i> will run the callback assigned to the keyword on window close and
             <code class="inline-code" data-language="python">set_resize_callback()</code>
             will run on every resize of the container and can be set to any specific window by using the handler keyword, the default is the "MainWindow"
             <br><br>
         If you would like a callback to be ran every frame, you can use
         <code class="inline-code" data-language="python">set_render_callback()</code>
             
-        <pre><code data-language="python">import dearpygui.core as dpg
+        <pre><code data-language="python">from dearpygui.core import *
+from dearpygui.simple import *
 
 
 def close_me(sender, data):
-    dpg.log_debug(f"{sender} window has been closed")
+    log_debug(f"{sender} window has been closed")
 
 
 def render_me(sender, data):
-    dpg.log_debug(f"window {sender} has ran a render callback")
+    log_debug(f"window {sender} has ran a render callback")
 
 
 def resize_me(sender, data):
-    dpg.log_debug(f"window {sender} has ran a rezise callback")
+    log_debug(f"window {sender} has ran a rezise callback")
 
 
-dpg.show_logger()  # were going to use the logger to display callback replies
-dpg.add_window("Tester", on_close=close_me)
-dpg.add_text('resize this window resize callback will occur')
-dpg.add_text('close this window using the "x" button and a close callback will occur')
-dpg.end()
-dpg.set_render_callback(render_me)
-dpg.set_resize_callback(resize_me, handler="Tester")
+show_logger()  # were going to use the logger to display callback replies
+with window("Tester", on_close=close_me): # simple
+    add_text('resize this window resize callback will occur')
+    add_text('close this window using the "x" button and a close callback will occur')
 
-dpg.start_dearpygui()</code> </pre>
+set_render_callback(render_me)
+set_resize_callback(resize_me, handler="Tester")
+
+start_dearpygui()</code> </pre>
     </article>
 
     <article><a name="runtime"></a>
@@ -336,66 +324,69 @@ dpg.start_dearpygui()</code> </pre>
         <hr>
         <p>
             With Dear PyGui you can dynamically add and delete any items at runtime. This can be done by using a callback
-            to run the desired item's "add" command and specifying the parent the item will belong to. By default the widget will be added to the
+            to run the desired item's <i>add_***</i> command and specifying the parent the item will belong to. By default the widget will be added to the
             MainWindow if there is no parent specified.
             <br>
-            By using the keyword "before" when adding a item you can control which item in the parent the new item will come before. Default will place the new widget at the end.
+            By using the keyword <i>before</i> when adding a item you can control which item in the parent the new item will come before. 
+            Default will place the new widget at the end.
             <br><br>
             In this example we used the "debug" developer tool to view the current state of the widgets.
             Go to the "App Item Layout" tab on the debug widget and this tab displays the state and properties of the App.
             clicking on the "MainWindow" tree item we can see the widgets currently displayed on the MainWindow.
             Try clicking the "Add/Delete" buttons on the main window and see the tree state change.
         </p>
-        <pre><code data-language="python">import dearpygui.core as dpg
-import dearpygui.simple as simple
+        <pre><code data-language="python">from dearpygui.core import *
+from dearpygui.simple import *
 
 
 def add_buttons(sender, data):
-    dpg.add_button("New Button")
-    dpg.add_button("New Button 2", parent="Secondary Window")
+    add_button("New Button")
+    add_button("New Button 2", parent="Secondary Window")
 
 
 def delete_buttons(sender, data):
-    dpg.delete_item("New Button")
-    dpg.delete_item("New Button 2")
+    delete_item("New Button")
+    delete_item("New Button 2")
 
 
-dpg.show_debug()
-dpg.add_button("Add Buttons", callback=add_buttons)
-dpg.add_button("Delete Buttons", callback=delete_buttons)
-with simple.window("Secondary Window"):
+show_debug()
+add_button("Add Buttons", callback=add_buttons)
+add_button("Delete Buttons", callback=delete_buttons)
+
+with simple.window("Secondary Window"): # simple
     pass
 
-dpg.start_dearpygui()</code> </pre>
+start_dearpygui()</code> </pre>
         <p>
-            When deleting a container the container plus it's children are deleted by default. Unless the keyword "children_only" is true then the container will persist.
+            When deleting a container the container plus it's children are deleted by default. Unless the keyword <i>children_only</i> is <b>True</b> then the container will persist.
         </p>
-        <pre><code data-language="python">import dearpygui.core as dpg
-import dearpygui.simple as simple
+        <pre><code data-language="python">from dearpygui.core import *
+from dearpygui.simple import *
 
 
 def add_widgets(sender, data):
-    with simple.window("Secondary Window"):
-        dpg.add_button("New Button 2")
-    dpg.add_button("New Button")
-    dpg.add_button("New Button 3", parent="Secondary Window")
+
+    with simple.window("Secondary Window"): # simple
+        add_button("New Button 2")
+    add_button("New Button")
+    add_button("New Button 3", parent="Secondary Window")
 
 
 def delete_widgets(sender, data):
-    dpg.delete_item("Secondary Window")
-    dpg.delete_item("New Button")
+    delete_item("Secondary Window")
+    delete_item("New Button")
 
 
 def delete_children(sender, data):
-    dpg.delete_item("Secondary Window", children_only=True)
+    delete_item("Secondary Window", children_only=True)
 
 
-dpg.show_debug()
-dpg.add_button("Add Window and Items", callback=add_widgets)
-dpg.add_button("Delete Window and Children", callback=delete_widgets)
-dpg.add_button("Delete Window's Children", callback=delete_children)
+show_debug()
+add_button("Add Window and Items", callback=add_widgets)
+add_button("Delete Window and Children", callback=delete_widgets)
+add_button("Delete Window's Children", callback=delete_children)
 
-dpg.start_dearpygui()</code> </pre>
+start_dearpygui()</code> </pre>
     </article>
 
     <article><a name="data_storage"></a>
@@ -411,74 +402,76 @@ dpg.start_dearpygui()</code> </pre>
             <br><br>
             You must be mindful of the data type used by the widget. For widgets to use the same value in the storage system, they must be of the same type or a larger list of the same type.
             <br><br>
-            For example, when a input_float3 is created, the value type stored is a [float, float, float]. A later created input_float2 could use the same source as the input_float3.
+            For example, when a input_float3 is created, the value type stored is a <b>[float, float, float]</b>. A later created input_float2 could 
+            use the same source as the input_float3.
             <br><br>
             However, if you were to first add the input_float2, then later try to share its source with an input_float3, it would not work.
             <br><br>
-            In order for the input_float3 and input_float2 to share the same source, either the input_float3 needs to be created first or you can add the value to the system directly prior to adding
+            In order for the input_float3 and input_float2 to share the same source, either the input_float3 needs to be created first or you can
+            add the value to the system directly prior to adding
             either width. This is accomplished with <code class="inline-code" data-language="python">add_value()</code>.
 
         </p>
-        <pre><code data-language="python">import dearpygui.core as dpg
+        <pre><code data-language="python">from dearpygui.core import *
 
 
 def print_me(sender, data):
-    dpg.log_debug(f"checkbox values: {dpg.get_value('value_1')}")
-    dpg.log_debug(f"text values: {dpg.get_value('value 2')}")
-    dpg.log_debug(f"color values: {dpg.get_value('color4')}")
+    log_debug(f"checkbox values: {get_value('value_1')}")
+    log_debug(f"text values: {get_value('value 2')}")
+    log_debug(f"color values: {get_value('color4')}")
 
 
 def reset(sender, data):
-    dpg.set_value("value_1", False)
-    dpg.set_value("value 2", "Hello World!")
+    set_value("value_1", False)
+    set_value("value 2", "Hello World!")
 
 
-dpg.show_logger()
-dpg.add_checkbox("Radio Button1", source="value_1")
-dpg.add_checkbox("Radio Button2", source="value_1")
-dpg.add_input_text("Text Input 1", source="value 2")
-dpg.add_input_text("Text Input 2", source="value 2", password=True, tip="this input text has password applied")
-dpg.add_button("Print source values", callback=print_me)
-dpg.add_button("Reset source values", callback=reset)
+show_logger()
+add_checkbox("Radio Button1", source="value_1")
+add_checkbox("Radio Button2", source="value_1")
+add_input_text("Text Input 1", source="value 2")
+add_input_text("Text Input 2", source="value 2", password=True, tip="this input text has password applied")
+add_button("Print source values", callback=print_me)
+add_button("Reset source values", callback=reset)
 
 # special case when linking a smaller input type widget to a larger one create the large value first
-dpg.add_value("color4", (0.0, 0.0, 0.0, 0.0))
-dpg.add_color_edit3("color edit 3", source="color4")
-dpg.add_color_edit4("color edit 4", source="color4")
+add_value("color4", (0.0, 0.0, 0.0, 0.0))
+add_color_edit3("color edit 3", source="color4")
+add_color_edit4("color edit 4", source="color4")
 
-dpg.start_dearpygui()</code></pre>
+start_dearpygui()</code></pre>
         <p>
             DPG provides general data for data storage also. With <code class="inline-code" data-language="python">add_data("name", data_object)</code> we can
             pass in any python item to be stored as a data item and accessed later with <code class="inline-code" data-language="python">get_data("name")</code>
             <br><br>
             <em><b>Remember you can store any python object in data storage even custom data types.</b></em> Although we will only show a map being stored.
         </p>
-        <pre><code data-language="python">import dearpygui.core as dpg
+        <pre><code data-language="python">from dearpygui.core import *
 
 
 def store_data(sender, data):
     custom_data = {
-        "Radio Button": dpg.get_value("Radio Button"),
-        "Checkbox": dpg.get_value("Checkbox"),
-        "Text Input": dpg.get_value("Text Input"),
+        "Radio Button": get_value("Radio Button"),
+        "Checkbox": get_value("Checkbox"),
+        "Text Input": dget_value("Text Input"),
     }
-    dpg.add_data("stored_data", custom_data)
+    add_data("stored_data", custom_data)
 
 
 def print_data(sender, data):
-    dpg.log_debug(dpg.get_data("stored_data"))
+    log_debug(get_data("stored_data"))
 
 
-dpg.show_logger()
-dpg.show_debug()
-dpg.add_radio_button("Radio Button", items=["item1", "item2"])
-dpg.add_checkbox("Checkbox")
-dpg.add_input_text("Text Input")
-dpg.add_button("Store Data", callback=store_data)
-dpg.add_button("Print Data", callback=print_data)
+show_logger()
+show_debug()
+add_radio_button("Radio Button", items=["item1", "item2"])
+add_checkbox("Checkbox")
+add_input_text("Text Input")
+add_button("Store Data", callback=store_data)
+add_button("Print Data", callback=print_data)
 
 
-dpg.start_dearpygui()</code></pre>
+start_dearpygui()</code></pre>
     </article>
 
     <article><a name="menu_bar"></a>
@@ -491,69 +484,46 @@ dpg.start_dearpygui()</code></pre>
                 <li>Menus - Drop down menus "sub-menus"</li>
                 <li>Menu Items - Items that can run callbacks (basically selectables)</li>
             </ol>
-            The Menu Bar and Menu are both container widgets and must be concluded with the respective "end" call. Using containers from "dearpygui.simple" will automate this.
             Items are added to the Menu Bar from right to left. Items are added to the menus from top to bottom.
             <br><br>
             Menus can be nested as much as necessary.
             <br><br>
             Any widget can be added to a menu.
         </p>
-        <pre><code data-language="python">import dearpygui.core as dpg
+        <pre><code data-language="python">from dearpygui.core import *
+from dearpygui.simple import *
 
 
 def print_me(sender, data):
-    dpg.log_debug(f"Menu Item: {sender}")
+    log_debug(f"Menu Item: {sender}")
 
 
-dpg.show_logger()
-dpg.add_menu_bar("Main Menu Bar")
-dpg.add_menu("File")
-dpg.add_menu_item("Save", callback=print_me)
-dpg.add_menu_item("Save As", callback=print_me)
-dpg.add_menu("Settings")
-dpg.add_menu_item("Setting 1", callback=print_me)
-dpg.add_menu_item("Setting 2", callback=print_me)
-dpg.end()
-dpg.end()
-dpg.add_menu_item("Help", callback=print_me)
-dpg.add_menu("Widget Items")
-dpg.add_checkbox("Pick Me", callback=print_me)
-dpg.add_button("Press Me", callback=print_me)
-dpg.add_color_picker4("Color Me", callback=print_me)
-dpg.end()
-dpg.end()
+show_logger()
+with menu_bar("Main Menu Bar"): # simple
 
-dpg.start_dearpygui()</code></pre>
-        <p>
-            And again with "dearpygui.simple"
-        </p>
-        <pre><code data-language="python">import dearpygui.core as dpg
-import dearpygui.simple as simple
+    with menu("File"): #simple
+    
+        add_menu_item("Save", callback=print_me)
+        add_menu_item("Save As", callback=print_me)
+        
+        with menu("Settings"): # simple
+        
+            add_menu_item("Setting 1", callback=print_me)
+            add_menu_item("Setting 2", callback=print_me)
+            
+    add_menu_item("Help", callback=print_me)
+    
+    with menu("Widget Items"):
+    
+        add_checkbox("Pick Me", callback=print_me)
+        add_button("Press Me", callback=print_me)
+        add_color_picker4("Color Me", callback=print_me)
 
-
-def print_me(sender, data):
-    dpg.log_debug(f"Menu Item: {sender}")
-
-
-dpg.show_logger()
-with simple.menu_bar("Main Menu Bar"):
-    with simple.menu("File"):
-        dpg.add_menu_item("Save", callback=print_me)
-        dpg.add_menu_item("Save As", callback=print_me)
-        with simple.menu("Settings"):
-            dpg.add_menu_item("Setting 1", callback=print_me)
-            dpg.add_menu_item("Setting 2", callback=print_me)
-    dpg.add_menu_item("Help", callback=print_me)
-    with simple.menu("Widget Items"):
-        dpg.add_checkbox("Pick Me", callback=print_me)
-        dpg.add_button("Press Me", callback=print_me)
-        dpg.add_color_picker4("Color Me", callback=print_me)
-
-dpg.start_dearpygui()</code></pre>
+start_dearpygui()</code></pre>
     </article>
 
     <article><a name="file_directory_save"></a>
-        <h2>File, Directory, & Save Dialogs</h2>
+        <h2>File and Directory Selector Dialogs</h2>
         <hr>
         <p>
             Directory dialogs are used by calling <code class="inline-code" data-language="python">select_directory_dialog()</code> which
@@ -561,35 +531,35 @@ dpg.start_dearpygui()</code></pre>
             <br><br>
             Typically directory dialog are called by another widget such as a button so this is how it will be done in the example.
         </p>
-        <pre><code data-language="python">import dearpygui.core as dpg
+        <pre><code data-language="python">from dearpygui.core import *
 
 
 def directory_picker(sender, data):
-    dpg.select_directory_dialog(callback=apply_selected_directory)
+    select_directory_dialog(callback=apply_selected_directory)
 
 
 def apply_selected_directory(sender, data):
-    dpg.log_debug(data)  # so we can see what is inside of data
+    log_debug(data)  # so we can see what is inside of data
     directory = data[0]
     folder = data[1]
-    dpg.set_value("directory", directory)
-    dpg.set_value("folder", folder)
-    dpg.set_value("folder_path", f"{directory}\\{folder}")
+    set_value("directory", directory)
+    set_value("folder", folder)
+    set_value("folder_path", f"{directory}\\{folder}")
 
 
-dpg.show_logger()
-dpg.add_button("Directory Selector", callback=directory_picker)
-dpg.add_text("Directory Path: ")
-dpg.add_same_line()
-dpg.add_label_text("##dir", source="directory", color=[255, 0, 0])
-dpg.add_text("Folder: ")
-dpg.add_same_line()
-dpg.add_label_text("##folder", source="folder", color=[255, 0, 0])
-dpg.add_text("Folder Path: ")
-dpg.add_same_line()
-dpg.add_label_text("##folderpath", source="folder_path", color=[255, 0, 0])
+show_logger()
+add_button("Directory Selector", callback=directory_picker)
+add_text("Directory Path: ")
+add_same_line()
+add_label_text("##dir", source="directory", color=[255, 0, 0])
+add_text("Folder: ")
+add_same_line()
+add_label_text("##folder", source="folder", color=[255, 0, 0])
+add_text("Folder Path: ")
+add_same_line()
+add_label_text("##folderpath", source="folder_path", color=[255, 0, 0])
 
-dpg.start_dearpygui()</code></pre>
+start_dearpygui()</code></pre>
         <p>
             File dialogs are used by calling <code class="inline-code" data-language="python">open_file_dialog()</code> which
             must be given a return callback. The return callback's data argument will be filled out with the directory path & file path as a list of strings.
@@ -597,51 +567,51 @@ dpg.start_dearpygui()</code></pre>
             <br><br>
             Typically file dialog are called by another widget such as a button so this is how it will be done in the example.
         </p>
-        <pre><code data-language="python">import dearpygui.core as dpg
+        <pre><code data-language="python">from dearpygui.core import *
 
 
 def file_picker(sender, data):
-    dpg.open_file_dialog(callback=apply_selected_file, extensions=".*,.py")
+    open_file_dialog(callback=apply_selected_file, extensions=".*,.py")
 
 
 def apply_selected_file(sender, data):
-    dpg.log_debug(data)  # so we can see what is inside of data
+    log_debug(data)  # so we can see what is inside of data
     directory = data[0]
     file = data[1]
-    dpg.set_value("directory", directory)
-    dpg.set_value("file", file)
-    dpg.set_value("file_path", f"{directory}\\{file}")
+    set_value("directory", directory)
+    set_value("file", file)
+    set_value("file_path", f"{directory}\\{file}")
 
 
-dpg.show_logger()
-dpg.add_button("Directory Selector", callback=file_picker)
-dpg.add_text("Directory Path: ")
-dpg.add_same_line()
-dpg.add_label_text("##filedir", source="directory", color=[255, 0, 0])
-dpg.add_text("File: ")
-dpg.add_same_line()
-dpg.add_label_text("##file", source="file", color=[255, 0, 0])
-dpg.add_text("File Path: ")
-dpg.add_same_line()
-dpg.add_label_text("##filepath", source="file_path", color=[255, 0, 0])
+show_logger()
+add_button("Directory Selector", callback=file_picker)
+add_text("Directory Path: ")
+add_same_line()
+add_label_text("##filedir", source="directory", color=[255, 0, 0])
+add_text("File: ")
+add_same_line()
+add_label_text("##file", source="file", color=[255, 0, 0])
+add_text("File Path: ")
+add_same_line()
+add_label_text("##filepath", source="file_path", color=[255, 0, 0])
 
-dpg.start_dearpygui()</code></pre>
+start_dearpygui()</code></pre>
     </article>
     <article><a name="plotting"></a>
         <h2>Plotting</h2>
         <hr>
         <p>
-            DearPyGui has simple plots and plots both of which have the ability to be dynamic.
+            Dear PyGui has simple plots and plots both of which have the ability to be dynamic.
             <br><br>
             Simple plots take in a list and plot y-axis data against the number of items in the list. These can be
             line graphs or histograms and are demonstrated below.
         </p>
-        <pre><code data-language="python">import dearpygui.core as dpg
+        <pre><code data-language="python">from dearpygui.core import *
 
-dpg.add_simple_plot("Simpleplot1", value=[0.3, 0.9, 0.5, 0.3], height=300)
-dpg.add_simple_plot("Simpleplot2", value=[0.3, 0.9, 2.5, 8.9], overlay="Overlaying", height=180, histogram=True)
+add_simple_plot("Simpleplot1", value=[0.3, 0.9, 0.5, 0.3], height=300)
+add_simple_plot("Simpleplot2", value=[0.3, 0.9, 2.5, 8.9], overlay="Overlaying", height=180, histogram=True)
 
-dpg.start_dearpygui()</code></pre>
+start_dearpygui()</code></pre>
         <p> Plots have much more functionality that simple plots. Plots use both the x and y coordinates. Plots must be created using
             <code class="inline-code" data-language="python">add_plot()</code> command and then the data can bee added as either a
             line series or a scatter series.
@@ -660,11 +630,11 @@ dpg.start_dearpygui()</code></pre>
             <br><br>
             Additionally a text point can be used to place floating text on the plot.
         </p>
-        <pre><code data-language="python">import dearpygui.core as dpg
+        <pre><code data-language="python">from dearpygui.core import *
 from math import cos, sin
 
 def plot_callback(sender, data):
-    dpg.clear_plot("Plot")
+    clear_plot("Plot")
 
     data1 = []
     for i in range(0, 100):
@@ -674,111 +644,112 @@ def plot_callback(sender, data):
     for i in range(0, 100):
         data2.append([3.14 * i / 180, sin(2 * 3.14 * i / 180)])
 
-    dpg.add_line_series("Plot", "Cos", data1, weight=2, color=[0, 0, 255, 100])
-    dpg.add_shade_series("Plot", "Cos", data1, weight=2, fill=[255, 0, 0, 100])
-    dpg.add_scatter_series("Plot", "Sin", data2, color=[0, 255, 0, 100])
+    add_line_series("Plot", "Cos", data1, weight=2, color=[0, 0, 255, 100])
+    add_shade_series("Plot", "Cos", data1, weight=2, fill=[255, 0, 0, 100])
+    add_scatter_series("Plot", "Sin", data2, color=[0, 255, 0, 100])
 
 
-dpg.add_button("Plot data", callback=plot_callback)
-dpg.add_plot("Plot", height=-1)
+add_button("Plot data", callback=plot_callback)
+add_plot("Plot", height=-1)
 
 
-dpg.start_dearpygui()</code></pre>
+start_dearpygui()</code></pre>
         <p>
             Simple plots can be made dynamic by changing the value of the plot call with
             <code class="inline-code" data-language="python">set_value()</code>. This is shown below.
         </p>
-        <pre><code data-language="python">import dearpygui.core as dpg
+        <pre><code data-language="python">from dearpygui.core import *
 from math import sin
 
 
 def on_render(sender, data):
-    frame_count = dpg.get_data("frame_count")
+    frame_count = get_data("frame_count")
     frame_count += 1
-    dpg.add_data("frame_count", frame_count)
-    plot_data = dpg.get_value("plot_data")
+    add_data("frame_count", frame_count)
+    plot_data = get_value("plot_data")
     if len(plot_data) > 100:
         plot_data.pop(0)
     plot_data.append(sin(frame_count/30))
-    dpg.set_value("plot_data", plot_data)
+    set_value("plot_data", plot_data)
 
 
-dpg.add_simple_plot("Simple Plot", source="plot_data", minscale=-1.0, maxscale=1.0, height=300)
-dpg.add_data("frame_count", 0)
-dpg.set_render_callback(on_render)
+add_simple_plot("Simple Plot", source="plot_data", minscale=-1.0, maxscale=1.0, height=300)
+add_data("frame_count", 0)
+set_render_callback(on_render)
 
-dpg.start_dearpygui()</code></pre>
+start_dearpygui()</code></pre>
         <p>
             Plots also can be dynamic. Dynamic function can be applied as easy as clearing
             the plot and adding new data using a callback such as render or item's callback.
             <code class="inline-code" data-language="python">set_value()</code>. This is shown below.
         </p>
-        <pre><code data-language="python">import dearpygui.core as dpg
+        <pre><code data-language="python">from dearpygui.core import *
 from math import cos
 
 
 def plot_callback(sender, data):
     # keeping track of frames
-    frame_count = dpg.get_data("frame_count")
+    frame_count = get_data("frame_count")
     frame_count += 1
-    dpg.add_data("frame_count", frame_count)
+    add_data("frame_count", frame_count)
 
     # updating plot data
-    plot_data = dpg.get_data("plot_data")
+    plot_data = get_data("plot_data")
     if len(plot_data) > 2000:
         frame_count = 0
         plot_data.clear()
     plot_data.append([3.14 * frame_count / 180, cos(3 * 3.14 * frame_count / 180)])
-    dpg.add_data("plot_data", plot_data)
+    add_data("plot_data", plot_data)
 
     # plotting new data
-    dpg.clear_plot("Plot")
-    dpg.add_line_series("Plot", "Cos", plot_data, weight=2)
+    clear_plot("Plot")
+    add_line_series("Plot", "Cos", plot_data, weight=2)
 
 
-dpg.add_plot("Plot", height=-1)
-dpg.add_data("plot_data", [])
-dpg.add_data("frame_count", 0)
-dpg.set_render_callback(plot_callback)
+add_plot("Plot", height=-1)
+add_data("plot_data", [])
+add_data("frame_count", 0)
+set_render_callback(plot_callback)
 
-dpg.start_dearpygui()</code></pre>
+start_dearpygui()</code></pre>
     </article>
     <article><a name="drawing"></a>
         <h2>Drawing/Canvas</h2>
         <hr>
         <p>
-            DearPyGui has a low level drawing API that is well suited for primitive drawing, custom widgets or even dynamic drawings.
+            Dear PyGui has a low level drawing API that is well suited for primitive drawing, custom widgets or even dynamic drawings.
             <br><br>
             The drawing is started by calling <code class="inline-code" data-language="python">add_drawing()</code> then items can be added
             by calling their respective draw commands.
             The origin for the canvas is in the bottom left.
         </p>
-            <pre><code data-language="python">import dearpygui.core as dpg
+            <pre><code data-language="python">from dearpygui.core import *
 
 
-dpg.add_drawing("Drawing_1", width=300, height=300)
-dpg.draw_line("Drawing_1", [10, 10], [100, 100], [255, 0, 0, 255], 1)
-dpg.draw_text("Drawing_1", [16, 16], "Origin", color=[250, 250, 250, 255], size=15)
-dpg.draw_arrow("Drawing_1", [50, 70], [100, 65], [0, 200, 255], 1, 10)
+add_drawing("Drawing_1", width=300, height=300)
+draw_line("Drawing_1", [10, 10], [100, 100], [255, 0, 0, 255], 1)
+draw_text("Drawing_1", [16, 16], "Origin", color=[250, 250, 250, 255], size=15)
+draw_arrow("Drawing_1", [50, 70], [100, 65], [0, 200, 255], 1, 10)
 
-dpg.start_dearpygui()</code></pre>
+start_dearpygui()</code></pre>
     <p>
         Drawings have a scale, origin, and size that can all be accessed and set.
         The scale is a multiplier of the items x and y values. The size is in pixels.
     </p>
-        <pre><code data-language="python">import dearpygui.core as dpg
-import dearpygui.simple as simple
+        <pre><code data-language="python">from dearpygui.core import *
+from dearpygui.simple import *
 
 
-dpg.add_drawing("Drawing_1", width=300, height=300)
-dpg.draw_line("Drawing_1", [10, 10], [100, 100], [255, 0, 0, 255], 1)
-dpg.draw_text("Drawing_1", [16, 16], "Origin", color=[250, 250, 250, 255], size=15)
-dpg.draw_arrow("Drawing_1", [50, 70], [100, 65], [0, 200, 255], 1, 10)
-simple.set_drawing_origin("Drawing_1", 150, 150)
-simple.set_drawing_scale("Drawing_1", 2, 2)
-simple.set_drawing_size("Drawing_1", 400, 500)
+add_drawing("Drawing_1", width=300, height=300)
+draw_line("Drawing_1", [10, 10], [100, 100], [255, 0, 0, 255], 1)
+draw_text("Drawing_1", [16, 16], "Origin", color=[250, 250, 250, 255], size=15)
+draw_arrow("Drawing_1", [50, 70], [100, 65], [0, 200, 255], 1, 10)
 
-dpg.start_dearpygui()</code></pre>
+set_drawing_origin("Drawing_1", 150, 150) # simple
+set_drawing_scale("Drawing_1", 2, 2)      # simple
+set_drawing_size("Drawing_1", 400, 500)   # simple
+
+start_dearpygui()</code></pre>
         <p>
             Drawings can display images of types ".png", ".jpg", or ".bmp".
             Images are drawn using <code class="inline-code" data-language="python">draw_image()</code>
@@ -792,17 +763,17 @@ dpg.start_dearpygui()</code></pre>
             <br><br>
             To be able to demonstrate these features you must update the directory to that of an image on your computer.
         </p>
-        <pre><code data-language="python">import dearpygui.core as dpg
+        <pre><code data-language="python">from dearpygui.core import *
 
 # please update the image directory argument with a path to an image on your computer for this example
-dpg.add_drawing("Drawing_1", width=700, height=700)
-dpg.draw_image("Drawing_1", 'SpriteMapExample.png', [0, 700], pmax=[200, 500], uv_min=[0, 0], uv_max=[1, 1], tag="image")
-dpg.draw_image("Drawing_1", 'SpriteMapExample.png', [0, 600], pmax=[200, 300], uv_min=[0, 0], uv_max=[1, 1])
-dpg.draw_image("Drawing_1", 'SpriteMapExample.png', [0, 500], pmax=[200, 100], uv_min=[0, 0], uv_max=[1, 1])
-dpg.draw_image("Drawing_1", 'SpriteMapExample.png', [400, 600], pmax=[600, 400], uv_min=[0, 0], uv_max=[0.5, 0.5])
-dpg.draw_image("Drawing_1", 'SpriteMapExample.png', [400, 400], pmax=[700, 50], uv_min=[0, 0], uv_max=[3.5, 2.5])
+add_drawing("Drawing_1", width=700, height=700)
+draw_image("Drawing_1", 'SpriteMapExample.png', [0, 700], pmax=[200, 500], uv_min=[0, 0], uv_max=[1, 1], tag="image")
+draw_image("Drawing_1", 'SpriteMapExample.png', [0, 600], pmax=[200, 300], uv_min=[0, 0], uv_max=[1, 1])
+draw_image("Drawing_1", 'SpriteMapExample.png', [0, 500], pmax=[200, 100], uv_min=[0, 0], uv_max=[1, 1])
+draw_image("Drawing_1", 'SpriteMapExample.png', [400, 600], pmax=[600, 400], uv_min=[0, 0], uv_max=[0.5, 0.5])
+draw_image("Drawing_1", 'SpriteMapExample.png', [400, 400], pmax=[700, 50], uv_min=[0, 0], uv_max=[3.5, 2.5])
 
-dpg.start_dearpygui()</code></pre>
+start_dearpygui()</code></pre>
 
         <p>
             Although drawings can be made dynamic by clearing and redrawing the entire thing a more efficient method is offered.
@@ -810,13 +781,13 @@ dpg.start_dearpygui()</code></pre>
             To make a drawing dynamic we should use the tag keyword to tag the items we would like to redraw. Then simply call a draw command
             using the same tag. This will delete only that one item and redraw it wit the new command.
         </p>
-        <pre><code data-language="python">import dearpygui.core as dpg
+        <pre><code data-language="python">from dearpygui.core import *
 
 
 def on_render(sender, data):
-    counter = dpg.get_data("counter")
+    counter = get_data("counter")
     counter += 1
-    modifier = dpg.get_data("modifier")
+    modifier = get_data("modifier")
     if counter < 300:
         modifier += 1
     elif counter < 600:
@@ -832,47 +803,47 @@ def on_render(sender, data):
     color2 = 255 - modifier*.8
     radius = 15 + modifier/2
     segments = round(35-modifier/10)
-    dpg.draw_circle("Drawing_1", [xpos, ypos], radius, [color1, color3, color2, 255], segments, tag="circle##dynamic")
-    dpg.add_data("counter", counter)
-    dpg.add_data("modifier", modifier)
+    draw_circle("Drawing_1", [xpos, ypos], radius, [color1, color3, color2, 255], segments, tag="circle##dynamic")
+    add_data("counter", counter)
+    add_data("modifier", modifier)
 
 
-dpg.add_data("counter", 0)
-dpg.add_data("modifier", 2)
-dpg.add_drawing("Drawing_1", width=700, height=700)
-dpg.set_render_callback(on_render)
+add_data("counter", 0)
+add_data("modifier", 2)
+add_drawing("Drawing_1", width=700, height=700)
+set_render_callback(on_render)
 
-dpg.start_dearpygui()</code></pre>
+start_dearpygui()</code></pre>
     </article>
     <article><a name="clock"></a>
         <h2>Delta Time and Internal Clock</h2>
         <hr>
         <p>
-            DearPyGui has a built in clock for checking total run time <code class="inline-code" data-language="python">get_total_time()</code>
+            Dear PyGui has a built in clock for checking total run time <code class="inline-code" data-language="python">get_total_time()</code>
             which returns total run time in seconds
             <br><br>
             Also using the command <code class="inline-code" data-language="python">get_delta_time()</code>
             we can check the time in between rendering frames in seconds.
         </p>
-        <pre><code data-language="python">import dearpygui.core as dpg
+        <pre><code data-language="python">from dearpygui.core import *
 
 
 def on_render(sender, data):
-    delta_time = str(round(dpg.get_delta_time(), 4))
-    total_time = str(round(dpg.get_total_time(), 4))
-    dpg.set_value("delta_time", delta_time)
-    dpg.set_value("total_time", total_time)
+    delta_time = str(round(get_delta_time(), 4))
+    total_time = str(round(get_total_time(), 4))
+    set_value("delta_time", delta_time)
+    set_value("total_time", total_time)
 
 
-dpg.add_text("Total Time: ")
-dpg.add_same_line()
-dpg.add_label_text("##total_time_text", source="total_time")
-dpg.add_text("Delta Time: ")
-dpg.add_same_line()
-dpg.add_label_text("##delta_time_text", source="delta_time")
-dpg.set_render_callback(callback=on_render)
+add_text("Total Time: ")
+add_same_line()
+add_label_text("##total_time_text", source="total_time")
+add_text("Delta Time: ")
+add_same_line()
+add_label_text("##delta_time_text", source="delta_time")
+set_render_callback(callback=on_render)
 
-dpg.start_dearpygui()</code></pre>
+start_dearpygui()</code></pre>
     </article>
     <article><a name="sprites"></a>
         <h2>Sprites</h2>
@@ -887,55 +858,55 @@ dpg.start_dearpygui()</code></pre>
             by calling their respective draw commands.
             The origin for the canvas is in the bottom left.
         </p>
-        <pre><code data-language="python">import dearpygui.core as dpg
+        <pre><code data-language="python">from dearpygui.core import *
 
 
 def on_render(sender, data):
-    delta_draw_time = dpg.get_data("delta_draw_time")
-    draw_speed = dpg.get_value("Draw Pause")
+    delta_draw_time = get_data("delta_draw_time")
+    draw_speed = get_value("Draw Pause")
 
     if delta_draw_time > draw_speed:
-        if dpg.get_value("Fly Mode") == 0:
-            if dpg.get_data("sprite1"):
-                dpg.draw_image("Drawing_1", 'SpriteMapExample.png', top_left, pmax=bottom_right, uv_min=[.7690, 0],
+        if get_value("Fly Mode") == 0:
+            if get_data("sprite1"):
+                draw_image("Drawing_1", 'SpriteMapExample.png', top_left, pmax=bottom_right, uv_min=[.7690, 0],
                            uv_max=[.8074, .10], tag="sprite")
-                dpg.add_data("sprite1", False)
+                add_data("sprite1", False)
             else:
-                dpg.draw_image("Drawing_1", 'SpriteMapExample.png', top_left, pmax=bottom_right, uv_min=[.8074, 0],
+                draw_image("Drawing_1", 'SpriteMapExample.png', top_left, pmax=bottom_right, uv_min=[.8074, 0],
                            uv_max=[.8461, .10], tag="sprite")
-                dpg.add_data("sprite1", True)
+                add_data("sprite1", True)
         else:
-            if dpg.get_data("sprite1"):
-                dpg.draw_image("Drawing_1", 'SpriteMapExample.png', top_left, pmax=bottom_right, uv_min=[.8464, 0],
+            if get_data("sprite1"):
+                draw_image("Drawing_1", 'SpriteMapExample.png', top_left, pmax=bottom_right, uv_min=[.8464, 0],
                            uv_max=[.8848, .10], tag="sprite")
-                dpg.add_data("sprite1", False)
+                add_data("sprite1", False)
             else:
-                dpg.draw_image("Drawing_1", 'SpriteMapExample.png', top_left, pmax=bottom_right, uv_min=[.8851, 0],
+                draw_image("Drawing_1", 'SpriteMapExample.png', top_left, pmax=bottom_right, uv_min=[.8851, 0],
                            uv_max=[.9235, .10], tag="sprite")
-                dpg.add_data("sprite1", True)
-        dpg.add_data("delta_draw_time", 0)
+                add_data("sprite1", True)
+        add_data("delta_draw_time", 0)
     else:
-        dpg.add_data("delta_draw_time", delta_draw_time + dpg.get_delta_time())
+        add_data("delta_draw_time", delta_draw_time + get_delta_time())
 
-dpg.set_main_window_size(650, 800)
-dpg.add_drawing("Drawing_1", width=500, height=500)
+set_main_window_size(650, 800)
+add_drawing("Drawing_1", width=500, height=500)
 top_left = [250, 250]
 bottom_right = [300, 300]
-dpg.draw_image("Drawing_1", 'SpriteMapExample.png', top_left, pmax=bottom_right, uv_min=[.7687, 0], uv_max=[1, .10], tag="sprite")
-dpg.add_text("Fly Mode:")
-dpg.add_radio_button("Fly Mode", items=["Disable", "Enable"], default_value=0)
-dpg.add_slider_float("Draw Pause", default_value=0.1, min_value=0.0, max_value=0.5, tip="slows down draws by waiting until the elapsed time", format="%.4f")
-dpg.set_render_callback(on_render)
-dpg.add_data("delta_draw_time", 0.0)
-dpg.add_data("sprite1", True)
+draw_image("Drawing_1", 'SpriteMapExample.png', top_left, pmax=bottom_right, uv_min=[.7687, 0], uv_max=[1, .10], tag="sprite")
+add_text("Fly Mode:")
+add_radio_button("Fly Mode", items=["Disable", "Enable"], default_value=0)
+add_slider_float("Draw Pause", default_value=0.1, min_value=0.0, max_value=0.5, tip="slows down draws by waiting until the elapsed time", format="%.4f")
+set_render_callback(on_render)
+add_data("delta_draw_time", 0.0)
+add_data("sprite1", True)
 
-dpg.start_dearpygui()</code></pre>
+start_dearpygui()</code></pre>
     </article>
     <article><a name="tables"></a>
         <h2>Tables</h2>
         <hr>
         <p>
-            DearPyGui has a simple table API that is well suited for static and dynamic tables.
+            Dear PyGui has a simple table API that is well suited for static and dynamic tables.
             <br><br>
             The table widget is started by calling <code class="inline-code" data-language="python">add_table()</code>.
             <br><br>
@@ -951,73 +922,73 @@ dpg.start_dearpygui()</code></pre>
             <br><br>
             Also an added or inserted row/column will by default fill unspecified cells with empty cells.
         </p>
-        <pre><code data-language="python">import dearpygui.core as dpg
+        <pre><code data-language="python">from dearpygui.core import *
 
-dpg.add_table("Table Example", ["Header 0", "Header 1"])
-dpg.add_row("Table Example", ["row 0", "text"])
-dpg.add_row("Table Example", ["row 2", "text"])
-dpg.add_column("Table Example", "Header 3", ["data","data"])
-dpg.insert_row("Table Example", 1, ["row 1", "inserted row", "inserted row"])
-dpg.insert_column("Table Example", 2, "Header 2", ["inserted with column", "inserted column", "inserted column"])
+add_table("Table Example", ["Header 0", "Header 1"])
+add_row("Table Example", ["row 0", "text"])
+add_row("Table Example", ["row 2", "text"])
+add_column("Table Example", "Header 3", ["data","data"])
+insert_row("Table Example", 1, ["row 1", "inserted row", "inserted row"])
+insert_column("Table Example", 2, "Header 2", ["inserted with column", "inserted column", "inserted column"])
 
-dpg.start_dearpygui()</code></pre>
+start_dearpygui()</code></pre>
         <p>
             Additionally, headers and cells can be renamed and their values be changed.
         </p>
-        <pre><code data-language="python">import dearpygui.core as dpg
+        <pre><code data-language="python">from dearpygui.core import *
 
 
 def modify_tables(sender, data):
-    dpg.log_debug(f"Table Called: {sender}")
-    coord_list = dpg.get_table_selections("Table Example")
-    dpg.log_debug(f"Selected Cells (coordinates): {coord_list}")
+    log_debug(f"Table Called: {sender}")
+    coord_list = get_table_selections("Table Example")
+    log_debug(f"Selected Cells (coordinates): {coord_list}")
     for coordinates in coord_list:
-        dpg.set_table_item("Table Example", coordinates[0], coordinates[1], "New Value")
-    dpg.set_headers("Table Example", ["New Header 0", "New Header 1", "New Header 2"])
+        set_table_item("Table Example", coordinates[0], coordinates[1], "New Value")
+    set_headers("Table Example", ["New Header 0", "New Header 1", "New Header 2"])
 
 
-dpg.show_logger()
-dpg.add_spacing(count=5)
-dpg.add_button("Modify Selected Table Values", callback=modify_tables)
-dpg.add_spacing(count=5)
-dpg.add_table("Table Example", ["Header 0", "Header 1"])
-dpg.add_row("Table Example", ["awesome row", "text"])
-dpg.add_row("Table Example", ["super unique", "unique text"])
-dpg.add_column("Table Example", "Header 2", ["text from column", "text from column"])
-dpg.add_row("Table Example", ["boring row"])
+show_logger()
+add_spacing(count=5)
+add_button("Modify Selected Table Values", callback=modify_tables)
+add_spacing(count=5)
+add_table("Table Example", ["Header 0", "Header 1"])
+add_row("Table Example", ["awesome row", "text"])
+add_row("Table Example", ["super unique", "unique text"])
+add_column("Table Example", "Header 2", ["text from column", "text from column"])
+add_row("Table Example", ["boring row"])
 
-dpg.start_dearpygui()</code></pre>
+start_dearpygui()</code></pre>
         <p>
             Tables cells are selectable. This means that we can apply a callback to the table and retrieve which cell was selected through the sender
             and even get the text inside the cell.
         </p>
-        <pre><code data-language="python">import dearpygui.core as dpg
+        <pre><code data-language="python">from dearpygui.core import *
 
 
 def table_printer(sender, data):
-    dpg.log_debug(f"Table Called: {sender}")
-    coord_list = dpg.get_table_selections("Table Example")
-    dpg.log_debug(f"Selected Cells (coordinates): {coord_list}")
+    log_debug(f"Table Called: {sender}")
+    coord_list = get_table_selections("Table Example")
+    log_debug(f"Selected Cells (coordinates): {coord_list}")
     names = []
     for coordinates in coord_list:
-        names.append(dpg.get_table_item("Table Example", coordinates[0], coordinates[1]))
-    dpg.log_debug(names)
+        names.append(get_table_item("Table Example", coordinates[0], coordinates[1]))
+    log_debug(names)
 
 
-dpg.show_logger()
-dpg.add_table("Table Example", ["Header 0", "Header 1"], callback=table_printer)
-dpg.add_row("Table Example", ["awesome row", "text"])
-dpg.add_row("Table Example", ["super unique", "unique text"])
-dpg.add_column("Table Example", "Header 3", ["text from column", "text from column"])
-dpg.add_row("Table Example", ["boring row"])
+show_logger()
+add_table("Table Example", ["Header 0", "Header 1"], callback=table_printer)
+add_row("Table Example", ["awesome row", "text"])
+add_row("Table Example", ["super unique", "unique text"])
+add_column("Table Example", "Header 3", ["text from column", "text from column"])
+add_row("Table Example", ["boring row"])
 
-dpg.start_dearpygui()</code></pre>
+start_dearpygui()</code></pre>
     </article>
     <article><a name="input_polling"></a>
         <h2>Input Polling</h2>
         <hr>
         <p>
-            Input Polling in DearPyGui is done by calling the desired poll command within a function.
+            Input Polling in Dear PyGui is done by calling the desired poll command within a function.
             The function must be set to a windows render callback for polling to occur when that window is active.
             Because the render callbacks are ran every frame DearPyGui can poll between frames if a specified input is performed.
             <br><br>
@@ -1048,61 +1019,61 @@ dpg.start_dearpygui()</code></pre>
         <br><br>
         It is possible to combine as many polls as necessary to achieve desired functionality.
         </p>
-        <pre><code data-language="python">import dearpygui.core as dpg
+        <pre><code data-language="python">from dearpygui.core import *
 
 
 def main_callback(sender, data):
-    dpg.set_value("Mouse Position", str(dpg.get_mouse_pos()))
+    set_value("Mouse Position", str(get_mouse_pos()))
 
-    if dpg.is_key_down(dpg.mvKey_A):
-        dpg.set_value("A key Down", "True")
+    if is_key_down(mvKey_A):
+        set_value("A key Down", "True")
     else:
-        dpg.set_value("A key Down", "False")
+        set_value("A key Down", "False")
 
-    if dpg.is_key_pressed(dpg.mvKey_A):
-        dpg.set_value("A key Pressed", "True")
+    if is_key_pressed(mvKey_A):
+        set_value("A key Pressed", "True")
     else:
-        dpg.set_value("A key Pressed", "False")
+        set_value("A key Pressed", "False")
 
-    if dpg.is_key_released(dpg.mvKey_A):
-        dpg.set_value("A key Released", "True")
+    if is_key_released(mvKey_A):
+        set_value("A key Released", "True")
     else:
-        dpg.set_value("A key Released", "False")
+        set_value("A key Released", "False")
 
-    if dpg.is_mouse_button_dragging(dpg.mvMouseButton_Left, 10):
-        dpg.set_value("Left Mouse Dragging", "True")
+    if is_mouse_button_dragging(mvMouseButton_Left, 10):
+        set_value("Left Mouse Dragging", "True")
     else:
-        dpg.set_value("Left Mouse Dragging", "False")
+        set_value("Left Mouse Dragging", "False")
 
-    if dpg.is_mouse_button_clicked(dpg.mvMouseButton_Left):
-        dpg.set_value("Left Mouse Clicked", "True")
+    if is_mouse_button_clicked(mvMouseButton_Left):
+        set_value("Left Mouse Clicked", "True")
     else:
-        dpg.set_value("Left Mouse Clicked", "False")
+        set_value("Left Mouse Clicked", "False")
 
-    if dpg.is_mouse_button_double_clicked(dpg.mvMouseButton_Left):
-        dpg.set_value("Left Mouse Double Clicked", "True")
+    if is_mouse_button_double_clicked(mvMouseButton_Left):
+        set_value("Left Mouse Double Clicked", "True")
     else:
-        dpg.set_value("Left Mouse Double Clicked", "False")
+        set_value("Left Mouse Double Clicked", "False")
 
-    if dpg.is_key_down(dpg.mvKey_Shift) and dpg.is_mouse_button_clicked(dpg.mvMouseButton_Left):
-        dpg.set_value("Shift + Left Mouse Clicked", "True")
+    if is_key_down(mvKey_Shift) and is_mouse_button_clicked(mvMouseButton_Left):
+        set_value("Shift + Left Mouse Clicked", "True")
     else:
-        dpg.set_value("Shift + Left Mouse Clicked", "False")
+        set_value("Shift + Left Mouse Clicked", "False")
 
 
-dpg.add_label_text("A key Down", value="False", color=[0, 200, 255])
-dpg.add_label_text("A key Pressed", value="False", color=[0, 200, 255])
-dpg.add_label_text("A key Released", value="False", color=[0, 200, 255])
-dpg.add_spacing()
-dpg.add_label_text("Mouse Position", value="(0,0)", color=[0, 200, 255])
-dpg.add_label_text("Left Mouse Clicked", value="False", color=[0, 200, 255])
-dpg.add_label_text("Left Mouse Dragging", value="False", color=[0, 200, 255])
-dpg.add_label_text("Left Mouse Double Clicked", value="False", color=[0, 200, 255])
-dpg.add_label_text("Shift + Left Mouse Clicked", value="False", color=[0, 200, 255])
+add_label_text("A key Down", value="False", color=[0, 200, 255])
+add_label_text("A key Pressed", value="False", color=[0, 200, 255])
+add_label_text("A key Released", value="False", color=[0, 200, 255])
+add_spacing()
+add_label_text("Mouse Position", value="(0,0)", color=[0, 200, 255])
+add_label_text("Left Mouse Clicked", value="False", color=[0, 200, 255])
+add_label_text("Left Mouse Dragging", value="False", color=[0, 200, 255])
+add_label_text("Left Mouse Double Clicked", value="False", color=[0, 200, 255])
+add_label_text("Shift + Left Mouse Clicked", value="False", color=[0, 200, 255])
 
-dpg.set_render_callback(main_callback)
+set_render_callback(main_callback)
 
-dpg.start_dearpygui()</code></pre>
+start_dearpygui()</code></pre>
     </article>
     <article><a name="multithreading"></a>
         <h2>Multithreading & Asynchronous Functions</h2>
@@ -1113,24 +1084,24 @@ dpg.start_dearpygui()</code></pre>
             <br><br>
             It is important to note that functions ran with the async command cannot call any other DearPyGui API calls.
         </p>
-        <pre><code data-language="python">import dearpygui.core as dpg
+        <pre><code data-language="python">from dearpygui.core import *
 from time import sleep
 
 
 def long_async_callback(data, sender):
-    dpg.run_async_function(long_callback, None)
+    run_async_function(long_callback, None)
 
 
 def long_callback(sender, data):
     sleep(3)
 
 
-dpg.show_logger()
-dpg.show_metrics()
-dpg.add_button("long function", callback=long_callback, tip="this will cause a 3 second freeze")
-dpg.add_button("long Asynchronous Function", callback=long_async_callback, tip="this will not a freeze")
+show_logger()
+show_metrics()
+add_button("long function", callback=long_callback, tip="this will cause a 3 second freeze")
+add_button("long Asynchronous Function", callback=long_async_callback, tip="this will not a freeze")
 
-dpg.start_dearpygui()</code></pre>
+start_dearpygui()</code></pre>
         <p>
             Asynchronous functions cannot access <code class="inline-code" data-language="python">add_data()</code>
             or <code class="inline-code" data-language="python">get_data()</code>. So when it is necessary to pass data to the asynchronous
@@ -1138,13 +1109,13 @@ dpg.start_dearpygui()</code></pre>
             Any python object can be made accessible the the async function by being sent into the function through the "data" keyword.
             Additionally, any returned data from the Async function will be accessible through the "data" input of the specified return callback.
         </p>
-        <pre><code data-language="python">import dearpygui.core as dpg
+        <pre><code data-language="python">from dearpygui.core import *
 from time import sleep
 
 
 def long_async_preparer(data, sender):
-    floaty = dpg.get_value("Async Input Data")
-    dpg.run_async_function(long_callback, floaty, return_handler=long_async_return)
+    floaty = get_value("Async Input Data")
+    run_async_function(long_callback, floaty, return_handler=long_async_return)
 
 
 def long_callback(sender, data):
@@ -1153,21 +1124,21 @@ def long_callback(sender, data):
 
 
 def long_async_return(sender, data):
-    dpg.log_debug(data)
+    log_debug(data)
 
 
 def long_callback2(sender, data):
     sleep(3)
-    dpg.log_debug(data * 2)
+    log_debug(data * 2)
 
-dpg.show_logger()
-dpg.add_text(
+show_logger()
+add_text(
     "input a number and see the logger window for the output of the long callback that would normally freeze the GUI")
-dpg.add_input_float("Async Input Data", default_value=1.0)
-dpg.add_button("long Function", callback=long_callback2, callback_data=dpg.get_value("Async Input Data"), tip="This is the long callback that will freeze the gui")
-dpg.add_button("long Asynchronous Function", callback=long_async_preparer, tip="this will not a freeze the GUI")
+add_input_float("Async Input Data", default_value=1.0)
+add_button("long Function", callback=long_callback2, callback_data=dpg.get_value("Async Input Data"), tip="This is the long callback that will freeze the gui")
+add_button("long Asynchronous Function", callback=long_async_preparer, tip="this will not a freeze the GUI")
 
-dpg.start_dearpygui()</code></pre>
+start_dearpygui()</code></pre>
         <p>
             When the asynchronous function method is called a thread pool is created. The aspects of the threadpool that
             can be configured are the number of threads and the timeout time.
@@ -1195,26 +1166,26 @@ dpg.start_dearpygui()</code></pre>
             </ul>
             Please see the example below:
         </p>
-        <pre><code data-language="python">import dearpygui.core as dpg
+        <pre><code data-language="python">from dearpygui.core import *
 
 
 def apply_text_multiplier(sender, data):
-    font_multiplier = dpg.get_value("Font Size Multiplier")
-    dpg.set_global_font_scale(font_multiplier)
+    font_multiplier = get_value("Font Size Multiplier")
+    set_global_font_scale(font_multiplier)
 
 
 def apply_theme(sender, data):
-    theme = dpg.get_value("Themes")
-    dpg.set_theme(theme)
+    theme = get_value("Themes")
+    set_theme(theme)
 
 
 themes = ["Dark", "Light", "Classic", "Dark 2", "Grey", "Dark Grey", "Cherry", "Purple", "Gold", "Red"]
-dpg.add_combo("Themes", items=themes, default_value="Dark", callback=apply_theme)
+add_combo("Themes", items=themes, default_value="Dark", callback=apply_theme)
 
-dpg.add_slider_float("Font Size Multiplier", default_value=1.0, min_value=0.0, max_value=2.0,
+add_slider_float("Font Size Multiplier", default_value=1.0, min_value=0.0, max_value=2.0,
                  callback=apply_text_multiplier)
 
-dpg.start_dearpygui()</code></pre>
+start_dearpygui()</code></pre>
     </article>
 </main>
 </body>
