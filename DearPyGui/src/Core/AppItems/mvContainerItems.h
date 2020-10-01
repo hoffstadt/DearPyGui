@@ -32,15 +32,16 @@ namespace Marvel {
 			m_container = true;
 		}
 
-		void addFlag(ImGuiWindowFlags flag) { m_windowflags |= flag; }
+		void addFlag   (ImGuiWindowFlags flag) { m_windowflags |= flag; }
 		void removeFlag(ImGuiWindowFlags flag) { m_windowflags &= ~flag; }
 
 		void draw() override
 		{
+
 			pushColorStyles();
 			ImGui::PushID(this);
 
-			ImGui::BeginChild(m_label.c_str(), ImVec2(float(m_width), float(m_height)), m_border, m_windowflags);
+			ImGui::BeginChild(m_label.c_str(), ImVec2(m_autosize_x ? 0 : m_width, m_autosize_y ? 0 : m_height), m_border, m_windowflags);
 
 			for (mvAppItem* item : m_children)
 			{
@@ -92,6 +93,19 @@ namespace Marvel {
 				return;
 			mvGlobalIntepreterLock gil;
 			if (PyObject* item = PyDict_GetItemString(dict, "border")) m_border = ToBool(item);
+			if (PyObject* item = PyDict_GetItemString(dict, "autosize_x")) m_autosize_x = ToBool(item);
+			if (PyObject* item = PyDict_GetItemString(dict, "autosize_y")) m_autosize_y = ToBool(item);
+
+			// helper for bit flipping
+			auto flagop = [dict](const char* keyword, int flag, int& flags)
+			{
+				if (PyObject* item = PyDict_GetItemString(dict, keyword)) ToBool(item) ? flags |= flag : flags &= ~flag;
+			};
+
+			// window flags
+			flagop("no_scrollbar", ImGuiWindowFlags_NoScrollbar, m_windowflags);
+			flagop("horizontal_scrollbar", ImGuiWindowFlags_HorizontalScrollbar, m_windowflags);
+			flagop("menubar", ImGuiWindowFlags_MenuBar, m_windowflags);
 		}
 
 		void getExtraConfigDict(PyObject* dict) override
@@ -100,12 +114,27 @@ namespace Marvel {
 				return;
 			mvGlobalIntepreterLock gil;
 			PyDict_SetItemString(dict, "border", ToPyBool(m_border));
+			PyDict_SetItemString(dict, "autosize_x", ToPyBool(m_autosize_x));
+			PyDict_SetItemString(dict, "autosize_y", ToPyBool(m_autosize_y));
+
+			// helper for bit flipping
+			auto flagop = [dict](const char* keyword, int flag, int& flags)
+			{
+				if (PyObject* item = PyDict_GetItemString(dict, keyword)) ToBool(item) ? flags |= flag : flags &= ~flag;
+			};
+
+			// window flags
+			flagop("no_scrollbar", ImGuiWindowFlags_NoScrollbar, m_windowflags);
+			flagop("horizontal_scrollbar", ImGuiWindowFlags_HorizontalScrollbar, m_windowflags);
+			flagop("menubar", ImGuiWindowFlags_MenuBar, m_windowflags);
 		}
 
 	private:
 
-		bool m_border = true;
-		ImGuiWindowFlags m_windowflags = ImGuiWindowFlags_NoSavedSettings | ImGuiWindowFlags_HorizontalScrollbar;
+		bool             m_border = true;
+		bool             m_autosize_x = false;
+		bool             m_autosize_y = false;
+		ImGuiWindowFlags m_windowflags = ImGuiWindowFlags_NoSavedSettings;
 
 	};
 

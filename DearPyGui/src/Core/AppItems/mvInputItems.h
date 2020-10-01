@@ -279,7 +279,7 @@ namespace Marvel {
 			pushColorStyles();
 			ImGui::PushID(this);
 
-			if (ImGui::InputFloat(m_label.c_str(), m_value, 0.0f, 0.0f, m_format.c_str(), m_flags))
+			if (ImGui::InputFloat(m_label.c_str(), m_value, m_step, m_step_fast, m_format.c_str(), m_flags))
 			{
 				mvApp::GetApp()->runCallback(m_callback, m_name, m_callbackData);
 
@@ -302,6 +302,8 @@ namespace Marvel {
 				return;
 			mvGlobalIntepreterLock gil;
 			if (PyObject* item = PyDict_GetItemString(dict, "format")) m_format = ToString(item);
+			if (PyObject* item = PyDict_GetItemString(dict, "step")) m_step = ToFloat(item);
+			if (PyObject* item = PyDict_GetItemString(dict, "step_fast")) m_step_fast = ToFloat(item);
 
 			// helper for bit flipping
 			auto flagop = [dict](const char* keyword, int flag, int& flags)
@@ -320,6 +322,8 @@ namespace Marvel {
 				return;
 			mvGlobalIntepreterLock gil;
 			PyDict_SetItemString(dict, "format", ToPyString(m_format));
+			PyDict_SetItemString(dict, "step", ToPyFloat(m_step));
+			PyDict_SetItemString(dict, "step_fast", ToPyFloat(m_step_fast));
 
 			// helper to check and set bit
 			auto checkbitset = [dict](const char* keyword, int flag, const int& flags)
@@ -335,6 +339,8 @@ namespace Marvel {
 	private:
 
 		std::string         m_format = "%.3f";
+		float               m_step = 0.1f;
+		float               m_step_fast = 1.0f;
 		ImGuiInputTextFlags m_flags = 0;
 
 	};

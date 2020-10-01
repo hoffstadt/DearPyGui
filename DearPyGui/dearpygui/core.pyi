@@ -25,7 +25,9 @@ def add_checkbox(name: str, default_value: bool = False, callback: Callable = No
 	"""Adds a checkbox widget."""
 	...
 
-def add_child(name: str, show: bool = True, tip: str = "", parent: str = "", before: str = "", width: int = 0, height: int = 0, border: bool = True, popup: str = "") -> None:
+def add_child(name: str, show: bool = True, tip: str = "", parent: str = "", before: str = "", width: int = 0, 
+			  height: int = 0, border: bool = True, popup: str = "", autosize_x: bool = False, autosize_y: bool = False, no_scrollbar: bool = False,
+			  horizontal_scrollbar: bool = False, menubar: bool = False) -> None:
 	"""Adds an embedded child window. Will show scrollbars when items do not fit. Must be followed by a call to end_child."""
 	...
 
@@ -185,7 +187,9 @@ def add_indent(name: str = "indent", offset: float = 0.0, parent: str = "", befo
 	"""Adds an indent to following items. Must be closed with the unindent command."""
 	...
 
-def add_input_float(name: str, default_value: float = 0.0, format: str = "%.3f", callback: Callable = None, callback_data: Any = None, tip: str = "", parent: str = "", before: str = "", source: str = "", width: int = ..., on_enter: bool = False, label: str = "", popup: str = "", show: bool = True) -> None:
+def add_input_float(name: str, default_value: float = 0.0, format: str = "%.3f", callback: Callable = None, callback_data: Any = None, 
+					tip: str = "", parent: str = "", before: str = "", source: str = "", width: int = ..., on_enter: bool = False,
+				   label: str = "", popup: str = "", show: bool = True, step: float = 0.1, step_fast: float = 1.0) -> None:
 	"""Adds input for float values."""
 	...
 

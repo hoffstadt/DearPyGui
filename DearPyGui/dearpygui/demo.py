@@ -144,8 +144,29 @@ def show_demo():
 
         with menu_bar("MenuBar##demo"):
 
+            with menu("Menu##demo"):
+                add_menu_item("New##demomenu")
+                add_menu_item("Open##demomenu", shortcut="Ctrl+O")
+                with menu("Open Recent##demo"):
+                    add_menu_item("harrell.c##demo")
+                    add_menu_item("patty.h##demo")
+                    add_menu_item("nick.py##demo")
+                add_menu_item("Save##demo", shortcut="Ctrl+S")
+                add_menu_item("Save As..#demo")
+                add_separator()
+                with menu("Options##demomenu"):
+                    add_menu_item("Enabled##demo", check=True)
+                    with child("childmenu##demo", height=60, autosize_x=True):
+                        for i in range(0, 10):
+                            add_text(f"Scrolling Text {i}")
+                    add_slider_float("Value##demomenu")
+                    add_input_float("Input##demomenu")
+                    add_combo("Combo##demomenu", items=["Yes", "No", "Maybe"])
+                    add_checkbox("Some Option##demomenu")
+
+
             with menu("Themes##demo"):
-                add_menu_item("Dark", callback = lambda sender, data: set_theme(sender), check=True,shortcut="Ctrl + D")
+                add_menu_item("Dark", callback = lambda sender, data: set_theme(sender), check=True)
                 add_menu_item("Light", callback = lambda sender, data: set_theme(sender), check=True)
                 add_menu_item("Classic", callback = lambda sender, data: set_theme(sender), check=True)
                 add_menu_item("Dark 2", callback = lambda sender, data: set_theme(sender), check=True)
@@ -319,21 +340,22 @@ def show_demo():
                         configure_item(name, **kwargs)
                 color_edit_names = ["MyColor##1", "MyColor##2", "MyColor##3"]
 
-                add_checkbox("With Alpha Preview", callback=lambda sender, data: configure_items(color_edit_names, alpha_preview = get_value(sender)))
-                add_checkbox("With Half Alpha Preview", callback=lambda sender, data: configure_items(color_edit_names, alpha_preview_half = get_value(sender)))
+                with managed_columns("##demowidgetscolor", 3, border=False):
+                    add_checkbox("With Alpha Preview", callback=lambda sender, data: configure_items(color_edit_names, alpha_preview = get_value(sender)))
+                    add_checkbox("With Half Alpha Preview", callback=lambda sender, data: configure_items(color_edit_names, alpha_preview_half = get_value(sender)))
+                    add_checkbox("With No Small Preview", callback=lambda sender, data: configure_items(color_edit_names, no_small_preview = get_value(sender)))
+                    add_checkbox("With No Inputs", callback=lambda sender, data: configure_items(color_edit_names, no_inputs = get_value(sender)))
+                    add_checkbox("With No Tooltip", callback=lambda sender, data: configure_items(color_edit_names, no_tooltip = get_value(sender)))
+                    add_checkbox("With RGB", callback=lambda sender, data: configure_items(color_edit_names, display_rgb = get_value(sender)))
+                    add_checkbox("With HSV", callback=lambda sender, data: configure_items(color_edit_names, display_hsv = get_value(sender)))
+                    add_checkbox("With HEX", callback=lambda sender, data: configure_items(color_edit_names, display_hex = get_value(sender)))
+                    add_checkbox("With Ints", callback=lambda sender, data: configure_items(color_edit_names, uint8 = get_value(sender)))
+                    add_checkbox("With Floats", callback=lambda sender, data: configure_items(color_edit_names, floats = get_value(sender)))
+                helpmarker("Right-click on the individual color widget to show options.")
                 add_checkbox("With No Drag and Drop", callback=lambda sender, data: configure_items(color_edit_names, no_drag_drop = get_value(sender)))
                 helpmarker("Click and drag a preview square, drop on another color widget to apply the color")
                 add_checkbox("With No Options Menu", callback=lambda sender, data: configure_items(color_edit_names, no_options = get_value(sender)))
                 helpmarker("Right clicking a color widget brings up an options context menu")
-                add_checkbox("With No Small Preview", callback=lambda sender, data: configure_items(color_edit_names, no_small_preview = get_value(sender)))
-                add_checkbox("With No Inputs", callback=lambda sender, data: configure_items(color_edit_names, no_inputs = get_value(sender)))
-                add_checkbox("With No Tooltip", callback=lambda sender, data: configure_items(color_edit_names, no_tooltip = get_value(sender)))
-                add_checkbox("With RGB", callback=lambda sender, data: configure_items(color_edit_names, display_rgb = get_value(sender)))
-                add_checkbox("With HSV", callback=lambda sender, data: configure_items(color_edit_names, display_hsv = get_value(sender)))
-                add_checkbox("With HEX", callback=lambda sender, data: configure_items(color_edit_names, display_hex = get_value(sender)))
-                add_checkbox("With Ints", callback=lambda sender, data: configure_items(color_edit_names, uint8 = get_value(sender)))
-                add_checkbox("With Floats", callback=lambda sender, data: configure_items(color_edit_names, floats = get_value(sender)))
-                helpmarker("Right-click on the individual color widget to show options.")
                 
                 add_value("colorvalue", [0.0, 0.0, 0.0, 0.0])
                 add_text("Color Widget:")
@@ -361,12 +383,13 @@ def show_demo():
                 add_text("Color button only:")
                 add_checkbox("no_border", callback=lambda sender, data: configure_item("Color Button", no_border=get_value(sender)))
                 add_color_button("Color Button", (255, 50, 255, 0), width=50, height=50)
-                add_checkbox("With Alpha", default_value=True, callback=lambda sender, data: configure_item("Color Picker 4", alpha_preview = get_value(sender)))
-                add_checkbox("With Alpha Bar", default_value=True, callback=lambda sender, data: configure_item("Color Picker 4", alpha_bar = get_value(sender)))
-                add_checkbox("With Side Preview", callback=lambda sender, data: configure_item("Color Picker 4", no_side_preview = get_value(sender)))
-                add_checkbox("Display RGB", callback=lambda sender, data: configure_item("Color Picker 4", display_rgb = get_value(sender)))
-                add_checkbox("Display HSV", callback=lambda sender, data: configure_item("Color Picker 4", display_hsv = get_value(sender)))
-                add_checkbox("Display HEX", callback=lambda sender, data: configure_item("Color Picker 4", display_hex = get_value(sender)))
+                with managed_columns("##demowidgetscolor2", 2, border=False):
+                    add_checkbox("With Alpha", default_value=True, callback=lambda sender, data: configure_item("Color Picker 4", alpha_preview = get_value(sender)))
+                    add_checkbox("With Alpha Bar", default_value=True, callback=lambda sender, data: configure_item("Color Picker 4", alpha_bar = get_value(sender)))
+                    add_checkbox("With Side Preview", callback=lambda sender, data: configure_item("Color Picker 4", no_side_preview = get_value(sender)))
+                    add_checkbox("Display RGB", callback=lambda sender, data: configure_item("Color Picker 4", display_rgb = get_value(sender)))
+                    add_checkbox("Display HSV", callback=lambda sender, data: configure_item("Color Picker 4", display_hsv = get_value(sender)))
+                    add_checkbox("Display HEX", callback=lambda sender, data: configure_item("Color Picker 4", display_hex = get_value(sender)))
                 def apply_hue(sender, data):
                     log_debug(get_value(sender))
                     if(get_value(sender) == 0): 
@@ -464,13 +487,30 @@ def show_demo():
                         add_text(f"{i}: scrollable region")
 
                 add_same_line()
-                with child("decorated child##demo", width=0):
+                with child("decorated child##demo", autosize_x=True):
                     with menu_bar("MenuBarChild##demo"):
                         with menu("Menu##child##demo"):
                             pass
                     with group("decorated child group##demo", width=-20):
                         for i in range(0, 100):
                             add_button(f"{i}##childbutton##demo")
+
+            with tree_node("Child Window Flags##demo"):
+
+                with managed_columns("##childwindowcol", 3, border=False):
+                    add_checkbox("autosize_x##demo", callback=lambda sender, data: configure_item("testchild##demo", autosize_x=get_value(sender)))
+                    add_checkbox("autosize_y##demo", callback=lambda sender, data: configure_item("testchild##demo", autosize_y=get_value(sender)))
+                    add_checkbox("menubar##childdemo", default_value=True, callback=lambda sender, data: configure_item("testchild##demo", menubar=get_value(sender)))
+                    add_checkbox("no_scrollbar##childdemo", callback=lambda sender, data: configure_item("testchild##demo", no_scrollbar=get_value(sender)))
+                    add_checkbox("horizontal_scrollbar##childdemo", callback=lambda sender, data: configure_item("testchild##demo", horizontal_scrollbar=get_value(sender)))
+                    add_checkbox("border##childdemo", default_value=True, callback=lambda sender, data: configure_item("testchild##demo", border=get_value(sender)))
+                with child("testchild##demo", width=500, height=500):
+                    set_item_color("testchild##demo", mvGuiCol_ChildBg, [255, 0, 0, 100])
+                    with menu_bar("MenuBartestChild##demo"):
+                        with menu("Menu##testchild##demo"):
+                            pass
+                    for i in range(0, 100):
+                        add_text("A pretty long sentence if you really think about it. It's also pointless.")
 
             with tree_node("Widgets Width##demo"):
                 

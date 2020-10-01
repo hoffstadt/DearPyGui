@@ -142,7 +142,8 @@ def menu(name: str, label: str = "__DearPyGuiDefault", show: bool = True, tip: s
 
 @contextmanager
 def child(name: str, show: bool = True, tip: str = "", parent: str = "", before: str = "", width: int = 0,
-          height: int = 0, border: bool = True, popup: str = ""):
+          height: int = 0, border: bool = True, popup: str = "", autosize_x: bool = False, autosize_y: bool = False,
+          no_scrollbar: bool = False, horizontal_scrollbar: bool = False, menubar: bool = False):
     """Wraps add_child() and automates calling end().
 
     Args:
@@ -156,13 +157,19 @@ def child(name: str, show: bool = True, tip: str = "", parent: str = "", before:
         height: Height of the item.
         border: Shows/Hides the border around the sides
         popup: Name of the popup that will be tied to this item.
+        autosize_x: Autosize the window to fit its items in the x.
+        autosize_y: Autosize the window to fit its items in the y.
+        no_scrollbar: Disable scrollbars (window can still scroll with mouse or programmatically)
+        menubar: adds a bar to add menus
 
     Returns:
         None
     """
     try: 
         yield internal_dpg.add_child(name, show=show, tip=tip, parent=parent, before=before, width=width,
-                                     height=height, border=border, popup=popup)
+                                     height=height, border=border, popup=popup, autosize_x=autosize_x, autosize_y=autosize_y,
+                                     no_scrollbar=no_scrollbar, horizontal_scrollbar=horizontal_scrollbar,
+                                     menubar=menubar)
     finally:
         internal_dpg.end()
 

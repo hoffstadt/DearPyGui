@@ -58,8 +58,8 @@ namespace Marvel {
 			if (m_color.specified)
 				ImGui::PushStyleColor(ImGuiCol_Text, m_color);
 
-			if (m_wrap != 0)
-				ImGui::PushTextWrapPos(ImGui::GetCursorPos().x + (float)m_wrap);
+			if (m_wrap >= 0)
+				ImGui::PushTextWrapPos((float)m_wrap);
 
 			if (m_bullet)
 				ImGui::Bullet();
@@ -67,7 +67,7 @@ namespace Marvel {
 			//ImGui::Text("%s", m_value.c_str());
 			ImGui::TextUnformatted(m_value->c_str()); // this doesn't have a buffer size limit
 
-			if (m_wrap != 0)
+			if (m_wrap >= 0)
 				ImGui::PopTextWrapPos();
 
 			if (m_color.specified)
