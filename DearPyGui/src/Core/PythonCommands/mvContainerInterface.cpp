@@ -142,6 +142,11 @@ namespace Marvel {
 			{mvPythonDataType::Integer, "height", ""},
 			{mvPythonDataType::Bool, "border", ""},
 			{mvPythonDataType::String, "popup", ""},
+			{mvPythonDataType::Bool, "autosize_x", "Autosize the window to fit it's items in the x."},
+			{mvPythonDataType::Bool, "autosize_y", "Autosize the window to fit it's items in the y."},
+			{mvPythonDataType::Bool, "no_scrollbar" ," Disable scrollbars (window can still scroll with mouse or programmatically)"},
+			{mvPythonDataType::Bool, "horizontal_scrollbar" ,"Allow horizontal scrollbar to appear (off by default)."},
+			{mvPythonDataType::Bool, "menubar"},
 		}, "Adds an embedded child window. Will show scrollbars when items do not fit. Must be followed by a call to end_child.",
 		"None", "Containers") });
 
@@ -468,9 +473,15 @@ namespace Marvel {
 		int height = 0;
 		int border = true;
 		const char* popup = "";
+		int autosize_x = false;
+		int autosize_y = false;
+		int no_scrollbar = false;
+		int horizontal_scrollbar = false;
+		int menubar = false;
 
 		if (!(*mvApp::GetApp()->getParsers())["add_child"].parse(args, kwargs, __FUNCTION__, &name,
-			&show, &tip, &parent, &before, &width, &height, &border, &popup))
+			&show, &tip, &parent, &before, &width, &height, &border, &popup, &autosize_x, 
+			&autosize_y, &no_scrollbar, &horizontal_scrollbar, &menubar))
 			return ToPyBool(false);
 
 		mvAppItem* item = new mvChild(name);

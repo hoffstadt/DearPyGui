@@ -25,7 +25,9 @@ def add_checkbox(name: str, default_value: bool = False, callback: Callable = No
 	"""Adds a checkbox widget."""
 	...
 
-def add_child(name: str, show: bool = True, tip: str = "", parent: str = "", before: str = "", width: int = 0, height: int = 0, border: bool = True, popup: str = "") -> None:
+def add_child(name: str, show: bool = True, tip: str = "", parent: str = "", before: str = "", width: int = 0, 
+			  height: int = 0, border: bool = True, popup: str = "", autosize_x: bool = False, autosize_y: bool = False, no_scrollbar: bool = False,
+			  horizontal_scrollbar: bool = False, menubar: bool = False) -> None:
 	"""Adds an embedded child window. Will show scrollbars when items do not fit. Must be followed by a call to end_child."""
 	...
 
