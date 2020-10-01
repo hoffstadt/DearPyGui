@@ -187,7 +187,9 @@ def add_indent(name: str = "indent", offset: float = 0.0, parent: str = "", befo
 	"""Adds an indent to following items. Must be closed with the unindent command."""
 	...
 
-def add_input_float(name: str, default_value: float = 0.0, format: str = "%.3f", callback: Callable = None, callback_data: Any = None, tip: str = "", parent: str = "", before: str = "", source: str = "", width: int = ..., on_enter: bool = False, label: str = "", popup: str = "", show: bool = True) -> None:
+def add_input_float(name: str, default_value: float = 0.0, format: str = "%.3f", callback: Callable = None, callback_data: Any = None, 
+					tip: str = "", parent: str = "", before: str = "", source: str = "", width: int = ..., on_enter: bool = False,
+				   label: str = "", popup: str = "", show: bool = True, step: float = 0.1, step_fast: float = 1.0) -> None:
 	"""Adds input for float values."""
 	...
 

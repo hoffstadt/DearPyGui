@@ -29,13 +29,15 @@ HOW TO UPDATE?
 Decorated log: https://github.com/hoffstadt/DearPyGui/releases/tag/v0.4.3
 
 New Keywords:
-- Text:           Added "source" keyword
-- Text:           Added "default_value" keyword
-- child:          Added "autosize_x" keyword
-- child:          Added "autosize_y" keyword
-- child:          Added "no_scrollbar" keyword
-- child:          Added "horizontal_scrollbar" keyword
-- child:          Added "menubar" keyword
+- Text:           Added "source"
+- Text:           Added "default_value"
+- child:          Added "autosize_x"
+- child:          Added "autosize_y"
+- child:          Added "no_scrollbar"
+- child:          Added "horizontal_scrollbar"
+- child:          Added "menubar"
+- input_float:    Added "step"
+- input_float:    Added "step_fast"
 
 Changes:
 - Text:           Text is wrapped by default now.

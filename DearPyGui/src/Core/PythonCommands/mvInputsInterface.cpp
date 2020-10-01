@@ -116,6 +116,8 @@ namespace Marvel {
 			{mvPythonDataType::String, "label"},
 			{mvPythonDataType::String, "popup"},
 			{mvPythonDataType::Bool, "show"},
+			{mvPythonDataType::Float, "step"},
+			{mvPythonDataType::Float, "step_fast"},
 		}, "Adds input for float values.", "None", "Adding Widgets") });
 
 		parsers->insert({ "add_input_float2", mvPythonParser({
@@ -403,10 +405,12 @@ namespace Marvel {
 		const char* label = "";
 		const char* popup = "";
 		int show = false;
+		float step = 0.1f;
+		float step_fast = 1.0f;
 
 		if (!(*mvApp::GetApp()->getParsers())["add_input_float"].parse(args, kwargs, __FUNCTION__, &name,
 			&default_value, &format, &callback, &callback_data, &tip, &parent, &before, &source, &width, &on_enter,
-			&label, &popup, &show))
+			&label, &popup, &show, &step, &step_fast))
 			return ToPyBool(false);
 
 		mvAppItem* item = new mvInputFloat(name, default_value, source);
