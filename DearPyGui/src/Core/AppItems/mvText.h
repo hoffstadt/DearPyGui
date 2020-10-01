@@ -45,8 +45,8 @@ namespace Marvel {
 
 		MV_APPITEM_TYPE(mvAppItemType::Text, "add_text")
 
-		mvText(const std::string& name)
-			: mvStringPtrBase(name, name, name)
+		mvText(const std::string& name, const std::string& default_value, const std::string& dataSource)
+			: mvStringPtrBase(name, default_value.empty() ? name : default_value, dataSource)
 		{
 		}
 
