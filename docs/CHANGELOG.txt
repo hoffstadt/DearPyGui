@@ -37,6 +37,9 @@ New Keywords:
 - child:          Added "horizontal_scrollbar" keyword
 - child:          Added "menubar" keyword
 
+Changes:
+- Text:           Text is wrapped by default now.
+
 -----------------------------------------------------------------------
  VERSION 0.4.2 (9/30/2020)
 -----------------------------------------------------------------------
