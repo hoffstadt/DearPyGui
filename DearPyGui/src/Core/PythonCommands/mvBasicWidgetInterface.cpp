@@ -128,6 +128,8 @@ namespace Marvel {
 			{mvPythonDataType::String, "parent", "Parent this item will be added to. (runtime adding)"},
 			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)"},
 			{mvPythonDataType::String, "popup"},
+			{mvPythonDataType::String, "source"},
+			{mvPythonDataType::String, "default_value"},
 			{mvPythonDataType::Bool, "show"},
 		}, "Adds text", "None", "Adding Widgets") });
 
@@ -705,13 +707,15 @@ namespace Marvel {
 		const char* parent = "";
 		const char* popup = "";
 		int show = true;
+		const char* source = "";
+		const char* default_value= "";
 
 
 		if (!(*mvApp::GetApp()->getParsers())["add_text"].parse(args, kwargs, __FUNCTION__, &name, &wrap,
-			&color, &bullet, &tip, &parent, &before, &popup, &show))
+			&color, &bullet, &tip, &parent, &before, &popup, &source, &default_value, &show))
 			return ToPyBool(false);
 
-		mvAppItem* item = new mvText(name);
+		mvAppItem* item = new mvText(name, default_value, source);
 
 		item->checkConfigDict(kwargs);
 		item->setConfigDict(kwargs);

@@ -206,8 +206,7 @@ def show_demo():
                 add_button("Right##demo", arrow=True, direction=mvDir_Right,
                            callback=lambda sender, data: set_value("value", int(get_value("value"))+1))
                 add_same_line()
-                add_text("value")
-                set_value("value", "0")
+                add_text("value", default_value="0")
 
                 add_separator()
 
