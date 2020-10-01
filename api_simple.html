@@ -175,7 +175,8 @@ def menu(name: str, label: str = &#34;__DearPyGuiDefault&#34;, show: bool = True
 
 @contextmanager
 def child(name: str, show: bool = True, tip: str = &#34;&#34;, parent: str = &#34;&#34;, before: str = &#34;&#34;, width: int = 0,
-          height: int = 0, border: bool = True, popup: str = &#34;&#34;):
+          height: int = 0, border: bool = True, popup: str = &#34;&#34;, autosize_x: bool = False, autosize_y: bool = False,
+          no_scrollbar: bool = False, horizontal_scrollbar: bool = False, menubar: bool = False):
     &#34;&#34;&#34;Wraps add_child() and automates calling end().
 
     Args:
@@ -189,43 +190,60 @@ def child(name: str, show: bool = True, tip: str = &#34;&#34;, parent: str = &#3
         height: Height of the item.
         border: Shows/Hides the border around the sides
         popup: Name of the popup that will be tied to this item.
+        autosize_x: Autosize the window to fit its items in the x.
+        autosize_y: Autosize the window to fit its items in the y.
+        no_scrollbar: Disable scrollbars (window can still scroll with mouse or programmatically)
+        menubar: adds a bar to add menus
 
     Returns:
         None
     &#34;&#34;&#34;
     try:
         yield internal_dpg.add_child(name, show=show, tip=tip, parent=parent, before=before, width=width,
-                                     height=height, border=border, popup=popup)
+                                     height=height, border=border, popup=popup, autosize_x=autosize_x, autosize_y=autosize_y,
+                                     no_scrollbar=no_scrollbar, horizontal_scrollbar=horizontal_scrollbar,
+                                     menubar=menubar)
     finally:
         internal_dpg.end()
 
 
 @contextmanager
-def collapsing_header(name: str, default_open: bool = False, closable: bool = False, label: str = &#34;__DearPyGuiDefault&#34;,
-                      show: bool = True, tip: str = &#34;&#34;, parent: str = &#34;&#34;, before: str = &#34;&#34;):
+def collapsing_header(name: str, label: str = &#34;__DearPyGuiDefault&#34;, show: bool = True,
+                      tip: str = &#34;&#34;, parent: str = &#34;&#34;, before: str = &#34;&#34;,closable: bool = False,
+                      default_open: bool = False, open_on_double_click: bool = False, open_on_arrow: bool = False,
+                      leaf: bool = False, bullet: bool = False):
     &#34;&#34;&#34;Wraps add_collapsing_header() and automates calling end().
 
     Args:
         name: Unique name used to programmatically refer to the item. If label is unused this will be the label,
             anything after &#34;##&#34; that occurs in the name will not be shown on screen.
-        default_open: Decides if item is open by default.
-        closable: Decides if the header can be collapsed.
         label: Displayed name of the item.
         show: Decides if the item is shown of not.
         tip: Adds a simple tooltip
         parent: Parent to add this item to. (runtime adding)
         before: This item will be displayed before the specified item in the parent. (runtime adding)
+        closable: Decides if the header can be collapsed.
+        default_open: Decides if item is open by default.
+        open_on_double_click: Need double-click to open node.
+        open_on_arrow: Only open when clicking on the arrow part.
+        leaf: No collapsing, no arrow (use as a convenience for leaf nodes).
+        bullet: Display a bullet instead of arrow.
+
 
     Returns:
         None
     &#34;&#34;&#34;
     try:
         if label == &#34;__DearPyGuiDefault&#34;:
-            yield internal_dpg.add_collapsing_header(name, default_open=default_open, closable=closable, show=show,
-                                                     tip=tip, parent=parent, before=before)
+            yield internal_dpg.add_collapsing_header(name, show=show, tip=tip, parent=parent, before=before,
+                                                     closable=closable, default_open=default_open,
+                                                     open_on_double_click=open_on_double_click,
+                                                     open_on_arrow=open_on_arrow, leaf=leaf, bullet=bullet)
         else:
-            yield internal_dpg.add_collapsing_header(name, default_open=default_open, closable=closable, label=label,
-                                                     show=show, tip=tip, parent=parent, before=before)
+            yield internal_dpg.add_collapsing_header(name, show=show, tip=tip, parent=parent, before=before,
+                                                     closable=closable, default_open=default_open,
+                                                     open_on_double_click=open_on_double_click,
+                                                     open_on_arrow=open_on_arrow, leaf=leaf, bullet=bullet)
     finally:
         internal_dpg.end()
 
@@ -311,19 +329,22 @@ def tab(name: str, closable: bool = False, label: str = &#34;__DearPyGuiDefault&
 
 
 @contextmanager
-def tree_node(name: str, default_open: bool = False, label: str = &#34;__DearPyGuiDefault&#34;, show: bool = True,
-              tip: str = &#34;&#34;, parent: str = &#34;&#34;, before: str = &#34;&#34;, leaf: bool = False, bullet: bool = False):
+def tree_node(name: str, label: str = &#34;__DearPyGuiDefault&#34;, show: bool = True, tip: str = &#34;&#34;, parent: str = &#34;&#34;,
+              before: str = &#34;&#34;, default_open: bool = False, open_on_double_click: bool = False,
+              open_on_arrow: bool = False, leaf: bool = False, bullet: bool = False):
     &#34;&#34;&#34;Wraps add_tree_node() and automates calling end().
 
     Args:
         name: Unique name used to programmatically refer to the item. If label is unused this will be the label,
             anything after &#34;##&#34; that occurs in the name will not be shown on screen.
-        default_open: Decides if the item is open by default.
         label: Displayed name of the item.
         show: Decides if the item is shown of not.
         tip: Adds a simple tooltip.
         parent: Parent to add this item to. (runtime adding)
         before: This item will be displayed before the specified item in the parent. (runtime adding)
+        default_open: Decides if item is open by default.
+        open_on_double_click: Need double-click to open node.
+        open_on_arrow: Only open when clicking on the arrow part.
         leaf: No collapsing, no arrow (use as a convenience for leaf nodes).
         bullet: Display a bullet instead of arrow.
 
@@ -332,11 +353,17 @@ def tree_node(name: str, default_open: bool = False, label: str = &#34;__DearPyG
     &#34;&#34;&#34;
     try:
         if label == &#34;__DearPyGuiDefault&#34;:
-            yield internal_dpg.add_tree_node(name, default_open=default_open, show=show, tip=tip, parent=parent,
-                                             before=before, leaf=leaf, bullet=bullet)
+            yield internal_dpg.add_tree_node(name, show=show, tip=tip, parent=parent,
+                                             before=before, default_open=default_open,
+                                             open_on_double_click=open_on_double_click,
+                                             open_on_arrow=open_on_arrow,
+                                             leaf=leaf, bullet=bullet)
         else:
-            yield internal_dpg.add_tree_node(name, default_open=default_open, label=label, show=show, tip=tip,
-                                             parent=parent, before=before, leaf=leaf, bullet=bullet)
+            yield internal_dpg.add_tree_node(name, show=show, tip=tip, parent=parent,
+                                             before=before, default_open=default_open,
+                                             open_on_double_click=open_on_double_click,
+                                             open_on_arrow=open_on_arrow,
+                                             leaf=leaf, bullet=bullet)
     finally:
         internal_dpg.end()
 
@@ -670,7 +697,7 @@ def get_drawing_size(drawing: str) -&gt; Union[List[int], None]:
             <h2 class="section-title" id="header-functions">Functions</h2>
             <dl>
                 <dt id="dearpygui.simple.child"><code class="name flex">
-                    <span>def <span class="ident">child</span></span>(<span>name: str, show: bool = True, tip: str = '', parent: str = '', before: str = '', width: int = 0, height: int = 0, border: bool = True, popup: str = '')</span>
+                    <span>def <span class="ident">child</span></span>(<span>name: str, show: bool = True, tip: str = '', parent: str = '', before: str = '', width: int = 0, height: int = 0, border: bool = True, popup: str = '', autosize_x: bool = False, autosize_y: bool = False, no_scrollbar: bool = False, horizontal_scrollbar: bool = False, menubar: bool = False)</span>
                 </code></dt>
                 <dd>
                     <div class="desc"><p>Wraps add_child() and automates calling end().</p>
@@ -695,6 +722,14 @@ def get_drawing_size(drawing: str) -&gt; Union[List[int], None]:
                             <dd>Shows/Hides the border around the sides</dd>
                             <dt><strong><code>popup</code></strong></dt>
                             <dd>Name of the popup that will be tied to this item.</dd>
+                            <dt><strong><code>autosize_x</code></strong></dt>
+                            <dd>Autosize the window to fit its items in the x.</dd>
+                            <dt><strong><code>autosize_y</code></strong></dt>
+                            <dd>Autosize the window to fit its items in the y.</dd>
+                            <dt><strong><code>no_scrollbar</code></strong></dt>
+                            <dd>Disable scrollbars (window can still scroll with mouse or programmatically)</dd>
+                            <dt><strong><code>menubar</code></strong></dt>
+                            <dd>adds a bar to add menus</dd>
                         </dl>
                         <h2 id="returns">Returns</h2>
                         <p>None</p></div>
@@ -704,7 +739,8 @@ def get_drawing_size(drawing: str) -&gt; Union[List[int], None]:
                         </summary>
                         <pre><code class="python">@contextmanager
 def child(name: str, show: bool = True, tip: str = &#34;&#34;, parent: str = &#34;&#34;, before: str = &#34;&#34;, width: int = 0,
-          height: int = 0, border: bool = True, popup: str = &#34;&#34;):
+          height: int = 0, border: bool = True, popup: str = &#34;&#34;, autosize_x: bool = False, autosize_y: bool = False,
+          no_scrollbar: bool = False, horizontal_scrollbar: bool = False, menubar: bool = False):
     &#34;&#34;&#34;Wraps add_child() and automates calling end().
 
     Args:
@@ -718,19 +754,25 @@ def child(name: str, show: bool = True, tip: str = &#34;&#34;, parent: str = &#3
         height: Height of the item.
         border: Shows/Hides the border around the sides
         popup: Name of the popup that will be tied to this item.
+        autosize_x: Autosize the window to fit its items in the x.
+        autosize_y: Autosize the window to fit its items in the y.
+        no_scrollbar: Disable scrollbars (window can still scroll with mouse or programmatically)
+        menubar: adds a bar to add menus
 
     Returns:
         None
     &#34;&#34;&#34;
     try:
         yield internal_dpg.add_child(name, show=show, tip=tip, parent=parent, before=before, width=width,
-                                     height=height, border=border, popup=popup)
+                                     height=height, border=border, popup=popup, autosize_x=autosize_x, autosize_y=autosize_y,
+                                     no_scrollbar=no_scrollbar, horizontal_scrollbar=horizontal_scrollbar,
+                                     menubar=menubar)
     finally:
         internal_dpg.end()</code></pre>
                     </details>
                 </dd>
                 <dt id="dearpygui.simple.collapsing_header"><code class="name flex">
-                    <span>def <span class="ident">collapsing_header</span></span>(<span>name: str, default_open: bool = False, closable: bool = False, label: str = '__DearPyGuiDefault', show: bool = True, tip: str = '', parent: str = '', before: str = '')</span>
+                    <span>def <span class="ident">collapsing_header</span></span>(<span>name: str, label: str = '__DearPyGuiDefault', show: bool = True, tip: str = '', parent: str = '', before: str = '', closable: bool = False, default_open: bool = False, open_on_double_click: bool = False, open_on_arrow: bool = False, leaf: bool = False, bullet: bool = False)</span>
                 </code></dt>
                 <dd>
                     <div class="desc"><p>Wraps add_collapsing_header() and automates calling end().</p>
@@ -739,10 +781,6 @@ def child(name: str, show: bool = True, tip: str = &#34;&#34;, parent: str = &#3
                             <dt><strong><code>name</code></strong></dt>
                             <dd>Unique name used to programmatically refer to the item. If label is unused this will be the label,
                                 anything after "##" that occurs in the name will not be shown on screen.</dd>
-                            <dt><strong><code>default_open</code></strong></dt>
-                            <dd>Decides if item is open by default.</dd>
-                            <dt><strong><code>closable</code></strong></dt>
-                            <dd>Decides if the header can be collapsed.</dd>
                             <dt><strong><code>label</code></strong></dt>
                             <dd>Displayed name of the item.</dd>
                             <dt><strong><code>show</code></strong></dt>
@@ -753,6 +791,18 @@ def child(name: str, show: bool = True, tip: str = &#34;&#34;, parent: str = &#3
                             <dd>Parent to add this item to. (runtime adding)</dd>
                             <dt><strong><code>before</code></strong></dt>
                             <dd>This item will be displayed before the specified item in the parent. (runtime adding)</dd>
+                            <dt><strong><code>closable</code></strong></dt>
+                            <dd>Decides if the header can be collapsed.</dd>
+                            <dt><strong><code>default_open</code></strong></dt>
+                            <dd>Decides if item is open by default.</dd>
+                            <dt><strong><code>open_on_double_click</code></strong></dt>
+                            <dd>Need double-click to open node.</dd>
+                            <dt><strong><code>open_on_arrow</code></strong></dt>
+                            <dd>Only open when clicking on the arrow part.</dd>
+                            <dt><strong><code>leaf</code></strong></dt>
+                            <dd>No collapsing, no arrow (use as a convenience for leaf nodes).</dd>
+                            <dt><strong><code>bullet</code></strong></dt>
+                            <dd>Display a bullet instead of arrow.</dd>
                         </dl>
                         <h2 id="returns">Returns</h2>
                         <p>None</p></div>
@@ -761,31 +811,42 @@ def child(name: str, show: bool = True, tip: str = &#34;&#34;, parent: str = &#3
                             <span>Expand source code</span>
                         </summary>
                         <pre><code class="python">@contextmanager
-def collapsing_header(name: str, default_open: bool = False, closable: bool = False, label: str = &#34;__DearPyGuiDefault&#34;,
-                      show: bool = True, tip: str = &#34;&#34;, parent: str = &#34;&#34;, before: str = &#34;&#34;):
+def collapsing_header(name: str, label: str = &#34;__DearPyGuiDefault&#34;, show: bool = True,
+                      tip: str = &#34;&#34;, parent: str = &#34;&#34;, before: str = &#34;&#34;,closable: bool = False,
+                      default_open: bool = False, open_on_double_click: bool = False, open_on_arrow: bool = False,
+                      leaf: bool = False, bullet: bool = False):
     &#34;&#34;&#34;Wraps add_collapsing_header() and automates calling end().
 
     Args:
         name: Unique name used to programmatically refer to the item. If label is unused this will be the label,
             anything after &#34;##&#34; that occurs in the name will not be shown on screen.
-        default_open: Decides if item is open by default.
-        closable: Decides if the header can be collapsed.
         label: Displayed name of the item.
         show: Decides if the item is shown of not.
         tip: Adds a simple tooltip
         parent: Parent to add this item to. (runtime adding)
         before: This item will be displayed before the specified item in the parent. (runtime adding)
+        closable: Decides if the header can be collapsed.
+        default_open: Decides if item is open by default.
+        open_on_double_click: Need double-click to open node.
+        open_on_arrow: Only open when clicking on the arrow part.
+        leaf: No collapsing, no arrow (use as a convenience for leaf nodes).
+        bullet: Display a bullet instead of arrow.
+
 
     Returns:
         None
     &#34;&#34;&#34;
     try:
         if label == &#34;__DearPyGuiDefault&#34;:
-            yield internal_dpg.add_collapsing_header(name, default_open=default_open, closable=closable, show=show,
-                                                     tip=tip, parent=parent, before=before)
+            yield internal_dpg.add_collapsing_header(name, show=show, tip=tip, parent=parent, before=before,
+                                                     closable=closable, default_open=default_open,
+                                                     open_on_double_click=open_on_double_click,
+                                                     open_on_arrow=open_on_arrow, leaf=leaf, bullet=bullet)
         else:
-            yield internal_dpg.add_collapsing_header(name, default_open=default_open, closable=closable, label=label,
-                                                     show=show, tip=tip, parent=parent, before=before)
+            yield internal_dpg.add_collapsing_header(name, show=show, tip=tip, parent=parent, before=before,
+                                                     closable=closable, default_open=default_open,
+                                                     open_on_double_click=open_on_double_click,
+                                                     open_on_arrow=open_on_arrow, leaf=leaf, bullet=bullet)
     finally:
         internal_dpg.end()</code></pre>
                     </details>
@@ -1832,7 +1893,7 @@ def tooltip(tipparent: str, name: str, parent: str = &#34;&#34;, before: str = &
                     </details>
                 </dd>
                 <dt id="dearpygui.simple.tree_node"><code class="name flex">
-                    <span>def <span class="ident">tree_node</span></span>(<span>name: str, default_open: bool = False, label: str = '__DearPyGuiDefault', show: bool = True, tip: str = '', parent: str = '', before: str = '', leaf: bool = False, bullet: bool = False)</span>
+                    <span>def <span class="ident">tree_node</span></span>(<span>name: str, label: str = '__DearPyGuiDefault', show: bool = True, tip: str = '', parent: str = '', before: str = '', default_open: bool = False, open_on_double_click: bool = False, open_on_arrow: bool = False, leaf: bool = False, bullet: bool = False)</span>
                 </code></dt>
                 <dd>
                     <div class="desc"><p>Wraps add_tree_node() and automates calling end().</p>
@@ -1841,8 +1902,6 @@ def tooltip(tipparent: str, name: str, parent: str = &#34;&#34;, before: str = &
                             <dt><strong><code>name</code></strong></dt>
                             <dd>Unique name used to programmatically refer to the item. If label is unused this will be the label,
                                 anything after "##" that occurs in the name will not be shown on screen.</dd>
-                            <dt><strong><code>default_open</code></strong></dt>
-                            <dd>Decides if the item is open by default.</dd>
                             <dt><strong><code>label</code></strong></dt>
                             <dd>Displayed name of the item.</dd>
                             <dt><strong><code>show</code></strong></dt>
@@ -1853,6 +1912,12 @@ def tooltip(tipparent: str, name: str, parent: str = &#34;&#34;, before: str = &
                             <dd>Parent to add this item to. (runtime adding)</dd>
                             <dt><strong><code>before</code></strong></dt>
                             <dd>This item will be displayed before the specified item in the parent. (runtime adding)</dd>
+                            <dt><strong><code>default_open</code></strong></dt>
+                            <dd>Decides if item is open by default.</dd>
+                            <dt><strong><code>open_on_double_click</code></strong></dt>
+                            <dd>Need double-click to open node.</dd>
+                            <dt><strong><code>open_on_arrow</code></strong></dt>
+                            <dd>Only open when clicking on the arrow part.</dd>
                             <dt><strong><code>leaf</code></strong></dt>
                             <dd>No collapsing, no arrow (use as a convenience for leaf nodes).</dd>
                             <dt><strong><code>bullet</code></strong></dt>
@@ -1865,19 +1930,22 @@ def tooltip(tipparent: str, name: str, parent: str = &#34;&#34;, before: str = &
                             <span>Expand source code</span>
                         </summary>
                         <pre><code class="python">@contextmanager
-def tree_node(name: str, default_open: bool = False, label: str = &#34;__DearPyGuiDefault&#34;, show: bool = True,
-              tip: str = &#34;&#34;, parent: str = &#34;&#34;, before: str = &#34;&#34;, leaf: bool = False, bullet: bool = False):
+def tree_node(name: str, label: str = &#34;__DearPyGuiDefault&#34;, show: bool = True, tip: str = &#34;&#34;, parent: str = &#34;&#34;,
+              before: str = &#34;&#34;, default_open: bool = False, open_on_double_click: bool = False,
+              open_on_arrow: bool = False, leaf: bool = False, bullet: bool = False):
     &#34;&#34;&#34;Wraps add_tree_node() and automates calling end().
 
     Args:
         name: Unique name used to programmatically refer to the item. If label is unused this will be the label,
             anything after &#34;##&#34; that occurs in the name will not be shown on screen.
-        default_open: Decides if the item is open by default.
         label: Displayed name of the item.
         show: Decides if the item is shown of not.
         tip: Adds a simple tooltip.
         parent: Parent to add this item to. (runtime adding)
         before: This item will be displayed before the specified item in the parent. (runtime adding)
+        default_open: Decides if item is open by default.
+        open_on_double_click: Need double-click to open node.
+        open_on_arrow: Only open when clicking on the arrow part.
         leaf: No collapsing, no arrow (use as a convenience for leaf nodes).
         bullet: Display a bullet instead of arrow.
 
@@ -1886,11 +1954,17 @@ def tree_node(name: str, default_open: bool = False, label: str = &#34;__DearPyG
     &#34;&#34;&#34;
     try:
         if label == &#34;__DearPyGuiDefault&#34;:
-            yield internal_dpg.add_tree_node(name, default_open=default_open, show=show, tip=tip, parent=parent,
-                                             before=before, leaf=leaf, bullet=bullet)
+            yield internal_dpg.add_tree_node(name, show=show, tip=tip, parent=parent,
+                                             before=before, default_open=default_open,
+                                             open_on_double_click=open_on_double_click,
+                                             open_on_arrow=open_on_arrow,
+                                             leaf=leaf, bullet=bullet)
         else:
-            yield internal_dpg.add_tree_node(name, default_open=default_open, label=label, show=show, tip=tip,
-                                             parent=parent, before=before, leaf=leaf, bullet=bullet)
+            yield internal_dpg.add_tree_node(name, show=show, tip=tip, parent=parent,
+                                             before=before, default_open=default_open,
+                                             open_on_double_click=open_on_double_click,
+                                             open_on_arrow=open_on_arrow,
+                                             leaf=leaf, bullet=bullet)
     finally:
         internal_dpg.end()</code></pre>
                     </details>
@@ -2022,7 +2096,7 @@ def window(name: str, width: int = 200, height: int = 200, x_pos: int = 200, y_p
         <ul id="index">
             <li><h3>Super-module</h3>
                 <ul>
-                    <li><code><a title="dearpygui" href="index.html">dearpygui</a></code></li>
+                    <li><code><a title="dearpygui" href="api_docs.html">dearpygui</a></code></li>
                 </ul>
             </li>
             <li><h3><a href="#header-functions">Functions</a></h3>
