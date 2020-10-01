@@ -15,6 +15,14 @@ namespace Marvel {
 		{
 		}
 
+		mvScatterSeries(const std::string& name, const std::vector<float>& points_x, const std::vector<float>& points_y, 
+			int marker, float markerSize, float markerWeight,
+			mvColor markerOutlineColor, mvColor markerFillColor)
+			: mvSeries(name, points_x, points_y), m_marker(marker), m_markerSize(markerSize), m_markerWeight(markerWeight),
+			m_markerOutlineColor(markerOutlineColor), m_markerFillColor(markerFillColor)
+		{
+		}
+
 		mvSeriesType getSeriesType() override { return mvSeriesType::Scatter; }
 
 		void draw() override

@@ -14,6 +14,12 @@ namespace Marvel {
 		{
 		}
 
+		mvLineSeries(const std::string& name, const std::vector<float>& points_x,
+			const std::vector<float>& points_y, mvColor color)
+			: mvSeries(name, points_x, points_y), m_color(color)
+		{
+		}
+
 		mvSeriesType getSeriesType() override { return mvSeriesType::Line; }
 
 		void draw() override

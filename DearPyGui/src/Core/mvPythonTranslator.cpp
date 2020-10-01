@@ -604,6 +604,32 @@ namespace Marvel {
 		return items;
 	}
 
+	std::pair<std::vector<float>, std::vector<float>> ToPairVec(PyObject* value, const std::string& message)
+	{
+		std::pair<std::vector<float>, std::vector<float>> items;
+		if (value == nullptr)
+			return items;
+		mvGlobalIntepreterLock gil;
+
+		if (PyTuple_Check(value))
+		{
+			if (PyTuple_Size(value) != 2) ThrowPythonException(message);
+			items.first = ToFloatVect(PyTuple_GetItem(value, 0), message);
+			items.second = ToFloatVect(PyTuple_GetItem(value, 1), message);
+		}
+		else if (PyList_Check(value))
+		{
+			if (PyList_Size(value) != 2) ThrowPythonException(message);
+			items.first = ToFloatVect(PyList_GetItem(value, 0), message);
+			items.second = ToFloatVect(PyList_GetItem(value, 1), message);
+		}
+
+		else
+			ThrowPythonException(message);
+
+		return items;
+	}
+
 	std::vector<mvVec4> ToVectVec4(PyObject* value, const std::string& message)
 	{
 		std::vector<mvVec4> items;
