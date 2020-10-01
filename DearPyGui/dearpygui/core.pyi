@@ -415,7 +415,7 @@ def add_table(name: str, headers: List[str], callback: Callable = None, callback
 	...
 
 def add_text(name: str, wrap: int = 0, color: List[float] = [0, 0, 0, -1], bullet: bool = False, tip: str = "", parent: str = "", 
-			 before: str = "", label: str = "", popup: str = "", show: bool = True, source: str = "", default_value: str = "") -> None:
+			 before: str = "", popup: str = "", show: bool = True, source: str = "", default_value: str = "") -> None:
 	"""Adds text."""
 	...
 
