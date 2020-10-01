@@ -175,31 +175,42 @@ def child(name: str, show: bool = True, tip: str = "", parent: str = "", before:
 
 
 @contextmanager
-def collapsing_header(name: str, default_open: bool = False, closable: bool = False, label: str = "__DearPyGuiDefault",
-                      show: bool = True, tip: str = "", parent: str = "", before: str = ""):
+def collapsing_header(name: str, label: str = "__DearPyGuiDefault", show: bool = True, 
+                      tip: str = "", parent: str = "", before: str = "",closable: bool = False, 
+                      default_open: bool = False, open_on_double_click: bool = False, open_on_arrow: bool = False, 
+                      leaf: bool = False, bullet: bool = False):
     """Wraps add_collapsing_header() and automates calling end().
 
     Args:
         name: Unique name used to programmatically refer to the item. If label is unused this will be the label,
             anything after "##" that occurs in the name will not be shown on screen.
-        default_open: Decides if item is open by default.
-        closable: Decides if the header can be collapsed.
         label: Displayed name of the item.
         show: Decides if the item is shown of not.
         tip: Adds a simple tooltip
         parent: Parent to add this item to. (runtime adding)
         before: This item will be displayed before the specified item in the parent. (runtime adding)
+        closable: Decides if the header can be collapsed.
+        default_open: Decides if item is open by default.
+        open_on_double_click: Need double-click to open node.
+        open_on_arrow: Only open when clicking on the arrow part.
+        leaf: No collapsing, no arrow (use as a convenience for leaf nodes).
+        bullet: Display a bullet instead of arrow.
+
 
     Returns:
         None
     """
     try:
         if label == "__DearPyGuiDefault":
-            yield internal_dpg.add_collapsing_header(name, default_open=default_open, closable=closable, show=show,
-                                                     tip=tip, parent=parent, before=before)
+            yield internal_dpg.add_collapsing_header(name, show=show, tip=tip, parent=parent, before=before, 
+                                                     closable=closable, default_open=default_open, 
+                                                     open_on_double_click=open_on_double_click,
+                                                     open_on_arrow=open_on_arrow, leaf=leaf, bullet=bullet)
         else:
-            yield internal_dpg.add_collapsing_header(name, default_open=default_open, closable=closable, label=label,
-                                                     show=show, tip=tip, parent=parent, before=before)
+            yield internal_dpg.add_collapsing_header(name, show=show, tip=tip, parent=parent, before=before, 
+                                                     closable=closable, default_open=default_open, 
+                                                     open_on_double_click=open_on_double_click,
+                                                     open_on_arrow=open_on_arrow, leaf=leaf, bullet=bullet)
     finally:
         internal_dpg.end()
 
@@ -285,19 +296,22 @@ def tab(name: str, closable: bool = False, label: str = "__DearPyGuiDefault", sh
 
 
 @contextmanager
-def tree_node(name: str, default_open: bool = False, label: str = "__DearPyGuiDefault", show: bool = True,
-              tip: str = "", parent: str = "", before: str = "", leaf: bool = False, bullet: bool = False):
+def tree_node(name: str, label: str = "__DearPyGuiDefault", show: bool = True, tip: str = "", parent: str = "", 
+              before: str = "", default_open: bool = False, open_on_double_click: bool = False, 
+              open_on_arrow: bool = False, leaf: bool = False, bullet: bool = False):
     """Wraps add_tree_node() and automates calling end().
 
     Args:
         name: Unique name used to programmatically refer to the item. If label is unused this will be the label,
             anything after "##" that occurs in the name will not be shown on screen.
-        default_open: Decides if the item is open by default.
         label: Displayed name of the item.
         show: Decides if the item is shown of not.
         tip: Adds a simple tooltip.
         parent: Parent to add this item to. (runtime adding)
         before: This item will be displayed before the specified item in the parent. (runtime adding)
+        default_open: Decides if item is open by default.
+        open_on_double_click: Need double-click to open node.
+        open_on_arrow: Only open when clicking on the arrow part.
         leaf: No collapsing, no arrow (use as a convenience for leaf nodes).
         bullet: Display a bullet instead of arrow.
 
@@ -306,11 +320,17 @@ def tree_node(name: str, default_open: bool = False, label: str = "__DearPyGuiDe
     """
     try:
         if label == "__DearPyGuiDefault":
-            yield internal_dpg.add_tree_node(name, default_open=default_open, show=show, tip=tip, parent=parent,
-                                             before=before, leaf=leaf, bullet=bullet)
+            yield internal_dpg.add_tree_node(name, show=show, tip=tip, parent=parent,
+                                             before=before, default_open=default_open, 
+                                             open_on_double_click=open_on_double_click, 
+                                             open_on_arrow=open_on_arrow,
+                                             leaf=leaf, bullet=bullet)
         else:
-            yield internal_dpg.add_tree_node(name, default_open=default_open, label=label, show=show, tip=tip,
-                                             parent=parent, before=before, leaf=leaf, bullet=bullet)
+            yield internal_dpg.add_tree_node(name, show=show, tip=tip, parent=parent,
+                                             before=before, default_open=default_open, 
+                                             open_on_double_click=open_on_double_click, 
+                                             open_on_arrow=open_on_arrow,
+                                             leaf=leaf, bullet=bullet)
     finally:
         internal_dpg.end()
 
