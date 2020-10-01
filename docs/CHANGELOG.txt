@@ -29,23 +29,23 @@ HOW TO UPDATE?
 Decorated log: https://github.com/hoffstadt/DearPyGui/releases/tag/v0.4.3
 
 New Keywords:
-- Text:           Added "source"
-- Text:           Added "default_value"
+- Text:              Added "source"
+- Text:              Added "default_value"
 - Collapsing Header: Added "open_on_double_click"
 - Collapsing Header: Added "open_on_arrow"
 - Collapsing Header: Added "leaf"
 - Collapsing Header: Added "bullet"
-- Tree Node: Added "open_on_double_click"
-- Tree Node: Added "open_on_arrow"
-- Tree Node: Added "leaf"
-- Tree Node: Added "bullet"
-- child:          Added "autosize_x"
-- child:          Added "autosize_y"
-- child:          Added "no_scrollbar"
-- child:          Added "horizontal_scrollbar"
-- child:          Added "menubar"
-- input_float:    Added "step"
-- input_float:    Added "step_fast"
+- Tree Node:         Added "open_on_double_click"
+- Tree Node:         Added "open_on_arrow"
+- Tree Node:         Added "leaf"
+- Tree Node:         Added "bullet"
+- child:             Added "autosize_x"
+- child:             Added "autosize_y"
+- child:             Added "no_scrollbar"
+- child:             Added "horizontal_scrollbar"
+- child:             Added "menubar"
+- input_float:       Added "step"
+- input_float:       Added "step_fast"
 
 Changes:
 - Text:           Text is wrapped by default now.
