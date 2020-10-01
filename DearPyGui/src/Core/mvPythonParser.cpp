@@ -183,7 +183,7 @@ namespace Marvel {
 
 			bool adddefault = false;
 
-			for (int i = 0; i < elements.size(); i++)
+			for (size_t i = 0; i < elements.size(); i++)
 			{
 				if (elements[i].type == mvPythonDataType::KeywordOnly || elements[i].type == mvPythonDataType::Optional)
 				{

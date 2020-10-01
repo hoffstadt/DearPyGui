@@ -712,6 +712,7 @@ namespace Marvel {
 			case ValueTypes::Int2: return s_int2s[name].data();
 			case ValueTypes::Int3: return s_int3s[name].data();
 			case ValueTypes::Int4: return s_int4s[name].data();
+			default: return nullptr; // should not get here; silence compiler warning
 			}
 		}
 		return &s_ints["common"];
@@ -726,6 +727,7 @@ namespace Marvel {
 			case ValueTypes::Int2: return s_int2s[name].data();
 			case ValueTypes::Int3: return s_int3s[name].data();
 			case ValueTypes::Int4: return s_int4s[name].data();
+			default: return nullptr; // should not get here; silence compiler warning
 			}
 		}
 		return s_int2s["common"].data();
@@ -739,6 +741,7 @@ namespace Marvel {
 			{
 			case ValueTypes::Int3: return s_int3s[name].data();
 			case ValueTypes::Int4: return s_int4s[name].data();
+			default: return nullptr; // should not get here; silence compiler warning
 			}
 		}
 		return s_int3s["common"].data();
@@ -762,6 +765,7 @@ namespace Marvel {
 			case ValueTypes::Float3: return s_float3s[name].data();
 			case ValueTypes::Float4: return s_float4s[name].data();
 			case ValueTypes::FloatVect: return s_floatvects[name].data();
+			default: return nullptr; // should not get here; silence compiler warning
 			}
 		}
 		return &s_floats["common"];
@@ -777,6 +781,7 @@ namespace Marvel {
 			case ValueTypes::Float3: return s_float3s[name].data();
 			case ValueTypes::Float4: return s_float4s[name].data();
 			case ValueTypes::FloatVect: return s_floatvects[name].data();
+			default: return nullptr; // should not get here; silence compiler warning
 			}
 		}
 		return s_float2s["common"].data();
@@ -791,6 +796,7 @@ namespace Marvel {
 			case ValueTypes::Float3: return s_float3s[name].data();
 			case ValueTypes::Float4: return s_float4s[name].data();
 			case ValueTypes::FloatVect: return s_floatvects[name].data();
+			default: return nullptr; // should not get here; silence compiler warning
 			}
 		}
 		return s_float3s["common"].data();
@@ -805,6 +811,7 @@ namespace Marvel {
 			case ValueTypes::Color: return s_float4s[name].data();
 			case ValueTypes::Float4: return s_float4s[name].data();
 			case ValueTypes::FloatVect: return s_floatvects[name].data();
+			default: return nullptr; // should not get here; silence compiler warning
 			}
 		}
 		return s_float4s["common"].data();
@@ -892,6 +899,7 @@ namespace Marvel {
 			case ValueTypes::Bool: s_bools.erase(name); break;
 			case ValueTypes::FloatVect: s_floatvects.erase(name); break;
 			case ValueTypes::Time: s_times.erase(name); s_imtimes.erase(name); break;
+			default: break; // should not get here; silence compiler warning
 			}
 
 			s_typeStorage.erase(name);

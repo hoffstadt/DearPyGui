@@ -238,9 +238,9 @@ namespace Marvel {
 			&on_enter, &label, &popup, &show))
 			return ToPyBool(false);
 
-		ImGuiInputTextFlags flags = 0;
-		if (on_enter)
-			flags = ImGuiInputTextFlags_EnterReturnsTrue;
+		//ImGuiInputTextFlags flags = 0;
+		//if (on_enter)
+		//	flags = ImGuiInputTextFlags_EnterReturnsTrue;
 
 		auto vec = ToFloatVect(default_value);
 

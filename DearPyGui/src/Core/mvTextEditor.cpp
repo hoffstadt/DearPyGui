@@ -44,13 +44,13 @@ mvTextEditor::mvTextEditor()
 	, mColorRangeMin(0)
 	, mColorRangeMax(0)
 	, mSelectionMode(SelectionMode::Normal)
-	, mCheckComments(true)
-	, mLastClick(-1.0f)
 	, mHandleKeyboardInputs(true)
 	, mHandleMouseInputs(true)
 	, mIgnoreImGuiChild(false)
 	, mShowWhitespaces(true)
+	, mCheckComments(true)
 	, mStartTime(std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count())
+	, mLastClick(-1.0f)
 {
 	SetPalette(GetDarkPalette());
 	SetLanguageDefinition(LanguageDefinition::HLSL());
@@ -446,14 +446,14 @@ mvTextEditor::Coordinates mvTextEditor::FindWordEnd(const Coordinates& aFrom) co
 mvTextEditor::Coordinates mvTextEditor::FindNextWord(const Coordinates& aFrom) const
 {
 	Coordinates at = aFrom;
-	if (at.mLine >= (int)mLines.size())
+	if (static_cast<size_t>(at.mLine) >= mLines.size())
 		return at;
 
 	// skip to the next non-word character
 	auto cindex = GetCharacterIndex(aFrom);
 	bool isword = false;
 	bool skip = false;
-	if (cindex < (int)mLines[at.mLine].size())
+	if (static_cast<size_t>(cindex) < mLines[at.mLine].size())
 	{
 		auto& line = mLines[at.mLine];
 		isword = isalnum(line[cindex].mChar);
@@ -462,14 +462,14 @@ mvTextEditor::Coordinates mvTextEditor::FindNextWord(const Coordinates& aFrom) c
 
 	while (!isword || skip)
 	{
-		if (at.mLine >= mLines.size())
+		if (static_cast<size_t>(at.mLine) >= mLines.size())
 		{
 			auto l = std::max(0, (int)mLines.size() - 1);
 			return Coordinates(l, GetLineMaxColumn(l));
 		}
 
 		auto& line = mLines[at.mLine];
-		if (cindex < (int)line.size())
+		if (static_cast<size_t>(cindex) < line.size())
 		{
 			isword = isalnum(line[cindex].mChar);
 
@@ -495,11 +495,11 @@ mvTextEditor::Coordinates mvTextEditor::FindNextWord(const Coordinates& aFrom) c
 
 int mvTextEditor::GetCharacterIndex(const Coordinates& aCoordinates) const
 {
-	if (aCoordinates.mLine >= mLines.size())
+	if (static_cast<size_t>(aCoordinates.mLine) >= mLines.size())
 		return -1;
 	auto& line = mLines[aCoordinates.mLine];
 	int c = 0;
-	int i = 0;
+	size_t i = 0;
 	for (; i < line.size() && c < aCoordinates.mColumn;)
 	{
 		if (line[i].mChar == '\t')
@@ -513,12 +513,12 @@ int mvTextEditor::GetCharacterIndex(const Coordinates& aCoordinates) const
 
 int mvTextEditor::GetCharacterColumn(int aLine, int aIndex) const
 {
-	if (aLine >= mLines.size())
+	if (static_cast<size_t>(aLine) >= mLines.size())
 		return 0;
 	auto& line = mLines[aLine];
 	int col = 0;
-	int i = 0;
-	while (i < aIndex && i < (int)line.size())
+	size_t i = 0;
+	while (i < static_cast<size_t>(aIndex) && i < line.size())
 	{
 		auto c = line[i].mChar;
 		i += UTF8CharLength(c);
@@ -532,7 +532,7 @@ int mvTextEditor::GetCharacterColumn(int aLine, int aIndex) const
 
 int mvTextEditor::GetLineCharacterCount(int aLine) const
 {
-	if (aLine >= mLines.size())
+	if (static_cast<size_t>(aLine) >= mLines.size())
 		return 0;
 	auto& line = mLines[aLine];
 	int c = 0;
@@ -543,7 +543,7 @@ int mvTextEditor::GetLineCharacterCount(int aLine) const
 
 int mvTextEditor::GetLineMaxColumn(int aLine) const
 {
-	if (aLine >= mLines.size())
+	if (static_cast<size_t>(aLine) >= mLines.size())
 		return 0;
 	auto& line = mLines[aLine];
 	int col = 0;
@@ -1017,7 +1017,7 @@ void mvTextEditor::Render()
 			auto prevColor = line.empty() ? mPalette[(int)PaletteIndex::Default] : GetGlyphColor(line[0]);
 			ImVec2 bufferOffset;
 
-			for (int i = 0; i < line.size();)
+			for (size_t i = 0; i < line.size();)
 			{
 				auto& glyph = line[i];
 				auto color = GetGlyphColor(glyph);
@@ -1446,7 +1446,7 @@ void mvTextEditor::SetSelection(const Coordinates& aStart, const Coordinates& aE
 	case mvTextEditor::SelectionMode::Line:
 	{
 		const auto lineNo = mState.mSelectionEnd.mLine;
-		const auto lineSize = (size_t)lineNo < mLines.size() ? mLines[lineNo].size() : 0;
+		//const auto lineSize = static_cast<size_t>(lineNo) < mLines.size() ? mLines[lineNo].size() : 0;
 		mState.mSelectionStart = Coordinates(mState.mSelectionStart.mLine, 0);
 		mState.mSelectionEnd = Coordinates(lineNo, GetLineMaxColumn(lineNo));
 		break;
@@ -1629,7 +1629,7 @@ void mvTextEditor::MoveRight(int aAmount, bool aSelect, bool aWordMode)
 {
 	auto oldPos = mState.mCursorPosition;
 
-	if (mLines.empty() || oldPos.mLine >= mLines.size())
+	if (mLines.empty() || static_cast<size_t>(oldPos.mLine) >= mLines.size())
 		return;
 
 	auto cindex = GetCharacterIndex(mState.mCursorPosition);
@@ -1638,9 +1638,9 @@ void mvTextEditor::MoveRight(int aAmount, bool aSelect, bool aWordMode)
 		auto lindex = mState.mCursorPosition.mLine;
 		auto& line = mLines[lindex];
 
-		if (cindex >= line.size())
+		if (static_cast<size_t>(cindex) >= line.size())
 		{
-			if (mState.mCursorPosition.mLine < mLines.size() - 1)
+			if (static_cast<size_t>(mState.mCursorPosition.mLine) < mLines.size() - 1)
 			{
 				mState.mCursorPosition.mLine = std::max(0, std::min((int)mLines.size() - 1, mState.mCursorPosition.mLine + 1));
 				mState.mCursorPosition.mColumn = 0;
@@ -1866,7 +1866,7 @@ void mvTextEditor::Backspace()
 		else
 		{
 			auto& line = mLines[mState.mCursorPosition.mLine];
-			auto cindex = GetCharacterIndex(pos) - 1;
+			size_t cindex = GetCharacterIndex(pos) - 1;
 			auto cend = cindex + 1;
 			while (cindex > 0 && IsUTFSequence(line[cindex].mChar))
 				--cindex;
@@ -2265,7 +2265,7 @@ void mvTextEditor::ColorizeInternal()
 		auto withinPreproc = false;
 		auto firstChar = true;			// there is no other non-whitespace characters in the line before
 		auto concatenate = false;		// '\' on the very end of the line
-		auto currentLine = 0;
+		size_t currentLine = 0;
 		auto currentIndex = 0;
 		while (currentLine < endLine || currentIndex < endIndex)
 		{
@@ -2345,7 +2345,7 @@ void mvTextEditor::ColorizeInternal()
 							commentStartIndex = currentIndex;
 						}
 
-						inComment = inComment = (commentStartLine < currentLine || (commentStartLine == currentLine && commentStartIndex <= currentIndex));
+						inComment = (commentStartLine < currentLine || (commentStartLine == currentLine && commentStartIndex <= currentIndex));
 
 						line[currentIndex].mMultiLineComment = inComment;
 						line[currentIndex].mComment = withinSingleLineComment;
@@ -2397,7 +2397,7 @@ float mvTextEditor::TextDistanceToLineStart(const Coordinates& aFrom) const
 	auto& line = mLines[aFrom.mLine];
 	float distance = 0.0f;
 	float spaceSize = ImGui::GetFont()->CalcTextSizeA(ImGui::GetFontSize(), FLT_MAX, -1.0f, " ", nullptr, nullptr).x;
-	int colIndex = GetCharacterIndex(aFrom);
+	size_t colIndex = GetCharacterIndex(aFrom);
 	for (size_t it = 0u; it < line.size() && it < colIndex; )
 	{
 		if (line[it].mChar == '\t')
@@ -2410,7 +2410,7 @@ float mvTextEditor::TextDistanceToLineStart(const Coordinates& aFrom) const
 			auto d = UTF8CharLength(line[it].mChar);
 			char tempCString[7];
 			int i = 0;
-			for (; i < 6 && d-- > 0 && it < (int)line.size(); i++, it++)
+			for (; i < 6 && d-- > 0 && it < line.size(); i++, it++)
 				tempCString[i] = line[it].mChar;
 
 			tempCString[i] = '\0';

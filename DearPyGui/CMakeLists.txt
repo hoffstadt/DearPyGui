@@ -45,6 +45,7 @@ set(MARVEL_SOURCES
 
 	"src/Core/mvPythonTranslator.cpp"
 	"src/Core/mvPythonParser.cpp"
+	"src/Core/mvPythonExceptions.cpp"
 
 	"src/Core/PythonCommands/mvInterfaceCore.cpp"
 	"src/Core/PythonCommands/mvPlotInterface.cpp"

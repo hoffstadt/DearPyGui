@@ -33,7 +33,7 @@ namespace Marvel {
         glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, image_width, image_height, 0, GL_RGBA, GL_UNSIGNED_BYTE, image_data);
         stbi_image_free(image_data);
 
-        storage.texture = (void *)image_texture;
+        storage.texture = reinterpret_cast<void *>(image_texture);
         storage.width = image_width;
         storage.height = image_height;
 

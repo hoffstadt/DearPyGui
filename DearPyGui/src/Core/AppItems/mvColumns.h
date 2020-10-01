@@ -32,7 +32,7 @@ namespace Marvel {
 			else
 				m_columns = columns;
 
-			for (size_t i = 0; i < m_columns; i++)
+			for (int i = 0; i < m_columns; i++)
 				m_widths.push_back(0);
 			m_container = true;
 		}
@@ -99,7 +99,7 @@ namespace Marvel {
 					m_columns = 64;
 
 				m_widths.clear();
-				for (size_t i = 0; i < m_columns; i++)
+				for (int i = 0; i < m_columns; i++)
 					m_widths.push_back(0);
 			}
 		}

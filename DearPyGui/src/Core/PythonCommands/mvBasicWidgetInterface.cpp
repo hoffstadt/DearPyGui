@@ -622,10 +622,10 @@ namespace Marvel {
 			&height, &uv_min, &uv_max, &popup, &show))
 			return ToPyBool(false);
 
-		auto mtintcolor = ToColor(tintcolor);
-		auto mbordercolor = ToColor(bordercolor);
-		mvVec2 muv_min = ToVec2(uv_min);
-		mvVec2 muv_max = ToVec2(uv_max);
+		//auto mtintcolor = ToColor(tintcolor);
+		//auto mbordercolor = ToColor(bordercolor);
+		//mvVec2 muv_min = ToVec2(uv_min);
+		//mvVec2 muv_max = ToVec2(uv_max);
 
 		mvAppItem* item = new mvImage(name, value);
 
@@ -672,10 +672,10 @@ namespace Marvel {
 			&before, &width, &height, &frame_padding, &uv_min, &uv_max, &popup, &show))
 			return ToPyBool(false);
 
-		auto mtintcolor = ToColor(tintcolor);
-		auto mbackgroundColor = ToColor(backgroundColor);
-		mvVec2 muv_min = ToVec2(uv_min);
-		mvVec2 muv_max = ToVec2(uv_max);
+		//auto mtintcolor = ToColor(tintcolor);
+		//auto mbackgroundColor = ToColor(backgroundColor);
+		//mvVec2 muv_min = ToVec2(uv_min);
+		//mvVec2 muv_max = ToVec2(uv_max);
 
 		mvAppItem* item = new mvImageButton(name, value);
 		if (callback)
@@ -855,7 +855,7 @@ namespace Marvel {
 		int show = true;
 		int span_columns = false;
 
-		ImGuiSelectableFlags flags = ImGuiSelectableFlags_None;
+		//ImGuiSelectableFlags flags = ImGuiSelectableFlags_None;
 
 		if (!(*mvApp::GetApp()->getParsers())["add_selectable"].parse(args, kwargs, __FUNCTION__, &name,
 			&default_value, &callback, &callback_data, &tip, &parent, &before, &source, &disabled,

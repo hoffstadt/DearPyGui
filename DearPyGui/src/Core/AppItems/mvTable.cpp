@@ -22,7 +22,7 @@ namespace Marvel {
 			return false;
 		}
 
-		if (column > m_columns + 1 || row > (int)m_values.size() + 1)
+		if (static_cast<size_t>(column) > m_columns + 1 || static_cast<size_t>(row) > m_values.size() + 1)
 		{
 			ThrowPythonException("Table indices out of range.");
 			return false;
@@ -181,7 +181,7 @@ namespace Marvel {
 
 		else
 		{
-			int index = 0;
+			size_t index = 0;
 			for (auto& row : m_values)
 			{
 				if (index >= column.size())
@@ -207,7 +207,7 @@ namespace Marvel {
 		if (!isIndexValid(0, column_index))
 			return;
 
-		if (column_index == m_headers.size())
+		if (static_cast<size_t>(column_index) == m_headers.size())
 		{
 			addColumn(name, column);
 			return;
@@ -222,9 +222,9 @@ namespace Marvel {
 
 		for (size_t i = 0; i < m_columns; i++)
 		{
-			if (i < column_index)
+			if (i < static_cast<size_t>(column_index))
 				m_headers.push_back(oldHeaders[i]);
-			else if (i == column_index)
+			else if (i == static_cast<size_t>(column_index))
 				m_headers.push_back(name);
 			else
 				m_headers.push_back(oldHeaders[i - 1]);
@@ -239,13 +239,13 @@ namespace Marvel {
 					std::vector<std::string> row;
 					for (size_t j = 0; j < oldHeaders.size(); j++)
 					{
-						if (j == column_index)
+						if (j == static_cast<size_t>(column_index))
 						{
 							row.push_back(column[i]);
 							continue;
 						}
 
-						if (j > column_index)
+						if (j > static_cast<size_t>(column_index))
 							row.push_back(oldValues[i][j - 1]);
 
 						else
@@ -262,7 +262,7 @@ namespace Marvel {
 					std::vector<std::string> row;
 					for (size_t j = 0; j < oldHeaders.size(); j++)
 					{
-						if (j == column_index)
+						if (j == static_cast<size_t>(column_index))
 						{
 							row.push_back(column[i]);
 							continue;
@@ -283,7 +283,7 @@ namespace Marvel {
 				std::vector<std::string> row;
 				for (size_t j = 0; j < oldHeaders.size(); j++)
 				{
-					if (j == column_index)
+					if (j == static_cast<size_t>(column_index))
 					{
 						if (i >= column.size())
 							row.emplace_back("");
@@ -292,7 +292,7 @@ namespace Marvel {
 						continue;
 					}
 
-					if (j > column_index)
+					if (j > static_cast<size_t>(column_index))
 						row.push_back(oldValues[i][j - 1]);
 
 					else
@@ -329,7 +329,7 @@ namespace Marvel {
 		if (!isIndexValid(row_index, 0))
 			return;
 
-		if (row_index >= m_values.size())
+		if (static_cast<size_t>(row_index) >= m_values.size())
 		{
 			addRow(row);
 			return;
@@ -341,13 +341,13 @@ namespace Marvel {
 
 		for (size_t i = 0; i < oldValues.size(); i++)
 		{
-			if (i == row_index)
+			if (i == static_cast<size_t>(row_index))
 			{
 				m_values.push_back(row);
 				continue;
 			}
 
-			if(i > row_index)
+			if(i > static_cast<size_t>(row_index))
 				m_values.push_back(oldValues[i-1]);
 			else
 				m_values.push_back(oldValues[i]);
@@ -424,7 +424,7 @@ namespace Marvel {
 		if (!isIndexValid(0, column))
 			return;
 
-		if (column >= m_headers.size())
+		if (static_cast<size_t>(column) >= m_headers.size())
 		{
 			ThrowPythonException("Column to delete does not exist.");
 			return;
@@ -439,7 +439,7 @@ namespace Marvel {
 
 		for (size_t i = 0; i < oldHeaders.size(); i++)
 		{
-			if (i == column)
+			if (i == static_cast<size_t>(column))
 				continue;
 			m_headers.push_back(oldHeaders[i]);
 		}
@@ -450,7 +450,7 @@ namespace Marvel {
 			std::vector<std::string> row;
 			for (size_t j = 0; j < oldHeaders.size(); j++)
 			{
-				if (j == column)
+				if (j == static_cast<size_t>(column))
 					continue;
 				row.push_back(oldvalue[j]);
 			}

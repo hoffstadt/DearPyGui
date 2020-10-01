@@ -201,7 +201,7 @@ namespace Marvel {
 		const char* popup = "";
 		int show = true;
 
-		int flags = 0;
+		//int flags = 0;
 
 		if (!(*mvApp::GetApp()->getParsers())["add_input_text"].parse(args, kwargs, __FUNCTION__, 
 			&name, &default_value, &hint, &multiline, &no_spaces,

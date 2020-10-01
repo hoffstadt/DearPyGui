@@ -20,13 +20,13 @@ namespace Marvel {
 
 		if (m_fill.specified)
 		{
-			int i;
+			size_t i;
 			int y;
 			int miny, maxy;
 			int x1, y1;
 			int x2, y2;
 			int ind1, ind2;
-			int ints;
+			size_t ints;
 			size_t n = points.size();
 			int* polyints = new int[n];
 
