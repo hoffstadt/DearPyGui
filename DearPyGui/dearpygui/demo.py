@@ -144,8 +144,29 @@ def show_demo():
 
         with menu_bar("MenuBar##demo"):
 
+            with menu("Menu##demo"):
+                add_menu_item("New##demomenu")
+                add_menu_item("Open##demomenu", shortcut="Ctrl+O")
+                with menu("Open Recent##demo"):
+                    add_menu_item("harrell.c##demo")
+                    add_menu_item("patty.h##demo")
+                    add_menu_item("nick.py##demo")
+                add_menu_item("Save##demo", shortcut="Ctrl+S")
+                add_menu_item("Save As..#demo")
+                add_separator()
+                with menu("Options##demomenu"):
+                    add_menu_item("Enabled##demo", check=True)
+                    with child("childmenu##demo", height=60, autosize_x=True):
+                        for i in range(0, 10):
+                            add_text(f"Scrolling Text {i}")
+                    add_slider_float("Value##demomenu")
+                    add_input_float("Input##demomenu")
+                    add_combo("Combo##demomenu", items=["Yes", "No", "Maybe"])
+                    add_checkbox("Some Option##demomenu")
+
+
             with menu("Themes##demo"):
-                add_menu_item("Dark", callback = lambda sender, data: set_theme(sender), check=True,shortcut="Ctrl + D")
+                add_menu_item("Dark", callback = lambda sender, data: set_theme(sender), check=True)
                 add_menu_item("Light", callback = lambda sender, data: set_theme(sender), check=True)
                 add_menu_item("Classic", callback = lambda sender, data: set_theme(sender), check=True)
                 add_menu_item("Dark 2", callback = lambda sender, data: set_theme(sender), check=True)
