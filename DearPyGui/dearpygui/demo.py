@@ -338,7 +338,7 @@ def show_demo():
                 def configure_items(names, **kwargs):
                     for name in names:
                         configure_item(name, **kwargs)
-                color_edit_names = ["MyColor##1", "MyColor##2", "MyColor##3"]
+                color_edit_names = ["MyColor##1", "MyColor##2"]
 
                 with managed_columns("##demowidgetscolor", 3, border=False):
                     add_checkbox("With Alpha Preview", callback=lambda sender, data: configure_items(color_edit_names, alpha_preview = get_value(sender)))
