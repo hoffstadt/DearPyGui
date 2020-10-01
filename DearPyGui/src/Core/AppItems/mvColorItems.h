@@ -142,7 +142,7 @@ namespace Marvel {
 			auto conflictingflagop = [dict](const std::vector<std::string>& keywords, std::vector<int> flags, int& mflags)
 			{
 
-				for (int i = 0; i < keywords.size(); i++)
+				for (size_t i = 0; i < keywords.size(); i++)
 				{
 					if (PyObject* item = PyDict_GetItemString(dict, keywords[i].c_str()))
 					{
@@ -270,7 +270,7 @@ namespace Marvel {
 			auto conflictingflagop = [dict](const std::vector<std::string>& keywords, std::vector<int> flags, int& mflags)
 			{
 
-				for (int i = 0; i < keywords.size(); i++)
+				for (size_t i = 0; i < keywords.size(); i++)
 				{
 					if (PyObject* item = PyDict_GetItemString(dict, keywords[i].c_str()))
 					{
@@ -400,7 +400,7 @@ namespace Marvel {
 			auto conflictingflagop = [dict](const std::vector<std::string>& keywords, std::vector<int> flags, int& mflags)
 			{
 
-				for (int i = 0; i < keywords.size(); i++)
+				for (size_t i = 0; i < keywords.size(); i++)
 				{
 					if (PyObject* item = PyDict_GetItemString(dict, keywords[i].c_str()))
 					{
@@ -530,7 +530,7 @@ namespace Marvel {
 			auto conflictingflagop = [dict](const std::vector<std::string>& keywords, std::vector<int> flags, int& mflags)
 			{
 
-				for (int i = 0; i < keywords.size(); i++)
+				for (size_t i = 0; i < keywords.size(); i++)
 				{
 					if (PyObject* item = PyDict_GetItemString(dict, keywords[i].c_str()))
 					{

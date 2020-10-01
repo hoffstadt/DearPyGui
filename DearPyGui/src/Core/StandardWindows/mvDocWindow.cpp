@@ -636,7 +636,7 @@ namespace Marvel {
 			if (ImGui::BeginTabItem("Search Commands##doc"))
 			{
 
-				static int commandselection = 0;
+				static size_t commandselection = 0;
 				const char* commanddoc = m_commands[commandselection].second.c_str();
 				static ImGuiTextFilter filter;
 				filter.Draw();

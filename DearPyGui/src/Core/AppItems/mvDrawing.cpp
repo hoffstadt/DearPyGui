@@ -129,19 +129,19 @@ namespace Marvel {
 
 		if (m_fill.specified)
 		{
-			int i;
+			size_t i;
 			int y;
 			int miny, maxy;
 			int x1, y1;
 			int x2, y2;
 			int ind1, ind2;
-			int ints;
+			size_t ints;
 			size_t n = m_points.size();
 			int* polyints = new int[n];
 
 			/* Determine Y maxima */
-			miny = (int)m_points[0].y;
-			maxy = (int)m_points[0].y;
+			miny = m_points[0].y;
+			maxy = m_points[0].y;
 			for (i = 1; i < n; i++)
 			{
 				miny = std::min(miny, (int)m_points[i].y);
@@ -240,7 +240,7 @@ namespace Marvel {
 
 	void mvDrawing::convertToModelSpace(std::vector<mvVec2>& points, const std::vector<mvVec2>& pointso)
 	{
-		for (int i = 0; i < points.size(); i++)
+		for (size_t i = 0; i < points.size(); i++)
 		{
 			points[i].x = pointso[i].x * m_scalex + m_originx;
 			points[i].y = (float)m_height - pointso[i].y * m_scaley - m_originy;
@@ -658,7 +658,7 @@ namespace Marvel {
 	{
 
 		bool tagFound = false;
-		int index = 0;
+		size_t index = 0;
 
 		for(index = 0; index < m_commands.size(); index++)
 		{

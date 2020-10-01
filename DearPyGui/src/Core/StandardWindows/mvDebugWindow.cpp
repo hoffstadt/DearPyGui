@@ -138,8 +138,8 @@ namespace Marvel {
 				DebugItem("Int3 Values", std::to_string(mvValueStorage::s_int3s.size()).c_str());
 				DebugItem("Int4 Values", std::to_string(mvValueStorage::s_int4s.size()).c_str());
 				ImGui::Separator();
-				auto & yy = mvValueStorage::s_refStorage;
-				auto & xx = mvValueStorage::s_floats;
+				//auto & yy = mvValueStorage::s_refStorage;
+				//auto & xx = mvValueStorage::s_floats;
 				DebugItem("Float Values", std::to_string(mvValueStorage::s_floats.size()).c_str());
 				DebugItem("Float2 Values", std::to_string(mvValueStorage::s_float2s.size()).c_str());
 				DebugItem("Float3 Values", std::to_string(mvValueStorage::s_float3s.size()).c_str());
@@ -263,7 +263,7 @@ namespace Marvel {
 			if (ImGui::BeginTabItem("Commands##debug"))
 			{
 
-				static int commandselection = 0;
+				static size_t commandselection = 0;
 				const char* commanddoc = m_commands[commandselection].second.c_str();
 				static ImGuiTextFilter filter;
 				filter.Draw();
