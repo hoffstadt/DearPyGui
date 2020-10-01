@@ -39,6 +39,17 @@ New Keywords:
 - Tree Node: Added "open_on_arrow"
 - Tree Node: Added "leaf"
 - Tree Node: Added "bullet"
+- child:          Added "autosize_x"
+- child:          Added "autosize_y"
+- child:          Added "no_scrollbar"
+- child:          Added "horizontal_scrollbar"
+- child:          Added "menubar"
+- input_float:    Added "step"
+- input_float:    Added "step_fast"
+
+Changes:
+- Text:           Text is wrapped by default now.
+
 
 Fixes:
 - Collapsing Header: fixed "default_open" which did not work before
