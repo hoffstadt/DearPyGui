@@ -29,8 +29,13 @@ HOW TO UPDATE?
 Decorated log: https://github.com/hoffstadt/DearPyGui/releases/tag/v0.4.3
 
 New Keywords:
-- Text:           Added "source"
-- Text:           Added "default_value"
+- Text:           Added "source" keyword
+- Text:           Added "default_value" keyword
+- child:          Added "autosize_x" keyword
+- child:          Added "autosize_y" keyword
+- child:          Added "no_scrollbar" keyword
+- child:          Added "horizontal_scrollbar" keyword
+- child:          Added "menubar" keyword
 
 -----------------------------------------------------------------------
  VERSION 0.4.2 (9/30/2020)
