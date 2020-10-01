@@ -507,12 +507,12 @@ def show_demo():
                     add_checkbox("horizontal_scrollbar##childdemo", callback=lambda sender, data: configure_item("testchild##demo", horizontal_scrollbar=get_value(sender)))
                     add_checkbox("border##childdemo", default_value=True, callback=lambda sender, data: configure_item("testchild##demo", border=get_value(sender)))
                 with child("testchild##demo", width=500, height=500):
+                    set_item_color("testchild##demo", mvGuiCol_ChildBg, [255, 0, 0, 100])
                     with menu_bar("MenuBartestChild##demo"):
                         with menu("Menu##testchild##demo"):
                             pass
                     for i in range(0, 100):
                         add_text("A pretty long sentence if you really think about it. It's also pointless.")
-
 
             with tree_node("Widgets Width##demo"):
                 

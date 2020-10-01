@@ -534,6 +534,7 @@ namespace Marvel {
 				ImGui::ListBox("Category", &categorySelection, &m_categories[0], 12, 7);
 
 				ImGui::SetNextItemWidth(500);
+				ImGui::PushStyleColor(ImGuiCol_FrameBg, IM_COL32(255, 0, 0, 100));
 				if (categorySelection == 0)
 				{
 					static int selection = 0;
@@ -617,14 +618,17 @@ namespace Marvel {
 						m_doc = m_constantsValues[selection].c_str();
 				}
 
+				ImGui::PopStyleColor();
 				ImGui::EndGroup();
 
 				ImGui::SameLine();
-				ImGui::BeginChild("DocChild", ImVec2(500, 600), true);
+				ImGui::PushStyleColor(ImGuiCol_ChildBg, IM_COL32(0, 0, 255, 100));
+				ImGui::BeginChild("DocChild", ImVec2(0, 0), true);
 				ImGui::PushTextWrapPos(ImGui::GetCursorPos().x + 400);
 				ImGui::Text("%s", m_doc);
 				ImGui::PopTextWrapPos();
 				ImGui::EndChild();
+				ImGui::PopStyleColor();
 
 				ImGui::EndTabItem();
 			}
@@ -638,8 +642,9 @@ namespace Marvel {
 				filter.Draw();
 
 				ImGui::PushItemWidth(300);
-				ImGui::BeginChild("CommandsChild##debug", ImVec2(500.0f, 600.0f), true);
-				ImGui::PushStyleColor(ImGuiCol_Text, { 1.0f, 1.0f, 0.0f, 1.0f });
+				ImGui::PushStyleColor(ImGuiCol_ChildBg, IM_COL32(255, 0, 0, 100));
+				ImGui::BeginChild("CommandsChild##debug", ImVec2(500.0f, 0), true);
+
 				for (size_t i = 0; i < m_commands.size(); i++)
 				{
 					auto& item = m_commands[i];
@@ -653,8 +658,8 @@ namespace Marvel {
 				ImGui::PopStyleColor();
 				ImGui::EndChild();
 				ImGui::SameLine();
-				ImGui::BeginChild("CommandsDoc##debug", ImVec2(500.0f, 600.0f), true);
-				ImGui::PushStyleColor(ImGuiCol_Text, { 1.0f, 0.0f, 1.0f, 1.0f });
+				ImGui::PushStyleColor(ImGuiCol_ChildBg, IM_COL32(0, 0, 255, 100));
+				ImGui::BeginChild("CommandsDoc##debug", ImVec2(0, 0), true);
 				ImGui::PushTextWrapPos(500);
 				ImGui::Text("%s", commanddoc);
 				ImGui::PopStyleColor();
