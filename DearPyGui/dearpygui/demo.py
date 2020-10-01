@@ -375,7 +375,6 @@ def show_demo():
                         configure_item("Color Picker 4", picker_hue_wheel = True)
                 add_radio_button("Display Type", items=["Hue Bar", "Hue Wheel"], callback=apply_hue)
                 add_color_picker4("Color Picker 4", source="colorvalue", alpha_preview= True, alpha_bar=True)
-                show_logger()
                 add_value("list_color_value", [0.5,0.5,0.5,1.0])
                 add_color_edit4("Color Edit 4 (float values)", source="list_color_value", alpha_preview= True, floats=True, callback=lambda sender, data: configure_item("float_values", label=f"{get_value('list_color_value')}", color=hsv_to_rgb(get_value('list_color_value')[0],get_value('list_color_value')[1],get_value('list_color_value')[2])))
                 helpmarker("Color item values given to the widget as a list will cause the \n"
