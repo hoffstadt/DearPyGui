@@ -53,7 +53,7 @@ namespace Marvel {
 		std::vector<std::string>              m_headers;
 		std::vector<std::vector<std::string>> m_hashValues;
 		std::vector<std::vector<std::string>> m_values;
-		int                                   m_columns;
+		size_t                                m_columns;
 
 	};
 

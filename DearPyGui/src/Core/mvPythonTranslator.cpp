@@ -28,9 +28,9 @@ namespace Marvel {
 		}
 		
 
-		for (size_t i = 0; i < PyList_Size(pyvalue); i++)
+		for (Py_ssize_t i = 0; i < PyList_Size(pyvalue); i++)
 		{
-			if (i == value.size())
+			if (static_cast<size_t>(i) == value.size())
 				break;
 			PyList_SetItem(pyvalue, i, PyLong_FromLong(value[i]));
 		}
@@ -49,9 +49,9 @@ namespace Marvel {
 		}
 
 
-		for (size_t i = 0; i < PyList_Size(pyvalue); i++)
+		for (Py_ssize_t i = 0; i < PyList_Size(pyvalue); i++)
 		{
-			if (i == value.size())
+			if (static_cast<size_t>(i) == value.size())
 				break;
 			PyList_SetItem(pyvalue, i, PyFloat_FromDouble(value[i]));
 		}
@@ -70,14 +70,14 @@ namespace Marvel {
 		}
 
 
-		for (size_t i = 0; i < PyList_Size(pyvalue); i++)
+		for (Py_ssize_t i = 0; i < PyList_Size(pyvalue); i++)
 		{
-			if (i == value.size())
+			if (static_cast<size_t>(i) == value.size())
 				break;
 			PyObject* row = PyList_GetItem(pyvalue, i);
-			for (size_t j = 0; j < PyList_Size(row); j++)
+			for (Py_ssize_t j = 0; j < PyList_Size(row); j++)
 			{
-				if (j == value[i].size())
+				if (static_cast<size_t>(j) == value[i].size())
 					break;
 				PyList_SetItem(row, i, PyUnicode_FromString(value[i][j].c_str()));
 			}
@@ -240,7 +240,7 @@ namespace Marvel {
 
 		PyObject* result = PyList_New(count);
 
-		for (size_t i = 0; i < count; i++)
+		for (int i = 0; i < count; i++)
 			PyList_SetItem(result, i, PyLong_FromLong(value[i]));
 
 		return result;
@@ -252,7 +252,7 @@ namespace Marvel {
 
 		PyObject* result = PyList_New(count);
 
-		for (size_t i = 0; i < count; i++)
+		for (int i = 0; i < count; i++)
 			PyList_SetItem(result, i, PyFloat_FromDouble(value[i]));
 
 		return result;
@@ -368,7 +368,7 @@ namespace Marvel {
 
 		if (PyTuple_Check(value))
 		{
-			for (size_t i = 0; i < PyTuple_Size(value); i++)
+			for (Py_ssize_t i = 0; i < PyTuple_Size(value); i++)
 			{
 				PyObject* item = PyTuple_GetItem(value, i);
 				if(PyLong_Check(item))
@@ -378,7 +378,7 @@ namespace Marvel {
 
 		else if (PyList_Check(value))
 		{
-			for (size_t i = 0; i < PyList_Size(value); i++)
+			for (Py_ssize_t i = 0; i < PyList_Size(value); i++)
 			{
 				PyObject* item = PyList_GetItem(value, i);
 				if (PyLong_Check(item))
@@ -403,7 +403,7 @@ namespace Marvel {
 
 		if (PyTuple_Check(value))
 		{
-			for (size_t i = 0; i < PyTuple_Size(value); i++)
+			for (Py_ssize_t i = 0; i < PyTuple_Size(value); i++)
 			{
 				PyObject* item = PyTuple_GetItem(value, i);
 				if (PyNumber_Check(item))
@@ -413,7 +413,7 @@ namespace Marvel {
 
 		else if (PyList_Check(value))
 		{
-			for (size_t i = 0; i < PyList_Size(value); i++)
+			for (Py_ssize_t i = 0; i < PyList_Size(value); i++)
 			{
 				PyObject* item = PyList_GetItem(value, i);
 				if (PyNumber_Check(item))
@@ -438,7 +438,7 @@ namespace Marvel {
 
 		if (PyTuple_Check(value))
 		{
-			for (size_t i = 0; i < PyTuple_Size(value); i++)
+			for (Py_ssize_t i = 0; i < PyTuple_Size(value); i++)
 			{
 				PyObject* item = PyTuple_GetItem(value, i);
 				if (PyUnicode_Check(item))
@@ -454,7 +454,7 @@ namespace Marvel {
 
 		else if (PyList_Check(value))
 		{
-			for (size_t i = 0; i < PyList_Size(value); i++)
+			for (Py_ssize_t i = 0; i < PyList_Size(value); i++)
 			{
 				PyObject* item = PyList_GetItem(value, i);
 				if (PyUnicode_Check(item))
@@ -486,7 +486,7 @@ namespace Marvel {
 
 		if (PyTuple_Check(value))
 		{
-			for (size_t i = 0; i < PyTuple_Size(value); i++)
+			for (Py_ssize_t i = 0; i < PyTuple_Size(value); i++)
 			{
 				if (i >= 4)
 					break;
@@ -498,7 +498,7 @@ namespace Marvel {
 		}
 		else if (PyList_Check(value))
 		{
-			for (size_t i = 0; i < PyList_Size(value); i++)
+			for (Py_ssize_t i = 0; i < PyList_Size(value); i++)
 			{
 				if (i >= 4)
 					break;
@@ -554,7 +554,7 @@ namespace Marvel {
 
 		if (PyTuple_Check(value))
 		{
-			for (size_t i = 0; i < PyTuple_Size(value); i++)
+			for (Py_ssize_t i = 0; i < PyTuple_Size(value); i++)
 			{
 				PyObject* item = PyTuple_GetItem(value, i);
 				if (PyTuple_Size(item) == 2)
@@ -565,7 +565,7 @@ namespace Marvel {
 		}
 		else if (PyList_Check(value))
 		{
-			for (size_t i = 0; i < PyList_Size(value); i++)
+			for (Py_ssize_t i = 0; i < PyList_Size(value); i++)
 			{
 				PyObject* item = PyList_GetItem(value, i);
 				if (PyList_Size(item) == 2)
@@ -589,12 +589,12 @@ namespace Marvel {
 
 		if (PyTuple_Check(value))
 		{
-			for (size_t i = 0; i < PyTuple_Size(value); i++)
+			for (Py_ssize_t i = 0; i < PyTuple_Size(value); i++)
 				items.push_back(ToVec2(PyTuple_GetItem(value, i)));
 		}
 		else if (PyList_Check(value))
 		{
-			for (size_t i = 0; i < PyList_Size(value); i++)
+			for (Py_ssize_t i = 0; i < PyList_Size(value); i++)
 				items.push_back(ToVec2(PyList_GetItem(value, i)));
 		}
 
@@ -613,12 +613,12 @@ namespace Marvel {
 
 		if (PyTuple_Check(value))
 		{
-			for (size_t i = 0; i < PyTuple_Size(value); i++)
+			for (Py_ssize_t i = 0; i < PyTuple_Size(value); i++)
 				items.push_back(ToVec4(PyTuple_GetItem(value, i)));
 		}
 		else if (PyList_Check(value))
 		{
-			for (size_t i = 0; i < PyList_Size(value); i++)
+			for (Py_ssize_t i = 0; i < PyList_Size(value); i++)
 				items.push_back(ToVec4(PyList_GetItem(value, i)));
 		}
 
@@ -637,7 +637,7 @@ namespace Marvel {
 
 		if (PyTuple_Check(value))
 		{
-			for (size_t i = 0; i < PyTuple_Size(value); i++)
+			for (Py_ssize_t i = 0; i < PyTuple_Size(value); i++)
 			{
 				PyObject* point = PyTuple_GetItem(value, i);
 				if(PyTuple_Check(point))
@@ -663,7 +663,7 @@ namespace Marvel {
 
 		else if (PyList_Check(value))
 		{
-			for (size_t i = 0; i < PyList_Size(value); i++)
+			for (Py_ssize_t i = 0; i < PyList_Size(value); i++)
 			{
 				PyObject* point = PyList_GetItem(value, i);
                 if(PyTuple_Check(point))
@@ -703,13 +703,13 @@ namespace Marvel {
 
 		if (PyTuple_Check(value))
 		{
-			for (size_t i = 0; i < PyTuple_Size(value); i++)
+			for (Py_ssize_t i = 0; i < PyTuple_Size(value); i++)
 				items.emplace_back(ToStringVect(PyTuple_GetItem(value, i), message));
 		}
 
 		else if (PyList_Check(value))
 		{
-			for (size_t i = 0; i < PyList_Size(value); i++)
+			for (Py_ssize_t i = 0; i < PyList_Size(value); i++)
 				items.emplace_back(ToStringVect(PyList_GetItem(value, i), message));
 		}
 
@@ -725,7 +725,7 @@ namespace Marvel {
 
 		if (PyTuple_Check(value))
 		{
-			for (size_t i = 0; i < PyTuple_Size(value); i++)
+			for (Py_ssize_t i = 0; i < PyTuple_Size(value); i++)
 			{
 				PyObject* item = PyTuple_GetItem(value, i);
 				if (PyTuple_Size(item) == 2)
@@ -736,7 +736,7 @@ namespace Marvel {
 		}
 		else if (PyList_Check(value))
 		{
-			for (size_t i = 0; i < PyList_Size(value); i++)
+			for (Py_ssize_t i = 0; i < PyList_Size(value); i++)
 			{
 				PyObject* item = PyList_GetItem(value, i);
 				if (PyList_Size(item) == 2)
@@ -760,13 +760,13 @@ namespace Marvel {
 
 		if (PyTuple_Check(value))
 		{
-			for (size_t i = 0; i < PyTuple_Size(value); i++)
+			for (Py_ssize_t i = 0; i < PyTuple_Size(value); i++)
 				items.emplace_back(ToFloatVect(PyTuple_GetItem(value, i), message));
 		}
 
 		else if (PyList_Check(value))
 		{
-			for (size_t i = 0; i < PyList_Size(value); i++)
+			for (Py_ssize_t i = 0; i < PyList_Size(value); i++)
 				items.emplace_back(ToFloatVect(PyList_GetItem(value, i), message));
 		}
 

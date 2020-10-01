@@ -28,7 +28,7 @@ namespace Marvel{
 		}
 		for (auto key : configKeys)
 		{
-			int i = 0;
+			size_t i = 0;
 			while (i < parserKeywords.size() - 1)
 			{
 				if (key == parserKeywords[i])
@@ -172,7 +172,7 @@ namespace Marvel{
 	bool  mvAppItem::moveChildDown(const std::string& name)
 	{
 		bool found = false;
-		int index = 0;
+		size_t index = 0;
 
 		// check children
 		for (size_t i = 0; i < m_children.size(); i++)

@@ -601,7 +601,7 @@ namespace Marvel {
 		int show = true;
 		PyObject* closing_callback = nullptr;
 
-		ImGuiWindowFlags flags = ImGuiWindowFlags_NoSavedSettings;
+		//ImGuiWindowFlags flags = ImGuiWindowFlags_NoSavedSettings;
 
 		if (!(*mvApp::GetApp()->getParsers())["add_window"].parse(args, kwargs, __FUNCTION__, &name, &width,
 			&height, &x_pos, &y_pos, &autosize, &no_resize, &no_title_bar, &no_move, &no_scrollbar, 
