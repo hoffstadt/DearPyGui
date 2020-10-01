@@ -167,8 +167,7 @@ def show_demo():
         add_text(f'Dear PyGui says hello. ({get_dearpygui_version()})')
         add_text("This demo is not complete but will continue to be added to throughout the 0.4.x releases!")
 
-        with collapsing_header("Window options##demo"):
-            
+        with collapsing_header("Window options##demo", default_open=True, open_on_double_click=True):
             with managed_columns("Window Options Col##demo", 3, border=False):
                 add_checkbox("No titlebar##demo", callback=lambda sender, data: configure_item("Dear PyGui Demo", no_title_bar=get_value(sender)))
                 add_checkbox("No scrollbar##demo", callback=lambda sender, data: configure_item("Dear PyGui Demo", no_scrollbar=get_value(sender)))

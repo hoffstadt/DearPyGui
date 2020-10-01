@@ -292,7 +292,11 @@ namespace Marvel {
 			};
 
 			// flags
-			//flagop("autosize", ImGuiWindowFlags_AlwaysAutoResize, m_windowflags);
+			flagop("default_open",			ImGuiTreeNodeFlags_DefaultOpen,			m_flags);
+			flagop("open_on_double_click",	ImGuiTreeNodeFlags_OpenOnDoubleClick,	m_flags);
+			flagop("open_on_arrow",			ImGuiTreeNodeFlags_OpenOnArrow,			m_flags);
+			flagop("leaf",					ImGuiTreeNodeFlags_Leaf,				m_flags);
+			flagop("bullet",				ImGuiTreeNodeFlags_Bullet,				m_flags);
 
 
 		}
@@ -311,13 +315,17 @@ namespace Marvel {
 			};
 
 			// flags
-			//checkbitset("autosize", ImGuiWindowFlags_AlwaysAutoResize, m_windowflags);
+			checkbitset("default_open",			ImGuiTreeNodeFlags_DefaultOpen,			m_flags);
+			checkbitset("open_on_double_click", ImGuiTreeNodeFlags_OpenOnDoubleClick,	m_flags);
+			checkbitset("open_on_arrow",		ImGuiTreeNodeFlags_OpenOnArrow,			m_flags);
+			checkbitset("leaf",					ImGuiTreeNodeFlags_Leaf,				m_flags);
+			checkbitset("bullet",				ImGuiTreeNodeFlags_Bullet,				m_flags);
 
 		}
 
 	private:
 
-		ImGuiTreeNodeFlags m_flags = 0;
+		ImGuiTreeNodeFlags m_flags = ImGuiTreeNodeFlags_None;
 		bool               m_closable = false;
 
 	};
@@ -400,9 +408,11 @@ namespace Marvel {
 			};
 
 			// flags
-			flagop("default_open", ImGuiTreeNodeFlags_DefaultOpen, m_flags);
-			flagop("leaf",		   ImGuiTreeNodeFlags_Leaf,        m_flags);
-			flagop("bullet",       ImGuiTreeNodeFlags_Bullet,      m_flags);
+			flagop("default_open",			ImGuiTreeNodeFlags_DefaultOpen,			m_flags);
+			flagop("open_on_double_click",	ImGuiTreeNodeFlags_OpenOnDoubleClick,	m_flags);
+			flagop("open_on_arrow",			ImGuiTreeNodeFlags_OpenOnArrow,			m_flags);
+			flagop("leaf",					ImGuiTreeNodeFlags_Leaf,				m_flags);
+			flagop("bullet",				ImGuiTreeNodeFlags_Bullet,				m_flags);
 
 
 		}
@@ -420,15 +430,17 @@ namespace Marvel {
 			};
 
 			// flags
-			checkbitset("default_open", ImGuiTreeNodeFlags_DefaultOpen, m_flags);
-			checkbitset("leaf",			ImGuiTreeNodeFlags_Leaf,		m_flags);
-			checkbitset("bullet",		ImGuiTreeNodeFlags_Bullet,		m_flags);
+			checkbitset("default_open",			ImGuiTreeNodeFlags_DefaultOpen,			m_flags);
+			checkbitset("open_on_double_click", ImGuiTreeNodeFlags_OpenOnDoubleClick,	m_flags);
+			checkbitset("open_on_arrow",		ImGuiTreeNodeFlags_OpenOnArrow,			m_flags);
+			checkbitset("leaf",					ImGuiTreeNodeFlags_Leaf,				m_flags);
+			checkbitset("bullet",				ImGuiTreeNodeFlags_Bullet,				m_flags);
 
 		}
 
 	private:
 
-		ImGuiTreeNodeFlags m_flags = 0;
+		ImGuiTreeNodeFlags m_flags = ImGuiTreeNodeFlags_None;
 
 	};
 
