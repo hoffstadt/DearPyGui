@@ -8,7 +8,6 @@ import random
 # Settings and Data Storage
 ########################################################################################################################
 set_log_level(0)
-show_documentation()
 
 set_main_window_title("DearPyGui Demo")
 set_main_window_size(1000, 800)
@@ -19,7 +18,6 @@ add_additional_font("C:/dev/DearPyGui/Resources/NotoSerifCJKjp-Medium.otf", 20)
 #add_image_button("image", "C:/dev/DearPyGui/Examples/SpriteMapExample.png")
 
 show_demo()
-show_debug()
 
 with window("Asyncronous##dialog", show=False):
     add_data('threadNumber', 0)
