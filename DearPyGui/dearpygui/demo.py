@@ -812,14 +812,18 @@ def show_demo():
                     #sindata.append([3.14*i/180, 0.5+ 0.5*cos(50*3.14*i/180)])
                     sindata.append([i/1000, 0.5 + 0.5*sin(50*i/1000)])
 
-                x2data = []
+                # using xy_format
+                x2datax = []
+                x2datay = []
                 for i in range(0, 100):
-                    x2data.append([1/(i+1), (1/(i+1))**2])
+                    x2datax.append(1/(i+1))
+                    x2datay.append((1/(i+1))**2)
+                x2data = [x2datax, x2datay]
 
                 add_text("Anti-aliasing can be enabled from the plot's context menu (see Help).", bullet=True)
                 add_plot("Line Plot##demo", x_axis_name="x", y_axis_name="y", height=400)
                 add_line_series("Line Plot##demo", "0.5 + 0.5 * sin(x)", sindata)
-                add_line_series("Line Plot##demo", "x^2", x2data)
+                add_line_series("Line Plot##demo", "x^2", x2data, xy_data_format=True)
 
             with tree_node("Time Plots##demo"):
 
@@ -835,7 +839,6 @@ def show_demo():
                 add_plot("Time Plot##demo", y_axis_name="Days since 1970", height=400, xaxis_time=True)
                 add_line_series("Time Plot##demo", "Days", timedata)
                 
-
             with tree_node("Shade Plots##demo"):
 
                 stock_data1 = []
@@ -857,16 +860,21 @@ def show_demo():
             with tree_node("Scatter Plots##demo"):
 
                 scatter_data1 = []
-                scatter_data2 = []
                 for i in range(0, 100):
                     scatter_data1.append([i/100, (i + random.random())/100])
 
+                # using xy_format
+                scatter_data2x = []
+                scatter_data2y = []
                 for i in range(0, 100):
-                    scatter_data2.append([0.25 + 0.25*random.random(), 0.65 + 0.25*random.random()])
+                    scatter_data2x.append(0.25 + 0.25*random.random())
+                    scatter_data2y.append(0.65 + 0.25*random.random())
+                scatter_data2 = [scatter_data2x, scatter_data2y]
 
                 add_plot("Scatter Plot##demo", height=400)
                 add_scatter_series("Scatter Plot##demo", "Data 1", scatter_data1)
-                add_scatter_series("Scatter Plot##demo", "Data 2", scatter_data2, size=7, marker=mvPlotMarker_Square, fill=[255, 0, 0, 100])
+                add_scatter_series("Scatter Plot##demo", "Data 2", scatter_data2, 
+                                   size=7, marker=mvPlotMarker_Square, fill=[255, 0, 0, 100], xy_data_format=True)
 
             with tree_node("Bar Plots##demo"):
 
