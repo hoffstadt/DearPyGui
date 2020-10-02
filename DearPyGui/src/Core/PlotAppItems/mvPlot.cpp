@@ -1,3 +1,5 @@
+#include <algorithm>
+
 #include "mvPlot.h"
 #define PY_SSIZE_T_CLEAN
 #include <Python.h>
@@ -59,6 +61,27 @@ namespace Marvel {
 			m_extra1.push_back(point.z);
 			m_extra2.push_back(point.w);
 		}
+
+	}
+
+	mvSeries::mvSeries(std::string name, const std::vector<float>& points_x, const std::vector<float>& points_y)
+		: m_name(std::move(name))
+	{
+		// FIXME:
+		// Need to check if points_x.size() == points_y.size() ???
+		
+		if (!points_x.empty())
+		{
+			auto minmax = minmax_element(points_x.begin(), points_x.end());
+			m_maxX = *minmax.second;
+			m_minX = *minmax.first;
+			minmax = minmax_element(points_y.begin(), points_y.end());
+			m_maxY = *minmax.second;
+			m_minY = *minmax.first;
+		}
+		
+		m_xs = points_x;
+		m_ys = points_y;
 
 	}
 
