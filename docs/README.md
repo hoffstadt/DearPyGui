@@ -51,7 +51,7 @@ Ensure you have at least Python 3.7.
  ---
  
 **DearPyGui is an all included GUI framework.** A variety of examples demonstrating usage
-can be found in the Examples folder [/Examples](https://github.com/hoffstadt/DearPyGui/tree/master/Examples). To get started checkout the [Tutorials](https://hoffstadt.github.io/DearPyGui/tutorial.html)
+can be found in the [DearPyGui-Examples repository](https://github.com/Pcothren/DearPyGui-Examples). To get started checkout the [Tutorials](https://hoffstadt.github.io/DearPyGui/tutorial.html)
 and for all other references 
 visit the [Documentation](https://hoffstadt.github.io/DearPyGui/) or from within the library by 
 using the **show_documentation** command. You can also view the demo using the **show_demo** command found in _dearpygui.demo_.
