@@ -1162,7 +1162,7 @@ namespace Marvel {
 		PyTuple_SetItem(color, 2, PyLong_FromLong(0));
 		PyTuple_SetItem(color, 3, PyLong_FromLong(255));
 		int update_bounds = true;
-		bool xy_data_format = false;
+		int xy_data_format = false;
 
 		if (!(*mvApp::GetApp()->getParsers())["add_line_series"].parse(args, kwargs, __FUNCTION__, 
 			&plot, &name, &data, &color, &weight, &update_bounds, &xy_data_format))
@@ -1197,14 +1197,20 @@ namespace Marvel {
 
 		mvLineSeries* series;
 		
-		if (xy_data_format) {
+		if (xy_data_format) 
+		{
 			auto datapoints = ToPairVec(data);
 			
 			if (datapoints.first.size() == 0 || datapoints.first.size() != datapoints.second.size())
+			{
+				ThrowPythonException(std::string(plot) + " data format incorrect");
 				return GetPyNone();
+			}
 
 			series = new mvLineSeries(name, datapoints.first, datapoints.second, mcolor);
-		} else {
+		}
+		else 
+		{
 			auto datapoints = ToVectVec2(data);
 
 			if (datapoints.size() == 0)
@@ -1212,6 +1218,7 @@ namespace Marvel {
 
 			series = new mvLineSeries(name, datapoints, mcolor);
 		}
+
 		series->setWeight(weight);
 		graph->updateSeries(series, update_bounds);
 
@@ -1350,7 +1357,7 @@ namespace Marvel {
 		PyTuple_SetItem(fill, 2, PyLong_FromLong(0));
 		PyTuple_SetItem(fill, 3, PyLong_FromLong(255));
 		int update_bounds = true;
-		bool xy_data_format = false;
+		int xy_data_format = false;
 
 		if (!(*mvApp::GetApp()->getParsers())["add_scatter_series"].parse(args, kwargs, __FUNCTION__, &plot, &name, &data, &marker,
 			&size, &weight, &outline, &fill, &update_bounds, &xy_data_format))
@@ -1389,15 +1396,21 @@ namespace Marvel {
 
 		auto datapoints = ToVectVec2(data);
 
-		if (xy_data_format) {
+		if (xy_data_format) 
+		{
 			auto datapoints = ToPairVec(data);
 			
 			if (datapoints.first.size() == 0 || datapoints.first.size() != datapoints.second.size())
+			{
+				ThrowPythonException(std::string(plot) + " data format incorrect");
 				return GetPyNone();
+			}
 
 			series = new mvScatterSeries(name, datapoints.first, datapoints.second, marker, size, 
 				weight, mmarkerOutlineColor, mmarkerFillColor);
-		} else {
+		} 
+		else 
+		{
 			if (datapoints.size() == 0)
 				return GetPyNone();
 				

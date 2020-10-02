@@ -248,7 +248,8 @@ def add_label_text(name: str, value: str = "", color: List[float] = [0, 0, 0, -1
 	"""Adds text with a label. Useful for output values."""
 	...
 
-def add_line_series(plot: str, name: str, data: List[List[float]], color: List[float] = [0, 0, 0, -1], weight: float = 1.0, update_bounds: bool = True) -> None:
+def add_line_series(plot: str, name: str, data: List[List[float]], color: List[float] = [0, 0, 0, -1], 
+					weight: float = 1.0, update_bounds: bool = True, xy_data_format: bool = False) -> None:
 	"""Adds a line series to a plot."""
 	...
 
@@ -320,7 +321,8 @@ def add_same_line(name: str = "sameline", xoffset: float = 0.0, spacing: float =
 	...
 
 def add_scatter_series(plot: str, name: str, data: List[float], marker: int = 2, size: float = 4.0, weight: float = 1.0, 
-					   outline: List[float] = [0, 0, 0, -1], fill: List[float] = [0, 0, 0, -1], update_bounds: bool = True) -> None:
+					   outline: List[float] = [0, 0, 0, -1], fill: List[float] = [0, 0, 0, -1], update_bounds: bool = True,
+					   xy_data_format: bool = False) -> None:
 	"""Adds a scatter series to a plot."""
 	...
 
