@@ -101,6 +101,7 @@ namespace Marvel {
         void                                resetState            ();
         void                                updateDataSource      (const std::string& name);
         void                                registerWindowFocusing(); // only useful for imgui window types
+        mvAppItem*                          stealChild            (const std::string& name); // steals a child (used for moving)
 
         // getters
         mvAppItem*                          getChild                  (const std::string& name);      // will return nullptr if not found

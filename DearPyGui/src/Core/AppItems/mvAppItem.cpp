@@ -453,6 +453,49 @@ namespace Marvel{
 		m_colors.clear();
 	}
 
+	mvAppItem* mvAppItem::stealChild(const std::string& name)
+	{
+		mvAppItem* stolenChild = nullptr;
+
+		bool childfound = false;
+
+		for (mvAppItem* item : m_children)
+		{
+			if (item->getName() == name)
+			{
+				childfound = true;
+				break;
+			}
+
+			if (item->isContainer())
+			{
+				stolenChild = item->stealChild(name);
+				if (stolenChild)
+					return stolenChild;
+			}
+		}
+
+		if (childfound)
+		{
+			std::vector<mvAppItem*> oldchildren = m_children;
+
+			m_children.clear();
+
+			for (auto& item : oldchildren)
+			{
+				if (item->getName() == name)
+				{
+					stolenChild = item;
+					continue;
+				}
+
+				m_children.push_back(item);
+			}
+		}
+
+		return stolenChild;
+	}
+
 	mvAppItem* mvAppItem::getChild(const std::string& name)
 	{
 		for (mvAppItem* item : m_children)

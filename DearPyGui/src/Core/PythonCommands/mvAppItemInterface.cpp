@@ -7,6 +7,13 @@ namespace Marvel {
 
 	void AddItemCommands(std::map<std::string, mvPythonParser>* parsers)
 	{
+		parsers->insert({ "move_item", mvPythonParser({
+			{mvPythonDataType::String, "item"},
+			{mvPythonDataType::Optional},
+			{mvPythonDataType::String, "parent"},
+			{mvPythonDataType::String, "before"}
+		}, "Moves an existing item.", "None", "Widget Commands") });
+
 		parsers->insert({ "get_item_type", mvPythonParser({
 			{mvPythonDataType::String, "item"}
 		}, "Returns an item's type", "str", "Widget Commands") });
@@ -193,6 +200,20 @@ namespace Marvel {
 			{mvPythonDataType::String, "item"},
 			{mvPythonDataType::Integer, "height"}
 		}, "Sets an item's height if applicable.", "None", "Widget Commands") });
+	}
+
+	PyObject* move_item(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+
+		const char* item;
+		const char* parent = "";
+		const char* before = "";
+
+		if (!(*mvApp::GetApp()->getParsers())["move_item"].parse(args, kwargs, __FUNCTION__, 
+			&item, &parent, &before))
+			return GetPyNone();
+
+		return ToPyBool(mvApp::GetApp()->moveItem(item, parent, before));
 	}
 
 	PyObject* get_item_configuration(PyObject* self, PyObject* args, PyObject* kwargs)

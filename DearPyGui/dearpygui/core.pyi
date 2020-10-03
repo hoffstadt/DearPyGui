@@ -970,6 +970,10 @@ def log_warning(message: Any) -> None:
 	"""Logs a warning level log."""
 	...
 
+def move_item(item: str, *, parent: str = "", before: str = "") -> None:
+	"""Moves an item."""
+	...
+
 def move_item_down(item: str) -> None:
 	"""Moves item down if possible and if it exists."""
 	...
