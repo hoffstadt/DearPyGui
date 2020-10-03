@@ -197,6 +197,7 @@ namespace Marvel {
 			{mvPythonDataType::FloatList, "color"},
 			{mvPythonDataType::Float, "weight"},
 			{mvPythonDataType::Bool, "update_bounds"},
+			{mvPythonDataType::Bool, "xy_data_format"},
 		}, "Adds a line series to a plot.", "None", "Plotting") });
 
 		parsers->insert({ "add_error_series", mvPythonParser({
@@ -245,6 +246,7 @@ namespace Marvel {
 			{mvPythonDataType::FloatList, "outline"},
 			{mvPythonDataType::FloatList, "fill"},
 			{mvPythonDataType::Bool, "update_bounds"},
+			{mvPythonDataType::Bool, "xy_data_format"},
 		}, "Adds a scatter series to a plot.", "None", "Plotting") });
 
 		parsers->insert({ "add_stem_series", mvPythonParser({
@@ -1160,9 +1162,10 @@ namespace Marvel {
 		PyTuple_SetItem(color, 2, PyLong_FromLong(0));
 		PyTuple_SetItem(color, 3, PyLong_FromLong(255));
 		int update_bounds = true;
+		int xy_data_format = false;
 
 		if (!(*mvApp::GetApp()->getParsers())["add_line_series"].parse(args, kwargs, __FUNCTION__, 
-			&plot, &name, &data, &color, &weight, &update_bounds))
+			&plot, &name, &data, &color, &weight, &update_bounds, &xy_data_format))
 			return GetPyNone();
 
 		if (!PyList_Check(data))
@@ -1190,14 +1193,32 @@ namespace Marvel {
 
 		mvPlot* graph = static_cast<mvPlot*>(aplot);
 
-		auto datapoints = ToVectVec2(data);
-
 		auto mcolor = ToColor(color);
 
-		if (datapoints.size() == 0)
-			return GetPyNone();
+		mvLineSeries* series;
+		
+		if (xy_data_format) 
+		{
+			auto datapoints = ToPairVec(data);
+			
+			if (datapoints.first.size() == 0 || datapoints.first.size() != datapoints.second.size())
+			{
+				ThrowPythonException(std::string(plot) + " data format incorrect");
+				return GetPyNone();
+			}
 
-		auto series = new mvLineSeries(name, datapoints, mcolor);
+			series = new mvLineSeries(name, datapoints.first, datapoints.second, mcolor);
+		}
+		else 
+		{
+			auto datapoints = ToVectVec2(data);
+
+			if (datapoints.size() == 0)
+				return GetPyNone();
+
+			series = new mvLineSeries(name, datapoints, mcolor);
+		}
+
 		series->setWeight(weight);
 		graph->updateSeries(series, update_bounds);
 
@@ -1336,9 +1357,10 @@ namespace Marvel {
 		PyTuple_SetItem(fill, 2, PyLong_FromLong(0));
 		PyTuple_SetItem(fill, 3, PyLong_FromLong(255));
 		int update_bounds = true;
+		int xy_data_format = false;
 
 		if (!(*mvApp::GetApp()->getParsers())["add_scatter_series"].parse(args, kwargs, __FUNCTION__, &plot, &name, &data, &marker,
-			&size, &weight, &outline, &fill, &update_bounds))
+			&size, &weight, &outline, &fill, &update_bounds, &xy_data_format))
 			return GetPyNone();
 
 		if (!PyList_Check(data))
@@ -1366,17 +1388,37 @@ namespace Marvel {
 
 		mvPlot* graph = static_cast<mvPlot*>(aplot);
 
-		auto datapoints = ToVectVec2(data);
+		mvScatterSeries* series;
 
 		auto mmarkerOutlineColor = ToColor(outline);
 
 		auto mmarkerFillColor = ToColor(fill);
 
-		if (datapoints.size() == 0)
-			return GetPyNone();
+		auto datapoints = ToVectVec2(data);
 
-		graph->updateSeries(new mvScatterSeries(name, datapoints, marker, size, weight, mmarkerOutlineColor,
-			mmarkerFillColor), update_bounds);
+		if (xy_data_format) 
+		{
+			auto datapoints = ToPairVec(data);
+			
+			if (datapoints.first.size() == 0 || datapoints.first.size() != datapoints.second.size())
+			{
+				ThrowPythonException(std::string(plot) + " data format incorrect");
+				return GetPyNone();
+			}
+
+			series = new mvScatterSeries(name, datapoints.first, datapoints.second, marker, size, 
+				weight, mmarkerOutlineColor, mmarkerFillColor);
+		} 
+		else 
+		{
+			if (datapoints.size() == 0)
+				return GetPyNone();
+				
+			series = new mvScatterSeries(name, datapoints, marker, size, weight, mmarkerOutlineColor,
+				mmarkerFillColor);
+		}
+		
+		graph->updateSeries(series, update_bounds);
 
 		return GetPyNone();
 	}

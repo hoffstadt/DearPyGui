@@ -17,7 +17,8 @@ def add_bar_series(plot: str, name: str, data: List[float], weight: float = 1.0,
 	...
 
 def add_button(name: str, small: bool = False, arrow: bool = False, direction: int = 2, callback: Callable = None, callback_data: Any = None, 
-			   tip: str = "", parent: str = "", before: str = "", width: int = 0, height: int = 0, label: str = "", popup: str = "", show: bool = True) -> None:
+			   tip: str = "", parent: str = "", before: str = "", width: int = 0, height: int = 0, 
+			   label: str = "", popup: str = "", show: bool = True, enabled: bool = True) -> None:
 	"""Adds a button."""
 	...
 
@@ -68,7 +69,7 @@ def add_columns(name:str, columns: int, border: bool = True, show: bool = True, 
 	"""Sets columns"""
 	...
 
-def add_combo(name: str, items: List[str] = [], default_value: str = "", callback: Callable = None, callback_data: Any = None, tip: str = "", parent: str = "", 
+def add_combo(name: str, *, items: List[str] = [], default_value: str = "", callback: Callable = None, callback_data: Any = None, tip: str = "", parent: str = "", 
 			  before: str = "", source: str = "", width: int = 0, label: str = "", popup: str = "", show: bool = True) -> None:
 	"""Adds a combo."""
 	...
@@ -248,11 +249,12 @@ def add_label_text(name: str, value: str = "", color: List[float] = [0, 0, 0, -1
 	"""Adds text with a label. Useful for output values."""
 	...
 
-def add_line_series(plot: str, name: str, data: List[List[float]], color: List[float] = [0, 0, 0, -1], weight: float = 1.0, update_bounds: bool = True) -> None:
+def add_line_series(plot: str, name: str, data: List[List[float]], color: List[float] = [0, 0, 0, -1], 
+					weight: float = 1.0, update_bounds: bool = True, xy_data_format: bool = False) -> None:
 	"""Adds a line series to a plot."""
 	...
 
-def add_listbox(name: str, items: List[str], default_value: int = 0, callback: Callable = None, callback_data: Any = None, tip: str = "", 
+def add_listbox(name: str, *, items: List[str], default_value: int = 0, callback: Callable = None, callback_data: Any = None, tip: str = "", 
 				parent: str = "", before: str = "", source: str = "", width: int = 0, num_items: int = 3, label: str = "", popup: str = "", show: bool = True) -> None:
 	"""Adds a listbox."""
 	...
@@ -306,7 +308,7 @@ def add_progress_bar(name: str, value: float = 0.0, overlay: str = "", tip: str 
 	"""Adds a progress bar."""
 	...
 
-def add_radio_button(name: str, items: List[str], default_value: int = 0, callback: Callable = None, callback_data: Any = None, tip: str = "",
+def add_radio_button(name: str, *, items: List[str], default_value: int = 0, callback: Callable = None, callback_data: Any = None, tip: str = "",
 					parent: str = "", before: str = "", source: str = "", horizontal: bool = False, popup: str = "", show: bool = True) -> None:
 	"""Adds a set of radio buttons."""
 	...
@@ -320,12 +322,13 @@ def add_same_line(name: str = "sameline", xoffset: float = 0.0, spacing: float =
 	...
 
 def add_scatter_series(plot: str, name: str, data: List[float], marker: int = 2, size: float = 4.0, weight: float = 1.0, 
-					   outline: List[float] = [0, 0, 0, -1], fill: List[float] = [0, 0, 0, -1], update_bounds: bool = True) -> None:
+					   outline: List[float] = [0, 0, 0, -1], fill: List[float] = [0, 0, 0, -1], update_bounds: bool = True,
+					   xy_data_format: bool = False) -> None:
 	"""Adds a scatter series to a plot."""
 	...
 
 def add_selectable(name: str, default_value: bool = False, callback: Callable = None, callback_data: Any = None, tip: str = "", parent: str = "", 
-				   before: str = "", source: str = "", disabled: bool = False, label: str = "", popup: str = "", 
+				   before: str = "", source: str = "", enabled: bool = True, label: str = "", popup: str = "", 
 				   show: bool = True, span_columns: bool = False) -> None:
 	"""Adds a selectable."""
 	...

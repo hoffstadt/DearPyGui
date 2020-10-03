@@ -197,6 +197,7 @@ namespace Marvel {
 		mvSeries(std::string  name, const ImPlotPoint& boundsMin, const ImPlotPoint& boundsMax);
 		mvSeries(std::string  name, const std::vector<mvVec2>& points);
 		mvSeries(std::string  name, const std::vector<mvVec4>& points);
+		mvSeries(std::string  name, const std::vector<float>& points_x, const std::vector<float>& points_y);
 		mvSeries(std::string  name, const std::vector<std::vector<float>>& points);
 
 		virtual ~mvSeries() = default;

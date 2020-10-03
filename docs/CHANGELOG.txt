@@ -28,6 +28,20 @@ HOW TO UPDATE?
 
 Decorated log: https://github.com/hoffstadt/DearPyGui/releases/tag/v0.4.4
 
+Breaking Changes:
+- Selectable:     changed "disabled" keyword to "enabled"
+
+Changes:
+- Examples:       Moved examples to https://github.com/Pcothren/DearPyGui-Examples
+
+New Keywords:
+- Line Series:    Added "xy_data_format" #246
+- Scatter Series: Added "xy_data_format" #246
+- Button:         Added "enabled"
+
+Fixes:
+- Listbox:        Fixed default "num_items"
+
 -----------------------------------------------------------------------
  VERSION 0.4.3 (10/01/2020)
 -----------------------------------------------------------------------
