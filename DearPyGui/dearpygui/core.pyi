@@ -1,62 +1,62 @@
 from typing import List, Any, Callable
 
-def add_additional_font(file: str, size: float = 13.0, glyph_ranges: str = "", custom_glyph_chars: List[int] = [], custom_glyph_ranges: List[List[int]] = []) -> None:
+def add_additional_font(file: str, size: float = 13.0, *, glyph_ranges: str = "", custom_glyph_chars: List[int] = [], custom_glyph_ranges: List[List[int]] = []) -> None:
 	"""Adds additional font."""
 	...
 
-def add_annotation(plot: str, text: str, x: float, y: float, xoffset: float, yoffset: float, color: List[float] = [0, 0, 0, 0], clamped: bool = True, tag: str = "") -> None:
+def add_annotation(plot: str, text: str, x: float, y: float, xoffset: float, yoffset: float, *, color: List[float] = [0, 0, 0, 0], clamped: bool = True, tag: str = "") -> None:
 	"""Adds an annotation to a plot."""
 	...
 
-def add_area_series(plot: str, name: str, data: List[float], color: List[float], fill: List[float], weight: float = 1.0, update_bounds: bool = True) -> None:
+def add_area_series(plot: str, name: str, data: List[float], color: List[float], fill: List[float], *, weight: float = 1.0, update_bounds: bool = True) -> None:
 	"""Adds an area series to a plot."""
 	...
 
-def add_bar_series(plot: str, name: str, data: List[float], weight: float = 1.0, horizontal: bool = False, update_bounds: bool = True) -> None:
+def add_bar_series(plot: str, name: str, data: List[float], *, weight: float = 1.0, horizontal: bool = False, update_bounds: bool = True) -> None:
 	"""Adds a bar series to a plot."""
 	...
 
-def add_button(name: str, small: bool = False, arrow: bool = False, direction: int = 2, callback: Callable = None, callback_data: Any = None, 
+def add_button(name: str, *, small: bool = False, arrow: bool = False, direction: int = 2, callback: Callable = None, callback_data: Any = None, 
 			   tip: str = "", parent: str = "", before: str = "", width: int = 0, height: int = 0, 
 			   label: str = "", popup: str = "", show: bool = True, enabled: bool = True) -> None:
 	"""Adds a button."""
 	...
 
-def add_checkbox(name: str, default_value: bool = False, callback: Callable = None, callback_data: Any = None, tip: str = "", parent: str = "", before: str = "", source: str = "", label: str = "", popup: str = "", show: bool = True) -> None:
+def add_checkbox(name: str, *, default_value: bool = False, callback: Callable = None, callback_data: Any = None, tip: str = "", parent: str = "", before: str = "", source: str = "", label: str = "", popup: str = "", show: bool = True) -> None:
 	"""Adds a checkbox widget."""
 	...
 
-def add_child(name: str, show: bool = True, tip: str = "", parent: str = "", before: str = "", width: int = 0, 
+def add_child(name: str, *, show: bool = True, tip: str = "", parent: str = "", before: str = "", width: int = 0, 
 			  height: int = 0, border: bool = True, popup: str = "", autosize_x: bool = False, autosize_y: bool = False, no_scrollbar: bool = False,
 			  horizontal_scrollbar: bool = False, menubar: bool = False) -> None:
 	"""Adds an embedded child window. Will show scrollbars when items do not fit. Must be followed by a call to end_child."""
 	...
 
-def add_collapsing_header(name: str, default_open: bool = False, closable: bool = False, label: str = "", show: bool = True, tip: str = "", parent: str = "", before: str = "") -> None:
+def add_collapsing_header(name: str, *, default_open: bool = False, closable: bool = False, label: str = "", show: bool = True, tip: str = "", parent: str = "", before: str = "") -> None:
 	"""Adds a collapsing header to add items to. Must be closed with the end_collapsing_header command."""
 	...
 
-def add_color_button(name: str, color: List[float], callback: Callable = None, callback_data: Any = None, tip: str = "", parent: str = "", before: str = "", 
+def add_color_button(name: str, color: List[float], *, callback: Callable = None, callback_data: Any = None, tip: str = "", parent: str = "", before: str = "", 
 					 width: int = 0, height: int = 0, popup: str = "", show: bool = True) -> None:
 	"""Adds a color button."""
 	...
 
-def add_color_edit3(name: str, default_value: List[int] = [0, 0, 0], callback: Callable = None, callback_data: Any = None, tip: str = "", parent: str = "", 
+def add_color_edit3(name: str, *, default_value: List[int] = [0, 0, 0], callback: Callable = None, callback_data: Any = None, tip: str = "", parent: str = "", 
 					before: str = "", source: str = "", width: int = 0, height: int = 0, label: str = "", popup: str = "", show: bool = True) -> None:
 	"""Adds an rgb color editing widget. Click and draging the color square will copy the color to be applied on any other color widget."""
 	...
 
-def add_color_edit4(name: str, default_value: List[int] = [0, 0, 0, 0], callback: Callable = None, callback_data: Any = None, tip: str = "", 
+def add_color_edit4(name: str, *, default_value: List[int] = [0, 0, 0, 0], callback: Callable = None, callback_data: Any = None, tip: str = "", 
 					parent: str = "", before: str = "", source: str = "", width: int = 0, height: int = 0, label: str = "", popup: str = "", show: bool = True) -> None:
 	"""Adds an rgba color editing widget. Click and draging the color square will copy the color to be applied on any other color widget."""
 	...
 
-def add_color_picker3(name: str, default_value: List[int] = [0, 0, 0], callback: Callable = None, callback_data: Any = None, tip: str = "", parent: str = "", 
+def add_color_picker3(name: str, *, default_value: List[int] = [0, 0, 0], callback: Callable = None, callback_data: Any = None, tip: str = "", parent: str = "", 
 					  before: str = "", source: str = "", width: int = 0, height: int = 0, label: str = "", popup: str = "", show: bool = True) -> None:
 	"""Adds an rgb color picking widget. Click and draging the color square will copy the color to be applied on any other color widget. Right Click allows the style of the color picker to be changed."""
 	...
 
-def add_color_picker4(name: str, default_value: List[int] = [0, 0, 0, 0], callback: Callable = None, callback_data: Any = None, tip: str = "", parent: str = "", 
+def add_color_picker4(name: str, *, default_value: List[int] = [0, 0, 0, 0], callback: Callable = None, callback_data: Any = None, tip: str = "", parent: str = "", 
 					  before: str = "", source: str = "", width: int = 0, height: int = 0, label: str = "", popup: str = "", show: bool = True) -> None:
 	"""Adds an rgba color picking widget. Click and draging the color square will copy the color to be applied on any other color widget. Right Click allows the style of the color picker to be changed"""
 	...
@@ -65,7 +65,7 @@ def add_column(table: str, name: str, column: List[str]) -> None:
 	"""Adds a column to the end of a table."""
 	...
 
-def add_columns(name:str, columns: int, border: bool = True, show: bool = True, parent: str = "", before: str = "") -> None:
+def add_columns(name:str, columns: int, *, border: bool = True, show: bool = True, parent: str = "", before: str = "") -> None:
 	"""Sets columns"""
 	...
 
@@ -78,85 +78,85 @@ def add_data(name: str, data: Any) -> Any:
 	"""Adds data for later retrieval."""
 	...
 
-def add_date_picker(name: str, default_value: dict = {'month_day': 14, 'year':20, 'month':5}, level: int = 0, callback: Callable = None, 
+def add_date_picker(name: str, *, default_value: dict = {'month_day': 14, 'year':20, 'month':5}, level: int = 0, callback: Callable = None, 
 					callback_data: Any = None, tip: str = "", parent: str = "", before: str = "", show: bool = True) -> None:
 	"""Adds a data selector widget."""
 	...
 
-def add_drag_float(name: str, default_value: float = 0.0, speed: float = 1.0, min_value: float = 0.0, max_value: float = 100.0, format: str = "%.3f", 
+def add_drag_float(name: str, *, default_value: float = 0.0, speed: float = 1.0, min_value: float = 0.0, max_value: float = 100.0, format: str = "%.3f", 
 				   callback: Callable = None, callback_data: Any = None, tip: str = "", parent: str = "", before: str = "", source: str = "", 
 				   width: int = 0, on_enter: bool = False, label: str = "", popup: str = "", show: bool = True) -> None:
 	"""Adds drag for a single float value. CTRL+Click to directly modify the value."""
 	...
 
-def add_drag_float2(name: str, default_value: List[float] = [0.0, 0.0], speed: float = 1.0, min_value: float = 0.0, max_value: float = 100.0, 
+def add_drag_float2(name: str, *, default_value: List[float] = [0.0, 0.0], speed: float = 1.0, min_value: float = 0.0, max_value: float = 100.0, 
 					format: str = "%.3f", callback: Callable = None, callback_data: Any = None, tip: str = "", 
 					parent: str = "", before: str = "", source: str = "", width: int = 0, 
 					on_enter: bool = False, label: str = "", popup: str = "", show: bool = True) -> None:
 	"""Adds drag for a 2 float values. CTRL+Click to directly modify the value."""
 	...
 
-def add_drag_float3(name: str, default_value: List[float] = [0.0, 0.0, 0.0], speed: float = 1.0, min_value: float = 0.0, max_value: float = 100.0, 
+def add_drag_float3(name: str, *, default_value: List[float] = [0.0, 0.0, 0.0], speed: float = 1.0, min_value: float = 0.0, max_value: float = 100.0, 
 					format: str = "%.3f", callback: Callable = None, callback_data: Any = None, tip: str = "", 
 					parent: str = "", before: str = "", source: str = "", width: int = 0, on_enter: bool = False, 
 					label: str = "", popup: str = "", show: bool = True) -> None:
 	"""Adds drag for a 3 float values. CTRL+Click to directly modify the value."""
 	...
 
-def add_drag_float4(name: str, default_value: List[float] = [0.0, 0.0, 0.0, 0.0], speed: float = 1.0, min_value: float = 0.0, max_value: float = 100.0, 
+def add_drag_float4(name: str, *, default_value: List[float] = [0.0, 0.0, 0.0, 0.0], speed: float = 1.0, min_value: float = 0.0, max_value: float = 100.0, 
 					format: str = "%.3f", callback: Callable = None, callback_data: Any = None, tip: str = "", parent: str = "", before: str = "", 
 					source: str = "", width: int = 0, on_enter: bool = False, label: str = "", popup: str = "", show: bool = True) -> None:
 	"""Adds drag for a 4 float values. CTRL+Click to directly modify the value."""
 	...
 
-def add_drag_int(name: str, default_value: int = 0, speed: float = 1.0, min_value: int = 0, max_value: int = 100, format: str = "%d", callback: Callable = None, 
+def add_drag_int(name: str, *, default_value: int = 0, speed: float = 1.0, min_value: int = 0, max_value: int = 100, format: str = "%d", callback: Callable = None, 
 				 callback_data: Any = None, tip: str = "", parent: str = "", before: str = "", source: str = "", width: int = 0, 
 				 on_enter: bool = False, label: str = "", popup: str = "", show: bool = True) -> None:
 	"""Adds drag for a single int value. CTRL+Click to directly modify the value."""
 	...
 
-def add_drag_int2(name: str, default_value: List[int] = [0, 0], speed: float = 1.0, min_value: int = 0, max_value: int = 100, format: str = "%d", 
+def add_drag_int2(name: str, *, default_value: List[int] = [0, 0], speed: float = 1.0, min_value: int = 0, max_value: int = 100, format: str = "%d", 
 				  callback: Callable = None, callback_data: Any = None, tip: str = "", parent: str = "", before: str = "", 
 				  source: str = "", width: int = 0, on_enter: bool = False, label: str = "", popup: str = "", show: bool = True) -> None:
 	"""Adds drag for a 2 int values. CTRL+Click to directly modify the value."""
 	...
 
-def add_drag_int3(name: str, default_value: List[int] = [0, 0, 0], speed: float = 1.0, min_value: int = 0, max_value: int = 100, format: str = "%d", 
+def add_drag_int3(name: str, *, default_value: List[int] = [0, 0, 0], speed: float = 1.0, min_value: int = 0, max_value: int = 100, format: str = "%d", 
 				  callback: Callable = None, callback_data: Any = None, tip: str = "", parent: str = "", before: str = "", source: str = "", 
 				  width: int = 0, on_enter: bool = False, label: str = "", popup: str = "", show: bool = True) -> None:
 	"""Adds drag for a 3 int values. CTRL+Click to directly modify the value."""
 	...
 
-def add_drag_int4(name: str, default_value: List[int] = [0, 0, 0, 0], speed: float = 1.0, min_value: int = 0, max_value: int = 100, format: str = "%d", 
+def add_drag_int4(name: str, *, default_value: List[int] = [0, 0, 0, 0], speed: float = 1.0, min_value: int = 0, max_value: int = 100, format: str = "%d", 
 				  callback: Callable = None, callback_data: Any = None, tip: str = "", parent: str = "", before: str = "", 
 				  source: str = "", width: int = 0, on_enter: bool = False, label: str = "", popup: str = "", show: bool = True) -> None:
 	"""Adds drag for a 4 int values. CTRL+Click to directly modify the value."""
 	...
 
-def add_drag_line(plot: str, name: str, source: str = "", color: List[float] = [0, 0, 0, -1], thickness: float = 1.0, y_line: bool = False, 
+def add_drag_line(plot: str, name: str, *, source: str = "", color: List[float] = [0, 0, 0, -1], thickness: float = 1.0, y_line: bool = False, 
 				  show_label: bool = True, callback: Callable = None, default_value: float = 0.0) -> None:
 	"""Adds a drag line to a plot."""
 	...
 
-def add_drag_point(plot: str, name: str, source: str = "", color: List[float] = [0, 0, 0, -1], radius: float = 4.0, show_label: bool = True, 
+def add_drag_point(plot: str, name: str, *, source: str = "", color: List[float] = [0, 0, 0, -1], radius: float = 4.0, show_label: bool = True, 
 				   callback: Callable = None, default_x: float = 0.0, default_y: float = 0.0) -> None:
 	"""Adds a drag line to a plot."""
 	...
 
-def add_drawing(name: str, tip: str = "", parent: str = "", before: str = "", width: int = 0, height: int = 0, popup: str = "", 
+def add_drawing(name: str, *, tip: str = "", parent: str = "", before: str = "", width: int = 0, height: int = 0, popup: str = "", 
 				show: bool = True, originx: float = 0.0, originy: float = 0.0, scalex: float = 1.0, scaley: float = 1.0) -> None:
 	"""Adds a drawing widget."""
 	...
 
-def add_dummy(width: int, height: int, name: str = "dummy", parent: str = "", before: str = "", show: bool = True) -> None:
+def add_dummy(width: int, height: int, *, name: str = "dummy", parent: str = "", before: str = "", show: bool = True) -> None:
 	"""Adds a spacer or 'dummy' object."""
 	...
 
-def add_error_series(plot: str, name: str, data: List[float], horizontal: bool = False, update_bounds: bool = True, color: List[float] = [0, 0, 0, -1]) -> None:
+def add_error_series(plot: str, name: str, data: List[float], *, horizontal: bool = False, update_bounds: bool = True, color: List[float] = [0, 0, 0, -1]) -> None:
 	"""Adds an error series to a plot."""
 	...
 
-def add_group(name: str, show: bool = True, tip: str = "", parent: str = "", before: str = "", width: int = 0, horizontal: bool = False, 
+def add_group(name: str, *, show: bool = True, tip: str = "", parent: str = "", before: str = "", width: int = 0, horizontal: bool = False, 
 			  horizontal_spacing: float = -1.0, popup: str = "") -> None:
 	"""Creates a group that other widgets can belong to. The group allows item commands to be issued for all of its members.				Must be closed with the end_group command."""
 	...
