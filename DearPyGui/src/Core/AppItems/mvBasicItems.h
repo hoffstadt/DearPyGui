@@ -457,7 +457,7 @@ namespace Marvel {
 	private:
 
 		std::vector<std::string> m_names;
-		int                      m_itemsHeight; // number of items to show (default -1)
+		int                      m_itemsHeight = 3; // number of items to show (default -1)
 		std::vector<const char*> m_charNames;
 
 	};
