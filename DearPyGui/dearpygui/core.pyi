@@ -69,7 +69,7 @@ def add_columns(name:str, columns: int, border: bool = True, show: bool = True, 
 	"""Sets columns"""
 	...
 
-def add_combo(name: str, items: List[str] = [], default_value: str = "", callback: Callable = None, callback_data: Any = None, tip: str = "", parent: str = "", 
+def add_combo(name: str, *, items: List[str] = [], default_value: str = "", callback: Callable = None, callback_data: Any = None, tip: str = "", parent: str = "", 
 			  before: str = "", source: str = "", width: int = 0, label: str = "", popup: str = "", show: bool = True) -> None:
 	"""Adds a combo."""
 	...
@@ -254,7 +254,7 @@ def add_line_series(plot: str, name: str, data: List[List[float]], color: List[f
 	"""Adds a line series to a plot."""
 	...
 
-def add_listbox(name: str, items: List[str], default_value: int = 0, callback: Callable = None, callback_data: Any = None, tip: str = "", 
+def add_listbox(name: str, *, items: List[str], default_value: int = 0, callback: Callable = None, callback_data: Any = None, tip: str = "", 
 				parent: str = "", before: str = "", source: str = "", width: int = 0, num_items: int = 3, label: str = "", popup: str = "", show: bool = True) -> None:
 	"""Adds a listbox."""
 	...
@@ -308,7 +308,7 @@ def add_progress_bar(name: str, value: float = 0.0, overlay: str = "", tip: str 
 	"""Adds a progress bar."""
 	...
 
-def add_radio_button(name: str, items: List[str], default_value: int = 0, callback: Callable = None, callback_data: Any = None, tip: str = "",
+def add_radio_button(name: str, *, items: List[str], default_value: int = 0, callback: Callable = None, callback_data: Any = None, tip: str = "",
 					parent: str = "", before: str = "", source: str = "", horizontal: bool = False, popup: str = "", show: bool = True) -> None:
 	"""Adds a set of radio buttons."""
 	...
