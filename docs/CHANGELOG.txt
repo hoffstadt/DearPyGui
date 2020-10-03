@@ -31,6 +31,9 @@ Decorated log: https://github.com/hoffstadt/DearPyGui/releases/tag/v0.4.4
 Breaking Changes:
 - Selectable:     changed "disabled" keyword to "enabled"
 
+New Commands:
+- Items:           Added "move_item" command
+
 Changes:
 - Examples:       Moved examples to https://github.com/Pcothren/DearPyGui-Examples
 
@@ -69,7 +72,6 @@ New Keywords:
 
 Changes:
 - Text:           Text is wrapped by default now.
-
 
 Fixes:
 - Collapsing Header: fixed "default_open" which did not work before

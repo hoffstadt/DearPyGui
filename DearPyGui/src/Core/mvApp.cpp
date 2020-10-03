@@ -396,6 +396,16 @@ namespace Marvel {
 		return true;
 	}
 
+	bool mvApp::moveItem(const std::string& name, const std::string& parent, const std::string& before)
+	{
+		if (!checkIfMainThread())
+			return false;
+
+		m_moveVec.push({ name, parent, before });
+
+		return true;
+	}
+
 	bool mvApp::addItemAfter(const std::string& prev, mvAppItem* item)
 	{
 		if (!checkIfMainThread())
@@ -1211,6 +1221,30 @@ namespace Marvel {
 
 	void mvApp::postMoveItems()
 	{
+		// move
+		while (!m_moveVec.empty())
+		{
+			StolenChild childrequest = m_moveVec.front();
+			m_moveVec.pop();
+
+			mvAppItem* child = nullptr;
+
+			bool movedItem = false;
+
+			for (auto window : m_windows)
+			{
+				child = window->stealChild(childrequest.item);
+				if (child)
+					break;
+			}
+
+			if (child == nullptr)
+				ThrowPythonException(childrequest.item + " not moved because it was not found");
+
+			if(child)
+				addRuntimeItem(childrequest.parent, childrequest.before, child);
+		}
+
 		// move items up
 		while (!m_upQueue.empty())
 		{
