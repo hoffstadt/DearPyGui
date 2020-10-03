@@ -67,14 +67,21 @@ namespace Marvel {
 			mvGlobalIntepreterLock gil;
 
 			// helper for bit flipping
-			auto flagop = [dict](const char* keyword, int flag, int& flags)
+			auto flagop = [dict](const char* keyword, int flag, int& flags, bool flip)
 			{
-				if (PyObject* item = PyDict_GetItemString(dict, keyword)) ToBool(item) ? flags |= flag : flags &= ~flag;
+				if (flip)
+				{
+					if (PyObject* item = PyDict_GetItemString(dict, keyword)) !ToBool(item) ? flags |= flag : flags &= ~flag;
+				}
+				else
+				{
+					if (PyObject* item = PyDict_GetItemString(dict, keyword)) ToBool(item) ? flags |= flag : flags &= ~flag;
+				}
 			};
 
 			// window flags
-			flagop("disabled", ImGuiSelectableFlags_Disabled, m_flags);
-			flagop("span_columns", ImGuiSelectableFlags_SpanAllColumns, m_flags);
+			flagop("enabled", ImGuiSelectableFlags_Disabled, m_flags, true);
+			flagop("span_columns", ImGuiSelectableFlags_SpanAllColumns, m_flags, false);
 
 		}
 
@@ -85,14 +92,17 @@ namespace Marvel {
 			mvGlobalIntepreterLock gil;
 
 			// helper to check and set bit
-			auto checkbitset = [dict](const char* keyword, int flag, const int& flags)
+			auto checkbitset = [dict](const char* keyword, int flag, const int& flags, bool flip)
 			{
-				PyDict_SetItemString(dict, keyword, ToPyBool(flags & flag));
+				if(flip)
+					PyDict_SetItemString(dict, keyword, ToPyBool(!(flags & flag)));
+				else
+					PyDict_SetItemString(dict, keyword, ToPyBool(flags & flag));
 			};
 
 			// window flags
-			checkbitset("disabled", ImGuiSelectableFlags_Disabled, m_flags);
-			checkbitset("span_columns", ImGuiSelectableFlags_SpanAllColumns, m_flags);
+			checkbitset("enabled", ImGuiSelectableFlags_Disabled, m_flags, true);
+			checkbitset("span_columns", ImGuiSelectableFlags_SpanAllColumns, m_flags, false);
 		}
 	private:
 		ImGuiSelectableFlags m_flags = ImGuiSelectableFlags_None;
@@ -118,11 +128,22 @@ namespace Marvel {
 			pushColorStyles();
 			ImGui::PushID(this);
 
+			if (!m_enabled)
+			{
+				ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(ImGui::GetStyleColorVec4(ImGuiCol_TextDisabled)));
+				ImVec4 disabled_color = ImVec4(ImGui::GetStyleColorVec4(ImGuiCol_TextDisabled));
+				disabled_color.w = 0.392f;
+				ImGui::PushStyleColor(ImGuiCol_Button, disabled_color);
+				ImGui::PushStyleColor(ImGuiCol_ButtonHovered, disabled_color);
+				ImGui::PushStyleColor(ImGuiCol_ButtonActive, disabled_color);
+			}
+
 			if (m_small)
 			{
 				if (ImGui::SmallButton(m_label.c_str()))
 				{
-					mvApp::GetApp()->runCallback(m_callback, m_name, m_callbackData);
+					if(m_enabled)
+						mvApp::GetApp()->runCallback(m_callback, m_name, m_callbackData);
 
 					// Context Menu
 					if (!getPopup().empty())
@@ -130,6 +151,8 @@ namespace Marvel {
 				}
 
 				ImGui::PopID();
+				if (!m_enabled) ImGui::PopStyleColor(4);
+				popColorStyles();
 				return;
 			}
 
@@ -137,7 +160,8 @@ namespace Marvel {
 			{
 				if (ImGui::ArrowButton(m_label.c_str(), m_direction))
 				{
-					mvApp::GetApp()->runCallback(m_callback, m_name, m_callbackData);
+					if (m_enabled)
+						mvApp::GetApp()->runCallback(m_callback, m_name, m_callbackData);
 
 					// Context Menu
 					if (!getPopup().empty())
@@ -145,13 +169,16 @@ namespace Marvel {
 				}
 
 				ImGui::PopID();
+				if (!m_enabled) ImGui::PopStyleColor(4);
+				popColorStyles();
 				return;
 			}
 
 			if (ImGui::Button(m_label.c_str(), ImVec2((float)m_width, (float)m_height)))
 			{
 
-				mvApp::GetApp()->runCallback(m_callback, m_name, m_callbackData);
+				if (m_enabled)
+					mvApp::GetApp()->runCallback(m_callback, m_name, m_callbackData);
 
 				// Context Menu
 				if (!getPopup().empty())
@@ -163,6 +190,7 @@ namespace Marvel {
 				ImGui::SetTooltip("%s", getTip().c_str());
 
 			ImGui::PopID();
+			if (!m_enabled) ImGui::PopStyleColor(4);
 			popColorStyles();
 		}
 
@@ -172,6 +200,7 @@ namespace Marvel {
 				return;
 			mvGlobalIntepreterLock gil;
 
+			if (PyObject* item = PyDict_GetItemString(dict, "enabled")) m_enabled = ToBool(item);
 			if (PyObject* item = PyDict_GetItemString(dict, "small")) m_small = ToBool(item);
 			if (PyObject* item = PyDict_GetItemString(dict, "arrow")) m_arrow = ToBool(item);
 			if (PyObject* item = PyDict_GetItemString(dict, "direction")) m_direction = ToInt(item);
@@ -182,6 +211,7 @@ namespace Marvel {
 			if (dict == nullptr)
 				return;
 			mvGlobalIntepreterLock gil;
+			PyDict_SetItemString(dict, "enabled", ToPyBool(m_enabled));
 			PyDict_SetItemString(dict, "small", ToPyBool(m_small));
 			PyDict_SetItemString(dict, "arrow", ToPyBool(m_arrow));
 			PyDict_SetItemString(dict, "direction", ToPyInt(m_direction));
@@ -191,6 +221,7 @@ namespace Marvel {
 
 		bool     m_small = false;
 		bool     m_arrow = false;
+		bool     m_enabled = true;
 		ImGuiDir m_direction = ImGuiDir_Up;
 
 	};

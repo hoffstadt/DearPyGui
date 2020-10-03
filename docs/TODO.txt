@@ -32,3 +32,5 @@ It's mostly a bunch of personal notes, probably incomplete. Feel free to query i
 - layouts: because there is not a way to know boarder sizes on things like the main window and also the childs it maks sizing hard same for menu. its hard to set a child to fill the main window width
 - layout: doing add_spacing in count when everything is in pixels is weird
 - layout: group has no height attribute which would be useful for when the group is set to horizontal
+
+- widgets: add enabled keyword to all applicable widgets

@@ -17,7 +17,8 @@ def add_bar_series(plot: str, name: str, data: List[float], weight: float = 1.0,
 	...
 
 def add_button(name: str, small: bool = False, arrow: bool = False, direction: int = 2, callback: Callable = None, callback_data: Any = None, 
-			   tip: str = "", parent: str = "", before: str = "", width: int = 0, height: int = 0, label: str = "", popup: str = "", show: bool = True) -> None:
+			   tip: str = "", parent: str = "", before: str = "", width: int = 0, height: int = 0, 
+			   label: str = "", popup: str = "", show: bool = True, enabled: bool = True) -> None:
 	"""Adds a button."""
 	...
 
@@ -327,7 +328,7 @@ def add_scatter_series(plot: str, name: str, data: List[float], marker: int = 2,
 	...
 
 def add_selectable(name: str, default_value: bool = False, callback: Callable = None, callback_data: Any = None, tip: str = "", parent: str = "", 
-				   before: str = "", source: str = "", disabled: bool = False, label: str = "", popup: str = "", 
+				   before: str = "", source: str = "", enabled: bool = True, label: str = "", popup: str = "", 
 				   show: bool = True, span_columns: bool = False) -> None:
 	"""Adds a selectable."""
 	...

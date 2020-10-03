@@ -199,7 +199,7 @@ namespace Marvel {
 			{mvPythonDataType::String, "parent", "Parent this item will be added to. (runtime adding)"},
 			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)"},
 			{mvPythonDataType::String, "source", "data source for shared data"},
-			{mvPythonDataType::Bool, "disabled", "Display grayed out text so selectable cannot be selected"},
+			{mvPythonDataType::Bool, "enabled", "Display grayed out text so selectable cannot be selected"},
 			{mvPythonDataType::String, "label"},
 			{mvPythonDataType::String, "popup"},
 			{mvPythonDataType::Bool, "show"},
@@ -222,6 +222,7 @@ namespace Marvel {
 			{mvPythonDataType::String, "label", ""},
 			{mvPythonDataType::String, "popup", ""},
 			{mvPythonDataType::Bool, "show", ""},
+			{mvPythonDataType::Bool, "enabled", ""},
 		}, "Adds a button.", "None", "Adding Widgets") });
 
 		parsers->insert({ "add_color_button", mvPythonParser({
@@ -849,7 +850,7 @@ namespace Marvel {
 		const char* before = "";
 		const char* parent = "";
 		const char* source = "";
-		int disabled = false;
+		int enabled = true;
 		const char* label = "";
 		const char* popup = "";
 		int show = true;
@@ -858,7 +859,7 @@ namespace Marvel {
 		//ImGuiSelectableFlags flags = ImGuiSelectableFlags_None;
 
 		if (!(*mvApp::GetApp()->getParsers())["add_selectable"].parse(args, kwargs, __FUNCTION__, &name,
-			&default_value, &callback, &callback_data, &tip, &parent, &before, &source, &disabled,
+			&default_value, &callback, &callback_data, &tip, &parent, &before, &source, &enabled,
 			&label, &popup, &show, &span_columns))
 			return ToPyBool(false);
 
@@ -893,10 +894,11 @@ namespace Marvel {
 		const char* label = "";
 		const char* popup = "";
 		int show = true;
+		int enabled = true;
 
 		if (!(*mvApp::GetApp()->getParsers())["add_button"].parse(args, kwargs, __FUNCTION__, &name, &smallb,
 			&arrow, &direction, &callback, &callback_data, &tip, &parent, &before, &width, &height,
-			&label, &popup, &show))
+			&label, &popup, &show, &enabled))
 			return ToPyBool(false);
 
 		mvAppItem* item = new mvButton(name);
