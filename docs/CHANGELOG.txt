@@ -76,6 +76,7 @@ Changes:
 Fixes:
 - Collapsing Header: fixed "default_open" which did not work before
 - Tree Node: fixed "default_open" which did not work before
+- Stub File: added notation in definition for keyword only arguments
 
 -----------------------------------------------------------------------
  VERSION 0.4.2 (9/30/2020)
