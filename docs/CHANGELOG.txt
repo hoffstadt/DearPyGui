@@ -39,6 +39,9 @@ New Keywords:
 - Scatter Series: Added "xy_data_format" #246
 - Button:         Added "enabled"
 
+Fixes:
+- Listbox:        Fixed default "num_items"
+
 -----------------------------------------------------------------------
  VERSION 0.4.3 (10/01/2020)
 -----------------------------------------------------------------------
