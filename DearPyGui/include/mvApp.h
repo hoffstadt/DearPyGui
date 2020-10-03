@@ -85,6 +85,13 @@ namespace Marvel {
             PyObject* returnname; // optional return function
         };
 
+        struct StolenChild
+        {
+            std::string item;   // item to steal
+            std::string parent; // what item to add stolen item before
+            std::string before; // what parent to add item to (if not using before)
+        };
+
     public:
 
         mvApp          (const mvApp& other) = delete;
@@ -168,6 +175,7 @@ namespace Marvel {
         bool                     addItemAfter      (const std::string& prev, mvAppItem* item);
         bool                     addWindow         (mvAppItem* item);
         bool                     addRuntimeItem    (const std::string& parent, const std::string& before, mvAppItem* item);
+        bool                     moveItem          (const std::string& name, const std::string& parent, const std::string& before);
         void                     deleteItem        (const std::string& name) { if(name!="MainWindow") m_deleteQueue.push(name); }
         void                     deleteItemChildren(const std::string& name) { m_deleteChildrenQueue.push(name); }
         void                     moveItemUp        (const std::string& name) { m_upQueue.push(name); }
@@ -204,12 +212,13 @@ namespace Marvel {
 
         //-----------------------------------------------------------------------------
         // Post Rendering Methods
+        //     - actually performs queued operations
         //-----------------------------------------------------------------------------
         void postDeleteItems();
-        void postAddItems();
-        void postAddPopups();
-        void postMoveItems();
-        void postAsync();
+        void postAddItems   ();
+        void postAddPopups  ();
+        void postMoveItems  ();
+        void postAsync      ();
 
         mvApp();
 
@@ -255,6 +264,7 @@ namespace Marvel {
         std::queue<std::string>     m_downQueue;
         std::vector<NewRuntimeItem> m_newItemVec;
         std::vector<OrderedItem>    m_orderedVec;
+        std::queue<StolenChild>     m_moveVec;
 
         // timing
         float  m_deltaTime; // time since last frame
