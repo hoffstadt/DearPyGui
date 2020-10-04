@@ -128,6 +128,7 @@ def show_demo():
 
     def on_demo_close(sender, data):
         delete_item("Dear PyGui Demo")
+        delete_item("Logging Widget On Window##demo")
         set_render_callback(None)
         set_mouse_down_callback(None)
         set_mouse_drag_callback(None, 10)
@@ -1010,22 +1011,58 @@ def show_demo():
 
         with collapsing_header("Logging##demo"):
 
-            def LogCallback(sender, data):
-                show_logger()
-                clear_log()
-                loglevel = get_value("Log Level##logging##demo")
-                set_log_level(loglevel)
-                log("Trace Message")
-                log_debug("Debug Message")
-                log_info("Info Message")
-                log_warning("Warning Message")
-                log_error("Error Message")
+            with tree_node("System Logger##demo"):
 
-            add_button("Test Logger##demo", callback=LogCallback)
-            add_same_line(spacing=10)
-            with group("LoggingGroup##demo"):
-                add_text("Log Level##demo")
-                add_radio_button("Log Level##logging##demo", items=("Trace", "Debug", "Info", "Warning", "Error", "Off"))
+                def LogCallback1(sender, data):
+                    show_logger()
+                    clear_log()
+                    loglevel = get_value("Log Level##logging##demo")
+                    set_log_level(loglevel)
+                    log("Trace Message")
+                    log_debug("Debug Message")
+                    log_info("Info Message")
+                    log_warning("Warning Message")
+                    log_error("Error Message")
+
+                add_button("Test Logger##demo", callback=LogCallback1)
+                add_same_line(spacing=10)
+                with group("LoggingGroup##demo"):
+                    add_text("Log Level##demo", default_value="Log Level")
+                    add_radio_button("Log Level##logging##demo", items=("Trace", "Debug", "Info", "Warning", "Error", "Off"))
+
+            with tree_node("Logger Widgets##demo"):
+                def LogCallback2(sender, data):
+                    clear_log(logger="LoggerWidget##demo")
+                    loglevel = get_value("Log Level##2logging##demo")
+                    set_log_level(loglevel, logger="LoggerWidget##demo")
+                    log("Trace Message", logger="LoggerWidget##demo")
+                    log_debug("Debug Message", logger="LoggerWidget##demo")
+                    log_info("Info Message", logger="LoggerWidget##demo")
+                    log_warning("Warning Message", logger="LoggerWidget##demo")
+                    log_error("Error Message", logger="LoggerWidget##demo")
+
+                def MoveLoggerToWindow(sender, data):
+                    configure_item("LoggerWidget##demo", autosize_y=True)
+                    if not does_item_exist("Logging Widget On Window##demo"):
+                        with window("Logging Widget On Window##demo"):
+                            pass
+                    else:
+                        show_item("Logging Widget On Window##demo")
+
+                    move_item("LoggerWidget##demo", parent="Logging Widget On Window##demo")
+
+                def MoveLoggerToDemo(sender, data):
+                    configure_item("LoggerWidget##demo", autosize_y=False, height=200)
+                    move_item("LoggerWidget##demo", parent="Logger Widgets##demo")
+                    hide_item("Logging Widget On Window##demo")
+
+                with group("LeftLogGroup##demo"):
+                    add_button("Detach##demo2", callback=MoveLoggerToWindow)
+                    add_button("Reattach##demo2", callback=MoveLoggerToDemo)
+                    add_button("Test Logger##demo2", callback=LogCallback2)
+                    add_radio_button("Log Level##2logging##demo", items=("Trace", "Debug", "Info", "Warning", "Error", "Off"))
+                add_same_line()
+                add_logger("LoggerWidget##demo", autosize_x=True, height=200)
 
         with collapsing_header("Filtering##demo"):
             add_text("This section is not ready! But will completed sometime during the 0.4.x releases!")

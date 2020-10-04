@@ -464,7 +464,7 @@ def clear_item_color(item: str) -> None:
 	"""Clears individual color styles for an item."""
 	...
 
-def clear_log() -> None:
+def clear_log(logger: str = "") -> None:
 	"""Clears the logger."""
 	...
 
@@ -654,7 +654,7 @@ def get_item_width(item: str) -> float:
 	"""Returns an item's width."""
 	...
 
-def get_log_level() -> int:
+def get_log_level(logger: str = "") -> int:
 	"""Returns the log level."""
 	...
 
@@ -950,23 +950,23 @@ def is_threadpool_high_performance() -> bool:
 	"""Checks if the threadpool is allowed to use the maximum number of threads."""
 	...
 
-def log(message: Any, level: str = "") -> None:
+def log(message: Any, level: str = "", logger: str = "") -> None:
 	"""Logs a trace level log."""
 	...
 
-def log_debug(message: Any) -> None:
+def log_debug(message: Any, logger: str = "") -> None:
 	"""Logs a debug level log."""
 	...
 
-def log_error(message: Any) -> None:
+def log_error(message: Any, logger: str = "") -> None:
 	"""Logs a error level log."""
 	...
 
-def log_info(message: Any) -> None:
+def log_info(message: Any, logger: str = "") -> None:
 	"""Logs a info level log."""
 	...
 
-def log_warning(message: Any) -> None:
+def log_warning(message: Any, logger: str = "") -> None:
 	"""Logs a warning level log."""
 	...
 

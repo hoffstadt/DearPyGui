@@ -20,6 +20,7 @@
 #include "Core/AppItems/mvTimePicker.h"
 #include "Core/AppItems/mvDatePicker.h"
 #include "Core/AppItems/mvColumns.h"
+#include "Core/AppItems/mvLogger.h"
 
 #include "Core/PlotAppItems/mvPlot.h"
 #include "Core/PlotAppItems/mvSimplePlot.h"

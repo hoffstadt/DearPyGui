@@ -480,6 +480,9 @@ namespace Marvel {
 
 		void draw() override
 		{
+
+			ImGui::BeginGroup();
+
 			pushColorStyles();
 			ImGui::PushID(this);
 
@@ -505,6 +508,8 @@ namespace Marvel {
 
 			ImGui::PopID();
 			popColorStyles();
+
+			ImGui::EndGroup();
 		}
 
 		void setExtraConfigDict(PyObject* dict) override
