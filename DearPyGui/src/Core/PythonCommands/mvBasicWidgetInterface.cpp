@@ -5,6 +5,26 @@ namespace Marvel {
 
 	void AddBasicWidgets(std::map<std::string, mvPythonParser>* parsers)
 	{
+		parsers->insert({ "add_logger", mvPythonParser({
+			{mvPythonDataType::String, "name"},
+			{mvPythonDataType::Optional},
+			{mvPythonDataType::KeywordOnly},
+			{mvPythonDataType::Integer, "log_level"},
+			{mvPythonDataType::Bool, "auto_scroll"},
+			{mvPythonDataType::Bool, "auto_scroll_button"},
+			{mvPythonDataType::Bool, "clear_button"},
+			{mvPythonDataType::Bool, "copy_button"},
+			{mvPythonDataType::Bool, "filter"},
+			{mvPythonDataType::Integer, "width",""},
+			{mvPythonDataType::Integer, "height",""},
+			{mvPythonDataType::String, "parent", "Parent this item will be added to. (runtime adding)"},
+			{mvPythonDataType::String, "before","This item will be displayed before the specified item in the parent. (runtime adding)"},
+			{mvPythonDataType::Bool, "show",},
+			{mvPythonDataType::Bool, "autosize_x"},
+			{mvPythonDataType::Bool, "autosize_y"},
+	
+		}, "Adds a logging widget.", "None", "Adding Widgets") });
+
 		parsers->insert({ "add_time_picker", mvPythonParser({
 			{mvPythonDataType::String, "name"},
 			{mvPythonDataType::Optional},
@@ -463,6 +483,37 @@ namespace Marvel {
 			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)"},
 			{mvPythonDataType::Bool, "show"}
 		}, "Adds a spacer or 'dummy' object.", "None", "Adding Widgets") });
+	}
+
+	PyObject* add_logger(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		const char* name;
+		int logLevel = 1;
+		int autoScroll = true;
+		int autoScrollButton = true;
+		int copyButton = true;
+		int clearButton = true;
+		int filter = true;
+		int width = 0;
+		int height = 0;
+		const char* parent = "";
+		const char* before = "";
+		int show = true;
+		int autosize_x = false;
+		int autosize_y = false;
+
+		if (!(*mvApp::GetApp()->getParsers())["add_logger"].parse(args, kwargs, __FUNCTION__,
+			&name, &logLevel, &autoScroll, &autoScrollButton, &copyButton, &clearButton,
+			&filter, &width, &height, &parent, &before, &show, &autosize_x, &autosize_y))
+			return ToPyBool(false);
+
+		mvAppItem* item = new mvLoggerItem(name);
+
+		item->checkConfigDict(kwargs);
+		item->setConfigDict(kwargs);
+		item->setExtraConfigDict(kwargs);
+
+		return ToPyBool(AddItemWithRuntimeChecks(item, parent, before));
 	}
 
 	PyObject* add_time_picker(PyObject* self, PyObject* args, PyObject* kwargs)
