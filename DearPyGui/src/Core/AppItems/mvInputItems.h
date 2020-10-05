@@ -67,6 +67,7 @@ namespace Marvel {
 				return;
 			mvGlobalIntepreterLock gil;
 			if (PyObject* item = PyDict_GetItemString(dict, "on_enter")) ToBool(item) ? m_flags |= ImGuiInputTextFlags_EnterReturnsTrue : m_flags &= ~ImGuiInputTextFlags_EnterReturnsTrue;
+			if (PyObject* item = PyDict_GetItemString(dict, "readonly")) ToBool(item) ? m_flags |= ImGuiInputTextFlags_ReadOnly : m_flags &= ~ImGuiInputTextFlags_ReadOnly;
 		}
 
 		void getExtraConfigDict(PyObject* dict) override
@@ -75,6 +76,7 @@ namespace Marvel {
 				return;
 			mvGlobalIntepreterLock gil;
 			PyDict_SetItemString(dict, "on_enter", ToPyBool(m_flags & ImGuiInputTextFlags_EnterReturnsTrue));
+			PyDict_SetItemString(dict, "readonly", ToPyBool(m_flags & ImGuiInputTextFlags_ReadOnly));
 		}
 
 	private:
@@ -126,6 +128,7 @@ namespace Marvel {
 				return;
 			mvGlobalIntepreterLock gil;
 			if (PyObject* item = PyDict_GetItemString(dict, "on_enter")) ToBool(item) ? m_flags |= ImGuiInputTextFlags_EnterReturnsTrue : m_flags &= ~ImGuiInputTextFlags_EnterReturnsTrue;
+			if (PyObject* item = PyDict_GetItemString(dict, "readonly")) ToBool(item) ? m_flags |= ImGuiInputTextFlags_ReadOnly : m_flags &= ~ImGuiInputTextFlags_ReadOnly;
 		}
 
 		void getExtraConfigDict(PyObject* dict) override
@@ -134,6 +137,7 @@ namespace Marvel {
 				return;
 			mvGlobalIntepreterLock gil;
 			PyDict_SetItemString(dict, "on_enter", ToPyBool(m_flags & ImGuiInputTextFlags_EnterReturnsTrue));
+			PyDict_SetItemString(dict, "readonly", ToPyBool(m_flags & ImGuiInputTextFlags_ReadOnly));
 		}
 
 	private:
@@ -185,6 +189,7 @@ namespace Marvel {
 				return;
 			mvGlobalIntepreterLock gil;
 			if (PyObject* item = PyDict_GetItemString(dict, "on_enter")) ToBool(item) ? m_flags |= ImGuiInputTextFlags_EnterReturnsTrue : m_flags &= ~ImGuiInputTextFlags_EnterReturnsTrue;
+			if (PyObject* item = PyDict_GetItemString(dict, "readonly")) ToBool(item) ? m_flags |= ImGuiInputTextFlags_ReadOnly : m_flags &= ~ImGuiInputTextFlags_ReadOnly;
 		}
 
 		void getExtraConfigDict(PyObject* dict) override
@@ -193,6 +198,7 @@ namespace Marvel {
 				return;
 			mvGlobalIntepreterLock gil;
 			PyDict_SetItemString(dict, "on_enter", ToPyBool(m_flags & ImGuiInputTextFlags_EnterReturnsTrue));
+			PyDict_SetItemString(dict, "readonly", ToPyBool(m_flags & ImGuiInputTextFlags_ReadOnly));
 		}
 
 	private:
@@ -244,6 +250,7 @@ namespace Marvel {
 				return;
 			mvGlobalIntepreterLock gil;
 			if (PyObject* item = PyDict_GetItemString(dict, "on_enter")) ToBool(item) ? m_flags |= ImGuiInputTextFlags_EnterReturnsTrue : m_flags &= ~ImGuiInputTextFlags_EnterReturnsTrue;
+			if (PyObject* item = PyDict_GetItemString(dict, "readonly")) ToBool(item) ? m_flags |= ImGuiInputTextFlags_ReadOnly : m_flags &= ~ImGuiInputTextFlags_ReadOnly;
 		}
 
 		void getExtraConfigDict(PyObject* dict) override
@@ -252,6 +259,7 @@ namespace Marvel {
 				return;
 			mvGlobalIntepreterLock gil;
 			PyDict_SetItemString(dict, "on_enter", ToPyBool(m_flags & ImGuiInputTextFlags_EnterReturnsTrue));
+			PyDict_SetItemString(dict, "readonly", ToPyBool(m_flags & ImGuiInputTextFlags_ReadOnly));
 		}
 
 	private:
@@ -313,6 +321,7 @@ namespace Marvel {
 
 			// flags
 			flagop("on_enter", ImGuiInputTextFlags_EnterReturnsTrue, m_flags);
+			flagop("readonly", ImGuiInputTextFlags_ReadOnly, m_flags);
 
 		}
 
@@ -333,6 +342,7 @@ namespace Marvel {
 
 			// window flags
 			checkbitset("on_enter", ImGuiInputTextFlags_EnterReturnsTrue, m_flags);
+			checkbitset("readonly", ImGuiInputTextFlags_ReadOnly, m_flags);
 
 		}
 
@@ -397,6 +407,7 @@ namespace Marvel {
 
 			// flags
 			flagop("on_enter", ImGuiInputTextFlags_EnterReturnsTrue, m_flags);
+			flagop("readonly", ImGuiInputTextFlags_ReadOnly, m_flags);
 
 		}
 
@@ -415,6 +426,7 @@ namespace Marvel {
 
 			// window flags
 			checkbitset("on_enter", ImGuiInputTextFlags_EnterReturnsTrue, m_flags);
+			checkbitset("readonly", ImGuiInputTextFlags_ReadOnly, m_flags);
 
 		}
 
@@ -477,6 +489,7 @@ namespace Marvel {
 
 			// flags
 			flagop("on_enter", ImGuiInputTextFlags_EnterReturnsTrue, m_flags);
+			flagop("readonly", ImGuiInputTextFlags_ReadOnly, m_flags);
 
 		}
 
@@ -495,6 +508,7 @@ namespace Marvel {
 
 			// window flags
 			checkbitset("on_enter", ImGuiInputTextFlags_EnterReturnsTrue, m_flags);
+			checkbitset("readonly", ImGuiInputTextFlags_ReadOnly, m_flags);
 
 		}
 
@@ -557,6 +571,7 @@ namespace Marvel {
 
 			// flags
 			flagop("on_enter", ImGuiInputTextFlags_EnterReturnsTrue, m_flags);
+			flagop("readonly", ImGuiInputTextFlags_ReadOnly, m_flags);
 
 		}
 
@@ -575,6 +590,7 @@ namespace Marvel {
 
 			// window flags
 			checkbitset("on_enter", ImGuiInputTextFlags_EnterReturnsTrue, m_flags);
+			checkbitset("readonly", ImGuiInputTextFlags_ReadOnly, m_flags);
 		}
 
 	private:
