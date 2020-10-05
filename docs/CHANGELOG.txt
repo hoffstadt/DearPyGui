@@ -54,6 +54,7 @@ New Keywords:
 Fixes:
 - Listbox:        Fixed default "num_items"
 - Combobox:       Fixed hidden name issue #258
+- File Dialog:    Fixed issue with typed filenames not returning #257
 
 -----------------------------------------------------------------------
  VERSION 0.4.3 (10/01/2020)
