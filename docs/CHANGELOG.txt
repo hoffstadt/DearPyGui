@@ -29,6 +29,7 @@ HOW TO UPDATE?
 Decorated log: https://github.com/hoffstadt/DearPyGui/releases/tag/v0.4.5
 
 Fixes:
+- Logger:    Log messages only showed up after 2nd call
 - Tabs:      Fixed issue with items on tabs not lining up when using same_line
 - Stub file: add_logger added to stub file
 - Plots:     reset_yticks was resetting x ticks

@@ -28,6 +28,8 @@ namespace Marvel {
 			m_autoScrollButtonName = "Auto-scroll##" + name;
 			m_clearButtonName = "Clear##" + name;
 			m_copyButtonName = "Copy##" + name;
+			LogInfo("[Logger] " + m_name);
+			LogInfo("[Logger] " + m_name);
 		}
 
 		void draw() override;
