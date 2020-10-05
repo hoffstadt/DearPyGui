@@ -13,13 +13,13 @@
 [![build status](https://github.com/hoffstadt/DearPyGui/workflows/Master%20Build/badge.svg)](https://github.com/hoffstadt/DearPyGui/actions?workflow=Master%20Build)
 [![build status](https://github.com/hoffstadt/DearPyGui/workflows/Development%20Build/badge.svg)](https://github.com/hoffstadt/DearPyGui/actions?workflow=Development%20Build)
 
-**Dear PyGui** is a **simple to use (but powerful) Python GUI framework**. _DearPyGui_ provides a wrapping of **[DearImGui](https://github.com/ocornut/imgui)** that provides a hybrid of a traditional retained mode GUI and _Dear ImGui_'s immediate mode paradigm.
+**Dear PyGui** is a **simple to use (but powerful) Python GUI framework**. _Dear PyGui_ provides a wrapping of **[Dear ImGui](https://github.com/ocornut/imgui)** that provides a hybrid of a traditional retained mode GUI and _Dear ImGui_'s immediate mode paradigm.
 
 <BR>![Themes](https://github.com/hoffstadt/DearPyGui/blob/assets/linuxthemes.PNG?raw=true)
 
-**Dear PyGui is fundamentally different than other Python GUI frameworks**. Under the hood, _DearPyGui_ 
-uses the immediate mode paradigm allowing for extremely dynamic interfaces. _DearPyGui_ 
-does not use native widgets, but instead draws the widgets using your computer's GPU. _DearPyGui_ is currently supported on
+**Dear PyGui is fundamentally different than other Python GUI frameworks**. Under the hood, _Dear PyGui_ 
+uses the immediate mode paradigm allowing for extremely dynamic interfaces. _Dear PyGui_ 
+does not use native widgets, but instead draws the widgets using your computer's GPU. _Dear PyGui_ is currently supported on
 the following platforms:
 
 | Platform | Rendering API |
@@ -28,7 +28,7 @@ the following platforms:
 | **macOs** | _Metal_ |
 | **Linux** | _OpenGL3_ |
 
-In the same manner Dear ImGui provides a simple way to create tools for game developers, _DearPyGui_ provides a 
+In the same manner Dear ImGui provides a simple way to create tools for game developers, _Dear PyGui_ provides a 
 simple way for python developers to **create quick and powerful GUIs for scripts**.
 
 | [Installing](#installing) - [Usage](#usage) - [Features](#some-features) - [Support](#support) - [Building](#building)|
@@ -50,13 +50,13 @@ Ensure you have at least Python 3.7.
 
  ---
  
-**DearPyGui is an all included GUI framework.** A variety of examples demonstrating usage
+**Dear PyGui is an all included GUI framework.** A variety of examples demonstrating usage
 can be found in the [DearPyGui-Examples repository](https://github.com/Pcothren/DearPyGui-Examples). To get started checkout the [Tutorials](https://hoffstadt.github.io/DearPyGui/tutorial.html)
 and for all other references 
 visit the [Documentation](https://hoffstadt.github.io/DearPyGui/) or from within the library by 
 using the **show_documentation** command. You can also view the demo using the **show_demo** command found in _dearpygui.demo_.
 
-Using _DearPyGui_ is a simple as creating a python script like the one below:
+Using _Dear PyGui_ is a simple as creating a python script like the one below:
 
 Code:
 ```Python
@@ -83,7 +83,7 @@ Result:
 
 
 #### Plotting/Graphing
-_DearPyGui_ includes a plotting API ([ImPlot](https://github.com/epezent/implot) Wrapping)
+_Dear PyGui_ includes a plotting API ([ImPlot](https://github.com/epezent/implot) Wrapping)
 
 <img src="https://raw.githubusercontent.com/wiki/epezent/implot/screenshots/controls.gif" width="270"> <img src="https://raw.githubusercontent.com/wiki/epezent/implot/screenshots/dnd.gif" width="270"> <img src="https://raw.githubusercontent.com/wiki/epezent/implot/screenshots/log.gif" width="270">
 
@@ -94,15 +94,15 @@ _DearPyGui_ includes a plotting API ([ImPlot](https://github.com/epezent/implot)
 <img src="https://raw.githubusercontent.com/wiki/epezent/implot/screenshots/multiy.gif" width="270"> 
 
 #### Themes
-_DearPyGui_ currently includes 10 themes and you can create your own:
+_Dear PyGui_ currently includes 10 themes and you can create your own:
 <BR>![Themes](https://github.com/hoffstadt/DearPyGui/blob/assets/linuxthemes.PNG?raw=true)
 
 #### Canvas
-_DearPyGui_ includes a drawing API to create custom drawings, plot, and even 2D games.
+_Dear PyGui_ includes a drawing API to create custom drawings, plot, and even 2D games.
 <BR>![BasicUsageExample](https://github.com/hoffstadt/DearPyGui/blob/assets/canvas.png?raw=true)
  
 #### Tools
-_DearPyGui_ includes several tools to help developers with _DearPyGui_ app development including built-in documentation, logging, source viewer, and other tools:
+_Dear PyGui_ includes several tools to help developers with _DearPyGui_ app development including built-in documentation, logging, source viewer, and other tools:
 <BR>![BasicUsageExample](https://github.com/hoffstadt/DearPyGui/blob/assets/tools.png?raw=true)
 
 
