@@ -248,6 +248,7 @@ namespace Marvel {
 					WidgetTableEntry("input int4", "", "yes", "[int, int, int, int]", "input widget");
 					WidgetTableEntry("input text", "", "yes", "string", "input widget");
 					WidgetTableEntry("listbox", "", "yes", "int", "item list widget");
+					WidgetTableEntry("logger", "", "", "", "logger widget");
 					WidgetTableEntry("managed columns", "yes", "", "", "layout widget");
 					WidgetTableEntry("menu", "yes", "", "bool", "menu widget");
 					WidgetTableEntry("menu bar", "yes", "", "bool", "menu bar widget");
