@@ -87,6 +87,17 @@ add_drag_float("Widget 2", source="value1")
     </article>
 
     <article>
+        <h2>Setting & Retrieving Values</h2>
+        <hr>
+        <p>
+            <ul>
+                <li>Values can be retrieved retrieved using <i>get_value</i>.</li>
+                <li>Values can changed programmatically using <i>set_value</i>.</li>
+             </ul>
+        </p>
+    </article>
+
+    <article>
         <h2>Type Compatibility</h2>
         <hr>
         <p>
@@ -106,7 +117,7 @@ add_drag_float("Widget 2", source="value1")
             <br><br>
             The solution is to add the value before creating the widgets. For example:
         </p>
-        <pre><code data-language="python">add_value("value1", [0, 0, 0, 0]) # preregister value, must decrement ref count later
+        <pre><code data-language="python">add_value("value1", [0, 0, 0, 0]) # preregister value, must decrement ref count later with decref_value
 add_input_float("Widget 1", source="value1")
 add_drag_float4("Widget 2", source="value1")
 </code></pre>
@@ -125,6 +136,9 @@ add_drag_float4("Widget 2", source="value1")
             <li>Creating a value with <i>add_value</i></li>
             <li>Adding a widget</li>
             <li>Calling <i>incref_value</i></li>
+            <ul>
+                <li>Typically only called when you need a value to survive longer than the widget that created it.</li>
+            </ul>
         </ul>
 
         <p>
@@ -133,6 +147,9 @@ add_drag_float4("Widget 2", source="value1")
         <ul>
             <li>Deleting a widget</li>
             <li>Calling <i>decref_value</i></li>
+            <ul>
+                <li>Typically only called when you need to delete a value created with <i>add_value</i>.</li>
+            </ul>
         </ul>
     </article>
 
