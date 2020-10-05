@@ -53,7 +53,7 @@ New Keywords:
 - input widgets:  Added "readonly" #254
 
 Fixes:
-- set_table_data: Fixed when less data is passed in than number of columns, now overwrites remaining row items with empty data
+- set_table_data: Fixed when less data is passed in than number of columns, now overwrites remaining row items with empty data #259
 - Listbox:        Fixed default "num_items"
 - Combobox:       Fixed hidden name issue #258
 - File Dialog:    Fixed issue with typed filenames not returning #257
