@@ -41,6 +41,9 @@ namespace Marvel {
 		{
 			for (size_t j = 0; j < m_hashValues[i].size(); j++)
 				m_hashValues[i][j] = m_hashValues[i][j] + "##" + m_name + "-" + std::to_string(i) + "-" + std::to_string(j);
+
+			for (size_t j = m_hashValues[i].size(); j < m_columns; j++)
+				m_hashValues[i].push_back("##" + m_name + "-" + std::to_string(i) + "-" + std::to_string(j));
 		}
 	}
 
@@ -78,7 +81,7 @@ namespace Marvel {
 
 		if (!m_values.empty()) // just in case value is set to an empty list
 		{
-			while (m_headers.size() > m_values[0].size())
+			while (m_headers.size() > m_columns)
 				m_headers.pop_back();
 		}
 

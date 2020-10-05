@@ -803,7 +803,7 @@ def get_style_window_title_align() -> List[float]:
 	...
 
 def get_table_data(name: str) -> List[List[str]]:
-	"""Adds table data."""
+	"""Gets table data."""
 	...
 
 def get_table_item(table: str, row: int, column: int) -> str:
@@ -1263,7 +1263,7 @@ def set_style_window_title_align(x: float, y: float) -> None:
 	...
 
 def set_table_data(name: str, data: List[List[str]]) -> None:
-	"""Adds table data."""
+	"""Overwrites table data."""
 	...
 
 def set_table_item(table: str, row: int, column: int, value: str) -> None:
