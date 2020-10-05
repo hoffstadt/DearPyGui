@@ -1094,8 +1094,6 @@ def show_demo():
                 add_label_text("Middle Mouse Released##demo", value="False", color=(0,200,255))
                 add_label_text("Right Mouse Released##demo", value="False", color=(0,200,255))
 
-
-
             with tree_node("Event Callbacks##demoinputs"):
                 add_text("Note: these only show the last event!")
                 set_mouse_down_callback(lambda sender, data: set_value("Mouse down##demoevents", data))

@@ -252,7 +252,7 @@ namespace Marvel {
 			return;
 		mvGlobalIntepreterLock gil;
 
-		PyDict_SetItemString(dict, "log_leve", ToPyInt(m_loglevel));
+		PyDict_SetItemString(dict, "log_level", ToPyInt(m_loglevel));
 		PyDict_SetItemString(dict, "auto_scroll", ToPyBool(m_autoScroll));
 		PyDict_SetItemString(dict, "auto_scroll_button", ToPyBool(m_autoScrollButton));
 		PyDict_SetItemString(dict, "clear_button", ToPyBool(m_clearButton));
