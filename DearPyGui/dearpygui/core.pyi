@@ -259,6 +259,12 @@ def add_listbox(name: str, *, items: List[str], default_value: int = 0, callback
 	"""Adds a listbox."""
 	...
 
+def add_logger(name: str, *, log_level: int = 1, auto_scroll: bool = True, auto_scroll_button: bool = True, clear_button: bool = True,
+			   copy_button: bool = True, filter: bool = True, width: int = 0, height: int = 0, parent: str = "", before: str = "",
+			   show: bool = True, autosize_x: bool = False, autosize_y: bool = False) -> None:
+	"""Adds a listbox."""
+	...
+
 def add_managed_columns(name: str, columns: int,  *, border: bool = True, show: bool = True, parent: str = "", before: str = "") -> None:
 	"""Adds a menu to an existing menu bar. Must be followed by a call to end_menu."""
 	...
