@@ -20,6 +20,8 @@
         h2 {color: #058; font-weight:370}
         .bold {color: #058; font-weight: bold;}
     </style>
+    <link href="../code_style.css" rel="stylesheet" type="text/css">
+    <script src="../rainbow-custom.min.js"></script>
 </head>
 
 <body>
@@ -28,15 +30,47 @@
 </header>
 <main id="content">
     <article>
-        <h2>Dear PyGui Reference</h2>
+        <h2>Widget ID System</h2>
         <hr>
         <p>
-            This page is a work-in-progress. We will be adding topics that cover everything you need to know about
-            <i>Dear PyGui</i> and how it works!
+            In <i>Dear PyGui</i>, all widgets must have an associated unique ID. This is stricter than Dear ImGui in
+            which some widgets do not need an ID at all. The reasons for this:
         </p>
         <ul>
-            <li><a href="widget-id-system.html">Widget ID System</a></li>
+            <li>To satisfy <i>Dear ImGui</i>'s requirements.</li>
+            <li>To allow for modifications of the UI at runtime.</li>
         </ul>
+        <p>
+            The ID of a widget is different than its label, however most widgets that have a label will use the
+            ID by default. This becomes an issue when multiple widgets need to have the same label. There are 2 ways
+            to address this, which we cover in the following sections.
+        </p>
     </article>
+
+    <article>
+        <h2>Recommended Method</h2>
+        <p>
+            The recommended method for addressing collision of IDs when trying to display widgets with the same label
+            is to directly set the label using the label keyword. For example:
+        </p>
+        <pre><code data-language="python">add_button("UniqueButtonID1", label="Press me")
+add_button("UniqueButtonID2", label="Press me")
+</code></pre>
+    </article>
+
+    <article>
+        <h2>Alternative Method</h2>
+        <p>
+            <i>Dear ImGui</i> allows users to append "##" to a widget's ID with additional text that
+            will not be visible; this can be used to keep the ID unique. Because <i>Dear PyGui</i>'s widgets set their
+            label to their ID by default, this will pass through to ImGui if you do not override the label. This
+            method can be used in place of the "label"
+            method however it is not guaranteed to work for all widgets (i.e. text widgets). For example:
+        </p>
+        <pre><code data-language="python">add_button("Press me##ID1")
+add_button("Press me##ID2")
+</code></pre>
+    </article>
+
 </main>
 </body>
