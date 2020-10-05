@@ -31,6 +31,7 @@ Decorated log: https://github.com/hoffstadt/DearPyGui/releases/tag/v0.4.5
 Fixes:
 - Tabs:      Fixed issue with items on tabs not lining up when using same_line
 - Stub file: add_logger added to stub file
+- Plots:     reset_yticks was resetting x ticks
 
 -----------------------------------------------------------------------
  VERSION 0.4.4 (10/4/2020)
