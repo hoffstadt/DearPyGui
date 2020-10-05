@@ -535,7 +535,7 @@ namespace Marvel {
 
 		mvPlot* graph = static_cast<mvPlot*>(aplot);
 
-		graph->resetXTicks();
+		graph->resetYTicks();
 
 		return GetPyNone();
 	}
