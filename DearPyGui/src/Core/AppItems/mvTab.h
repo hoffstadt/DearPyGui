@@ -36,6 +36,7 @@ namespace Marvel {
 		{
 			pushColorStyles();
 			ImGui::PushID(this);
+			ImGui::BeginGroup();
 
 			if (ImGui::BeginTabBar(m_label.c_str(), m_flags))
 			{
@@ -71,6 +72,7 @@ namespace Marvel {
 				ImGui::EndTabBar();
 			}
 
+			ImGui::EndGroup();
 			ImGui::PopID();
 			popColorStyles();
 		}
