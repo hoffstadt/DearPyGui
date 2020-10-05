@@ -43,7 +43,7 @@ import dearpygui.core as internal_dpg
 
 
 @contextmanager
-def managed_columns(name: str, columns: int, border: bool = True, show: bool = True, parent: str = &#34;&#34;,
+def managed_columns(name: str, columns: int, *, border: bool = True, show: bool = True, parent: str = &#34;&#34;,
                     before: str = &#34;&#34;):
     &#34;&#34;&#34;Wraps add_managed_columns() and automates calling end().
 
@@ -51,10 +51,10 @@ def managed_columns(name: str, columns: int, border: bool = True, show: bool = T
         name: Unique name used to programmatically refer to the item. If label is unused this will be the label,
             anything after &#34;##&#34; that occurs in the name will not be shown on screen.
         columns: The number of columns to be created.
-        border: Shows a border.
-        show: Decides if the item is shown of not.
-        parent: Parent this item will be added to. (runtime adding)
-        before: This item will be displayed before the specified item in the parent. (runtime adding)
+        **border: Shows a border.
+        **show: Decides if the item is shown of not.
+        **parent: Parent this item will be added to. (runtime adding)
+        **before: This item will be displayed before the specified item in the parent. (runtime adding)
 
     Returns:
         None
@@ -67,7 +67,7 @@ def managed_columns(name: str, columns: int, border: bool = True, show: bool = T
 
 
 @contextmanager
-def window(name: str, width: int = 200, height: int = 200, x_pos: int = 200, y_pos: int = 200, autosize: bool = False,
+def window(name: str, *, width: int = 200, height: int = 200, x_pos: int = 200, y_pos: int = 200, autosize: bool = False,
            no_resize: bool = False, no_title_bar: bool = False, no_move: bool = False, no_scrollbar: bool = False,
            no_collapse: bool = False, horizontal_scrollbar: bool = False, no_focus_on_appearing: bool = False,
            no_bring_to_front_on_focus: bool = False, menubar: bool = False, no_close: bool = False,
@@ -78,26 +78,26 @@ def window(name: str, width: int = 200, height: int = 200, x_pos: int = 200, y_p
     Args:
         name: Unique name used to programmatically refer to the item. If label is unused this will be the label,
             anything after &#34;##&#34; that occurs in the name will not be shown on screen.
-        width: Width of the item.
-        height: Height of the item.
-        x_pos: x position the window will start at
-        y_pos: y position the window will start at
-        autosize: Autosized the window to fit it&#39;s items.
-        no_resize: Allows for the window size to be changed or fixed
-        no_title_bar: Title name for the title bar of the window
-        no_move: Allows for the window&#39;s position to be changed or fixed
-        no_scrollbar: Disable scrollbars (window can still scroll with mouse or programmatically)
-        no_collapse: Disable user collapsing window by double-clicking on it
-        horizontal_scrollbar: Allow horizontal scrollbar to appear (off by default).
-        no_focus_on_appearing: Disable taking focus when transitioning from hidden to visible state
-        no_bring_to_front_on_focus: Disable bringing window to front when taking focus (e.g. clicking on it or
+        **width: Width of the item.
+        **height: Height of the item.
+        **x_pos: x position the window will start at
+        **y_pos: y position the window will start at
+        **autosize: Autosized the window to fit it&#39;s items.
+        **no_resize: Allows for the window size to be changed or fixed
+        **no_title_bar: Title name for the title bar of the window
+        **no_move: Allows for the window&#39;s position to be changed or fixed
+        **no_scrollbar: Disable scrollbars (window can still scroll with mouse or programmatically)
+        **no_collapse: Disable user collapsing window by double-clicking on it
+        **horizontal_scrollbar: Allow horizontal scrollbar to appear (off by default).
+        **no_focus_on_appearing: Disable taking focus when transitioning from hidden to visible state
+        **no_bring_to_front_on_focus: Disable bringing window to front when taking focus (e.g. clicking on it or
             programmatically giving it focus)
-        menubar: Decides if the menubar is shown or not.
-        no_close: Decides if the window can be closed.
-        no_background:
-        label: Displayed name of the item.
-        show: sets if the item is shown or not window.
-        on_close: Callback ran when window is closed
+        **menubar: Decides if the menubar is shown or not.
+        **no_close: Decides if the window can be closed.
+        **no_background:
+        **label: Displayed name of the item.
+        **show: sets if the item is shown or not window.
+        **on_close: Callback ran when window is closed
 
     Returns:
         None
@@ -126,15 +126,15 @@ def window(name: str, width: int = 200, height: int = 200, x_pos: int = 200, y_p
 
 
 @contextmanager
-def menu_bar(name: str, show: bool = True, parent: str = &#34;&#34;, before: str = &#34;&#34;):
+def menu_bar(name: str, *, show: bool = True, parent: str = &#34;&#34;, before: str = &#34;&#34;):
     &#34;&#34;&#34;Wraps add_menu_bar() and automates calling end().
 
     Args:
         name: Unique name used to programmatically refer to the item. If label is unused this will be the label,
             anything after &#34;##&#34; that occurs in the name will not be shown on screen.
-        show: Decides if the item is shown of not.
-        parent: Parent this item will be added to. (runtime adding)
-        before: This item will be displayed before the specified item in the parent. (runtime adding)
+        **show: Decides if the item is shown of not.
+        **parent: Parent this item will be added to. (runtime adding)
+        **before: This item will be displayed before the specified item in the parent. (runtime adding)
 
     Returns:
         None
@@ -146,19 +146,19 @@ def menu_bar(name: str, show: bool = True, parent: str = &#34;&#34;, before: str
 
 
 @contextmanager
-def menu(name: str, label: str = &#34;__DearPyGuiDefault&#34;, show: bool = True, tip: str = &#34;&#34;, parent: str = &#34;&#34;,
+def menu(name: str, *, label: str = &#34;__DearPyGuiDefault&#34;, show: bool = True, tip: str = &#34;&#34;, parent: str = &#34;&#34;,
          before: str = &#34;&#34;, enabled: bool = True):
     &#34;&#34;&#34;Wraps add_menu() and automates calling end().
 
     Args:
         name: Unique name used to programmatically refer to the item. If label is unused this will be the label,
             anything after &#34;##&#34; that occurs in the name will not be shown on screen.
-        label: Displayed name of the item.
-        show: Decides if the item is shown of not.
-        tip: Adds a simple tooltip
-        parent: Parent this item will be added to. (runtime adding)
-        before: This item will be displayed before the specified item in the parent. (runtime adding)
-        enabled: Will enable or disable the menu.
+        **label: Displayed name of the item.
+        **show: Decides if the item is shown of not.
+        **tip: Adds a simple tooltip
+        **parent: Parent this item will be added to. (runtime adding)
+        **before: This item will be displayed before the specified item in the parent. (runtime adding)
+        **enabled: Will enable or disable the menu.
 
     Returns:
         None
@@ -174,7 +174,7 @@ def menu(name: str, label: str = &#34;__DearPyGuiDefault&#34;, show: bool = True
 
 
 @contextmanager
-def child(name: str, show: bool = True, tip: str = &#34;&#34;, parent: str = &#34;&#34;, before: str = &#34;&#34;, width: int = 0,
+def child(name: str, *, show: bool = True, tip: str = &#34;&#34;, parent: str = &#34;&#34;, before: str = &#34;&#34;, width: int = 0,
           height: int = 0, border: bool = True, popup: str = &#34;&#34;, autosize_x: bool = False, autosize_y: bool = False,
           no_scrollbar: bool = False, horizontal_scrollbar: bool = False, menubar: bool = False):
     &#34;&#34;&#34;Wraps add_child() and automates calling end().
@@ -183,17 +183,17 @@ def child(name: str, show: bool = True, tip: str = &#34;&#34;, parent: str = &#3
         name: Unique name used to programmatically refer to the item. If label is unused this will be the label,
             anything after &#34;##&#34; that occurs in the name will not be shown on screen.
         show: Decides if the item is shown of not.
-        tip: Adds a simple tooltip
-        parent: Parent to add this item to. (runtime adding)
-        before: This item will be displayed before the specified item in the parent. (runtime adding)
-        width: Width of the item.
-        height: Height of the item.
-        border: Shows/Hides the border around the sides
-        popup: Name of the popup that will be tied to this item.
-        autosize_x: Autosize the window to fit its items in the x.
-        autosize_y: Autosize the window to fit its items in the y.
-        no_scrollbar: Disable scrollbars (window can still scroll with mouse or programmatically)
-        menubar: adds a bar to add menus
+        **tip: Adds a simple tooltip
+        **parent: Parent to add this item to. (runtime adding)
+        **before: This item will be displayed before the specified item in the parent. (runtime adding)
+        **width: Width of the item.
+        **height: Height of the item.
+        **border: Shows/Hides the border around the sides
+        **popup: Name of the popup that will be tied to this item.
+        **autosize_x: Autosize the window to fit its items in the x.
+        **autosize_y: Autosize the window to fit its items in the y.
+        **no_scrollbar: Disable scrollbars (window can still scroll with mouse or programmatically)
+        **menubar: adds a bar to add menus
 
     Returns:
         None
@@ -208,7 +208,7 @@ def child(name: str, show: bool = True, tip: str = &#34;&#34;, parent: str = &#3
 
 
 @contextmanager
-def collapsing_header(name: str, label: str = &#34;__DearPyGuiDefault&#34;, show: bool = True,
+def collapsing_header(name: str, *, label: str = &#34;__DearPyGuiDefault&#34;, show: bool = True,
                       tip: str = &#34;&#34;, parent: str = &#34;&#34;, before: str = &#34;&#34;,closable: bool = False,
                       default_open: bool = False, open_on_double_click: bool = False, open_on_arrow: bool = False,
                       leaf: bool = False, bullet: bool = False):
@@ -217,17 +217,17 @@ def collapsing_header(name: str, label: str = &#34;__DearPyGuiDefault&#34;, show
     Args:
         name: Unique name used to programmatically refer to the item. If label is unused this will be the label,
             anything after &#34;##&#34; that occurs in the name will not be shown on screen.
-        label: Displayed name of the item.
-        show: Decides if the item is shown of not.
-        tip: Adds a simple tooltip
-        parent: Parent to add this item to. (runtime adding)
-        before: This item will be displayed before the specified item in the parent. (runtime adding)
-        closable: Decides if the header can be collapsed.
-        default_open: Decides if item is open by default.
-        open_on_double_click: Need double-click to open node.
-        open_on_arrow: Only open when clicking on the arrow part.
-        leaf: No collapsing, no arrow (use as a convenience for leaf nodes).
-        bullet: Display a bullet instead of arrow.
+        **label: Displayed name of the item.
+        **show: Decides if the item is shown of not.
+        **tip: Adds a simple tooltip
+        **parent: Parent to add this item to. (runtime adding)
+        **before: This item will be displayed before the specified item in the parent. (runtime adding)
+        **closable: Decides if the header can be collapsed.
+        **default_open: Decides if item is open by default.
+        **open_on_double_click: Need double-click to open node.
+        **open_on_arrow: Only open when clicking on the arrow part.
+        **leaf: No collapsing, no arrow (use as a convenience for leaf nodes).
+        **bullet: Display a bullet instead of arrow.
 
 
     Returns:
@@ -249,21 +249,21 @@ def collapsing_header(name: str, label: str = &#34;__DearPyGuiDefault&#34;, show
 
 
 @contextmanager
-def group(name: str, show: bool = True, tip: str = &#34;&#34;, parent: str = &#34;&#34;, before: str = &#34;&#34;, width: int = 0,
+def group(name: str, *, show: bool = True, tip: str = &#34;&#34;, parent: str = &#34;&#34;, before: str = &#34;&#34;, width: int = 0,
           horizontal: bool = False, horizontal_spacing: float = -1.0, popup: str = &#34;&#34;):
     &#34;&#34;&#34;Wraps add_group() and automates calling end().
 
     Args:
         name: Unique name used to programmatically refer to the item. If label is unused this will be the label,
             anything after &#34;##&#34; that occurs in the name will not be shown on screen.
-        show: Decides if the item is shown of not.
-        tip: Adds a simple tooltip
-        parent: Parent to add this item to. (runtime adding)
-        before: This item will be displayed before the specified item in the parent. (runtime adding)
-        width: Width of the item.
-        horizontal: Adds the items on the same row by default.
-        horizontal_spacing: Decides the spacing for the items.
-        popup: Name of the popup that will be tied to this item.
+        **show: Decides if the item is shown of not.
+        **tip: Adds a simple tooltip
+        **parent: Parent to add this item to. (runtime adding)
+        **before: This item will be displayed before the specified item in the parent. (runtime adding)
+        **width: Width of the item.
+        **horizontal: Adds the items on the same row by default.
+        **horizontal_spacing: Decides the spacing for the items.
+        **popup: Name of the popup that will be tied to this item.
 
     Returns:
         None
@@ -276,19 +276,19 @@ def group(name: str, show: bool = True, tip: str = &#34;&#34;, parent: str = &#3
 
 
 @contextmanager
-def tab_bar(name: str, reorderable: bool = False, callback: str = &#34;&#34;, callback_data: str = &#34;&#34;,  show: bool = True,
+def tab_bar(name: str, *, reorderable: bool = False, callback: str = &#34;&#34;, callback_data: str = &#34;&#34;,  show: bool = True,
             parent: str = &#34;&#34;, before: str = &#34;&#34;):
     &#34;&#34;&#34;Wraps add_tab_bar() and automates calling end().
 
     Args:
         name: Unique name used to programmatically refer to the item. If label is unused this will be the label,
             anything after &#34;##&#34; that occurs in the name will not be shown on screen.
-        reorderable: Allows for moveable tabs.
-        callback: Registers a callback.
-        callback_data: Callback data.
-        show: Decides if the item is shown of not.
-        parent: Parent to add this item to. (runtime adding)
-        before: This item will be displayed before the specified item in the parent. (runtime adding)
+        **reorderable: Allows for moveable tabs.
+        **callback: Registers a callback.
+        **callback_data: Callback data.
+        **show: Decides if the item is shown of not.
+        **parent: Parent to add this item to. (runtime adding)
+        **before: This item will be displayed before the specified item in the parent. (runtime adding)
 
     Returns:
         None
@@ -301,19 +301,19 @@ def tab_bar(name: str, reorderable: bool = False, callback: str = &#34;&#34;, ca
 
 
 @contextmanager
-def tab(name: str, closable: bool = False, label: str = &#34;__DearPyGuiDefault&#34;, show: bool = True, tip: str = &#34;&#34;,
+def tab(name: str, *, closable: bool = False, label: str = &#34;__DearPyGuiDefault&#34;, show: bool = True, tip: str = &#34;&#34;,
         parent: str = &#34;&#34;, before: str = &#34;&#34;):
     &#34;&#34;&#34;Wraps add_tab() and automates calling end().
 
     Args:
         name: Unique name used to programmatically refer to the item. If label is unused this will be the label,
             anything after &#34;##&#34; that occurs in the name will not be shown on screen.
-        closable: creates a button on the tab that can hide the tab.
-        label: Displayed name of the item.
-        show: Decides if the item is shown of not.
-        tip: Adds a simple tooltip.
-        parent: Parent to add this item to. (runtime adding)
-        before: This item will be displayed before the specified item in the parent. (runtime adding)
+        **closable: creates a button on the tab that can hide the tab.
+        **label: Displayed name of the item.
+        **show: Decides if the item is shown of not.
+        **tip: Adds a simple tooltip.
+        **parent: Parent to add this item to. (runtime adding)
+        **before: This item will be displayed before the specified item in the parent. (runtime adding)
 
     Returns:
         None
@@ -329,7 +329,7 @@ def tab(name: str, closable: bool = False, label: str = &#34;__DearPyGuiDefault&
 
 
 @contextmanager
-def tree_node(name: str, label: str = &#34;__DearPyGuiDefault&#34;, show: bool = True, tip: str = &#34;&#34;, parent: str = &#34;&#34;,
+def tree_node(name: str, *, label: str = &#34;__DearPyGuiDefault&#34;, show: bool = True, tip: str = &#34;&#34;, parent: str = &#34;&#34;,
               before: str = &#34;&#34;, default_open: bool = False, open_on_double_click: bool = False,
               open_on_arrow: bool = False, leaf: bool = False, bullet: bool = False):
     &#34;&#34;&#34;Wraps add_tree_node() and automates calling end().
@@ -337,16 +337,16 @@ def tree_node(name: str, label: str = &#34;__DearPyGuiDefault&#34;, show: bool =
     Args:
         name: Unique name used to programmatically refer to the item. If label is unused this will be the label,
             anything after &#34;##&#34; that occurs in the name will not be shown on screen.
-        label: Displayed name of the item.
-        show: Decides if the item is shown of not.
-        tip: Adds a simple tooltip.
-        parent: Parent to add this item to. (runtime adding)
-        before: This item will be displayed before the specified item in the parent. (runtime adding)
-        default_open: Decides if item is open by default.
-        open_on_double_click: Need double-click to open node.
-        open_on_arrow: Only open when clicking on the arrow part.
-        leaf: No collapsing, no arrow (use as a convenience for leaf nodes).
-        bullet: Display a bullet instead of arrow.
+        **label: Displayed name of the item.
+        **show: Decides if the item is shown of not.
+        **tip: Adds a simple tooltip.
+        **parent: Parent to add this item to. (runtime adding)
+        **before: This item will be displayed before the specified item in the parent. (runtime adding)
+        **default_open: Decides if item is open by default.
+        **open_on_double_click: Need double-click to open node.
+        **open_on_arrow: Only open when clicking on the arrow part.
+        **leaf: No collapsing, no arrow (use as a convenience for leaf nodes).
+        **bullet: Display a bullet instead of arrow.
 
     Returns:
         None
@@ -369,16 +369,16 @@ def tree_node(name: str, label: str = &#34;__DearPyGuiDefault&#34;, show: bool =
 
 
 @contextmanager
-def tooltip(tipparent: str, name: str, parent: str = &#34;&#34;, before: str = &#34;&#34;, show: bool = True):
+def tooltip(tipparent: str, name: str, *, parent: str = &#34;&#34;, before: str = &#34;&#34;, show: bool = True):
     &#34;&#34;&#34;Wraps add_tooltip() and automates calling end().
 
     Args:
         tipparent: Sets the item&#39;s tool tip to be the same as the named item&#39;s tool tip.
         name: Unique name used to programmatically refer to the item. If label is unused this will be the label,
             anything after &#34;##&#34; that occurs in the name will not be shown on screen.
-        parent: Parent to add this item to. (runtime adding)
-        before: This item will be displayed before the specified item in the parent. (runtime adding)
-        show: Decides if the item is shown of not.
+        **parent: Parent to add this item to. (runtime adding)
+        **before: This item will be displayed before the specified item in the parent. (runtime adding)
+        **show: Decides if the item is shown of not.
 
     Returns:
         None
@@ -390,7 +390,7 @@ def tooltip(tipparent: str, name: str, parent: str = &#34;&#34;, before: str = &
 
 
 @contextmanager
-def popup(popupparent: str, name: str, mousebutton: int = 1, modal: bool = False, parent: str = &#34;&#34;,
+def popup(popupparent: str, name: str, *, mousebutton: int = 1, modal: bool = False, parent: str = &#34;&#34;,
           before: str = &#34;&#34;, width: int = 0, height: int = 0, show: bool = True):
     &#34;&#34;&#34;Wraps add_popup() and automates calling end().
 
@@ -398,14 +398,14 @@ def popup(popupparent: str, name: str, mousebutton: int = 1, modal: bool = False
         popupparent: Parent that the popup will be assigned to.
         name: Unique name used to programmatically refer to the item. If label is unused this will be the label,
             anything after &#34;##&#34; that occurs in the name will not be shown on screen.
-        mousebutton: The mouse code that will trigger the popup. Default is 1 or mvMouseButton_Right.
+        **mousebutton: The mouse code that will trigger the popup. Default is 1 or mvMouseButton_Right.
             (mvMouseButton_Left, mvMouseButton_Right, mvMouseButton_Middle, mvMouseButton_X1, mvMouseButton_X2)
-        modal: Makes the popup modal.
-        parent: Parent to add this item to. (runtime adding)
-        before: This item will be displayed before the specified item in the parent. (runtime adding)
-        width: Width of the item.
-        height: Height of the item.
-        show: Decides if the item is shown of not.
+        **modal: Makes the popup modal.
+        **parent: Parent to add this item to. (runtime adding)
+        **before: This item will be displayed before the specified item in the parent. (runtime adding)
+        **width: Width of the item.
+        **height: Height of the item.
+        **show: Decides if the item is shown of not.
 
     Returns:
         None
@@ -463,11 +463,11 @@ def show_item(item: str):
     internal_dpg.configure_item(item, show=True)
 
 
-def hide_item(item: str, children_only: bool = False):
+def hide_item(item: str, *, children_only: bool = False):
     &#34;&#34;&#34;Hides the item.
 
     Args:
-        item: Item to hide.
+        **item: Item to hide.
 
     Returns:
         None
@@ -697,7 +697,7 @@ def get_drawing_size(drawing: str) -&gt; Union[List[int], None]:
             <h2 class="section-title" id="header-functions">Functions</h2>
             <dl>
                 <dt id="dearpygui.simple.child"><code class="name flex">
-                    <span>def <span class="ident">child</span></span>(<span>name: str, show: bool = True, tip: str = '', parent: str = '', before: str = '', width: int = 0, height: int = 0, border: bool = True, popup: str = '', autosize_x: bool = False, autosize_y: bool = False, no_scrollbar: bool = False, horizontal_scrollbar: bool = False, menubar: bool = False)</span>
+                    <span>def <span class="ident">child</span></span>(<span>name: str, *, show: bool = True, tip: str = '', parent: str = '', before: str = '', width: int = 0, height: int = 0, border: bool = True, popup: str = '', autosize_x: bool = False, autosize_y: bool = False, no_scrollbar: bool = False, horizontal_scrollbar: bool = False, menubar: bool = False)</span>
                 </code></dt>
                 <dd>
                     <div class="desc"><p>Wraps add_child() and automates calling end().</p>
@@ -708,27 +708,27 @@ def get_drawing_size(drawing: str) -&gt; Union[List[int], None]:
                                 anything after "##" that occurs in the name will not be shown on screen.</dd>
                             <dt><strong><code>show</code></strong></dt>
                             <dd>Decides if the item is shown of not.</dd>
-                            <dt><strong><code>tip</code></strong></dt>
+                            <dt><strong><code>**tip</code></strong></dt>
                             <dd>Adds a simple tooltip</dd>
-                            <dt><strong><code>parent</code></strong></dt>
+                            <dt><strong><code>**parent</code></strong></dt>
                             <dd>Parent to add this item to. (runtime adding)</dd>
-                            <dt><strong><code>before</code></strong></dt>
+                            <dt><strong><code>**before</code></strong></dt>
                             <dd>This item will be displayed before the specified item in the parent. (runtime adding)</dd>
-                            <dt><strong><code>width</code></strong></dt>
+                            <dt><strong><code>**width</code></strong></dt>
                             <dd>Width of the item.</dd>
-                            <dt><strong><code>height</code></strong></dt>
+                            <dt><strong><code>**height</code></strong></dt>
                             <dd>Height of the item.</dd>
-                            <dt><strong><code>border</code></strong></dt>
+                            <dt><strong><code>**border</code></strong></dt>
                             <dd>Shows/Hides the border around the sides</dd>
-                            <dt><strong><code>popup</code></strong></dt>
+                            <dt><strong><code>**popup</code></strong></dt>
                             <dd>Name of the popup that will be tied to this item.</dd>
-                            <dt><strong><code>autosize_x</code></strong></dt>
+                            <dt><strong><code>**autosize_x</code></strong></dt>
                             <dd>Autosize the window to fit its items in the x.</dd>
-                            <dt><strong><code>autosize_y</code></strong></dt>
+                            <dt><strong><code>**autosize_y</code></strong></dt>
                             <dd>Autosize the window to fit its items in the y.</dd>
-                            <dt><strong><code>no_scrollbar</code></strong></dt>
+                            <dt><strong><code>**no_scrollbar</code></strong></dt>
                             <dd>Disable scrollbars (window can still scroll with mouse or programmatically)</dd>
-                            <dt><strong><code>menubar</code></strong></dt>
+                            <dt><strong><code>**menubar</code></strong></dt>
                             <dd>adds a bar to add menus</dd>
                         </dl>
                         <h2 id="returns">Returns</h2>
@@ -738,7 +738,7 @@ def get_drawing_size(drawing: str) -&gt; Union[List[int], None]:
                             <span>Expand source code</span>
                         </summary>
                         <pre><code class="python">@contextmanager
-def child(name: str, show: bool = True, tip: str = &#34;&#34;, parent: str = &#34;&#34;, before: str = &#34;&#34;, width: int = 0,
+def child(name: str, *, show: bool = True, tip: str = &#34;&#34;, parent: str = &#34;&#34;, before: str = &#34;&#34;, width: int = 0,
           height: int = 0, border: bool = True, popup: str = &#34;&#34;, autosize_x: bool = False, autosize_y: bool = False,
           no_scrollbar: bool = False, horizontal_scrollbar: bool = False, menubar: bool = False):
     &#34;&#34;&#34;Wraps add_child() and automates calling end().
@@ -747,17 +747,17 @@ def child(name: str, show: bool = True, tip: str = &#34;&#34;, parent: str = &#3
         name: Unique name used to programmatically refer to the item. If label is unused this will be the label,
             anything after &#34;##&#34; that occurs in the name will not be shown on screen.
         show: Decides if the item is shown of not.
-        tip: Adds a simple tooltip
-        parent: Parent to add this item to. (runtime adding)
-        before: This item will be displayed before the specified item in the parent. (runtime adding)
-        width: Width of the item.
-        height: Height of the item.
-        border: Shows/Hides the border around the sides
-        popup: Name of the popup that will be tied to this item.
-        autosize_x: Autosize the window to fit its items in the x.
-        autosize_y: Autosize the window to fit its items in the y.
-        no_scrollbar: Disable scrollbars (window can still scroll with mouse or programmatically)
-        menubar: adds a bar to add menus
+        **tip: Adds a simple tooltip
+        **parent: Parent to add this item to. (runtime adding)
+        **before: This item will be displayed before the specified item in the parent. (runtime adding)
+        **width: Width of the item.
+        **height: Height of the item.
+        **border: Shows/Hides the border around the sides
+        **popup: Name of the popup that will be tied to this item.
+        **autosize_x: Autosize the window to fit its items in the x.
+        **autosize_y: Autosize the window to fit its items in the y.
+        **no_scrollbar: Disable scrollbars (window can still scroll with mouse or programmatically)
+        **menubar: adds a bar to add menus
 
     Returns:
         None
@@ -772,7 +772,7 @@ def child(name: str, show: bool = True, tip: str = &#34;&#34;, parent: str = &#3
                     </details>
                 </dd>
                 <dt id="dearpygui.simple.collapsing_header"><code class="name flex">
-                    <span>def <span class="ident">collapsing_header</span></span>(<span>name: str, label: str = '__DearPyGuiDefault', show: bool = True, tip: str = '', parent: str = '', before: str = '', closable: bool = False, default_open: bool = False, open_on_double_click: bool = False, open_on_arrow: bool = False, leaf: bool = False, bullet: bool = False)</span>
+                    <span>def <span class="ident">collapsing_header</span></span>(<span>name: str, *, label: str = '__DearPyGuiDefault', show: bool = True, tip: str = '', parent: str = '', before: str = '', closable: bool = False, default_open: bool = False, open_on_double_click: bool = False, open_on_arrow: bool = False, leaf: bool = False, bullet: bool = False)</span>
                 </code></dt>
                 <dd>
                     <div class="desc"><p>Wraps add_collapsing_header() and automates calling end().</p>
@@ -781,27 +781,27 @@ def child(name: str, show: bool = True, tip: str = &#34;&#34;, parent: str = &#3
                             <dt><strong><code>name</code></strong></dt>
                             <dd>Unique name used to programmatically refer to the item. If label is unused this will be the label,
                                 anything after "##" that occurs in the name will not be shown on screen.</dd>
-                            <dt><strong><code>label</code></strong></dt>
+                            <dt><strong><code>**label</code></strong></dt>
                             <dd>Displayed name of the item.</dd>
-                            <dt><strong><code>show</code></strong></dt>
+                            <dt><strong><code>**show</code></strong></dt>
                             <dd>Decides if the item is shown of not.</dd>
-                            <dt><strong><code>tip</code></strong></dt>
+                            <dt><strong><code>**tip</code></strong></dt>
                             <dd>Adds a simple tooltip</dd>
-                            <dt><strong><code>parent</code></strong></dt>
+                            <dt><strong><code>**parent</code></strong></dt>
                             <dd>Parent to add this item to. (runtime adding)</dd>
-                            <dt><strong><code>before</code></strong></dt>
+                            <dt><strong><code>**before</code></strong></dt>
                             <dd>This item will be displayed before the specified item in the parent. (runtime adding)</dd>
-                            <dt><strong><code>closable</code></strong></dt>
+                            <dt><strong><code>**closable</code></strong></dt>
                             <dd>Decides if the header can be collapsed.</dd>
-                            <dt><strong><code>default_open</code></strong></dt>
+                            <dt><strong><code>**default_open</code></strong></dt>
                             <dd>Decides if item is open by default.</dd>
-                            <dt><strong><code>open_on_double_click</code></strong></dt>
+                            <dt><strong><code>**open_on_double_click</code></strong></dt>
                             <dd>Need double-click to open node.</dd>
-                            <dt><strong><code>open_on_arrow</code></strong></dt>
+                            <dt><strong><code>**open_on_arrow</code></strong></dt>
                             <dd>Only open when clicking on the arrow part.</dd>
-                            <dt><strong><code>leaf</code></strong></dt>
+                            <dt><strong><code>**leaf</code></strong></dt>
                             <dd>No collapsing, no arrow (use as a convenience for leaf nodes).</dd>
-                            <dt><strong><code>bullet</code></strong></dt>
+                            <dt><strong><code>**bullet</code></strong></dt>
                             <dd>Display a bullet instead of arrow.</dd>
                         </dl>
                         <h2 id="returns">Returns</h2>
@@ -811,7 +811,7 @@ def child(name: str, show: bool = True, tip: str = &#34;&#34;, parent: str = &#3
                             <span>Expand source code</span>
                         </summary>
                         <pre><code class="python">@contextmanager
-def collapsing_header(name: str, label: str = &#34;__DearPyGuiDefault&#34;, show: bool = True,
+def collapsing_header(name: str, *, label: str = &#34;__DearPyGuiDefault&#34;, show: bool = True,
                       tip: str = &#34;&#34;, parent: str = &#34;&#34;, before: str = &#34;&#34;,closable: bool = False,
                       default_open: bool = False, open_on_double_click: bool = False, open_on_arrow: bool = False,
                       leaf: bool = False, bullet: bool = False):
@@ -820,17 +820,17 @@ def collapsing_header(name: str, label: str = &#34;__DearPyGuiDefault&#34;, show
     Args:
         name: Unique name used to programmatically refer to the item. If label is unused this will be the label,
             anything after &#34;##&#34; that occurs in the name will not be shown on screen.
-        label: Displayed name of the item.
-        show: Decides if the item is shown of not.
-        tip: Adds a simple tooltip
-        parent: Parent to add this item to. (runtime adding)
-        before: This item will be displayed before the specified item in the parent. (runtime adding)
-        closable: Decides if the header can be collapsed.
-        default_open: Decides if item is open by default.
-        open_on_double_click: Need double-click to open node.
-        open_on_arrow: Only open when clicking on the arrow part.
-        leaf: No collapsing, no arrow (use as a convenience for leaf nodes).
-        bullet: Display a bullet instead of arrow.
+        **label: Displayed name of the item.
+        **show: Decides if the item is shown of not.
+        **tip: Adds a simple tooltip
+        **parent: Parent to add this item to. (runtime adding)
+        **before: This item will be displayed before the specified item in the parent. (runtime adding)
+        **closable: Decides if the header can be collapsed.
+        **default_open: Decides if item is open by default.
+        **open_on_double_click: Need double-click to open node.
+        **open_on_arrow: Only open when clicking on the arrow part.
+        **leaf: No collapsing, no arrow (use as a convenience for leaf nodes).
+        **bullet: Display a bullet instead of arrow.
 
 
     Returns:
@@ -1074,7 +1074,7 @@ def collapsing_header(name: str, label: str = &#34;__DearPyGuiDefault&#34;, show
                     </details>
                 </dd>
                 <dt id="dearpygui.simple.group"><code class="name flex">
-                    <span>def <span class="ident">group</span></span>(<span>name: str, show: bool = True, tip: str = '', parent: str = '', before: str = '', width: int = 0, horizontal: bool = False, horizontal_spacing: float = -1.0, popup: str = '')</span>
+                    <span>def <span class="ident">group</span></span>(<span>name: str, *, show: bool = True, tip: str = '', parent: str = '', before: str = '', width: int = 0, horizontal: bool = False, horizontal_spacing: float = -1.0, popup: str = '')</span>
                 </code></dt>
                 <dd>
                     <div class="desc"><p>Wraps add_group() and automates calling end().</p>
@@ -1083,21 +1083,21 @@ def collapsing_header(name: str, label: str = &#34;__DearPyGuiDefault&#34;, show
                             <dt><strong><code>name</code></strong></dt>
                             <dd>Unique name used to programmatically refer to the item. If label is unused this will be the label,
                                 anything after "##" that occurs in the name will not be shown on screen.</dd>
-                            <dt><strong><code>show</code></strong></dt>
+                            <dt><strong><code>**show</code></strong></dt>
                             <dd>Decides if the item is shown of not.</dd>
-                            <dt><strong><code>tip</code></strong></dt>
+                            <dt><strong><code>**tip</code></strong></dt>
                             <dd>Adds a simple tooltip</dd>
-                            <dt><strong><code>parent</code></strong></dt>
+                            <dt><strong><code>**parent</code></strong></dt>
                             <dd>Parent to add this item to. (runtime adding)</dd>
-                            <dt><strong><code>before</code></strong></dt>
+                            <dt><strong><code>**before</code></strong></dt>
                             <dd>This item will be displayed before the specified item in the parent. (runtime adding)</dd>
-                            <dt><strong><code>width</code></strong></dt>
+                            <dt><strong><code>**width</code></strong></dt>
                             <dd>Width of the item.</dd>
-                            <dt><strong><code>horizontal</code></strong></dt>
+                            <dt><strong><code>**horizontal</code></strong></dt>
                             <dd>Adds the items on the same row by default.</dd>
-                            <dt><strong><code>horizontal_spacing</code></strong></dt>
+                            <dt><strong><code>**horizontal_spacing</code></strong></dt>
                             <dd>Decides the spacing for the items.</dd>
-                            <dt><strong><code>popup</code></strong></dt>
+                            <dt><strong><code>**popup</code></strong></dt>
                             <dd>Name of the popup that will be tied to this item.</dd>
                         </dl>
                         <h2 id="returns">Returns</h2>
@@ -1107,21 +1107,21 @@ def collapsing_header(name: str, label: str = &#34;__DearPyGuiDefault&#34;, show
                             <span>Expand source code</span>
                         </summary>
                         <pre><code class="python">@contextmanager
-def group(name: str, show: bool = True, tip: str = &#34;&#34;, parent: str = &#34;&#34;, before: str = &#34;&#34;, width: int = 0,
+def group(name: str, *, show: bool = True, tip: str = &#34;&#34;, parent: str = &#34;&#34;, before: str = &#34;&#34;, width: int = 0,
           horizontal: bool = False, horizontal_spacing: float = -1.0, popup: str = &#34;&#34;):
     &#34;&#34;&#34;Wraps add_group() and automates calling end().
 
     Args:
         name: Unique name used to programmatically refer to the item. If label is unused this will be the label,
             anything after &#34;##&#34; that occurs in the name will not be shown on screen.
-        show: Decides if the item is shown of not.
-        tip: Adds a simple tooltip
-        parent: Parent to add this item to. (runtime adding)
-        before: This item will be displayed before the specified item in the parent. (runtime adding)
-        width: Width of the item.
-        horizontal: Adds the items on the same row by default.
-        horizontal_spacing: Decides the spacing for the items.
-        popup: Name of the popup that will be tied to this item.
+        **show: Decides if the item is shown of not.
+        **tip: Adds a simple tooltip
+        **parent: Parent to add this item to. (runtime adding)
+        **before: This item will be displayed before the specified item in the parent. (runtime adding)
+        **width: Width of the item.
+        **horizontal: Adds the items on the same row by default.
+        **horizontal_spacing: Decides the spacing for the items.
+        **popup: Name of the popup that will be tied to this item.
 
     Returns:
         None
@@ -1134,13 +1134,13 @@ def group(name: str, show: bool = True, tip: str = &#34;&#34;, parent: str = &#3
                     </details>
                 </dd>
                 <dt id="dearpygui.simple.hide_item"><code class="name flex">
-                    <span>def <span class="ident">hide_item</span></span>(<span>item: str, children_only: bool = False)</span>
+                    <span>def <span class="ident">hide_item</span></span>(<span>item: str, *, children_only: bool = False)</span>
                 </code></dt>
                 <dd>
                     <div class="desc"><p>Hides the item.</p>
                         <h2 id="args">Args</h2>
                         <dl>
-                            <dt><strong><code>item</code></strong></dt>
+                            <dt><strong><code>**item</code></strong></dt>
                             <dd>Item to hide.</dd>
                         </dl>
                         <h2 id="returns">Returns</h2>
@@ -1149,11 +1149,11 @@ def group(name: str, show: bool = True, tip: str = &#34;&#34;, parent: str = &#3
                         <summary>
                             <span>Expand source code</span>
                         </summary>
-                        <pre><code class="python">def hide_item(item: str, children_only: bool = False):
+                        <pre><code class="python">def hide_item(item: str, *, children_only: bool = False):
     &#34;&#34;&#34;Hides the item.
 
     Args:
-        item: Item to hide.
+        **item: Item to hide.
 
     Returns:
         None
@@ -1167,7 +1167,7 @@ def group(name: str, show: bool = True, tip: str = &#34;&#34;, parent: str = &#3
                     </details>
                 </dd>
                 <dt id="dearpygui.simple.managed_columns"><code class="name flex">
-                    <span>def <span class="ident">managed_columns</span></span>(<span>name: str, columns: int, border: bool = True, show: bool = True, parent: str = '', before: str = '')</span>
+                    <span>def <span class="ident">managed_columns</span></span>(<span>name: str, columns: int, *, border: bool = True, show: bool = True, parent: str = '', before: str = '')</span>
                 </code></dt>
                 <dd>
                     <div class="desc"><p>Wraps add_managed_columns() and automates calling end().</p>
@@ -1178,13 +1178,13 @@ def group(name: str, show: bool = True, tip: str = &#34;&#34;, parent: str = &#3
                                 anything after "##" that occurs in the name will not be shown on screen.</dd>
                             <dt><strong><code>columns</code></strong></dt>
                             <dd>The number of columns to be created.</dd>
-                            <dt><strong><code>border</code></strong></dt>
+                            <dt><strong><code>**border</code></strong></dt>
                             <dd>Shows a border.</dd>
-                            <dt><strong><code>show</code></strong></dt>
+                            <dt><strong><code>**show</code></strong></dt>
                             <dd>Decides if the item is shown of not.</dd>
-                            <dt><strong><code>parent</code></strong></dt>
+                            <dt><strong><code>**parent</code></strong></dt>
                             <dd>Parent this item will be added to. (runtime adding)</dd>
-                            <dt><strong><code>before</code></strong></dt>
+                            <dt><strong><code>**before</code></strong></dt>
                             <dd>This item will be displayed before the specified item in the parent. (runtime adding)</dd>
                         </dl>
                         <h2 id="returns">Returns</h2>
@@ -1194,7 +1194,7 @@ def group(name: str, show: bool = True, tip: str = &#34;&#34;, parent: str = &#3
                             <span>Expand source code</span>
                         </summary>
                         <pre><code class="python">@contextmanager
-def managed_columns(name: str, columns: int, border: bool = True, show: bool = True, parent: str = &#34;&#34;,
+def managed_columns(name: str, columns: int, *, border: bool = True, show: bool = True, parent: str = &#34;&#34;,
                     before: str = &#34;&#34;):
     &#34;&#34;&#34;Wraps add_managed_columns() and automates calling end().
 
@@ -1202,10 +1202,10 @@ def managed_columns(name: str, columns: int, border: bool = True, show: bool = T
         name: Unique name used to programmatically refer to the item. If label is unused this will be the label,
             anything after &#34;##&#34; that occurs in the name will not be shown on screen.
         columns: The number of columns to be created.
-        border: Shows a border.
-        show: Decides if the item is shown of not.
-        parent: Parent this item will be added to. (runtime adding)
-        before: This item will be displayed before the specified item in the parent. (runtime adding)
+        **border: Shows a border.
+        **show: Decides if the item is shown of not.
+        **parent: Parent this item will be added to. (runtime adding)
+        **before: This item will be displayed before the specified item in the parent. (runtime adding)
 
     Returns:
         None
@@ -1218,7 +1218,7 @@ def managed_columns(name: str, columns: int, border: bool = True, show: bool = T
                     </details>
                 </dd>
                 <dt id="dearpygui.simple.menu"><code class="name flex">
-                    <span>def <span class="ident">menu</span></span>(<span>name: str, label: str = '__DearPyGuiDefault', show: bool = True, tip: str = '', parent: str = '', before: str = '', enabled: bool = True)</span>
+                    <span>def <span class="ident">menu</span></span>(<span>name: str, *, label: str = '__DearPyGuiDefault', show: bool = True, tip: str = '', parent: str = '', before: str = '', enabled: bool = True)</span>
                 </code></dt>
                 <dd>
                     <div class="desc"><p>Wraps add_menu() and automates calling end().</p>
@@ -1227,17 +1227,17 @@ def managed_columns(name: str, columns: int, border: bool = True, show: bool = T
                             <dt><strong><code>name</code></strong></dt>
                             <dd>Unique name used to programmatically refer to the item. If label is unused this will be the label,
                                 anything after "##" that occurs in the name will not be shown on screen.</dd>
-                            <dt><strong><code>label</code></strong></dt>
+                            <dt><strong><code>**label</code></strong></dt>
                             <dd>Displayed name of the item.</dd>
-                            <dt><strong><code>show</code></strong></dt>
+                            <dt><strong><code>**show</code></strong></dt>
                             <dd>Decides if the item is shown of not.</dd>
-                            <dt><strong><code>tip</code></strong></dt>
+                            <dt><strong><code>**tip</code></strong></dt>
                             <dd>Adds a simple tooltip</dd>
-                            <dt><strong><code>parent</code></strong></dt>
+                            <dt><strong><code>**parent</code></strong></dt>
                             <dd>Parent this item will be added to. (runtime adding)</dd>
-                            <dt><strong><code>before</code></strong></dt>
+                            <dt><strong><code>**before</code></strong></dt>
                             <dd>This item will be displayed before the specified item in the parent. (runtime adding)</dd>
-                            <dt><strong><code>enabled</code></strong></dt>
+                            <dt><strong><code>**enabled</code></strong></dt>
                             <dd>Will enable or disable the menu.</dd>
                         </dl>
                         <h2 id="returns">Returns</h2>
@@ -1247,19 +1247,19 @@ def managed_columns(name: str, columns: int, border: bool = True, show: bool = T
                             <span>Expand source code</span>
                         </summary>
                         <pre><code class="python">@contextmanager
-def menu(name: str, label: str = &#34;__DearPyGuiDefault&#34;, show: bool = True, tip: str = &#34;&#34;, parent: str = &#34;&#34;,
+def menu(name: str, *, label: str = &#34;__DearPyGuiDefault&#34;, show: bool = True, tip: str = &#34;&#34;, parent: str = &#34;&#34;,
          before: str = &#34;&#34;, enabled: bool = True):
     &#34;&#34;&#34;Wraps add_menu() and automates calling end().
 
     Args:
         name: Unique name used to programmatically refer to the item. If label is unused this will be the label,
             anything after &#34;##&#34; that occurs in the name will not be shown on screen.
-        label: Displayed name of the item.
-        show: Decides if the item is shown of not.
-        tip: Adds a simple tooltip
-        parent: Parent this item will be added to. (runtime adding)
-        before: This item will be displayed before the specified item in the parent. (runtime adding)
-        enabled: Will enable or disable the menu.
+        **label: Displayed name of the item.
+        **show: Decides if the item is shown of not.
+        **tip: Adds a simple tooltip
+        **parent: Parent this item will be added to. (runtime adding)
+        **before: This item will be displayed before the specified item in the parent. (runtime adding)
+        **enabled: Will enable or disable the menu.
 
     Returns:
         None
@@ -1275,7 +1275,7 @@ def menu(name: str, label: str = &#34;__DearPyGuiDefault&#34;, show: bool = True
                     </details>
                 </dd>
                 <dt id="dearpygui.simple.menu_bar"><code class="name flex">
-                    <span>def <span class="ident">menu_bar</span></span>(<span>name: str, show: bool = True, parent: str = '', before: str = '')</span>
+                    <span>def <span class="ident">menu_bar</span></span>(<span>name: str, *, show: bool = True, parent: str = '', before: str = '')</span>
                 </code></dt>
                 <dd>
                     <div class="desc"><p>Wraps add_menu_bar() and automates calling end().</p>
@@ -1284,11 +1284,11 @@ def menu(name: str, label: str = &#34;__DearPyGuiDefault&#34;, show: bool = True
                             <dt><strong><code>name</code></strong></dt>
                             <dd>Unique name used to programmatically refer to the item. If label is unused this will be the label,
                                 anything after "##" that occurs in the name will not be shown on screen.</dd>
-                            <dt><strong><code>show</code></strong></dt>
+                            <dt><strong><code>**show</code></strong></dt>
                             <dd>Decides if the item is shown of not.</dd>
-                            <dt><strong><code>parent</code></strong></dt>
+                            <dt><strong><code>**parent</code></strong></dt>
                             <dd>Parent this item will be added to. (runtime adding)</dd>
-                            <dt><strong><code>before</code></strong></dt>
+                            <dt><strong><code>**before</code></strong></dt>
                             <dd>This item will be displayed before the specified item in the parent. (runtime adding)</dd>
                         </dl>
                         <h2 id="returns">Returns</h2>
@@ -1298,15 +1298,15 @@ def menu(name: str, label: str = &#34;__DearPyGuiDefault&#34;, show: bool = True
                             <span>Expand source code</span>
                         </summary>
                         <pre><code class="python">@contextmanager
-def menu_bar(name: str, show: bool = True, parent: str = &#34;&#34;, before: str = &#34;&#34;):
+def menu_bar(name: str, *, show: bool = True, parent: str = &#34;&#34;, before: str = &#34;&#34;):
     &#34;&#34;&#34;Wraps add_menu_bar() and automates calling end().
 
     Args:
         name: Unique name used to programmatically refer to the item. If label is unused this will be the label,
             anything after &#34;##&#34; that occurs in the name will not be shown on screen.
-        show: Decides if the item is shown of not.
-        parent: Parent this item will be added to. (runtime adding)
-        before: This item will be displayed before the specified item in the parent. (runtime adding)
+        **show: Decides if the item is shown of not.
+        **parent: Parent this item will be added to. (runtime adding)
+        **before: This item will be displayed before the specified item in the parent. (runtime adding)
 
     Returns:
         None
@@ -1318,7 +1318,7 @@ def menu_bar(name: str, show: bool = True, parent: str = &#34;&#34;, before: str
                     </details>
                 </dd>
                 <dt id="dearpygui.simple.popup"><code class="name flex">
-                    <span>def <span class="ident">popup</span></span>(<span>popupparent: str, name: str, mousebutton: int = 1, modal: bool = False, parent: str = '', before: str = '', width: int = 0, height: int = 0, show: bool = True)</span>
+                    <span>def <span class="ident">popup</span></span>(<span>popupparent: str, name: str, *, mousebutton: int = 1, modal: bool = False, parent: str = '', before: str = '', width: int = 0, height: int = 0, show: bool = True)</span>
                 </code></dt>
                 <dd>
                     <div class="desc"><p>Wraps add_popup() and automates calling end().</p>
@@ -1329,20 +1329,20 @@ def menu_bar(name: str, show: bool = True, parent: str = &#34;&#34;, before: str
                             <dt><strong><code>name</code></strong></dt>
                             <dd>Unique name used to programmatically refer to the item. If label is unused this will be the label,
                                 anything after "##" that occurs in the name will not be shown on screen.</dd>
-                            <dt><strong><code>mousebutton</code></strong></dt>
+                            <dt><strong><code>**mousebutton</code></strong></dt>
                             <dd>The mouse code that will trigger the popup. Default is 1 or mvMouseButton_Right.
                                 (mvMouseButton_Left, mvMouseButton_Right, mvMouseButton_Middle, mvMouseButton_X1, mvMouseButton_X2)</dd>
-                            <dt><strong><code>modal</code></strong></dt>
+                            <dt><strong><code>**modal</code></strong></dt>
                             <dd>Makes the popup modal.</dd>
-                            <dt><strong><code>parent</code></strong></dt>
+                            <dt><strong><code>**parent</code></strong></dt>
                             <dd>Parent to add this item to. (runtime adding)</dd>
-                            <dt><strong><code>before</code></strong></dt>
+                            <dt><strong><code>**before</code></strong></dt>
                             <dd>This item will be displayed before the specified item in the parent. (runtime adding)</dd>
-                            <dt><strong><code>width</code></strong></dt>
+                            <dt><strong><code>**width</code></strong></dt>
                             <dd>Width of the item.</dd>
-                            <dt><strong><code>height</code></strong></dt>
+                            <dt><strong><code>**height</code></strong></dt>
                             <dd>Height of the item.</dd>
-                            <dt><strong><code>show</code></strong></dt>
+                            <dt><strong><code>**show</code></strong></dt>
                             <dd>Decides if the item is shown of not.</dd>
                         </dl>
                         <h2 id="returns">Returns</h2>
@@ -1352,7 +1352,7 @@ def menu_bar(name: str, show: bool = True, parent: str = &#34;&#34;, before: str
                             <span>Expand source code</span>
                         </summary>
                         <pre><code class="python">@contextmanager
-def popup(popupparent: str, name: str, mousebutton: int = 1, modal: bool = False, parent: str = &#34;&#34;,
+def popup(popupparent: str, name: str, *, mousebutton: int = 1, modal: bool = False, parent: str = &#34;&#34;,
           before: str = &#34;&#34;, width: int = 0, height: int = 0, show: bool = True):
     &#34;&#34;&#34;Wraps add_popup() and automates calling end().
 
@@ -1360,14 +1360,14 @@ def popup(popupparent: str, name: str, mousebutton: int = 1, modal: bool = False
         popupparent: Parent that the popup will be assigned to.
         name: Unique name used to programmatically refer to the item. If label is unused this will be the label,
             anything after &#34;##&#34; that occurs in the name will not be shown on screen.
-        mousebutton: The mouse code that will trigger the popup. Default is 1 or mvMouseButton_Right.
+        **mousebutton: The mouse code that will trigger the popup. Default is 1 or mvMouseButton_Right.
             (mvMouseButton_Left, mvMouseButton_Right, mvMouseButton_Middle, mvMouseButton_X1, mvMouseButton_X2)
-        modal: Makes the popup modal.
-        parent: Parent to add this item to. (runtime adding)
-        before: This item will be displayed before the specified item in the parent. (runtime adding)
-        width: Width of the item.
-        height: Height of the item.
-        show: Decides if the item is shown of not.
+        **modal: Makes the popup modal.
+        **parent: Parent to add this item to. (runtime adding)
+        **before: This item will be displayed before the specified item in the parent. (runtime adding)
+        **width: Width of the item.
+        **height: Height of the item.
+        **show: Decides if the item is shown of not.
 
     Returns:
         None
@@ -1736,7 +1736,7 @@ def popup(popupparent: str, name: str, mousebutton: int = 1, modal: bool = False
                     </details>
                 </dd>
                 <dt id="dearpygui.simple.tab"><code class="name flex">
-                    <span>def <span class="ident">tab</span></span>(<span>name: str, closable: bool = False, label: str = '__DearPyGuiDefault', show: bool = True, tip: str = '', parent: str = '', before: str = '')</span>
+                    <span>def <span class="ident">tab</span></span>(<span>name: str, *, closable: bool = False, label: str = '__DearPyGuiDefault', show: bool = True, tip: str = '', parent: str = '', before: str = '')</span>
                 </code></dt>
                 <dd>
                     <div class="desc"><p>Wraps add_tab() and automates calling end().</p>
@@ -1745,17 +1745,17 @@ def popup(popupparent: str, name: str, mousebutton: int = 1, modal: bool = False
                             <dt><strong><code>name</code></strong></dt>
                             <dd>Unique name used to programmatically refer to the item. If label is unused this will be the label,
                                 anything after "##" that occurs in the name will not be shown on screen.</dd>
-                            <dt><strong><code>closable</code></strong></dt>
+                            <dt><strong><code>**closable</code></strong></dt>
                             <dd>creates a button on the tab that can hide the tab.</dd>
-                            <dt><strong><code>label</code></strong></dt>
+                            <dt><strong><code>**label</code></strong></dt>
                             <dd>Displayed name of the item.</dd>
-                            <dt><strong><code>show</code></strong></dt>
+                            <dt><strong><code>**show</code></strong></dt>
                             <dd>Decides if the item is shown of not.</dd>
-                            <dt><strong><code>tip</code></strong></dt>
+                            <dt><strong><code>**tip</code></strong></dt>
                             <dd>Adds a simple tooltip.</dd>
-                            <dt><strong><code>parent</code></strong></dt>
+                            <dt><strong><code>**parent</code></strong></dt>
                             <dd>Parent to add this item to. (runtime adding)</dd>
-                            <dt><strong><code>before</code></strong></dt>
+                            <dt><strong><code>**before</code></strong></dt>
                             <dd>This item will be displayed before the specified item in the parent. (runtime adding)</dd>
                         </dl>
                         <h2 id="returns">Returns</h2>
@@ -1765,19 +1765,19 @@ def popup(popupparent: str, name: str, mousebutton: int = 1, modal: bool = False
                             <span>Expand source code</span>
                         </summary>
                         <pre><code class="python">@contextmanager
-def tab(name: str, closable: bool = False, label: str = &#34;__DearPyGuiDefault&#34;, show: bool = True, tip: str = &#34;&#34;,
+def tab(name: str, *, closable: bool = False, label: str = &#34;__DearPyGuiDefault&#34;, show: bool = True, tip: str = &#34;&#34;,
         parent: str = &#34;&#34;, before: str = &#34;&#34;):
     &#34;&#34;&#34;Wraps add_tab() and automates calling end().
 
     Args:
         name: Unique name used to programmatically refer to the item. If label is unused this will be the label,
             anything after &#34;##&#34; that occurs in the name will not be shown on screen.
-        closable: creates a button on the tab that can hide the tab.
-        label: Displayed name of the item.
-        show: Decides if the item is shown of not.
-        tip: Adds a simple tooltip.
-        parent: Parent to add this item to. (runtime adding)
-        before: This item will be displayed before the specified item in the parent. (runtime adding)
+        **closable: creates a button on the tab that can hide the tab.
+        **label: Displayed name of the item.
+        **show: Decides if the item is shown of not.
+        **tip: Adds a simple tooltip.
+        **parent: Parent to add this item to. (runtime adding)
+        **before: This item will be displayed before the specified item in the parent. (runtime adding)
 
     Returns:
         None
@@ -1793,7 +1793,7 @@ def tab(name: str, closable: bool = False, label: str = &#34;__DearPyGuiDefault&
                     </details>
                 </dd>
                 <dt id="dearpygui.simple.tab_bar"><code class="name flex">
-                    <span>def <span class="ident">tab_bar</span></span>(<span>name: str, reorderable: bool = False, callback: str = '', callback_data: str = '', show: bool = True, parent: str = '', before: str = '')</span>
+                    <span>def <span class="ident">tab_bar</span></span>(<span>name: str, *, reorderable: bool = False, callback: str = '', callback_data: str = '', show: bool = True, parent: str = '', before: str = '')</span>
                 </code></dt>
                 <dd>
                     <div class="desc"><p>Wraps add_tab_bar() and automates calling end().</p>
@@ -1802,17 +1802,17 @@ def tab(name: str, closable: bool = False, label: str = &#34;__DearPyGuiDefault&
                             <dt><strong><code>name</code></strong></dt>
                             <dd>Unique name used to programmatically refer to the item. If label is unused this will be the label,
                                 anything after "##" that occurs in the name will not be shown on screen.</dd>
-                            <dt><strong><code>reorderable</code></strong></dt>
+                            <dt><strong><code>**reorderable</code></strong></dt>
                             <dd>Allows for moveable tabs.</dd>
-                            <dt><strong><code>callback</code></strong></dt>
+                            <dt><strong><code>**callback</code></strong></dt>
                             <dd>Registers a callback.</dd>
-                            <dt><strong><code>callback_data</code></strong></dt>
+                            <dt><strong><code>**callback_data</code></strong></dt>
                             <dd>Callback data.</dd>
-                            <dt><strong><code>show</code></strong></dt>
+                            <dt><strong><code>**show</code></strong></dt>
                             <dd>Decides if the item is shown of not.</dd>
-                            <dt><strong><code>parent</code></strong></dt>
+                            <dt><strong><code>**parent</code></strong></dt>
                             <dd>Parent to add this item to. (runtime adding)</dd>
-                            <dt><strong><code>before</code></strong></dt>
+                            <dt><strong><code>**before</code></strong></dt>
                             <dd>This item will be displayed before the specified item in the parent. (runtime adding)</dd>
                         </dl>
                         <h2 id="returns">Returns</h2>
@@ -1822,19 +1822,19 @@ def tab(name: str, closable: bool = False, label: str = &#34;__DearPyGuiDefault&
                             <span>Expand source code</span>
                         </summary>
                         <pre><code class="python">@contextmanager
-def tab_bar(name: str, reorderable: bool = False, callback: str = &#34;&#34;, callback_data: str = &#34;&#34;,  show: bool = True,
+def tab_bar(name: str, *, reorderable: bool = False, callback: str = &#34;&#34;, callback_data: str = &#34;&#34;,  show: bool = True,
             parent: str = &#34;&#34;, before: str = &#34;&#34;):
     &#34;&#34;&#34;Wraps add_tab_bar() and automates calling end().
 
     Args:
         name: Unique name used to programmatically refer to the item. If label is unused this will be the label,
             anything after &#34;##&#34; that occurs in the name will not be shown on screen.
-        reorderable: Allows for moveable tabs.
-        callback: Registers a callback.
-        callback_data: Callback data.
-        show: Decides if the item is shown of not.
-        parent: Parent to add this item to. (runtime adding)
-        before: This item will be displayed before the specified item in the parent. (runtime adding)
+        **reorderable: Allows for moveable tabs.
+        **callback: Registers a callback.
+        **callback_data: Callback data.
+        **show: Decides if the item is shown of not.
+        **parent: Parent to add this item to. (runtime adding)
+        **before: This item will be displayed before the specified item in the parent. (runtime adding)
 
     Returns:
         None
@@ -1847,7 +1847,7 @@ def tab_bar(name: str, reorderable: bool = False, callback: str = &#34;&#34;, ca
                     </details>
                 </dd>
                 <dt id="dearpygui.simple.tooltip"><code class="name flex">
-                    <span>def <span class="ident">tooltip</span></span>(<span>tipparent: str, name: str, parent: str = '', before: str = '', show: bool = True)</span>
+                    <span>def <span class="ident">tooltip</span></span>(<span>tipparent: str, name: str, *, parent: str = '', before: str = '', show: bool = True)</span>
                 </code></dt>
                 <dd>
                     <div class="desc"><p>Wraps add_tooltip() and automates calling end().</p>
@@ -1858,11 +1858,11 @@ def tab_bar(name: str, reorderable: bool = False, callback: str = &#34;&#34;, ca
                             <dt><strong><code>name</code></strong></dt>
                             <dd>Unique name used to programmatically refer to the item. If label is unused this will be the label,
                                 anything after "##" that occurs in the name will not be shown on screen.</dd>
-                            <dt><strong><code>parent</code></strong></dt>
+                            <dt><strong><code>**parent</code></strong></dt>
                             <dd>Parent to add this item to. (runtime adding)</dd>
-                            <dt><strong><code>before</code></strong></dt>
+                            <dt><strong><code>**before</code></strong></dt>
                             <dd>This item will be displayed before the specified item in the parent. (runtime adding)</dd>
-                            <dt><strong><code>show</code></strong></dt>
+                            <dt><strong><code>**show</code></strong></dt>
                             <dd>Decides if the item is shown of not.</dd>
                         </dl>
                         <h2 id="returns">Returns</h2>
@@ -1872,16 +1872,16 @@ def tab_bar(name: str, reorderable: bool = False, callback: str = &#34;&#34;, ca
                             <span>Expand source code</span>
                         </summary>
                         <pre><code class="python">@contextmanager
-def tooltip(tipparent: str, name: str, parent: str = &#34;&#34;, before: str = &#34;&#34;, show: bool = True):
+def tooltip(tipparent: str, name: str, *, parent: str = &#34;&#34;, before: str = &#34;&#34;, show: bool = True):
     &#34;&#34;&#34;Wraps add_tooltip() and automates calling end().
 
     Args:
         tipparent: Sets the item&#39;s tool tip to be the same as the named item&#39;s tool tip.
         name: Unique name used to programmatically refer to the item. If label is unused this will be the label,
             anything after &#34;##&#34; that occurs in the name will not be shown on screen.
-        parent: Parent to add this item to. (runtime adding)
-        before: This item will be displayed before the specified item in the parent. (runtime adding)
-        show: Decides if the item is shown of not.
+        **parent: Parent to add this item to. (runtime adding)
+        **before: This item will be displayed before the specified item in the parent. (runtime adding)
+        **show: Decides if the item is shown of not.
 
     Returns:
         None
@@ -1893,7 +1893,7 @@ def tooltip(tipparent: str, name: str, parent: str = &#34;&#34;, before: str = &
                     </details>
                 </dd>
                 <dt id="dearpygui.simple.tree_node"><code class="name flex">
-                    <span>def <span class="ident">tree_node</span></span>(<span>name: str, label: str = '__DearPyGuiDefault', show: bool = True, tip: str = '', parent: str = '', before: str = '', default_open: bool = False, open_on_double_click: bool = False, open_on_arrow: bool = False, leaf: bool = False, bullet: bool = False)</span>
+                    <span>def <span class="ident">tree_node</span></span>(<span>name: str, *, label: str = '__DearPyGuiDefault', show: bool = True, tip: str = '', parent: str = '', before: str = '', default_open: bool = False, open_on_double_click: bool = False, open_on_arrow: bool = False, leaf: bool = False, bullet: bool = False)</span>
                 </code></dt>
                 <dd>
                     <div class="desc"><p>Wraps add_tree_node() and automates calling end().</p>
@@ -1902,25 +1902,25 @@ def tooltip(tipparent: str, name: str, parent: str = &#34;&#34;, before: str = &
                             <dt><strong><code>name</code></strong></dt>
                             <dd>Unique name used to programmatically refer to the item. If label is unused this will be the label,
                                 anything after "##" that occurs in the name will not be shown on screen.</dd>
-                            <dt><strong><code>label</code></strong></dt>
+                            <dt><strong><code>**label</code></strong></dt>
                             <dd>Displayed name of the item.</dd>
-                            <dt><strong><code>show</code></strong></dt>
+                            <dt><strong><code>**show</code></strong></dt>
                             <dd>Decides if the item is shown of not.</dd>
-                            <dt><strong><code>tip</code></strong></dt>
+                            <dt><strong><code>**tip</code></strong></dt>
                             <dd>Adds a simple tooltip.</dd>
-                            <dt><strong><code>parent</code></strong></dt>
+                            <dt><strong><code>**parent</code></strong></dt>
                             <dd>Parent to add this item to. (runtime adding)</dd>
-                            <dt><strong><code>before</code></strong></dt>
+                            <dt><strong><code>**before</code></strong></dt>
                             <dd>This item will be displayed before the specified item in the parent. (runtime adding)</dd>
-                            <dt><strong><code>default_open</code></strong></dt>
+                            <dt><strong><code>**default_open</code></strong></dt>
                             <dd>Decides if item is open by default.</dd>
-                            <dt><strong><code>open_on_double_click</code></strong></dt>
+                            <dt><strong><code>**open_on_double_click</code></strong></dt>
                             <dd>Need double-click to open node.</dd>
-                            <dt><strong><code>open_on_arrow</code></strong></dt>
+                            <dt><strong><code>**open_on_arrow</code></strong></dt>
                             <dd>Only open when clicking on the arrow part.</dd>
-                            <dt><strong><code>leaf</code></strong></dt>
+                            <dt><strong><code>**leaf</code></strong></dt>
                             <dd>No collapsing, no arrow (use as a convenience for leaf nodes).</dd>
-                            <dt><strong><code>bullet</code></strong></dt>
+                            <dt><strong><code>**bullet</code></strong></dt>
                             <dd>Display a bullet instead of arrow.</dd>
                         </dl>
                         <h2 id="returns">Returns</h2>
@@ -1930,7 +1930,7 @@ def tooltip(tipparent: str, name: str, parent: str = &#34;&#34;, before: str = &
                             <span>Expand source code</span>
                         </summary>
                         <pre><code class="python">@contextmanager
-def tree_node(name: str, label: str = &#34;__DearPyGuiDefault&#34;, show: bool = True, tip: str = &#34;&#34;, parent: str = &#34;&#34;,
+def tree_node(name: str, *, label: str = &#34;__DearPyGuiDefault&#34;, show: bool = True, tip: str = &#34;&#34;, parent: str = &#34;&#34;,
               before: str = &#34;&#34;, default_open: bool = False, open_on_double_click: bool = False,
               open_on_arrow: bool = False, leaf: bool = False, bullet: bool = False):
     &#34;&#34;&#34;Wraps add_tree_node() and automates calling end().
@@ -1938,16 +1938,16 @@ def tree_node(name: str, label: str = &#34;__DearPyGuiDefault&#34;, show: bool =
     Args:
         name: Unique name used to programmatically refer to the item. If label is unused this will be the label,
             anything after &#34;##&#34; that occurs in the name will not be shown on screen.
-        label: Displayed name of the item.
-        show: Decides if the item is shown of not.
-        tip: Adds a simple tooltip.
-        parent: Parent to add this item to. (runtime adding)
-        before: This item will be displayed before the specified item in the parent. (runtime adding)
-        default_open: Decides if item is open by default.
-        open_on_double_click: Need double-click to open node.
-        open_on_arrow: Only open when clicking on the arrow part.
-        leaf: No collapsing, no arrow (use as a convenience for leaf nodes).
-        bullet: Display a bullet instead of arrow.
+        **label: Displayed name of the item.
+        **show: Decides if the item is shown of not.
+        **tip: Adds a simple tooltip.
+        **parent: Parent to add this item to. (runtime adding)
+        **before: This item will be displayed before the specified item in the parent. (runtime adding)
+        **default_open: Decides if item is open by default.
+        **open_on_double_click: Need double-click to open node.
+        **open_on_arrow: Only open when clicking on the arrow part.
+        **leaf: No collapsing, no arrow (use as a convenience for leaf nodes).
+        **bullet: Display a bullet instead of arrow.
 
     Returns:
         None
@@ -1970,7 +1970,7 @@ def tree_node(name: str, label: str = &#34;__DearPyGuiDefault&#34;, show: bool =
                     </details>
                 </dd>
                 <dt id="dearpygui.simple.window"><code class="name flex">
-                    <span>def <span class="ident">window</span></span>(<span>name: str, width: int = 200, height: int = 200, x_pos: int = 200, y_pos: int = 200, autosize: bool = False, no_resize: bool = False, no_title_bar: bool = False, no_move: bool = False, no_scrollbar: bool = False, no_collapse: bool = False, horizontal_scrollbar: bool = False, no_focus_on_appearing: bool = False, no_bring_to_front_on_focus: bool = False, menubar: bool = False, no_close: bool = False, no_background: bool = False, label: str = '__DearPyGuiDefault', show: bool = True, on_close: Callable = None)</span>
+                    <span>def <span class="ident">window</span></span>(<span>name: str, *, width: int = 200, height: int = 200, x_pos: int = 200, y_pos: int = 200, autosize: bool = False, no_resize: bool = False, no_title_bar: bool = False, no_move: bool = False, no_scrollbar: bool = False, no_collapse: bool = False, horizontal_scrollbar: bool = False, no_focus_on_appearing: bool = False, no_bring_to_front_on_focus: bool = False, menubar: bool = False, no_close: bool = False, no_background: bool = False, label: str = '__DearPyGuiDefault', show: bool = True, on_close: Callable = None)</span>
                 </code></dt>
                 <dd>
                     <div class="desc"><p>Wraps add_window() and automates calling end().</p>
@@ -1979,43 +1979,43 @@ def tree_node(name: str, label: str = &#34;__DearPyGuiDefault&#34;, show: bool =
                             <dt><strong><code>name</code></strong></dt>
                             <dd>Unique name used to programmatically refer to the item. If label is unused this will be the label,
                                 anything after "##" that occurs in the name will not be shown on screen.</dd>
-                            <dt><strong><code>width</code></strong></dt>
+                            <dt><strong><code>**width</code></strong></dt>
                             <dd>Width of the item.</dd>
-                            <dt><strong><code>height</code></strong></dt>
+                            <dt><strong><code>**height</code></strong></dt>
                             <dd>Height of the item.</dd>
-                            <dt><strong><code>x_pos</code></strong></dt>
+                            <dt><strong><code>**x_pos</code></strong></dt>
                             <dd>x position the window will start at</dd>
-                            <dt><strong><code>y_pos</code></strong></dt>
+                            <dt><strong><code>**y_pos</code></strong></dt>
                             <dd>y position the window will start at</dd>
-                            <dt><strong><code>autosize</code></strong></dt>
+                            <dt><strong><code>**autosize</code></strong></dt>
                             <dd>Autosized the window to fit it's items.</dd>
-                            <dt><strong><code>no_resize</code></strong></dt>
+                            <dt><strong><code>**no_resize</code></strong></dt>
                             <dd>Allows for the window size to be changed or fixed</dd>
-                            <dt><strong><code>no_title_bar</code></strong></dt>
+                            <dt><strong><code>**no_title_bar</code></strong></dt>
                             <dd>Title name for the title bar of the window</dd>
-                            <dt><strong><code>no_move</code></strong></dt>
+                            <dt><strong><code>**no_move</code></strong></dt>
                             <dd>Allows for the window's position to be changed or fixed</dd>
-                            <dt><strong><code>no_scrollbar</code></strong></dt>
+                            <dt><strong><code>**no_scrollbar</code></strong></dt>
                             <dd>Disable scrollbars (window can still scroll with mouse or programmatically)</dd>
-                            <dt><strong><code>no_collapse</code></strong></dt>
+                            <dt><strong><code>**no_collapse</code></strong></dt>
                             <dd>Disable user collapsing window by double-clicking on it</dd>
-                            <dt><strong><code>horizontal_scrollbar</code></strong></dt>
+                            <dt><strong><code>**horizontal_scrollbar</code></strong></dt>
                             <dd>Allow horizontal scrollbar to appear (off by default).</dd>
-                            <dt><strong><code>no_focus_on_appearing</code></strong></dt>
+                            <dt><strong><code>**no_focus_on_appearing</code></strong></dt>
                             <dd>Disable taking focus when transitioning from hidden to visible state</dd>
-                            <dt><strong><code>no_bring_to_front_on_focus</code></strong></dt>
+                            <dt><strong><code>**no_bring_to_front_on_focus</code></strong></dt>
                             <dd>Disable bringing window to front when taking focus (e.g. clicking on it or
                                 programmatically giving it focus)</dd>
-                            <dt><strong><code>menubar</code></strong></dt>
+                            <dt><strong><code>**menubar</code></strong></dt>
                             <dd>Decides if the menubar is shown or not.</dd>
-                            <dt><strong><code>no_close</code></strong></dt>
+                            <dt><strong><code>**no_close</code></strong></dt>
                             <dd>Decides if the window can be closed.</dd>
-                            <dt>no_background:</dt>
-                            <dt><strong><code>label</code></strong></dt>
+                            <dt>**no_background:</dt>
+                            <dt><strong><code>**label</code></strong></dt>
                             <dd>Displayed name of the item.</dd>
-                            <dt><strong><code>show</code></strong></dt>
+                            <dt><strong><code>**show</code></strong></dt>
                             <dd>sets if the item is shown or not window.</dd>
-                            <dt><strong><code>on_close</code></strong></dt>
+                            <dt><strong><code>**on_close</code></strong></dt>
                             <dd>Callback ran when window is closed</dd>
                         </dl>
                         <h2 id="returns">Returns</h2>
@@ -2025,7 +2025,7 @@ def tree_node(name: str, label: str = &#34;__DearPyGuiDefault&#34;, show: bool =
                             <span>Expand source code</span>
                         </summary>
                         <pre><code class="python">@contextmanager
-def window(name: str, width: int = 200, height: int = 200, x_pos: int = 200, y_pos: int = 200, autosize: bool = False,
+def window(name: str, *, width: int = 200, height: int = 200, x_pos: int = 200, y_pos: int = 200, autosize: bool = False,
            no_resize: bool = False, no_title_bar: bool = False, no_move: bool = False, no_scrollbar: bool = False,
            no_collapse: bool = False, horizontal_scrollbar: bool = False, no_focus_on_appearing: bool = False,
            no_bring_to_front_on_focus: bool = False, menubar: bool = False, no_close: bool = False,
@@ -2036,26 +2036,26 @@ def window(name: str, width: int = 200, height: int = 200, x_pos: int = 200, y_p
     Args:
         name: Unique name used to programmatically refer to the item. If label is unused this will be the label,
             anything after &#34;##&#34; that occurs in the name will not be shown on screen.
-        width: Width of the item.
-        height: Height of the item.
-        x_pos: x position the window will start at
-        y_pos: y position the window will start at
-        autosize: Autosized the window to fit it&#39;s items.
-        no_resize: Allows for the window size to be changed or fixed
-        no_title_bar: Title name for the title bar of the window
-        no_move: Allows for the window&#39;s position to be changed or fixed
-        no_scrollbar: Disable scrollbars (window can still scroll with mouse or programmatically)
-        no_collapse: Disable user collapsing window by double-clicking on it
-        horizontal_scrollbar: Allow horizontal scrollbar to appear (off by default).
-        no_focus_on_appearing: Disable taking focus when transitioning from hidden to visible state
-        no_bring_to_front_on_focus: Disable bringing window to front when taking focus (e.g. clicking on it or
+        **width: Width of the item.
+        **height: Height of the item.
+        **x_pos: x position the window will start at
+        **y_pos: y position the window will start at
+        **autosize: Autosized the window to fit it&#39;s items.
+        **no_resize: Allows for the window size to be changed or fixed
+        **no_title_bar: Title name for the title bar of the window
+        **no_move: Allows for the window&#39;s position to be changed or fixed
+        **no_scrollbar: Disable scrollbars (window can still scroll with mouse or programmatically)
+        **no_collapse: Disable user collapsing window by double-clicking on it
+        **horizontal_scrollbar: Allow horizontal scrollbar to appear (off by default).
+        **no_focus_on_appearing: Disable taking focus when transitioning from hidden to visible state
+        **no_bring_to_front_on_focus: Disable bringing window to front when taking focus (e.g. clicking on it or
             programmatically giving it focus)
-        menubar: Decides if the menubar is shown or not.
-        no_close: Decides if the window can be closed.
-        no_background:
-        label: Displayed name of the item.
-        show: sets if the item is shown or not window.
-        on_close: Callback ran when window is closed
+        **menubar: Decides if the menubar is shown or not.
+        **no_close: Decides if the window can be closed.
+        **no_background:
+        **label: Displayed name of the item.
+        **show: sets if the item is shown or not window.
+        **on_close: Callback ran when window is closed
 
     Returns:
         None
