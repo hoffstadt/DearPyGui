@@ -32,7 +32,8 @@ Breaking Changes:
 - Selectable:     changed "disabled" keyword to "enabled"
 
 New Commands:
-- Items:           Added "move_item" command
+- Items:          Added "move_item" command
+- Logger:         Added "add_logger" command
 
 Changes:
 - Examples:       Moved examples to https://github.com/Pcothren/DearPyGui-Examples
@@ -41,9 +42,18 @@ New Keywords:
 - Line Series:    Added "xy_data_format" #246
 - Scatter Series: Added "xy_data_format" #246
 - Button:         Added "enabled"
+- log:            Added "logger"
+- log_debug:      Added "logger"
+- log_error:      Added "logger"
+- log_info:       Added "logger"
+- log_warning:    Added "logger"
+- clear_log:      Added "logger"
+- get_log_level:  Added "logger"
+- set_log_level:  Added "logger"
 
 Fixes:
 - Listbox:        Fixed default "num_items"
+- Combobox:       Fixed hidden name issue #258
 
 -----------------------------------------------------------------------
  VERSION 0.4.3 (10/01/2020)

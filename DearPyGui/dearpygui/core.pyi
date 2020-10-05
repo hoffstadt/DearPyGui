@@ -1062,7 +1062,7 @@ def set_key_release_callback(callback: Callable) -> None:
 	"""Sets a callback for a key release event."""
 	...
 
-def set_log_level(level: int) -> None:
+def set_log_level(level: int, logger: str = "") -> None:
 	"""Sets the log level."""
 	...
 
