@@ -21,11 +21,11 @@ namespace Marvel{
 		parsers->insert({ "set_table_data", mvPythonParser({
 			{mvPythonDataType::String, "name"},
 			{mvPythonDataType::Object, "data"}
-		}, "Adds table data.", "None", "Tables") });
+		}, "Overwrites table data.", "None", "Tables") });
 
 		parsers->insert({ "get_table_data", mvPythonParser({
 			{mvPythonDataType::String, "name"},
-		}, "Adds table data.", "List[List[str]]", "Tables") });
+		}, "Gets table data.", "List[List[str]]", "Tables") });
 
 		parsers->insert({ "set_headers", mvPythonParser({
 			{mvPythonDataType::String, "table"},
