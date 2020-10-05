@@ -243,7 +243,7 @@ def group(name: str, *, show: bool = True, tip: str = "", parent: str = "", befo
 
 
 @contextmanager
-def tab_bar(name: str, *, reorderable: bool = False, callback: str = "", callback_data: str = "",  show: bool = True,
+def tab_bar(name: str, *, reorderable: bool = False, callback: Callable = None, callback_data: Any = None,  show: bool = True,
             parent: str = "", before: str = ""):
     """Wraps add_tab_bar() and automates calling end().
 
