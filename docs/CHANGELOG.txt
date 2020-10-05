@@ -50,6 +50,7 @@ New Keywords:
 - clear_log:      Added "logger"
 - get_log_level:  Added "logger"
 - set_log_level:  Added "logger"
+- input widgets:  Added "readonly" #254
 
 Fixes:
 - Listbox:        Fixed default "num_items"

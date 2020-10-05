@@ -47,6 +47,7 @@ namespace Marvel {
 			{mvPythonDataType::String, "label"},
 			{mvPythonDataType::String, "popup"},
 			{mvPythonDataType::Bool, "show"},
+			{mvPythonDataType::Bool, "readonly"},
 		}, "Adds input for integer values.", "None", "Adding Widgets") });
 
 		parsers->insert({ "add_input_int2", mvPythonParser({
@@ -64,6 +65,7 @@ namespace Marvel {
 			{mvPythonDataType::String, "label"},
 			{mvPythonDataType::String, "popup"},
 			{mvPythonDataType::Bool, "show"},
+			{mvPythonDataType::Bool, "readonly"},
 		}, "Adds input for 2 integer values.", "None", "Adding Widgets") });
 
 		parsers->insert({ "add_input_int3", mvPythonParser({
@@ -81,6 +83,7 @@ namespace Marvel {
 			{mvPythonDataType::String, "label"},
 			{mvPythonDataType::String, "popup"},
 			{mvPythonDataType::Bool, "show"},
+			{mvPythonDataType::Bool, "readonly"},
 		}, "Adds input for 3 integer values.", "None", "Adding Widgets") });
 
 		parsers->insert({ "add_input_int4", mvPythonParser({
@@ -98,6 +101,7 @@ namespace Marvel {
 			{mvPythonDataType::String, "label"},
 			{mvPythonDataType::String, "popup"},
 			{mvPythonDataType::Bool, "show"},
+			{mvPythonDataType::Bool, "readonly"},
 		}, "Adds input for 4 integer values.", "None", "Adding Widgets") });
 
 		parsers->insert({ "add_input_float", mvPythonParser({
@@ -118,6 +122,7 @@ namespace Marvel {
 			{mvPythonDataType::Bool, "show"},
 			{mvPythonDataType::Float, "step"},
 			{mvPythonDataType::Float, "step_fast"},
+			{mvPythonDataType::Bool, "readonly"},
 		}, "Adds input for float values.", "None", "Adding Widgets") });
 
 		parsers->insert({ "add_input_float2", mvPythonParser({
@@ -136,6 +141,7 @@ namespace Marvel {
 			{mvPythonDataType::String, "label"},
 			{mvPythonDataType::String, "popup"},
 			{mvPythonDataType::Bool, "show"},
+			{mvPythonDataType::Bool, "readonly"},
 		}, "Adds input for 2 float values.", "None", "Adding Widgets") });
 
 		parsers->insert({ "add_input_float3", mvPythonParser({
@@ -154,6 +160,7 @@ namespace Marvel {
 			{mvPythonDataType::String, "label"},
 			{mvPythonDataType::String, "popup"},
 			{mvPythonDataType::Bool, "show"},
+			{mvPythonDataType::Bool, "readonly"},
 		}, "Adds input for 3 float values.", "None", "Adding Widgets") });
 
 		parsers->insert({ "add_input_float4", mvPythonParser({
@@ -172,6 +179,7 @@ namespace Marvel {
 			{mvPythonDataType::String, "label"},
 			{mvPythonDataType::String, "popup"},
 			{mvPythonDataType::Bool, "show"},
+			{mvPythonDataType::Bool, "readonly"},
 		}, "Adds input for 4 float values.", "None", "Adding Widgets") });
 	}
 
@@ -242,10 +250,11 @@ namespace Marvel {
 		const char* label = "";
 		const char* popup = "";
 		int show = false;
+		int readonly = false;
 
 		if (!(*mvApp::GetApp()->getParsers())["add_input_int"].parse(args, kwargs, __FUNCTION__, &name,
 			&default_value, &callback, &callback_data, &tip, &parent, &before, &source, &width, &on_enter,
-			&label, &popup, &show))
+			&label, &popup, &show, &readonly))
 			return ToPyBool(false);
 
 		mvAppItem* item = new mvInputInt(name, default_value, source);
@@ -281,10 +290,11 @@ namespace Marvel {
 		const char* label = "";
 		const char* popup = "";
 		int show = false;
+		int readonly = false;
 
 		if (!(*mvApp::GetApp()->getParsers())["add_input_int2"].parse(args, kwargs, __FUNCTION__, &name,
 			&default_value, &callback, &callback_data, &tip, &parent, &before, &source, &width, &on_enter,
-			&label, &popup, &show))
+			&label, &popup, &show, &readonly))
 			return ToPyBool(false);
 
 		auto vec = ToIntVect(default_value);
@@ -323,10 +333,11 @@ namespace Marvel {
 		const char* label = "";
 		const char* popup = "";
 		int show = false;
+		int readonly = false;
 
 		if (!(*mvApp::GetApp()->getParsers())["add_input_int3"].parse(args, kwargs, __FUNCTION__, &name,
 			&default_value, &callback, &callback_data, &tip, &parent, &before, &source, &width, &on_enter,
-			&label, &popup, &show))
+			&label, &popup, &show, &readonly))
 			return ToPyBool(false);
 
 		auto vec = ToIntVect(default_value);
@@ -366,10 +377,11 @@ namespace Marvel {
 		const char* label = "";
 		const char* popup = "";
 		int show = false;
+		int readonly = false;
 
 		if (!(*mvApp::GetApp()->getParsers())["add_input_int4"].parse(args, kwargs, __FUNCTION__, &name,
 			&default_value, &callback, &callback_data, &tip, &parent, &before, &source, &width, &on_enter,
-			&label, &popup, &show))
+			&label, &popup, &show, &readonly))
 			return ToPyBool(false);
 
 		auto vec = ToIntVect(default_value);
@@ -407,10 +419,11 @@ namespace Marvel {
 		int show = false;
 		float step = 0.1f;
 		float step_fast = 1.0f;
+		int readonly = false;
 
 		if (!(*mvApp::GetApp()->getParsers())["add_input_float"].parse(args, kwargs, __FUNCTION__, &name,
 			&default_value, &format, &callback, &callback_data, &tip, &parent, &before, &source, &width, &on_enter,
-			&label, &popup, &show, &step, &step_fast))
+			&label, &popup, &show, &step, &step_fast, &readonly))
 			return ToPyBool(false);
 
 		mvAppItem* item = new mvInputFloat(name, default_value, source);
@@ -447,10 +460,11 @@ namespace Marvel {
 		const char* label = "";
 		const char* popup = "";
 		int show = false;
+		int readonly = false;
 
 		if (!(*mvApp::GetApp()->getParsers())["add_input_float2"].parse(args, kwargs, __FUNCTION__, &name,
 			&default_value, &format, &callback, &callback_data, &tip, &parent, &before, &source, &width, &on_enter,
-			&label, &popup, &show))
+			&label, &popup, &show, &readonly))
 			return ToPyBool(false);
 
 		auto vec = ToFloatVect(default_value);
@@ -489,10 +503,11 @@ namespace Marvel {
 		const char* label = "";
 		const char* popup = "";
 		int show = false;
+		int readonly = false;
 
 		if (!(*mvApp::GetApp()->getParsers())["add_input_float3"].parse(args, kwargs, __FUNCTION__, &name,
 			&default_value, &format, &callback, &callback_data, &tip, &parent, &before, &source, &width, &on_enter,
-			&label, &popup, &show))
+			&label, &popup, &show, &readonly))
 			return ToPyBool(false);
 
 		auto vec = ToFloatVect(default_value);
@@ -533,10 +548,11 @@ namespace Marvel {
 		const char* label = "";
 		const char* popup = "";
 		int show = false;
+		int readonly = false;
 
 		if (!(*mvApp::GetApp()->getParsers())["add_input_float4"].parse(args, kwargs, __FUNCTION__, &name,
 			&default_value, &format, &callback, &callback_data, &tip, &parent, &before, &source, &width, &on_enter,
-			&label, &popup, &show))
+			&label, &popup, &show, &readonly))
 			return ToPyBool(false);
 
 		auto vec = ToFloatVect(default_value);

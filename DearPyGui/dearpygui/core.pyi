@@ -189,50 +189,50 @@ def add_indent(name: str = "indent", *, offset: float = 0.0, parent: str = "", b
 	...
 
 def add_input_float(name: str, *, default_value: float = 0.0, format: str = "%.3f", callback: Callable = None, callback_data: Any = None, 
-					tip: str = "", parent: str = "", before: str = "", source: str = "", width: int = ..., on_enter: bool = False,
-				   label: str = "", popup: str = "", show: bool = True, step: float = 0.1, step_fast: float = 1.0) -> None:
+					tip: str = "", parent: str = "", before: str = "", source: str = "", width: int = 0,  on_enter: bool = False,
+				   label: str = "", popup: str = "", show: bool = True, step: float = 0.1, step_fast: float = 1.0, readonly: bool = False) -> None:
 	"""Adds input for float values."""
 	...
 
 def add_input_float2(name: str, *, default_value: List[float] = [0.0, 0.0], format: str = "%.3f", callback: Callable = None, callback_data: Any = None, 
 					 tip: str = "", parent: str = "", before: str = "", source: str = "", width: int = 0, on_enter: bool = False, 
-					 label: str = "", popup: str = "", show: bool = True) -> None:
+					 label: str = "", popup: str = "", show: bool = True, readonly: bool = False) -> None:
 	"""Adds input for 2 float values."""
 	...
 
 def add_input_float3(name: str, *, default_value: List[float] = [0.0, 0.0, 0.0], format: str = "%.3f", callback: Callable = None, 
 					 callback_data: Any = None, tip: str = "", parent: str = "", before: str = "", source: str = "", width: int = 0, 
-					 on_enter: bool = False, label: str = "", popup: str = "", show: bool = True) -> None:
+					 on_enter: bool = False, label: str = "", popup: str = "", show: bool = True, readonly: bool = False) -> None:
 	"""Adds input for 3 float values."""
 	...
 
 def add_input_float4(name: str, *, default_value: List[float] = [0.0, 0.0, 0.0, 0.0], format: str = "%.3f", callback: Callable = None, 
 					 callback_data: Any = None, tip: str = "", parent: str = "", before: str = "", source: str = "", width: int = 0, 
-					 on_enter: bool = False, label: str = "", popup: str = "", show: bool = True) -> None:
+					 on_enter: bool = False, label: str = "", popup: str = "", show: bool = True, readonly: bool = False) -> None:
 	"""Adds input for 4 float values."""
 	...
 
 def add_input_int(name: str, default_value: int = 0, callback: Callable = None, callback_data: Any = None, tip: str = "", 
 				  parent: str = "", before: str = "", source: str = "", width: int = 0, on_enter: bool = False, label: str = "", 
-				  popup: str = "", show: bool = True) -> None:
+				  popup: str = "", show: bool = True, readonly: bool = False) -> None:
 	"""Adds input for integer values."""
 	...
 
 def add_input_int2(name: str, *, default_value: List[int] = ..., callback: Callable = None, callback_data: Any = None, tip: str = "", 
 				   parent: str = "", before: str = "", source: str = "", width: int = 0, on_enter: bool = False, label: str = "", 
-				   popup: str = "", show: bool = True) -> None:
+				   popup: str = "", show: bool = True, readonly: bool = False) -> None:
 	"""Adds input for 2 integer values."""
 	...
 
 def add_input_int3(name: str, *, default_value: List[int] = ..., callback: Callable = None, callback_data: Any = None, tip: str = "", 
 				   parent: str = "", before: str = "", source: str = "", width: int = 0, on_enter: bool = False, label: str = "", 
-				   popup: str = "", show: bool = True) -> None:
+				   popup: str = "", show: bool = True, readonly: bool = False) -> None:
 	"""Adds input for 3 integer values."""
 	...
 
 def add_input_int4(name: str, *, default_value: List[int] = ..., callback: Callable = None, callback_data: Any = None, 
 				   tip: str = "", parent: str = "", before: str = "", source: str = "", width: int = 0, on_enter: bool = False, 
-				   label: str = "", popup: str = "", show: bool = True) -> None:
+				   label: str = "", popup: str = "", show: bool = True, readonly: bool = False) -> None:
 	"""Adds input for 4 integer values."""
 	...
 
