@@ -291,7 +291,7 @@ namespace Marvel {
 				for (const auto& name : m_items)
 				{
 					bool is_selected = (*m_value == name);
-					if (ImGui::Selectable((name + "##" + m_name).c_str(), is_selected))
+					if (ImGui::Selectable((name).c_str(), is_selected))
 					{
 						*m_value = name;
 						mvApp::GetApp()->runCallback(m_callback, m_name, m_callbackData);
