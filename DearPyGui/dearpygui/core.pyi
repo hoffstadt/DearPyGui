@@ -5,7 +5,7 @@ from typing import List, Any, Callable
 ##########################################################
 
 # ~ Dear PyGui Version: 0.4.5b0
-# ~ Data Generated:     Mon Oct  5 23:17:31 2020
+# ~ Data Generated:     Tue Oct  6 09:02:56 2020
 
 
 def add_additional_font(file: str, size: float = 13.0, glyph_ranges: str = '', *, custom_glyph_chars: List[int] = (), custom_glyph_ranges: Any = List[List[int]]) -> None:
