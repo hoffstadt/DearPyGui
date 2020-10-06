@@ -5,8 +5,8 @@ from dearpygui.core import *
 # This file is generated automatically by mvPythonParser #
 ##########################################################
 
-# ~ Dear PyGui Version: 0.4.5b0
-# ~ Data Generated:     Tue Oct  6 10:11:59 2020
+# ~ Dear PyGui Version: 0.4.5b1
+# ~ Data Generated:     Tue Oct  6 10:13:13 2020
 
 
 def add_additional_font(file: str, size: float = 13.0, glyph_ranges: str = '', *, custom_glyph_chars: List[int] = (), custom_glyph_ranges: Any = List[List[int]]) -> None:
