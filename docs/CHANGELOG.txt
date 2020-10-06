@@ -36,11 +36,12 @@ Breaking Changes:
 - Progress Bar:   changed "value" keyword to "default_value"
 
 Fixes:
-- Input Text: Callback_data was not being sent
-- Logger:     Log messages only showed up after 2nd call
-- Tabs:       Fixed issue with items on tabs not lining up when using same_line
-- Stub file:  add_logger added to stub file
-- Plots:      reset_yticks was resetting x ticks
+- Input Text:       Callback_data was not being sent
+- Logger:           Log messages only showed up after 2nd call
+- Tabs:             Fixed issue with items on tabs not lining up when using same_line
+- Stub file:        add_logger added to stub file
+- Plots:            reset_yticks was resetting x ticks
+- Select Directory: fixed callback crash
 
 -----------------------------------------------------------------------
  VERSION 0.4.4 (10/4/2020)

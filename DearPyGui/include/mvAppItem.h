@@ -80,16 +80,16 @@ namespace Marvel {
 
         // configuration get/set
         void                                checkConfigDict   (PyObject* dict);
-        void                                setConfigDict     (PyObject* dict);
-        virtual void                        setExtraConfigDict(PyObject* dict) {}
+        void                                setConfigDict     (PyObject* dict);  // python dictionary acts as an out parameter 
         void                                getConfigDict     (PyObject* dict);
+        virtual void                        setExtraConfigDict(PyObject* dict) {}
         virtual void                        getExtraConfigDict(PyObject* dict) {}
 
         // color styles for runtime
         void                                addColorStyle  (ImGuiCol item, mvColor color);
         void                                pushColorStyles();
         void                                popColorStyles ();
-        void                                clearColors();
+        void                                clearColors    ();
 
         // runtime modifications
         bool                                addRuntimeChild       (const std::string& parent, const std::string& before, mvAppItem* item);
