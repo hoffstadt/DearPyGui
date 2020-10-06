@@ -387,7 +387,7 @@ namespace Marvel {
 	PyObject* open_file_dialog(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		PyObject* callback = nullptr;
-		const char* extensions = "";
+		const char* extensions = ".*";
 
 		if (!(*mvApp::GetApp()->getParsers())["open_file_dialog"].parse(args, kwargs, __FUNCTION__,
 			&callback, &extensions))
