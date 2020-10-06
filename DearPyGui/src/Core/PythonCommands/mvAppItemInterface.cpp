@@ -24,7 +24,7 @@ namespace Marvel {
 
 		parsers->insert({ "configure_item", mvPythonParser({
 			{mvPythonDataType::String, "item"},
-			{mvPythonDataType::Object, "config"},
+			{mvPythonDataType::Kwargs, "**Kwargs"},
 		}, "Configures an item", "None", "Widget Commands") });
 
 		parsers->insert({ "get_windows", mvPythonParser({

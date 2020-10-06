@@ -29,9 +29,8 @@ namespace Marvel {
     enum class mvPythonDataType
     {
         String, Integer, Float, Bool, StringList, FloatList, Optional,
-        Object, IntList, KeywordOnly, Double,
-
-        Callable, Dict, ListFloatList, ListStrList
+        Object, IntList, KeywordOnly, Double, Callable, Dict, ListFloatList, 
+        ListStrList, Kwargs
     };
 
     //-----------------------------------------------------------------------------
