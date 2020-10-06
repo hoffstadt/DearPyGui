@@ -378,6 +378,8 @@ namespace Marvel {
 		igfd::ImGuiFileDialog::Instance()->OpenModal("ChooseFileDlgKey", "Choose Directory", 0, ".");
 		mvStandardWindow* window = mvApp::GetApp()->getStandardWindow("filedialog");
 		auto dialog = static_cast<mvFileDialog*>(window);
+		if (callback)
+			Py_XINCREF(callback);
 		dialog->setCallback(callback);
 		mvApp::GetApp()->showStandardWindow("filedialog");
 
