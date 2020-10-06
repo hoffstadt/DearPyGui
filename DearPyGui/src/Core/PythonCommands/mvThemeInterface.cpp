@@ -9,11 +9,11 @@ namespace Marvel {
 		parsers->insert({ "add_additional_font", mvPythonParser({
 			{mvPythonDataType::String, "file", "ttf or otf file"},
 			{mvPythonDataType::Optional},
-			{mvPythonDataType::Float, "size"},
-			{mvPythonDataType::String, "glyph_ranges", "options: korean, japanese, chinese_full, chinese_simplified_common, cryillic, thai, vietnamese"},
+			{mvPythonDataType::Float, "size", "", "13.0"},
+			{mvPythonDataType::String, "glyph_ranges", "options: korean, japanese, chinese_full, chinese_simplified_common, cryillic, thai, vietnamese", "''"},
 			{mvPythonDataType::KeywordOnly},
-			{mvPythonDataType::IntList, "custom_glyph_chars", ""},
-			{mvPythonDataType::Object, "custom_glyph_ranges", "List[List[int]]"},
+			{mvPythonDataType::IntList, "custom_glyph_chars", "", "()"},
+			{mvPythonDataType::Object, "custom_glyph_ranges", "list of ranges", "List[List[int]]"},
 		}, "Adds additional font.", "None", "Themes and Styles") });
 
 		parsers->insert({ "set_theme", mvPythonParser({

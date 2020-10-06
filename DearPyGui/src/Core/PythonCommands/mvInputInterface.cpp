@@ -6,16 +6,16 @@ namespace Marvel {
 	void AddInputCommands(std::map<std::string, mvPythonParser>* parsers)
 	{
 		parsers->insert({ "set_mouse_move_callback", mvPythonParser({
-			{mvPythonDataType::Object, "callback", "Registers a callback"}
+			{mvPythonDataType::Callable, "callback", "Registers a callback"}
 		}, "Sets a callback for a mouse move event. Data is the mouse position in local coordinates.", "None", "Input Polling") });
 
 		parsers->insert({ "set_render_callback", mvPythonParser({
-			{mvPythonDataType::Object, "callback", "Registers a callback"}
+			{mvPythonDataType::Callable, "callback", "Registers a callback"}
 		}, "Sets the callback to be ran every frame.", "None", "Input Polling") });
 
 		parsers->insert({ "get_mouse_pos", mvPythonParser({
 			{mvPythonDataType::KeywordOnly},
-			{mvPythonDataType::Bool, "local"}
+			{mvPythonDataType::Bool, "local", "", "True"}
 		}, "Returns the current mouse position in relation to the active window (minus titlebar) unless local flag is unset.",
 		"(int, int)", "Input Polling") });
 
@@ -60,46 +60,46 @@ namespace Marvel {
 		}, "Checks if the key is down.", "bool", "Input Polling") });
 
 		parsers->insert({ "set_resize_callback", mvPythonParser({
-			{mvPythonDataType::Object, "callback", "Registers a callback"},
-			{mvPythonDataType::Optional},
-			{mvPythonDataType::String, "handler", "Callback will be run when event occurs while this window is active (default is main window)"},
+			{mvPythonDataType::Callable, "callback", "Registers a callback"},
+			{mvPythonDataType::KeywordOnly},
+			{mvPythonDataType::String, "handler", "Callback will be run when event occurs while this window is active (default is main window)", "''"},
 		}, "Sets a callback for a window resize event.", "None", "Input Polling") });
 
 		parsers->insert({ "set_mouse_release_callback", mvPythonParser({
-			{mvPythonDataType::Object, "callback", "Registers a callback"}
+			{mvPythonDataType::Callable, "callback", "Registers a callback"}
 		}, "Sets a callback for a mouse release event.", "None", "Input Polling") });
 
 		parsers->insert({ "set_mouse_down_callback", mvPythonParser({
-			{mvPythonDataType::Object, "callback", "Registers a callback"}
+			{mvPythonDataType::Callable, "callback", "Registers a callback"}
 		}, "Sets a callback for a mouse down event.", "None", "Input Polling") });
 
 		parsers->insert({ "set_mouse_drag_callback", mvPythonParser({
-			{mvPythonDataType::Object, "callback", "Registers a callback"},
+			{mvPythonDataType::Callable, "callback", "Registers a callback"},
 			{mvPythonDataType::Float, "threshold"}
 		}, "Sets a callback for a mouse drag event.", "None", "Input Polling") });
 
 		parsers->insert({ "set_mouse_wheel_callback", mvPythonParser({
-			{mvPythonDataType::Object, "callback", "Registers a callback"}
+			{mvPythonDataType::Callable, "callback", "Registers a callback"}
 		}, "Sets a callback for a mouse wheel event.", "None", "Input Polling") });
 
 		parsers->insert({ "set_mouse_double_click_callback", mvPythonParser({
-			{mvPythonDataType::Object, "callback", "Registers a callback"}
+			{mvPythonDataType::Callable, "callback", "Registers a callback"}
 		}, "Sets a callback for a mouse double click event.", "None", "Input Polling") });
 
 		parsers->insert({ "set_mouse_click_callback", mvPythonParser({
-			{mvPythonDataType::Object, "callback", "Registers a callback"}
+			{mvPythonDataType::Callable, "callback", "Registers a callback"}
 		}, "Sets a callback for a mouse click event.", "None", "Input Polling") });
 
 		parsers->insert({ "set_key_down_callback", mvPythonParser({
-			{mvPythonDataType::Object, "callback", "Registers a callback"}
+			{mvPythonDataType::Callable, "callback", "Registers a callback"}
 		}, "Sets a callback for a key down event.", "None", "Input Polling") }),
 
 		parsers->insert({ "set_key_press_callback", mvPythonParser({
-			{mvPythonDataType::Object, "callback", "Registers a callback"}
+			{mvPythonDataType::Callable, "callback", "Registers a callback"}
 			}, "Sets a callback for a key press event.", "None", "Input Polling") });
 
 		parsers->insert({ "set_key_release_callback", mvPythonParser({
-			{mvPythonDataType::Object, "callback", "Registers a callback"}
+			{mvPythonDataType::Callable, "callback", "Registers a callback"}
 		}, "Sets a callback for a key release event.", "None", "Input Polling") });
 	}
 

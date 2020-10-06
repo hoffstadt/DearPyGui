@@ -9,18 +9,18 @@ namespace Marvel{
 			{mvPythonDataType::String, "name"},
 			{mvPythonDataType::StringList, "headers"},
 			{mvPythonDataType::KeywordOnly},
-			{mvPythonDataType::Object, "callback", "Registers a callback"},
-			{mvPythonDataType::Object, "callback_data", "Callback data"},
-			{mvPythonDataType::String, "parent", "Parent this item will be added to. (runtime adding)"},
-			{mvPythonDataType::String, "before","This item will be displayed before the specified item in the parent. (runtime adding)"},
-			{mvPythonDataType::Integer, "width",""},
-			{mvPythonDataType::Integer, "height",""},
-			{mvPythonDataType::Bool, "show",""}
+			{mvPythonDataType::Callable, "callback", "Registers a callback", "None"},
+			{mvPythonDataType::Object, "callback_data", "Callback data", "None"},
+			{mvPythonDataType::String, "parent", "Parent this item will be added to. (runtime adding)", "''"},
+			{mvPythonDataType::String, "before","This item will be displayed before the specified item in the parent. (runtime adding)", "''"},
+			{mvPythonDataType::Integer, "width","", "0"},
+			{mvPythonDataType::Integer, "height","", "0"},
+			{mvPythonDataType::Bool, "show","Attempt to render", "True"}
 		}, "Adds table.", "None", "Tables") });
 
 		parsers->insert({ "set_table_data", mvPythonParser({
 			{mvPythonDataType::String, "name"},
-			{mvPythonDataType::Object, "data"}
+			{mvPythonDataType::ListStrList, "data"}
 		}, "Overwrites table data.", "None", "Tables") });
 
 		parsers->insert({ "get_table_data", mvPythonParser({

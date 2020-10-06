@@ -29,7 +29,9 @@ namespace Marvel {
     enum class mvPythonDataType
     {
         String, Integer, Float, Bool, StringList, FloatList, Optional,
-        Object, IntList, KeywordOnly, Double
+        Object, IntList, KeywordOnly, Double,
+
+        Callable, Dict, ListFloatList, ListStrList
     };
 
     //-----------------------------------------------------------------------------
@@ -37,11 +39,11 @@ namespace Marvel {
     //-----------------------------------------------------------------------------
     struct mvPythonDataElement
     {
-        const char*      name;
         mvPythonDataType type;
+        std::string      name;
         std::string      description;
+        std::string      default_value = "...";
 
-        mvPythonDataElement(mvPythonDataType type, const char* name = "", std::string  description = "");
         [[nodiscard]] char getSymbol() const;
     };
 
@@ -58,8 +60,8 @@ namespace Marvel {
         mvPythonParser() = default;
 
         mvPythonParser(const std::initializer_list<mvPythonDataElement>& elements, 
-            std::string  about = "", std::string  returnType = "None",
-            std::string  category = "App");
+            std::string about = "", std::string returnType = "None",
+            std::string category = "App");
 
         bool                             parse(PyObject* args, PyObject* kwargs, const char* message, ...);
         [[nodiscard]] const char*        getDocumentation                () const { return m_documentation.c_str(); }

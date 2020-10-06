@@ -53,7 +53,7 @@ namespace Marvel {
 					if (ImGui::InputText(m_label.c_str(), m_value, m_flags))
 					{
 
-						mvApp::GetApp()->runCallback(m_callback, m_name);
+						mvApp::GetApp()->runCallback(m_callback, m_name, m_callbackData);
 
 						// Context Menu
 						if (!getPopup().empty())
