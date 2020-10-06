@@ -43,6 +43,7 @@ namespace Marvel {
 		case mvPythonDataType::Dict:          return " : dict";
 		case mvPythonDataType::ListFloatList: return " : List[List[float]]";
 		case mvPythonDataType::ListStrList:   return " : List[List[str]]";
+		case mvPythonDataType::Kwargs:        return "";
 		case mvPythonDataType::Object:        return " : Any";
 		default:                              return " : unknown";
 		}
@@ -64,6 +65,7 @@ namespace Marvel {
 		case mvPythonDataType::Dict:          return "dict";
 		case mvPythonDataType::ListFloatList: return "List[List[float]]";
 		case mvPythonDataType::ListStrList:   return "List[List[str]]";
+		case mvPythonDataType::Kwargs:        return "";
 		case mvPythonDataType::Object:        return "Any";
 		default:                              return "";
 		}
@@ -188,7 +190,8 @@ namespace Marvel {
 		std::ofstream stub;
 		stub.open(file);
 
-		stub << "from typing import List, Any, Callable\n\n";
+		stub << "from typing import List, Any, Callable\n";
+		stub << "from dearpygui.core import *\n\n";
 		stub << "##########################################################\n";
 		stub << "# This file is generated automatically by mvPythonParser #\n";
 		stub << "##########################################################\n\n";
@@ -222,12 +225,18 @@ namespace Marvel {
 						stub << elements[i].name << ": " << PythonDataTypeActual(elements[i].type) << ", ";
 				}
 				else
-					if (adddefault)
-						stub << elements[i].name << ": " << PythonDataTypeActual(elements[i].type) << " = "<< elements[i].default_value <<") -> "<<
-							parser.second.getReturnType() << ":\n\t\"\"\"" << parser.second.getAbout() << "\"\"\"\n\t...\n\n";
+				{
+					if (elements[i].type == mvPythonDataType::Kwargs)
+						stub << elements[i].name << ") -> " <<
+						parser.second.getReturnType() << ":\n\t\"\"\"" << parser.second.getAbout() << "\"\"\"\n\t...\n\n";
+
+					else if (adddefault)
+						stub << elements[i].name << ": " << PythonDataTypeActual(elements[i].type) << " = " << elements[i].default_value << ") -> " <<
+						parser.second.getReturnType() << ":\n\t\"\"\"" << parser.second.getAbout() << "\"\"\"\n\t...\n\n";
 					else
 						stub << elements[i].name << ": " << PythonDataTypeActual(elements[i].type) <<
-							") -> " << parser.second.getReturnType() << ":\n\t\"\"\"" << parser.second.getAbout() << "\"\"\"\n\t...\n\n";
+						") -> " << parser.second.getReturnType() << ":\n\t\"\"\"" << parser.second.getAbout() << "\"\"\"\n\t...\n\n";
+				}
 			}
 
 			if (elements.empty())
