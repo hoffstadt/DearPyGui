@@ -25,12 +25,12 @@
 
 <body>
 <header>
-    <h1><a href="index.html">DearPyGui</a></h1>
+    <h1><a href="index.html">Dear PyGui</a></h1>
 </header>
 <hr>
 <main id="content">
     <article><a href="#contents"></a>
-        <h2>DearPyGui Tutorials</h2>
+        <h2>Dear PyGui Tutorials</h2>
         <hr>
         <ul>
             <li><a href="#overview">Overview</a></li>
@@ -994,7 +994,7 @@ start_dearpygui()</code></pre>
         <p>
             Input Polling in Dear PyGui is done by calling the desired poll command within a function.
             The function must be set to a windows render callback for polling to occur when that window is active.
-            Because the render callbacks are ran every frame DearPyGui can poll between frames if a specified input is performed.
+            Because the render callbacks are ran every frame Dear PyGui can poll between frames if a specified input is performed.
             <br><br>
             A list of all the polling is as follows:
             <ul>
@@ -1086,7 +1086,7 @@ start_dearpygui()</code></pre>
             For calculations and callbacks that require extended time it can be useful to implement asynchronous functions or functions ran on separate threads.
             To do this simply call <code class="inline-code" data-language="python">run_async_function()</code>.
             <br><br>
-            It is important to note that functions ran with the async command cannot call any other DearPyGui API calls.
+            It is important to note that functions ran with the async command cannot call any other Dear PyGui API calls.
         </p>
         <pre><code data-language="python">from dearpygui.core import *
 from time import sleep
