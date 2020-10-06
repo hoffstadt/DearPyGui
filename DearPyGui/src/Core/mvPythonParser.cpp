@@ -6,6 +6,7 @@
 #include <fstream>
 #include <utility>
 #include <frameobject.h>
+#include <ctime>
 
 namespace Marvel {
 
@@ -28,18 +29,22 @@ namespace Marvel {
 	{
 		switch (type)
 		{
-		case mvPythonDataType::String:     return " : str";
-		case mvPythonDataType::Integer:    return " : int";
-		case mvPythonDataType::Float:      return " : float";
-		case mvPythonDataType::Double:     return " : float";
-		case mvPythonDataType::Bool:       return " : bool";
-		case mvPythonDataType::StringList: return " : List[str]";
-		case mvPythonDataType::FloatList:  return " : List[float]";
-		case mvPythonDataType::IntList:    return " : List[int]";
-		case mvPythonDataType::Optional:   return "Optional Arguments\n____________________";
-		case mvPythonDataType::KeywordOnly:return "Keyword Only Arguments\n____________________";
-		case mvPythonDataType::Object:     return " : Any";
-		default:                           return " : unknown";
+		case mvPythonDataType::String:        return " : str";
+		case mvPythonDataType::Integer:       return " : int";
+		case mvPythonDataType::Float:         return " : float";
+		case mvPythonDataType::Double:        return " : float";
+		case mvPythonDataType::Bool:          return " : bool";
+		case mvPythonDataType::StringList:    return " : List[str]";
+		case mvPythonDataType::FloatList:     return " : List[float]";
+		case mvPythonDataType::IntList:       return " : List[int]";
+		case mvPythonDataType::Optional:      return "Optional Arguments\n____________________";
+		case mvPythonDataType::KeywordOnly:   return "Keyword Only Arguments\n____________________";
+		case mvPythonDataType::Callable:      return " : Callable";
+		case mvPythonDataType::Dict:          return " : dict";
+		case mvPythonDataType::ListFloatList: return " : List[List[float]]";
+		case mvPythonDataType::ListStrList:   return " : List[List[str]]";
+		case mvPythonDataType::Object:        return " : Any";
+		default:                              return " : unknown";
 		}
 	}
 
@@ -47,22 +52,22 @@ namespace Marvel {
 	{
 		switch (type)
 		{
-		case mvPythonDataType::String:     return "str";
-		case mvPythonDataType::Integer:    return "int";
-		case mvPythonDataType::Float:      return "float";
-		case mvPythonDataType::Double:     return "float";
-		case mvPythonDataType::Bool:       return "bool";
-		case mvPythonDataType::StringList: return "List[str]";
-		case mvPythonDataType::FloatList:  return "List[float]";
-		case mvPythonDataType::IntList:    return "List[int]";
-		case mvPythonDataType::Object:     return "Any";
-		default:                           return "";
+		case mvPythonDataType::String:        return "str";
+		case mvPythonDataType::Integer:       return "int";
+		case mvPythonDataType::Float:         return "float";
+		case mvPythonDataType::Double:        return "float";
+		case mvPythonDataType::Bool:          return "bool";
+		case mvPythonDataType::StringList:    return "List[str]";
+		case mvPythonDataType::FloatList:     return "List[float]";
+		case mvPythonDataType::IntList:       return "List[int]";
+		case mvPythonDataType::Callable:      return "Callable";
+		case mvPythonDataType::Dict:          return "dict";
+		case mvPythonDataType::ListFloatList: return "List[List[float]]";
+		case mvPythonDataType::ListStrList:   return "List[List[str]]";
+		case mvPythonDataType::Object:        return "Any";
+		default:                              return "";
 		}
 	}
-
-	mvPythonDataElement::mvPythonDataElement(mvPythonDataType type, const char* name, std::string  description)
-		: name(name), type(type), description(std::move(description))
-	{}
 
 	char mvPythonDataElement::getSymbol() const
 	{ 
@@ -78,7 +83,7 @@ namespace Marvel {
 		{
 			// ignore name types for optional and keyword only
 			if (element.type != mvPythonDataType::Optional && element.type != mvPythonDataType::KeywordOnly)
-				m_keywords.push_back(element.name);
+				m_keywords.push_back(element.name.c_str());
 
 			// ignore additional optionals
 			if (m_optional && element.type == mvPythonDataType::Optional)
@@ -158,7 +163,11 @@ namespace Marvel {
 				keyfound = true;
 			}
 
-			documentation = documentation + "* " + element.name + PythonDataTypeString(element.type) + 
+			if(element.type != mvPythonDataType::KeywordOnly && element.type != mvPythonDataType::Optional && (opfound || keyfound))
+				documentation = documentation + "* " + element.name + PythonDataTypeString(element.type) + " = " + element.default_value +
+					"\n\t" + element.description + "\n\n";
+			else
+				documentation = documentation + "* " + element.name + PythonDataTypeString(element.type) + 
 				"\n\t" + element.description + "\n\n";
 		}
 
@@ -170,10 +179,21 @@ namespace Marvel {
 		auto commands = BuildDearPyGuiInterface();
 		auto constants = GetModuleConstants();
 
-		std::ofstream stub;
-		stub.open(file + "/dearpygui.pyi");
+		// current date/time based on current system
+		time_t now = time(0);
 
-		stub << "from typing import List, Any\n\n";
+		// convert now to string form
+		char* dt = ctime(&now);
+
+		std::ofstream stub;
+		stub.open(file);
+
+		stub << "from typing import List, Any, Callable\n\n";
+		stub << "##########################################################\n";
+		stub << "# This file is generated automatically by mvPythonParser #\n";
+		stub << "##########################################################\n\n";
+		stub << "# ~ Dear PyGui Version: " << mvApp::GetVersion() <<"\n";
+		stub << "# ~ Data Generated:     " << dt <<"\n\n";
 
 		for (const auto& parser : *commands)
 		{
@@ -188,19 +208,22 @@ namespace Marvel {
 				if (elements[i].type == mvPythonDataType::KeywordOnly || elements[i].type == mvPythonDataType::Optional)
 				{
 					adddefault = true;
+					if (elements[i].type == mvPythonDataType::KeywordOnly)
+						stub << "*, ";
 					continue;
 				}
+
 				if (i != elements.size() - 1)
 				{
 					if(adddefault)
-						stub << elements[i].name << ": " << PythonDataTypeActual(elements[i].type) << " = ..., ";
+						stub << elements[i].name << ": " << PythonDataTypeActual(elements[i].type) << " = " << elements[i].default_value << ", ";
 					
 					else
 						stub << elements[i].name << ": " << PythonDataTypeActual(elements[i].type) << ", ";
 				}
 				else
 					if (adddefault)
-						stub << elements[i].name << ": " << PythonDataTypeActual(elements[i].type) << " = ...) -> "<<
+						stub << elements[i].name << ": " << PythonDataTypeActual(elements[i].type) << " = "<< elements[i].default_value <<") -> "<<
 							parser.second.getReturnType() << ":\n\t\"\"\"" << parser.second.getAbout() << "\"\"\"\n\t...\n\n";
 					else
 						stub << elements[i].name << ": " << PythonDataTypeActual(elements[i].type) <<
@@ -213,9 +236,6 @@ namespace Marvel {
 
 
 		}
-
-		for (auto& constant : constants)
-			stub << constant.first << " = " << constant.second << "\n";
 
 		stub.close();
 

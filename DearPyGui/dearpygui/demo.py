@@ -231,7 +231,7 @@ def show_demo():
 
                 add_separator()
 
-                add_label_text("label##demo", value="Value")
+                add_label_text("label##demo", default_value="Value")
                 add_combo("combo##demo", items=["AAAA", "BBBB", "CCCC", "DDDD", "EEEE", "FFFF", "GGGG", "HHHH", "IIII", "JJJJ", "KKKK"], 
                           default_value="AAAA")
                 add_input_text("input text##demo", default_value="Hello, world!")
@@ -328,11 +328,11 @@ def show_demo():
                     data1.append(cos(3.14*6*i/180))
                 add_simple_plot("Lines##sin##demo", value=data1, height=80)
                 add_simple_plot("Histogram##sin##demo", value=data1, height=80, histogram=True)
-                add_progress_bar("Progress Bar##demo", value=0.78, overlay="78%")
+                add_progress_bar("Progress Bar##demo", default_value=0.78, overlay="78%")
                 add_same_line()
                 add_text("Progress Bar##text##demo")
                 set_value("Progress Bar##text##demo", "Progress Bar")
-                add_progress_bar("##Progress Bar##demo", value=0.78, overlay="1367/1753")
+                add_progress_bar("##Progress Bar##demo", default_value=0.78, overlay="1367/1753")
 
             with tree_node("Color/Picker Widgets##demo"):
                 # wrapper to apply configuration to all items passed in as a list
@@ -404,11 +404,11 @@ def show_demo():
                 helpmarker("Color item values given to the widget as a list will cause the \n"
                            "color item to store and return colors as scalar floats from 0.0-1.0.\n"
                            "setting floats=True will turn the inputs also to a float (although this is not necessary)")
-                add_label_text("float_values", value="Color List: ",label=f"{get_value('list_color_value')}",color=hsv_to_rgb(get_value('list_color_value')[0],get_value('list_color_value')[1],get_value('list_color_value')[2]))
+                add_label_text("float_values", default_value="Color List: ",label=f"{get_value('list_color_value')}",color=hsv_to_rgb(get_value('list_color_value')[0],get_value('list_color_value')[1],get_value('list_color_value')[2]))
                 add_color_edit4("Color Edit 4 (ints value)", default_value=(125,125,125,255), alpha_preview= True, callback=lambda sender, data: configure_item("ints_values", label=f"({get_value(sender)[0]}, {get_value(sender)[1]}, {get_value(sender)[2]}, {get_value(sender)[3]})",color=get_value(sender)))
                 helpmarker("Color item values given to the widget as a tuple will cause the \n"
                            "color item to store and return colors as ints from 0-255.")
-                add_label_text("ints_values", value="Color Tuple: ", label=f"{get_value('Color Edit 4 (ints value)')}", color=get_value('Color Edit 4 (ints value)'))
+                add_label_text("ints_values", default_value="Color Tuple: ", label=f"{get_value('Color Edit 4 (ints value)')}", color=get_value('Color Edit 4 (ints value)'))
 
             with tree_node("Multi-component Widgets##demo"):
         
@@ -1072,27 +1072,27 @@ def show_demo():
 
             with tree_node("Polling##demoinputs"):
                 add_text("Key Polling:")
-                add_label_text("A key Down##demo", value="False", color=(0,200,255))
-                add_label_text("W key Pressed##demo", value="False", color=(0,200,255))
-                add_label_text("Q key Released##demo", value="False", color=(0,200,255))
+                add_label_text("A key Down##demo", default_value="False", color=(0,200,255))
+                add_label_text("W key Pressed##demo", default_value="False", color=(0,200,255))
+                add_label_text("Q key Released##demo", default_value="False", color=(0,200,255))
                 add_spacing()
                 add_text("Mouse Polling:")
-                add_label_text("Mouse Position##demo", value="(0,0)", color=(0,200,255))
-                add_label_text("Left Mouse Dragging##demo", value="False", color=(0,200,255))
-                add_label_text("Middle Mouse Dragging##demo", value="False", color=(0,200,255))
-                add_label_text("Right Mouse Dragging##demo", value="False", color=(0,200,255))
-                add_label_text("Left Mouse Clicked##demo", value="False", color=(0,200,255))
-                add_label_text("Middle Mouse Clicked##demo", value="False", color=(0,200,255))
-                add_label_text("Right Mouse Clicked##demo", value="False", color=(0,200,255))
-                add_label_text("Left Mouse Double Clicked##demo", value="False", color=(0,200,255))
-                add_label_text("Middle Mouse Double Clicked##demo", value="False", color=(0,200,255))
-                add_label_text("Right Mouse Double Clicked##demo", value="False", color=(0,200,255))
-                add_label_text("Left Mouse Down##demo", value="False", color=(0,200,255))
-                add_label_text("Middle Mouse Down##demo", value="False", color=(0,200,255))
-                add_label_text("Right Mouse Down##demo", value="False", color=(0,200,255))
-                add_label_text("Left Mouse Released##demo", value="False", color=(0,200,255))
-                add_label_text("Middle Mouse Released##demo", value="False", color=(0,200,255))
-                add_label_text("Right Mouse Released##demo", value="False", color=(0,200,255))
+                add_label_text("Mouse Position##demo", default_value="(0,0)", color=(0,200,255))
+                add_label_text("Left Mouse Dragging##demo", default_value="False", color=(0,200,255))
+                add_label_text("Middle Mouse Dragging##demo", default_value="False", color=(0,200,255))
+                add_label_text("Right Mouse Dragging##demo", default_value="False", color=(0,200,255))
+                add_label_text("Left Mouse Clicked##demo", default_value="False", color=(0,200,255))
+                add_label_text("Middle Mouse Clicked##demo", default_value="False", color=(0,200,255))
+                add_label_text("Right Mouse Clicked##demo", default_value="False", color=(0,200,255))
+                add_label_text("Left Mouse Double Clicked##demo", default_value="False", color=(0,200,255))
+                add_label_text("Middle Mouse Double Clicked##demo", default_value="False", color=(0,200,255))
+                add_label_text("Right Mouse Double Clicked##demo", default_value="False", color=(0,200,255))
+                add_label_text("Left Mouse Down##demo", default_value="False", color=(0,200,255))
+                add_label_text("Middle Mouse Down##demo", default_value="False", color=(0,200,255))
+                add_label_text("Right Mouse Down##demo", default_value="False", color=(0,200,255))
+                add_label_text("Left Mouse Released##demo", default_value="False", color=(0,200,255))
+                add_label_text("Middle Mouse Released##demo", default_value="False", color=(0,200,255))
+                add_label_text("Right Mouse Released##demo", default_value="False", color=(0,200,255))
 
             with tree_node("Event Callbacks##demoinputs"):
                 add_text("Note: these only show the last event!")

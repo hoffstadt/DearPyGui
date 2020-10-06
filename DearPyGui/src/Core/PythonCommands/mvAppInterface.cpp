@@ -63,19 +63,19 @@ namespace Marvel {
 		parsers->insert({ "run_async_function", mvPythonParser({
 			{mvPythonDataType::Object, "name"},
 			{mvPythonDataType::Object, "data", "Data that will be sent into the async function."},
-			{mvPythonDataType::Optional},
-			{mvPythonDataType::Object, "return_handler"},
+			{mvPythonDataType::KeywordOnly},
+			{mvPythonDataType::Callable, "return_handler", "function called on completion", "None"},
 		}, "Runs a function asyncronously.") });
 
 		parsers->insert({ "open_file_dialog", mvPythonParser({
 			{mvPythonDataType::Optional},
-			{mvPythonDataType::Object, "callback"},
-			{mvPythonDataType::String, "extensions", "filters items with extensions i.e '.*, .py'"},
+			{mvPythonDataType::Callable, "callback", "function to call on completion", "None"},
+			{mvPythonDataType::String, "extensions", "filters items with extensions i.e '.*, .py'", "''"},
 		}, "Opens an 'open file' dialog.") });
 
 		parsers->insert({ "select_directory_dialog", mvPythonParser({
 			{mvPythonDataType::Optional},
-			{mvPythonDataType::Object, "callback"},
+			{mvPythonDataType::Callable, "callback", "function to call on completion", "None"},
 		}, "Opens a select directory dialog.") });
 
 		parsers->insert({ "add_data", mvPythonParser({
@@ -136,49 +136,49 @@ namespace Marvel {
 	{
 		parsers->insert({ "get_log_level", mvPythonParser({
 			{mvPythonDataType::KeywordOnly},
-			{mvPythonDataType::String, "logger"},
+			{mvPythonDataType::String, "logger", "logger widget", "''"},
 		}, "Returns the log level.", "int", "Logging") });
 
 		parsers->insert({ "clear_log", mvPythonParser({
 			{mvPythonDataType::KeywordOnly},
-			{mvPythonDataType::String, "logger"},
+			{mvPythonDataType::String, "logger", "logger widget", "''"},
 		}, "Clears the logger.", "None", "Logging") });
 
 		parsers->insert({ "set_log_level", mvPythonParser({
 			{mvPythonDataType::Integer, "level"},
 			{mvPythonDataType::KeywordOnly},
-			{mvPythonDataType::String, "logger"},
+			{mvPythonDataType::String, "logger", "logger widget", "''"},
 		}, "Sets the log level.", "None", "Logging") });
 
 		parsers->insert({ "log", mvPythonParser({
 			{mvPythonDataType::Object, "message"},
 			{mvPythonDataType::KeywordOnly},
-			{mvPythonDataType::String, "level"},
-			{mvPythonDataType::String, "logger"}
+			{mvPythonDataType::String, "level", "logger widget", "'TRACE'"},
+			{mvPythonDataType::String, "logger", "logger widget", "''"}
 		}, "Logs a trace level log.", "None", "Logging") });
 
 		parsers->insert({ "log_debug", mvPythonParser({
 			{mvPythonDataType::Object, "message"},
 			{mvPythonDataType::KeywordOnly},
-			{mvPythonDataType::String, "logger"},
+			{mvPythonDataType::String, "logger", "logger widget", "''"},
 		}, "Logs a debug level log.", "None", "Logging") });
 
 		parsers->insert({ "log_info", mvPythonParser({
 			{mvPythonDataType::Object, "message"},
 			{mvPythonDataType::KeywordOnly},
-			{mvPythonDataType::String, "logger"},
+			{mvPythonDataType::String, "logger", "logger widget", "''"},
 		}, "Logs a info level log.", "None", "Logging") });
 
 		parsers->insert({ "log_warning", mvPythonParser({
 			{mvPythonDataType::Object, "message"},
 			{mvPythonDataType::KeywordOnly},
-			{mvPythonDataType::String, "logger"},
+			{mvPythonDataType::String, "logger", "logger widget", "''"},
 		}, "Logs a warning level log.", "None", "Logging") });
 
 		parsers->insert({ "log_error", mvPythonParser({
 			{mvPythonDataType::Object, "message"},
 			{mvPythonDataType::KeywordOnly},
-			{mvPythonDataType::String, "logger"},
+			{mvPythonDataType::String, "logger", "logger widget", "''"},
 		}, "Logs a error level log.", "None", "Logging") });
 	}
 

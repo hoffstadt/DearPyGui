@@ -28,11 +28,19 @@ HOW TO UPDATE?
 
 Decorated log: https://github.com/hoffstadt/DearPyGui/releases/tag/v0.4.5
 
+Updates:
+- Stub File:      stub file is now generated automatically
+
+Breaking Changes:
+- Label Text:     changed "value" keyword to "default_value"
+- Progress Bar:   changed "value" keyword to "default_value"
+
 Fixes:
-- Logger:    Log messages only showed up after 2nd call
-- Tabs:      Fixed issue with items on tabs not lining up when using same_line
-- Stub file: add_logger added to stub file
-- Plots:     reset_yticks was resetting x ticks
+- Input Text: Callback_data was not being sent
+- Logger:     Log messages only showed up after 2nd call
+- Tabs:       Fixed issue with items on tabs not lining up when using same_line
+- Stub file:  add_logger added to stub file
+- Plots:      reset_yticks was resetting x ticks
 
 -----------------------------------------------------------------------
  VERSION 0.4.4 (10/4/2020)

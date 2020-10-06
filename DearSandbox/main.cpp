@@ -7,6 +7,7 @@
 #include <iostream>
 #include <fstream>
 #include <filesystem>
+#include "mvPythonParser.h"
 
 namespace fs = std::filesystem;
 using namespace Marvel;
@@ -17,9 +18,10 @@ int main(int argc, char* argv[])
 #ifdef MV_RELEASE
 	HWND hWnd = GetConsoleWindow();
 	ShowWindow(hWnd, SW_HIDE);
+	GenerateStubFile("../../DearPyGui/dearpygui/core.pyi");
 #else
 	HWND hWnd = GetConsoleWindow();
-	ShowWindow(hWnd, SW_SHOW);
+	ShowWindow(hWnd, SW_SHOW);	
 #endif
 
 	// add our custom module

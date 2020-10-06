@@ -8,17 +8,17 @@ namespace Marvel {
 		parsers->insert({ "add_drawing", mvPythonParser({
 			{mvPythonDataType::String, "name"},
 			{mvPythonDataType::KeywordOnly},
-			{mvPythonDataType::String, "tip", "Adds a simple tooltip"},
-			{mvPythonDataType::String, "parent", "Parent this item will be added to. (runtime adding)"},
-			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)"},
-			{mvPythonDataType::Integer, "width",""},
-			{mvPythonDataType::Integer, "height",""},
-			{mvPythonDataType::String, "popup",""},
-			{mvPythonDataType::Bool, "show",""},
-			{mvPythonDataType::Float, "originx"},
-			{mvPythonDataType::Float, "originy"},
-			{mvPythonDataType::Float, "scalex"},
-			{mvPythonDataType::Float, "scaley"},
+			{mvPythonDataType::String, "tip", "Adds a simple tooltip", "''"},
+			{mvPythonDataType::String, "parent", "Parent this item will be added to. (runtime adding)", "''"},
+			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)", "''"},
+			{mvPythonDataType::Integer, "width","", "0"},
+			{mvPythonDataType::Integer, "height","", "0"},
+			{mvPythonDataType::String, "popup","", "''"},
+			{mvPythonDataType::Bool, "show","Attempt to render", "True"},
+			{mvPythonDataType::Float, "originx","", "0.0"},
+			{mvPythonDataType::Float, "originy","", "0.0"},
+			{mvPythonDataType::Float, "scalex","", "1.0"},
+			{mvPythonDataType::Float, "scaley","", "1.0"},
 		}, "Adds a drawing widget.", "None", "Drawing") });
 
 		parsers->insert({ "delete_drawing_item", mvPythonParser({
@@ -30,13 +30,12 @@ namespace Marvel {
 			{mvPythonDataType::String, "drawing"},
 			{mvPythonDataType::String, "file"},
 			{mvPythonDataType::FloatList, "pmin"},
-			{mvPythonDataType::Optional},
 			{mvPythonDataType::KeywordOnly},
-			{mvPythonDataType::FloatList, "pmax"},
-			{mvPythonDataType::FloatList, "uv_min"},
-			{mvPythonDataType::FloatList, "uv_max"},
-			{mvPythonDataType::IntList, "color"},
-			{mvPythonDataType::String, "tag"},
+			{mvPythonDataType::FloatList, "pmax", "", "(0.0, 0.0)"},
+			{mvPythonDataType::FloatList, "uv_min", "normalized texture coordinates", "(0.0, 0.0)"},
+			{mvPythonDataType::FloatList, "uv_max", "normalized texture coordinates", "(1.0, 1.0)"},
+			{mvPythonDataType::IntList, "color", "", "(255, 255, 255, 255)"},
+			{mvPythonDataType::String, "tag", "", "''"},
 		}, ("Draws an image on a drawing. p_min and p_max represent the upper-left and lower-right corners of the rectangle."
 			"uv_min and uv_max represent the normalized texture coordinates of the original image that will be shown. Using (0,0)->(1,1) texture"
 			"coordinates will generally display the entire texture."), "None", "Drawing") });
@@ -47,9 +46,8 @@ namespace Marvel {
 			{mvPythonDataType::FloatList, "p2"},
 			{mvPythonDataType::IntList, "color"},
 			{mvPythonDataType::Integer, "thickness"},
-			{mvPythonDataType::Optional},
 			{mvPythonDataType::KeywordOnly},
-			{mvPythonDataType::String, "tag"},
+			{mvPythonDataType::String, "tag", "", "''"},
 		}, "Draws a line on a drawing.", "None", "Drawing") });
 
 		parsers->insert({ "draw_arrow", mvPythonParser({
@@ -59,9 +57,8 @@ namespace Marvel {
 			{mvPythonDataType::IntList, "color"},
 			{mvPythonDataType::Integer, "thickness"},
 			{mvPythonDataType::Integer, "size"},
-			{mvPythonDataType::Optional},
 			{mvPythonDataType::KeywordOnly},
-			{mvPythonDataType::String, "tag"},
+			{mvPythonDataType::String, "tag", "", "''"},
 		}, "Draws an arrow on a drawing.", "None", "Drawing") });
 
 		parsers->insert({ "draw_triangle", mvPythonParser({
@@ -70,10 +67,10 @@ namespace Marvel {
 			{mvPythonDataType::FloatList, "p2"},
 			{mvPythonDataType::FloatList, "p3"},
 			{mvPythonDataType::IntList, "color"},
-			{mvPythonDataType::Optional},
-			{mvPythonDataType::FloatList, "fill"},
-			{mvPythonDataType::Float, "thickness"},
-			{mvPythonDataType::String, "tag"},
+			{mvPythonDataType::KeywordOnly},
+			{mvPythonDataType::FloatList, "fill", "", "(0, 0, 0, -1)"},
+			{mvPythonDataType::Float, "thickness", "", "1.0"},
+			{mvPythonDataType::String, "tag", "", "''"},
 		}, "Draws a triangle on a drawing.", "None", "Drawing") });
 
 		parsers->insert({ "draw_rectangle", mvPythonParser({
@@ -81,11 +78,11 @@ namespace Marvel {
 			{mvPythonDataType::FloatList, "pmin"},
 			{mvPythonDataType::FloatList, "pmax"},
 			{mvPythonDataType::IntList, "color"},
-			{mvPythonDataType::Optional},
-			{mvPythonDataType::FloatList, "fill"},
-			{mvPythonDataType::Float, "rounding"},
-			{mvPythonDataType::Float, "thickness"},
-			{mvPythonDataType::String, "tag"},
+			{mvPythonDataType::KeywordOnly},
+			{mvPythonDataType::FloatList, "fill", "", "(0, 0, 0, -1)"},
+			{mvPythonDataType::Float, "rounding", "", "0.0"},
+			{mvPythonDataType::Float, "thickness", "", "1.0"},
+			{mvPythonDataType::String, "tag", "", "''"},
 		}, "Draws a rectangle on a drawing.", "None", "Drawing") });
 
 		parsers->insert({ "draw_quad", mvPythonParser({
@@ -95,20 +92,20 @@ namespace Marvel {
 			{mvPythonDataType::FloatList, "p3"},
 			{mvPythonDataType::FloatList, "p4"},
 			{mvPythonDataType::IntList, "color"},
-			{mvPythonDataType::Optional},
-			{mvPythonDataType::FloatList, "fill"},
-			{mvPythonDataType::Float, "thickness"},
-			{mvPythonDataType::String, "tag"},
+			{mvPythonDataType::KeywordOnly},
+			{mvPythonDataType::FloatList, "fill", "", "(0, 0, 0, -1)"},
+			{mvPythonDataType::Float, "thickness", "", "1.0"},
+			{mvPythonDataType::String, "tag", "", "''"},
 		}, "Draws a quad on a drawing.", "None", "Drawing") });
 
 		parsers->insert({ "draw_text", mvPythonParser({
 			{mvPythonDataType::String, "drawing"},
 			{mvPythonDataType::FloatList, "pos"},
 			{mvPythonDataType::String, "text"},
-			{mvPythonDataType::Optional},
-			{mvPythonDataType::IntList, "color"},
-			{mvPythonDataType::Integer, "size"},
-			{mvPythonDataType::String, "tag"},
+			{mvPythonDataType::KeywordOnly},
+			{mvPythonDataType::IntList, "color", "", "(0, 0, 0, -1)"},
+			{mvPythonDataType::Integer, "size", "", "10"},
+			{mvPythonDataType::String, "tag", "", "''"},
 		}, "Draws text on a drawing.", "None", "Drawing") });
 
 		parsers->insert({ "draw_circle", mvPythonParser({
@@ -116,31 +113,31 @@ namespace Marvel {
 			{mvPythonDataType::FloatList, "center"},
 			{mvPythonDataType::Float, "radius"},
 			{mvPythonDataType::IntList, "color"},
-			{mvPythonDataType::Optional},
-			{mvPythonDataType::Integer, "segments"},
-			{mvPythonDataType::Float, "thickness"},
-			{mvPythonDataType::FloatList, "fill"},
-			{mvPythonDataType::String, "tag"},
+			{mvPythonDataType::KeywordOnly},
+			{mvPythonDataType::Integer, "segments", "", "12"},
+			{mvPythonDataType::Float, "thickness", "", "1.0"},
+			{mvPythonDataType::FloatList, "fill", "", "(0, 0, 0, -1)"},
+			{mvPythonDataType::String, "tag", "", "''"},
 		}, "Draws a circle on a drawing.", "None", "Drawing") });
 
 		parsers->insert({ "draw_polyline", mvPythonParser({
 			{mvPythonDataType::String, "drawing"},
 			{mvPythonDataType::FloatList, "points"},
 			{mvPythonDataType::IntList, "color"},
-			{mvPythonDataType::Optional},
-			{mvPythonDataType::Integer, "closed"},
-			{mvPythonDataType::Float, "thickness"},
-			{mvPythonDataType::String, "tag"},
+			{mvPythonDataType::KeywordOnly},
+			{mvPythonDataType::Integer, "closed", "", "False"},
+			{mvPythonDataType::Float, "thickness", "", "1.0"},
+			{mvPythonDataType::String, "tag", "", "''"},
 		}, "Draws lines on a drawing.", "None", "Drawing") });
 
 		parsers->insert({ "draw_polygon", mvPythonParser({
 			{mvPythonDataType::String, "drawing"},
 			{mvPythonDataType::FloatList, "points"},
 			{mvPythonDataType::IntList, "color"},
-			{mvPythonDataType::Optional},
-			{mvPythonDataType::FloatList, "fill"},
-			{mvPythonDataType::Float, "thickness"},
-			{mvPythonDataType::String, "tag"},
+			{mvPythonDataType::KeywordOnly},
+			{mvPythonDataType::FloatList, "fill", "", "(0, 0, 0, -1)"},
+			{mvPythonDataType::Float, "thickness", "", "1.0"},
+			{mvPythonDataType::String, "tag", "", "''"},
 		}, "Draws a polygon on a drawing.", "None", "Drawing") });
 
 		parsers->insert({ "draw_bezier_curve", mvPythonParser({
@@ -150,10 +147,10 @@ namespace Marvel {
 			{mvPythonDataType::FloatList, "p3"},
 			{mvPythonDataType::FloatList, "p4"},
 			{mvPythonDataType::IntList, "color"},
-			{mvPythonDataType::Optional},
-			{mvPythonDataType::Float, "thickness"},
-			{mvPythonDataType::Integer, "segments"},
-			{mvPythonDataType::String, "tag"},
+			{mvPythonDataType::KeywordOnly},
+			{mvPythonDataType::Float, "thickness", "", "1.0"},
+			{mvPythonDataType::Integer, "segments", "", "0"},
+			{mvPythonDataType::String, "tag", "", "''"},
 		}, "Draws a bezier curve on a drawing.", "None", "Drawing") });
 
 		parsers->insert({ "clear_drawing", mvPythonParser({

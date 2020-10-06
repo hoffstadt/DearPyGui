@@ -9,9 +9,9 @@ namespace Marvel {
 	{
 		parsers->insert({ "move_item", mvPythonParser({
 			{mvPythonDataType::String, "item"},
-			{mvPythonDataType::Optional},
-			{mvPythonDataType::String, "parent"},
-			{mvPythonDataType::String, "before"}
+			{mvPythonDataType::KeywordOnly},
+			{mvPythonDataType::String, "parent", "", "''"},
+			{mvPythonDataType::String, "before", "", "''"}
 		}, "Moves an existing item.", "None", "Widget Commands") });
 
 		parsers->insert({ "get_item_type", mvPythonParser({
@@ -48,13 +48,13 @@ namespace Marvel {
 
 		parsers->insert({ "delete_item", mvPythonParser({
 			{mvPythonDataType::String, "item"},
-			{mvPythonDataType::Optional},
-			{mvPythonDataType::Bool, "children_only"}
+			{mvPythonDataType::KeywordOnly},
+			{mvPythonDataType::Bool, "children_only", "delete children only", "False"}
 		}, "Deletes an item if it exists.", "None", "Widget Commands") });
 
 		parsers->insert({ "does_item_exist", mvPythonParser({
 		{mvPythonDataType::String, "item"},
-		}, "Checks if item exists.", "Bool", "Widget Commands") });
+		}, "Checks if item exists.", "bool", "Widget Commands") });
 
 		parsers->insert({ "move_item_up", mvPythonParser({
 			{mvPythonDataType::String, "item"}
@@ -176,9 +176,9 @@ namespace Marvel {
 
 		parsers->insert({ "set_item_callback", mvPythonParser({
 			{mvPythonDataType::String, "item"},
-			{mvPythonDataType::Object, "callback", "Registers a callback"},
-			{mvPythonDataType::Optional},
-			{mvPythonDataType::Object, "callback_data", "Callback data"},
+			{mvPythonDataType::Callable, "callback", "Registers a callback"},
+			{mvPythonDataType::KeywordOnly},
+			{mvPythonDataType::Object, "callback_data", "Callback data", "None"},
 		}, "Sets an item's callback if applicable.", "None", "Widget Commands") });
 
 		parsers->insert({ "set_item_popup", mvPythonParser({
