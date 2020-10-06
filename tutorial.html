@@ -38,8 +38,9 @@
             <li><a href="#logging">Built-in Logging</a></li>
             <!--  TODO: go into depth on each developer tool -->
             <li><a href="#widgets_containers_windows">Creating Widgets and Containers</a></li>
+            <li><a href="#using_widgets">Using Widgets</a></li>
             <!--  TODO: maybe add a section on sizers and layouts here -->
-            <li><a href="#callbacks">Item and Window Callbacks</a></li>
+            <li><a href="#callbacks">Widget and Window Callbacks</a></li>
             <li><a href="#runtime">Run-time Adding & Deleting Widgets</a></li>
             <li><a href="#data_storage">Value & Data Storage</a></li>
             <li><a href="#menu_bar">Menu Bars</a></li>
@@ -245,8 +246,17 @@ with window("window 3"): # simple
 
 start_dearpygui()
 </code></pre>
-<p> Every input item has a value which can be set using the <i>default_value</i> keyword when being created. Also
-            this can be set at runtime by the commands <code class="inline-code" data-language="python">set_value()</code>. This is demonstrated below.</p>
+    </article>
+
+    <article><a name="using_widgets"></a>
+        <h2>Using Widgets</h2>
+        <hr>
+        <p>
+            Every input widget has a value which can be set using the <i>default_value</i> keyword when being created or
+            at runtime by the command <i>set_value</i>.
+            <br><br>
+            To access the value of a widget we can use the command <i>get_value</i>.
+        </p>
         <pre><code data-language="python">from dearpygui.core import *
 
 add_checkbox("Radio Button", default_value=False)
@@ -255,20 +265,46 @@ set_value("Radio Button", True)
 print("Value after setting the Radio Button is: ", get_value("Radio Button"))
 
 start_dearpygui()</code></pre>
+        <p>
+            We can also pass the widgets value directly to and from a python variable. As seen below
+        </p>
+        <pre><code data-language="python">from dearpygui.core import *
+
+my_var = True
+add_checkbox("Radio Button", default_value=my_var)
+print("Radio Button Value: ", get_value("Radio Button"))
+print("my_var Value: ", my_var)
+
+set_value("Radio Button", False)
+print("Radio Button Value: ", get_value("Radio Button"))
+print("my_var Value: ", my_var)
+
+my_var = get_value("Radio Button")
+print("Radio Button Value: ", get_value("Radio Button"))
+print("my_var Value: ", my_var)
+
+start_dearpygui()</code></pre>
+        <p>
+            From the Above example we can see that the python variable does not get updated when the widget's value changes.
+            we must manually keep the widgets value up to date with the python variable by using the <i>set_value</i> and <i>get_value</i>
+            <br><br>
+            We can automate this buy using the widget's <i>callback</i> which will be covered in the next section on callbacks.
+            <br><br>
+        </p>
     </article>
 
     <article><a name="callbacks"></a>
-        <h2>Item and Window Callbacks</h2>
+        <h2>Widget and Window Callbacks</h2>
         <hr>
         <p>
-            Each input widget has a callback which is activated when the widget is interacted with.
+            Each input widget has a callback which is ran when the widget is interacted with.
             <br><br>
-            Callbacks are used to give functionality to widgets. Many widgets in Dear PyGui can use a callback.
-            Callbacks can either be assigned to widgets upon creation or after creation using <code class="inline-code" data-language="python">set_item_callback()</code> as shown in the code below.
+            Callbacks are used to give functionality to widgets.
+            Callbacks can either be assigned to the widget upon creation or after creation using <code class="inline-code" data-language="python">set_item_callback()</code> as shown in the code below.
             <br><br>
-            <em><b>Every callback function applied to an item in Dear PyGui must take in a <i>sender</i> and <i>data</i> argument.</b></em>
+            <b>Every callback applied to an item in Dear PyGui must take in a <i>sender</i> and <i>data</i> argument.</b>
             <br><br>
-            The <i>sender</i> is used by Dea rPyGui to inform the callback which widget triggered the callback by sending the name.
+            The <i>sender</i> argument is used by Dear PyGui to inform the callback which widget triggered the callback by sending the name.
             <br><br>
             The <i>data</i> argument is used by various standard callbacks to send additional data by specifying the callback <code class="inline-code" data-language="python">callback_data</code>.
         </p>
@@ -285,6 +321,39 @@ add_input_text("Input Text", default_value="Hello World!")
 add_button("Apply", callback=button_callback, callback_data=get_value("Input Text"))
 add_button("Apply##2", tip="callback was set after item was created")
 set_item_callback("Apply##2", callback=button_callback, callback_data=get_value("Input Text"))
+start_dearpygui()</code> </pre>
+        <p>
+            We can use the callback to update the value of a python variable each time the widget is interacted with.
+            This is show in the example below.
+        </p>
+        <pre><code data-language="python">from dearpygui.core import *
+
+
+def update_var(sender, data):
+    my_var = get_value("Input Checkbox")
+    log_debug(my_var)
+
+
+show_logger() # were going to use the logger here to show the result
+add_checkbox("Input Checkbox", callback=update_var)
+
+start_dearpygui()</code> </pre>
+        <p>
+            and again but using a more clever approach by utilizing <i>sender</i>
+        </p>
+        <pre><code data-language="python">from dearpygui.core import *
+
+
+def update_var(sender, data):
+    my_var = get_value(sender)
+    log_debug(my_var)
+
+
+show_logger() # were going to use the logger here to show the result
+add_checkbox("Input Checkbox", callback=update_var)
+add_input_text("Input Text", callback=update_var)
+add_input_int("Input Int", callback=update_var)
+
 start_dearpygui()</code> </pre>
         <p>
             Window type widgets have special callbacks that are triggered on events such as window resizing and window closing.
@@ -331,7 +400,7 @@ start_dearpygui()</code> </pre>
             to run the desired item's <i>add_***</i> command and specifying the parent the item will belong to. By default the widget will be added to the
             MainWindow if there is no parent specified.
             <br>
-            By using the keyword <i>before</i> when adding a item you can control which item in the parent the new item will come before. 
+            By using the keyword <i>before</i> when adding a item you can control which item in the parent the new item will come before.
             Default will place the new widget at the end.
             <br><br>
             In this example we used the "debug" developer tool to view the current state of the widgets.
@@ -404,16 +473,15 @@ start_dearpygui()</code> </pre>
             <br><br>
             Values can be changed manually using <code class="inline-code" data-language="python">set_value("source name")</code>.
             <br><br>
-            You must be mindful of the data type used by the widget. For widgets to use the same value in the storage system, they must be of the same type or a larger list of the same type.
+            For widgets of different value types to use the same value in the storage system the larger value must be created first.
             <br><br>
-            For example, when a input_float3 is created, the value type stored is a <b>[float, float, float]</b>. A later created input_float2 could 
+            For example, when a input_float3 is created the value type stored is a <b>[float, float, float]</b>. A later created input_float2 could
             use the same source as the input_float3.
             <br><br>
-            However, if you were to first add the input_float2, then later try to share its source with an input_float3, it would not work.
+            However, if the input_float2 was created first and then tried to share its' source with an input_float3 it would not work.
             <br><br>
-            In order for the input_float3 and input_float2 to share the same source, either the input_float3 needs to be created first or you can
-            add the value to the system directly prior to adding
-            either width. This is accomplished with <code class="inline-code" data-language="python">add_value()</code>.
+            In order for the input_float3 and input_float2 to share the same source we can create the input_float3 needs to be created first.
+            This is accomplished with <code class="inline-code" data-language="python">add_value()</code>.
 
         </p>
         <pre><code data-language="python">from dearpygui.core import *

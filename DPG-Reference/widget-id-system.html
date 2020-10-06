@@ -33,14 +33,12 @@
         <h2>Widget ID System</h2>
         <hr>
         <p>
-            In <i>Dear PyGui</i>, all widgets must have an associated unique ID. This is stricter than Dear ImGui in
+            In <i>Dear PyGui</i>, all items must have an associated unique ID. This is stricter than Dear ImGui in
             which some widgets do not need an ID at all. The reasons for this:
-        </p>
         <ul>
             <li>To satisfy <i>Dear ImGui</i>'s requirements.</li>
             <li>To allow for modifications of the UI at runtime.</li>
         </ul>
-        <p>
             The ID of a widget is different than its label, however most widgets that have a label will use the
             ID by default. This becomes an issue when multiple widgets need to have the same label. There are 2 ways
             to address this, which we cover in the following sections.

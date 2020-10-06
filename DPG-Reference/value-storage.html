@@ -34,7 +34,7 @@
         <hr>
         <p>
             In <i>Dear PyGui</i>, a widget's underlying value is treated differently than in most other UI libraries. In most
-            UI libraries, the widget owns the value it controls. This is not the case with <i>Dear PyGui</i>. Widgets share
+            UI libraries, the widget owns the value it controls. In <i>Dear PyGui</i> widgets share
             values that are stored in a central location. As you will see, this provides more flexibility than the
             traditional encapsulated values.
         </p>
@@ -53,7 +53,7 @@
             <li>Minimize conversions between C and Python types.</li>
         </ul>
         <p>
-            Every value entry must have a unique ID. Once a value's type is set, it can not be changed.
+            Every value entry must have a unique ID. Once a value's <b>type</b> is set, it can not be changed.
         </p>
     </article>
 
@@ -82,7 +82,7 @@ add_drag_float("Widget 2", source="value1")
             In the above example, changing one widget will also change the other.
             <br><br>
             If you try to add a widget with an incompatible existing type, the value of the widget will fallback on a
-            "common" value in the storage system.
+            <i>"common"</i> value in the storage system.
         </p>
     </article>
 
@@ -91,7 +91,7 @@ add_drag_float("Widget 2", source="value1")
         <hr>
         <p>
             <ul>
-                <li>Values can be retrieved retrieved using <i>get_value</i>.</li>
+                <li>Values can be retrieved using <i>get_value</i>.</li>
                 <li>Values can changed programmatically using <i>set_value</i>.</li>
              </ul>
         </p>
@@ -105,8 +105,8 @@ add_drag_float("Widget 2", source="value1")
             must apply:
         </p>
         <ol>
-            <li>Type need to be the same as the one in the value system.</li>
-            <li>Type need to be a smaller sized array of the one in the value system</li>
+            <li>Both types need to be the same as the ones in the value system.</li>
+            <li>The type needs to be a smaller sized array of the one in the value system</li>
         </ol>
         <p>
             The first case is obvious, however the second leads to a few possibilities. A <i>input_float</i> can share a value
