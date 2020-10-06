@@ -209,10 +209,6 @@ namespace Marvel {
 
 				mvApp::GetApp()->runCallback(m_callback, m_name, m_callbackData);
 
-				// Context Menu
-				if (!getPopup().empty())
-					ImGui::OpenPopup(getPopup().c_str());
-
 			}
 
 			ImGui::PopID();

@@ -145,9 +145,6 @@ namespace Marvel {
 					if(m_enabled)
 						mvApp::GetApp()->runCallback(m_callback, m_name, m_callbackData);
 
-					// Context Menu
-					if (!getPopup().empty())
-						ImGui::OpenPopup(getPopup().c_str());
 				}
 
 				ImGui::PopID();
@@ -163,9 +160,6 @@ namespace Marvel {
 					if (m_enabled)
 						mvApp::GetApp()->runCallback(m_callback, m_name, m_callbackData);
 
-					// Context Menu
-					if (!getPopup().empty())
-						ImGui::OpenPopup(getPopup().c_str());
 				}
 
 				ImGui::PopID();
@@ -180,9 +174,6 @@ namespace Marvel {
 				if (m_enabled)
 					mvApp::GetApp()->runCallback(m_callback, m_name, m_callbackData);
 
-				// Context Menu
-				if (!getPopup().empty())
-					ImGui::OpenPopup(getPopup().c_str());
 			}
 
 			// Regular Tooltip (simple)
@@ -247,14 +238,8 @@ namespace Marvel {
 			ImGui::PushID(this);
 
 			if (ImGui::Checkbox(m_label.c_str(), m_value))
-			{
-
 				mvApp::GetApp()->runCallback(m_callback, m_name, m_callbackData);
 
-				// Context Menu
-				if (!getPopup().empty())
-					ImGui::OpenPopup(getPopup().c_str());
-			}
 
 			// Regular Tooltip (simple)
 			if (!getTip().empty() && ImGui::IsItemHovered())
@@ -301,10 +286,6 @@ namespace Marvel {
 					if (is_selected)
 						ImGui::SetItemDefaultFocus();   // Set the initial focus when opening the combo (scrolling + for keyboard navigation support in the upcoming navigation branch)
 				}
-
-				// Context Menu
-				if (!getPopup().empty())
-					ImGui::OpenPopup(getPopup().c_str());
 
 				ImGui::EndCombo();
 			}
@@ -413,14 +394,8 @@ namespace Marvel {
 			ImGui::PushID(this);
 
 			if (ImGui::ListBox(m_label.c_str(), m_value, m_charNames.data(), m_names.size(), m_itemsHeight))
-			{
-
 				mvApp::GetApp()->runCallback(m_callback, m_name, m_callbackData);
 
-				// Context Menu
-				if (!getPopup().empty())
-					ImGui::OpenPopup(getPopup().c_str());
-			}
 
 			// Regular Tooltip (simple)
 			if (!getTip().empty() && ImGui::IsItemHovered())
@@ -492,14 +467,7 @@ namespace Marvel {
 					ImGui::SameLine();
 
 				if (ImGui::RadioButton((m_itemnames[i] + "##" + m_name).c_str(), m_value, i))
-				{
-
 					mvApp::GetApp()->runCallback(m_callback, m_name, m_callbackData);
-
-					// Context Menu
-					if (!getPopup().empty())
-						ImGui::OpenPopup(getPopup().c_str());
-				}
 
 				// Regular Tooltip (simple)
 				if (!getTip().empty() && ImGui::IsItemHovered())
@@ -558,10 +526,6 @@ namespace Marvel {
 			ImGui::PushID(this);
 
 			ImGui::ProgressBar(*m_value, ImVec2((float)m_width, (float)m_height), m_overlay.c_str());
-
-			// Context Menu
-			if (!getPopup().empty())
-				ImGui::OpenPopup(getPopup().c_str());
 
 			// Regular Tooltip (simple)
 			if (!getTip().empty() && ImGui::IsItemHovered())

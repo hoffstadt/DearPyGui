@@ -37,12 +37,11 @@ namespace Marvel {
 
 			if (m_modal)
 			{
+				if (ImGui::IsItemHovered() && ImGui::IsMouseReleased(m_button))
+					ImGui::OpenPopup(m_name.c_str());
+
 				if (ImGui::BeginPopupModal(m_name.c_str(), nullptr, ImGuiWindowFlags_AlwaysAutoResize))
 				{
-
-					// Context Menu
-					if (!getPopup().empty())
-						ImGui::OpenPopup(getPopup().c_str());
 
 					for (mvAppItem* item : m_children)
 					{
@@ -82,10 +81,6 @@ namespace Marvel {
 			{
 				if (ImGui::BeginPopupContextItem(m_name.c_str(), m_button))
 				{
-
-					// Context Menu
-					if (!getPopup().empty())
-						ImGui::OpenPopup(getPopup().c_str());
 
 					for (mvAppItem* item : m_children)
 					{
