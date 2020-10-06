@@ -44,13 +44,7 @@ namespace Marvel {
 			ImGui::PushID(this);
 
 			if (ImGui::DragFloat(m_label.c_str(), m_value, m_speed, m_min, m_max, m_format.c_str(), m_flags))
-			{
 				mvApp::GetApp()->runCallback(m_callback, m_name, m_callbackData);
-
-				// Context Menu
-				if (!getPopup().empty())
-					ImGui::OpenPopup(getPopup().c_str());
-			}
 
 			// Regular Tooltip (simple)
 			if (!getTip().empty() && ImGui::IsItemHovered())
@@ -133,13 +127,7 @@ namespace Marvel {
 			ImGui::PushID(this);
 
 			if (ImGui::DragFloat2(m_label.c_str(), m_value, m_speed, m_min, m_max, m_format.c_str(), m_flags))
-			{
 				mvApp::GetApp()->runCallback(m_callback, m_name, m_callbackData);
-
-				// Context Menu
-				if (!getPopup().empty())
-					ImGui::OpenPopup(getPopup().c_str());
-			}
 
 			// Regular Tooltip (simple)
 			if (!getTip().empty() && ImGui::IsItemHovered())
@@ -222,13 +210,7 @@ namespace Marvel {
 			ImGui::PushID(this);
 
 			if (ImGui::DragFloat3(m_label.c_str(), m_value, m_speed, m_min, m_max, m_format.c_str(), m_flags))
-			{
 				mvApp::GetApp()->runCallback(m_callback, m_name, m_callbackData);
-
-				// Context Menu
-				if (!getPopup().empty())
-					ImGui::OpenPopup(getPopup().c_str());
-			}
 
 			// Regular Tooltip (simple)
 			if (!getTip().empty() && ImGui::IsItemHovered())
@@ -311,13 +293,7 @@ namespace Marvel {
 			ImGui::PushID(this);
 
 			if (ImGui::DragFloat4(m_label.c_str(), m_value, m_speed, m_min, m_max, m_format.c_str(), m_flags))
-			{
 				mvApp::GetApp()->runCallback(m_callback, m_name, m_callbackData);
-
-				// Context Menu
-				if (!getPopup().empty())
-					ImGui::OpenPopup(getPopup().c_str());
-			}
 
 			// Regular Tooltip (simple)
 			if (!getTip().empty() && ImGui::IsItemHovered())
@@ -401,14 +377,7 @@ namespace Marvel {
 			ImGui::PushID(this);
 
 			if (ImGui::DragInt(m_label.c_str(), m_value, m_speed, m_min, m_max, m_format.c_str(), m_flags))
-			{
-
 				mvApp::GetApp()->runCallback(m_callback, m_name, m_callbackData);
-
-				// Context Menu
-				if (!getPopup().empty())
-					ImGui::OpenPopup(getPopup().c_str());
-			}
 
 			// Regular Tooltip (simple)
 			if (!getTip().empty() && ImGui::IsItemHovered())
@@ -492,14 +461,7 @@ namespace Marvel {
 			ImGui::PushID(this);
 
 			if (ImGui::DragInt2(m_label.c_str(), m_value, m_speed, m_min, m_max, m_format.c_str(), m_flags))
-			{
-
 				mvApp::GetApp()->runCallback(m_callback, m_name, m_callbackData);
-
-				// Context Menu
-				if (!getPopup().empty())
-					ImGui::OpenPopup(getPopup().c_str());
-			}
 
 			// Regular Tooltip (simple)
 			if (!getTip().empty() && ImGui::IsItemHovered())
@@ -583,14 +545,7 @@ namespace Marvel {
 			ImGui::PushID(this);
 
 			if (ImGui::DragInt3(m_label.c_str(), m_value, m_speed, m_min, m_max, m_format.c_str(), m_flags))
-			{
-
 				mvApp::GetApp()->runCallback(m_callback, m_name, m_callbackData);
-
-				// Context Menu
-				if (!getPopup().empty())
-					ImGui::OpenPopup(getPopup().c_str());
-			}
 
 			// Regular Tooltip (simple)
 			if (!getTip().empty() && ImGui::IsItemHovered())
@@ -674,13 +629,7 @@ namespace Marvel {
 			ImGui::PushID(this);
 
 			if (ImGui::DragInt4(m_label.c_str(), m_value, m_speed, m_min, m_max, m_format.c_str(), m_flags))
-			{
 				mvApp::GetApp()->runCallback(m_callback, m_name, m_callbackData);
-
-				// Context Menu
-				if (!getPopup().empty())
-					ImGui::OpenPopup(getPopup().c_str());
-			}
 
 			// Regular Tooltip (simple)
 			if (!getTip().empty() && ImGui::IsItemHovered())
