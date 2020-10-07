@@ -83,12 +83,6 @@ jobs:
 
     - name: Set up Python ${{ matrix.python-version }}
       uses: actions/setup-python@v2
-      with:
-        python-version: ${{ matrix.python-version }}
-        architecture: 'x64' 
-
-    - name: Display Python version
-      run: python -c "import sys; print(sys.version)"
 
     - name: Retrieve submodules
       run: git submodule update --init --recursive
