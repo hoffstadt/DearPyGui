@@ -5,10 +5,11 @@ project ("DearPyGui")
 # variables set by the command line
 set(MVDIST_ONLY ${MVDIST_ONLY})
 set(MV37DIST ${MV37DIST})
+set(MVPY_VERSION ${MVPY_VERSION})
 
 add_definitions(-D_USE_MATH_DEFINES)
 
-add_definitions(-DMV_SANDBOX_VERSION="0.4.5")
+add_definitions(-DMV_SANDBOX_VERSION="0.4.6b0")
 
 
 if(MVDIST_ONLY)
