@@ -25,13 +25,9 @@ echo Building python in Debug and Release for x64
 call "%dir%..\Dependencies\cpython\PCbuild\build.bat" -p x64 -t Build
 
 :MoveArtifacts
-rem compile python files to pyc files
-echo Compiling python files to pyc
-call "%dir%..\Dependencies\cpython\PCbuild\amd64\python.exe" -m compileall -f -b "%dir%..\Dependencies\cpython\Lib"
+echo Downloading pip
+call curl --output ../Dependencies/cpython/PCbuild/amd64/get-pip.py -url https://bootstrap.pypa.io/get-pip.py
 
-rem move compiled files to temporary location
-echo Running python preparation script
-call "%dir%..\Dependencies\cpython\PCbuild\amd64\python.exe" "%dir%..\Scripts\PrepareEmbeddedPython.py"
 
 echo Getting pip, setuptools, and wheel
 call "%dir%..\Dependencies\cpython\PCbuild\amd64\python.exe" "%dir%..\Dependencies\cpython\PCbuild\amd64\get-pip.py"

@@ -44,17 +44,13 @@ if (WIN32)
 	target_link_libraries(DearSandbox PUBLIC coreemb $<$<CONFIG:Debug>:python38_d> $<$<CONFIG:Release>:python38>)
 
 	add_custom_command(TARGET DearSandbox PRE_BUILD
-						COMMAND ${CMAKE_COMMAND} -E copy_directory
-							${CMAKE_SOURCE_DIR}/Output/python/Debug/ $<TARGET_FILE_DIR:DearSandbox>/Dependencies)
-
-	add_custom_command(TARGET DearSandbox PRE_BUILD
 						COMMAND ${CMAKE_COMMAND} -E copy_if_different
-							${CMAKE_SOURCE_DIR}/Output/python/Debug/python3$<$<CONFIG:Debug>:_d>.dll $<TARGET_FILE_DIR:DearSandbox>)
+							${CMAKE_SOURCE_DIR}/Dependencies/cpython/PCbuild/amd64/python3$<$<CONFIG:Debug>:_d>.dll $<TARGET_FILE_DIR:DearSandbox>)
 
 
 	add_custom_command(TARGET DearSandbox PRE_BUILD
 						COMMAND ${CMAKE_COMMAND} -E copy_if_different
-							${CMAKE_SOURCE_DIR}/Output/python/Debug/python38$<$<CONFIG:Debug>:_d>.dll $<TARGET_FILE_DIR:DearSandbox>)
+							${CMAKE_SOURCE_DIR}/Dependencies/cpython/PCbuild/amd64/python38$<$<CONFIG:Debug>:_d>.dll $<TARGET_FILE_DIR:DearSandbox>)
 
 elseif(APPLE)
 
