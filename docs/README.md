@@ -12,6 +12,7 @@
 
 [![build status](https://github.com/hoffstadt/DearPyGui/workflows/Master%20Build/badge.svg)](https://github.com/hoffstadt/DearPyGui/actions?workflow=Master%20Build)
 [![build status](https://github.com/hoffstadt/DearPyGui/workflows/Development%20Build/badge.svg)](https://github.com/hoffstadt/DearPyGui/actions?workflow=Development%20Build)
+[![Build status](https://ci.appveyor.com/api/projects/status/eypfn2lyuwfv8mel?svg=true)](https://ci.appveyor.com/project/hoffstadt/dearpygui)
 
 **Dear PyGui** is a **simple to use (but powerful) Python GUI framework**. _Dear PyGui_ provides a wrapping of **[Dear ImGui](https://github.com/ocornut/imgui)** that provides a hybrid of a traditional retained mode GUI and _Dear ImGui_'s immediate mode paradigm.
 
