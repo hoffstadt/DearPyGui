@@ -83,9 +83,10 @@ jobs:
         sudo apt-get update
         sudo apt-get install libgl1-mesa-dev
         sudo apt-get install xorg-dev
-        cd Scripts
-        chmod +x BuildPythonForLinux.sh
-        ./BuildPythonForLinux.sh
+        cd ../Dependencies/cpython
+        mkdir debug
+        cd debug
+        ../configure --with-pydebug --enable-shared
 
     - name: Build DearPyGui
       run: |
