@@ -1,4 +1,4 @@
-﻿cmake_minimum_required (VERSION 3.16)
+﻿cmake_minimum_required (VERSION 3.13)
 
 add_library(core SHARED)
 
@@ -34,6 +34,19 @@ endif()
 
 set(MARVEL_SOURCES
 
+	"$<$<PLATFORM_ID:Windows>:src/Core/mvMarvel.cpp>"
+	"$<$<PLATFORM_ID:Linux>:src/Core/mvMarvel.cpp>"
+	"$<$<PLATFORM_ID:Darwin>:src/Core/mvMarvel.mm>"
+
+	"$<$<PLATFORM_ID:Windows>:src/Platform/Windows/mvWindowsWindow.cpp>"
+	"$<$<PLATFORM_ID:Windows>:src/Platform/Windows/mvUtilities.cpp>"
+
+	"$<$<PLATFORM_ID:Darwin>:src/Platform/Apple/mvAppleWindow.mm>"
+	"$<$<PLATFORM_ID:Darwin>:src/Platform/Apple/mvAppleUtilities.mm>"
+
+	"$<$<PLATFORM_ID:Linux>:src/Platform/Linux/mvUtilities.cpp>"
+	"$<$<PLATFORM_ID:Linux>:src/Platform/Linux/mvLinuxWindow.cpp>"
+
 	"src/Core/mvApp.cpp"
 	"src/Core/mvAppLog.cpp"
 	"src/Core/mvInput.cpp"
@@ -61,10 +74,6 @@ set(MARVEL_SOURCES
 	"src/Core/PythonCommands/mvAppItemInterface.cpp"
 	"src/Core/PythonCommands/mvAppInterface.cpp"
 
-	"$<$<PLATFORM_ID:Windows>:src/Core/mvMarvel.cpp>"
-	"$<$<PLATFORM_ID:Linux>:src/Core/mvMarvel.cpp>"
-	"$<$<PLATFORM_ID:Darwin>:src/Core/mvMarvel.mm>"
-
 	"src/Core/StandardWindows/mvStandardWindow.cpp"
 	"src/Core/StandardWindows/mvDocWindow.cpp"
 	"src/Core/StandardWindows/mvAboutWindow.cpp"
@@ -81,15 +90,6 @@ set(MARVEL_SOURCES
 
 	"src/Core/PlotAppItems/mvPlot.cpp"
 	"src/Core/PlotAppItems/mvAreaSeries.cpp"
-
-	"$<$<PLATFORM_ID:Windows>:src/Platform/Windows/mvWindowsWindow.cpp>"
-	"$<$<PLATFORM_ID:Windows>:src/Platform/Windows/mvUtilities.cpp>"
-
-	"$<$<PLATFORM_ID:Darwin>:src/Platform/Apple/mvAppleWindow.mm>"
-	"$<$<PLATFORM_ID:Darwin>:src/Platform/Apple/mvAppleUtilities.mm>"
-
-	"$<$<PLATFORM_ID:Linux>:src/Platform/Linux/mvUtilities.cpp>"
-	"$<$<PLATFORM_ID:Linux>:src/Platform/Linux/mvLinuxWindow.cpp>"
 
 	# implot
 	"src/Vendor/implot/implot.cpp"

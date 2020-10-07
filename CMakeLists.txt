@@ -1,7 +1,8 @@
-﻿cmake_minimum_required (VERSION 3.16)
+﻿cmake_minimum_required (VERSION 3.13)
 
 project ("DearPyGui")
 
+# variables set by the command line
 set(MVDIST_ONLY ${MVDIST_ONLY})
 set(MV37DIST ${MV37DIST})
 
@@ -18,9 +19,11 @@ else()
     add_definitions(-DMV_PYTHON_VERSION=38)
 endif()
 
-# Include sub-projects.
+# include sub-projects.
 add_subdirectory ("DearPyGui")
 
+# if this is not a distribution build
+# build development environment
 if(NOT MVDIST_ONLY)
     add_subdirectory ("DearSandbox")
     add_subdirectory ("ImguiTesting")
