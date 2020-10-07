@@ -9,5 +9,6 @@ environment:
 
 build_script:
   - git submodule update --init --recursive
+  - mkdir cmake-build-release
   - cmake -G "%GENERATOR%" -A "%ARCH%" -DMVDIST_ONLY=True
   - cmake --build cmake-build-release --config "%CONFIG%"
