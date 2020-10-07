@@ -18,8 +18,6 @@ namespace Marvel {
 	private:
 
 		PyObject*   m_callback;
-		std::string m_filePath;
-		std::string m_filePathName;
 	};
 
 }
