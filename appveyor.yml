@@ -1,0 +1,12 @@
+version: 0.4.{build}
+
+environment:
+  matrix:
+    - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2019
+      GENERATOR: "Visual Studio 16 2019"
+      ARCH: "x64"
+      CONFIG: Release
+
+build_script:
+  - cmake -G "%GENERATOR%" -A "%ARCH%" -DMVDIST_ONLY=True
+  - cmake --build cmake-build-release --config "%CONFIG%"
