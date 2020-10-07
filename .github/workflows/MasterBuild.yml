@@ -98,19 +98,13 @@ jobs:
         sudo apt-get update
         sudo apt-get install libgl1-mesa-dev
         sudo apt-get install xorg-dev
-        cd Dependencies/cpython
-        mkdir debug
-        cd debug
-        ../configure --enable-shared --prefix $PWD
-        sudo make && sudo make install
+        cd Scripts
+        chmod +x BuildPythonForLinux.sh
+        ./BuildPythonForLinux.sh
         cd ..
-        cd ..
-        cd ..
-        pip3 install wheel
-        pip3 install twine
         mkdir cmake-build-release
         cd cmake-build-release
-        cmake .. -DMVDIST_ONLY=True
+        cmake ..
 
     - name: Build DearPyGui
       run: |
