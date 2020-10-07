@@ -43,4 +43,4 @@ on_success:
   - call C:/Python38-x64/python.exe -m pip install twine
   - call C:/Python38-x64/python.exe -m pip install wheel
   - call C:/Python38-x64/python.exe -m setup bdist_wheel --plat-name win_amd64 --dist-dir C:/projects/dearpygui/dist
-  - call C:/Python38-x64/python.exe -m twine upload --repository testpypi C:/projects/dearpygui/dist/* -u RaylockLLC -p $my_variable --skip-existing
+  - call C:/Python38-x64/python.exe -m twine upload --repository testpypi C:/projects/dearpygui/dist/* -u RaylockLLC -p %my_variable% --skip-existing
