@@ -36,5 +36,6 @@ build_script:
 on_success:
   - cd Distribution
   - call C:/Python38-x64/python.exe BuildPythonWheel.py C:/projects/dearpygui/cmake-build-release/DearPyGui/Release/core.pyd core.pyd
+  - call C:/Python38-x64/python.exe -m pip install twine
   - call C:/Python38-x64/python.exe -m setup bdist_wheel --plat-name win_amd64 --dist-dir C:/projects/dearpygui/DearPyGui/dist
   - call C:/Python38-x64/python.exe -m twine upload --repository testpypi dist/* -u __token__ -p $(tKYM1oHNwH7n+FO1exDSPzz76oio0iXtsfkZ0o7kuOY=) --skip-existing
