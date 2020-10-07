@@ -18,24 +18,8 @@ if(WIN32)
 		target_include_directories(core 
 			PRIVATE 
 				${MARVEL_INCLUDE_DIR}
-				"C:/Python38-x64"
-				"C:/Python38-x64/include"
-		)
-
-		target_link_directories(core 
-			PRIVATE 
-				"C:/Python38-x64"
-				"C:/Python38-x64/libs"
-				"C:/Python38-x64/DLLs"
-			)
-
-	else()
-
-		target_include_directories(core 
-			PRIVATE 
-				${MARVEL_INCLUDE_DIR}
 				"C:/Python37-x64"
-				"C:/Python37-x64/Include"
+				"C:/Python37-x64/include"
 		)
 
 		target_link_directories(core 
@@ -43,6 +27,22 @@ if(WIN32)
 				"C:/Python37-x64"
 				"C:/Python37-x64/libs"
 				"C:/Python37-x64/DLLs"
+			)
+
+	else()
+
+		target_include_directories(core 
+			PRIVATE 
+				${MARVEL_INCLUDE_DIR}
+				"C:/Python38-x64"
+				"C:/Python38-x64/Include"
+		)
+
+		target_link_directories(core 
+			PRIVATE 
+				"C:/Python38-x64"
+				"C:/Python38-x64/libs"
+				"C:/Python38-x64/DLLs"
 			)
 	endif()
 
