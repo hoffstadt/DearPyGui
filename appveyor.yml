@@ -13,8 +13,6 @@ environment:
 
   matrix:
 
-    - fast_finish: true
-
     - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2019
       GENERATOR: "Visual Studio 16 2019"
       ARCH: "x64"
@@ -26,6 +24,9 @@ environment:
       ARCH: "x64"
       CONFIG: Release
       PYVER: 37
+
+matrix:
+  fast_finish: true
 
 build_script:
   - git submodule update --init --recursive ./Dependencies/imgui
