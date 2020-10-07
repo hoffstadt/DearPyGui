@@ -18,12 +18,14 @@ environment:
       ARCH: "x64"
       CONFIG: Release
       PYVER: 38
+      PYLOC: "C:/Python38-x64/python.exe"
 
     - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2019
       GENERATOR: "Visual Studio 16 2019"
       ARCH: "x64"
       CONFIG: Release
       PYVER: 37
+      PYLOC: "C:/Python37-x64/python.exe"
 
 matrix:
   fast_finish: true
@@ -39,8 +41,8 @@ build_script:
 
 on_success:
   - cd Distribution
-  - call C:/Python38-x64/python.exe BuildPythonWheel.py C:/projects/dearpygui/cmake-build-release/DearPyGui/Release/core.pyd core.pyd
-  - call C:/Python38-x64/python.exe -m pip install twine
-  - call C:/Python38-x64/python.exe -m pip install wheel
-  - call C:/Python38-x64/python.exe -m setup bdist_wheel --plat-name win_amd64 --dist-dir C:/projects/dearpygui/dist
-  - call C:/Python38-x64/python.exe -m twine upload --repository testpypi C:/projects/dearpygui/dist/* -u RaylockLLC -p %my_variable% --skip-existing
+  - call %PYLOC% BuildPythonWheel.py C:/projects/dearpygui/cmake-build-release/DearPyGui/Release/core.pyd core.pyd
+  - call %PYLOC% -m pip install twine
+  - call %PYLOC% -m pip install wheel
+  - call %PYLOC% -m setup bdist_wheel --plat-name win_amd64 --dist-dir C:/projects/dearpygui/dist
+  - call %PYLOC% -m twine upload --repository testpypi C:/projects/dearpygui/dist/* -u RaylockLLC -p %my_variable% --skip-existing
