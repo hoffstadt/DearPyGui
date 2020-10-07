@@ -1,6 +1,16 @@
-version: 0.4.{build}
+version: 0.4.6b{build}
+
+branches:
+  only:
+  - buildmods
+build:
+  verbosity: minimal
 
 environment:
+
+  my_variable:
+    secure: tKYM1oHNwH7n+FO1exDSPzz76oio0iXtsfkZ0o7kuOY=
+
   matrix:
     - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2019
       GENERATOR: "Visual Studio 16 2019"
@@ -22,3 +32,9 @@ build_script:
   - cmake .. -G "%GENERATOR%" -A "%ARCH%" -DMVDIST_ONLY=True -DMV%PYVER%DIST=True
   - cd ..
   - cmake --build cmake-build-release --config "%CONFIG%"
+
+on_success:
+  - cd Distribution
+  - call C:/Python38-x64/python.exe BuildPythonWheel.py C:/projects/dearpygui/DearPyGui/cmake-build-release/DearPyGui/Release/core.pyd core.pyd
+  - call C:/Python38-x64/python.exe BuildPythonWheel.py -m setup bdist_wheel --plat-name win_amd64 --dist-dir C:/projects/darpygui/DearPyGui/dist
+  - call C:/Python38-x64/python.exe BuildPythonWheel.py -m twine upload --repository testpypi dist/* -u __token__ -p $(tKYM1oHNwH7n+FO1exDSPzz76oio0iXtsfkZ0o7kuOY=) --skip-existing

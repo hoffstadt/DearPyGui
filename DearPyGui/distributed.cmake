@@ -48,15 +48,12 @@ if(WIN32)
 
 	add_definitions(-DWIN32)
 	set_target_properties(core PROPERTIES SUFFIX ".pyd")
-	set_target_properties(core PROPERTIES OUTPUT_NAME "core$<$<CONFIG:Debug>:_d>")
 	set_target_properties(core PROPERTIES CXX_STANDARD 17)
 
-	
-
 	if(MV37DIST)
-		target_link_libraries(core PUBLIC $<$<PLATFORM_ID:Windows>:d3d11> $<$<CONFIG:Debug>:python37_d> $<$<CONFIG:Release>:python37>)
+		target_link_libraries(core PUBLIC d3d11 python37)
 	else()
-		target_link_libraries(core PUBLIC $<$<PLATFORM_ID:Windows>:d3d11> $<$<CONFIG:Debug>:python38_d> $<$<CONFIG:Release>:python38>)
+		target_link_libraries(core PUBLIC d3d11 python38)
 	endif()
 
 elseif(APPLE)
