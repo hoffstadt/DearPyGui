@@ -35,7 +35,7 @@ build_script:
   - git submodule update --init --recursive ./Dependencies/ImGuiFileDialog
   - mkdir cmake-build-release
   - cd cmake-build-Release
-  - cmake .. -G "%GENERATOR%" -A "%ARCH%" -DMVDIST_ONLY=True -DMV%PYVER%DIST=True
+  - cmake .. -G "%GENERATOR%" -A "%ARCH%" -DMVDIST_ONLY=True -DMVPY_VERSION=%PYVER%
   - cd ..
   - cmake --build cmake-build-release --config "%CONFIG%"
 
