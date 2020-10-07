@@ -14,7 +14,7 @@ target_compile_definitions(core
 
 if(WIN32)
 
-	if(MVPY_VERSION == 37)
+	if(MVPY_VERSION EQUAL 37)
 		target_include_directories(core 
 			PRIVATE 
 				${MARVEL_INCLUDE_DIR}
@@ -29,7 +29,7 @@ if(WIN32)
 				"C:/Python37-x64/DLLs"
 			)
 
-	elseif(MVPY_VERSION == 38)
+	elseif(MVPY_VERSION EQUAL 38)
 
 		target_include_directories(core 
 			PRIVATE 
@@ -50,9 +50,9 @@ if(WIN32)
 	set_target_properties(core PROPERTIES SUFFIX ".pyd")
 	set_target_properties(core PROPERTIES CXX_STANDARD 17)
 
-	if(MVPY_VERSION == 37)
+	if(MVPY_VERSION EQUAL 37)
 		target_link_libraries(core PUBLIC d3d11 python37)
-	elseif(MVPY_VERSION == 38)
+	elseif(MVPY_VERSION EQUAL 38)
 		target_link_libraries(core PUBLIC d3d11 python38)
 	endif()
 
