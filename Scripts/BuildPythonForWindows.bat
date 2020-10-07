@@ -26,7 +26,8 @@ call "%dir%..\Dependencies\cpython\PCbuild\build.bat" -p x64 -t Build
 
 :MoveArtifacts
 echo Downloading pip
-call curl --output ../Dependencies/cpython/PCbuild/amd64/get-pip.py -url https://bootstrap.pypa.io/get-pip.py
+rem call curl --output "%dir%../Dependencies/cpython/PCbuild/amd64/get-pip.py" -url https://bootstrap.pypa.io/get-pip.py
+call "%dir%..\Dependencies\cpython\PCbuild\amd64\python.exe" -c "import urllib.request\nurllib.request.urlretrieve('https://bootstrap.pypa.io/get-pip.py', '../Dependencies/cpython/PCbuild/amd64/get-pip.py')"
 
 
 echo Getting pip, setuptools, and wheel
