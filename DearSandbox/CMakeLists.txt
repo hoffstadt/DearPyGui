@@ -5,7 +5,7 @@ add_executable (DearSandbox)
 set_property(TARGET DearSandbox PROPERTY CXX_STANDARD 17)
 
 if(APPLE)
-find_package(Python3 COMPONENTS Interpreter Development)
+	find_package(Python3 COMPONENTS Interpreter Development)
 endif()
 
 target_sources(DearSandbox
@@ -21,17 +21,13 @@ target_include_directories(DearSandbox
 
 	PRIVATE
 
+		"$<$<PLATFORM_ID:Linux>:/usr/include/python3.8/>"
 		"$<$<PLATFORM_ID:Windows>:${CMAKE_SOURCE_DIR}/Dependencies/cpython/PC/>"
 		"../Dependencies/imgui/"
 		"../DearPyGui/src/"
 		"../DearPyGui/include/"
 		"../Dependencies/cpython/"
-		"../Dependencies/cpython/Include/"
-		if(MV37DIST)
-			"$<$<PLATFORM_ID:Linux>:/usr/include/python3.7/>"
-		else()
-			"$<$<PLATFORM_ID:Linux>:/usr/include/python3.8/>"
-		endif()
+		"../Dependencies/cpython/Include/"	
 )
 
 target_compile_definitions(DearSandbox
@@ -44,13 +40,7 @@ target_compile_definitions(DearSandbox
 if (WIN32)
 
 	target_link_directories(DearSandbox PRIVATE "../Dependencies/cpython/PCbuild/amd64/")
-	
-	if(MV37DIST)
-		target_link_libraries(DearSandbox PUBLIC coreemb $<$<CONFIG:Debug>:python37_d> $<$<CONFIG:Release>:python37>)
-	else()
-		target_link_libraries(DearSandbox PUBLIC coreemb $<$<CONFIG:Debug>:python38_d> $<$<CONFIG:Release>:python38>)
-	endif()
-
+	target_link_libraries(DearSandbox PUBLIC coreemb $<$<CONFIG:Debug>:python38_d> $<$<CONFIG:Release>:python38>)
 
 	add_custom_command(TARGET DearSandbox PRE_BUILD
 						COMMAND ${CMAKE_COMMAND} -E copy_directory
@@ -69,17 +59,10 @@ elseif(APPLE)
 
 	set_property(TARGET DearSandbox APPEND_STRING PROPERTY COMPILE_FLAGS "-Wno-unused-result -Wsign-compare -Wunreachable-code -fno-common -dynamic -DNDEBUG -g -fwrapv -O3 -Wall -arch x86_64 -g")
 
-	if(MV37DIST)
-		target_link_directories(DearSandbox PRIVATE /Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/config-3.7-darwin)
-	else()
-		target_link_directories(DearSandbox PRIVATE /Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/config-3.8-darwin)
-	endif()
+	target_link_directories(DearSandbox PRIVATE /Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/config-3.8-darwin)
 
-	if(MV37DIST)
-		target_link_libraries(DearSandbox PUBLIC coreemb "python3.7")
-	else()
-		target_link_libraries(DearSandbox PUBLIC coreemb "python3.8")
-	endif()
+	target_link_libraries(DearSandbox PUBLIC coreemb "python3.8")
+
 
 else() # Linux
 
