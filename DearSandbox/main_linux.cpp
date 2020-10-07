@@ -21,13 +21,9 @@ int main(int argc, char* argv[])
 	PyImport_AppendInittab("core", &PyInit_core);
 
 	// set path and start the interpreter
-	std::string pathpath = ":../../DearSandbox;../../DearPyGui/;";
-	wchar_t* deco = Py_DecodeLocale(pathpath.c_str(), nullptr);
+	wchar_t* deco = Py_DecodeLocale("../../Dependencies/cpython/debug/build/lib.linux-x86_64-3.8-pydebug/:../../Dependencies/cpython/Lib/:../../DearPyGui:../../DearSandbox", nullptr);
 
-	wchar_t* oldpath = Py_GetPath();
-
-	std::wstring fuck = std::wstring(oldpath) + deco;
-    Py_SetPath(fuck.c_str());
+    Py_SetPath(deco);
 	Py_NoSiteFlag = 1; // this must be set to 1
 	Py_DontWriteBytecodeFlag = 1;
 	//_PyEval_SetSwitchInterval()
@@ -56,10 +52,6 @@ int main(int argc, char* argv[])
 		return 0;
 	}
 
-    else
-	{
-		start_dearpygui_error();
-		return 0;
-	}
-	
+    start_dearpygui_error();
+    return 0;
 }

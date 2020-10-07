@@ -21,13 +21,14 @@ target_include_directories(DearSandbox
 
 	PRIVATE
 
-		"$<$<PLATFORM_ID:Linux>:/usr/include/python3.8/>"
+		"$<$<PLATFORM_ID:Linux>:${CMAKE_SOURCE_DIR}/Dependencies/cpython/debug/include/python3.8d/>"
 		"$<$<PLATFORM_ID:Windows>:${CMAKE_SOURCE_DIR}/Dependencies/cpython/PC/>"
 		"../Dependencies/imgui/"
 		"../DearPyGui/src/"
 		"../DearPyGui/include/"
 		"../Dependencies/cpython/"
-		"../Dependencies/cpython/Include/"	
+		"../Dependencies/cpython/debug/"
+		"../Dependencies/cpython/Include/"
 )
 
 target_compile_definitions(DearSandbox
@@ -66,10 +67,13 @@ elseif(APPLE)
 
 else() # Linux
 
+	target_link_directories(DearSandbox PRIVATE ../Dependencies/cpython/debug)
+
 	target_link_libraries(DearSandbox
 
 		PUBLIC
-			"-lcrypt -lpthread -ldl  -lutil -lm"
+			"-lcrypt -lpthread -ldl -lutil -lm"
 			coreemb
+			python3.8d
 	)
 endif()

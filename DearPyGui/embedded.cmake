@@ -48,6 +48,7 @@ else() # Linux
 	add_definitions(-DIMGUI_IMPL_OPENGL_LOADER_GL3W)
 
 	set_property(TARGET coreemb APPEND_STRING PROPERTY COMPILE_FLAGS "-fPIC -Wno-unused-result -Wsign-compare -DNDEBUG -g -fwrapv -O3 -Wall")
-	target_link_libraries(coreemb PUBLIC "-L/usr/lib  -lcrypt -lpthread -ldl  -lutil -lm -lm" GL glfw python3.8)
+	target_link_libraries(coreemb PRIVATE "-lcrypt -lpthread -ldl -lutil -lm" GL glfw python3.8d)
+	target_link_directories(coreemb PRIVATE ../Dependencies/cpython/debug)
 
 endif()
