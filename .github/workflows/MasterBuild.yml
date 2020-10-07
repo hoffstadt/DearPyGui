@@ -87,6 +87,7 @@ jobs:
         mkdir debug
         cd debug
         ../configure --with-pydebug --enable-shared
+        make
 
     - name: Build DearPyGui
       run: |
