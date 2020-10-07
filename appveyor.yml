@@ -6,12 +6,19 @@ environment:
       GENERATOR: "Visual Studio 16 2019"
       ARCH: "x64"
       CONFIG: Release
+      PYVER: 38
+
+    - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2019
+      GENERATOR: "Visual Studio 16 2019"
+      ARCH: "x64"
+      CONFIG: Release
+      PYVER: 37
 
 build_script:
   - git submodule update --init --recursive ./Dependencies/imgui
   - git submodule update --init --recursive ./Dependencies/ImGuiFileDialog
   - mkdir cmake-build-release
   - cd cmake-build-Release
-  - cmake .. -G "%GENERATOR%" -A "%ARCH%" -DMVDIST_ONLY=True
+  - cmake .. -G "%GENERATOR%" -A "%ARCH%" -DMVDIST_ONLY=True -DMV%PYVER%DIST=True
   - cd ..
   - cmake --build cmake-build-release --config "%CONFIG%"
