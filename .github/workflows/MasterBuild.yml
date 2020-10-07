@@ -86,11 +86,10 @@ jobs:
         cd Scripts
         chmod +x BuildPythonForLinux.sh
         ./BuildPythonForLinux.sh
-        cd ..
-        mkdir cmake-build-debug
-        cd cmake-build-debug
-        cmake ..
 
     - name: Build DearPyGui
       run: |
+        mkdir cmake-build-debug
+        cd cmake-build-debug
+        cmake ..
         cmake --build cmake-build-debug --config Debug
