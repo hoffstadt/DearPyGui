@@ -13,7 +13,7 @@ environment:
 
   matrix:
 
-    fast_finish: true
+    - fast_finish: true
 
     - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2019
       GENERATOR: "Visual Studio 16 2019"
