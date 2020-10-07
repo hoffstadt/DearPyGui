@@ -8,7 +8,10 @@ environment:
       CONFIG: Release
 
 build_script:
-  - git submodule update --init --recursive
+  - git submodule update --init --recursive ./Dependencies/imgui
+  - git submodule update --init --recursive ./Dependencies/ImGuiFileDialog
   - mkdir cmake-build-release
-  - cmake -G "%GENERATOR%" -A "%ARCH%" -DMVDIST_ONLY=True
+  - cd cmake-build-Release
+  - cmake .. -G "%GENERATOR%" -A "%ARCH%" -DMVDIST_ONLY=True
+  - cd ..
   - cmake --build cmake-build-release --config "%CONFIG%"
