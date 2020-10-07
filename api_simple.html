@@ -276,7 +276,7 @@ def group(name: str, *, show: bool = True, tip: str = &#34;&#34;, parent: str = 
 
 
 @contextmanager
-def tab_bar(name: str, *, reorderable: bool = False, callback: str = &#34;&#34;, callback_data: str = &#34;&#34;,  show: bool = True,
+def tab_bar(name: str, *, reorderable: bool = False, callback: Callable = None, callback_data: Any = None,  show: bool = True,
             parent: str = &#34;&#34;, before: str = &#34;&#34;):
     &#34;&#34;&#34;Wraps add_tab_bar() and automates calling end().
 
@@ -1793,7 +1793,7 @@ def tab(name: str, *, closable: bool = False, label: str = &#34;__DearPyGuiDefau
                     </details>
                 </dd>
                 <dt id="dearpygui.simple.tab_bar"><code class="name flex">
-                    <span>def <span class="ident">tab_bar</span></span>(<span>name: str, *, reorderable: bool = False, callback: str = '', callback_data: str = '', show: bool = True, parent: str = '', before: str = '')</span>
+                    <span>def <span class="ident">tab_bar</span></span>(<span>name: str, *, reorderable: bool = False, callback: Callable = None, callback_data: Any = None, show: bool = True, parent: str = '', before: str = '')</span>
                 </code></dt>
                 <dd>
                     <div class="desc"><p>Wraps add_tab_bar() and automates calling end().</p>
@@ -1822,7 +1822,7 @@ def tab(name: str, *, closable: bool = False, label: str = &#34;__DearPyGuiDefau
                             <span>Expand source code</span>
                         </summary>
                         <pre><code class="python">@contextmanager
-def tab_bar(name: str, *, reorderable: bool = False, callback: str = &#34;&#34;, callback_data: str = &#34;&#34;,  show: bool = True,
+def tab_bar(name: str, *, reorderable: bool = False, callback: Callable = None, callback_data: Any = None,  show: bool = True,
             parent: str = &#34;&#34;, before: str = &#34;&#34;):
     &#34;&#34;&#34;Wraps add_tab_bar() and automates calling end().
 
