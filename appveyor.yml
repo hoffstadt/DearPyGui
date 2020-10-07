@@ -45,4 +45,4 @@ on_success:
   - call %PYLOC% -m pip install twine
   - call %PYLOC% -m pip install wheel
   - call %PYLOC% -m setup bdist_wheel --plat-name win_amd64 --dist-dir C:/projects/dearpygui/dist
-  - call %PYLOC% -m twine upload --repository testpypi C:/projects/dearpygui/dist/* -u RaylockLLC -p %my_variable% --skip-existing
+  - if %APPVEYOR_REPO_BRANCH%==buildmods call %PYLOC% -m twine upload --repository testpypi C:/projects/dearpygui/dist/* -u RaylockLLC -p %my_variable% --skip-existing
