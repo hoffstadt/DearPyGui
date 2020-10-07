@@ -87,10 +87,10 @@ jobs:
         chmod +x BuildPythonForLinux.sh
         ./BuildPythonForLinux.sh
         cd ..
-        mkdir cmake-build-release
-        cd cmake-build-release
+        mkdir cmake-build-debug
+        cd cmake-build-debug
         cmake ..
 
     - name: Build DearPyGui
       run: |
-        cmake --build cmake-build-release --config Release
+        cmake --build cmake-build-debug --config Debug
