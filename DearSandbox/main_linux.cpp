@@ -5,9 +5,7 @@
 #include "mvApp.h"
 #include <iostream>
 #include <fstream>
-#include <filesystem>
 
-namespace fs = std::filesystem;
 using namespace Marvel;
 
 int main(int argc, char* argv[])
