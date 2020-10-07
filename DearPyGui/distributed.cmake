@@ -5,7 +5,6 @@ include("dpg_sources.cmake")
 add_library(core SHARED)
 
 target_sources(core PRIVATE ${MARVEL_SOURCES} )
-target_include_directories(core PRIVATE ${MARVEL_INCLUDE_DIR} ${PYTHON_INCLUDE_DIRS})
 
 target_compile_definitions(core
 
@@ -15,12 +14,42 @@ target_compile_definitions(core
 
 if(WIN32)
 
+	if(MV37DIST)
+		target_include_directories(core 
+			PRIVATE 
+				${MARVEL_INCLUDE_DIR}
+				"C:/Python38-x64"
+				"C:/Python38-x64/include"
+		)
+
+		target_link_directories(core 
+			PRIVATE 
+				"C:/Python38-x64"
+				"C:/Python38-x64/DLLs"
+			)
+
+	else()
+
+		target_include_directories(core 
+			PRIVATE 
+				${MARVEL_INCLUDE_DIR}
+				"C:/Python37-x64"
+				"C:/Python37-x64/Include"
+		)
+
+		target_link_directories(core 
+			PRIVATE 
+				"C:/Python37-x64"
+				"C:/Python37-x64/DLLs"
+			)
+	endif()
+
 	add_definitions(-DWIN32)
 	set_target_properties(core PROPERTIES SUFFIX ".pyd")
 	set_target_properties(core PROPERTIES OUTPUT_NAME "core$<$<CONFIG:Debug>:_d>")
 	set_target_properties(core PROPERTIES CXX_STANDARD 17)
 
-	target_link_directories(core PRIVATE "../Dependencies/cpython/PCbuild/amd64/")
+	
 
 	if(MV37DIST)
 		target_link_libraries(core PUBLIC $<$<PLATFORM_ID:Windows>:d3d11> $<$<CONFIG:Debug>:python37_d> $<$<CONFIG:Release>:python37>)
@@ -30,6 +59,8 @@ if(WIN32)
 
 elseif(APPLE)
 
+
+	target_include_directories(core PRIVATE ${MARVEL_INCLUDE_DIR} ${PYTHON_INCLUDE_DIRS})
 	add_definitions(-DAPPLE)
 	add_definitions(-DUNIX)
 	find_package(Python3 COMPONENTS Interpreter Development)
@@ -57,6 +88,7 @@ elseif(APPLE)
 
 else() # Linux
 
+	target_include_directories(core PRIVATE ${MARVEL_INCLUDE_DIR} ${PYTHON_INCLUDE_DIRS})
 	add_definitions(-DLINUX)
 	add_definitions(-DUNIX)
 	set_target_properties(core PROPERTIES PREFIX "")
