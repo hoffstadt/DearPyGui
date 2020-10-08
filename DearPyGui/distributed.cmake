@@ -35,7 +35,7 @@ if(WIN32)
 			PRIVATE 
 				${MARVEL_INCLUDE_DIR}
 				"C:/Python38-x64"
-				"C:/Python38-x64/Include"
+				"C:/Python38-x64/include"
 		)
 
 		target_link_directories(core 
@@ -110,7 +110,7 @@ else() # Linux
 			PRIVATE 
 				${MARVEL_INCLUDE_DIR}
 				"$HOME/venv3.7/"
-				"$HOME/venv3.7/Include"
+				"$HOME/venv3.7/include"
 		)
 
 		target_link_directories(core 
@@ -133,15 +133,15 @@ else() # Linux
 		target_include_directories(core 
 			PRIVATE 
 				${MARVEL_INCLUDE_DIR}
-				"$HOME/venv3.8/"
-				"$HOME/venv3.8/Include"
+				"$HOME/.localpython3.8.2"
+				"$HOME/.localpython3.8.2/include"
 		)
 
 		target_link_directories(core 
 			PRIVATE 
-				"$HOME/venv3.8"
-				"$HOME/venv3.8/libs"
-				"$HOME/venv3.8/DLLs"
+				"$HOME/.localpython3.8.2"
+				"$HOME/.localpython3.8.2/libs"
+				"$HOME/.localpython3.8.2/DLLs"
 		)
 
 		target_link_libraries(core 
