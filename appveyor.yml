@@ -50,7 +50,9 @@ build_script:
   - sh: ls
   - sh: cd .localpython3.8.2
   - sh: ls
-  - sh: cd /home/appveyor/projects/
+  - sh: cd bin
+  - sh: ls
+  - sh: cd /home/appveyor/projects/dearpgyi
 
   - sh: |
        git submodule update --init --recursive ./Dependencies/imgui
