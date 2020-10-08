@@ -13,13 +13,13 @@ environment:
 
   matrix:
 
-    - APPVEYOR_BUILD_WORKER_IMAGE: Ubuntu
-      ARCH: "x64"
-      CONFIG: Release
-      PYVER: 38
-      PYLOC: "python"
-      PYSTACK: "3.8"
-      PYFULLVERSION: "3.8.5"
+    #- APPVEYOR_BUILD_WORKER_IMAGE: Ubuntu
+    #  ARCH: "x64"
+    #  CONFIG: Release
+    #  PYVER: 38
+    #  PYLOC: "python"
+    #  PYSTACK: "3.8"
+    #  PYFULLVERSION: "3.8.5"
 
     - APPVEYOR_BUILD_WORKER_IMAGE: Ubuntu
       ARCH: "x64"
@@ -87,38 +87,45 @@ install:
        done
        find "${HOME}" -name "Python-*" -type d -maxdepth 1 | xargs -I {} rm -rf {}
 
+# actual build
 build_script:
-  - cmd: |
-       git submodule update --init --recursive ./Dependencies/imgui
-       git submodule update --init --recursive ./Dependencies/ImGuiFileDialog
-       mkdir cmake-build-release
-       cd cmake-build-Release
-       cmake .. -G "%GENERATOR%" -A "%ARCH%" -DMVDIST_ONLY=True -DMVPY_VERSION=%PYVER%
-       cd ..
-       cmake --build cmake-build-release --config "%CONFIG%"
+  
+  # Windows
+  - cmd: git submodule update --init --recursive ./Dependencies/imgui
+  - cmd: git submodule update --init --recursive ./Dependencies/ImGuiFileDialog
+  - cmd: mkdir cmake-build-release
+  - cmd: cd cmake-build-Release
+  - cmd: cmake .. -G "%GENERATOR%" -A "%ARCH%" -DMVDIST_ONLY=True -DMVPY_VERSION=%PYVER%
+  - cmd: cd ..
+  - cmd: cmake --build cmake-build-release --config "%CONFIG%"
 
+  # Ubuntu
+  - sh: cd /home/appveyor/.localpython3.7.9/
+  - sh: ls
+  - sh: cd include
+  - sh: ls
   - sh: cd /home/appveyor/projects/dearpygui
-  - sh: |
-       git submodule update --init --recursive ./Dependencies/imgui
-       git submodule update --init --recursive ./Dependencies/ImGuiFileDialog
-       git submodule update --init --recursive ./Dependencies/glfw
-       sudo apt-get update
-       sudo apt-get install libglu1-mesa-dev libgl1-mesa-dev xorg-dev libxrandr-dev -y
-       mkdir cmake-build-release
-       cd cmake-build-release
-       cmake .. -DMVDIST_ONLY=True -DMVPY_VERSION=${PYVER}
-       cd ..
-       cmake --build cmake-build-release --config "${CONFIG}"
+  - sh: git submodule update --init --recursive ./Dependencies/imgui
+  - sh: git submodule update --init --recursive ./Dependencies/ImGuiFileDialog
+  - sh: git submodule update --init --recursive ./Dependencies/glfw
+  - sh: sudo apt-get update
+  - sh: sudo apt-get install libglu1-mesa-dev libgl1-mesa-dev xorg-dev libxrandr-dev -y
+  - sh: mkdir cmake-build-release
+  - sh: cd cmake-build-release
+  - sh: cmake .. -DMVDIST_ONLY=True -DMVPY_VERSION=${PYVER}
+  - sh: cd ..
+  - sh: cmake --build cmake-build-release --config "${CONFIG}"
 
 on_success:
-  - cmd: |
-       cd Distribution
-       call %PYLOC% BuildPythonWheel.py C:/projects/dearpygui/cmake-build-release/DearPyGui/Release/core.pyd core.pyd
-       call %PYLOC% -m pip install twine
-       call %PYLOC% -m pip install wheel
-       call %PYLOC% -m setup bdist_wheel --plat-name win_amd64 --dist-dir C:/projects/dearpygui/dist
-       if %APPVEYOR_REPO_BRANCH%==development call %PYLOC% -m twine upload --repository testpypi C:/projects/dearpygui/dist/* -u RaylockLLC -p %my_variable% --skip-existing
-       if %APPVEYOR_REPO_BRANCH%==stable call %PYLOC% -m twine upload C:/projects/dearpygui/dist/* -u RaylockLLC -p %my_variable% --skip-existing
+  
+  # windows
+  - cmd: cd Distribution
+  - cmd: call %PYLOC% BuildPythonWheel.py C:/projects/dearpygui/cmake-build-release/DearPyGui/Release/core.pyd core.pyd
+  - cmd: call %PYLOC% -m pip install twine
+  - cmd: call %PYLOC% -m pip install wheel
+  - cmd: call %PYLOC% -m setup bdist_wheel --plat-name win_amd64 --dist-dir C:/projects/dearpygui/dist
+  - cmd: if %APPVEYOR_REPO_BRANCH%==development call %PYLOC% -m twine upload --repository testpypi C:/projects/dearpygui/dist/* -u RaylockLLC -p %my_variable% --skip-existing
+  - cmd: if %APPVEYOR_REPO_BRANCH%==stable call %PYLOC% -m twine upload C:/projects/dearpygui/dist/* -u RaylockLLC -p %my_variable% --skip-existing
 
   - sh: cd Distribution
   - sh: ${PYLOC} BuildPythonWheel.py /home/appveyor/projects/dearpygui/cmake-build-release/DearPyGui/core.so core.so
@@ -126,8 +133,8 @@ on_success:
   - sh: ${PYLOC} -m pip install wheel
   - sh: ${PYLOC} -m setup bdist_wheel --plat-name manylinux1_x86_64 --dist-dir /home/appveyor/projects/dearpygui/dist
   - sh: |
-      if [ "${APPVEYOR_REPO_BRANCH}" = "development"]; then
+      if [ "${APPVEYOR_REPO_BRANCH}" = "development" ]; then
           ${PYLOC} -m twine upload --repository testpypi /home/appveyor/projects/dearpygui/dist/* -u RaylockLLC -p ${my_variable} --skip-existing
-      elif [ "${APPVEYOR_REPO_BRANCH}" = "stable"]; then
+      elif [ "${APPVEYOR_REPO_BRANCH}" = "stable" ]; then
           ${PYLOC} -m twine upload /home/appveyor/projects/dearpygui/dist/* -u RaylockLLC -p ${my_variable} --skip-existing
       fi
