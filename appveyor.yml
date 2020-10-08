@@ -51,7 +51,7 @@ build_script:
        git submodule update --init --recursive ./Dependencies/ImGuiFileDialog
        git submodule update --init --recursive ./Dependencies/glfw
        sudo apt-get update
-       sudo apt-get install libglu1-mesa-dev libgl1-mesa-dev xorg-dev libxrandr-dev
+       sudo apt-get install libglu1-mesa-dev libgl1-mesa-dev xorg-dev libxrandr-dev -y
        mkdir cmake-build-release
        cd cmake-build-release
        cmake .. -DMVDIST_ONLY=True -DMVPY_VERSION=${PYVER}
