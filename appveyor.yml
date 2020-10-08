@@ -18,7 +18,14 @@ environment:
       CONFIG: Release
       PYVER: 38
       PYLOC: "python"
-      #PYLOC: "/home/appveyor/.localpython3.8.5/bin/python3.8"
+      PYSTACK: "3.8"
+
+    - APPVEYOR_BUILD_WORKER_IMAGE: Ubuntu
+      ARCH: "x64"
+      CONFIG: Release
+      PYVER: 37
+      PYLOC: "python"
+      PYSTACK: "3.7"
 
     - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2019
       GENERATOR: "Visual Studio 16 2019"
@@ -26,6 +33,7 @@ environment:
       CONFIG: Release
       PYVER: 38
       PYLOC: "C:/Python38-x64/python.exe"
+      PYSTACK: "3.8"
 
     - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2019
       GENERATOR: "Visual Studio 16 2019"
@@ -33,26 +41,18 @@ environment:
       CONFIG: Release
       PYVER: 37
       PYLOC: "C:/Python37-x64/python.exe"
+      PYSTACK: "3.7"
 
 matrix:
   fast_finish: true
 
 stack:
-  python 3.8
+  python %PYSTACK%
 
-build_script:
-  - cmd: |
-       git submodule update --init --recursive ./Dependencies/imgui
-       git submodule update --init --recursive ./Dependencies/ImGuiFileDialog
-       mkdir cmake-build-release
-       cd cmake-build-Release
-       cmake .. -G "%GENERATOR%" -A "%ARCH%" -DMVDIST_ONLY=True -DMVPY_VERSION=%PYVER%
-       cd ..
-       cmake --build cmake-build-release --config "%CONFIG%"
-
+install:
   - sh: |
        command -v virtualenv || install_virtualenv
-       declare PY_VERSIONS=("3.8.5")
+       declare PY_VERSIONS=("3.8.5" "3.7.9")
        for i in "${PY_VERSIONS[@]}"; do
            VENV_PATH=${HOME}/venv${i%%[abrcf]*}
            VENV_MINOR_PATH=${HOME}/venv${i%.*}
@@ -82,6 +82,17 @@ build_script:
            fi
        done
        find "${HOME}" -name "Python-*" -type d -maxdepth 1 | xargs -I {} rm -rf {}
+
+build_script:
+  - cmd: |
+       git submodule update --init --recursive ./Dependencies/imgui
+       git submodule update --init --recursive ./Dependencies/ImGuiFileDialog
+       mkdir cmake-build-release
+       cd cmake-build-Release
+       cmake .. -G "%GENERATOR%" -A "%ARCH%" -DMVDIST_ONLY=True -DMVPY_VERSION=%PYVER%
+       cd ..
+       cmake --build cmake-build-release --config "%CONFIG%"
+
   - sh: cd /home/appveyor/projects/dearpygui
   - sh: |
        git submodule update --init --recursive ./Dependencies/imgui
@@ -111,8 +122,8 @@ on_success:
   - sh: ${PYLOC} -m pip install wheel
   - sh: ${PYLOC} -m setup bdist_wheel --plat-name manylinux1_x86_64 --dist-dir /home/appveyor/projects/dearpygui/dist
   - sh: |
-      if [ "${APPVEYOR_REPO_BRANCH}" = "development"]; then
+      if [[ "${APPVEYOR_REPO_BRANCH}" = "development"]]; then
           ${PYLOC} -m twine upload --repository testpypi /home/appveyor/projects/dearpygui/dist/* -u RaylockLLC -p ${my_variable} --skip-existing
-      elif [ "${APPVEYOR_REPO_BRANCH}" = "stable"]; then
+      elif [[ "${APPVEYOR_REPO_BRANCH}" = "stable"]]; then
           ${PYLOC} -m twine upload /home/appveyor/projects/dearpygui/dist/* -u RaylockLLC -p ${my_variable} --skip-existing
       fi

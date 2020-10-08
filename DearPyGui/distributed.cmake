@@ -97,39 +97,32 @@ else() # Linux
 	
 	add_definitions(-DIMGUI_IMPL_OPENGL_LOADER_GL3W)
 
-	#if(MV37DIST)
-	#	target_link_directories(core PRIVATE "/home/runner/work/DearPyGui/DearPyGui/Dependencies/cpython/debug/lib")
-	#	target_link_libraries(core PUBLIC "-L/usr/lib  -lcrypt -lpthread -ldl  -lutil -lm -lm" GL glfw python3.7m)
-	#else()
-	#	target_link_directories(core PRIVATE "/home/runner/work/DearPyGui/DearPyGui/Dependencies/cpython/debug/lib")
-	#	target_link_libraries(core PUBLIC "-L/usr/lib  -lcrypt -lpthread -ldl  -lutil -lm -lm" GL glfw python3.8)
-	#endif()
-	message("here now")
+
 	if(MVPY_VERSION EQUAL 37)
+
 		target_include_directories(core 
 			PRIVATE 
 				${MARVEL_INCLUDE_DIR}
-				"$HOME/venv3.7/"
-				"$HOME/venv3.7/include"
+				"/home/appveyor/.localpython3.7.9"
+				"/home/appveyor/.localpython3.7.9/include/python3.7"
 		)
 
 		target_link_directories(core 
 			PRIVATE 
-				"$HOME/venv3.7"
-				"$HOME/venv3.7/libs"
-				"$HOME/venv3.7/DLLs"
-			)
+				"/usr/lib"
+				"/home/appveyor/.localpython3.7.9/lib"
+		)
 
 		target_link_libraries(core 
 			PRIVATE 
-				"-L/usr/lib  -lcrypt -lpthread -ldl  -lutil -lm"
+				"-fPIC -lcrypt -lpthread -ldl  -lutil -lm"
 				GL
 				glfw
 				python3.7m
-			)
+		)
 
 	elseif(MVPY_VERSION EQUAL 38)
-		message("made it this far")
+
 		target_include_directories(core 
 			PRIVATE 
 				${MARVEL_INCLUDE_DIR}
@@ -139,7 +132,6 @@ else() # Linux
 
 		target_link_directories(core 
 			PRIVATE 
-				#"/home/appveyor/.localpython3.8.2/bin"
 				"/usr/lib"
 				"/home/appveyor/.localpython3.8.5/lib"
 		)
@@ -150,6 +142,6 @@ else() # Linux
 				GL
 				glfw
 				python3.8
-			)
+		)
 	endif()
 endif()
