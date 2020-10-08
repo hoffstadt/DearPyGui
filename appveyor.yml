@@ -126,8 +126,8 @@ on_success:
   - sh: ${PYLOC} -m pip install wheel
   - sh: ${PYLOC} -m setup bdist_wheel --plat-name manylinux1_x86_64 --dist-dir /home/appveyor/projects/dearpygui/dist
   - sh: |
-      if [[ "${APPVEYOR_REPO_BRANCH}" = "development"]]; then
+      if [ "${APPVEYOR_REPO_BRANCH}" = "development"]; then
           ${PYLOC} -m twine upload --repository testpypi /home/appveyor/projects/dearpygui/dist/* -u RaylockLLC -p ${my_variable} --skip-existing
-      elif [[ "${APPVEYOR_REPO_BRANCH}" = "stable"]]; then
+      elif [ "${APPVEYOR_REPO_BRANCH}" = "stable"]; then
           ${PYLOC} -m twine upload /home/appveyor/projects/dearpygui/dist/* -u RaylockLLC -p ${my_variable} --skip-existing
       fi
