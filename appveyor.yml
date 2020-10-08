@@ -17,7 +17,7 @@ environment:
       ARCH: "x64"
       CONFIG: Release
       PYVER: 38
-      PYLOC: "/home/appveyor/.localpython3.8.2/bin/python3"
+      PYLOC: "/home/appveyor/.localpython3.8.5/bin/python3"
 
     - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2019
       GENERATOR: "Visual Studio 16 2019"
