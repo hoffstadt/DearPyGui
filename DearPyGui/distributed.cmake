@@ -140,7 +140,7 @@ else() # Linux
 		target_link_directories(core 
 			PRIVATE 
 				"/home/appveyor/.localpython3.8.2"
-				"/home/appveyor/.localpython3.8.2/lib"
+				#"/home/appveyor/.localpython3.8.2/lib"
 				"/home/appveyor/.localpython3.8.2/bin"
 		)
 
