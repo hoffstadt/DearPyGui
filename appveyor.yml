@@ -59,6 +59,8 @@ build_script:
   - sh: cd ../..
   - sh: cd lib
   - sh: ls
+  - sh: cd ../share
+  - sh: ls
   - sh: cd /home/appveyor/projects/dearpygui
 
   - sh: |

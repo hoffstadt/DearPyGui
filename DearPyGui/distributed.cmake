@@ -139,9 +139,8 @@ else() # Linux
 
 		target_link_directories(core 
 			PRIVATE 
-				"/usr/lib"
-				"/home/appveyor/.localpython3.8.2"
 				"/home/appveyor/.localpython3.8.2/bin"
+				"/usr/lib"
 				#"/home/appveyor/.localpython3.8.2/lib"
 		)
 
