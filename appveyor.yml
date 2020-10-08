@@ -46,6 +46,12 @@ build_script:
        cd ..
        cmake --build cmake-build-release --config "%CONFIG%"
 
+  - sh: cd $HOME
+  - sh: ls
+  - sh: cd .localpython3.8.2
+  - sh: ls
+  - sh: cd /home/appveyor/projects/
+
   - sh: |
        git submodule update --init --recursive ./Dependencies/imgui
        git submodule update --init --recursive ./Dependencies/ImGuiFileDialog
