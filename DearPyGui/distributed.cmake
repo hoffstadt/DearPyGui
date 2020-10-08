@@ -134,7 +134,7 @@ else() # Linux
 			PRIVATE 
 				${MARVEL_INCLUDE_DIR}
 				"$HOME/.localpython3.8.2"
-				"$HOME/.localpython3.8.2/python3.8/include"
+				"$HOME/.localpython3.8.2/include/python3.8"
 		)
 
 		target_link_directories(core 
