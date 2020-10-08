@@ -133,15 +133,15 @@ else() # Linux
 		target_include_directories(core 
 			PRIVATE 
 				${MARVEL_INCLUDE_DIR}
-				"/home/appveyor/.localpython3.8.2"
-				"/home/appveyor/.localpython3.8.2/include/python3.8"
+				"/home/appveyor/.localpython3.8.5"
+				"/home/appveyor/.localpython3.8.5/include/python3.8"
 		)
 
 		target_link_directories(core 
 			PRIVATE 
 				#"/home/appveyor/.localpython3.8.2/bin"
 				"/usr/lib"
-				"/home/appveyor/.localpython3.8.2/lib"
+				"/home/appveyor/.localpython3.8.5/lib"
 		)
 
 		target_link_libraries(core 
