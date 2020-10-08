@@ -46,7 +46,7 @@ build_script:
        cd ..
        cmake --build cmake-build-release --config "%CONFIG%"
 
-  - sh: cd $HOME
+  - sh: cd /home/
   - sh: ls
   - sh: cd .localpython3.8.2
   - sh: ls

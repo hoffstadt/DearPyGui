@@ -104,7 +104,7 @@ else() # Linux
 	#	target_link_directories(core PRIVATE "/home/runner/work/DearPyGui/DearPyGui/Dependencies/cpython/debug/lib")
 	#	target_link_libraries(core PUBLIC "-L/usr/lib  -lcrypt -lpthread -ldl  -lutil -lm -lm" GL glfw python3.8)
 	#endif()
-
+	message("here now")
 	if(MVPY_VERSION EQUAL 37)
 		target_include_directories(core 
 			PRIVATE 
@@ -129,7 +129,7 @@ else() # Linux
 			)
 
 	elseif(MVPY_VERSION EQUAL 38)
-
+		message("made it this far")
 		target_include_directories(core 
 			PRIVATE 
 				${MARVEL_INCLUDE_DIR}
