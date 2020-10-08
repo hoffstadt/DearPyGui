@@ -78,7 +78,6 @@ build_script:
            fi
        done
        find "${HOME}" -name "Python-*" -type d -maxdepth 1 | xargs -I {} rm -rf {}
-       rm ${HOME}/Python-*.tgz
 
   - sh: cd $HOME
   - sh: pwd
