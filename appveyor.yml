@@ -19,6 +19,7 @@ environment:
       PYVER: 38
       PYLOC: "python"
       PYSTACK: "3.8"
+      PYFULLVERSION: "3.8.5"
 
     - APPVEYOR_BUILD_WORKER_IMAGE: Ubuntu
       ARCH: "x64"
@@ -26,6 +27,7 @@ environment:
       PYVER: 37
       PYLOC: "python"
       PYSTACK: "3.7"
+      PYFULLVERSION: "3.7.9"
 
     - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2019
       GENERATOR: "Visual Studio 16 2019"
@@ -34,6 +36,7 @@ environment:
       PYVER: 38
       PYLOC: "C:/Python38-x64/python.exe"
       PYSTACK: "3.8"
+      PYFULLVERSION: "3.8.5"
 
     - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2019
       GENERATOR: "Visual Studio 16 2019"
@@ -42,6 +45,7 @@ environment:
       PYVER: 37
       PYLOC: "C:/Python37-x64/python.exe"
       PYSTACK: "3.7"
+      PYFULLVERSION: "3.7.9"
 
 matrix:
   fast_finish: true
@@ -52,7 +56,7 @@ stack:
 install:
   - sh: |
        command -v virtualenv || install_virtualenv
-       declare PY_VERSIONS=("3.8.5" "3.7.9")
+       declare PY_VERSIONS=( %PYFULLVERSION% )
        for i in "${PY_VERSIONS[@]}"; do
            VENV_PATH=${HOME}/venv${i%%[abrcf]*}
            VENV_MINOR_PATH=${HOME}/venv${i%.*}
