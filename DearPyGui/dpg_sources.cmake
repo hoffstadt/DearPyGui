@@ -98,8 +98,8 @@ set(MARVEL_INCLUDE_DIR
 	"src/Vendor/stb/"
 	"$<$<PLATFORM_ID:Windows>:${CMAKE_SOURCE_DIR}/Dependencies/cpython/PC/>"
 
-	"/usr/include/python3.7/"
-	"/usr/include/python3.8/"
+	#"/usr/include/python3.7/"
+	#"/usr/include/python3.8/"
 
 	# may can delete this
 	"../Dependencies/cpython/debug/"
