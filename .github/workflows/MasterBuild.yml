@@ -51,20 +51,19 @@ jobs:
     
     - name: Build Python
       run: |
-        brew install openssl
         cd Dependencies/cpython
-        ./configure --enable-framework --with-openssl=$(brew --prefix openssl)
-        sudo make && sudo make install
-        cp pyconfig.h Include/pyconfig.h
-        cd ..
-        cd ..
-        mkdir cmake-build-release
-        cd cmake-build-release
-        cmake .. -DMVDIST_ONLY=True
+        mkdir debug
+        cd debug
+        ../configure --with-pydebug --enable-shared
+        make
 
     - name: Build DearPyGui
       run: |
-        cmake --build cmake-build-release --config Release
+        mkdir cmake-build-debug
+        cd cmake-build-debug
+        cmake ..
+        cd ..
+        cmake --build cmake-build-debug --config Debug
 
   build-Ubuntu:
     

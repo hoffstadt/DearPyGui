@@ -65,7 +65,7 @@ elseif(APPLE)
 			)
 
 	add_custom_command(TARGET DearSandbox POST_BUILD
-			COMMAND install_name_tool -change /usr/local/libpython3.8d.dylib @loader_path/../../Dependencies/cpython/debug/libpython3.8d.dylib DearSandbox
+			COMMAND install_name_tool -change /usr/local/lib/libpython3.8d.dylib @loader_path/../../Dependencies/cpython/debug/libpython3.8d.dylib DearSandbox
 			WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/cmake-build-debug/DearSandbox
 			COMMENT "Changing python lib load path")
 
