@@ -87,7 +87,7 @@ elseif(APPLE)
 
 else() # Linux
 
-	target_include_directories(core PRIVATE ${MARVEL_INCLUDE_DIR} ${PYTHON_INCLUDE_DIRS})
+	#target_include_directories(core PRIVATE ${MARVEL_INCLUDE_DIR} ${PYTHON_INCLUDE_DIRS})
 	add_definitions(-DLINUX)
 	add_definitions(-DUNIX)
 	set_target_properties(core PROPERTIES PREFIX "")
