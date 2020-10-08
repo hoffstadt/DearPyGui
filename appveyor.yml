@@ -37,13 +37,23 @@ matrix:
   fast_finish: true
 
 build_script:
-  - git submodule update --init --recursive ./Dependencies/imgui
-  - git submodule update --init --recursive ./Dependencies/ImGuiFileDialog
-  - mkdir cmake-build-release
-  - cd cmake-build-Release
-  - cmake .. -G "%GENERATOR%" -A "%ARCH%" -DMVDIST_ONLY=True -DMVPY_VERSION=%PYVER%
-  - cd ..
-  - cmake --build cmake-build-release --config "%CONFIG%"
+  - cmd: |
+       git submodule update --init --recursive ./Dependencies/imgui
+       git submodule update --init --recursive ./Dependencies/ImGuiFileDialog
+       mkdir cmake-build-release
+       cd cmake-build-Release
+       cmake .. -G "%GENERATOR%" -A "%ARCH%" -DMVDIST_ONLY=True -DMVPY_VERSION=%PYVER%
+       cd ..
+       cmake --build cmake-build-release --config "%CONFIG%"
+
+  - sh: |
+       git submodule update --init --recursive ./Dependencies/imgui
+       git submodule update --init --recursive ./Dependencies/ImGuiFileDialog
+       mkdir cmake-build-release
+       cd cmake-build-release
+       cmake .. -A "${ARCH}" -DMVDIST_ONLY=True -DMVPY_VERSION=${PYVER}
+       cd ..
+       cmake --build cmake-build-release --config "${CONFIG}"
 
 on_success:
   - cmd: |

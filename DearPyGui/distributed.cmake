@@ -105,4 +105,51 @@ else() # Linux
 		target_link_libraries(core PUBLIC "-L/usr/lib  -lcrypt -lpthread -ldl  -lutil -lm -lm" GL glfw python3.8)
 	endif()
 
+	if(MVPY_VERSION EQUAL 37)
+		target_include_directories(core 
+			PRIVATE 
+				${MARVEL_INCLUDE_DIR}
+				"$HOME/venv3.7/"
+				"$HOME/venv3.7/include"
+		)
+
+		target_link_directories(core 
+			PRIVATE 
+				"$HOME/venv3.7"
+				"$HOME/venv3.7/libs"
+				"$HOME/venv3.7/DLLs"
+			)
+
+		target_link_libraries(core 
+			PRIVATE 
+				"-L/usr/lib  -lcrypt -lpthread -ldl  -lutil -lm"
+				GL
+				glfw
+				python3.7m
+			)
+
+	elseif(MVPY_VERSION EQUAL 38)
+
+		target_include_directories(core 
+			PRIVATE 
+				${MARVEL_INCLUDE_DIR}
+				"$HOME/venv3.8/"
+				"$HOME/venv3.8/include"
+		)
+
+		target_link_directories(core 
+			PRIVATE 
+				"$HOME/venv3.8"
+				"$HOME/venv3.8/libs"
+				"$HOME/venv3.8/DLLs"
+		)
+
+		target_link_libraries(core 
+			PRIVATE 
+				"-L/usr/lib  -lcrypt -lpthread -ldl  -lutil -lm"
+				GL
+				glfw
+				python3.8
+			)
+	endif()
 endif()
