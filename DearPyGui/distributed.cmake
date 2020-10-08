@@ -139,14 +139,15 @@ else() # Linux
 
 		target_link_directories(core 
 			PRIVATE 
+				"/usr/lib"
 				"/home/appveyor/.localpython3.8.2"
-				#"/home/appveyor/.localpython3.8.2/lib"
 				"/home/appveyor/.localpython3.8.2/bin"
+				"/home/appveyor/.localpython3.8.2/lib"
 		)
 
 		target_link_libraries(core 
 			PRIVATE 
-				"-L/usr/lib  -lcrypt -lpthread -ldl  -lutil -lm"
+				"-lcrypt -lpthread -ldl  -lutil -lm"
 				GL
 				glfw
 				python3.8
