@@ -51,7 +51,7 @@ build_script:
        git submodule update --init --recursive ./Dependencies/ImGuiFileDialog
        mkdir cmake-build-release
        cd cmake-build-release
-       cmake .. -A "${ARCH}" -DMVDIST_ONLY=True -DMVPY_VERSION=${PYVER}
+       cmake .. -DMVDIST_ONLY=True -DMVPY_VERSION=${PYVER}
        cd ..
        cmake --build cmake-build-release --config "${CONFIG}"
 
@@ -64,11 +64,12 @@ on_success:
        call %PYLOC% -m setup bdist_wheel --plat-name win_amd64 --dist-dir C:/projects/dearpygui/dist
        if %APPVEYOR_REPO_BRANCH%==development call %PYLOC% -m twine upload --repository testpypi C:/projects/dearpygui/dist/* -u RaylockLLC -p %my_variable% --skip-existing
        if %APPVEYOR_REPO_BRANCH%==stable call %PYLOC% -m twine upload C:/projects/dearpygui/dist/* -u RaylockLLC -p %my_variable% --skip-existing
+
   - sh: |
        cd Distribution
-       ${PYLOC} BuildPythonWheel.py C:/projects/dearpygui/cmake-build-release/DearPyGui/Release/core.pyd core.pyd
+       ${PYLOC} BuildPythonWheel.py /home/appveyor/projects/dearpygui/cmake-build-release/DearPyGui/Release/core.pyd core.pyd
        ${PYLOC} -m pip install twine
        ${PYLOC} -m pip install wheel
-       ${PYLOC} -m setup bdist_wheel --plat-name manylinux1_x86_64 --dist-dir C:/projects/dearpygui/dist
-       if ${APPVEYOR_REPO_BRANCH}==development ${PYLOC} -m twine upload --repository testpypi C:/projects/dearpygui/dist/* -u RaylockLLC -p ${my_variable} --skip-existing
-       if ${APPVEYOR_REPO_BRANCH}==stable ${PYLOC} -m twine upload C:/projects/dearpygui/dist/* -u RaylockLLC -p ${my_variable} --skip-existing
+       ${PYLOC} -m setup bdist_wheel --plat-name manylinux1_x86_64 --dist-dir /home/appveyor/projects/dearpygui/dist
+       if ${APPVEYOR_REPO_BRANCH}==development ${PYLOC} -m twine upload --repository testpypi /home/appveyor/projects/dearpygui/dist/* -u RaylockLLC -p ${my_variable} --skip-existing
+       if ${APPVEYOR_REPO_BRANCH}==stable ${PYLOC} -m twine upload /home/appveyor/projects/dearpygui/dist/* -u RaylockLLC -p ${my_variable} --skip-existing

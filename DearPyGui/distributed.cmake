@@ -97,13 +97,13 @@ else() # Linux
 	
 	add_definitions(-DIMGUI_IMPL_OPENGL_LOADER_GL3W)
 
-	if(MV37DIST)
-		target_link_directories(core PRIVATE "/home/runner/work/DearPyGui/DearPyGui/Dependencies/cpython/debug/lib")
-		target_link_libraries(core PUBLIC "-L/usr/lib  -lcrypt -lpthread -ldl  -lutil -lm -lm" GL glfw python3.7m)
-	else()
-		target_link_directories(core PRIVATE "/home/runner/work/DearPyGui/DearPyGui/Dependencies/cpython/debug/lib")
-		target_link_libraries(core PUBLIC "-L/usr/lib  -lcrypt -lpthread -ldl  -lutil -lm -lm" GL glfw python3.8)
-	endif()
+	#if(MV37DIST)
+	#	target_link_directories(core PRIVATE "/home/runner/work/DearPyGui/DearPyGui/Dependencies/cpython/debug/lib")
+	#	target_link_libraries(core PUBLIC "-L/usr/lib  -lcrypt -lpthread -ldl  -lutil -lm -lm" GL glfw python3.7m)
+	#else()
+	#	target_link_directories(core PRIVATE "/home/runner/work/DearPyGui/DearPyGui/Dependencies/cpython/debug/lib")
+	#	target_link_libraries(core PUBLIC "-L/usr/lib  -lcrypt -lpthread -ldl  -lutil -lm -lm" GL glfw python3.8)
+	#endif()
 
 	if(MVPY_VERSION EQUAL 37)
 		target_include_directories(core 
