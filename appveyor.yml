@@ -49,6 +49,7 @@ build_script:
   - sh: |
        git submodule update --init --recursive ./Dependencies/imgui
        git submodule update --init --recursive ./Dependencies/ImGuiFileDialog
+       git submodule update --init --recursive ./Dependencies/glfw
        mkdir cmake-build-release
        cd cmake-build-release
        cmake .. -DMVDIST_ONLY=True -DMVPY_VERSION=${PYVER}
