@@ -8,18 +8,10 @@ build:
 
 environment:
 
-  my_variable:
+  pypi_password:
     secure: tKYM1oHNwH7n+FO1exDSPzz76oio0iXtsfkZ0o7kuOY=
 
   matrix:
-
-    #- APPVEYOR_BUILD_WORKER_IMAGE: Ubuntu
-    #  ARCH: "x64"
-    #  CONFIG: Release
-    #  PYVER: 38
-    #  PYLOC: "python"
-    #  PYSTACK: "3.8"
-    #  PYFULLVERSION: "3.8.5"
 
     - APPVEYOR_BUILD_WORKER_IMAGE: Ubuntu
       ARCH: "x64"
@@ -28,6 +20,14 @@ environment:
       PYLOC: "python"
       PYSTACK: "3.7"
       PYFULLVERSION: "3.7.9"
+
+    - APPVEYOR_BUILD_WORKER_IMAGE: Ubuntu
+      ARCH: "x64"
+      CONFIG: Release
+      PYVER: 38
+      PYLOC: "python"
+      PYSTACK: "3.8"
+      PYFULLVERSION: "3.8.5"
 
     - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2019
       GENERATOR: "Visual Studio 16 2019"
@@ -100,10 +100,6 @@ build_script:
   - cmd: cmake --build cmake-build-release --config "%CONFIG%"
 
   # Ubuntu
-  - sh: cd /home/appveyor/.localpython3.7.9/
-  - sh: ls
-  - sh: cd include
-  - sh: ls
   - sh: cd /home/appveyor/projects/dearpygui
   - sh: git submodule update --init --recursive ./Dependencies/imgui
   - sh: git submodule update --init --recursive ./Dependencies/ImGuiFileDialog
@@ -124,8 +120,8 @@ on_success:
   - cmd: call %PYLOC% -m pip install twine
   - cmd: call %PYLOC% -m pip install wheel
   - cmd: call %PYLOC% -m setup bdist_wheel --plat-name win_amd64 --dist-dir C:/projects/dearpygui/dist
-  - cmd: if %APPVEYOR_REPO_BRANCH%==development call %PYLOC% -m twine upload --repository testpypi C:/projects/dearpygui/dist/* -u RaylockLLC -p %my_variable% --skip-existing
-  - cmd: if %APPVEYOR_REPO_BRANCH%==stable call %PYLOC% -m twine upload C:/projects/dearpygui/dist/* -u RaylockLLC -p %my_variable% --skip-existing
+  - cmd: if %APPVEYOR_REPO_BRANCH%==development call %PYLOC% -m twine upload --repository testpypi C:/projects/dearpygui/dist/* -u RaylockLLC -p %pypi_password% --skip-existing
+  - cmd: if %APPVEYOR_REPO_BRANCH%==stable call %PYLOC% -m twine upload C:/projects/dearpygui/dist/* -u RaylockLLC -p %pypi_password% --skip-existing
 
   - sh: cd Distribution
   - sh: ${PYLOC} BuildPythonWheel.py /home/appveyor/projects/dearpygui/cmake-build-release/DearPyGui/core.so core.so
@@ -134,7 +130,7 @@ on_success:
   - sh: ${PYLOC} -m setup bdist_wheel --plat-name manylinux1_x86_64 --dist-dir /home/appveyor/projects/dearpygui/dist
   - sh: |
       if [ "${APPVEYOR_REPO_BRANCH}" = "development" ]; then
-          ${PYLOC} -m twine upload --repository testpypi /home/appveyor/projects/dearpygui/dist/* -u RaylockLLC -p ${my_variable} --skip-existing
+          ${PYLOC} -m twine upload --repository testpypi /home/appveyor/projects/dearpygui/dist/* -u RaylockLLC -p ${pypi_password} --skip-existing
       elif [ "${APPVEYOR_REPO_BRANCH}" = "stable" ]; then
-          ${PYLOC} -m twine upload /home/appveyor/projects/dearpygui/dist/* -u RaylockLLC -p ${my_variable} --skip-existing
+          ${PYLOC} -m twine upload /home/appveyor/projects/dearpygui/dist/* -u RaylockLLC -p ${pypi_password} --skip-existing
       fi

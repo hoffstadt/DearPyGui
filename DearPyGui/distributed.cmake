@@ -104,7 +104,7 @@ else() # Linux
 			PRIVATE 
 				${MARVEL_INCLUDE_DIR}
 				"/home/appveyor/.localpython3.7.9"
-				"/home/appveyor/.localpython3.7.9/include/python3.7"
+				"/home/appveyor/.localpython3.7.9/include/python3.7m"
 		)
 
 		target_link_directories(core 
