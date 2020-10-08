@@ -64,8 +64,8 @@ environment:
       PYSTACK: "3.6"
       PYFULLVERSION: "3.6.12"
 
-matrix:
-  fast_finish: true
+#matrix:
+#  fast_finish: true
 
 stack:
   python %PYSTACK%
