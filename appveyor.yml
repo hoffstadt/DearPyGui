@@ -56,7 +56,7 @@ stack:
 install:
   - sh: |
        command -v virtualenv || install_virtualenv
-       declare PY_VERSIONS=( %PYFULLVERSION% )
+       declare PY_VERSIONS=( ${PYFULLVERSION} )
        for i in "${PY_VERSIONS[@]}"; do
            VENV_PATH=${HOME}/venv${i%%[abrcf]*}
            VENV_MINOR_PATH=${HOME}/venv${i%.*}
