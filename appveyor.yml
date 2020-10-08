@@ -53,9 +53,9 @@ build_script:
   - sh: cd bin
   - sh: ls
   - sh: cd ..
-  - sh: cd include
+  - sh: cd include/python3.8
   - sh: ls
-  - sh: cd ..
+  - sh: cd ../..
   - sh: cd lib
   - sh: ls
   - sh: cd /home/appveyor/projects/dearpgyi
