@@ -142,7 +142,7 @@ else() # Linux
 				"/usr/lib"
 				"/home/appveyor/.localpython3.8.2"
 				"/home/appveyor/.localpython3.8.2/bin"
-				"/home/appveyor/.localpython3.8.2/lib"
+				#"/home/appveyor/.localpython3.8.2/lib"
 		)
 
 		target_link_libraries(core 
