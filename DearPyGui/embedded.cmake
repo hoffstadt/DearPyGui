@@ -6,7 +6,7 @@ add_library(coreemb STATIC)
 set_target_properties(coreemb PROPERTIES CXX_STANDARD 17)
 
 target_sources(coreemb PRIVATE ${MARVEL_SOURCES} )
-target_include_directories(coreemb PRIVATE ${MARVEL_INCLUDE_DIR} ${PYTHON_INCLUDE_DIRS})
+target_include_directories(coreemb PRIVATE ${MARVEL_INCLUDE_DIR})
 
 target_compile_definitions(coreemb
 	PUBLIC
@@ -23,9 +23,11 @@ elseif(APPLE)
 
 	add_definitions(-DAPPLE)
 	add_definitions(-DUNIX)
-	find_package(Python3 COMPONENTS Interpreter Development)
+	#find_package(Python3 COMPONENTS Interpreter Development)
 
-	target_link_directories(coreemb PRIVATE /Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/)
+	#target_link_directories(coreemb PRIVATE /Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/)
+
+	target_link_directories(coreemb PRIVATE ../Dependencies/cpython/debug)
 	
 	SET_PROPERTY(TARGET coreemb APPEND_STRING PROPERTY COMPILE_FLAGS "-fobjc-arc -Wunused-function -Wno-unused-result -Wsign-compare -Wunreachable-code -fno-common -dynamic -DNDEBUG -g -fwrapv -O3 -Wall -arch x86_64")
 	target_link_libraries(coreemb
@@ -39,6 +41,7 @@ elseif(APPLE)
 			"-framework CoreVideo"
 			"-framework IOKit"
 			"-framework QuartzCore"
+			"-framework CoreFoundation"
 	)
 
 else() # Linux

@@ -19,7 +19,12 @@ int main(int argc, char* argv[])
 	PyImport_AppendInittab("core", &PyInit_core);
 
 	// set path and start the interpreter
-	wchar_t* deco = Py_DecodeLocale("../../Dependencies/cpython/debug/build/lib.linux-x86_64-3.8-pydebug/:../../Dependencies/cpython/Lib/:../../DearPyGui:../../DearSandbox", nullptr);
+#if defined(__APPLE__)
+    Py_SetPythonHome(L".");
+    wchar_t* deco = Py_DecodeLocale("../../Dependencies/cpython/debug/build/lib.macosx-10.15-x86_64-3.8-pydebug/:../../Dependencies/cpython/Lib/:../../DearPyGui:../../DearSandbox", nullptr);
+#else
+    wchar_t* deco = Py_DecodeLocale("../../Dependencies/cpython/debug/build/lib.linux-x86_64-3.8-pydebug/:../../Dependencies/cpython/Lib/:../../DearPyGui:../../DearSandbox", nullptr);
+#endif
 
     Py_SetPath(deco);
 	Py_NoSiteFlag = 1; // this must be set to 1

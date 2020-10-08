@@ -56,9 +56,18 @@ elseif(APPLE)
 
 	set_property(TARGET DearSandbox APPEND_STRING PROPERTY COMPILE_FLAGS "-Wno-unused-result -Wsign-compare -Wunreachable-code -fno-common -dynamic -DNDEBUG -g -fwrapv -O3 -Wall -arch x86_64 -g")
 
-	target_link_directories(DearSandbox PRIVATE /Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/config-3.8-darwin)
+	#target_link_directories(DearSandbox PRIVATE /Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/config-3.8-darwin)
+	target_link_directories(DearSandbox PRIVATE ../Dependencies/cpython/debug)
 
-	target_link_libraries(DearSandbox PUBLIC coreemb "python3.8")
+	add_custom_command(TARGET DearSandbox POST_BUILD
+			COMMAND install_name_tool -id @loader_path/../../Dependencies/cpython/debug/libpython3.8d.dylib libpython3.8d.dylib
+			WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/Dependencies/cpython/debug)
+
+	add_custom_command(TARGET DearSandbox POST_BUILD
+			COMMAND install_name_tool -change /usr/local/libpython3.8d.dylib @loader_path/../../Dependencies/cpython/debug/libpython3.8d.dylib DearSandbox
+			WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/cmake-build-debug/DearSandbox)
+
+	target_link_libraries(DearSandbox PUBLIC coreemb -ldl "-framework CoreFoundation" "python3.8d")
 
 
 else() # Linux
