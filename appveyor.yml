@@ -58,7 +58,7 @@ build_script:
   - sh: cd ../..
   - sh: cd lib
   - sh: ls
-  - sh: cd /home/appveyor/projects/dearpgyi
+  - sh: cd /home/appveyor/projects/dearpgyu
 
   - sh: |
        git submodule update --init --recursive ./Dependencies/imgui
