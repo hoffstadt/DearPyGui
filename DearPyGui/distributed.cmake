@@ -133,15 +133,15 @@ else() # Linux
 		target_include_directories(core 
 			PRIVATE 
 				${MARVEL_INCLUDE_DIR}
-				"$HOME/.localpython3.8.2"
-				"$HOME/.localpython3.8.2/include/python3.8"
+				"/home/.localpython3.8.2"
+				"/home/.localpython3.8.2/include/python3.8"
 		)
 
 		target_link_directories(core 
 			PRIVATE 
-				"$HOME/.localpython3.8.2"
-				"$HOME/.localpython3.8.2/lib"
-				"$HOME/.localpython3.8.2/bin"
+				"/home/.localpython3.8.2"
+				"/home/.localpython3.8.2/lib"
+				"/home/.localpython3.8.2/bin"
 		)
 
 		target_link_libraries(core 
