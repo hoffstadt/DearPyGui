@@ -17,7 +17,7 @@ environment:
       ARCH: "x64"
       CONFIG: Release
       PYVER: 38
-      PYLOC: "$HOME/venv3.8/python"
+      PYLOC: "/home/appveyor/.localpython3.8.2/bin/python3"
 
     - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2019
       GENERATOR: "Visual Studio 16 2019"
@@ -45,25 +45,6 @@ build_script:
        cmake .. -G "%GENERATOR%" -A "%ARCH%" -DMVDIST_ONLY=True -DMVPY_VERSION=%PYVER%
        cd ..
        cmake --build cmake-build-release --config "%CONFIG%"
-
-  - sh: cd $HOME
-  - sh: pwd
-  - sh: ls
-  - sh: cd .localpython3.8.2
-  - sh: ls
-  - sh: cd bin
-  - sh: ls
-  - sh: |
-      while IFS= read -r line; do echo $line; done < python3.8-config
-  - sh: cd ..
-  - sh: cd include/python3.8
-  - sh: ls
-  - sh: cd ../..
-  - sh: cd lib
-  - sh: ls
-  - sh: cd ../share
-  - sh: ls
-  - sh: cd /home/appveyor/projects/dearpygui
 
   - sh: |
        command -v virtualenv || install_virtualenv
@@ -98,6 +79,26 @@ build_script:
        done
        find "${HOME}" -name "Python-*" -type d -maxdepth 1 | xargs -I {} rm -rf {}
        rm ${HOME}/Python-*.tgz
+
+  - sh: cd $HOME
+  - sh: pwd
+  - sh: ls
+  - sh: cd .localpython3.8.5
+  - sh: ls
+  - sh: cd bin
+  - sh: ls
+  - sh: |
+      while IFS= read -r line; do echo $line; done < python3.8-config
+  - sh: cd ..
+  - sh: cd include/python3.8
+  - sh: ls
+  - sh: cd ../..
+  - sh: cd lib
+  - sh: ls
+  - sh: cd ../share
+  - sh: ls
+  - sh: cd /home/appveyor/projects/dearpygui
+  - sh: |
        git submodule update --init --recursive ./Dependencies/imgui
        git submodule update --init --recursive ./Dependencies/ImGuiFileDialog
        git submodule update --init --recursive ./Dependencies/glfw
