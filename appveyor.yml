@@ -52,6 +52,12 @@ build_script:
   - sh: ls
   - sh: cd bin
   - sh: ls
+  - sh: cd ..
+  - sh: cd include
+  - sh: ls
+  - sh: cd ..
+  - sh: cd lib
+  - sh: ls
   - sh: cd /home/appveyor/projects/dearpgyi
 
   - sh: |

@@ -140,8 +140,8 @@ else() # Linux
 		target_link_directories(core 
 			PRIVATE 
 				"$HOME/.localpython3.8.2"
-				"$HOME/.localpython3.8.2/libs"
-				"$HOME/.localpython3.8.2/DLLs"
+				"$HOME/.localpython3.8.2/lib"
+				"$HOME/.localpython3.8.2/bin"
 		)
 
 		target_link_libraries(core 
