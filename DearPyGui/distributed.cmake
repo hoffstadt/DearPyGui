@@ -110,7 +110,7 @@ else() # Linux
 			PRIVATE 
 				${MARVEL_INCLUDE_DIR}
 				"$HOME/venv3.7/"
-				"$HOME/venv3.7/include"
+				"$HOME/venv3.7/Include"
 		)
 
 		target_link_directories(core 
@@ -134,7 +134,7 @@ else() # Linux
 			PRIVATE 
 				${MARVEL_INCLUDE_DIR}
 				"$HOME/venv3.8/"
-				"$HOME/venv3.8/include"
+				"$HOME/venv3.8/Include"
 		)
 
 		target_link_directories(core 
