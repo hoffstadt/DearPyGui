@@ -16,6 +16,14 @@ environment:
     - APPVEYOR_BUILD_WORKER_IMAGE: Ubuntu
       ARCH: "x64"
       CONFIG: Release
+      PYVER: 36
+      PYLOC: "python"
+      PYSTACK: "3.6"
+      PYFULLVERSION: "3.6.12"
+
+    - APPVEYOR_BUILD_WORKER_IMAGE: Ubuntu
+      ARCH: "x64"
+      CONFIG: Release
       PYVER: 37
       PYLOC: "python"
       PYSTACK: "3.7"
@@ -47,6 +55,15 @@ environment:
       PYSTACK: "3.7"
       PYFULLVERSION: "3.7.9"
 
+    - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2019
+      GENERATOR: "Visual Studio 16 2019"
+      ARCH: "x64"
+      CONFIG: Release
+      PYVER: 36
+      PYLOC: "C:/Python36-x64/python.exe"
+      PYSTACK: "3.6"
+      PYFULLVERSION: "3.6.12"
+
 matrix:
   fast_finish: true
 
@@ -56,35 +73,32 @@ stack:
 install:
   - sh: |
        command -v virtualenv || install_virtualenv
-       declare PY_VERSIONS=( ${PYFULLVERSION} )
-       for i in "${PY_VERSIONS[@]}"; do
-           VENV_PATH=${HOME}/venv${i%%[abrcf]*}
-           VENV_MINOR_PATH=${HOME}/venv${i%.*}
-           if [ ! -d ${VENV_PATH} ]; then
-           curl -fsSL -O "http://www.python.org/ftp/python/${i%%[abrcf]*}/Python-${i}.tgz" ||
-               { echo "[WARNING] Cannot download Python ${i}."; continue; }
-           tar -zxf "Python-${i}.tgz" &&
-           pushd "Python-${i}" ||
-               { echo "[WARNING] Cannot unpack Python ${i}."; continue; }
-           PY_PATH=${HOME}/.localpython${i}
-           mkdir -p "${PY_PATH}"
-           ./configure --enable-shared --silent "--prefix=${PY_PATH}" &&
-           make --silent &&
-           make install --silent >/dev/null ||
-               { echo "[WARNING] Cannot make Python ${i}."; popd; continue; }
-           if [ ${i:0:1} -eq 3 ]; then
-               PY_BIN=python3
-           else
-               PY_BIN=python
-           fi
-           virtualenv -p "$PY_PATH/bin/${PY_BIN}" "${VENV_PATH}" ||
-               { echo "[WARNING] Cannot make virtualenv for Python ${i}."; popd; continue; }
-           popd
-           echo "Linking ${VENV_MINOR_PATH} to ${VENV_PATH}"
-           rm -f ${VENV_MINOR_PATH}
-           ln -s ${VENV_PATH} ${VENV_MINOR_PATH}
-           fi
-       done
+       VENV_PATH=${HOME}/venv${${PYFULLVERSION}%%[abrcf]*}
+       VENV_MINOR_PATH=${HOME}/venv${${PYFULLVERSION}%.*}
+       if [ ! -d ${VENV_PATH} ]; then
+       curl -fsSL -O "http://www.python.org/ftp/python/${${PYFULLVERSION}%%[abrcf]*}/Python-${${PYFULLVERSION}}.tgz" ||
+           { echo "[WARNING] Cannot download Python ${${PYFULLVERSION}}."; continue; }
+       tar -zxf "Python-${${PYFULLVERSION}}.tgz" &&
+       pushd "Python-${${PYFULLVERSION}}" ||
+           { echo "[WARNING] Cannot unpack Python ${${PYFULLVERSION}}."; continue; }
+       PY_PATH=${HOME}/.localpython${${PYFULLVERSION}}
+       mkdir -p "${PY_PATH}"
+       ./configure --enable-shared --silent "--prefix=${PY_PATH}" &&
+       make --silent &&
+       make install --silent >/dev/null ||
+           { echo "[WARNING] Cannot make Python ${${PYFULLVERSION}}."; popd; continue; }
+       if [ ${${PYFULLVERSION}:0:1} -eq 3 ]; then
+           PY_BIN=python3
+       else
+           PY_BIN=python
+       fi
+       virtualenv -p "$PY_PATH/bin/${PY_BIN}" "${VENV_PATH}" ||
+           { echo "[WARNING] Cannot make virtualenv for Python ${${PYFULLVERSION}}."; popd; continue; }
+       popd
+       echo "Linking ${VENV_MINOR_PATH} to ${VENV_PATH}"
+       rm -f ${VENV_MINOR_PATH}
+       ln -s ${VENV_PATH} ${VENV_MINOR_PATH}
+       fi
        find "${HOME}" -name "Python-*" -type d -maxdepth 1 | xargs -I {} rm -rf {}
 
 # actual build

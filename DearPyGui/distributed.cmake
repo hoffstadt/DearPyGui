@@ -14,7 +14,22 @@ target_compile_definitions(core
 
 if(WIN32)
 
-	if(MVPY_VERSION EQUAL 37)
+	if(MVPY_VERSION EQUAL 36)
+		target_include_directories(core 
+			PRIVATE 
+				${MARVEL_INCLUDE_DIR}
+				"C:/Python36-x64"
+				"C:/Python36-x64/include"
+		)
+
+		target_link_directories(core 
+			PRIVATE 
+				"C:/Python36-x64"
+				"C:/Python36-x64/libs"
+				"C:/Python36-x64/DLLs"
+		)
+
+	elseif(MVPY_VERSION EQUAL 37)
 		target_include_directories(core 
 			PRIVATE 
 				${MARVEL_INCLUDE_DIR}
@@ -27,7 +42,7 @@ if(WIN32)
 				"C:/Python37-x64"
 				"C:/Python37-x64/libs"
 				"C:/Python37-x64/DLLs"
-			)
+		)
 
 	elseif(MVPY_VERSION EQUAL 38)
 
@@ -97,8 +112,30 @@ else() # Linux
 	
 	add_definitions(-DIMGUI_IMPL_OPENGL_LOADER_GL3W)
 
+	if(MVPY_VERSION EQUAL 36)
 
-	if(MVPY_VERSION EQUAL 37)
+		target_include_directories(core 
+			PRIVATE 
+				${MARVEL_INCLUDE_DIR}
+				"/home/appveyor/.localpython3.6.12"
+				"/home/appveyor/.localpython3.6.12/include/python3.6m"
+		)
+
+		target_link_directories(core 
+			PRIVATE 
+				"/usr/lib"
+				"/home/appveyor/.localpython3.6.12/lib"
+		)
+
+		target_link_libraries(core 
+			PRIVATE 
+				"-fPIC -lcrypt -lpthread -ldl  -lutil -lm"
+				GL
+				glfw
+				python3.6m
+		)
+
+	elseif(MVPY_VERSION EQUAL 37)
 
 		target_include_directories(core 
 			PRIVATE 
