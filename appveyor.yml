@@ -13,6 +13,12 @@ environment:
 
   matrix:
 
+    - APPVEYOR_BUILD_WORKER_IMAGE: Ubuntu
+      ARCH: "x64"
+      CONFIG: Release
+      PYVER: 38
+      PYLOC: "$HOME/venv3.8/python"
+
     - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2019
       GENERATOR: "Visual Studio 16 2019"
       ARCH: "x64"
@@ -27,12 +33,6 @@ environment:
       PYVER: 37
       PYLOC: "C:/Python37-x64/python.exe"
 
-    - APPVEYOR_BUILD_WORKER_IMAGE: Ubuntu
-      ARCH: "x64"
-      CONFIG: Release
-      PYVER: 38
-      PYLOC: "$HOME/venv3.8/python"
-
 matrix:
   fast_finish: true
 
@@ -43,7 +43,7 @@ build_script:
   - cd cmake-build-Release
   - cmake .. -G "%GENERATOR%" -A "%ARCH%" -DMVDIST_ONLY=True -DMVPY_VERSION=%PYVER%
   - cd ..
-  - cmake --build cmake-builda-release --config "%CONFIG%"
+  - cmake --build cmake-build-release --config "%CONFIG%"
 
 on_success:
   - cmd: |
