@@ -116,6 +116,8 @@ install:
 build_script:
   
   # Windows
+  - cmd: if not x%APPVEYOR_REPO_COMMIT_MESSAGE:[release]=%==x%APPVEYOR_REPO_COMMIT_MESSAGE% echo It contains [release]
+  - cmd: if not x%APPVEYOR_REPO_COMMIT_MESSAGE:[test]=%==x%APPVEYOR_REPO_COMMIT_MESSAGE% echo It contains [test]
   - cmd: git submodule update --init --recursive ./Dependencies/imgui
   - cmd: git submodule update --init --recursive ./Dependencies/ImGuiFileDialog
   - cmd: mkdir cmake-build-release
@@ -148,8 +150,6 @@ on_success:
   - cmd: call %PYLOC% -m pip install twine
   - cmd: call %PYLOC% -m pip install wheel
   - cmd: call %PYLOC% -m setup bdist_wheel --plat-name win_amd64 --dist-dir C:/projects/dearpygui/dist
-  - cmd: if not x%APPVEYOR_REPO_COMMIT_MESSAGE:[release]=%==x%APPVEYOR_REPO_COMMIT_MESSAGE% echo It contains [release]
-  - cmd: if not x%APPVEYOR_REPO_COMMIT_MESSAGE:[test]=%==x%APPVEYOR_REPO_COMMIT_MESSAGE% echo It contains [test]
   - cmd: if %APPVEYOR_REPO_BRANCH%==development call %PYLOC% -m twine upload --repository testpypi C:/projects/dearpygui/dist/* -u RaylockLLC -p %pypi_password% --skip-existing
   - cmd: if %APPVEYOR_REPO_BRANCH%==stable call %PYLOC% -m twine upload C:/projects/dearpygui/dist/* -u RaylockLLC -p %pypi_password% --skip-existing
 
