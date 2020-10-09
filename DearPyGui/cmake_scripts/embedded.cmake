@@ -1,7 +1,5 @@
 ﻿cmake_minimum_required (VERSION 3.13)
 
-include("dpg_sources.cmake")
-
 add_library(coreemb STATIC)
 set_target_properties(coreemb PROPERTIES CXX_STANDARD 17)
 

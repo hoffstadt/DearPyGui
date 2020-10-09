@@ -6,20 +6,18 @@ project ("DearPyGui")
 set(MVDIST_ONLY ${MVDIST_ONLY})
 set(MV37DIST ${MV37DIST})
 set(MVPY_VERSION ${MVPY_VERSION})
+set(MVDPG_VERSION ${MVDPG_VERSION})
 
 add_definitions(-D_USE_MATH_DEFINES)
 
-add_definitions(-DMV_SANDBOX_VERSION="0.4.6b0")
-
+if(MVDPG_VERSION)
+    add_definitions(-DMV_SANDBOX_VERSION=MVDPG_VERSION)
+else()
+    add_definitions(-DMV_SANDBOX_VERSION="master")
+endif()
 
 if(MVDIST_ONLY)
     add_definitions(-DMVDIST_ONLY)
-endif()
-
-if(MV37DIST)
-    add_definitions(-DMV_PYTHON_VERSION=37)
-else()
-    add_definitions(-DMV_PYTHON_VERSION=38)
 endif()
 
 # include sub-projects.
