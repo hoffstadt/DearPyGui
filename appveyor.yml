@@ -20,6 +20,7 @@ environment:
       PYLOC: "python"
       PYSTACK: "3.8"
       PYFULLVERSION: "3.8.3"
+      MACOS: "true"
 
     - APPVEYOR_BUILD_WORKER_IMAGE: Ubuntu
       ARCH: "x64"
@@ -129,8 +130,8 @@ build_script:
   - sh: git submodule update --init --recursive ./Dependencies/ImGuiFileDialog
   - sh: git submodule update --init --recursive ./Dependencies/glfw
   - sh: |
-      ECHO $CI_LINUX
-      if [ $CI_LINUX ]; then
+      ECHO $MACOS
+      if [ '$MACOS" = "true" ]; then
           sudo apt-get update
           sudo apt-get install libglu1-mesa-dev libgl1-mesa-dev xorg-dev libxrandr-dev -y
       else
