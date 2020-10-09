@@ -13,14 +13,14 @@ environment:
 
   matrix:
 
-    #- APPVEYOR_BUILD_WORKER_IMAGE: macos
-    #  ARCH: "x64"
-    #  CONFIG: Release
-    #  PYVER: 38
-    #  PYLOC: "python"
-    #  PYSTACK: "3.8"
-    #  PYFULLVERSION: "3.8.3"
-    #  MACOS: "true"
+    - APPVEYOR_BUILD_WORKER_IMAGE: macos
+      ARCH: "x64"
+      CONFIG: Release
+      PYVER: 38
+      PYLOC: "python"
+      PYSTACK: "3.8"
+      PYFULLVERSION: "3.8.3"
+      MACOS: "true"
     #
     #- APPVEYOR_BUILD_WORKER_IMAGE: Ubuntu
     #  ARCH: "x64"
@@ -38,13 +38,13 @@ environment:
     #  PYSTACK: "3.7"
     #  PYFULLVERSION: "3.7.9"
     #
-    - APPVEYOR_BUILD_WORKER_IMAGE: Ubuntu
-      ARCH: "x64"
-      CONFIG: Release
-      PYVER: 38
-      PYLOC: "python"
-      PYSTACK: "3.8"
-      PYFULLVERSION: "3.8.5"
+    #- APPVEYOR_BUILD_WORKER_IMAGE: Ubuntu
+    #  ARCH: "x64"
+    #  CONFIG: Release
+    #  PYVER: 38
+    #  PYLOC: "python"
+    #  PYSTACK: "3.8"
+    #  PYFULLVERSION: "3.8.5"
 
     #- APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2019
     #  GENERATOR: "Visual Studio 16 2019"
@@ -82,12 +82,10 @@ stack:
 install:
   - sh: |
        if [[ "${APPVEYOR_REPO_COMMIT_MESSAGE}" == *"(test)"* ]]; then
-           echo "pop it test"
+           echo "got me"
+       else
+           echo "no got me"
        fi
-       if [[ "${APPVEYOR_REPO_COMMIT_MESSAGE}" == *"(release)"* ]]; then
-           echo "pop it release"
-       fi
-
   - sh: |
        if [ ${CI_LINUX} ]; then
            command -v virtualenv || install_virtualenv
@@ -135,7 +133,6 @@ build_script:
   - cmd: cmake --build cmake-build-release --config "%CONFIG%"
 
   # Ubuntu
-  - sh: pwd
   - sh: git submodule update --init --recursive ./Dependencies/imgui
   - sh: git submodule update --init --recursive ./Dependencies/ImGuiFileDialog
   - sh: git submodule update --init --recursive ./Dependencies/glfw
@@ -170,9 +167,10 @@ on_success:
         ${PYLOC} -m pip install twine --upgrade
         ${PYLOC} -m pip install wheel
         ${PYLOC} -m setup bdist_wheel --plat-name manylinux1_x86_64 --dist-dir /home/appveyor/projects/dearpygui/dist
-        if [ "${APPVEYOR_REPO_BRANCH}" = "development" ]; then
+        if [[ "${APPVEYOR_REPO_COMMIT_MESSAGE}" == *"(test)"* ]]; then
             ${PYLOC} -m twine upload --repository testpypi /home/appveyor/projects/dearpygui/dist/* -u RaylockLLC -p ${pypi_password} --skip-existing
-        elif [ "${APPVEYOR_REPO_BRANCH}" = "stable" ]; then
+        fi
+        if [[ "${APPVEYOR_REPO_COMMIT_MESSAGE}" == *"(release)"* ]]; then
             ${PYLOC} -m twine upload /home/appveyor/projects/dearpygui/dist/* -u RaylockLLC -p ${pypi_password} --skip-existing
         fi
       else
@@ -180,9 +178,10 @@ on_success:
         ${PYLOC} -m pip install twine --upgrade
         ${PYLOC} -m pip install wheel
         ${PYLOC} -m setup bdist_wheel --plat-name macosx-10.6-x86_64 --dist-dir /Users/appveyor/projects/dearpygui/dist
-        if [ "${APPVEYOR_REPO_BRANCH}" = "buildmods" ]; then
+        if [[ "${APPVEYOR_REPO_COMMIT_MESSAGE}" == *"(test)"* ]]; then
             ${PYLOC} -m twine upload --repository testpypi /Users/appveyor/projects/dearpygui/dist/* -u RaylockLLC -p ${pypi_password} --skip-existing
-        elif [ "${APPVEYOR_REPO_BRANCH}" = "stable" ]; then
+        fi
+        if [[ "${APPVEYOR_REPO_COMMIT_MESSAGE}" == *"(release)"* ]]; then
             ${PYLOC} -m twine upload /Users/appveyor/projects/dearpygui/dist/* -u RaylockLLC -p ${pypi_password} --skip-existing
         fi
       fi
