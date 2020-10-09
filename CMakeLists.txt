@@ -10,7 +10,6 @@ set(MVDPG_VERSION ${MVDPG_VERSION})
 
 add_definitions(-D_USE_MATH_DEFINES)
 
-
 if(MVDPG_VERSION)
     add_definitions(-DMV_SANDBOX_VERSION="${MVDPG_VERSION}")
 else()
