@@ -169,8 +169,8 @@ on_success:
         ${PYLOC} BuildPythonWheel.py /Users/appveyor/projects/dearpygui/cmake-build-release/DearPyGui/core.so core.so
         ${PYLOC} -m pip install twine --upgrade
         ${PYLOC} -m pip install wheel
-        ${PYLOC} -m setup bdist_wheel --plat-name manylinux1_x86_64 --dist-dir /Users/appveyor/projects/dearpygui/dist
-        if [ "${APPVEYOR_REPO_BRANCH}" = "development" ]; then
+        ${PYLOC} -m setup bdist_wheel --plat-name macosx-10.6-x86_64 --dist-dir /Users/appveyor/projects/dearpygui/dist
+        if [ "${APPVEYOR_REPO_BRANCH}" = "buildmods" ]; then
             ${PYLOC} -m twine upload --repository testpypi /Users/appveyor/projects/dearpygui/dist/* -u RaylockLLC -p ${pypi_password} --skip-existing
         elif [ "${APPVEYOR_REPO_BRANCH}" = "stable" ]; then
             ${PYLOC} -m twine upload /Users/appveyor/projects/dearpygui/dist/* -u RaylockLLC -p ${pypi_password} --skip-existing
