@@ -81,6 +81,14 @@ stack:
 
 install:
   - sh: |
+       if [ "${APPVEYOR_REPO_COMMIT_MESSAGE}" == *"(test)" ]; then
+           echo pop it test
+       fi
+       if [ "${APPVEYOR_REPO_COMMIT_MESSAGE}" == *"(release)" ]; then
+           echo pop it release
+       fi
+
+  - sh: |
        if [ ${CI_LINUX} ]; then
            command -v virtualenv || install_virtualenv
            VENV_PATH=${HOME}/venv${PYFULLVERSION%%[abrcf]*}
@@ -162,12 +170,6 @@ on_success:
         ${PYLOC} -m pip install twine --upgrade
         ${PYLOC} -m pip install wheel
         ${PYLOC} -m setup bdist_wheel --plat-name manylinux1_x86_64 --dist-dir /home/appveyor/projects/dearpygui/dist
-        if [ "${APPVEYOR_REPO_COMMIT_MESSAGE}" == *"(test)" ]; then
-            echo pop it test
-        fi
-        if [ "${APPVEYOR_REPO_COMMIT_MESSAGE}" == *"(release)" ]; then
-            echo pop it release
-        fi
         if [ "${APPVEYOR_REPO_BRANCH}" = "development" ]; then
             ${PYLOC} -m twine upload --repository testpypi /home/appveyor/projects/dearpygui/dist/* -u RaylockLLC -p ${pypi_password} --skip-existing
         elif [ "${APPVEYOR_REPO_BRANCH}" = "stable" ]; then
