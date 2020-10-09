@@ -117,6 +117,7 @@ build_script:
   
   # Windows
   - cmd: if "%APPVEYOR_REPO_COMMIT_MESSAGE:(release)=%" neq "%APPVEYOR_REPO_COMMIT_MESSAGE%" echo It contains (release)
+  - cmd: if "%APPVEYOR_REPO_COMMIT_MESSAGE:(test)=%" neq "%APPVEYOR_REPO_COMMIT_MESSAGE%" echo It contains (test)
   - cmd: git submodule update --init --recursive ./Dependencies/imgui
   - cmd: git submodule update --init --recursive ./Dependencies/ImGuiFileDialog
   - cmd: mkdir cmake-build-release
