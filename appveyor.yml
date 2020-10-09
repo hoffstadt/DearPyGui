@@ -38,23 +38,23 @@ environment:
     #  PYSTACK: "3.7"
     #  PYFULLVERSION: "3.7.9"
     #
-    #- APPVEYOR_BUILD_WORKER_IMAGE: Ubuntu
-    #  ARCH: "x64"
-    #  CONFIG: Release
-    #  PYVER: 38
-    #  PYLOC: "python"
-    #  PYSTACK: "3.8"
-    #  PYFULLVERSION: "3.8.5"
-
-    - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2019
-      GENERATOR: "Visual Studio 16 2019"
+    - APPVEYOR_BUILD_WORKER_IMAGE: Ubuntu
       ARCH: "x64"
       CONFIG: Release
       PYVER: 38
-      PYLOC: "C:/Python38-x64/python.exe"
+      PYLOC: "python"
       PYSTACK: "3.8"
       PYFULLVERSION: "3.8.5"
 
+    #- APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2019
+    #  GENERATOR: "Visual Studio 16 2019"
+    #  ARCH: "x64"
+    #  CONFIG: Release
+    #  PYVER: 38
+    #  PYLOC: "C:/Python38-x64/python.exe"
+    #  PYSTACK: "3.8"
+    #  PYFULLVERSION: "3.8.5"
+    #
     #- APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2019
     #  GENERATOR: "Visual Studio 16 2019"
     #  ARCH: "x64"
@@ -150,8 +150,8 @@ on_success:
   - cmd: call %PYLOC% -m pip install twine
   - cmd: call %PYLOC% -m pip install wheel
   - cmd: call %PYLOC% -m setup bdist_wheel --plat-name win_amd64 --dist-dir C:/projects/dearpygui/dist
-  - cmd: if %APPVEYOR_REPO_BRANCH%==development call %PYLOC% -m twine upload --repository testpypi C:/projects/dearpygui/dist/* -u RaylockLLC -p %pypi_password% --skip-existing
-  - cmd: if %APPVEYOR_REPO_BRANCH%==stable call %PYLOC% -m twine upload C:/projects/dearpygui/dist/* -u RaylockLLC -p %pypi_password% --skip-existing
+  - cmd: if "%APPVEYOR_REPO_COMMIT_MESSAGE:(test)=%" neq "%APPVEYOR_REPO_COMMIT_MESSAGE%" call %PYLOC% -m twine upload --repository testpypi C:/projects/dearpygui/dist/* -u RaylockLLC -p %pypi_password% --skip-existing
+  - cmd: if "%APPVEYOR_REPO_COMMIT_MESSAGE:(release)=%" neq "%APPVEYOR_REPO_COMMIT_MESSAGE%" call %PYLOC% -m twine upload C:/projects/dearpygui/dist/* -u RaylockLLC -p %pypi_password% --skip-existing
 
   - sh: cd Distribution
   - sh: |
@@ -162,6 +162,12 @@ on_success:
         ${PYLOC} -m pip install twine --upgrade
         ${PYLOC} -m pip install wheel
         ${PYLOC} -m setup bdist_wheel --plat-name manylinux1_x86_64 --dist-dir /home/appveyor/projects/dearpygui/dist
+        if [ "${APPVEYOR_REPO_COMMIT_MESSAGE}" == *"(test)" ]; then
+            echo pop it test
+        fi
+        if [ "${APPVEYOR_REPO_COMMIT_MESSAGE}" == *"(release)" ]; then
+            echo pop it release
+        fi
         if [ "${APPVEYOR_REPO_BRANCH}" = "development" ]; then
             ${PYLOC} -m twine upload --repository testpypi /home/appveyor/projects/dearpygui/dist/* -u RaylockLLC -p ${pypi_password} --skip-existing
         elif [ "${APPVEYOR_REPO_BRANCH}" = "stable" ]; then
