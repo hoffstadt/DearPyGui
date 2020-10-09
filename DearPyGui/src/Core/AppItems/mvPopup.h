@@ -129,7 +129,7 @@ namespace Marvel {
 				return;
 			mvGlobalIntepreterLock gil;
 			if (PyObject* item = PyDict_GetItemString(dict, "modal")) m_modal = ToBool(item);
-			if (PyObject* item = PyDict_GetItemString(dict, "button")) m_button = ToInt(item);
+			if (PyObject* item = PyDict_GetItemString(dict, "mousebutton")) m_button = ToInt(item);
 
 		}
 
@@ -139,7 +139,7 @@ namespace Marvel {
 				return;
 			mvGlobalIntepreterLock gil;
 			PyDict_SetItemString(dict, "modal", ToPyBool(m_modal));
-			PyDict_SetItemString(dict, "button", ToPyInt(m_button));
+			PyDict_SetItemString(dict, "mousebutton", ToPyInt(m_button));
 		}
 
 	private:
