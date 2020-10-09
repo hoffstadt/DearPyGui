@@ -23,13 +23,17 @@ HOW TO UPDATE?
 - Please report any issue!
 
 -----------------------------------------------------------------------
- VERSION 0.4.6 WIP
+ VERSION 0.4.x WIP
 -----------------------------------------------------------------------
 
-Decorated log: https://github.com/hoffstadt/DearPyGui/releases/tag/v0.4.6
+Decorated log: https://github.com/hoffstadt/DearPyGui/releases/tag/v0.4.x
+
+New:
+- Python:        Added Python 3.6 Support
 
 Fixes:
 - Windows:       on_move flag was not being used
+- Popup:         mouse button keyword now works
 
 -----------------------------------------------------------------------
  VERSION 0.4.5 (10/6/2020)
