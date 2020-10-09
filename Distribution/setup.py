@@ -28,7 +28,7 @@ setup(
     long_description_content_type='text/markdown',         # Optional
     url='https://github.com/hoffstadt/DearPyGui',          # Optional
     license = 'MIT',
-    python_requires='>=3.7',
+    python_requires='>=3.6',
     classifiers=[
         'Development Status :: 4 - Beta',
         'Intended Audience :: Education',
@@ -38,6 +38,7 @@ setup(
         'Operating System :: MacOS :: MacOS X',
         'Operating System :: Microsoft :: Windows :: Windows 10',
         'Operating System :: POSIX :: Linux',
+        'Programming Language :: Python :: 3.6',
         'Programming Language :: Python :: 3.7',
         'Programming Language :: Python :: 3.8',
         'Topic :: Software Development :: User Interfaces',

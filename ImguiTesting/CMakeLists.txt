@@ -1,4 +1,4 @@
-﻿cmake_minimum_required (VERSION 3.16)
+﻿cmake_minimum_required (VERSION 3.13)
 
 add_executable (PureImgui)
 
@@ -31,11 +31,12 @@ target_sources(PureImgui
 		"$<$<PLATFORM_ID:Linux>:../Dependencies/imgui/examples/libs/gl3w/GL/gl3w.c>"
 		"$<$<PLATFORM_ID:Linux>:../Dependencies/imgui/examples/imgui_impl_glfw.cpp>"
 		"$<$<PLATFORM_ID:Linux>:../Dependencies/imgui/examples/imgui_impl_opengl3.cpp>"
-		)
+)
 
 
 
 if(APPLE)
+
 	SET_PROPERTY(TARGET PureImgui APPEND_STRING PROPERTY COMPILE_FLAGS "-fobjc-arc")
 
 	set(CMAKE_EXE_LINKER_FLAGS "\
@@ -45,11 +46,13 @@ if(APPLE)
 		-framework IOKit \
 		-framework CoreVideo \
 		-framework QuartzCore")
+
 elseif(UNIX)
+
 	SET_PROPERTY(TARGET PureImgui APPEND_STRING PROPERTY COMPILE_FLAGS "-g -Wall -Wformat")
 	add_definitions(-DIMGUI_IMPL_OPENGL_LOADER_GL3W)
-endif()
 
+endif()
 
 target_include_directories(PureImgui
 
@@ -64,7 +67,6 @@ target_include_directories(PureImgui
 		"../Dependencies/imgui/examples/libs/gl3w"
 		"../DearPyGui/src/Vendor/implot/"
 		"../DearPyGui/src/Vendor/stb/"
-
 )
 
 target_link_libraries(PureImgui
@@ -75,5 +77,4 @@ target_link_libraries(PureImgui
 		$<$<PLATFORM_ID:Linux>:glfw>
 		$<$<PLATFORM_ID:Darwin>:glfw>
 		$<$<PLATFORM_ID:Windows>:d3d11>
-
 )

@@ -29,7 +29,7 @@ int main(int argc, char* argv[])
 	PyImport_AppendInittab("core", &PyInit_core);
 
 	// set path and start the interpreter
-	wchar_t* path = Py_DecodeLocale("../../DearSandbox/;./Dependencies/;./Dependencies/python38.zip;../../DearPyGui/", nullptr);
+	wchar_t* path = Py_DecodeLocale("../../DearSandbox/;../../Dependencies/cpython/Lib;../../Dependencies/cpython/PCbuild/amd64;../../DearPyGui/", nullptr);
 
 	Py_SetPath(path);
 	Py_NoSiteFlag = 1; // this must be set to 1
