@@ -116,9 +116,7 @@ install:
 build_script:
   
   # Windows
-  - cmd: @setlocal enableextensions enabledelayedexpansion
-  - cmd: if not x%APPVEYOR_REPO_COMMIT_MESSAGE:[release]=%==x%APPVEYOR_REPO_COMMIT_MESSAGE% echo It contains [release]
-  - cmd: if not x%APPVEYOR_REPO_COMMIT_MESSAGE:[test]=%==x%APPVEYOR_REPO_COMMIT_MESSAGE% echo It contains [test]
+  - cmd: if "%APPVEYOR_REPO_COMMIT_MESSAGE:(release)=%" neq "%APPVEYOR_REPO_COMMIT_MESSAGE%" echo It contains (release)
   - cmd: git submodule update --init --recursive ./Dependencies/imgui
   - cmd: git submodule update --init --recursive ./Dependencies/ImGuiFileDialog
   - cmd: mkdir cmake-build-release
