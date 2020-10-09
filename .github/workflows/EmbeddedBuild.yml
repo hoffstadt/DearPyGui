@@ -1,8 +1,8 @@
-name: Master Build
+name: Embedded Build
 
 on:
   push:
-    branches: [ master, buildmods ]
+    branches: [ master ]
   pull_request:
     branches: [ master ]
     
@@ -12,7 +12,7 @@ jobs:
   build-windows:
     
     runs-on: windows-2019
-    if: "contains(github.event.head_commit.message, 'ci run')"
+    if: "!contains(github.event.head_commit.message, '[ci skip]')"
 
     steps:
 
@@ -40,7 +40,7 @@ jobs:
   build-MacOS:
     
     runs-on: MacOS-latest
-    if: "contains(github.event.head_commit.message, 'ci run')"
+    if: "!contains(github.event.head_commit.message, '[ci skip]')"
 
     steps:
 
@@ -68,7 +68,7 @@ jobs:
   build-Ubuntu:
     
     runs-on: ubuntu-18.04
-    if: "contains(github.event.head_commit.message, 'ci run')"
+    if: "!contains(github.event.head_commit.message, '[ci skip]')"
 
     steps:
 
