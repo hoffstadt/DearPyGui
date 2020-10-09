@@ -130,8 +130,7 @@ build_script:
   - sh: git submodule update --init --recursive ./Dependencies/ImGuiFileDialog
   - sh: git submodule update --init --recursive ./Dependencies/glfw
   - sh: |
-      ECHO $MACOS
-      if [ '$MACOS" = "true" ]; then
+      if [ "$MACOS" = "" ]; then
           sudo apt-get update
           sudo apt-get install libglu1-mesa-dev libgl1-mesa-dev xorg-dev libxrandr-dev -y
       else
@@ -156,13 +155,27 @@ on_success:
   - cmd: if %APPVEYOR_REPO_BRANCH%==stable call %PYLOC% -m twine upload C:/projects/dearpygui/dist/* -u RaylockLLC -p %pypi_password% --skip-existing
 
   - sh: cd Distribution
-  - sh: ${PYLOC} BuildPythonWheel.py /home/appveyor/projects/dearpygui/cmake-build-release/DearPyGui/core.so core.so
-  - sh: ${PYLOC} -m pip install twine --upgrade
-  - sh: ${PYLOC} -m pip install wheel
-  - sh: ${PYLOC} -m setup bdist_wheel --plat-name manylinux1_x86_64 --dist-dir /home/appveyor/projects/dearpygui/dist
   - sh: |
-      if [ "${APPVEYOR_REPO_BRANCH}" = "development" ]; then
-          ${PYLOC} -m twine upload --repository testpypi /home/appveyor/projects/dearpygui/dist/* -u RaylockLLC -p ${pypi_password} --skip-existing
-      elif [ "${APPVEYOR_REPO_BRANCH}" = "stable" ]; then
-          ${PYLOC} -m twine upload /home/appveyor/projects/dearpygui/dist/* -u RaylockLLC -p ${pypi_password} --skip-existing
+      if [ "$MACOS" = "" ]; then
+        sudo apt-get update
+        sudo apt-get install libglu1-mesa-dev libgl1-mesa-dev xorg-dev libxrandr-dev -y
+        ${PYLOC} BuildPythonWheel.py /home/appveyor/projects/dearpygui/cmake-build-release/DearPyGui/core.so core.so
+        ${PYLOC} -m pip install twine --upgrade
+        ${PYLOC} -m pip install wheel
+        ${PYLOC} -m setup bdist_wheel --plat-name manylinux1_x86_64 --dist-dir /home/appveyor/projects/dearpygui/dist
+        if [ "${APPVEYOR_REPO_BRANCH}" = "development" ]; then
+            ${PYLOC} -m twine upload --repository testpypi /home/appveyor/projects/dearpygui/dist/* -u RaylockLLC -p ${pypi_password} --skip-existing
+        elif [ "${APPVEYOR_REPO_BRANCH}" = "stable" ]; then
+            ${PYLOC} -m twine upload /home/appveyor/projects/dearpygui/dist/* -u RaylockLLC -p ${pypi_password} --skip-existing
+        fi
+      else
+        ${PYLOC} BuildPythonWheel.py /Users/appveyor/projects/dearpygui/cmake-build-release/DearPyGui/core.so core.so
+        ${PYLOC} -m pip install twine --upgrade
+        ${PYLOC} -m pip install wheel
+        ${PYLOC} -m setup bdist_wheel --plat-name manylinux1_x86_64 --dist-dir /Users/appveyor/projects/dearpygui/dist
+        if [ "${APPVEYOR_REPO_BRANCH}" = "development" ]; then
+            ${PYLOC} -m twine upload --repository testpypi /Users/appveyor/projects/dearpygui/dist/* -u RaylockLLC -p ${pypi_password} --skip-existing
+        elif [ "${APPVEYOR_REPO_BRANCH}" = "stable" ]; then
+            ${PYLOC} -m twine upload /Users/appveyor/projects/dearpygui/dist/* -u RaylockLLC -p ${pypi_password} --skip-existing
+        fi
       fi
