@@ -82,10 +82,10 @@ stack:
 install:
   - sh: |
        if [ "${APPVEYOR_REPO_COMMIT_MESSAGE}" == *"(test)" ]; then
-           echo pop it test
+           echo "pop it test"
        fi
        if [ "${APPVEYOR_REPO_COMMIT_MESSAGE}" == *"(release)" ]; then
-           echo pop it release
+           echo "pop it release"
        fi
 
   - sh: |
