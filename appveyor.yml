@@ -1,0 +1,202 @@
+version: 0.4.{build}
+
+branches:
+  only:
+  - master
+build:
+  verbosity: minimal
+
+environment:
+
+  pypi_password:
+    secure: tKYM1oHNwH7n+FO1exDSPzz76oio0iXtsfkZ0o7kuOY=
+
+  matrix:
+
+    - APPVEYOR_BUILD_WORKER_IMAGE: macos
+      ARCH: "x64"
+      CONFIG: Release
+      PYVER: 38
+      PYLOC: "python"
+      PYSTACK: "3.8"
+      PYFULLVERSION: "3.8.3"
+      MACOS: "true"
+
+    - APPVEYOR_BUILD_WORKER_IMAGE: macos
+      ARCH: "x64"
+      CONFIG: Release
+      PYVER: 37
+      PYLOC: "python"
+      PYSTACK: "3.7"
+      PYFULLVERSION: "3.7.7"
+      MACOS: "true"
+
+    - APPVEYOR_BUILD_WORKER_IMAGE: macos
+      ARCH: "x64"
+      CONFIG: Release
+      PYVER: 36`
+      PYLOC: "python"
+      PYSTACK: "3.6"
+      PYFULLVERSION: "3.6.10"
+      MACOS: "true"
+    
+    - APPVEYOR_BUILD_WORKER_IMAGE: Ubuntu
+      ARCH: "x64"
+      CONFIG: Release
+      PYVER: 36
+      PYLOC: "python"
+      PYSTACK: "3.6"
+      PYFULLVERSION: "3.6.12"
+    
+    - APPVEYOR_BUILD_WORKER_IMAGE: Ubuntu
+      ARCH: "x64"
+      CONFIG: Release
+      PYVER: 37
+      PYLOC: "python"
+      PYSTACK: "3.7"
+      PYFULLVERSION: "3.7.9"
+    
+    - APPVEYOR_BUILD_WORKER_IMAGE: Ubuntu
+      ARCH: "x64"
+      CONFIG: Release
+      PYVER: 38
+      PYLOC: "python"
+      PYSTACK: "3.8"
+      PYFULLVERSION: "3.8.5"
+
+    - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2019
+      GENERATOR: "Visual Studio 16 2019"
+      ARCH: "x64"
+      CONFIG: Release
+      PYVER: 38
+      PYLOC: "C:/Python38-x64/python.exe"
+      PYSTACK: "3.8"
+      PYFULLVERSION: "3.8.5"
+    
+    - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2019
+      GENERATOR: "Visual Studio 16 2019"
+      ARCH: "x64"
+      CONFIG: Release
+      PYVER: 37
+      PYLOC: "C:/Python37-x64/python.exe"
+      PYSTACK: "3.7"
+      PYFULLVERSION: "3.7.9"
+    
+    - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2019
+      GENERATOR: "Visual Studio 16 2019"
+      ARCH: "x64"
+      CONFIG: Release
+      PYVER: 36
+      PYLOC: "C:/Python36-x64/python.exe"
+      PYSTACK: "3.6"
+      PYFULLVERSION: "3.6.12"
+
+matrix:
+  fast_finish: true
+
+stack:
+  python %PYSTACK%
+
+install:
+
+  # Ubuntu Only - Build Python(s) since AppVeyor forgot --enable-shared flag
+  - sh: |
+       if [ ${CI_LINUX} ]; then
+           command -v virtualenv || install_virtualenv
+           VENV_PATH=${HOME}/venv${PYFULLVERSION%%[abrcf]*}
+           VENV_MINOR_PATH=${HOME}/venv${PYFULLVERSION%.*}
+           if [ ! -d ${VENV_PATH} ]; then
+           curl -fsSL -O "http://www.python.org/ftp/python/${PYFULLVERSION%%[abrcf]*}/Python-${PYFULLVERSION}.tgz" ||
+               { echo "[WARNING] Cannot download Python ${PYFULLVERSION}."; continue; }
+           tar -zxf "Python-${PYFULLVERSION}.tgz" &&
+           pushd "Python-${PYFULLVERSION}" ||
+               { echo "[WARNING] Cannot unpack Python ${PYFULLVERSION}."; continue; }
+           PY_PATH=${HOME}/.localpython${PYFULLVERSION}
+           mkdir -p "${PY_PATH}"
+           ./configure --enable-shared --silent "--prefix=${PY_PATH}" &&
+           make --silent &&
+           make install --silent >/dev/null ||
+               { echo "[WARNING] Cannot make Python ${PYFULLVERSION}."; popd; continue; }
+           if [ ${PYFULLVERSION:0:1} -eq 3 ]; then
+               PY_BIN=python3
+           else
+               PY_BIN=python
+           fi
+           virtualenv -p "$PY_PATH/bin/${PY_BIN}" "${VENV_PATH}" ||
+               { echo "[WARNING] Can't make virtualenv for Python ${PYFULLVERSION}."; popd; continue; }
+           popd
+           echo "Linking ${VENV_MINOR_PATH} to ${VENV_PATH}"
+           rm -f ${VENV_MINOR_PATH}
+           ln -s ${VENV_PATH} ${VENV_MINOR_PATH}
+           fi
+           find "${HOME}" -name "Python-*" -type d -maxdepth 1 | xargs -I {} rm -rf {}
+       fi
+
+# actual build
+build_script:
+  
+  # Windows
+  - cmd: git submodule update --init --recursive ./Dependencies/imgui
+  - cmd: git submodule update --init --recursive ./Dependencies/ImGuiFileDialog
+  - cmd: mkdir cmake-build-release
+  - cmd: cd cmake-build-Release
+  - cmd: cmake .. -G "%GENERATOR%" -A "%ARCH%" -DMVDIST_ONLY=True -DMVPY_VERSION=%PYVER% -DMVDPG_VERSION=%APPVEYOR_BUILD_VERSION%
+  - cmd: cd ..
+  - cmd: cmake --build cmake-build-release --config "%CONFIG%"
+
+  # Ubuntu Only
+  - sh: |
+      if [ "$MACOS" = "" ]; then
+          sudo apt-get update
+          sudo apt-get install libglu1-mesa-dev libgl1-mesa-dev xorg-dev libxrandr-dev -y
+      fi
+
+  # Ubuntu & MacOS
+  - sh: git submodule update --init --recursive ./Dependencies/imgui
+  - sh: git submodule update --init --recursive ./Dependencies/ImGuiFileDialog
+  - sh: git submodule update --init --recursive ./Dependencies/glfw
+  - sh: mkdir cmake-build-release
+  - sh: cd cmake-build-release
+  - sh: cmake .. -DMVDIST_ONLY=True -DMVPY_VERSION=${PYVER} -DMVDPG_VERSION=${APPVEYOR_BUILD_VERSION}
+  - sh: cd ..
+  - sh: cmake --build cmake-build-release --config "${CONFIG}"
+
+on_success:
+  
+  - cd Distribution
+
+  # Windows
+  - cmd: call %PYLOC% BuildPythonWheel.py C:/projects/dearpygui/cmake-build-release/DearPyGui/Release/core.pyd core.pyd
+  - cmd: call %PYLOC% -m pip install twine
+  - cmd: call %PYLOC% -m pip install wheel
+  - cmd: call %PYLOC% -m setup bdist_wheel --plat-name win_amd64 --dist-dir C:/projects/dearpygui/dist
+  - cmd: if "%APPVEYOR_REPO_COMMIT_MESSAGE:(test)=%" neq "%APPVEYOR_REPO_COMMIT_MESSAGE%" call %PYLOC% -m twine upload --repository testpypi C:/projects/dearpygui/dist/* -u RaylockLLC -p %pypi_password% --skip-existing
+  - cmd: if "%APPVEYOR_REPO_COMMIT_MESSAGE:(release)=%" neq "%APPVEYOR_REPO_COMMIT_MESSAGE%" call %PYLOC% -m twine upload C:/projects/dearpygui/dist/* -u RaylockLLC -p %pypi_password% --skip-existing
+
+  # Ubuntu & MacOS
+  - sh: |
+      if [ "$MACOS" = "" ]; then
+        sudo apt-get update
+        sudo apt-get install libglu1-mesa-dev libgl1-mesa-dev xorg-dev libxrandr-dev -y
+        ${PYLOC} BuildPythonWheel.py /home/appveyor/projects/dearpygui/cmake-build-release/DearPyGui/core.so core.so
+        ${PYLOC} -m pip install twine --upgrade
+        ${PYLOC} -m pip install wheel
+        ${PYLOC} -m setup bdist_wheel --plat-name manylinux1_x86_64 --dist-dir /home/appveyor/projects/dearpygui/dist
+        if [[ "${APPVEYOR_REPO_COMMIT_MESSAGE}" == *"(test)"* ]]; then
+            ${PYLOC} -m twine upload --repository testpypi /home/appveyor/projects/dearpygui/dist/* -u RaylockLLC -p ${pypi_password} --skip-existing
+        fi
+        if [[ "${APPVEYOR_REPO_COMMIT_MESSAGE}" == *"(release)"* ]]; then
+            ${PYLOC} -m twine upload /home/appveyor/projects/dearpygui/dist/* -u RaylockLLC -p ${pypi_password} --skip-existing
+        fi
+      else
+        ${PYLOC} BuildPythonWheel.py /Users/appveyor/projects/dearpygui/cmake-build-release/DearPyGui/core.so core.so
+        ${PYLOC} -m pip install twine --upgrade
+        ${PYLOC} -m pip install wheel
+        ${PYLOC} -m setup bdist_wheel --plat-name macosx-10.6-x86_64 --dist-dir /Users/appveyor/projects/dearpygui/dist
+        if [[ "${APPVEYOR_REPO_COMMIT_MESSAGE}" == *"(test)"* ]]; then
+            ${PYLOC} -m twine upload --repository testpypi /Users/appveyor/projects/dearpygui/dist/* -u RaylockLLC -p ${pypi_password} --skip-existing
+        fi
+        if [[ "${APPVEYOR_REPO_COMMIT_MESSAGE}" == *"(release)"* ]]; then
+            ${PYLOC} -m twine upload /Users/appveyor/projects/dearpygui/dist/* -u RaylockLLC -p ${pypi_password} --skip-existing
+        fi
+      fi

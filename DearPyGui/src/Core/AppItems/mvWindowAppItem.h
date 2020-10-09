@@ -197,6 +197,7 @@ namespace Marvel {
 
 			// window flags
 			flagop("autosize",						ImGuiWindowFlags_AlwaysAutoResize,		m_windowflags);
+			flagop("no_move",                       ImGuiWindowFlags_NoMove,		m_windowflags);
 			flagop("no_resize",						ImGuiWindowFlags_NoResize,				m_windowflags);
 			flagop("no_title_bar",					ImGuiWindowFlags_NoTitleBar,			m_windowflags);
 			flagop("no_scrollbar",					ImGuiWindowFlags_NoScrollbar,			m_windowflags);
