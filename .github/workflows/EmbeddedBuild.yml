@@ -3,10 +3,7 @@ name: Embedded Build
 on:
   push:
     branches: [ master ]
-  pull_request:
-    branches: [ master ]
     
-
 jobs:
 
   build-windows:
