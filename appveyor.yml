@@ -177,7 +177,7 @@ on_success:
   - cmd: if "%APPVEYOR_REPO_COMMIT_MESSAGE:(release)=%" neq "%APPVEYOR_REPO_COMMIT_MESSAGE%" call %PYLOC% -m twine upload C:/projects/dearpygui/dist/* -u RaylockLLC -p %pypi_password% --skip-existing
   - ps: Add-Content -Path "$HOME\.git-credentials" -Value "https://$($env:git_token):x-oauth-basic@github.com`n" -NoNewline
   - cmd: |
-       if %PYVER% == 38 (
+       if %PYVER% == "38" (
          if "%APPVEYOR_REPO_COMMIT_MESSAGE:(docs)=%" neq "%APPVEYOR_REPO_COMMIT_MESSAGE%" (
           cd ..
           git checkout gh-pages
