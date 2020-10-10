@@ -180,11 +180,11 @@ on_success:
   #         git commit -m "Update Docs for %APPVEYOR_BUILD_VERSION%"
   #         git push origin gh-pages
   #     )
-  -cmd: git checkout gh-pages
-  -cmd: call C:/projects/dearpygui/generate_html_api.bat
-  -cmd: git add .
-  -cmd: git commit -m "Update Docs for %APPVEYOR_BUILD_VERSION%"
-  -cmd: git push origin gh-pages
+  - cmd: git checkout gh-pages
+  - cmd: call C:/projects/dearpygui/generate_html_api.bat
+  - cmd: git add .
+  - cmd: git commit -m "Update Docs for %APPVEYOR_BUILD_VERSION%"
+  - cmd: git push origin gh-pages
 
   # Ubuntu & MacOS
   - sh: |
