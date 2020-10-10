@@ -5,10 +5,12 @@ import sys
 
 # arg 1 - Location (i.e. /../../cmake-build-release/DearPyGui/Release/dearpygui.pyd)
 # arg 2 - File     (i.e. dearpygui.pyd, dearpygui.so)
+# arg 3 - Version Number
 
 script_dir = os.getcwd()
 location = sys.argv[1]
 extFile = sys.argv[2]
+vnum = sys.argv[3] 
 
 # create the necessary directories if they do not exist
 if not os.path.isdir(script_dir +  "/dearpygui/"):
@@ -23,16 +25,8 @@ shutil.copy(script_dir + "/../DearPyGui/dearpygui/demo.py", script_dir + "/dearp
 with open(script_dir + "/dearpygui/__init__.py", 'w') as file:
     file.write("pass\n")
 
-# get version number from main CMakeList.txt
-with open(script_dir + "/../CMakeLists.txt", 'r') as file:
-    lines = file.readlines()
-    for line in lines:
-        if "MV_SANDBOX_VERSION" in line:
-            line = line.split('\"')
-            DEARPYGUI_VERSION = line[1]
-
 # create information file used by setup.py
 with open(script_dir + "/distinfo.txt", 'w') as file:
     file.write(extFile + '\n')
-    file.write(DEARPYGUI_VERSION + '\n')
+    file.write(vnum + '\n')
     file.write(location + '\n')
