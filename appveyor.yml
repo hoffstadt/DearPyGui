@@ -179,7 +179,6 @@ on_success:
   - ps: |
       if ( ($env:APPVEYOR_REPO_COMMIT_MESSAGE -contains "(docs)") -and ($env:PYDOCRUN -eq "true") )
       {
-        echo here
         cd ..
         git checkout gh-pages
         Add-Content -Path "$HOME\.git-credentials" -Value "https://$($env:git_token):x-oauth-basic@github.com`n" -NoNewline
@@ -190,7 +189,6 @@ on_success:
         git config --global user.name "Jonathan Hoffstadt"
         git commit -a -m "Update Docs for $env:APPVEYOR_BUILD_VERSION"
         git push origin gh-pages
-        echo here
       }
 
   # Ubuntu & MacOS
