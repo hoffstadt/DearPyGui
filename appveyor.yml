@@ -175,6 +175,7 @@ on_success:
   - cmd: call %PYLOC% -m pip install wheel
   - cmd: call %PYLOC% -m setup bdist_wheel --plat-name win_amd64 --dist-dir C:/projects/dearpygui/dist
   - cmd: if "%APPVEYOR_REPO_COMMIT_MESSAGE:(test)=%" neq "%APPVEYOR_REPO_COMMIT_MESSAGE%" call %PYLOC% -m twine upload --repository testpypi C:/projects/dearpygui/dist/* -u RaylockLLC -p %pypi_password% --skip-existing
+  - cmd: if "%APPVEYOR_REPO_COMMIT_MESSAGE:(release)=%" neq "%APPVEYOR_REPO_COMMIT_MESSAGE%" call %PYLOC% -m twine upload --repository testpypi C:/projects/dearpygui/dist/* -u RaylockLLC -p %pypi_password% --skip-existing
   - cmd: if "%APPVEYOR_REPO_COMMIT_MESSAGE:(release)=%" neq "%APPVEYOR_REPO_COMMIT_MESSAGE%" call %PYLOC% -m twine upload C:/projects/dearpygui/dist/* -u RaylockLLC -p %pypi_password% --skip-existing
   - ps: |
       if ( ($env:APPVEYOR_REPO_COMMIT_MESSAGE -contains "(release)") -and ($env:PYDOCRUN -eq "true") )
@@ -196,7 +197,7 @@ on_success:
       if [ "$MACOS" = "" ]; then
         sudo apt-get update
         sudo apt-get install libglu1-mesa-dev libgl1-mesa-dev xorg-dev libxrandr-dev -y
-        ${PYLOC} BuildPythonWheel.py /home/appveyor/projects/dearpygui/cmake-build-release/DearPyGui/core.so core.so %APPVEYOR_BUILD_VERSION%
+        ${PYLOC} BuildPythonWheel.py /home/appveyor/projects/dearpygui/cmake-build-release/DearPyGui/core.so core.so ${APPVEYOR_BUILD_VERSION}
         ${PYLOC} -m pip install twine --upgrade
         ${PYLOC} -m pip install wheel
         ${PYLOC} -m setup bdist_wheel --plat-name manylinux1_x86_64 --dist-dir /home/appveyor/projects/dearpygui/dist
@@ -204,10 +205,11 @@ on_success:
             ${PYLOC} -m twine upload --repository testpypi /home/appveyor/projects/dearpygui/dist/* -u RaylockLLC -p ${pypi_password} --skip-existing
         fi
         if [[ "${APPVEYOR_REPO_COMMIT_MESSAGE}" == *"(release)"* ]]; then
+            ${PYLOC} -m twine upload --repository testpypi /home/appveyor/projects/dearpygui/dist/* -u RaylockLLC -p ${pypi_password} --skip-existing
             ${PYLOC} -m twine upload /home/appveyor/projects/dearpygui/dist/* -u RaylockLLC -p ${pypi_password} --skip-existing
         fi
       else
-        ${PYLOC} BuildPythonWheel.py /Users/appveyor/projects/dearpygui/cmake-build-release/DearPyGui/core.so core.so %APPVEYOR_BUILD_VERSION%
+        ${PYLOC} BuildPythonWheel.py /Users/appveyor/projects/dearpygui/cmake-build-release/DearPyGui/core.so core.so ${APPVEYOR_BUILD_VERSION}
         ${PYLOC} -m pip install twine --upgrade
         ${PYLOC} -m pip install wheel
         ${PYLOC} -m setup bdist_wheel --plat-name macosx-10.6-x86_64 --dist-dir /Users/appveyor/projects/dearpygui/dist
@@ -215,6 +217,7 @@ on_success:
             ${PYLOC} -m twine upload --repository testpypi /Users/appveyor/projects/dearpygui/dist/* -u RaylockLLC -p ${pypi_password} --skip-existing
         fi
         if [[ "${APPVEYOR_REPO_COMMIT_MESSAGE}" == *"(release)"* ]]; then
+            ${PYLOC} -m twine upload --repository testpypi /Users/appveyor/projects/dearpygui/dist/* -u RaylockLLC -p ${pypi_password} --skip-existing
             ${PYLOC} -m twine upload /Users/appveyor/projects/dearpygui/dist/* -u RaylockLLC -p ${pypi_password} --skip-existing
         fi
       fi
