@@ -11,6 +11,9 @@ environment:
   pypi_password:
     secure: tKYM1oHNwH7n+FO1exDSPzz76oio0iXtsfkZ0o7kuOY=
 
+  git_token:
+    secure: kRikZcYHTs5za4HnpeKZfM8dAD6emA68ZpDDkS+hvXa9IEPOAR8C7LCFnmKMTful
+
   matrix:
 
     #- APPVEYOR_BUILD_WORKER_IMAGE: macos
@@ -184,6 +187,10 @@ on_success:
   - cmd: git checkout gh-pages
   - cmd: C:\Python38-x64\python.exe -m pip install C:\projects\dearpygui\dist\dearpygui-%APPVEYOR_BUILD_VERSION%-cp38-cp38-win_amd64.whl
   - cmd: call C:/projects/dearpygui/generate_html_api.bat
+  - cmd: git config --global credential.helper store
+  - ps: Add-Content -Path "$HOME\.git-credentials" -Value "https://$($env:git_token):x-oauth-basic@github.com`n" -NoNewline
+  - cmd: git config --global user.email "jonathanhoffstadt@yahoo.com"
+  - cmd: git config --global user.name "Jonathan Hoffstadt"
   - cmd: git commit -a -m "Update Docs for %APPVEYOR_BUILD_VERSION%"
   - cmd: git push origin gh-pages
 
