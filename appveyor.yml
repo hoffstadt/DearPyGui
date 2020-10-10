@@ -172,14 +172,20 @@ on_success:
   - cmd: call %PYLOC% -m setup bdist_wheel --plat-name win_amd64 --dist-dir C:/projects/dearpygui/dist
   - cmd: if "%APPVEYOR_REPO_COMMIT_MESSAGE:(test)=%" neq "%APPVEYOR_REPO_COMMIT_MESSAGE%" call %PYLOC% -m twine upload --repository testpypi C:/projects/dearpygui/dist/* -u RaylockLLC -p %pypi_password% --skip-existing
   - cmd: if "%APPVEYOR_REPO_COMMIT_MESSAGE:(release)=%" neq "%APPVEYOR_REPO_COMMIT_MESSAGE%" call %PYLOC% -m twine upload C:/projects/dearpygui/dist/* -u RaylockLLC -p %pypi_password% --skip-existing
-  - cmd: |
-       if %PYSTACK% == 38 if "%APPVEYOR_REPO_COMMIT_MESSAGE:(docs)=%" neq "%APPVEYOR_REPO_COMMIT_MESSAGE%" (
-           git checkout gh-pages
-           call C:/projects/dearpygui/generate_html_api.bat
-           git add .
-           git commit -m "Update Docs for %APPVEYOR_BUILD_VERSION%"
-           git push origin gh-pages
-       )
+  #- cmd: |
+  #     if %PYSTACK% == 38 if "%APPVEYOR_REPO_COMMIT_MESSAGE:(docs)=%" neq "%APPVEYOR_REPO_COMMIT_MESSAGE%" (
+  #         git checkout gh-pages
+  #         call C:/projects/dearpygui/generate_html_api.bat
+  #         git add .
+  #         git commit -m "Update Docs for %APPVEYOR_BUILD_VERSION%"
+  #         git push origin gh-pages
+  #     )
+
+  -cmd: git checkout gh-pages
+  -cmd: call C:/projects/dearpygui/generate_html_api.bat
+  -cmd: git add .
+  -cmd: git commit -m "Update Docs for %APPVEYOR_BUILD_VERSION%"
+  -cmd: git push origin gh-pages
 
   # Ubuntu & MacOS
   - sh: |
