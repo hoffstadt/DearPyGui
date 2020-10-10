@@ -19,6 +19,15 @@ environment:
     - APPVEYOR_BUILD_WORKER_IMAGE: macos
       ARCH: "x64"
       CONFIG: Release
+      PYVER: 36
+      PYLOC: "python"
+      PYSTACK: "3.6"
+      PYFULLVERSION: "3.6.10"
+      MACOS: "true"
+
+    - APPVEYOR_BUILD_WORKER_IMAGE: macos
+      ARCH: "x64"
+      CONFIG: Release
       PYVER: 38
       PYLOC: "python"
       PYSTACK: "3.8"
@@ -32,15 +41,6 @@ environment:
       PYLOC: "python"
       PYSTACK: "3.7"
       PYFULLVERSION: "3.7.7"
-      MACOS: "true"
-    
-    - APPVEYOR_BUILD_WORKER_IMAGE: macos
-      ARCH: "x64"
-      CONFIG: Release
-      PYVER: 36
-      PYLOC: "python"
-      PYSTACK: "3.6"
-      PYFULLVERSION: "3.6.10"
       MACOS: "true"
     
     - APPVEYOR_BUILD_WORKER_IMAGE: Ubuntu
