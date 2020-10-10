@@ -37,7 +37,7 @@ environment:
     - APPVEYOR_BUILD_WORKER_IMAGE: macos
       ARCH: "x64"
       CONFIG: Release
-      PYVER: 36`
+      PYVER: 36
       PYLOC: "python"
       PYSTACK: "3.6"
       PYFULLVERSION: "3.6.10"
