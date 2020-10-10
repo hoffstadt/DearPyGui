@@ -177,18 +177,16 @@ on_success:
   - cmd: if "%APPVEYOR_REPO_COMMIT_MESSAGE:(release)=%" neq "%APPVEYOR_REPO_COMMIT_MESSAGE%" call %PYLOC% -m twine upload C:/projects/dearpygui/dist/* -u RaylockLLC -p %pypi_password% --skip-existing
   - ps: Add-Content -Path "$HOME\.git-credentials" -Value "https://$($env:git_token):x-oauth-basic@github.com`n" -NoNewline
   - cmd: |
-       if %PYVER% == "38" (
-         if "%APPVEYOR_REPO_COMMIT_MESSAGE:(docs)=%" neq "%APPVEYOR_REPO_COMMIT_MESSAGE%" (
-          cd ..
-          git checkout gh-pages
-          C:\Python38-x64\python.exe -m pip install C:\projects\dearpygui\dist\dearpygui-%APPVEYOR_BUILD_VERSION%-cp38-cp38-win_amd64.whl
-          call C:/projects/dearpygui/generate_html_api.bat
-          git config --global credential.helper store
-          git config --global user.email "jonathanhoffstadt@yahoo.com"
-          git config --global user.name "Jonathan Hoffstadt"
-          git commit -a -m "Update Docs for %APPVEYOR_BUILD_VERSION%"
-          git push origin gh-pages
-          )
+       if "%APPVEYOR_REPO_COMMIT_MESSAGE:(docs)=%" neq "%APPVEYOR_REPO_COMMIT_MESSAGE%" (
+           cd ..
+           git checkout gh-pages
+           C:\Python38-x64\python.exe -m pip install C:\projects\dearpygui\dist\dearpygui-%APPVEYOR_BUILD_VERSION%-cp38-cp38-win_amd64.whl
+           call C:/projects/dearpygui/generate_html_api.bat
+           git config --global credential.helper store
+           git config --global user.email "jonathanhoffstadt@yahoo.com"
+           git config --global user.name "Jonathan Hoffstadt"
+           git commit -a -m "Update Docs for %APPVEYOR_BUILD_VERSION%"
+           git push origin gh-pages
        )
 
 
