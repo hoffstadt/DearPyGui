@@ -196,7 +196,6 @@ namespace Marvel {
 		stub << "# This file is generated automatically by mvPythonParser #\n";
 		stub << "##########################################################\n\n";
 		stub << "# ~ Dear PyGui Version: " << mvApp::GetVersion() <<"\n";
-		stub << "# ~ Data Generated:     " << dt <<"\n\n";
 
 		for (const auto& parser : *commands)
 		{
