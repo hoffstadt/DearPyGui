@@ -191,7 +191,6 @@ on_success:
         git push origin gh-pages -q
       }
 
-
   # Ubuntu & MacOS
   - sh: |
       if [ "$MACOS" = "" ]; then
