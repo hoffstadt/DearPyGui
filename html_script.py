@@ -71,3 +71,4 @@ index_html.insert(index, f"Last Updated: {date.today()}\n")
 # writing the final api docs with logo
 with open('index.html', 'w') as f:
     f.writelines(index_html)
+print("in script")
