@@ -44,7 +44,8 @@ static void NodeFont(ImFont* font)
         "You may oversample them to get some flexibility with scaling. "
         "You can also render at multiple sizes and select which one to use at runtime.\n\n"
         "(Glimmer of hope: the atlas system will be rewritten in the future to make scaling more flexible.)");
-    ImGui::InputFloat("Font offset", &font->DisplayOffset.y, 1, 1, "%.0f");
+    //ImGui::InputFloat("Font offset", &font->GlyphOffset.y, 1, 1, "%.0f");
+    //ImGui::InputInt("Font offset", &font->ConfigData->GlyphOffset.y, 1, 1, "%.0f");
     ImGui::Text("Ascent: %f, Descent: %f, Height: %f", font->Ascent, font->Descent, font->Ascent - font->Descent);
     ImGui::Text("Fallback character: '%c' (U+%04X)", font->FallbackChar, font->FallbackChar);
     ImGui::Text("Ellipsis character: '%c' (U+%04X)", font->EllipsisChar, font->EllipsisChar);

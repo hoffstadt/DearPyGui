@@ -257,8 +257,8 @@ void AddTextVertical(ImDrawList *DrawList, ImVec2 pos, ImU32 col, const char *te
         text_end = text_begin + strlen(text_begin);
     ImGuiContext& g = *GImGui;
     ImFont* font = g.Font;
-    pos.x = IM_FLOOR(pos.x + font->DisplayOffset.y);
-    pos.y = IM_FLOOR(pos.y + font->DisplayOffset.x);
+    pos.x = IM_FLOOR(pos.x);
+    pos.y = IM_FLOOR(pos.y);
     const char* s = text_begin;
     const int vtx_count = (int)(text_end - s) * 4;
     const int idx_count = (int)(text_end - s) * 6;
