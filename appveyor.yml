@@ -2,7 +2,7 @@ version: 0.4.{build}
 
 branches:
   only:
-  - citesting
+  - master
 build:
   verbosity: minimal
 
@@ -16,74 +16,74 @@ environment:
 
   matrix:
 
-    #- APPVEYOR_BUILD_WORKER_IMAGE: macos
-    #  ARCH: "x64"
-    #  CONFIG: Release
-    #  PYVER: 36
-    #  PYLOC: "python"
-    #  PYSTACK: "3.6"
-    #  PYFULLVERSION: "3.6.10"
-    #  MACOS: "true"
-    #
-    #- APPVEYOR_BUILD_WORKER_IMAGE: Ubuntu
-    #  ARCH: "x64"
-    #  CONFIG: Release
-    #  PYVER: 36
-    #  PYLOC: "python"
-    #  PYSTACK: "3.6"
-    #  PYFULLVERSION: "3.6.12"
-    #
-    #- APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2019
-    #  GENERATOR: "Visual Studio 16 2019"
-    #  ARCH: "x64"
-    #  CONFIG: Release
-    #  PYVER: 36
-    #  PYLOC: "C:/Python36-x64/python.exe"
-    #  PYSTACK: "3.6"
-    #  PYFULLVERSION: "3.6.12"
-    #
-    #- APPVEYOR_BUILD_WORKER_IMAGE: macos
-    #  ARCH: "x64"
-    #  CONFIG: Release
-    #  PYVER: 37
-    #  PYLOC: "python"
-    #  PYSTACK: "3.7"
-    #  PYFULLVERSION: "3.7.7"
-    #  MACOS: "true"
-    #
-    #- APPVEYOR_BUILD_WORKER_IMAGE: Ubuntu
-    #  ARCH: "x64"
-    #  CONFIG: Release
-    #  PYVER: 37
-    #  PYLOC: "python"
-    #  PYSTACK: "3.7"
-    #  PYFULLVERSION: "3.7.9"
-    #
-    #- APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2019
-    #  GENERATOR: "Visual Studio 16 2019"
-    #  ARCH: "x64"
-    #  CONFIG: Release
-    #  PYVER: 37
-    #  PYLOC: "C:/Python37-x64/python.exe"
-    #  PYSTACK: "3.7"
-    #  PYFULLVERSION: "3.7.9"
-    #
-    #- APPVEYOR_BUILD_WORKER_IMAGE: macos
-    #  ARCH: "x64"
-    #  CONFIG: Release
-    #  PYVER: 38
-    #  PYLOC: "python"
-    #  PYSTACK: "3.8"
-    #  PYFULLVERSION: "3.8.3"
-    #  MACOS: "true"
-    #
-    #- APPVEYOR_BUILD_WORKER_IMAGE: Ubuntu
-    #  ARCH: "x64"
-    #  CONFIG: Release
-    #  PYVER: 38
-    #  PYLOC: "python"
-    #  PYSTACK: "3.8"
-    #  PYFULLVERSION: "3.8.5"
+    - APPVEYOR_BUILD_WORKER_IMAGE: macos
+      ARCH: "x64"
+      CONFIG: Release
+      PYVER: 36
+      PYLOC: "python"
+      PYSTACK: "3.6"
+      PYFULLVERSION: "3.6.10"
+      MACOS: "true"
+    
+    - APPVEYOR_BUILD_WORKER_IMAGE: Ubuntu
+      ARCH: "x64"
+      CONFIG: Release
+      PYVER: 36
+      PYLOC: "python"
+      PYSTACK: "3.6"
+      PYFULLVERSION: "3.6.12"
+    
+    - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2019
+      GENERATOR: "Visual Studio 16 2019"
+      ARCH: "x64"
+      CONFIG: Release
+      PYVER: 36
+      PYLOC: "C:/Python36-x64/python.exe"
+      PYSTACK: "3.6"
+      PYFULLVERSION: "3.6.12"
+    
+    - APPVEYOR_BUILD_WORKER_IMAGE: macos
+      ARCH: "x64"
+      CONFIG: Release
+      PYVER: 37
+      PYLOC: "python"
+      PYSTACK: "3.7"
+      PYFULLVERSION: "3.7.7"
+      MACOS: "true"
+    
+    - APPVEYOR_BUILD_WORKER_IMAGE: Ubuntu
+      ARCH: "x64"
+      CONFIG: Release
+      PYVER: 37
+      PYLOC: "python"
+      PYSTACK: "3.7"
+      PYFULLVERSION: "3.7.9"
+    
+    - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2019
+      GENERATOR: "Visual Studio 16 2019"
+      ARCH: "x64"
+      CONFIG: Release
+      PYVER: 37
+      PYLOC: "C:/Python37-x64/python.exe"
+      PYSTACK: "3.7"
+      PYFULLVERSION: "3.7.9"
+    
+    - APPVEYOR_BUILD_WORKER_IMAGE: macos
+      ARCH: "x64"
+      CONFIG: Release
+      PYVER: 38
+      PYLOC: "python"
+      PYSTACK: "3.8"
+      PYFULLVERSION: "3.8.3"
+      MACOS: "true"
+    
+    - APPVEYOR_BUILD_WORKER_IMAGE: Ubuntu
+      ARCH: "x64"
+      CONFIG: Release
+      PYVER: 38
+      PYLOC: "python"
+      PYSTACK: "3.8"
+      PYFULLVERSION: "3.8.5"
 
     - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2019
       GENERATOR: "Visual Studio 16 2019"
@@ -179,7 +179,7 @@ on_success:
   - cmd: if "%APPVEYOR_REPO_COMMIT_MESSAGE:(release)=%" neq "%APPVEYOR_REPO_COMMIT_MESSAGE%" call %PYLOC% -m twine upload C:/projects/dearpygui/dist/* -u RaylockLLC -p %pypi_password% --skip-existing
   
   - ps: |
-      if ( $env:APPVEYOR_REPO_COMMIT_MESSAGE -contains "(docs)" )
+      if ( $env:APPVEYOR_REPO_COMMIT_MESSAGE -contains "(release)" )
       {
         if ( $env:PYDOCRUN -contains "true" )
         {
