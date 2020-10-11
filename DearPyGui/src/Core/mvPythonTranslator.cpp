@@ -754,7 +754,7 @@ namespace Marvel {
 			for (Py_ssize_t i = 0; i < PyTuple_Size(value); i++)
 			{
 				PyObject* item = PyTuple_GetItem(value, i);
-				if (PyTuple_Size(item) == 2)
+				if (PyTuple_Size(item) == 2 && PyNumber_Check(PyTuple_GetItem(item, 1)))
 					items.emplace_back(PyUnicode_AsUTF8(PyTuple_GetItem(item, 0)), (float)PyFloat_AsDouble(PyTuple_GetItem(item, 1)));
 
 			}
@@ -765,7 +765,7 @@ namespace Marvel {
 			for (Py_ssize_t i = 0; i < PyList_Size(value); i++)
 			{
 				PyObject* item = PyList_GetItem(value, i);
-				if (PyList_Size(item) == 2)
+				if (PyList_Size(item) == 2 && PyNumber_Check(PyList_GetItem(item, 1)))
 					items.emplace_back(PyUnicode_AsUTF8(PyList_GetItem(item, 0)), (float)PyFloat_AsDouble(PyList_GetItem(item, 1)));
 
 			}
