@@ -31,7 +31,7 @@ the following platforms:
 In the same manner Dear ImGui provides a simple way to create tools for game developers, _Dear PyGui_ provides a 
 simple way for python developers to **create quick and powerful GUIs for scripts**.
 
-| [Installing](#installing) - [Usage](#usage) - [Features](#some-features) - [Support](#support) - [Building](#building)|
+| [Installing](#installing) - [Usage](#usage) - [References](#References) - [Features](#some-features) - [Support](#support) - [Building](#building)|
 :----------------------------------------------------------: |
 | [Upcoming changes](#upcoming-changes) - [Gallery](#gallery) - [Sponsors](#sponsors) - [Credits](#credits) - [License](#license)|
 
@@ -46,16 +46,21 @@ Ensure you have at least Python 3.7.
  pip3 install dearpygui
  ```
 
+### References
+
+ ---
+  
+- [DearPyGui-Examples repository](https://github.com/Pcothren/DearPyGui-Examples) has a variety of examples demonstrating usage.
+- [Tutorials](https://hoffstadt.github.io/DearPyGui/tutorial.html) are for getting started.
+- [Online Documentation](https://hoffstadt.github.io/DearPyGui/) is the most complete documentation.
+- Internal Docs: Run the **show_documentation** command from within the library to view an reference guide. 
+- Complete Demo: You can also view a mostly complete showcase of Dear PyGUI by running the **show_demo** command found in _dearpygui.demo_.
+
+
 ### Usage
 
  ---
  
-**Dear PyGui is an all included GUI framework.** A variety of examples demonstrating usage
-can be found in the [DearPyGui-Examples repository](https://github.com/Pcothren/DearPyGui-Examples). To get started checkout the [Tutorials](https://hoffstadt.github.io/DearPyGui/tutorial.html)
-and for all other references 
-visit the [Documentation](https://hoffstadt.github.io/DearPyGui/) or from within the library by 
-using the **show_documentation** command. You can also view the demo using the **show_demo** command found in _dearpygui.demo_.
-
 Using _Dear PyGui_ is a simple as creating a python script like the one below:
 
 Code:
