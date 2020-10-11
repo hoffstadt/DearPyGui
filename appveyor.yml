@@ -2,7 +2,7 @@ version: 0.4.{build}
 
 branches:
   only:
-  - master
+  - citesting
 build:
   verbosity: minimal
 
@@ -167,6 +167,14 @@ build_script:
 
 on_success:
   
+  - cmd: dir
+  - cmd: cd cmake-build-release
+  - cmd: dir
+  - cmd: cd DearPyGui
+  - cmd: dir
+  - cmd: cd Release
+  - cmd: dir
+  - cmd: cd ../../../
   - cd Distribution
 
   # Windows
