@@ -23,6 +23,18 @@ HOW TO UPDATE?
 - Please report any issue!
 
 -----------------------------------------------------------------------
+ VERSION 0.4.x
+-----------------------------------------------------------------------
+
+Decorated log: https://github.com/hoffstadt/DearPyGui/releases/tag/v0.4.x
+
+Updated:
+- Dear Imgui:    Revert to Version 1.78
+
+Fixes:
+- File selector and dialog work again
+
+-----------------------------------------------------------------------
  VERSION 0.4.602 (10/11/2020)
 -----------------------------------------------------------------------
 
