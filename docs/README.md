@@ -39,7 +39,7 @@ simple way for python developers to **create quick and powerful GUIs for scripts
 
 ---
 
-Ensure you have at least Python 3.7.
+Ensure you have at least Python 3.6.
  ```
  pip install dearpygui
  or
@@ -54,7 +54,7 @@ Ensure you have at least Python 3.7.
 - [Tutorials](https://hoffstadt.github.io/DearPyGui/tutorial.html) are for getting started.
 - [Online Documentation](https://hoffstadt.github.io/DearPyGui/) is the most complete documentation.
 - Internal Docs: Run the **show_documentation** command from within the library to view an reference guide. 
-- Complete Demo: You can also view a mostly complete showcase of Dear PyGUI by running the **show_demo** command found in _dearpygui.demo_.
+- Complete Demo: You can also view a mostly complete showcase of _Dear PyGUI_ by running the **show_demo** command found in _dearpygui.demo_.
 
 
 ### Usage
