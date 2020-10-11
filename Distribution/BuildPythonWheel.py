@@ -9,8 +9,7 @@ import sys
 
 script_dir = os.getcwd()
 location = sys.argv[1]
-extFile = sys.argv[2]
-vnum = sys.argv[3] 
+vnum = sys.argv[2] 
 
 # create the necessary directories if they do not exist
 if not os.path.isdir(script_dir +  "/dearpygui/"):
@@ -27,6 +26,4 @@ with open(script_dir + "/dearpygui/__init__.py", 'w') as file:
 
 # create information file used by setup.py
 with open(script_dir + "/distinfo.txt", 'w') as file:
-    file.write(extFile + '\n')
     file.write(vnum + '\n')
-    file.write(location + '\n')
