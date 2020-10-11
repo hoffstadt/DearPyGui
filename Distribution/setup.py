@@ -12,6 +12,7 @@ with open("distinfo.txt", encoding='utf-8') as file:
     DEARPYGUI_FILE = lines[0].rstrip("\n")
     DEARPYGUI_VERSION = lines[1].rstrip("\n")
 
+print("ugh: ", DEARPYGUI_FILE)
 
 class BinaryDistribution(Distribution):
     """Distribution which always forces a binary package with platform name"""

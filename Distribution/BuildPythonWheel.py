@@ -19,6 +19,7 @@ if not os.path.isdir(script_dir +  "/dearpygui/"):
 # copy add items to temporary location
 print(location)
 print(vnum)
+print(extFile)
 shutil.copy(location, script_dir +"/dearpygui")
 shutil.copy(script_dir + "/../DearPyGui/dearpygui/core.pyi", script_dir + "/dearpygui")
 shutil.copy(script_dir + "/../DearPyGui/dearpygui/simple.py", script_dir + "/dearpygui")
