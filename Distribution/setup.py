@@ -9,9 +9,7 @@ with open("../docs/README.md", encoding='utf-8') as f:
 # use info file created by BuildPythonWheel.py
 with open("distinfo.txt", encoding='utf-8') as file:
     lines = file.readlines()
-    DEARPYGUI_FILE = lines[0].rstrip("\n")
-    DEARPYGUI_VERSION = lines[1].rstrip("\n")
-
+    DEARPYGUI_VERSION = lines[0].rstrip("\n")
 
 class BinaryDistribution(Distribution):
     """Distribution which always forces a binary package with platform name"""
@@ -46,7 +44,7 @@ setup(
     ],
     packages=find_packages(exclude=['contrib', 'docs', 'tests']),  # Required
     package_data={  # Optional
-    'dearpygui': [DEARPYGUI_FILE, "core.pyi", "simple.py", "demo.py"],
+    'dearpygui': ["core.so", "core.pyd", "core.pyi", "simple.py", "demo.py"],
     },
     distclass=BinaryDistribution
 )
