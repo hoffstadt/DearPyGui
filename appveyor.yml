@@ -180,9 +180,9 @@ on_success:
   
   # deploy docs
   - ps: |
-      if ( $env:APPVEYOR_REPO_COMMIT_MESSAGE -contains "(release)" )
+      if ( $env:APPVEYOR_REPO_COMMIT_MESSAGE -like "*(release)*" )
       {
-        if ( $env:PYDOCRUN -contains "true" )
+        if ( $env:PYDOCRUN -like "*true*" )
         {
           cd ..
           git checkout gh-pages
