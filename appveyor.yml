@@ -5,6 +5,9 @@ branches:
   - master
 build:
   verbosity: minimal
+  
+# Do not build on tags
+skip_tags: true
 
 environment:
 
