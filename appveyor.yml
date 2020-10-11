@@ -24,7 +24,7 @@ environment:
       PYSTACK: "3.6"
       PYFULLVERSION: "3.6.10"
       MACOS: "true"
-
+    
     - APPVEYOR_BUILD_WORKER_IMAGE: Ubuntu
       ARCH: "x64"
       CONFIG: Release
@@ -32,7 +32,7 @@ environment:
       PYLOC: "python"
       PYSTACK: "3.6"
       PYFULLVERSION: "3.6.12"
-
+    
     - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2019
       GENERATOR: "Visual Studio 16 2019"
       ARCH: "x64"
@@ -58,7 +58,7 @@ environment:
       PYLOC: "python"
       PYSTACK: "3.7"
       PYFULLVERSION: "3.7.9"
-
+    
     - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2019
       GENERATOR: "Visual Studio 16 2019"
       ARCH: "x64"
@@ -76,7 +76,7 @@ environment:
       PYSTACK: "3.8"
       PYFULLVERSION: "3.8.3"
       MACOS: "true"
-
+    
     - APPVEYOR_BUILD_WORKER_IMAGE: Ubuntu
       ARCH: "x64"
       CONFIG: Release
@@ -177,19 +177,25 @@ on_success:
   - cmd: if "%APPVEYOR_REPO_COMMIT_MESSAGE:(test)=%" neq "%APPVEYOR_REPO_COMMIT_MESSAGE%" call %PYLOC% -m twine upload --repository testpypi C:/projects/dearpygui/dist/* -u RaylockLLC -p %pypi_password% --skip-existing
   - cmd: if "%APPVEYOR_REPO_COMMIT_MESSAGE:(release)=%" neq "%APPVEYOR_REPO_COMMIT_MESSAGE%" call %PYLOC% -m twine upload --repository testpypi C:/projects/dearpygui/dist/* -u RaylockLLC -p %pypi_password% --skip-existing
   - cmd: if "%APPVEYOR_REPO_COMMIT_MESSAGE:(release)=%" neq "%APPVEYOR_REPO_COMMIT_MESSAGE%" call %PYLOC% -m twine upload C:/projects/dearpygui/dist/* -u RaylockLLC -p %pypi_password% --skip-existing
+  
   - ps: |
-      if ( ($env:APPVEYOR_REPO_COMMIT_MESSAGE -contains "(release)") -and ($env:PYDOCRUN -eq "true") )
+      if ( $env:APPVEYOR_REPO_COMMIT_MESSAGE -contains "(release)" )
       {
-        cd ..
-        git checkout gh-pages
-        Add-Content -Path "$HOME\.git-credentials" -Value "https://$($env:git_token):x-oauth-basic@github.com`n" -NoNewline
-        C:\Python38-x64\python.exe -m pip install C:\projects\dearpygui\dist\dearpygui-$env:APPVEYOR_BUILD_VERSION-cp38-cp38-win_amd64.whl
-        .\generate_html_api.bat
-        git config --global credential.helper store
-        git config --global user.email "jonathanhoffstadt@yahoo.com"
-        git config --global user.name "Jonathan Hoffstadt"
-        git commit -a -m "Update Docs for $env:APPVEYOR_BUILD_VERSION"
-        git push origin gh-pages -q
+        if ( $env:PYDOCRUN -contains "true" )
+        {
+          cd ..
+          git checkout gh-pages
+          Add-Content -Path "$HOME\.git-credentials" -Value "https://$($env:git_token):x-oauth-basic@github.com`n" -NoNewline
+          C:\Python38-x64\python.exe -m pip install C:\projects\dearpygui\dist\dearpygui-$env:APPVEYOR_BUILD_VERSION-cp38-cp38-win_amd64.whl
+          C:\Python38-x64\python.exe -m pip install pdoc3
+          C:\Python38-x64\python.exe -m pdoc --html dearpygui -f
+          C:\Python38-x64\python.exe html_script.py
+          git config --global credential.helper store
+          git config --global user.email "jonathanhoffstadt@yahoo.com"
+          git config --global user.name "Jonathan Hoffstadt"
+          git commit -a -m "Update Docs for $env:APPVEYOR_BUILD_VERSION"
+          git push origin gh-pages -q
+        }
       }
 
   # Ubuntu & MacOS
