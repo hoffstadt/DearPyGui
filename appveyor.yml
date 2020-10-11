@@ -2,7 +2,7 @@ version: 0.4.{build}
 
 branches:
   only:
-  - citesting
+  - master
 build:
   verbosity: minimal
 
@@ -16,6 +16,75 @@ environment:
 
   matrix:
 
+    - APPVEYOR_BUILD_WORKER_IMAGE: macos
+      ARCH: "x64"
+      CONFIG: Release
+      PYVER: 36
+      PYLOC: "python"
+      PYSTACK: "3.6"
+      PYFULLVERSION: "3.6.10"
+      MACOS: "true"
+
+    - APPVEYOR_BUILD_WORKER_IMAGE: Ubuntu
+      ARCH: "x64"
+      CONFIG: Release
+      PYVER: 36
+      PYLOC: "python"
+      PYSTACK: "3.6"
+      PYFULLVERSION: "3.6.12"
+
+    - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2019
+      GENERATOR: "Visual Studio 16 2019"
+      ARCH: "x64"
+      CONFIG: Release
+      PYVER: 36
+      PYLOC: "C:/Python36-x64/python.exe"
+      PYSTACK: "3.6"
+      PYFULLVERSION: "3.6.12"
+    
+    - APPVEYOR_BUILD_WORKER_IMAGE: macos
+      ARCH: "x64"
+      CONFIG: Release
+      PYVER: 37
+      PYLOC: "python"
+      PYSTACK: "3.7"
+      PYFULLVERSION: "3.7.7"
+      MACOS: "true"
+    
+    - APPVEYOR_BUILD_WORKER_IMAGE: Ubuntu
+      ARCH: "x64"
+      CONFIG: Release
+      PYVER: 37
+      PYLOC: "python"
+      PYSTACK: "3.7"
+      PYFULLVERSION: "3.7.9"
+
+    - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2019
+      GENERATOR: "Visual Studio 16 2019"
+      ARCH: "x64"
+      CONFIG: Release
+      PYVER: 37
+      PYLOC: "C:/Python37-x64/python.exe"
+      PYSTACK: "3.7"
+      PYFULLVERSION: "3.7.9"
+    
+    - APPVEYOR_BUILD_WORKER_IMAGE: macos
+      ARCH: "x64"
+      CONFIG: Release
+      PYVER: 38
+      PYLOC: "python"
+      PYSTACK: "3.8"
+      PYFULLVERSION: "3.8.3"
+      MACOS: "true"
+
+    - APPVEYOR_BUILD_WORKER_IMAGE: Ubuntu
+      ARCH: "x64"
+      CONFIG: Release
+      PYVER: 38
+      PYLOC: "python"
+      PYSTACK: "3.8"
+      PYFULLVERSION: "3.8.5"
+
     - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2019
       GENERATOR: "Visual Studio 16 2019"
       ARCH: "x64"
@@ -25,79 +94,6 @@ environment:
       PYSTACK: "3.8"
       PYFULLVERSION: "3.8.5"
       PYDOCRUN: "true"
-
-    - APPVEYOR_BUILD_WORKER_IMAGE: macos
-      ARCH: "x64"
-      CONFIG: Release
-      PYVER: 36
-      PYLOC: "python"
-      PYSTACK: "3.6"
-      PYFULLVERSION: "3.6.10"
-      MACOS: "true"
-    
-    #- APPVEYOR_BUILD_WORKER_IMAGE: macos
-    #  ARCH: "x64"
-    #  CONFIG: Release
-    #  PYVER: 38
-    #  PYLOC: "python"
-    #  PYSTACK: "3.8"
-    #  PYFULLVERSION: "3.8.3"
-    #  MACOS: "true"
-    #
-    #- APPVEYOR_BUILD_WORKER_IMAGE: macos
-    #  ARCH: "x64"
-    #  CONFIG: Release
-    #  PYVER: 37
-    #  PYLOC: "python"
-    #  PYSTACK: "3.7"
-    #  PYFULLVERSION: "3.7.7"
-    #  MACOS: "true"
-    #
-    #- APPVEYOR_BUILD_WORKER_IMAGE: Ubuntu
-    #  ARCH: "x64"
-    #  CONFIG: Release
-    #  PYVER: 36
-    #  PYLOC: "python"
-    #  PYSTACK: "3.6"
-    #  PYFULLVERSION: "3.6.12"
-    #
-    #- APPVEYOR_BUILD_WORKER_IMAGE: Ubuntu
-    #  ARCH: "x64"
-    #  CONFIG: Release
-    #  PYVER: 37
-    #  PYLOC: "python"
-    #  PYSTACK: "3.7"
-    #  PYFULLVERSION: "3.7.9"
-    #
-    - APPVEYOR_BUILD_WORKER_IMAGE: Ubuntu
-      ARCH: "x64"
-      CONFIG: Release
-      PYVER: 38
-      PYLOC: "python"
-      PYSTACK: "3.8"
-      PYFULLVERSION: "3.8.5"
-
-
-    
-    #- APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2019
-    #  GENERATOR: "Visual Studio 16 2019"
-    #  ARCH: "x64"
-    #  CONFIG: Release
-    #  PYVER: 37
-    #  PYLOC: "C:/Python37-x64/python.exe"
-    #  PYSTACK: "3.7"
-    #  PYFULLVERSION: "3.7.9"
-    #
-    #- APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2019
-    #  GENERATOR: "Visual Studio 16 2019"
-    #  ARCH: "x64"
-    #  CONFIG: Release
-    #  PYVER: 36
-    #  PYLOC: "C:/Python36-x64/python.exe"
-    #  PYSTACK: "3.6"
-    #  PYFULLVERSION: "3.6.12"
-
-
 
 matrix:
   fast_finish: true
@@ -199,8 +195,6 @@ on_success:
   # Ubuntu & MacOS
   - sh: |
       if [ "$MACOS" = "" ]; then
-        sudo apt-get update
-        sudo apt-get install libglu1-mesa-dev libgl1-mesa-dev xorg-dev libxrandr-dev -y
         ${PYLOC} BuildPythonWheel.py /home/appveyor/projects/dearpygui/cmake-build-release/DearPyGui/core.so ${APPVEYOR_BUILD_VERSION}
         ${PYLOC} -m pip install twine --upgrade
         ${PYLOC} -m pip install wheel
