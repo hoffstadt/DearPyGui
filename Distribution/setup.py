@@ -12,7 +12,8 @@ with open("distinfo.txt", encoding='utf-8') as file:
     DEARPYGUI_FILE = lines[0].rstrip("\n")
     DEARPYGUI_VERSION = lines[1].rstrip("\n")
 
-print(DEARPYGUI_FILE)
+print(len(DEARPYGUI_FILE))
+print(len("core.pyd"))
 
 class BinaryDistribution(Distribution):
     """Distribution which always forces a binary package with platform name"""
@@ -47,8 +48,7 @@ setup(
     ],
     packages=find_packages(exclude=['contrib', 'docs', 'tests']),  # Required
     package_data={  # Optional
-    #'dearpygui': [DEARPYGUI_FILE, "core.pyi", "simple.py", "demo.py"],
-    'dearpygui': ["core.pyd", "core.pyi", "simple.py", "demo.py"],
+    'dearpygui': [DEARPYGUI_FILE, "core.pyi", "simple.py", "demo.py"],
     },
     distclass=BinaryDistribution
 )
