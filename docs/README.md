@@ -13,13 +13,12 @@
 [![build status](https://github.com/hoffstadt/DearPyGui/workflows/Embedded%20Build/badge.svg)](https://github.com/hoffstadt/DearPyGui/actions?workflow=Embedded%20Build)
 [![Build status](https://ci.appveyor.com/api/projects/status/eypfn2lyuwfv8mel?svg=true)](https://ci.appveyor.com/project/hoffstadt/dearpygui)
 
-**Dear PyGui** is a **simple to use (but powerful) Python GUI framework**. _Dear PyGui_ provides a wrapping of **[Dear ImGui](https://github.com/ocornut/imgui)** that provides a hybrid of a traditional retained mode GUI and _Dear ImGui_'s immediate mode paradigm.
+**Dear PyGui** is a **simple to use (but powerful) Python GUI framework**. _Dear PyGui_ provides a wrapping of **[Dear ImGui](https://github.com/ocornut/imgui)** which simulates a traditional retained mode GUI (as opposed to _Dear ImGui_'s immediate mode paradigm).
 
 <BR>![Themes](https://github.com/hoffstadt/DearPyGui/blob/assets/linuxthemes.PNG?raw=true)
 
 **Dear PyGui is fundamentally different than other Python GUI frameworks**. Under the hood, _Dear PyGui_ 
-uses the immediate mode paradigm allowing for extremely dynamic interfaces. _Dear PyGui_ 
-does not use native widgets, but instead draws the widgets using your computer's GPU. _Dear PyGui_ is currently supported on
+uses the immediate mode paradigm and your computer's GPU to facilitate extremely dynamic interfaces. _Dear PyGui_ is currently supported on
 the following platforms:
 
 | Platform | Rendering API |
@@ -31,11 +30,11 @@ the following platforms:
 In the same manner Dear ImGui provides a simple way to create tools for game developers, _Dear PyGui_ provides a 
 simple way for python developers to **create quick and powerful GUIs for scripts**.
 
-| [Installing](#installing) - [Usage](#usage) - [References](#References) - [Features](#some-features) - [Support](#support) - [Building](#building)|
+| [Installing](#installing) - [Usage](#usage) - [Resources](#Resources) - [Features](#some-features) - [Support](#support) - [Building](#building)|
 :----------------------------------------------------------: |
 | [Upcoming changes](#upcoming-changes) - [Gallery](#gallery) - [Sponsors](#sponsors) - [Credits](#credits) - [License](#license)|
 
-### Installing
+### Installation
 
 ---
 
@@ -46,15 +45,15 @@ Ensure you have at least Python 3.6.
  pip3 install dearpygui
  ```
 
-### References
+### Resources
 
  ---
   
-- [DearPyGui-Examples repository](https://github.com/Pcothren/DearPyGui-Examples) has a variety of examples demonstrating usage.
-- [Tutorials](https://hoffstadt.github.io/DearPyGui/tutorial.html) are for getting started.
-- [Online Documentation](https://hoffstadt.github.io/DearPyGui/) is the most complete documentation.
-- Internal Docs: Run the **show_documentation** command from within the library to view an reference guide. 
-- Complete Demo: You can also view a mostly complete showcase of _Dear PyGUI_ by running the **show_demo** command found in _dearpygui.demo_.
+- [DearPyGui-Examples repository](https://github.com/Pcothren/DearPyGui-Examples) for example usage.
+- [Tutorials](https://hoffstadt.github.io/DearPyGui/tutorial.html) for getting started.
+- [Online Documentation](https://hoffstadt.github.io/DearPyGui/) for official documentation.
+- Internal Documentation: Run the **show_documentation** command from within the library to view an reference guide. 
+- Complete Demo: You can also view a mostly complete showcase of _Dear PyGui_ by running the **show_demo** command found in _dearpygui.demo_.
 
 
 ### Usage
@@ -115,11 +114,11 @@ _Dear PyGui_ includes several tools to help developers with _DearPyGui_ app deve
 
 ---
 
-- [Sponsor](https://github.com/sponsors/hoffstadt) If you Enjoy Dear PyGui please consider becoming a sponsor.
+- [Sponsor](https://github.com/sponsors/hoffstadt) If you enjoy _Dear PyGui_ please consider becoming a sponsor.
 - [Paypal](https://www.paypal.com/paypalme/JonathanHoffstadt) For those who don't like rewards.
 
 If you are having issues or want to help, here are some places you can go:
-- [Github Forum](https://github.com/RaylockLLC/DearPyGui/issues/)
+- [Github Forum](https://github.com/hoffstadt/DearPyGui/issues/)
 - [Discord Forum](https://discord.gg/tyE7Gu4)
 - [Reddit](https://www.reddit.com/r/DearPyGui/)
 
@@ -176,4 +175,4 @@ Aiekick for his work on the [ImGuiFileDialog](https://github.com/aiekick)
 
 ---
 
-DearPyGui is licensed under the [MIT License](https://github.com/hoffstadt/DearPyGui/blob/master/LICENSE).
+_Dear PyGui_ is licensed under the [MIT License](https://github.com/hoffstadt/DearPyGui/blob/master/LICENSE).
