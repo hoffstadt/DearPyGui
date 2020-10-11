@@ -28,8 +28,9 @@ HOW TO UPDATE?
 
 Decorated log: https://github.com/hoffstadt/DearPyGui/releases/tag/v0.4.x
 
-New:
+Updated:
 - Python:        Added Python 3.6 Support
+- Dear Imgui:    Upgraded to Version 1.79
 
 Fixes:
 - Windows:       on_move flag was not being used
