@@ -200,6 +200,10 @@ on_success:
         git push origin gh-pages -q
       }
 
+  - cmd: dir
+  - cmd: cd dearpygui
+  - cmd: dir
+
   # Ubuntu & MacOS
   - sh: |
       if [ "$MACOS" = "" ]; then
