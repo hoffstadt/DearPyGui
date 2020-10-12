@@ -46,7 +46,6 @@ namespace Marvel {
 			{mvPythonDataType::KeywordOnly},
 			{mvPythonDataType::String, "label", "", "''"},
 			{mvPythonDataType::Bool, "show", "Attempt to render", "True"},
-			{mvPythonDataType::String, "tip", "Adds a simple tooltip", "''"},
 			{mvPythonDataType::String, "parent", "Parent this item will be added to. (runtime adding)", "''"},
 			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)", "''"},
 			{mvPythonDataType::Bool, "enabled", "", "True"},
@@ -62,7 +61,6 @@ namespace Marvel {
 			{mvPythonDataType::String, "label", "", "''"},
 			{mvPythonDataType::Bool, "show", "Attempt to render", "True"},
 			{mvPythonDataType::Bool, "enabled", "", "True"},
-			{mvPythonDataType::String, "tip", "Adds a simple tooltip", "''"},
 			{mvPythonDataType::String, "parent", "Parent this item will be added to. (runtime adding)", "''"},
 			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)", "''"},
 		}, "Adds a menu item to an existing menu.", "None", "Containers") });
@@ -267,13 +265,12 @@ namespace Marvel {
 		const char* name;
 		const char* label = "";
 		int show = true;
-		const char* tip = "";
 		const char* parent = "";
 		const char* before = "";
 		int enabled = true;
 
 		if (!(*mvApp::GetApp()->getParsers())["add_menu"].parse(args, kwargs, __FUNCTION__, &name,
-			&label, &show, &tip, &parent, &before, &enabled))
+			&label, &show, &parent, &before, &enabled))
 			return ToPyBool(false);
 
 		mvAppItem* item = new mvMenu(name);
@@ -300,12 +297,11 @@ namespace Marvel {
 		const char* label = "";
 		int show = true;
 		int enabled = true;
-		const char* tip = "";
 		const char* parent = "";
 		const char* before = "";
 
 		if (!(*mvApp::GetApp()->getParsers())["add_menu_item"].parse(args, kwargs, __FUNCTION__, &name,
-			&shortcut, &check, &callback, &callback_data, &label, &show, &enabled, &tip, &parent, &before))
+			&shortcut, &check, &callback, &callback_data, &label, &show, &enabled, &parent, &before))
 			return ToPyBool(false);
 
 		mvAppItem* item = new mvMenuItem(name);

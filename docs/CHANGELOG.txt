@@ -26,7 +26,16 @@ HOW TO UPDATE?
  VERSION 0.4.x
 -----------------------------------------------------------------------
 
-Decorated log: https://github.com/hoffstadt/DearPyGui/releases/tag/v0.4.x
+Decorated log: https://github.com/hoffstadt/DearPyGui/releases/tag/v0.4.6x
+
+Changes:
+- Menus: Removed tip keyword #274
+
+-----------------------------------------------------------------------
+ VERSION 0.4.605
+-----------------------------------------------------------------------
+
+Decorated log: https://github.com/hoffstadt/DearPyGui/releases/tag/v0.4.605
 
 Updated:
 - Dear Imgui:    Revert to Version 1.78
