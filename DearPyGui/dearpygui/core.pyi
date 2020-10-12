@@ -210,7 +210,7 @@ def add_managed_columns(name: str, columns: int, *, border: bool = True, show: b
 	"""Adds managed columns."""
 	...
 
-def add_menu(name: str, *, label: str = '', show: bool = True, tip: str = '', parent: str = '', before: str = '', enabled: bool = True) -> None:
+def add_menu(name: str, *, label: str = '', show: bool = True, parent: str = '', before: str = '', enabled: bool = True) -> None:
 	"""Adds a menu to an existing menu bar. Must be followed by a call to end_menu."""
 	...
 
@@ -218,7 +218,7 @@ def add_menu_bar(name: str, *, show: bool = True, parent: str = '', before: str 
 	"""Adds a menu bar to a window. Must be followed by a call to end_menu_bar."""
 	...
 
-def add_menu_item(name: str, *, shortcut: str = '', check: bool = False, callback: Callable = None, callback_data: Any = None, label: str = '', show: bool = True, enabled: bool = True, tip: str = '', parent: str = '', before: str = '') -> None:
+def add_menu_item(name: str, *, shortcut: str = '', check: bool = False, callback: Callable = None, callback_data: Any = None, label: str = '', show: bool = True, enabled: bool = True, parent: str = '', before: str = '') -> None:
 	"""Adds a menu item to an existing menu."""
 	...
 

@@ -113,7 +113,7 @@ def menu_bar(name: str, *, show: bool = True, parent: str = "", before: str = ""
 
 
 @contextmanager
-def menu(name: str, *, label: str = "__DearPyGuiDefault", show: bool = True, tip: str = "", parent: str = "",
+def menu(name: str, *, label: str = "__DearPyGuiDefault", show: bool = True, parent: str = "",
          before: str = "", enabled: bool = True):
     """Wraps add_menu() and automates calling end().
 
@@ -122,7 +122,6 @@ def menu(name: str, *, label: str = "__DearPyGuiDefault", show: bool = True, tip
             anything after "##" that occurs in the name will not be shown on screen.
         **label: Displayed name of the item.
         **show: Decides if the item is shown of not.
-        **tip: Adds a simple tooltip
         **parent: Parent this item will be added to. (runtime adding)
         **before: This item will be displayed before the specified item in the parent. (runtime adding)
         **enabled: Will enable or disable the menu.
@@ -132,9 +131,9 @@ def menu(name: str, *, label: str = "__DearPyGuiDefault", show: bool = True, tip
     """
     try: 
         if label == "__DearPyGuiDefault":
-            yield internal_dpg.add_menu(name, show=show, tip=tip, parent=parent, before=before, enabled=enabled)
+            yield internal_dpg.add_menu(name, show=show, parent=parent, before=before, enabled=enabled)
         else:
-            yield internal_dpg.add_menu(name, label=label, show=show, tip=tip, parent=parent,
+            yield internal_dpg.add_menu(name, label=label, show=show, parent=parent,
                                         before=before, enabled=enabled)
     finally:
         internal_dpg.end()
