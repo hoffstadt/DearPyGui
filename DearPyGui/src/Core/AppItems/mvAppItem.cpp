@@ -55,8 +55,9 @@ namespace Marvel{
 		if (PyObject* item = PyDict_GetItemString(dict, "tip")) setTip(ToString(item));
 		if (PyObject* item = PyDict_GetItemString(dict, "width")) setWidth(ToInt(item));
 		if (PyObject* item = PyDict_GetItemString(dict, "height")) setHeight(ToInt(item));
-		if (PyObject* item = PyDict_GetItemString(dict, "show")) m_show =ToBool(item);
+		if (PyObject* item = PyDict_GetItemString(dict, "show")) m_show = ToBool(item);
 		if (PyObject* item = PyDict_GetItemString(dict, "source")) setDataSource(ToString(item));
+		if (PyObject* item = PyDict_GetItemString(dict, "enabled")) m_enabled = ToBool(item);
 	}
 
 	void mvAppItem::getConfigDict(PyObject* dict)
@@ -72,6 +73,7 @@ namespace Marvel{
 		PyDict_SetItemString(dict, "width", ToPyInt(m_width));
 		PyDict_SetItemString(dict, "height", ToPyInt(m_height));
 		PyDict_SetItemString(dict, "show", ToPyBool(m_show));
+		PyDict_SetItemString(dict, "enabled", ToPyBool(m_enabled));
 	}
 
 	void mvAppItem::registerWindowFocusing()

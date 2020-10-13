@@ -128,6 +128,7 @@ namespace Marvel {
         [[nodiscard]] bool                  isItemDeactivated         () const { return m_deactivated; }
         [[nodiscard]] bool                  isItemDeactivatedAfterEdit() const { return m_deactivatedAfterEdit; }
         [[nodiscard]] bool                  isItemToogledOpen         () const { return m_toggledOpen; }
+        [[nodiscard]] bool                  isItemEnabled             () const { return m_enabled; }
         [[nodiscard]] mvVec2                getItemRectMin            () const { return m_rectMin; }
         [[nodiscard]] mvVec2                getItemRectMax            () const { return m_rectMax; }
         [[nodiscard]] mvVec2                getItemRectSize           () const { return m_rectSize; }
@@ -155,6 +156,7 @@ namespace Marvel {
         inline void                         setDeactivated            (bool value)              { m_deactivated = value; }
         inline void                         setDeactivatedAfterEdit   (bool value)              { m_deactivatedAfterEdit = value; }
         inline void                         setToggledOpen            (bool value)              { m_toggledOpen = value; }
+        inline void                         setEnabled                (bool value)              { m_enabled = value; }
         inline void                         setRectMin                (mvVec2 value)            { m_rectMin = value; }
         inline void                         setRectMax                (mvVec2 value)            { m_rectMax = value; }
         inline void                         setRectSize               (mvVec2 value)            { m_rectSize = value; }
@@ -184,6 +186,7 @@ namespace Marvel {
         bool                    m_deactivated          = false;
         bool                    m_deactivatedAfterEdit = false;
         bool                    m_toggledOpen          = false;
+        bool                    m_enabled              = true;
         mvAppItem*              m_parent               = nullptr;
         std::vector<mvAppItem*> m_children;
         mvVec2                  m_rectMin  = {0.0f, 0.0f};

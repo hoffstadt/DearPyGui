@@ -222,7 +222,6 @@ namespace Marvel {
 			mvGlobalIntepreterLock gil;
 			if (PyObject* item = PyDict_GetItemString(dict, "shortcut")) m_shortcut = ToString(item);
 			if (PyObject* item = PyDict_GetItemString(dict, "check")) m_check = ToBool(item);
-			if (PyObject* item = PyDict_GetItemString(dict, "enabled")) m_enabled = ToBool(item);
 
 		}
 
@@ -233,14 +232,12 @@ namespace Marvel {
 			mvGlobalIntepreterLock gil;
 			PyDict_SetItemString(dict, "shortcut", ToPyString(m_shortcut));
 			PyDict_SetItemString(dict, "check", ToPyBool(m_check));
-			PyDict_SetItemString(dict, "enabled", ToPyBool(m_enabled));
 		}
 
 	private:
 
 		std::string m_shortcut;
 		bool        m_check = false;
-		bool        m_enabled = true;
 
 	};
 
