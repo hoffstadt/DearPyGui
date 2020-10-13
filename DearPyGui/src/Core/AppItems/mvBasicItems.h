@@ -191,7 +191,6 @@ namespace Marvel {
 				return;
 			mvGlobalIntepreterLock gil;
 
-			if (PyObject* item = PyDict_GetItemString(dict, "enabled")) m_enabled = ToBool(item);
 			if (PyObject* item = PyDict_GetItemString(dict, "small")) m_small = ToBool(item);
 			if (PyObject* item = PyDict_GetItemString(dict, "arrow")) m_arrow = ToBool(item);
 			if (PyObject* item = PyDict_GetItemString(dict, "direction")) m_direction = ToInt(item);
@@ -202,7 +201,6 @@ namespace Marvel {
 			if (dict == nullptr)
 				return;
 			mvGlobalIntepreterLock gil;
-			PyDict_SetItemString(dict, "enabled", ToPyBool(m_enabled));
 			PyDict_SetItemString(dict, "small", ToPyBool(m_small));
 			PyDict_SetItemString(dict, "arrow", ToPyBool(m_arrow));
 			PyDict_SetItemString(dict, "direction", ToPyInt(m_direction));
@@ -212,7 +210,6 @@ namespace Marvel {
 
 		bool     m_small = false;
 		bool     m_arrow = false;
-		bool     m_enabled = true;
 		ImGuiDir m_direction = ImGuiDir_Up;
 
 	};
