@@ -616,8 +616,6 @@ def show_demo():
                 add_button("Select..##popups##demo")
                 add_same_line()
                 add_text("<None>")
-                add_checkbox("Enable Button", default_value=True, callback=lambda sender, data: configure_item("Select..##popups##demo", enabled=get_value(sender)))
-                helpmarker("Popups will not be ran when their owner is disabled")
                 with popup("Select..##popups##demo", "popup1"):
                     add_text("Aquariam")
                     add_separator()
