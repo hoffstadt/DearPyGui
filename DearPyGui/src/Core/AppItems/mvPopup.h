@@ -31,8 +31,6 @@ namespace Marvel {
 
 		void draw() override
 		{
-			if (!m_parentAddress->isItemEnabled())
-				return;
 
 			pushColorStyles();
 			ImGui::PushID(m_parentAddress);
