@@ -122,9 +122,16 @@ def demo_main_callback(sender, data):
     else:
         set_value("Middle Mouse Released##demo", "False")
 
+def demo_accelerator_callback(sender, data):
+
+    if data == mvKey_T and is_key_down(mvKey_Shift) and is_key_down(mvKey_Control):
+        set_theme("Classic")
+        
+
 def show_demo():
 
     set_render_callback(demo_main_callback)
+    set_accelerator_callback(demo_accelerator_callback)
 
     def on_demo_close(sender, data):
         delete_item("Dear PyGui Demo")
@@ -140,6 +147,7 @@ def show_demo():
         set_key_down_callback(None)
         set_key_press_callback(None)
         set_key_release_callback(None)
+        set_accelerator_callback(None)
 
     with window("Dear PyGui Demo", x_pos=100, y_pos=100, width=800, height=800, on_close=on_demo_close):
 
@@ -147,12 +155,12 @@ def show_demo():
 
             with menu("Menu##demo"):
                 add_menu_item("New##demomenu")
-                add_menu_item("Open##demomenu", shortcut="Ctrl+O")
+                add_menu_item("Open##demomenu")
                 with menu("Open Recent##demo"):
                     add_menu_item("harrell.c##demo")
                     add_menu_item("patty.h##demo")
                     add_menu_item("nick.py##demo")
-                add_menu_item("Save##demo", shortcut="Ctrl+S")
+                add_menu_item("Save##demo")
                 add_menu_item("Save As..#demo")
                 add_separator()
                 with menu("Options##demomenu"):
@@ -165,11 +173,10 @@ def show_demo():
                     add_combo("Combo##demomenu", items=["Yes", "No", "Maybe"])
                     add_checkbox("Some Option##demomenu")
 
-
             with menu("Themes##demo"):
                 add_menu_item("Dark", callback = lambda sender, data: set_theme(sender), check=True)
                 add_menu_item("Light", callback = lambda sender, data: set_theme(sender), check=True)
-                add_menu_item("Classic", callback = lambda sender, data: set_theme(sender), check=True)
+                add_menu_item("Classic", callback = lambda sender, data: set_theme(sender), check=True, shortcut="Ctrl+Shift+T")
                 add_menu_item("Dark 2", callback = lambda sender, data: set_theme(sender), check=True)
                 add_menu_item("Grey", callback = lambda sender, data: set_theme(sender), check=True)
                 add_menu_item("Dark Grey", callback = lambda sender, data: set_theme(sender), check=True)

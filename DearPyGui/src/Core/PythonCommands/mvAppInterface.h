@@ -16,6 +16,7 @@ namespace Marvel {
 	PyObject* stop_dearpygui                 (PyObject* self, PyObject* args, PyObject* kwargs);
 	PyObject* set_start_callback             (PyObject* self, PyObject* args, PyObject* kwargs);
 	PyObject* set_exit_callback              (PyObject* self, PyObject* args, PyObject* kwargs);
+	PyObject* set_accelerator_callback       (PyObject* self, PyObject* args, PyObject* kwargs);
 	PyObject* setup_dearpygui                (PyObject* self, PyObject* args, PyObject* kwargs);
 	PyObject* render_dearpygui_frame         (PyObject* self, PyObject* args, PyObject* kwargs);
 	PyObject* cleanup_dearpygui              (PyObject* self, PyObject* args, PyObject* kwargs);

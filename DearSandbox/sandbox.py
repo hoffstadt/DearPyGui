@@ -18,7 +18,7 @@ add_additional_font("C:/dev/DearPyGui/Resources/NotoSerifCJKjp-Medium.otf", 20)
 #add_image_button("image", "C:/dev/DearPyGui/Examples/SpriteMapExample.png")
 
 show_demo()
-add_button("buttonme", enabled=False)
+
 with window("Asyncronous##dialog", show=False):
     add_data('threadNumber', 0)
     def LongCallback2(sender, data):

@@ -18,6 +18,10 @@ namespace Marvel {
 			{mvPythonDataType::Object, "callback"},
 		}, "Callback to run when exiting main window.") });
 
+		parsers->insert({ "set_accelerator_callback", mvPythonParser({
+			{mvPythonDataType::Object, "callback"},
+		}, "Callback similar to keypress but used for accelerator keys.") });
+
 		parsers->insert({ "set_vsync", mvPythonParser({
 			{mvPythonDataType::Bool, "value"},
 		}, "Sets vsync on or off.") });
@@ -344,6 +348,17 @@ namespace Marvel {
 			return GetPyNone();
 
 		mvApp::GetApp()->setOnCloseCallback(callback);
+		return GetPyNone();
+	}
+
+	PyObject* set_accelerator_callback(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		PyObject* callback;
+
+		if (!(*mvApp::GetApp()->getParsers())["set_accelerator_callback"].parse(args, kwargs, __FUNCTION__, &callback))
+			return GetPyNone();
+
+		mvApp::GetApp()->setAcceleratorCallback(callback);
 		return GetPyNone();
 	}
 
