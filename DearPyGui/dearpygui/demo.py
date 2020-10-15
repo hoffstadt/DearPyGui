@@ -124,8 +124,29 @@ def demo_main_callback(sender, data):
 
 def demo_accelerator_callback(sender, data):
 
-    if data == mvKey_T and is_key_down(mvKey_Shift) and is_key_down(mvKey_Control):
-        set_theme("Classic")
+    mapping = {
+        "P": mvKey_P,
+        "Y": mvKey_Y,
+        "T": mvKey_T,
+        "SHIFT": mvKey_Shift,
+        "CTRL": mvKey_Control,
+        }
+
+    def are_all_true(shortcut):
+        keys = shortcut.split("+")
+        for item in keys:
+            if not is_key_down(mapping[item.upper()]):
+                return False
+        return True
+
+    items = get_all_items()
+    for item in items:
+        print(get_item_type(item))
+        if get_item_type(item) == "mvAppItemType::MenuItem":
+            shortcut = get_item_configuration(item)["shortcut"]
+            if shortcut != None and shortcut != "":
+                if are_all_true(shortcut):
+                    get_item_callback(item)(item, None)
         
 
 def show_demo():
@@ -182,8 +203,8 @@ def show_demo():
                 add_menu_item("Dark Grey", callback = lambda sender, data: set_theme(sender), check=True)
                 add_menu_item("Cherry", callback = lambda sender, data: set_theme(sender), check=True)
                 add_menu_item("Purple", callback = lambda sender, data: set_theme(sender), check=True)
-                add_menu_item("Gold", callback = lambda sender, data: set_theme(sender), check=True)
-                add_menu_item("Red", callback = lambda sender, data: set_theme(sender), check=True)
+                add_menu_item("Gold", callback = lambda sender, data: set_theme(sender), check=True, shortcut="Ctrl+Shift+P")
+                add_menu_item("Red", callback = lambda sender, data: set_theme(sender), check=True, shortcut="Ctrl+Shift+Y")
 
             with menu("Tools##demo"):
                 add_menu_item("Show Logger##demo", callback=show_logger)
