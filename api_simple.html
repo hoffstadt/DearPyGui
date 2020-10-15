@@ -145,7 +145,7 @@ def menu_bar(name: str, *, show: bool = True, parent: str = &#34;&#34;, before: 
 
 
 @contextmanager
-def menu(name: str, *, label: str = &#34;__DearPyGuiDefault&#34;, show: bool = True, tip: str = &#34;&#34;, parent: str = &#34;&#34;,
+def menu(name: str, *, label: str = &#34;__DearPyGuiDefault&#34;, show: bool = True, parent: str = &#34;&#34;,
          before: str = &#34;&#34;, enabled: bool = True):
     &#34;&#34;&#34;Wraps add_menu() and automates calling end().
 
@@ -154,7 +154,6 @@ def menu(name: str, *, label: str = &#34;__DearPyGuiDefault&#34;, show: bool = T
             anything after &#34;##&#34; that occurs in the name will not be shown on screen.
         **label: Displayed name of the item.
         **show: Decides if the item is shown of not.
-        **tip: Adds a simple tooltip
         **parent: Parent this item will be added to. (runtime adding)
         **before: This item will be displayed before the specified item in the parent. (runtime adding)
         **enabled: Will enable or disable the menu.
@@ -164,9 +163,9 @@ def menu(name: str, *, label: str = &#34;__DearPyGuiDefault&#34;, show: bool = T
     &#34;&#34;&#34;
     try: 
         if label == &#34;__DearPyGuiDefault&#34;:
-            yield internal_dpg.add_menu(name, show=show, tip=tip, parent=parent, before=before, enabled=enabled)
+            yield internal_dpg.add_menu(name, show=show, parent=parent, before=before, enabled=enabled)
         else:
-            yield internal_dpg.add_menu(name, label=label, show=show, tip=tip, parent=parent,
+            yield internal_dpg.add_menu(name, label=label, show=show, parent=parent,
                                         before=before, enabled=enabled)
     finally:
         internal_dpg.end()
@@ -1217,7 +1216,7 @@ def managed_columns(name: str, columns: int, *, border: bool = True, show: bool 
 </details>
 </dd>
 <dt id="dearpygui.simple.menu"><code class="name flex">
-<span>def <span class="ident">menu</span></span>(<span>name: str, *, label: str = '__DearPyGuiDefault', show: bool = True, tip: str = '', parent: str = '', before: str = '', enabled: bool = True)</span>
+<span>def <span class="ident">menu</span></span>(<span>name: str, *, label: str = '__DearPyGuiDefault', show: bool = True, parent: str = '', before: str = '', enabled: bool = True)</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Wraps add_menu() and automates calling end().</p>
@@ -1230,8 +1229,6 @@ anything after "##" that occurs in the name will not be shown on screen.</dd>
 <dd>Displayed name of the item.</dd>
 <dt><strong><code>**show</code></strong></dt>
 <dd>Decides if the item is shown of not.</dd>
-<dt><strong><code>**tip</code></strong></dt>
-<dd>Adds a simple tooltip</dd>
 <dt><strong><code>**parent</code></strong></dt>
 <dd>Parent this item will be added to. (runtime adding)</dd>
 <dt><strong><code>**before</code></strong></dt>
@@ -1246,7 +1243,7 @@ anything after "##" that occurs in the name will not be shown on screen.</dd>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">@contextmanager
-def menu(name: str, *, label: str = &#34;__DearPyGuiDefault&#34;, show: bool = True, tip: str = &#34;&#34;, parent: str = &#34;&#34;,
+def menu(name: str, *, label: str = &#34;__DearPyGuiDefault&#34;, show: bool = True, parent: str = &#34;&#34;,
          before: str = &#34;&#34;, enabled: bool = True):
     &#34;&#34;&#34;Wraps add_menu() and automates calling end().
 
@@ -1255,7 +1252,6 @@ def menu(name: str, *, label: str = &#34;__DearPyGuiDefault&#34;, show: bool = T
             anything after &#34;##&#34; that occurs in the name will not be shown on screen.
         **label: Displayed name of the item.
         **show: Decides if the item is shown of not.
-        **tip: Adds a simple tooltip
         **parent: Parent this item will be added to. (runtime adding)
         **before: This item will be displayed before the specified item in the parent. (runtime adding)
         **enabled: Will enable or disable the menu.
@@ -1265,9 +1261,9 @@ def menu(name: str, *, label: str = &#34;__DearPyGuiDefault&#34;, show: bool = T
     &#34;&#34;&#34;
     try: 
         if label == &#34;__DearPyGuiDefault&#34;:
-            yield internal_dpg.add_menu(name, show=show, tip=tip, parent=parent, before=before, enabled=enabled)
+            yield internal_dpg.add_menu(name, show=show, parent=parent, before=before, enabled=enabled)
         else:
-            yield internal_dpg.add_menu(name, label=label, show=show, tip=tip, parent=parent,
+            yield internal_dpg.add_menu(name, label=label, show=show, parent=parent,
                                         before=before, enabled=enabled)
     finally:
         internal_dpg.end()</code></pre>
