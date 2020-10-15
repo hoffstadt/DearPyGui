@@ -902,6 +902,10 @@ def select_directory_dialog(callback: Callable = None) -> None:
 	"""Opens a select directory dialog."""
 	...
 
+def set_accelerator_callback(callback: Any) -> None:
+	"""Callback similar to keypress but used for accelerator keys."""
+	...
+
 def set_color_map(plot: str, map: int) -> None:
 	"""Sets the color map of the plot's series."""
 	...
