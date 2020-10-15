@@ -467,7 +467,8 @@ namespace Marvel {
 			{mvPythonDataType::String, "source", "", "''"},
 			{mvPythonDataType::String, "label", "", "''"},
 			{mvPythonDataType::String, "popup", "", "''"},
-			{mvPythonDataType::Bool, "show", "Attempt to render", "True"}
+			{mvPythonDataType::Bool, "show", "Attempt to render", "True"},
+			{mvPythonDataType::Bool, "enabled", "", "True"}
 		}, "Adds a checkbox widget.", "None", "Adding Widgets") });
 
 		parsers->insert({ "add_dummy", mvPythonParser({
@@ -1435,10 +1436,11 @@ namespace Marvel {
 		const char* label = "";
 		const char* popup = "";
 		int show = true;
+		int enabled = true;
 
 		if (!(*mvApp::GetApp()->getParsers())["add_checkbox"].parse(args, kwargs, __FUNCTION__, &name,
 			&default_value, &callback, &callback_data, &tip, &parent, &before, &source,
-			&label, &popup, &show))
+			&label, &popup, &show, &enabled))
 			return ToPyBool(false);
 
 		mvAppItem* item = new mvCheckbox(name, default_value, source);

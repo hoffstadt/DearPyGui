@@ -234,7 +234,14 @@ def show_demo():
         with collapsing_header("Widgets##demo"):
 
             with tree_node("Basic##demo"):
-
+                def toggle_enable(sender, data):
+                    disable_items = ["Button##demo","checkbox##demo"]
+                    for item in disable_items:
+                        log_debug(item)
+                        log_debug(get_value("Enable&Disable"))
+                        configure_item(item, enabled=get_value("Enable&Disable"))
+                add_checkbox("Enable&Disable", default_value=True, callback=toggle_enable)
+                helpmarker('This will toggle the keyword "enable" for the widgets below that can be enabled & disabled')
                 add_button("Button##demo")
                 add_checkbox("checkbox##demo")
                 add_radio_button("radiobutton##demo", items=["radio a", "radio b", "radio c"], horizontal=True)

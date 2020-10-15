@@ -234,8 +234,20 @@ namespace Marvel {
 			pushColorStyles();
 			ImGui::PushID(this);
 
+			if (!m_enabled)
+			{
+				ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(ImGui::GetStyleColorVec4(ImGuiCol_TextDisabled)));
+				ImVec4 disabled_color = ImVec4(ImGui::GetStyleColorVec4(ImGuiCol_TextDisabled));
+				disabled_color.w = 0.392f;
+				ImGui::PushStyleColor(ImGuiCol_CheckMark, disabled_color);
+				ImGui::PushStyleColor(ImGuiCol_FrameBg, disabled_color);
+				ImGui::PushStyleColor(ImGuiCol_FrameBgHovered, disabled_color);
+				ImGui::PushStyleColor(ImGuiCol_FrameBgActive, disabled_color);
+			}
+
 			if (ImGui::Checkbox(m_label.c_str(), m_value))
-				mvApp::GetApp()->runCallback(m_callback, m_name, m_callbackData);
+				if (m_enabled)
+					mvApp::GetApp()->runCallback(m_callback, m_name, m_callbackData);
 
 
 			// Regular Tooltip (simple)
@@ -243,6 +255,7 @@ namespace Marvel {
 				ImGui::SetTooltip("%s", getTip().c_str());
 
 			ImGui::PopID();
+			if (!m_enabled) ImGui::PopStyleColor(5);
 			popColorStyles();
 		}
 
