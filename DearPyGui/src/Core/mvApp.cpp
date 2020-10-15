@@ -305,6 +305,19 @@ namespace Marvel {
 		// default handler is main window
 		mvEventHandler* eventHandler = static_cast<mvEventHandler*>(this);
 
+		// early opt out of keyboard events
+		if (eventHandler->isAcceleratorHandled())
+		{
+			// route key events
+			for (int i = 0; i < IM_ARRAYSIZE(ImGui::GetIO().KeysDown); i++)
+			{
+				// route key pressed event
+				if (ImGui::IsKeyPressed(i) && eventHandler->getAcceleratorCallback() != nullptr)
+					runCallback(eventHandler->getAcceleratorCallback(), m_activeWindow,
+						ToPyInt(i));
+			}
+		}
+
 
 		// early opt out of keyboard events
 		if (eventHandler->isKeyboardHandled())

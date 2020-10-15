@@ -33,26 +33,28 @@ namespace Marvel {
 
         mvEventHandler() = default;
 
-        [[nodiscard]] bool isMouseHandled   () const { return m_handleMouse; }
-        [[nodiscard]] bool isKeyboardHandled() const { return m_handleKeyboard; }
+        [[nodiscard]] bool isAcceleratorHandled() const { return m_handleAccelerrator; }
+        [[nodiscard]] bool isMouseHandled      () const { return m_handleMouse; }
+        [[nodiscard]] bool isKeyboardHandled   () const { return m_handleKeyboard; }
 
         //-----------------------------------------------------------------------------
         // Callbacks
-        //-----------------------------------------------------------------------------
+        //----------------------------------------------------------------------------- 
         void setRenderCallback          (PyObject* callback) { m_renderCallback = SanitizeCallback(callback); }
         void setResizeCallback          (PyObject* callback) { m_resizeCallback = SanitizeCallback(callback); }
         void setMouseMoveCallback       (PyObject* callback) { m_mouseMoveCallback = SanitizeCallback(callback); }
         void setOnCloseCallback         (PyObject* callback) { m_onCloseCallback = SanitizeCallback(callback); }
         void setOnStartCallback         (PyObject* callback) { m_onStartCallback = SanitizeCallback(callback); }
-        void setMouseClickCallback      (PyObject* callback) { m_handleMouse    = true; m_mouseClickCallback = SanitizeCallback(callback); }
-        void setMouseDownCallback       (PyObject* callback) { m_handleMouse    = true; m_mouseDownCallback = SanitizeCallback(callback); }
-        void setMouseDoubleClickCallback(PyObject* callback) { m_handleMouse    = true; m_mouseDoubleClickCallback = SanitizeCallback(callback); }
-        void setMouseReleaseCallback    (PyObject* callback) { m_handleMouse    = true; m_mouseReleaseCallback = SanitizeCallback(callback); }
-        void setMouseWheelCallback      (PyObject* callback) { m_handleMouse    = true; m_mouseWheelCallback = SanitizeCallback(callback); }
-        void setMouseDragCallback       (PyObject* callback) { m_handleMouse    = true; m_mouseDragCallback = SanitizeCallback(callback); }
-        void setKeyDownCallback         (PyObject* callback) { m_handleKeyboard = true; m_keyDownCallback = SanitizeCallback(callback); }
-        void setKeyPressCallback        (PyObject* callback) { m_handleKeyboard = true; m_keyPressCallback = SanitizeCallback(callback); }
-        void setKeyReleaseCallback      (PyObject* callback) { m_handleKeyboard = true; m_keyReleaseCallback = SanitizeCallback(callback); }
+        void setAcceleratorCallback     (PyObject* callback) { m_handleAccelerrator = true; m_acceleratorCallback = SanitizeCallback(callback); }
+        void setMouseClickCallback      (PyObject* callback) { m_handleMouse        = true; m_mouseClickCallback = SanitizeCallback(callback); }
+        void setMouseDownCallback       (PyObject* callback) { m_handleMouse        = true; m_mouseDownCallback = SanitizeCallback(callback); }
+        void setMouseDoubleClickCallback(PyObject* callback) { m_handleMouse        = true; m_mouseDoubleClickCallback = SanitizeCallback(callback); }
+        void setMouseReleaseCallback    (PyObject* callback) { m_handleMouse        = true; m_mouseReleaseCallback = SanitizeCallback(callback); }
+        void setMouseWheelCallback      (PyObject* callback) { m_handleMouse        = true; m_mouseWheelCallback = SanitizeCallback(callback); }
+        void setMouseDragCallback       (PyObject* callback) { m_handleMouse        = true; m_mouseDragCallback = SanitizeCallback(callback); }
+        void setKeyDownCallback         (PyObject* callback) { m_handleKeyboard     = true; m_keyDownCallback = SanitizeCallback(callback); }
+        void setKeyPressCallback        (PyObject* callback) { m_handleKeyboard     = true; m_keyPressCallback = SanitizeCallback(callback); }
+        void setKeyReleaseCallback      (PyObject* callback) { m_handleKeyboard     = true; m_keyReleaseCallback = SanitizeCallback(callback); }
 
         [[nodiscard]] PyObject* getRenderCallback          (){ return m_renderCallback; }
         [[nodiscard]] PyObject* getResizeCallback          (){ return m_resizeCallback; }
@@ -68,6 +70,7 @@ namespace Marvel {
         [[nodiscard]] PyObject* getMouseMoveCallback       (){ return m_mouseMoveCallback; }
         [[nodiscard]] PyObject* getOnCloseCallback         (){ return m_onCloseCallback; }
         [[nodiscard]] PyObject* getOnStartCallback         (){ return m_onStartCallback; }
+        [[nodiscard]] PyObject* getAcceleratorCallback     (){ return m_acceleratorCallback; }
 
     private:
 
@@ -86,8 +89,10 @@ namespace Marvel {
         PyObject* m_mouseMoveCallback;
         PyObject* m_onCloseCallback;
         PyObject* m_onStartCallback;
+        PyObject* m_acceleratorCallback; // basically the same as the key press callback
 
-        bool   m_handleMouse    = false;
-        bool   m_handleKeyboard = false;  
+        bool   m_handleMouse        = false;
+        bool   m_handleKeyboard     = false;  
+        bool   m_handleAccelerrator = false;  
     };
 }

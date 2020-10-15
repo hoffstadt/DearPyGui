@@ -28,6 +28,9 @@ HOW TO UPDATE?
 
 Decorated log: https://github.com/hoffstadt/DearPyGui/releases/tag/v0.4.6x
 
+New Commands:
+- Items: Added "set_accelerator_callback" command
+
 Changes:
 - Menus: Removed tip keyword #274
 
