@@ -239,20 +239,8 @@ namespace Marvel {
 			appitem->getExtraConfigDict(pdict);
 			return pdict;
 		}
-
-		// check if item is a standard window
-		else if (appitem == nullptr)
-		{
-			mvStandardWindow* swindow = mvApp::GetApp()->getStandardWindow(item);
-			if (swindow)
-			{
-				PyObject* pdict = PyDict_New();
-				swindow->getConfigDict(pdict);
-				return pdict;
-			}
-			else
-				ThrowPythonException(item + std::string(" item was not found"));
-		}
+		else
+			ThrowPythonException(item + std::string(" item was not found"));
 
 		return GetPyNone();
 	}
@@ -277,16 +265,8 @@ namespace Marvel {
 			appitem->setConfigDict(kwargs);
 			appitem->setExtraConfigDict(kwargs);
 		}
-
-		// check if item is a standard window
-		else if (appitem == nullptr)
-		{
-			mvStandardWindow* swindow = mvApp::GetApp()->getStandardWindow(item);
-			if (swindow)
-				swindow->setConfigDict(kwargs);
-			else
-				ThrowPythonException(item + std::string(" item was not found"));
-		}
+		else
+			ThrowPythonException(item + std::string(" item was not found"));
 
 		return GetPyNone();
 	}

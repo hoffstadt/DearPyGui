@@ -1,6 +1,5 @@
 #include "mvThemeInterface.h"
 #include "mvInterfaceCore.h"
-#include "Core/StandardWindows/mvSourceWindow.h"
 
 namespace Marvel {
 

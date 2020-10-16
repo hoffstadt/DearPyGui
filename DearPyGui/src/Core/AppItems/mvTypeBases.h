@@ -541,4 +541,132 @@ namespace Marvel {
 		std::vector<float>* m_value = nullptr;
 	};
 
+	//-----------------------------------------------------------------------------
+	// mvBaseWindowAppitem
+	//-----------------------------------------------------------------------------
+	class mvBaseWindowAppitem : public mvAppItem, public mvEventHandler
+	{
+
+	public:
+
+
+		mvBaseWindowAppitem(const std::string& name)
+			: mvAppItem(name), mvEventHandler()
+		{
+		}
+
+		bool isARoot() const override { return true; }
+
+		void addFlag(ImGuiWindowFlags flag) { m_windowflags |= flag; }
+		void removeFlag(ImGuiWindowFlags flag) { m_windowflags &= ~flag; }
+
+		void setWindowPos(float x, float y)
+		{
+			m_xpos = (int)x;
+			m_ypos = (int)y;
+			m_dirty_pos = true;
+		}
+
+		void setWidth(int width) override { m_width = width; m_dirty_size = true; }
+		void setHeight(int height) override { m_height = height; m_dirty_size = true; }
+
+		[[nodiscard]] mvVec2 getWindowPos() const
+		{
+			return { (float)m_xpos, (float)m_ypos };
+		}
+
+		bool prerender()
+		{
+
+			if (m_dirty_size)
+			{
+				ImGui::SetNextWindowSize(ImVec2((float)m_width, (float)m_height));
+				m_dirty_size = false;
+			}
+
+			if (m_dirty_pos)
+			{
+				ImGui::SetNextWindowPos(ImVec2((float)m_xpos, (float)m_ypos));
+				m_dirty_pos = false;
+			}
+
+			if (!m_show)
+				return false;
+
+			if (!ImGui::Begin(m_label.c_str(), &m_show, m_windowflags))
+			{
+				ImGui::End();
+				return false;
+			}
+
+			return true;
+		}
+
+		void setExtraConfigDict(PyObject* dict) override
+		{
+			if (dict == nullptr)
+				return;
+			mvGlobalIntepreterLock gil;
+			if (PyObject* item = PyDict_GetItemString(dict, "x_pos")) setWindowPos(ToInt(item), m_ypos);
+			if (PyObject* item = PyDict_GetItemString(dict, "y_pos")) setWindowPos(m_xpos, ToInt(item));
+
+			// helper for bit flipping
+			auto flagop = [dict](const char* keyword, int flag, int& flags)
+			{
+				if (PyObject* item = PyDict_GetItemString(dict, keyword)) ToBool(item) ? flags |= flag : flags &= ~flag;
+			};
+
+			// window flags
+			flagop("autosize", ImGuiWindowFlags_AlwaysAutoResize, m_windowflags);
+			flagop("no_move", ImGuiWindowFlags_NoMove, m_windowflags);
+			flagop("no_resize", ImGuiWindowFlags_NoResize, m_windowflags);
+			flagop("no_title_bar", ImGuiWindowFlags_NoTitleBar, m_windowflags);
+			flagop("no_scrollbar", ImGuiWindowFlags_NoScrollbar, m_windowflags);
+			flagop("no_collapse", ImGuiWindowFlags_NoCollapse, m_windowflags);
+			flagop("horizontal_scrollbar", ImGuiWindowFlags_HorizontalScrollbar, m_windowflags);
+			flagop("no_focus_on_appearing", ImGuiWindowFlags_NoFocusOnAppearing, m_windowflags);
+			flagop("no_bring_to_front_on_focus", ImGuiWindowFlags_NoBringToFrontOnFocus, m_windowflags);
+			flagop("menubar", ImGuiWindowFlags_MenuBar, m_windowflags);
+			flagop("no_background", ImGuiWindowFlags_NoBackground, m_windowflags);
+
+		}
+
+		void getExtraConfigDict(PyObject* dict) override
+		{
+			if (dict == nullptr)
+				return;
+			mvGlobalIntepreterLock gil;
+			PyDict_SetItemString(dict, "x_pos", ToPyInt(m_xpos));
+			PyDict_SetItemString(dict, "y_pos", ToPyInt(m_ypos));
+
+			// helper to check and set bit
+			auto checkbitset = [dict](const char* keyword, int flag, const int& flags)
+			{
+				PyDict_SetItemString(dict, keyword, ToPyBool(flags & flag));
+			};
+
+			// window flags
+			checkbitset("autosize", ImGuiWindowFlags_AlwaysAutoResize, m_windowflags);
+			checkbitset("no_resize", ImGuiWindowFlags_NoResize, m_windowflags);
+			checkbitset("no_title_bar", ImGuiWindowFlags_NoTitleBar, m_windowflags);
+			checkbitset("no_move", ImGuiWindowFlags_NoMove, m_windowflags);
+			checkbitset("no_scrollbar", ImGuiWindowFlags_NoScrollbar, m_windowflags);
+			checkbitset("no_collapse", ImGuiWindowFlags_NoCollapse, m_windowflags);
+			checkbitset("horizontal_scrollbar", ImGuiWindowFlags_HorizontalScrollbar, m_windowflags);
+			checkbitset("no_focus_on_appearing", ImGuiWindowFlags_NoFocusOnAppearing, m_windowflags);
+			checkbitset("no_bring_to_front_on_focus", ImGuiWindowFlags_NoBringToFrontOnFocus, m_windowflags);
+			checkbitset("menubar", ImGuiWindowFlags_MenuBar, m_windowflags);
+			checkbitset("no_background", ImGuiWindowFlags_NoBackground, m_windowflags);
+		}
+
+
+	protected:
+
+		ImGuiWindowFlags m_windowflags = ImGuiWindowFlags_NoSavedSettings;
+		int              m_xpos = 200;
+		int              m_ypos = 200;
+		bool             m_dirty_pos = true;
+		bool             m_dirty_size = true;
+	};
+
 }

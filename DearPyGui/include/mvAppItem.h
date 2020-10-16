@@ -19,9 +19,9 @@
 // Helper Macro
 //-----------------------------------------------------------------------------
 #define MV_APPITEM_TYPE(x, parser)\
-    virtual mvAppItemType getType() const override { return x; }\
-    virtual std::string getStringType() const override { return std::string(#x); }\
-    virtual std::string getParserCommand() const override { return parser; }
+    mvAppItemType getType() const override { return x; }\
+    std::string getStringType() const override { return std::string(#x); }\
+    std::string getParserCommand() const override { return parser; }
 
 namespace Marvel {
 
@@ -44,7 +44,9 @@ namespace Marvel {
         Plot, SimplePlot, Indent, Unindent, Drawing, Window,
         Popup, Selectable, TreeNode, ProgressBar, Table, Dummy,
         ImageButton, TimePicker, DatePicker, ColorButton,
-        ManagedColumns, ColumnSet, NextColumn, Logger
+        ManagedColumns, ColumnSet, NextColumn, Logger,
+        AboutWindow, DocWindow, DebugWindow, MetricsWindow,
+        StyleWindow, FileDialog
     };
 
     //-----------------------------------------------------------------------------
@@ -77,6 +79,8 @@ namespace Marvel {
         virtual std::string                 getParserCommand     () const { return "no_command_set"; }
         virtual void                        updateData           (const std::string& name) {}
         [[nodiscard]] virtual bool          areDuplicatesAllowed () const { return false; }
+        [[nodiscard]] virtual bool          canBeDeleted         () const { return true; }
+        [[nodiscard]] virtual bool          isARoot              () const { return false; }
 
         // configuration get/set
         void                                checkConfigDict   (PyObject* dict);

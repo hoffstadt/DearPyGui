@@ -3,8 +3,6 @@
 #include "Core/mvInput.h"
 #include "Core/mvDataStorage.h"
 #include "mvAppLog.h"
-#include "Core/StandardWindows/mvSourceWindow.h"
-#include "Core/StandardWindows/mvFileDialog.h"
 #include "mvPythonTranslator.h"
 #include "Core/mvAppItems.h"
 #include "mvWindow.h"
@@ -508,13 +506,7 @@ namespace Marvel {
 		ADD_PYTHON_FUNCTION(set_main_window_pos)
 		ADD_PYTHON_FUNCTION(set_main_window_resizable)
 		ADD_PYTHON_FUNCTION(set_start_callback)
-		ADD_PYTHON_FUNCTION(show_style_editor)
-		ADD_PYTHON_FUNCTION(show_source)
-		ADD_PYTHON_FUNCTION(show_about)
-		ADD_PYTHON_FUNCTION(show_debug)
-		ADD_PYTHON_FUNCTION(show_metrics)
 		ADD_PYTHON_FUNCTION(close_popup)
-		ADD_PYTHON_FUNCTION(show_documentation)
 		ADD_PYTHON_FUNCTION(get_log_level)
 		ADD_PYTHON_FUNCTION(clear_log)
 		ADD_PYTHON_FUNCTION(show_logger)
@@ -627,6 +619,10 @@ namespace Marvel {
 		ADD_PYTHON_FUNCTION(add_collapsing_header)
 		ADD_PYTHON_FUNCTION(add_dummy)
 		ADD_PYTHON_FUNCTION(add_managed_columns)
+		ADD_PYTHON_FUNCTION(add_about_window)
+		ADD_PYTHON_FUNCTION(add_doc_window)
+		ADD_PYTHON_FUNCTION(add_debug_window)
+		ADD_PYTHON_FUNCTION(add_style_window)
 
 		// input commands
 		ADD_PYTHON_FUNCTION(set_mouse_move_callback)

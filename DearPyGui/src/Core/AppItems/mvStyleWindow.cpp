@@ -1,4 +1,3 @@
-#include "mvAboutWindow.h"
 #include <imgui.h>
 #include "mvApp.h"
 #include "mvStyleWindow.h"
@@ -158,8 +157,10 @@ namespace Marvel {
         return false;
     }
 
-    void mvStyleWindow::render(bool& show)
+    void mvStyleWindow::draw()
     {
+        if (!prerender())
+            return;
 
         ImGuiStyle* ref = nullptr;
 

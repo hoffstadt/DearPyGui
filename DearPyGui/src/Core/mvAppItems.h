@@ -21,6 +21,12 @@
 #include "Core/AppItems/mvDatePicker.h"
 #include "Core/AppItems/mvColumns.h"
 #include "Core/AppItems/mvLogger.h"
+#include "Core/AppItems/mvAboutWindow.h"
+#include "Core/AppItems/mvDocWindow.h"
+#include "Core/AppItems/mvDebugWindow.h"
+#include "Core/AppItems/mvMetricsWindow.h"
+#include "Core/AppItems/mvStyleWindow.h"
+#include "Core/AppItems/mvFileDialog.h"
 
 #include "Core/PlotAppItems/mvPlot.h"
 #include "Core/PlotAppItems/mvSimplePlot.h"

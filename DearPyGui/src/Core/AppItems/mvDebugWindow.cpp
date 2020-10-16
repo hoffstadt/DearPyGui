@@ -1,7 +1,6 @@
 #include "mvDebugWindow.h"
 #include <misc/cpp/imgui_stdlib.h>
 #include "mvApp.h"
-#include "mvAppItem.h"
 #include "Core/mvInput.h"
 #include "Core/mvDataStorage.h"
 #include "Core/mvTextureStorage.h"
@@ -104,8 +103,11 @@ namespace Marvel {
 		
 	}
 
-	void mvDebugWindow::render(bool& show)
+	void mvDebugWindow::draw()
 	{
+		if (!prerender())
+			return;
+
 		static char ts[6] = "True";
 		static char fs[6] = "False";
 		static std::string commandstring = "set_theme(\"Light\")";

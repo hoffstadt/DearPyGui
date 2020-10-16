@@ -41,19 +41,13 @@ set(MARVEL_SOURCES
 	"src/Core/PythonCommands/mvAppItemInterface.cpp"
 	"src/Core/PythonCommands/mvAppInterface.cpp"
 
-	"src/Core/StandardWindows/mvStandardWindow.cpp"
-	"src/Core/StandardWindows/mvDocWindow.cpp"
-	"src/Core/StandardWindows/mvAboutWindow.cpp"
-	"src/Core/StandardWindows/mvMetricsWindow.cpp"
-	"src/Core/StandardWindows/mvSourceWindow.cpp"
-	"src/Core/StandardWindows/mvDebugWindow.cpp"
-	"src/Core/StandardWindows/mvFileDialog.cpp"
-	"src/Core/StandardWindows/mvStyleWindow.cpp"
-
+	"src/Core/AppItems/mvDebugWindow.cpp"
+	"src/Core/AppItems/mvDocWindow.cpp"
 	"src/Core/AppItems/mvAppItem.cpp"
 	"src/Core/AppItems/mvDrawing.cpp"
 	"src/Core/AppItems/mvTable.cpp"
 	"src/Core/AppItems/mvLogger.cpp"
+	"src/Core/AppItems/mvStyleWindow.cpp"
 
 	"src/Core/PlotAppItems/mvPlot.cpp"
 	"src/Core/PlotAppItems/mvAreaSeries.cpp"
