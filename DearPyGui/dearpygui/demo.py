@@ -239,7 +239,8 @@ def show_demo():
                     disable_items = ["Button1##demo", "Button2##demo", "Button3##demo", "Button4##demo", "Button5##demo", "Button6##demo"
                                      ,"checkbox##demo", "radiobutton##demo", "selectable##demo", "Left##demo", "Right##demo"
                                      ,"combo##demo","listbox##demo","input text##demo","input text (w/ hint)##demo"
-                                     ,"input int##demo", "input float##demo", "input scientific##demo", "input float3##example##demo"]
+                                     ,"input int##demo", "input float##demo", "input scientific##demo", "input float3##example##demo"
+                                     ,"drag int", "drag int 0..100##demo", "drag float##demo", "drag small float##demo"]
 
                     for item in disable_items:
                         configure_item(item, enabled=get_value("Enable&Disable"))
@@ -289,14 +290,14 @@ def show_demo():
                 add_input_float("input float##demo", callback=log_callback)
                 add_input_float("input scientific##demo", format="%e", callback=log_callback)
                 add_input_float3("input float3##example##demo", callback=log_callback)
-                add_drag_int("drag int")
+                add_drag_int("drag int", callback=log_callback)
                 helpmarker(
                         "Click and drag to edit value.\n"
                         "Hold SHIFT/ALT for faster/slower edit.\n"
                         "Double-click or CTRL+click to input value.")
-                add_drag_int("drag int 0..100##demo", format="%d%%")
-                add_drag_float("drag float##demo")
-                add_drag_float("drag small float##demo", default_value=0.0067, format="%.06f ns")
+                add_drag_int("drag int 0..100##demo", format="%d%%", callback=log_callback)
+                add_drag_float("drag float##demo", callback=log_callback)
+                add_drag_float("drag small float##demo", default_value=0.0067, format="%.06f ns", callback=log_callback)
                 add_slider_int("slider int##demo", max_value=3)
                 helpmarker("CTRL+click to enter value.")
                 add_slider_float("slider float##demo", max_value=1.0, format="ratio = %.3f")

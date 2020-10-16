@@ -19,6 +19,7 @@ namespace Marvel {
 			{mvPythonDataType::String, "parent", "Parent this item will be added to. (runtime adding)", "''"},
 			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)", "''"},
 			{mvPythonDataType::String, "source", "", "''"},
+			{mvPythonDataType::Bool, "enabled", "Display grayed out text so selectable cannot be selected", "True"},
 			{mvPythonDataType::Integer, "width","", "0"},
 			{mvPythonDataType::Bool, "on_enter", "Only runs callback on enter", "False"},
 			{mvPythonDataType::String, "label", "", "''"},
@@ -40,6 +41,7 @@ namespace Marvel {
 			{mvPythonDataType::String, "parent", "Parent this item will be added to. (runtime adding)", "''"},
 			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)", "''"},
 			{mvPythonDataType::String, "source", "", "''"},
+			{mvPythonDataType::Bool, "enabled", "Display grayed out text so selectable cannot be selected", "True"},
 			{mvPythonDataType::Integer, "width","", "0"},
 			{mvPythonDataType::Bool, "on_enter", "Only runs callback on enter", "False"},
 			{mvPythonDataType::String, "label", "", "''"},
@@ -61,6 +63,7 @@ namespace Marvel {
 			{mvPythonDataType::String, "parent", "Parent this item will be added to. (runtime adding)", "''"},
 			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)", "''"},
 			{mvPythonDataType::String, "source", "", "''"},
+			{mvPythonDataType::Bool, "enabled", "Display grayed out text so selectable cannot be selected", "True"},
 			{mvPythonDataType::Integer, "width","", "0"},
 			{mvPythonDataType::Bool, "on_enter", "Only runs callback on enter", "False"},
 			{mvPythonDataType::String, "label", "", "''"},
@@ -82,6 +85,7 @@ namespace Marvel {
 			{mvPythonDataType::String, "parent", "Parent this item will be added to. (runtime adding)", "''"},
 			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)", "''"},
 			{mvPythonDataType::String, "source", "", "''"},
+			{mvPythonDataType::Bool, "enabled", "Display grayed out text so selectable cannot be selected", "True"},
 			{mvPythonDataType::Integer, "width","", "0"},
 			{mvPythonDataType::Bool, "on_enter", "Only runs callback on enter", "False"},
 			{mvPythonDataType::String, "label", "", "''"},
@@ -103,6 +107,7 @@ namespace Marvel {
 			{mvPythonDataType::String, "parent", "Parent this item will be added to. (runtime adding)", "''"},
 			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)", "''"},
 			{mvPythonDataType::String, "source", "", "''"},
+			{mvPythonDataType::Bool, "enabled", "Display grayed out text so selectable cannot be selected", "True"},
 			{mvPythonDataType::Integer, "width","", "0"},
 			{mvPythonDataType::Bool, "on_enter", "Only runs callback on enter", "False"},
 			{mvPythonDataType::String, "label", "", "''"},
@@ -124,6 +129,7 @@ namespace Marvel {
 			{mvPythonDataType::String, "parent", "Parent this item will be added to. (runtime adding)", "''"},
 			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)", "''"},
 			{mvPythonDataType::String, "source", "", "''"},
+			{mvPythonDataType::Bool, "enabled", "Display grayed out text so selectable cannot be selected", "True"},
 			{mvPythonDataType::Integer, "width","", "0"},
 			{mvPythonDataType::Bool, "on_enter", "Only runs callback on enter", "False"},
 			{mvPythonDataType::String, "label", "", "''"},
@@ -145,6 +151,7 @@ namespace Marvel {
 			{mvPythonDataType::String, "parent", "Parent this item will be added to. (runtime adding)", "''"},
 			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)", "''"},
 			{mvPythonDataType::String, "source", "", "''"},
+			{mvPythonDataType::Bool, "enabled", "Display grayed out text so selectable cannot be selected", "True"},
 			{mvPythonDataType::Integer, "width","", "0"},
 			{mvPythonDataType::Bool, "on_enter", "Only runs callback on enter", "False"},
 			{mvPythonDataType::String, "label", "", "''"},
@@ -166,6 +173,7 @@ namespace Marvel {
 			{mvPythonDataType::String, "parent", "Parent this item will be added to. (runtime adding)", "''"},
 			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)", "''"},
 			{mvPythonDataType::String, "source", "", "''"},
+			{mvPythonDataType::Bool, "enabled", "Display grayed out text so selectable cannot be selected", "True"},
 			{mvPythonDataType::Integer, "width","", "0"},
 			{mvPythonDataType::Bool, "on_enter", "Only runs callback on enter", "False"},
 			{mvPythonDataType::String, "label", "", "''"},
@@ -189,13 +197,14 @@ namespace Marvel {
 		const char* before = "";
 		const char* parent = "";
 		const char* source = "";
+		int enable = true;
 		int on_enter = false;
 		const char* label = "";
 		const char* popup = "";
 		int show = true;
 
 		if (!(*mvApp::GetApp()->getParsers())["add_drag_float"].parse(args, kwargs, __FUNCTION__, &name, &default_value, &speed,
-			&min_value, &max_value, &format, &callback, &callback_data, &tip, &parent, &before, &source, &width, &on_enter,
+			&min_value, &max_value, &format, &callback, &callback_data, &tip, &parent, &before, &source, &enable, &width, &on_enter,
 			&label, &popup, &show))
 			return ToPyBool(false);
 
@@ -231,6 +240,7 @@ namespace Marvel {
 		const char* parent = "";
 		const char* before = "";
 		const char* source = "";
+		int enable = true;
 		int width = 0;
 		int on_enter = false;
 		const char* label = "";
@@ -238,7 +248,7 @@ namespace Marvel {
 		int show = true;
 
 		if (!(*mvApp::GetApp()->getParsers())["add_drag_float2"].parse(args, kwargs, __FUNCTION__, &name, &default_value, &speed,
-			&min_value, &max_value, &format, &callback, &callback_data, &tip, &parent, &before, &source, &width, &on_enter,
+			&min_value, &max_value, &format, &callback, &callback_data, &tip, &parent, &before, &source, &enable, &width, &on_enter,
 			&label, &popup, &show))
 			return ToPyBool(false);
 
@@ -276,6 +286,7 @@ namespace Marvel {
 		const char* parent = "";
 		const char* before = "";
 		const char* source = "";
+		int enable = true;
 		int width = 0;
 		int on_enter = false;
 		const char* label = "";
@@ -283,7 +294,7 @@ namespace Marvel {
 		int show = true;
 
 		if (!(*mvApp::GetApp()->getParsers())["add_drag_float3"].parse(args, kwargs, __FUNCTION__, &name, &default_value, &speed,
-			&min_value, &max_value, &format, &callback, &callback_data, &tip, &parent, &before, &source, &width, &on_enter,
+			&min_value, &max_value, &format, &callback, &callback_data, &tip, &parent, &before, &source, &enable, &width, &on_enter,
 			&label, &popup, &show))
 			return ToPyBool(false);
 
@@ -322,6 +333,7 @@ namespace Marvel {
 		const char* parent = "";
 		const char* before = "";
 		const char* source = "";
+		int enable = true;
 		int width = 0;
 		int on_enter = false;
 		const char* label = "";
@@ -329,7 +341,7 @@ namespace Marvel {
 		int show = true;
 
 		if (!(*mvApp::GetApp()->getParsers())["add_drag_float4"].parse(args, kwargs, __FUNCTION__, &name, &default_value, &speed,
-			&min_value, &max_value, &format, &callback, &callback_data, &tip, &parent, &before, &source, &width, &on_enter,
+			&min_value, &max_value, &format, &callback, &callback_data, &tip, &parent, &before, &source, &enable, &width, &on_enter,
 			&label, &popup, &show))
 			return ToPyBool(false);
 
@@ -365,6 +377,7 @@ namespace Marvel {
 		const char* parent = "";
 		const char* before = "";
 		const char* source = "";
+		int enable = true;
 		int width = 0;
 		int on_enter = false;
 		const char* label = "";
@@ -372,7 +385,7 @@ namespace Marvel {
 		int show = true;
 
 		if (!(*mvApp::GetApp()->getParsers())["add_drag_int"].parse(args, kwargs, __FUNCTION__, &name, &default_value, &speed,
-			&min_value, &max_value, &format, &callback, &callback_data, &tip, &parent, &before, &source, &width, &on_enter,
+			&min_value, &max_value, &format, &callback, &callback_data, &tip, &parent, &before, &source, &enable, &width, &on_enter,
 			&label, &popup, &show))
 			return ToPyBool(false);
 
@@ -408,6 +421,7 @@ namespace Marvel {
 		const char* parent = "";
 		const char* before = "";
 		const char* source = "";
+		int enable = true;
 		int width = 0;
 		int on_enter = false;
 		const char* label = "";
@@ -415,7 +429,7 @@ namespace Marvel {
 		int show = true;
 
 		if (!(*mvApp::GetApp()->getParsers())["add_drag_int2"].parse(args, kwargs, __FUNCTION__, &name, &default_value, &speed,
-			&min_value, &max_value, &format, &callback, &callback_data, &tip, &parent, &before, &source, &width, &on_enter,
+			&min_value, &max_value, &format, &callback, &callback_data, &tip, &parent, &before, &source, &enable, &width, &on_enter,
 			&label, &popup, &show))
 			return ToPyBool(false);
 
@@ -453,6 +467,7 @@ namespace Marvel {
 		const char* parent = "";
 		const char* before = "";
 		const char* source = "";
+		int enable = true;
 		int width = 0;
 		int on_enter = false;
 		const char* label = "";
@@ -460,7 +475,7 @@ namespace Marvel {
 		int show = true;
 
 		if (!(*mvApp::GetApp()->getParsers())["add_drag_int3"].parse(args, kwargs, __FUNCTION__, &name, &default_value, &speed,
-			&min_value, &max_value, &format, &callback, &callback_data, &tip, &parent, &before, &source, &width, &on_enter,
+			&min_value, &max_value, &format, &callback, &callback_data, &tip, &parent, &before, &source, &enable, &width, &on_enter,
 			&label, &popup, &show))
 			return ToPyBool(false);
 
@@ -499,6 +514,7 @@ namespace Marvel {
 		const char* parent = "";
 		const char* before = "";
 		const char* source = "";
+		int enable = true;
 		int width = 0;
 		int on_enter = false;
 		const char* label = "";
@@ -506,7 +522,7 @@ namespace Marvel {
 		int show = true;
 
 		if (!(*mvApp::GetApp()->getParsers())["add_drag_int4"].parse(args, kwargs, __FUNCTION__, &name, &default_value, &speed,
-			&min_value, &max_value, &format, &callback, &callback_data, &tip, &parent, &before, &source, &width, &on_enter,
+			&min_value, &max_value, &format, &callback, &callback_data, &tip, &parent, &before, &source, &enable, &width, &on_enter,
 			&label, &popup, &show))
 			return ToPyBool(false);
 
