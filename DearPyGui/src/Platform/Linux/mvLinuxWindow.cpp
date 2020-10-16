@@ -115,8 +115,8 @@ namespace Marvel {
 
         else
         {
-            m_app->prerender(m_running);
-            m_app->render(m_running);
+            m_app->prerender();
+            m_app->render();
             m_app->postrender();
         }
 
