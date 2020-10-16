@@ -142,8 +142,7 @@ namespace Marvel {
 			{
 				if (ImGui::SmallButton(m_label.c_str()))
 				{
-					if(m_enabled)
-						mvApp::GetApp()->runCallback(m_callback, m_name, m_callbackData);
+					mvApp::GetApp()->runCallback(m_enabled ? m_callback : nullptr, m_name, m_callbackData);
 
 				}
 
@@ -157,8 +156,7 @@ namespace Marvel {
 			{
 				if (ImGui::ArrowButton(m_label.c_str(), m_direction))
 				{
-					if (m_enabled)
-						mvApp::GetApp()->runCallback(m_callback, m_name, m_callbackData);
+						mvApp::GetApp()->runCallback(m_enabled ? m_callback : nullptr, m_name, m_callbackData);
 
 				}
 
@@ -171,8 +169,7 @@ namespace Marvel {
 			if (ImGui::Button(m_label.c_str(), ImVec2((float)m_width, (float)m_height)))
 			{
 
-				if (m_enabled)
-					mvApp::GetApp()->runCallback(m_callback, m_name, m_callbackData);
+				mvApp::GetApp()->runCallback(getCallback(), m_name, m_callbackData);
 
 			}
 
@@ -233,6 +230,7 @@ namespace Marvel {
 		{
 			pushColorStyles();
 			ImGui::PushID(this);
+			static bool disabled_value = false;
 
 			if (!m_enabled)
 			{
@@ -243,11 +241,11 @@ namespace Marvel {
 				ImGui::PushStyleColor(ImGuiCol_FrameBg, disabled_color);
 				ImGui::PushStyleColor(ImGuiCol_FrameBgHovered, disabled_color);
 				ImGui::PushStyleColor(ImGuiCol_FrameBgActive, disabled_color);
+				disabled_value = *m_value;
 			}
 
-			if (ImGui::Checkbox(m_label.c_str(), m_value))
-				if (m_enabled)
-					mvApp::GetApp()->runCallback(m_callback, m_name, m_callbackData);
+			if (ImGui::Checkbox(m_label.c_str(), m_enabled ? m_value : &disabled_value))
+					mvApp::GetApp()->runCallback(m_enabled ? m_callback : nullptr, m_name, m_callbackData);
 
 
 			// Regular Tooltip (simple)
