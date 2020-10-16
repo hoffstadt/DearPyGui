@@ -49,6 +49,14 @@ New Keywords:
 - add_listbox:		  Added "enabled" keyword
 - add_combo:		  Added "enabled" keyword
 - add_input_text:	  Added "enabled" keyword
+- add_input_int:	  Added "enabled" keyword
+- add_input_int2:	  Added "enabled" keyword
+- add_input_int3:	  Added "enabled" keyword
+- add_input_int4:	  Added "enabled" keyword
+- add_input_float:	  Added "enabled" keyword
+- add_input_float2:	  Added "enabled" keyword
+- add_input_float3:	  Added "enabled" keyword
+- add_input_float4:	  Added "enabled" keyword
 
 Changes:
 - show_metrics:       Moved to simple module

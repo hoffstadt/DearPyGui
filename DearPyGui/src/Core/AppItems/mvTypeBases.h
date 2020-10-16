@@ -101,6 +101,7 @@ namespace Marvel {
 	protected:
 
 		int* m_value = nullptr;
+		int m_disabled_value = 0;
 	};
 
 	//-----------------------------------------------------------------------------
@@ -141,6 +142,7 @@ namespace Marvel {
 	protected:
 
 		int* m_value = nullptr;
+		int m_disabled_value = 0;
 	};
 
 	//-----------------------------------------------------------------------------
@@ -181,6 +183,7 @@ namespace Marvel {
 	protected:
 
 		int* m_value = nullptr;
+		int m_disabled_value = 0;
 	};
 
 	//-----------------------------------------------------------------------------
@@ -221,6 +224,7 @@ namespace Marvel {
 	protected:
 
 		float* m_value = nullptr;
+		float m_disabled_value = 0.0;
 	};
 
 	//-----------------------------------------------------------------------------
@@ -261,6 +265,7 @@ namespace Marvel {
 	protected:
 
 		float* m_value = nullptr;
+		float m_disabled_value = 0.0;
 	};
 
 	//-----------------------------------------------------------------------------
@@ -301,6 +306,7 @@ namespace Marvel {
 	protected:
 
 		float* m_value = nullptr;
+		float m_disabled_value = 0.0;
 	};
 
 	//-----------------------------------------------------------------------------
@@ -341,6 +347,7 @@ namespace Marvel {
 	protected:
 
 		float* m_value = nullptr;
+		float m_disabled_value = 0.0;
 	};
 
 	//-----------------------------------------------------------------------------

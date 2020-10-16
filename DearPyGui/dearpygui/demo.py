@@ -141,7 +141,7 @@ def demo_accelerator_callback(sender, data):
 
     items = get_all_items()
     for item in items:
-        print(get_item_type(item))
+        # print(get_item_type(item))
         if get_item_type(item) == "mvAppItemType::MenuItem":
             shortcut = get_item_configuration(item)["shortcut"]
             if shortcut != None and shortcut != "":
@@ -238,7 +238,9 @@ def show_demo():
                 def toggle_enable(sender, data):
                     disable_items = ["Button1##demo", "Button2##demo", "Button3##demo", "Button4##demo", "Button5##demo", "Button6##demo"
                                      ,"checkbox##demo", "radiobutton##demo", "selectable##demo", "Left##demo", "Right##demo"
-                                     ,"combo##demo","listbox##demo","input text##demo","input text (w/ hint)##demo"]
+                                     ,"combo##demo","listbox##demo","input text##demo","input text (w/ hint)##demo"
+                                     ,"input int##demo", "input float##demo", "input scientific##demo", "input float3##example##demo"]
+
                     for item in disable_items:
                         configure_item(item, enabled=get_value("Enable&Disable"))
                 add_checkbox("Enable&Disable", default_value=True, callback=toggle_enable)
@@ -272,8 +274,8 @@ def show_demo():
 
                 add_label_text("label##demo", default_value="Value")
                 add_combo("combo##demo", items=["AAAA", "BBBB", "CCCC", "DDDD", "EEEE", "FFFF", "GGGG", "HHHH", "IIII", "JJJJ", "KKKK"], 
-                          default_value="AAAA")
-                add_input_text("input text##demo", default_value="Hello, world!")
+                          default_value="AAAA", callback=log_callback)
+                add_input_text("input text##demo", default_value="Hello, world!", callback=log_callback)
                 helpmarker(
                         "USER:\n"
                         "Hold SHIFT or use mouse to select text.\n"
@@ -282,11 +284,11 @@ def show_demo():
                         "CTRL+X,CTRL+C,CTRL+V clipboard.\n"
                         "CTRL+Z,CTRL+Y undo/redo.\n"
                         "ESCAPE to revert.\n\n")
-                add_input_text("input text (w/ hint)##demo", hint="enter text here")
-                add_input_int("input int##demo")
-                add_input_float("input float##demo")
-                add_input_float("input scientific##demo", format="%e")
-                add_input_float3("input float3##example##demo")
+                add_input_text("input text (w/ hint)##demo", hint="enter text here", callback=log_callback)
+                add_input_int("input int##demo", callback=log_callback)
+                add_input_float("input float##demo", callback=log_callback)
+                add_input_float("input scientific##demo", format="%e", callback=log_callback)
+                add_input_float3("input float3##example##demo", callback=log_callback)
                 add_drag_int("drag int")
                 helpmarker(
                         "Click and drag to edit value.\n"
