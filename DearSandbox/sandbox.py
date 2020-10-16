@@ -3,6 +3,7 @@ from dearpygui.simple import *
 from dearpygui.demo import *
 from math import sin, cos
 import random
+import time
 
 ########################################################################################################################
 # Settings and Data Storage
@@ -22,7 +23,7 @@ show_demo()
 with window("Asyncronous##dialog", show=True):
     add_data('threadNumber', 0)
     def LongCallback2(sender, data):
-        sleep(5)
+        time.sleep(5)
         return data
 
     def ReturnFromLongProcess(sender, data):
@@ -36,7 +37,7 @@ with window("Asyncronous##dialog", show=True):
         add_data('threadNumber', current_number+1)
 
     def LongCallback(sender, data):
-        sleep(5)
+        time.sleep(5)
         log_info("Done with long process")
 
     add_button("Start Long Process", callback=LongCallback)
