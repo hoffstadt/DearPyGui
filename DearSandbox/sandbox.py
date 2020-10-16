@@ -19,7 +19,7 @@ add_additional_font("C:/dev/DearPyGui/Resources/NotoSerifCJKjp-Medium.otf", 20)
 
 show_demo()
 
-with window("Asyncronous##dialog", show=False):
+with window("Asyncronous##dialog", show=True):
     add_data('threadNumber', 0)
     def LongCallback2(sender, data):
         sleep(5)
@@ -42,4 +42,5 @@ with window("Asyncronous##dialog", show=False):
     add_button("Start Long Process", callback=LongCallback)
     add_button("Start Long Asyncronous Process", callback=LongAsyncronousCallback)
 
+#start_dearpygui(primary_window="Asyncronous##dialog")
 start_dearpygui()

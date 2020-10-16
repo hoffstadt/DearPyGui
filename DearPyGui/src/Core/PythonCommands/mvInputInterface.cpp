@@ -395,25 +395,22 @@ namespace Marvel {
 			return GetPyNone();
 		if (callback)
 			Py_XINCREF(callback);
-		if (std::string(handler) == "MainWindow")
-			mvApp::GetApp()->setResizeCallback(callback);
-		else
-		{
-			mvAppItem* item;
-			item = mvApp::GetApp()->getItem(handler);
 
-			if (item)
+		mvAppItem* item;
+		item = mvApp::GetApp()->getItem(handler);
+
+		if (item)
+		{
+			if (item->isARoot())
 			{
-				if (item->getType() == mvAppItemType::Window)
-				{
-					auto windowtype = static_cast<mvWindowAppitem*>(item);
-					mvEventHandler* eventhandler = static_cast<mvEventHandler*>(windowtype);
-					eventhandler->setResizeCallback(callback);
-				}
-				else
-					ThrowPythonException("Resize callback can only be set for window items");
+				auto windowtype = static_cast<mvWindowAppitem*>(item);
+				mvEventHandler* eventhandler = static_cast<mvEventHandler*>(windowtype);
+				eventhandler->setResizeCallback(callback);
 			}
+			else
+				ThrowPythonException("Resize callback can only be set for window items");
 		}
+
 
 		return GetPyNone();
 	}

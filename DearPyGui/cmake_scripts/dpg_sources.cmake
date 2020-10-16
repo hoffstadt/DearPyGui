@@ -48,6 +48,7 @@ set(MARVEL_SOURCES
 	"src/Core/AppItems/mvTable.cpp"
 	"src/Core/AppItems/mvLogger.cpp"
 	"src/Core/AppItems/mvStyleWindow.cpp"
+	"src/Core/AppItems/mvWindowAppItem.cpp"
 
 	"src/Core/PlotAppItems/mvPlot.cpp"
 	"src/Core/PlotAppItems/mvAreaSeries.cpp"

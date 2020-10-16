@@ -952,9 +952,6 @@ namespace Marvel {
 		if (PopupParent)
 			PopupParent->setPopup(name);
 
-		if (std::string(popupparent) == "")
-			mvApp::GetApp()->getItem("MainWindow")->setPopup(name);
-
 		mvAppItem* item = new mvPopup(name, PopupParent);
 
 		item->checkConfigDict(kwargs);

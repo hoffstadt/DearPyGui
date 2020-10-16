@@ -148,7 +148,6 @@ def demo_accelerator_callback(sender, data):
                 if are_all_true(shortcut):
                     get_item_callback(item)(item, None)
         
-
 def show_demo():
 
     set_render_callback(demo_main_callback)
@@ -723,7 +722,7 @@ def show_demo():
                         add_text("Hovered")
                         add_separator()
 
-                    add_selectable("0000##demo", span_columns=True)
+                    add_selectable("0000##demo", span_columns=False)
                     add_text("One")
                     add_text("/path/one")
                     add_text("0")

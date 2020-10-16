@@ -35,11 +35,15 @@ Updates:
 - Standard Windows: metrics/debug/about/style/docs etc. are truely widgets now.
 
 New Commands:
+- Misc: Added "set_primary_window" command
 - Misc: Added "add_metrics_window" command
 - Misc: Added "add_debug_window" command
 - Misc: Added "add_about_window" command
 - Misc: Added "add_style_window" command
 - Misc: Added "add_documentation_window" command
+
+New Keywords:
+- start_dearpygui:    Added "primary_window" keyword
 
 Changes:
 - show_metrics:       Moved to simple module
