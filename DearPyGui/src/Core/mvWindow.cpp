@@ -8,7 +8,7 @@ namespace Marvel {
 	mvWindow::mvWindow(unsigned width, unsigned height, bool error) :
 		m_error(error), m_width(width), m_height(height)
 	{
-		m_app = mvApp::GetAppStandardWindow();
+		m_app = mvApp::GetApp();
 
 		if (m_error)
 		{

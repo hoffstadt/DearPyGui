@@ -25,9 +25,9 @@
 #include <chrono>
 #include <mutex>
 #include <thread>
-#include "mvStandardWindow.h"
 #include "mvAppItem.h"
 #include "mvPythonParser.h"
+#include "mvEventHandler.h"
 
 //-----------------------------------------------------------------------------
 // Typedefs for chrono's ridiculously long names
@@ -57,7 +57,7 @@ namespace Marvel {
     //-----------------------------------------------------------------------------
     // mvApp
     //-----------------------------------------------------------------------------
-    class mvApp : public mvStandardWindow
+    class mvApp : public mvEventHandler
     {
 
         friend class mvWindow;
@@ -101,22 +101,21 @@ namespace Marvel {
 
         static mvApp*            GetApp              ();
         static void              DeleteApp           ();
-        static mvStandardWindow* GetAppStandardWindow();
         static const char*       GetVersion          () { return MV_SANDBOX_VERSION; }
         static bool              IsAppStarted        () { return s_started; }
         static void              SetAppStarted       ();
         static void              SetAppStopped       ();
 
-        ~mvApp() override;
+        ~mvApp();
 
         //-----------------------------------------------------------------------------
         // Rendering
         //-----------------------------------------------------------------------------
-        void                     precheck        ();                    // precheck before the main render loop has started
-        void                     firstRenderFrame();                    // only ran during first frame
-        bool                     prerender       (bool& show) override; // pre rendering (every frame)
-        void                     render          (bool& show) override; // actual render loop
-        void                     postrender      ()           override; // post rendering (every frame)
+        void                     precheck        (); // precheck before the main render loop has started
+        void                     firstRenderFrame(); // only ran during first frame
+        bool                     prerender       (); // pre rendering (every frame)
+        void                     render          (); // actual render loop
+        void                     postrender      (); // post rendering (every frame)
         
         //-----------------------------------------------------------------------------
         // App Settings

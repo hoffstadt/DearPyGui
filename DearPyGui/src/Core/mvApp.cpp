@@ -9,13 +9,6 @@
 #include <fstream>
 #include <streambuf>
 #include "mvAppLog.h"
-#include "Core/StandardWindows/mvDocWindow.h"
-#include "Core/StandardWindows/mvAboutWindow.h"
-#include "Core/StandardWindows/mvMetricsWindow.h"
-#include "Core/StandardWindows/mvSourceWindow.h"
-#include "Core/StandardWindows/mvDebugWindow.h"
-#include "Core/StandardWindows/mvFileDialog.h"
-#include "Core/StandardWindows/mvStyleWindow.h"
 #include <thread>
 #include <future>
 #include <chrono>
@@ -48,11 +41,6 @@ namespace Marvel {
 		s_started = false;
 	}
 
-	mvStandardWindow* mvApp::GetAppStandardWindow()
-	{
-		return static_cast<mvStandardWindow*>(GetApp());
-	}
-
 	void mvApp::SetAppStarted() 
 	{
 		if (GetApp())
@@ -71,7 +59,7 @@ namespace Marvel {
 			viewport->stop();
 	}
 
-	mvApp::mvApp() : mvStandardWindow("MainApplication")
+	mvApp::mvApp() : mvEventHandler()
 	{
 		m_parsers = BuildDearPyGuiInterface();
 
@@ -89,13 +77,19 @@ namespace Marvel {
 		m_windows.push_back(new mvWindowAppitem("MainWindow", true, nullptr));
 		m_parents.push(m_windows.back());
 
-		addStandardWindow("documentation##standard", mvDocWindow::GetWindow());
-		addStandardWindow("about##standard", new mvAboutWindow());
-		addStandardWindow("metrics##standard", new mvMetricsWindow());
-		addStandardWindow("source##standard", new mvSourceWindow());
-		addStandardWindow("debug##standard", new mvDebugWindow());
-		addStandardWindow("filedialog", new mvFileDialog());
-		addStandardWindow("style##standard", new mvStyleWindow());
+
+		auto add_hidden_window = [&](mvAppItem* item, const std::string& label) {
+			m_windows.push_back(item);
+			m_windows.back()->setLabel(label);
+			m_windows.back()->hide();
+		};
+
+		add_hidden_window(new mvAboutWindow("about##standard"), "About Dear PyGui");
+		add_hidden_window(new mvDocWindow("documentation##standard"), "Core Documentation");
+		add_hidden_window(new mvDebugWindow("debug##standard"), "Dear PyGui Debug");
+		add_hidden_window(new mvMetricsWindow("metrics##standard"), "Metrics");
+		add_hidden_window(new mvStyleWindow("style##standard"), "Dear PyGui Style Editor");
+		add_hidden_window(new mvFileDialog(), "FileDialog");
 
 	}
 
@@ -138,7 +132,7 @@ namespace Marvel {
 
 	}
 
-	bool mvApp::prerender(bool& show)
+	bool mvApp::prerender()
 	{
 
 		if (m_firstRender)
@@ -208,7 +202,7 @@ namespace Marvel {
 		return true;
 	}
 
-	void mvApp::render(bool& show)
+	void mvApp::render()
 	{
 		for (auto window : m_windows)
 			window->draw();
@@ -216,32 +210,17 @@ namespace Marvel {
 
 	void mvApp::postrender()
 	{
-
-		// render any standard windows (i.e. debug, etc.)
-		for (auto& entry : m_standardWindows)
-		{
-			if (entry.second.show)
-			{
-				if(entry.second.window->prerender(entry.second.show))
-					entry.second.window->render(entry.second.show);
-			}
-		}
-
 		Py_BEGIN_ALLOW_THREADS
 		postDeleteItems();
 		postAddItems();
 		postAddPopups();
 		postMoveItems();
 		postAsync();
-		Py_END_ALLOW_THREADS
-		
+		Py_END_ALLOW_THREADS	
 	}
 
 	void mvApp::setWindowSize(unsigned width, unsigned height)
 	{
-
-		// set viewport size
-		setSize(width, height);
 
 		// set imgui window size
 		m_windows[0]->setWidth(width);
@@ -1162,7 +1141,7 @@ namespace Marvel {
 				}
 			}
 
-			if (newItem.item->getType() == mvAppItemType::Window)
+			if (newItem.item->isARoot())
 			{
 				m_windows.push_back(newItem.item);
 				continue;

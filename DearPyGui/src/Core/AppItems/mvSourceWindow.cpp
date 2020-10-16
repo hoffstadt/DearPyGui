@@ -8,11 +8,6 @@
 
 namespace Marvel {
 
-	mvSourceWindow::mvSourceWindow() : mvStandardWindow("Source")
-	{
-		m_flags = ImGuiWindowFlags_HorizontalScrollbar | ImGuiWindowFlags_MenuBar;
-	}
-
 	void mvSourceWindow::setFile(const std::string& file)
 	{
 		m_file = file;
@@ -32,6 +27,9 @@ namespace Marvel {
 
 	void mvSourceWindow::render(bool& show)
 	{
+		if (!prerender())
+			return;
+
 		auto cpos = m_editor.GetCursorPosition();
 		if (ImGui::BeginMenuBar())
 		{

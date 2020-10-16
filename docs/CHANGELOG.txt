@@ -23,6 +23,32 @@ HOW TO UPDATE?
 - Please report any issue!
 
 -----------------------------------------------------------------------
+ VERSION 0.5.0 WIP
+-----------------------------------------------------------------------
+
+Decorated log: https://github.com/hoffstadt/DearPyGui/releases/tag/v0.5.0
+
+Breaking Changes:
+- show_source: "show_source" removed to prepare for text editor widget in 0.6
+
+Updates:
+- Standard Windows: metrics/debug/about/style/docs etc. are truely widgets now.
+
+New Commands:
+- Misc: Added "add_metrics_window" command
+- Misc: Added "add_debug_window" command
+- Misc: Added "add_about_window" command
+- Misc: Added "add_style_window" command
+- Misc: Added "add_documentation_window" command
+
+Changes:
+- show_metrics:       Moved to simple module
+- show_debug:         Moved to simple module
+- show_documentation: Moved to simple module
+- show_style_editor:  Moved to simple module
+- show_about:         Moved to simple module
+
+-----------------------------------------------------------------------
  VERSION 0.4.609 (10/14/2020)
 -----------------------------------------------------------------------
 
