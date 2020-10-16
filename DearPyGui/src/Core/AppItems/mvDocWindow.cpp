@@ -7,13 +7,24 @@
 
 namespace Marvel {
 
-	mvDocWindow* mvDocWindow::s_instance = nullptr;
-
-	mvDocWindow::mvDocWindow() : mvStandardWindow("Dear PyGui Core Documentation")
+	static void ColorText(const char* item)
 	{
-		m_width = 700;
-		m_height = 500;
-		setup();
+		ImGui::TextColored(ImGui::GetStyleColorVec4(ImGuiCol_PlotLinesHovered), "%s", item);
+	}
+
+	static void CodeColorText(const char* item)
+	{
+		ImGui::TextColored(ImGui::GetStyleColorVec4(ImGuiCol_CheckMark), "%s", item);
+	}
+
+	static void WidgetTableEntry(const char* widget, const char* container, const char* callback, const char* source, const char* desc)
+	{
+		ImGui::Separator();
+		ImGui::TextColored(ImGui::GetStyleColorVec4(ImGuiCol_DragDropTarget), widget); ImGui::NextColumn();
+		ImGui::TextColored(ImGui::GetStyleColorVec4(ImGuiCol_CheckMark), container); ImGui::NextColumn();
+		ImGui::TextColored(ImGui::GetStyleColorVec4(ImGuiCol_PlotHistogramHovered), callback); ImGui::NextColumn();
+		ImGui::TextColored(ImGui::GetStyleColorVec4(ImGuiCol_PlotLinesHovered), source); ImGui::NextColumn();
+		ImGui::TextColored(ImGui::GetStyleColorVec4(ImGuiCol_Text), desc); ImGui::NextColumn();
 	}
 
 	mvDocWindow::~mvDocWindow()
@@ -110,37 +121,11 @@ namespace Marvel {
 
 	}
 
-	mvStandardWindow* mvDocWindow::GetWindow()
+	void mvDocWindow::draw()
 	{
-		if (s_instance)
-			return s_instance;
 
-		s_instance = new mvDocWindow();
-		return s_instance;
-	}
-
-	static void ColorText(const char* item)
-	{
-		ImGui::TextColored(ImGui::GetStyleColorVec4(ImGuiCol_PlotLinesHovered), "%s", item);
-	}
-
-	static void CodeColorText(const char* item)
-	{
-		ImGui::TextColored(ImGui::GetStyleColorVec4(ImGuiCol_CheckMark), "%s", item);
-	}
-
-	static void WidgetTableEntry(const char* widget, const char* container, const char* callback, const char* source, const char* desc)
-	{
-		ImGui::Separator();
-		ImGui::TextColored(ImGui::GetStyleColorVec4(ImGuiCol_DragDropTarget), widget); ImGui::NextColumn();
-		ImGui::TextColored(ImGui::GetStyleColorVec4(ImGuiCol_CheckMark), container); ImGui::NextColumn();
-		ImGui::TextColored(ImGui::GetStyleColorVec4(ImGuiCol_PlotHistogramHovered), callback); ImGui::NextColumn();
-		ImGui::TextColored(ImGui::GetStyleColorVec4(ImGuiCol_PlotLinesHovered), source); ImGui::NextColumn();
-		ImGui::TextColored(ImGui::GetStyleColorVec4(ImGuiCol_Text), desc); ImGui::NextColumn();
-	}
-
-	void mvDocWindow::render(bool& show)
-	{
+		if (!prerender())
+			return;
 
 		if (ImGui::BeginTabBar("Main Tabbar##doc"))
 		{
@@ -164,13 +149,13 @@ namespace Marvel {
 					ImGui::BulletText("By Default the logger is set to log level mvDebug.");
 					ImGui::BulletText("Can be set like \"set_log_level(mvINFO)\"");
 					ImGui::BulletText("The log levels are:");
-					
+
 					ImGui::Columns(3);
 					ImGui::Separator();
 					ImGui::TextColored(ImGui::GetStyleColorVec4(ImGuiCol_DragDropTarget), "level"); ImGui::NextColumn();
 					ImGui::TextColored(ImGui::GetStyleColorVec4(ImGuiCol_DragDropTarget), "constant"); ImGui::NextColumn();
 					ImGui::TextColored(ImGui::GetStyleColorVec4(ImGuiCol_DragDropTarget), "command"); ImGui::NextColumn();
-					
+
 					ImGui::Separator();
 					CodeColorText("TRACE"); ImGui::NextColumn();
 					ColorText("mvTRACE"); ImGui::NextColumn();
@@ -202,7 +187,7 @@ namespace Marvel {
 
 					ImGui::Columns(1);
 
-					
+
 				}
 
 
@@ -280,7 +265,7 @@ namespace Marvel {
 					WidgetTableEntry("window", "yes", "", "", "new window widget");
 
 					ImGui::Columns(1);
-					
+
 				}
 
 				if (ImGui::CollapsingHeader("Widget Basics"))

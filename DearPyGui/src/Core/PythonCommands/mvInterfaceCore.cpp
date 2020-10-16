@@ -13,7 +13,7 @@ namespace Marvel {
 		auto ma = mvApp::GetApp();
 
 		// remove bad parent stack item
-		if (item->getType() == mvAppItemType::Window && ma->topParent() != nullptr)
+		if (item->isARoot() && ma->topParent() != nullptr)
 		{
 			if (ma->topParent()->getName() != "MainWindow")
 			{
@@ -26,11 +26,11 @@ namespace Marvel {
 			return ma->addItemAfter(parent, item);
 
 		// window runtime adding
-		if (item->getType() == mvAppItemType::Window && mvApp::IsAppStarted())
+		if (item->isARoot() && mvApp::IsAppStarted())
 			return ma->addRuntimeItem("", "", item);
 
 		// window compile adding
-		else if (item->getType() == mvAppItemType::Window)
+		else if (item->isARoot())
 			return ma->addWindow(item);
 
 		// typical run time adding

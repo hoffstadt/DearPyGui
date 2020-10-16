@@ -17,6 +17,10 @@ namespace Marvel {
 	PyObject* add_group            (PyObject* self, PyObject* args, PyObject* kwargs);
 	PyObject* add_child            (PyObject* self, PyObject* args, PyObject* kwargs);
 	PyObject* add_window           (PyObject* self, PyObject* args, PyObject* kwargs);
+	PyObject* add_about_window     (PyObject* self, PyObject* args, PyObject* kwargs);
+	PyObject* add_doc_window       (PyObject* self, PyObject* args, PyObject* kwargs);
+	PyObject* add_debug_window     (PyObject* self, PyObject* args, PyObject* kwargs);
+	PyObject* add_style_window     (PyObject* self, PyObject* args, PyObject* kwargs);
 	PyObject* add_tooltip          (PyObject* self, PyObject* args, PyObject* kwargs);
 	PyObject* add_popup            (PyObject* self, PyObject* args, PyObject* kwargs);
 	PyObject* add_collapsing_header(PyObject* self, PyObject* args, PyObject* kwargs);

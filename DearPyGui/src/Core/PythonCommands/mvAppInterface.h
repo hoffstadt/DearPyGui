@@ -61,12 +61,6 @@ namespace Marvel {
 
 	// standard windows
 	PyObject* show_logger                    (PyObject* self, PyObject* args);
-	PyObject* show_style_editor              (PyObject* self, PyObject* args, PyObject* kwargs);
-	PyObject* show_metrics                   (PyObject* self, PyObject* args, PyObject* kwargs);
-	PyObject* show_about                     (PyObject* self, PyObject* args, PyObject* kwargs);
-	PyObject* show_source                    (PyObject* self, PyObject* args, PyObject* kwargs);
-	PyObject* show_debug                     (PyObject* self, PyObject* args, PyObject* kwargs);
-	PyObject* show_documentation             (PyObject* self, PyObject* args, PyObject* kwargs);
 	PyObject* select_directory_dialog        (PyObject* self, PyObject* args, PyObject* kwargs);
 	PyObject* open_file_dialog               (PyObject* self, PyObject* args, PyObject* kwargs);
 }

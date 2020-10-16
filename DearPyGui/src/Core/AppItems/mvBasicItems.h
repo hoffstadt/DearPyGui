@@ -4,7 +4,6 @@
 #include "mvPythonTranslator.h"
 #include <utility>
 #include "mvAppItem.h"
-
 #include "Core/mvValueStorage.h"
 
 //-----------------------------------------------------------------------------

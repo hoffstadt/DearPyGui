@@ -13,7 +13,6 @@
 
 #include "mvApp.h"
 #include "mvAppLog.h"
-#include "StandardWindows/mvDocWindow.h"
 
 namespace Marvel {
 
@@ -45,9 +44,9 @@ namespace Marvel {
 
 	protected:
 
-		bool              m_running       = true;
-		mvStandardWindow* m_app = nullptr;
-		bool              m_error         = false;
+		bool              m_running = true;
+		mvApp*            m_app     = nullptr;
+		bool              m_error   = false;
 		unsigned          m_width;
 		unsigned          m_height;
 

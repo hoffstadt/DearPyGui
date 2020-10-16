@@ -1,28 +1,33 @@
 #pragma once
-
-#include <vector>
-#include <string>
-#include <imgui.h>
-
-#include "mvStandardWindow.h"
-#include "mvPythonParser.h"
+#include "Core/AppItems/mvTypeBases.h"
+#include "mvAppItem.h"
 
 namespace Marvel {
 
-	class mvDocWindow : public mvStandardWindow
+	class mvDocWindow : public mvBaseWindowAppitem
 	{
+
+		MV_APPITEM_TYPE(mvAppItemType::DocWindow, "add_doc_window")
 
 	public:
 
-		static mvStandardWindow* GetWindow();
+		mvDocWindow(const std::string& name)
+			: mvBaseWindowAppitem(name)
+		{
+			m_width = 700;
+			m_height = 500;
+			setup();
+		}
 
-		void render(bool& show) override;
+		~mvDocWindow();
+
+		bool canBeDeleted() const override { return false; }
+
+		void draw() override;
+
+		void setup();
 
 	private:
-
-		mvDocWindow();
-		~mvDocWindow() override;
-		void setup();
 
 		int categorySelection = 0;
 		const char* m_doc = "None";
@@ -54,7 +59,7 @@ namespace Marvel {
 		std::vector<const char*> m_logging;
 		std::vector<const char*> m_themes;
 		std::vector<const char*> m_cconstants;
-		
+
 		std::vector<const char*> m_docApp;
 		std::vector<const char*> m_docWidgets;
 		std::vector<const char*> m_docWidgetsCommands;
@@ -71,8 +76,6 @@ namespace Marvel {
 		std::vector<std::pair<std::string, long>> m_constants;
 		std::vector<std::string> m_constantsValues;
 		std::map<std::string, mvPythonParser>* m_docmap = nullptr;
-		
-		static mvDocWindow* s_instance;
 
 	};
 

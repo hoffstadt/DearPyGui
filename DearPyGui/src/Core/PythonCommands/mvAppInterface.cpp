@@ -1,7 +1,5 @@
 #include "mvAppInterface.h"
 #include "mvInterfaceCore.h"
-#include "Core/StandardWindows/mvSourceWindow.h"
-#include "Core/StandardWindows/mvFileDialog.h"
 #include "Core/mvAppItems.h"
 #include "Core/mvWindow.h"
 #include <ImGuiFileDialog.h>
@@ -191,27 +189,8 @@ namespace Marvel {
 		parsers->insert({ "show_logger", mvPythonParser({
 		}, "Shows the logging window. The Default log level is Trace", "None", "Standard Windows") });
 
-		parsers->insert({ "show_documentation", mvPythonParser({
-		}, "Shows the documentation window.", "None", "Standard Windows") });
-
-		parsers->insert({ "show_about", mvPythonParser({
-		}, "Shows the about window.", "None", "Standard Windows") });
-
-		parsers->insert({ "show_metrics", mvPythonParser({
-		}, "Shows the metrics window.", "None", "Standard Windows") });
-
-		parsers->insert({ "show_debug", mvPythonParser({
-		}, "Shows the debug window.", "None", "Standard Windows") });
-
-		parsers->insert({ "show_style_editor", mvPythonParser({
-		}, "Shows the font window.") });
-
 		parsers->insert({ "close_popup", mvPythonParser({
 		}, "Closes the current popup") });
-
-		parsers->insert({ "show_source", mvPythonParser({
-			{mvPythonDataType::String, "file"},
-		}, "Shows the source code for a file.", "None", "Standard Windows") });
 	}
 
 	PyObject* is_dearpygui_running(PyObject* self, PyObject* args, PyObject* kwargs)
@@ -391,12 +370,12 @@ namespace Marvel {
 			return GetPyNone();
 
 		igfd::ImGuiFileDialog::Instance()->OpenModal("ChooseFileDlgKey", "Choose Directory", 0, ".");
-		mvStandardWindow* window = mvApp::GetApp()->getStandardWindow("filedialog");
+		mvAppItem* window = mvApp::GetApp()->getItem("filedialog");
 		auto dialog = static_cast<mvFileDialog*>(window);
 		if (callback)
 			Py_XINCREF(callback);
 		dialog->setCallback(callback);
-		mvApp::GetApp()->showStandardWindow("filedialog");
+		window->show();
 
 		return GetPyNone();
 	}
@@ -411,12 +390,12 @@ namespace Marvel {
 			return GetPyNone();
 
 		igfd::ImGuiFileDialog::Instance()->OpenModal("ChooseFileDlgKey", "Choose File", extensions, ".");
-		mvStandardWindow* window = mvApp::GetApp()->getStandardWindow("filedialog");
+		mvAppItem* window = mvApp::GetApp()->getItem("filedialog");
 		auto dialog = static_cast<mvFileDialog*>(window);
 		if (callback)
 			Py_XINCREF(callback);
 		dialog->setCallback(callback);
-		mvApp::GetApp()->showStandardWindow("filedialog");
+		window->show();
 
 		return GetPyNone();
 	}
@@ -819,46 +798,4 @@ namespace Marvel {
 		return GetPyNone();
 	}
 
-	PyObject* show_style_editor(PyObject* self, PyObject* args, PyObject* kwargs)
-	{
-		mvApp::GetApp()->showStandardWindow("style##standard");
-		return GetPyNone();
-	}
-
-	PyObject* show_metrics(PyObject* self, PyObject* args, PyObject* kwargs)
-	{
-		mvApp::GetApp()->showStandardWindow("metrics##standard");
-		return GetPyNone();
-	}
-
-	PyObject* show_about(PyObject* self, PyObject* args, PyObject* kwargs)
-	{
-		mvApp::GetApp()->showStandardWindow("about##standard");
-		return GetPyNone();
-	}
-
-	PyObject* show_source(PyObject* self, PyObject* args, PyObject* kwargs)
-	{
-		const char* file;
-
-		if (!(*mvApp::GetApp()->getParsers())["show_source"].parse(args, kwargs, __FUNCTION__, &file))
-			return GetPyNone();
-
-		mvApp::GetApp()->showStandardWindow("source##standard");
-		auto window = static_cast<mvSourceWindow*>(mvApp::GetApp()->getStandardWindow("source##standard"));
-		window->setFile(file);
-		return GetPyNone();
-	}
-
-	PyObject* show_debug(PyObject* self, PyObject* args, PyObject* kwargs)
-	{
-		mvApp::GetApp()->showStandardWindow("debug##standard");
-		return GetPyNone();
-	}
-
-	PyObject* show_documentation(PyObject* self, PyObject* args, PyObject* kwargs)
-	{
-		mvApp::GetApp()->showStandardWindow("documentation##standard");
-		return GetPyNone();
-	}
 }

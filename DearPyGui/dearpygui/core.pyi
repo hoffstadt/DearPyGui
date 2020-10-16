@@ -6,6 +6,10 @@ from dearpygui.core import *
 ##########################################################
 
 # ~ Dear PyGui Version: master
+def add_about_window(name: str, *, width: int = -1, height: int = -1, x_pos: int = 200, y_pos: int = 200, autosize: bool = False, no_resize: bool = False, no_title_bar: bool = False, no_move: bool = False, no_scrollbar: bool = False, no_collapse: bool = False, horizontal_scrollbar: bool = False, no_focus_on_appearing: bool = False, no_bring_to_front_on_focus: bool = False, no_close: bool = False, no_background: bool = False, label: str = '', show: bool = True) -> None:
+	"""Creates an about window."""
+	...
+
 def add_additional_font(file: str, size: float = 13.0, glyph_ranges: str = '', *, custom_glyph_chars: List[int] = (), custom_glyph_ranges: Any = List[List[int]]) -> None:
 	"""Adds additional font."""
 	...
@@ -76,6 +80,14 @@ def add_data(name: str, data: Any) -> None:
 
 def add_date_picker(name: str, *, default_value: dict = {'month_day': 14, 'year':20, 'month':5}, level: int = 0, callback: Callable = None, callback_data: Any = None, tip: str = '', parent: str = '', before: str = '', show: bool = True) -> None:
 	"""Adds a data selector widget."""
+	...
+
+def add_debug_window(name: str, *, width: int = 700, height: int = 500, x_pos: int = 200, y_pos: int = 200, autosize: bool = False, no_resize: bool = False, no_title_bar: bool = False, no_move: bool = False, no_scrollbar: bool = False, no_collapse: bool = False, horizontal_scrollbar: bool = False, no_focus_on_appearing: bool = False, no_bring_to_front_on_focus: bool = False, no_close: bool = False, no_background: bool = False, label: str = '', show: bool = True) -> None:
+	"""Creates a debug window."""
+	...
+
+def add_doc_window(name: str, *, width: int = -1, height: int = -1, x_pos: int = 200, y_pos: int = 200, autosize: bool = True, no_resize: bool = False, no_title_bar: bool = False, no_move: bool = False, no_scrollbar: bool = False, no_collapse: bool = False, horizontal_scrollbar: bool = False, no_focus_on_appearing: bool = False, no_bring_to_front_on_focus: bool = False, no_close: bool = False, no_background: bool = False, label: str = '', show: bool = True) -> None:
+	"""Creates a documentation window."""
 	...
 
 def add_drag_float(name: str, *, default_value: float = 0.0, speed: float = 1.0, min_value: float = 0.0, max_value: float = 100.0, format: str = '%0.3f', callback: Callable = None, callback_data: Any = None, tip: str = '', parent: str = '', before: str = '', source: str = '', width: int = 0, on_enter: bool = False, label: str = '', popup: str = '', show: bool = True) -> None:
@@ -312,6 +324,10 @@ def add_spacing(*, name: str = 'spacing', count: int = 1, parent: str = '', befo
 
 def add_stem_series(plot: str, name: str, data: List[List[float]], *, marker: int = 0, size: float = 4.0, weight: float = 1.0, outline: List[float] = (0, 0, 0, -1), fill: List[float] = (0, 0, 0, -1), update_bounds: bool = True) -> None:
 	"""Adds a stem series to a plot."""
+	...
+
+def add_style_window(name: str, *, width: int = 700, height: int = 500, x_pos: int = 200, y_pos: int = 200, autosize: bool = False, no_resize: bool = False, no_title_bar: bool = False, no_move: bool = False, no_scrollbar: bool = False, no_collapse: bool = False, horizontal_scrollbar: bool = False, no_focus_on_appearing: bool = False, no_bring_to_front_on_focus: bool = False, no_close: bool = False, no_background: bool = False, label: str = '', show: bool = True) -> None:
+	"""Creates a style window."""
 	...
 
 def add_tab(name: str, *, closable: bool = False, label: str = '', show: bool = True, tip: str = '', parent: str = '', before: str = '') -> None:
@@ -1236,10 +1252,6 @@ def show_logger() -> None:
 
 def show_metrics() -> None:
 	"""Shows the metrics window."""
-	...
-
-def show_source(file: str) -> None:
-	"""Shows the source code for a file."""
 	...
 
 def show_style_editor() -> None:
