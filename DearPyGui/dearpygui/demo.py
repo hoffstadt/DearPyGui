@@ -238,7 +238,7 @@ def show_demo():
                 def toggle_enable(sender, data):
                     disable_items = ["Button1##demo", "Button2##demo", "Button3##demo", "Button4##demo", "Button5##demo", "Button6##demo"
                                      ,"checkbox##demo", "radiobutton##demo", "selectable##demo", "Left##demo", "Right##demo"
-                                     ,"combo##demo"]
+                                     ,"combo##demo","listbox##demo"]
                     for item in disable_items:
                         configure_item(item, enabled=get_value("Enable&Disable"))
                 add_checkbox("Enable&Disable", default_value=True, callback=toggle_enable)

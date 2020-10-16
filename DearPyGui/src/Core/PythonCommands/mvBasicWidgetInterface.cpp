@@ -174,6 +174,7 @@ namespace Marvel {
 			{mvPythonDataType::String, "parent", "Parent this item will be added to. (runtime adding)", "''"},
 			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)", "''"},
 			{mvPythonDataType::String, "source", "", "''"},
+			{mvPythonDataType::Bool, "enabled", "Display grayed out text so selectable cannot be selected", "True"},
 			{mvPythonDataType::Integer, "width","", "0"},
 			{mvPythonDataType::Integer, "num_items", "number of items to show", "3"},
 			{mvPythonDataType::String, "label","", "''"},
@@ -821,12 +822,13 @@ namespace Marvel {
 		const char* before = "";
 		const char* parent = "";
 		const char* source = "";
+		int enabled = true;
 		const char* label = "";
 		const char* popup = "";
 		int show = true;
 
 		if (!(*mvApp::GetApp()->getParsers())["add_listbox"].parse(args, kwargs, __FUNCTION__, &name, &items,
-			&default_value, &callback, &callback_data, &tip, &parent, &before, &source, &width,
+			&default_value, &callback, &callback_data, &tip, &parent, &before, &source, &enabled, &width,
 			&num_items, &label, &popup, &show))
 			return ToPyBool(false);
 
