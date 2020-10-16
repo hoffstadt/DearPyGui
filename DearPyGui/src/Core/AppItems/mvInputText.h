@@ -31,6 +31,19 @@ namespace Marvel {
 			pushColorStyles();
 			ImGui::PushID(this);
 
+			if (!m_enabled)
+			{
+				ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(ImGui::GetStyleColorVec4(ImGuiCol_TextDisabled)));
+				ImVec4 disabled_color = ImVec4(ImGui::GetStyleColorVec4(ImGuiCol_TextDisabled));
+				disabled_color.w = 0.392f;
+				ImGui::PushStyleColor(ImGuiCol_FrameBg, disabled_color);
+				ImGui::PushStyleColor(ImGuiCol_FrameBgHovered, disabled_color);
+				ImGui::PushStyleColor(ImGuiCol_FrameBgActive, disabled_color);
+				m_disabled_value = *m_value;
+				m_flags |= ImGuiInputTextFlags_ReadOnly;
+			}
+			else m_flags &= ~ImGuiInputTextFlags_ReadOnly;
+
 			if (m_multiline)
 				m_hint = "";
 
@@ -59,6 +72,7 @@ namespace Marvel {
 				ImGui::SetTooltip("%s", getTip().c_str());
 
 			ImGui::PopID();
+			if (!m_enabled) ImGui::PopStyleColor(4);
 			popColorStyles();
 		}
 

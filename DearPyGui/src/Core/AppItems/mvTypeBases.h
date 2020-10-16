@@ -463,6 +463,7 @@ namespace Marvel {
 	protected:
 
 		std::string* m_value = nullptr;
+		std::string  m_disabled_value = "";
 	};
 
 	//-----------------------------------------------------------------------------

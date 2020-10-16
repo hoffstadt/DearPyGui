@@ -24,6 +24,7 @@ namespace Marvel {
 			{mvPythonDataType::String, "parent", "Parent to add this item to. (runtime adding)", "''"},
 			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)", "''"},
 			{mvPythonDataType::String, "source", "", "''"},
+			{mvPythonDataType::Bool, "enabled", "Display grayed out text so selectable cannot be selected", "True"},
 			{mvPythonDataType::Integer, "width","", "0"},
 			{mvPythonDataType::Integer, "height","", "0"},
 			{mvPythonDataType::Bool, "on_enter", "Only runs callback on enter", "False"},
@@ -204,6 +205,7 @@ namespace Marvel {
 		const char* before = "";
 		const char* parent = "";
 		const char* source = "";
+		int enabled = true;
 		int on_enter = false;
 		const char* label = "";
 		const char* popup = "";
@@ -214,7 +216,7 @@ namespace Marvel {
 		if (!(*mvApp::GetApp()->getParsers())["add_input_text"].parse(args, kwargs, __FUNCTION__, 
 			&name, &default_value, &hint, &multiline, &no_spaces,
 			&uppercase, &decimal, &hexadecimal, &readonly, &password, &scientific, &callback, 
-			&callback_data, &tip, &parent, &before, &source, &width, &height, &on_enter,
+			&callback_data, &tip, &parent, &before, &source, &enabled, &width, &height, &on_enter,
 			&label, &popup, &show))
 			return ToPyBool(false);
 

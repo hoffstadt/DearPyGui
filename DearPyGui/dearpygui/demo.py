@@ -238,22 +238,18 @@ def show_demo():
                 def toggle_enable(sender, data):
                     disable_items = ["Button1##demo", "Button2##demo", "Button3##demo", "Button4##demo", "Button5##demo", "Button6##demo"
                                      ,"checkbox##demo", "radiobutton##demo", "selectable##demo", "Left##demo", "Right##demo"
-                                     ,"combo##demo","listbox##demo"]
+                                     ,"combo##demo","listbox##demo","input text##demo","input text (w/ hint)##demo"]
                     for item in disable_items:
                         configure_item(item, enabled=get_value("Enable&Disable"))
                 add_checkbox("Enable&Disable", default_value=True, callback=toggle_enable)
                 helpmarker('This will toggle the keyword "enable" for the widgets below that can be enabled & disabled')
-                add_button("Button1##demo", callback=log_callback)
-                add_same_line()
-                add_button("Button2##demo", callback=log_callback, small=True)
-                add_same_line()
-                add_button("Button3##demo", callback=log_callback, arrow=True)
-                add_same_line()
-                add_button("Button4##demo", callback=log_callback, arrow=True, direction=1)
-                add_same_line()
-                add_button("Button5##demo", callback=log_callback, arrow=True, direction=2)
-                add_same_line()
-                add_button("Button6##demo", callback=log_callback, arrow=True, direction=3)
+                with group("buttons##demo", horizontal=True):
+                    add_button("Button1##demo", callback=log_callback)
+                    add_button("Button2##demo", callback=log_callback, small=True)
+                    add_button("Button3##demo", callback=log_callback, arrow=True)
+                    add_button("Button4##demo", callback=log_callback, arrow=True, direction=1)
+                    add_button("Button5##demo", callback=log_callback, arrow=True, direction=2)
+                    add_button("Button6##demo", callback=log_callback, arrow=True, direction=3)
                 add_checkbox("checkbox##demo", callback=log_callback)
                 add_radio_button("radiobutton##demo", items=["radio a", "radio b", "radio c"], horizontal=True, callback=log_callback)
                 add_selectable("selectable##demo", callback=log_callback)
@@ -264,16 +260,13 @@ def show_demo():
                     set_item_color(f"Click##{i}", mvGuiCol_Button, hsv_to_rgb(i/7.0, 0.6, 0.6))
                     set_item_color(f"Click##{i}", mvGuiCol_ButtonHovered, hsv_to_rgb(i/7.0, 0.7, 0.7))
                     set_item_color(f"Click##{i}", mvGuiCol_ButtonActive, hsv_to_rgb(i/7.0, 0.8, 0.8))
-
-                add_text("Press a button: ")
-                add_same_line()
-                add_button("Left##demo", arrow=True, direction=mvDir_Left, 
-                           callback=lambda sender, data: set_value("value", int(get_value("value"))-1))
-                add_same_line()
-                add_button("Right##demo", arrow=True, direction=mvDir_Right,
-                           callback=lambda sender, data: set_value("value", int(get_value("value"))+1))
-                add_same_line()
-                add_text("value", default_value="0")
+                with group("increment_buttons##demo", horizontal=True):
+                    add_text("Press a button: ")
+                    add_button("Left##demo", arrow=True, direction=mvDir_Left, 
+                               callback=lambda sender, data: set_value("value", int(get_value("value"))-1))
+                    add_button("Right##demo", arrow=True, direction=mvDir_Right,
+                               callback=lambda sender, data: set_value("value", int(get_value("value"))+1))
+                    add_text("value", default_value="0")
 
                 add_separator()
 
@@ -313,7 +306,8 @@ def show_demo():
                         "Right-click on the colored square to show options.\n"
                         "CTRL+click on individual component to input value.\n")
                 add_color_edit4("color 2##demo", default_value=[102, 179, 0, 128])
-                add_listbox("listbox##demo", items=["Apple", "Banana", "Cherry", "Kiwi", "Mango", "Orange", "Pineapple", "Strawberry", "Watermelon"], num_items=4)
+                add_listbox("listbox##demo", items=["Apple", "Banana", "Cherry", "Kiwi", "Mango", "Orange", "Pineapple", "Strawberry", "Watermelon"]
+                            , num_items=4, callback=log_callback)
 
             with tree_node("Bullets##demo"):
                 add_text("Bullet point 1", bullet=True)

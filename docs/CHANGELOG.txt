@@ -48,6 +48,7 @@ New Keywords:
 - add_radio_button:   Added "enabled" keyword
 - add_listbox:		  Added "enabled" keyword
 - add_combo:		  Added "enabled" keyword
+- add_input_text:	  Added "enabled" keyword
 
 Changes:
 - show_metrics:       Moved to simple module
