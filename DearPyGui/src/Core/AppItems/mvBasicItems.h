@@ -40,6 +40,7 @@ namespace Marvel {
 		{
 			pushColorStyles();
 			ImGui::PushID(this);
+			!isItemEnabled() ? m_flags |= ImGuiSelectableFlags_Disabled : m_flags &= ~ImGuiSelectableFlags_Disabled;
 
 			if(ImGui::Selectable(m_label.c_str(), m_value, m_flags))
 			{
@@ -68,18 +69,10 @@ namespace Marvel {
 			// helper for bit flipping
 			auto flagop = [dict](const char* keyword, int flag, int& flags, bool flip)
 			{
-				if (flip)
-				{
-					if (PyObject* item = PyDict_GetItemString(dict, keyword)) !ToBool(item) ? flags |= flag : flags &= ~flag;
-				}
-				else
-				{
-					if (PyObject* item = PyDict_GetItemString(dict, keyword)) ToBool(item) ? flags |= flag : flags &= ~flag;
-				}
+				if (PyObject* item = PyDict_GetItemString(dict, keyword)) ToBool(item) ? flags |= flag : flags &= ~flag;
 			};
 
 			// window flags
-			flagop("enabled", ImGuiSelectableFlags_Disabled, m_flags, true);
 			flagop("span_columns", ImGuiSelectableFlags_SpanAllColumns, m_flags, false);
 
 		}
@@ -93,14 +86,10 @@ namespace Marvel {
 			// helper to check and set bit
 			auto checkbitset = [dict](const char* keyword, int flag, const int& flags, bool flip)
 			{
-				if(flip)
-					PyDict_SetItemString(dict, keyword, ToPyBool(!(flags & flag)));
-				else
-					PyDict_SetItemString(dict, keyword, ToPyBool(flags & flag));
+				PyDict_SetItemString(dict, keyword, ToPyBool(flags & flag));
 			};
 
 			// window flags
-			checkbitset("enabled", ImGuiSelectableFlags_Disabled, m_flags, true);
 			checkbitset("span_columns", ImGuiSelectableFlags_SpanAllColumns, m_flags, false);
 		}
 	private:
@@ -141,7 +130,7 @@ namespace Marvel {
 			{
 				if (ImGui::SmallButton(m_label.c_str()))
 				{
-					mvApp::GetApp()->runCallback(m_enabled ? m_callback : nullptr, m_name, m_callbackData);
+					mvApp::GetApp()->runCallback(getCallback(false), m_name, m_callbackData);
 
 				}
 
@@ -155,7 +144,7 @@ namespace Marvel {
 			{
 				if (ImGui::ArrowButton(m_label.c_str(), m_direction))
 				{
-						mvApp::GetApp()->runCallback(m_enabled ? m_callback : nullptr, m_name, m_callbackData);
+						mvApp::GetApp()->runCallback(getCallback(false), m_name, m_callbackData);
 
 				}
 
@@ -168,7 +157,7 @@ namespace Marvel {
 			if (ImGui::Button(m_label.c_str(), ImVec2((float)m_width, (float)m_height)))
 			{
 
-				mvApp::GetApp()->runCallback(getCallback(), m_name, m_callbackData);
+				mvApp::GetApp()->runCallback(getCallback(false), m_name, m_callbackData);
 
 			}
 
@@ -229,7 +218,6 @@ namespace Marvel {
 		{
 			pushColorStyles();
 			ImGui::PushID(this);
-			static bool disabled_value = false;
 
 			if (!m_enabled)
 			{
@@ -240,11 +228,11 @@ namespace Marvel {
 				ImGui::PushStyleColor(ImGuiCol_FrameBg, disabled_color);
 				ImGui::PushStyleColor(ImGuiCol_FrameBgHovered, disabled_color);
 				ImGui::PushStyleColor(ImGuiCol_FrameBgActive, disabled_color);
-				disabled_value = *m_value;
+				m_disabled_value = *m_value;
 			}
 
-			if (ImGui::Checkbox(m_label.c_str(), m_enabled ? m_value : &disabled_value))
-					mvApp::GetApp()->runCallback(m_enabled ? m_callback : nullptr, m_name, m_callbackData);
+			if (ImGui::Checkbox(m_label.c_str(), m_enabled ? m_value : &m_disabled_value))
+					mvApp::GetApp()->runCallback(getCallback(false), m_name, m_callbackData);
 
 
 			// Regular Tooltip (simple)
@@ -277,16 +265,30 @@ namespace Marvel {
 
 			pushColorStyles();
 			ImGui::PushID(this);
-
+			static std::vector<std::string> disabled_items{};
+			if (!m_enabled)
+			{
+				ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(ImGui::GetStyleColorVec4(ImGuiCol_TextDisabled)));
+				ImVec4 disabled_color = ImVec4(ImGui::GetStyleColorVec4(ImGuiCol_TextDisabled));
+				disabled_color.w = 0.392f;
+				ImGui::PushStyleColor(ImGuiCol_FrameBg, disabled_color);
+				ImGui::PushStyleColor(ImGuiCol_FrameBgHovered, disabled_color);
+				ImGui::PushStyleColor(ImGuiCol_FrameBgActive, disabled_color);
+				ImGui::PushStyleColor(ImGuiCol_Button, disabled_color);
+				ImGui::PushStyleColor(ImGuiCol_ButtonHovered, disabled_color);
+				ImGui::PushStyleColor(ImGuiCol_ButtonActive, disabled_color);
+				ImGui::PushStyleColor(ImGuiCol_PopupBg, disabled_color.w=0.0f);
+				ImGui::PushStyleColor(ImGuiCol_Border, disabled_color);
+			}
 			if (ImGui::BeginCombo(m_label.c_str(), m_value->c_str(), m_flags)) // The second parameter is the label previewed before opening the combo.
 			{
-				for (const auto& name : m_items)
+				for (const auto& name : m_enabled ? m_items : disabled_items)
 				{
 					bool is_selected = (*m_value == name);
 					if (ImGui::Selectable((name).c_str(), is_selected))
 					{
-						*m_value = name;
-						mvApp::GetApp()->runCallback(m_callback, m_name, m_callbackData);
+						if (m_enabled) { *m_value = name; }
+						mvApp::GetApp()->runCallback(getCallback(false), m_name, m_callbackData);
 
 					}
 
@@ -302,6 +304,7 @@ namespace Marvel {
 				ImGui::SetTooltip("%s", getTip().c_str());
 
 			ImGui::PopID();
+			if (!m_enabled) ImGui::PopStyleColor(9);
 			popColorStyles();
 		}
 
@@ -467,14 +470,24 @@ namespace Marvel {
 
 			pushColorStyles();
 			ImGui::PushID(this);
-
+			if (!m_enabled)
+			{
+				ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(ImGui::GetStyleColorVec4(ImGuiCol_TextDisabled)));
+				ImVec4 disabled_color = ImVec4(ImGui::GetStyleColorVec4(ImGuiCol_TextDisabled));
+				disabled_color.w = 0.392f;
+				ImGui::PushStyleColor(ImGuiCol_CheckMark, disabled_color);
+				ImGui::PushStyleColor(ImGuiCol_FrameBg, disabled_color);
+				ImGui::PushStyleColor(ImGuiCol_FrameBgHovered, disabled_color);
+				ImGui::PushStyleColor(ImGuiCol_FrameBgActive, disabled_color);
+				m_disabled_value = *m_value;
+			}
 			for (size_t i = 0; i < m_itemnames.size(); i++)
 			{
 				if (m_horizontal && i != 0)
 					ImGui::SameLine();
 
-				if (ImGui::RadioButton((m_itemnames[i] + "##" + m_name).c_str(), m_value, i))
-					mvApp::GetApp()->runCallback(m_callback, m_name, m_callbackData);
+				if (ImGui::RadioButton((m_itemnames[i] + "##" + m_name).c_str(), m_enabled ? m_value : &m_disabled_value, i))
+					mvApp::GetApp()->runCallback(getCallback(false), m_name, m_callbackData);
 
 				// Regular Tooltip (simple)
 				if (!getTip().empty() && ImGui::IsItemHovered())
@@ -483,7 +496,7 @@ namespace Marvel {
 
 			ImGui::PopID();
 			popColorStyles();
-
+			if (!m_enabled) ImGui::PopStyleColor(5);
 			ImGui::EndGroup();
 		}
 

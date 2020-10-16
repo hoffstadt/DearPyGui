@@ -60,6 +60,7 @@ namespace Marvel {
 	protected:
 
 		int* m_value = nullptr;
+		int m_disabled_value = 0;
 	};
 
 	//-----------------------------------------------------------------------------
@@ -399,6 +400,7 @@ namespace Marvel {
 				m_value = mvValueStorage::AddBoolValue(dataSource, default_value);
 
 			m_dataSource = dataSource;
+
 		}
 
 		~mvBoolPtrBase()
@@ -420,6 +422,7 @@ namespace Marvel {
 	protected:
 
 		bool* m_value = nullptr;
+		bool m_disabled_value = false;
 	};
 
 	//-----------------------------------------------------------------------------

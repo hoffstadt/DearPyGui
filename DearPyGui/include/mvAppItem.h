@@ -114,7 +114,7 @@ namespace Marvel {
         [[nodiscard]] const std::string&    getName                   () const { return m_name; }
         [[nodiscard]] const std::string&    getTip                    () const { return m_tip; }
         [[nodiscard]] const std::string&    getLabel                  () const { return m_label; }
-        [[nodiscard]] PyObject*             getCallback               ()       { return m_callback; }
+        [[nodiscard]] PyObject*             getCallback               (bool ignore_enabled = true);
         [[nodiscard]] PyObject*             getCallbackData           ()       { return m_callbackData; }
         [[nodiscard]] const std::string&    getPopup                  () const { return m_popup; }
         [[nodiscard]] const std::string&    getDataSource             () const { return m_dataSource; }

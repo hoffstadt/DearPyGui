@@ -234,18 +234,30 @@ def show_demo():
         with collapsing_header("Widgets##demo"):
 
             with tree_node("Basic##demo"):
+                def log_callback(sender, data):
+                    log_debug(f"{sender} ran a callback")
                 def toggle_enable(sender, data):
-                    disable_items = ["Button##demo","checkbox##demo"]
+                    disable_items = ["Button1##demo", "Button2##demo", "Button3##demo", "Button4##demo", "Button5##demo", "Button6##demo"
+                                     ,"checkbox##demo", "radiobutton##demo", "selectable##demo", "Left##demo", "Right##demo"
+                                     ,"combo##demo"]
                     for item in disable_items:
-                        log_debug(item)
-                        log_debug(get_value("Enable&Disable"))
                         configure_item(item, enabled=get_value("Enable&Disable"))
                 add_checkbox("Enable&Disable", default_value=True, callback=toggle_enable)
                 helpmarker('This will toggle the keyword "enable" for the widgets below that can be enabled & disabled')
-                add_button("Button##demo")
-                add_checkbox("checkbox##demo")
-                add_radio_button("radiobutton##demo", items=["radio a", "radio b", "radio c"], horizontal=True)
-        
+                add_button("Button1##demo", callback=log_callback)
+                add_same_line()
+                add_button("Button2##demo", callback=log_callback, small=True)
+                add_same_line()
+                add_button("Button3##demo", callback=log_callback, arrow=True)
+                add_same_line()
+                add_button("Button4##demo", callback=log_callback, arrow=True, direction=1)
+                add_same_line()
+                add_button("Button5##demo", callback=log_callback, arrow=True, direction=2)
+                add_same_line()
+                add_button("Button6##demo", callback=log_callback, arrow=True, direction=3)
+                add_checkbox("checkbox##demo", callback=log_callback)
+                add_radio_button("radiobutton##demo", items=["radio a", "radio b", "radio c"], horizontal=True, callback=log_callback)
+                add_selectable("selectable##demo", callback=log_callback)
                 for i in range(0, 7):
                     if i > 0:
                         add_same_line()

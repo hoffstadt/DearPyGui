@@ -534,4 +534,11 @@ namespace Marvel{
 			Py_DECREF(m_callbackData);
 	}
 
+	PyObject* mvAppItem::getCallback(bool ignore_enabled)
+	{
+		if (isItemEnabled())
+			return m_callback;
+		return ignore_enabled ? m_callback : nullptr;
+	}
+
 }
