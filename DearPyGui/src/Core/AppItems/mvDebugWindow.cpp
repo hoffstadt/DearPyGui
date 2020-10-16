@@ -221,7 +221,7 @@ namespace Marvel {
                 if (ImGui::Button("Delete"))
                 {
                     app->deleteItem(m_selectedItem);
-                    m_selectedItem = "MainWindow";
+                    m_selectedItem = "";
                 }
                 ImGui::SameLine();
                 if (ImGui::Button("Show"))

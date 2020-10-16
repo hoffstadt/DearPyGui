@@ -473,6 +473,7 @@ namespace Marvel {
 		ADD_PYTHON_FUNCTION(configure_item)
 
 		// app interface
+		ADD_PYTHON_FUNCTION(set_primary_window)
 		ADD_PYTHON_FUNCTION(set_accelerator_callback)
 		ADD_PYTHON_FUNCTION(set_threadpool_timeout)
 		ADD_PYTHON_FUNCTION(set_thread_count)

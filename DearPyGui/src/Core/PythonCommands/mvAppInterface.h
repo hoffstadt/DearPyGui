@@ -30,6 +30,7 @@ namespace Marvel {
 	PyObject* set_main_window_resizable      (PyObject* self, PyObject* args, PyObject* kwargs);
 	PyObject* get_main_window_size           (PyObject* self, PyObject* args, PyObject* kwargs);
 	PyObject* set_main_window_size           (PyObject* self, PyObject* args, PyObject* kwargs);
+	PyObject* set_primary_window             (PyObject* self, PyObject* args, PyObject* kwargs);
 
 	// timing
 	PyObject* get_total_time                 (PyObject* self, PyObject* args, PyObject* kwargs);

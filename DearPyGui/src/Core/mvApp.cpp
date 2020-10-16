@@ -74,10 +74,6 @@ namespace Marvel {
 
 		m_mainThreadID = std::this_thread::get_id();
 
-		m_windows.push_back(new mvWindowAppitem("MainWindow", true, nullptr));
-		m_parents.push(m_windows.back());
-
-
 		auto add_hidden_window = [&](mvAppItem* item, const std::string& label) {
 			m_windows.push_back(item);
 			m_windows.back()->setLabel(label);
@@ -430,6 +426,12 @@ namespace Marvel {
 		mvAppItem* item = m_parents.top();
 		m_parents.pop();
 		return item;
+	}
+
+	void mvApp::emptyParents()
+	{
+		while (!m_parents.empty())
+			m_parents.pop();
 	}
 
 	mvAppItem* mvApp::topParent()

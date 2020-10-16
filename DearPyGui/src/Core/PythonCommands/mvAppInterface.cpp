@@ -1,6 +1,7 @@
 #include "mvAppInterface.h"
 #include "mvInterfaceCore.h"
 #include "Core/mvAppItems.h"
+#include "Core/AppItems/mvWindowAppItem.h"
 #include "Core/mvWindow.h"
 #include <ImGuiFileDialog.h>
 
@@ -50,6 +51,8 @@ namespace Marvel {
 		}, "Cleans up DearPyGui after calling setup_dearpygui.") });
 
 		parsers->insert({ "start_dearpygui", mvPythonParser({
+			{mvPythonDataType::KeywordOnly},
+			{mvPythonDataType::String, "primary_window", "Window that will expand into viewport.", ""},
 		}, "Starts DearPyGui.") });
 
 		parsers->insert({ "stop_dearpygui", mvPythonParser({
@@ -132,6 +135,11 @@ namespace Marvel {
 			{mvPythonDataType::Integer, "width"},
 			{mvPythonDataType::Integer, "height"}
 		}, "Sets the main window size.") });
+
+		parsers->insert({ "set_primary_window", mvPythonParser({
+			{mvPythonDataType::String, "window"},
+			{mvPythonDataType::Bool, "value"},
+		}, "Sets the primary window to fill the view port.") });
 	}
 
 	void AddLogCommands(std::map<std::string, mvPythonParser>* parsers)
@@ -292,6 +300,10 @@ namespace Marvel {
 
 	PyObject* start_dearpygui(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
+		const char* primary_window = "";
+
+		if (!(*mvApp::GetApp()->getParsers())["start_dearpygui"].parse(args, kwargs, __FUNCTION__, &primary_window))
+			return GetPyNone();
 
 		mvApp::GetApp()->precheck();
 		mvApp::SetAppStarted();
@@ -300,6 +312,21 @@ namespace Marvel {
 		auto window = mvWindow::CreatemvWindow(mvApp::GetApp()->getActualWidth(), mvApp::GetApp()->getActualHeight(), false);
 		mvApp::GetApp()->setViewport(window);
 		window->show();
+
+		if (!std::string(primary_window).empty())
+		{
+			// reset other windows
+			for (auto window : mvApp::GetApp()->getWindows())
+				static_cast<mvWindowAppitem*>(window)->setWindowAsMainStatus(false);
+
+			mvWindowAppitem* window = mvApp::GetApp()->getWindow(primary_window);
+
+			if (window)
+				window->setWindowAsMainStatus(true);
+			else
+				ThrowPythonException("Window does not exists.");
+		}
+
 		window->run();
 		delete window;
 		mvApp::SetAppStopped();
@@ -798,4 +825,25 @@ namespace Marvel {
 		return GetPyNone();
 	}
 
+	PyObject* set_primary_window(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		const char* item;
+		int value;
+
+		if (!(*mvApp::GetApp()->getParsers())["set_primary_window"].parse(args, kwargs, __FUNCTION__, &item, &value))
+			return GetPyNone();
+
+		// reset other windows
+		for (auto window : mvApp::GetApp()->getWindows())
+			static_cast<mvWindowAppitem*>(window)->setWindowAsMainStatus(false);
+
+		mvWindowAppitem* window = mvApp::GetApp()->getWindow(item);
+
+		if (window)
+			window->setWindowAsMainStatus(value);
+		else
+			ThrowPythonException("Window does not exists.");
+
+		return GetPyNone();
+	}
 }

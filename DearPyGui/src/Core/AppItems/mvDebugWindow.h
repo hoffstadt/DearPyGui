@@ -28,7 +28,7 @@ namespace Marvel {
 
 	private:
 
-		std::string m_selectedItem = "MainWindow";
+		std::string m_selectedItem;
 		ImGuiID     m_selectedID;
 		std::vector<std::pair<std::string, std::string>> m_commands;
 	};

@@ -1042,6 +1042,10 @@ def set_plot_ylimits_auto(plot: str) -> None:
 	"""Sets plots y limits to be automatic."""
 	...
 
+def set_primary_window(window: str, value: bool) -> None:
+	"""Sets the primary window to fill the view port."""
+	...
+
 def set_render_callback(callback: Callable) -> None:
 	"""Sets the callback to be ran every frame."""
 	...
@@ -1230,18 +1234,6 @@ def setup_dearpygui() -> None:
 	"""Sets up DearPyGui for user controlled rendering. Only call once and you must call cleanup_deapygui when finished."""
 	...
 
-def show_about() -> None:
-	"""Shows the about window."""
-	...
-
-def show_debug() -> None:
-	"""Shows the debug window."""
-	...
-
-def show_documentation() -> None:
-	"""Shows the documentation window."""
-	...
-
 def show_item(name: str) -> None:
 	"""Shows an item if it was hidden."""
 	...
@@ -1250,15 +1242,7 @@ def show_logger() -> None:
 	"""Shows the logging window. The Default log level is Trace"""
 	...
 
-def show_metrics() -> None:
-	"""Shows the metrics window."""
-	...
-
-def show_style_editor() -> None:
-	"""Shows the font window."""
-	...
-
-def start_dearpygui() -> None:
+def start_dearpygui(*, primary_window: str = ) -> None:
 	"""Starts DearPyGui."""
 	...
 

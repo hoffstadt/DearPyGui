@@ -2,6 +2,8 @@
 #include "mvApp.h"
 #include "implot.h"
 #include "Core/mvDataStorage.h"
+#include <cstdlib>
+#include <ctime>
 
 // Forward declare message handler from imgui_impl_win32.cpp
 extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
@@ -16,6 +18,11 @@ namespace Marvel {
 	mvWindowsWindow::mvWindowsWindow(unsigned width, unsigned height, bool error)
 		: mvWindow(width, height, error)
 	{
+		srand((unsigned)time(0));
+		float r = (rand() % 255) / 255.0f;
+		float g = (rand() % 255) / 255.0f;
+		float b = (rand() % 255) / 255.0f;
+		m_clearColor = ImVec4(r, g, b, 1.0f);
 
 		m_wc = { 
 			sizeof(WNDCLASSEX), 
@@ -153,7 +160,7 @@ namespace Marvel {
 	void mvWindowsWindow::postrender()
 	{
 
-		ImVec4 clear_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
+		ImVec4 clear_color = m_clearColor;
 
 		// Rendering
 		ImGui::Render();
@@ -303,7 +310,7 @@ namespace Marvel {
 				}
 				m_width = (UINT)LOWORD(lParam);
 				m_height = (UINT)HIWORD(lParam);
-				mvApp::GetApp()->setWindowSize((UINT)LOWORD(lParam), (UINT)HIWORD(lParam));
+				//mvApp::GetApp()->setWindowSize((UINT)LOWORD(lParam), (UINT)HIWORD(lParam));
 				mvApp::GetApp()->runCallback(mvApp::GetApp()->getResizeCallback(), "Main Application");
 				//mvDocWindow::GetWindow()->setSize((UINT)LOWORD(lParam), (UINT)HIWORD(lParam));
 				CleanupRenderTarget();

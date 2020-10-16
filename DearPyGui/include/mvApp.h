@@ -175,7 +175,7 @@ namespace Marvel {
         bool                     addWindow         (mvAppItem* item);
         bool                     addRuntimeItem    (const std::string& parent, const std::string& before, mvAppItem* item);
         bool                     moveItem          (const std::string& name, const std::string& parent, const std::string& before);
-        void                     deleteItem        (const std::string& name) { if(name!="MainWindow") m_deleteQueue.push(name); }
+        void                     deleteItem        (const std::string& name) { m_deleteQueue.push(name); }
         void                     deleteItemChildren(const std::string& name) { m_deleteChildrenQueue.push(name); }
         void                     moveItemUp        (const std::string& name) { m_upQueue.push(name); }
         void                     moveItemDown      (const std::string& name) { m_downQueue.push(name); }
@@ -187,9 +187,10 @@ namespace Marvel {
         // Parent stack operations
         //     - used for automatic parent deduction
         //-----------------------------------------------------------------------------
-        void                     pushParent(mvAppItem* item); // pushes parent onto stack
-        mvAppItem*               popParent();                 // pop parent off stack and return it
-        mvAppItem*               topParent();                 // returns top parent without popping
+        void                     pushParent  (mvAppItem* item); // pushes parent onto stack
+        void                     emptyParents();                // empties parent stack
+        mvAppItem*               popParent   ();                // pop parent off stack and return it
+        mvAppItem*               topParent   ();                // returns top parent without popping
 
         //-----------------------------------------------------------------------------
         // Callbacks
@@ -230,7 +231,7 @@ namespace Marvel {
         static bool   s_started;
 
         mvWindow*                              m_viewport = nullptr;
-        std::string                            m_activeWindow = "MainWindow";
+        std::string                            m_activeWindow;
         std::stack<mvAppItem*>                 m_parents;
         std::vector<mvAppItem*>                m_windows;
         int                                    m_actualWidth = 1280;
