@@ -15,11 +15,8 @@ namespace Marvel {
 		// remove bad parent stack item
 		if (item->isARoot() && ma->topParent() != nullptr)
 		{
-			if (ma->topParent()->getName() != "MainWindow")
-			{
-				ma->popParent();
-				ThrowPythonException("Adding window will remove last item in parent stack. Don't forget to end container types.");
-			}
+			ma->emptyParents();
+			ThrowPythonException("Parent stack not empty. Adding window will empty the parent stack. Don't forget to end container types.");
 		}
 
 		if (item->getType() == mvAppItemType::Popup || item->getType() == mvAppItemType::Tooltip)
@@ -43,7 +40,11 @@ namespace Marvel {
 
 		// adding without specifying before or parent, but with empty stack (add to main window)
 		else if (std::string(parent).empty() && std::string(before).empty() && mvApp::IsAppStarted())
-			return ma->addRuntimeItem("MainWindow", "", item);
+		{
+			ThrowPythonException("Parent stack is empty. You must specify 'before' or 'parent' widget.");
+			delete item;
+			return false;
+		}
 
 		// adding normally but using the runtime style of adding
 		else if (!std::string(parent).empty() && !mvApp::IsAppStarted())

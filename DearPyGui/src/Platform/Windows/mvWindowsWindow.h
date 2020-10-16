@@ -53,6 +53,7 @@ namespace Marvel {
 		HWND m_hwnd;
 		WNDCLASSEX m_wc;
 		MSG m_msg;
+		ImVec4 m_clearColor;
 
 	private:
 
