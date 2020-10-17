@@ -39,7 +39,6 @@ namespace Marvel {
 				ImGui::PushStyleColor(ImGuiCol_FrameBg, disabled_color);
 				ImGui::PushStyleColor(ImGuiCol_FrameBgHovered, disabled_color);
 				ImGui::PushStyleColor(ImGuiCol_FrameBgActive, disabled_color);
-				m_disabled_value = *m_value;
 				m_flags |= ImGuiInputTextFlags_ReadOnly;
 			}
 			else m_flags &= ~ImGuiInputTextFlags_ReadOnly;

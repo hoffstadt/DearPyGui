@@ -43,6 +43,20 @@ namespace Marvel {
 			pushColorStyles();
 			ImGui::PushID(this);
 
+			if (!m_enabled)
+			{
+				ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(ImGui::GetStyleColorVec4(ImGuiCol_TextDisabled)));
+				ImVec4 disabled_color = ImVec4(ImGui::GetStyleColorVec4(ImGuiCol_TextDisabled));
+				disabled_color.w = 0.392f;
+				ImGui::PushStyleColor(ImGuiCol_FrameBg, disabled_color);
+				ImGui::PushStyleColor(ImGuiCol_FrameBgHovered, disabled_color);
+				ImGui::PushStyleColor(ImGuiCol_FrameBgActive, disabled_color);
+				ImGui::PushStyleColor(ImGuiCol_Button, disabled_color);
+				m_disabled_value = *m_value;
+				m_flags |= ImGuiInputTextFlags_ReadOnly;
+			}
+			else m_flags &= ~ImGuiInputTextFlags_ReadOnly;
+
 			if (m_vertical)
 			{
 				if ((float)m_height < 1.0f)
@@ -68,6 +82,7 @@ namespace Marvel {
 			}
 
 			ImGui::PopID();
+			if (!m_enabled) ImGui::PopStyleColor(5);
 			popColorStyles();
 		}
 
@@ -143,6 +158,20 @@ namespace Marvel {
 			pushColorStyles();
 			ImGui::PushID(this);
 
+			if (!m_enabled)
+			{
+				ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(ImGui::GetStyleColorVec4(ImGuiCol_TextDisabled)));
+				ImVec4 disabled_color = ImVec4(ImGui::GetStyleColorVec4(ImGuiCol_TextDisabled));
+				disabled_color.w = 0.392f;
+				ImGui::PushStyleColor(ImGuiCol_FrameBg, disabled_color);
+				ImGui::PushStyleColor(ImGuiCol_FrameBgHovered, disabled_color);
+				ImGui::PushStyleColor(ImGuiCol_FrameBgActive, disabled_color);
+				ImGui::PushStyleColor(ImGuiCol_Button, disabled_color);
+				m_disabled_value = *m_value;
+				m_flags |= ImGuiInputTextFlags_ReadOnly;
+			}
+			else m_flags &= ~ImGuiInputTextFlags_ReadOnly;
+
 			if (m_vertical)
 			{
 				if ((float)m_height < 1.0f)
@@ -168,6 +197,7 @@ namespace Marvel {
 			}
 
 			ImGui::PopID();
+			if (!m_enabled) ImGui::PopStyleColor(5);
 			popColorStyles();
 		}
 
@@ -243,6 +273,20 @@ namespace Marvel {
 			pushColorStyles();
 			ImGui::PushID(this);
 
+			if (!m_enabled)
+			{
+				ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(ImGui::GetStyleColorVec4(ImGuiCol_TextDisabled)));
+				ImVec4 disabled_color = ImVec4(ImGui::GetStyleColorVec4(ImGuiCol_TextDisabled));
+				disabled_color.w = 0.392f;
+				ImGui::PushStyleColor(ImGuiCol_FrameBg, disabled_color);
+				ImGui::PushStyleColor(ImGuiCol_FrameBgHovered, disabled_color);
+				ImGui::PushStyleColor(ImGuiCol_FrameBgActive, disabled_color);
+				ImGui::PushStyleColor(ImGuiCol_Button, disabled_color);
+				m_disabled_value = *m_value;
+				m_flags |= ImGuiInputTextFlags_ReadOnly;
+			}
+			else m_flags &= ~ImGuiInputTextFlags_ReadOnly;
+
 			if (ImGui::SliderFloat2(m_label.c_str(), m_value, m_min, m_max, m_format.c_str(), m_flags))
 				mvApp::GetApp()->runCallback(m_callback, m_name, m_callbackData);
 
@@ -251,6 +295,7 @@ namespace Marvel {
 				ImGui::SetTooltip("%s", getTip().c_str());
 
 			ImGui::PopID();
+			if (!m_enabled) ImGui::PopStyleColor(5);
 			popColorStyles();
 		}
 
@@ -323,6 +368,20 @@ namespace Marvel {
 			pushColorStyles();
 			ImGui::PushID(this);
 
+			if (!m_enabled)
+			{
+				ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(ImGui::GetStyleColorVec4(ImGuiCol_TextDisabled)));
+				ImVec4 disabled_color = ImVec4(ImGui::GetStyleColorVec4(ImGuiCol_TextDisabled));
+				disabled_color.w = 0.392f;
+				ImGui::PushStyleColor(ImGuiCol_FrameBg, disabled_color);
+				ImGui::PushStyleColor(ImGuiCol_FrameBgHovered, disabled_color);
+				ImGui::PushStyleColor(ImGuiCol_FrameBgActive, disabled_color);
+				ImGui::PushStyleColor(ImGuiCol_Button, disabled_color);
+				m_disabled_value = *m_value;
+				m_flags |= ImGuiInputTextFlags_ReadOnly;
+			}
+			else m_flags &= ~ImGuiInputTextFlags_ReadOnly;
+
 			if (ImGui::SliderFloat3(m_label.c_str(), m_value, m_min, m_max, m_format.c_str(), m_flags))
 				mvApp::GetApp()->runCallback(m_callback, m_name, m_callbackData);
 
@@ -331,6 +390,7 @@ namespace Marvel {
 				ImGui::SetTooltip("%s", getTip().c_str());
 
 			ImGui::PopID();
+			if (!m_enabled) ImGui::PopStyleColor(5);
 			popColorStyles();
 		}
 
@@ -403,6 +463,20 @@ namespace Marvel {
 			pushColorStyles();
 			ImGui::PushID(this);
 
+			if (!m_enabled)
+			{
+				ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(ImGui::GetStyleColorVec4(ImGuiCol_TextDisabled)));
+				ImVec4 disabled_color = ImVec4(ImGui::GetStyleColorVec4(ImGuiCol_TextDisabled));
+				disabled_color.w = 0.392f;
+				ImGui::PushStyleColor(ImGuiCol_FrameBg, disabled_color);
+				ImGui::PushStyleColor(ImGuiCol_FrameBgHovered, disabled_color);
+				ImGui::PushStyleColor(ImGuiCol_FrameBgActive, disabled_color);
+				ImGui::PushStyleColor(ImGuiCol_Button, disabled_color);
+				m_disabled_value = *m_value;
+				m_flags |= ImGuiInputTextFlags_ReadOnly;
+			}
+			else m_flags &= ~ImGuiInputTextFlags_ReadOnly;
+
 			if (ImGui::SliderFloat4(m_label.c_str(), m_value, m_min, m_max, m_format.c_str(), m_flags))
 				mvApp::GetApp()->runCallback(m_callback, m_name, m_callbackData);
 
@@ -411,6 +485,7 @@ namespace Marvel {
 				ImGui::SetTooltip("%s", getTip().c_str());
 
 			ImGui::PopID();
+			if (!m_enabled) ImGui::PopStyleColor(5);
 			popColorStyles();
 		}
 
@@ -483,6 +558,20 @@ namespace Marvel {
 			pushColorStyles();
 			ImGui::PushID(this);
 
+			if (!m_enabled)
+			{
+				ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(ImGui::GetStyleColorVec4(ImGuiCol_TextDisabled)));
+				ImVec4 disabled_color = ImVec4(ImGui::GetStyleColorVec4(ImGuiCol_TextDisabled));
+				disabled_color.w = 0.392f;
+				ImGui::PushStyleColor(ImGuiCol_FrameBg, disabled_color);
+				ImGui::PushStyleColor(ImGuiCol_FrameBgHovered, disabled_color);
+				ImGui::PushStyleColor(ImGuiCol_FrameBgActive, disabled_color);
+				ImGui::PushStyleColor(ImGuiCol_Button, disabled_color);
+				m_disabled_value = *m_value;
+				m_flags |= ImGuiInputTextFlags_ReadOnly;
+			}
+			else m_flags &= ~ImGuiInputTextFlags_ReadOnly;
+
 			if (ImGui::SliderInt2(m_label.c_str(), m_value, m_min, m_max, m_format.c_str(), m_flags))
 				mvApp::GetApp()->runCallback(m_callback, m_name, m_callbackData);
 
@@ -491,6 +580,7 @@ namespace Marvel {
 				ImGui::SetTooltip("%s", getTip().c_str());
 
 			ImGui::PopID();
+			if (!m_enabled) ImGui::PopStyleColor(5);
 			popColorStyles();
 		}
 
@@ -563,6 +653,20 @@ namespace Marvel {
 			pushColorStyles();
 			ImGui::PushID(this);
 
+			if (!m_enabled)
+			{
+				ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(ImGui::GetStyleColorVec4(ImGuiCol_TextDisabled)));
+				ImVec4 disabled_color = ImVec4(ImGui::GetStyleColorVec4(ImGuiCol_TextDisabled));
+				disabled_color.w = 0.392f;
+				ImGui::PushStyleColor(ImGuiCol_FrameBg, disabled_color);
+				ImGui::PushStyleColor(ImGuiCol_FrameBgHovered, disabled_color);
+				ImGui::PushStyleColor(ImGuiCol_FrameBgActive, disabled_color);
+				ImGui::PushStyleColor(ImGuiCol_Button, disabled_color);
+				m_disabled_value = *m_value;
+				m_flags |= ImGuiInputTextFlags_ReadOnly;
+			}
+			else m_flags &= ~ImGuiInputTextFlags_ReadOnly;
+
 			if (ImGui::SliderInt3(m_label.c_str(), m_value, m_min, m_max, m_format.c_str(), m_flags))
 				mvApp::GetApp()->runCallback(m_callback, m_name, m_callbackData);
 
@@ -571,6 +675,7 @@ namespace Marvel {
 				ImGui::SetTooltip("%s", getTip().c_str());
 
 			ImGui::PopID();
+			if (!m_enabled) ImGui::PopStyleColor(5);
 			popColorStyles();
 		}
 
@@ -643,6 +748,20 @@ namespace Marvel {
 			pushColorStyles();
 			ImGui::PushID(this);
 
+			if (!m_enabled)
+			{
+				ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(ImGui::GetStyleColorVec4(ImGuiCol_TextDisabled)));
+				ImVec4 disabled_color = ImVec4(ImGui::GetStyleColorVec4(ImGuiCol_TextDisabled));
+				disabled_color.w = 0.392f;
+				ImGui::PushStyleColor(ImGuiCol_FrameBg, disabled_color);
+				ImGui::PushStyleColor(ImGuiCol_FrameBgHovered, disabled_color);
+				ImGui::PushStyleColor(ImGuiCol_FrameBgActive, disabled_color);
+				ImGui::PushStyleColor(ImGuiCol_Button, disabled_color);
+				m_disabled_value = *m_value;
+				m_flags |= ImGuiInputTextFlags_ReadOnly;
+			}
+			else m_flags &= ~ImGuiInputTextFlags_ReadOnly;
+
 			if (ImGui::SliderInt4(m_label.c_str(), m_value, m_min, m_max, m_format.c_str(), m_flags))
 				mvApp::GetApp()->runCallback(m_callback, m_name, m_callbackData);
 
@@ -651,6 +770,7 @@ namespace Marvel {
 				ImGui::SetTooltip("%s", getTip().c_str());
 
 			ImGui::PopID();
+			if (!m_enabled) ImGui::PopStyleColor(5);
 			popColorStyles();
 		}
 

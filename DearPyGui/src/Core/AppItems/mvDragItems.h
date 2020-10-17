@@ -57,7 +57,7 @@ namespace Marvel {
 			}
 			else m_flags &= ~ImGuiInputTextFlags_ReadOnly;
 
-			if (ImGui::DragFloat(m_label.c_str(), m_value, m_speed, m_min, m_max, m_format.c_str(), m_flags))
+			if (ImGui::DragFloat(m_label.c_str(), m_enabled ? m_value : &m_disabled_value, m_speed, m_min, m_max, m_format.c_str(), m_flags))
 				mvApp::GetApp()->runCallback(m_callback, m_name, m_callbackData);
 
 			// Regular Tooltip (simple)
@@ -155,7 +155,7 @@ namespace Marvel {
 			}
 			else m_flags &= ~ImGuiInputTextFlags_ReadOnly;
 
-			if (ImGui::DragFloat2(m_label.c_str(), m_value, m_speed, m_min, m_max, m_format.c_str(), m_flags))
+			if (ImGui::DragFloat2(m_label.c_str(), m_enabled ? m_value : &m_disabled_value, m_speed, m_min, m_max, m_format.c_str(), m_flags))
 				mvApp::GetApp()->runCallback(m_callback, m_name, m_callbackData);
 
 			// Regular Tooltip (simple)
@@ -253,7 +253,7 @@ namespace Marvel {
 			}
 			else m_flags &= ~ImGuiInputTextFlags_ReadOnly;
 
-			if (ImGui::DragFloat3(m_label.c_str(), m_value, m_speed, m_min, m_max, m_format.c_str(), m_flags))
+			if (ImGui::DragFloat3(m_label.c_str(), m_enabled ? m_value : &m_disabled_value, m_speed, m_min, m_max, m_format.c_str(), m_flags))
 				mvApp::GetApp()->runCallback(m_callback, m_name, m_callbackData);
 
 			// Regular Tooltip (simple)
@@ -351,7 +351,7 @@ namespace Marvel {
 			}
 			else m_flags &= ~ImGuiInputTextFlags_ReadOnly;
 
-			if (ImGui::DragFloat4(m_label.c_str(), m_value, m_speed, m_min, m_max, m_format.c_str(), m_flags))
+			if (ImGui::DragFloat4(m_label.c_str(), m_enabled ? m_value : &m_disabled_value, m_speed, m_min, m_max, m_format.c_str(), m_flags))
 				mvApp::GetApp()->runCallback(m_callback, m_name, m_callbackData);
 
 			// Regular Tooltip (simple)
@@ -450,7 +450,7 @@ namespace Marvel {
 			}
 			else m_flags &= ~ImGuiInputTextFlags_ReadOnly;
 
-			if (ImGui::DragInt(m_label.c_str(), m_value, m_speed, m_min, m_max, m_format.c_str(), m_flags))
+			if (ImGui::DragInt(m_label.c_str(), m_enabled ? m_value : &m_disabled_value, m_speed, m_min, m_max, m_format.c_str(), m_flags))
 				mvApp::GetApp()->runCallback(m_callback, m_name, m_callbackData);
 
 			// Regular Tooltip (simple)
@@ -549,7 +549,7 @@ namespace Marvel {
 			}
 			else m_flags &= ~ImGuiInputTextFlags_ReadOnly;
 
-			if (ImGui::DragInt2(m_label.c_str(), m_value, m_speed, m_min, m_max, m_format.c_str(), m_flags))
+			if (ImGui::DragInt2(m_label.c_str(), m_enabled ? m_value : &m_disabled_value, m_speed, m_min, m_max, m_format.c_str(), m_flags))
 				mvApp::GetApp()->runCallback(m_callback, m_name, m_callbackData);
 
 			// Regular Tooltip (simple)
@@ -648,7 +648,7 @@ namespace Marvel {
 			}
 			else m_flags &= ~ImGuiInputTextFlags_ReadOnly;
 
-			if (ImGui::DragInt3(m_label.c_str(), m_value, m_speed, m_min, m_max, m_format.c_str(), m_flags))
+			if (ImGui::DragInt3(m_label.c_str(), m_enabled ? m_value : &m_disabled_value, m_speed, m_min, m_max, m_format.c_str(), m_flags))
 				mvApp::GetApp()->runCallback(m_callback, m_name, m_callbackData);
 
 			// Regular Tooltip (simple)
@@ -747,7 +747,7 @@ namespace Marvel {
 			}
 			else m_flags &= ~ImGuiInputTextFlags_ReadOnly;
 
-			if (ImGui::DragInt4(m_label.c_str(), m_value, m_speed, m_min, m_max, m_format.c_str(), m_flags))
+			if (ImGui::DragInt4(m_label.c_str(), m_enabled ? m_value : &m_disabled_value, m_speed, m_min, m_max, m_format.c_str(), m_flags))
 				mvApp::GetApp()->runCallback(m_callback, m_name, m_callbackData);
 
 			// Regular Tooltip (simple)

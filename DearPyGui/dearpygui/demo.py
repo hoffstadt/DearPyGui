@@ -240,7 +240,8 @@ def show_demo():
                                      ,"checkbox##demo", "radiobutton##demo", "selectable##demo", "Left##demo", "Right##demo"
                                      ,"combo##demo","listbox##demo","input text##demo","input text (w/ hint)##demo"
                                      ,"input int##demo", "input float##demo", "input scientific##demo", "input float3##example##demo"
-                                     ,"drag int", "drag int 0..100##demo", "drag float##demo", "drag small float##demo"]
+                                     ,"drag int", "drag int 0..100##demo", "drag float##demo", "drag small float##demo"
+                                     ,"slider int##demo", "slider float##demo", "slider angle##demo"]
 
                     for item in disable_items:
                         configure_item(item, enabled=get_value("Enable&Disable"))
@@ -298,10 +299,10 @@ def show_demo():
                 add_drag_int("drag int 0..100##demo", format="%d%%", callback=log_callback)
                 add_drag_float("drag float##demo", callback=log_callback)
                 add_drag_float("drag small float##demo", default_value=0.0067, format="%.06f ns", callback=log_callback)
-                add_slider_int("slider int##demo", max_value=3)
+                add_slider_int("slider int##demo", max_value=3, callback=log_callback)
                 helpmarker("CTRL+click to enter value.")
-                add_slider_float("slider float##demo", max_value=1.0, format="ratio = %.3f")
-                add_slider_int("slider angle##demo", min_value=-360, max_value=360, format="%d deg")
+                add_slider_float("slider float##demo", max_value=1.0, format="ratio = %.3f", callback=log_callback)
+                add_slider_int("slider angle##demo", min_value=-360, max_value=360, format="%d deg", callback=log_callback)
                 add_color_edit3("color 1##demo", default_value=[255, 0, 51])
                 helpmarker(
                         "Click on the colored square to open a color picker.\n"
