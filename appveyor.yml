@@ -19,7 +19,7 @@ environment:
 
   matrix:
 
-    - APPVEYOR_BUILD_WORKER_IMAGE: macos
+    - APPVEYOR_BUILD_WORKER_IMAGE: macos-mojave
       ARCH: "x64"
       CONFIG: Release
       PYVER: 36
@@ -45,7 +45,7 @@ environment:
       PYSTACK: "3.6"
       PYFULLVERSION: "3.6.12"
     
-    - APPVEYOR_BUILD_WORKER_IMAGE: macos
+    - APPVEYOR_BUILD_WORKER_IMAGE: macos-mojave
       ARCH: "x64"
       CONFIG: Release
       PYVER: 37
@@ -71,7 +71,7 @@ environment:
       PYSTACK: "3.7"
       PYFULLVERSION: "3.7.9"
     
-    - APPVEYOR_BUILD_WORKER_IMAGE: macos
+    - APPVEYOR_BUILD_WORKER_IMAGE: macos-mojave
       ARCH: "x64"
       CONFIG: Release
       PYVER: 38
