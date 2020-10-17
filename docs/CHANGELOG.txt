@@ -65,6 +65,14 @@ New Keywords:
 - add_drag_float2:    Added "enabled" keyword
 - add_drag_float3:    Added "enabled" keyword
 - add_drag_float4:    Added "enabled" keyword
+- add_slider_int:	  Added "enabled" keyword
+- add_slider_int2:	  Added "enabled" keyword
+- add_slider_int3:	  Added "enabled" keyword
+- add_slider_int4:	  Added "enabled" keyword
+- add_slider_float:	  Added "enabled" keyword
+- add_slider_float2:  Added "enabled" keyword
+- add_slider_float3:  Added "enabled" keyword
+- add_slider_float4:  Added "enabled" keyword
 
 Changes:
 - show_metrics:       Moved to simple module

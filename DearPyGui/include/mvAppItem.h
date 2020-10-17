@@ -114,7 +114,7 @@ namespace Marvel {
         [[nodiscard]] const std::string&    getName                   () const { return m_name; }
         [[nodiscard]] const std::string&    getTip                    () const { return m_tip; }
         [[nodiscard]] const std::string&    getLabel                  () const { return m_label; }
-        [[nodiscard]] PyObject*             getCallback               (bool ignore_enabled = true);  // returns the callback. If ignore_enable is false then null pointer will be returned.
+        [[nodiscard]] PyObject*             getCallback               (bool ignore_enabled = true);  // returns the callback. If ignore_enable false and item is disabled then no callback will be returned.
         [[nodiscard]] PyObject*             getCallbackData           ()       { return m_callbackData; }
         [[nodiscard]] const std::string&    getPopup                  () const { return m_popup; }
         [[nodiscard]] const std::string&    getDataSource             () const { return m_dataSource; }

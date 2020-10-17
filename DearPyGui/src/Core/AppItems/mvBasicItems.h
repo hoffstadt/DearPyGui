@@ -413,6 +413,10 @@ namespace Marvel {
 				ImGui::PushStyleColor(ImGuiCol_FrameBg, disabled_color);
 				ImGui::PushStyleColor(ImGuiCol_FrameBgHovered, disabled_color);
 				ImGui::PushStyleColor(ImGuiCol_FrameBgActive, disabled_color);
+				ImGui::PushStyleColor(ImGuiCol_ScrollbarBg, disabled_color);
+				ImGui::PushStyleColor(ImGuiCol_ScrollbarGrab, disabled_color);
+				ImGui::PushStyleColor(ImGuiCol_ScrollbarGrabHovered, disabled_color);
+				ImGui::PushStyleColor(ImGuiCol_ScrollbarGrabActive, disabled_color);
 				m_disabled_value = *m_value;
 			}
 
@@ -425,7 +429,7 @@ namespace Marvel {
 				ImGui::SetTooltip("%s", getTip().c_str());
 
 			ImGui::PopID();
-			if (!m_enabled) ImGui::PopStyleColor(7);
+			if (!m_enabled) ImGui::PopStyleColor(11);
 			popColorStyles();
 		}
 
