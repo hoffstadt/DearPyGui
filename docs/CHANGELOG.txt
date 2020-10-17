@@ -33,6 +33,7 @@ Breaking Changes:
 
 Updates:
 - Standard Windows: metrics/debug/about/style/docs etc. are truely widgets now.
+- MacOs:            minimum now Mojava
 
 New Commands:
 - Misc: Added "set_primary_window" command
