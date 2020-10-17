@@ -52,7 +52,7 @@ namespace Marvel {
 
 		parsers->insert({ "start_dearpygui", mvPythonParser({
 			{mvPythonDataType::KeywordOnly},
-			{mvPythonDataType::String, "primary_window", "Window that will expand into viewport.", ""},
+			{mvPythonDataType::String, "primary_window", "Window that will expand into viewport.", "''"},
 		}, "Starts DearPyGui.") });
 
 		parsers->insert({ "stop_dearpygui", mvPythonParser({
