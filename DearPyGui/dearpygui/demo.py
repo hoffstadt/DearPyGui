@@ -236,16 +236,16 @@ def show_demo():
                 def log_callback(sender, data):
                     log_debug(f"{sender} ran a callback")
                 def toggle_enable(sender, data):
-                    disable_items = ["Button1##demo", "Button2##demo", "Button3##demo", "Button4##demo", "Button5##demo", "Button6##demo"
-                                     ,"checkbox##demo", "radiobutton##demo", "selectable##demo", "Left##demo", "Right##demo"
-                                     ,"combo##demo","listbox##demo","input text##demo","input text (w/ hint)##demo"
-                                     ,"input int##demo", "input float##demo", "input scientific##demo", "input float3##example##demo"
-                                     ,"drag int", "drag int 0..100##demo", "drag float##demo", "drag small float##demo"
-                                     ,"slider int##demo", "slider float##demo", "slider angle##demo"]
+                    for item in data:
+                        configure_item(item, enabled=get_value(sender))
 
-                    for item in disable_items:
-                        configure_item(item, enabled=get_value("Enable&Disable"))
-                add_checkbox("Enable&Disable", default_value=True, callback=toggle_enable)
+                disable_items = ["Button1##demo", "Button2##demo", "Button3##demo", "Button4##demo", "Button5##demo", "Button6##demo"
+                    ,"checkbox##demo", "radiobutton##demo", "selectable##demo", "Left##demo", "Right##demo"
+                    ,"combo##demo","listbox##demo","input text##demo","input text (w/ hint)##demo"
+                    ,"input int##demo", "input float##demo", "input scientific##demo", "input float3##example##demo"
+                    ,"drag int", "drag int 0..100##demo", "drag float##demo", "drag small float##demo"
+                    ,"slider int##demo", "slider float##demo", "slider angle##demo"]
+                add_checkbox("Enable-Disable##basic", default_value=True, callback=toggle_enable, callback_data=disable_items)
                 helpmarker('This will toggle the keyword "enable" for the widgets below that can be enabled & disabled')
                 with group("buttons##demo", horizontal=True):
                     add_button("Button1##demo", callback=log_callback)
@@ -337,7 +337,10 @@ def show_demo():
                 add_image_button("#image##button2", "INTERNAL_DPG_FONT_ATLAS", uv_min=[0.1, 0.1], uv_max=[0.2, 0.2])
 
             with tree_node("Text Input##demo"):
-        
+                disable_items = ["##multiline##demo","default##demo", "decimal##demo", "hexdecimal##demo", 
+                                 "uppercase##demo", "no blank##demo", "scientific##demo","password##demo", 
+                                 "password (w/ hint)##demo", "password (clear)##demo"]
+                add_checkbox("Enable-Disable##text_input", default_value=True, callback=toggle_enable, callback_data=disable_items)
                 with tree_node("Multi-line Text Input##demo"):
                     add_input_text("##multiline##demo", multiline=True, default_value="/*\n"
                         " The Pentium F00F bug, shorthand for F0 0F C7 C8,\n"
@@ -455,7 +458,11 @@ def show_demo():
                 add_label_text("ints_values", default_value="Color Tuple: ", label=f"{get_value('Color Edit 4 (ints value)')}", color=get_value('Color Edit 4 (ints value)'))
 
             with tree_node("Multi-component Widgets##demo"):
-        
+                disable_items = ["input float2##demo", "drag float2##demo", "slider float2##demo", "input int2##demo", "drag int2##demo", 
+                                 "slider int2##demo", "input float3##demo", "drag float3##demo", "slider float3##demo", "input int3##demo", 
+                                 "drag int3##demo", "slider int3##demo", "input float4##demo", "drag float4##demo", "slider float4##demo", 
+                                 "input int4##demo", "drag int4##demo", "slider int4##demo"]
+                add_checkbox("Enable-Disable##multi-component_widgets", default_value=True, callback=toggle_enable, callback_data=disable_items)
                 add_input_float2("input float2##demo", source="float2")
                 add_drag_float2("drag float2##demo", source="float2")
                 add_slider_float2("slider float2##demo", source="float2")
@@ -479,6 +486,13 @@ def show_demo():
 
             with tree_node("Vertical Sliders##demo"):
 
+                disable_items = [f"##vi","##vs1##demo","##vs2##demo","##vs3##demo","##vs4##demo"]
+                for i in range(0, 7):
+                    disable_items.append(f"##v{i}##demo")
+                for i in range(0, 3):
+                    for j in range(0, 4):
+                        disable_items.append(f"##v{j}{i}##demo")
+                add_checkbox("Enable-Disable##vertical_sliders", default_value=True, callback=toggle_enable, callback_data=disable_items)
                 add_slider_int(f"##vi", default_value=1, vertical=True, max_value=5, height=160)
                 add_same_line()
                 with group("v group 1##demo"):

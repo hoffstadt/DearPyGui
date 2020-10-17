@@ -151,12 +151,12 @@ namespace Marvel {
 				ImGui::PushStyleColor(ImGuiCol_FrameBgHovered, disabled_color);
 				ImGui::PushStyleColor(ImGuiCol_FrameBgActive, disabled_color);
 				ImGui::PushStyleColor(ImGuiCol_Button, disabled_color);
-				m_disabled_value = *m_value;
+				std::copy(m_value, m_value + 2, m_disabled_value);
 				m_flags |= ImGuiSliderFlags_NoInput;
 			}
 			else m_flags &= ~ImGuiSliderFlags_NoInput;
 
-			if (ImGui::DragFloat2(m_label.c_str(), m_enabled ? m_value : &m_disabled_value, m_speed, m_min, m_max, m_format.c_str(), m_flags))
+			if (ImGui::DragFloat2(m_label.c_str(), m_enabled ? m_value : &m_disabled_value[0], m_speed, m_min, m_max, m_format.c_str(), m_flags))
 				mvApp::GetApp()->runCallback(getCallback(false), m_name, m_callbackData);
 
 			// Regular Tooltip (simple)
@@ -249,12 +249,12 @@ namespace Marvel {
 				ImGui::PushStyleColor(ImGuiCol_FrameBgHovered, disabled_color);
 				ImGui::PushStyleColor(ImGuiCol_FrameBgActive, disabled_color);
 				ImGui::PushStyleColor(ImGuiCol_Button, disabled_color);
-				m_disabled_value = *m_value;
+				std::copy(m_value, m_value + 3, m_disabled_value);
 				m_flags |= ImGuiSliderFlags_NoInput;
 			}
 			else m_flags &= ~ImGuiSliderFlags_NoInput;
 
-			if (ImGui::DragFloat3(m_label.c_str(), m_enabled ? m_value : &m_disabled_value, m_speed, m_min, m_max, m_format.c_str(), m_flags))
+			if (ImGui::DragFloat3(m_label.c_str(), m_enabled ? m_value : &m_disabled_value[0], m_speed, m_min, m_max, m_format.c_str(), m_flags))
 				mvApp::GetApp()->runCallback(getCallback(false), m_name, m_callbackData);
 
 			// Regular Tooltip (simple)
@@ -347,12 +347,12 @@ namespace Marvel {
 				ImGui::PushStyleColor(ImGuiCol_FrameBgHovered, disabled_color);
 				ImGui::PushStyleColor(ImGuiCol_FrameBgActive, disabled_color);
 				ImGui::PushStyleColor(ImGuiCol_Button, disabled_color);
-				m_disabled_value = *m_value;
+				std::copy(m_value, m_value + 4, m_disabled_value);
 				m_flags |= ImGuiSliderFlags_NoInput;
 			}
 			else m_flags &= ~ImGuiSliderFlags_NoInput;
 
-			if (ImGui::DragFloat4(m_label.c_str(), m_enabled ? m_value : &m_disabled_value, m_speed, m_min, m_max, m_format.c_str(), m_flags))
+			if (ImGui::DragFloat4(m_label.c_str(), m_enabled ? m_value : &m_disabled_value[0], m_speed, m_min, m_max, m_format.c_str(), m_flags))
 				mvApp::GetApp()->runCallback(getCallback(false), m_name, m_callbackData);
 
 			// Regular Tooltip (simple)
@@ -545,12 +545,12 @@ namespace Marvel {
 				ImGui::PushStyleColor(ImGuiCol_FrameBgHovered, disabled_color);
 				ImGui::PushStyleColor(ImGuiCol_FrameBgActive, disabled_color);
 				ImGui::PushStyleColor(ImGuiCol_Button, disabled_color);
-				m_disabled_value = *m_value;
+				std::copy(m_value, m_value + 2, m_disabled_value);
 				m_flags |= ImGuiSliderFlags_NoInput;
 			}
 			else m_flags &= ~ImGuiSliderFlags_NoInput;
 
-			if (ImGui::DragInt2(m_label.c_str(), m_enabled ? m_value : &m_disabled_value, m_speed, m_min, m_max, m_format.c_str(), m_flags))
+			if (ImGui::DragInt2(m_label.c_str(), m_enabled ? m_value : &m_disabled_value[0], m_speed, m_min, m_max, m_format.c_str(), m_flags))
 				mvApp::GetApp()->runCallback(getCallback(false), m_name, m_callbackData);
 
 			// Regular Tooltip (simple)
@@ -644,12 +644,12 @@ namespace Marvel {
 				ImGui::PushStyleColor(ImGuiCol_FrameBgHovered, disabled_color);
 				ImGui::PushStyleColor(ImGuiCol_FrameBgActive, disabled_color);
 				ImGui::PushStyleColor(ImGuiCol_Button, disabled_color);
-				m_disabled_value = *m_value;
+				std::copy(m_value, m_value + 2, m_disabled_value);
 				m_flags |= ImGuiSliderFlags_NoInput;
 			}
 			else m_flags &= ~ImGuiSliderFlags_NoInput;
 
-			if (ImGui::DragInt3(m_label.c_str(), m_enabled ? m_value : &m_disabled_value, m_speed, m_min, m_max, m_format.c_str(), m_flags))
+			if (ImGui::DragInt3(m_label.c_str(), m_enabled ? m_value : &m_disabled_value[0], m_speed, m_min, m_max, m_format.c_str(), m_flags))
 				mvApp::GetApp()->runCallback(getCallback(false), m_name, m_callbackData);
 
 			// Regular Tooltip (simple)
@@ -743,12 +743,12 @@ namespace Marvel {
 				ImGui::PushStyleColor(ImGuiCol_FrameBgHovered, disabled_color);
 				ImGui::PushStyleColor(ImGuiCol_FrameBgActive, disabled_color);
 				ImGui::PushStyleColor(ImGuiCol_Button, disabled_color);
-				m_disabled_value = *m_value;
+				std::copy(m_value, m_value + 4, m_disabled_value);
 				m_flags |= ImGuiSliderFlags_NoInput;
 			}
 			else m_flags &= ~ImGuiSliderFlags_NoInput;
 
-			if (ImGui::DragInt4(m_label.c_str(), m_enabled ? m_value : &m_disabled_value, m_speed, m_min, m_max, m_format.c_str(), m_flags))
+			if (ImGui::DragInt4(m_label.c_str(), m_enabled ? m_value : &m_disabled_value[0], m_speed, m_min, m_max, m_format.c_str(), m_flags))
 				mvApp::GetApp()->runCallback(getCallback(false), m_name, m_callbackData);
 
 			// Regular Tooltip (simple)
