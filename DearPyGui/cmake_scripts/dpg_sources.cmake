@@ -55,9 +55,9 @@ set(MARVEL_SOURCES
 	"src/Core/PlotAppItems/mvAreaSeries.cpp"
 
 	# implot
-	"src/Vendor/implot/implot.cpp"
-	"src/Vendor/implot/implot_items.cpp"
-	"src/Vendor/implot/implot_demo.cpp"
+	"Vendor/implot/implot.cpp"
+	"Vendor/implot/implot_items.cpp"
+	"Vendor/implot/implot_demo.cpp"
 
 	# ImGuiFileDialog
 	"../Dependencies/ImGuiFileDialog/ImGuiFileDialog/ImGuiFileDialog.cpp"
@@ -81,7 +81,7 @@ set(MARVEL_INCLUDE_DIR
 
 	"include/"
 	"src/"
-	"$<$<PLATFORM_ID:Windows>:${CMAKE_SOURCE_DIR}/DearPyGui/src/Vendor/dirent/>"
+	"$<$<PLATFORM_ID:Windows>:${CMAKE_SOURCE_DIR}/DearPyGui/Vendor/dirent/>"
 	"../Dependencies/ImGuiFileDialog/ImGuiFileDialog/"
 	"../Dependencies/glfw/include/"
 	"../Dependencies/glfw/deps/"
@@ -90,8 +90,8 @@ set(MARVEL_INCLUDE_DIR
 	"../Dependencies/imgui/examples/libs/gl3w"
 	"../Dependencies/cpython/"
 	"../Dependencies/cpython/Include/"
-	"src/Vendor/implot/"
-	"src/Vendor/stb/"
+	"Vendor/implot/"
+	"Vendor/stb/"
 	"$<$<PLATFORM_ID:Windows>:${CMAKE_SOURCE_DIR}/Dependencies/cpython/PC/>"
 
 	#"/usr/include/python3.7/"
