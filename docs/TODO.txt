@@ -21,7 +21,6 @@ It's mostly a bunch of personal notes, probably incomplete. Feel free to query i
 - text edit widget: basically open up the widget used in _show_source_ for user control
 - text edit widget: add multifile support
 
-- builds: automate dev version number
 - builds: write tests to ensure everything was actually packaged in the wheel
 
 - misc: deal with deprecation of codecvt
@@ -33,4 +32,4 @@ It's mostly a bunch of personal notes, probably incomplete. Feel free to query i
 - layout: doing add_spacing in count when everything is in pixels is weird
 - layout: group has no height attribute which would be useful for when the group is set to horizontal
 
-- widgets: add enabled keyword to all applicable widgets
+- memory: replace raw pointers with safe pointers
