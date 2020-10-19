@@ -36,6 +36,7 @@ Updates:
 - MacOs:            minimum now Mojava
 
 New Commands:
+- Misc: Added "add_character_remap" command
 - Misc: Added "set_primary_window" command
 - Misc: Added "add_metrics_window" command
 - Misc: Added "add_debug_window" command

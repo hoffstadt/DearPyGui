@@ -69,6 +69,8 @@ namespace Marvel {
 			// add default proggy
 			io.Fonts->AddFontDefault();
 
+
+
 			if (font == nullptr)
 			{
 				int line = PyFrame_GetLineNumber(PyEval_GetFrame());
@@ -83,6 +85,9 @@ namespace Marvel {
 
 			ImFont* newfont = io.Fonts->Fonts[0];
 			io.FontDefault = newfont;
+
+			for (auto& item : mvApp::GetApp()->m_charRemaps)
+				font->AddRemapChar(item.first, item.second);
 
 			
 		}

@@ -120,6 +120,7 @@ namespace Marvel {
         //-----------------------------------------------------------------------------
         // App Settings
         //-----------------------------------------------------------------------------
+        void                     addRemapChar      (int dst, int src) { m_charRemaps.push_back({ dst, src }); }
         void                     setVSync          (bool value) { m_vsync = value; }
         void                     setResizable      (bool value) { m_resizable = value; }
         void                     setWindowSize     (unsigned width, unsigned height);
@@ -256,6 +257,7 @@ namespace Marvel {
         float                               m_fontSize = 13.0f;
         std::vector<std::array<ImWchar, 3>> m_fontGlyphRangeCustom;
         std::vector<ImWchar>                m_fontGlyphChars;
+        std::vector<std::pair<int, int>>    m_charRemaps;
 
         // runtime widget modifications
         std::queue<std::string>     m_deleteChildrenQueue;
