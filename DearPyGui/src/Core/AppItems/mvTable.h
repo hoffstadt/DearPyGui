@@ -33,7 +33,7 @@ namespace Marvel {
 		void insertColumn  (int column_index, const std::string& name, const std::vector<std::string>& column);
 		void deleteColumn  (int column);
 		void clearTable    ();
-		int  getColumnCount() const { return m_columns; }
+		int  getColumnCount() const { return (int)m_columns; }
 
 		[[nodiscard]] std::string getTableItem (int row, int column) const;
 		[[nodiscard]] PyObject*   getSelections() const;

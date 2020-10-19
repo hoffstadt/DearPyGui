@@ -34,7 +34,7 @@ namespace Marvel {
 			ImPlot::PushStyleVar(ImPlotStyleVar_MarkerSize, m_markerSize);
 			ImPlot::PushStyleVar(ImPlotStyleVar_MarkerWeight, m_markerWeight);
 
-			ImPlot::PlotScatter(m_name.c_str(), m_xs.data(), m_ys.data(), m_xs.size());
+			ImPlot::PlotScatter(m_name.c_str(), m_xs.data(), m_ys.data(), (int)m_xs.size());
 
 			ImPlot::PopStyleColor();
 			ImPlot::PopStyleColor();

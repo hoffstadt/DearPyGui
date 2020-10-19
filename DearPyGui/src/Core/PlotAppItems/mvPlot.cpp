@@ -10,10 +10,10 @@ namespace Marvel {
 	mvSeries::mvSeries(std::string name, const ImPlotPoint& boundsMin, const ImPlotPoint& boundsMax)
 		: m_name(std::move(name))
 	{
-		m_maxX = boundsMax.x;
-		m_maxY = boundsMax.y;
-		m_minX = boundsMin.x;
-		m_minY = boundsMin.y;
+		m_maxX = (float)boundsMax.x;
+		m_maxY = (float)boundsMax.y;
+		m_minX = (float)boundsMin.x;
+		m_minY = (float)boundsMin.y;
 	}
 
 	mvSeries::mvSeries(std::string name, const std::vector<mvVec2>& points)
@@ -142,7 +142,7 @@ namespace Marvel {
 
 	void mvPlot::addDragLine(const std::string& name, bool show_label, const mvColor& color, float thickness, bool y_line, PyObject* callback, double dummyValue, const std::string& source)
 	{
-		float* value = mvValueStorage::AddFloatValue(source, dummyValue);
+		float* value = mvValueStorage::AddFloatValue(source, (float)dummyValue);
 
 		m_dragLines.push_back({ name, value, show_label, color, thickness, y_line, callback, *value, source});
 	}
@@ -161,7 +161,7 @@ namespace Marvel {
 				if (item.source != source)
 				{
 					mvValueStorage::DecrementRef(source.empty() ? name : source);
-					item.value = mvValueStorage::AddFloatValue(source.empty() ? name : source, dummyValue);
+					item.value = mvValueStorage::AddFloatValue(source.empty() ? name : source, (float)dummyValue);
 				}
 				item.show_label = show_label;
 				item.color = color;
@@ -464,7 +464,7 @@ namespace Marvel {
 	{
 		if (m_colormapscale)
 		{
-			ImPlot::ShowColormapScale(m_scale_min, m_scale_max, m_scale_height);
+			ImPlot::ShowColormapScale(m_scale_min, m_scale_max, (float)m_scale_height);
 			ImGui::SameLine();
 		}
 
@@ -522,7 +522,7 @@ namespace Marvel {
 					{
 						if (ImPlot::DragLineY(line.name.c_str(), &line.dummyValue, line.show_label, line.color.toVec4(), line.thickness))
 						{
-							*line.value = line.dummyValue;
+							*line.value = (float)line.dummyValue;
 							mvApp::GetApp()->runCallback(line.callback, line.name, nullptr);
 						}
 					}
@@ -530,7 +530,7 @@ namespace Marvel {
 					{
 						if (ImPlot::DragLineX(line.name.c_str(), &line.dummyValue, line.show_label, line.color.toVec4(), line.thickness))
 						{
-							*line.value = line.dummyValue;
+							*line.value = (float)line.dummyValue;
 							mvApp::GetApp()->runCallback(line.callback, line.name, nullptr);
 						}
 					}
@@ -546,8 +546,8 @@ namespace Marvel {
 					point.dummyy = point.value[1];
 					if (ImPlot::DragPoint(point.name.c_str(), &point.dummyx, &point.dummyy, point.show_label, point.color.toVec4(), point.radius))
 					{
-						point.value[0] = point.dummyx;
-						point.value[1] = point.dummyy;
+						point.value[0] = (float)point.dummyx;
+						point.value[1] = (float)point.dummyy;
 						mvApp::GetApp()->runCallback(point.callback, point.name, nullptr);
 					}
 				}
@@ -580,7 +580,7 @@ namespace Marvel {
 
 
 			if (ImPlot::IsPlotHovered())
-				mvInput::setPlotMousePosition(ImPlot::GetPlotMousePos().x, ImPlot::GetPlotMousePos().y);
+				mvInput::setPlotMousePosition((float)ImPlot::GetPlotMousePos().x, (float)ImPlot::GetPlotMousePos().y);
 
 			ImPlot::EndPlot();
 		}
@@ -690,7 +690,7 @@ namespace Marvel {
 		PyDict_SetItemString(dict, "show_drag_points", ToPyBool(m_showDragPoints));
 		PyDict_SetItemString(dict, "scale_min", ToPyFloat(m_scale_min));
 		PyDict_SetItemString(dict, "scale_max", ToPyFloat(m_scale_max));
-		PyDict_SetItemString(dict, "scale_height", ToPyFloat(m_scale_height));
+		PyDict_SetItemString(dict, "scale_height", ToPyInt(m_scale_height));
 
 		// helper to check and set bit
 		auto checkbitset = [dict](const char* keyword, int flag, const int& flags)

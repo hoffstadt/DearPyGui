@@ -277,7 +277,7 @@ namespace Marvel {
 				ImGui::PushStyleColor(ImGuiCol_Button, disabled_color);
 				ImGui::PushStyleColor(ImGuiCol_ButtonHovered, disabled_color);
 				ImGui::PushStyleColor(ImGuiCol_ButtonActive, disabled_color);
-				ImGui::PushStyleColor(ImGuiCol_PopupBg, disabled_color.w=0.0f);
+				//ImGui::PushStyleColor(ImGuiCol_PopupBg, disabled_color.w=0); // TODO: check this
 				ImGui::PushStyleColor(ImGuiCol_Border, disabled_color);
 			}
 			if (ImGui::BeginCombo(m_label.c_str(), m_value->c_str(), m_flags)) // The second parameter is the label previewed before opening the combo.
@@ -420,7 +420,7 @@ namespace Marvel {
 				m_disabled_value = *m_value;
 			}
 
-			if (ImGui::ListBox(m_label.c_str(), m_enabled ? m_value : &m_disabled_value, m_charNames.data(), m_names.size(), m_itemsHeight))
+			if (ImGui::ListBox(m_label.c_str(), m_enabled ? m_value : &m_disabled_value, m_charNames.data(), (int)m_names.size(), m_itemsHeight))
 				mvApp::GetApp()->runCallback(getCallback(false), m_name, m_callbackData);
 
 
@@ -504,7 +504,7 @@ namespace Marvel {
 				if (m_horizontal && i != 0)
 					ImGui::SameLine();
 
-				if (ImGui::RadioButton((m_itemnames[i] + "##" + m_name).c_str(), m_enabled ? m_value : &m_disabled_value, i))
+				if (ImGui::RadioButton((m_itemnames[i] + "##" + m_name).c_str(), m_enabled ? m_value : &m_disabled_value, (int)i))
 					mvApp::GetApp()->runCallback(getCallback(false), m_name, m_callbackData);
 
 				// Regular Tooltip (simple)

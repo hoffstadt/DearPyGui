@@ -22,7 +22,7 @@ namespace Marvel {
 	
 			ImPlot::SetNextFillStyle(m_fill.toVec4());
 			ImPlot::PushStyleVar(ImPlotStyleVar_LineWeight, m_weight);
-			ImPlot::PlotShaded(m_name.c_str(), m_xs.data(), m_ys.data(), m_xs.size());
+			ImPlot::PlotShaded(m_name.c_str(), m_xs.data(), m_ys.data(), (int)m_xs.size());
 			ImPlot::PopStyleVar();
 		}
 

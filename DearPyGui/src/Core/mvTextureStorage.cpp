@@ -74,7 +74,7 @@ namespace Marvel {
 
 	unsigned  mvTextureStorage::GetTextureCount()
 	{
-		return s_textures.size();
+		return (unsigned)s_textures.size();
 	}
 
 }

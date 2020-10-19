@@ -106,7 +106,7 @@ namespace Marvel {
 
 	unsigned  mvDataStorage::GetDataCount()
 	{
-		return s_dataStorage.size();
+		return (unsigned)s_dataStorage.size();
 	}
 
 }

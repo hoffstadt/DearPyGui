@@ -211,8 +211,8 @@ namespace Marvel {
 			if (dict == nullptr)
 				return;
 			mvGlobalIntepreterLock gil;
-			if (PyObject* item = PyDict_GetItemString(dict, "x_pos")) setWindowPos(ToInt(item), m_ypos);
-			if (PyObject* item = PyDict_GetItemString(dict, "y_pos")) setWindowPos(m_xpos, ToInt(item));
+			if (PyObject* item = PyDict_GetItemString(dict, "x_pos")) setWindowPos((float)ToInt(item), (float)m_ypos);
+			if (PyObject* item = PyDict_GetItemString(dict, "y_pos")) setWindowPos((float)m_xpos, (float)ToInt(item));
 			if (PyObject* item = PyDict_GetItemString(dict, "no_close")) m_noclose = ToBool(item);
 
 			// helper for bit flipping

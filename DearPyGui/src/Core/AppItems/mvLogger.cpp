@@ -54,7 +54,7 @@ namespace Marvel {
 		//ImGui::Separator();
 
 
-		ImGui::BeginChild(m_name.c_str(), ImVec2(m_autosize_x ? 0 : m_width, m_autosize_y ? 0 : m_height), true, ImGuiWindowFlags_AlwaysHorizontalScrollbar);
+		ImGui::BeginChild(m_name.c_str(), ImVec2(m_autosize_x ? 0 : (float)m_width, m_autosize_y ? 0 : (float)m_height), true, ImGuiWindowFlags_AlwaysHorizontalScrollbar);
 
 		ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, ImVec2(0, 0));
 		const char* buf = Buf.begin();

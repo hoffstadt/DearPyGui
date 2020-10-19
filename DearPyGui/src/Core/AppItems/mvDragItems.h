@@ -470,8 +470,8 @@ namespace Marvel {
 			mvGlobalIntepreterLock gil;
 			if (PyObject* item = PyDict_GetItemString(dict, "format")) m_format = ToString(item);
 			if (PyObject* item = PyDict_GetItemString(dict, "speed")) m_speed = ToFloat(item);
-			if (PyObject* item = PyDict_GetItemString(dict, "min_value")) m_min = ToFloat(item);
-			if (PyObject* item = PyDict_GetItemString(dict, "max_value")) m_max = ToFloat(item);
+			if (PyObject* item = PyDict_GetItemString(dict, "min_value")) m_min = ToInt(item);
+			if (PyObject* item = PyDict_GetItemString(dict, "max_value")) m_max = ToInt(item);
 
 			// helper for bit flipping
 			auto flagop = [dict](const char* keyword, int flag, int& flags)
@@ -491,8 +491,8 @@ namespace Marvel {
 			mvGlobalIntepreterLock gil;
 			PyDict_SetItemString(dict, "format", ToPyString(m_format));
 			PyDict_SetItemString(dict, "speed", ToPyFloat(m_speed));
-			PyDict_SetItemString(dict, "min_value", ToPyFloat(m_min));
-			PyDict_SetItemString(dict, "max_value", ToPyFloat(m_max));
+			PyDict_SetItemString(dict, "min_value", ToPyInt(m_min));
+			PyDict_SetItemString(dict, "max_value", ToPyInt(m_max));
 
 			// helper to check and set bit
 			auto checkbitset = [dict](const char* keyword, int flag, const int& flags)
@@ -508,9 +508,9 @@ namespace Marvel {
 	private:
 
 		float               m_speed = 1.0f;
-		int                 m_min = 0.0f;
-		int                 m_max = 100.0f;
-		std::string         m_format = "%.3f";
+		int                 m_min = 0;
+		int                 m_max = 100;
+		std::string         m_format = "%d";
 		ImGuiInputTextFlags m_flags = 0;
 
 	};
@@ -569,8 +569,8 @@ namespace Marvel {
 			mvGlobalIntepreterLock gil;
 			if (PyObject* item = PyDict_GetItemString(dict, "format")) m_format = ToString(item);
 			if (PyObject* item = PyDict_GetItemString(dict, "speed")) m_speed = ToFloat(item);
-			if (PyObject* item = PyDict_GetItemString(dict, "min_value")) m_min = ToFloat(item);
-			if (PyObject* item = PyDict_GetItemString(dict, "max_value")) m_max = ToFloat(item);
+			if (PyObject* item = PyDict_GetItemString(dict, "min_value")) m_min = ToInt(item);
+			if (PyObject* item = PyDict_GetItemString(dict, "max_value")) m_max = ToInt(item);
 
 			// helper for bit flipping
 			auto flagop = [dict](const char* keyword, int flag, int& flags)
@@ -590,8 +590,8 @@ namespace Marvel {
 			mvGlobalIntepreterLock gil;
 			PyDict_SetItemString(dict, "format", ToPyString(m_format));
 			PyDict_SetItemString(dict, "speed", ToPyFloat(m_speed));
-			PyDict_SetItemString(dict, "min_value", ToPyFloat(m_min));
-			PyDict_SetItemString(dict, "max_value", ToPyFloat(m_max));
+			PyDict_SetItemString(dict, "min_value", ToPyInt(m_min));
+			PyDict_SetItemString(dict, "max_value", ToPyInt(m_max));
 
 			// helper to check and set bit
 			auto checkbitset = [dict](const char* keyword, int flag, const int& flags)
@@ -607,9 +607,9 @@ namespace Marvel {
 	private:
 
 		float               m_speed = 1.0f;
-		int                 m_min = 0.0f;
-		int                 m_max = 100.0f;
-		std::string         m_format = "%.3f";
+		int                 m_min = 0;
+		int                 m_max = 100;
+		std::string         m_format = "%d";
 		ImGuiInputTextFlags m_flags = 0;
 
 	};
@@ -668,8 +668,8 @@ namespace Marvel {
 			mvGlobalIntepreterLock gil;
 			if (PyObject* item = PyDict_GetItemString(dict, "format")) m_format = ToString(item);
 			if (PyObject* item = PyDict_GetItemString(dict, "speed")) m_speed = ToFloat(item);
-			if (PyObject* item = PyDict_GetItemString(dict, "min_value")) m_min = ToFloat(item);
-			if (PyObject* item = PyDict_GetItemString(dict, "max_value")) m_max = ToFloat(item);
+			if (PyObject* item = PyDict_GetItemString(dict, "min_value")) m_min = ToInt(item);
+			if (PyObject* item = PyDict_GetItemString(dict, "max_value")) m_max = ToInt(item);
 
 			// helper for bit flipping
 			auto flagop = [dict](const char* keyword, int flag, int& flags)
@@ -689,8 +689,8 @@ namespace Marvel {
 			mvGlobalIntepreterLock gil;
 			PyDict_SetItemString(dict, "format", ToPyString(m_format));
 			PyDict_SetItemString(dict, "speed", ToPyFloat(m_speed));
-			PyDict_SetItemString(dict, "min_value", ToPyFloat(m_min));
-			PyDict_SetItemString(dict, "max_value", ToPyFloat(m_max));
+			PyDict_SetItemString(dict, "min_value", ToPyInt(m_min));
+			PyDict_SetItemString(dict, "max_value", ToPyInt(m_max));
 
 			// helper to check and set bit
 			auto checkbitset = [dict](const char* keyword, int flag, const int& flags)
@@ -706,9 +706,9 @@ namespace Marvel {
 	private:
 
 		float               m_speed = 1.0f;
-		int                 m_min = 0.0f;
-		int                 m_max = 100.0f;
-		std::string         m_format = "%.3f";
+		int                 m_min = 0;
+		int                 m_max = 100;
+		std::string         m_format = "%d";
 		ImGuiInputTextFlags m_flags = 0;
 
 	};
@@ -767,8 +767,8 @@ namespace Marvel {
 			mvGlobalIntepreterLock gil;
 			if (PyObject* item = PyDict_GetItemString(dict, "format")) m_format = ToString(item);
 			if (PyObject* item = PyDict_GetItemString(dict, "speed")) m_speed = ToFloat(item);
-			if (PyObject* item = PyDict_GetItemString(dict, "min_value")) m_min = ToFloat(item);
-			if (PyObject* item = PyDict_GetItemString(dict, "max_value")) m_max = ToFloat(item);
+			if (PyObject* item = PyDict_GetItemString(dict, "min_value")) m_min = ToInt(item);
+			if (PyObject* item = PyDict_GetItemString(dict, "max_value")) m_max = ToInt(item);
 
 			// helper for bit flipping
 			auto flagop = [dict](const char* keyword, int flag, int& flags)
@@ -788,8 +788,8 @@ namespace Marvel {
 			mvGlobalIntepreterLock gil;
 			PyDict_SetItemString(dict, "format", ToPyString(m_format));
 			PyDict_SetItemString(dict, "speed", ToPyFloat(m_speed));
-			PyDict_SetItemString(dict, "min_value", ToPyFloat(m_min));
-			PyDict_SetItemString(dict, "max_value", ToPyFloat(m_max));
+			PyDict_SetItemString(dict, "min_value", ToPyInt(m_min));
+			PyDict_SetItemString(dict, "max_value", ToPyInt(m_max));
 
 			// helper to check and set bit
 			auto checkbitset = [dict](const char* keyword, int flag, const int& flags)
@@ -805,9 +805,9 @@ namespace Marvel {
 	private:
 
 		float               m_speed = 1.0f;
-		int                 m_min = 0.0f;
-		int                 m_max = 100.0f;
-		std::string         m_format = "%.3f";
+		int                 m_min = 0;
+		int                 m_max = 100;
+		std::string         m_format = "%d";
 		ImGuiInputTextFlags m_flags = 0;
 
 	};
