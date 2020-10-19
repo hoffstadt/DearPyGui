@@ -30,7 +30,7 @@ def add_button(name: str, *, small: bool = False, arrow: bool = False, direction
 	"""Adds a button."""
 	...
 
-def add_checkbox(name: str, *, default_value: int = False, callback: Callable = None, callback_data: Any = None, tip: str = '', parent: str = '', before: str = '', source: str = '', label: str = '', popup: str = '', show: bool = True) -> None:
+def add_checkbox(name: str, *, default_value: int = False, callback: Callable = None, callback_data: Any = None, tip: str = '', parent: str = '', before: str = '', source: str = '', label: str = '', popup: str = '', show: bool = True, enabled: bool = True) -> None:
 	"""Adds a checkbox widget."""
 	...
 
@@ -70,7 +70,7 @@ def add_columns(name: str, columns: int, *, border: bool = True, show: bool = Tr
 	"""Sets columns."""
 	...
 
-def add_combo(name: str, *, items: List[str] = (), default_value: str = '', callback: Callable = None, callback_data: Any = None, tip: str = '', parent: str = '', before: str = '', source: str = '', width: int = 0, label: str = '', popup: str = '', show: bool = True, popup_align_left: bool = False, height_small: bool = False, height_regular: bool = False, height_large: bool = False, height_largest: bool = False, no_arrow_button: bool = False, no_preview: bool = False) -> None:
+def add_combo(name: str, *, items: List[str] = (), default_value: str = '', callback: Callable = None, callback_data: Any = None, tip: str = '', parent: str = '', before: str = '', source: str = '', enabled: bool = True, width: int = 0, label: str = '', popup: str = '', show: bool = True, popup_align_left: bool = False, height_small: bool = False, height_regular: bool = False, height_large: bool = False, height_largest: bool = False, no_arrow_button: bool = False, no_preview: bool = False) -> None:
 	"""Adds a combo."""
 	...
 
@@ -166,39 +166,39 @@ def add_indent(*, name: str = 'indent', offset: float = 0.0, parent: str = '', b
 	"""Adds an indent to following items. Must be closed with the unindent command."""
 	...
 
-def add_input_float(name: str, *, default_value: float = 0.0, format: str = '%.3f', callback: Callable = None, callback_data: Any = None, tip: str = '', parent: str = '', before: str = '', source: str = '', width: int = 0, on_enter: bool = False, label: str = '', popup: str = '', show: bool = True, step: float = 0.1, step_fast: float = 1.0, readonly: bool = False) -> None:
+def add_input_float(name: str, *, default_value: float = 0.0, format: str = '%.3f', callback: Callable = None, callback_data: Any = None, tip: str = '', parent: str = '', before: str = '', source: str = '', enabled: bool = True, width: int = 0, on_enter: bool = False, label: str = '', popup: str = '', show: bool = True, step: float = 0.1, step_fast: float = 1.0, readonly: bool = False) -> None:
 	"""Adds input for float values."""
 	...
 
-def add_input_float2(name: str, *, default_value: List[float] = (0.0, 0.0), format: str = '%.3f', callback: Callable = None, callback_data: Any = None, tip: str = '', parent: str = '', before: str = '', source: str = '', width: int = 0, on_enter: bool = False, label: str = '', popup: str = '', show: bool = True, readonly: bool = False) -> None:
+def add_input_float2(name: str, *, default_value: List[float] = (0.0, 0.0), format: str = '%.3f', callback: Callable = None, callback_data: Any = None, tip: str = '', parent: str = '', before: str = '', source: str = '', enabled: bool = True, width: int = 0, on_enter: bool = False, label: str = '', popup: str = '', show: bool = True, readonly: bool = False) -> None:
 	"""Adds input for 2 float values."""
 	...
 
-def add_input_float3(name: str, *, default_value: List[float] = (0.0, 0.0, 0.0), format: str = '%.3f', callback: Callable = None, callback_data: Any = None, tip: str = '', parent: str = '', before: str = '', source: str = '', width: int = 0, on_enter: bool = False, label: str = '', popup: str = '', show: bool = True, readonly: bool = False) -> None:
+def add_input_float3(name: str, *, default_value: List[float] = (0.0, 0.0, 0.0), format: str = '%.3f', callback: Callable = None, callback_data: Any = None, tip: str = '', parent: str = '', before: str = '', source: str = '', enabled: bool = True, width: int = 0, on_enter: bool = False, label: str = '', popup: str = '', show: bool = True, readonly: bool = False) -> None:
 	"""Adds input for 3 float values."""
 	...
 
-def add_input_float4(name: str, *, default_value: List[float] = (0.0, 0.0, 0.0, 0.0), format: str = '%.3f', callback: Callable = None, callback_data: Any = None, tip: str = '', parent: str = '', before: str = '', source: str = '', width: int = 0, on_enter: bool = False, label: str = '', popup: str = '', show: bool = True, readonly: bool = False) -> None:
+def add_input_float4(name: str, *, default_value: List[float] = (0.0, 0.0, 0.0, 0.0), format: str = '%.3f', callback: Callable = None, callback_data: Any = None, tip: str = '', parent: str = '', before: str = '', source: str = '', enabled: bool = True, width: int = 0, on_enter: bool = False, label: str = '', popup: str = '', show: bool = True, readonly: bool = False) -> None:
 	"""Adds input for 4 float values."""
 	...
 
-def add_input_int(name: str, *, default_value: int = 0, callback: Callable = None, callback_data: Any = None, tip: str = '', parent: str = '', before: str = '', source: str = '', width: int = 0, on_enter: bool = False, label: str = '', popup: str = '', show: bool = True, readonly: bool = False) -> None:
+def add_input_int(name: str, *, default_value: int = 0, callback: Callable = None, callback_data: Any = None, tip: str = '', parent: str = '', before: str = '', source: str = '', enabled: bool = True, width: int = 0, on_enter: bool = False, label: str = '', popup: str = '', show: bool = True, readonly: bool = False) -> None:
 	"""Adds input for integer values."""
 	...
 
-def add_input_int2(name: str, *, default_value: List[int] = (0, 0), callback: Callable = None, callback_data: Any = None, tip: str = '', parent: str = '', before: str = '', source: str = '', width: int = 0, on_enter: bool = False, label: str = '', popup: str = '', show: bool = True, readonly: bool = False) -> None:
+def add_input_int2(name: str, *, default_value: List[int] = (0, 0), callback: Callable = None, callback_data: Any = None, tip: str = '', parent: str = '', before: str = '', source: str = '', enabled: bool = True, width: int = 0, on_enter: bool = False, label: str = '', popup: str = '', show: bool = True, readonly: bool = False) -> None:
 	"""Adds input for 2 integer values."""
 	...
 
-def add_input_int3(name: str, *, default_value: List[int] = (0, 0, 0), callback: Callable = None, callback_data: Any = None, tip: str = '', parent: str = '', before: str = '', source: str = '', width: int = 0, on_enter: bool = False, label: str = '', popup: str = '', show: bool = True, readonly: bool = False) -> None:
+def add_input_int3(name: str, *, default_value: List[int] = (0, 0, 0), callback: Callable = None, callback_data: Any = None, tip: str = '', parent: str = '', before: str = '', source: str = '', enabled: bool = True, width: int = 0, on_enter: bool = False, label: str = '', popup: str = '', show: bool = True, readonly: bool = False) -> None:
 	"""Adds input for 3 integer values."""
 	...
 
-def add_input_int4(name: str, *, default_value: List[int] = (0, 0, 0, 0), callback: Callable = None, callback_data: Any = None, tip: str = '', parent: str = '', before: str = '', source: str = '', width: int = 0, on_enter: bool = False, label: str = '', popup: str = '', show: bool = True, readonly: bool = False) -> None:
+def add_input_int4(name: str, *, default_value: List[int] = (0, 0, 0, 0), callback: Callable = None, callback_data: Any = None, tip: str = '', parent: str = '', before: str = '', source: str = '', enabled: bool = True, width: int = 0, on_enter: bool = False, label: str = '', popup: str = '', show: bool = True, readonly: bool = False) -> None:
 	"""Adds input for 4 integer values."""
 	...
 
-def add_input_text(name: str, *, default_value: str = '', hint: str = '', multiline: bool = False, no_spaces: bool = False, uppercase: bool = False, decimal: bool = False, hexadecimal: bool = False, readonly: bool = False, password: bool = False, scientific: bool = False, callback: Callable = None, callback_data: Any = None, tip: str = '', parent: str = '', before: str = '', source: str = '', width: int = 0, height: int = 0, on_enter: bool = False, label: str = '', popup: str = '', show: bool = True) -> None:
+def add_input_text(name: str, *, default_value: str = '', hint: str = '', multiline: bool = False, no_spaces: bool = False, uppercase: bool = False, decimal: bool = False, hexadecimal: bool = False, readonly: bool = False, password: bool = False, scientific: bool = False, callback: Callable = None, callback_data: Any = None, tip: str = '', parent: str = '', before: str = '', source: str = '', enabled: bool = True, width: int = 0, height: int = 0, on_enter: bool = False, label: str = '', popup: str = '', show: bool = True) -> None:
 	"""Adds input for text values."""
 	...
 
@@ -210,7 +210,7 @@ def add_line_series(plot: str, name: str, data: List[List[float]], *, color: Lis
 	"""Adds a line series to a plot."""
 	...
 
-def add_listbox(name: str, *, items: List[str] = (), default_value: int = 0, callback: Callable = None, callback_data: Any = None, tip: str = '', parent: str = '', before: str = '', source: str = '', width: int = 0, num_items: int = 3, label: str = '', popup: str = '', show: bool = True) -> None:
+def add_listbox(name: str, *, items: List[str] = (), default_value: int = 0, callback: Callable = None, callback_data: Any = None, tip: str = '', parent: str = '', before: str = '', source: str = '', enabled: bool = True, width: int = 0, num_items: int = 3, label: str = '', popup: str = '', show: bool = True) -> None:
 	"""Adds a listbox."""
 	...
 
@@ -254,7 +254,7 @@ def add_progress_bar(name: str, *, default_value: float = 0.0, overlay: str = ''
 	"""Adds a progress bar."""
 	...
 
-def add_radio_button(name: str, *, items: List[str] = (), default_value: int = 0, callback: Callable = None, callback_data: Any = None, tip: str = '', parent: str = '', before: str = '', source: str = '', horizontal: bool = False, popup: str = '', show: bool = True) -> None:
+def add_radio_button(name: str, *, items: List[str] = (), default_value: int = 0, callback: Callable = None, callback_data: Any = None, tip: str = '', parent: str = '', before: str = '', source: str = '', enabled: bool = True, horizontal: bool = False, popup: str = '', show: bool = True) -> None:
 	"""Adds a set of radio buttons. If items is empty, nothing will be shown."""
 	...
 

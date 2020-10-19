@@ -141,7 +141,7 @@ def demo_accelerator_callback(sender, data):
 
     items = get_all_items()
     for item in items:
-        print(get_item_type(item))
+        # print(get_item_type(item))
         if get_item_type(item) == "mvAppItemType::MenuItem":
             shortcut = get_item_configuration(item)["shortcut"]
             if shortcut != None and shortcut != "":
@@ -233,11 +233,30 @@ def show_demo():
         with collapsing_header("Widgets##demo"):
 
             with tree_node("Basic##demo"):
+                def log_callback(sender, data):
+                    log_debug(f"{sender} ran a callback")
+                def toggle_enable(sender, data):
+                    for item in data:
+                        configure_item(item, enabled=get_value(sender))
 
-                add_button("Button##demo")
-                add_checkbox("checkbox##demo")
-                add_radio_button("radiobutton##demo", items=["radio a", "radio b", "radio c"], horizontal=True)
-        
+                disable_items = ["Button1##demo", "Button2##demo", "Button3##demo", "Button4##demo", "Button5##demo", "Button6##demo"
+                    ,"checkbox##demo", "radiobutton##demo", "selectable##demo", "Left##demo", "Right##demo"
+                    ,"combo##demo","listbox##demo","input text##demo","input text (w/ hint)##demo"
+                    ,"input int##demo", "input float##demo", "input scientific##demo", "input float3##example##demo"
+                    ,"drag int", "drag int 0..100##demo", "drag float##demo", "drag small float##demo"
+                    ,"slider int##demo", "slider float##demo", "slider angle##demo"]
+                add_checkbox("Enable-Disable##basic", default_value=True, callback=toggle_enable, callback_data=disable_items)
+                helpmarker('This will toggle the keyword "enable" for the widgets below that can be enabled & disabled')
+                with group("buttons##demo", horizontal=True):
+                    add_button("Button1##demo", callback=log_callback)
+                    add_button("Button2##demo", callback=log_callback, small=True)
+                    add_button("Button3##demo", callback=log_callback, arrow=True)
+                    add_button("Button4##demo", callback=log_callback, arrow=True, direction=1)
+                    add_button("Button5##demo", callback=log_callback, arrow=True, direction=2)
+                    add_button("Button6##demo", callback=log_callback, arrow=True, direction=3)
+                add_checkbox("checkbox##demo", callback=log_callback)
+                add_radio_button("radiobutton##demo", items=["radio a", "radio b", "radio c"], horizontal=True, callback=log_callback)
+                add_selectable("selectable##demo", callback=log_callback)
                 for i in range(0, 7):
                     if i > 0:
                         add_same_line()
@@ -245,23 +264,20 @@ def show_demo():
                     set_item_color(f"Click##{i}", mvGuiCol_Button, hsv_to_rgb(i/7.0, 0.6, 0.6))
                     set_item_color(f"Click##{i}", mvGuiCol_ButtonHovered, hsv_to_rgb(i/7.0, 0.7, 0.7))
                     set_item_color(f"Click##{i}", mvGuiCol_ButtonActive, hsv_to_rgb(i/7.0, 0.8, 0.8))
-
-                add_text("Press a button: ")
-                add_same_line()
-                add_button("Left##demo", arrow=True, direction=mvDir_Left, 
-                           callback=lambda sender, data: set_value("value", int(get_value("value"))-1))
-                add_same_line()
-                add_button("Right##demo", arrow=True, direction=mvDir_Right,
-                           callback=lambda sender, data: set_value("value", int(get_value("value"))+1))
-                add_same_line()
-                add_text("value", default_value="0")
+                with group("increment_buttons##demo", horizontal=True):
+                    add_text("Press a button: ")
+                    add_button("Left##demo", arrow=True, direction=mvDir_Left, 
+                               callback=lambda sender, data: set_value("value", int(get_value("value"))-1))
+                    add_button("Right##demo", arrow=True, direction=mvDir_Right,
+                               callback=lambda sender, data: set_value("value", int(get_value("value"))+1))
+                    add_text("value", default_value="0")
 
                 add_separator()
 
                 add_label_text("label##demo", default_value="Value")
                 add_combo("combo##demo", items=["AAAA", "BBBB", "CCCC", "DDDD", "EEEE", "FFFF", "GGGG", "HHHH", "IIII", "JJJJ", "KKKK"], 
-                          default_value="AAAA")
-                add_input_text("input text##demo", default_value="Hello, world!")
+                          default_value="AAAA", callback=log_callback)
+                add_input_text("input text##demo", default_value="Hello, world!", callback=log_callback)
                 helpmarker(
                         "USER:\n"
                         "Hold SHIFT or use mouse to select text.\n"
@@ -270,23 +286,23 @@ def show_demo():
                         "CTRL+X,CTRL+C,CTRL+V clipboard.\n"
                         "CTRL+Z,CTRL+Y undo/redo.\n"
                         "ESCAPE to revert.\n\n")
-                add_input_text("input text (w/ hint)##demo", hint="enter text here")
-                add_input_int("input int##demo")
-                add_input_float("input float##demo")
-                add_input_float("input scientific##demo", format="%e")
-                add_input_float3("input float3##example##demo")
-                add_drag_int("drag int")
+                add_input_text("input text (w/ hint)##demo", hint="enter text here", callback=log_callback)
+                add_input_int("input int##demo", callback=log_callback)
+                add_input_float("input float##demo", callback=log_callback)
+                add_input_float("input scientific##demo", format="%e", callback=log_callback)
+                add_input_float3("input float3##example##demo", callback=log_callback)
+                add_drag_int("drag int", callback=log_callback)
                 helpmarker(
                         "Click and drag to edit value.\n"
                         "Hold SHIFT/ALT for faster/slower edit.\n"
                         "Double-click or CTRL+click to input value.")
-                add_drag_int("drag int 0..100##demo", format="%d%%")
-                add_drag_float("drag float##demo")
-                add_drag_float("drag small float##demo", default_value=0.0067, format="%.06f ns")
-                add_slider_int("slider int##demo", max_value=3)
+                add_drag_int("drag int 0..100##demo", format="%d%%", callback=log_callback)
+                add_drag_float("drag float##demo", callback=log_callback)
+                add_drag_float("drag small float##demo", default_value=0.0067, format="%.06f ns", callback=log_callback)
+                add_slider_int("slider int##demo", max_value=3, callback=log_callback)
                 helpmarker("CTRL+click to enter value.")
-                add_slider_float("slider float##demo", max_value=1.0, format="ratio = %.3f")
-                add_slider_int("slider angle##demo", min_value=-360, max_value=360, format="%d deg")
+                add_slider_float("slider float##demo", max_value=1.0, format="ratio = %.3f", callback=log_callback)
+                add_slider_int("slider angle##demo", min_value=-360, max_value=360, format="%d deg", callback=log_callback)
                 add_color_edit3("color 1##demo", default_value=[255, 0, 51])
                 helpmarker(
                         "Click on the colored square to open a color picker.\n"
@@ -294,7 +310,8 @@ def show_demo():
                         "Right-click on the colored square to show options.\n"
                         "CTRL+click on individual component to input value.\n")
                 add_color_edit4("color 2##demo", default_value=[102, 179, 0, 128])
-                add_listbox("listbox##demo", items=["Apple", "Banana", "Cherry", "Kiwi", "Mango", "Orange", "Pineapple", "Strawberry", "Watermelon"], num_items=4)
+                add_listbox("listbox##demo", items=["Apple", "Banana", "Cherry", "Kiwi", "Mango", "Orange", "Pineapple", "Strawberry", "Watermelon"]
+                            , num_items=4, callback=log_callback)
 
             with tree_node("Bullets##demo"):
                 add_text("Bullet point 1", bullet=True)
@@ -320,7 +337,10 @@ def show_demo():
                 add_image_button("#image##button2", "INTERNAL_DPG_FONT_ATLAS", uv_min=[0.1, 0.1], uv_max=[0.2, 0.2])
 
             with tree_node("Text Input##demo"):
-        
+                disable_items = ["##multiline##demo","default##demo", "decimal##demo", "hexdecimal##demo", 
+                                 "uppercase##demo", "no blank##demo", "scientific##demo","password##demo", 
+                                 "password (w/ hint)##demo", "password (clear)##demo"]
+                add_checkbox("Enable-Disable##text_input", default_value=True, callback=toggle_enable, callback_data=disable_items)
                 with tree_node("Multi-line Text Input##demo"):
                     add_input_text("##multiline##demo", multiline=True, default_value="/*\n"
                         " The Pentium F00F bug, shorthand for F0 0F C7 C8,\n"
@@ -438,7 +458,11 @@ def show_demo():
                 add_label_text("ints_values", default_value="Color Tuple: ", label=f"{get_value('Color Edit 4 (ints value)')}", color=get_value('Color Edit 4 (ints value)'))
 
             with tree_node("Multi-component Widgets##demo"):
-        
+                disable_items = ["input float2##demo", "drag float2##demo", "slider float2##demo", "input int2##demo", "drag int2##demo", 
+                                 "slider int2##demo", "input float3##demo", "drag float3##demo", "slider float3##demo", "input int3##demo", 
+                                 "drag int3##demo", "slider int3##demo", "input float4##demo", "drag float4##demo", "slider float4##demo", 
+                                 "input int4##demo", "drag int4##demo", "slider int4##demo"]
+                add_checkbox("Enable-Disable##multi-component_widgets", default_value=True, callback=toggle_enable, callback_data=disable_items)
                 add_input_float2("input float2##demo", source="float2")
                 add_drag_float2("drag float2##demo", source="float2")
                 add_slider_float2("slider float2##demo", source="float2")
@@ -462,6 +486,13 @@ def show_demo():
 
             with tree_node("Vertical Sliders##demo"):
 
+                disable_items = [f"##vi","##vs1##demo","##vs2##demo","##vs3##demo","##vs4##demo"]
+                for i in range(0, 7):
+                    disable_items.append(f"##v{i}##demo")
+                for i in range(0, 3):
+                    for j in range(0, 4):
+                        disable_items.append(f"##v{j}{i}##demo")
+                add_checkbox("Enable-Disable##vertical_sliders", default_value=True, callback=toggle_enable, callback_data=disable_items)
                 add_slider_int(f"##vi", default_value=1, vertical=True, max_value=5, height=160)
                 add_same_line()
                 with group("v group 1##demo"):

@@ -174,6 +174,7 @@ namespace Marvel {
 			{mvPythonDataType::String, "parent", "Parent this item will be added to. (runtime adding)", "''"},
 			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)", "''"},
 			{mvPythonDataType::String, "source", "", "''"},
+			{mvPythonDataType::Bool, "enabled", "Display grayed out text so selectable cannot be selected", "True"},
 			{mvPythonDataType::Integer, "width","", "0"},
 			{mvPythonDataType::Integer, "num_items", "number of items to show", "3"},
 			{mvPythonDataType::String, "label","", "''"},
@@ -192,6 +193,7 @@ namespace Marvel {
 			{mvPythonDataType::String, "parent", "Parent this item will be added to. (runtime adding)", "''"},
 			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)", "''"},
 			{mvPythonDataType::String, "source", "", "''"},
+			{mvPythonDataType::Bool, "enabled", "Display grayed out text so selectable cannot be selected", "True"},
 			{mvPythonDataType::Integer, "width","", "0"},
 			{mvPythonDataType::String, "label","", "''"},
 			{mvPythonDataType::String, "popup","", "''"},
@@ -308,6 +310,7 @@ namespace Marvel {
 			{mvPythonDataType::String, "parent", "Parent to add this item to. (runtime adding)", "''"},
 			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)", "''"},
 			{mvPythonDataType::String, "source", "", "''"},
+			{mvPythonDataType::Bool, "enabled", "Display grayed out text so selectable cannot be selected", "True"},
 			{mvPythonDataType::Bool, "horizontal", "", "False"},
 			{mvPythonDataType::String, "popup", "", "''"},
 			{mvPythonDataType::Bool, "show", "Attempt to render", "True"},
@@ -467,7 +470,8 @@ namespace Marvel {
 			{mvPythonDataType::String, "source", "", "''"},
 			{mvPythonDataType::String, "label", "", "''"},
 			{mvPythonDataType::String, "popup", "", "''"},
-			{mvPythonDataType::Bool, "show", "Attempt to render", "True"}
+			{mvPythonDataType::Bool, "show", "Attempt to render", "True"},
+			{mvPythonDataType::Bool, "enabled", "", "True"}
 		}, "Adds a checkbox widget.", "None", "Adding Widgets") });
 
 		parsers->insert({ "add_dummy", mvPythonParser({
@@ -818,12 +822,13 @@ namespace Marvel {
 		const char* before = "";
 		const char* parent = "";
 		const char* source = "";
+		int enabled = true;
 		const char* label = "";
 		const char* popup = "";
 		int show = true;
 
 		if (!(*mvApp::GetApp()->getParsers())["add_listbox"].parse(args, kwargs, __FUNCTION__, &name, &items,
-			&default_value, &callback, &callback_data, &tip, &parent, &before, &source, &width,
+			&default_value, &callback, &callback_data, &tip, &parent, &before, &source, &enabled, &width,
 			&num_items, &label, &popup, &show))
 			return ToPyBool(false);
 
@@ -854,6 +859,7 @@ namespace Marvel {
 		const char* before = "";
 		const char* parent = "";
 		const char* source = "";
+		int enabled = true;
 		const char* label = "";
 		const char* popup = "";
 		int show = true;
@@ -867,7 +873,7 @@ namespace Marvel {
 
 
 		if (!(*mvApp::GetApp()->getParsers())["add_combo"].parse(args, kwargs, __FUNCTION__, &name, &items,
-			&default_value, &callback, &callback_data, &tip, &parent, &before, &source, &width,
+			&default_value, &callback, &callback_data, &tip, &parent, &before, &source, &enabled, &width,
 			&label, &popup, &show, &popup_align_left, &height_small, &height_regular, &height_large, 
 			&height_largest, &no_arrow_button, &no_preview))
 			return ToPyBool(false);
@@ -1091,12 +1097,13 @@ namespace Marvel {
 		const char* before = "";
 		const char* parent = "";
 		const char* source = "";
+		int enabled = true;
 		int horizontal = false;
 		const char* popup = "";
 		int show = true;
 
 		if (!(*mvApp::GetApp()->getParsers())["add_radio_button"].parse(args, kwargs, __FUNCTION__, &name, &items,
-			&default_value, &callback, &callback_data, &tip, &parent, &before, &source,&horizontal,
+			&default_value, &callback, &callback_data, &tip, &parent, &before, &source, &enabled, &horizontal,
 			&popup, &show))
 			return ToPyBool(false);
 
@@ -1435,10 +1442,11 @@ namespace Marvel {
 		const char* label = "";
 		const char* popup = "";
 		int show = true;
+		int enabled = true;
 
 		if (!(*mvApp::GetApp()->getParsers())["add_checkbox"].parse(args, kwargs, __FUNCTION__, &name,
 			&default_value, &callback, &callback_data, &tip, &parent, &before, &source,
-			&label, &popup, &show))
+			&label, &popup, &show, &enabled))
 			return ToPyBool(false);
 
 		mvAppItem* item = new mvCheckbox(name, default_value, source);

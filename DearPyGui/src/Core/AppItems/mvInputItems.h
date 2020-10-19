@@ -43,6 +43,19 @@ namespace Marvel {
 			pushColorStyles();
 			ImGui::PushID(this);
 
+			if (!m_enabled)
+			{
+				ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(ImGui::GetStyleColorVec4(ImGuiCol_TextDisabled)));
+				ImVec4 disabled_color = ImVec4(ImGui::GetStyleColorVec4(ImGuiCol_TextDisabled));
+				disabled_color.w = 0.392f;
+				ImGui::PushStyleColor(ImGuiCol_FrameBg, disabled_color);
+				ImGui::PushStyleColor(ImGuiCol_FrameBgHovered, disabled_color);
+				ImGui::PushStyleColor(ImGuiCol_FrameBgActive, disabled_color);
+				ImGui::PushStyleColor(ImGuiCol_Button, disabled_color);
+				m_flags |= ImGuiInputTextFlags_ReadOnly;
+			}
+			else m_flags &= ~ImGuiInputTextFlags_ReadOnly;
+
 			if (ImGui::InputInt(m_label.c_str(), m_value, 1, 100, m_flags))
 				mvApp::GetApp()->runCallback(m_callback, m_name, m_callbackData);
 
@@ -51,6 +64,7 @@ namespace Marvel {
 				ImGui::SetTooltip("%s", getTip().c_str());
 
 			ImGui::PopID();
+			if (!m_enabled) ImGui::PopStyleColor(5);
 			popColorStyles();
 		}
 
@@ -97,6 +111,19 @@ namespace Marvel {
 			pushColorStyles();
 			ImGui::PushID(this);
 
+			if (!m_enabled)
+			{
+				ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(ImGui::GetStyleColorVec4(ImGuiCol_TextDisabled)));
+				ImVec4 disabled_color = ImVec4(ImGui::GetStyleColorVec4(ImGuiCol_TextDisabled));
+				disabled_color.w = 0.392f;
+				ImGui::PushStyleColor(ImGuiCol_FrameBg, disabled_color);
+				ImGui::PushStyleColor(ImGuiCol_FrameBgHovered, disabled_color);
+				ImGui::PushStyleColor(ImGuiCol_FrameBgActive, disabled_color);
+				ImGui::PushStyleColor(ImGuiCol_Button, disabled_color);
+				m_flags |= ImGuiInputTextFlags_ReadOnly;
+			}
+			else m_flags &= ~ImGuiInputTextFlags_ReadOnly;
+
 			if (ImGui::InputInt2(m_label.c_str(), m_value, m_flags))
 				mvApp::GetApp()->runCallback(m_callback, m_name, m_callbackData);
 
@@ -106,6 +133,7 @@ namespace Marvel {
 				ImGui::SetTooltip("%s", getTip().c_str());
 
 			ImGui::PopID();
+			if (!m_enabled) ImGui::PopStyleColor(5);
 			popColorStyles();
 		}
 
@@ -152,6 +180,19 @@ namespace Marvel {
 			pushColorStyles();
 			ImGui::PushID(this);
 
+			if (!m_enabled)
+			{
+				ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(ImGui::GetStyleColorVec4(ImGuiCol_TextDisabled)));
+				ImVec4 disabled_color = ImVec4(ImGui::GetStyleColorVec4(ImGuiCol_TextDisabled));
+				disabled_color.w = 0.392f;
+				ImGui::PushStyleColor(ImGuiCol_FrameBg, disabled_color);
+				ImGui::PushStyleColor(ImGuiCol_FrameBgHovered, disabled_color);
+				ImGui::PushStyleColor(ImGuiCol_FrameBgActive, disabled_color);
+				ImGui::PushStyleColor(ImGuiCol_Button, disabled_color);
+				m_flags |= ImGuiInputTextFlags_ReadOnly;
+			}
+			else m_flags &= ~ImGuiInputTextFlags_ReadOnly;
+
 			if (ImGui::InputInt3(m_label.c_str(), m_value, m_flags))
 				mvApp::GetApp()->runCallback(m_callback, m_name, m_callbackData);
 
@@ -161,6 +202,7 @@ namespace Marvel {
 				ImGui::SetTooltip("%s", getTip().c_str());
 
 			ImGui::PopID();
+			if (!m_enabled) ImGui::PopStyleColor(5);
 			popColorStyles();
 		}
 
@@ -207,6 +249,19 @@ namespace Marvel {
 			pushColorStyles();
 			ImGui::PushID(this);
 
+			if (!m_enabled)
+			{
+				ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(ImGui::GetStyleColorVec4(ImGuiCol_TextDisabled)));
+				ImVec4 disabled_color = ImVec4(ImGui::GetStyleColorVec4(ImGuiCol_TextDisabled));
+				disabled_color.w = 0.392f;
+				ImGui::PushStyleColor(ImGuiCol_FrameBg, disabled_color);
+				ImGui::PushStyleColor(ImGuiCol_FrameBgHovered, disabled_color);
+				ImGui::PushStyleColor(ImGuiCol_FrameBgActive, disabled_color);
+				ImGui::PushStyleColor(ImGuiCol_Button, disabled_color);
+				m_flags |= ImGuiInputTextFlags_ReadOnly;
+			}
+			else m_flags &= ~ImGuiInputTextFlags_ReadOnly;
+
 			if (ImGui::InputInt4(m_label.c_str(), m_value, m_flags))
 				mvApp::GetApp()->runCallback(m_callback, m_name, m_callbackData);
 
@@ -215,6 +270,7 @@ namespace Marvel {
 				ImGui::SetTooltip("%s", getTip().c_str());
 
 			ImGui::PopID();
+			if (!m_enabled) ImGui::PopStyleColor(5);
 			popColorStyles();
 		}
 
@@ -261,6 +317,19 @@ namespace Marvel {
 			pushColorStyles();
 			ImGui::PushID(this);
 
+			if (!m_enabled)
+			{
+				ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(ImGui::GetStyleColorVec4(ImGuiCol_TextDisabled)));
+				ImVec4 disabled_color = ImVec4(ImGui::GetStyleColorVec4(ImGuiCol_TextDisabled));
+				disabled_color.w = 0.392f;
+				ImGui::PushStyleColor(ImGuiCol_FrameBg, disabled_color);
+				ImGui::PushStyleColor(ImGuiCol_FrameBgHovered, disabled_color);
+				ImGui::PushStyleColor(ImGuiCol_FrameBgActive, disabled_color);
+				ImGui::PushStyleColor(ImGuiCol_Button, disabled_color);
+				m_flags |= ImGuiInputTextFlags_ReadOnly;
+			}
+			else m_flags &= ~ImGuiInputTextFlags_ReadOnly;
+
 			if (ImGui::InputFloat(m_label.c_str(), m_value, m_step, m_step_fast, m_format.c_str(), m_flags))
 				mvApp::GetApp()->runCallback(m_callback, m_name, m_callbackData);
 
@@ -270,6 +339,7 @@ namespace Marvel {
 				ImGui::SetTooltip("%s", getTip().c_str());
 
 			ImGui::PopID();
+			if (!m_enabled) ImGui::PopStyleColor(5);
 			popColorStyles();
 		}
 
@@ -344,6 +414,19 @@ namespace Marvel {
 			pushColorStyles();
 			ImGui::PushID(this);
 
+			if (!m_enabled)
+			{
+				ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(ImGui::GetStyleColorVec4(ImGuiCol_TextDisabled)));
+				ImVec4 disabled_color = ImVec4(ImGui::GetStyleColorVec4(ImGuiCol_TextDisabled));
+				disabled_color.w = 0.392f;
+				ImGui::PushStyleColor(ImGuiCol_FrameBg, disabled_color);
+				ImGui::PushStyleColor(ImGuiCol_FrameBgHovered, disabled_color);
+				ImGui::PushStyleColor(ImGuiCol_FrameBgActive, disabled_color);
+				ImGui::PushStyleColor(ImGuiCol_Button, disabled_color);
+				m_flags |= ImGuiInputTextFlags_ReadOnly;
+			}
+			else m_flags &= ~ImGuiInputTextFlags_ReadOnly;
+
 			if (ImGui::InputFloat2(m_label.c_str(), m_value, m_format.c_str(), m_flags))
 				mvApp::GetApp()->runCallback(m_callback, m_name, m_callbackData);
 
@@ -352,6 +435,7 @@ namespace Marvel {
 				ImGui::SetTooltip("%s", getTip().c_str());
 
 			ImGui::PopID();
+			if (!m_enabled) ImGui::PopStyleColor(5);
 			popColorStyles();
 		}
 
@@ -420,6 +504,19 @@ namespace Marvel {
 			pushColorStyles();
 			ImGui::PushID(this);
 
+			if (!m_enabled)
+			{
+				ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(ImGui::GetStyleColorVec4(ImGuiCol_TextDisabled)));
+				ImVec4 disabled_color = ImVec4(ImGui::GetStyleColorVec4(ImGuiCol_TextDisabled));
+				disabled_color.w = 0.392f;
+				ImGui::PushStyleColor(ImGuiCol_FrameBg, disabled_color);
+				ImGui::PushStyleColor(ImGuiCol_FrameBgHovered, disabled_color);
+				ImGui::PushStyleColor(ImGuiCol_FrameBgActive, disabled_color);
+				ImGui::PushStyleColor(ImGuiCol_Button, disabled_color);
+				m_flags |= ImGuiInputTextFlags_ReadOnly;
+			}
+			else m_flags &= ~ImGuiInputTextFlags_ReadOnly;
+
 			if (ImGui::InputFloat3(m_label.c_str(), m_value, m_format.c_str(), m_flags))
 				mvApp::GetApp()->runCallback(m_callback, m_name, m_callbackData);
 
@@ -428,6 +525,7 @@ namespace Marvel {
 				ImGui::SetTooltip("%s", getTip().c_str());
 
 			ImGui::PopID();
+			if (!m_enabled) ImGui::PopStyleColor(5);
 			popColorStyles();
 		}
 
@@ -496,6 +594,19 @@ namespace Marvel {
 			pushColorStyles();
 			ImGui::PushID(this);
 
+			if (!m_enabled)
+			{
+				ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(ImGui::GetStyleColorVec4(ImGuiCol_TextDisabled)));
+				ImVec4 disabled_color = ImVec4(ImGui::GetStyleColorVec4(ImGuiCol_TextDisabled));
+				disabled_color.w = 0.392f;
+				ImGui::PushStyleColor(ImGuiCol_FrameBg, disabled_color);
+				ImGui::PushStyleColor(ImGuiCol_FrameBgHovered, disabled_color);
+				ImGui::PushStyleColor(ImGuiCol_FrameBgActive, disabled_color);
+				ImGui::PushStyleColor(ImGuiCol_Button, disabled_color);
+				m_flags |= ImGuiInputTextFlags_ReadOnly;
+			}
+			else m_flags &= ~ImGuiInputTextFlags_ReadOnly;
+
 			if (ImGui::InputFloat4(m_label.c_str(), m_value, m_format.c_str(), m_flags))
 				mvApp::GetApp()->runCallback(m_callback, m_name, m_callbackData);
 
@@ -504,6 +615,7 @@ namespace Marvel {
 				ImGui::SetTooltip("%s", getTip().c_str());
 
 			ImGui::PopID();
+			if (!m_enabled) ImGui::PopStyleColor(5);
 			popColorStyles();
 		}
 
