@@ -524,83 +524,83 @@ namespace Marvel {
 				if (categorySelection == 0)
 				{
 					static int selection = 0;
-					if (ImGui::ListBox("Commands", &selection, m_app.data(), m_app.size(), 30))
+					if (ImGui::ListBox("Commands", &selection, m_app.data(), (int)m_app.size(), 30))
 						m_doc = m_docApp[selection];
 				}
 
 				else if (categorySelection == 1)
 				{
 					static int selection = 0;
-					if (ImGui::ListBox("Commands", &selection, m_logging.data(), m_logging.size(), 30))
+					if (ImGui::ListBox("Commands", &selection, m_logging.data(), (int)m_logging.size(), 30))
 						m_doc = m_docLogging[selection];
 				}
 
 				else if (categorySelection == 2)
 				{
 					static int selection = 0;
-					if (ImGui::ListBox("Commands", &selection, m_widgets.data(), m_widgets.size(), 30))
+					if (ImGui::ListBox("Commands", &selection, m_widgets.data(), (int)m_widgets.size(), 30))
 						m_doc = m_docWidgets[selection];
 				}
 
 				else if (categorySelection == 3)
 				{
 					static int selection = 0;
-					if (ImGui::ListBox("Commands", &selection, m_widgetsCommands.data(), m_widgetsCommands.size(), 30))
+					if (ImGui::ListBox("Commands", &selection, m_widgetsCommands.data(), (int)m_widgetsCommands.size(), 30))
 						m_doc = m_docWidgetsCommands[selection];
 				}
 
 				else if (categorySelection == 4)
 				{
 					static int selection = 0;
-					if (ImGui::ListBox("Commands", &selection, m_containers.data(), m_containers.size(), 30))
+					if (ImGui::ListBox("Commands", &selection, m_containers.data(), (int)m_containers.size(), 30))
 						m_doc = m_docContainers[selection];
 				}
 
 				else if (categorySelection == 5)
 				{
 					static int selection = 0;
-					if (ImGui::ListBox("Commands", &selection, m_drawing.data(), m_drawing.size(), 30))
+					if (ImGui::ListBox("Commands", &selection, m_drawing.data(), (int)m_drawing.size(), 30))
 						m_doc = m_docDrawing[selection];
 				}
 
 				else if (categorySelection == 6)
 				{
 					static int selection = 0;
-					if (ImGui::ListBox("Commands", &selection, m_plotting.data(), m_plotting.size(), 30))
+					if (ImGui::ListBox("Commands", &selection, m_plotting.data(), (int)m_plotting.size(), 30))
 						m_doc = m_docPlotting[selection];
 				}
 
 				else if (categorySelection == 7)
 				{
 					static int selection = 0;
-					if (ImGui::ListBox("Commands", &selection, m_tables.data(), m_tables.size(), 30))
+					if (ImGui::ListBox("Commands", &selection, m_tables.data(), (int)m_tables.size(), 30))
 						m_doc = m_docTables[selection];
 				}
 
 				else if (categorySelection == 8)
 				{
 					static int selection = 0;
-					if (ImGui::ListBox("Commands", &selection, m_themes.data(), m_themes.size(), 30))
+					if (ImGui::ListBox("Commands", &selection, m_themes.data(), (int)m_themes.size(), 30))
 						m_doc = m_docThemes[selection];
 				}
 
 				else if (categorySelection == 9)
 				{
 					static int selection = 0;
-					if (ImGui::ListBox("Commands", &selection, m_inputs.data(), m_inputs.size(), 30))
+					if (ImGui::ListBox("Commands", &selection, m_inputs.data(), (int)m_inputs.size(), 30))
 						m_doc = m_docInputs[selection];
 				}
 
 				else if (categorySelection == 10)
 				{
 					static int selection = 0;
-					if (ImGui::ListBox("Commands", &selection, m_windows.data(), m_windows.size(), 30))
+					if (ImGui::ListBox("Commands", &selection, m_windows.data(), (int)m_windows.size(), 30))
 						m_doc = m_docWindows[selection];
 				}
 				else if (categorySelection == 11)
 				{
 					static int selection = 0;
-					if (ImGui::ListBox("Commands", &selection, m_cconstants.data(), m_cconstants.size(), 30))
+					if (ImGui::ListBox("Commands", &selection, m_cconstants.data(), (int)m_cconstants.size(), 30))
 						m_doc = m_constantsValues[selection].c_str();
 				}
 

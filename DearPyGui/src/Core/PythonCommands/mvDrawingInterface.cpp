@@ -304,7 +304,7 @@ namespace Marvel {
 			ThrowPythonException(std::string(drawing) + " is not a drawing.");
 			return GetPyNone();
 		}
-		dwg->drawLine(mp1, mp2, mcolor, thickness, tag);
+		dwg->drawLine(mp1, mp2, mcolor, (float)thickness, tag);
 
 		return GetPyNone();
 	}
@@ -342,7 +342,7 @@ namespace Marvel {
 			ThrowPythonException(std::string(drawing) + " is not a drawing.");
 			return GetPyNone();
 		}
-		dwg->drawArrow(mp1, mp2, mcolor, thickness, size, tag);
+		dwg->drawArrow(mp1, mp2, mcolor, (float)thickness, (float)size, tag);
 
 		return GetPyNone();
 	}

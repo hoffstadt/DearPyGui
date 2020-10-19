@@ -18,9 +18,9 @@ namespace Marvel {
 		void draw() override
 		{
 			if(m_horizontal)
-				ImPlot::PlotBarsH(m_name.c_str(), m_xs.data(), m_ys.data(), m_xs.size(), m_weight);
+				ImPlot::PlotBarsH(m_name.c_str(), m_xs.data(), m_ys.data(), (int)m_xs.size(), m_weight);
 			else
-				ImPlot::PlotBars(m_name.c_str(), m_xs.data(), m_ys.data(), m_xs.size(), m_weight);
+				ImPlot::PlotBars(m_name.c_str(), m_xs.data(), m_ys.data(), (int)m_xs.size(), m_weight);
 		}
 
 	private:

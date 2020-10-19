@@ -116,7 +116,7 @@ namespace Marvel {
 		for (auto& point : points)
 			point = point + start;
 
-		draw_list->AddPolyline((const ImVec2*)const_cast<const mvVec2*>(points.data()), m_points.size(), m_color, m_closed, m_thickness);
+		draw_list->AddPolyline((const ImVec2*)const_cast<const mvVec2*>(points.data()), (int)m_points.size(), m_color, m_closed, m_thickness);
 	}
 
 	void mvDrawPolygonCommand::draw(mvDrawing* draw, ImDrawList* draw_list)
@@ -125,7 +125,7 @@ namespace Marvel {
         std::vector<mvVec2> points = m_points;
         for (auto& point : points)
             point = point + start;
-        draw_list->AddPolyline((const ImVec2*)const_cast<const mvVec2*>(points.data()), m_points.size(), m_color, false, m_thickness);
+        draw_list->AddPolyline((const ImVec2*)const_cast<const mvVec2*>(points.data()), (int)m_points.size(), m_color, false, m_thickness);
 
 		if (m_fill.specified)
 		{
@@ -140,8 +140,8 @@ namespace Marvel {
 			int* polyints = new int[n];
 
 			/* Determine Y maxima */
-			miny = m_points[0].y;
-			maxy = m_points[0].y;
+			miny = (int)m_points[0].y;
+			maxy = (int)m_points[0].y;
 			for (i = 1; i < n; i++)
 			{
 				miny = std::min(miny, (int)m_points[i].y);
@@ -159,8 +159,8 @@ namespace Marvel {
 					}
 					else
 					    {
-						ind1 = i - 1;
-						ind2 = i;
+						ind1 = (int)i - 1;
+						ind2 = (int)i;
 					}
 					y1 = (int)m_points[ind1].y;
 					y2 = (int)m_points[ind2].y;

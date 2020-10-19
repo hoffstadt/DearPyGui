@@ -194,7 +194,7 @@ namespace Marvel {
 
 		// float
 		else if (PyFloat_Check(value))
-			AddFloatValue(name, PyFloat_AsDouble(value));
+			AddFloatValue(name, (float)PyFloat_AsDouble(value));
 
 		// bool
 		else if (PyBool_Check(value))
@@ -216,7 +216,7 @@ namespace Marvel {
 				if (PyLong_Check(item))
 					AddIntValue(name, PyLong_AsLong(item));
 				else if (PyFloat_Check(item))
-					AddFloatValue(name, PyFloat_AsDouble(item));
+					AddFloatValue(name, (float)PyFloat_AsDouble(item));
 				else return;
 			}
 

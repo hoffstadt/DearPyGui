@@ -495,7 +495,7 @@ namespace Marvel {
 		ImGui::BeginChild(m_name.c_str(), ImVec2((float)m_width, (float)m_height));
 		ImGui::Separator();
 		if(m_columns > 0)
-			ImGui::Columns(m_columns, nullptr, true);
+			ImGui::Columns((int)m_columns, nullptr, true);
 
 		for (auto& header : m_headers)
 		{

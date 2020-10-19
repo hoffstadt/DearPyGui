@@ -41,7 +41,7 @@ namespace Marvel {
 			pushColorStyles();
 			ImGui::PushID(this);
 
-			ImGui::BeginChild(m_label.c_str(), ImVec2(m_autosize_x ? 0 : m_width, m_autosize_y ? 0 : m_height), m_border, m_windowflags);
+			ImGui::BeginChild(m_label.c_str(), ImVec2(m_autosize_x ? 0 : (float)m_width, m_autosize_y ? 0 : (float)m_height), m_border, m_windowflags);
 
 			for (mvAppItem* item : m_children)
 			{

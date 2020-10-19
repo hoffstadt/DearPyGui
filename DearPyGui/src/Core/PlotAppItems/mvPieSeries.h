@@ -22,7 +22,7 @@ namespace Marvel {
 
 		void draw() override
 		{
-			ImPlot::PlotPieChart(m_clabels.data(), m_xs.data(), m_labels.size(),
+			ImPlot::PlotPieChart(m_clabels.data(), m_xs.data(), (int)m_labels.size(),
 				m_x, m_y, m_radius, m_normalize, m_format.c_str(), m_angle);
 		}
 

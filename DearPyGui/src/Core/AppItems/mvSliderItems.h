@@ -62,9 +62,9 @@ namespace Marvel {
 			if (m_vertical)
 			{
 				if ((float)m_height < 1.0f)
-					m_height = 100.f;
+					m_height = 100;
 				if ((float)m_width < 1.0f)
-					m_width = 20.f;
+					m_width = 20;
 
 				if (ImGui::VSliderFloat(m_label.c_str(), ImVec2((float)m_width, (float)m_height), m_enabled ? m_value : &m_disabled_value, m_min, m_max, m_format.c_str()))
 					mvApp::GetApp()->runCallback(getCallback(false), m_name, m_callbackData);
@@ -179,9 +179,9 @@ namespace Marvel {
 			if (m_vertical)
 			{
 				if ((float)m_height < 1.0f)
-					m_height = 100.f;
+					m_height = 100;
 				if ((float)m_width < 1.0f)
-					m_width = 20.f;
+					m_width = 20;
 
 				if (ImGui::VSliderInt(m_label.c_str(), ImVec2((float)m_width, (float)m_height), m_enabled ? m_value : &m_disabled_value, m_min, m_max, m_format.c_str()))
 					mvApp::GetApp()->runCallback(getCallback(false), m_name, m_callbackData);
@@ -212,8 +212,8 @@ namespace Marvel {
 			mvGlobalIntepreterLock gil;
 			if (PyObject* item = PyDict_GetItemString(dict, "format")) m_format = ToString(item);
 			if (PyObject* item = PyDict_GetItemString(dict, "vertical")) m_vertical = ToBool(item);
-			if (PyObject* item = PyDict_GetItemString(dict, "min_value")) m_min = ToFloat(item);
-			if (PyObject* item = PyDict_GetItemString(dict, "max_value")) m_max = ToFloat(item);
+			if (PyObject* item = PyDict_GetItemString(dict, "min_value")) m_min = ToInt(item);
+			if (PyObject* item = PyDict_GetItemString(dict, "max_value")) m_max = ToInt(item);
 
 			// helper for bit flipping
 			auto flagop = [dict](const char* keyword, int flag, int& flags)
@@ -233,8 +233,8 @@ namespace Marvel {
 			mvGlobalIntepreterLock gil;
 			PyDict_SetItemString(dict, "format", ToPyString(m_format));
 			PyDict_SetItemString(dict, "vertical", ToPyBool(m_vertical));
-			PyDict_SetItemString(dict, "min_value", ToPyFloat(m_min));
-			PyDict_SetItemString(dict, "max_value", ToPyFloat(m_max));
+			PyDict_SetItemString(dict, "min_value", ToPyInt(m_min));
+			PyDict_SetItemString(dict, "max_value", ToPyInt(m_max));
 
 			// helper to check and set bit
 			auto checkbitset = [dict](const char* keyword, int flag, const int& flags)
@@ -602,8 +602,8 @@ namespace Marvel {
 				return;
 			mvGlobalIntepreterLock gil;
 			if (PyObject* item = PyDict_GetItemString(dict, "format")) m_format = ToString(item);
-			if (PyObject* item = PyDict_GetItemString(dict, "min_value")) m_min = ToFloat(item);
-			if (PyObject* item = PyDict_GetItemString(dict, "max_value")) m_max = ToFloat(item);
+			if (PyObject* item = PyDict_GetItemString(dict, "min_value")) m_min = ToInt(item);
+			if (PyObject* item = PyDict_GetItemString(dict, "max_value")) m_max = ToInt(item);
 
 			// helper for bit flipping
 			auto flagop = [dict](const char* keyword, int flag, int& flags)
@@ -622,8 +622,8 @@ namespace Marvel {
 				return;
 			mvGlobalIntepreterLock gil;
 			PyDict_SetItemString(dict, "format", ToPyString(m_format));
-			PyDict_SetItemString(dict, "min_value", ToPyFloat(m_min));
-			PyDict_SetItemString(dict, "max_value", ToPyFloat(m_max));
+			PyDict_SetItemString(dict, "min_value", ToPyInt(m_min));
+			PyDict_SetItemString(dict, "max_value", ToPyInt(m_max));
 
 			// helper to check and set bit
 			auto checkbitset = [dict](const char* keyword, int flag, const int& flags)
@@ -699,8 +699,8 @@ namespace Marvel {
 				return;
 			mvGlobalIntepreterLock gil;
 			if (PyObject* item = PyDict_GetItemString(dict, "format")) m_format = ToString(item);
-			if (PyObject* item = PyDict_GetItemString(dict, "min_value")) m_min = ToFloat(item);
-			if (PyObject* item = PyDict_GetItemString(dict, "max_value")) m_max = ToFloat(item);
+			if (PyObject* item = PyDict_GetItemString(dict, "min_value")) m_min = ToInt(item);
+			if (PyObject* item = PyDict_GetItemString(dict, "max_value")) m_max = ToInt(item);
 
 			// helper for bit flipping
 			auto flagop = [dict](const char* keyword, int flag, int& flags)
@@ -719,8 +719,8 @@ namespace Marvel {
 				return;
 			mvGlobalIntepreterLock gil;
 			PyDict_SetItemString(dict, "format", ToPyString(m_format));
-			PyDict_SetItemString(dict, "min_value", ToPyFloat(m_min));
-			PyDict_SetItemString(dict, "max_value", ToPyFloat(m_max));
+			PyDict_SetItemString(dict, "min_value", ToPyInt(m_min));
+			PyDict_SetItemString(dict, "max_value", ToPyInt(m_max));
 
 			// helper to check and set bit
 			auto checkbitset = [dict](const char* keyword, int flag, const int& flags)
@@ -796,8 +796,8 @@ namespace Marvel {
 				return;
 			mvGlobalIntepreterLock gil;
 			if (PyObject* item = PyDict_GetItemString(dict, "format")) m_format = ToString(item);
-			if (PyObject* item = PyDict_GetItemString(dict, "min_value")) m_min = ToFloat(item);
-			if (PyObject* item = PyDict_GetItemString(dict, "max_value")) m_max = ToFloat(item);
+			if (PyObject* item = PyDict_GetItemString(dict, "min_value")) m_min = ToInt(item);
+			if (PyObject* item = PyDict_GetItemString(dict, "max_value")) m_max = ToInt(item);
 
 			// helper for bit flipping
 			auto flagop = [dict](const char* keyword, int flag, int& flags)
@@ -816,8 +816,8 @@ namespace Marvel {
 				return;
 			mvGlobalIntepreterLock gil;
 			PyDict_SetItemString(dict, "format", ToPyString(m_format));
-			PyDict_SetItemString(dict, "min_value", ToPyFloat(m_min));
-			PyDict_SetItemString(dict, "max_value", ToPyFloat(m_max));
+			PyDict_SetItemString(dict, "min_value", ToPyInt(m_min));
+			PyDict_SetItemString(dict, "max_value", ToPyInt(m_max));
 
 			// helper to check and set bit
 			auto checkbitset = [dict](const char* keyword, int flag, const int& flags)

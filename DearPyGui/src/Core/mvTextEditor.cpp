@@ -508,7 +508,7 @@ int mvTextEditor::GetCharacterIndex(const Coordinates& aCoordinates) const
 			++c;
 		i += UTF8CharLength(line[i].mChar);
 	}
-	return i;
+	return (int)i;
 }
 
 int mvTextEditor::GetCharacterColumn(int aLine, int aIndex) const

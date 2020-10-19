@@ -448,7 +448,7 @@ namespace Marvel {
 
 	PyObject* get_total_time(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
-		return ToPyFloat(mvApp::GetApp()->getTotalTime());
+		return ToPyFloat((float)mvApp::GetApp()->getTotalTime());
 	}
 
 	PyObject* get_delta_time(PyObject* self, PyObject* args, PyObject* kwargs)
@@ -473,7 +473,7 @@ namespace Marvel {
 
 	PyObject* get_threadpool_timeout(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
-		return ToPyFloat(mvApp::GetApp()->getThreadPoolTimeout());
+		return ToPyFloat((float)mvApp::GetApp()->getThreadPoolTimeout());
 	}
 
 	PyObject* get_active_window(PyObject* self, PyObject* args, PyObject* kwargs)
