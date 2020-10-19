@@ -28,6 +28,7 @@
 #include "mvAppItem.h"
 #include "mvPythonParser.h"
 #include "mvEventHandler.h"
+//#include "Core/mvTimer.h"
 
 //-----------------------------------------------------------------------------
 // Typedefs for chrono's ridiculously long names
@@ -220,6 +221,7 @@ namespace Marvel {
         void postAddPopups  ();
         void postMoveItems  ();
         void postAsync      ();
+        void postProfile    ();
 
         mvApp();
 
@@ -269,8 +271,10 @@ namespace Marvel {
         std::queue<StolenChild>     m_moveVec;
 
         // timing
-        float  m_deltaTime; // time since last frame
-        double m_time;      // total time since starting
+        float                        m_deltaTime; // time since last frame
+        double                       m_time;      // total time since starting
+        //mvTimer                      m_timer;
+        //std::map<std::string, float> m_timings;
         
         // concurrency
         std::queue<AsyncronousCallback>  m_asyncReturns;

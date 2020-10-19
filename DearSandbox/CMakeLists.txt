@@ -35,6 +35,7 @@ target_compile_definitions(DearSandbox
 
 	PUBLIC
 
+		$<$<CONFIG:Debug>:MV_DEBUG>
 		$<$<CONFIG:Release>:MV_RELEASE>
 )
 
