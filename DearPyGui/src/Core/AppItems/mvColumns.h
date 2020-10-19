@@ -37,6 +37,14 @@ namespace Marvel {
 			m_container = true;
 		}
 
+		float getColumnWidth(int i)
+		{
+			if (i < 0 || i >= (int)m_widths.size())
+				return 0.0f;
+
+			return m_widths[i];
+		}
+
 		void draw() override
 		{
 			m_previousColCount = ImGui::GetColumnsCount();
