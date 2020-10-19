@@ -522,6 +522,7 @@ namespace Marvel {
 		// app item interface
 		ADD_PYTHON_FUNCTION(move_item)
 		ADD_PYTHON_FUNCTION(get_managed_column_width)
+		ADD_PYTHON_FUNCTION(set_managed_column_width)
 		ADD_PYTHON_FUNCTION(get_item_type)
 		ADD_PYTHON_FUNCTION(set_item_callback)
 		ADD_PYTHON_FUNCTION(get_value)

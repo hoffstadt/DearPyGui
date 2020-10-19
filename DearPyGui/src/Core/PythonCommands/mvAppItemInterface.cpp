@@ -12,6 +12,12 @@ namespace Marvel {
 			{mvPythonDataType::Integer, "column"},
 		}, "Returns the width of the ith column.", "Float", "Widget Commands") });
 
+		parsers->insert({ "set_managed_column_width", mvPythonParser({
+			{mvPythonDataType::String, "item"},
+			{mvPythonDataType::Integer, "column"},
+			{mvPythonDataType::Float, "width"},
+		}, "Sets the width of the ith column.", "None", "Widget Commands") });
+
 		parsers->insert({ "move_item", mvPythonParser({
 			{mvPythonDataType::String, "item"},
 			{mvPythonDataType::KeywordOnly},
@@ -236,6 +242,38 @@ namespace Marvel {
 		}
 
 		return ToPyFloat(columns->getColumnWidth(column));
+	}
+
+	PyObject* set_managed_column_width(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+
+		const char* managed_columns;
+		int column;
+		float width;
+
+		if (!(*mvApp::GetApp()->getParsers())["set_managed_column_width"].parse(args, kwargs, __FUNCTION__,
+			&managed_columns, &column, &width))
+			return GetPyNone();
+
+		auto item = mvApp::GetApp()->getItem(managed_columns);
+
+		if (item == nullptr)
+		{
+			std::string message = managed_columns;
+			ThrowPythonException(message + " managed_columns does not exist.");
+			return GetPyNone();
+		}
+
+		mvManagedColumns* columns;
+		if (item->getType() == mvAppItemType::ManagedColumns)
+		{
+			columns = static_cast<mvManagedColumns*>(item);
+			columns->setColumnWidth(column, width);
+		}
+		else
+			ThrowPythonException(std::string(managed_columns) + " is not a managed columns.");
+
+		return GetPyNone();
 	}
 
 	PyObject* move_item(PyObject* self, PyObject* args, PyObject* kwargs)

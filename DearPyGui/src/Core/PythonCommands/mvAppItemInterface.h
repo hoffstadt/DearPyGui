@@ -25,6 +25,7 @@ namespace Marvel {
 							                
 	PyObject* get_item_parent               (PyObject* self, PyObject* args, PyObject* kwargs);
 
+	PyObject* set_managed_column_width      (PyObject* self, PyObject* args, PyObject* kwargs);
 	PyObject* get_managed_column_width      (PyObject* self, PyObject* args, PyObject* kwargs);
 
 	PyObject* is_item_hovered               (PyObject* self, PyObject* args, PyObject* kwargs);

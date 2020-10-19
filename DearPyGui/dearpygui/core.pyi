@@ -582,6 +582,10 @@ def get_main_window_size() -> [int, int]:
 	"""Returns the size of the main window."""
 	...
 
+def get_managed_column_width(item: str, column: int) -> Float:
+	"""Returns the width of the ith column."""
+	...
+
 def get_mouse_drag_delta() -> (float, float):
 	"""Returns the current mouse drag delta in pixels"""
 	...
@@ -1000,6 +1004,10 @@ def set_main_window_size(width: int, height: int) -> None:
 
 def set_main_window_title(title: str) -> None:
 	"""Sets the title of the main window."""
+	...
+
+def set_managed_column_width(item: str, column: int, width: float) -> None:
+	"""Sets the width of the ith column."""
 	...
 
 def set_mouse_click_callback(callback: Callable) -> None:
