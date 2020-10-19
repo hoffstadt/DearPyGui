@@ -15,6 +15,7 @@
 #include "Core/mvThreadPool.h"
 #include "Core/mvAppItems.h"
 #include <frameobject.h>
+#include "mvPyObject.h"
 
 namespace Marvel {
 
@@ -523,14 +524,15 @@ namespace Marvel {
 		{
 			PyErr_Clear();
 
-			PyObject* pArgs = PyTuple_New(2);
+			//PyObject* pArgs = PyTuple_New(2);
+			mvPyObject pArgs(PyTuple_New(2));
 			PyTuple_SetItem(pArgs, 0, PyUnicode_FromString("Async"));
 			PyTuple_SetItem(pArgs, 1, data); // steals data, so don't deref
 
-			PyObject* result = PyObject_CallObject(callback, pArgs);
+			mvPyObject result(PyObject_CallObject(callback, pArgs));
 
 			// check if call succeeded
-			if (!result)
+			if (!result.isOk())
 			{
 				PyErr_Print();
 				ThrowPythonException("Callback failed");
@@ -538,13 +540,10 @@ namespace Marvel {
 
 			if (returnname)
 			{
+				result.addRef();
 				std::lock_guard<std::mutex> lock(m_mutex);
 				m_asyncReturns.push({ returnname, result });
 			}
-			else
-				Py_XDECREF(result);
-
-			Py_XDECREF(pArgs);
 			
 			// check if error occurred
 			if (PyErr_Occurred())
@@ -554,8 +553,6 @@ namespace Marvel {
 
 		else
 			ThrowPythonException("Callback not callable");
-
-
 	}
 
 	void mvApp::runReturnCallback(PyObject* callback, const std::string& sender, PyObject* data)
@@ -606,22 +603,18 @@ namespace Marvel {
 
 		PyErr_Clear();
 
-		PyObject* pArgs = PyTuple_New(2);
+		mvPyObject pArgs(PyTuple_New(2));
 		PyTuple_SetItem(pArgs, 0, PyUnicode_FromString(sender.c_str()));
 		PyTuple_SetItem(pArgs, 1, data); // steals data, so don't deref
 		
-
-		PyObject* result = PyObject_CallObject(callable, pArgs);
+		mvPyObject result(PyObject_CallObject(callable, pArgs));
 
 		// check if call succeeded
-		if (!result)
+		if (!result.isOk())
 		{
 			PyErr_Print();
 			ThrowPythonException("Callable failed");
 		}
-
-		Py_XDECREF(pArgs);
-		Py_XDECREF(result);
 
 		// check if error occurred
 		if (PyErr_Occurred())
