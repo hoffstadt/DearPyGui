@@ -45,6 +45,35 @@ New Commands:
 
 New Keywords:
 - start_dearpygui:    Added "primary_window" keyword
+- add_checkbox:		  Added "enabled" keyword
+- add_radio_button:   Added "enabled" keyword
+- add_listbox:		  Added "enabled" keyword
+- add_combo:		  Added "enabled" keyword
+- add_input_text:	  Added "enabled" keyword
+- add_input_int:	  Added "enabled" keyword
+- add_input_int2:	  Added "enabled" keyword
+- add_input_int3:	  Added "enabled" keyword
+- add_input_int4:	  Added "enabled" keyword
+- add_input_float:	  Added "enabled" keyword
+- add_input_float2:	  Added "enabled" keyword
+- add_input_float3:	  Added "enabled" keyword
+- add_input_float4:	  Added "enabled" keyword
+- add_drag_int:		  Added "enabled" keyword
+- add_drag_int2:	  Added "enabled" keyword
+- add_drag_int3:	  Added "enabled" keyword
+- add_drag_int4:	  Added "enabled" keyword
+- add_drag_float:	  Added "enabled" keyword
+- add_drag_float2:    Added "enabled" keyword
+- add_drag_float3:    Added "enabled" keyword
+- add_drag_float4:    Added "enabled" keyword
+- add_slider_int:	  Added "enabled" keyword
+- add_slider_int2:	  Added "enabled" keyword
+- add_slider_int3:	  Added "enabled" keyword
+- add_slider_int4:	  Added "enabled" keyword
+- add_slider_float:	  Added "enabled" keyword
+- add_slider_float2:  Added "enabled" keyword
+- add_slider_float3:  Added "enabled" keyword
+- add_slider_float4:  Added "enabled" keyword
 
 Changes:
 - show_metrics:       Moved to simple module
@@ -53,6 +82,9 @@ Changes:
 - show_style_editor:  Moved to simple module
 - show_about:         Moved to simple module
 
+Backend Maintance:
+- AppItem:			  App item now controls the enabled member
+- AppItemBase :		  App base class hase a disabled value that is used internally only
 -----------------------------------------------------------------------
  VERSION 0.4.609 (10/14/2020)
 -----------------------------------------------------------------------
