@@ -313,7 +313,13 @@ namespace Marvel {
 
 		auto parentItem = mvApp::GetApp()->topParent();
 
-		if (parentItem->getType() == mvAppItemType::Window)
+		if (parentItem == nullptr)
+		{
+			ThrowPythonException("Menubar requires a window to be on the parent stack.");
+			return ToPyBool(false);
+		}
+
+		else if (parentItem->getType() == mvAppItemType::Window)
 		{
 			auto window = static_cast<mvWindowAppitem*>(parentItem);
 			window->addFlag(ImGuiWindowFlags_MenuBar);
