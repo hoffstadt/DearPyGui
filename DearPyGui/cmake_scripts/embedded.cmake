@@ -8,12 +8,14 @@ target_include_directories(coreemb PRIVATE ${MARVEL_INCLUDE_DIR})
 
 target_compile_definitions(coreemb
 	PUBLIC
+		$<$<CONFIG:Debug>:MV_DEBUG>
 		$<$<CONFIG:Release>:MV_RELEASE>
 )
 
 if(WIN32)
 
 	add_definitions(-DWIN32)
+	add_definitions(-DMV_PROFILE)
 	target_link_directories(coreemb PRIVATE "../Dependencies/cpython/PCbuild/amd64/")
 	target_link_libraries(coreemb PUBLIC $<$<PLATFORM_ID:Windows>:d3d11> $<$<CONFIG:Debug>:python38_d> $<$<CONFIG:Release>:python38>)
 
@@ -21,9 +23,6 @@ elseif(APPLE)
 
 	add_definitions(-DAPPLE)
 	add_definitions(-DUNIX)
-	#find_package(Python3 COMPONENTS Interpreter Development)
-
-	#target_link_directories(coreemb PRIVATE /Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/)
 
 	target_link_directories(coreemb PRIVATE ../Dependencies/cpython/debug)
 	

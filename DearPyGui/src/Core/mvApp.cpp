@@ -16,11 +16,39 @@
 #include "Core/mvAppItems.h"
 #include <frameobject.h>
 #include "mvPyObject.h"
+#include "mvProfiler.h"
+#include <implot.h>
 
 namespace Marvel {
 
 	mvApp* mvApp::s_instance = nullptr;
 	bool   mvApp::s_started = false;
+
+	// utility structure for realtime plot
+	struct ScrollingBuffer {
+		int MaxSize;
+		int Offset;
+		ImVector<ImVec2> Data;
+		ScrollingBuffer() {
+			MaxSize = 2000;
+			Offset = 0;
+			Data.reserve(MaxSize);
+		}
+		void AddPoint(float x, float y) {
+			if (Data.size() < MaxSize)
+				Data.push_back(ImVec2(x, y));
+			else {
+				Data[Offset] = ImVec2(x, y);
+				Offset = (Offset + 1) % MaxSize;
+			}
+		}
+		void Erase() {
+			if (Data.size() > 0) {
+				Data.shrink(0);
+				Offset = 0;
+			}
+		}
+	};
 
 	mvApp* mvApp::GetApp()
 	{
@@ -131,6 +159,7 @@ namespace Marvel {
 
 	bool mvApp::prerender()
 	{
+		MV_PROFILE_FUNCTION();
 
 		if (m_firstRender)
 			firstRenderFrame();
@@ -201,19 +230,31 @@ namespace Marvel {
 
 	void mvApp::render()
 	{
+		MV_PROFILE_FUNCTION()
+
 		for (auto window : m_windows)
 			window->draw();
 	}
 
 	void mvApp::postrender()
 	{
-		Py_BEGIN_ALLOW_THREADS
-		postDeleteItems();
-		postAddItems();
-		postAddPopups();
-		postMoveItems();
-		postAsync();
-		Py_END_ALLOW_THREADS	
+		{
+			MV_PROFILE_FUNCTION()
+
+			Py_BEGIN_ALLOW_THREADS
+			postDeleteItems();
+			postAddItems();
+			postAddPopups();
+			postMoveItems();
+			postAsync();
+
+
+			Py_END_ALLOW_THREADS
+		}
+
+#if defined(MV_PROFILE) && defined(MV_DEBUG)
+		postProfile();
+#endif // MV_PROFILE
 	}
 
 	void mvApp::setWindowSize(unsigned width, unsigned height)
@@ -276,6 +317,8 @@ namespace Marvel {
 
 	void mvApp::routeInputCallbacks()
 	{
+		MV_PROFILE_FUNCTION();
+
 		// Note: Events are only routed to the active window
 
 		// default handler is main window
@@ -1059,6 +1102,8 @@ namespace Marvel {
 
 	void mvApp::postDeleteItems()
 	{
+		MV_PROFILE_FUNCTION()
+
 		// delete items from the delete queue
 		while (!m_deleteChildrenQueue.empty())
 		{
@@ -1124,6 +1169,8 @@ namespace Marvel {
 
 	void mvApp::postAddItems()
 	{
+		MV_PROFILE_FUNCTION()
+
 		// add runtime items
 		for (auto& newItem : m_newItemVec)
 		{
@@ -1179,6 +1226,8 @@ namespace Marvel {
 
 	void mvApp::postAddPopups()
 	{
+		MV_PROFILE_FUNCTION()
+
 		// add popup items
 		for (auto& popup : m_orderedVec)
 		{
@@ -1214,6 +1263,8 @@ namespace Marvel {
 
 	void mvApp::postMoveItems()
 	{
+		MV_PROFILE_FUNCTION()
+
 		// move
 		while (!m_moveVec.empty())
 		{
@@ -1281,6 +1332,8 @@ namespace Marvel {
 
 	void mvApp::postAsync()
 	{
+		MV_PROFILE_FUNCTION()
+
 		// async callbacks
 		if (!m_asyncCallbacks.empty())
 		{
@@ -1304,6 +1357,39 @@ namespace Marvel {
 		// update timer if thread pool exists
 		if (m_tpool != nullptr)
 			m_threadTime = std::chrono::duration_cast<second_>(clock_::now() - m_poolStart).count();
+	}
+
+	void mvApp::postProfile()
+	{
+		static std::map<std::string, ScrollingBuffer> buffers;
+		static float t = 0;
+		t += ImGui::GetIO().DeltaTime;
+
+		const auto& results = mvInstrumentor::Get().getResults();
+
+		for (const auto& item : results)
+			buffers[item.first].AddPoint(t, item.second.count());
+
+		ImGui::SetNextWindowSize(ImVec2(500, 500), ImGuiCond_FirstUseEver);
+		if (!ImGui::Begin("Profiling", nullptr))
+		{
+			ImGui::End();
+			return;
+		}
+
+		static float history = 10.0f;
+		ImGui::SliderFloat("History", &history, 1, 30, "%.1f s");
+
+		static ImPlotAxisFlags rt_axis = ImPlotAxisFlags_NoTickLabels;
+		ImPlot::SetNextPlotLimitsX(t - history, t, ImGuiCond_Always);
+		if (ImPlot::BeginPlot("##Scrolling", NULL, NULL, ImVec2(-1, -1), 0, rt_axis, 0 | ImPlotAxisFlags_LockMin)) {
+
+			for (const auto& item : results)
+				ImPlot::PlotLine(item.first.c_str(), &buffers[item.first].Data[0].x, &buffers[item.first].Data[0].y, buffers[item.first].Data.size(), buffers[item.first].Offset, 2 * sizeof(float));
+			ImPlot::EndPlot();
+		}
+
+		ImGui::End();
 	}
 
 }
