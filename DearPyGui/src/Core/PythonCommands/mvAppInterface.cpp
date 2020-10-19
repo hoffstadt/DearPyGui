@@ -41,6 +41,11 @@ namespace Marvel {
 			{mvPythonDataType::Integer, "y"},
 		}, "Sets the main window position.") });
 
+		parsers->insert({ "add_character_remap", mvPythonParser({
+			{mvPythonDataType::Integer, "destination"},
+			{mvPythonDataType::Integer, "source"},
+		}, "Remaps characters.") });
+
 		parsers->insert({ "setup_dearpygui", mvPythonParser({
 		}, "Sets up DearPyGui for user controlled rendering. Only call once and you must call cleanup_deapygui when finished.") });
 
@@ -232,6 +237,20 @@ namespace Marvel {
 			return GetPyNone();
 
 		mvApp::GetApp()->setMainPos(x, y);
+
+		return GetPyNone();
+	}
+
+	PyObject* add_character_remap(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		int destination;
+		int source;
+
+		if (!(*mvApp::GetApp()->getParsers())["add_character_remap"].parse(args, kwargs, __FUNCTION__,
+			&destination, &source))
+			return GetPyNone();
+
+		mvApp::GetApp()->addRemapChar(destination, source);
 
 		return GetPyNone();
 	}
