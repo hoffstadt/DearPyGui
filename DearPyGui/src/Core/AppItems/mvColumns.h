@@ -37,6 +37,16 @@ namespace Marvel {
 			m_container = true;
 		}
 
+		void setColumnWidth(int i, float width)
+		{
+			if (i < 0 || i >= (int)m_widths.size())
+				return;
+
+			m_dirty_widths = true;
+
+			m_widths[i] = width;
+		}
+
 		float getColumnWidth(int i)
 		{
 			if (i < 0 || i >= (int)m_widths.size())
@@ -64,7 +74,6 @@ namespace Marvel {
 				item->draw();
 				item->popColorStyles();
 				
-
 				item->setHovered(ImGui::IsItemHovered());
 				item->setActive(ImGui::IsItemActive());
 				item->setFocused(ImGui::IsItemFocused());
@@ -79,11 +88,17 @@ namespace Marvel {
 				item->setRectMax({ ImGui::GetItemRectMax().x, ImGui::GetItemRectMax().y });
 				item->setRectSize({ ImGui::GetItemRectSize().x, ImGui::GetItemRectSize().y });
 
-				int indexxxx = ImGui::GetColumnIndex();
+				int index = ImGui::GetColumnIndex();
+
+				if (m_dirty_widths)
+					ImGui::SetColumnWidth(index, m_widths[index]);
+
 				float wide = ImGui::GetColumnWidth();
-				m_widths[indexxxx] = wide;
+				m_widths[index] = wide;
 				ImGui::NextColumn();
 			}
+
+			m_dirty_widths = false;
 
 			ImGui::PopID();
 
@@ -127,6 +142,7 @@ namespace Marvel {
 		int                m_columns = 1;
 		bool               m_border = true;
 		std::vector<float> m_widths;
+		bool               m_dirty_widths = false;
 
 	};
 

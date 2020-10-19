@@ -151,7 +151,7 @@ def demo_accelerator_callback(sender, data):
 def show_demo():
 
     set_render_callback(demo_main_callback)
-    set_accelerator_callback(demo_accelerator_callback)
+    #set_accelerator_callback(demo_accelerator_callback)
 
     def on_demo_close(sender, data):
         delete_item("Dear PyGui Demo")

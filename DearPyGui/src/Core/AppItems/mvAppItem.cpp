@@ -140,7 +140,7 @@ namespace Marvel{
 			if (m_children[i]->getName() == name)
 			{
 				found = true;
-				index = i;
+				index = (int)i;
 				break;
 			}
 
@@ -447,7 +447,7 @@ namespace Marvel{
 	void mvAppItem::popColorStyles()
 	{
 		if(!m_colors.empty())
-			ImGui::PopStyleColor(m_colors.size());
+			ImGui::PopStyleColor((int)m_colors.size());
 	}
 
 	void mvAppItem::clearColors()
