@@ -1041,7 +1041,13 @@ namespace Marvel {
 
 		mvAppItem* parentitem = topParent();	
 		if (parentitem == nullptr)
-			parentitem = m_windows[0];
+		{
+			std::string message = item->getName();
+			ThrowPythonException(message + ": Parent for this item not found or the parent stack is empty.");
+			delete item;
+			item = nullptr;
+			return false;
+		}
 
 		item->setParent(parentitem);
 		parentitem->addChild(item);
