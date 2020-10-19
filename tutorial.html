@@ -875,7 +875,7 @@ def on_render(sender, data):
     color2 = 255 - modifier*.8
     radius = 15 + modifier/2
     segments = round(35-modifier/10)
-    draw_circle("Drawing_1", [xpos, ypos], radius, [color1, color3, color2, 255], segments, tag="circle##dynamic")
+    draw_circle("Drawing_1", [xpos, ypos], radius, [color1, color3, color2, 255], segments=segments, tag="circle##dynamic")
     add_data("counter", counter)
     add_data("modifier", modifier)
 
