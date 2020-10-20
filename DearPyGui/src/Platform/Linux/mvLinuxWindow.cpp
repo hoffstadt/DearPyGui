@@ -30,10 +30,6 @@ namespace Marvel {
     {
 
         mvApp::GetApp()->setActualSize(width, height);
-
-        int left, top, right, bottom;
-        glfwGetWindowFrameSize(window, &left, &top, &right, &bottom);
-        mvApp::GetApp()->setClientSize(right-left, bottom-top);
         mvApp::GetApp()->runCallback(mvApp::GetApp()->getResizeCallback(), "Main Application");
     }
 
@@ -166,6 +162,7 @@ namespace Marvel {
         ImGui::Render();
         int display_w, display_h;
         glfwGetFramebufferSize(m_window, &display_w, &display_h);
+        mvApp::GetApp()->setClientSize(display_w, display_h);
         glViewport(0, 0, display_w, display_h);
         glClearColor(m_clear_color[0], m_clear_color[1], m_clear_color[2], m_clear_color[3]);
         glClear(GL_COLOR_BUFFER_BIT);
