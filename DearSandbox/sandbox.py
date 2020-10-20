@@ -26,9 +26,12 @@ show_demo()
 
 with window("Asyncronous##dialog", show=True):
     add_data('threadNumber', 0)
-    def LongCallback2(sender, data):
+
+    def LongCallback(sender, data):
+        log_debug("Starting Long Process")
+        log_debug("Starting Long Process", logger="LoggerWidget##demo")
         time.sleep(5)
-        return data
+        log_info("Done with long process")
 
     def ReturnFromLongProcess(sender, data):
         log_info("Completed process number: " + str(data))
@@ -36,13 +39,11 @@ with window("Asyncronous##dialog", show=True):
 
     def LongAsyncronousCallback(sender, data):
         current_number = get_data('threadNumber')
-        run_async_function(LongCallback2, current_number, return_handler=ReturnFromLongProcess)
+        run_async_function(LongCallback, current_number, return_handler=ReturnFromLongProcess)
         log_info("Start process number: " + str(current_number))
         add_data('threadNumber', current_number+1)
 
-    def LongCallback(sender, data):
-        time.sleep(5)
-        log_info("Done with long process")
+
 
     add_button("Start Long Process", callback=LongCallback)
     add_button("Start Long Asyncronous Process", callback=LongAsyncronousCallback)

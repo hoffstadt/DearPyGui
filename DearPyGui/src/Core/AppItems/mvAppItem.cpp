@@ -57,7 +57,7 @@ namespace Marvel{
 		if (PyObject* item = PyDict_GetItemString(dict, "height")) setHeight(ToInt(item));
 		if (PyObject* item = PyDict_GetItemString(dict, "show")) m_show = ToBool(item);
 		if (PyObject* item = PyDict_GetItemString(dict, "source")) setDataSource(ToString(item));
-		if (PyObject* item = PyDict_GetItemString(dict, "enabled")) m_enabled = ToBool(item);
+		if (PyObject* item = PyDict_GetItemString(dict, "enabled")) setEnabled(ToBool(item));
 	}
 
 	void mvAppItem::getConfigDict(PyObject* dict)
