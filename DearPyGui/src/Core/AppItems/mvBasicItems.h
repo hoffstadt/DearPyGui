@@ -277,8 +277,8 @@ namespace Marvel {
 				ImGui::PushStyleColor(ImGuiCol_Button, disabled_color);
 				ImGui::PushStyleColor(ImGuiCol_ButtonHovered, disabled_color);
 				ImGui::PushStyleColor(ImGuiCol_ButtonActive, disabled_color);
-				//ImGui::PushStyleColor(ImGuiCol_PopupBg, disabled_color.w=0); // TODO: check this
-				ImGui::PushStyleColor(ImGuiCol_Border, disabled_color);
+				ImGui::PushStyleColor(ImGuiCol_PopupBg, 0.0f);
+				ImGui::PushStyleColor(ImGuiCol_Border, 0.0f);
 			}
 			if (ImGui::BeginCombo(m_label.c_str(), m_value->c_str(), m_flags)) // The second parameter is the label previewed before opening the combo.
 			{
