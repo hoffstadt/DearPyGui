@@ -21,7 +21,8 @@ namespace Marvel {
 			{mvPythonDataType::String, "source", "", "''"},
 			{mvPythonDataType::Bool, "enabled", "Display grayed out text so selectable cannot be selected", "True"},
 			{mvPythonDataType::Integer, "width","", "0"},
-			{mvPythonDataType::Bool, "on_enter", "Only runs callback on enter", "False"},
+			{mvPythonDataType::Bool, "no_input", "Disable CTRL+Click or Enter key allowing to input text directly into the widget", "False"},
+			{mvPythonDataType::Bool, "clamped", "Clamp value to min/max bounds when input manually with CTRL+Click. By default CTRL+Click allows going out of bounds.", "False"},
 			{mvPythonDataType::String, "label", "", "''"},
 			{mvPythonDataType::String, "popup", "", "''"},
 			{mvPythonDataType::Bool, "show", "Attempt to render", "True"},
@@ -43,7 +44,8 @@ namespace Marvel {
 			{mvPythonDataType::String, "source", "", "''"},
 			{mvPythonDataType::Bool, "enabled", "Display grayed out text so selectable cannot be selected", "True"},
 			{mvPythonDataType::Integer, "width","", "0"},
-			{mvPythonDataType::Bool, "on_enter", "Only runs callback on enter", "False"},
+			{mvPythonDataType::Bool, "no_input", "Disable CTRL+Click or Enter key allowing to input text directly into the widget", "False"},
+			{mvPythonDataType::Bool, "clamped", "Clamp value to min/max bounds when input manually with CTRL+Click. By default CTRL+Click allows going out of bounds.", "False"},
 			{mvPythonDataType::String, "label", "", "''"},
 			{mvPythonDataType::String, "popup", "", "''"},
 			{mvPythonDataType::Bool, "show", "Attempt to render", "True"},
@@ -65,7 +67,8 @@ namespace Marvel {
 			{mvPythonDataType::String, "source", "", "''"},
 			{mvPythonDataType::Bool, "enabled", "Display grayed out text so selectable cannot be selected", "True"},
 			{mvPythonDataType::Integer, "width","", "0"},
-			{mvPythonDataType::Bool, "on_enter", "Only runs callback on enter", "False"},
+			{mvPythonDataType::Bool, "no_input", "Disable CTRL+Click or Enter key allowing to input text directly into the widget", "False"},
+			{mvPythonDataType::Bool, "clamped", "Clamp value to min/max bounds when input manually with CTRL+Click. By default CTRL+Click allows going out of bounds.", "False"},
 			{mvPythonDataType::String, "label", "", "''"},
 			{mvPythonDataType::String, "popup", "", "''"},
 			{mvPythonDataType::Bool, "show", "Attempt to render", "True"},
@@ -87,7 +90,8 @@ namespace Marvel {
 			{mvPythonDataType::String, "source", "", "''"},
 			{mvPythonDataType::Bool, "enabled", "Display grayed out text so selectable cannot be selected", "True"},
 			{mvPythonDataType::Integer, "width","", "0"},
-			{mvPythonDataType::Bool, "on_enter", "Only runs callback on enter", "False"},
+			{mvPythonDataType::Bool, "no_input", "Disable CTRL+Click or Enter key allowing to input text directly into the widget", "False"},
+			{mvPythonDataType::Bool, "clamped", "Clamp value to min/max bounds when input manually with CTRL+Click. By default CTRL+Click allows going out of bounds.", "False"},
 			{mvPythonDataType::String, "label", "", "''"},
 			{mvPythonDataType::String, "popup", "", "''"},
 			{mvPythonDataType::Bool, "show", "Attempt to render", "True"},
@@ -109,7 +113,8 @@ namespace Marvel {
 			{mvPythonDataType::String, "source", "", "''"},
 			{mvPythonDataType::Bool, "enabled", "Display grayed out text so selectable cannot be selected", "True"},
 			{mvPythonDataType::Integer, "width","", "0"},
-			{mvPythonDataType::Bool, "on_enter", "Only runs callback on enter", "False"},
+			{mvPythonDataType::Bool, "no_input", "Disable CTRL+Click or Enter key allowing to input text directly into the widget", "False"},
+			{mvPythonDataType::Bool, "clamped", "Clamp value to min/max bounds when input manually with CTRL+Click. By default CTRL+Click allows going out of bounds.", "False"},
 			{mvPythonDataType::String, "label", "", "''"},
 			{mvPythonDataType::String, "popup", "", "''"},
 			{mvPythonDataType::Bool, "show", "Attempt to render", "True"},
@@ -131,7 +136,8 @@ namespace Marvel {
 			{mvPythonDataType::String, "source", "", "''"},
 			{mvPythonDataType::Bool, "enabled", "Display grayed out text so selectable cannot be selected", "True"},
 			{mvPythonDataType::Integer, "width","", "0"},
-			{mvPythonDataType::Bool, "on_enter", "Only runs callback on enter", "False"},
+			{mvPythonDataType::Bool, "no_input", "Disable CTRL+Click or Enter key allowing to input text directly into the widget", "False"},
+			{mvPythonDataType::Bool, "clamped", "Clamp value to min/max bounds when input manually with CTRL+Click. By default CTRL+Click allows going out of bounds.", "False"},
 			{mvPythonDataType::String, "label", "", "''"},
 			{mvPythonDataType::String, "popup", "", "''"},
 			{mvPythonDataType::Bool, "show", "Attempt to render", "True"},
@@ -153,7 +159,8 @@ namespace Marvel {
 			{mvPythonDataType::String, "source", "", "''"},
 			{mvPythonDataType::Bool, "enabled", "Display grayed out text so selectable cannot be selected", "True"},
 			{mvPythonDataType::Integer, "width","", "0"},
-			{mvPythonDataType::Bool, "on_enter", "Only runs callback on enter", "False"},
+			{mvPythonDataType::Bool, "no_input", "Disable CTRL+Click or Enter key allowing to input text directly into the widget", "False"},
+			{mvPythonDataType::Bool, "clamped", "Clamp value to min/max bounds when input manually with CTRL+Click. By default CTRL+Click allows going out of bounds.", "False"},
 			{mvPythonDataType::String, "label", "", "''"},
 			{mvPythonDataType::String, "popup", "", "''"},
 			{mvPythonDataType::Bool, "show", "Attempt to render", "True"},
@@ -175,7 +182,8 @@ namespace Marvel {
 			{mvPythonDataType::String, "source", "", "''"},
 			{mvPythonDataType::Bool, "enabled", "Display grayed out text so selectable cannot be selected", "True"},
 			{mvPythonDataType::Integer, "width","", "0"},
-			{mvPythonDataType::Bool, "on_enter", "Only runs callback on enter", "False"},
+			{mvPythonDataType::Bool, "no_input", "Disable CTRL+Click or Enter key allowing to input text directly into the widget", "False"},
+			{mvPythonDataType::Bool, "clamped", "Clamp value to min/max bounds when input manually with CTRL+Click. By default CTRL+Click allows going out of bounds.", "False"},
 			{mvPythonDataType::String, "label", "", "''"},
 			{mvPythonDataType::String, "popup", "", "''"},
 			{mvPythonDataType::Bool, "show", "Attempt to render", "True"},
@@ -198,13 +206,14 @@ namespace Marvel {
 		const char* parent = "";
 		const char* source = "";
 		int enable = true;
-		int on_enter = false;
+		int no_input = false;
+		int clamped = false;
 		const char* label = "";
 		const char* popup = "";
 		int show = true;
 
 		if (!(*mvApp::GetApp()->getParsers())["add_drag_float"].parse(args, kwargs, __FUNCTION__, &name, &default_value, &speed,
-			&min_value, &max_value, &format, &callback, &callback_data, &tip, &parent, &before, &source, &enable, &width, &on_enter,
+			&min_value, &max_value, &format, &callback, &callback_data, &tip, &parent, &before, &source, &enable, &width, &no_input, &clamped,
 			&label, &popup, &show))
 			return ToPyBool(false);
 
@@ -242,13 +251,14 @@ namespace Marvel {
 		const char* source = "";
 		int enable = true;
 		int width = 0;
-		int on_enter = false;
+		int no_input = false;
+		int clamped = false;
 		const char* label = "";
 		const char* popup = "";
 		int show = true;
 
 		if (!(*mvApp::GetApp()->getParsers())["add_drag_float2"].parse(args, kwargs, __FUNCTION__, &name, &default_value, &speed,
-			&min_value, &max_value, &format, &callback, &callback_data, &tip, &parent, &before, &source, &enable, &width, &on_enter,
+			&min_value, &max_value, &format, &callback, &callback_data, &tip, &parent, &before, &source, &enable, &width, &no_input, &clamped,
 			&label, &popup, &show))
 			return ToPyBool(false);
 
@@ -288,13 +298,14 @@ namespace Marvel {
 		const char* source = "";
 		int enable = true;
 		int width = 0;
-		int on_enter = false;
+		int no_input = false;
+		int clamped = false;
 		const char* label = "";
 		const char* popup = "";
 		int show = true;
 
 		if (!(*mvApp::GetApp()->getParsers())["add_drag_float3"].parse(args, kwargs, __FUNCTION__, &name, &default_value, &speed,
-			&min_value, &max_value, &format, &callback, &callback_data, &tip, &parent, &before, &source, &enable, &width, &on_enter,
+			&min_value, &max_value, &format, &callback, &callback_data, &tip, &parent, &before, &source, &enable, &width, &no_input, &clamped,
 			&label, &popup, &show))
 			return ToPyBool(false);
 
@@ -335,13 +346,14 @@ namespace Marvel {
 		const char* source = "";
 		int enable = true;
 		int width = 0;
-		int on_enter = false;
+		int no_input = false;
+		int clamped = false;
 		const char* label = "";
 		const char* popup = "";
 		int show = true;
 
 		if (!(*mvApp::GetApp()->getParsers())["add_drag_float4"].parse(args, kwargs, __FUNCTION__, &name, &default_value, &speed,
-			&min_value, &max_value, &format, &callback, &callback_data, &tip, &parent, &before, &source, &enable, &width, &on_enter,
+			&min_value, &max_value, &format, &callback, &callback_data, &tip, &parent, &before, &source, &enable, &width, &no_input, &clamped,
 			&label, &popup, &show))
 			return ToPyBool(false);
 
@@ -379,13 +391,14 @@ namespace Marvel {
 		const char* source = "";
 		int enable = true;
 		int width = 0;
-		int on_enter = false;
+		int no_input = false;
+		int clamped = false;
 		const char* label = "";
 		const char* popup = "";
 		int show = true;
 
 		if (!(*mvApp::GetApp()->getParsers())["add_drag_int"].parse(args, kwargs, __FUNCTION__, &name, &default_value, &speed,
-			&min_value, &max_value, &format, &callback, &callback_data, &tip, &parent, &before, &source, &enable, &width, &on_enter,
+			&min_value, &max_value, &format, &callback, &callback_data, &tip, &parent, &before, &source, &enable, &width, &no_input, &clamped,
 			&label, &popup, &show))
 			return ToPyBool(false);
 
@@ -423,13 +436,14 @@ namespace Marvel {
 		const char* source = "";
 		int enable = true;
 		int width = 0;
-		int on_enter = false;
+		int no_input = false;
+		int clamped = false;
 		const char* label = "";
 		const char* popup = "";
 		int show = true;
 
 		if (!(*mvApp::GetApp()->getParsers())["add_drag_int2"].parse(args, kwargs, __FUNCTION__, &name, &default_value, &speed,
-			&min_value, &max_value, &format, &callback, &callback_data, &tip, &parent, &before, &source, &enable, &width, &on_enter,
+			&min_value, &max_value, &format, &callback, &callback_data, &tip, &parent, &before, &source, &enable, &width, &no_input, &clamped,
 			&label, &popup, &show))
 			return ToPyBool(false);
 
@@ -469,13 +483,14 @@ namespace Marvel {
 		const char* source = "";
 		int enable = true;
 		int width = 0;
-		int on_enter = false;
+		int no_input = false;
+		int clamped = false;
 		const char* label = "";
 		const char* popup = "";
 		int show = true;
 
 		if (!(*mvApp::GetApp()->getParsers())["add_drag_int3"].parse(args, kwargs, __FUNCTION__, &name, &default_value, &speed,
-			&min_value, &max_value, &format, &callback, &callback_data, &tip, &parent, &before, &source, &enable, &width, &on_enter,
+			&min_value, &max_value, &format, &callback, &callback_data, &tip, &parent, &before, &source, &enable, &width, &no_input, &clamped,
 			&label, &popup, &show))
 			return ToPyBool(false);
 
@@ -516,13 +531,14 @@ namespace Marvel {
 		const char* source = "";
 		int enable = true;
 		int width = 0;
-		int on_enter = false;
+		int no_input = false;
+		int clamped = false;
 		const char* label = "";
 		const char* popup = "";
 		int show = true;
 
 		if (!(*mvApp::GetApp()->getParsers())["add_drag_int4"].parse(args, kwargs, __FUNCTION__, &name, &default_value, &speed,
-			&min_value, &max_value, &format, &callback, &callback_data, &tip, &parent, &before, &source, &enable, &width, &on_enter,
+			&min_value, &max_value, &format, &callback, &callback_data, &tip, &parent, &before, &source, &enable, &width, &no_input, &clamped,
 			&label, &popup, &show))
 			return ToPyBool(false);
 
