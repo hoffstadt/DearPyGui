@@ -257,12 +257,10 @@ namespace Marvel {
 #endif // MV_PROFILE
 	}
 
-	void mvApp::setWindowSize(unsigned width, unsigned height)
+	void mvApp::setClientSize(unsigned width, unsigned height)
 	{
-
-		// set imgui window size
-		m_windows[0]->setWidth(width);
-		m_windows[0]->setHeight(height);
+		m_clientWidth = width;
+		m_clientHeight = height;
 	}
 
 	void mvApp::setActualSize(unsigned width, unsigned height)

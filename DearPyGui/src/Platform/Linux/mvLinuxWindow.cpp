@@ -30,7 +30,10 @@ namespace Marvel {
     {
 
         mvApp::GetApp()->setActualSize(width, height);
-        mvApp::GetApp()->setWindowSize(width, height);
+
+        int left, top, right, bottom;
+        glfwGetWindowFrameSize(window, &left, &top, &right, &bottom);
+        mvApp::GetApp()->setClientSize(right-left, bottom-top);
         mvApp::GetApp()->runCallback(mvApp::GetApp()->getResizeCallback(), "Main Application");
     }
 

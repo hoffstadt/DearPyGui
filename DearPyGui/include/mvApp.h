@@ -124,7 +124,7 @@ namespace Marvel {
         void                     addRemapChar      (int dst, int src) { m_charRemaps.push_back({ dst, src }); }
         void                     setVSync          (bool value) { m_vsync = value; }
         void                     setResizable      (bool value) { m_resizable = value; }
-        void                     setWindowSize     (unsigned width, unsigned height);
+        void                     setClientSize     (unsigned width, unsigned height);
         void                     setActualSize     (unsigned width, unsigned height);			
         void                     setMainPos        (int x, int y);			
         void                     setActiveWindow   (const std::string& window) { m_activeWindow = window; }
@@ -140,6 +140,8 @@ namespace Marvel {
         float&                   getGlobalFontScale()       { return m_globalFontScale; }
         int                      getActualWidth    () const { return m_actualWidth; }
         int                      getActualHeight   () const { return m_actualHeight; }
+        int                      getClientWidth    () const { return m_clientWidth; }
+        int                      getClientHeight   () const { return m_clientHeight; }
         ImGuiStyle&              getStyle          ()       { return m_newstyle; }
         mvWindow*                getViewport       ()       { return m_viewport; }
         bool                     getVSync          () const { return m_vsync; }
@@ -240,6 +242,8 @@ namespace Marvel {
         std::vector<mvAppItem*>                m_windows;
         int                                    m_actualWidth = 1280;
         int                                    m_actualHeight = 800;
+        int                                    m_clientWidth = 1280;
+        int                                    m_clientHeight = 800;
         int                                    m_mainXPos = 100;
         int                                    m_mainYPos = 100;
         std::string                            m_title = "DearPyGui";
