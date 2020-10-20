@@ -77,10 +77,10 @@ New Keywords:
 - add_slider_float2:  Added "enabled" keyword
 - add_slider_float3:  Added "enabled" keyword
 - add_slider_float4:  Added "enabled" keyword
-- add_slider_***:	  Added "no_input" keyword
-- add_slider_***:	  Added "clamped" keyword
-- add_drag_***:		  Added "no_input" keyword
-- add_drag***:		  Added "clamped" keyword
+- add_slider_***:     Added "no_input" keyword
+- add_slider_***:     Added "clamped" keyword
+- add_drag_***:       Added "no_input" keyword
+- add_drag***:        Added "clamped" keyword
 
 Changes:
 - show_metrics:       Moved to simple module
@@ -88,8 +88,8 @@ Changes:
 - show_documentation: Moved to simple module
 - show_style_editor:  Moved to simple module
 - show_about:         Moved to simple module
-- add_slider_***:	  Removed "on_enter" keyword
-- add_drag_***:		  Removed "on_enter" keyword
+- add_slider_***:     Removed "on_enter" keyword
+- add_drag_***:       Removed "on_enter" keyword
 
 Backend Maintance:
 - AppItem:			  App item now controls the enabled member
