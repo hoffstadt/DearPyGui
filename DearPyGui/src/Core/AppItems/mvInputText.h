@@ -28,10 +28,15 @@ namespace Marvel {
 
 		void setEnabled(bool value) override
 		{
-			if(value)
-				m_flags &= ~ImGuiInputTextFlags_ReadOnly;
+			if (value)
+			{
+				m_flags = m_stor_flags;
+			}
 			else
+			{
+				m_stor_flags = m_flags;
 				m_flags |= ImGuiInputTextFlags_ReadOnly;
+			}
 			
 			m_enabled = value;
 		}
@@ -139,6 +144,7 @@ namespace Marvel {
 		std::string         m_hint;
 		bool                m_multiline = false;
 		ImGuiInputTextFlags m_flags = 0;
+		ImGuiInputTextFlags m_stor_flags = 0;
 
 	};
 

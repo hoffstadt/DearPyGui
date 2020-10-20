@@ -286,7 +286,7 @@ def show_demo():
                         "CTRL+X,CTRL+C,CTRL+V clipboard.\n"
                         "CTRL+Z,CTRL+Y undo/redo.\n"
                         "ESCAPE to revert.\n\n")
-                add_input_text("input text (w/ hint)##demo", hint="enter text here", callback=log_callback)
+                add_input_text("input text (w/ hint)##demo", hint="enter text here", callback=log_callback, read_only=True)
                 add_input_int("input int##demo", callback=log_callback)
                 add_input_float("input float##demo", callback=log_callback)
                 add_input_float("input scientific##demo", format="%e", callback=log_callback)
