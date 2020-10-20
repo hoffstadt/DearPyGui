@@ -518,8 +518,6 @@ namespace Marvel {
 
 	mvAppItem* mvApp::getRuntimeItem(const std::string& name)
 	{
-		if (!checkIfMainThread())
-			return nullptr;
 
 		for (auto& item : m_newItemVec)
 		{

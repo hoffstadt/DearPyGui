@@ -160,7 +160,7 @@ namespace Marvel {
         inline void                         setDeactivated            (bool value)              { m_deactivated = value; }
         inline void                         setDeactivatedAfterEdit   (bool value)              { m_deactivatedAfterEdit = value; }
         inline void                         setToggledOpen            (bool value)              { m_toggledOpen = value; }
-        inline void                         setEnabled                (bool value)              { m_enabled = value; }
+        virtual void                        setEnabled                (bool value)              { m_enabled = value; }
         inline void                         setRectMin                (mvVec2 value)            { m_rectMin = value; }
         inline void                         setRectMax                (mvVec2 value)            { m_rectMax = value; }
         inline void                         setRectSize               (mvVec2 value)            { m_rectSize = value; }
