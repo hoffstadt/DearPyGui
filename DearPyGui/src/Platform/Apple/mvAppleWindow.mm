@@ -31,9 +31,6 @@ namespace Marvel {
     {
 
         mvApp::GetApp()->setActualSize(width, height);
-        int left, top, right, bottom;
-        glfwGetWindowFrameSize(window, &left, &top, &right, &bottom);
-        mvApp::GetApp()->setClientSize(right-left, bottom-top);
         mvApp::GetApp()->runCallback(mvApp::GetApp()->getResizeCallback(), "Main Application");
     }
 
@@ -137,6 +134,8 @@ namespace Marvel {
             glfwGetFramebufferSize(m_window, &width, &height);
             m_layer.drawableSize = CGSizeMake(width, height);
             id <CAMetalDrawable> drawable = [m_layer nextDrawable];
+
+            mvApp::GetApp()->setClientSize(width, height);
 
             id <MTLCommandBuffer> commandBuffer = [m_commandQueue commandBuffer];
             m_renderPassDescriptor.colorAttachments[0].clearColor = MTLClearColorMake(m_clear_color[0],
