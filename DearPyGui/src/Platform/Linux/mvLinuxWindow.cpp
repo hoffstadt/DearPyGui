@@ -55,7 +55,7 @@ namespace Marvel {
         glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 0);
         m_window = glfwCreateWindow(width, height, mvApp::GetApp()->m_title.c_str(), nullptr, nullptr);
         glfwSetWindowPos(m_window, mvApp::GetApp()->m_mainXPos, mvApp::GetApp()->m_mainYPos);
-	    mvApp::GetApp()->setWindowSize(width, height);
+	    mvApp::GetApp()->setActualSize(width, height);
 
         glfwMakeContextCurrent(m_window);
 
