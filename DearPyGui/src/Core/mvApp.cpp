@@ -491,6 +491,12 @@ namespace Marvel {
 		if (!checkIfMainThread())
 			return nullptr;
 
+		return getItemAsync(name, ignoreRuntime);
+	}
+
+	mvAppItem* mvApp::getItemAsync(const std::string& name, bool ignoreRuntime)
+	{
+
 		mvAppItem* item = nullptr;
 
 		if (!ignoreRuntime)
