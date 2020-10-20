@@ -38,6 +38,7 @@
             <li><a href="#logging">Built-in Logging</a></li>
             <!--  TODO: go into depth on each developer tool -->
             <li><a href="#widgets_containers_windows">Creating Widgets and Containers</a></li>
+            <li><a href="#primary_window">Primary Window</a></li>
             <li><a href="#using_widgets">Using Widgets</a></li>
             <!--  TODO: maybe add a section on sizers and layouts here -->
             <li><a href="#callbacks">Widget and Window Callbacks</a></li>
@@ -62,41 +63,38 @@
         <h2>Overview</h2>
         <hr>
         <p>
-            This tutorial is intended to demonstrate how to use some features of Dear PyGui. The examples do not showcase every ability in Dear PyGUI "DPG". More complex examples are included in the
-            <a href="https://github.com/hoffstadt/DearPyGui/tree/master/Examples" target="_blank">Examples</a> folder on github.
-            It is also recommended to refer to the <a href="api_docs.html">API Reference</a> for the information on a specific function.
+            This tutorial is intended to demonstrate how to use some features of Dear PyGui ("DPG").
+            It is also recommended to refer to the <a href="api_docs.html">API Reference</a> for the information on a command specifics.
         </p>
         <p>
-            Dear PyGui consists of a program window, windows, and widgets. The program window is the main window of your program and is created at the end of the main python script
-            by calling the function <code class="inline-code" data-language="python">start_dearpygui()</code>
+            Dear PyGui consists of a viewport, windows, and widgets. The viewport is the main window of your program and is created
+            by calling the function <i>start_dearpygui</i>
             <br><br>
             In the next example please look at the about window and verify that you have the latest Dear PyGUI package installed.
             <br><br>
-            Here is an example of the program window and another window showing documentation using the Built-in documentation function:
+            Here is an example of the viewport and a window showing documentation using the built-in documentation function:
         </p>
         <pre><code data-language="python">from dearpygui.core import *
+from dearpygui.simple import *
 
 set_main_window_size(800, 800)
 show_about()
 show_documentation()
 
 # when running this code please look at the about window and it will report which version of Dear PyGUI is running
-# Even if you just did a pip install please ensure you your environment is using the latest package
 start_dearpygui()</code> </pre>
         <p>
             DPG is currently made up of two modules <i>dearpygui.core</i> and <i>dearpygui.simple</i>.
             <br><br>
-            <i>dearpygui.core</i> contains the base functionality of Dear PyGUI. Everything can be done with core. This is the
-            actual C extension module that the <i>simple</i> module is wrapping.
+            <i>dearpygui.core</i> contains the core functionality of Dear PyGui. Everything else is built on top of core.
             <br><br>
             <i>dearpygui.simple</i> contains simple wrappers and other utilities created from <i>core</i> to provide a more pleasant interface to DPG. As your code
             complexity grows its recommended to start using the <i>simple</i> module when applicable.
             <br><br>
             Throughout the tutorial we will use the recommended procedures for accomplishing various tasks. This will include a mix of <i>core</i> and <i>simple</i>
-            functions. We will comment features found in the <i>simple</i> module.
+            functions.
             <br><br>
-            It is also worth mentioning that we will be using <i>from module import *</i> which is against best practices however will be less distracting while learning the
-            DPG module.
+            It is also worth mentioning that we will be using <i>from module import *</i> which is against best practices however will be less distracting while learning DPG.
         </p>
     </article>
 
@@ -104,17 +102,15 @@ start_dearpygui()</code> </pre>
         <h2>Developer Tools</h2>
         <hr>
         <p>
-            Dear PyGui contains several very useful developer tools which we will utilize throughout the tutorials.
+            Dear PyGui contains several useful developer tools which we will utilize throughout the tutorials.
             <br><br>
-            The <code class="inline-code" data-language="python">show_source()</code> requires an input of a python file name to read.
-            For our example our file name is "main.py" so we are using "main.py". You should replace "main.py" with your file name.
         <pre><code data-language="python">from dearpygui.core import *
+from dearpygui.simple import *
 
 show_documentation()
 show_debug()
 show_about()
 show_metrics()
-show_source("main.py")  # replace "main.py" with your python file name
 show_logger()
 
 start_dearpygui()</code> </pre>
@@ -126,7 +122,7 @@ start_dearpygui()</code> </pre>
         <hr>
         <p>
             One of the many powerful built in developer tools is the <b>Logger</b>. This can be accessed through the command
-            <code class="inline-code" data-language="python">show_logger()</code>. The logger has 6 log levels:
+            <i>show_logger</i>. The logger has 6 log levels:
         <ol>
             <li>Trace</li>
             <li>Debug</li>
@@ -135,14 +131,10 @@ start_dearpygui()</code> </pre>
             <li>Error</li>
             <li>Off</li>
         </ol>
-        The log commands can be filtered by setting the log level.
-        The logger will filter out the set level and any levels lower than that level.
-        <br><br>
-        <i>mvTRACE</i> log level will show all the commands.
-        <br><br>
-        see below for an example
+        See example below:
         </p>
         <pre><code data-language="python">from dearpygui.core import *
+from dearpygui.simple import *
 
 show_logger()
 set_log_level(mvTRACE)
@@ -178,14 +170,16 @@ start_dearpygui()</code></pre>
 
         </p>
         <pre><code data-language="python">from dearpygui.core import *
+from dearpygui.simple import *
 
-add_button("Apply")
-add_same_line(spacing=10)
-add_button("Apply##1")
-add_same_line(spacing=10, name="sameline1")
-add_button("Apply2", label="Apply")
-add_spacing(count=5, name="spacing1")
-add_button("Apply##3")
+with window("Tutorial"):
+    add_button("Apply")
+    add_same_line(spacing=10)
+    add_button("Apply##1")
+    add_same_line(spacing=10, name="sameline1")
+    add_button("Apply2", label="Apply")
+    add_spacing(count=5, name="spacing1")
+    add_button("Apply##3")
 
 start_dearpygui()</code> </pre>
         <p>
@@ -195,15 +189,14 @@ start_dearpygui()</code> </pre>
                 <li>Using <i>dearpygui.simple</i> and and the corresponding containers context manager (recommended method).</li>
             </ul>
             When container items are "added", they are pushed onto the parent stack. Any item added after will belong to the parent on the top of the stack.
-            When a container item is "ended" they are popped off of the parent stack. The root parent is the main window.
+            When a container item is "ended" they are popped off the parent stack.
         </p>
         <pre><code data-language="python">from dearpygui.core import *
+from dearpygui.simple import *
 
-add_text("This is some text on the MainWindow")
-add_window("window 2")
+add_window("Tutorial")
 add_text("This is some text on window 2")
 end()
-add_text("More text on the MainWindow")
 
 start_dearpygui()</code> </pre>
         <p>
@@ -212,13 +205,8 @@ start_dearpygui()</code> </pre>
         <pre><code data-language="python">from dearpygui.core import *
 from dearpygui.simple import *
 
-add_text("This is some text on the MainWindow")
-
-with window("window 2"):                            # simple
-
+with window("Tutorial"):
     add_text("This is some text on window 2")
-    
-add_text("More text on the MainWindow")
 
 start_dearpygui()</code> </pre>
         <p>
@@ -231,14 +219,17 @@ start_dearpygui()</code> </pre>
         <pre><code data-language="python">from dearpygui.core import *
 from dearpygui.simple import *
 
-add_text("First coded widget") 
-add_text("This is some text on window 2", parent="window 2")  # we can even specify the parent before it was coded
-add_text("This is some text on child 1", parent="child 1")    # we can even specify the parent before it was coded
-with window("window 1"):                                      # simple
-    with child("child 1"):                                    # simple
+with window("Tutorial"):
+    add_text("First created widget")
+    add_text("This is some text on window 2", parent="window 2")  # we can even specify the parent before it was created
+    add_text("This is some text on child 1", parent="child 1")
+
+with window("window 1"):
+    with child("child 1"):
         add_checkbox("Checkbox")                              # this is a input item added inside of the child
-add_checkbox("Last coded widget", parent="MainWindow", before="First coded widget")
-add_checkbox("Last coded widget 2", parent="child 1", before="Checkbox")
+
+add_checkbox("Last created widget", parent="MainWindow", before="First created widget")
+add_checkbox("Last created widget 2", parent="child 1", before="Checkbox")
 
 # empty window
 with window("window 3"): # simple
@@ -246,6 +237,26 @@ with window("window 3"): # simple
 
 start_dearpygui()
 </code></pre>
+    </article>
+
+    <article><a name="primary_window"></a>
+        <h2>Primary Window</h2>
+        <hr>
+        <p>
+            A window can be set as the primary window by using the <i>primary_window</i> keyword of <i>start_dearpygui</i>
+            or using the <i>set_primary_window</i> command.
+        </p>
+        <pre><code data-language="python">from dearpygui.core import *
+from dearpygui.simple import *
+
+with window("Tutorial"):
+    add_checkbox("Radio Button", default_value=False)
+    print("First value of the Radio Button is: ", get_value("Radio Button"))
+    set_value("Radio Button", True)
+    print("Value after setting the Radio Button is: ", get_value("Radio Button"))
+
+start_dearpygui(primary_window="Tutorial")</code></pre>
+
     </article>
 
     <article><a name="using_widgets"></a>
@@ -258,39 +269,16 @@ start_dearpygui()
             To access the value of a widget we can use the command <i>get_value</i>.
         </p>
         <pre><code data-language="python">from dearpygui.core import *
+from dearpygui.simple import *
 
-add_checkbox("Radio Button", default_value=False)
-print("First value of the Radio Button is: ", get_value("Radio Button"))
-set_value("Radio Button", True)
-print("Value after setting the Radio Button is: ", get_value("Radio Button"))
-
-start_dearpygui()</code></pre>
-        <p>
-            We can also pass the widgets value directly to and from a python variable. As seen below
-        </p>
-        <pre><code data-language="python">from dearpygui.core import *
-
-my_var = True
-add_checkbox("Radio Button", default_value=my_var)
-print("Radio Button Value: ", get_value("Radio Button"))
-print("my_var Value: ", my_var)
-
-set_value("Radio Button", False)
-print("Radio Button Value: ", get_value("Radio Button"))
-print("my_var Value: ", my_var)
-
-my_var = get_value("Radio Button")
-print("Radio Button Value: ", get_value("Radio Button"))
-print("my_var Value: ", my_var)
+with window("Tutorial"):
+    add_checkbox("Radio Button", default_value=False)
+    print("First value of the Radio Button is: ", get_value("Radio Button"))
+    set_value("Radio Button", True)
+    print("Value after setting the Radio Button is: ", get_value("Radio Button"))
 
 start_dearpygui()</code></pre>
-        <p>
-            From the Above example we can see that the python variable does not get updated when the widget's value changes.
-            we must manually keep the widgets value up to date with the python variable by using the <i>set_value</i> and <i>get_value</i>
-            <br><br>
-            We can automate this buy using the widget's <i>callback</i> which will be covered in the next section on callbacks.
-            <br><br>
-        </p>
+
     </article>
 
     <article><a name="callbacks"></a>
@@ -300,49 +288,52 @@ start_dearpygui()</code></pre>
             Each input widget has a callback which is ran when the widget is interacted with.
             <br><br>
             Callbacks are used to give functionality to widgets.
-            Callbacks can either be assigned to the widget upon creation or after creation using <code class="inline-code" data-language="python">set_item_callback()</code> as shown in the code below.
+            Callbacks can either be assigned to the widget upon creation or after creation using <i>set_item_callback</i> as shown in the code below.
             <br><br>
             <b>Every callback applied to an item in Dear PyGui must take in a <i>sender</i> and <i>data</i> argument.</b>
             <br><br>
             The <i>sender</i> argument is used by Dear PyGui to inform the callback which widget triggered the callback by sending the name.
             <br><br>
-            The <i>data</i> argument is used by various standard callbacks to send additional data by specifying the callback <code class="inline-code" data-language="python">callback_data</code>.
+            The <i>data</i> argument is used by various standard callbacks to send additional data by specifying the callback <i>callback_data</i>.
         </p>
         <pre><code data-language="python">from dearpygui.core import *
-
+from dearpygui.simple import *
 
 def button_callback(sender, data):
     log_debug(f"sender is: {sender}")
     log_debug(f"data is: {data}")
 
+show_logger()  # we're going to use the logger here to show the result
 
-show_logger()  # were going to use the logger here to show the result
-add_input_text("Input Text", default_value="Hello World!")
-add_button("Apply", callback=button_callback, callback_data=get_value("Input Text"))
-add_button("Apply##2", tip="callback was set after item was created")
-set_item_callback("Apply##2", callback=button_callback, callback_data=get_value("Input Text"))
+with window("Tutorial"):
+    add_input_text("Input Text", default_value="Hello World!")
+    add_button("Apply", callback=button_callback, callback_data=get_value("Input Text"))
+    add_button("Apply##2", tip="callback was set after item was created")
+    set_item_callback("Apply##2", callback=button_callback, callback_data=get_value("Input Text"))
+
 start_dearpygui()</code> </pre>
         <p>
             We can use the callback to update the value of a python variable each time the widget is interacted with.
-            This is show in the example below.
+            This is shown in the example below:
         </p>
         <pre><code data-language="python">from dearpygui.core import *
-
+from dearpygui.simple import *
 
 def update_var(sender, data):
     my_var = get_value("Input Checkbox")
     log_debug(my_var)
 
-
 show_logger() # were going to use the logger here to show the result
-add_checkbox("Input Checkbox", callback=update_var)
+
+with window("Tutorial"):
+    add_checkbox("Input Checkbox", callback=update_var)
 
 start_dearpygui()</code> </pre>
         <p>
             and again but using a more clever approach by utilizing <i>sender</i>
         </p>
         <pre><code data-language="python">from dearpygui.core import *
-
+from dearpygui.simple import *
 
 def update_var(sender, data):
     my_var = get_value(sender)
@@ -350,20 +341,22 @@ def update_var(sender, data):
 
 
 show_logger() # were going to use the logger here to show the result
-add_checkbox("Input Checkbox", callback=update_var)
-add_input_text("Input Text", callback=update_var)
-add_input_int("Input Int", callback=update_var)
+
+with window("Tutorial"):
+    add_checkbox("Input Checkbox", callback=update_var)
+    add_input_text("Input Text", callback=update_var)
+    add_input_int("Input Int", callback=update_var)
 
 start_dearpygui()</code> </pre>
         <p>
             Window type widgets have special callbacks that are triggered on events such as window resizing and window closing.
             The window specific callbacks can be applied to any window type widget.
             <i>on_close</i> will run the callback assigned to the keyword on window close and
-            <code class="inline-code" data-language="python">set_resize_callback()</code>
+            <i>set_resize_callback</i>
             will run on every resize of the container and can be set to any specific window by using the handler keyword, the default is the "MainWindow"
             <br><br>
         If you would like a callback to be ran every frame, you can use
-        <code class="inline-code" data-language="python">set_render_callback()</code>
+        <i>set_render_callback</i>
             
         <pre><code data-language="python">from dearpygui.core import *
 from dearpygui.simple import *
@@ -382,7 +375,7 @@ def resize_me(sender, data):
 
 
 show_logger()                                      # were going to use the logger to display callback replies
-with window("Tester", on_close=close_me):          # simple
+with window("Tester", on_close=close_me):
     add_text('resize this window resize callback will occur')
     add_text('close this window using the "x" button and a close callback will occur')
 
@@ -411,53 +404,50 @@ start_dearpygui()</code> </pre>
         <pre><code data-language="python">from dearpygui.core import *
 from dearpygui.simple import *
 
-
 def add_buttons(sender, data):
     add_button("New Button")
     add_button("New Button 2", parent="Secondary Window")
-
 
 def delete_buttons(sender, data):
     delete_item("New Button")
     delete_item("New Button 2")
 
-
 show_debug()
-add_button("Add Buttons", callback=add_buttons)
-add_button("Delete Buttons", callback=delete_buttons)
 
-with simple.window("Secondary Window"): # simple
+with window("Tutorial"):
+    add_button("Add Buttons", callback=add_buttons)
+    add_button("Delete Buttons", callback=delete_buttons)
+
+with window("Secondary Window"):
     pass
 
 start_dearpygui()</code> </pre>
         <p>
-            When deleting a container the container plus it's children are deleted by default. Unless the keyword <i>children_only</i> is <b>True</b> then the container will persist.
+            When deleting a container the container and its children are deleted by default, unless the keyword <i>children_only</i> is set to <b>True</b>.
         </p>
         <pre><code data-language="python">from dearpygui.core import *
 from dearpygui.simple import *
 
-
 def add_widgets(sender, data):
 
-    with simple.window("Secondary Window"): # simple
+    with window("Secondary Window"): # simple
         add_button("New Button 2")
-    add_button("New Button")
-    add_button("New Button 3", parent="Secondary Window")
-
+        add_button("New Button")
+        add_button("New Button 3", parent="Secondary Window")
 
 def delete_widgets(sender, data):
     delete_item("Secondary Window")
     delete_item("New Button")
 
-
 def delete_children(sender, data):
     delete_item("Secondary Window", children_only=True)
 
-
 show_debug()
-add_button("Add Window and Items", callback=add_widgets)
-add_button("Delete Window and Children", callback=delete_widgets)
-add_button("Delete Window's Children", callback=delete_children)
+
+with window("Tutorial"):
+    add_button("Add Window and Items", callback=add_widgets)
+    add_button("Delete Window and Children", callback=delete_widgets)
+    add_button("Delete Window's Children", callback=delete_children)
 
 start_dearpygui()</code> </pre>
     </article>
@@ -469,9 +459,9 @@ start_dearpygui()</code> </pre>
             When a new widget is added, a value is added to the value storage system. The identifier to this value is the name of the widget by default.
             You can override the identifier by using the source keyword. One of the benefits of doing this is to have multiple widgets control the same value.
             <br><br>
-            Values are retrieved from the value system using <code class="inline-code" data-language="python">get_value("source name")</code>.
+            Values are retrieved from the value system using <i>get_value</i>.
             <br><br>
-            Values can be changed manually using <code class="inline-code" data-language="python">set_value("source name")</code>.
+            Values can be changed manually using <i>set_value</i>.
             <br><br>
             For widgets of different value types to use the same value in the storage system the larger value must be created first.
             <br><br>
@@ -481,11 +471,11 @@ start_dearpygui()</code> </pre>
             However, if the input_float2 was created first and then tried to share its' source with an input_float3 it would not work.
             <br><br>
             In order for the input_float3 and input_float2 to share the same source we can create the input_float3 needs to be created first.
-            This is accomplished with <code class="inline-code" data-language="python">add_value()</code>.
+            This is accomplished with <i>add_value()</i>.
 
         </p>
         <pre><code data-language="python">from dearpygui.core import *
-
+from dearpygui.simple import *
 
 def print_me(sender, data):
     log_debug(f"checkbox values: {get_value('value_1')}")
@@ -499,27 +489,29 @@ def reset(sender, data):
 
 
 show_logger()
-add_checkbox("Radio Button1", source="value_1")
-add_checkbox("Radio Button2", source="value_1")
-add_input_text("Text Input 1", source="value 2")
-add_input_text("Text Input 2", source="value 2", password=True, tip="this input text has password applied")
-add_button("Print source values", callback=print_me)
-add_button("Reset source values", callback=reset)
 
-# special case when linking a smaller input type widget to a larger one create the large value first
-add_value("color4", (0.0, 0.0, 0.0, 0.0))
-add_color_edit3("color edit 3", source="color4")
-add_color_edit4("color edit 4", source="color4")
+with window("Tutorial"):
+    add_checkbox("Radio Button1", source="value_1")
+    add_checkbox("Radio Button2", source="value_1")
+    add_input_text("Text Input 1", source="value 2")
+    add_input_text("Text Input 2", source="value 2", password=True, tip="this input text has password applied")
+    add_button("Print source values", callback=print_me)
+    add_button("Reset source values", callback=reset)
+
+    # special case when linking a smaller input type widget to a larger one create the large value first
+    add_value("color4", (0.0, 0.0, 0.0, 0.0))
+    add_color_edit3("color edit 3", source="color4")
+    add_color_edit4("color edit 4", source="color4")
 
 start_dearpygui()</code></pre>
         <p>
-            DPG provides general data for data storage also. With <code class="inline-code" data-language="python">add_data("name", data_object)</code> we can
-            pass in any python item to be stored as a data item and accessed later with <code class="inline-code" data-language="python">get_data("name")</code>
+            DPG provides general data for data storage also. With <i>add_data</i> we can
+            pass in any python item to be stored as a data item and accessed later with <i>get_data("name")</i>
             <br><br>
-            <em><b>Remember you can store any python object in data storage even custom data types.</b></em> Although we will only show a map being stored.
+            <em><b>Remember you can store any python object in data storage even custom data types.</b></em>
         </p>
         <pre><code data-language="python">from dearpygui.core import *
-
+from dearpygui.simple import *
 
 def store_data(sender, data):
     custom_data = {
@@ -529,18 +521,18 @@ def store_data(sender, data):
     }
     add_data("stored_data", custom_data)
 
-
 def print_data(sender, data):
     log_debug(get_data("stored_data"))
 
-
 show_logger()
 show_debug()
-add_radio_button("Radio Button", items=["item1", "item2"])
-add_checkbox("Checkbox")
-add_input_text("Text Input")
-add_button("Store Data", callback=store_data)
-add_button("Print Data", callback=print_data)
+
+with window("Tutorial"):
+    add_radio_button("Radio Button", items=["item1", "item2"])
+    add_checkbox("Checkbox")
+    add_input_text("Text Input")
+    add_button("Store Data", callback=store_data)
+    add_button("Print Data", callback=print_data)
 
 
 start_dearpygui()</code></pre>
@@ -571,25 +563,28 @@ def print_me(sender, data):
 
 
 show_logger()
-with menu_bar("Main Menu Bar"):                    # simple
 
-    with menu("File"):                             # simple
-    
-        add_menu_item("Save", callback=print_me)
-        add_menu_item("Save As", callback=print_me)
-        
-        with menu("Settings"):                     # simple
-        
-            add_menu_item("Setting 1", callback=print_me)
-            add_menu_item("Setting 2", callback=print_me)
-            
-    add_menu_item("Help", callback=print_me)
-    
-    with menu("Widget Items"):
-    
-        add_checkbox("Pick Me", callback=print_me)
-        add_button("Press Me", callback=print_me)
-        add_color_picker4("Color Me", callback=print_me)
+with window("Tutorial"):
+
+    with menu_bar("Main Menu Bar"):
+
+        with menu("File"):
+
+            add_menu_item("Save", callback=print_me)
+            add_menu_item("Save As", callback=print_me)
+
+            with menu("Settings"):
+
+                add_menu_item("Setting 1", callback=print_me)
+                add_menu_item("Setting 2", callback=print_me)
+
+        add_menu_item("Help", callback=print_me)
+
+        with menu("Widget Items"):
+
+            add_checkbox("Pick Me", callback=print_me)
+            add_button("Press Me", callback=print_me)
+            add_color_picker4("Color Me", callback=print_me)
 
 start_dearpygui()</code></pre>
     </article>
@@ -598,17 +593,16 @@ start_dearpygui()</code></pre>
         <h2>File and Directory Selector Dialogs</h2>
         <hr>
         <p>
-            Directory dialogs are used by calling <code class="inline-code" data-language="python">select_directory_dialog()</code> which
+            Directory dialogs are used by calling <i>select_directory_dialog</i> which
             must be given a return callback. The return callback's data argument will be filled out with the directory path & folder path as a list of strings.
             <br><br>
             Typically directory dialog are called by another widget such as a button so this is how it will be done in the example.
         </p>
         <pre><code data-language="python">from dearpygui.core import *
-
+from dearpygui.simple import *
 
 def directory_picker(sender, data):
     select_directory_dialog(callback=apply_selected_directory)
-
 
 def apply_selected_directory(sender, data):
     log_debug(data)  # so we can see what is inside of data
@@ -618,29 +612,30 @@ def apply_selected_directory(sender, data):
     set_value("folder", folder)
     set_value("folder_path", f"{directory}\\{folder}")
 
-
 show_logger()
-add_button("Directory Selector", callback=directory_picker)
-add_text("Directory Path: ")
-add_same_line()
-add_label_text("##dir", source="directory", color=[255, 0, 0])
-add_text("Folder: ")
-add_same_line()
-add_label_text("##folder", source="folder", color=[255, 0, 0])
-add_text("Folder Path: ")
-add_same_line()
-add_label_text("##folderpath", source="folder_path", color=[255, 0, 0])
+
+with window("Tutorial"):
+    add_button("Directory Selector", callback=directory_picker)
+    add_text("Directory Path: ")
+    add_same_line()
+    add_label_text("##dir", source="directory", color=[255, 0, 0])
+    add_text("Folder: ")
+    add_same_line()
+    add_label_text("##folder", source="folder", color=[255, 0, 0])
+    add_text("Folder Path: ")
+    add_same_line()
+    add_label_text("##folderpath", source="folder_path", color=[255, 0, 0])
 
 start_dearpygui()</code></pre>
         <p>
-            File dialogs are used by calling <code class="inline-code" data-language="python">open_file_dialog()</code> which
+            File dialogs are used by calling <i>open_file_dialog</i> which
             must be given a return callback. The return callback's data argument will be filled out with the directory path & file path as a list of strings.
             Extensions are an optional keyword to the file dialog that will give selections to filter the displayed files in the dialog based on their extensions.
             <br><br>
             Typically file dialog are called by another widget such as a button so this is how it will be done in the example.
         </p>
         <pre><code data-language="python">from dearpygui.core import *
-
+from dearpygui.simple import *
 
 def file_picker(sender, data):
     open_file_dialog(callback=apply_selected_file, extensions=".*,.py")
@@ -654,18 +649,19 @@ def apply_selected_file(sender, data):
     set_value("file", file)
     set_value("file_path", f"{directory}\\{file}")
 
-
 show_logger()
-add_button("Directory Selector", callback=file_picker)
-add_text("Directory Path: ")
-add_same_line()
-add_label_text("##filedir", source="directory", color=[255, 0, 0])
-add_text("File: ")
-add_same_line()
-add_label_text("##file", source="file", color=[255, 0, 0])
-add_text("File Path: ")
-add_same_line()
-add_label_text("##filepath", source="file_path", color=[255, 0, 0])
+
+with window("Tutorial"):
+    add_button("Directory Selector", callback=file_picker)
+    add_text("Directory Path: ")
+    add_same_line()
+    add_label_text("##filedir", source="directory", color=[255, 0, 0])
+    add_text("File: ")
+    add_same_line()
+    add_label_text("##file", source="file", color=[255, 0, 0])
+    add_text("File Path: ")
+    add_same_line()
+    add_label_text("##filepath", source="file_path", color=[255, 0, 0])
 
 start_dearpygui()</code></pre>
     </article>
@@ -679,13 +675,15 @@ start_dearpygui()</code></pre>
             line graphs or histograms and are demonstrated below.
         </p>
         <pre><code data-language="python">from dearpygui.core import *
+from dearpygui.simple import *
 
-add_simple_plot("Simpleplot1", value=[0.3, 0.9, 0.5, 0.3], height=300)
-add_simple_plot("Simpleplot2", value=[0.3, 0.9, 2.5, 8.9], overlay="Overlaying", height=180, histogram=True)
+with window("Tutorial"):
+    add_simple_plot("Simpleplot1", value=[0.3, 0.9, 0.5, 0.3], height=300)
+    add_simple_plot("Simpleplot2", value=[0.3, 0.9, 2.5, 8.9], overlay="Overlaying", height=180, histogram=True)
 
 start_dearpygui()</code></pre>
         <p> Plots have much more functionality that simple plots. Plots use both the x and y coordinates. Plots must be created using
-            <code class="inline-code" data-language="python">add_plot()</code> command and then the data can bee added as either a
+            <i>add_plot</i> command and then the data can bee added as either a
             line series or a scatter series.
             Features of plots are:
             <ul>
@@ -703,6 +701,7 @@ start_dearpygui()</code></pre>
             Additionally a text point can be used to place floating text on the plot.
         </p>
         <pre><code data-language="python">from dearpygui.core import *
+from dearpygui.simple import *
 from math import cos, sin
 
 def plot_callback(sender, data):
@@ -720,19 +719,18 @@ def plot_callback(sender, data):
     add_shade_series("Plot", "Cos", data1, weight=2, fill=[255, 0, 0, 100])
     add_scatter_series("Plot", "Sin", data2, color=[0, 255, 0, 100])
 
-
-add_button("Plot data", callback=plot_callback)
-add_plot("Plot", height=-1)
-
+with window("Tutorial"):
+    add_button("Plot data", callback=plot_callback)
+    add_plot("Plot", height=-1)
 
 start_dearpygui()</code></pre>
         <p>
             Simple plots can be made dynamic by changing the value of the plot call with
-            <code class="inline-code" data-language="python">set_value()</code>. This is shown below.
+            <i>set_value</i>. This is shown below.
         </p>
         <pre><code data-language="python">from dearpygui.core import *
+from dearpygui.simple import *
 from math import sin
-
 
 def on_render(sender, data):
     frame_count = get_data("frame_count")
@@ -744,20 +742,20 @@ def on_render(sender, data):
     plot_data.append(sin(frame_count/30))
     set_value("plot_data", plot_data)
 
-
-add_simple_plot("Simple Plot", source="plot_data", minscale=-1.0, maxscale=1.0, height=300)
-add_data("frame_count", 0)
-set_render_callback(on_render)
+with window("Tutorial"):
+    add_simple_plot("Simple Plot", source="plot_data", minscale=-1.0, maxscale=1.0, height=300)
+    add_data("frame_count", 0)
+    set_render_callback(on_render)
 
 start_dearpygui()</code></pre>
         <p>
             Plots also can be dynamic. Dynamic function can be applied as easy as clearing
             the plot and adding new data using a callback such as render or item's callback.
-            <code class="inline-code" data-language="python">set_value()</code>. This is shown below.
+            <i>set_value</i>. This is shown below.
         </p>
         <pre><code data-language="python">from dearpygui.core import *
+from dearpygui.simple import *
 from math import cos
-
 
 def plot_callback(sender, data):
     # keeping track of frames
@@ -777,11 +775,11 @@ def plot_callback(sender, data):
     clear_plot("Plot")
     add_line_series("Plot", "Cos", plot_data, weight=2)
 
-
-add_plot("Plot", height=-1)
-add_data("plot_data", [])
-add_data("frame_count", 0)
-set_render_callback(plot_callback)
+with window("Tutorial"):
+    add_plot("Plot", height=-1)
+    add_data("plot_data", [])
+    add_data("frame_count", 0)
+    set_render_callback(plot_callback)
 
 start_dearpygui()</code></pre>
     </article>
@@ -791,14 +789,16 @@ start_dearpygui()</code></pre>
         <p>
             Dear PyGui has a low level drawing API that is well suited for primitive drawing, custom widgets or even dynamic drawings.
             <br><br>
-            The drawing is started by calling <code class="inline-code" data-language="python">add_drawing()</code> then items can be added
+            The drawing is started by calling <i>add_drawing</i> then items can be added
             by calling their respective draw commands.
             The origin for the canvas is in the bottom left.
         </p>
             <pre><code data-language="python">from dearpygui.core import *
+from dearpygui.simple import *
 
+with window("Tutorial"):
+    add_drawing("Drawing_1", width=300, height=300)
 
-add_drawing("Drawing_1", width=300, height=300)
 draw_line("Drawing_1", [10, 10], [100, 100], [255, 0, 0, 255], 1)
 draw_text("Drawing_1", [16, 16], "Origin", color=[250, 250, 250, 255], size=15)
 draw_arrow("Drawing_1", [50, 70], [100, 65], [0, 200, 255], 1, 10)
@@ -811,8 +811,9 @@ start_dearpygui()</code></pre>
         <pre><code data-language="python">from dearpygui.core import *
 from dearpygui.simple import *
 
+with window("Tutorial"):
+    add_drawing("Drawing_1", width=300, height=300)
 
-add_drawing("Drawing_1", width=300, height=300)
 draw_line("Drawing_1", [10, 10], [100, 100], [255, 0, 0, 255], 1)
 draw_text("Drawing_1", [16, 16], "Origin", color=[250, 250, 250, 255], size=15)
 draw_arrow("Drawing_1", [50, 70], [100, 65], [0, 200, 255], 1, 10)
@@ -824,7 +825,7 @@ set_drawing_size("Drawing_1", 400, 500)   # simple
 start_dearpygui()</code></pre>
         <p>
             Drawings can display images of types ".png", ".jpg", or ".bmp".
-            Images are drawn using <code class="inline-code" data-language="python">draw_image()</code>
+            Images are drawn using <i>draw_image</i>
             <br><br>
             Using the keywords "pmin" and "pmax" we can define the upper left and lower right area of the rectangle that
             the image will be draw onto the canvas. The image will scale to fit the specified area.
@@ -836,9 +837,12 @@ start_dearpygui()</code></pre>
             To be able to demonstrate these features you must update the directory to that of an image on your computer.
         </p>
         <pre><code data-language="python">from dearpygui.core import *
+from dearpygui.simple import *
 
 # please update the image directory argument with a path to an image on your computer for this example
-add_drawing("Drawing_1", width=700, height=700)
+with window("Tutorial"):
+    add_drawing("Drawing_1", width=700, height=700)
+
 draw_image("Drawing_1", 'SpriteMapExample.png', [0, 700], pmax=[200, 500], uv_min=[0, 0], uv_max=[1, 1], tag="image")
 draw_image("Drawing_1", 'SpriteMapExample.png', [0, 600], pmax=[200, 300], uv_min=[0, 0], uv_max=[1, 1])
 draw_image("Drawing_1", 'SpriteMapExample.png', [0, 500], pmax=[200, 100], uv_min=[0, 0], uv_max=[1, 1])
@@ -854,7 +858,7 @@ start_dearpygui()</code></pre>
             using the same tag. This will delete only that one item and redraw it wit the new command.
         </p>
         <pre><code data-language="python">from dearpygui.core import *
-
+from dearpygui.simple import *
 
 def on_render(sender, data):
     counter = get_data("counter")
@@ -879,10 +883,12 @@ def on_render(sender, data):
     add_data("counter", counter)
     add_data("modifier", modifier)
 
-
 add_data("counter", 0)
 add_data("modifier", 2)
-add_drawing("Drawing_1", width=700, height=700)
+
+with window("Tutorial"):
+    add_drawing("Drawing_1", width=700, height=700)
+
 set_render_callback(on_render)
 
 start_dearpygui()</code></pre>
@@ -891,14 +897,14 @@ start_dearpygui()</code></pre>
         <h2>Delta Time and Internal Clock</h2>
         <hr>
         <p>
-            Dear PyGui has a built in clock for checking total run time <code class="inline-code" data-language="python">get_total_time()</code>
+            Dear PyGui has a built in clock for checking total run time <i>get_total_time</i>
             which returns total run time in seconds
             <br><br>
-            Also using the command <code class="inline-code" data-language="python">get_delta_time()</code>
+            Also using the command <i>get_delta_time()</i>
             we can check the time in between rendering frames in seconds.
         </p>
         <pre><code data-language="python">from dearpygui.core import *
-
+from dearpygui.simple import *
 
 def on_render(sender, data):
     delta_time = str(round(get_delta_time(), 4))
@@ -906,13 +912,13 @@ def on_render(sender, data):
     set_value("delta_time", delta_time)
     set_value("total_time", total_time)
 
-
-add_text("Total Time: ")
-add_same_line()
-add_label_text("##total_time_text", source="total_time")
-add_text("Delta Time: ")
-add_same_line()
-add_label_text("##delta_time_text", source="delta_time")
+with window("Tutorial"):
+    add_text("Total Time: ")
+    add_same_line()
+    add_label_text("##total_time_text", source="total_time")
+    add_text("Delta Time: ")
+    add_same_line()
+    add_label_text("##delta_time_text", source="delta_time")
 set_render_callback(callback=on_render)
 
 start_dearpygui()</code></pre>
@@ -921,17 +927,17 @@ start_dearpygui()</code></pre>
         <h2>Sprites</h2>
         <hr>
         <p>
-            Using the drawing with tags, <code class="inline-code" data-language="python">get_delta_time()</code> and a callback ran on rendering
+            Using the drawing with tags, <i>get_delta_time</i> and a callback ran on rendering
             we can create a sprite character. For this example we need to download the
             <a href="https://github.com/hoffstadt/DearPyGui/blob/master/Examples/SpriteMapExample.png">SpriteMapExample.png</a>
             from the examples folder on github and place it next to the python file in your working directory.
             <br><br>
-            The drawing is started by calling <code class="inline-code" data-language="python">add_drawing()</code> then items can be added
+            The drawing is started by calling <i>add_drawing</i> then items can be added
             by calling their respective draw commands.
             The origin for the canvas is in the bottom left.
         </p>
         <pre><code data-language="python">from dearpygui.core import *
-
+from dearpygui.simple import *
 
 def on_render(sender, data):
     delta_draw_time = get_data("delta_draw_time")
@@ -961,16 +967,18 @@ def on_render(sender, data):
         add_data("delta_draw_time", delta_draw_time + get_delta_time())
 
 set_main_window_size(650, 800)
-add_drawing("Drawing_1", width=500, height=500)
-top_left = [250, 250]
-bottom_right = [300, 300]
-draw_image("Drawing_1", 'SpriteMapExample.png', top_left, pmax=bottom_right, uv_min=[.7687, 0], uv_max=[1, .10], tag="sprite")
-add_text("Fly Mode:")
-add_radio_button("Fly Mode", items=["Disable", "Enable"], default_value=0)
-add_slider_float("Draw Pause", default_value=0.1, min_value=0.0, max_value=0.5, tip="slows down draws by waiting until the elapsed time", format="%.4f")
-set_render_callback(on_render)
-add_data("delta_draw_time", 0.0)
-add_data("sprite1", True)
+
+with window("Tutorial"):
+    add_drawing("Drawing_1", width=500, height=500)
+    top_left = [250, 250]
+    bottom_right = [300, 300]
+    draw_image("Drawing_1", 'SpriteMapExample.png', top_left, pmax=bottom_right, uv_min=[.7687, 0], uv_max=[1, .10], tag="sprite")
+    add_text("Fly Mode:")
+    add_radio_button("Fly Mode", items=["Disable", "Enable"], default_value=0)
+    add_slider_float("Draw Pause", default_value=0.1, min_value=0.0, max_value=0.5, tip="slows down draws by waiting until the elapsed time", format="%.4f")
+    set_render_callback(on_render)
+    add_data("delta_draw_time", 0.0)
+    add_data("sprite1", True)
 
 start_dearpygui()</code></pre>
     </article>
@@ -980,28 +988,30 @@ start_dearpygui()</code></pre>
         <p>
             Dear PyGui has a simple table API that is well suited for static and dynamic tables.
             <br><br>
-            The table widget is started by calling <code class="inline-code" data-language="python">add_table()</code>.
+            The table widget is started by calling <i>add_table()</i>.
             <br><br>
-            To edit the table widget we can use the methods <code class="inline-code" data-language="python">add_row()</code>
-            <code class="inline-code" data-language="python">add_column()</code> which will append the row/column to the
+            To edit the table widget we can use the methods <i>add_row()</i>
+            <i>add_column()</i> which will append the row/column to the
             last slot in the table.
             <br><br>
             Alternatively, we can insert rows/columns using
-            <code class="inline-code" data-language="python">insert_row()</code>
-            <code class="inline-code" data-language="python">insert_column()</code>.
+            <i>insert_row</i>
+            <i>insert_column</i>.
             Columns and Rows are inserted according to their index argument. If the specified index already exists the exiting columns/rows
             will be bumped and the new row/column will be inserted at the specified index.
             <br><br>
             Also an added or inserted row/column will by default fill unspecified cells with empty cells.
         </p>
         <pre><code data-language="python">from dearpygui.core import *
+from dearpygui.simple import *
 
-add_table("Table Example", ["Header 0", "Header 1"])
-add_row("Table Example", ["row 0", "text"])
-add_row("Table Example", ["row 2", "text"])
-add_column("Table Example", "Header 3", ["data","data"])
-insert_row("Table Example", 1, ["row 1", "inserted row", "inserted row"])
-insert_column("Table Example", 2, "Header 2", ["inserted with column", "inserted column", "inserted column"])
+with window("Tutorial"):
+    add_table("Table Example", ["Header 0", "Header 1"])
+    add_row("Table Example", ["row 0", "text"])
+    add_row("Table Example", ["row 2", "text"])
+    add_column("Table Example", "Header 3", ["data","data"])
+    insert_row("Table Example", 1, ["row 1", "inserted row", "inserted row"])
+    insert_column("Table Example", 2, "Header 2", ["inserted with column", "inserted column", "inserted column"])
 
 start_dearpygui()</code></pre>
         <p>
@@ -1020,14 +1030,16 @@ def modify_tables(sender, data):
 
 
 show_logger()
-add_spacing(count=5)
-add_button("Modify Selected Table Values", callback=modify_tables)
-add_spacing(count=5)
-add_table("Table Example", ["Header 0", "Header 1"])
-add_row("Table Example", ["awesome row", "text"])
-add_row("Table Example", ["super unique", "unique text"])
-add_column("Table Example", "Header 2", ["text from column", "text from column"])
-add_row("Table Example", ["boring row"])
+
+with window("Tutorial"):
+    add_spacing(count=5)
+    add_button("Modify Selected Table Values", callback=modify_tables)
+    add_spacing(count=5)
+    add_table("Table Example", ["Header 0", "Header 1"])
+    add_row("Table Example", ["awesome row", "text"])
+    add_row("Table Example", ["super unique", "unique text"])
+    add_column("Table Example", "Header 2", ["text from column", "text from column"])
+    add_row("Table Example", ["boring row"])
 
 start_dearpygui()</code></pre>
         <p>
@@ -1035,7 +1047,7 @@ start_dearpygui()</code></pre>
             and even get the text inside the cell.
         </p>
         <pre><code data-language="python">from dearpygui.core import *
-
+from dearpygui.simple import *
 
 def table_printer(sender, data):
     log_debug(f"Table Called: {sender}")
@@ -1048,11 +1060,13 @@ def table_printer(sender, data):
 
 
 show_logger()
-add_table("Table Example", ["Header 0", "Header 1"], callback=table_printer)
-add_row("Table Example", ["awesome row", "text"])
-add_row("Table Example", ["super unique", "unique text"])
-add_column("Table Example", "Header 3", ["text from column", "text from column"])
-add_row("Table Example", ["boring row"])
+
+with window("Tutorial"):
+    add_table("Table Example", ["Header 0", "Header 1"], callback=table_printer)
+    add_row("Table Example", ["awesome row", "text"])
+    add_row("Table Example", ["super unique", "unique text"])
+    add_column("Table Example", "Header 3", ["text from column", "text from column"])
+    add_row("Table Example", ["boring row"])
 
 start_dearpygui()</code></pre>
     </article>
@@ -1092,7 +1106,7 @@ start_dearpygui()</code></pre>
         It is possible to combine as many polls as necessary to achieve desired functionality.
         </p>
         <pre><code data-language="python">from dearpygui.core import *
-
+from dearpygui.simple import *
 
 def main_callback(sender, data):
     set_value("Mouse Position", str(get_mouse_pos()))
@@ -1132,16 +1146,16 @@ def main_callback(sender, data):
     else:
         set_value("Shift + Left Mouse Clicked", "False")
 
-
-add_label_text("A key Down", value="False", color=[0, 200, 255])
-add_label_text("A key Pressed", value="False", color=[0, 200, 255])
-add_label_text("A key Released", value="False", color=[0, 200, 255])
-add_spacing()
-add_label_text("Mouse Position", value="(0,0)", color=[0, 200, 255])
-add_label_text("Left Mouse Clicked", value="False", color=[0, 200, 255])
-add_label_text("Left Mouse Dragging", value="False", color=[0, 200, 255])
-add_label_text("Left Mouse Double Clicked", value="False", color=[0, 200, 255])
-add_label_text("Shift + Left Mouse Clicked", value="False", color=[0, 200, 255])
+with window("Tutorial"):
+    add_label_text("A key Down", value="False", color=[0, 200, 255])
+    add_label_text("A key Pressed", value="False", color=[0, 200, 255])
+    add_label_text("A key Released", value="False", color=[0, 200, 255])
+    add_spacing()
+    add_label_text("Mouse Position", value="(0,0)", color=[0, 200, 255])
+    add_label_text("Left Mouse Clicked", value="False", color=[0, 200, 255])
+    add_label_text("Left Mouse Dragging", value="False", color=[0, 200, 255])
+    add_label_text("Left Mouse Double Clicked", value="False", color=[0, 200, 255])
+    add_label_text("Shift + Left Mouse Clicked", value="False", color=[0, 200, 255])
 
 set_render_callback(main_callback)
 
@@ -1152,74 +1166,72 @@ start_dearpygui()</code></pre>
         <hr>
         <p>
             For calculations and callbacks that require extended time it can be useful to implement asynchronous functions or functions ran on separate threads.
-            To do this simply call <code class="inline-code" data-language="python">run_async_function()</code>.
+            To do this simply call <i>run_async_function</i>.
             <br><br>
             It is important to note that functions ran with the async command cannot call any other Dear PyGui API calls.
         </p>
         <pre><code data-language="python">from dearpygui.core import *
+from dearpygui.simple import *
 from time import sleep
-
 
 def long_async_callback(data, sender):
     run_async_function(long_callback, None)
 
-
 def long_callback(sender, data):
     sleep(3)
 
-
 show_logger()
 show_metrics()
-add_button("long function", callback=long_callback, tip="this will cause a 3 second freeze")
-add_button("long Asynchronous Function", callback=long_async_callback, tip="this will not a freeze")
+
+with window("Tutorial"):
+    add_button("long function", callback=long_callback, tip="this will cause a 3 second freeze")
+    add_button("long Asynchronous Function", callback=long_async_callback, tip="this will not a freeze")
 
 start_dearpygui()</code></pre>
         <p>
-            Asynchronous functions cannot access <code class="inline-code" data-language="python">add_data()</code>
-            or <code class="inline-code" data-language="python">get_data()</code>. So when it is necessary to pass data to the asynchronous
+            Asynchronous functions cannot access <i>add_data</i>
+            or <i>get_data</i>. So when it is necessary to pass data to the asynchronous
             function you must use the data and return handler keyworded arguments.
             Any python object can be made accessible the the async function by being sent into the function through the "data" keyword.
             Additionally, any returned data from the Async function will be accessible through the "data" input of the specified return callback.
         </p>
         <pre><code data-language="python">from dearpygui.core import *
+from dearpygui.simple import *
 from time import sleep
-
 
 def long_async_preparer(data, sender):
     floaty = get_value("Async Input Data")
     run_async_function(long_callback, floaty, return_handler=long_async_return)
 
-
 def long_callback(sender, data):
     sleep(3)
     return data * 2
 
-
 def long_async_return(sender, data):
     log_debug(data)
-
 
 def long_callback2(sender, data):
     sleep(3)
     log_debug(data * 2)
 
 show_logger()
-add_text(
-    "input a number and see the logger window for the output of the long callback that would normally freeze the GUI")
-add_input_float("Async Input Data", default_value=1.0)
-add_button("long Function", callback=long_callback2, callback_data=get_value("Async Input Data"), tip="This is the long callback that will freeze the gui")
-add_button("long Asynchronous Function", callback=long_async_preparer, tip="this will not a freeze the GUI")
+
+with window("Tutorial"):
+    add_text("input a number and see the logger window for the output of the long callback that would normally freeze the GUI")
+    add_input_float("Async Input Data", default_value=1.0)
+    add_button("long Function", callback=long_callback2, callback_data=get_value("Async Input Data"), tip="This is the long callback that will freeze the gui")
+    add_button("long Asynchronous Function", callback=long_async_preparer, tip="this will not a freeze the GUI")
 
 start_dearpygui()</code></pre>
         <p>
             When the asynchronous function method is called a thread pool is created. The aspects of the threadpool that
             can be configured are the number of threads and the timeout time.
             <br><br>
-            using <code class="inline-code" data-language="python">set_thread_count()</code> we can set the number of threads in the thread pool.
-            Also we can use <code class="inline-code" data-language="python">set_threadpool_high_performance()</code> to tell the thread pool to
+            using <i>set_thread_count</i> we can set the number of threads in the thread pool.
+            Also we can use <i>set_threadpool_high_performance</i> to tell the thread pool to
             max out the number of threads per the users computer. Be aware that this will run the CPU at 100% when calling async functions.
             <br><br>
-            Setting the timeout time for the threadpool can be done using <code class="inline-code" data-language="python">set_threadpool_timeout()</code>.
+            Setting the timeout time for the threadpool can be done using <i>set_threadpool_timeout</i>.
             This will destroy the threadpool and free the resources after the set amount of time.
         </p>
     </article>
@@ -1227,7 +1239,7 @@ start_dearpygui()</code></pre>
         <h2>Themes and Styles</h2>
         <hr>
         <p>
-            For a much more complete example please see the <code class="inline-code" data-language="python">show_demo()</code>
+            For a much more complete example please see the <i>show_demo</i>
             <br><br>
             Themes and widget styling can be applied to a single widget or the app as a whole.
             Some examples of attributes of the style that can be set are:
@@ -1239,23 +1251,23 @@ start_dearpygui()</code></pre>
             Please see the example below:
         </p>
         <pre><code data-language="python">from dearpygui.core import *
-
+from dearpygui.simple import *
 
 def apply_text_multiplier(sender, data):
     font_multiplier = get_value("Font Size Multiplier")
     set_global_font_scale(font_multiplier)
 
-
 def apply_theme(sender, data):
     theme = get_value("Themes")
     set_theme(theme)
 
-
 themes = ["Dark", "Light", "Classic", "Dark 2", "Grey", "Dark Grey", "Cherry", "Purple", "Gold", "Red"]
-add_combo("Themes", items=themes, default_value="Dark", callback=apply_theme)
 
-add_slider_float("Font Size Multiplier", default_value=1.0, min_value=0.0, max_value=2.0,
-                 callback=apply_text_multiplier)
+with window("Tutorial"):
+    add_combo("Themes", items=themes, default_value="Dark", callback=apply_theme)
+
+    add_slider_float("Font Size Multiplier", default_value=1.0, min_value=0.0, max_value=2.0,
+                     callback=apply_text_multiplier)
 
 start_dearpygui()</code></pre>
     </article>
