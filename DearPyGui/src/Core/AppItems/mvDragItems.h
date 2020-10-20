@@ -53,9 +53,7 @@ namespace Marvel {
 				ImGui::PushStyleColor(ImGuiCol_FrameBgActive, disabled_color);
 				ImGui::PushStyleColor(ImGuiCol_Button, disabled_color);
 				m_disabled_value = *m_value;
-				m_flags |= ImGuiSliderFlags_NoInput;
 			}
-			else m_flags &= ~ImGuiSliderFlags_NoInput;
 
 
 			if (ImGui::DragFloat(m_label.c_str(), m_enabled ? m_value : &m_disabled_value, m_speed, m_min, m_max, m_format.c_str(), m_flags))
@@ -87,7 +85,8 @@ namespace Marvel {
 			};
 
 			// flags
-			flagop("on_enter", ImGuiInputTextFlags_EnterReturnsTrue, m_flags);
+			flagop("clamped", ImGuiSliderFlags_ClampOnInput, m_flags);
+			flagop("no_input", ImGuiSliderFlags_NoInput, m_flags);
 
 		}
 
@@ -108,7 +107,8 @@ namespace Marvel {
 			};
 
 			// window flags
-			checkbitset("on_enter", ImGuiInputTextFlags_EnterReturnsTrue, m_flags);
+			checkbitset("clamped", ImGuiSliderFlags_ClampOnInput, m_flags);
+			checkbitset("no_input", ImGuiSliderFlags_NoInput, m_flags);
 
 		}
 
@@ -118,7 +118,7 @@ namespace Marvel {
 		float               m_min = 0.0f;
 		float               m_max = 100.0f;
 		std::string         m_format = "%.3f";
-		ImGuiInputTextFlags m_flags = 0;
+		ImGuiInputTextFlags m_flags = ImGuiSliderFlags_None;
 
 	};
 
@@ -152,9 +152,7 @@ namespace Marvel {
 				ImGui::PushStyleColor(ImGuiCol_FrameBgActive, disabled_color);
 				ImGui::PushStyleColor(ImGuiCol_Button, disabled_color);
 				std::copy(m_value, m_value + 2, m_disabled_value);
-				m_flags |= ImGuiSliderFlags_NoInput;
 			}
-			else m_flags &= ~ImGuiSliderFlags_NoInput;
 
 			if (ImGui::DragFloat2(m_label.c_str(), m_enabled ? m_value : &m_disabled_value[0], m_speed, m_min, m_max, m_format.c_str(), m_flags))
 				mvApp::GetApp()->runCallback(getCallback(false), m_name, m_callbackData);
@@ -185,7 +183,8 @@ namespace Marvel {
 			};
 
 			// flags
-			flagop("on_enter", ImGuiInputTextFlags_EnterReturnsTrue, m_flags);
+			flagop("clamped", ImGuiSliderFlags_ClampOnInput, m_flags);
+			flagop("no_input", ImGuiSliderFlags_NoInput, m_flags);
 
 		}
 
@@ -206,7 +205,8 @@ namespace Marvel {
 			};
 
 			// window flags
-			checkbitset("on_enter", ImGuiInputTextFlags_EnterReturnsTrue, m_flags);
+			checkbitset("clamped", ImGuiSliderFlags_ClampOnInput, m_flags);
+			checkbitset("no_input", ImGuiSliderFlags_NoInput, m_flags);
 
 		}
 
@@ -216,7 +216,7 @@ namespace Marvel {
 		float               m_min = 0.0f;
 		float               m_max = 100.0f;
 		std::string         m_format = "%.3f";
-		ImGuiInputTextFlags m_flags = 0;
+		ImGuiInputTextFlags m_flags = ImGuiSliderFlags_None;
 
 	};
 
@@ -250,9 +250,7 @@ namespace Marvel {
 				ImGui::PushStyleColor(ImGuiCol_FrameBgActive, disabled_color);
 				ImGui::PushStyleColor(ImGuiCol_Button, disabled_color);
 				std::copy(m_value, m_value + 3, m_disabled_value);
-				m_flags |= ImGuiSliderFlags_NoInput;
 			}
-			else m_flags &= ~ImGuiSliderFlags_NoInput;
 
 			if (ImGui::DragFloat3(m_label.c_str(), m_enabled ? m_value : &m_disabled_value[0], m_speed, m_min, m_max, m_format.c_str(), m_flags))
 				mvApp::GetApp()->runCallback(getCallback(false), m_name, m_callbackData);
@@ -283,7 +281,8 @@ namespace Marvel {
 			};
 
 			// flags
-			flagop("on_enter", ImGuiInputTextFlags_EnterReturnsTrue, m_flags);
+			flagop("clamped", ImGuiSliderFlags_ClampOnInput, m_flags);
+			flagop("no_input", ImGuiSliderFlags_NoInput, m_flags);
 
 		}
 
@@ -304,7 +303,8 @@ namespace Marvel {
 			};
 
 			// window flags
-			checkbitset("on_enter", ImGuiInputTextFlags_EnterReturnsTrue, m_flags);
+			checkbitset("clamped", ImGuiSliderFlags_ClampOnInput, m_flags);
+			checkbitset("no_input", ImGuiSliderFlags_NoInput, m_flags);
 
 		}
 
@@ -314,7 +314,7 @@ namespace Marvel {
 		float               m_min = 0.0f;
 		float               m_max = 100.0f;
 		std::string         m_format = "%.3f";
-		ImGuiInputTextFlags m_flags = 0;
+		ImGuiInputTextFlags m_flags = ImGuiSliderFlags_None;
 
 	};
 
@@ -348,9 +348,7 @@ namespace Marvel {
 				ImGui::PushStyleColor(ImGuiCol_FrameBgActive, disabled_color);
 				ImGui::PushStyleColor(ImGuiCol_Button, disabled_color);
 				std::copy(m_value, m_value + 4, m_disabled_value);
-				m_flags |= ImGuiSliderFlags_NoInput;
 			}
-			else m_flags &= ~ImGuiSliderFlags_NoInput;
 
 			if (ImGui::DragFloat4(m_label.c_str(), m_enabled ? m_value : &m_disabled_value[0], m_speed, m_min, m_max, m_format.c_str(), m_flags))
 				mvApp::GetApp()->runCallback(getCallback(false), m_name, m_callbackData);
@@ -381,7 +379,8 @@ namespace Marvel {
 			};
 
 			// flags
-			flagop("on_enter", ImGuiInputTextFlags_EnterReturnsTrue, m_flags);
+			flagop("clamped", ImGuiSliderFlags_ClampOnInput, m_flags);
+			flagop("no_input", ImGuiSliderFlags_NoInput, m_flags);
 
 		}
 
@@ -402,7 +401,8 @@ namespace Marvel {
 			};
 
 			// window flags
-			checkbitset("on_enter", ImGuiInputTextFlags_EnterReturnsTrue, m_flags);
+			checkbitset("clamped", ImGuiSliderFlags_ClampOnInput, m_flags);
+			checkbitset("no_input", ImGuiSliderFlags_NoInput, m_flags);
 
 		}
 
@@ -412,7 +412,7 @@ namespace Marvel {
 		float               m_min = 0.0f;
 		float               m_max = 100.0f;
 		std::string         m_format = "%.3f";
-		ImGuiInputTextFlags m_flags = 0;
+		ImGuiInputTextFlags m_flags = ImGuiSliderFlags_None;
 
 	};
 
@@ -447,9 +447,7 @@ namespace Marvel {
 				ImGui::PushStyleColor(ImGuiCol_FrameBgActive, disabled_color);
 				ImGui::PushStyleColor(ImGuiCol_Button, disabled_color);
 				m_disabled_value = *m_value;
-				m_flags |= ImGuiSliderFlags_NoInput;
 			}
-			else m_flags &= ~ImGuiSliderFlags_NoInput;
 
 			if (ImGui::DragInt(m_label.c_str(), m_enabled ? m_value : &m_disabled_value, m_speed, m_min, m_max, m_format.c_str(), m_flags))
 				mvApp::GetApp()->runCallback(getCallback(false), m_name, m_callbackData);
@@ -480,8 +478,8 @@ namespace Marvel {
 			};
 
 			// flags
-			flagop("on_enter", ImGuiInputTextFlags_EnterReturnsTrue, m_flags);
-
+			flagop("clamped", ImGuiSliderFlags_ClampOnInput, m_flags);
+			flagop("no_input", ImGuiSliderFlags_NoInput, m_flags);
 		}
 
 		void getExtraConfigDict(PyObject* dict) override
@@ -501,7 +499,8 @@ namespace Marvel {
 			};
 
 			// window flags
-			checkbitset("on_enter", ImGuiInputTextFlags_EnterReturnsTrue, m_flags);
+			checkbitset("clamped", ImGuiSliderFlags_ClampOnInput, m_flags);
+			checkbitset("no_input", ImGuiSliderFlags_NoInput, m_flags);
 
 		}
 
@@ -511,7 +510,7 @@ namespace Marvel {
 		int                 m_min = 0;
 		int                 m_max = 100;
 		std::string         m_format = "%d";
-		ImGuiInputTextFlags m_flags = 0;
+		ImGuiInputTextFlags m_flags = ImGuiSliderFlags_None;
 
 	};
 
@@ -546,9 +545,7 @@ namespace Marvel {
 				ImGui::PushStyleColor(ImGuiCol_FrameBgActive, disabled_color);
 				ImGui::PushStyleColor(ImGuiCol_Button, disabled_color);
 				std::copy(m_value, m_value + 2, m_disabled_value);
-				m_flags |= ImGuiSliderFlags_NoInput;
 			}
-			else m_flags &= ~ImGuiSliderFlags_NoInput;
 
 			if (ImGui::DragInt2(m_label.c_str(), m_enabled ? m_value : &m_disabled_value[0], m_speed, m_min, m_max, m_format.c_str(), m_flags))
 				mvApp::GetApp()->runCallback(getCallback(false), m_name, m_callbackData);
@@ -579,7 +576,8 @@ namespace Marvel {
 			};
 
 			// flags
-			flagop("on_enter", ImGuiInputTextFlags_EnterReturnsTrue, m_flags);
+			flagop("clamped", ImGuiSliderFlags_ClampOnInput, m_flags);
+			flagop("no_input", ImGuiSliderFlags_NoInput, m_flags);
 
 		}
 
@@ -600,7 +598,8 @@ namespace Marvel {
 			};
 
 			// window flags
-			checkbitset("on_enter", ImGuiInputTextFlags_EnterReturnsTrue, m_flags);
+			checkbitset("clamped", ImGuiSliderFlags_ClampOnInput, m_flags);
+			checkbitset("no_input", ImGuiSliderFlags_NoInput, m_flags);
 
 		}
 
@@ -610,7 +609,7 @@ namespace Marvel {
 		int                 m_min = 0;
 		int                 m_max = 100;
 		std::string         m_format = "%d";
-		ImGuiInputTextFlags m_flags = 0;
+		ImGuiInputTextFlags m_flags = ImGuiSliderFlags_None;
 
 	};
 
@@ -645,9 +644,7 @@ namespace Marvel {
 				ImGui::PushStyleColor(ImGuiCol_FrameBgActive, disabled_color);
 				ImGui::PushStyleColor(ImGuiCol_Button, disabled_color);
 				std::copy(m_value, m_value + 2, m_disabled_value);
-				m_flags |= ImGuiSliderFlags_NoInput;
 			}
-			else m_flags &= ~ImGuiSliderFlags_NoInput;
 
 			if (ImGui::DragInt3(m_label.c_str(), m_enabled ? m_value : &m_disabled_value[0], m_speed, m_min, m_max, m_format.c_str(), m_flags))
 				mvApp::GetApp()->runCallback(getCallback(false), m_name, m_callbackData);
@@ -678,7 +675,8 @@ namespace Marvel {
 			};
 
 			// flags
-			flagop("on_enter", ImGuiInputTextFlags_EnterReturnsTrue, m_flags);
+			flagop("clamped", ImGuiSliderFlags_ClampOnInput, m_flags);
+			flagop("no_input", ImGuiSliderFlags_NoInput, m_flags);
 
 		}
 
@@ -699,7 +697,8 @@ namespace Marvel {
 			};
 
 			// window flags
-			checkbitset("on_enter", ImGuiInputTextFlags_EnterReturnsTrue, m_flags);
+			checkbitset("clamped", ImGuiSliderFlags_ClampOnInput, m_flags);
+			checkbitset("no_input", ImGuiSliderFlags_NoInput, m_flags);
 
 		}
 
@@ -709,7 +708,7 @@ namespace Marvel {
 		int                 m_min = 0;
 		int                 m_max = 100;
 		std::string         m_format = "%d";
-		ImGuiInputTextFlags m_flags = 0;
+		ImGuiInputTextFlags m_flags = ImGuiSliderFlags_None;
 
 	};
 
@@ -744,9 +743,7 @@ namespace Marvel {
 				ImGui::PushStyleColor(ImGuiCol_FrameBgActive, disabled_color);
 				ImGui::PushStyleColor(ImGuiCol_Button, disabled_color);
 				std::copy(m_value, m_value + 4, m_disabled_value);
-				m_flags |= ImGuiSliderFlags_NoInput;
 			}
-			else m_flags &= ~ImGuiSliderFlags_NoInput;
 
 			if (ImGui::DragInt4(m_label.c_str(), m_enabled ? m_value : &m_disabled_value[0], m_speed, m_min, m_max, m_format.c_str(), m_flags))
 				mvApp::GetApp()->runCallback(getCallback(false), m_name, m_callbackData);
@@ -777,7 +774,8 @@ namespace Marvel {
 			};
 
 			// flags
-			flagop("on_enter", ImGuiInputTextFlags_EnterReturnsTrue, m_flags);
+			flagop("clamped", ImGuiSliderFlags_ClampOnInput, m_flags);
+			flagop("no_input", ImGuiSliderFlags_NoInput, m_flags);
 
 		}
 
@@ -798,7 +796,8 @@ namespace Marvel {
 			};
 
 			// window flags
-			checkbitset("on_enter", ImGuiInputTextFlags_EnterReturnsTrue, m_flags);
+			checkbitset("clamped", ImGuiSliderFlags_ClampOnInput, m_flags);
+			checkbitset("no_input", ImGuiSliderFlags_NoInput, m_flags);
 
 		}
 
@@ -808,7 +807,7 @@ namespace Marvel {
 		int                 m_min = 0;
 		int                 m_max = 100;
 		std::string         m_format = "%d";
-		ImGuiInputTextFlags m_flags = 0;
+		ImGuiInputTextFlags m_flags = ImGuiSliderFlags_None;
 
 	};
 
