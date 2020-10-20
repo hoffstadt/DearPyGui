@@ -88,8 +88,8 @@ Changes:
 - show_documentation: Moved to simple module
 - show_style_editor:  Moved to simple module
 - show_about:         Moved to simple module
-- add_slider_***:	  Removed "clamped" keyword
-- add_drag_***:	  Removed "clamped" keyword
+- add_slider_***:	  Removed "on_enter" keyword
+- add_drag_***:		  Removed "on_enter" keyword
 
 Backend Maintance:
 - AppItem:			  App item now controls the enabled member
