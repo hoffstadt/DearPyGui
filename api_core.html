@@ -33,6 +33,89 @@
 <section>
 <h2 class="section-title" id="header-functions">Functions</h2>
 <dl>
+<dt id="dearpygui.core.add_about_window"><code class="name flex">
+<span>def <span class="ident">add_about_window</span></span>(<span>...)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Creates an about window.</p>
+<p>Return Type: None</p>
+<p>Parameters</p>
+<hr>
+<ul>
+<li>
+<p>name : str</p>
+</li>
+<li>
+<p>Keyword Only Arguments</p>
+</li>
+</ul>
+<hr>
+<ul>
+<li>
+<p>width : int = -1</p>
+</li>
+<li>
+<p>height : int = -1</p>
+</li>
+<li>
+<p>x_pos : int = 200
+x position the window will start at</p>
+</li>
+<li>
+<p>y_pos : int = 200
+y position the window will start at</p>
+</li>
+<li>
+<p>autosize : bool = False
+Autosized the window to fit it's items.</p>
+</li>
+<li>
+<p>no_resize : bool = False
+Allows for the window size to be changed or fixed</p>
+</li>
+<li>
+<p>no_title_bar : bool = False
+Title name for the title bar of the window</p>
+</li>
+<li>
+<p>no_move : bool = False
+Allows for the window's position to be changed or fixed</p>
+</li>
+<li>
+<p>no_scrollbar : bool = False
+Disable scrollbars (window can still scroll with mouse or programmatically)</p>
+</li>
+<li>
+<p>no_collapse : bool = False
+Disable user collapsing window by double-clicking on it</p>
+</li>
+<li>
+<p>horizontal_scrollbar : bool = False
+Allow horizontal scrollbar to appear (off by default).</p>
+</li>
+<li>
+<p>no_focus_on_appearing : bool = False
+Disable taking focus when transitioning from hidden to visible state</p>
+</li>
+<li>
+<p>no_bring_to_front_on_focus : bool = False
+Disable bringing window to front when taking focus (e.g. clicking on it or programmatically giving it focus)</p>
+</li>
+<li>
+<p>no_close : bool = False</p>
+</li>
+<li>
+<p>no_background : bool = False</p>
+</li>
+<li>
+<p>label : str = ''</p>
+</li>
+<li>
+<p>show : bool = True
+Attempt to render</p>
+</li>
+</ul></div>
+</dd>
 <dt id="dearpygui.core.add_additional_font"><code class="name flex">
 <span>def <span class="ident">add_additional_font</span></span>(<span>...)</span>
 </code></dt>
@@ -264,6 +347,23 @@ Attempt to render</p>
 </li>
 </ul></div>
 </dd>
+<dt id="dearpygui.core.add_character_remap"><code class="name flex">
+<span>def <span class="ident">add_character_remap</span></span>(<span>...)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Remaps characters.</p>
+<p>Return Type: None</p>
+<p>Parameters</p>
+<hr>
+<ul>
+<li>
+<p>destination : int</p>
+</li>
+<li>
+<p>source : int</p>
+</li>
+</ul></div>
+</dd>
 <dt id="dearpygui.core.add_checkbox"><code class="name flex">
 <span>def <span class="ident">add_checkbox</span></span>(<span>...)</span>
 </code></dt>
@@ -317,6 +417,9 @@ This item will be displayed before the specified item in the parent. (runtime ad
 <li>
 <p>show : bool = True
 Attempt to render</p>
+</li>
+<li>
+<p>enabled : bool = True</p>
 </li>
 </ul></div>
 </dd>
@@ -1159,6 +1262,10 @@ This item will be displayed before the specified item in the parent. (runtime ad
 <p>source : str = ''</p>
 </li>
 <li>
+<p>enabled : bool = True
+Display grayed out text so selectable cannot be selected</p>
+</li>
+<li>
 <p>width : int = 0</p>
 </li>
 <li>
@@ -1270,6 +1377,172 @@ Attempt to render</p>
 </li>
 </ul></div>
 </dd>
+<dt id="dearpygui.core.add_debug_window"><code class="name flex">
+<span>def <span class="ident">add_debug_window</span></span>(<span>...)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Creates a debug window.</p>
+<p>Return Type: None</p>
+<p>Parameters</p>
+<hr>
+<ul>
+<li>
+<p>name : str</p>
+</li>
+<li>
+<p>Keyword Only Arguments</p>
+</li>
+</ul>
+<hr>
+<ul>
+<li>
+<p>width : int = 700</p>
+</li>
+<li>
+<p>height : int = 500</p>
+</li>
+<li>
+<p>x_pos : int = 200
+x position the window will start at</p>
+</li>
+<li>
+<p>y_pos : int = 200
+y position the window will start at</p>
+</li>
+<li>
+<p>autosize : bool = False
+Autosized the window to fit it's items.</p>
+</li>
+<li>
+<p>no_resize : bool = False
+Allows for the window size to be changed or fixed</p>
+</li>
+<li>
+<p>no_title_bar : bool = False
+Title name for the title bar of the window</p>
+</li>
+<li>
+<p>no_move : bool = False
+Allows for the window's position to be changed or fixed</p>
+</li>
+<li>
+<p>no_scrollbar : bool = False
+Disable scrollbars (window can still scroll with mouse or programmatically)</p>
+</li>
+<li>
+<p>no_collapse : bool = False
+Disable user collapsing window by double-clicking on it</p>
+</li>
+<li>
+<p>horizontal_scrollbar : bool = False
+Allow horizontal scrollbar to appear (off by default).</p>
+</li>
+<li>
+<p>no_focus_on_appearing : bool = False
+Disable taking focus when transitioning from hidden to visible state</p>
+</li>
+<li>
+<p>no_bring_to_front_on_focus : bool = False
+Disable bringing window to front when taking focus (e.g. clicking on it or programmatically giving it focus)</p>
+</li>
+<li>
+<p>no_close : bool = False</p>
+</li>
+<li>
+<p>no_background : bool = False</p>
+</li>
+<li>
+<p>label : str = ''</p>
+</li>
+<li>
+<p>show : bool = True
+Attempt to render</p>
+</li>
+</ul></div>
+</dd>
+<dt id="dearpygui.core.add_doc_window"><code class="name flex">
+<span>def <span class="ident">add_doc_window</span></span>(<span>...)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Creates a documentation window.</p>
+<p>Return Type: None</p>
+<p>Parameters</p>
+<hr>
+<ul>
+<li>
+<p>name : str</p>
+</li>
+<li>
+<p>Keyword Only Arguments</p>
+</li>
+</ul>
+<hr>
+<ul>
+<li>
+<p>width : int = -1</p>
+</li>
+<li>
+<p>height : int = -1</p>
+</li>
+<li>
+<p>x_pos : int = 200
+x position the window will start at</p>
+</li>
+<li>
+<p>y_pos : int = 200
+y position the window will start at</p>
+</li>
+<li>
+<p>autosize : bool = True
+Autosized the window to fit it's items.</p>
+</li>
+<li>
+<p>no_resize : bool = False
+Allows for the window size to be changed or fixed</p>
+</li>
+<li>
+<p>no_title_bar : bool = False
+Title name for the title bar of the window</p>
+</li>
+<li>
+<p>no_move : bool = False
+Allows for the window's position to be changed or fixed</p>
+</li>
+<li>
+<p>no_scrollbar : bool = False
+Disable scrollbars (window can still scroll with mouse or programmatically)</p>
+</li>
+<li>
+<p>no_collapse : bool = False
+Disable user collapsing window by double-clicking on it</p>
+</li>
+<li>
+<p>horizontal_scrollbar : bool = False
+Allow horizontal scrollbar to appear (off by default).</p>
+</li>
+<li>
+<p>no_focus_on_appearing : bool = False
+Disable taking focus when transitioning from hidden to visible state</p>
+</li>
+<li>
+<p>no_bring_to_front_on_focus : bool = False
+Disable bringing window to front when taking focus (e.g. clicking on it or programmatically giving it focus)</p>
+</li>
+<li>
+<p>no_close : bool = False</p>
+</li>
+<li>
+<p>no_background : bool = False</p>
+</li>
+<li>
+<p>label : str = ''</p>
+</li>
+<li>
+<p>show : bool = True
+Attempt to render</p>
+</li>
+</ul></div>
+</dd>
 <dt id="dearpygui.core.add_drag_float"><code class="name flex">
 <span>def <span class="ident">add_drag_float</span></span>(<span>...)</span>
 </code></dt>
@@ -1327,11 +1600,19 @@ This item will be displayed before the specified item in the parent. (runtime ad
 <p>source : str = ''</p>
 </li>
 <li>
+<p>enabled : bool = True
+Display grayed out text so selectable cannot be selected</p>
+</li>
+<li>
 <p>width : int = 0</p>
 </li>
 <li>
-<p>on_enter : bool = False
-Only runs callback on enter</p>
+<p>no_input : bool = False
+Disable CTRL+Click or Enter key allowing to input text directly into the widget</p>
+</li>
+<li>
+<p>clamped : bool = False
+Clamp value to min/max bounds when input manually with CTRL+Click. By default CTRL+Click allows going out of bounds.</p>
 </li>
 <li>
 <p>label : str = ''</p>
@@ -1402,11 +1683,19 @@ This item will be displayed before the specified item in the parent. (runtime ad
 <p>source : str = ''</p>
 </li>
 <li>
+<p>enabled : bool = True
+Display grayed out text so selectable cannot be selected</p>
+</li>
+<li>
 <p>width : int = 0</p>
 </li>
 <li>
-<p>on_enter : bool = False
-Only runs callback on enter</p>
+<p>no_input : bool = False
+Disable CTRL+Click or Enter key allowing to input text directly into the widget</p>
+</li>
+<li>
+<p>clamped : bool = False
+Clamp value to min/max bounds when input manually with CTRL+Click. By default CTRL+Click allows going out of bounds.</p>
 </li>
 <li>
 <p>label : str = ''</p>
@@ -1477,11 +1766,19 @@ This item will be displayed before the specified item in the parent. (runtime ad
 <p>source : str = ''</p>
 </li>
 <li>
+<p>enabled : bool = True
+Display grayed out text so selectable cannot be selected</p>
+</li>
+<li>
 <p>width : int = 0</p>
 </li>
 <li>
-<p>on_enter : bool = False
-Only runs callback on enter</p>
+<p>no_input : bool = False
+Disable CTRL+Click or Enter key allowing to input text directly into the widget</p>
+</li>
+<li>
+<p>clamped : bool = False
+Clamp value to min/max bounds when input manually with CTRL+Click. By default CTRL+Click allows going out of bounds.</p>
 </li>
 <li>
 <p>label : str = ''</p>
@@ -1552,11 +1849,19 @@ This item will be displayed before the specified item in the parent. (runtime ad
 <p>source : str = ''</p>
 </li>
 <li>
+<p>enabled : bool = True
+Display grayed out text so selectable cannot be selected</p>
+</li>
+<li>
 <p>width : int = 0</p>
 </li>
 <li>
-<p>on_enter : bool = False
-Only runs callback on enter</p>
+<p>no_input : bool = False
+Disable CTRL+Click or Enter key allowing to input text directly into the widget</p>
+</li>
+<li>
+<p>clamped : bool = False
+Clamp value to min/max bounds when input manually with CTRL+Click. By default CTRL+Click allows going out of bounds.</p>
 </li>
 <li>
 <p>label : str = ''</p>
@@ -1627,11 +1932,19 @@ This item will be displayed before the specified item in the parent. (runtime ad
 <p>source : str = ''</p>
 </li>
 <li>
+<p>enabled : bool = True
+Display grayed out text so selectable cannot be selected</p>
+</li>
+<li>
 <p>width : int = 0</p>
 </li>
 <li>
-<p>on_enter : bool = False
-Only runs callback on enter</p>
+<p>no_input : bool = False
+Disable CTRL+Click or Enter key allowing to input text directly into the widget</p>
+</li>
+<li>
+<p>clamped : bool = False
+Clamp value to min/max bounds when input manually with CTRL+Click. By default CTRL+Click allows going out of bounds.</p>
 </li>
 <li>
 <p>label : str = ''</p>
@@ -1702,11 +2015,19 @@ This item will be displayed before the specified item in the parent. (runtime ad
 <p>source : str = ''</p>
 </li>
 <li>
+<p>enabled : bool = True
+Display grayed out text so selectable cannot be selected</p>
+</li>
+<li>
 <p>width : int = 0</p>
 </li>
 <li>
-<p>on_enter : bool = False
-Only runs callback on enter</p>
+<p>no_input : bool = False
+Disable CTRL+Click or Enter key allowing to input text directly into the widget</p>
+</li>
+<li>
+<p>clamped : bool = False
+Clamp value to min/max bounds when input manually with CTRL+Click. By default CTRL+Click allows going out of bounds.</p>
 </li>
 <li>
 <p>label : str = ''</p>
@@ -1777,11 +2098,19 @@ This item will be displayed before the specified item in the parent. (runtime ad
 <p>source : str = ''</p>
 </li>
 <li>
+<p>enabled : bool = True
+Display grayed out text so selectable cannot be selected</p>
+</li>
+<li>
 <p>width : int = 0</p>
 </li>
 <li>
-<p>on_enter : bool = False
-Only runs callback on enter</p>
+<p>no_input : bool = False
+Disable CTRL+Click or Enter key allowing to input text directly into the widget</p>
+</li>
+<li>
+<p>clamped : bool = False
+Clamp value to min/max bounds when input manually with CTRL+Click. By default CTRL+Click allows going out of bounds.</p>
 </li>
 <li>
 <p>label : str = ''</p>
@@ -1852,11 +2181,19 @@ This item will be displayed before the specified item in the parent. (runtime ad
 <p>source : str = ''</p>
 </li>
 <li>
+<p>enabled : bool = True
+Display grayed out text so selectable cannot be selected</p>
+</li>
+<li>
 <p>width : int = 0</p>
 </li>
 <li>
-<p>on_enter : bool = False
-Only runs callback on enter</p>
+<p>no_input : bool = False
+Disable CTRL+Click or Enter key allowing to input text directly into the widget</p>
+</li>
+<li>
+<p>clamped : bool = False
+Clamp value to min/max bounds when input manually with CTRL+Click. By default CTRL+Click allows going out of bounds.</p>
 </li>
 <li>
 <p>label : str = ''</p>
@@ -2456,6 +2793,10 @@ This item will be displayed before the specified item in the parent. (runtime ad
 <p>source : str = ''</p>
 </li>
 <li>
+<p>enabled : bool = True
+Display grayed out text so selectable cannot be selected</p>
+</li>
+<li>
 <p>width : int = 0</p>
 </li>
 <li>
@@ -2531,6 +2872,10 @@ This item will be displayed before the specified item in the parent. (runtime ad
 <p>source : str = ''</p>
 </li>
 <li>
+<p>enabled : bool = True
+Display grayed out text so selectable cannot be selected</p>
+</li>
+<li>
 <p>width : int = 0</p>
 </li>
 <li>
@@ -2598,6 +2943,10 @@ This item will be displayed before the specified item in the parent. (runtime ad
 </li>
 <li>
 <p>source : str = ''</p>
+</li>
+<li>
+<p>enabled : bool = True
+Display grayed out text so selectable cannot be selected</p>
 </li>
 <li>
 <p>width : int = 0</p>
@@ -2669,6 +3018,10 @@ This item will be displayed before the specified item in the parent. (runtime ad
 <p>source : str = ''</p>
 </li>
 <li>
+<p>enabled : bool = True
+Display grayed out text so selectable cannot be selected</p>
+</li>
+<li>
 <p>width : int = 0</p>
 </li>
 <li>
@@ -2733,6 +3086,10 @@ This item will be displayed before the specified item in the parent. (runtime ad
 </li>
 <li>
 <p>source : str = ''</p>
+</li>
+<li>
+<p>enabled : bool = True
+Display grayed out text so selectable cannot be selected</p>
 </li>
 <li>
 <p>width : int = 0</p>
@@ -2801,6 +3158,10 @@ This item will be displayed before the specified item in the parent. (runtime ad
 <p>source : str = ''</p>
 </li>
 <li>
+<p>enabled : bool = True
+Display grayed out text so selectable cannot be selected</p>
+</li>
+<li>
 <p>width : int = 0</p>
 </li>
 <li>
@@ -2867,6 +3228,10 @@ This item will be displayed before the specified item in the parent. (runtime ad
 <p>source : str = ''</p>
 </li>
 <li>
+<p>enabled : bool = True
+Display grayed out text so selectable cannot be selected</p>
+</li>
+<li>
 <p>width : int = 0</p>
 </li>
 <li>
@@ -2931,6 +3296,10 @@ This item will be displayed before the specified item in the parent. (runtime ad
 </li>
 <li>
 <p>source : str = ''</p>
+</li>
+<li>
+<p>enabled : bool = True
+Display grayed out text so selectable cannot be selected</p>
 </li>
 <li>
 <p>width : int = 0</p>
@@ -3029,6 +3398,10 @@ This item will be displayed before the specified item in the parent. (runtime ad
 </li>
 <li>
 <p>source : str = ''</p>
+</li>
+<li>
+<p>enabled : bool = True
+Display grayed out text so selectable cannot be selected</p>
 </li>
 <li>
 <p>width : int = 0</p>
@@ -3190,6 +3563,10 @@ This item will be displayed before the specified item in the parent. (runtime ad
 </li>
 <li>
 <p>source : str = ''</p>
+</li>
+<li>
+<p>enabled : bool = True
+Display grayed out text so selectable cannot be selected</p>
 </li>
 <li>
 <p>width : int = 0</p>
@@ -3818,6 +4195,10 @@ This item will be displayed before the specified item in the parent. (runtime ad
 <p>source : str = ''</p>
 </li>
 <li>
+<p>enabled : bool = True
+Display grayed out text so selectable cannot be selected</p>
+</li>
+<li>
 <p>horizontal : bool = False</p>
 </li>
 <li>
@@ -4195,6 +4576,10 @@ This item will be displayed before the specified item in the parent. (runtime ad
 <p>source : str = ''</p>
 </li>
 <li>
+<p>enabled : bool = True
+Display grayed out text so selectable cannot be selected</p>
+</li>
+<li>
 <p>width : int = 0</p>
 </li>
 <li>
@@ -4202,8 +4587,12 @@ This item will be displayed before the specified item in the parent. (runtime ad
 Height of a vertical slider</p>
 </li>
 <li>
-<p>on_enter : bool = False
-Only runs callback on enter</p>
+<p>no_input : bool = False
+Disable CTRL+Click or Enter key allowing to input text directly into the widget</p>
+</li>
+<li>
+<p>clamped : bool = False
+Clamp value to min/max bounds when input manually with CTRL+Click. By default CTRL+Click allows going out of bounds.</p>
 </li>
 <li>
 <p>label : str = ''</p>
@@ -4271,11 +4660,19 @@ This item will be displayed before the specified item in the parent. (runtime ad
 <p>source : str = ''</p>
 </li>
 <li>
+<p>enabled : bool = True
+Display grayed out text so selectable cannot be selected</p>
+</li>
+<li>
 <p>width : int = 0</p>
 </li>
 <li>
-<p>on_enter : bool = False
-Only runs callback on enter</p>
+<p>no_input : bool = False
+Disable CTRL+Click or Enter key allowing to input text directly into the widget</p>
+</li>
+<li>
+<p>clamped : bool = False
+Clamp value to min/max bounds when input manually with CTRL+Click. By default CTRL+Click allows going out of bounds.</p>
 </li>
 <li>
 <p>label : str = ''</p>
@@ -4343,11 +4740,19 @@ This item will be displayed before the specified item in the parent. (runtime ad
 <p>source : str = ''</p>
 </li>
 <li>
+<p>enabled : bool = True
+Display grayed out text so selectable cannot be selected</p>
+</li>
+<li>
 <p>width : int = 0</p>
 </li>
 <li>
-<p>on_enter : bool = False
-Only runs callback on enter</p>
+<p>no_input : bool = False
+Disable CTRL+Click or Enter key allowing to input text directly into the widget</p>
+</li>
+<li>
+<p>clamped : bool = False
+Clamp value to min/max bounds when input manually with CTRL+Click. By default CTRL+Click allows going out of bounds.</p>
 </li>
 <li>
 <p>label : str = ''</p>
@@ -4415,11 +4820,19 @@ This item will be displayed before the specified item in the parent. (runtime ad
 <p>source : str = ''</p>
 </li>
 <li>
+<p>enabled : bool = True
+Display grayed out text so selectable cannot be selected</p>
+</li>
+<li>
 <p>width : int = 0</p>
 </li>
 <li>
-<p>on_enter : bool = False
-Only runs callback on enter</p>
+<p>no_input : bool = False
+Disable CTRL+Click or Enter key allowing to input text directly into the widget</p>
+</li>
+<li>
+<p>clamped : bool = False
+Clamp value to min/max bounds when input manually with CTRL+Click. By default CTRL+Click allows going out of bounds.</p>
 </li>
 <li>
 <p>label : str = ''</p>
@@ -4491,6 +4904,10 @@ This item will be displayed before the specified item in the parent. (runtime ad
 <p>source : str = ''</p>
 </li>
 <li>
+<p>enabled : bool = True
+Display grayed out text so selectable cannot be selected</p>
+</li>
+<li>
 <p>width : int = 0</p>
 </li>
 <li>
@@ -4498,8 +4915,12 @@ This item will be displayed before the specified item in the parent. (runtime ad
 Height of a vertical slider</p>
 </li>
 <li>
-<p>on_enter : bool = False
-Only runs callback on enter</p>
+<p>no_input : bool = False
+Disable CTRL+Click or Enter key allowing to input text directly into the widget</p>
+</li>
+<li>
+<p>clamped : bool = False
+Clamp value to min/max bounds when input manually with CTRL+Click. By default CTRL+Click allows going out of bounds.</p>
 </li>
 <li>
 <p>label : str = ''</p>
@@ -4567,11 +4988,19 @@ This item will be displayed before the specified item in the parent. (runtime ad
 <p>source : str = ''</p>
 </li>
 <li>
+<p>enabled : bool = True
+Display grayed out text so selectable cannot be selected</p>
+</li>
+<li>
 <p>width : int = 0</p>
 </li>
 <li>
-<p>on_enter : bool = False
-Only runs callback on enter</p>
+<p>no_input : bool = False
+Disable CTRL+Click or Enter key allowing to input text directly into the widget</p>
+</li>
+<li>
+<p>clamped : bool = False
+Clamp value to min/max bounds when input manually with CTRL+Click. By default CTRL+Click allows going out of bounds.</p>
 </li>
 <li>
 <p>label : str = ''</p>
@@ -4639,11 +5068,19 @@ This item will be displayed before the specified item in the parent. (runtime ad
 <p>source : str = ''</p>
 </li>
 <li>
+<p>enabled : bool = True
+Display grayed out text so selectable cannot be selected</p>
+</li>
+<li>
 <p>width : int = 0</p>
 </li>
 <li>
-<p>on_enter : bool = False
-Only runs callback on enter</p>
+<p>no_input : bool = False
+Disable CTRL+Click or Enter key allowing to input text directly into the widget</p>
+</li>
+<li>
+<p>clamped : bool = False
+Clamp value to min/max bounds when input manually with CTRL+Click. By default CTRL+Click allows going out of bounds.</p>
 </li>
 <li>
 <p>label : str = ''</p>
@@ -4711,11 +5148,19 @@ This item will be displayed before the specified item in the parent. (runtime ad
 <p>source : str = ''</p>
 </li>
 <li>
+<p>enabled : bool = True
+Display grayed out text so selectable cannot be selected</p>
+</li>
+<li>
 <p>width : int = 0</p>
 </li>
 <li>
-<p>on_enter : bool = False
-Only runs callback on enter</p>
+<p>no_input : bool = False
+Disable CTRL+Click or Enter key allowing to input text directly into the widget</p>
+</li>
+<li>
+<p>clamped : bool = False
+Clamp value to min/max bounds when input manually with CTRL+Click. By default CTRL+Click allows going out of bounds.</p>
 </li>
 <li>
 <p>label : str = ''</p>
@@ -4804,6 +5249,89 @@ Attempt to render</p>
 <li>
 <p>update_bounds : bool = True
 update plot bounds</p>
+</li>
+</ul></div>
+</dd>
+<dt id="dearpygui.core.add_style_window"><code class="name flex">
+<span>def <span class="ident">add_style_window</span></span>(<span>...)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Creates a style window.</p>
+<p>Return Type: None</p>
+<p>Parameters</p>
+<hr>
+<ul>
+<li>
+<p>name : str</p>
+</li>
+<li>
+<p>Keyword Only Arguments</p>
+</li>
+</ul>
+<hr>
+<ul>
+<li>
+<p>width : int = 700</p>
+</li>
+<li>
+<p>height : int = 500</p>
+</li>
+<li>
+<p>x_pos : int = 200
+x position the window will start at</p>
+</li>
+<li>
+<p>y_pos : int = 200
+y position the window will start at</p>
+</li>
+<li>
+<p>autosize : bool = False
+Autosized the window to fit it's items.</p>
+</li>
+<li>
+<p>no_resize : bool = False
+Allows for the window size to be changed or fixed</p>
+</li>
+<li>
+<p>no_title_bar : bool = False
+Title name for the title bar of the window</p>
+</li>
+<li>
+<p>no_move : bool = False
+Allows for the window's position to be changed or fixed</p>
+</li>
+<li>
+<p>no_scrollbar : bool = False
+Disable scrollbars (window can still scroll with mouse or programmatically)</p>
+</li>
+<li>
+<p>no_collapse : bool = False
+Disable user collapsing window by double-clicking on it</p>
+</li>
+<li>
+<p>horizontal_scrollbar : bool = False
+Allow horizontal scrollbar to appear (off by default).</p>
+</li>
+<li>
+<p>no_focus_on_appearing : bool = False
+Disable taking focus when transitioning from hidden to visible state</p>
+</li>
+<li>
+<p>no_bring_to_front_on_focus : bool = False
+Disable bringing window to front when taking focus (e.g. clicking on it or programmatically giving it focus)</p>
+</li>
+<li>
+<p>no_close : bool = False</p>
+</li>
+<li>
+<p>no_background : bool = False</p>
+</li>
+<li>
+<p>label : str = ''</p>
+</li>
+<li>
+<p>show : bool = True
+Attempt to render</p>
 </li>
 </ul></div>
 </dd>
@@ -6170,6 +6698,23 @@ logger widget</li>
 <div class="desc"><p>Returns the size of the main window.</p>
 <p>Return Type: [int, int]</p></div>
 </dd>
+<dt id="dearpygui.core.get_managed_column_width"><code class="name flex">
+<span>def <span class="ident">get_managed_column_width</span></span>(<span>...)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Returns the width of the ith column.</p>
+<p>Return Type: Float</p>
+<p>Parameters</p>
+<hr>
+<ul>
+<li>
+<p>item : str</p>
+</li>
+<li>
+<p>column : int</p>
+</li>
+</ul></div>
+</dd>
 <dt id="dearpygui.core.get_mouse_drag_delta"><code class="name flex">
 <span>def <span class="ident">get_mouse_drag_delta</span></span>(<span>...)</span>
 </code></dt>
@@ -7357,6 +7902,26 @@ logger widget</li>
 <li>title : str</li>
 </ul></div>
 </dd>
+<dt id="dearpygui.core.set_managed_column_width"><code class="name flex">
+<span>def <span class="ident">set_managed_column_width</span></span>(<span>...)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Sets the width of the ith column.</p>
+<p>Return Type: None</p>
+<p>Parameters</p>
+<hr>
+<ul>
+<li>
+<p>item : str</p>
+</li>
+<li>
+<p>column : int</p>
+</li>
+<li>
+<p>width : float</p>
+</li>
+</ul></div>
+</dd>
 <dt id="dearpygui.core.set_mouse_click_callback"><code class="name flex">
 <span>def <span class="ident">set_mouse_click_callback</span></span>(<span>...)</span>
 </code></dt>
@@ -7515,6 +8080,23 @@ Registers a callback</li>
 <hr>
 <ul>
 <li>plot : str</li>
+</ul></div>
+</dd>
+<dt id="dearpygui.core.set_primary_window"><code class="name flex">
+<span>def <span class="ident">set_primary_window</span></span>(<span>...)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Sets the primary window to fill the view port.</p>
+<p>Return Type: None</p>
+<p>Parameters</p>
+<hr>
+<ul>
+<li>
+<p>window : str</p>
+</li>
+<li>
+<p>value : bool</p>
+</li>
 </ul></div>
 </dd>
 <dt id="dearpygui.core.set_render_callback"><code class="name flex">
@@ -8186,27 +8768,6 @@ list of [str,float]</p>
 <div class="desc"><p>Sets up DearPyGui for user controlled rendering. Only call once and you must call cleanup_deapygui when finished.</p>
 <p>Return Type: None</p></div>
 </dd>
-<dt id="dearpygui.core.show_about"><code class="name flex">
-<span>def <span class="ident">show_about</span></span>(<span>...)</span>
-</code></dt>
-<dd>
-<div class="desc"><p>Shows the about window.</p>
-<p>Return Type: None</p></div>
-</dd>
-<dt id="dearpygui.core.show_debug"><code class="name flex">
-<span>def <span class="ident">show_debug</span></span>(<span>...)</span>
-</code></dt>
-<dd>
-<div class="desc"><p>Shows the debug window.</p>
-<p>Return Type: None</p></div>
-</dd>
-<dt id="dearpygui.core.show_documentation"><code class="name flex">
-<span>def <span class="ident">show_documentation</span></span>(<span>...)</span>
-</code></dt>
-<dd>
-<div class="desc"><p>Shows the documentation window.</p>
-<p>Return Type: None</p></div>
-</dd>
 <dt id="dearpygui.core.show_logger"><code class="name flex">
 <span>def <span class="ident">show_logger</span></span>(<span>...)</span>
 </code></dt>
@@ -8214,38 +8775,22 @@ list of [str,float]</p>
 <div class="desc"><p>Shows the logging window. The Default log level is Trace</p>
 <p>Return Type: None</p></div>
 </dd>
-<dt id="dearpygui.core.show_metrics"><code class="name flex">
-<span>def <span class="ident">show_metrics</span></span>(<span>...)</span>
-</code></dt>
-<dd>
-<div class="desc"><p>Shows the metrics window.</p>
-<p>Return Type: None</p></div>
-</dd>
-<dt id="dearpygui.core.show_source"><code class="name flex">
-<span>def <span class="ident">show_source</span></span>(<span>...)</span>
-</code></dt>
-<dd>
-<div class="desc"><p>Shows the source code for a file.</p>
-<p>Return Type: None</p>
-<p>Parameters</p>
-<hr>
-<ul>
-<li>file : str</li>
-</ul></div>
-</dd>
-<dt id="dearpygui.core.show_style_editor"><code class="name flex">
-<span>def <span class="ident">show_style_editor</span></span>(<span>...)</span>
-</code></dt>
-<dd>
-<div class="desc"><p>Shows the font window.</p>
-<p>Return Type: None</p></div>
-</dd>
 <dt id="dearpygui.core.start_dearpygui"><code class="name flex">
 <span>def <span class="ident">start_dearpygui</span></span>(<span>...)</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Starts DearPyGui.</p>
-<p>Return Type: None</p></div>
+<p>Return Type: None</p>
+<p>Parameters</p>
+<hr>
+<ul>
+<li>Keyword Only Arguments</li>
+</ul>
+<hr>
+<ul>
+<li>primary_window : str = ''
+Window that will expand into viewport.</li>
+</ul></div>
 </dd>
 <dt id="dearpygui.core.stop_dearpygui"><code class="name flex">
 <span>def <span class="ident">stop_dearpygui</span></span>(<span>...)</span>
@@ -8305,11 +8850,13 @@ Attempt to render</p>
 </li>
 <li><h3><a href="#header-functions">Functions</a></h3>
 <ul class="">
+<li><code><a title="dearpygui.core.add_about_window" href="#dearpygui.core.add_about_window">add_about_window</a></code></li>
 <li><code><a title="dearpygui.core.add_additional_font" href="#dearpygui.core.add_additional_font">add_additional_font</a></code></li>
 <li><code><a title="dearpygui.core.add_annotation" href="#dearpygui.core.add_annotation">add_annotation</a></code></li>
 <li><code><a title="dearpygui.core.add_area_series" href="#dearpygui.core.add_area_series">add_area_series</a></code></li>
 <li><code><a title="dearpygui.core.add_bar_series" href="#dearpygui.core.add_bar_series">add_bar_series</a></code></li>
 <li><code><a title="dearpygui.core.add_button" href="#dearpygui.core.add_button">add_button</a></code></li>
+<li><code><a title="dearpygui.core.add_character_remap" href="#dearpygui.core.add_character_remap">add_character_remap</a></code></li>
 <li><code><a title="dearpygui.core.add_checkbox" href="#dearpygui.core.add_checkbox">add_checkbox</a></code></li>
 <li><code><a title="dearpygui.core.add_child" href="#dearpygui.core.add_child">add_child</a></code></li>
 <li><code><a title="dearpygui.core.add_collapsing_header" href="#dearpygui.core.add_collapsing_header">add_collapsing_header</a></code></li>
@@ -8323,6 +8870,8 @@ Attempt to render</p>
 <li><code><a title="dearpygui.core.add_combo" href="#dearpygui.core.add_combo">add_combo</a></code></li>
 <li><code><a title="dearpygui.core.add_data" href="#dearpygui.core.add_data">add_data</a></code></li>
 <li><code><a title="dearpygui.core.add_date_picker" href="#dearpygui.core.add_date_picker">add_date_picker</a></code></li>
+<li><code><a title="dearpygui.core.add_debug_window" href="#dearpygui.core.add_debug_window">add_debug_window</a></code></li>
+<li><code><a title="dearpygui.core.add_doc_window" href="#dearpygui.core.add_doc_window">add_doc_window</a></code></li>
 <li><code><a title="dearpygui.core.add_drag_float" href="#dearpygui.core.add_drag_float">add_drag_float</a></code></li>
 <li><code><a title="dearpygui.core.add_drag_float2" href="#dearpygui.core.add_drag_float2">add_drag_float2</a></code></li>
 <li><code><a title="dearpygui.core.add_drag_float3" href="#dearpygui.core.add_drag_float3">add_drag_float3</a></code></li>
@@ -8382,6 +8931,7 @@ Attempt to render</p>
 <li><code><a title="dearpygui.core.add_slider_int4" href="#dearpygui.core.add_slider_int4">add_slider_int4</a></code></li>
 <li><code><a title="dearpygui.core.add_spacing" href="#dearpygui.core.add_spacing">add_spacing</a></code></li>
 <li><code><a title="dearpygui.core.add_stem_series" href="#dearpygui.core.add_stem_series">add_stem_series</a></code></li>
+<li><code><a title="dearpygui.core.add_style_window" href="#dearpygui.core.add_style_window">add_style_window</a></code></li>
 <li><code><a title="dearpygui.core.add_tab" href="#dearpygui.core.add_tab">add_tab</a></code></li>
 <li><code><a title="dearpygui.core.add_tab_bar" href="#dearpygui.core.add_tab_bar">add_tab_bar</a></code></li>
 <li><code><a title="dearpygui.core.add_table" href="#dearpygui.core.add_table">add_table</a></code></li>
@@ -8439,6 +8989,7 @@ Attempt to render</p>
 <li><code><a title="dearpygui.core.get_item_type" href="#dearpygui.core.get_item_type">get_item_type</a></code></li>
 <li><code><a title="dearpygui.core.get_log_level" href="#dearpygui.core.get_log_level">get_log_level</a></code></li>
 <li><code><a title="dearpygui.core.get_main_window_size" href="#dearpygui.core.get_main_window_size">get_main_window_size</a></code></li>
+<li><code><a title="dearpygui.core.get_managed_column_width" href="#dearpygui.core.get_managed_column_width">get_managed_column_width</a></code></li>
 <li><code><a title="dearpygui.core.get_mouse_drag_delta" href="#dearpygui.core.get_mouse_drag_delta">get_mouse_drag_delta</a></code></li>
 <li><code><a title="dearpygui.core.get_mouse_pos" href="#dearpygui.core.get_mouse_pos">get_mouse_pos</a></code></li>
 <li><code><a title="dearpygui.core.get_plot_mouse_pos" href="#dearpygui.core.get_plot_mouse_pos">get_plot_mouse_pos</a></code></li>
@@ -8539,6 +9090,7 @@ Attempt to render</p>
 <li><code><a title="dearpygui.core.set_main_window_resizable" href="#dearpygui.core.set_main_window_resizable">set_main_window_resizable</a></code></li>
 <li><code><a title="dearpygui.core.set_main_window_size" href="#dearpygui.core.set_main_window_size">set_main_window_size</a></code></li>
 <li><code><a title="dearpygui.core.set_main_window_title" href="#dearpygui.core.set_main_window_title">set_main_window_title</a></code></li>
+<li><code><a title="dearpygui.core.set_managed_column_width" href="#dearpygui.core.set_managed_column_width">set_managed_column_width</a></code></li>
 <li><code><a title="dearpygui.core.set_mouse_click_callback" href="#dearpygui.core.set_mouse_click_callback">set_mouse_click_callback</a></code></li>
 <li><code><a title="dearpygui.core.set_mouse_double_click_callback" href="#dearpygui.core.set_mouse_double_click_callback">set_mouse_double_click_callback</a></code></li>
 <li><code><a title="dearpygui.core.set_mouse_down_callback" href="#dearpygui.core.set_mouse_down_callback">set_mouse_down_callback</a></code></li>
@@ -8550,6 +9102,7 @@ Attempt to render</p>
 <li><code><a title="dearpygui.core.set_plot_xlimits_auto" href="#dearpygui.core.set_plot_xlimits_auto">set_plot_xlimits_auto</a></code></li>
 <li><code><a title="dearpygui.core.set_plot_ylimits" href="#dearpygui.core.set_plot_ylimits">set_plot_ylimits</a></code></li>
 <li><code><a title="dearpygui.core.set_plot_ylimits_auto" href="#dearpygui.core.set_plot_ylimits_auto">set_plot_ylimits_auto</a></code></li>
+<li><code><a title="dearpygui.core.set_primary_window" href="#dearpygui.core.set_primary_window">set_primary_window</a></code></li>
 <li><code><a title="dearpygui.core.set_render_callback" href="#dearpygui.core.set_render_callback">set_render_callback</a></code></li>
 <li><code><a title="dearpygui.core.set_resize_callback" href="#dearpygui.core.set_resize_callback">set_resize_callback</a></code></li>
 <li><code><a title="dearpygui.core.set_start_callback" href="#dearpygui.core.set_start_callback">set_start_callback</a></code></li>
@@ -8597,13 +9150,7 @@ Attempt to render</p>
 <li><code><a title="dearpygui.core.set_xticks" href="#dearpygui.core.set_xticks">set_xticks</a></code></li>
 <li><code><a title="dearpygui.core.set_yticks" href="#dearpygui.core.set_yticks">set_yticks</a></code></li>
 <li><code><a title="dearpygui.core.setup_dearpygui" href="#dearpygui.core.setup_dearpygui">setup_dearpygui</a></code></li>
-<li><code><a title="dearpygui.core.show_about" href="#dearpygui.core.show_about">show_about</a></code></li>
-<li><code><a title="dearpygui.core.show_debug" href="#dearpygui.core.show_debug">show_debug</a></code></li>
-<li><code><a title="dearpygui.core.show_documentation" href="#dearpygui.core.show_documentation">show_documentation</a></code></li>
 <li><code><a title="dearpygui.core.show_logger" href="#dearpygui.core.show_logger">show_logger</a></code></li>
-<li><code><a title="dearpygui.core.show_metrics" href="#dearpygui.core.show_metrics">show_metrics</a></code></li>
-<li><code><a title="dearpygui.core.show_source" href="#dearpygui.core.show_source">show_source</a></code></li>
-<li><code><a title="dearpygui.core.show_style_editor" href="#dearpygui.core.show_style_editor">show_style_editor</a></code></li>
 <li><code><a title="dearpygui.core.start_dearpygui" href="#dearpygui.core.start_dearpygui">start_dearpygui</a></code></li>
 <li><code><a title="dearpygui.core.stop_dearpygui" href="#dearpygui.core.stop_dearpygui">stop_dearpygui</a></code></li>
 <li><code><a title="dearpygui.core.unindent" href="#dearpygui.core.unindent">unindent</a></code></li>

@@ -684,7 +684,47 @@ def get_drawing_size(drawing: str) -&gt; Union[List[int], None]:
         list as [width, height] or None
     &#34;&#34;&#34;
     config = internal_dpg.get_item_configuration(drawing)
-    return [config[&#34;width&#34;], config[&#34;height&#34;]]</code></pre>
+    return [config[&#34;width&#34;], config[&#34;height&#34;]]
+
+def show_style_editor(sender: str=&#34;&#34;, data: Any=None) -&gt; None:
+    &#34;&#34;&#34;Shows the standard style editor window
+
+    Returns:
+        None
+    &#34;&#34;&#34;
+    internal_dpg.configure_item(&#34;style##standard&#34;, show=True)
+
+def show_metrics(sender: str=&#34;&#34;, data: Any=None) -&gt; None:
+    &#34;&#34;&#34;Shows the standard metrics window
+
+    Returns:
+        None
+    &#34;&#34;&#34;
+    internal_dpg.configure_item(&#34;metrics##standard&#34;, show=True)
+
+def show_about(sender: str=&#34;&#34;, data: Any=None) -&gt; None:
+    &#34;&#34;&#34;Shows the standard about window
+
+    Returns:
+        None
+    &#34;&#34;&#34;
+    internal_dpg.configure_item(&#34;about##standard&#34;, show=True)
+
+def show_debug(sender: str=&#34;&#34;, data: Any=None) -&gt; None:
+    &#34;&#34;&#34;Shows the standard debug window
+
+    Returns:
+        None
+    &#34;&#34;&#34;
+    internal_dpg.configure_item(&#34;debug##standard&#34;, show=True)
+
+def show_documentation(sender: str=&#34;&#34;, data: Any=None) -&gt; None:
+    &#34;&#34;&#34;Shows the standard documentation window
+
+    Returns:
+        None
+    &#34;&#34;&#34;
+    internal_dpg.configure_item(&#34;documentation##standard&#34;, show=True)</code></pre>
 </details>
 </section>
 <section>
@@ -1702,6 +1742,66 @@ anything after "##" that occurs in the name will not be shown on screen.</dd>
     internal_dpg.configure_item(window, x_pos=x, y_pos=y)</code></pre>
 </details>
 </dd>
+<dt id="dearpygui.simple.show_about"><code class="name flex">
+<span>def <span class="ident">show_about</span></span>(<span>sender: str = '', data: Any = None) ‑> NoneType</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Shows the standard about window</p>
+<h2 id="returns">Returns</h2>
+<p>None</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def show_about(sender: str=&#34;&#34;, data: Any=None) -&gt; None:
+    &#34;&#34;&#34;Shows the standard about window
+
+    Returns:
+        None
+    &#34;&#34;&#34;
+    internal_dpg.configure_item(&#34;about##standard&#34;, show=True)</code></pre>
+</details>
+</dd>
+<dt id="dearpygui.simple.show_debug"><code class="name flex">
+<span>def <span class="ident">show_debug</span></span>(<span>sender: str = '', data: Any = None) ‑> NoneType</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Shows the standard debug window</p>
+<h2 id="returns">Returns</h2>
+<p>None</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def show_debug(sender: str=&#34;&#34;, data: Any=None) -&gt; None:
+    &#34;&#34;&#34;Shows the standard debug window
+
+    Returns:
+        None
+    &#34;&#34;&#34;
+    internal_dpg.configure_item(&#34;debug##standard&#34;, show=True)</code></pre>
+</details>
+</dd>
+<dt id="dearpygui.simple.show_documentation"><code class="name flex">
+<span>def <span class="ident">show_documentation</span></span>(<span>sender: str = '', data: Any = None) ‑> NoneType</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Shows the standard documentation window</p>
+<h2 id="returns">Returns</h2>
+<p>None</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def show_documentation(sender: str=&#34;&#34;, data: Any=None) -&gt; None:
+    &#34;&#34;&#34;Shows the standard documentation window
+
+    Returns:
+        None
+    &#34;&#34;&#34;
+    internal_dpg.configure_item(&#34;documentation##standard&#34;, show=True)</code></pre>
+</details>
+</dd>
 <dt id="dearpygui.simple.show_item"><code class="name flex">
 <span>def <span class="ident">show_item</span></span>(<span>item: str)</span>
 </code></dt>
@@ -1728,6 +1828,46 @@ anything after "##" that occurs in the name will not be shown on screen.</dd>
         None
     &#34;&#34;&#34;
     internal_dpg.configure_item(item, show=True)</code></pre>
+</details>
+</dd>
+<dt id="dearpygui.simple.show_metrics"><code class="name flex">
+<span>def <span class="ident">show_metrics</span></span>(<span>sender: str = '', data: Any = None) ‑> NoneType</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Shows the standard metrics window</p>
+<h2 id="returns">Returns</h2>
+<p>None</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def show_metrics(sender: str=&#34;&#34;, data: Any=None) -&gt; None:
+    &#34;&#34;&#34;Shows the standard metrics window
+
+    Returns:
+        None
+    &#34;&#34;&#34;
+    internal_dpg.configure_item(&#34;metrics##standard&#34;, show=True)</code></pre>
+</details>
+</dd>
+<dt id="dearpygui.simple.show_style_editor"><code class="name flex">
+<span>def <span class="ident">show_style_editor</span></span>(<span>sender: str = '', data: Any = None) ‑> NoneType</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Shows the standard style editor window</p>
+<h2 id="returns">Returns</h2>
+<p>None</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def show_style_editor(sender: str=&#34;&#34;, data: Any=None) -&gt; None:
+    &#34;&#34;&#34;Shows the standard style editor window
+
+    Returns:
+        None
+    &#34;&#34;&#34;
+    internal_dpg.configure_item(&#34;style##standard&#34;, show=True)</code></pre>
 </details>
 </dd>
 <dt id="dearpygui.simple.tab"><code class="name flex">
@@ -2123,7 +2263,12 @@ def window(name: str, *, width: int = 200, height: int = 200, x_pos: int = 200, 
 <li><code><a title="dearpygui.simple.set_item_tip" href="#dearpygui.simple.set_item_tip">set_item_tip</a></code></li>
 <li><code><a title="dearpygui.simple.set_item_width" href="#dearpygui.simple.set_item_width">set_item_width</a></code></li>
 <li><code><a title="dearpygui.simple.set_window_pos" href="#dearpygui.simple.set_window_pos">set_window_pos</a></code></li>
+<li><code><a title="dearpygui.simple.show_about" href="#dearpygui.simple.show_about">show_about</a></code></li>
+<li><code><a title="dearpygui.simple.show_debug" href="#dearpygui.simple.show_debug">show_debug</a></code></li>
+<li><code><a title="dearpygui.simple.show_documentation" href="#dearpygui.simple.show_documentation">show_documentation</a></code></li>
 <li><code><a title="dearpygui.simple.show_item" href="#dearpygui.simple.show_item">show_item</a></code></li>
+<li><code><a title="dearpygui.simple.show_metrics" href="#dearpygui.simple.show_metrics">show_metrics</a></code></li>
+<li><code><a title="dearpygui.simple.show_style_editor" href="#dearpygui.simple.show_style_editor">show_style_editor</a></code></li>
 <li><code><a title="dearpygui.simple.tab" href="#dearpygui.simple.tab">tab</a></code></li>
 <li><code><a title="dearpygui.simple.tab_bar" href="#dearpygui.simple.tab_bar">tab_bar</a></code></li>
 <li><code><a title="dearpygui.simple.tooltip" href="#dearpygui.simple.tooltip">tooltip</a></code></li>
