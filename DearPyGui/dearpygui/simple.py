@@ -654,7 +654,7 @@ def get_drawing_size(drawing: str) -> Union[List[int], None]:
     config = internal_dpg.get_item_configuration(drawing)
     return [config["width"], config["height"]]
 
-def show_style_editor(sender: str, data: Any) -> None:
+def show_style_editor(sender: str="", data: Any=None) -> None:
     """Shows the standard style editor window
 
     Returns:
@@ -662,7 +662,7 @@ def show_style_editor(sender: str, data: Any) -> None:
     """
     internal_dpg.configure_item("style##standard", show=True)
 
-def show_metrics(sender: str, data: Any) -> None:
+def show_metrics(sender: str="", data: Any=None) -> None:
     """Shows the standard metrics window
 
     Returns:
@@ -670,7 +670,7 @@ def show_metrics(sender: str, data: Any) -> None:
     """
     internal_dpg.configure_item("metrics##standard", show=True)
 
-def show_about(sender: str, data: Any) -> None:
+def show_about(sender: str="", data: Any=None) -> None:
     """Shows the standard about window
 
     Returns:
@@ -678,7 +678,7 @@ def show_about(sender: str, data: Any) -> None:
     """
     internal_dpg.configure_item("about##standard", show=True)
 
-def show_debug(sender: str, data: Any) -> None:
+def show_debug(sender: str="", data: Any=None) -> None:
     """Shows the standard debug window
 
     Returns:
@@ -686,7 +686,7 @@ def show_debug(sender: str, data: Any) -> None:
     """
     internal_dpg.configure_item("debug##standard", show=True)
 
-def show_documentation(sender: str, data: Any) -> None:
+def show_documentation(sender: str="", data: Any=None) -> None:
     """Shows the standard documentation window
 
     Returns:
