@@ -89,7 +89,7 @@ namespace Marvel {
 			{
 				ImGui::PushStyleVar(ImGuiStyleVar_WindowRounding, 0.0f); // to prevent main window corners from showing
 				ImGui::SetNextWindowPos(ImVec2(0.0f, 0.0f));
-				ImGui::SetNextWindowSize(ImVec2((float)mvApp::GetApp()->getActualWidth(), (float)mvApp::GetApp()->getActualHeight()));
+				ImGui::SetNextWindowSize(ImVec2((float)mvApp::GetApp()->getClientWidth(), (float)mvApp::GetApp()->getClientHeight()));
 
 				if (s_status == Status::Transition)
 					s_status = Status::Normal;

@@ -302,12 +302,21 @@ namespace Marvel {
 			if (s_pd3dDevice != nullptr && wParam != SIZE_MINIMIZED)
 			{
 				RECT rect;
+				RECT crect;
 				if (GetWindowRect(hWnd, &rect))
 				{
 					int width = rect.right - rect.left;
 					int height = rect.bottom - rect.top;
 					mvApp::GetApp()->setActualSize(width, height);
 				}
+
+				if (GetClientRect(hWnd, &crect))
+				{
+					int width = crect.right - crect.left;
+					int height = crect.bottom - crect.top;
+					mvApp::GetApp()->setClientSize(width, height);
+				}
+
 				m_width = (UINT)LOWORD(lParam);
 				m_height = (UINT)HIWORD(lParam);
 				//mvApp::GetApp()->setWindowSize((UINT)LOWORD(lParam), (UINT)HIWORD(lParam));
