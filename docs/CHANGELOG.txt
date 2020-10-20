@@ -91,9 +91,9 @@ Changes:
 - add_slider_***:     Removed "on_enter" keyword
 - add_drag_***:       Removed "on_enter" keyword
 
-Backend Maintance:
-- AppItem:			  App item now controls the enabled member
-- AppItemBase :		  App base class hase a disabled value that is used internally only
+Fixes:
+- Logger Widgets:     can now be called asynronously #279
+
 -----------------------------------------------------------------------
  VERSION 0.4.609 (10/14/2020)
 -----------------------------------------------------------------------

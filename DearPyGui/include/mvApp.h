@@ -182,6 +182,7 @@ namespace Marvel {
         void                     moveItemUp        (const std::string& name) { m_upQueue.push(name); }
         void                     moveItemDown      (const std::string& name) { m_downQueue.push(name); }
         mvAppItem*               getItem           (const std::string& name, bool ignoreRuntime = false);
+        mvAppItem*               getItemAsync      (const std::string& name, bool ignoreRuntime = false); // allows item to be retrieved outside main thread
         mvAppItem*               getRuntimeItem    (const std::string& name);
         mvWindowAppitem*         getWindow         (const std::string& name);
         
