@@ -23,16 +23,6 @@ HOW TO UPDATE?
 - Please report any issue!
 
 -----------------------------------------------------------------------
- VERSION 0.5.9 (10/25/2020)
------------------------------------------------------------------------
-
-Decorated log: ***
-
-Fixes:
-- Docs: draw_polygon and draw_polyline, corrected type hinting from list of floats to list of FloatList
-
-
------------------------------------------------------------------------
  VERSION 0.5.0 (10/20/2020)
 -----------------------------------------------------------------------
 
@@ -103,6 +93,7 @@ Changes:
 
 Fixes:
 - Logger Widgets:     can now be called asynronously #279
+- Docs: draw_polygon and draw_polyline, corrected type hinting from list of floats to list of FloatList
 
 -----------------------------------------------------------------------
  VERSION 0.4.609 (10/14/2020)

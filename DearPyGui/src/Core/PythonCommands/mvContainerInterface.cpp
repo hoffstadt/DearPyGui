@@ -323,6 +323,7 @@ namespace Marvel {
 		{
 			auto window = static_cast<mvWindowAppitem*>(parentItem);
 			window->addFlag(ImGuiWindowFlags_MenuBar);
+			window->addMenuBar();
 
 			mvAppItem* item = new mvMenuBar(name);
 
