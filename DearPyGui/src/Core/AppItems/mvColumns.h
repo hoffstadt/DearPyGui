@@ -90,15 +90,20 @@ namespace Marvel {
 
 				int index = ImGui::GetColumnIndex();
 
-				if (m_dirty_widths)
+				if (m_dirty_widths && !m_firstFrame)
 					ImGui::SetColumnWidth(index, m_widths[index]);
 
-				float wide = ImGui::GetColumnWidth();
-				m_widths[index] = wide;
+				if(!m_firstFrame)
+					m_widths[index] = ImGui::GetColumnWidth();
 				ImGui::NextColumn();
 			}
 
-			m_dirty_widths = false;
+			// this is odd but is necessary for column widths to 
+			// work properly
+			if (m_firstFrame)
+				m_firstFrame = false;
+			else 
+				m_dirty_widths = false;
 
 			ImGui::PopID();
 
@@ -143,6 +148,7 @@ namespace Marvel {
 		bool               m_border = true;
 		std::vector<float> m_widths;
 		bool               m_dirty_widths = false;
+		bool               m_firstFrame = true; // only necessary for column widths
 
 	};
 
