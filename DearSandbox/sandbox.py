@@ -46,6 +46,7 @@ with window("Asyncronous##dialog", show=True):
 
 
     add_button("Start Long Process", callback=LongCallback)
+    add_button("Start Long Process Lambda", callback=lambda sender, data: run_async_function(lambda sender, data: time.sleep(5), None, return_handler=lambda sender1, data2: print("done!")))
     add_button("Start Long Asyncronous Process", callback=LongAsyncronousCallback)
 
 #start_dearpygui(primary_window="Asyncronous##dialog")

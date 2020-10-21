@@ -94,6 +94,7 @@ Changes:
 Fixes:
 - Logger Widgets:     can now be called asynronously #279
 - Docs: draw_polygon and draw_polyline, corrected type hinting from list of floats to list of FloatList
+- Async: can now use lambdas
 
 -----------------------------------------------------------------------
  VERSION 0.4.609 (10/14/2020)
