@@ -122,7 +122,7 @@ namespace Marvel {
 
 		parsers->insert({ "draw_polyline", mvPythonParser({
 			{mvPythonDataType::String, "drawing"},
-			{mvPythonDataType::FloatList, "points"},
+			{mvPythonDataType::ListFloatList, "points"},
 			{mvPythonDataType::IntList, "color"},
 			{mvPythonDataType::KeywordOnly},
 			{mvPythonDataType::Integer, "closed", "", "False"},
@@ -132,7 +132,7 @@ namespace Marvel {
 
 		parsers->insert({ "draw_polygon", mvPythonParser({
 			{mvPythonDataType::String, "drawing"},
-			{mvPythonDataType::FloatList, "points"},
+			{mvPythonDataType::ListFloatList, "points"},
 			{mvPythonDataType::IntList, "color"},
 			{mvPythonDataType::KeywordOnly},
 			{mvPythonDataType::FloatList, "fill", "", "(0, 0, 0, -1)"},
