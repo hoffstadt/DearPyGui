@@ -27,7 +27,10 @@ namespace Marvel {
 			if (value)
 			{
 				m_windowflags = ImGuiWindowFlags_NoBringToFrontOnFocus | ImGuiWindowFlags_NoSavedSettings
-					| ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_MenuBar;
+					| ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoTitleBar;
+
+				if (m_hasMenuBar)
+					m_windowflags |= ImGuiWindowFlags_MenuBar;
 				s_status = Status::Dirty;
 			}
 			else
@@ -87,6 +90,7 @@ namespace Marvel {
 
 			if (m_mainWindow)
 			{
+				ImGui::SetNextWindowBgAlpha(1.0f);
 				ImGui::PushStyleVar(ImGuiStyleVar_WindowRounding, 0.0f); // to prevent main window corners from showing
 				ImGui::SetNextWindowPos(ImVec2(0.0f, 0.0f));
 				ImGui::SetNextWindowSize(ImVec2((float)mvApp::GetApp()->getClientWidth(), (float)mvApp::GetApp()->getClientHeight()));
