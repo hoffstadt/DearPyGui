@@ -235,9 +235,12 @@ def show_demo():
             with tree_node("Basic##demo"):
                 def log_callback(sender, data):
                     log_debug(f"{sender} ran a callback")
-                def toggle_enable(sender, data):
-                    for item in data:
-                        configure_item(item, enabled=get_value(sender))
+                def toggle_config(sender, data):
+                    config_dict = {}
+                    for kwarg in data['kwargs']:
+                        config_dict[kwarg] = get_value(sender)
+                    for item in data['items']:
+                        configure_item(item, **config_dict)
 
                 disable_items = ["Button1##demo", "Button2##demo", "Button3##demo", "Button4##demo", "Button5##demo", "Button6##demo"
                     ,"checkbox##demo", "radiobutton##demo", "selectable##demo", "Left##demo", "Right##demo"
@@ -245,7 +248,7 @@ def show_demo():
                     ,"input int##demo", "input float##demo", "input scientific##demo", "input float3##example##demo"
                     ,"drag int", "drag int 0..100##demo", "drag float##demo", "drag small float##demo"
                     ,"slider int##demo", "slider float##demo", "slider angle##demo"]
-                add_checkbox("Enable-Disable##basic", default_value=True, callback=toggle_enable, callback_data=disable_items)
+                add_checkbox("Enable-Disable##basic", default_value=True, callback=toggle_config, callback_data={'kwargs': ['enabled'], 'items': disable_items})
                 helpmarker('This will toggle the keyword "enable" for the widgets below that can be enabled & disabled')
                 with group("buttons##demo", horizontal=True):
                     add_button("Button1##demo", callback=log_callback)
@@ -340,7 +343,9 @@ def show_demo():
                 disable_items = ["##multiline##demo","default##demo", "decimal##demo", "hexdecimal##demo", 
                                  "uppercase##demo", "no blank##demo", "scientific##demo","password##demo", 
                                  "password (w/ hint)##demo", "password (clear)##demo"]
-                add_checkbox("Enable-Disable##text_input", default_value=True, callback=toggle_enable, callback_data=disable_items)
+                add_checkbox("Enable-Disable##text_input", default_value=True, callback=toggle_config, callback_data={'kwargs': ['enabled'], 'items': disable_items})
+                add_checkbox("readonly##text_input", default_value=False, callback=toggle_config, callback_data={'kwargs': ['readonly'], 'items': disable_items})
+                add_checkbox("on_enter##text_input", default_value=False, callback=toggle_config, callback_data={'kwargs': ['on_enter'], 'items': disable_items})
                 with tree_node("Multi-line Text Input##demo"):
                     add_input_text("##multiline##demo", multiline=True, default_value="/*\n"
                         " The Pentium F00F bug, shorthand for F0 0F C7 C8,\n"
@@ -351,20 +356,20 @@ def show_demo():
                         " processors (all in the P5 microarchitecture).\n"
                         "*/\n\n"
                         "label:\n"
-                        "\tlock cmpxchg8b eax\n", height=300)
+                        "\tlock cmpxchg8b eax\n", height=300, callback=log_callback)
 
                 with tree_node("Filtered Text Input##demo"):
-                    add_input_text("default##demo")
-                    add_input_text("decimal##demo", decimal=True)
-                    add_input_text("hexdecimal##demo", hexadecimal=True)
-                    add_input_text("uppercase##demo", uppercase=True)
-                    add_input_text("no blank##demo", no_spaces=True)
-                    add_input_text("scientific##demo", scientific=True)
+                    add_input_text("default##demo", callback=log_callback)
+                    add_input_text("decimal##demo", decimal=True, callback=log_callback)
+                    add_input_text("hexdecimal##demo", hexadecimal=True, callback=log_callback)
+                    add_input_text("uppercase##demo", uppercase=True, callback=log_callback)
+                    add_input_text("no blank##demo", no_spaces=True, callback=log_callback)
+                    add_input_text("scientific##demo", scientific=True, callback=log_callback)
             
                 with tree_node("Password Input##demo"):
-                    add_input_text("password##demo", password=True, source="password")
-                    add_input_text("password (w/ hint)##demo", password=True, hint="<password>", source="password")
-                    add_input_text("password (clear)##demo", source="password")
+                    add_input_text("password##demo", password=True, source="password", callback=log_callback)
+                    add_input_text("password (w/ hint)##demo", password=True, hint="<password>", source="password", callback=log_callback)
+                    add_input_text("password (clear)##demo", source="password", callback=log_callback)
 
             with tree_node("Simple Plot Widgets##demo"):
                 add_simple_plot("Frame Times##demo", value=[0.6, 0.1, 1.0, 0.5, 0.92, 0.1, 0.2])
@@ -462,7 +467,7 @@ def show_demo():
                                  "slider int2##demo", "input float3##demo", "drag float3##demo", "slider float3##demo", "input int3##demo", 
                                  "drag int3##demo", "slider int3##demo", "input float4##demo", "drag float4##demo", "slider float4##demo", 
                                  "input int4##demo", "drag int4##demo", "slider int4##demo"]
-                add_checkbox("Enable-Disable##multi-component_widgets", default_value=True, callback=toggle_enable, callback_data=disable_items)
+                add_checkbox("Enable-Disable##multi-component_widgets", default_value=True, callback=toggle_config, callback_data={'kwargs': ['enabled'], 'items': disable_items})
                 add_input_float2("input float2##demo", source="float2")
                 add_drag_float2("drag float2##demo", source="float2")
                 add_slider_float2("slider float2##demo", source="float2")
@@ -492,7 +497,7 @@ def show_demo():
                 for i in range(0, 3):
                     for j in range(0, 4):
                         disable_items.append(f"##v{j}{i}##demo")
-                add_checkbox("Enable-Disable##vertical_sliders", default_value=True, callback=toggle_enable, callback_data=disable_items)
+                add_checkbox("Enable-Disable##vertical_sliders", default_value=True, callback=toggle_config, callback_data={'kwargs': ['enabled'], 'items': disable_items})
                 add_slider_int(f"##vi", default_value=1, vertical=True, max_value=5, height=160)
                 add_same_line()
                 with group("v group 1##demo"):

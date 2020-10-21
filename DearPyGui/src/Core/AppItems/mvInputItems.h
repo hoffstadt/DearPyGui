@@ -38,6 +38,22 @@ namespace Marvel {
 		{
 		}
 
+		void setEnabled(bool value) override
+		{
+			if (value)
+			{
+				m_flags = m_stor_flags;
+			}
+			else
+			{
+				m_stor_flags = m_flags;
+				m_flags |= ImGuiInputTextFlags_ReadOnly;
+				m_flags &= ~ImGuiInputTextFlags_EnterReturnsTrue;
+			}
+
+			m_enabled = value;
+		}
+
 		void draw() override
 		{
 			pushColorStyles();
@@ -52,9 +68,7 @@ namespace Marvel {
 				ImGui::PushStyleColor(ImGuiCol_FrameBgHovered, disabled_color);
 				ImGui::PushStyleColor(ImGuiCol_FrameBgActive, disabled_color);
 				ImGui::PushStyleColor(ImGuiCol_Button, disabled_color);
-				m_flags |= ImGuiInputTextFlags_ReadOnly;
 			}
-			else m_flags &= ~ImGuiInputTextFlags_ReadOnly;
 
 			if (ImGui::InputInt(m_label.c_str(), m_value, 1, 100, m_flags))
 				mvApp::GetApp()->runCallback(m_callback, m_name, m_callbackData);
@@ -89,6 +103,7 @@ namespace Marvel {
 	private:
 
 		ImGuiInputTextFlags m_flags = 0;
+		ImGuiInputTextFlags m_stor_flags = 0;
 	};
 
 	//-----------------------------------------------------------------------------
@@ -106,6 +121,22 @@ namespace Marvel {
 		{
 		}
 
+		void setEnabled(bool value) override
+		{
+			if (value)
+			{
+				m_flags = m_stor_flags;
+			}
+			else
+			{
+				m_stor_flags = m_flags;
+				m_flags |= ImGuiInputTextFlags_ReadOnly;
+				m_flags &= ~ImGuiInputTextFlags_EnterReturnsTrue;
+			}
+
+			m_enabled = value;
+		}
+
 		void draw() override
 		{
 			pushColorStyles();
@@ -120,9 +151,7 @@ namespace Marvel {
 				ImGui::PushStyleColor(ImGuiCol_FrameBgHovered, disabled_color);
 				ImGui::PushStyleColor(ImGuiCol_FrameBgActive, disabled_color);
 				ImGui::PushStyleColor(ImGuiCol_Button, disabled_color);
-				m_flags |= ImGuiInputTextFlags_ReadOnly;
 			}
-			else m_flags &= ~ImGuiInputTextFlags_ReadOnly;
 
 			if (ImGui::InputInt2(m_label.c_str(), m_value, m_flags))
 				mvApp::GetApp()->runCallback(m_callback, m_name, m_callbackData);
@@ -158,6 +187,7 @@ namespace Marvel {
 	private:
 
 		ImGuiInputTextFlags m_flags = 0;
+		ImGuiInputTextFlags m_stor_flags = 0;
 	};
 
 	//-----------------------------------------------------------------------------
@@ -175,6 +205,22 @@ namespace Marvel {
 		{
 		}
 
+		void setEnabled(bool value) override
+		{
+			if (value)
+			{
+				m_flags = m_stor_flags;
+			}
+			else
+			{
+				m_stor_flags = m_flags;
+				m_flags |= ImGuiInputTextFlags_ReadOnly;
+				m_flags &= ~ImGuiInputTextFlags_EnterReturnsTrue;
+			}
+
+			m_enabled = value;
+		}
+
 		void draw() override
 		{
 			pushColorStyles();
@@ -189,9 +235,7 @@ namespace Marvel {
 				ImGui::PushStyleColor(ImGuiCol_FrameBgHovered, disabled_color);
 				ImGui::PushStyleColor(ImGuiCol_FrameBgActive, disabled_color);
 				ImGui::PushStyleColor(ImGuiCol_Button, disabled_color);
-				m_flags |= ImGuiInputTextFlags_ReadOnly;
 			}
-			else m_flags &= ~ImGuiInputTextFlags_ReadOnly;
 
 			if (ImGui::InputInt3(m_label.c_str(), m_value, m_flags))
 				mvApp::GetApp()->runCallback(m_callback, m_name, m_callbackData);
@@ -227,6 +271,7 @@ namespace Marvel {
 	private:
 
 		ImGuiInputTextFlags m_flags = 0;
+		ImGuiInputTextFlags m_stor_flags = 0;
 	};
 
 	//-----------------------------------------------------------------------------
@@ -244,6 +289,22 @@ namespace Marvel {
 		{
 		}
 
+		void setEnabled(bool value) override
+		{
+			if (value)
+			{
+				m_flags = m_stor_flags;
+			}
+			else
+			{
+				m_stor_flags = m_flags;
+				m_flags |= ImGuiInputTextFlags_ReadOnly;
+				m_flags &= ~ImGuiInputTextFlags_EnterReturnsTrue;
+			}
+
+			m_enabled = value;
+		}
+
 		void draw() override
 		{
 			pushColorStyles();
@@ -258,9 +319,7 @@ namespace Marvel {
 				ImGui::PushStyleColor(ImGuiCol_FrameBgHovered, disabled_color);
 				ImGui::PushStyleColor(ImGuiCol_FrameBgActive, disabled_color);
 				ImGui::PushStyleColor(ImGuiCol_Button, disabled_color);
-				m_flags |= ImGuiInputTextFlags_ReadOnly;
 			}
-			else m_flags &= ~ImGuiInputTextFlags_ReadOnly;
 
 			if (ImGui::InputInt4(m_label.c_str(), m_value, m_flags))
 				mvApp::GetApp()->runCallback(m_callback, m_name, m_callbackData);
@@ -295,6 +354,7 @@ namespace Marvel {
 	private:
 
 		ImGuiInputTextFlags m_flags = 0;
+		ImGuiInputTextFlags m_stor_flags = 0;
 	};
 
 	//-----------------------------------------------------------------------------
@@ -312,6 +372,22 @@ namespace Marvel {
 		{
 		}
 
+		void setEnabled(bool value) override
+		{
+			if (value)
+			{
+				m_flags = m_stor_flags;
+			}
+			else
+			{
+				m_stor_flags = m_flags;
+				m_flags |= ImGuiInputTextFlags_ReadOnly;
+				m_flags &= ~ImGuiInputTextFlags_EnterReturnsTrue;
+			}
+
+			m_enabled = value;
+		}
+
 		void draw() override
 		{
 			pushColorStyles();
@@ -326,9 +402,7 @@ namespace Marvel {
 				ImGui::PushStyleColor(ImGuiCol_FrameBgHovered, disabled_color);
 				ImGui::PushStyleColor(ImGuiCol_FrameBgActive, disabled_color);
 				ImGui::PushStyleColor(ImGuiCol_Button, disabled_color);
-				m_flags |= ImGuiInputTextFlags_ReadOnly;
 			}
-			else m_flags &= ~ImGuiInputTextFlags_ReadOnly;
 
 			if (ImGui::InputFloat(m_label.c_str(), m_value, m_step, m_step_fast, m_format.c_str(), m_flags))
 				mvApp::GetApp()->runCallback(m_callback, m_name, m_callbackData);
@@ -391,6 +465,7 @@ namespace Marvel {
 		float               m_step = 0.1f;
 		float               m_step_fast = 1.0f;
 		ImGuiInputTextFlags m_flags = 0;
+		ImGuiInputTextFlags m_stor_flags = 0;
 
 	};
 
@@ -409,6 +484,22 @@ namespace Marvel {
 		{
 		}
 
+		void setEnabled(bool value) override
+		{
+			if (value)
+			{
+				m_flags = m_stor_flags;
+			}
+			else
+			{
+				m_stor_flags = m_flags;
+				m_flags |= ImGuiInputTextFlags_ReadOnly;
+				m_flags &= ~ImGuiInputTextFlags_EnterReturnsTrue;
+			}
+
+			m_enabled = value;
+		}
+
 		void draw() override
 		{
 			pushColorStyles();
@@ -423,9 +514,7 @@ namespace Marvel {
 				ImGui::PushStyleColor(ImGuiCol_FrameBgHovered, disabled_color);
 				ImGui::PushStyleColor(ImGuiCol_FrameBgActive, disabled_color);
 				ImGui::PushStyleColor(ImGuiCol_Button, disabled_color);
-				m_flags |= ImGuiInputTextFlags_ReadOnly;
 			}
-			else m_flags &= ~ImGuiInputTextFlags_ReadOnly;
 
 			if (ImGui::InputFloat2(m_label.c_str(), m_value, m_format.c_str(), m_flags))
 				mvApp::GetApp()->runCallback(m_callback, m_name, m_callbackData);
@@ -481,6 +570,7 @@ namespace Marvel {
 
 		std::string         m_format = "%.3f";
 		ImGuiInputTextFlags m_flags = 0;
+		ImGuiInputTextFlags m_stor_flags = 0;
 
 	};
 
@@ -499,6 +589,22 @@ namespace Marvel {
 		{
 		}
 
+		void setEnabled(bool value) override
+		{
+			if (value)
+			{
+				m_flags = m_stor_flags;
+			}
+			else
+			{
+				m_stor_flags = m_flags;
+				m_flags |= ImGuiInputTextFlags_ReadOnly;
+				m_flags &= ~ImGuiInputTextFlags_EnterReturnsTrue;
+			}
+
+			m_enabled = value;
+		}
+
 		void draw() override
 		{
 			pushColorStyles();
@@ -513,9 +619,7 @@ namespace Marvel {
 				ImGui::PushStyleColor(ImGuiCol_FrameBgHovered, disabled_color);
 				ImGui::PushStyleColor(ImGuiCol_FrameBgActive, disabled_color);
 				ImGui::PushStyleColor(ImGuiCol_Button, disabled_color);
-				m_flags |= ImGuiInputTextFlags_ReadOnly;
 			}
-			else m_flags &= ~ImGuiInputTextFlags_ReadOnly;
 
 			if (ImGui::InputFloat3(m_label.c_str(), m_value, m_format.c_str(), m_flags))
 				mvApp::GetApp()->runCallback(m_callback, m_name, m_callbackData);
@@ -571,6 +675,7 @@ namespace Marvel {
 
 		std::string         m_format = "%.3f";
 		ImGuiInputTextFlags m_flags = 0;
+		ImGuiInputTextFlags m_stor_flags = 0;
 
 	};
 
@@ -589,6 +694,22 @@ namespace Marvel {
 		{
 		}
 
+		void setEnabled(bool value) override
+		{
+			if (value)
+			{
+				m_flags = m_stor_flags;
+			}
+			else
+			{
+				m_stor_flags = m_flags;
+				m_flags |= ImGuiInputTextFlags_ReadOnly;
+				m_flags &= ~ImGuiInputTextFlags_EnterReturnsTrue;
+			}
+
+			m_enabled = value;
+		}
+
 		void draw() override
 		{
 			pushColorStyles();
@@ -603,9 +724,7 @@ namespace Marvel {
 				ImGui::PushStyleColor(ImGuiCol_FrameBgHovered, disabled_color);
 				ImGui::PushStyleColor(ImGuiCol_FrameBgActive, disabled_color);
 				ImGui::PushStyleColor(ImGuiCol_Button, disabled_color);
-				m_flags |= ImGuiInputTextFlags_ReadOnly;
 			}
-			else m_flags &= ~ImGuiInputTextFlags_ReadOnly;
 
 			if (ImGui::InputFloat4(m_label.c_str(), m_value, m_format.c_str(), m_flags))
 				mvApp::GetApp()->runCallback(m_callback, m_name, m_callbackData);
@@ -660,6 +779,7 @@ namespace Marvel {
 
 		std::string         m_format = "%.3f";
 		ImGuiInputTextFlags m_flags = 0;
+		ImGuiInputTextFlags m_stor_flags = 0;
 
 	};
 
