@@ -36,11 +36,25 @@ namespace Marvel {
 		{
 		}
 
+		void setEnabled(bool value) override
+		{
+			if (value)
+			{
+				m_flags &= ~ImGuiSelectableFlags_Disabled;
+			}
+
+			else
+			{
+				m_flags |= ImGuiSelectableFlags_Disabled;
+			}
+
+			m_enabled = value;
+		}
+
 		void draw() override
 		{
 			pushColorStyles();
 			ImGui::PushID(this);
-			!isItemEnabled() ? m_flags |= ImGuiSelectableFlags_Disabled : m_flags &= ~ImGuiSelectableFlags_Disabled;
 
 			if(ImGui::Selectable(m_label.c_str(), m_value, m_flags))
 			{

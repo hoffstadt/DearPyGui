@@ -38,6 +38,21 @@ namespace Marvel {
 		{
 		}
 
+		void setEnabled(bool value) override
+		{
+			if (value)
+			{
+				m_flags = m_stor_flags;
+			}
+			else
+			{
+				m_stor_flags = m_flags;
+				m_flags |= ImGuiSliderFlags_NoInput;
+			}
+
+			m_enabled = value;
+		}
+
 		void draw() override
 		{
 			pushColorStyles();
@@ -119,6 +134,7 @@ namespace Marvel {
 		float               m_max = 100.0f;
 		std::string         m_format = "%.3f";
 		ImGuiInputTextFlags m_flags = ImGuiSliderFlags_None;
+		ImGuiInputTextFlags m_stor_flags = ImGuiSliderFlags_None;
 
 	};
 
@@ -135,6 +151,21 @@ namespace Marvel {
 		mvDragFloat2(const std::string& name, float* default_value, const std::string& dataSource)
 			: mvFloat2PtrBase(name, default_value, dataSource)
 		{
+		}
+
+		void setEnabled(bool value) override
+		{
+			if (value)
+			{
+				m_flags = m_stor_flags;
+			}
+			else
+			{
+				m_stor_flags = m_flags;
+				m_flags |= ImGuiSliderFlags_NoInput;
+			}
+
+			m_enabled = value;
 		}
 
 		void draw() override
@@ -217,6 +248,7 @@ namespace Marvel {
 		float               m_max = 100.0f;
 		std::string         m_format = "%.3f";
 		ImGuiInputTextFlags m_flags = ImGuiSliderFlags_None;
+		ImGuiInputTextFlags m_stor_flags = ImGuiSliderFlags_None;
 
 	};
 
@@ -233,6 +265,21 @@ namespace Marvel {
 		mvDragFloat3(const std::string& name, float* default_value, const std::string& dataSource)
 			: mvFloat3PtrBase(name, default_value, dataSource)
 		{
+		}
+
+		void setEnabled(bool value) override
+		{
+			if (value)
+			{
+				m_flags = m_stor_flags;
+			}
+			else
+			{
+				m_stor_flags = m_flags;
+				m_flags |= ImGuiSliderFlags_NoInput;
+			}
+
+			m_enabled = value;
 		}
 
 		void draw() override
@@ -315,6 +362,7 @@ namespace Marvel {
 		float               m_max = 100.0f;
 		std::string         m_format = "%.3f";
 		ImGuiInputTextFlags m_flags = ImGuiSliderFlags_None;
+		ImGuiInputTextFlags m_stor_flags = ImGuiSliderFlags_None;
 
 	};
 
@@ -331,6 +379,21 @@ namespace Marvel {
 		mvDragFloat4(const std::string& name, float* default_value, const std::string& dataSource)
 			: mvFloat4PtrBase(name, default_value, dataSource)
 		{
+		}
+
+		void setEnabled(bool value) override
+		{
+			if (value)
+			{
+				m_flags = m_stor_flags;
+			}
+			else
+			{
+				m_stor_flags = m_flags;
+				m_flags |= ImGuiSliderFlags_NoInput;
+			}
+
+			m_enabled = value;
 		}
 
 		void draw() override
@@ -413,6 +476,7 @@ namespace Marvel {
 		float               m_max = 100.0f;
 		std::string         m_format = "%.3f";
 		ImGuiInputTextFlags m_flags = ImGuiSliderFlags_None;
+		ImGuiInputTextFlags m_stor_flags = ImGuiSliderFlags_None;
 
 	};
 
@@ -429,7 +493,21 @@ namespace Marvel {
 		mvDragInt(const std::string& name, int default_value, const std::string& dataSource)
 			: mvIntPtrBase(name, default_value, dataSource)
 		{
+		}
 
+		void setEnabled(bool value) override
+		{
+			if (value)
+			{
+				m_flags = m_stor_flags;
+			}
+			else
+			{
+				m_stor_flags = m_flags;
+				m_flags |= ImGuiSliderFlags_NoInput;
+			}
+
+			m_enabled = value;
 		}
 
 		void draw() override
@@ -511,6 +589,7 @@ namespace Marvel {
 		int                 m_max = 100;
 		std::string         m_format = "%d";
 		ImGuiInputTextFlags m_flags = ImGuiSliderFlags_None;
+		ImGuiInputTextFlags m_stor_flags = ImGuiSliderFlags_None;
 
 	};
 
@@ -528,6 +607,21 @@ namespace Marvel {
 			: mvInt2PtrBase(name, default_value, dataSource)
 		{
 
+		}
+
+		void setEnabled(bool value) override
+		{
+			if (value)
+			{
+				m_flags = m_stor_flags;
+			}
+			else
+			{
+				m_stor_flags = m_flags;
+				m_flags |= ImGuiSliderFlags_NoInput;
+			}
+
+			m_enabled = value;
 		}
 
 		void draw() override
@@ -610,6 +704,7 @@ namespace Marvel {
 		int                 m_max = 100;
 		std::string         m_format = "%d";
 		ImGuiInputTextFlags m_flags = ImGuiSliderFlags_None;
+		ImGuiInputTextFlags m_stor_flags = ImGuiSliderFlags_None;
 
 	};
 
@@ -629,6 +724,21 @@ namespace Marvel {
 
 		}
 
+		void setEnabled(bool value) override
+		{
+			if (value)
+			{
+				m_flags = m_stor_flags;
+			}
+			else
+			{
+				m_stor_flags = m_flags;
+				m_flags |= ImGuiSliderFlags_NoInput;
+			}
+
+			m_enabled = value;
+		}
+
 		void draw() override
 		{
 			pushColorStyles();
@@ -643,7 +753,7 @@ namespace Marvel {
 				ImGui::PushStyleColor(ImGuiCol_FrameBgHovered, disabled_color);
 				ImGui::PushStyleColor(ImGuiCol_FrameBgActive, disabled_color);
 				ImGui::PushStyleColor(ImGuiCol_Button, disabled_color);
-				std::copy(m_value, m_value + 2, m_disabled_value);
+				std::copy(m_value, m_value + 3, m_disabled_value);
 			}
 
 			if (ImGui::DragInt3(m_label.c_str(), m_enabled ? m_value : &m_disabled_value[0], m_speed, m_min, m_max, m_format.c_str(), m_flags))
@@ -709,6 +819,7 @@ namespace Marvel {
 		int                 m_max = 100;
 		std::string         m_format = "%d";
 		ImGuiInputTextFlags m_flags = ImGuiSliderFlags_None;
+		ImGuiInputTextFlags m_stor_flags = ImGuiSliderFlags_None;
 
 	};
 
@@ -726,6 +837,21 @@ namespace Marvel {
 			: mvInt4PtrBase(name, default_value, dataSource)
 		{
 
+		}
+
+		void setEnabled(bool value) override
+		{
+			if (value)
+			{
+				m_flags = m_stor_flags;
+			}
+			else
+			{
+				m_stor_flags = m_flags;
+				m_flags |= ImGuiSliderFlags_NoInput;
+			}
+
+			m_enabled = value;
 		}
 
 		void draw() override
@@ -808,6 +934,7 @@ namespace Marvel {
 		int                 m_max = 100;
 		std::string         m_format = "%d";
 		ImGuiInputTextFlags m_flags = ImGuiSliderFlags_None;
+		ImGuiInputTextFlags m_stor_flags = ImGuiSliderFlags_None;
 
 	};
 
