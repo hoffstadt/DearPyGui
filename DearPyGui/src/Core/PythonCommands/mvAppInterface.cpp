@@ -402,6 +402,12 @@ namespace Marvel {
 		if (!(*mvApp::GetApp()->getParsers())["run_async_function"].parse(args, kwargs, __FUNCTION__, &callback, &data, &return_handler))
 			return GetPyNone();
 
+		if (callback)
+			Py_XINCREF(callback);
+
+		if (return_handler)
+			Py_XINCREF(return_handler);
+
 		mvApp::GetApp()->addMTCallback(callback, data, return_handler);
 
 		return GetPyNone();
