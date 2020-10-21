@@ -235,9 +235,7 @@ namespace Marvel {
 				ImGui::PushStyleColor(ImGuiCol_FrameBgHovered, disabled_color);
 				ImGui::PushStyleColor(ImGuiCol_FrameBgActive, disabled_color);
 				ImGui::PushStyleColor(ImGuiCol_Button, disabled_color);
-				m_flags |= ImGuiInputTextFlags_ReadOnly;
 			}
-			else m_flags &= ~ImGuiInputTextFlags_ReadOnly;
 
 			if (ImGui::InputInt3(m_label.c_str(), m_value, m_flags))
 				mvApp::GetApp()->runCallback(m_callback, m_name, m_callbackData);
@@ -726,9 +724,7 @@ namespace Marvel {
 				ImGui::PushStyleColor(ImGuiCol_FrameBgHovered, disabled_color);
 				ImGui::PushStyleColor(ImGuiCol_FrameBgActive, disabled_color);
 				ImGui::PushStyleColor(ImGuiCol_Button, disabled_color);
-				m_flags |= ImGuiInputTextFlags_ReadOnly;
 			}
-			else m_flags &= ~ImGuiInputTextFlags_ReadOnly;
 
 			if (ImGui::InputFloat4(m_label.c_str(), m_value, m_format.c_str(), m_flags))
 				mvApp::GetApp()->runCallback(m_callback, m_name, m_callbackData);
