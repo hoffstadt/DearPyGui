@@ -36,6 +36,7 @@ namespace Marvel {
 			{
 				m_stor_flags = m_flags;
 				m_flags |= ImGuiInputTextFlags_ReadOnly;
+				m_flags &= ~ImGuiInputTextFlags_EnterReturnsTrue;
 			}
 			
 			m_enabled = value;
@@ -54,7 +55,6 @@ namespace Marvel {
 				ImGui::PushStyleColor(ImGuiCol_FrameBg, disabled_color);
 				ImGui::PushStyleColor(ImGuiCol_FrameBgHovered, disabled_color);
 				ImGui::PushStyleColor(ImGuiCol_FrameBgActive, disabled_color);
-				m_disabled_value = *m_value;
 			}
 
 			if (m_multiline)
@@ -64,19 +64,19 @@ namespace Marvel {
 			{
 				if(m_multiline)
 				{
-					if (ImGui::InputTextMultiline(m_label.c_str(), m_enabled ? m_value : &m_disabled_value, ImVec2((float)m_width, (float)m_height), m_flags))
+					if (ImGui::InputTextMultiline(m_label.c_str(), m_value, ImVec2((float)m_width, (float)m_height), m_flags))
 						mvApp::GetApp()->runCallback(m_callback, m_name, m_callbackData);
 				}
 				else
 				{
-					if (ImGui::InputText(m_label.c_str(), m_enabled ? m_value : &m_disabled_value, m_flags))
+					if (ImGui::InputText(m_label.c_str(), m_value, m_flags))
 						mvApp::GetApp()->runCallback(m_callback, m_name, m_callbackData);
 				}
 			}
 
 			else
 			{
-				if (ImGui::InputTextWithHint(m_label.c_str(), m_hint.c_str(), m_enabled ? m_value : &m_disabled_value, m_flags))
+				if (ImGui::InputTextWithHint(m_label.c_str(), m_hint.c_str(), m_value, m_flags))
 					mvApp::GetApp()->runCallback(m_callback, m_name, m_callbackData);
 			}
 
