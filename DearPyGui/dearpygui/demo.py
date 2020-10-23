@@ -155,7 +155,8 @@ def show_demo():
 
     def on_demo_close(sender, data):
         delete_item("Dear PyGui Demo")
-        delete_item("Logging Widget On Window##demo")
+        if does_item_exist("Logging Widget On Window##demo"):
+            delete_item("Logging Widget On Window##demo")
         set_render_callback(None)
         set_mouse_down_callback(None)
         set_mouse_drag_callback(None, 10)
