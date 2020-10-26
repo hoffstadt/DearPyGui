@@ -31,9 +31,9 @@ Thank you!
 
 ----
 
-**My Improvment**
+**My Improvement**
 
-A clear and concise description of what the improvment is. Please provide as much context as possible.
+A clear and concise description of what the improvement is. Please provide as much context as possible.
 
 **Necessary Assets**
 

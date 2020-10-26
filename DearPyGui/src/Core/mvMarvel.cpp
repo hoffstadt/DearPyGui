@@ -627,6 +627,7 @@ namespace Marvel {
 		ADD_PYTHON_FUNCTION(add_doc_window)
 		ADD_PYTHON_FUNCTION(add_debug_window)
 		ADD_PYTHON_FUNCTION(add_style_window)
+		ADD_PYTHON_FUNCTION(add_metrics_window)
 
 		// input commands
 		ADD_PYTHON_FUNCTION(set_mouse_move_callback)
