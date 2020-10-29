@@ -134,7 +134,7 @@ install:
 
   # Ubuntu Only - Build Python(s) since AppVeyor forgot --enable-shared flag
   - sh: |
-       if [ ${CI_LINUX} ]; then
+       if [ "$MACOS" = "" ]; then
            command -v virtualenv || install_virtualenv
            VENV_PATH=${HOME}/venv${PYFULLVERSION%%[abrcf]*}
            VENV_MINOR_PATH=${HOME}/venv${PYFULLVERSION%.*}
