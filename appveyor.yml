@@ -90,7 +90,8 @@ install:
            ln -s ${VENV_PATH} ${VENV_MINOR_PATH}
            fi
            find "${HOME}" -name "Python-*" -type d -maxdepth 1 | xargs -I {} rm -rf {}
-           nano /etc/ld.so.conf.d/libc.conf
+           sudo echo "${PY_PATH}" >> /etc/ld.so.conf.d/dpg.conf
+           sudo ldconfig
        fi
 
 # actual build
