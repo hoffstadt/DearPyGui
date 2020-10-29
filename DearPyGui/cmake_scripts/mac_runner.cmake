@@ -74,6 +74,6 @@ elseif(MVPY_VERSION EQUAL 39)
 
 	target_link_directories(core 
 		PRIVATE 
-			"/Users/appveyor/.localpython3.9.0/lib"
+			"/Users/appveyor/.localpython3.9.0b1/lib"
 	)
 endif()
