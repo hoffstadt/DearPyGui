@@ -87,7 +87,7 @@ install:
            find "${HOME}" -name "Python-*" -type d -maxdepth 1 | xargs -I {} rm -rf {}
        fi
        cd /home/appveyor/
-       ls
+       ls -a
 
 # actual build
 build_script:
