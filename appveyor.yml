@@ -92,7 +92,7 @@ install:
            find "${HOME}" -name "Python-*" -type d -maxdepth 1 | xargs -I {} rm -rf {}
            sudo sh -c "echo ${PY_PATH} >> /etc/ld.so.conf.d/dpg.conf"
            cat /etc/ld.so.conf.d/dpg.conf
-           sudo ldconfig
+           sudo ldconfig -v
        fi
 
 # actual build
