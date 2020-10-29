@@ -62,4 +62,18 @@ elseif(MVPY_VERSION EQUAL 38)
 		PRIVATE 
 			"/Users/appveyor/.localpython3.8.3/lib"
 	)
+
+elseif(MVPY_VERSION EQUAL 39)
+
+	target_include_directories(core 
+		PRIVATE 
+			${MARVEL_INCLUDE_DIR}
+			"/Users/appveyor/.localpython3.9.0"
+			"/Users/appveyor/.localpython3.9.0/include/python3.9"
+	)
+
+	target_link_directories(core 
+		PRIVATE 
+			"/Users/appveyor/.localpython3.9.0/lib"
+	)
 endif()
