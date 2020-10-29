@@ -325,7 +325,7 @@ namespace Marvel {
 			return GetPyNone();
 		if (mvApp::IsAppStarted())
 		{
-			ThrowPythonException("Cannot call \"start_dearpygui\" while a Dear PyGUI app is already running on this thread.");
+			ThrowPythonException("Cannot call \"start_dearpygui\" while a Dear PyGUI app is already running.");
 			return GetPyNone();
 		}
 
