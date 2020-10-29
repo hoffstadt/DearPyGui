@@ -91,11 +91,7 @@ install:
            fi
            find "${HOME}" -name "Python-*" -type d -maxdepth 1 | xargs -I {} rm -rf {}
            sudo sh -c "echo ${PY_PATH}/lib/ >> /etc/ld.so.conf"
-           cat /etc/ld.so.conf
-           echo "here now"
            sudo ldconfig -v
-           cd ${PY_PATH}/lib/
-           ls
        fi
 
 # actual build
