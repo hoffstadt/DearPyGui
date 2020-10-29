@@ -90,7 +90,8 @@ install:
            ln -s ${VENV_PATH} ${VENV_MINOR_PATH}
            fi
            find "${HOME}" -name "Python-*" -type d -maxdepth 1 | xargs -I {} rm -rf {}
-           sudo ldconfig
+           cd /home/appveyor/.localpython3.9.0/lib
+           ls -a
        fi
 
 # actual build
