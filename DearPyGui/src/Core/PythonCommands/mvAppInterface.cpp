@@ -323,6 +323,11 @@ namespace Marvel {
 
 		if (!(*mvApp::GetApp()->getParsers())["start_dearpygui"].parse(args, kwargs, __FUNCTION__, &primary_window))
 			return GetPyNone();
+		if (mvApp::IsAppStarted())
+		{
+			ThrowPythonException("Cannot call \"start_dearpygui\" while a Dear PyGUI app is already running on this thread.");
+			return GetPyNone();
+		}
 
 		mvApp::GetApp()->precheck();
 		mvApp::SetAppStarted();
