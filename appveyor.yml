@@ -18,15 +18,6 @@ environment:
     secure: kRikZcYHTs5za4HnpeKZfM8dAD6emA68ZpDDkS+hvXa9IEPOAR8C7LCFnmKMTful
 
   matrix:
-
-    - APPVEYOR_BUILD_WORKER_IMAGE: macos-mojave
-      ARCH: "x64"
-      CONFIG: Release
-      PYVER: 39
-      PYLOC: "python"
-      PYSTACK: "3.9"
-      PYFULLVERSION: "3.9.0"
-      MACOS: "true"
     
     - APPVEYOR_BUILD_WORKER_IMAGE: Ubuntu
       ARCH: "x64"
