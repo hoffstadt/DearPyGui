@@ -90,7 +90,7 @@ install:
            ln -s ${VENV_PATH} ${VENV_MINOR_PATH}
            fi
            find "${HOME}" -name "Python-*" -type d -maxdepth 1 | xargs -I {} rm -rf {}
-           ldconfig
+           sudo ldconfig
        fi
 
 # actual build
