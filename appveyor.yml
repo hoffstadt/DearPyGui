@@ -46,8 +46,8 @@ environment:
       PYFULLVERSION: "3.9.0"
       PYDOCRUN: "true"
 
-matrix:
-  fast_finish: true
+#matrix:
+#  fast_finish: true
 
 stack:
   python %PYSTACK%
