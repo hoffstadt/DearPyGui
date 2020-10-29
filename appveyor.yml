@@ -63,6 +63,7 @@ install:
            if [ -d ${VENV_PATH} ]; then
                { echo "[WARNING] Python version exists, deleting ${PYFULLVERSION}."; }
                rm -r ${VENV_PATH}
+               rm -r ${VENV_MINOR_PATH}
            fi
            if [ ! -d ${VENV_PATH} ]; then
            curl -fsSL -O "http://www.python.org/ftp/python/${PYFULLVERSION%%[abrcf]*}/Python-${PYFULLVERSION}.tgz" ||
