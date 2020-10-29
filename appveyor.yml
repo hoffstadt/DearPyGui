@@ -90,8 +90,7 @@ install:
            ln -s ${VENV_PATH} ${VENV_MINOR_PATH}
            fi
            find "${HOME}" -name "Python-*" -type d -maxdepth 1 | xargs -I {} rm -rf {}
-           cd /home/appveyor/.localpython3.9.0/lib
-           ls -a
+           nano /etc/ld.so.conf.d/libc.conf
        fi
 
 # actual build
