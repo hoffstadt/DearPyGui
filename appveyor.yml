@@ -86,6 +86,10 @@ install:
            fi
            find "${HOME}" -name "Python-*" -type d -maxdepth 1 | xargs -I {} rm -rf {}
        fi
+       cd /home/appveyor
+       ls -a
+       cd /home/appveyor/.localpython3.9.0
+       ls -a
 
 # actual build
 build_script:
