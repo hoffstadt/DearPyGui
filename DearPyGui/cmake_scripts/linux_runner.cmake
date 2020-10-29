@@ -76,4 +76,28 @@ elseif(MVPY_VERSION EQUAL 38)
 			glfw
 			python3.8
 	)
+
+elseif(MVPY_VERSION EQUAL 39)
+
+	target_include_directories(core 
+		PRIVATE 
+			${MARVEL_INCLUDE_DIR}
+			"/home/appveyor/.localpython3.9.0"
+			"/home/appveyor/.localpython3.9.0/include/python9.0"
+	)
+
+	target_link_directories(core 
+		PRIVATE 
+			"/usr/lib"
+			"/home/appveyor/.localpython3.9.0/lib"
+	)
+
+	target_link_libraries(core 
+		PRIVATE 
+			"-fPIC -lcrypt -lpthread -ldl  -lutil -lm"
+			GL
+			glfw
+			python3.9
+	)
+
 endif()

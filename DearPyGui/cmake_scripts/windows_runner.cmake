@@ -56,4 +56,21 @@ elseif(MVPY_VERSION EQUAL 38)
 			"C:/Python38-x64/DLLs"
 	)
 
+elseif(MVPY_VERSION EQUAL 39)
+	target_link_libraries(core PUBLIC d3d11 python39)
+
+	target_include_directories(core 
+		PRIVATE 
+			${MARVEL_INCLUDE_DIR}
+			"C:/Python39-x64"
+			"C:/Python39-x64/include"
+	)
+
+	target_link_directories(core 
+		PRIVATE 
+			"C:/Python39-x64"
+			"C:/Python39-x64/libs"
+			"C:/Python39-x64/DLLs"
+	)
+
 endif()
