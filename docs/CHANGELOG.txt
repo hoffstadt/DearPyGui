@@ -29,8 +29,11 @@ HOW TO UPDATE?
 Decorated log: https://github.com/hoffstadt/DearPyGui/releases/tag/v0.5.x
 
 Updates:
-- ImGui:           Upgraded to v1.79
-- ImGuiFileDialog: Upgraded to v0.5.1
+- ImGui:           	Upgraded to v1.79
+- ImGuiFileDialog: 	Upgraded to v0.5.1
+
+Fixes:
+- start_dearpygui:     	Is now protected from trying to create a new dearpygui instance before closing the last one issue#289
 
 -----------------------------------------------------------------------
  VERSION 0.5.0 (10/20/2020)
