@@ -20,6 +20,8 @@
         h2 {color: #058; font-weight:370}
         .bold {color: #058; font-weight: bold;}
     </style>
+    <link href="../code_style.css" rel="stylesheet" type="text/css">
+    <script src="../rainbow-custom.min.js"></script>
 </head>
 
 <body>
@@ -28,18 +30,29 @@
 </header>
 <main id="content">
     <article>
-        <h2>Dear PyGui Reference</h2>
+        <h2>Item Configuration</h2>
         <hr>
         <p>
-            This page is a work-in-progress. We will be adding topics that cover everything you need to know about
-            <i>Dear PyGui</i> and how it works!
+            In <i>Dear PyGui</i>, when GUI items are added, various configuration options and flags can be set. There
+            are several options common to all items (i.e. <i>show</i>) but most GUI items have specific options. In
+            order to modify an item's configuration after being created, you can use the <i>configure_item(...)</i>
+            command in conjuction with the keyword from the item's add_* command. You can also retrieve an item's
+            configuration in the form of a dictionary by using the
+            <i>get_item_configuration(..)</i> command.
         </p>
-        <ul>
-            <li><a href="configure-item.html">Item Configuration</a></li>
-            <li><a href="widget-id-system.html">Widget ID System</a></li>
-            <li><a href="value-storage.html">Value Storage System</a></li>
-            <li><a href="constants.html">Constants: Core Module Constants</a></li>
-        </ul>
     </article>
+
+    <article>
+        <h2>Example</h2>
+        <p>
+            Simple usage can be found below:
+        </p>
+        <pre><code data-language="python">add_button("Button 1", enabled=True, label="Press me")
+
+# at a later time, change the item's configuration
+configure_item("Button 1", enabled=False, label="New Label")
+</code></pre>
+    </article>
+
 </main>
 </body>
