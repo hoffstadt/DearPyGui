@@ -96,7 +96,6 @@ environment:
       PYLOC: "C:/Python38-x64/python.exe"
       PYSTACK: "3.8"
       PYFULLVERSION: "3.8.5"
-      PYDOCRUN: "true"
 
     - APPVEYOR_BUILD_WORKER_IMAGE: macos-mojave
       ARCH: "x64"
@@ -135,10 +134,15 @@ install:
 
   # Ubuntu Only - Build Python(s) since AppVeyor forgot --enable-shared flag
   - sh: |
-       if [ ${CI_LINUX} ]; then
+       if [ "$MACOS" = "" ]; then
            command -v virtualenv || install_virtualenv
            VENV_PATH=${HOME}/venv${PYFULLVERSION%%[abrcf]*}
            VENV_MINOR_PATH=${HOME}/venv${PYFULLVERSION%.*}
+           if [ -d ${VENV_PATH} ]; then
+               { echo "[WARNING] Python version exists, deleting ${PYFULLVERSION}."; }
+               rm -r ${VENV_PATH}
+               rm -r ${VENV_MINOR_PATH}
+           fi
            if [ ! -d ${VENV_PATH} ]; then
            curl -fsSL -O "http://www.python.org/ftp/python/${PYFULLVERSION%%[abrcf]*}/Python-${PYFULLVERSION}.tgz" ||
                { echo "[WARNING] Cannot download Python ${PYFULLVERSION}."; continue; }
@@ -164,6 +168,8 @@ install:
            ln -s ${VENV_PATH} ${VENV_MINOR_PATH}
            fi
            find "${HOME}" -name "Python-*" -type d -maxdepth 1 | xargs -I {} rm -rf {}
+           sudo sh -c "echo ${PY_PATH}/lib/ >> /etc/ld.so.conf"
+           sudo ldconfig -v
        fi
 
 # actual build
@@ -217,10 +223,10 @@ on_success:
           cd ..
           git checkout gh-pages
           Add-Content -Path "$HOME\.git-credentials" -Value "https://$($env:git_token):x-oauth-basic@github.com`n" -NoNewline
-          C:\Python38-x64\python.exe -m pip install C:\projects\dearpygui\dist\dearpygui-$env:APPVEYOR_BUILD_VERSION-cp38-cp38-win_amd64.whl
-          C:\Python38-x64\python.exe -m pip install pdoc3
-          C:\Python38-x64\python.exe -m pdoc --html dearpygui -f
-          C:\Python38-x64\python.exe html_script.py
+          C:\Python39-x64\python.exe -m pip install C:\projects\dearpygui\dist\dearpygui-$env:APPVEYOR_BUILD_VERSION-cp39-cp39-win_amd64.whl
+          C:\Python39-x64\python.exe -m pip install pdoc3
+          C:\Python39-x64\python.exe -m pdoc --html dearpygui -f
+          C:\Python39-x64\python.exe html_script.py
           git config --global credential.helper store
           git config --global user.email "jonathanhoffstadt@yahoo.com"
           git config --global user.name "Jonathan Hoffstadt"
