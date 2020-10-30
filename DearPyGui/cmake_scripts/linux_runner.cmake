@@ -83,7 +83,7 @@ elseif(MVPY_VERSION EQUAL 39)
 		PRIVATE 
 			${MARVEL_INCLUDE_DIR}
 			"/home/appveyor/.localpython3.9.0"
-			"/home/appveyor/.localpython3.9.0/include/python9.0"
+			"/home/appveyor/.localpython3.9.0/include/python3.9"
 	)
 
 	target_link_directories(core 
