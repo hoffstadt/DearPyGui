@@ -2,7 +2,7 @@ version: 0.5.{build}
 
 branches:
   only:
-  - python39
+  - master
 build:
   verbosity: minimal
   
