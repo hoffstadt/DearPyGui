@@ -5,6 +5,7 @@
 #include <GLFW/glfw3.h>
 #include "implot.h"
 #include "imgui.h"
+#include "imgui_internal.h"
 #include "imgui_impl_glfw.h"
 #include "imgui_impl_opengl3.h"
 #include <stdio.h>
@@ -100,11 +101,15 @@ namespace Marvel {
 
     void mvLinuxWindow::renderFrame()
     {
+
         prerender();
 
         mvDataStorage::UpdateData();
 
         glfwSwapInterval(mvApp::GetApp()->getVSync() ? 1 : 0); // Enable vsync
+
+        if(GImGui->CurrentWindow == nullptr)
+            return;
 
         if (m_error)
         {
@@ -152,7 +157,6 @@ namespace Marvel {
         ImGui_ImplOpenGL3_NewFrame();
         ImGui_ImplGlfw_NewFrame();
         ImGui::NewFrame();
-
 
     }
 
