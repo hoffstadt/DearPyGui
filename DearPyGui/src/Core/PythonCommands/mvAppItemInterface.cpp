@@ -462,7 +462,8 @@ namespace Marvel {
 	PyObject* get_all_items(PyObject * self, PyObject * args, PyObject * kwargs)
 	{
 
-		std::vector<mvAppItem*>& windows = mvApp::GetApp()->getItemRegistry().getWindows();
+		std::vector<mvAppItem*>& frontwindows = mvApp::GetApp()->getItemRegistry().getFrontWindows();
+		std::vector<mvAppItem*>& backwindows = mvApp::GetApp()->getItemRegistry().getBackWindows();
 
 		std::vector<std::string> childList;
 
@@ -479,7 +480,9 @@ namespace Marvel {
 
 		};
 
-		for (auto window : windows)
+		for (auto window : frontwindows)
+			ChildRetriever(window);
+		for (auto window : backwindows)
 			ChildRetriever(window);
 
 		return ToPyList(childList);
@@ -487,9 +490,13 @@ namespace Marvel {
 
 	PyObject* get_windows(PyObject * self, PyObject * args, PyObject * kwargs)
 	{
-		auto windows = mvApp::GetApp()->getItemRegistry().getWindows();
+		auto frontwindows = mvApp::GetApp()->getItemRegistry().getFrontWindows();
 		std::vector<std::string> childList;
-		for (auto window : windows)
+		for (auto window : frontwindows)
+			childList.emplace_back(window->getName());
+
+		auto backwindows = mvApp::GetApp()->getItemRegistry().getBackWindows();
+		for (auto window : backwindows)
 			childList.emplace_back(window->getName());
 		return ToPyList(childList);
 	}
@@ -519,7 +526,7 @@ namespace Marvel {
 		auto appitem = mvApp::GetApp()->getItemRegistry().getItem(item);
 
 		if (appitem)
-			return ToPyBool(appitem->isItemHovered());
+			return ToPyBool(appitem->getState().isItemHovered());
 
 		return GetPyNone();
 	}
@@ -549,7 +556,7 @@ namespace Marvel {
 		auto appitem = mvApp::GetApp()->getItemRegistry().getItem(item);
 
 		if (appitem)
-			return ToPyBool(appitem->isItemActive());
+			return ToPyBool(appitem->getState().isItemActive());
 
 		return GetPyNone();
 	}
@@ -564,7 +571,7 @@ namespace Marvel {
 		auto appitem = mvApp::GetApp()->getItemRegistry().getItem(item);
 
 		if (appitem)
-			return ToPyBool(appitem->isItemFocused());
+			return ToPyBool(appitem->getState().isItemFocused());
 
 		return GetPyNone();
 	}
@@ -579,7 +586,7 @@ namespace Marvel {
 		auto appitem = mvApp::GetApp()->getItemRegistry().getItem(item);
 
 		if (appitem)
-			return ToPyBool(appitem->isItemClicked());
+			return ToPyBool(appitem->getState().isItemClicked());
 
 		return GetPyNone();
 	}
@@ -609,7 +616,7 @@ namespace Marvel {
 		auto appitem = mvApp::GetApp()->getItemRegistry().getItem(item);
 
 		if (appitem)
-			return ToPyBool(appitem->isItemVisible());
+			return ToPyBool(appitem->getState().isItemVisible());
 
 		return GetPyNone();
 	}
@@ -624,7 +631,7 @@ namespace Marvel {
 		auto appitem = mvApp::GetApp()->getItemRegistry().getItem(item);
 
 		if (appitem)
-			return ToPyBool(appitem->isItemEdited());
+			return ToPyBool(appitem->getState().isItemEdited());
 
 		return GetPyNone();
 	}
@@ -639,7 +646,7 @@ namespace Marvel {
 		auto appitem = mvApp::GetApp()->getItemRegistry().getItem(item);
 
 		if (appitem)
-			return ToPyBool(appitem->isItemActivated());
+			return ToPyBool(appitem->getState().isItemActivated());
 
 		return GetPyNone();
 	}
@@ -654,7 +661,7 @@ namespace Marvel {
 		auto appitem = mvApp::GetApp()->getItemRegistry().getItem(item);
 
 		if (appitem)
-			return ToPyBool(appitem->isItemDeactivated());
+			return ToPyBool(appitem->getState().isItemDeactivated());
 
 		return GetPyNone();
 	}
@@ -669,7 +676,7 @@ namespace Marvel {
 		auto appitem = mvApp::GetApp()->getItemRegistry().getItem(item);
 
 		if (appitem)
-			return ToPyBool(appitem->isItemDeactivatedAfterEdit());
+			return ToPyBool(appitem->getState().isItemDeactivatedAfterEdit());
 
 		return GetPyNone();
 	}
@@ -684,7 +691,7 @@ namespace Marvel {
 		auto appitem = mvApp::GetApp()->getItemRegistry().getItem(item);
 
 		if (appitem)
-			return ToPyBool(appitem->isItemToogledOpen());
+			return ToPyBool(appitem->getState().isItemToogledOpen());
 
 		return GetPyNone();
 	}
@@ -700,7 +707,7 @@ namespace Marvel {
 
 		if (appitem)
 		{
-			mvVec2 value = appitem->getItemRectMin();
+			mvVec2 value = appitem->getState().getItemRectMin();
 			return ToPyPair(value.x, value.y);
 		}
 
@@ -718,7 +725,7 @@ namespace Marvel {
 
 		if (appitem)
 		{
-			mvVec2 value = appitem->getItemRectMax();
+			mvVec2 value = appitem->getState().getItemRectMax();
 			return ToPyPair(value.x, value.y);
 		}
 
@@ -736,7 +743,7 @@ namespace Marvel {
 
 		if (appitem)
 		{
-			mvVec2 value = appitem->getItemRectSize();
+			mvVec2 value = appitem->getState().getItemRectSize();
 			return ToPyPair(value.x, value.y);
 		}
 

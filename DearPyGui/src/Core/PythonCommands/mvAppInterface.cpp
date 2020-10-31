@@ -340,7 +340,7 @@ namespace Marvel {
 		if (!std::string(primary_window).empty())
 		{
 			// reset other windows
-			for (auto window : mvApp::GetApp()->getItemRegistry().getWindows())
+			for (auto window : mvApp::GetApp()->getItemRegistry().getFrontWindows())
 				static_cast<mvWindowAppitem*>(window)->setWindowAsMainStatus(false);
 
 			mvWindowAppitem* window = mvApp::GetApp()->getItemRegistry().getWindow(primary_window);
@@ -864,7 +864,7 @@ namespace Marvel {
 			return GetPyNone();
 
 		// reset other windows
-		for (auto window : mvApp::GetApp()->getItemRegistry().getWindows())
+		for (auto window : mvApp::GetApp()->getItemRegistry().getFrontWindows())
 			static_cast<mvWindowAppitem*>(window)->setWindowAsMainStatus(false);
 
 		mvWindowAppitem* window = mvApp::GetApp()->getItemRegistry().getWindow(item);

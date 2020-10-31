@@ -86,7 +86,17 @@ namespace Marvel {
 		if (item)
 			return item;
 
-		for (auto window : m_windows)
+		for (auto window : m_frontWindows)
+		{
+			if (window->getName() == name)
+				return window;
+
+			auto child = window->getChild(name);
+			if (child)
+				return child;
+		}
+
+		for (auto window : m_backWindows)
 		{
 			if (window->getName() == name)
 				return window;
@@ -177,7 +187,7 @@ namespace Marvel {
 		if (!mvApp::GetApp()->checkIfMainThread())
 			return false;
 
-		m_windows.push_back(item);
+		m_frontWindows.push_back(item);
 		return true;
 	}
 
@@ -200,21 +210,38 @@ namespace Marvel {
 			bool deletedItem = false;
 
 			// try to delete item
-			for (auto window : m_windows)
+			for (auto window : m_frontWindows)
 			{
 				deletedItem = window->deleteChild(m_deleteQueue.front());
 				if (deletedItem)
 					break;
 			}
 
-			bool windowDeleting = false;
+			for (auto window : m_backWindows)
+			{
+				deletedItem = window->deleteChild(m_deleteQueue.front());
+				if (deletedItem)
+					break;
+			}
+
+			bool frontWindowDeleting = false;
+			bool backWindowDeleting = false;
 
 			// check if attempting to delete a window
-			for (auto window : m_windows)
+			for (auto window : m_frontWindows)
 			{
 				if (window->getName() == m_deleteQueue.front())
 				{
-					windowDeleting = true;
+					frontWindowDeleting = true;
+					break;
+				}
+			}
+
+			for (auto window : m_backWindows)
+			{
+				if (window->getName() == m_deleteQueue.front())
+				{
+					backWindowDeleting = true;
 					break;
 				}
 			}
@@ -222,11 +249,11 @@ namespace Marvel {
 			// delete window and update window vector
 			// this should be changed to a different data
 			// structure
-			if (windowDeleting)
+			if (frontWindowDeleting)
 			{
-				std::vector<mvAppItem*> oldwindows = m_windows;
+				std::vector<mvAppItem*> oldwindows = m_frontWindows;
 
-				m_windows.clear();
+				m_frontWindows.clear();
 
 				for (auto window : oldwindows)
 				{
@@ -237,7 +264,26 @@ namespace Marvel {
 						deletedItem = true;
 						continue;
 					}
-					m_windows.push_back(window);
+					m_frontWindows.push_back(window);
+				}
+			}
+
+			if (backWindowDeleting)
+			{
+				std::vector<mvAppItem*> oldwindows = m_backWindows;
+
+				m_backWindows.clear();
+
+				for (auto window : oldwindows)
+				{
+					if (window->getName() == m_deleteQueue.front())
+					{
+						delete window;
+						window = nullptr;
+						deletedItem = true;
+						continue;
+					}
+					m_backWindows.push_back(window);
 				}
 			}
 
@@ -272,11 +318,11 @@ namespace Marvel {
 
 				if (newItem.item->isARoot())
 				{
-					m_windows.push_back(newItem.item);
+					m_frontWindows.push_back(newItem.item);
 					continue;
 				}
 
-				for (auto window : m_windows)
+				for (auto window : m_frontWindows)
 				{
 					addedItem = window->addRuntimeChild(newItem.parent, newItem.before, newItem.item);
 					if (addedItem)
@@ -324,7 +370,7 @@ namespace Marvel {
 					continue;
 				}
 
-				for (auto window : m_windows)
+				for (auto window : m_frontWindows)
 				{
 					addedItem = window->addChildAfter(popup.prev, popup.item);
 					if (addedItem)
@@ -356,7 +402,7 @@ namespace Marvel {
 
 				bool movedItem = false;
 
-				for (auto window : m_windows)
+				for (auto window : m_frontWindows)
 				{
 					child = window->stealChild(childrequest.item);
 					if (child)
@@ -377,7 +423,7 @@ namespace Marvel {
 
 			bool movedItem = false;
 
-			for (auto window : m_windows)
+			for (auto window : m_frontWindows)
 			{
 				movedItem = window->moveChildUp(itemname);
 				if (movedItem)
@@ -397,7 +443,7 @@ namespace Marvel {
 
 			bool movedItem = false;
 
-			for (auto window : m_windows)
+			for (auto window : m_frontWindows)
 			{
 				movedItem = window->moveChildDown(itemname);
 				if (movedItem)
@@ -413,12 +459,19 @@ namespace Marvel {
 
 	void mvItemRegistry::clearRegistry()
 	{
-		for (auto window : m_windows)
+		for (auto window : m_frontWindows)
 		{
 			delete window;
 			window = nullptr;
 		}
-		m_windows.clear();
+		m_frontWindows.clear();
+
+		for (auto window : m_backWindows)
+		{
+			delete window;
+			window = nullptr;
+		}
+		m_backWindows.clear();
 	}
 
 	void mvItemRegistry::deleteItem(const std::string& name) 

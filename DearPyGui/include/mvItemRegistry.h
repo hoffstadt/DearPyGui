@@ -59,7 +59,8 @@ namespace Marvel {
         mvAppItem*               getItemAsync      (const std::string& name, bool ignoreRuntime = false); // allows item to be retrieved outside main thread
         mvAppItem*               getRuntimeItem    (const std::string& name);
         mvWindowAppitem*         getWindow         (const std::string& name);
-        std::vector<mvAppItem*>& getWindows        () { return m_windows; }
+        std::vector<mvAppItem*>& getFrontWindows        () { return m_frontWindows; }
+        std::vector<mvAppItem*>& getBackWindows        () { return m_backWindows; }
 
         //-----------------------------------------------------------------------------
         // Parent stack operations
@@ -81,7 +82,8 @@ namespace Marvel {
 	private:
 
 		std::stack<mvAppItem*>  m_parents;
-		std::vector<mvAppItem*> m_windows;
+		std::vector<mvAppItem*> m_frontWindows;
+		std::vector<mvAppItem*> m_backWindows;
 
         // runtime widget modifications
         std::queue<std::string>     m_deleteChildrenQueue;
