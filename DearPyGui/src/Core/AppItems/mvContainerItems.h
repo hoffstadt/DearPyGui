@@ -57,19 +57,7 @@ namespace Marvel {
 				item->draw();
 				item->popColorStyles();
 
-				item->setHovered(ImGui::IsItemHovered());
-				item->setActive(ImGui::IsItemActive());
-				item->setFocused(ImGui::IsItemFocused());
-				item->setClicked(ImGui::IsItemClicked());
-				item->setVisible(ImGui::IsItemVisible());
-				item->setEdited(ImGui::IsItemEdited());
-				item->setActivated(ImGui::IsItemActivated());
-				item->setDeactivated(ImGui::IsItemDeactivated());
-				item->setDeactivatedAfterEdit(ImGui::IsItemDeactivatedAfterEdit());
-				item->setToggledOpen(ImGui::IsItemToggledOpen());
-				item->setRectMin({ ImGui::GetItemRectMin().x, ImGui::GetItemRectMin().y });
-				item->setRectMax({ ImGui::GetItemRectMax().x, ImGui::GetItemRectMax().y });
-				item->setRectSize({ ImGui::GetItemRectSize().x, ImGui::GetItemRectSize().y });
+				item->getState().update();
 			}
 
 			// TODO check if these work for child
@@ -183,19 +171,7 @@ namespace Marvel {
 				if (m_horizontal)
 					ImGui::SameLine(0.0, m_hspacing);
 
-				item->setHovered(ImGui::IsItemHovered());
-				item->setActive(ImGui::IsItemActive());
-				item->setFocused(ImGui::IsItemFocused());
-				item->setClicked(ImGui::IsItemClicked());
-				item->setVisible(ImGui::IsItemVisible());
-				item->setEdited(ImGui::IsItemEdited());
-				item->setActivated(ImGui::IsItemActivated());
-				item->setDeactivated(ImGui::IsItemDeactivated());
-				item->setDeactivatedAfterEdit(ImGui::IsItemDeactivatedAfterEdit());
-				item->setToggledOpen(ImGui::IsItemToggledOpen());
-				item->setRectMin({ ImGui::GetItemRectMin().x, ImGui::GetItemRectMin().y });
-				item->setRectMax({ ImGui::GetItemRectMax().x, ImGui::GetItemRectMax().y });
-				item->setRectSize({ ImGui::GetItemRectSize().x, ImGui::GetItemRectSize().y });
+				item->getState().update();
 			}
 
 			if (m_width != 0)
@@ -280,19 +256,8 @@ namespace Marvel {
 					item->draw();
 					item->popColorStyles();
 
-					item->setHovered(ImGui::IsItemHovered());
-					item->setActive(ImGui::IsItemActive());
-					item->setFocused(ImGui::IsItemFocused());
-					item->setClicked(ImGui::IsItemClicked());
-					item->setVisible(ImGui::IsItemVisible());
-					item->setEdited(ImGui::IsItemEdited());
-					item->setActivated(ImGui::IsItemActivated());
-					item->setDeactivated(ImGui::IsItemDeactivated());
-					item->setDeactivatedAfterEdit(ImGui::IsItemDeactivatedAfterEdit());
-					item->setToggledOpen(ImGui::IsItemToggledOpen());
-					item->setRectMin({ ImGui::GetItemRectMin().x, ImGui::GetItemRectMin().y });
-					item->setRectMax({ ImGui::GetItemRectMax().x, ImGui::GetItemRectMax().y });
-					item->setRectSize({ ImGui::GetItemRectSize().x, ImGui::GetItemRectSize().y });
+					item->getState().update();
+					int a = 5;
 				}
 			}
 
@@ -398,19 +363,7 @@ namespace Marvel {
 					item->draw();
 					item->popColorStyles();
 
-					item->setHovered(ImGui::IsItemHovered());
-					item->setActive(ImGui::IsItemActive());
-					item->setFocused(ImGui::IsItemFocused());
-					item->setClicked(ImGui::IsItemClicked());
-					item->setVisible(ImGui::IsItemVisible());
-					item->setEdited(ImGui::IsItemEdited());
-					item->setActivated(ImGui::IsItemActivated());
-					item->setDeactivated(ImGui::IsItemDeactivated());
-					item->setDeactivatedAfterEdit(ImGui::IsItemDeactivatedAfterEdit());
-					item->setToggledOpen(ImGui::IsItemToggledOpen());
-					item->setRectMin({ ImGui::GetItemRectMin().x, ImGui::GetItemRectMin().y });
-					item->setRectMax({ ImGui::GetItemRectMax().x, ImGui::GetItemRectMax().y });
-					item->setRectSize({ ImGui::GetItemRectSize().x, ImGui::GetItemRectSize().y });
+					item->getState().update();
 				}
 				ImGui::TreePop();
 			}

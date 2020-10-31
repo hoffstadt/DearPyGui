@@ -97,16 +97,13 @@ namespace Marvel {
 		mvAppLog::AddLog("[DearPyGui Version] %0s\n", mvApp::GetVersion());
 		mvAppLog::AddLog("[Python Version] %0s\n", PY_VERSION);
 		mvAppLog::AddLog("[DearImGui Version] %0s\n", IMGUI_VERSION);
-#if defined (_WIN32)
-		    mvAppLog::AddLog("[Compiler] MSVC version %0d\n", _MSC_VER);
-#endif
 
 		m_mainThreadID = std::this_thread::get_id();
 
 		auto add_hidden_window = [&](mvAppItem* item, const std::string& label) {
-			m_itemRegistry.m_windows.push_back(item);
-			m_itemRegistry.m_windows.back()->setLabel(label);
-			m_itemRegistry.m_windows.back()->hide();
+			m_itemRegistry.m_backWindows.push_back(item);
+			m_itemRegistry.m_backWindows.back()->setLabel(label);
+			m_itemRegistry.m_backWindows.back()->hide();
 		};
 
 		add_hidden_window(new mvAboutWindow("about##standard"), "About Dear PyGui");
@@ -213,7 +210,9 @@ namespace Marvel {
 			runCallback(getRenderCallback(), "Main Application");
 
 		// resets app items states (i.e. hovered)
-		for (auto window : m_itemRegistry.m_windows)
+		for (auto window : m_itemRegistry.m_frontWindows)
+			window->resetState();
+		for (auto window : m_itemRegistry.m_backWindows)
 			window->resetState();
 
 		return true;
@@ -223,7 +222,10 @@ namespace Marvel {
 	{
 		MV_PROFILE_FUNCTION()
 
-		for (auto window : m_itemRegistry.m_windows)
+		for (auto window : m_itemRegistry.m_frontWindows)
+			window->draw();
+
+		for (auto window : m_itemRegistry.m_backWindows)
 			window->draw();
 	}
 
@@ -238,7 +240,6 @@ namespace Marvel {
 			m_itemRegistry.postAddPopups();
 			m_itemRegistry.postMoveItems();
 			postAsync();
-
 
 			Py_END_ALLOW_THREADS
 		}

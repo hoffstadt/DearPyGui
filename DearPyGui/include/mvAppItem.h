@@ -14,6 +14,7 @@
 #include <map>
 #include <imgui.h>
 #include "mvCore.h"
+#include "mvAppItemState.h"
 
 //-----------------------------------------------------------------------------
 // Helper Macro
@@ -122,20 +123,8 @@ namespace Marvel {
         [[nodiscard]] int                   getHeight                 () const { return m_height; }
         [[nodiscard]] bool                  isShown                   () const { return m_show; }
         [[nodiscard]] bool                  isContainer               () const { return m_container; }
-        [[nodiscard]] bool                  isItemHovered             () const { return m_hovered; }
-        [[nodiscard]] bool                  isItemActive              () const { return m_active; }
-        [[nodiscard]] bool                  isItemFocused             () const { return m_focused; }
-        [[nodiscard]] bool                  isItemClicked             () const { return m_clicked; }
-        [[nodiscard]] bool                  isItemVisible             () const { return m_visible; }
-        [[nodiscard]] bool                  isItemEdited              () const { return m_edited; }
-        [[nodiscard]] bool                  isItemActivated           () const { return m_activated; }
-        [[nodiscard]] bool                  isItemDeactivated         () const { return m_deactivated; }
-        [[nodiscard]] bool                  isItemDeactivatedAfterEdit() const { return m_deactivatedAfterEdit; }
-        [[nodiscard]] bool                  isItemToogledOpen         () const { return m_toggledOpen; }
         [[nodiscard]] bool                  isItemEnabled             () const { return m_enabled; }
-        [[nodiscard]] mvVec2                getItemRectMin            () const { return m_rectMin; }
-        [[nodiscard]] mvVec2                getItemRectMax            () const { return m_rectMax; }
-        [[nodiscard]] mvVec2                getItemRectSize           () const { return m_rectSize; }
+        mvAppItemState&                     getState                  ()       { return m_state; }
 
         // setters
         void                                setParent                 (mvAppItem* parent);
@@ -150,25 +139,13 @@ namespace Marvel {
         inline void                         setTip                    (const std::string& tip)  { m_tip = tip; }
         virtual void                        setWidth                  (int width)               { m_width = width; }
         virtual void                        setHeight                 (int height)              { m_height = height; }
-        inline void                         setHovered                (bool value)              { m_hovered = value; }
-        inline void                         setActive                 (bool value)              { m_active = value; }
-        inline void                         setFocused                (bool value)              { m_focused = value; }
-        inline void                         setClicked                (bool value)              { m_clicked = value; }
-        inline void                         setVisible                (bool value)              { m_visible = value; }
-        inline void                         setEdited                 (bool value)              { m_edited = value; }
-        inline void                         setActivated              (bool value)              { m_activated = value; }
-        inline void                         setDeactivated            (bool value)              { m_deactivated = value; }
-        inline void                         setDeactivatedAfterEdit   (bool value)              { m_deactivatedAfterEdit = value; }
-        inline void                         setToggledOpen            (bool value)              { m_toggledOpen = value; }
         virtual void                        setEnabled                (bool value)              { m_enabled = value; }
-        inline void                         setRectMin                (mvVec2 value)            { m_rectMin = value; }
-        inline void                         setRectMax                (mvVec2 value)            { m_rectMax = value; }
-        inline void                         setRectSize               (mvVec2 value)            { m_rectSize = value; }
         virtual void                        setDataSource             (const std::string& value){ m_dataSource = value; }
         inline void                         setLabel                  (const std::string& value){ m_label = value; }
 
     protected:
 
+        mvAppItemState          m_state;
         std::string             m_dataSource;
         std::string             m_name;
         std::string             m_label;
@@ -180,22 +157,9 @@ namespace Marvel {
         int                     m_height = 0;
         bool                    m_show                 = true; // determines whether to attempt rendering
         bool                    m_container            = false;
-        bool                    m_hovered              = false;
-        bool                    m_active               = false;
-        bool                    m_focused              = false;
-        bool                    m_clicked              = false;
-        bool                    m_visible              = false;
-        bool                    m_edited               = false;
-        bool                    m_activated            = false;
-        bool                    m_deactivated          = false;
-        bool                    m_deactivatedAfterEdit = false;
-        bool                    m_toggledOpen          = false;
         bool                    m_enabled              = true;
         mvAppItem*              m_parent               = nullptr;
         std::vector<mvAppItem*> m_children;
-        mvVec2                  m_rectMin  = {0.0f, 0.0f};
-        mvVec2                  m_rectMax  = {0.0f, 0.0f};
-        mvVec2                  m_rectSize = {0.0f, 0.0f};
         std::vector<StyleColor> m_colors;
     };
 }

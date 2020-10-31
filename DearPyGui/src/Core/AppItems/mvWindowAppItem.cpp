@@ -74,10 +74,10 @@ namespace Marvel {
 			// shouldn't have to do this but do. Fix later
 			if (!m_show)
 			{
-				setHovered(false);
-				setFocused(false);
-				setActivated(false);
-				setVisible(false);
+				m_state.setHovered(false);
+				m_state.setFocused(false);
+				m_state.setActivated(false);
+				m_state.setVisible(false);
 				if (!m_closing)
 				{
 					m_closing = true;
@@ -150,27 +150,15 @@ namespace Marvel {
 				item->draw();
 				item->popColorStyles();
 
-				item->setHovered(ImGui::IsItemHovered());
-				item->setActive(ImGui::IsItemActive());
-				item->setFocused(ImGui::IsItemFocused());
-				item->setClicked(ImGui::IsItemClicked());
-				item->setVisible(ImGui::IsItemVisible());
-				item->setEdited(ImGui::IsItemEdited());
-				item->setActivated(ImGui::IsItemActivated());
-				item->setDeactivated(ImGui::IsItemDeactivated());
-				item->setDeactivatedAfterEdit(ImGui::IsItemDeactivatedAfterEdit());
-				item->setToggledOpen(ImGui::IsItemToggledOpen());
-				item->setRectMin({ ImGui::GetItemRectMin().x, ImGui::GetItemRectMin().y });
-				item->setRectMax({ ImGui::GetItemRectMax().x, ImGui::GetItemRectMax().y });
-				item->setRectSize({ ImGui::GetItemRectSize().x, ImGui::GetItemRectSize().y });
+				item->getState().update();
 
 			}
 
-			setVisible(true);
-			setHovered(ImGui::IsWindowHovered());
-			setFocused(ImGui::IsWindowFocused());
-			setRectSize({ ImGui::GetWindowSize().x, ImGui::GetWindowSize().y });
-			setActivated(ImGui::IsWindowCollapsed());
+			m_state.setVisible(true);
+			m_state.setHovered(ImGui::IsWindowHovered());
+			m_state.setFocused(ImGui::IsWindowFocused());
+			m_state.setRectSize({ ImGui::GetWindowSize().x, ImGui::GetWindowSize().y });
+			m_state.setActivated(ImGui::IsWindowCollapsed());
 
 			if (ImGui::GetWindowWidth() != (float)m_width || ImGui::GetWindowHeight() != (float)m_height)
 				mvApp::GetApp()->runCallback(getResizeCallback(), m_name);
@@ -178,7 +166,7 @@ namespace Marvel {
 			m_width = (int)ImGui::GetWindowWidth();
 			m_height = (int)ImGui::GetWindowHeight();
 
-			if (m_focused)
+			if (m_state.isItemFocused())
 			{
 
 				float titleBarHeight = ImGui::GetStyle().FramePadding.y * 2 + ImGui::GetFontSize();

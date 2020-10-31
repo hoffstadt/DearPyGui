@@ -202,7 +202,7 @@ namespace Marvel {
 				std::string parentName;
 
 				if (selectedItem == nullptr)
-					selectedItem = mvApp::GetApp()->getItemRegistry().getWindows()[0];
+					selectedItem = mvApp::GetApp()->getItemRegistry().getBackWindows()[0];
 				
 				if (selectedItem->getParent())
 					parentName = selectedItem->getParent()->getName();
@@ -240,22 +240,24 @@ namespace Marvel {
                 DebugItem("Item Tip:", selectedItem->getTip().c_str());
                 DebugItem("Item Popup:", selectedItem->getPopup().c_str());
                 DebugItem("Item Show:", selectedItem->isShown() ? ts : fs);
-                DebugItem("Item Visible:", selectedItem->isItemVisible() ? ts : fs);
-                DebugItem("Item Hovered:", selectedItem->isItemHovered() ? ts : fs);
-                DebugItem("Item Active:", selectedItem->isItemActive() ? ts : fs);
-                DebugItem("Item Focused:", selectedItem->isItemFocused() ? ts : fs);
-                DebugItem("Item Clicked:", selectedItem->isItemClicked() ? ts : fs);
-                DebugItem("Item Edited:", selectedItem->isItemEdited() ? ts : fs);
-                DebugItem("Item Activated:", selectedItem->isItemActivated() ? ts : fs);
-                DebugItem("Item Deactivated:", selectedItem->isItemDeactivated() ? ts : fs);
-                DebugItem("Item DeavtivatedAfterEdit:", selectedItem->isItemDeactivatedAfterEdit() ? ts : fs);
-                DebugItem("Item ToggledOpen:", selectedItem->isItemToogledOpen() ? ts : fs);
+                DebugItem("Item Visible:", selectedItem->getState().isItemVisible() ? ts : fs);
+                DebugItem("Item Hovered:", selectedItem->getState().isItemHovered() ? ts : fs);
+                DebugItem("Item Active:", selectedItem->getState().isItemActive() ? ts : fs);
+                DebugItem("Item Focused:", selectedItem->getState().isItemFocused() ? ts : fs);
+                DebugItem("Item Clicked:", selectedItem->getState().isItemClicked() ? ts : fs);
+                DebugItem("Item Edited:", selectedItem->getState().isItemEdited() ? ts : fs);
+                DebugItem("Item Activated:", selectedItem->getState().isItemActivated() ? ts : fs);
+                DebugItem("Item Deactivated:", selectedItem->getState().isItemDeactivated() ? ts : fs);
+                DebugItem("Item DeavtivatedAfterEdit:", selectedItem->getState().isItemDeactivatedAfterEdit() ? ts : fs);
+                DebugItem("Item ToggledOpen:", selectedItem->getState().isItemToogledOpen() ? ts : fs);
                 ImGui::EndGroup();
                 ImGui::PopItemWidth();
                 ImGui::SameLine();
 
 				ImGui::BeginChild("TreeChild", ImVec2(-1.0f, -1.0f), true);
-				for (auto window : mvApp::GetApp()->getItemRegistry().getWindows())
+				for (auto window : mvApp::GetApp()->getItemRegistry().getFrontWindows())
+					renderItem(window);
+				for (auto window : mvApp::GetApp()->getItemRegistry().getBackWindows())
 					renderItem(window);
 				ImGui::EndChild();
 
