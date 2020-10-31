@@ -328,7 +328,7 @@ namespace Marvel {
 			&plot, &text, &x, &y, &xoffset, &yoffset, &color, &clamped, &tag))
 			return GetPyNone();
 
-		mvAppItem* aplot = mvApp::GetApp()->getItem(plot);
+		mvAppItem* aplot = mvApp::GetApp()->getItemRegistry().getItem(plot);
 
 		if (aplot == nullptr)
 		{
@@ -369,7 +369,7 @@ namespace Marvel {
 			&plot, &name, &source, &color, &thickness, &y_line, &show_label, &callback, &default_value))
 			return GetPyNone();
 
-		mvAppItem* aplot = mvApp::GetApp()->getItem(plot);
+		mvAppItem* aplot = mvApp::GetApp()->getItemRegistry().getItem(plot);
 
 		if (aplot == nullptr)
 		{
@@ -413,7 +413,7 @@ namespace Marvel {
 			&plot, &name, &source, &color, &radius, &show_label, &callback, &default_x, &default_y))
 			return GetPyNone();
 
-		mvAppItem* aplot = mvApp::GetApp()->getItem(plot);
+		mvAppItem* aplot = mvApp::GetApp()->getItemRegistry().getItem(plot);
 
 		if (aplot == nullptr)
 		{
@@ -445,7 +445,7 @@ namespace Marvel {
 		if (!(*mvApp::GetApp()->getParsers())["clear_plot"].parse(args, kwargs, __FUNCTION__, &plot))
 			return GetPyNone();
 
-		mvAppItem* aplot = mvApp::GetApp()->getItem(plot);
+		mvAppItem* aplot = mvApp::GetApp()->getItemRegistry().getItem(plot);
 		if (aplot == nullptr)
 		{
 			std::string message = plot;
@@ -474,7 +474,7 @@ namespace Marvel {
 		if (!(*mvApp::GetApp()->getParsers())["reset_xticks"].parse(args, kwargs, __FUNCTION__, &plot))
 			return GetPyNone();
 
-		mvAppItem* aplot = mvApp::GetApp()->getItem(plot);
+		mvAppItem* aplot = mvApp::GetApp()->getItemRegistry().getItem(plot);
 		if (aplot == nullptr)
 		{
 			std::string message = plot;
@@ -503,7 +503,7 @@ namespace Marvel {
 		if (!(*mvApp::GetApp()->getParsers())["reset_yticks"].parse(args, kwargs, __FUNCTION__, &plot))
 			return GetPyNone();
 
-		mvAppItem* aplot = mvApp::GetApp()->getItem(plot);
+		mvAppItem* aplot = mvApp::GetApp()->getItemRegistry().getItem(plot);
 		if (aplot == nullptr)
 		{
 			std::string message = plot;
@@ -533,7 +533,7 @@ namespace Marvel {
 		if (!(*mvApp::GetApp()->getParsers())["set_xticks"].parse(args, kwargs, __FUNCTION__, &plot, &label_pairs))
 			return GetPyNone();
 
-		mvAppItem* aplot = mvApp::GetApp()->getItem(plot);
+		mvAppItem* aplot = mvApp::GetApp()->getItemRegistry().getItem(plot);
 		if (aplot == nullptr)
 		{
 			std::string message = plot;
@@ -574,7 +574,7 @@ namespace Marvel {
 		if (!(*mvApp::GetApp()->getParsers())["set_yticks"].parse(args, kwargs, __FUNCTION__, &plot, &label_pairs))
 			return GetPyNone();
 
-		mvAppItem* aplot = mvApp::GetApp()->getItem(plot);
+		mvAppItem* aplot = mvApp::GetApp()->getItemRegistry().getItem(plot);
 		if (aplot == nullptr)
 		{
 			std::string message = plot;
@@ -614,7 +614,7 @@ namespace Marvel {
 		if (!(*mvApp::GetApp()->getParsers())["set_plot_xlimits_auto"].parse(args, kwargs, __FUNCTION__, &plot))
 			return GetPyNone();
 
-		mvAppItem* aplot = mvApp::GetApp()->getItem(plot);
+		mvAppItem* aplot = mvApp::GetApp()->getItemRegistry().getItem(plot);
 		if (aplot == nullptr)
 		{
 			std::string message = plot;
@@ -642,7 +642,7 @@ namespace Marvel {
 		if (!(*mvApp::GetApp()->getParsers())["set_plot_ylimits_auto"].parse(args, kwargs, __FUNCTION__, &plot))
 			return GetPyNone();
 
-		mvAppItem* aplot = mvApp::GetApp()->getItem(plot);
+		mvAppItem* aplot = mvApp::GetApp()->getItemRegistry().getItem(plot);
 		if (aplot == nullptr)
 		{
 			std::string message = plot;
@@ -673,7 +673,7 @@ namespace Marvel {
 		if (!(*mvApp::GetApp()->getParsers())["set_plot_xlimits"].parse(args, kwargs, __FUNCTION__, &plot, &xmin, &xmax))
 			return GetPyNone();
 
-		mvAppItem* aplot = mvApp::GetApp()->getItem(plot);
+		mvAppItem* aplot = mvApp::GetApp()->getItemRegistry().getItem(plot);
 		if (aplot == nullptr)
 		{
 			std::string message = plot;
@@ -704,7 +704,7 @@ namespace Marvel {
 		if (!(*mvApp::GetApp()->getParsers())["set_plot_ylimits"].parse(args, kwargs, __FUNCTION__, &plot, &ymin, &ymax))
 			return GetPyNone();
 
-		mvAppItem* aplot = mvApp::GetApp()->getItem(plot);
+		mvAppItem* aplot = mvApp::GetApp()->getItemRegistry().getItem(plot);
 		if (aplot == nullptr)
 		{
 			std::string message = plot;
@@ -732,7 +732,7 @@ namespace Marvel {
 		if (!(*mvApp::GetApp()->getParsers())["is_plot_queried"].parse(args, kwargs, __FUNCTION__, &plot))
 			return GetPyNone();
 
-		mvAppItem* aplot = mvApp::GetApp()->getItem(plot);
+		mvAppItem* aplot = mvApp::GetApp()->getItemRegistry().getItem(plot);
 		if (aplot == nullptr)
 		{
 			std::string message = plot;
@@ -758,7 +758,7 @@ namespace Marvel {
 		if (!(*mvApp::GetApp()->getParsers())["get_plot_query_area"].parse(args, kwargs, __FUNCTION__, &plot))
 			return GetPyNone();
 
-		mvAppItem* aplot = mvApp::GetApp()->getItem(plot);
+		mvAppItem* aplot = mvApp::GetApp()->getItemRegistry().getItem(plot);
 		if (aplot == nullptr)
 		{
 			std::string message = plot;
@@ -787,7 +787,7 @@ namespace Marvel {
 		if (!(*mvApp::GetApp()->getParsers())["set_color_map"].parse(args, kwargs, __FUNCTION__, &plot, &map))
 			return GetPyNone();
 
-		mvAppItem* aplot = mvApp::GetApp()->getItem(plot);
+		mvAppItem* aplot = mvApp::GetApp()->getItemRegistry().getItem(plot);
 		if (aplot == nullptr)
 		{
 			std::string message = plot;
@@ -903,7 +903,7 @@ namespace Marvel {
 		if (!(*mvApp::GetApp()->getParsers())["delete_series"].parse(args, kwargs, __FUNCTION__, &plot, &series))
 			return GetPyNone();
 
-		mvAppItem* aplot = mvApp::GetApp()->getItem(plot);
+		mvAppItem* aplot = mvApp::GetApp()->getItemRegistry().getItem(plot);
 
 		if (aplot == nullptr)
 		{
@@ -933,7 +933,7 @@ namespace Marvel {
 			&plot, &name))
 			return GetPyNone();
 
-		mvAppItem* aplot = mvApp::GetApp()->getItem(plot);
+		mvAppItem* aplot = mvApp::GetApp()->getItemRegistry().getItem(plot);
 
 		if (aplot == nullptr)
 		{
@@ -963,7 +963,7 @@ namespace Marvel {
 			&plot, &name))
 			return GetPyNone();
 
-		mvAppItem* aplot = mvApp::GetApp()->getItem(plot);
+		mvAppItem* aplot = mvApp::GetApp()->getItemRegistry().getItem(plot);
 
 		if (aplot == nullptr)
 		{
@@ -993,7 +993,7 @@ namespace Marvel {
 			&plot, &name))
 			return GetPyNone();
 
-		mvAppItem* aplot = mvApp::GetApp()->getItem(plot);
+		mvAppItem* aplot = mvApp::GetApp()->getItemRegistry().getItem(plot);
 
 		if (aplot == nullptr)
 		{
@@ -1042,7 +1042,7 @@ namespace Marvel {
 			return GetPyNone();
 
 
-		mvAppItem* aplot = mvApp::GetApp()->getItem(plot);
+		mvAppItem* aplot = mvApp::GetApp()->getItemRegistry().getItem(plot);
 
 		if (aplot == nullptr)
 		{
@@ -1099,7 +1099,7 @@ namespace Marvel {
 			return GetPyNone();
 		}
 
-		mvAppItem* aplot = mvApp::GetApp()->getItem(plot);
+		mvAppItem* aplot = mvApp::GetApp()->getItemRegistry().getItem(plot);
 
 		if (aplot == nullptr)
 		{
@@ -1160,7 +1160,7 @@ namespace Marvel {
 			return GetPyNone();
 		}
 
-		mvAppItem* aplot = mvApp::GetApp()->getItem(plot);
+		mvAppItem* aplot = mvApp::GetApp()->getItemRegistry().getItem(plot);
 
 		if (aplot == nullptr)
 		{
@@ -1230,7 +1230,7 @@ namespace Marvel {
 			return GetPyNone();
 		}
 
-		mvAppItem* aplot = mvApp::GetApp()->getItem(plot);
+		mvAppItem* aplot = mvApp::GetApp()->getItemRegistry().getItem(plot);
 
 		if (aplot == nullptr)
 		{
@@ -1290,7 +1290,7 @@ namespace Marvel {
 			return GetPyNone();
 		}
 
-		mvAppItem* aplot = mvApp::GetApp()->getItem(plot);
+		mvAppItem* aplot = mvApp::GetApp()->getItemRegistry().getItem(plot);
 
 		if (aplot == nullptr)
 		{
@@ -1355,7 +1355,7 @@ namespace Marvel {
 			return GetPyNone();
 		}
 
-		mvAppItem* aplot = mvApp::GetApp()->getItem(plot);
+		mvAppItem* aplot = mvApp::GetApp()->getItemRegistry().getItem(plot);
 
 		if (aplot == nullptr)
 		{
@@ -1439,7 +1439,7 @@ namespace Marvel {
 			return GetPyNone();
 		}
 
-		mvAppItem* aplot = mvApp::GetApp()->getItem(plot);
+		mvAppItem* aplot = mvApp::GetApp()->getItemRegistry().getItem(plot);
 
 		if (aplot == nullptr)
 		{
@@ -1486,7 +1486,7 @@ namespace Marvel {
 			&plot, &name, &x, &y, &vertical, &xoffset, &yoffset, &update_bounds))
 			return GetPyNone();
 
-		mvAppItem* aplot = mvApp::GetApp()->getItem(plot);
+		mvAppItem* aplot = mvApp::GetApp()->getItemRegistry().getItem(plot);
 		if (aplot == nullptr)
 		{
 			std::string message = plot;
@@ -1529,7 +1529,7 @@ namespace Marvel {
 			return GetPyNone();
 		}
 
-		mvAppItem* aplot = mvApp::GetApp()->getItem(plot);
+		mvAppItem* aplot = mvApp::GetApp()->getItemRegistry().getItem(plot);
 
 		if (aplot == nullptr)
 		{
@@ -1591,7 +1591,7 @@ namespace Marvel {
 			return GetPyNone();
 		}
 
-		mvAppItem* aplot = mvApp::GetApp()->getItem(plot);
+		mvAppItem* aplot = mvApp::GetApp()->getItemRegistry().getItem(plot);
 
 		if (aplot == nullptr)
 		{
@@ -1649,7 +1649,7 @@ namespace Marvel {
 			return GetPyNone();
 		}
 
-		mvAppItem* aplot = mvApp::GetApp()->getItem(plot);
+		mvAppItem* aplot = mvApp::GetApp()->getItemRegistry().getItem(plot);
 
 		if (aplot == nullptr)
 		{
