@@ -70,7 +70,7 @@ namespace Marvel {
 	mvAppItem* mvItemRegistry::getItem(const std::string& name, bool ignoreRuntime)
 	{
 		if (!mvApp::GetApp()->checkIfMainThread())
-			return false;
+			return nullptr;
 
 		return getItemAsync(name, ignoreRuntime);
 	}
@@ -132,7 +132,7 @@ namespace Marvel {
 	mvWindowAppitem* mvItemRegistry::getWindow(const std::string& name)
 	{
 		if (!mvApp::GetApp()->checkIfMainThread())
-			return false;
+			return nullptr;
 
 		mvAppItem* item = getRuntimeItem(name);
 		if (item == nullptr)
