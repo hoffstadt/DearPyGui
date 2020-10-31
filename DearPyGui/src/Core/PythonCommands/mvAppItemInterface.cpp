@@ -223,7 +223,7 @@ namespace Marvel {
 			&managed_columns, &column))
 			return ToPyFloat(0.0f);
 
-		auto item = mvApp::GetApp()->getItem(managed_columns);
+		auto item = mvApp::GetApp()->getItemRegistry().getItem(managed_columns);
 
 		if (item == nullptr)
 		{
@@ -255,7 +255,7 @@ namespace Marvel {
 			&managed_columns, &column, &width))
 			return GetPyNone();
 
-		auto item = mvApp::GetApp()->getItem(managed_columns);
+		auto item = mvApp::GetApp()->getItemRegistry().getItem(managed_columns);
 
 		if (item == nullptr)
 		{
@@ -287,7 +287,7 @@ namespace Marvel {
 			&item, &parent, &before))
 			return GetPyNone();
 
-		return ToPyBool(mvApp::GetApp()->moveItem(item, parent, before));
+		return ToPyBool(mvApp::GetApp()->getItemRegistry().moveItem(item, parent, before));
 	}
 
 	PyObject* get_item_configuration(PyObject* self, PyObject* args, PyObject* kwargs)
@@ -304,7 +304,7 @@ namespace Marvel {
 			return pdict;
 		}
 
-		auto appitem = mvApp::GetApp()->getItem(item);
+		auto appitem = mvApp::GetApp()->getItemRegistry().getItem(item);
 
 		if (appitem)
 		{
@@ -331,7 +331,7 @@ namespace Marvel {
 			return GetPyNone();
 		}
 
-		auto appitem = mvApp::GetApp()->getItem(item);
+		auto appitem = mvApp::GetApp()->getItemRegistry().getItem(item);
 
 		if (appitem)
 		{
@@ -357,9 +357,9 @@ namespace Marvel {
 			return GetPyNone();
 
 		if (childrenOnly)
-			mvApp::GetApp()->deleteItemChildren(item);
+			mvApp::GetApp()->getItemRegistry().deleteItemChildren(item);
 		else
-			mvApp::GetApp()->deleteItem(item);
+			mvApp::GetApp()->getItemRegistry().deleteItem(item);
 
 		return GetPyNone();
 
@@ -375,7 +375,7 @@ namespace Marvel {
 		if (!(*mvApp::GetApp()->getParsers())["does_item_exist"].parse(args, kwargs, __FUNCTION__, &item))
 			return GetPyNone();
 
-		if (!mvApp::GetApp()->getItem(item))
+		if (!mvApp::GetApp()->getItemRegistry().getItem(item))
 			return ToPyBool(false);
 
 		return ToPyBool(true);
@@ -392,7 +392,7 @@ namespace Marvel {
 		if (!(*mvApp::GetApp()->getParsers())["move_item_up"].parse(args, kwargs, __FUNCTION__, &item))
 			return GetPyNone();
 
-		mvApp::GetApp()->moveItemUp(item);
+		mvApp::GetApp()->getItemRegistry().moveItemUp(item);
 
 		return GetPyNone();
 
@@ -408,7 +408,7 @@ namespace Marvel {
 		if (!(*mvApp::GetApp()->getParsers())["move_item_down"].parse(args, kwargs, __FUNCTION__, &item))
 			return GetPyNone();
 
-		mvApp::GetApp()->moveItemDown(item);
+		mvApp::GetApp()->getItemRegistry().moveItemDown(item);
 
 		return GetPyNone();
 
@@ -421,7 +421,7 @@ namespace Marvel {
 		if (!(*mvApp::GetApp()->getParsers())["get_item_callback"].parse(args, kwargs, __FUNCTION__, &item))
 			return GetPyNone();
 
-		auto appitem = mvApp::GetApp()->getItem(item);
+		auto appitem = mvApp::GetApp()->getItemRegistry().getItem(item);
 
 		if (appitem)
 		{
@@ -444,7 +444,7 @@ namespace Marvel {
 		if (!(*mvApp::GetApp()->getParsers())["get_item_children"].parse(args, kwargs, __FUNCTION__, &item))
 			return GetPyNone();
 
-		auto appitem = mvApp::GetApp()->getItem(item);
+		auto appitem = mvApp::GetApp()->getItemRegistry().getItem(item);
 
 		if (appitem)
 		{
@@ -462,7 +462,7 @@ namespace Marvel {
 	PyObject* get_all_items(PyObject * self, PyObject * args, PyObject * kwargs)
 	{
 
-		std::vector<mvAppItem*>& windows = mvApp::GetApp()->getWindows();
+		std::vector<mvAppItem*>& windows = mvApp::GetApp()->getItemRegistry().getWindows();
 
 		std::vector<std::string> childList;
 
@@ -487,7 +487,7 @@ namespace Marvel {
 
 	PyObject* get_windows(PyObject * self, PyObject * args, PyObject * kwargs)
 	{
-		auto windows = mvApp::GetApp()->getWindows();
+		auto windows = mvApp::GetApp()->getItemRegistry().getWindows();
 		std::vector<std::string> childList;
 		for (auto window : windows)
 			childList.emplace_back(window->getName());
@@ -501,7 +501,7 @@ namespace Marvel {
 		if (!(*mvApp::GetApp()->getParsers())["get_item_parent"].parse(args, kwargs, __FUNCTION__, &item))
 			return GetPyNone();
 
-		auto appitem = mvApp::GetApp()->getItem(item);
+		auto appitem = mvApp::GetApp()->getItemRegistry().getItem(item);
 
 		if (appitem)
 			return ToPyString(appitem->getParent()->getName());
@@ -516,7 +516,7 @@ namespace Marvel {
 		if (!(*mvApp::GetApp()->getParsers())["is_item_hovered"].parse(args, kwargs, __FUNCTION__, &item))
 			return GetPyNone();
 
-		auto appitem = mvApp::GetApp()->getItem(item);
+		auto appitem = mvApp::GetApp()->getItemRegistry().getItem(item);
 
 		if (appitem)
 			return ToPyBool(appitem->isItemHovered());
@@ -531,7 +531,7 @@ namespace Marvel {
 		if (!(*mvApp::GetApp()->getParsers())["is_item_shown"].parse(args, kwargs, __FUNCTION__, &item))
 			return GetPyNone();
 
-		auto appitem = mvApp::GetApp()->getItem(item);
+		auto appitem = mvApp::GetApp()->getItemRegistry().getItem(item);
 
 		if (appitem)
 			return ToPyBool(appitem->isShown());
@@ -546,7 +546,7 @@ namespace Marvel {
 		if (!(*mvApp::GetApp()->getParsers())["is_item_active"].parse(args, kwargs, __FUNCTION__, &item))
 			return GetPyNone();
 
-		auto appitem = mvApp::GetApp()->getItem(item);
+		auto appitem = mvApp::GetApp()->getItemRegistry().getItem(item);
 
 		if (appitem)
 			return ToPyBool(appitem->isItemActive());
@@ -561,7 +561,7 @@ namespace Marvel {
 		if (!(*mvApp::GetApp()->getParsers())["is_item_focused"].parse(args, kwargs, __FUNCTION__, &item))
 			return GetPyNone();
 
-		auto appitem = mvApp::GetApp()->getItem(item);
+		auto appitem = mvApp::GetApp()->getItemRegistry().getItem(item);
 
 		if (appitem)
 			return ToPyBool(appitem->isItemFocused());
@@ -576,7 +576,7 @@ namespace Marvel {
 		if (!(*mvApp::GetApp()->getParsers())["is_item_clicked"].parse(args, kwargs, __FUNCTION__, &item))
 			return GetPyNone();
 
-		auto appitem = mvApp::GetApp()->getItem(item);
+		auto appitem = mvApp::GetApp()->getItemRegistry().getItem(item);
 
 		if (appitem)
 			return ToPyBool(appitem->isItemClicked());
@@ -591,7 +591,7 @@ namespace Marvel {
 		if (!(*mvApp::GetApp()->getParsers())["is_item_container"].parse(args, kwargs, __FUNCTION__, &item))
 			return GetPyNone();
 
-		auto appitem = mvApp::GetApp()->getItem(item);
+		auto appitem = mvApp::GetApp()->getItemRegistry().getItem(item);
 
 		if (appitem)
 			return ToPyBool(appitem->isContainer());
@@ -606,7 +606,7 @@ namespace Marvel {
 		if (!(*mvApp::GetApp()->getParsers())["is_item_visible"].parse(args, kwargs, __FUNCTION__, &item))
 			return GetPyNone();
 
-		auto appitem = mvApp::GetApp()->getItem(item);
+		auto appitem = mvApp::GetApp()->getItemRegistry().getItem(item);
 
 		if (appitem)
 			return ToPyBool(appitem->isItemVisible());
@@ -621,7 +621,7 @@ namespace Marvel {
 		if (!(*mvApp::GetApp()->getParsers())["is_item_edited"].parse(args, kwargs, __FUNCTION__, &item))
 			return GetPyNone();
 
-		auto appitem = mvApp::GetApp()->getItem(item);
+		auto appitem = mvApp::GetApp()->getItemRegistry().getItem(item);
 
 		if (appitem)
 			return ToPyBool(appitem->isItemEdited());
@@ -636,7 +636,7 @@ namespace Marvel {
 		if (!(*mvApp::GetApp()->getParsers())["is_item_activated"].parse(args, kwargs, __FUNCTION__, &item))
 			return GetPyNone();
 
-		auto appitem = mvApp::GetApp()->getItem(item);
+		auto appitem = mvApp::GetApp()->getItemRegistry().getItem(item);
 
 		if (appitem)
 			return ToPyBool(appitem->isItemActivated());
@@ -651,7 +651,7 @@ namespace Marvel {
 		if (!(*mvApp::GetApp()->getParsers())["is_item_deactivated"].parse(args, kwargs, __FUNCTION__, &item))
 			return GetPyNone();
 
-		auto appitem = mvApp::GetApp()->getItem(item);
+		auto appitem = mvApp::GetApp()->getItemRegistry().getItem(item);
 
 		if (appitem)
 			return ToPyBool(appitem->isItemDeactivated());
@@ -666,7 +666,7 @@ namespace Marvel {
 		if (!(*mvApp::GetApp()->getParsers())["is_item_deactivated_after_edit"].parse(args, kwargs, __FUNCTION__, &item))
 			return GetPyNone();
 
-		auto appitem = mvApp::GetApp()->getItem(item);
+		auto appitem = mvApp::GetApp()->getItemRegistry().getItem(item);
 
 		if (appitem)
 			return ToPyBool(appitem->isItemDeactivatedAfterEdit());
@@ -681,7 +681,7 @@ namespace Marvel {
 		if (!(*mvApp::GetApp()->getParsers())["is_item_toggled_open"].parse(args, kwargs, __FUNCTION__, &item))
 			return GetPyNone();
 
-		auto appitem = mvApp::GetApp()->getItem(item);
+		auto appitem = mvApp::GetApp()->getItemRegistry().getItem(item);
 
 		if (appitem)
 			return ToPyBool(appitem->isItemToogledOpen());
@@ -696,7 +696,7 @@ namespace Marvel {
 		if (!(*mvApp::GetApp()->getParsers())["get_item_rect_min"].parse(args, kwargs, __FUNCTION__, &item))
 			return GetPyNone();
 
-		auto appitem = mvApp::GetApp()->getItem(item);
+		auto appitem = mvApp::GetApp()->getItemRegistry().getItem(item);
 
 		if (appitem)
 		{
@@ -714,7 +714,7 @@ namespace Marvel {
 		if (!(*mvApp::GetApp()->getParsers())["get_item_rect_max"].parse(args, kwargs, __FUNCTION__, &item))
 			return GetPyNone();
 
-		auto appitem = mvApp::GetApp()->getItem(item);
+		auto appitem = mvApp::GetApp()->getItemRegistry().getItem(item);
 
 		if (appitem)
 		{
@@ -732,7 +732,7 @@ namespace Marvel {
 		if (!(*mvApp::GetApp()->getParsers())["get_item_rect_size"].parse(args, kwargs, __FUNCTION__, &item))
 			return GetPyNone();
 
-		auto appitem = mvApp::GetApp()->getItem(item);
+		auto appitem = mvApp::GetApp()->getItemRegistry().getItem(item);
 
 		if (appitem)
 		{
@@ -808,7 +808,7 @@ namespace Marvel {
 			return GetPyNone();
 
 		mvAppItem* appitem;
-		appitem = mvApp::GetApp()->getItem(item);
+		appitem = mvApp::GetApp()->getItemRegistry().getItem(item);
 
 		if (appitem)
 		{
@@ -834,7 +834,7 @@ namespace Marvel {
 		if (!(*mvApp::GetApp()->getParsers())["get_item_type"].parse(args, kwargs, __FUNCTION__, &name))
 			return GetPyNone();
 
-		mvAppItem* item = mvApp::GetApp()->getItem(std::string(name));
+		mvAppItem* item = mvApp::GetApp()->getItemRegistry().getItem(std::string(name));
 
 		if (item == nullptr)
 			return GetPyNone();

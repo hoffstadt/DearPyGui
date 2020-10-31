@@ -19,7 +19,7 @@ namespace Marvel {
 	{
 		for (auto& data : s_dataStorage)
 		{
-			for (auto window : mvApp::GetApp()->getWindows())
+			for (auto window : mvApp::GetApp()->getItemRegistry().getWindows())
 				window->updateDataSource(data.first);
 		}
 	}
@@ -46,7 +46,7 @@ namespace Marvel {
 			}
 		}
 
-		for (auto window : mvApp::GetApp()->getWindows())
+		for (auto window : mvApp::GetApp()->getItemRegistry().getWindows())
 			window->updateDataSource(name);
 	}
 

@@ -358,7 +358,7 @@ namespace Marvel {
 
 		auto mcolor = ToColor(color);
 
-		mvAppItem* appitem = mvApp::GetApp()->getItem(item);
+		mvAppItem* appitem = mvApp::GetApp()->getItemRegistry().getItem(item);
 
 		if (appitem)
 			appitem->addColorStyle(style, mcolor);
@@ -373,7 +373,7 @@ namespace Marvel {
 		if (!(*mvApp::GetApp()->getParsers())["clear_item_color"].parse(args, kwargs, __FUNCTION__, &item))
 			return GetPyNone();
 
-		mvAppItem* appitem = mvApp::GetApp()->getItem(item);
+		mvAppItem* appitem = mvApp::GetApp()->getItemRegistry().getItem(item);
 
 		if (appitem)
 			appitem->clearColors();

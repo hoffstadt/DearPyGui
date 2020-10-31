@@ -198,11 +198,11 @@ namespace Marvel {
 
 			if (ImGui::BeginTabItem("App Item Layout"))
 			{
-				auto selectedItem = mvApp::GetApp()->getItem(m_selectedItem);
+				auto selectedItem = mvApp::GetApp()->getItemRegistry().getItem(m_selectedItem);
 				std::string parentName;
 
 				if (selectedItem == nullptr)
-					selectedItem = mvApp::GetApp()->getWindows()[0];
+					selectedItem = mvApp::GetApp()->getItemRegistry().getWindows()[0];
 				
 				if (selectedItem->getParent())
 					parentName = selectedItem->getParent()->getName();
@@ -213,22 +213,22 @@ namespace Marvel {
                 ImGui::BeginGroup();
 
                 if (ImGui::ArrowButton("Move Up", ImGuiDir_Up))
-                    app->moveItemUp(m_selectedItem);
+                    app->getItemRegistry().moveItemUp(m_selectedItem);
                 ImGui::SameLine();
                 if (ImGui::ArrowButton("Move Down", ImGuiDir_Down))
-                    app->moveItemDown(m_selectedItem);
+                    app->getItemRegistry().moveItemDown(m_selectedItem);
                 ImGui::SameLine();
                 if (ImGui::Button("Delete"))
                 {
-                    app->deleteItem(m_selectedItem);
+                    app->getItemRegistry().deleteItem(m_selectedItem);
                     m_selectedItem = "";
                 }
                 ImGui::SameLine();
                 if (ImGui::Button("Show"))
-                    app->getItem(m_selectedItem)->show();
+                    app->getItemRegistry().getItem(m_selectedItem)->show();
                 ImGui::SameLine();
                 if (ImGui::Button("Hide"))
-                    app->getItem(m_selectedItem)->hide();
+                    app->getItemRegistry().getItem(m_selectedItem)->hide();
 
                 ImGui::PushItemWidth(200);
                 DebugItem("Item Name:", m_selectedItem.c_str());
@@ -255,7 +255,7 @@ namespace Marvel {
                 ImGui::SameLine();
 
 				ImGui::BeginChild("TreeChild", ImVec2(-1.0f, -1.0f), true);
-				for (auto window : mvApp::GetApp()->getWindows())
+				for (auto window : mvApp::GetApp()->getItemRegistry().getWindows())
 					renderItem(window);
 				ImGui::EndChild();
 

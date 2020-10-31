@@ -197,7 +197,7 @@ namespace Marvel {
 		if (!(*mvApp::GetApp()->getParsers())["delete_drawing_item"].parse(args, kwargs, __FUNCTION__, &drawing, &tag))
 			return GetPyNone();
 
-		auto item = mvApp::GetApp()->getItem(drawing);
+		auto item = mvApp::GetApp()->getItemRegistry().getItem(drawing);
 
 		if (item == nullptr)
 		{
@@ -250,7 +250,7 @@ namespace Marvel {
 		mvVec2 muv_max = ToVec2(uv_max);
 		mvColor mcolor = ToColor(color);
 
-		auto item = mvApp::GetApp()->getItem(drawing);
+		auto item = mvApp::GetApp()->getItemRegistry().getItem(drawing);
 
 		if (item == nullptr)
 		{
@@ -287,7 +287,7 @@ namespace Marvel {
 		mvVec2 mp2 = ToVec2(p2);
 		mvColor mcolor = ToColor(color);
 
-		auto item = mvApp::GetApp()->getItem(drawing);
+		auto item = mvApp::GetApp()->getItemRegistry().getItem(drawing);
 
 		if (item == nullptr)
 		{
@@ -325,7 +325,7 @@ namespace Marvel {
 		mvVec2 mp2 = ToVec2(p2);
 		mvColor mcolor = ToColor(color);
 
-		auto item = mvApp::GetApp()->getItem(drawing);
+		auto item = mvApp::GetApp()->getItemRegistry().getItem(drawing);
 
 		if (item == nullptr)
 		{
@@ -366,7 +366,7 @@ namespace Marvel {
 		mvColor mcolor = ToColor(color);
 		mvColor mfill = ToColor(fill);
 
-		auto item = mvApp::GetApp()->getItem(drawing);
+		auto item = mvApp::GetApp()->getItemRegistry().getItem(drawing);
 
 		if (item == nullptr)
 		{
@@ -406,7 +406,7 @@ namespace Marvel {
 		mvColor mcolor = ToColor(color);
 		mvColor mfill = ToColor(fill);
 
-		auto item = mvApp::GetApp()->getItem(drawing);
+		auto item = mvApp::GetApp()->getItemRegistry().getItem(drawing);
 
 		if (item == nullptr)
 		{
@@ -448,7 +448,7 @@ namespace Marvel {
 		mvColor mcolor = ToColor(color);
 		mvColor mfill = ToColor(fill);
 
-		auto item = mvApp::GetApp()->getItem(drawing);
+		auto item = mvApp::GetApp()->getItemRegistry().getItem(drawing);
 
 		if (item == nullptr)
 		{
@@ -485,7 +485,7 @@ namespace Marvel {
 		mvVec2 mpos = ToVec2(pos);
 		mvColor mcolor = ToColor(color);
 
-		auto item = mvApp::GetApp()->getItem(drawing);
+		auto item = mvApp::GetApp()->getItemRegistry().getItem(drawing);
 
 		if (item == nullptr)
 		{
@@ -525,7 +525,7 @@ namespace Marvel {
 		mvColor mcolor = ToColor(color);
 		mvColor mfill = ToColor(fill);
 
-		auto item = mvApp::GetApp()->getItem(drawing);
+		auto item = mvApp::GetApp()->getItemRegistry().getItem(drawing);
 
 		if (item == nullptr)
 		{
@@ -562,7 +562,7 @@ namespace Marvel {
 		auto mpoints = ToVectVec2(points);
 		mvColor mcolor = ToColor(color);
 
-		auto item = mvApp::GetApp()->getItem(drawing);
+		auto item = mvApp::GetApp()->getItemRegistry().getItem(drawing);
 
 		if (item == nullptr)
 		{
@@ -600,7 +600,7 @@ namespace Marvel {
 		mvColor mcolor = ToColor(color);
 		mvColor mfill = ToColor(fill);
 
-		auto item = mvApp::GetApp()->getItem(drawing);
+		auto item = mvApp::GetApp()->getItemRegistry().getItem(drawing);
 
 		if (item == nullptr)
 		{
@@ -640,7 +640,7 @@ namespace Marvel {
 		mvVec2 mp4 = ToVec2(p4);
 		mvColor mcolor = ToColor(color);
 
-		auto item = mvApp::GetApp()->getItem(drawing);
+		auto item = mvApp::GetApp()->getItemRegistry().getItem(drawing);
 
 		if (item == nullptr)
 		{
@@ -669,7 +669,7 @@ namespace Marvel {
 		if (!(*mvApp::GetApp()->getParsers())["clear_drawing"].parse(args, kwargs, __FUNCTION__, &drawing))
 			return GetPyNone();
 
-		auto item = mvApp::GetApp()->getItem(drawing);
+		auto item = mvApp::GetApp()->getItemRegistry().getItem(drawing);
 
 		if (item == nullptr)
 		{

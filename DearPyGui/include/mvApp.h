@@ -6,9 +6,7 @@
 //     - This class acts as the primary manager for a DearPyGui app,
 //       with the following responsibilities:
 //
-//         * Adding/Removing/Modifying AppItems
 //         * Callback routing
-//         * AppItem parent deduction
 //     
 //     - This class can eventually just contain all static members & methods
 //     
@@ -28,6 +26,7 @@
 #include "mvAppItem.h"
 #include "mvPythonParser.h"
 #include "mvEventHandler.h"
+#include "mvItemRegistry.h"
 //#include "Core/mvTimer.h"
 
 //-----------------------------------------------------------------------------
@@ -66,31 +65,11 @@ namespace Marvel {
         friend class mvLinuxWindow;
         friend class mvAppleWindow;
 
-        struct OrderedItem
-        {
-            mvAppItem* item;   // new item to add
-            std::string prev; // what item to add item after
-        };
-
-        struct NewRuntimeItem
-        {
-            mvAppItem*  item;   // new item to add
-            std::string before; // what item to add new item before
-            std::string parent; // what parent to add item to (if not using before)
-        };
-
         struct AsyncronousCallback
         {
             PyObject* name;       // name of function to run
             PyObject* data;       // any data need by the function
             PyObject* returnname; // optional return function
-        };
-
-        struct StolenChild
-        {
-            std::string item;   // item to steal
-            std::string parent; // what item to add stolen item before
-            std::string before; // what parent to add item to (if not using before)
         };
 
     public:
@@ -136,7 +115,6 @@ namespace Marvel {
                                     std::vector<ImWchar> chars= {});
         
         const std::string&       getActiveWindow   () const { return m_activeWindow; }
-        std::vector<mvAppItem*>& getWindows        ()       { return m_windows; }
         float&                   getGlobalFontScale()       { return m_globalFontScale; }
         int                      getActualWidth    () const { return m_actualWidth; }
         int                      getActualHeight   () const { return m_actualHeight; }
@@ -170,33 +148,7 @@ namespace Marvel {
         unsigned                 getThreadCount                () const { return m_threads; }
         bool                     usingThreadPool               () const { return m_threadPool; }
         bool                     usingThreadPoolHighPerformance() const { return m_threadPoolHighPerformance; }
-
-        //-----------------------------------------------------------------------------
-        // AppItem Operations
-        //-----------------------------------------------------------------------------
-        bool                     addItem           (mvAppItem* item);
-        bool                     addItemAfter      (const std::string& prev, mvAppItem* item);
-        bool                     addWindow         (mvAppItem* item);
-        bool                     addRuntimeItem    (const std::string& parent, const std::string& before, mvAppItem* item);
-        bool                     moveItem          (const std::string& name, const std::string& parent, const std::string& before);
-        void                     deleteItem        (const std::string& name) { m_deleteQueue.push(name); }
-        void                     deleteItemChildren(const std::string& name) { m_deleteChildrenQueue.push(name); }
-        void                     moveItemUp        (const std::string& name) { m_upQueue.push(name); }
-        void                     moveItemDown      (const std::string& name) { m_downQueue.push(name); }
-        mvAppItem*               getItem           (const std::string& name, bool ignoreRuntime = false);
-        mvAppItem*               getItemAsync      (const std::string& name, bool ignoreRuntime = false); // allows item to be retrieved outside main thread
-        mvAppItem*               getRuntimeItem    (const std::string& name);
-        mvWindowAppitem*         getWindow         (const std::string& name);
         
-        //-----------------------------------------------------------------------------
-        // Parent stack operations
-        //     - used for automatic parent deduction
-        //-----------------------------------------------------------------------------
-        void                     pushParent  (mvAppItem* item); // pushes parent onto stack
-        void                     emptyParents();                // empties parent stack
-        mvAppItem*               popParent   ();                // pop parent off stack and return it
-        mvAppItem*               topParent   ();                // returns top parent without popping
-
         //-----------------------------------------------------------------------------
         // Callbacks
         //-----------------------------------------------------------------------------
@@ -211,7 +163,11 @@ namespace Marvel {
         float                    getDeltaTime() const { return m_deltaTime; }
         double                   getTotalTime() const { return m_time; }
 
+        //-----------------------------------------------------------------------------
+        // Other
+        //-----------------------------------------------------------------------------
         std::map<std::string, mvPythonParser>* getParsers() { return m_parsers; }
+        mvItemRegistry&                        getItemRegistry() { return m_itemRegistry; }
             
     private:
 
@@ -219,10 +175,6 @@ namespace Marvel {
         // Post Rendering Methods
         //     - actually performs queued operations
         //-----------------------------------------------------------------------------
-        void postDeleteItems();
-        void postAddItems   ();
-        void postAddPopups  ();
-        void postMoveItems  ();
         void postAsync      ();
         void postProfile    ();
 
@@ -236,10 +188,10 @@ namespace Marvel {
         static mvApp* s_instance;
         static bool   s_started;
 
+        mvItemRegistry m_itemRegistry;
+
         mvWindow*                              m_viewport = nullptr;
         std::string                            m_activeWindow;
-        std::stack<mvAppItem*>                 m_parents;
-        std::vector<mvAppItem*>                m_windows;
         int                                    m_actualWidth = 1280;
         int                                    m_actualHeight = 800;
         int                                    m_clientWidth = 1280;
@@ -266,20 +218,9 @@ namespace Marvel {
         std::vector<ImWchar>                m_fontGlyphChars;
         std::vector<std::pair<int, int>>    m_charRemaps;
 
-        // runtime widget modifications
-        std::queue<std::string>     m_deleteChildrenQueue;
-        std::queue<std::string>     m_deleteQueue;
-        std::queue<std::string>     m_upQueue;
-        std::queue<std::string>     m_downQueue;
-        std::vector<NewRuntimeItem> m_newItemVec;
-        std::vector<OrderedItem>    m_orderedVec;
-        std::queue<StolenChild>     m_moveVec;
-
         // timing
         float                        m_deltaTime; // time since last frame
         double                       m_time;      // total time since starting
-        //mvTimer                      m_timer;
-        //std::map<std::string, float> m_timings;
         
         // concurrency
         std::queue<AsyncronousCallback>  m_asyncReturns;

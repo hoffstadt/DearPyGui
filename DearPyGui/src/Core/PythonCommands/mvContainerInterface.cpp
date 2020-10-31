@@ -334,7 +334,7 @@ namespace Marvel {
 			&show, &parent, &before))
 			return ToPyBool(false);
 
-		auto parentItem = mvApp::GetApp()->topParent();
+		auto parentItem = mvApp::GetApp()->getItemRegistry().topParent();
 
 		if (parentItem == nullptr)
 		{
@@ -356,7 +356,7 @@ namespace Marvel {
 
 			if (AddItemWithRuntimeChecks(item, parent, before))
 			{
-				mvApp::GetApp()->pushParent(item);
+				mvApp::GetApp()->getItemRegistry().pushParent(item);
 				return ToPyBool(true);
 			}
 		}
@@ -374,7 +374,7 @@ namespace Marvel {
 
 			if (AddItemWithRuntimeChecks(item, parent, before))
 			{
-				mvApp::GetApp()->pushParent(item);
+				mvApp::GetApp()->getItemRegistry().pushParent(item);
 				return ToPyBool(true);
 			}
 		}
@@ -403,7 +403,7 @@ namespace Marvel {
 
 		if (AddItemWithRuntimeChecks(item, parent, before))
 		{
-			mvApp::GetApp()->pushParent(item);
+			mvApp::GetApp()->getItemRegistry().pushParent(item);
 			return ToPyBool(true);
 		}
 		return ToPyBool(false);
@@ -471,7 +471,7 @@ namespace Marvel {
 
 		if (AddItemWithRuntimeChecks(item, parent, before))
 		{
-			mvApp::GetApp()->pushParent(item);
+			mvApp::GetApp()->getItemRegistry().pushParent(item);
 			return ToPyBool(true);
 		}
 
@@ -494,7 +494,7 @@ namespace Marvel {
 
 		if (std::string(parent).empty())
 		{
-			auto parentItem = mvApp::GetApp()->topParent();
+			auto parentItem = mvApp::GetApp()->getItemRegistry().topParent();
 
 			if (parentItem == nullptr)
 			{
@@ -510,7 +510,7 @@ namespace Marvel {
 				item->setExtraConfigDict(kwargs);
 				if (AddItemWithRuntimeChecks(item, parent, before))
 				{
-					mvApp::GetApp()->pushParent(item);
+					mvApp::GetApp()->getItemRegistry().pushParent(item);
 					return ToPyBool(true);
 				}
 			}
@@ -521,7 +521,7 @@ namespace Marvel {
 
 		else
 		{
-			auto parentItem = mvApp::GetApp()->getItem(parent);
+			auto parentItem = mvApp::GetApp()->getItemRegistry().getItem(parent);
 
 			if (parentItem == nullptr)
 			{
@@ -537,7 +537,7 @@ namespace Marvel {
 				item->setExtraConfigDict(kwargs);
 				if (AddItemWithRuntimeChecks(item, parent, before))
 				{
-					mvApp::GetApp()->pushParent(item);
+					mvApp::GetApp()->getItemRegistry().pushParent(item);
 					return ToPyBool(true);
 				}
 			}
@@ -576,7 +576,7 @@ namespace Marvel {
 
 		if (AddItemWithRuntimeChecks(item, parent, before))
 		{
-			mvApp::GetApp()->pushParent(item);
+			mvApp::GetApp()->getItemRegistry().pushParent(item);
 			if (!show)
 				item->hide();
 
@@ -613,7 +613,7 @@ namespace Marvel {
 		item->setExtraConfigDict(kwargs);
 		if (AddItemWithRuntimeChecks(item, parent, before))
 		{
-			mvApp::GetApp()->pushParent(item);
+			mvApp::GetApp()->getItemRegistry().pushParent(item);
 			return ToPyBool(true);
 		}
 
@@ -640,7 +640,7 @@ namespace Marvel {
 		item->setExtraConfigDict(kwargs);
 		if (AddItemWithRuntimeChecks(item, parent, before))
 		{
-			mvApp::GetApp()->pushParent(item);
+			mvApp::GetApp()->getItemRegistry().pushParent(item);
 			return ToPyBool(true);
 		}
 
@@ -737,7 +737,7 @@ namespace Marvel {
 
 		if (AddItemWithRuntimeChecks(item, "", ""))
 		{
-			mvApp::GetApp()->pushParent(item);
+			mvApp::GetApp()->getItemRegistry().pushParent(item);
 
 			if (!show)
 				item->hide();
@@ -784,7 +784,7 @@ namespace Marvel {
 
 		if (AddItemWithRuntimeChecks(item, "", ""))
 		{
-			mvApp::GetApp()->pushParent(item);
+			mvApp::GetApp()->getItemRegistry().pushParent(item);
 
 			if (!show)
 				item->hide();
@@ -831,7 +831,7 @@ namespace Marvel {
 
 		if (AddItemWithRuntimeChecks(item, "", ""))
 		{
-			mvApp::GetApp()->pushParent(item);
+			mvApp::GetApp()->getItemRegistry().pushParent(item);
 
 			if (!show)
 				item->hide();
@@ -878,7 +878,7 @@ namespace Marvel {
 
 		if (AddItemWithRuntimeChecks(item, "", ""))
 		{
-			mvApp::GetApp()->pushParent(item);
+			mvApp::GetApp()->getItemRegistry().pushParent(item);
 
 			if (!show)
 				item->hide();
@@ -925,7 +925,7 @@ namespace Marvel {
 
 		if (AddItemWithRuntimeChecks(item, "", ""))
 		{
-			mvApp::GetApp()->pushParent(item);
+			mvApp::GetApp()->getItemRegistry().pushParent(item);
 
 			if (!show)
 				item->hide();
@@ -972,7 +972,7 @@ namespace Marvel {
 
 		if (AddItemWithRuntimeChecks(item, "", ""))
 		{
-			mvApp::GetApp()->pushParent(item);
+			mvApp::GetApp()->getItemRegistry().pushParent(item);
 
 			if (!show)
 				item->hide();
@@ -1003,7 +1003,7 @@ namespace Marvel {
 
 		if (AddItemWithRuntimeChecks(item, tipparent, before))
 		{
-			mvApp::GetApp()->pushParent(item);
+			mvApp::GetApp()->getItemRegistry().pushParent(item);
 			return ToPyBool(true);
 		}
 		return ToPyBool(false);
@@ -1025,7 +1025,7 @@ namespace Marvel {
 			&name, &mousebutton, &modal, &parent, &before, &width, &height, &show))
 			return ToPyBool(false);
 
-		auto PopupParent = mvApp::GetApp()->getItem(popupparent);
+		auto PopupParent = mvApp::GetApp()->getItemRegistry().getItem(popupparent);
 		if (PopupParent)
 			PopupParent->setPopup(name);
 
@@ -1037,7 +1037,7 @@ namespace Marvel {
 
 		if (AddItemWithRuntimeChecks(item, popupparent, before))
 		{
-			mvApp::GetApp()->pushParent(item);
+			mvApp::GetApp()->getItemRegistry().pushParent(item);
 			return ToPyBool(true);
 		}
 		return ToPyBool(false);
@@ -1045,7 +1045,7 @@ namespace Marvel {
 
 	PyObject* end(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
-		mvApp::GetApp()->popParent();
+		mvApp::GetApp()->getItemRegistry().popParent();
 		return GetPyNone();
 	}
 
@@ -1076,7 +1076,7 @@ namespace Marvel {
 
 		if (AddItemWithRuntimeChecks(item, parent, before))
 		{
-			mvApp::GetApp()->pushParent(item);
+			mvApp::GetApp()->getItemRegistry().pushParent(item);
 			return ToPyBool(true);
 		}
 		return ToPyBool(false);
@@ -1106,7 +1106,7 @@ namespace Marvel {
 		item->setExtraConfigDict(kwargs);
 		if (AddItemWithRuntimeChecks(item, parent, before))
 		{
-			mvApp::GetApp()->pushParent(item);
+			mvApp::GetApp()->getItemRegistry().pushParent(item);
 			return ToPyBool(true);
 		}
 		return ToPyBool(false);

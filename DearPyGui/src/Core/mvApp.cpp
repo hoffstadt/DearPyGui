@@ -104,9 +104,9 @@ namespace Marvel {
 		m_mainThreadID = std::this_thread::get_id();
 
 		auto add_hidden_window = [&](mvAppItem* item, const std::string& label) {
-			m_windows.push_back(item);
-			m_windows.back()->setLabel(label);
-			m_windows.back()->hide();
+			m_itemRegistry.m_windows.push_back(item);
+			m_itemRegistry.m_windows.back()->setLabel(label);
+			m_itemRegistry.m_windows.back()->hide();
 		};
 
 		add_hidden_window(new mvAboutWindow("about##standard"), "About Dear PyGui");
@@ -120,12 +120,7 @@ namespace Marvel {
 
 	mvApp::~mvApp()
 	{
-		for (auto window : m_windows)
-		{
-			delete window;
-			window = nullptr;
-		}
-		m_windows.clear();
+		m_itemRegistry.clearRegistry();
 
 		mvTextureStorage::DeleteAllTextures();
 		mvDataStorage::DeleteAllData();
@@ -133,10 +128,6 @@ namespace Marvel {
 
 	void mvApp::precheck()
 	{
-		// prevents the user from having to call
-		// end_window when there is only the main one
-		if (m_windows.size() == 1)
-			popParent();
 
 		// If any data was stored during compile time,
 		// this will update items relying on it before
@@ -222,7 +213,7 @@ namespace Marvel {
 			runCallback(getRenderCallback(), "Main Application");
 
 		// resets app items states (i.e. hovered)
-		for (auto window : m_windows)
+		for (auto window : m_itemRegistry.m_windows)
 			window->resetState();
 
 		return true;
@@ -232,7 +223,7 @@ namespace Marvel {
 	{
 		MV_PROFILE_FUNCTION()
 
-		for (auto window : m_windows)
+		for (auto window : m_itemRegistry.m_windows)
 			window->draw();
 	}
 
@@ -242,10 +233,10 @@ namespace Marvel {
 			MV_PROFILE_FUNCTION()
 
 			Py_BEGIN_ALLOW_THREADS
-			postDeleteItems();
-			postAddItems();
-			postAddPopups();
-			postMoveItems();
+			m_itemRegistry.postDeleteItems();
+			m_itemRegistry.postAddItems();
+			m_itemRegistry.postAddPopups();
+			m_itemRegistry.postMoveItems();
 			postAsync();
 
 
@@ -416,142 +407,11 @@ namespace Marvel {
 
 	}
 
-	bool mvApp::addRuntimeItem(const std::string& parent, const std::string& before, mvAppItem* item) 
-	{ 
-		if (!checkIfMainThread())
-			return false;
-
-		m_newItemVec.push_back({ item, before, parent });
-
-		return true;
-	}
-
-	bool mvApp::moveItem(const std::string& name, const std::string& parent, const std::string& before)
-	{
-		if (!checkIfMainThread())
-			return false;
-
-		m_moveVec.push({ name, parent, before });
-
-		return true;
-	}
-
-	bool mvApp::addItemAfter(const std::string& prev, mvAppItem* item)
-	{
-		if (!checkIfMainThread())
-			return false;
-
-		m_orderedVec.push_back({ item, prev });
-		return true;
-	}
-
 	void mvApp::addMTCallback(PyObject* callback, PyObject* data, PyObject* returnname)
 	{ 
 		Py_XINCREF(data);
 		//std::lock_guard<std::mutex> lock(m_mutex);
 		m_asyncCallbacks.push_back({ callback, data, returnname }); 
-	}
-
-	void mvApp::pushParent(mvAppItem* item)
-	{
-		m_parents.push(item);
-	}
-
-	mvAppItem* mvApp::popParent()
-	{
-		if (m_parents.empty())
-		{
-			ThrowPythonException("No parent to pop.");
-			return nullptr;
-		}
-
-		mvAppItem* item = m_parents.top();
-		m_parents.pop();
-		return item;
-	}
-
-	void mvApp::emptyParents()
-	{
-		while (!m_parents.empty())
-			m_parents.pop();
-	}
-
-	mvAppItem* mvApp::topParent()
-	{
-		if(m_parents.size() != 0)
-			return m_parents.top();
-		return nullptr;
-	}
-
-	mvAppItem* mvApp::getItem(const std::string& name, bool ignoreRuntime)
-	{
-
-		if (!checkIfMainThread())
-			return nullptr;
-
-		return getItemAsync(name, ignoreRuntime);
-	}
-
-	mvAppItem* mvApp::getItemAsync(const std::string& name, bool ignoreRuntime)
-	{
-
-		mvAppItem* item = nullptr;
-
-		if (!ignoreRuntime)
-			item = getRuntimeItem(name);
-
-		if (item)
-			return item;
-
-		for (auto window : m_windows)
-		{
-			if (window->getName() == name)
-				return window;
-
-			auto child = window->getChild(name);
-			if (child)
-				return child;
-		}
-
-		return nullptr;
-	}
-
-	mvAppItem* mvApp::getRuntimeItem(const std::string& name)
-	{
-
-		for (auto& item : m_newItemVec)
-		{
-
-			if (item.item->getName() == name)
-				return item.item;
-		}
-
-		for (auto& item : m_orderedVec)
-		{
-
-			if (item.item->getName() == name)
-				return item.item;
-		}
-
-		return nullptr;
-	}
-
-	mvWindowAppitem* mvApp::getWindow(const std::string& name)
-	{
-
-		if (!checkIfMainThread())
-			return nullptr;
-
-		mvAppItem* item = getRuntimeItem(name);
-		if (item == nullptr)
-			item = getItem(name);
-		if (item == nullptr)
-			return nullptr;
-
-		if (item->getType() == mvAppItemType::Window)
-			return static_cast<mvWindowAppitem*>(item);
-
-		return nullptr;
 	}
 
 	void mvApp::runAsyncCallback(PyObject* callback, PyObject* data, PyObject* returnname)
@@ -1053,283 +913,6 @@ namespace Marvel {
 		mvColor color = {(int)style->Colors[item].x * 255, (int)style->Colors[item].y * 255 ,
 			(int)style->Colors[item].z * 255 , (int)style->Colors[item].w * 255 };
 		return color;
-	}
-
-	bool mvApp::addItem(mvAppItem* item)
-	{
-		if (!checkIfMainThread())
-			return false;
-
-		static int count = 0;
-		count++;
-
-		assert(!IsAppStarted()); // should not be callable during runtime
-
-		if (!item->areDuplicatesAllowed())
-		{
-			if (getItem(item->getName()))
-			{
-				std::string message = item->getName() + " " + std::to_string(count);
-				ThrowPythonException(message + ": Items of this type must have unique names");
-				delete item;
-				item = nullptr;
-				return false;
-			}
-		}
-
-		mvAppItem* parentitem = topParent();	
-		if (parentitem == nullptr)
-		{
-			std::string message = item->getName();
-			ThrowPythonException(message + ": Parent for this item not found or the parent stack is empty.");
-			delete item;
-			item = nullptr;
-			return false;
-		}
-
-		item->setParent(parentitem);
-		parentitem->addChild(item);
-
-		return true;
-	}
-
-	bool mvApp::addWindow(mvAppItem* item)
-	{
-		if (!checkIfMainThread())
-			return false;
-
-		m_windows.push_back(item);
-		return true;
-	}
-
-	void mvApp::postDeleteItems()
-	{
-		MV_PROFILE_FUNCTION()
-
-		// delete items from the delete queue
-		while (!m_deleteChildrenQueue.empty())
-		{
-			auto item = getItem(m_deleteChildrenQueue.front());
-			if (item)
-				item->deleteChildren();
-			m_deleteChildrenQueue.pop();
-		}
-
-		// delete items from the delete queue
-		while (!m_deleteQueue.empty())
-		{
-			bool deletedItem = false;
-
-			// try to delete item
-			for (auto window : m_windows)
-			{
-				deletedItem = window->deleteChild(m_deleteQueue.front());
-				if (deletedItem)
-					break;
-			}
-
-			bool windowDeleting = false;
-
-			// check if attempting to delete a window
-			for (auto window : m_windows)
-			{
-				if (window->getName() == m_deleteQueue.front())
-				{
-					windowDeleting = true;
-					break;
-				}
-			}
-
-			// delete window and update window vector
-			// this should be changed to a different data
-			// structure
-			if (windowDeleting)
-			{
-				std::vector<mvAppItem*> oldwindows = m_windows;
-
-				m_windows.clear();
-
-				for (auto window : oldwindows)
-				{
-					if (window->getName() == m_deleteQueue.front())
-					{
-						delete window;
-						window = nullptr;
-						deletedItem = true;
-						continue;
-					}
-					m_windows.push_back(window);
-				}
-			}
-
-			if (!deletedItem)
-				ThrowPythonException(m_deleteQueue.front() + " not deleted because it was not found");
-
-			m_deleteQueue.pop();
-		}
-	}
-
-	void mvApp::postAddItems()
-	{
-		MV_PROFILE_FUNCTION()
-
-		// add runtime items
-		for (auto& newItem : m_newItemVec)
-		{
-
-			bool addedItem = false;
-
-			if (!newItem.item->areDuplicatesAllowed())
-			{
-				if (getItem(newItem.item->getName(), true))
-				{
-					std::string message = newItem.item->getName();
-					ThrowPythonException(message + ": Items of this type must have unique names");
-					delete newItem.item;
-					newItem.item = nullptr;
-					continue;
-				}
-			}
-
-			if (newItem.item->isARoot())
-			{
-				m_windows.push_back(newItem.item);
-				continue;
-			}
-
-			for (auto window : m_windows)
-			{
-				addedItem = window->addRuntimeChild(newItem.parent, newItem.before, newItem.item);
-				if (addedItem)
-					break;
-			}
-
-			if (!addedItem)
-			{
-				for (auto otherItems : m_orderedVec)
-				{
-					addedItem = otherItems.item->addRuntimeChild(newItem.parent, newItem.before, newItem.item);
-					if (addedItem)
-						break;
-				}
-			}
-
-			if (!addedItem)
-			{
-				ThrowPythonException(newItem.item->getName() + " not added because its parent was not found");
-				delete newItem.item;
-				newItem.item = nullptr;
-			}
-
-		}
-
-		m_newItemVec.clear();
-	}
-
-	void mvApp::postAddPopups()
-	{
-		MV_PROFILE_FUNCTION()
-
-		// add popup items
-		for (auto& popup : m_orderedVec)
-		{
-
-			bool addedItem = false;
-
-			if (getItem(popup.item->getName(), true))
-			{
-				std::string message = popup.item->getName();
-				ThrowPythonException(message + ": Items of this type must have unique names");
-				delete popup.item;
-				popup.item = nullptr;
-				continue;
-			}
-
-			for (auto window : m_windows)
-			{
-				addedItem = window->addChildAfter(popup.prev, popup.item);
-				if (addedItem)
-					break;
-			}
-
-			if (!addedItem)
-			{
-				ThrowPythonException(popup.item->getName() + " not added because its parent was not found");
-				delete popup.item;
-				popup.item = nullptr;
-			}
-
-		}
-		m_orderedVec.clear();
-	}
-
-	void mvApp::postMoveItems()
-	{
-		MV_PROFILE_FUNCTION()
-
-		// move
-		while (!m_moveVec.empty())
-		{
-			StolenChild childrequest = m_moveVec.front();
-			m_moveVec.pop();
-
-			mvAppItem* child = nullptr;
-
-			bool movedItem = false;
-
-			for (auto window : m_windows)
-			{
-				child = window->stealChild(childrequest.item);
-				if (child)
-					break;
-			}
-
-			if (child == nullptr)
-				ThrowPythonException(childrequest.item + " not moved because it was not found");
-
-			if(child)
-				addRuntimeItem(childrequest.parent, childrequest.before, child);
-		}
-
-		// move items up
-		while (!m_upQueue.empty())
-		{
-			std::string& itemname = m_upQueue.front();
-
-			bool movedItem = false;
-
-			for (auto window : m_windows)
-			{
-				movedItem = window->moveChildUp(itemname);
-				if (movedItem)
-					break;
-			}
-
-			if (!movedItem)
-				ThrowPythonException(itemname + " not moved because it was not found");
-
-			m_upQueue.pop();
-		}
-
-		// move items down
-		while (!m_downQueue.empty())
-		{
-			std::string& itemname = m_downQueue.front();
-
-			bool movedItem = false;
-
-			for (auto window : m_windows)
-			{
-				movedItem = window->moveChildDown(itemname);
-				if (movedItem)
-					break;
-			}
-
-			if (!movedItem)
-				ThrowPythonException(itemname + " not moved because it was not found");
-
-			m_downQueue.pop();
-		}
 	}
 
 	void mvApp::postAsync()

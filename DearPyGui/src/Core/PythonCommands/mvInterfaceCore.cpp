@@ -10,33 +10,34 @@ namespace Marvel {
 		if (item == nullptr)
 			return false;
 
-		auto ma = mvApp::GetApp();
+		//auto ma = mvApp::GetApp();
+		mvItemRegistry& itemRegistry = mvApp::GetApp()->getItemRegistry();
 
 		// remove bad parent stack item
-		if (item->isARoot() && ma->topParent() != nullptr)
+		if (item->isARoot() && itemRegistry.topParent() != nullptr)
 		{
-			ma->emptyParents();
+			itemRegistry.emptyParents();
 			ThrowPythonException("Parent stack not empty. Adding window will empty the parent stack. Don't forget to end container types.");
 		}
 
 		if (item->getType() == mvAppItemType::Popup || item->getType() == mvAppItemType::Tooltip)
-			return ma->addItemAfter(parent, item);
+			return itemRegistry.addItemAfter(parent, item);
 
 		// window runtime adding
 		if (item->isARoot() && mvApp::IsAppStarted())
-			return ma->addRuntimeItem("", "", item);
+			return itemRegistry.addRuntimeItem("", "", item);
 
 		// window compile adding
 		else if (item->isARoot())
-			return ma->addWindow(item);
+			return itemRegistry.addWindow(item);
 
 		// typical run time adding
 		else if ((!std::string(parent).empty() || !std::string(before).empty()) && mvApp::IsAppStarted())
-			return ma->addRuntimeItem(parent, before, item);
+			return itemRegistry.addRuntimeItem(parent, before, item);
 
 		// adding without specifying before or parent, instead using parent stack
-		else if (std::string(parent).empty() && std::string(before).empty() && mvApp::IsAppStarted() && ma->topParent() != nullptr)
-			return ma->addRuntimeItem(ma->topParent()->getName(), before, item);
+		else if (std::string(parent).empty() && std::string(before).empty() && mvApp::IsAppStarted() && itemRegistry.topParent() != nullptr)
+			return itemRegistry.addRuntimeItem(itemRegistry.topParent()->getName(), before, item);
 
 		// adding without specifying before or parent, but with empty stack (add to main window)
 		else if (std::string(parent).empty() && std::string(before).empty() && mvApp::IsAppStarted())
@@ -48,11 +49,11 @@ namespace Marvel {
 
 		// adding normally but using the runtime style of adding
 		else if (!std::string(parent).empty() && !mvApp::IsAppStarted())
-			return ma->addRuntimeItem(parent, before, item);
+			return itemRegistry.addRuntimeItem(parent, before, item);
 
 		// typical adding before runtime
 		else if (std::string(parent).empty() && !mvApp::IsAppStarted() && std::string(before).empty())
-			return ma->addItem(item);
+			return itemRegistry.addItem(item);
 
 		return false;
 	}
