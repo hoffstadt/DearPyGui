@@ -696,9 +696,9 @@ def show_demo():
                     add_text("All those beautiful files will be deleted.\nThis operation cannot be undone!")
                     add_separator()
                     add_checkbox("Don't ask me next time##demo")
-                    add_button("OK##modal##demo", width=75, callback=lambda sender, data: close_popup())
+                    add_button("OK##modal##demo", width=75, callback=lambda sender, data: close_popup("Delete?"))
                     add_same_line()
-                    add_button("Cancel##modal##demo", width=75, callback=lambda sender, data: close_popup())
+                    add_button("Cancel##modal##demo", width=75, callback=lambda sender, data: close_popup("Delete?"))
 
             with tree_node("File Selector##demo"):
                 def file_selected(sender, data):

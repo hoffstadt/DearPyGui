@@ -112,6 +112,7 @@ namespace Marvel {
         mvAppItem*                          getChild                  (const std::string& name);      // will return nullptr if not found
         inline std::vector<mvAppItem*>&     getChildren               ()       { return m_children; }
         inline mvAppItem*                   getParent                 ()       { return m_parent; }   // can return nullptr
+        mvAppItem*                          getNearestAncestorOfType  (mvAppItemType type);           // returns the first ancestor of given type or nullptr
         [[nodiscard]] const std::string&    getName                   () const { return m_name; }
         [[nodiscard]] const std::string&    getTip                    () const { return m_tip; }
         [[nodiscard]] const std::string&    getLabel                  () const { return m_label; }
