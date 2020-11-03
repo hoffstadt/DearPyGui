@@ -71,7 +71,7 @@ namespace Marvel {
 			}
 
 			if (ImGui::InputInt(m_label.c_str(), m_value, 1, 100, m_flags))
-				mvApp::GetApp()->runCallback(m_callback, m_name, m_callbackData);
+				mvApp::GetApp()->addCallback(m_callback, m_name, m_callbackData);
 
 			// Regular Tooltip (simple)
 			if (!getTip().empty() && ImGui::IsItemHovered())
@@ -154,7 +154,7 @@ namespace Marvel {
 			}
 
 			if (ImGui::InputInt2(m_label.c_str(), m_value, m_flags))
-				mvApp::GetApp()->runCallback(m_callback, m_name, m_callbackData);
+				mvApp::GetApp()->addCallback(m_callback, m_name, m_callbackData);
 
 
 			// Regular Tooltip (simple)
@@ -238,7 +238,7 @@ namespace Marvel {
 			}
 
 			if (ImGui::InputInt3(m_label.c_str(), m_value, m_flags))
-				mvApp::GetApp()->runCallback(m_callback, m_name, m_callbackData);
+				mvApp::GetApp()->addCallback(m_callback, m_name, m_callbackData);
 
 
 			// Regular Tooltip (simple)
@@ -322,7 +322,7 @@ namespace Marvel {
 			}
 
 			if (ImGui::InputInt4(m_label.c_str(), m_value, m_flags))
-				mvApp::GetApp()->runCallback(m_callback, m_name, m_callbackData);
+				mvApp::GetApp()->addCallback(m_callback, m_name, m_callbackData);
 
 			// Regular Tooltip (simple)
 			if (!getTip().empty() && ImGui::IsItemHovered())
@@ -405,7 +405,7 @@ namespace Marvel {
 			}
 
 			if (ImGui::InputFloat(m_label.c_str(), m_value, m_step, m_step_fast, m_format.c_str(), m_flags))
-				mvApp::GetApp()->runCallback(m_callback, m_name, m_callbackData);
+				mvApp::GetApp()->addCallback(m_callback, m_name, m_callbackData);
 
 
 			// Regular Tooltip (simple)
@@ -517,7 +517,7 @@ namespace Marvel {
 			}
 
 			if (ImGui::InputFloat2(m_label.c_str(), m_value, m_format.c_str(), m_flags))
-				mvApp::GetApp()->runCallback(m_callback, m_name, m_callbackData);
+				mvApp::GetApp()->addCallback(m_callback, m_name, m_callbackData);
 
 			// Regular Tooltip (simple)
 			if (!getTip().empty() && ImGui::IsItemHovered())
@@ -622,7 +622,7 @@ namespace Marvel {
 			}
 
 			if (ImGui::InputFloat3(m_label.c_str(), m_value, m_format.c_str(), m_flags))
-				mvApp::GetApp()->runCallback(m_callback, m_name, m_callbackData);
+				mvApp::GetApp()->addCallback(m_callback, m_name, m_callbackData);
 
 			// Regular Tooltip (simple)
 			if (!getTip().empty() && ImGui::IsItemHovered())
@@ -727,7 +727,7 @@ namespace Marvel {
 			}
 
 			if (ImGui::InputFloat4(m_label.c_str(), m_value, m_format.c_str(), m_flags))
-				mvApp::GetApp()->runCallback(m_callback, m_name, m_callbackData);
+				mvApp::GetApp()->addCallback(m_callback, m_name, m_callbackData);
 
 			// Regular Tooltip (simple)
 			if (!getTip().empty() && ImGui::IsItemHovered())

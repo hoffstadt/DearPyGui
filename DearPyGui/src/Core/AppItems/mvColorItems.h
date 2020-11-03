@@ -33,7 +33,7 @@ namespace Marvel {
 		{
 			ImGui::PushID(this);
 			if (ImGui::ColorButton(m_label.c_str(), m_color, m_flags, ImVec2((float)m_width, (float)m_height)))
-				mvApp::GetApp()->runCallback(m_callback, m_name, m_callbackData);
+				mvApp::GetApp()->addCallback(m_callback, m_name, m_callbackData);
 
 
 			// Regular Tooltip (simple)
@@ -105,7 +105,7 @@ namespace Marvel {
 			ImGui::PushID(this);
 
 			if (ImGui::ColorEdit3(m_label.c_str(), m_value, m_flags))
-				mvApp::GetApp()->runCallback(m_callback, m_name, m_callbackData);
+				mvApp::GetApp()->addCallback(m_callback, m_name, m_callbackData);
 
 			ImGui::PopID();
 
@@ -227,7 +227,7 @@ namespace Marvel {
 			ImGui::PushID(this);
 
 			if (ImGui::ColorEdit4(m_label.c_str(), m_value, m_flags))
-				mvApp::GetApp()->runCallback(m_callback, m_name, m_callbackData);
+				mvApp::GetApp()->addCallback(m_callback, m_name, m_callbackData);
 
 
 			ImGui::PopID();
@@ -351,7 +351,7 @@ namespace Marvel {
 			ImGui::PushID(this);
 
 			if (ImGui::ColorPicker3(m_label.c_str(), m_value, m_flags))
-				mvApp::GetApp()->runCallback(m_callback, m_name, m_callbackData);
+				mvApp::GetApp()->addCallback(m_callback, m_name, m_callbackData);
 
 			ImGui::PopID();
 
@@ -474,7 +474,7 @@ namespace Marvel {
 			ImGui::PushID(this);
 
 			if (ImGui::ColorPicker4(m_label.c_str(), m_value, m_flags))
-				mvApp::GetApp()->runCallback(m_callback, m_name, m_callbackData);
+				mvApp::GetApp()->addCallback(m_callback, m_name, m_callbackData);
 
 			ImGui::PopID();
 

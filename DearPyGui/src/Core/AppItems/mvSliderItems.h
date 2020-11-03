@@ -80,7 +80,7 @@ namespace Marvel {
 					m_width = 20;
 
 				if (ImGui::VSliderFloat(m_label.c_str(), ImVec2((float)m_width, (float)m_height), m_enabled ? m_value : &m_disabled_value, m_min, m_max, m_format.c_str()))
-					mvApp::GetApp()->runCallback(getCallback(false), m_name, m_callbackData);
+					mvApp::GetApp()->addCallback(getCallback(false), m_name, m_callbackData);
 
 				// Regular Tooltip (simple)
 				if (!getTip().empty() && ImGui::IsItemHovered())
@@ -89,7 +89,7 @@ namespace Marvel {
 			else
 			{
 				if (ImGui::SliderFloat(m_label.c_str(), m_enabled ? m_value : &m_disabled_value, m_min, m_max, m_format.c_str(), m_flags))
-					mvApp::GetApp()->runCallback(getCallback(false), m_name, m_callbackData);
+					mvApp::GetApp()->addCallback(getCallback(false), m_name, m_callbackData);
 
 				// Regular Tooltip (simple)
 				if (!getTip().empty() && ImGui::IsItemHovered())
@@ -213,7 +213,7 @@ namespace Marvel {
 					m_width = 20;
 
 				if (ImGui::VSliderInt(m_label.c_str(), ImVec2((float)m_width, (float)m_height), m_enabled ? m_value : &m_disabled_value, m_min, m_max, m_format.c_str()))
-					mvApp::GetApp()->runCallback(getCallback(false), m_name, m_callbackData);
+					mvApp::GetApp()->addCallback(getCallback(false), m_name, m_callbackData);
 
 				// Regular Tooltip (simple)
 				if (!getTip().empty() && ImGui::IsItemHovered())
@@ -222,7 +222,7 @@ namespace Marvel {
 			else
 			{
 				if (ImGui::SliderInt(m_label.c_str(), m_enabled ? m_value : &m_disabled_value, m_min, m_max, m_format.c_str(), m_flags))
-					mvApp::GetApp()->runCallback(getCallback(false), m_name, m_callbackData);
+					mvApp::GetApp()->addCallback(getCallback(false), m_name, m_callbackData);
 
 				// Regular Tooltip (simple)
 				if (!getTip().empty() && ImGui::IsItemHovered())
@@ -339,7 +339,7 @@ namespace Marvel {
 			}
 
 			if (ImGui::SliderFloat2(m_label.c_str(), m_enabled ? m_value : &m_disabled_value[0], m_min, m_max, m_format.c_str(), m_flags))
-				mvApp::GetApp()->runCallback(getCallback(false), m_name, m_callbackData);
+				mvApp::GetApp()->addCallback(getCallback(false), m_name, m_callbackData);
 
 			// Regular Tooltip (simple)
 			if (!getTip().empty() && ImGui::IsItemHovered())
@@ -452,7 +452,7 @@ namespace Marvel {
 			}
 
 			if (ImGui::SliderFloat3(m_label.c_str(), m_enabled ? m_value : &m_disabled_value[0], m_min, m_max, m_format.c_str(), m_flags))
-				mvApp::GetApp()->runCallback(getCallback(false), m_name, m_callbackData);
+				mvApp::GetApp()->addCallback(getCallback(false), m_name, m_callbackData);
 
 			// Regular Tooltip (simple)
 			if (!getTip().empty() && ImGui::IsItemHovered())
@@ -564,7 +564,7 @@ namespace Marvel {
 			}
 
 			if (ImGui::SliderFloat4(m_label.c_str(), m_enabled ? m_value : &m_disabled_value[0], m_min, m_max, m_format.c_str(), m_flags))
-				mvApp::GetApp()->runCallback(getCallback(false), m_name, m_callbackData);
+				mvApp::GetApp()->addCallback(getCallback(false), m_name, m_callbackData);
 
 			// Regular Tooltip (simple)
 			if (!getTip().empty() && ImGui::IsItemHovered())
@@ -677,7 +677,7 @@ namespace Marvel {
 			}
 
 			if (ImGui::SliderInt2(m_label.c_str(), m_enabled ? m_value : &m_disabled_value[0], m_min, m_max, m_format.c_str(), m_flags))
-				mvApp::GetApp()->runCallback(getCallback(false), m_name, m_callbackData);
+				mvApp::GetApp()->addCallback(getCallback(false), m_name, m_callbackData);
 
 			// Regular Tooltip (simple)
 			if (!getTip().empty() && ImGui::IsItemHovered())
@@ -790,7 +790,7 @@ namespace Marvel {
 			}
 
 			if (ImGui::SliderInt3(m_label.c_str(), m_enabled ? m_value : &m_disabled_value[0], m_min, m_max, m_format.c_str(), m_flags))
-				mvApp::GetApp()->runCallback(getCallback(false), m_name, m_callbackData);
+				mvApp::GetApp()->addCallback(getCallback(false), m_name, m_callbackData);
 
 			// Regular Tooltip (simple)
 			if (!getTip().empty() && ImGui::IsItemHovered())
@@ -903,7 +903,7 @@ namespace Marvel {
 			}
 
 			if (ImGui::SliderInt4(m_label.c_str(), m_enabled ? m_value : &m_disabled_value[0], m_min, m_max, m_format.c_str(), m_flags))
-				mvApp::GetApp()->runCallback(getCallback(false), m_name, m_callbackData);
+				mvApp::GetApp()->addCallback(getCallback(false), m_name, m_callbackData);
 
 			// Regular Tooltip (simple)
 			if (!getTip().empty() && ImGui::IsItemHovered())
