@@ -65,6 +65,13 @@ namespace Marvel {
         friend class mvLinuxWindow;
         friend class mvAppleWindow;
 
+        struct NewCallback
+        {
+            std::string sender;
+            PyObject*   callback;   // name of function to run
+            PyObject*   data;       // any data need by the function
+        };
+
         struct AsyncronousCallback
         {
             PyObject* name;       // name of function to run
@@ -156,6 +163,7 @@ namespace Marvel {
         void                     runCallback      (PyObject* callback, const std::string& sender, PyObject* data = nullptr);
         void                     runAsyncCallback (PyObject* callback, PyObject* data, PyObject* returnname);
         void                     addMTCallback    (PyObject* name, PyObject* data, PyObject* returnname = nullptr);
+        void                     addCallback      (PyObject* callback, const std::string& sender, PyObject* data);
 
         //-----------------------------------------------------------------------------
         // Timing
@@ -175,6 +183,7 @@ namespace Marvel {
         // Post Rendering Methods
         //     - actually performs queued operations
         //-----------------------------------------------------------------------------
+        void postCallbacks  ();
         void postAsync      ();
         void postProfile    ();
 
@@ -222,6 +231,10 @@ namespace Marvel {
         float                        m_deltaTime; // time since last frame
         double                       m_time;      // total time since starting
         
+        // new callback system
+        std::queue<NewCallback>          m_callbacks;
+
+
         // concurrency
         std::queue<AsyncronousCallback>  m_asyncReturns;
         std::vector<AsyncronousCallback> m_asyncCallbacks;

@@ -233,7 +233,7 @@ namespace Marvel {
 	{
 		{
 			MV_PROFILE_FUNCTION()
-
+			postCallbacks();
 			Py_BEGIN_ALLOW_THREADS
 			m_itemRegistry.postDeleteItems();
 			m_itemRegistry.postAddItems();
@@ -406,6 +406,11 @@ namespace Marvel {
 					ToPyInt(i));
 		}
 
+	}
+
+	void mvApp::addCallback(PyObject* callable, const std::string& sender, PyObject* data)
+	{
+		m_callbacks.push({ sender, callable, data });
 	}
 
 	void mvApp::addMTCallback(PyObject* callback, PyObject* data, PyObject* returnname)
@@ -914,6 +919,18 @@ namespace Marvel {
 		mvColor color = {(int)style->Colors[item].x * 255, (int)style->Colors[item].y * 255 ,
 			(int)style->Colors[item].z * 255 , (int)style->Colors[item].w * 255 };
 		return color;
+	}
+
+	void mvApp::postCallbacks()
+	{
+		MV_PROFILE_FUNCTION()
+		
+			while (!m_callbacks.empty())
+			{
+				NewCallback callback = m_callbacks.front();
+				runCallback(callback.callback, callback.sender, callback.data);
+				m_callbacks.pop();
+			}
 	}
 
 	void mvApp::postAsync()
