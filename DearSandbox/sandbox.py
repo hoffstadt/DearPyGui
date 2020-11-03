@@ -24,6 +24,12 @@ add_additional_font("C:/dev/DearPyGui/Resources/NotoSerifCJKjp-Medium.otf", 20)
 
 show_demo()
 
+with window("Primary Window Tester", show=True, no_resize=True):
+    
+    add_button("This Primary", callback=lambda sender, data: set_primary_window("Primary Window Tester", True))
+    add_button("Demo Primary", callback=lambda sender, data: set_primary_window("Dear PyGui Demo", True))
+    add_button("Async Primary", callback=lambda sender, data: set_primary_window("Asyncronous##dialog", True))
+
 with window("Asyncronous##dialog", show=True):
     add_data('threadNumber', 0)
 

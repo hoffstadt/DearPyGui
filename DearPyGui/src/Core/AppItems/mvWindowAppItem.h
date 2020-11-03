@@ -10,6 +10,7 @@ namespace Marvel {
 
 	//-----------------------------------------------------------------------------
 	// mvWindowAppitem
+	//     - this needs cleaning up badly
 	//-----------------------------------------------------------------------------
 	class mvWindowAppitem : public mvAppItem, public mvEventHandler
 	{
@@ -34,16 +35,20 @@ namespace Marvel {
 		void   draw                 () override;
 		void   setExtraConfigDict   (PyObject* dict) override;
 		void   getExtraConfigDict   (PyObject* dict) override;
+		void   setFocusedNextFrame  () { m_focusNextFrame = true; }
 
 		~mvWindowAppitem();
 
 	private:
 
-		static Status s_status;
-
 		ImGuiWindowFlags m_windowflags = ImGuiWindowFlags_NoSavedSettings;
+		ImGuiWindowFlags m_oldWindowflags = ImGuiWindowFlags_NoSavedSettings;
 		int              m_xpos = 200;
+		int              m_oldxpos = 200;
 		int              m_ypos = 200;
+		int              m_oldypos = 200;
+		int              m_oldWidth = 200;
+		int              m_oldHeight = 200;
 		bool             m_mainWindow = false;
 		PyObject*        m_closing_callback = nullptr;
 		bool             m_dirty_pos = true;
@@ -51,6 +56,7 @@ namespace Marvel {
 		bool             m_closing = true;
 		bool             m_noclose = false;
 		bool             m_hasMenuBar = false;
+		bool             m_focusNextFrame = false;
 		
 	};
 
