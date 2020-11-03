@@ -343,7 +343,10 @@ namespace Marvel {
 		{
 			// reset other windows
 			for (auto window : mvApp::GetApp()->getItemRegistry().getFrontWindows())
-				static_cast<mvWindowAppitem*>(window)->setWindowAsMainStatus(false);
+			{
+				if(window->getName() != primary_window)
+					static_cast<mvWindowAppitem*>(window)->setWindowAsMainStatus(false);
+			}
 
 			mvWindowAppitem* window = mvApp::GetApp()->getItemRegistry().getWindow(primary_window);
 
@@ -887,7 +890,10 @@ namespace Marvel {
 
 		// reset other windows
 		for (auto window : mvApp::GetApp()->getItemRegistry().getFrontWindows())
-			static_cast<mvWindowAppitem*>(window)->setWindowAsMainStatus(false);
+		{
+			if(window->getName() != item)
+				static_cast<mvWindowAppitem*>(window)->setWindowAsMainStatus(false);
+		}
 
 		mvWindowAppitem* window = mvApp::GetApp()->getItemRegistry().getWindow(item);
 

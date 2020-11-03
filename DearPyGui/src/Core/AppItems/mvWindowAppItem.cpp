@@ -4,8 +4,6 @@
 
 namespace Marvel {
 
-		mvWindowAppitem::Status mvWindowAppitem::s_status = mvWindowAppitem::Status::Normal;
-
 		mvWindowAppitem::mvWindowAppitem(const std::string& name, bool mainWindow, PyObject* closing_callback)
 			: mvAppItem(name), mvEventHandler(), m_mainWindow(mainWindow), m_closing_callback(SanitizeCallback(closing_callback))
 		{
@@ -13,6 +11,8 @@ namespace Marvel {
 
 			m_width = 500;
 			m_height = 500;
+
+			m_oldWindowflags = ImGuiWindowFlags_NoSavedSettings;
 
 			if (mainWindow)
 			{
@@ -26,23 +26,32 @@ namespace Marvel {
 			m_mainWindow = value;
 			if (value)
 			{
+				m_oldWindowflags = m_windowflags;
 				m_windowflags = ImGuiWindowFlags_NoBringToFrontOnFocus | ImGuiWindowFlags_NoSavedSettings
 					| ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoTitleBar;
 
 				if (m_hasMenuBar)
 					m_windowflags |= ImGuiWindowFlags_MenuBar;
-				s_status = Status::Dirty;
+				m_oldxpos = m_xpos;
+				m_oldypos = m_ypos;
+				m_oldWidth = m_width;
+				m_oldHeight = m_height;
 			}
 			else
 			{
-				s_status = Status::Dirty;
-				removeFlag(ImGuiWindowFlags_NoBringToFrontOnFocus);
-				removeFlag(ImGuiWindowFlags_NoResize);
-				removeFlag(ImGuiWindowFlags_NoCollapse);
-				removeFlag(ImGuiWindowFlags_NoTitleBar);
-				m_xpos = 200;
-				m_ypos = 200;
+				m_focusNextFrame = true;
+				m_windowflags = m_oldWindowflags;
+				if (m_hasMenuBar)
+					m_windowflags |= ImGuiWindowFlags_MenuBar;
+				m_xpos = m_oldxpos;
+				m_ypos = m_oldypos;
+				m_width = m_oldWidth;
+				m_height = m_oldHeight;
+				m_dirty_pos = true;
+				m_dirty_size = true;
 			}
+
+
 		}
 
 		void mvWindowAppitem::setWindowPos(float x, float y)
@@ -94,14 +103,6 @@ namespace Marvel {
 				ImGui::PushStyleVar(ImGuiStyleVar_WindowRounding, 0.0f); // to prevent main window corners from showing
 				ImGui::SetNextWindowPos(ImVec2(0.0f, 0.0f));
 				ImGui::SetNextWindowSize(ImVec2((float)mvApp::GetApp()->getClientWidth(), (float)mvApp::GetApp()->getClientHeight()));
-
-				if (s_status == Status::Transition)
-					s_status = Status::Normal;
-
-				// let other windows bring themselves into focus
-				if (s_status == Status::Dirty)
-					s_status = Status::Transition;
-
 			}
 
 			else if (m_dirty_pos)
@@ -110,8 +111,11 @@ namespace Marvel {
 				m_dirty_pos = false;
 			}
 
-			else if (s_status == Status::Transition)
+			else if (m_focusNextFrame)
+			{
 				ImGui::SetNextWindowFocus();
+				m_focusNextFrame = false;
+			}
 
 			if (m_dirty_size)
 			{
@@ -192,7 +196,6 @@ namespace Marvel {
 			m_xpos = (int)ImGui::GetWindowPos().x;
 			m_ypos = (int)ImGui::GetWindowPos().y;
 
-
 			ImGui::End();
 			ImGui::PopID();
 			popColorStyles();
@@ -225,6 +228,11 @@ namespace Marvel {
 			flagop("no_bring_to_front_on_focus", ImGuiWindowFlags_NoBringToFrontOnFocus, m_windowflags);
 			flagop("menubar", ImGuiWindowFlags_MenuBar, m_windowflags);
 			flagop("no_background", ImGuiWindowFlags_NoBackground, m_windowflags);
+
+			m_oldxpos = m_xpos;
+			m_oldypos = m_ypos;
+			m_oldWidth = m_width;
+			m_oldHeight = m_height;
 
 		}
 
