@@ -14,6 +14,20 @@ namespace Marvel{
 		m_label = name;
 	}
 
+	mvAppItem* mvAppItem::getNearestAncestorOfType(mvAppItemType type)
+	{
+
+		mvAppItem* ancestor = getParent();
+		if (ancestor)
+		{
+			if (ancestor->getType() == type)
+				return ancestor;
+			else
+				return getNearestAncestorOfType(type);
+		}
+		return nullptr;
+	}
+
 	void mvAppItem::checkConfigDict(PyObject* dict)
 	{
 		if (dict == nullptr)

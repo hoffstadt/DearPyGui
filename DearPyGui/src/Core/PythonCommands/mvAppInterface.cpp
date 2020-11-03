@@ -144,7 +144,7 @@ namespace Marvel {
 		parsers->insert({ "set_primary_window", mvPythonParser({
 			{mvPythonDataType::String, "window"},
 			{mvPythonDataType::Bool, "value"},
-		}, "Sets the primary window to fill the view port.") });
+		}, "Sets the primary window to fill the viewport.") });
 	}
 
 	void AddLogCommands(std::map<std::string, mvPythonParser>* parsers)
@@ -203,7 +203,9 @@ namespace Marvel {
 		}, "Shows the logging window. The Default log level is Trace", "None", "Standard Windows") });
 
 		parsers->insert({ "close_popup", mvPythonParser({
-		}, "Closes the current popup") });
+			{mvPythonDataType::String, "item"},
+		}, "Closes a popup.") });
+
 	}
 
 	PyObject* is_dearpygui_running(PyObject* self, PyObject* args, PyObject* kwargs)
@@ -847,10 +849,30 @@ namespace Marvel {
 
 	PyObject* close_popup(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
-		if (!mvApp::IsAppStarted())
+		const char* popup;
+
+		if (!(*mvApp::GetApp()->getParsers())["close_popup"].parse(args, kwargs, __FUNCTION__, &popup))
 			return GetPyNone();
 
-		ImGui::CloseCurrentPopup();
+
+		auto item = mvApp::GetApp()->getItemRegistry().getItem(popup);
+
+		if (item == nullptr)
+		{
+			std::string message = popup;
+			ThrowPythonException(message + " popup does not exist.");
+			return GetPyNone();
+		}
+
+		mvPopup* pop;
+		if (item->getType() == mvAppItemType::Popup)
+			pop = static_cast<mvPopup*>(item);
+		else
+		{
+			ThrowPythonException(std::string(popup) + " is not a popup.");
+			return GetPyNone();
+		}
+		pop->closePopup();
 
 		return GetPyNone();
 	}

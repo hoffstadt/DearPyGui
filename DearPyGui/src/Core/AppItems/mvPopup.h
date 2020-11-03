@@ -29,6 +29,8 @@ namespace Marvel {
 				//m_parent->setPopup(name);
 		}
 
+		void closePopup() { m_close = true; }
+
 		void draw() override
 		{
 
@@ -42,6 +44,12 @@ namespace Marvel {
 
 				if (ImGui::BeginPopupModal(m_name.c_str(), nullptr, ImGuiWindowFlags_AlwaysAutoResize))
 				{
+
+					if (m_close)
+					{
+						ImGui::CloseCurrentPopup();
+						m_close = false;
+					}
 
 					for (mvAppItem* item : m_children)
 					{
@@ -121,6 +129,7 @@ namespace Marvel {
 		bool m_modal = false;
 		int  m_button = 1;
 		mvAppItem* m_parentAddress = nullptr;
+		bool m_close = false;
 
 	};
 

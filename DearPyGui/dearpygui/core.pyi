@@ -238,6 +238,10 @@ def add_menu_item(name: str, *, shortcut: str = '', check: bool = False, callbac
 	"""Adds a menu item to an existing menu."""
 	...
 
+def add_metrics_window(name: str, *, width: int = 700, height: int = 500, x_pos: int = 200, y_pos: int = 200, autosize: bool = False, no_resize: bool = False, no_title_bar: bool = False, no_move: bool = False, no_scrollbar: bool = False, no_collapse: bool = False, horizontal_scrollbar: bool = False, no_focus_on_appearing: bool = False, no_bring_to_front_on_focus: bool = False, no_close: bool = False, no_background: bool = False, label: str = '', show: bool = True) -> None:
+	"""Creates a metrics window."""
+	...
+
 def add_next_column(*, name: str = 'next_collumn', show: bool = True, parent: str = '', before: str = '') -> None:
 	"""Changes to next column."""
 	...
@@ -398,8 +402,8 @@ def clear_table(table: str) -> None:
 	"""Clears data in a table"""
 	...
 
-def close_popup() -> None:
-	"""Closes the current popup"""
+def close_popup(item: str) -> None:
+	"""Closes a popup."""
 	...
 
 def configure_item(item: str, **Kwargs) -> None:
@@ -1055,7 +1059,7 @@ def set_plot_ylimits_auto(plot: str) -> None:
 	...
 
 def set_primary_window(window: str, value: bool) -> None:
-	"""Sets the primary window to fill the view port."""
+	"""Sets the primary window to fill the viewport."""
 	...
 
 def set_render_callback(callback: Callable) -> None:
