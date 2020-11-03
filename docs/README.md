@@ -38,7 +38,7 @@ simple way for python developers to **create quick and powerful GUIs for scripts
 
 ---
 
-Ensure you have at least Python 3.6.
+Ensure you have at least Python 3.6 64bit.
  ```
  pip install dearpygui
  or
