@@ -148,7 +148,7 @@ Some upcoming features:
 
 ---
 
-Ongoing Dear PyGui development is financially supported by users and private sponsors.
+Ongoing _Dear PyGui_ development is financially supported by users and private sponsors.
 
 These include:
 * 🥇 [Caden Bloxham](https://github.com/cubic-unit) _Gold Sponsor_
