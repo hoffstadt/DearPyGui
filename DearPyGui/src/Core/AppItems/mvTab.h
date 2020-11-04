@@ -143,8 +143,6 @@ namespace Marvel {
 				if (!getTip().empty() && ImGui::IsItemHovered())
 					ImGui::SetTooltip("%s", getTip().c_str());
 
-				parent->setValue(m_name);
-
 				// set other tab's value false
 				for (mvAppItem* child : parent->getChildren())
                     *((mvTab*)child)->m_value =false;
@@ -157,12 +155,14 @@ namespace Marvel {
 				// run call back if it exists
 				if (parent->getValue() != m_name)
 				{
-					mvApp::GetApp()->addCallback(parent->getCallback(), m_name, nullptr);
+					mvApp::GetApp()->addCallback(parent->getCallback(), m_name, parent->getCallbackData());
 
 					// Context Menu
 					if (!getPopup().empty())
 						ImGui::OpenPopup(getPopup().c_str());
 				}
+
+				parent->setValue(m_name);
 
 				for (mvAppItem* item : m_children)
 				{
