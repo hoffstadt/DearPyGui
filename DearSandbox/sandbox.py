@@ -23,6 +23,8 @@ add_additional_font("C:/dev/DearPyGui/Resources/NotoSerifCJKjp-Medium.otf", 20)
 #add_image_button("image", "C:/dev/DearPyGui/Examples/SpriteMapExample.png")
 
 show_demo()
+show_logger()
+set_threadpool_high_performance()
 
 with window("Primary Window Tester", show=True, no_resize=True):
     
@@ -33,9 +35,20 @@ with window("Primary Window Tester", show=True, no_resize=True):
 with window("Asyncronous##dialog", show=True):
     add_data('threadNumber', 0)
 
+    add_label_text("Async Label")
+    add_slider_float("Async Float")
+
     def LongCallback(sender, data):
         log_debug("Starting Long Process")
         log_debug("Starting Long Process", logger="LoggerWidget##demo")
+        time.sleep(5)
+        log_info("Done with long process")
+
+    def LongCallback2(sender, data):
+        log_debug("Starting Long Process")
+        log_debug("Starting Long Process", logger="LoggerWidget##demo")
+        for i in range(0, 10000):
+            set_value("Async Label", str(i))
         time.sleep(5)
         log_info("Done with long process")
 
@@ -49,11 +62,17 @@ with window("Asyncronous##dialog", show=True):
         log_info("Start process number: " + str(current_number))
         add_data('threadNumber', current_number+1)
 
+    def LongAsyncronousCallback2(sender, data):
+        current_number = get_data('threadNumber')
+        run_async_function(LongCallback2, current_number, return_handler=ReturnFromLongProcess)
+        log_info("Start process number: " + str(current_number))
+        add_data('threadNumber', current_number+1)
 
 
     add_button("Start Long Process", callback=LongCallback)
     add_button("Start Long Process Lambda", callback=lambda sender, data: run_async_function(lambda sender, data: time.sleep(5), None, return_handler=lambda sender1, data2: print("done!")))
-    add_button("Start Long Asyncronous Process", callback=LongAsyncronousCallback)
+    add_button("Start Long Asyncronous Process 1", callback=LongAsyncronousCallback)
+    add_button("Start Long Asyncronous Process 2", callback=LongAsyncronousCallback2)
 
 #start_dearpygui(primary_window="Asyncronous##dialog")
 start_dearpygui()

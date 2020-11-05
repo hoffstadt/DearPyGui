@@ -212,6 +212,9 @@ namespace Marvel {
 	{
 		MV_PROFILE_FUNCTION()
 
+		//auto& mutex = mvValueStorage::GetMutex();
+		//std::lock_guard<std::mutex> lock(mutex);
+
 		for (auto window : m_itemRegistry.m_frontWindows)
 			window->draw();
 
@@ -914,13 +917,16 @@ namespace Marvel {
 	void mvApp::postCallbacks()
 	{
 		MV_PROFILE_FUNCTION()
+
+		//auto& mutex = mvValueStorage::GetMutex();
+		//std::lock_guard<std::mutex> lock(mutex);
 		
-			while (!m_callbacks.empty())
-			{
-				NewCallback callback = m_callbacks.front();
-				runCallback(callback.callback, callback.sender, callback.data);
-				m_callbacks.pop();
-			}
+		while (!m_callbacks.empty())
+		{
+			NewCallback callback = m_callbacks.front();
+			runCallback(callback.callback, callback.sender, callback.data);
+			m_callbacks.pop();
+		}
 	}
 
 	void mvApp::postAsync()

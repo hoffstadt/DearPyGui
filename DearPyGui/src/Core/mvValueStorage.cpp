@@ -7,6 +7,7 @@ namespace Marvel {
 
 	PyObject* mvValueStorage::GetPyValue(const std::string& name)
 	{
+
 		if (!HasValue(name))
 			return GetPyNone();
 
@@ -63,6 +64,7 @@ namespace Marvel {
 
 	bool mvValueStorage::SetPyValue(const std::string& name, PyObject* value)
 	{
+		
 		if (!HasValue(name))
 			return false;
 
@@ -704,6 +706,8 @@ namespace Marvel {
 
 	int* mvValueStorage::GetIntValue(const std::string& name)
 	{
+		std::lock_guard<std::mutex> lock(s_mutex);
+
 		if (HasValue(name))
 		{
 			switch (GetType(name))
@@ -720,6 +724,8 @@ namespace Marvel {
 
 	int* mvValueStorage::GetInt2Value(const std::string& name)
 	{
+		std::lock_guard<std::mutex> lock(s_mutex);
+
 		if (HasValue(name))
 		{
 			switch (GetType(name))
@@ -735,6 +741,8 @@ namespace Marvel {
 
 	int* mvValueStorage::GetInt3Value(const std::string& name)
 	{
+		std::lock_guard<std::mutex> lock(s_mutex);
+
 		if (HasValue(name))
 		{
 			switch (GetType(name))
@@ -749,6 +757,8 @@ namespace Marvel {
 
 	int* mvValueStorage::GetInt4Value(const std::string& name)
 	{
+		std::lock_guard<std::mutex> lock(s_mutex);
+
 		if (HasValue(name) && GetType(name) == ValueTypes::Int4)
 			return s_int4s[name].data();
 		return s_int4s["common"].data();
@@ -756,6 +766,8 @@ namespace Marvel {
 
 	float* mvValueStorage::GetFloatValue(const std::string& name)
 	{
+		std::lock_guard<std::mutex> lock(s_mutex);
+
 		if (HasValue(name))
 		{
 			switch (GetType(name))
@@ -773,6 +785,8 @@ namespace Marvel {
 
 	float* mvValueStorage::GetFloat2Value(const std::string& name)
 	{
+		std::lock_guard<std::mutex> lock(s_mutex);
+
 		if (HasValue(name))
 		{
 			switch (GetType(name))
@@ -789,6 +803,8 @@ namespace Marvel {
 
 	float* mvValueStorage::GetFloat3Value(const std::string& name)
 	{
+		std::lock_guard<std::mutex> lock(s_mutex);
+
 		if (HasValue(name))
 		{
 			switch (GetType(name))
@@ -804,6 +820,8 @@ namespace Marvel {
 
 	float* mvValueStorage::GetFloat4Value(const std::string& name)
 	{
+		std::lock_guard<std::mutex> lock(s_mutex);
+
 		if (HasValue(name))
 		{
 			switch (GetType(name))
@@ -819,6 +837,8 @@ namespace Marvel {
 
 	std::vector<float>* mvValueStorage::GetFloatVectorValue(const std::string& name)
 	{
+		std::lock_guard<std::mutex> lock(s_mutex);
+
 		if (HasValue(name) && GetType(name) == ValueTypes::FloatVect)
 			return &s_floatvects[name];
 		return &s_floatvects["common"];
@@ -826,6 +846,8 @@ namespace Marvel {
 
 	bool* mvValueStorage::GetBoolValue(const std::string& name)
 	{
+		std::lock_guard<std::mutex> lock(s_mutex);
+
 		if (HasValue(name) && GetType(name) == ValueTypes::Bool)
 			return &s_bools[name];
 		return &s_bools["common"];
@@ -833,6 +855,8 @@ namespace Marvel {
 
 	std::string* mvValueStorage::GetStringValue(const std::string& name)
 	{
+		std::lock_guard<std::mutex> lock(s_mutex);
+
 		if (HasValue(name) && GetType(name) == ValueTypes::String)
 			return &s_strings[name];
 		return &s_strings["common"];
@@ -840,6 +864,8 @@ namespace Marvel {
 
 	tm* mvValueStorage::GetTimeValue(const std::string& name)
 	{
+		std::lock_guard<std::mutex> lock(s_mutex);
+
 		if (HasValue(name) && GetType(name) == ValueTypes::Time)
 			return &s_times[name];
 		return &s_times["common"];
@@ -847,6 +873,8 @@ namespace Marvel {
 
 	ImPlotTime* mvValueStorage::GetImTimeValue(const std::string& name)
 	{
+		std::lock_guard<std::mutex> lock(s_mutex);
+
 		if (HasValue(name) && GetType(name) == ValueTypes::Time)
 			return &s_imtimes[name];
 		return &s_imtimes["common"];
@@ -882,6 +910,8 @@ namespace Marvel {
 
 	void mvValueStorage::DeleteValue(const std::string& name)
 	{
+		std::lock_guard<std::mutex> lock(s_mutex);
+
 		if (HasValue(name))
 		{
 			switch (s_typeStorage[name])
@@ -909,6 +939,7 @@ namespace Marvel {
 		}
 	}
 
+	std::mutex mvValueStorage::s_mutex;
 	std::unordered_map<std::string, mvValueStorage::ValueTypes> mvValueStorage::s_typeStorage;
 	std::unordered_map<std::string, int> mvValueStorage::s_refStorage = { {"common",  1} };
 	std::set<std::string> mvValueStorage::s_itemStorage = { "common" };
