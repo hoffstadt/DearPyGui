@@ -717,7 +717,7 @@ def plot_callback(sender, data):
 
     add_line_series("Plot", "Cos", data1, weight=2, color=[0, 0, 255, 100])
     add_shade_series("Plot", "Cos", data1, weight=2, fill=[255, 0, 0, 100])
-    add_scatter_series("Plot", "Sin", data2, color=[0, 255, 0, 100])
+    add_scatter_series("Plot", "Sin", data2, outline=[0, 255, 0, 100])
 
 with window("Tutorial"):
     add_button("Plot data", callback=plot_callback)
