@@ -35,6 +35,7 @@ Changes:
 
 Fixes:
 - tab bar: fixed tab bar callback
+- drawing: fixed "originy" issue #309
 
 -----------------------------------------------------------------------
  VERSION 0.5.62
