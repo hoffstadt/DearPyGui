@@ -15,15 +15,6 @@ namespace Marvel {
 		s_dataStorage.clear();
 	}
 
-	void mvDataStorage::UpdateData()
-	{
-		for (auto& data : s_dataStorage)
-		{
-			for (auto window : mvApp::GetApp()->getItemRegistry().getFrontWindows())
-				window->updateDataSource(data.first);
-		}
-	}
-
 	void mvDataStorage::AddData(const std::string& name, PyObject* data)
 	{
 
@@ -46,8 +37,6 @@ namespace Marvel {
 			}
 		}
 
-		for (auto window : mvApp::GetApp()->getItemRegistry().getFrontWindows())
-			window->updateDataSource(name);
 	}
 
 	void mvDataStorage::DeleteData(const std::string& name)

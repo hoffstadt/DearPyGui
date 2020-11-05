@@ -78,7 +78,6 @@ namespace Marvel {
 
         // virtual methods
         virtual std::string                 getParserCommand     () const { return "no_command_set"; }
-        virtual void                        updateData           (const std::string& name) {}
         [[nodiscard]] virtual bool          areDuplicatesAllowed () const { return false; }
         [[nodiscard]] virtual bool          canBeDeleted         () const { return true; }
         [[nodiscard]] virtual bool          isARoot              () const { return false; }
@@ -104,7 +103,6 @@ namespace Marvel {
         bool                                moveChildUp           (const std::string& name);
         bool                                moveChildDown         (const std::string& name);
         void                                resetState            ();
-        void                                updateDataSource      (const std::string& name);
         void                                registerWindowFocusing(); // only useful for imgui window types
         mvAppItem*                          stealChild            (const std::string& name); // steals a child (used for moving)
 

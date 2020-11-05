@@ -123,16 +123,6 @@ namespace Marvel {
 		mvDataStorage::DeleteAllData();
 	}
 
-	void mvApp::precheck()
-	{
-
-		// If any data was stored during compile time,
-		// this will update items relying on it before
-		// the first render frame
-		mvDataStorage::UpdateData();
-
-	}
-
 	void mvApp::firstRenderFrame()
 	{
 		m_firstRender = false;

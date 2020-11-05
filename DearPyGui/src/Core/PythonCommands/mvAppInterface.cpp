@@ -286,7 +286,6 @@ namespace Marvel {
 	PyObject* setup_dearpygui(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 
-		mvApp::GetApp()->precheck();
 		mvApp::SetAppStarted();
 
 		// create window
@@ -331,7 +330,6 @@ namespace Marvel {
 			return GetPyNone();
 		}
 
-		mvApp::GetApp()->precheck();
 		mvApp::SetAppStarted();
 
 		// create window

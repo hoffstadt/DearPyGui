@@ -130,8 +130,6 @@ namespace Marvel {
 	{
 		prerender();
 
-		mvDataStorage::UpdateData();
-
 		if (m_error)
 		{
 			mvAppLog::setSize(m_width, m_height);
