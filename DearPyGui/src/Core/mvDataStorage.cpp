@@ -6,24 +6,28 @@
 
 namespace Marvel {
 
-	std::map<std::string, PyObject*> mvDataStorage::s_dataStorage;
+	std::unordered_map<std::string, PyObject*> mvDataStorage::s_dataStorage;
+	std::mutex mvDataStorage::s_mutex;
 
 	void mvDataStorage::DeleteAllData()
 	{
+		std::lock_guard<std::mutex> lock(s_mutex);
+
 		for (auto& data : s_dataStorage)
 			Py_XDECREF(data.second);
+
 		s_dataStorage.clear();
 	}
 
 	void mvDataStorage::AddData(const std::string& name, PyObject* data)
 	{
 
-		if (!mvApp::GetApp()->checkIfMainThread())
-			return;
+		std::lock_guard<std::mutex> lock(s_mutex);
 
 		// data doesn't exist, create it for the first time
 		if (s_dataStorage.count(name) == 0)
 		{
+			mvGlobalIntepreterLock gil;
 			Py_XINCREF(data);
 			s_dataStorage.insert({ name, data });
 		}
@@ -31,7 +35,12 @@ namespace Marvel {
 		{
 			if (s_dataStorage.at(name) != data)
 			{
-				DeleteData(name); // this is different item, delete the old
+				mvGlobalIntepreterLock gil;
+
+				// this is different item, delete the old
+				Py_XDECREF(s_dataStorage.at(name));
+				s_dataStorage.erase(name);
+
 				Py_XINCREF(data);
 				s_dataStorage[name] = data;
 			}
@@ -41,8 +50,7 @@ namespace Marvel {
 
 	void mvDataStorage::DeleteData(const std::string& name)
 	{
-		if (!mvApp::GetApp()->checkIfMainThread())
-			return;
+		std::lock_guard<std::mutex> lock(s_mutex);
 
 		if (s_dataStorage.count(name) == 0)
 		{
@@ -50,40 +58,29 @@ namespace Marvel {
 			return;
 		}
 
+		mvGlobalIntepreterLock gil;
 		Py_XDECREF(s_dataStorage.at(name));
 		s_dataStorage.erase(name);
 	}
 
-	bool mvDataStorage::HasData(const std::string& name)
-	{
-		if (!mvApp::GetApp()->checkIfMainThread())
-			return false;
-
-		if (s_dataStorage.count(name) == 0)
-			return false;
-
-		return true;
-	}
-
 	PyObject* mvDataStorage::GetDataIncRef(const std::string& name)
 	{
-		if (!mvApp::GetApp()->checkIfMainThread())
-			return nullptr;
+		std::lock_guard<std::mutex> lock(s_mutex);
 
 		if (s_dataStorage.count(name) == 0)
 		{
 			ThrowPythonException(name + " does not exists in data storage.");
 			return nullptr;
 		}
+
+		mvGlobalIntepreterLock gil;
 		Py_XINCREF(s_dataStorage.at(name));
-		//auto blah = s_dataStorage.at(name);
 		return s_dataStorage.at(name);
 	}
 
 	PyObject* mvDataStorage::GetData(const std::string& name)
 	{
-		if (!mvApp::GetApp()->checkIfMainThread())
-			return nullptr;
+		std::lock_guard<std::mutex> lock(s_mutex);
 
 		if (s_dataStorage.count(name) == 0)
 		{
@@ -95,6 +92,7 @@ namespace Marvel {
 
 	unsigned  mvDataStorage::GetDataCount()
 	{
+		std::lock_guard<std::mutex> lock(s_mutex);
 		return (unsigned)s_dataStorage.size();
 	}
 

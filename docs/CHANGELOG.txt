@@ -28,6 +28,9 @@ HOW TO UPDATE?
 
 Decorated log: https://github.com/hoffstadt/DearPyGui/releases/tag/v0.5.x
 
+Changes:
+- Data Storage: now thread safe
+
 Fixes:
 - tab bar: fixed tab bar callback
 
