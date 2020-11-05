@@ -313,7 +313,7 @@ with window("Tutorial"):
 
 start_dearpygui()</code> </pre>
         <p>
-            We can use the callback to update the value of a python variable each time the widget is interacted with.
+            We can use the callback to update the value of a Python variable each time the widget is interacted with.
             This is shown in the example below:
         </p>
         <pre><code data-language="python">from dearpygui.core import *
@@ -371,7 +371,7 @@ def render_me(sender, data):
 
 
 def resize_me(sender, data):
-    log_debug(f"window {sender} has ran a rezise callback")
+    log_debug(f"window {sender} has ran a resize callback")
 
 
 show_logger()                                      # were going to use the logger to display callback replies
@@ -506,9 +506,9 @@ with window("Tutorial"):
 start_dearpygui()</code></pre>
         <p>
             DPG provides general data for data storage also. With <i>add_data</i> we can
-            pass in any python item to be stored as a data item and accessed later with <i>get_data("name")</i>
+            pass in any Python item to be stored as a data item and accessed later with <i>get_data("name")</i>
             <br><br>
-            <em><b>Remember you can store any python object in data storage even custom data types.</b></em>
+            <em><b>Remember you can store any Python object in data storage even custom data types.</b></em>
         </p>
         <pre><code data-language="python">from dearpygui.core import *
 from dearpygui.simple import *
@@ -824,7 +824,7 @@ set_drawing_size("Drawing_1", 400, 500)   # simple
 
 start_dearpygui()</code></pre>
         <p>
-            Drawings can display images of types ".png", ".jpg", or ".bmp".
+            Drawings can display images of types PNG, JPEG, or BMP.
             Images are drawn using <i>draw_image</i>
             <br><br>
             Using the keywords "pmin" and "pmax" we can define the upper left and lower right area of the rectangle that
@@ -834,7 +834,8 @@ start_dearpygui()</code></pre>
             drawn to the canvas. The default of uv_min = [0,0] and uv_max = [1,1] will display the entire image
             while uv_min = [0,0] uv_max = [0.5,0.5] will only show the first quarter of the drawing.
             <br><br>
-            To be able to demonstrate these features you must update the directory to that of an image on your computer.
+            To be able to demonstrate these features you must update the directory to that of an image on your computer, 
+            such as <a href="https://raw.githubusercontent.com/Pcothren/DearPyGui-Examples/main/SpriteMapExample.png">SpriteMapExample.png</a>.
         </p>
         <pre><code data-language="python">from dearpygui.core import *
 from dearpygui.simple import *
@@ -855,7 +856,7 @@ start_dearpygui()</code></pre>
             Although drawings can be made dynamic by clearing and redrawing the entire thing a more efficient method is offered.
             <br><br>
             To make a drawing dynamic we should use the tag keyword to tag the items we would like to redraw. Then simply call a draw command
-            using the same tag. This will delete only that one item and redraw it wit the new command.
+            using the same tag. This will delete only that one item and redraw it with the new command.
         </p>
         <pre><code data-language="python">from dearpygui.core import *
 from dearpygui.simple import *
@@ -919,6 +920,7 @@ with window("Tutorial"):
     add_text("Delta Time: ")
     add_same_line()
     add_label_text("##delta_time_text", source="delta_time")
+
 set_render_callback(callback=on_render)
 
 start_dearpygui()</code></pre>
@@ -929,8 +931,8 @@ start_dearpygui()</code></pre>
         <p>
             Using the drawing with tags, <i>get_delta_time</i> and a callback ran on rendering
             we can create a sprite character. For this example we need to download the
-            <a href="https://github.com/hoffstadt/DearPyGui/blob/master/Examples/SpriteMapExample.png">SpriteMapExample.png</a>
-            from the examples folder on github and place it next to the python file in your working directory.
+            <a href="https://raw.githubusercontent.com/Pcothren/DearPyGui-Examples/main/SpriteMapExample.png">SpriteMapExample.png</a>
+            from the examples folder on GitHub and place it next to the Python file in your working directory.
             <br><br>
             The drawing is started by calling <i>add_drawing</i> then items can be added
             by calling their respective draw commands.
@@ -1192,7 +1194,7 @@ start_dearpygui()</code></pre>
             Asynchronous functions cannot access <i>add_data</i>
             or <i>get_data</i>. So when it is necessary to pass data to the asynchronous
             function you must use the data and return handler keyworded arguments.
-            Any python object can be made accessible the the async function by being sent into the function through the "data" keyword.
+            Any Python object can be made accessible the the async function by being sent into the function through the "data" keyword.
             Additionally, any returned data from the Async function will be accessible through the "data" input of the specified return callback.
         </p>
         <pre><code data-language="python">from dearpygui.core import *
@@ -1219,20 +1221,20 @@ show_logger()
 with window("Tutorial"):
     add_text("input a number and see the logger window for the output of the long callback that would normally freeze the GUI")
     add_input_float("Async Input Data", default_value=1.0)
-    add_button("long Function", callback=long_callback2, callback_data=get_value("Async Input Data"), tip="This is the long callback that will freeze the gui")
+    add_button("long Function", callback=long_callback2, callback_data=get_value("Async Input Data"), tip="This is the long callback that will freeze the GUI")
     add_button("long Asynchronous Function", callback=long_async_preparer, tip="this will not a freeze the GUI")
 
 start_dearpygui()</code></pre>
         <p>
-            When the asynchronous function method is called a thread pool is created. The aspects of the threadpool that
+            When the asynchronous function method is called a thread pool is created. The aspects of the thread pool that
             can be configured are the number of threads and the timeout time.
             <br><br>
             using <i>set_thread_count</i> we can set the number of threads in the thread pool.
             Also we can use <i>set_threadpool_high_performance</i> to tell the thread pool to
             max out the number of threads per the users computer. Be aware that this will run the CPU at 100% when calling async functions.
             <br><br>
-            Setting the timeout time for the threadpool can be done using <i>set_threadpool_timeout</i>.
-            This will destroy the threadpool and free the resources after the set amount of time.
+            Setting the timeout time for the thread pool can be done using <i>set_threadpool_timeout</i>.
+            This will destroy the thread pool and free the resources after the set amount of time.
         </p>
     </article>
     <article><a name="themes_and_styles"></a>
