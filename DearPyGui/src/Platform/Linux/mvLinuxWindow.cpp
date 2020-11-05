@@ -104,8 +104,6 @@ namespace Marvel {
 
         prerender();
 
-        mvDataStorage::UpdateData();
-
         glfwSwapInterval(mvApp::GetApp()->getVSync() ? 1 : 0); // Enable vsync
 
         if(GImGui->CurrentWindow == nullptr)

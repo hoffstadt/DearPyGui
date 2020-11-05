@@ -153,8 +153,6 @@ namespace Marvel {
             ImGui_ImplGlfw_NewFrame();
             ImGui::NewFrame();
 
-            mvDataStorage::UpdateData();
-
             if (m_error) 
             {
                 mvAppLog::setSize(m_width, m_height);
