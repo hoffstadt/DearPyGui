@@ -15,7 +15,8 @@
 //-----------------------------------------------------------------------------
 
 #include <string>
-#include <map>
+#include <unordered_map>
+#include <mutex>
 #define PY_SSIZE_T_CLEAN
 #include <Python.h>
 
@@ -31,7 +32,6 @@ namespace Marvel {
 
 		static void      AddData      (const std::string& name, PyObject* data);
 		static void      DeleteData   (const std::string& name);
-		static bool      HasData      (const std::string& name);
 		static PyObject* GetData      (const std::string& name); // does not add to ref count
 		static PyObject* GetDataIncRef(const std::string& name); // adds to ref count
 		static unsigned  GetDataCount ();
@@ -41,7 +41,8 @@ namespace Marvel {
 
 		mvDataStorage() = default;
 
-		static std::map<std::string, PyObject*> s_dataStorage;
+		static std::unordered_map<std::string, PyObject*> s_dataStorage;
+		static std::mutex                                 s_mutex;
 
 	};
 

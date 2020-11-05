@@ -92,16 +92,6 @@ namespace Marvel {
 
 	PyObject* mvTable::getPyValue() const
 	{
-		if (!m_dataSource.empty())
-		{
-			if (!mvDataStorage::HasData(m_dataSource))
-				mvDataStorage::AddData(m_dataSource, ToPyList(m_values));
-			else
-				UpdatePyStringStringList(mvDataStorage::GetData(m_dataSource), m_values);
-
-			return mvDataStorage::GetData(m_dataSource);
-		}
-
 		return ToPyList(m_values);
 	}
 
