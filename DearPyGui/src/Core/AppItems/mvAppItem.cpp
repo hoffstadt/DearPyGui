@@ -217,15 +217,6 @@ namespace Marvel{
 		return false;
 	}
 
-	void mvAppItem::updateDataSource(const std::string& name)
-	{
-
-		updateData(name);
-
-		for (auto child : m_children)
-			child->updateDataSource(name);
-	}
-
 	bool mvAppItem::addRuntimeChild(const std::string& parent, const std::string& before, mvAppItem* item)
 	{
 		if (before.empty() && parent.empty())
