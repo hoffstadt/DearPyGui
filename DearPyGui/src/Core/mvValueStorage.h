@@ -13,8 +13,9 @@
 //-----------------------------------------------------------------------------
 
 #include <string>
-#include <map>
+#include <unordered_map>
 #include <set>
+#include <mutex>
 #include <array>
 #include <vector>
 #include <implot.h>
@@ -91,30 +92,30 @@ namespace Marvel {
 
 		mvValueStorage() = default;
 
-		static std::map<std::string, ValueTypes>           s_typeStorage;  // keeps track of value mapping
-		static std::map<std::string, int>                  s_refStorage;   // keeps track of reference count
-		static std::set<std::string>                       s_itemStorage;  // keeps track of registered items
+		static std::unordered_map<std::string, ValueTypes>           s_typeStorage;  // keeps track of value mapping
+		static std::unordered_map<std::string, int>                  s_refStorage;   // keeps track of reference count
+		static std::set<std::string>                                 s_itemStorage;  // keeps track of registered items
 
 		// ints
-		static std::map<std::string, int>                  s_ints; 
-		static std::map<std::string, std::array<int, 2>>   s_int2s;
-		static std::map<std::string, std::array<int, 3>>   s_int3s;
-		static std::map<std::string, std::array<int, 4>>   s_int4s;
+		static std::unordered_map<std::string, int>                  s_ints; 
+		static std::unordered_map<std::string, std::array<int, 2>>   s_int2s;
+		static std::unordered_map<std::string, std::array<int, 3>>   s_int3s;
+		static std::unordered_map<std::string, std::array<int, 4>>   s_int4s;
 
 		// floats
-		static std::map<std::string, float>                s_floats;  
-		static std::map<std::string, std::array<float, 2>> s_float2s; 
-		static std::map<std::string, std::array<float, 3>> s_float3s; 
-		static std::map<std::string, std::array<float, 4>> s_float4s; 
-		static std::map<std::string, std::vector<float>>   s_floatvects;
+		static std::unordered_map<std::string, float>                s_floats;  
+		static std::unordered_map<std::string, std::array<float, 2>> s_float2s; 
+		static std::unordered_map<std::string, std::array<float, 3>> s_float3s; 
+		static std::unordered_map<std::string, std::array<float, 4>> s_float4s; 
+		static std::unordered_map<std::string, std::vector<float>>   s_floatvects;
 
 		// other
-		static std::map<std::string, bool>                 s_bools;  
-		static std::map<std::string, std::string>          s_strings;
+		static std::unordered_map<std::string, bool>                 s_bools;  
+		static std::unordered_map<std::string, std::string>          s_strings;
 		
 		// time
-		static std::map<std::string, tm>                   s_times;
-		static std::map<std::string, ImPlotTime>           s_imtimes; 
+		static std::unordered_map<std::string, tm>                   s_times;
+		static std::unordered_map<std::string, ImPlotTime>           s_imtimes; 
 
 	};
 

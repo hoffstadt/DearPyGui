@@ -909,20 +909,20 @@ namespace Marvel {
 		}
 	}
 
-	std::map<std::string, mvValueStorage::ValueTypes> mvValueStorage::s_typeStorage;
-	std::map<std::string, int> mvValueStorage::s_refStorage = { {"common",  1} };
+	std::unordered_map<std::string, mvValueStorage::ValueTypes> mvValueStorage::s_typeStorage;
+	std::unordered_map<std::string, int> mvValueStorage::s_refStorage = { {"common",  1} };
 	std::set<std::string> mvValueStorage::s_itemStorage = { "common" };
-	std::map<std::string, int> mvValueStorage::s_ints = { {"common", 0} };
-	std::map<std::string, std::array<int, 2>> mvValueStorage::s_int2s = { {"common", {0, 0}} };
-	std::map<std::string, std::array<int, 3>> mvValueStorage::s_int3s = { {"common", {0, 0, 0}} };
-	std::map<std::string, std::array<int, 4>> mvValueStorage::s_int4s = { {"common", {0, 0, 0, 0}} };
-	std::map<std::string, float> mvValueStorage::s_floats = { {"common", 0.0f} };
-	std::map<std::string, std::array<float, 2>> mvValueStorage::s_float2s = { {"common", {0.0f, 0.0f}} };
-	std::map<std::string, std::array<float, 3>> mvValueStorage::s_float3s = { {"common", {0.0f, 0.0f, 0.0f}} };
-	std::map<std::string, std::array<float, 4>> mvValueStorage::s_float4s = { {"common", {0.0f, 0.0f}} };
-	std::map<std::string, bool> mvValueStorage::s_bools = { {"common", true} };
-	std::map<std::string, std::string> mvValueStorage::s_strings = { {"common", ""} };
-	std::map<std::string, std::vector<float>> mvValueStorage::s_floatvects = { {"common", {0.0f, 0.0f}} };
-	std::map<std::string, tm> mvValueStorage::s_times = { {"common", {}} };
-	std::map<std::string, ImPlotTime> mvValueStorage::s_imtimes = { {"common", ImPlotTime()} };
+	std::unordered_map<std::string, int> mvValueStorage::s_ints = { {"common", 0} };
+	std::unordered_map<std::string, std::array<int, 2>> mvValueStorage::s_int2s = { {"common", {0, 0}} };
+	std::unordered_map<std::string, std::array<int, 3>> mvValueStorage::s_int3s = { {"common", {0, 0, 0}} };
+	std::unordered_map<std::string, std::array<int, 4>> mvValueStorage::s_int4s = { {"common", {0, 0, 0, 0}} };
+	std::unordered_map<std::string, float> mvValueStorage::s_floats = { {"common", 0.0f} };
+	std::unordered_map<std::string, std::array<float, 2>> mvValueStorage::s_float2s = { {"common", {0.0f, 0.0f}} };
+	std::unordered_map<std::string, std::array<float, 3>> mvValueStorage::s_float3s = { {"common", {0.0f, 0.0f, 0.0f}} };
+	std::unordered_map<std::string, std::array<float, 4>> mvValueStorage::s_float4s = { {"common", {0.0f, 0.0f}} };
+	std::unordered_map<std::string, bool> mvValueStorage::s_bools = { {"common", true} };
+	std::unordered_map<std::string, std::string> mvValueStorage::s_strings = { {"common", ""} };
+	std::unordered_map<std::string, std::vector<float>> mvValueStorage::s_floatvects = { {"common", {0.0f, 0.0f}} };
+	std::unordered_map<std::string, tm> mvValueStorage::s_times = { {"common", {}} };
+	std::unordered_map<std::string, ImPlotTime> mvValueStorage::s_imtimes = { {"common", ImPlotTime()} };
 }
