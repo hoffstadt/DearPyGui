@@ -431,7 +431,7 @@ namespace Marvel {
 				return;
 			mvGlobalIntepreterLock gil;
 			PyDict_SetItemString(dict, "originx", ToPyFloat(m_originx));
-			PyDict_SetItemString(dict, "origin", ToPyFloat(m_originy));
+			PyDict_SetItemString(dict, "originy", ToPyFloat(m_originy));
 			PyDict_SetItemString(dict, "scalex", ToPyFloat(m_scalex));
 			PyDict_SetItemString(dict, "scaley", ToPyFloat(m_scaley));
 		}
