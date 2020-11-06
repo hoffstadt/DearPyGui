@@ -346,7 +346,7 @@ def add_tab_bar(name: str, *, reorderable: bool = False, callback: Callable = No
 	"""Adds a tab bar."""
 	...
 
-def add_table(name: str, headers: List[str], *, callback: Callable = None, callback_data: Any = None, parent: str = '', before: str = '', width: int = 0, height: int = 0, show: bool = True) -> None:
+def add_table(name: str, headers: List[str], *, callback: Callable = None, callback_data: Any = None, parent: str = '', before: str = '', width: int = 0, height: int = 200, show: bool = True) -> None:
 	"""Adds table."""
 	...
 
