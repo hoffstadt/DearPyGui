@@ -91,6 +91,22 @@ namespace Marvel {
 			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)", "''"},
 		}, "Adds a tab to a tab bar. Must be closed with the end_tab command.", "None", "Containers") });
 
+		parsers->insert({ "add_tab_button", mvPythonParser({
+			{mvPythonDataType::String, "name"},
+			{mvPythonDataType::KeywordOnly},
+			{mvPythonDataType::String, "label", "", "''"},
+			{mvPythonDataType::Bool, "show", "Attempt to render", "True"},
+			{mvPythonDataType::Bool, "no_reorder", "Disable reordering this tab or having another tab cross over this tab", "False"},
+			{mvPythonDataType::Bool, "leading", "Enforce the tab position to the left of the tab bar (after the tab list popup button)", "False"},
+			{mvPythonDataType::Bool, "trailing", "Enforce the tab position to the right of the tab bar (before the scrolling buttons)", "False"},
+			{mvPythonDataType::Bool, "no_tooltip", "Disable tooltip for the given tab", "False"},
+			{mvPythonDataType::String, "tip", "Adds a simple tooltip", "''"},
+			{mvPythonDataType::Callable, "callback", "Registers a callback", "None"},
+			{mvPythonDataType::Object, "callback_data", "Callback data", "None"},
+			{mvPythonDataType::String, "parent", "Parent to add this item to. (runtime adding)", "''"},
+			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)", "''"},
+		}, "Adds a tab button to a tab bar", "None", "Containers") });
+
 		parsers->insert({ "add_collapsing_header", mvPythonParser({
 			{mvPythonDataType::String, "name"},
 			{mvPythonDataType::KeywordOnly},
@@ -548,6 +564,94 @@ namespace Marvel {
 					mvApp::GetApp()->getItemRegistry().pushParent(item);
 					return ToPyBool(true);
 				}
+			}
+
+			else
+			{
+				ThrowPythonException("add_tab parent must be a tab bar.");
+				return ToPyBool(false);
+			}
+		}
+
+		return ToPyBool(false);
+	}
+
+	PyObject* add_tab_button(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		const char* name;
+		const char* label = "";
+		int show = true;
+		int no_reorder = false;
+		int leading = false;
+		int trailing = false;
+		int no_tooltip = false;
+		const char* tip = "";
+		PyObject* callback = nullptr;
+		PyObject* callback_data = nullptr;
+		const char* parent = "";
+		const char* before = "";
+
+		if (!(*mvApp::GetApp()->getParsers())["add_tab_button"].parse(args, kwargs, __FUNCTION__, &name,
+			&label, &show, &no_reorder, &leading, &trailing, &no_tooltip, &tip, &callback,
+			&callback_data, &parent, &before))
+			return ToPyBool(false);
+
+		if (std::string(parent).empty())
+		{
+			auto parentItem = mvApp::GetApp()->getItemRegistry().topParent();
+
+			if (parentItem == nullptr)
+			{
+				ThrowPythonException("add_tab_button must follow a call to add_tabbar.");
+				return ToPyBool(false);
+			}
+
+			else if (parentItem->getType() == mvAppItemType::TabBar)
+			{
+				mvAppItem* item = new mvTabButton(name);
+				if (callback)
+					Py_XINCREF(callback);
+				item->setCallback(callback);
+				if (callback_data)
+					Py_XINCREF(callback_data);
+				item->setCallbackData(callback_data);
+
+				item->checkConfigDict(kwargs);
+				item->setConfigDict(kwargs);
+				item->setExtraConfigDict(kwargs);
+				if (AddItemWithRuntimeChecks(item, parent, before))
+					return ToPyBool(true);
+
+			}
+
+			else
+				ThrowPythonException("add_tab_bar was called incorrectly. Did you forget to call end_tab?");
+		}
+
+		else
+		{
+			auto parentItem = mvApp::GetApp()->getItemRegistry().getItem(parent);
+
+			if (parentItem == nullptr)
+			{
+				ThrowPythonException("add_tab parent must exist.");
+				return ToPyBool(false);
+			}
+
+			else if (parentItem->getType() == mvAppItemType::TabBar)
+			{
+				mvAppItem* item = new mvTabButton(name);
+				if (callback)
+					Py_XINCREF(callback);
+				item->setCallback(callback);
+				if (callback_data)
+					Py_XINCREF(callback_data);
+				item->setCallbackData(callback_data);
+				item->checkConfigDict(kwargs);
+				item->setConfigDict(kwargs);
+				item->setExtraConfigDict(kwargs);
+				if (AddItemWithRuntimeChecks(item, parent, before))
+					return ToPyBool(true);
 			}
 
 			else

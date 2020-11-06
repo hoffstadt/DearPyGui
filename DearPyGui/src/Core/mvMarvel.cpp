@@ -614,6 +614,7 @@ namespace Marvel {
 		ADD_PYTHON_FUNCTION(add_child)
 		ADD_PYTHON_FUNCTION(add_tab_bar)
 		ADD_PYTHON_FUNCTION(add_tab)
+		ADD_PYTHON_FUNCTION(add_tab_button)
 		ADD_PYTHON_FUNCTION(add_menu_bar)
 		ADD_PYTHON_FUNCTION(add_menu)
 		ADD_PYTHON_FUNCTION(add_menu_item)

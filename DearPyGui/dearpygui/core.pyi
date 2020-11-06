@@ -346,6 +346,10 @@ def add_tab_bar(name: str, *, reorderable: bool = False, callback: Callable = No
 	"""Adds a tab bar."""
 	...
 
+def add_tab_button(name: str, *, label: str = '', show: bool = True, no_reorder: bool = False, leading: bool = False, trailing: bool = False, no_tooltip: bool = False, tip: str = '', callback: Callable = None, callback_data: Any = None, parent: str = '', before: str = '') -> None:
+	"""Adds a tab button to a tab bar"""
+	...
+
 def add_table(name: str, headers: List[str], *, callback: Callable = None, callback_data: Any = None, parent: str = '', before: str = '', width: int = 0, height: int = 200, show: bool = True) -> None:
 	"""Adds table."""
 	...

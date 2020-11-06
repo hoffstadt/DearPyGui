@@ -257,6 +257,7 @@ namespace Marvel {
 					WidgetTableEntry("spacing", "", "", "int", "layout widget, vertical spacing");
 					WidgetTableEntry("tab", "yes", "", "bool", "layout widget, tab widget");
 					WidgetTableEntry("tab bar", "yes", "", "string", "layout widget, tab container");
+					WidgetTableEntry("tab button", "", "yes", "", "button for tab bars");
 					WidgetTableEntry("table", "", "yes", "", "simple table widget");
 					WidgetTableEntry("text", "", "", "string", "text widget");
 					WidgetTableEntry("time picker", "", "yes", "time", "time selecting widget");
