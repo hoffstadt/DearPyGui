@@ -338,7 +338,7 @@ def add_style_window(name: str, *, width: int = 700, height: int = 500, x_pos: i
 	"""Creates a style window."""
 	...
 
-def add_tab(name: str, *, closable: bool = False, label: str = '', show: bool = True, tip: str = '', parent: str = '', before: str = '') -> None:
+def add_tab(name: str, *, closable: bool = False, label: str = '', show: bool = True, no_reorder: bool = False, leading: bool = False, trailing: bool = False, no_tooltip: bool = False, tip: str = '', parent: str = '', before: str = '') -> None:
 	"""Adds a tab to a tab bar. Must be closed with the end_tab command."""
 	...
 
