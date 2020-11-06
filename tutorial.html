@@ -1020,7 +1020,7 @@ start_dearpygui()</code></pre>
             Additionally, headers and cells can be renamed and their values be changed.
         </p>
         <pre><code data-language="python">from dearpygui.core import *
-
+from dearpygui.simple import *
 
 def modify_tables(sender, data):
     log_debug(f"Table Called: {sender}")
@@ -1112,52 +1112,24 @@ from dearpygui.simple import *
 
 def main_callback(sender, data):
     set_value("Mouse Position", str(get_mouse_pos()))
-
-    if is_key_down(mvKey_A):
-        set_value("A key Down", "True")
-    else:
-        set_value("A key Down", "False")
-
-    if is_key_pressed(mvKey_A):
-        set_value("A key Pressed", "True")
-    else:
-        set_value("A key Pressed", "False")
-
-    if is_key_released(mvKey_A):
-        set_value("A key Released", "True")
-    else:
-        set_value("A key Released", "False")
-
-    if is_mouse_button_dragging(mvMouseButton_Left, 10):
-        set_value("Left Mouse Dragging", "True")
-    else:
-        set_value("Left Mouse Dragging", "False")
-
-    if is_mouse_button_clicked(mvMouseButton_Left):
-        set_value("Left Mouse Clicked", "True")
-    else:
-        set_value("Left Mouse Clicked", "False")
-
-    if is_mouse_button_double_clicked(mvMouseButton_Left):
-        set_value("Left Mouse Double Clicked", "True")
-    else:
-        set_value("Left Mouse Double Clicked", "False")
-
-    if is_key_down(mvKey_Shift) and is_mouse_button_clicked(mvMouseButton_Left):
-        set_value("Shift + Left Mouse Clicked", "True")
-    else:
-        set_value("Shift + Left Mouse Clicked", "False")
+    set_value("A key Down", is_key_down(mvKey_A))
+    set_value("A key Pressed", is_key_pressed(mvKey_A))
+    set_value("A key Released", is_key_released(mvKey_A))
+    set_value("Left Mouse Dragging", is_mouse_button_dragging(mvMouseButton_Left, 10))
+    set_value("Left Mouse Clicked", is_mouse_button_clicked(mvMouseButton_Left))
+    set_value("Left Mouse Double Clicked", is_mouse_button_double_clicked(mvMouseButton_Left))
+    set_value("Shift + Left Mouse Clicked", is_key_down(mvKey_Shift) and is_mouse_button_clicked(mvMouseButton_Left))
 
 with window("Tutorial"):
-    add_label_text("A key Down", value="False", color=[0, 200, 255])
-    add_label_text("A key Pressed", value="False", color=[0, 200, 255])
-    add_label_text("A key Released", value="False", color=[0, 200, 255])
+    add_label_text("A key Down", color=[0, 200, 255])
+    add_label_text("A key Pressed", color=[0, 200, 255])
+    add_label_text("A key Released", color=[0, 200, 255])
     add_spacing()
-    add_label_text("Mouse Position", value="(0,0)", color=[0, 200, 255])
-    add_label_text("Left Mouse Clicked", value="False", color=[0, 200, 255])
-    add_label_text("Left Mouse Dragging", value="False", color=[0, 200, 255])
-    add_label_text("Left Mouse Double Clicked", value="False", color=[0, 200, 255])
-    add_label_text("Shift + Left Mouse Clicked", value="False", color=[0, 200, 255])
+    add_label_text("Mouse Position", color=[0, 200, 255])
+    add_label_text("Left Mouse Clicked", color=[0, 200, 255])
+    add_label_text("Left Mouse Dragging", color=[0, 200, 255])
+    add_label_text("Left Mouse Double Clicked", color=[0, 200, 255])
+    add_label_text("Shift + Left Mouse Clicked", color=[0, 200, 255])
 
 set_render_callback(main_callback)
 
@@ -1186,8 +1158,8 @@ show_logger()
 show_metrics()
 
 with window("Tutorial"):
-    add_button("long function", callback=long_callback, tip="this will cause a 3 second freeze")
-    add_button("long Asynchronous Function", callback=long_async_callback, tip="this will not a freeze")
+    add_button("long function", callback=long_callback, tip="This will cause a 3 second freeze")
+    add_button("long Asynchronous Function", callback=long_async_callback, tip="This will not freeze")
 
 start_dearpygui()</code></pre>
         <p>
@@ -1219,10 +1191,10 @@ def long_callback2(sender, data):
 show_logger()
 
 with window("Tutorial"):
-    add_text("input a number and see the logger window for the output of the long callback that would normally freeze the GUI")
+    add_text("Input a number and see the logger window for the output of the long callback that would normally freeze the GUI")
     add_input_float("Async Input Data", default_value=1.0)
     add_button("long Function", callback=long_callback2, callback_data=get_value("Async Input Data"), tip="This is the long callback that will freeze the GUI")
-    add_button("long Asynchronous Function", callback=long_async_preparer, tip="this will not a freeze the GUI")
+    add_button("long Asynchronous Function", callback=long_async_preparer, tip="This will not freeze the GUI")
 
 start_dearpygui()</code></pre>
         <p>
