@@ -22,11 +22,11 @@ namespace Marvel {
         [[nodiscard]] bool      canBeDisabled() const           { return disableAllowed; }
 
         // descriptions
-        bool    root = false;
-        bool    container = false;
-        bool    duplicatesAllowed = false;
-        bool    disableAllowed = false;
-        bool    deleteAllowed = true;
+        bool    root                { false };
+        bool    container           { false };
+        bool    duplicatesAllowed   { false };
+        bool    disableAllowed      { false };
+        bool    deleteAllowed       { true };
 
     };
 }
