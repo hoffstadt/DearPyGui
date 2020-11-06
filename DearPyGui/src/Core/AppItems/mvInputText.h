@@ -24,6 +24,7 @@ namespace Marvel {
 		mvInputText(const std::string& name, const std::string& default_value, const std::string& dataSource)
 			: mvStringPtrBase(name, default_value, dataSource)
 		{
+			m_description.disableAllowed = true;
 		}
 
 		void setEnabled(bool value) override
