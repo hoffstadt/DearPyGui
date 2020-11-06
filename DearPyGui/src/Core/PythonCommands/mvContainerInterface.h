@@ -14,6 +14,7 @@ namespace Marvel {
 	PyObject* end                  (PyObject* self, PyObject* args, PyObject* kwargs);
 	PyObject* add_tab_bar          (PyObject* self, PyObject* args, PyObject* kwargs);
 	PyObject* add_tab              (PyObject* self, PyObject* args, PyObject* kwargs);
+	PyObject* add_tab_button       (PyObject* self, PyObject* args, PyObject* kwargs);
 	PyObject* add_group            (PyObject* self, PyObject* args, PyObject* kwargs);
 	PyObject* add_child            (PyObject* self, PyObject* args, PyObject* kwargs);
 	PyObject* add_window           (PyObject* self, PyObject* args, PyObject* kwargs);

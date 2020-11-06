@@ -116,6 +116,7 @@
 //     - mvTab.h
 //         * mvTabBar
 //         * mvTab
+//         * mvTabButton
 //
 //     - mvText.h
 //         * mvText
