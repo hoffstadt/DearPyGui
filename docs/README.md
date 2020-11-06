@@ -151,6 +151,7 @@ Some upcoming features:
 Ongoing _Dear PyGui_ development is financially supported by users and private sponsors.
 
 These include:
+* 🏆 [Dean Keinan](https://github.com/deankeinan) _Partner Sponsor_
 * 🥇 [Caden Bloxham](https://github.com/cubic-unit) _Gold Sponsor_
 
 Thank you to all other sponsors for keeping this project moving forward!
