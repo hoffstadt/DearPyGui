@@ -24,13 +24,19 @@ namespace Marvel {
 			if (!prerender())
 				return;
 
-			ImGui::Text("DearPyGui %s", mvApp::GetVersion());
+			ImGui::Text("Dear PyGui %s", mvApp::GetVersion());
 			ImGui::Text("Dear ImGui %s", ImGui::GetVersion());
 			ImGui::Separator();
-			ImGui::Text("By Jonathan Hoffstadt and Preston Cothren");
-			ImGui::Text("DearPyGui is licensed under the MIT License, see LICENSE for more information.");
+			ImGui::TextColored(ImGui::GetStyleColorVec4(ImGuiCol_PlotHistogramHovered), "Authors");
+			ImGui::BulletText("Jonathan Hoffstadt");
+			ImGui::BulletText("Preston Cothren");
+			ImGui::Text("Dear PyGui is licensed under the MIT License, see LICENSE for more information.");
 			ImGui::Separator();
-			ImGui::Text("By Omar Cornut and all Dear ImGui contributors.");
+			ImGui::TextColored(ImGui::GetStyleColorVec4(ImGuiCol_PlotHistogramHovered), "Partners");
+			ImGui::BulletText("Dean Keinan");
+			ImGui::Separator();
+			ImGui::TextColored(ImGui::GetStyleColorVec4(ImGuiCol_PlotHistogramHovered), "Dear ImGui");
+			ImGui::Text("Dear ImGui Author Omar Cornut and all Dear ImGui contributors.");
 			ImGui::Text("Dear ImGui is licensed under the MIT License, see LICENSE for more information.");
 
 			static bool show_config_info = false;
