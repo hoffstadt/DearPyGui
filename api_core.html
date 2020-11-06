@@ -5448,6 +5448,22 @@ creates a button on the tab that can hide the tab</p>
 Attempt to render</p>
 </li>
 <li>
+<p>no_reorder : bool = False
+Disable reordering this tab or having another tab cross over this tab</p>
+</li>
+<li>
+<p>leading : bool = False
+Enforce the tab position to the left of the tab bar (after the tab list popup button)</p>
+</li>
+<li>
+<p>trailing : bool = False
+Enforce the tab position to the right of the tab bar (before the scrolling buttons)</p>
+</li>
+<li>
+<p>no_tooltip : bool = False
+Disable tooltip for the given tab</p>
+</li>
+<li>
 <p>tip : str = ''
 Adds a simple tooltip</p>
 </li>
@@ -5505,6 +5521,69 @@ This item will be displayed before the specified item in the parent. (runtime ad
 </li>
 </ul></div>
 </dd>
+<dt id="dearpygui.core.add_tab_button"><code class="name flex">
+<span>def <span class="ident">add_tab_button</span></span>(<span>...)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Adds a tab button to a tab bar</p>
+<p>Return Type: None</p>
+<p>Parameters</p>
+<hr>
+<ul>
+<li>
+<p>name : str</p>
+</li>
+<li>
+<p>Keyword Only Arguments</p>
+</li>
+</ul>
+<hr>
+<ul>
+<li>
+<p>label : str = ''</p>
+</li>
+<li>
+<p>show : bool = True
+Attempt to render</p>
+</li>
+<li>
+<p>no_reorder : bool = False
+Disable reordering this tab or having another tab cross over this tab</p>
+</li>
+<li>
+<p>leading : bool = False
+Enforce the tab position to the left of the tab bar (after the tab list popup button)</p>
+</li>
+<li>
+<p>trailing : bool = False
+Enforce the tab position to the right of the tab bar (before the scrolling buttons)</p>
+</li>
+<li>
+<p>no_tooltip : bool = False
+Disable tooltip for the given tab</p>
+</li>
+<li>
+<p>tip : str = ''
+Adds a simple tooltip</p>
+</li>
+<li>
+<p>callback : Callable = None
+Registers a callback</p>
+</li>
+<li>
+<p>callback_data : Any = None
+Callback data</p>
+</li>
+<li>
+<p>parent : str = ''
+Parent to add this item to. (runtime adding)</p>
+</li>
+<li>
+<p>before : str = ''
+This item will be displayed before the specified item in the parent. (runtime adding)</p>
+</li>
+</ul></div>
+</dd>
 <dt id="dearpygui.core.add_table"><code class="name flex">
 <span>def <span class="ident">add_table</span></span>(<span>...)</span>
 </code></dt>
@@ -5546,7 +5625,7 @@ This item will be displayed before the specified item in the parent. (runtime ad
 <p>width : int = 0</p>
 </li>
 <li>
-<p>height : int = 0</p>
+<p>height : int = 200</p>
 </li>
 <li>
 <p>show : bool = True
@@ -9023,6 +9102,7 @@ Attempt to render</p>
 <li><code><a title="dearpygui.core.add_style_window" href="#dearpygui.core.add_style_window">add_style_window</a></code></li>
 <li><code><a title="dearpygui.core.add_tab" href="#dearpygui.core.add_tab">add_tab</a></code></li>
 <li><code><a title="dearpygui.core.add_tab_bar" href="#dearpygui.core.add_tab_bar">add_tab_bar</a></code></li>
+<li><code><a title="dearpygui.core.add_tab_button" href="#dearpygui.core.add_tab_button">add_tab_button</a></code></li>
 <li><code><a title="dearpygui.core.add_table" href="#dearpygui.core.add_table">add_table</a></code></li>
 <li><code><a title="dearpygui.core.add_text" href="#dearpygui.core.add_text">add_text</a></code></li>
 <li><code><a title="dearpygui.core.add_text_point" href="#dearpygui.core.add_text_point">add_text_point</a></code></li>
