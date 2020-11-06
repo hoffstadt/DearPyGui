@@ -137,7 +137,7 @@ namespace Marvel {
 			}
 
 			// create tab item and see if it is selected
-			if (ImGui::BeginTabItem(m_label.c_str(), m_closable ? &m_show : nullptr))
+			if (ImGui::BeginTabItem(m_label.c_str(), m_closable ? &m_show : nullptr, m_flags))
 			{
 				// Regular Tooltip (simple)
 				if (!getTip().empty() && ImGui::IsItemHovered())
@@ -202,6 +202,21 @@ namespace Marvel {
 			mvGlobalIntepreterLock gil;
 			if (PyObject* item = PyDict_GetItemString(dict, "closable")) m_closable = ToBool(item);
 
+			// helper for bit flipping
+			auto flagop = [dict](const char* keyword, int flag, int& flags)
+			{
+				if (PyObject* item = PyDict_GetItemString(dict, keyword)) ToBool(item) ? flags |= flag : flags &= ~flag;
+			};
+
+			// window flags
+			flagop("no_reorder", ImGuiTabItemFlags_NoReorder, m_flags);
+			flagop("leading", ImGuiTabItemFlags_Leading, m_flags);
+			flagop("trailing", ImGuiTabItemFlags_Trailing, m_flags);
+			flagop("no_tooltip", ImGuiTabItemFlags_NoTooltip, m_flags);
+
+			if(m_flags & ImGuiTabItemFlags_Leading && m_flags & ImGuiTabItemFlags_Trailing)
+				m_flags &= ~ImGuiTabItemFlags_Leading;
+
 		}
 
 		void getExtraConfigDict(PyObject* dict) override
@@ -210,11 +225,25 @@ namespace Marvel {
 				return;
 			mvGlobalIntepreterLock gil;
 			PyDict_SetItemString(dict, "closable", ToPyBool(m_closable));
+
+			// helper to check and set bit
+			auto checkbitset = [dict](const char* keyword, int flag, const int& flags)
+			{
+				PyDict_SetItemString(dict, keyword, ToPyBool(flags & flag));
+			};
+
+			// window flags
+			checkbitset("no_reorder", ImGuiTabBarFlags_Reorderable, m_flags);
+			checkbitset("leading", ImGuiTabItemFlags_Leading, m_flags);
+			checkbitset("trailing", ImGuiTabItemFlags_Trailing, m_flags);
+			checkbitset("no_tooltip", ImGuiTabItemFlags_NoTooltip, m_flags);
+
 		}
 
 	private:
 
 		bool m_closable = false;
+		ImGuiTabItemFlags m_flags = ImGuiTabItemFlags_None;
 
 	};
 

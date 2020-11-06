@@ -33,6 +33,12 @@ Changes:
 - set_value:    now thread safe
 - get_value:    now thread safe
 
+New Keywords:
+- tab: Added "no_reorder" keyword
+- tab: Added "leading" keyword
+- tab: Added "trailing" keyword
+- tab: Added "no_tooltip" keyword
+
 Fixes:
 - tab bar: fixed tab bar callback
 - drawing: fixed "originy" issue #309

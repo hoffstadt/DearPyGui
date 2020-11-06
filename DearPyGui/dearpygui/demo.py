@@ -654,6 +654,20 @@ def show_demo():
                             add_text("This is the broccoli tab!")
                         with tab("Cucumber##demo"):
                             add_text("This is the cucumber tab!")
+                with tree_node("Advanced##tabs##demo"):
+                    add_checkbox("tab bar reorderable##demo", callback=lambda sender, data: configure_item("Basic Tabbar1##demo", reorderable=get_value(sender)))
+                    add_checkbox("tab 2 no_reorder##demo", callback=lambda sender, data: configure_item("tab 2##demo", no_reorder=get_value(sender)))
+                    add_checkbox("tab 2 leading##demo", callback=lambda sender, data: configure_item("tab 2##demo", leading=get_value(sender)))
+                    add_checkbox("tab 2 trailing##demo", callback=lambda sender, data: configure_item("tab 2##demo", trailing=get_value(sender)))
+                    with tab_bar("Basic Tabbar1##demo"):
+                        with tab("tab 1##demo"):
+                            add_text("This is the tab 1!")
+                        with tab("tab 2##demo"):
+                            add_text("This is the tab 2!")
+                        with tab("tab 3##demo"):
+                            add_text("This is the tab 3!")
+                        with tab("tab 4##demo"):
+                            add_text("This is the tab 4!")
 
             with tree_node("Groups##demo123"):
                 add_text("Groups can be used to bundle widths together so that you can use functions such as is_item_hovered or add_same_line on the whole group.")
