@@ -10,6 +10,7 @@ namespace Marvel {
 	mvTable::mvTable(const std::string& name, const std::vector<std::string>& headers)
 		: mvAppItem(name)
 	{
+		m_height = 200;
 		m_headers = headers;
 		m_columns = headers.size();
 	}
