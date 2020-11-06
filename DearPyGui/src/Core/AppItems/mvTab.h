@@ -27,7 +27,7 @@ namespace Marvel {
 		mvTabBar(const std::string& name)
 			: mvStringPtrBase(name, "", name)
 		{
-			m_container = true;		
+			m_description.container = true;
 		}
 
 		std::string& getValue() { return *m_value; }
@@ -118,7 +118,7 @@ namespace Marvel {
 		mvTab(const std::string& name)
 			: mvBoolPtrBase(name, false, name)
 		{
-			m_container = true;
+			m_description.container = true;
 		}
 
 		void draw() override

@@ -11,11 +11,11 @@ namespace Marvel {
 
 	public:
 
-		bool canBeDeleted() const override { return false; }
-
 		mvMetricsWindow(const std::string& name) 
 			: mvBaseWindowAppitem(name)
-		{}
+		{
+			m_description.deleteAllowed = false;
+		}
 
 		void draw() override
 		{

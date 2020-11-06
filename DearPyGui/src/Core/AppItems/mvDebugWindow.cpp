@@ -33,7 +33,7 @@ namespace Marvel {
 	{
 		
 
-		if (item->isContainer())
+		if (item->getDescription().isContainer())
 		{
 			std::string container = item->getName() + "*";
 
@@ -233,7 +233,7 @@ namespace Marvel {
                 ImGui::PushItemWidth(200);
                 DebugItem("Item Name:", m_selectedItem.c_str());
                 DebugItem("Item Type:", selectedItem->getStringType().c_str());
-                DebugItem("Container:", selectedItem->isContainer() ? ts : fs);
+                DebugItem("Container:", selectedItem->getDescription().isContainer() ? ts : fs);
                 DebugItem("Item Parent:", parentName.c_str());
                 DebugItem("Item Width:", width.c_str());
                 DebugItem("Item Height:", height.c_str());

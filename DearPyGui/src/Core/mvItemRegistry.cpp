@@ -154,7 +154,7 @@ namespace Marvel {
 		static int count = 0;
 		count++;
 
-		if (!item->areDuplicatesAllowed())
+		if (!item->getDescription().canBeDuplicated())
 		{
 			if (getItem(item->getName()))
 			{
@@ -304,7 +304,7 @@ namespace Marvel {
 
 				bool addedItem = false;
 
-				if (!newItem.item->areDuplicatesAllowed())
+				if (!newItem.item->getDescription().canBeDuplicated())
 				{
 					if (getItem(newItem.item->getName(), true))
 					{
@@ -316,7 +316,7 @@ namespace Marvel {
 					}
 				}
 
-				if (newItem.item->isARoot())
+				if (newItem.item->getDescription().isARoot())
 				{
 					m_frontWindows.push_back(newItem.item);
 					continue;

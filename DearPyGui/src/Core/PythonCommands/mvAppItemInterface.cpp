@@ -474,7 +474,7 @@ namespace Marvel {
 			for (mvAppItem* child : children)
 			{
 				childList.emplace_back(child->getName());
-				if (child->isContainer())
+				if (child->getDescription().isContainer())
 					ChildRetriever(child);
 			}
 
@@ -601,7 +601,7 @@ namespace Marvel {
 		auto appitem = mvApp::GetApp()->getItemRegistry().getItem(item);
 
 		if (appitem)
-			return ToPyBool(appitem->isContainer());
+			return ToPyBool(appitem->getDescription().isContainer());
 
 		return GetPyNone();
 	}

@@ -29,14 +29,13 @@ namespace Marvel {
 		mvSameLine(const std::string& name)
 			: mvAppItem(name)
 		{
+			m_description.duplicatesAllowed = true;
 		}
 
 		void draw() override
 		{
 			ImGui::SameLine(m_xoffset, m_spacing);
 		}
-
-		[[nodiscard]] bool areDuplicatesAllowed() const override { return true; }
 
 		void setExtraConfigDict(PyObject* dict) override
 		{
@@ -77,6 +76,7 @@ namespace Marvel {
 		mvSeparator(const std::string& name)
 			: mvAppItem(name)
 		{
+			m_description.duplicatesAllowed = true;
 		}
 
 		void draw() override
@@ -91,8 +91,6 @@ namespace Marvel {
 
 			popColorStyles();
 		}
-
-		[[nodiscard]] bool areDuplicatesAllowed() const override { return true; }
 
 	};
 
@@ -109,6 +107,7 @@ namespace Marvel {
 		mvSpacing(const std::string& name, int count)
 			: mvIntPtrBase(name, count, name)
 		{
+			m_description.duplicatesAllowed = true;
 		}
 
 		void draw() override
@@ -117,7 +116,6 @@ namespace Marvel {
 				ImGui::Spacing();
 		}
 
-		[[nodiscard]] bool areDuplicatesAllowed() const override { return true; }
 	};
 
 	//-----------------------------------------------------------------------------
@@ -133,14 +131,13 @@ namespace Marvel {
 		mvIndent(const std::string& name, float default_value)
 			: mvFloatPtrBase(name, default_value, name)
 		{
+			m_description.duplicatesAllowed = true;
 		}
 
 		void draw() override
 		{
 			ImGui::Indent(m_value[0]);
 		}
-
-		[[nodiscard]] bool areDuplicatesAllowed() const override { return true; }
 
 	};
 
@@ -157,14 +154,13 @@ namespace Marvel {
 		mvUnindent(const std::string& name, float default_value)
 			: mvFloatPtrBase(name, default_value, name)
 		{
+			m_description.duplicatesAllowed = true;
 		}
 
 		void draw() override
 		{
 			ImGui::Unindent(m_value[0]);
 		}
-
-		[[nodiscard]] bool areDuplicatesAllowed() const override { return true; }
 
 	};
 
@@ -181,14 +177,13 @@ namespace Marvel {
 		mvDummy(const std::string& name)
 			: mvAppItem(name)
 		{
+			m_description.duplicatesAllowed = true;
 		}
 
 		void draw() override
 		{
 			ImGui::Dummy({ (float)m_width, (float)m_height });
 		}
-
-		[[nodiscard]] bool areDuplicatesAllowed() const override { return true; }
 
 	};
 

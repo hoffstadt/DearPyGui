@@ -48,9 +48,8 @@ namespace Marvel {
 		mvText(const std::string& name, const std::string& default_value, const std::string& dataSource)
 			: mvStringPtrBase(name, default_value.empty() ? name : default_value, dataSource)
 		{
+			m_description.duplicatesAllowed = true;
 		}
-
-		[[nodiscard]] bool areDuplicatesAllowed() const override { return true; }
 
 		void draw() override
 		{
