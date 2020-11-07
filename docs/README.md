@@ -25,7 +25,7 @@ the following platforms:
 |----------|---------------|
 | **Windows 10** | _DirectX 11_ |
 | **macOs** | _Metal_ |
-| **Linux** | _OpenGL3_ |
+| **Linux** | _OpenGL 3_ |
 
 In the same manner Dear ImGui provides a simple way to create tools for game developers, _Dear PyGui_ provides a 
 simple way for python developers to **create quick and powerful GUIs for scripts**.
