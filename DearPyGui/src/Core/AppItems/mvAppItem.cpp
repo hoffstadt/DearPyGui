@@ -148,7 +148,7 @@ namespace Marvel{
 				break;
 			}
 
-			if (m_children[i]->getDescription().isContainer())
+			if (m_children[i]->getDescription().container)
 			{
 				found = m_children[i]->moveChildUp(name);
 				if (found)
@@ -191,7 +191,7 @@ namespace Marvel{
 				break;
 			}
 
-			if (m_children[i]->getDescription().isContainer())
+			if (m_children[i]->getDescription().container)
 			{
 				found = m_children[i]->moveChildDown(name);
 				if (found)
@@ -237,7 +237,7 @@ namespace Marvel{
 				// check children
 				for (mvAppItem* child : m_children)
 				{
-					if (child->getDescription().isContainer())
+					if (child->getDescription().container)
 					{
 						// parent found
 						if (child->addRuntimeChild(parent, before, item))
@@ -286,7 +286,7 @@ namespace Marvel{
 		// check children
 		for (mvAppItem* child : m_children)
 		{
-			if (child->getDescription().isContainer())
+			if (child->getDescription().container)
 			{
 				// parent found
 				if (child->addRuntimeChild(parent, before, item))
@@ -340,7 +340,7 @@ namespace Marvel{
 		// check children
 		for (mvAppItem* child : m_children)
 		{
-			if (child->getDescription().isContainer())
+			if (child->getDescription().container)
 			{
 				// parent found
 				if (child->addChildAfter(prev, item))
@@ -365,7 +365,7 @@ namespace Marvel{
 				break;
 			}
 
-			if (item->getDescription().isContainer())
+			if (item->getDescription().container)
 			{
 				itemDeleted = item->deleteChild(name);
 				if (itemDeleted)
@@ -464,7 +464,7 @@ namespace Marvel{
 				break;
 			}
 
-			if (item->getDescription().isContainer())
+			if (item->getDescription().container)
 			{
 				stolenChild = item->stealChild(name);
 				if (stolenChild)
@@ -500,7 +500,7 @@ namespace Marvel{
 			if (item->getName() == name)
 				return item;
 
-			if (item->getDescription().isContainer())
+			if (item->getDescription().container)
 			{
 				auto child = item->getChild(name);
 				if (child)
