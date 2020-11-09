@@ -14,7 +14,7 @@ namespace Marvel {
 		mvItemRegistry& itemRegistry = mvApp::GetApp()->getItemRegistry();
 
 		// remove bad parent stack item
-		if (item->isARoot() && itemRegistry.topParent() != nullptr)
+		if (item->getDescription().isARoot() && itemRegistry.topParent() != nullptr)
 		{
 			itemRegistry.emptyParents();
 			ThrowPythonException("Parent stack not empty. Adding window will empty the parent stack. Don't forget to end container types.");
@@ -24,11 +24,11 @@ namespace Marvel {
 			return itemRegistry.addItemAfter(parent, item);
 
 		// window runtime adding
-		if (item->isARoot() && mvApp::IsAppStarted())
+		if (item->getDescription().isARoot() && mvApp::IsAppStarted())
 			return itemRegistry.addRuntimeItem("", "", item);
 
 		// window compile adding
-		else if (item->isARoot())
+		else if (item->getDescription().isARoot())
 			return itemRegistry.addWindow(item);
 
 		// typical run time adding

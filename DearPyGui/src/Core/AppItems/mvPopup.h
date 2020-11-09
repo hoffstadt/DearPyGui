@@ -24,7 +24,7 @@ namespace Marvel {
 		mvPopup(const std::string& name, mvAppItem* parentAddress)
 			: mvBoolPtrBase(name, false, name), mvEventHandler(), m_parentAddress(parentAddress)
 		{
-			m_container = true;
+			m_description.container = true;
 			//if (m_parent)
 				//m_parent->setPopup(name);
 		}

@@ -36,6 +36,7 @@ namespace Marvel {
 		mvDragFloat(const std::string& name, float default_value, const std::string& dataSource)
 			: mvFloatPtrBase(name, default_value, dataSource)
 		{
+			m_description.disableAllowed = true;
 		}
 
 		void setEnabled(bool value) override
@@ -151,6 +152,7 @@ namespace Marvel {
 		mvDragFloat2(const std::string& name, float* default_value, const std::string& dataSource)
 			: mvFloat2PtrBase(name, default_value, dataSource)
 		{
+			m_description.disableAllowed = true;
 		}
 
 		void setEnabled(bool value) override
@@ -265,6 +267,7 @@ namespace Marvel {
 		mvDragFloat3(const std::string& name, float* default_value, const std::string& dataSource)
 			: mvFloat3PtrBase(name, default_value, dataSource)
 		{
+			m_description.disableAllowed = true;
 		}
 
 		void setEnabled(bool value) override
@@ -379,6 +382,7 @@ namespace Marvel {
 		mvDragFloat4(const std::string& name, float* default_value, const std::string& dataSource)
 			: mvFloat4PtrBase(name, default_value, dataSource)
 		{
+			m_description.disableAllowed = true;
 		}
 
 		void setEnabled(bool value) override
@@ -493,6 +497,7 @@ namespace Marvel {
 		mvDragInt(const std::string& name, int default_value, const std::string& dataSource)
 			: mvIntPtrBase(name, default_value, dataSource)
 		{
+			m_description.disableAllowed = true;
 		}
 
 		void setEnabled(bool value) override
@@ -606,7 +611,7 @@ namespace Marvel {
 		mvDragInt2(const std::string& name, int* default_value, const std::string& dataSource)
 			: mvInt2PtrBase(name, default_value, dataSource)
 		{
-
+			m_description.disableAllowed = true;
 		}
 
 		void setEnabled(bool value) override
@@ -836,7 +841,7 @@ namespace Marvel {
 		mvDragInt4(const std::string& name, int* default_value, const std::string& dataSource)
 			: mvInt4PtrBase(name, default_value, dataSource)
 		{
-
+			m_description.disableAllowed = true;
 		}
 
 		void setEnabled(bool value) override

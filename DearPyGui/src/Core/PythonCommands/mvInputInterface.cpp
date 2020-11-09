@@ -401,7 +401,7 @@ namespace Marvel {
 
 		if (item)
 		{
-			if (item->isARoot())
+			if (item->getDescription().isARoot())
 			{
 				auto windowtype = static_cast<mvWindowAppitem*>(item);
 				mvEventHandler* eventhandler = static_cast<mvEventHandler*>(windowtype);

@@ -36,6 +36,7 @@ namespace Marvel {
 		mvSliderFloat(const std::string& name, float default_value, const std::string& dataSource)
 			: mvFloatPtrBase(name, default_value, dataSource)
 		{
+			m_description.disableAllowed = true;
 		}
 
 		void setEnabled(bool value) override
@@ -169,6 +170,7 @@ namespace Marvel {
 		mvSliderInt(const std::string& name, int default_value, const std::string& dataSource)
 			: mvIntPtrBase(name, default_value, dataSource)
 		{
+			m_description.disableAllowed = true;
 		}
 
 		void setEnabled(bool value) override
@@ -302,6 +304,7 @@ namespace Marvel {
 		mvSliderFloat2(const std::string& name, float* default_value, const std::string& dataSource)
 			: mvFloat2PtrBase(name, default_value, dataSource)
 		{
+			m_description.disableAllowed = true;
 		}
 
 		void setEnabled(bool value) override
@@ -415,6 +418,7 @@ namespace Marvel {
 		mvSliderFloat3(const std::string& name, float* default_value, const std::string& dataSource)
 			: mvFloat3PtrBase(name, default_value, dataSource)
 		{
+			m_description.disableAllowed = true;
 		}
 
 		void setEnabled(bool value) override
@@ -527,6 +531,7 @@ namespace Marvel {
 		mvSliderFloat4(const std::string& name, float* default_value, const std::string& dataSource)
 			: mvFloat4PtrBase(name, default_value, dataSource)
 		{
+			m_description.disableAllowed = true;
 		}
 
 		void setEnabled(bool value) override
@@ -640,6 +645,7 @@ namespace Marvel {
 		mvSliderInt2(const std::string& name, int* default_value, const std::string& dataSource)
 			: mvInt2PtrBase(name, default_value, dataSource)
 		{
+			m_description.disableAllowed = true;
 		}
 
 		void setEnabled(bool value) override
@@ -753,6 +759,7 @@ namespace Marvel {
 		mvSliderInt3(const std::string& name, int* default_value, const std::string& dataSource)
 			: mvInt3PtrBase(name, default_value, dataSource)
 		{
+			m_description.disableAllowed = true;
 		}
 
 		void setEnabled(bool value) override
@@ -866,6 +873,7 @@ namespace Marvel {
 		mvSliderInt4(const std::string& name, int* default_value, const std::string& dataSource)
 			: mvInt4PtrBase(name, default_value, dataSource)
 		{
+			m_description.disableAllowed = true;
 		}
 
 		void setEnabled(bool value) override

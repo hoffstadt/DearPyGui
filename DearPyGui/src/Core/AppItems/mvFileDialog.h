@@ -13,9 +13,11 @@ namespace Marvel {
 
 	public:
 
-		mvFileDialog() : mvBaseWindowAppitem("filedialog") {}
+		mvFileDialog() : mvBaseWindowAppitem("filedialog") 
+		{
+			m_description.deleteAllowed = false;
+		}
 
-		bool canBeDeleted() const override { return false; }
 		bool prerender2() { return true; }
 		void setCallback(PyObject* callback) { m_callback = callback; }
 

@@ -34,6 +34,7 @@ namespace Marvel {
 		mvSelectable(const std::string& name, bool default_value, const std::string& dataSource)
 			: mvBoolPtrBase(name, default_value, dataSource)
 		{
+			m_description.disableAllowed = true;
 		}
 
 		void setEnabled(bool value) override
@@ -123,6 +124,7 @@ namespace Marvel {
 		mvButton(const std::string& name)
 			: mvAppItem(name)
 		{
+			m_description.disableAllowed = true;
 		}
 
 		void draw() override
@@ -226,6 +228,7 @@ namespace Marvel {
 		mvCheckbox(const std::string& name, bool default_value, const std::string& dataSource)
 			: mvBoolPtrBase(name, default_value, dataSource)
 		{
+			m_description.disableAllowed = true;
 		}
 
 		void draw() override
@@ -270,9 +273,11 @@ namespace Marvel {
 
 		MV_APPITEM_TYPE(mvAppItemType::Combo, "add_combo")
 
-			mvCombo(const std::string& name, const std::string& default_value, const std::string& dataSource)
-			: mvStringPtrBase(name, default_value, dataSource)
-		{}
+		mvCombo(const std::string& name, const std::string& default_value, const std::string& dataSource)
+		: mvStringPtrBase(name, default_value, dataSource)
+		{
+			m_description.disableAllowed = true;
+		}
 
 		void draw() override
 		{
@@ -410,6 +415,7 @@ namespace Marvel {
 		mvListbox(const std::string& name, int default_value, const std::string& dataSource)
 			: mvIntPtrBase(name, default_value, dataSource)
 		{
+			m_description.disableAllowed = true;
 		}
 
 		void draw() override
@@ -492,7 +498,7 @@ namespace Marvel {
 		mvRadioButton(const std::string& name, int default_value, const std::string& dataSource)
 			: mvIntPtrBase(name, default_value, dataSource)
 		{
-
+			m_description.disableAllowed = true;
 		}
 
 		void draw() override

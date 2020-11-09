@@ -17,10 +17,9 @@ namespace Marvel {
 		{
 			m_width = 700;
 			m_height = 500;
+			m_description.deleteAllowed = false;
 			m_commands = GetAllCommands();
 		}
-
-		bool canBeDeleted() const override { return false; }
 
 		void draw() override;
 
