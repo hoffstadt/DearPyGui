@@ -41,7 +41,7 @@ namespace Marvel{
 
 		void draw() override
 		{
-			pushColorStyles();
+			auto styleManager = m_styleManager.getScopedStyleManager();
 			ImGui::PushID(this);
 
 			if(m_histogram)
@@ -52,7 +52,6 @@ namespace Marvel{
 					m_min, m_max, ImVec2((float)m_width, (float)m_height));
 
 			ImGui::PopID();
-			popColorStyles();
 		}
 
 		void setValue(const std::vector<float>& value)

@@ -37,7 +37,7 @@ namespace Marvel {
 		{
 			if (ImGui::IsItemHovered())
 			{
-				pushColorStyles();
+				auto styleManager = m_styleManager.getScopedStyleManager();
 				ImGui::BeginTooltip();
 				for (mvAppItem* item : m_children)
 				{
@@ -49,16 +49,14 @@ namespace Marvel {
 					if (item->getWidth() > 0)
 						ImGui::SetNextItemWidth((float)item->getWidth());
 
-					item->pushColorStyles();
+					//item->pushColorStyles();
 					item->draw();
-					item->popColorStyles();
+					//item->popColorStyles();
 
 					item->getState().update();
 				}
 
 				ImGui::EndTooltip();
-
-				popColorStyles();
 			}
 
 		}

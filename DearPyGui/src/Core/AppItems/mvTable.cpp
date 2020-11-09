@@ -481,7 +481,7 @@ namespace Marvel {
 
 	void mvTable::draw()
 	{
-		pushColorStyles();
+		auto styleManager = m_styleManager.getScopedStyleManager();
 
 		ImGui::BeginChild(m_name.c_str(), ImVec2((float)m_width, (float)m_height));
 		ImGui::Separator();
@@ -513,9 +513,6 @@ namespace Marvel {
 		ImGui::Columns(1);
 		ImGui::Separator();
 		ImGui::EndChild();
-
-		popColorStyles();
-
 	}
 
 }

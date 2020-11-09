@@ -40,21 +40,18 @@ namespace Marvel {
 		void setEnabled(bool value) override
 		{
 			if (value)
-			{
 				m_flags &= ~ImGuiSelectableFlags_Disabled;
-			}
 
 			else
-			{
 				m_flags |= ImGuiSelectableFlags_Disabled;
-			}
 
 			m_enabled = value;
 		}
 
 		void draw() override
 		{
-			pushColorStyles();
+			auto styleManager = m_styleManager.getScopedStyleManager();
+
 			ImGui::PushID(this);
 
 			if(ImGui::Selectable(m_label.c_str(), m_value, m_flags))
@@ -72,7 +69,6 @@ namespace Marvel {
 				ImGui::SetTooltip("%s", getTip().c_str());
 
 			ImGui::PopID();
-			popColorStyles();
 		}
 
 		void setExtraConfigDict(PyObject* dict) override
@@ -129,7 +125,7 @@ namespace Marvel {
 
 		void draw() override
 		{
-			pushColorStyles();
+			auto styleManager = m_styleManager.getScopedStyleManager();
 			ImGui::PushID(this);
 
 			if (!m_enabled)
@@ -152,7 +148,6 @@ namespace Marvel {
 
 				ImGui::PopID();
 				if (!m_enabled) ImGui::PopStyleColor(4);
-				popColorStyles();
 				return;
 			}
 
@@ -166,7 +161,6 @@ namespace Marvel {
 
 				ImGui::PopID();
 				if (!m_enabled) ImGui::PopStyleColor(4);
-				popColorStyles();
 				return;
 			}
 
@@ -183,7 +177,6 @@ namespace Marvel {
 
 			ImGui::PopID();
 			if (!m_enabled) ImGui::PopStyleColor(4);
-			popColorStyles();
 		}
 
 		void setExtraConfigDict(PyObject* dict) override
@@ -233,7 +226,7 @@ namespace Marvel {
 
 		void draw() override
 		{
-			pushColorStyles();
+			auto styleManager = m_styleManager.getScopedStyleManager();
 			ImGui::PushID(this);
 
 			if (!m_enabled)
@@ -258,7 +251,6 @@ namespace Marvel {
 
 			ImGui::PopID();
 			if (!m_enabled) ImGui::PopStyleColor(5);
-			popColorStyles();
 		}
 
 	};
@@ -282,7 +274,7 @@ namespace Marvel {
 		void draw() override
 		{
 
-			pushColorStyles();
+			auto styleManager = m_styleManager.getScopedStyleManager();
 			ImGui::PushID(this);
 			static std::vector<std::string> disabled_items{};
 			if (!m_enabled)
@@ -324,7 +316,7 @@ namespace Marvel {
 
 			ImGui::PopID();
 			if (!m_enabled) ImGui::PopStyleColor(9);
-			popColorStyles();
+
 		}
 
 		void setExtraConfigDict(PyObject* dict) override
@@ -420,7 +412,7 @@ namespace Marvel {
 
 		void draw() override
 		{
-			pushColorStyles();
+			auto styleManager = m_styleManager.getScopedStyleManager();
 			ImGui::PushID(this);
 			if (!m_enabled)
 			{
@@ -450,7 +442,6 @@ namespace Marvel {
 
 			ImGui::PopID();
 			if (!m_enabled) ImGui::PopStyleColor(11);
-			popColorStyles();
 		}
 
 		void setExtraConfigDict(PyObject* dict) override
@@ -506,7 +497,7 @@ namespace Marvel {
 
 			ImGui::BeginGroup();
 
-			pushColorStyles();
+			auto styleManager = m_styleManager.getScopedStyleManager();
 			ImGui::PushID(this);
 			if (!m_enabled)
 			{
@@ -533,7 +524,6 @@ namespace Marvel {
 			}
 
 			ImGui::PopID();
-			popColorStyles();
 			if (!m_enabled) ImGui::PopStyleColor(5);
 			ImGui::EndGroup();
 		}
@@ -580,7 +570,7 @@ namespace Marvel {
 
 		void draw() override
 		{
-			pushColorStyles();
+			auto styleManager = m_styleManager.getScopedStyleManager();
 			ImGui::PushID(this);
 
 			ImGui::ProgressBar(*m_value, ImVec2((float)m_width, (float)m_height), m_overlay.c_str());
@@ -590,7 +580,6 @@ namespace Marvel {
 				ImGui::SetTooltip("%s", getTip().c_str());
 
 			ImGui::PopID();
-			popColorStyles();
 		}
 
 		void setExtraConfigDict(PyObject* dict) override

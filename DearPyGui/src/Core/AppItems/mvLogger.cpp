@@ -19,7 +19,7 @@ namespace Marvel {
 	{
 		ImGui::BeginGroup();
 
-		pushColorStyles();
+		auto styleManager = m_styleManager.getScopedStyleManager();
 		ImGui::PushID(this);
 		
 		// auto scroll button
@@ -150,7 +150,6 @@ namespace Marvel {
 
 		ImGui::EndChild();
 		ImGui::PopID();
-		popColorStyles();
 		ImGui::EndGroup();
 
 		if (ImGui::IsWindowFocused())

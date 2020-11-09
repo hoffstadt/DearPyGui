@@ -34,7 +34,7 @@ namespace Marvel {
 		void draw() override
 		{
 
-			pushColorStyles();
+			auto styleManager = m_styleManager.getScopedStyleManager();
 			ImGui::PushID(m_parentAddress);
 
 			if (m_modal)
@@ -61,9 +61,9 @@ namespace Marvel {
 						if (item->getWidth() != 0)
 							ImGui::SetNextItemWidth((float)item->getWidth());
 
-						item->pushColorStyles();
+						//item->pushColorStyles();
 						item->draw();
-						item->popColorStyles();
+						//item->popColorStyles();
 
 						item->getState().update();
 					}
@@ -87,9 +87,9 @@ namespace Marvel {
 						if (item->getWidth() > 0)
 							ImGui::SetNextItemWidth((float)item->getWidth());
 
-						item->pushColorStyles();
+						//item->pushColorStyles();
 						item->draw();
-						item->popColorStyles();
+						//item->popColorStyles();
 
 						item->getState().update();
 					}
@@ -102,7 +102,6 @@ namespace Marvel {
 			}
 
 			ImGui::PopID();
-			popColorStyles();
 		}
 
 		void setExtraConfigDict(PyObject* dict) override
