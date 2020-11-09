@@ -361,7 +361,7 @@ namespace Marvel {
 		mvAppItem* appitem = mvApp::GetApp()->getItemRegistry().getItem(item);
 
 		if (appitem)
-			appitem->addColorStyle(style, mcolor);
+			appitem->getStyleManager().addColorStyle(style, mcolor);
 
 		return GetPyNone();
 	}
@@ -376,7 +376,7 @@ namespace Marvel {
 		mvAppItem* appitem = mvApp::GetApp()->getItemRegistry().getItem(item);
 
 		if (appitem)
-			appitem->clearColors();
+			appitem->getStyleManager().clearColors();
 
 		return GetPyNone();
 	}

@@ -31,7 +31,7 @@ namespace Marvel {
 
 		void draw() override
 		{
-			pushColorStyles();
+			auto styleManager = m_styleManager.getScopedStyleManager();
 			ImGui::PushID(this);
 
 			if (ImPlot::ShowTimePicker(m_name.c_str(), m_imvalue, m_hour24))
@@ -41,7 +41,6 @@ namespace Marvel {
 			}
 
 			ImGui::PopID();
-			popColorStyles();
 		}
 
 		void setExtraConfigDict(PyObject* dict) override

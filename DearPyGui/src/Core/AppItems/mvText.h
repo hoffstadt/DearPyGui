@@ -135,9 +135,8 @@ namespace Marvel {
 
 				ImGui::SameLine();
 
-				pushColorStyles();
+				auto styleManager = m_styleManager.getScopedStyleManager();
 				ImGui::TextUnformatted(m_label.c_str());
-				popColorStyles();
 			}
 
 			else

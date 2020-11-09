@@ -81,15 +81,13 @@ namespace Marvel {
 
 		void draw() override
 		{
-			pushColorStyles();
+			auto styleManager = m_styleManager.getScopedStyleManager();
 
 			ImGui::Separator();
 
 			// Regular Tooltip (simple)
 			if (!getTip().empty() && ImGui::IsItemHovered())
 				ImGui::SetTooltip("%s", getTip().c_str());
-
-			popColorStyles();
 		}
 
 	};

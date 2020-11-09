@@ -16,6 +16,7 @@
 #include "mvCore.h"
 #include "mvAppItemState.h"
 #include "mvAppItemDescription.h"
+#include "mvAppItemStyleManager.h"
 
 //-----------------------------------------------------------------------------
 // Helper Macro
@@ -57,12 +58,6 @@ namespace Marvel {
     class mvAppItem
     {
 
-        struct StyleColor
-        {
-            ImGuiCol idx;
-            mvColor color;
-        };
-
     public:
 
         mvAppItem(const std::string& name);
@@ -88,10 +83,7 @@ namespace Marvel {
         virtual void                        getExtraConfigDict(PyObject* dict) {}
 
         // color styles for runtime
-        void                                addColorStyle  (ImGuiCol item, mvColor color);
-        void                                pushColorStyles();
-        void                                popColorStyles ();
-        void                                clearColors    ();
+        mvAppItemStyleManager&              getStyleManager() { return m_styleManager; }
 
         // runtime modifications
         bool                                addRuntimeChild       (const std::string& parent, const std::string& before, mvAppItem* item);
@@ -143,6 +135,7 @@ namespace Marvel {
     protected:
 
         mvAppItemState          m_state;
+        mvAppItemStyleManager   m_styleManager;
         std::string             m_dataSource;
         std::string             m_name;
         std::string             m_label;
@@ -156,7 +149,6 @@ namespace Marvel {
         bool                    m_enabled              = true;
         mvAppItem*              m_parent               = nullptr;
         std::vector<mvAppItem*> m_children;
-        std::vector<StyleColor> m_colors;
         mvAppItemDescription    m_description;
     };
 }

@@ -70,9 +70,9 @@ namespace Marvel {
 				if (item->getWidth() != 0)
 					ImGui::SetNextItemWidth((float)item->getWidth());
 
-				item->pushColorStyles();
+				//item->pushColorStyles();
 				item->draw();
-				item->popColorStyles();
+				//item->popColorStyles();
 				
 				item->getState().update();
 

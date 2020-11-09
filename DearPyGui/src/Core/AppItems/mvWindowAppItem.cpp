@@ -125,7 +125,7 @@ namespace Marvel {
 			}
 
 
-			pushColorStyles();
+			auto styleManager = m_styleManager.getScopedStyleManager();
 			ImGui::PushID(this);
 
 			if (!ImGui::Begin(m_label.c_str(), m_noclose ? nullptr : &m_show, m_windowflags))
@@ -151,9 +151,9 @@ namespace Marvel {
 				if (item->getWidth() != 0)
 					ImGui::SetNextItemWidth((float)item->getWidth());
 
-				item->pushColorStyles();
+				//item->pushColorStyles();
 				item->draw();
-				item->popColorStyles();
+				//item->popColorStyles();
 
 				item->getState().update();
 
@@ -199,7 +199,6 @@ namespace Marvel {
 
 			ImGui::End();
 			ImGui::PopID();
-			popColorStyles();
 		}
 
 		void mvWindowAppitem::setExtraConfigDict(PyObject* dict)

@@ -38,7 +38,7 @@ namespace Marvel {
 
 		void draw() override
 		{
-			pushColorStyles();
+			auto styleManager = m_styleManager.getScopedStyleManager();
 
 			if (ImGui::BeginMenuBar())
 			{
@@ -59,7 +59,6 @@ namespace Marvel {
 				ImGui::EndMenuBar();
 			}
 
-			popColorStyles();
 		}
 
 	};
@@ -82,7 +81,7 @@ namespace Marvel {
 
 		void draw() override
 		{
-			pushColorStyles();
+			auto styleManager = m_styleManager.getScopedStyleManager();
 			ImGui::PushID(this);
 
 			// create menu and see if its selected
@@ -125,7 +124,6 @@ namespace Marvel {
 			}
 
 			ImGui::PopID();
-			popColorStyles();
 		}
 
 		void setExtraConfigDict(PyObject* dict) override
@@ -166,7 +164,7 @@ namespace Marvel {
 
 		void draw() override
 		{
-			pushColorStyles();
+			auto styleManager = m_styleManager.getScopedStyleManager();
 			ImGui::PushID(this);
 
 			// create menuitem and see if its selected
@@ -188,7 +186,6 @@ namespace Marvel {
 			}
 
 			ImGui::PopID();
-			popColorStyles();
 		}
 
 		void setExtraConfigDict(PyObject* dict) override
