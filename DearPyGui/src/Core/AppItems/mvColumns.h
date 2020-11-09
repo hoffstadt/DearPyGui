@@ -34,7 +34,7 @@ namespace Marvel {
 
 			for (int i = 0; i < m_columns; i++)
 				m_widths.push_back(0);
-			m_container = true;
+			m_description.container = true;
 		}
 
 		void setColumnWidth(int i, float width)

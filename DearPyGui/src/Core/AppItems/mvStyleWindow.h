@@ -14,9 +14,8 @@ namespace Marvel {
 		mvStyleWindow(const std::string& name) 
 			: mvBaseWindowAppitem(name) 
 		{
+			m_description.deleteAllowed = false;
 		}
-
-		bool canBeDeleted() const override { return false; }
 
 		void draw() override;
 

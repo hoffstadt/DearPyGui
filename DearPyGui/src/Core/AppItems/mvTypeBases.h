@@ -564,9 +564,8 @@ namespace Marvel {
 		mvBaseWindowAppitem(const std::string& name)
 			: mvAppItem(name), mvEventHandler()
 		{
+			m_description.root = true;
 		}
-
-		bool isARoot() const override { return true; }
 
 		void addFlag(ImGuiWindowFlags flag) { m_windowflags |= flag; }
 		void removeFlag(ImGuiWindowFlags flag) { m_windowflags &= ~flag; }
