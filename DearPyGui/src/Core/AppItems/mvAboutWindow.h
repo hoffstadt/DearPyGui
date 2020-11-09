@@ -15,9 +15,8 @@ namespace Marvel {
 			: mvBaseWindowAppitem(name)
 		{
 			m_windowflags = ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_NoSavedSettings;
+			m_description.deleteAllowed = false;
 		}
-
-		bool canBeDeleted() const override { return false; }
 
 		void draw() override
 		{

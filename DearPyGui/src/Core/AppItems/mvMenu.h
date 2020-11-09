@@ -27,7 +27,7 @@ namespace Marvel {
 		explicit mvMenuBar(const std::string& name)
 			: mvBoolPtrBase(name, true, name)
 		{
-			m_container = true;
+			m_description.container = true;
 			
 			// TODO use code below to set item height when font and scale systems are done
 			//float FontSize = ImGui::GetFontSize(); // = Base Font Size * Current Window Scale
@@ -77,7 +77,7 @@ namespace Marvel {
 		mvMenu( const std::string& name)
 			: mvBoolPtrBase(name, false, name), mvEventHandler()
 		{
-			m_container = true;
+			m_description.container = true;
 		}
 
 		void draw() override

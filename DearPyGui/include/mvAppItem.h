@@ -15,6 +15,7 @@
 #include <imgui.h>
 #include "mvCore.h"
 #include "mvAppItemState.h"
+#include "mvAppItemDescription.h"
 
 //-----------------------------------------------------------------------------
 // Helper Macro
@@ -78,9 +79,6 @@ namespace Marvel {
 
         // virtual methods
         virtual std::string                 getParserCommand     () const { return "no_command_set"; }
-        [[nodiscard]] virtual bool          areDuplicatesAllowed () const { return false; }
-        [[nodiscard]] virtual bool          canBeDeleted         () const { return true; }
-        [[nodiscard]] virtual bool          isARoot              () const { return false; }
 
         // configuration get/set
         void                                checkConfigDict   (PyObject* dict);
@@ -121,9 +119,9 @@ namespace Marvel {
         [[nodiscard]] int                   getWidth                  () const { return m_width; }
         [[nodiscard]] int                   getHeight                 () const { return m_height; }
         [[nodiscard]] bool                  isShown                   () const { return m_show; }
-        [[nodiscard]] bool                  isContainer               () const { return m_container; }
         [[nodiscard]] bool                  isItemEnabled             () const { return m_enabled; }
         mvAppItemState&                     getState                  ()       { return m_state; }
+        const mvAppItemDescription&         getDescription            () const { return m_description; }
 
         // setters
         void                                setParent                 (mvAppItem* parent);
@@ -155,10 +153,10 @@ namespace Marvel {
         int                     m_width  = 0;
         int                     m_height = 0;
         bool                    m_show                 = true; // determines whether to attempt rendering
-        bool                    m_container            = false;
         bool                    m_enabled              = true;
         mvAppItem*              m_parent               = nullptr;
         std::vector<mvAppItem*> m_children;
         std::vector<StyleColor> m_colors;
+        mvAppItemDescription    m_description;
     };
 }

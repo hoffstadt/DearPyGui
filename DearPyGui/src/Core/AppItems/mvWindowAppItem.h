@@ -23,7 +23,6 @@ namespace Marvel {
 
 		mvWindowAppitem(const std::string& name, bool mainWindow, PyObject* closing_callback);
 
-		bool   isARoot              () const override       { return true; }
 		void   addMenuBar           () { m_hasMenuBar = true; }
 		void   addFlag              (ImGuiWindowFlags flag) { m_windowflags |= flag; }
 		void   removeFlag           (ImGuiWindowFlags flag) { m_windowflags &= ~flag; }

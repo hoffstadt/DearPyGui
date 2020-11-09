@@ -29,7 +29,7 @@ namespace Marvel {
 		mvChild(const std::string& name)
 			: mvBoolPtrBase(name, false, name), mvEventHandler()
 		{
-			m_container = true;
+			m_description.container = true;
 		}
 
 		void addFlag   (ImGuiWindowFlags flag) { m_windowflags |= flag; }
@@ -139,7 +139,7 @@ namespace Marvel {
 		mvGroup(const std::string& name)
 			: mvAppItem(name)
 		{
-			m_container = true;
+			m_description.container = true;
 		}
 
 		void draw() override
@@ -223,7 +223,7 @@ namespace Marvel {
 		mvCollapsingHeader(const std::string& name)
 			: mvBoolPtrBase(name, true, name)
 		{
-			m_container = true;
+			m_description.container = true;
 		}
 
 		void draw() override
@@ -337,7 +337,7 @@ namespace Marvel {
 		mvTreeNode(const std::string& name)
 			: mvBoolPtrBase(name, false, name)
 		{
-			m_container = true;
+			m_description.container = true;
 		}
 
 		void draw() override
