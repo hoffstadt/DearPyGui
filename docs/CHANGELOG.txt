@@ -33,6 +33,7 @@ Updates:
 
 New Commands:
 - Plots: Added "add_stair_series" command
+- Plots: Added "add_candle_series" command
 
 -----------------------------------------------------------------------
  VERSION 0.5.66

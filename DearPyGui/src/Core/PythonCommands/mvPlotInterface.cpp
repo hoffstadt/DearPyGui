@@ -235,6 +235,18 @@ namespace Marvel {
 			{mvPythonDataType::Bool, "update_bounds", "update plot bounds", "True"},
 		}, "Adds a shade series to a plot.", "None", "Plotting") });
 
+		parsers->insert({ "add_candle_series", mvPythonParser({
+			{mvPythonDataType::String, "plot"},
+			{mvPythonDataType::String, "name"},
+			{mvPythonDataType::ListFloatList, "data"},
+			{mvPythonDataType::KeywordOnly},
+			{mvPythonDataType::Bool, "tooltip", "", "True"},
+			{mvPythonDataType::FloatList, "bull_color", "", "(0, 255, 113, 255)"},
+			{mvPythonDataType::FloatList, "bear_color", "", "(218, 13, 79, 255)"},
+			{mvPythonDataType::Float, "weight", "", "0.25"},
+			{mvPythonDataType::Bool, "update_bounds", "update plot bounds", "True"},
+		}, "Adds a candle series to a plot.", "None", "Plotting") });
+
 		parsers->insert({ "add_scatter_series", mvPythonParser({
 			{mvPythonDataType::String, "plot"},
 			{mvPythonDataType::String, "name"},
@@ -1403,6 +1415,87 @@ namespace Marvel {
 			return GetPyNone();
 
 		auto series = new mvShadeSeries(name, datapoints, mcolor, mfill);
+		series->setWeight(weight);
+		graph->updateSeries(series, update_bounds);
+
+		return GetPyNone();
+	}
+
+	PyObject* add_candle_series(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		const char* plot;
+		const char* name;
+		PyObject* data;
+		int tooltip = true;
+		
+		PyObject* bull_color = PyTuple_New(4);
+		PyTuple_SetItem(bull_color, 0, PyLong_FromLong(0));
+		PyTuple_SetItem(bull_color, 1, PyLong_FromLong(255));
+		PyTuple_SetItem(bull_color, 2, PyLong_FromLong(113));
+		PyTuple_SetItem(bull_color, 3, PyLong_FromLong(255));
+
+		PyObject* bear_color = PyTuple_New(4);
+		PyTuple_SetItem(bear_color, 0, PyLong_FromLong(218));
+		PyTuple_SetItem(bear_color, 1, PyLong_FromLong(13));
+		PyTuple_SetItem(bear_color, 2, PyLong_FromLong(79));
+		PyTuple_SetItem(bear_color, 3, PyLong_FromLong(255));
+		float weight = 0.25f;
+		int update_bounds = true;
+
+		if (!(*mvApp::GetApp()->getParsers())["add_candle_series"].parse(args, kwargs, __FUNCTION__,
+			&plot, &name, &data, &tooltip, *bull_color, &bear_color, &weight, &update_bounds))
+			return GetPyNone();
+
+		if (!PyList_Check(data))
+		{
+			std::string message = plot;
+			ThrowPythonException(message + " add candle series requires a list of lists.");
+			return GetPyNone();
+		}
+
+		mvAppItem* aplot = mvApp::GetApp()->getItemRegistry().getItem(plot);
+
+		if (aplot == nullptr)
+		{
+			std::string message = plot;
+			ThrowPythonException(message + " plot does not exist.");
+			return GetPyNone();
+		}
+
+		if (aplot->getType() != mvAppItemType::Plot)
+		{
+			std::string message = plot;
+			ThrowPythonException(message + " is not a plot.");
+			return GetPyNone();
+		}
+
+		mvPlot* graph = static_cast<mvPlot*>(aplot);
+
+		auto datapoints = ToVectVectFloat(data);
+
+		std::vector<float> dates;
+		std::vector<float> opens;
+		std::vector<float> highs;
+		std::vector<float> lows;
+		std::vector<float> closes;
+
+		for (auto& item : datapoints)
+		{
+			dates.push_back(item[0]);
+			opens.push_back(item[1]);
+			highs.push_back(item[2]);
+			lows.push_back(item[3]);
+			closes.push_back(item[4]);
+		}
+
+		auto mbull = ToColor(bull_color);
+		auto mbear = ToColor(bear_color);
+
+		if (datapoints.size() == 0)
+			return GetPyNone();
+
+		auto series = new mvCandleSeries(name, dates, opens, highs, lows, closes,
+			weight, mbull, mbear);
 		series->setWeight(weight);
 		graph->updateSeries(series, update_bounds);
 

@@ -20,7 +20,7 @@ namespace Marvel {
 		{
 		}
 
-		mvSeriesType getSeriesType() override { return mvSeriesType::Line; }
+		mvSeriesType getSeriesType() override { return mvSeriesType::Stair; }
 
 		void draw() override
 		{
