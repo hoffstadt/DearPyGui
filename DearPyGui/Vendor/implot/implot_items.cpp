@@ -60,9 +60,9 @@ ImPlotItem* RegisterOrGetItem(const char* label_id, bool* just_created) {
     int idx = gp.CurrentPlot->Items.GetIndex(item);
     item->ID = id;
     if (ImGui::FindRenderedTextEnd(label_id, NULL) != label_id) {
-        gp.LegendIndices.push_back(idx);
-        item->NameOffset = gp.LegendLabels.size();
-        gp.LegendLabels.append(label_id, label_id + strlen(label_id) + 1);
+        gp.CurrentPlot->LegendData.Indices.push_back(idx);
+        item->NameOffset = gp.CurrentPlot->LegendData.Labels.size();
+        gp.CurrentPlot->LegendData.Labels.append(label_id, label_id + strlen(label_id) + 1);
     }
     else {
         item->Show = true;
@@ -72,24 +72,10 @@ ImPlotItem* RegisterOrGetItem(const char* label_id, bool* just_created) {
     return item;
 }
 
-ImPlotItem* GetItem(int i) {
-    ImPlotContext& gp = *GImPlot;
-    return gp.CurrentPlot->Items.GetByIndex(gp.LegendIndices[i]);
-}
-
 ImPlotItem* GetItem(const char* label_id) {
     ImPlotContext& gp = *GImPlot;
     ImGuiID id = ImGui::GetID(label_id);
     return gp.CurrentPlot->Items.GetByKey(id);
-}
-
-ImPlotItem* GetItem(const char* plot_title, const char* item_label_id) {
-    ImPlotPlot* plot = GetPlot(plot_title);
-    if (plot) {
-        ImGuiID id = ImGui::GetID(item_label_id);
-        return plot->Items.GetByKey(id);
-    }
-    return NULL;
 }
 
 ImPlotItem* GetCurrentItem() {
@@ -145,6 +131,7 @@ void BustItemCache() {
         ImPlotPlot& plot = *gp.Plots.GetByIndex(p);
         plot.ColormapIdx = 0;
         plot.Items.Clear();
+        plot.LegendData.Reset();
     }
 }
 
@@ -469,6 +456,32 @@ inline void AddLine(const ImVec2& P1, const ImVec2& P2, float weight, ImU32 col,
     DrawList._VtxCurrentIdx += 4;
 }
 
+inline void AddRectFilled(const ImVec2& Pmin, const ImVec2& Pmax, ImU32 col, ImDrawList& DrawList, ImVec2 uv) {
+    DrawList._VtxWritePtr[0].pos   = Pmin;
+    DrawList._VtxWritePtr[0].uv    = uv;
+    DrawList._VtxWritePtr[0].col   = col;
+    DrawList._VtxWritePtr[1].pos   = Pmax;
+    DrawList._VtxWritePtr[1].uv    = uv;
+    DrawList._VtxWritePtr[1].col   = col;
+    DrawList._VtxWritePtr[2].pos.x = Pmin.x;
+    DrawList._VtxWritePtr[2].pos.y = Pmax.y;
+    DrawList._VtxWritePtr[2].uv    = uv;
+    DrawList._VtxWritePtr[2].col   = col;
+    DrawList._VtxWritePtr[3].pos.x = Pmax.x;
+    DrawList._VtxWritePtr[3].pos.y = Pmin.y;
+    DrawList._VtxWritePtr[3].uv    = uv;
+    DrawList._VtxWritePtr[3].col   = col;
+    DrawList._VtxWritePtr += 4;
+    DrawList._IdxWritePtr[0] = (ImDrawIdx)(DrawList._VtxCurrentIdx);
+    DrawList._IdxWritePtr[1] = (ImDrawIdx)(DrawList._VtxCurrentIdx + 1);
+    DrawList._IdxWritePtr[2] = (ImDrawIdx)(DrawList._VtxCurrentIdx + 2);
+    DrawList._IdxWritePtr[3] = (ImDrawIdx)(DrawList._VtxCurrentIdx);
+    DrawList._IdxWritePtr[4] = (ImDrawIdx)(DrawList._VtxCurrentIdx + 1);
+    DrawList._IdxWritePtr[5] = (ImDrawIdx)(DrawList._VtxCurrentIdx + 3);
+    DrawList._IdxWritePtr += 6;
+    DrawList._VtxCurrentIdx += 4;
+}
+
 template <typename TGetter, typename TTransformer>
 struct LineStripRenderer {
     inline LineStripRenderer(const TGetter& getter, const TTransformer& transformer, ImU32 col, float weight) :
@@ -498,6 +511,41 @@ struct LineStripRenderer {
     mutable ImVec2 P1;
     static const int IdxConsumed = 6;
     static const int VtxConsumed = 4;
+};
+
+template <typename TGetter, typename TTransformer>
+struct StairsRenderer {
+    inline StairsRenderer(const TGetter& getter, const TTransformer& transformer, ImU32 col, float weight) :
+        Getter(getter),
+        Transformer(transformer),
+        Prims(Getter.Count - 1),
+        Col(col),
+        HalfWeight(weight * 0.5f)
+    {
+        P1 = Transformer(Getter(0));
+    }
+    inline bool operator()(ImDrawList& DrawList, const ImRect& cull_rect, const ImVec2& uv, int prim) const {
+        ImVec2 P2 = Transformer(Getter(prim + 1));
+        if (!cull_rect.Overlaps(ImRect(ImMin(P1, P2), ImMax(P1, P2)))) {
+            P1 = P2;
+            return false;
+        }
+        AddRectFilled(ImVec2(P1.x, P1.y + HalfWeight), ImVec2(P2.x, P1.y - HalfWeight), Col, DrawList, uv);
+        AddRectFilled(ImVec2(P2.x - HalfWeight, P2.y), ImVec2(P2.x + HalfWeight, P1.y), Col, DrawList, uv);
+
+        // AddLine(P1, P12, Weight, Col, DrawList, uv);
+        // AddLine(P12, P2, Weight, Col, DrawList, uv);
+        P1 = P2;
+        return true;
+    }
+    const TGetter& Getter;
+    const TTransformer& Transformer;
+    const int Prims;
+    const ImU32 Col;
+    const float HalfWeight;
+    mutable ImVec2 P1;
+    static const int IdxConsumed = 12;
+    static const int VtxConsumed = 8;
 };
 
 template <typename TGetter1, typename TGetter2, typename TTransformer>
@@ -706,6 +754,26 @@ inline void RenderLineSegments(const Getter1& getter1, const Getter2& getter2, c
     }
     else {
         RenderPrimitives(LineSegmentsRenderer<Getter1,Getter2,Transformer>(getter1, getter2, transformer, col, line_weight), DrawList, gp.BB_Plot);
+    }
+}
+
+template <typename Getter, typename Transformer>
+inline void RenderStairs(const Getter& getter, const Transformer& transformer, ImDrawList& DrawList, float line_weight, ImU32 col) {
+    ImPlotContext& gp = *GImPlot;
+    if (ImHasFlag(gp.CurrentPlot->Flags, ImPlotFlags_AntiAliased) || gp.Style.AntiAliasedLines) {
+        ImVec2 p1 = transformer(getter(0));
+        for (int i = 1; i < getter.Count; ++i) {
+            ImVec2 p2 = transformer(getter(i));
+            if (gp.BB_Plot.Overlaps(ImRect(ImMin(p1, p2), ImMax(p1, p2)))) {
+                ImVec2 p12(p2.x, p1.y);
+                DrawList.AddLine(p1, p12, col, line_weight);
+                DrawList.AddLine(p12, p2, col, line_weight);
+            }
+            p1 = p2;
+        }
+    }
+    else {
+        RenderPrimitives(StairsRenderer<Getter,Transformer>(getter, transformer, col, line_weight), DrawList, gp.BB_Plot);
     }
 }
 
@@ -966,6 +1034,85 @@ template IMPLOT_API void PlotScatter<double>(const char* label_id, const double*
 void PlotScatterG(const char* label_id, ImPlotPoint (*getter_func)(void* data, int idx), void* data, int count, int offset) {
     GetterFuncPtr getter(getter_func,data, count, offset);
     return PlotScatterEx(label_id, getter);
+}
+
+//-----------------------------------------------------------------------------
+// PLOT STAIRS
+//-----------------------------------------------------------------------------
+
+template <typename Getter>
+inline void PlotStairsEx(const char* label_id, const Getter& getter) {
+    if (BeginItem(label_id, ImPlotCol_Line)) {
+        if (FitThisFrame()) {
+            for (int i = 0; i < getter.Count; ++i) {
+                ImPlotPoint p = getter(i);
+                FitPoint(p);
+            }
+        }
+        const ImPlotNextItemData& s = GetItemData();
+        ImDrawList& DrawList = *GetPlotDrawList();
+        if (getter.Count > 1 && s.RenderLine) {
+            const ImU32 col_line    = ImGui::GetColorU32(s.Colors[ImPlotCol_Line]);
+            switch (GetCurrentScale()) {
+                case ImPlotScale_LinLin: RenderStairs(getter, TransformerLinLin(), DrawList, s.LineWeight, col_line); break;
+                case ImPlotScale_LogLin: RenderStairs(getter, TransformerLogLin(), DrawList, s.LineWeight, col_line); break;
+                case ImPlotScale_LinLog: RenderStairs(getter, TransformerLinLog(), DrawList, s.LineWeight, col_line); break;
+                case ImPlotScale_LogLog: RenderStairs(getter, TransformerLogLog(), DrawList, s.LineWeight, col_line); break;
+            }
+        }
+        // render markers
+        if (s.Marker != ImPlotMarker_None) {
+            const ImU32 col_line = ImGui::GetColorU32(s.Colors[ImPlotCol_MarkerOutline]);
+            const ImU32 col_fill = ImGui::GetColorU32(s.Colors[ImPlotCol_MarkerFill]);
+            switch (GetCurrentScale()) {
+                case ImPlotScale_LinLin: RenderMarkers(getter, TransformerLinLin(), DrawList, s.Marker, s.MarkerSize, s.RenderMarkerLine, col_line, s.MarkerWeight, s.RenderMarkerFill, col_fill); break;
+                case ImPlotScale_LogLin: RenderMarkers(getter, TransformerLogLin(), DrawList, s.Marker, s.MarkerSize, s.RenderMarkerLine, col_line, s.MarkerWeight, s.RenderMarkerFill, col_fill); break;
+                case ImPlotScale_LinLog: RenderMarkers(getter, TransformerLinLog(), DrawList, s.Marker, s.MarkerSize, s.RenderMarkerLine, col_line, s.MarkerWeight, s.RenderMarkerFill, col_fill); break;
+                case ImPlotScale_LogLog: RenderMarkers(getter, TransformerLogLog(), DrawList, s.Marker, s.MarkerSize, s.RenderMarkerLine, col_line, s.MarkerWeight, s.RenderMarkerFill, col_fill); break;
+            }
+        }
+        EndItem();
+    }
+}
+
+template <typename T>
+void PlotStairs(const char* label_id, const T* values, int count, double xscale, double x0, int offset, int stride) {
+    GetterYs<T> getter(values,count,xscale,x0,offset,stride);
+    PlotStairsEx(label_id, getter);
+}
+
+template IMPLOT_API void PlotStairs<ImS8> (const char* label_id, const ImS8* values, int count, double xscale, double x0, int offset, int stride);
+template IMPLOT_API void PlotStairs<ImU8> (const char* label_id, const ImU8* values, int count, double xscale, double x0, int offset, int stride);
+template IMPLOT_API void PlotStairs<ImS16>(const char* label_id, const ImS16* values, int count, double xscale, double x0, int offset, int stride);
+template IMPLOT_API void PlotStairs<ImU16>(const char* label_id, const ImU16* values, int count, double xscale, double x0, int offset, int stride);
+template IMPLOT_API void PlotStairs<ImS32>(const char* label_id, const ImS32* values, int count, double xscale, double x0, int offset, int stride);
+template IMPLOT_API void PlotStairs<ImU32>(const char* label_id, const ImU32* values, int count, double xscale, double x0, int offset, int stride);
+template IMPLOT_API void PlotStairs<ImS64>(const char* label_id, const ImS64* values, int count, double xscale, double x0, int offset, int stride);
+template IMPLOT_API void PlotStairs<ImU64>(const char* label_id, const ImU64* values, int count, double xscale, double x0, int offset, int stride);
+template IMPLOT_API void PlotStairs<float>(const char* label_id, const float* values, int count, double xscale, double x0, int offset, int stride);
+template IMPLOT_API void PlotStairs<double>(const char* label_id, const double* values, int count, double xscale, double x0, int offset, int stride);
+
+template <typename T>
+void PlotStairs(const char* label_id, const T* xs, const T* ys, int count, int offset, int stride) {
+    GetterXsYs<T> getter(xs,ys,count,offset,stride);
+    return PlotStairsEx(label_id, getter);
+}
+
+template IMPLOT_API void PlotStairs<ImS8>(const char* label_id, const ImS8* xs, const ImS8* ys, int count, int offset, int stride);
+template IMPLOT_API void PlotStairs<ImU8>(const char* label_id, const ImU8* xs, const ImU8* ys, int count, int offset, int stride);
+template IMPLOT_API void PlotStairs<ImS16>(const char* label_id, const ImS16* xs, const ImS16* ys, int count, int offset, int stride);
+template IMPLOT_API void PlotStairs<ImU16>(const char* label_id, const ImU16* xs, const ImU16* ys, int count, int offset, int stride);
+template IMPLOT_API void PlotStairs<ImS32>(const char* label_id, const ImS32* xs, const ImS32* ys, int count, int offset, int stride);
+template IMPLOT_API void PlotStairs<ImU32>(const char* label_id, const ImU32* xs, const ImU32* ys, int count, int offset, int stride);
+template IMPLOT_API void PlotStairs<ImS64>(const char* label_id, const ImS64* xs, const ImS64* ys, int count, int offset, int stride);
+template IMPLOT_API void PlotStairs<ImU64>(const char* label_id, const ImU64* xs, const ImU64* ys, int count, int offset, int stride);
+template IMPLOT_API void PlotStairs<float>(const char* label_id, const float* xs, const float* ys, int count, int offset, int stride);
+template IMPLOT_API void PlotStairs<double>(const char* label_id, const double* xs, const double* ys, int count, int offset, int stride);
+
+// custom
+void PlotStairsG(const char* label_id, ImPlotPoint (*getter_func)(void* data, int idx), void* data, int count, int offset) {
+    GetterFuncPtr getter(getter_func,data, count, offset);
+    return PlotStairsEx(label_id, getter);
 }
 
 //-----------------------------------------------------------------------------
@@ -1754,6 +1901,15 @@ void PlotText(const char* text, double x, double y, bool vertical, const ImVec2&
         DrawList.AddText(pos, colTxt, text);
     }
     PopPlotClipRect();
+}
+
+//-----------------------------------------------------------------------------
+// PLOT DUMMY
+//-----------------------------------------------------------------------------
+
+void PlotDummy(const char* label_id) {
+    if (BeginItem(label_id, ImPlotCol_Line))
+        EndItem();
 }
 
 } // namespace ImPlot
