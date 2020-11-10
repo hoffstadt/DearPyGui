@@ -32,7 +32,7 @@ namespace Marvel {
 		void draw() override
 		{
 			auto styleManager = m_styleManager.getScopedStyleManager();
-			ImGui::PushID(this);
+			ScopedID id;
 
 			ImPlot::GetStyle().Use24HourClock = m_hour24;
 
@@ -42,7 +42,6 @@ namespace Marvel {
 				mvApp::GetApp()->addCallback(m_callback, m_name, m_callbackData);
 			}
 
-			ImGui::PopID();
 		}
 
 		void setExtraConfigDict(PyObject* dict) override

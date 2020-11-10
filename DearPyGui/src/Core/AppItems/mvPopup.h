@@ -25,8 +25,6 @@ namespace Marvel {
 			: mvBoolPtrBase(name, false, name), mvEventHandler(), m_parentAddress(parentAddress)
 		{
 			m_description.container = true;
-			//if (m_parent)
-				//m_parent->setPopup(name);
 		}
 
 		void closePopup() { m_close = true; }
@@ -35,7 +33,7 @@ namespace Marvel {
 		{
 
 			auto styleManager = m_styleManager.getScopedStyleManager();
-			ImGui::PushID(m_parentAddress);
+			ScopedID id(m_parentAddress);
 
 			if (m_modal)
 			{
@@ -61,9 +59,7 @@ namespace Marvel {
 						if (item->getWidth() != 0)
 							ImGui::SetNextItemWidth((float)item->getWidth());
 
-						//item->pushColorStyles();
 						item->draw();
-						//item->popColorStyles();
 
 						item->getState().update();
 					}
@@ -87,9 +83,7 @@ namespace Marvel {
 						if (item->getWidth() > 0)
 							ImGui::SetNextItemWidth((float)item->getWidth());
 
-						//item->pushColorStyles();
 						item->draw();
-						//item->popColorStyles();
 
 						item->getState().update();
 					}
@@ -100,8 +94,6 @@ namespace Marvel {
 					ImGui::EndPopup();
 				}
 			}
-
-			ImGui::PopID();
 		}
 
 		void setExtraConfigDict(PyObject* dict) override
