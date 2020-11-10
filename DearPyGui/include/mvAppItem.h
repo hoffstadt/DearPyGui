@@ -58,6 +58,15 @@ namespace Marvel {
     class mvAppItem
     {
 
+    protected:
+
+            struct ScopedID
+            {
+                ScopedID() { ImGui::PushID(this); }
+                ScopedID(void* id) { ImGui::PushID(id); }
+                ~ScopedID() { ImGui::PopID(); }
+            };
+
     public:
 
         mvAppItem(const std::string& name);

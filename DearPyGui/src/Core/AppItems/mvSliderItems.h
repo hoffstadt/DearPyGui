@@ -42,9 +42,8 @@ namespace Marvel {
 		void setEnabled(bool value) override
 		{
 			if (value)
-			{
 				m_flags = m_stor_flags;
-			}
+
 			else
 			{
 				m_stor_flags = m_flags;
@@ -57,7 +56,7 @@ namespace Marvel {
 		void draw() override
 		{
 			auto styleManager = m_styleManager.getScopedStyleManager();
-			ImGui::PushID(this);
+			ScopedID id;
 
 			if (!m_enabled)
 			{
@@ -97,7 +96,6 @@ namespace Marvel {
 					ImGui::SetTooltip("%s", getTip().c_str());
 			}
 
-			ImGui::PopID();
 			if (!m_enabled) ImGui::PopStyleColor(7);
 		}
 
@@ -175,9 +173,8 @@ namespace Marvel {
 		void setEnabled(bool value) override
 		{
 			if (value)
-			{
 				m_flags = m_stor_flags;
-			}
+
 			else
 			{
 				m_stor_flags = m_flags;
@@ -190,7 +187,7 @@ namespace Marvel {
 		void draw() override
 		{
 			auto styleManager = m_styleManager.getScopedStyleManager();
-			ImGui::PushID(this);
+			ScopedID id;
 
 			if (!m_enabled)
 			{
@@ -230,7 +227,6 @@ namespace Marvel {
 					ImGui::SetTooltip("%s", getTip().c_str());
 			}
 
-			ImGui::PopID();
 			if (!m_enabled) ImGui::PopStyleColor(7);
 		}
 
@@ -308,9 +304,8 @@ namespace Marvel {
 		void setEnabled(bool value) override
 		{
 			if (value)
-			{
 				m_flags = m_stor_flags;
-			}
+
 			else
 			{
 				m_stor_flags = m_flags;
@@ -323,7 +318,7 @@ namespace Marvel {
 		void draw() override
 		{
 			auto styleManager = m_styleManager.getScopedStyleManager();
-			ImGui::PushID(this);
+			ScopedID id;
 
 			if (!m_enabled)
 			{
@@ -346,7 +341,6 @@ namespace Marvel {
 			if (!getTip().empty() && ImGui::IsItemHovered())
 				ImGui::SetTooltip("%s", getTip().c_str());
 
-			ImGui::PopID();
 			if (!m_enabled) ImGui::PopStyleColor(7);
 		}
 
@@ -421,9 +415,8 @@ namespace Marvel {
 		void setEnabled(bool value) override
 		{
 			if (value)
-			{
 				m_flags = m_stor_flags;
-			}
+
 			else
 			{
 				m_stor_flags = m_flags;
@@ -436,7 +429,7 @@ namespace Marvel {
 		void draw() override
 		{
 			auto styleManager = m_styleManager.getScopedStyleManager();
-			ImGui::PushID(this);
+			ScopedID id;
 
 			if (!m_enabled)
 			{
@@ -459,7 +452,6 @@ namespace Marvel {
 			if (!getTip().empty() && ImGui::IsItemHovered())
 				ImGui::SetTooltip("%s", getTip().c_str());
 
-			ImGui::PopID();
 			if (!m_enabled) ImGui::PopStyleColor(7);
 		}
 
@@ -533,9 +525,8 @@ namespace Marvel {
 		void setEnabled(bool value) override
 		{
 			if (value)
-			{
 				m_flags = m_stor_flags;
-			}
+
 			else
 			{
 				m_stor_flags = m_flags;
@@ -548,7 +539,7 @@ namespace Marvel {
 		void draw() override
 		{
 			auto styleManager = m_styleManager.getScopedStyleManager();
-			ImGui::PushID(this);
+			ScopedID id;
 
 			if (!m_enabled)
 			{
@@ -571,7 +562,6 @@ namespace Marvel {
 			if (!getTip().empty() && ImGui::IsItemHovered())
 				ImGui::SetTooltip("%s", getTip().c_str());
 
-			ImGui::PopID();
 			if (!m_enabled) ImGui::PopStyleColor(7);
 		}
 
@@ -646,9 +636,8 @@ namespace Marvel {
 		void setEnabled(bool value) override
 		{
 			if (value)
-			{
 				m_flags = m_stor_flags;
-			}
+
 			else
 			{
 				m_stor_flags = m_flags;
@@ -661,7 +650,7 @@ namespace Marvel {
 		void draw() override
 		{
 			auto styleManager = m_styleManager.getScopedStyleManager();
-			ImGui::PushID(this);
+			ScopedID id;
 
 			if (!m_enabled)
 			{
@@ -684,7 +673,6 @@ namespace Marvel {
 			if (!getTip().empty() && ImGui::IsItemHovered())
 				ImGui::SetTooltip("%s", getTip().c_str());
 
-			ImGui::PopID();
 			if (!m_enabled) ImGui::PopStyleColor(7);
 		}
 
@@ -759,9 +747,8 @@ namespace Marvel {
 		void setEnabled(bool value) override
 		{
 			if (value)
-			{
 				m_flags = m_stor_flags;
-			}
+
 			else
 			{
 				m_stor_flags = m_flags;
@@ -774,7 +761,7 @@ namespace Marvel {
 		void draw() override
 		{
 			auto styleManager = m_styleManager.getScopedStyleManager();
-			ImGui::PushID(this);
+			ScopedID id;
 
 			if (!m_enabled)
 			{
@@ -797,7 +784,6 @@ namespace Marvel {
 			if (!getTip().empty() && ImGui::IsItemHovered())
 				ImGui::SetTooltip("%s", getTip().c_str());
 
-			ImGui::PopID();
 			if (!m_enabled) ImGui::PopStyleColor(7);
 		}
 
@@ -872,9 +858,8 @@ namespace Marvel {
 		void setEnabled(bool value) override
 		{
 			if (value)
-			{
 				m_flags = m_stor_flags;
-			}
+
 			else
 			{
 				m_stor_flags = m_flags;
@@ -887,7 +872,7 @@ namespace Marvel {
 		void draw() override
 		{
 			auto styleManager = m_styleManager.getScopedStyleManager();
-			ImGui::PushID(this);
+			ScopedID id;
 
 			if (!m_enabled)
 			{
@@ -910,7 +895,6 @@ namespace Marvel {
 			if (!getTip().empty() && ImGui::IsItemHovered())
 				ImGui::SetTooltip("%s", getTip().c_str());
 
-			ImGui::PopID();
 			if (!m_enabled) ImGui::PopStyleColor(7);
 		}
 

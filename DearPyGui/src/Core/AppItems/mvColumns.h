@@ -58,7 +58,8 @@ namespace Marvel {
 		void draw() override
 		{
 			m_previousColCount = ImGui::GetColumnsCount();
-			ImGui::PushID(this);
+			ScopedID id;
+
 			ImGui::Columns(m_columns, m_name.c_str(), m_border);
 			for (mvAppItem* item : m_children)
 			{
@@ -92,8 +93,6 @@ namespace Marvel {
 				m_firstFrame = false;
 			else 
 				m_dirty_widths = false;
-
-			ImGui::PopID();
 
 			ImGui::Columns(m_previousColCount);
 
@@ -163,9 +162,8 @@ namespace Marvel {
 
 		void draw() override
 		{
-			ImGui::PushID(this);
+			ScopedID id;
 			ImGui::Columns(m_columns, m_name.c_str(), m_border);
-			ImGui::PopID();
 		}
 
 		void setExtraConfigDict(PyObject* dict) override

@@ -32,7 +32,7 @@ namespace Marvel {
 		void draw() override
 		{
 			auto styleManager = m_styleManager.getScopedStyleManager();
-			ImGui::PushID(this);
+			ScopedID id;
 
 			if (ImPlot::ShowDatePicker(m_name.c_str(), &m_level, m_imvalue, m_imvalue))
 			{
@@ -40,7 +40,6 @@ namespace Marvel {
 				mvApp::GetApp()->addCallback(m_callback, m_name, m_callbackData);
 			}
 
-			ImGui::PopID();
 		}
 
 		void setExtraConfigDict(PyObject* dict) override

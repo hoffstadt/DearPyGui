@@ -36,7 +36,7 @@ namespace Marvel {
 		void draw() override
 		{
 			auto styleManager = m_styleManager.getScopedStyleManager();
-			ImGui::PushID(this);
+			ScopedID id;
 			ImGui::BeginGroup();
 
 			if (ImGui::BeginTabBar(m_label.c_str(), m_flags))
@@ -51,9 +51,7 @@ namespace Marvel {
 					if (item->getWidth() != 0)
 						ImGui::SetNextItemWidth((float)item->getWidth());
 
-					//item->pushColorStyles();
 					item->draw();
-					//item->popColorStyles();
 
 					item->getState().update();
 				}
@@ -62,7 +60,6 @@ namespace Marvel {
 			}
 
 			ImGui::EndGroup();
-			ImGui::PopID();
 		}
 
 		void setExtraConfigDict(PyObject* dict) override
@@ -123,7 +120,7 @@ namespace Marvel {
 		void draw() override
 		{
 			auto styleManager = m_styleManager.getScopedStyleManager();
-			ImGui::PushID(this);
+			ScopedID id;
 
 			// cast parent to mvTabBar
 			auto parent = (mvTabBar*)m_parent;
@@ -153,8 +150,6 @@ namespace Marvel {
 				// set current tab value true
 				*m_value = true;
 
-				//showAll();
-
 				// run call back if it exists
 				if (parent->getValue() != m_name)
 				{
@@ -177,9 +172,7 @@ namespace Marvel {
 					if (item->getWidth() != 0)
 						ImGui::SetNextItemWidth((float)item->getWidth());
 
-					//item->pushColorStyles();
 					item->draw();
-					//item->popColorStyles();
 
 					item->getState().update();
 				}
@@ -194,7 +187,6 @@ namespace Marvel {
 					ImGui::SetTooltip("%s", getTip().c_str());
 			}
 
-			ImGui::PopID();
 		}
 
 		void setExtraConfigDict(PyObject* dict) override
@@ -267,13 +259,11 @@ namespace Marvel {
 		void draw() override
 		{
 			auto styleManager = m_styleManager.getScopedStyleManager();
-			ImGui::PushID(this);
+			ScopedID id;
 
 			if (ImGui::TabItemButton(m_label.c_str(), m_flags))
 				mvApp::GetApp()->addCallback(getCallback(false), m_name, m_callbackData);
 
-
-			ImGui::PopID();
 		}
 
 		void setExtraConfigDict(PyObject* dict) override

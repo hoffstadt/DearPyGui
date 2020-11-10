@@ -37,9 +37,8 @@ namespace Marvel {
 
 		void draw() override
 		{
-
 			auto styleManager = m_styleManager.getScopedStyleManager();
-			ImGui::PushID(this);
+			ScopedID id;
 
 			ImGui::BeginChild(m_label.c_str(), ImVec2(m_autosize_x ? 0 : (float)m_width, m_autosize_y ? 0 : (float)m_height), m_border, m_windowflags);
 
@@ -53,9 +52,7 @@ namespace Marvel {
 				if (item->getWidth() != 0)
 					ImGui::SetNextItemWidth((float)item->getWidth());
 
-				//item->pushColorStyles();
 				item->draw();
-				//item->popColorStyles();
 
 				item->getState().update();
 			}
@@ -71,7 +68,6 @@ namespace Marvel {
 			m_height = (int)ImGui::GetWindowHeight();
 
 			ImGui::EndChild();
-			ImGui::PopID();
 		}
 
 		void setExtraConfigDict(PyObject* dict) override
@@ -163,9 +159,7 @@ namespace Marvel {
 				if (item->getWidth() != 0)
 					ImGui::SetNextItemWidth((float)item->getWidth());
 
-				//item->pushColorStyles();
 				item->draw();
-				//item->popColorStyles();
 
 				if (m_horizontal)
 					ImGui::SameLine(0.0, m_hspacing);
@@ -227,7 +221,7 @@ namespace Marvel {
 		void draw() override
 		{
 			auto styleManager = m_styleManager.getScopedStyleManager();
-			ImGui::PushID(this);
+			ScopedID id;
 
 			bool* toggle = nullptr;
 			if (m_closable)
@@ -250,9 +244,7 @@ namespace Marvel {
 					if (item->getWidth() != 0)
 						ImGui::SetNextItemWidth((float)item->getWidth());
 
-					//item->pushColorStyles();
 					item->draw();
-					//item->popColorStyles();
 
 					item->getState().update();
 					int a = 5;
@@ -266,7 +258,6 @@ namespace Marvel {
 					ImGui::SetTooltip("%s", getTip().c_str());
 			}
 
-			ImGui::PopID();
 		}
 
 		void setExtraConfigDict(PyObject* dict) override
@@ -340,7 +331,7 @@ namespace Marvel {
 		void draw() override
 		{
 			auto styleManager = m_styleManager.getScopedStyleManager();
-			ImGui::PushID(this);
+			ScopedID id;
 			
 			ImGui::BeginGroup();
 			if (ImGui::TreeNodeEx(m_label.c_str(), m_flags))
@@ -356,9 +347,7 @@ namespace Marvel {
 					if (item->getWidth() != 0)
 						ImGui::SetNextItemWidth((float)item->getWidth());
 
-					//item->pushColorStyles();
 					item->draw();
-					//item->popColorStyles();
 
 					item->getState().update();
 				}
@@ -370,7 +359,6 @@ namespace Marvel {
 				ImGui::SetTooltip("%s", getTip().c_str());
 
 			ImGui::EndGroup();
-			ImGui::PopID();
 		}
 
 		void setExtraConfigDict(PyObject* dict) override
@@ -391,8 +379,6 @@ namespace Marvel {
 			flagop("open_on_arrow",			ImGuiTreeNodeFlags_OpenOnArrow,			m_flags);
 			flagop("leaf",					ImGuiTreeNodeFlags_Leaf,				m_flags);
 			flagop("bullet",				ImGuiTreeNodeFlags_Bullet,				m_flags);
-
-
 		}
 
 		void getExtraConfigDict(PyObject* dict) override
