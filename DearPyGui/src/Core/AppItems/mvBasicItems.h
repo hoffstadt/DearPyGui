@@ -128,50 +128,36 @@ namespace Marvel {
 
 			if (!m_enabled)
 			{
-				ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(ImGui::GetStyleColorVec4(ImGuiCol_TextDisabled)));
 				ImVec4 disabled_color = ImVec4(ImGui::GetStyleColorVec4(ImGuiCol_TextDisabled));
 				disabled_color.w = 0.392f;
-				ImGui::PushStyleColor(ImGuiCol_Button, disabled_color);
-				ImGui::PushStyleColor(ImGuiCol_ButtonHovered, disabled_color);
-				ImGui::PushStyleColor(ImGuiCol_ButtonActive, disabled_color);
+				styleManager.addColorStyle(ImGuiCol_Button, disabled_color);
+				styleManager.addColorStyle(ImGuiCol_ButtonHovered, disabled_color);
+				styleManager.addColorStyle(ImGuiCol_ButtonActive, disabled_color);
+				styleManager.addColorStyle(ImGuiCol_Text, ImVec4(ImGui::GetStyleColorVec4(ImGuiCol_TextDisabled)));
 			}
 
 			if (m_small)
 			{
 				if (ImGui::SmallButton(m_label.c_str()))
-				{
 					mvApp::GetApp()->addCallback(getCallback(false), m_name, m_callbackData);
 
-				}
-
-				if (!m_enabled) ImGui::PopStyleColor(4);
 				return;
 			}
 
 			if (m_arrow)
 			{
 				if (ImGui::ArrowButton(m_label.c_str(), m_direction))
-				{
 						mvApp::GetApp()->addCallback(getCallback(false), m_name, m_callbackData);
 
-				}
-
-				if (!m_enabled) ImGui::PopStyleColor(4);
 				return;
 			}
 
 			if (ImGui::Button(m_label.c_str(), ImVec2((float)m_width, (float)m_height)))
-			{
-
 				mvApp::GetApp()->addCallback(getCallback(false), m_name, m_callbackData);
-
-			}
 
 			// Regular Tooltip (simple)
 			if (!getTip().empty() && ImGui::IsItemHovered())
 				ImGui::SetTooltip("%s", getTip().c_str());
-
-			if (!m_enabled) ImGui::PopStyleColor(4);
 		}
 
 		void setExtraConfigDict(PyObject* dict) override
@@ -226,13 +212,13 @@ namespace Marvel {
 
 			if (!m_enabled)
 			{
-				ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(ImGui::GetStyleColorVec4(ImGuiCol_TextDisabled)));
 				ImVec4 disabled_color = ImVec4(ImGui::GetStyleColorVec4(ImGuiCol_TextDisabled));
 				disabled_color.w = 0.392f;
-				ImGui::PushStyleColor(ImGuiCol_CheckMark, disabled_color);
-				ImGui::PushStyleColor(ImGuiCol_FrameBg, disabled_color);
-				ImGui::PushStyleColor(ImGuiCol_FrameBgHovered, disabled_color);
-				ImGui::PushStyleColor(ImGuiCol_FrameBgActive, disabled_color);
+				styleManager.addColorStyle(ImGuiCol_CheckMark, disabled_color);
+				styleManager.addColorStyle(ImGuiCol_FrameBg, disabled_color);
+				styleManager.addColorStyle(ImGuiCol_FrameBgHovered, disabled_color);
+				styleManager.addColorStyle(ImGuiCol_FrameBgActive, disabled_color);
+				styleManager.addColorStyle(ImGuiCol_Text, ImVec4(ImGui::GetStyleColorVec4(ImGuiCol_TextDisabled)));
 				m_disabled_value = *m_value;
 			}
 
@@ -244,7 +230,6 @@ namespace Marvel {
 			if (!getTip().empty() && ImGui::IsItemHovered())
 				ImGui::SetTooltip("%s", getTip().c_str());
 
-			if (!m_enabled) ImGui::PopStyleColor(5);
 		}
 
 	};
@@ -274,17 +259,17 @@ namespace Marvel {
 			static std::vector<std::string> disabled_items{};
 			if (!m_enabled)
 			{
-				ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(ImGui::GetStyleColorVec4(ImGuiCol_TextDisabled)));
 				ImVec4 disabled_color = ImVec4(ImGui::GetStyleColorVec4(ImGuiCol_TextDisabled));
 				disabled_color.w = 0.392f;
-				ImGui::PushStyleColor(ImGuiCol_FrameBg, disabled_color);
-				ImGui::PushStyleColor(ImGuiCol_FrameBgHovered, disabled_color);
-				ImGui::PushStyleColor(ImGuiCol_FrameBgActive, disabled_color);
-				ImGui::PushStyleColor(ImGuiCol_Button, disabled_color);
-				ImGui::PushStyleColor(ImGuiCol_ButtonHovered, disabled_color);
-				ImGui::PushStyleColor(ImGuiCol_ButtonActive, disabled_color);
-				ImGui::PushStyleColor(ImGuiCol_PopupBg, 0.0f);
-				ImGui::PushStyleColor(ImGuiCol_Border, 0.0f);
+				styleManager.addColorStyle(ImGuiCol_FrameBg, disabled_color);
+				styleManager.addColorStyle(ImGuiCol_FrameBgHovered, disabled_color);
+				styleManager.addColorStyle(ImGuiCol_FrameBgActive, disabled_color);
+				styleManager.addColorStyle(ImGuiCol_Button, disabled_color);
+				styleManager.addColorStyle(ImGuiCol_ButtonHovered, disabled_color);
+				styleManager.addColorStyle(ImGuiCol_ButtonActive, disabled_color);
+				styleManager.addColorStyle(ImGuiCol_PopupBg, { 0.0f, 0.0f, 0.0f, 0.0f });
+				styleManager.addColorStyle(ImGuiCol_Border, { 0.0f, 0.0f, 0.0f, 0.0f });
+				styleManager.addColorStyle(ImGuiCol_Text, ImVec4(ImGui::GetStyleColorVec4(ImGuiCol_TextDisabled)));
 			}
 			if (ImGui::BeginCombo(m_label.c_str(), m_value->c_str(), m_flags)) // The second parameter is the label previewed before opening the combo.
 			{
@@ -308,8 +293,6 @@ namespace Marvel {
 			// Regular Tooltip (simple)
 			if (!getTip().empty() && ImGui::IsItemHovered())
 				ImGui::SetTooltip("%s", getTip().c_str());
-
-			if (!m_enabled) ImGui::PopStyleColor(9);
 
 		}
 
@@ -411,19 +394,19 @@ namespace Marvel {
 
 			if (!m_enabled)
 			{
-				ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(ImGui::GetStyleColorVec4(ImGuiCol_TextDisabled)));
 				ImVec4 disabled_color = ImVec4(ImGui::GetStyleColorVec4(ImGuiCol_TextDisabled));
 				disabled_color.w = 0.392f;
-				ImGui::PushStyleColor(ImGuiCol_Header, disabled_color);
-				ImGui::PushStyleColor(ImGuiCol_HeaderHovered, disabled_color);
-				ImGui::PushStyleColor(ImGuiCol_HeaderActive, disabled_color);
-				ImGui::PushStyleColor(ImGuiCol_FrameBg, disabled_color);
-				ImGui::PushStyleColor(ImGuiCol_FrameBgHovered, disabled_color);
-				ImGui::PushStyleColor(ImGuiCol_FrameBgActive, disabled_color);
-				ImGui::PushStyleColor(ImGuiCol_ScrollbarBg, disabled_color);
-				ImGui::PushStyleColor(ImGuiCol_ScrollbarGrab, disabled_color);
-				ImGui::PushStyleColor(ImGuiCol_ScrollbarGrabHovered, disabled_color);
-				ImGui::PushStyleColor(ImGuiCol_ScrollbarGrabActive, disabled_color);
+				styleManager.addColorStyle(ImGuiCol_Header, disabled_color);
+				styleManager.addColorStyle(ImGuiCol_HeaderHovered, disabled_color);
+				styleManager.addColorStyle(ImGuiCol_HeaderActive, disabled_color);
+				styleManager.addColorStyle(ImGuiCol_FrameBg, disabled_color);
+				styleManager.addColorStyle(ImGuiCol_FrameBgHovered, disabled_color);
+				styleManager.addColorStyle(ImGuiCol_FrameBgActive, disabled_color);
+				styleManager.addColorStyle(ImGuiCol_ScrollbarBg, disabled_color);
+				styleManager.addColorStyle(ImGuiCol_ScrollbarGrab, disabled_color);
+				styleManager.addColorStyle(ImGuiCol_ScrollbarGrabHovered, disabled_color);
+				styleManager.addColorStyle(ImGuiCol_ScrollbarGrabActive, disabled_color);
+				styleManager.addColorStyle(ImGuiCol_Text, ImVec4(ImGui::GetStyleColorVec4(ImGuiCol_TextDisabled)));
 				m_disabled_value = *m_value;
 			}
 
@@ -435,7 +418,6 @@ namespace Marvel {
 			if (!getTip().empty() && ImGui::IsItemHovered())
 				ImGui::SetTooltip("%s", getTip().c_str());
 
-			if (!m_enabled) ImGui::PopStyleColor(11);
 		}
 
 		void setExtraConfigDict(PyObject* dict) override
@@ -496,13 +478,13 @@ namespace Marvel {
 
 			if (!m_enabled)
 			{
-				ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(ImGui::GetStyleColorVec4(ImGuiCol_TextDisabled)));
 				ImVec4 disabled_color = ImVec4(ImGui::GetStyleColorVec4(ImGuiCol_TextDisabled));
 				disabled_color.w = 0.392f;
-				ImGui::PushStyleColor(ImGuiCol_CheckMark, disabled_color);
-				ImGui::PushStyleColor(ImGuiCol_FrameBg, disabled_color);
-				ImGui::PushStyleColor(ImGuiCol_FrameBgHovered, disabled_color);
-				ImGui::PushStyleColor(ImGuiCol_FrameBgActive, disabled_color);
+				styleManager.addColorStyle(ImGuiCol_CheckMark, disabled_color);
+				styleManager.addColorStyle(ImGuiCol_FrameBg, disabled_color);
+				styleManager.addColorStyle(ImGuiCol_FrameBgHovered, disabled_color);
+				styleManager.addColorStyle(ImGuiCol_FrameBgActive, disabled_color);
+				styleManager.addColorStyle(ImGuiCol_Text, ImVec4(ImGui::GetStyleColorVec4(ImGuiCol_TextDisabled)));
 				m_disabled_value = *m_value;
 			}
 			for (size_t i = 0; i < m_itemnames.size(); i++)
@@ -518,7 +500,6 @@ namespace Marvel {
 					ImGui::SetTooltip("%s", getTip().c_str());
 			}
 
-			if (!m_enabled) ImGui::PopStyleColor(5);
 			ImGui::EndGroup();
 		}
 

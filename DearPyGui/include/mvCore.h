@@ -58,6 +58,19 @@ namespace Marvel {
 		int r=0, g=0, b=0, a=255;
 		bool specified = true;
 
+		mvColor(int r, int g, int b, int a, bool specified = true)
+			: r(r), g(g), b(b), a(a), specified(specified)
+		{
+		}
+
+		explicit mvColor(ImVec4 color)
+		{
+			r = (int)(color.x*255.0f);
+			g = (int)(color.y*255.0f);
+			b = (int)(color.z*255.0f);
+			a = (int)(color.w*255.0f);
+		}
+
 		operator ImU32()
 		{
 			return ImGui::ColorConvertFloat4ToU32(toVec4());

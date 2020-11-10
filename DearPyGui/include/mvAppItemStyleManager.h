@@ -29,6 +29,8 @@ namespace Marvel {
 
         ~mvAppItemStyleManagerScope();
 
+        void addColorStyle(ImGuiCol item, ImVec4 color);
+
     private:
 
         mvAppItemStyleManager& m_manager;

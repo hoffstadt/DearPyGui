@@ -49,12 +49,12 @@ namespace Marvel {
 
 			if (!m_enabled)
 			{
-				ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(ImGui::GetStyleColorVec4(ImGuiCol_TextDisabled)));
 				ImVec4 disabled_color = ImVec4(ImGui::GetStyleColorVec4(ImGuiCol_TextDisabled));
 				disabled_color.w = 0.392f;
-				ImGui::PushStyleColor(ImGuiCol_FrameBg, disabled_color);
-				ImGui::PushStyleColor(ImGuiCol_FrameBgHovered, disabled_color);
-				ImGui::PushStyleColor(ImGuiCol_FrameBgActive, disabled_color);
+				styleManager.addColorStyle(ImGuiCol_FrameBg, disabled_color);
+				styleManager.addColorStyle(ImGuiCol_FrameBgHovered, disabled_color);
+				styleManager.addColorStyle(ImGuiCol_FrameBgActive, disabled_color);
+				styleManager.addColorStyle(ImGuiCol_Text, ImVec4(ImGui::GetStyleColorVec4(ImGuiCol_TextDisabled)));
 			}
 
 			if (m_multiline)
@@ -84,7 +84,6 @@ namespace Marvel {
 			if (!getTip().empty() && ImGui::IsItemHovered())
 				ImGui::SetTooltip("%s", getTip().c_str());
 
-			if (!m_enabled) ImGui::PopStyleColor(4);
 		}
 
 		void setExtraConfigDict(PyObject* dict) override
