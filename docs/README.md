@@ -1,6 +1,6 @@
 <a id="user-content-dear-pygui" class="anchor" aria-hidden="true" href="#dear-pygui">
 
-![Logo](https://github.com/hoffstadt/DearPyGui/blob/assets/TempLogo.png?raw=true)
+![Logo](https://github.com/hoffstadt/DearPyGui/blob/assets/newlogo.jpg?raw=true)
 
 </a>
 
