@@ -14,9 +14,9 @@ target_sources(PureImgui
 		"$<$<PLATFORM_ID:Linux>:src/mvLinuxWindow.cpp>"
 
 		# implot
-		"../DearPyGui/Vendor/implot/implot.cpp"
-		"../DearPyGui/Vendor/implot/implot_items.cpp"
-		"../DearPyGui/Vendor/implot/implot_demo.cpp"
+		"../DearPyGui/vendor/implot/implot.cpp"
+		"../DearPyGui/vendor/implot/implot_items.cpp"
+		"../DearPyGui/vendor/implot/implot_demo.cpp"
 
 		# imgui
 		"../Dependencies/imgui/imgui.cpp"
