@@ -80,10 +80,6 @@ namespace Marvel {
 					mvApp::GetApp()->addCallback(m_callback, m_name, m_callbackData);
 			}
 
-			// Regular Tooltip (simple)
-			if (!getTip().empty() && ImGui::IsItemHovered())
-				ImGui::SetTooltip("%s", getTip().c_str());
-
 		}
 
 		void setExtraConfigDict(PyObject* dict) override

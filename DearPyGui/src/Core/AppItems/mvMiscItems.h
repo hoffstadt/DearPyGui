@@ -85,9 +85,6 @@ namespace Marvel {
 
 			ImGui::Separator();
 
-			// Regular Tooltip (simple)
-			if (!getTip().empty() && ImGui::IsItemHovered())
-				ImGui::SetTooltip("%s", getTip().c_str());
 		}
 
 	};

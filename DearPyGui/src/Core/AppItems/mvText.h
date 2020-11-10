@@ -72,9 +72,6 @@ namespace Marvel {
 			if (m_color.specified)
 				ImGui::PopStyleColor();
 
-			// Regular Tooltip (simple)
-			if (!getTip().empty() && ImGui::IsItemHovered())
-				ImGui::SetTooltip("%s", getTip().c_str());
 		}
 
 		void setExtraConfigDict(PyObject* dict) override
@@ -141,12 +138,7 @@ namespace Marvel {
 
 			else
 				ImGui::LabelText(m_label.c_str(), m_value->c_str());
-
-			// Regular Tooltip (simple)
-			if (!getTip().empty() && ImGui::IsItemHovered())
-				ImGui::SetTooltip("%s", getTip().c_str());
-
-			
+	
 		}
 
 		void setExtraConfigDict(PyObject* dict) override

@@ -54,6 +54,10 @@ namespace Marvel {
 
 					item->draw();
 
+					// Regular Tooltip (simple)
+					if (!item->getTip().empty() && ImGui::IsItemHovered())
+						ImGui::SetTooltip("%s", item->getTip().c_str());
+
 					item->getState().update();
 				}
 				ImGui::EndMenuBar();
