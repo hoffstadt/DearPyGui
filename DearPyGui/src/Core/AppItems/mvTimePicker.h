@@ -34,7 +34,9 @@ namespace Marvel {
 			auto styleManager = m_styleManager.getScopedStyleManager();
 			ImGui::PushID(this);
 
-			if (ImPlot::ShowTimePicker(m_name.c_str(), m_imvalue, m_hour24))
+			ImPlot::GetStyle().Use24HourClock = m_hour24;
+
+			if (ImPlot::ShowTimePicker(m_name.c_str(), m_imvalue))
 			{
 				ImPlot::GetGmtTime(*m_imvalue, m_value);
 				mvApp::GetApp()->addCallback(m_callback, m_name, m_callbackData);

@@ -51,6 +51,7 @@ struct ImPlotAxis;
 struct ImPlotAxisState;
 struct ImPlotAxisColor;
 struct ImPlotItem;
+struct ImPlotLegendData;
 struct ImPlotPlot;
 struct ImPlotNextPlotData;
 
@@ -67,20 +68,16 @@ extern IMPLOT_API ImPlotContext* GImPlot; // Current implicit context pointer
 // Constants can be changed unless stated otherwise. We may move some of these
 // to ImPlotStyleVar_ over time.
 
-// Default plot frame width when requested width is auto (i.e. 0). This is not the plot area width!
-#define IMPLOT_DEFAULT_W  400
-// Default plot frame height when requested height is auto (i.e. 0). This is not the plot area height!
-#define IMPLOT_DEFAULT_H  300
 // The maximum number of supported y-axes (DO NOT CHANGE THIS)
-#define IMPLOT_Y_AXES     3
+#define IMPLOT_Y_AXES    3
 // The number of times to subdivided grid divisions (best if a multiple of 1, 2, and 5)
-#define IMPLOT_SUB_DIV    10
+#define IMPLOT_SUB_DIV   10
 // Zoom rate for scroll (e.g. 0.1f = 10% plot range every scroll click)
-#define IMPLOT_ZOOM_RATE  0.1f
+#define IMPLOT_ZOOM_RATE 0.1f
 // Mimimum allowable timestamp value 01/01/1970 @ 12:00am (UTC) (DO NOT DECREASE THIS)
-#define IMPLOT_MIN_TIME 0
+#define IMPLOT_MIN_TIME  0
 // Maximum allowable timestamp value 01/01/3000 @ 12:00am (UTC) (DO NOT INCREASE THIS)
-#define IMPLOT_MAX_TIME 32503680000
+#define IMPLOT_MAX_TIME  32503680000
 
 //-----------------------------------------------------------------------------
 // [SECTION] Generic Helpers
@@ -158,16 +155,10 @@ struct ImPlotPointArray {
 // [SECTION] ImPlot Enums
 //-----------------------------------------------------------------------------
 
-typedef int ImPlotDirection; // -> enum ImPlotDirection_
-typedef int ImPlotScale;     // -> enum ImPlotScale_
-typedef int ImPlotTimeUnit;  // -> enum ImPlotTimeUnit_
-typedef int ImPlotTimeFmt;   // -> enum ImPlotTimeFmt_
-
-// Axis direction
-enum ImPlotDirection_ {
-    ImPlotDirection_Horizontal, // left/right
-    ImPlotDirection_Vertical    // up/down
-};
+typedef int ImPlotScale;       // -> enum ImPlotScale_
+typedef int ImPlotTimeUnit;    // -> enum ImPlotTimeUnit_
+typedef int ImPlotDateFmt;     // -> enum ImPlotDateFmt_
+typedef int ImPlotTimeFmt;     // -> enum ImPlotTimeFmt_
 
 // XY axes scaling combinations
 enum ImPlotScale_ {
@@ -189,32 +180,46 @@ enum ImPlotTimeUnit_ {
     ImPlotTimeUnit_COUNT
 };
 
-enum ImPlotTimeFmt_ {
-    ImPlotTimeFmt_Us,              // .428 552
-    ImPlotTimeFmt_SUs,             // :29.428 552
-    ImPlotTimeFmt_SMs,             // :29.428
-    ImPlotTimeFmt_S,               // :29
-    ImPlotTimeFmt_HrMinSMs,        // 7:21:29.428pm (19:21:29.428)
-    ImPlotTimeFmt_HrMinS,          // 7:21:29pm (19:21:29)
-    ImPlotTimeFmt_HrMin,           // 7:21pm (19:21)
-    ImPlotTimeFmt_Hr,              // 7pm (19:00)
-    ImPlotTimeFmt_DayMo,           // 10/3
-    ImPlotTimeFmt_DayMoHr,         // 10/3 7pm (10/3 19:00)
-    ImPlotTimeFmt_DayMoHrMin,      // 10/3 7:21pm (10/3 19:21)
-    ImPlotTimeFmt_DayMoYr,         // 10/3/91
-    ImPlotTimeFmt_DayMoYrHrMin,    // 10/3/91 7:21pm (10/3/91 19:21)
-    ImPlotTimeFmt_DayMoYrHrMinS,   // 10/3/91 7:21:29pm (10/3/91 19:21:29)
-    ImPlotTimeFmt_DayMoYrHrMinSUs, // 10/3/1991 7:21:29.123456pm (10/3/1991 19:21:29.123456)
-    ImPlotTimeFmt_MoYr,            // Oct 1991
-    ImPlotTimeFmt_Mo,              // Oct
-    ImPlotTimeFmt_Yr               // 1991
+enum ImPlotDateFmt_ {              // default        [ ISO 8601     ]
+    ImPlotDateFmt_None = 0,
+    ImPlotDateFmt_DayMo,           // 10/3           [ --10-03      ]
+    ImPlotDateFmt_DayMoYr,         // 10/3/91        [ 1991-10-03   ]
+    ImPlotDateFmt_MoYr,            // Oct 1991       [ 1991-10      ]
+    ImPlotDateFmt_Mo,              // Oct            [ --10         ]
+    ImPlotDateFmt_Yr               // 1991           [ 1991         ]
+};
+
+enum ImPlotTimeFmt_ {              // default        [ 24 Hour Clock ]
+    ImPlotTimeFmt_None = 0,
+    ImPlotTimeFmt_Us,              // .428 552       [ .428 552     ]
+    ImPlotTimeFmt_SUs,             // :29.428 552    [ :29.428 552  ]
+    ImPlotTimeFmt_SMs,             // :29.428        [ :29.428      ]
+    ImPlotTimeFmt_S,               // :29            [ :29          ]
+    ImPlotTimeFmt_HrMinSMs,        // 7:21:29.428pm  [ 19:21:29.428 ]
+    ImPlotTimeFmt_HrMinS,          // 7:21:29pm      [ 19:21:29     ]
+    ImPlotTimeFmt_HrMin,           // 7:21pm         [ 19:21        ]
+    ImPlotTimeFmt_Hr               // 7pm            [ 19:00        ]
 };
 
 //-----------------------------------------------------------------------------
 // [SECTION] ImPlot Structs
 //-----------------------------------------------------------------------------
 
-/// Two part timestamp struct.
+// Combined data/time format spec
+struct ImPlotDateTimeFmt {
+    ImPlotDateTimeFmt(ImPlotDateFmt date_fmt, ImPlotTimeFmt time_fmt, bool use_24_hr_clk = false, bool use_iso_8601 = false) {
+        Date           = date_fmt;
+        Time           = time_fmt;
+        UseISO8601     = use_iso_8601;
+        Use24HourClock = use_24_hr_clk;
+    }
+    ImPlotDateFmt Date;
+    ImPlotTimeFmt Time;
+    bool UseISO8601;
+    bool Use24HourClock;
+};
+
+// Two part timestamp struct.
 struct ImPlotTime {
     time_t S;  // second part
     int    Us; // microsecond part
@@ -377,7 +382,7 @@ struct ImPlotAxis
     ImPlotAxisFlags Flags;
     ImPlotAxisFlags PreviousFlags;
     ImPlotRange     Range;
-    ImPlotDirection Direction;
+    ImPlotOrientation Direction;
     bool            Dragging;
     bool            HoveredExt;
     bool            HoveredTot;
@@ -509,34 +514,56 @@ struct ImPlotItem
     ~ImPlotItem() { ID = 0; }
 };
 
+// Holds Legend state labels and item references
+struct ImPlotLegendData
+{
+    ImVector<int>   Indices;
+    ImGuiTextBuffer Labels;
+    void Reset() { Indices.shrink(0); Labels.Buf.shrink(0); }
+};
+
 // Holds Plot state information that must persist after EndPlot
 struct ImPlotPlot
 {
+    ImGuiID            ID;
     ImPlotFlags        Flags;
     ImPlotFlags        PreviousFlags;
     ImPlotAxis         XAxis;
     ImPlotAxis         YAxis[IMPLOT_Y_AXES];
+    ImPlotLegendData   LegendData;
     ImPool<ImPlotItem> Items;
     ImVec2             SelectStart;
     ImVec2             QueryStart;
     ImRect             QueryRect;
-    ImRect             BB_Legend;
     bool               Selecting;
     bool               Querying;
     bool               Queried;
     bool               DraggingQuery;
+    bool               LegendHovered;
+    bool               LegendOutside;
+    bool               LegendFlipSide;
     int                ColormapIdx;
     int                CurrentYAxis;
+    ImPlotLocation     MousePosLocation;
+    ImPlotLocation     LegendLocation;
+    ImPlotOrientation  LegendOrientation;
 
     ImPlotPlot() {
         Flags           = PreviousFlags = ImPlotFlags_None;
-        XAxis.Direction = ImPlotDirection_Horizontal;
+        XAxis.Direction = ImPlotOrientation_Horizontal;
         for (int i = 0; i < IMPLOT_Y_AXES; ++i)
-            YAxis[i].Direction = ImPlotDirection_Vertical;
-        SelectStart     = QueryStart = ImVec2(0,0);
-        Selecting       = Querying = Queried = DraggingQuery = false;
-        ColormapIdx     = CurrentYAxis = 0;
+            YAxis[i].Direction = ImPlotOrientation_Vertical;
+        SelectStart       = QueryStart = ImVec2(0,0);
+        Selecting         = Querying = Queried = DraggingQuery = LegendHovered = LegendOutside = LegendFlipSide = false;
+        ColormapIdx       = CurrentYAxis = 0;
+        LegendLocation    = ImPlotLocation_North | ImPlotLocation_West;
+        LegendOrientation = ImPlotOrientation_Vertical;
+        MousePosLocation  = ImPlotLocation_South | ImPlotLocation_East;
     }
+
+    int         GetLegendCount() const   { return LegendData.Indices.size(); }
+    ImPlotItem* GetLegendItem(int i);
+    const char* GetLegendLabel(int i);
 };
 
 // Temporary data storage for upcoming plot
@@ -604,17 +631,16 @@ struct ImPlotContext {
     // Plot States
     ImPool<ImPlotPlot> Plots;
     ImPlotPlot*        CurrentPlot;
-    ImPlotItem*         CurrentItem;
-    ImPlotItem*         PreviousItem;
-
-    // Legend
-    ImVector<int>   LegendIndices;
-    ImGuiTextBuffer LegendLabels;
+    ImPlotItem*        CurrentItem;
+    ImPlotItem*        PreviousItem;
 
     // Bounding Boxes
     ImRect BB_Frame;
     ImRect BB_Canvas;
     ImRect BB_Plot;
+    ImRect BB_Axes;
+    ImRect BB_X;
+    ImRect BB_Y[IMPLOT_Y_AXES];
 
     // Axis States
     ImPlotAxisColor Col_X;
@@ -728,15 +754,11 @@ IMPLOT_API bool BeginItem(const char* label_id, ImPlotCol recolor_from = -1);
 // Ends an item (call only if BeginItem returns true). Pops PlotClipRect.
 IMPLOT_API void EndItem();
 
-// Register or get an existing item from the current plot
+// Register or get an existing item from the current plot.
 IMPLOT_API ImPlotItem* RegisterOrGetItem(const char* label_id, bool* just_created = NULL);
-// Get the ith plot item from the current plot
-IMPLOT_API ImPlotItem* GetItem(int i);
-// Get a plot item from the current plot
+// Get a plot item from the current plot.
 IMPLOT_API ImPlotItem* GetItem(const char* label_id);
-// Gets a plot item from a specific plot
-IMPLOT_API ImPlotItem* GetItem(const char* plot_title, const char* item_label_id);
-// Gets the current item
+// Gets the current item.
 IMPLOT_API ImPlotItem* GetCurrentItem();
 // Busts the cache for every item for every plot in the current context.
 IMPLOT_API void BustItemCache();
@@ -776,10 +798,14 @@ IMPLOT_API void ShowAxisContextMenu(ImPlotAxisState& state, bool time_allowed = 
 // [SECTION] Legend Utils
 //-----------------------------------------------------------------------------
 
-// Returns the number of entries in the current legend
-IMPLOT_API int GetLegendCount();
-// Gets the ith entry string for the current legend
-IMPLOT_API const char* GetLegendLabel(int i);
+// Gets the position of an inner rect that is located inside of an outer rect according to an ImPlotLocation and padding amount.
+IMPLOT_API ImVec2 GetLocationPos(const ImRect& outer_rect, const ImVec2& inner_size, ImPlotLocation location, const ImVec2& pad = ImVec2(0,0));
+// Calculates the bounding box size of a legend
+IMPLOT_API ImVec2 CalcLegendSize(ImPlotPlot& plot, const ImVec2& pad, const ImVec2& spacing, ImPlotOrientation orientation);
+// Renders legend entries into a bounding box
+IMPLOT_API void ShowLegendEntries(ImPlotPlot& plot, const ImRect& legend_bb, bool interactable, const ImVec2& pad, const ImVec2& spacing, ImPlotOrientation orientation, ImDrawList& DrawList);
+// Shows an alternate legend for the plot identified by #title_id, outside of the plot frame (can be called before or after of Begin/EndPlot but must occur in the same ImGui window!).
+IMPLOT_API void ShowAltLegend(const char* title_id, ImPlotOrientation orientation = ImPlotOrientation_Vertical, const ImVec2 size = ImVec2(0,0), bool interactable = true);
 
 //-----------------------------------------------------------------------------
 // [SECTION] Tick Utils
@@ -790,14 +816,14 @@ IMPLOT_API void LabelTickDefault(ImPlotTick& tick, ImGuiTextBuffer& buffer);
 // Label a tick with scientific formating.
 IMPLOT_API void LabelTickScientific(ImPlotTick& tick, ImGuiTextBuffer& buffer);
 // Label a tick with time formatting.
-IMPLOT_API void LabelTickTime(ImPlotTick& tick, ImGuiTextBuffer& buffer, const ImPlotTime& t, ImPlotTimeFmt fmt, bool hour24);
+IMPLOT_API void LabelTickTime(ImPlotTick& tick, ImGuiTextBuffer& buffer, const ImPlotTime& t, ImPlotDateTimeFmt fmt);
 
 // Populates a list of ImPlotTicks with normal spaced and formatted ticks
 IMPLOT_API void AddTicksDefault(const ImPlotRange& range, int nMajor, int nMinor, ImPlotTickCollection& ticks);
 // Populates a list of ImPlotTicks with logarithmic space and formatted ticks
 IMPLOT_API void AddTicksLogarithmic(const ImPlotRange& range, int nMajor, ImPlotTickCollection& ticks);
 // Populates a list of ImPlotTicks with time formatted ticks.
-IMPLOT_API void AddTicksTime(const ImPlotRange& range, int nMajor, bool hour24, ImPlotTickCollection& ticks);
+IMPLOT_API void AddTicksTime(const ImPlotRange& range, int nMajor, ImPlotTickCollection& ticks);
 // Populates a list of ImPlotTicks with custom spaced and labeled ticks
 IMPLOT_API void AddTicksCustom(const double* values, const char* const labels[], int n, ImPlotTickCollection& ticks);
 
@@ -926,21 +952,21 @@ IMPLOT_API ImPlotTime RoundTime(const ImPlotTime& t, ImPlotTimeUnit unit);
 // Combines the date of one timestamp with the time-of-day of another timestamp.
 IMPLOT_API ImPlotTime CombineDateTime(const ImPlotTime& date_part, const ImPlotTime& time_part);
 
-// Formats a timestamp t into a buffer according to #fmt for 12 hour clock
-IMPLOT_API int FormatTime12(const ImPlotTime& t, char* buffer, int size, ImPlotTimeFmt fmt);
-// Formats a timestamp t into a buffer according to #fmt for 24 hour clock.
-IMPLOT_API int FormatTime24(const ImPlotTime& t, char* buffer, int size, ImPlotTimeFmt fmt);
-// Prints a timestamp to console
-IMPLOT_API void PrintTime(const ImPlotTime& t, ImPlotTimeFmt fmt = ImPlotTimeFmt_DayMoYrHrMinSUs);
+// Formats the time part of timestamp t into a buffer according to #fmt
+IMPLOT_API int FormatTime(const ImPlotTime& t, char* buffer, int size, ImPlotTimeFmt fmt, bool use_24_hr_clk);
+// Formats the date part of timestamp t into a buffer according to #fmt
+IMPLOT_API int FormatDate(const ImPlotTime& t, char* buffer, int size, ImPlotDateFmt fmt, bool use_iso_8601);
+// Formats the time and/or date parts of a timestamp t into a buffer according to #fmt
+IMPLOT_API int FormatDateTime(const ImPlotTime& t, char* buffer, int size, ImPlotDateTimeFmt fmt);
 
 // Shows a date picker widget block (year/month/day).
 // #level = 0 for day, 1 for month, 2 for year. Modified by user interaction.
 // #t will be set when a day is clicked and the function will return true.
 // #t1 and #t2 are optional dates to highlight.
 IMPLOT_API bool ShowDatePicker(const char* id, int* level, ImPlotTime* t, const ImPlotTime* t1 = NULL, const ImPlotTime* t2 = NULL);
-// Shows a time picker widget block (hour/min/sec). #hour24 will format time for 24 hour clock.
+// Shows a time picker widget block (hour/min/sec).
 // #t will be set when a new hour, minute, or sec is selected or am/pm is toggled, and the function will return true.
-IMPLOT_API bool ShowTimePicker(const char* id, ImPlotTime* t, bool hour24);
+IMPLOT_API bool ShowTimePicker(const char* id, ImPlotTime* t);
 
 //-----------------------------------------------------------------------------
 // [SECTION] Internal / Experimental Plotters

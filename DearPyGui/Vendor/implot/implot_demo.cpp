@@ -136,11 +136,15 @@ struct HugeTimeData {
 void ShowDemoWindow(bool* p_open) {
     double DEMO_TIME = ImGui::GetTime();
     static bool show_imgui_metrics       = false;
+    static bool show_implot_metrics      = false;
     static bool show_imgui_style_editor  = false;
     static bool show_implot_style_editor = false;
     static bool show_implot_benchmark    = false;
     if (show_imgui_metrics) {
         ImGui::ShowMetricsWindow(&show_imgui_metrics);
+    }
+    if (show_implot_metrics) {
+        ImPlot::ShowMetricsWindow(&show_implot_metrics);
     }
     if (show_imgui_style_editor) {
         ImGui::Begin("Style Editor (ImGui)", &show_imgui_style_editor);
@@ -166,6 +170,7 @@ void ShowDemoWindow(bool* p_open) {
     if (ImGui::BeginMenuBar()) {
         if (ImGui::BeginMenu("Tools")) {
             ImGui::MenuItem("Metrics (ImGui)",       NULL, &show_imgui_metrics);
+            ImGui::MenuItem("Metrics (ImPlot)",      NULL, &show_implot_metrics);
             ImGui::MenuItem("Style Editor (ImGui)",  NULL, &show_imgui_style_editor);
             ImGui::MenuItem("Style Editor (ImPlot)", NULL, &show_implot_style_editor);
             ImGui::MenuItem("Benchmark",             NULL, &show_implot_benchmark);
@@ -216,18 +221,7 @@ void ShowDemoWindow(bool* p_open) {
         ImGui::ShowFontSelector("Font");
         ImGui::ShowStyleSelector("ImGui Style");
         ImPlot::ShowStyleSelector("ImPlot Style");
-
-        static const char* map = ImPlot::GetColormapName(ImPlotColormap_Default);
-        if (ImGui::BeginCombo("ImPlot Colormap", map)) {
-            for (int i = 0; i < ImPlotColormap_COUNT; ++i) {
-                const char* name = GetColormapName(i);
-                if (ImGui::Selectable(name, map == name)) {
-                    map = name;
-                    ImPlot::SetColormap(i);
-                }
-            }
-            ImGui::EndCombo();
-        }
+        ImPlot::ShowColormapSelector("ImPlot Colormap");
         float indent = ImGui::CalcItemWidth() - ImGui::GetFrameHeight();
         ImGui::Indent(ImGui::CalcItemWidth() - ImGui::GetFrameHeight());
         ImGui::Checkbox("Anti-Aliased Lines", &ImPlot::GetStyle().AntiAliasedLines);
@@ -337,6 +331,20 @@ void ShowDemoWindow(bool* p_open) {
         }
     }
     //-------------------------------------------------------------------------
+    if (ImGui::CollapsingHeader("Stairstep Plots")) {
+        static float ys1[101], ys2[101];
+        for (int i = 0; i < 101; ++i) {
+            ys1[i] = 0.5f + 0.4f * sinf(50 * i * 0.01f);
+            ys2[i] = 0.5f + 0.2f * sinf(25 * i * 0.01f);
+        }
+        if (ImPlot::BeginPlot("Stairstep Plot", "x", "f(x)")) {
+            ImPlot::PlotStairs("Signal 1", ys1, 101, 0.01f);
+            ImPlot::SetNextMarkerStyle(ImPlotMarker_Square, 2.0f);
+            ImPlot::PlotStairs("Signal 2", ys2, 101, 0.01f);
+            ImPlot::EndPlot();
+        }
+    }
+    //-------------------------------------------------------------------------
     if (ImGui::CollapsingHeader("Bar Plots")) {
 
         static bool horz                = false;
@@ -361,11 +369,13 @@ void ShowDemoWindow(bool* p_open) {
                               ImVec2(-1,0), 0, 0, horz ? ImPlotAxisFlags_Invert : 0))
         {
             if (horz) {
+                ImPlot::SetLegendLocation(ImPlotLocation_West, ImPlotOrientation_Vertical);
                 ImPlot::PlotBarsH("Midterm Exam", midtm, 10, 0.2, -0.2);
                 ImPlot::PlotBarsH("Final Exam",   final, 10, 0.2,    0);
                 ImPlot::PlotBarsH("Course Grade", grade, 10, 0.2,  0.2);
             }
             else {
+                ImPlot::SetLegendLocation(ImPlotLocation_South, ImPlotOrientation_Horizontal);
                 ImPlot::PlotBars("Midterm Exam", midtm, 10, 0.2, -0.2);
                 ImPlot::PlotBars("Final Exam",   final, 10, 0.2,    0);
                 ImPlot::PlotBars("Course Grade", grade, 10, 0.2,  0.2);
@@ -629,9 +639,11 @@ void ShowDemoWindow(bool* p_open) {
                           "UNIX timestamps in seconds and axis labels are formated as date/time.");
         ImGui::BulletText("By default, labels are in UTC time but can be set to use local time instead.");
 
-        ImGui::Checkbox("Use Local Time",&ImPlot::GetStyle().UseLocalTime);
+        ImGui::Checkbox("Local Time",&ImPlot::GetStyle().UseLocalTime);
         ImGui::SameLine();
-        ImGui::Checkbox("Use 24 Hour Clock",&ImPlot::GetStyle().Use24HourClock);
+        ImGui::Checkbox("ISO 8601",&ImPlot::GetStyle().UseISO8601);
+        ImGui::SameLine();
+        ImGui::Checkbox("24 Hour Clock",&ImPlot::GetStyle().Use24HourClock);
 
         static HugeTimeData* data = NULL;
         if (data == NULL) {
@@ -695,11 +707,11 @@ void ShowDemoWindow(bool* p_open) {
             ImPlot::PlotLine("f(x) = x", xs, xs, 1001);
             ImPlot::PlotLine("f(x) = sin(x)*3+1", xs, ys1, 1001);
             if (y2_axis) {
-                ImPlot::SetPlotYAxis(1);
+                ImPlot::SetPlotYAxis(ImPlotYAxis_2);
                 ImPlot::PlotLine("f(x) = cos(x)*.2+.5 (Y2)", xs, ys2, 1001);
             }
             if (y3_axis) {
-                ImPlot::SetPlotYAxis(2);
+                ImPlot::SetPlotYAxis(ImPlotYAxis_3);
                 ImPlot::PlotLine("f(x) = sin(x+.5)*100+200 (Y3)", xs2, ys3, 1001);
             }
             ImPlot::EndPlot();
@@ -806,6 +818,34 @@ void ShowDemoWindow(bool* p_open) {
         }
     }
     //-------------------------------------------------------------------------
+    if (ImGui::CollapsingHeader("Legend")) {
+        static ImPlotLocation loc = ImPlotLocation_East;
+        static bool h = false; static bool o = true;
+        ImGui::CheckboxFlags("North", (unsigned int*)&loc, ImPlotLocation_North); ImGui::SameLine();
+        ImGui::CheckboxFlags("South", (unsigned int*)&loc, ImPlotLocation_South); ImGui::SameLine();
+        ImGui::CheckboxFlags("West",  (unsigned int*)&loc, ImPlotLocation_West);  ImGui::SameLine();
+        ImGui::CheckboxFlags("East",  (unsigned int*)&loc, ImPlotLocation_East);  ImGui::SameLine();
+        ImGui::Checkbox("Horizontal", &h); ImGui::SameLine();
+        ImGui::Checkbox("Outside", &o);
+
+        ImGui::SliderFloat2("LegendPadding", (float*)&GetStyle().LegendPadding, 0.0f, 20.0f, "%.0f");
+        ImGui::SliderFloat2("LegendInnerPadding", (float*)&GetStyle().LegendInnerPadding, 0.0f, 10.0f, "%.0f");
+        ImGui::SliderFloat2("LegendSpacing", (float*)&GetStyle().LegendSpacing, 0.0f, 5.0f, "%.0f");
+
+        if (ImPlot::BeginPlot("##Legend","x","y",ImVec2(-1,0))) {
+            ImPlot::SetLegendLocation(loc, h ? ImPlotOrientation_Horizontal : ImPlotOrientation_Vertical, o);
+            static MyImPlot::WaveData data1(0.001, 0.2, 2, 0.75);
+            static MyImPlot::WaveData data2(0.001, 0.2, 4, 0.25);
+            static MyImPlot::WaveData data3(0.001, 0.2, 6, 0.5);
+            ImPlot::PlotLineG("Item 1", MyImPlot::SineWave, &data1, 1000);         // "Item 1" added to legend
+            ImPlot::PlotLineG("Item 2##IDText", MyImPlot::SawWave, &data2, 1000);  // "Item 2" added to legend, text after ## used for ID only
+            ImPlot::PlotLineG("##NotDisplayed", MyImPlot::SawWave, &data3, 1000);  // plotted, but not added to legend
+            ImPlot::PlotLineG("Item 3", MyImPlot::SineWave, &data1, 1000);         // "Item 3" added to legend
+            ImPlot::PlotLineG("Item 3", MyImPlot::SawWave,  &data2, 1000);         // combined with previous "Item 3"
+            ImPlot::EndPlot();
+        }
+    }
+    //-------------------------------------------------------------------------
     if (ImGui::CollapsingHeader("Drag Lines and Points")) {
         ImGui::BulletText("Click and drag the horizontal and vertical lines.");
         static double x1 = 0.2;
@@ -826,7 +866,7 @@ void ShowDemoWindow(bool* p_open) {
                 ys[i] = (y1+y2)/2+abs(y2-y1)/2*sin(f*i/10);
             }
             ImPlot::PlotLine("Interactive Data", xs, ys, 1000);
-            ImPlot::SetPlotYAxis(1);
+            ImPlot::SetPlotYAxis(ImPlotYAxis_2);
             ImPlot::DragLineY("f",&f,show_labels,ImVec4(1,0.5f,1,1));
             ImPlot::EndPlot();
         }
@@ -876,8 +916,8 @@ void ShowDemoWindow(bool* p_open) {
             float bx[] = {1.2f,1.5f,1.8f};
             float by[] = {0.25f, 0.5f, 0.75f};
             ImPlot::PlotBars("##Bars",bx,by,3,0.2);
-            for (int i = 0; i < 3; ++i) 
-                ImPlot::Annotate(bx[i],by[i],ImVec2(0,-5),"B[%d]=%.2f",i,by[i]);            
+            for (int i = 0; i < 3; ++i)
+                ImPlot::Annotate(bx[i],by[i],ImVec2(0,-5),"B[%d]=%.2f",i,by[i]);
             ImPlot::EndPlot();
         }
     }
@@ -1089,7 +1129,7 @@ void ShowDemoWindow(bool* p_open) {
             ImGui::TableSetupColumn("Electrode", ImGuiTableColumnFlags_WidthFixed, 75.0f);
             ImGui::TableSetupColumn("Voltage", ImGuiTableColumnFlags_WidthFixed, 75.0f);
             ImGui::TableSetupColumn("EMG Signal");
-            ImGui::TableAutoHeaders();
+            ImGui::TableHeadersRow();
             ImPlot::PushColormap(ImPlotColormap_Cool);
             for (int row = 0; row < 10; row++) {
                 ImGui::TableNextRow();
@@ -1411,7 +1451,7 @@ void StyleSeaborn() {
     style.PlotPadding      = ImVec2(12,12);
     style.LabelPadding     = ImVec2(5,5);
     style.LegendPadding    = ImVec2(5,5);
-    style.InfoPadding      = ImVec2(5,5);
+    style.MousePosPadding      = ImVec2(5,5);
     style.PlotMinSize      = ImVec2(300,225);
 }
 
@@ -1425,7 +1465,7 @@ void StyleSeaborn() {
 // into the public API and expose the necessary building blocks to fully support
 // custom plotters. For now, proceed at your own risk!
 
-#include <implot_internal.h>
+#include "implot_internal.h"
 
 namespace MyImPlot {
 
@@ -1466,7 +1506,7 @@ void PlotCandlestick(const char* label_id, const double* xs, const double* opens
         if (idx != -1) {
             ImGui::BeginTooltip();
             char buff[32];
-            ImPlot::FormatTime12(ImPlotTime::FromDouble(xs[idx]),buff,32,ImPlotTimeFmt_DayMoYr);
+            ImPlot::FormatDate(ImPlotTime::FromDouble(xs[idx]),buff,32,ImPlotDateFmt_DayMoYr,ImPlot::GetStyle().UseISO8601);
             ImGui::Text("Day:   %s",  buff);
             ImGui::Text("Open:  $%.2f", opens[idx]);
             ImGui::Text("Close: $%.2f", closes[idx]);
