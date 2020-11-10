@@ -41,6 +41,7 @@
 #include "Core/PlotAppItems/mvErrorSeries.h"
 #include "Core/PlotAppItems/mvHeatSeries.h"
 #include "Core/PlotAppItems/mvImageSeries.h"
+#include "Core/PlotAppItems/mvStairSeries.h"
 
 //-----------------------------------------------------------------------------
 // Widget Index
