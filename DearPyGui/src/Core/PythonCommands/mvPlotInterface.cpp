@@ -193,6 +193,17 @@ namespace Marvel {
 			{mvPythonDataType::Bool, "xy_data_format", "", "False"},
 		}, "Adds a line series to a plot.", "None", "Plotting") });
 
+		parsers->insert({ "add_stair_series", mvPythonParser({
+			{mvPythonDataType::String, "plot"},
+			{mvPythonDataType::String, "name"},
+			{mvPythonDataType::ListFloatList, "data"},
+			{mvPythonDataType::KeywordOnly},
+			{mvPythonDataType::FloatList, "color", "", "(0, 0, 0, -1)"},
+			{mvPythonDataType::Float, "weight", "", "1.0"},
+			{mvPythonDataType::Bool, "update_bounds", "update plot bounds", "True"},
+			{mvPythonDataType::Bool, "xy_data_format", "", "False"},
+		}, "Adds a stair series to a plot.", "None", "Plotting") });
+
 		parsers->insert({ "add_error_series", mvPythonParser({
 			{mvPythonDataType::String, "plot"},
 			{mvPythonDataType::String, "name"},
@@ -1202,6 +1213,81 @@ namespace Marvel {
 				return GetPyNone();
 
 			series = new mvLineSeries(name, datapoints, mcolor);
+		}
+
+		series->setWeight(weight);
+		graph->updateSeries(series, update_bounds);
+
+		return GetPyNone();
+	}
+
+	PyObject* add_stair_series(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		const char* plot;
+		const char* name;
+		PyObject* data;
+		float weight = 1.0f;
+		PyObject* color = PyTuple_New(4);
+		PyTuple_SetItem(color, 0, PyLong_FromLong(-255));
+		PyTuple_SetItem(color, 1, PyLong_FromLong(0));
+		PyTuple_SetItem(color, 2, PyLong_FromLong(0));
+		PyTuple_SetItem(color, 3, PyLong_FromLong(255));
+		int update_bounds = true;
+		int xy_data_format = false;
+
+		if (!(*mvApp::GetApp()->getParsers())["add_stair_series"].parse(args, kwargs, __FUNCTION__,
+			&plot, &name, &data, &color, &weight, &update_bounds, &xy_data_format))
+			return GetPyNone();
+
+		if (!PyList_Check(data))
+		{
+			std::string message = plot;
+			ThrowPythonException(message + " add stair series requires a list of lists.");
+			return GetPyNone();
+		}
+
+		mvAppItem* aplot = mvApp::GetApp()->getItemRegistry().getItem(plot);
+
+		if (aplot == nullptr)
+		{
+			std::string message = plot;
+			ThrowPythonException(message + " plot does not exist.");
+			return GetPyNone();
+		}
+
+		if (aplot->getType() != mvAppItemType::Plot)
+		{
+			std::string message = plot;
+			ThrowPythonException(message + " is not a plot.");
+			return GetPyNone();
+		}
+
+		mvPlot* graph = static_cast<mvPlot*>(aplot);
+
+		auto mcolor = ToColor(color);
+
+		mvStairSeries* series;
+
+		if (xy_data_format)
+		{
+			auto datapoints = ToPairVec(data);
+
+			if (datapoints.first.size() == 0 || datapoints.first.size() != datapoints.second.size())
+			{
+				ThrowPythonException(std::string(plot) + " data format incorrect");
+				return GetPyNone();
+			}
+
+			series = new mvStairSeries(name, datapoints.first, datapoints.second, mcolor);
+		}
+		else
+		{
+			auto datapoints = ToVectVec2(data);
+
+			if (datapoints.size() == 0)
+				return GetPyNone();
+
+			series = new mvStairSeries(name, datapoints, mcolor);
 		}
 
 		series->setWeight(weight);

@@ -908,6 +908,26 @@ def show_demo():
                 add_line_series("Line Plot##demo", "0.5 + 0.5 * sin(x)", sindata)
                 add_line_series("Line Plot##demo", "x^2", x2data, xy_data_format=True)
 
+            with tree_node("Stair Plots##demo"):
+
+                sindata = []
+                for i in range(0, 10):
+                    #sindata.append([3.14*i/180, 0.5+ 0.5*cos(50*3.14*i/180)])
+                    sindata.append([i/10, 0.5 + 0.5*sin(50*i/10)])
+
+                # using xy_format
+                x2datax = []
+                x2datay = []
+                for i in range(0, 10):
+                    x2datax.append(1/(i+1))
+                    x2datay.append((1/(i+1))**2)
+                x2data = [x2datax, x2datay]
+
+                add_text("Anti-aliasing can be enabled from the plot's context menu (see Help).", bullet=True)
+                add_plot("Stair Plot##demo", x_axis_name="x", y_axis_name="y", height=400)
+                add_stair_series("Stair Plot##demo", "0.5 + 0.5 * sin(x)", sindata)
+                add_stair_series("Stair Plot##demo", "x^2", x2data, xy_data_format=True)
+
             with tree_node("Time Plots##demo"):
 
                 timedata = []
