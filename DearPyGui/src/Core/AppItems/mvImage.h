@@ -62,7 +62,7 @@ namespace Marvel {
 			if (m_dirty)
 			{
 				mvTexture* texture = mvTextureStorage::GetTexture(m_value);
-				if (texture)
+				if (m_texture)
 				{
 					m_width = (int)((float)texture->width * (m_uv_max.x - m_uv_min.x));
 					m_height = (int)((float)texture->height * (m_uv_max.y - m_uv_min.y));
