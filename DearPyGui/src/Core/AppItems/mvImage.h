@@ -76,9 +76,6 @@ namespace Marvel {
 					ImVec4((float)m_tintColor.r, (float)m_tintColor.g, (float)m_tintColor.b, (float)m_tintColor.a),
 					ImVec4((float)m_borderColor.r, (float)m_borderColor.g, (float)m_borderColor.b, (float)m_borderColor.a));
 
-				// Regular Tooltip (simple)
-				if (!getTip().empty() && ImGui::IsItemHovered())
-					ImGui::SetTooltip("%s", getTip().c_str());
 			}
 
 		}
@@ -187,10 +184,6 @@ namespace Marvel {
 					m_backgroundColor.toVec4(), m_tintColor.toVec4()))
 					mvApp::GetApp()->addCallback(m_callback, m_name, m_callbackData);
 
-
-				// Regular Tooltip (simple)
-				if (!getTip().empty() && ImGui::IsItemHovered())
-					ImGui::SetTooltip("%s", getTip().c_str());
 			}
 
 		}

@@ -54,6 +54,10 @@ namespace Marvel {
 
 				item->draw();
 
+				// Regular Tooltip (simple)
+				if (!item->getTip().empty() && ImGui::IsItemHovered())
+					ImGui::SetTooltip("%s", item->getTip().c_str());
+
 				item->getState().update();
 			}
 
@@ -161,6 +165,10 @@ namespace Marvel {
 
 				item->draw();
 
+				// Regular Tooltip (simple)
+				if (!item->getTip().empty() && ImGui::IsItemHovered())
+					ImGui::SetTooltip("%s", item->getTip().c_str());
+
 				if (m_horizontal)
 					ImGui::SameLine(0.0, m_hspacing);
 
@@ -245,6 +253,10 @@ namespace Marvel {
 						ImGui::SetNextItemWidth((float)item->getWidth());
 
 					item->draw();
+
+					// Regular Tooltip (simple)
+					if (!item->getTip().empty() && ImGui::IsItemHovered())
+						ImGui::SetTooltip("%s", item->getTip().c_str());
 
 					item->getState().update();
 					int a = 5;
@@ -348,6 +360,10 @@ namespace Marvel {
 						ImGui::SetNextItemWidth((float)item->getWidth());
 
 					item->draw();
+
+					// Regular Tooltip (simple)
+					if (!item->getTip().empty() && ImGui::IsItemHovered())
+						ImGui::SetTooltip("%s", item->getTip().c_str());
 
 					item->getState().update();
 				}

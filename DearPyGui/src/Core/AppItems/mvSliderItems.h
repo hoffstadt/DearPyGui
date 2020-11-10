@@ -82,18 +82,12 @@ namespace Marvel {
 				if (ImGui::VSliderFloat(m_label.c_str(), ImVec2((float)m_width, (float)m_height), m_enabled ? m_value : &m_disabled_value, m_min, m_max, m_format.c_str()))
 					mvApp::GetApp()->addCallback(getCallback(false), m_name, m_callbackData);
 
-				// Regular Tooltip (simple)
-				if (!getTip().empty() && ImGui::IsItemHovered())
-					ImGui::SetTooltip("%s", getTip().c_str());
 			}
 			else
 			{
 				if (ImGui::SliderFloat(m_label.c_str(), m_enabled ? m_value : &m_disabled_value, m_min, m_max, m_format.c_str(), m_flags))
 					mvApp::GetApp()->addCallback(getCallback(false), m_name, m_callbackData);
 
-				// Regular Tooltip (simple)
-				if (!getTip().empty() && ImGui::IsItemHovered())
-					ImGui::SetTooltip("%s", getTip().c_str());
 			}
 
 		}
@@ -211,19 +205,12 @@ namespace Marvel {
 
 				if (ImGui::VSliderInt(m_label.c_str(), ImVec2((float)m_width, (float)m_height), m_enabled ? m_value : &m_disabled_value, m_min, m_max, m_format.c_str()))
 					mvApp::GetApp()->addCallback(getCallback(false), m_name, m_callbackData);
-
-				// Regular Tooltip (simple)
-				if (!getTip().empty() && ImGui::IsItemHovered())
-					ImGui::SetTooltip("%s", getTip().c_str());
 			}
 			else
 			{
 				if (ImGui::SliderInt(m_label.c_str(), m_enabled ? m_value : &m_disabled_value, m_min, m_max, m_format.c_str(), m_flags))
 					mvApp::GetApp()->addCallback(getCallback(false), m_name, m_callbackData);
 
-				// Regular Tooltip (simple)
-				if (!getTip().empty() && ImGui::IsItemHovered())
-					ImGui::SetTooltip("%s", getTip().c_str());
 			}
 
 		}
@@ -335,9 +322,6 @@ namespace Marvel {
 			if (ImGui::SliderFloat2(m_label.c_str(), m_enabled ? m_value : &m_disabled_value[0], m_min, m_max, m_format.c_str(), m_flags))
 				mvApp::GetApp()->addCallback(getCallback(false), m_name, m_callbackData);
 
-			// Regular Tooltip (simple)
-			if (!getTip().empty() && ImGui::IsItemHovered())
-				ImGui::SetTooltip("%s", getTip().c_str());
 		}
 
 		void setExtraConfigDict(PyObject* dict) override
@@ -444,9 +428,6 @@ namespace Marvel {
 			if (ImGui::SliderFloat3(m_label.c_str(), m_enabled ? m_value : &m_disabled_value[0], m_min, m_max, m_format.c_str(), m_flags))
 				mvApp::GetApp()->addCallback(getCallback(false), m_name, m_callbackData);
 
-			// Regular Tooltip (simple)
-			if (!getTip().empty() && ImGui::IsItemHovered())
-				ImGui::SetTooltip("%s", getTip().c_str());
 		}
 
 		void setExtraConfigDict(PyObject* dict) override
@@ -552,9 +533,6 @@ namespace Marvel {
 			if (ImGui::SliderFloat4(m_label.c_str(), m_enabled ? m_value : &m_disabled_value[0], m_min, m_max, m_format.c_str(), m_flags))
 				mvApp::GetApp()->addCallback(getCallback(false), m_name, m_callbackData);
 
-			// Regular Tooltip (simple)
-			if (!getTip().empty() && ImGui::IsItemHovered())
-				ImGui::SetTooltip("%s", getTip().c_str());
 		}
 
 		void setExtraConfigDict(PyObject* dict) override
@@ -660,10 +638,6 @@ namespace Marvel {
 
 			if (ImGui::SliderInt2(m_label.c_str(), m_enabled ? m_value : &m_disabled_value[0], m_min, m_max, m_format.c_str(), m_flags))
 				mvApp::GetApp()->addCallback(getCallback(false), m_name, m_callbackData);
-
-			// Regular Tooltip (simple)
-			if (!getTip().empty() && ImGui::IsItemHovered())
-				ImGui::SetTooltip("%s", getTip().c_str());
 		}
 
 		void setExtraConfigDict(PyObject* dict) override
@@ -770,9 +744,6 @@ namespace Marvel {
 			if (ImGui::SliderInt3(m_label.c_str(), m_enabled ? m_value : &m_disabled_value[0], m_min, m_max, m_format.c_str(), m_flags))
 				mvApp::GetApp()->addCallback(getCallback(false), m_name, m_callbackData);
 
-			// Regular Tooltip (simple)
-			if (!getTip().empty() && ImGui::IsItemHovered())
-				ImGui::SetTooltip("%s", getTip().c_str());
 		}
 
 		void setExtraConfigDict(PyObject* dict) override
@@ -864,26 +835,21 @@ namespace Marvel {
 
 			if (!m_enabled)
 			{
-				ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(ImGui::GetStyleColorVec4(ImGuiCol_TextDisabled)));
 				ImVec4 disabled_color = ImVec4(ImGui::GetStyleColorVec4(ImGuiCol_TextDisabled));
 				disabled_color.w = 0.392f;
-				ImGui::PushStyleColor(ImGuiCol_FrameBg, disabled_color);
-				ImGui::PushStyleColor(ImGuiCol_FrameBgHovered, disabled_color);
-				ImGui::PushStyleColor(ImGuiCol_FrameBgActive, disabled_color);
-				ImGui::PushStyleColor(ImGuiCol_Button, disabled_color);
-				ImGui::PushStyleColor(ImGuiCol_SliderGrab, disabled_color);
-				ImGui::PushStyleColor(ImGuiCol_SliderGrabActive, disabled_color);
+				styleManager.addColorStyle(ImGuiCol_FrameBg, disabled_color);
+				styleManager.addColorStyle(ImGuiCol_FrameBgHovered, disabled_color);
+				styleManager.addColorStyle(ImGuiCol_FrameBgActive, disabled_color);
+				styleManager.addColorStyle(ImGuiCol_Button, disabled_color);
+				styleManager.addColorStyle(ImGuiCol_SliderGrab, disabled_color);
+				styleManager.addColorStyle(ImGuiCol_SliderGrabActive, disabled_color);
+				styleManager.addColorStyle(ImGuiCol_Text, ImVec4(ImGui::GetStyleColorVec4(ImGuiCol_TextDisabled)));
 				std::copy(m_value, m_value + 4, m_disabled_value);
 			}
 
 			if (ImGui::SliderInt4(m_label.c_str(), m_enabled ? m_value : &m_disabled_value[0], m_min, m_max, m_format.c_str(), m_flags))
 				mvApp::GetApp()->addCallback(getCallback(false), m_name, m_callbackData);
 
-			// Regular Tooltip (simple)
-			if (!getTip().empty() && ImGui::IsItemHovered())
-				ImGui::SetTooltip("%s", getTip().c_str());
-
-			if (!m_enabled) ImGui::PopStyleColor(7);
 		}
 
 		void setExtraConfigDict(PyObject* dict) override

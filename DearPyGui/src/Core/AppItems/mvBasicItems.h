@@ -63,10 +63,6 @@ namespace Marvel {
 					ImGui::OpenPopup(getPopup().c_str());
 			}
 
-			// Regular Tooltip (simple)
-			if (!getTip().empty() && ImGui::IsItemHovered())
-				ImGui::SetTooltip("%s", getTip().c_str());
-
 		}
 
 		void setExtraConfigDict(PyObject* dict) override
@@ -155,9 +151,6 @@ namespace Marvel {
 			if (ImGui::Button(m_label.c_str(), ImVec2((float)m_width, (float)m_height)))
 				mvApp::GetApp()->addCallback(getCallback(false), m_name, m_callbackData);
 
-			// Regular Tooltip (simple)
-			if (!getTip().empty() && ImGui::IsItemHovered())
-				ImGui::SetTooltip("%s", getTip().c_str());
 		}
 
 		void setExtraConfigDict(PyObject* dict) override
@@ -225,11 +218,6 @@ namespace Marvel {
 			if (ImGui::Checkbox(m_label.c_str(), m_enabled ? m_value : &m_disabled_value))
 					mvApp::GetApp()->addCallback(getCallback(false), m_name, m_callbackData);
 
-
-			// Regular Tooltip (simple)
-			if (!getTip().empty() && ImGui::IsItemHovered())
-				ImGui::SetTooltip("%s", getTip().c_str());
-
 		}
 
 	};
@@ -289,10 +277,6 @@ namespace Marvel {
 
 				ImGui::EndCombo();
 			}
-
-			// Regular Tooltip (simple)
-			if (!getTip().empty() && ImGui::IsItemHovered())
-				ImGui::SetTooltip("%s", getTip().c_str());
 
 		}
 
@@ -413,11 +397,6 @@ namespace Marvel {
 			if (ImGui::ListBox(m_label.c_str(), m_enabled ? m_value : &m_disabled_value, m_charNames.data(), (int)m_names.size(), m_itemsHeight))
 				mvApp::GetApp()->addCallback(getCallback(false), m_name, m_callbackData);
 
-
-			// Regular Tooltip (simple)
-			if (!getTip().empty() && ImGui::IsItemHovered())
-				ImGui::SetTooltip("%s", getTip().c_str());
-
 		}
 
 		void setExtraConfigDict(PyObject* dict) override
@@ -494,10 +473,6 @@ namespace Marvel {
 
 				if (ImGui::RadioButton((m_itemnames[i] + "##" + m_name).c_str(), m_enabled ? m_value : &m_disabled_value, (int)i))
 					mvApp::GetApp()->addCallback(getCallback(false), m_name, m_callbackData);
-
-				// Regular Tooltip (simple)
-				if (!getTip().empty() && ImGui::IsItemHovered())
-					ImGui::SetTooltip("%s", getTip().c_str());
 			}
 
 			ImGui::EndGroup();
@@ -549,10 +524,6 @@ namespace Marvel {
 			ScopedID id;
 
 			ImGui::ProgressBar(*m_value, ImVec2((float)m_width, (float)m_height), m_overlay.c_str());
-
-			// Regular Tooltip (simple)
-			if (!getTip().empty() && ImGui::IsItemHovered())
-				ImGui::SetTooltip("%s", getTip().c_str());
 
 		}
 
