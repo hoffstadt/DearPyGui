@@ -85,6 +85,29 @@ namespace Marvel {
 
 	}
 
+	mvSeries::mvSeries(std::string name, const std::vector<float>& dates, const std::vector<float>& opens,
+		const std::vector<float>& highs, const std::vector<float>& lows, const std::vector<float>& closes)
+		: m_name(std::move(name))
+	{
+
+		if (!dates.empty())
+		{
+			auto minmax = minmax_element(dates.begin(), dates.end());
+			m_maxX = *minmax.second;
+			m_minX = *minmax.first;
+			minmax = minmax_element(lows.begin(), lows.end());
+			m_minY = *minmax.first;
+			minmax = minmax_element(highs.begin(), highs.end());
+			m_maxY = *minmax.second;
+		}
+
+		m_xs = dates;
+		m_ys = opens;
+		m_extra0 = highs;
+		m_extra1 = lows;
+		m_extra2 = closes;
+	}
+
 	mvSeries::mvSeries(std::string name, const std::vector<std::vector<float>>& points)
 		: m_name(std::move(name))
 	{

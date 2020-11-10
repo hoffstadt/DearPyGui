@@ -54,4 +54,6 @@ namespace Marvel {
 	PyObject* add_area_series      (PyObject* self, PyObject* args, PyObject* kwargs);
 	PyObject* add_error_series     (PyObject* self, PyObject* args, PyObject* kwargs);
 	PyObject* add_heat_series      (PyObject* self, PyObject* args, PyObject* kwargs);
+	PyObject* add_stair_series     (PyObject* self, PyObject* args, PyObject* kwargs);
+	PyObject* add_candle_series     (PyObject* self, PyObject* args, PyObject* kwargs);
 }
