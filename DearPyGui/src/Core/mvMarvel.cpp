@@ -789,6 +789,7 @@ namespace Marvel {
 		ADD_PYTHON_FUNCTION(add_error_series)
 		ADD_PYTHON_FUNCTION(add_image_series)
 		ADD_PYTHON_FUNCTION(add_stair_series)
+		ADD_PYTHON_FUNCTION(add_candle_series)
 		ADD_PYTHON_FUNCTION(delete_series)
 		ADD_PYTHON_FUNCTION(add_heat_series)
 		ADD_PYTHON_FUNCTION(add_text_point)
