@@ -853,7 +853,9 @@ def show_demo():
             draw_polyline("drawing##widget##demo", ((320, 490), (185, 200), (500, 710)), (255, 255, 0, 255), thickness=1.0)
             draw_polygon("drawing##widget##demo", ((363, 471), (153, 498), (59, 220), (363, 471)), (255, 125, 0, 255), thickness=1.0, fill=(255, 125, 0, 50))
             draw_bezier_curve("drawing##widget##demo", (50, 200), (150, 250), (300, 150), (600, 250), (255, 255, 0, 255), thickness = 2.0)
-            draw_arrow("drawing##widget##demo", (50, 70), (100, 65), (0, 200, 255), 1, 10)
+            draw_text("drawing##widget##demo", (15, 30), "Origin", color=(255, 255, 255, 255), size=15)
+            draw_arrow("drawing##widget##demo", (0, 300), (0, 0), (255, 0, 0), 4, 30)
+            draw_arrow("drawing##widget##demo", (300, 0), (0, 0), (0, 0, 255), 4, 30)
             draw_image("drawing##widget##demo", "INTERNAL_DPG_FONT_ATLAS", pmin=[0,400], uv_max=[0.1, 0.1])
 
         with collapsing_header("Plots##demo"):

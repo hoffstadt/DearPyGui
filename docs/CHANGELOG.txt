@@ -36,6 +36,11 @@ New Commands:
 - Plots: Added "add_candle_series" command
 - Plots: adding a 3rd coordinate to shade series fills area between y's
 
+Fixes:
+- draw_image: fixed draw_image flipping issue #310
+- add_drawing: fixed crash on add_image using invalid path with texture coordinates
+
+
 -----------------------------------------------------------------------
  VERSION 0.5.66
 -----------------------------------------------------------------------
