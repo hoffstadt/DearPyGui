@@ -81,8 +81,8 @@ set(MARVEL_SOURCES
 
 set(MARVEL_INCLUDE_DIR
 
-	"include/"
 	"src/"
+	"src/core"
 	"$<$<PLATFORM_ID:Windows>:${CMAKE_SOURCE_DIR}/DearPyGui/Vendor/dirent/>"
 	"../Dependencies/ImGuiFileDialog/ImGuiFileDialog/"
 	"../Dependencies/glfw/include/"
@@ -92,12 +92,9 @@ set(MARVEL_INCLUDE_DIR
 	"../Dependencies/imgui/examples/libs/gl3w"
 	"../Dependencies/cpython/"
 	"../Dependencies/cpython/Include/"
-	"Vendor/implot/"
-	"Vendor/stb/"
+	"vendor/implot/"
+	"vendor/stb/"
 	"$<$<PLATFORM_ID:Windows>:${CMAKE_SOURCE_DIR}/Dependencies/cpython/PC/>"
-
-	#"/usr/include/python3.7/"
-	#"/usr/include/python3.8/"
 
 	# may can delete this
 	"../Dependencies/cpython/debug/"
