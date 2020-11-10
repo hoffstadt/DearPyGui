@@ -1406,7 +1406,7 @@ namespace Marvel {
 
 		mvPlot* graph = static_cast<mvPlot*>(aplot);
 
-		auto datapoints = ToVectVec2(data);
+		auto datapoints = ToVectVec4(data);
 
 		auto mcolor = ToColor(color);
 		auto mfill = ToColor(fill);

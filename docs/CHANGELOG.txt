@@ -34,6 +34,7 @@ Updates:
 New Commands:
 - Plots: Added "add_stair_series" command
 - Plots: Added "add_candle_series" command
+- Plots: adding a 3rd coordinate to shade series fills area between y's
 
 -----------------------------------------------------------------------
  VERSION 0.5.66

@@ -8,7 +8,7 @@ namespace Marvel {
 
 	public:
 
-		mvShadeSeries(const std::string& name, const std::vector<mvVec2>& points,
+		mvShadeSeries(const std::string& name, const std::vector<mvVec4>& points,
 			mvColor color, mvColor fill)
 			: mvSeries(name, points), m_color(color), m_fill(fill)
 		{
@@ -22,7 +22,7 @@ namespace Marvel {
 	
 			ImPlot::SetNextFillStyle(m_fill.toVec4());
 			ImPlot::PushStyleVar(ImPlotStyleVar_LineWeight, m_weight);
-			ImPlot::PlotShaded(m_name.c_str(), m_xs.data(), m_ys.data(), (int)m_xs.size());
+			ImPlot::PlotShaded(m_name.c_str(), m_xs.data(), m_ys.data(), m_extra1.data(), (int)m_xs.size());
 			ImPlot::PopStyleVar();
 		}
 
