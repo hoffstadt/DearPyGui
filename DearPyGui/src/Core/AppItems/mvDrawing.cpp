@@ -39,10 +39,28 @@ namespace Marvel {
 		}
 
 		mvVec2 start = draw->getStart();
+
+		//TODO: this is a quick fix and should be replaced when drawing is reworked.
+		mvVec2 pminInvert;
+		mvVec2 pmaxInvert;
+
 		if (m_autosize)
-			m_pmax = { (float)m_width* draw->getScale().x + m_pmin.x, (float)m_height*draw->getScale().y + m_pmin.y };
-		if(m_texture)
-			draw_list->AddImage(m_texture, m_pmin + start, m_pmax+start, m_uv_min, m_uv_max, m_color);
+		{
+			m_pmax = { (float)m_width * draw->getScale().x + m_pmin.x, (float)m_height * draw->getScale().y + m_pmin.y };
+			//shifts the y's for the min and max which will draw from the bottom_left = pmin to top_right = pmax
+			pminInvert = { m_pmin.x, m_pmin.y - (float)m_height * draw->getScale().y };
+			pmaxInvert = { m_pmax.x, m_pmax.y - (float)m_height * draw->getScale().y};
+		}
+		else
+		{
+			//swaps the y's for the min and max which will draw from the bottom_left = pmin to top_right = pmax
+			pminInvert = { m_pmin.x, m_pmax.y };
+			pmaxInvert = { m_pmax.x, m_pmin.y };
+		}
+		if (m_texture)
+		{
+			draw_list->AddImage(m_texture, pminInvert + start, pmaxInvert + start, m_uv_min, m_uv_max, m_color);
+		}
 	}
 
 	void mvDrawLineCommand::draw(mvDrawing* draw, ImDrawList* draw_list)
