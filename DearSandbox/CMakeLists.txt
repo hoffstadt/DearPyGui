@@ -25,7 +25,7 @@ target_include_directories(DearSandbox
 		"$<$<PLATFORM_ID:Windows>:${CMAKE_SOURCE_DIR}/Dependencies/cpython/PC/>"
 		"../Dependencies/imgui/"
 		"../DearPyGui/src/"
-		"../DearPyGui/include/"
+		"../DearPyGui/src/core/"
 		"../Dependencies/cpython/"
 		"../Dependencies/cpython/debug/"
 		"../Dependencies/cpython/Include/"
