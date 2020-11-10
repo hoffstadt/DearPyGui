@@ -27,6 +27,12 @@ namespace Marvel {
         return std::move(mvAppItemStyleManagerScope(*this));
     }
 
+    void mvAppItemStyleManagerScope::addColorStyle(ImGuiCol item, ImVec4 color)
+    {
+        m_manager.addColorStyle(item, mvColor(color));
+        ImGui::PushStyleColor(item, color);
+    }
+
     void mvAppItemStyleManager::addColorStyle(ImGuiCol item, mvColor color)
     {
         m_colors.push_back({ item, color });

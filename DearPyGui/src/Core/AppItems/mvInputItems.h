@@ -61,13 +61,13 @@ namespace Marvel {
 
 			if (!m_enabled)
 			{
-				ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(ImGui::GetStyleColorVec4(ImGuiCol_TextDisabled)));
 				ImVec4 disabled_color = ImVec4(ImGui::GetStyleColorVec4(ImGuiCol_TextDisabled));
 				disabled_color.w = 0.392f;
-				ImGui::PushStyleColor(ImGuiCol_FrameBg, disabled_color);
-				ImGui::PushStyleColor(ImGuiCol_FrameBgHovered, disabled_color);
-				ImGui::PushStyleColor(ImGuiCol_FrameBgActive, disabled_color);
-				ImGui::PushStyleColor(ImGuiCol_Button, disabled_color);
+				styleManager.addColorStyle(ImGuiCol_FrameBg, disabled_color);
+				styleManager.addColorStyle(ImGuiCol_FrameBgHovered, disabled_color);
+				styleManager.addColorStyle(ImGuiCol_FrameBgActive, disabled_color);
+				styleManager.addColorStyle(ImGuiCol_Button, disabled_color);
+				styleManager.addColorStyle(ImGuiCol_Text, ImVec4(ImGui::GetStyleColorVec4(ImGuiCol_TextDisabled)));
 			}
 
 			if (ImGui::InputInt(m_label.c_str(), m_value, 1, 100, m_flags))
@@ -77,7 +77,6 @@ namespace Marvel {
 			if (!getTip().empty() && ImGui::IsItemHovered())
 				ImGui::SetTooltip("%s", getTip().c_str());
 
-			if (!m_enabled) ImGui::PopStyleColor(5);
 		}
 
 		void setExtraConfigDict(PyObject* dict) override
@@ -142,13 +141,13 @@ namespace Marvel {
 
 			if (!m_enabled)
 			{
-				ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(ImGui::GetStyleColorVec4(ImGuiCol_TextDisabled)));
 				ImVec4 disabled_color = ImVec4(ImGui::GetStyleColorVec4(ImGuiCol_TextDisabled));
 				disabled_color.w = 0.392f;
-				ImGui::PushStyleColor(ImGuiCol_FrameBg, disabled_color);
-				ImGui::PushStyleColor(ImGuiCol_FrameBgHovered, disabled_color);
-				ImGui::PushStyleColor(ImGuiCol_FrameBgActive, disabled_color);
-				ImGui::PushStyleColor(ImGuiCol_Button, disabled_color);
+				styleManager.addColorStyle(ImGuiCol_FrameBg, disabled_color);
+				styleManager.addColorStyle(ImGuiCol_FrameBgHovered, disabled_color);
+				styleManager.addColorStyle(ImGuiCol_FrameBgActive, disabled_color);
+				styleManager.addColorStyle(ImGuiCol_Button, disabled_color);
+				styleManager.addColorStyle(ImGuiCol_Text, ImVec4(ImGui::GetStyleColorVec4(ImGuiCol_TextDisabled)));
 			}
 
 			if (ImGui::InputInt2(m_label.c_str(), m_value, m_flags))
@@ -159,7 +158,6 @@ namespace Marvel {
 			if (!getTip().empty() && ImGui::IsItemHovered())
 				ImGui::SetTooltip("%s", getTip().c_str());
 
-			if (!m_enabled) ImGui::PopStyleColor(5);
 		}
 
 		void setExtraConfigDict(PyObject* dict) override
@@ -224,25 +222,21 @@ namespace Marvel {
 
 			if (!m_enabled)
 			{
-				ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(ImGui::GetStyleColorVec4(ImGuiCol_TextDisabled)));
 				ImVec4 disabled_color = ImVec4(ImGui::GetStyleColorVec4(ImGuiCol_TextDisabled));
 				disabled_color.w = 0.392f;
-				ImGui::PushStyleColor(ImGuiCol_FrameBg, disabled_color);
-				ImGui::PushStyleColor(ImGuiCol_FrameBgHovered, disabled_color);
-				ImGui::PushStyleColor(ImGuiCol_FrameBgActive, disabled_color);
-				ImGui::PushStyleColor(ImGuiCol_Button, disabled_color);
+				styleManager.addColorStyle(ImGuiCol_FrameBg, disabled_color);
+				styleManager.addColorStyle(ImGuiCol_FrameBgHovered, disabled_color);
+				styleManager.addColorStyle(ImGuiCol_FrameBgActive, disabled_color);
+				styleManager.addColorStyle(ImGuiCol_Button, disabled_color);
+				styleManager.addColorStyle(ImGuiCol_Text, ImVec4(ImGui::GetStyleColorVec4(ImGuiCol_TextDisabled)));
 			}
 
 			if (ImGui::InputInt3(m_label.c_str(), m_value, m_flags))
 				mvApp::GetApp()->addCallback(m_callback, m_name, m_callbackData);
 
-
 			// Regular Tooltip (simple)
 			if (!getTip().empty() && ImGui::IsItemHovered())
 				ImGui::SetTooltip("%s", getTip().c_str());
-
-			if (!m_enabled) ImGui::PopStyleColor(5);
-
 		}
 
 		void setExtraConfigDict(PyObject* dict) override
@@ -307,13 +301,13 @@ namespace Marvel {
 
 			if (!m_enabled)
 			{
-				ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(ImGui::GetStyleColorVec4(ImGuiCol_TextDisabled)));
 				ImVec4 disabled_color = ImVec4(ImGui::GetStyleColorVec4(ImGuiCol_TextDisabled));
 				disabled_color.w = 0.392f;
-				ImGui::PushStyleColor(ImGuiCol_FrameBg, disabled_color);
-				ImGui::PushStyleColor(ImGuiCol_FrameBgHovered, disabled_color);
-				ImGui::PushStyleColor(ImGuiCol_FrameBgActive, disabled_color);
-				ImGui::PushStyleColor(ImGuiCol_Button, disabled_color);
+				styleManager.addColorStyle(ImGuiCol_FrameBg, disabled_color);
+				styleManager.addColorStyle(ImGuiCol_FrameBgHovered, disabled_color);
+				styleManager.addColorStyle(ImGuiCol_FrameBgActive, disabled_color);
+				styleManager.addColorStyle(ImGuiCol_Button, disabled_color);
+				styleManager.addColorStyle(ImGuiCol_Text, ImVec4(ImGui::GetStyleColorVec4(ImGuiCol_TextDisabled)));
 			}
 
 			if (ImGui::InputInt4(m_label.c_str(), m_value, m_flags))
@@ -323,7 +317,6 @@ namespace Marvel {
 			if (!getTip().empty() && ImGui::IsItemHovered())
 				ImGui::SetTooltip("%s", getTip().c_str());
 
-			if (!m_enabled) ImGui::PopStyleColor(5);
 		}
 
 		void setExtraConfigDict(PyObject* dict) override
@@ -388,13 +381,13 @@ namespace Marvel {
 
 			if (!m_enabled)
 			{
-				ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(ImGui::GetStyleColorVec4(ImGuiCol_TextDisabled)));
 				ImVec4 disabled_color = ImVec4(ImGui::GetStyleColorVec4(ImGuiCol_TextDisabled));
 				disabled_color.w = 0.392f;
-				ImGui::PushStyleColor(ImGuiCol_FrameBg, disabled_color);
-				ImGui::PushStyleColor(ImGuiCol_FrameBgHovered, disabled_color);
-				ImGui::PushStyleColor(ImGuiCol_FrameBgActive, disabled_color);
-				ImGui::PushStyleColor(ImGuiCol_Button, disabled_color);
+				styleManager.addColorStyle(ImGuiCol_FrameBg, disabled_color);
+				styleManager.addColorStyle(ImGuiCol_FrameBgHovered, disabled_color);
+				styleManager.addColorStyle(ImGuiCol_FrameBgActive, disabled_color);
+				styleManager.addColorStyle(ImGuiCol_Button, disabled_color);
+				styleManager.addColorStyle(ImGuiCol_Text, ImVec4(ImGui::GetStyleColorVec4(ImGuiCol_TextDisabled)));
 			}
 
 			if (ImGui::InputFloat(m_label.c_str(), m_value, m_step, m_step_fast, m_format.c_str(), m_flags))
@@ -405,7 +398,6 @@ namespace Marvel {
 			if (!getTip().empty() && ImGui::IsItemHovered())
 				ImGui::SetTooltip("%s", getTip().c_str());
 
-			if (!m_enabled) ImGui::PopStyleColor(5);
 		}
 
 		void setExtraConfigDict(PyObject* dict) override
@@ -498,13 +490,13 @@ namespace Marvel {
 
 			if (!m_enabled)
 			{
-				ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(ImGui::GetStyleColorVec4(ImGuiCol_TextDisabled)));
 				ImVec4 disabled_color = ImVec4(ImGui::GetStyleColorVec4(ImGuiCol_TextDisabled));
 				disabled_color.w = 0.392f;
-				ImGui::PushStyleColor(ImGuiCol_FrameBg, disabled_color);
-				ImGui::PushStyleColor(ImGuiCol_FrameBgHovered, disabled_color);
-				ImGui::PushStyleColor(ImGuiCol_FrameBgActive, disabled_color);
-				ImGui::PushStyleColor(ImGuiCol_Button, disabled_color);
+				styleManager.addColorStyle(ImGuiCol_FrameBg, disabled_color);
+				styleManager.addColorStyle(ImGuiCol_FrameBgHovered, disabled_color);
+				styleManager.addColorStyle(ImGuiCol_FrameBgActive, disabled_color);
+				styleManager.addColorStyle(ImGuiCol_Button, disabled_color);
+				styleManager.addColorStyle(ImGuiCol_Text, ImVec4(ImGui::GetStyleColorVec4(ImGuiCol_TextDisabled)));
 			}
 
 			if (ImGui::InputFloat2(m_label.c_str(), m_value, m_format.c_str(), m_flags))
@@ -513,8 +505,6 @@ namespace Marvel {
 			// Regular Tooltip (simple)
 			if (!getTip().empty() && ImGui::IsItemHovered())
 				ImGui::SetTooltip("%s", getTip().c_str());
-
-			if (!m_enabled) ImGui::PopStyleColor(5);
 		}
 
 		void setExtraConfigDict(PyObject* dict) override
@@ -601,13 +591,13 @@ namespace Marvel {
 
 			if (!m_enabled)
 			{
-				ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(ImGui::GetStyleColorVec4(ImGuiCol_TextDisabled)));
 				ImVec4 disabled_color = ImVec4(ImGui::GetStyleColorVec4(ImGuiCol_TextDisabled));
 				disabled_color.w = 0.392f;
-				ImGui::PushStyleColor(ImGuiCol_FrameBg, disabled_color);
-				ImGui::PushStyleColor(ImGuiCol_FrameBgHovered, disabled_color);
-				ImGui::PushStyleColor(ImGuiCol_FrameBgActive, disabled_color);
-				ImGui::PushStyleColor(ImGuiCol_Button, disabled_color);
+				styleManager.addColorStyle(ImGuiCol_FrameBg, disabled_color);
+				styleManager.addColorStyle(ImGuiCol_FrameBgHovered, disabled_color);
+				styleManager.addColorStyle(ImGuiCol_FrameBgActive, disabled_color);
+				styleManager.addColorStyle(ImGuiCol_Button, disabled_color);
+				styleManager.addColorStyle(ImGuiCol_Text, ImVec4(ImGui::GetStyleColorVec4(ImGuiCol_TextDisabled)));
 			}
 
 			if (ImGui::InputFloat3(m_label.c_str(), m_value, m_format.c_str(), m_flags))
@@ -616,8 +606,6 @@ namespace Marvel {
 			// Regular Tooltip (simple)
 			if (!getTip().empty() && ImGui::IsItemHovered())
 				ImGui::SetTooltip("%s", getTip().c_str());
-
-			if (!m_enabled) ImGui::PopStyleColor(5);
 		}
 
 		void setExtraConfigDict(PyObject* dict) override
@@ -704,13 +692,13 @@ namespace Marvel {
 
 			if (!m_enabled)
 			{
-				ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(ImGui::GetStyleColorVec4(ImGuiCol_TextDisabled)));
 				ImVec4 disabled_color = ImVec4(ImGui::GetStyleColorVec4(ImGuiCol_TextDisabled));
 				disabled_color.w = 0.392f;
-				ImGui::PushStyleColor(ImGuiCol_FrameBg, disabled_color);
-				ImGui::PushStyleColor(ImGuiCol_FrameBgHovered, disabled_color);
-				ImGui::PushStyleColor(ImGuiCol_FrameBgActive, disabled_color);
-				ImGui::PushStyleColor(ImGuiCol_Button, disabled_color);
+				styleManager.addColorStyle(ImGuiCol_FrameBg, disabled_color);
+				styleManager.addColorStyle(ImGuiCol_FrameBgHovered, disabled_color);
+				styleManager.addColorStyle(ImGuiCol_FrameBgActive, disabled_color);
+				styleManager.addColorStyle(ImGuiCol_Button, disabled_color);
+				styleManager.addColorStyle(ImGuiCol_Text, ImVec4(ImGui::GetStyleColorVec4(ImGuiCol_TextDisabled)));
 			}
 
 			if (ImGui::InputFloat4(m_label.c_str(), m_value, m_format.c_str(), m_flags))
@@ -719,8 +707,6 @@ namespace Marvel {
 			// Regular Tooltip (simple)
 			if (!getTip().empty() && ImGui::IsItemHovered())
 				ImGui::SetTooltip("%s", getTip().c_str());
-
-			if (!m_enabled) ImGui::PopStyleColor(5);
 		}
 
 		void setExtraConfigDict(PyObject* dict) override
