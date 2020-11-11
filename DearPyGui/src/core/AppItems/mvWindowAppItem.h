@@ -2,7 +2,7 @@
 
 #include <utility>
 
-#include "Core/AppItems/mvTypeBases.h"
+#include "core/AppItems/mvTypeBases.h"
 #include "mvApp.h"
 #include "mvEventHandler.h"
 

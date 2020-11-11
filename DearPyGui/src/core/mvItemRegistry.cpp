@@ -1,7 +1,7 @@
 #include "mvItemRegistry.h"
 #include "mvPythonExceptions.h"
 #include "mvAppItem.h"
-#include "Core/AppItems/mvWindowAppItem.h"
+#include "core/AppItems/mvWindowAppItem.h"
 #include "mvProfiler.h"
 #include "mvApp.h"
 

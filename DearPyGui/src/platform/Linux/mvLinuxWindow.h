@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Core/mvWindow.h"
+#include "core/mvWindow.h"
 
 class GLFWwindow;
 

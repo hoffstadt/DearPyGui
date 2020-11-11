@@ -1,6 +1,6 @@
 #include "mvApp.h"
 #include "mvMarvel.h"
-#include "Core/mvWindow.h"
+#include "core/mvWindow.h"
 #include "mvCore.h"
 #include "mvDataStorage.h"
 #include "mvInput.h"
@@ -12,8 +12,8 @@
 #include <thread>
 #include <future>
 #include <chrono>
-#include "Core/mvThreadPool.h"
-#include "Core/mvAppItems.h"
+#include "core/mvThreadPool.h"
+#include "core/mvAppItems.h"
 #include <frameobject.h>
 #include "mvPyObject.h"
 #include "mvProfiler.h"

@@ -2,8 +2,8 @@
 
 #include <utility>
 
-#include "Core/AppItems/mvTypeBases.h"
-#include "Core/mvTextureStorage.h"
+#include "core/AppItems/mvTypeBases.h"
+#include "core/mvTextureStorage.h"
 
 //-----------------------------------------------------------------------------
 // Widget Index

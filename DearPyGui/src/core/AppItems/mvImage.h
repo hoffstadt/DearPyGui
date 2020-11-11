@@ -1,10 +1,9 @@
 #pragma once
 
 #include <utility>
-
 #include "mvAppItem.h"
-#include "Core/mvTextureStorage.h"
-#include "Core/mvPythonExceptions.h"
+#include "core/mvTextureStorage.h"
+#include "core/mvPythonExceptions.h"
 
 //-----------------------------------------------------------------------------
 // Widget Index

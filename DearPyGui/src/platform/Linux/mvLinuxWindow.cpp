@@ -1,6 +1,6 @@
-#include "Platform/Linux/mvLinuxWindow.h"
+#include "platform/Linux/mvLinuxWindow.h"
 #include "mvApp.h"
-#include "Core/mvDataStorage.h"
+#include "core/mvDataStorage.h"
 #include <GL/gl3w.h>
 #include <GLFW/glfw3.h>
 #include "implot.h"
