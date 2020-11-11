@@ -1,10 +1,10 @@
 #include "mvDebugWindow.h"
 #include <misc/cpp/imgui_stdlib.h>
 #include "mvApp.h"
-#include "Core/mvInput.h"
-#include "Core/mvDataStorage.h"
-#include "Core/mvTextureStorage.h"
-#include "Core/mvValueStorage.h"
+#include "core/mvInput.h"
+#include "core/mvDataStorage.h"
+#include "core/mvTextureStorage.h"
+#include "core/mvValueStorage.h"
 
 namespace Marvel {
 

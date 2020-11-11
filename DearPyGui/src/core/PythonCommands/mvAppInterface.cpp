@@ -1,8 +1,8 @@
 #include "mvAppInterface.h"
 #include "mvInterfaceCore.h"
-#include "Core/mvAppItems.h"
-#include "Core/AppItems/mvWindowAppItem.h"
-#include "Core/mvWindow.h"
+#include "core/mvAppItems.h"
+#include "core/AppItems/mvWindowAppItem.h"
+#include "core/mvWindow.h"
 #include <ImGuiFileDialog.h>
 
 namespace Marvel {

@@ -1,6 +1,6 @@
 #pragma once
-#include "Core/mvTextEditor.h"
-#include "Core/AppItems/mvTypeBases.h"
+#include "core/mvTextEditor.h"
+#include "core/AppItems/mvTypeBases.h"
 #include "mvAppItem.h"
 
 namespace Marvel {

@@ -1,7 +1,7 @@
 #include <imgui.h>
 #include "mvApp.h"
 #include "mvStyleWindow.h"
-#include "Core/mvInput.h"
+#include "core/mvInput.h"
 #include "mvPythonTranslator.h"
 
 #define IM_MIN(A, B)            (((A) < (B)) ? (A) : (B))

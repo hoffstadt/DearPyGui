@@ -3,7 +3,7 @@
 #include "mvPlot.h"
 #define PY_SSIZE_T_CLEAN
 #include <Python.h>
-#include "Core/mvInput.h"
+#include "core/mvInput.h"
 
 namespace Marvel {
 

@@ -2,8 +2,8 @@
 #include "mvPythonTranslator.h"
 #include "mvApp.h"
 #include "mvAppLog.h"
-#include "Core/mvDataStorage.h"
-#include "Core/mvPythonExceptions.h"
+#include "core/mvDataStorage.h"
+#include "core/mvPythonExceptions.h"
 
 namespace Marvel {
 
