@@ -23,6 +23,16 @@ HOW TO UPDATE?
 - Please report any issue!
 
 -----------------------------------------------------------------------
+ VERSION 0.6.x
+-----------------------------------------------------------------------
+
+Decorated log: https://github.com/hoffstadt/DearPyGui/releases/tag/v0.6.x
+
+Breaking Changes:
+- Plotting API: data input separated, [x1, x2, ...] and [y1, y2, ...]
+                vs [[x1, y1], [x2, y2], ...]
+
+-----------------------------------------------------------------------
  VERSION 0.5.x
 -----------------------------------------------------------------------
 
