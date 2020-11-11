@@ -2,7 +2,7 @@
 #include "mvMarvel.h"
 #include "core/mvWindow.h"
 #include "mvCore.h"
-#include "mvDataStorage.h"
+#include "Registries/mvDataStorage.h"
 #include "mvInput.h"
 #include "mvTextEditor.h"
 #include "mvThemeScheme.h"
@@ -15,7 +15,7 @@
 #include "core/mvThreadPool.h"
 #include "core/mvAppItems.h"
 #include <frameobject.h>
-#include "mvPyObject.h"
+#include "PythonUtilities/mvPyObject.h"
 #include "mvProfiler.h"
 #include <implot.h>
 

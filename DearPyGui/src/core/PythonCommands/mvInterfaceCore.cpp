@@ -1,6 +1,6 @@
 #include "mvInterfaceCore.h"
 #include "mvApp.h"
-#include "core/mvPythonExceptions.h"
+#include "core/PythonUtilities/mvPythonExceptions.h"
 
 namespace Marvel {
 

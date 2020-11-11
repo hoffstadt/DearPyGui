@@ -1,12 +1,12 @@
 #include "mvMarvel.h"
 #include "mvApp.h"
 #include "core/mvInput.h"
-#include "core/mvDataStorage.h"
+#include "Registries/mvDataStorage.h"
 #include "mvAppLog.h"
-#include "mvPythonTranslator.h"
+#include "PythonUtilities/mvPythonTranslator.h"
 #include "core/mvAppItems.h"
 #include "mvWindow.h"
-#include "core/mvPythonExceptions.h"
+#include "PythonUtilities/mvPythonExceptions.h"
 #include <ImGuiFileDialog.h>
 #include <cstdlib>
 

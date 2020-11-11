@@ -24,9 +24,9 @@
 #include <mutex>
 #include <thread>
 #include "mvAppItem.h"
-#include "mvPythonParser.h"
+#include "PythonUtilities/mvPythonParser.h"
 #include "mvEventHandler.h"
-#include "mvItemRegistry.h"
+#include "Registries/mvItemRegistry.h"
 //#include "Core/mvTimer.h"
 
 //-----------------------------------------------------------------------------

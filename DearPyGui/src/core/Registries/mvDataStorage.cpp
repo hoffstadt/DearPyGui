@@ -2,7 +2,7 @@
 #include "mvApp.h"
 #include "mvAppLog.h"
 #include <thread>
-#include "core/mvPythonExceptions.h"
+#include "core/PythonUtilities/mvPythonExceptions.h"
 
 namespace Marvel {
 
