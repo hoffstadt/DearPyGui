@@ -2,8 +2,8 @@
 
 #include <utility>
 #include "mvAppItem.h"
-#include "core/mvTextureStorage.h"
-#include "core/mvPythonExceptions.h"
+#include "Registries/mvTextureStorage.h"
+#include "PythonUtilities/mvPythonExceptions.h"
 
 //-----------------------------------------------------------------------------
 // Widget Index

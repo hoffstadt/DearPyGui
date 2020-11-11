@@ -1,8 +1,8 @@
 #include <imgui.h>
 #include "mvApp.h"
 #include "mvStyleWindow.h"
-#include "core/mvInput.h"
-#include "mvPythonTranslator.h"
+#include "mvInput.h"
+#include "PythonUtilities/mvPythonTranslator.h"
 
 #define IM_MIN(A, B)            (((A) < (B)) ? (A) : (B))
 #define IM_MAX(A, B)            (((A) >= (B)) ? (A) : (B))

@@ -1,7 +1,7 @@
 #pragma once
 
-#include "core/AppItems/mvTypeBases.h"
-#include "core/mvDataStorage.h"
+#include "AppItems/mvTypeBases.h"
+#include "Registries/mvDataStorage.h"
 #include <misc/cpp/imgui_stdlib.h>
 #include <utility>
 

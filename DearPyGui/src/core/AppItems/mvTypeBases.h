@@ -11,13 +11,13 @@
 #include <utility>
 #include <implot.h>
 #include <implot_internal.h>
-#include "mvPythonTranslator.h"
+#include "PythonUtilities/mvPythonTranslator.h"
 #include "mvApp.h"
 #include "mvAppItem.h"
 #include "core/mvUtilities.h"
 #include "mvAppLog.h"
-#include "core/mvDataStorage.h"
-#include "core/mvValueStorage.h"
+#include "Registries/mvDataStorage.h"
+#include "Registries/mvValueStorage.h"
 
 namespace Marvel {
 
