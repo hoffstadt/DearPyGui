@@ -1,9 +1,9 @@
 #include "mvAppItem.h"
 #include "mvApp.h"
 #include "core/mvInput.h"
-#include "core/mvDataStorage.h"
-#include "mvPythonTranslator.h"
-#include "core/mvPythonExceptions.h"
+#include "Registries/mvDataStorage.h"
+#include "PythonUtilities/mvPythonTranslator.h"
+#include "PythonUtilities/mvPythonExceptions.h"
 #include "mvMarvel.h"
 
 namespace Marvel{

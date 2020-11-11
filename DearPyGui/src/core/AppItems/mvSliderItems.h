@@ -1,10 +1,10 @@
 #pragma once
 
 #include "core/AppItems/mvTypeBases.h"
-#include "mvPythonTranslator.h"
+#include "PythonUtilities/mvPythonTranslator.h"
 #include <utility>
 #include "mvAppItem.h"
-#include "core/mvValueStorage.h"
+#include "Registries/mvValueStorage.h"
 
 //-----------------------------------------------------------------------------
 // Widget Index
