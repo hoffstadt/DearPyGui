@@ -1,7 +1,7 @@
 #include "Platform/Windows/mvWindowsWindow.h"
 #include "mvApp.h"
 #include "implot.h"
-#include "Core/mvDataStorage.h"
+#include "core/mvDataStorage.h"
 #include <cstdlib>
 #include <ctime>
 

@@ -1,5 +1,5 @@
 #include "mvLogger.h"
-#include "Core/mvInput.h"
+#include "core/mvInput.h"
 #include <chrono>
 
 typedef std::chrono::high_resolution_clock clock_;

@@ -3,7 +3,7 @@
 #include "mvPythonTranslator.h"
 #include "mvApp.h"
 #include "mvMarvel.h"
-#include "Core/mvInput.h"
+#include "core/mvInput.h"
 
 namespace Marvel {
 

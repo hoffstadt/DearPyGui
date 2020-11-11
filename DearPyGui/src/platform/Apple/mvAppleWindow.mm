@@ -1,5 +1,5 @@
 #include "mvAppleWindow.h"
-#include "Core/mvDataStorage.h"
+#include "core/mvDataStorage.h"
 #include <implot.h>
 
 #define GLFW_INCLUDE_NONE
