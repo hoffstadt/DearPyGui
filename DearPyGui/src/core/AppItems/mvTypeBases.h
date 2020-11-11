@@ -14,11 +14,10 @@
 #include "mvPythonTranslator.h"
 #include "mvApp.h"
 #include "mvAppItem.h"
-#include "Core/mvUtilities.h"
+#include "core/mvUtilities.h"
 #include "mvAppLog.h"
-#include "Core/mvDataStorage.h"
-
-#include "Core/mvValueStorage.h"
+#include "core/mvDataStorage.h"
+#include "core/mvValueStorage.h"
 
 namespace Marvel {
 

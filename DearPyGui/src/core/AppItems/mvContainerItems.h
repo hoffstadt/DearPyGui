@@ -1,8 +1,8 @@
 #pragma once
 
-#include "Core/AppItems/mvTypeBases.h"
+#include "core/AppItems/mvTypeBases.h"
 #include "mvEventHandler.h"
-#include "Core/mvInput.h"
+#include "core/mvInput.h"
 
 //-----------------------------------------------------------------------------
 // Widget Index

@@ -1,5 +1,5 @@
 #include "mvTextureStorage.h"
-#include "Core/mvUtilities.h"
+#include "core/mvUtilities.h"
 #include <imgui.h>
 
 namespace Marvel {

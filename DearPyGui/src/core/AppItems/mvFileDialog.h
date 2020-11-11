@@ -1,5 +1,5 @@
 #pragma once
-#include "Core/AppItems/mvTypeBases.h"
+#include "core/AppItems/mvTypeBases.h"
 #include "mvAppItem.h"
 #include "mvApp.h"
 #include <ImGuiFileDialog.h>

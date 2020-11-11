@@ -1,8 +1,7 @@
 #pragma once
 
 #include <utility>
-
-#include "Core/AppItems/mvTypeBases.h"
+#include "core/AppItems/mvTypeBases.h"
 #include "mvPythonTranslator.h"
 
 //-----------------------------------------------------------------------------
