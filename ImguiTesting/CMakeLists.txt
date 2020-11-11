@@ -65,8 +65,8 @@ target_include_directories(PureImgui
 		"../Dependencies/ImGuiFileDialog/ImGuiFileDialog/"
 		"../Dependencies/imgui/examples/"
 		"../Dependencies/imgui/examples/libs/gl3w"
-		"../DearPyGui/Vendor/implot/"
-		"../DearPyGui/Vendor/stb/"
+		"../DearPyGui/vendor/implot/"
+		"../DearPyGui/vendor/stb/"
 )
 
 target_link_libraries(PureImgui
