@@ -57,9 +57,9 @@ set(MARVEL_SOURCES
 	"src/core/PlotAppItems/mvAreaSeries.cpp"
 
 	# implot
-	"Vendor/implot/implot.cpp"
-	"Vendor/implot/implot_items.cpp"
-	"Vendor/implot/implot_demo.cpp"
+	"vendor/implot/implot.cpp"
+	"vendor/implot/implot_items.cpp"
+	"vendor/implot/implot_demo.cpp"
 
 	# ImGuiFileDialog
 	"../Dependencies/ImGuiFileDialog/ImGuiFileDialog/ImGuiFileDialog.cpp"
