@@ -8,8 +8,9 @@ namespace Marvel {
 
 	public:
 
-		mvBarSeries(const std::string& name, const std::vector<mvVec2>& points, bool horizontal)
-			: mvSeries(name, points), m_horizontal(horizontal)
+		mvBarSeries(const std::string& name, const std::vector<float>* x,
+			const std::vector<float>* y, bool horizontal)
+			: mvSeries(name, {x, y}), m_horizontal(horizontal)
 		{
 		}
 
@@ -18,9 +19,9 @@ namespace Marvel {
 		void draw() override
 		{
 			if(m_horizontal)
-				ImPlot::PlotBarsH(m_name.c_str(), m_xs.data(), m_ys.data(), (int)m_xs.size(), m_weight);
+				ImPlot::PlotBarsH(m_name.c_str(), m_data[0].data(), m_data[1].data(), (int)m_data[0].size(), m_weight);
 			else
-				ImPlot::PlotBars(m_name.c_str(), m_xs.data(), m_ys.data(), (int)m_xs.size(), m_weight);
+				ImPlot::PlotBars(m_name.c_str(), m_data[0].data(), m_data[1].data(), (int)m_data[0].size(), m_weight);
 		}
 
 	private:

@@ -7,6 +7,47 @@
 
 namespace Marvel {
 
+	mvSeries::mvSeries(std::string name, const std::vector<const std::vector<float>*> data)
+		:
+		m_name(name)
+	{
+
+		for (const auto* list : data)
+			m_data.push_back(*list);
+
+		if (!m_data[0].empty())
+		{
+			m_maxX = m_data[0][0];
+			m_minX = m_data[0][0];
+		}
+
+		if (m_data.size() > 1)
+		{
+			if (!m_data[1].empty())
+			{
+				m_maxY = m_data[0][1];
+				m_minY = m_data[0][1];
+			}
+		}
+
+		for (const auto& x : m_data[0])
+		{
+			if (x > m_maxX) m_maxX = x;
+			if (x < m_minX) m_minX = x;
+			
+		}
+
+		if (m_data.size() > 1)
+		{
+			for (const auto& y : m_data[1])
+			{
+				if (y > m_maxY) m_maxY = y;
+				if (y < m_minY) m_minY = y;
+			}
+		}
+
+	}
+
 	mvSeries::mvSeries(std::string name, const ImPlotPoint& boundsMin, const ImPlotPoint& boundsMax)
 		: m_name(std::move(name))
 	{
@@ -14,109 +55,6 @@ namespace Marvel {
 		m_maxY = (float)boundsMax.y;
 		m_minX = (float)boundsMin.x;
 		m_minY = (float)boundsMin.y;
-	}
-
-	mvSeries::mvSeries(std::string name, const std::vector<mvVec2>& points)
-		: m_name(std::move(name))
-	{
-		if (!points.empty())
-		{
-			m_maxX = points[0].x;
-			m_minX = points[0].x;
-			m_maxY = points[0].y;
-			m_minY = points[0].y;
-		}
-
-		for (auto& point : points)
-		{
-			if (point.x > m_maxX) m_maxX = point.x;
-			if (point.y > m_maxY) m_maxY = point.y;
-			if (point.x < m_minX) m_minX = point.x;
-			if (point.y < m_minY) m_minY = point.y;
-			m_xs.push_back(point.x);
-			m_ys.push_back(point.y);
-		}
-
-	}
-
-	mvSeries::mvSeries(std::string name, const std::vector<mvVec4>& points)
-		: m_name(std::move(name))
-	{
-		if (!points.empty())
-		{
-			m_maxX = points[0].x;
-			m_minX = points[0].x;
-			m_maxY = points[0].y;
-			m_minY = points[0].y;
-		}
-
-		for (auto& point : points)
-		{
-			if (point.x > m_maxX) m_maxX = point.x;
-			if (point.y > m_maxY) m_maxY = point.y;
-			if (point.x < m_minX) m_minX = point.x;
-			if (point.y < m_minY) m_minY = point.y;
-			m_xs.push_back(point.x);
-			m_ys.push_back(point.y);
-			m_extra1.push_back(point.z);
-			m_extra2.push_back(point.w);
-		}
-
-	}
-
-	mvSeries::mvSeries(std::string name, const std::vector<float>& points_x, const std::vector<float>& points_y)
-		: m_name(std::move(name))
-	{
-		// FIXME:
-		// Need to check if points_x.size() == points_y.size() ???
-		
-		if (!points_x.empty())
-		{
-			auto minmax = minmax_element(points_x.begin(), points_x.end());
-			m_maxX = *minmax.second;
-			m_minX = *minmax.first;
-			minmax = minmax_element(points_y.begin(), points_y.end());
-			m_maxY = *minmax.second;
-			m_minY = *minmax.first;
-		}
-		
-		m_xs = points_x;
-		m_ys = points_y;
-
-	}
-
-	mvSeries::mvSeries(std::string name, const std::vector<float>& dates, const std::vector<float>& opens,
-		const std::vector<float>& highs, const std::vector<float>& lows, const std::vector<float>& closes)
-		: m_name(std::move(name))
-	{
-
-		if (!dates.empty())
-		{
-			auto minmax = minmax_element(dates.begin(), dates.end());
-			m_maxX = *minmax.second;
-			m_minX = *minmax.first;
-			minmax = minmax_element(lows.begin(), lows.end());
-			m_minY = *minmax.first;
-			minmax = minmax_element(highs.begin(), highs.end());
-			m_maxY = *minmax.second;
-		}
-
-		m_xs = dates;
-		m_ys = opens;
-		m_extra0 = highs;
-		m_extra1 = lows;
-		m_extra2 = closes;
-	}
-
-	mvSeries::mvSeries(std::string name, const std::vector<std::vector<float>>& points)
-		: m_name(std::move(name))
-	{
-
-		m_maxX = 1;
-		m_minX = 0;
-		m_maxY = 1;
-		m_minY = 0;
-		m_extra3 = points;
 	}
 
 	mvPlot::mvPlot(const std::string& name, PyObject* queryCallback)

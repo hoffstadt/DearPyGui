@@ -160,6 +160,8 @@ namespace Marvel {
 
 			}
 
+			m_drawList.draw(ImGui::GetWindowDrawList(), m_xpos, m_ypos);
+
 			m_state.setVisible(true);
 			m_state.setHovered(ImGui::IsWindowHovered());
 			m_state.setFocused(ImGui::IsWindowFocused());

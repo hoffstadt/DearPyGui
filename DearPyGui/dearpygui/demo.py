@@ -829,34 +829,23 @@ def show_demo():
                 add_separator()
 
         with collapsing_header("Drawings##demo"):
-            add_text("This section is not ready! But will completed sometime during the 0.4.x releases!")
-            def UpdateDrawing(sender, data):
-                set_drawing_origin("drawing##widget##demo", get_value("X Origin##demo"), get_value("Y Origin##demo"))
-                set_drawing_scale("drawing##widget##demo", get_value("X Scale##demo"), get_value("Y Scale##demo"))
-
-            with group("Drawing Controls Group##demo"):
-                add_slider_float("X Origin##demo", vertical=True, min_value = -100, max_value=100, default_value=0, callback=UpdateDrawing)
-                add_same_line(spacing=20)
-                add_slider_float("Y Origin##demo", vertical=True, min_value = -100, max_value=100, default_value=0, callback=UpdateDrawing)
-                add_slider_float("X Scale##demo", vertical=True, max_value=10, default_value=1, callback=UpdateDrawing)
-                add_same_line(spacing=20)
-                add_slider_float("Y Scale##demo", vertical=True, max_value=10, default_value=1, callback=UpdateDrawing)
-            add_same_line(spacing=20)
-            add_drawing("drawing##widget##demo", width=800, height=500)
-            draw_rectangle("drawing##widget##demo", (0, 500), (800, 0), (255, 0, 0, 255), fill=(0, 0, 25, 255), rounding=12, thickness = 1.0)
+            add_text("This section is not ready! But will completed sometime during the 0.6.x releases!")
+            add_drawing("drawing##widget##demo", width=900, height=500)
+            draw_rectangle("drawing##widget##demo", (0, 0), (900, 500), (255, 0, 0, 255), fill=(0, 0, 25, 255), rounding=12, thickness = 1.0) 
             draw_line("drawing##widget##demo", (10, 10), (100, 100), (255, 0, 0, 255), 1)
-            draw_triangle("drawing##widget##demo", (300, 500), (200, 200), (500, 200), (255, 255, 0, 255), thickness = 3.0)
-            draw_quad("drawing##widget##demo", (50, 50), (150, 50), (150, 150), (50, 150), (255, 255, 0, 255), thickness = 3.0)
+            draw_triangle("drawing##widget##demo", (150, 10), (110, 100), (190, 100), (255, 255, 0, 255), thickness = 3.0)
+            draw_quad("drawing##widget##demo", (210, 10), (290, 10), (290, 100), (210, 100), (255, 255, 0, 255), thickness = 3.0)
+            draw_circle("drawing##widget##demo", (350, 60), 49, (255, 255, 0, 255))
+            draw_bezier_curve("drawing##widget##demo", (410, 10), (450, 25), (410, 50), (490, 85), (255, 255, 0, 255), thickness = 2.0)
+            draw_arrow("drawing##widget##demo", (510, 10), (590, 80), (255, 0, 0), 4, 10)
+            draw_image("drawing##widget##demo", "INTERNAL_DPG_FONT_ATLAS", pmin=[610,10], pmax=[690, 80], uv_max=[0.1, 0.1])
             draw_text("drawing##widget##demo", (50, 300), "Some Text", color=(255, 255, 0, 255), size=15)
             draw_text("drawing##widget##demo", (0, 0), "Origin", color=(255, 255, 0, 255), size=15)
-            draw_circle("drawing##widget##demo", (400, 250), 50, (255, 255, 0, 255))
-            draw_polyline("drawing##widget##demo", ((320, 490), (185, 200), (500, 710)), (255, 255, 0, 255), thickness=1.0)
-            draw_polygon("drawing##widget##demo", ((363, 471), (153, 498), (59, 220), (363, 471)), (255, 125, 0, 255), thickness=1.0, fill=(255, 125, 0, 50))
-            draw_bezier_curve("drawing##widget##demo", (50, 200), (150, 250), (300, 150), (600, 250), (255, 255, 0, 255), thickness = 2.0)
-            draw_text("drawing##widget##demo", (15, 30), "Origin", color=(255, 255, 255, 255), size=15)
-            draw_arrow("drawing##widget##demo", (0, 300), (0, 0), (255, 0, 0), 4, 30)
-            draw_arrow("drawing##widget##demo", (300, 0), (0, 0), (0, 0, 255), 4, 30)
-            draw_image("drawing##widget##demo", "INTERNAL_DPG_FONT_ATLAS", pmin=[0,400], uv_max=[0.1, 0.1])
+            draw_polygon("drawing##widget##demo", ((710, 10), (780, 50), (730, 75), (710, 10)), (255, 125, 0, 255), thickness=1.0, fill=(255, 125, 0, 50))
+            draw_polyline("drawing##widget##demo", ((810, 20), (835, 50), (890, 10)), (255, 255, 0, 255), thickness=1.0)
+            #draw_circle("Dear PyGui Demo", (350, 60), 49, (255, 255, 0, 255))
+            #draw_line("##FOREGROUND", (10, 10), (100, 100), (255, 0, 0, 255), 1)
+            #draw_polyline("##BACKGROUND", ((810, 20), (835, 50), (890, 10)), (255, 255, 0, 255), thickness=1.0)
 
         with collapsing_header("Plots##demo"):
 
@@ -892,10 +881,11 @@ def show_demo():
 
             with tree_node("Line Plots##demo"):
 
-                sindata = []
+                sindatax = []
+                sindatay = []
                 for i in range(0, 1000):
-                    #sindata.append([3.14*i/180, 0.5+ 0.5*cos(50*3.14*i/180)])
-                    sindata.append([i/1000, 0.5 + 0.5*sin(50*i/1000)])
+                    sindatax.append(i/1000)
+                    sindatay.append(0.5 + 0.5*sin(50*i/1000))
 
                 # using xy_format
                 x2datax = []
@@ -903,19 +893,19 @@ def show_demo():
                 for i in range(0, 100):
                     x2datax.append(1/(i+1))
                     x2datay.append((1/(i+1))**2)
-                x2data = [x2datax, x2datay]
 
                 add_text("Anti-aliasing can be enabled from the plot's context menu (see Help).", bullet=True)
                 add_plot("Line Plot##demo", x_axis_name="x", y_axis_name="y", height=400)
-                add_line_series("Line Plot##demo", "0.5 + 0.5 * sin(x)", sindata)
-                add_line_series("Line Plot##demo", "x^2", x2data, xy_data_format=True)
+                add_line_series("Line Plot##demo", "0.5 + 0.5 * sin(x)", sindatax, sindatay)
+                add_line_series("Line Plot##demo", "x^2", x2datax, x2datay)
 
             with tree_node("Stair Plots##demo"):
 
-                sindata = []
+                sindatax = []
+                sindatay = []
                 for i in range(0, 10):
-                    #sindata.append([3.14*i/180, 0.5+ 0.5*cos(50*3.14*i/180)])
-                    sindata.append([i/10, 0.5 + 0.5*sin(50*i/10)])
+                    sindatax.append(i/10)
+                    sindatay.append(0.5 + 0.5*sin(50*i/10))
 
                 # using xy_format
                 x2datax = []
@@ -923,50 +913,62 @@ def show_demo():
                 for i in range(0, 10):
                     x2datax.append(1/(i+1))
                     x2datay.append((1/(i+1))**2)
-                x2data = [x2datax, x2datay]
 
                 add_text("Anti-aliasing can be enabled from the plot's context menu (see Help).", bullet=True)
                 add_plot("Stair Plot##demo", x_axis_name="x", y_axis_name="y", height=400)
-                add_stair_series("Stair Plot##demo", "0.5 + 0.5 * sin(x)", sindata)
-                add_stair_series("Stair Plot##demo", "x^2", x2data, xy_data_format=True)
+                add_stair_series("Stair Plot##demo", "0.5 + 0.5 * sin(x)", sindatax, sindatay)
+                add_stair_series("Stair Plot##demo", "x^2", x2datax, x2datay)
 
             with tree_node("Time Plots##demo"):
 
-                timedata = []
+                timedatax = []
+                timedatay = []
                 
                 time_index = 0
                 while time_index < 739497600:
-                    timedata.append([time_index, time_index/(60*60*24)])
+                    timedatax.append(time_index)
+                    timedatay.append(time_index/(60*60*24))
                     time_index+=60*60*24*7
                 
                 add_text("When time is enabled, x-axis values are interpreted as UNIX timestamps in seconds (e.g. 1599243545).", bullet=True)
                 add_text("UNIX timestamps are seconds since 00:00:00 UTC on 1 January 1970", bullet=True)
                 add_plot("Time Plot##demo", y_axis_name="Days since 1970", height=400, xaxis_time=True)
-                add_line_series("Time Plot##demo", "Days", timedata)
+                add_line_series("Time Plot##demo", "Days", timedatax, timedatay)
                 
             with tree_node("Shade Plots##demo"):
 
+                stock_datax = []
+                stock_datay2 = []
                 stock_data1 = []
                 stock_data2 = []
                 stock_data3 = []
+                stock_data4 = []
+                stock_data5 = []
                 for i in range(0, 100):
-                    stock_data1.append([i, 400 + 50*abs(random.random())])
-                    stock_data2.append([i, 275 + 75*abs(random.random())])
-                    stock_data3.append([i, 150 + 75*abs(random.random())])
+                    stock_datax.append(i)
+                    stock_datay2.append(0)
+                    stock_data1.append(400 + 50*abs(random.random()))
+                    stock_data2.append(275 + 75*abs(random.random()))
+                    stock_data3.append(150 + 75*abs(random.random()))
+                    stock_data4.append(500 + 75*abs(random.random()))
+                    stock_data5.append(600 + 75*abs(random.random()))
 
                 add_plot("Stock Prices##demo", x_axis_name="Days", y_axis_name="Price", height=400)
-                add_line_series("Stock Prices##demo", "Stock 1", stock_data1, color=[0, 0, 255, 255])
-                add_line_series("Stock Prices##demo", "Stock 2", stock_data2, color=[255, 0, 0, 255])
-                add_line_series("Stock Prices##demo", "Stock 3", stock_data3, color=[0, 255, 0, 255])
-                add_shade_series("Stock Prices##demo", "Stock 1", stock_data1, fill=[0, 0, 255, 64])
-                add_shade_series("Stock Prices##demo", "Stock 2", stock_data2, fill=[255, 0, 0, 64])
-                add_shade_series("Stock Prices##demo", "Stock 3", stock_data3, fill=[0, 255, 0, 64])
+                add_line_series("Stock Prices##demo", "Stock 1", stock_datax, stock_data1, color=[0, 0, 255, 255])
+                add_line_series("Stock Prices##demo", "Stock 2", stock_datax, stock_data2, color=[255, 0, 0, 255])
+                add_line_series("Stock Prices##demo", "Stock 3", stock_datax, stock_data3, color=[0, 255, 0, 255])
+                add_shade_series("Stock Prices##demo", "Stock 1", stock_datax, stock_data1, stock_datay2, fill=[0, 0, 255, 64])
+                add_shade_series("Stock Prices##demo", "Stock 2", stock_datax, stock_data2, stock_datay2, fill=[255, 0, 0, 64])
+                add_shade_series("Stock Prices##demo", "Stock 3", stock_datax, stock_data3, stock_datay2, fill=[0, 255, 0, 64])
+                add_shade_series("Stock Prices##demo", "Shade between lines", stock_datax, stock_data5, stock_data4, fill=[255, 255, 100, 64])
 
             with tree_node("Scatter Plots##demo"):
 
-                scatter_data1 = []
+                scatter_data1x = []
+                scatter_data1y = []
                 for i in range(0, 100):
-                    scatter_data1.append([i/100, (i + random.random())/100])
+                    scatter_data1x.append(i/100)
+                    scatter_data1y.append((i + random.random())/100)
 
                 # using xy_format
                 scatter_data2x = []
@@ -974,11 +976,10 @@ def show_demo():
                 for i in range(0, 100):
                     scatter_data2x.append(0.25 + 0.25*random.random())
                     scatter_data2y.append(0.65 + 0.25*random.random())
-                scatter_data2 = [scatter_data2x, scatter_data2y]
 
                 add_plot("Scatter Plot##demo", height=400)
-                add_scatter_series("Scatter Plot##demo", "Data 1", scatter_data1)
-                add_scatter_series("Scatter Plot##demo", "Data 2", scatter_data2, 
+                add_scatter_series("Scatter Plot##demo", "Data 1", scatter_data1x, scatter_data1y)
+                add_scatter_series("Scatter Plot##demo", "Data 2", scatter_data2x, scatter_data2y, 
                                    size=7, marker=mvPlotMarker_Square, fill=[255, 0, 0, 100], xy_data_format=True)
 
             with tree_node("Bar Plots##demo"):
@@ -987,34 +988,44 @@ def show_demo():
                 set_plot_xlimits("Bar Plot##demo", 9, 33)
                 set_plot_ylimits("Bar Plot##demo", 0, 110)
                 set_xticks("Bar Plot##demo", [["S1", 11], ["S2", 21], ["S3", 31]])
-                add_bar_series("Bar Plot##demo", "Final Exam", [[10, 100], [20, 75], [30,90]], weight=1)
-                add_bar_series("Bar Plot##demo", "Midterm Exam", [[11, 83], [21, 75], [31,72]], weight=1)
-                add_bar_series("Bar Plot##demo", "Course Grade", [[12, 42], [22, 68], [32,23]], weight=1)
+
+                add_bar_series("Bar Plot##demo", "Final Exam", [10, 20, 30], [100, 75, 90], weight=1)
+                add_bar_series("Bar Plot##demo", "Midterm Exam", [11, 21, 31], [83, 75, 72], weight=1)
+                add_bar_series("Bar Plot##demo", "Course Grade", [12, 22, 32], [42, 68, 23], weight=1)
 
             with tree_node("Error Bars##demo"):
 
                 add_plot("##errorbars##demo", height=400)
 
-                error_data1 = [[1, 1, 0.2, 0.4], [2, 2, 0.4, 0.2], [3, 5, 0.2, 0.4], [4, 3, 0.6, 0.8], [5, 4, 0.4, 0.6]] # bars
-                error_data2 = [[1, 8, 0.2, 0.4], [2, 8, 0.4, 0.2], [3, 9, 0.2, 0.4], [4, 7, 0.6, 0.8], [5, 8, 0.4, 0.6]] # lines
+                error1_x = [1, 2, 3, 4, 5]
+                error1_y = [1, 2, 5, 3, 4]
+                error1_neg = [0.2, 0.4, 0.2, 0.6, 0.4]
+                error1_pos = [0.4, 0.2, 0.4, 0.8, 0.6]
 
-                add_bar_series("##errorbars##demo", "Bar", error_data1, weight=0.25)
-                add_error_series("##errorbars##demo", "Bar", error_data1)
+                error2_x = [1, 2, 3, 4, 5]
+                error2_y = [8, 8, 9, 7, 8]
+                error2_neg = [0.2, 0.4, 0.2, 0.6, 0.4]
+                error2_pos = [0.4, 0.2, 0.4, 0.8, 0.6]
 
-                add_line_series("##errorbars##demo", "Line", error_data2)
-                add_error_series("##errorbars##demo", "Line", error_data2, color=[0, 255, 0])
+                add_bar_series("##errorbars##demo", "Bar", error1_x, error1_y, weight=0.25)
+                add_error_series("##errorbars##demo", "Bar", error1_x, error1_y, error1_neg, error1_pos)
+
+                add_line_series("##errorbars##demo", "Line", error2_x, error2_y)
+                add_error_series("##errorbars##demo", "Line", error2_x, error2_y, error2_neg, error2_pos, color=[0, 255, 0])
 
             with tree_node("Stem Plots##demo"):
                 add_plot("Stem Plots##plot##demo", height=400)
 
-                stem_data1 = []
-                stem_data2 = []
+                stem_datax = []
+                stem_data1y = []
+                stem_data2y = []
                 for i in range(0, 51):
-                    stem_data1.append([i * 0.02, 1.0 + 0.5*sin(25*i*0.02)*cos(2*i*0.02)])
-                    stem_data2.append([i * 0.02, 0.5 + 0.25*sin(25*i*0.02)*cos(2*i*0.02)])
+                    stem_datax.append(i)
+                    stem_data1y.append(1.0 + 0.5*sin(25*i*0.02)*cos(2*i*0.02))
+                    stem_data2y.append(0.5 + 0.25*sin(25*i*0.02)*cos(2*i*0.02))
 
-                add_stem_series("Stem Plots##plot##demo", "Data 1", stem_data1)
-                add_stem_series("Stem Plots##plot##demo", "Data 2", stem_data2, marker=mvPlotMarker_Diamond)
+                add_stem_series("Stem Plots##plot##demo", "Data 1", stem_datax, stem_data1y)
+                add_stem_series("Stem Plots##plot##demo", "Data 2", stem_datax, stem_data2y, marker=mvPlotMarker_Diamond)
 
             with tree_node("Pie Charts##demo"):
                 add_plot("##PieChart1##demo", no_mouse_pos=True, 
@@ -1029,8 +1040,8 @@ def show_demo():
                 set_plot_xlimits("##PieChart2##demo", 0, 1)
                 set_plot_ylimits("##PieChart1##demo", 0, 1)
                 set_plot_ylimits("##PieChart2##demo", 0, 1)
-                add_pie_series("##PieChart1##demo", "PieChart1", [["fish", 0.25], ["Cow", 0.30], ["Chicken", 0.30]], 0.5, 0.5, 0.5)
-                add_pie_series("##PieChart2##demo", "PieChart2", [["A", 1], ["B", 1], ["C", 2], ["D", 3], ["E", 5]], 0.5, 0.5, 0.5, 
+                add_pie_series("##PieChart1##demo", "PieChart1", [0.25, 0.30, 0.30], ["fish", "cow", "chicken"], 0.5, 0.5, 0.5)
+                add_pie_series("##PieChart2##demo", "PieChart2", [1, 1, 2, 3, 5], ["A", "B", "C", "D", "E"], 0.5, 0.5, 0.5, 
                                normalize=True, format="%.0f")
                 set_color_map("##PieChart2##demo", mvPlotColormap_Deep)
 
@@ -1039,13 +1050,13 @@ def show_demo():
                          scale_height=400, no_legend=True, 
                          no_mouse_pos=True, xaxis_lock_min=True, xaxis_lock_max=True, xaxis_no_gridlines=True, xaxis_no_tick_marks=True,
                          yaxis_no_gridlines=True, yaxis_no_tick_marks=True, yaxis_lock_min=True, yaxis_lock_max=True, height=400)
-                values = [[0.8, 2.4, 2.5, 3.9, 0.0, 4.0, 0.0],
-                          [2.4, 0.0, 4.0, 1.0, 2.7, 0.0, 0.0],
-                          [1.1, 2.4, 0.8, 4.3, 1.9, 4.4, 0.0],
-                          [0.6, 0.0, 0.3, 0.0, 3.1, 0.0, 0.0],
-                          [0.7, 1.7, 0.6, 2.6, 2.2, 6.2, 0.0],
-                          [1.3, 1.2, 0.0, 0.0, 0.0, 3.2, 5.1],
-                          [0.1, 2.0, 0.0, 1.4, 0.0, 1.9, 6.3]]
+                values = [0.8, 2.4, 2.5, 3.9, 0.0, 4.0, 0.0,
+                          2.4, 0.0, 4.0, 1.0, 2.7, 0.0, 0.0,
+                          1.1, 2.4, 0.8, 4.3, 1.9, 4.4, 0.0,
+                          0.6, 0.0, 0.3, 0.0, 3.1, 0.0, 0.0,
+                          0.7, 1.7, 0.6, 2.6, 2.2, 6.2, 0.0,
+                          1.3, 1.2, 0.0, 0.0, 0.0, 3.2, 5.1,
+                          0.1, 2.0, 0.0, 1.4, 0.0, 1.9, 6.3]
                 add_heat_series("Heat Plot##demo", "heat data", values, 7, 7, 0, 6)
 
             with tree_node("Candle Stick Plots##demo"):
@@ -1055,12 +1066,8 @@ def show_demo():
                 lows = [1282.85,1315,1318.7,1309.6,1317.6,1312.9,1312.4,1319.1,1319,1321,1318.1,1321.3,1319.9,1312,1280.5,1276.15,1308,1309.9,1308.5,1312.3,1329.3,1333.1,1340.2,1347,1345.9,1338,1340.8,1335,1332,1337.9,1333,1336.8,1333.2,1329.9,1340.4,1323.85,1324.05,1349,1366.3,1351.2,1349.1,1352.4,1350.7,1344.3,1338.9,1316.3,1308.4,1306.9,1309.6,1306.7,1312.3,1315.4,1319,1327.2,1317.2,1320,1323,1328,1323,1327.8,1331.7,1335.3,1336.6,1331.8,1311.4,1310,1309.5,1308,1310.6,1302.8,1306.6,1313.7,1320,1322.8,1311,1312.1,1303.6,1293.9,1293.5,1291,1277.9,1294.1,1286,1289.1,1293.5,1296.9,1298,1299.6,1292.9,1285.1,1288.5,1296.3,1297.2,1298.4,1298.6,1302,1300.3,1312,1310.8,1301.9,1292,1291.1,1286.3,1289.2,1289.9,1297.4,1283.65,1283.25,1292.9,1295.9,1290.8,1304.2,1322.7,1336.1,1341,1343.5,1345.8,1340.3,1335.1,1341.5,1347.6,1352.8,1348.2,1353.7,1356.5,1373.3,1398,1414.7,1427,1416.4,1412.7,1420.1,1396.4,1398.8,1426.6,1412.85,1400.7,1406,1399.8,1404.4,1415.5,1417.2,1421.9,1415,1413.7,1428.1,1434,1435.7,1427.5,1429.4,1423.9,1425.6,1427.5,1434.8,1422.3,1412.1,1442.5,1448.8,1468.2,1484.3,1501.6,1506.2,1498.6,1488.9,1504.5,1518.3,1513.9,1503.3,1503,1506.5,1502.1,1503,1534.8,1535.3,1541.4,1528.6,1525.6,1535.25,1528.15,1528,1542.6,1514.3,1510.7,1505.5,1492.1,1492.9,1496.8,1493.1,1503.4,1500.9,1490.7,1496.3,1505.3,1505.3,1517.9,1507.4,1507.1,1493.3,1470.5,1465,1480.5,1501.7,1501.4,1493.3,1492.1,1505.1,1495.7,1478,1487.1,1480.8,1480.6,1487,1488.3,1484.8,1484,1490.7,1490.4,1503.1]
                 closes = [1283.35,1315.3,1326.1,1317.4,1321.5,1317.4,1323.5,1319.2,1321.3,1323.3,1319.7,1325.1,1323.6,1313.8,1282.05,1279.05,1314.2,1315.2,1310.8,1329.1,1334.5,1340.2,1340.5,1350,1347.1,1344.3,1344.6,1339.7,1339.4,1343.7,1337,1338.9,1340.1,1338.7,1346.8,1324.25,1329.55,1369.6,1372.5,1352.4,1357.6,1354.2,1353.4,1346,1341,1323.8,1311.9,1309.1,1312.2,1310.7,1324.3,1315.7,1322.4,1333.8,1319.4,1327.1,1325.8,1330.9,1325.8,1331.6,1336.5,1346.7,1339.2,1334.7,1313.3,1316.5,1312.4,1313.4,1313.3,1312.2,1313.7,1319.9,1326.3,1331.9,1311.3,1313.4,1309.4,1295.2,1294.7,1294.1,1277.9,1295.8,1291.2,1297.4,1297.7,1306.8,1299.4,1303.6,1302.2,1289.9,1299.2,1301.8,1303.6,1299.5,1303.2,1305.3,1319.5,1313.6,1315.1,1303.5,1293,1294.6,1290.4,1291.4,1302.7,1301,1284.15,1284.95,1294.3,1297.9,1304.1,1322.6,1339.3,1340.1,1344.9,1354,1357.4,1340.7,1342.7,1348.2,1355.1,1355.9,1354.2,1362.1,1360.1,1408.3,1411.2,1429.5,1430.1,1426.8,1423.4,1425.1,1400.8,1419.8,1432.9,1423.55,1412.1,1412.2,1412.8,1424.9,1419.3,1424.8,1426.1,1423.6,1435.9,1440.8,1439.4,1439.7,1434.5,1436.5,1427.5,1432.2,1433.3,1441.8,1437.8,1432.4,1457.5,1476.5,1484.2,1519.6,1509.5,1508.5,1517.2,1514.1,1527.8,1531.2,1523.6,1511.6,1515.7,1515.7,1508.5,1537.6,1537.2,1551.8,1549.1,1536.9,1529.4,1538.05,1535.15,1555.9,1560.4,1525.5,1515.5,1511.1,1499.2,1503.2,1507.4,1499.5,1511.5,1513.4,1515.8,1506.2,1515.1,1531.5,1540.2,1512.3,1515.2,1506.4,1472.9,1489,1507.9,1513.8,1512.9,1504.4,1503.9,1512.8,1500.9,1488.7,1497.6,1483.5,1494,1498.3,1494.1,1488.1,1487.5,1495.7,1504.7,1505.3]
 
-                data = []
-                for i in range(0, len(dates)):
-                    data.append([dates[i], opens[i], highs[i], lows[i], closes[i]])
-                
                 add_plot("Candle Plot##demo", x_axis_name="Day", y_axis_name="USD", height=400, xaxis_time=True)
-                add_candle_series("Candle Plot##demo", "GOOGL", data)
+                add_candle_series("Candle Plot##demo", "GOOGL", dates, opens, highs, lows, closes)
 
             with tree_node("Annotations##demo"):
                 
@@ -1084,22 +1091,16 @@ def show_demo():
                     set_plot_xlimits("Plot2##demoquery", data[0], data[1])
                     set_plot_ylimits("Plot2##demoquery", data[2], data[3])
 
-                def plot_callback(sender, data):
-                    clear_plot("Plot1##demoquery")
-                    clear_plot("Plot2##demoquery")
-
-                    sindata = []
-                    for i in range(0, 1000):
-                        sindata.append([i/1000, 0.5 + 0.5*sin(50*i/1000)])
-
-                sindata = []
+                sindatax = []
+                sindatay = []
                 for i in range(0, 1000):
-                    sindata.append([i/1000, 0.5 + 0.5*sin(50*i/1000)])
+                    sindatax.append(i/1000)
+                    sindatay.append(0.5 + 0.5*sin(50*i/1000))
      
                 add_plot("Plot1##demoquery", height=400, query_callback=query, query=True, no_menus=True)
                 add_plot("Plot2##demoquery", height=400, query_callback=query, no_menus=True, no_legend=True)
-                add_line_series("Plot1##demoquery", "0.5 + 0.5 * sin(x)", sindata)
-                add_line_series("Plot2##demoquery", "0.5 + 0.5 * sin(x)", sindata)
+                add_line_series("Plot1##demoquery", "0.5 + 0.5 * sin(x)", sindatax, sindatay)
+                add_line_series("Plot2##demoquery", "0.5 + 0.5 * sin(x)", sindatax, sindatay)
 
         with collapsing_header("Simple Tables##demo"):
 

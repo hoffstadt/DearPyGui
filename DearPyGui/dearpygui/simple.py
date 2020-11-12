@@ -573,35 +573,6 @@ def get_item_height(item: str) -> Union[int, None]:
     return internal_dpg.get_item_configuration(item)["height"]
 
 
-# drawing configure commands
-def set_drawing_origin(drawing: str, x: float, y: float):
-    """Sets the drawing's origin (the bottom left corner) to the specified position.
-
-    Args:
-        drawing: Drawing that will be set.
-        x: x position to set
-        y: y position to set
-
-    Returns:
-        None
-    """
-    internal_dpg.configure_item(drawing, originx=x, originy=y)
-
-
-def set_drawing_scale(drawing: str, x: float, y: float):
-    """Sets the drawing's scale.
-
-    Args:
-        drawing: Drawing that will be set.
-        x: x scale to set
-        y: y scale to set
-
-    Returns:
-        None
-    """
-    internal_dpg.configure_item(drawing, scalex=x, scaley=y)
-
-
 def set_drawing_size(drawing: str, width: int, height: int):
     """Sets the drawing's size, width and height.
 
@@ -614,32 +585,6 @@ def set_drawing_size(drawing: str, width: int, height: int):
         None
     """
     internal_dpg.configure_item(drawing, width=width, height=height)
-
-
-def get_drawing_origin(drawing: str) -> Union[List[float], None]:
-    """Gets the drawing's origin, (bottom left corner).
-
-    Args:
-        drawing: Drawing that will be set.
-
-    Returns:
-        list as [x,y] or None
-    """
-    config = internal_dpg.get_item_configuration(drawing)
-    return [config["originx"], config["originy"]]
-
-
-def get_drawing_scale(drawing: str) -> Union[List[float], None]:
-    """Gets the drawing's scale.
-
-    Args:
-        drawing: Drawing that will be set.
-
-    Returns:
-        list as [x,y] or None
-    """
-    config = internal_dpg.get_item_configuration(drawing)
-    return [config["scalex"], config["scaley"]]
 
 
 def get_drawing_size(drawing: str) -> Union[List[int], None]:

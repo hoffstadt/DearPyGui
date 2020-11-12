@@ -196,13 +196,9 @@ namespace Marvel {
 			Stair, Candle
 		};
 
+		mvSeries(std::string name, const std::vector<const std::vector<float>*> data);
+
 		mvSeries(std::string name, const ImPlotPoint& boundsMin, const ImPlotPoint& boundsMax);
-		mvSeries(std::string name, const std::vector<mvVec2>& points);
-		mvSeries(std::string name, const std::vector<mvVec4>& points);
-		mvSeries(std::string name, const std::vector<float>& points_x, const std::vector<float>& points_y);
-		mvSeries(std::string name, const std::vector<std::vector<float>>& points);
-		mvSeries(std::string name, const std::vector<float>& dates, const std::vector<float>& opens,
-			const std::vector<float>& highs, const std::vector<float>& lows, const std::vector<float>& closes);
 
 		virtual ~mvSeries() = default;
 
@@ -216,12 +212,8 @@ namespace Marvel {
 	protected:
 
 		std::string                     m_name;
-		std::vector<float>              m_xs;
-		std::vector<float>              m_ys;
-		std::vector<float>              m_extra0;
-		std::vector<float>              m_extra1;
-		std::vector<float>              m_extra2;
-		std::vector<std::vector<float>> m_extra3;
+		std::vector<std::vector<float>> m_data;
+
 		float                           m_maxX;
 		float                           m_maxY;
 		float                           m_minX;

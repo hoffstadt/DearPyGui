@@ -8,15 +8,11 @@ namespace Marvel {
 
 	public:
 
-		mvLineSeries(const std::string& name, const std::vector<mvVec2>& points,
-			mvColor color)
-			: mvSeries(name, points), m_color(color)
-		{
-		}
-
-		mvLineSeries(const std::string& name, const std::vector<float>& points_x,
-			const std::vector<float>& points_y, mvColor color)
-			: mvSeries(name, points_x, points_y), m_color(color)
+		mvLineSeries(const std::string& name, const std::vector<float>* x,
+			const std::vector<float>* y, mvColor color)
+			: 
+			mvSeries(name, { x, y }),
+			m_color(color)
 		{
 		}
 
@@ -27,7 +23,7 @@ namespace Marvel {
 
 			ImPlot::SetNextLineStyle(m_color.toVec4());
 			ImPlot::PushStyleVar(ImPlotStyleVar_LineWeight, m_weight);
-			ImPlot::PlotLine(m_name.c_str(), m_xs.data(), m_ys.data(), (int)m_xs.size());
+			ImPlot::PlotLine(m_name.c_str(), m_data[0].data(), m_data[1].data(), (int)m_data[0].size());
 			ImPlot::PopStyleVar();
 		}
 

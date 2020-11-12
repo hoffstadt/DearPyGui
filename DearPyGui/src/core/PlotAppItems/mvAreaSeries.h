@@ -8,9 +8,12 @@ namespace Marvel {
 
 	public:
 
-		mvAreaSeries(const std::string& name, const std::vector<mvVec2>& points,
-			mvColor color, mvColor fill)
-			: mvSeries(name, points), m_color(color), m_fill(fill)
+		mvAreaSeries(const std::string& name, const std::vector<float>* x,
+			const std::vector<float>* y, mvColor color, mvColor fill)
+			: 
+			mvSeries(name, { x, y }),
+			m_color(color), 
+			m_fill(fill)
 		{
 		}
 

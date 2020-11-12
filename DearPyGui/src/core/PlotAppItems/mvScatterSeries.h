@@ -8,18 +8,16 @@ namespace Marvel {
 
 	public:
 
-		mvScatterSeries(const std::string& name, const std::vector<mvVec2>& points, int marker, float markerSize, float markerWeight,
+		mvScatterSeries(const std::string& name, const std::vector<float>* x, 
+			const std::vector<float>* y, int marker, float markerSize, float markerWeight,
 			mvColor markerOutlineColor, mvColor markerFillColor)
-			: mvSeries(name, points), m_marker(marker), m_markerSize(markerSize), m_markerWeight(markerWeight),
-			m_markerOutlineColor(markerOutlineColor), m_markerFillColor(markerFillColor)
-		{
-		}
-
-		mvScatterSeries(const std::string& name, const std::vector<float>& points_x, const std::vector<float>& points_y, 
-			int marker, float markerSize, float markerWeight,
-			mvColor markerOutlineColor, mvColor markerFillColor)
-			: mvSeries(name, points_x, points_y), m_marker(marker), m_markerSize(markerSize), m_markerWeight(markerWeight),
-			m_markerOutlineColor(markerOutlineColor), m_markerFillColor(markerFillColor)
+			: 
+			mvSeries(name, {x, y}),
+			m_marker(marker), 
+			m_markerSize(markerSize), 
+			m_markerWeight(markerWeight),
+			m_markerOutlineColor(markerOutlineColor),
+			m_markerFillColor(markerFillColor)
 		{
 		}
 
@@ -34,7 +32,7 @@ namespace Marvel {
 			ImPlot::PushStyleVar(ImPlotStyleVar_MarkerSize, m_markerSize);
 			ImPlot::PushStyleVar(ImPlotStyleVar_MarkerWeight, m_markerWeight);
 
-			ImPlot::PlotScatter(m_name.c_str(), m_xs.data(), m_ys.data(), (int)m_xs.size());
+			ImPlot::PlotScatter(m_name.c_str(), m_data[0].data(), m_data[1].data(), (int)m_data[0].size());
 
 			ImPlot::PopStyleColor();
 			ImPlot::PopStyleColor();

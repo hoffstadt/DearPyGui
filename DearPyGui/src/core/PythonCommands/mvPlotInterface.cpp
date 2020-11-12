@@ -171,7 +171,8 @@ namespace Marvel {
 		parsers->insert({ "add_pie_series", mvPythonParser({
 			{mvPythonDataType::String, "plot"},
 			{mvPythonDataType::String, "name"},
-			{mvPythonDataType::Object, "data", "list of [str,float]"},
+			{mvPythonDataType::FloatList, "values"},
+			{mvPythonDataType::StringList, "labels"},
 			{mvPythonDataType::Float, "x"},
 			{mvPythonDataType::Float, "y"},
 			{mvPythonDataType::Float, "radius"},
@@ -185,29 +186,32 @@ namespace Marvel {
 		parsers->insert({ "add_line_series", mvPythonParser({
 			{mvPythonDataType::String, "plot"},
 			{mvPythonDataType::String, "name"},
-			{mvPythonDataType::ListFloatList, "data"},
+			{mvPythonDataType::FloatList, "x"},
+			{mvPythonDataType::FloatList, "y"},
 			{mvPythonDataType::KeywordOnly},
 			{mvPythonDataType::FloatList, "color", "", "(0, 0, 0, -1)"},
 			{mvPythonDataType::Float, "weight", "", "1.0"},
 			{mvPythonDataType::Bool, "update_bounds", "update plot bounds", "True"},
-			{mvPythonDataType::Bool, "xy_data_format", "", "False"},
 		}, "Adds a line series to a plot.", "None", "Plotting") });
 
 		parsers->insert({ "add_stair_series", mvPythonParser({
 			{mvPythonDataType::String, "plot"},
 			{mvPythonDataType::String, "name"},
-			{mvPythonDataType::ListFloatList, "data"},
+			{mvPythonDataType::FloatList, "x"},
+			{mvPythonDataType::FloatList, "y"},
 			{mvPythonDataType::KeywordOnly},
 			{mvPythonDataType::FloatList, "color", "", "(0, 0, 0, -1)"},
 			{mvPythonDataType::Float, "weight", "", "1.0"},
 			{mvPythonDataType::Bool, "update_bounds", "update plot bounds", "True"},
-			{mvPythonDataType::Bool, "xy_data_format", "", "False"},
 		}, "Adds a stair series to a plot.", "None", "Plotting") });
 
 		parsers->insert({ "add_error_series", mvPythonParser({
 			{mvPythonDataType::String, "plot"},
 			{mvPythonDataType::String, "name"},
-			{mvPythonDataType::ListFloatList, "data"},
+			{mvPythonDataType::FloatList, "x"},
+			{mvPythonDataType::FloatList, "y"},
+			{mvPythonDataType::FloatList, "negative"},
+			{mvPythonDataType::FloatList, "positive"},
 			{mvPythonDataType::KeywordOnly},
 			{mvPythonDataType::Bool, "horizontal", "", "False"},
 			{mvPythonDataType::Bool, "update_bounds", "update plot bounds", "True"},
@@ -217,7 +221,8 @@ namespace Marvel {
 		parsers->insert({ "add_bar_series", mvPythonParser({
 			{mvPythonDataType::String, "plot"},
 			{mvPythonDataType::String, "name"},
-			{mvPythonDataType::ListFloatList, "data"},
+			{mvPythonDataType::FloatList, "x"},
+			{mvPythonDataType::FloatList, "y"},
 			{mvPythonDataType::KeywordOnly},
 			{mvPythonDataType::Float, "weight", "", "1.0"},
 			{mvPythonDataType::Bool, "horizontal", "", "False"},
@@ -227,7 +232,9 @@ namespace Marvel {
 		parsers->insert({ "add_shade_series", mvPythonParser({
 			{mvPythonDataType::String, "plot"},
 			{mvPythonDataType::String, "name"},
-			{mvPythonDataType::ListFloatList, "data"},
+			{mvPythonDataType::FloatList, "x"},
+			{mvPythonDataType::FloatList, "y1"},
+			{mvPythonDataType::FloatList, "y2"},
 			{mvPythonDataType::KeywordOnly},
 			{mvPythonDataType::FloatList, "color", "", "(0, 0, 0, -1)"},
 			{mvPythonDataType::FloatList, "fill", "", "(0, 0, 0, -1)"},
@@ -238,7 +245,11 @@ namespace Marvel {
 		parsers->insert({ "add_candle_series", mvPythonParser({
 			{mvPythonDataType::String, "plot"},
 			{mvPythonDataType::String, "name"},
-			{mvPythonDataType::ListFloatList, "data"},
+			{mvPythonDataType::FloatList, "date"},
+			{mvPythonDataType::FloatList, "opens"},
+			{mvPythonDataType::FloatList, "highs"},
+			{mvPythonDataType::FloatList, "lows"},
+			{mvPythonDataType::FloatList, "closes"},
 			{mvPythonDataType::KeywordOnly},
 			{mvPythonDataType::Bool, "tooltip", "", "True"},
 			{mvPythonDataType::FloatList, "bull_color", "", "(0, 255, 113, 255)"},
@@ -250,7 +261,8 @@ namespace Marvel {
 		parsers->insert({ "add_scatter_series", mvPythonParser({
 			{mvPythonDataType::String, "plot"},
 			{mvPythonDataType::String, "name"},
-			{mvPythonDataType::ListFloatList, "data"},
+			{mvPythonDataType::FloatList, "x"},
+			{mvPythonDataType::FloatList, "y"},
 			{mvPythonDataType::KeywordOnly},
 			{mvPythonDataType::Integer, "marker", "", "0"},
 			{mvPythonDataType::Float, "size", "", "4.0"},
@@ -264,7 +276,8 @@ namespace Marvel {
 		parsers->insert({ "add_stem_series", mvPythonParser({
 			{mvPythonDataType::String, "plot"},
 			{mvPythonDataType::String, "name"},
-			{mvPythonDataType::ListFloatList, "data"},
+			{mvPythonDataType::FloatList, "x"},
+			{mvPythonDataType::FloatList, "y"},
 			{mvPythonDataType::KeywordOnly},
 			{mvPythonDataType::Integer, "marker", "", "0"},
 			{mvPythonDataType::Float, "size", "", "4.0"},
@@ -289,7 +302,8 @@ namespace Marvel {
 		parsers->insert({ "add_area_series", mvPythonParser({
 			{mvPythonDataType::String, "plot"},
 			{mvPythonDataType::String, "name"},
-			{mvPythonDataType::ListFloatList, "data"},
+			{mvPythonDataType::FloatList, "x"},
+			{mvPythonDataType::FloatList, "y"},
 			{mvPythonDataType::FloatList, "color", "", "(0, 0, 0, -1)"},
 			{mvPythonDataType::FloatList, "fill", "", "(0, 0, 0, -1)"},
 			{mvPythonDataType::KeywordOnly},
@@ -300,7 +314,7 @@ namespace Marvel {
 		parsers->insert({ "add_heat_series", mvPythonParser({
 			{mvPythonDataType::String, "plot"},
 			{mvPythonDataType::String, "name"},
-			{mvPythonDataType::ListFloatList, "data", ""},
+			{mvPythonDataType::FloatList, "values"},
 			{mvPythonDataType::Integer, "rows"},
 			{mvPythonDataType::Integer, "columns"},
 			{mvPythonDataType::Double, "scale_min"},
@@ -329,6 +343,53 @@ namespace Marvel {
 		parsers->insert({ "reset_yticks", mvPythonParser({
 			{mvPythonDataType::String, "plot"},
 		}, "Sets plots y ticks and labels back to automatic", "None", "Plotting") });
+	}
+
+	static bool CheckList(const char* plot, PyObject* list)
+	{
+		if (!PyList_Check(list))
+		{
+			ThrowPythonException(std::string(plot) + " add area series requires a list of floats.");
+			return false;
+		}
+		return true;
+	}
+
+	static bool CheckIfPlotOk(const char* name, mvAppItem* plot)
+	{
+		if (plot == nullptr)
+		{
+			ThrowPythonException(std::string(name) + " plot does not exist.");
+			return false;
+		}
+
+		if (plot->getType() != mvAppItemType::Plot)
+		{
+			ThrowPythonException(std::string(name) + " is not a plot.");
+			return false;
+		}
+		return true;
+	}
+
+	static bool Check2ArraySizes(const char* name, const std::vector<float>* first, const std::vector<float>* second)
+	{
+		if (second == nullptr)
+			return true;
+
+		return first->size() == second->size();
+	}
+
+	static bool CheckArraySizes(const char* name, std::vector<const std::vector<float>*> arrays)
+	{
+		for (size_t i = 0; i < arrays.size() - 1; i++)
+		{
+			if (!Check2ArraySizes(name, arrays[i], arrays[i + 1]))
+			{
+				ThrowPythonException(std::string(name) + " data list must be the same size.");
+				return false;
+			}
+		}
+		return true;
 	}
 
 	PyObject* add_annotation(PyObject* self, PyObject* args, PyObject* kwargs)
@@ -1102,7 +1163,8 @@ namespace Marvel {
 	{
 		const char* plot;
 		const char* name;
-		PyObject* data;
+		PyObject* values;
+		PyObject* labels;
 		float x;
 		float y;
 		float radius;
@@ -1111,46 +1173,30 @@ namespace Marvel {
 		const char* format = "%0.2f";
 		int update_bounds = true;
 
-		if (!(*mvApp::GetApp()->getParsers())["add_pie_series"].parse(args, kwargs, __FUNCTION__, &plot, &name, &data, &x,
+		if (!(*mvApp::GetApp()->getParsers())["add_pie_series"].parse(args, kwargs, __FUNCTION__, &plot, &name, 
+			&values, &labels, &x,
 			&y, &radius, &normalize, &angle, &format, &update_bounds))
 			return GetPyNone();
 
-		if (!PyList_Check(data))
-		{
-			std::string message = plot;
-			ThrowPythonException(message + " add line series requires a list of lists.");
-			return GetPyNone();
-		}
+		if (!CheckList(plot, values)) return GetPyNone();
+		if (!CheckList(plot, labels)) return GetPyNone();
 
 		mvAppItem* aplot = mvApp::GetApp()->getItemRegistry().getItem(plot);
 
-		if (aplot == nullptr)
-		{
-			std::string message = plot;
-			ThrowPythonException(message + " plot does not exist.");
-			return GetPyNone();
-		}
-
-		if (aplot->getType() != mvAppItemType::Plot)
-		{
-			std::string message = plot;
-			ThrowPythonException(message + " is not a plot.");
-			return GetPyNone();
-		}
+		if (!CheckIfPlotOk(plot, aplot)) return GetPyNone();
 
 		mvPlot* graph = static_cast<mvPlot*>(aplot);
 
-		auto mlabel_pairs = ToVectPairStringFloat(data);
+		auto avalues = ToFloatVect(values);
+		auto alabels = ToStringVect(labels);
 
-		std::vector<mvVec2> points;
-		std::vector<std::string> labels;
-		for (const auto& item : mlabel_pairs)
+		if (avalues.size() != alabels.size())
 		{
-			points.push_back({ item.second, 0.0f });
-			labels.push_back(item.first);
+			ThrowPythonException(std::string(name) + " data list must be the same size.");
+			return false;
 		}
 
-		auto series = new mvPieSeries(name, points, x, y, radius, normalize, angle, format, labels);
+		auto series = new mvPieSeries(name, &avalues, x, y, radius, normalize, angle, format, alabels);
 
 		graph->updateSeries(series, update_bounds);
 
@@ -1162,7 +1208,8 @@ namespace Marvel {
 	{
 		const char* plot;
 		const char* name;
-		PyObject* data;
+		PyObject* x;
+		PyObject* y;
 		float weight = 1.0f;
 		PyObject* color = PyTuple_New(4);
 		PyTuple_SetItem(color, 0, PyLong_FromLong(-255));
@@ -1170,62 +1217,27 @@ namespace Marvel {
 		PyTuple_SetItem(color, 2, PyLong_FromLong(0));
 		PyTuple_SetItem(color, 3, PyLong_FromLong(255));
 		int update_bounds = true;
-		int xy_data_format = false;
 
 		if (!(*mvApp::GetApp()->getParsers())["add_line_series"].parse(args, kwargs, __FUNCTION__, 
-			&plot, &name, &data, &color, &weight, &update_bounds, &xy_data_format))
+			&plot, &name, &x, &y, &color, &weight, &update_bounds))
 			return GetPyNone();
 
-		if (!PyList_Check(data))
-		{
-			std::string message = plot;
-			ThrowPythonException(message + " add line series requires a list of lists.");
-			return GetPyNone();
-		}
+		if (!CheckList(plot, x)) return GetPyNone();
+		if (!CheckList(plot, y)) return GetPyNone();
 
 		mvAppItem* aplot = mvApp::GetApp()->getItemRegistry().getItem(plot);
 
-		if (aplot == nullptr)
-		{
-			std::string message = plot;
-			ThrowPythonException(message + " plot does not exist.");
-			return GetPyNone();
-		}
-
-		if (aplot->getType() != mvAppItemType::Plot)
-		{
-			std::string message = plot;
-			ThrowPythonException(message + " is not a plot.");
-			return GetPyNone();
-		}
+		if (!CheckIfPlotOk(plot, aplot)) return GetPyNone();
 
 		mvPlot* graph = static_cast<mvPlot*>(aplot);
 
 		auto mcolor = ToColor(color);
+		auto xs = ToFloatVect(x);
+		auto ys = ToFloatVect(y);
 
-		mvLineSeries* series;
-		
-		if (xy_data_format) 
-		{
-			auto datapoints = ToPairVec(data);
-			
-			if (datapoints.first.size() == 0 || datapoints.first.size() != datapoints.second.size())
-			{
-				ThrowPythonException(std::string(plot) + " data format incorrect");
-				return GetPyNone();
-			}
+		if (!CheckArraySizes(plot, { &xs, &ys })) return GetPyNone();
 
-			series = new mvLineSeries(name, datapoints.first, datapoints.second, mcolor);
-		}
-		else 
-		{
-			auto datapoints = ToVectVec2(data);
-
-			if (datapoints.size() == 0)
-				return GetPyNone();
-
-			series = new mvLineSeries(name, datapoints, mcolor);
-		}
+		auto* series = new mvLineSeries(name, &xs, &ys, mcolor);
 
 		series->setWeight(weight);
 		graph->updateSeries(series, update_bounds);
@@ -1237,7 +1249,8 @@ namespace Marvel {
 	{
 		const char* plot;
 		const char* name;
-		PyObject* data;
+		PyObject* x;
+		PyObject* y;
 		float weight = 1.0f;
 		PyObject* color = PyTuple_New(4);
 		PyTuple_SetItem(color, 0, PyLong_FromLong(-255));
@@ -1245,62 +1258,27 @@ namespace Marvel {
 		PyTuple_SetItem(color, 2, PyLong_FromLong(0));
 		PyTuple_SetItem(color, 3, PyLong_FromLong(255));
 		int update_bounds = true;
-		int xy_data_format = false;
 
 		if (!(*mvApp::GetApp()->getParsers())["add_stair_series"].parse(args, kwargs, __FUNCTION__,
-			&plot, &name, &data, &color, &weight, &update_bounds, &xy_data_format))
+			&plot, &name, &x, &y, &color, &weight, &update_bounds))
 			return GetPyNone();
 
-		if (!PyList_Check(data))
-		{
-			std::string message = plot;
-			ThrowPythonException(message + " add stair series requires a list of lists.");
-			return GetPyNone();
-		}
+		if (!CheckList(plot, x)) return GetPyNone();
+		if (!CheckList(plot, y)) return GetPyNone();
 
 		mvAppItem* aplot = mvApp::GetApp()->getItemRegistry().getItem(plot);
 
-		if (aplot == nullptr)
-		{
-			std::string message = plot;
-			ThrowPythonException(message + " plot does not exist.");
-			return GetPyNone();
-		}
-
-		if (aplot->getType() != mvAppItemType::Plot)
-		{
-			std::string message = plot;
-			ThrowPythonException(message + " is not a plot.");
-			return GetPyNone();
-		}
+		if (!CheckIfPlotOk(plot, aplot)) return GetPyNone();
 
 		mvPlot* graph = static_cast<mvPlot*>(aplot);
 
 		auto mcolor = ToColor(color);
+		auto xs = ToFloatVect(x);
+		auto ys = ToFloatVect(y);
 
-		mvStairSeries* series;
+		if (!CheckArraySizes(plot, { &xs, &ys })) return GetPyNone();
 
-		if (xy_data_format)
-		{
-			auto datapoints = ToPairVec(data);
-
-			if (datapoints.first.size() == 0 || datapoints.first.size() != datapoints.second.size())
-			{
-				ThrowPythonException(std::string(plot) + " data format incorrect");
-				return GetPyNone();
-			}
-
-			series = new mvStairSeries(name, datapoints.first, datapoints.second, mcolor);
-		}
-		else
-		{
-			auto datapoints = ToVectVec2(data);
-
-			if (datapoints.size() == 0)
-				return GetPyNone();
-
-			series = new mvStairSeries(name, datapoints, mcolor);
-		}
+		auto* series = new mvStairSeries(name, &xs, &ys, mcolor);
 
 		series->setWeight(weight);
 		graph->updateSeries(series, update_bounds);
@@ -1312,46 +1290,34 @@ namespace Marvel {
 	{
 		const char* plot;
 		const char* name;
-		PyObject* data;
+		PyObject* x;
+		PyObject* y;
 		float weight = 1.0f;
 		int horizontal = false;
 		int update_bounds = true;
 
 		if (!(*mvApp::GetApp()->getParsers())["add_bar_series"].parse(args, kwargs, __FUNCTION__, 
-			&plot, &name, &data, &weight, &horizontal, &update_bounds))
+			&plot, &name, &x, &y, &weight, &horizontal, &update_bounds))
 			return GetPyNone();
 
-		if (!PyList_Check(data))
-		{
-			std::string message = plot;
-			ThrowPythonException(message + " add bar series requires a list of lists.");
-			return GetPyNone();
-		}
+		if (!CheckList(plot, x)) return GetPyNone();
+		if (!CheckList(plot, y)) return GetPyNone();
 
 		mvAppItem* aplot = mvApp::GetApp()->getItemRegistry().getItem(plot);
 
-		if (aplot == nullptr)
-		{
-			std::string message = plot;
-			ThrowPythonException(message + " plot does not exist.");
-			return GetPyNone();
-		}
+		if (!CheckIfPlotOk(plot, aplot)) return GetPyNone();
 
-		if (aplot->getType() != mvAppItemType::Plot)
-		{
-			std::string message = plot;
-			ThrowPythonException(message + " is not a plot.");
-			return GetPyNone();
-		}
+		auto xs = ToFloatVect(x);
+		auto ys = ToFloatVect(y);
+
+		if (!CheckArraySizes(plot, { &xs, &ys })) return GetPyNone();
 
 		mvPlot* graph = static_cast<mvPlot*>(aplot);
 
-		auto datapoints = ToVectVec2(data);
-
-		if (datapoints.size() == 0)
+		if (xs.size() == 0)
 			return GetPyNone();
 
-		auto series = new mvBarSeries(name, datapoints, horizontal);
+		auto series = new mvBarSeries(name, &xs, &ys, horizontal);
 		series->setWeight(weight);
 		graph->updateSeries(series, update_bounds);
 
@@ -1362,7 +1328,9 @@ namespace Marvel {
 	{
 		const char* plot;
 		const char* name;
-		PyObject* data;
+		PyObject* x;
+		PyObject* y1;
+		PyObject* y2;
 		float weight = 1.0f;
 		PyObject* color = PyTuple_New(4);
 		PyTuple_SetItem(color, 0, PyLong_FromLong(-255));
@@ -1378,43 +1346,31 @@ namespace Marvel {
 		int update_bounds = true;
 
 		if (!(*mvApp::GetApp()->getParsers())["add_shade_series"].parse(args, kwargs, __FUNCTION__, 
-			&plot, &name, &data, &color, &fill, &weight, &update_bounds))
+			&plot, &name, &x, &y1, &y2, &color, &fill, &weight, &update_bounds))
 			return GetPyNone();
 
-		if (!PyList_Check(data))
-		{
-			std::string message = plot;
-			ThrowPythonException(message + " add shade series requires a list of lists.");
-			return GetPyNone();
-		}
+		if (!CheckList(plot, x)) return GetPyNone();
+		if (!CheckList(plot, y1)) return GetPyNone();
+		if (!CheckList(plot, y2)) return GetPyNone();
 
 		mvAppItem* aplot = mvApp::GetApp()->getItemRegistry().getItem(plot);
 
-		if (aplot == nullptr)
-		{
-			std::string message = plot;
-			ThrowPythonException(message + " plot does not exist.");
-			return GetPyNone();
-		}
-
-		if (aplot->getType() != mvAppItemType::Plot)
-		{
-			std::string message = plot;
-			ThrowPythonException(message + " is not a plot.");
-			return GetPyNone();
-		}
+		if (!CheckIfPlotOk(plot, aplot)) return GetPyNone();
 
 		mvPlot* graph = static_cast<mvPlot*>(aplot);
 
-		auto datapoints = ToVectVec4(data);
-
 		auto mcolor = ToColor(color);
 		auto mfill = ToColor(fill);
+		auto xs = ToFloatVect(x);
+		auto y1s = ToFloatVect(y1);
+		auto y2s = ToFloatVect(y2);
 
-		if(datapoints.size() == 0)
+		if (!CheckArraySizes(plot, { &xs, &y1s, &y2s })) return GetPyNone();
+
+		if(xs.size() == 0)
 			return GetPyNone();
 
-		auto series = new mvShadeSeries(name, datapoints, mcolor, mfill);
+		auto series = new mvShadeSeries(name, mcolor, mfill , &xs, &y1s, &y2s);
 		series->setWeight(weight);
 		graph->updateSeries(series, update_bounds);
 
@@ -1425,7 +1381,11 @@ namespace Marvel {
 	{
 		const char* plot;
 		const char* name;
-		PyObject* data;
+		PyObject* dates;
+		PyObject* opens;
+		PyObject* highs;
+		PyObject* lows;
+		PyObject* closes;
 		int tooltip = true;
 		
 		PyObject* bull_color = PyTuple_New(4);
@@ -1443,58 +1403,36 @@ namespace Marvel {
 		int update_bounds = true;
 
 		if (!(*mvApp::GetApp()->getParsers())["add_candle_series"].parse(args, kwargs, __FUNCTION__,
-			&plot, &name, &data, &tooltip, *bull_color, &bear_color, &weight, &update_bounds))
+			&plot, &name, &dates, &opens, &highs, &lows, &closes, &tooltip, 
+			&bull_color, &bear_color, &weight, &update_bounds))
 			return GetPyNone();
 
-		if (!PyList_Check(data))
-		{
-			std::string message = plot;
-			ThrowPythonException(message + " add candle series requires a list of lists.");
-			return GetPyNone();
-		}
+		if (!CheckList(plot, dates)) return GetPyNone();
+		if (!CheckList(plot, opens)) return GetPyNone();
+		if (!CheckList(plot, highs)) return GetPyNone();
+		if (!CheckList(plot, closes)) return GetPyNone();
+		if (!CheckList(plot, lows)) return GetPyNone();
 
 		mvAppItem* aplot = mvApp::GetApp()->getItemRegistry().getItem(plot);
 
-		if (aplot == nullptr)
-		{
-			std::string message = plot;
-			ThrowPythonException(message + " plot does not exist.");
-			return GetPyNone();
-		}
-
-		if (aplot->getType() != mvAppItemType::Plot)
-		{
-			std::string message = plot;
-			ThrowPythonException(message + " is not a plot.");
-			return GetPyNone();
-		}
+		if (!CheckIfPlotOk(plot, aplot)) return GetPyNone();
 
 		mvPlot* graph = static_cast<mvPlot*>(aplot);
 
-		auto datapoints = ToVectVectFloat(data);
-
-		std::vector<float> dates;
-		std::vector<float> opens;
-		std::vector<float> highs;
-		std::vector<float> lows;
-		std::vector<float> closes;
-
-		for (auto& item : datapoints)
-		{
-			dates.push_back(item[0]);
-			opens.push_back(item[1]);
-			highs.push_back(item[2]);
-			lows.push_back(item[3]);
-			closes.push_back(item[4]);
-		}
-
+		auto mdates = ToFloatVect(dates);
+		auto mopens = ToFloatVect(opens);
+		auto mhighs = ToFloatVect(highs);
+		auto mlows = ToFloatVect(lows);
+		auto mcloses = ToFloatVect(closes);
 		auto mbull = ToColor(bull_color);
 		auto mbear = ToColor(bear_color);
 
-		if (datapoints.size() == 0)
+		if (!CheckArraySizes(plot, { &mdates, &mopens, &mhighs, &mlows, &mcloses })) return GetPyNone();
+
+		if (mdates.size() == 0)
 			return GetPyNone();
 
-		auto series = new mvCandleSeries(name, dates, opens, highs, lows, closes,
+		auto series = new mvCandleSeries(name, &mdates, &mopens, &mhighs, &mlows, &mcloses,
 			weight, mbull, mbear);
 		series->setWeight(weight);
 		graph->updateSeries(series, update_bounds);
@@ -1506,7 +1444,8 @@ namespace Marvel {
 	{
 		const char* plot;
 		const char* name;
-		PyObject* data;
+		PyObject* x;
+		PyObject* y;
 		int marker = ImPlotMarker_Circle;
 		float size = 4.0f;
 		float weight = 1.0f;
@@ -1523,64 +1462,28 @@ namespace Marvel {
 		int update_bounds = true;
 		int xy_data_format = false;
 
-		if (!(*mvApp::GetApp()->getParsers())["add_scatter_series"].parse(args, kwargs, __FUNCTION__, &plot, &name, &data, &marker,
+		if (!(*mvApp::GetApp()->getParsers())["add_scatter_series"].parse(args, kwargs, __FUNCTION__, &plot, 
+			&name, &x, &y, &marker,
 			&size, &weight, &outline, &fill, &update_bounds, &xy_data_format))
 			return GetPyNone();
 
-		if (!PyList_Check(data))
-		{
-			std::string message = plot;
-			ThrowPythonException(message + " add scatter series requires a list of lists.");
-			return GetPyNone();
-		}
+		if (!CheckList(plot, x)) return GetPyNone();
+		if (!CheckList(plot, y)) return GetPyNone();
 
 		mvAppItem* aplot = mvApp::GetApp()->getItemRegistry().getItem(plot);
 
-		if (aplot == nullptr)
-		{
-			std::string message = plot;
-			ThrowPythonException(message + " plot does not exist.");
-			return GetPyNone();
-		}
-
-		if (aplot->getType() != mvAppItemType::Plot)
-		{
-			std::string message = plot;
-			ThrowPythonException(message + " is not a plot.");
-			return GetPyNone();
-		}
+		if (!CheckIfPlotOk(plot, aplot)) return GetPyNone();
 
 		mvPlot* graph = static_cast<mvPlot*>(aplot);
 
-		mvScatterSeries* series;
-
+		auto xs = ToFloatVect(x);
+		auto ys = ToFloatVect(y);
 		auto mmarkerOutlineColor = ToColor(outline);
-
 		auto mmarkerFillColor = ToColor(fill);
 
-		auto datapoints = ToVectVec2(data);
+		if (!CheckArraySizes(plot, { &xs, &ys })) return GetPyNone();
 
-		if (xy_data_format) 
-		{
-			auto datapoints = ToPairVec(data);
-			
-			if (datapoints.first.size() == 0 || datapoints.first.size() != datapoints.second.size())
-			{
-				ThrowPythonException(std::string(plot) + " data format incorrect");
-				return GetPyNone();
-			}
-
-			series = new mvScatterSeries(name, datapoints.first, datapoints.second, marker, size, 
-				weight, mmarkerOutlineColor, mmarkerFillColor);
-		} 
-		else 
-		{
-			if (datapoints.size() == 0)
-				return GetPyNone();
-				
-			series = new mvScatterSeries(name, datapoints, marker, size, weight, mmarkerOutlineColor,
-				mmarkerFillColor);
-		}
+		auto series = new mvScatterSeries(name, &xs, &ys, marker, size, weight, mmarkerOutlineColor, mmarkerFillColor);
 		
 		graph->updateSeries(series, update_bounds);
 
@@ -1591,7 +1494,8 @@ namespace Marvel {
 	{
 		const char* plot;
 		const char* name;
-		PyObject* data;
+		PyObject* x;
+		PyObject* y;
 		int marker = 1;
 		float size = 4.0f;
 		float weight = 1.0f;
@@ -1607,44 +1511,31 @@ namespace Marvel {
 		PyTuple_SetItem(fill, 3, PyLong_FromLong(255));
 		int update_bounds = true;
 
-		if (!(*mvApp::GetApp()->getParsers())["add_stem_series"].parse(args, kwargs, __FUNCTION__, &plot, &name, &data, &marker,
+		if (!(*mvApp::GetApp()->getParsers())["add_stem_series"].parse(args, kwargs, __FUNCTION__, &plot, &name, 
+			&x, &y, &marker,
 			&size, &weight, &outline, &fill, &update_bounds))
 			return GetPyNone();
 
-		if (!PyList_Check(data))
-		{
-			std::string message = plot;
-			ThrowPythonException(message + " add stem series requires a list of lists.");
-			return GetPyNone();
-		}
+		if (!CheckList(plot, x)) return GetPyNone();
+		if (!CheckList(plot, y)) return GetPyNone();
 
 		mvAppItem* aplot = mvApp::GetApp()->getItemRegistry().getItem(plot);
 
-		if (aplot == nullptr)
-		{
-			std::string message = plot;
-			ThrowPythonException(message + " plot does not exist.");
-			return GetPyNone();
-		}
-
-		if (aplot->getType() != mvAppItemType::Plot)
-		{
-			std::string message = plot;
-			ThrowPythonException(message + " is not a plot.");
-			return GetPyNone();
-		}
+		if (!CheckIfPlotOk(plot, aplot)) return GetPyNone();
 
 		mvPlot* graph = static_cast<mvPlot*>(aplot);
 
-		auto datapoints = ToVectVec2(data);
-
+		auto xs = ToFloatVect(x);
+		auto ys = ToFloatVect(y);
 		auto mmarkerOutlineColor = ToColor(outline);
 		auto mmarkerFillColor = ToColor(fill);
 
-		if (datapoints.size() == 0)
+		if (!CheckArraySizes(plot, { &xs, &ys })) return GetPyNone();
+
+		if (xs.size() == 0)
 			return GetPyNone();
 
-		graph->updateSeries(new mvStemSeries(name, datapoints, marker, size, weight, mmarkerOutlineColor,
+		graph->updateSeries(new mvStemSeries(name, &xs, &ys, marker, size, weight, mmarkerOutlineColor,
 			mmarkerFillColor), update_bounds);
 
 		return GetPyNone();
@@ -1682,7 +1573,10 @@ namespace Marvel {
 
 		mvPlot* graph = static_cast<mvPlot*>(aplot);
 
-		graph->updateSeries(new mvLabelSeries(name, { {(float)x, (float)y} }, xoffset, yoffset, vertical), update_bounds);
+		std::vector<float> ax = { x };
+		std::vector<float> ay = { y };
+
+		graph->updateSeries(new mvLabelSeries(name, &ax, &ay, xoffset, yoffset, vertical), update_bounds);
 
 		return GetPyNone();
 	}
@@ -1691,52 +1585,40 @@ namespace Marvel {
 	{
 		const char* plot;
 		const char* name;
-		PyObject* data;
+		PyObject* x;
+		PyObject* y;
 		PyObject* color;
 		PyObject* fill;
 		float weight = 1.0f;
 		int update_bounds = true;
 
 		if (!(*mvApp::GetApp()->getParsers())["add_area_series"].parse(args, kwargs, __FUNCTION__, 
-			&plot, &name, &data, &color, &fill, &weight, &update_bounds))
+			&plot, &name, &x, &y, &color, &fill, &weight, &update_bounds))
 			return GetPyNone();
 
-		if (!PyList_Check(data))
-		{
-			std::string message = plot;
-			ThrowPythonException(message + " add area series requires a list of lists.");
-			return GetPyNone();
-		}
+		if (!CheckList(plot, x)) return GetPyNone();
+		if (!CheckList(plot, y)) return GetPyNone();
 
 		mvAppItem* aplot = mvApp::GetApp()->getItemRegistry().getItem(plot);
 
-		if (aplot == nullptr)
-		{
-			std::string message = plot;
-			ThrowPythonException(message + " plot does not exist.");
-			return GetPyNone();
-		}
-
-		if (aplot->getType() != mvAppItemType::Plot)
-		{
-			std::string message = plot;
-			ThrowPythonException(message + " is not a plot.");
-			return GetPyNone();
-		}
+		if (!CheckIfPlotOk(plot, aplot)) return GetPyNone();
 
 		mvPlot* graph = static_cast<mvPlot*>(aplot);
 
-		auto datapoints = ToVectVec2(data);
+		auto xs = ToFloatVect(x);
+		auto ys = ToFloatVect(y);
 
-		if (datapoints.size() == 0)
+		if (!CheckArraySizes(plot, { &xs, &ys })) return GetPyNone();
+
+		if (xs.size() == 0)
 			return GetPyNone();
 
 		auto mcolor = ToColor(color);
 		auto mfill = ToColor(fill);
 
 		graph->deleteSeries(name);
-		auto aseries = new mvAreaSeries(name, datapoints, mcolor, mfill);
-		auto lseries = new mvLineSeries(name, datapoints, mcolor);
+		auto aseries = new mvAreaSeries(name, &xs, &ys, mcolor, mfill);
+		auto lseries = new mvLineSeries(name, &xs, &ys, mcolor);
 		aseries->setWeight(weight);
 		lseries->setWeight(weight);
 		graph->addSeries(aseries, update_bounds);
@@ -1750,7 +1632,10 @@ namespace Marvel {
 	{
 		const char* plot;
 		const char* name;
-		PyObject* data;
+		PyObject* x;
+		PyObject* y;
+		PyObject* negative;
+		PyObject* positive;
 		int horizontal = false;
 		int update_bounds = true;
 		PyObject* color = PyTuple_New(4);
@@ -1760,40 +1645,32 @@ namespace Marvel {
 		PyTuple_SetItem(color, 3, PyLong_FromLong(255));
 
 		if (!(*mvApp::GetApp()->getParsers())["add_error_series"].parse(args, kwargs, __FUNCTION__, 
-			&plot, &name, &data, &horizontal, &update_bounds, &color))
+			&plot, &name, &x, &y, &negative, &positive, &horizontal, &update_bounds, &color))
 			return GetPyNone();
 
-		if (!PyList_Check(data))
-		{
-			std::string message = plot;
-			ThrowPythonException(message + " add error series requires a list of lists.");
-			return GetPyNone();
-		}
+		if (!CheckList(plot, x)) return GetPyNone();
+		if (!CheckList(plot, y)) return GetPyNone();
+		if (!CheckList(plot, negative)) return GetPyNone();
+		if (!CheckList(plot, positive)) return GetPyNone();
 
 		mvAppItem* aplot = mvApp::GetApp()->getItemRegistry().getItem(plot);
 
-		if (aplot == nullptr)
-		{
-			std::string message = plot;
-			ThrowPythonException(message + " plot does not exist.");
-			return GetPyNone();
-		}
-
-		if (aplot->getType() != mvAppItemType::Plot)
-		{
-			std::string message = plot;
-			ThrowPythonException(message + " is not a plot.");
-			return GetPyNone();
-		}
+		if (!CheckIfPlotOk(plot, aplot)) return GetPyNone();
 
 		mvPlot* graph = static_cast<mvPlot*>(aplot);
 
-		auto datapoints = ToVectVec4(data);
-		if (datapoints.size() == 0)
+		auto xs = ToFloatVect(x);
+		auto ys = ToFloatVect(y);
+		auto negatives = ToFloatVect(negative);
+		auto positives = ToFloatVect(positive);
+
+		if (!CheckArraySizes(plot, { &xs, &ys, &negatives, &positives })) return GetPyNone();
+
+		if (xs.size() == 0)
 			return GetPyNone();
 
 		auto mcolor = ToColor(color);
-		auto series = new mvErrorSeries(name, datapoints, horizontal, mcolor);
+		auto series = new mvErrorSeries(name, &xs, &ys, &negatives, &positives, horizontal, mcolor);
 		graph->updateSeries(series, update_bounds);
 
 		return GetPyNone();
@@ -1803,7 +1680,7 @@ namespace Marvel {
 	{
 		const char* plot;
 		const char* name;
-		PyObject* data;
+		PyObject* values;
 		int rows;
 		int columns;
 		double scale_min;
@@ -1818,41 +1695,26 @@ namespace Marvel {
 		int update_bounds = true;
 
 		if (!(*mvApp::GetApp()->getParsers())["add_heat_series"].parse(args, kwargs, __FUNCTION__, 
-			&plot, &name, &data, &rows, &columns, &scale_min, &scale_max, &format, &bounds_min, &bounds_max, &update_bounds))
+			&plot, &name, &values, &rows, &columns, &scale_min, &scale_max, &format, 
+			&bounds_min, &bounds_max, &update_bounds))
 			return GetPyNone();
 
-		if (!PyList_Check(data))
-		{
-			std::string message = plot;
-			ThrowPythonException(message + " add heat series requires a list of lists.");
-			return GetPyNone();
-		}
+		if (!CheckList(plot, values)) return GetPyNone();
 
 		mvAppItem* aplot = mvApp::GetApp()->getItemRegistry().getItem(plot);
 
-		if (aplot == nullptr)
-		{
-			std::string message = plot;
-			ThrowPythonException(message + " plot does not exist.");
-			return GetPyNone();
-		}
-
-		if (aplot->getType() != mvAppItemType::Plot)
-		{
-			std::string message = plot;
-			ThrowPythonException(message + " is not a plot.");
-			return GetPyNone();
-		}
+		if (!CheckIfPlotOk(plot, aplot)) return GetPyNone();
 
 		mvPlot* graph = static_cast<mvPlot*>(aplot);
 
-		auto datapoints = ToVectVectFloat(data);
+		auto mvalues = ToFloatVect(values);
 		auto mbounds_min = ToVec2(bounds_min);
 		auto mbounds_max = ToVec2(bounds_max);
-		if (datapoints.size() == 0)
+
+		if (mvalues.size() == 0)
 			return GetPyNone();
 
-		auto series = new mvHeatSeries(name, datapoints, rows, columns, scale_min,
+		auto series = new mvHeatSeries(name, &mvalues, rows, columns, scale_min,
 			scale_max, format, mbounds_min, mbounds_max);
 		graph->updateSeries(series, update_bounds);
 
