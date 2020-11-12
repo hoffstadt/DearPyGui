@@ -829,34 +829,21 @@ def show_demo():
                 add_separator()
 
         with collapsing_header("Drawings##demo"):
-            add_text("This section is not ready! But will completed sometime during the 0.4.x releases!")
-            def UpdateDrawing(sender, data):
-                set_drawing_origin("drawing##widget##demo", get_value("X Origin##demo"), get_value("Y Origin##demo"))
-                set_drawing_scale("drawing##widget##demo", get_value("X Scale##demo"), get_value("Y Scale##demo"))
-
-            with group("Drawing Controls Group##demo"):
-                add_slider_float("X Origin##demo", vertical=True, min_value = -100, max_value=100, default_value=0, callback=UpdateDrawing)
-                add_same_line(spacing=20)
-                add_slider_float("Y Origin##demo", vertical=True, min_value = -100, max_value=100, default_value=0, callback=UpdateDrawing)
-                add_slider_float("X Scale##demo", vertical=True, max_value=10, default_value=1, callback=UpdateDrawing)
-                add_same_line(spacing=20)
-                add_slider_float("Y Scale##demo", vertical=True, max_value=10, default_value=1, callback=UpdateDrawing)
-            add_same_line(spacing=20)
-            add_drawing("drawing##widget##demo", width=800, height=500)
-            draw_rectangle("drawing##widget##demo", (0, 500), (800, 0), (255, 0, 0, 255), fill=(0, 0, 25, 255), rounding=12, thickness = 1.0)
+            add_text("This section is not ready! But will completed sometime during the 0.6.x releases!")
+            add_drawing("drawing##widget##demo", width=900, height=500)
+            draw_rectangle("drawing##widget##demo", (0, 0), (900, 500), (255, 0, 0, 255), fill=(0, 0, 25, 255), rounding=12, thickness = 1.0)
             draw_line("drawing##widget##demo", (10, 10), (100, 100), (255, 0, 0, 255), 1)
-            draw_triangle("drawing##widget##demo", (300, 500), (200, 200), (500, 200), (255, 255, 0, 255), thickness = 3.0)
-            draw_quad("drawing##widget##demo", (50, 50), (150, 50), (150, 150), (50, 150), (255, 255, 0, 255), thickness = 3.0)
+            draw_triangle("drawing##widget##demo", (150, 10), (110, 100), (190, 100), (255, 255, 0, 255), thickness = 3.0)
+            draw_quad("drawing##widget##demo", (210, 10), (290, 10), (290, 100), (210, 100), (255, 255, 0, 255), thickness = 3.0)
+            draw_circle("drawing##widget##demo", (350, 60), 49, (255, 255, 0, 255))
+            draw_bezier_curve("drawing##widget##demo", (410, 10), (450, 25), (410, 50), (490, 85), (255, 255, 0, 255), thickness = 2.0)
+            draw_arrow("drawing##widget##demo", (510, 10), (590, 80), (255, 0, 0), 4, 10)
+            draw_image("drawing##widget##demo", "INTERNAL_DPG_FONT_ATLAS", pmin=[610,10], pmax=[690, 80], uv_max=[0.1, 0.1])
             draw_text("drawing##widget##demo", (50, 300), "Some Text", color=(255, 255, 0, 255), size=15)
             draw_text("drawing##widget##demo", (0, 0), "Origin", color=(255, 255, 0, 255), size=15)
-            draw_circle("drawing##widget##demo", (400, 250), 50, (255, 255, 0, 255))
-            draw_polyline("drawing##widget##demo", ((320, 490), (185, 200), (500, 710)), (255, 255, 0, 255), thickness=1.0)
-            draw_polygon("drawing##widget##demo", ((363, 471), (153, 498), (59, 220), (363, 471)), (255, 125, 0, 255), thickness=1.0, fill=(255, 125, 0, 50))
-            draw_bezier_curve("drawing##widget##demo", (50, 200), (150, 250), (300, 150), (600, 250), (255, 255, 0, 255), thickness = 2.0)
-            draw_text("drawing##widget##demo", (15, 30), "Origin", color=(255, 255, 255, 255), size=15)
-            draw_arrow("drawing##widget##demo", (0, 300), (0, 0), (255, 0, 0), 4, 30)
-            draw_arrow("drawing##widget##demo", (300, 0), (0, 0), (0, 0, 255), 4, 30)
-            draw_image("drawing##widget##demo", "INTERNAL_DPG_FONT_ATLAS", pmin=[0,400], uv_max=[0.1, 0.1])
+            draw_polygon("drawing##widget##demo", ((710, 10), (780, 50), (730, 75), (710, 10)), (255, 125, 0, 255), thickness=1.0, fill=(255, 125, 0, 50))
+            draw_polyline("drawing##widget##demo", ((810, 20), (835, 50), (890, 10)), (255, 255, 0, 255), thickness=1.0)
+            
 
         with collapsing_header("Plots##demo"):
 

@@ -40,26 +40,9 @@ namespace Marvel {
 
 		mvVec2 start = draw->getStart();
 
-		//TODO: this is a quick fix and should be replaced when drawing is reworked.
-		mvVec2 pminInvert;
-		mvVec2 pmaxInvert;
-
-		if (m_autosize)
-		{
-			m_pmax = { (float)m_width * draw->getScale().x + m_pmin.x, (float)m_height * draw->getScale().y + m_pmin.y };
-			//shifts the y's for the min and max which will draw from the bottom_left = pmin to top_right = pmax
-			pminInvert = { m_pmin.x, m_pmin.y - (float)m_height * draw->getScale().y };
-			pmaxInvert = { m_pmax.x, m_pmax.y - (float)m_height * draw->getScale().y};
-		}
-		else
-		{
-			//swaps the y's for the min and max which will draw from the bottom_left = pmin to top_right = pmax
-			pminInvert = { m_pmin.x, m_pmax.y };
-			pmaxInvert = { m_pmax.x, m_pmin.y };
-		}
 		if (m_texture)
 		{
-			draw_list->AddImage(m_texture, pminInvert + start, pmaxInvert + start, m_uv_min, m_uv_max, m_color);
+			draw_list->AddImage(m_texture, m_pmin + start, m_pmax + start, m_uv_min, m_uv_max, m_color);
 		}
 	}
 
@@ -227,9 +210,6 @@ namespace Marvel {
 		m_startx = (float)ImGui::GetCursorScreenPos().x;
 		m_starty = (float)ImGui::GetCursorScreenPos().y;
 
-		if (m_dirty)
-			updateCommands();
-
 		ImGui::PushClipRect({ m_startx, m_starty }, { m_startx + (float)m_width, m_starty + (float)m_height }, true);
 
 		for (auto command : m_commands)
@@ -249,20 +229,6 @@ namespace Marvel {
 		}
 
 		m_commands.clear();
-	}
-
-	mvVec2 mvDrawing::convertToModelSpace(const mvVec2& point)
-	{
-		return { point.x*m_scalex + m_originx, (float)m_height - point.y*m_scaley - m_originy };
-	}
-
-	void mvDrawing::convertToModelSpace(std::vector<mvVec2>& points, const std::vector<mvVec2>& pointso)
-	{
-		for (size_t i = 0; i < points.size(); i++)
-		{
-			points[i].x = pointso[i].x * m_scalex + m_originx;
-			points[i].y = (float)m_height - pointso[i].y * m_scaley - m_originy;
-		}
 	}
 
 	void mvDrawing::drawLine(const mvVec2& p1, const mvVec2& p2, const mvColor& color, float thickness, const std::string& tag)
@@ -551,125 +517,6 @@ namespace Marvel {
 		mvDrawingCommand* command = new mvDrawImageCommand(file, pmin, pmax, uv_min, uv_max, color);
 		command->tag = tag;
 		m_commands.push_back(command);
-	}
-
-	void mvDrawing::updateCommands()
-	{
-		for (auto command : m_commands)
-		{
-			switch (command->getType())
-			{
-
-			case mvDrawingCommandType::DrawImage:
-			{
-				mvDrawImageCommand& acommand = *(mvDrawImageCommand*)(command);
-				acommand.m_pmin = convertToModelSpace(acommand.m_pmino);
-				acommand.m_pmax = convertToModelSpace(acommand.m_pmaxo);
-				break;
-			}
-
-			case mvDrawingCommandType::DrawLine:
-			{
-				mvDrawLineCommand& acommand = *(mvDrawLineCommand*)(command);
-				acommand.m_p1 = convertToModelSpace(acommand.m_p1o);
-				acommand.m_p2 = convertToModelSpace(acommand.m_p2o);
-				break;
-			}
-
-			case mvDrawingCommandType::DrawArrow:
-			{
-				mvDrawArrowCommand& acommand = *(mvDrawArrowCommand*)(command);
-				acommand.m_p1 = convertToModelSpace(acommand.m_p1o);
-				acommand.m_p2 = convertToModelSpace(acommand.m_p2o);
-				convertToModelSpace(acommand.m_points, acommand.m_pointso);
-				break;
-			}
-
-			case mvDrawingCommandType::DrawTriangle:
-			{
-				mvDrawTriangleCommand& acommand = *(mvDrawTriangleCommand*)(command);
-				acommand.m_p1 = convertToModelSpace(acommand.m_p1o);
-				acommand.m_p2 = convertToModelSpace(acommand.m_p2o);
-				acommand.m_p3 = convertToModelSpace(acommand.m_p3o);
-				break;
-			}
-
-			case mvDrawingCommandType::DrawCircle:
-			{
-				mvDrawCircleCommand& acommand = *(mvDrawCircleCommand*)(command);
-				acommand.m_center = convertToModelSpace(acommand.m_centero);
-				acommand.m_radius = acommand.m_radiuso * m_scalex;
-				break;
-			}
-
-
-			case mvDrawingCommandType::DrawText:
-			{
-				mvDrawTextCommand& acommand = *(mvDrawTextCommand*)(command);
-				acommand.m_pos = convertToModelSpace(acommand.m_poso);
-				break;
-			}
-
-			case mvDrawingCommandType::DrawRect:
-			{
-				mvDrawRectCommand& acommand = *(mvDrawRectCommand*)(command);
-				acommand.m_pmin = convertToModelSpace(acommand.m_pmino);
-				acommand.m_pmax = convertToModelSpace(acommand.m_pmaxo);
-				break;
-			}
-
-			case mvDrawingCommandType::DrawQuad:
-			{
-				mvDrawQuadCommand& acommand = *(mvDrawQuadCommand*)(command);
-				acommand.m_p1 = convertToModelSpace(acommand.m_p1o);
-				acommand.m_p2 = convertToModelSpace(acommand.m_p2o);
-				acommand.m_p3 = convertToModelSpace(acommand.m_p3o);
-				acommand.m_p4 = convertToModelSpace(acommand.m_p4o);
-				break;
-			}
-
-			case mvDrawingCommandType::DrawPolyline:
-			{
-				mvDrawPolylineCommand& acommand = *(mvDrawPolylineCommand*)(command);
-				convertToModelSpace(acommand.m_points, acommand.m_pointso);
-				break;
-			}
-
-			case mvDrawingCommandType::DrawPolygon:
-			{
-				mvDrawPolygonCommand& acommand = *(mvDrawPolygonCommand*)(command);
-				convertToModelSpace(acommand.m_points, acommand.m_pointso);
-				break;
-			}
-
-			case mvDrawingCommandType::DrawBezierCurve:
-			{
-				mvDrawBezierCurveCommand& acommand = *(mvDrawBezierCurveCommand*)(command);
-				acommand.m_p1 = convertToModelSpace(acommand.m_p1o);
-				acommand.m_p2 = convertToModelSpace(acommand.m_p2o);
-				acommand.m_p3 = convertToModelSpace(acommand.m_p3o);
-				acommand.m_p4 = convertToModelSpace(acommand.m_p4o);
-				break;
-			}
-
-			}
-		}
-
-		m_dirty = false;
-	}
-
-	void mvDrawing::setScale(float xscale, float yscale) 
-	{ 
-		m_scalex = xscale; 
-		m_scaley = yscale; 
-		m_dirty = true;
-	}
-
-	void mvDrawing::setOrigin(float x, float y) 
-	{ 
-		m_originx = x; 
-		m_originy = y; 
-		m_dirty = true;
 	}
 
 	void mvDrawing::deleteCommand(const std::string& tag)
