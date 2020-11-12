@@ -31,6 +31,18 @@ Decorated log: https://github.com/hoffstadt/DearPyGui/releases/tag/v0.6.x
 Breaking Changes:
 - Plotting API: data input separated, [x1, x2, ...] and [y1, y2, ...]
                 vs [[x1, y1], [x2, y2], ...]
+- Drawing API:  Removed "set_drawing_origin"
+- Drawing API:  Removed "set_drawing_scale"
+- Drawing API:  Removed "get_drawing_origin"
+- Drawing API:  Removed "get_drawing_scale"
+- Drawing API:  Y axis is down now.
+- Drawing API:  Origin is top left corner now.
+- Drawing API:  pmax keyword in "draw_image" is now required.
+
+New Features:
+- Drawing API: Can now drawing to window using window name
+- Drawing API: Can now draw to viewport using "##FOREGROUND" and
+               "##BACKGROUND" as the draw target
 
 -----------------------------------------------------------------------
  VERSION 0.5.x

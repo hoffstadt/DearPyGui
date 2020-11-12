@@ -5,6 +5,7 @@
 #include "core/AppItems/mvTypeBases.h"
 #include "mvApp.h"
 #include "mvEventHandler.h"
+#include "Registries/mvDrawList.h"
 
 namespace Marvel {
 
@@ -35,6 +36,7 @@ namespace Marvel {
 		void   setExtraConfigDict   (PyObject* dict) override;
 		void   getExtraConfigDict   (PyObject* dict) override;
 		void   setFocusedNextFrame  () { m_focusNextFrame = true; }
+		mvDrawList& getDrawList     () { return m_drawList; }
 
 		~mvWindowAppitem();
 
@@ -56,6 +58,7 @@ namespace Marvel {
 		bool             m_noclose = false;
 		bool             m_hasMenuBar = false;
 		bool             m_focusNextFrame = false;
+		mvDrawList       m_drawList;
 		
 	};
 

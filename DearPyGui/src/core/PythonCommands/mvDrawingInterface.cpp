@@ -1,5 +1,10 @@
 #include "mvDrawingInterface.h"
 #include "mvInterfaceCore.h"
+#include "DrawCommands/mvDrawCmdCommon.h"
+#include "Registries/mvDrawList.h"
+
+static const std::string DrawForeground = "##FOREGROUND";
+static const std::string DrawBackground = "##BACKGROUND";
 
 namespace Marvel {
 
@@ -15,10 +20,6 @@ namespace Marvel {
 			{mvPythonDataType::Integer, "height","", "0"},
 			{mvPythonDataType::String, "popup","", "''"},
 			{mvPythonDataType::Bool, "show","Attempt to render", "True"},
-			{mvPythonDataType::Float, "originx","", "0.0"},
-			{mvPythonDataType::Float, "originy","", "0.0"},
-			{mvPythonDataType::Float, "scalex","", "1.0"},
-			{mvPythonDataType::Float, "scaley","", "1.0"},
 		}, "Adds a drawing widget.", "None", "Drawing") });
 
 		parsers->insert({ "delete_drawing_item", mvPythonParser({
@@ -30,8 +31,8 @@ namespace Marvel {
 			{mvPythonDataType::String, "drawing"},
 			{mvPythonDataType::String, "file"},
 			{mvPythonDataType::FloatList, "pmin"},
+			{mvPythonDataType::FloatList, "pmax", ""},
 			{mvPythonDataType::KeywordOnly},
-			{mvPythonDataType::FloatList, "pmax", "", "(0.0, 0.0)"},
 			{mvPythonDataType::FloatList, "uv_min", "normalized texture coordinates", "(0.0, 0.0)"},
 			{mvPythonDataType::FloatList, "uv_max", "normalized texture coordinates", "(1.0, 1.0)"},
 			{mvPythonDataType::IntList, "color", "", "(255, 255, 255, 255)"},
@@ -115,7 +116,7 @@ namespace Marvel {
 			{mvPythonDataType::Float, "radius"},
 			{mvPythonDataType::IntList, "color"},
 			{mvPythonDataType::KeywordOnly},
-			{mvPythonDataType::Integer, "segments", "", "12"},
+			{mvPythonDataType::Integer, "segments", "", "0"},
 			{mvPythonDataType::Float, "thickness", "", "1.0"},
 			{mvPythonDataType::FloatList, "fill", "", "(0, 0, 0, -1)"},
 			{mvPythonDataType::String, "tag", "", "''"},
@@ -159,6 +160,28 @@ namespace Marvel {
 		}, "Clears a drawing.", "None", "Drawing") });
 	}
 
+	static mvDrawList* GetDrawListFromTarget(const char* name)
+	{
+		if (name == DrawForeground)
+			return &mvApp::GetApp()->getFrontDrawList();
+
+		if (name == DrawBackground)
+			return &mvApp::GetApp()->getBackDrawList();
+
+		auto item = mvApp::GetApp()->getItemRegistry().getItem(name);
+
+		if (item == nullptr)
+			return nullptr;
+
+		if (item->getType() == mvAppItemType::Drawing)
+			return &static_cast<mvDrawing*>(item)->getDrawList();
+		if(item->getType() == mvAppItemType::Window)
+			return &static_cast<mvWindowAppitem*>(item)->getDrawList();
+
+		ThrowPythonException(std::string(name) + " draw target does not exist or is not a valid target.");
+		return nullptr;
+	}
+
 	PyObject* add_drawing(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		const char* name;
@@ -198,24 +221,9 @@ namespace Marvel {
 		if (!(*mvApp::GetApp()->getParsers())["delete_drawing_item"].parse(args, kwargs, __FUNCTION__, &drawing, &tag))
 			return GetPyNone();
 
-		auto item = mvApp::GetApp()->getItemRegistry().getItem(drawing);
-
-		if (item == nullptr)
-		{
-			ThrowPythonException("Drawing does not exist");
-			return GetPyNone();
-		}
-
-		mvDrawing* dwg;
-		if (item->getType() == mvAppItemType::Drawing)
-			dwg = static_cast<mvDrawing*>(item);
-		else
-		{
-			ThrowPythonException(std::string(drawing) + " is not a drawing.");
-			return GetPyNone();
-		}
-
-		dwg->deleteCommand(tag);
+		mvDrawList* drawlist = GetDrawListFromTarget(drawing);
+		if (drawlist)
+			drawlist->deleteCommand(tag);
 
 		return GetPyNone();
 	}
@@ -251,26 +259,19 @@ namespace Marvel {
 		mvVec2 muv_max = ToVec2(uv_max);
 		mvColor mcolor = ToColor(color);
 
-		auto item = mvApp::GetApp()->getItemRegistry().getItem(drawing);
-
-		if (item == nullptr)
+		mvDrawList* drawlist = GetDrawListFromTarget(drawing);
+		if (drawlist)
 		{
-			std::string message = drawing;
-			ThrowPythonException(message + " drawing does not exist.");
-			return GetPyNone();
+
+			if (auto command = drawlist->getCommand(tag))
+				*static_cast<mvDrawImageCmd*>(command) = mvDrawImageCmd(file, mpmin, mpmax, muv_min, muv_max, mcolor);
+			else
+			{
+				mvDrawCmd* cmd = new mvDrawImageCmd(file, mpmin, mpmax, muv_min, muv_max, mcolor);
+				cmd->tag = tag;
+				drawlist->addCommand(cmd);
+			}
 		}
-
-		mvDrawing* dwg;
-		if (item->getType() == mvAppItemType::Drawing)
-			dwg = static_cast<mvDrawing*>(item);
-		else
-		{
-			ThrowPythonException(std::string(drawing) + " is not a drawing.");
-			return GetPyNone();
-		}
-
-		dwg->drawImage(file, mpmin, mpmax, muv_min, muv_max, mcolor, tag);
-
 		return GetPyNone();
 	}
 
@@ -289,25 +290,19 @@ namespace Marvel {
 		mvVec2 mp2 = ToVec2(p2);
 		mvColor mcolor = ToColor(color);
 
-		auto item = mvApp::GetApp()->getItemRegistry().getItem(drawing);
-
-		if (item == nullptr)
+		mvDrawList* drawlist = GetDrawListFromTarget(drawing);
+		if (drawlist)
 		{
-			std::string message = drawing;
-			ThrowPythonException(message + " drawing does not exist.");
-			return GetPyNone();
-		}
 
-		mvDrawing* dwg;
-		if (item->getType() == mvAppItemType::Drawing)
-			dwg = static_cast<mvDrawing*>(item);
-		else
-		{
-			ThrowPythonException(std::string(drawing) + " is not a drawing.");
-			return GetPyNone();
+			if (auto command = drawlist->getCommand(tag))
+				*static_cast<mvDrawLineCmd*>(command) = mvDrawLineCmd(mp1, mp2, mcolor, (float)thickness);
+			else
+			{
+				mvDrawCmd* cmd = new mvDrawLineCmd(mp1, mp2, mcolor, (float)thickness);
+				cmd->tag = tag;
+				drawlist->addCommand(cmd);
+			}
 		}
-		dwg->drawLine(mp1, mp2, mcolor, (float)thickness, tag);
-
 		return GetPyNone();
 	}
 
@@ -327,25 +322,18 @@ namespace Marvel {
 		mvVec2 mp2 = ToVec2(p2);
 		mvColor mcolor = ToColor(color);
 
-		auto item = mvApp::GetApp()->getItemRegistry().getItem(drawing);
-
-		if (item == nullptr)
+		mvDrawList* drawlist = GetDrawListFromTarget(drawing);
+		if (drawlist)
 		{
-			std::string message = drawing;
-			ThrowPythonException(message + " drawing does not exist.");
-			return GetPyNone();
+			if (auto command = drawlist->getCommand(tag))
+				*static_cast<mvDrawArrowCmd*>(command) = mvDrawArrowCmd(mp1, mp2, mcolor, (float)thickness, (float)size);
+			else
+			{
+				mvDrawCmd* cmd = new mvDrawArrowCmd(mp1, mp2, mcolor, (float)thickness, (float)size);
+				cmd->tag = tag;
+				drawlist->addCommand(cmd);
+			}
 		}
-
-		mvDrawing* dwg;
-		if (item->getType() == mvAppItemType::Drawing)
-			dwg = static_cast<mvDrawing*>(item);
-		else
-		{
-			ThrowPythonException(std::string(drawing) + " is not a drawing.");
-			return GetPyNone();
-		}
-		dwg->drawArrow(mp1, mp2, mcolor, (float)thickness, (float)size, tag);
-
 		return GetPyNone();
 	}
 
@@ -368,25 +356,18 @@ namespace Marvel {
 		mvColor mcolor = ToColor(color);
 		mvColor mfill = ToColor(fill);
 
-		auto item = mvApp::GetApp()->getItemRegistry().getItem(drawing);
-
-		if (item == nullptr)
+		mvDrawList* drawlist = GetDrawListFromTarget(drawing);
+		if (drawlist)
 		{
-			std::string message = drawing;
-			ThrowPythonException(message + " drawing does not exist.");
-			return GetPyNone();
+			if (auto command = drawlist->getCommand(tag))
+				*static_cast<mvDrawTriangleCmd*>(command) = mvDrawTriangleCmd(mp1, mp2, mp3, mcolor, thickness, mfill);
+			else
+			{
+				mvDrawCmd* cmd = new mvDrawTriangleCmd(mp1, mp2, mp3, mcolor, thickness, mfill);
+				cmd->tag = tag;
+				drawlist->addCommand(cmd);
+			}
 		}
-
-		mvDrawing* dwg;
-		if (item->getType() == mvAppItemType::Drawing)
-			dwg = static_cast<mvDrawing*>(item);
-		else
-		{
-			ThrowPythonException(std::string(drawing) + " is not a drawing.");
-			return GetPyNone();
-		}
-		dwg->drawTriangle(mp1, mp2, mp3, mcolor, mfill, thickness, tag);
-
 		return GetPyNone();
 	}
 
@@ -408,25 +389,18 @@ namespace Marvel {
 		mvColor mcolor = ToColor(color);
 		mvColor mfill = ToColor(fill);
 
-		auto item = mvApp::GetApp()->getItemRegistry().getItem(drawing);
-
-		if (item == nullptr)
+		mvDrawList* drawlist = GetDrawListFromTarget(drawing);
+		if (drawlist)
 		{
-			std::string message = drawing;
-			ThrowPythonException(message + " drawing does not exist.");
-			return GetPyNone();
+			if (auto command = drawlist->getCommand(tag))
+				*static_cast<mvDrawRectCmd*>(command) = mvDrawRectCmd(mpmin, mpmax, mcolor, mfill, rounding, thickness);
+			else
+			{
+				mvDrawCmd* cmd = new mvDrawRectCmd(mpmin, mpmax, mcolor, mfill, rounding, thickness);
+				cmd->tag = tag;
+				drawlist->addCommand(cmd);
+			}
 		}
-
-		mvDrawing* dwg;
-		if (item->getType() == mvAppItemType::Drawing)
-			dwg = static_cast<mvDrawing*>(item);
-		else
-		{
-			ThrowPythonException(std::string(drawing) + " is not a drawing.");
-			return GetPyNone();
-		}
-		dwg->drawRectangle(mpmin, mpmax, mcolor, mfill, rounding, thickness, tag);
-
 		return GetPyNone();
 	}
 
@@ -450,25 +424,18 @@ namespace Marvel {
 		mvColor mcolor = ToColor(color);
 		mvColor mfill = ToColor(fill);
 
-		auto item = mvApp::GetApp()->getItemRegistry().getItem(drawing);
-
-		if (item == nullptr)
+		mvDrawList* drawlist = GetDrawListFromTarget(drawing);
+		if (drawlist)
 		{
-			std::string message = drawing;
-			ThrowPythonException(message + " drawing does not exist.");
-			return GetPyNone();
+			if (auto command = drawlist->getCommand(tag))
+				*static_cast<mvDrawQuadCmd*>(command) = mvDrawQuadCmd(mp1, mp2, mp3, mp4, mcolor, mfill, thickness);
+			else
+			{
+				mvDrawCmd* cmd = new mvDrawQuadCmd(mp1, mp2, mp3, mp4, mcolor, mfill, thickness);
+				cmd->tag = tag;
+				drawlist->addCommand(cmd);
+			}
 		}
-
-		mvDrawing* dwg;
-		if (item->getType() == mvAppItemType::Drawing)
-			dwg = static_cast<mvDrawing*>(item);
-		else
-		{
-			ThrowPythonException(std::string(drawing) + " is not a drawing.");
-			return GetPyNone();
-		}
-		dwg->drawQuad(mp1, mp2, mp3, mp4, mcolor, mfill, thickness, tag);
-
 		return GetPyNone();
 	}
 
@@ -487,25 +454,18 @@ namespace Marvel {
 		mvVec2 mpos = ToVec2(pos);
 		mvColor mcolor = ToColor(color);
 
-		auto item = mvApp::GetApp()->getItemRegistry().getItem(drawing);
-
-		if (item == nullptr)
+		mvDrawList* drawlist = GetDrawListFromTarget(drawing);
+		if (drawlist)
 		{
-			std::string message = drawing;
-			ThrowPythonException(message + " drawing does not exist.");
-			return GetPyNone();
+			if (auto command = drawlist->getCommand(tag))
+				*static_cast<mvDrawTextCmd*>(command) = mvDrawTextCmd(mpos, text, mcolor, size);
+			else
+			{
+				mvDrawCmd* cmd = new mvDrawTextCmd(mpos, text, mcolor, size);
+				cmd->tag = tag;
+				drawlist->addCommand(cmd);
+			}
 		}
-
-		mvDrawing* dwg;
-		if (item->getType() == mvAppItemType::Drawing)
-			dwg = static_cast<mvDrawing*>(item);
-		else
-		{
-			ThrowPythonException(std::string(drawing) + " is not a drawing.");
-			return GetPyNone();
-		}
-		dwg->drawText(mpos, text, mcolor, size, tag);
-
 		return GetPyNone();
 	}
 
@@ -515,7 +475,7 @@ namespace Marvel {
 		PyObject* center;
 		float radius;
 		PyObject* color;
-		int segments = 12;
+		int segments = 0;
 		float thickness = 1.0f;
 		PyObject* fill = nullptr;
 		const char* tag = "";
@@ -527,25 +487,18 @@ namespace Marvel {
 		mvColor mcolor = ToColor(color);
 		mvColor mfill = ToColor(fill);
 
-		auto item = mvApp::GetApp()->getItemRegistry().getItem(drawing);
-
-		if (item == nullptr)
+		mvDrawList* drawlist = GetDrawListFromTarget(drawing);
+		if (drawlist)
 		{
-			std::string message = drawing;
-			ThrowPythonException(message + " drawing does not exist.");
-			return GetPyNone();
+			if (auto command = drawlist->getCommand(tag))
+				*static_cast<mvDrawCircleCmd*>(command) = mvDrawCircleCmd(mcenter, radius, mcolor, segments, thickness, mfill);
+			else
+			{
+				mvDrawCmd* cmd = new mvDrawCircleCmd(mcenter, radius, mcolor, segments, thickness, mfill);
+				cmd->tag = tag;
+				drawlist->addCommand(cmd);
+			}
 		}
-
-		mvDrawing* dwg;
-		if (item->getType() == mvAppItemType::Drawing)
-			dwg = static_cast<mvDrawing*>(item);
-		else
-		{
-			ThrowPythonException(std::string(drawing) + " is not a drawing.");
-			return GetPyNone();
-		}
-		dwg->drawCircle(mcenter, radius, mcolor, segments, thickness, mfill, tag);
-
 		return GetPyNone();
 	}
 
@@ -564,25 +517,18 @@ namespace Marvel {
 		auto mpoints = ToVectVec2(points);
 		mvColor mcolor = ToColor(color);
 
-		auto item = mvApp::GetApp()->getItemRegistry().getItem(drawing);
-
-		if (item == nullptr)
+		mvDrawList* drawlist = GetDrawListFromTarget(drawing);
+		if (drawlist)
 		{
-			std::string message = drawing;
-			ThrowPythonException(message + " drawing does not exist.");
-			return GetPyNone();
+			if (auto command = drawlist->getCommand(tag))
+				*static_cast<mvDrawPolylineCmd*>(command) = mvDrawPolylineCmd(mpoints, mcolor, closed, thickness);
+			else
+			{
+				mvDrawCmd* cmd = new mvDrawPolylineCmd(mpoints, mcolor, closed, thickness);
+				cmd->tag = tag;
+				drawlist->addCommand(cmd);
+			}
 		}
-
-		mvDrawing* dwg;
-		if (item->getType() == mvAppItemType::Drawing)
-			dwg = static_cast<mvDrawing*>(item);
-		else
-		{
-			ThrowPythonException(std::string(drawing) + " is not a drawing.");
-			return GetPyNone();
-		}
-		dwg->drawPolyline(mpoints, mcolor, closed, thickness, tag);
-
 		return GetPyNone();
 	}
 
@@ -602,25 +548,18 @@ namespace Marvel {
 		mvColor mcolor = ToColor(color);
 		mvColor mfill = ToColor(fill);
 
-		auto item = mvApp::GetApp()->getItemRegistry().getItem(drawing);
-
-		if (item == nullptr)
+		mvDrawList* drawlist = GetDrawListFromTarget(drawing);
+		if (drawlist)
 		{
-			std::string message = drawing;
-			ThrowPythonException(message + " drawing does not exist.");
-			return GetPyNone();
+			if (auto command = drawlist->getCommand(tag))
+				*static_cast<mvDrawPolygonCmd*>(command) = mvDrawPolygonCmd(mpoints, mcolor, mfill, thickness);
+			else
+			{
+				mvDrawCmd* cmd = new mvDrawPolygonCmd(mpoints, mcolor, mfill, thickness);
+				cmd->tag = tag;
+				drawlist->addCommand(cmd);
+			}
 		}
-
-		mvDrawing* dwg;
-		if (item->getType() == mvAppItemType::Drawing)
-			dwg = static_cast<mvDrawing*>(item);
-		else
-		{
-			ThrowPythonException(std::string(drawing) + " is not a drawing.");
-			return GetPyNone();
-		}
-		dwg->drawPolygon(mpoints, mcolor, mfill, thickness, tag);
-
 		return GetPyNone();
 	}
 
@@ -642,25 +581,18 @@ namespace Marvel {
 		mvVec2 mp4 = ToVec2(p4);
 		mvColor mcolor = ToColor(color);
 
-		auto item = mvApp::GetApp()->getItemRegistry().getItem(drawing);
-
-		if (item == nullptr)
+		mvDrawList* drawlist = GetDrawListFromTarget(drawing);
+		if (drawlist)
 		{
-			std::string message = drawing;
-			ThrowPythonException(message + " drawing does not exist.");
-			return GetPyNone();
+			if (auto command = drawlist->getCommand(tag))
+				*static_cast<mvDrawBezierCurveCmd*>(command) = mvDrawBezierCurveCmd(mp1, mp2, mp3, mp4, mcolor, thickness, segments);
+			else
+			{
+				mvDrawCmd* cmd = new mvDrawBezierCurveCmd(mp1, mp2, mp3, mp4, mcolor, thickness, segments);
+				cmd->tag = tag;
+				drawlist->addCommand(cmd);
+			}
 		}
-
-		mvDrawing* dwg;
-		if (item->getType() == mvAppItemType::Drawing)
-			dwg = static_cast<mvDrawing*>(item);
-		else
-		{
-			ThrowPythonException(std::string(drawing) + " is not a drawing.");
-			return GetPyNone();
-		}
-		dwg->drawBezierCurve(mp1, mp2, mp3, mp4, mcolor, thickness, segments, tag);
-
 		return GetPyNone();
 	}
 
@@ -671,24 +603,9 @@ namespace Marvel {
 		if (!(*mvApp::GetApp()->getParsers())["clear_drawing"].parse(args, kwargs, __FUNCTION__, &drawing))
 			return GetPyNone();
 
-		auto item = mvApp::GetApp()->getItemRegistry().getItem(drawing);
-
-		if (item == nullptr)
-		{
-			std::string message = drawing;
-			ThrowPythonException(message + " drawing does not exist.");
-			return GetPyNone();
-		}
-
-		mvDrawing* dwg;
-		if (item->getType() == mvAppItemType::Drawing)
-			dwg = static_cast<mvDrawing*>(item);
-		else
-		{
-			ThrowPythonException(std::string(drawing) + " is not a drawing.");
-			return GetPyNone();
-		}
-		dwg->clear();
+		mvDrawList* drawlist = GetDrawListFromTarget(drawing);
+		if (drawlist)
+			drawlist->clear();
 
 		return GetPyNone();
 	}
