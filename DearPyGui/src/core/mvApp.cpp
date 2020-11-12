@@ -212,8 +212,8 @@ namespace Marvel {
 	{
 		MV_PROFILE_FUNCTION()
 
-		//auto& mutex = mvValueStorage::GetMutex();
-		//std::lock_guard<std::mutex> lock(mutex);
+		m_frontDrawList.draw(ImGui::GetForegroundDrawList(), 0.0f, 0.0f);
+		m_backDrawList.draw(ImGui::GetBackgroundDrawList(), 0.0f, 0.0f);
 
 		for (auto window : m_itemRegistry.m_frontWindows)
 			window->draw();

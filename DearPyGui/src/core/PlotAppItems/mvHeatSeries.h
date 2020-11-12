@@ -8,22 +8,23 @@ namespace Marvel {
 
 	public:
 
-		mvHeatSeries(const std::string& name, const std::vector<std::vector<float>>& points, 
+		mvHeatSeries(const std::string& name, const std::vector<float>* values, 
 			int rows, int cols, double scale_min, double scale_max, const std::string& format,
 			mvVec2 bounds_min, mvVec2 bounds_max)
-			: mvSeries(name, points), m_rows(rows), m_cols(cols), m_scale_min(scale_min),
-			m_scale_max(scale_max), m_format(format), m_bounds_min(bounds_min), m_bounds_max(bounds_max)
+			: 
+			mvSeries(name, {values}),
+			m_rows(rows), 
+			m_cols(cols), 
+			m_scale_min(scale_min),
+			m_scale_max(scale_max), 
+			m_format(format), 
+			m_bounds_min(bounds_min), 
+			m_bounds_max(bounds_max)
 		{
-			m_datapoints = new float[m_rows*m_cols];
-			int index = 0;
-			for (size_t i = 0; i < points.size(); i++)
-			{
-				for (size_t j = 0; j < points[i].size(); j++)
-				{
-					m_datapoints[index] = points[i][j];
-					index++;
-				}
-			}
+			m_minX = bounds_min.x;
+			m_maxX = bounds_max.x;
+			m_minY = bounds_min.y;
+			m_maxY = bounds_max.y;
 		}
 
 		mvSeriesType getSeriesType() override { return mvSeriesType::Heat; }
@@ -31,14 +32,9 @@ namespace Marvel {
 		void draw() override
 		{
 
-			ImPlot::PlotHeatmap(m_name.c_str(), m_datapoints, m_rows, m_cols, m_scale_min, m_scale_max,
+			ImPlot::PlotHeatmap(m_name.c_str(), m_data[0].data(), m_rows, m_cols, m_scale_min, m_scale_max,
 				m_format.c_str(), { m_bounds_min.x, m_bounds_min.y }, { m_bounds_max.x, m_bounds_max.y });
 		
-		}
-
-		~mvHeatSeries()
-		{
-			delete[] m_datapoints;
 		}
 
 	private:
@@ -50,7 +46,6 @@ namespace Marvel {
 		std::string m_format;
 		mvVec2      m_bounds_min;
 		mvVec2      m_bounds_max;
-		float*      m_datapoints;
 
 	};
 

@@ -27,7 +27,7 @@
 #include "PythonUtilities/mvPythonParser.h"
 #include "mvEventHandler.h"
 #include "Registries/mvItemRegistry.h"
-//#include "Core/mvTimer.h"
+#include "Registries/mvDrawList.h"
 
 //-----------------------------------------------------------------------------
 // Typedefs for chrono's ridiculously long names
@@ -173,8 +173,10 @@ namespace Marvel {
         //-----------------------------------------------------------------------------
         // Other
         //-----------------------------------------------------------------------------
-        std::map<std::string, mvPythonParser>* getParsers() { return m_parsers; }
-        mvItemRegistry&                        getItemRegistry() { return m_itemRegistry; }
+        std::map<std::string, mvPythonParser>* getParsers      () { return m_parsers; }
+        mvItemRegistry&                        getItemRegistry () { return m_itemRegistry; }
+        mvDrawList&                            getFrontDrawList() { return m_frontDrawList; }
+        mvDrawList&                            getBackDrawList () { return m_backDrawList; }
             
     private:
 
@@ -246,6 +248,9 @@ namespace Marvel {
         bool                             m_threadPoolHighPerformance = false; // when true, use max number of threads
         double                           m_threadTime = 0.0;                  // how long threadpool has been active
         time_point_                      m_poolStart;                         // threadpool start time
+
+        mvDrawList m_frontDrawList;
+        mvDrawList m_backDrawList;
 
     };
 

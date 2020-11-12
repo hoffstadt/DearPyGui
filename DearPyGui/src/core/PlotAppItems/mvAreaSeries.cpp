@@ -7,13 +7,13 @@ namespace Marvel {
 		ImPlotLimits limits = ImPlot::GetPlotLimits();
 
 		std::vector<ImVec2> points;
-		for (unsigned i = 0; i < m_xs.size(); i++)
+		for (unsigned i = 0; i < m_data[0].size(); i++)
 		{
-			float x = m_xs[i] > limits.X.Max ? (float)limits.X.Max : (float)m_xs[i];
-			x = m_xs[i] < limits.X.Min ? (float)limits.X.Min : x;
+			float x = m_data[0][i] > limits.X.Max ? (float)limits.X.Max : (float)m_data[0][i];
+			x = m_data[0][i] < limits.X.Min ? (float)limits.X.Min : x;
 
-			float y = m_ys[i] > limits.Y.Max ? (float)limits.Y.Max : (float)m_ys[i];
-			y = m_ys[i] < limits.Y.Min ? (float)limits.Y.Min : y;
+			float y = m_data[1][i] > limits.Y.Max ? (float)limits.Y.Max : (float)m_data[1][i];
+			y = m_data[1][i] < limits.Y.Min ? (float)limits.Y.Min : y;
 			auto p = ImPlot::PlotToPixels({ x, y });
 			points.push_back(p);
 		}

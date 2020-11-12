@@ -8,11 +8,17 @@ namespace Marvel {
 
 	public:
 
-		mvStemSeries(const std::string& name, const std::vector<mvVec2>& points, int marker,
+		mvStemSeries(const std::string& name, const std::vector<float>* x, 
+			const std::vector<float>* y, int marker,
 			float markerSize, float markerWeight,
 			mvColor markerOutlineColor, mvColor markerFillColor)
-			: mvSeries(name, points), m_marker(marker), m_markerSize(markerSize), m_markerWeight(markerWeight),
-			m_markerOutlineColor(markerOutlineColor), m_markerFillColor(markerFillColor)
+			: 
+			mvSeries(name, {x, y}),
+			m_marker(marker), 
+			m_markerSize(markerSize), 
+			m_markerWeight(markerWeight),
+			m_markerOutlineColor(markerOutlineColor), 
+			m_markerFillColor(markerFillColor)
 		{
 		}
 
@@ -28,7 +34,7 @@ namespace Marvel {
 			ImPlot::PushStyleVar(ImPlotStyleVar_MarkerSize, m_markerSize);
 			ImPlot::PushStyleVar(ImPlotStyleVar_MarkerWeight, m_markerWeight);
 
-			ImPlot::PlotStems(m_name.c_str(), m_xs.data(), m_ys.data(), (int)m_xs.size());
+			ImPlot::PlotStems(m_name.c_str(), m_data[0].data(), m_data[1].data(), (int)m_data[0].size());
 
 			ImPlot::PopStyleColor();
 			ImPlot::PopStyleColor();
@@ -37,9 +43,9 @@ namespace Marvel {
 
 	private:
 
-		int   m_marker = 1;
-		float m_markerSize = 4.0f;
-		float m_markerWeight = 1.0f;
+		int     m_marker = 1;
+		float   m_markerSize = 4.0f;
+		float   m_markerWeight = 1.0f;
 		mvColor m_markerOutlineColor = MV_DEFAULT_COLOR;
 		mvColor m_markerFillColor = MV_DEFAULT_COLOR;
 

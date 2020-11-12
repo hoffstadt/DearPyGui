@@ -22,10 +22,23 @@ set(MARVEL_SOURCES
 	"src/core/mvProfiler.cpp"
 	"src/core/mvAppItemStyleManager.cpp"
 
+	"src/core/DrawCommands/mvDrawImageCmd.cpp"
+	"src/core/DrawCommands/mvDrawLineCmd.cpp"
+	"src/core/DrawCommands/mvDrawArrowCmd.cpp"
+	"src/core/DrawCommands/mvDrawTriangleCmd.cpp"
+	"src/core/DrawCommands/mvDrawCircleCmd.cpp"
+	"src/core/DrawCommands/mvDrawTextCmd.cpp"
+	"src/core/DrawCommands/mvDrawRectCmd.cpp"
+	"src/core/DrawCommands/mvDrawQuadCmd.cpp"
+	"src/core/DrawCommands/mvDrawPolylineCmd.cpp"
+	"src/core/DrawCommands/mvDrawPolygonCmd.cpp"
+	"src/core/DrawCommands/mvDrawBezierCurveCmd.cpp"
+
 	"src/core/Registries/mvItemRegistry.cpp"
 	"src/core/Registries/mvDataStorage.cpp"
 	"src/core/Registries/mvTextureStorage.cpp"
 	"src/core/Registries/mvValueStorage.cpp"
+	"src/core/Registries/mvDrawList.cpp"
 
 	"src/core/PythonUtilities/mvPyObject.cpp"
 	"src/core/PythonUtilities/mvPythonTranslator.cpp"

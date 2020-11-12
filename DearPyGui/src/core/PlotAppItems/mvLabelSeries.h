@@ -8,8 +8,13 @@ namespace Marvel {
 
 	public:
 
-		mvLabelSeries(const std::string& name, const std::vector<mvVec2>& points, int xoffset = 0, int yoffset = 0, bool vertical = false)
-			: mvSeries(name, points), m_xoffset(xoffset), m_yoffset(yoffset), m_vertical(vertical)
+		mvLabelSeries(const std::string& name, const std::vector<float>* x, 
+			const std::vector<float>* y, int xoffset = 0, int yoffset = 0, bool vertical = false)
+			: 
+			mvSeries(name, {x, y}),
+			m_xoffset(xoffset), 
+			m_yoffset(yoffset),
+			m_vertical(vertical)
 		{
 		}
 
@@ -17,14 +22,14 @@ namespace Marvel {
 
 		void draw() override
 		{
-			ImPlot::PlotText(m_name.c_str(), m_xs[0], m_ys[0], m_vertical,
+			ImPlot::PlotText(m_name.c_str(), m_data[0][0], m_data[0][1], m_vertical,
 				ImVec2((float)m_xoffset, (float)m_yoffset));
 		}
 
 	private:
 
-		int m_xoffset;
-		int m_yoffset;
+		int  m_xoffset;
+		int  m_yoffset;
 		bool m_vertical;
 
 	};

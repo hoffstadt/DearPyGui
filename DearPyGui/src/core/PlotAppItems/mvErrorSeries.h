@@ -8,8 +8,13 @@ namespace Marvel {
 
 	public:
 
-		mvErrorSeries(const std::string& name, const std::vector<mvVec4>& points, bool horizontal, const mvColor& color)
-			: mvSeries(name, points), m_horizontal(horizontal), m_color(color)
+		mvErrorSeries(const std::string& name, const std::vector<float>* x, const std::vector<float>* y,
+			const std::vector<float>* neg, const std::vector<float>* pos,
+			bool horizontal, const mvColor& color)
+			: 
+			mvSeries(name, {x, y, neg, pos}),
+			m_horizontal(horizontal), 
+			m_color(color)
 		{
 		}
 
@@ -19,9 +24,11 @@ namespace Marvel {
 		{
 			ImPlot::PushStyleColor(ImPlotCol_ErrorBar, m_color.toVec4());
 			if(m_horizontal)
-				ImPlot::PlotErrorBarsH(m_name.c_str(), m_xs.data(), m_ys.data(), m_extra1.data(), m_extra2.data(), (int)m_xs.size());
+				ImPlot::PlotErrorBarsH(m_name.c_str(), m_data[0].data(), m_data[1].data(), m_data[2].data(), 
+					m_data[3].data(), (int)m_data[0].size());
 			else
-				ImPlot::PlotErrorBars(m_name.c_str(), m_xs.data(), m_ys.data(), m_extra1.data(), m_extra2.data(), (int)m_xs.size());
+				ImPlot::PlotErrorBars(m_name.c_str(), m_data[0].data(), m_data[1].data(), m_data[2].data(),
+					m_data[3].data(), (int)m_data[0].size());
 
 			ImPlot::PopStyleColor();
 		}

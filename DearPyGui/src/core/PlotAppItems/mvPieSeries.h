@@ -8,11 +8,18 @@ namespace Marvel {
 
 	public:
 
-		mvPieSeries(const std::string& name, const std::vector<mvVec2>& points, double x,
+		mvPieSeries(const std::string& name, const std::vector<float>* values, double x,
 			double y, double radius, bool normalize, double angle, const std::string& format,
 			const std::vector<std::string>& labels)
-			: mvSeries(name, points), m_x(x), m_y(y), m_radius(radius), m_normalize(normalize),
-			m_angle(angle), m_format(format), m_labels(labels)
+			: 
+			mvSeries(name, {values}),
+			m_x(x), 
+			m_y(y),
+			m_radius(radius), 
+			m_normalize(normalize),
+			m_angle(angle), 
+			m_format(format), 
+			m_labels(labels)
 		{
 			for (const auto& item : m_labels)
 				m_clabels.push_back(item.c_str());
@@ -22,7 +29,7 @@ namespace Marvel {
 
 		void draw() override
 		{
-			ImPlot::PlotPieChart(m_clabels.data(), m_xs.data(), (int)m_labels.size(),
+			ImPlot::PlotPieChart(m_clabels.data(), m_data[0].data(), (int)m_labels.size(),
 				m_x, m_y, m_radius, m_normalize, m_format.c_str(), m_angle);
 		}
 

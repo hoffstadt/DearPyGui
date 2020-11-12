@@ -85,14 +85,25 @@ namespace Marvel {
 
 	public:
 
-		mvCandleSeries(std::string name, const std::vector<float>& dates, const std::vector<float>& opens,
-			const std::vector<float>& highs, const std::vector<float>& lows, const std::vector<float>& closes,
+		mvCandleSeries(std::string name, const std::vector<float>* dates, const std::vector<float>* opens,
+			const std::vector<float>* highs, const std::vector<float>* lows, const std::vector<float>* closes,
 			float width, mvColor bull, mvColor bear)
-			: mvSeries(name, dates, opens, highs, lows, closes),
+            : mvSeries(name, { dates, opens, highs, lows, closes }),
 			m_width(width),
 			m_bullColor(bull),
 			m_bearColor(bear)
 		{
+
+            if (!dates->empty())
+            {
+                auto minmax = minmax_element(dates->begin(), dates->end());
+                m_maxX = *minmax.second;
+                m_minX = *minmax.first;
+                minmax = minmax_element(lows->begin(), lows->end());
+                m_minY = *minmax.first;
+                minmax = minmax_element(highs->begin(), highs->end());
+                m_maxY = *minmax.second;
+            }
 			
 		}
 
@@ -101,8 +112,8 @@ namespace Marvel {
 		void draw() override
 		{
 
-			PlotCandlestick(m_name.c_str(), m_xs.data(), m_ys.data(), m_extra2.data(),
-				m_extra1.data(), m_extra0.data(), (int)m_xs.size(), m_tooltip, m_width, m_bullColor.toVec4(), 
+			PlotCandlestick(m_name.c_str(), m_data[0].data(), m_data[1].data(), m_data[4].data(),
+				m_data[3].data(), m_data[2].data(), (int)m_data[0].size(), m_tooltip, m_width, m_bullColor.toVec4(), 
 				m_bearColor.toVec4());
 		}
 
