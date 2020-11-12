@@ -1193,7 +1193,7 @@ namespace Marvel {
 		if (avalues.size() != alabels.size())
 		{
 			ThrowPythonException(std::string(name) + " data list must be the same size.");
-			return false;
+			return GetPyNone();
 		}
 
 		auto series = new mvPieSeries(name, &avalues, x, y, radius, normalize, angle, format, alabels);
