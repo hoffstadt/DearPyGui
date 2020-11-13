@@ -54,13 +54,16 @@ namespace Marvel {
 
         mvAppItemStyleManagerScope getScopedStyleManager();
         void addColorStyle        (ImGuiCol item, mvColor color);
+        void addTempColorStyle    (ImGuiCol item, mvColor color);
         void pushColorStyles      ();
         void popColorStyles       ();
         void clearColors          ();
+        void clearTempColors      ();
 
     private:
 
         std::vector<StyleColor> m_colors;
+        std::vector<StyleColor> m_colors_temp;
 
     };
 }
