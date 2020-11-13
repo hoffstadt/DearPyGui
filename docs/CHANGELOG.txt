@@ -41,6 +41,8 @@ Breaking Changes:
 - Drawing API:  Y axis is down now.
 - Drawing API:  Origin is top left corner now.
 - Drawing API:  pmax keyword in "draw_image" is now required.
+- Drawing API:  changed "delete_drawing_item" with
+                "delete_drawing_command".
 
 New Features:
 - Drawing API: Can now drawing to window using window name
