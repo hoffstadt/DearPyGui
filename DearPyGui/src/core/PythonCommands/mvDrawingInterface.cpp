@@ -28,6 +28,26 @@ namespace Marvel {
 			{mvPythonDataType::Kwargs, "**Kwargs"},
 		}, "Configures an drawing command.", "None", "Drawing") });
 
+		parsers->insert({ "bring_draw_command_forward", mvPythonParser({
+			{mvPythonDataType::String, "drawing"},
+			{mvPythonDataType::String, "tag"},
+		}, "Brings draw command forward.", "None", "Drawing") });
+
+		parsers->insert({ "bring_draw_command_to_front", mvPythonParser({
+			{mvPythonDataType::String, "drawing"},
+			{mvPythonDataType::String, "tag"},
+		}, "Brings draw command to front.", "None", "Drawing") });
+
+		parsers->insert({ "send_draw_command_back", mvPythonParser({
+			{mvPythonDataType::String, "drawing"},
+			{mvPythonDataType::String, "tag"},
+		}, "Sends draw command back.", "None", "Drawing") });
+
+		parsers->insert({ "send_draw_command_to_back", mvPythonParser({
+			{mvPythonDataType::String, "drawing"},
+			{mvPythonDataType::String, "tag"},
+		}, "Sends draw command to the back.", "None", "Drawing") });
+
 		parsers->insert({ "get_draw_command", mvPythonParser({
 			{mvPythonDataType::String, "drawing"},
 			{mvPythonDataType::String, "tag"},
@@ -265,6 +285,70 @@ namespace Marvel {
 			else
 				ThrowPythonException(tag + std::string(" tag was not found"));
 		}
+		return GetPyNone();
+	}
+
+	PyObject* bring_draw_command_forward(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		const char* drawing;
+		const char* tag;
+
+		if (!(*mvApp::GetApp()->getParsers())["bring_draw_command_forward"].parse(args, kwargs, __FUNCTION__,
+			&drawing, &tag))
+			return GetPyNone();
+
+		mvDrawList* drawlist = GetDrawListFromTarget(drawing);
+		if (drawlist)
+			drawlist->bringForward(tag);
+
+		return GetPyNone();
+	}
+
+	PyObject* bring_draw_command_to_front(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		const char* drawing;
+		const char* tag;
+
+		if (!(*mvApp::GetApp()->getParsers())["bring_draw_command_to_front"].parse(args, kwargs, __FUNCTION__,
+			&drawing, &tag))
+			return GetPyNone();
+
+		mvDrawList* drawlist = GetDrawListFromTarget(drawing);
+		if (drawlist)
+			drawlist->bringToFront(tag);
+
+		return GetPyNone();
+	}
+
+	PyObject* send_draw_command_back(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		const char* drawing;
+		const char* tag;
+
+		if (!(*mvApp::GetApp()->getParsers())["send_draw_command_back"].parse(args, kwargs, __FUNCTION__,
+			&drawing, &tag))
+			return GetPyNone();
+
+		mvDrawList* drawlist = GetDrawListFromTarget(drawing);
+		if (drawlist)
+			drawlist->sendBack(tag);
+
+		return GetPyNone();
+	}
+
+	PyObject* send_draw_command_to_back(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		const char* drawing;
+		const char* tag;
+
+		if (!(*mvApp::GetApp()->getParsers())["send_draw_command_to_back"].parse(args, kwargs, __FUNCTION__,
+			&drawing, &tag))
+			return GetPyNone();
+
+		mvDrawList* drawlist = GetDrawListFromTarget(drawing);
+		if (drawlist)
+			drawlist->sendToBack(tag);
+
 		return GetPyNone();
 	}
 

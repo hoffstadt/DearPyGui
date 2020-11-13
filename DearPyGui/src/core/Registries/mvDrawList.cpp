@@ -30,6 +30,71 @@ namespace Marvel {
 		m_commands.push_back(command);
 	}
 
+	void mvDrawList::bringForward(const std::string& tag)
+	{
+		if (tag.empty())
+			return;
+
+		for (size_t i = 0; i < m_commands.size(); i++)
+		{
+			if (m_commands[i]->tag == tag)
+			{
+				if (i == m_commands.size() - 1)
+					return;
+				std::swap(m_commands[i], m_commands[i + 1]);
+				return;
+			}
+		}
+	}
+
+	void mvDrawList::sendBack(const std::string& tag)
+	{
+		if (tag.empty())
+			return;
+
+		for (size_t i = 0; i < m_commands.size(); i++)
+		{
+			if (m_commands[i]->tag == tag)
+			{
+				if (i == 0)
+					return;
+				std::swap(m_commands[i], m_commands[i - 1]);
+			}
+		}
+	}
+
+	void mvDrawList::bringToFront(const std::string& tag)
+	{
+		if (tag.empty())
+			return;
+
+		for (size_t i = 0; i < m_commands.size(); i++)
+		{
+			if (m_commands[i]->tag == tag)
+			{
+				if (i == m_commands.size() - 1)
+					return;
+				std::swap(m_commands[i], m_commands[m_commands.size() - 1]);
+			}
+		}
+	}
+
+	void mvDrawList::sendToBack(const std::string& tag)
+	{
+		if (tag.empty())
+			return;
+
+		for (size_t i = 0; i < m_commands.size(); i++)
+		{
+			if (m_commands[i]->tag == tag)
+			{
+				if (i == 0)
+					return;
+				std::swap(m_commands[i], m_commands[0]);
+			}
+		}
+	}
+
 	void mvDrawList::deleteCommand(const std::string& tag)
 	{
 		bool tagFound = false;

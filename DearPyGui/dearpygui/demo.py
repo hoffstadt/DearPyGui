@@ -831,7 +831,8 @@ def show_demo():
         with collapsing_header("Drawings##demo"):
             add_text("This section is not ready! But will completed sometime during the 0.6.x releases!")
             add_drawing("drawing##widget##demo", width=900, height=500)
-            draw_rectangle("drawing##widget##demo", (0, 0), (900, 500), (255, 0, 0, 255), fill=(0, 0, 25, 255), rounding=12, thickness = 1.0) 
+            draw_rectangle("drawing##widget##demo", (0, 0), (900, 500), (255, 0, 0, 255), fill=(0, 0, 25, 255), 
+                           rounding=12, thickness = 1.0, tag="square") 
             draw_line("drawing##widget##demo", (10, 10), (100, 100), (255, 0, 0, 255), 1, tag="line command")
             draw_triangle("drawing##widget##demo", (150, 10), (110, 100), (190, 100), (255, 255, 0, 255), thickness = 3.0)
             draw_quad("drawing##widget##demo", (210, 10), (290, 10), (290, 100), (210, 100), (255, 255, 0, 255), thickness = 3.0)
