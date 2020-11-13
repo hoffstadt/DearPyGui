@@ -268,6 +268,8 @@ def show_demo():
                     set_item_color(f"Click##{i}", mvGuiCol_Button, hsv_to_rgb(i/7.0, 0.6, 0.6))
                     set_item_color(f"Click##{i}", mvGuiCol_ButtonHovered, hsv_to_rgb(i/7.0, 0.7, 0.7))
                     set_item_color(f"Click##{i}", mvGuiCol_ButtonActive, hsv_to_rgb(i/7.0, 0.8, 0.8))
+                    set_item_style_var(f"Click##{i}", mvGuiStyleVar_FrameRounding, [i*5])
+                    set_item_style_var(f"Click##{i}", mvGuiStyleVar_FramePadding, [i*3, i*3])
                 with group("increment_buttons##demo", horizontal=True):
                     add_text("Press a button: ")
                     add_button("Left##demo", arrow=True, direction=mvDir_Left, 
@@ -306,7 +308,6 @@ def show_demo():
                 add_slider_int("slider int##demo", max_value=3, callback=log_callback)
                 helpmarker("CTRL+click to enter value.")
                 add_slider_float("slider float##demo", max_value=1.0, format="ratio = %.3f", callback=log_callback)
-                set_item_style_var("slider float##demo", mvGuiStyleVar_GrabRounding, [19.0])
                 add_slider_int("slider angle##demo", min_value=-360, max_value=360, format="%d deg", callback=log_callback)
                 add_color_edit3("color 1##demo", default_value=[255, 0, 51])
                 helpmarker(
