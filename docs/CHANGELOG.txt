@@ -48,6 +48,10 @@ New Features:
                "##BACKGROUND" as the draw target
 
 New Commands:
+- Drawing API: Added "bring_draw_command_forward" command
+- Drawing API: Added "bring_draw_command_to_front" command
+- Drawing API: Added "send_draw_command_back" command
+- Drawing API: Added "send_draw_command_to_back" command
 - Drawing API: Added "modify_draw_command" command
 - Drawing API: Added "get_draw_command" command
 - Plots:       Added "add_stair_series" command

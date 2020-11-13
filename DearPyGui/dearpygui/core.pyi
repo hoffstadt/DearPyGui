@@ -390,6 +390,14 @@ def add_window(name: str, *, width: int = -1, height: int = -1, x_pos: int = 200
 	"""Creates a new window for following items to be added to."""
 	...
 
+def bring_draw_command_forward(drawing: str, tag: str) -> None:
+	"""Brings draw command forward."""
+	...
+
+def bring_draw_command_to_front(drawing: str, tag: str) -> None:
+	"""Brings draw command to front."""
+	...
+
 def cleanup_dearpygui() -> None:
 	"""Cleans up DearPyGui after calling setup_dearpygui."""
 	...
@@ -948,6 +956,14 @@ def run_async_function(name: Any, data: Any, *, return_handler: Callable = None)
 
 def select_directory_dialog(callback: Callable = None) -> None:
 	"""Opens a select directory dialog."""
+	...
+
+def send_draw_command_back(drawing: str, tag: str) -> None:
+	"""Sends draw command back."""
+	...
+
+def send_draw_command_to_back(drawing: str, tag: str) -> None:
+	"""Sends draw command to the back."""
 	...
 
 def set_accelerator_callback(callback: Any) -> None:

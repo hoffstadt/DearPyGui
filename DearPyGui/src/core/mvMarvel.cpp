@@ -744,6 +744,10 @@ namespace Marvel {
 		ADD_PYTHON_FUNCTION(delete_row)
 
 		// drawing commands
+		ADD_PYTHON_FUNCTION(bring_draw_command_forward)
+		ADD_PYTHON_FUNCTION(bring_draw_command_to_front)
+		ADD_PYTHON_FUNCTION(send_draw_command_back)
+		ADD_PYTHON_FUNCTION(send_draw_command_to_back)
 		ADD_PYTHON_FUNCTION(modify_draw_command)
 		ADD_PYTHON_FUNCTION(get_draw_command)
 		ADD_PYTHON_FUNCTION(draw_arrow)
