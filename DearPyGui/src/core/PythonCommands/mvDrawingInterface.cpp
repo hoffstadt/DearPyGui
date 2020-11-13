@@ -53,7 +53,7 @@ namespace Marvel {
 			{mvPythonDataType::String, "tag"},
 		}, "Returns an draw commands information", "dict", "Drawing") });
 
-		parsers->insert({ "delete_drawing_item", mvPythonParser({
+		parsers->insert({ "delete_draw_command", mvPythonParser({
 			{mvPythonDataType::String, "drawing"},
 			{mvPythonDataType::String, "tag"},
 		}, "Deletes a drawing item.", "None", "Drawing") });
@@ -352,12 +352,12 @@ namespace Marvel {
 		return GetPyNone();
 	}
 
-	PyObject* delete_drawing_item(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* delete_draw_command(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		const char* drawing;
 		const char* tag;
 
-		if (!(*mvApp::GetApp()->getParsers())["delete_drawing_item"].parse(args, kwargs, __FUNCTION__, &drawing, &tag))
+		if (!(*mvApp::GetApp()->getParsers())["delete_draw_command"].parse(args, kwargs, __FUNCTION__, &drawing, &tag))
 			return GetPyNone();
 
 		mvDrawList* drawlist = GetDrawListFromTarget(drawing);

@@ -454,7 +454,7 @@ def delete_drag_point(plot: str, name: str) -> None:
 	"""Deletes a drag point if it exists."""
 	...
 
-def delete_drawing_item(drawing: str, tag: str) -> None:
+def delete_draw_command(drawing: str, tag: str) -> None:
 	"""Deletes a drawing item."""
 	...
 

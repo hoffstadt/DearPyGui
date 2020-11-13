@@ -16,7 +16,7 @@ namespace Marvel {
 	PyObject* send_draw_command_to_back  (PyObject* self, PyObject* args, PyObject* kwargs);
 
 	// data removal
-	PyObject* delete_drawing_item        (PyObject* self, PyObject* args, PyObject* kwargs);
+	PyObject* delete_draw_command        (PyObject* self, PyObject* args, PyObject* kwargs);
 	PyObject* clear_drawing              (PyObject* self, PyObject* args, PyObject* kwargs);
 								         
 	// drawing primitives		         

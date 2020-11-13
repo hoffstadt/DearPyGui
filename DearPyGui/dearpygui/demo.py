@@ -829,9 +829,33 @@ def show_demo():
                 add_separator()
 
         with collapsing_header("Drawings##demo"):
-            add_text("This section is not ready! But will completed sometime during the 0.6.x releases!")
-            add_drawing("drawing##widget##demo", width=900, height=500)
-            draw_rectangle("drawing##widget##demo", (0, 0), (900, 500), (255, 0, 0, 255), fill=(0, 0, 25, 255), 
+
+            def fancy_drawing(sender, data):
+
+                if sender == "Draw To Demo Window##demo":
+                    if get_value(sender):
+                        draw_image("Dear PyGui Demo", "INTERNAL_DPG_FONT_ATLAS", pmin=[225,50], pmax=[300, 300], uv_max=[0.1, 0.1], tag="atlas")
+                    else:
+                        delete_draw_command("Dear PyGui Demo", "atlas")
+
+                elif sender == "Draw To Foreground##demo":
+                    if get_value(sender):
+                        draw_image("##FOREGROUND", "INTERNAL_DPG_FONT_ATLAS", pmin=[0,0], pmax=[200, 200], uv_max=[0.1, 0.1], tag="atlas")
+                    else:
+                        delete_draw_command("##FOREGROUND", "atlas")
+
+                elif sender == "Draw To Background##demo":
+                    if get_value(sender):
+                        draw_image("##BACKGROUND", "INTERNAL_DPG_FONT_ATLAS", pmin=[500,500], pmax=[600, 600], uv_max=[0.1, 0.1], tag="atlas")
+                    else:
+                        delete_draw_command("##BACKGROUND", "atlas")
+
+            add_checkbox("Draw To Demo Window##demo", callback=fancy_drawing)
+            add_checkbox("Draw To Foreground##demo", callback=fancy_drawing)
+            add_checkbox("Draw To Background##demo", callback=fancy_drawing)
+
+            add_drawing("drawing##widget##demo", width=900, height=200)
+            draw_rectangle("drawing##widget##demo", (0, 0), (900, 200), (255, 0, 0, 255), fill=(0, 0, 25, 255), 
                            rounding=12, thickness = 1.0, tag="square") 
             draw_line("drawing##widget##demo", (10, 10), (100, 100), (255, 0, 0, 255), 1, tag="line command")
             draw_triangle("drawing##widget##demo", (150, 10), (110, 100), (190, 100), (255, 255, 0, 255), thickness = 3.0)
@@ -844,9 +868,6 @@ def show_demo():
             draw_text("drawing##widget##demo", (0, 0), "Origin", color=(255, 255, 0, 255), size=15)
             draw_polygon("drawing##widget##demo", ((710, 10), (780, 50), (730, 75), (710, 10)), (255, 125, 0, 255), thickness=1.0, fill=(255, 125, 0, 50))
             draw_polyline("drawing##widget##demo", ((810, 20), (835, 50), (890, 10)), (255, 255, 0, 255), thickness=1.0)
-            #draw_circle("Dear PyGui Demo", (350, 60), 49, (255, 255, 0, 255))
-            #draw_line("##FOREGROUND", (10, 10), (100, 100), (255, 0, 0, 255), 1)
-            #draw_polyline("##BACKGROUND", ((810, 20), (835, 50), (890, 10)), (255, 255, 0, 255), thickness=1.0)
 
         with collapsing_header("Plots##demo"):
 

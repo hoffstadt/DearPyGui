@@ -763,7 +763,7 @@ namespace Marvel {
 		ADD_PYTHON_FUNCTION(draw_polygon)
 		ADD_PYTHON_FUNCTION(draw_bezier_curve)
 		ADD_PYTHON_FUNCTION(clear_drawing)
-		ADD_PYTHON_FUNCTION(delete_drawing_item)
+		ADD_PYTHON_FUNCTION(delete_draw_command)
 
 		// plot commands
 		ADD_PYTHON_FUNCTION(add_drag_point)
