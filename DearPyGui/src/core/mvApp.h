@@ -79,6 +79,14 @@ namespace Marvel {
             PyObject* returnname; // optional return function
         };
 
+        struct CompileTimeTexture
+        {
+            std::string name;
+            std::vector<float> data;
+            unsigned width;
+            unsigned height;
+        };
+
     public:
 
         mvApp          (const mvApp& other) = delete;
@@ -177,6 +185,7 @@ namespace Marvel {
         mvItemRegistry&                        getItemRegistry () { return m_itemRegistry; }
         mvDrawList&                            getFrontDrawList() { return m_frontDrawList; }
         mvDrawList&                            getBackDrawList () { return m_backDrawList; }
+        void                                   addTexture(const std::string& name, std::vector<float> data, unsigned width, unsigned height);
             
     private:
 
@@ -251,6 +260,7 @@ namespace Marvel {
 
         mvDrawList m_frontDrawList;
         mvDrawList m_backDrawList;
+        std::vector<CompileTimeTexture> m_textures;
 
     };
 

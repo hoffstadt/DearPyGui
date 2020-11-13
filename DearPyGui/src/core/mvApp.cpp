@@ -133,6 +133,10 @@ namespace Marvel {
 				m_newstyle.Colors[i].z == 0.0f && m_newstyle.Colors[i].w == 0.0f)
 				m_newstyle.Colors[i] = ImGui::GetStyle().Colors[i];
 
+		for (auto& item : m_textures)
+			mvTextureStorage::AddTexture(item.name, item.data.data(), item.width, item.height);
+
+		m_textures.clear();
 	}
 
 	bool mvApp::prerender()
@@ -215,11 +219,13 @@ namespace Marvel {
 		m_frontDrawList.draw(ImGui::GetForegroundDrawList(), 0.0f, 0.0f);
 		m_backDrawList.draw(ImGui::GetBackgroundDrawList(), 0.0f, 0.0f);
 
+
 		for (auto window : m_itemRegistry.m_frontWindows)
 			window->draw();
 
 		for (auto window : m_itemRegistry.m_backWindows)
 			window->draw();
+
 	}
 
 	void mvApp::postrender()
@@ -991,4 +997,8 @@ namespace Marvel {
 		ImGui::End();
 	}
 
+	void mvApp::addTexture(const std::string& name, std::vector<float> data, unsigned width, unsigned height)
+	{
+		m_textures.push_back({ name, data, width, height });
+	}
 }

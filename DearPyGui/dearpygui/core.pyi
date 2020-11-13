@@ -370,6 +370,10 @@ def add_text_point(plot: str, name: str, x: float, y: float, *, vertical: bool =
 	"""Adds a point with text to a plot."""
 	...
 
+def add_texture(name: str, data: List[int], width: int, height: int) -> None:
+	"""Adds a texture."""
+	...
+
 def add_time_picker(name: str, *, default_value: dict = {'hour': 14, 'min': 32, 'sec': 23}, hour24: bool = False, callback: Callable = None, callback_data: Any = None, tip: str = '', parent: str = '', before: str = '', show: bool = True) -> None:
 	"""Adds a time selector widget."""
 	...
@@ -432,6 +436,10 @@ def configure_item(item: str, **Kwargs) -> None:
 
 def decref_value(name: str) -> None:
 	"""Decreases the reference count of a value."""
+	...
+
+def decrement_texture(name: str) -> None:
+	"""Decrements a texture."""
 	...
 
 def delete_annotation(plot: str, name: str) -> None:

@@ -24,6 +24,14 @@ namespace Marvel {
 	void mvDrawImageCmd::draw(ImDrawList* drawlist, float x, float y)
 	{
 
+		if (mvTextureStorage::GetTexture(m_file))
+		{
+			if (mvTextureStorage::GetTexture(m_file)->texture != m_texture)
+				m_texture = nullptr;
+		}
+		else
+			m_texture = nullptr;
+
 		if (m_texture == nullptr && !m_file.empty())
 		{
 

@@ -14,8 +14,9 @@
 
 namespace Marvel {
 
-	bool        UnloadTexture      (const std::string& filename);
-	bool        LoadTextureFromFile(const char* filename, mvTexture& storage);
-	void        FreeTexture        (mvTexture& storage);
+	bool        UnloadTexture       (const std::string& filename);
+	bool        LoadTextureFromArray(float* data, unsigned width, unsigned height, mvTexture& storage);
+	bool        LoadTextureFromFile (const char* filename, mvTexture& storage);
+	void        FreeTexture         (mvTexture& storage);
 
 }

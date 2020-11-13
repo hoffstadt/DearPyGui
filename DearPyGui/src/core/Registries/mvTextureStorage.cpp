@@ -4,7 +4,7 @@
 
 namespace Marvel {
 
-	std::map<std::string, mvTexture> mvTextureStorage::s_textures;
+	std::unordered_map<std::string, mvTexture> mvTextureStorage::s_textures;
 
 	void mvTextureStorage::DeleteAllTextures()
 	{
@@ -34,6 +34,25 @@ namespace Marvel {
 
 		if (LoadTextureFromFile(name.c_str(), newTexture))
             s_textures.insert({ name, newTexture });
+
+	}
+
+	void mvTextureStorage::AddTexture(const std::string& name, float* data, unsigned width, unsigned height)
+	{
+		// check if texture already exists and if it does
+		// just increment its reference count
+		mvTexture* texture = GetTexture(name);
+		if (texture)
+		{
+			UnloadTexture(name);
+			FreeTexture(s_textures.at(name));
+			s_textures.erase(name);
+		}
+
+		mvTexture newTexture = { 0, 0, nullptr, 1 };
+
+		if (LoadTextureFromArray(data, width, height, newTexture))
+			s_textures[name] = newTexture;
 
 	}
 

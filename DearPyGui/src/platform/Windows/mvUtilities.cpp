@@ -18,6 +18,42 @@ namespace fs = std::filesystem;
 
 namespace Marvel {
 
+    bool LoadTextureFromArray(float* data, unsigned width, unsigned height, mvTexture& storage)
+    {
+
+        //auto out_srv = static_cast<ID3D11ShaderResourceView**>(storage.texture);
+        ID3D11ShaderResourceView* out_srv = nullptr;
+
+        // Create texture
+        D3D11_TEXTURE2D_DESC desc;
+        ZeroMemory(&desc, sizeof(desc));
+        desc.Width = width;
+        desc.Height = height;
+        desc.MipLevels = 1;
+        desc.ArraySize = 1;
+        desc.Format = DXGI_FORMAT_R32G32B32A32_FLOAT;
+        desc.SampleDesc.Count = 1;
+        desc.Usage = D3D11_USAGE_DEFAULT;
+        desc.BindFlags = D3D11_BIND_SHADER_RESOURCE;
+        desc.CPUAccessFlags = 0;
+
+        ID3D11Texture2D* pTexture = NULL;
+        D3D11_SUBRESOURCE_DATA subResource;
+        subResource.pSysMem = data;
+        subResource.SysMemPitch = desc.Width * 4;
+        subResource.SysMemSlicePitch = 0;
+        mvWindowsWindow::getDevice()->CreateTexture2D(&desc, &subResource, &pTexture);
+
+        // Create texture view
+        mvWindowsWindow::getDevice()->CreateShaderResourceView(pTexture, nullptr, &out_srv);
+        pTexture->Release();
+
+        storage.texture = out_srv;
+        storage.width = width;
+        storage.height = height;
+
+        return true;
+    }
 
     // Simple helper function to load an image into a DX11 texture with common settings
     bool LoadTextureFromFile(const char* filename, mvTexture& storage)

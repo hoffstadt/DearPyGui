@@ -8,6 +8,8 @@
 
 namespace Marvel {
 
+    bool        LoadTextureFromArray(float* data, unsigned width, unsigned height, mvTexture& storage) { return true; }
+
     // Simple helper function to load an image into a DX11 texture with common settings
     bool LoadTextureFromFile(const char* filename, mvTexture& storage)
     {
