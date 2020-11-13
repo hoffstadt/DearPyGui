@@ -334,11 +334,18 @@ def show_demo():
     
             with tree_node("Images##demo"):
                 add_text("Below we are displaying the font texture (which is the only texture we have access to in this demo).")
-                add_image("image##demo", "INTERNAL_DPG_FONT_ATLAS", uv_max=[1, 1])
+                add_image("image##demo", "INTERNAL_DPG_FONT_ATLAS")
                 add_text("Here is an image button using a portion of the font atlas")
                 add_image_button("#image##button1", "INTERNAL_DPG_FONT_ATLAS", uv_max=[0.1, 0.1])
                 add_same_line()
-                add_image_button("#image##button2", "INTERNAL_DPG_FONT_ATLAS", uv_min=[0.1, 0.1], uv_max=[0.2, 0.2])
+                textdata = []
+                for i in range(0, 10000):
+                    textdata.append(255)
+                    textdata.append(0)
+                    textdata.append(255)
+                    textdata.append(255)
+                add_texture("#cooltexture", textdata, 100, 100)
+                add_image_button("#image##button2", "#cooltexture")
 
             with tree_node("Text Input##demo"):
                 disable_items = ["##multiline##demo","default##demo", "decimal##demo", "hexdecimal##demo", 

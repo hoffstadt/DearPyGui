@@ -15,6 +15,8 @@
 static std::vector<std::pair<std::string, id<MTLTexture>>> g_textures;
 
 namespace Marvel {
+    
+    bool LoadTextureFromArray(float* data, unsigned width, unsigned height, mvTexture& storage) { return true; }
 
     bool LoadTextureFromFile(const char* filename, mvTexture& storage)
     {

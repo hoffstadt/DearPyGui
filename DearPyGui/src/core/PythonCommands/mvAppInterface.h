@@ -41,6 +41,10 @@ namespace Marvel {
 	PyObject* add_data                       (PyObject* self, PyObject* args, PyObject* kwargs);
 	PyObject* get_data                       (PyObject* self, PyObject* args, PyObject* kwargs);
 	PyObject* delete_data                    (PyObject* self, PyObject* args, PyObject* kwargs);
+
+	// texture storage
+	PyObject* add_texture                    (PyObject* self, PyObject* args, PyObject* kwargs);
+	PyObject* decrement_texture              (PyObject* self, PyObject* args, PyObject* kwargs);
 	
 	// concurrency
 	PyObject* set_threadpool_timeout         (PyObject* self, PyObject* args, PyObject* kwargs);

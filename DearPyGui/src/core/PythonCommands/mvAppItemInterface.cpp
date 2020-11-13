@@ -375,6 +375,9 @@ namespace Marvel {
 		if (!(*mvApp::GetApp()->getParsers())["does_item_exist"].parse(args, kwargs, __FUNCTION__, &item))
 			return GetPyNone();
 
+		if (mvApp::GetApp()->getItemRegistry().isItemToBeDeleted(item))
+			return ToPyBool(false);
+
 		if (!mvApp::GetApp()->getItemRegistry().getItem(item))
 			return ToPyBool(false);
 

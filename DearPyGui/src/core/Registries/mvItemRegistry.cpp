@@ -146,6 +146,17 @@ namespace Marvel {
 		return nullptr;
 	}
 
+	bool mvItemRegistry::isItemToBeDeleted(const std::string& name) const
+	{
+		for (const auto& item : m_deleteQueue)
+		{
+			if (name == item)
+				return true;
+		}
+
+		return false;
+	}
+
 	bool mvItemRegistry::addItem(mvAppItem* item)
 	{
 		if (!mvApp::GetApp()->checkIfMainThread())
@@ -205,23 +216,26 @@ namespace Marvel {
 			}
 
 		// delete items from the delete queue
-		while (!m_deleteQueue.empty())
+		for(auto& item : m_deleteQueue)
 		{
 			bool deletedItem = false;
 
 			// try to delete item
 			for (auto window : m_frontWindows)
 			{
-				deletedItem = window->deleteChild(m_deleteQueue.front());
+				deletedItem = window->deleteChild(item);
 				if (deletedItem)
 					break;
 			}
 
-			for (auto window : m_backWindows)
+			if (!deletedItem)
 			{
-				deletedItem = window->deleteChild(m_deleteQueue.front());
-				if (deletedItem)
-					break;
+				for (auto window : m_backWindows)
+				{
+					deletedItem = window->deleteChild(item);
+					if (deletedItem)
+						break;
+				}
 			}
 
 			bool frontWindowDeleting = false;
@@ -257,7 +271,7 @@ namespace Marvel {
 
 				for (auto window : oldwindows)
 				{
-					if (window->getName() == m_deleteQueue.front())
+					if (window->getName() == item)
 					{
 						delete window;
 						window = nullptr;
@@ -276,7 +290,7 @@ namespace Marvel {
 
 				for (auto window : oldwindows)
 				{
-					if (window->getName() == m_deleteQueue.front())
+					if (window->getName() == item)
 					{
 						delete window;
 						window = nullptr;
@@ -288,10 +302,11 @@ namespace Marvel {
 			}
 
 			if (!deletedItem)
-				ThrowPythonException(m_deleteQueue.front() + " not deleted because it was not found");
+				ThrowPythonException(item + " not deleted because it was not found");
 
-			m_deleteQueue.pop();
+			
 		}
+		m_deleteQueue.clear();
 	}
 
 	void mvItemRegistry::postAddItems()
@@ -476,7 +491,7 @@ namespace Marvel {
 
 	void mvItemRegistry::deleteItem(const std::string& name) 
 	{ 
-		m_deleteQueue.push(name); 
+		m_deleteQueue.push_back(name); 
 	}
 
 	void mvItemRegistry::deleteItemChildren(const std::string& name) 

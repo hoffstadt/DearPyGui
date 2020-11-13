@@ -9,6 +9,17 @@ namespace Marvel {
 
 	void AddAppCommands(std::map<std::string, mvPythonParser>* parsers)
 	{
+		parsers->insert({ "add_texture", mvPythonParser({
+			{mvPythonDataType::String, "name"},
+			{mvPythonDataType::IntList, "data"},
+			{mvPythonDataType::Integer, "width"},
+			{mvPythonDataType::Integer, "height"},
+		}, "Adds a texture.") });
+
+		parsers->insert({ "decrement_texture", mvPythonParser({
+			{mvPythonDataType::String, "name"},
+		}, "Decrements a texture.") });
+
 		parsers->insert({ "set_start_callback", mvPythonParser({
 			{mvPythonDataType::Object, "callback"},
 		}, "Callback to run when starting main window.") });
@@ -206,6 +217,44 @@ namespace Marvel {
 			{mvPythonDataType::String, "item"},
 		}, "Closes a popup.") });
 
+	}
+
+	PyObject* add_texture(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		const char* name;
+		PyObject* data;
+		int width;
+		int height;
+
+		if (!(*mvApp::GetApp()->getParsers())["add_texture"].parse(args, kwargs, __FUNCTION__, 
+			&name, &data, &width, &height))
+			return GetPyNone();
+
+		auto mdata = ToIntVect(data);
+
+		std::vector<float> fdata;
+		for (auto& item : mdata)
+			fdata.push_back(item / 255.0f);
+
+		if (mvApp::IsAppStarted())
+			mvTextureStorage::AddTexture(name, fdata.data(), width, height);
+
+		else
+			mvApp::GetApp()->addTexture(name, fdata, width, height);
+		return GetPyNone();
+	}
+
+	PyObject* decrement_texture(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		const char* name;
+
+		if (!(*mvApp::GetApp()->getParsers())["decrement_texture"].parse(args, kwargs, __FUNCTION__,
+			&name))
+			return GetPyNone();
+
+		mvTextureStorage::DecrementTexture(name);
+
+		return GetPyNone();
 	}
 
 	PyObject* is_dearpygui_running(PyObject* self, PyObject* args, PyObject* kwargs)

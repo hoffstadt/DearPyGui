@@ -15,7 +15,8 @@
 //-----------------------------------------------------------------------------
 
 #include <string>
-#include <map>
+#include <vector>
+#include <unordered_map>
 
 namespace Marvel {
 
@@ -39,6 +40,7 @@ namespace Marvel {
 	public:
 
 		static void       AddTexture       (const std::string& name);
+		static void       AddTexture       (const std::string& name, float* data, unsigned width, unsigned height);
 		static void       IncrementTexture (const std::string& name);
 		static void       DecrementTexture (const std::string& name);
 		static mvTexture* GetTexture       (const std::string& name);
@@ -49,7 +51,7 @@ namespace Marvel {
 
 		mvTextureStorage() = default;
 		
-		static std::map<std::string, mvTexture> s_textures;
+		static std::unordered_map<std::string, mvTexture> s_textures;
 
 	};
 

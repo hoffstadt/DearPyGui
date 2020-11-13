@@ -18,6 +18,14 @@ namespace Marvel {
 	void mvImage::draw()
 	{
 
+		if (mvTextureStorage::GetTexture(m_value))
+		{
+			if (mvTextureStorage::GetTexture(m_value)->texture != m_texture)
+				m_texture = nullptr;
+		}
+		else
+			m_texture = nullptr;
+
 		if (m_texture == nullptr && !m_value.empty())
 		{
 			mvTextureStorage::AddTexture(m_value);
@@ -31,10 +39,11 @@ namespace Marvel {
 				m_value = "";
 				return;
 			}
+			
+			m_texture = texture->texture;
+
 			if (m_width == 0) m_width = (int)((float)texture->width * (m_uv_max.x - m_uv_min.x));
 			if (m_height == 0) m_height = (int)((float)texture->height * (m_uv_max.y - m_uv_min.y));
-
-			m_texture = texture->texture;
 
 		}
 
@@ -111,6 +120,13 @@ namespace Marvel {
 
 	void mvImageButton::draw()
 	{
+		if (mvTextureStorage::GetTexture(m_value))
+		{
+			if (mvTextureStorage::GetTexture(m_value)->texture != m_texture)
+				m_texture = nullptr;
+		}
+		else
+			m_texture = nullptr;
 
 		if (m_texture == nullptr && !m_value.empty())
 		{
@@ -135,8 +151,11 @@ namespace Marvel {
 		if (m_dirty)
 		{
 			mvTexture* texture = mvTextureStorage::GetTexture(m_value);
-			m_width = (int)((float)texture->width * (m_uv_max.x - m_uv_min.x));
-			m_height = (int)((float)texture->height * (m_uv_max.y - m_uv_min.y));
+			if (texture)
+			{
+				m_width = (int)((float)texture->width * (m_uv_max.x - m_uv_min.x));
+				m_height = (int)((float)texture->height * (m_uv_max.y - m_uv_min.y));
+			}
 			m_dirty = false;
 		}
 
