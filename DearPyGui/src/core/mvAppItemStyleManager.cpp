@@ -20,6 +20,7 @@ namespace Marvel {
     {
         if(m_moved)
             m_manager.popColorStyles();
+        m_manager.clearTempColors();
     }
 
     mvAppItemStyleManagerScope mvAppItemStyleManager::getScopedStyleManager()
@@ -29,13 +30,18 @@ namespace Marvel {
 
     void mvAppItemStyleManagerScope::addColorStyle(ImGuiCol item, ImVec4 color)
     {
-        m_manager.addColorStyle(item, mvColor(color));
+        m_manager.addTempColorStyle(item, mvColor(color));
         ImGui::PushStyleColor(item, color);
     }
 
     void mvAppItemStyleManager::addColorStyle(ImGuiCol item, mvColor color)
     {
         m_colors.push_back({ item, color });
+    }
+
+    void mvAppItemStyleManager::addTempColorStyle(ImGuiCol item, mvColor color)
+    {
+        m_colors_temp.push_back({ item, color });
     }
 
     void mvAppItemStyleManager::pushColorStyles()
@@ -48,11 +54,18 @@ namespace Marvel {
     {
         if (!m_colors.empty())
             ImGui::PopStyleColor((int)m_colors.size());
+
+        ImGui::PopStyleColor((int)m_colors_temp.size());
     }
 
     void mvAppItemStyleManager::clearColors()
     {
         m_colors.clear();
+    }
+
+    void mvAppItemStyleManager::clearTempColors()
+    {
+        m_colors_temp.clear();
     }
 
 }
