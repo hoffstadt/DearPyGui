@@ -18,7 +18,14 @@ namespace Marvel {
 
 		void draw(ImDrawList* drawlist, float x, float y) override;
 
-	public:
+		void setConfigDict(PyObject* dict) override;
+		void getConfigDict(PyObject* dict) override;
+
+	private:
+
+		void updatePoints();
+
+	private:
 
 		mvVec2              m_p1;
 		mvVec2              m_p2;

@@ -48,9 +48,11 @@ New Features:
                "##BACKGROUND" as the draw target
 
 New Commands:
-- Plots: Added "add_stair_series" command
-- Plots: Added "add_candle_series" command
-- Plots: adding a 3rd coordinate to shade series fills area between y's
+- Drawing API: Added "modify_draw_command" command
+- Drawing API: Added "get_draw_command" command
+- Plots:       Added "add_stair_series" command
+- Plots:       Added "add_candle_series" command
+- Plots:       adding a 3rd coordinate to shade series fills area between y's
 
 Fixes:
 - draw_image: fixed draw_image flipping issue #310

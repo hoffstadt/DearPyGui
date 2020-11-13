@@ -13,7 +13,9 @@ namespace Marvel {
 
 		mvDrawTextCmd(const mvVec2& pos, std::string  text, const mvColor& color, int size);
 
-		void draw(ImDrawList* drawlist, float x, float y) override;
+		void draw         (ImDrawList* drawlist, float x, float y) override;
+		void setConfigDict(PyObject* dict)                         override;
+		void getConfigDict(PyObject* dict)                         override;
 
 	private:
 

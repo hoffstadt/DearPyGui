@@ -1,6 +1,6 @@
 #include "mvDrawImageCmd.h"
 #include "Registries/mvTextureStorage.h"
-#include "PythonUtilities/mvPythonExceptions.h"
+#include "PythonUtilities/mvPythonTranslator.h"
 
 namespace Marvel {
 
@@ -50,6 +50,44 @@ namespace Marvel {
 
 		if (m_texture)
 			drawlist->AddImage(m_texture, m_pmin + start, m_pmax + start, m_uv_min, m_uv_max, m_color);
+	}
+
+	void mvDrawImageCmd::setConfigDict(PyObject* dict)
+	{
+		if (dict == nullptr)
+			return;
+		mvGlobalIntepreterLock gil;
+
+		if (PyObject* item = PyDict_GetItemString(dict, "pmax")) m_pmax = ToVec2(item);
+		if (PyObject* item = PyDict_GetItemString(dict, "pmin")) m_pmin = ToVec2(item);
+		if (PyObject* item = PyDict_GetItemString(dict, "uv_min")) m_uv_min = ToVec2(item);
+		if (PyObject* item = PyDict_GetItemString(dict, "uv_min")) m_uv_max = ToVec2(item);
+		if (PyObject* item = PyDict_GetItemString(dict, "color")) m_color = ToColor(item);
+
+		if (PyObject* item = PyDict_GetItemString(dict, "file"))
+		{
+			if (m_file != ToString(item))
+			{
+				mvTextureStorage::DecrementTexture(m_file);
+				m_texture = nullptr;
+			}
+			m_file = ToString(item);
+
+		}
+
+	}
+
+	void mvDrawImageCmd::getConfigDict(PyObject* dict)
+	{
+		if (dict == nullptr)
+			return;
+		mvGlobalIntepreterLock gil;
+		PyDict_SetItemString(dict, "pmax", ToPyPair(m_pmax.x, m_pmax.y));
+		PyDict_SetItemString(dict, "pmin", ToPyPair(m_pmin.x, m_pmin.y));
+		PyDict_SetItemString(dict, "uv_min", ToPyPair(m_uv_min.x, m_uv_min.y));
+		PyDict_SetItemString(dict, "uv_max", ToPyPair(m_uv_max.x, m_uv_max.y));
+		PyDict_SetItemString(dict, "color", ToPyColor(m_color));
+		PyDict_SetItemString(dict, "file", ToPyString(m_file));
 	}
 
 }

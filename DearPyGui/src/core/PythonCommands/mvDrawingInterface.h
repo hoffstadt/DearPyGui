@@ -6,6 +6,8 @@ namespace Marvel {
 	void AddDrawingCommands(std::map<std::string, mvPythonParser>* parsers);
 
 	PyObject* add_drawing        (PyObject* self, PyObject* args, PyObject* kwargs);
+	PyObject* modify_draw_command(PyObject* self, PyObject* args, PyObject* kwargs);
+	PyObject* get_draw_command   (PyObject* self, PyObject* args, PyObject* kwargs);
 
 	// data removal
 	PyObject* delete_drawing_item(PyObject* self, PyObject* args, PyObject* kwargs);

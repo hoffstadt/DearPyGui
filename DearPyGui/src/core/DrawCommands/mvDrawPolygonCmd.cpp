@@ -1,4 +1,5 @@
 #include "mvDrawPolygonCmd.h"
+#include "PythonUtilities/mvPythonTranslator.h"
 
 namespace Marvel {
 
@@ -93,4 +94,27 @@ namespace Marvel {
 		}
 	}
 
+	void mvDrawPolygonCmd::setConfigDict(PyObject* dict)
+	{
+		if (dict == nullptr)
+			return;
+		mvGlobalIntepreterLock gil;
+
+		if (PyObject* item = PyDict_GetItemString(dict, "points")) m_points = ToVectVec2(item);
+		if (PyObject* item = PyDict_GetItemString(dict, "fill")) m_fill = ToColor(item);
+		if (PyObject* item = PyDict_GetItemString(dict, "color")) m_color = ToColor(item);
+		if (PyObject* item = PyDict_GetItemString(dict, "thickness")) m_thickness = ToFloat(item);
+
+	}
+
+	void mvDrawPolygonCmd::getConfigDict(PyObject* dict)
+	{
+		if (dict == nullptr)
+			return;
+		mvGlobalIntepreterLock gil;
+		PyDict_SetItemString(dict, "points", ToPyList(m_points));
+		PyDict_SetItemString(dict, "fill", ToPyColor(m_fill));
+		PyDict_SetItemString(dict, "color", ToPyColor(m_color));
+		PyDict_SetItemString(dict, "thickness", ToPyFloat(m_thickness));
+	}
 }
