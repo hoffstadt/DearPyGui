@@ -156,6 +156,23 @@ namespace Marvel {
 		return result;
 	}
 
+	PyObject* ToPyList(const std::vector<mvVec2>& value)
+	{
+		mvGlobalIntepreterLock gil;
+
+		PyObject* result = PyList_New(value.size());
+
+		for (size_t i = 0; i < value.size(); i++)
+		{
+			PyObject* item = PyList_New(2);
+			PyList_SetItem(item, 0, PyFloat_FromDouble (value[i].x));
+			PyList_SetItem(item, 1, PyFloat_FromDouble (value[i].y));
+			PyList_SetItem(item, i, item);
+		}
+
+		return result;
+	}
+
 	PyObject* ToPyList(const std::vector<float>& value)
 	{
 		mvGlobalIntepreterLock gil;

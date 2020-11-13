@@ -1,4 +1,5 @@
 #include "mvDrawCircleCmd.h"
+#include "PythonUtilities/mvPythonTranslator.h"
 
 namespace Marvel {
 
@@ -21,6 +22,32 @@ namespace Marvel {
 			drawlist->AddCircleFilled(m_center + start, m_radius, m_fill, m_segments);
 
 		drawlist->AddCircle(m_center + start, m_radius, m_color, m_segments, m_thickness);
+	}
+
+	void mvDrawCircleCmd::setConfigDict(PyObject* dict)
+	{
+		if (dict == nullptr)
+			return;
+		mvGlobalIntepreterLock gil;
+
+		if (PyObject* item = PyDict_GetItemString(dict, "center")) m_center = ToVec2(item);
+		if (PyObject* item = PyDict_GetItemString(dict, "color")) m_color = ToColor(item);
+		if (PyObject* item = PyDict_GetItemString(dict, "thickness")) m_thickness = ToFloat(item);
+		if (PyObject* item = PyDict_GetItemString(dict, "radius")) m_radius = ToFloat(item);
+		if (PyObject* item = PyDict_GetItemString(dict, "segments")) m_segments = ToInt(item);
+
+	}
+
+	void mvDrawCircleCmd::getConfigDict(PyObject* dict)
+	{
+		if (dict == nullptr)
+			return;
+		mvGlobalIntepreterLock gil;
+		PyDict_SetItemString(dict, "center", ToPyPair(m_center.x, m_center.y));
+		PyDict_SetItemString(dict, "color", ToPyColor(m_color));
+		PyDict_SetItemString(dict, "thickness", ToPyFloat(m_thickness));
+		PyDict_SetItemString(dict, "radius", ToPyFloat(m_radius));
+		PyDict_SetItemString(dict, "segments", ToPyInt(m_segments));
 	}
 
 }

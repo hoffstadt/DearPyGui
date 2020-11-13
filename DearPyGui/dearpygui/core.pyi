@@ -490,7 +490,7 @@ def draw_polygon(drawing: str, points: List[List[float]], color: List[int], *, f
 	"""Draws a polygon on a drawing."""
 	...
 
-def draw_polyline(drawing: str, points: List[List[float]], color: List[int], *, closed: int = False, thickness: float = 1.0, tag: str = '') -> None:
+def draw_polyline(drawing: str, points: List[List[float]], color: List[int], *, closed: bool = False, thickness: float = 1.0, tag: str = '') -> None:
 	"""Draws lines on a drawing."""
 	...
 
@@ -532,6 +532,10 @@ def get_dearpygui_version() -> str:
 
 def get_delta_time() -> float:
 	"""Returns time since last frame."""
+	...
+
+def get_draw_command(drawing: str, tag: str) -> dict:
+	"""Returns an draw commands information"""
 	...
 
 def get_global_font_scale() -> float:
@@ -904,6 +908,10 @@ def log_info(message: Any, *, logger: str = '') -> None:
 
 def log_warning(message: Any, *, logger: str = '') -> None:
 	"""Logs a warning level log."""
+	...
+
+def modify_draw_command(drawing: str, tag: str, **Kwargs) -> None:
+	"""Configures an drawing command."""
 	...
 
 def move_item(item: str, *, parent: str = '', before: str = '') -> None:

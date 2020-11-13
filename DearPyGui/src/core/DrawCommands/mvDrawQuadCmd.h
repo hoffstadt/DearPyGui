@@ -14,7 +14,9 @@ namespace Marvel {
 		mvDrawQuadCmd(const mvVec2& p1, const mvVec2& p2, const mvVec2& p3, const mvVec2& p4, 
 			const mvColor& color, const mvColor& fill, float thickness);
 
-		void draw(ImDrawList* drawlist, float x, float y) override;
+		void draw         (ImDrawList* drawlist, float x, float y) override;
+		void setConfigDict(PyObject* dict)                         override;
+		void getConfigDict(PyObject* dict)                         override;
 
 	private:
 

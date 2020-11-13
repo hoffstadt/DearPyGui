@@ -22,6 +22,17 @@ namespace Marvel {
 			{mvPythonDataType::Bool, "show","Attempt to render", "True"},
 		}, "Adds a drawing widget.", "None", "Drawing") });
 
+		parsers->insert({ "modify_draw_command", mvPythonParser({
+			{mvPythonDataType::String, "drawing"},
+			{mvPythonDataType::String, "tag"},
+			{mvPythonDataType::Kwargs, "**Kwargs"},
+		}, "Configures an drawing command.", "None", "Drawing") });
+
+		parsers->insert({ "get_draw_command", mvPythonParser({
+			{mvPythonDataType::String, "drawing"},
+			{mvPythonDataType::String, "tag"},
+		}, "Returns an draw commands information", "dict", "Drawing") });
+
 		parsers->insert({ "delete_drawing_item", mvPythonParser({
 			{mvPythonDataType::String, "drawing"},
 			{mvPythonDataType::String, "tag"},
@@ -127,7 +138,7 @@ namespace Marvel {
 			{mvPythonDataType::ListFloatList, "points"},
 			{mvPythonDataType::IntList, "color"},
 			{mvPythonDataType::KeywordOnly},
-			{mvPythonDataType::Integer, "closed", "", "False"},
+			{mvPythonDataType::Bool, "closed", "", "False"},
 			{mvPythonDataType::Float, "thickness", "", "1.0"},
 			{mvPythonDataType::String, "tag", "", "''"},
 		}, "Draws lines on a drawing.", "None", "Drawing") });
@@ -211,6 +222,50 @@ namespace Marvel {
 			return ToPyBool(false);
 
 		return ToPyBool(AddItemWithRuntimeChecks(item, parent, before));
+	}
+
+	PyObject* modify_draw_command(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		mvGlobalIntepreterLock gil;
+
+		std::string drawing = ToString(PyTuple_GetItem(args, 0));
+		std::string tag = ToString(PyTuple_GetItem(args, 1));
+
+		mvDrawList* drawlist = GetDrawListFromTarget(drawing.c_str());
+		if (drawlist)
+		{
+
+			if (auto command = drawlist->getCommand(tag))
+				command->setConfigDict(kwargs);
+			else
+				ThrowPythonException(tag + std::string(" tag was not found"));
+		}
+		return GetPyNone();
+	}
+
+	PyObject* get_draw_command(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		const char* drawing;
+		const char* tag;
+
+		if (!(*mvApp::GetApp()->getParsers())["get_draw_command"].parse(args, kwargs, __FUNCTION__, 
+			&drawing, &tag))
+			return GetPyNone();
+
+		mvDrawList* drawlist = GetDrawListFromTarget(drawing);
+		if (drawlist)
+		{
+
+			if (auto command = drawlist->getCommand(tag))
+			{
+				PyObject* pdict = PyDict_New();
+				command->getConfigDict(pdict);
+				return pdict;
+			}
+			else
+				ThrowPythonException(tag + std::string(" tag was not found"));
+		}
+		return GetPyNone();
 	}
 
 	PyObject* delete_drawing_item(PyObject* self, PyObject* args, PyObject* kwargs)

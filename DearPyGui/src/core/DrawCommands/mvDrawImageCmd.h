@@ -13,11 +13,13 @@ namespace Marvel {
 
 		mvDrawImageCmd(std::string file, const mvVec2& pmin, const mvVec2& pmax, const mvVec2& uv_min, const mvVec2& uv_max, const mvColor& color);
 
-		void draw(ImDrawList* drawlist, float x, float y) override;
+		void draw         (ImDrawList* drawlist, float x, float y) override;
+		void setConfigDict(PyObject* dict)                         override;
+		void getConfigDict(PyObject* dict)                         override;
 
 		~mvDrawImageCmd() override;
 
-	public:
+	private:
 
 		std::string m_file;
 		mvVec2		m_pmax;

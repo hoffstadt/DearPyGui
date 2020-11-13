@@ -14,7 +14,9 @@ namespace Marvel {
 
 		mvDrawPolygonCmd(const std::vector<mvVec2>& points, const mvColor& color, const mvColor& fill, float thickness);
 
-		void draw(ImDrawList* drawlist, float x, float y) override;
+		void draw         (ImDrawList* drawlist, float x, float y) override;
+		void setConfigDict(PyObject* dict)                         override;
+		void getConfigDict(PyObject* dict)                         override;
 
 	private:
 
