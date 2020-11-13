@@ -1,5 +1,5 @@
 #pragma once
-
+#include "PythonUtilities/mvPythonExceptions.h"
 #include "mvAppItemStyleManager.h"
 
 namespace Marvel {
@@ -14,12 +14,16 @@ namespace Marvel {
         : m_manager(other.m_manager), m_moved(true)
     {
         m_manager.pushColorStyles();
+        m_manager.pushStyleVars();
     }
 
     mvAppItemStyleManagerScope::~mvAppItemStyleManagerScope()
     {
-        if(m_moved)
+        if (m_moved)
+        {
             m_manager.popColorStyles();
+            m_manager.popStyleVars();
+        }
         m_manager.clearTempColors();
     }
 
@@ -66,6 +70,35 @@ namespace Marvel {
     void mvAppItemStyleManager::clearTempColors()
     {
         m_colors_temp.clear();
+    }
+
+    void mvAppItemStyleManager::addStyleVar(ImGuiStyleVar item, std::vector<float> value)
+    {
+        if (style_var_sizes[item] != value.size())
+            ThrowPythonException("Input value size does not match required style variable size.");
+        else
+            m_style_vars.push_back({ item, value });
+    }
+
+    void mvAppItemStyleManager::pushStyleVars()
+    {
+        for (auto& item : m_style_vars)
+            if(item.value.size() == 1)
+                ImGui::PushStyleVar(item.idx, item.value[0]);
+            else
+                ImGui::PushStyleVar(item.idx, ImVec2(item.value[0], item.value[1]));
+
+    }
+
+    void mvAppItemStyleManager::popStyleVars()
+    {
+        if (!m_style_vars.empty())
+            ImGui::PopStyleVar((int)m_style_vars.size());
+    }
+
+    void mvAppItemStyleManager::clearStyleVars()
+    {
+        m_style_vars.clear();
     }
 
 }

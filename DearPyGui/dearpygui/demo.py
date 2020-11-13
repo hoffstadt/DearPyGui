@@ -306,6 +306,7 @@ def show_demo():
                 add_slider_int("slider int##demo", max_value=3, callback=log_callback)
                 helpmarker("CTRL+click to enter value.")
                 add_slider_float("slider float##demo", max_value=1.0, format="ratio = %.3f", callback=log_callback)
+                set_item_style_var("slider float##demo", mvGuiStyleVar_GrabRounding, [19.0])
                 add_slider_int("slider angle##demo", min_value=-360, max_value=360, format="%d deg", callback=log_callback)
                 add_color_edit3("color 1##demo", default_value=[255, 0, 51])
                 helpmarker(

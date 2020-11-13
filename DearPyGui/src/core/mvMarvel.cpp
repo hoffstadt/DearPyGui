@@ -175,6 +175,32 @@ namespace Marvel {
 			{"mvGuiCol_ModalWindowDimBg"     , 47}, // Darken/colorize entire screen behind a modal window, when one is active
 
 			//-----------------------------------------------------------------------------
+			// Theme style variable IDs
+			//-----------------------------------------------------------------------------
+			{ "mvGuiStyleVar_Alpha",               0 },
+			{ "mvGuiStyleVar_WindowPadding",       1 },
+			{ "mvGuiStyleVar_WindowRounding",      2 },
+			{ "mvGuiStyleVar_WindowBorderSize",    3 },
+			{ "mvGuiStyleVar_WindowMinSize",       4 },
+			{ "mvGuiStyleVar_WindowTitleAlign",    5 },
+			{ "mvGuiStyleVar_ChildRounding",       6 },
+			{ "mvGuiStyleVar_ChildBorderSize",     7 },
+			{ "mvGuiStyleVar_PopupRounding",       8 },
+			{ "mvGuiStyleVar_PopupBorderSize",     9 },
+			{ "mvGuiStyleVar_FramePadding",        10 },
+			{ "mvGuiStyleVar_FrameRounding",       11 },
+			{ "mvGuiStyleVar_FrameBorderSize",     12 },
+			{ "mvGuiStyleVar_ItemSpacing",         13 },
+			{ "mvGuiStyleVar_ItemInnerSpacing",    14 },
+			{ "mvGuiStyleVar_IndentSpacing",       15 },
+			{ "mvGuiStyleVar_ScrollbarSize",       16 },
+			{ "mvGuiStyleVar_ScrollbarRounding",   17 },
+			{ "mvGuiStyleVar_GrabMinSize",         18 },
+			{ "mvGuiStyleVar_GrabRounding",        19 },
+			{ "mvGuiStyleVar_TabRounding",         20 },
+			{ "mvGuiStyleVar_ButtonTextAlign",     21 },
+			{ "mvGuiStyleVar_SelectableTextAlign", 22 },
+			//-----------------------------------------------------------------------------
 			// Key Codes
 			//-----------------------------------------------------------------------------
 			{ "mvKey_0"			, 0x30 },
@@ -661,6 +687,8 @@ namespace Marvel {
 		ADD_PYTHON_FUNCTION(add_additional_font)
 		ADD_PYTHON_FUNCTION(set_item_color)
 		ADD_PYTHON_FUNCTION(clear_item_color)
+		ADD_PYTHON_FUNCTION(set_item_style_var)
+		ADD_PYTHON_FUNCTION(clear_item_style_vars)
 		ADD_PYTHON_FUNCTION(get_theme_item)
 		ADD_PYTHON_FUNCTION(get_theme)
 		ADD_PYTHON_FUNCTION(set_theme_item)
