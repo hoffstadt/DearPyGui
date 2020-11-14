@@ -36,6 +36,16 @@ namespace Marvel {
 			{mvPythonDataType::String, "item"},
 		}, "Clears individual color styles for an item.", "None", "Themes and Styles") });
 
+		parsers->insert({ "set_item_style_var", mvPythonParser({
+			{mvPythonDataType::String, "item"},
+			{mvPythonDataType::Integer, "style"},
+			{mvPythonDataType::FloatList, "value"}
+		}, "Sets an style variable for a single item.", "None", "Themes and Styles") });
+
+		parsers->insert({ "clear_item_style_vars", mvPythonParser({
+			{mvPythonDataType::String, "item"},
+		}, "Clears individual styles variables for an item.", "None", "Themes and Styles") });
+
 		parsers->insert({ "set_theme_item", mvPythonParser({
 			{mvPythonDataType::Integer, "item"},
 			{mvPythonDataType::Integer, "r"},
@@ -377,6 +387,38 @@ namespace Marvel {
 
 		if (appitem)
 			appitem->getStyleManager().clearColors();
+
+		return GetPyNone();
+	}
+
+	PyObject* set_item_style_var(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		const char* item;
+		int style;
+		PyObject* value;
+
+		if (!(*mvApp::GetApp()->getParsers())["set_item_style_var"].parse(args, kwargs, __FUNCTION__, &item, &style, &value))
+			return GetPyNone();
+
+		mvAppItem* appitem = mvApp::GetApp()->getItemRegistry().getItem(item);
+
+		if (appitem)
+			appitem->getStyleManager().addStyleVar(style, ToFloatVect(value));
+
+		return GetPyNone();
+	}
+
+	PyObject* clear_item_style_vars(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		const char* item;
+
+		if (!(*mvApp::GetApp()->getParsers())["clear_item_style_vars"].parse(args, kwargs, __FUNCTION__, &item))
+			return GetPyNone();
+
+		mvAppItem* appitem = mvApp::GetApp()->getItemRegistry().getItem(item);
+
+		if (appitem)
+			appitem->getStyleManager().clearStyleVars();
 
 		return GetPyNone();
 	}

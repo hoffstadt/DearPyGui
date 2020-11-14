@@ -12,6 +12,8 @@ namespace Marvel {
 	PyObject* add_additional_font                   (PyObject* self, PyObject* args, PyObject* kwargs);
 	PyObject* set_item_color                        (PyObject* self, PyObject* args, PyObject* kwargs);
 	PyObject* clear_item_color                      (PyObject* self, PyObject* args, PyObject* kwargs);
+	PyObject* set_item_style_var					(PyObject* self, PyObject* args, PyObject* kwargs);
+	PyObject* clear_item_style_vars				    (PyObject* self, PyObject* args, PyObject* kwargs);
 	PyObject* set_theme                             (PyObject* self, PyObject* args, PyObject* kwargs);
 	PyObject* get_style_display_safe_area_padding   (PyObject* self, PyObject* args, PyObject* kwargs);
 	PyObject* set_style_display_safe_area_padding   (PyObject* self, PyObject* args, PyObject* kwargs);

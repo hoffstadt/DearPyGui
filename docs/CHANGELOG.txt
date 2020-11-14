@@ -48,8 +48,12 @@ New Features:
 - Drawing API: Can now drawing to window using window name
 - Drawing API: Can now draw to viewport using "##FOREGROUND" and
                "##BACKGROUND" as the draw target
+- Style API:   Can now apply style per widget
+- Style API:   Can now clear style per widget
 
 New Commands:
+- Style API:   Added "set_item_style_var" command
+- Style API:   Added "clear_item_style_vars" command
 - Drawing API: Added "bring_draw_command_forward" command
 - Drawing API: Added "bring_draw_command_to_front" command
 - Drawing API: Added "send_draw_command_back" command
