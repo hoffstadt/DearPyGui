@@ -270,6 +270,7 @@ def show_demo():
                     set_item_color(f"Click##{i}", mvGuiCol_ButtonActive, hsv_to_rgb(i/7.0, 0.8, 0.8))
                     set_item_style_var(f"Click##{i}", mvGuiStyleVar_FrameRounding, [i*5])
                     set_item_style_var(f"Click##{i}", mvGuiStyleVar_FramePadding, [i*3, i*3])
+                    disable_items.append(f"Click##{i}")
                 with group("increment_buttons##demo", horizontal=True):
                     add_text("Press a button: ")
                     add_button("Left##demo", arrow=True, direction=mvDir_Left, 
