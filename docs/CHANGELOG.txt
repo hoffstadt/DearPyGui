@@ -65,6 +65,9 @@ New Commands:
 - Plots:       Added "add_candle_series" command
 - Plots:       adding a 3rd coordinate to shade series fills area between y's
 
+New Keywords:
+- add_input_int:   Added "step"
+
 Fixes:
 - delete_item:  fixed false delete item not found warning #327
 - draw_image:   fixed draw_image flipping issue #310
