@@ -495,11 +495,24 @@ namespace Marvel {
 		}
 		ImGui::Separator();
 
+		ImVec4 alt_color = ImVec4(ImGui::GetStyleColorVec4(ImGuiCol_Header));
+		alt_color.w = 0.10f;
+		auto ralt_col = IM_COL32(alt_color.x * 255.0f, alt_color.y * 255.0f, alt_color.z * 255.0f, alt_color.w * 255.0f);
+
 		int index = 0;
 		for (size_t i = 0; i < m_hashValues.size(); i++)
 		{
+
 			for (size_t j = 0; j < m_columns; j++)
 			{
+				if (i % 2 == 0)
+				{
+					ImVec2 p_min = ImGui::GetCursorScreenPos();
+					p_min.x = p_min.x - ImGui::GetStyle().ItemSpacing.x;
+					ImVec2 p_max = ImVec2(p_min.x + ImGui::GetWindowContentRegionWidth(), p_min.y + ImGui::GetFrameHeight());
+					ImGui::GetWindowDrawList()->AddRectFilled(p_min, p_max, ralt_col);
+				}
+
 				if (ImGui::Selectable(m_hashValues[i][j].c_str(), m_selections[{i, j}]))
 				{
 					m_selections[{i, j}] = !m_selections[{i, j}];
@@ -508,6 +521,7 @@ namespace Marvel {
 				ImGui::NextColumn();
 				index++;
 			}
+
 		}
 
 		ImGui::Columns(1);

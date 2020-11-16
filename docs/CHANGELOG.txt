@@ -45,11 +45,12 @@ Breaking Changes:
                 "delete_drawing_command".
 
 New Features:
-- Drawing API: Can now drawing to window using window name
-- Drawing API: Can now draw to viewport using "##FOREGROUND" and
-               "##BACKGROUND" as the draw target
-- Style API:   Can now apply style per widget
-- Style API:   Can now clear style per widget
+- Drawing API:  Can now drawing to window using window name
+- Drawing API:  Can now draw to viewport using "##FOREGROUND" and
+                "##BACKGROUND" as the draw target
+- Style API:    Can now apply style per widget
+- Style API:    Can now clear style per widget
+- Simple Table: Now alternates colors
 
 New Commands:
 - Style API:   Added "set_item_style_var" command
