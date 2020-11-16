@@ -235,6 +235,7 @@ namespace Marvel {
 			m_oldypos = m_ypos;
 			m_oldWidth = m_width;
 			m_oldHeight = m_height;
+			m_oldWindowflags = m_windowflags;
 
 		}
 
