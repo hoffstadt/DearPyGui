@@ -49,6 +49,8 @@ namespace Marvel {
 			{mvPythonDataType::String, "label", "", "''"},
 			{mvPythonDataType::String, "popup", "", "''"},
 			{mvPythonDataType::Bool, "show", "Attempt to render", "True"},
+			{mvPythonDataType::Integer, "step", "", "1"},
+			{mvPythonDataType::Integer, "step_fast", "", "100"},
 			{mvPythonDataType::Bool, "readonly", "", "False"},
 		}, "Adds input for integer values.", "None", "Adding Widgets") });
 
@@ -261,11 +263,13 @@ namespace Marvel {
 		const char* label = "";
 		const char* popup = "";
 		int show = false;
+		int step = 1;
+		int step_fast = 100;
 		int readonly = false;
 
 		if (!(*mvApp::GetApp()->getParsers())["add_input_int"].parse(args, kwargs, __FUNCTION__, &name,
 			&default_value, &callback, &callback_data, &tip, &parent, &before, &source, &enabled, &width, &on_enter,
-			&label, &popup, &show, &readonly))
+			&label, &popup, &show, &step, &step_fast, &readonly))
 			return ToPyBool(false);
 
 		mvAppItem* item = new mvInputInt(name, default_value, source);

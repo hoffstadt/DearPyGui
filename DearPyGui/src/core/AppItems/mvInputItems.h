@@ -69,7 +69,7 @@ namespace Marvel {
 				styleManager.addColorStyle(ImGuiCol_Text, ImVec4(ImGui::GetStyleColorVec4(ImGuiCol_TextDisabled)));
 			}
 
-			if (ImGui::InputInt(m_label.c_str(), m_value, 1, 100, m_flags))
+			if (ImGui::InputInt(m_label.c_str(), m_value, m_step, m_step_fast, m_flags))
 				mvApp::GetApp()->addCallback(m_callback, m_name, m_callbackData);
 
 		}
@@ -81,6 +81,8 @@ namespace Marvel {
 			mvGlobalIntepreterLock gil;
 			if (PyObject* item = PyDict_GetItemString(dict, "on_enter")) ToBool(item) ? m_flags |= ImGuiInputTextFlags_EnterReturnsTrue : m_flags &= ~ImGuiInputTextFlags_EnterReturnsTrue;
 			if (PyObject* item = PyDict_GetItemString(dict, "readonly")) ToBool(item) ? m_flags |= ImGuiInputTextFlags_ReadOnly : m_flags &= ~ImGuiInputTextFlags_ReadOnly;
+			if (PyObject* item = PyDict_GetItemString(dict, "step")) m_step = ToInt(item);
+			if (PyObject* item = PyDict_GetItemString(dict, "step_fast")) m_step_fast = ToInt(item);
 		}
 
 		void getExtraConfigDict(PyObject* dict) override
@@ -90,12 +92,16 @@ namespace Marvel {
 			mvGlobalIntepreterLock gil;
 			PyDict_SetItemString(dict, "on_enter", ToPyBool(m_flags & ImGuiInputTextFlags_EnterReturnsTrue));
 			PyDict_SetItemString(dict, "readonly", ToPyBool(m_flags & ImGuiInputTextFlags_ReadOnly));
+			PyDict_SetItemString(dict, "step", ToPyInt(m_step));
+			PyDict_SetItemString(dict, "step_fast", ToPyInt(m_step_fast));
 		}
 
 	private:
 
 		ImGuiInputTextFlags m_flags = 0;
 		ImGuiInputTextFlags m_stor_flags = 0;
+		int                 m_step = 1;
+		int                 m_step_fast = 100;
 	};
 
 	//-----------------------------------------------------------------------------
