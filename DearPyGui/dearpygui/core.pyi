@@ -190,7 +190,7 @@ def add_input_float4(name: str, *, default_value: List[float] = (0.0, 0.0, 0.0, 
 	"""Adds input for 4 float values."""
 	...
 
-def add_input_int(name: str, *, default_value: int = 0, callback: Callable = None, callback_data: Any = None, tip: str = '', parent: str = '', before: str = '', source: str = '', enabled: bool = True, width: int = 0, on_enter: bool = False, label: str = '', popup: str = '', show: bool = True, readonly: bool = False) -> None:
+def add_input_int(name: str, *, default_value: int = 0, callback: Callable = None, callback_data: Any = None, tip: str = '', parent: str = '', before: str = '', source: str = '', enabled: bool = True, width: int = 0, on_enter: bool = False, label: str = '', popup: str = '', show: bool = True, step: int = 1, step_fast: int = 100, readonly: bool = False) -> None:
 	"""Adds input for integer values."""
 	...
 
@@ -412,6 +412,10 @@ def clear_drawing(draw: str) -> None:
 
 def clear_item_color(item: str) -> None:
 	"""Clears individual color styles for an item."""
+	...
+
+def clear_item_style_vars(item: str) -> None:
+	"""Clears individual styles variables for an item."""
 	...
 
 def clear_log(*, logger: str = '') -> None:
@@ -1012,6 +1016,10 @@ def set_item_label(item: str, label: str) -> None:
 
 def set_item_popup(item: str, popup: str) -> None:
 	"""Sets an item's popup if applicable."""
+	...
+
+def set_item_style_var(item: str, style: int, value: List[float]) -> None:
+	"""Sets an style variable for a single item."""
 	...
 
 def set_item_tip(item: str, tip: str) -> None:
