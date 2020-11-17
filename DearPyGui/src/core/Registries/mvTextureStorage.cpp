@@ -51,7 +51,7 @@ namespace Marvel {
 
 		mvTexture newTexture = { 0, 0, nullptr, 1 };
 
-		if (LoadTextureFromArray(data, width, height, newTexture))
+		if (LoadTextureFromArray(name.c_str(), data, width, height, newTexture))
 			s_textures[name] = newTexture;
 
 	}
