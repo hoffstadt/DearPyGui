@@ -605,35 +605,6 @@ def get_item_height(item: str) -&gt; Union[int, None]:
     return internal_dpg.get_item_configuration(item)[&#34;height&#34;]
 
 
-# drawing configure commands
-def set_drawing_origin(drawing: str, x: float, y: float):
-    &#34;&#34;&#34;Sets the drawing&#39;s origin (the bottom left corner) to the specified position.
-
-    Args:
-        drawing: Drawing that will be set.
-        x: x position to set
-        y: y position to set
-
-    Returns:
-        None
-    &#34;&#34;&#34;
-    internal_dpg.configure_item(drawing, originx=x, originy=y)
-
-
-def set_drawing_scale(drawing: str, x: float, y: float):
-    &#34;&#34;&#34;Sets the drawing&#39;s scale.
-
-    Args:
-        drawing: Drawing that will be set.
-        x: x scale to set
-        y: y scale to set
-
-    Returns:
-        None
-    &#34;&#34;&#34;
-    internal_dpg.configure_item(drawing, scalex=x, scaley=y)
-
-
 def set_drawing_size(drawing: str, width: int, height: int):
     &#34;&#34;&#34;Sets the drawing&#39;s size, width and height.
 
@@ -646,32 +617,6 @@ def set_drawing_size(drawing: str, width: int, height: int):
         None
     &#34;&#34;&#34;
     internal_dpg.configure_item(drawing, width=width, height=height)
-
-
-def get_drawing_origin(drawing: str) -&gt; Union[List[float], None]:
-    &#34;&#34;&#34;Gets the drawing&#39;s origin, (bottom left corner).
-
-    Args:
-        drawing: Drawing that will be set.
-
-    Returns:
-        list as [x,y] or None
-    &#34;&#34;&#34;
-    config = internal_dpg.get_item_configuration(drawing)
-    return [config[&#34;originx&#34;], config[&#34;originy&#34;]]
-
-
-def get_drawing_scale(drawing: str) -&gt; Union[List[float], None]:
-    &#34;&#34;&#34;Gets the drawing&#39;s scale.
-
-    Args:
-        drawing: Drawing that will be set.
-
-    Returns:
-        list as [x,y] or None
-    &#34;&#34;&#34;
-    config = internal_dpg.get_item_configuration(drawing)
-    return [config[&#34;scalex&#34;], config[&#34;scaley&#34;]]
 
 
 def get_drawing_size(drawing: str) -&gt; Union[List[int], None]:
@@ -887,64 +832,6 @@ def collapsing_header(name: str, *, label: str = &#34;__DearPyGuiDefault&#34;, s
                                                      open_on_arrow=open_on_arrow, leaf=leaf, bullet=bullet)
     finally:
         internal_dpg.end()</code></pre>
-</details>
-</dd>
-<dt id="dearpygui.simple.get_drawing_origin"><code class="name flex">
-<span>def <span class="ident">get_drawing_origin</span></span>(<span>drawing: str) ‑> Optional[List[float]]</span>
-</code></dt>
-<dd>
-<div class="desc"><p>Gets the drawing's origin, (bottom left corner).</p>
-<h2 id="args">Args</h2>
-<dl>
-<dt><strong><code>drawing</code></strong></dt>
-<dd>Drawing that will be set.</dd>
-</dl>
-<h2 id="returns">Returns</h2>
-<p>list as [x,y] or None</p></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">def get_drawing_origin(drawing: str) -&gt; Union[List[float], None]:
-    &#34;&#34;&#34;Gets the drawing&#39;s origin, (bottom left corner).
-
-    Args:
-        drawing: Drawing that will be set.
-
-    Returns:
-        list as [x,y] or None
-    &#34;&#34;&#34;
-    config = internal_dpg.get_item_configuration(drawing)
-    return [config[&#34;originx&#34;], config[&#34;originy&#34;]]</code></pre>
-</details>
-</dd>
-<dt id="dearpygui.simple.get_drawing_scale"><code class="name flex">
-<span>def <span class="ident">get_drawing_scale</span></span>(<span>drawing: str) ‑> Optional[List[float]]</span>
-</code></dt>
-<dd>
-<div class="desc"><p>Gets the drawing's scale.</p>
-<h2 id="args">Args</h2>
-<dl>
-<dt><strong><code>drawing</code></strong></dt>
-<dd>Drawing that will be set.</dd>
-</dl>
-<h2 id="returns">Returns</h2>
-<p>list as [x,y] or None</p></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">def get_drawing_scale(drawing: str) -&gt; Union[List[float], None]:
-    &#34;&#34;&#34;Gets the drawing&#39;s scale.
-
-    Args:
-        drawing: Drawing that will be set.
-
-    Returns:
-        list as [x,y] or None
-    &#34;&#34;&#34;
-    config = internal_dpg.get_item_configuration(drawing)
-    return [config[&#34;scalex&#34;], config[&#34;scaley&#34;]]</code></pre>
 </details>
 </dd>
 <dt id="dearpygui.simple.get_drawing_size"><code class="name flex">
@@ -1412,74 +1299,6 @@ def popup(popupparent: str, name: str, *, mousebutton: int = 1, modal: bool = Fa
                                      before=before, width=width, height=height, show=show)
     finally:
         internal_dpg.end()</code></pre>
-</details>
-</dd>
-<dt id="dearpygui.simple.set_drawing_origin"><code class="name flex">
-<span>def <span class="ident">set_drawing_origin</span></span>(<span>drawing: str, x: float, y: float)</span>
-</code></dt>
-<dd>
-<div class="desc"><p>Sets the drawing's origin (the bottom left corner) to the specified position.</p>
-<h2 id="args">Args</h2>
-<dl>
-<dt><strong><code>drawing</code></strong></dt>
-<dd>Drawing that will be set.</dd>
-<dt><strong><code>x</code></strong></dt>
-<dd>x position to set</dd>
-<dt><strong><code>y</code></strong></dt>
-<dd>y position to set</dd>
-</dl>
-<h2 id="returns">Returns</h2>
-<p>None</p></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">def set_drawing_origin(drawing: str, x: float, y: float):
-    &#34;&#34;&#34;Sets the drawing&#39;s origin (the bottom left corner) to the specified position.
-
-    Args:
-        drawing: Drawing that will be set.
-        x: x position to set
-        y: y position to set
-
-    Returns:
-        None
-    &#34;&#34;&#34;
-    internal_dpg.configure_item(drawing, originx=x, originy=y)</code></pre>
-</details>
-</dd>
-<dt id="dearpygui.simple.set_drawing_scale"><code class="name flex">
-<span>def <span class="ident">set_drawing_scale</span></span>(<span>drawing: str, x: float, y: float)</span>
-</code></dt>
-<dd>
-<div class="desc"><p>Sets the drawing's scale.</p>
-<h2 id="args">Args</h2>
-<dl>
-<dt><strong><code>drawing</code></strong></dt>
-<dd>Drawing that will be set.</dd>
-<dt><strong><code>x</code></strong></dt>
-<dd>x scale to set</dd>
-<dt><strong><code>y</code></strong></dt>
-<dd>y scale to set</dd>
-</dl>
-<h2 id="returns">Returns</h2>
-<p>None</p></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">def set_drawing_scale(drawing: str, x: float, y: float):
-    &#34;&#34;&#34;Sets the drawing&#39;s scale.
-
-    Args:
-        drawing: Drawing that will be set.
-        x: x scale to set
-        y: y scale to set
-
-    Returns:
-        None
-    &#34;&#34;&#34;
-    internal_dpg.configure_item(drawing, scalex=x, scaley=y)</code></pre>
 </details>
 </dd>
 <dt id="dearpygui.simple.set_drawing_size"><code class="name flex">
@@ -2238,8 +2057,6 @@ def window(name: str, *, width: int = 200, height: int = 200, x_pos: int = 200, 
 <ul class="two-column">
 <li><code><a title="dearpygui.simple.child" href="#dearpygui.simple.child">child</a></code></li>
 <li><code><a title="dearpygui.simple.collapsing_header" href="#dearpygui.simple.collapsing_header">collapsing_header</a></code></li>
-<li><code><a title="dearpygui.simple.get_drawing_origin" href="#dearpygui.simple.get_drawing_origin">get_drawing_origin</a></code></li>
-<li><code><a title="dearpygui.simple.get_drawing_scale" href="#dearpygui.simple.get_drawing_scale">get_drawing_scale</a></code></li>
 <li><code><a title="dearpygui.simple.get_drawing_size" href="#dearpygui.simple.get_drawing_size">get_drawing_size</a></code></li>
 <li><code><a title="dearpygui.simple.get_item_height" href="#dearpygui.simple.get_item_height">get_item_height</a></code></li>
 <li><code><a title="dearpygui.simple.get_item_label" href="#dearpygui.simple.get_item_label">get_item_label</a></code></li>
@@ -2253,8 +2070,6 @@ def window(name: str, *, width: int = 200, height: int = 200, x_pos: int = 200, 
 <li><code><a title="dearpygui.simple.menu" href="#dearpygui.simple.menu">menu</a></code></li>
 <li><code><a title="dearpygui.simple.menu_bar" href="#dearpygui.simple.menu_bar">menu_bar</a></code></li>
 <li><code><a title="dearpygui.simple.popup" href="#dearpygui.simple.popup">popup</a></code></li>
-<li><code><a title="dearpygui.simple.set_drawing_origin" href="#dearpygui.simple.set_drawing_origin">set_drawing_origin</a></code></li>
-<li><code><a title="dearpygui.simple.set_drawing_scale" href="#dearpygui.simple.set_drawing_scale">set_drawing_scale</a></code></li>
 <li><code><a title="dearpygui.simple.set_drawing_size" href="#dearpygui.simple.set_drawing_size">set_drawing_size</a></code></li>
 <li><code><a title="dearpygui.simple.set_item_height" href="#dearpygui.simple.set_item_height">set_item_height</a></code></li>
 <li><code><a title="dearpygui.simple.set_item_label" href="#dearpygui.simple.set_item_label">set_item_label</a></code></li>

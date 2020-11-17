@@ -217,7 +217,10 @@ list of ranges</p>
 <p>name : str</p>
 </li>
 <li>
-<p>data : List[List[float]]</p>
+<p>x : List[float]</p>
+</li>
+<li>
+<p>y : List[float]</p>
 </li>
 <li>
 <p>color : List[float]</p>
@@ -256,7 +259,10 @@ update plot bounds</p>
 <p>name : str</p>
 </li>
 <li>
-<p>data : List[List[float]]</p>
+<p>x : List[float]</p>
+</li>
+<li>
+<p>y : List[float]</p>
 </li>
 <li>
 <p>Keyword Only Arguments</p>
@@ -344,6 +350,60 @@ Attempt to render</p>
 </li>
 <li>
 <p>enabled : bool = True</p>
+</li>
+</ul></div>
+</dd>
+<dt id="dearpygui.core.add_candle_series"><code class="name flex">
+<span>def <span class="ident">add_candle_series</span></span>(<span>...)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Adds a candle series to a plot.</p>
+<p>Return Type: None</p>
+<p>Parameters</p>
+<hr>
+<ul>
+<li>
+<p>plot : str</p>
+</li>
+<li>
+<p>name : str</p>
+</li>
+<li>
+<p>date : List[float]</p>
+</li>
+<li>
+<p>opens : List[float]</p>
+</li>
+<li>
+<p>highs : List[float]</p>
+</li>
+<li>
+<p>lows : List[float]</p>
+</li>
+<li>
+<p>closes : List[float]</p>
+</li>
+<li>
+<p>Keyword Only Arguments</p>
+</li>
+</ul>
+<hr>
+<ul>
+<li>
+<p>tooltip : bool = True</p>
+</li>
+<li>
+<p>bull_color : List[float] = (0, 255, 113, 255)</p>
+</li>
+<li>
+<p>bear_color : List[float] = (218, 13, 79, 255)</p>
+</li>
+<li>
+<p>weight : float = 0.25</p>
+</li>
+<li>
+<p>update_bounds : bool = True
+update plot bounds</p>
 </li>
 </ul></div>
 </dd>
@@ -2340,18 +2400,6 @@ This item will be displayed before the specified item in the parent. (runtime ad
 <p>show : bool = True
 Attempt to render</p>
 </li>
-<li>
-<p>originx : float = 0.0</p>
-</li>
-<li>
-<p>originy : float = 0.0</p>
-</li>
-<li>
-<p>scalex : float = 1.0</p>
-</li>
-<li>
-<p>scaley : float = 1.0</p>
-</li>
 </ul></div>
 </dd>
 <dt id="dearpygui.core.add_dummy"><code class="name flex">
@@ -2406,7 +2454,16 @@ Attempt to render</p>
 <p>name : str</p>
 </li>
 <li>
-<p>data : List[List[float]]</p>
+<p>x : List[float]</p>
+</li>
+<li>
+<p>y : List[float]</p>
+</li>
+<li>
+<p>negative : List[float]</p>
+</li>
+<li>
+<p>positive : List[float]</p>
 </li>
 <li>
 <p>Keyword Only Arguments</p>
@@ -2491,7 +2548,7 @@ This item will be displayed before the specified item in the parent. (runtime ad
 <p>name : str</p>
 </li>
 <li>
-<p>data : List[List[float]]</p>
+<p>values : List[float]</p>
 </li>
 <li>
 <p>rows : int</p>
@@ -3109,6 +3166,12 @@ Only runs callback on enter</p>
 Attempt to render</p>
 </li>
 <li>
+<p>step : int = 1</p>
+</li>
+<li>
+<p>step_fast : int = 100</p>
+</li>
+<li>
 <p>readonly : bool = False</p>
 </li>
 </ul></div>
@@ -3493,7 +3556,10 @@ Attempt to render</p>
 <p>name : str</p>
 </li>
 <li>
-<p>data : List[List[float]]</p>
+<p>x : List[float]</p>
+</li>
+<li>
+<p>y : List[float]</p>
 </li>
 <li>
 <p>Keyword Only Arguments</p>
@@ -3510,9 +3576,6 @@ Attempt to render</p>
 <li>
 <p>update_bounds : bool = True
 update plot bounds</p>
-</li>
-<li>
-<p>xy_data_format : bool = False</p>
 </li>
 </ul></div>
 </dd>
@@ -3946,8 +4009,10 @@ This item will be displayed before the specified item in the parent. (runtime ad
 <p>name : str</p>
 </li>
 <li>
-<p>data : Any
-list of [str,float]</p>
+<p>values : List[float]</p>
+</li>
+<li>
+<p>labels : List[str]</p>
 </li>
 <li>
 <p>x : float</p>
@@ -4364,7 +4429,10 @@ Attempt to render</p>
 <p>name : str</p>
 </li>
 <li>
-<p>data : List[List[float]]</p>
+<p>x : List[float]</p>
+</li>
+<li>
+<p>y : List[float]</p>
 </li>
 <li>
 <p>Keyword Only Arguments</p>
@@ -4507,7 +4575,13 @@ This item will be displayed before the specified item in the parent. (runtime ad
 <p>name : str</p>
 </li>
 <li>
-<p>data : List[List[float]]</p>
+<p>x : List[float]</p>
+</li>
+<li>
+<p>y1 : List[float]</p>
+</li>
+<li>
+<p>y2 : List[float]</p>
 </li>
 <li>
 <p>Keyword Only Arguments</p>
@@ -5290,6 +5364,45 @@ Attempt to render</p>
 </li>
 </ul></div>
 </dd>
+<dt id="dearpygui.core.add_stair_series"><code class="name flex">
+<span>def <span class="ident">add_stair_series</span></span>(<span>...)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Adds a stair series to a plot.</p>
+<p>Return Type: None</p>
+<p>Parameters</p>
+<hr>
+<ul>
+<li>
+<p>plot : str</p>
+</li>
+<li>
+<p>name : str</p>
+</li>
+<li>
+<p>x : List[float]</p>
+</li>
+<li>
+<p>y : List[float]</p>
+</li>
+<li>
+<p>Keyword Only Arguments</p>
+</li>
+</ul>
+<hr>
+<ul>
+<li>
+<p>color : List[float] = (0, 0, 0, -1)</p>
+</li>
+<li>
+<p>weight : float = 1.0</p>
+</li>
+<li>
+<p>update_bounds : bool = True
+update plot bounds</p>
+</li>
+</ul></div>
+</dd>
 <dt id="dearpygui.core.add_stem_series"><code class="name flex">
 <span>def <span class="ident">add_stem_series</span></span>(<span>...)</span>
 </code></dt>
@@ -5306,7 +5419,10 @@ Attempt to render</p>
 <p>name : str</p>
 </li>
 <li>
-<p>data : List[List[float]]</p>
+<p>x : List[float]</p>
+</li>
+<li>
+<p>y : List[float]</p>
 </li>
 <li>
 <p>Keyword Only Arguments</p>
@@ -5732,6 +5848,29 @@ update plot bounds</p>
 </li>
 </ul></div>
 </dd>
+<dt id="dearpygui.core.add_texture"><code class="name flex">
+<span>def <span class="ident">add_texture</span></span>(<span>...)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Adds a texture.</p>
+<p>Return Type: None</p>
+<p>Parameters</p>
+<hr>
+<ul>
+<li>
+<p>name : str</p>
+</li>
+<li>
+<p>data : List[int]</p>
+</li>
+<li>
+<p>width : int</p>
+</li>
+<li>
+<p>height : int</p>
+</li>
+</ul></div>
+</dd>
 <dt id="dearpygui.core.add_time_picker"><code class="name flex">
 <span>def <span class="ident">add_time_picker</span></span>(<span>...)</span>
 </code></dt>
@@ -5985,6 +6124,40 @@ Callback ran when window is closed</p>
 </li>
 </ul></div>
 </dd>
+<dt id="dearpygui.core.bring_draw_command_forward"><code class="name flex">
+<span>def <span class="ident">bring_draw_command_forward</span></span>(<span>...)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Brings draw command forward.</p>
+<p>Return Type: None</p>
+<p>Parameters</p>
+<hr>
+<ul>
+<li>
+<p>drawing : str</p>
+</li>
+<li>
+<p>tag : str</p>
+</li>
+</ul></div>
+</dd>
+<dt id="dearpygui.core.bring_draw_command_to_front"><code class="name flex">
+<span>def <span class="ident">bring_draw_command_to_front</span></span>(<span>...)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Brings draw command to front.</p>
+<p>Return Type: None</p>
+<p>Parameters</p>
+<hr>
+<ul>
+<li>
+<p>drawing : str</p>
+</li>
+<li>
+<p>tag : str</p>
+</li>
+</ul></div>
+</dd>
 <dt id="dearpygui.core.cleanup_dearpygui"><code class="name flex">
 <span>def <span class="ident">cleanup_dearpygui</span></span>(<span>...)</span>
 </code></dt>
@@ -6009,6 +6182,18 @@ Callback ran when window is closed</p>
 </code></dt>
 <dd>
 <div class="desc"><p>Clears individual color styles for an item.</p>
+<p>Return Type: None</p>
+<p>Parameters</p>
+<hr>
+<ul>
+<li>item : str</li>
+</ul></div>
+</dd>
+<dt id="dearpygui.core.clear_item_style_vars"><code class="name flex">
+<span>def <span class="ident">clear_item_style_vars</span></span>(<span>...)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Clears individual styles variables for an item.</p>
 <p>Return Type: None</p>
 <p>Parameters</p>
 <hr>
@@ -6098,6 +6283,18 @@ logger widget</li>
 <li>name : str</li>
 </ul></div>
 </dd>
+<dt id="dearpygui.core.decrement_texture"><code class="name flex">
+<span>def <span class="ident">decrement_texture</span></span>(<span>...)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Decrements a texture.</p>
+<p>Return Type: None</p>
+<p>Parameters</p>
+<hr>
+<ul>
+<li>name : str</li>
+</ul></div>
+</dd>
 <dt id="dearpygui.core.delete_annotation"><code class="name flex">
 <span>def <span class="ident">delete_annotation</span></span>(<span>...)</span>
 </code></dt>
@@ -6178,8 +6375,8 @@ logger widget</li>
 </li>
 </ul></div>
 </dd>
-<dt id="dearpygui.core.delete_drawing_item"><code class="name flex">
-<span>def <span class="ident">delete_drawing_item</span></span>(<span>...)</span>
+<dt id="dearpygui.core.delete_draw_command"><code class="name flex">
+<span>def <span class="ident">delete_draw_command</span></span>(<span>...)</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Deletes a drawing item.</p>
@@ -6371,7 +6568,7 @@ delete children only</li>
 <hr>
 <ul>
 <li>
-<p>segments : int = 12</p>
+<p>segments : int = 0</p>
 </li>
 <li>
 <p>thickness : float = 1.0</p>
@@ -6388,7 +6585,7 @@ delete children only</li>
 <span>def <span class="ident">draw_image</span></span>(<span>...)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Draws an image on a drawing. p_min and p_max represent the upper-left and lower-right corners of the rectangle.uv_min and uv_max represent the normalized texture coordinates of the original image that will be shown. Using (0,0)-&gt;(1,1) texturecoordinates will generally display the entire texture.</p>
+<div class="desc"><p>Draws an image on a drawing. p_min (bottom-left) and p_max (upper-right) represent corners of the rectangle the image will be drawn to.Setting the p_min equal to the p_max will sraw the image to with 1:1 scale.uv_min and uv_max represent the normalized texture coordinates of the original image that will be shown. Using (0,0)-&gt;(1,1) texturecoordinates will generally display the entire texture.</p>
 <p>Return Type: None</p>
 <p>Parameters</p>
 <hr>
@@ -6403,14 +6600,14 @@ delete children only</li>
 <p>pmin : List[float]</p>
 </li>
 <li>
+<p>pmax : List[float]</p>
+</li>
+<li>
 <p>Keyword Only Arguments</p>
 </li>
 </ul>
 <hr>
 <ul>
-<li>
-<p>pmax : List[float] = (0.0, 0.0)</p>
-</li>
 <li>
 <p>uv_min : List[float] = (0.0, 0.0)
 normalized texture coordinates</p>
@@ -6520,7 +6717,7 @@ normalized texture coordinates</p>
 <hr>
 <ul>
 <li>
-<p>closed : int = False</p>
+<p>closed : bool = False</p>
 </li>
 <li>
 <p>thickness : float = 1.0</p>
@@ -6737,6 +6934,23 @@ normalized texture coordinates</p>
 <dd>
 <div class="desc"><p>Returns time since last frame.</p>
 <p>Return Type: float</p></div>
+</dd>
+<dt id="dearpygui.core.get_draw_command"><code class="name flex">
+<span>def <span class="ident">get_draw_command</span></span>(<span>...)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Returns an draw commands information</p>
+<p>Return Type: dict</p>
+<p>Parameters</p>
+<hr>
+<ul>
+<li>
+<p>drawing : str</p>
+</li>
+<li>
+<p>tag : str</p>
+</li>
+</ul></div>
 </dd>
 <dt id="dearpygui.core.get_global_font_scale"><code class="name flex">
 <span>def <span class="ident">get_global_font_scale</span></span>(<span>...)</span>
@@ -7686,6 +7900,26 @@ logger widget</li>
 logger widget</li>
 </ul></div>
 </dd>
+<dt id="dearpygui.core.modify_draw_command"><code class="name flex">
+<span>def <span class="ident">modify_draw_command</span></span>(<span>...)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Configures an drawing command.</p>
+<p>Return Type: None</p>
+<p>Parameters</p>
+<hr>
+<ul>
+<li>
+<p>drawing : str</p>
+</li>
+<li>
+<p>tag : str</p>
+</li>
+<li>
+<p>**Kwargs</p>
+</li>
+</ul></div>
+</dd>
 <dt id="dearpygui.core.move_item"><code class="name flex">
 <span>def <span class="ident">move_item</span></span>(<span>...)</span>
 </code></dt>
@@ -7833,6 +8067,40 @@ function called on completion</li>
 function to call on completion</li>
 </ul></div>
 </dd>
+<dt id="dearpygui.core.send_draw_command_back"><code class="name flex">
+<span>def <span class="ident">send_draw_command_back</span></span>(<span>...)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Sends draw command back.</p>
+<p>Return Type: None</p>
+<p>Parameters</p>
+<hr>
+<ul>
+<li>
+<p>drawing : str</p>
+</li>
+<li>
+<p>tag : str</p>
+</li>
+</ul></div>
+</dd>
+<dt id="dearpygui.core.send_draw_command_to_back"><code class="name flex">
+<span>def <span class="ident">send_draw_command_to_back</span></span>(<span>...)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Sends draw command to the back.</p>
+<p>Return Type: None</p>
+<p>Parameters</p>
+<hr>
+<ul>
+<li>
+<p>drawing : str</p>
+</li>
+<li>
+<p>tag : str</p>
+</li>
+</ul></div>
+</dd>
 <dt id="dearpygui.core.set_accelerator_callback"><code class="name flex">
 <span>def <span class="ident">set_accelerator_callback</span></span>(<span>...)</span>
 </code></dt>
@@ -7947,6 +8215,26 @@ Callback data</li>
 </li>
 <li>
 <p>color : List[float]</p>
+</li>
+</ul></div>
+</dd>
+<dt id="dearpygui.core.set_item_style_var"><code class="name flex">
+<span>def <span class="ident">set_item_style_var</span></span>(<span>...)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Sets an style variable for a single item.</p>
+<p>Return Type: None</p>
+<p>Parameters</p>
+<hr>
+<ul>
+<li>
+<p>item : str</p>
+</li>
+<li>
+<p>style : int</p>
+</li>
+<li>
+<p>value : List[float]</p>
 </li>
 </ul></div>
 </dd>
@@ -9023,6 +9311,7 @@ Attempt to render</p>
 <li><code><a title="dearpygui.core.add_area_series" href="#dearpygui.core.add_area_series">add_area_series</a></code></li>
 <li><code><a title="dearpygui.core.add_bar_series" href="#dearpygui.core.add_bar_series">add_bar_series</a></code></li>
 <li><code><a title="dearpygui.core.add_button" href="#dearpygui.core.add_button">add_button</a></code></li>
+<li><code><a title="dearpygui.core.add_candle_series" href="#dearpygui.core.add_candle_series">add_candle_series</a></code></li>
 <li><code><a title="dearpygui.core.add_character_remap" href="#dearpygui.core.add_character_remap">add_character_remap</a></code></li>
 <li><code><a title="dearpygui.core.add_checkbox" href="#dearpygui.core.add_checkbox">add_checkbox</a></code></li>
 <li><code><a title="dearpygui.core.add_child" href="#dearpygui.core.add_child">add_child</a></code></li>
@@ -9098,6 +9387,7 @@ Attempt to render</p>
 <li><code><a title="dearpygui.core.add_slider_int3" href="#dearpygui.core.add_slider_int3">add_slider_int3</a></code></li>
 <li><code><a title="dearpygui.core.add_slider_int4" href="#dearpygui.core.add_slider_int4">add_slider_int4</a></code></li>
 <li><code><a title="dearpygui.core.add_spacing" href="#dearpygui.core.add_spacing">add_spacing</a></code></li>
+<li><code><a title="dearpygui.core.add_stair_series" href="#dearpygui.core.add_stair_series">add_stair_series</a></code></li>
 <li><code><a title="dearpygui.core.add_stem_series" href="#dearpygui.core.add_stem_series">add_stem_series</a></code></li>
 <li><code><a title="dearpygui.core.add_style_window" href="#dearpygui.core.add_style_window">add_style_window</a></code></li>
 <li><code><a title="dearpygui.core.add_tab" href="#dearpygui.core.add_tab">add_tab</a></code></li>
@@ -9106,26 +9396,31 @@ Attempt to render</p>
 <li><code><a title="dearpygui.core.add_table" href="#dearpygui.core.add_table">add_table</a></code></li>
 <li><code><a title="dearpygui.core.add_text" href="#dearpygui.core.add_text">add_text</a></code></li>
 <li><code><a title="dearpygui.core.add_text_point" href="#dearpygui.core.add_text_point">add_text_point</a></code></li>
+<li><code><a title="dearpygui.core.add_texture" href="#dearpygui.core.add_texture">add_texture</a></code></li>
 <li><code><a title="dearpygui.core.add_time_picker" href="#dearpygui.core.add_time_picker">add_time_picker</a></code></li>
 <li><code><a title="dearpygui.core.add_tooltip" href="#dearpygui.core.add_tooltip">add_tooltip</a></code></li>
 <li><code><a title="dearpygui.core.add_tree_node" href="#dearpygui.core.add_tree_node">add_tree_node</a></code></li>
 <li><code><a title="dearpygui.core.add_value" href="#dearpygui.core.add_value">add_value</a></code></li>
 <li><code><a title="dearpygui.core.add_window" href="#dearpygui.core.add_window">add_window</a></code></li>
+<li><code><a title="dearpygui.core.bring_draw_command_forward" href="#dearpygui.core.bring_draw_command_forward">bring_draw_command_forward</a></code></li>
+<li><code><a title="dearpygui.core.bring_draw_command_to_front" href="#dearpygui.core.bring_draw_command_to_front">bring_draw_command_to_front</a></code></li>
 <li><code><a title="dearpygui.core.cleanup_dearpygui" href="#dearpygui.core.cleanup_dearpygui">cleanup_dearpygui</a></code></li>
 <li><code><a title="dearpygui.core.clear_drawing" href="#dearpygui.core.clear_drawing">clear_drawing</a></code></li>
 <li><code><a title="dearpygui.core.clear_item_color" href="#dearpygui.core.clear_item_color">clear_item_color</a></code></li>
+<li><code><a title="dearpygui.core.clear_item_style_vars" href="#dearpygui.core.clear_item_style_vars">clear_item_style_vars</a></code></li>
 <li><code><a title="dearpygui.core.clear_log" href="#dearpygui.core.clear_log">clear_log</a></code></li>
 <li><code><a title="dearpygui.core.clear_plot" href="#dearpygui.core.clear_plot">clear_plot</a></code></li>
 <li><code><a title="dearpygui.core.clear_table" href="#dearpygui.core.clear_table">clear_table</a></code></li>
 <li><code><a title="dearpygui.core.close_popup" href="#dearpygui.core.close_popup">close_popup</a></code></li>
 <li><code><a title="dearpygui.core.configure_item" href="#dearpygui.core.configure_item">configure_item</a></code></li>
 <li><code><a title="dearpygui.core.decref_value" href="#dearpygui.core.decref_value">decref_value</a></code></li>
+<li><code><a title="dearpygui.core.decrement_texture" href="#dearpygui.core.decrement_texture">decrement_texture</a></code></li>
 <li><code><a title="dearpygui.core.delete_annotation" href="#dearpygui.core.delete_annotation">delete_annotation</a></code></li>
 <li><code><a title="dearpygui.core.delete_column" href="#dearpygui.core.delete_column">delete_column</a></code></li>
 <li><code><a title="dearpygui.core.delete_data" href="#dearpygui.core.delete_data">delete_data</a></code></li>
 <li><code><a title="dearpygui.core.delete_drag_line" href="#dearpygui.core.delete_drag_line">delete_drag_line</a></code></li>
 <li><code><a title="dearpygui.core.delete_drag_point" href="#dearpygui.core.delete_drag_point">delete_drag_point</a></code></li>
-<li><code><a title="dearpygui.core.delete_drawing_item" href="#dearpygui.core.delete_drawing_item">delete_drawing_item</a></code></li>
+<li><code><a title="dearpygui.core.delete_draw_command" href="#dearpygui.core.delete_draw_command">delete_draw_command</a></code></li>
 <li><code><a title="dearpygui.core.delete_item" href="#dearpygui.core.delete_item">delete_item</a></code></li>
 <li><code><a title="dearpygui.core.delete_row" href="#dearpygui.core.delete_row">delete_row</a></code></li>
 <li><code><a title="dearpygui.core.delete_series" href="#dearpygui.core.delete_series">delete_series</a></code></li>
@@ -9147,6 +9442,7 @@ Attempt to render</p>
 <li><code><a title="dearpygui.core.get_data" href="#dearpygui.core.get_data">get_data</a></code></li>
 <li><code><a title="dearpygui.core.get_dearpygui_version" href="#dearpygui.core.get_dearpygui_version">get_dearpygui_version</a></code></li>
 <li><code><a title="dearpygui.core.get_delta_time" href="#dearpygui.core.get_delta_time">get_delta_time</a></code></li>
+<li><code><a title="dearpygui.core.get_draw_command" href="#dearpygui.core.get_draw_command">get_draw_command</a></code></li>
 <li><code><a title="dearpygui.core.get_global_font_scale" href="#dearpygui.core.get_global_font_scale">get_global_font_scale</a></code></li>
 <li><code><a title="dearpygui.core.get_item_callback" href="#dearpygui.core.get_item_callback">get_item_callback</a></code></li>
 <li><code><a title="dearpygui.core.get_item_children" href="#dearpygui.core.get_item_children">get_item_children</a></code></li>
@@ -9235,6 +9531,7 @@ Attempt to render</p>
 <li><code><a title="dearpygui.core.log_error" href="#dearpygui.core.log_error">log_error</a></code></li>
 <li><code><a title="dearpygui.core.log_info" href="#dearpygui.core.log_info">log_info</a></code></li>
 <li><code><a title="dearpygui.core.log_warning" href="#dearpygui.core.log_warning">log_warning</a></code></li>
+<li><code><a title="dearpygui.core.modify_draw_command" href="#dearpygui.core.modify_draw_command">modify_draw_command</a></code></li>
 <li><code><a title="dearpygui.core.move_item" href="#dearpygui.core.move_item">move_item</a></code></li>
 <li><code><a title="dearpygui.core.move_item_down" href="#dearpygui.core.move_item_down">move_item_down</a></code></li>
 <li><code><a title="dearpygui.core.move_item_up" href="#dearpygui.core.move_item_up">move_item_up</a></code></li>
@@ -9244,6 +9541,8 @@ Attempt to render</p>
 <li><code><a title="dearpygui.core.reset_yticks" href="#dearpygui.core.reset_yticks">reset_yticks</a></code></li>
 <li><code><a title="dearpygui.core.run_async_function" href="#dearpygui.core.run_async_function">run_async_function</a></code></li>
 <li><code><a title="dearpygui.core.select_directory_dialog" href="#dearpygui.core.select_directory_dialog">select_directory_dialog</a></code></li>
+<li><code><a title="dearpygui.core.send_draw_command_back" href="#dearpygui.core.send_draw_command_back">send_draw_command_back</a></code></li>
+<li><code><a title="dearpygui.core.send_draw_command_to_back" href="#dearpygui.core.send_draw_command_to_back">send_draw_command_to_back</a></code></li>
 <li><code><a title="dearpygui.core.set_accelerator_callback" href="#dearpygui.core.set_accelerator_callback">set_accelerator_callback</a></code></li>
 <li><code><a title="dearpygui.core.set_color_map" href="#dearpygui.core.set_color_map">set_color_map</a></code></li>
 <li><code><a title="dearpygui.core.set_exit_callback" href="#dearpygui.core.set_exit_callback">set_exit_callback</a></code></li>
@@ -9251,6 +9550,7 @@ Attempt to render</p>
 <li><code><a title="dearpygui.core.set_headers" href="#dearpygui.core.set_headers">set_headers</a></code></li>
 <li><code><a title="dearpygui.core.set_item_callback" href="#dearpygui.core.set_item_callback">set_item_callback</a></code></li>
 <li><code><a title="dearpygui.core.set_item_color" href="#dearpygui.core.set_item_color">set_item_color</a></code></li>
+<li><code><a title="dearpygui.core.set_item_style_var" href="#dearpygui.core.set_item_style_var">set_item_style_var</a></code></li>
 <li><code><a title="dearpygui.core.set_key_down_callback" href="#dearpygui.core.set_key_down_callback">set_key_down_callback</a></code></li>
 <li><code><a title="dearpygui.core.set_key_press_callback" href="#dearpygui.core.set_key_press_callback">set_key_press_callback</a></code></li>
 <li><code><a title="dearpygui.core.set_key_release_callback" href="#dearpygui.core.set_key_release_callback">set_key_release_callback</a></code></li>
