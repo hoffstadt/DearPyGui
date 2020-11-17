@@ -8,7 +8,28 @@
 
 namespace Marvel {
 
-    bool        LoadTextureFromArray(float* data, unsigned width, unsigned height, mvTexture& storage) { return true; }
+    bool LoadTextureFromArray(float* data, unsigned width, unsigned height, mvTexture& storage)
+    {
+
+        // Create a OpenGL texture identifier
+        GLuint image_texture;
+        glGenTextures(1, &image_texture);
+        glBindTexture(GL_TEXTURE_2D, image_texture);
+
+        // Setup filtering parameters for display
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+        // Upload pixels into texture
+        glPixelStorei(GL_UNPACK_ROW_LENGTH, 0);
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_FLOAT, data);
+
+        storage.texture = reinterpret_cast<void *>(image_texture);
+        storage.width = width;
+        storage.height = height;
+
+        return true;
+    }
 
     // Simple helper function to load an image into a DX11 texture with common settings
     bool LoadTextureFromFile(const char* filename, mvTexture& storage)
