@@ -80,7 +80,7 @@ with simple.window("Example Window"):
 core.start_dearpygui()
 ```
 Result:
-<BR>![BasicUsageExample](https://github.com/RaylockLLC/DearPyGui/blob/assets/BasicUsageExample1.PNG?raw=true)
+<BR>![BasicUsageExample](https://github.com/hoffstadt/DearPyGui/blob/assets/BasicUsageExample1.PNG?raw=true)
  
 
 ### Some Features
