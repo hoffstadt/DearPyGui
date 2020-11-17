@@ -1,12 +1,6 @@
 #pragma once
 
-#include "mvApp.h"
 #include "core/AppItems/mvTypeBases.h"
-#include <implot.h>
-#include <implot_internal.h>
-#include <misc/cpp/imgui_stdlib.h>
-#include "PythonUtilities/mvPythonTranslator.h"
-
 
 //-----------------------------------------------------------------------------
 // Widget Index

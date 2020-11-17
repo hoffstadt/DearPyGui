@@ -59,6 +59,12 @@ set(MARVEL_SOURCES
 	"src/core/PythonCommands/mvAppItemInterface.cpp"
 	"src/core/PythonCommands/mvAppInterface.cpp"
 
+	"src/core/AppItems/mvInputText.cpp"
+	"src/core/AppItems/mvTypeBases.cpp"
+	"src/core/AppItems/mvTimePicker.cpp"
+	"src/core/AppItems/mvTooltip.cpp"
+	"src/core/AppItems/mvText.cpp"
+	"src/core/AppItems/mvTab.cpp"
 	"src/core/AppItems/mvImage.cpp"
 	"src/core/AppItems/mvContainerItems.cpp"
 	"src/core/AppItems/mvFileDialog.cpp"

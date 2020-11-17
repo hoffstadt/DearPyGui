@@ -1,4 +1,5 @@
 #include "mvColumns.h"
+#include "PythonUtilities/mvPythonTranslator.h"
 
 namespace Marvel {
 
