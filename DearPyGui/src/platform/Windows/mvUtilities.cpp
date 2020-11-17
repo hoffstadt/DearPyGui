@@ -18,7 +18,7 @@ namespace fs = std::filesystem;
 
 namespace Marvel {
 
-    bool LoadTextureFromArray(float* data, unsigned width, unsigned height, mvTexture& storage)
+    bool LoadTextureFromArray(const char* name, float* data, unsigned width, unsigned height, mvTexture& storage)
     {
 
         //auto out_srv = static_cast<ID3D11ShaderResourceView**>(storage.texture);
