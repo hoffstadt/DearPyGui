@@ -4,6 +4,7 @@
 #include "core/AppItems/mvWindowAppItem.h"
 #include "core/mvWindow.h"
 #include <ImGuiFileDialog.h>
+#include "Registries/mvDataStorage.h"
 
 namespace Marvel {
 

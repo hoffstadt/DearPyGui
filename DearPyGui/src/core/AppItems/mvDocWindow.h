@@ -1,6 +1,9 @@
 #pragma once
+#include <vector>
+#include <map>
+#include <string>
 #include "core/AppItems/mvTypeBases.h"
-#include "mvAppItem.h"
+#include "PythonUtilities/mvPythonParser.h"
 
 namespace Marvel {
 
@@ -11,19 +14,11 @@ namespace Marvel {
 
 	public:
 
-		mvDocWindow(const std::string& name)
-			: mvBaseWindowAppitem(name)
-		{
-			m_width = 700;
-			m_height = 500;
-			m_description.deleteAllowed = false;
-			setup();
-		}
+		mvDocWindow(const std::string& name);
 
 		~mvDocWindow();
 
 		void draw() override;
-
 		void setup();
 
 	private:

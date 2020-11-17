@@ -1,4 +1,6 @@
 #include "mvColorItems.h"
+#include "mvApp.h"
+#include "PythonUtilities/mvPythonTranslator.h"
 
 namespace Marvel {
 

@@ -1,9 +1,9 @@
 #include "mvDocWindow.h"
 #include <imgui.h>
-#include "PythonUtilities/mvPythonTranslator.h"
 #include "mvApp.h"
 #include "mvMarvel.h"
 #include "core/mvInput.h"
+#include "PythonUtilities/mvPythonTranslator.h"
 
 namespace Marvel {
 
@@ -25,6 +25,15 @@ namespace Marvel {
 		ImGui::TextColored(ImGui::GetStyleColorVec4(ImGuiCol_PlotHistogramHovered), callback); ImGui::NextColumn();
 		ImGui::TextColored(ImGui::GetStyleColorVec4(ImGuiCol_PlotLinesHovered), source); ImGui::NextColumn();
 		ImGui::TextColored(ImGui::GetStyleColorVec4(ImGuiCol_Text), desc); ImGui::NextColumn();
+	}
+
+	mvDocWindow::mvDocWindow(const std::string& name)
+		: mvBaseWindowAppitem(name)
+	{
+		m_width = 700;
+		m_height = 500;
+		m_description.deleteAllowed = false;
+		setup();
 	}
 
 	mvDocWindow::~mvDocWindow()

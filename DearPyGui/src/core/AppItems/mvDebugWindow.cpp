@@ -5,6 +5,7 @@
 #include "Registries/mvDataStorage.h"
 #include "Registries/mvTextureStorage.h"
 #include "Registries/mvValueStorage.h"
+#include "PythonUtilities/mvPythonTranslator.h"
 
 namespace Marvel {
 
