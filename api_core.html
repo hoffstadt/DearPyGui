@@ -487,7 +487,7 @@ Attempt to render</p>
 <span>def <span class="ident">add_child</span></span>(<span>...)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Adds an embedded child window. Will show scrollbars when items do not fit. Must be followed by a call to end_child.</p>
+<div class="desc"><p>Adds an embedded child window. Will show scrollbars when items do not fit. Must be followed by a call to end.</p>
 <p>Return Type: None</p>
 <p>Parameters</p>
 <hr>
@@ -554,7 +554,7 @@ Allow horizontal scrollbar to appear (off by default).</p>
 <span>def <span class="ident">add_collapsing_header</span></span>(<span>...)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Adds a collapsing header to add items to. Must be closed with the end_collapsing_header command.</p>
+<div class="desc"><p>Adds a collapsing header to add items to. Must be closed with the end command.</p>
 <p>Return Type: None</p>
 <p>Parameters</p>
 <hr>
@@ -2488,7 +2488,7 @@ update plot bounds</p>
 </code></dt>
 <dd>
 <div class="desc"><p>Creates a group that other widgets can belong to. The group allows item commands to be issued for all of its members.
-Must be closed with the end_group command.</p>
+Must be closed with the end command.</p>
 <p>Return Type: None</p>
 <p>Parameters</p>
 <hr>
@@ -3760,7 +3760,7 @@ This item will be displayed before the specified item in the parent. (runtime ad
 <span>def <span class="ident">add_menu</span></span>(<span>...)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Adds a menu to an existing menu bar. Must be followed by a call to end_menu.</p>
+<div class="desc"><p>Adds a menu to an existing menu bar. Must be followed by a call to end.</p>
 <p>Return Type: None</p>
 <p>Parameters</p>
 <hr>
@@ -3798,7 +3798,7 @@ This item will be displayed before the specified item in the parent. (runtime ad
 <span>def <span class="ident">add_menu_bar</span></span>(<span>...)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Adds a menu bar to a window. Must be followed by a call to end_menu_bar.</p>
+<div class="desc"><p>Adds a menu bar to a window. Must be followed by a call to end.</p>
 <p>Return Type: None</p>
 <p>Parameters</p>
 <hr>
@@ -4193,7 +4193,7 @@ Attempt to render</p>
 <span>def <span class="ident">add_popup</span></span>(<span>...)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Adds a popup window for an item. This command must come immediately after the item the popup is for. Must be followed by a call to end_popup.</p>
+<div class="desc"><p>Adds a popup window for an item. This command must come immediately after the item the popup is for. Must be followed by a call to end.</p>
 <p>Return Type: None</p>
 <p>Parameters</p>
 <hr>
@@ -4581,14 +4581,14 @@ This item will be displayed before the specified item in the parent. (runtime ad
 <p>y1 : List[float]</p>
 </li>
 <li>
-<p>y2 : List[float]</p>
-</li>
-<li>
 <p>Keyword Only Arguments</p>
 </li>
 </ul>
 <hr>
 <ul>
+<li>
+<p>y2 : List[float] = &hellip;</p>
+</li>
 <li>
 <p>color : List[float] = (0, 0, 0, -1)</p>
 </li>
@@ -5538,7 +5538,7 @@ Attempt to render</p>
 <span>def <span class="ident">add_tab</span></span>(<span>...)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Adds a tab to a tab bar. Must be closed with the end_tab command.</p>
+<div class="desc"><p>Adds a tab to a tab bar. Must be closed with the end command.</p>
 <p>Return Type: None</p>
 <p>Parameters</p>
 <hr>
@@ -5861,7 +5861,8 @@ update plot bounds</p>
 <p>name : str</p>
 </li>
 <li>
-<p>data : List[int]</p>
+<p>data : List[int]
+RGBA format</p>
 </li>
 <li>
 <p>width : int</p>
@@ -5963,7 +5964,7 @@ Attempt to render</p>
 <span>def <span class="ident">add_tree_node</span></span>(<span>...)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Adds a tree node to add items to. Must be closed with the end_tree_node command.</p>
+<div class="desc"><p>Adds a tree node to add items to. Must be closed with the end command.</p>
 <p>Return Type: None</p>
 <p>Parameters</p>
 <hr>
