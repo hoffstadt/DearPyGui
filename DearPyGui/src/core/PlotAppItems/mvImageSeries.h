@@ -22,16 +22,6 @@ namespace Marvel {
 			m_uv_max(uv_max),
 			m_tintColor(tintColor)
 		{
-			mvTextureStorage::AddTexture(m_value);
-			mvTexture* texture = mvTextureStorage::GetTexture(m_value);
-			if (texture == nullptr)
-			{
-				PyErr_Format(PyExc_Exception,
-					"Image %s could not be found for add_image. Check the path to the image "
-					"you provided.", value.c_str());
-				PyErr_Print();
-			}
-			m_texture = texture->texture;
 		}
 
 		mvSeriesType getSeriesType() override { return mvSeriesType::Image; }
@@ -40,6 +30,12 @@ namespace Marvel {
 		{
 			if(m_texture)
 				ImPlot::PlotImage(m_name.c_str(), m_texture, m_bounds_min, m_bounds_max, m_uv_min, m_uv_max, m_tintColor.toVec4());
+			else
+			{
+				mvTextureStorage::AddTexture(m_value);
+				mvTexture* texture = mvTextureStorage::GetTexture(m_value);
+				m_texture = texture->texture;
+			}
 		}
 
 		~mvImageSeries()

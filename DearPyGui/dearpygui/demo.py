@@ -1134,6 +1134,11 @@ def show_demo():
                 add_line_series("Plot1##demoquery", "0.5 + 0.5 * sin(x)", sindatax, sindatay)
                 add_line_series("Plot2##demoquery", "0.5 + 0.5 * sin(x)", sindatax, sindatay)
 
+            with tree_node("Image Plots##demo"):
+
+                add_plot("Image Plot##demo", height=400)
+                add_image_series("Image Plot##demo", "images", "INTERNAL_DPG_FONT_ATLAS", [100, 100], [200, 200])
+
         with collapsing_header("Simple Tables##demo"):
 
             add_button("Delete row 6##demo", callback=lambda sender, data: delete_row("Table##widget##demo", 6))
