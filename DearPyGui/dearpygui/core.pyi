@@ -43,11 +43,11 @@ def add_checkbox(name: str, *, default_value: int = False, callback: Callable = 
 	...
 
 def add_child(name: str, *, show: bool = True, tip: str = '', parent: str = '', before: str = '', width: int = 0, height: int = 0, border: bool = True, popup: str = '', autosize_x: bool = False, autosize_y: bool = False, no_scrollbar: bool = False, horizontal_scrollbar: bool = False, menubar: bool = False) -> None:
-	"""Adds an embedded child window. Will show scrollbars when items do not fit. Must be followed by a call to end_child."""
+	"""Adds an embedded child window. Will show scrollbars when items do not fit. Must be followed by a call to end."""
 	...
 
 def add_collapsing_header(name: str, *, label: str = '', show: bool = True, tip: str = '', parent: str = '', before: str = '', closable: bool = False, default_open: bool = False, open_on_double_click: bool = False, open_on_arrow: bool = False, leaf: bool = False, bullet: bool = False) -> None:
-	"""Adds a collapsing header to add items to. Must be closed with the end_collapsing_header command."""
+	"""Adds a collapsing header to add items to. Must be closed with the end command."""
 	...
 
 def add_color_button(name: str, color: List[float], *, callback: Callable = None, callback_data: Any = None, tip: str = '', parent: str = '', before: str = '', width: int = 0, height: int = 0, popup: str = '', show: bool = True, no_alpha: bool = False, no_border: bool = False, no_drag_drop: bool = False) -> None:
@@ -151,7 +151,7 @@ def add_error_series(plot: str, name: str, x: List[float], y: List[float], negat
 	...
 
 def add_group(name: str, *, show: bool = True, tip: str = '', parent: str = '', before: str = '', width: int = 0, horizontal: bool = False, horizontal_spacing: float = -1, popup: str = '') -> None:
-	"""Creates a group that other widgets can belong to. The group allows item commands to be issued for all of its members.				Must be closed with the end_group command."""
+	"""Creates a group that other widgets can belong to. The group allows item commands to be issued for all of its members.				Must be closed with the end command."""
 	...
 
 def add_heat_series(plot: str, name: str, values: List[float], rows: int, columns: int, scale_min: float, scale_max: float, *, format: str = '%0.1f', bounds_min: List[float] = (0.0, 0.0), bounds_max: List[float] = (1.0, 1.0), update_bounds: bool = True) -> None:
@@ -231,11 +231,11 @@ def add_managed_columns(name: str, columns: int, *, border: bool = True, show: b
 	...
 
 def add_menu(name: str, *, label: str = '', show: bool = True, parent: str = '', before: str = '', enabled: bool = True) -> None:
-	"""Adds a menu to an existing menu bar. Must be followed by a call to end_menu."""
+	"""Adds a menu to an existing menu bar. Must be followed by a call to end."""
 	...
 
 def add_menu_bar(name: str, *, show: bool = True, parent: str = '', before: str = '') -> None:
-	"""Adds a menu bar to a window. Must be followed by a call to end_menu_bar."""
+	"""Adds a menu bar to a window. Must be followed by a call to end."""
 	...
 
 def add_menu_item(name: str, *, shortcut: str = '', check: bool = False, callback: Callable = None, callback_data: Any = None, label: str = '', show: bool = True, enabled: bool = True, parent: str = '', before: str = '') -> None:
@@ -259,7 +259,7 @@ def add_plot(name: str, *, x_axis_name: str = '', y_axis_name: str = '', no_lege
 	...
 
 def add_popup(popupparent: str, name: str, *, mousebutton: int = 1, modal: bool = False, parent: str = '', before: str = '', width: int = 0, height: int = 0, show: bool = True) -> None:
-	"""Adds a popup window for an item. This command must come immediately after the item the popup is for. Must be followed by a call to end_popup."""
+	"""Adds a popup window for an item. This command must come immediately after the item the popup is for. Must be followed by a call to end."""
 	...
 
 def add_progress_bar(name: str, *, default_value: float = 0.0, overlay: str = '', tip: str = '', parent: str = '', before: str = '', source: str = '', width: int = 0, height: int = 0, popup: str = '', show: bool = True) -> None:
@@ -290,7 +290,7 @@ def add_separator(*, name: str = 'separator', tip: str = '', parent: str = '', b
 	"""Adds a horizontal line."""
 	...
 
-def add_shade_series(plot: str, name: str, x: List[float], y1: List[float], y2: List[float], *, color: List[float] = (0, 0, 0, -1), fill: List[float] = (0, 0, 0, -1), weight: float = 1.0, update_bounds: bool = True) -> None:
+def add_shade_series(plot: str, name: str, x: List[float], y1: List[float], *, y2: List[float] = ..., color: List[float] = (0, 0, 0, -1), fill: List[float] = (0, 0, 0, -1), weight: float = 1.0, update_bounds: bool = True) -> None:
 	"""Adds a shade series to a plot."""
 	...
 
@@ -347,7 +347,7 @@ def add_style_window(name: str, *, width: int = 700, height: int = 500, x_pos: i
 	...
 
 def add_tab(name: str, *, closable: bool = False, label: str = '', show: bool = True, no_reorder: bool = False, leading: bool = False, trailing: bool = False, no_tooltip: bool = False, tip: str = '', parent: str = '', before: str = '') -> None:
-	"""Adds a tab to a tab bar. Must be closed with the end_tab command."""
+	"""Adds a tab to a tab bar. Must be closed with the end command."""
 	...
 
 def add_tab_bar(name: str, *, reorderable: bool = False, callback: Callable = None, callback_data: Any = None, show: bool = True, parent: str = '', before: str = '') -> None:
@@ -383,7 +383,7 @@ def add_tooltip(tipparent: str, name: str, *, parent: str = '', before: str = ''
 	...
 
 def add_tree_node(name: str, *, label: str = '', show: bool = True, tip: str = '', parent: str = '', before: str = '', default_open: bool = False, open_on_double_click: bool = False, open_on_arrow: bool = False, leaf: bool = False, bullet: bool = False) -> None:
-	"""Adds a tree node to add items to. Must be closed with the end_tree_node command."""
+	"""Adds a tree node to add items to. Must be closed with the end command."""
 	...
 
 def add_value(name: str, value: Any) -> None:

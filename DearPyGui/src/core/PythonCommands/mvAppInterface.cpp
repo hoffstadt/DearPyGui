@@ -12,7 +12,7 @@ namespace Marvel {
 	{
 		parsers->insert({ "add_texture", mvPythonParser({
 			{mvPythonDataType::String, "name"},
-			{mvPythonDataType::IntList, "data"},
+			{mvPythonDataType::IntList, "data", "RGBA format"},
 			{mvPythonDataType::Integer, "width"},
 			{mvPythonDataType::Integer, "height"},
 		}, "Adds a texture.") });
