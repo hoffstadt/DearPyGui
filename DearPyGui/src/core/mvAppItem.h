@@ -93,6 +93,9 @@ namespace Marvel {
 
         // color styles for runtime
         mvAppItemStyleManager&              getStyleManager() { return m_styleManager; }
+        virtual void                        updateStyleSettings() {}; //make pure virtual after done testing
+        virtual void                        applyStyleSettings() {}; //make pure virtual after done testing
+        virtual void                        clearStyleSettings() {}; //make pure virtual after done testing
 
         // runtime modifications
         bool                                addRuntimeChild       (const std::string& parent, const std::string& before, mvAppItem* item);

@@ -4,6 +4,7 @@
 #include <imgui.h>
 #include "mvCore.h"
 #include <unordered_map>
+#include "mvAppItem.h"
 
 
 namespace Marvel {
@@ -57,7 +58,7 @@ namespace Marvel {
             std::vector<float> value;
         };
 
-        std::unordered_map<ImGuiStyleVar, int> style_var_sizes {
+        std::unordered_map<ImGuiStyleVar, int> style_var_sizes{
         { ImGuiStyleVar_Alpha,               1 },
         { ImGuiStyleVar_WindowPadding,       2 },
         { ImGuiStyleVar_WindowRounding,      1 },
@@ -85,6 +86,11 @@ namespace Marvel {
     public:
 
         mvAppItemStyleManagerScope getScopedStyleManager();
+        mvAppItem *appItem=nullptr;
+
+        mvAppItemStyleManager(mvAppItem* ptr)
+            : appItem(ptr) {
+        }
         void addColorStyle        (ImGuiCol item, mvColor color);
         void addTempColorStyle    (ImGuiCol item, mvColor color);
         void pushColorStyles      ();
