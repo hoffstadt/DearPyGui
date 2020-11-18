@@ -234,8 +234,8 @@ namespace Marvel {
 			{mvPythonDataType::String, "name"},
 			{mvPythonDataType::FloatList, "x"},
 			{mvPythonDataType::FloatList, "y1"},
-			{mvPythonDataType::FloatList, "y2"},
 			{mvPythonDataType::KeywordOnly},
+			{mvPythonDataType::FloatList, "y2"},
 			{mvPythonDataType::FloatList, "color", "", "(0, 0, 0, -1)"},
 			{mvPythonDataType::FloatList, "fill", "", "(0, 0, 0, -1)"},
 			{mvPythonDataType::Float, "weight", "", "1.0"},
@@ -1330,7 +1330,7 @@ namespace Marvel {
 		const char* name;
 		PyObject* x;
 		PyObject* y1;
-		PyObject* y2;
+		PyObject* y2 = nullptr;
 		float weight = 1.0f;
 		PyObject* color = PyTuple_New(4);
 		PyTuple_SetItem(color, 0, PyLong_FromLong(-255));
@@ -1351,7 +1351,6 @@ namespace Marvel {
 
 		if (!CheckList(plot, x)) return GetPyNone();
 		if (!CheckList(plot, y1)) return GetPyNone();
-		if (!CheckList(plot, y2)) return GetPyNone();
 
 		mvAppItem* aplot = mvApp::GetApp()->getItemRegistry().getItem(plot);
 
@@ -1363,7 +1362,15 @@ namespace Marvel {
 		auto mfill = ToColor(fill);
 		auto xs = ToFloatVect(x);
 		auto y1s = ToFloatVect(y1);
-		auto y2s = ToFloatVect(y2);
+
+		std::vector<float> y2s;
+		if(y2)
+			y2s = ToFloatVect(y2);
+		else
+		{
+			for (auto item : y1s)
+				y2s.push_back(0.0f);
+		}
 
 		if (!CheckArraySizes(plot, { &xs, &y1s, &y2s })) return GetPyNone();
 

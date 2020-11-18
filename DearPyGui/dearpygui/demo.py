@@ -989,10 +989,10 @@ def show_demo():
                 add_line_series("Stock Prices##demo", "Stock 1", stock_datax, stock_data1, color=[0, 0, 255, 255])
                 add_line_series("Stock Prices##demo", "Stock 2", stock_datax, stock_data2, color=[255, 0, 0, 255])
                 add_line_series("Stock Prices##demo", "Stock 3", stock_datax, stock_data3, color=[0, 255, 0, 255])
-                add_shade_series("Stock Prices##demo", "Stock 1", stock_datax, stock_data1, stock_datay2, fill=[0, 0, 255, 64])
-                add_shade_series("Stock Prices##demo", "Stock 2", stock_datax, stock_data2, stock_datay2, fill=[255, 0, 0, 64])
-                add_shade_series("Stock Prices##demo", "Stock 3", stock_datax, stock_data3, stock_datay2, fill=[0, 255, 0, 64])
-                add_shade_series("Stock Prices##demo", "Shade between lines", stock_datax, stock_data5, stock_data4, fill=[255, 255, 100, 64])
+                add_shade_series("Stock Prices##demo", "Stock 1", stock_datax, stock_data1, fill=[0, 0, 255, 64])
+                add_shade_series("Stock Prices##demo", "Stock 2", stock_datax, stock_data2, fill=[255, 0, 0, 64])
+                add_shade_series("Stock Prices##demo", "Stock 3", stock_datax, stock_data3, y2=stock_datay2, fill=[0, 255, 0, 64])
+                add_shade_series("Stock Prices##demo", "Shade between lines", stock_datax, stock_data5, y2=stock_data4, fill=[255, 255, 100, 64])
 
             with tree_node("Scatter Plots##demo"):
 

@@ -39,7 +39,7 @@ namespace Marvel {
 			{mvPythonDataType::Bool, "show", "Attempt to render", "True"},
 			{mvPythonDataType::String, "parent", "Parent this item will be added to. (runtime adding)", "''"},
 			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)", "''"},
-		}, "Adds a menu bar to a window. Must be followed by a call to end_menu_bar.", "None", "Containers") });
+		}, "Adds a menu bar to a window. Must be followed by a call to end.", "None", "Containers") });
 
 		parsers->insert({ "add_menu", mvPythonParser({
 			{mvPythonDataType::String, "name"},
@@ -49,7 +49,7 @@ namespace Marvel {
 			{mvPythonDataType::String, "parent", "Parent this item will be added to. (runtime adding)", "''"},
 			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)", "''"},
 			{mvPythonDataType::Bool, "enabled", "", "True"},
-		}, "Adds a menu to an existing menu bar. Must be followed by a call to end_menu.", "None", "Containers") });
+		}, "Adds a menu to an existing menu bar. Must be followed by a call to end.", "None", "Containers") });
 
 		parsers->insert({ "add_menu_item", mvPythonParser({
 			{mvPythonDataType::String, "name"},
@@ -89,7 +89,7 @@ namespace Marvel {
 			{mvPythonDataType::String, "tip", "Adds a simple tooltip", "''"},
 			{mvPythonDataType::String, "parent", "Parent to add this item to. (runtime adding)", "''"},
 			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)", "''"},
-		}, "Adds a tab to a tab bar. Must be closed with the end_tab command.", "None", "Containers") });
+		}, "Adds a tab to a tab bar. Must be closed with the end command.", "None", "Containers") });
 
 		parsers->insert({ "add_tab_button", mvPythonParser({
 			{mvPythonDataType::String, "name"},
@@ -121,7 +121,7 @@ namespace Marvel {
 			{mvPythonDataType::Bool, "open_on_arrow", "Only open when clicking on the arrow part.", "False"},
 			{mvPythonDataType::Bool, "leaf", "No collapsing, no arrow (use as a convenience for leaf nodes).", "False"},
 			{mvPythonDataType::Bool, "bullet", "Display a bullet instead of arrow", "False"},
-		}, "Adds a collapsing header to add items to. Must be closed with the end_collapsing_header command.",
+		}, "Adds a collapsing header to add items to. Must be closed with the end command.",
 			"None", "Containers") });
 
 		parsers->insert({ "add_tree_node", mvPythonParser({
@@ -137,7 +137,7 @@ namespace Marvel {
 			{mvPythonDataType::Bool, "open_on_arrow", "Only open when clicking on the arrow part.", "False"},
 			{mvPythonDataType::Bool, "leaf", "No collapsing, no arrow (use as a convenience for leaf nodes).", "False"},
 			{mvPythonDataType::Bool, "bullet", "Display a bullet instead of arrow", "False"},
-		}, "Adds a tree node to add items to. Must be closed with the end_tree_node command.",
+		}, "Adds a tree node to add items to. Must be closed with the end command.",
 		"None", "Containers") });
 
 		parsers->insert({ "add_group", mvPythonParser({
@@ -152,7 +152,7 @@ namespace Marvel {
 			{mvPythonDataType::Float, "horizontal_spacing","", "-1"},
 			{mvPythonDataType::String, "popup", "", "''"},
 		}, "Creates a group that other widgets can belong to. The group allows item commands to be issued for all of its members.\
-				Must be closed with the end_group command."
+				Must be closed with the end command."
 		, "None", "Containers") });
 
 		parsers->insert({ "add_child", mvPythonParser({
@@ -171,7 +171,7 @@ namespace Marvel {
 			{mvPythonDataType::Bool, "no_scrollbar" ," Disable scrollbars (window can still scroll with mouse or programmatically)", "False"},
 			{mvPythonDataType::Bool, "horizontal_scrollbar" ,"Allow horizontal scrollbar to appear (off by default).", "False"},
 			{mvPythonDataType::Bool, "menubar", "", "False"},
-		}, "Adds an embedded child window. Will show scrollbars when items do not fit. Must be followed by a call to end_child.",
+		}, "Adds an embedded child window. Will show scrollbars when items do not fit. Must be followed by a call to end.",
 		"None", "Containers") });
 
 		parsers->insert({ "add_window", mvPythonParser({
@@ -220,7 +220,7 @@ namespace Marvel {
 			{mvPythonDataType::Integer, "width", "", "0"},
 			{mvPythonDataType::Integer, "height", "", "0"},
 			{mvPythonDataType::Bool, "show", "Attempt to render", "True"},
-		}, "Adds a popup window for an item. This command must come immediately after the item the popup is for. Must be followed by a call to end_popup.",
+		}, "Adds a popup window for an item. This command must come immediately after the item the popup is for. Must be followed by a call to end.",
 		"None", "Containers") });
 
 		parsers->insert({ "end", mvPythonParser({
