@@ -59,14 +59,14 @@ elseif(MVPY_VERSION EQUAL 38)
 	target_include_directories(core 
 		PRIVATE 
 			${MARVEL_INCLUDE_DIR}
-			"/home/appveyor/.localpython3.8.5"
-			"/home/appveyor/.localpython3.8.5/include/python3.8"
+			"/home/appveyor/.localpython3.8.6"
+			"/home/appveyor/.localpython3.8.6/include/python3.8"
 	)
 
 	target_link_directories(core 
 		PRIVATE 
 			"/usr/lib"
-			"/home/appveyor/.localpython3.8.5/lib"
+			"/home/appveyor/.localpython3.8.6/lib"
 	)
 
 	target_link_libraries(core 
