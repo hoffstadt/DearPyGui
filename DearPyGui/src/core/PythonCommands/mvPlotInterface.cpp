@@ -159,8 +159,8 @@ namespace Marvel {
 			{mvPythonDataType::String, "plot"},
 			{mvPythonDataType::String, "name"},
 			{mvPythonDataType::String, "value"},
-			{mvPythonDataType::FloatList, "bounds_min"},
-			{mvPythonDataType::FloatList, "bounds_max"},
+			{mvPythonDataType::FloatList, "bounds_min", "bottom left coordinate"},
+			{mvPythonDataType::FloatList, "bounds_max", "top right coordinate"},
 			{mvPythonDataType::KeywordOnly},
 			{mvPythonDataType::FloatList, "uv_min", "normalized texture coordinates", "(0.0, 0.0)"},
 			{mvPythonDataType::FloatList, "uv_max", "normalized texture coordinates", "(1.0, 1.0)"},
@@ -1124,6 +1124,9 @@ namespace Marvel {
 		if (!(*mvApp::GetApp()->getParsers())["add_image_series"].parse(args, kwargs, __FUNCTION__, 
 			&plot, &name, &value, &bounds_min, &bounds_max, &uv_min, &uv_max, &tintcolor, &update_bounds))
 			return GetPyNone();
+
+		if (!CheckList(plot, bounds_min)) return GetPyNone();
+		if (!CheckList(plot, bounds_max)) return GetPyNone();
 
 
 		mvAppItem* aplot = mvApp::GetApp()->getItemRegistry().getItem(plot);

@@ -134,7 +134,13 @@ namespace Marvel {
 				m_newstyle.Colors[i] = ImGui::GetStyle().Colors[i];
 
 		for (auto& item : m_textures)
-			mvTextureStorage::AddTexture(item.name, item.data.data(), item.width, item.height);
+		{
+			if(item.width > 0u)
+				mvTextureStorage::AddTexture(item.name, item.data.data(), item.width, item.height);
+			else
+				mvTextureStorage::AddTexture(item.name);
+		}
+			
 
 		m_textures.clear();
 	}
@@ -995,6 +1001,11 @@ namespace Marvel {
 		}
 
 		ImGui::End();
+	}
+
+	void mvApp::addTexture(const std::string& name)
+	{
+		m_textures.push_back({ name, {}, 0u, 0u });
 	}
 
 	void mvApp::addTexture(const std::string& name, std::vector<float> data, unsigned width, unsigned height)

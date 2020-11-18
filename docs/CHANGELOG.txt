@@ -30,13 +30,14 @@ Decorated log: https://github.com/hoffstadt/DearPyGui/releases/tag/v0.6.x
 
 
 -----------------------------------------------------------------------
- VERSION 0.6.2
+ VERSION 0.6.5
 -----------------------------------------------------------------------
 
 Fixes:
 - docs:         fixed outdated built in docs #329
 - stub:         updated stub file
 - shade series: y2 is now keyword only
+- image series: fixed crash
 
 -----------------------------------------------------------------------
  VERSION 0.6.0

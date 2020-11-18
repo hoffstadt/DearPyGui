@@ -185,6 +185,7 @@ namespace Marvel {
         mvItemRegistry&                        getItemRegistry () { return m_itemRegistry; }
         mvDrawList&                            getFrontDrawList() { return m_frontDrawList; }
         mvDrawList&                            getBackDrawList () { return m_backDrawList; }
+        void                                   addTexture(const std::string& name);
         void                                   addTexture(const std::string& name, std::vector<float> data, unsigned width, unsigned height);
             
     private:
