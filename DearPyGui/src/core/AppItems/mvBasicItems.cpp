@@ -83,7 +83,6 @@ namespace Marvel {
 	{
 		auto styleManager = m_styleManager.getScopedStyleManager();
 		ScopedID id;
-		applyStyleSettings();
 		if (!m_enabled)
 		{
 			ImVec4 disabled_color = ImVec4(ImGui::GetStyleColorVec4(ImGuiCol_TextDisabled));
@@ -98,7 +97,6 @@ namespace Marvel {
 		{
 			if (ImGui::SmallButton(m_label.c_str()))
 				mvApp::GetApp()->addCallback(getCallback(false), m_name, m_callbackData);
-			clearStyleSettings();
 			return;
 		}
 
@@ -106,13 +104,11 @@ namespace Marvel {
 		{
 			if (ImGui::ArrowButton(m_label.c_str(), m_direction))
 				mvApp::GetApp()->addCallback(getCallback(false), m_name, m_callbackData);
-			clearStyleSettings();
 			return;
 		}
 
 		if (ImGui::Button(m_label.c_str(), ImVec2((float)m_width, (float)m_height)))
 			mvApp::GetApp()->addCallback(getCallback(false), m_name, m_callbackData);
-		clearStyleSettings();
 	}
 
 	void mvButton::setExtraConfigDict(PyObject* dict)
@@ -143,7 +139,10 @@ namespace Marvel {
 
 	void mvButton::updateStyleSettings()
 	{
-
+		buttonColor = { 255, 0, 0, 75 };
+		buttonHoveredColor = { 255, 0, 0, 75 };
+		buttonActiveColor = { 255, 0, 0, 75 };
+		textColor = { 255, 0, 0, 75 };
 	}
 
 	void mvButton::applyStyleSettings() {

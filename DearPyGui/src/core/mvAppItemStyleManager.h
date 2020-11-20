@@ -4,7 +4,6 @@
 #include <imgui.h>
 #include "mvCore.h"
 #include <unordered_map>
-#include "mvAppItem.h"
 
 
 namespace Marvel {
@@ -13,6 +12,7 @@ namespace Marvel {
     // Forward Declarations
     //-----------------------------------------------------------------------------
     class mvAppItemStyleManager;
+    class mvAppItem;
 
     //-----------------------------------------------------------------------------
     // mvAppItemStyleManagerScope: Automates popping styles
@@ -45,7 +45,7 @@ namespace Marvel {
     //-----------------------------------------------------------------------------
     class mvAppItemStyleManager
     {
-
+        friend class mvAppItemStyleManagerScope;
         struct StyleColor
         {
             ImGuiCol idx;
@@ -86,17 +86,17 @@ namespace Marvel {
     public:
 
         mvAppItemStyleManagerScope getScopedStyleManager();
-        mvAppItem *appItem=nullptr;
 
-        mvAppItemStyleManager(mvAppItem* ptr)
-            : appItem(ptr) {
-        }
+        mvAppItemStyleManager() {};
+        mvAppItemStyleManager(mvAppItem* ptr);
+
         void addColorStyle        (ImGuiCol item, mvColor color);
         void addTempColorStyle    (ImGuiCol item, mvColor color);
         void pushColorStyles      ();
         void popColorStyles       ();
         void clearColors          ();
         void clearTempColors      ();
+        void updateAppItemStyle   ();
 
         void addStyleVar(ImGuiStyleVar item, std::vector<float> value);
         void pushStyleVars();
@@ -109,6 +109,8 @@ namespace Marvel {
         std::vector<StyleColor> m_colors_temp;
 
         std::vector<StyleVar> m_style_vars;
+
+        mvAppItem* appItem = nullptr;
 
     };
 }

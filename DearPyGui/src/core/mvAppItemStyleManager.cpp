@@ -1,6 +1,7 @@
 #pragma once
 #include "PythonUtilities/mvPythonExceptions.h"
 #include "mvAppItemStyleManager.h"
+#include "mvAppItem.h"
 
 namespace Marvel {
 
@@ -13,6 +14,7 @@ namespace Marvel {
     mvAppItemStyleManagerScope::mvAppItemStyleManagerScope(mvAppItemStyleManagerScope&& other) noexcept
         : m_manager(other.m_manager), m_moved(true)
     {
+        m_manager.appItem->applyStyleSettings();
         m_manager.pushColorStyles();
         m_manager.pushStyleVars();
     }
@@ -21,6 +23,7 @@ namespace Marvel {
     {
         if (m_moved)
         {
+            m_manager.appItem->clearStyleSettings();
             m_manager.popColorStyles();
             m_manager.popStyleVars();
         }
@@ -30,6 +33,11 @@ namespace Marvel {
     mvAppItemStyleManagerScope mvAppItemStyleManager::getScopedStyleManager()
     {
         return std::move(mvAppItemStyleManagerScope(*this));
+    }
+
+    mvAppItemStyleManager::mvAppItemStyleManager(mvAppItem* ptr)
+    {
+        appItem = ptr;
     }
 
     void mvAppItemStyleManagerScope::addColorStyle(ImGuiCol item, ImVec4 color)
@@ -99,6 +107,11 @@ namespace Marvel {
     void mvAppItemStyleManager::clearStyleVars()
     {
         m_style_vars.clear();
+    }
+
+    void mvAppItemStyleManager::updateAppItemStyle()
+    {
+        appItem->updateStyleSettings();
     }
 
 }
