@@ -37,7 +37,7 @@ namespace Marvel {
 
 	}
 
-	void mvTextureStorage::AddTexture(const std::string& name, float* data, unsigned width, unsigned height)
+	void mvTextureStorage::AddTexture(const std::string& name, float* data, unsigned width, unsigned height, mvTextureFormat format)
 	{
 		// check if texture already exists and if it does
 		// just increment its reference count
@@ -51,7 +51,7 @@ namespace Marvel {
 
 		mvTexture newTexture = { 0, 0, nullptr, 1 };
 
-		if (LoadTextureFromArray(name.c_str(), data, width, height, newTexture))
+		if (LoadTextureFromArray(name.c_str(), data, width, height, newTexture, format))
 			s_textures[name] = newTexture;
 
 	}

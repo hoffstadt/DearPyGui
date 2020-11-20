@@ -31,6 +31,14 @@ namespace Marvel {
 		int   count = 0;
 	};
 
+	enum class mvTextureFormat
+	{
+		RGBA_INT = 0u,
+		RGBA_FLOAT,
+		RGB_FLOAT,
+		RGB_INT
+	};
+
 	//-----------------------------------------------------------------------------
 	// mvTextureStorage
 	//-----------------------------------------------------------------------------
@@ -40,7 +48,7 @@ namespace Marvel {
 	public:
 
 		static void       AddTexture       (const std::string& name);
-		static void       AddTexture       (const std::string& name, float* data, unsigned width, unsigned height);
+		static void       AddTexture       (const std::string& name, float* data, unsigned width, unsigned height, mvTextureFormat format);
 		static void       IncrementTexture (const std::string& name);
 		static void       DecrementTexture (const std::string& name);
 		static mvTexture* GetTexture       (const std::string& name);

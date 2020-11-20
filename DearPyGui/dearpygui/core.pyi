@@ -370,7 +370,7 @@ def add_text_point(plot: str, name: str, x: float, y: float, *, vertical: bool =
 	"""Adds a point with text to a plot."""
 	...
 
-def add_texture(name: str, data: List[int], width: int, height: int) -> None:
+def add_texture(name: str, data: List[int], width: int, height: int, *, format: int = 0) -> None:
 	"""Adds a texture."""
 	...
 

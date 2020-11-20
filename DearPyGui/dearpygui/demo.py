@@ -215,7 +215,7 @@ def show_demo():
                 add_menu_item("Show Style Editor##demo", callback=show_style_editor)
 
         add_text(f'Dear PyGui says hello. ({get_dearpygui_version()})')
-        add_text("This demo is not complete but will continue to be added to throughout the 0.5.x releases!")
+        add_text("This demo is not complete but will continue to be added to throughout the 0.6.x releases!")
 
         with collapsing_header("Window options##demo", default_open=True):
             with managed_columns("Window Options Col##demo", 3, border=False):
@@ -347,7 +347,7 @@ def show_demo():
                     textdata.append(0)
                     textdata.append(255)
                     textdata.append(255)
-                add_texture("#cooltexture", textdata, 100, 100)
+                add_texture("#cooltexture", textdata, 100, 100, format=mvTEX_RGBA_INT)
                 add_image_button("#image##button2", "#cooltexture")
 
             with tree_node("Text Input##demo"):
@@ -1221,7 +1221,7 @@ def show_demo():
                 add_logger("LoggerWidget##demo", autosize_x=True, height=200)
 
         with collapsing_header("Filtering##demo"):
-            add_text("This section is not ready! But will completed sometime during the 0.4.x releases!")
+            add_text("This section is not ready! But will completed sometime during the 0.6.x releases!")
 
         with collapsing_header("Inputs, Navigation, & Focus##demo"):
             add_text("This section is not ready! But will completed sometime during the 0.4.x releases!")

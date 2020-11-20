@@ -8,7 +8,7 @@
 
 namespace Marvel {
 
-    bool LoadTextureFromArray(const char* name, float* data, unsigned width, unsigned height, mvTexture& storage)
+    bool LoadTextureFromArray(const char* name, float* data, unsigned width, unsigned height, mvTexture& storage, mvTextureFormat format)
     {
 
         // Create a OpenGL texture identifier
