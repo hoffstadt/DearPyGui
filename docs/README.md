@@ -169,8 +169,6 @@ Developed by Jonathan Hoffstadt, Preston Cothren, and every direct or indirect c
 
 [Evan Pezent](http://evanpezent.com/) for all his work on [ImPlot](https://github.com/epezent/implot)
 
-Aiekick for his work on the [ImGuiFileDialog](https://github.com/aiekick/ImGuiFileDialog)
-
 ### Gallery
 
 ---
