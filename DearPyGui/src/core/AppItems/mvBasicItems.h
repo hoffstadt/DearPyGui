@@ -57,15 +57,16 @@ namespace Marvel {
 		virtual void	applyStyleSettings() override;
 		virtual void	clearStyleSettings() override;
 
+		static mvColor  buttonColor;
+		static mvColor  buttonHoveredColor;
+		static mvColor  buttonActiveColor;
+		static mvColor  textColor;
+
 	private:
 
 		bool     m_small = false;
 		bool     m_arrow = false;
 		ImGuiDir m_direction = ImGuiDir_Up;
-		static mvColor  buttonColor;
-		static mvColor  buttonHoveredColor;
-		static mvColor  buttonActiveColor;
-		static mvColor  textColor;
 
 	};
 

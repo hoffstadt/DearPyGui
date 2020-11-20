@@ -29,6 +29,7 @@
 #include "Registries/mvItemRegistry.h"
 #include "Registries/mvDrawList.h"
 #include "Registries/mvTextureStorage.h"
+#include "mvAppStyleManager.h"
 
 //-----------------------------------------------------------------------------
 // Typedefs for chrono's ridiculously long names
@@ -231,6 +232,7 @@ namespace Marvel {
         bool        m_styleChange = true;
         bool        m_vsync = true;
         bool        m_resizable = true;
+        mvAppStyleManager m_styleManager;
 
         // fonts
         std::string                         m_fontFile;
