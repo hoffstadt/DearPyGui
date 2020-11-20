@@ -545,6 +545,11 @@ namespace Marvel {
 			if (ImPlot::IsPlotHovered())
 				mvInput::setPlotMousePosition((float)ImPlot::GetPlotMousePos().x, (float)ImPlot::GetPlotMousePos().y);
 
+			m_xlimits_actual.x = ImPlot::GetPlotLimits().X.Min;
+			m_xlimits_actual.y = ImPlot::GetPlotLimits().X.Max;
+			m_ylimits_actual.x = ImPlot::GetPlotLimits().Y.Min;
+			m_ylimits_actual.y = ImPlot::GetPlotLimits().Y.Max;
+
 			ImPlot::EndPlot();
 		}
 

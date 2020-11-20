@@ -91,6 +91,14 @@ namespace Marvel {
 			{mvPythonDataType::String, "series"}
 		}, "Deletes a series if it exists.", "None", "Plotting") });
 
+		parsers->insert({ "get_plot_xlimits", mvPythonParser({
+			{mvPythonDataType::String, "plot"},
+		}, "Returns the plots x limits", "List[float]", "Plotting") });
+
+		parsers->insert({ "get_plot_ylimits", mvPythonParser({
+			{mvPythonDataType::String, "plot"},
+		}, "Returns the plots x limits", "List[float]", "Plotting") });
+
 		parsers->insert({ "set_plot_xlimits", mvPythonParser({
 			{mvPythonDataType::String, "plot"},
 			{mvPythonDataType::Float, "xmin"},
@@ -159,8 +167,8 @@ namespace Marvel {
 			{mvPythonDataType::String, "plot"},
 			{mvPythonDataType::String, "name"},
 			{mvPythonDataType::String, "value"},
-			{mvPythonDataType::FloatList, "bounds_min"},
-			{mvPythonDataType::FloatList, "bounds_max"},
+			{mvPythonDataType::FloatList, "bounds_min", "bottom left coordinate"},
+			{mvPythonDataType::FloatList, "bounds_max", "top right coordinate"},
 			{mvPythonDataType::KeywordOnly},
 			{mvPythonDataType::FloatList, "uv_min", "normalized texture coordinates", "(0.0, 0.0)"},
 			{mvPythonDataType::FloatList, "uv_max", "normalized texture coordinates", "(1.0, 1.0)"},
@@ -234,8 +242,8 @@ namespace Marvel {
 			{mvPythonDataType::String, "name"},
 			{mvPythonDataType::FloatList, "x"},
 			{mvPythonDataType::FloatList, "y1"},
-			{mvPythonDataType::FloatList, "y2"},
 			{mvPythonDataType::KeywordOnly},
+			{mvPythonDataType::FloatList, "y2"},
 			{mvPythonDataType::FloatList, "color", "", "(0, 0, 0, -1)"},
 			{mvPythonDataType::FloatList, "fill", "", "(0, 0, 0, -1)"},
 			{mvPythonDataType::Float, "weight", "", "1.0"},
@@ -835,6 +843,62 @@ namespace Marvel {
 		return Py_BuildValue("b", graph->isPlotQueried());
 	}
 
+	PyObject* get_plot_xlimits(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		const char* plot;
+
+		if (!(*mvApp::GetApp()->getParsers())["get_plot_xlimits"].parse(args, kwargs, __FUNCTION__, &plot))
+			return GetPyNone();
+
+		mvAppItem* aplot = mvApp::GetApp()->getItemRegistry().getItem(plot);
+		if (aplot == nullptr)
+		{
+			std::string message = plot;
+			ThrowPythonException(message + " plot does not exist.");
+			return GetPyNone();
+		}
+
+		if (aplot->getType() != mvAppItemType::Plot)
+		{
+			std::string message = plot;
+			ThrowPythonException(message + " is not a plot.");
+			return GetPyNone();
+		}
+		mvPlot* graph = static_cast<mvPlot*>(aplot);
+
+		const ImVec2& limits = graph->getXLimits();
+
+		return ToPyPair(limits.x, limits.y);
+	}
+
+	PyObject* get_plot_ylimits(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		const char* plot;
+
+		if (!(*mvApp::GetApp()->getParsers())["get_plot_ylimits"].parse(args, kwargs, __FUNCTION__, &plot))
+			return GetPyNone();
+
+		mvAppItem* aplot = mvApp::GetApp()->getItemRegistry().getItem(plot);
+		if (aplot == nullptr)
+		{
+			std::string message = plot;
+			ThrowPythonException(message + " plot does not exist.");
+			return GetPyNone();
+		}
+
+		if (aplot->getType() != mvAppItemType::Plot)
+		{
+			std::string message = plot;
+			ThrowPythonException(message + " is not a plot.");
+			return GetPyNone();
+		}
+		mvPlot* graph = static_cast<mvPlot*>(aplot);
+
+		const ImVec2& limits = graph->getYLimits();
+
+		return ToPyPair(limits.x, limits.y);
+	}
+
 	PyObject* get_plot_query_area(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		const char* plot;
@@ -1125,6 +1189,9 @@ namespace Marvel {
 			&plot, &name, &value, &bounds_min, &bounds_max, &uv_min, &uv_max, &tintcolor, &update_bounds))
 			return GetPyNone();
 
+		if (!CheckList(plot, bounds_min)) return GetPyNone();
+		if (!CheckList(plot, bounds_max)) return GetPyNone();
+
 
 		mvAppItem* aplot = mvApp::GetApp()->getItemRegistry().getItem(plot);
 
@@ -1330,7 +1397,7 @@ namespace Marvel {
 		const char* name;
 		PyObject* x;
 		PyObject* y1;
-		PyObject* y2;
+		PyObject* y2 = nullptr;
 		float weight = 1.0f;
 		PyObject* color = PyTuple_New(4);
 		PyTuple_SetItem(color, 0, PyLong_FromLong(-255));
@@ -1351,7 +1418,6 @@ namespace Marvel {
 
 		if (!CheckList(plot, x)) return GetPyNone();
 		if (!CheckList(plot, y1)) return GetPyNone();
-		if (!CheckList(plot, y2)) return GetPyNone();
 
 		mvAppItem* aplot = mvApp::GetApp()->getItemRegistry().getItem(plot);
 
@@ -1363,7 +1429,15 @@ namespace Marvel {
 		auto mfill = ToColor(fill);
 		auto xs = ToFloatVect(x);
 		auto y1s = ToFloatVect(y1);
-		auto y2s = ToFloatVect(y2);
+
+		std::vector<float> y2s;
+		if(y2)
+			y2s = ToFloatVect(y2);
+		else
+		{
+			for (auto item : y1s)
+				y2s.push_back(0.0f);
+		}
 
 		if (!CheckArraySizes(plot, { &xs, &y1s, &y2s })) return GetPyNone();
 
