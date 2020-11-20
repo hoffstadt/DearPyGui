@@ -5872,6 +5872,14 @@ RGBA format</p>
 <li>
 <p>height : int</p>
 </li>
+<li>
+<p>Keyword Only Arguments</p>
+</li>
+</ul>
+<hr>
+<ul>
+<li>format : int = 0
+mvTEX_XXXX_XXXXX constants</li>
 </ul></div>
 </dd>
 <dt id="dearpygui.core.add_time_picker"><code class="name flex">
@@ -7134,6 +7142,30 @@ logger widget</li>
 </code></dt>
 <dd>
 <div class="desc"><p>Returns the bounding axis limits for the query area [x_min, x_max, y_min, y_max]</p>
+<p>Return Type: List[float]</p>
+<p>Parameters</p>
+<hr>
+<ul>
+<li>plot : str</li>
+</ul></div>
+</dd>
+<dt id="dearpygui.core.get_plot_xlimits"><code class="name flex">
+<span>def <span class="ident">get_plot_xlimits</span></span>(<span>...)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Returns the plots x limits</p>
+<p>Return Type: List[float]</p>
+<p>Parameters</p>
+<hr>
+<ul>
+<li>plot : str</li>
+</ul></div>
+</dd>
+<dt id="dearpygui.core.get_plot_ylimits"><code class="name flex">
+<span>def <span class="ident">get_plot_ylimits</span></span>(<span>...)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Returns the plots x limits</p>
 <p>Return Type: List[float]</p>
 <p>Parameters</p>
 <hr>
@@ -9462,6 +9494,8 @@ Attempt to render</p>
 <li><code><a title="dearpygui.core.get_mouse_pos" href="#dearpygui.core.get_mouse_pos">get_mouse_pos</a></code></li>
 <li><code><a title="dearpygui.core.get_plot_mouse_pos" href="#dearpygui.core.get_plot_mouse_pos">get_plot_mouse_pos</a></code></li>
 <li><code><a title="dearpygui.core.get_plot_query_area" href="#dearpygui.core.get_plot_query_area">get_plot_query_area</a></code></li>
+<li><code><a title="dearpygui.core.get_plot_xlimits" href="#dearpygui.core.get_plot_xlimits">get_plot_xlimits</a></code></li>
+<li><code><a title="dearpygui.core.get_plot_ylimits" href="#dearpygui.core.get_plot_ylimits">get_plot_ylimits</a></code></li>
 <li><code><a title="dearpygui.core.get_style_antialiased_fill" href="#dearpygui.core.get_style_antialiased_fill">get_style_antialiased_fill</a></code></li>
 <li><code><a title="dearpygui.core.get_style_antialiased_lines" href="#dearpygui.core.get_style_antialiased_lines">get_style_antialiased_lines</a></code></li>
 <li><code><a title="dearpygui.core.get_style_button_text_align" href="#dearpygui.core.get_style_button_text_align">get_style_button_text_align</a></code></li>
