@@ -32,6 +32,9 @@ New Commands:
 - Plot API:   Added "get_plot_xlimits" command
 - Plot API:   Added "get_plot_ylimits" command
 
+New Keywords:
+- add_texture:   Added "format" keyword
+
 Fixes:
 - get_value:     fixed issue where bools were registered as ints
 - value_storage: fixed crashing issue with conflicting types/names

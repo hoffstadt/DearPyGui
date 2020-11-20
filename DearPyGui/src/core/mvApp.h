@@ -28,6 +28,7 @@
 #include "mvEventHandler.h"
 #include "Registries/mvItemRegistry.h"
 #include "Registries/mvDrawList.h"
+#include "Registries/mvTextureStorage.h"
 
 //-----------------------------------------------------------------------------
 // Typedefs for chrono's ridiculously long names
@@ -85,6 +86,7 @@ namespace Marvel {
             std::vector<float> data;
             unsigned width;
             unsigned height;
+            mvTextureFormat format;
         };
 
     public:
@@ -186,7 +188,7 @@ namespace Marvel {
         mvDrawList&                            getFrontDrawList() { return m_frontDrawList; }
         mvDrawList&                            getBackDrawList () { return m_backDrawList; }
         void                                   addTexture(const std::string& name);
-        void                                   addTexture(const std::string& name, std::vector<float> data, unsigned width, unsigned height);
+        void                                   addTexture(const std::string& name, std::vector<float> data, unsigned width, unsigned height, mvTextureFormat format);
             
     private:
 

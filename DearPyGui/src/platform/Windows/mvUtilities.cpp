@@ -18,7 +18,7 @@ namespace fs = std::filesystem;
 
 namespace Marvel {
 
-    bool LoadTextureFromArray(const char* name, float* data, unsigned width, unsigned height, mvTexture& storage)
+    bool LoadTextureFromArray(const char* name, float* data, unsigned width, unsigned height, mvTexture& storage, mvTextureFormat format)
     {
 
         //auto out_srv = static_cast<ID3D11ShaderResourceView**>(storage.texture);
@@ -31,12 +31,12 @@ namespace Marvel {
         desc.Height = height;
         desc.MipLevels = 1;
         desc.ArraySize = 1;
-        desc.Format = DXGI_FORMAT_R32G32B32A32_FLOAT;
         desc.SampleDesc.Count = 1;
         desc.Usage = D3D11_USAGE_DEFAULT;
         desc.BindFlags = D3D11_BIND_SHADER_RESOURCE;
         desc.CPUAccessFlags = 0;
-
+        desc.Format = DXGI_FORMAT_R32G32B32A32_FLOAT;
+        
         ID3D11Texture2D* pTexture = NULL;
         D3D11_SUBRESOURCE_DATA subResource;
         subResource.pSysMem = data;

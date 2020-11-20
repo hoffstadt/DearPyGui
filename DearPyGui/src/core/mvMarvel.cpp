@@ -487,7 +487,16 @@ namespace Marvel {
 			{ "mvINFO"    , 2 },
 			{ "mvWARNING" , 3 },
 			{ "mvERROR"   , 4 },
-			{ "mvOFF"     , 5 }
+			{ "mvOFF"     , 5 },
+
+			//-----------------------------------------------------------------------------
+			// Texture Formats
+			//-----------------------------------------------------------------------------
+			{ "mvTEX_RGBA_INT", 0 },
+			{ "mvTEX_RGBA_FLOAT", 1 },
+			{ "mvTEX_RGB_FLOAT", 2 },
+			{ "mvTEX_RGB_INT", 3 },
+
 		};
 
 		return ModuleConstants;
