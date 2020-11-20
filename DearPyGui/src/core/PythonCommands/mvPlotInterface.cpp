@@ -91,6 +91,14 @@ namespace Marvel {
 			{mvPythonDataType::String, "series"}
 		}, "Deletes a series if it exists.", "None", "Plotting") });
 
+		parsers->insert({ "get_plot_xlimits", mvPythonParser({
+			{mvPythonDataType::String, "plot"},
+		}, "Returns the plots x limits", "List[float]", "Plotting") });
+
+		parsers->insert({ "get_plot_ylimits", mvPythonParser({
+			{mvPythonDataType::String, "plot"},
+		}, "Returns the plots x limits", "List[float]", "Plotting") });
+
 		parsers->insert({ "set_plot_xlimits", mvPythonParser({
 			{mvPythonDataType::String, "plot"},
 			{mvPythonDataType::Float, "xmin"},
@@ -833,6 +841,62 @@ namespace Marvel {
 		mvPlot* graph = static_cast<mvPlot*>(aplot);
 
 		return Py_BuildValue("b", graph->isPlotQueried());
+	}
+
+	PyObject* get_plot_xlimits(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		const char* plot;
+
+		if (!(*mvApp::GetApp()->getParsers())["get_plot_xlimits"].parse(args, kwargs, __FUNCTION__, &plot))
+			return GetPyNone();
+
+		mvAppItem* aplot = mvApp::GetApp()->getItemRegistry().getItem(plot);
+		if (aplot == nullptr)
+		{
+			std::string message = plot;
+			ThrowPythonException(message + " plot does not exist.");
+			return GetPyNone();
+		}
+
+		if (aplot->getType() != mvAppItemType::Plot)
+		{
+			std::string message = plot;
+			ThrowPythonException(message + " is not a plot.");
+			return GetPyNone();
+		}
+		mvPlot* graph = static_cast<mvPlot*>(aplot);
+
+		const ImVec2& limits = graph->getXLimits();
+
+		return ToPyPair(limits.x, limits.y);
+	}
+
+	PyObject* get_plot_ylimits(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		const char* plot;
+
+		if (!(*mvApp::GetApp()->getParsers())["get_plot_ylimits"].parse(args, kwargs, __FUNCTION__, &plot))
+			return GetPyNone();
+
+		mvAppItem* aplot = mvApp::GetApp()->getItemRegistry().getItem(plot);
+		if (aplot == nullptr)
+		{
+			std::string message = plot;
+			ThrowPythonException(message + " plot does not exist.");
+			return GetPyNone();
+		}
+
+		if (aplot->getType() != mvAppItemType::Plot)
+		{
+			std::string message = plot;
+			ThrowPythonException(message + " is not a plot.");
+			return GetPyNone();
+		}
+		mvPlot* graph = static_cast<mvPlot*>(aplot);
+
+		const ImVec2& limits = graph->getYLimits();
+
+		return ToPyPair(limits.x, limits.y);
 	}
 
 	PyObject* get_plot_query_area(PyObject* self, PyObject* args, PyObject* kwargs)

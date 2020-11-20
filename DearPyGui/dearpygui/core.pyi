@@ -642,6 +642,14 @@ def get_plot_query_area(plot: str) -> List[float]:
 	"""Returns the bounding axis limits for the query area [x_min, x_max, y_min, y_max]"""
 	...
 
+def get_plot_xlimits(plot: str) -> List[float]:
+	"""Returns the plots x limits"""
+	...
+
+def get_plot_ylimits(plot: str) -> List[float]:
+	"""Returns the plots x limits"""
+	...
+
 def get_style_antialiased_fill() -> bool:
 	"""Gets anti-aliasing on filled shapes (rounded rectangles, circles, etc.)."""
 	...

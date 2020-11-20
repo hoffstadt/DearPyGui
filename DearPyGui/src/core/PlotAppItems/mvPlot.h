@@ -87,6 +87,8 @@ namespace Marvel {
 		const std::string& getXAxisName     () const { return m_xaxisName; }
 		const std::string& getYAxisName     () const { return m_yaxisName; }
 		PyObject*          getQueryCallback ()       { return m_queryCallback; }
+		const ImVec2&      getXLimits       () const { return m_xlimits_actual; }
+		const ImVec2&      getYLimits       () const { return m_ylimits_actual; }
 
 		void setExtraConfigDict(PyObject* dict) override;
 		void getExtraConfigDict(PyObject* dict) override;
@@ -110,7 +112,9 @@ namespace Marvel {
 		bool                          m_setXLimits = false;
 		bool                          m_setYLimits = false;
 		ImVec2                        m_xlimits;
+		ImVec2                        m_xlimits_actual;
 		ImVec2                        m_ylimits;
+		ImVec2                        m_ylimits_actual;
 		PyObject*                     m_queryCallback;
 		bool                          m_queried = false;
 		float                         m_queryArea[4] = {0.0f , 0.0f, 0.0f, 0.0f};
