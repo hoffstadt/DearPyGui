@@ -190,8 +190,12 @@ namespace Marvel {
 
 		mvGlobalIntepreterLock gil;
 		
+		// bool
+		if (PyBool_Check(value))
+			AddBoolValue(name, PyLong_AsLong(value));
+
 		// int
-		if (PyLong_Check(value))
+		else if (PyLong_Check(value))
 			AddIntValue(name, PyLong_AsLong(value));
 
 		// float
