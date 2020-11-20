@@ -307,27 +307,24 @@ namespace Marvel {
 		// value exists and is compatible type
 		if (HasValue(name))
 		{
+			IncrementRef(name);
 			switch (GetType(name))
 			{
 
 			case mvValueStorage::ValueTypes::Int:
-				IncrementRef(name);
 				return GetIntValue(name);
 
 			case mvValueStorage::ValueTypes::Int2:
-				IncrementRef(name);
 				return GetInt2Value(name);
 
 			case mvValueStorage::ValueTypes::Int3:
-				IncrementRef(name);
 				return GetInt3Value(name);
 
 			case mvValueStorage::ValueTypes::Int4:
-				IncrementRef(name);
 				return GetInt4Value(name);
 
 			default: // incompatible type
-				return &s_ints["common"];
+				return &s_ints["common_int"];
 			}
 
 		}
@@ -345,23 +342,21 @@ namespace Marvel {
 		// value exists and is compatible type
 		if (HasValue(name))
 		{
+			IncrementRef(name);
 			switch (GetType(name))
 			{
 
 			case mvValueStorage::ValueTypes::Int2:
-				IncrementRef(name);
 				return GetInt2Value(name);
 
 			case mvValueStorage::ValueTypes::Int3:
-				IncrementRef(name);
 				return GetInt3Value(name);
 
 			case mvValueStorage::ValueTypes::Int4:
-				IncrementRef(name);
 				return GetInt4Value(name);
 
 			default: // incompatible type
-				return s_int2s["common"].data();
+				return s_int2s["common_int2"].data();
 			}
 
 		}
@@ -379,19 +374,18 @@ namespace Marvel {
 		// value exists and is compatible type
 		if (HasValue(name))
 		{
+			IncrementRef(name);
 			switch (GetType(name))
 			{
 
 			case mvValueStorage::ValueTypes::Int3:
-				IncrementRef(name);
 				return GetInt3Value(name);
 
 			case mvValueStorage::ValueTypes::Int4:
-				IncrementRef(name);
 				return GetInt4Value(name);
 
 			default: // incompatible type
-				return s_int3s["common"].data();
+				return s_int3s["common_int3"].data();
 			}
 
 		}
@@ -409,15 +403,15 @@ namespace Marvel {
 		// value exists and is compatible type
 		if (HasValue(name))
 		{
+			IncrementRef(name);
 			switch (GetType(name))
 			{
 
 			case mvValueStorage::ValueTypes::Int4:
-				IncrementRef(name);
 				return GetInt4Value(name);
 
 			default: // incompatible type
-				return s_int4s["common"].data();
+				return s_int4s["common_int4"].data();
 			}
 
 		}
@@ -435,34 +429,28 @@ namespace Marvel {
 		// value exists and is compatible type
 		if (HasValue(name))
 		{
+			IncrementRef(name);
 			switch (GetType(name))
 			{
 
 			case mvValueStorage::ValueTypes::Float:
-				IncrementRef(name);
 				return GetFloatValue(name);
 
 			case mvValueStorage::ValueTypes::Float2:
-				IncrementRef(name);
 				return GetFloat2Value(name);
 
 			case mvValueStorage::ValueTypes::Float3:
-				IncrementRef(name);
 				return GetFloat3Value(name);
 
 			case mvValueStorage::ValueTypes::Float4:
-				IncrementRef(name);
 				return GetFloat4Value(name);
 
 			case mvValueStorage::ValueTypes::FloatVect:
 				if (GetFloatVectorValue(name)->size() > 0)
-				{
-					IncrementRef(name);
 					return GetFloatVectorValue(name)->data();
-				}
 
 			default: // incompatible type
-				return &s_floats["common"];
+				return &s_floats["common_float"];
 			}
 
 		}
@@ -480,30 +468,25 @@ namespace Marvel {
 		// value exists and is compatible type
 		if (HasValue(name))
 		{
+			IncrementRef(name);
 			switch (GetType(name))
 			{
 
 			case mvValueStorage::ValueTypes::Float2:
-				IncrementRef(name);
 				return GetFloat2Value(name);
 
 			case mvValueStorage::ValueTypes::Float3:
-				IncrementRef(name);
 				return GetFloat3Value(name);
 
 			case mvValueStorage::ValueTypes::Float4:
-				IncrementRef(name);
 				return GetFloat4Value(name);
 
 			case mvValueStorage::ValueTypes::FloatVect:
 				if (GetFloatVectorValue(name)->size() > 1)
-				{
-					IncrementRef(name);
 					return GetFloatVectorValue(name)->data();
-				}
 
 			default: // incompatible type
-				return s_float2s["common"].data();
+				return s_float2s["common_float2"].data();
 			}
 
 		}
@@ -525,22 +508,17 @@ namespace Marvel {
 			{
 
 			case mvValueStorage::ValueTypes::Float3:
-				IncrementRef(name);
 				return GetFloat3Value(name);
 
 			case mvValueStorage::ValueTypes::Float4:
-				IncrementRef(name);
 				return GetFloat4Value(name);
 
 			case mvValueStorage::ValueTypes::FloatVect:
 				if (GetFloatVectorValue(name)->size() > 2)
-				{
-					IncrementRef(name);
 					return GetFloatVectorValue(name)->data();
-				}
 
 			default: // incompatible type
-				return s_float3s["common"].data();
+				return s_float3s["common_float3"].data();
 			}
 
 		}
@@ -558,22 +536,20 @@ namespace Marvel {
 		// value exists and is compatible type
 		if (HasValue(name))
 		{
+			IncrementRef(name);
 			switch (GetType(name))
 			{
 
 			case mvValueStorage::ValueTypes::Float4:
-				IncrementRef(name);
+				
 				return GetFloat4Value(name);
 
 			case mvValueStorage::ValueTypes::FloatVect:
 				if (GetFloatVectorValue(name)->size() > 3)
-				{
-					IncrementRef(name);
 					return GetFloatVectorValue(name)->data();
-				}
 
 			default: // incompatible type
-				return s_float4s["common"].data();
+				return s_float4s["common_float4"].data();
 			}
 
 		}
@@ -591,26 +567,22 @@ namespace Marvel {
 		// value exists and is compatible type
 		if (HasValue(name))
 		{
+			IncrementRef(name);
 			switch (GetType(name))
 			{
 
 			case mvValueStorage::ValueTypes::Color:
-				IncrementRef(name);
 				return GetFloat4Value(name);
 
 			case mvValueStorage::ValueTypes::Float4:
-				IncrementRef(name);
 				return GetFloat4Value(name);
 
 			case mvValueStorage::ValueTypes::FloatVect:
 				if (GetFloatVectorValue(name)->size() > 3)
-				{
-					IncrementRef(name);
 					return GetFloatVectorValue(name)->data();
-				}
 
 			default: // incompatible type
-				return s_float4s["common"].data();
+				return s_float4s["common_float4"].data();
 			}
 
 		}
@@ -634,7 +606,10 @@ namespace Marvel {
 
 		// wrong type
 		else if (HasValue(name))
-			return &s_floatvects["common"];
+		{
+			IncrementRef(name);
+			return &s_floatvects["common_float4"];
+		}
 
 		// doesn't have value
 		s_typeStorage[name] = ValueTypes::FloatVect;
@@ -655,7 +630,10 @@ namespace Marvel {
 
 		// wrong type
 		else if (HasValue(name))
-			return &s_bools["common"];
+		{
+			IncrementRef(name);
+			return &s_bools["common_bool"];
+		}
 
 		// doesn't have value
 		s_typeStorage[name] = ValueTypes::Bool;
@@ -676,7 +654,11 @@ namespace Marvel {
 
 		// wrong type
 		else if (HasValue(name))
-			return &s_strings["common"];
+		{
+			IncrementRef(name);
+			return &s_strings["common_string"];
+		}
+			
 
 		// doesn't have value
 		s_typeStorage[name] = ValueTypes::String;
@@ -697,7 +679,10 @@ namespace Marvel {
 
 		// wrong type
 		else if (HasValue(name))
-			return &s_times["common"];
+		{
+			IncrementRef(name);
+			return &s_times["common_time"];
+		}
 
 		// doesn't have value
 		s_typeStorage[name] = ValueTypes::Time;
@@ -945,19 +930,50 @@ namespace Marvel {
 
 	std::mutex mvValueStorage::s_mutex;
 	std::unordered_map<std::string, mvValueStorage::ValueTypes> mvValueStorage::s_typeStorage;
-	std::unordered_map<std::string, int> mvValueStorage::s_refStorage = { {"common",  1} };
-	std::set<std::string> mvValueStorage::s_itemStorage = { "common" };
-	std::unordered_map<std::string, int> mvValueStorage::s_ints = { {"common", 0} };
-	std::unordered_map<std::string, std::array<int, 2>> mvValueStorage::s_int2s = { {"common", {0, 0}} };
-	std::unordered_map<std::string, std::array<int, 3>> mvValueStorage::s_int3s = { {"common", {0, 0, 0}} };
-	std::unordered_map<std::string, std::array<int, 4>> mvValueStorage::s_int4s = { {"common", {0, 0, 0, 0}} };
-	std::unordered_map<std::string, float> mvValueStorage::s_floats = { {"common", 0.0f} };
-	std::unordered_map<std::string, std::array<float, 2>> mvValueStorage::s_float2s = { {"common", {0.0f, 0.0f}} };
-	std::unordered_map<std::string, std::array<float, 3>> mvValueStorage::s_float3s = { {"common", {0.0f, 0.0f, 0.0f}} };
-	std::unordered_map<std::string, std::array<float, 4>> mvValueStorage::s_float4s = { {"common", {0.0f, 0.0f}} };
-	std::unordered_map<std::string, bool> mvValueStorage::s_bools = { {"common", true} };
-	std::unordered_map<std::string, std::string> mvValueStorage::s_strings = { {"common", ""} };
-	std::unordered_map<std::string, std::vector<float>> mvValueStorage::s_floatvects = { {"common", {0.0f, 0.0f}} };
-	std::unordered_map<std::string, tm> mvValueStorage::s_times = { {"common", {}} };
-	std::unordered_map<std::string, ImPlotTime> mvValueStorage::s_imtimes = { {"common", ImPlotTime()} };
+	std::unordered_map<std::string, int> mvValueStorage::s_refStorage = 
+	{ 
+		{"common_int", 1},
+		{"common_int2", 1},
+		{"common_int3", 1},
+		{"common_int4", 1},
+		{"common_float", 1},
+		{"common_float2", 1},
+		{"common_float3", 1},
+		{"common_float4", 1},
+		{"common_bool", 1},
+		{"common_string", 1},
+		{"common_floatvec", 1},
+		{"common_time", 1},
+		{"common_imtime", 1},
+	};
+
+	std::set<std::string> mvValueStorage::s_itemStorage = 
+	{ 
+		"common_int",
+		"common_int2",
+		"common_int3",
+		"common_int4",
+		"common_float",
+		"common_float2",
+		"common_float3",
+		"common_float4",
+		"common_bool",
+		"common_string",
+		"common_floatvec",
+		"common_time",
+		"common_imtime"
+	};
+	std::unordered_map<std::string, int>                  mvValueStorage::s_ints = { {"common_int", 0} };
+	std::unordered_map<std::string, std::array<int, 2>>   mvValueStorage::s_int2s = { {"common_int2", {0, 0}} };
+	std::unordered_map<std::string, std::array<int, 3>>   mvValueStorage::s_int3s = { {"common_int3", {0, 0, 0}} };
+	std::unordered_map<std::string, std::array<int, 4>>   mvValueStorage::s_int4s = { {"common_int4", {0, 0, 0, 0}} };
+	std::unordered_map<std::string, float>                mvValueStorage::s_floats = { {"common_float", 0.0f} };
+	std::unordered_map<std::string, std::array<float, 2>> mvValueStorage::s_float2s = { {"common_float2", {0.0f, 0.0f}} };
+	std::unordered_map<std::string, std::array<float, 3>> mvValueStorage::s_float3s = { {"common_float3", {0.0f, 0.0f, 0.0f}} };
+	std::unordered_map<std::string, std::array<float, 4>> mvValueStorage::s_float4s = { {"common_float4", {0.0f, 0.0f}} };
+	std::unordered_map<std::string, bool>                 mvValueStorage::s_bools = { {"common_bool", true} };
+	std::unordered_map<std::string, std::string>          mvValueStorage::s_strings = { {"common_string", ""} };
+	std::unordered_map<std::string, std::vector<float>>   mvValueStorage::s_floatvects = { {"common_floatvec", {0.0f, 0.0f}} };
+	std::unordered_map<std::string, tm>                   mvValueStorage::s_times = { {"common_time", {}} };
+	std::unordered_map<std::string, ImPlotTime>           mvValueStorage::s_imtimes = { {"common_imtime", ImPlotTime()} };
 }
