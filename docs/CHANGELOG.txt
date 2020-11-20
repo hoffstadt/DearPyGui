@@ -23,14 +23,17 @@ HOW TO UPDATE?
 - Please report any issue!
 
 -----------------------------------------------------------------------
- VERSION 0.6.x
+ VERSION 0.6.10
 -----------------------------------------------------------------------
 
-Decorated log: https://github.com/hoffstadt/DearPyGui/releases/tag/v0.6.x
+Decorated log: https://github.com/hoffstadt/DearPyGui/releases/tag/v0.6.10
 
 New Commands:
 - Plot API:   Added "get_plot_xlimits" command
 - Plot API:   Added "get_plot_ylimits" command
+
+New Keywords:
+- add_texture:   Added "format" keyword
 
 Fixes:
 - get_value:     fixed issue where bools were registered as ints

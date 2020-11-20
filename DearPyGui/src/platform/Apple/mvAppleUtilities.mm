@@ -16,13 +16,12 @@ static std::vector<std::pair<std::string, id<MTLTexture>>> g_textures;
 
 namespace Marvel {
     
-    bool LoadTextureFromArray(const char* name, float* data, unsigned width, unsigned height, mvTexture& storage)
+    bool LoadTextureFromArray(const char* name, float* data, unsigned width, unsigned height, mvTexture& storage, mvTextureFormat format)
     {
 
-        MTLTextureDescriptor *textureDescriptor = [MTLTextureDescriptor texture2DDescriptorWithPixelFormat:MTLPixelFormatRGBA32Float
-                                                                                                     width:width
-                                                                                                    height:height
-                                                                                                 mipmapped:NO];
+        MTLTextureDescriptor *textureDescriptor = [MTLTextureDescriptor texture2DDescriptorWithPixelFormat:MTLPixelFormatRGBA32Float width:width height:height mipmapped:NO];
+
+
         textureDescriptor.usage = MTLTextureUsageShaderRead;
         textureDescriptor.storageMode = MTLStorageModeManaged;
 

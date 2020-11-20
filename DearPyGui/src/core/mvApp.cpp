@@ -136,7 +136,7 @@ namespace Marvel {
 		for (auto& item : m_textures)
 		{
 			if(item.width > 0u)
-				mvTextureStorage::AddTexture(item.name, item.data.data(), item.width, item.height);
+				mvTextureStorage::AddTexture(item.name, item.data.data(), item.width, item.height, item.format);
 			else
 				mvTextureStorage::AddTexture(item.name);
 		}
@@ -1008,8 +1008,9 @@ namespace Marvel {
 		m_textures.push_back({ name, {}, 0u, 0u });
 	}
 
-	void mvApp::addTexture(const std::string& name, std::vector<float> data, unsigned width, unsigned height)
+	void mvApp::addTexture(const std::string& name, std::vector<float> data, unsigned width, unsigned height, mvTextureFormat format)
 	{
-		m_textures.push_back({ name, data, width, height });
+		//m_textures.emplace_back(name, data, width, height, format);
+		m_textures.push_back({ name, data, width, height, format });
 	}
 }
