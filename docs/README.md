@@ -47,6 +47,10 @@ Ensure you have at least Python 3.6 64bit.
  or
  pip3 install dearpygui
  ```
+ 
+ **A note for Windows users:**  
+ Depending on your particular setup, [Microsoft Visual C++ Redistributable for Visual Studio](https://support.microsoft.com/en-gb/help/2977003/the-latest-supported-visual-c-downloads) may also be needed.  
+ Please refer to #298 for more information.
 
 ### Resources
 
