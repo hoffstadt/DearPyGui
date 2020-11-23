@@ -11,7 +11,7 @@
 ![Python Version](https://img.shields.io/pypi/pyversions/dearpygui)
 [![PYPI](https://img.shields.io/pypi/v/dearpygui)](https://pypi.org/project/dearpygui/)
 [![Downloads](https://pepy.tech/badge/dearpygui)](https://pepy.tech/project/dearpygui)
-[![Sponsors](https://img.shields.io/badge/sponsors-11-brightgreen)](https://img.shields.io/badge/sponsors-11-brightgreen)
+[![Sponsors](https://img.shields.io/badge/sponsors-12-brightgreen)](https://img.shields.io/badge/sponsors-12-brightgreen)
 
 [![build status](https://github.com/hoffstadt/DearPyGui/workflows/Embedded%20Build/badge.svg)](https://github.com/hoffstadt/DearPyGui/actions?workflow=Embedded%20Build)
 [![Build status](https://ci.appveyor.com/api/projects/status/eypfn2lyuwfv8mel?svg=true)](https://ci.appveyor.com/project/hoffstadt/dearpygui)
@@ -48,9 +48,6 @@ Ensure you have at least Python 3.6 64bit.
  pip3 install dearpygui
  ```
  
- **A note for Windows users:**  
- Depending on your particular setup, [Microsoft Visual C++ Redistributable for Visual Studio](https://support.microsoft.com/en-gb/help/2977003/the-latest-supported-visual-c-downloads) may also be needed.  
- Please refer to #298 for more information.
 
 ### Resources
 
@@ -160,6 +157,7 @@ Ongoing _Dear PyGui_ development is financially supported by users and private s
 These include:
 * 🏆 [Dean Keinan](https://github.com/deankeinan) _Partner Sponsor_
 * 🥇 [Caden Bloxham](https://github.com/cubic-unit) _Gold Sponsor_
+* 🥇 [Michael Kadziela](https://github.com/Innominus) _Gold Sponsor_
 
 Thank you to all other sponsors for keeping this project moving forward!
 
