@@ -159,6 +159,7 @@ def child(name: str, *, show: bool = True, tip: str = "", parent: str = "", befo
         **autosize_x: Autosize the window to fit its items in the x.
         **autosize_y: Autosize the window to fit its items in the y.
         **no_scrollbar: Disable scrollbars (window can still scroll with mouse or programmatically)
+        **horizontal_scrollbar: Allow horizontal scrollbar to appear (off by default)
         **menubar: adds a bar to add menus
 
     Returns:
@@ -268,6 +269,7 @@ def tab_bar(name: str, *, reorderable: bool = False, callback: Callable = None, 
 
 @contextmanager
 def tab(name: str, *, closable: bool = False, label: str = "__DearPyGuiDefault", show: bool = True, tip: str = "",
+        no_reorder: bool = False, leading: bool = False, trailing: bool = False, no_tooltip: bool = False,
         parent: str = "", before: str = ""):
     """Wraps add_tab() and automates calling end().
 
@@ -277,6 +279,10 @@ def tab(name: str, *, closable: bool = False, label: str = "__DearPyGuiDefault",
         **closable: creates a button on the tab that can hide the tab.
         **label: Displayed name of the item.
         **show: Decides if the item is shown of not.
+        **no_reorder: Disable reordering this tab or having another tab cross over this tab
+        **leading: Enforce the tab position to the left of the tab bar (after the tab list popup button)
+        **trailing: Enforce the tab position to the right of the tab bar (before the scrolling buttons)
+        **no_tooltip: Disable tooltip for the given tab
         **tip: Adds a simple tooltip.
         **parent: Parent to add this item to. (runtime adding)
         **before: This item will be displayed before the specified item in the parent. (runtime adding)
@@ -286,10 +292,11 @@ def tab(name: str, *, closable: bool = False, label: str = "__DearPyGuiDefault",
     """
     try:
         if label == "__DearPyGuiDefault":
-            yield internal_dpg.add_tab(name, closable=closable, show=show, tip=tip, parent=parent, before=before)
+            yield internal_dpg.add_tab(name, closable=closable, show=show, tip=tip, parent=parent, before=before,
+                                       no_reorder=no_reorder, leading=leading, trailing=trailing, no_tooltip=no_tooltip)
         else:
             yield internal_dpg.add_tab(name, closable=closable, label=label, show=show, tip=tip, parent=parent,
-                                       before=before)
+                                       before=before, no_reorder=no_reorder, leading=leading, trailing=trailing, no_tooltip=no_tooltip)
     finally:
         internal_dpg.end()
 

@@ -1126,7 +1126,7 @@ def set_render_callback(callback: Callable) -> None:
 	"""Sets the callback to be ran every frame."""
 	...
 
-def set_resize_callback(callback: Callable, *, handler: str = '') -> None:
+def set_resize_callback(callback: Callable, handler: str) -> None:
 	"""Sets a callback for a window resize event."""
 	...
 

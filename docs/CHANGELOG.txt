@@ -23,10 +23,18 @@ HOW TO UPDATE?
 - Please report any issue!
 
 -----------------------------------------------------------------------
- VERSION 0.6.10
+ VERSION 0.6.x
 -----------------------------------------------------------------------
 
-Decorated log: https://github.com/hoffstadt/DearPyGui/releases/tag/v0.6.10
+Decorated log: https://github.com/hoffstadt/DearPyGui/releases/tag/v0.6.x
+
+Fixes:
+- set_resize_callback: handler now required
+- stub file:           added missing tab options
+
+-----------------------------------------------------------------------
+ VERSION 0.6.10
+-----------------------------------------------------------------------
 
 New Commands:
 - Plot API:   Added "get_plot_xlimits" command
