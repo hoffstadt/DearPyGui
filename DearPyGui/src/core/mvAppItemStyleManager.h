@@ -46,6 +46,7 @@ namespace Marvel {
     class mvAppItemStyleManager
     {
         friend class mvAppItemStyleManagerScope;
+
         struct StyleColor
         {
             ImGuiCol idx;
@@ -98,19 +99,19 @@ namespace Marvel {
         void clearTempColors      ();
         void updateAppItemStyle   ();
 
-        void addStyleVar(ImGuiStyleVar item, std::vector<float> value);
-        void pushStyleVars();
-        void popStyleVars();
+        void addStyleVar   (ImGuiStyleVar item, std::vector<float> value);
+        void pushStyleVars ();
+        void popStyleVars  ();
         void clearStyleVars();
 
     private:
 
+        mvAppItem*              m_appItem = nullptr;
         std::vector<StyleColor> m_colors;
-        std::vector<StyleColor> m_colors_temp;
+        std::vector<StyleColor> m_colors_temp; // added for disabled colors
+        std::vector<StyleVar>   m_style_vars;
 
-        std::vector<StyleVar> m_style_vars;
-
-        mvAppItem* appItem = nullptr;
+        
 
     };
 }

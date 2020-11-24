@@ -14,7 +14,7 @@ namespace Marvel {
     mvAppItemStyleManagerScope::mvAppItemStyleManagerScope(mvAppItemStyleManagerScope&& other) noexcept
         : m_manager(other.m_manager), m_moved(true)
     {
-        m_manager.appItem->applyStyleSettings();
+        m_manager.m_appItem->applyStyleSettings();
         m_manager.pushColorStyles();
         m_manager.pushStyleVars();
     }
@@ -23,7 +23,7 @@ namespace Marvel {
     {
         if (m_moved)
         {
-            m_manager.appItem->clearStyleSettings();
+            m_manager.m_appItem->clearStyleSettings();
             m_manager.popColorStyles();
             m_manager.popStyleVars();
         }
@@ -36,8 +36,9 @@ namespace Marvel {
     }
 
     mvAppItemStyleManager::mvAppItemStyleManager(mvAppItem* ptr)
+        :
+        m_appItem(ptr)
     {
-        appItem = ptr;
     }
 
     void mvAppItemStyleManagerScope::addColorStyle(ImGuiCol item, ImVec4 color)
@@ -107,11 +108,6 @@ namespace Marvel {
     void mvAppItemStyleManager::clearStyleVars()
     {
         m_style_vars.clear();
-    }
-
-    void mvAppItemStyleManager::updateAppItemStyle()
-    {
-        appItem->updateStyleSettings();
     }
 
 }

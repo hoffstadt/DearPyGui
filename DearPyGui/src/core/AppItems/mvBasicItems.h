@@ -50,17 +50,16 @@ namespace Marvel {
 
 		mvButton(const std::string& name);
 
-		void draw              ()               override;
-		void setExtraConfigDict(PyObject* dict) override;
-		void getExtraConfigDict(PyObject* dict) override;
-		virtual void	updateStyleSettings() override;
-		virtual void	applyStyleSettings() override;
-		virtual void	clearStyleSettings() override;
+		void            draw               ()               override;
+		void            setExtraConfigDict (PyObject* dict) override;
+		void            getExtraConfigDict (PyObject* dict) override;
+		virtual void	applyStyleSettings () override;
+		virtual void	clearStyleSettings () override;
 
-		static mvColor  buttonColor;
-		static mvColor  buttonHoveredColor;
-		static mvColor  buttonActiveColor;
-		static mvColor  textColor;
+		static mvColor  s_buttonColor;
+		static mvColor  s_buttonHoveredColor;
+		static mvColor  s_buttonActiveColor;
+		static mvColor  s_textColor;
 
 	private:
 

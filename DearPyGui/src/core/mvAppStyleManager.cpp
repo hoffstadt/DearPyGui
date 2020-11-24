@@ -5,20 +5,22 @@
 
 namespace Marvel
 {
-	mvAppStyleManager::mvAppStyleManager(){
+	mvAppStyleManager::mvAppStyleManager()
+	{
+
 	};
 
-	std::unordered_map<int, mvColor*> mvAppStyleManager::colorDefines = {
-	{ 21, &mvButton::buttonColor},
-	{ 22, &mvButton::buttonHoveredColor},
-	{ 23, &mvButton::buttonActiveColor} };
+	std::unordered_map<int, mvColor*> mvAppStyleManager::s_colorDefines = {
+	{ 21, &mvButton::s_buttonColor},
+	{ 22, &mvButton::s_buttonHoveredColor},
+	{ 23, &mvButton::s_buttonActiveColor} };
 
 	void mvAppStyleManager::setAppColor(int id, mvColor color)
 	{	
-		colorDefines[id]->r = color.r;
-		colorDefines[id]->g = color.g;
-		colorDefines[id]->b = color.b;
-		colorDefines[id]->a = color.a;
+		s_colorDefines[id]->r = color.r;
+		s_colorDefines[id]->g = color.g;
+		s_colorDefines[id]->b = color.b;
+		s_colorDefines[id]->a = color.a;
 	}
 
 }

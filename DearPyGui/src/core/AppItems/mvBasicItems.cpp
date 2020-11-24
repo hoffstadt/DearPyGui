@@ -132,27 +132,21 @@ namespace Marvel {
 		PyDict_SetItemString(dict, "direction", ToPyInt(m_direction));
 	}
 
-	mvColor mvButton::buttonColor = { 255, 255, 255, 75 };
-	mvColor mvButton::buttonHoveredColor = { 255, 255, 255, 75 };
-	mvColor mvButton::buttonActiveColor = { 255, 255, 255, 75 };
-	mvColor mvButton::textColor = { 255, 255, 255, 75 };
+	mvColor mvButton::s_buttonColor = { 255, 255, 255, 75 };
+	mvColor mvButton::s_buttonHoveredColor = { 255, 255, 255, 75 };
+	mvColor mvButton::s_buttonActiveColor = { 255, 255, 255, 75 };
+	mvColor mvButton::s_textColor = { 255, 255, 255, 75 };
 
-	void mvButton::updateStyleSettings()
+	void mvButton::applyStyleSettings() 
 	{
-		buttonColor = { 255, 0, 0, 75 };
-		buttonHoveredColor = { 255, 0, 0, 75 };
-		buttonActiveColor = { 255, 0, 0, 75 };
-		textColor = { 255, 0, 0, 75 };
+		ImGui::PushStyleColor(ImGuiCol_Button, s_buttonColor.toVec4());
+		ImGui::PushStyleColor(ImGuiCol_ButtonHovered, s_buttonHoveredColor.toVec4());
+		ImGui::PushStyleColor(ImGuiCol_ButtonActive, s_buttonActiveColor.toVec4());
+		ImGui::PushStyleColor(ImGuiCol_Text, s_textColor.toVec4());
 	}
 
-	void mvButton::applyStyleSettings() {
-		ImGui::PushStyleColor(ImGuiCol_Button, buttonColor.toVec4());
-		ImGui::PushStyleColor(ImGuiCol_ButtonHovered, buttonHoveredColor.toVec4());
-		ImGui::PushStyleColor(ImGuiCol_ButtonActive, buttonActiveColor.toVec4());
-		ImGui::PushStyleColor(ImGuiCol_Text, textColor.toVec4());
-	}
-
-	void mvButton::clearStyleSettings() {
+	void mvButton::clearStyleSettings()
+	{
 		ImGui::PopStyleColor(4);
 	}
 

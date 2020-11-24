@@ -12,7 +12,7 @@ namespace Marvel {
 		int getConstantId(std::string constName)
 		{
 			auto constants = GetModuleConstants();
-			for (auto item : constants)
+			for (const auto& item : constants)
 			{
 				if (item.first == constName)
 					return item.second;
@@ -32,6 +32,7 @@ namespace Marvel {
 		void setAppColor(int id, mvColor color);
 		mvColor getAppColor(int id) {};
 
-		static std::unordered_map<int, mvColor*> colorDefines;
+		static std::unordered_map<int, mvColor*> s_colorDefines;
+
 	};
 }
