@@ -19,13 +19,10 @@ namespace Marvel {
 			{
 				if (item.first == constName)
 					return item.second;
-				else
-				{
-					//this error below is really only so we done mis type any constants while building this system
-					std::string message = constName + "does not exist in module constants and was not added to the App Style Manager constants.";
-					printf(message.c_str());
-				}
 			}
+			//this error below is really only so we done mis type any constants while building this system
+			std::string message = constName + "does not exist in module constants and was not added to the App Style Manager constants.";
+			printf(message.c_str());
 			return -1;
 
 		}

@@ -7,9 +7,9 @@ namespace Marvel
 {
 
 	std::unordered_map<int, mvColor*> mvAppStyleManager::s_colorDefines = {
-	{ 21, &mvButton::s_buttonColor},
-	{ 22, &mvButton::s_buttonHoveredColor},
-	{ 23, &mvButton::s_buttonActiveColor} };
+	{ GetConstantId("mvGuiCol_Button"), &mvButton::s_buttonColor},
+	{ GetConstantId("mvGuiCol_ButtonHovered"), &mvButton::s_buttonHoveredColor},
+	{ GetConstantId("mvGuiCol_ButtonActive"), &mvButton::s_buttonActiveColor} };
 
 	void mvAppStyleManager::SetAppColor(int id, mvColor color)
 	{	
