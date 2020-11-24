@@ -9,7 +9,10 @@ namespace Marvel {
 
 	class mvAppStyleManager
 	{
-		int getConstantId(std::string constName)
+	
+	public:
+
+		static int GetConstantId(std::string constName)
 		{
 			auto constants = GetModuleConstants();
 			for (const auto& item : constants)
@@ -27,10 +30,7 @@ namespace Marvel {
 
 		}
 
-	public:
-		mvAppStyleManager();
-		void setAppColor(int id, mvColor color);
-		mvColor getAppColor(int id) {};
+		static void SetAppColor(int id, mvColor color);
 
 		static std::unordered_map<int, mvColor*> s_colorDefines;
 

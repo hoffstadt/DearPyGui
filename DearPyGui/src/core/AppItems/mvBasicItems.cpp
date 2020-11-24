@@ -132,11 +132,6 @@ namespace Marvel {
 		PyDict_SetItemString(dict, "direction", ToPyInt(m_direction));
 	}
 
-	mvColor mvButton::s_buttonColor = { 255, 255, 255, 75 };
-	mvColor mvButton::s_buttonHoveredColor = { 255, 255, 255, 75 };
-	mvColor mvButton::s_buttonActiveColor = { 255, 255, 255, 75 };
-	mvColor mvButton::s_textColor = { 255, 255, 255, 75 };
-
 	void mvButton::applyStyleSettings() 
 	{
 		ImGui::PushStyleColor(ImGuiCol_Button, s_buttonColor.toVec4());
@@ -438,4 +433,9 @@ namespace Marvel {
 		mvGlobalIntepreterLock gil;
 		PyDict_SetItemString(dict, "overlay", ToPyString(m_overlay));
 	}
+
+	mvColor mvButton::s_buttonColor = { 255, 255, 255, 75 };
+	mvColor mvButton::s_buttonHoveredColor = { 255, 255, 255, 75 };
+	mvColor mvButton::s_buttonActiveColor = { 255, 255, 255, 75 };
+	mvColor mvButton::s_textColor = { 255, 255, 255, 75 };
 }

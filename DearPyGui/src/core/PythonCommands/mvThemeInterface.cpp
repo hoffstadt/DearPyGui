@@ -1,5 +1,6 @@
 #include "mvThemeInterface.h"
 #include "mvInterfaceCore.h"
+#include "mvAppStyleManager.h"
 
 namespace Marvel {
 
@@ -391,7 +392,7 @@ namespace Marvel {
 
 		auto mcolor = ToColor(color);
 
-		mvApp::GetApp()->getStyleManager().setAppColor(style, mcolor);
+		mvAppStyleManager::SetAppColor(style, mcolor);
 
 		return GetPyNone();
 	}
