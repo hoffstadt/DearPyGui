@@ -29,7 +29,15 @@ namespace Marvel {
 
 		static void SetAppColor(int id, mvColor color);
 
+		static void SetAppColors(std::string colors);
+
 		static std::unordered_map<int, mvColor*> s_colorDefines;
+
+		static std::vector <std::pair<std::string, mvColor>> s_darkAppColors;
+
+		static std::vector <std::pair<std::string, mvColor>> s_classicAppColors;
+
+		static std::vector <std::pair<std::string, mvColor>> s_lightAppColors;
 
 	};
 }

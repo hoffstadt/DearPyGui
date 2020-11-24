@@ -453,6 +453,8 @@ namespace Marvel {
 
 		mvApp::GetApp()->setAppTheme(std::string(theme));
 
+		mvAppStyleManager::SetAppColors(std::string{ theme });
+
 		return GetPyNone();
 	}
 

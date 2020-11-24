@@ -71,6 +71,14 @@ namespace Marvel {
 			a = (int)(color.w*255.0f);
 		}
 
+		explicit mvColor(float r, float g, float b, float a)
+		{
+			this->r = (float)(r * 255.0f);
+			this->g = (float)(g * 255.0f);
+			this->b = (float)(b * 255.0f);
+			this->a = (float)(a * 255.0f);
+		}
+
 		operator ImU32()
 		{
 			return ImGui::ColorConvertFloat4ToU32(toVec4());
