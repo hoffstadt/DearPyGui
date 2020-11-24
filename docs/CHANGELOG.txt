@@ -28,6 +28,15 @@ HOW TO UPDATE?
 
 Decorated log: https://github.com/hoffstadt/DearPyGui/releases/tag/v0.6.x
 
+Fixes:
+- delete_item: fixed issue with windows not working properly
+
+-----------------------------------------------------------------------
+ VERSION 0.6.15
+-----------------------------------------------------------------------
+
+Decorated log: https://github.com/hoffstadt/DearPyGui/releases/tag/v0.6.15
+
 New Keywords:
 - plot:               Added "format" keyword
 - plot:               Added "y2axis_no_gridlines" keyword

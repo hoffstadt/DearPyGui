@@ -244,7 +244,7 @@ namespace Marvel {
 			// check if attempting to delete a window
 			for (auto window : m_frontWindows)
 			{
-				if (window->getName() == m_deleteQueue.front())
+				if (window->getName() == item)
 				{
 					frontWindowDeleting = true;
 					break;
@@ -253,7 +253,7 @@ namespace Marvel {
 
 			for (auto window : m_backWindows)
 			{
-				if (window->getName() == m_deleteQueue.front())
+				if (window->getName() == item)
 				{
 					backWindowDeleting = true;
 					break;
