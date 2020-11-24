@@ -12,6 +12,7 @@ namespace Marvel {
     // Forward Declarations
     //-----------------------------------------------------------------------------
     class mvAppItemStyleManager;
+    class mvAppItem;
 
     //-----------------------------------------------------------------------------
     // mvAppItemStyleManagerScope: Automates popping styles
@@ -44,7 +45,7 @@ namespace Marvel {
     //-----------------------------------------------------------------------------
     class mvAppItemStyleManager
     {
-
+        friend class mvAppItemStyleManagerScope;
         struct StyleColor
         {
             ImGuiCol idx;
@@ -57,7 +58,7 @@ namespace Marvel {
             std::vector<float> value;
         };
 
-        std::unordered_map<ImGuiStyleVar, int> style_var_sizes {
+        std::unordered_map<ImGuiStyleVar, int> style_var_sizes{
         { ImGuiStyleVar_Alpha,               1 },
         { ImGuiStyleVar_WindowPadding,       2 },
         { ImGuiStyleVar_WindowRounding,      1 },
@@ -85,12 +86,17 @@ namespace Marvel {
     public:
 
         mvAppItemStyleManagerScope getScopedStyleManager();
+
+        mvAppItemStyleManager() {};
+        mvAppItemStyleManager(mvAppItem* ptr);
+
         void addColorStyle        (ImGuiCol item, mvColor color);
         void addTempColorStyle    (ImGuiCol item, mvColor color);
         void pushColorStyles      ();
         void popColorStyles       ();
         void clearColors          ();
         void clearTempColors      ();
+        void updateAppItemStyle   ();
 
         void addStyleVar(ImGuiStyleVar item, std::vector<float> value);
         void pushStyleVars();
@@ -103,6 +109,8 @@ namespace Marvel {
         std::vector<StyleColor> m_colors_temp;
 
         std::vector<StyleVar> m_style_vars;
+
+        mvAppItem* appItem = nullptr;
 
     };
 }

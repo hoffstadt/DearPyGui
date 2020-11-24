@@ -230,7 +230,10 @@ def show_demo():
                 add_checkbox("No close##demo", callback=lambda sender, data: configure_item("Dear PyGui Demo", no_close=get_value(sender)))
                 add_checkbox("No background##demo", callback=lambda sender, data: configure_item("Dear PyGui Demo", no_background=get_value(sender)))
                 add_checkbox("No bring to front##demo", callback=lambda sender, data: configure_item("Dear PyGui Demo", no_bring_to_front_on_focus=get_value(sender)))
+        def change_button_color(sender, data):
+            set_app_color(mvGuiCol_Button, get_value(sender))
 
+        add_color_edit4("button color", callback=change_button_color)
         with collapsing_header("Widgets##demo"):
 
             with tree_node("Basic##demo"):

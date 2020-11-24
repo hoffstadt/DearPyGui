@@ -83,7 +83,6 @@ namespace Marvel {
 	{
 		auto styleManager = m_styleManager.getScopedStyleManager();
 		ScopedID id;
-
 		if (!m_enabled)
 		{
 			ImVec4 disabled_color = ImVec4(ImGui::GetStyleColorVec4(ImGuiCol_TextDisabled));
@@ -98,7 +97,6 @@ namespace Marvel {
 		{
 			if (ImGui::SmallButton(m_label.c_str()))
 				mvApp::GetApp()->addCallback(getCallback(false), m_name, m_callbackData);
-
 			return;
 		}
 
@@ -106,13 +104,11 @@ namespace Marvel {
 		{
 			if (ImGui::ArrowButton(m_label.c_str(), m_direction))
 				mvApp::GetApp()->addCallback(getCallback(false), m_name, m_callbackData);
-
 			return;
 		}
 
 		if (ImGui::Button(m_label.c_str(), ImVec2((float)m_width, (float)m_height)))
 			mvApp::GetApp()->addCallback(getCallback(false), m_name, m_callbackData);
-
 	}
 
 	void mvButton::setExtraConfigDict(PyObject* dict)
@@ -134,6 +130,30 @@ namespace Marvel {
 		PyDict_SetItemString(dict, "small", ToPyBool(m_small));
 		PyDict_SetItemString(dict, "arrow", ToPyBool(m_arrow));
 		PyDict_SetItemString(dict, "direction", ToPyInt(m_direction));
+	}
+
+	mvColor mvButton::buttonColor = { 255, 255, 255, 75 };
+	mvColor mvButton::buttonHoveredColor = { 255, 255, 255, 75 };
+	mvColor mvButton::buttonActiveColor = { 255, 255, 255, 75 };
+	mvColor mvButton::textColor = { 255, 255, 255, 75 };
+
+	void mvButton::updateStyleSettings()
+	{
+		buttonColor = { 255, 0, 0, 75 };
+		buttonHoveredColor = { 255, 0, 0, 75 };
+		buttonActiveColor = { 255, 0, 0, 75 };
+		textColor = { 255, 0, 0, 75 };
+	}
+
+	void mvButton::applyStyleSettings() {
+		ImGui::PushStyleColor(ImGuiCol_Button, buttonColor.toVec4());
+		ImGui::PushStyleColor(ImGuiCol_ButtonHovered, buttonHoveredColor.toVec4());
+		ImGui::PushStyleColor(ImGuiCol_ButtonActive, buttonActiveColor.toVec4());
+		ImGui::PushStyleColor(ImGuiCol_Text, textColor.toVec4());
+	}
+
+	void mvButton::clearStyleSettings() {
+		ImGui::PopStyleColor(4);
 	}
 
 	mvCheckbox::mvCheckbox(const std::string& name, bool default_value, const std::string& dataSource)

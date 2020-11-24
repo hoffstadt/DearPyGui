@@ -53,6 +53,14 @@ namespace Marvel {
 		void draw              ()               override;
 		void setExtraConfigDict(PyObject* dict) override;
 		void getExtraConfigDict(PyObject* dict) override;
+		virtual void	updateStyleSettings() override;
+		virtual void	applyStyleSettings() override;
+		virtual void	clearStyleSettings() override;
+
+		static mvColor  buttonColor;
+		static mvColor  buttonHoveredColor;
+		static mvColor  buttonActiveColor;
+		static mvColor  textColor;
 
 	private:
 

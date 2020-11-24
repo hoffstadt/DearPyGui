@@ -12,6 +12,7 @@ namespace Marvel{
 	{
 		m_name = name;
 		m_label = name;
+		m_styleManager=mvAppItemStyleManager(this);
 	}
 
 	mvAppItem* mvAppItem::getNearestAncestorOfType(mvAppItemType type)

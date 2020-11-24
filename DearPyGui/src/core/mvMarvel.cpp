@@ -695,6 +695,7 @@ namespace Marvel {
 		// Theme commands
 		ADD_PYTHON_FUNCTION(add_additional_font)
 		ADD_PYTHON_FUNCTION(set_item_color)
+		ADD_PYTHON_FUNCTION(set_app_color)
 		ADD_PYTHON_FUNCTION(clear_item_color)
 		ADD_PYTHON_FUNCTION(set_item_style_var)
 		ADD_PYTHON_FUNCTION(clear_item_style_vars)

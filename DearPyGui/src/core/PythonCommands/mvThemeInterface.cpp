@@ -32,6 +32,11 @@ namespace Marvel {
 			{mvPythonDataType::FloatList, "color"}
 		}, "Sets an color style for a single item.", "None", "Themes and Styles") });
 
+		parsers->insert({ "set_app_color", mvPythonParser({
+			{mvPythonDataType::Integer, "style"},
+			{mvPythonDataType::FloatList, "color"}
+		}, "Sets an color for app wide items.", "None", "Themes and Styles") });
+
 		parsers->insert({ "clear_item_color", mvPythonParser({
 			{mvPythonDataType::String, "item"},
 		}, "Clears individual color styles for an item.", "None", "Themes and Styles") });
@@ -372,6 +377,21 @@ namespace Marvel {
 
 		if (appitem)
 			appitem->getStyleManager().addColorStyle(style, mcolor);
+
+		return GetPyNone();
+	}
+
+	PyObject* set_app_color(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		int style;
+		PyObject* color;
+
+		if (!(*mvApp::GetApp()->getParsers())["set_app_color"].parse(args, kwargs, __FUNCTION__, &style, &color))
+			return GetPyNone();
+
+		auto mcolor = ToColor(color);
+
+		mvApp::GetApp()->getStyleManager().setAppColor(style, mcolor);
 
 		return GetPyNone();
 	}
