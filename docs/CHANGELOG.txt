@@ -31,6 +31,8 @@ Decorated log: https://github.com/hoffstadt/DearPyGui/releases/tag/v0.6.x
 Fixes:
 - set_resize_callback: handler now required
 - stub file:           added missing tab options
+- primary window:      will no longer hide logger
+- start callback:      is ran on the 3rd frame now
 
 -----------------------------------------------------------------------
  VERSION 0.6.10

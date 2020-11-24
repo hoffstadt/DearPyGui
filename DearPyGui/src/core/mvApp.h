@@ -227,7 +227,6 @@ namespace Marvel {
         std::string m_theme = "Dark";
         float       m_globalFontScale = 1.0f;
         ImGuiStyle  m_newstyle;
-        bool        m_firstRender = true;
         bool        m_styleChange = true;
         bool        m_vsync = true;
         bool        m_resizable = true;

@@ -30,6 +30,7 @@ namespace Marvel {
 	int  mvAppLog::s_ypos = 200;
 	bool mvAppLog::s_dirty_pos = true;
 	bool mvAppLog::s_dirty_size = true;
+	bool mvAppLog::s_focus = false;
 
 	void mvAppLog::SetConfigDict(PyObject* dict)
 	{
@@ -100,6 +101,11 @@ namespace Marvel {
 	{ 
 		return s_height; 
 	}
+
+	void mvAppLog::Focus()
+	{
+		s_focus = true;
+	}
 	
 	void mvAppLog::Clear()
 	{
@@ -153,6 +159,13 @@ namespace Marvel {
 		{
 			ImGui::SetNextWindowSize(ImVec2((float)s_width, (float)s_height));
 			s_dirty_size = false;
+		}
+
+
+		if (s_focus)
+		{
+			ImGui::SetNextWindowFocus();
+			s_focus = false;
 		}
 
 		if (!ImGui::Begin("Dear PyGui Logger", &show, s_flags))
