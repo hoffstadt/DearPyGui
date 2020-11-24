@@ -26,11 +26,24 @@ show_demo()
 show_logger()
 set_threadpool_high_performance()
 
+def window_close_all(sender, data):
+    log_info(f'Close Open Windows {sender}, {data}')
+    all_windows = get_windows()
+    print(all_windows)
+    for win in all_windows:
+        log(f'Processing to close: {win}')
+        if '##standard' in win:
+            continue
+        log_info(f'Closing window found: {win}')
+        if does_item_exist(win):
+            delete_item(win)
+
+
 with window("Primary Window Tester", show=True, no_resize=True):
     
     add_button("This Primary", callback=lambda sender, data: set_primary_window("Primary Window Tester", True))
     add_button("Demo Primary", callback=lambda sender, data: set_primary_window("Dear PyGui Demo", True))
-    add_button("Async Primary", callback=lambda sender, data: set_primary_window("Asyncronous##dialog", True))
+    add_button("Async Primary", callback=window_close_all)
 
 with window("Asyncronous##dialog", show=True):
     add_data('threadNumber', 0)
