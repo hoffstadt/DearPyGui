@@ -9,9 +9,9 @@ namespace Marvel {
 	public:
 
 		mvLabelSeries(const std::string& name, const std::vector<float>* x, 
-			const std::vector<float>* y, int xoffset = 0, int yoffset = 0, bool vertical = false)
+			const std::vector<float>* y, int xoffset = 0, int yoffset = 0, bool vertical = false, ImPlotYAxis_ axis = ImPlotYAxis_1)
 			: 
-			mvSeries(name, {x, y}),
+			mvSeries(name, {x, y}, axis),
 			m_xoffset(xoffset), 
 			m_yoffset(yoffset),
 			m_vertical(vertical)

@@ -9,9 +9,9 @@ namespace Marvel {
 	public:
 
 		mvLineSeries(const std::string& name, const std::vector<float>* x,
-			const std::vector<float>* y, mvColor color)
+			const std::vector<float>* y, mvColor color, ImPlotYAxis_ axis)
 			: 
-			mvSeries(name, { x, y }),
+			mvSeries(name, { x, y }, axis),
 			m_color(color)
 		{
 		}

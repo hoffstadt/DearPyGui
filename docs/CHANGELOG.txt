@@ -28,6 +28,34 @@ HOW TO UPDATE?
 
 Decorated log: https://github.com/hoffstadt/DearPyGui/releases/tag/v0.6.x
 
+New Keywords:
+- plot:               Added "format" keyword
+- plot:               Added "y2axis_no_gridlines" keyword
+- plot:               Added "y2axis_no_tick_marks" keyword
+- plot:               Added "y2axis_no_tick_labels" keyword
+- plot:               Added "y2axis_log_scale" keyword
+- plot:               Added "y2axis_invert" keyword
+- plot:               Added "y2axis_lock_min" keyword
+- plot:               Added "y2axis_lock_max" keyword
+- plot:               Added "yaxis_no_gridlines" keyword
+- plot:               Added "y3axis_no_tick_marks" keyword
+- plot:               Added "y3axis_no_tick_labels" keyword
+- plot:               Added "y3axis_log_scale" keyword
+- plot:               Added "y3axis_invert" keyword
+- plot:               Added "y3axis_lock_min" keyword
+- plot:               Added "y3axis_lock_max" keyword
+- add_area_series:    Added "axis" keyword #318
+- add_line_series:    Added "axis" keyword #318
+- add_scatter_series: Added "axis" keyword #318
+- add_heat_series:    Added "axis" keyword #318
+- add_error_series:   Added "axis" keyword #318
+- add_pie_series:     Added "axis" keyword #318
+- add_stair_series:   Added "axis" keyword #318
+- add_stem_series:    Added "axis" keyword #318
+- add_shade_series:   Added "axis" keyword #318
+- add_candle_series:  Added "axis" keyword #318
+- add_bar_series:     Added "axis" keyword #318
+
 Fixes:
 - set_resize_callback: handler now required
 - stub file:           added missing tab options
