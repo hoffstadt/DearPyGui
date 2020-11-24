@@ -5,7 +5,7 @@
 #include "Registries/mvDataStorage.h"
 #include "mvInput.h"
 #include "mvTextEditor.h"
-#include "mvThemeScheme.h"
+#include "Theming/mvThemeScheme.h"
 #include <fstream>
 #include <streambuf>
 #include "mvAppLog.h"

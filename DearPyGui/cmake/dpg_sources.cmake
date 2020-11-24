@@ -20,7 +20,8 @@ set(MARVEL_SOURCES
 	"src/core/mvWindow.cpp"
 	"src/core/mvTextEditor.cpp"
 	"src/core/mvProfiler.cpp"
-	"src/core/mvAppItemStyleManager.cpp"
+
+	"src/core/Theming/mvAppItemStyleManager.cpp"
 
 	"src/core/DrawCommands/mvDrawImageCmd.cpp"
 	"src/core/DrawCommands/mvDrawLineCmd.cpp"
