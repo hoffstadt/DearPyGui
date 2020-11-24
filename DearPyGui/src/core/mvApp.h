@@ -23,7 +23,7 @@
 #include <chrono>
 #include <mutex>
 #include <thread>
-#include "mvAppItem.h"
+#include "core/AppItems/mvAppItem.h"
 #include "PythonUtilities/mvPythonParser.h"
 #include "mvEventHandler.h"
 #include "Registries/mvItemRegistry.h"
