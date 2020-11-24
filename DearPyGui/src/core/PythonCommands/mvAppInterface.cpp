@@ -1007,6 +1007,8 @@ namespace Marvel {
 				static_cast<mvWindowAppitem*>(window)->setWindowAsMainStatus(false);
 		}
 
+		mvAppLog::Focus();
+
 		mvWindowAppitem* window = mvApp::GetApp()->getItemRegistry().getWindow(item);
 
 		if (window)
