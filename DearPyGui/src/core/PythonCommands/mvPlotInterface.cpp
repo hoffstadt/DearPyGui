@@ -21,6 +21,8 @@ namespace Marvel {
 			{mvPythonDataType::Bool, "query", "", "False"},
 			{mvPythonDataType::Bool, "crosshairs", "", "False"},
 			{mvPythonDataType::Bool, "anti_aliased", "", "False"},
+			{mvPythonDataType::Bool, "yaxis2", "", "False"},
+			{mvPythonDataType::Bool, "yaxis3", "", "False"},
 
 			// x axis flags
 			{mvPythonDataType::Bool, "xaxis_no_gridlines", "", "False"},
@@ -40,6 +42,24 @@ namespace Marvel {
 			{mvPythonDataType::Bool, "yaxis_invert", "", "False"},
 			{mvPythonDataType::Bool, "yaxis_lock_min", "", "False"},
 			{mvPythonDataType::Bool, "yaxis_lock_max", "", "False"},
+
+			// y2 axis flags
+			{mvPythonDataType::Bool, "y2axis_no_gridlines", "", "False"},
+			{mvPythonDataType::Bool, "y2axis_no_tick_marks", "", "False"},
+			{mvPythonDataType::Bool, "y2axis_no_tick_labels", "", "False"},
+			{mvPythonDataType::Bool, "y2axis_log_scale", "", "False"},
+			{mvPythonDataType::Bool, "y2axis_invert", "", "False"},
+			{mvPythonDataType::Bool, "y2axis_lock_min", "", "False"},
+			{mvPythonDataType::Bool, "y2axis_lock_max", "", "False"},
+
+			// y3 axis flags
+			{mvPythonDataType::Bool, "y3axis_no_gridlines", "", "False"},
+			{mvPythonDataType::Bool, "y3axis_no_tick_marks", "", "False"},
+			{mvPythonDataType::Bool, "y3axis_no_tick_labels", "", "False"},
+			{mvPythonDataType::Bool, "y3axis_log_scale", "", "False"},
+			{mvPythonDataType::Bool, "y3axis_invert", "", "False"},
+			{mvPythonDataType::Bool, "y3axis_lock_min", "", "False"},
+			{mvPythonDataType::Bool, "y3axis_lock_max", "", "False"},
 
 			{mvPythonDataType::String, "parent", "Parent to add this item to. (runtime adding)", "''"},
 			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)", "''"},
@@ -174,6 +194,7 @@ namespace Marvel {
 			{mvPythonDataType::FloatList, "uv_max", "normalized texture coordinates", "(1.0, 1.0)"},
 			{mvPythonDataType::IntList, "tint_color", "", "(255, 255, 255, 255)"},
 			{mvPythonDataType::Bool, "update_bounds", "update plot bounds", "True"},
+			{mvPythonDataType::Integer, "axis", "", "0"},
 		}, "Adds a image series to a plot.", "None", "Plotting") });
 
 		parsers->insert({ "add_pie_series", mvPythonParser({
@@ -189,6 +210,7 @@ namespace Marvel {
 			{mvPythonDataType::Float, "angle", "", "90.0"},
 			{mvPythonDataType::String, "format", "", "'%0.2f'"},
 			{mvPythonDataType::Bool, "update_bounds", "update plot bounds", "True"},
+			{mvPythonDataType::Integer, "axis", "", "0"},
 		}, "Adds a pie series to a plot.", "None", "Plotting") });
 
 		parsers->insert({ "add_line_series", mvPythonParser({
@@ -200,6 +222,7 @@ namespace Marvel {
 			{mvPythonDataType::FloatList, "color", "", "(0, 0, 0, -1)"},
 			{mvPythonDataType::Float, "weight", "", "1.0"},
 			{mvPythonDataType::Bool, "update_bounds", "update plot bounds", "True"},
+			{mvPythonDataType::Integer, "axis", "", "0"},
 		}, "Adds a line series to a plot.", "None", "Plotting") });
 
 		parsers->insert({ "add_stair_series", mvPythonParser({
@@ -211,6 +234,7 @@ namespace Marvel {
 			{mvPythonDataType::FloatList, "color", "", "(0, 0, 0, -1)"},
 			{mvPythonDataType::Float, "weight", "", "1.0"},
 			{mvPythonDataType::Bool, "update_bounds", "update plot bounds", "True"},
+			{mvPythonDataType::Integer, "axis", "", "0"},
 		}, "Adds a stair series to a plot.", "None", "Plotting") });
 
 		parsers->insert({ "add_error_series", mvPythonParser({
@@ -224,6 +248,7 @@ namespace Marvel {
 			{mvPythonDataType::Bool, "horizontal", "", "False"},
 			{mvPythonDataType::Bool, "update_bounds", "update plot bounds", "True"},
 			{mvPythonDataType::FloatList, "color", "", "(0, 0, 0, -1)"},
+			{mvPythonDataType::Integer, "axis", "", "0"},
 		}, "Adds an error series to a plot.", "None", "Plotting") });
 
 		parsers->insert({ "add_bar_series", mvPythonParser({
@@ -235,6 +260,7 @@ namespace Marvel {
 			{mvPythonDataType::Float, "weight", "", "1.0"},
 			{mvPythonDataType::Bool, "horizontal", "", "False"},
 			{mvPythonDataType::Bool, "update_bounds", "update plot bounds", "True"},
+			{mvPythonDataType::Integer, "axis", "", "0"},
 		}, "Adds a bar series to a plot.", "None", "Plotting") });
 
 		parsers->insert({ "add_shade_series", mvPythonParser({
@@ -248,6 +274,7 @@ namespace Marvel {
 			{mvPythonDataType::FloatList, "fill", "", "(0, 0, 0, -1)"},
 			{mvPythonDataType::Float, "weight", "", "1.0"},
 			{mvPythonDataType::Bool, "update_bounds", "update plot bounds", "True"},
+			{mvPythonDataType::Integer, "axis", "", "0"},
 		}, "Adds a shade series to a plot.", "None", "Plotting") });
 
 		parsers->insert({ "add_candle_series", mvPythonParser({
@@ -264,6 +291,7 @@ namespace Marvel {
 			{mvPythonDataType::FloatList, "bear_color", "", "(218, 13, 79, 255)"},
 			{mvPythonDataType::Float, "weight", "", "0.25"},
 			{mvPythonDataType::Bool, "update_bounds", "update plot bounds", "True"},
+			{mvPythonDataType::Integer, "axis", "", "0"},
 		}, "Adds a candle series to a plot.", "None", "Plotting") });
 
 		parsers->insert({ "add_scatter_series", mvPythonParser({
@@ -279,6 +307,7 @@ namespace Marvel {
 			{mvPythonDataType::FloatList, "fill", "", "(0, 0, 0, -1)"},
 			{mvPythonDataType::Bool, "update_bounds", "update plot bounds", "True"},
 			{mvPythonDataType::Bool, "xy_data_format", "split x and y", "False"},
+			{mvPythonDataType::Integer, "axis", "", "0"},
 		}, "Adds a scatter series to a plot.", "None", "Plotting") });
 
 		parsers->insert({ "add_stem_series", mvPythonParser({
@@ -293,6 +322,7 @@ namespace Marvel {
 			{mvPythonDataType::FloatList, "outline", "", "(0, 0, 0, -1)"},
 			{mvPythonDataType::FloatList, "fill", "", "(0, 0, 0, -1)"},
 			{mvPythonDataType::Bool, "update_bounds", "update plot bounds", "True"},
+			{mvPythonDataType::Integer, "axis", "", "0"},
 		}, "Adds a stem series to a plot.", "None", "Plotting") });
 
 		parsers->insert({ "add_text_point", mvPythonParser({
@@ -305,6 +335,7 @@ namespace Marvel {
 			{mvPythonDataType::Integer, "xoffset", "", "0.0"},
 			{mvPythonDataType::Integer, "yoffset", "", "0.0"},
 			{mvPythonDataType::Bool, "update_bounds", "update plot bounds", "True"},
+			{mvPythonDataType::Integer, "axis", "", "0"},
 		}, "Adds a point with text to a plot.", "None", "Plotting") });
 
 		parsers->insert({ "add_area_series", mvPythonParser({
@@ -317,6 +348,7 @@ namespace Marvel {
 			{mvPythonDataType::KeywordOnly},
 			{mvPythonDataType::Float, "weight", "", "1.0"},
 			{mvPythonDataType::Bool, "update_bounds", "update plot bounds", "True"},
+			{mvPythonDataType::Integer, "axis", "", "0"},
 		}, "Adds an area series to a plot.", "None", "Plotting") });
 
 		parsers->insert({ "add_heat_series", mvPythonParser({
@@ -332,6 +364,7 @@ namespace Marvel {
 			{mvPythonDataType::FloatList, "bounds_min", "", "(0.0, 0.0)"},
 			{mvPythonDataType::FloatList, "bounds_max", "", "(1.0, 1.0)"},
 			{mvPythonDataType::Bool, "update_bounds", "update plot bounds", "True"},
+			{mvPythonDataType::Integer, "axis", "", "0"},
 		}, "Adds a heat series to a plot.", "None", "Plotting") });
 
 		parsers->insert({ "set_xticks", mvPythonParser({
@@ -973,6 +1006,8 @@ namespace Marvel {
 		int query = false;
 		int crosshairs = false;
 		int antialiased = false;
+		int yaxis2 = false;
+		int yaxis3 = false;
 
 		// x axis flags
 		int xaxis_no_gridlines = false;
@@ -993,6 +1028,24 @@ namespace Marvel {
 		int yaxis_lock_min = false;
 		int yaxis_lock_max = false;
 
+		// y2 axis flags
+		int y2axis_no_gridlines = false;
+		int y2axis_no_tick_marks = false;
+		int y2axis_no_tick_labels = false;
+		int y2axis_log_scale = false;
+		int y2axis_invert = false;
+		int y2axis_lock_min = false;
+		int y2axis_lock_max = false;
+
+		// y3 axis flags
+		int y3axis_no_gridlines = false;
+		int y3axis_no_tick_marks = false;
+		int y3axis_no_tick_labels = false;
+		int y3axis_log_scale = false;
+		int y3axis_invert = false;
+		int y3axis_lock_min = false;
+		int y3axis_lock_max = false;
+
 		const char* parent = "";
 		const char* before = "";
 		int width = -1;
@@ -1012,6 +1065,7 @@ namespace Marvel {
 
 		if (!(*mvApp::GetApp()->getParsers())["add_plot"].parse(args, kwargs, __FUNCTION__, &name, &xAxisName, &yAxisName,
 			&no_legend, &no_menus, &no_box_select, &no_mouse_pos, &no_highlight, &no_child, &query, &crosshairs, &antialiased,
+			&yaxis2, &yaxis3,
 			&xaxis_no_gridlines,
 			&xaxis_no_tick_marks,
 			&xaxis_no_tick_labels,
@@ -1027,6 +1081,20 @@ namespace Marvel {
 			&yaxis_invert,
 			&yaxis_lock_min,
 			&yaxis_lock_max,
+			&y2axis_no_gridlines,
+			&y2axis_no_tick_marks,
+			&y2axis_no_tick_labels,
+			&y2axis_log_scale,
+			&y2axis_invert,
+			&y2axis_lock_min,
+			&y2axis_lock_max,
+			&yaxis_no_gridlines,
+			&y3axis_no_tick_marks,
+			&y3axis_no_tick_labels,
+			&y3axis_log_scale,
+			&y3axis_invert,
+			&y3axis_lock_min,
+			&y3axis_lock_max,
 			&parent, &before, &width, &height, &query_callback, &show_color_scale, &scale_min, &scale_max,
 			&scale_height, &label, &show, &show_annotations, &show_drag_lines, &show_drag_points))
 			return ToPyBool(false);
@@ -1184,9 +1252,10 @@ namespace Marvel {
 		PyTuple_SetItem(tintcolor, 2, PyFloat_FromDouble(255.0));
 		PyTuple_SetItem(tintcolor, 3, PyFloat_FromDouble(255.0));
 		int update_bounds = true;
+		int axis = 0;
 
 		if (!(*mvApp::GetApp()->getParsers())["add_image_series"].parse(args, kwargs, __FUNCTION__, 
-			&plot, &name, &value, &bounds_min, &bounds_max, &uv_min, &uv_max, &tintcolor, &update_bounds))
+			&plot, &name, &value, &bounds_min, &bounds_max, &uv_min, &uv_max, &tintcolor, &update_bounds, &axis))
 			return GetPyNone();
 
 		if (!CheckList(plot, bounds_min)) return GetPyNone();
@@ -1218,7 +1287,7 @@ namespace Marvel {
 		auto mcolor = ToColor(tintcolor);
 
 		auto series = new mvImageSeries(name, value, ImPlotPoint(mbounds_min[0], mbounds_min[1]), ImPlotPoint(mbounds_max[0], mbounds_max[1]),
-			muv_min, muv_max, mcolor);
+			muv_min, muv_max, mcolor,(ImPlotYAxis_)axis);
 
 		graph->updateSeries(series, update_bounds);
 
@@ -1239,10 +1308,11 @@ namespace Marvel {
 		double angle = 90.0;
 		const char* format = "%0.2f";
 		int update_bounds = true;
+		int axis = 0;
 
 		if (!(*mvApp::GetApp()->getParsers())["add_pie_series"].parse(args, kwargs, __FUNCTION__, &plot, &name, 
 			&values, &labels, &x,
-			&y, &radius, &normalize, &angle, &format, &update_bounds))
+			&y, &radius, &normalize, &angle, &format, &update_bounds, &axis))
 			return GetPyNone();
 
 		if (!CheckList(plot, values)) return GetPyNone();
@@ -1263,7 +1333,7 @@ namespace Marvel {
 			return GetPyNone();
 		}
 
-		auto series = new mvPieSeries(name, &avalues, x, y, radius, normalize, angle, format, alabels);
+		auto series = new mvPieSeries(name, &avalues, x, y, radius, normalize, angle, format, alabels, (ImPlotYAxis_)axis);
 
 		graph->updateSeries(series, update_bounds);
 
@@ -1284,9 +1354,10 @@ namespace Marvel {
 		PyTuple_SetItem(color, 2, PyLong_FromLong(0));
 		PyTuple_SetItem(color, 3, PyLong_FromLong(255));
 		int update_bounds = true;
+		int axis = 0;
 
 		if (!(*mvApp::GetApp()->getParsers())["add_line_series"].parse(args, kwargs, __FUNCTION__, 
-			&plot, &name, &x, &y, &color, &weight, &update_bounds))
+			&plot, &name, &x, &y, &color, &weight, &update_bounds, &axis))
 			return GetPyNone();
 
 		if (!CheckList(plot, x)) return GetPyNone();
@@ -1304,7 +1375,7 @@ namespace Marvel {
 
 		if (!CheckArraySizes(plot, { &xs, &ys })) return GetPyNone();
 
-		auto* series = new mvLineSeries(name, &xs, &ys, mcolor);
+		auto* series = new mvLineSeries(name, &xs, &ys, mcolor, (ImPlotYAxis_)axis);
 
 		series->setWeight(weight);
 		graph->updateSeries(series, update_bounds);
@@ -1325,6 +1396,7 @@ namespace Marvel {
 		PyTuple_SetItem(color, 2, PyLong_FromLong(0));
 		PyTuple_SetItem(color, 3, PyLong_FromLong(255));
 		int update_bounds = true;
+		int axis = 0;
 
 		if (!(*mvApp::GetApp()->getParsers())["add_stair_series"].parse(args, kwargs, __FUNCTION__,
 			&plot, &name, &x, &y, &color, &weight, &update_bounds))
@@ -1345,7 +1417,7 @@ namespace Marvel {
 
 		if (!CheckArraySizes(plot, { &xs, &ys })) return GetPyNone();
 
-		auto* series = new mvStairSeries(name, &xs, &ys, mcolor);
+		auto* series = new mvStairSeries(name, &xs, &ys, mcolor, (ImPlotYAxis_)axis);
 
 		series->setWeight(weight);
 		graph->updateSeries(series, update_bounds);
@@ -1362,9 +1434,10 @@ namespace Marvel {
 		float weight = 1.0f;
 		int horizontal = false;
 		int update_bounds = true;
+		int axis = 0;
 
 		if (!(*mvApp::GetApp()->getParsers())["add_bar_series"].parse(args, kwargs, __FUNCTION__, 
-			&plot, &name, &x, &y, &weight, &horizontal, &update_bounds))
+			&plot, &name, &x, &y, &weight, &horizontal, &update_bounds, &axis))
 			return GetPyNone();
 
 		if (!CheckList(plot, x)) return GetPyNone();
@@ -1384,7 +1457,7 @@ namespace Marvel {
 		if (xs.size() == 0)
 			return GetPyNone();
 
-		auto series = new mvBarSeries(name, &xs, &ys, horizontal);
+		auto series = new mvBarSeries(name, &xs, &ys, horizontal, (ImPlotYAxis_)axis);
 		series->setWeight(weight);
 		graph->updateSeries(series, update_bounds);
 
@@ -1411,9 +1484,10 @@ namespace Marvel {
 		PyTuple_SetItem(fill, 2, PyLong_FromLong(0));
 		PyTuple_SetItem(fill, 3, PyLong_FromLong(255));
 		int update_bounds = true;
+		int axis = 0;
 
 		if (!(*mvApp::GetApp()->getParsers())["add_shade_series"].parse(args, kwargs, __FUNCTION__, 
-			&plot, &name, &x, &y1, &y2, &color, &fill, &weight, &update_bounds))
+			&plot, &name, &x, &y1, &y2, &color, &fill, &weight, &update_bounds, &axis))
 			return GetPyNone();
 
 		if (!CheckList(plot, x)) return GetPyNone();
@@ -1444,7 +1518,7 @@ namespace Marvel {
 		if(xs.size() == 0)
 			return GetPyNone();
 
-		auto series = new mvShadeSeries(name, mcolor, mfill , &xs, &y1s, &y2s);
+		auto series = new mvShadeSeries(name, mcolor, mfill , &xs, &y1s, &y2s, (ImPlotYAxis_)axis);
 		series->setWeight(weight);
 		graph->updateSeries(series, update_bounds);
 
@@ -1475,10 +1549,11 @@ namespace Marvel {
 		PyTuple_SetItem(bear_color, 3, PyLong_FromLong(255));
 		float weight = 0.25f;
 		int update_bounds = true;
+		int axis = 0;
 
 		if (!(*mvApp::GetApp()->getParsers())["add_candle_series"].parse(args, kwargs, __FUNCTION__,
 			&plot, &name, &dates, &opens, &highs, &lows, &closes, &tooltip, 
-			&bull_color, &bear_color, &weight, &update_bounds))
+			&bull_color, &bear_color, &weight, &update_bounds, &axis))
 			return GetPyNone();
 
 		if (!CheckList(plot, dates)) return GetPyNone();
@@ -1507,7 +1582,7 @@ namespace Marvel {
 			return GetPyNone();
 
 		auto series = new mvCandleSeries(name, &mdates, &mopens, &mhighs, &mlows, &mcloses,
-			weight, mbull, mbear);
+			weight, mbull, mbear, (ImPlotYAxis_)axis);
 		series->setWeight(weight);
 		graph->updateSeries(series, update_bounds);
 
@@ -1535,10 +1610,11 @@ namespace Marvel {
 		PyTuple_SetItem(fill, 3, PyLong_FromLong(255));
 		int update_bounds = true;
 		int xy_data_format = false;
+		int axis = 0;
 
 		if (!(*mvApp::GetApp()->getParsers())["add_scatter_series"].parse(args, kwargs, __FUNCTION__, &plot, 
 			&name, &x, &y, &marker,
-			&size, &weight, &outline, &fill, &update_bounds, &xy_data_format))
+			&size, &weight, &outline, &fill, &update_bounds, &xy_data_format, &axis))
 			return GetPyNone();
 
 		if (!CheckList(plot, x)) return GetPyNone();
@@ -1557,7 +1633,7 @@ namespace Marvel {
 
 		if (!CheckArraySizes(plot, { &xs, &ys })) return GetPyNone();
 
-		auto series = new mvScatterSeries(name, &xs, &ys, marker, size, weight, mmarkerOutlineColor, mmarkerFillColor);
+		auto series = new mvScatterSeries(name, &xs, &ys, marker, size, weight, mmarkerOutlineColor, mmarkerFillColor, (ImPlotYAxis_)axis);
 		
 		graph->updateSeries(series, update_bounds);
 
@@ -1584,10 +1660,11 @@ namespace Marvel {
 		PyTuple_SetItem(fill, 2, PyLong_FromLong(0));
 		PyTuple_SetItem(fill, 3, PyLong_FromLong(255));
 		int update_bounds = true;
+		int axis = 0;
 
 		if (!(*mvApp::GetApp()->getParsers())["add_stem_series"].parse(args, kwargs, __FUNCTION__, &plot, &name, 
 			&x, &y, &marker,
-			&size, &weight, &outline, &fill, &update_bounds))
+			&size, &weight, &outline, &fill, &update_bounds, (ImPlotYAxis_)axis))
 			return GetPyNone();
 
 		if (!CheckList(plot, x)) return GetPyNone();
@@ -1610,7 +1687,7 @@ namespace Marvel {
 			return GetPyNone();
 
 		graph->updateSeries(new mvStemSeries(name, &xs, &ys, marker, size, weight, mmarkerOutlineColor,
-			mmarkerFillColor), update_bounds);
+			mmarkerFillColor, (ImPlotYAxis_)axis), update_bounds);
 
 		return GetPyNone();
 	}
@@ -1625,9 +1702,10 @@ namespace Marvel {
 		int xoffset = 0;
 		int yoffset = 0;
 		int update_bounds = true;
+		int axis = 0;
 
 		if (!(*mvApp::GetApp()->getParsers())["add_text_point"].parse(args, kwargs, __FUNCTION__,
-			&plot, &name, &x, &y, &vertical, &xoffset, &yoffset, &update_bounds))
+			&plot, &name, &x, &y, &vertical, &xoffset, &yoffset, &update_bounds, &axis))
 			return GetPyNone();
 
 		mvAppItem* aplot = mvApp::GetApp()->getItemRegistry().getItem(plot);
@@ -1650,7 +1728,7 @@ namespace Marvel {
 		std::vector<float> ax = { x };
 		std::vector<float> ay = { y };
 
-		graph->updateSeries(new mvLabelSeries(name, &ax, &ay, xoffset, yoffset, vertical), update_bounds);
+		graph->updateSeries(new mvLabelSeries(name, &ax, &ay, xoffset, yoffset, vertical, (ImPlotYAxis_)axis), update_bounds);
 
 		return GetPyNone();
 	}
@@ -1665,9 +1743,10 @@ namespace Marvel {
 		PyObject* fill;
 		float weight = 1.0f;
 		int update_bounds = true;
+		int axis = 0;
 
 		if (!(*mvApp::GetApp()->getParsers())["add_area_series"].parse(args, kwargs, __FUNCTION__, 
-			&plot, &name, &x, &y, &color, &fill, &weight, &update_bounds))
+			&plot, &name, &x, &y, &color, &fill, &weight, &update_bounds, &axis))
 			return GetPyNone();
 
 		if (!CheckList(plot, x)) return GetPyNone();
@@ -1691,8 +1770,8 @@ namespace Marvel {
 		auto mfill = ToColor(fill);
 
 		graph->deleteSeries(name);
-		auto aseries = new mvAreaSeries(name, &xs, &ys, mcolor, mfill);
-		auto lseries = new mvLineSeries(name, &xs, &ys, mcolor);
+		auto aseries = new mvAreaSeries(name, &xs, &ys, mcolor, mfill, (ImPlotYAxis_)axis);
+		auto lseries = new mvLineSeries(name, &xs, &ys, mcolor, (ImPlotYAxis_)axis);
 		aseries->setWeight(weight);
 		lseries->setWeight(weight);
 		graph->addSeries(aseries, update_bounds);
@@ -1717,9 +1796,10 @@ namespace Marvel {
 		PyTuple_SetItem(color, 1, PyLong_FromLong(0));
 		PyTuple_SetItem(color, 2, PyLong_FromLong(0));
 		PyTuple_SetItem(color, 3, PyLong_FromLong(255));
+		int axis = 0;
 
 		if (!(*mvApp::GetApp()->getParsers())["add_error_series"].parse(args, kwargs, __FUNCTION__, 
-			&plot, &name, &x, &y, &negative, &positive, &horizontal, &update_bounds, &color))
+			&plot, &name, &x, &y, &negative, &positive, &horizontal, &update_bounds, &color, &axis))
 			return GetPyNone();
 
 		if (!CheckList(plot, x)) return GetPyNone();
@@ -1744,7 +1824,7 @@ namespace Marvel {
 			return GetPyNone();
 
 		auto mcolor = ToColor(color);
-		auto series = new mvErrorSeries(name, &xs, &ys, &negatives, &positives, horizontal, mcolor);
+		auto series = new mvErrorSeries(name, &xs, &ys, &negatives, &positives, horizontal, mcolor, (ImPlotYAxis_)axis);
 		graph->updateSeries(series, update_bounds);
 
 		return GetPyNone();
@@ -1767,10 +1847,11 @@ namespace Marvel {
 		PyTuple_SetItem(bounds_max, 0, PyLong_FromLong(1));
 		PyTuple_SetItem(bounds_max, 1, PyLong_FromLong(1));
 		int update_bounds = true;
+		int axis = 0;
 
 		if (!(*mvApp::GetApp()->getParsers())["add_heat_series"].parse(args, kwargs, __FUNCTION__, 
 			&plot, &name, &values, &rows, &columns, &scale_min, &scale_max, &format, 
-			&bounds_min, &bounds_max, &update_bounds))
+			&bounds_min, &bounds_max, &update_bounds, &axis))
 			return GetPyNone();
 
 		if (!CheckList(plot, values)) return GetPyNone();
@@ -1789,7 +1870,7 @@ namespace Marvel {
 			return GetPyNone();
 
 		auto series = new mvHeatSeries(name, &mvalues, rows, columns, scale_min,
-			scale_max, format, mbounds_min, mbounds_max);
+			scale_max, format, mbounds_min, mbounds_max, (ImPlotYAxis_)axis);
 		graph->updateSeries(series, update_bounds);
 
 		return GetPyNone();

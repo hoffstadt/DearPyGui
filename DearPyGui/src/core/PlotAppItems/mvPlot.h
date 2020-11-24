@@ -71,8 +71,12 @@ namespace Marvel {
 		void draw           () override;
 		void setXLimits     (float x_min, float x_max);
 		void setYLimits     (float y_min, float y_max);
+		void setY2Limits     (float y_min, float y_max);
+		void setY3Limits     (float y_min, float y_max);
 		void setXLimitsAuto ();
 		void setYLimitsAuto ();
+		void setY2LimitsAuto ();
+		void setY3LimitsAuto ();
 
 		[[nodiscard]] bool isPlotQueried() const;
 		float* getPlotQueryArea();
@@ -80,6 +84,8 @@ namespace Marvel {
 		ImPlotFlags        getFlags         () const { return m_flags; }
 		ImPlotAxisFlags    getXFlags        () const { return m_xflags; }
 		ImPlotAxisFlags    getYFlags        () const { return m_yflags; }
+		ImPlotAxisFlags    getY2Flags        () const { return m_y2flags; }
+		ImPlotAxisFlags    getY3Flags        () const { return m_y3flags; }
 		bool               isColorScaleShown() const { return m_colormapscale; }
 		int                getScaleHeight   () const { return m_scale_height; }
 		float              getScaleMin      () const { return m_scale_min; }
@@ -89,6 +95,8 @@ namespace Marvel {
 		PyObject*          getQueryCallback ()       { return m_queryCallback; }
 		const ImVec2&      getXLimits       () const { return m_xlimits_actual; }
 		const ImVec2&      getYLimits       () const { return m_ylimits_actual; }
+		const ImVec2&      getY2Limits       () const { return m_y2limits_actual; }
+		const ImVec2&      getY3Limits       () const { return m_y3limits_actual; }
 
 		void setExtraConfigDict(PyObject* dict) override;
 		void getExtraConfigDict(PyObject* dict) override;
@@ -101,14 +109,15 @@ namespace Marvel {
 		ImPlotFlags                   m_flags    = 0;
 		ImPlotAxisFlags               m_xflags  = 0;
 		ImPlotAxisFlags               m_yflags  = 0;
-		ImPlotAxisFlags               m_y2flags  = ImPlotAxisFlags_NoDecorations;
-		ImPlotAxisFlags               m_y3flags  = ImPlotAxisFlags_NoDecorations;
+		ImPlotAxisFlags               m_y2flags  = 0;
+		ImPlotAxisFlags               m_y3flags  = 0;
 		bool                          m_showAnnotations = true;
 		bool                          m_showDragLines = true;
 		bool                          m_showDragPoints = true;
 
 
 		ImPlotColormap                m_colormap = ImPlotColormap_Default;
+
 		bool                          m_setXLimits = false;
 		bool                          m_setYLimits = false;
 		ImVec2                        m_xlimits;
@@ -135,6 +144,16 @@ namespace Marvel {
 		std::vector<mvPlotAnnotation> m_annotations;
 		std::vector<mvDragLine>       m_dragLines;
 		std::vector<mvDragPoint>      m_dragPoints;
+
+		// y axis 2
+		bool                          m_setY2Limits = false;
+		ImVec2                        m_y2limits;
+		ImVec2                        m_y2limits_actual;
+
+		// y axis 3
+		bool                          m_setY3Limits = false;
+		ImVec2                        m_y3limits;
+		ImVec2                        m_y3limits_actual;
 	};
 
 	//-----------------------------------------------------------------------------
@@ -200,9 +219,9 @@ namespace Marvel {
 			Stair, Candle
 		};
 
-		mvSeries(std::string name, const std::vector<const std::vector<float>*> data);
+		mvSeries(std::string name, const std::vector<const std::vector<float>*> data, ImPlotYAxis_ axis = ImPlotYAxis_1);
 
-		mvSeries(std::string name, const ImPlotPoint& boundsMin, const ImPlotPoint& boundsMax);
+		mvSeries(std::string name, const ImPlotPoint& boundsMin, const ImPlotPoint& boundsMax, ImPlotYAxis_ axis = ImPlotYAxis_1);
 
 		virtual ~mvSeries() = default;
 
@@ -216,6 +235,7 @@ namespace Marvel {
 	protected:
 
 		std::string                     m_name;
+		ImPlotYAxis_                    m_axis = ImPlotYAxis_1;
 		std::vector<std::vector<float>> m_data;
 
 		float                           m_maxX;
@@ -223,5 +243,6 @@ namespace Marvel {
 		float                           m_minX;
 		float                           m_minY;
 		float                           m_weight;
+		
 	};
 }

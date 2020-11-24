@@ -35,6 +35,7 @@ namespace Marvel {
 		static mvVec2                 GetWindowPos   ();
 		static void                   SetConfigDict(PyObject* dict);
 		static void                   GetConfigDict(PyObject* dict);
+		static void                   Focus          ();
 
 	private:
 
@@ -57,6 +58,7 @@ namespace Marvel {
 		static int              s_ypos;
 		static bool             s_dirty_pos;
 		static bool             s_dirty_size;
+		static bool             s_focus;
 
 #if defined (_WIN32)
         static std::chrono::steady_clock::time_point s_start;

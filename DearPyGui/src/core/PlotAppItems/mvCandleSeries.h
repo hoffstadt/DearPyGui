@@ -87,8 +87,8 @@ namespace Marvel {
 
 		mvCandleSeries(std::string name, const std::vector<float>* dates, const std::vector<float>* opens,
 			const std::vector<float>* highs, const std::vector<float>* lows, const std::vector<float>* closes,
-			float width, mvColor bull, mvColor bear)
-            : mvSeries(name, { dates, opens, highs, lows, closes }),
+			float width, mvColor bull, mvColor bear, ImPlotYAxis_ axis)
+            : mvSeries(name, { dates, opens, highs, lows, closes }, axis),
 			m_width(width),
 			m_bullColor(bull),
 			m_bearColor(bear)

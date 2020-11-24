@@ -72,8 +72,7 @@ namespace Marvel {
 
 	void mvApp::SetAppStarted() 
 	{
-		if (GetApp())
-			GetApp()->runCallback(GetApp()->getOnStartCallback(), "Main Application");
+		//if (GetApp())////GetApp()->runCallback(GetApp()->getOnStartCallback(), "Main Application");
 		s_started = true; 
 	}
 
@@ -125,7 +124,6 @@ namespace Marvel {
 
 	void mvApp::firstRenderFrame()
 	{
-		m_firstRender = false;
 
 		// if any theme color is not specified, use the default colors
 		for (int i = 0; i < ImGuiCol_COUNT; i++)
@@ -143,13 +141,16 @@ namespace Marvel {
 			
 
 		m_textures.clear();
+
+		GetApp()->runCallback(GetApp()->getOnStartCallback(), "Main Application");
 	}
 
 	bool mvApp::prerender()
 	{
 		MV_PROFILE_FUNCTION();
 
-		if (m_firstRender)
+		// allows for proper sizing
+		if (ImGui::GetFrameCount() == 3)
 			firstRenderFrame();
 
 		// check if threadpool is ready to be cleaned up
@@ -981,6 +982,7 @@ namespace Marvel {
 		for (const auto& item : results)
 			buffers[item.first].AddPoint(t, item.second.count());
 
+		//ImGui::SetNextWindowFocus();
 		ImGui::SetNextWindowSize(ImVec2(500, 500), ImGuiCond_FirstUseEver);
 		if (!ImGui::Begin("Profiling", nullptr))
 		{

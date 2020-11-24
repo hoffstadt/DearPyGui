@@ -10,9 +10,9 @@ namespace Marvel {
 
 		mvHeatSeries(const std::string& name, const std::vector<float>* values, 
 			int rows, int cols, double scale_min, double scale_max, const std::string& format,
-			mvVec2 bounds_min, mvVec2 bounds_max)
+			mvVec2 bounds_min, mvVec2 bounds_max, ImPlotYAxis_ axis)
 			: 
-			mvSeries(name, {values}),
+			mvSeries(name, {values}, axis),
 			m_rows(rows), 
 			m_cols(cols), 
 			m_scale_min(scale_min),
