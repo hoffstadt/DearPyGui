@@ -191,6 +191,7 @@ def child(name: str, *, show: bool = True, tip: str = &#34;&#34;, parent: str = 
         **autosize_x: Autosize the window to fit its items in the x.
         **autosize_y: Autosize the window to fit its items in the y.
         **no_scrollbar: Disable scrollbars (window can still scroll with mouse or programmatically)
+        **horizontal_scrollbar: Allow horizontal scrollbar to appear (off by default)
         **menubar: adds a bar to add menus
 
     Returns:
@@ -300,6 +301,7 @@ def tab_bar(name: str, *, reorderable: bool = False, callback: Callable = None, 
 
 @contextmanager
 def tab(name: str, *, closable: bool = False, label: str = &#34;__DearPyGuiDefault&#34;, show: bool = True, tip: str = &#34;&#34;,
+        no_reorder: bool = False, leading: bool = False, trailing: bool = False, no_tooltip: bool = False,
         parent: str = &#34;&#34;, before: str = &#34;&#34;):
     &#34;&#34;&#34;Wraps add_tab() and automates calling end().
 
@@ -309,6 +311,10 @@ def tab(name: str, *, closable: bool = False, label: str = &#34;__DearPyGuiDefau
         **closable: creates a button on the tab that can hide the tab.
         **label: Displayed name of the item.
         **show: Decides if the item is shown of not.
+        **no_reorder: Disable reordering this tab or having another tab cross over this tab
+        **leading: Enforce the tab position to the left of the tab bar (after the tab list popup button)
+        **trailing: Enforce the tab position to the right of the tab bar (before the scrolling buttons)
+        **no_tooltip: Disable tooltip for the given tab
         **tip: Adds a simple tooltip.
         **parent: Parent to add this item to. (runtime adding)
         **before: This item will be displayed before the specified item in the parent. (runtime adding)
@@ -318,10 +324,11 @@ def tab(name: str, *, closable: bool = False, label: str = &#34;__DearPyGuiDefau
     &#34;&#34;&#34;
     try:
         if label == &#34;__DearPyGuiDefault&#34;:
-            yield internal_dpg.add_tab(name, closable=closable, show=show, tip=tip, parent=parent, before=before)
+            yield internal_dpg.add_tab(name, closable=closable, show=show, tip=tip, parent=parent, before=before,
+                                       no_reorder=no_reorder, leading=leading, trailing=trailing, no_tooltip=no_tooltip)
         else:
             yield internal_dpg.add_tab(name, closable=closable, label=label, show=show, tip=tip, parent=parent,
-                                       before=before)
+                                       before=before, no_reorder=no_reorder, leading=leading, trailing=trailing, no_tooltip=no_tooltip)
     finally:
         internal_dpg.end()
 
@@ -711,6 +718,8 @@ anything after "##" that occurs in the name will not be shown on screen.</dd>
 <dd>Autosize the window to fit its items in the y.</dd>
 <dt><strong><code>**no_scrollbar</code></strong></dt>
 <dd>Disable scrollbars (window can still scroll with mouse or programmatically)</dd>
+<dt><strong><code>**horizontal_scrollbar</code></strong></dt>
+<dd>Allow horizontal scrollbar to appear (off by default)</dd>
 <dt><strong><code>**menubar</code></strong></dt>
 <dd>adds a bar to add menus</dd>
 </dl>
@@ -740,6 +749,7 @@ def child(name: str, *, show: bool = True, tip: str = &#34;&#34;, parent: str = 
         **autosize_x: Autosize the window to fit its items in the x.
         **autosize_y: Autosize the window to fit its items in the y.
         **no_scrollbar: Disable scrollbars (window can still scroll with mouse or programmatically)
+        **horizontal_scrollbar: Allow horizontal scrollbar to appear (off by default)
         **menubar: adds a bar to add menus
 
     Returns:
@@ -1690,7 +1700,7 @@ anything after "##" that occurs in the name will not be shown on screen.</dd>
 </details>
 </dd>
 <dt id="dearpygui.simple.tab"><code class="name flex">
-<span>def <span class="ident">tab</span></span>(<span>name: str, *, closable: bool = False, label: str = '__DearPyGuiDefault', show: bool = True, tip: str = '', parent: str = '', before: str = '')</span>
+<span>def <span class="ident">tab</span></span>(<span>name: str, *, closable: bool = False, label: str = '__DearPyGuiDefault', show: bool = True, tip: str = '', no_reorder: bool = False, leading: bool = False, trailing: bool = False, no_tooltip: bool = False, parent: str = '', before: str = '')</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Wraps add_tab() and automates calling end().</p>
@@ -1705,6 +1715,14 @@ anything after "##" that occurs in the name will not be shown on screen.</dd>
 <dd>Displayed name of the item.</dd>
 <dt><strong><code>**show</code></strong></dt>
 <dd>Decides if the item is shown of not.</dd>
+<dt><strong><code>**no_reorder</code></strong></dt>
+<dd>Disable reordering this tab or having another tab cross over this tab</dd>
+<dt><strong><code>**leading</code></strong></dt>
+<dd>Enforce the tab position to the left of the tab bar (after the tab list popup button)</dd>
+<dt><strong><code>**trailing</code></strong></dt>
+<dd>Enforce the tab position to the right of the tab bar (before the scrolling buttons)</dd>
+<dt><strong><code>**no_tooltip</code></strong></dt>
+<dd>Disable tooltip for the given tab</dd>
 <dt><strong><code>**tip</code></strong></dt>
 <dd>Adds a simple tooltip.</dd>
 <dt><strong><code>**parent</code></strong></dt>
@@ -1720,6 +1738,7 @@ anything after "##" that occurs in the name will not be shown on screen.</dd>
 </summary>
 <pre><code class="python">@contextmanager
 def tab(name: str, *, closable: bool = False, label: str = &#34;__DearPyGuiDefault&#34;, show: bool = True, tip: str = &#34;&#34;,
+        no_reorder: bool = False, leading: bool = False, trailing: bool = False, no_tooltip: bool = False,
         parent: str = &#34;&#34;, before: str = &#34;&#34;):
     &#34;&#34;&#34;Wraps add_tab() and automates calling end().
 
@@ -1729,6 +1748,10 @@ def tab(name: str, *, closable: bool = False, label: str = &#34;__DearPyGuiDefau
         **closable: creates a button on the tab that can hide the tab.
         **label: Displayed name of the item.
         **show: Decides if the item is shown of not.
+        **no_reorder: Disable reordering this tab or having another tab cross over this tab
+        **leading: Enforce the tab position to the left of the tab bar (after the tab list popup button)
+        **trailing: Enforce the tab position to the right of the tab bar (before the scrolling buttons)
+        **no_tooltip: Disable tooltip for the given tab
         **tip: Adds a simple tooltip.
         **parent: Parent to add this item to. (runtime adding)
         **before: This item will be displayed before the specified item in the parent. (runtime adding)
@@ -1738,10 +1761,11 @@ def tab(name: str, *, closable: bool = False, label: str = &#34;__DearPyGuiDefau
     &#34;&#34;&#34;
     try:
         if label == &#34;__DearPyGuiDefault&#34;:
-            yield internal_dpg.add_tab(name, closable=closable, show=show, tip=tip, parent=parent, before=before)
+            yield internal_dpg.add_tab(name, closable=closable, show=show, tip=tip, parent=parent, before=before,
+                                       no_reorder=no_reorder, leading=leading, trailing=trailing, no_tooltip=no_tooltip)
         else:
             yield internal_dpg.add_tab(name, closable=closable, label=label, show=show, tip=tip, parent=parent,
-                                       before=before)
+                                       before=before, no_reorder=no_reorder, leading=leading, trailing=trailing, no_tooltip=no_tooltip)
     finally:
         internal_dpg.end()</code></pre>
 </details>

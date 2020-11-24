@@ -241,6 +241,9 @@ list of ranges</p>
 <p>update_bounds : bool = True
 update plot bounds</p>
 </li>
+<li>
+<p>axis : int = 0</p>
+</li>
 </ul></div>
 </dd>
 <dt id="dearpygui.core.add_bar_series"><code class="name flex">
@@ -279,6 +282,9 @@ update plot bounds</p>
 <li>
 <p>update_bounds : bool = True
 update plot bounds</p>
+</li>
+<li>
+<p>axis : int = 0</p>
 </li>
 </ul></div>
 </dd>
@@ -404,6 +410,9 @@ Attempt to render</p>
 <li>
 <p>update_bounds : bool = True
 update plot bounds</p>
+</li>
+<li>
+<p>axis : int = 0</p>
 </li>
 </ul></div>
 </dd>
@@ -2481,6 +2490,9 @@ update plot bounds</p>
 <li>
 <p>color : List[float] = (0, 0, 0, -1)</p>
 </li>
+<li>
+<p>axis : int = 0</p>
+</li>
 </ul></div>
 </dd>
 <dt id="dearpygui.core.add_group"><code class="name flex">
@@ -2580,6 +2592,9 @@ This item will be displayed before the specified item in the parent. (runtime ad
 <li>
 <p>update_bounds : bool = True
 update plot bounds</p>
+</li>
+<li>
+<p>axis : int = 0</p>
 </li>
 </ul></div>
 </dd>
@@ -2768,6 +2783,9 @@ normalized texture coordinates</p>
 <li>
 <p>update_bounds : bool = True
 update plot bounds</p>
+</li>
+<li>
+<p>axis : int = 0</p>
 </li>
 </ul></div>
 </dd>
@@ -3579,6 +3597,9 @@ Attempt to render</p>
 <p>update_bounds : bool = True
 update plot bounds</p>
 </li>
+<li>
+<p>axis : int = 0</p>
+</li>
 </ul></div>
 </dd>
 <dt id="dearpygui.core.add_listbox"><code class="name flex">
@@ -4044,6 +4065,9 @@ This item will be displayed before the specified item in the parent. (runtime ad
 <p>update_bounds : bool = True
 update plot bounds</p>
 </li>
+<li>
+<p>axis : int = 0</p>
+</li>
 </ul></div>
 </dd>
 <dt id="dearpygui.core.add_plot"><code class="name flex">
@@ -4098,6 +4122,12 @@ update plot bounds</p>
 <p>anti_aliased : bool = False</p>
 </li>
 <li>
+<p>yaxis2 : bool = False</p>
+</li>
+<li>
+<p>yaxis3 : bool = False</p>
+</li>
+<li>
 <p>xaxis_no_gridlines : bool = False</p>
 </li>
 <li>
@@ -4141,6 +4171,48 @@ update plot bounds</p>
 </li>
 <li>
 <p>yaxis_lock_max : bool = False</p>
+</li>
+<li>
+<p>y2axis_no_gridlines : bool = False</p>
+</li>
+<li>
+<p>y2axis_no_tick_marks : bool = False</p>
+</li>
+<li>
+<p>y2axis_no_tick_labels : bool = False</p>
+</li>
+<li>
+<p>y2axis_log_scale : bool = False</p>
+</li>
+<li>
+<p>y2axis_invert : bool = False</p>
+</li>
+<li>
+<p>y2axis_lock_min : bool = False</p>
+</li>
+<li>
+<p>y2axis_lock_max : bool = False</p>
+</li>
+<li>
+<p>y3axis_no_gridlines : bool = False</p>
+</li>
+<li>
+<p>y3axis_no_tick_marks : bool = False</p>
+</li>
+<li>
+<p>y3axis_no_tick_labels : bool = False</p>
+</li>
+<li>
+<p>y3axis_log_scale : bool = False</p>
+</li>
+<li>
+<p>y3axis_invert : bool = False</p>
+</li>
+<li>
+<p>y3axis_lock_min : bool = False</p>
+</li>
+<li>
+<p>y3axis_lock_max : bool = False</p>
 </li>
 <li>
 <p>parent : str = ''
@@ -4465,6 +4537,9 @@ update plot bounds</p>
 <p>xy_data_format : bool = False
 split x and y</p>
 </li>
+<li>
+<p>axis : int = 0</p>
+</li>
 </ul></div>
 </dd>
 <dt id="dearpygui.core.add_selectable"><code class="name flex">
@@ -4603,6 +4678,9 @@ This item will be displayed before the specified item in the parent. (runtime ad
 <li>
 <p>update_bounds : bool = True
 update plot bounds</p>
+</li>
+<li>
+<p>axis : int = 0</p>
 </li>
 </ul></div>
 </dd>
@@ -5403,6 +5481,9 @@ Attempt to render</p>
 <p>update_bounds : bool = True
 update plot bounds</p>
 </li>
+<li>
+<p>axis : int = 0</p>
+</li>
 </ul></div>
 </dd>
 <dt id="dearpygui.core.add_stem_series"><code class="name flex">
@@ -5450,6 +5531,9 @@ update plot bounds</p>
 <li>
 <p>update_bounds : bool = True
 update plot bounds</p>
+</li>
+<li>
+<p>axis : int = 0</p>
 </li>
 </ul></div>
 </dd>
@@ -5847,6 +5931,9 @@ Attempt to render</p>
 <li>
 <p>update_bounds : bool = True
 update plot bounds</p>
+</li>
+<li>
+<p>axis : int = 0</p>
 </li>
 </ul></div>
 </dd>
@@ -8616,13 +8703,9 @@ Registers a callback</li>
 Registers a callback</p>
 </li>
 <li>
-<p>Keyword Only Arguments</p>
+<p>handler : str
+Callback will be run when event occurs while this window is active (default is main window)</p>
 </li>
-</ul>
-<hr>
-<ul>
-<li>handler : str = ''
-Callback will be run when event occurs while this window is active (default is main window)</li>
 </ul></div>
 </dd>
 <dt id="dearpygui.core.set_start_callback"><code class="name flex">
