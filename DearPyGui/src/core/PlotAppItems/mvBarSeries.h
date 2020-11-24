@@ -9,8 +9,8 @@ namespace Marvel {
 	public:
 
 		mvBarSeries(const std::string& name, const std::vector<float>* x,
-			const std::vector<float>* y, bool horizontal)
-			: mvSeries(name, {x, y}), m_horizontal(horizontal)
+			const std::vector<float>* y, bool horizontal, ImPlotYAxis_ axis)
+			: mvSeries(name, {x, y}, axis), m_horizontal(horizontal)
 		{
 		}
 

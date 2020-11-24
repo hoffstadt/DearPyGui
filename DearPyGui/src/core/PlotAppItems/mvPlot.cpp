@@ -9,9 +9,10 @@
 
 namespace Marvel {
 
-	mvSeries::mvSeries(std::string name, const std::vector<const std::vector<float>*> data)
+	mvSeries::mvSeries(std::string name, const std::vector<const std::vector<float>*> data, ImPlotYAxis_ axis)
 		:
-		m_name(name)
+		m_name(name),
+		m_axis(axis)
 	{
 
 		for (const auto* list : data)
@@ -50,8 +51,10 @@ namespace Marvel {
 
 	}
 
-	mvSeries::mvSeries(std::string name, const ImPlotPoint& boundsMin, const ImPlotPoint& boundsMax)
-		: m_name(std::move(name))
+	mvSeries::mvSeries(std::string name, const ImPlotPoint& boundsMin, const ImPlotPoint& boundsMax, ImPlotYAxis_ axis)
+		: 
+		m_name(std::move(name)),
+		m_axis(axis)
 	{
 		m_maxX = (float)boundsMax.x;
 		m_maxY = (float)boundsMax.y;
@@ -271,18 +274,42 @@ namespace Marvel {
 				m_xlimits.y = series->m_maxX;
 			}
 
-			if (!m_setYLimits)
+			if (!m_setYLimits && series->m_axis == ImPlotYAxis_1)
 			{
 				m_ylimits.x = series->m_minY;
 				m_ylimits.y = series->m_maxY;
+			}
+			else if (!m_setY2Limits && series->m_axis == ImPlotYAxis_2)
+			{
+				m_y2limits.x = series->m_minY;
+				m_y2limits.y = series->m_maxY;
+			}
+			else if (!m_setY3Limits && series->m_axis == ImPlotYAxis_3)
+			{
+				m_y3limits.x = series->m_minY;
+				m_y3limits.y = series->m_maxY;
 			}
 		}
 		else
 		{
 			if (series->m_minX < m_xlimits.x && !m_setXLimits) m_xlimits.x = series->m_minX;
-			if (series->m_minY < m_ylimits.x && !m_setYLimits) m_ylimits.x = series->m_minY;
 			if (series->m_maxX > m_xlimits.y && !m_setXLimits) m_xlimits.y = series->m_maxX;
-			if (series->m_maxY > m_ylimits.y && !m_setYLimits) m_ylimits.y = series->m_maxY;
+
+			if (series->m_axis == ImPlotYAxis_1)
+			{
+				if (series->m_minY < m_ylimits.x && !m_setYLimits) m_ylimits.x = series->m_minY;
+				if (series->m_maxY > m_ylimits.y && !m_setYLimits) m_ylimits.y = series->m_maxY;
+			}
+			else if (series->m_axis == ImPlotYAxis_2)
+			{
+				if (series->m_minY < m_y2limits.x && !m_setY2Limits) m_y2limits.x = series->m_minY;
+				if (series->m_maxY > m_y2limits.y && !m_setY2Limits) m_y2limits.y = series->m_maxY;
+			}
+			else if (series->m_axis == ImPlotYAxis_3)
+			{
+				if (series->m_minY < m_y3limits.x && !m_setY3Limits) m_y3limits.x = series->m_minY;
+				if (series->m_maxY > m_y3limits.y && !m_setY3Limits) m_y3limits.y = series->m_maxY;
+			}
 		}
 
 		m_series.push_back(series);
@@ -439,6 +466,12 @@ namespace Marvel {
 		if (m_setYLimits || m_dirty)
 			ImPlot::SetNextPlotLimitsY(m_ylimits.x, m_ylimits.y, ImGuiCond_Always);
 
+		if (m_setY2Limits || m_dirty)
+			ImPlot::SetNextPlotLimitsY(m_y2limits.x, m_y2limits.y, ImGuiCond_Always, ImPlotYAxis_2);
+
+		if (m_setY3Limits || m_dirty)
+			ImPlot::SetNextPlotLimitsY(m_y3limits.x, m_y3limits.y, ImGuiCond_Always, ImPlotYAxis_3);
+
 		// resets automatic sizing when new data is added
 		if (m_dirty) m_dirty = false;
 
@@ -461,7 +494,20 @@ namespace Marvel {
 
 			// series
 			for (auto series : m_series)
+			{
+				switch (series->m_axis)
+				{
+				case ImPlotYAxis_2:
+					ImPlot::SetPlotYAxis(ImPlotYAxis_2);
+					break;
+				case ImPlotYAxis_3:
+					ImPlot::SetPlotYAxis(ImPlotYAxis_3);
+					break;
+				default:
+					break;
+				}
 				series->draw();
+			}
 
 			// annotations
 			if (m_showAnnotations)
@@ -549,6 +595,10 @@ namespace Marvel {
 			m_xlimits_actual.y = ImPlot::GetPlotLimits().X.Max;
 			m_ylimits_actual.x = ImPlot::GetPlotLimits().Y.Min;
 			m_ylimits_actual.y = ImPlot::GetPlotLimits().Y.Max;
+			m_y2limits_actual.x = ImPlot::GetPlotLimits(ImPlotYAxis_2).Y.Min;
+			m_y2limits_actual.y = ImPlot::GetPlotLimits(ImPlotYAxis_2).Y.Max;
+			m_y3limits_actual.x = ImPlot::GetPlotLimits(ImPlotYAxis_3).Y.Min;
+			m_y3limits_actual.y = ImPlot::GetPlotLimits(ImPlotYAxis_3).Y.Max;
 
 			ImPlot::EndPlot();
 		}
@@ -621,6 +671,8 @@ namespace Marvel {
 		flagop("query",                ImPlotFlags_Query,            m_flags);
 		flagop("crosshairs",           ImPlotFlags_Crosshairs,       m_flags);
 		flagop("anti_aliased",         ImPlotFlags_AntiAliased,      m_flags);
+		flagop("yaxis2",               ImPlotFlags_YAxis2,           m_flags);
+		flagop("yaxis3",               ImPlotFlags_YAxis3,           m_flags);
 
 		// x axis flags
 		flagop("xaxis_no_gridlines",   ImPlotAxisFlags_NoGridLines,  m_xflags);
@@ -640,6 +692,24 @@ namespace Marvel {
 		flagop("yaxis_invert",         ImPlotAxisFlags_Invert,       m_yflags);
 		flagop("yaxis_lock_min",       ImPlotAxisFlags_LockMin,      m_yflags);
 		flagop("yaxis_lock_max",       ImPlotAxisFlags_LockMax,      m_yflags);
+
+		// y2 axis flags
+		flagop("y2axis_no_gridlines", ImPlotAxisFlags_NoGridLines,    m_y2flags);
+		flagop("y2axis_no_tick_marks", ImPlotAxisFlags_NoTickMarks,   m_y2flags);
+		flagop("y2axis_no_tick_labels", ImPlotAxisFlags_NoTickLabels, m_y2flags);
+		flagop("y2axis_log_scale", ImPlotAxisFlags_LogScale,          m_y2flags);
+		flagop("y2axis_invert", ImPlotAxisFlags_Invert,               m_y2flags);
+		flagop("y2axis_lock_min", ImPlotAxisFlags_LockMin,            m_y2flags);
+		flagop("y2axis_lock_max", ImPlotAxisFlags_LockMax,            m_y2flags);
+
+		// y3 axis flags
+		flagop("y3axis_no_gridlines", ImPlotAxisFlags_NoGridLines,    m_y3flags);
+		flagop("y3axis_no_tick_marks", ImPlotAxisFlags_NoTickMarks,   m_y3flags);
+		flagop("y3axis_no_tick_labels", ImPlotAxisFlags_NoTickLabels, m_y3flags);
+		flagop("y3axis_log_scale", ImPlotAxisFlags_LogScale,          m_y3flags);
+		flagop("y3axis_invert", ImPlotAxisFlags_Invert,               m_y3flags);
+		flagop("y3axis_lock_min", ImPlotAxisFlags_LockMin,            m_y3flags);
+		flagop("y3axis_lock_max", ImPlotAxisFlags_LockMax,            m_y3flags);
 
 	}
 
@@ -676,6 +746,8 @@ namespace Marvel {
 		checkbitset("query",                ImPlotFlags_Query,            m_flags);
 		checkbitset("crosshairs",           ImPlotFlags_Crosshairs,       m_flags);
 		checkbitset("anti_aliased",         ImPlotFlags_AntiAliased,      m_flags);
+		checkbitset("yaxis2",               ImPlotFlags_YAxis2,           m_flags);
+		checkbitset("yaxis3",               ImPlotFlags_YAxis3,           m_flags);
 
 		// x axis flags
 		checkbitset("xaxis_no_gridlines",   ImPlotAxisFlags_NoGridLines,  m_xflags);
@@ -695,5 +767,23 @@ namespace Marvel {
 		checkbitset("yaxis_invert",         ImPlotAxisFlags_Invert,       m_yflags);
 		checkbitset("yaxis_lock_min",       ImPlotAxisFlags_LockMin,      m_yflags);
 		checkbitset("yaxis_lock_max",       ImPlotAxisFlags_LockMax,      m_yflags);
+
+		// y2 axis flags
+		checkbitset("y2axis_no_gridlines",   ImPlotAxisFlags_NoGridLines,  m_y2flags);
+		checkbitset("y2axis_no_tick_marks",  ImPlotAxisFlags_NoTickMarks,  m_y2flags);
+		checkbitset("y2axis_no_tick_labels", ImPlotAxisFlags_NoTickLabels, m_y2flags);
+		checkbitset("y2axis_log_scale",      ImPlotAxisFlags_LogScale,     m_y2flags);
+		checkbitset("y2axis_invert",         ImPlotAxisFlags_Invert,       m_y2flags);
+		checkbitset("y2axis_lock_min",       ImPlotAxisFlags_LockMin,      m_y2flags);
+		checkbitset("y2axis_lock_max",       ImPlotAxisFlags_LockMax,      m_y2flags);
+
+		// y3 axis flags
+		checkbitset("y3axis_no_gridlines",   ImPlotAxisFlags_NoGridLines,  m_y3flags);
+		checkbitset("y3axis_no_tick_marks",  ImPlotAxisFlags_NoTickMarks,  m_y3flags);
+		checkbitset("y3axis_no_tick_labels", ImPlotAxisFlags_NoTickLabels, m_y3flags);
+		checkbitset("y3axis_log_scale",      ImPlotAxisFlags_LogScale,     m_y3flags);
+		checkbitset("y3axis_invert",         ImPlotAxisFlags_Invert,       m_y3flags);
+		checkbitset("y3axis_lock_min",       ImPlotAxisFlags_LockMin,      m_y3flags);
+		checkbitset("y3axis_lock_max",       ImPlotAxisFlags_LockMax,      m_y3flags);
 	}
 }

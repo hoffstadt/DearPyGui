@@ -10,9 +10,9 @@ namespace Marvel {
 
 		mvScatterSeries(const std::string& name, const std::vector<float>* x, 
 			const std::vector<float>* y, int marker, float markerSize, float markerWeight,
-			mvColor markerOutlineColor, mvColor markerFillColor)
+			mvColor markerOutlineColor, mvColor markerFillColor, ImPlotYAxis_ axis)
 			: 
-			mvSeries(name, {x, y}),
+			mvSeries(name, {x, y}, axis),
 			m_marker(marker), 
 			m_markerSize(markerSize), 
 			m_markerWeight(markerWeight),

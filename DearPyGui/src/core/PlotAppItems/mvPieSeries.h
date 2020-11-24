@@ -10,9 +10,9 @@ namespace Marvel {
 
 		mvPieSeries(const std::string& name, const std::vector<float>* values, double x,
 			double y, double radius, bool normalize, double angle, const std::string& format,
-			const std::vector<std::string>& labels)
+			const std::vector<std::string>& labels, ImPlotYAxis_ axis)
 			: 
-			mvSeries(name, {values}),
+			mvSeries(name, {values}, axis),
 			m_x(x), 
 			m_y(y),
 			m_radius(radius), 

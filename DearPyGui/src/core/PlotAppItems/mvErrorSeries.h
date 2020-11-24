@@ -10,9 +10,9 @@ namespace Marvel {
 
 		mvErrorSeries(const std::string& name, const std::vector<float>* x, const std::vector<float>* y,
 			const std::vector<float>* neg, const std::vector<float>* pos,
-			bool horizontal, const mvColor& color)
+			bool horizontal, const mvColor& color, ImPlotYAxis_ axis)
 			: 
-			mvSeries(name, {x, y, neg, pos}),
+			mvSeries(name, {x, y, neg, pos}, axis),
 			m_horizontal(horizontal), 
 			m_color(color)
 		{

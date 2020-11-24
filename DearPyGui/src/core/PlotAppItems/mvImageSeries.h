@@ -12,9 +12,9 @@ namespace Marvel {
 	public:
 
 		mvImageSeries(const std::string& name, const std::string& value, const ImPlotPoint& boundsMin, const ImPlotPoint& boundsMax,
-			mvVec2 uv_min, mvVec2 uv_max, mvColor tintColor)
+			mvVec2 uv_min, mvVec2 uv_max, mvColor tintColor, ImPlotYAxis_ axis)
 			: 
-			mvSeries(name, boundsMin, boundsMax), 
+			mvSeries(name, boundsMin, boundsMax, axis), 
 			m_value(value), 
 			m_bounds_min(boundsMin), 
 			m_bounds_max(boundsMax), 

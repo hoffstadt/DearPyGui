@@ -9,9 +9,9 @@ namespace Marvel {
 	public:
 
 		mvShadeSeries(const std::string& name, mvColor color, mvColor fill, const std::vector<float>* x,
-			const std::vector<float>* y1, const std::vector<float>* y2)
+			const std::vector<float>* y1, const std::vector<float>* y2, ImPlotYAxis_ axis)
 			: 
-			mvSeries(name, {x, y1, y2}),
+			mvSeries(name, {x, y1, y2}, axis),
 			m_color(color), 
 			m_fill(fill)
 		{
