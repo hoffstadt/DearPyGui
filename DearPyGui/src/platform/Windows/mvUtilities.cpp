@@ -40,12 +40,19 @@ namespace Marvel {
         ID3D11Texture2D* pTexture = NULL;
         D3D11_SUBRESOURCE_DATA subResource;
         subResource.pSysMem = data;
-        subResource.SysMemPitch = desc.Width * 4;
+        subResource.SysMemPitch = desc.Width * 4 * 4;
         subResource.SysMemSlicePitch = 0;
         mvWindowsWindow::getDevice()->CreateTexture2D(&desc, &subResource, &pTexture);
 
         // Create texture view
-        mvWindowsWindow::getDevice()->CreateShaderResourceView(pTexture, nullptr, &out_srv);
+                // Create texture view
+        D3D11_SHADER_RESOURCE_VIEW_DESC srvDesc;
+        ZeroMemory(&srvDesc, sizeof(srvDesc));
+        srvDesc.Format = DXGI_FORMAT_R32G32B32A32_FLOAT;
+        srvDesc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2D;
+        srvDesc.Texture2D.MipLevels = desc.MipLevels;
+        srvDesc.Texture2D.MostDetailedMip = 0;
+        mvWindowsWindow::getDevice()->CreateShaderResourceView(pTexture, &srvDesc, &out_srv);
         pTexture->Release();
 
         storage.texture = out_srv;
