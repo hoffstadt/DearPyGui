@@ -168,7 +168,11 @@ namespace Marvel {
 			m_state.setActivated(ImGui::IsWindowCollapsed());
 
 			if (ImGui::GetWindowWidth() != (float)m_width || ImGui::GetWindowHeight() != (float)m_height)
+			{
+				m_width = (int)ImGui::GetWindowWidth();
+				m_height = (int)ImGui::GetWindowHeight();
 				mvApp::GetApp()->runCallback(getResizeCallback(), m_name);
+			}
 
 			m_width = (int)ImGui::GetWindowWidth();
 			m_height = (int)ImGui::GetWindowHeight();
