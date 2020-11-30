@@ -139,7 +139,7 @@ namespace Marvel {
         virtual void                        setHeight                 (int height)              { m_height = height; }
         virtual void                        setEnabled                (bool value)              { m_enabled = value; }
         virtual void                        setDataSource             (const std::string& value){ m_dataSource = value; }
-        virtual void                        setLabel                  (const std::string& value){ m_label = value; }
+        virtual void                        setLabel                  (const std::string& value);
 
     protected:
 

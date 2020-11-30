@@ -23,13 +23,14 @@ HOW TO UPDATE?
 - Please report any issue!
 
 -----------------------------------------------------------------------
- VERSION 0.6.x
+ VERSION 0.6.24
 -----------------------------------------------------------------------
 
-Decorated log: https://github.com/hoffstadt/DearPyGui/releases/tag/v0.6.x
+Decorated log: https://github.com/hoffstadt/DearPyGui/releases/tag/v0.6.24
 
 Fixes:
 - set_item_label: fixed issue causing resize of window #346
+- set_item_label: fixed issue causing empty labels to not work
 - add_texture: fixed compile time add_texture issue introduced in 0.6.18 #350
 
 -----------------------------------------------------------------------
