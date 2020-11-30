@@ -428,6 +428,11 @@ namespace Marvel{
 		m_parent = parent;
 	}
 
+	void mvAppItem::setLabel(const std::string& value)
+	{
+		m_label = "##" + m_name;
+	}
+
 	mvAppItem* mvAppItem::stealChild(const std::string& name)
 	{
 		mvAppItem* stolenChild = nullptr;
