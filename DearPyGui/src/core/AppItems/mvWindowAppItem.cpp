@@ -75,6 +75,13 @@ namespace Marvel {
 			m_dirty_size = true; 
 		}
 
+		void mvWindowAppitem::setLabel(const std::string& value)
+		{
+			m_label = value;
+			m_dirty_pos = true;
+			m_dirty_size = true;
+		}
+
 		mvVec2 mvWindowAppitem::getWindowPos() const
 		{
 			return { (float)m_xpos, (float)m_ypos };

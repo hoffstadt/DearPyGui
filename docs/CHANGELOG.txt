@@ -28,6 +28,9 @@ HOW TO UPDATE?
 
 Decorated log: https://github.com/hoffstadt/DearPyGui/releases/tag/v0.6.x
 
+Fixes:
+- set_item_label: fixed issue causing resize of window #346
+
 -----------------------------------------------------------------------
  VERSION 0.6.18
 -----------------------------------------------------------------------
