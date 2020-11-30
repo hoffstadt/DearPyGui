@@ -29,6 +29,7 @@ namespace Marvel {
 		void   removeFlag           (ImGuiWindowFlags flag) { m_windowflags &= ~flag; }
 		void   setWindowAsMainStatus(bool value);
 		void   setWindowPos         (float x, float y);
+		void   setLabel             (const std::string& value) override;
 		void   setWidth             (int width) override;
 		void   setHeight            (int height) override;
 		mvVec2 getWindowPos         () const;
