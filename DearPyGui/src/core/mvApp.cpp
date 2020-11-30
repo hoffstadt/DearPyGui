@@ -142,6 +142,11 @@ namespace Marvel {
 
 		m_textures.clear();
 
+	}
+
+	void mvApp::thirdRenderFrame()
+	{
+
 		GetApp()->runCallback(GetApp()->getOnStartCallback(), "Main Application");
 	}
 
@@ -150,8 +155,10 @@ namespace Marvel {
 		MV_PROFILE_FUNCTION();
 
 		// allows for proper sizing
-		if (ImGui::GetFrameCount() == 3)
+		if (ImGui::GetFrameCount() == 1)
 			firstRenderFrame();
+		else if (ImGui::GetFrameCount() == 3)
+			thirdRenderFrame();
 
 		// check if threadpool is ready to be cleaned up
 		if (m_threadTime > m_threadPoolTimeout)

@@ -109,6 +109,7 @@ namespace Marvel {
         // Rendering
         //-----------------------------------------------------------------------------
         void                     firstRenderFrame(); // only ran during first frame
+        void                     thirdRenderFrame(); // only ran during third frame
         bool                     prerender       (); // pre rendering (every frame)
         void                     render          (); // actual render loop
         void                     postrender      (); // post rendering (every frame)
