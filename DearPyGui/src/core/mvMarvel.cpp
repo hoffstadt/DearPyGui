@@ -9,6 +9,7 @@
 #include "PythonUtilities/mvPythonExceptions.h"
 #include <ImGuiFileDialog.h>
 #include <cstdlib>
+#include <core/PythonCommands/mvNodeEditorInterface.h>
 
 // new includes
 #include "core/PythonCommands/mvInterfaceCore.h"
@@ -32,21 +33,21 @@
 
 namespace Marvel {
 
-	std::map<std::string, mvPythonParser>* BuildDearPyGuiInterface()
-	{
+	std::map<std::string, mvPythonParser>* BuildDearPyGuiInterface() {
 
-		std::map<std::string, mvPythonParser>* parsers = new std::map< std::string, mvPythonParser>;
+	  std::map<std::string, mvPythonParser> *parsers = new std::map<std::string, mvPythonParser>;
 
-		AddDrawingCommands(parsers);
-		AddPlotCommands(parsers);
-		AddLogCommands(parsers);
-		AddInputCommands(parsers);
-		AddInputWidgets(parsers);
-		AddSliderWidgets(parsers);
-		AddDragWidgets(parsers);
-		AddTableCommands(parsers);
-		AddItemCommands(parsers);
-		AddStdWindowCommands(parsers);
+	  AddNodeEditorCommands(parsers);
+	  AddDrawingCommands(parsers);
+	  AddPlotCommands(parsers);
+	  AddLogCommands(parsers);
+	  AddInputCommands(parsers);
+	  AddInputWidgets(parsers);
+	  AddSliderWidgets(parsers);
+	  AddDragWidgets(parsers);
+	  AddTableCommands(parsers);
+	  AddItemCommands(parsers);
+	  AddStdWindowCommands(parsers);
 		AddThemeCommands(parsers);
 		AddBasicWidgets(parsers);
 		AddContainerWidgets(parsers);
@@ -164,25 +165,41 @@ namespace Marvel {
 			{"mvGuiCol_TabUnfocused"         , 36},
 			{"mvGuiCol_TabUnfocusedActive"   , 37},
 			{"mvGuiCol_PlotLines"            , 38},
-			{"mvGuiCol_PlotLinesHovered"     , 39},
-			{"mvGuiCol_PlotHistogram"        , 40},
-			{"mvGuiCol_PlotHistogramHovered" , 41},
-			{"mvGuiCol_TextSelectedBg"       , 42},
-			{"mvGuiCol_DragDropTarget"       , 43},
-			{"mvGuiCol_NavHighlight"         , 44}, // Gamepad/keyboard: current highlighted item
+			{"mvGuiCol_PlotLinesHovered", 39},
+			{"mvGuiCol_PlotHistogram", 40},
+			{"mvGuiCol_PlotHistogramHovered", 41},
+			{"mvGuiCol_TextSelectedBg", 42},
+			{"mvGuiCol_DragDropTarget", 43},
+			{"mvGuiCol_NavHighlight", 44}, // Gamepad/keyboard: current highlighted item
 			{"mvGuiCol_NavWindowingHighlight", 45}, // Highlight window when using CTRL+TAB
-			{"mvGuiCol_NavWindowingDimBg"    , 46}, // Darken/colorize entire screen behind the CTRL+TAB window list, when active 
-			{"mvGuiCol_ModalWindowDimBg"     , 47}, // Darken/colorize entire screen behind a modal window, when one is active
+			{"mvGuiCol_NavWindowingDimBg",
+				46}, // Darken/colorize entire screen behind the CTRL+TAB window list, when active
+			{"mvGuiCol_ModalWindowDimBg",
+				47}, // Darken/colorize entire screen behind a modal window, when one is active
+
+			//-----------------------------------------------------------------------------
+			// Node Editor Attribute Constants
+			//-----------------------------------------------------------------------------
+			{"mvNodeAttribute_Input", 0},
+			{"mvNodeAttribute_Output", 1},
+			{"mvNodeAttribute_Static", 2},
+
+			{"mvPinShape_Circle", 0},
+			{"mvPinShape_CircleFilled", 1},
+			{"mvPinShape_Triangle", 2},
+			{"mvPinShape_TriangleFilled", 3},
+			{"mvPinShape_Quad", 4},
+			{"mvPinShape_QuadFilled", 5},
 
 			//-----------------------------------------------------------------------------
 			// Theme style variable IDs
 			//-----------------------------------------------------------------------------
-			{ "mvGuiStyleVar_Alpha",               0 },
-			{ "mvGuiStyleVar_WindowPadding",       1 },
-			{ "mvGuiStyleVar_WindowRounding",      2 },
-			{ "mvGuiStyleVar_WindowBorderSize",    3 },
-			{ "mvGuiStyleVar_WindowMinSize",       4 },
-			{ "mvGuiStyleVar_WindowTitleAlign",    5 },
+			{"mvGuiStyleVar_Alpha", 0},
+			{"mvGuiStyleVar_WindowPadding", 1},
+			{"mvGuiStyleVar_WindowRounding", 2},
+			{"mvGuiStyleVar_WindowBorderSize", 3},
+			{"mvGuiStyleVar_WindowMinSize", 4},
+			{"mvGuiStyleVar_WindowTitleAlign", 5},
 			{ "mvGuiStyleVar_ChildRounding",       6 },
 			{ "mvGuiStyleVar_ChildBorderSize",     7 },
 			{ "mvGuiStyleVar_PopupRounding",       8 },
@@ -803,6 +820,17 @@ namespace Marvel {
 		ADD_PYTHON_FUNCTION(draw_bezier_curve)
 		ADD_PYTHON_FUNCTION(clear_drawing)
 		ADD_PYTHON_FUNCTION(delete_draw_command)
+
+		//node commands
+		ADD_PYTHON_FUNCTION(add_node_editor)
+		ADD_PYTHON_FUNCTION(add_node)
+		ADD_PYTHON_FUNCTION(add_node_title_bar)
+		ADD_PYTHON_FUNCTION(add_node_attribute)
+		ADD_PYTHON_FUNCTION(add_link)
+		ADD_PYTHON_FUNCTION(delete_link)
+		ADD_PYTHON_FUNCTION(get_links)
+		ADD_PYTHON_FUNCTION(get_selected_links)
+		ADD_PYTHON_FUNCTION(get_selected_nodes)
 
 		// plot commands
 		ADD_PYTHON_FUNCTION(add_drag_point)

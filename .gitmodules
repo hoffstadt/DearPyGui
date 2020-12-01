@@ -14,3 +14,6 @@
 	path = Dependencies/ImGuiFileDialog
 	url = https://github.com/aiekick/ImGuiFileDialog
 	branch = master
+[submodule "Dependencies/imnodes"]
+	path = Dependencies/imnodes
+	url = https://github.com/Nelarius/imnodes
