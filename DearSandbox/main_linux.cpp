@@ -11,32 +11,33 @@ using namespace Marvel;
 int main(int argc, char* argv[])
 {
 
-	PyObject* m = nullptr;
+  PyObject *m = nullptr;
 
-	// initialize python
-	// add our custom module
-	PyImport_AppendInittab("sandboxout", &PyInit_embOut);
-	PyImport_AppendInittab("core", &PyInit_core);
-
-	// set path and start the interpreter
+  // initialize python
+  // add our custom module
+  PyImport_AppendInittab("sandboxout", &PyInit_embOut);
+  PyImport_AppendInittab("core", &PyInit_core);
+  GenerateStubFile("../../DearPyGui/dearpygui/core.pyi");
+  // set path and start the interpreter
 #if defined(__APPLE__)
-    Py_SetPythonHome(L".");
-    wchar_t* deco = Py_DecodeLocale("../../Dependencies/cpython/debug/build/lib.macosx-10.15-x86_64-3.8-pydebug/:../../Dependencies/cpython/Lib/:../../DearPyGui:../../DearSandbox", nullptr);
+  Py_SetPythonHome(L".");
+  wchar_t *deco = Py_DecodeLocale(
+	  "../../Dependencies/cpython/debug/build/lib.macosx-10.15-x86_64-3.8-pydebug/:../../Dependencies/cpython/Lib/:../../DearPyGui:../../DearSandbox",
+	  nullptr);
 #else
-    wchar_t* deco = Py_DecodeLocale("../../Dependencies/cpython/debug/build/lib.linux-x86_64-3.8-pydebug/:../../Dependencies/cpython/Lib/:../../DearPyGui:../../DearSandbox", nullptr);
+  wchar_t* deco = Py_DecodeLocale("../../Dependencies/cpython/debug/build/lib.linux-x86_64-3.8-pydebug/:../../Dependencies/cpython/Lib/:../../DearPyGui:../../DearSandbox", nullptr);
 #endif
 
-    Py_SetPath(deco);
-	Py_NoSiteFlag = 1; // this must be set to 1
-	Py_DontWriteBytecodeFlag = 1;
-	//_PyEval_SetSwitchInterval()
-	
-	Py_Initialize();
-	if (!Py_IsInitialized())
-	{
-		printf("Error initializing Python interpreter\n");
-		return 1;
-	}
+  Py_SetPath(deco);
+  Py_NoSiteFlag = 1; // this must be set to 1
+  Py_DontWriteBytecodeFlag = 1;
+  //_PyEval_SetSwitchInterval()
+
+  Py_Initialize();
+  if (!Py_IsInitialized()) {
+	printf("Error initializing Python interpreter\n");
+	return 1;
+  }
 
 	PyObject* mmarvel = PyImport_ImportModule("core");
 

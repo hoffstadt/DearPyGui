@@ -17,15 +17,17 @@ class mvNodeAttribute : public mvStringPtrBase {
 
  private:
   int m_pin_shape = 1;
-  float m_pin_radius = 4.f;
-  float m_pin_quad_side_length = 7.f;
-  float m_pin_triangle_side_length = 9.5;
-  float m_pin_line_thickness = 1.f;
-  float m_pin_hover_radius = 10.f;
-  float m_pin_offset = 0.f;
-  mvColor m_pin_hovered = mvColor(53, 150, 250, 180);
   mvColor m_pin_color = mvColor(53, 150, 250, 255);
 
+  //region Styling
+  //  float m_pin_radius = 4.f;
+  //  float m_pin_quad_side_length = 7.f;
+  //  float m_pin_triangle_side_length = 9.5;
+  //  float m_pin_line_thickness = 1.f;
+  //  float m_pin_hover_radius = 10.f;
+  //  float m_pin_offset = 0.f;
+  //  mvColor m_pin_hovered = mvColor(53, 150, 250, 180);
+  //endregion
  protected:
   int m_attr_id;
   mvNodeAttributeType m_attr_type;

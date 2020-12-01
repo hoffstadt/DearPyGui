@@ -389,6 +389,122 @@ def popup(popupparent: str, name: str, *, mousebutton: int = 1, modal: bool = Fa
     finally:
         internal_dpg.end()
 
+
+@contextmanager
+def node_editor(name: str, *, grid_spacing: float = 32.0, callback_link_created: Callable = None,
+                callback_link_destroyed: Callable = None, parent: str = '', before: str = '', width: int = -1,
+                height: int = -1, show: bool = True):
+    """Wraps add_node_editor() and automates calling end().
+    Args:
+        name: Unique name used to programmatically refer to the item. If label is unused this will be the label,
+            anything after "##" that occurs in the name will not be shown on screen.
+        **grid_spacing: Spacing of grid lines on the node editor canvas.
+        **callback_link_created: Function to call on link creation event.
+        **callback_link_destroyed: Function to call on link destruction event.
+        **parent: Parent to add this item to. (runtime adding)
+        **before: This item will be displayed before the specified item in the parent. (runtime adding)
+        **width: Width of the item.
+        **height: Height of the item.
+        **show: Decides if the item is shown of not.
+    Returns:
+        None
+    """
+    try:
+        yield internal_dpg.add_node_editor(name=name, grid_spacing=grid_spacing,
+                                           callback_link_created=callback_link_created,
+                                           callback_link_destroyed=callback_link_destroyed, parent=parent,
+                                           before=before, width=width, height=height, show=show)
+    finally:
+        internal_dpg.end()
+
+
+@contextmanager
+def node(obj_id: int, *, x_pos: float = 10, y_pos: float = 10, label: str = ..., draggable: bool = True,
+         auto_title_bar: bool = True, node_corner_rounding: float = 4.0, node_padding_h: float = 8.0,
+         node_padding_v: float = 1.0, node_border_weight: float = 1.0, parent: str = '', before: str = '',
+         width: int = 100, height: int = -1, show: bool = True):
+    """Wraps add_node() and automates calling end().
+    Args:
+        obj_id: The unique ID (int) to represent this instance of a node.
+        **x_pos: X position of node on editor canvas
+        **y_pos: Y position of node on editor canvas
+        **label: the name of the node, if using auto_title_bar
+        **draggable: set whether the node can be dragged
+        **auto_title_bar: generate a default title bar. if false, a title bar MUST be manually added
+        **node_corner_rounding: Styling.
+        **node_padding_h: Styling.
+        **node_padding_v: Styling.
+        **node_border_weight: Styling.
+        **parent: Parent to add this item to. (runtime adding)
+        **before: This item will be displayed before the specified item in the parent. (runtime adding)
+        **width: Width of the item.
+        **height: Height of the item.
+        **show: Decides if the item is shown of not.
+    Returns:
+        None
+    """
+    try:
+        yield internal_dpg.add_node(obj_id=obj_id, x_pos=x_pos, y_pos=y_pos, label=label, draggable=draggable,
+                                    auto_title_bar=auto_title_bar, node_corner_rounding=node_corner_rounding,
+                                    node_padding_h=node_padding_h, node_padding_v=node_padding_v,
+                                    node_border_weight=node_border_weight, parent=parent, before=before, width=width,
+                                    height=height, show=show)
+    finally:
+        internal_dpg.end()
+
+
+@contextmanager
+def node_title_bar(name: str, *, title_bar_color: List[float] = (41, 74, 122, 255),
+                   title_bar_hovered: List[float] = (41, 74, 122, 255),
+                   title_bar_selected: List[float] = (66, 150, 250, 255), parent: str = '', before: str = '',
+                   width: int = -1, height: int = -1, show: bool = True):
+    """Wraps add_node_title_bar() and automates calling end().
+    Args:
+        name: The unique ID (string) to represent this instance of a node.
+        **name: X position of node on editor canvas
+        **title_bar_color: Y position of node on editor canvas
+        **title_bar_hovered: the name of the node, if using auto_title_bar
+        **title_bar_selected: set whether the node can be dragged
+        **parent: Parent to add this item to. (runtime adding)
+        **before: This item will be displayed before the specified item in the parent. (runtime adding)
+        **width: Width of the item.
+        **height: Height of the item.
+        **show: Decides if the item is shown of not.
+    Returns:
+        None
+    """
+    try:
+        yield internal_dpg.add_node_title_bar(name=name, title_bar_color=title_bar_color,
+                                              title_bar_hovered=title_bar_hovered,
+                                              title_bar_selected=title_bar_selected, parent=parent, before=before,
+                                              width=width, height=height, show=show)
+    finally:
+        internal_dpg.end()
+
+
+@contextmanager
+def node_attribute(obj_id: int, type: int, *, pin_shape: int = 1, target: str = '', parent: str = '', before: str = '',
+                   width: int = 100, height: int = -1, show: bool = True):
+    """Wraps add_node_attribute() and automates calling end().
+    Args:
+        obj_id: The unique ID (string) to represent this instance of a node.
+        type: integer indicating whether the attribute is an input, output, or static
+        **pin_shape: Styling
+        **parent: Parent to add this item to. (runtime adding)
+        **before: This item will be displayed before the specified item in the parent. (runtime adding)
+        **width: Width of the item.
+        **height: Height of the item.
+        **show: Decides if the item is shown of not.
+    Returns:
+        None
+    """
+    try:
+        yield internal_dpg.add_node_attribute(obj_id=obj_id, type=type, pin_shape=pin_shape, target=target,
+                                              parent=parent, before=before, width=width, height=height, show=show)
+    finally:
+        internal_dpg.end()
+
+
 ########################################################################################################################
 # Old Commands
 ########################################################################################################################

@@ -683,7 +683,7 @@ PyObject *get_links(PyObject *self, PyObject *args, PyObject *kwargs) {
 		" : invalid editor.");
 	return ToPyBool(false);
   } else {
-	return ToPyListLinks(ed->getLinks());
+	return ToPyListLinks(*ed->getLinks());
   }
 }
 

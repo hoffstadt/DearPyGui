@@ -18,22 +18,22 @@ mvNodeEditor::mvNodeEditor(const std::string &name,
 
 std::vector<int> mvNodeEditor::getSelectedNodes() {
   const int num_nodes_selected = imnodes::NumSelectedNodes();
+  static std::vector<int> selected_nodes = {};
   if (num_nodes_selected > 0) {
-	static std::vector<int> selected_nodes;
 	selected_nodes.resize(static_cast<size_t>(num_nodes_selected));
 	imnodes::GetSelectedNodes(selected_nodes.data());
-	return selected_nodes;
   }
+  return selected_nodes;
 }
 
 std::vector<int> mvNodeEditor::getSelectedLinks() {
   const int num_links_selected = imnodes::NumSelectedLinks();
+  static std::vector<int> selected_links = {};
   if (num_links_selected > 0) {
-	static std::vector<int> selected_links;
 	selected_links.resize(static_cast<size_t>(num_links_selected));
 	imnodes::GetSelectedLinks(selected_links.data());
-	return selected_links;
   }
+  return selected_links;
 }
 
 void mvNodeEditor::draw() {
@@ -125,6 +125,12 @@ bool mvNodeEditor::deleteLink(int link_id) {
 
 std::vector<mvLink> *mvNodeEditor::getLinks() {
   return &m_links;
+}
+void mvNodeEditor::getExtraConfigDict(PyObject *dict) {
+  mvAppItem::getExtraConfigDict(dict);
+}
+void mvNodeEditor::setExtraConfigDict(PyObject *dict) {
+  mvAppItem::setExtraConfigDict(dict);
 }
 
 } // namespace Marvel

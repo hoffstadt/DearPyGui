@@ -6,9 +6,6 @@
 
 namespace Marvel {
 
-struct mvLink {
-  int id, start_attr, end_attr;
-};
 
 class mvNodeEditor : public mvAppItem {
 

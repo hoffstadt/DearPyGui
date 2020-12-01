@@ -218,7 +218,10 @@ def add_line_series(plot: str, name: str, x: List[float], y: List[float], *, col
 	"""Adds a line series to a plot."""
 	...
 
-def add_listbox(name: str, *, items: List[str] = (), default_value: int = 0, callback: Callable = None, callback_data: Any = None, tip: str = '', parent: str = '', before: str = '', source: str = '', enabled: bool = True, width: int = 0, num_items: int = 3, label: str = '', popup: str = '', show: bool = True) -> None:
+def add_link(editor: str, obj_id: int, start_attribute: int, end_attribute: int, *, def add_listbox(name: str, *,
+			 items: List[str] = (), default_value: int = 0, callback: Callable = None, callback_data: Any = None,
+			 tip: str = '', parent: str = '', before: str = '', source: str = '', enabled: bool = True, width: int = 0,
+			 num_items: int = 3, label: str = '', popup: str = '', show: bool = True) -> None:
 	"""Adds a listbox."""
 	...
 
@@ -234,39 +237,107 @@ def add_menu(name: str, *, label: str = '', show: bool = True, parent: str = '',
 	"""Adds a menu to an existing menu bar. Must be followed by a call to end."""
 	...
 
+
 def add_menu_bar(name: str, *, show: bool = True, parent: str = '', before: str = '') -> None:
 	"""Adds a menu bar to a window. Must be followed by a call to end."""
 	...
 
-def add_menu_item(name: str, *, shortcut: str = '', check: bool = False, callback: Callable = None, callback_data: Any = None, label: str = '', show: bool = True, enabled: bool = True, parent: str = '', before: str = '') -> None:
+
+def add_menu_item(name: str, *, shortcut: str = '', check: bool = False, callback: Callable = None,
+				  callback_data: Any = None, label: str = '', show: bool = True, enabled: bool = True, parent: str = '',
+				  before: str = '') -> None:
 	"""Adds a menu item to an existing menu."""
 	...
 
-def add_metrics_window(name: str, *, width: int = 700, height: int = 500, x_pos: int = 200, y_pos: int = 200, autosize: bool = False, no_resize: bool = False, no_title_bar: bool = False, no_move: bool = False, no_scrollbar: bool = False, no_collapse: bool = False, horizontal_scrollbar: bool = False, no_focus_on_appearing: bool = False, no_bring_to_front_on_focus: bool = False, no_close: bool = False, no_background: bool = False, label: str = '', show: bool = True) -> None:
+
+def add_metrics_window(name: str, *, width: int = 700, height: int = 500, x_pos: int = 200, y_pos: int = 200,
+					   autosize: bool = False, no_resize: bool = False, no_title_bar: bool = False,
+					   no_move: bool = False, no_scrollbar: bool = False, no_collapse: bool = False,
+					   horizontal_scrollbar: bool = False, no_focus_on_appearing: bool = False,
+					   no_bring_to_front_on_focus: bool = False, no_close: bool = False, no_background: bool = False,
+					   label: str = '', show: bool = True) -> None:
 	"""Creates a metrics window."""
 	...
+
 
 def add_next_column(*, name: str = 'next_collumn', show: bool = True, parent: str = '', before: str = '') -> None:
 	"""Changes to next column."""
 	...
 
-def add_pie_series(plot: str, name: str, values: List[float], labels: List[str], x: float, y: float, radius: float, *, normalize: bool = False, angle: float = 90.0, format: str = '%0.2f', update_bounds: bool = True, axis: int = 0) -> None:
+
+def add_node(obj_id: int, *, x_pos: float = 10, y_pos: float = 10, label: str = ..., draggable: bool = True,
+			 auto_title_bar: bool = True, node_corner_rounding: float = 4.0, node_padding_h: float = 8.0,
+			 node_padding_v: float = 1.0, node_border_weight: float = 1.0, parent: str = '', before: str = '',
+			 width: int = 100, height: int = 100, show: bool = True) -> None:
+	"""Adds a node within a node_editor."""
+	...
+
+
+def add_node_attribute(obj_id: int, type: int, *, pin_shape: int = 1, target: str = '', parent: str = '',
+					   before: str = '', width: int = -1, height: int = -1, show: bool = True) -> None:
+	"""Adds a node attribute."""
+	...
+
+
+def add_node_editor(name: str, *, grid_spacing: float = 32.0, callback_link_created: Callable = None,
+					callback_link_destroyed: Callable = None, parent: str = '', before: str = '', width: int = -1,
+					height: int = -1, show: bool = True) -> None:
+	"""Adds a node editor canvas."""
+	...
+
+
+def add_node_title_bar(name: str, *, title_bar_color: List[float] = (41, 74, 122, 255),
+					   title_bar_hovered: List[float] = (41, 74, 122, 255),
+					   title_bar_selected: List[float] = (66, 150, 250, 255), parent: str = '', before: str = '',
+					   width: int = -1, height: int = -1, show: bool = True) -> None:
+	"""Adds a title bar to a node."""
+	...
+
+
+def add_pie_series(plot: str, name: str, values: List[float], labels: List[str], x: float, y: float, radius: float, *,
+				   normalize: bool = False, angle: float = 90.0, format: str = '%0.2f', update_bounds: bool = True,
+				   axis: int = 0) -> None:
 	"""Adds a pie series to a plot."""
 	...
 
-def add_plot(name: str, *, x_axis_name: str = '', y_axis_name: str = '', no_legend: bool = False, no_menus: bool = False, no_box_select: bool = False, no_mouse_pos: bool = False, no_highlight: bool = False, no_child: bool = False, query: bool = False, crosshairs: bool = False, anti_aliased: bool = False, yaxis2: bool = False, yaxis3: bool = False, xaxis_no_gridlines: bool = False, xaxis_no_tick_marks: bool = False, xaxis_no_tick_labels: bool = False, xaxis_log_scale: bool = False, xaxis_time: bool = False, xaxis_invert: bool = False, xaxis_lock_min: bool = False, xaxis_lock_max: bool = False, yaxis_no_gridlines: bool = False, yaxis_no_tick_marks: bool = False, yaxis_no_tick_labels: bool = False, yaxis_log_scale: bool = False, yaxis_invert: bool = False, yaxis_lock_min: bool = False, yaxis_lock_max: bool = False, y2axis_no_gridlines: bool = False, y2axis_no_tick_marks: bool = False, y2axis_no_tick_labels: bool = False, y2axis_log_scale: bool = False, y2axis_invert: bool = False, y2axis_lock_min: bool = False, y2axis_lock_max: bool = False, y3axis_no_gridlines: bool = False, y3axis_no_tick_marks: bool = False, y3axis_no_tick_labels: bool = False, y3axis_log_scale: bool = False, y3axis_invert: bool = False, y3axis_lock_min: bool = False, y3axis_lock_max: bool = False, parent: str = '', before: str = '', width: int = -1, height: int = -1, query_callback: Callable = None, show_color_scale: bool = False, scale_min: float = 0.0, scale_max: float = 1.0, scale_height: int = 100, label: str = '', show: bool = True, show_annotations: bool = True, show_drag_lines: bool = True, show_drag_points: bool = True) -> None:
+
+def add_plot(name: str, *, x_axis_name: str = '', y_axis_name: str = '', no_legend: bool = False,
+			 no_menus: bool = False, no_box_select: bool = False, no_mouse_pos: bool = False,
+			 no_highlight: bool = False, no_child: bool = False, query: bool = False, crosshairs: bool = False,
+			 anti_aliased: bool = False, yaxis2: bool = False, yaxis3: bool = False, xaxis_no_gridlines: bool = False,
+			 xaxis_no_tick_marks: bool = False, xaxis_no_tick_labels: bool = False, xaxis_log_scale: bool = False,
+			 xaxis_time: bool = False, xaxis_invert: bool = False, xaxis_lock_min: bool = False,
+			 xaxis_lock_max: bool = False, yaxis_no_gridlines: bool = False, yaxis_no_tick_marks: bool = False,
+			 yaxis_no_tick_labels: bool = False, yaxis_log_scale: bool = False, yaxis_invert: bool = False,
+			 yaxis_lock_min: bool = False, yaxis_lock_max: bool = False, y2axis_no_gridlines: bool = False,
+			 y2axis_no_tick_marks: bool = False, y2axis_no_tick_labels: bool = False, y2axis_log_scale: bool = False,
+			 y2axis_invert: bool = False, y2axis_lock_min: bool = False, y2axis_lock_max: bool = False,
+			 y3axis_no_gridlines: bool = False, y3axis_no_tick_marks: bool = False, y3axis_no_tick_labels: bool = False,
+			 y3axis_log_scale: bool = False, y3axis_invert: bool = False, y3axis_lock_min: bool = False,
+			 y3axis_lock_max: bool = False, parent: str = '', before: str = '', width: int = -1, height: int = -1,
+			 query_callback: Callable = None, show_color_scale: bool = False, scale_min: float = 0.0,
+			 scale_max: float = 1.0, scale_height: int = 100, label: str = '', show: bool = True,
+			 show_annotations: bool = True, show_drag_lines: bool = True, show_drag_points: bool = True) -> None:
 	"""Adds a plot widget."""
 	...
 
-def add_popup(popupparent: str, name: str, *, mousebutton: int = 1, modal: bool = False, parent: str = '', before: str = '', width: int = 0, height: int = 0, show: bool = True) -> None:
+
+def add_popup(popupparent: str, name: str, *, mousebutton: int = 1, modal: bool = False, parent: str = '',
+			  before: str = '', width: int = 0, height: int = 0, show: bool = True) -> None:
 	"""Adds a popup window for an item. This command must come immediately after the item the popup is for. Must be followed by a call to end."""
 	...
 
-def add_progress_bar(name: str, *, default_value: float = 0.0, overlay: str = '', tip: str = '', parent: str = '', before: str = '', source: str = '', width: int = 0, height: int = 0, popup: str = '', show: bool = True) -> None:
+
+def add_progress_bar(name: str, *, default_value: float = 0.0, overlay: str = '', tip: str = '', parent: str = '',
+					 before: str = '', source: str = '', width: int = 0, height: int = 0, popup: str = '',
+					 show: bool = True) -> None:
 	"""Adds a progress bar."""
 	...
 
-def add_radio_button(name: str, *, items: List[str] = (), default_value: int = 0, callback: Callable = None, callback_data: Any = None, tip: str = '', parent: str = '', before: str = '', source: str = '', enabled: bool = True, horizontal: bool = False, popup: str = '', show: bool = True) -> None:
+
+def add_radio_button(name: str, *, items: List[str] = (), default_value: int = 0, callback: Callable = None,
+					 callback_data: Any = None, tip: str = '', parent: str = '', before: str = '', source: str = '',
+					 enabled: bool = True, horizontal: bool = False, popup: str = '', show: bool = True) -> None:
 	"""Adds a set of radio buttons. If items is empty, nothing will be shown."""
 	...
 
@@ -466,21 +537,31 @@ def delete_drag_point(plot: str, name: str) -> None:
 	"""Deletes a drag point if it exists."""
 	...
 
+
 def delete_draw_command(drawing: str, tag: str) -> None:
 	"""Deletes a drawing item."""
 	...
+
 
 def delete_item(item: str, *, children_only: bool = False) -> None:
 	"""Deletes an item if it exists."""
 	...
 
+
+def delete_link(editor: str, obj_id: int) -> None:
+	"""Deletes a link between two node attributes."""
+	...
+
+
 def delete_row(table: str, row: int) -> None:
 	"""Delete a row in a table."""
 	...
 
+
 def delete_series(plot: str, series: str) -> None:
 	"""Deletes a series if it exists."""
 	...
+
 
 def does_item_exist(item: str) -> bool:
 	"""Checks if item exists."""
@@ -606,21 +687,31 @@ def get_item_tip(item: str) -> str:
 	"""Returns an item's tip."""
 	...
 
+
 def get_item_type(item: str) -> str:
 	"""Returns an item's type"""
 	...
+
 
 def get_item_width(item: str) -> float:
 	"""Returns an item's width."""
 	...
 
+
+def get_links(editor: str) -> None:
+	"""Get a list of links active in the editor."""
+	...
+
+
 def get_log_level(*, logger: str = '') -> int:
 	"""Returns the log level."""
 	...
 
+
 def get_main_window_size() -> [int, int]:
 	"""Returns the size of the main window."""
 	...
+
 
 def get_managed_column_width(item: str, column: int) -> Float:
 	"""Returns the width of the ith column."""
@@ -642,21 +733,36 @@ def get_plot_query_area(plot: str) -> List[float]:
 	"""Returns the bounding axis limits for the query area [x_min, x_max, y_min, y_max]"""
 	...
 
+
 def get_plot_xlimits(plot: str) -> List[float]:
 	"""Returns the plots x limits"""
 	...
+
 
 def get_plot_ylimits(plot: str) -> List[float]:
 	"""Returns the plots x limits"""
 	...
 
+
+def get_selected_links(editor: str) -> None:
+	"""Get a list of selected links in the editor."""
+	...
+
+
+def get_selected_nodes(editor: str) -> None:
+	"""Get a list of selected nodes in the editor."""
+	...
+
+
 def get_style_antialiased_fill() -> bool:
 	"""Gets anti-aliasing on filled shapes (rounded rectangles, circles, etc.)."""
 	...
 
+
 def get_style_antialiased_lines() -> bool:
 	"""Gets anti-aliasing on lines/borders."""
 	...
+
 
 def get_style_button_text_align() -> List[float]:
 	"""Gets alignment of button text when button is larger than text. Defaults to (0.5, 0.5) (centered)."""

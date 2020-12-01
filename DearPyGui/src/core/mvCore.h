@@ -66,24 +66,26 @@ namespace Marvel {
 		explicit mvColor(ImVec4 color)
 		{
 			r = (int)(color.x*255.0f);
-			g = (int)(color.y*255.0f);
-			b = (int)(color.z*255.0f);
-			a = (int)(color.w*255.0f);
+		  g = (int)(color.y * 255.0f);
+		  b = (int)(color.z * 255.0f);
+		  a = (int)(color.w * 255.0f);
 		}
 
-		operator ImU32()
-		{
-			return ImGui::ColorConvertFloat4ToU32(toVec4());
-		}
+	  operator ImU32() {
+		return ImGui::ColorConvertFloat4ToU32(toVec4());
+	  }
 
-		ImVec4 toVec4() const
-		{
-			if (r < 0 || g < 0 || b < 0 || a < 0)
-				return ImVec4(0, 0, 0, -1);
-			return { r / 255.0f, g / 255.0f, b / 255.0f, a / 255.0f };
-		}
+	  ImVec4 toVec4() const {
+		if (r < 0 || g < 0 || b < 0 || a < 0)
+		  return ImVec4(0, 0, 0, -1);
+		return {r / 255.0f, g / 255.0f, b / 255.0f, a / 255.0f};
+	  }
 
 	};
+
+struct mvLink {
+  int id, start_attr, end_attr;
+};
 
 }
 
