@@ -41,32 +41,34 @@ namespace Marvel {
 	// mvPythonTranslator
 	//-----------------------------------------------------------------------------
 	// conversion to python
-	PyObject*   GetPyNone ();
-	PyObject*   ToPyString(const std::string& value);
-	PyObject*   ToPyFloat (float value);
-	PyObject*   ToPyInt   (int value);
-	PyObject*   ToPyBool  (bool value);
-	PyObject*   ToPyMPair (int x, float y);
-	PyObject*   ToPyMTrip (int i, float x, float y);
-	PyObject*   ToPyPair  (float x, float y);
-	PyObject*   ToPyPairII(int x, int y);
-	PyObject*   ToPyPair  (const std::string& x, const std::string& y);
-	PyObject*   ToPyList  (const std::vector<mvVec2>& value);
-	PyObject*   ToPyList  (const std::vector<int>& value);
-	PyObject*   ToPyList  (const std::vector<float>& value);
-	PyObject*   ToPyList  (const std::vector<std::string>& value);
-	PyObject*   ToPyList  (const std::vector<std::vector<std::string>>& value);
-	PyObject*   ToPyList  (const std::vector<std::pair<int, int>>& value);
-	PyObject*   ToPyColor (const mvColor& color);
-	PyObject*   ToPyTime  (const tm& time);
+	PyObject *GetPyNone();
+PyObject *ToPyString(const std::string &value);
+PyObject *ToPyFloat(float value);
+PyObject *ToPyInt(int value);
+PyObject *ToPyBool(bool value);
+PyObject *ToPyMPair(int x, float y);
+PyObject *ToPyMTrip(int i, float x, float y);
+PyObject *ToPyPair(float x, float y);
+PyObject *ToPyPairII(int x, int y);
+PyObject *ToPyPairIII(int x, int y, int z);
+PyObject *ToPyPair(const std::string &x, const std::string &y);
+PyObject *ToPyList(const std::vector<mvVec2> &value);
+PyObject *ToPyList(const std::vector<int> &value);
+PyObject *ToPyList(const std::vector<float> &value);
+PyObject *ToPyList(const std::vector<std::string> &value);
+PyObject *ToPyList(const std::vector<std::vector<std::string>> &value);
+PyObject *ToPyList(const std::vector<std::pair<int, int>> &value);
+PyObject *ToPyListLinks(const std::vector<mvLink> &value);
+PyObject *ToPyColor(const mvColor &color);
+PyObject *ToPyTime(const tm &time);
 
-	PyObject*   ToPyIntList  (int* value, int count);
-	PyObject*   ToPyFloatList(float* value, int count);
+PyObject *ToPyIntList(int *value, int count);
+PyObject *ToPyFloatList(float *value, int count);
 
-	// updates
-	void        UpdatePyIntList         (PyObject* pyvalue, const std::vector<int>& value);
-	void        UpdatePyFloatList       (PyObject* pyvalue, const std::vector<float>& value);
-	void        UpdatePyStringStringList(PyObject* pyvalue, const std::vector<std::vector<std::string>>& value);
+// updates
+void UpdatePyIntList(PyObject *pyvalue, const std::vector<int> &value);
+void UpdatePyFloatList(PyObject *pyvalue, const std::vector<float> &value);
+void UpdatePyStringStringList(PyObject *pyvalue, const std::vector<std::vector<std::string>> &value);
 
 	// conversion to c++
 	int         ToInt   (PyObject* value, const std::string& message = "Type must be an integer.");
