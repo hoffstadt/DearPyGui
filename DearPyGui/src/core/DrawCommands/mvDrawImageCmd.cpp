@@ -69,7 +69,7 @@ namespace Marvel {
 		if (PyObject* item = PyDict_GetItemString(dict, "pmax")) m_pmax = ToVec2(item);
 		if (PyObject* item = PyDict_GetItemString(dict, "pmin")) m_pmin = ToVec2(item);
 		if (PyObject* item = PyDict_GetItemString(dict, "uv_min")) m_uv_min = ToVec2(item);
-		if (PyObject* item = PyDict_GetItemString(dict, "uv_min")) m_uv_max = ToVec2(item);
+		if (PyObject* item = PyDict_GetItemString(dict, "uv_max")) m_uv_max = ToVec2(item);
 		if (PyObject* item = PyDict_GetItemString(dict, "color")) m_color = ToColor(item);
 
 		if (PyObject* item = PyDict_GetItemString(dict, "file"))
