@@ -31,25 +31,25 @@ namespace Marvel {
     //-----------------------------------------------------------------------------
     // Widget Types
     //-----------------------------------------------------------------------------
-    enum class mvAppItemType
-    {
-        None = 0, Spacing, SameLine, InputText, Button, 
-        RadioButtons, TabBar, TabItem, Image, MenuBar, 
-        Menu, EndMenu, MenuItem, EndMenuBar, Group, Child, 
-        SliderFloat, SliderFloat4, SliderInt, SliderInt4, 
-        SliderFloat2, SliderFloat3, SliderInt2, SliderInt3,
-        DragFloat, DragFloat4, DragInt, DragInt4, DragFloat2,
-	  DragFloat3, DragInt2, DragInt3, InputFloat, InputFloat4,
-	  InputInt, InputInt4, InputFloat2, InputFloat3,
-	  InputInt2, InputInt3, ColorEdit3, ColorEdit4,
-	  ColorPicker3, ColorPicker4, Tooltip, CollapsingHeader,
-	  Separator, Checkbox, Listbox, Text, LabelText, Combo,
-	  Plot, SimplePlot, Indent, Unindent, Drawing, Window,
-	  Popup, Selectable, TreeNode, ProgressBar, Table, Dummy,
-	  ImageButton, TimePicker, DatePicker, ColorButton,
-	  ManagedColumns, ColumnSet, NextColumn, Logger,
-	  AboutWindow, DocWindow, DebugWindow, MetricsWindow,
-	  StyleWindow, FileDialog, TabButton, NodeAttribute, Node, NodeEditor, NodeTitleBar, NodeLink
+	enum class mvAppItemType
+	{
+		None = 0, Spacing, SameLine, InputText, Button,
+		RadioButtons, TabBar, TabItem, Image, MenuBar,
+		Menu, EndMenu, MenuItem, EndMenuBar, Group, Child,
+		SliderFloat, SliderFloat4, SliderInt, SliderInt4,
+		SliderFloat2, SliderFloat3, SliderInt2, SliderInt3,
+		DragFloat, DragFloat4, DragInt, DragInt4, DragFloat2,
+		DragFloat3, DragInt2, DragInt3, InputFloat, InputFloat4,
+		InputInt, InputInt4, InputFloat2, InputFloat3,
+		InputInt2, InputInt3, ColorEdit3, ColorEdit4,
+		ColorPicker3, ColorPicker4, Tooltip, CollapsingHeader,
+		Separator, Checkbox, Listbox, Text, LabelText, Combo,
+		Plot, SimplePlot, Indent, Unindent, Drawing, Window,
+		Popup, Selectable, TreeNode, ProgressBar, Table, Dummy,
+		ImageButton, TimePicker, DatePicker, ColorButton,
+		ManagedColumns, ColumnSet, NextColumn, Logger,
+		AboutWindow, DocWindow, DebugWindow, MetricsWindow,
+		StyleWindow, FileDialog, TabButton, NodeAttribute, Node, NodeEditor, NodeTitleBar
 	};
 
     //-----------------------------------------------------------------------------
