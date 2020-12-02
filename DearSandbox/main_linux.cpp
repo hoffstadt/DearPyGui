@@ -17,7 +17,7 @@ int main(int argc, char* argv[])
 	// add our custom module
 	PyImport_AppendInittab("sandboxout", &PyInit_embOut);
 	PyImport_AppendInittab("core", &PyInit_core);
-
+  GenerateStubFile("../../DearPyGui/dearpygui/core.pyi");
 	// set path and start the interpreter
 #if defined(__APPLE__)
     Py_SetPythonHome(L".");

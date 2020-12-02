@@ -1,4 +1,4 @@
-﻿
+
 set(MARVEL_SOURCES
 
 	"$<$<PLATFORM_ID:Windows>:src/core/mvMarvel.cpp>"
@@ -59,7 +59,7 @@ set(MARVEL_SOURCES
 	"src/core/PythonCommands/mvContainerInterface.cpp"
 	"src/core/PythonCommands/mvAppItemInterface.cpp"
 	"src/core/PythonCommands/mvAppInterface.cpp"
-
+	"src/core/PythonCommands/mvNodeEditorInterface.cpp"
 	"src/core/AppItems/mvInputText.cpp"
 	"src/core/AppItems/mvTypeBases.cpp"
 	"src/core/AppItems/mvTimePicker.cpp"
@@ -89,6 +89,13 @@ set(MARVEL_SOURCES
 	"vendor/implot/implot.cpp"
 	"vendor/implot/implot_items.cpp"
 	"vendor/implot/implot_demo.cpp"
+
+	#imnodes
+	"src/core/NodeAppItems/mvNodeEditor.cpp"
+	"src/core/NodeAppItems/mvNode.cpp"
+	"src/core/NodeAppItems/mvNodeAttribute.cpp"
+	"src/core/NodeAppItems/mvNodeTitleBar.cpp"
+	"../Dependencies/imnodes/imnodes.cpp"
 
 	# ImGuiFileDialog
 	"../Dependencies/ImGuiFileDialog/ImGuiFileDialog/ImGuiFileDialog.cpp"
@@ -124,6 +131,7 @@ set(MARVEL_INCLUDE_DIR
 	"vendor/implot/"
 	"vendor/stb/"
 	"$<$<PLATFORM_ID:Windows>:${CMAKE_SOURCE_DIR}/Dependencies/cpython/PC/>"
+	"../Dependencies/imnodes/"
 
 	# may can delete this
 	"../Dependencies/cpython/debug/"

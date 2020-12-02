@@ -85,6 +85,10 @@ namespace Marvel {
 
 	};
 
+struct mvLink {
+  int id, start_attr, end_attr;
+};
+
 }
 
 #define MV_DEFAULT_COLOR Marvel::mvColor{255, 255, 255, 255, false}

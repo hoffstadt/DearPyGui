@@ -218,6 +218,10 @@ def add_line_series(plot: str, name: str, x: List[float], y: List[float], *, col
 	"""Adds a line series to a plot."""
 	...
 
+def add_link(editor: str, obj_id: int, start_attribute: int, end_attribute: int) -> None:
+	"""Adds a link between two node attributes."""
+	...
+
 def add_listbox(name: str, *, items: List[str] = (), default_value: int = 0, callback: Callable = None, callback_data: Any = None, tip: str = '', parent: str = '', before: str = '', source: str = '', enabled: bool = True, width: int = 0, num_items: int = 3, label: str = '', popup: str = '', show: bool = True) -> None:
 	"""Adds a listbox."""
 	...
@@ -248,6 +252,22 @@ def add_metrics_window(name: str, *, width: int = 700, height: int = 500, x_pos:
 
 def add_next_column(*, name: str = 'next_collumn', show: bool = True, parent: str = '', before: str = '') -> None:
 	"""Changes to next column."""
+	...
+
+def add_node(obj_id: int, *, x_pos: float = 10, y_pos: float = 10, label: str = ..., draggable: bool = True, auto_title_bar: bool = True, node_corner_rounding: float = 4.0, node_padding_h: float = 8.0, node_padding_v: float = 1.0, node_border_weight: float = 1.0, parent: str = '', before: str = '', width: int = 100, height: int = 100, show: bool = True) -> None:
+	"""Adds a node within a node_editor."""
+	...
+
+def add_node_attribute(obj_id: int, type: int, *, pin_shape: int = 1, target: str = '', parent: str = '', before: str = '', width: int = -1, height: int = -1, show: bool = True) -> None:
+	"""Adds a node attribute."""
+	...
+
+def add_node_editor(name: str, *, grid_spacing: float = 32.0, callback_link_created: Callable = None, callback_link_destroyed: Callable = None, parent: str = '', before: str = '', width: int = -1, height: int = -1, show: bool = True) -> None:
+	"""Adds a node editor canvas."""
+	...
+
+def add_node_title_bar(name: str, *, title_bar_color: List[float] = (41, 74, 122, 255), title_bar_hovered: List[float] = (41, 74, 122, 255), title_bar_selected: List[float] = (66, 150, 250, 255), parent: str = '', before: str = '', width: int = -1, height: int = -1, show: bool = True) -> None:
+	"""Adds a title bar to a node."""
 	...
 
 def add_pie_series(plot: str, name: str, values: List[float], labels: List[str], x: float, y: float, radius: float, *, normalize: bool = False, angle: float = 90.0, format: str = '%0.2f', update_bounds: bool = True, axis: int = 0) -> None:
@@ -474,6 +494,10 @@ def delete_item(item: str, *, children_only: bool = False) -> None:
 	"""Deletes an item if it exists."""
 	...
 
+def delete_link(editor: str, obj_id: int) -> None:
+	"""Deletes a link between two node attributes."""
+	...
+
 def delete_row(table: str, row: int) -> None:
 	"""Delete a row in a table."""
 	...
@@ -614,6 +638,10 @@ def get_item_width(item: str) -> float:
 	"""Returns an item's width."""
 	...
 
+def get_links(editor: str) -> None:
+	"""Get a list of links active in the editor."""
+	...
+
 def get_log_level(*, logger: str = '') -> int:
 	"""Returns the log level."""
 	...
@@ -648,6 +676,14 @@ def get_plot_xlimits(plot: str) -> List[float]:
 
 def get_plot_ylimits(plot: str) -> List[float]:
 	"""Returns the plots x limits"""
+	...
+
+def get_selected_links(editor: str) -> None:
+	"""Get a list of selected links in the editor."""
+	...
+
+def get_selected_nodes(editor: str) -> None:
+	"""Get a list of selected nodes in the editor."""
 	...
 
 def get_style_antialiased_fill() -> bool:

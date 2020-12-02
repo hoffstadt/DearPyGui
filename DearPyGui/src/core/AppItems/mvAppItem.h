@@ -49,7 +49,7 @@ namespace Marvel {
         ImageButton, TimePicker, DatePicker, ColorButton,
         ManagedColumns, ColumnSet, NextColumn, Logger,
         AboutWindow, DocWindow, DebugWindow, MetricsWindow,
-        StyleWindow, FileDialog, TabButton
+		StyleWindow, FileDialog, TabButton, NodeAttribute, Node, NodeEditor, NodeTitleBar
     };
 
     //-----------------------------------------------------------------------------
