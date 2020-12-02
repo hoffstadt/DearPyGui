@@ -25,7 +25,7 @@ namespace Marvel {
 	//-----------------------------------------------------------------------------
 	// mvDragFloat
 	//-----------------------------------------------------------------------------
-	class mvDragFloat : public mvFloatPtrBase
+	class mvDragFloat : public mvPtrBase<float, 1>
 	{
 
 	public:
@@ -33,7 +33,7 @@ namespace Marvel {
 		MV_APPITEM_TYPE(mvAppItemType::DragFloat, "add_drag_float")
 
 		mvDragFloat(const std::string& name, float default_value, const std::string& dataSource)
-			: mvFloatPtrBase(name, default_value, dataSource)
+			: mvPtrBase<float, 1>(name, default_value, dataSource)
 		{
 			m_description.disableAllowed = true;
 		}
@@ -134,7 +134,7 @@ namespace Marvel {
 	//-----------------------------------------------------------------------------
 	// mvDragFloat2
 	//-----------------------------------------------------------------------------
-	class mvDragFloat2 : public mvFloat2PtrBase
+	class mvDragFloat2 : public mvPtrBase<float*, 2>
 	{
 
 	public:
@@ -142,7 +142,7 @@ namespace Marvel {
 		MV_APPITEM_TYPE(mvAppItemType::DragFloat2, "add_drag_float2")
 
 		mvDragFloat2(const std::string& name, float* default_value, const std::string& dataSource)
-			: mvFloat2PtrBase(name, default_value, dataSource)
+			: mvPtrBase<float*, 2>(name, default_value, dataSource)
 		{
 			m_description.disableAllowed = true;
 		}
@@ -241,7 +241,7 @@ namespace Marvel {
 	//-----------------------------------------------------------------------------
 	// mvDragFloat3
 	//-----------------------------------------------------------------------------
-	class mvDragFloat3 : public mvFloat3PtrBase
+	class mvDragFloat3 : public mvPtrBase<float*, 3>
 	{
 
 	public:
@@ -249,7 +249,7 @@ namespace Marvel {
 		MV_APPITEM_TYPE(mvAppItemType::DragFloat3, "add_drag_float3")
 
 		mvDragFloat3(const std::string& name, float* default_value, const std::string& dataSource)
-			: mvFloat3PtrBase(name, default_value, dataSource)
+			: mvPtrBase<float*, 3>(name, default_value, dataSource)
 		{
 			m_description.disableAllowed = true;
 		}
@@ -348,7 +348,7 @@ namespace Marvel {
 	//-----------------------------------------------------------------------------
 	// mvDragFloat4
 	//-----------------------------------------------------------------------------
-	class mvDragFloat4 : public mvFloat4PtrBase
+	class mvDragFloat4 : public mvPtrBase<float*, 4>
 	{
 
 	public:
@@ -356,7 +356,7 @@ namespace Marvel {
 		MV_APPITEM_TYPE(mvAppItemType::DragFloat4, "add_drag_float4")
 
 		mvDragFloat4(const std::string& name, float* default_value, const std::string& dataSource)
-			: mvFloat4PtrBase(name, default_value, dataSource)
+			: mvPtrBase<float*, 4>(name, default_value, dataSource)
 		{
 			m_description.disableAllowed = true;
 		}
@@ -455,7 +455,7 @@ namespace Marvel {
 	//-----------------------------------------------------------------------------
 	// mvDragInt
 	//-----------------------------------------------------------------------------
-	class mvDragInt : public mvIntPtrBase
+	class mvDragInt : public mvPtrBase<int, 1>
 	{
 
 	public:
@@ -463,7 +463,7 @@ namespace Marvel {
 		MV_APPITEM_TYPE(mvAppItemType::DragInt, "add_drag_int")
 
 		mvDragInt(const std::string& name, int default_value, const std::string& dataSource)
-			: mvIntPtrBase(name, default_value, dataSource)
+			: mvPtrBase<int, 1>(name, default_value, dataSource)
 		{
 			m_description.disableAllowed = true;
 		}
@@ -561,7 +561,7 @@ namespace Marvel {
 	//-----------------------------------------------------------------------------
 	// mvDragInt2
 	//-----------------------------------------------------------------------------
-	class mvDragInt2 : public mvInt2PtrBase
+	class mvDragInt2 : public mvPtrBase<int*, 2>
 	{
 
 	public:
@@ -569,7 +569,7 @@ namespace Marvel {
 		MV_APPITEM_TYPE(mvAppItemType::DragInt2, "add_drag_int2")
 
 		mvDragInt2(const std::string& name, int* default_value, const std::string& dataSource)
-			: mvInt2PtrBase(name, default_value, dataSource)
+			: mvPtrBase<int*, 2>(name, default_value, dataSource)
 		{
 			m_description.disableAllowed = true;
 		}
@@ -668,7 +668,7 @@ namespace Marvel {
 	//-----------------------------------------------------------------------------
 	// mvDragInt3
 	//-----------------------------------------------------------------------------
-	class mvDragInt3 : public mvInt3PtrBase
+	class mvDragInt3 : public mvPtrBase<int*, 3>
 	{
 
 	public:
@@ -676,7 +676,7 @@ namespace Marvel {
 		MV_APPITEM_TYPE(mvAppItemType::DragInt3, "add_drag_int3")
 
 		mvDragInt3(const std::string& name, int* default_value, const std::string& dataSource)
-			: mvInt3PtrBase(name, default_value, dataSource)
+			: mvPtrBase<int*, 3>(name, default_value, dataSource)
 		{
 
 		}
@@ -775,7 +775,7 @@ namespace Marvel {
 	//-----------------------------------------------------------------------------
 	// mvDragInt4
 	//-----------------------------------------------------------------------------
-	class mvDragInt4 : public mvInt4PtrBase
+	class mvDragInt4 : public mvPtrBase<int*, 4>
 	{
 
 	public:
@@ -783,7 +783,7 @@ namespace Marvel {
 		MV_APPITEM_TYPE(mvAppItemType::DragInt4, "add_drag_int4")
 
 		mvDragInt4(const std::string& name, int* default_value, const std::string& dataSource)
-			: mvInt4PtrBase(name, default_value, dataSource)
+			: mvPtrBase<int*, 4>(name, default_value, dataSource)
 		{
 			m_description.disableAllowed = true;
 		}

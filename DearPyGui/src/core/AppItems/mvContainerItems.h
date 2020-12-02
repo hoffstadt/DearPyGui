@@ -18,7 +18,7 @@ namespace Marvel {
 	//-----------------------------------------------------------------------------
 	// mvChild
 	//-----------------------------------------------------------------------------
-	class mvChild : public mvBoolPtrBase, public mvEventHandler
+	class mvChild : public mvPtrBase<bool, 1>, public mvEventHandler
 	{
 
 	public:
@@ -68,7 +68,7 @@ namespace Marvel {
 	//-----------------------------------------------------------------------------
 	// mvCollapsingHeader
 	//-----------------------------------------------------------------------------
-	class mvCollapsingHeader : public mvBoolPtrBase
+	class mvCollapsingHeader : public mvPtrBase<bool, 1>
 	{
 
 	public:
@@ -91,7 +91,7 @@ namespace Marvel {
 	//-----------------------------------------------------------------------------
 	// mvTreeNode
 	//-----------------------------------------------------------------------------
-	class mvTreeNode : public mvBoolPtrBase
+	class mvTreeNode : public mvPtrBase<bool, 1>
 	{
 
 	public:

@@ -26,7 +26,7 @@ namespace Marvel {
 	//-----------------------------------------------------------------------------
 	// mvInputInt
 	//-----------------------------------------------------------------------------
-	class mvInputInt : public mvIntPtrBase
+	class mvInputInt : public mvPtrBase<int, 1>
 	{
 
 	public:
@@ -34,7 +34,7 @@ namespace Marvel {
 		MV_APPITEM_TYPE(mvAppItemType::InputInt, "add_input_int")
 
 		mvInputInt(const std::string& name, int default_value, const std::string& dataSource)
-			: mvIntPtrBase(name, default_value, dataSource)
+			: mvPtrBase<int, 1>(name, default_value, dataSource)
 		{
 			m_description.disableAllowed = true;
 		}
@@ -108,7 +108,7 @@ namespace Marvel {
 	//-----------------------------------------------------------------------------
 	// mvInputInt2
 	//-----------------------------------------------------------------------------
-	class mvInputInt2 : public mvInt2PtrBase
+	class mvInputInt2 : public mvPtrBase<int*, 2>
 	{
 
 	public:
@@ -116,7 +116,7 @@ namespace Marvel {
 		MV_APPITEM_TYPE(mvAppItemType::InputInt2, "add_input_int")
 
 		mvInputInt2(const std::string& name, int* default_value, const std::string& dataSource)
-			: mvInt2PtrBase(name, default_value, dataSource)
+			: mvPtrBase<int*, 2>(name, default_value, dataSource)
 		{
 			m_description.disableAllowed = true;
 		}
@@ -184,7 +184,7 @@ namespace Marvel {
 	//-----------------------------------------------------------------------------
 	// mvInputInt3
 	//-----------------------------------------------------------------------------
-	class mvInputInt3 : public mvInt3PtrBase
+	class mvInputInt3 : public mvPtrBase<int*, 3>
 	{
 
 	public:
@@ -192,7 +192,7 @@ namespace Marvel {
 		MV_APPITEM_TYPE(mvAppItemType::InputInt3, "add_input_int3")
 
 		mvInputInt3(const std::string& name, int* default_value, const std::string& dataSource)
-			: mvInt3PtrBase(name, default_value, dataSource)
+			: mvPtrBase<int*, 3>(name, default_value, dataSource)
 		{
 			m_description.disableAllowed = true;
 		}
@@ -259,7 +259,7 @@ namespace Marvel {
 	//-----------------------------------------------------------------------------
 	// mvInputInt4
 	//-----------------------------------------------------------------------------
-	class mvInputInt4 : public mvInt4PtrBase
+	class mvInputInt4 : public mvPtrBase<int*, 4>
 	{
 
 	public:
@@ -267,7 +267,7 @@ namespace Marvel {
 		MV_APPITEM_TYPE(mvAppItemType::InputInt4, "add_input_int4")
 
 		mvInputInt4(const std::string& name, int* default_value, const std::string& dataSource)
-			: mvInt4PtrBase(name, default_value, dataSource)
+			: mvPtrBase<int*, 4>(name, default_value, dataSource)
 		{
 			m_description.disableAllowed = true;
 		}
@@ -335,7 +335,7 @@ namespace Marvel {
 	//-----------------------------------------------------------------------------
 	// mvInputFloat
 	//-----------------------------------------------------------------------------
-	class mvInputFloat : public mvFloatPtrBase
+	class mvInputFloat : public mvPtrBase<float, 1>
 	{
 
 	public:
@@ -343,7 +343,7 @@ namespace Marvel {
 		MV_APPITEM_TYPE(mvAppItemType::InputFloat, "add_input_float")
 
 		mvInputFloat(const std::string& name, float default_value, const std::string& dataSource)
-			: mvFloatPtrBase(name, default_value, dataSource)
+			: mvPtrBase<float, 1>(name, default_value, dataSource)
 		{
 			m_description.disableAllowed = true;
 		}
@@ -439,7 +439,7 @@ namespace Marvel {
 	//-----------------------------------------------------------------------------
 	// mvInputFloat2
 	//-----------------------------------------------------------------------------
-	class mvInputFloat2: public mvFloat2PtrBase
+	class mvInputFloat2 : public mvPtrBase<float*, 2>
 	{
 
 	public:
@@ -447,7 +447,7 @@ namespace Marvel {
 		MV_APPITEM_TYPE(mvAppItemType::InputFloat2, "add_input_float2")
 
 		mvInputFloat2(const std::string& name, float* default_value, const std::string& dataSource)
-			: mvFloat2PtrBase(name, default_value, dataSource)
+			: mvPtrBase<float*, 2>(name, default_value, dataSource)
 		{
 			m_description.disableAllowed = true;
 		}
@@ -536,7 +536,7 @@ namespace Marvel {
 	//-----------------------------------------------------------------------------
 	// mvInputFloat3
 	//-----------------------------------------------------------------------------
-	class mvInputFloat3 : public mvFloat3PtrBase
+	class mvInputFloat3 : public mvPtrBase<float*, 3>
 	{
 
 	public:
@@ -544,7 +544,7 @@ namespace Marvel {
 		MV_APPITEM_TYPE(mvAppItemType::InputFloat3, "add_input_float3")
 
 		mvInputFloat3(const std::string& name, float* default_value, const std::string& dataSource)
-			: mvFloat3PtrBase(name, default_value, dataSource)
+			: mvPtrBase<float*, 3>(name, default_value, dataSource)
 		{
 			m_description.disableAllowed = true;
 		}
@@ -634,7 +634,7 @@ namespace Marvel {
 	//-----------------------------------------------------------------------------
 	// mvInputFloat4
 	//-----------------------------------------------------------------------------
-	class mvInputFloat4 : public mvFloat4PtrBase
+	class mvInputFloat4 : public mvPtrBase<float*, 4>
 	{
 
 	public:
@@ -642,7 +642,7 @@ namespace Marvel {
 		MV_APPITEM_TYPE(mvAppItemType::InputFloat4, "add_input_float4")
 
 		mvInputFloat4(const std::string& name, float* default_value, const std::string& dataSource)
-			: mvFloat4PtrBase(name, default_value, dataSource)
+			: mvPtrBase<float*, 4>(name, default_value, dataSource)
 		{
 			m_description.disableAllowed = true;
 		}

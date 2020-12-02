@@ -71,9 +71,10 @@ namespace Marvel {
 
 	void mvPlot::addDragPoint(const std::string& name, bool show_label, const mvColor& color, float radius, PyObject* callback, double* dummyValue, const std::string& source)
 	{
-		float* value = mvValueStorage::AddFloat2Value(source, { (float)dummyValue[0], (float)dummyValue[1] });
+		float* value = mvValueStorage::AddValue<std::array<float, 2>>(source,
+			{ (float)dummyValue[0], (float)dummyValue[1] })->data();
 
-		m_dragPoints.push_back({ name, value, show_label, color, radius, callback, value[0], value[1], source});
+		m_dragPoints.push_back({ name, value, show_label, color, radius, callback, value[0], value[1], source });
 	}
 
 	void mvPlot::updateDragPoint(const std::string& name, bool show_label, const mvColor& color, float radius, PyObject* callback, double* dummyValue, const std::string& source)
@@ -89,7 +90,8 @@ namespace Marvel {
 				if (item.source != source)
 				{
 					mvValueStorage::DecrementRef(source.empty() ? name : source);
-					item.value = mvValueStorage::AddFloat2Value(source.empty() ? name : source, { (float)dummyValue[0], (float)dummyValue[1] });
+					item.value = mvValueStorage::AddValue<std::array<float, 2>>(source.empty() ? name : source,
+						{ (float)dummyValue[0], (float)dummyValue[1] })->data();
 				}
 				item.show_label = show_label;
 				item.color = color;
@@ -108,9 +110,9 @@ namespace Marvel {
 
 	void mvPlot::addDragLine(const std::string& name, bool show_label, const mvColor& color, float thickness, bool y_line, PyObject* callback, double dummyValue, const std::string& source)
 	{
-		float* value = mvValueStorage::AddFloatValue(source, (float)dummyValue);
+		float* value = mvValueStorage::AddValue<float>(source, (float)dummyValue);
 
-		m_dragLines.push_back({ name, value, show_label, color, thickness, y_line, callback, *value, source});
+		m_dragLines.push_back({ name, value, show_label, color, thickness, y_line, callback, *value, source });
 	}
 
 	void mvPlot::updateDragLine(const std::string& name, bool show_label, const mvColor& color, float thickness, bool y_line, PyObject* callback, double dummyValue, const std::string& source)
@@ -127,7 +129,7 @@ namespace Marvel {
 				if (item.source != source)
 				{
 					mvValueStorage::DecrementRef(source.empty() ? name : source);
-					item.value = mvValueStorage::AddFloatValue(source.empty() ? name : source, (float)dummyValue);
+					item.value = mvValueStorage::AddValue<float>(source.empty() ? name : source, (float)dummyValue);
 				}
 				item.show_label = show_label;
 				item.color = color;

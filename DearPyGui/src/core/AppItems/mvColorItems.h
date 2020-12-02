@@ -40,7 +40,7 @@ namespace Marvel {
 	//-----------------------------------------------------------------------------
 	// mvColorEdit3
 	//-----------------------------------------------------------------------------
-	class mvColorEdit3 : public mvColorPtrBase
+	class mvColorEdit3 : public mvPtrBase<float*, 4>
 	{
 
 	public:
@@ -62,7 +62,7 @@ namespace Marvel {
 	//-----------------------------------------------------------------------------
 	// mvColorEdit4
 	//-----------------------------------------------------------------------------
-	class mvColorEdit4 : public mvColorPtrBase
+	class mvColorEdit4 : public mvPtrBase<float*, 4>
 	{
 
 	public:
@@ -84,7 +84,7 @@ namespace Marvel {
 	//-----------------------------------------------------------------------------
 	// mvColorPicker3
 	//-----------------------------------------------------------------------------
-	class mvColorPicker3 : public mvColorPtrBase
+	class mvColorPicker3 : public mvPtrBase<float*, 4>
 	{
 
 	public:
@@ -106,7 +106,7 @@ namespace Marvel {
 	//-----------------------------------------------------------------------------
 	// mvColorPicker4
 	//-----------------------------------------------------------------------------
-	class mvColorPicker4 : public mvColorPtrBase
+	class mvColorPicker4 : public mvPtrBase<float*, 4>
 	{
 
 	public:

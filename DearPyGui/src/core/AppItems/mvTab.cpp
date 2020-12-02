@@ -6,7 +6,7 @@ namespace Marvel {
 
 	mvTabBar::mvTabBar(const std::string& name)
 		: 
-		mvStringPtrBase(name, "", name)
+		mvPtrBase<std::string, 1>(name, "", name)
 	{
 		m_description.container = true;
 	}
@@ -89,7 +89,7 @@ namespace Marvel {
 
 	mvTab::mvTab(const std::string& name)
 		: 
-		mvBoolPtrBase(name, false, name)
+		mvPtrBase<bool, 1>(name, false, name)
 	{
 		m_description.container = true;
 	}

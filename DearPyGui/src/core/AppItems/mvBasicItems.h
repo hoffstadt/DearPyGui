@@ -20,7 +20,7 @@ namespace Marvel {
 	//-----------------------------------------------------------------------------
 	// mvSelectable
 	//-----------------------------------------------------------------------------
-	class mvSelectable : public mvBoolPtrBase
+	class mvSelectable : public mvPtrBase<bool, 1>
 	{
 
 	public:
@@ -65,7 +65,7 @@ namespace Marvel {
 	//-----------------------------------------------------------------------------
 	// mvCheckbox
 	//-----------------------------------------------------------------------------
-	class mvCheckbox : public mvBoolPtrBase
+	class mvCheckbox : public mvPtrBase<bool, 1>
 	{
 
 	public:
@@ -81,7 +81,7 @@ namespace Marvel {
 	//-----------------------------------------------------------------------------
 	// mvCombo
 	//-----------------------------------------------------------------------------
-	class mvCombo : public mvStringPtrBase
+	class mvCombo : public mvPtrBase<std::string, 1>
 	{
 
 	public:
@@ -102,7 +102,7 @@ namespace Marvel {
 	//-----------------------------------------------------------------------------
 	// mvListbox
 	//-----------------------------------------------------------------------------
-	class mvListbox : public mvIntPtrBase
+	class mvListbox : public mvPtrBase<int, 1>
 	{
 
 	public:
@@ -126,7 +126,7 @@ namespace Marvel {
 	//-----------------------------------------------------------------------------
 	// mvRadioButton
 	//-----------------------------------------------------------------------------
-	class mvRadioButton : public mvIntPtrBase
+	class mvRadioButton : public mvPtrBase<int, 1>
 	{
 
 	public:
@@ -149,7 +149,7 @@ namespace Marvel {
 	//-----------------------------------------------------------------------------
 	// mvProgressBar
 	//-----------------------------------------------------------------------------
-	class mvProgressBar : public mvFloatPtrBase
+	class mvProgressBar : public mvPtrBase<float, 1>
 	{
 
 	public:

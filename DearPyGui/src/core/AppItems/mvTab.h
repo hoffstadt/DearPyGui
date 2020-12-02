@@ -16,7 +16,7 @@ namespace Marvel {
 	//-----------------------------------------------------------------------------
 	// mvTabBar
 	//-----------------------------------------------------------------------------
-	class mvTabBar : public mvStringPtrBase
+	class mvTabBar : public mvPtrBase<std::string, 1>
 	{
 
 	public:
@@ -40,7 +40,7 @@ namespace Marvel {
 	//-----------------------------------------------------------------------------
 	// mvTab
 	//-----------------------------------------------------------------------------
-	class mvTab : public mvBoolPtrBase
+	class mvTab : public mvPtrBase<bool, 1>
 	{
 
 	public:

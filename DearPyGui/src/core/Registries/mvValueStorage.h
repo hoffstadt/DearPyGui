@@ -3,122 +3,275 @@
 //-----------------------------------------------------------------------------
 // mvValueStorage
 //
-//     - This class acts as a manager for value storage by the users. The 
+//     - This class acts as a manager for value storage by the users. The
 //       value storage system serves 2 purposes:
 //
 //         * Allows some widgets to share the same underlying data.
 //         * Allows the user to store data for any other purpose where
 //           the data can be retrieved at a later time.
-//     
+//
 //-----------------------------------------------------------------------------
 
-#include <string>
-#include <unordered_map>
-#include <set>
-#include <mutex>
 #include <array>
-#include <vector>
 #include <implot.h>
 #include <implot_internal.h>
+#include <mutex>
+#include <set>
+#include <string>
+#include <unordered_map>
+#include <vector>
 #define PY_SSIZE_T_CLEAN
 #include <Python.h>
+#include <iostream>
+namespace Marvel
+{
 
-namespace Marvel {
+//-----------------------------------------------------------------------------
+// mvValueStorage
+//-----------------------------------------------------------------------------
 
-	//-----------------------------------------------------------------------------
-	// mvValueStorage
-	//-----------------------------------------------------------------------------
 	class mvValueStorage
 	{
 
 		friend class mvDebugWindow;
 
-		enum class ValueTypes 
+	public:
+		enum class ValueTypes
 		{
 			None = 0,
-			Int, Int2, Int3, Int4,
-			Float, Float2, Float3, Float4, FloatVect,
+			Int,
+			Int2,
+			Int3,
+			Int4,
+			Float,
+			Float2,
+			Float3,
+			Float4,
+			FloatVect,
 			Bool,
 			String,
-			Time, Color
+			Time,
+			Color,
+			TypeCount,
 		};
 
-	public:
+		static std::string vtToString(ValueTypes vt)
+		{
+			switch (vt)
+			{
+			case ValueTypes::None:
+				return "None";
+			case ValueTypes::Int:
+				return "Int";
+			case ValueTypes::Int2:
+				return "Int2";
+			case ValueTypes::Int3:
+				return "Int3";
+			case ValueTypes::Int4:
+				return "Int4";
+			case ValueTypes::Float:
+				return "Float";
+			case ValueTypes::Float2:
+				return "Float2";
+			case ValueTypes::Float3:
+				return "Float3";
+			case ValueTypes::Float4:
+				return "Float4";
+			case ValueTypes::FloatVect:
+				return "FloatVect";
+			case ValueTypes::Bool:
+				return "Bool";
+			case ValueTypes::String:
+				return "String";
+			case ValueTypes::Time:
+				return "Time";
+			case ValueTypes::Color:
+				return "Color";
+			default:
+				return "None";
+			}
+
+		}
 
 		// python interfacing
-		static PyObject*           GetPyValue          (const std::string& name);
-		static bool                SetPyValue          (const std::string& name, PyObject* value);
-		static void                AddPyValue          (const std::string& name, PyObject* value);
+		static PyObject* GetPyValue(const std::string& name);
+		static bool SetPyValue(const std::string& name, PyObject* value);
+		static void AddPyValue(const std::string& name, PyObject* value);
 
-		// adders
-		static int*                AddIntValue         (const std::string& name, int value = 0);
-		static int*                AddInt2Value        (const std::string& name, const std::array<int, 2>& value = {});
-		static int*                AddInt3Value        (const std::string& name, const std::array<int, 3>& value = {});
-		static int*                AddInt4Value        (const std::string& name, const std::array<int, 4>& value = {});
-		static float*              AddFloatValue       (const std::string& name, float value = 0.0f);
-		static float*              AddFloat2Value      (const std::string& name, const std::array<float, 2>& value = {});
-		static float*              AddFloat3Value      (const std::string& name, const std::array<float, 3>& value = {});
-		static float*              AddFloat4Value      (const std::string& name, const std::array<float, 4>& value = {});
-		static float*              AddColorValue       (const std::string& name, const std::array<float, 4>& value = {});
-		static std::vector<float>* AddFloatVectorValue (const std::string& name, const std::vector<float>& value = {});
-		static bool*               AddBoolValue        (const std::string& name, bool value = false);
-		static std::string*        AddStringValue      (const std::string& name, const std::string& value = "");
-		static tm*                 AddTimeValue        (const std::string& name, const tm& value = {});
+		static bool HasValue(const std::string& name);
+		template<typename T>
+		static T* AddValue(const std::string& name, const T& value = {})
+		{
+			std::lock_guard<std::mutex> lock(s_mutex);
+			if (s_value_store < T >.find(name) == s_value_store < T >.end()) {
+				s_value_store < T >.emplace(name, value);
+				s_refStorage[name] = 1;
+				s_itemStorage.insert(name);
+				SetType(name, value);
 
-		// getters
-		static int*                GetIntValue         (const std::string& name);
-		static int*                GetInt2Value        (const std::string& name);
-		static int*                GetInt3Value        (const std::string& name);
-		static int*                GetInt4Value        (const std::string& name);
-		static float*              GetFloatValue       (const std::string& name);
-		static float*              GetFloat2Value      (const std::string& name);
-		static float*              GetFloat3Value      (const std::string& name);
-		static float*              GetFloat4Value      (const std::string& name);
-		static std::vector<float>* GetFloatVectorValue (const std::string& name);
-		static bool*               GetBoolValue        (const std::string& name);
-		static std::string*        GetStringValue      (const std::string& name);
-		static tm*                 GetTimeValue        (const std::string& name);
-		static ImPlotTime*         GetImTimeValue      (const std::string& name);
+//				std::cout << "# AddValue # stored value for item \t[ " << name.c_str()
+//						  << " ]\t of type " << vtToString(GetType(name)).c_str() << "\n";
+				return &s_value_store<T>[name];
+			} else {
+//				std::cout << "# AddValue # returned existing reference to \t[ " << name.c_str()
+//						  << " ]\t of type " << vtToString(GetType(name)).c_str() << "\n";
+				IncrementRef(name);
+				return &s_value_store < T >.at(name);
+			}
+		}
 
-		static bool                HasValue            (const std::string& name);
-		static ValueTypes          GetType             (const std::string& name);
-		static void                IncrementRef        (const std::string& name);
-		static void                DecrementRef        (const std::string& name);
-		static void                DeleteValue         (const std::string& name);
+		template<typename T> static T* GetValue(const std::string& name)
+		{
+			std::lock_guard<std::mutex> lock(s_mutex);
+			auto result = s_value_store < T >.find(name);
+			if (result == s_value_store < T >.end()) {
+				return &s_value_store < T >.at("common");
+			} else {
+				return &s_value_store<T>[name];
+			}
+		}
 
-		static std::mutex& GetMutex() { return s_mutex; }
+		template<typename T>
+		static bool UpdateValue(const std::string& name, const T& value)
+		{
+			std::lock_guard<std::mutex> lock(s_mutex);
+			auto result = s_value_store < T >.find(name);
+			if (result == s_value_store < T >.end()) {
+				return false;
+			} else {
+				s_value_store < T >.emplace(name, value);
+				return true;
+			}
+		}
+
+
+		static ValueTypes GetType(const std::string& name);
+
+		template<typename T> static void DeleteValue(const std::string& name)
+		{
+			std::lock_guard<std::mutex> lock(s_mutex);
+
+			if (s_value_store < T >.find(name) != s_value_store < T >.end()) {
+//				std::cout << "-- DeleteValue # item \t[ " << name.c_str() << " ]\n";
+				s_value_store < T >.erase(name);
+				s_refStorage.erase(name);
+				s_itemStorage.erase(name);
+			}
+		}
+		template<typename T> static T* GetDefaultValue()
+		{
+			std::lock_guard<std::mutex> lock(s_mutex);
+			return &s_value_store < T >.at("common");
+		}
+
+		static void IncrementRef(const std::string& name);
+		static void DecrementRef(const std::string& name);
+
+		template<typename T> static void SetType(const std::string& name, T)
+		{
+		};
+		static void SetType(const std::string& name, const int)
+		{
+			s_typeStorage[name] = ValueTypes::Int;
+		};
+		static void SetType(const std::string& name, const std::array<int, 2>&)
+		{
+			s_typeStorage[name] = ValueTypes::Int2;
+		};
+		static void SetType(const std::string& name, const std::array<int, 3>&)
+		{
+			s_typeStorage[name] = ValueTypes::Int3;
+		};
+		static void SetType(const std::string& name, const std::array<int, 4>&)
+		{
+			s_typeStorage[name] = ValueTypes::Int4;
+		};
+		static void SetType(const std::string& name, const float)
+		{
+			s_typeStorage[name] = ValueTypes::Float;
+		};
+		static void SetType(const std::string& name, const std::array<float, 2>&)
+		{
+			s_typeStorage[name] = ValueTypes::Float2;
+		};
+		static void SetType(const std::string& name, const std::array<float, 3>&)
+		{
+			s_typeStorage[name] = ValueTypes::Float3;
+		};
+		static void SetType(const std::string& name, const std::array<float, 4>&)
+		{
+			s_typeStorage[name] = ValueTypes::Float4;
+		};
+		static void SetType(const std::string& name, const bool)
+		{
+			s_typeStorage[name] = ValueTypes::Bool;
+		};
+		static void SetType(const std::string& name, const std::string&)
+		{
+			s_typeStorage[name] = ValueTypes::String;
+		};
+		static void SetType(const std::string& name, const std::vector<float>&)
+		{
+			s_typeStorage[name] = ValueTypes::FloatVect;
+		};
+		static void SetType(const std::string& name, const tm&)
+		{
+			s_typeStorage[name] = ValueTypes::Time;
+		};
+		static void SetType(const std::string& name, const ImPlotTime&)
+		{
+			s_typeStorage[name] = ValueTypes::Time;
+		};
+
+		static std::mutex& GetMutex()
+		{
+			return s_mutex;
+		}
 
 	private:
-
 		mvValueStorage() = default;
 
-		static std::mutex                                     s_mutex;
+		static std::mutex s_mutex;
 
-		static std::unordered_map<std::string, ValueTypes>           s_typeStorage;  // keeps track of value mapping
-		static std::unordered_map<std::string, int>                  s_refStorage;   // keeps track of reference count
-		static std::set<std::string>                                 s_itemStorage;  // keeps track of registered items
+		template<typename T> static std::unordered_map<std::string, T> s_value_store;
 
-		// ints
-		static std::unordered_map<std::string, int>                  s_ints; 
-		static std::unordered_map<std::string, std::array<int, 2>>   s_int2s;
-		static std::unordered_map<std::string, std::array<int, 3>>   s_int3s;
-		static std::unordered_map<std::string, std::array<int, 4>>   s_int4s;
+		template<> static std::unordered_map<std::string, int> s_value_store<int>;
+		template<>
+		static std::unordered_map<std::string, std::array<int, 2>>
+			s_value_store<std::array<int, 2>>;
+		template<>
+		static std::unordered_map<std::string, std::array<int, 3>>
+			s_value_store<std::array<int, 3>>;
+		template<>
+		static std::unordered_map<std::string, std::array<int, 4>>
+			s_value_store<std::array<int, 4>>;
+		template<>
+		static std::unordered_map<std::string, float> s_value_store<float>;
+		template<>
+		static std::unordered_map<std::string, std::array<float, 2>>
+			s_value_store<std::array<float, 2>>;
+		template<>
+		static std::unordered_map<std::string, std::array<float, 3>>
+			s_value_store<std::array<float, 3>>;
+		template<>
+		static std::unordered_map<std::string, std::array<float, 4>>
+			s_value_store<std::array<float, 4>>;
+		template<> static std::unordered_map<std::string, bool> s_value_store<bool>;
+		template<>
+		static std::unordered_map<std::string, std::string>
+			s_value_store<std::string>;
+		template<>
+		static std::unordered_map<std::string, std::vector<float>>
+			s_value_store<std::vector<float>>;
+		template<> static std::unordered_map<std::string, tm> s_value_store<tm>;
+		template<>
+		static std::unordered_map<std::string, ImPlotTime> s_value_store<ImPlotTime>;
 
-		// floats
-		static std::unordered_map<std::string, float>                s_floats;  
-		static std::unordered_map<std::string, std::array<float, 2>> s_float2s; 
-		static std::unordered_map<std::string, std::array<float, 3>> s_float3s; 
-		static std::unordered_map<std::string, std::array<float, 4>> s_float4s; 
-		static std::unordered_map<std::string, std::vector<float>>   s_floatvects;
-
-		// other
-		static std::unordered_map<std::string, bool>                 s_bools;  
-		static std::unordered_map<std::string, std::string>          s_strings;
-		
-		// time
-		static std::unordered_map<std::string, tm>                   s_times;
-		static std::unordered_map<std::string, ImPlotTime>           s_imtimes; 
-
+		static std::unordered_map<std::string, ValueTypes>
+			s_typeStorage; // keeps track of value mapping
+		static std::unordered_map<std::string, int>
+			s_refStorage;                           // keeps track of reference count
+		static std::set<std::string> s_itemStorage; // keeps track of registered items
 	};
 
-}
+} // namespace Marvel

@@ -13,14 +13,14 @@
 
 namespace Marvel{
 
-	class mvSimplePlot : public mvFloatVectPtrBase
+	class mvSimplePlot : public mvPtrBase<std::vector<float>, 1>
 	{
 
 		MV_APPITEM_TYPE(mvAppItemType::SimplePlot, "add_simple_plot")
 
 	public:
 		mvSimplePlot(const std::string& name, const std::vector<float>& value)
-			: mvFloatVectPtrBase(name, value, name) 
+			: mvPtrBase<std::vector<float>, 1>(name, value, name)
 		{
 
 			if (!value.empty())

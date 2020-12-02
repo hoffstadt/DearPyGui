@@ -8,8 +8,9 @@
 namespace Marvel {
 
 	mvDatePicker::mvDatePicker(const std::string& name, tm default_value)
-		: mvTimePtrBase(name, default_value, name)
+		: mvPtrBase<tm, 1>(name, default_value, name)
 	{
+		m_imvalue = mvValueStorage::AddValue(name, ImPlotTime());
 	}
 
 	void mvDatePicker::draw()

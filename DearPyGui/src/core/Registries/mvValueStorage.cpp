@@ -1,9 +1,10 @@
 #include "mvValueStorage.h"
+#include "PythonUtilities/mvPythonTranslator.h"
 #include "mvApp.h"
 #include "mvAppLog.h"
-#include "PythonUtilities/mvPythonTranslator.h"
 
-namespace Marvel {
+namespace Marvel
+{
 
 	PyObject* mvValueStorage::GetPyValue(const std::string& name)
 	{
@@ -16,46 +17,47 @@ namespace Marvel {
 
 		case mvValueStorage::ValueTypes::Color:
 		{
-			float* fcolor = GetFloat4Value(name);
-			mvColor color = { (int)(fcolor[0]*255), (int)(fcolor[1] * 255), (int)(fcolor[2] * 255), (int)(fcolor[3] * 255), true };
+			float* fcolor = GetValue<std::array<float, 4>>(name)->data();
+			mvColor color = { (int)(fcolor[0] * 255), (int)(fcolor[1] * 255),
+							  (int)(fcolor[2] * 255), (int)(fcolor[3] * 255), true };
 			return ToPyColor(color);
 		}
 
 		case mvValueStorage::ValueTypes::Int:
-			return ToPyInt(*GetIntValue(name));
+			return ToPyInt(*GetValue<int>(name));
 
 		case mvValueStorage::ValueTypes::Int2:
-			return ToPyIntList(GetInt2Value(name), 2);
+			return ToPyIntList(GetValue<std::array<int, 2>>(name)->data(), 2);
 
 		case mvValueStorage::ValueTypes::Int3:
-			return ToPyIntList(GetInt3Value(name), 3);
+			return ToPyIntList(GetValue<std::array<int, 3>>(name)->data(), 3);
 
 		case mvValueStorage::ValueTypes::Int4:
-			return ToPyIntList(GetInt4Value(name), 4);
+			return ToPyIntList(GetValue<std::array<int, 4>>(name)->data(), 4);
 
 		case mvValueStorage::ValueTypes::Float:
-			return ToPyFloat(*GetFloatValue(name));
+			return ToPyFloat(*GetValue<float>(name));
 
 		case mvValueStorage::ValueTypes::Float2:
-			return ToPyFloatList(GetFloat2Value(name), 2);
+			return ToPyFloatList(GetValue<std::array<float, 2>>(name)->data(), 4);
 
 		case mvValueStorage::ValueTypes::Float3:
-			return ToPyFloatList(GetFloat3Value(name), 3);
+			return ToPyFloatList(GetValue<std::array<float, 3>>(name)->data(), 3);
 
 		case mvValueStorage::ValueTypes::Float4:
-			return ToPyFloatList(GetFloat4Value(name), 4);
+			return ToPyFloatList(GetValue<std::array<float, 4>>(name)->data(), 4);
 
 		case mvValueStorage::ValueTypes::String:
-			return ToPyString(*GetStringValue(name));
+			return ToPyString(*GetValue<std::string>(name));
 
 		case mvValueStorage::ValueTypes::Bool:
-			return ToPyBool(*GetBoolValue(name));
+			return ToPyBool(*GetValue<bool>(name));
 
 		case mvValueStorage::ValueTypes::FloatVect:
-			return ToPyList(*GetFloatVectorValue(name));
+			return ToPyList(*GetValue<std::vector<float>>(name));
 
 		case mvValueStorage::ValueTypes::Time:
-			return ToPyTime(*GetTimeValue(name));
+			return ToPyTime(*GetValue<tm>(name));
 
 		default:
 			return GetPyNone();
@@ -64,7 +66,7 @@ namespace Marvel {
 
 	bool mvValueStorage::SetPyValue(const std::string& name, PyObject* value)
 	{
-		
+
 		if (!HasValue(name))
 			return false;
 
@@ -72,7 +74,7 @@ namespace Marvel {
 		{
 
 		case mvValueStorage::ValueTypes::Int:
-			*GetIntValue(name) = ToInt(value);
+			*GetValue<int>(name) = ToInt(value);
 			return true;
 
 		case mvValueStorage::ValueTypes::Int2:
@@ -82,7 +84,7 @@ namespace Marvel {
 			{
 				if (i > 1)
 					break;
-				GetInt2Value(name)[i] = temp[i];
+				GetValue<std::array<int, 2>>(name)->data()[i] = temp[i];
 			}
 			return true;
 		}
@@ -94,7 +96,7 @@ namespace Marvel {
 			{
 				if (i > 2)
 					break;
-				GetInt3Value(name)[i] = temp[i];
+				GetValue<std::array<int, 3>>(name)->data()[i] = temp[i];
 			}
 			return true;
 		}
@@ -106,13 +108,13 @@ namespace Marvel {
 			{
 				if (i > 3)
 					break;
-				GetInt4Value(name)[i] = temp[i];
+				GetValue<std::array<int, 3>>(name)->data()[i] = temp[i];
 			}
 			return true;
 		}
 
 		case mvValueStorage::ValueTypes::Float:
-			*GetFloatValue(name) = ToFloat(value);
+			*GetValue<float>(name) = ToFloat(value);
 			return true;
 
 		case mvValueStorage::ValueTypes::Float2:
@@ -122,7 +124,7 @@ namespace Marvel {
 			{
 				if (i > 1)
 					break;
-				GetFloat2Value(name)[i] = temp[i];
+				GetValue<std::array<float, 2>>(name)->data()[i] = temp[i];
 			}
 			return true;
 		}
@@ -134,7 +136,7 @@ namespace Marvel {
 			{
 				if (i > 2)
 					break;
-				GetFloat3Value(name)[i] = temp[i];
+				GetValue<std::array<float, 3>>(name)->data()[i] = temp[i];
 			}
 			return true;
 		}
@@ -146,7 +148,7 @@ namespace Marvel {
 			{
 				if (i > 3)
 					break;
-				GetFloat4Value(name)[i] = temp[i];
+				GetValue<std::array<float, 4>>(name)->data()[i] = temp[i];
 			}
 			return true;
 		}
@@ -158,26 +160,26 @@ namespace Marvel {
 			{
 				if (i > 3)
 					break;
-				GetFloat4Value(name)[i] = temp[i]/255.0f;
+				GetValue<std::array<float, 4>>(name)->data()[i] = temp[i];
 			}
 			return true;
 		}
 
 		case mvValueStorage::ValueTypes::String:
-			*GetStringValue(name) = ToString(value);
+			*GetValue<std::string>(name) = ToString(value);
 			return true;
 
 		case mvValueStorage::ValueTypes::Bool:
-			*GetBoolValue(name) = ToBool(value);
+			*GetValue<bool>(name) = ToBool(value);
 			return true;
 
 		case mvValueStorage::ValueTypes::FloatVect:
-			*GetFloatVectorValue(name) = ToFloatVect(value);
+			*GetValue<std::vector<float>>(name) = ToFloatVect(value);
 			return true;
 
 		case mvValueStorage::ValueTypes::Time:
-			*GetTimeValue(name) = ToTime(value);
-			ImPlot::GetGmtTime(*GetImTimeValue(name), GetTimeValue(name));
+			*GetValue<tm>(name) = ToTime(value);
+			ImPlot::GetGmtTime(*GetValue<ImPlotTime>(name), GetValue<tm>(name));
 			return true;
 
 		default:
@@ -189,28 +191,24 @@ namespace Marvel {
 	{
 
 		mvGlobalIntepreterLock gil;
-		
+
 		// bool
 		if (PyBool_Check(value))
-			AddBoolValue(name, PyLong_AsLong(value));
+			AddValue<bool>(name, PyLong_AsLong(value));
 
-		// int
+			// int
 		else if (PyLong_Check(value))
-			AddIntValue(name, PyLong_AsLong(value));
+			AddValue<int>(name, PyLong_AsLong(value));
 
-		// float
+			// float
 		else if (PyFloat_Check(value))
-			AddFloatValue(name, (float)PyFloat_AsDouble(value));
+			AddValue<float>(name, (float)PyFloat_AsDouble(value));
 
-		// bool
-		else if (PyBool_Check(value))
-			AddBoolValue(name, PyLong_AsLong(value));
-
-		// string
+			// string
 		else if (PyUnicode_Check(value))
-			AddStringValue(name, _PyUnicode_AsString(value));
+			AddValue<std::string>(name, _PyUnicode_AsString(value));
 
-		// list
+			// list
 		else if (PyList_Check(value))
 		{
 
@@ -220,47 +218,66 @@ namespace Marvel {
 			{
 				PyObject* item = PyList_GetItem(value, 0);
 				if (PyLong_Check(item))
-					AddIntValue(name, PyLong_AsLong(item));
+					AddValue<int>(name, PyLong_AsLong(item));
 				else if (PyFloat_Check(item))
-					AddFloatValue(name, (float)PyFloat_AsDouble(item));
-				else return;
+					AddValue<float>(name, (float)PyFloat_AsDouble(item));
+				else
+					return;
 			}
 
 			else if (PyList_Size(value) == 2)
 			{
 				PyObject* item = PyList_GetItem(value, 0);
 				if (PyLong_Check(item))
-					AddInt2Value(name, { ToInt(PyList_GetItem(value, 0)), ToInt(PyList_GetItem(value, 1)) });
+					AddValue<std::array<int, 2>>(name, { ToInt(PyList_GetItem(value, 0)),
+														 ToInt(PyList_GetItem(value, 1)) });
 				else if (PyFloat_Check(item))
-					AddFloat2Value(name, { ToFloat(PyList_GetItem(value, 0)), ToFloat(PyList_GetItem(value, 1)) });
-				else return;
+					AddValue<std::array<float, 2>>(name,
+						{ ToFloat(PyList_GetItem(value, 0)),
+						  ToFloat(PyList_GetItem(value, 1)) });
+				else
+					return;
 			}
 
 			else if (PyList_Size(value) == 3)
 			{
 				PyObject* item = PyList_GetItem(value, 0);
 				if (PyLong_Check(item))
-					AddInt3Value(name, { ToInt(PyList_GetItem(value, 0)), ToInt(PyList_GetItem(value, 1)), ToInt(PyList_GetItem(value, 2)) });
+					AddValue<std::array<int, 3>>(name, { ToInt(PyList_GetItem(value, 0)),
+														 ToInt(PyList_GetItem(value, 1)),
+														 ToInt(PyList_GetItem(value, 2)) });
 				else if (PyFloat_Check(item))
-					AddFloat3Value(name, { ToFloat(PyList_GetItem(value, 0)), ToFloat(PyList_GetItem(value, 1)), ToFloat(PyList_GetItem(value, 2)) });
-				else return;
+					AddValue<std::array<float, 3>>(name,
+						{ ToFloat(PyList_GetItem(value, 0)),
+						  ToFloat(PyList_GetItem(value, 1)),
+						  ToFloat(PyList_GetItem(value, 2)) });
+				else
+					return;
 			}
 
 			else if (PyList_Size(value) == 4)
 			{
 				PyObject* item = PyList_GetItem(value, 0);
 				if (PyLong_Check(item))
-					AddInt4Value(name, { ToInt(PyList_GetItem(value, 0)), ToInt(PyList_GetItem(value, 1)), ToInt(PyList_GetItem(value, 2)), ToInt(PyList_GetItem(value, 3)) });
+					AddValue<std::array<int, 4>>(name, { ToInt(PyList_GetItem(value, 0)),
+														 ToInt(PyList_GetItem(value, 1)),
+														 ToInt(PyList_GetItem(value, 2)),
+														 ToInt(PyList_GetItem(value, 3)) });
 				else if (PyFloat_Check(item))
-					AddFloat4Value(name, { ToFloat(PyList_GetItem(value, 0)), ToFloat(PyList_GetItem(value, 1)), ToFloat(PyList_GetItem(value, 2)), ToFloat(PyList_GetItem(value, 3)) });
-				else return;
+					AddValue<std::array<float, 4>>(name,
+						{ ToFloat(PyList_GetItem(value, 0)),
+						  ToFloat(PyList_GetItem(value, 1)),
+						  ToFloat(PyList_GetItem(value, 2)),
+						  ToFloat(PyList_GetItem(value, 3)) });
+				else
+					return;
 			}
 
 			else
-					AddFloatVectorValue(name, ToFloatVect(value));
+				AddValue<std::vector<float>>(name, ToFloatVect(value));
 		}
 
-		// tuple (color)
+			// tuple (color)
 		else if (PyTuple_Check(value))
 		{
 
@@ -270,603 +287,48 @@ namespace Marvel {
 			{
 				PyObject* item = PyTuple_GetItem(value, 0);
 				if (PyNumber_Check(item))
-					AddColorValue(name, { (float)PyFloat_AsDouble(item), 0.0f, 0.0f, 255.0f });
-				else return;
+					AddValue<std::array<float, 4>>(
+						name, { (float)PyFloat_AsDouble(item), 0.0f, 0.0f, 255.0f });
+				else
+					return;
 			}
 
 			else if (PyTuple_Size(value) == 2)
 			{
 				PyObject* item = PyTuple_GetItem(value, 0);
 				if (PyNumber_Check(item))
-					AddColorValue(name, { ToFloat(PyTuple_GetItem(value, 0)), ToFloat(PyTuple_GetItem(value, 1)), 0.0f, 255.0f});
-				else return;
+					AddValue<std::array<float, 4>>(
+						name, { ToFloat(PyTuple_GetItem(value, 0)),
+								ToFloat(PyTuple_GetItem(value, 1)), 0.0f, 255.0f });
+				else
+					return;
 			}
 
 			else if (PyTuple_Size(value) == 3)
 			{
 				PyObject* item = PyTuple_GetItem(value, 0);
 				if (PyNumber_Check(item))
-					AddColorValue(name, { ToFloat(PyTuple_GetItem(value, 0)), ToFloat(PyTuple_GetItem(value, 1)), ToFloat(PyTuple_GetItem(value, 1)), 255.0f });
-				else return;
+					AddValue<std::array<float, 4>>(
+						name, { ToFloat(PyTuple_GetItem(value, 0)),
+								ToFloat(PyTuple_GetItem(value, 1)),
+								ToFloat(PyTuple_GetItem(value, 1)), 255.0f });
+				else
+					return;
 			}
 
 			else if (PyTuple_Size(value) == 4)
 			{
 				PyObject* item = PyTuple_GetItem(value, 0);
 				if (PyNumber_Check(item))
-					AddColorValue(name, { ToFloat(PyTuple_GetItem(value, 0)), ToFloat(PyTuple_GetItem(value, 1)), ToFloat(PyTuple_GetItem(value, 2)), ToFloat(PyTuple_GetItem(value, 3)) });
-				else return;
-			}
-
-		}
-
-	}
-
-	int* mvValueStorage::AddIntValue(const std::string& name, int value)
-	{
-		// value exists and is compatible type
-		if (HasValue(name))
-		{
-			IncrementRef(name);
-			switch (GetType(name))
-			{
-
-			case mvValueStorage::ValueTypes::Int:
-				return GetIntValue(name);
-
-			case mvValueStorage::ValueTypes::Int2:
-				return GetInt2Value(name);
-
-			case mvValueStorage::ValueTypes::Int3:
-				return GetInt3Value(name);
-
-			case mvValueStorage::ValueTypes::Int4:
-				return GetInt4Value(name);
-
-			default: // incompatible type
-				return &s_ints["common_int"];
-			}
-
-		}
-
-		// doesn't have value
-		s_typeStorage[name] = ValueTypes::Int;
-		s_refStorage[name] = 1;
-		s_itemStorage.insert(name);
-		s_ints[name] = value;
-		return &s_ints[name];
-	}
-
-	int* mvValueStorage::AddInt2Value(const std::string& name, const std::array<int, 2>& value)
-	{
-		// value exists and is compatible type
-		if (HasValue(name))
-		{
-			IncrementRef(name);
-			switch (GetType(name))
-			{
-
-			case mvValueStorage::ValueTypes::Int2:
-				return GetInt2Value(name);
-
-			case mvValueStorage::ValueTypes::Int3:
-				return GetInt3Value(name);
-
-			case mvValueStorage::ValueTypes::Int4:
-				return GetInt4Value(name);
-
-			default: // incompatible type
-				return s_int2s["common_int2"].data();
-			}
-
-		}
-
-		// doesn't have value
-		s_typeStorage[name] = ValueTypes::Int2;
-		s_refStorage[name] = 1;
-		s_itemStorage.insert(name);
-		s_int2s[name] = value;
-		return s_int2s[name].data();
-	}
-
-	int* mvValueStorage::AddInt3Value(const std::string& name, const std::array<int, 3>& value)
-	{
-		// value exists and is compatible type
-		if (HasValue(name))
-		{
-			IncrementRef(name);
-			switch (GetType(name))
-			{
-
-			case mvValueStorage::ValueTypes::Int3:
-				return GetInt3Value(name);
-
-			case mvValueStorage::ValueTypes::Int4:
-				return GetInt4Value(name);
-
-			default: // incompatible type
-				return s_int3s["common_int3"].data();
-			}
-
-		}
-
-		// doesn't have value
-		s_typeStorage[name] = ValueTypes::Int3;
-		s_refStorage[name] = 1;
-		s_itemStorage.insert(name);
-		s_int3s[name] = value;
-		return s_int3s[name].data();
-	}
-
-	int* mvValueStorage::AddInt4Value(const std::string& name, const std::array<int, 4>& value)
-	{
-		// value exists and is compatible type
-		if (HasValue(name))
-		{
-			IncrementRef(name);
-			switch (GetType(name))
-			{
-
-			case mvValueStorage::ValueTypes::Int4:
-				return GetInt4Value(name);
-
-			default: // incompatible type
-				return s_int4s["common_int4"].data();
-			}
-
-		}
-
-		// doesn't have value
-		s_typeStorage[name] = ValueTypes::Int4;
-		s_refStorage[name] = 1;
-		s_itemStorage.insert(name);
-		s_int4s[name] = value;
-		return s_int4s[name].data();
-	}
-
-	float* mvValueStorage::AddFloatValue(const std::string& name, float value)
-	{
-		// value exists and is compatible type
-		if (HasValue(name))
-		{
-			IncrementRef(name);
-			switch (GetType(name))
-			{
-
-			case mvValueStorage::ValueTypes::Float:
-				return GetFloatValue(name);
-
-			case mvValueStorage::ValueTypes::Float2:
-				return GetFloat2Value(name);
-
-			case mvValueStorage::ValueTypes::Float3:
-				return GetFloat3Value(name);
-
-			case mvValueStorage::ValueTypes::Float4:
-				return GetFloat4Value(name);
-
-			case mvValueStorage::ValueTypes::FloatVect:
-				if (GetFloatVectorValue(name)->size() > 0)
-					return GetFloatVectorValue(name)->data();
-
-			default: // incompatible type
-				return &s_floats["common_float"];
-			}
-
-		}
-
-		// doesn't have value
-		s_typeStorage[name] = ValueTypes::Float;
-		s_refStorage[name] = 1;
-		s_itemStorage.insert(name);
-		s_floats[name] = value;
-		return &s_floats[name];
-	}
-
-	float* mvValueStorage::AddFloat2Value(const std::string& name, const std::array<float, 2>& value)
-	{
-		// value exists and is compatible type
-		if (HasValue(name))
-		{
-			IncrementRef(name);
-			switch (GetType(name))
-			{
-
-			case mvValueStorage::ValueTypes::Float2:
-				return GetFloat2Value(name);
-
-			case mvValueStorage::ValueTypes::Float3:
-				return GetFloat3Value(name);
-
-			case mvValueStorage::ValueTypes::Float4:
-				return GetFloat4Value(name);
-
-			case mvValueStorage::ValueTypes::FloatVect:
-				if (GetFloatVectorValue(name)->size() > 1)
-					return GetFloatVectorValue(name)->data();
-
-			default: // incompatible type
-				return s_float2s["common_float2"].data();
-			}
-
-		}
-
-		// doesn't have value
-		s_typeStorage[name] = ValueTypes::Float2;
-		s_refStorage[name] = 1;
-		s_itemStorage.insert(name);
-		s_float2s[name] = value;
-		return s_float2s[name].data();
-	}
-
-	float* mvValueStorage::AddFloat3Value(const std::string& name, const std::array<float, 3>& value)
-	{
-		// value exists and is compatible type
-		if (HasValue(name))
-		{
-			switch (GetType(name))
-			{
-
-			case mvValueStorage::ValueTypes::Float3:
-				return GetFloat3Value(name);
-
-			case mvValueStorage::ValueTypes::Float4:
-				return GetFloat4Value(name);
-
-			case mvValueStorage::ValueTypes::FloatVect:
-				if (GetFloatVectorValue(name)->size() > 2)
-					return GetFloatVectorValue(name)->data();
-
-			default: // incompatible type
-				return s_float3s["common_float3"].data();
-			}
-
-		}
-
-		// doesn't have value
-		s_typeStorage[name] = ValueTypes::Float3;
-		s_refStorage[name] = 1;
-		s_itemStorage.insert(name);
-		s_float3s[name] = value;
-		return s_float3s[name].data();
-	}
-
-	float* mvValueStorage::AddFloat4Value(const std::string& name, const std::array<float, 4>& value)
-	{
-		// value exists and is compatible type
-		if (HasValue(name))
-		{
-			IncrementRef(name);
-			switch (GetType(name))
-			{
-
-			case mvValueStorage::ValueTypes::Float4:
-				
-				return GetFloat4Value(name);
-
-			case mvValueStorage::ValueTypes::FloatVect:
-				if (GetFloatVectorValue(name)->size() > 3)
-					return GetFloatVectorValue(name)->data();
-
-			default: // incompatible type
-				return s_float4s["common_float4"].data();
-			}
-
-		}
-
-		// doesn't have value
-		s_typeStorage[name] = ValueTypes::Float4;
-		s_refStorage[name] = 1;
-		s_itemStorage.insert(name);
-		s_float4s[name] = value;
-		return s_float4s[name].data();
-	}
-
-	float* mvValueStorage::AddColorValue(const std::string& name, const std::array<float, 4>& value)
-	{
-		// value exists and is compatible type
-		if (HasValue(name))
-		{
-			IncrementRef(name);
-			switch (GetType(name))
-			{
-
-			case mvValueStorage::ValueTypes::Color:
-				return GetFloat4Value(name);
-
-			case mvValueStorage::ValueTypes::Float4:
-				return GetFloat4Value(name);
-
-			case mvValueStorage::ValueTypes::FloatVect:
-				if (GetFloatVectorValue(name)->size() > 3)
-					return GetFloatVectorValue(name)->data();
-
-			default: // incompatible type
-				return s_float4s["common_float4"].data();
-			}
-
-		}
-
-		// doesn't have value
-		s_typeStorage[name] = ValueTypes::Color;
-		s_refStorage[name] = 1;
-		s_itemStorage.insert(name);
-		s_float4s[name] = value;
-		return s_float4s[name].data();
-	}
-
-	std::vector<float>* mvValueStorage::AddFloatVectorValue(const std::string& name, const std::vector<float>& value)
-	{
-		// value exists and is proper type
-		if (HasValue(name) && GetType(name) == ValueTypes::Float4)
-		{
-			IncrementRef(name);
-			return GetFloatVectorValue(name);
-		}
-
-		// wrong type
-		else if (HasValue(name))
-		{
-			IncrementRef(name);
-			return &s_floatvects["common_float4"];
-		}
-
-		// doesn't have value
-		s_typeStorage[name] = ValueTypes::FloatVect;
-		s_refStorage[name] = 1;
-		s_itemStorage.insert(name);
-		s_floatvects[name] = value;
-		return &s_floatvects[name];
-	}
-
-	bool* mvValueStorage::AddBoolValue(const std::string& name, bool value)
-	{
-		// value exists and is proper type
-		if (HasValue(name) && GetType(name) == ValueTypes::Bool)
-		{
-			IncrementRef(name);
-			return GetBoolValue(name);
-		}
-
-		// wrong type
-		else if (HasValue(name))
-		{
-			IncrementRef(name);
-			return &s_bools["common_bool"];
-		}
-
-		// doesn't have value
-		s_typeStorage[name] = ValueTypes::Bool;
-		s_refStorage[name] = 1;
-		s_itemStorage.insert(name);
-		s_bools[name] = value;
-		return &s_bools[name];
-	}
-
-	std::string* mvValueStorage::AddStringValue(const std::string& name, const std::string& value)
-	{
-		// value exists and is proper type
-		if (HasValue(name) && GetType(name) == ValueTypes::String)
-		{
-			IncrementRef(name);
-			return GetStringValue(name);
-		}
-
-		// wrong type
-		else if (HasValue(name))
-		{
-			IncrementRef(name);
-			return &s_strings["common_string"];
-		}
-			
-
-		// doesn't have value
-		s_typeStorage[name] = ValueTypes::String;
-		s_refStorage[name] = 1;
-		s_itemStorage.insert(name);
-		s_strings[name] = value;
-		return &s_strings[name];
-	}
-
-	tm* mvValueStorage::AddTimeValue(const std::string& name, const tm& value)
-	{
-		// value exists and is proper type
-		if (HasValue(name) && GetType(name) == ValueTypes::Time)
-		{
-			IncrementRef(name);
-			return GetTimeValue(name);
-		}
-
-		// wrong type
-		else if (HasValue(name))
-		{
-			IncrementRef(name);
-			return &s_times["common_time"];
-		}
-
-		// doesn't have value
-		s_typeStorage[name] = ValueTypes::Time;
-		s_refStorage[name] = 1;
-		s_itemStorage.insert(name);
-		s_times[name] = value;
-		s_imtimes[name] = ImPlot::MkGmtTime(&s_times[name]);
-		return &s_times[name];
-	}
-
-	int* mvValueStorage::GetIntValue(const std::string& name)
-	{
-		std::lock_guard<std::mutex> lock(s_mutex);
-
-		if (HasValue(name))
-		{
-			switch (GetType(name))
-			{
-			case ValueTypes::Int: return &s_ints[name];
-			case ValueTypes::Int2: return s_int2s[name].data();
-			case ValueTypes::Int3: return s_int3s[name].data();
-			case ValueTypes::Int4: return s_int4s[name].data();
-			default: return nullptr; // should not get here; silence compiler warning
+					AddValue<std::array<float, 4>>(name,
+						{ ToFloat(PyTuple_GetItem(value, 0)),
+						  ToFloat(PyTuple_GetItem(value, 1)),
+						  ToFloat(PyTuple_GetItem(value, 2)),
+						  ToFloat(PyTuple_GetItem(value, 3)) });
+				else
+					return;
 			}
 		}
-		return &s_ints["common"];
-	}
-
-	int* mvValueStorage::GetInt2Value(const std::string& name)
-	{
-		std::lock_guard<std::mutex> lock(s_mutex);
-
-		if (HasValue(name))
-		{
-			switch (GetType(name))
-			{
-			case ValueTypes::Int2: return s_int2s[name].data();
-			case ValueTypes::Int3: return s_int3s[name].data();
-			case ValueTypes::Int4: return s_int4s[name].data();
-			default: return nullptr; // should not get here; silence compiler warning
-			}
-		}
-		return s_int2s["common"].data();
-	}
-
-	int* mvValueStorage::GetInt3Value(const std::string& name)
-	{
-		std::lock_guard<std::mutex> lock(s_mutex);
-
-		if (HasValue(name))
-		{
-			switch (GetType(name))
-			{
-			case ValueTypes::Int3: return s_int3s[name].data();
-			case ValueTypes::Int4: return s_int4s[name].data();
-			default: return nullptr; // should not get here; silence compiler warning
-			}
-		}
-		return s_int3s["common"].data();
-	}
-
-	int* mvValueStorage::GetInt4Value(const std::string& name)
-	{
-		std::lock_guard<std::mutex> lock(s_mutex);
-
-		if (HasValue(name) && GetType(name) == ValueTypes::Int4)
-			return s_int4s[name].data();
-		return s_int4s["common"].data();
-	}
-
-	float* mvValueStorage::GetFloatValue(const std::string& name)
-	{
-		std::lock_guard<std::mutex> lock(s_mutex);
-
-		if (HasValue(name))
-		{
-			switch (GetType(name))
-			{
-			case ValueTypes::Float: return &s_floats[name];
-			case ValueTypes::Float2: return s_float2s[name].data();
-			case ValueTypes::Float3: return s_float3s[name].data();
-			case ValueTypes::Float4: return s_float4s[name].data();
-			case ValueTypes::FloatVect: return s_floatvects[name].data();
-			default: return nullptr; // should not get here; silence compiler warning
-			}
-		}
-		return &s_floats["common"];
-	}
-
-	float* mvValueStorage::GetFloat2Value(const std::string& name)
-	{
-		std::lock_guard<std::mutex> lock(s_mutex);
-
-		if (HasValue(name))
-		{
-			switch (GetType(name))
-			{
-			case ValueTypes::Float2: return s_float2s[name].data();
-			case ValueTypes::Float3: return s_float3s[name].data();
-			case ValueTypes::Float4: return s_float4s[name].data();
-			case ValueTypes::FloatVect: return s_floatvects[name].data();
-			default: return nullptr; // should not get here; silence compiler warning
-			}
-		}
-		return s_float2s["common"].data();
-	}
-
-	float* mvValueStorage::GetFloat3Value(const std::string& name)
-	{
-		std::lock_guard<std::mutex> lock(s_mutex);
-
-		if (HasValue(name))
-		{
-			switch (GetType(name))
-			{
-			case ValueTypes::Float3: return s_float3s[name].data();
-			case ValueTypes::Float4: return s_float4s[name].data();
-			case ValueTypes::FloatVect: return s_floatvects[name].data();
-			default: return nullptr; // should not get here; silence compiler warning
-			}
-		}
-		return s_float3s["common"].data();
-	}
-
-	float* mvValueStorage::GetFloat4Value(const std::string& name)
-	{
-		std::lock_guard<std::mutex> lock(s_mutex);
-
-		if (HasValue(name))
-		{
-			switch (GetType(name))
-			{
-			case ValueTypes::Color: return s_float4s[name].data();
-			case ValueTypes::Float4: return s_float4s[name].data();
-			case ValueTypes::FloatVect: return s_floatvects[name].data();
-			default: return nullptr; // should not get here; silence compiler warning
-			}
-		}
-		return s_float4s["common"].data();
-	}
-
-	std::vector<float>* mvValueStorage::GetFloatVectorValue(const std::string& name)
-	{
-		std::lock_guard<std::mutex> lock(s_mutex);
-
-		if (HasValue(name) && GetType(name) == ValueTypes::FloatVect)
-			return &s_floatvects[name];
-		return &s_floatvects["common"];
-	}
-
-	bool* mvValueStorage::GetBoolValue(const std::string& name)
-	{
-		std::lock_guard<std::mutex> lock(s_mutex);
-
-		if (HasValue(name) && GetType(name) == ValueTypes::Bool)
-			return &s_bools[name];
-		return &s_bools["common"];
-	}
-
-	std::string* mvValueStorage::GetStringValue(const std::string& name)
-	{
-		std::lock_guard<std::mutex> lock(s_mutex);
-
-		if (HasValue(name) && GetType(name) == ValueTypes::String)
-			return &s_strings[name];
-		return &s_strings["common"];
-	}
-
-	tm* mvValueStorage::GetTimeValue(const std::string& name)
-	{
-		std::lock_guard<std::mutex> lock(s_mutex);
-
-		if (HasValue(name) && GetType(name) == ValueTypes::Time)
-			return &s_times[name];
-		return &s_times["common"];
-	}
-
-	ImPlotTime* mvValueStorage::GetImTimeValue(const std::string& name)
-	{
-		std::lock_guard<std::mutex> lock(s_mutex);
-
-		if (HasValue(name) && GetType(name) == ValueTypes::Time)
-			return &s_imtimes[name];
-		return &s_imtimes["common"];
 	}
 
 	bool mvValueStorage::HasValue(const std::string& name)
@@ -877,14 +339,20 @@ namespace Marvel {
 	mvValueStorage::ValueTypes mvValueStorage::GetType(const std::string& name)
 	{
 		if (HasValue(name))
+		{
 			return s_typeStorage[name];
+		}
 		return mvValueStorage::ValueTypes::None;
 	}
 
 	void mvValueStorage::IncrementRef(const std::string& name)
 	{
 		if (HasValue(name))
+		{
 			s_refStorage[name]++;
+//    std::cout << "++ IncrementRef # item \t[ " << name.c_str()
+//              << " ]\t = " << s_refStorage[name] << "\n";
+		}
 	}
 
 	void mvValueStorage::DecrementRef(const std::string& name)
@@ -892,88 +360,115 @@ namespace Marvel {
 		if (HasValue(name))
 		{
 			s_refStorage[name]--;
-			if (s_refStorage[name] == 0)
-				DeleteValue(name);
-		}
-	}
+//	  std::cout << "-- DecrementRef # item \t[ " << name.c_str()
+//				<< " ]\t = " << s_refStorage[name] << "\n";
 
-	void mvValueStorage::DeleteValue(const std::string& name)
-	{
-		std::lock_guard<std::mutex> lock(s_mutex);
-
-		if (HasValue(name))
-		{
-			switch (s_typeStorage[name])
+			if (s_refStorage[name] <= 0)
 			{
-			case ValueTypes::Int: s_ints.erase(name); break;
-			case ValueTypes::Int2: s_int2s.erase(name); break;
-			case ValueTypes::Int3: s_int3s.erase(name); break;
-			case ValueTypes::Int4: s_int4s.erase(name); break;
-			case ValueTypes::Float: s_floats.erase(name); break;
-			case ValueTypes::Float2: s_float2s.erase(name); break;
-			case ValueTypes::Float3: s_float3s.erase(name); break;
-			case ValueTypes::Float4: s_float4s.erase(name); break;
-			case ValueTypes::Color: s_float4s.erase(name); break;
-			case ValueTypes::String: s_strings.erase(name); break;
-			case ValueTypes::Bool: s_bools.erase(name); break;
-			case ValueTypes::FloatVect: s_floatvects.erase(name); break;
-			case ValueTypes::Time: s_times.erase(name); s_imtimes.erase(name); break;
-			default: break; // should not get here; silence compiler warning
+//      std::cout << "-- DecrementRef # item \t[ " << name.c_str()
+//                << " ]\t dropped last reference."
+//                << "\n";
+				switch (GetType(name))
+				{
+				case mvValueStorage::ValueTypes::Color:
+				{
+					DeleteValue<std::array<float, 4>>(name);
+					break;
+				}
+				case mvValueStorage::ValueTypes::TypeCount:
+					break;
+				case mvValueStorage::ValueTypes::None:
+					break;
+				case mvValueStorage::ValueTypes::Int:
+					DeleteValue<int>(name);
+				case mvValueStorage::ValueTypes::Int2:
+					DeleteValue<std::array<int, 2>>(name);
+
+				case mvValueStorage::ValueTypes::Int3:
+					DeleteValue<std::array<int, 3>>(name);
+
+				case mvValueStorage::ValueTypes::Int4:
+					DeleteValue<std::array<int, 4>>(name);
+
+				case mvValueStorage::ValueTypes::Float:
+					DeleteValue<float>(name);
+
+				case mvValueStorage::ValueTypes::Float2:
+					DeleteValue<std::array<float, 2>>(name);
+
+				case mvValueStorage::ValueTypes::Float3:
+					DeleteValue<std::array<float, 3>>(name);
+
+				case mvValueStorage::ValueTypes::Float4:
+					DeleteValue<std::array<float, 4>>(name);
+
+				case mvValueStorage::ValueTypes::String:
+					DeleteValue<std::string>(name);
+
+				case mvValueStorage::ValueTypes::Bool:
+					DeleteValue<bool>(name);
+
+				case mvValueStorage::ValueTypes::FloatVect:
+					DeleteValue<std::vector<float>>(name);
+
+				case mvValueStorage::ValueTypes::Time:
+					DeleteValue<tm>(name);
+				}
 			}
-
-			s_typeStorage.erase(name);
-			s_refStorage.erase(name);
-			s_itemStorage.erase(name);
-
 		}
 	}
 
 	std::mutex mvValueStorage::s_mutex;
-	std::unordered_map<std::string, mvValueStorage::ValueTypes> mvValueStorage::s_typeStorage;
-	std::unordered_map<std::string, int> mvValueStorage::s_refStorage = 
-	{ 
-		{"common_int", 1},
-		{"common_int2", 1},
-		{"common_int3", 1},
-		{"common_int4", 1},
-		{"common_float", 1},
-		{"common_float2", 1},
-		{"common_float3", 1},
-		{"common_float4", 1},
-		{"common_bool", 1},
-		{"common_string", 1},
-		{"common_floatvec", 1},
-		{"common_time", 1},
-		{"common_imtime", 1},
+	std::unordered_map<std::string, mvValueStorage::ValueTypes>
+		mvValueStorage::s_typeStorage;
+	std::unordered_map<std::string, int> mvValueStorage::s_refStorage = {
+		{ "common", 1 },
 	};
+	std::set<std::string> mvValueStorage::s_itemStorage = { "common" };
 
-	std::set<std::string> mvValueStorage::s_itemStorage = 
-	{ 
-		"common_int",
-		"common_int2",
-		"common_int3",
-		"common_int4",
-		"common_float",
-		"common_float2",
-		"common_float3",
-		"common_float4",
-		"common_bool",
-		"common_string",
-		"common_floatvec",
-		"common_time",
-		"common_imtime"
-	};
-	std::unordered_map<std::string, int>                  mvValueStorage::s_ints = { {"common_int", 0} };
-	std::unordered_map<std::string, std::array<int, 2>>   mvValueStorage::s_int2s = { {"common_int2", {0, 0}} };
-	std::unordered_map<std::string, std::array<int, 3>>   mvValueStorage::s_int3s = { {"common_int3", {0, 0, 0}} };
-	std::unordered_map<std::string, std::array<int, 4>>   mvValueStorage::s_int4s = { {"common_int4", {0, 0, 0, 0}} };
-	std::unordered_map<std::string, float>                mvValueStorage::s_floats = { {"common_float", 0.0f} };
-	std::unordered_map<std::string, std::array<float, 2>> mvValueStorage::s_float2s = { {"common_float2", {0.0f, 0.0f}} };
-	std::unordered_map<std::string, std::array<float, 3>> mvValueStorage::s_float3s = { {"common_float3", {0.0f, 0.0f, 0.0f}} };
-	std::unordered_map<std::string, std::array<float, 4>> mvValueStorage::s_float4s = { {"common_float4", {0.0f, 0.0f}} };
-	std::unordered_map<std::string, bool>                 mvValueStorage::s_bools = { {"common_bool", true} };
-	std::unordered_map<std::string, std::string>          mvValueStorage::s_strings = { {"common_string", ""} };
-	std::unordered_map<std::string, std::vector<float>>   mvValueStorage::s_floatvects = { {"common_floatvec", {0.0f, 0.0f}} };
-	std::unordered_map<std::string, tm>                   mvValueStorage::s_times = { {"common_time", {}} };
-	std::unordered_map<std::string, ImPlotTime>           mvValueStorage::s_imtimes = { {"common_imtime", ImPlotTime()} };
-}
+	template<>
+	std::unordered_map<std::string, int> mvValueStorage::s_value_store<int> = {
+		{ "common", {}}};
+	template<>
+	std::unordered_map<std::string, std::array<int, 2>>
+		mvValueStorage::s_value_store<std::array<int, 2>> = {{ "common", { 0, 0 }}};
+	template<>
+	std::unordered_map<std::string, std::array<int, 3>>
+		mvValueStorage::s_value_store<std::array<int, 3>> = {{ "common", { 0, 0, 0 }}};
+	template<>
+	std::unordered_map<std::string, std::array<int, 4>>
+		mvValueStorage::s_value_store<std::array<int, 4>> = {
+		{ "common", { 0, 0, 0, 0 }}};
+	template<>
+	std::unordered_map<std::string, float> mvValueStorage::s_value_store<float> = {
+		{ "common", 0.0f }};
+	template<>
+	std::unordered_map<std::string, std::array<float, 2>>
+		mvValueStorage::s_value_store<std::array<float, 2>> = {
+		{ "common", { 0.0f, 0.0f }}};
+	template<>
+	std::unordered_map<std::string, std::array<float, 3>>
+		mvValueStorage::s_value_store<std::array<float, 3>> = {
+		{ "common", { 0.0f, 0.0f, 0.0f }}};
+	template<>
+	std::unordered_map<std::string, std::array<float, 4>>
+		mvValueStorage::s_value_store<std::array<float, 4>> = {
+		{ "common", { 0.0f, 0.0f }}};
+	template<>
+	std::unordered_map<std::string, bool> mvValueStorage::s_value_store<bool> = {
+		{ "common", true }};
+	template<>
+	std::unordered_map<std::string, std::string>
+		mvValueStorage::s_value_store<std::string> = {{ "common", "" }};
+	template<>
+	std::unordered_map<std::string, std::vector<float>>
+		mvValueStorage::s_value_store<std::vector<float>> = {
+		{ "common", { 0.0f, 0.0f }}};
+	template<>
+	std::unordered_map<std::string, tm> mvValueStorage::s_value_store<tm> = {
+		{ "common", {}}};
+	template<>
+	std::unordered_map<std::string, ImPlotTime>
+		mvValueStorage::s_value_store<ImPlotTime> = {{ "common", ImPlotTime() }};
+
+} // namespace Marvel

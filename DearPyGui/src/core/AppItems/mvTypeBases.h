@@ -1,274 +1,153 @@
 #pragma once
-
+#include <variant>
 #include <implot.h>
 #include <implot_internal.h>
 #include "mvAppItem.h"
+#include <any>
+#include <core/Registries/mvValueStorage.h>
+#include <core/mvApp.h>
 #include "mvEventHandler.h"
 
 //-----------------------------------------------------------------------------
 // mvTypeBases
 //
-//     - This file contains abstract classes for concrete mvAppItem 
+//     - This file contains abstract classes for concrete mvAppItem
 //       implementations which share common underlying data types.
-//     
+//
 //-----------------------------------------------------------------------------
 
-namespace Marvel {
+namespace Marvel
+{
 
 	//-----------------------------------------------------------------------------
-	// mvIntPtrBase
+	// mvPtrBase
 	//-----------------------------------------------------------------------------
-	class mvIntPtrBase : public mvAppItem
+	template<typename P, size_t S>
+	class mvPtrBase : public mvAppItem
 	{
-
-	public:
-
-		mvIntPtrBase(const std::string& name, int default_value, const std::string& dataSource);
-
-		~mvIntPtrBase();
-
-		void setDataSource(const std::string& dataSource) override;
-
-	protected:
-
-		int* m_value = nullptr;
-		int  m_disabled_value = 0;
 	};
 
 	//-----------------------------------------------------------------------------
-	// mvInt2PtrBase
+	// mvPtrBase Single Class
 	//-----------------------------------------------------------------------------
-	class mvInt2PtrBase : public mvAppItem
+	template<typename P>
+	class mvPtrBase<P, 1> : public mvAppItem
 	{
-
 	public:
+		mvPtrBase(const std::string& name, P default_value, const std::string& dataSource) : mvAppItem(name)
+		{
+			if (dataSource.empty())
+				m_value = mvValueStorage::AddValue<P>(name, default_value);
+			else
+				m_value = mvValueStorage::AddValue<P>(dataSource, default_value);
 
-		mvInt2PtrBase(const std::string& name, int* default_value, const std::string& dataSource);
+			m_dataSource = dataSource;
+		}
 
-		~mvInt2PtrBase();
+		P* GetValue()
+		{
+			return mvValueStorage::GetValue<P>(m_name);
+		}
+		bool SetValue(const P& value)
+		{
+			return mvValueStorage::UpdateValue<P>(m_name, value);
+		}
 
-		void setDataSource(const std::string& dataSource) override;
+		~mvPtrBase() override
+		{
+			mvValueStorage::DecrementRef(m_name);
+			if (!m_dataSource.empty())
+			{
+				mvValueStorage::DecrementRef(m_dataSource);
+			}
+		}
+
+		void setDataSource(const std::string& dataSource) override
+		{
+			if (dataSource == m_dataSource || mvValueStorage::GetType(dataSource) != mvValueStorage::GetType(m_name))
+			{
+				return;
+			}
+			if (dataSource == m_name)
+			{
+				m_value = mvValueStorage::GetValue<P>(m_name);
+			}
+			else
+			{
+				mvValueStorage::DecrementRef(m_dataSource);
+				m_value = mvValueStorage::AddValue<P>(dataSource);
+				m_dataSource = dataSource;
+			}
+		};
 
 	protected:
-
-		int* m_value = nullptr;
-		int  m_disabled_value[2] {};
+		P* m_value;
+		P m_disabled_value = *mvValueStorage::GetDefaultValue<P>();
 	};
 
 	//-----------------------------------------------------------------------------
-	// mvInt3PtrBase
+	// mvPtrBase Primitive Array
 	//-----------------------------------------------------------------------------
-	class mvInt3PtrBase : public mvAppItem
+	template<typename P, size_t S>
+	class mvPtrBase<P*, S> : public mvAppItem
 	{
-
 	public:
+		mvPtrBase(const std::string& name, P* default_value, const std::string& dataSource) :
+			mvAppItem(name)
+		{
+			std::array<P, S> vals;
+			std::copy_n(default_value, S, vals.begin());
+			if (dataSource.empty())
+			{
+				m_value = mvValueStorage::AddValue<std::array<P, S>>(name, vals)->data();
+			}
+			else
+			{
+				m_value = mvValueStorage::AddValue<std::array<P, S>>(dataSource, vals)->data();
+			}
 
-		mvInt3PtrBase(const std::string& name, int* default_value, const std::string& dataSource);
+			m_dataSource = dataSource;
+		};
 
-		~mvInt3PtrBase();
+		~mvPtrBase() override
+		{
+			mvValueStorage::DecrementRef(m_name);
+			if (!m_dataSource.empty())
+			{
+				mvValueStorage::DecrementRef(m_dataSource);
+			}
+		};
 
-		void setDataSource(const std::string& dataSource) override;
+		P* GetValue()
+		{
+			return mvValueStorage::GetValue<P>(m_name);
+		}
+		bool SetValue(const P& value)
+		{
+			return mvValueStorage::UpdateValue<P>(m_name, value);
+		}
+
+		void setDataSource(const std::string& dataSource) override
+		{
+			if (dataSource == m_dataSource || mvValueStorage::GetType(dataSource) != mvValueStorage::GetType(m_name))
+			{
+				return;
+			}
+			if (dataSource == m_name)
+			{
+				m_value = mvValueStorage::GetValue<P>(m_name);
+			}
+			else
+			{
+				mvValueStorage::DecrementRef(m_dataSource);
+				m_value = mvValueStorage::AddValue<P>(dataSource);
+				m_dataSource = dataSource;
+			}
+		};
 
 	protected:
-
-		int* m_value = nullptr;
-		int m_disabled_value[3] {};
-	};
-
-	//-----------------------------------------------------------------------------
-	// mvInt4PtrBase
-	//-----------------------------------------------------------------------------
-	class mvInt4PtrBase : public mvAppItem
-	{
-
-	public:
-
-		mvInt4PtrBase(const std::string& name, int* default_value, const std::string& dataSource);
-
-		~mvInt4PtrBase();
-
-		void setDataSource(const std::string& dataSource) override;
-
-	protected:
-
-		int* m_value = nullptr;
-		int  m_disabled_value[4] {};
-	};
-
-	//-----------------------------------------------------------------------------
-	// mvFloatPtrBase
-	//-----------------------------------------------------------------------------
-	class mvFloatPtrBase : public mvAppItem
-	{
-
-	public:
-
-		mvFloatPtrBase(const std::string& name, float default_value, const std::string& dataSource);
-
-		~mvFloatPtrBase();
-
-		void setDataSource(const std::string& dataSource) override;
-
-	protected:
-
-		float* m_value = nullptr;
-		float  m_disabled_value = 0.0;
-	};
-
-	//-----------------------------------------------------------------------------
-	// mvFloat2PtrBase
-	//-----------------------------------------------------------------------------
-	class mvFloat2PtrBase : public mvAppItem
-	{
-
-	public:
-
-		mvFloat2PtrBase(const std::string& name, float* default_value, const std::string& dataSource);
-
-		~mvFloat2PtrBase();
-
-		void setDataSource(const std::string& dataSource) override;
-
-	protected:
-
-		float* m_value = nullptr;
-		float  m_disabled_value[2] {};
-	};
-
-	//-----------------------------------------------------------------------------
-	// mvFloat3PtrBase
-	//-----------------------------------------------------------------------------
-	class mvFloat3PtrBase : public mvAppItem
-	{
-
-	public:
-
-		mvFloat3PtrBase(const std::string& name, float* default_value, const std::string& dataSource);
-
-		~mvFloat3PtrBase();
-
-		void setDataSource(const std::string& dataSource) override;
-
-	protected:
-
-		float* m_value = nullptr;
-		float  m_disabled_value[3] {};
-	};
-
-	//-----------------------------------------------------------------------------
-	// mvFloat4PtrBase
-	//-----------------------------------------------------------------------------
-	class mvFloat4PtrBase : public mvAppItem
-	{
-
-	public:
-
-		mvFloat4PtrBase(const std::string& name, float* default_value, const std::string& dataSource);
-
-		~mvFloat4PtrBase();
-
-		void setDataSource(const std::string& dataSource) override;
-
-	protected:
-
-		float* m_value = nullptr;
-		float  m_disabled_value[4] {};
-	};
-
-	//-----------------------------------------------------------------------------
-	// mvColorPtrBase
-	//-----------------------------------------------------------------------------
-	class mvColorPtrBase : public mvAppItem
-	{
-
-	public:
-
-		mvColorPtrBase(const std::string& name, float* default_value, const std::string& dataSource);
-
-		~mvColorPtrBase();
-
-		void setDataSource(const std::string& dataSource) override;
-
-	protected:
-
-		float* m_value = nullptr;
-	};
-
-	//-----------------------------------------------------------------------------
-	// mvBoolPtrBase
-	//-----------------------------------------------------------------------------
-	class mvBoolPtrBase : public mvAppItem
-	{
-
-	public:
-
-		mvBoolPtrBase(const std::string& name, bool default_value, const std::string& dataSource);
-
-		~mvBoolPtrBase();
-
-		void setDataSource(const std::string& dataSource) override;
-
-	protected:
-
-		bool* m_value = nullptr;
-		bool  m_disabled_value = false;
-	};
-
-	//-----------------------------------------------------------------------------
-	// mvStringPtrBase
-	//-----------------------------------------------------------------------------
-	class mvStringPtrBase : public mvAppItem
-	{
-
-	public:
-
-		mvStringPtrBase(const std::string& name, const std::string& default_value, const std::string& dataSource);
-
-		~mvStringPtrBase();
-
-		void setDataSource(const std::string& dataSource) override;
-
-	protected:
-
-		std::string* m_value = nullptr;
-		std::string  m_disabled_value = "";
-	};
-
-	//-----------------------------------------------------------------------------
-	// mvTimePtrBase
-	//-----------------------------------------------------------------------------
-	class mvTimePtrBase : public mvAppItem
-	{
-
-	public:
-
-		mvTimePtrBase(const std::string& name, const tm& default_value, const std::string& dataSource);
-
-		~mvTimePtrBase();
-
-	protected:
-
-		tm*         m_value   = nullptr;
-		ImPlotTime* m_imvalue = nullptr;
-	};
-
-	//-----------------------------------------------------------------------------
-	// mvFloatVectPtrBase
-	//-----------------------------------------------------------------------------
-	class mvFloatVectPtrBase : public mvAppItem
-	{
-
-	public:
-
-		mvFloatVectPtrBase(const std::string& name, const std::vector<float>& default_value, const std::string& dataSource);
-
-		~mvFloatVectPtrBase();
-
-		void setDataSource(const std::string& dataSource) override;
-
-	protected:
-
-		std::vector<float>* m_value = nullptr;
+		P* m_value;
+		P* m_disabled_value = mvValueStorage::GetDefaultValue<P>();
 	};
 
 	//-----------------------------------------------------------------------------
@@ -279,17 +158,16 @@ namespace Marvel {
 
 	public:
 
-
 		mvBaseWindowAppitem(const std::string& name);
 
-		void   addFlag     (ImGuiWindowFlags flag);
-		void   removeFlag  (ImGuiWindowFlags flag);
-		void   setWindowPos(float x, float y);
-		bool   prerender   ();
+		void addFlag(ImGuiWindowFlags flag);
+		void removeFlag(ImGuiWindowFlags flag);
+		void setWindowPos(float x, float y);
+		bool prerender();
 		mvVec2 getWindowPos() const;
 
-		void setWidth          (int width)      override;
-		void setHeight         (int height)     override;
+		void setWidth(int width) override;
+		void setHeight(int height) override;
 		void setExtraConfigDict(PyObject* dict) override;
 		void getExtraConfigDict(PyObject* dict) override;
 

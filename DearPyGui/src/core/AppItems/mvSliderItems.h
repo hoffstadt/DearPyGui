@@ -25,7 +25,7 @@ namespace Marvel {
 	//-----------------------------------------------------------------------------
 	// mvSliderFloat
 	//-----------------------------------------------------------------------------
-	class mvSliderFloat : public mvFloatPtrBase
+	class mvSliderFloat : public mvPtrBase<float, 1>
 	{
 
 	public:
@@ -33,7 +33,7 @@ namespace Marvel {
 		MV_APPITEM_TYPE(mvAppItemType::SliderFloat, "add_slider_float")
 
 		mvSliderFloat(const std::string& name, float default_value, const std::string& dataSource)
-			: mvFloatPtrBase(name, default_value, dataSource)
+			: mvPtrBase<float, 1>(name, default_value, dataSource)
 		{
 			m_description.disableAllowed = true;
 		}
@@ -149,7 +149,7 @@ namespace Marvel {
 	//-----------------------------------------------------------------------------
 	// mvSliderInt
 	//-----------------------------------------------------------------------------
-	class mvSliderInt : public mvIntPtrBase
+	class mvSliderInt : public mvPtrBase<int, 1>
 	{
 
 	public:
@@ -157,7 +157,7 @@ namespace Marvel {
 		MV_APPITEM_TYPE(mvAppItemType::SliderInt, "add_slider_int")
 
 		mvSliderInt(const std::string& name, int default_value, const std::string& dataSource)
-			: mvIntPtrBase(name, default_value, dataSource)
+			: mvPtrBase<int, 1>(name, default_value, dataSource)
 		{
 			m_description.disableAllowed = true;
 		}
@@ -272,7 +272,7 @@ namespace Marvel {
 	//-----------------------------------------------------------------------------
 	// mvSliderFloat2
 	//-----------------------------------------------------------------------------
-	class mvSliderFloat2 : public mvFloat2PtrBase
+	class mvSliderFloat2 : public mvPtrBase<float*, 2>
 	{
 
 	public:
@@ -280,7 +280,7 @@ namespace Marvel {
 		MV_APPITEM_TYPE(mvAppItemType::SliderFloat2, "add_slider_float2")
 
 		mvSliderFloat2(const std::string& name, float* default_value, const std::string& dataSource)
-			: mvFloat2PtrBase(name, default_value, dataSource)
+			: mvPtrBase<float*, 2>(name, default_value, dataSource)
 		{
 			m_description.disableAllowed = true;
 		}
@@ -378,7 +378,7 @@ namespace Marvel {
 	//-----------------------------------------------------------------------------
 	// mvSliderFloat3
 	//-----------------------------------------------------------------------------
-	class mvSliderFloat3 : public mvFloat3PtrBase
+	class mvSliderFloat3 : public mvPtrBase<float*, 3>
 	{
 
 	public:
@@ -386,7 +386,7 @@ namespace Marvel {
 		MV_APPITEM_TYPE(mvAppItemType::SliderFloat3, "add_slider_float3")
 
 		mvSliderFloat3(const std::string& name, float* default_value, const std::string& dataSource)
-			: mvFloat3PtrBase(name, default_value, dataSource)
+			: mvPtrBase<float*, 3>(name, default_value, dataSource)
 		{
 			m_description.disableAllowed = true;
 		}
@@ -483,7 +483,7 @@ namespace Marvel {
 	//-----------------------------------------------------------------------------
 	// mvSliderFloat4
 	//-----------------------------------------------------------------------------
-	class mvSliderFloat4 : public mvFloat4PtrBase
+	class mvSliderFloat4 : public mvPtrBase<float*, 4>
 	{
 
 	public:
@@ -491,7 +491,7 @@ namespace Marvel {
 		MV_APPITEM_TYPE(mvAppItemType::SliderFloat4, "add_slider_float4")
 
 		mvSliderFloat4(const std::string& name, float* default_value, const std::string& dataSource)
-			: mvFloat4PtrBase(name, default_value, dataSource)
+			: mvPtrBase<float*, 4>(name, default_value, dataSource)
 		{
 			m_description.disableAllowed = true;
 		}
@@ -589,7 +589,7 @@ namespace Marvel {
 	//-----------------------------------------------------------------------------
 	// mvSliderInt2
 	//-----------------------------------------------------------------------------
-	class mvSliderInt2 : public mvInt2PtrBase
+	class mvSliderInt2 : public mvPtrBase<int*, 2>
 	{
 
 	public:
@@ -597,7 +597,7 @@ namespace Marvel {
 		MV_APPITEM_TYPE(mvAppItemType::SliderInt2, "add_slider_int2")
 
 		mvSliderInt2(const std::string& name, int* default_value, const std::string& dataSource)
-			: mvInt2PtrBase(name, default_value, dataSource)
+			: mvPtrBase<int*, 2>(name, default_value, dataSource)
 		{
 			m_description.disableAllowed = true;
 		}
@@ -694,7 +694,7 @@ namespace Marvel {
 	//-----------------------------------------------------------------------------
 	// mvSliderInt3
 	//-----------------------------------------------------------------------------
-	class mvSliderInt3 : public mvInt3PtrBase
+	class mvSliderInt3 : public mvPtrBase<int*, 3>
 	{
 
 	public:
@@ -702,7 +702,7 @@ namespace Marvel {
 		MV_APPITEM_TYPE(mvAppItemType::SliderInt3, "add_slider_int3")
 
 		mvSliderInt3(const std::string& name, int* default_value, const std::string& dataSource)
-			: mvInt3PtrBase(name, default_value, dataSource)
+			: mvPtrBase<int*, 3>(name, default_value, dataSource)
 		{
 			m_description.disableAllowed = true;
 		}
@@ -800,7 +800,7 @@ namespace Marvel {
 	//-----------------------------------------------------------------------------
 	// mvSliderInt4
 	//-----------------------------------------------------------------------------
-	class mvSliderInt4 : public mvInt4PtrBase
+	class mvSliderInt4 : public mvPtrBase<int*, 4>
 	{
 
 	public:
@@ -808,7 +808,7 @@ namespace Marvel {
 		MV_APPITEM_TYPE(mvAppItemType::SliderInt4, "add_slider_int4")
 
 		mvSliderInt4(const std::string& name, int* default_value, const std::string& dataSource)
-			: mvInt4PtrBase(name, default_value, dataSource)
+			: mvPtrBase<int*, 4>(name, default_value, dataSource)
 		{
 			m_description.disableAllowed = true;
 		}

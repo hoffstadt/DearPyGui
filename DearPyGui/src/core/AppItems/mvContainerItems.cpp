@@ -5,7 +5,7 @@
 namespace Marvel {
 
 	mvChild::mvChild(const std::string& name)
-		: mvBoolPtrBase(name, false, name), mvEventHandler()
+		: mvPtrBase<bool, 1>(name, false, name), mvEventHandler()
 	{
 		m_description.container = true;
 	}
@@ -170,7 +170,7 @@ namespace Marvel {
 	}
 
 	mvCollapsingHeader::mvCollapsingHeader(const std::string& name)
-		: mvBoolPtrBase(name, true, name)
+		: mvPtrBase<bool, 1>(name, true, name)
 	{
 		m_description.container = true;
 	}
@@ -267,7 +267,7 @@ namespace Marvel {
 	}
 
 	mvTreeNode::mvTreeNode(const std::string& name)
-		: mvBoolPtrBase(name, false, name)
+		: mvPtrBase<bool, 1>(name, false, name)
 	{
 		m_description.container = true;
 	}

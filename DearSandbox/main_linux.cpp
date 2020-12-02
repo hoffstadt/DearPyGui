@@ -11,6 +11,7 @@ using namespace Marvel;
 int main(int argc, char* argv[])
 {
 
+	GenerateStubFile("../../DearPyGui/dearpygui/core.pyi");
 	PyObject* m = nullptr;
 
 	// initialize python

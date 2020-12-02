@@ -14,7 +14,7 @@ namespace Marvel {
 	//-----------------------------------------------------------------------------
 	// mvTooltip
 	//-----------------------------------------------------------------------------
-	class mvTooltip : public mvBoolPtrBase
+	class mvTooltip : public mvPtrBase<bool, 1>
 	{
 
 	public:

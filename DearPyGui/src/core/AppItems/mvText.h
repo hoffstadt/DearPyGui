@@ -15,7 +15,7 @@ namespace Marvel {
 	//-----------------------------------------------------------------------------
 	// mvText
 	//-----------------------------------------------------------------------------
-	class mvText : public mvStringPtrBase
+	class mvText : public mvPtrBase<std::string, 1>
 	{
 
 	public:
@@ -39,7 +39,7 @@ namespace Marvel {
 	//-----------------------------------------------------------------------------
 	// mvLabelText
 	//-----------------------------------------------------------------------------
-	class mvLabelText : public mvStringPtrBase
+	class mvLabelText : public mvPtrBase<std::string, 1>
 	{
 
 	public:

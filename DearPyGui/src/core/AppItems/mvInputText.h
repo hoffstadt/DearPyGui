@@ -10,9 +10,10 @@
 //
 //-----------------------------------------------------------------------------
 
-namespace Marvel {
+namespace Marvel
+{
 
-	class mvInputText : public mvStringPtrBase
+	class mvInputText : public mvPtrBase<std::string, 1>
 	{
 
 	public:
@@ -21,8 +22,8 @@ namespace Marvel {
 
 		mvInputText(const std::string& name, const std::string& default_value, const std::string& dataSource);
 
-		void setEnabled        (bool value)     override;
-		void draw              ()               override;
+		void setEnabled(bool value) override;
+		void draw() override;
 		void setExtraConfigDict(PyObject* dict) override;
 		void getExtraConfigDict(PyObject* dict) override;
 

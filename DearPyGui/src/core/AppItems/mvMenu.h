@@ -17,7 +17,7 @@ namespace Marvel {
 	//-----------------------------------------------------------------------------
 	// mvMenuBar
 	//-----------------------------------------------------------------------------
-	class mvMenuBar : public mvBoolPtrBase
+	class mvMenuBar : public mvPtrBase<bool, 1>
 	{
 
 	public:
@@ -25,7 +25,7 @@ namespace Marvel {
 		MV_APPITEM_TYPE(mvAppItemType::MenuBar, "add_menu_bar")
 
 		explicit mvMenuBar(const std::string& name)
-			: mvBoolPtrBase(name, true, name)
+			: mvPtrBase<bool, 1>(name, true, name)
 		{
 			m_description.container = true;
 			
@@ -70,15 +70,15 @@ namespace Marvel {
 	//-----------------------------------------------------------------------------
 	// mvMenu
 	//-----------------------------------------------------------------------------
-	class mvMenu : public mvBoolPtrBase, public mvEventHandler
+	class mvMenu : public mvPtrBase<bool, 1>, public mvEventHandler
 	{
 
 	public:
 
 		MV_APPITEM_TYPE(mvAppItemType::Menu, "add_menu")
 
-		mvMenu( const std::string& name)
-			: mvBoolPtrBase(name, false, name), mvEventHandler()
+		mvMenu(const std::string& name)
+			: mvPtrBase<bool, 1>(name, false, name), mvEventHandler()
 		{
 			m_description.container = true;
 		}
@@ -155,7 +155,7 @@ namespace Marvel {
 	//-----------------------------------------------------------------------------
 	// mvMenuItem
 	//-----------------------------------------------------------------------------
-	class mvMenuItem : public mvBoolPtrBase
+	class mvMenuItem : public mvPtrBase<bool, 1>
 	{
 
 	public:
@@ -163,7 +163,9 @@ namespace Marvel {
 		MV_APPITEM_TYPE(mvAppItemType::MenuItem, "add_menu_item")
 
 		mvMenuItem(const std::string& name)
-			: mvBoolPtrBase(name, false, name){}
+			: mvPtrBase<bool, 1>(name, false, name)
+		{
+		}
 
 		void draw() override
 		{

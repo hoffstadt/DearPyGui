@@ -11,7 +11,7 @@
 
 namespace Marvel {
 
-	class mvTimePicker : public mvTimePtrBase
+	class mvTimePicker : public mvPtrBase<tm, 1>
 	{
 
 	public:
@@ -25,7 +25,7 @@ namespace Marvel {
 		void getExtraConfigDict(PyObject* dict) override;
 
 	private:
-
+		ImPlotTime* m_imvalue = nullptr;
 		bool m_hour24 = false;
 
 	};

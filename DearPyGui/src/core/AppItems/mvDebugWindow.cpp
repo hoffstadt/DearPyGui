@@ -136,24 +136,28 @@ namespace Marvel {
 				DebugItem("Threadpool Active: ", app->usingThreadPool() ? ts : fs);
 				DebugItem("Threadpool High: ", app->usingThreadPoolHighPerformance() ? ts : fs);
 				ImGui::Separator();
-				DebugItem("Int Values", std::to_string(mvValueStorage::s_ints.size()).c_str());
-				DebugItem("Int2 Values", std::to_string(mvValueStorage::s_int2s.size()).c_str());
-				DebugItem("Int3 Values", std::to_string(mvValueStorage::s_int3s.size()).c_str());
-				DebugItem("Int4 Values", std::to_string(mvValueStorage::s_int4s.size()).c_str());
+				DebugItem("Int Values", std::to_string(mvValueStorage::s_value_store<int>.size()).c_str());
+				DebugItem("Int2 Values",
+					std::to_string(mvValueStorage::s_value_store<std::array<int, 2>>.size()).c_str());
+				DebugItem("Int3 Values",
+					std::to_string(mvValueStorage::s_value_store<std::array<int, 3>>.size()).c_str());
+				DebugItem("Int4 Values",
+					std::to_string(mvValueStorage::s_value_store<std::array<int, 4>>.size()).c_str());
 				ImGui::Separator();
-				//auto & yy = mvValueStorage::s_refStorage;
-				//auto & xx = mvValueStorage::s_floats;
-				DebugItem("Float Values", std::to_string(mvValueStorage::s_floats.size()).c_str());
-				DebugItem("Float2 Values", std::to_string(mvValueStorage::s_float2s.size()).c_str());
-				DebugItem("Float3 Values", std::to_string(mvValueStorage::s_float3s.size()).c_str());
-				DebugItem("Float4 Values", std::to_string(mvValueStorage::s_float4s.size()).c_str());
+				DebugItem("Float Values", std::to_string(mvValueStorage::s_value_store<float>.size()).c_str());
+				DebugItem("Float2 Values",
+					std::to_string(mvValueStorage::s_value_store<std::array<float, 2>>.size()).c_str());
+				DebugItem("Float3 Values",
+					std::to_string(mvValueStorage::s_value_store<std::array<float, 3>>.size()).c_str());
+				DebugItem("Float4 Values",
+					std::to_string(mvValueStorage::s_value_store<std::array<float, 4>>.size()).c_str());
 				ImGui::Separator();
-				DebugItem("Bool Values", std::to_string(mvValueStorage::s_bools.size()).c_str());
-				DebugItem("String Values", std::to_string(mvValueStorage::s_strings.size()).c_str());
-				DebugItem("Times Values", std::to_string(mvValueStorage::s_times.size()).c_str());
-				DebugItem("ImTimes Values", std::to_string(mvValueStorage::s_imtimes.size()).c_str());
-
-
+				DebugItem("String Values", std::to_string(mvValueStorage::s_value_store<std::string>.size()).c_str());
+				DebugItem("Bool Values", std::to_string(mvValueStorage::s_value_store<bool>.size()).c_str());
+				DebugItem("Time Values", std::to_string(mvValueStorage::s_value_store<tm>.size()).c_str());
+				DebugItem("ImTime Values", std::to_string(mvValueStorage::s_value_store<ImPlotTime>.size()).c_str());
+				ImGui::Separator();
+				DebugItem("References", std::to_string(mvValueStorage::s_refStorage.size()).c_str());
 				ImGui::EndGroup();
 				ImGui::PopItemWidth();
 
@@ -241,19 +245,29 @@ namespace Marvel {
                 DebugItem("Item Tip:", selectedItem->getTip().c_str());
                 DebugItem("Item Popup:", selectedItem->getPopup().c_str());
                 DebugItem("Item Show:", selectedItem->isShown() ? ts : fs);
-                DebugItem("Item Visible:", selectedItem->getState().isItemVisible() ? ts : fs);
-                DebugItem("Item Hovered:", selectedItem->getState().isItemHovered() ? ts : fs);
-                DebugItem("Item Active:", selectedItem->getState().isItemActive() ? ts : fs);
-                DebugItem("Item Focused:", selectedItem->getState().isItemFocused() ? ts : fs);
-                DebugItem("Item Clicked:", selectedItem->getState().isItemClicked() ? ts : fs);
-                DebugItem("Item Edited:", selectedItem->getState().isItemEdited() ? ts : fs);
-                DebugItem("Item Activated:", selectedItem->getState().isItemActivated() ? ts : fs);
-                DebugItem("Item Deactivated:", selectedItem->getState().isItemDeactivated() ? ts : fs);
-                DebugItem("Item DeavtivatedAfterEdit:", selectedItem->getState().isItemDeactivatedAfterEdit() ? ts : fs);
-                DebugItem("Item ToggledOpen:", selectedItem->getState().isItemToogledOpen() ? ts : fs);
-                ImGui::EndGroup();
-                ImGui::PopItemWidth();
-                ImGui::SameLine();
+				DebugItem("Item Visible:", selectedItem->getState().isItemVisible() ? ts : fs);
+				DebugItem("Item Hovered:", selectedItem->getState().isItemHovered() ? ts : fs);
+				DebugItem("Item Active:", selectedItem->getState().isItemActive() ? ts : fs);
+				DebugItem("Item Focused:", selectedItem->getState().isItemFocused() ? ts : fs);
+				DebugItem("Item Clicked:", selectedItem->getState().isItemClicked() ? ts : fs);
+				DebugItem("Item Edited:", selectedItem->getState().isItemEdited() ? ts : fs);
+				DebugItem("Item Activated:", selectedItem->getState().isItemActivated() ? ts : fs);
+				DebugItem("Item Deactivated:", selectedItem->getState().isItemDeactivated() ? ts : fs);
+				DebugItem("Item DeactivatedAfterEdit:",
+					selectedItem->getState().isItemDeactivatedAfterEdit() ? ts : fs);
+				DebugItem("Item ToggledOpen:", selectedItem->getState().isItemToogledOpen() ? ts : fs);
+				ImGui::Separator();
+				DebugItem("Item ID:", selectedItem->getName().c_str());
+				DebugItem("Item DataSource:", selectedItem->getDataSource().c_str());
+				DebugItem("Item Stores Value:", mvValueStorage::HasValue(selectedItem->getName()));
+				if (mvValueStorage::HasValue(selectedItem->getName()))
+				{
+					DebugItem("Item Value Type",
+						mvValueStorage::vtToString(mvValueStorage::GetType(selectedItem->getName())).c_str());
+				}
+				ImGui::EndGroup();
+				ImGui::PopItemWidth();
+				ImGui::SameLine();
 
 				ImGui::BeginChild("TreeChild", ImVec2(-1.0f, -1.0f), true);
 				for (auto window : mvApp::GetApp()->getItemRegistry().getFrontWindows())

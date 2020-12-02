@@ -7,7 +7,7 @@
 namespace Marvel {
 
 	mvSelectable::mvSelectable(const std::string& name, bool default_value, const std::string& dataSource)
-		: mvBoolPtrBase(name, default_value, dataSource)
+		: mvPtrBase<bool, 1>(name, default_value, dataSource)
 	{
 		m_description.disableAllowed = true;
 	}
@@ -137,7 +137,7 @@ namespace Marvel {
 	}
 
 	mvCheckbox::mvCheckbox(const std::string& name, bool default_value, const std::string& dataSource)
-		: mvBoolPtrBase(name, default_value, dataSource)
+		: mvPtrBase<bool, 1>(name, default_value, dataSource)
 	{
 		m_description.disableAllowed = true;
 	}
@@ -165,7 +165,7 @@ namespace Marvel {
 	}
 
 	mvCombo::mvCombo(const std::string& name, const std::string& default_value, const std::string& dataSource)
-		: mvStringPtrBase(name, default_value, dataSource)
+		: mvPtrBase<std::string, 1>(name, default_value, dataSource)
 	{
 		m_description.disableAllowed = true;
 	}
@@ -283,7 +283,7 @@ namespace Marvel {
 	}
 
 	mvListbox::mvListbox(const std::string& name, int default_value, const std::string& dataSource)
-		: mvIntPtrBase(name, default_value, dataSource)
+		: mvPtrBase<int, 1>(name, default_value, dataSource)
 	{
 		m_description.disableAllowed = true;
 	}
@@ -341,7 +341,7 @@ namespace Marvel {
 	}
 
 	mvRadioButton::mvRadioButton(const std::string& name, int default_value, const std::string& dataSource)
-		: mvIntPtrBase(name, default_value, dataSource)
+		: mvPtrBase<int, 1>(name, default_value, dataSource)
 	{
 		m_description.disableAllowed = true;
 	}
@@ -396,7 +396,7 @@ namespace Marvel {
 	}
 
 	mvProgressBar::mvProgressBar(const std::string& name, float default_value, const std::string& dataSource)
-		: mvFloatPtrBase(name, default_value, dataSource)
+		: mvPtrBase<float, 1>(name, default_value, dataSource)
 	{
 	}
 
