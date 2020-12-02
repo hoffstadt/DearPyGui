@@ -430,7 +430,7 @@ namespace Marvel{
 
 	void mvAppItem::setLabel(const std::string& value)
 	{
-		m_label = "##" + m_name;
+		m_label = value + "##" + m_name;
 	}
 
 	mvAppItem* mvAppItem::stealChild(const std::string& name)
