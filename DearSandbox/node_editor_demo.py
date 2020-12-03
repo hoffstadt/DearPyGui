@@ -10,10 +10,8 @@ from enum import IntFlag, auto, Flag, unique, Enum, IntEnum
 from abc import ABC, abstractmethod
 from typing import ClassVar
 
-Naddr = namedtuple('Naddr', 'base,sub,id,id1')
 
-
-class Nat(IntEnum):
+class SubT(IntEnum):
     NONE = 0
     ADDER = auto()
     FLT = auto()
@@ -25,56 +23,182 @@ class Nat(IntEnum):
     MAX = 255
 
 
-class Nef(IntFlag):
+class BaseT(IntFlag):
     ATTR = auto()
     NODE = auto()
-    MULTI = auto()
     LINK = auto()
-    INPUT = auto()
-    OUTPUT = auto()
-    AGG = auto()
-    VIZ = auto()
     NONE = 0
 
 
 # print(x)
 # print(int(x))
+@dataclass
+class NedID:
+    base_t: BaseT
+    sub_t: SubT
+    instance: int = 0
+    label: str = ""
+    _byte: ClassVar[Struct] = Struct('BBh')
+    _prop_mask: ClassVar[int] = 65535
+    deci: ClassVar[int]
+
+    def __post_init__(self):
+        self.deci = int.from_bytes((self._byte.pack(int(self.base_t), int(self.sub_t), self.instance)), sys.byteorder)
+
+    @classmethod
+    def from_int(cls, i):
+        r = cls._byte.unpack(int.to_bytes(i, 3, sys.byteorder))
+        return cls(BaseT(r[0]), SubT(r[1]), r[2])
+
+    def __int__(self):
+        return int.from_bytes((self._byte.pack(int(self.base_t), int(self.sub_t), self.instance)), sys.byteorder)
+
+    def __str__(self):
+        return str(int(self))
+
+    def __repr__(self):
+        return int(self)
+
+    def get_byte_arr(self):
+        return self._byte.pack(int(self.base_t), int(self.sub_t), self.instance)
+
+    def get_key(self):
+        return str(self.base_t) + str(self.sub_t)
+
+    def same_props_as(self, ned_id):
+        return bool((int(self) & self._prop_mask) == (int(ned_id) & self._prop_mask))
+
 
 class NodeEditor:
-    def __init__(self):
-        self.tick_list = []
+    def __init__(self, name):
+        self.name = name
+        self.nodes = {}
+        self.attributes = {}
+        self.tree = {}
+        self.a_map = {}
 
-    def add_node(self, node):
+    def node(self, node):
         if issubclass(node, Node):
-            node(self)
-    # def issue_id(self,nid):
+            n = node(self)
+            self.nodes[int(n.node_id)] = n
+            n.show()
+
+    def attr(self, nat, io):
+        if issubclass(nat, NodeAttr):
+            a = nat(self)
+            self.attributes[a.aid] = a
+            a.show()
+
+    def show(self):
+        with node_editor(self.name):
+            add_text("cheese")
+
+    def issue_id(self, base_t, sub_t, lbl):
+        print(base_t, sub_t, lbl)
+        if base_t not in self.tree:
+            self.tree[base_t] = {}
+        if sub_t not in self.tree[base_t]:
+            self.tree[base_t][sub_t] = []
+        ps = len(self.tree[base_t][sub_t]) + 1
+        nid = NedID(base_t=base_t, sub_t=sub_t, instance=ps, friendly=str(lbl))
+        self.tree[base_t][sub_t].append(nid)
+        return nid
 
 
 class Node(ABC):
     @abstractmethod
-    def __init__(self, ed):
+    def __init__(self, ed: NodeEditor, label):
         self.ed = ed
-        # self._id_base =
-        ...
+        self.node_id = ed.issue_id(BaseT.NODE, SubT.LST_FLT, lbl=label)
+        self.attrs = self.compose_attrs()
 
     @abstractmethod
-    def register(self):
-        ...
-
-    @abstractmethod
-    def describe(self):
-        ...
-
-
-class MyNode(Node):
-
-    def __init__(self, ed):
-        super().__init__(ed)
-        print(self.id)
-
-    def register(self):
-        print("bye!")
+    def compose_attrs(self):
         pass
+
+    @abstractmethod
+    def tick(self, t, dt):
+        pass
+
+    def show(self):
+        with node(obj_id=int(self.node_id), label=self.node_id.label, parent=str(self.ed.name)):
+            for i in self.inputs:
+                i.show()
+            for o in self.outputs:
+                o.show()
+
+
+class NodeAttr(ABC):
+    def __init__(self, node, param, widget, io):
+        self.base_t = BaseT.ATTR
+        self.sub_t = SubT.NONE
+        self.node = node
+        self.aid = self.node.ed.issue_id(self.base_t, self.sub_t, self.label())
+        self.value = None
+        self.widget = widget
+        self.io = io
+        self.param = param
+        # self.neighbors = {}
+
+    def on_link(self, neighbor):
+        return True
+
+    def cb(self, sender, data):
+        self.value = get_value(sender)
+
+    def on_break(self):
+        return True
+
+    def show(self):
+        with node_attribute(int(self.aid), self.io, target=self.tgt(), parent=str(self.node.node_id)):
+            self.widget(name=self.tgt(), default_value=self.param.val, min_value=self.param.low,
+                        max_value=self.param.high, label=self.label())
+
+    def set(self):
+        ...
+
+    def get(self):
+        ...
+
+    def tick(self):
+        pass
+
+    def tgt(self):
+        return str(self.aid.label) + "##" + str(self.aid)
+
+    @staticmethod
+    def base_t():
+        return BaseT.ATTR
+
+    @abstractmethod
+    def sub_t(self):
+        pass
+
+    @abstractmethod
+    def label(self):
+        pass
+
+
+@dataclass
+class IntParam:
+    id: str = "int"
+    val: float = 0
+    low: float = -10
+    high: float = 10
+    fmt: str = "%i"
+    lbl: str = id
+
+
+class NodeIntAttr(NodeAttr):
+    def __init__(self, node):
+        p = IntParam()
+        super().__init__(node, p, add_drag_int, 1)
+
+    def label(self):
+        return "ok"
+
+    def sub_t(self):
+        return SubT.INT
 
 
 x = struct.pack('BBBB', 234, 25, 66, 46)
@@ -100,45 +224,20 @@ z = struct.unpack('i', x)[0]
 # print(H.pack(234, 25, 66, 46))
 #
 
-@dataclass
-class NedID:
-    base: Nef
-    sub: Nat
-    nid: int = 0
-    aid: int = 0
-    _byte: ClassVar[Struct] = Struct('BBBB')
-    _prop_mask: ClassVar[int] = 65535
-    _at_mask: ClassVar[int] = 16777215
 
-    @classmethod
-    def from_int(cls, i):
-        r = cls._byte.unpack(int.to_bytes(i,4,sys.byteorder))
-        return cls(Nef(r[0]), Nat(r[1]), r[2], r[3])
+# bean = NedID(base=BaseT.LINK | BaseT.OUTPUT, sub=SubT.FLT, nid=2, aid=3)
+# bean2 = NedID(base=BaseT.LINK | BaseT.OUTPUT, sub=SubT.FLT, nid=5, aid=4)
+# print(bean)
+# qq = int(bean)
+# q2 = int(bean2)
+# print(qq)
+# print(qq >> 16 & qq)
+# print(bean.same_props_as(bean2))
+# mask = NedID(base=Nef(255), sub=Nat(255), nid=255, aid=0)
+# zz = (int(mask))
+# print(zz)
+# print(NedID.from_int(qq & ~zz))
 
-    def __int__(self):
-        return int.from_bytes((self._byte.pack(int(self.base), int(self.sub), self.nid, self.aid)),sys.byteorder)
-
-    def get_byte_arr(self):
-        return self._byte.pack(int(self.base),int(self.sub),self.nid,self.aid)
-
-    def get_key(self):
-        return str(self.base)+str(self.sub)
-
-    def same_props_as(self,ned_id):
-        return bool((int(self) & self._prop_mask) == (int(ned_id) & self._prop_mask))
-
-bean = NedID(base=Nef.LINK|Nef.OUTPUT, sub=Nat.FLT, nid=2, aid=3)
-bean2 = NedID(base=Nef.LINK|Nef.OUTPUT, sub=Nat.FLT, nid=5, aid=4)
-print(bean)
-qq = int(bean)
-q2 = int(bean2)
-print(qq)
-print(qq>>16 & qq)
-print(bean.same_props_as(bean2))
-mask = NedID(base=Nef(255),sub=Nat(255),nid=255,aid=0)
-zz = (int(mask))
-print(zz)
-print(NedID.from_int(qq&~zz))
 
 # x &= ~0xf
 # print(x)
@@ -186,24 +285,19 @@ print(NedID.from_int(qq&~zz))
 #     id: str
 
 
-# @dataclass
-# class FloatParam:
-#     id: str = "float"
-#     val: float = 0.0
-#     low: float = -1.0
-#     high: float = 1.0
-#     fmt: str = "%.3f"
-#     lbl: str = id
+@dataclass
+class Param:
+    id: str
+    default: any
+    low: any
+    high: any
+    fmt: str
+    lbl: str
+
+
 #
 #
-# @dataclass
-# class IntParam:
-#     id: str = "int"
-#     val: float = 0
-#     low: float = -10
-#     high: float = 10
-#     fmt: str = "%i"
-#     lbl: str = id
+
 #
 #
 # class RGBNode:
@@ -316,15 +410,16 @@ print(NedID.from_int(qq&~zz))
 #             end()
 #
 #
-# with window("Node Editor Demo", width=1300, height=900, no_scrollbar=True, no_resize=False):
-#     add_text("DPG Node Editor Demo")
-# with window("sidebar", width=300, height=800, x_pos=30, y_pos=55, no_close=True):
-#     add_text("Hello")
-# with window("editor_panel", width=1000, height=800, x_pos=555, y_pos=55, no_close=True):
-#     n = Ned()
-#     n.show()
-#
-# set_primary_window("Node Editor Demo", True)
-# set_main_window_size(1600, 900)
-# set_main_window_pos(50, 0)
-# start_dearpygui()
+with window("Node Editor Demo", width=1300, height=900, no_scrollbar=True, no_resize=False):
+    add_text("DPG Node Editor Demo")
+with window("sidebar", width=300, height=800, x_pos=30, y_pos=55, no_close=True):
+    add_text("Hello")
+with window("editor_panel", width=1000, height=800, x_pos=555, y_pos=55, no_close=True):
+    n = NodeEditor("editorbean")
+    n.show()
+    n.node(BabyNode)
+
+set_primary_window("Node Editor Demo", True)
+set_main_window_size(1600, 900)
+set_main_window_pos(50, 0)
+start_dearpygui()
