@@ -107,17 +107,16 @@ class NedID:
     nid: int = 0
     aid: int = 0
     _byte: ClassVar[Struct] = Struct('BBBB')
-    _int: ClassVar[Struct] = Struct('i')
-    _propmask: ClassVar[int] = 65535
-    _atmask: ClassVar[int] = 16777215
+    _prop_mask: ClassVar[int] = 65535
+    _at_mask: ClassVar[int] = 16777215
 
     @classmethod
     def from_int(cls, i):
-        r = cls._byte.unpack(cls._int.pack(i))
+        r = cls._byte.unpack(int.to_bytes(i,4,sys.byteorder))
         return cls(Nef(r[0]), Nat(r[1]), r[2], r[3])
 
     def __int__(self):
-        return self._int.unpack(self._byte.pack(int(self.base), int(self.sub), self.nid, self.aid))[0]
+        return int.from_bytes((self._byte.pack(int(self.base), int(self.sub), self.nid, self.aid)),sys.byteorder)
 
     def get_byte_arr(self):
         return self._byte.pack(int(self.base),int(self.sub),self.nid,self.aid)
@@ -126,20 +125,20 @@ class NedID:
         return str(self.base)+str(self.sub)
 
     def same_props_as(self,ned_id):
-        return bool((int(self) & self._propmask) == (int(ned_id)& self._propmask))
+        return bool((int(self) & self._prop_mask) == (int(ned_id) & self._prop_mask))
 
-# bean = NedID(base=Nef.LINK|Nef.OUTPUT, sub=Nat.FLT, nid=2, aid=3)
-# bean2 = NedID(base=Nef.LINK|Nef.OUTPUT, sub=Nat.FLT, nid=5, aid=4)
-# print(bean)
-# qq = int(bean)
-# q2 = int(bean2)
-# print(qq)
-# print(qq>>16 & qq)
-# print(bean.same_props_as(bean2))
-# mask = NedID(base=Nef(255),sub=Nat(255),nid=255,aid=0)
-# zz = (int(mask))
-# print(zz)
-# print(NedID.from_int(qq&~zz))
+bean = NedID(base=Nef.LINK|Nef.OUTPUT, sub=Nat.FLT, nid=2, aid=3)
+bean2 = NedID(base=Nef.LINK|Nef.OUTPUT, sub=Nat.FLT, nid=5, aid=4)
+print(bean)
+qq = int(bean)
+q2 = int(bean2)
+print(qq)
+print(qq>>16 & qq)
+print(bean.same_props_as(bean2))
+mask = NedID(base=Nef(255),sub=Nat(255),nid=255,aid=0)
+zz = (int(mask))
+print(zz)
+print(NedID.from_int(qq&~zz))
 
 # x &= ~0xf
 # print(x)
