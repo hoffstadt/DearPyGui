@@ -11,7 +11,7 @@
 ![Python Version](https://img.shields.io/pypi/pyversions/dearpygui)
 [![PYPI](https://img.shields.io/pypi/v/dearpygui)](https://pypi.org/project/dearpygui/)
 [![Downloads](https://pepy.tech/badge/dearpygui)](https://pepy.tech/project/dearpygui)
-[![Sponsors](https://img.shields.io/badge/sponsors-12-brightgreen)](https://img.shields.io/badge/sponsors-13-brightgreen)
+[![Sponsors](https://img.shields.io/badge/sponsors-12-brightgreen)](https://img.shields.io/badge/sponsors-14-brightgreen)
 
 [![build status](https://github.com/hoffstadt/DearPyGui/workflows/Embedded%20Build/badge.svg)](https://github.com/hoffstadt/DearPyGui/actions?workflow=Embedded%20Build)
 [![Build status](https://ci.appveyor.com/api/projects/status/eypfn2lyuwfv8mel?svg=true)](https://ci.appveyor.com/project/hoffstadt/dearpygui)

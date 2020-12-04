@@ -28,6 +28,12 @@ HOW TO UPDATE?
 
 Decorated log: https://github.com/hoffstadt/DearPyGui/releases/tag/v0.6.x
 
+-----------------------------------------------------------------------
+ VERSION 0.6.34
+-----------------------------------------------------------------------
+
+Decorated log: https://github.com/hoffstadt/DearPyGui/releases/tag/v0.6.34
+
 Fixes:
 - exit callback: fixed exit callback being called twice
 - tooltips:      fixed tooltips in managed columns issue #360
