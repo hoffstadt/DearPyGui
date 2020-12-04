@@ -12,7 +12,7 @@ namespace Marvel {
 	// replacing
 	PyObject* set_item_callback             (PyObject* self, PyObject* args, PyObject* kwargs);
 
-	PyObject* move_item                    (PyObject* self, PyObject* args, PyObject* kwargs);
+	PyObject* move_item                     (PyObject* self, PyObject* args, PyObject* kwargs);
 	PyObject* delete_item                   (PyObject* self, PyObject* args, PyObject* kwargs);
 	PyObject* does_item_exist               (PyObject* self, PyObject* args, PyObject* kwargs);
 	PyObject* move_item_up                  (PyObject* self, PyObject* args, PyObject* kwargs);
