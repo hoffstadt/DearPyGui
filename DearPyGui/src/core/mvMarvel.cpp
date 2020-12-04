@@ -508,6 +508,7 @@ namespace Marvel {
 		ADD_PYTHON_FUNCTION(configure_item)
 
 		// app interface
+		ADD_PYTHON_FUNCTION(enable_docking)
 		ADD_PYTHON_FUNCTION(add_texture)
 		ADD_PYTHON_FUNCTION(decrement_texture)
 		ADD_PYTHON_FUNCTION(add_character_remap)

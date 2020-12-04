@@ -530,6 +530,10 @@ def draw_triangle(drawing: str, p1: List[float], p2: List[float], p3: List[float
 	"""Draws a triangle on a drawing."""
 	...
 
+def enable_docking(*, shift_only: bool = True, dock_space: bool = False) -> None:
+	"""Decrements a texture."""
+	...
+
 def end() -> None:
 	"""Ends a container."""
 	...

@@ -84,6 +84,12 @@ namespace Marvel {
 		io.ConfigWindowsMoveFromTitleBarOnly = true;
 		io.IniFilename = nullptr;
 
+		if(mvApp::GetApp()->m_docking)
+			io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
+		
+		if (mvApp::GetApp()->m_dockingShiftOnly)
+			io.ConfigDockingWithShift = true;
+
 		setupFonts();
 
 		//io.Fonts->AddFontDefault();
