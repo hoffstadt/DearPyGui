@@ -117,6 +117,7 @@ namespace Marvel {
         //-----------------------------------------------------------------------------
         // App Settings
         //-----------------------------------------------------------------------------
+        void                     turnOnDocking     (bool shiftOnly, bool dockSpace);
         void                     addRemapChar      (int dst, int src) { m_charRemaps.push_back({ dst, src }); }
         void                     setVSync          (bool value) { m_vsync = value; }
         void                     setResizable      (bool value) { m_resizable = value; }
@@ -211,7 +212,12 @@ namespace Marvel {
         static mvApp* s_instance;
         static bool   s_started;
 
-        mvItemRegistry m_itemRegistry;
+        mvItemRegistry                         m_itemRegistry;
+
+        // docking
+        bool                                   m_docking          = false;
+        bool                                   m_dockingShiftOnly = true;
+        bool                                   m_dockingViewport  = false;
 
         mvWindow*                              m_viewport = nullptr;
         std::string                            m_activeWindow;
@@ -246,7 +252,6 @@ namespace Marvel {
         
         // new callback system
         std::queue<NewCallback>          m_callbacks;
-
 
         // concurrency
         std::queue<AsyncronousCallback>  m_asyncReturns;

@@ -122,6 +122,13 @@ namespace Marvel {
 		mvDataStorage::DeleteAllData();
 	}
 
+	void mvApp::turnOnDocking(bool shiftOnly, bool dockSpace)
+	{ 
+		m_docking = true; 
+		m_dockingShiftOnly = shiftOnly; 
+		m_dockingViewport = dockSpace;
+	}
+
 	void mvApp::firstRenderFrame()
 	{
 
@@ -190,6 +197,9 @@ namespace Marvel {
 		m_deltaTime = ImGui::GetIO().DeltaTime;
 		m_time = ImGui::GetTime();
 		ImGui::GetIO().FontGlobalScale = m_globalFontScale;
+
+		if (m_dockingViewport)
+			ImGui::DockSpaceOverViewport();
 
 		// check if any asyncronous functions have returned
 		// and are requesting to send data back to main thread

@@ -28,6 +28,9 @@ HOW TO UPDATE?
 
 Decorated log: https://github.com/hoffstadt/DearPyGui/releases/tag/v0.6.x
 
+New Commands:
+- docking:   Added "enable_docking" command
+
 Fixes:
 - get_item_width:  now works for non-container widgets
 - get_item_height: now works for non-container widgets

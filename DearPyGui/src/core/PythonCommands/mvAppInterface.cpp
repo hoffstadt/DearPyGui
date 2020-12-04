@@ -23,6 +23,12 @@ namespace Marvel {
 			{mvPythonDataType::String, "name"},
 		}, "Decrements a texture.") });
 
+		parsers->insert({ "enable_docking", mvPythonParser({
+			{mvPythonDataType::KeywordOnly},
+			{mvPythonDataType::Bool, "shift_only", "press shift for docking", "True"},
+			{mvPythonDataType::Bool, "dock_space", "add explicit dockspace over viewport", "False"},
+		}, "Decrements a texture.") });
+
 		parsers->insert({ "set_start_callback", mvPythonParser({
 			{mvPythonDataType::Object, "callback"},
 		}, "Callback to run when starting main window.") });
@@ -307,6 +313,20 @@ namespace Marvel {
 				mvApp::GetApp()->addTexture(name, fdata, width, height, tformat);
 			return GetPyNone();
 		}
+	}
+
+	PyObject* enable_docking(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		int shift_only = true;
+		int dockspace = false;
+
+		if (!(*mvApp::GetApp()->getParsers())["enable_docking"].parse(args, kwargs, __FUNCTION__,
+			&shift_only, &dockspace))
+			return GetPyNone();
+
+		mvApp::GetApp()->turnOnDocking(shift_only, dockspace);
+
+		return GetPyNone();
 	}
 
 	PyObject* decrement_texture(PyObject* self, PyObject* args, PyObject* kwargs)
