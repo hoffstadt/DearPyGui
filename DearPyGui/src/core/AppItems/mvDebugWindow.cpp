@@ -210,6 +210,9 @@ namespace Marvel {
 
 				std::string width = std::to_string(selectedItem->getWidth());
 				std::string height = std::to_string(selectedItem->getHeight());
+				
+				std::string sizex = std::to_string(selectedItem->getState().getItemRectSize().x);
+				std::string sizey = std::to_string(selectedItem->getState().getItemRectSize().y);
 
                 ImGui::BeginGroup();
 
@@ -238,6 +241,8 @@ namespace Marvel {
                 DebugItem("Item Parent:", parentName.c_str());
                 DebugItem("Item Width:", width.c_str());
                 DebugItem("Item Height:", height.c_str());
+                DebugItem("Item Size x:", sizex.c_str());
+                DebugItem("Item Size y:", sizey.c_str());
                 DebugItem("Item Tip:", selectedItem->getTip().c_str());
                 DebugItem("Item Popup:", selectedItem->getPopup().c_str());
                 DebugItem("Item Show:", selectedItem->isShown() ? ts : fs);

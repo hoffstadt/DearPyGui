@@ -58,6 +58,8 @@ namespace Marvel {
     class mvAppItem
     {
 
+        friend class mvAppItemState;
+
     protected:
 
             struct ScopedID
@@ -123,6 +125,7 @@ namespace Marvel {
         [[nodiscard]] bool                  isItemEnabled             () const { return m_enabled; }
         mvAppItemState&                     getState                  ()       { return m_state; }
         const mvAppItemDescription&         getDescription            () const { return m_description; }
+        bool                                isSizeDirty               () const { return m_dirtySize; }
 
         // setters
         void                                setParent                 (mvAppItem* parent);
@@ -135,11 +138,13 @@ namespace Marvel {
         inline void                         setCallbackData           (PyObject* data)          { m_callbackData = data; }
         inline void                         setPopup                  (const std::string& popup){ m_popup = popup; }
         inline void                         setTip                    (const std::string& tip)  { m_tip = tip; }
-        virtual void                        setWidth                  (int width)               { m_width = width; }
-        virtual void                        setHeight                 (int height)              { m_height = height; }
+        virtual void                        setWidthND                  (int width)             { m_width = width; } // for group, TODO: FIX THIS
+        virtual void                        setWidth                  (int width)               { m_dirtySize = true; m_width = width; }
+        virtual void                        setHeight                 (int height)              { m_dirtySize = true; m_height = height; }
         virtual void                        setEnabled                (bool value)              { m_enabled = value; }
         virtual void                        setDataSource             (const std::string& value){ m_dataSource = value; }
         virtual void                        setLabel                  (const std::string& value);
+        void                                setSizeClean              () { m_dirtySize = false; }
 
     protected:
 
@@ -159,5 +164,6 @@ namespace Marvel {
         mvAppItem*              m_parent               = nullptr;
         std::vector<mvAppItem*> m_children;
         mvAppItemDescription    m_description;
+        bool                    m_dirtySize = false;
     };
 }

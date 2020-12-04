@@ -12,6 +12,7 @@ namespace Marvel{
 	{
 		m_name = name;
 		m_label = name;
+		m_state.setParent(this);
 	}
 
 	mvAppItem* mvAppItem::getNearestAncestorOfType(mvAppItemType type)

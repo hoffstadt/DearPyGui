@@ -56,8 +56,11 @@ namespace Marvel {
 							continue;
 
 						// set item width
-						if (item->getWidth() != 0)
+						if (item->isSizeDirty())
+						{
 							ImGui::SetNextItemWidth((float)item->getWidth());
+							item->setSizeClean();
+						}
 
 						item->draw();
 

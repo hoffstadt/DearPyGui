@@ -23,6 +23,8 @@ namespace Marvel{
 			: mvFloatVectPtrBase(name, value, name) 
 		{
 
+			m_description.ignoreSizeUpdate = true;
+
 			if (!value.empty())
 			{
 				m_max = (*m_value)[0];
@@ -47,8 +49,8 @@ namespace Marvel{
 				ImGui::PlotHistogram(m_label.c_str(), m_value->data(), (int)m_value->size(), 0, m_overlay.c_str(), 
 					m_min, m_max, ImVec2((float)m_width, (float)m_height));
 			else
-				ImGui::PlotLines(m_label.c_str(), m_value->data(), (int)m_value->size(), 0, m_overlay.c_str(),
-					m_min, m_max, ImVec2((float)m_width, (float)m_height));
+			ImGui::PlotLines(m_label.c_str(), m_value->data(), (int)m_value->size(), 0, m_overlay.c_str(),
+				m_min, m_max, ImVec2((float)m_width, (float)m_height));
 
 			ImGui::PopID();
 		}

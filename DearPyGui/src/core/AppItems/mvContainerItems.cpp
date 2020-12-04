@@ -34,8 +34,11 @@ namespace Marvel {
 				continue;
 
 			// set item width
-			if (item->getWidth() != 0)
+			if (item->isSizeDirty())
+			{
 				ImGui::SetNextItemWidth((float)item->getWidth());
+				item->setSizeClean();
+			}
 
 			item->draw();
 
@@ -119,15 +122,18 @@ namespace Marvel {
 		for (mvAppItem* item : m_children)
 		{
 			if (m_width != 0)
-				item->setWidth(m_width);
+				item->setWidthND(m_width);
 
 			// skip item if it's not shown
 			if (!item->isShown())
 				continue;
 
 			// set item width
-			if (item->getWidth() != 0)
+			if (item->isSizeDirty())
+			{
 				ImGui::SetNextItemWidth((float)item->getWidth());
+				item->setSizeClean();
+			}
 
 			item->draw();
 
@@ -198,8 +204,11 @@ namespace Marvel {
 					continue;
 
 				// set item width
-				if (item->getWidth() != 0)
+				if (item->isSizeDirty())
+				{
 					ImGui::SetNextItemWidth((float)item->getWidth());
+					item->setSizeClean();
+				}
 
 				item->draw();
 
@@ -208,7 +217,6 @@ namespace Marvel {
 					ImGui::SetTooltip("%s", item->getTip().c_str());
 
 				item->getState().update();
-				int a = 5;
 			}
 		}
 
@@ -288,8 +296,11 @@ namespace Marvel {
 					continue;
 
 				// set item width
-				if (item->getWidth() != 0)
+				if (item->isSizeDirty())
+				{
 					ImGui::SetNextItemWidth((float)item->getWidth());
+					item->setSizeClean();
+				}
 
 				item->draw();
 
