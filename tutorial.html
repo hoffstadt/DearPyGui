@@ -936,6 +936,7 @@ def on_render(sender, data):
     draw_speed = get_value("Draw Pause")
 
     if delta_draw_time > draw_speed:
+        clear_drawing("Drawing_1")
         if get_value("Fly Mode") == 0:
             if get_data("sprite1"):
                 draw_image("Drawing_1", 'SpriteMapExample.png', top_left, pmax=bottom_right, uv_min=[.7690, 0],
