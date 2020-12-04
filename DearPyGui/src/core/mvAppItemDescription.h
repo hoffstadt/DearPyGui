@@ -17,6 +17,7 @@ namespace Marvel {
         bool duplicatesAllowed = false;
         bool disableAllowed    = false;
         bool deleteAllowed     = true ;
+        bool ignoreSizeUpdate  = false;
 
     };
 }
