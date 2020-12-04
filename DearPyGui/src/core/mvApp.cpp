@@ -78,8 +78,11 @@ namespace Marvel {
 
 	void mvApp::SetAppStopped() 
 	{ 
-		if(GetApp())
+		if (GetApp())
+		{
 			GetApp()->runCallback(GetApp()->getOnCloseCallback(), "Main Application");
+			GetApp()->setOnCloseCallback(nullptr);
+		}
 
 		s_started = false; 
 		auto viewport = s_instance->getViewport();
