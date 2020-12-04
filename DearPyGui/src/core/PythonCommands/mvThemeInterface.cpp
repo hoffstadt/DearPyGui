@@ -28,7 +28,7 @@ namespace Marvel {
 
 		parsers->insert({ "set_item_color", mvPythonParser({
 			{mvPythonDataType::String, "item"},
-			{mvPythonDataType::Integer, "style"},
+			{mvPythonDataType::Integer, "style", "mvGuiCol_* constants"},
 			{mvPythonDataType::FloatList, "color"}
 		}, "Sets an color style for a single item.", "None", "Themes and Styles") });
 
@@ -38,7 +38,7 @@ namespace Marvel {
 
 		parsers->insert({ "set_item_style_var", mvPythonParser({
 			{mvPythonDataType::String, "item"},
-			{mvPythonDataType::Integer, "style"},
+			{mvPythonDataType::Integer, "style", "mvGuiStyleVar_* constants"},
 			{mvPythonDataType::FloatList, "value"}
 		}, "Sets an style variable for a single item.", "None", "Themes and Styles") });
 
@@ -47,7 +47,7 @@ namespace Marvel {
 		}, "Clears individual styles variables for an item.", "None", "Themes and Styles") });
 
 		parsers->insert({ "set_theme_item", mvPythonParser({
-			{mvPythonDataType::Integer, "item"},
+			{mvPythonDataType::Integer, "item", "mvGuiCol_* constants"},
 			{mvPythonDataType::Integer, "r"},
 			{mvPythonDataType::Integer, "g"},
 			{mvPythonDataType::Integer, "b"},
