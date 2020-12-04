@@ -509,6 +509,7 @@ namespace Marvel {
 				{
 					ImVec2 p_min = ImGui::GetCursorScreenPos();
 					p_min.x = p_min.x - ImGui::GetStyle().ItemSpacing.x;
+					p_min.y = p_min.y - ImGui::GetStyle().FramePadding.y;
 					ImVec2 p_max = ImVec2(p_min.x + ImGui::GetWindowContentRegionWidth(), p_min.y + ImGui::GetFrameHeight());
 					ImGui::GetWindowDrawList()->AddRectFilled(p_min, p_max, ralt_col);
 				}

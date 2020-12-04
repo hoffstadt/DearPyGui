@@ -40,7 +40,7 @@ def window_close_all(sender, data):
             delete_item(win)
 
 
-with window("Primary Window Tester", show=True, no_resize=True):
+with window("Primary Window Tester", show=True):
     
     add_button("This Primary", callback=lambda sender, data: set_primary_window("Primary Window Tester", True))
     add_button("Demo Primary", callback=lambda sender, data: set_primary_window("Dear PyGui Demo", True))
