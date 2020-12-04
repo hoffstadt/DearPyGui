@@ -852,6 +852,7 @@ start_dearpygui()</code></pre>
 from dearpygui.simple import *
 
 def on_render(sender, data):
+    clear_drawing("Drawing_1")
     counter = get_data("counter")
     counter += 1
     modifier = get_data("modifier")
