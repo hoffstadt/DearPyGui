@@ -32,6 +32,7 @@ New Commands:
 - docking:   Added "enable_docking" command
 
 Fixes:
+- tables:          fixed color alignment issue
 - get_item_width:  now works for non-container widgets
 - get_item_height: now works for non-container widgets
 
