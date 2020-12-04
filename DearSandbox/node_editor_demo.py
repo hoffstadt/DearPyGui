@@ -38,12 +38,15 @@ class NedID:
     sub_t: SubT
     instance: int = 0
     label: str = ""
-    _byte: ClassVar[Struct] = Struct('BBh')
+    _byte: ClassVar[Struct] = Struct("BBh")
     _prop_mask: ClassVar[int] = 65535
     deci: ClassVar[int]
 
     def __post_init__(self):
-        self.deci = int.from_bytes((self._byte.pack(int(self.base_t), int(self.sub_t), self.instance)), sys.byteorder)
+        self.deci = int.from_bytes(
+            (self._byte.pack(int(self.base_t), int(self.sub_t), self.instance)),
+            sys.byteorder,
+        )
 
     @classmethod
     def from_int(cls, i):
@@ -51,7 +54,10 @@ class NedID:
         return cls(BaseT(r[0]), SubT(r[1]), r[2])
 
     def __int__(self):
-        return int.from_bytes((self._byte.pack(int(self.base_t), int(self.sub_t), self.instance)), sys.byteorder)
+        return int.from_bytes(
+            (self._byte.pack(int(self.base_t), int(self.sub_t), self.instance)),
+            sys.byteorder,
+        )
 
     def __str__(self):
         return str(int(self))
@@ -121,7 +127,9 @@ class Node(ABC):
         pass
 
     def show(self):
-        with node(obj_id=int(self.node_id), label=self.node_id.label, parent=str(self.ed.name)):
+        with node(
+            obj_id=int(self.node_id), label=self.node_id.label, parent=str(self.ed.name)
+        ):
             for i in self.inputs:
                 i.show()
             for o in self.outputs:
@@ -130,10 +138,8 @@ class Node(ABC):
 
 class NodeAttr(ABC):
     def __init__(self, node, param, widget, io):
-        self.base_t = BaseT.ATTR
-        self.sub_t = SubT.NONE
         self.node = node
-        self.aid = self.node.ed.issue_id(self.base_t, self.sub_t, self.label())
+        self.aid = self.node.ed.issue_id(BaseT.ATTR, SubT.NONE, self.label())
         self.value = None
         self.widget = widget
         self.io = io
@@ -150,9 +156,16 @@ class NodeAttr(ABC):
         return True
 
     def show(self):
-        with node_attribute(int(self.aid), self.io, target=self.tgt(), parent=str(self.node.node_id)):
-            self.widget(name=self.tgt(), default_value=self.param.val, min_value=self.param.low,
-                        max_value=self.param.high, label=self.label())
+        with node_attribute(
+            int(self.aid), self.io, target=self.tgt(), parent=str(self.node.node_id)
+        ):
+            self.widget(
+                name=self.tgt(),
+                default_value=self.param.val,
+                min_value=self.param.low,
+                max_value=self.param.high,
+                label=self.label(),
+            )
 
     def set(self):
         ...
@@ -201,7 +214,7 @@ class NodeIntAttr(NodeAttr):
         return SubT.INT
 
 
-x = struct.pack('BBBB', 234, 25, 66, 46)
+x = struct.pack("BBBB", 234, 25, 66, 46)
 print(x)
 
 
@@ -209,13 +222,13 @@ def oink(a, b, c, d):
     print(a, b, c, d)
 
 
-y = struct.unpack('BBBB', x)
+y = struct.unpack("BBBB", x)
 # oink(*y)
 # y = struct.unpack('i', x)
 print(y)
 # q = int.to_bytes(y[0],4,sys.byteorder)
 #
-z = struct.unpack('i', x)[0]
+z = struct.unpack("i", x)[0]
 
 
 # print(z)
@@ -410,7 +423,9 @@ class Param:
 #             end()
 #
 #
-with window("Node Editor Demo", width=1300, height=900, no_scrollbar=True, no_resize=False):
+with window(
+    "Node Editor Demo", width=1300, height=900, no_scrollbar=True, no_resize=False
+):
     add_text("DPG Node Editor Demo")
 with window("sidebar", width=300, height=800, x_pos=30, y_pos=55, no_close=True):
     add_text("Hello")
