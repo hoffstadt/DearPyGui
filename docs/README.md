@@ -53,7 +53,7 @@ Ensure you have at least Python 3.6 64bit.
 
  ---
   
-- [DearPyGui-Examples repository](https://github.com/Pcothren/DearPyGui-Examples) for example usage.
+- [DearPyGui-Examples](https://hoffstadt.github.io/DearPyGui/examples.html) and source code.
 - [Tutorials](https://hoffstadt.github.io/DearPyGui/tutorial.html) for getting started.
 - [Online Documentation](https://hoffstadt.github.io/DearPyGui/) for official documentation.
 - Internal Documentation: Run the **show_documentation** command from within the library to view an reference guide. 
