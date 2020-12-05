@@ -28,8 +28,8 @@ namespace Marvel {
 		{
 			if (!m_data[1].empty())
 			{
-				m_maxY = m_data[0][1];
-				m_minY = m_data[0][1];
+				m_maxY = m_data[1][0];
+				m_minY = m_data[1][0];
 			}
 		}
 
