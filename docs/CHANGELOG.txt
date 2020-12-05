@@ -23,10 +23,13 @@ HOW TO UPDATE?
 - Please report any issue!
 
 -----------------------------------------------------------------------
- VERSION 0.6.x
+ VERSION 0.6.35
 -----------------------------------------------------------------------
 
-Decorated log: https://github.com/hoffstadt/DearPyGui/releases/tag/v0.6.x
+Fixes:
+- plots:           fixed plot scaling issue #364
+- get_item_width:  now works for non-container widgets
+- get_item_height: now works for non-container widgets
 
 -----------------------------------------------------------------------
  VERSION 0.6.34

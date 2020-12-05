@@ -8,6 +8,7 @@ namespace Marvel {
 	mvImage::mvImage(const std::string& name, std::string default_value)
 		: mvAppItem(name), m_value(std::move(default_value))
 	{
+		m_description.ignoreSizeUpdate = true;
 	}
 
 	mvImage::~mvImage()
@@ -111,6 +112,7 @@ namespace Marvel {
 	mvImageButton::mvImageButton(const std::string& name, std::string  default_value)
 		: mvAppItem(name), m_value(std::move(default_value))
 	{
+		m_description.ignoreSizeUpdate = true;
 	}
 
 	mvImageButton::~mvImageButton()

@@ -85,8 +85,8 @@ namespace Marvel{
 		PyDict_SetItemString(dict, "source", ToPyString(m_dataSource));
 		PyDict_SetItemString(dict, "popup", ToPyString(m_popup));
 		PyDict_SetItemString(dict, "tip", ToPyString(m_tip));
-		PyDict_SetItemString(dict, "width", ToPyInt(m_width));
-		PyDict_SetItemString(dict, "height", ToPyInt(m_height));
+		PyDict_SetItemString(dict, "width", ToPyInt(m_actualWidth));
+		PyDict_SetItemString(dict, "height", ToPyInt(m_actualHeight));
 		PyDict_SetItemString(dict, "show", ToPyBool(m_show));
 		PyDict_SetItemString(dict, "enabled", ToPyBool(m_enabled));
 	}
