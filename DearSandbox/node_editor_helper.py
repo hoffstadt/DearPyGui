@@ -17,6 +17,7 @@ class SubT(IntEnum):
     LINK_T = auto()
     ADDER = auto()
     FLT = auto()
+    FLT2 = auto()
     NPY = auto()
     INT = auto()
     LST_INT = auto()
