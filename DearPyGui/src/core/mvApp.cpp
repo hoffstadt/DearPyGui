@@ -90,7 +90,7 @@ namespace Marvel {
 			viewport->stop();
 	}
 
-	mvApp::mvApp() : mvEventHandler()
+	mvApp::mvApp() : mvOldEventHandler()
 	{
 		m_parsers = BuildDearPyGuiInterface();
 
@@ -338,7 +338,7 @@ namespace Marvel {
 		// Note: Events are only routed to the active window
 
 		// default handler is main window
-		mvEventHandler* eventHandler = static_cast<mvEventHandler*>(this);
+		mvOldEventHandler* eventHandler = static_cast<mvOldEventHandler*>(this);
 
 		// early opt out of keyboard events
 		if (eventHandler->isAcceleratorHandled())

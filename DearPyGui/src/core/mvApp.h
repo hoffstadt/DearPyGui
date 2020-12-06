@@ -23,9 +23,10 @@
 #include <chrono>
 #include <mutex>
 #include <thread>
+#include "mvEvents.h"
 #include "core/AppItems/mvAppItem.h"
 #include "PythonUtilities/mvPythonParser.h"
-#include "mvEventHandler.h"
+#include "mvOldEventHandler.h"
 #include "Registries/mvItemRegistry.h"
 #include "Registries/mvDrawList.h"
 #include "Registries/mvTextureStorage.h"
@@ -58,7 +59,7 @@ namespace Marvel {
     //-----------------------------------------------------------------------------
     // mvApp
     //-----------------------------------------------------------------------------
-    class mvApp : public mvEventHandler
+    class mvApp : public mvOldEventHandler
     {
 
         friend class mvWindow;
@@ -269,7 +270,6 @@ namespace Marvel {
         mvDrawList m_frontDrawList;
         mvDrawList m_backDrawList;
         std::vector<CompileTimeTexture> m_textures;
-
     };
 
 }

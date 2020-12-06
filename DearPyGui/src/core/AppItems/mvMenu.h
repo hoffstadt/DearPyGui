@@ -70,7 +70,7 @@ namespace Marvel {
 	//-----------------------------------------------------------------------------
 	// mvMenu
 	//-----------------------------------------------------------------------------
-	class mvMenu : public mvBoolPtrBase, public mvEventHandler
+	class mvMenu : public mvBoolPtrBase, public mvOldEventHandler
 	{
 
 	public:
@@ -78,7 +78,7 @@ namespace Marvel {
 		MV_APPITEM_TYPE(mvAppItemType::Menu, "add_menu")
 
 		mvMenu( const std::string& name)
-			: mvBoolPtrBase(name, false, name), mvEventHandler()
+			: mvBoolPtrBase(name, false, name), mvOldEventHandler()
 		{
 			m_description.container = true;
 		}

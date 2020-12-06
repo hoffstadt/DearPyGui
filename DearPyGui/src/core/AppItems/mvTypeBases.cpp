@@ -364,7 +364,7 @@ namespace Marvel {
 
 	mvBaseWindowAppitem::mvBaseWindowAppitem(const std::string& name)
 		: 
-		mvAppItem(name), mvEventHandler()
+		mvAppItem(name), mvOldEventHandler()
 	{
 		m_description.root = true;
 	}

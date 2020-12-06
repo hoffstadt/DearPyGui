@@ -3,6 +3,7 @@
 #include "core/mvAppItems.h"
 #include "core/AppItems/mvWindowAppItem.h"
 #include "core/mvWindow.h"
+#include "core/mvEvents.h"
 #include <ImGuiFileDialog.h>
 #include "Registries/mvDataStorage.h"
 

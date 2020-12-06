@@ -1,7 +1,7 @@
 #pragma once
 
 //-----------------------------------------------------------------------------
-// mvEventHandler
+// mvOldEventHandler
 //
 //     - This is a temporary class for v1.0 until a more complete event 
 //       handling system is put in place. Which will be required for the
@@ -24,14 +24,14 @@ namespace Marvel {
     }
 
     //-----------------------------------------------------------------------------
-    // mvEventHandler
+    // mvOldEventHandler
     //-----------------------------------------------------------------------------
-    class mvEventHandler
+    class mvOldEventHandler
     {
 
     public:
 
-        mvEventHandler() = default;
+        mvOldEventHandler() = default;
 
         [[nodiscard]] bool isAcceleratorHandled() const { return m_handleAccelerrator; }
         [[nodiscard]] bool isMouseHandled      () const { return m_handleMouse; }

@@ -4,7 +4,7 @@
 
 #include "core/AppItems/mvTypeBases.h"
 #include "mvApp.h"
-#include "mvEventHandler.h"
+#include "mvOldEventHandler.h"
 #include "Registries/mvDrawList.h"
 
 namespace Marvel {
@@ -13,7 +13,7 @@ namespace Marvel {
 	// mvWindowAppitem
 	//     - this needs cleaning up badly
 	//-----------------------------------------------------------------------------
-	class mvWindowAppitem : public mvAppItem, public mvEventHandler
+	class mvWindowAppitem : public mvAppItem, public mvOldEventHandler
 	{
 
 		enum class Status{ Normal, Transition, Dirty};

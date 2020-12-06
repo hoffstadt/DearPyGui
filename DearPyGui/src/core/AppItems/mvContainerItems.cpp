@@ -5,7 +5,7 @@
 namespace Marvel {
 
 	mvChild::mvChild(const std::string& name)
-		: mvBoolPtrBase(name, false, name), mvEventHandler()
+		: mvBoolPtrBase(name, false, name), mvOldEventHandler()
 	{
 		m_description.container = true;
 	}
