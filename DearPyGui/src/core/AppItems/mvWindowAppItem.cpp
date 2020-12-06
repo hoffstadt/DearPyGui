@@ -6,7 +6,7 @@
 namespace Marvel {
 
 		mvWindowAppitem::mvWindowAppitem(const std::string& name, bool mainWindow, PyObject* closing_callback)
-			: mvAppItem(name), mvEventHandler(), m_mainWindow(mainWindow), m_closing_callback(SanitizeCallback(closing_callback))
+			: mvAppItem(name), mvOldEventHandler(), m_mainWindow(mainWindow), m_closing_callback(SanitizeCallback(closing_callback))
 		{
 			m_description.root = true;
 			m_description.container = true;

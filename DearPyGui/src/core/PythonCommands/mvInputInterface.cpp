@@ -403,7 +403,7 @@ namespace Marvel {
 			if (item->getDescription().root)
 			{
 				auto windowtype = static_cast<mvWindowAppitem*>(item);
-				mvEventHandler* eventhandler = static_cast<mvEventHandler*>(windowtype);
+				mvOldEventHandler* eventhandler = static_cast<mvOldEventHandler*>(windowtype);
 				eventhandler->setResizeCallback(callback);
 			}
 			else
