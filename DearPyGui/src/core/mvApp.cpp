@@ -13,7 +13,7 @@
 #include <future>
 #include <chrono>
 #include "core/mvThreadPool.h"
-#include "core/mvAppItems.h"
+#include "core/AppItems/mvAppItems.h"
 #include <frameobject.h>
 #include "PythonUtilities/mvPyObject.h"
 #include "mvProfiler.h"
