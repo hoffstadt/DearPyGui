@@ -34,11 +34,9 @@ namespace Marvel {
         m_rectMax = { ImGui::GetItemRectMax().x, ImGui::GetItemRectMax().y };
         m_rectSize = { ImGui::GetItemRectSize().x, ImGui::GetItemRectSize().y };
 
-        if (!m_parent->getDescription().container)
-        {
-                m_parent->m_actualWidth = m_rectSize.x;
-                m_parent->m_actualHeight = m_rectSize.y;
-        }
+        m_parent->m_actualWidth = m_rectSize.x;
+        m_parent->m_actualHeight = m_rectSize.y;
+
     }
 
 }
