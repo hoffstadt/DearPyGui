@@ -30,8 +30,12 @@ namespace Marvel {
     static void window_size_callback(GLFWwindow* window, int width, int height)
     {
 
-        mvApp::GetApp()->setActualSize(width, height);
-        mvApp::GetApp()->runCallback(mvApp::GetApp()->getResizeCallback(), "Main Application");
+        mvEventBus::Publish("VIEWPORT_EVENTS", "VIEWPORT_RESIZE", {
+            CreateEventArgument("actual_width", width),
+            CreateEventArgument("actual_height", height),
+            CreateEventArgument("client_width", width),
+            CreateEventArgument("client_height", height)
+                    });
     }
 
     static void glfw_error_callback(int error, const char *description)

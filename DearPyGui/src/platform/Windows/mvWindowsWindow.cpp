@@ -307,25 +307,33 @@ namespace Marvel {
 			{
 				RECT rect;
 				RECT crect;
+				int awidth = 0;
+				int aheight = 0;
+				int cwidth = 0;
+				int cheight = 0;
 				if (GetWindowRect(hWnd, &rect))
 				{
-					int width = rect.right - rect.left;
-					int height = rect.bottom - rect.top;
-					mvApp::GetApp()->setActualSize(width, height);
+					awidth = rect.right - rect.left;
+					aheight = rect.bottom - rect.top;
 				}
 
 				if (GetClientRect(hWnd, &crect))
 				{
-					int width = crect.right - crect.left;
-					int height = crect.bottom - crect.top;
-					mvApp::GetApp()->setClientSize(width, height);
+					cwidth = crect.right - crect.left;
+					cheight = crect.bottom - crect.top;
 				}
 
+				mvEventBus::Publish("VIEWPORT_EVENTS", "VIEWPORT_RESIZE", {
+					CreateEventArgument("actual_width", awidth),
+					CreateEventArgument("actual_height", aheight),
+					CreateEventArgument("client_width", cwidth),
+					CreateEventArgument("client_height", cheight)
+					});
+
+				// I believe this are only used for the error logger
 				m_width = (UINT)LOWORD(lParam);
 				m_height = (UINT)HIWORD(lParam);
-				//mvApp::GetApp()->setWindowSize((UINT)LOWORD(lParam), (UINT)HIWORD(lParam));
-				mvApp::GetApp()->runCallback(mvApp::GetApp()->getResizeCallback(), "Main Application");
-				//mvDocWindow::GetWindow()->setSize((UINT)LOWORD(lParam), (UINT)HIWORD(lParam));
+
 				CleanupRenderTarget();
 				s_pSwapChain->ResizeBuffers(0, (UINT)LOWORD(lParam), (UINT)HIWORD(lParam), DXGI_FORMAT_UNKNOWN, 0);
 				CreateRenderTarget();
