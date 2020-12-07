@@ -7,6 +7,26 @@ namespace Marvel {
 		return std::hash<std::string>{}(value);
 	}
 
+	const std::string& GetEString(mvEvent& event, const char* name)
+	{
+		return std::get<std::string>(event.arguments.at(SID(name)));
+	}
+
+	bool GetEBool(mvEvent& event, const char* name)
+	{
+		return std::get<bool>(event.arguments.at(SID(name)));
+	}
+
+	int GetEInt(mvEvent& event, const char* name)
+	{
+		return std::get<int>(event.arguments.at(SID(name)));
+	}
+
+	void mvEventBus::Publish(const char* category, const char* type, std::unordered_map<mvID, mvVariant> arguments)
+	{
+		Publish({ SID(type), arguments, SID(category) });
+	}
+
 	void mvEventBus::Publish(mvEvent event)
 	{
 		if (event.type == 0)

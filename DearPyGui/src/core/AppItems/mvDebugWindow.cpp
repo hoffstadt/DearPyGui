@@ -1,4 +1,5 @@
 #include "mvDebugWindow.h"
+#include "core/mvEvents.h"
 #include <misc/cpp/imgui_stdlib.h>
 #include "mvApp.h"
 #include "mvInput.h"
@@ -219,14 +220,24 @@ namespace Marvel {
                 ImGui::BeginGroup();
 
                 if (ImGui::ArrowButton("Move Up", ImGuiDir_Up))
-                    app->getItemRegistry().moveItemUp(m_selectedItem);
+					mvEventBus::Publish("APP_ITEM_EVENTS", "MOVE_ITEM_UP",
+						{
+								CreateEventArgument("ITEM", std::string(m_selectedItem))
+						});
                 ImGui::SameLine();
                 if (ImGui::ArrowButton("Move Down", ImGuiDir_Down))
-                    app->getItemRegistry().moveItemDown(m_selectedItem);
+					mvEventBus::Publish("APP_ITEM_EVENTS", "MOVE_ITEM_DOWN",
+						{
+								CreateEventArgument("ITEM", std::string(m_selectedItem))
+						});
                 ImGui::SameLine();
                 if (ImGui::Button("Delete"))
                 {
-                    app->getItemRegistry().deleteItem(m_selectedItem);
+					mvEventBus::Publish("APP_ITEM_EVENTS", "DELETE_ITEM",
+						{
+							{SID("ITEM"), std::string(m_selectedItem)},
+							{SID("CHILDREN_ONLY"), false}
+						});
                     m_selectedItem = "";
                 }
                 ImGui::SameLine();

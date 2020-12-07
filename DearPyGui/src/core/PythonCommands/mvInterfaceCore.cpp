@@ -1,4 +1,5 @@
 #include "mvInterfaceCore.h"
+#include "core/mvEvents.h"
 #include "mvApp.h"
 #include "core/PythonUtilities/mvPythonExceptions.h"
 
@@ -53,7 +54,12 @@ namespace Marvel {
 
 		// typical adding before runtime
 		else if (std::string(parent).empty() && !mvApp::IsAppStarted() && std::string(before).empty())
-			return itemRegistry.addItem(item);
+		{
+			mvEventBus::Publish("APP_ITEM_EVENTS", "ADD_ITEM", { CreateEventPtrArgument("ITEM", item) });
+			return true;
+			//return itemRegistry.addItem(item);
+		}
+			
 
 		return false;
 	}

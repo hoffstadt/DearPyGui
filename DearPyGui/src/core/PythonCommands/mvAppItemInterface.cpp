@@ -1,4 +1,5 @@
 #include "mvAppItemInterface.h"
+#include "core/mvEvents.h"
 #include "mvInterfaceCore.h"
 #include <ImGuiFileDialog.h>
 #include "Registries/mvValueStorage.h"
@@ -287,7 +288,14 @@ namespace Marvel {
 			&item, &parent, &before))
 			return GetPyNone();
 
-		return ToPyBool(mvApp::GetApp()->getItemRegistry().moveItem(item, parent, before));
+		mvEventBus::Publish("APP_ITEM_EVENTS", "MOVE_ITEM",
+		{
+				CreateEventArgument("ITEM", std::string(item)),
+				CreateEventArgument("PARENT", std::string(parent)),
+				CreateEventArgument("BEFORE", std::string(before)),
+		});
+
+		return GetPyNone();
 	}
 
 	PyObject* get_item_configuration(PyObject* self, PyObject* args, PyObject* kwargs)
@@ -345,7 +353,7 @@ namespace Marvel {
 		return GetPyNone();
 	}
 
-	PyObject* delete_item(PyObject * self, PyObject * args, PyObject * kwargs)
+	PyObject* delete_item(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		if (!mvApp::GetApp()->checkIfMainThread())
 			return GetPyNone();
@@ -356,10 +364,11 @@ namespace Marvel {
 		if (!(*mvApp::GetApp()->getParsers())["delete_item"].parse(args, kwargs, __FUNCTION__, &item, &childrenOnly))
 			return GetPyNone();
 
-		if (childrenOnly)
-			mvApp::GetApp()->getItemRegistry().deleteItemChildren(item);
-		else
-			mvApp::GetApp()->getItemRegistry().deleteItem(item);
+		mvEventBus::Publish("APP_ITEM_EVENTS", "DELETE_ITEM",
+			{
+				CreateEventArgument("ITEM", std::string(item)),
+				CreateEventArgument("CHILDREN_ONLY", (bool)childrenOnly),
+			});
 
 		return GetPyNone();
 
@@ -395,7 +404,10 @@ namespace Marvel {
 		if (!(*mvApp::GetApp()->getParsers())["move_item_up"].parse(args, kwargs, __FUNCTION__, &item))
 			return GetPyNone();
 
-		mvApp::GetApp()->getItemRegistry().moveItemUp(item);
+		mvEventBus::Publish("APP_ITEM_EVENTS", "MOVE_ITEM_UP",
+			{
+					CreateEventArgument("ITEM", std::string(item))
+			});
 
 		return GetPyNone();
 
@@ -411,7 +423,10 @@ namespace Marvel {
 		if (!(*mvApp::GetApp()->getParsers())["move_item_down"].parse(args, kwargs, __FUNCTION__, &item))
 			return GetPyNone();
 
-		mvApp::GetApp()->getItemRegistry().moveItemDown(item);
+		mvEventBus::Publish("APP_ITEM_EVENTS", "MOVE_ITEM_DOWN",
+			{
+					CreateEventArgument("ITEM", std::string(item))
+			});
 
 		return GetPyNone();
 
