@@ -3,6 +3,7 @@
 #include "core/mvWindow.h"
 #include "mvCore.h"
 #include "Registries/mvDataStorage.h"
+#include "Registries/mvCallbackRegistry.h"
 #include "mvInput.h"
 #include "mvTextEditor.h"
 #include "Theming/mvThemeScheme.h"
@@ -23,6 +24,8 @@ namespace Marvel {
 
 	mvApp* mvApp::s_instance = nullptr;
 	bool   mvApp::s_started = false;
+	thread_local mvWorkStealingQueue* mvThreadPool::m_local_work_queue;
+	thread_local unsigned mvThreadPool::m_index;
 
 	// utility structure for realtime plot
 	struct ScrollingBuffer {
@@ -80,7 +83,7 @@ namespace Marvel {
 	{ 
 		if (GetApp())
 		{
-			GetApp()->runCallback(GetApp()->getOnCloseCallback(), "Main Application");
+			mvCallbackRegistry::GetCallbackRegistry()->runCallback(GetApp()->getOnCloseCallback(), "Main Application");
 			GetApp()->setOnCloseCallback(nullptr);
 		}
 
@@ -101,13 +104,13 @@ namespace Marvel {
 		if (!std::string(primaryWindow).empty())
 		{
 			// reset other windows
-			for (auto window : mvApp::GetApp()->getItemRegistry().getFrontWindows())
+			for (auto window : mvItemRegistry::GetItemRegistry()->getFrontWindows())
 			{
 				if (window->getName() != primaryWindow)
 					static_cast<mvWindowAppitem*>(window)->setWindowAsMainStatus(false);
 			}
 
-			mvWindowAppitem* window = mvApp::GetApp()->getItemRegistry().getWindow(primaryWindow);
+			mvWindowAppitem* window = mvItemRegistry::GetItemRegistry()->getWindow(primaryWindow);
 
 			if (window)
 				window->setWindowAsMainStatus(true);
@@ -135,26 +138,13 @@ namespace Marvel {
 
 		m_mainThreadID = std::this_thread::get_id();
 
-		auto add_hidden_window = [&](mvAppItem* item, const std::string& label) {
-			m_itemRegistry.m_backWindows.push_back(item);
-			m_itemRegistry.m_backWindows.back()->setLabel(label);
-			m_itemRegistry.m_backWindows.back()->hide();
-		};
-
-		add_hidden_window(new mvAboutWindow("about##standard"), "About Dear PyGui");
-		add_hidden_window(new mvDocWindow("documentation##standard"), "Core Documentation");
-		add_hidden_window(new mvDebugWindow("debug##standard"), "Dear PyGui Debug");
-		add_hidden_window(new mvMetricsWindow("metrics##standard"), "Metrics");
-		add_hidden_window(new mvStyleWindow("style##standard"), "Dear PyGui Style Editor");
-		add_hidden_window(new mvFileDialog(), "FileDialog");
-
 	}
 
 	bool mvApp::onEvent(mvEvent& event)
 	{
 		mvEventDispatcher dispatcher(event);
 
-		dispatcher.dispatch(BIND_EVENT_FN(mvApp::onViewPortResize), SID("VIEWPORT_RESIZE"));
+		dispatcher.dispatch(BIND_EVENT_METH(mvApp::onViewPortResize), SID("VIEWPORT_RESIZE"));
 
 		return event.handled;
 	}
@@ -166,14 +156,14 @@ namespace Marvel {
 		m_clientWidth  = GetEInt(event, "client_width");
 		m_clientHeight = GetEInt(event, "client_height");
 
-		runCallback(getResizeCallback(), "Main Application");
+		mvCallbackRegistry::GetCallbackRegistry()->runCallback(getResizeCallback(), "Main Application");
 
 		return true;
 	}
 
 	mvApp::~mvApp()
 	{
-		m_itemRegistry.clearRegistry();
+		mvItemRegistry::GetItemRegistry()->clearRegistry();
 
 		mvTextureStorage::DeleteAllTextures();
 		mvDataStorage::DeleteAllData();
@@ -211,7 +201,7 @@ namespace Marvel {
 	void mvApp::thirdRenderFrame()
 	{
 
-		GetApp()->runCallback(GetApp()->getOnStartCallback(), "Main Application");
+		mvCallbackRegistry::GetCallbackRegistry()->runCallback(GetApp()->getOnStartCallback(), "Main Application");
 	}
 
 	bool mvApp::prerender()
@@ -258,18 +248,7 @@ namespace Marvel {
 		if (m_dockingViewport)
 			ImGui::DockSpaceOverViewport();
 
-		// check if any asyncronous functions have returned
-		// and are requesting to send data back to main thread
-		if (!m_asyncReturns.empty())
-		{
-			std::lock_guard<std::mutex> lock(m_mutex);
-			while (!m_asyncReturns.empty())
-			{
-				auto& asyncreturn = m_asyncReturns.front();
-				runReturnCallback(asyncreturn.name, "Asyncrounous Callback", asyncreturn.data);
-				m_asyncReturns.pop();
-			}
-		}
+		mvCallbackRegistry::GetCallbackRegistry()->runAsyncCallbackReturns();
 
 		mvAppLog::render();
 
@@ -282,13 +261,10 @@ namespace Marvel {
 
 		// run render callbacks
 		if (getRenderCallback() != nullptr)
-			runCallback(getRenderCallback(), "Main Application");
+			mvCallbackRegistry::GetCallbackRegistry()->runCallback(getRenderCallback(), "Main Application");
 
 		// resets app items states (i.e. hovered)
-		for (auto window : m_itemRegistry.m_frontWindows)
-			window->resetState();
-		for (auto window : m_itemRegistry.m_backWindows)
-			window->resetState();
+		mvItemRegistry::GetItemRegistry()->resetWindowStates();
 
 		return true;
 	}
@@ -300,12 +276,7 @@ namespace Marvel {
 		m_frontDrawList.draw(ImGui::GetForegroundDrawList(), 0.0f, 0.0f);
 		m_backDrawList.draw(ImGui::GetBackgroundDrawList(), 0.0f, 0.0f);
 
-
-		for (auto window : m_itemRegistry.m_frontWindows)
-			window->draw();
-
-		for (auto window : m_itemRegistry.m_backWindows)
-			window->draw();
+		mvItemRegistry::GetItemRegistry()->draw();
 
 	}
 
@@ -313,15 +284,12 @@ namespace Marvel {
 	{
 		{
 			MV_PROFILE_FUNCTION()
-			postCallbacks();
+			mvEventBus::Publish("GLOBAL", "FRAME", {});
+			
 			Py_BEGIN_ALLOW_THREADS
-			m_itemRegistry.postDeleteItems();
-			m_itemRegistry.postAddItems();
-			m_itemRegistry.postAddPopups();
-			m_itemRegistry.postMoveItems();
 			postAsync();
-
 			Py_END_ALLOW_THREADS
+			
 		}
 
 #if defined(MV_PROFILE) && defined(MV_DEBUG)
@@ -389,7 +357,7 @@ namespace Marvel {
 			{
 				// route key pressed event
 				if (ImGui::IsKeyPressed(i) && eventHandler->getAcceleratorCallback() != nullptr)
-					runCallback(eventHandler->getAcceleratorCallback(), m_activeWindow,
+					mvCallbackRegistry::GetCallbackRegistry()->runCallback(eventHandler->getAcceleratorCallback(), m_activeWindow,
 						ToPyInt(i));
 			}
 		}
@@ -403,17 +371,17 @@ namespace Marvel {
 			{
 				// route key pressed event
 				if (ImGui::IsKeyPressed(i) && eventHandler->getKeyPressCallback() != nullptr)
-					runCallback(eventHandler->getKeyPressCallback(), m_activeWindow, 
+					mvCallbackRegistry::GetCallbackRegistry()->runCallback(eventHandler->getKeyPressCallback(), m_activeWindow,
 						ToPyInt(i));
 
 				// route key down event
 				if (ImGui::GetIO().KeysDownDuration[i] >= 0.0f && eventHandler->getKeyDownCallback() != nullptr)
-					runCallback(eventHandler->getKeyDownCallback(), m_activeWindow,
+					mvCallbackRegistry::GetCallbackRegistry()->runCallback(eventHandler->getKeyDownCallback(), m_activeWindow,
 						ToPyMPair(i, ImGui::GetIO().KeysDownDuration[i]));
 
 				// route key released event
 				if (ImGui::IsKeyReleased(i) && eventHandler->getKeyReleaseCallback() != nullptr)
-					runCallback(eventHandler->getKeyReleaseCallback(), m_activeWindow, ToPyInt(i));
+					mvCallbackRegistry::GetCallbackRegistry()->runCallback(eventHandler->getKeyReleaseCallback(), m_activeWindow, ToPyInt(i));
 			}
 		}
 
@@ -423,7 +391,7 @@ namespace Marvel {
 
 		// route mouse wheel event
 		if (ImGui::GetIO().MouseWheel != 0.0f && eventHandler->getMouseWheelCallback() != nullptr)
-			runCallback(eventHandler->getMouseWheelCallback(), m_activeWindow,
+			mvCallbackRegistry::GetCallbackRegistry()->runCallback(eventHandler->getMouseWheelCallback(), m_activeWindow,
 				ToPyMPair(0, ImGui::GetIO().MouseWheel));
 
 		// route mouse dragging event
@@ -437,7 +405,7 @@ namespace Marvel {
 					// TODO: send delta
 					mvInput::setMouseDragging(true);
 					mvInput::setMouseDragDelta({ ImGui::GetMouseDragDelta().x, ImGui::GetMouseDragDelta().y });
-					runCallback(eventHandler->getMouseDragCallback(), m_activeWindow,
+					mvCallbackRegistry::GetCallbackRegistry()->runCallback(eventHandler->getMouseDragCallback(), m_activeWindow,
 						ToPyMTrip(i, ImGui::GetMouseDragDelta().x, ImGui::GetMouseDragDelta().y));
 					ImGui::ResetMouseDragDelta(i);
 					break;
@@ -454,149 +422,24 @@ namespace Marvel {
 		{
 			// route mouse click event
 			if (ImGui::IsMouseClicked(i) && eventHandler->getMouseClickCallback() != nullptr)
-				runCallback(eventHandler->getMouseClickCallback(), m_activeWindow,
+				mvCallbackRegistry::GetCallbackRegistry()->runCallback(eventHandler->getMouseClickCallback(), m_activeWindow,
 					ToPyInt(i));
 
 			// route mouse down event
 			if (ImGui::GetIO().MouseDownDuration[i] >= 0.0f && eventHandler->getMouseDownCallback() != nullptr)
-				runCallback(eventHandler->getMouseDownCallback(), m_activeWindow,
+				mvCallbackRegistry::GetCallbackRegistry()->runCallback(eventHandler->getMouseDownCallback(), m_activeWindow,
 					ToPyMPair(i, ImGui::GetIO().MouseDownDuration[i]));
 
 			// route mouse double clicked event
 			if (ImGui::IsMouseDoubleClicked(i) && eventHandler->getMouseDoubleClickCallback() != nullptr)
-				runCallback(eventHandler->getMouseDoubleClickCallback(), m_activeWindow,
+				mvCallbackRegistry::GetCallbackRegistry()->runCallback(eventHandler->getMouseDoubleClickCallback(), m_activeWindow,
 					ToPyInt(i));
 
 			// route mouse released event
 			if (ImGui::IsMouseReleased(i) && eventHandler->getMouseReleaseCallback() != nullptr)
-				runCallback(eventHandler->getMouseReleaseCallback(), m_activeWindow,
+				mvCallbackRegistry::GetCallbackRegistry()->runCallback(eventHandler->getMouseReleaseCallback(), m_activeWindow,
 					ToPyInt(i));
 		}
-
-	}
-
-	void mvApp::addCallback(PyObject* callable, const std::string& sender, PyObject* data)
-	{
-		m_callbacks.push({ sender, callable, data });
-	}
-
-	void mvApp::addMTCallback(PyObject* callback, PyObject* data, PyObject* returnname)
-	{ 
-		Py_XINCREF(data);
-		//std::lock_guard<std::mutex> lock(m_mutex);
-		m_asyncCallbacks.push_back({ callback, data, returnname }); 
-	}
-
-	void mvApp::runAsyncCallback(PyObject* callback, PyObject* data, PyObject* returnname)
-	{
-		if (callback == nullptr)
-		{
-			Py_XDECREF(data);
-			return;
-		}
-
-		mvGlobalIntepreterLock gil;
-
-		// check if handler is callable
-		if (PyCallable_Check(callback))
-		{
-			PyErr_Clear();
-
-			//PyObject* pArgs = PyTuple_New(2);
-			mvPyObject pArgs(PyTuple_New(2));
-			PyTuple_SetItem(pArgs, 0, PyUnicode_FromString("Async"));
-			PyTuple_SetItem(pArgs, 1, data); // steals data, so don't deref
-
-			mvPyObject result(PyObject_CallObject(callback, pArgs));
-
-			// check if call succeeded
-			if (!result.isOk())
-			{
-				PyErr_Print();
-				ThrowPythonException("Callback failed");
-			}
-
-			if (returnname)
-			{
-				result.addRef();
-				std::lock_guard<std::mutex> lock(m_mutex);
-				m_asyncReturns.push({ returnname, result });
-			}
-			
-			// check if error occurred
-			if (PyErr_Occurred())
-				PyErr_Print();
-
-		}
-
-		else
-			ThrowPythonException("Callback not callable");
-	}
-
-	void mvApp::runReturnCallback(PyObject* callback, const std::string& sender, PyObject* data)
-	{
-		if (callback == nullptr)
-		{
-			if (data != nullptr)
-				Py_XDECREF(data);
-			return;
-		}
-
-		if (data == nullptr)
-		{
-			data = Py_None;
-			Py_XINCREF(data);
-		}
-
-		runCallback(callback, sender, data);
-	}
-
-	void mvApp::runCallback(PyObject* callable, const std::string& sender, PyObject* data)
-	{
-
-		if (callable == nullptr)
-		{
-			if (data != nullptr)
-				Py_XDECREF(data);
-			return;
-		}
-
-		mvGlobalIntepreterLock gil;
-
-		if (!PyCallable_Check(callable))
-		{
-			if (data != nullptr)
-				Py_XDECREF(data);
-			ThrowPythonException("Callable not callable.");
-			return;
-		}
-
-		if (data == nullptr)
-		{
-			data = Py_None;
-			Py_XINCREF(data);
-		}
-
-		Py_XINCREF(data);
-
-		PyErr_Clear();
-
-		mvPyObject pArgs(PyTuple_New(2));
-		PyTuple_SetItem(pArgs, 0, PyUnicode_FromString(sender.c_str()));
-		PyTuple_SetItem(pArgs, 1, data); // steals data, so don't deref
-		
-		mvPyObject result(PyObject_CallObject(callable, pArgs));
-
-		// check if call succeeded
-		if (!result.isOk())
-		{
-			PyErr_Print();
-			ThrowPythonException("Callable failed");
-		}
-
-		// check if error occurred
-		if (PyErr_Occurred())
-			PyErr_Print();
 
 	}
 
@@ -988,27 +831,12 @@ namespace Marvel {
 		return color;
 	}
 
-	void mvApp::postCallbacks()
-	{
-		MV_PROFILE_FUNCTION()
-
-		//auto& mutex = mvValueStorage::GetMutex();
-		//std::lock_guard<std::mutex> lock(mutex);
-		
-		while (!m_callbacks.empty())
-		{
-			NewCallback callback = m_callbacks.front();
-			runCallback(callback.callback, callback.sender, callback.data);
-			m_callbacks.pop();
-		}
-	}
-
 	void mvApp::postAsync()
 	{
 		MV_PROFILE_FUNCTION()
 
 		// async callbacks
-		if (!m_asyncCallbacks.empty())
+		if (mvCallbackRegistry::GetCallbackRegistry()->hasAsyncCallbacks())
 		{
 			// check if threadpool is valid, if not, create it
 			if (m_tpool == nullptr)
@@ -1019,12 +847,7 @@ namespace Marvel {
 				mvAppLog::Log("Threadpool created");
 			}
 
-			// submit to thread pool
-			for (auto& callback : m_asyncCallbacks)
-				m_tpool->submit(std::bind(&mvApp::runAsyncCallback, this, callback.name, callback.data, callback.returnname));
-
-			//std::lock_guard<std::mutex> lock(m_mutex);
-			m_asyncCallbacks.clear();
+			mvCallbackRegistry::GetCallbackRegistry()->runAsyncCallbacks(m_tpool);
 		}
 
 		// update timer if thread pool exists

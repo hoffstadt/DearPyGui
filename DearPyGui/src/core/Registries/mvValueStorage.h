@@ -20,6 +20,7 @@
 #include <vector>
 #include <implot.h>
 #include <implot_internal.h>
+#include "core/mvEvents.h"
 #define PY_SSIZE_T_CLEAN
 #include <Python.h>
 
@@ -28,7 +29,7 @@ namespace Marvel {
 	//-----------------------------------------------------------------------------
 	// mvValueStorage
 	//-----------------------------------------------------------------------------
-	class mvValueStorage
+	class mvValueStorage : public mvEventHandler
 	{
 
 		friend class mvDebugWindow;
@@ -45,79 +46,86 @@ namespace Marvel {
 
 	public:
 
+		static mvValueStorage* GetValueStorage();
+
+		bool onEvent(mvEvent& event) override;
+		bool onPythonSetEvent(mvEvent& event);
+
 		// python interfacing
-		static PyObject*           GetPyValue          (const std::string& name);
-		static bool                SetPyValue          (const std::string& name, PyObject* value);
-		static void                AddPyValue          (const std::string& name, PyObject* value);
+		PyObject*           GetPyValue          (const std::string& name);
+		bool                SetPyValue          (const std::string& name, PyObject* value);
+		void                AddPyValue          (const std::string& name, PyObject* value);
 
 		// adders
-		static int*                AddIntValue         (const std::string& name, int value = 0);
-		static int*                AddInt2Value        (const std::string& name, const std::array<int, 2>& value = {});
-		static int*                AddInt3Value        (const std::string& name, const std::array<int, 3>& value = {});
-		static int*                AddInt4Value        (const std::string& name, const std::array<int, 4>& value = {});
-		static float*              AddFloatValue       (const std::string& name, float value = 0.0f);
-		static float*              AddFloat2Value      (const std::string& name, const std::array<float, 2>& value = {});
-		static float*              AddFloat3Value      (const std::string& name, const std::array<float, 3>& value = {});
-		static float*              AddFloat4Value      (const std::string& name, const std::array<float, 4>& value = {});
-		static float*              AddColorValue       (const std::string& name, const std::array<float, 4>& value = {});
-		static std::vector<float>* AddFloatVectorValue (const std::string& name, const std::vector<float>& value = {});
-		static bool*               AddBoolValue        (const std::string& name, bool value = false);
-		static std::string*        AddStringValue      (const std::string& name, const std::string& value = "");
-		static tm*                 AddTimeValue        (const std::string& name, const tm& value = {});
+		int*                AddIntValue         (const std::string& name, int value = 0);
+		int*                AddInt2Value        (const std::string& name, const std::array<int, 2>& value = {});
+		int*                AddInt3Value        (const std::string& name, const std::array<int, 3>& value = {});
+		int*                AddInt4Value        (const std::string& name, const std::array<int, 4>& value = {});
+		float*              AddFloatValue       (const std::string& name, float value = 0.0f);
+		float*              AddFloat2Value      (const std::string& name, const std::array<float, 2>& value = {});
+		float*              AddFloat3Value      (const std::string& name, const std::array<float, 3>& value = {});
+		float*              AddFloat4Value      (const std::string& name, const std::array<float, 4>& value = {});
+		float*              AddColorValue       (const std::string& name, const std::array<float, 4>& value = {});
+		std::vector<float>* AddFloatVectorValue (const std::string& name, const std::vector<float>& value = {});
+		bool*               AddBoolValue        (const std::string& name, bool value = false);
+		std::string*        AddStringValue      (const std::string& name, const std::string& value = "");
+		tm*                 AddTimeValue        (const std::string& name, const tm& value = {});
 
 		// getters
-		static int*                GetIntValue         (const std::string& name);
-		static int*                GetInt2Value        (const std::string& name);
-		static int*                GetInt3Value        (const std::string& name);
-		static int*                GetInt4Value        (const std::string& name);
-		static float*              GetFloatValue       (const std::string& name);
-		static float*              GetFloat2Value      (const std::string& name);
-		static float*              GetFloat3Value      (const std::string& name);
-		static float*              GetFloat4Value      (const std::string& name);
-		static std::vector<float>* GetFloatVectorValue (const std::string& name);
-		static bool*               GetBoolValue        (const std::string& name);
-		static std::string*        GetStringValue      (const std::string& name);
-		static tm*                 GetTimeValue        (const std::string& name);
-		static ImPlotTime*         GetImTimeValue      (const std::string& name);
+		int*                GetIntValue         (const std::string& name);
+		int*                GetInt2Value        (const std::string& name);
+		int*                GetInt3Value        (const std::string& name);
+		int*                GetInt4Value        (const std::string& name);
+		float*              GetFloatValue       (const std::string& name);
+		float*              GetFloat2Value      (const std::string& name);
+		float*              GetFloat3Value      (const std::string& name);
+		float*              GetFloat4Value      (const std::string& name);
+		std::vector<float>* GetFloatVectorValue (const std::string& name);
+		bool*               GetBoolValue        (const std::string& name);
+		std::string*        GetStringValue      (const std::string& name);
+		tm*                 GetTimeValue        (const std::string& name);
+		ImPlotTime*         GetImTimeValue      (const std::string& name);
 
-		static bool                HasValue            (const std::string& name);
-		static ValueTypes          GetType             (const std::string& name);
-		static void                IncrementRef        (const std::string& name);
-		static void                DecrementRef        (const std::string& name);
-		static void                DeleteValue         (const std::string& name);
+		bool                HasValue            (const std::string& name);
+		ValueTypes          GetType             (const std::string& name);
+		void                IncrementRef        (const std::string& name);
+		void                DecrementRef        (const std::string& name);
+		void                DeleteValue         (const std::string& name);
 
-		static std::mutex& GetMutex() { return s_mutex; }
+		std::mutex& GetMutex() { return s_mutex; }
 
 	private:
 
-		mvValueStorage() = default;
+		mvValueStorage();
 
-		static std::mutex                                     s_mutex;
+		static mvValueStorage* s_instance;
 
-		static std::unordered_map<std::string, ValueTypes>           s_typeStorage;  // keeps track of value mapping
-		static std::unordered_map<std::string, int>                  s_refStorage;   // keeps track of reference count
-		static std::set<std::string>                                 s_itemStorage;  // keeps track of registered items
+		std::mutex                                     s_mutex;
+
+		std::unordered_map<std::string, ValueTypes>           s_typeStorage;  // keeps track of value mapping
+		std::unordered_map<std::string, int>                  s_refStorage;   // keeps track of reference count
+		std::set<std::string>                                 s_itemStorage;  // keeps track of registered items
 
 		// ints
-		static std::unordered_map<std::string, int>                  s_ints; 
-		static std::unordered_map<std::string, std::array<int, 2>>   s_int2s;
-		static std::unordered_map<std::string, std::array<int, 3>>   s_int3s;
-		static std::unordered_map<std::string, std::array<int, 4>>   s_int4s;
+		std::unordered_map<std::string, int>                  s_ints; 
+		std::unordered_map<std::string, std::array<int, 2>>   s_int2s;
+		std::unordered_map<std::string, std::array<int, 3>>   s_int3s;
+		std::unordered_map<std::string, std::array<int, 4>>   s_int4s;
 
 		// floats
-		static std::unordered_map<std::string, float>                s_floats;  
-		static std::unordered_map<std::string, std::array<float, 2>> s_float2s; 
-		static std::unordered_map<std::string, std::array<float, 3>> s_float3s; 
-		static std::unordered_map<std::string, std::array<float, 4>> s_float4s; 
-		static std::unordered_map<std::string, std::vector<float>>   s_floatvects;
+		std::unordered_map<std::string, float>                s_floats;  
+		std::unordered_map<std::string, std::array<float, 2>> s_float2s; 
+		std::unordered_map<std::string, std::array<float, 3>> s_float3s; 
+		std::unordered_map<std::string, std::array<float, 4>> s_float4s; 
+		std::unordered_map<std::string, std::vector<float>>   s_floatvects;
 
 		// other
-		static std::unordered_map<std::string, bool>                 s_bools;  
-		static std::unordered_map<std::string, std::string>          s_strings;
+		std::unordered_map<std::string, bool>                 s_bools;  
+		std::unordered_map<std::string, std::string>          s_strings;
 		
 		// time
-		static std::unordered_map<std::string, tm>                   s_times;
-		static std::unordered_map<std::string, ImPlotTime>           s_imtimes; 
+		std::unordered_map<std::string, tm>                   s_times;
+		std::unordered_map<std::string, ImPlotTime>           s_imtimes; 
 
 	};
 

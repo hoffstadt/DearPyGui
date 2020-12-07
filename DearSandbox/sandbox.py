@@ -66,7 +66,8 @@ with window("Asyncronous##dialog", show=True):
         log_debug("Starting Long Process")
         log_debug("Starting Long Process", logger="LoggerWidget##demo")
         for i in range(0, 10000):
-            set_value("Async Label", str(i))
+            a = i *100
+            #set_value("Async Label", str(i))
         time.sleep(5)
         log_info("Done with long process")
 

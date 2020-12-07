@@ -71,7 +71,7 @@ namespace Marvel {
 
 	void mvPlot::addDragPoint(const std::string& name, bool show_label, const mvColor& color, float radius, PyObject* callback, double* dummyValue, const std::string& source)
 	{
-		float* value = mvValueStorage::AddFloat2Value(source, { (float)dummyValue[0], (float)dummyValue[1] });
+		float* value = mvValueStorage::GetValueStorage()->AddFloat2Value(source, { (float)dummyValue[0], (float)dummyValue[1] });
 
 		m_dragPoints.push_back({ name, value, show_label, color, radius, callback, value[0], value[1], source});
 	}
@@ -88,8 +88,8 @@ namespace Marvel {
 				item.name = name;
 				if (item.source != source)
 				{
-					mvValueStorage::DecrementRef(source.empty() ? name : source);
-					item.value = mvValueStorage::AddFloat2Value(source.empty() ? name : source, { (float)dummyValue[0], (float)dummyValue[1] });
+					mvValueStorage::GetValueStorage()->DecrementRef(source.empty() ? name : source);
+					item.value = mvValueStorage::GetValueStorage()->AddFloat2Value(source.empty() ? name : source, { (float)dummyValue[0], (float)dummyValue[1] });
 				}
 				item.show_label = show_label;
 				item.color = color;
@@ -108,7 +108,7 @@ namespace Marvel {
 
 	void mvPlot::addDragLine(const std::string& name, bool show_label, const mvColor& color, float thickness, bool y_line, PyObject* callback, double dummyValue, const std::string& source)
 	{
-		float* value = mvValueStorage::AddFloatValue(source, (float)dummyValue);
+		float* value = mvValueStorage::GetValueStorage()->AddFloatValue(source, (float)dummyValue);
 
 		m_dragLines.push_back({ name, value, show_label, color, thickness, y_line, callback, *value, source});
 	}
@@ -126,8 +126,8 @@ namespace Marvel {
 				item.name = name;
 				if (item.source != source)
 				{
-					mvValueStorage::DecrementRef(source.empty() ? name : source);
-					item.value = mvValueStorage::AddFloatValue(source.empty() ? name : source, (float)dummyValue);
+					mvValueStorage::GetValueStorage()->DecrementRef(source.empty() ? name : source);
+					item.value = mvValueStorage::GetValueStorage()->AddFloatValue(source.empty() ? name : source, (float)dummyValue);
 				}
 				item.show_label = show_label;
 				item.color = color;
@@ -163,7 +163,7 @@ namespace Marvel {
 			{
 				if (item.name == name)
 				{
-					mvValueStorage::DecrementRef(item.source);
+					mvValueStorage::GetValueStorage()->DecrementRef(item.source);
 					continue;
 				}
 
@@ -192,7 +192,7 @@ namespace Marvel {
 			{
 				if (item.name == name)
 				{
-					mvValueStorage::DecrementRef(item.source);
+					mvValueStorage::GetValueStorage()->DecrementRef(item.source);
 					continue;
 				}
 
@@ -438,10 +438,10 @@ namespace Marvel {
 		}
 
 		for (auto& line : m_dragLines)
-			mvValueStorage::DecrementRef(line.source);
+			mvValueStorage::GetValueStorage()->DecrementRef(line.source);
 
 		for (auto& point : m_dragPoints)
-			mvValueStorage::DecrementRef(point.source);
+			mvValueStorage::GetValueStorage()->DecrementRef(point.source);
 
 		m_series.clear();
 		m_annotations.clear();
@@ -532,7 +532,7 @@ namespace Marvel {
 						if (ImPlot::DragLineY(line.name.c_str(), &line.dummyValue, line.show_label, line.color.toVec4(), line.thickness))
 						{
 							*line.value = (float)line.dummyValue;
-							mvApp::GetApp()->runCallback(line.callback, line.name, nullptr);
+							mvCallbackRegistry::GetCallbackRegistry()->runCallback(line.callback, line.name, nullptr);
 						}
 					}
 					else
@@ -540,7 +540,7 @@ namespace Marvel {
 						if (ImPlot::DragLineX(line.name.c_str(), &line.dummyValue, line.show_label, line.color.toVec4(), line.thickness))
 						{
 							*line.value = (float)line.dummyValue;
-							mvApp::GetApp()->runCallback(line.callback, line.name, nullptr);
+							mvCallbackRegistry::GetCallbackRegistry()->runCallback(line.callback, line.name, nullptr);
 						}
 					}
 				}
@@ -557,7 +557,7 @@ namespace Marvel {
 					{
 						point.value[0] = (float)point.dummyx;
 						point.value[1] = (float)point.dummyy;
-						mvApp::GetApp()->runCallback(point.callback, point.name, nullptr);
+						mvCallbackRegistry::GetCallbackRegistry()->runCallback(point.callback, point.name, nullptr);
 					}
 				}
 			}
@@ -584,7 +584,7 @@ namespace Marvel {
 				PyTuple_SetItem(area, 2, PyFloat_FromDouble(m_queryArea[2]));
 				PyTuple_SetItem(area, 3, PyFloat_FromDouble(m_queryArea[3]));
 				PyGILState_Release(gstate);
-				mvApp::GetApp()->runCallback(m_queryCallback, m_name, area);
+				mvCallbackRegistry::GetCallbackRegistry()->runCallback(m_queryCallback, m_name, area);
 			}
 
 

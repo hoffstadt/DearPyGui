@@ -29,7 +29,6 @@ namespace Marvel {
 
     static void window_size_callback(GLFWwindow* window, int width, int height)
     {
-
         mvEventBus::Publish("VIEWPORT_EVENTS", "VIEWPORT_RESIZE", {
             CreateEventArgument("actual_width", width),
             CreateEventArgument("actual_height", height),
@@ -56,7 +55,13 @@ namespace Marvel {
         glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 0);
         m_window = glfwCreateWindow(width, height, mvApp::GetApp()->m_title.c_str(), nullptr, nullptr);
         glfwSetWindowPos(m_window, mvApp::GetApp()->m_mainXPos, mvApp::GetApp()->m_mainYPos);
-	    mvApp::GetApp()->setActualSize(width, height);
+	    
+        mvEventBus::Publish("VIEWPORT_EVENTS", "VIEWPORT_RESIZE", {
+            CreateEventArgument("actual_width", width),
+            CreateEventArgument("actual_height", height),
+            CreateEventArgument("client_width", width),
+            CreateEventArgument("client_height", height)
+                    });
 
         glfwMakeContextCurrent(m_window);
 
@@ -175,6 +180,14 @@ namespace Marvel {
         int display_w, display_h;
         glfwGetFramebufferSize(m_window, &display_w, &display_h);
         mvApp::GetApp()->setClientSize(display_w, display_h);
+
+        mvEventBus::Publish("VIEWPORT_EVENTS", "VIEWPORT_RESIZE", {
+            CreateEventArgument("actual_width", m_width),
+            CreateEventArgument("actual_height", m_height),
+            CreateEventArgument("client_width", display_w),
+            CreateEventArgument("client_height", display_h)
+                    });
+
         glViewport(0, 0, display_w, display_h);
         glClearColor(m_clear_color[0], m_clear_color[1], m_clear_color[2], m_clear_color[3]);
         glClear(GL_COLOR_BUFFER_BIT);

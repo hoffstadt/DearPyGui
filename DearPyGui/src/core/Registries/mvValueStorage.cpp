@@ -5,6 +5,87 @@
 
 namespace Marvel {
 
+	mvValueStorage* mvValueStorage::s_instance = nullptr;
+
+	mvValueStorage* mvValueStorage::GetValueStorage()
+	{
+		if (s_instance)
+			return s_instance;
+
+		s_instance = new mvValueStorage();
+		return s_instance;
+	}
+
+	mvValueStorage::mvValueStorage()
+	{
+		mvEventBus::Subscribe(this, 0, SID("VALUE_EVENTS"));
+
+		s_refStorage =
+		{
+			{"common_int", 1},
+			{"common_int2", 1},
+			{"common_int3", 1},
+			{"common_int4", 1},
+			{"common_float", 1},
+			{"common_float2", 1},
+			{"common_float3", 1},
+			{"common_float4", 1},
+			{"common_bool", 1},
+			{"common_string", 1},
+			{"common_floatvec", 1},
+			{"common_time", 1},
+			{"common_imtime", 1},
+		};
+
+		s_itemStorage =
+		{
+			"common_int",
+			"common_int2",
+			"common_int3",
+			"common_int4",
+			"common_float",
+			"common_float2",
+			"common_float3",
+			"common_float4",
+			"common_bool",
+			"common_string",
+			"common_floatvec",
+			"common_time",
+			"common_imtime"
+		};
+		s_ints = { {"common_int", 0} };
+		s_int2s = { {"common_int2", {0, 0}} };
+		s_int3s = { {"common_int3", {0, 0, 0}} };
+		s_int4s = { {"common_int4", {0, 0, 0, 0}} };
+		s_floats = { {"common_float", 0.0f} };
+		s_float2s = { {"common_float2", {0.0f, 0.0f}} };
+		s_float3s = { {"common_float3", {0.0f, 0.0f, 0.0f}} };
+		s_float4s = { {"common_float4", {0.0f, 0.0f}} };
+		s_bools = { {"common_bool", true} };
+		s_strings = { {"common_string", ""} };
+		s_floatvects = { {"common_floatvec", {0.0f, 0.0f}} };
+		s_times = { {"common_time", {}} };
+		s_imtimes = { {"common_imtime", ImPlotTime()} };
+	}
+
+	bool mvValueStorage::onEvent(mvEvent& event)
+	{
+		mvEventDispatcher dispatcher(event);
+		dispatcher.dispatch(BIND_EVENT_METH(mvValueStorage::onPythonSetEvent), SID("PYTHON_SET_VALUE"));
+
+		return event.handled;
+	}
+
+	bool mvValueStorage::onPythonSetEvent(mvEvent& event)
+	{
+		
+		SetPyValue(GetEString(event, "NAME"), GetEPtr<PyObject*>(event, "VALUE"));
+
+		Py_XDECREF(GetEPtr<PyObject*>(event, "VALUE"));
+
+		return true;
+	}
+
 	PyObject* mvValueStorage::GetPyValue(const std::string& name)
 	{
 
@@ -928,52 +1009,4 @@ namespace Marvel {
 		}
 	}
 
-	std::mutex mvValueStorage::s_mutex;
-	std::unordered_map<std::string, mvValueStorage::ValueTypes> mvValueStorage::s_typeStorage;
-	std::unordered_map<std::string, int> mvValueStorage::s_refStorage = 
-	{ 
-		{"common_int", 1},
-		{"common_int2", 1},
-		{"common_int3", 1},
-		{"common_int4", 1},
-		{"common_float", 1},
-		{"common_float2", 1},
-		{"common_float3", 1},
-		{"common_float4", 1},
-		{"common_bool", 1},
-		{"common_string", 1},
-		{"common_floatvec", 1},
-		{"common_time", 1},
-		{"common_imtime", 1},
-	};
-
-	std::set<std::string> mvValueStorage::s_itemStorage = 
-	{ 
-		"common_int",
-		"common_int2",
-		"common_int3",
-		"common_int4",
-		"common_float",
-		"common_float2",
-		"common_float3",
-		"common_float4",
-		"common_bool",
-		"common_string",
-		"common_floatvec",
-		"common_time",
-		"common_imtime"
-	};
-	std::unordered_map<std::string, int>                  mvValueStorage::s_ints = { {"common_int", 0} };
-	std::unordered_map<std::string, std::array<int, 2>>   mvValueStorage::s_int2s = { {"common_int2", {0, 0}} };
-	std::unordered_map<std::string, std::array<int, 3>>   mvValueStorage::s_int3s = { {"common_int3", {0, 0, 0}} };
-	std::unordered_map<std::string, std::array<int, 4>>   mvValueStorage::s_int4s = { {"common_int4", {0, 0, 0, 0}} };
-	std::unordered_map<std::string, float>                mvValueStorage::s_floats = { {"common_float", 0.0f} };
-	std::unordered_map<std::string, std::array<float, 2>> mvValueStorage::s_float2s = { {"common_float2", {0.0f, 0.0f}} };
-	std::unordered_map<std::string, std::array<float, 3>> mvValueStorage::s_float3s = { {"common_float3", {0.0f, 0.0f, 0.0f}} };
-	std::unordered_map<std::string, std::array<float, 4>> mvValueStorage::s_float4s = { {"common_float4", {0.0f, 0.0f}} };
-	std::unordered_map<std::string, bool>                 mvValueStorage::s_bools = { {"common_bool", true} };
-	std::unordered_map<std::string, std::string>          mvValueStorage::s_strings = { {"common_string", ""} };
-	std::unordered_map<std::string, std::vector<float>>   mvValueStorage::s_floatvects = { {"common_floatvec", {0.0f, 0.0f}} };
-	std::unordered_map<std::string, tm>                   mvValueStorage::s_times = { {"common_time", {}} };
-	std::unordered_map<std::string, ImPlotTime>           mvValueStorage::s_imtimes = { {"common_imtime", ImPlotTime()} };
 }

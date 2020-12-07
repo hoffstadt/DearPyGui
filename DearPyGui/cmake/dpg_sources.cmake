@@ -36,6 +36,7 @@ set(MARVEL_SOURCES
 	"src/core/DrawCommands/mvDrawPolygonCmd.cpp"
 	"src/core/DrawCommands/mvDrawBezierCurveCmd.cpp"
 
+	"src/core/Registries/mvCallbackRegistry.cpp"
 	"src/core/Registries/mvItemRegistry.cpp"
 	"src/core/Registries/mvDataStorage.cpp"
 	"src/core/Registries/mvTextureStorage.cpp"

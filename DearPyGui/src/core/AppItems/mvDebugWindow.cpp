@@ -137,22 +137,22 @@ namespace Marvel {
 				DebugItem("Threadpool Active: ", app->usingThreadPool() ? ts : fs);
 				DebugItem("Threadpool High: ", app->usingThreadPoolHighPerformance() ? ts : fs);
 				ImGui::Separator();
-				DebugItem("Int Values", std::to_string(mvValueStorage::s_ints.size()).c_str());
-				DebugItem("Int2 Values", std::to_string(mvValueStorage::s_int2s.size()).c_str());
-				DebugItem("Int3 Values", std::to_string(mvValueStorage::s_int3s.size()).c_str());
-				DebugItem("Int4 Values", std::to_string(mvValueStorage::s_int4s.size()).c_str());
+				DebugItem("Int Values", std::to_string(mvValueStorage::GetValueStorage()->s_ints.size()).c_str());
+				DebugItem("Int2 Values", std::to_string(mvValueStorage::GetValueStorage()->s_int2s.size()).c_str());
+				DebugItem("Int3 Values", std::to_string(mvValueStorage::GetValueStorage()->s_int3s.size()).c_str());
+				DebugItem("Int4 Values", std::to_string(mvValueStorage::GetValueStorage()->s_int4s.size()).c_str());
 				ImGui::Separator();
-				//auto & yy = mvValueStorage::s_refStorage;
-				//auto & xx = mvValueStorage::s_floats;
-				DebugItem("Float Values", std::to_string(mvValueStorage::s_floats.size()).c_str());
-				DebugItem("Float2 Values", std::to_string(mvValueStorage::s_float2s.size()).c_str());
-				DebugItem("Float3 Values", std::to_string(mvValueStorage::s_float3s.size()).c_str());
-				DebugItem("Float4 Values", std::to_string(mvValueStorage::s_float4s.size()).c_str());
+				//auto & yy = mvValueStorage::GetValueStorage()->s_refStorage;
+				//auto & xx = mvValueStorage::GetValueStorage()->s_floats;
+				DebugItem("Float Values", std::to_string(mvValueStorage::GetValueStorage()->s_floats.size()).c_str());
+				DebugItem("Float2 Values", std::to_string(mvValueStorage::GetValueStorage()->s_float2s.size()).c_str());
+				DebugItem("Float3 Values", std::to_string(mvValueStorage::GetValueStorage()->s_float3s.size()).c_str());
+				DebugItem("Float4 Values", std::to_string(mvValueStorage::GetValueStorage()->s_float4s.size()).c_str());
 				ImGui::Separator();
-				DebugItem("Bool Values", std::to_string(mvValueStorage::s_bools.size()).c_str());
-				DebugItem("String Values", std::to_string(mvValueStorage::s_strings.size()).c_str());
-				DebugItem("Times Values", std::to_string(mvValueStorage::s_times.size()).c_str());
-				DebugItem("ImTimes Values", std::to_string(mvValueStorage::s_imtimes.size()).c_str());
+				DebugItem("Bool Values", std::to_string(mvValueStorage::GetValueStorage()->s_bools.size()).c_str());
+				DebugItem("String Values", std::to_string(mvValueStorage::GetValueStorage()->s_strings.size()).c_str());
+				DebugItem("Times Values", std::to_string(mvValueStorage::GetValueStorage()->s_times.size()).c_str());
+				DebugItem("ImTimes Values", std::to_string(mvValueStorage::GetValueStorage()->s_imtimes.size()).c_str());
 
 
 				ImGui::EndGroup();
@@ -200,11 +200,11 @@ namespace Marvel {
 
 			if (ImGui::BeginTabItem("App Item Layout"))
 			{
-				auto selectedItem = mvApp::GetApp()->getItemRegistry().getItem(m_selectedItem);
+				auto selectedItem = mvItemRegistry::GetItemRegistry()->getItem(m_selectedItem);
 				std::string parentName;
 
 				if (selectedItem == nullptr)
-					selectedItem = mvApp::GetApp()->getItemRegistry().getBackWindows()[0];
+					selectedItem = mvItemRegistry::GetItemRegistry()->getBackWindows()[0];
 				
 				if (selectedItem->getParent())
 					parentName = selectedItem->getParent()->getName();
@@ -242,10 +242,10 @@ namespace Marvel {
                 }
                 ImGui::SameLine();
                 if (ImGui::Button("Show"))
-                    app->getItemRegistry().getItem(m_selectedItem)->show();
+                    mvItemRegistry::GetItemRegistry()->getItem(m_selectedItem)->show();
                 ImGui::SameLine();
                 if (ImGui::Button("Hide"))
-                    app->getItemRegistry().getItem(m_selectedItem)->hide();
+					mvItemRegistry::GetItemRegistry()->getItem(m_selectedItem)->hide();
 
                 ImGui::PushItemWidth(200);
                 DebugItem("Item Name:", m_selectedItem.c_str());
@@ -274,9 +274,9 @@ namespace Marvel {
                 ImGui::SameLine();
 
 				ImGui::BeginChild("TreeChild", ImVec2(-1.0f, -1.0f), true);
-				for (auto window : mvApp::GetApp()->getItemRegistry().getFrontWindows())
+				for (auto window : mvItemRegistry::GetItemRegistry()->getFrontWindows())
 					renderItem(window);
-				for (auto window : mvApp::GetApp()->getItemRegistry().getBackWindows())
+				for (auto window : mvItemRegistry::GetItemRegistry()->getBackWindows())
 					renderItem(window);
 				ImGui::EndChild();
 
@@ -348,7 +348,7 @@ namespace Marvel {
 			{
 				if (oldMousePos.x != mousePos.x || oldMousePos.y != mousePos.y)
 				{
-					mvApp::GetApp()->runCallback(getMouseMoveCallback(), m_name,
+					mvCallbackRegistry::GetCallbackRegistry()->runCallback(getMouseMoveCallback(), m_name,
 						ToPyPair(x, y));
 				}
 			}

@@ -200,7 +200,7 @@ namespace Marvel {
 		if (name == DrawBackground)
 			return &mvApp::GetApp()->getBackDrawList();
 
-		auto item = mvApp::GetApp()->getItemRegistry().getItem(name);
+		auto item = mvItemRegistry::GetItemRegistry()->getItem(name);
 
 		if (item == nullptr)
 			return nullptr;

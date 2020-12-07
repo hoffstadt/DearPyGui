@@ -44,7 +44,7 @@ namespace Marvel {
 
 	public:
 
-        mvItemRegistry();
+        static mvItemRegistry* GetItemRegistry();
 
         bool onEvent(mvEvent& event) override;
 
@@ -54,6 +54,7 @@ namespace Marvel {
         bool onMoveItemUp  (mvEvent& event);
         bool onMoveItemDown(mvEvent& event);
         bool onAddItem     (mvEvent& event);
+        bool onEndFrame    (mvEvent& event);
 
         //-----------------------------------------------------------------------------
         // AppItem Operations
@@ -69,6 +70,9 @@ namespace Marvel {
         mvWindowAppitem*         getWindow         (const std::string& name);
         std::vector<mvAppItem*>& getFrontWindows        () { return m_frontWindows; }
         std::vector<mvAppItem*>& getBackWindows        () { return m_backWindows; }
+
+        void resetWindowStates();
+        void draw();
 
         //-----------------------------------------------------------------------------
         // Parent stack operations
@@ -88,6 +92,10 @@ namespace Marvel {
         void                     clearRegistry  ();
 
 	private:
+
+        mvItemRegistry();
+
+        static mvItemRegistry* s_instance;
 
 		std::stack<mvAppItem*>  m_parents;
 		std::vector<mvAppItem*> m_frontWindows;

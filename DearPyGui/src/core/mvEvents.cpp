@@ -22,13 +22,40 @@ namespace Marvel {
 		return std::get<int>(event.arguments.at(SID(name)));
 	}
 
+	bool mvEventBus::OnEvent(mvEvent& event)
+	{
+		mvEventDispatcher dispatcher(event);
+		dispatcher.dispatch(mvEventBus::OnFrame, SID("FRAME"));
+
+		return false;
+	}
+
+	bool mvEventBus::OnFrame(mvEvent& event)
+	{
+		while (!GetEndFrameEvents().empty())
+		{
+			Publish(GetEndFrameEvents().top());
+			GetEndFrameEvents().pop();
+		}
+		
+		return false;
+	}
+
+	void mvEventBus::PublishEndFrame(const char* category, const char* type, std::unordered_map<mvID, mvVariant> arguments)
+	{
+		GetEndFrameEvents().push({ SID(type), arguments, SID(category) });
+	}
+
 	void mvEventBus::Publish(const char* category, const char* type, std::unordered_map<mvID, mvVariant> arguments)
 	{
 		Publish({ SID(type), arguments, SID(category) });
 	}
 
 	void mvEventBus::Publish(mvEvent event)
-	{
+		{
+		if (event.category == SID("GLOBAL"))
+			OnEvent(event);
+
 		if (event.type == 0)
 			return;
 
@@ -72,6 +99,12 @@ namespace Marvel {
 			GetEventCategoryHandlers()[category] = { handler };
 		else
 			GetEventCategoryHandlers()[category].push_back(handler);
+	}
+
+	std::stack<mvEvent>& mvEventBus::GetEndFrameEvents()
+	{
+		static std::stack<mvEvent> events;
+		return events;
 	}
 
 	std::unordered_map<mvID, std::vector<mvEventHandler*>>& mvEventBus::GetEventHandlers()

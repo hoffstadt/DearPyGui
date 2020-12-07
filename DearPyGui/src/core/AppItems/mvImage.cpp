@@ -166,7 +166,7 @@ namespace Marvel {
 			if (ImGui::ImageButton(m_texture, ImVec2((float)m_width, (float)m_height),
 				ImVec2(m_uv_min.x, m_uv_min.y), ImVec2(m_uv_max.x, m_uv_max.y), m_framePadding,
 				m_backgroundColor.toVec4(), m_tintColor.toVec4()))
-				mvApp::GetApp()->addCallback(m_callback, m_name, m_callbackData);
+				mvCallbackRegistry::GetCallbackRegistry()->addCallback(m_callback, m_name, m_callbackData);
 
 		}
 

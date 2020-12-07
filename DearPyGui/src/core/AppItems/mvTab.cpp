@@ -130,7 +130,7 @@ namespace Marvel {
 			// run call back if it exists
 			if (parent->getValue() != m_name)
 			{
-				mvApp::GetApp()->addCallback(parent->getCallback(), m_name, parent->getCallbackData());
+				mvCallbackRegistry::GetCallbackRegistry()->addCallback(parent->getCallback(), m_name, parent->getCallbackData());
 
 				// Context Menu
 				if (!getPopup().empty())
@@ -227,7 +227,7 @@ namespace Marvel {
 		ScopedID id;
 
 		if (ImGui::TabItemButton(m_label.c_str(), m_flags))
-			mvApp::GetApp()->addCallback(getCallback(false), m_name, m_callbackData);
+			mvCallbackRegistry::GetCallbackRegistry()->addCallback(getCallback(false), m_name, m_callbackData);
 
 	}
 
