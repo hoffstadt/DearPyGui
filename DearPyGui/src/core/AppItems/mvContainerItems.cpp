@@ -119,7 +119,7 @@ namespace Marvel {
 		for (mvAppItem* item : m_children)
 		{
 			if (m_width != 0)
-				item->setWidthND(m_width);
+				item->setWidth(m_width);
 
 			// skip item if it's not shown
 			if (!item->isShown())

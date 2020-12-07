@@ -75,8 +75,8 @@ namespace Marvel {
 
         virtual ~mvAppItem();
 
-        mvAppItem          (const mvAppItem& other) = delete; // copy constructor
-        mvAppItem          (mvAppItem&& other)      = delete; // move constructor
+        mvAppItem(const mvAppItem& other) = delete; // copy constructor
+        mvAppItem(mvAppItem&& other)      = delete; // move constructor
 
         // pure virtual methods
         [[nodiscard]] virtual mvAppItemType getType      () const = 0;
@@ -120,33 +120,28 @@ namespace Marvel {
         [[nodiscard]] const std::string&    getPopup                  () const { return m_popup; }
         [[nodiscard]] const std::string&    getDataSource             () const { return m_dataSource; }
         [[nodiscard]] int                   getWidth                  () const { return m_width; }
-        [[nodiscard]] int                   getActualWidth            () const { return m_actualWidth; }
         [[nodiscard]] int                   getHeight                 () const { return m_height; }
-        [[nodiscard]] int                   getActualHeight           () const { return m_actualHeight; }
         [[nodiscard]] bool                  isShown                   () const { return m_show; }
         [[nodiscard]] bool                  isItemEnabled             () const { return m_enabled; }
         mvAppItemState&                     getState                  ()       { return m_state; }
         const mvAppItemDescription&         getDescription            () const { return m_description; }
-        bool                                isSizeDirty               () const { return m_dirtySize; }
 
         // setters
         void                                setParent                 (mvAppItem* parent);
         void                                showAll                   ();
         void                                hideAll                   ();
         void                                addChild                  (mvAppItem* child);
-        inline void                         show                      ()                        { m_show = true; }
-        inline void                         hide                      ()                        { m_show = false; }
+        void                                show                      ()                        { m_show = true; }
+        void                                hide                      ()                        { m_show = false; }
         void                                setCallback               (PyObject* callback);
-        inline void                         setCallbackData           (PyObject* data)          { m_callbackData = data; }
-        inline void                         setPopup                  (const std::string& popup){ m_popup = popup; }
-        inline void                         setTip                    (const std::string& tip)  { m_tip = tip; }
-        virtual void                        setWidthND                (int width)             { m_width = width; } // for group, TODO: FIX THIS
-        virtual void                        setWidth                  (int width)               { m_dirtySize = true; m_width = width; }
-        virtual void                        setHeight                 (int height)              { m_dirtySize = true; m_height = height; }
+        void                                setCallbackData           (PyObject* data)          { m_callbackData = data; }
+        void                                setPopup                  (const std::string& popup){ m_popup = popup; }
+        void                                setTip                    (const std::string& tip)  { m_tip = tip; }
+        virtual void                        setWidth                  (int width)               { m_width = width; }
+        virtual void                        setHeight                 (int height)              { m_height = height; }
         virtual void                        setEnabled                (bool value)              { m_enabled = value; }
         virtual void                        setDataSource             (const std::string& value){ m_dataSource = value; }
         virtual void                        setLabel                  (const std::string& value);
-        void                                setSizeClean              () { m_dirtySize = false; }
 
     protected:
 
@@ -161,13 +156,10 @@ namespace Marvel {
         PyObject*               m_callbackData = nullptr;
         int                     m_width  = 0;
         int                     m_height = 0;
-        int                     m_actualWidth = 0;
-        int                     m_actualHeight = 0;
         bool                    m_show                 = true; // determines whether to attempt rendering
         bool                    m_enabled              = true;
         mvAppItem*              m_parent               = nullptr;
         std::vector<mvAppItem*> m_children;
         mvAppItemDescription    m_description;
-        bool                    m_dirtySize = false;
     };
 }
