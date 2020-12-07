@@ -4,6 +4,7 @@
 #include <vector>
 #include <queue>
 #include <string>
+#include "core/mvEvents.h"
 
 namespace Marvel {
 
@@ -16,7 +17,7 @@ namespace Marvel {
     //-----------------------------------------------------------------------------
     // mvItemRegistry
     //-----------------------------------------------------------------------------
-	class mvItemRegistry
+	class mvItemRegistry : public mvEventHandler
 	{
 
         friend class mvApp;
@@ -43,6 +44,17 @@ namespace Marvel {
 
 	public:
 
+        mvItemRegistry();
+
+        bool onEvent(mvEvent& event) override;
+
+        // mostly for testing new event bus system
+        bool onDeleteItem  (mvEvent& event);
+        bool onMoveItem    (mvEvent& event);
+        bool onMoveItemUp  (mvEvent& event);
+        bool onMoveItemDown(mvEvent& event);
+        bool onAddItem     (mvEvent& event);
+
         //-----------------------------------------------------------------------------
         // AppItem Operations
         //-----------------------------------------------------------------------------
@@ -51,11 +63,6 @@ namespace Marvel {
         bool                     addItemAfter      (const std::string& prev, mvAppItem* item);
         bool                     addWindow         (mvAppItem* item);
         bool                     addRuntimeItem    (const std::string& parent, const std::string& before, mvAppItem* item);
-        bool                     moveItem          (const std::string& name, const std::string& parent, const std::string& before);
-        void                     deleteItem        (const std::string& name);
-        void                     deleteItemChildren(const std::string& name);
-        void                     moveItemUp        (const std::string& name);
-        void                     moveItemDown      (const std::string& name);
         mvAppItem*               getItem           (const std::string& name, bool ignoreRuntime = false);
         mvAppItem*               getItemAsync      (const std::string& name, bool ignoreRuntime = false); // allows item to be retrieved outside main thread
         mvAppItem*               getRuntimeItem    (const std::string& name);

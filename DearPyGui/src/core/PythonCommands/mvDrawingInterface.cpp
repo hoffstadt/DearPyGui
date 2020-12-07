@@ -2,6 +2,7 @@
 #include "mvInterfaceCore.h"
 #include "DrawCommands/mvDrawCmdCommon.h"
 #include "Registries/mvDrawList.h"
+#include "core/mvEvents.h"
 
 static const std::string DrawForeground = "##FOREGROUND";
 static const std::string DrawBackground = "##BACKGROUND";
