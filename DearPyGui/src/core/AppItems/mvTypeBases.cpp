@@ -14,9 +14,9 @@ namespace Marvel {
 		mvAppItem(name)
 	{
 		if (dataSource.empty())
-			m_value = mvValueStorage::AddIntValue(name, default_value);
+			m_value = mvValueStorage::GetValueStorage()->AddIntValue(name, default_value);
 		else
-			m_value = mvValueStorage::AddIntValue(dataSource, default_value);
+			m_value = mvValueStorage::GetValueStorage()->AddIntValue(dataSource, default_value);
 
 		m_dataSource = dataSource;
 	}
@@ -24,16 +24,16 @@ namespace Marvel {
 	mvIntPtrBase::~mvIntPtrBase()
 	{
 		if (m_dataSource.empty())
-			mvValueStorage::DecrementRef(m_name);
+			mvValueStorage::GetValueStorage()->DecrementRef(m_name);
 		else
-			mvValueStorage::DecrementRef(m_dataSource);
+			mvValueStorage::GetValueStorage()->DecrementRef(m_dataSource);
 	}
 
 	void mvIntPtrBase::setDataSource(const std::string& dataSource)
 	{
 		if (dataSource == m_dataSource) return;
-		mvValueStorage::DecrementRef(m_dataSource);
-		m_value = mvValueStorage::AddIntValue(dataSource);
+		mvValueStorage::GetValueStorage()->DecrementRef(m_dataSource);
+		m_value = mvValueStorage::GetValueStorage()->AddIntValue(dataSource);
 		m_dataSource = dataSource;
 	}
 
@@ -42,9 +42,9 @@ namespace Marvel {
 		mvAppItem(name)
 	{
 		if (dataSource.empty())
-			m_value = mvValueStorage::AddInt2Value(name, { default_value[0], default_value[1] });
+			m_value = mvValueStorage::GetValueStorage()->AddInt2Value(name, { default_value[0], default_value[1] });
 		else
-			m_value = mvValueStorage::AddInt2Value(dataSource, { default_value[0], default_value[1] });
+			m_value = mvValueStorage::GetValueStorage()->AddInt2Value(dataSource, { default_value[0], default_value[1] });
 
 		m_dataSource = dataSource;
 	}
@@ -52,16 +52,16 @@ namespace Marvel {
 	mvInt2PtrBase::~mvInt2PtrBase()
 	{
 		if (m_dataSource.empty())
-			mvValueStorage::DecrementRef(m_name);
+			mvValueStorage::GetValueStorage()->DecrementRef(m_name);
 		else
-			mvValueStorage::DecrementRef(m_dataSource);
+			mvValueStorage::GetValueStorage()->DecrementRef(m_dataSource);
 	}
 
 	void mvInt2PtrBase::setDataSource(const std::string& dataSource)
 	{
 		if (dataSource == m_dataSource) return;
-		mvValueStorage::DecrementRef(m_dataSource);
-		m_value = mvValueStorage::AddInt2Value(dataSource);
+		mvValueStorage::GetValueStorage()->DecrementRef(m_dataSource);
+		m_value = mvValueStorage::GetValueStorage()->AddInt2Value(dataSource);
 		m_dataSource = dataSource;
 	}
 
@@ -70,9 +70,9 @@ namespace Marvel {
 		mvAppItem(name)
 	{
 		if (dataSource.empty())
-			m_value = mvValueStorage::AddInt3Value(name, { default_value[0], default_value[1], default_value[2] });
+			m_value = mvValueStorage::GetValueStorage()->AddInt3Value(name, { default_value[0], default_value[1], default_value[2] });
 		else
-			m_value = mvValueStorage::AddInt3Value(dataSource, { default_value[0], default_value[1], default_value[2] });
+			m_value = mvValueStorage::GetValueStorage()->AddInt3Value(dataSource, { default_value[0], default_value[1], default_value[2] });
 
 		m_dataSource = dataSource;
 	}
@@ -80,16 +80,16 @@ namespace Marvel {
 	mvInt3PtrBase::~mvInt3PtrBase()
 	{
 		if (m_dataSource.empty())
-			mvValueStorage::DecrementRef(m_name);
+			mvValueStorage::GetValueStorage()->DecrementRef(m_name);
 		else
-			mvValueStorage::DecrementRef(m_dataSource);
+			mvValueStorage::GetValueStorage()->DecrementRef(m_dataSource);
 	}
 
 	void mvInt3PtrBase::setDataSource(const std::string& dataSource)
 	{
 		if (dataSource == m_dataSource) return;
-		mvValueStorage::DecrementRef(m_dataSource);
-		m_value = mvValueStorage::AddInt3Value(dataSource);
+		mvValueStorage::GetValueStorage()->DecrementRef(m_dataSource);
+		m_value = mvValueStorage::GetValueStorage()->AddInt3Value(dataSource);
 		m_dataSource = dataSource;
 	}
 
@@ -97,9 +97,9 @@ namespace Marvel {
 		: mvAppItem(name)
 	{
 		if (dataSource.empty())
-			m_value = mvValueStorage::AddInt4Value(name, { default_value[0], default_value[1], default_value[2], default_value[3] });
+			m_value = mvValueStorage::GetValueStorage()->AddInt4Value(name, { default_value[0], default_value[1], default_value[2], default_value[3] });
 		else
-			m_value = mvValueStorage::AddInt4Value(dataSource, { default_value[0], default_value[1], default_value[2], default_value[3] });
+			m_value = mvValueStorage::GetValueStorage()->AddInt4Value(dataSource, { default_value[0], default_value[1], default_value[2], default_value[3] });
 
 		m_dataSource = dataSource;
 	}
@@ -107,16 +107,16 @@ namespace Marvel {
 	mvInt4PtrBase::~mvInt4PtrBase()
 	{
 		if (m_dataSource.empty())
-			mvValueStorage::DecrementRef(m_name);
+			mvValueStorage::GetValueStorage()->DecrementRef(m_name);
 		else
-			mvValueStorage::DecrementRef(m_dataSource);
+			mvValueStorage::GetValueStorage()->DecrementRef(m_dataSource);
 	}
 
 	void mvInt4PtrBase::setDataSource(const std::string& dataSource)
 	{
 		if (dataSource == m_dataSource) return;
-		mvValueStorage::DecrementRef(m_dataSource);
-		m_value = mvValueStorage::AddInt4Value(dataSource);
+		mvValueStorage::GetValueStorage()->DecrementRef(m_dataSource);
+		m_value = mvValueStorage::GetValueStorage()->AddInt4Value(dataSource);
 		m_dataSource = dataSource;
 	}
 
@@ -124,9 +124,9 @@ namespace Marvel {
 		: mvAppItem(name)
 	{
 		if (dataSource.empty())
-			m_value = mvValueStorage::AddFloatValue(name, default_value);
+			m_value = mvValueStorage::GetValueStorage()->AddFloatValue(name, default_value);
 		else
-			m_value = mvValueStorage::AddFloatValue(dataSource, default_value);
+			m_value = mvValueStorage::GetValueStorage()->AddFloatValue(dataSource, default_value);
 
 		m_dataSource = dataSource;
 	}
@@ -134,16 +134,16 @@ namespace Marvel {
 	mvFloatPtrBase::~mvFloatPtrBase()
 	{
 		if (m_dataSource.empty())
-			mvValueStorage::DecrementRef(m_name);
+			mvValueStorage::GetValueStorage()->DecrementRef(m_name);
 		else
-			mvValueStorage::DecrementRef(m_dataSource);
+			mvValueStorage::GetValueStorage()->DecrementRef(m_dataSource);
 	}
 
 	void mvFloatPtrBase::setDataSource(const std::string& dataSource)
 	{
 		if (dataSource == m_dataSource) return;
-		mvValueStorage::DecrementRef(m_dataSource);
-		m_value = mvValueStorage::AddFloatValue(dataSource);
+		mvValueStorage::GetValueStorage()->DecrementRef(m_dataSource);
+		m_value = mvValueStorage::GetValueStorage()->AddFloatValue(dataSource);
 		m_dataSource = dataSource;
 	}
 
@@ -151,9 +151,9 @@ namespace Marvel {
 		: mvAppItem(name)
 	{
 		if (dataSource.empty())
-			m_value = mvValueStorage::AddFloat2Value(name, { default_value[0], default_value[1] });
+			m_value = mvValueStorage::GetValueStorage()->AddFloat2Value(name, { default_value[0], default_value[1] });
 		else
-			m_value = mvValueStorage::AddFloat2Value(dataSource, { default_value[0], default_value[1] });
+			m_value = mvValueStorage::GetValueStorage()->AddFloat2Value(dataSource, { default_value[0], default_value[1] });
 
 		m_dataSource = dataSource;
 	}
@@ -161,16 +161,16 @@ namespace Marvel {
 	mvFloat2PtrBase::~mvFloat2PtrBase()
 	{
 		if (m_dataSource.empty())
-			mvValueStorage::DecrementRef(m_name);
+			mvValueStorage::GetValueStorage()->DecrementRef(m_name);
 		else
-			mvValueStorage::DecrementRef(m_dataSource);
+			mvValueStorage::GetValueStorage()->DecrementRef(m_dataSource);
 	}
 
 	void mvFloat2PtrBase::setDataSource(const std::string& dataSource)
 	{
 		if (dataSource == m_dataSource) return;
-		mvValueStorage::DecrementRef(m_dataSource);
-		m_value = mvValueStorage::AddFloat2Value(dataSource);
+		mvValueStorage::GetValueStorage()->DecrementRef(m_dataSource);
+		m_value = mvValueStorage::GetValueStorage()->AddFloat2Value(dataSource);
 		m_dataSource = dataSource;
 	}
 
@@ -178,9 +178,9 @@ namespace Marvel {
 		: mvAppItem(name)
 	{
 		if (dataSource.empty())
-			m_value = mvValueStorage::AddFloat3Value(name, { default_value[0], default_value[1], default_value[2] });
+			m_value = mvValueStorage::GetValueStorage()->AddFloat3Value(name, { default_value[0], default_value[1], default_value[2] });
 		else
-			m_value = mvValueStorage::AddFloat3Value(dataSource, { default_value[0], default_value[1], default_value[2] });
+			m_value = mvValueStorage::GetValueStorage()->AddFloat3Value(dataSource, { default_value[0], default_value[1], default_value[2] });
 
 		m_dataSource = dataSource;
 	}
@@ -188,16 +188,16 @@ namespace Marvel {
 	mvFloat3PtrBase::~mvFloat3PtrBase()
 	{
 		if (m_dataSource.empty())
-			mvValueStorage::DecrementRef(m_name);
+			mvValueStorage::GetValueStorage()->DecrementRef(m_name);
 		else
-			mvValueStorage::DecrementRef(m_dataSource);
+			mvValueStorage::GetValueStorage()->DecrementRef(m_dataSource);
 	}
 
 	void mvFloat3PtrBase::setDataSource(const std::string& dataSource)
 	{
 		if (dataSource == m_dataSource) return;
-		mvValueStorage::DecrementRef(m_dataSource);
-		m_value = mvValueStorage::AddFloat3Value(dataSource);
+		mvValueStorage::GetValueStorage()->DecrementRef(m_dataSource);
+		m_value = mvValueStorage::GetValueStorage()->AddFloat3Value(dataSource);
 		m_dataSource = dataSource;
 	}
 
@@ -205,9 +205,9 @@ namespace Marvel {
 		: mvAppItem(name)
 	{
 		if (dataSource.empty())
-			m_value = mvValueStorage::AddFloat4Value(name, { default_value[0], default_value[1], default_value[2], default_value[3] });
+			m_value = mvValueStorage::GetValueStorage()->AddFloat4Value(name, { default_value[0], default_value[1], default_value[2], default_value[3] });
 		else
-			m_value = mvValueStorage::AddFloat4Value(dataSource, { default_value[0], default_value[1], default_value[2], default_value[3] });
+			m_value = mvValueStorage::GetValueStorage()->AddFloat4Value(dataSource, { default_value[0], default_value[1], default_value[2], default_value[3] });
 
 		m_dataSource = dataSource;
 	}
@@ -215,16 +215,16 @@ namespace Marvel {
 	mvFloat4PtrBase::~mvFloat4PtrBase()
 	{
 		if (m_dataSource.empty())
-			mvValueStorage::DecrementRef(m_name);
+			mvValueStorage::GetValueStorage()->DecrementRef(m_name);
 		else
-			mvValueStorage::DecrementRef(m_dataSource);
+			mvValueStorage::GetValueStorage()->DecrementRef(m_dataSource);
 	}
 
 	void mvFloat4PtrBase::setDataSource(const std::string& dataSource)
 	{
 		if (dataSource == m_dataSource) return;
-		mvValueStorage::DecrementRef(m_dataSource);
-		m_value = mvValueStorage::AddFloat4Value(dataSource);
+		mvValueStorage::GetValueStorage()->DecrementRef(m_dataSource);
+		m_value = mvValueStorage::GetValueStorage()->AddFloat4Value(dataSource);
 		m_dataSource = dataSource;
 	}
 
@@ -232,9 +232,9 @@ namespace Marvel {
 		: mvAppItem(name)
 	{
 		if (dataSource.empty())
-			m_value = mvValueStorage::AddColorValue(name, { default_value[0], default_value[1], default_value[2], default_value[3] });
+			m_value = mvValueStorage::GetValueStorage()->AddColorValue(name, { default_value[0], default_value[1], default_value[2], default_value[3] });
 		else
-			m_value = mvValueStorage::AddColorValue(dataSource, { default_value[0], default_value[1], default_value[2], default_value[3] });
+			m_value = mvValueStorage::GetValueStorage()->AddColorValue(dataSource, { default_value[0], default_value[1], default_value[2], default_value[3] });
 
 		m_dataSource = dataSource;
 	}
@@ -242,16 +242,16 @@ namespace Marvel {
 	mvColorPtrBase::~mvColorPtrBase()
 	{
 		if (m_dataSource.empty())
-			mvValueStorage::DecrementRef(m_name);
+			mvValueStorage::GetValueStorage()->DecrementRef(m_name);
 		else
-			mvValueStorage::DecrementRef(m_dataSource);
+			mvValueStorage::GetValueStorage()->DecrementRef(m_dataSource);
 	}
 
 	void mvColorPtrBase::setDataSource(const std::string& dataSource)
 	{
 		if (dataSource == m_dataSource) return;
-		mvValueStorage::DecrementRef(m_dataSource);
-		m_value = mvValueStorage::AddFloat4Value(dataSource);
+		mvValueStorage::GetValueStorage()->DecrementRef(m_dataSource);
+		m_value = mvValueStorage::GetValueStorage()->AddFloat4Value(dataSource);
 		m_dataSource = dataSource;
 	}
 
@@ -259,9 +259,9 @@ namespace Marvel {
 		: mvAppItem(name)
 	{
 		if (dataSource.empty())
-			m_value = mvValueStorage::AddBoolValue(name, default_value);
+			m_value = mvValueStorage::GetValueStorage()->AddBoolValue(name, default_value);
 		else
-			m_value = mvValueStorage::AddBoolValue(dataSource, default_value);
+			m_value = mvValueStorage::GetValueStorage()->AddBoolValue(dataSource, default_value);
 
 		m_dataSource = dataSource;
 
@@ -270,16 +270,16 @@ namespace Marvel {
 	mvBoolPtrBase::~mvBoolPtrBase()
 	{
 		if (m_dataSource.empty())
-			mvValueStorage::DecrementRef(m_name);
+			mvValueStorage::GetValueStorage()->DecrementRef(m_name);
 		else
-			mvValueStorage::DecrementRef(m_dataSource);
+			mvValueStorage::GetValueStorage()->DecrementRef(m_dataSource);
 	}
 
 	void mvBoolPtrBase::setDataSource(const std::string& dataSource)
 	{
 		if (dataSource == m_dataSource) return;
-		mvValueStorage::DecrementRef(m_dataSource);
-		m_value = mvValueStorage::AddBoolValue(dataSource);
+		mvValueStorage::GetValueStorage()->DecrementRef(m_dataSource);
+		m_value = mvValueStorage::GetValueStorage()->AddBoolValue(dataSource);
 		m_dataSource = dataSource;
 	}
 
@@ -287,9 +287,9 @@ namespace Marvel {
 		: mvAppItem(name)
 	{
 		if (dataSource.empty())
-			m_value = mvValueStorage::AddStringValue(name, default_value);
+			m_value = mvValueStorage::GetValueStorage()->AddStringValue(name, default_value);
 		else
-			m_value = mvValueStorage::AddStringValue(dataSource, default_value);
+			m_value = mvValueStorage::GetValueStorage()->AddStringValue(dataSource, default_value);
 
 		m_dataSource = dataSource;
 	}
@@ -297,16 +297,16 @@ namespace Marvel {
 	mvStringPtrBase::~mvStringPtrBase()
 	{
 		if (m_dataSource.empty())
-			mvValueStorage::DecrementRef(m_name);
+			mvValueStorage::GetValueStorage()->DecrementRef(m_name);
 		else
-			mvValueStorage::DecrementRef(m_dataSource);
+			mvValueStorage::GetValueStorage()->DecrementRef(m_dataSource);
 	}
 
 	void mvStringPtrBase::setDataSource(const std::string& dataSource)
 	{
 		if (dataSource == m_dataSource) return;
-		mvValueStorage::DecrementRef(m_dataSource);
-		m_value = mvValueStorage::AddStringValue(dataSource);
+		mvValueStorage::GetValueStorage()->DecrementRef(m_dataSource);
+		m_value = mvValueStorage::GetValueStorage()->AddStringValue(dataSource);
 		m_dataSource = dataSource;
 	}
 
@@ -315,13 +315,13 @@ namespace Marvel {
 	{
 		if (dataSource.empty())
 		{
-			m_value = mvValueStorage::AddTimeValue(name, default_value);
-			m_imvalue = mvValueStorage::GetImTimeValue(name);
+			m_value = mvValueStorage::GetValueStorage()->AddTimeValue(name, default_value);
+			m_imvalue = mvValueStorage::GetValueStorage()->GetImTimeValue(name);
 		}
 		else
 		{
-			m_value = mvValueStorage::AddTimeValue(dataSource, default_value);
-			m_imvalue = mvValueStorage::GetImTimeValue(dataSource);
+			m_value = mvValueStorage::GetValueStorage()->AddTimeValue(dataSource, default_value);
+			m_imvalue = mvValueStorage::GetValueStorage()->GetImTimeValue(dataSource);
 		}
 
 		m_dataSource = dataSource;
@@ -330,18 +330,18 @@ namespace Marvel {
 	mvTimePtrBase::~mvTimePtrBase()
 	{
 		if (m_dataSource.empty())
-			mvValueStorage::DecrementRef(m_name);
+			mvValueStorage::GetValueStorage()->DecrementRef(m_name);
 		else
-			mvValueStorage::DecrementRef(m_dataSource);
+			mvValueStorage::GetValueStorage()->DecrementRef(m_dataSource);
 	}
 
 	mvFloatVectPtrBase::mvFloatVectPtrBase(const std::string& name, const std::vector<float>& default_value, const std::string& dataSource)
 		: mvAppItem(name)
 	{
 		if (dataSource.empty())
-			m_value = mvValueStorage::AddFloatVectorValue(name, default_value);
+			m_value = mvValueStorage::GetValueStorage()->AddFloatVectorValue(name, default_value);
 		else
-			m_value = mvValueStorage::AddFloatVectorValue(dataSource, default_value);
+			m_value = mvValueStorage::GetValueStorage()->AddFloatVectorValue(dataSource, default_value);
 
 		m_dataSource = dataSource;
 	}
@@ -349,16 +349,16 @@ namespace Marvel {
 	mvFloatVectPtrBase::~mvFloatVectPtrBase()
 	{
 		if (m_dataSource.empty())
-			mvValueStorage::DecrementRef(m_name);
+			mvValueStorage::GetValueStorage()->DecrementRef(m_name);
 		else
-			mvValueStorage::DecrementRef(m_dataSource);
+			mvValueStorage::GetValueStorage()->DecrementRef(m_dataSource);
 	}
 
 	void mvFloatVectPtrBase::setDataSource(const std::string& dataSource)
 	{
 		if (dataSource == m_dataSource) return;
-		mvValueStorage::DecrementRef(m_dataSource);
-		m_value = mvValueStorage::AddFloatVectorValue(dataSource);
+		mvValueStorage::GetValueStorage()->DecrementRef(m_dataSource);
+		m_value = mvValueStorage::GetValueStorage()->AddFloatVectorValue(dataSource);
 		m_dataSource = dataSource;
 	}
 

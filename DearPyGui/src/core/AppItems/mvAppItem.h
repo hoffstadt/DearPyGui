@@ -17,6 +17,7 @@
 #include "mvAppItemState.h"
 #include "mvAppItemDescription.h"
 #include "core/Theming/mvAppItemStyleManager.h"
+#include "Registries/mvCallbackRegistry.h"
 
 //-----------------------------------------------------------------------------
 // Helper Macro

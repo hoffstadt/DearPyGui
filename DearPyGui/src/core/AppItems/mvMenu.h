@@ -184,7 +184,7 @@ namespace Marvel {
 
 				*m_value = true;
 
-				mvApp::GetApp()->addCallback(m_callback, m_name, m_callbackData);
+				mvCallbackRegistry::GetCallbackRegistry()->addCallback(m_callback, m_name, m_callbackData);
 
 			}
 

@@ -99,7 +99,7 @@ namespace Marvel {
 				if (!m_closing)
 				{
 					m_closing = true;
-					mvApp::GetApp()->runCallback(m_closing_callback, m_name);
+					mvCallbackRegistry::GetCallbackRegistry()->runCallback(m_closing_callback, m_name);
 
 				}
 				return;
@@ -178,7 +178,7 @@ namespace Marvel {
 			{
 				m_width = (int)ImGui::GetWindowWidth();
 				m_height = (int)ImGui::GetWindowHeight();
-				mvApp::GetApp()->runCallback(getResizeCallback(), m_name);
+				mvCallbackRegistry::GetCallbackRegistry()->runCallback(getResizeCallback(), m_name);
 			}
 
 			m_width = (int)ImGui::GetWindowWidth();
@@ -201,7 +201,7 @@ namespace Marvel {
 				// mouse move callback
 				if (oldMousePos.x != mousePos.x || oldMousePos.y != mousePos.y)
 				{
-					mvApp::GetApp()->runCallback(mvApp::GetApp()->getMouseMoveCallback(), m_name,
+					mvCallbackRegistry::GetCallbackRegistry()->runCallback(mvApp::GetApp()->getMouseMoveCallback(), m_name,
 						ToPyPair(x, y));
 				}
 

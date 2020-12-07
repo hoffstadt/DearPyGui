@@ -1,11 +1,12 @@
 #pragma once
 #include <string>
 #include <vector>
+#include <stack>
 #include <unordered_map>
 #include <functional>
 #include <variant>
 
-#define BIND_EVENT_FN(x) std::bind(&x, this, std::placeholders::_1)
+#define BIND_EVENT_METH(x) std::bind(&x, this, std::placeholders::_1)
 
 namespace Marvel {
 
@@ -65,8 +66,6 @@ namespace Marvel {
 		return std::make_pair(SID(name), static_cast<void*>(value));
 	}
 
-
-
 	//-----------------------------------------------------------------------------
 	// mvEventHandler
 	//-----------------------------------------------------------------------------
@@ -87,12 +86,18 @@ namespace Marvel {
 
 	public:
 
-		static void Publish  (mvEvent event);
-		static void Publish  (const char* category, const char* type, std::unordered_map<mvID, mvVariant> arguments);
-		static void Subscribe(mvEventHandler* handler, mvID type, mvID category = 0);
+		static void PublishEndFrame(const char* category, const char* type, std::unordered_map<mvID, mvVariant> arguments);
+		static void Publish        (const char* category, const char* type, std::unordered_map<mvID, mvVariant> arguments);
+		static void Subscribe      (mvEventHandler* handler, mvID type, mvID category = 0);
+
+		// event bus events
+		static bool OnEvent(mvEvent& event);
+		static bool OnFrame(mvEvent& event);
 
 	private:
 
+		static void                                                    Publish(mvEvent event);
+		static std::stack<mvEvent>&                                    GetEndFrameEvents();
 		static std::unordered_map<mvID, std::vector<mvEventHandler*>>& GetEventHandlers();
 		static std::unordered_map<mvID, std::vector<mvEventHandler*>>& GetEventCategoryHandlers();
 	};

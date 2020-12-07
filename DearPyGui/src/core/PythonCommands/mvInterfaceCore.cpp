@@ -12,7 +12,7 @@ namespace Marvel {
 			return false;
 
 		//auto ma = mvApp::GetApp();
-		mvItemRegistry& itemRegistry = mvApp::GetApp()->getItemRegistry();
+		mvItemRegistry& itemRegistry = *mvItemRegistry::GetItemRegistry();
 
 		// remove bad parent stack item
 		if (item->getDescription().root && itemRegistry.topParent() != nullptr)

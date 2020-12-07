@@ -396,7 +396,7 @@ namespace Marvel {
 			Py_XINCREF(callback);
 
 		mvAppItem* item;
-		item = mvApp::GetApp()->getItemRegistry().getItem(handler);
+		item = mvItemRegistry::GetItemRegistry()->getItem(handler);
 
 		if (item)
 		{

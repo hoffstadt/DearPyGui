@@ -78,7 +78,13 @@ namespace Marvel {
         glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
         m_window = glfwCreateWindow(width, height, mvApp::GetApp()->m_title.c_str(), nullptr, nullptr);
         glfwSetWindowPos(m_window, mvApp::GetApp()->m_mainXPos, mvApp::GetApp()->m_mainYPos);
-	    mvApp::GetApp()->setActualSize(width, height);
+
+        mvEventBus::Publish("VIEWPORT_EVENTS", "VIEWPORT_RESIZE", {
+            CreateEventArgument("actual_width", width),
+            CreateEventArgument("actual_height", height),
+            CreateEventArgument("client_width", width),
+            CreateEventArgument("client_height", height)
+                    });
 
         device = MTLCreateSystemDefaultDevice();;
         m_commandQueue = [device newCommandQueue];
@@ -145,7 +151,13 @@ namespace Marvel {
             m_layer.drawableSize = CGSizeMake(width, height);
             id <CAMetalDrawable> drawable = [m_layer nextDrawable];
 
-            mvApp::GetApp()->setClientSize(width, height);
+
+            mvEventBus::Publish("VIEWPORT_EVENTS", "VIEWPORT_RESIZE", {
+            CreateEventArgument("actual_width", m_width),
+            CreateEventArgument("actual_height", m_height),
+            CreateEventArgument("client_width", width),
+            CreateEventArgument("client_height", height)
+                    });
 
             id <MTLCommandBuffer> commandBuffer = [m_commandQueue commandBuffer];
             m_renderPassDescriptor.colorAttachments[0].clearColor = MTLClearColorMake(m_clear_color[0],

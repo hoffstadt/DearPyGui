@@ -31,7 +31,7 @@ namespace Marvel {
 		if (ImGui::Selectable(m_label.c_str(), m_value, m_flags))
 		{
 
-			mvApp::GetApp()->addCallback(m_callback, m_name, m_callbackData);
+			mvCallbackRegistry::GetCallbackRegistry()->addCallback(m_callback, m_name, m_callbackData);
 
 			// Context Menu
 			if (!getPopup().empty())
@@ -97,7 +97,7 @@ namespace Marvel {
 		if (m_small)
 		{
 			if (ImGui::SmallButton(m_label.c_str()))
-				mvApp::GetApp()->addCallback(getCallback(false), m_name, m_callbackData);
+				mvCallbackRegistry::GetCallbackRegistry()->addCallback(getCallback(false), m_name, m_callbackData);
 
 			return;
 		}
@@ -105,13 +105,13 @@ namespace Marvel {
 		if (m_arrow)
 		{
 			if (ImGui::ArrowButton(m_label.c_str(), m_direction))
-				mvApp::GetApp()->addCallback(getCallback(false), m_name, m_callbackData);
+				mvCallbackRegistry::GetCallbackRegistry()->addCallback(getCallback(false), m_name, m_callbackData);
 
 			return;
 		}
 
 		if (ImGui::Button(m_label.c_str(), ImVec2((float)m_width, (float)m_height)))
-			mvApp::GetApp()->addCallback(getCallback(false), m_name, m_callbackData);
+			mvCallbackRegistry::GetCallbackRegistry()->addCallback(getCallback(false), m_name, m_callbackData);
 
 	}
 
@@ -160,7 +160,7 @@ namespace Marvel {
 		}
 
 		if (ImGui::Checkbox(m_label.c_str(), m_enabled ? m_value : &m_disabled_value))
-			mvApp::GetApp()->addCallback(getCallback(false), m_name, m_callbackData);
+			mvCallbackRegistry::GetCallbackRegistry()->addCallback(getCallback(false), m_name, m_callbackData);
 
 	}
 
@@ -199,7 +199,7 @@ namespace Marvel {
 				if (ImGui::Selectable((name).c_str(), is_selected))
 				{
 					if (m_enabled) { *m_value = name; }
-					mvApp::GetApp()->addCallback(m_callback, m_name, m_callbackData);
+					mvCallbackRegistry::GetCallbackRegistry()->addCallback(m_callback, m_name, m_callbackData);
 
 				}
 
@@ -312,7 +312,7 @@ namespace Marvel {
 		}
 
 		if (ImGui::ListBox(m_label.c_str(), m_enabled ? m_value : &m_disabled_value, m_charNames.data(), (int)m_names.size(), m_itemsHeight))
-			mvApp::GetApp()->addCallback(getCallback(false), m_name, m_callbackData);
+			mvCallbackRegistry::GetCallbackRegistry()->addCallback(getCallback(false), m_name, m_callbackData);
 
 	}
 
@@ -371,7 +371,7 @@ namespace Marvel {
 				ImGui::SameLine();
 
 			if (ImGui::RadioButton((m_itemnames[i] + "##" + m_name).c_str(), m_enabled ? m_value : &m_disabled_value, (int)i))
-				mvApp::GetApp()->addCallback(getCallback(false), m_name, m_callbackData);
+				mvCallbackRegistry::GetCallbackRegistry()->addCallback(getCallback(false), m_name, m_callbackData);
 		}
 
 		ImGui::EndGroup();

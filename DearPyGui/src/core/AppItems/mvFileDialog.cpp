@@ -30,7 +30,7 @@ namespace Marvel {
 			if (igfd::ImGuiFileDialog::Instance()->IsOk)
 			{
 
-				mvApp::GetApp()->runCallback(m_callback, "File Dialog", ToPyList({ igfd::ImGuiFileDialog::Instance()->GetCurrentPath(), igfd::ImGuiFileDialog::Instance()->FileNameBuffer }));
+				mvCallbackRegistry::GetCallbackRegistry()->runCallback(m_callback, "File Dialog", ToPyList({ igfd::ImGuiFileDialog::Instance()->GetCurrentPath(), igfd::ImGuiFileDialog::Instance()->FileNameBuffer }));
 
 				// action
 				if (m_callback)

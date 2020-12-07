@@ -4,25 +4,85 @@
 #include "core/AppItems/mvWindowAppItem.h"
 #include "mvProfiler.h"
 #include "mvApp.h"
+#include "Registries/mvItemRegistry.h"
+#include "core/AppItems/mvAppItems.h"
 
 namespace Marvel {
+
+	mvItemRegistry* mvItemRegistry::s_instance = nullptr;
+
+	mvItemRegistry* mvItemRegistry::GetItemRegistry()
+	{
+		if (s_instance)
+			return s_instance;
+
+		s_instance = new mvItemRegistry();
+		return s_instance;
+	}
 
 	mvItemRegistry::mvItemRegistry()
 	{
 		mvEventBus::Subscribe(this, 0, SID("APP_ITEM_EVENTS"));
+		mvEventBus::Subscribe(this, SID("FRAME"));
+
+		auto add_hidden_window = [&](mvAppItem* item, const std::string& label) {
+			m_backWindows.push_back(item);
+			m_backWindows.back()->setLabel(label);
+			m_backWindows.back()->hide();
+		};
+
+		add_hidden_window(new mvAboutWindow("about##standard"), "About Dear PyGui");
+		add_hidden_window(new mvDocWindow("documentation##standard"), "Core Documentation");
+		add_hidden_window(new mvDebugWindow("debug##standard"), "Dear PyGui Debug");
+		add_hidden_window(new mvMetricsWindow("metrics##standard"), "Metrics");
+		add_hidden_window(new mvStyleWindow("style##standard"), "Dear PyGui Style Editor");
+		add_hidden_window(new mvFileDialog(), "FileDialog");
+	}
+
+	void mvItemRegistry::resetWindowStates()
+	{
+		// resets app items states (i.e. hovered)
+		for (auto window : m_frontWindows)
+			window->resetState();
+		for (auto window : m_backWindows)
+			window->resetState();
+	}
+
+	void mvItemRegistry::draw()
+	{
+		// resets app items states (i.e. hovered)
+		for (auto window : m_frontWindows)
+			window->draw();
+		for (auto window : m_backWindows)
+			window->draw();
 	}
 
 	bool mvItemRegistry::onEvent(mvEvent& event)
 	{
 		mvEventDispatcher dispatcher(event);
 
-		dispatcher.dispatch(BIND_EVENT_FN(mvItemRegistry::onAddItem),      SID("ADD_ITEM"));
-		dispatcher.dispatch(BIND_EVENT_FN(mvItemRegistry::onDeleteItem),   SID("DELETE_ITEM"));
-		dispatcher.dispatch(BIND_EVENT_FN(mvItemRegistry::onMoveItem),     SID("MOVE_ITEM"));
-		dispatcher.dispatch(BIND_EVENT_FN(mvItemRegistry::onMoveItemUp),   SID("MOVE_ITEM_UP"));
-		dispatcher.dispatch(BIND_EVENT_FN(mvItemRegistry::onMoveItemDown), SID("MOVE_ITEM_DOWN"));
+		dispatcher.dispatch(BIND_EVENT_METH(mvItemRegistry::onAddItem),      SID("ADD_ITEM"));
+		dispatcher.dispatch(BIND_EVENT_METH(mvItemRegistry::onDeleteItem),   SID("DELETE_ITEM"));
+		dispatcher.dispatch(BIND_EVENT_METH(mvItemRegistry::onMoveItem),     SID("MOVE_ITEM"));
+		dispatcher.dispatch(BIND_EVENT_METH(mvItemRegistry::onMoveItemUp),   SID("MOVE_ITEM_UP"));
+		dispatcher.dispatch(BIND_EVENT_METH(mvItemRegistry::onMoveItemDown), SID("MOVE_ITEM_DOWN"));
+		dispatcher.dispatch(BIND_EVENT_METH(mvItemRegistry::onEndFrame),     SID("FRAME"));
 
 		return event.handled;
+	}
+
+	bool mvItemRegistry::onEndFrame(mvEvent& event)
+	{
+
+		Py_BEGIN_ALLOW_THREADS
+		mvItemRegistry::GetItemRegistry()->postDeleteItems();
+		mvItemRegistry::GetItemRegistry()->postAddItems();
+		mvItemRegistry::GetItemRegistry()->postAddPopups();
+		mvItemRegistry::GetItemRegistry()->postMoveItems();
+
+		Py_END_ALLOW_THREADS
+
+		return false;
 	}
 
 	bool mvItemRegistry::onAddItem(mvEvent& event)

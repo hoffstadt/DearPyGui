@@ -417,6 +417,5 @@ namespace Marvel {
 
     };
 
-    thread_local mvWorkStealingQueue* mvThreadPool::m_local_work_queue;
-    thread_local unsigned mvThreadPool::m_index;
+
 }
