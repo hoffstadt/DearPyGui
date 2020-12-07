@@ -16,7 +16,6 @@ set(MARVEL_SOURCES
 
 	"src/core/mvEvents.cpp"
 	"src/core/mvApp.cpp"
-	"src/core/mvAppItemState.cpp"
 	"src/core/mvAppLog.cpp"
 	"src/core/mvInput.cpp"
 	"src/core/mvWindow.cpp"
@@ -62,6 +61,7 @@ set(MARVEL_SOURCES
 	"src/core/PythonCommands/mvAppItemInterface.cpp"
 	"src/core/PythonCommands/mvAppInterface.cpp"
 
+	"src/core/AppItems/mvAppItemState.cpp"
 	"src/core/AppItems/mvInputText.cpp"
 	"src/core/AppItems/mvTypeBases.cpp"
 	"src/core/AppItems/mvTimePicker.cpp"

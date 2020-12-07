@@ -4,7 +4,7 @@
 #include "Registries/mvDataStorage.h"
 #include "mvAppLog.h"
 #include "PythonUtilities/mvPythonTranslator.h"
-#include "core/mvAppItems.h"
+#include "core/AppItems/mvAppItems.h"
 #include "mvWindow.h"
 #include "PythonUtilities/mvPythonExceptions.h"
 #include <ImGuiFileDialog.h>
