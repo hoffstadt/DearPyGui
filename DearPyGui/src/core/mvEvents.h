@@ -31,6 +31,19 @@ namespace Marvel {
 	bool               GetEBool  (mvEvent& event, const char* name);
 	int                GetEInt   (mvEvent& event, const char* name);
 
+	//-----------------------------------------------------------------------------
+	// mvEvent
+	//-----------------------------------------------------------------------------
+	struct mvEvent
+	{
+
+		mvID type;
+		std::unordered_map<mvID, mvVariant> arguments;
+		mvID category = 0;
+		bool handled = false;
+	};
+
+	// variant helpers
 	template<typename T>
 	T GetEPtr(mvEvent& event, const char* name)
 	{
@@ -52,17 +65,7 @@ namespace Marvel {
 		return std::make_pair(SID(name), static_cast<void*>(value));
 	}
 
-	//-----------------------------------------------------------------------------
-	// mvEvent
-	//-----------------------------------------------------------------------------
-	struct mvEvent
-	{
 
-		mvID type;
-		std::unordered_map<mvID, mvVariant> arguments;
-		mvID category = 0;
-		bool handled = false;
-	};
 
 	//-----------------------------------------------------------------------------
 	// mvEventHandler
