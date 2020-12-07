@@ -90,8 +90,41 @@ namespace Marvel {
 			viewport->stop();
 	}
 
+	void mvApp::start(const std::string& primaryWindow)
+	{
+		s_started = true;
+
+		// create window
+		m_viewport = mvWindow::CreatemvWindow(m_actualWidth, m_actualHeight, false);
+		m_viewport->show();
+
+		if (!std::string(primaryWindow).empty())
+		{
+			// reset other windows
+			for (auto window : mvApp::GetApp()->getItemRegistry().getFrontWindows())
+			{
+				if (window->getName() != primaryWindow)
+					static_cast<mvWindowAppitem*>(window)->setWindowAsMainStatus(false);
+			}
+
+			mvWindowAppitem* window = mvApp::GetApp()->getItemRegistry().getWindow(primaryWindow);
+
+			if (window)
+				window->setWindowAsMainStatus(true);
+			else
+				ThrowPythonException("Window does not exists.");
+		}
+
+		m_viewport->run();
+		delete m_viewport;
+		s_started = false;
+	}
+
 	mvApp::mvApp() : mvOldEventHandler()
 	{
+
+		mvEventBus::Subscribe(this, 0, SID("VIEWPORT_EVENTS"));
+
 		m_parsers = BuildDearPyGuiInterface();
 
 		// info
@@ -115,6 +148,27 @@ namespace Marvel {
 		add_hidden_window(new mvStyleWindow("style##standard"), "Dear PyGui Style Editor");
 		add_hidden_window(new mvFileDialog(), "FileDialog");
 
+	}
+
+	bool mvApp::onEvent(mvEvent& event)
+	{
+		mvEventDispatcher dispatcher(event);
+
+		dispatcher.dispatch(BIND_EVENT_FN(mvApp::onViewPortResize), SID("VIEWPORT_RESIZE"));
+
+		return event.handled;
+	}
+
+	bool mvApp::onViewPortResize(mvEvent& event)
+	{
+		m_actualWidth  = GetEInt(event, "actual_width");
+		m_actualHeight = GetEInt(event, "actual_height");
+		m_clientWidth  = GetEInt(event, "client_width");
+		m_clientHeight = GetEInt(event, "client_height");
+
+		runCallback(getResizeCallback(), "Main Application");
+
+		return true;
 	}
 
 	mvApp::~mvApp()
@@ -273,19 +327,6 @@ namespace Marvel {
 #if defined(MV_PROFILE) && defined(MV_DEBUG)
 		postProfile();
 #endif // MV_PROFILE
-	}
-
-	void mvApp::setClientSize(unsigned width, unsigned height)
-	{
-		m_clientWidth = width;
-		m_clientHeight = height;
-	}
-
-	void mvApp::setActualSize(unsigned width, unsigned height)
-	{
-
-		m_actualWidth = width;
-		m_actualHeight = height;
 	}
 
 	void mvApp::setMainPos(int x, int y)

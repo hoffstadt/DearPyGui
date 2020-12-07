@@ -13,6 +13,7 @@
 
 #include "mvApp.h"
 #include "mvAppLog.h"
+#include "mvEvents.h"
 
 namespace Marvel {
 

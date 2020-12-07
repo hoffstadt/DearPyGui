@@ -59,7 +59,7 @@ namespace Marvel {
     //-----------------------------------------------------------------------------
     // mvApp
     //-----------------------------------------------------------------------------
-    class mvApp : public mvOldEventHandler
+    class mvApp : public mvOldEventHandler, public mvEventHandler
     {
 
         friend class mvWindow;
@@ -104,7 +104,15 @@ namespace Marvel {
         static void              SetAppStarted       ();
         static void              SetAppStopped       ();
 
+        void start(const std::string& primaryWindow);
+
         ~mvApp();
+
+        //-----------------------------------------------------------------------------
+        // New event handling system
+        //-----------------------------------------------------------------------------
+        bool onEvent         (mvEvent& event) override;
+        bool onViewPortResize(mvEvent& event);
 
         //-----------------------------------------------------------------------------
         // Rendering
@@ -121,9 +129,7 @@ namespace Marvel {
         void                     turnOnDocking     (bool shiftOnly, bool dockSpace);
         void                     addRemapChar      (int dst, int src) { m_charRemaps.push_back({ dst, src }); }
         void                     setVSync          (bool value) { m_vsync = value; }
-        void                     setResizable      (bool value) { m_resizable = value; }
-        void                     setClientSize     (unsigned width, unsigned height);
-        void                     setActualSize     (unsigned width, unsigned height);			
+        void                     setResizable      (bool value) { m_resizable = value; }			
         void                     setMainPos        (int x, int y);			
         void                     setActiveWindow   (const std::string& window) { m_activeWindow = window; }
         void                     setGlobalFontScale(float scale);

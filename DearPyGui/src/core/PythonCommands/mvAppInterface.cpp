@@ -465,33 +465,8 @@ namespace Marvel {
 			return GetPyNone();
 		}
 
-		mvApp::SetAppStarted();
-
-		// create window
-		auto window = mvWindow::CreatemvWindow(mvApp::GetApp()->getActualWidth(), mvApp::GetApp()->getActualHeight(), false);
-		mvApp::GetApp()->setViewport(window);
-		window->show();
-
-		if (!std::string(primary_window).empty())
-		{
-			// reset other windows
-			for (auto window : mvApp::GetApp()->getItemRegistry().getFrontWindows())
-			{
-				if(window->getName() != primary_window)
-					static_cast<mvWindowAppitem*>(window)->setWindowAsMainStatus(false);
-			}
-
-			mvWindowAppitem* window = mvApp::GetApp()->getItemRegistry().getWindow(primary_window);
-
-			if (window)
-				window->setWindowAsMainStatus(true);
-			else
-				ThrowPythonException("Window does not exists.");
-		}
-
-		window->run();
-		delete window;
-		mvApp::SetAppStopped();
+		mvApp::GetApp()->start(primary_window);
+		
 		mvApp::DeleteApp();
 
 		return GetPyNone();
@@ -717,7 +692,12 @@ namespace Marvel {
 		if (!(*mvApp::GetApp()->getParsers())["set_main_window_size"].parse(args, kwargs, __FUNCTION__, &width, &height))
 			return GetPyNone();
 
-		mvApp::GetApp()->setActualSize(width, height);
+		mvEventBus::Publish("VIEWPORT_EVENTS", "VIEWPORT_RESIZE", {
+			CreateEventArgument("actual_width", width),
+			CreateEventArgument("actual_height", height),
+			CreateEventArgument("client_width", width),
+			CreateEventArgument("client_height", height)
+			});
 
 		return GetPyNone();
 	}
