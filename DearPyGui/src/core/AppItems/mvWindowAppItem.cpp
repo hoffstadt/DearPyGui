@@ -173,6 +173,8 @@ namespace Marvel {
 			m_state.setFocused(ImGui::IsWindowFocused());
 			m_state.setRectSize({ ImGui::GetWindowSize().x, ImGui::GetWindowSize().y });
 			m_state.setActivated(ImGui::IsWindowCollapsed());
+			m_actualWidth = ImGui::GetWindowSize().x;
+			m_actualHeight = ImGui::GetWindowSize().y;
 
 			if (ImGui::GetWindowWidth() != (float)m_width || ImGui::GetWindowHeight() != (float)m_height)
 			{
