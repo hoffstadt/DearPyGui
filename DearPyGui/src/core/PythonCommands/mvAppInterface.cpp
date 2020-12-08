@@ -1,7 +1,6 @@
 #include "mvAppInterface.h"
 #include "mvInterfaceCore.h"
-#include "core/AppItems/mvAppItems.h"
-#include "core/AppItems/mvWindowAppItem.h"
+#include "core/AppItems/mvAppItem.h"
 #include "core/mvWindow.h"
 #include "core/mvEvents.h"
 #include "core/mvThreadPoolManager.h"

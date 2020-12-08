@@ -1,7 +1,7 @@
 #pragma once
 
 #include "mvApp.h"
-#include "mvAppItem.h"
+#include "core/AppItems/mvAppItem.h"
 #include "PythonUtilities/mvPythonTranslator.h"
 #include <imgui.h>
 
