@@ -4,6 +4,7 @@
 #include "core/AppItems/mvWindowAppItem.h"
 #include "core/mvWindow.h"
 #include "core/mvEvents.h"
+#include "core/mvThreadPoolManager.h"
 #include <ImGuiFileDialog.h>
 #include "Registries/mvDataStorage.h"
 
@@ -338,7 +339,7 @@ namespace Marvel {
 			&name))
 			return GetPyNone();
 
-		mvEventBus::PublishEndFrame("TEXTURE_EVENTS", "DECREMENT_TEXTURE", { CreateEventArgument("NAME", std::string(name)) });
+		mvEventBus::PublishEndFrame(mvEVT_CATEGORY_TEXTURE, mvEVT_DEC_TEXTURE, { CreateEventArgument("NAME", std::string(name)) });
 
 		return GetPyNone();
 	}
@@ -526,6 +527,8 @@ namespace Marvel {
 		if (return_handler)
 			Py_XINCREF(return_handler);
 
+		auto tpool = mvThreadPoolManager::GetThreadPoolManager();
+
 		mvCallbackRegistry::GetCallbackRegistry()->addMTCallback(callback, data, return_handler);
 
 		return GetPyNone();
@@ -587,17 +590,17 @@ namespace Marvel {
 
 	PyObject* get_thread_count(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
-		return ToPyInt(mvApp::GetApp()->getThreadCount());
+		return ToPyInt(mvThreadPoolManager::GetThreadPoolManager()->getThreadCount());
 	}
 
 	PyObject* is_threadpool_high_performance(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
-		return ToPyBool(mvApp::GetApp()->usingThreadPoolHighPerformance());
+		return ToPyBool(mvThreadPoolManager::GetThreadPoolManager()->usingThreadPoolHighPerformance());
 	}
 
 	PyObject* get_threadpool_timeout(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
-		return ToPyFloat((float)mvApp::GetApp()->getThreadPoolTimeout());
+		return ToPyFloat((float)mvThreadPoolManager::GetThreadPoolManager()->getThreadPoolTimeout());
 	}
 
 	PyObject* get_active_window(PyObject* self, PyObject* args, PyObject* kwargs)
@@ -617,7 +620,7 @@ namespace Marvel {
 		if (!(*mvApp::GetApp()->getParsers())["set_threadpool_timeout"].parse(args, kwargs, __FUNCTION__, &time))
 			return GetPyNone();
 
-		mvApp::GetApp()->setThreadPoolTimeout(time);
+		mvThreadPoolManager::GetThreadPoolManager()->setThreadPoolTimeout(time);
 
 		return GetPyNone();
 	}
@@ -629,7 +632,7 @@ namespace Marvel {
 		if (!(*mvApp::GetApp()->getParsers())["set_thread_count"].parse(args, kwargs, __FUNCTION__, &threads))
 			return GetPyNone();
 
-		mvApp::GetApp()->setThreadCount(threads);
+		mvThreadPoolManager::GetThreadPoolManager()->setThreadCount(threads);
 
 		return GetPyNone();
 	}
@@ -680,7 +683,7 @@ namespace Marvel {
 
 	PyObject* set_threadpool_high_performance(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
-		mvApp::GetApp()->setThreadPoolHighPerformance();
+		mvThreadPoolManager::GetThreadPoolManager()->setThreadPoolHighPerformance();
 		return GetPyNone();
 	}
 
@@ -692,7 +695,7 @@ namespace Marvel {
 		if (!(*mvApp::GetApp()->getParsers())["set_main_window_size"].parse(args, kwargs, __FUNCTION__, &width, &height))
 			return GetPyNone();
 
-		mvEventBus::Publish("VIEWPORT_EVENTS", "VIEWPORT_RESIZE", {
+		mvEventBus::Publish(mvEVT_CATEGORY_VIEWPORT, mvEVT_VIEWPORT_RESIZE, {
 			CreateEventArgument("actual_width", width),
 			CreateEventArgument("actual_height", height),
 			CreateEventArgument("client_width", width),

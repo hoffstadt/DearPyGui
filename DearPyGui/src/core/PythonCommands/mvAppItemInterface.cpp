@@ -288,7 +288,7 @@ namespace Marvel {
 			&item, &parent, &before))
 			return GetPyNone();
 
-		mvEventBus::Publish("APP_ITEM_EVENTS", "MOVE_ITEM",
+		mvEventBus::Publish(mvEVT_CATEGORY_ITEM, mvEVT_MOVE_ITEM,
 		{
 				CreateEventArgument("ITEM", std::string(item)),
 				CreateEventArgument("PARENT", std::string(parent)),
@@ -364,7 +364,7 @@ namespace Marvel {
 		if (!(*mvApp::GetApp()->getParsers())["delete_item"].parse(args, kwargs, __FUNCTION__, &item, &childrenOnly))
 			return GetPyNone();
 
-		mvEventBus::Publish("APP_ITEM_EVENTS", "DELETE_ITEM",
+		mvEventBus::Publish(mvEVT_CATEGORY_ITEM, mvEVT_DELETE_ITEM,
 			{
 				CreateEventArgument("ITEM", std::string(item)),
 				CreateEventArgument("CHILDREN_ONLY", (bool)childrenOnly),
@@ -404,7 +404,7 @@ namespace Marvel {
 		if (!(*mvApp::GetApp()->getParsers())["move_item_up"].parse(args, kwargs, __FUNCTION__, &item))
 			return GetPyNone();
 
-		mvEventBus::Publish("APP_ITEM_EVENTS", "MOVE_ITEM_UP",
+		mvEventBus::Publish(mvEVT_CATEGORY_ITEM, mvEVT_MOVE_ITEM_UP,
 			{
 					CreateEventArgument("ITEM", std::string(item))
 			});
@@ -423,7 +423,7 @@ namespace Marvel {
 		if (!(*mvApp::GetApp()->getParsers())["move_item_down"].parse(args, kwargs, __FUNCTION__, &item))
 			return GetPyNone();
 
-		mvEventBus::Publish("APP_ITEM_EVENTS", "MOVE_ITEM_DOWN",
+		mvEventBus::Publish(mvEVT_CATEGORY_ITEM, mvEVT_MOVE_ITEM_DOWN,
 			{
 					CreateEventArgument("ITEM", std::string(item))
 			});
@@ -789,7 +789,7 @@ namespace Marvel {
 		if (value)
 			Py_XINCREF(value);
 		
-		mvEventBus::PublishEndFrame("VALUE_EVENTS", "PYTHON_SET_VALUE", {
+		mvEventBus::PublishEndFrame(mvEVT_CATEGORY_VALUES, mvEVT_PY_SET_VALUE, {
 			CreateEventArgument("NAME", std::string(name)),
 			CreateEventPtrArgument("VALUE", value)
 			});

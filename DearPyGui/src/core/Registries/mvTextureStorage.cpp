@@ -17,13 +17,13 @@ namespace Marvel {
 
 	mvTextureStorage::mvTextureStorage()
 	{
-		mvEventBus::Subscribe(this, 0, SID("TEXTURE_EVENTS"));
+		mvEventBus::Subscribe(this, 0, mvEVT_CATEGORY_TEXTURE);
 	}
 
 	bool mvTextureStorage::onEvent(mvEvent& event)
 	{
 		mvEventDispatcher dispatcher(event);
-		dispatcher.dispatch(BIND_EVENT_METH(mvTextureStorage::onDecrement), SID("DECREMENT_TEXTURE"));
+		dispatcher.dispatch(BIND_EVENT_METH(mvTextureStorage::onDecrement), mvEVT_DEC_TEXTURE);
 
 		return event.handled;
 	}
@@ -109,7 +109,7 @@ namespace Marvel {
 			FreeTexture(m_textures.at(name));
 			m_textures.erase(name);
 
-			mvEventBus::Publish("TEXTURE_EVENTS", "DELETE_TEXTURE", { CreateEventArgument("NAME", name) });
+			mvEventBus::Publish(mvEVT_CATEGORY_TEXTURE, mvEVT_DELETE_TEXTURE, { CreateEventArgument("NAME", name) });
 		}
 	}
 

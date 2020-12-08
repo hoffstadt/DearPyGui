@@ -28,7 +28,7 @@ namespace Marvel {
 		bool onEvent(mvEvent& event)
 		{
 			mvEventDispatcher dispatcher(event);
-			dispatcher.dispatch(BIND_EVENT_METH(mvImageSeries::onTextureDeleted), SID("DELETE_TEXTURE"));
+			dispatcher.dispatch(BIND_EVENT_METH(mvImageSeries::onTextureDeleted), mvEVT_DELETE_TEXTURE);
 
 			return event.handled;
 		}
@@ -62,7 +62,7 @@ namespace Marvel {
 
 		~mvImageSeries()
 		{
-			mvEventBus::Publish("TEXTURE_EVENTS", "DECREMENT_TEXTURE", { CreateEventArgument("NAME", m_value) });
+			mvEventBus::Publish(mvEVT_CATEGORY_TEXTURE, mvEVT_DEC_TEXTURE, { CreateEventArgument("NAME", m_value) });
 			mvEventBus::UnSubscribe(this);
 		}
 

@@ -41,14 +41,14 @@ namespace Marvel {
 		return false;
 	}
 
-	void mvEventBus::PublishEndFrame(const char* category, const char* type, std::unordered_map<mvID, mvVariant> arguments)
+	void mvEventBus::PublishEndFrame(mvID category, mvID type, std::unordered_map<mvID, mvVariant> arguments)
 	{
-		GetEndFrameEvents().push({ SID(type), arguments, SID(category) });
+		GetEndFrameEvents().push({ type, arguments, category });
 	}
 
-	void mvEventBus::Publish(const char* category, const char* type, std::unordered_map<mvID, mvVariant> arguments)
+	void mvEventBus::Publish(mvID category, mvID type, std::unordered_map<mvID, mvVariant> arguments)
 	{
-		Publish({ SID(type), arguments, SID(category) });
+		Publish({ type, arguments, category });
 	}
 
 	void mvEventBus::Publish(mvEvent event)

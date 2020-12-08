@@ -18,7 +18,7 @@ namespace Marvel {
 
 	mvValueStorage::mvValueStorage()
 	{
-		mvEventBus::Subscribe(this, 0, SID("VALUE_EVENTS"));
+		mvEventBus::Subscribe(this, 0, mvEVT_CATEGORY_VALUES);
 
 		s_refStorage =
 		{
@@ -71,7 +71,7 @@ namespace Marvel {
 	bool mvValueStorage::onEvent(mvEvent& event)
 	{
 		mvEventDispatcher dispatcher(event);
-		dispatcher.dispatch(BIND_EVENT_METH(mvValueStorage::onPythonSetEvent), SID("PYTHON_SET_VALUE"));
+		dispatcher.dispatch(BIND_EVENT_METH(mvValueStorage::onPythonSetEvent), mvEVT_PY_SET_VALUE);
 
 		return event.handled;
 	}

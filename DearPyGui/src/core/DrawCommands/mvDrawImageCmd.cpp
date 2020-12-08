@@ -14,19 +14,19 @@ namespace Marvel {
 		m_uv_max(uv_max),
 		m_color(color)
 	{
-		mvEventBus::Subscribe(this, SID("DELETE_TEXTURE"));
+		mvEventBus::Subscribe(this, mvEVT_DELETE_TEXTURE);
 	}
 
 	mvDrawImageCmd::~mvDrawImageCmd()
 	{
-		mvEventBus::Publish("TEXTURE_EVENTS", "DECREMENT_TEXTURE", { CreateEventArgument("NAME", m_file) });
+		mvEventBus::Publish(mvEVT_CATEGORY_TEXTURE, mvEVT_DEC_TEXTURE, { CreateEventArgument("NAME", m_file) });
 		mvEventBus::UnSubscribe(this);
 	}
 
 	bool mvDrawImageCmd::onEvent(mvEvent& event)
 	{
 		mvEventDispatcher dispatcher(event);
-		dispatcher.dispatch(BIND_EVENT_METH(mvDrawImageCmd::onTextureDeleted), SID("DELETE_TEXTURE"));
+		dispatcher.dispatch(BIND_EVENT_METH(mvDrawImageCmd::onTextureDeleted), mvEVT_DELETE_TEXTURE);
 
 		return event.handled;
 	}

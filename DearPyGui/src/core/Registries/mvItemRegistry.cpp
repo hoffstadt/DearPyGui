@@ -22,10 +22,10 @@ namespace Marvel {
 
 	mvItemRegistry::mvItemRegistry()
 	{
-		mvEventBus::Subscribe(this, 0, SID("APP_ITEM_EVENTS"));
-		mvEventBus::Subscribe(this, SID("END_FRAME"));
-		mvEventBus::Subscribe(this, SID("PRE_RENDER_RESET"));
-		mvEventBus::Subscribe(this, SID("RENDER"));
+		mvEventBus::Subscribe(this, 0, mvEVT_CATEGORY_ITEM);
+		mvEventBus::Subscribe(this, mvEVT_END_FRAME);
+		mvEventBus::Subscribe(this, mvEVT_PRE_RENDER_RESET);
+		mvEventBus::Subscribe(this, mvEVT_RENDER);
 
 		auto add_hidden_window = [&](mvAppItem* item, const std::string& label) {
 			m_backWindows.push_back(item);
@@ -63,14 +63,14 @@ namespace Marvel {
 	{
 		mvEventDispatcher dispatcher(event);
 
-		dispatcher.dispatch(BIND_EVENT_METH(mvItemRegistry::onAddItem),        SID("ADD_ITEM"));
-		dispatcher.dispatch(BIND_EVENT_METH(mvItemRegistry::onDeleteItem),     SID("DELETE_ITEM"));
-		dispatcher.dispatch(BIND_EVENT_METH(mvItemRegistry::onMoveItem),       SID("MOVE_ITEM"));
-		dispatcher.dispatch(BIND_EVENT_METH(mvItemRegistry::onMoveItemUp),     SID("MOVE_ITEM_UP"));
-		dispatcher.dispatch(BIND_EVENT_METH(mvItemRegistry::onMoveItemDown),   SID("MOVE_ITEM_DOWN"));
-		dispatcher.dispatch(BIND_EVENT_METH(mvItemRegistry::onEndFrame),       SID("END_FRAME"));
-		dispatcher.dispatch(BIND_EVENT_METH(mvItemRegistry::onPreRenderReset), SID("PRE_RENDER_RESET"));
-		dispatcher.dispatch(BIND_EVENT_METH(mvItemRegistry::onRender),         SID("RENDER"));
+		dispatcher.dispatch(BIND_EVENT_METH(mvItemRegistry::onAddItem), mvEVT_ADD_ITEM);
+		dispatcher.dispatch(BIND_EVENT_METH(mvItemRegistry::onDeleteItem), mvEVT_DELETE_ITEM);
+		dispatcher.dispatch(BIND_EVENT_METH(mvItemRegistry::onMoveItem), mvEVT_MOVE_ITEM);
+		dispatcher.dispatch(BIND_EVENT_METH(mvItemRegistry::onMoveItemUp), mvEVT_MOVE_ITEM_UP);
+		dispatcher.dispatch(BIND_EVENT_METH(mvItemRegistry::onMoveItemDown), mvEVT_MOVE_ITEM_DOWN);
+		dispatcher.dispatch(BIND_EVENT_METH(mvItemRegistry::onEndFrame), mvEVT_END_FRAME);
+		dispatcher.dispatch(BIND_EVENT_METH(mvItemRegistry::onPreRenderReset), mvEVT_PRE_RENDER_RESET);
+		dispatcher.dispatch(BIND_EVENT_METH(mvItemRegistry::onRender), mvEVT_RENDER);
 
 		return event.handled;
 	}
