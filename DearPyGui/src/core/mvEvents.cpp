@@ -2,11 +2,6 @@
 
 namespace Marvel {
 
-	mvID SID(const std::string& value)
-	{
-		return std::hash<std::string>{}(value);
-	}
-
 	const std::string& GetEString(mvEvent& event, const char* name)
 	{
 		return std::get<std::string>(event.arguments.at(SID(name)));
@@ -22,10 +17,15 @@ namespace Marvel {
 		return std::get<int>(event.arguments.at(SID(name)));
 	}
 
+	float GetEFloat(mvEvent& event, const char* name)
+	{
+		return std::get<float>(event.arguments.at(SID(name)));
+	}
+
 	bool mvEventBus::OnEvent(mvEvent& event)
 	{
 		mvEventDispatcher dispatcher(event);
-		dispatcher.dispatch(mvEventBus::OnFrame, SID("FRAME"));
+		dispatcher.dispatch(mvEventBus::OnFrame, SID("END_FRAME"));
 
 		return false;
 	}

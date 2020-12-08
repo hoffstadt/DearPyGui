@@ -3,6 +3,7 @@
 #include "DrawCommands/mvDrawCmdCommon.h"
 #include "Registries/mvDrawList.h"
 #include "core/mvEvents.h"
+#include "core/mvWindow.h"
 
 static const std::string DrawForeground = "##FOREGROUND";
 static const std::string DrawBackground = "##BACKGROUND";
@@ -195,10 +196,10 @@ namespace Marvel {
 	static mvDrawList* GetDrawListFromTarget(const char* name)
 	{
 		if (name == DrawForeground)
-			return &mvApp::GetApp()->getFrontDrawList();
+			return &mvApp::GetApp()->getViewport()->getFrontDrawList();
 
 		if (name == DrawBackground)
-			return &mvApp::GetApp()->getBackDrawList();
+			return &mvApp::GetApp()->getViewport()->getBackDrawList();
 
 		auto item = mvItemRegistry::GetItemRegistry()->getItem(name);
 

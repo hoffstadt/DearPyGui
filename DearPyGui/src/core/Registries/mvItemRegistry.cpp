@@ -23,7 +23,9 @@ namespace Marvel {
 	mvItemRegistry::mvItemRegistry()
 	{
 		mvEventBus::Subscribe(this, 0, SID("APP_ITEM_EVENTS"));
-		mvEventBus::Subscribe(this, SID("FRAME"));
+		mvEventBus::Subscribe(this, SID("END_FRAME"));
+		mvEventBus::Subscribe(this, SID("PRE_RENDER_RESET"));
+		mvEventBus::Subscribe(this, SID("RENDER"));
 
 		auto add_hidden_window = [&](mvAppItem* item, const std::string& label) {
 			m_backWindows.push_back(item);
@@ -61,14 +63,28 @@ namespace Marvel {
 	{
 		mvEventDispatcher dispatcher(event);
 
-		dispatcher.dispatch(BIND_EVENT_METH(mvItemRegistry::onAddItem),      SID("ADD_ITEM"));
-		dispatcher.dispatch(BIND_EVENT_METH(mvItemRegistry::onDeleteItem),   SID("DELETE_ITEM"));
-		dispatcher.dispatch(BIND_EVENT_METH(mvItemRegistry::onMoveItem),     SID("MOVE_ITEM"));
-		dispatcher.dispatch(BIND_EVENT_METH(mvItemRegistry::onMoveItemUp),   SID("MOVE_ITEM_UP"));
-		dispatcher.dispatch(BIND_EVENT_METH(mvItemRegistry::onMoveItemDown), SID("MOVE_ITEM_DOWN"));
-		dispatcher.dispatch(BIND_EVENT_METH(mvItemRegistry::onEndFrame),     SID("FRAME"));
+		dispatcher.dispatch(BIND_EVENT_METH(mvItemRegistry::onAddItem),        SID("ADD_ITEM"));
+		dispatcher.dispatch(BIND_EVENT_METH(mvItemRegistry::onDeleteItem),     SID("DELETE_ITEM"));
+		dispatcher.dispatch(BIND_EVENT_METH(mvItemRegistry::onMoveItem),       SID("MOVE_ITEM"));
+		dispatcher.dispatch(BIND_EVENT_METH(mvItemRegistry::onMoveItemUp),     SID("MOVE_ITEM_UP"));
+		dispatcher.dispatch(BIND_EVENT_METH(mvItemRegistry::onMoveItemDown),   SID("MOVE_ITEM_DOWN"));
+		dispatcher.dispatch(BIND_EVENT_METH(mvItemRegistry::onEndFrame),       SID("END_FRAME"));
+		dispatcher.dispatch(BIND_EVENT_METH(mvItemRegistry::onPreRenderReset), SID("PRE_RENDER_RESET"));
+		dispatcher.dispatch(BIND_EVENT_METH(mvItemRegistry::onRender),         SID("RENDER"));
 
 		return event.handled;
+	}
+
+	bool mvItemRegistry::onRender(mvEvent& event)
+	{
+		draw();
+		return false;
+	}
+
+	bool mvItemRegistry::onPreRenderReset(mvEvent& event)
+	{
+		resetWindowStates();
+		return false;
 	}
 
 	bool mvItemRegistry::onEndFrame(mvEvent& event)

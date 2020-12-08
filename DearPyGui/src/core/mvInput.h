@@ -47,6 +47,8 @@ namespace Marvel {
 		static bool          isKeyPressed              (int keycode);
 		static bool          isKeyReleased             (int keycode);
 
+		static void          CheckInputs();
+
 	private:
 
 		static mvVec2 s_mousePos;

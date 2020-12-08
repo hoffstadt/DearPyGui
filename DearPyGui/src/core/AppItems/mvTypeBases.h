@@ -3,7 +3,6 @@
 #include <implot.h>
 #include <implot_internal.h>
 #include "mvAppItem.h"
-#include "mvOldEventHandler.h"
 
 //-----------------------------------------------------------------------------
 // mvTypeBases
@@ -274,7 +273,7 @@ namespace Marvel {
 	//-----------------------------------------------------------------------------
 	// mvBaseWindowAppitem
 	//-----------------------------------------------------------------------------
-	class mvBaseWindowAppitem : public mvAppItem, public mvOldEventHandler
+	class mvBaseWindowAppitem : public mvAppItem
 	{
 
 	public:

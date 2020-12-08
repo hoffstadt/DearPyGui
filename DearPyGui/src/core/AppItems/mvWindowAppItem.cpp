@@ -6,7 +6,7 @@
 namespace Marvel {
 
 		mvWindowAppitem::mvWindowAppitem(const std::string& name, bool mainWindow, PyObject* closing_callback)
-			: mvAppItem(name), mvOldEventHandler(), m_mainWindow(mainWindow), m_closing_callback(SanitizeCallback(closing_callback))
+			: mvAppItem(name), m_mainWindow(mainWindow), m_closing_callback(SanitizeCallback(closing_callback))
 		{
 			m_description.root = true;
 			m_description.container = true;
@@ -178,7 +178,7 @@ namespace Marvel {
 			{
 				m_width = (int)ImGui::GetWindowWidth();
 				m_height = (int)ImGui::GetWindowHeight();
-				mvCallbackRegistry::GetCallbackRegistry()->runCallback(getResizeCallback(), m_name);
+				//mvCallbackRegistry::GetCallbackRegistry()->runCallback(getResizeCallback(), m_name);
 			}
 
 			m_width = (int)ImGui::GetWindowWidth();
@@ -199,11 +199,11 @@ namespace Marvel {
 				mvApp::GetApp()->setActiveWindow(m_name);
 
 				// mouse move callback
-				if (oldMousePos.x != mousePos.x || oldMousePos.y != mousePos.y)
-				{
-					mvCallbackRegistry::GetCallbackRegistry()->runCallback(mvApp::GetApp()->getMouseMoveCallback(), m_name,
-						ToPyPair(x, y));
-				}
+				//if (oldMousePos.x != mousePos.x || oldMousePos.y != mousePos.y)
+				//{
+				//	mvCallbackRegistry::GetCallbackRegistry()->runCallback(mvApp::GetApp()->getMouseMoveCallback(), m_name,
+				//		ToPyPair(x, y));
+				//}
 
 			}
 

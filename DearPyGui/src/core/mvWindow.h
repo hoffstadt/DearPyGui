@@ -14,13 +14,14 @@
 #include "mvApp.h"
 #include "mvAppLog.h"
 #include "mvEvents.h"
+#include "Registries/mvDrawList.h"
 
 namespace Marvel {
 
 	//-----------------------------------------------------------------------------
 	// mvWindow
 	//-----------------------------------------------------------------------------
-	class mvWindow
+	class mvWindow : public mvEventHandler
 	{
 
 	public:
@@ -29,6 +30,12 @@ namespace Marvel {
 
 		mvWindow(unsigned width, unsigned height, bool error = false);
 		virtual ~mvWindow() = default;
+
+		bool onEvent (mvEvent& event) override;
+		bool onRender(mvEvent& event);
+
+		mvDrawList& getFrontDrawList() { return m_frontDrawList; }
+		mvDrawList& getBackDrawList() { return m_backDrawList; }
 
 		virtual void show       () {}
 		virtual void run        () {}
@@ -50,6 +57,8 @@ namespace Marvel {
 		bool              m_error   = false;
 		unsigned          m_width;
 		unsigned          m_height;
+		mvDrawList        m_frontDrawList;
+		mvDrawList        m_backDrawList;
 
 	};
 

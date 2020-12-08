@@ -26,7 +26,6 @@
 #include "mvEvents.h"
 #include "core/AppItems/mvAppItem.h"
 #include "PythonUtilities/mvPythonParser.h"
-#include "mvOldEventHandler.h"
 #include "Registries/mvItemRegistry.h"
 #include "Registries/mvDrawList.h"
 #include "Registries/mvTextureStorage.h"
@@ -59,7 +58,7 @@ namespace Marvel {
     //-----------------------------------------------------------------------------
     // mvApp
     //-----------------------------------------------------------------------------
-    class mvApp : public mvOldEventHandler, public mvEventHandler
+    class mvApp : public mvEventHandler
     {
 
         friend class mvWindow;
@@ -104,7 +103,6 @@ namespace Marvel {
         // Rendering
         //-----------------------------------------------------------------------------
         void                     firstRenderFrame(); // only ran during first frame
-        void                     thirdRenderFrame(); // only ran during third frame
         bool                     prerender       (); // pre rendering (every frame)
         void                     render          (); // actual render loop
         void                     postrender      (); // post rendering (every frame)
@@ -170,8 +168,6 @@ namespace Marvel {
         // Other
         //-----------------------------------------------------------------------------
         std::map<std::string, mvPythonParser>* getParsers      () { return m_parsers; }
-        mvDrawList&                            getFrontDrawList() { return m_frontDrawList; }
-        mvDrawList&                            getBackDrawList () { return m_backDrawList; }
         void                                   addTexture(const std::string& name);
         void                                   addTexture(const std::string& name, std::vector<float> data, unsigned width, unsigned height, mvTextureFormat format);
             
@@ -186,7 +182,6 @@ namespace Marvel {
 
         mvApp();
 
-        void routeInputCallbacks();
         void updateStyle();
         
     private:
@@ -240,8 +235,6 @@ namespace Marvel {
         double                           m_threadTime = 0.0;                  // how long threadpool has been active
         time_point_                      m_poolStart;                         // threadpool start time
 
-        mvDrawList m_frontDrawList;
-        mvDrawList m_backDrawList;
         std::vector<CompileTimeTexture> m_textures;
     };
 

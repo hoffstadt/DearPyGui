@@ -127,7 +127,6 @@ set(MARVEL_INCLUDE_DIR
 	"vendor/implot/"
 	"vendor/stb/"
 	"$<$<PLATFORM_ID:Windows>:${CMAKE_SOURCE_DIR}/Dependencies/cpython/PC/>"
-
 	# may can delete this
 	"../Dependencies/cpython/debug/"
 )
