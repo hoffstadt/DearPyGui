@@ -80,10 +80,10 @@ namespace Marvel {
         glfwSetWindowPos(m_window, mvApp::GetApp()->m_mainXPos, mvApp::GetApp()->m_mainYPos);
 
         mvEventBus::Publish("VIEWPORT_EVENTS", "VIEWPORT_RESIZE", {
-            CreateEventArgument("actual_width", width),
-            CreateEventArgument("actual_height", height),
-            CreateEventArgument("client_width", width),
-            CreateEventArgument("client_height", height)
+            CreateEventArgument("actual_width", (int)width),
+            CreateEventArgument("actual_height", (int)height),
+            CreateEventArgument("client_width", (int)width),
+            CreateEventArgument("client_height", (int)height)
                     });
 
         device = MTLCreateSystemDefaultDevice();;
@@ -153,8 +153,8 @@ namespace Marvel {
 
 
             mvEventBus::Publish("VIEWPORT_EVENTS", "VIEWPORT_RESIZE", {
-            CreateEventArgument("actual_width", m_width),
-            CreateEventArgument("actual_height", m_height),
+            CreateEventArgument("actual_width", (int)m_width),
+            CreateEventArgument("actual_height", (int)m_height),
             CreateEventArgument("client_width", width),
             CreateEventArgument("client_height", height)
                     });
