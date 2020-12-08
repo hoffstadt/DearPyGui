@@ -53,15 +53,6 @@ namespace Marvel {
         friend class mvLinuxWindow;
         friend class mvAppleWindow;
 
-        struct CompileTimeTexture
-        {
-            std::string name;
-            std::vector<float> data;
-            unsigned width;
-            unsigned height;
-            mvTextureFormat format;
-        };
-
     public:
 
         mvApp          (const mvApp& other) = delete;
@@ -89,7 +80,6 @@ namespace Marvel {
         //-----------------------------------------------------------------------------
         // Rendering
         //-----------------------------------------------------------------------------
-        void                     firstRenderFrame(); // only ran during first frame
         void                     render          (); // actual render loop
         
         //-----------------------------------------------------------------------------
@@ -144,8 +134,6 @@ namespace Marvel {
         // Other
         //-----------------------------------------------------------------------------
         std::map<std::string, mvPythonParser>* getParsers      () { return m_parsers; }
-        void                                   addTexture(const std::string& name);
-        void                                   addTexture(const std::string& name, std::vector<float> data, unsigned width, unsigned height, mvTextureFormat format);
             
     private:
 
@@ -202,7 +190,6 @@ namespace Marvel {
         
         std::thread::id                  m_mainThreadID;
 
-        std::vector<CompileTimeTexture> m_textures;
     };
 
 }
