@@ -17,6 +17,7 @@
 #include <string>
 #include <vector>
 #include <unordered_map>
+#include "core/mvEvents.h"
 
 namespace Marvel {
 
@@ -42,10 +43,13 @@ namespace Marvel {
 	//-----------------------------------------------------------------------------
 	// mvTextureStorage
 	//-----------------------------------------------------------------------------
-	class mvTextureStorage
+	class mvTextureStorage : public mvEventHandler
 	{
 
 	public:
+
+		bool onEvent    (mvEvent& event) override;
+		bool onDecrement(mvEvent& event);
 
 		void       addTexture       (const std::string& name);
 		void       addTexture       (const std::string& name, float* data, unsigned width, unsigned height, mvTextureFormat format);
@@ -59,7 +63,7 @@ namespace Marvel {
 
 	private:
 
-		mvTextureStorage() = default;
+		mvTextureStorage();
 
 		static mvTextureStorage* s_instance;
 		

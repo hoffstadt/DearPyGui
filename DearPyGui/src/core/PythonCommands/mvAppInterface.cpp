@@ -338,7 +338,7 @@ namespace Marvel {
 			&name))
 			return GetPyNone();
 
-		mvTextureStorage::GetTextureStorage()->decrementTexture(name);
+		mvEventBus::PublishEndFrame("TEXTURE_EVENTS", "DECREMENT_TEXTURE", { CreateEventArgument("NAME", std::string(name)) });
 
 		return GetPyNone();
 	}

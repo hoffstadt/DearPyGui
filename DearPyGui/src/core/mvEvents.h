@@ -89,6 +89,7 @@ namespace Marvel {
 		static void PublishEndFrame(const char* category, const char* type, std::unordered_map<mvID, mvVariant> arguments);
 		static void Publish        (const char* category, const char* type, std::unordered_map<mvID, mvVariant> arguments);
 		static void Subscribe      (mvEventHandler* handler, mvID type, mvID category = 0);
+		static void UnSubscribe    (mvEventHandler* handler);
 
 		// event bus events
 		static bool OnEvent(mvEvent& event);

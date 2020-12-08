@@ -1,10 +1,11 @@
 #pragma once
 
 #include "mvDrawCmd.h"
+#include "core/mvEvents.h"
 
 namespace Marvel {
 
-	class mvDrawImageCmd : public mvDrawCmd
+	class mvDrawImageCmd : public mvDrawCmd, public mvEventHandler
 	{
 
 	public:
@@ -12,6 +13,9 @@ namespace Marvel {
 		MV_DRAWCMD_TYPE(mvDrawCmdType::DrawImage)
 
 		mvDrawImageCmd(std::string file, const mvVec2& pmin, const mvVec2& pmax, const mvVec2& uv_min, const mvVec2& uv_max, const mvColor& color);
+
+		bool onEvent(mvEvent& event) override;
+		bool onTextureDeleted(mvEvent& event);
 
 		void draw         (ImDrawList* drawlist, float x, float y) override;
 		void setConfigDict(PyObject* dict)                         override;

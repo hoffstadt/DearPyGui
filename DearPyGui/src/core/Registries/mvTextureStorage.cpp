@@ -15,6 +15,25 @@ namespace Marvel {
 		return s_instance;
 	}
 
+	mvTextureStorage::mvTextureStorage()
+	{
+		mvEventBus::Subscribe(this, 0, SID("TEXTURE_EVENTS"));
+	}
+
+	bool mvTextureStorage::onEvent(mvEvent& event)
+	{
+		mvEventDispatcher dispatcher(event);
+		dispatcher.dispatch(BIND_EVENT_METH(mvTextureStorage::onDecrement), SID("DECREMENT_TEXTURE"));
+
+		return event.handled;
+	}
+
+	bool mvTextureStorage::onDecrement(mvEvent& event)
+	{
+		decrementTexture(GetEString(event, "NAME"));
+		return true;
+	}
+
 	void mvTextureStorage::deleteAllTextures()
 	{
 		for (auto& texture : m_textures)
@@ -89,6 +108,8 @@ namespace Marvel {
 			UnloadTexture(name);
 			FreeTexture(m_textures.at(name));
 			m_textures.erase(name);
+
+			mvEventBus::Publish("TEXTURE_EVENTS", "DELETE_TEXTURE", { CreateEventArgument("NAME", name) });
 		}
 	}
 
