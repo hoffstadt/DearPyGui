@@ -175,7 +175,6 @@ namespace Marvel {
         ImGui::Render();
         int display_w, display_h;
         glfwGetFramebufferSize(m_window, &display_w, &display_h);
-        mvApp::GetApp()->setClientSize(display_w, display_h);
 
         mvEventBus::Publish(mvEVT_CATEGORY_VIEWPORT, mvEVT_VIEWPORT_RESIZE, {
             CreateEventArgument("actual_width", (int)m_width),
