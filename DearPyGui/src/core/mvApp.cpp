@@ -180,28 +180,6 @@ namespace Marvel {
 		m_dockingViewport = dockSpace;
 	}
 
-	void mvApp::firstRenderFrame()
-	{
-
-		// if any theme color is not specified, use the default colors
-		for (int i = 0; i < ImGuiCol_COUNT; i++)
-			if (m_newstyle.Colors[i].x == 0.0f && m_newstyle.Colors[i].y == 0.0f &&
-				m_newstyle.Colors[i].z == 0.0f && m_newstyle.Colors[i].w == 0.0f)
-				m_newstyle.Colors[i] = ImGui::GetStyle().Colors[i];
-
-		for (auto& item : m_textures)
-		{
-			if(item.width > 0u)
-				mvTextureStorage::GetTextureStorage()->addTexture(item.name, item.data.data(), item.width, item.height, item.format);
-			else
-				mvTextureStorage::GetTextureStorage()->addTexture(item.name);
-		}
-			
-
-		m_textures.clear();
-
-	}
-
 	void mvApp::render()
 	{
 		MV_PROFILE_FUNCTION();
@@ -218,7 +196,13 @@ namespace Marvel {
 
 		// allows for proper sizing
 		if (ImGui::GetFrameCount() == 1)
-			firstRenderFrame();
+		{
+			// if any theme color is not specified, use the default colors
+			for (int i = 0; i < ImGuiCol_COUNT; i++)
+				if (m_newstyle.Colors[i].x == 0.0f && m_newstyle.Colors[i].y == 0.0f &&
+					m_newstyle.Colors[i].z == 0.0f && m_newstyle.Colors[i].w == 0.0f)
+					m_newstyle.Colors[i] = ImGui::GetStyle().Colors[i];
+		}
 
 		mvAppLog::render();
 
@@ -704,14 +688,4 @@ namespace Marvel {
 		ImGui::End();
 	}
 
-	void mvApp::addTexture(const std::string& name)
-	{
-		m_textures.push_back({ name, {}, 0u, 0u });
-	}
-
-	void mvApp::addTexture(const std::string& name, std::vector<float> data, unsigned width, unsigned height, mvTextureFormat format)
-	{
-		//m_textures.emplace_back(name, data, width, height, format);
-		m_textures.push_back({ name, data, width, height, format });
-	}
 }

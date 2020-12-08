@@ -17,6 +17,7 @@ namespace Marvel {
 
 	mvTextureStorage::mvTextureStorage()
 	{
+		mvEventBus::Subscribe(this, mvEVT_FRAME);
 		mvEventBus::Subscribe(this, 0, mvEVT_CATEGORY_TEXTURE);
 	}
 
@@ -24,8 +25,27 @@ namespace Marvel {
 	{
 		mvEventDispatcher dispatcher(event);
 		dispatcher.dispatch(BIND_EVENT_METH(mvTextureStorage::onDecrement), mvEVT_DEC_TEXTURE);
+		dispatcher.dispatch(BIND_EVENT_METH(mvTextureStorage::onFirstFrame), mvEVT_FRAME);
 
 		return event.handled;
+	}
+
+	bool mvTextureStorage::onFirstFrame(mvEvent& event)
+	{
+		if (GetEInt(event, "FRAME") != 1)
+			return false;
+
+		for (auto& item : m_delayedTextures)
+		{
+			if (item.width > 0u)
+				addTexture(item.name, item.data.data(), item.width, item.height, item.format);
+			else
+				addTexture(item.name);
+		}
+
+		m_delayedTextures.clear();
+		
+		return false;
 	}
 
 	bool mvTextureStorage::onDecrement(mvEvent& event)
@@ -82,6 +102,17 @@ namespace Marvel {
 		if (LoadTextureFromArray(name.c_str(), data, width, height, newTexture, format))
 			m_textures[name] = newTexture;
 
+	}
+
+	void mvTextureStorage::addDelayedTexture(const std::string& name)
+	{
+		m_delayedTextures.push_back({ name, {}, 0u, 0u });
+	}
+
+	void mvTextureStorage::addDelayedTexture(const std::string& name, std::vector<float> data, unsigned width, unsigned height, mvTextureFormat format)
+	{
+		//m_textures.emplace_back(name, data, width, height, format);
+		m_delayedTextures.push_back({ name, data, width, height, format });
 	}
 
 	void mvTextureStorage::incrementTexture(const std::string& name)

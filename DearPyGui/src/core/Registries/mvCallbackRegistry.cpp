@@ -29,9 +29,9 @@ namespace Marvel {
 	bool mvCallbackRegistry::onEvent(mvEvent& event)
 	{
 		mvEventDispatcher dispatcher(event);
-		dispatcher.dispatch(BIND_EVENT_METH(mvCallbackRegistry::onFrame), mvEVT_FRAME);
+		dispatcher.dispatch(BIND_EVENT_METH(mvCallbackRegistry::onFrame),    mvEVT_FRAME);
 		dispatcher.dispatch(BIND_EVENT_METH(mvCallbackRegistry::onEndFrame), mvEVT_END_FRAME);
-		dispatcher.dispatch(BIND_EVENT_METH(mvCallbackRegistry::onRender), mvEVT_PRE_RENDER);
+		dispatcher.dispatch(BIND_EVENT_METH(mvCallbackRegistry::onRender),   mvEVT_PRE_RENDER);
 		dispatcher.dispatch(BIND_EVENT_METH(mvCallbackRegistry::onInputs), 0, mvEVT_CATEGORY_INPUT);
 
 		return event.handled;

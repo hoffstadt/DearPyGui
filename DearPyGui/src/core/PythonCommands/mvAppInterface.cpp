@@ -258,7 +258,7 @@ namespace Marvel {
 				mvTextureStorage::GetTextureStorage()->addTexture(name, fdata.data(), width, height, tformat);
 
 			else
-				mvApp::GetApp()->addTexture(name, fdata, width, height, tformat);
+				mvTextureStorage::GetTextureStorage()->addDelayedTexture(name, fdata, width, height, tformat);
 			return GetPyNone();
 		}
 
@@ -279,7 +279,7 @@ namespace Marvel {
 				mvTextureStorage::GetTextureStorage()->addTexture(name, fdata.data(), width, height, tformat);
 
 			else
-				mvApp::GetApp()->addTexture(name, fdata, width, height, tformat);
+				mvTextureStorage::GetTextureStorage()->addDelayedTexture(name, fdata, width, height, tformat);
 			return GetPyNone();
 		}
 
@@ -291,7 +291,7 @@ namespace Marvel {
 				mvTextureStorage::GetTextureStorage()->addTexture(name, mdata.data(), width, height, tformat);
 
 			else
-				mvApp::GetApp()->addTexture(name, mdata, width, height, tformat);
+				mvTextureStorage::GetTextureStorage()->addDelayedTexture(name, mdata, width, height, tformat);
 			return GetPyNone();
 		}
 
@@ -312,7 +312,7 @@ namespace Marvel {
 				mvTextureStorage::GetTextureStorage()->addTexture(name, fdata.data(), width, height, tformat);
 
 			else
-				mvApp::GetApp()->addTexture(name, fdata, width, height, tformat);
+				mvTextureStorage::GetTextureStorage()->addDelayedTexture(name, fdata, width, height, tformat);
 			return GetPyNone();
 		}
 	}
