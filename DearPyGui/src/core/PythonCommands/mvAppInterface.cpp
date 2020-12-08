@@ -254,7 +254,7 @@ namespace Marvel {
 				fdata.push_back(item / 255.0f);
 
 			if (mvApp::IsAppStarted())
-				mvTextureStorage::AddTexture(name, fdata.data(), width, height, tformat);
+				mvTextureStorage::GetTextureStorage()->addTexture(name, fdata.data(), width, height, tformat);
 
 			else
 				mvApp::GetApp()->addTexture(name, fdata, width, height, tformat);
@@ -275,7 +275,7 @@ namespace Marvel {
 			}
 
 			if (mvApp::IsAppStarted())
-				mvTextureStorage::AddTexture(name, fdata.data(), width, height, tformat);
+				mvTextureStorage::GetTextureStorage()->addTexture(name, fdata.data(), width, height, tformat);
 
 			else
 				mvApp::GetApp()->addTexture(name, fdata, width, height, tformat);
@@ -287,7 +287,7 @@ namespace Marvel {
 			std::vector<float> mdata = ToFloatVect(data);
 
 			if (mvApp::IsAppStarted())
-				mvTextureStorage::AddTexture(name, mdata.data(), width, height, tformat);
+				mvTextureStorage::GetTextureStorage()->addTexture(name, mdata.data(), width, height, tformat);
 
 			else
 				mvApp::GetApp()->addTexture(name, mdata, width, height, tformat);
@@ -308,7 +308,7 @@ namespace Marvel {
 			}
 
 			if (mvApp::IsAppStarted())
-				mvTextureStorage::AddTexture(name, fdata.data(), width, height, tformat);
+				mvTextureStorage::GetTextureStorage()->addTexture(name, fdata.data(), width, height, tformat);
 
 			else
 				mvApp::GetApp()->addTexture(name, fdata, width, height, tformat);
@@ -338,7 +338,7 @@ namespace Marvel {
 			&name))
 			return GetPyNone();
 
-		mvTextureStorage::DecrementTexture(name);
+		mvTextureStorage::GetTextureStorage()->decrementTexture(name);
 
 		return GetPyNone();
 	}

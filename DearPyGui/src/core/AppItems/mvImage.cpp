@@ -13,15 +13,15 @@ namespace Marvel {
 
 	mvImage::~mvImage()
 	{
-		mvTextureStorage::DecrementTexture(m_value);
+		mvTextureStorage::GetTextureStorage()->decrementTexture(m_value);
 	}
 
 	void mvImage::draw()
 	{
 
-		if (mvTextureStorage::GetTexture(m_value))
+		if (mvTextureStorage::GetTextureStorage()->getTexture(m_value))
 		{
-			if (mvTextureStorage::GetTexture(m_value)->texture != m_texture)
+			if (mvTextureStorage::GetTextureStorage()->getTexture(m_value)->texture != m_texture)
 				m_texture = nullptr;
 		}
 		else
@@ -29,8 +29,8 @@ namespace Marvel {
 
 		if (m_texture == nullptr && !m_value.empty())
 		{
-			mvTextureStorage::AddTexture(m_value);
-			mvTexture* texture = mvTextureStorage::GetTexture(m_value);
+			mvTextureStorage::GetTextureStorage()->addTexture(m_value);
+			mvTexture* texture = mvTextureStorage::GetTextureStorage()->getTexture(m_value);
 			if (texture == nullptr)
 			{
 				PyErr_Format(PyExc_Exception,
@@ -50,7 +50,7 @@ namespace Marvel {
 
 		if (m_dirty)
 		{
-			mvTexture* texture = mvTextureStorage::GetTexture(m_value);
+			mvTexture* texture = mvTextureStorage::GetTextureStorage()->getTexture(m_value);
 			if (m_texture)
 			{
 				m_width = (int)((float)texture->width * (m_uv_max.x - m_uv_min.x));
@@ -117,14 +117,14 @@ namespace Marvel {
 
 	mvImageButton::~mvImageButton()
 	{
-		mvTextureStorage::DecrementTexture(m_value);
+		mvTextureStorage::GetTextureStorage()->decrementTexture(m_value);
 	}
 
 	void mvImageButton::draw()
 	{
-		if (mvTextureStorage::GetTexture(m_value))
+		if (mvTextureStorage::GetTextureStorage()->getTexture(m_value))
 		{
-			if (mvTextureStorage::GetTexture(m_value)->texture != m_texture)
+			if (mvTextureStorage::GetTextureStorage()->getTexture(m_value)->texture != m_texture)
 				m_texture = nullptr;
 		}
 		else
@@ -132,8 +132,8 @@ namespace Marvel {
 
 		if (m_texture == nullptr && !m_value.empty())
 		{
-			mvTextureStorage::AddTexture(m_value);
-			mvTexture* texture = mvTextureStorage::GetTexture(m_value);
+			mvTextureStorage::GetTextureStorage()->addTexture(m_value);
+			mvTexture* texture = mvTextureStorage::GetTextureStorage()->getTexture(m_value);
 			if (texture == nullptr)
 			{
 				PyErr_Format(PyExc_Exception,
@@ -152,7 +152,7 @@ namespace Marvel {
 
 		if (m_dirty)
 		{
-			mvTexture* texture = mvTextureStorage::GetTexture(m_value);
+			mvTexture* texture = mvTextureStorage::GetTextureStorage()->getTexture(m_value);
 			if (texture)
 			{
 				m_width = (int)((float)texture->width * (m_uv_max.x - m_uv_min.x));

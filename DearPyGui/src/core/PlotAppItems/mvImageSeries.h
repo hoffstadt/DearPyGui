@@ -32,15 +32,15 @@ namespace Marvel {
 				ImPlot::PlotImage(m_name.c_str(), m_texture, m_bounds_min, m_bounds_max, m_uv_min, m_uv_max, m_tintColor.toVec4());
 			else
 			{
-				mvTextureStorage::AddTexture(m_value);
-				mvTexture* texture = mvTextureStorage::GetTexture(m_value);
+				mvTextureStorage::GetTextureStorage()->addTexture(m_value);
+				mvTexture* texture = mvTextureStorage::GetTextureStorage()->getTexture(m_value);
 				m_texture = texture->texture;
 			}
 		}
 
 		~mvImageSeries()
 		{
-			mvTextureStorage::DecrementTexture(m_value);
+			mvTextureStorage::GetTextureStorage()->decrementTexture(m_value);
 		}
 
 	private:

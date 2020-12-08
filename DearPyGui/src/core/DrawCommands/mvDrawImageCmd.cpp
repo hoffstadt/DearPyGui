@@ -18,15 +18,15 @@ namespace Marvel {
 
 	mvDrawImageCmd::~mvDrawImageCmd()
 	{
-		mvTextureStorage::DecrementTexture(m_file);
+		mvTextureStorage::GetTextureStorage()->decrementTexture(m_file);
 	}
 
 	void mvDrawImageCmd::draw(ImDrawList* drawlist, float x, float y)
 	{
 
-		if (mvTextureStorage::GetTexture(m_file))
+		if (mvTextureStorage::GetTextureStorage()->getTexture(m_file))
 		{
-			if (mvTextureStorage::GetTexture(m_file)->texture != m_texture)
+			if (mvTextureStorage::GetTextureStorage()->getTexture(m_file)->texture != m_texture)
 				m_texture = nullptr;
 		}
 		else
@@ -35,8 +35,8 @@ namespace Marvel {
 		if (m_texture == nullptr && !m_file.empty())
 		{
 
-			mvTextureStorage::AddTexture(m_file);
-			mvTexture* texture = mvTextureStorage::GetTexture(m_file);
+			mvTextureStorage::GetTextureStorage()->addTexture(m_file);
+			mvTexture* texture = mvTextureStorage::GetTextureStorage()->getTexture(m_file);
 			if (texture == nullptr)
 			{
 				PyErr_Format(PyExc_Exception,
@@ -76,7 +76,7 @@ namespace Marvel {
 		{
 			if (m_file != ToString(item))
 			{
-				mvTextureStorage::DecrementTexture(m_file);
+				mvTextureStorage::GetTextureStorage()->decrementTexture(m_file);
 				m_texture = nullptr;
 			}
 			m_file = ToString(item);
