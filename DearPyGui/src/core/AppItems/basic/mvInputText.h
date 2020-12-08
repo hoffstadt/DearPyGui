@@ -1,7 +1,7 @@
 #pragma once
 
 #include "mvApp.h"
-#include "AppItems/mvTypeBases.h"
+#include "core/AppItems/mvTypeBases.h"
 
 //-----------------------------------------------------------------------------
 // Widget Index
