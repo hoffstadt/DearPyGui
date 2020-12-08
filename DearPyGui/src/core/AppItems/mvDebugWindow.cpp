@@ -131,7 +131,7 @@ namespace Marvel {
 				DebugItem("DearPyGui Version: ", mvApp::GetVersion());
 				DebugItem("ImGui Version: ", IMGUI_VERSION);
 				DebugItem("Stored Data: ", std::to_string(mvDataStorage::GetDataCount()).c_str());
-				DebugItem("Stored Textures: ", std::to_string(mvTextureStorage::GetTextureCount()).c_str());
+				DebugItem("Stored Textures: ", std::to_string(mvTextureStorage::GetTextureStorage()->getTextureCount()).c_str());
 				DebugItem("Threads Active: ", std::to_string(app->getThreadCount()).c_str());
 				DebugItem("Threadpool Timeout: ", std::to_string(app->getThreadPoolTimeout()).c_str());
 				DebugItem("Threadpool Active: ", app->usingThreadPool() ? ts : fs);

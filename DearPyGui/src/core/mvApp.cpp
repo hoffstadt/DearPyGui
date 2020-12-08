@@ -165,7 +165,7 @@ namespace Marvel {
 	{
 		mvItemRegistry::GetItemRegistry()->clearRegistry();
 
-		mvTextureStorage::DeleteAllTextures();
+		mvTextureStorage::GetTextureStorage()->deleteAllTextures();
 		mvDataStorage::DeleteAllData();
 	}
 
@@ -188,9 +188,9 @@ namespace Marvel {
 		for (auto& item : m_textures)
 		{
 			if(item.width > 0u)
-				mvTextureStorage::AddTexture(item.name, item.data.data(), item.width, item.height, item.format);
+				mvTextureStorage::GetTextureStorage()->addTexture(item.name, item.data.data(), item.width, item.height, item.format);
 			else
-				mvTextureStorage::AddTexture(item.name);
+				mvTextureStorage::GetTextureStorage()->addTexture(item.name);
 		}
 			
 
