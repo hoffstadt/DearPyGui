@@ -3,7 +3,7 @@
 #include "core/AppItems/mvTypeBases.h"
 #include "PythonUtilities/mvPythonTranslator.h"
 #include <utility>
-#include "mvAppItem.h"
+#include "core/AppItems/mvAppItem.h"
 #include "mvApp.h"
 #include "Registries/mvValueStorage.h"
 
