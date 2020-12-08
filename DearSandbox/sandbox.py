@@ -9,7 +9,7 @@ import time
 # Settings and Data Storage
 ########################################################################################################################
 set_log_level(0)
-enable_docking(shift_only=False, dock_space=True)
+#enable_docking(shift_only=False, dock_space=True)
 
 set_main_window_title("DearPyGui Demo")
 set_main_window_size(1000, 800)

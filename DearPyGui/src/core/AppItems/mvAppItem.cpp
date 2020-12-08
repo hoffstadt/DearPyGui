@@ -106,11 +106,11 @@ namespace Marvel{
 			mvApp::GetApp()->setActiveWindow(m_name);
 
 			// mouse move callback
-			if (oldMousePos.x != mousePos.x || oldMousePos.y != mousePos.y)
-			{
-				mvCallbackRegistry::GetCallbackRegistry()->runCallback(mvApp::GetApp()->getMouseMoveCallback(), m_name,
-					ToPyPair(x, y));
-			}
+			//if (oldMousePos.x != mousePos.x || oldMousePos.y != mousePos.y)
+			//{
+			//	mvCallbackRegistry::GetCallbackRegistry()->runCallback(mvApp::GetApp()->getMouseMoveCallback(), m_name,
+			//		ToPyPair(x, y));
+			//}
 
 		}
 	}

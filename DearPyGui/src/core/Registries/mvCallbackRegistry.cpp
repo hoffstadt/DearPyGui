@@ -20,15 +20,37 @@ namespace Marvel {
 
 	mvCallbackRegistry::mvCallbackRegistry()
 	{
-		mvEventBus::Subscribe(this, SID("FRAME"));
+		mvEventBus::Subscribe(this, SID("SPECIFIC_FRAME"));
+		mvEventBus::Subscribe(this, SID("PRE_RENDER"));
+		mvEventBus::Subscribe(this, SID("PRE_RENDER"));
+		mvEventBus::Subscribe(this, 0, SID("INPUT_EVENTS"));
 	}
 
 	bool mvCallbackRegistry::onEvent(mvEvent& event)
 	{
 		mvEventDispatcher dispatcher(event);
-		dispatcher.dispatch(BIND_EVENT_METH(mvCallbackRegistry::onEndFrame), SID("FRAME"));
+		dispatcher.dispatch(BIND_EVENT_METH(mvCallbackRegistry::onFrame), SID("SPECIFIC_FRAME"));
+		dispatcher.dispatch(BIND_EVENT_METH(mvCallbackRegistry::onEndFrame), SID("END_FRAME"));
+		dispatcher.dispatch(BIND_EVENT_METH(mvCallbackRegistry::onRender), SID("PRE_RENDER"));
+		dispatcher.dispatch(BIND_EVENT_METH(mvCallbackRegistry::onInputs), 0, SID("INPUT_EVENTS"));
 
 		return event.handled;
+	}
+
+	bool mvCallbackRegistry::onFrame(mvEvent& event)
+	{
+
+		switch (GetEInt(event, "FRAME"))
+		{
+		case 3:
+			runCallback(m_onStartCallback, "Main Application");
+			break;
+
+		default:
+			break;
+		}
+
+		return false;
 	}
 
 	bool mvCallbackRegistry::onEndFrame(mvEvent& event)
@@ -38,6 +60,71 @@ namespace Marvel {
 		runCallbacks();
 
 		return false;
+	}
+
+	bool mvCallbackRegistry::onRender(mvEvent& event)
+	{
+		MV_PROFILE_FUNCTION()
+
+		runAsyncCallbackReturns();
+		runCallback(m_renderCallback, "Main Application");
+
+		return false;
+	}
+
+	bool mvCallbackRegistry::onInputs(mvEvent& event)
+	{
+		const char* active = "new system";
+
+		switch (event.type)
+		{
+		case SID("KEY_PRESS"):
+			runCallback(m_acceleratorCallback, active, ToPyInt(GetEInt(event, "KEY")));
+			runCallback(m_keyPressCallback, active, ToPyInt(GetEInt(event, "KEY")));
+			break;
+
+		case SID("KEY_DOWN"):
+			runCallback(m_keyDownCallback, active, ToPyMPair(GetEInt(event, "KEY"), GetEFloat(event, "DURATION")));
+			break;
+
+		case SID("KEY_RELEASE"):
+			runCallback(m_keyReleaseCallback, active, ToPyInt(GetEInt(event, "KEY")));
+			break;
+
+		case SID("MOUSE_WHEEL"):
+			runCallback(m_mouseWheelCallback, active, ToPyInt(GetEFloat(event, "DELTA")));
+			break;
+
+		case SID("MOUSE_DRAG"):
+			runCallback(m_mouseDragCallback, active, 
+				ToPyMTrip(GetEInt(event, "BUTTON"), GetEFloat(event, "X"), GetEFloat(event, "Y")));
+			break;
+
+		case SID("MOUSE_CLICK"):
+			runCallback(m_mouseClickCallback, active, ToPyInt(GetEInt(event, "BUTTON")));
+			break;
+
+		case SID("MOUSE_DOWN"):
+			runCallback(m_mouseDownCallback, active, ToPyMPair(GetEInt(event, "BUTTON"), GetEFloat(event, "DURATION")));
+			break;
+
+		case SID("MOUSE_DOUBLE_CLICK"):
+			runCallback(m_mouseDoubleClickCallback, active, ToPyInt(GetEInt(event, "BUTTON")));
+			break;
+
+		case SID("MOUSE_RELEASE"):
+			runCallback(m_mouseReleaseCallback, active, ToPyInt(GetEInt(event, "BUTTON")));
+			break;
+
+		case SID("MOUSE_MOVE"):
+			runCallback(m_mouseMoveCallback, active, ToPyPair(GetEFloat(event, "X"), GetEFloat(event, "Y")));
+			break;
+
+		default:
+			return false;
+		}
+
+		return true;
 	}
 
 	void mvCallbackRegistry::runAsyncCallbackReturns()

@@ -49,12 +49,14 @@ namespace Marvel {
         bool onEvent(mvEvent& event) override;
 
         // mostly for testing new event bus system
-        bool onDeleteItem  (mvEvent& event);
-        bool onMoveItem    (mvEvent& event);
-        bool onMoveItemUp  (mvEvent& event);
-        bool onMoveItemDown(mvEvent& event);
-        bool onAddItem     (mvEvent& event);
-        bool onEndFrame    (mvEvent& event);
+        bool onDeleteItem    (mvEvent& event);
+        bool onMoveItem      (mvEvent& event);
+        bool onMoveItemUp    (mvEvent& event);
+        bool onMoveItemDown  (mvEvent& event);
+        bool onAddItem       (mvEvent& event);
+        bool onEndFrame      (mvEvent& event);
+        bool onRender        (mvEvent& event);
+        bool onPreRenderReset(mvEvent& event);
 
         //-----------------------------------------------------------------------------
         // AppItem Operations

@@ -83,8 +83,8 @@ namespace Marvel {
 	{ 
 		if (GetApp())
 		{
-			mvCallbackRegistry::GetCallbackRegistry()->runCallback(GetApp()->getOnCloseCallback(), "Main Application");
-			GetApp()->setOnCloseCallback(nullptr);
+			mvCallbackRegistry::GetCallbackRegistry()->runCallback(mvCallbackRegistry::GetCallbackRegistry()->getOnCloseCallback(), "Main Application");
+			mvCallbackRegistry::GetCallbackRegistry()->setOnCloseCallback(nullptr);
 		}
 
 		s_started = false; 
@@ -123,7 +123,7 @@ namespace Marvel {
 		s_started = false;
 	}
 
-	mvApp::mvApp() : mvOldEventHandler()
+	mvApp::mvApp()
 	{
 
 		mvEventBus::Subscribe(this, 0, SID("VIEWPORT_EVENTS"));
@@ -156,7 +156,9 @@ namespace Marvel {
 		m_clientWidth  = GetEInt(event, "client_width");
 		m_clientHeight = GetEInt(event, "client_height");
 
-		mvCallbackRegistry::GetCallbackRegistry()->runCallback(getResizeCallback(), "Main Application");
+		mvCallbackRegistry::GetCallbackRegistry()->runCallback(
+			mvCallbackRegistry::GetCallbackRegistry()->getResizeCallback(), 
+			"Main Application");
 
 		return true;
 	}
@@ -198,21 +200,15 @@ namespace Marvel {
 
 	}
 
-	void mvApp::thirdRenderFrame()
-	{
-
-		mvCallbackRegistry::GetCallbackRegistry()->runCallback(GetApp()->getOnStartCallback(), "Main Application");
-	}
-
 	bool mvApp::prerender()
 	{
 		MV_PROFILE_FUNCTION();
 
+		mvEventBus::Publish("GLOBAL", "SPECIFIC_FRAME", {CreateEventArgument("FRAME", ImGui::GetFrameCount() )});
+
 		// allows for proper sizing
 		if (ImGui::GetFrameCount() == 1)
 			firstRenderFrame();
-		else if (ImGui::GetFrameCount() == 3)
-			thirdRenderFrame();
 
 		// check if threadpool is ready to be cleaned up
 		if (m_threadTime > m_threadPoolTimeout)
@@ -248,8 +244,6 @@ namespace Marvel {
 		if (m_dockingViewport)
 			ImGui::DockSpaceOverViewport();
 
-		mvCallbackRegistry::GetCallbackRegistry()->runAsyncCallbackReturns();
-
 		mvAppLog::render();
 
 		// set imgui style to mvstyle
@@ -257,14 +251,11 @@ namespace Marvel {
 			updateStyle();
 
 		// route any registered input callbacks
-		routeInputCallbacks();
+		mvInput::CheckInputs();
 
 		// run render callbacks
-		if (getRenderCallback() != nullptr)
-			mvCallbackRegistry::GetCallbackRegistry()->runCallback(getRenderCallback(), "Main Application");
-
-		// resets app items states (i.e. hovered)
-		mvItemRegistry::GetItemRegistry()->resetWindowStates();
+		mvEventBus::Publish("GLOBAL", "PRE_RENDER", {});
+		mvEventBus::Publish("GLOBAL", "PRE_RENDER_RESET", {});
 
 		return true;
 	}
@@ -273,18 +264,14 @@ namespace Marvel {
 	{
 		MV_PROFILE_FUNCTION()
 
-		m_frontDrawList.draw(ImGui::GetForegroundDrawList(), 0.0f, 0.0f);
-		m_backDrawList.draw(ImGui::GetBackgroundDrawList(), 0.0f, 0.0f);
-
-		mvItemRegistry::GetItemRegistry()->draw();
-
+		mvEventBus::Publish("GLOBAL", "RENDER", {});
 	}
 
 	void mvApp::postrender()
 	{
 		{
 			MV_PROFILE_FUNCTION()
-			mvEventBus::Publish("GLOBAL", "FRAME", {});
+			mvEventBus::Publish("GLOBAL", "END_FRAME", {});
 			
 			Py_BEGIN_ALLOW_THREADS
 			postAsync();
@@ -338,109 +325,6 @@ namespace Marvel {
 			return false;
 		}
 		return true;
-	}
-
-	void mvApp::routeInputCallbacks()
-	{
-		MV_PROFILE_FUNCTION();
-
-		// Note: Events are only routed to the active window
-
-		// default handler is main window
-		mvOldEventHandler* eventHandler = static_cast<mvOldEventHandler*>(this);
-
-		// early opt out of keyboard events
-		if (eventHandler->isAcceleratorHandled())
-		{
-			// route key events
-			for (int i = 0; i < IM_ARRAYSIZE(ImGui::GetIO().KeysDown); i++)
-			{
-				// route key pressed event
-				if (ImGui::IsKeyPressed(i) && eventHandler->getAcceleratorCallback() != nullptr)
-					mvCallbackRegistry::GetCallbackRegistry()->runCallback(eventHandler->getAcceleratorCallback(), m_activeWindow,
-						ToPyInt(i));
-			}
-		}
-
-
-		// early opt out of keyboard events
-		if (eventHandler->isKeyboardHandled())
-		{
-			// route key events
-			for (int i = 0; i < IM_ARRAYSIZE(ImGui::GetIO().KeysDown); i++)
-			{
-				// route key pressed event
-				if (ImGui::IsKeyPressed(i) && eventHandler->getKeyPressCallback() != nullptr)
-					mvCallbackRegistry::GetCallbackRegistry()->runCallback(eventHandler->getKeyPressCallback(), m_activeWindow,
-						ToPyInt(i));
-
-				// route key down event
-				if (ImGui::GetIO().KeysDownDuration[i] >= 0.0f && eventHandler->getKeyDownCallback() != nullptr)
-					mvCallbackRegistry::GetCallbackRegistry()->runCallback(eventHandler->getKeyDownCallback(), m_activeWindow,
-						ToPyMPair(i, ImGui::GetIO().KeysDownDuration[i]));
-
-				// route key released event
-				if (ImGui::IsKeyReleased(i) && eventHandler->getKeyReleaseCallback() != nullptr)
-					mvCallbackRegistry::GetCallbackRegistry()->runCallback(eventHandler->getKeyReleaseCallback(), m_activeWindow, ToPyInt(i));
-			}
-		}
-
-		// early opt out of mouse events
-		if (!eventHandler->isMouseHandled())
-			return;
-
-		// route mouse wheel event
-		if (ImGui::GetIO().MouseWheel != 0.0f && eventHandler->getMouseWheelCallback() != nullptr)
-			mvCallbackRegistry::GetCallbackRegistry()->runCallback(eventHandler->getMouseWheelCallback(), m_activeWindow,
-				ToPyMPair(0, ImGui::GetIO().MouseWheel));
-
-		// route mouse dragging event
-		// this must be seperate since only a single button can be dragged
-		if (eventHandler->getMouseDragCallback() != nullptr)
-		{
-			for (int i = 0; i < 3; i++)
-			{
-				if (ImGui::IsMouseDragging(i, mvInput::getMouseDragThreshold()))
-				{
-					// TODO: send delta
-					mvInput::setMouseDragging(true);
-					mvInput::setMouseDragDelta({ ImGui::GetMouseDragDelta().x, ImGui::GetMouseDragDelta().y });
-					mvCallbackRegistry::GetCallbackRegistry()->runCallback(eventHandler->getMouseDragCallback(), m_activeWindow,
-						ToPyMTrip(i, ImGui::GetMouseDragDelta().x, ImGui::GetMouseDragDelta().y));
-					ImGui::ResetMouseDragDelta(i);
-					break;
-				}
-
-				// reset, since event has already been dispatched
-				mvInput::setMouseDragging(false);
-				mvInput::setMouseDragDelta({ 0.0f, 0.0f });
-			}
-		}
-
-		// route other mouse events (note mouse move callbacks are handled in mvWindowAppItem)
-		for (int i = 0; i < IM_ARRAYSIZE(ImGui::GetIO().MouseDown); i++)
-		{
-			// route mouse click event
-			if (ImGui::IsMouseClicked(i) && eventHandler->getMouseClickCallback() != nullptr)
-				mvCallbackRegistry::GetCallbackRegistry()->runCallback(eventHandler->getMouseClickCallback(), m_activeWindow,
-					ToPyInt(i));
-
-			// route mouse down event
-			if (ImGui::GetIO().MouseDownDuration[i] >= 0.0f && eventHandler->getMouseDownCallback() != nullptr)
-				mvCallbackRegistry::GetCallbackRegistry()->runCallback(eventHandler->getMouseDownCallback(), m_activeWindow,
-					ToPyMPair(i, ImGui::GetIO().MouseDownDuration[i]));
-
-			// route mouse double clicked event
-			if (ImGui::IsMouseDoubleClicked(i) && eventHandler->getMouseDoubleClickCallback() != nullptr)
-				mvCallbackRegistry::GetCallbackRegistry()->runCallback(eventHandler->getMouseDoubleClickCallback(), m_activeWindow,
-					ToPyInt(i));
-
-			// route mouse released event
-			if (ImGui::IsMouseReleased(i) && eventHandler->getMouseReleaseCallback() != nullptr)
-				mvCallbackRegistry::GetCallbackRegistry()->runCallback(eventHandler->getMouseReleaseCallback(), m_activeWindow,
-					ToPyInt(i));
-		}
-
 	}
 
 	void mvApp::setAppTheme(const std::string& theme)

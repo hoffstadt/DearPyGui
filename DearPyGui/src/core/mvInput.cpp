@@ -1,5 +1,8 @@
 #include "mvInput.h"
 #include "mvApp.h"
+#include "mvProfiler.h"
+#include "PythonUtilities/mvPythonTranslator.h"
+#include "mvEvents.h"
 
 namespace Marvel {
 
@@ -10,6 +13,75 @@ namespace Marvel {
 	float   mvInput::s_mouseDragThreshold = 20.0f;
 	bool    mvInput::s_mouseDragging = false;
 	mvVec2  mvInput::s_mouseDragDelta = { 0.0f, 0.0f };
+
+	void mvInput::CheckInputs()
+	{
+		MV_PROFILE_FUNCTION();
+
+		// route key events
+		for (int i = 0; i < IM_ARRAYSIZE(ImGui::GetIO().KeysDown); i++)
+		{
+			// route key pressed event
+			if (ImGui::IsKeyPressed(i))
+				mvEventBus::Publish("INPUT_EVENTS", "KEY_PRESS", { CreateEventArgument("KEY", i) });
+
+			// route key down event
+			if (ImGui::GetIO().KeysDownDuration[i] >= 0.0f)
+				mvEventBus::Publish("INPUT_EVENTS", "KEY_DOWN", 
+					{ CreateEventArgument("KEY", i), CreateEventArgument("DURATION", ImGui::GetIO().KeysDownDuration[i]) });
+
+			// route key released event
+			if (ImGui::IsKeyReleased(i))
+				mvEventBus::Publish("INPUT_EVENTS", "KEY_RELEASE", { CreateEventArgument("KEY", i) });
+		}
+
+		// route mouse wheel event
+		if (ImGui::GetIO().MouseWheel != 0.0f)
+			mvEventBus::Publish("INPUT_EVENTS", "MOUSE_WHEEL", { CreateEventArgument("DELTA", ImGui::GetIO().MouseWheel) });
+
+		// route mouse dragging event
+		for (int i = 0; i < 3; i++)
+		{
+			if (ImGui::IsMouseDragging(i, mvInput::getMouseDragThreshold()))
+			{
+				// TODO: send delta
+				mvInput::setMouseDragging(true);
+				mvInput::setMouseDragDelta({ ImGui::GetMouseDragDelta().x, ImGui::GetMouseDragDelta().y });
+				mvEventBus::Publish("INPUT_EVENTS", "MOUSE_DRAG",
+					{ CreateEventArgument("BUTTON", i),
+					CreateEventArgument("X", ImGui::GetMouseDragDelta().x),
+					CreateEventArgument("Y", ImGui::GetMouseDragDelta().y)
+					});
+				ImGui::ResetMouseDragDelta(i);
+				break;
+			}
+
+			// reset, since event has already been dispatched
+			mvInput::setMouseDragging(false);
+			mvInput::setMouseDragDelta({ 0.0f, 0.0f });
+		}
+
+		// route other mouse events (note mouse move callbacks are handled in mvWindowAppItem)
+		for (int i = 0; i < IM_ARRAYSIZE(ImGui::GetIO().MouseDown); i++)
+		{
+			// route mouse click event
+			if (ImGui::IsMouseClicked(i))
+				mvEventBus::Publish("INPUT_EVENTS", "MOUSE_CLICK", { CreateEventArgument("BUTTON", i) });
+
+			// route mouse down event
+			if (ImGui::GetIO().MouseDownDuration[i] >= 0.0f)
+				mvEventBus::Publish("INPUT_EVENTS", "MOUSE_DOWN", 
+					{ CreateEventArgument("BUTTON", i), CreateEventArgument("DURATION",  ImGui::GetIO().MouseDownDuration[i]) });
+
+			// route mouse double clicked event
+			if (ImGui::IsMouseDoubleClicked(i))
+				mvEventBus::Publish("INPUT_EVENTS", "MOUSE_DOUBLE_CLICK", { CreateEventArgument("BUTTON", i) });
+
+			// route mouse released event
+			if (ImGui::IsMouseReleased(i))
+				mvEventBus::Publish("INPUT_EVENTS", "MOUSE_RELEASE", { CreateEventArgument("BUTTON", i) });
+		}
+	}
 
 	void mvInput::setMousePosition(float x, float y)
 	{

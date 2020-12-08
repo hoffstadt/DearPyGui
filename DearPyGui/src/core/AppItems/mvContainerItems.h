@@ -1,7 +1,6 @@
 #pragma once
 
 #include "core/AppItems/mvTypeBases.h"
-#include "mvOldEventHandler.h"
 
 //-----------------------------------------------------------------------------
 // Widget Index
@@ -18,7 +17,7 @@ namespace Marvel {
 	//-----------------------------------------------------------------------------
 	// mvChild
 	//-----------------------------------------------------------------------------
-	class mvChild : public mvBoolPtrBase, public mvOldEventHandler
+	class mvChild : public mvBoolPtrBase
 	{
 
 	public:

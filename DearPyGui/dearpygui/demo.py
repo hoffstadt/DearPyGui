@@ -856,7 +856,7 @@ def show_demo():
 
                 elif sender == "Draw To Background##demo":
                     if get_value(sender):
-                        draw_image("##BACKGROUND", "INTERNAL_DPG_FONT_ATLAS", pmin=[500,500], pmax=[600, 600], uv_max=[0.1, 0.1], tag="atlas")
+                        draw_image("##BACKGROUND", "INTERNAL_DPG_FONT_ATLAS", pmin=[0,0], pmax=[200, 200], uv_max=[0.1, 0.1], tag="atlas")
                     else:
                         delete_draw_command("##BACKGROUND", "atlas")
 

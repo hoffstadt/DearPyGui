@@ -5,6 +5,7 @@
 #include <unordered_map>
 #include <functional>
 #include <variant>
+#include "mvCompileTimeCRC32.h"
 
 #define BIND_EVENT_METH(x) std::bind(&x, this, std::placeholders::_1)
 
@@ -19,11 +20,16 @@ namespace Marvel {
 		int, 
 		std::string, 
 		bool, 
+		float, 
 		void*
 	>; // more types can be added
 	
 	// hashing function
-	mvID SID(const std::string& value);
+	constexpr const mvID SID(const char* value)
+	{
+		return crc32_rec(0, value);
+	}
+
 
 	//-----------------------------------------------------------------------------
 	// variant helpers
@@ -31,6 +37,7 @@ namespace Marvel {
 	const std::string& GetEString(mvEvent& event, const char* name);
 	bool               GetEBool  (mvEvent& event, const char* name);
 	int                GetEInt   (mvEvent& event, const char* name);
+	float              GetEFloat (mvEvent& event, const char* name);
 
 	//-----------------------------------------------------------------------------
 	// mvEvent
