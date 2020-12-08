@@ -55,7 +55,7 @@ namespace Marvel {
 		// typical adding before runtime
 		else if (std::string(parent).empty() && !mvApp::IsAppStarted() && std::string(before).empty())
 		{
-			mvEventBus::Publish("APP_ITEM_EVENTS", "ADD_ITEM", { CreateEventPtrArgument("ITEM", item) });
+			mvEventBus::Publish(mvEVT_CATEGORY_ITEM, mvEVT_ADD_ITEM, { CreateEventPtrArgument("ITEM", item) });
 			return true;
 			//return itemRegistry.addItem(item);
 		}

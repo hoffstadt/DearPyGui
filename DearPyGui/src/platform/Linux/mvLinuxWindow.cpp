@@ -29,7 +29,7 @@ namespace Marvel {
 
     static void window_size_callback(GLFWwindow* window, int width, int height)
     {
-        mvEventBus::Publish("VIEWPORT_EVENTS", "VIEWPORT_RESIZE", {
+        mvEventBus::Publish(mvEVT_CATEGORY_VIEWPORT, mvEVT_VIEWPORT_RESIZE, {
             CreateEventArgument("actual_width", width),
             CreateEventArgument("actual_height", height),
             CreateEventArgument("client_width", width),
@@ -56,7 +56,7 @@ namespace Marvel {
         m_window = glfwCreateWindow(width, height, mvApp::GetApp()->m_title.c_str(), nullptr, nullptr);
         glfwSetWindowPos(m_window, mvApp::GetApp()->m_mainXPos, mvApp::GetApp()->m_mainYPos);
 	    
-        mvEventBus::Publish("VIEWPORT_EVENTS", "VIEWPORT_RESIZE", {
+        mvEventBus::Publish(mvEVT_CATEGORY_VIEWPORT, mvEVT_VIEWPORT_RESIZE, {
             CreateEventArgument("actual_width", (int)width),
             CreateEventArgument("actual_height", (int)height),
             CreateEventArgument("client_width", (int)width),
@@ -131,11 +131,7 @@ namespace Marvel {
         }
 
         else
-        {
-            m_app->prerender();
             m_app->render();
-            m_app->postrender();
-        }
 
         postrender();
     }
@@ -181,7 +177,7 @@ namespace Marvel {
         glfwGetFramebufferSize(m_window, &display_w, &display_h);
         mvApp::GetApp()->setClientSize(display_w, display_h);
 
-        mvEventBus::Publish("VIEWPORT_EVENTS", "VIEWPORT_RESIZE", {
+        mvEventBus::Publish(mvEVT_CATEGORY_VIEWPORT, mvEVT_VIEWPORT_RESIZE, {
             CreateEventArgument("actual_width", (int)m_width),
             CreateEventArgument("actual_height", (int)m_height),
             CreateEventArgument("client_width", display_w),

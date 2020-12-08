@@ -23,21 +23,21 @@ namespace Marvel {
 		{
 			// route key pressed event
 			if (ImGui::IsKeyPressed(i))
-				mvEventBus::Publish("INPUT_EVENTS", "KEY_PRESS", { CreateEventArgument("KEY", i) });
+				mvEventBus::Publish(mvEVT_CATEGORY_INPUT, mvEVT_KEY_PRESS, { CreateEventArgument("KEY", i) });
 
 			// route key down event
 			if (ImGui::GetIO().KeysDownDuration[i] >= 0.0f)
-				mvEventBus::Publish("INPUT_EVENTS", "KEY_DOWN", 
+				mvEventBus::Publish(mvEVT_CATEGORY_INPUT, mvEVT_KEY_DOWN,
 					{ CreateEventArgument("KEY", i), CreateEventArgument("DURATION", ImGui::GetIO().KeysDownDuration[i]) });
 
 			// route key released event
 			if (ImGui::IsKeyReleased(i))
-				mvEventBus::Publish("INPUT_EVENTS", "KEY_RELEASE", { CreateEventArgument("KEY", i) });
+				mvEventBus::Publish(mvEVT_CATEGORY_INPUT, mvEVT_KEY_RELEASE, { CreateEventArgument("KEY", i) });
 		}
 
 		// route mouse wheel event
 		if (ImGui::GetIO().MouseWheel != 0.0f)
-			mvEventBus::Publish("INPUT_EVENTS", "MOUSE_WHEEL", { CreateEventArgument("DELTA", ImGui::GetIO().MouseWheel) });
+			mvEventBus::Publish(mvEVT_CATEGORY_INPUT, mvEVT_MOUSE_WHEEL, { CreateEventArgument("DELTA", ImGui::GetIO().MouseWheel) });
 
 		// route mouse dragging event
 		for (int i = 0; i < 3; i++)
@@ -47,7 +47,7 @@ namespace Marvel {
 				// TODO: send delta
 				mvInput::setMouseDragging(true);
 				mvInput::setMouseDragDelta({ ImGui::GetMouseDragDelta().x, ImGui::GetMouseDragDelta().y });
-				mvEventBus::Publish("INPUT_EVENTS", "MOUSE_DRAG",
+				mvEventBus::Publish(mvEVT_CATEGORY_INPUT, mvEVT_MOUSE_DRAG,
 					{ CreateEventArgument("BUTTON", i),
 					CreateEventArgument("X", ImGui::GetMouseDragDelta().x),
 					CreateEventArgument("Y", ImGui::GetMouseDragDelta().y)
@@ -66,20 +66,20 @@ namespace Marvel {
 		{
 			// route mouse click event
 			if (ImGui::IsMouseClicked(i))
-				mvEventBus::Publish("INPUT_EVENTS", "MOUSE_CLICK", { CreateEventArgument("BUTTON", i) });
+				mvEventBus::Publish(mvEVT_CATEGORY_INPUT, mvEVT_MOUSE_CLICK, { CreateEventArgument("BUTTON", i) });
 
 			// route mouse down event
 			if (ImGui::GetIO().MouseDownDuration[i] >= 0.0f)
-				mvEventBus::Publish("INPUT_EVENTS", "MOUSE_DOWN", 
+				mvEventBus::Publish(mvEVT_CATEGORY_INPUT, mvEVT_MOUSE_DOWN,
 					{ CreateEventArgument("BUTTON", i), CreateEventArgument("DURATION",  ImGui::GetIO().MouseDownDuration[i]) });
 
 			// route mouse double clicked event
 			if (ImGui::IsMouseDoubleClicked(i))
-				mvEventBus::Publish("INPUT_EVENTS", "MOUSE_DOUBLE_CLICK", { CreateEventArgument("BUTTON", i) });
+				mvEventBus::Publish(mvEVT_CATEGORY_INPUT, mvEVT_MOUSE_DBL_CLK, { CreateEventArgument("BUTTON", i) });
 
 			// route mouse released event
 			if (ImGui::IsMouseReleased(i))
-				mvEventBus::Publish("INPUT_EVENTS", "MOUSE_RELEASE", { CreateEventArgument("BUTTON", i) });
+				mvEventBus::Publish(mvEVT_CATEGORY_INPUT, mvEVT_MOUSE_RELEASE, { CreateEventArgument("BUTTON", i) });
 		}
 	}
 

@@ -6,6 +6,7 @@
 #include <functional>
 #include <variant>
 #include "mvCompileTimeCRC32.h"
+#include "mvEventMacros.h"
 
 #define BIND_EVENT_METH(x) std::bind(&x, this, std::placeholders::_1)
 
@@ -93,8 +94,8 @@ namespace Marvel {
 
 	public:
 
-		static void PublishEndFrame(const char* category, const char* type, std::unordered_map<mvID, mvVariant> arguments);
-		static void Publish        (const char* category, const char* type, std::unordered_map<mvID, mvVariant> arguments);
+		static void PublishEndFrame(mvID category, mvID type, std::unordered_map<mvID, mvVariant> arguments = {});
+		static void Publish        (mvID category, mvID type, std::unordered_map<mvID, mvVariant> arguments = {});
 		static void Subscribe      (mvEventHandler* handler, mvID type, mvID category = 0);
 		static void UnSubscribe    (mvEventHandler* handler);
 

@@ -9,19 +9,19 @@ namespace Marvel {
 		: mvAppItem(name), m_value(std::move(default_value))
 	{
 		m_description.ignoreSizeUpdate = true;
-		mvEventBus::Subscribe(this, SID("DELETE_TEXTURE"));
+		mvEventBus::Subscribe(this, mvEVT_DELETE_TEXTURE);
 	}
 
 	mvImage::~mvImage()
 	{
-		mvEventBus::Publish("TEXTURE_EVENTS", "DECREMENT_TEXTURE", { CreateEventArgument("NAME", m_value) });
+		mvEventBus::Publish(mvEVT_CATEGORY_TEXTURE, mvEVT_DEC_TEXTURE, { CreateEventArgument("NAME", m_value) });
 		mvEventBus::UnSubscribe(this);
 	}
 
 	bool mvImage::onEvent(mvEvent& event)
 	{
 		mvEventDispatcher dispatcher(event);
-		dispatcher.dispatch(BIND_EVENT_METH(mvImage::onTextureDeleted), SID("DELETE_TEXTURE"));
+		dispatcher.dispatch(BIND_EVENT_METH(mvImage::onTextureDeleted), mvEVT_DELETE_TEXTURE);
 
 		return event.handled;
 	}
@@ -128,19 +128,19 @@ namespace Marvel {
 		: mvAppItem(name), m_value(std::move(default_value))
 	{
 		m_description.ignoreSizeUpdate = true;
-		mvEventBus::Subscribe(this, SID("DELETE_TEXTURE"));
+		mvEventBus::Subscribe(this, mvEVT_DELETE_TEXTURE);
 	}
 
 	mvImageButton::~mvImageButton()
 	{
-		mvEventBus::Publish("TEXTURE_EVENTS", "DECREMENT_TEXTURE", { CreateEventArgument("NAME", m_value) });
+		mvEventBus::Publish(mvEVT_CATEGORY_TEXTURE, mvEVT_DEC_TEXTURE, { CreateEventArgument("NAME", m_value) });
 		mvEventBus::UnSubscribe(this);
 	}
 
 	bool mvImageButton::onEvent(mvEvent& event)
 	{
 		mvEventDispatcher dispatcher(event);
-		dispatcher.dispatch(BIND_EVENT_METH(mvImageButton::onTextureDeleted), SID("DELETE_TEXTURE"));
+		dispatcher.dispatch(BIND_EVENT_METH(mvImageButton::onTextureDeleted), mvEVT_DELETE_TEXTURE);
 
 		return event.handled;
 	}

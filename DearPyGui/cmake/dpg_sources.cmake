@@ -21,6 +21,7 @@ set(MARVEL_SOURCES
 	"src/core/mvWindow.cpp"
 	"src/core/mvTextEditor.cpp"
 	"src/core/mvProfiler.cpp"
+	"src/core/mvThreadPoolManager.cpp"
 
 	"src/core/Theming/mvAppItemStyleManager.cpp"
 

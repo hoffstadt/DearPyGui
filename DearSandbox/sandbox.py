@@ -25,7 +25,7 @@ add_additional_font("../../Resources/NotoSerifCJKjp-Medium.otf", 20)
 
 show_demo()
 show_logger()
-set_threadpool_high_performance()
+#set_threadpool_high_performance()
 
 def window_close_all(sender, data):
     log_info(f'Close Open Windows {sender}, {data}')

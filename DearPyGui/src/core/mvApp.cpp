@@ -19,13 +19,13 @@
 #include "PythonUtilities/mvPyObject.h"
 #include "mvProfiler.h"
 #include <implot.h>
+#include "mvThreadPoolManager.h"
 
 namespace Marvel {
 
 	mvApp* mvApp::s_instance = nullptr;
 	bool   mvApp::s_started = false;
-	thread_local mvWorkStealingQueue* mvThreadPool::m_local_work_queue;
-	thread_local unsigned mvThreadPool::m_index;
+
 
 	// utility structure for realtime plot
 	struct ScrollingBuffer {
@@ -126,7 +126,7 @@ namespace Marvel {
 	mvApp::mvApp()
 	{
 
-		mvEventBus::Subscribe(this, 0, SID("VIEWPORT_EVENTS"));
+		mvEventBus::Subscribe(this, 0, mvEVT_CATEGORY_VIEWPORT);
 
 		m_parsers = BuildDearPyGuiInterface();
 
@@ -138,13 +138,15 @@ namespace Marvel {
 
 		m_mainThreadID = std::this_thread::get_id();
 
+		mvThreadPoolManager::GetThreadPoolManager();
+
 	}
 
 	bool mvApp::onEvent(mvEvent& event)
 	{
 		mvEventDispatcher dispatcher(event);
 
-		dispatcher.dispatch(BIND_EVENT_METH(mvApp::onViewPortResize), SID("VIEWPORT_RESIZE"));
+		dispatcher.dispatch(BIND_EVENT_METH(mvApp::onViewPortResize), mvEVT_VIEWPORT_RESIZE);
 
 		return event.handled;
 	}
@@ -200,41 +202,9 @@ namespace Marvel {
 
 	}
 
-	bool mvApp::prerender()
+	void mvApp::render()
 	{
 		MV_PROFILE_FUNCTION();
-
-		mvEventBus::Publish("GLOBAL", "SPECIFIC_FRAME", {CreateEventArgument("FRAME", ImGui::GetFrameCount() )});
-
-		// allows for proper sizing
-		if (ImGui::GetFrameCount() == 1)
-			firstRenderFrame();
-
-		// check if threadpool is ready to be cleaned up
-		if (m_threadTime > m_threadPoolTimeout)
-		{
-			if (m_tpool != nullptr)
-			{
-
-				// set pool to delete when finishing last task
-				m_tpool->setDone();
-
-				// check if last task is complete
-				if (m_tpool->isReadyToDelete())
-				{
-					delete m_tpool;
-					m_tpool = nullptr;
-					m_threadTime = 0.0;
-					m_threadPool = false;
-					mvAppLog::Log("Threadpool destroyed");
-				}
-				else
-					m_poolStart = clock_::now();
-			}
-			else
-				m_poolStart = clock_::now();
-
-		}
 
 		// update timing
 		m_deltaTime = ImGui::GetIO().DeltaTime;
@@ -244,40 +214,25 @@ namespace Marvel {
 		if (m_dockingViewport)
 			ImGui::DockSpaceOverViewport();
 
+		mvEventBus::Publish(mvEVT_CATEGORY_APP, mvEVT_FRAME, {CreateEventArgument("FRAME", ImGui::GetFrameCount() )});
+
+		// allows for proper sizing
+		if (ImGui::GetFrameCount() == 1)
+			firstRenderFrame();
+
 		mvAppLog::render();
 
 		// set imgui style to mvstyle
 		if (m_styleChange)
 			updateStyle();
 
-		// route any registered input callbacks
+		// route input callbacks
 		mvInput::CheckInputs();
 
-		// run render callbacks
-		mvEventBus::Publish("GLOBAL", "PRE_RENDER", {});
-		mvEventBus::Publish("GLOBAL", "PRE_RENDER_RESET", {});
-
-		return true;
-	}
-
-	void mvApp::render()
-	{
-		MV_PROFILE_FUNCTION()
-
-		mvEventBus::Publish("GLOBAL", "RENDER", {});
-	}
-
-	void mvApp::postrender()
-	{
-		{
-			MV_PROFILE_FUNCTION()
-			mvEventBus::Publish("GLOBAL", "END_FRAME", {});
-			
-			Py_BEGIN_ALLOW_THREADS
-			postAsync();
-			Py_END_ALLOW_THREADS
-			
-		}
+		mvEventBus::Publish(mvEVT_CATEGORY_APP, mvEVT_PRE_RENDER);
+		mvEventBus::Publish(mvEVT_CATEGORY_APP, mvEVT_PRE_RENDER_RESET);
+		mvEventBus::Publish(mvEVT_CATEGORY_APP, mvEVT_RENDER);
+		mvEventBus::Publish(mvEVT_CATEGORY_APP, mvEVT_END_FRAME);
 
 #if defined(MV_PROFILE) && defined(MV_DEBUG)
 		postProfile();
@@ -713,30 +668,6 @@ namespace Marvel {
 		mvColor color = {(int)style->Colors[item].x * 255, (int)style->Colors[item].y * 255 ,
 			(int)style->Colors[item].z * 255 , (int)style->Colors[item].w * 255 };
 		return color;
-	}
-
-	void mvApp::postAsync()
-	{
-		MV_PROFILE_FUNCTION()
-
-		// async callbacks
-		if (mvCallbackRegistry::GetCallbackRegistry()->hasAsyncCallbacks())
-		{
-			// check if threadpool is valid, if not, create it
-			if (m_tpool == nullptr)
-			{
-				m_tpool = new mvThreadPool(m_threadPoolHighPerformance ? 0 : m_threads);
-				m_poolStart = clock_::now();
-				m_threadPool = true;
-				mvAppLog::Log("Threadpool created");
-			}
-
-			mvCallbackRegistry::GetCallbackRegistry()->runAsyncCallbacks(m_tpool);
-		}
-
-		// update timer if thread pool exists
-		if (m_tpool != nullptr)
-			m_threadTime = std::chrono::duration_cast<second_>(clock_::now() - m_poolStart).count();
 	}
 
 	void mvApp::postProfile()

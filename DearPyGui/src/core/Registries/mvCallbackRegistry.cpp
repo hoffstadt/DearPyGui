@@ -20,19 +20,19 @@ namespace Marvel {
 
 	mvCallbackRegistry::mvCallbackRegistry()
 	{
-		mvEventBus::Subscribe(this, SID("SPECIFIC_FRAME"));
-		mvEventBus::Subscribe(this, SID("PRE_RENDER"));
-		mvEventBus::Subscribe(this, SID("PRE_RENDER"));
-		mvEventBus::Subscribe(this, 0, SID("INPUT_EVENTS"));
+		mvEventBus::Subscribe(this, mvEVT_FRAME);
+		mvEventBus::Subscribe(this, mvEVT_PRE_RENDER);
+		mvEventBus::Subscribe(this, mvEVT_END_FRAME);
+		mvEventBus::Subscribe(this, 0, mvEVT_CATEGORY_INPUT);
 	}
 
 	bool mvCallbackRegistry::onEvent(mvEvent& event)
 	{
 		mvEventDispatcher dispatcher(event);
-		dispatcher.dispatch(BIND_EVENT_METH(mvCallbackRegistry::onFrame), SID("SPECIFIC_FRAME"));
-		dispatcher.dispatch(BIND_EVENT_METH(mvCallbackRegistry::onEndFrame), SID("END_FRAME"));
-		dispatcher.dispatch(BIND_EVENT_METH(mvCallbackRegistry::onRender), SID("PRE_RENDER"));
-		dispatcher.dispatch(BIND_EVENT_METH(mvCallbackRegistry::onInputs), 0, SID("INPUT_EVENTS"));
+		dispatcher.dispatch(BIND_EVENT_METH(mvCallbackRegistry::onFrame), mvEVT_FRAME);
+		dispatcher.dispatch(BIND_EVENT_METH(mvCallbackRegistry::onEndFrame), mvEVT_END_FRAME);
+		dispatcher.dispatch(BIND_EVENT_METH(mvCallbackRegistry::onRender), mvEVT_PRE_RENDER);
+		dispatcher.dispatch(BIND_EVENT_METH(mvCallbackRegistry::onInputs), 0, mvEVT_CATEGORY_INPUT);
 
 		return event.handled;
 	}
@@ -78,45 +78,45 @@ namespace Marvel {
 
 		switch (event.type)
 		{
-		case SID("KEY_PRESS"):
+		case mvEVT_KEY_PRESS:
 			runCallback(m_acceleratorCallback, active, ToPyInt(GetEInt(event, "KEY")));
 			runCallback(m_keyPressCallback, active, ToPyInt(GetEInt(event, "KEY")));
 			break;
 
-		case SID("KEY_DOWN"):
+		case mvEVT_KEY_DOWN:
 			runCallback(m_keyDownCallback, active, ToPyMPair(GetEInt(event, "KEY"), GetEFloat(event, "DURATION")));
 			break;
 
-		case SID("KEY_RELEASE"):
+		case mvEVT_KEY_RELEASE:
 			runCallback(m_keyReleaseCallback, active, ToPyInt(GetEInt(event, "KEY")));
 			break;
 
-		case SID("MOUSE_WHEEL"):
+		case mvEVT_MOUSE_WHEEL:
 			runCallback(m_mouseWheelCallback, active, ToPyInt(GetEFloat(event, "DELTA")));
 			break;
 
-		case SID("MOUSE_DRAG"):
+		case mvEVT_MOUSE_DRAG:
 			runCallback(m_mouseDragCallback, active, 
 				ToPyMTrip(GetEInt(event, "BUTTON"), GetEFloat(event, "X"), GetEFloat(event, "Y")));
 			break;
 
-		case SID("MOUSE_CLICK"):
+		case mvEVT_MOUSE_CLICK:
 			runCallback(m_mouseClickCallback, active, ToPyInt(GetEInt(event, "BUTTON")));
 			break;
 
-		case SID("MOUSE_DOWN"):
+		case mvEVT_MOUSE_DOWN:
 			runCallback(m_mouseDownCallback, active, ToPyMPair(GetEInt(event, "BUTTON"), GetEFloat(event, "DURATION")));
 			break;
 
-		case SID("MOUSE_DOUBLE_CLICK"):
+		case mvEVT_MOUSE_DBL_CLK:
 			runCallback(m_mouseDoubleClickCallback, active, ToPyInt(GetEInt(event, "BUTTON")));
 			break;
 
-		case SID("MOUSE_RELEASE"):
+		case mvEVT_MOUSE_RELEASE:
 			runCallback(m_mouseReleaseCallback, active, ToPyInt(GetEInt(event, "BUTTON")));
 			break;
 
-		case SID("MOUSE_MOVE"):
+		case mvEVT_MOUSE_MOVE:
 			runCallback(m_mouseMoveCallback, active, ToPyPair(GetEFloat(event, "X"), GetEFloat(event, "Y")));
 			break;
 

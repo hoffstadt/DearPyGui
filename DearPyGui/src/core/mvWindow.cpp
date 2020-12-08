@@ -8,7 +8,7 @@ namespace Marvel {
 	mvWindow::mvWindow(unsigned width, unsigned height, bool error) :
 		m_error(error), m_width(width), m_height(height)
 	{
-		mvEventBus::Subscribe(this, SID("RENDER"));
+		mvEventBus::Subscribe(this, mvEVT_RENDER);
 
 		m_app = mvApp::GetApp();
 
@@ -24,7 +24,7 @@ namespace Marvel {
 	{
 		mvEventDispatcher dispatcher(event);
 
-		dispatcher.dispatch(BIND_EVENT_METH(mvWindow::onRender), SID("RENDER"));
+		dispatcher.dispatch(BIND_EVENT_METH(mvWindow::onRender), mvEVT_RENDER);
 
 		return event.handled;
 	}

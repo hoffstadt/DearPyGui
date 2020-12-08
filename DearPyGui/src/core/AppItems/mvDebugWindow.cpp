@@ -2,6 +2,7 @@
 #include "core/mvEvents.h"
 #include <misc/cpp/imgui_stdlib.h>
 #include "mvApp.h"
+#include "mvThreadPoolManager.h"
 #include "mvInput.h"
 #include "Registries/mvDataStorage.h"
 #include "Registries/mvTextureStorage.h"
@@ -116,7 +117,8 @@ namespace Marvel {
 
 		ImGuiIO& io = ImGui::GetIO();
 
-		auto app = mvApp::GetApp();
+		static auto app = mvApp::GetApp();
+		static auto tpool = mvThreadPoolManager::GetThreadPoolManager();
 
 		if (ImGui::BeginTabBar("Main Tabbar"))
 		{
@@ -132,10 +134,10 @@ namespace Marvel {
 				DebugItem("ImGui Version: ", IMGUI_VERSION);
 				DebugItem("Stored Data: ", std::to_string(mvDataStorage::GetDataCount()).c_str());
 				DebugItem("Stored Textures: ", std::to_string(mvTextureStorage::GetTextureStorage()->getTextureCount()).c_str());
-				DebugItem("Threads Active: ", std::to_string(app->getThreadCount()).c_str());
-				DebugItem("Threadpool Timeout: ", std::to_string(app->getThreadPoolTimeout()).c_str());
-				DebugItem("Threadpool Active: ", app->usingThreadPool() ? ts : fs);
-				DebugItem("Threadpool High: ", app->usingThreadPoolHighPerformance() ? ts : fs);
+				DebugItem("Threads Active: ", std::to_string(tpool->getThreadCount()).c_str());
+				DebugItem("Threadpool Timeout: ", std::to_string(tpool->getThreadPoolTimeout()).c_str());
+				DebugItem("Threadpool Active: ", tpool->usingThreadPool() ? ts : fs);
+				DebugItem("Threadpool High: ", tpool->usingThreadPoolHighPerformance() ? ts : fs);
 				ImGui::Separator();
 				DebugItem("Int Values", std::to_string(mvValueStorage::GetValueStorage()->s_ints.size()).c_str());
 				DebugItem("Int2 Values", std::to_string(mvValueStorage::GetValueStorage()->s_int2s.size()).c_str());
@@ -220,20 +222,20 @@ namespace Marvel {
                 ImGui::BeginGroup();
 
                 if (ImGui::ArrowButton("Move Up", ImGuiDir_Up))
-					mvEventBus::Publish("APP_ITEM_EVENTS", "MOVE_ITEM_UP",
+					mvEventBus::Publish(mvEVT_CATEGORY_ITEM, mvEVT_MOVE_ITEM_UP,
 						{
 								CreateEventArgument("ITEM", std::string(m_selectedItem))
 						});
                 ImGui::SameLine();
                 if (ImGui::ArrowButton("Move Down", ImGuiDir_Down))
-					mvEventBus::Publish("APP_ITEM_EVENTS", "MOVE_ITEM_DOWN",
+					mvEventBus::Publish(mvEVT_CATEGORY_ITEM, mvEVT_MOVE_ITEM_DOWN,
 						{
 								CreateEventArgument("ITEM", std::string(m_selectedItem))
 						});
                 ImGui::SameLine();
                 if (ImGui::Button("Delete"))
                 {
-					mvEventBus::Publish("APP_ITEM_EVENTS", "DELETE_ITEM",
+					mvEventBus::Publish(mvEVT_CATEGORY_ITEM, mvEVT_DELETE_ITEM,
 						{
 							{SID("ITEM"), std::string(m_selectedItem)},
 							{SID("CHILDREN_ONLY"), false}

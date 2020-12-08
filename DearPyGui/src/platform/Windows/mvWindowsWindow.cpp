@@ -143,11 +143,7 @@ namespace Marvel {
 		}
 
 		else
-		{
-			m_app->prerender();
 			m_app->render();
-			m_app->postrender();
-		}
 
 		postrender();
 	}
@@ -323,7 +319,7 @@ namespace Marvel {
 					cheight = crect.bottom - crect.top;
 				}
 
-				mvEventBus::Publish("VIEWPORT_EVENTS", "VIEWPORT_RESIZE", {
+				mvEventBus::Publish(mvEVT_CATEGORY_VIEWPORT, mvEVT_VIEWPORT_RESIZE, {
 					CreateEventArgument("actual_width", awidth),
 					CreateEventArgument("actual_height", aheight),
 					CreateEventArgument("client_width", cwidth),

@@ -18,10 +18,7 @@
 #include <map>
 #include <stack>
 #include <string>
-#include <atomic>
 #include <queue>
-#include <chrono>
-#include <mutex>
 #include <thread>
 #include "mvEvents.h"
 #include "core/AppItems/mvAppItem.h"
@@ -31,18 +28,9 @@
 #include "Registries/mvTextureStorage.h"
 
 //-----------------------------------------------------------------------------
-// Typedefs for chrono's ridiculously long names
+// Typedefs
 //-----------------------------------------------------------------------------
-typedef std::chrono::high_resolution_clock clock_;
-typedef std::chrono::duration<double, std::ratio<1> > second_;
 typedef std::map<ImGuiStyleVar, ImVec2> mvStyle;
-#if defined (_WIN32)
-typedef std::chrono::steady_clock::time_point time_point_;
-#elif defined(__APPLE__)
-typedef std::chrono::steady_clock::time_point time_point_;
-#else
-typedef std::chrono::system_clock::time_point time_point_;
-#endif
 
 namespace Marvel {
 
@@ -50,7 +38,6 @@ namespace Marvel {
     // Forward Declarations
     //-----------------------------------------------------------------------------
     class mvWindowAppitem;
-    class mvThreadPool;
     class mvTextEditor;
     class mvWindow;
     struct mvColor;
@@ -103,9 +90,7 @@ namespace Marvel {
         // Rendering
         //-----------------------------------------------------------------------------
         void                     firstRenderFrame(); // only ran during first frame
-        bool                     prerender       (); // pre rendering (every frame)
         void                     render          (); // actual render loop
-        void                     postrender      (); // post rendering (every frame)
         
         //-----------------------------------------------------------------------------
         // App Settings
@@ -146,17 +131,8 @@ namespace Marvel {
 
         //-----------------------------------------------------------------------------
         // Concurrency
-        //-----------------------------------------------------------------------------
-        void                     setThreadPoolTimeout          (double time)   { m_threadPoolTimeout = time; }
-        void                     setThreadCount                (unsigned count){ m_threads = count; }
-        void                     activateThreadPool            ()              { m_threadPool = true; }
-        void                     setThreadPoolHighPerformance  ()              { m_threadPoolHighPerformance = true; }
-                                 
+        //-----------------------------------------------------------------------------      
         bool                     checkIfMainThread             () const;
-        double                   getThreadPoolTimeout          () const { return m_threadPoolTimeout; }
-        unsigned                 getThreadCount                () const { return m_threads; }
-        bool                     usingThreadPool               () const { return m_threadPool; }
-        bool                     usingThreadPoolHighPerformance() const { return m_threadPoolHighPerformance; }
 
         //-----------------------------------------------------------------------------
         // Timing
@@ -177,7 +153,6 @@ namespace Marvel {
         // Post Rendering Methods
         //     - actually performs queued operations
         //-----------------------------------------------------------------------------
-        void postAsync      ();
         void postProfile    ();
 
         mvApp();
@@ -225,15 +200,7 @@ namespace Marvel {
         float                        m_deltaTime; // time since last frame
         double                       m_time;      // total time since starting
         
-        mvThreadPool*                    m_tpool = nullptr;
-        mutable std::mutex               m_mutex;
         std::thread::id                  m_mainThreadID;
-        bool                             m_threadPool = false;                // is threadpool activated
-        double                           m_threadPoolTimeout = 30.0;          // how long til trying to delete pool
-        unsigned                         m_threads = 2;                       // how many threads to use
-        bool                             m_threadPoolHighPerformance = false; // when true, use max number of threads
-        double                           m_threadTime = 0.0;                  // how long threadpool has been active
-        time_point_                      m_poolStart;                         // threadpool start time
 
         std::vector<CompileTimeTexture> m_textures;
     };
