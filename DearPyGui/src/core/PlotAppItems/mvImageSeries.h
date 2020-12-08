@@ -1,12 +1,13 @@
 #pragma once
 #include "mvPlot.h"
 #include "mvCore.h"
+#include "core/mvEvents.h"
 #include "Registries/mvTextureStorage.h"
 #include "PythonUtilities/mvPythonExceptions.h"
 
 namespace Marvel {
 
-	class mvImageSeries : public mvSeries
+	class mvImageSeries : public mvSeries, public mvEventHandler
 	{
 
 	public:
@@ -22,6 +23,27 @@ namespace Marvel {
 			m_uv_max(uv_max),
 			m_tintColor(tintColor)
 		{
+		}
+
+		bool onEvent(mvEvent& event)
+		{
+			mvEventDispatcher dispatcher(event);
+			dispatcher.dispatch(BIND_EVENT_METH(mvImageSeries::onTextureDeleted), SID("DELETE_TEXTURE"));
+
+			return event.handled;
+		}
+
+		bool onTextureDeleted(mvEvent& event)
+		{
+			std::string name = GetEString(event, "NAME");
+
+			if (name == m_value)
+			{
+				m_texture = nullptr;
+				return true;
+			}
+
+			return false;
 		}
 
 		mvSeriesType getSeriesType() override { return mvSeriesType::Image; }
@@ -40,7 +62,8 @@ namespace Marvel {
 
 		~mvImageSeries()
 		{
-			mvTextureStorage::GetTextureStorage()->decrementTexture(m_value);
+			mvEventBus::Publish("TEXTURE_EVENTS", "DECREMENT_TEXTURE", { CreateEventArgument("NAME", m_value) });
+			mvEventBus::UnSubscribe(this);
 		}
 
 	private:

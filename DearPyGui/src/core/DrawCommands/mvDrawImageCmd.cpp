@@ -14,23 +14,38 @@ namespace Marvel {
 		m_uv_max(uv_max),
 		m_color(color)
 	{
+		mvEventBus::Subscribe(this, SID("DELETE_TEXTURE"));
 	}
 
 	mvDrawImageCmd::~mvDrawImageCmd()
 	{
-		mvTextureStorage::GetTextureStorage()->decrementTexture(m_file);
+		mvEventBus::Publish("TEXTURE_EVENTS", "DECREMENT_TEXTURE", { CreateEventArgument("NAME", m_file) });
+		mvEventBus::UnSubscribe(this);
+	}
+
+	bool mvDrawImageCmd::onEvent(mvEvent& event)
+	{
+		mvEventDispatcher dispatcher(event);
+		dispatcher.dispatch(BIND_EVENT_METH(mvDrawImageCmd::onTextureDeleted), SID("DELETE_TEXTURE"));
+
+		return event.handled;
+	}
+
+	bool mvDrawImageCmd::onTextureDeleted(mvEvent& event)
+	{
+		std::string name = GetEString(event, "NAME");
+
+		if (name == m_file)
+		{
+			m_texture = nullptr;
+			return true;
+		}
+
+		return false;
 	}
 
 	void mvDrawImageCmd::draw(ImDrawList* drawlist, float x, float y)
 	{
-
-		if (mvTextureStorage::GetTextureStorage()->getTexture(m_file))
-		{
-			if (mvTextureStorage::GetTextureStorage()->getTexture(m_file)->texture != m_texture)
-				m_texture = nullptr;
-		}
-		else
-			m_texture = nullptr;
 
 		if (m_texture == nullptr && !m_file.empty())
 		{

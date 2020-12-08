@@ -101,6 +101,35 @@ namespace Marvel {
 			GetEventCategoryHandlers()[category].push_back(handler);
 	}
 
+	void mvEventBus::UnSubscribe(mvEventHandler* handler)
+	{
+
+		for (auto& eventHandlerBucket : GetEventHandlers())
+		{
+			std::vector<mvEventHandler*> old = eventHandlerBucket.second;
+			eventHandlerBucket.second.clear();
+
+			for (mvEventHandler* eventHandler : old)
+			{
+				if (eventHandler != handler)
+					eventHandlerBucket.second.push_back(eventHandler);
+			}
+		}
+
+		for (auto& eventHandlerBucket : GetEventCategoryHandlers())
+		{
+			std::vector<mvEventHandler*> old = eventHandlerBucket.second;
+			eventHandlerBucket.second.clear();
+
+			for (mvEventHandler* eventHandler : old)
+			{
+				if (eventHandler != handler)
+					eventHandlerBucket.second.push_back(eventHandler);
+			}
+		}
+
+	}
+
 	std::stack<mvEvent>& mvEventBus::GetEndFrameEvents()
 	{
 		static std::stack<mvEvent> events;

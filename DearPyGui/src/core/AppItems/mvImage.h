@@ -16,7 +16,7 @@ namespace Marvel {
 	//-----------------------------------------------------------------------------
 	// mvImage
 	//-----------------------------------------------------------------------------
-	class mvImage : public mvAppItem
+	class mvImage : public mvAppItem, public mvEventHandler
 	{
 
 	public:
@@ -24,6 +24,9 @@ namespace Marvel {
 		MV_APPITEM_TYPE(mvAppItemType::InputInt, "add_image")
 
 		mvImage(const std::string& name, std::string default_value);
+
+		bool onEvent(mvEvent& event) override;
+		bool onTextureDeleted(mvEvent& event);
 
 		~mvImage() override;
 
@@ -49,7 +52,7 @@ namespace Marvel {
 	//-----------------------------------------------------------------------------
 	// mvImageButton
 	//-----------------------------------------------------------------------------
-	class mvImageButton : public mvAppItem
+	class mvImageButton : public mvAppItem, public mvEventHandler
 	{
 
 	public:
@@ -59,6 +62,9 @@ namespace Marvel {
 		mvImageButton(const std::string& name, std::string  default_value);
 
 		~mvImageButton() override;
+
+		bool onEvent(mvEvent& event) override;
+		bool onTextureDeleted(mvEvent& event);
 
 		void draw              ()               override;
 		void setExtraConfigDict(PyObject* dict) override;

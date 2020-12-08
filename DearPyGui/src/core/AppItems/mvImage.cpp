@@ -9,23 +9,38 @@ namespace Marvel {
 		: mvAppItem(name), m_value(std::move(default_value))
 	{
 		m_description.ignoreSizeUpdate = true;
+		mvEventBus::Subscribe(this, SID("DELETE_TEXTURE"));
 	}
 
 	mvImage::~mvImage()
 	{
-		mvTextureStorage::GetTextureStorage()->decrementTexture(m_value);
+		mvEventBus::Publish("TEXTURE_EVENTS", "DECREMENT_TEXTURE", { CreateEventArgument("NAME", m_value) });
+		mvEventBus::UnSubscribe(this);
+	}
+
+	bool mvImage::onEvent(mvEvent& event)
+	{
+		mvEventDispatcher dispatcher(event);
+		dispatcher.dispatch(BIND_EVENT_METH(mvImage::onTextureDeleted), SID("DELETE_TEXTURE"));
+
+		return event.handled;
+	}
+
+	bool mvImage::onTextureDeleted(mvEvent& event)
+	{
+		std::string name = GetEString(event, "NAME");
+
+		if (name == m_value)
+		{
+			m_texture = nullptr;
+			return true;
+		}
+
+		return false;
 	}
 
 	void mvImage::draw()
 	{
-
-		if (mvTextureStorage::GetTextureStorage()->getTexture(m_value))
-		{
-			if (mvTextureStorage::GetTextureStorage()->getTexture(m_value)->texture != m_texture)
-				m_texture = nullptr;
-		}
-		else
-			m_texture = nullptr;
 
 		if (m_texture == nullptr && !m_value.empty())
 		{
@@ -113,23 +128,38 @@ namespace Marvel {
 		: mvAppItem(name), m_value(std::move(default_value))
 	{
 		m_description.ignoreSizeUpdate = true;
+		mvEventBus::Subscribe(this, SID("DELETE_TEXTURE"));
 	}
 
 	mvImageButton::~mvImageButton()
 	{
-		mvTextureStorage::GetTextureStorage()->decrementTexture(m_value);
+		mvEventBus::Publish("TEXTURE_EVENTS", "DECREMENT_TEXTURE", { CreateEventArgument("NAME", m_value) });
+		mvEventBus::UnSubscribe(this);
+	}
+
+	bool mvImageButton::onEvent(mvEvent& event)
+	{
+		mvEventDispatcher dispatcher(event);
+		dispatcher.dispatch(BIND_EVENT_METH(mvImageButton::onTextureDeleted), SID("DELETE_TEXTURE"));
+
+		return event.handled;
+	}
+
+	bool mvImageButton::onTextureDeleted(mvEvent& event)
+	{
+		std::string name = GetEString(event, "NAME");
+		
+		if (name == m_value)
+		{
+			m_texture = nullptr;
+			return true;
+		}
+
+		return false;
 	}
 
 	void mvImageButton::draw()
 	{
-		if (mvTextureStorage::GetTextureStorage()->getTexture(m_value))
-		{
-			if (mvTextureStorage::GetTextureStorage()->getTexture(m_value)->texture != m_texture)
-				m_texture = nullptr;
-		}
-		else
-			m_texture = nullptr;
-
 		if (m_texture == nullptr && !m_value.empty())
 		{
 			mvTextureStorage::GetTextureStorage()->addTexture(m_value);
