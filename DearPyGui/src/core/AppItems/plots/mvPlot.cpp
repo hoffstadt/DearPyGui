@@ -1,11 +1,12 @@
 #include <algorithm>
 #include "mvPlot.h"
 #include "mvApp.h"
-#include "PythonUtilities/mvPythonTranslator.h"
+#include "mvPythonTranslator.h"
 #define PY_SSIZE_T_CLEAN
 #include <Python.h>
-#include "core/mvInput.h"
-#include "Registries/mvValueStorage.h"
+#include "mvInput.h"
+#include "mvValueStorage.h"
+#include "mvGlobalIntepreterLock.h"
 
 namespace Marvel {
 

@@ -1,12 +1,14 @@
 #pragma once
 
-#include "core/AppItems/mvTypeBases.h"
+#include "mvTypeBases.h"
 #include <vector>
 
 //-----------------------------------------------------------------------------
 // Widget Index
 //
-//     * mvText
+//     * mvManagedColumns
+//     * mvColumn
+//     * mvNextColumn
 //
 //-----------------------------------------------------------------------------
 

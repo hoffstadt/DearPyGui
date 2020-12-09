@@ -7,7 +7,7 @@
 #include <iostream>
 #include <fstream>
 #include <filesystem>
-#include "PythonUtilities/mvPythonParser.h"
+#include "mvPythonParser.h"
 
 namespace fs = std::filesystem;
 using namespace Marvel;

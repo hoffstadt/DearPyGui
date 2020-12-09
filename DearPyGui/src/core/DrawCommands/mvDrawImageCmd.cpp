@@ -1,6 +1,7 @@
 #include "mvDrawImageCmd.h"
-#include "Registries/mvTextureStorage.h"
-#include "PythonUtilities/mvPythonTranslator.h"
+#include "mvTextureStorage.h"
+#include "mvPythonTranslator.h"
+#include "mvGlobalIntepreterLock.h"
 
 namespace Marvel {
 

@@ -1,14 +1,7 @@
 #pragma once
 
 #include "mvApp.h"
-#include "core/AppItems/mvTypeBases.h"
-
-//-----------------------------------------------------------------------------
-// Widget Index
-//
-//     * mvInputText
-//
-//-----------------------------------------------------------------------------
+#include "mvTypeBases.h"
 
 namespace Marvel {
 

@@ -1,9 +1,10 @@
 #include "mvCallbackRegistry.h"
-#include "PythonUtilities/mvPyObject.h"
-#include "PythonUtilities/mvPythonTranslator.h"
-#include "PythonUtilities/mvPythonExceptions.h"
-#include "core/mvThreadPool.h"
-#include "core/mvProfiler.h"
+#include "mvPyObject.h"
+#include "mvPythonTranslator.h"
+#include "mvPythonExceptions.h"
+#include "mvThreadPool.h"
+#include "mvProfiler.h"
+#include "mvGlobalIntepreterLock.h"
 
 namespace Marvel {
 

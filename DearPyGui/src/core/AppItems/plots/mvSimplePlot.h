@@ -1,15 +1,8 @@
 #pragma once
 
 #include <utility>
-#include "core/AppItems/mvTypeBases.h"
-#include "PythonUtilities/mvPythonTranslator.h"
-
-//-----------------------------------------------------------------------------
-// Widget Index
-//
-//     * mvSimplePlot
-//
-//-----------------------------------------------------------------------------
+#include "mvTypeBases.h"
+#include "mvPythonTranslator.h"
 
 namespace Marvel{
 

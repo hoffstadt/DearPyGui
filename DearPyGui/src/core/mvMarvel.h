@@ -9,7 +9,7 @@
 //     
 //-----------------------------------------------------------------------------
 
-#include "PythonUtilities/mvPythonParser.h"
+#include "mvPythonParser.h"
 
 namespace Marvel {
 

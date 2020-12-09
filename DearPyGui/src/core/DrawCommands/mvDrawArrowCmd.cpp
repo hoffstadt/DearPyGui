@@ -3,7 +3,8 @@
 #include <algorithm>
 #undef min
 #undef max
-#include "PythonUtilities/mvPythonTranslator.h"
+#include "mvPythonTranslator.h"
+#include "mvGlobalIntepreterLock.h"
 
 namespace Marvel {
 

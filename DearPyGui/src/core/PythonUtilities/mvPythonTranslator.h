@@ -3,7 +3,7 @@
 //-----------------------------------------------------------------------------
 // mvPythonTranslator
 //
-//     - This class handles conversion between python/c++ types while also
+//     - These functions handle conversion between python/c++ types while also
 //       ensuring thread safety on the python interpreter
 //     
 //-----------------------------------------------------------------------------
@@ -18,28 +18,6 @@
 
 namespace Marvel {
 
-	//-----------------------------------------------------------------------------
-	// mvGlobalIntepreterLock
-	//     - A convience class to automatically handle aqcuiring and releasing
-	//       python's global intpreter lock between python c api calls.
-	//-----------------------------------------------------------------------------
-	class mvGlobalIntepreterLock
-	{
-	
-	public:
-
-		mvGlobalIntepreterLock();
-		~mvGlobalIntepreterLock();
-
-	private:
-
-		PyGILState_STATE m_gstate;
-
-	};
-
-	//-----------------------------------------------------------------------------
-	// mvPythonTranslator
-	//-----------------------------------------------------------------------------
 	// conversion to python
 	PyObject*   GetPyNone ();
 	PyObject*   ToPyString(const std::string& value);

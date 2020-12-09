@@ -1,9 +1,9 @@
 #include "mvItemRegistry.h"
-#include "PythonUtilities/mvPythonExceptions.h"
+#include "mvPythonExceptions.h"
 #include "mvProfiler.h"
 #include "mvApp.h"
-#include "Registries/mvItemRegistry.h"
-#include "core/AppItems/mvAppItems.h"
+#include "mvItemRegistry.h"
+#include "mvAppItems.h"
 
 namespace Marvel {
 

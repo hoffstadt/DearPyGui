@@ -20,7 +20,7 @@
 #include <vector>
 #include <implot.h>
 #include <implot_internal.h>
-#include "core/mvEvents.h"
+#include "mvEvents.h"
 #define PY_SSIZE_T_CLEAN
 #include <Python.h>
 

@@ -1,6 +1,6 @@
 #include "mvSourceWindow.h"
 #include "mvApp.h"
-#include "core/mvInput.h"
+#include "mvInput.h"
 #include <imgui.h>
 #include <fstream>
 #include <streambuf>

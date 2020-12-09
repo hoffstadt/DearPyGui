@@ -1,17 +1,12 @@
 #pragma once
 
 #include <utility>
-
-#include "core/AppItems/mvTypeBases.h"
+#include "mvTypeBases.h"
 #include "mvApp.h"
-#include "Registries/mvDrawList.h"
+#include "mvDrawList.h"
 
 namespace Marvel {
 
-	//-----------------------------------------------------------------------------
-	// mvWindowAppitem
-	//     - this needs cleaning up badly
-	//-----------------------------------------------------------------------------
 	class mvWindowAppitem : public mvAppItem
 	{
 

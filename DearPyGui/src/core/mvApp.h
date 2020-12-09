@@ -21,11 +21,11 @@
 #include <queue>
 #include <thread>
 #include "mvEvents.h"
-#include "core/AppItems/mvAppItem.h"
-#include "PythonUtilities/mvPythonParser.h"
-#include "Registries/mvItemRegistry.h"
-#include "Registries/mvDrawList.h"
-#include "Registries/mvTextureStorage.h"
+#include "mvAppItem.h"
+#include "mvPythonParser.h"
+#include "mvItemRegistry.h"
+#include "mvDrawList.h"
+#include "mvTextureStorage.h"
 
 //-----------------------------------------------------------------------------
 // Typedefs

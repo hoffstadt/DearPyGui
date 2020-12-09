@@ -1,7 +1,7 @@
 #include "mvInput.h"
 #include "mvApp.h"
 #include "mvProfiler.h"
-#include "PythonUtilities/mvPythonTranslator.h"
+#include "mvPythonTranslator.h"
 #include "mvEvents.h"
 
 namespace Marvel {

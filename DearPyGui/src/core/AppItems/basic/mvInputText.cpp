@@ -1,8 +1,9 @@
 #include "mvInputText.h"
-#include "Registries/mvDataStorage.h"
+#include "mvDataStorage.h"
 #include <misc/cpp/imgui_stdlib.h>
 #include <utility>
-#include "PythonUtilities/mvPythonTranslator.h"
+#include "mvPythonTranslator.h"
+#include "mvGlobalIntepreterLock.h"
 
 namespace Marvel {
 

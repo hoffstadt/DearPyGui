@@ -4,7 +4,7 @@
 #include <string>
 #include <chrono>
 #include "mvCore.h"
-#include "PythonUtilities/mvPythonTranslator.h"
+#include "mvPythonTranslator.h"
 
 namespace Marvel {
 

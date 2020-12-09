@@ -2,8 +2,8 @@
 #include <vector>
 #include <map>
 #include <string>
-#include "core/AppItems/mvTypeBases.h"
-#include "PythonUtilities/mvPythonParser.h"
+#include "mvTypeBases.h"
+#include "mvPythonParser.h"
 
 namespace Marvel {
 

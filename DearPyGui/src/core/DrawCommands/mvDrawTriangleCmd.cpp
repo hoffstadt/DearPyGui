@@ -1,5 +1,6 @@
 #include "mvDrawTriangleCmd.h"
-#include "PythonUtilities/mvPythonTranslator.h"
+#include "mvPythonTranslator.h"
+#include "mvGlobalIntepreterLock.h"
 
 namespace Marvel {
 

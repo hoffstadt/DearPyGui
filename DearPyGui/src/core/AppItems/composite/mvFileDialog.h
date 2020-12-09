@@ -1,8 +1,8 @@
 #pragma once
-#include "core/AppItems/mvTypeBases.h"
+#include "mvTypeBases.h"
 #include "mvApp.h"
 #include <ImGuiFileDialog.h>
-#include "PythonUtilities/mvPythonTranslator.h"
+#include "mvPythonTranslator.h"
 
 namespace Marvel {
 
