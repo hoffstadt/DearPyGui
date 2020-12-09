@@ -1,13 +1,6 @@
 #pragma once
 
-#include "core/AppItems/mvTypeBases.h"
-
-//-----------------------------------------------------------------------------
-// Widget Index
-//
-//     * mvTimePicker
-//
-//-----------------------------------------------------------------------------
+#include "mvTypeBases.h"
 
 namespace Marvel {
 

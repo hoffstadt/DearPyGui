@@ -1,4 +1,5 @@
 #pragma once
+
 #include "mvPlot.h"
 
 namespace Marvel {

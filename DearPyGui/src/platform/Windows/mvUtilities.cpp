@@ -1,4 +1,4 @@
-#include "core/mvUtilities.h"
+#include "mvUtilities.h"
 #include "mvWindowsWindow.h"
 
 #define STB_IMAGE_IMPLEMENTATION

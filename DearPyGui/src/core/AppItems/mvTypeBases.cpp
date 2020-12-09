@@ -1,11 +1,12 @@
 #include "mvTypeBases.h"
 #include <utility>
-#include "PythonUtilities/mvPythonTranslator.h"
+#include "mvPythonTranslator.h"
 #include "mvApp.h"
-#include "core/mvUtilities.h"
+#include "mvUtilities.h"
 #include "mvAppLog.h"
-#include "Registries/mvDataStorage.h"
-#include "Registries/mvValueStorage.h"
+#include "mvDataStorage.h"
+#include "mvValueStorage.h"
+#include "mvGlobalIntepreterLock.h"
 
 namespace Marvel {
 

@@ -1,13 +1,13 @@
 #include "mvDebugWindow.h"
-#include "core/mvEvents.h"
+#include "mvEvents.h"
 #include <misc/cpp/imgui_stdlib.h>
 #include "mvApp.h"
 #include "mvThreadPoolManager.h"
 #include "mvInput.h"
-#include "Registries/mvDataStorage.h"
-#include "Registries/mvTextureStorage.h"
-#include "Registries/mvValueStorage.h"
-#include "PythonUtilities/mvPythonTranslator.h"
+#include "mvDataStorage.h"
+#include "mvTextureStorage.h"
+#include "mvValueStorage.h"
+#include "mvPythonTranslator.h"
 
 namespace Marvel {
 

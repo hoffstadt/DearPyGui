@@ -1,7 +1,8 @@
 #pragma once
 #include "mvWindowAppItem.h"
-#include "core/mvInput.h"
-#include "PythonUtilities/mvPythonTranslator.h"
+#include "mvInput.h"
+#include "mvPythonTranslator.h"
+#include "mvGlobalIntepreterLock.h"
 
 namespace Marvel {
 

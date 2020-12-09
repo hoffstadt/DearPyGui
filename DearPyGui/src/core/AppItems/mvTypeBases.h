@@ -2,7 +2,7 @@
 
 #include <implot.h>
 #include <implot_internal.h>
-#include "core/AppItems/mvAppItem.h"
+#include "mvAppItem.h"
 
 //-----------------------------------------------------------------------------
 // mvTypeBases

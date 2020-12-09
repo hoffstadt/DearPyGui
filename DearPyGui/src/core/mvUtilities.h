@@ -10,7 +10,7 @@
 
 #include <vector>
 #include <string>
-#include "Registries/mvTextureStorage.h"
+#include "mvTextureStorage.h"
 
 namespace Marvel {
 

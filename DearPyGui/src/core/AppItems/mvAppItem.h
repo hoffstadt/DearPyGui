@@ -16,16 +16,16 @@
 #include "mvCore.h"
 #include "mvAppItemState.h"
 #include "mvAppItemDescription.h"
-#include "core/Theming/mvAppItemStyleManager.h"
-#include "Registries/mvCallbackRegistry.h"
+#include "mvAppItemStyleManager.h"
+#include "mvCallbackRegistry.h"
 
 //-----------------------------------------------------------------------------
 // Helper Macro
 //-----------------------------------------------------------------------------
 #define MV_APPITEM_TYPE(x, parser)\
-    mvAppItemType getType() const override { return x; }\
-    std::string getStringType() const override { return std::string(#x); }\
-    std::string getParserCommand() const override { return parser; }
+mvAppItemType getType() const override { return x; }\
+std::string getStringType() const override { return std::string(#x); }\
+std::string getParserCommand() const override { return parser; }
 
 namespace Marvel {
 

@@ -3,7 +3,8 @@
 #include <implot.h>
 #include <implot_internal.h>
 #include <misc/cpp/imgui_stdlib.h>
-#include "PythonUtilities/mvPythonTranslator.h"
+#include "mvPythonTranslator.h"
+#include "mvGlobalIntepreterLock.h"
 
 namespace Marvel {
 

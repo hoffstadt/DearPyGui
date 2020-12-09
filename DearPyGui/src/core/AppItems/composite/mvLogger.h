@@ -1,17 +1,9 @@
 #pragma once
 
 #include "mvApp.h"
-#include "core/AppItems/mvAppItem.h"
-#include "PythonUtilities/mvPythonTranslator.h"
+#include "mvAppItem.h"
+#include "mvPythonTranslator.h"
 #include <imgui.h>
-
-
-//-----------------------------------------------------------------------------
-// Widget Index
-//
-//     * mvLogger
-//
-//-----------------------------------------------------------------------------
 
 namespace Marvel {
 

@@ -1,9 +1,10 @@
 #pragma once
+
 #include "mvPlot.h"
 #include "mvCore.h"
-#include "core/mvEvents.h"
-#include "Registries/mvTextureStorage.h"
-#include "PythonUtilities/mvPythonExceptions.h"
+#include "mvEvents.h"
+#include "mvTextureStorage.h"
+#include "mvPythonExceptions.h"
 
 namespace Marvel {
 

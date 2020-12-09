@@ -7,7 +7,7 @@
 #define DIRECTINPUT_VERSION 0x0800
 #include <dinput.h>
 #include <tchar.h>
-#include "core/mvWindow.h"
+#include "mvWindow.h"
 
 namespace Marvel {
 

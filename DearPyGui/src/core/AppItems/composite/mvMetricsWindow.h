@@ -1,7 +1,7 @@
 #pragma once
-#include "core/AppItems/mvTypeBases.h"
-#include "core/AppItems/mvAppItem.h"
-#include "core/mvInput.h"
+#include "mvTypeBases.h"
+#include "mvAppItem.h"
+#include "mvInput.h"
 
 namespace Marvel {
 

@@ -1,21 +1,10 @@
 #pragma once
 
-#include "AppItems/mvTypeBases.h"
-#include "Registries/mvDrawList.h"
-
-//-----------------------------------------------------------------------------
-// Widget Index
-//
-//     * mvDrawing
-//
-//-----------------------------------------------------------------------------
-
+#include "mvTypeBases.h"
+#include "mvDrawList.h"
 
 namespace Marvel {
 
-	//-----------------------------------------------------------------------------
-	// mvDrawing
-	//-----------------------------------------------------------------------------
 	class mvDrawing : public mvAppItem
 	{
 

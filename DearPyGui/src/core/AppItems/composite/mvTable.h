@@ -1,15 +1,8 @@
 #pragma once
 
-#include "core/AppItems/mvAppItem.h"
+#include "mvAppItem.h"
 #include "mvApp.h"
 #include "mvAppLog.h"
-
-//-----------------------------------------------------------------------------
-// Widget Index
-//
-//     * mvTable
-//
-//-----------------------------------------------------------------------------
 
 namespace Marvel {
 

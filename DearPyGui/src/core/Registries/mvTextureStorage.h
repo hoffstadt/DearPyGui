@@ -17,7 +17,7 @@
 #include <string>
 #include <vector>
 #include <unordered_map>
-#include "core/mvEvents.h"
+#include "mvEvents.h"
 
 namespace Marvel {
 

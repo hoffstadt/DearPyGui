@@ -1,4 +1,5 @@
 #include "mvAreaSeries.h"
+
 namespace Marvel {
 
 	void mvAreaSeries::drawPolygon()

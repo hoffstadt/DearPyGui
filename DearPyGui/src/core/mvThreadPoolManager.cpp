@@ -2,7 +2,7 @@
 #include "mvThreadPool.h"
 #include "mvAppLog.h"
 #include "mvProfiler.h"
-#include "Registries/mvCallbackRegistry.h"
+#include "mvCallbackRegistry.h"
 
 namespace Marvel {
 
