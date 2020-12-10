@@ -5,7 +5,6 @@
 #include "mvDataStorage.h"
 #include "mvCallbackRegistry.h"
 #include "mvInput.h"
-#include "mvTextEditor.h"
 #include "mvThemeScheme.h"
 #include <fstream>
 #include <streambuf>
@@ -75,7 +74,6 @@ namespace Marvel {
 
 	void mvApp::SetAppStarted() 
 	{
-		//if (GetApp())////GetApp()->runCallback(GetApp()->getOnStartCallback(), "Main Application");
 		s_started = true; 
 	}
 
@@ -106,11 +104,11 @@ namespace Marvel {
 			// reset other windows
 			for (auto window : mvItemRegistry::GetItemRegistry()->getFrontWindows())
 			{
-				if (window->getName() != primaryWindow)
-					static_cast<mvWindowAppitem*>(window)->setWindowAsMainStatus(false);
+				if (window->m_name != primaryWindow)
+					static_cast<mvWindowAppItem*>(window)->setWindowAsMainStatus(false);
 			}
 
-			mvWindowAppitem* window = mvItemRegistry::GetItemRegistry()->getWindow(primaryWindow);
+			mvWindowAppItem* window = mvItemRegistry::GetItemRegistry()->getWindow(primaryWindow);
 
 			if (window)
 				window->setWindowAsMainStatus(true);

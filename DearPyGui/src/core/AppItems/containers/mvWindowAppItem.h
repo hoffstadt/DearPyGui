@@ -7,7 +7,7 @@
 
 namespace Marvel {
 
-	class mvWindowAppitem : public mvAppItem
+	class mvWindowAppItem : public mvAppItem
 	{
 
 		enum class Status{ Normal, Transition, Dirty};
@@ -16,7 +16,7 @@ namespace Marvel {
 
 		MV_APPITEM_TYPE(mvAppItemType::Window, "add_window")
 
-		mvWindowAppitem(const std::string& name, bool mainWindow, PyObject* closing_callback);
+		mvWindowAppItem(const std::string& name, bool mainWindow, PyObject* closing_callback);
 
 		void   addMenuBar           () { m_hasMenuBar = true; }
 		void   addFlag              (ImGuiWindowFlags flag) { m_windowflags |= flag; }
@@ -33,7 +33,7 @@ namespace Marvel {
 		void   setFocusedNextFrame  () { m_focusNextFrame = true; }
 		mvDrawList& getDrawList     () { return m_drawList; }
 
-		~mvWindowAppitem();
+		~mvWindowAppItem();
 
 	private:
 

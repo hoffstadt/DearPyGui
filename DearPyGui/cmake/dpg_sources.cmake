@@ -19,12 +19,12 @@ set(MARVEL_SOURCES
 	"src/core/mvAppLog.cpp"
 	"src/core/mvInput.cpp"
 	"src/core/mvWindow.cpp"
-	"src/core/mvTextEditor.cpp"
 	"src/core/mvProfiler.cpp"
 	"src/core/mvThreadPoolManager.cpp"
 
 	"src/core/Theming/mvAppItemStyleManager.cpp"
 
+	"src/core/DrawCommands/mvDrawList.cpp"
 	"src/core/DrawCommands/mvDrawImageCmd.cpp"
 	"src/core/DrawCommands/mvDrawLineCmd.cpp"
 	"src/core/DrawCommands/mvDrawArrowCmd.cpp"
@@ -38,11 +38,9 @@ set(MARVEL_SOURCES
 	"src/core/DrawCommands/mvDrawBezierCurveCmd.cpp"
 
 	"src/core/Registries/mvCallbackRegistry.cpp"
-	"src/core/Registries/mvItemRegistry.cpp"
 	"src/core/Registries/mvDataStorage.cpp"
 	"src/core/Registries/mvTextureStorage.cpp"
 	"src/core/Registries/mvValueStorage.cpp"
-	"src/core/Registries/mvDrawList.cpp"
 
 	"src/core/PythonUtilities/mvPyObject.cpp"
 	"src/core/PythonUtilities/mvPythonTranslator.cpp"
@@ -50,7 +48,6 @@ set(MARVEL_SOURCES
 	"src/core/PythonUtilities/mvPythonExceptions.cpp"
 	"src/core/PythonUtilities/mvGlobalIntepreterLock.cpp"
 
-	"src/core/PythonCommands/mvInterfaceCore.cpp"
 	"src/core/PythonCommands/mvPlotInterface.cpp"
 	"src/core/PythonCommands/mvDrawingInterface.cpp"
 	"src/core/PythonCommands/mvTableInterface.cpp"
@@ -67,6 +64,7 @@ set(MARVEL_SOURCES
 	"src/core/AppItems/mvAppItemState.cpp"
 	"src/core/AppItems/mvAppItem.cpp"
 	"src/core/AppItems/mvTypeBases.cpp"
+	"src/core/AppItems/mvItemRegistry.cpp"
 
 	"src/core/AppItems/basic/mvMenuItem.cpp"
 	"src/core/AppItems/basic/mvInputText.cpp"
@@ -99,6 +97,7 @@ set(MARVEL_SOURCES
 	"src/core/AppItems/custom/mvDatePicker.cpp"
 	"src/core/AppItems/custom/mvTimePicker.cpp"
 	"src/core/AppItems/custom/mvDrawing.cpp"
+	"src/core/AppItems/custom/mvTextEditor.cpp"
 	
 	"src/core/AppItems/composite/mvFileDialog.cpp"
 	"src/core/AppItems/composite/mvDebugWindow.cpp"

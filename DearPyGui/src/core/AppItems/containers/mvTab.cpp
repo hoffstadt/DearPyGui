@@ -33,11 +33,11 @@ namespace Marvel {
 		if (ImGui::BeginTabItem(m_label.c_str(), m_closable ? &m_show : nullptr, m_flags))
 		{
 			// Regular Tooltip (simple)
-			if (!getTip().empty() && ImGui::IsItemHovered())
-				ImGui::SetTooltip("%s", getTip().c_str());
+			if (!m_tip.empty() && ImGui::IsItemHovered())
+				ImGui::SetTooltip("%s", m_tip.c_str());
 
 			// set other tab's value false
-			for (mvAppItem* child : parent->getChildren())
+			for (mvAppItem* child : parent->m_children)
 			{
 				if (child->getType() == mvAppItemType::TabItem)
 					*((mvTab*)child)->m_value = false;
@@ -52,8 +52,8 @@ namespace Marvel {
 				mvCallbackRegistry::GetCallbackRegistry()->addCallback(parent->getCallback(), m_name, parent->getCallbackData());
 
 				// Context Menu
-				if (!getPopup().empty())
-					ImGui::OpenPopup(getPopup().c_str());
+				if (!m_popup.empty())
+					ImGui::OpenPopup(m_popup.c_str());
 			}
 
 			parent->setValue(m_name);
@@ -61,18 +61,18 @@ namespace Marvel {
 			for (mvAppItem* item : m_children)
 			{
 				// skip item if it's not shown
-				if (!item->isShown())
+				if (!item->m_show)
 					continue;
 
 				// set item width
-				if (item->getWidth() != 0)
-					ImGui::SetNextItemWidth((float)item->getWidth());
+				if (item->m_width != 0)
+					ImGui::SetNextItemWidth((float)item->m_width);
 
 				item->draw();
 
 				// Regular Tooltip (simple)
-				if (!item->getTip().empty() && ImGui::IsItemHovered())
-					ImGui::SetTooltip("%s", item->getTip().c_str());
+				if (!item->m_tip.empty() && ImGui::IsItemHovered())
+					ImGui::SetTooltip("%s", item->m_tip.c_str());
 
 				item->getState().update();
 			}
@@ -83,8 +83,8 @@ namespace Marvel {
 		else
 		{
 			// Regular Tooltip (simple)
-			if (!getTip().empty() && ImGui::IsItemHovered())
-				ImGui::SetTooltip("%s", getTip().c_str());
+			if (!m_tip.empty() && ImGui::IsItemHovered())
+				ImGui::SetTooltip("%s", m_tip.c_str());
 		}
 
 	}

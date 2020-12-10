@@ -1,5 +1,4 @@
 #include "mvContainerInterface.h"
-#include "mvInterfaceCore.h"
 
 namespace Marvel {
 
@@ -364,7 +363,7 @@ namespace Marvel {
 
 		else if (parentItem->getType() == mvAppItemType::Window)
 		{
-			auto window = static_cast<mvWindowAppitem*>(parentItem);
+			auto window = static_cast<mvWindowAppItem*>(parentItem);
 			window->addFlag(ImGuiWindowFlags_MenuBar);
 			window->addMenuBar();
 
@@ -374,7 +373,7 @@ namespace Marvel {
 			item->setConfigDict(kwargs);
 			item->setExtraConfigDict(kwargs);
 
-			if (AddItemWithRuntimeChecks(item, parent, before))
+			if (mvItemRegistry::GetItemRegistry()->addItemWithRuntimeChecks(item, parent, before))
 			{
 				mvItemRegistry::GetItemRegistry()->pushParent(item);
 				return ToPyBool(true);
@@ -392,7 +391,7 @@ namespace Marvel {
 			item->setConfigDict(kwargs);
 			item->setExtraConfigDict(kwargs);
 
-			if (AddItemWithRuntimeChecks(item, parent, before))
+			if (mvItemRegistry::GetItemRegistry()->addItemWithRuntimeChecks(item, parent, before))
 			{
 				mvItemRegistry::GetItemRegistry()->pushParent(item);
 				return ToPyBool(true);
@@ -421,7 +420,7 @@ namespace Marvel {
 		item->setConfigDict(kwargs);
 		item->setExtraConfigDict(kwargs);
 
-		if (AddItemWithRuntimeChecks(item, parent, before))
+		if (mvItemRegistry::GetItemRegistry()->addItemWithRuntimeChecks(item, parent, before))
 		{
 			mvItemRegistry::GetItemRegistry()->pushParent(item);
 			return ToPyBool(true);
@@ -457,7 +456,7 @@ namespace Marvel {
 		item->setConfigDict(kwargs);
 		item->setExtraConfigDict(kwargs);
 
-		return ToPyBool(AddItemWithRuntimeChecks(item, parent, before));
+		return ToPyBool(mvItemRegistry::GetItemRegistry()->addItemWithRuntimeChecks(item, parent, before));
 	}
 
 	PyObject* add_tab_bar(PyObject* self, PyObject* args, PyObject* kwargs)
@@ -489,7 +488,7 @@ namespace Marvel {
 		item->setConfigDict(kwargs);
 		item->setExtraConfigDict(kwargs);
 
-		if (AddItemWithRuntimeChecks(item, parent, before))
+		if (mvItemRegistry::GetItemRegistry()->addItemWithRuntimeChecks(item, parent, before))
 		{
 			mvItemRegistry::GetItemRegistry()->pushParent(item);
 			return ToPyBool(true);
@@ -532,7 +531,7 @@ namespace Marvel {
 				item->checkConfigDict(kwargs);
 				item->setConfigDict(kwargs);
 				item->setExtraConfigDict(kwargs);
-				if (AddItemWithRuntimeChecks(item, parent, before))
+				if (mvItemRegistry::GetItemRegistry()->addItemWithRuntimeChecks(item, parent, before))
 				{
 					mvItemRegistry::GetItemRegistry()->pushParent(item);
 					return ToPyBool(true);
@@ -559,7 +558,7 @@ namespace Marvel {
 				item->checkConfigDict(kwargs);
 				item->setConfigDict(kwargs);
 				item->setExtraConfigDict(kwargs);
-				if (AddItemWithRuntimeChecks(item, parent, before))
+				if (mvItemRegistry::GetItemRegistry()->addItemWithRuntimeChecks(item, parent, before))
 				{
 					mvItemRegistry::GetItemRegistry()->pushParent(item);
 					return ToPyBool(true);
@@ -619,7 +618,7 @@ namespace Marvel {
 				item->checkConfigDict(kwargs);
 				item->setConfigDict(kwargs);
 				item->setExtraConfigDict(kwargs);
-				if (AddItemWithRuntimeChecks(item, parent, before))
+				if (mvItemRegistry::GetItemRegistry()->addItemWithRuntimeChecks(item, parent, before))
 					return ToPyBool(true);
 
 			}
@@ -650,7 +649,7 @@ namespace Marvel {
 				item->checkConfigDict(kwargs);
 				item->setConfigDict(kwargs);
 				item->setExtraConfigDict(kwargs);
-				if (AddItemWithRuntimeChecks(item, parent, before))
+				if (mvItemRegistry::GetItemRegistry()->addItemWithRuntimeChecks(item, parent, before))
 					return ToPyBool(true);
 			}
 
@@ -686,7 +685,7 @@ namespace Marvel {
 		item->setConfigDict(kwargs);
 		item->setExtraConfigDict(kwargs);
 
-		if (AddItemWithRuntimeChecks(item, parent, before))
+		if (mvItemRegistry::GetItemRegistry()->addItemWithRuntimeChecks(item, parent, before))
 		{
 			mvItemRegistry::GetItemRegistry()->pushParent(item);
 			if (!show)
@@ -723,7 +722,7 @@ namespace Marvel {
 		item->checkConfigDict(kwargs);
 		item->setConfigDict(kwargs);
 		item->setExtraConfigDict(kwargs);
-		if (AddItemWithRuntimeChecks(item, parent, before))
+		if (mvItemRegistry::GetItemRegistry()->addItemWithRuntimeChecks(item, parent, before))
 		{
 			mvItemRegistry::GetItemRegistry()->pushParent(item);
 			return ToPyBool(true);
@@ -750,7 +749,7 @@ namespace Marvel {
 		item->checkConfigDict(kwargs);
 		item->setConfigDict(kwargs);
 		item->setExtraConfigDict(kwargs);
-		if (AddItemWithRuntimeChecks(item, parent, before))
+		if (mvItemRegistry::GetItemRegistry()->addItemWithRuntimeChecks(item, parent, before))
 		{
 			mvItemRegistry::GetItemRegistry()->pushParent(item);
 			return ToPyBool(true);
@@ -777,7 +776,7 @@ namespace Marvel {
 		item->checkConfigDict(kwargs);
 		item->setConfigDict(kwargs);
 		item->setExtraConfigDict(kwargs);
-		if (AddItemWithRuntimeChecks(item, parent, before))
+		if (mvItemRegistry::GetItemRegistry()->addItemWithRuntimeChecks(item, parent, before))
 			return ToPyBool(true);
 
 		return ToPyBool(false);
@@ -800,7 +799,7 @@ namespace Marvel {
 		item->checkConfigDict(kwargs);
 		item->setConfigDict(kwargs);
 		item->setExtraConfigDict(kwargs);
-		if (AddItemWithRuntimeChecks(item, parent, before))
+		if (mvItemRegistry::GetItemRegistry()->addItemWithRuntimeChecks(item, parent, before))
 			return ToPyBool(true);
 
 		return ToPyBool(false);
@@ -841,13 +840,13 @@ namespace Marvel {
 		if (closing_callback)
 			Py_XINCREF(closing_callback);
 
-		mvAppItem* item = new mvWindowAppitem(name, false, closing_callback);
+		mvAppItem* item = new mvWindowAppItem(name, false, closing_callback);
 
 		item->checkConfigDict(kwargs);
 		item->setConfigDict(kwargs);
 		item->setExtraConfigDict(kwargs);
 
-		if (AddItemWithRuntimeChecks(item, "", ""))
+		if (mvItemRegistry::GetItemRegistry()->addItemWithRuntimeChecks(item, "", ""))
 		{
 			mvItemRegistry::GetItemRegistry()->pushParent(item);
 
@@ -894,7 +893,7 @@ namespace Marvel {
 		item->setConfigDict(kwargs);
 		item->setExtraConfigDict(kwargs);
 
-		if (AddItemWithRuntimeChecks(item, "", ""))
+		if (mvItemRegistry::GetItemRegistry()->addItemWithRuntimeChecks(item, "", ""))
 		{
 			mvItemRegistry::GetItemRegistry()->pushParent(item);
 
@@ -941,7 +940,7 @@ namespace Marvel {
 		item->setConfigDict(kwargs);
 		item->setExtraConfigDict(kwargs);
 
-		if (AddItemWithRuntimeChecks(item, "", ""))
+		if (mvItemRegistry::GetItemRegistry()->addItemWithRuntimeChecks(item, "", ""))
 		{
 			mvItemRegistry::GetItemRegistry()->pushParent(item);
 
@@ -988,7 +987,7 @@ namespace Marvel {
 		item->setConfigDict(kwargs);
 		item->setExtraConfigDict(kwargs);
 
-		if (AddItemWithRuntimeChecks(item, "", ""))
+		if (mvItemRegistry::GetItemRegistry()->addItemWithRuntimeChecks(item, "", ""))
 		{
 			mvItemRegistry::GetItemRegistry()->pushParent(item);
 
@@ -1035,7 +1034,7 @@ namespace Marvel {
 		item->setConfigDict(kwargs);
 		item->setExtraConfigDict(kwargs);
 
-		if (AddItemWithRuntimeChecks(item, "", ""))
+		if (mvItemRegistry::GetItemRegistry()->addItemWithRuntimeChecks(item, "", ""))
 		{
 			mvItemRegistry::GetItemRegistry()->pushParent(item);
 
@@ -1082,7 +1081,7 @@ namespace Marvel {
 		item->setConfigDict(kwargs);
 		item->setExtraConfigDict(kwargs);
 
-		if (AddItemWithRuntimeChecks(item, "", ""))
+		if (mvItemRegistry::GetItemRegistry()->addItemWithRuntimeChecks(item, "", ""))
 		{
 			mvItemRegistry::GetItemRegistry()->pushParent(item);
 
@@ -1113,7 +1112,7 @@ namespace Marvel {
 		item->setConfigDict(kwargs);
 		item->setExtraConfigDict(kwargs);
 
-		if (AddItemWithRuntimeChecks(item, tipparent, before))
+		if (mvItemRegistry::GetItemRegistry()->addItemWithRuntimeChecks(item, tipparent, before))
 		{
 			mvItemRegistry::GetItemRegistry()->pushParent(item);
 			return ToPyBool(true);
@@ -1138,8 +1137,6 @@ namespace Marvel {
 			return ToPyBool(false);
 
 		auto PopupParent = mvItemRegistry::GetItemRegistry()->getItem(popupparent);
-		if (PopupParent)
-			PopupParent->setPopup(name);
 
 		mvAppItem* item = new mvPopup(name, PopupParent);
 
@@ -1147,7 +1144,7 @@ namespace Marvel {
 		item->setConfigDict(kwargs);
 		item->setExtraConfigDict(kwargs);
 
-		if (AddItemWithRuntimeChecks(item, popupparent, before))
+		if (mvItemRegistry::GetItemRegistry()->addItemWithRuntimeChecks(item, popupparent, before))
 		{
 			mvItemRegistry::GetItemRegistry()->pushParent(item);
 			return ToPyBool(true);
@@ -1186,7 +1183,7 @@ namespace Marvel {
 		item->setConfigDict(kwargs);
 		item->setExtraConfigDict(kwargs);
 
-		if (AddItemWithRuntimeChecks(item, parent, before))
+		if (mvItemRegistry::GetItemRegistry()->addItemWithRuntimeChecks(item, parent, before))
 		{
 			mvItemRegistry::GetItemRegistry()->pushParent(item);
 			return ToPyBool(true);
@@ -1216,7 +1213,7 @@ namespace Marvel {
 		item->checkConfigDict(kwargs);
 		item->setConfigDict(kwargs);
 		item->setExtraConfigDict(kwargs);
-		if (AddItemWithRuntimeChecks(item, parent, before))
+		if (mvItemRegistry::GetItemRegistry()->addItemWithRuntimeChecks(item, parent, before))
 		{
 			mvItemRegistry::GetItemRegistry()->pushParent(item);
 			return ToPyBool(true);

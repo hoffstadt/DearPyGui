@@ -24,6 +24,7 @@ namespace Marvel {
 		mvEventBus::Subscribe(this, mvEVT_END_FRAME);
 		mvEventBus::Subscribe(this, mvEVT_PRE_RENDER_RESET);
 		mvEventBus::Subscribe(this, mvEVT_RENDER);
+		mvEventBus::Subscribe(this, mvEVT_ACTIVE_WINDOW);
 
 		auto add_hidden_window = [&](mvAppItem* item, const std::string& label) {
 			m_backWindows.push_back(item);
@@ -39,29 +40,10 @@ namespace Marvel {
 		add_hidden_window(new mvFileDialog(), "FileDialog");
 	}
 
-	void mvItemRegistry::resetWindowStates()
-	{
-		// resets app items states (i.e. hovered)
-		for (auto window : m_frontWindows)
-			window->resetState();
-		for (auto window : m_backWindows)
-			window->resetState();
-	}
-
-	void mvItemRegistry::draw()
-	{
-		// resets app items states (i.e. hovered)
-		for (auto window : m_frontWindows)
-			window->draw();
-		for (auto window : m_backWindows)
-			window->draw();
-	}
-
 	bool mvItemRegistry::onEvent(mvEvent& event)
 	{
 		mvEventDispatcher dispatcher(event);
 
-		dispatcher.dispatch(BIND_EVENT_METH(mvItemRegistry::onAddItem), mvEVT_ADD_ITEM);
 		dispatcher.dispatch(BIND_EVENT_METH(mvItemRegistry::onDeleteItem), mvEVT_DELETE_ITEM);
 		dispatcher.dispatch(BIND_EVENT_METH(mvItemRegistry::onMoveItem), mvEVT_MOVE_ITEM);
 		dispatcher.dispatch(BIND_EVENT_METH(mvItemRegistry::onMoveItemUp), mvEVT_MOVE_ITEM_UP);
@@ -69,19 +51,32 @@ namespace Marvel {
 		dispatcher.dispatch(BIND_EVENT_METH(mvItemRegistry::onEndFrame), mvEVT_END_FRAME);
 		dispatcher.dispatch(BIND_EVENT_METH(mvItemRegistry::onPreRenderReset), mvEVT_PRE_RENDER_RESET);
 		dispatcher.dispatch(BIND_EVENT_METH(mvItemRegistry::onRender), mvEVT_RENDER);
+		dispatcher.dispatch(BIND_EVENT_METH(mvItemRegistry::onActiveWindow), mvEVT_ACTIVE_WINDOW);
 
 		return event.handled;
 	}
 
 	bool mvItemRegistry::onRender(mvEvent& event)
 	{
-		draw();
+
+		// resets app items states (i.e. hovered)
+		for (auto window : m_frontWindows)
+			window->draw();
+		for (auto window : m_backWindows)
+			window->draw();
+
 		return false;
 	}
 
 	bool mvItemRegistry::onPreRenderReset(mvEvent& event)
 	{
-		resetWindowStates();
+
+		// resets app items states (i.e. hovered)
+		for (auto window : m_frontWindows)
+			window->resetState();
+		for (auto window : m_backWindows)
+			window->resetState();
+
 		return false;
 	}
 
@@ -99,12 +94,12 @@ namespace Marvel {
 		return false;
 	}
 
-	bool mvItemRegistry::onAddItem(mvEvent& event)
+	bool mvItemRegistry::onActiveWindow(mvEvent& event)
 	{
 
-		mvAppItem* item = GetEPtr<mvAppItem*>(event, "ITEM");
+		m_activeWindow = GetEString(event, "WINDOW");
 
-		return addItem(item);
+		return false;
 	}
 
 	bool mvItemRegistry::onDeleteItem(mvEvent& event)
@@ -209,7 +204,7 @@ namespace Marvel {
 
 		for (auto window : m_frontWindows)
 		{
-			if (window->getName() == name)
+			if (window->m_name == name)
 				return window;
 
 			auto child = window->getChild(name);
@@ -219,7 +214,7 @@ namespace Marvel {
 
 		for (auto window : m_backWindows)
 		{
-			if (window->getName() == name)
+			if (window->m_name == name)
 				return window;
 
 			auto child = window->getChild(name);
@@ -236,21 +231,21 @@ namespace Marvel {
 		for (auto& item : m_newItemVec)
 		{
 
-			if (item.item->getName() == name)
+			if (item.item->m_name == name)
 				return item.item;
 		}
 
 		for (auto& item : m_orderedVec)
 		{
 
-			if (item.item->getName() == name)
+			if (item.item->m_name == name)
 				return item.item;
 		}
 
 		return nullptr;
 	}
 
-	mvWindowAppitem* mvItemRegistry::getWindow(const std::string& name)
+	mvWindowAppItem* mvItemRegistry::getWindow(const std::string& name)
 	{
 		if (!mvApp::GetApp()->checkIfMainThread())
 			return nullptr;
@@ -262,7 +257,7 @@ namespace Marvel {
 			return nullptr;
 
 		if (item->getType() == mvAppItemType::Window)
-			return static_cast<mvWindowAppitem*>(item);
+			return static_cast<mvWindowAppItem*>(item);
 
 		return nullptr;
 	}
@@ -288,9 +283,9 @@ namespace Marvel {
 
 		if (!item->getDescription().duplicatesAllowed)
 		{
-			if (getItem(item->getName()))
+			if (getItem(item->m_name))
 			{
-				std::string message = item->getName() + " " + std::to_string(count);
+				std::string message = item->m_name + " " + std::to_string(count);
 				ThrowPythonException(message + ": Items of this type must have unique names");
 				delete item;
 				item = nullptr;
@@ -301,15 +296,15 @@ namespace Marvel {
 		mvAppItem* parentitem = topParent();
 		if (parentitem == nullptr)
 		{
-			std::string message = item->getName();
+			std::string message = item->m_name;
 			ThrowPythonException(message + ": Parent for this item not found or the parent stack is empty.");
 			delete item;
 			item = nullptr;
 			return false;
 		}
 
-		item->setParent(parentitem);
-		parentitem->addChild(item);
+		item->m_parent = parentitem;
+		parentitem->m_children.push_back(item);
 
 		return true;
 	}
@@ -365,7 +360,7 @@ namespace Marvel {
 			// check if attempting to delete a window
 			for (auto window : m_frontWindows)
 			{
-				if (window->getName() == item)
+				if (window->m_name == item)
 				{
 					frontWindowDeleting = true;
 					break;
@@ -374,7 +369,7 @@ namespace Marvel {
 
 			for (auto window : m_backWindows)
 			{
-				if (window->getName() == item)
+				if (window->m_name == item)
 				{
 					backWindowDeleting = true;
 					break;
@@ -392,7 +387,7 @@ namespace Marvel {
 
 				for (auto window : oldwindows)
 				{
-					if (window->getName() == item)
+					if (window->m_name == item)
 					{
 						delete window;
 						window = nullptr;
@@ -411,7 +406,7 @@ namespace Marvel {
 
 				for (auto window : oldwindows)
 				{
-					if (window->getName() == item)
+					if (window->m_name == item)
 					{
 						delete window;
 						window = nullptr;
@@ -442,9 +437,9 @@ namespace Marvel {
 
 				if (!newItem.item->getDescription().duplicatesAllowed)
 				{
-					if (getItem(newItem.item->getName(), true))
+					if (getItem(newItem.item->m_name, true))
 					{
-						std::string message = newItem.item->getName();
+						std::string message = newItem.item->m_name;
 						ThrowPythonException(message + ": Items of this type must have unique names");
 						delete newItem.item;
 						newItem.item = nullptr;
@@ -477,7 +472,7 @@ namespace Marvel {
 
 				if (!addedItem)
 				{
-					ThrowPythonException(newItem.item->getName() + " not added because its parent was not found");
+					ThrowPythonException(newItem.item->m_name + " not added because its parent was not found");
 					delete newItem.item;
 					newItem.item = nullptr;
 				}
@@ -497,9 +492,9 @@ namespace Marvel {
 
 				bool addedItem = false;
 
-				if (getItem(popup.item->getName(), true))
+				if (getItem(popup.item->m_name, true))
 				{
-					std::string message = popup.item->getName();
+					std::string message = popup.item->m_name;
 					ThrowPythonException(message + ": Items of this type must have unique names");
 					delete popup.item;
 					popup.item = nullptr;
@@ -515,7 +510,7 @@ namespace Marvel {
 
 				if (!addedItem)
 				{
-					ThrowPythonException(popup.item->getName() + " not added because its parent was not found");
+					ThrowPythonException(popup.item->m_name + " not added because its parent was not found");
 					delete popup.item;
 					popup.item = nullptr;
 				}
@@ -610,4 +605,140 @@ namespace Marvel {
 		m_backWindows.clear();
 	}
 
+	bool mvItemRegistry::addItemWithRuntimeChecks(mvAppItem* item, const char* parent, const char* before)
+	{
+
+		if (item == nullptr)
+			return false;
+
+		// remove bad parent stack item
+		if (item->getDescription().root && topParent() != nullptr)
+		{
+			emptyParents();
+			ThrowPythonException("Parent stack not empty. Adding window will empty the parent stack. Don't forget to end container types.");
+		}
+
+		if (item->getType() == mvAppItemType::Popup || item->getType() == mvAppItemType::Tooltip)
+			return addItemAfter(parent, item);
+
+		// window runtime adding
+		if (item->getDescription().root && mvApp::IsAppStarted())
+			return addRuntimeItem("", "", item);
+
+		// window compile adding
+		else if (item->getDescription().root)
+			return addWindow(item);
+
+		// typical run time adding
+		else if ((!std::string(parent).empty() || !std::string(before).empty()) && mvApp::IsAppStarted())
+			return addRuntimeItem(parent, before, item);
+
+		// adding without specifying before or parent, instead using parent stack
+		else if (std::string(parent).empty() && std::string(before).empty() && mvApp::IsAppStarted() && topParent() != nullptr)
+			return addRuntimeItem(topParent()->m_name, before, item);
+
+		// adding without specifying before or parent, but with empty stack (add to main window)
+		else if (std::string(parent).empty() && std::string(before).empty() && mvApp::IsAppStarted())
+		{
+			ThrowPythonException("Parent stack is empty. You must specify 'before' or 'parent' widget.");
+			delete item;
+			return false;
+		}
+
+		// adding normally but using the runtime style of adding
+		else if (!std::string(parent).empty() && !mvApp::IsAppStarted())
+			return addRuntimeItem(parent, before, item);
+
+		// typical adding before runtime
+		else if (std::string(parent).empty() && !mvApp::IsAppStarted() && std::string(before).empty())
+			return addItem(item);
+
+
+		return false;
+	}
+
+	std::string mvItemRegistry::getItemParentName(const std::string& name)
+	{
+		mvAppItem* item = getItem(name);
+		if (item)
+			return item->m_parent->m_name;
+		
+		return "";
+	}
+
+	std::vector<std::string> mvItemRegistry::getItemChildren(const std::string& name)
+	{
+
+		mvAppItem* item = getItem(name);
+
+		std::vector<std::string> childList;
+
+		if (item)
+		{
+			auto children = item->m_children;
+			for (auto child : children)
+				childList.emplace_back(child->m_name);
+		}
+
+		return childList;
+	}
+
+	std::vector<std::string> mvItemRegistry::getAllItems()
+	{
+
+		std::vector<std::string> childList;
+
+		// to help recursively retrieve children
+		std::function<void(mvAppItem*)> ChildRetriever;
+		ChildRetriever = [&childList, &ChildRetriever](mvAppItem* item) {
+			auto children = item->m_children;
+			for (mvAppItem* child : children)
+			{
+				childList.emplace_back(child->m_name);
+				if (child->getDescription().container)
+					ChildRetriever(child);
+			}
+
+		};
+
+		for (auto window : m_frontWindows)
+			ChildRetriever(window);
+		for (auto window : m_backWindows)
+			ChildRetriever(window);
+
+		return childList;
+	}
+
+	std::vector<std::string> mvItemRegistry::getWindows()
+	{
+		std::vector<std::string> childList;
+		for (auto window : m_frontWindows)
+			childList.emplace_back(window->m_name);
+
+		for (auto window : m_backWindows)
+			childList.emplace_back(window->m_name);
+
+		return childList;
+	}
+
+	void mvItemRegistry::setPrimaryWindow(const std::string& name, bool value)
+	{
+
+		// reset other windows
+		for (auto window : m_frontWindows)
+		{
+			if (window->m_name != name)
+				static_cast<mvWindowAppItem*>(window)->setWindowAsMainStatus(false);
+		}
+
+		mvAppLog::Focus();
+
+		mvWindowAppItem* window = mvItemRegistry::GetItemRegistry()->getWindow(name);
+
+		if (window)
+			window->setWindowAsMainStatus(value);
+		else
+			ThrowPythonException("Window does not exists.");
+
+	}
 }

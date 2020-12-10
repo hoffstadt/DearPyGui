@@ -1,6 +1,5 @@
 #include "mvAppItemInterface.h"
 #include "mvEvents.h"
-#include "mvInterfaceCore.h"
 #include <ImGuiFileDialog.h>
 #include "mvValueStorage.h"
 
@@ -462,17 +461,10 @@ namespace Marvel {
 		if (!(*mvApp::GetApp()->getParsers())["get_item_children"].parse(args, kwargs, __FUNCTION__, &item))
 			return GetPyNone();
 
-		auto appitem = mvItemRegistry::GetItemRegistry()->getItem(item);
+		auto childlist = mvItemRegistry::GetItemRegistry()->getItemChildren(item);
 
-		if (appitem)
-		{
-			auto children = appitem->getChildren();
-			std::vector<std::string> childList;
-			for (auto child : children)
-				childList.emplace_back(child->getName());
-
-			return ToPyList(childList);
-		}
+		if (!childlist.empty())
+			return ToPyList(childlist);
 
 		return GetPyNone();
 	}
@@ -480,43 +472,16 @@ namespace Marvel {
 	PyObject* get_all_items(PyObject * self, PyObject * args, PyObject * kwargs)
 	{
 
-		std::vector<mvAppItem*>& frontwindows = mvItemRegistry::GetItemRegistry()->getFrontWindows();
-		std::vector<mvAppItem*>& backwindows = mvItemRegistry::GetItemRegistry()->getBackWindows();
+		auto childlist = mvItemRegistry::GetItemRegistry()->getAllItems();
 
-		std::vector<std::string> childList;
-
-		// to help recursively retrieve children
-		std::function<void(mvAppItem*)> ChildRetriever;
-		ChildRetriever = [&childList, &ChildRetriever](mvAppItem* item) {
-			auto children = item->getChildren();
-			for (mvAppItem* child : children)
-			{
-				childList.emplace_back(child->getName());
-				if (child->getDescription().container)
-					ChildRetriever(child);
-			}
-
-		};
-
-		for (auto window : frontwindows)
-			ChildRetriever(window);
-		for (auto window : backwindows)
-			ChildRetriever(window);
-
-		return ToPyList(childList);
+		return ToPyList(childlist);
 	}
 
 	PyObject* get_windows(PyObject * self, PyObject * args, PyObject * kwargs)
 	{
-		auto frontwindows = mvItemRegistry::GetItemRegistry()->getFrontWindows();
-		std::vector<std::string> childList;
-		for (auto window : frontwindows)
-			childList.emplace_back(window->getName());
+		auto windowlist = mvItemRegistry::GetItemRegistry()->getWindows();
 
-		auto backwindows = mvItemRegistry::GetItemRegistry()->getBackWindows();
-		for (auto window : backwindows)
-			childList.emplace_back(window->getName());
-		return ToPyList(childList);
+		return ToPyList(windowlist);
 	}
 
 	PyObject* get_item_parent(PyObject* self, PyObject* args, PyObject* kwargs)
@@ -526,10 +491,10 @@ namespace Marvel {
 		if (!(*mvApp::GetApp()->getParsers())["get_item_parent"].parse(args, kwargs, __FUNCTION__, &item))
 			return GetPyNone();
 
-		auto appitem = mvItemRegistry::GetItemRegistry()->getItem(item);
+		auto parent = mvItemRegistry::GetItemRegistry()->getItemParentName(item);
 
-		if (appitem)
-			return ToPyString(appitem->getParent()->getName());
+		if (!parent.empty())
+			return ToPyString(parent);
 
 		return GetPyNone();
 	}

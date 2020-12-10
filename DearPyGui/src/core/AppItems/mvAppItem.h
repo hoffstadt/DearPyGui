@@ -59,7 +59,26 @@ namespace Marvel {
     class mvAppItem
     {
 
+        friend class mvApp;
+        friend class mvItemRegistry;
         friend class mvAppItemState;
+        friend class mvDebugWindow;
+
+        // items that need access to other items
+        friend class mvMenuItem;
+        friend class mvCollapsingHeader;
+        friend class mvChild;
+        friend class mvGroup;
+        friend class mvTabBar;
+        friend class mvTab;
+        friend class mvMenuBar;
+        friend class mvMenu;
+        friend class mvWindow;
+        friend class mvTooltip;
+        friend class mvPopup;
+        friend class mvTreeNode;
+        friend class mvWindowAppItem;
+        friend class mvManagedColumns;
 
     protected:
 
@@ -94,73 +113,64 @@ namespace Marvel {
         virtual void                        setExtraConfigDict(PyObject* dict) {}
         virtual void                        getExtraConfigDict(PyObject* dict) {}
 
-        // color styles for runtime
+        void                                setCallback    (PyObject* callback);
+        void                                hide           () { m_show = false; }
+        void                                show           () { m_show = true; }
+        void                                setCallbackData(PyObject* data) { m_callbackData = data; }
+
+        [[nodiscard]] bool                  isShown        () const { return m_show; }
+        [[nodiscard]] PyObject*             getCallback    (bool ignore_enabled = true);  // returns the callback. If ignore_enable false and item is disabled then no callback will be returned.
+        [[nodiscard]] PyObject*             getCallbackData()       { return m_callbackData; }
+        const mvAppItemDescription&         getDescription () const { return m_description; }
+        mvAppItemState&                     getState       () { return m_state; } 
         mvAppItemStyleManager&              getStyleManager() { return m_styleManager; }
 
-        // runtime modifications
-        bool                                addRuntimeChild       (const std::string& parent, const std::string& before, mvAppItem* item);
-        bool                                addChildAfter         (const std::string& prev, mvAppItem* item);
-        bool                                deleteChild           (const std::string& name);
-        void                                deleteChildren        ();
-        bool                                moveChildUp           (const std::string& name);
-        bool                                moveChildDown         (const std::string& name);
-        void                                resetState            ();
-        void                                registerWindowFocusing(); // only useful for imgui window types
-        mvAppItem*                          stealChild            (const std::string& name); // steals a child (used for moving)
+    protected:
 
-        // getters
-        mvAppItem*                          getChild                  (const std::string& name);      // will return nullptr if not found
-        inline std::vector<mvAppItem*>&     getChildren               ()       { return m_children; }
-        inline mvAppItem*                   getParent                 ()       { return m_parent; }   // can return nullptr
-        mvAppItem*                          getNearestAncestorOfType  (mvAppItemType type);           // returns the first ancestor of given type or nullptr
-        [[nodiscard]] const std::string&    getName                   () const { return m_name; }
-        [[nodiscard]] const std::string&    getTip                    () const { return m_tip; }
-        [[nodiscard]] const std::string&    getLabel                  () const { return m_label; }
-        [[nodiscard]] PyObject*             getCallback               (bool ignore_enabled = true);  // returns the callback. If ignore_enable false and item is disabled then no callback will be returned.
-        [[nodiscard]] PyObject*             getCallbackData           ()       { return m_callbackData; }
-        [[nodiscard]] const std::string&    getPopup                  () const { return m_popup; }
-        [[nodiscard]] const std::string&    getDataSource             () const { return m_dataSource; }
-        [[nodiscard]] int                   getWidth                  () const { return m_width; }
-        [[nodiscard]] int                   getHeight                 () const { return m_height; }
-        [[nodiscard]] bool                  isShown                   () const { return m_show; }
-        [[nodiscard]] bool                  isItemEnabled             () const { return m_enabled; }
-        mvAppItemState&                     getState                  ()       { return m_state; }
-        const mvAppItemDescription&         getDescription            () const { return m_description; }
-
-        // setters
-        void                                setParent                 (mvAppItem* parent);
-        void                                showAll                   ();
-        void                                hideAll                   ();
-        void                                addChild                  (mvAppItem* child);
-        void                                show                      ()                        { m_show = true; }
-        void                                hide                      ()                        { m_show = false; }
-        void                                setCallback               (PyObject* callback);
-        void                                setCallbackData           (PyObject* data)          { m_callbackData = data; }
-        void                                setPopup                  (const std::string& popup){ m_popup = popup; }
-        void                                setTip                    (const std::string& tip)  { m_tip = tip; }
         virtual void                        setWidth                  (int width)               { m_width = width; }
         virtual void                        setHeight                 (int height)              { m_height = height; }
         virtual void                        setEnabled                (bool value)              { m_enabled = value; }
         virtual void                        setDataSource             (const std::string& value){ m_dataSource = value; }
-        virtual void                        setLabel                  (const std::string& value);
+        virtual void                        setLabel                  (const std::string& value); 
+
+    private:
+
+        mvAppItem*                          getChild(const std::string& name);      // will return nullptr if not found
+
+        // runtime modifications
+        bool                                addRuntimeChild(const std::string& parent, const std::string& before, mvAppItem* item);
+        bool                                addChildAfter(const std::string& prev, mvAppItem* item);
+        bool                                deleteChild(const std::string& name);
+        void                                deleteChildren();
+        bool                                moveChildUp(const std::string& name);
+        bool                                moveChildDown(const std::string& name);
+        void                                resetState();
+        void                                registerWindowFocusing(); // only useful for imgui window types
+        mvAppItem*                          stealChild(const std::string& name); // steals a child (used for moving)
+
+
 
     protected:
 
         mvAppItemState          m_state;
         mvAppItemStyleManager   m_styleManager;
+        mvAppItemDescription    m_description;
+
+        mvAppItem*              m_parent = nullptr;
+        std::vector<mvAppItem*> m_children;
+
         std::string             m_dataSource;
         std::string             m_name;
         std::string             m_label;
         std::string             m_popup;
         std::string             m_tip;
-        PyObject*               m_callback = nullptr;
-        PyObject*               m_callbackData = nullptr;
-        int                     m_width  = 0;
+        int                     m_width = 0;
         int                     m_height = 0;
-        bool                    m_show                 = true; // determines whether to attempt rendering
-        bool                    m_enabled              = true;
-        mvAppItem*              m_parent               = nullptr;
-        std::vector<mvAppItem*> m_children;
-        mvAppItemDescription    m_description;
+        bool                    m_show = true; // determines whether to attempt rendering
+        bool                    m_enabled = true;
+        PyObject*               m_callback     = nullptr;
+        PyObject*               m_callbackData = nullptr;
+        
     };
+
 }

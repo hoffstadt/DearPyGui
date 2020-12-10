@@ -1,5 +1,4 @@
 #include "mvAppInterface.h"
-#include "mvInterfaceCore.h"
 #include "mvAppItem.h"
 #include "mvWindow.h"
 #include "mvEvents.h"
@@ -604,7 +603,7 @@ namespace Marvel {
 
 	PyObject* get_active_window(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
-		return ToPyString(mvApp::GetApp()->getActiveWindow());
+		return ToPyString(mvItemRegistry::GetItemRegistry()->getActiveWindow());
 	}
 
 	PyObject* get_dearpygui_version(PyObject* self, PyObject* args, PyObject* kwargs)
@@ -1003,21 +1002,8 @@ namespace Marvel {
 		if (!(*mvApp::GetApp()->getParsers())["set_primary_window"].parse(args, kwargs, __FUNCTION__, &item, &value))
 			return GetPyNone();
 
-		// reset other windows
-		for (auto window : mvItemRegistry::GetItemRegistry()->getFrontWindows())
-		{
-			if(window->getName() != item)
-				static_cast<mvWindowAppitem*>(window)->setWindowAsMainStatus(false);
-		}
 
-		mvAppLog::Focus();
-
-		mvWindowAppitem* window = mvItemRegistry::GetItemRegistry()->getWindow(item);
-
-		if (window)
-			window->setWindowAsMainStatus(value);
-		else
-			ThrowPythonException("Window does not exists.");
+		mvItemRegistry::GetItemRegistry()->setPrimaryWindow(item, value);
 
 		return GetPyNone();
 	}

@@ -21,7 +21,7 @@ namespace Marvel {
 		{
 
 			// set other menuitems's value false on same level
-			for (mvAppItem* sibling : m_parent->getChildren())
+			for (mvAppItem* sibling : m_parent->m_children)
 			{
 				// ensure sibling
 				if (sibling->getType() == mvAppItemType::MenuItem)

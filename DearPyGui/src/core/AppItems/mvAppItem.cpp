@@ -16,20 +16,6 @@ namespace Marvel{
 		m_state.setParent(this);
 	}
 
-	mvAppItem* mvAppItem::getNearestAncestorOfType(mvAppItemType type)
-	{
-
-		mvAppItem* ancestor = getParent();
-		if (ancestor)
-		{
-			if (ancestor->getType() == type)
-				return ancestor;
-			else
-				return getNearestAncestorOfType(type);
-		}
-		return nullptr;
-	}
-
 	void mvAppItem::checkConfigDict(PyObject* dict)
 	{
 		if (dict == nullptr)
@@ -39,7 +25,7 @@ namespace Marvel{
 		auto parserKeywords = (*mvApp::GetApp()->getParsers())[getParserCommand()].getKeywords();
 		if (parserKeywords.empty())
 		{
-			ThrowPythonException("\"" + getName() + "\" could not find a parser that matched \"" + getParserCommand() + "\".");
+			ThrowPythonException("\"" + m_name + "\" could not find a parser that matched \"" + getParserCommand() + "\".");
 			return;
 		}
 		for (auto key : configKeys)
@@ -55,7 +41,7 @@ namespace Marvel{
 			}
 			if (i == parserKeywords.size() - 1)
 			{
-				ThrowPythonException("\"" + key + "\" configuration does not exist in \"" + getName() + "\".");
+				ThrowPythonException("\"" + key + "\" configuration does not exist in \"" + m_name + "\".");
 			}
 		}
 	}
@@ -67,8 +53,8 @@ namespace Marvel{
 		mvGlobalIntepreterLock gil;
 		if (PyObject* item = PyDict_GetItemString(dict, "name")) m_name = ToString(item);
 		if (PyObject* item = PyDict_GetItemString(dict, "label")) setLabel(ToString(item));
-		if (PyObject* item = PyDict_GetItemString(dict, "popup")) setPopup(ToString(item));
-		if (PyObject* item = PyDict_GetItemString(dict, "tip")) setTip(ToString(item));
+		if (PyObject* item = PyDict_GetItemString(dict, "popup")) m_popup = ToString(item);
+		if (PyObject* item = PyDict_GetItemString(dict, "tip")) m_tip =ToString(item);
 		if (PyObject* item = PyDict_GetItemString(dict, "width")) setWidth(ToInt(item));
 		if (PyObject* item = PyDict_GetItemString(dict, "height")) setHeight(ToInt(item));
 		if (PyObject* item = PyDict_GetItemString(dict, "show")) m_show = ToBool(item);
@@ -81,15 +67,15 @@ namespace Marvel{
 		if (dict == nullptr)
 			return;
 		mvGlobalIntepreterLock gil;
-		PyDict_SetItemString(dict, "name", ToPyString(m_name));
-		PyDict_SetItemString(dict, "label", ToPyString(m_label));
-		PyDict_SetItemString(dict, "source", ToPyString(m_dataSource));
-		PyDict_SetItemString(dict, "popup", ToPyString(m_popup));
-		PyDict_SetItemString(dict, "tip", ToPyString(m_tip));
-		PyDict_SetItemString(dict, "show", ToPyBool(m_show));
-		PyDict_SetItemString(dict, "enabled", ToPyBool(m_enabled));
-		PyDict_SetItemString(dict, "width", ToPyInt(m_width));
-		PyDict_SetItemString(dict, "height", ToPyInt(m_height));
+		PyDict_SetItemString(dict, "name",    ToPyString(m_name));
+		PyDict_SetItemString(dict, "label",   ToPyString(m_label));
+		PyDict_SetItemString(dict, "source",  ToPyString(m_dataSource));
+		PyDict_SetItemString(dict, "popup",   ToPyString(m_popup));
+		PyDict_SetItemString(dict, "tip",     ToPyString(m_tip));
+		PyDict_SetItemString(dict, "show",    ToPyBool  (m_show));
+		PyDict_SetItemString(dict, "enabled", ToPyBool  (m_enabled));
+		PyDict_SetItemString(dict, "width",   ToPyInt   (m_width));
+		PyDict_SetItemString(dict, "height",  ToPyInt   (m_height));
 	}
 
 	void mvAppItem::registerWindowFocusing()
@@ -104,7 +90,10 @@ namespace Marvel{
 			float x = mousePos.x - ImGui::GetWindowPos().x;
 			float y = mousePos.y - ImGui::GetWindowPos().y;
 			mvInput::setMousePosition(x, y);
-			mvApp::GetApp()->setActiveWindow(m_name);
+
+			if (mvItemRegistry::GetItemRegistry()->getActiveWindow() != m_name)
+				mvEventBus::Publish(mvEVT_CATEGORY_ITEM, mvEVT_ACTIVE_WINDOW, { CreateEventArgument("WINDOW", m_name) });
+
 
 			// mouse move callback
 			//if (oldMousePos.x != mousePos.x || oldMousePos.y != mousePos.y)
@@ -123,7 +112,7 @@ namespace Marvel{
 			m_callback = nullptr;
 			return;
 		}
-		m_callback = callback; 
+		m_callback = callback;
 	}
 
 	void mvAppItem::resetState()
@@ -143,7 +132,7 @@ namespace Marvel{
 		for (size_t i = 0; i<m_children.size(); i++)
 		{
 
-			if (m_children[i]->getName() == name)
+			if (m_children[i]->m_name == name)
 			{
 				found = true;
 				index = (int)i;
@@ -186,7 +175,7 @@ namespace Marvel{
 		for (size_t i = 0; i < m_children.size(); i++)
 		{
 
-			if (m_children[i]->getName() == name)
+			if (m_children[i]->m_name == name)
 			{
 				found = true;
 				index = i;
@@ -230,7 +219,7 @@ namespace Marvel{
 			if (parent == m_name)
 			{
 				m_children.push_back(item);
-				item->setParent(this);
+				item->m_parent = this;
 				return true;
 			}
 
@@ -257,7 +246,7 @@ namespace Marvel{
 			for (mvAppItem* child : m_children)
 			{
 
-				if (child->getName() == before)
+				if (child->m_name == before)
 				{
 					beforeFound = true;
 					break;
@@ -268,14 +257,14 @@ namespace Marvel{
 			// after item is in this container
 			if (beforeFound)
 			{
-				item->setParent(this);
+				item->m_parent = this;
 
 				std::vector<mvAppItem*> oldchildren = m_children;
 				m_children.clear();
 
 				for (auto child : oldchildren)
 				{
-					if (child->getName() == before)
+					if (child->m_name == before)
 						m_children.push_back(item);
 					m_children.push_back(child);
 
@@ -311,9 +300,9 @@ namespace Marvel{
 		for (mvAppItem* child : m_children)
 		{
 
-			if (child->getName() == prev)
+			if (child->m_name == prev)
 			{
-				item->setParent(this);
+				item->m_parent = this;
 				prevFound = true;
 				break;
 			}
@@ -331,7 +320,7 @@ namespace Marvel{
 			for (auto child : oldchildren)
 			{
 				m_children.push_back(child);
-				if (child->getName() == prev)
+				if (child->m_name == prev)
 					m_children.push_back(item);
 			}
 
@@ -361,7 +350,7 @@ namespace Marvel{
 
 		for (mvAppItem* item : m_children)
 		{
-			if (item->getName() == name)
+			if (item->m_name == name)
 			{
 				childfound = true;
 				break;
@@ -383,7 +372,7 @@ namespace Marvel{
 
 			for (auto& item : oldchildren)
 			{
-				if (item->getName() == name)
+				if (item->m_name == name)
 				{
 					delete item;
 					item = nullptr;
@@ -409,27 +398,6 @@ namespace Marvel{
 		m_children.clear();
 	}
 
-	void mvAppItem::showAll()
-	{
-		m_show = true;
-		for (auto child : m_children)
-			child->showAll();
-	}
-
-	void mvAppItem::hideAll()
-	{
-		if (getType() != mvAppItemType::Tooltip)
-			m_show = false;
-
-		for (auto child : m_children)
-			child->hideAll();
-	}
-
-	void mvAppItem::setParent(mvAppItem* parent)
-	{
-		m_parent = parent;
-	}
-
 	void mvAppItem::setLabel(const std::string& value)
 	{
 		m_label = value + "##" + m_name;
@@ -443,7 +411,7 @@ namespace Marvel{
 
 		for (mvAppItem* item : m_children)
 		{
-			if (item->getName() == name)
+			if (item->m_name == name)
 			{
 				childfound = true;
 				break;
@@ -465,7 +433,7 @@ namespace Marvel{
 
 			for (auto& item : oldchildren)
 			{
-				if (item->getName() == name)
+				if (item->m_name == name)
 				{
 					stolenChild = item;
 					continue;
@@ -482,7 +450,7 @@ namespace Marvel{
 	{
 		for (mvAppItem* item : m_children)
 		{
-			if (item->getName() == name)
+			if (item->m_name == name)
 				return item;
 
 			if (item->getDescription().container)
@@ -494,12 +462,6 @@ namespace Marvel{
 		}
 
 		return nullptr;
-	}
-
-	void mvAppItem::addChild(mvAppItem* child)
-	{
-		m_description.container = true;
-		m_children.push_back(child);
 	}
 
 	mvAppItem::~mvAppItem()
@@ -516,7 +478,7 @@ namespace Marvel{
 
 	PyObject* mvAppItem::getCallback(bool ignore_enabled)
 	{
-		if (isItemEnabled())
+		if (m_enabled)
 			return m_callback;
 		return ignore_enabled ? m_callback : nullptr;
 	}
