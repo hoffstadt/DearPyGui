@@ -18,11 +18,7 @@ namespace Marvel {
 	mvWindowsWindow::mvWindowsWindow(unsigned width, unsigned height, bool error)
 		: mvWindow(width, height, error)
 	{
-		srand((unsigned)time(0));
-		float r = (rand() % 255) / 255.0f;
-		float g = (rand() % 255) / 255.0f;
-		float b = (rand() % 255) / 255.0f;
-		m_clearColor = ImVec4(r, g, b, 1.0f);
+		m_clearColor = ImVec4(0.0f, 0.0f, 0.0f, 1.0f);
 
 		m_wc = { 
 			sizeof(WNDCLASSEX), 

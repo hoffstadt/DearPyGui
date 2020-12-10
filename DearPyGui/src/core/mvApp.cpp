@@ -19,6 +19,7 @@
 #include "mvProfiler.h"
 #include <implot.h>
 #include "mvThreadPoolManager.h"
+#include "mvEventListener.h"
 
 namespace Marvel {
 
@@ -135,6 +136,10 @@ namespace Marvel {
 		mvAppLog::AddLog("[DearImGui Version] %0s\n", IMGUI_VERSION);
 
 		m_mainThreadID = std::this_thread::get_id();
+
+#if defined(MV_DEBUG)
+		new mvEventListener();
+#endif // MV_PROFILE
 
 		mvThreadPoolManager::GetThreadPoolManager();
 
@@ -684,6 +689,7 @@ namespace Marvel {
 		}
 
 		ImGui::End();
+
 	}
 
 }

@@ -1,4 +1,5 @@
 #include "mvEvents.h"
+#include "mvProfiler.h"
 
 namespace Marvel {
 
@@ -52,7 +53,11 @@ namespace Marvel {
 	}
 
 	void mvEventBus::Publish(mvEvent event)
-		{
+	{
+
+		for (mvEventHandler* handler : GetEventHandlers()[0])
+			handler->onEvent(event);
+
 		if (event.category == SID("GLOBAL"))
 			OnEvent(event);
 
@@ -84,6 +89,20 @@ namespace Marvel {
 
 	void mvEventBus::Subscribe(mvEventHandler* handler, mvID type, mvID category)
 	{
+		if (type == 0 && category == 0)
+		{
+			if (GetEventHandlers().find(0) == GetEventHandlers().end())
+				GetEventHandlers()[0] = { handler };
+			else
+				GetEventHandlers()[0].push_back(handler);
+
+			if (GetEventCategoryHandlers().find(0) == GetEventCategoryHandlers().end())
+				GetEventCategoryHandlers()[0] = { handler };
+			else
+				GetEventCategoryHandlers()[0].push_back(handler);
+			return;
+		}
+
 		if (type != 0)
 		{
 			if (GetEventHandlers().find(type) == GetEventHandlers().end())
@@ -148,4 +167,15 @@ namespace Marvel {
 		return eventCategoryHandlers;
 	}
 
+	std::unordered_map<mvID, std::string>& mvEventBus::GetMappings()
+	{
+		static std::unordered_map<mvID, std::string> mappings;
+		return mappings;
+	}
+
+	std::deque<std::string> mvEventBus::GetMessages()
+	{
+		static std::deque<std::string> messages;
+		return messages;
+	}
 }
