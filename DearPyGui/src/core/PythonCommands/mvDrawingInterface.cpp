@@ -1,5 +1,4 @@
 #include "mvDrawingInterface.h"
-#include "mvInterfaceCore.h"
 #include "mvDrawCmdCommon.h"
 #include "mvDrawList.h"
 #include "mvEvents.h"
@@ -209,7 +208,7 @@ namespace Marvel {
 		if (item->getType() == mvAppItemType::Drawing)
 			return &static_cast<mvDrawing*>(item)->getDrawList();
 		if(item->getType() == mvAppItemType::Window)
-			return &static_cast<mvWindowAppitem*>(item)->getDrawList();
+			return &static_cast<mvWindowAppItem*>(item)->getDrawList();
 
 		ThrowPythonException(std::string(name) + " draw target does not exist or is not a valid target.");
 		return nullptr;
@@ -243,7 +242,7 @@ namespace Marvel {
 		if (!item)
 			return ToPyBool(false);
 
-		return ToPyBool(AddItemWithRuntimeChecks(item, parent, before));
+		return ToPyBool(mvItemRegistry::GetItemRegistry()->addItemWithRuntimeChecks(item, parent, before));
 	}
 
 	PyObject* modify_draw_command(PyObject* self, PyObject* args, PyObject* kwargs)

@@ -27,18 +27,18 @@ namespace Marvel {
 			for (mvAppItem* item : m_children)
 			{
 				// skip item if it's not shown
-				if (!item->isShown())
+				if (!item->m_show)
 					continue;
 
 				// set item width
-				if (item->getWidth() != 0)
-					ImGui::SetNextItemWidth((float)item->getWidth());
+				if (item->m_width != 0)
+					ImGui::SetNextItemWidth((float)item->m_width);
 
 				item->draw();
 
 				// Regular Tooltip (simple)
-				if (!item->getTip().empty() && ImGui::IsItemHovered())
-					ImGui::SetTooltip("%s", item->getTip().c_str());
+				if (!item->m_tip.empty() && ImGui::IsItemHovered())
+					ImGui::SetTooltip("%s", item->m_tip.c_str());
 
 				item->getState().update();
 			}

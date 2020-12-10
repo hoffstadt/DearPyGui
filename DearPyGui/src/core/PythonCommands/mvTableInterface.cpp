@@ -1,5 +1,4 @@
 #include "mvTableInterface.h"
-#include "mvInterfaceCore.h"
 
 namespace Marvel{
 
@@ -180,7 +179,7 @@ namespace Marvel{
 		item->setConfigDict(kwargs);
 		item->setExtraConfigDict(kwargs);
 
-		return ToPyBool(AddItemWithRuntimeChecks(item, parent, before));
+		return ToPyBool(mvItemRegistry::GetItemRegistry()->addItemWithRuntimeChecks(item, parent, before));
 	}
 
 	PyObject* set_headers(PyObject* self, PyObject* args, PyObject* kwargs)

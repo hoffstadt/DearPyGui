@@ -38,37 +38,37 @@ namespace Marvel {
 
 		if (item->getDescription().container)
 		{
-			std::string container = item->getName() + "*";
+			std::string container = item->m_name + "*";
 
 			ImGui::PushID(item);
 			if (ImGui::TreeNodeEx(container.c_str()))
 			{
 				
-				auto stringPos = item->getName().find_first_not_of("##");
+				auto stringPos = item->m_name.find_first_not_of("##");
 				if (stringPos != std::string::npos && stringPos > 0)
 				{
 					ImGui::PushID(item);
-					if (ImGui::Selectable(item->getName().substr().erase(0, 2).c_str(), 
-						item->getName() == m_selectedItem && ImGui::GetID(item->getName().substr().erase(0, 2).c_str()) == m_selectedID))
+					if (ImGui::Selectable(item->m_name.substr().erase(0, 2).c_str(),
+						item->m_name == m_selectedItem && ImGui::GetID(item->m_name.substr().erase(0, 2).c_str()) == m_selectedID))
 					{
-						m_selectedItem = item->getName();
-						m_selectedID = ImGui::GetID(item->getName().substr().erase(0, 2).c_str());
+						m_selectedItem = item->m_name;
+						m_selectedID = ImGui::GetID(item->m_name.substr().erase(0, 2).c_str());
 					}
 					ImGui::PopID();
 				}
 				else
 				{
 					ImGui::PushID(item);
-					if (ImGui::Selectable(item->getName().c_str(),
-						item->getName() == m_selectedItem && ImGui::GetID(item->getName().c_str()) == m_selectedID))
+					if (ImGui::Selectable(item->m_name.c_str(),
+						item->m_name == m_selectedItem && ImGui::GetID(item->m_name.c_str()) == m_selectedID))
 					{
-						m_selectedItem = item->getName();
-						m_selectedID = ImGui::GetID(item->getName().c_str());
+						m_selectedItem = item->m_name;
+						m_selectedID = ImGui::GetID(item->m_name.c_str());
 					}
 					ImGui::PopID();
 				}			
 
-				for (mvAppItem* child : item->getChildren())
+				for (mvAppItem* child : item->m_children)
 					renderItem(child);
 
 				ImGui::TreePop();
@@ -77,26 +77,26 @@ namespace Marvel {
 		}
 		else
 		{
-			auto stringPos = item->getName().find_first_not_of("##");
+			auto stringPos = item->m_name.find_first_not_of("##");
 			if (stringPos != std::string::npos && stringPos > 0)
 			{
 				ImGui::PushID(item);
-				if (ImGui::Selectable(item->getName().substr().erase(0, 2).c_str(),
-					item->getName() == m_selectedItem && ImGui::GetID(item->getName().substr().erase(0, 2).c_str()) == m_selectedID))
+				if (ImGui::Selectable(item->m_name.substr().erase(0, 2).c_str(),
+					item->m_name == m_selectedItem && ImGui::GetID(item->m_name.substr().erase(0, 2).c_str()) == m_selectedID))
 				{
-					m_selectedItem = item->getName();
-					m_selectedID = ImGui::GetID(item->getName().substr().erase(0, 2).c_str());
+					m_selectedItem = item->m_name;
+					m_selectedID = ImGui::GetID(item->m_name.substr().erase(0, 2).c_str());
 				}
 				ImGui::PopID();
 			}
 			else
 			{
 				ImGui::PushID(item);
-				if (ImGui::Selectable(item->getName().c_str(),
-					item->getName() == m_selectedItem && ImGui::GetID(item->getName().c_str()) == m_selectedID))
+				if (ImGui::Selectable(item->m_name.c_str(),
+					item->m_name == m_selectedItem && ImGui::GetID(item->m_name.c_str()) == m_selectedID))
 				{
-					m_selectedItem = item->getName();
-					m_selectedID = ImGui::GetID(item->getName().c_str());
+					m_selectedItem = item->m_name;
+					m_selectedID = ImGui::GetID(item->m_name.c_str());
 				}
 				ImGui::PopID();
 			}
@@ -170,7 +170,7 @@ namespace Marvel {
 				ImGui::BeginGroup();
 
 				auto mousepos = mvInput::getMousePosition();
-				DebugItem("Active Window: ", app->getActiveWindow().c_str());
+				DebugItem("Active Window: ", mvItemRegistry::GetItemRegistry()->getActiveWindow().c_str());
 				DebugItem("Local Mouse Position:", mousepos.x, mousepos.y);
 				DebugItem("Global Mouse Position:", io.MousePos.x, io.MousePos.y);
 				DebugItem("Plot Mouse Position:", mvInput::getPlotMousePosition().x, mvInput::getPlotMousePosition().y);
@@ -208,11 +208,11 @@ namespace Marvel {
 				if (selectedItem == nullptr)
 					selectedItem = mvItemRegistry::GetItemRegistry()->getBackWindows()[0];
 				
-				if (selectedItem->getParent())
-					parentName = selectedItem->getParent()->getName();
+				if (selectedItem->m_parent)
+					parentName = selectedItem->m_parent->m_name;
 
-				std::string width = std::to_string(selectedItem->getWidth());
-				std::string height = std::to_string(selectedItem->getHeight());
+				std::string width = std::to_string(selectedItem->m_width);
+				std::string height = std::to_string(selectedItem->m_height);
 				//std::string awidth = std::to_string(selectedItem->getActualWidth());
 				//std::string aheight = std::to_string(selectedItem->getActualHeight());
 				
@@ -258,9 +258,9 @@ namespace Marvel {
                 DebugItem("Item Height:", height.c_str());
                 DebugItem("Item Size x:", sizex.c_str());
                 DebugItem("Item Size y:", sizey.c_str());
-                DebugItem("Item Tip:", selectedItem->getTip().c_str());
-                DebugItem("Item Popup:", selectedItem->getPopup().c_str());
-                DebugItem("Item Show:", selectedItem->isShown() ? ts : fs);
+                DebugItem("Item Tip:", selectedItem->m_tip.c_str());
+                DebugItem("Item Popup:", selectedItem->m_popup.c_str());
+                DebugItem("Item Show:", selectedItem->m_show ? ts : fs);
                 DebugItem("Item Visible:", selectedItem->getState().isItemVisible() ? ts : fs);
                 DebugItem("Item Hovered:", selectedItem->getState().isItemHovered() ? ts : fs);
                 DebugItem("Item Active:", selectedItem->getState().isItemActive() ? ts : fs);
@@ -343,7 +343,9 @@ namespace Marvel {
 			float x = mousePos.x - ImGui::GetWindowPos().x;
 			float y = mousePos.y - ImGui::GetWindowPos().y - titleBarHeight;
 			mvInput::setMousePosition(x, y);
-			mvApp::GetApp()->setActiveWindow("debug##standard");
+
+			if (mvItemRegistry::GetItemRegistry()->getActiveWindow() != "debug##standard")
+				mvEventBus::Publish(mvEVT_CATEGORY_ITEM, mvEVT_ACTIVE_WINDOW, { CreateEventArgument("WINDOW", std::string("debug##standard")) });
 
 			// mouse move callback
 			//if (getMouseMoveCallback() != nullptr)

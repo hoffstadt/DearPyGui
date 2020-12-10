@@ -11,7 +11,6 @@
 #include <cstdlib>
 
 // new includes
-#include "mvInterfaceCore.h"
 #include "mvPlotInterface.h"
 #include "mvDrawingInterface.h"
 #include "mvTableInterface.h"

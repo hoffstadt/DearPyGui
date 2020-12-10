@@ -37,7 +37,7 @@ namespace Marvel {
     //-----------------------------------------------------------------------------
     // Forward Declarations
     //-----------------------------------------------------------------------------
-    class mvWindowAppitem;
+    class mvWindowAppItem;
     class mvTextEditor;
     class mvWindow;
     struct mvColor;
@@ -90,7 +90,6 @@ namespace Marvel {
         void                     setVSync          (bool value) { m_vsync = value; }
         void                     setResizable      (bool value) { m_resizable = value; }			
         void                     setMainPos        (int x, int y);			
-        void                     setActiveWindow   (const std::string& window) { m_activeWindow = window; }
         void                     setGlobalFontScale(float scale);
         void                     setViewport       (mvWindow* viewport) { m_viewport = viewport; }
         void                     setTitle          (const std::string& title) { m_title = title; }
@@ -98,7 +97,7 @@ namespace Marvel {
                                     std::vector<std::array<ImWchar, 3>> customRanges = {},
                                     std::vector<ImWchar> chars= {});
         
-        const std::string&       getActiveWindow   () const { return m_activeWindow; }
+        
         float&                   getGlobalFontScale()       { return m_globalFontScale; }
         int                      getActualWidth    () const { return m_actualWidth; }
         int                      getActualHeight   () const { return m_actualHeight; }
@@ -158,7 +157,6 @@ namespace Marvel {
         bool                                   m_dockingViewport  = false;
 
         mvWindow*                              m_viewport = nullptr;
-        std::string                            m_activeWindow;
         int                                    m_actualWidth = 1280;
         int                                    m_actualHeight = 800;
         int                                    m_clientWidth = 1280;

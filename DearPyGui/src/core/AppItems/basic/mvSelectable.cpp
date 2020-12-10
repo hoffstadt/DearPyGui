@@ -35,8 +35,8 @@ namespace Marvel {
 			mvCallbackRegistry::GetCallbackRegistry()->addCallback(m_callback, m_name, m_callbackData);
 
 			// Context Menu
-			if (!getPopup().empty())
-				ImGui::OpenPopup(getPopup().c_str());
+			if (!m_popup.empty())
+				ImGui::OpenPopup(m_popup.c_str());
 		}
 
 	}

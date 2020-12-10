@@ -6,7 +6,7 @@
 
 namespace Marvel {
 
-		mvWindowAppitem::mvWindowAppitem(const std::string& name, bool mainWindow, PyObject* closing_callback)
+		mvWindowAppItem::mvWindowAppItem(const std::string& name, bool mainWindow, PyObject* closing_callback)
 			: mvAppItem(name), m_mainWindow(mainWindow), m_closing_callback(SanitizeCallback(closing_callback))
 		{
 			m_description.root = true;
@@ -24,7 +24,7 @@ namespace Marvel {
 			}
 		}
 
-		void mvWindowAppitem::setWindowAsMainStatus(bool value)
+		void mvWindowAppItem::setWindowAsMainStatus(bool value)
 		{
 			m_mainWindow = value;
 			if (value)
@@ -57,38 +57,38 @@ namespace Marvel {
 
 		}
 
-		void mvWindowAppitem::setWindowPos(float x, float y)
+		void mvWindowAppItem::setWindowPos(float x, float y)
 		{
 			m_xpos = (int)x;
 			m_ypos = (int)y;
 			m_dirty_pos = true;
 		}
 
-		void mvWindowAppitem::setWidth(int width) 
+		void mvWindowAppItem::setWidth(int width) 
 		{ 
 			m_width = width;
 			m_dirty_size = true; 
 		}
 
-		void mvWindowAppitem::setHeight(int height) 
+		void mvWindowAppItem::setHeight(int height) 
 		{ 
 			m_height = height; 
 			m_dirty_size = true; 
 		}
 
-		void mvWindowAppitem::setLabel(const std::string& value)
+		void mvWindowAppItem::setLabel(const std::string& value)
 		{
 			m_label = value;
 			m_dirty_pos = true;
 			m_dirty_size = true;
 		}
 
-		mvVec2 mvWindowAppitem::getWindowPos() const
+		mvVec2 mvWindowAppItem::getWindowPos() const
 		{
 			return { (float)m_xpos, (float)m_ypos };
 		}
 
-		void mvWindowAppitem::draw()
+		void mvWindowAppItem::draw()
 		{
 			// shouldn't have to do this but do. Fix later
 			if (!m_show)
@@ -152,18 +152,18 @@ namespace Marvel {
 			for (mvAppItem* item : m_children)
 			{
 				// skip item if it's not shown
-				if (!item->isShown())
+				if (!item->m_show)
 					continue;
 
 				// set item width
-				if (item->getWidth() != 0)
-					ImGui::SetNextItemWidth((float)item->getWidth());
+				if (item->m_width != 0)
+					ImGui::SetNextItemWidth((float)item->m_width);
 
 				item->draw();
 
 				// Regular Tooltip (simple)
-				if (!item->getTip().empty() && ImGui::IsItemHovered())
-					ImGui::SetTooltip("%s", item->getTip().c_str());
+				if (!item->m_tip.empty() && ImGui::IsItemHovered())
+					ImGui::SetTooltip("%s", item->m_tip.c_str());
 
 				item->getState().update();
 
@@ -197,7 +197,9 @@ namespace Marvel {
 				float x = mousePos.x - ImGui::GetWindowPos().x;
 				float y = mousePos.y - ImGui::GetWindowPos().y - titleBarHeight;
 				mvInput::setMousePosition(x, y);
-				mvApp::GetApp()->setActiveWindow(m_name);
+
+				if (mvItemRegistry::GetItemRegistry()->getActiveWindow() != m_name)
+					mvEventBus::Publish(mvEVT_CATEGORY_ITEM, mvEVT_ACTIVE_WINDOW, { CreateEventArgument("WINDOW", m_name) });
 
 				// mouse move callback
 				//if (oldMousePos.x != mousePos.x || oldMousePos.y != mousePos.y)
@@ -216,7 +218,7 @@ namespace Marvel {
 			ImGui::End();
 		}
 
-		void mvWindowAppitem::setExtraConfigDict(PyObject* dict)
+		void mvWindowAppItem::setExtraConfigDict(PyObject* dict)
 		{
 			if (dict == nullptr)
 				return;
@@ -252,7 +254,7 @@ namespace Marvel {
 
 		}
 
-		void mvWindowAppitem::getExtraConfigDict(PyObject* dict)
+		void mvWindowAppItem::getExtraConfigDict(PyObject* dict)
 		{
 			if (dict == nullptr)
 				return;
@@ -281,7 +283,7 @@ namespace Marvel {
 			checkbitset("no_background", ImGuiWindowFlags_NoBackground, m_windowflags);
 		}
 
-		mvWindowAppitem::~mvWindowAppitem()
+		mvWindowAppItem::~mvWindowAppItem()
 		{
 			mvGlobalIntepreterLock gil;
 			if (m_closing_callback)

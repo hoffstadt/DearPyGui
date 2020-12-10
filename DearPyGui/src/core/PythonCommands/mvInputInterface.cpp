@@ -1,5 +1,4 @@
 #include "mvInputInterface.h"
-#include "mvInterfaceCore.h"
 
 namespace Marvel {
 
@@ -403,7 +402,7 @@ namespace Marvel {
 		//{
 		//	if (item->getDescription().root)
 		//	{
-		//		auto windowtype = static_cast<mvWindowAppitem*>(item);
+		//		auto windowtype = static_cast<mvWindowAppItem*>(item);
 		//		mvOldEventHandler* eventhandler = static_cast<mvOldEventHandler*>(windowtype);
 		//		eventhandler->setResizeCallback(callback);
 		//	}

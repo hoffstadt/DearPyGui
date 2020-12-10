@@ -12,7 +12,7 @@ namespace Marvel {
     // Forward Declarations
     //-----------------------------------------------------------------------------
     class mvAppItem;
-    class mvWindowAppitem;
+    class mvWindowAppItem;
 
     //-----------------------------------------------------------------------------
     // mvItemRegistry
@@ -46,17 +46,18 @@ namespace Marvel {
 
         static mvItemRegistry* GetItemRegistry();
 
-        bool onEvent(mvEvent& event) override;
-
-        // mostly for testing new event bus system
-        bool onDeleteItem    (mvEvent& event);
-        bool onMoveItem      (mvEvent& event);
-        bool onMoveItemUp    (mvEvent& event);
-        bool onMoveItemDown  (mvEvent& event);
-        bool onAddItem       (mvEvent& event);
-        bool onEndFrame      (mvEvent& event);
-        bool onRender        (mvEvent& event);
-        bool onPreRenderReset(mvEvent& event);
+        //-----------------------------------------------------------------------------
+        // Event Handling
+        //-----------------------------------------------------------------------------
+        bool                     onEvent         (mvEvent& event) override;
+        bool                     onDeleteItem    (mvEvent& event);
+        bool                     onMoveItem      (mvEvent& event);
+        bool                     onMoveItemUp    (mvEvent& event);
+        bool                     onMoveItemDown  (mvEvent& event);
+        bool                     onEndFrame      (mvEvent& event);
+        bool                     onRender        (mvEvent& event);
+        bool                     onPreRenderReset(mvEvent& event);                     
+        bool                     onActiveWindow  (mvEvent& event);                     
 
         //-----------------------------------------------------------------------------
         // AppItem Operations
@@ -69,12 +70,18 @@ namespace Marvel {
         mvAppItem*               getItem           (const std::string& name, bool ignoreRuntime = false);
         mvAppItem*               getItemAsync      (const std::string& name, bool ignoreRuntime = false); // allows item to be retrieved outside main thread
         mvAppItem*               getRuntimeItem    (const std::string& name);
-        mvWindowAppitem*         getWindow         (const std::string& name);
-        std::vector<mvAppItem*>& getFrontWindows        () { return m_frontWindows; }
-        std::vector<mvAppItem*>& getBackWindows        () { return m_backWindows; }
-
-        void resetWindowStates();
-        void draw();
+        mvWindowAppItem*         getWindow         (const std::string& name);
+        std::vector<mvAppItem*>& getFrontWindows   () { return m_frontWindows; }
+        std::vector<mvAppItem*>& getBackWindows    () { return m_backWindows; }
+        const std::string&       getActiveWindow() const { return m_activeWindow; }
+        bool                     addItemWithRuntimeChecks(mvAppItem* item, const char* parent, const char* before);
+        
+        // called by python interface
+        std::vector<std::string> getAllItems       ();
+        std::vector<std::string> getWindows        ();
+        std::vector<std::string> getItemChildren   (const std::string& name);
+        std::string              getItemParentName (const std::string& name);
+        void                     setPrimaryWindow  (const std::string& name, bool value);
 
         //-----------------------------------------------------------------------------
         // Parent stack operations
@@ -102,6 +109,7 @@ namespace Marvel {
 		std::stack<mvAppItem*>  m_parents;
 		std::vector<mvAppItem*> m_frontWindows;
 		std::vector<mvAppItem*> m_backWindows;
+        std::string             m_activeWindow;
 
         // runtime widget modifications
         std::queue<std::string>     m_deleteChildrenQueue;
