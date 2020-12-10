@@ -2,6 +2,7 @@
 #include <string>
 #include <vector>
 #include <stack>
+#include <deque>
 #include <unordered_map>
 #include <functional>
 #include <variant>
@@ -96,7 +97,7 @@ namespace Marvel {
 
 		static void PublishEndFrame(mvID category, mvID type, std::unordered_map<mvID, mvVariant> arguments = {});
 		static void Publish        (mvID category, mvID type, std::unordered_map<mvID, mvVariant> arguments = {});
-		static void Subscribe      (mvEventHandler* handler, mvID type, mvID category = 0);
+		static void Subscribe      (mvEventHandler* handler, mvID type = 0, mvID category = 0);
 		static void UnSubscribe    (mvEventHandler* handler);
 
 		// event bus events
@@ -109,6 +110,9 @@ namespace Marvel {
 		static std::stack<mvEvent>&                                    GetEndFrameEvents();
 		static std::unordered_map<mvID, std::vector<mvEventHandler*>>& GetEventHandlers();
 		static std::unordered_map<mvID, std::vector<mvEventHandler*>>& GetEventCategoryHandlers();
+
+		static std::unordered_map<mvID, std::string>& GetMappings();
+		static std::deque<std::string> GetMessages();
 	};
 
 	//-----------------------------------------------------------------------------
@@ -148,5 +152,7 @@ namespace Marvel {
 	private:
 
 		mvEvent& m_event;
+
 	};
 }
+
