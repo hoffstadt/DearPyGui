@@ -28,6 +28,9 @@ HOW TO UPDATE?
 
 Decorated log: https://github.com/hoffstadt/DearPyGui/releases/tag/v0.6.x
 
+Fixes:
+- drawing api: polygon fill to draw before outline, related to #371
+
 -----------------------------------------------------------------------
  VERSION 0.6.35
 -----------------------------------------------------------------------
