@@ -367,7 +367,7 @@ namespace Marvel {
 
 		auto mcolor = ToColor(color);
 
-		mvAppItem* appitem = mvItemRegistry::GetItemRegistry()->getItem(item);
+		mvAppItem* appitem = mvApp::GetApp()->getItemRegistry().getItem(item);
 
 		if (appitem)
 			appitem->getStyleManager().addColorStyle(style, mcolor);
@@ -382,7 +382,7 @@ namespace Marvel {
 		if (!(*mvApp::GetApp()->getParsers())["clear_item_color"].parse(args, kwargs, __FUNCTION__, &item))
 			return GetPyNone();
 
-		mvAppItem* appitem = mvItemRegistry::GetItemRegistry()->getItem(item);
+		mvAppItem* appitem = mvApp::GetApp()->getItemRegistry().getItem(item);
 
 		if (appitem)
 			appitem->getStyleManager().clearColors();
@@ -399,7 +399,7 @@ namespace Marvel {
 		if (!(*mvApp::GetApp()->getParsers())["set_item_style_var"].parse(args, kwargs, __FUNCTION__, &item, &style, &value))
 			return GetPyNone();
 
-		mvAppItem* appitem = mvItemRegistry::GetItemRegistry()->getItem(item);
+		mvAppItem* appitem = mvApp::GetApp()->getItemRegistry().getItem(item);
 
 		if (appitem)
 			appitem->getStyleManager().addStyleVar(style, ToFloatVect(value));
@@ -414,7 +414,7 @@ namespace Marvel {
 		if (!(*mvApp::GetApp()->getParsers())["clear_item_style_vars"].parse(args, kwargs, __FUNCTION__, &item))
 			return GetPyNone();
 
-		mvAppItem* appitem = mvItemRegistry::GetItemRegistry()->getItem(item);
+		mvAppItem* appitem = mvApp::GetApp()->getItemRegistry().getItem(item);
 
 		if (appitem)
 			appitem->getStyleManager().clearStyleVars();

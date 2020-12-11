@@ -103,13 +103,13 @@ namespace Marvel {
 		if (!std::string(primaryWindow).empty())
 		{
 			// reset other windows
-			for (auto window : mvItemRegistry::GetItemRegistry()->getFrontWindows())
+			for (auto window : m_itemRegistry.getFrontWindows())
 			{
 				if (window->m_name != primaryWindow)
 					static_cast<mvWindowAppItem*>(window)->setWindowAsMainStatus(false);
 			}
 
-			mvWindowAppItem* window = mvItemRegistry::GetItemRegistry()->getWindow(primaryWindow);
+			mvWindowAppItem* window = m_itemRegistry.getWindow(primaryWindow);
 
 			if (window)
 				window->setWindowAsMainStatus(true);
@@ -143,6 +143,9 @@ namespace Marvel {
 
 		mvThreadPoolManager::GetThreadPoolManager();
 
+		// create managers
+		m_itemRegistry = mvItemRegistry();
+
 	}
 
 	bool mvApp::onEvent(mvEvent& event)
@@ -170,7 +173,7 @@ namespace Marvel {
 
 	mvApp::~mvApp()
 	{
-		mvItemRegistry::GetItemRegistry()->clearRegistry();
+		m_itemRegistry.clearRegistry();
 
 		mvTextureStorage::GetTextureStorage()->deleteAllTextures();
 		mvDataStorage::DeleteAllData();

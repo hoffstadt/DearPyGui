@@ -102,7 +102,7 @@ namespace Marvel{
 		if (!(*mvApp::GetApp()->getParsers())["get_table_data"].parse(args, kwargs, __FUNCTION__, &name))
 			return GetPyNone();
 
-		mvAppItem* item = mvItemRegistry::GetItemRegistry()->getItem(std::string(name));
+		mvAppItem* item = mvApp::GetApp()->getItemRegistry().getItem(std::string(name));
 
 		if (item == nullptr)
 		{
@@ -129,7 +129,7 @@ namespace Marvel{
 		if (!(*mvApp::GetApp()->getParsers())["set_table_data"].parse(args, kwargs, __FUNCTION__, &name, &value))
 			return GetPyNone();
 
-		mvAppItem* item = mvItemRegistry::GetItemRegistry()->getItem(std::string(name));
+		mvAppItem* item = mvApp::GetApp()->getItemRegistry().getItem(std::string(name));
 
 		if (item == nullptr)
 		{
@@ -179,7 +179,7 @@ namespace Marvel{
 		item->setConfigDict(kwargs);
 		item->setExtraConfigDict(kwargs);
 
-		return ToPyBool(mvItemRegistry::GetItemRegistry()->addItemWithRuntimeChecks(item, parent, before));
+		return ToPyBool(mvApp::GetApp()->getItemRegistry().addItemWithRuntimeChecks(item, parent, before));
 	}
 
 	PyObject* set_headers(PyObject* self, PyObject* args, PyObject* kwargs)
@@ -190,7 +190,7 @@ namespace Marvel{
 		if (!(*mvApp::GetApp()->getParsers())["set_headers"].parse(args, kwargs, __FUNCTION__, &table, &headers))
 			return GetPyNone();
 
-		mvAppItem* item = mvItemRegistry::GetItemRegistry()->getItem(table);
+		mvAppItem* item = mvApp::GetApp()->getItemRegistry().getItem(table);
 		if (item == nullptr)
 		{
 			std::string message = table;
@@ -213,7 +213,7 @@ namespace Marvel{
 		if (!(*mvApp::GetApp()->getParsers())["clear_table"].parse(args, kwargs, __FUNCTION__, &table))
 			return GetPyNone();
 
-		mvAppItem* item = mvItemRegistry::GetItemRegistry()->getItem(table);
+		mvAppItem* item = mvApp::GetApp()->getItemRegistry().getItem(table);
 		if (item == nullptr)
 		{
 			std::string message = table;
@@ -243,7 +243,7 @@ namespace Marvel{
 			&column))
 			return GetPyNone();
 
-		mvAppItem* item = mvItemRegistry::GetItemRegistry()->getItem(table);
+		mvAppItem* item = mvApp::GetApp()->getItemRegistry().getItem(table);
 		if (item == nullptr)
 		{
 			std::string message = table;
@@ -274,7 +274,7 @@ namespace Marvel{
 			&column, &value))
 			return GetPyNone();
 
-		mvAppItem* item = mvItemRegistry::GetItemRegistry()->getItem(table);
+		mvAppItem* item = mvApp::GetApp()->getItemRegistry().getItem(table);
 		if (item == nullptr)
 		{
 			std::string message = table;
@@ -302,7 +302,7 @@ namespace Marvel{
 		if (!(*mvApp::GetApp()->getParsers())["get_table_selections"].parse(args, kwargs, __FUNCTION__, &table))
 			return GetPyNone();
 
-		mvAppItem* item = mvItemRegistry::GetItemRegistry()->getItem(table);
+		mvAppItem* item = mvApp::GetApp()->getItemRegistry().getItem(table);
 		if (item == nullptr)
 		{
 			std::string message = table;
@@ -332,7 +332,7 @@ namespace Marvel{
 			&column, &value))
 			return GetPyNone();
 
-		mvAppItem* item = mvItemRegistry::GetItemRegistry()->getItem(table);
+		mvAppItem* item = mvApp::GetApp()->getItemRegistry().getItem(table);
 		if (item == nullptr)
 		{
 			std::string message = table;
@@ -362,7 +362,7 @@ namespace Marvel{
 		if (!(*mvApp::GetApp()->getParsers())["add_column"].parse(args, kwargs, __FUNCTION__, &table, &name, &column))
 			return GetPyNone();
 
-		mvAppItem* item = mvItemRegistry::GetItemRegistry()->getItem(table);
+		mvAppItem* item = mvApp::GetApp()->getItemRegistry().getItem(table);
 		if (item == nullptr)
 		{
 			std::string message = table;
@@ -395,7 +395,7 @@ namespace Marvel{
 		if (!(*mvApp::GetApp()->getParsers())["insert_column"].parse(args, kwargs, __FUNCTION__, &table, &column_index, &name, &column))
 			return GetPyNone();
 
-		mvAppItem* item = mvItemRegistry::GetItemRegistry()->getItem(table);
+		mvAppItem* item = mvApp::GetApp()->getItemRegistry().getItem(table);
 		if (item == nullptr)
 		{
 			std::string message = table;
@@ -426,7 +426,7 @@ namespace Marvel{
 		if (!(*mvApp::GetApp()->getParsers())["delete_column"].parse(args, kwargs, __FUNCTION__, &table, &column))
 			return GetPyNone();
 
-		mvAppItem* item = mvItemRegistry::GetItemRegistry()->getItem(table);
+		mvAppItem* item = mvApp::GetApp()->getItemRegistry().getItem(table);
 		if (item == nullptr)
 		{
 			std::string message = table;
@@ -455,7 +455,7 @@ namespace Marvel{
 		if (!(*mvApp::GetApp()->getParsers())["add_row"].parse(args, kwargs, __FUNCTION__, &table, &row))
 			return GetPyNone();
 
-		mvAppItem* item = mvItemRegistry::GetItemRegistry()->getItem(table);
+		mvAppItem* item = mvApp::GetApp()->getItemRegistry().getItem(table);
 		if (item == nullptr)
 		{
 			std::string message = table;
@@ -493,7 +493,7 @@ namespace Marvel{
 		if (!(*mvApp::GetApp()->getParsers())["insert_row"].parse(args, kwargs, __FUNCTION__, &table, &row_index, &row))
 			return GetPyNone();
 
-		mvAppItem* item = mvItemRegistry::GetItemRegistry()->getItem(table);
+		mvAppItem* item = mvApp::GetApp()->getItemRegistry().getItem(table);
 		if (item == nullptr)
 		{
 			std::string message = table;
@@ -530,7 +530,7 @@ namespace Marvel{
 		if (!(*mvApp::GetApp()->getParsers())["delete_row"].parse(args, kwargs, __FUNCTION__, &table, &row))
 			return GetPyNone();
 
-		mvAppItem* item = mvItemRegistry::GetItemRegistry()->getItem(table);
+		mvAppItem* item = mvApp::GetApp()->getItemRegistry().getItem(table);
 		if (item == nullptr)
 		{
 			std::string message = table;

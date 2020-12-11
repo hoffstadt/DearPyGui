@@ -91,7 +91,7 @@ namespace Marvel{
 			float y = mousePos.y - ImGui::GetWindowPos().y;
 			mvInput::setMousePosition(x, y);
 
-			if (mvItemRegistry::GetItemRegistry()->getActiveWindow() != m_name)
+			if (mvApp::GetApp()->getItemRegistry().getActiveWindow() != m_name)
 				mvEventBus::Publish(mvEVT_CATEGORY_ITEM, mvEVT_ACTIVE_WINDOW, { CreateEventArgument("WINDOW", m_name) });
 
 

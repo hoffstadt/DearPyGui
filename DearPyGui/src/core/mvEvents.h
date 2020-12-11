@@ -111,7 +111,6 @@ namespace Marvel {
 		static std::unordered_map<mvID, std::vector<mvEventHandler*>>& GetEventHandlers();
 		static std::unordered_map<mvID, std::vector<mvEventHandler*>>& GetEventCategoryHandlers();
 
-		static std::unordered_map<mvID, std::string>& GetMappings();
 		static std::deque<std::string> GetMessages();
 	};
 

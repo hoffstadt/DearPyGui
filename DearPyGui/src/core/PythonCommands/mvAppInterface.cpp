@@ -541,7 +541,7 @@ namespace Marvel {
 			return GetPyNone();
 
 		igfd::ImGuiFileDialog::Instance()->OpenModal("ChooseFileDlgKey", "Choose Directory", 0, ".");
-		mvAppItem* window = mvItemRegistry::GetItemRegistry()->getItem("filedialog");
+		mvAppItem* window = mvApp::GetApp()->getItemRegistry().getItem("filedialog");
 		auto dialog = static_cast<mvFileDialog*>(window);
 		if (callback)
 			Py_XINCREF(callback);
@@ -561,7 +561,7 @@ namespace Marvel {
 			return GetPyNone();
 
 		igfd::ImGuiFileDialog::Instance()->OpenModal("ChooseFileDlgKey", "Choose File", extensions, ".");
-		mvAppItem* window = mvItemRegistry::GetItemRegistry()->getItem("filedialog");
+		mvAppItem* window = mvApp::GetApp()->getItemRegistry().getItem("filedialog");
 		auto dialog = static_cast<mvFileDialog*>(window);
 		if (callback)
 			Py_XINCREF(callback);
@@ -603,7 +603,7 @@ namespace Marvel {
 
 	PyObject* get_active_window(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
-		return ToPyString(mvItemRegistry::GetItemRegistry()->getActiveWindow());
+		return ToPyString(mvApp::GetApp()->getItemRegistry().getActiveWindow());
 	}
 
 	PyObject* get_dearpygui_version(PyObject* self, PyObject* args, PyObject* kwargs)
@@ -712,7 +712,7 @@ namespace Marvel {
 
 		if (!std::string(logger).empty())
 		{
-			mvAppItem* loggeritem = mvItemRegistry::GetItemRegistry()->getItemAsync(logger);
+			mvAppItem* loggeritem = mvApp::GetApp()->getItemRegistry().getItemAsync(logger);
 			if (loggeritem == nullptr)
 			{
 				ThrowPythonException(std::string(logger) + " logger does not exist.");
@@ -742,7 +742,7 @@ namespace Marvel {
 
 		if (!std::string(logger).empty())
 		{
-			mvAppItem* loggeritem = mvItemRegistry::GetItemRegistry()->getItemAsync(logger);
+			mvAppItem* loggeritem = mvApp::GetApp()->getItemRegistry().getItemAsync(logger);
 			if (loggeritem == nullptr)
 			{
 				ThrowPythonException(std::string(logger) + " logger does not exist.");
@@ -775,7 +775,7 @@ namespace Marvel {
 
 		if (!std::string(logger).empty())
 		{
-			mvAppItem* loggeritem = mvItemRegistry::GetItemRegistry()->getItemAsync(logger);
+			mvAppItem* loggeritem = mvApp::GetApp()->getItemRegistry().getItemAsync(logger);
 			if (loggeritem == nullptr)
 			{
 				ThrowPythonException(std::string(logger) + " logger does not exist.");
@@ -808,7 +808,7 @@ namespace Marvel {
 
 		if (!std::string(logger).empty())
 		{
-			mvAppItem* loggeritem = mvItemRegistry::GetItemRegistry()->getItemAsync(logger);
+			mvAppItem* loggeritem = mvApp::GetApp()->getItemRegistry().getItemAsync(logger);
 			if (loggeritem == nullptr)
 			{
 				ThrowPythonException(std::string(logger) + " logger does not exist.");
@@ -841,7 +841,7 @@ namespace Marvel {
 
 		if (!std::string(logger).empty())
 		{
-			mvAppItem* loggeritem = mvItemRegistry::GetItemRegistry()->getItemAsync(logger);
+			mvAppItem* loggeritem = mvApp::GetApp()->getItemRegistry().getItemAsync(logger);
 			if (loggeritem == nullptr)
 			{
 				ThrowPythonException(std::string(logger) + " logger does not exist.");
@@ -873,7 +873,7 @@ namespace Marvel {
 
 		if (!std::string(logger).empty())
 		{
-			mvAppItem* loggeritem = mvItemRegistry::GetItemRegistry()->getItemAsync(logger);
+			mvAppItem* loggeritem = mvApp::GetApp()->getItemRegistry().getItemAsync(logger);
 			if (loggeritem == nullptr)
 			{
 				ThrowPythonException(std::string(logger) + " logger does not exist.");
@@ -905,7 +905,7 @@ namespace Marvel {
 
 		if (!std::string(logger).empty())
 		{
-			mvAppItem* loggeritem = mvItemRegistry::GetItemRegistry()->getItemAsync(logger);
+			mvAppItem* loggeritem = mvApp::GetApp()->getItemRegistry().getItemAsync(logger);
 			if (loggeritem == nullptr)
 			{
 				ThrowPythonException(std::string(logger) + " logger does not exist.");
@@ -936,7 +936,7 @@ namespace Marvel {
 
 		if (!std::string(logger).empty())
 		{
-			mvAppItem* loggeritem = mvItemRegistry::GetItemRegistry()->getItemAsync(logger);
+			mvAppItem* loggeritem = mvApp::GetApp()->getItemRegistry().getItemAsync(logger);
 			if (loggeritem == nullptr)
 			{
 				ThrowPythonException(std::string(logger) + " logger does not exist.");
@@ -972,7 +972,7 @@ namespace Marvel {
 			return GetPyNone();
 
 
-		auto item = mvItemRegistry::GetItemRegistry()->getItem(popup);
+		auto item = mvApp::GetApp()->getItemRegistry().getItem(popup);
 
 		if (item == nullptr)
 		{
@@ -1003,7 +1003,7 @@ namespace Marvel {
 			return GetPyNone();
 
 
-		mvItemRegistry::GetItemRegistry()->setPrimaryWindow(item, value);
+		mvApp::GetApp()->getItemRegistry().setPrimaryWindow(item, value);
 
 		return GetPyNone();
 	}

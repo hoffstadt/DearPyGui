@@ -285,7 +285,7 @@ namespace Marvel {
 			float x = mousePos.x - ImGui::GetWindowPos().x;
 			float y = mousePos.y - ImGui::GetWindowPos().y - titleBarHeight;
 			mvInput::setMousePosition(x, y);
-			if (mvItemRegistry::GetItemRegistry()->getActiveWindow() != "logger##standard")
+			if (mvApp::GetApp()->getItemRegistry().getActiveWindow() != "logger##standard")
 				mvEventBus::Publish(mvEVT_CATEGORY_ITEM, mvEVT_ACTIVE_WINDOW, { CreateEventArgument("WINDOW", std::string("logger##standard")) });
 
 		}
@@ -303,7 +303,7 @@ namespace Marvel {
 			float x = mousePos.x - ImGui::GetWindowPos().x;
 			float y = mousePos.y - ImGui::GetWindowPos().y - titleBarHeight;
 			mvInput::setMousePosition(x, y);
-			if (mvItemRegistry::GetItemRegistry()->getActiveWindow() != "logger##standard")
+			if (mvApp::GetApp()->getItemRegistry().getActiveWindow() != "logger##standard")
 				mvEventBus::Publish(mvEVT_CATEGORY_ITEM, mvEVT_ACTIVE_WINDOW, { CreateEventArgument("WINDOW", std::string("logger##standard")) });
 
 		}
