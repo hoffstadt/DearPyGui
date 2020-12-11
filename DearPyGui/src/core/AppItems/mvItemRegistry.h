@@ -44,7 +44,8 @@ namespace Marvel {
 
 	public:
 
-        static mvItemRegistry* GetItemRegistry();
+        mvItemRegistry();
+        ~mvItemRegistry();
 
         //-----------------------------------------------------------------------------
         // Event Handling
@@ -101,10 +102,6 @@ namespace Marvel {
         void                     clearRegistry  ();
 
 	private:
-
-        mvItemRegistry();
-
-        static mvItemRegistry* s_instance;
 
 		std::stack<mvAppItem*>  m_parents;
 		std::vector<mvAppItem*> m_frontWindows;

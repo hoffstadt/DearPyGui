@@ -81,6 +81,11 @@ namespace Marvel {
         // Rendering
         //-----------------------------------------------------------------------------
         void                     render          (); // actual render loop
+
+        //-----------------------------------------------------------------------------
+        // Managers
+        //-----------------------------------------------------------------------------
+        mvItemRegistry&          getItemRegistry() { return m_itemRegistry; }
         
         //-----------------------------------------------------------------------------
         // App Settings
@@ -150,6 +155,9 @@ namespace Marvel {
 
         static mvApp* s_instance;
         static bool   s_started;
+
+        // managers
+        mvItemRegistry                         m_itemRegistry;
 
         // docking
         bool                                   m_docking          = false;

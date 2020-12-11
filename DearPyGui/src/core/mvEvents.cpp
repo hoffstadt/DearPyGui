@@ -167,12 +167,6 @@ namespace Marvel {
 		return eventCategoryHandlers;
 	}
 
-	std::unordered_map<mvID, std::string>& mvEventBus::GetMappings()
-	{
-		static std::unordered_map<mvID, std::string> mappings;
-		return mappings;
-	}
-
 	std::deque<std::string> mvEventBus::GetMessages()
 	{
 		static std::deque<std::string> messages;

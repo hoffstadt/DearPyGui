@@ -200,7 +200,7 @@ namespace Marvel {
 		if (name == DrawBackground)
 			return &mvApp::GetApp()->getViewport()->getBackDrawList();
 
-		auto item = mvItemRegistry::GetItemRegistry()->getItem(name);
+		auto item = mvApp::GetApp()->getItemRegistry().getItem(name);
 
 		if (item == nullptr)
 			return nullptr;
@@ -242,7 +242,7 @@ namespace Marvel {
 		if (!item)
 			return ToPyBool(false);
 
-		return ToPyBool(mvItemRegistry::GetItemRegistry()->addItemWithRuntimeChecks(item, parent, before));
+		return ToPyBool(mvApp::GetApp()->getItemRegistry().addItemWithRuntimeChecks(item, parent, before));
 	}
 
 	PyObject* modify_draw_command(PyObject* self, PyObject* args, PyObject* kwargs)

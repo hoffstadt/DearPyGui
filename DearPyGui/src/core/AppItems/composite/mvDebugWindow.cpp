@@ -170,7 +170,7 @@ namespace Marvel {
 				ImGui::BeginGroup();
 
 				auto mousepos = mvInput::getMousePosition();
-				DebugItem("Active Window: ", mvItemRegistry::GetItemRegistry()->getActiveWindow().c_str());
+				DebugItem("Active Window: ", mvApp::GetApp()->getItemRegistry().getActiveWindow().c_str());
 				DebugItem("Local Mouse Position:", mousepos.x, mousepos.y);
 				DebugItem("Global Mouse Position:", io.MousePos.x, io.MousePos.y);
 				DebugItem("Plot Mouse Position:", mvInput::getPlotMousePosition().x, mvInput::getPlotMousePosition().y);
@@ -202,11 +202,11 @@ namespace Marvel {
 
 			if (ImGui::BeginTabItem("App Item Layout"))
 			{
-				auto selectedItem = mvItemRegistry::GetItemRegistry()->getItem(m_selectedItem);
+				auto selectedItem = mvApp::GetApp()->getItemRegistry().getItem(m_selectedItem);
 				std::string parentName;
 
 				if (selectedItem == nullptr)
-					selectedItem = mvItemRegistry::GetItemRegistry()->getBackWindows()[0];
+					selectedItem = mvApp::GetApp()->getItemRegistry().getBackWindows()[0];
 				
 				if (selectedItem->m_parent)
 					parentName = selectedItem->m_parent->m_name;
@@ -244,10 +244,10 @@ namespace Marvel {
                 }
                 ImGui::SameLine();
                 if (ImGui::Button("Show"))
-                    mvItemRegistry::GetItemRegistry()->getItem(m_selectedItem)->show();
+                    mvApp::GetApp()->getItemRegistry().getItem(m_selectedItem)->show();
                 ImGui::SameLine();
                 if (ImGui::Button("Hide"))
-					mvItemRegistry::GetItemRegistry()->getItem(m_selectedItem)->hide();
+					mvApp::GetApp()->getItemRegistry().getItem(m_selectedItem)->hide();
 
                 ImGui::PushItemWidth(200);
                 DebugItem("Item Name:", m_selectedItem.c_str());
@@ -276,9 +276,9 @@ namespace Marvel {
                 ImGui::SameLine();
 
 				ImGui::BeginChild("TreeChild", ImVec2(-1.0f, -1.0f), true);
-				for (auto window : mvItemRegistry::GetItemRegistry()->getFrontWindows())
+				for (auto window : mvApp::GetApp()->getItemRegistry().getFrontWindows())
 					renderItem(window);
-				for (auto window : mvItemRegistry::GetItemRegistry()->getBackWindows())
+				for (auto window : mvApp::GetApp()->getItemRegistry().getBackWindows())
 					renderItem(window);
 				ImGui::EndChild();
 
@@ -344,7 +344,7 @@ namespace Marvel {
 			float y = mousePos.y - ImGui::GetWindowPos().y - titleBarHeight;
 			mvInput::setMousePosition(x, y);
 
-			if (mvItemRegistry::GetItemRegistry()->getActiveWindow() != "debug##standard")
+			if (mvApp::GetApp()->getItemRegistry().getActiveWindow() != "debug##standard")
 				mvEventBus::Publish(mvEVT_CATEGORY_ITEM, mvEVT_ACTIVE_WINDOW, { CreateEventArgument("WINDOW", std::string("debug##standard")) });
 
 			// mouse move callback

@@ -7,17 +7,6 @@
 
 namespace Marvel {
 
-	mvItemRegistry* mvItemRegistry::s_instance = nullptr;
-
-	mvItemRegistry* mvItemRegistry::GetItemRegistry()
-	{
-		if (s_instance)
-			return s_instance;
-
-		s_instance = new mvItemRegistry();
-		return s_instance;
-	}
-
 	mvItemRegistry::mvItemRegistry()
 	{
 		mvEventBus::Subscribe(this, 0, mvEVT_CATEGORY_ITEM);
@@ -38,6 +27,11 @@ namespace Marvel {
 		add_hidden_window(new mvMetricsWindow("metrics##standard"), "Metrics");
 		add_hidden_window(new mvStyleWindow("style##standard"), "Dear PyGui Style Editor");
 		add_hidden_window(new mvFileDialog(), "FileDialog");
+	}
+
+	mvItemRegistry::~mvItemRegistry()
+	{
+		mvEventBus::UnSubscribe(this);
 	}
 
 	bool mvItemRegistry::onEvent(mvEvent& event)
@@ -84,10 +78,10 @@ namespace Marvel {
 	{
 
 		Py_BEGIN_ALLOW_THREADS
-		mvItemRegistry::GetItemRegistry()->postDeleteItems();
-		mvItemRegistry::GetItemRegistry()->postAddItems();
-		mvItemRegistry::GetItemRegistry()->postAddPopups();
-		mvItemRegistry::GetItemRegistry()->postMoveItems();
+		mvApp::GetApp()->getItemRegistry().postDeleteItems();
+		mvApp::GetApp()->getItemRegistry().postAddItems();
+		mvApp::GetApp()->getItemRegistry().postAddPopups();
+		mvApp::GetApp()->getItemRegistry().postMoveItems();
 
 		Py_END_ALLOW_THREADS
 
@@ -733,7 +727,7 @@ namespace Marvel {
 
 		mvAppLog::Focus();
 
-		mvWindowAppItem* window = mvItemRegistry::GetItemRegistry()->getWindow(name);
+		mvWindowAppItem* window = mvApp::GetApp()->getItemRegistry().getWindow(name);
 
 		if (window)
 			window->setWindowAsMainStatus(value);
