@@ -253,10 +253,10 @@ namespace Marvel {
 				fdata.push_back(item / 255.0f);
 
 			if (mvApp::IsAppStarted())
-				mvTextureStorage::GetTextureStorage()->addTexture(name, fdata.data(), width, height, tformat);
+				mvApp::GetApp()->getTextureStorage().addTexture(name, fdata.data(), width, height, tformat);
 
 			else
-				mvTextureStorage::GetTextureStorage()->addDelayedTexture(name, fdata, width, height, tformat);
+				mvApp::GetApp()->getTextureStorage().addDelayedTexture(name, fdata, width, height, tformat);
 			return GetPyNone();
 		}
 
@@ -274,10 +274,10 @@ namespace Marvel {
 			}
 
 			if (mvApp::IsAppStarted())
-				mvTextureStorage::GetTextureStorage()->addTexture(name, fdata.data(), width, height, tformat);
+				mvApp::GetApp()->getTextureStorage().addTexture(name, fdata.data(), width, height, tformat);
 
 			else
-				mvTextureStorage::GetTextureStorage()->addDelayedTexture(name, fdata, width, height, tformat);
+				mvApp::GetApp()->getTextureStorage().addDelayedTexture(name, fdata, width, height, tformat);
 			return GetPyNone();
 		}
 
@@ -286,10 +286,10 @@ namespace Marvel {
 			std::vector<float> mdata = ToFloatVect(data);
 
 			if (mvApp::IsAppStarted())
-				mvTextureStorage::GetTextureStorage()->addTexture(name, mdata.data(), width, height, tformat);
+				mvApp::GetApp()->getTextureStorage().addTexture(name, mdata.data(), width, height, tformat);
 
 			else
-				mvTextureStorage::GetTextureStorage()->addDelayedTexture(name, mdata, width, height, tformat);
+				mvApp::GetApp()->getTextureStorage().addDelayedTexture(name, mdata, width, height, tformat);
 			return GetPyNone();
 		}
 
@@ -307,10 +307,10 @@ namespace Marvel {
 			}
 
 			if (mvApp::IsAppStarted())
-				mvTextureStorage::GetTextureStorage()->addTexture(name, fdata.data(), width, height, tformat);
+				mvApp::GetApp()->getTextureStorage().addTexture(name, fdata.data(), width, height, tformat);
 
 			else
-				mvTextureStorage::GetTextureStorage()->addDelayedTexture(name, fdata, width, height, tformat);
+				mvApp::GetApp()->getTextureStorage().addDelayedTexture(name, fdata, width, height, tformat);
 			return GetPyNone();
 		}
 	}

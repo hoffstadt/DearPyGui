@@ -55,8 +55,8 @@ namespace Marvel {
 				ImPlot::PlotImage(m_name.c_str(), m_texture, m_bounds_min, m_bounds_max, m_uv_min, m_uv_max, m_tintColor.toVec4());
 			else
 			{
-				mvTextureStorage::GetTextureStorage()->addTexture(m_value);
-				mvTexture* texture = mvTextureStorage::GetTextureStorage()->getTexture(m_value);
+				mvApp::GetApp()->getTextureStorage().addTexture(m_value);
+				mvTexture* texture = mvApp::GetApp()->getTextureStorage().getTexture(m_value);
 				m_texture = texture->texture;
 			}
 		}

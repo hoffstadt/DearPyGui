@@ -740,7 +740,7 @@ namespace Marvel {
 		if (!(*mvApp::GetApp()->getParsers())["get_value"].parse(args, kwargs, __FUNCTION__, &name))
 			return GetPyNone();
 
-		return mvValueStorage::GetValueStorage()->GetPyValue(name);
+		return mvApp::GetApp()->getValueStorage().GetPyValue(name);
 	}
 
 	PyObject* set_value(PyObject* self, PyObject* args, PyObject* kwargs)
@@ -760,7 +760,7 @@ namespace Marvel {
 			});
 
 		return GetPyNone();
-		//return ToPyBool(mvValueStorage::GetValueStorage()->SetPyValue(name, value));
+		//return ToPyBool(mvApp::GetApp()->getValueStorage().SetPyValue(name, value));
 	}
 
 	PyObject* add_value(PyObject* self, PyObject* args, PyObject* kwargs)
@@ -771,7 +771,7 @@ namespace Marvel {
 		if (!(*mvApp::GetApp()->getParsers())["add_value"].parse(args, kwargs, __FUNCTION__, &name, &value))
 			return GetPyNone();
 
-		mvValueStorage::GetValueStorage()->AddPyValue(name, value);
+		mvApp::GetApp()->getValueStorage().AddPyValue(name, value);
 		return GetPyNone();
 	}
 
@@ -782,7 +782,7 @@ namespace Marvel {
 		if (!(*mvApp::GetApp()->getParsers())["incref_value"].parse(args, kwargs, __FUNCTION__, &name))
 			return GetPyNone();
 
-		mvValueStorage::GetValueStorage()->IncrementRef(name);
+		mvApp::GetApp()->getValueStorage().IncrementRef(name);
 		return GetPyNone();
 	}
 
@@ -793,7 +793,7 @@ namespace Marvel {
 		if (!(*mvApp::GetApp()->getParsers())["decref_value"].parse(args, kwargs, __FUNCTION__, &name))
 			return GetPyNone();
 
-		mvValueStorage::GetValueStorage()->DecrementRef(name);
+		mvApp::GetApp()->getValueStorage().DecrementRef(name);
 		return GetPyNone();
 	}
 
