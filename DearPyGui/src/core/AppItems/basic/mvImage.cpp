@@ -45,8 +45,8 @@ namespace Marvel {
 
 		if (m_texture == nullptr && !m_value.empty())
 		{
-			mvTextureStorage::GetTextureStorage()->addTexture(m_value);
-			mvTexture* texture = mvTextureStorage::GetTextureStorage()->getTexture(m_value);
+			mvApp::GetApp()->getTextureStorage().addTexture(m_value);
+			mvTexture* texture = mvApp::GetApp()->getTextureStorage().getTexture(m_value);
 			if (texture == nullptr)
 			{
 				PyErr_Format(PyExc_Exception,
@@ -66,7 +66,7 @@ namespace Marvel {
 
 		if (m_dirty)
 		{
-			mvTexture* texture = mvTextureStorage::GetTextureStorage()->getTexture(m_value);
+			mvTexture* texture = mvApp::GetApp()->getTextureStorage().getTexture(m_value);
 			if (m_texture)
 			{
 				m_width = (int)((float)texture->width * (m_uv_max.x - m_uv_min.x));

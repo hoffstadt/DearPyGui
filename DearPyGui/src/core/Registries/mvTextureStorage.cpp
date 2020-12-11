@@ -4,21 +4,15 @@
 
 namespace Marvel {
 
-	mvTextureStorage* mvTextureStorage::s_instance = nullptr;
-
-	mvTextureStorage* mvTextureStorage::GetTextureStorage()
-	{
-		if (s_instance)
-			return s_instance;
-
-		s_instance = new mvTextureStorage();
-		return s_instance;
-	}
-
 	mvTextureStorage::mvTextureStorage()
 	{
 		mvEventBus::Subscribe(this, mvEVT_FRAME);
 		mvEventBus::Subscribe(this, 0, mvEVT_CATEGORY_TEXTURE);
+	}
+
+	mvTextureStorage::~mvTextureStorage()
+	{
+		mvEventBus::UnSubscribe(this);
 	}
 
 	bool mvTextureStorage::onEvent(mvEvent& event)

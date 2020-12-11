@@ -145,6 +145,8 @@ namespace Marvel {
 
 		// create managers
 		m_itemRegistry = mvItemRegistry();
+		m_textureStorage = mvTextureStorage();
+		m_valueStorage = std::make_unique<mvValueStorage>();
 
 	}
 
@@ -175,7 +177,7 @@ namespace Marvel {
 	{
 		m_itemRegistry.clearRegistry();
 
-		mvTextureStorage::GetTextureStorage()->deleteAllTextures();
+		mvApp::GetApp()->getTextureStorage().deleteAllTextures();
 		mvDataStorage::DeleteAllData();
 	}
 

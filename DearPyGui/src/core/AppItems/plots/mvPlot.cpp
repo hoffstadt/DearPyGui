@@ -72,7 +72,7 @@ namespace Marvel {
 
 	void mvPlot::addDragPoint(const std::string& name, bool show_label, const mvColor& color, float radius, PyObject* callback, double* dummyValue, const std::string& source)
 	{
-		float* value = mvValueStorage::GetValueStorage()->AddFloat2Value(source, { (float)dummyValue[0], (float)dummyValue[1] });
+		float* value = mvApp::GetApp()->getValueStorage().AddFloat2Value(source, { (float)dummyValue[0], (float)dummyValue[1] });
 
 		m_dragPoints.push_back({ name, value, show_label, color, radius, callback, value[0], value[1], source});
 	}
@@ -89,8 +89,8 @@ namespace Marvel {
 				item.name = name;
 				if (item.source != source)
 				{
-					mvValueStorage::GetValueStorage()->DecrementRef(source.empty() ? name : source);
-					item.value = mvValueStorage::GetValueStorage()->AddFloat2Value(source.empty() ? name : source, { (float)dummyValue[0], (float)dummyValue[1] });
+					mvApp::GetApp()->getValueStorage().DecrementRef(source.empty() ? name : source);
+					item.value = mvApp::GetApp()->getValueStorage().AddFloat2Value(source.empty() ? name : source, { (float)dummyValue[0], (float)dummyValue[1] });
 				}
 				item.show_label = show_label;
 				item.color = color;
@@ -109,7 +109,7 @@ namespace Marvel {
 
 	void mvPlot::addDragLine(const std::string& name, bool show_label, const mvColor& color, float thickness, bool y_line, PyObject* callback, double dummyValue, const std::string& source)
 	{
-		float* value = mvValueStorage::GetValueStorage()->AddFloatValue(source, (float)dummyValue);
+		float* value = mvApp::GetApp()->getValueStorage().AddFloatValue(source, (float)dummyValue);
 
 		m_dragLines.push_back({ name, value, show_label, color, thickness, y_line, callback, *value, source});
 	}
@@ -127,8 +127,8 @@ namespace Marvel {
 				item.name = name;
 				if (item.source != source)
 				{
-					mvValueStorage::GetValueStorage()->DecrementRef(source.empty() ? name : source);
-					item.value = mvValueStorage::GetValueStorage()->AddFloatValue(source.empty() ? name : source, (float)dummyValue);
+					mvApp::GetApp()->getValueStorage().DecrementRef(source.empty() ? name : source);
+					item.value = mvApp::GetApp()->getValueStorage().AddFloatValue(source.empty() ? name : source, (float)dummyValue);
 				}
 				item.show_label = show_label;
 				item.color = color;
@@ -164,7 +164,7 @@ namespace Marvel {
 			{
 				if (item.name == name)
 				{
-					mvValueStorage::GetValueStorage()->DecrementRef(item.source);
+					mvApp::GetApp()->getValueStorage().DecrementRef(item.source);
 					continue;
 				}
 
@@ -193,7 +193,7 @@ namespace Marvel {
 			{
 				if (item.name == name)
 				{
-					mvValueStorage::GetValueStorage()->DecrementRef(item.source);
+					mvApp::GetApp()->getValueStorage().DecrementRef(item.source);
 					continue;
 				}
 
@@ -439,10 +439,10 @@ namespace Marvel {
 		}
 
 		for (auto& line : m_dragLines)
-			mvValueStorage::GetValueStorage()->DecrementRef(line.source);
+			mvApp::GetApp()->getValueStorage().DecrementRef(line.source);
 
 		for (auto& point : m_dragPoints)
-			mvValueStorage::GetValueStorage()->DecrementRef(point.source);
+			mvApp::GetApp()->getValueStorage().DecrementRef(point.source);
 
 		m_series.clear();
 		m_annotations.clear();

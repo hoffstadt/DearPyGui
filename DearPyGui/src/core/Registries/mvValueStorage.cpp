@@ -1,21 +1,12 @@
 #include "mvValueStorage.h"
+#include <implot.h>
+#include <implot_internal.h>
 #include "mvApp.h"
 #include "mvAppLog.h"
 #include "mvPythonTranslator.h"
 #include "mvGlobalIntepreterLock.h"
 
 namespace Marvel {
-
-	mvValueStorage* mvValueStorage::s_instance = nullptr;
-
-	mvValueStorage* mvValueStorage::GetValueStorage()
-	{
-		if (s_instance)
-			return s_instance;
-
-		s_instance = new mvValueStorage();
-		return s_instance;
-	}
 
 	mvValueStorage::mvValueStorage()
 	{
@@ -67,6 +58,11 @@ namespace Marvel {
 		s_floatvects = { {"common_floatvec", {0.0f, 0.0f}} };
 		s_times = { {"common_time", {}} };
 		s_imtimes = { {"common_imtime", ImPlotTime()} };
+	}
+
+	mvValueStorage::~mvValueStorage()
+	{
+		mvEventBus::UnSubscribe(this);
 	}
 
 	bool mvValueStorage::onEvent(mvEvent& event)

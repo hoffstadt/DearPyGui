@@ -2,6 +2,7 @@
 #include "mvTextureStorage.h"
 #include "mvPythonTranslator.h"
 #include "mvGlobalIntepreterLock.h"
+#include "mvApp.h"
 
 namespace Marvel {
 
@@ -51,8 +52,8 @@ namespace Marvel {
 		if (m_texture == nullptr && !m_file.empty())
 		{
 
-			mvTextureStorage::GetTextureStorage()->addTexture(m_file);
-			mvTexture* texture = mvTextureStorage::GetTextureStorage()->getTexture(m_file);
+			mvApp::GetApp()->getTextureStorage().addTexture(m_file);
+			mvTexture* texture = mvApp::GetApp()->getTextureStorage().getTexture(m_file);
 			if (texture == nullptr)
 			{
 				PyErr_Format(PyExc_Exception,
@@ -92,7 +93,7 @@ namespace Marvel {
 		{
 			if (m_file != ToString(item))
 			{
-				mvTextureStorage::GetTextureStorage()->decrementTexture(m_file);
+				mvApp::GetApp()->getTextureStorage().decrementTexture(m_file);
 				m_texture = nullptr;
 			}
 			m_file = ToString(item);

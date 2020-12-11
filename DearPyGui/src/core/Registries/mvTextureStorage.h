@@ -57,6 +57,9 @@ namespace Marvel {
 
 	public:
 
+		mvTextureStorage();
+		~mvTextureStorage();
+
 		bool onEvent     (mvEvent& event) override;
 		bool onFirstFrame(mvEvent& event);
 		bool onDecrement (mvEvent& event);
@@ -71,13 +74,7 @@ namespace Marvel {
 		unsigned   getTextureCount  ();
 		void       deleteAllTextures();
 
-		static mvTextureStorage* GetTextureStorage();
-
 	private:
-
-		mvTextureStorage();
-
-		static mvTextureStorage* s_instance;
 		
 		std::unordered_map<std::string, mvTexture> m_textures;
 		std::vector<CompileTimeTexture>            m_delayedTextures;

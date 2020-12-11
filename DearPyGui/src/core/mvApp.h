@@ -26,6 +26,8 @@
 #include "mvItemRegistry.h"
 #include "mvDrawList.h"
 #include "mvTextureStorage.h"
+#include "mvValueStorage.h"
+#include <memory>
 
 //-----------------------------------------------------------------------------
 // Typedefs
@@ -85,7 +87,9 @@ namespace Marvel {
         //-----------------------------------------------------------------------------
         // Managers
         //-----------------------------------------------------------------------------
-        mvItemRegistry&          getItemRegistry() { return m_itemRegistry; }
+        mvItemRegistry&          getItemRegistry  () { return m_itemRegistry; }
+        mvTextureStorage&        getTextureStorage() { return m_textureStorage; }
+        mvValueStorage&          getValueStorage() { return *(m_valueStorage.get()); }
         
         //-----------------------------------------------------------------------------
         // App Settings
@@ -158,6 +162,8 @@ namespace Marvel {
 
         // managers
         mvItemRegistry                         m_itemRegistry;
+        mvTextureStorage                       m_textureStorage;
+        std::unique_ptr<mvValueStorage>        m_valueStorage;
 
         // docking
         bool                                   m_docking          = false;

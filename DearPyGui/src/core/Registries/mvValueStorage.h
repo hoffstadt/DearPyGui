@@ -18,11 +18,12 @@
 #include <mutex>
 #include <array>
 #include <vector>
-#include <implot.h>
-#include <implot_internal.h>
 #include "mvEvents.h"
 #define PY_SSIZE_T_CLEAN
 #include <Python.h>
+
+// forward declarations
+struct ImPlotTime;
 
 namespace Marvel {
 
@@ -46,7 +47,8 @@ namespace Marvel {
 
 	public:
 
-		static mvValueStorage* GetValueStorage();
+		mvValueStorage();
+		~mvValueStorage();
 
 		bool onEvent(mvEvent& event) override;
 		bool onPythonSetEvent(mvEvent& event);
@@ -96,11 +98,7 @@ namespace Marvel {
 
 	private:
 
-		mvValueStorage();
-
-		static mvValueStorage* s_instance;
-
-		std::mutex                                     s_mutex;
+		std::mutex                                            s_mutex;
 
 		std::unordered_map<std::string, ValueTypes>           s_typeStorage;  // keeps track of value mapping
 		std::unordered_map<std::string, int>                  s_refStorage;   // keeps track of reference count
