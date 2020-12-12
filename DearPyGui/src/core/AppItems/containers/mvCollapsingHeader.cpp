@@ -2,6 +2,7 @@
 #include "mvInput.h"
 #include "mvPythonTranslator.h"
 #include "mvGlobalIntepreterLock.h"
+#include "mvValueStorage.h"
 
 namespace Marvel {
 
@@ -18,9 +19,9 @@ namespace Marvel {
 
 		bool* toggle = nullptr;
 		if (m_closable)
-			toggle = m_value;
-
-		if (ImGui::CollapsingHeader(m_label.c_str(), toggle, m_flags))
+			toggle = &m_show;
+		*m_value = ImGui::CollapsingHeader(m_label.c_str(), toggle, m_flags);
+		if (*m_value)
 		{
 
 			// Regular Tooltip (simple)
@@ -53,7 +54,6 @@ namespace Marvel {
 			if (!m_tip.empty() && ImGui::IsItemHovered())
 				ImGui::SetTooltip("%s", m_tip.c_str());
 		}
-
 	}
 
 	void mvCollapsingHeader::setExtraConfigDict(PyObject* dict)
