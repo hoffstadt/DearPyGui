@@ -122,6 +122,13 @@ namespace Marvel {
 			{"mvPlotColormap_Jet"    ,  10}, // a.k.a. MATLAB "jet"             (n=11)
 
 			//-----------------------------------------------------------------------------
+			// NEW Theme Color IDs
+			//-----------------------------------------------------------------------------
+			{ "mvThemeCol_Button"               , 121 },
+			{ "mvThemeCol_ButtonHovered"        , 122 },
+			{ "mvThemeCol_ButtonActive"         , 123 },
+
+			//-----------------------------------------------------------------------------
 			// Theme Color IDs
 			//-----------------------------------------------------------------------------
 			{"mvGuiCol_Text"                 , 0},
@@ -693,6 +700,7 @@ namespace Marvel {
 		ADD_PYTHON_FUNCTION(set_resize_callback)
 
 		// Theme commands
+		ADD_PYTHON_FUNCTION(set_global_color)
 		ADD_PYTHON_FUNCTION(add_additional_font)
 		ADD_PYTHON_FUNCTION(set_item_color)
 		ADD_PYTHON_FUNCTION(clear_item_color)

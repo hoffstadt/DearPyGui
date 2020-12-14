@@ -14,6 +14,11 @@ namespace Marvel {
 			{mvPythonDataType::Object, "custom_glyph_ranges", "list of ranges", "List[List[int]]"},
 		}, "Adds additional font.", "None", "Themes and Styles") });
 
+		parsers->insert({ "set_global_color", mvPythonParser({
+			{mvPythonDataType::Integer, "id", "mvGuiCol_* constants"},
+			{mvPythonDataType::FloatList, "color"}
+		}, "Sets an color of a theme item.", "None", "Themes and Styles") });
+
 		parsers->insert({ "set_theme", mvPythonParser({
 			{mvPythonDataType::String, "theme"}
 		}, "Set the application's theme to a built-in theme.", "None", "Themes and Styles") });
@@ -278,6 +283,28 @@ namespace Marvel {
 
 		parsers->insert({ "get_style_circle_segment_max_error", mvPythonParser({
 		}, "Gets maximum error (in pixels) allowed when using draw_circle()or drawing rounded corner rectangles with no explicit segment count specified.", "float", "Themes and Styles") });
+	}
+
+	PyObject* set_global_color(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		int id;
+		PyObject* color;
+
+		if (!(*mvApp::GetApp()->getParsers())["set_global_color"].parse(args, kwargs, __FUNCTION__, &id, &color))
+			return GetPyNone();
+
+
+		mvEventBus::Publish
+		(
+			mvEVT_CATEGORY_THEME,
+			SID(std::to_string(id / 100).c_str()),
+			{
+				CreateEventArgument("ID", id),
+				CreateEventArgument("COLOR", ToColor(color))
+			}
+		);
+
+		return GetPyNone();
 	}
 
 	PyObject* set_global_font_scale(PyObject* self, PyObject* args, PyObject* kwargs)
