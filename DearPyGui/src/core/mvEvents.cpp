@@ -23,6 +23,11 @@ namespace Marvel {
 		return std::get<float>(event.arguments.at(SID(name)));
 	}
 
+	mvColor GetEColor(mvEvent& event, const char* name)
+	{
+		return std::get<mvColor>(event.arguments.at(SID(name)));
+	}
+
 	bool mvEventBus::OnEvent(mvEvent& event)
 	{
 		mvEventDispatcher dispatcher(event);

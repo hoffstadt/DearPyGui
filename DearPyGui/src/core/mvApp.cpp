@@ -20,6 +20,7 @@
 #include <implot.h>
 #include "mvThreadPoolManager.h"
 #include "mvEventListener.h"
+#include "mvTheme.h"
 
 namespace Marvel {
 
@@ -147,6 +148,7 @@ namespace Marvel {
 		m_itemRegistry = mvItemRegistry();
 		m_textureStorage = mvTextureStorage();
 		m_valueStorage = std::make_unique<mvValueStorage>();
+		m_themeManager = std::make_unique<mvTheme>();
 
 	}
 

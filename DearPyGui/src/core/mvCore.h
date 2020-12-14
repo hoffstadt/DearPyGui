@@ -58,6 +58,8 @@ namespace Marvel {
 		int r=0, g=0, b=0, a=255;
 		bool specified = true;
 
+		mvColor() = default;
+
 		mvColor(int r, int g, int b, int a, bool specified = true)
 			: r(r), g(g), b(b), a(a), specified(specified)
 		{

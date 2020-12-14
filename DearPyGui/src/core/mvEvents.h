@@ -6,6 +6,7 @@
 #include <unordered_map>
 #include <functional>
 #include <variant>
+#include "mvCore.h"
 #include "mvCompileTimeCRC32.h"
 #include "mvEventMacros.h"
 
@@ -23,6 +24,7 @@ namespace Marvel {
 		std::string, 
 		bool, 
 		float, 
+		mvColor,
 		void*
 	>; // more types can be added
 	
@@ -40,6 +42,7 @@ namespace Marvel {
 	bool               GetEBool  (mvEvent& event, const char* name);
 	int                GetEInt   (mvEvent& event, const char* name);
 	float              GetEFloat (mvEvent& event, const char* name);
+	mvColor            GetEColor (mvEvent& event, const char* name);
 
 	//-----------------------------------------------------------------------------
 	// mvEvent

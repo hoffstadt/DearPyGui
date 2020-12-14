@@ -42,6 +42,7 @@ namespace Marvel {
     class mvWindowAppItem;
     class mvTextEditor;
     class mvWindow;
+    class mvTheme;
     struct mvColor;
     
     //-----------------------------------------------------------------------------
@@ -164,6 +165,7 @@ namespace Marvel {
         mvItemRegistry                         m_itemRegistry;
         mvTextureStorage                       m_textureStorage;
         std::unique_ptr<mvValueStorage>        m_valueStorage;
+        std::unique_ptr<mvTheme>               m_themeManager;
 
         // docking
         bool                                   m_docking          = false;
