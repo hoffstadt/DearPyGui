@@ -21,7 +21,6 @@ namespace Marvel {
 
 		bool onEvent(mvEvent& event) override;
 		bool add_color(mvEvent& event);
-		bool add_individual_color(mvEvent& event);
 
 	private:
 
