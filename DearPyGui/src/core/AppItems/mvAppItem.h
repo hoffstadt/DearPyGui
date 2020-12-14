@@ -18,6 +18,7 @@
 #include "mvAppItemDescription.h"
 #include "mvAppItemStyleManager.h"
 #include "mvCallbackRegistry.h"
+#include "mvAppItemTheme.h"
 
 //-----------------------------------------------------------------------------
 // Helper Macro
@@ -125,6 +126,7 @@ namespace Marvel {
         const mvAppItemDescription&         getDescription () const { return m_description; }
         mvAppItemState&                     getState       () { return m_state; } 
         mvAppItemStyleManager&              getStyleManager() { return m_styleManager; }
+        mvAppItemTheme&                     getIndividualTheme() { return m_individualTheme; }
 
     protected:
 
@@ -149,6 +151,8 @@ namespace Marvel {
         void                                registerWindowFocusing(); // only useful for imgui window types
         mvAppItem*                          stealChild(const std::string& name); // steals a child (used for moving)
 
+       
+
 
 
     protected:
@@ -172,6 +176,7 @@ namespace Marvel {
         PyObject*               m_callback     = nullptr;
         PyObject*               m_callbackData = nullptr;
         
+        mvAppItemTheme          m_individualTheme;
     };
 
 }

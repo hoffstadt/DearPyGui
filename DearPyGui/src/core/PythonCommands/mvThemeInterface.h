@@ -7,6 +7,7 @@ namespace Marvel {
 
 	// global
 	PyObject* set_global_color                      (PyObject* self, PyObject* args, PyObject* kwargs);
+	PyObject* set_individual_color                  (PyObject* self, PyObject* args, PyObject* kwargs);
 	PyObject* get_theme_item                        (PyObject* self, PyObject* args, PyObject* kwargs);
 	PyObject* get_theme                             (PyObject* self, PyObject* args, PyObject* kwargs);
 	PyObject* set_theme_item                        (PyObject* self, PyObject* args, PyObject* kwargs);
