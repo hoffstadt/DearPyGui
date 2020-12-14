@@ -11,8 +11,9 @@ namespace Marvel {
 	public:
 
 		mvAppItemTheme() = default;
+		~mvAppItemTheme();
 
-		mvAppItemTheme(int itemCode);
+		mvAppItemTheme(int code);
 
 		std::unordered_map<int, mvColor>& getColors();
 
@@ -20,6 +21,7 @@ namespace Marvel {
 
 		bool onEvent(mvEvent& event) override;
 		bool add_color(mvEvent& event);
+		bool add_individual_color(mvEvent& event);
 
 	private:
 

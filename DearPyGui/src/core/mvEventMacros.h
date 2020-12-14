@@ -8,7 +8,7 @@
 #define mvEVT_CATEGORY_INPUT    SID("INPUT_EVENTS")
 #define mvEVT_CATEGORY_VIEWPORT SID("VIEWPORT_EVENTS")
 #define mvEVT_CATEGORY_VALUES   SID("VALUE_EVENTS")
-#define mvEVT_CATEGORY_THEME    SID("VALUE_EVENTS")
+#define mvEVT_CATEGORY_THEMES   SID("THEME_EVENTS")
 
 // mvEVT_CATEGORY_APP Events
 //-----------------------------------------------------------------------------
