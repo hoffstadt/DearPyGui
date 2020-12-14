@@ -1,6 +1,4 @@
 #include "mvValueStorage.h"
-#include <implot.h>
-#include <implot_internal.h>
 #include "mvApp.h"
 #include "mvAppLog.h"
 #include "mvPythonTranslator.h"

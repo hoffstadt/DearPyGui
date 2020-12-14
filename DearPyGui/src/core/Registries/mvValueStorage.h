@@ -19,6 +19,8 @@
 #include <array>
 #include <vector>
 #include "mvEvents.h"
+#include "implot.h"
+#include "implot_internal.h"
 #define PY_SSIZE_T_CLEAN
 #include <Python.h>
 
