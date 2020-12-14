@@ -304,7 +304,7 @@ namespace Marvel {
 		mvEventBus::Publish
 		(
 			mvEVT_CATEGORY_THEMES,
-			SID(std::to_string(id / 100).c_str()),
+			SID(std::string(std::to_string(id / 100) + "_color").c_str()),
 			{
 				CreateEventArgument("WIDGET", std::string(item)),
 				CreateEventArgument("ID", id),
@@ -327,8 +327,9 @@ namespace Marvel {
 		mvEventBus::Publish
 		(
 			mvEVT_CATEGORY_THEMES,
-			SID(std::string(std::to_string(id / 100) + "_global_color").c_str()),
+			SID(std::string(std::to_string(id / 100) + "_color").c_str()),
 			{
+				CreateEventArgument("WIDGET", std::string("")),
 				CreateEventArgument("ID", id),
 				CreateEventArgument("COLOR", ToColor(color))
 			}

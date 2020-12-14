@@ -7,8 +7,7 @@ namespace Marvel {
 		:
 		m_itemCode(code)
 	{
-		mvEventBus::Subscribe(this, SID(std::string(std::to_string(code / 100) + "_global_color").c_str()));
-		mvEventBus::Subscribe(this, SID(std::to_string(code / 100) .c_str()));
+		mvEventBus::Subscribe(this, SID(std::string(std::to_string(code / 100) + "_color").c_str()));
 	};
 
 	mvAppItemTheme::~mvAppItemTheme()
@@ -25,19 +24,11 @@ namespace Marvel {
 	bool mvAppItemTheme::onEvent(mvEvent& event) 
 	{
 		mvEventDispatcher dispatcher(event);
-		dispatcher.dispatch(BIND_EVENT_METH(mvAppItemTheme::add_color), 0, SID(std::string(std::to_string(m_itemCode / 100) + "_global_color").c_str()));
-		dispatcher.dispatch(BIND_EVENT_METH(mvAppItemTheme::add_individual_color), 0, SID(std::to_string(m_itemCode).c_str()));
+		dispatcher.dispatch(BIND_EVENT_METH(mvAppItemTheme::add_color), 0, SID(std::string(std::to_string(m_itemCode / 100) + "_color").c_str()));
 		return event.handled;
 	};
 
-
 	bool mvAppItemTheme::add_color(mvEvent& event)
-	{
-		m_colors[GetEInt(event, "ID") % 100] = GetEColor(event, "COLOR");
-		return false;
-	}
-
-	bool mvAppItemTheme::add_individual_color(mvEvent& event)
 	{
 		m_colors[GetEInt(event, "ID") % 100] = GetEColor(event, "COLOR");
 
@@ -45,12 +36,22 @@ namespace Marvel {
 		mvColor color = GetEColor(event, "COLOR");
 		std::string widget = GetEString(event, "WIDGET");
 
+		if (widget.empty())
+		{
+			m_colors[GetEInt(event, "ID") % 100] = GetEColor(event, "COLOR");
+			return true;
+		}
+
+
 		mvAppItem* item = mvApp::GetApp()->getItemRegistry().getItem(widget);
 
 		if (item)
 		{
 			if (item->getType() == (mvAppItemType)m_itemCode)
+			{
 				item->getIndividualTheme().getColors()[id] = color;
+				return true;
+			}
 		}
 
 		return false;
