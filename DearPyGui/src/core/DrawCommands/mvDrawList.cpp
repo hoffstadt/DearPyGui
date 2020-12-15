@@ -10,22 +10,16 @@ namespace Marvel {
 
 	void mvDrawList::draw(ImDrawList* drawlist, float x, float y)
 	{
-		for (auto command : m_commands)
+		for (auto& command : m_commands)
 			command->draw(drawlist, x, y);
 	}
 
 	void mvDrawList::clear()
 	{
-		for (mvDrawCmd* item : m_commands)
-		{
-			delete item;
-			item = nullptr;
-		}
-
 		m_commands.clear();
 	}
 
-	void mvDrawList::addCommand(mvDrawCmd* command)
+	void mvDrawList::addCommand(mvRef<mvDrawCmd> command)
 	{
 		m_commands.push_back(command);
 	}
@@ -105,7 +99,6 @@ namespace Marvel {
 			if (m_commands[index]->tag == tag)
 			{
 				tagFound = true;
-				delete m_commands[index];
 				m_commands[index] = nullptr;
 				break;
 			}
@@ -114,7 +107,7 @@ namespace Marvel {
 		if (!tagFound)
 			return;
 
-		std::vector<mvDrawCmd*> oldCommands = m_commands;
+		std::vector<mvRef<mvDrawCmd>> oldCommands = std::move(m_commands);
 		m_commands.clear();
 
 		for (size_t i = 0; i < oldCommands.size(); i++)
@@ -131,10 +124,10 @@ namespace Marvel {
 		if (tag.empty())
 			return nullptr;
 
-		for (mvDrawCmd* cmd : m_commands)
+		for (auto& cmd : m_commands)
 		{
 			if (cmd->tag == tag)
-				return cmd;
+				return cmd.get();
 		}
 
 		return nullptr;
