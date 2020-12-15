@@ -1002,12 +1002,20 @@ def set_exit_callback(callback: Any) -> None:
 	"""Callback to run when exiting main window."""
 	...
 
+def set_global_color(id: int, color: List[float]) -> None:
+	"""Sets an color of a theme item."""
+	...
+
 def set_global_font_scale(scale: float) -> None:
 	"""Changes the global font scale."""
 	...
 
 def set_headers(table: str, headers: List[str]) -> None:
 	"""Sets a tables headers."""
+	...
+
+def set_individual_color(item: str, id: int, color: List[float]) -> None:
+	"""Sets an color of a theme item."""
 	...
 
 def set_item_callback(item: str, callback: Callable, *, callback_data: Any = None) -> None:

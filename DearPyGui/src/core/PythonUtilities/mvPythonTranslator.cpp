@@ -394,6 +394,21 @@ namespace Marvel {
 			}
 		}
 
+		else if (PyObject_CheckBuffer(value))
+		{
+			Py_buffer buffer_info;
+
+			if (!PyObject_GetBuffer(value, &buffer_info,
+				PyBUF_CONTIG_RO | PyBUF_FORMAT))
+			{
+
+				for (Py_ssize_t i = 0; i < buffer_info.len / buffer_info.itemsize; i++)
+					items.emplace_back(*((int*)buffer_info.buf + i));
+
+				PyBuffer_Release(&buffer_info);
+			}
+		}
+
 		else
 			ThrowPythonException(message);
 
@@ -426,6 +441,21 @@ namespace Marvel {
 				PyObject* item = PyList_GetItem(value, i);
 				if (PyNumber_Check(item))
 					items.emplace_back(PyFloat_AsDouble(item));
+			}
+		}
+
+		else if (PyObject_CheckBuffer(value))
+		{
+			Py_buffer buffer_info;
+
+			if (!PyObject_GetBuffer(value, &buffer_info,
+				PyBUF_CONTIG_RO | PyBUF_FORMAT)) 
+			{
+
+				for (Py_ssize_t i = 0; i < buffer_info.len/buffer_info.itemsize; i++)
+					items.emplace_back(*((double*)buffer_info.buf + i));
+
+				PyBuffer_Release(&buffer_info);
 			}
 		}
 
