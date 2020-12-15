@@ -234,7 +234,7 @@ namespace Marvel {
 
 		mvManagedColumns* columns;
 		if (item->getType() == mvAppItemType::ManagedColumns)
-			columns = static_cast<mvManagedColumns*>(item);
+			columns = static_cast<mvManagedColumns*>(item.get());
 		else
 		{
 			ThrowPythonException(std::string(managed_columns) + " is not a managed columns.");
@@ -267,7 +267,7 @@ namespace Marvel {
 		mvManagedColumns* columns;
 		if (item->getType() == mvAppItemType::ManagedColumns)
 		{
-			columns = static_cast<mvManagedColumns*>(item);
+			columns = static_cast<mvManagedColumns*>(item.get());
 			columns->setColumnWidth(column, width);
 		}
 		else
@@ -806,8 +806,7 @@ namespace Marvel {
 		if (!(*mvApp::GetApp()->getParsers())["set_item_callback"].parse(args, kwargs, __FUNCTION__, &item, &callback, &callback_data))
 			return GetPyNone();
 
-		mvAppItem* appitem;
-		appitem = mvApp::GetApp()->getItemRegistry().getItem(item);
+		auto appitem = mvApp::GetApp()->getItemRegistry().getItem(item);
 
 		if (appitem)
 		{
@@ -833,7 +832,7 @@ namespace Marvel {
 		if (!(*mvApp::GetApp()->getParsers())["get_item_type"].parse(args, kwargs, __FUNCTION__, &name))
 			return GetPyNone();
 
-		mvAppItem* item = mvApp::GetApp()->getItemRegistry().getItem(std::string(name));
+		auto item = mvApp::GetApp()->getItemRegistry().getItem(std::string(name));
 
 		if (item == nullptr)
 			return GetPyNone();

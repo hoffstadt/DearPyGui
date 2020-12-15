@@ -68,8 +68,8 @@ namespace Marvel {
 					ImGui::PopID();
 				}			
 
-				for (mvAppItem* child : item->m_children)
-					renderItem(child);
+				for (auto child : item->m_children)
+					renderItem(child.get());
 
 				ImGui::TreePop();
 			}
@@ -277,9 +277,9 @@ namespace Marvel {
 
 				ImGui::BeginChild("TreeChild", ImVec2(-1.0f, -1.0f), true);
 				for (auto window : mvApp::GetApp()->getItemRegistry().getFrontWindows())
-					renderItem(window);
+					renderItem(window.get());
 				for (auto window : mvApp::GetApp()->getItemRegistry().getBackWindows())
-					renderItem(window);
+					renderItem(window.get());
 				ImGui::EndChild();
 
 				ImGui::EndTabItem();

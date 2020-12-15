@@ -21,11 +21,11 @@ namespace Marvel {
 		{
 
 			// set other menuitems's value false on same level
-			for (mvAppItem* sibling : m_parent->m_children)
+			for (auto sibling : m_parent->m_children)
 			{
 				// ensure sibling
 				if (sibling->getType() == mvAppItemType::MenuItem)
-					*((mvMenuItem*)sibling)->m_value = false;
+					*((mvMenuItem*)sibling.get())->m_value = false;
 			}
 
 			*m_value = true;

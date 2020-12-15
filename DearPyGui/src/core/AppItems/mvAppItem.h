@@ -138,42 +138,42 @@ namespace Marvel {
 
     private:
 
-        mvAppItem*                          getChild(const std::string& name);      // will return nullptr if not found
+        mvRef<mvAppItem>                    getChild(const std::string& name);      // will return nullptr if not found
 
         // runtime modifications
-        bool                                addRuntimeChild(const std::string& parent, const std::string& before, mvAppItem* item);
-        bool                                addChildAfter(const std::string& prev, mvAppItem* item);
+        bool                                addRuntimeChild(const std::string& parent, const std::string& before, mvRef<mvAppItem> item);
+        bool                                addChildAfter(const std::string& prev, mvRef<mvAppItem> item);
         bool                                deleteChild(const std::string& name);
         void                                deleteChildren();
         bool                                moveChildUp(const std::string& name);
         bool                                moveChildDown(const std::string& name);
         void                                resetState();
         void                                registerWindowFocusing(); // only useful for imgui window types
-        mvAppItem*                          stealChild(const std::string& name); // steals a child (used for moving)
+        mvRef<mvAppItem>                    stealChild(const std::string& name); // steals a child (used for moving)
 
        
     protected:
 
-        mvAppItemState          m_state;
-        mvAppItemStyleManager   m_styleManager;
-        mvAppItemDescription    m_description;
+        mvAppItemState                m_state;
+        mvAppItemStyleManager         m_styleManager;
+        mvAppItemDescription          m_description;
 
-        mvAppItem*              m_parent = nullptr;
-        std::vector<mvAppItem*> m_children;
+        mvAppItem*                    m_parent = nullptr;
+        std::vector<mvRef<mvAppItem>> m_children;
 
-        std::string             m_dataSource;
-        std::string             m_name;
-        std::string             m_label;
-        std::string             m_popup;
-        std::string             m_tip;
-        int                     m_width = 0;
-        int                     m_height = 0;
-        bool                    m_show = true; // determines whether to attempt rendering
-        bool                    m_enabled = true;
-        PyObject*               m_callback     = nullptr;
-        PyObject*               m_callbackData = nullptr;
-        
-        mvAppItemTheme          m_individualTheme;
+        std::string                   m_dataSource;
+        std::string                   m_name;
+        std::string                   m_label;
+        std::string                   m_popup;
+        std::string                   m_tip;
+        int                           m_width = 0;
+        int                           m_height = 0;
+        bool                          m_show = true; // determines whether to attempt rendering
+        bool                          m_enabled = true;
+        PyObject*                     m_callback     = nullptr;
+        PyObject*                     m_callbackData = nullptr;
+                                      
+        mvAppItemTheme                m_individualTheme;
     };
 
 }

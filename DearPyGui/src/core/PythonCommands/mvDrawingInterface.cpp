@@ -206,9 +206,9 @@ namespace Marvel {
 			return nullptr;
 
 		if (item->getType() == mvAppItemType::Drawing)
-			return &static_cast<mvDrawing*>(item)->getDrawList();
+			return &static_cast<mvDrawing*>(item.get())->getDrawList();
 		if(item->getType() == mvAppItemType::Window)
-			return &static_cast<mvWindowAppItem*>(item)->getDrawList();
+			return &static_cast<mvWindowAppItem*>(item.get())->getDrawList();
 
 		ThrowPythonException(std::string(name) + " draw target does not exist or is not a valid target.");
 		return nullptr;
@@ -233,7 +233,7 @@ namespace Marvel {
 			&name, &tip, &parent, &before, &width, &height, &popup, &show, &originx, &originy, &scalex, &scaley))
 			return ToPyBool(false);
 
-		mvAppItem* item = new mvDrawing(name);
+		auto item = CreateRef<mvDrawing>(name);
 
 		item->checkConfigDict(kwargs);
 		item->setConfigDict(kwargs);

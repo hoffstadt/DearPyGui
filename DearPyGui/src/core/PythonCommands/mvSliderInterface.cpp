@@ -213,7 +213,7 @@ namespace Marvel {
 			&source, &enabled, &width, &height, &no_input, &clamped, &label, &popup, &show))
 			return ToPyBool(false);
 
-		mvAppItem* item = new mvSliderFloat(name, default_value, source);
+		auto item = CreateRef<mvSliderFloat>(name, default_value, source);
 		if (callback)
 			Py_XINCREF(callback);
 		item->setCallback(callback);
@@ -260,7 +260,7 @@ namespace Marvel {
 
 		auto vec = ToFloatVect(default_value);
 
-		mvAppItem* item = new mvSliderFloat2(name, vec.data(), source);
+		auto item = CreateRef<mvSliderFloat2>(name, vec.data(), source);
 		if (callback)
 			Py_XINCREF(callback);
 		item->setCallback(callback);
@@ -307,7 +307,7 @@ namespace Marvel {
 
 		auto vec = ToFloatVect(default_value);
 
-		mvAppItem* item = new mvSliderFloat3(name, vec.data(), source);
+		auto item = CreateRef<mvSliderFloat3>(name, vec.data(), source);
 		if (callback)
 			Py_XINCREF(callback);
 		item->setCallback(callback);
@@ -354,7 +354,7 @@ namespace Marvel {
 			return ToPyBool(false);
 
 		auto vec = ToFloatVect(default_value);
-		mvAppItem* item = new mvSliderFloat4(name, vec.data(), source);
+		auto item = CreateRef<mvSliderFloat4>(name, vec.data(), source);
 		if (callback)
 			Py_XINCREF(callback);
 		item->setCallback(callback);
@@ -398,7 +398,7 @@ namespace Marvel {
 			&width, &height, &no_input, &clamped, &label, &popup, &show))
 			return ToPyBool(false);
 
-		mvAppItem* item = new mvSliderInt(name, default_value, source);
+		auto item = CreateRef<mvSliderInt>(name, default_value, source);
 		if (callback)
 			Py_XINCREF(callback);
 		item->setCallback(callback);
@@ -443,7 +443,7 @@ namespace Marvel {
 			return ToPyBool(false);
 
 		auto vec = ToIntVect(default_value);
-		mvAppItem* item = new mvSliderInt2(name, vec.data(), source);
+		auto item = CreateRef<mvSliderInt2>(name, vec.data(), source);
 		if (callback)
 			Py_XINCREF(callback);
 		item->setCallback(callback);
@@ -489,7 +489,7 @@ namespace Marvel {
 			return ToPyBool(false);
 
 		auto vec = ToIntVect(default_value);
-		mvAppItem* item = new mvSliderInt3(name, vec.data(), source);
+		auto item = CreateRef<mvSliderInt3>(name, vec.data(), source);
 		if (callback)
 			Py_XINCREF(callback);
 		item->setCallback(callback);
@@ -536,7 +536,7 @@ namespace Marvel {
 			return ToPyBool(false);
 
 		auto vec = ToIntVect(default_value);
-		mvAppItem* item = new mvSliderInt4(name, vec.data(), source);
+		auto item = CreateRef<mvSliderInt4>(name, vec.data(), source);
 		if (callback)
 			Py_XINCREF(callback);
 		item->setCallback(callback);

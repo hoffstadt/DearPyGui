@@ -363,11 +363,11 @@ namespace Marvel {
 
 		else if (parentItem->getType() == mvAppItemType::Window)
 		{
-			auto window = static_cast<mvWindowAppItem*>(parentItem);
+			auto window = static_cast<mvWindowAppItem*>(parentItem.get());
 			window->addFlag(ImGuiWindowFlags_MenuBar);
 			window->addMenuBar();
 
-			mvAppItem* item = new mvMenuBar(name);
+			auto item = CreateRef<mvMenuBar>(name);
 
 			item->checkConfigDict(kwargs);
 			item->setConfigDict(kwargs);
@@ -382,10 +382,10 @@ namespace Marvel {
 
 		else if (parentItem->getType() == mvAppItemType::Child)
 		{
-			auto child = static_cast<mvChild*>(parentItem);
+			auto child = static_cast<mvChild*>(parentItem.get());
 			child->addFlag(ImGuiWindowFlags_MenuBar);
 
-			mvAppItem* item = new mvMenuBar(name);
+			auto item = CreateRef<mvMenuBar>(name);
 
 			item->checkConfigDict(kwargs);
 			item->setConfigDict(kwargs);
@@ -414,7 +414,7 @@ namespace Marvel {
 			&label, &show, &parent, &before, &enabled))
 			return ToPyBool(false);
 
-		mvAppItem* item = new mvMenu(name);
+		auto item = CreateRef<mvMenu>(name);
 
 		item->checkConfigDict(kwargs);
 		item->setConfigDict(kwargs);
@@ -445,7 +445,7 @@ namespace Marvel {
 			&shortcut, &check, &callback, &callback_data, &label, &show, &enabled, &parent, &before))
 			return ToPyBool(false);
 
-		mvAppItem* item = new mvMenuItem(name);
+		auto item = CreateRef<mvMenuItem>(name);
 		if (callback)
 			Py_XINCREF(callback);
 		item->setCallback(callback);
@@ -473,7 +473,7 @@ namespace Marvel {
 			&callback, &callback_data, &show, &parent, &before))
 			return ToPyBool(false);
 
-		mvAppItem* item = new mvTabBar(name);
+		auto item = CreateRef<mvTabBar>(name);
 
 		if (callback)
 			Py_XINCREF(callback);
@@ -527,7 +527,7 @@ namespace Marvel {
 
 			else if (parentItem->getType() == mvAppItemType::TabBar)
 			{
-				mvAppItem* item = new mvTab(name);
+				auto item = CreateRef<mvTab>(name);
 				item->checkConfigDict(kwargs);
 				item->setConfigDict(kwargs);
 				item->setExtraConfigDict(kwargs);
@@ -554,7 +554,7 @@ namespace Marvel {
 
 			else if (parentItem->getType() == mvAppItemType::TabBar)
 			{
-				mvAppItem* item = new mvTab(name);
+				auto item = CreateRef<mvTab>(name);
 				item->checkConfigDict(kwargs);
 				item->setConfigDict(kwargs);
 				item->setExtraConfigDict(kwargs);
@@ -607,7 +607,7 @@ namespace Marvel {
 
 			else if (parentItem->getType() == mvAppItemType::TabBar)
 			{
-				mvAppItem* item = new mvTabButton(name);
+				auto item = CreateRef<mvTabButton>(name);
 				if (callback)
 					Py_XINCREF(callback);
 				item->setCallback(callback);
@@ -639,7 +639,7 @@ namespace Marvel {
 
 			else if (parentItem->getType() == mvAppItemType::TabBar)
 			{
-				mvAppItem* item = new mvTabButton(name);
+				auto item = CreateRef<mvTabButton>(name);
 				if (callback)
 					Py_XINCREF(callback);
 				item->setCallback(callback);
@@ -679,7 +679,7 @@ namespace Marvel {
 			&show, &tip, &parent, &before, &width, &horizontal, &horizontal_spacing, &popup))
 			return ToPyBool(false);
 
-		mvAppItem* item = new mvGroup(name);
+		auto item = CreateRef<mvGroup>(name);
 
 		item->checkConfigDict(kwargs);
 		item->setConfigDict(kwargs);
@@ -718,7 +718,7 @@ namespace Marvel {
 			&autosize_y, &no_scrollbar, &horizontal_scrollbar, &menubar))
 			return ToPyBool(false);
 
-		mvAppItem* item = new mvChild(name);
+		auto item = CreateRef<mvChild>(name);
 		item->checkConfigDict(kwargs);
 		item->setConfigDict(kwargs);
 		item->setExtraConfigDict(kwargs);
@@ -745,7 +745,7 @@ namespace Marvel {
 			&name, &columns, &border, &show, &parent, &before))
 			return ToPyBool(false);
 
-		mvAppItem* item = new mvManagedColumns(name, columns);
+		auto item = CreateRef<mvManagedColumns>(name, columns);
 		item->checkConfigDict(kwargs);
 		item->setConfigDict(kwargs);
 		item->setExtraConfigDict(kwargs);
@@ -772,7 +772,7 @@ namespace Marvel {
 			&name, &columns, &border, &show, &parent, &before))
 			return ToPyBool(false);
 
-		mvAppItem* item = new mvColumn(name, columns);
+		auto item = CreateRef<mvColumn>(name, columns);
 		item->checkConfigDict(kwargs);
 		item->setConfigDict(kwargs);
 		item->setExtraConfigDict(kwargs);
@@ -795,7 +795,7 @@ namespace Marvel {
 			&name, &show, &parent, &before))
 			return ToPyBool(false);
 
-		mvAppItem* item = new mvNextColumn(name);
+		auto item = CreateRef<mvNextColumn>(name);
 		item->checkConfigDict(kwargs);
 		item->setConfigDict(kwargs);
 		item->setExtraConfigDict(kwargs);
@@ -840,7 +840,7 @@ namespace Marvel {
 		if (closing_callback)
 			Py_XINCREF(closing_callback);
 
-		mvAppItem* item = new mvWindowAppItem(name, false, closing_callback);
+		auto item = CreateRef<mvWindowAppItem>(name, false, closing_callback);
 
 		item->checkConfigDict(kwargs);
 		item->setConfigDict(kwargs);
@@ -887,7 +887,7 @@ namespace Marvel {
 			&noclose, &no_background, &label, &show))
 			return ToPyBool(false);
 
-		mvAppItem* item = new mvAboutWindow(name);
+		auto item = CreateRef<mvAboutWindow>(name);
 
 		item->checkConfigDict(kwargs);
 		item->setConfigDict(kwargs);
@@ -934,7 +934,7 @@ namespace Marvel {
 			&noclose, &no_background, &label, &show))
 			return ToPyBool(false);
 
-		mvAppItem* item = new mvDocWindow(name);
+		auto item = CreateRef<mvDocWindow>(name);
 
 		item->checkConfigDict(kwargs);
 		item->setConfigDict(kwargs);
@@ -981,7 +981,7 @@ namespace Marvel {
 			&noclose, &no_background, &label, &show))
 			return ToPyBool(false);
 
-		mvAppItem* item = new mvDebugWindow(name);
+		auto item = CreateRef<mvDebugWindow>(name);
 
 		item->checkConfigDict(kwargs);
 		item->setConfigDict(kwargs);
@@ -1028,7 +1028,7 @@ namespace Marvel {
 			&noclose, &no_background, &label, &show))
 			return ToPyBool(false);
 
-		mvAppItem* item = new mvStyleWindow(name);
+		auto item = CreateRef<mvStyleWindow>(name);
 
 		item->checkConfigDict(kwargs);
 		item->setConfigDict(kwargs);
@@ -1075,7 +1075,7 @@ namespace Marvel {
 			&noclose, &no_background, &label, &show))
 			return ToPyBool(false);
 
-		mvAppItem* item = new mvMetricsWindow(name);
+		auto item = CreateRef<mvMetricsWindow>(name);
 
 		item->checkConfigDict(kwargs);
 		item->setConfigDict(kwargs);
@@ -1106,7 +1106,7 @@ namespace Marvel {
 			&name, &parent, &before, &show))
 			return ToPyBool(false);
 
-		mvAppItem* item = new mvTooltip(name);
+		auto item = CreateRef<mvTooltip>(name);
 
 		item->checkConfigDict(kwargs);
 		item->setConfigDict(kwargs);
@@ -1138,7 +1138,7 @@ namespace Marvel {
 
 		auto PopupParent = mvApp::GetApp()->getItemRegistry().getItem(popupparent);
 
-		mvAppItem* item = new mvPopup(name, PopupParent);
+		auto item = CreateRef<mvPopup>(name, PopupParent.get());
 
 		item->checkConfigDict(kwargs);
 		item->setConfigDict(kwargs);
@@ -1178,7 +1178,7 @@ namespace Marvel {
 			&label, &show, &tip, &parent, &before, &closable, &default_open, &open_on_double_click, &open_on_arrow, &leaf, &bullet))
 			return ToPyBool(false);
 
-		mvAppItem* item = new mvCollapsingHeader(name);
+		auto item = CreateRef<mvCollapsingHeader>(name);
 		item->checkConfigDict(kwargs);
 		item->setConfigDict(kwargs);
 		item->setExtraConfigDict(kwargs);
@@ -1209,7 +1209,7 @@ namespace Marvel {
 			&label, &show, &tip, &parent, &before, &default_open, &open_on_double_click, &open_on_arrow, &leaf, &bullet))
 			return ToPyBool(false);
 
-		mvAppItem* item = new mvTreeNode(name);
+		auto item = CreateRef<mvTreeNode>(name);
 		item->checkConfigDict(kwargs);
 		item->setConfigDict(kwargs);
 		item->setExtraConfigDict(kwargs);

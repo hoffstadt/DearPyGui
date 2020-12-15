@@ -41,7 +41,7 @@ namespace Marvel {
 						m_close = false;
 					}
 
-					for (mvAppItem* item : m_children)
+					for (mvRef<mvAppItem> item : m_children)
 					{
 						// skip item if it's not shown
 						if (!item->m_show)
@@ -69,7 +69,7 @@ namespace Marvel {
 				if (ImGui::BeginPopupContextItem(m_name.c_str(), m_button))
 				{
 
-					for (mvAppItem* item : m_children)
+					for (mvRef<mvAppItem> item : m_children)
 					{
 						// skip item if it's not shown
 						if (!item->m_show)

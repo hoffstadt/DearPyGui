@@ -15,18 +15,18 @@ namespace Marvel {
 		mvEventBus::Subscribe(this, mvEVT_RENDER);
 		mvEventBus::Subscribe(this, mvEVT_ACTIVE_WINDOW);
 
-		auto add_hidden_window = [&](mvAppItem* item, const std::string& label) {
+		auto add_hidden_window = [&](mvRef<mvAppItem> item, const std::string& label) {
 			m_backWindows.push_back(item);
 			m_backWindows.back()->setLabel(label);
 			m_backWindows.back()->hide();
 		};
 
-		add_hidden_window(new mvAboutWindow("about##standard"), "About Dear PyGui");
-		add_hidden_window(new mvDocWindow("documentation##standard"), "Core Documentation");
-		add_hidden_window(new mvDebugWindow("debug##standard"), "Dear PyGui Debug");
-		add_hidden_window(new mvMetricsWindow("metrics##standard"), "Metrics");
-		add_hidden_window(new mvStyleWindow("style##standard"), "Dear PyGui Style Editor");
-		add_hidden_window(new mvFileDialog(), "FileDialog");
+		add_hidden_window(CreateRef<mvAboutWindow>("about##standard"), "About Dear PyGui");
+		add_hidden_window(CreateRef<mvDocWindow>("documentation##standard"), "Core Documentation");
+		add_hidden_window(CreateRef<mvDebugWindow>("debug##standard"), "Dear PyGui Debug");
+		add_hidden_window(CreateRef<mvMetricsWindow>("metrics##standard"), "Metrics");
+		add_hidden_window(CreateRef<mvStyleWindow>("style##standard"), "Dear PyGui Style Editor");
+		add_hidden_window(CreateRef<mvFileDialog>(), "FileDialog");
 	}
 
 	mvItemRegistry::~mvItemRegistry()
@@ -53,6 +53,8 @@ namespace Marvel {
 	bool mvItemRegistry::onRender(mvEvent& event)
 	{
 
+		MV_PROFILE_FUNCTION();
+
 		// resets app items states (i.e. hovered)
 		for (auto window : m_frontWindows)
 			window->draw();
@@ -65,6 +67,8 @@ namespace Marvel {
 	bool mvItemRegistry::onPreRenderReset(mvEvent& event)
 	{
 
+		MV_PROFILE_FUNCTION();
+
 		// resets app items states (i.e. hovered)
 		for (auto window : m_frontWindows)
 			window->resetState();
@@ -76,6 +80,8 @@ namespace Marvel {
 
 	bool mvItemRegistry::onEndFrame(mvEvent& event)
 	{
+
+		MV_PROFILE_FUNCTION();
 
 		Py_BEGIN_ALLOW_THREADS
 		mvApp::GetApp()->getItemRegistry().postDeleteItems();
@@ -127,7 +133,7 @@ namespace Marvel {
 		return true;
 	}
 
-	bool mvItemRegistry::addRuntimeItem(const std::string& parent, const std::string& before, mvAppItem* item)
+	bool mvItemRegistry::addRuntimeItem(const std::string& parent, const std::string& before, mvRef<mvAppItem> item)
 	{
 		if (!mvApp::GetApp()->checkIfMainThread())
 			return false;
@@ -137,7 +143,7 @@ namespace Marvel {
 		return true;
 	}
 
-	bool mvItemRegistry::addItemAfter(const std::string& prev, mvAppItem* item)
+	bool mvItemRegistry::addItemAfter(const std::string& prev, mvRef<mvAppItem> item)
 	{
 		if (!mvApp::GetApp()->checkIfMainThread())
 			return false;
@@ -146,12 +152,12 @@ namespace Marvel {
 		return true;
 	}
 
-	void mvItemRegistry::pushParent(mvAppItem* item)
+	void mvItemRegistry::pushParent(mvRef<mvAppItem> item)
 	{
 		m_parents.push(item);
 	}
 
-	mvAppItem* mvItemRegistry::popParent()
+	mvRef<mvAppItem> mvItemRegistry::popParent()
 	{
 		if (m_parents.empty())
 		{
@@ -159,7 +165,7 @@ namespace Marvel {
 			return nullptr;
 		}
 
-		mvAppItem* item = m_parents.top();
+		auto item = m_parents.top();
 		m_parents.pop();
 		return item;
 	}
@@ -170,14 +176,14 @@ namespace Marvel {
 			m_parents.pop();
 	}
 
-	mvAppItem* mvItemRegistry::topParent()
+	mvRef<mvAppItem> mvItemRegistry::topParent()
 	{
-		if (m_parents.size() != 0)
+		if (!m_parents.empty())
 			return m_parents.top();
 		return nullptr;
 	}
 
-	mvAppItem* mvItemRegistry::getItem(const std::string& name, bool ignoreRuntime)
+	mvRef<mvAppItem> mvItemRegistry::getItem(const std::string& name, bool ignoreRuntime)
 	{
 		if (!mvApp::GetApp()->checkIfMainThread())
 			return nullptr;
@@ -185,10 +191,10 @@ namespace Marvel {
 		return getItemAsync(name, ignoreRuntime);
 	}
 
-	mvAppItem* mvItemRegistry::getItemAsync(const std::string& name, bool ignoreRuntime)
+	mvRef<mvAppItem> mvItemRegistry::getItemAsync(const std::string& name, bool ignoreRuntime)
 	{
 
-		mvAppItem* item = nullptr;
+		mvRef<mvAppItem> item = nullptr;
 
 		if (!ignoreRuntime)
 			item = getRuntimeItem(name);
@@ -219,7 +225,7 @@ namespace Marvel {
 		return nullptr;
 	}
 
-	mvAppItem* mvItemRegistry::getRuntimeItem(const std::string& name)
+	mvRef<mvAppItem> mvItemRegistry::getRuntimeItem(const std::string& name)
 	{
 
 		for (auto& item : m_newItemVec)
@@ -244,14 +250,14 @@ namespace Marvel {
 		if (!mvApp::GetApp()->checkIfMainThread())
 			return nullptr;
 
-		mvAppItem* item = getRuntimeItem(name);
+		mvRef<mvAppItem> item = getRuntimeItem(name);
 		if (item == nullptr)
 			item = getItem(name);
 		if (item == nullptr)
 			return nullptr;
 
 		if (item->getType() == mvAppItemType::Window)
-			return static_cast<mvWindowAppItem*>(item);
+			return static_cast<mvWindowAppItem*>(item.get());
 
 		return nullptr;
 	}
@@ -267,7 +273,7 @@ namespace Marvel {
 		return false;
 	}
 
-	bool mvItemRegistry::addItem(mvAppItem* item)
+	bool mvItemRegistry::addItem(mvRef<mvAppItem> item)
 	{
 		if (!mvApp::GetApp()->checkIfMainThread())
 			return false;
@@ -281,29 +287,25 @@ namespace Marvel {
 			{
 				std::string message = item->m_name + " " + std::to_string(count);
 				ThrowPythonException(message + ": Items of this type must have unique names");
-				delete item;
-				item = nullptr;
 				return false;
 			}
 		}
 
-		mvAppItem* parentitem = topParent();
+		mvRef<mvAppItem> parentitem = topParent();
 		if (parentitem == nullptr)
 		{
 			std::string message = item->m_name;
 			ThrowPythonException(message + ": Parent for this item not found or the parent stack is empty.");
-			delete item;
-			item = nullptr;
 			return false;
 		}
 
-		item->m_parent = parentitem;
-		parentitem->m_children.push_back(item);
+		item->m_parent = parentitem.get();
+		parentitem->m_children.emplace_back(item);
 
 		return true;
 	}
 
-	bool mvItemRegistry::addWindow(mvAppItem* item)
+	bool mvItemRegistry::addWindow(mvRef<mvAppItem> item)
 	{
 		if (!mvApp::GetApp()->checkIfMainThread())
 			return false;
@@ -314,16 +316,15 @@ namespace Marvel {
 
 	void mvItemRegistry::postDeleteItems()
 	{
-		MV_PROFILE_FUNCTION()
 
-			// delete items from the delete queue
-			while (!m_deleteChildrenQueue.empty())
-			{
-				auto item = getItem(m_deleteChildrenQueue.front());
-				if (item)
-					item->deleteChildren();
-				m_deleteChildrenQueue.pop();
-			}
+		// delete items from the delete queue
+		while (!m_deleteChildrenQueue.empty())
+		{
+			auto item = getItem(m_deleteChildrenQueue.front());
+			if (item)
+				item->deleteChildren();
+			m_deleteChildrenQueue.pop();
+		}
 
 		// delete items from the delete queue
 		for(auto& item : m_deleteQueue)
@@ -375,7 +376,7 @@ namespace Marvel {
 			// structure
 			if (frontWindowDeleting)
 			{
-				std::vector<mvAppItem*> oldwindows = m_frontWindows;
+				std::vector<mvRef<mvAppItem>> oldwindows = m_frontWindows;
 
 				m_frontWindows.clear();
 
@@ -383,8 +384,6 @@ namespace Marvel {
 				{
 					if (window->m_name == item)
 					{
-						delete window;
-						window = nullptr;
 						deletedItem = true;
 						continue;
 					}
@@ -394,7 +393,7 @@ namespace Marvel {
 
 			if (backWindowDeleting)
 			{
-				std::vector<mvAppItem*> oldwindows = m_backWindows;
+				std::vector<mvRef<mvAppItem>> oldwindows = m_backWindows;
 
 				m_backWindows.clear();
 
@@ -402,8 +401,6 @@ namespace Marvel {
 				{
 					if (window->m_name == item)
 					{
-						delete window;
-						window = nullptr;
 						deletedItem = true;
 						continue;
 					}
@@ -421,125 +418,114 @@ namespace Marvel {
 
 	void mvItemRegistry::postAddItems()
 	{
-		MV_PROFILE_FUNCTION()
 
-			// add runtime items
-			for (auto& newItem : m_newItemVec)
+		// add runtime items
+		for (auto& newItem : m_newItemVec)
+		{
+
+			bool addedItem = false;
+
+			if (!newItem.item->getDescription().duplicatesAllowed)
 			{
-
-				bool addedItem = false;
-
-				if (!newItem.item->getDescription().duplicatesAllowed)
+				if (getItem(newItem.item->m_name, true))
 				{
-					if (getItem(newItem.item->m_name, true))
-					{
-						std::string message = newItem.item->m_name;
-						ThrowPythonException(message + ": Items of this type must have unique names");
-						delete newItem.item;
-						newItem.item = nullptr;
-						continue;
-					}
-				}
-
-				if (newItem.item->getDescription().root)
-				{
-					m_frontWindows.push_back(newItem.item);
+					std::string message = newItem.item->m_name;
+					ThrowPythonException(message + ": Items of this type must have unique names");
 					continue;
 				}
+			}
 
-				for (auto window : m_frontWindows)
+			if (newItem.item->getDescription().root)
+			{
+				m_frontWindows.push_back(newItem.item);
+				continue;
+			}
+
+			for (auto window : m_frontWindows)
+			{
+				addedItem = window->addRuntimeChild(newItem.parent, newItem.before, newItem.item);
+				if (addedItem)
+					break;
+			}
+
+			if (!addedItem)
+			{
+				for (auto otherItems : m_orderedVec)
 				{
-					addedItem = window->addRuntimeChild(newItem.parent, newItem.before, newItem.item);
+					addedItem = otherItems.item->addRuntimeChild(newItem.parent, newItem.before, newItem.item);
 					if (addedItem)
 						break;
 				}
-
-				if (!addedItem)
-				{
-					for (auto otherItems : m_orderedVec)
-					{
-						addedItem = otherItems.item->addRuntimeChild(newItem.parent, newItem.before, newItem.item);
-						if (addedItem)
-							break;
-					}
-				}
-
-				if (!addedItem)
-				{
-					ThrowPythonException(newItem.item->m_name + " not added because its parent was not found");
-					delete newItem.item;
-					newItem.item = nullptr;
-				}
-
 			}
+
+			if (!addedItem)
+			{
+				ThrowPythonException(newItem.item->m_name + " not added because its parent was not found");
+			}
+
+		}
 
 		m_newItemVec.clear();
 	}
 
 	void mvItemRegistry::postAddPopups()
 	{
-		MV_PROFILE_FUNCTION()
 
-			// add popup items
-			for (auto& popup : m_orderedVec)
+		// add popup items
+		for (auto& popup : m_orderedVec)
+		{
+
+			bool addedItem = false;
+
+			if (getItem(popup.item->m_name, true))
 			{
-
-				bool addedItem = false;
-
-				if (getItem(popup.item->m_name, true))
-				{
-					std::string message = popup.item->m_name;
-					ThrowPythonException(message + ": Items of this type must have unique names");
-					delete popup.item;
-					popup.item = nullptr;
-					continue;
-				}
-
-				for (auto window : m_frontWindows)
-				{
-					addedItem = window->addChildAfter(popup.prev, popup.item);
-					if (addedItem)
-						break;
-				}
-
-				if (!addedItem)
-				{
-					ThrowPythonException(popup.item->m_name + " not added because its parent was not found");
-					delete popup.item;
-					popup.item = nullptr;
-				}
-
+				std::string message = popup.item->m_name;
+				ThrowPythonException(message + ": Items of this type must have unique names");
+				continue;
 			}
+
+			for (auto window : m_frontWindows)
+			{
+				addedItem = window->addChildAfter(popup.prev, popup.item);
+				if (addedItem)
+					break;
+			}
+
+			if (!addedItem)
+			{
+				ThrowPythonException(popup.item->m_name + " not added because its parent was not found");
+			}
+
+		}
 		m_orderedVec.clear();
 	}
 
 	void mvItemRegistry::postMoveItems()
 	{
-		MV_PROFILE_FUNCTION()
 
-			// move
-			while (!m_moveVec.empty())
+		// move
+		while (!m_moveVec.empty())
+		{
+			StolenChild childrequest = m_moveVec.front();
+			m_moveVec.pop();
+
+			mvRef<mvAppItem> child = nullptr;
+
+			bool movedItem = false;
+
+			for (auto window : m_frontWindows)
 			{
-				StolenChild childrequest = m_moveVec.front();
-				m_moveVec.pop();
-
-				mvAppItem* child = nullptr;
-
-				bool movedItem = false;
-
-				for (auto window : m_frontWindows)
-				{
-					child = window->stealChild(childrequest.item);
-					if (child)
-						break;
-				}
-
-				if (child == nullptr)
-					ThrowPythonException(childrequest.item + " not moved because it was not found");
-
+				child = window->stealChild(childrequest.item);
 				if (child)
-					addRuntimeItem(childrequest.parent, childrequest.before, child);
+					break;
 			}
+
+			if (child == nullptr)
+				ThrowPythonException(childrequest.item + " not moved because it was not found");
+
+			if (child)
+				addRuntimeItem(childrequest.parent, childrequest.before, child);
+		}
 
 		// move items up
 		while (!m_upQueue.empty())
@@ -584,22 +570,11 @@ namespace Marvel {
 
 	void mvItemRegistry::clearRegistry()
 	{
-		for (auto window : m_frontWindows)
-		{
-			delete window;
-			window = nullptr;
-		}
 		m_frontWindows.clear();
-
-		for (auto window : m_backWindows)
-		{
-			delete window;
-			window = nullptr;
-		}
 		m_backWindows.clear();
 	}
 
-	bool mvItemRegistry::addItemWithRuntimeChecks(mvAppItem* item, const char* parent, const char* before)
+	bool mvItemRegistry::addItemWithRuntimeChecks(mvRef<mvAppItem> item, const char* parent, const char* before)
 	{
 
 		if (item == nullptr)
@@ -635,7 +610,6 @@ namespace Marvel {
 		else if (std::string(parent).empty() && std::string(before).empty() && mvApp::IsAppStarted())
 		{
 			ThrowPythonException("Parent stack is empty. You must specify 'before' or 'parent' widget.");
-			delete item;
 			return false;
 		}
 
@@ -653,7 +627,7 @@ namespace Marvel {
 
 	std::string mvItemRegistry::getItemParentName(const std::string& name)
 	{
-		mvAppItem* item = getItem(name);
+		mvRef<mvAppItem> item = getItem(name);
 		if (item)
 			return item->m_parent->m_name;
 		
@@ -663,7 +637,7 @@ namespace Marvel {
 	std::vector<std::string> mvItemRegistry::getItemChildren(const std::string& name)
 	{
 
-		mvAppItem* item = getItem(name);
+		mvRef<mvAppItem> item = getItem(name);
 
 		std::vector<std::string> childList;
 
@@ -683,10 +657,10 @@ namespace Marvel {
 		std::vector<std::string> childList;
 
 		// to help recursively retrieve children
-		std::function<void(mvAppItem*)> ChildRetriever;
-		ChildRetriever = [&childList, &ChildRetriever](mvAppItem* item) {
+		std::function<void(mvRef<mvAppItem>)> ChildRetriever;
+		ChildRetriever = [&childList, &ChildRetriever](mvRef<mvAppItem> item) {
 			auto children = item->m_children;
-			for (mvAppItem* child : children)
+			for (auto child : children)
 			{
 				childList.emplace_back(child->m_name);
 				if (child->getDescription().container)
@@ -722,7 +696,7 @@ namespace Marvel {
 		for (auto window : m_frontWindows)
 		{
 			if (window->m_name != name)
-				static_cast<mvWindowAppItem*>(window)->setWindowAsMainStatus(false);
+				static_cast<mvWindowAppItem*>(window.get())->setWindowAsMainStatus(false);
 		}
 
 		mvAppLog::Focus();
