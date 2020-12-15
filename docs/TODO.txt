@@ -7,19 +7,12 @@ It's mostly a bunch of personal notes, probably incomplete. Feel free to query i
 
 - window class: alot of work needs to happen here to clean this up.
 
-- CI/CD system: cleanup and instead of building python, make them use the runner installed python versions.
-
 - doc: work on the CONTRIBUTING.md file
 - doc/wiki: work on the wiki https://github.com/RaylockLLC/DearPyGui/wiki
 
 - 3d widget: add a 3d widget similar to the one provided in javafx or wpf
 
 - custom widgets: add a fully supported custom widget API to allow users to make their own widgets more easily
-
-- text edit widget: basically open up the widget used in _show_source_ for user control
-- text edit widget: add multifile support
-
-- builds: write tests to ensure everything was actually packaged in the wheel
 
 - misc: deal with deprecation of codecvt
 - misc: add support for raspberry pi
