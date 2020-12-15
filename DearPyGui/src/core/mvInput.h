@@ -54,7 +54,6 @@ namespace Marvel {
 		static mvVec2 s_mousePos;
 		static mvVec2 s_mouseGlobalPos;
 		static mvVec2 s_mousePlotPos;
-		static float  s_mouseWheel;
 		static float  s_mouseDragThreshold;
 		static bool   s_mouseDragging;
 		static mvVec2 s_mouseDragDelta;

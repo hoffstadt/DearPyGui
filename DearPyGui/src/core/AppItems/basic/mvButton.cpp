@@ -20,7 +20,7 @@ namespace Marvel {
 
 		if (!m_enabled)
 		{
-			ImVec4 disabled_color = ImVec4(ImGui::GetStyleColorVec4(ImGuiCol_TextDisabled));
+			auto disabled_color = ImVec4(ImGui::GetStyleColorVec4(ImGuiCol_TextDisabled));
 			disabled_color.w = 0.392f;
 			styleManager.addColorStyle(ImGuiCol_Button, disabled_color);
 			styleManager.addColorStyle(ImGuiCol_ButtonHovered, disabled_color);

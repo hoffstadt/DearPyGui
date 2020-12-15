@@ -1,15 +1,12 @@
 #include "mvInput.h"
 #include "mvApp.h"
 #include "mvProfiler.h"
-#include "mvPythonTranslator.h"
-#include "mvEvents.h"
 
 namespace Marvel {
 
 	mvVec2  mvInput::s_mousePos = {0.0f, 0.0f};
 	mvVec2  mvInput::s_mouseGlobalPos = {0.0f, 0.0f};
 	mvVec2  mvInput::s_mousePlotPos = {0.0f, 0.0f};
-	float   mvInput::s_mouseWheel = 0.0f;
 	float   mvInput::s_mouseDragThreshold = 20.0f;
 	bool    mvInput::s_mouseDragging = false;
 	mvVec2  mvInput::s_mouseDragDelta = { 0.0f, 0.0f };

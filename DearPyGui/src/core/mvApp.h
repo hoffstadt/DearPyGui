@@ -72,7 +72,7 @@ namespace Marvel {
 
         void start(const std::string& primaryWindow);
 
-        ~mvApp();
+        ~mvApp() override;
 
         //-----------------------------------------------------------------------------
         // New event handling system
@@ -90,13 +90,13 @@ namespace Marvel {
         //-----------------------------------------------------------------------------
         mvItemRegistry&          getItemRegistry  () { return m_itemRegistry; }
         mvTextureStorage&        getTextureStorage() { return m_textureStorage; }
-        mvValueStorage&          getValueStorage() { return *(m_valueStorage.get()); }
+        mvValueStorage&          getValueStorage  () { return *(m_valueStorage.get()); }
         
         //-----------------------------------------------------------------------------
         // App Settings
         //-----------------------------------------------------------------------------
         void                     turnOnDocking     (bool shiftOnly, bool dockSpace);
-        void                     addRemapChar      (int dst, int src) { m_charRemaps.push_back({ dst, src }); }
+        void                     addRemapChar      (int dst, int src) { m_charRemaps.emplace_back( dst, src ); }
         void                     setVSync          (bool value) { m_vsync = value; }
         void                     setResizable      (bool value) { m_resizable = value; }			
         void                     setMainPos        (int x, int y);			
@@ -113,7 +113,7 @@ namespace Marvel {
         int                      getActualHeight   () const { return m_actualHeight; }
         int                      getClientWidth    () const { return m_clientWidth; }
         int                      getClientHeight   () const { return m_clientHeight; }
-        ImGuiStyle&              getStyle          ()       { return m_newstyle; }
+        ImGuiStyle&              getStyle          ()       { return m_newStyle; }
         mvWindow*                getViewport       ()       { return m_viewport; }
         bool                     getVSync          () const { return m_vsync; }
         bool                     getResizable      () const { return m_resizable; }
@@ -185,7 +185,7 @@ namespace Marvel {
         // appearance
         std::string m_theme = "Dark";
         float       m_globalFontScale = 1.0f;
-        ImGuiStyle  m_newstyle;
+        ImGuiStyle  m_newStyle;
         bool        m_styleChange = true;
         bool        m_vsync = true;
         bool        m_resizable = true;
@@ -199,8 +199,8 @@ namespace Marvel {
         std::vector<std::pair<int, int>>    m_charRemaps;
 
         // timing
-        float                        m_deltaTime; // time since last frame
-        double                       m_time;      // total time since starting
+        float                        m_deltaTime = 0.0f; // time since last frame
+        double                       m_time      = 0.0;  // total time since starting
         
         std::thread::id                  m_mainThreadID;
 
