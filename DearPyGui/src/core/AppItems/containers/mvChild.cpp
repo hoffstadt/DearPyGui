@@ -28,7 +28,7 @@ namespace Marvel {
 
 		ImGui::BeginChild(m_label.c_str(), ImVec2(m_autosize_x ? 0 : (float)m_width, m_autosize_y ? 0 : (float)m_height), m_border, m_windowflags);
 
-		for (mvAppItem* item : m_children)
+		for (auto item : m_children)
 		{
 			// skip item if it's not shown
 			if (!item->m_show)

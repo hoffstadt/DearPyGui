@@ -506,7 +506,7 @@ namespace Marvel {
 			&filter, &width, &height, &parent, &before, &show, &autosize_x, &autosize_y))
 			return ToPyBool(false);
 
-		mvAppItem* item = new mvLoggerItem(name);
+		auto item = CreateRef<mvLoggerItem>(name);
 
 		item->checkConfigDict(kwargs);
 		item->setConfigDict(kwargs);
@@ -531,7 +531,7 @@ namespace Marvel {
 			&name, &default_value, &hour24, &callback, &callback_data, &tip, &parent, &before, &show))
 			return ToPyBool(false);
 
-		mvAppItem* item = new mvTimePicker(name, ToTime(default_value));
+		auto item = CreateRef<mvTimePicker>(name, ToTime(default_value));
 		if (callback)
 			Py_XINCREF(callback);
 		item->setCallback(callback);
@@ -562,7 +562,7 @@ namespace Marvel {
 			&name, &default_value, &level, &callback, &callback_data, &tip, &parent, &before, &show))
 			return ToPyBool(false);
 
-		mvAppItem* item = new mvDatePicker(name, ToTime(default_value));
+		auto item = CreateRef<mvDatePicker>(name, ToTime(default_value));
 		if (callback)
 			Py_XINCREF(callback);
 		item->setCallback(callback);
@@ -601,7 +601,7 @@ namespace Marvel {
 
 		std::vector<float> values = ToFloatVect(value);
 
-		mvAppItem* item = new mvSimplePlot(name, values);
+		auto item = CreateRef<mvSimplePlot>(name, values);
 
 		item->checkConfigDict(kwargs);
 		item->setConfigDict(kwargs);
@@ -628,7 +628,7 @@ namespace Marvel {
 			&overlay, &tip, &parent, &before, &source, &width, &height, &popup, &show))
 			return ToPyBool(false);
 
-		mvAppItem* item = new mvProgressBar(name, default_value, source);
+		auto item = CreateRef<mvProgressBar>(name, default_value, source);
 
 		item->checkConfigDict(kwargs);
 		item->setConfigDict(kwargs);
@@ -676,7 +676,7 @@ namespace Marvel {
 		//mvVec2 muv_min = ToVec2(uv_min);
 		//mvVec2 muv_max = ToVec2(uv_max);
 
-		mvAppItem* item = new mvImage(name, value);
+		auto item = CreateRef<mvImage>(name, value);
 
 		item->checkConfigDict(kwargs);
 		item->setConfigDict(kwargs);
@@ -726,7 +726,7 @@ namespace Marvel {
 		//mvVec2 muv_min = ToVec2(uv_min);
 		//mvVec2 muv_max = ToVec2(uv_max);
 
-		mvAppItem* item = new mvImageButton(name, value);
+		auto item = CreateRef<mvImageButton>(name, value);
 		if (callback)
 			Py_XINCREF(callback);
 		item->setCallback(callback);
@@ -764,7 +764,7 @@ namespace Marvel {
 			&color, &bullet, &tip, &parent, &before, &popup, &source, &default_value, &show))
 			return ToPyBool(false);
 
-		mvAppItem* item = new mvText(name, default_value, source);
+		auto item = CreateRef<mvText>(name, default_value, source);
 
 		item->checkConfigDict(kwargs);
 		item->setConfigDict(kwargs);
@@ -797,7 +797,7 @@ namespace Marvel {
 			return ToPyBool(false);
 
 
-		mvAppItem* item = new mvLabelText(std::string(name), value, source);
+		auto item = CreateRef<mvLabelText>(std::string(name), value, source);
 
 		item->checkConfigDict(kwargs);
 		item->setConfigDict(kwargs);
@@ -829,7 +829,7 @@ namespace Marvel {
 			&num_items, &label, &popup, &show))
 			return ToPyBool(false);
 
-		mvAppItem* item = new mvListbox(name, default_value, source);
+		auto item = CreateRef<mvListbox>(name, default_value, source);
 		if (callback)
 			Py_XINCREF(callback);
 		item->setCallback(callback);
@@ -875,7 +875,7 @@ namespace Marvel {
 			&height_largest, &no_arrow_button, &no_preview))
 			return ToPyBool(false);
 
-		mvAppItem* item = new mvCombo(name, default_value, source);
+		auto item = CreateRef<mvCombo>(name, default_value, source);
 		if (callback)
 			Py_XINCREF(callback);
 		item->setCallback(callback);
@@ -913,7 +913,7 @@ namespace Marvel {
 			&label, &popup, &show, &span_columns))
 			return ToPyBool(false);
 
-		mvAppItem* item = new mvSelectable(name, default_value, source);
+		auto item = CreateRef<mvSelectable>(name, default_value, source);
 		if (callback)
 			Py_XINCREF(callback);
 		item->setCallback(callback);
@@ -951,7 +951,7 @@ namespace Marvel {
 			&label, &popup, &show, &enabled))
 			return ToPyBool(false);
 
-		mvAppItem* item = new mvButton(name);
+		auto item = CreateRef<mvButton>(name);
 		if (callback)
 			Py_XINCREF(callback);
 		item->setCallback(callback);
@@ -980,7 +980,7 @@ namespace Marvel {
 			&parent, &before, &show))
 			return ToPyBool(false);
 
-		mvAppItem* item = new mvIndent(name, offset);
+		auto item = CreateRef<mvIndent>(name, offset);
 
 		item->checkConfigDict(kwargs);
 		item->setConfigDict(kwargs);
@@ -1003,7 +1003,7 @@ namespace Marvel {
 			&name, &offset, &parent, &before, &show))
 			return ToPyBool(false);
 
-		mvAppItem* item = new mvUnindent(name, offset);
+		auto item = CreateRef<mvUnindent>(name, offset);
 
 		item->checkConfigDict(kwargs);
 		item->setConfigDict(kwargs);
@@ -1026,7 +1026,7 @@ namespace Marvel {
 			&parent, &before, &show))
 			return ToPyBool(false);
 
-		mvAppItem* item = new mvSpacing(name, count);
+		auto item = CreateRef<mvSpacing>(name, count);
 
 		item->checkConfigDict(kwargs);
 		item->setConfigDict(kwargs);
@@ -1050,7 +1050,7 @@ namespace Marvel {
 			&parent, &before, &show))
 			return ToPyBool(false);
 
-		mvAppItem* item = new mvDummy(name);
+		auto item = CreateRef<mvDummy>(name);
 
 		item->checkConfigDict(kwargs);
 		item->setConfigDict(kwargs);
@@ -1074,7 +1074,7 @@ namespace Marvel {
 			&xoffset, &spacing, &parent, &before, &show))
 			return ToPyBool(false);
 
-		mvAppItem* item = new mvSameLine(name);
+		auto item = CreateRef<mvSameLine>(name);
 
 		item->checkConfigDict(kwargs);
 		item->setConfigDict(kwargs);
@@ -1104,7 +1104,7 @@ namespace Marvel {
 			&popup, &show))
 			return ToPyBool(false);
 
-		mvAppItem* item = new mvRadioButton(name, default_value, source);
+		auto item = CreateRef<mvRadioButton>(name, default_value, source);
 		if (callback)
 			Py_XINCREF(callback);
 		item->setCallback(callback);
@@ -1132,7 +1132,7 @@ namespace Marvel {
 		if (!(*mvApp::GetApp()->getParsers())["add_separator"].parse(args, kwargs, __FUNCTION__, &name, &tip, &parent, &before))
 			return ToPyBool(false);
 
-		mvAppItem* item = new mvSeparator(name);
+		auto item = CreateRef<mvSeparator>(name);
 		item->checkConfigDict(kwargs);
 		item->setConfigDict(kwargs);
 		item->setExtraConfigDict(kwargs);
@@ -1187,7 +1187,7 @@ namespace Marvel {
 		auto color = ToColor(default_value);
 
 		ImVec4 v = color.toVec4();
-		mvAppItem* item = new mvColorEdit3(name, &v.x, source);
+		auto item = CreateRef<mvColorEdit3>(name, &v.x, source);
 		if (callback)
 			Py_XINCREF(callback);
 		item->setCallback(callback);
@@ -1248,7 +1248,7 @@ namespace Marvel {
 
 		auto color = ToColor(default_value);
 		ImVec4 v = color.toVec4();
-		mvAppItem* item = new mvColorEdit4(name, &v.x, source);
+		auto item = CreateRef<mvColorEdit4>(name, &v.x, source);
 		if (callback)
 			Py_XINCREF(callback);
 		item->setCallback(callback);
@@ -1312,7 +1312,7 @@ namespace Marvel {
 
 		auto color = ToColor(default_value);
 		ImVec4 v = color.toVec4();
-		mvAppItem* item = new mvColorPicker3(name, &v.x, source);
+		auto item = CreateRef<mvColorPicker3>(name, &v.x, source);
 		if (callback)
 			Py_XINCREF(callback);
 		item->setCallback(callback);
@@ -1375,7 +1375,7 @@ namespace Marvel {
 
 		auto color = ToColor(default_value);
 		ImVec4 v = color.toVec4();
-		mvAppItem* item = new mvColorPicker4(name, &v.x, source);
+		auto item = CreateRef<mvColorPicker4>(name, &v.x, source);
 		if (callback)
 			Py_XINCREF(callback);
 		item->setCallback(callback);
@@ -1413,7 +1413,7 @@ namespace Marvel {
 			&popup, &show, &no_alpha, &no_border, &no_drag_drop))
 			return ToPyBool(false);
 
-		mvAppItem* item = new mvColorButton(name, ToColor(color));
+		auto item = CreateRef<mvColorButton>(name, ToColor(color));
 		if (callback)
 			Py_XINCREF(callback);
 		item->setCallback(callback);
@@ -1448,7 +1448,7 @@ namespace Marvel {
 			&label, &popup, &show, &enabled))
 			return ToPyBool(false);
 
-		mvAppItem* item = new mvCheckbox(name, default_value, source);
+		auto item = CreateRef<mvCheckbox>(name, default_value, source);
 		if (callback)
 			Py_XINCREF(callback);
 		item->setCallback(callback);

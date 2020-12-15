@@ -43,7 +43,7 @@ namespace Marvel {
 		}
 
 
-		mvAppItem* item = mvApp::GetApp()->getItemRegistry().getItem(widget);
+		mvRef<mvAppItem> item = mvApp::GetApp()->getItemRegistry().getItem(widget);
 
 		if (item)
 		{

@@ -20,7 +20,7 @@ namespace Marvel {
 
 		ImGui::BeginGroup();
 
-		for (mvAppItem* item : m_children)
+		for (auto item : m_children)
 		{
 			if (m_width != 0)
 				item->setWidth(m_width);

@@ -24,17 +24,17 @@ namespace Marvel {
 		{
 
 			// set other menus's value false on same level
-			for (mvAppItem* sibling : m_parent->m_children)
+			for (auto sibling : m_parent->m_children)
 			{
 				// ensure sibling
 				if (sibling->getType() == mvAppItemType::Menu)
-					*((mvMenu*)sibling)->m_value = false;
+					*((mvMenu*)sibling.get())->m_value = false;
 			}
 
 			// set current menu value true
 			*m_value = true;
 
-			for (mvAppItem* item : m_children)
+			for (auto item : m_children)
 			{
 				// skip item if it's not shown
 				if (!item->m_show)

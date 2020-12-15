@@ -88,8 +88,8 @@ namespace Marvel {
         //-----------------------------------------------------------------------------
         // Managers
         //-----------------------------------------------------------------------------
-        mvItemRegistry&          getItemRegistry  () { return m_itemRegistry; }
-        mvTextureStorage&        getTextureStorage() { return m_textureStorage; }
+        mvItemRegistry&          getItemRegistry  () { return *m_itemRegistry; }
+        mvTextureStorage&        getTextureStorage() { return *m_textureStorage; }
         mvValueStorage&          getValueStorage  () { return *(m_valueStorage.get()); }
         
         //-----------------------------------------------------------------------------
@@ -162,10 +162,10 @@ namespace Marvel {
         static bool   s_started;
 
         // managers
-        mvItemRegistry                         m_itemRegistry;
-        mvTextureStorage                       m_textureStorage;
-        std::unique_ptr<mvValueStorage>        m_valueStorage;
-        std::unique_ptr<mvTheme>               m_themeManager;
+        mvOwnedPtr<mvItemRegistry>             m_itemRegistry;
+        mvOwnedPtr<mvTextureStorage>           m_textureStorage;
+        mvOwnedPtr<mvValueStorage>             m_valueStorage;
+        mvOwnedPtr<mvTheme>                    m_themeManager;
 
         // docking
         bool                                   m_docking          = false;

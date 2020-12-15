@@ -28,7 +28,7 @@ namespace Marvel {
 			if (!m_tip.empty() && ImGui::IsItemHovered())
 				ImGui::SetTooltip("%s", m_tip.c_str());
 
-			for (mvAppItem* item : m_children)
+			for (auto item : m_children)
 			{
 				// skip item if it's not shown
 				if (!item->m_show)
