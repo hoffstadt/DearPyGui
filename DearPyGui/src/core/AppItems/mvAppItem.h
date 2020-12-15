@@ -152,9 +152,6 @@ namespace Marvel {
         mvAppItem*                          stealChild(const std::string& name); // steals a child (used for moving)
 
        
-
-
-
     protected:
 
         mvAppItemState          m_state;
