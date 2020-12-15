@@ -264,7 +264,7 @@ namespace Marvel {
 		}
 	}
 
-	void mvPlot::addSeries(mvSeries* series, bool updateBounds)
+	void mvPlot::addSeries(mvRef<mvSeries> series, bool updateBounds)
 	{
 
 		if (m_series.empty())
@@ -319,12 +319,12 @@ namespace Marvel {
 			m_dirty = true;
 	}
 
-	void mvPlot::updateSeries(mvSeries* series, bool updateBounds)
+	void mvPlot::updateSeries(mvRef<mvSeries> series, bool updateBounds)
 	{
 
 		// check if series exist
 		bool exists = false;
-		for (auto item : m_series)
+		for (auto& item : m_series)
 		{
 			if (item->getName() == series->getName() && series->getSeriesType() == item->getSeriesType())
 			{
@@ -338,11 +338,10 @@ namespace Marvel {
 			auto oldSeries = m_series;
 			m_series.clear();
 
-			for (auto item : oldSeries)
+			for (auto& item : oldSeries)
 			{
 				if (item->getName() == series->getName() && series->getSeriesType() == item->getSeriesType())
 				{
-					delete item;
 					item = nullptr;
 					addSeries(series, updateBounds);
 					continue;
@@ -362,7 +361,7 @@ namespace Marvel {
 
 		// check if series exist
 		bool exists = false;
-		for (auto item : m_series)
+		for (auto& item : m_series)
 		{
 			if (item->getName() == name)
 			{
@@ -376,11 +375,10 @@ namespace Marvel {
 			auto oldSeries = m_series;
 			m_series.clear();
 
-			for (auto item : oldSeries)
+			for (auto& item : oldSeries)
 			{
 				if (item->getName() == name)
 				{
-					delete item;
 					item = nullptr;
 					continue;
 				}
@@ -432,11 +430,6 @@ namespace Marvel {
 
 	void mvPlot::clear()
 	{
-		for (auto& series : m_series)
-		{
-			delete series;
-			series = nullptr;
-		}
 
 		for (auto& line : m_dragLines)
 			mvApp::GetApp()->getValueStorage().DecrementRef(line.source);

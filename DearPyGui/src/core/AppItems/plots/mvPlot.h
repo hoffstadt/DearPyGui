@@ -57,8 +57,8 @@ namespace Marvel {
 		void deleteAnnotation(const std::string& name);
 
 		// series
-		void addSeries      (mvSeries* series, bool updateBounds);
-		void updateSeries   (mvSeries* series, bool updateBounds);
+		void addSeries      (mvRef<mvSeries> series, bool updateBounds);
+		void updateSeries   (mvRef<mvSeries> series, bool updateBounds);
 		void deleteSeries   (const std::string& name);
 
 		// settings
@@ -140,7 +140,7 @@ namespace Marvel {
 		std::vector<double>           m_xlabelLocations;
 		std::vector<double>           m_ylabelLocations;
 
-		std::vector<mvSeries*>        m_series;
+		std::vector<mvRef<mvSeries>>  m_series;
 		std::vector<mvPlotAnnotation> m_annotations;
 		std::vector<mvDragLine>       m_dragLines;
 		std::vector<mvDragPoint>      m_dragPoints;
