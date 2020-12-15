@@ -44,7 +44,7 @@ namespace Marvel {
 			if (ImGui::TreeNodeEx(container.c_str()))
 			{
 				
-				auto stringPos = item->m_name.find_first_not_of("##");
+				auto stringPos = item->m_name.find_first_not_of("###");
 				if (stringPos != std::string::npos && stringPos > 0)
 				{
 					ImGui::PushID(item);
@@ -77,7 +77,7 @@ namespace Marvel {
 		}
 		else
 		{
-			auto stringPos = item->m_name.find_first_not_of("##");
+			auto stringPos = item->m_name.find_first_not_of("###");
 			if (stringPos != std::string::npos && stringPos > 0)
 			{
 				ImGui::PushID(item);
