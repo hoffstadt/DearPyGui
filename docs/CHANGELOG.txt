@@ -34,6 +34,7 @@ Fixes:
 - numpy:             list of int/float can now use numpy #105
 - treenode:          changing labels no longer reset state #373
 
+
 -----------------------------------------------------------------------
  VERSION 0.6.35
 -----------------------------------------------------------------------
