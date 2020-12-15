@@ -1285,7 +1285,7 @@ namespace Marvel {
 		auto muv_max = ToVec2(uv_max);
 		auto mcolor = ToColor(tintcolor);
 
-		auto series = new mvImageSeries(name, value, ImPlotPoint(mbounds_min[0], mbounds_min[1]), ImPlotPoint(mbounds_max[0], mbounds_max[1]),
+		auto series = CreateRef<mvImageSeries>(name, value, ImPlotPoint(mbounds_min[0], mbounds_min[1]), ImPlotPoint(mbounds_max[0], mbounds_max[1]),
 			muv_min, muv_max, mcolor,(ImPlotYAxis_)axis);
 
 		graph->updateSeries(series, update_bounds);
@@ -1332,7 +1332,7 @@ namespace Marvel {
 			return GetPyNone();
 		}
 
-		auto series = new mvPieSeries(name, &avalues, x, y, radius, normalize, angle, format, alabels, (ImPlotYAxis_)axis);
+		auto series = CreateRef<mvPieSeries>(name, &avalues, x, y, radius, normalize, angle, format, alabels, (ImPlotYAxis_)axis);
 
 		graph->updateSeries(series, update_bounds);
 
@@ -1374,7 +1374,7 @@ namespace Marvel {
 
 		if (!CheckArraySizes(plot, { &xs, &ys })) return GetPyNone();
 
-		auto* series = new mvLineSeries(name, &xs, &ys, mcolor, (ImPlotYAxis_)axis);
+		auto series = CreateRef<mvLineSeries>(name, &xs, &ys, mcolor, (ImPlotYAxis_)axis);
 
 		series->setWeight(weight);
 		graph->updateSeries(series, update_bounds);
@@ -1416,7 +1416,7 @@ namespace Marvel {
 
 		if (!CheckArraySizes(plot, { &xs, &ys })) return GetPyNone();
 
-		auto* series = new mvStairSeries(name, &xs, &ys, mcolor, (ImPlotYAxis_)axis);
+		auto series = CreateRef<mvStairSeries>(name, &xs, &ys, mcolor, (ImPlotYAxis_)axis);
 
 		series->setWeight(weight);
 		graph->updateSeries(series, update_bounds);
@@ -1456,7 +1456,7 @@ namespace Marvel {
 		if (xs.size() == 0)
 			return GetPyNone();
 
-		auto series = new mvBarSeries(name, &xs, &ys, horizontal, (ImPlotYAxis_)axis);
+		auto series = CreateRef<mvBarSeries>(name, &xs, &ys, horizontal, (ImPlotYAxis_)axis);
 		series->setWeight(weight);
 		graph->updateSeries(series, update_bounds);
 
@@ -1517,7 +1517,7 @@ namespace Marvel {
 		if(xs.size() == 0)
 			return GetPyNone();
 
-		auto series = new mvShadeSeries(name, mcolor, mfill , &xs, &y1s, &y2s, (ImPlotYAxis_)axis);
+		auto series = CreateRef<mvShadeSeries>(name, mcolor, mfill , &xs, &y1s, &y2s, (ImPlotYAxis_)axis);
 		series->setWeight(weight);
 		graph->updateSeries(series, update_bounds);
 
@@ -1580,7 +1580,7 @@ namespace Marvel {
 		if (mdates.size() == 0)
 			return GetPyNone();
 
-		auto series = new mvCandleSeries(name, &mdates, &mopens, &mhighs, &mlows, &mcloses,
+		auto series = CreateRef<mvCandleSeries>(name, &mdates, &mopens, &mhighs, &mlows, &mcloses,
 			weight, mbull, mbear, (ImPlotYAxis_)axis);
 		series->setWeight(weight);
 		graph->updateSeries(series, update_bounds);
@@ -1632,7 +1632,7 @@ namespace Marvel {
 
 		if (!CheckArraySizes(plot, { &xs, &ys })) return GetPyNone();
 
-		auto series = new mvScatterSeries(name, &xs, &ys, marker, size, weight, mmarkerOutlineColor, mmarkerFillColor, (ImPlotYAxis_)axis);
+		auto series = CreateRef<mvScatterSeries>(name, &xs, &ys, marker, size, weight, mmarkerOutlineColor, mmarkerFillColor, (ImPlotYAxis_)axis);
 		
 		graph->updateSeries(series, update_bounds);
 
@@ -1685,7 +1685,7 @@ namespace Marvel {
 		if (xs.size() == 0)
 			return GetPyNone();
 
-		graph->updateSeries(new mvStemSeries(name, &xs, &ys, marker, size, weight, mmarkerOutlineColor,
+		graph->updateSeries(CreateRef<mvStemSeries>(name, &xs, &ys, marker, size, weight, mmarkerOutlineColor,
 			mmarkerFillColor, (ImPlotYAxis_)axis), update_bounds);
 
 		return GetPyNone();
@@ -1727,7 +1727,7 @@ namespace Marvel {
 		std::vector<float> ax = { x };
 		std::vector<float> ay = { y };
 
-		graph->updateSeries(new mvLabelSeries(name, &ax, &ay, xoffset, yoffset, vertical, (ImPlotYAxis_)axis), update_bounds);
+		graph->updateSeries(CreateRef<mvLabelSeries>(name, &ax, &ay, xoffset, yoffset, vertical, (ImPlotYAxis_)axis), update_bounds);
 
 		return GetPyNone();
 	}
@@ -1769,8 +1769,8 @@ namespace Marvel {
 		auto mfill = ToColor(fill);
 
 		graph->deleteSeries(name);
-		auto aseries = new mvAreaSeries(name, &xs, &ys, mcolor, mfill, (ImPlotYAxis_)axis);
-		auto lseries = new mvLineSeries(name, &xs, &ys, mcolor, (ImPlotYAxis_)axis);
+		auto aseries = CreateRef<mvAreaSeries>(name, &xs, &ys, mcolor, mfill, (ImPlotYAxis_)axis);
+		auto lseries = CreateRef<mvLineSeries>(name, &xs, &ys, mcolor, (ImPlotYAxis_)axis);
 		aseries->setWeight(weight);
 		lseries->setWeight(weight);
 		graph->addSeries(aseries, update_bounds);
@@ -1823,7 +1823,7 @@ namespace Marvel {
 			return GetPyNone();
 
 		auto mcolor = ToColor(color);
-		auto series = new mvErrorSeries(name, &xs, &ys, &negatives, &positives, horizontal, mcolor, (ImPlotYAxis_)axis);
+		auto series = CreateRef<mvErrorSeries>(name, &xs, &ys, &negatives, &positives, horizontal, mcolor, (ImPlotYAxis_)axis);
 		graph->updateSeries(series, update_bounds);
 
 		return GetPyNone();
@@ -1868,7 +1868,7 @@ namespace Marvel {
 		if (mvalues.size() == 0)
 			return GetPyNone();
 
-		auto series = new mvHeatSeries(name, &mvalues, rows, columns, scale_min,
+		auto series = CreateRef<mvHeatSeries>(name, &mvalues, rows, columns, scale_min,
 			scale_max, format, mbounds_min, mbounds_max, (ImPlotYAxis_)axis);
 		graph->updateSeries(series, update_bounds);
 
