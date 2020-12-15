@@ -88,9 +88,10 @@ namespace Marvel {
         //-----------------------------------------------------------------------------
         // Managers
         //-----------------------------------------------------------------------------
-        mvItemRegistry&          getItemRegistry  () { return *m_itemRegistry; }
-        mvTextureStorage&        getTextureStorage() { return *m_textureStorage; }
-        mvValueStorage&          getValueStorage  () { return *(m_valueStorage.get()); }
+        mvItemRegistry&          getItemRegistry    () { return *m_itemRegistry; }
+        mvTextureStorage&        getTextureStorage  () { return *m_textureStorage; }
+        mvValueStorage&          getValueStorage    () { return *(m_valueStorage.get()); }
+        mvCallbackRegistry&      getCallbackRegistry() { return *m_callbackRegistry; }
         
         //-----------------------------------------------------------------------------
         // App Settings
@@ -142,7 +143,7 @@ namespace Marvel {
         //-----------------------------------------------------------------------------
         // Other
         //-----------------------------------------------------------------------------
-        std::map<std::string, mvPythonParser>* getParsers      () { return m_parsers; }
+        std::map<std::string, mvPythonParser>* getParsers      () { return m_parsers.get(); }
             
     private:
 
@@ -162,25 +163,26 @@ namespace Marvel {
         static bool   s_started;
 
         // managers
-        mvOwnedPtr<mvItemRegistry>             m_itemRegistry;
-        mvOwnedPtr<mvTextureStorage>           m_textureStorage;
-        mvOwnedPtr<mvValueStorage>             m_valueStorage;
-        mvOwnedPtr<mvTheme>                    m_themeManager;
-
-        // docking
-        bool                                   m_docking          = false;
-        bool                                   m_dockingShiftOnly = true;
-        bool                                   m_dockingViewport  = false;
-
-        mvWindow*                              m_viewport = nullptr;
-        int                                    m_actualWidth = 1280;
-        int                                    m_actualHeight = 800;
-        int                                    m_clientWidth = 1280;
-        int                                    m_clientHeight = 800;
-        int                                    m_mainXPos = 100;
-        int                                    m_mainYPos = 100;
-        std::string                            m_title = "DearPyGui";
-        std::map<std::string, mvPythonParser>* m_parsers;
+        mvOwnedPtr<mvItemRegistry>                   m_itemRegistry;
+        mvOwnedPtr<mvTextureStorage>                 m_textureStorage;
+        mvOwnedPtr<mvValueStorage>                   m_valueStorage;
+        mvOwnedPtr<mvTheme>                          m_themeManager;
+        mvOwnedPtr<mvCallbackRegistry>               m_callbackRegistry;
+                                                     
+        // docking                                   
+        bool                                         m_docking          = false;
+        bool                                         m_dockingShiftOnly = true;
+        bool                                         m_dockingViewport  = false;
+                                                     
+        mvWindow*                                    m_viewport = nullptr;
+        int                                          m_actualWidth = 1280;
+        int                                          m_actualHeight = 800;
+        int                                          m_clientWidth = 1280;
+        int                                          m_clientHeight = 800;
+        int                                          m_mainXPos = 100;
+        int                                          m_mainYPos = 100;
+        std::string                                  m_title = "DearPyGui";
+        mvRef<std::map<std::string, mvPythonParser>> m_parsers;
         
         // appearance
         std::string m_theme = "Dark";

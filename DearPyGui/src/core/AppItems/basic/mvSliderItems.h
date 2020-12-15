@@ -80,13 +80,13 @@ namespace Marvel {
 					m_width = 20;
 
 				if (ImGui::VSliderFloat(m_label.c_str(), ImVec2((float)m_width, (float)m_height), m_enabled ? m_value : &m_disabled_value, m_min, m_max, m_format.c_str()))
-					mvCallbackRegistry::GetCallbackRegistry()->addCallback(getCallback(false), m_name, m_callbackData);
+					mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), m_name, m_callbackData);
 
 			}
 			else
 			{
 				if (ImGui::SliderFloat(m_label.c_str(), m_enabled ? m_value : &m_disabled_value, m_min, m_max, m_format.c_str(), m_flags))
-					mvCallbackRegistry::GetCallbackRegistry()->addCallback(getCallback(false), m_name, m_callbackData);
+					mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), m_name, m_callbackData);
 
 			}
 
@@ -204,12 +204,12 @@ namespace Marvel {
 					m_width = 20;
 
 				if (ImGui::VSliderInt(m_label.c_str(), ImVec2((float)m_width, (float)m_height), m_enabled ? m_value : &m_disabled_value, m_min, m_max, m_format.c_str()))
-					mvCallbackRegistry::GetCallbackRegistry()->addCallback(getCallback(false), m_name, m_callbackData);
+					mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), m_name, m_callbackData);
 			}
 			else
 			{
 				if (ImGui::SliderInt(m_label.c_str(), m_enabled ? m_value : &m_disabled_value, m_min, m_max, m_format.c_str(), m_flags))
-					mvCallbackRegistry::GetCallbackRegistry()->addCallback(getCallback(false), m_name, m_callbackData);
+					mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), m_name, m_callbackData);
 
 			}
 
@@ -320,7 +320,7 @@ namespace Marvel {
 			}
 
 			if (ImGui::SliderFloat2(m_label.c_str(), m_enabled ? m_value : &m_disabled_value[0], m_min, m_max, m_format.c_str(), m_flags))
-				mvCallbackRegistry::GetCallbackRegistry()->addCallback(getCallback(false), m_name, m_callbackData);
+				mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), m_name, m_callbackData);
 
 		}
 
@@ -426,7 +426,7 @@ namespace Marvel {
 			}
 
 			if (ImGui::SliderFloat3(m_label.c_str(), m_enabled ? m_value : &m_disabled_value[0], m_min, m_max, m_format.c_str(), m_flags))
-				mvCallbackRegistry::GetCallbackRegistry()->addCallback(getCallback(false), m_name, m_callbackData);
+				mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), m_name, m_callbackData);
 
 		}
 
@@ -531,7 +531,7 @@ namespace Marvel {
 			}
 
 			if (ImGui::SliderFloat4(m_label.c_str(), m_enabled ? m_value : &m_disabled_value[0], m_min, m_max, m_format.c_str(), m_flags))
-				mvCallbackRegistry::GetCallbackRegistry()->addCallback(getCallback(false), m_name, m_callbackData);
+				mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), m_name, m_callbackData);
 
 		}
 
@@ -637,7 +637,7 @@ namespace Marvel {
 			}
 
 			if (ImGui::SliderInt2(m_label.c_str(), m_enabled ? m_value : &m_disabled_value[0], m_min, m_max, m_format.c_str(), m_flags))
-				mvCallbackRegistry::GetCallbackRegistry()->addCallback(getCallback(false), m_name, m_callbackData);
+				mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), m_name, m_callbackData);
 		}
 
 		void setExtraConfigDict(PyObject* dict) override
@@ -742,7 +742,7 @@ namespace Marvel {
 			}
 
 			if (ImGui::SliderInt3(m_label.c_str(), m_enabled ? m_value : &m_disabled_value[0], m_min, m_max, m_format.c_str(), m_flags))
-				mvCallbackRegistry::GetCallbackRegistry()->addCallback(getCallback(false), m_name, m_callbackData);
+				mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), m_name, m_callbackData);
 
 		}
 
@@ -848,7 +848,7 @@ namespace Marvel {
 			}
 
 			if (ImGui::SliderInt4(m_label.c_str(), m_enabled ? m_value : &m_disabled_value[0], m_min, m_max, m_format.c_str(), m_flags))
-				mvCallbackRegistry::GetCallbackRegistry()->addCallback(getCallback(false), m_name, m_callbackData);
+				mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), m_name, m_callbackData);
 
 		}
 

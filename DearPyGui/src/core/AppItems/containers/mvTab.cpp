@@ -49,7 +49,7 @@ namespace Marvel {
 			// run call back if it exists
 			if (parent->getValue() != m_name)
 			{
-				mvCallbackRegistry::GetCallbackRegistry()->addCallback(parent->getCallback(), m_name, parent->getCallbackData());
+				mvApp::GetApp()->getCallbackRegistry().addCallback(parent->getCallback(), m_name, parent->getCallbackData());
 
 				// Context Menu
 				if (!m_popup.empty())

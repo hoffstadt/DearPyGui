@@ -35,7 +35,7 @@ namespace Marvel {
 
 	public:
 
-		static mvCallbackRegistry* GetCallbackRegistry();
+		mvCallbackRegistry();
 
 		bool onEvent   (mvEvent& event) override;
 		bool onFrame   (mvEvent& event);
@@ -92,9 +92,6 @@ namespace Marvel {
 	
 	private:
 
-		mvCallbackRegistry();
-
-		static mvCallbackRegistry*       s_instance;
 		mutable std::mutex               m_mutex;
 
 		// new callback system

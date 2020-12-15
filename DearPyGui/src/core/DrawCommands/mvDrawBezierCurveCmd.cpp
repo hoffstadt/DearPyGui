@@ -1,6 +1,7 @@
 #include "mvDrawBezierCurveCmd.h"
 #include "mvPythonTranslator.h"
 #include "mvGlobalIntepreterLock.h"
+#include "mvApp.h"
 
 namespace Marvel {
 
@@ -50,5 +51,38 @@ namespace Marvel {
 		PyDict_SetItemString(dict, "color", ToPyColor(m_color));
 		PyDict_SetItemString(dict, "thickness", ToPyFloat(m_thickness));
 		PyDict_SetItemString(dict, "segments", ToPyInt(m_segments));
+	}
+
+	PyObject* draw_bezier_curve(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		const char* drawing;
+		float thickness = 1.0f;
+		PyObject* p1, * p2, * p3, * p4;
+		PyObject* color;
+		int segments = 0;
+		const char* tag = "";
+
+		if (!(*mvApp::GetApp()->getParsers())["draw_bezier_curve"].parse(args, kwargs, __FUNCTION__, &drawing, &p1, &p2, &p3, &p4, &color, &thickness, &segments, &tag))
+			return GetPyNone();
+
+		mvVec2 mp1 = ToVec2(p1);
+		mvVec2 mp2 = ToVec2(p2);
+		mvVec2 mp3 = ToVec2(p3);
+		mvVec2 mp4 = ToVec2(p4);
+		mvColor mcolor = ToColor(color);
+
+		mvDrawList* drawlist = GetDrawListFromTarget(drawing);
+		if (drawlist)
+		{
+			if (auto command = drawlist->getCommand(tag))
+				*static_cast<mvDrawBezierCurveCmd*>(command) = mvDrawBezierCurveCmd(mp1, mp2, mp3, mp4, mcolor, thickness, segments);
+			else
+			{
+				auto cmd = CreateRef<mvDrawBezierCurveCmd>(mp1, mp2, mp3, mp4, mcolor, thickness, segments);
+				cmd->tag = tag;
+				drawlist->addCommand(cmd);
+			}
+		}
+		return GetPyNone();
 	}
 }

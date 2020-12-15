@@ -1,6 +1,7 @@
 #include "mvDrawPolygonCmd.h"
 #include "mvPythonTranslator.h"
 #include "mvGlobalIntepreterLock.h"
+#include "mvApp.h"
 
 namespace Marvel {
 
@@ -118,5 +119,36 @@ namespace Marvel {
 		PyDict_SetItemString(dict, "fill", ToPyColor(m_fill));
 		PyDict_SetItemString(dict, "color", ToPyColor(m_color));
 		PyDict_SetItemString(dict, "thickness", ToPyFloat(m_thickness));
+	}
+
+	PyObject* draw_polygon(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		const char* drawing;
+		PyObject* points;
+		PyObject* color;
+		PyObject* fill = nullptr;
+		float thickness = 1.0f;
+		const char* tag = "";
+
+		if (!(*mvApp::GetApp()->getParsers())["draw_polygon"].parse(args, kwargs, __FUNCTION__, &drawing, &points, &color, &fill, &thickness, &tag))
+			return GetPyNone();
+
+		auto mpoints = ToVectVec2(points);
+		mvColor mcolor = ToColor(color);
+		mvColor mfill = ToColor(fill);
+
+		mvDrawList* drawlist = GetDrawListFromTarget(drawing);
+		if (drawlist)
+		{
+			if (auto command = drawlist->getCommand(tag))
+				*static_cast<mvDrawPolygonCmd*>(command) = mvDrawPolygonCmd(mpoints, mcolor, mfill, thickness);
+			else
+			{
+				auto cmd = CreateRef<mvDrawPolygonCmd>(mpoints, mcolor, mfill, thickness);
+				cmd->tag = tag;
+				drawlist->addCommand(cmd);
+			}
+		}
+		return GetPyNone();
 	}
 }

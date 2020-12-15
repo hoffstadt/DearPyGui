@@ -4,6 +4,8 @@
 
 namespace Marvel {
 
+	PyObject* draw_bezier_curve(PyObject* self, PyObject* args, PyObject* kwargs);
+
 	class mvDrawBezierCurveCmd : public mvDrawCmd
 	{
 

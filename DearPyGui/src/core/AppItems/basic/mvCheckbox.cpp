@@ -31,7 +31,7 @@ namespace Marvel {
 		}
 
 		if (ImGui::Checkbox(m_label.c_str(), m_enabled ? m_value : &m_disabled_value))
-			mvCallbackRegistry::GetCallbackRegistry()->addCallback(getCallback(false), m_name, m_callbackData);
+			mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), m_name, m_callbackData);
 
 	}
 

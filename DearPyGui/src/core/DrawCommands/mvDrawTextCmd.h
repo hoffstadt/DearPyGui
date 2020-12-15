@@ -4,6 +4,8 @@
 
 namespace Marvel {
 
+	PyObject* draw_text(PyObject* self, PyObject* args, PyObject* kwargs);
+
 	class mvDrawTextCmd : public mvDrawCmd
 	{
 

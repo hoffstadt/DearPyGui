@@ -1,5 +1,6 @@
 #include "mvThreadPoolManager.h"
 #include "mvThreadPool.h"
+#include "mvApp.h"
 #include "mvAppLog.h"
 #include "mvProfiler.h"
 #include "mvCallbackRegistry.h"
@@ -72,7 +73,7 @@ namespace Marvel {
 		MV_PROFILE_FUNCTION()
 
 			// async callbacks
-			if (mvCallbackRegistry::GetCallbackRegistry()->hasAsyncCallbacks())
+			if (mvApp::GetApp()->getCallbackRegistry().hasAsyncCallbacks())
 			{
 				// check if threadpool is valid, if not, create it
 				if (m_tpool == nullptr)
@@ -83,7 +84,7 @@ namespace Marvel {
 					mvAppLog::Log("Threadpool created");
 				}
 
-				mvCallbackRegistry::GetCallbackRegistry()->runAsyncCallbacks(m_tpool);
+				mvApp::GetApp()->getCallbackRegistry().runAsyncCallbacks(m_tpool);
 			}
 
 		// update timer if thread pool exists

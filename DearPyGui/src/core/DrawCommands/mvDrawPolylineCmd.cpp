@@ -48,4 +48,34 @@ namespace Marvel {
 		PyDict_SetItemString(dict, "color", ToPyColor(m_color));
 		PyDict_SetItemString(dict, "thickness", ToPyFloat(m_thickness));
 	}
+
+	PyObject* draw_polyline(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		const char* drawing;
+		PyObject* points;
+		PyObject* color;
+		int closed = false;
+		float thickness = 1.0f;
+		const char* tag = "";
+
+		if (!(*mvApp::GetApp()->getParsers())["draw_polyline"].parse(args, kwargs, __FUNCTION__, &drawing, &points, &color, &closed, &thickness, &tag))
+			return GetPyNone();
+
+		auto mpoints = ToVectVec2(points);
+		mvColor mcolor = ToColor(color);
+
+		mvDrawList* drawlist = GetDrawListFromTarget(drawing);
+		if (drawlist)
+		{
+			if (auto command = drawlist->getCommand(tag))
+				*static_cast<mvDrawPolylineCmd*>(command) = mvDrawPolylineCmd(mpoints, mcolor, closed, thickness);
+			else
+			{
+				auto cmd = CreateRef<mvDrawPolylineCmd>(mpoints, mcolor, closed, thickness);
+				cmd->tag = tag;
+				drawlist->addCommand(cmd);
+			}
+		}
+		return GetPyNone();
+	}
 }

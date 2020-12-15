@@ -115,4 +115,50 @@ namespace Marvel {
 		PyDict_SetItemString(dict, "file", ToPyString(m_file));
 	}
 
+	PyObject* draw_image(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		const char* drawing;
+		const char* file;
+		PyObject* pmin;
+		PyObject* pmax = PyTuple_New(2);
+		PyTuple_SetItem(pmax, 0, PyFloat_FromDouble(0));
+		PyTuple_SetItem(pmax, 1, PyFloat_FromDouble(0));
+		PyObject* uv_min = PyTuple_New(2);
+		PyTuple_SetItem(uv_min, 0, PyFloat_FromDouble(0));
+		PyTuple_SetItem(uv_min, 1, PyFloat_FromDouble(0));
+		PyObject* uv_max = PyTuple_New(2);
+		PyTuple_SetItem(uv_max, 0, PyFloat_FromDouble(1));
+		PyTuple_SetItem(uv_max, 1, PyFloat_FromDouble(1));
+		PyObject* color = PyTuple_New(4);
+		PyTuple_SetItem(color, 0, PyFloat_FromDouble(255));
+		PyTuple_SetItem(color, 1, PyFloat_FromDouble(255));
+		PyTuple_SetItem(color, 2, PyFloat_FromDouble(255));
+		PyTuple_SetItem(color, 3, PyFloat_FromDouble(255));
+		const char* tag = "";
+
+		if (!(*mvApp::GetApp()->getParsers())["draw_image"].parse(args, kwargs, __FUNCTION__, &drawing, &file,
+			&pmin, &pmax, &uv_min, &uv_max, &color, &tag))
+			return GetPyNone();
+
+		mvVec2 mpmin = ToVec2(pmin);
+		mvVec2 mpmax = ToVec2(pmax);
+		mvVec2 muv_min = ToVec2(uv_min);
+		mvVec2 muv_max = ToVec2(uv_max);
+		mvColor mcolor = ToColor(color);
+
+		mvDrawList* drawlist = GetDrawListFromTarget(drawing);
+		if (drawlist)
+		{
+
+			if (auto command = drawlist->getCommand(tag))
+				*static_cast<mvDrawImageCmd*>(command) = mvDrawImageCmd(file, mpmin, mpmax, muv_min, muv_max, mcolor);
+			else
+			{
+				auto cmd = CreateRef<mvDrawImageCmd>(file, mpmin, mpmax, muv_min, muv_max, mcolor);
+				cmd->tag = tag;
+				drawlist->addCommand(cmd);
+			}
+		}
+		return GetPyNone();
+	}
 }

@@ -2,11 +2,18 @@
 
 #include "mvTypeBases.h"
 #include "mvDrawList.h"
+#include "mvPythonParser.h"
 
 namespace Marvel {
 
+	PyObject* add_drawing(PyObject* self, PyObject* args, PyObject* kwargs);
+
 	class mvDrawing : public mvAppItem
 	{
+
+	public:
+
+		static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
 
 	public:
 

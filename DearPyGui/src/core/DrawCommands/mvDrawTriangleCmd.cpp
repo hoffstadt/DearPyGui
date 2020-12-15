@@ -1,6 +1,7 @@
 #include "mvDrawTriangleCmd.h"
 #include "mvPythonTranslator.h"
 #include "mvGlobalIntepreterLock.h"
+#include "mvApp.h"
 
 namespace Marvel {
 
@@ -51,6 +52,40 @@ namespace Marvel {
 		PyDict_SetItemString(dict, "color", ToPyColor(m_color));
 		PyDict_SetItemString(dict, "thickness", ToPyColor(m_fill));
 		PyDict_SetItemString(dict, "thickness", ToPyFloat(m_thickness));
+	}
+
+	PyObject* draw_triangle(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		const char* drawing;
+		float thickness = 1.0f;
+		PyObject* p1, * p2, * p3;
+		PyObject* color;
+		PyObject* fill = nullptr;
+		const char* tag = "";
+
+		if (!(*mvApp::GetApp()->getParsers())["draw_triangle"].parse(args, kwargs, __FUNCTION__, &drawing, &p1, &p2, &p3, &color, &fill, &thickness, &tag))
+			return GetPyNone();
+
+
+		mvVec2 mp1 = ToVec2(p1);
+		mvVec2 mp2 = ToVec2(p2);
+		mvVec2 mp3 = ToVec2(p3);
+		mvColor mcolor = ToColor(color);
+		mvColor mfill = ToColor(fill);
+
+		mvDrawList* drawlist = GetDrawListFromTarget(drawing);
+		if (drawlist)
+		{
+			if (auto command = drawlist->getCommand(tag))
+				*static_cast<mvDrawTriangleCmd*>(command) = mvDrawTriangleCmd(mp1, mp2, mp3, mcolor, thickness, mfill);
+			else
+			{
+				auto cmd = CreateRef<mvDrawTriangleCmd>(mp1, mp2, mp3, mcolor, thickness, mfill);
+				cmd->tag = tag;
+				drawlist->addCommand(cmd);
+			}
+		}
+		return GetPyNone();
 	}
 
 }

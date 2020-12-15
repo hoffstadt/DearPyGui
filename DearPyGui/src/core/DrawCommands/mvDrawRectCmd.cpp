@@ -1,6 +1,7 @@
 #include"mvDrawRectCmd.h"
 #include "mvPythonTranslator.h"
 #include "mvGlobalIntepreterLock.h"
+#include "mvApp.h"
 
 namespace Marvel {
 
@@ -51,4 +52,36 @@ namespace Marvel {
 		PyDict_SetItemString(dict, "thickness", ToPyFloat(m_thickness));
 	}
 
+	PyObject* draw_rectangle(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		const char* drawing;
+		float thickness = 1.0f, rounding = 0.0f;
+		PyObject* pmin, * pmax;
+		PyObject* color;
+		PyObject* fill = nullptr;
+		const char* tag = "";
+
+		if (!(*mvApp::GetApp()->getParsers())["draw_rectangle"].parse(args, kwargs, __FUNCTION__, &drawing, &pmin, &pmax, &color, &fill, &rounding, &thickness, &tag))
+			return GetPyNone();
+
+
+		mvVec2 mpmax = ToVec2(pmax);
+		mvVec2 mpmin = ToVec2(pmin);
+		mvColor mcolor = ToColor(color);
+		mvColor mfill = ToColor(fill);
+
+		mvDrawList* drawlist = GetDrawListFromTarget(drawing);
+		if (drawlist)
+		{
+			if (auto command = drawlist->getCommand(tag))
+				*static_cast<mvDrawRectCmd*>(command) = mvDrawRectCmd(mpmin, mpmax, mcolor, mfill, rounding, thickness);
+			else
+			{
+				auto cmd = CreateRef<mvDrawRectCmd>(mpmin, mpmax, mcolor, mfill, rounding, thickness);
+				cmd->tag = tag;
+				drawlist->addCommand(cmd);
+			}
+		}
+		return GetPyNone();
+	}
 }
