@@ -407,7 +407,7 @@ namespace Marvel {
 				*static_cast<mvDrawImageCmd*>(command) = mvDrawImageCmd(file, mpmin, mpmax, muv_min, muv_max, mcolor);
 			else
 			{
-				mvDrawCmd* cmd = new mvDrawImageCmd(file, mpmin, mpmax, muv_min, muv_max, mcolor);
+				auto cmd = CreateRef<mvDrawImageCmd>(file, mpmin, mpmax, muv_min, muv_max, mcolor);
 				cmd->tag = tag;
 				drawlist->addCommand(cmd);
 			}
@@ -438,7 +438,7 @@ namespace Marvel {
 				*static_cast<mvDrawLineCmd*>(command) = mvDrawLineCmd(mp1, mp2, mcolor, (float)thickness);
 			else
 			{
-				mvDrawCmd* cmd = new mvDrawLineCmd(mp1, mp2, mcolor, (float)thickness);
+				auto cmd = CreateRef<mvDrawLineCmd>(mp1, mp2, mcolor, (float)thickness);
 				cmd->tag = tag;
 				drawlist->addCommand(cmd);
 			}
@@ -469,7 +469,7 @@ namespace Marvel {
 				*static_cast<mvDrawArrowCmd*>(command) = mvDrawArrowCmd(mp1, mp2, mcolor, (float)thickness, (float)size);
 			else
 			{
-				mvDrawCmd* cmd = new mvDrawArrowCmd(mp1, mp2, mcolor, (float)thickness, (float)size);
+				auto cmd = CreateRef<mvDrawArrowCmd>(mp1, mp2, mcolor, (float)thickness, (float)size);
 				cmd->tag = tag;
 				drawlist->addCommand(cmd);
 			}
@@ -503,7 +503,7 @@ namespace Marvel {
 				*static_cast<mvDrawTriangleCmd*>(command) = mvDrawTriangleCmd(mp1, mp2, mp3, mcolor, thickness, mfill);
 			else
 			{
-				mvDrawCmd* cmd = new mvDrawTriangleCmd(mp1, mp2, mp3, mcolor, thickness, mfill);
+				auto cmd = CreateRef<mvDrawTriangleCmd>(mp1, mp2, mp3, mcolor, thickness, mfill);
 				cmd->tag = tag;
 				drawlist->addCommand(cmd);
 			}
@@ -536,7 +536,7 @@ namespace Marvel {
 				*static_cast<mvDrawRectCmd*>(command) = mvDrawRectCmd(mpmin, mpmax, mcolor, mfill, rounding, thickness);
 			else
 			{
-				mvDrawCmd* cmd = new mvDrawRectCmd(mpmin, mpmax, mcolor, mfill, rounding, thickness);
+				auto cmd = CreateRef<mvDrawRectCmd>(mpmin, mpmax, mcolor, mfill, rounding, thickness);
 				cmd->tag = tag;
 				drawlist->addCommand(cmd);
 			}
@@ -571,7 +571,7 @@ namespace Marvel {
 				*static_cast<mvDrawQuadCmd*>(command) = mvDrawQuadCmd(mp1, mp2, mp3, mp4, mcolor, mfill, thickness);
 			else
 			{
-				mvDrawCmd* cmd = new mvDrawQuadCmd(mp1, mp2, mp3, mp4, mcolor, mfill, thickness);
+				auto cmd = CreateRef<mvDrawQuadCmd>(mp1, mp2, mp3, mp4, mcolor, mfill, thickness);
 				cmd->tag = tag;
 				drawlist->addCommand(cmd);
 			}
@@ -601,7 +601,7 @@ namespace Marvel {
 				*static_cast<mvDrawTextCmd*>(command) = mvDrawTextCmd(mpos, text, mcolor, size);
 			else
 			{
-				mvDrawCmd* cmd = new mvDrawTextCmd(mpos, text, mcolor, size);
+				auto cmd = CreateRef<mvDrawTextCmd>(mpos, text, mcolor, size);
 				cmd->tag = tag;
 				drawlist->addCommand(cmd);
 			}
@@ -634,7 +634,7 @@ namespace Marvel {
 				*static_cast<mvDrawCircleCmd*>(command) = mvDrawCircleCmd(mcenter, radius, mcolor, segments, thickness, mfill);
 			else
 			{
-				mvDrawCmd* cmd = new mvDrawCircleCmd(mcenter, radius, mcolor, segments, thickness, mfill);
+				auto cmd = CreateRef<mvDrawCircleCmd>(mcenter, radius, mcolor, segments, thickness, mfill);
 				cmd->tag = tag;
 				drawlist->addCommand(cmd);
 			}
@@ -664,7 +664,7 @@ namespace Marvel {
 				*static_cast<mvDrawPolylineCmd*>(command) = mvDrawPolylineCmd(mpoints, mcolor, closed, thickness);
 			else
 			{
-				mvDrawCmd* cmd = new mvDrawPolylineCmd(mpoints, mcolor, closed, thickness);
+				auto cmd = CreateRef<mvDrawPolylineCmd>(mpoints, mcolor, closed, thickness);
 				cmd->tag = tag;
 				drawlist->addCommand(cmd);
 			}
@@ -695,7 +695,7 @@ namespace Marvel {
 				*static_cast<mvDrawPolygonCmd*>(command) = mvDrawPolygonCmd(mpoints, mcolor, mfill, thickness);
 			else
 			{
-				mvDrawCmd* cmd = new mvDrawPolygonCmd(mpoints, mcolor, mfill, thickness);
+				auto cmd = CreateRef<mvDrawPolygonCmd>(mpoints, mcolor, mfill, thickness);
 				cmd->tag = tag;
 				drawlist->addCommand(cmd);
 			}
@@ -728,7 +728,7 @@ namespace Marvel {
 				*static_cast<mvDrawBezierCurveCmd*>(command) = mvDrawBezierCurveCmd(mp1, mp2, mp3, mp4, mcolor, thickness, segments);
 			else
 			{
-				mvDrawCmd* cmd = new mvDrawBezierCurveCmd(mp1, mp2, mp3, mp4, mcolor, thickness, segments);
+				auto cmd = CreateRef<mvDrawBezierCurveCmd>(mp1, mp2, mp3, mp4, mcolor, thickness, segments);
 				cmd->tag = tag;
 				drawlist->addCommand(cmd);
 			}

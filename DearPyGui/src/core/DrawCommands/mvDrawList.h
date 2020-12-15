@@ -17,7 +17,7 @@ namespace Marvel {
 
 		void       draw         (ImDrawList* drawlist, float x, float y);
 		void       clear        ();
-		void       addCommand   (mvDrawCmd* command);
+		void       addCommand   (mvRef<mvDrawCmd> command);
 		void       deleteCommand(const std::string& tag);
 		void       bringForward (const std::string& tag);
 		void       bringToFront (const std::string& tag);
@@ -27,7 +27,7 @@ namespace Marvel {
 
 	private:
 
-		std::vector<mvDrawCmd*> m_commands;
+		std::vector<mvRef<mvDrawCmd>> m_commands;
 
 	};
 
