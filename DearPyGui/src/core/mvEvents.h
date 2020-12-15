@@ -107,6 +107,8 @@ namespace Marvel {
 		// event bus events
 		static bool OnEvent(mvEvent& event);
 		static bool OnFrame(mvEvent& event);
+		
+		static void ShowDebug();
 
 	private:
 

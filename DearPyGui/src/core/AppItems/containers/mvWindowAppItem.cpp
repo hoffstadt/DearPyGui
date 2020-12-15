@@ -149,7 +149,7 @@ namespace Marvel {
 			if (m_mainWindow)
 				ImGui::PopStyleVar();
 
-			for (mvAppItem* item : m_children)
+			for (auto& item : m_children)
 			{
 				// skip item if it's not shown
 				if (!item->m_show)

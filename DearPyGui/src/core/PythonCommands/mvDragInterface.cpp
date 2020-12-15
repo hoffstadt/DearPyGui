@@ -216,7 +216,7 @@ namespace Marvel {
 			&label, &popup, &show))
 			return ToPyBool(false);
 
-		mvAppItem* item = new mvDragFloat(name, default_value, source);
+		auto item = CreateRef<mvDragFloat>(name, default_value, source);
 		if (callback)
 			Py_XINCREF(callback);
 		item->setCallback(callback);
@@ -262,7 +262,7 @@ namespace Marvel {
 			return ToPyBool(false);
 
 		auto vec = ToFloatVect(default_value);
-		mvAppItem* item = new mvDragFloat2(name, vec.data(), source);
+		auto item = CreateRef<mvDragFloat2>(name, vec.data(), source);
 		if (callback)
 			Py_XINCREF(callback);
 		item->setCallback(callback);
@@ -309,7 +309,7 @@ namespace Marvel {
 			return ToPyBool(false);
 
 		auto vec = ToFloatVect(default_value);
-		mvAppItem* item = new mvDragFloat3(name, vec.data(), source);
+		auto item = CreateRef<mvDragFloat3>(name, vec.data(), source);
 		if (callback)
 			Py_XINCREF(callback);
 		item->setCallback(callback);
@@ -358,7 +358,7 @@ namespace Marvel {
 
 		auto vec = ToFloatVect(default_value);
 
-		mvAppItem* item = new mvDragFloat4(name, vec.data(), source);
+		auto item = CreateRef<mvDragFloat4>(name, vec.data(), source);
 		if (callback)
 			Py_XINCREF(callback);
 		item->setCallback(callback);
@@ -401,7 +401,7 @@ namespace Marvel {
 			&label, &popup, &show))
 			return ToPyBool(false);
 
-		mvAppItem* item = new mvDragInt(name, default_value, source);
+		auto item = CreateRef<mvDragInt>(name, default_value, source);
 		if (callback)
 			Py_XINCREF(callback);
 		item->setCallback(callback);
@@ -447,7 +447,7 @@ namespace Marvel {
 			return ToPyBool(false);
 
 		auto vec = ToIntVect(default_value);
-		mvAppItem* item = new mvDragInt2(name, vec.data(), source);
+		auto item = CreateRef<mvDragInt2>(name, vec.data(), source);
 		if (callback)
 			Py_XINCREF(callback);
 		item->setCallback(callback);
@@ -494,7 +494,7 @@ namespace Marvel {
 			return ToPyBool(false);
 
 		auto vec = ToIntVect(default_value);
-		mvAppItem* item = new mvDragInt3(name, vec.data(), source);
+		auto item = CreateRef<mvDragInt3>(name, vec.data(), source);
 		if (callback)
 			Py_XINCREF(callback);
 		item->setCallback(callback);
@@ -542,7 +542,7 @@ namespace Marvel {
 			return ToPyBool(false);
 
 		auto vec = ToIntVect(default_value);
-		mvAppItem* item = new mvDragInt4(name, vec.data(), source);
+		auto item = CreateRef<mvDragInt4>(name, vec.data(), source);
 		if (callback)
 			Py_XINCREF(callback);
 		item->setCallback(callback);

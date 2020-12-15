@@ -30,7 +30,7 @@ namespace Marvel {
 
 		if (ImGui::BeginTabBar(m_label.c_str(), m_flags))
 		{
-			for (mvAppItem* item : m_children)
+			for (auto& item : m_children)
 			{
 				// skip item if it's not shown
 				if (!item->m_show)

@@ -37,10 +37,10 @@ namespace Marvel {
 				ImGui::SetTooltip("%s", m_tip.c_str());
 
 			// set other tab's value false
-			for (mvAppItem* child : parent->m_children)
+			for (auto child : parent->m_children)
 			{
 				if (child->getType() == mvAppItemType::TabItem)
-					*((mvTab*)child)->m_value = false;
+					*((mvTab*)child.get())->m_value = false;
 			}
 
 			// set current tab value true
@@ -58,7 +58,7 @@ namespace Marvel {
 
 			parent->setValue(m_name);
 
-			for (mvAppItem* item : m_children)
+			for (auto& item : m_children)
 			{
 				// skip item if it's not shown
 				if (!item->m_show)

@@ -102,7 +102,7 @@ namespace Marvel{
 		if (!(*mvApp::GetApp()->getParsers())["get_table_data"].parse(args, kwargs, __FUNCTION__, &name))
 			return GetPyNone();
 
-		mvAppItem* item = mvApp::GetApp()->getItemRegistry().getItem(std::string(name));
+		auto item = mvApp::GetApp()->getItemRegistry().getItem(std::string(name));
 
 		if (item == nullptr)
 		{
@@ -118,7 +118,7 @@ namespace Marvel{
 			return GetPyNone();
 		}
 
-		return static_cast<mvTable*>(item)->getPyValue();
+		return static_cast<mvTable*>(item.get())->getPyValue();
 	}
 
 	PyObject* set_table_data(PyObject* self, PyObject* args, PyObject* kwargs)
@@ -129,7 +129,7 @@ namespace Marvel{
 		if (!(*mvApp::GetApp()->getParsers())["set_table_data"].parse(args, kwargs, __FUNCTION__, &name, &value))
 			return GetPyNone();
 
-		mvAppItem* item = mvApp::GetApp()->getItemRegistry().getItem(std::string(name));
+		auto item = mvApp::GetApp()->getItemRegistry().getItem(std::string(name));
 
 		if (item == nullptr)
 		{
@@ -145,7 +145,7 @@ namespace Marvel{
 			return GetPyNone();
 		}
 
-		static_cast<mvTable*>(item)->setPyValue(value);
+		static_cast<mvTable*>(item.get())->setPyValue(value);
 
 		return GetPyNone();
 	}
@@ -167,7 +167,7 @@ namespace Marvel{
 			&before, &width, &height, &show))
 			return ToPyBool(false);
 
-		mvAppItem* item = new mvTable(name, ToStringVect(headers));
+		auto item = CreateRef<mvTable>(name, ToStringVect(headers));
 		if (callback)
 			Py_XINCREF(callback);
 		item->setCallback(callback);
@@ -190,7 +190,7 @@ namespace Marvel{
 		if (!(*mvApp::GetApp()->getParsers())["set_headers"].parse(args, kwargs, __FUNCTION__, &table, &headers))
 			return GetPyNone();
 
-		mvAppItem* item = mvApp::GetApp()->getItemRegistry().getItem(table);
+		auto item = mvApp::GetApp()->getItemRegistry().getItem(table);
 		if (item == nullptr)
 		{
 			std::string message = table;
@@ -199,7 +199,7 @@ namespace Marvel{
 		}
 
 		auto prow = ToStringVect(headers);
-		mvTable* atable = static_cast<mvTable*>(item);
+		mvTable* atable = static_cast<mvTable*>(item.get());
 
 		atable->addHeaders(prow);
 
@@ -213,7 +213,7 @@ namespace Marvel{
 		if (!(*mvApp::GetApp()->getParsers())["clear_table"].parse(args, kwargs, __FUNCTION__, &table))
 			return GetPyNone();
 
-		mvAppItem* item = mvApp::GetApp()->getItemRegistry().getItem(table);
+		auto item = mvApp::GetApp()->getItemRegistry().getItem(table);
 		if (item == nullptr)
 		{
 			std::string message = table;
@@ -228,7 +228,7 @@ namespace Marvel{
 			return GetPyNone();
 		}
 
-		mvTable* atable = static_cast<mvTable*>(item);
+		mvTable* atable = static_cast<mvTable*>(item.get());
 		atable->clearTable();
 		Py_RETURN_NONE;
 	}
@@ -243,7 +243,7 @@ namespace Marvel{
 			&column))
 			return GetPyNone();
 
-		mvAppItem* item = mvApp::GetApp()->getItemRegistry().getItem(table);
+		auto item = mvApp::GetApp()->getItemRegistry().getItem(table);
 		if (item == nullptr)
 		{
 			std::string message = table;
@@ -258,7 +258,7 @@ namespace Marvel{
 			return GetPyNone();
 		}
 
-		mvTable* atable = static_cast<mvTable*>(item);
+		mvTable* atable = static_cast<mvTable*>(item.get());
 		return Py_BuildValue("s", atable->getTableItem(row, column).c_str());
 
 	}
@@ -274,7 +274,7 @@ namespace Marvel{
 			&column, &value))
 			return GetPyNone();
 
-		mvAppItem* item = mvApp::GetApp()->getItemRegistry().getItem(table);
+		auto item = mvApp::GetApp()->getItemRegistry().getItem(table);
 		if (item == nullptr)
 		{
 			std::string message = table;
@@ -289,7 +289,7 @@ namespace Marvel{
 			return GetPyNone();
 		}
 
-		mvTable* atable = static_cast<mvTable*>(item);
+		mvTable* atable = static_cast<mvTable*>(item.get());
 		atable->setTableItem(row, column, value);
 
 		return GetPyNone();
@@ -302,7 +302,7 @@ namespace Marvel{
 		if (!(*mvApp::GetApp()->getParsers())["get_table_selections"].parse(args, kwargs, __FUNCTION__, &table))
 			return GetPyNone();
 
-		mvAppItem* item = mvApp::GetApp()->getItemRegistry().getItem(table);
+		auto item = mvApp::GetApp()->getItemRegistry().getItem(table);
 		if (item == nullptr)
 		{
 			std::string message = table;
@@ -317,7 +317,7 @@ namespace Marvel{
 			return GetPyNone();
 		}
 
-		mvTable* atable = static_cast<mvTable*>(item);
+		mvTable* atable = static_cast<mvTable*>(item.get());
 		return atable->getSelections();
 	}
 
@@ -332,7 +332,7 @@ namespace Marvel{
 			&column, &value))
 			return GetPyNone();
 
-		mvAppItem* item = mvApp::GetApp()->getItemRegistry().getItem(table);
+		auto item = mvApp::GetApp()->getItemRegistry().getItem(table);
 		if (item == nullptr)
 		{
 			std::string message = table;
@@ -347,7 +347,7 @@ namespace Marvel{
 			return GetPyNone();
 		}
 
-		mvTable* atable = static_cast<mvTable*>(item);
+		mvTable* atable = static_cast<mvTable*>(item.get());
 		atable->setSelection(row, column, value);
 
 		return GetPyNone();
@@ -362,7 +362,7 @@ namespace Marvel{
 		if (!(*mvApp::GetApp()->getParsers())["add_column"].parse(args, kwargs, __FUNCTION__, &table, &name, &column))
 			return GetPyNone();
 
-		mvAppItem* item = mvApp::GetApp()->getItemRegistry().getItem(table);
+		auto item = mvApp::GetApp()->getItemRegistry().getItem(table);
 		if (item == nullptr)
 		{
 			std::string message = table;
@@ -379,7 +379,7 @@ namespace Marvel{
 
 		auto pcolumn = ToStringVect(column);
 
-		mvTable* atable = static_cast<mvTable*>(item);
+		mvTable* atable = static_cast<mvTable*>(item.get());
 		atable->addColumn(name, pcolumn);
 
 		return GetPyNone();
@@ -395,7 +395,7 @@ namespace Marvel{
 		if (!(*mvApp::GetApp()->getParsers())["insert_column"].parse(args, kwargs, __FUNCTION__, &table, &column_index, &name, &column))
 			return GetPyNone();
 
-		mvAppItem* item = mvApp::GetApp()->getItemRegistry().getItem(table);
+		auto item = mvApp::GetApp()->getItemRegistry().getItem(table);
 		if (item == nullptr)
 		{
 			std::string message = table;
@@ -412,7 +412,7 @@ namespace Marvel{
 
 		auto prow = ToStringVect(column);
 
-		mvTable* atable = static_cast<mvTable*>(item);
+		mvTable* atable = static_cast<mvTable*>(item.get());
 		atable->insertColumn(column_index, name, prow);
 
 		return GetPyNone();
@@ -426,7 +426,7 @@ namespace Marvel{
 		if (!(*mvApp::GetApp()->getParsers())["delete_column"].parse(args, kwargs, __FUNCTION__, &table, &column))
 			return GetPyNone();
 
-		mvAppItem* item = mvApp::GetApp()->getItemRegistry().getItem(table);
+		auto item = mvApp::GetApp()->getItemRegistry().getItem(table);
 		if (item == nullptr)
 		{
 			std::string message = table;
@@ -441,7 +441,7 @@ namespace Marvel{
 			return GetPyNone();
 		}
 
-		mvTable* atable = static_cast<mvTable*>(item);
+		mvTable* atable = static_cast<mvTable*>(item.get());
 		atable->deleteColumn(column);
 
 		return GetPyNone();
@@ -455,7 +455,7 @@ namespace Marvel{
 		if (!(*mvApp::GetApp()->getParsers())["add_row"].parse(args, kwargs, __FUNCTION__, &table, &row))
 			return GetPyNone();
 
-		mvAppItem* item = mvApp::GetApp()->getItemRegistry().getItem(table);
+		auto item = mvApp::GetApp()->getItemRegistry().getItem(table);
 		if (item == nullptr)
 		{
 			std::string message = table;
@@ -471,7 +471,7 @@ namespace Marvel{
 		}
 
 		auto prow = ToStringVect(row);
-		mvTable* atable = static_cast<mvTable*>(item);
+		mvTable* atable = static_cast<mvTable*>(item.get());
 		if (atable->getColumnCount() == 0)
 		{
 			std::vector<std::string> headers;
@@ -493,7 +493,7 @@ namespace Marvel{
 		if (!(*mvApp::GetApp()->getParsers())["insert_row"].parse(args, kwargs, __FUNCTION__, &table, &row_index, &row))
 			return GetPyNone();
 
-		mvAppItem* item = mvApp::GetApp()->getItemRegistry().getItem(table);
+		auto item = mvApp::GetApp()->getItemRegistry().getItem(table);
 		if (item == nullptr)
 		{
 			std::string message = table;
@@ -509,7 +509,7 @@ namespace Marvel{
 		}
 
 		auto prow = ToStringVect(row);
-		mvTable* atable = static_cast<mvTable*>(item);
+		mvTable* atable = static_cast<mvTable*>(item.get());
 		if (atable->getColumnCount() == 0)
 		{
 			std::vector<std::string> headers;
@@ -530,7 +530,7 @@ namespace Marvel{
 		if (!(*mvApp::GetApp()->getParsers())["delete_row"].parse(args, kwargs, __FUNCTION__, &table, &row))
 			return GetPyNone();
 
-		mvAppItem* item = mvApp::GetApp()->getItemRegistry().getItem(table);
+		auto item = mvApp::GetApp()->getItemRegistry().getItem(table);
 		if (item == nullptr)
 		{
 			std::string message = table;
@@ -545,7 +545,7 @@ namespace Marvel{
 			return GetPyNone();
 		}
 
-		mvTable* atable = static_cast<mvTable*>(item);
+		mvTable* atable = static_cast<mvTable*>(item.get());
 		atable->deleteRow(row);
 
 		return GetPyNone();

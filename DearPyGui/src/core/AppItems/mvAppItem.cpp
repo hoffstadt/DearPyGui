@@ -116,7 +116,7 @@ namespace Marvel{
 	void mvAppItem::resetState()
 	{
 		m_state.reset();
-		for (mvAppItem* item : m_children)
+		for (auto& item : m_children)
 			item->resetState();
 
 	}
@@ -206,7 +206,7 @@ namespace Marvel{
 		return false;
 	}
 
-	bool mvAppItem::addRuntimeChild(const std::string& parent, const std::string& before, mvAppItem* item)
+	bool mvAppItem::addRuntimeChild(const std::string& parent, const std::string& before, mvRef<mvAppItem> item)
 	{
 		if (before.empty() && parent.empty())
 			return false;
@@ -224,7 +224,7 @@ namespace Marvel{
 			else
 			{
 				// check children
-				for (mvAppItem* child : m_children)
+				for (auto& child : m_children)
 				{
 					if (child->getDescription().container)
 					{
@@ -241,7 +241,7 @@ namespace Marvel{
 			bool beforeFound = false;
 
 			// check children
-			for (mvAppItem* child : m_children)
+			for (auto& child : m_children)
 			{
 
 				if (child->m_name == before)
@@ -257,7 +257,7 @@ namespace Marvel{
 			{
 				item->m_parent = this;
 
-				std::vector<mvAppItem*> oldchildren = m_children;
+				std::vector<mvRef<mvAppItem>> oldchildren = m_children;
 				m_children.clear();
 
 				for (auto child : oldchildren)
@@ -273,7 +273,7 @@ namespace Marvel{
 		}
 
 		// check children
-		for (mvAppItem* child : m_children)
+		for (auto& child : m_children)
 		{
 			if (child->getDescription().container)
 			{
@@ -286,7 +286,7 @@ namespace Marvel{
 		return false;
 	}
 
-	bool mvAppItem::addChildAfter(const std::string& prev, mvAppItem* item)
+	bool mvAppItem::addChildAfter(const std::string& prev, mvRef<mvAppItem> item)
 	{
 		if (prev.empty())
 			return false;
@@ -295,7 +295,7 @@ namespace Marvel{
 		bool prevFound = false;
 
 		// check children
-		for (mvAppItem* child : m_children)
+		for (auto& child : m_children)
 		{
 
 			if (child->m_name == prev)
@@ -312,10 +312,10 @@ namespace Marvel{
 		{
 			//item->setParent(this);
 
-			std::vector<mvAppItem*> oldchildren = m_children;
+			std::vector<mvRef<mvAppItem>> oldchildren = m_children;
 			m_children.clear();
 
-			for (auto child : oldchildren)
+			for (auto& child : oldchildren)
 			{
 				m_children.push_back(child);
 				if (child->m_name == prev)
@@ -327,7 +327,7 @@ namespace Marvel{
 		
 
 		// check children
-		for (mvAppItem* child : m_children)
+		for (auto& child : m_children)
 		{
 			if (child->getDescription().container)
 			{
@@ -346,7 +346,7 @@ namespace Marvel{
 		bool childfound = false;
 		bool itemDeleted = false;
 
-		for (mvAppItem* item : m_children)
+		for (auto& item : m_children)
 		{
 			if (item->m_name == name)
 			{
@@ -364,7 +364,7 @@ namespace Marvel{
 
 		if (childfound)
 		{
-			std::vector<mvAppItem*> oldchildren = m_children;
+			std::vector<mvRef<mvAppItem>> oldchildren = m_children;
 
 			m_children.clear();
 
@@ -372,8 +372,6 @@ namespace Marvel{
 			{
 				if (item->m_name == name)
 				{
-					delete item;
-					item = nullptr;
 					itemDeleted = true;
 					continue;
 				}
@@ -387,12 +385,6 @@ namespace Marvel{
 
 	void mvAppItem::deleteChildren()
 	{
-		for (auto& child : m_children)
-		{
-			delete child;
-			child = nullptr;
-		}
-
 		m_children.clear();
 	}
 
@@ -401,13 +393,13 @@ namespace Marvel{
 		m_label = value + "###" + m_name;
 	}
 
-	mvAppItem* mvAppItem::stealChild(const std::string& name)
+	mvRef<mvAppItem> mvAppItem::stealChild(const std::string& name)
 	{
-		mvAppItem* stolenChild = nullptr;
+		mvRef<mvAppItem> stolenChild = nullptr;
 
 		bool childfound = false;
 
-		for (mvAppItem* item : m_children)
+		for (auto& item : m_children)
 		{
 			if (item->m_name == name)
 			{
@@ -425,7 +417,7 @@ namespace Marvel{
 
 		if (childfound)
 		{
-			std::vector<mvAppItem*> oldchildren = m_children;
+			std::vector<mvRef<mvAppItem>> oldchildren = m_children;
 
 			m_children.clear();
 
@@ -444,9 +436,9 @@ namespace Marvel{
 		return stolenChild;
 	}
 
-	mvAppItem* mvAppItem::getChild(const std::string& name)
+	mvRef<mvAppItem> mvAppItem::getChild(const std::string& name)
 	{
-		for (mvAppItem* item : m_children)
+		for (auto& item : m_children)
 		{
 			if (item->m_name == name)
 				return item;
