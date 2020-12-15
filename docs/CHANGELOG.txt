@@ -32,6 +32,7 @@ Fixes:
 - drawing api:       polygon fill to draw before outline, related to #371
 - collapsing header: quering open/close works now
 - numpy:             list of int/float can now use numpy #105
+- treenode:          changing labels no longer reset state #373
 
 -----------------------------------------------------------------------
  VERSION 0.6.35
