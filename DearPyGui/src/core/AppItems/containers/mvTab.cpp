@@ -58,7 +58,7 @@ namespace Marvel {
 
 			parent->setValue(m_name);
 
-			for (auto item : m_children)
+			for (auto& item : m_children)
 			{
 				// skip item if it's not shown
 				if (!item->m_show)

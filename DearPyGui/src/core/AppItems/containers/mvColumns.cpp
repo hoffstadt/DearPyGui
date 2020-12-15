@@ -43,7 +43,7 @@ namespace Marvel {
 		ScopedID id;
 
 		ImGui::Columns(m_columns, m_name.c_str(), m_border);
-		for (auto item : m_children)
+		for (auto& item : m_children)
 		{
 			// skip item if it's not shown
 			if (!item->m_show)

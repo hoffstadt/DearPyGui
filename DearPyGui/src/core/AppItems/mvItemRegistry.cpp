@@ -53,6 +53,8 @@ namespace Marvel {
 	bool mvItemRegistry::onRender(mvEvent& event)
 	{
 
+		MV_PROFILE_FUNCTION();
+
 		// resets app items states (i.e. hovered)
 		for (auto window : m_frontWindows)
 			window->draw();
@@ -65,6 +67,8 @@ namespace Marvel {
 	bool mvItemRegistry::onPreRenderReset(mvEvent& event)
 	{
 
+		MV_PROFILE_FUNCTION();
+
 		// resets app items states (i.e. hovered)
 		for (auto window : m_frontWindows)
 			window->resetState();
@@ -76,6 +80,8 @@ namespace Marvel {
 
 	bool mvItemRegistry::onEndFrame(mvEvent& event)
 	{
+
+		MV_PROFILE_FUNCTION();
 
 		Py_BEGIN_ALLOW_THREADS
 		mvApp::GetApp()->getItemRegistry().postDeleteItems();
@@ -310,16 +316,15 @@ namespace Marvel {
 
 	void mvItemRegistry::postDeleteItems()
 	{
-		MV_PROFILE_FUNCTION()
 
-			// delete items from the delete queue
-			while (!m_deleteChildrenQueue.empty())
-			{
-				auto item = getItem(m_deleteChildrenQueue.front());
-				if (item)
-					item->deleteChildren();
-				m_deleteChildrenQueue.pop();
-			}
+		// delete items from the delete queue
+		while (!m_deleteChildrenQueue.empty())
+		{
+			auto item = getItem(m_deleteChildrenQueue.front());
+			if (item)
+				item->deleteChildren();
+			m_deleteChildrenQueue.pop();
+		}
 
 		// delete items from the delete queue
 		for(auto& item : m_deleteQueue)
@@ -413,117 +418,114 @@ namespace Marvel {
 
 	void mvItemRegistry::postAddItems()
 	{
-		MV_PROFILE_FUNCTION()
 
-			// add runtime items
-			for (auto& newItem : m_newItemVec)
+		// add runtime items
+		for (auto& newItem : m_newItemVec)
+		{
+
+			bool addedItem = false;
+
+			if (!newItem.item->getDescription().duplicatesAllowed)
 			{
-
-				bool addedItem = false;
-
-				if (!newItem.item->getDescription().duplicatesAllowed)
+				if (getItem(newItem.item->m_name, true))
 				{
-					if (getItem(newItem.item->m_name, true))
-					{
-						std::string message = newItem.item->m_name;
-						ThrowPythonException(message + ": Items of this type must have unique names");
-						continue;
-					}
-				}
-
-				if (newItem.item->getDescription().root)
-				{
-					m_frontWindows.push_back(newItem.item);
+					std::string message = newItem.item->m_name;
+					ThrowPythonException(message + ": Items of this type must have unique names");
 					continue;
 				}
+			}
 
-				for (auto window : m_frontWindows)
+			if (newItem.item->getDescription().root)
+			{
+				m_frontWindows.push_back(newItem.item);
+				continue;
+			}
+
+			for (auto window : m_frontWindows)
+			{
+				addedItem = window->addRuntimeChild(newItem.parent, newItem.before, newItem.item);
+				if (addedItem)
+					break;
+			}
+
+			if (!addedItem)
+			{
+				for (auto otherItems : m_orderedVec)
 				{
-					addedItem = window->addRuntimeChild(newItem.parent, newItem.before, newItem.item);
+					addedItem = otherItems.item->addRuntimeChild(newItem.parent, newItem.before, newItem.item);
 					if (addedItem)
 						break;
 				}
-
-				if (!addedItem)
-				{
-					for (auto otherItems : m_orderedVec)
-					{
-						addedItem = otherItems.item->addRuntimeChild(newItem.parent, newItem.before, newItem.item);
-						if (addedItem)
-							break;
-					}
-				}
-
-				if (!addedItem)
-				{
-					ThrowPythonException(newItem.item->m_name + " not added because its parent was not found");
-				}
-
 			}
+
+			if (!addedItem)
+			{
+				ThrowPythonException(newItem.item->m_name + " not added because its parent was not found");
+			}
+
+		}
 
 		m_newItemVec.clear();
 	}
 
 	void mvItemRegistry::postAddPopups()
 	{
-		MV_PROFILE_FUNCTION()
 
-			// add popup items
-			for (auto& popup : m_orderedVec)
+		// add popup items
+		for (auto& popup : m_orderedVec)
+		{
+
+			bool addedItem = false;
+
+			if (getItem(popup.item->m_name, true))
 			{
-
-				bool addedItem = false;
-
-				if (getItem(popup.item->m_name, true))
-				{
-					std::string message = popup.item->m_name;
-					ThrowPythonException(message + ": Items of this type must have unique names");
-					continue;
-				}
-
-				for (auto window : m_frontWindows)
-				{
-					addedItem = window->addChildAfter(popup.prev, popup.item);
-					if (addedItem)
-						break;
-				}
-
-				if (!addedItem)
-				{
-					ThrowPythonException(popup.item->m_name + " not added because its parent was not found");
-				}
-
+				std::string message = popup.item->m_name;
+				ThrowPythonException(message + ": Items of this type must have unique names");
+				continue;
 			}
+
+			for (auto window : m_frontWindows)
+			{
+				addedItem = window->addChildAfter(popup.prev, popup.item);
+				if (addedItem)
+					break;
+			}
+
+			if (!addedItem)
+			{
+				ThrowPythonException(popup.item->m_name + " not added because its parent was not found");
+			}
+
+		}
 		m_orderedVec.clear();
 	}
 
 	void mvItemRegistry::postMoveItems()
 	{
-		MV_PROFILE_FUNCTION()
 
-			// move
-			while (!m_moveVec.empty())
+		// move
+		while (!m_moveVec.empty())
+		{
+			StolenChild childrequest = m_moveVec.front();
+			m_moveVec.pop();
+
+			mvRef<mvAppItem> child = nullptr;
+
+			bool movedItem = false;
+
+			for (auto window : m_frontWindows)
 			{
-				StolenChild childrequest = m_moveVec.front();
-				m_moveVec.pop();
-
-				mvRef<mvAppItem> child = nullptr;
-
-				bool movedItem = false;
-
-				for (auto window : m_frontWindows)
-				{
-					child = window->stealChild(childrequest.item);
-					if (child)
-						break;
-				}
-
-				if (child == nullptr)
-					ThrowPythonException(childrequest.item + " not moved because it was not found");
-
+				child = window->stealChild(childrequest.item);
 				if (child)
-					addRuntimeItem(childrequest.parent, childrequest.before, child);
+					break;
 			}
+
+			if (child == nullptr)
+				ThrowPythonException(childrequest.item + " not moved because it was not found");
+
+			if (child)
+				addRuntimeItem(childrequest.parent, childrequest.before, child);
+		}
 
 		// move items up
 		while (!m_upQueue.empty())

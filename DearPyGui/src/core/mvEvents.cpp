@@ -1,5 +1,5 @@
 #include "mvEvents.h"
-
+#include "imgui.h"
 #include <utility>
 #include "mvProfiler.h"
 
@@ -28,6 +28,28 @@ namespace Marvel {
 	mvColor GetEColor(mvEvent& event, const char* name)
 	{
 		return std::get<mvColor>(event.arguments.at(SID(name)));
+	}
+
+	void mvEventBus::ShowDebug()
+	{
+		if (ImGui::Begin("Event Bus"))
+		{
+			std::unordered_map<mvID, std::vector<mvEventHandler*>>& handlerGroups = mvEventBus::GetEventHandlers();
+
+			for (auto& group : handlerGroups)
+			{
+				if (ImGui::CollapsingHeader(std::to_string(group.first).c_str()))
+				{
+					for (auto handler : group.second)
+					{
+						ImGui::Text("%d", handler);
+					}
+					
+				}
+
+			}
+		}
+		ImGui::End();
 	}
 
 	bool mvEventBus::OnEvent(mvEvent& event)

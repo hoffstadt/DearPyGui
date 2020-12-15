@@ -189,7 +189,6 @@ namespace Marvel {
 
 	void mvApp::render()
 	{
-		MV_PROFILE_FUNCTION();
 
 		// update timing
 		m_deltaTime = ImGui::GetIO().DeltaTime;
@@ -226,6 +225,7 @@ namespace Marvel {
 		mvEventBus::Publish(mvEVT_CATEGORY_APP, mvEVT_END_FRAME);
 
 #if defined(MV_PROFILE) && defined(MV_DEBUG)
+        //mvEventBus::ShowDebug();
 		postProfile();
 #endif // MV_PROFILE
 	}
