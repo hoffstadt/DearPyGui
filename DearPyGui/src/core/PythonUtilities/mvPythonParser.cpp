@@ -246,7 +246,5 @@ namespace Marvel {
 		}
 
 		stub.close();
-
-		delete commands;
 	}
 }

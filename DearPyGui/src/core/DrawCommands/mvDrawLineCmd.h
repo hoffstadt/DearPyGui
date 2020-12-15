@@ -4,6 +4,8 @@
 
 namespace Marvel {
 
+	PyObject* draw_line(PyObject* self, PyObject* args, PyObject* kwargs);
+
 	class mvDrawLineCmd : public mvDrawCmd
 	{
 
@@ -12,8 +14,6 @@ namespace Marvel {
 		MV_DRAWCMD_TYPE(mvDrawCmdType::DrawLine)
 
 		mvDrawLineCmd(const mvVec2& p1, const mvVec2& p2, const mvColor& color, float thickness);
-
-
 
 		void draw         (ImDrawList* drawlist, float x, float y) override;
 		void setConfigDict(PyObject* dict)                         override;

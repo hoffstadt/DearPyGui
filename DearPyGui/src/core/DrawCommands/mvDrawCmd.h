@@ -2,10 +2,17 @@
 #include <imgui.h>
 #include <string>
 #include "mvCore.h"
+#include "mvApp.h"
+#include "mvAppItems.h"
+#include "mvWindow.h"
 #define PY_SSIZE_T_CLEAN
 #include <Python.h>
+#include "mvPythonExceptions.h"
 
 #define MV_DRAWCMD_TYPE(x) mvDrawCmdType getType() const override { return x; }
+
+static const std::string DrawForeground = "##FOREGROUND";
+static const std::string DrawBackground = "##BACKGROUND";
 
 namespace Marvel {
 
@@ -37,4 +44,26 @@ namespace Marvel {
 		std::string tag;
 
 	};
+
+	static mvDrawList* GetDrawListFromTarget(const char* name)
+	{
+		if (name == DrawForeground)
+			return &mvApp::GetApp()->getViewport()->getFrontDrawList();
+
+		if (name == DrawBackground)
+			return &mvApp::GetApp()->getViewport()->getBackDrawList();
+
+		auto item = mvApp::GetApp()->getItemRegistry().getItem(name);
+
+		if (item == nullptr)
+			return nullptr;
+
+		if (item->getType() == mvAppItemType::Drawing)
+			return &static_cast<mvDrawing*>(item.get())->getDrawList();
+		if (item->getType() == mvAppItemType::Window)
+			return &static_cast<mvWindowAppItem*>(item.get())->getDrawList();
+
+		ThrowPythonException(std::string(name) + " draw target does not exist or is not a valid target.");
+		return nullptr;
+	}
 }

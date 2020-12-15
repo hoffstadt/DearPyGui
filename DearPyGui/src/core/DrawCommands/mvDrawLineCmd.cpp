@@ -1,6 +1,7 @@
 #include "mvDrawLineCmd.h"
 #include "mvPythonTranslator.h"
 #include "mvGlobalIntepreterLock.h"
+#include "mvApp.h"
 
 namespace Marvel {
 
@@ -43,4 +44,34 @@ namespace Marvel {
 		PyDict_SetItemString(dict, "thickness", ToPyFloat(m_thickness));
 	}
 
+	PyObject* draw_line(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		const char* drawing;
+		int thickness;
+		PyObject* p1, * p2;
+		PyObject* color;
+		const char* tag = "";
+
+		if (!(*mvApp::GetApp()->getParsers())["draw_line"].parse(args, kwargs, __FUNCTION__, &drawing, &p1, &p2, &color, &thickness, &tag))
+			return GetPyNone();
+
+		mvVec2 mp1 = ToVec2(p1);
+		mvVec2 mp2 = ToVec2(p2);
+		mvColor mcolor = ToColor(color);
+
+		mvDrawList* drawlist = GetDrawListFromTarget(drawing);
+		if (drawlist)
+		{
+
+			if (auto command = drawlist->getCommand(tag))
+				*static_cast<mvDrawLineCmd*>(command) = mvDrawLineCmd(mp1, mp2, mcolor, (float)thickness);
+			else
+			{
+				auto cmd = CreateRef<mvDrawLineCmd>(mp1, mp2, mcolor, (float)thickness);
+				cmd->tag = tag;
+				drawlist->addCommand(cmd);
+			}
+		}
+		return GetPyNone();
+	}
 }

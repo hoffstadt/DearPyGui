@@ -1,6 +1,7 @@
 #include "mvDrawTextCmd.h"
 #include "mvPythonTranslator.h"
 #include "mvGlobalIntepreterLock.h"
+#include "mvApp.h"
 
 namespace Marvel {
 
@@ -41,5 +42,35 @@ namespace Marvel {
 		PyDict_SetItemString(dict, "pos", ToPyPair(m_pos.x, m_pos.y));
 		PyDict_SetItemString(dict, "color", ToPyColor(m_color));
 		PyDict_SetItemString(dict, "size", ToPyInt(m_size));
+	}
+
+	PyObject* draw_text(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		const char* drawing;
+		const char* text;
+		PyObject* pos;
+		int size = 10;
+		PyObject* color = nullptr;
+		const char* tag = "";
+
+		if (!(*mvApp::GetApp()->getParsers())["draw_text"].parse(args, kwargs, __FUNCTION__, &drawing, &pos, &text, &color, &size, &tag))
+			return GetPyNone();
+
+		mvVec2 mpos = ToVec2(pos);
+		mvColor mcolor = ToColor(color);
+
+		mvDrawList* drawlist = GetDrawListFromTarget(drawing);
+		if (drawlist)
+		{
+			if (auto command = drawlist->getCommand(tag))
+				*static_cast<mvDrawTextCmd*>(command) = mvDrawTextCmd(mpos, text, mcolor, size);
+			else
+			{
+				auto cmd = CreateRef<mvDrawTextCmd>(mpos, text, mcolor, size);
+				cmd->tag = tag;
+				drawlist->addCommand(cmd);
+			}
+		}
+		return GetPyNone();
 	}
 }

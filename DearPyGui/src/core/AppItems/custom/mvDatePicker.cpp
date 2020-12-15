@@ -21,7 +21,7 @@ namespace Marvel {
 		if (ImPlot::ShowDatePicker(m_name.c_str(), &m_level, m_imvalue, m_imvalue))
 		{
 			ImPlot::GetGmtTime(*m_imvalue, m_value);
-			mvCallbackRegistry::GetCallbackRegistry()->addCallback(m_callback, m_name, m_callbackData);
+			mvApp::GetApp()->getCallbackRegistry().addCallback(m_callback, m_name, m_callbackData);
 		}
 
 	}

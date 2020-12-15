@@ -1,6 +1,7 @@
 #include "mvDrawCircleCmd.h"
 #include "mvPythonTranslator.h"
 #include "mvGlobalIntepreterLock.h"
+#include "mvApp.h"
 
 namespace Marvel {
 
@@ -51,4 +52,36 @@ namespace Marvel {
 		PyDict_SetItemString(dict, "segments", ToPyInt(m_segments));
 	}
 
+	PyObject* draw_circle(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		const char* drawing;
+		PyObject* center;
+		float radius;
+		PyObject* color;
+		int segments = 0;
+		float thickness = 1.0f;
+		PyObject* fill = nullptr;
+		const char* tag = "";
+
+		if (!(*mvApp::GetApp()->getParsers())["draw_circle"].parse(args, kwargs, __FUNCTION__, &drawing, &center, &radius, &color, &segments, &thickness, &fill, &tag))
+			return GetPyNone();
+
+		mvVec2 mcenter = ToVec2(center);
+		mvColor mcolor = ToColor(color);
+		mvColor mfill = ToColor(fill);
+
+		mvDrawList* drawlist = GetDrawListFromTarget(drawing);
+		if (drawlist)
+		{
+			if (auto command = drawlist->getCommand(tag))
+				*static_cast<mvDrawCircleCmd*>(command) = mvDrawCircleCmd(mcenter, radius, mcolor, segments, thickness, mfill);
+			else
+			{
+				auto cmd = CreateRef<mvDrawCircleCmd>(mcenter, radius, mcolor, segments, thickness, mfill);
+				cmd->tag = tag;
+				drawlist->addCommand(cmd);
+			}
+		}
+		return GetPyNone();
+	}
 }

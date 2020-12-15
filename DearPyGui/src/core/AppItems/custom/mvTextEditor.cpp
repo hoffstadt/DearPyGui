@@ -3189,8 +3189,6 @@ const mvTextEditor::LanguageDefinition& mvTextEditor::LanguageDefinition::Python
 			langDef.mIdentifiers.insert(std::make_pair(k.first, id));
 		}
 
-		delete docmap;
-
 		for (auto& k : GetModuleConstants())
 		{
 			Identifier id;

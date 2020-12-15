@@ -31,25 +31,28 @@
 
 namespace Marvel {
 
-	std::map<std::string, mvPythonParser>* BuildDearPyGuiInterface()
+	mvRef<std::map<std::string, mvPythonParser>> BuildDearPyGuiInterface()
 	{
 
-		std::map<std::string, mvPythonParser>* parsers = new std::map< std::string, mvPythonParser>;
+		auto parsers = CreateRef<std::map< std::string, mvPythonParser>>();
 
-		AddDrawingCommands(parsers);
-		AddPlotCommands(parsers);
-		AddLogCommands(parsers);
-		AddInputCommands(parsers);
-		AddInputWidgets(parsers);
-		AddSliderWidgets(parsers);
-		AddDragWidgets(parsers);
-		AddTableCommands(parsers);
-		AddItemCommands(parsers);
-		AddStdWindowCommands(parsers);
-		AddThemeCommands(parsers);
-		AddBasicWidgets(parsers);
-		AddContainerWidgets(parsers);
-		AddAppCommands(parsers);
+		// new system
+		mvDrawing::InsertParser(parsers.get());
+
+		AddDrawingCommands(parsers.get());
+		AddPlotCommands(parsers.get());
+		AddLogCommands(parsers.get());
+		AddInputCommands(parsers.get());
+		AddInputWidgets(parsers.get());
+		AddSliderWidgets(parsers.get());
+		AddDragWidgets(parsers.get());
+		AddTableCommands(parsers.get());
+		AddItemCommands(parsers.get());
+		AddStdWindowCommands(parsers.get());
+		AddThemeCommands(parsers.get());
+		AddBasicWidgets(parsers.get());
+		AddContainerWidgets(parsers.get());
+		AddAppCommands(parsers.get());
 		return parsers;
 	}
 
@@ -61,8 +64,6 @@ namespace Marvel {
 
 		for (const auto& item : *mapping)
 			result.emplace_back(item.first, item.second.getDocumentation());
-
-		delete mapping;
 
 		return result;
 	}

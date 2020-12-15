@@ -5,6 +5,8 @@
 
 namespace Marvel {
 
+	PyObject* draw_image(PyObject* self, PyObject* args, PyObject* kwargs);
+
 	class mvDrawImageCmd : public mvDrawCmd, public mvEventHandler
 	{
 

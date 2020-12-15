@@ -8,17 +8,6 @@
 
 namespace Marvel {
 
-	mvCallbackRegistry* mvCallbackRegistry::s_instance = nullptr;
-
-	mvCallbackRegistry* mvCallbackRegistry::GetCallbackRegistry()
-	{
-		if (s_instance)
-			return s_instance;
-
-		s_instance = new mvCallbackRegistry();
-		return s_instance;
-	}
-
 	mvCallbackRegistry::mvCallbackRegistry()
 	{
 		mvEventBus::Subscribe(this, mvEVT_FRAME);
@@ -170,7 +159,7 @@ namespace Marvel {
 	{
 		// submit to thread pool
 		for (auto& callback : m_asyncCallbacks)
-			threadpool->submit(std::bind(&mvCallbackRegistry::runAsyncCallback, mvCallbackRegistry::GetCallbackRegistry(),
+			threadpool->submit(std::bind(&mvCallbackRegistry::runAsyncCallback, this,
 				callback.name, callback.data, callback.returnname));
 
 		m_asyncCallbacks.clear();

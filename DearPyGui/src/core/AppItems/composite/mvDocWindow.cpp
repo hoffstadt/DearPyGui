@@ -36,12 +36,6 @@ namespace Marvel {
 		setup();
 	}
 
-	mvDocWindow::~mvDocWindow()
-	{
-		m_docmap->clear();
-		delete m_docmap;
-	}
-
 	void mvDocWindow::setup()
 	{
 		m_docmap = BuildDearPyGuiInterface();
@@ -688,7 +682,7 @@ namespace Marvel {
 			//{
 			//	if (oldMousePos.x != mousePos.x || oldMousePos.y != mousePos.y)
 			//	{
-			//		mvCallbackRegistry::GetCallbackRegistry()->runCallback(getMouseMoveCallback(), m_name,
+			//		mvApp::GetApp()->getCallbackRegistry().runCallback(getMouseMoveCallback(), m_name,
 			//			ToPyPair(x, y));
 			//	}
 			//}

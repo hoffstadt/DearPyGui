@@ -32,7 +32,7 @@ namespace Marvel {
 		if (ImGui::Selectable(m_label.c_str(), m_value, m_flags))
 		{
 
-			mvCallbackRegistry::GetCallbackRegistry()->addCallback(m_callback, m_name, m_callbackData);
+			mvApp::GetApp()->getCallbackRegistry().addCallback(m_callback, m_name, m_callbackData);
 
 			// Context Menu
 			if (!m_popup.empty())

@@ -6,6 +6,8 @@
 
 namespace Marvel {
 
+	PyObject* draw_arrow(PyObject* self, PyObject* args, PyObject* kwargs);
+
 	class mvDrawArrowCmd : public mvDrawCmd
 	{
 

@@ -80,8 +80,8 @@ namespace Marvel {
 	{ 
 		if (GetApp())
 		{
-			mvCallbackRegistry::GetCallbackRegistry()->runCallback(mvCallbackRegistry::GetCallbackRegistry()->getOnCloseCallback(), "Main Application");
-			mvCallbackRegistry::GetCallbackRegistry()->setOnCloseCallback(nullptr);
+			GetApp()->m_callbackRegistry->runCallback(GetApp()->m_callbackRegistry->getOnCloseCallback(), "Main Application");
+            GetApp()->m_callbackRegistry->setOnCloseCallback(nullptr);
 		}
 
 		s_started = false; 
@@ -146,6 +146,7 @@ namespace Marvel {
 		m_textureStorage = CreateOwnedPtr<mvTextureStorage>();
 		m_valueStorage = CreateOwnedPtr<mvValueStorage>();
 		m_themeManager = CreateOwnedPtr<mvTheme>();
+        m_callbackRegistry = CreateOwnedPtr<mvCallbackRegistry>();
 
 	}
 
@@ -165,8 +166,8 @@ namespace Marvel {
 		m_clientWidth  = GetEInt(event, "client_width");
 		m_clientHeight = GetEInt(event, "client_height");
 
-		mvCallbackRegistry::GetCallbackRegistry()->runCallback(
-			mvCallbackRegistry::GetCallbackRegistry()->getResizeCallback(), 
+		m_callbackRegistry->runCallback(
+			m_callbackRegistry->getResizeCallback(), 
 			"Main Application");
 
 		return true;

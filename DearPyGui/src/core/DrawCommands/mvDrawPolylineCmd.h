@@ -5,6 +5,8 @@
 
 namespace Marvel {
 
+	PyObject* draw_polyline(PyObject* self, PyObject* args, PyObject* kwargs);
+
 	class mvDrawPolylineCmd : public mvDrawCmd
 	{
 

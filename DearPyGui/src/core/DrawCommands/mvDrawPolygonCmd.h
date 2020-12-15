@@ -5,6 +5,8 @@
 
 namespace Marvel {
 
+	PyObject* draw_polygon(PyObject* self, PyObject* args, PyObject* kwargs);
+
 	class mvDrawPolygonCmd : public mvDrawCmd
 	{
 

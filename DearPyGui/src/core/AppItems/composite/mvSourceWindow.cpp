@@ -91,7 +91,7 @@ namespace Marvel {
 			{
 				if (oldMousePos.x != mousePos.x || oldMousePos.y != mousePos.y)
 				{
-					mvCallbackRegistry::GetCallbackRegistry()->runCallback(getMouseMoveCallback(), m_name,
+					mvApp::GetApp()->getCallbackRegistry().runCallback(getMouseMoveCallback(), m_name,
 						ToPyPair(x, y));
 				}
 			}

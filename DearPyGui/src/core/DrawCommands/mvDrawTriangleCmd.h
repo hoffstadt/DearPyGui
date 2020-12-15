@@ -4,6 +4,8 @@
 
 namespace Marvel {
 
+	PyObject* draw_triangle(PyObject* self, PyObject* args, PyObject* kwargs);
+
 	class mvDrawTriangleCmd : public mvDrawCmd
 	{
 

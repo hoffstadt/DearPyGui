@@ -4,6 +4,8 @@
 
 namespace Marvel {
 
+	PyObject* draw_quad(PyObject* self, PyObject* args, PyObject* kwargs);
+
 	class mvDrawQuadCmd : public mvDrawCmd
 	{
 

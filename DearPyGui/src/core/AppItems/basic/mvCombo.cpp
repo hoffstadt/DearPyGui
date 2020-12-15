@@ -42,7 +42,7 @@ namespace Marvel {
 				if (ImGui::Selectable((name).c_str(), is_selected))
 				{
 					if (m_enabled) { *m_value = name; }
-					mvCallbackRegistry::GetCallbackRegistry()->addCallback(m_callback, m_name, m_callbackData);
+					mvApp::GetApp()->getCallbackRegistry().addCallback(m_callback, m_name, m_callbackData);
 
 				}
 

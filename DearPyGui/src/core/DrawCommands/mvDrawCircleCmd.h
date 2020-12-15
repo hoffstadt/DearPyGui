@@ -4,6 +4,8 @@
 
 namespace Marvel {
 
+	PyObject* draw_circle(PyObject* self, PyObject* args, PyObject* kwargs);
+
 	class mvDrawCircleCmd : public mvDrawCmd
 	{
 

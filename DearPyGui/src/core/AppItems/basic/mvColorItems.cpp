@@ -15,7 +15,7 @@ namespace Marvel {
 		ScopedID id;
 
 		if (ImGui::ColorButton(m_label.c_str(), m_color, m_flags, ImVec2((float)m_width, (float)m_height)))
-			mvCallbackRegistry::GetCallbackRegistry()->addCallback(m_callback, m_name, m_callbackData);
+			mvApp::GetApp()->getCallbackRegistry().addCallback(m_callback, m_name, m_callbackData);
 
 	}
 
@@ -65,7 +65,7 @@ namespace Marvel {
 		ScopedID id;
 
 		if (ImGui::ColorEdit3(m_label.c_str(), m_value, m_flags))
-			mvCallbackRegistry::GetCallbackRegistry()->addCallback(m_callback, m_name, m_callbackData);
+			mvApp::GetApp()->getCallbackRegistry().addCallback(m_callback, m_name, m_callbackData);
 
 	}
 
@@ -168,7 +168,7 @@ namespace Marvel {
 		ScopedID id;
 
 		if (ImGui::ColorEdit4(m_label.c_str(), m_value, m_flags))
-			mvCallbackRegistry::GetCallbackRegistry()->addCallback(m_callback, m_name, m_callbackData);
+			mvApp::GetApp()->getCallbackRegistry().addCallback(m_callback, m_name, m_callbackData);
 
 	}
 
@@ -272,7 +272,7 @@ namespace Marvel {
 		ScopedID id;
 
 		if (ImGui::ColorPicker3(m_label.c_str(), m_value, m_flags))
-			mvCallbackRegistry::GetCallbackRegistry()->addCallback(m_callback, m_name, m_callbackData);
+			mvApp::GetApp()->getCallbackRegistry().addCallback(m_callback, m_name, m_callbackData);
 
 	}
 
@@ -376,7 +376,7 @@ namespace Marvel {
 		ScopedID id;
 
 		if (ImGui::ColorPicker4(m_label.c_str(), m_value, m_flags))
-			mvCallbackRegistry::GetCallbackRegistry()->addCallback(m_callback, m_name, m_callbackData);
+			mvApp::GetApp()->getCallbackRegistry().addCallback(m_callback, m_name, m_callbackData);
 
 	}
 

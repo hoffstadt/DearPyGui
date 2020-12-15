@@ -478,7 +478,7 @@ namespace Marvel {
 		if (!(*mvApp::GetApp()->getParsers())["set_start_callback"].parse(args, kwargs, __FUNCTION__, &callback))
 			return GetPyNone();
 
-		mvCallbackRegistry::GetCallbackRegistry()->setOnStartCallback(callback);
+		mvApp::GetApp()->getCallbackRegistry().setOnStartCallback(callback);
 		return GetPyNone();
 	}
 
@@ -489,7 +489,7 @@ namespace Marvel {
 		if (!(*mvApp::GetApp()->getParsers())["set_exit_callback"].parse(args, kwargs, __FUNCTION__, &callback))
 			return GetPyNone();
 
-		mvCallbackRegistry::GetCallbackRegistry()->setOnCloseCallback(callback);
+		mvApp::GetApp()->getCallbackRegistry().setOnCloseCallback(callback);
 		return GetPyNone();
 	}
 
@@ -500,7 +500,7 @@ namespace Marvel {
 		if (!(*mvApp::GetApp()->getParsers())["set_accelerator_callback"].parse(args, kwargs, __FUNCTION__, &callback))
 			return GetPyNone();
 
-		mvCallbackRegistry::GetCallbackRegistry()->setAcceleratorCallback(callback);
+		mvApp::GetApp()->getCallbackRegistry().setAcceleratorCallback(callback);
 		return GetPyNone();
 	}
 
@@ -527,7 +527,7 @@ namespace Marvel {
 
 		auto tpool = mvThreadPoolManager::GetThreadPoolManager();
 
-		mvCallbackRegistry::GetCallbackRegistry()->addMTCallback(callback, data, return_handler);
+		mvApp::GetApp()->getCallbackRegistry().addMTCallback(callback, data, return_handler);
 
 		return GetPyNone();
 
