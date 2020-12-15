@@ -1,4 +1,6 @@
 #include "mvEvents.h"
+
+#include <utility>
 #include "mvProfiler.h"
 
 namespace Marvel {
@@ -49,12 +51,12 @@ namespace Marvel {
 
 	void mvEventBus::PublishEndFrame(mvID category, mvID type, std::unordered_map<mvID, mvVariant> arguments)
 	{
-		GetEndFrameEvents().push({ type, arguments, category });
+		GetEndFrameEvents().push({ type, std::move(arguments), category });
 	}
 
 	void mvEventBus::Publish(mvID category, mvID type, std::unordered_map<mvID, mvVariant> arguments)
 	{
-		Publish({ type, arguments, category });
+		Publish({ type, std::move(arguments), category });
 	}
 
 	void mvEventBus::Publish(mvEvent event)

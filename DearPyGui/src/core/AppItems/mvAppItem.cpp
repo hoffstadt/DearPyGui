@@ -1,10 +1,8 @@
 #include "mvAppItem.h"
 #include "mvApp.h"
 #include "mvInput.h"
-#include "mvDataStorage.h"
 #include "mvPythonTranslator.h"
 #include "mvPythonExceptions.h"
-#include "mvMarvel.h"
 #include "mvGlobalIntepreterLock.h"
 
 namespace Marvel{
@@ -28,7 +26,7 @@ namespace Marvel{
 			ThrowPythonException("\"" + m_name + "\" could not find a parser that matched \"" + getParserCommand() + "\".");
 			return;
 		}
-		for (auto key : configKeys)
+		for (const auto& key : configKeys)
 		{
 			size_t i = 0;
 			while (i < parserKeywords.size() - 1)

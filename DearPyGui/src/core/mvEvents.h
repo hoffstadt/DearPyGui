@@ -10,7 +10,7 @@
 #include "mvCompileTimeCRC32.h"
 #include "mvEventMacros.h"
 
-#define BIND_EVENT_METH(x) std::bind(&x, this, std::placeholders::_1)
+#define BIND_EVENT_METH(x) [this](auto&& event){ return x(std::forward<decltype(event)>(event));}
 
 namespace Marvel {
 
