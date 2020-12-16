@@ -3,11 +3,18 @@
 #include "mvAppItem.h"
 #include "mvApp.h"
 #include "mvAppLog.h"
+#include "mvPythonParser.h"
 
 namespace Marvel {
 
+	PyObject* add_table(PyObject* self, PyObject* args, PyObject* kwargs);
+
 	class mvTable : public mvAppItem
 	{
+
+	public:
+
+		static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
 
 	public:
 

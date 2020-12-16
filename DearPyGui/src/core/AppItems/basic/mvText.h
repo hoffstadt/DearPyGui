@@ -1,6 +1,7 @@
 #pragma once
 
 #include "mvTypeBases.h"
+#include "mvPythonParser.h"
 
 //-----------------------------------------------------------------------------
 // Widget Index
@@ -12,11 +13,17 @@
 
 namespace Marvel {
 
+	PyObject* add_text(PyObject* self, PyObject* args, PyObject* kwargs);
+
 	//-----------------------------------------------------------------------------
 	// mvText
 	//-----------------------------------------------------------------------------
 	class mvText : public mvStringPtrBase
 	{
+
+	public:
+
+		static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
 
 	public:
 
@@ -39,8 +46,15 @@ namespace Marvel {
 	//-----------------------------------------------------------------------------
 	// mvLabelText
 	//-----------------------------------------------------------------------------
+
+	PyObject* add_label_text(PyObject* self, PyObject* args, PyObject* kwargs);
+
 	class mvLabelText : public mvStringPtrBase
 	{
+
+	public:
+
+		static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
 
 	public:
 

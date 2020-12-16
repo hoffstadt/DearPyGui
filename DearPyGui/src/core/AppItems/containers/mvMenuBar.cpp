@@ -2,9 +2,20 @@
 
 #include "mvMenuBar.h"
 #include "mvApp.h"
+#include "mvPythonTranslator.h"
 
 namespace Marvel {
 
+	void mvMenuBar::InsertParser(std::map<std::string, mvPythonParser>* parsers)
+	{
+		parsers->insert({ "add_menu_bar", mvPythonParser({
+			{mvPythonDataType::String, "name"},
+			{mvPythonDataType::KeywordOnly},
+			{mvPythonDataType::Bool, "show", "Attempt to render", "True"},
+			{mvPythonDataType::String, "parent", "Parent this item will be added to. (runtime adding)", "''"},
+			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)", "''"},
+		}, "Adds a menu bar to a window. Must be followed by a call to end.", "None", "Containers") });
+	}
 
 	mvMenuBar::mvMenuBar(const std::string& name)
 			: mvBoolPtrBase(name, true, name)
@@ -44,6 +55,65 @@ namespace Marvel {
 			}
 			ImGui::EndMenuBar();
 		}
+	}
+
+	PyObject* add_menu_bar(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		const char* name;
+		int show = true;
+		const char* parent = "";
+		const char* before = "";
+
+		if (!(*mvApp::GetApp()->getParsers())["add_menu_bar"].parse(args, kwargs, __FUNCTION__, &name,
+			&show, &parent, &before))
+			return ToPyBool(false);
+
+		auto parentItem = mvApp::GetApp()->getItemRegistry().topParent();
+
+		if (parentItem == nullptr)
+		{
+			ThrowPythonException("Menubar requires a window to be on the parent stack.");
+			return ToPyBool(false);
+		}
+
+		else if (parentItem->getType() == mvAppItemType::Window)
+		{
+			auto window = static_cast<mvWindowAppItem*>(parentItem.get());
+			window->addFlag(ImGuiWindowFlags_MenuBar);
+			window->addMenuBar();
+
+			auto item = CreateRef<mvMenuBar>(name);
+
+			item->checkConfigDict(kwargs);
+			item->setConfigDict(kwargs);
+			item->setExtraConfigDict(kwargs);
+
+			if (mvApp::GetApp()->getItemRegistry().addItemWithRuntimeChecks(item, parent, before))
+			{
+				mvApp::GetApp()->getItemRegistry().pushParent(item);
+				return ToPyBool(true);
+			}
+		}
+
+		else if (parentItem->getType() == mvAppItemType::Child)
+		{
+			auto child = static_cast<mvChild*>(parentItem.get());
+			child->addFlag(ImGuiWindowFlags_MenuBar);
+
+			auto item = CreateRef<mvMenuBar>(name);
+
+			item->checkConfigDict(kwargs);
+			item->setConfigDict(kwargs);
+			item->setExtraConfigDict(kwargs);
+
+			if (mvApp::GetApp()->getItemRegistry().addItemWithRuntimeChecks(item, parent, before))
+			{
+				mvApp::GetApp()->getItemRegistry().pushParent(item);
+				return ToPyBool(true);
+			}
+		}
+
+		return ToPyBool(false);
 	}
 
 }

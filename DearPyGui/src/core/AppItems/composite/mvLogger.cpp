@@ -7,6 +7,27 @@ typedef std::chrono::high_resolution_clock clock_;
 typedef std::chrono::duration<double, std::ratio<1> > second_;
 
 namespace Marvel {
+	void mvLoggerItem::InsertParser(std::map<std::string, mvPythonParser>* parsers)
+	{
+		parsers->insert({ "add_logger", mvPythonParser({
+			{mvPythonDataType::String, "name"},
+			{mvPythonDataType::KeywordOnly},
+			{mvPythonDataType::Integer, "log_level", "", "1"},
+			{mvPythonDataType::Bool, "auto_scroll", "auto scroll", "True"},
+			{mvPythonDataType::Bool, "auto_scroll_button", "show auto scroll button", "True"},
+			{mvPythonDataType::Bool, "clear_button", "show clear button", "True"},
+			{mvPythonDataType::Bool, "copy_button", "show copy button", "True"},
+			{mvPythonDataType::Bool, "filter", "show filter", "True"},
+			{mvPythonDataType::Integer, "width","", "0"},
+			{mvPythonDataType::Integer, "height","", "0"},
+			{mvPythonDataType::String, "parent", "Parent this item will be added to. (runtime adding)", "''"},
+			{mvPythonDataType::String, "before","This item will be displayed before the specified item in the parent. (runtime adding)", "''"},
+			{mvPythonDataType::Bool, "show", "Attempt to render", "True"},
+			{mvPythonDataType::Bool, "autosize_x", "", "False"},
+			{mvPythonDataType::Bool, "autosize_y", "", "False"},
+
+		}, "Adds a logging widget.", "None", "Adding Widgets") });
+	}
 
 #if defined (_WIN32)
 	std::chrono::steady_clock::time_point mvLoggerItem::s_start = clock_::now();
@@ -267,4 +288,36 @@ namespace Marvel {
 		PyDict_SetItemString(dict, "autosize_x", ToPyBool(m_autosize_x));
 		PyDict_SetItemString(dict, "autosize_y", ToPyBool(m_autosize_y));
 	}
+
+	PyObject* add_logger(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		const char* name;
+		int logLevel = 1;
+		int autoScroll = true;
+		int autoScrollButton = true;
+		int copyButton = true;
+		int clearButton = true;
+		int filter = true;
+		int width = 0;
+		int height = 0;
+		const char* parent = "";
+		const char* before = "";
+		int show = true;
+		int autosize_x = false;
+		int autosize_y = false;
+
+		if (!(*mvApp::GetApp()->getParsers())["add_logger"].parse(args, kwargs, __FUNCTION__,
+			&name, &logLevel, &autoScroll, &autoScrollButton, &copyButton, &clearButton,
+			&filter, &width, &height, &parent, &before, &show, &autosize_x, &autosize_y))
+			return ToPyBool(false);
+
+		auto item = CreateRef<mvLoggerItem>(name);
+
+		item->checkConfigDict(kwargs);
+		item->setConfigDict(kwargs);
+		item->setExtraConfigDict(kwargs);
+
+		return ToPyBool(mvApp::GetApp()->getItemRegistry().addItemWithRuntimeChecks(item, parent, before));
+	}
+
 }

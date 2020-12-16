@@ -7,6 +7,34 @@
 
 namespace Marvel {
 
+	void mvCombo::InsertParser(std::map<std::string, mvPythonParser>* parsers)
+	{
+		parsers->insert({ "add_combo", mvPythonParser({
+			{mvPythonDataType::String, "name"},
+			{mvPythonDataType::KeywordOnly},
+			{mvPythonDataType::StringList, "items", "", "()"},
+			{mvPythonDataType::String, "default_value", "", "''"},
+			{mvPythonDataType::Callable, "callback", "Registers a callback", "None"},
+			{mvPythonDataType::Object, "callback_data", "Callback data", "None"},
+			{mvPythonDataType::String, "tip", "Adds a simple tooltip", "''"},
+			{mvPythonDataType::String, "parent", "Parent this item will be added to. (runtime adding)", "''"},
+			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)", "''"},
+			{mvPythonDataType::String, "source", "", "''"},
+			{mvPythonDataType::Bool, "enabled", "Display grayed out text so selectable cannot be selected", "True"},
+			{mvPythonDataType::Integer, "width","", "0"},
+			{mvPythonDataType::String, "label","", "''"},
+			{mvPythonDataType::String, "popup","", "''"},
+			{mvPythonDataType::Bool, "show","Attemp to render", "True"},
+			{mvPythonDataType::Bool, "popup_align_left","Align the popup toward the left by default", "False"},
+			{mvPythonDataType::Bool, "height_small","Max ~4 items visible", "False"},
+			{mvPythonDataType::Bool, "height_regular","Max ~8 items visible (default)", "False"},
+			{mvPythonDataType::Bool, "height_large","Max ~20 items visible", "False"},
+			{mvPythonDataType::Bool, "height_largest","As many items visible as possible", "False"},
+			{mvPythonDataType::Bool, "no_arrow_button","Display on the preview box without the square arrow button", "False"},
+			{mvPythonDataType::Bool, "no_preview","Display only a square arrow button", "False"},
+		}, "Adds a combo.", "None", "Adding Widgets") });
+	}
+
 	mvCombo::mvCombo(const std::string& name, const std::string& default_value, const std::string& dataSource)
 		: mvStringPtrBase(name, default_value, dataSource)
 	{
@@ -123,6 +151,52 @@ namespace Marvel {
 		checkbitset("height_largest", ImGuiComboFlags_HeightLargest, m_flags);
 		checkbitset("no_arrow_button", ImGuiComboFlags_NoArrowButton, m_flags);
 		checkbitset("no_preview", ImGuiComboFlags_NoPreview, m_flags);
+	}
+
+	PyObject* add_combo(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		const char* name;
+		const char* default_value = "";
+		PyObject* items;
+		PyObject* callback = nullptr;
+		PyObject* callback_data = nullptr;
+		const char* tip = "";
+		int width = 0;
+		const char* before = "";
+		const char* parent = "";
+		const char* source = "";
+		int enabled = true;
+		const char* label = "";
+		const char* popup = "";
+		int show = true;
+		int popup_align_left = false;
+		int height_small = false;
+		int height_regular = false;
+		int height_large = false;
+		int height_largest = false;
+		int no_arrow_button = false;
+		int no_preview = false;
+
+
+		if (!(*mvApp::GetApp()->getParsers())["add_combo"].parse(args, kwargs, __FUNCTION__, &name, &items,
+			&default_value, &callback, &callback_data, &tip, &parent, &before, &source, &enabled, &width,
+			&label, &popup, &show, &popup_align_left, &height_small, &height_regular, &height_large,
+			&height_largest, &no_arrow_button, &no_preview))
+			return ToPyBool(false);
+
+		auto item = CreateRef<mvCombo>(name, default_value, source);
+		if (callback)
+			Py_XINCREF(callback);
+		item->setCallback(callback);
+		if (callback_data)
+			Py_XINCREF(callback_data);
+		item->setCallbackData(callback_data);
+
+		item->checkConfigDict(kwargs);
+		item->setConfigDict(kwargs);
+		item->setExtraConfigDict(kwargs);
+
+		return ToPyBool(mvApp::GetApp()->getItemRegistry().addItemWithRuntimeChecks(item, parent, before));
 	}
 
 }

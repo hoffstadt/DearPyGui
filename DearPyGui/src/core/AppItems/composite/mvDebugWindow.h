@@ -1,11 +1,18 @@
 #pragma once
 #include "mvTypeBases.h"
 #include "mvMarvel.h"
+#include "mvPythonParser.h"
 
 namespace Marvel {
 
+	PyObject* add_debug_window(PyObject* self, PyObject* args, PyObject* kwargs);
+
 	class mvDebugWindow : public mvBaseWindowAppitem
 	{
+
+	public:
+
+		static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
 
 		MV_APPITEM_TYPE(mvAppItemType::DebugWindow, "add_debug_window")
 

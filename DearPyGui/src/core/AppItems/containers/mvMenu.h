@@ -1,11 +1,18 @@
 #pragma once
 
 #include "mvTypeBases.h"
+#include "mvPythonParser.h"
 
 namespace Marvel {
 
+	PyObject* add_menu(PyObject* self, PyObject* args, PyObject* kwargs);
+
 	class mvMenu : public mvBoolPtrBase
 	{
+
+	public:
+
+		static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
 
 	public:
 

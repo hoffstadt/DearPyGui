@@ -7,8 +7,14 @@
 
 namespace Marvel {
 
+	PyObject* add_doc_window(PyObject* self, PyObject* args, PyObject* kwargs);
+
 	class mvDocWindow : public mvBaseWindowAppitem
 	{
+
+	public:
+
+		static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
 
 		MV_APPITEM_TYPE(mvAppItemType::DocWindow, "add_doc_window")
 

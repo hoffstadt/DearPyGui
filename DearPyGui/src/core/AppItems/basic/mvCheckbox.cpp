@@ -6,6 +6,24 @@
 #include "mvGlobalIntepreterLock.h"
 
 namespace Marvel {
+	void mvCheckbox::InsertParser(std::map<std::string, mvPythonParser>* parsers)
+	{
+		parsers->insert({ "add_checkbox", mvPythonParser({
+			{mvPythonDataType::String, "name"},
+			{mvPythonDataType::KeywordOnly},
+			{mvPythonDataType::Integer, "default_value", "", "False"},
+			{mvPythonDataType::Callable, "callback", "Registers a callback", "None"},
+			{mvPythonDataType::Object, "callback_data", "Callback data", "None"},
+			{mvPythonDataType::String, "tip", "Adds a simple tooltip", "''"},
+			{mvPythonDataType::String, "parent", "Parent to add this item to. (runtime adding)", "''"},
+			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)", "''"},
+			{mvPythonDataType::String, "source", "", "''"},
+			{mvPythonDataType::String, "label", "", "''"},
+			{mvPythonDataType::String, "popup", "", "''"},
+			{mvPythonDataType::Bool, "show", "Attempt to render", "True"},
+			{mvPythonDataType::Bool, "enabled", "", "True"}
+		}, "Adds a checkbox widget.", "None", "Adding Widgets") });
+	}
 
 	mvCheckbox::mvCheckbox(const std::string& name, bool default_value, const std::string& dataSource)
 		: mvBoolPtrBase(name, default_value, dataSource)
@@ -35,4 +53,39 @@ namespace Marvel {
 
 	}
 
+	PyObject* add_checkbox(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		const char* name;
+		int default_value = 0;
+		PyObject* callback = nullptr;
+		PyObject* callback_data = nullptr;
+		const char* tip = "";
+		const char* before = "";
+		const char* parent = "";
+		const char* source = "";
+		const char* label = "";
+		const char* popup = "";
+		int show = true;
+		int enabled = true;
+
+		if (!(*mvApp::GetApp()->getParsers())["add_checkbox"].parse(args, kwargs, __FUNCTION__, &name,
+			&default_value, &callback, &callback_data, &tip, &parent, &before, &source,
+			&label, &popup, &show, &enabled))
+			return ToPyBool(false);
+
+		auto item = CreateRef<mvCheckbox>(name, default_value, source);
+		if (callback)
+			Py_XINCREF(callback);
+		item->setCallback(callback);
+		if (callback_data)
+			Py_XINCREF(callback_data);
+		item->setCallbackData(callback_data);
+
+		item->checkConfigDict(kwargs);
+		item->setConfigDict(kwargs);
+		item->setExtraConfigDict(kwargs);
+
+
+		return ToPyBool(mvApp::GetApp()->getItemRegistry().addItemWithRuntimeChecks(item, parent, before));
+	}
 }

@@ -5,6 +5,20 @@
 
 namespace Marvel {
 
+	void mvTabBar::InsertParser(std::map<std::string, mvPythonParser>* parsers)
+	{
+		parsers->insert({ "add_tab_bar", mvPythonParser({
+			{mvPythonDataType::String, "name"},
+			{mvPythonDataType::KeywordOnly},
+			{mvPythonDataType::Bool, "reorderable", "allows for moveable tabs", "False"},
+			{mvPythonDataType::Callable, "callback", "Registers a callback", "None"},
+			{mvPythonDataType::Object, "callback_data", "Callback data", "None"},
+			{mvPythonDataType::Bool, "show", "Attempt to render", "True"},
+			{mvPythonDataType::String, "parent", "Parent to add this item to. (runtime adding)", "''"},
+			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)", "''"},
+		}, "Adds a tab bar.", "None", "Containers") });
+	}
+
 	mvTabBar::mvTabBar(const std::string& name)
 		:
 		mvStringPtrBase(name, "", name)
@@ -88,4 +102,41 @@ namespace Marvel {
 		checkbitset("reorderable", ImGuiTabBarFlags_Reorderable, m_flags);
 	}
 
+	PyObject* add_tab_bar(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		const char* name;
+		int reorderable = false;
+		PyObject* callback = nullptr;
+		PyObject* callback_data = nullptr;
+		int show = true;
+		const char* parent = "";
+		const char* before = "";
+
+		if (!(*mvApp::GetApp()->getParsers())["add_tab_bar"].parse(args, kwargs, __FUNCTION__, &name, &reorderable,
+			&callback, &callback_data, &show, &parent, &before))
+			return ToPyBool(false);
+
+		auto item = CreateRef<mvTabBar>(name);
+
+		if (callback)
+			Py_XINCREF(callback);
+
+		item->setCallback(callback);
+
+		if (callback_data)
+			Py_XINCREF(callback_data);
+
+		item->setCallbackData(callback_data);
+		item->checkConfigDict(kwargs);
+		item->setConfigDict(kwargs);
+		item->setExtraConfigDict(kwargs);
+
+		if (mvApp::GetApp()->getItemRegistry().addItemWithRuntimeChecks(item, parent, before))
+		{
+			mvApp::GetApp()->getItemRegistry().pushParent(item);
+			return ToPyBool(true);
+		}
+
+		return ToPyBool(false);
+	}
 }

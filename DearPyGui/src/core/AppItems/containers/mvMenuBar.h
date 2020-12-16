@@ -1,11 +1,20 @@
 #pragma once
 
 #include "mvTypeBases.h"
+#include "mvPythonParser.h"
+#include "mvPythonExceptions.h"
+#include "mvAppItems.h"
 
 namespace Marvel {
 
+	PyObject* add_menu_bar(PyObject* self, PyObject* args, PyObject* kwargs);
+
 	class mvMenuBar : public mvBoolPtrBase
 	{
+
+	public:
+
+		static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
 
 	public:
 

@@ -1,11 +1,18 @@
 #pragma once
 
 #include "mvTypeBases.h"
+#include "mvPythonParser.h"
 
 namespace Marvel {
 
+	PyObject* add_date_picker(PyObject* self, PyObject* args, PyObject* kwargs);
+
 	class mvDatePicker : public mvTimePtrBase
 	{
+
+	public:
+
+		static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
 
 	public:
 

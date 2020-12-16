@@ -38,6 +38,43 @@ namespace Marvel {
 
 		// new system
 		mvDrawing::InsertParser(parsers.get());
+		mvListbox::InsertParser(parsers.get());
+		mvText::InsertParser(parsers.get());
+		mvCombo::InsertParser(parsers.get());
+		mvRadioButton::InsertParser(parsers.get());
+		mvButton::InsertParser(parsers.get());
+		mvSelectable::InsertParser(parsers.get());
+		mvCheckbox::InsertParser(parsers.get());
+		mvColorButton::InsertParser(parsers.get());
+		mvColorEdit3::InsertParser(parsers.get());
+		mvColorEdit4::InsertParser(parsers.get());
+		mvColorPicker3::InsertParser(parsers.get());
+		mvColorPicker4::InsertParser(parsers.get());
+		mvImage::InsertParser(parsers.get());
+		mvImageButton::InsertParser(parsers.get());
+		mvProgressBar::InsertParser(parsers.get());
+		mvLoggerItem::InsertParser(parsers.get());
+		mvDatePicker::InsertParser(parsers.get());
+		mvTimePicker::InsertParser(parsers.get());
+		mvLabelText::InsertParser(parsers.get());
+		mvMenuBar::InsertParser(parsers.get());
+		mvMenu::InsertParser(parsers.get());
+		mvMenuItem::InsertParser(parsers.get());
+		mvTabBar::InsertParser(parsers.get());
+		mvTab::InsertParser(parsers.get());
+		mvTabButton::InsertParser(parsers.get());
+		mvGroup::InsertParser(parsers.get());
+		mvChild::InsertParser(parsers.get());
+		mvWindowAppItem::InsertParser(parsers.get());
+		mvDebugWindow::InsertParser(parsers.get());
+		mvStyleWindow::InsertParser(parsers.get());
+		mvTooltip::InsertParser(parsers.get());
+		mvCollapsingHeader::InsertParser(parsers.get());
+		mvTreeNode::InsertParser(parsers.get());
+		mvManagedColumns::InsertParser(parsers.get());
+		mvColumn::InsertParser(parsers.get());
+		mvNextColumn::InsertParser(parsers.get());
+		mvInputText::InsertParser(parsers.get());
 
 		AddDrawingCommands(parsers.get());
 		AddPlotCommands(parsers.get());
