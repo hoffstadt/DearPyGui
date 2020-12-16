@@ -7,6 +7,28 @@
 
 namespace Marvel {
 
+	void mvListbox::InsertParser(std::map<std::string, mvPythonParser>* parsers)
+	{
+		parsers->insert({ "add_listbox", mvPythonParser({
+			{mvPythonDataType::String, "name", "Name of the listbox"},
+			{mvPythonDataType::KeywordOnly},
+			{mvPythonDataType::StringList, "items", "", "()"},
+			{mvPythonDataType::Integer, "default_value", "", "0"},
+			{mvPythonDataType::Callable, "callback", "Registers a callback", "None"},
+			{mvPythonDataType::Object, "callback_data", "Callback data", "None"},
+			{mvPythonDataType::String, "tip", "Adds a simple tooltip", "''"},
+			{mvPythonDataType::String, "parent", "Parent this item will be added to. (runtime adding)", "''"},
+			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)", "''"},
+			{mvPythonDataType::String, "source", "", "''"},
+			{mvPythonDataType::Bool, "enabled", "Display grayed out text so selectable cannot be selected", "True"},
+			{mvPythonDataType::Integer, "width","", "0"},
+			{mvPythonDataType::Integer, "num_items", "number of items to show", "3"},
+			{mvPythonDataType::String, "label","", "''"},
+			{mvPythonDataType::String, "popup","", "''"},
+			{mvPythonDataType::Bool, "show", "Attempt to render", "True"},
+		}, "Adds a listbox.", "None", "Adding Widgets") });
+	}
+
 	mvListbox::mvListbox(const std::string& name, int default_value, const std::string& dataSource)
 		: mvIntPtrBase(name, default_value, dataSource)
 	{
@@ -63,6 +85,44 @@ namespace Marvel {
 		mvGlobalIntepreterLock gil;
 		PyDict_SetItemString(dict, "items", ToPyList(m_names));
 		PyDict_SetItemString(dict, "num_items", ToPyInt(m_itemsHeight));
+	}
+
+	PyObject* add_listbox(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		const char* name;
+		PyObject* items;
+		int default_value = 0;
+		PyObject* callback = nullptr;
+		PyObject* callback_data = nullptr;
+		const char* tip = "";
+		int width = 0;
+		int num_items = 3;
+		const char* before = "";
+		const char* parent = "";
+		const char* source = "";
+		int enabled = true;
+		const char* label = "";
+		const char* popup = "";
+		int show = true;
+
+		if (!(*mvApp::GetApp()->getParsers())["add_listbox"].parse(args, kwargs, __FUNCTION__, &name, &items,
+			&default_value, &callback, &callback_data, &tip, &parent, &before, &source, &enabled, &width,
+			&num_items, &label, &popup, &show))
+			return ToPyBool(false);
+
+		auto item = CreateRef<mvListbox>(name, default_value, source);
+		if (callback)
+			Py_XINCREF(callback);
+		item->setCallback(callback);
+		if (callback_data)
+			Py_XINCREF(callback_data);
+		item->setCallbackData(callback_data);
+
+		item->checkConfigDict(kwargs);
+		item->setConfigDict(kwargs);
+		item->setExtraConfigDict(kwargs);
+
+		return ToPyBool(mvApp::GetApp()->getItemRegistry().addItemWithRuntimeChecks(item, parent, before));
 	}
 
 }

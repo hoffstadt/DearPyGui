@@ -4,11 +4,18 @@
 #include "mvAppItem.h"
 #include "mvPythonTranslator.h"
 #include <imgui.h>
+#include "mvPythonParser.h"
 
 namespace Marvel {
 
+	PyObject* add_logger(PyObject* self, PyObject* args, PyObject* kwargs);
+
 	class mvLoggerItem : public mvAppItem
 	{
+
+	public:
+
+		static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
 
 	public:
 

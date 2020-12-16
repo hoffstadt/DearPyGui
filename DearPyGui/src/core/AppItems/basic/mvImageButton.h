@@ -2,11 +2,18 @@
 
 #include <utility>
 #include "mvAppItem.h"
+#include "mvPythonParser.h"
 
 namespace Marvel {
 
+	PyObject* add_image_button(PyObject* self, PyObject* args, PyObject* kwargs);
+
 	class mvImageButton : public mvAppItem, public mvEventHandler
 	{
+
+	public:
+
+		static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
 
 	public:
 

@@ -2,6 +2,7 @@
 
 #include "mvTypeBases.h"
 #include <vector>
+#include "mvPythonParser.h"
 
 //-----------------------------------------------------------------------------
 // Widget Index
@@ -17,8 +18,15 @@ namespace Marvel {
 	//-----------------------------------------------------------------------------
 	// mvManagedColumns
 	//-----------------------------------------------------------------------------
+
+	PyObject* add_managed_columns(PyObject* self, PyObject* args, PyObject* kwargs);
+
 	class mvManagedColumns : public mvAppItem
 	{
+
+	public:
+
+		static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
 
 	public:
 
@@ -46,8 +54,15 @@ namespace Marvel {
 	//-----------------------------------------------------------------------------
 	// mvColumn
 	//-----------------------------------------------------------------------------
+
+	PyObject* add_columns(PyObject* self, PyObject* args, PyObject* kwargs);
+
 	class mvColumn : public mvAppItem
 	{
+
+	public:
+
+		static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
 
 	public:
 
@@ -69,8 +84,15 @@ namespace Marvel {
 	//-----------------------------------------------------------------------------
 	// mvNextColumn
 	//-----------------------------------------------------------------------------
+
+	PyObject* add_next_column(PyObject* self, PyObject* args, PyObject* kwargs);
+
 	class mvNextColumn : public mvAppItem
 	{
+
+	public:
+
+		static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
 
 	public:
 

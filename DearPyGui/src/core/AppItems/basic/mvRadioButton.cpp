@@ -6,6 +6,25 @@
 #include "mvGlobalIntepreterLock.h"
 
 namespace Marvel {
+	void mvRadioButton::InsertParser(std::map<std::string, mvPythonParser>* parsers)
+	{
+		parsers->insert({ "add_radio_button", mvPythonParser({
+			{mvPythonDataType::String, "name"},
+			{mvPythonDataType::KeywordOnly},
+			{mvPythonDataType::StringList, "items", "", "()"},
+			{mvPythonDataType::Integer, "default_value", "", "0"},
+			{mvPythonDataType::Callable, "callback", "Registers a callback", "None"},
+			{mvPythonDataType::Object, "callback_data", "Callback data", "None"},
+			{mvPythonDataType::String, "tip", "Adds a simple tooltip", "''"},
+			{mvPythonDataType::String, "parent", "Parent to add this item to. (runtime adding)", "''"},
+			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)", "''"},
+			{mvPythonDataType::String, "source", "", "''"},
+			{mvPythonDataType::Bool, "enabled", "Display grayed out text so selectable cannot be selected", "True"},
+			{mvPythonDataType::Bool, "horizontal", "", "False"},
+			{mvPythonDataType::String, "popup", "", "''"},
+			{mvPythonDataType::Bool, "show", "Attempt to render", "True"},
+		}, "Adds a set of radio buttons. If items is empty, nothing will be shown.", "None", "Adding Widgets") });
+	}
 
 	mvRadioButton::mvRadioButton(const std::string& name, int default_value, const std::string& dataSource)
 		: mvIntPtrBase(name, default_value, dataSource)
@@ -60,6 +79,43 @@ namespace Marvel {
 		mvGlobalIntepreterLock gil;
 		PyDict_SetItemString(dict, "items", ToPyList(m_itemnames));
 		PyDict_SetItemString(dict, "horizontal", ToPyBool(m_horizontal));
+	}
+
+	PyObject* add_radio_button(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		const char* name;
+		PyObject* items;
+		int default_value = 0;
+		PyObject* callback = nullptr;
+		PyObject* callback_data = nullptr;
+		const char* tip = "";
+		const char* before = "";
+		const char* parent = "";
+		const char* source = "";
+		int enabled = true;
+		int horizontal = false;
+		const char* popup = "";
+		int show = true;
+
+		if (!(*mvApp::GetApp()->getParsers())["add_radio_button"].parse(args, kwargs, __FUNCTION__, &name, &items,
+			&default_value, &callback, &callback_data, &tip, &parent, &before, &source, &enabled, &horizontal,
+			&popup, &show))
+			return ToPyBool(false);
+
+		auto item = CreateRef<mvRadioButton>(name, default_value, source);
+		if (callback)
+			Py_XINCREF(callback);
+		item->setCallback(callback);
+		if (callback_data)
+			Py_XINCREF(callback_data);
+		item->setCallbackData(callback_data);
+
+		item->checkConfigDict(kwargs);
+		item->setConfigDict(kwargs);
+		item->setExtraConfigDict(kwargs);
+
+
+		return ToPyBool(mvApp::GetApp()->getItemRegistry().addItemWithRuntimeChecks(item, parent, before));
 	}
 
 }

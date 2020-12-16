@@ -3,9 +3,26 @@
 #include "mvApp.h"
 #include "mvPythonTranslator.h"
 #include "mvGlobalIntepreterLock.h"
+#include "mvPythonExceptions.h"
 
 namespace Marvel {
-
+	void mvTab::InsertParser(std::map<std::string, mvPythonParser>* parsers)
+	{
+		parsers->insert({ "add_tab", mvPythonParser({
+			{mvPythonDataType::String, "name"},
+			{mvPythonDataType::KeywordOnly},
+			{mvPythonDataType::Bool, "closable", "creates a button on the tab that can hide the tab", "False"},
+			{mvPythonDataType::String, "label", "", "''"},
+			{mvPythonDataType::Bool, "show", "Attempt to render", "True"},
+			{mvPythonDataType::Bool, "no_reorder", "Disable reordering this tab or having another tab cross over this tab", "False"},
+			{mvPythonDataType::Bool, "leading", "Enforce the tab position to the left of the tab bar (after the tab list popup button)", "False"},
+			{mvPythonDataType::Bool, "trailing", "Enforce the tab position to the right of the tab bar (before the scrolling buttons)", "False"},
+			{mvPythonDataType::Bool, "no_tooltip", "Disable tooltip for the given tab", "False"},
+			{mvPythonDataType::String, "tip", "Adds a simple tooltip", "''"},
+			{mvPythonDataType::String, "parent", "Parent to add this item to. (runtime adding)", "''"},
+			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)", "''"},
+		}, "Adds a tab to a tab bar. Must be closed with the end command.", "None", "Containers") });
+	}
 	mvTab::mvTab(const std::string& name)
 		: 
 		mvBoolPtrBase(name, false, name)
@@ -132,6 +149,84 @@ namespace Marvel {
 		checkbitset("trailing", ImGuiTabItemFlags_Trailing, m_flags);
 		checkbitset("no_tooltip", ImGuiTabItemFlags_NoTooltip, m_flags);
 
+	}
+
+	PyObject* add_tab(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		const char* name;
+		int closeable = false;
+		const char* label = "";
+		int show = true;
+		int no_reorder = false;
+		int leading = false;
+		int trailing = false;
+		int no_tooltip = false;
+		const char* tip = "";
+		const char* parent = "";
+		const char* before = "";
+
+		if (!(*mvApp::GetApp()->getParsers())["add_tab"].parse(args, kwargs, __FUNCTION__, &name, &closeable,
+			&label, &show, &no_reorder, &leading, &trailing, &no_tooltip, &tip, &parent, &before))
+			return ToPyBool(false);
+
+		if (std::string(parent).empty())
+		{
+			auto parentItem = mvApp::GetApp()->getItemRegistry().topParent();
+
+			if (parentItem == nullptr)
+			{
+				ThrowPythonException("add_tab must follow a call to add_tabbar.");
+				return ToPyBool(false);
+			}
+
+			else if (parentItem->getType() == mvAppItemType::TabBar)
+			{
+				auto item = CreateRef<mvTab>(name);
+				item->checkConfigDict(kwargs);
+				item->setConfigDict(kwargs);
+				item->setExtraConfigDict(kwargs);
+				if (mvApp::GetApp()->getItemRegistry().addItemWithRuntimeChecks(item, parent, before))
+				{
+					mvApp::GetApp()->getItemRegistry().pushParent(item);
+					return ToPyBool(true);
+				}
+			}
+
+			else
+				ThrowPythonException("add_tab was called incorrectly. Did you forget to call end_tab?");
+		}
+
+		else
+		{
+			auto parentItem = mvApp::GetApp()->getItemRegistry().getItem(parent);
+
+			if (parentItem == nullptr)
+			{
+				ThrowPythonException("add_tab parent must exist.");
+				return ToPyBool(false);
+			}
+
+			else if (parentItem->getType() == mvAppItemType::TabBar)
+			{
+				auto item = CreateRef<mvTab>(name);
+				item->checkConfigDict(kwargs);
+				item->setConfigDict(kwargs);
+				item->setExtraConfigDict(kwargs);
+				if (mvApp::GetApp()->getItemRegistry().addItemWithRuntimeChecks(item, parent, before))
+				{
+					mvApp::GetApp()->getItemRegistry().pushParent(item);
+					return ToPyBool(true);
+				}
+			}
+
+			else
+			{
+				ThrowPythonException("add_tab parent must be a tab bar.");
+				return ToPyBool(false);
+			}
+		}
+
+		return ToPyBool(false);
 	}
 
 }

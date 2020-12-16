@@ -4,13 +4,20 @@
 #include "mvTypeBases.h"
 #include "mvApp.h"
 #include "mvDrawList.h"
+#include "mvPythonParser.h"
 
 namespace Marvel {
+
+	PyObject* add_window(PyObject* self, PyObject* args, PyObject* kwargs);
 
 	class mvWindowAppItem : public mvAppItem
 	{
 
 		enum class Status{ Normal, Transition, Dirty};
+
+	public:
+
+		static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
 
 	public:
 

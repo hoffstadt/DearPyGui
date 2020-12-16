@@ -6,6 +6,25 @@
 #include "mvGlobalIntepreterLock.h"
 
 namespace Marvel {
+	void mvSelectable::InsertParser(std::map<std::string, mvPythonParser>* parsers)
+	{
+		parsers->insert({ "add_selectable", mvPythonParser({
+			{mvPythonDataType::String, "name"},
+			{mvPythonDataType::KeywordOnly},
+			{mvPythonDataType::Bool, "default_value", "", "False"},
+			{mvPythonDataType::Callable, "callback", "Registers a callback", "None"},
+			{mvPythonDataType::Object, "callback_data", "Callback data", "None"},
+			{mvPythonDataType::String, "tip", "Adds a simple tooltip", "''"},
+			{mvPythonDataType::String, "parent", "Parent this item will be added to. (runtime adding)", "''"},
+			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)", "''"},
+			{mvPythonDataType::String, "source", "", "''"},
+			{mvPythonDataType::Bool, "enabled", "Display grayed out text so selectable cannot be selected", "True"},
+			{mvPythonDataType::String, "label", "", "''"},
+			{mvPythonDataType::String, "popup", "", "''"},
+			{mvPythonDataType::Bool, "show", "Attempt to render", "True"},
+			{mvPythonDataType::Bool, "span_columns", "span all columns", "False"},
+		}, "Adds a selectable.", "None", "Adding Widgets") });
+	}
 
 	mvSelectable::mvSelectable(const std::string& name, bool default_value, const std::string& dataSource)
 		: mvBoolPtrBase(name, default_value, dataSource)
@@ -72,6 +91,44 @@ namespace Marvel {
 
 		// window flags
 		checkbitset("span_columns", ImGuiSelectableFlags_SpanAllColumns, m_flags, false);
+	}
+
+	PyObject* add_selectable(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		const char* name;
+		int default_value = false;
+		PyObject* callback = nullptr;
+		PyObject* callback_data = nullptr;
+		const char* tip = "";
+		const char* before = "";
+		const char* parent = "";
+		const char* source = "";
+		int enabled = true;
+		const char* label = "";
+		const char* popup = "";
+		int show = true;
+		int span_columns = false;
+
+		//ImGuiSelectableFlags flags = ImGuiSelectableFlags_None;
+
+		if (!(*mvApp::GetApp()->getParsers())["add_selectable"].parse(args, kwargs, __FUNCTION__, &name,
+			&default_value, &callback, &callback_data, &tip, &parent, &before, &source, &enabled,
+			&label, &popup, &show, &span_columns))
+			return ToPyBool(false);
+
+		auto item = CreateRef<mvSelectable>(name, default_value, source);
+		if (callback)
+			Py_XINCREF(callback);
+		item->setCallback(callback);
+		if (callback_data)
+			Py_XINCREF(callback_data);
+		item->setCallbackData(callback_data);
+
+		item->checkConfigDict(kwargs);
+		item->setConfigDict(kwargs);
+		item->setExtraConfigDict(kwargs);
+
+		return ToPyBool(mvApp::GetApp()->getItemRegistry().addItemWithRuntimeChecks(item, parent, before));
 	}
 
 }

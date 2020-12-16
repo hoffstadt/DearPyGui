@@ -3,11 +3,18 @@
 #include "mvTypeBases.h"
 #include "mvApp.h"
 #include "mvGlobalIntepreterLock.h"
+#include "mvPythonParser.h"
 
 namespace Marvel {
 
+	PyObject* add_menu_item(PyObject* self, PyObject* args, PyObject* kwargs);
+
 	class mvMenuItem : public mvBoolPtrBase
 	{
+
+	public:
+
+		static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
 
 	public:
 

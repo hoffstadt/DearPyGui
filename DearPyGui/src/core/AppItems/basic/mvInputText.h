@@ -2,11 +2,18 @@
 
 #include "mvApp.h"
 #include "mvTypeBases.h"
+#include "mvPythonParser.h"
 
 namespace Marvel {
 
+	PyObject* add_input_text(PyObject* self, PyObject* args, PyObject* kwargs);
+
 	class mvInputText : public mvStringPtrBase
 	{
+
+	public:
+
+		static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
 
 	public:
 

@@ -7,6 +7,18 @@
 
 namespace Marvel {
 
+	void mvMenu::InsertParser(std::map<std::string, mvPythonParser>* parsers)
+	{
+		parsers->insert({ "add_menu", mvPythonParser({
+			{mvPythonDataType::String, "name"},
+			{mvPythonDataType::KeywordOnly},
+			{mvPythonDataType::String, "label", "", "''"},
+			{mvPythonDataType::Bool, "show", "Attempt to render", "True"},
+			{mvPythonDataType::String, "parent", "Parent this item will be added to. (runtime adding)", "''"},
+			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)", "''"},
+			{mvPythonDataType::Bool, "enabled", "", "True"},
+		}, "Adds a menu to an existing menu bar. Must be followed by a call to end.", "None", "Containers") });
+	}
 
 	mvMenu::mvMenu(const std::string& name)
 			: mvBoolPtrBase(name, false, name)
@@ -75,6 +87,34 @@ namespace Marvel {
 			return;
 		mvGlobalIntepreterLock gil;
 		PyDict_SetItemString(dict, "enabled", ToPyBool(m_enabled));
+	}
+
+
+	PyObject* add_menu(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		const char* name;
+		const char* label = "";
+		int show = true;
+		const char* parent = "";
+		const char* before = "";
+		int enabled = true;
+
+		if (!(*mvApp::GetApp()->getParsers())["add_menu"].parse(args, kwargs, __FUNCTION__, &name,
+			&label, &show, &parent, &before, &enabled))
+			return ToPyBool(false);
+
+		auto item = CreateRef<mvMenu>(name);
+
+		item->checkConfigDict(kwargs);
+		item->setConfigDict(kwargs);
+		item->setExtraConfigDict(kwargs);
+
+		if (mvApp::GetApp()->getItemRegistry().addItemWithRuntimeChecks(item, parent, before))
+		{
+			mvApp::GetApp()->getItemRegistry().pushParent(item);
+			return ToPyBool(true);
+		}
+		return ToPyBool(false);
 	}
 
 }
