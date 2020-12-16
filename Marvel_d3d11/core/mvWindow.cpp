@@ -41,14 +41,6 @@ namespace Marvel {
 
 
 		ShowWindow(m_hWnd, SW_SHOWDEFAULT);
-
-		// register mouse raw input device
-		RAWINPUTDEVICE rid;
-		rid.usUsagePage = 0x01; // mouse page
-		rid.usUsage = 0x02; // mouse usage
-		rid.dwFlags = 0;
-		rid.hwndTarget = nullptr;
-		RegisterRawInputDevices(&rid, 1, sizeof(rid));
 	}
 
 	mvWindow::~mvWindow()
