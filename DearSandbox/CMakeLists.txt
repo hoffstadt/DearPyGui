@@ -48,6 +48,14 @@ target_compile_definitions(DearSandbox
 
 if (WIN32)
 
+
+	set_target_properties(DearSandbox
+		PROPERTIES
+		ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}$<$<CONFIG:Release>:/DearSandbox/>$<$<CONFIG:Debug>:/DearSandbox/>"
+		LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}$<$<CONFIG:Release>:/DearSandbox/>$<$<CONFIG:Debug>:/DearSandbox/>"
+		RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}$<$<CONFIG:Release>:/DearSandbox/>$<$<CONFIG:Debug>:/DearSandbox/>"
+	)
+
 	target_link_directories(DearSandbox PRIVATE "../Dependencies/cpython/PCbuild/amd64/")
 	target_link_libraries(DearSandbox PUBLIC coreemb $<$<CONFIG:Debug>:python38_d> $<$<CONFIG:Release>:python38>)
 
