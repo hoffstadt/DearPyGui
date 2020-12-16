@@ -207,7 +207,7 @@ def collapsing_header(name: str, *, label: str = "__DearPyGuiDefault", show: boo
                                                      open_on_double_click=open_on_double_click,
                                                      open_on_arrow=open_on_arrow, leaf=leaf, bullet=bullet)
         else:
-            yield internal_dpg.add_collapsing_header(name, show=show, tip=tip, parent=parent, before=before, 
+            yield internal_dpg.add_collapsing_header(name, show=show, label=label, tip=tip, parent=parent, before=before, 
                                                      closable=closable, default_open=default_open, 
                                                      open_on_double_click=open_on_double_click,
                                                      open_on_arrow=open_on_arrow, leaf=leaf, bullet=bullet)

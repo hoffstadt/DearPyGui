@@ -33,6 +33,7 @@ Fixes:
 - collapsing header: quering open/close works now
 - numpy:             list of int/float can now use numpy #105
 - treenode:          changing labels no longer reset state #373
+- collapsing Header: changing labels fixed
 
 
 -----------------------------------------------------------------------
