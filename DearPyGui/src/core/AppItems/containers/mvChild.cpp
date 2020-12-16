@@ -2,8 +2,31 @@
 #include "mvInput.h"
 #include "mvPythonTranslator.h"
 #include "mvGlobalIntepreterLock.h"
+#include "mvApp.h"
 
 namespace Marvel {
+
+	void mvChild::InsertParser(std::map<std::string, mvPythonParser>* parsers)
+	{
+		parsers->insert({ "add_child", mvPythonParser({
+			{mvPythonDataType::String, "name"},
+			{mvPythonDataType::KeywordOnly},
+			{mvPythonDataType::Bool, "show", "Attempt to render", "True"},
+			{mvPythonDataType::String, "tip", "Adds a simple tooltip", "''"},
+			{mvPythonDataType::String, "parent", "Parent to add this item to. (runtime adding)", "''"},
+			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)", "''"},
+			{mvPythonDataType::Integer, "width","", "0"},
+			{mvPythonDataType::Integer, "height", "", "0"},
+			{mvPythonDataType::Bool, "border", "", "True"},
+			{mvPythonDataType::String, "popup", "", "''"},
+			{mvPythonDataType::Bool, "autosize_x", "Autosize the window to fit it's items in the x.", "False"},
+			{mvPythonDataType::Bool, "autosize_y", "Autosize the window to fit it's items in the y.", "False"},
+			{mvPythonDataType::Bool, "no_scrollbar" ," Disable scrollbars (window can still scroll with mouse or programmatically)", "False"},
+			{mvPythonDataType::Bool, "horizontal_scrollbar" ,"Allow horizontal scrollbar to appear (off by default).", "False"},
+			{mvPythonDataType::Bool, "menubar", "", "False"},
+		}, "Adds an embedded child window. Will show scrollbars when items do not fit. Must be followed by a call to end.",
+		"None", "Containers") });
+	}
 
 	mvChild::mvChild(const std::string& name)
 		: mvBoolPtrBase(name, false, name)
@@ -100,6 +123,41 @@ namespace Marvel {
 		flagop("no_scrollbar", ImGuiWindowFlags_NoScrollbar, m_windowflags);
 		flagop("horizontal_scrollbar", ImGuiWindowFlags_HorizontalScrollbar, m_windowflags);
 		flagop("menubar", ImGuiWindowFlags_MenuBar, m_windowflags);
+	}
+
+	PyObject* add_child(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		const char* name;
+		int show = true;
+		const char* tip = "";
+		const char* parent = "";
+		const char* before = "";
+		int width = 0;
+		int height = 0;
+		int border = true;
+		const char* popup = "";
+		int autosize_x = false;
+		int autosize_y = false;
+		int no_scrollbar = false;
+		int horizontal_scrollbar = false;
+		int menubar = false;
+
+		if (!(*mvApp::GetApp()->getParsers())["add_child"].parse(args, kwargs, __FUNCTION__, &name,
+			&show, &tip, &parent, &before, &width, &height, &border, &popup, &autosize_x,
+			&autosize_y, &no_scrollbar, &horizontal_scrollbar, &menubar))
+			return ToPyBool(false);
+
+		auto item = CreateRef<mvChild>(name);
+		item->checkConfigDict(kwargs);
+		item->setConfigDict(kwargs);
+		item->setExtraConfigDict(kwargs);
+		if (mvApp::GetApp()->getItemRegistry().addItemWithRuntimeChecks(item, parent, before))
+		{
+			mvApp::GetApp()->getItemRegistry().pushParent(item);
+			return ToPyBool(true);
+		}
+
+		return ToPyBool(false);
 	}
 
 }

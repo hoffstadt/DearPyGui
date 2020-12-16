@@ -1,10 +1,12 @@
 #pragma once
 
 #include "mvTypeBases.h"
+#include "mvPythonParser.h"
 
 //-----------------------------------------------------------------------------
 // Widget Index
 //
+//     * mvColorButton
 //     * mvColorEdit3
 //     * mvColorEdit4
 //     * mvColorPicker3
@@ -17,8 +19,15 @@ namespace Marvel {
 	//-----------------------------------------------------------------------------
 	// mvColorButton
 	//-----------------------------------------------------------------------------
+
+	PyObject* add_color_button(PyObject* self, PyObject* args, PyObject* kwargs);
+
 	class mvColorButton : public mvAppItem
 	{
+
+	public:
+
+		static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
 
 	public:
 
@@ -40,8 +49,15 @@ namespace Marvel {
 	//-----------------------------------------------------------------------------
 	// mvColorEdit3
 	//-----------------------------------------------------------------------------
+
+	PyObject* add_color_edit3(PyObject* self, PyObject* args, PyObject* kwargs);
+
 	class mvColorEdit3 : public mvColorPtrBase
 	{
+
+	public:
+
+		static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
 
 	public:
 
@@ -62,8 +78,15 @@ namespace Marvel {
 	//-----------------------------------------------------------------------------
 	// mvColorEdit4
 	//-----------------------------------------------------------------------------
+
+	PyObject* add_color_edit4(PyObject* self, PyObject* args, PyObject* kwargs);
+
 	class mvColorEdit4 : public mvColorPtrBase
 	{
+
+	public:
+
+		static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
 
 	public:
 
@@ -84,8 +107,15 @@ namespace Marvel {
 	//-----------------------------------------------------------------------------
 	// mvColorPicker3
 	//-----------------------------------------------------------------------------
+
+	PyObject* add_color_picker3(PyObject* self, PyObject* args, PyObject* kwargs);
+
 	class mvColorPicker3 : public mvColorPtrBase
 	{
+
+	public:
+
+		static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
 
 	public:
 
@@ -106,8 +136,15 @@ namespace Marvel {
 	//-----------------------------------------------------------------------------
 	// mvColorPicker4
 	//-----------------------------------------------------------------------------
+
+	PyObject* add_color_picker4(PyObject* self, PyObject* args, PyObject* kwargs);
+
 	class mvColorPicker4 : public mvColorPtrBase
 	{
+
+	public:
+
+		static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
 
 	public:
 
