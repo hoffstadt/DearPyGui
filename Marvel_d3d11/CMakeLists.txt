@@ -8,6 +8,7 @@ target_sources(marvel_d3d11
 	PRIVATE
 
 		"main.cpp"
+		"core/mvWindow.cpp"
 
 )
 
@@ -15,6 +16,7 @@ target_include_directories(marvel_d3d11
 
 	PRIVATE
 
+		"./core"
 		"./shaders"
 
 )
