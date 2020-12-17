@@ -1,4 +1,4 @@
-#include "mvAboutWindow.hpp"
+#include "mvAboutWindow.h"
 #include "mvTypeBases.h"
 #include "mvAppItem.h"
 #include "mvInput.h"

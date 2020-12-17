@@ -1,4 +1,4 @@
-#include "mvSliderItems.hpp"
+#include "mvSliderItems.h"
 #include "mvTypeBases.h"
 #include "mvPythonTranslator.h"
 #include <utility>
