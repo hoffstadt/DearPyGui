@@ -112,7 +112,7 @@ environment:
       PYVER: 39
       PYLOC: "python"
       PYSTACK: "3.9"
-      PYFULLVERSION: "3.9.0"
+      PYFULLVERSION: "3.9.1"
 
     - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2019
       GENERATOR: "Visual Studio 16 2019"
