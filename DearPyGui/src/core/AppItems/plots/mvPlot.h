@@ -8,6 +8,7 @@
 #include "mvCore.h"
 #define PY_SSIZE_T_CLEAN
 #include <Python.h>
+#include "mvPythonParser.h"
 
 //-----------------------------------------------------------------------------
 // Widget Index
@@ -21,6 +22,14 @@
 //-----------------------------------------------------------------------------
 
 namespace Marvel {
+	
+	PyObject* add_plot         (PyObject* self, PyObject* args, PyObject* kwargs);
+	PyObject* add_drag_point   (PyObject* self, PyObject* args, PyObject* kwargs);
+	PyObject* delete_drag_point(PyObject* self, PyObject* args, PyObject* kwargs);
+	PyObject* add_annotation   (PyObject* self, PyObject* args, PyObject* kwargs);
+	PyObject* delete_annotation(PyObject* self, PyObject* args, PyObject* kwargs);
+	PyObject* add_drag_line    (PyObject* self, PyObject* args, PyObject* kwargs);
+	PyObject* delete_drag_line (PyObject* self, PyObject* args, PyObject* kwargs);
 
 	// forward declarations
 	class mvSeries;
@@ -33,6 +42,10 @@ namespace Marvel {
 	//-----------------------------------------------------------------------------
 	class mvPlot : public mvAppItem
 	{
+
+	public:
+
+		static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
 
 	public:
 
