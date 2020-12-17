@@ -5,8 +5,6 @@ namespace Marvel {
 
 	void AddPlotCommands(std::map<std::string, mvPythonParser>* parsers);
 
-	PyObject* add_plot             (PyObject* self, PyObject* args, PyObject* kwargs);
-
 	// data removal
 	PyObject* clear_plot           (PyObject* self, PyObject* args, PyObject* kwargs);
 	PyObject* delete_series        (PyObject* self, PyObject* args, PyObject* kwargs);
@@ -31,18 +29,6 @@ namespace Marvel {
 	PyObject* set_plot_ylimits     (PyObject* self, PyObject* args, PyObject* kwargs);
 	PyObject* get_plot_xlimits     (PyObject* self, PyObject* args, PyObject* kwargs);
 	PyObject* get_plot_ylimits     (PyObject* self, PyObject* args, PyObject* kwargs);
-
-	// drag points
-	PyObject* add_drag_point       (PyObject* self, PyObject* args, PyObject* kwargs);
-	PyObject* delete_drag_point    (PyObject* self, PyObject* args, PyObject* kwargs);
-
-	// drag lines
-	PyObject* add_drag_line        (PyObject* self, PyObject* args, PyObject* kwargs);
-	PyObject* delete_drag_line     (PyObject* self, PyObject* args, PyObject* kwargs);
-
-	// annotations
-	PyObject* add_annotation       (PyObject* self, PyObject* args, PyObject* kwargs);
-	PyObject* delete_annotation    (PyObject* self, PyObject* args, PyObject* kwargs);
 
 	// series
 	PyObject* add_image_series     (PyObject* self, PyObject* args, PyObject* kwargs);
