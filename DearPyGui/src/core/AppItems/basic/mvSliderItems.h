@@ -28,9 +28,8 @@ namespace Marvel {
     public:
         
         MV_APPITEM_TYPE(mvAppItemType::SliderFloat, "add_slider_float")
-        
-        mvSliderFloat(const std::string& name, float default_value, const std::string& dataSource)
-            : mvFloatPtrBase(name, default_value, dataSource);
+
+        mvSliderFloat(const std::string& name, float default_value, const std::string& dataSource);
         
         void setEnabled(bool value) override;
         
@@ -61,8 +60,7 @@ namespace Marvel {
 
         MV_APPITEM_TYPE(mvAppItemType::SliderFloat2, "add_slider_float2")
 
-        mvSliderFloat2(const std::string& name, float* default_value, const std::string& dataSource)
-            : mvFloat2PtrBase(name, default_value, dataSource);
+        mvSliderFloat2(const std::string& name, float* default_value, const std::string& dataSource);
         
         void setEnabled(bool value) override;
         
@@ -92,8 +90,7 @@ namespace Marvel {
         
         MV_APPITEM_TYPE(mvAppItemType::SliderFloat3, "add_slider_float3")
 
-        mvSliderFloat3(const std::string& name, float* default_value, const std::string& dataSource)
-            : mvFloat3PtrBase(name, default_value, dataSource);
+        mvSliderFloat3(const std::string& name, float* default_value, const std::string& dataSource);
         
         void setEnabled(bool value) override;
         
@@ -122,9 +119,8 @@ namespace Marvel {
     public:
         
         MV_APPITEM_TYPE(mvAppItemType::SliderFloat4, "add_slider_float4")
-        
-        mvSliderFloat4(const std::string& name, float* default_value, const std::string& dataSource)
-            : mvFloat4PtrBase(name, default_value, dataSource);
+
+        mvSliderFloat4(const std::string& name, float* default_value, const std::string& dataSource);
         
         void setEnabled(bool value) override;
         
@@ -153,9 +149,8 @@ namespace Marvel {
     public:
 
         MV_APPITEM_TYPE(mvAppItemType::SliderInt, "add_slider_int")
-            
-        mvSliderInt(const std::string& name, int default_value, const std::string& dataSource)
-            : mvIntPtrBase(name, default_value, dataSource);
+
+        mvSliderInt(const std::string& name, int default_value, const std::string& dataSource);
             
         void setEnabled(bool value) override;
             
@@ -186,8 +181,7 @@ namespace Marvel {
 
         MV_APPITEM_TYPE(mvAppItemType::SliderInt2, "add_slider_int2")
 
-        mvSliderInt2(const std::string& name, int* default_value, const std::string& dataSource)
-            : mvInt2PtrBase(name, default_value, dataSource);
+        mvSliderInt2(const std::string& name, int* default_value, const std::string& dataSource);
         
         void setEnabled(bool value) override;
         
@@ -216,9 +210,8 @@ namespace Marvel {
     public:
         
         MV_APPITEM_TYPE(mvAppItemType::SliderInt3, "add_slider_int3")
-        
-        mvSliderInt3(const std::string& name, int* default_value, const std::string& dataSource)
-            : mvInt3PtrBase(name, default_value, dataSource);
+
+        mvSliderInt3(const std::string& name, int* default_value, const std::string& dataSource);
         
         void setEnabled(bool value) override;
         
@@ -248,8 +241,7 @@ namespace Marvel {
 
         MV_APPITEM_TYPE(mvAppItemType::SliderInt4, "add_slider_int4")
 
-        mvSliderInt4(const std::string& name, int* default_value, const std::string& dataSource)
-            : mvInt4PtrBase(name, default_value, dataSource);
+        mvSliderInt4(const std::string& name, int* default_value, const std::string& dataSource);
         
         void setEnabled(bool value) override;
         
