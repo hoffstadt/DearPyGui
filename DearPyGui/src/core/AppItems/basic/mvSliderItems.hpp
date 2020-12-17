@@ -1,0 +1,281 @@
+// to be sure to have the best speed from compiler
+// without having to check the behavior of each compiler
+// is better to use both pragma once and guards
+// in that way can get the best of both (cross-platform and help compilation speed)
+
+#ifndef mvSliderItems_hpp           // guards
+#define mvSliderItems_hpp           // guards
+#pragma once
+#include "mvTypeBases.h"
+#include <string>
+#include "mvMarvel.h"
+
+//-----------------------------------------------------------------------------
+// Widget Index
+//
+//     * mvSliderFloat
+//     * mvSliderFloat2
+//     * mvSliderFloat3
+//     * mvSliderFloat4
+//     * mvSliderInt
+//     * mvSliderInt2
+//     * mvSliderInt3
+//     * mvSliderInt4
+//
+//-----------------------------------------------------------------------------
+
+namespace Marvel {
+
+    //-----------------------------------------------------------------------------
+    // mvSliderFloat
+    //-----------------------------------------------------------------------------
+    class mvSliderFloat : public mvFloatPtrBase
+    {
+        
+    public:
+        
+        MV_APPITEM_TYPE(mvAppItemType::SliderFloat, "add_slider_float")
+        
+        mvSliderFloat(const std::string& name, float default_value, const std::string& dataSource)
+            : mvFloatPtrBase(name, default_value, dataSource);
+        
+        void setEnabled(bool value) override;
+        
+        void draw() override;
+        
+        void setExtraConfigDict(PyObject* dict) override;
+        
+        void getExtraConfigDict(PyObject* dict) override;
+        
+    private:
+
+        float               m_min = 0.0f;
+        float               m_max = 100.0f;
+        std::string         m_format = "%.3f";
+        bool                m_vertical = false;
+        ImGuiInputTextFlags m_flags = ImGuiSliderFlags_None;
+        ImGuiInputTextFlags m_stor_flags = ImGuiSliderFlags_None;
+        
+    };
+
+    //-----------------------------------------------------------------------------
+    // mvSliderFloat2
+    //-----------------------------------------------------------------------------
+    class mvSliderFloat2 : public mvFloat2PtrBase
+    {
+        
+    public:
+
+        MV_APPITEM_TYPE(mvAppItemType::SliderFloat2, "add_slider_float2")
+
+        mvSliderFloat2(const std::string& name, float* default_value, const std::string& dataSource)
+            : mvFloat2PtrBase(name, default_value, dataSource);
+        
+        void setEnabled(bool value) override;
+        
+        void draw() override;
+        
+        void setExtraConfigDict(PyObject* dict) override;
+        
+        void getExtraConfigDict(PyObject* dict) override;
+        
+    private:
+
+        float               m_min = 0.0f;
+        float               m_max = 100.0f;
+        std::string         m_format = "%.3f";
+        ImGuiInputTextFlags m_flags = ImGuiSliderFlags_None;
+        ImGuiInputTextFlags m_stor_flags = ImGuiSliderFlags_None;
+        
+    };
+
+    //-----------------------------------------------------------------------------
+    // mvSliderFloat3
+    //-----------------------------------------------------------------------------
+    class mvSliderFloat3 : public mvFloat3PtrBase
+    {
+        
+    public:
+        
+        MV_APPITEM_TYPE(mvAppItemType::SliderFloat3, "add_slider_float3")
+
+        mvSliderFloat3(const std::string& name, float* default_value, const std::string& dataSource)
+            : mvFloat3PtrBase(name, default_value, dataSource);
+        
+        void setEnabled(bool value) override;
+        
+        void draw() override;
+        
+        void setExtraConfigDict(PyObject* dict) override;
+        
+        void getExtraConfigDict(PyObject* dict) override;
+        
+    private:
+
+        float               m_min = 0.0f;
+        float               m_max = 100.0f;
+        std::string         m_format = "%.3f";
+        ImGuiInputTextFlags m_flags = ImGuiSliderFlags_None;
+        ImGuiInputTextFlags m_stor_flags = ImGuiSliderFlags_None;
+        
+    };
+    
+    //-----------------------------------------------------------------------------
+    // mvSliderFloat4
+    //-----------------------------------------------------------------------------
+    class mvSliderFloat4 : public mvFloat4PtrBase
+    {
+          
+    public:
+        
+        MV_APPITEM_TYPE(mvAppItemType::SliderFloat4, "add_slider_float4")
+        
+        mvSliderFloat4(const std::string& name, float* default_value, const std::string& dataSource)
+            : mvFloat4PtrBase(name, default_value, dataSource);
+        
+        void setEnabled(bool value) override;
+        
+        void draw() override;
+        
+        void setExtraConfigDict(PyObject* dict) override;
+        
+        void getExtraConfigDict(PyObject* dict) override;
+        
+    private:
+
+        float               m_min = 0.0f;
+        float               m_max = 100.0f;
+        std::string         m_format = "%.3f";
+        ImGuiInputTextFlags m_flags = ImGuiSliderFlags_None;
+        ImGuiInputTextFlags m_stor_flags = ImGuiSliderFlags_None;
+        
+    };
+     
+    //-----------------------------------------------------------------------------
+    // mvSliderInt
+    //-----------------------------------------------------------------------------
+    class mvSliderInt : public mvIntPtrBase
+    {
+            
+    public:
+
+        MV_APPITEM_TYPE(mvAppItemType::SliderInt, "add_slider_int")
+            
+        mvSliderInt(const std::string& name, int default_value, const std::string& dataSource)
+            : mvIntPtrBase(name, default_value, dataSource);
+            
+        void setEnabled(bool value) override;
+            
+        void draw() override;
+            
+        void setExtraConfigDict(PyObject* dict) override;
+            
+        void getExtraConfigDict(PyObject* dict) override;
+            
+    private:
+
+        int                 m_min = 0;
+        int                 m_max = 100;
+        std::string         m_format = "%d";
+        bool                m_vertical = false;
+        ImGuiInputTextFlags m_flags = ImGuiSliderFlags_None;
+        ImGuiInputTextFlags m_stor_flags = ImGuiSliderFlags_None;
+        
+    };
+        
+    //-----------------------------------------------------------------------------
+    // mvSliderInt2
+    //-----------------------------------------------------------------------------
+    class mvSliderInt2 : public mvInt2PtrBase
+    {
+        
+    public:
+
+        MV_APPITEM_TYPE(mvAppItemType::SliderInt2, "add_slider_int2")
+
+        mvSliderInt2(const std::string& name, int* default_value, const std::string& dataSource)
+            : mvInt2PtrBase(name, default_value, dataSource);
+        
+        void setEnabled(bool value) override;
+        
+        void draw() override;
+        
+        void setExtraConfigDict(PyObject* dict) override;
+        
+        void getExtraConfigDict(PyObject* dict) override;
+        
+    private:
+
+        int                 m_min = 0;
+        int                 m_max = 100;
+        std::string         m_format = "%d";
+        ImGuiInputTextFlags m_flags = ImGuiSliderFlags_None;
+        ImGuiInputTextFlags m_stor_flags = ImGuiSliderFlags_None;
+        
+    };
+    
+    //-----------------------------------------------------------------------------
+    // mvSliderInt3
+    //-----------------------------------------------------------------------------
+    class mvSliderInt3 : public mvInt3PtrBase
+    {
+        
+    public:
+        
+        MV_APPITEM_TYPE(mvAppItemType::SliderInt3, "add_slider_int3")
+        
+        mvSliderInt3(const std::string& name, int* default_value, const std::string& dataSource)
+            : mvInt3PtrBase(name, default_value, dataSource);
+        
+        void setEnabled(bool value) override;
+        
+        void draw() override;
+        
+        void setExtraConfigDict(PyObject* dict) override;
+        
+        void getExtraConfigDict(PyObject* dict) override;
+        
+    private:
+
+        int                 m_min = 0;
+        int                 m_max = 100;
+        std::string         m_format = "%d";
+        ImGuiInputTextFlags m_flags = ImGuiSliderFlags_None;
+        ImGuiInputTextFlags m_stor_flags = ImGuiSliderFlags_None;
+        
+    };
+        
+    //-----------------------------------------------------------------------------
+    // mvSliderInt4
+    //-----------------------------------------------------------------------------
+    class mvSliderInt4 : public mvInt4PtrBase
+    {
+        
+    public:
+
+        MV_APPITEM_TYPE(mvAppItemType::SliderInt4, "add_slider_int4")
+
+        mvSliderInt4(const std::string& name, int* default_value, const std::string& dataSource)
+            : mvInt4PtrBase(name, default_value, dataSource);
+        
+        void setEnabled(bool value) override;
+        
+        void draw() override;
+        
+        void setExtraConfigDict(PyObject* dict) override;
+        
+        void getExtraConfigDict(PyObject* dict) override;
+        
+    private:
+
+        int                 m_min = 0;
+        int                 m_max = 100;
+        std::string         m_format = "%d";
+        ImGuiInputTextFlags m_flags = ImGuiSliderFlags_None;
+        ImGuiInputTextFlags m_stor_flags = ImGuiSliderFlags_None;
+        
+    };
+
+}
+
+#endif /* mvSliderItems_hpp */      // guards
