@@ -8,6 +8,7 @@
 #include "mvCore.h"
 #define PY_SSIZE_T_CLEAN
 #include <Python.h>
+#include "mvPythonParser.h"
 
 //-----------------------------------------------------------------------------
 // Widget Index
@@ -31,8 +32,14 @@ namespace Marvel {
 	//-----------------------------------------------------------------------------
 	// mvPlot
 	//-----------------------------------------------------------------------------
+	PyObject* add_plot(PyObject* self, PyObject* args, PyObject* kwargs);
+
 	class mvPlot : public mvAppItem
 	{
+
+	public:
+
+		static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
 
 	public:
 
@@ -159,6 +166,9 @@ namespace Marvel {
 	//-----------------------------------------------------------------------------
 	// mvPlotAnnotation
 	//-----------------------------------------------------------------------------
+	PyObject* add_annotation(PyObject* self, PyObject* args, PyObject* kwargs);
+	PyObject* delete_annotation(PyObject* self, PyObject* args, PyObject* kwargs);
+
 	struct mvPlotAnnotation
 	{
 		std::string name;
@@ -173,6 +183,9 @@ namespace Marvel {
 	//-----------------------------------------------------------------------------
 	// mvDragLine
 	//-----------------------------------------------------------------------------
+	PyObject* add_drag_line(PyObject* self, PyObject* args, PyObject* kwargs);
+	PyObject* delete_drag_line(PyObject* self, PyObject* args, PyObject* kwargs);
+
 	struct mvDragLine
 	{
 		std::string name;
@@ -189,6 +202,9 @@ namespace Marvel {
 	//-----------------------------------------------------------------------------
 	// mvDragPoint
 	//-----------------------------------------------------------------------------
+	PyObject* add_drag_point(PyObject* self, PyObject* args, PyObject* kwargs);
+	PyObject* delete_drag_point(PyObject* self, PyObject* args, PyObject* kwargs);
+
 	struct mvDragPoint
 	{
 		std::string name;

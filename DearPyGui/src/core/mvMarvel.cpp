@@ -75,6 +75,8 @@ namespace Marvel {
 		mvColumn::InsertParser(parsers.get());
 		mvNextColumn::InsertParser(parsers.get());
 		mvInputText::InsertParser(parsers.get());
+		mvTable::InsertParser(parsers.get());
+		mvPlot::InsertParser(parsers.get());
 
 		AddDrawingCommands(parsers.get());
 		AddPlotCommands(parsers.get());
