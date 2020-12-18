@@ -33,9 +33,9 @@ the following platforms:
 In the same manner Dear ImGui provides a simple way to create tools for game developers, _Dear PyGui_ provides a 
 simple way for python developers to **create quick and powerful GUIs for scripts**.
 
-| [Installing](#installation) - [Usage](#usage) - [Resources](#Resources) - [Features](#some-features) - [Support](#support) - [Building](#building)|
+| [Installing](#installation) - [Usage](#usage) - [Resources](#Resources) - [Features](#some-features) - [Support](#support) |
 :----------------------------------------------------------: |
-| [Upcoming changes](#upcoming-changes) - [Gallery](#gallery) - [Sponsors](#sponsors) - [Credits](#credits) - [License](#license)|
+| [Upcoming changes](#upcoming-changes) - [Sponsors](#sponsors) - [Credits](#credits) - [License](#license)|
 
 ### Installation
 
@@ -52,12 +52,13 @@ Ensure you have at least Python 3.6 64bit.
 ### Resources
 
  ---
-  
-- [DearPyGui-Examples](https://hoffstadt.github.io/DearPyGui/examples.html) and source code.
+ 
+- [Wiki](https://github.com/hoffstadt/DearPyGui/wiki) for most information.
+- [DearPyGui-Examples](https://hoffstadt.github.io/DearPyGui/examples.html) for examples.
 - [Tutorials](https://hoffstadt.github.io/DearPyGui/tutorial.html) for getting started.
 - [Online Documentation](https://hoffstadt.github.io/DearPyGui/) for official documentation.
-- Internal Documentation: Run the **show_documentation** command from within the library to view an reference guide. 
-- Complete Demo: You can also view a mostly complete showcase of _Dear PyGui_ by running the **show_demo** command found in _dearpygui.demo_.
+- Internal Documentation: Run the `show_documentation` command from within the library to view an reference guide. 
+- Complete Demo: You can also view a mostly complete showcase of _Dear PyGui_ by running the `show_demo` command found in _dearpygui.demo_.
 
 
 ### Usage
@@ -125,18 +126,9 @@ _Dear PyGui_ includes several tools to help developers with _DearPyGui_ app deve
 - [Paypal](https://www.paypal.com/paypalme/JonathanHoffstadt) For those who don't like rewards.
 
 If you are having issues or want to help, here are some places you can go:
-- [Github Forum](https://github.com/hoffstadt/DearPyGui/issues/)
+- [Github Discussions](https://github.com/hoffstadt/DearPyGui/discussions/)
 - [Discord Forum](https://discord.gg/tyE7Gu4)
 - [Reddit](https://www.reddit.com/r/DearPyGui/)
-
-
-### Building
-
----
-
-- [Building From Source (Users)](https://github.com/hoffstadt/DearPyGui/wiki/Building-For-Users)
-- [Building For Contributors](https://github.com/hoffstadt/DearPyGui/wiki/Building-For-Contributors)
-
 
 ### Upcoming Changes
 
@@ -171,13 +163,6 @@ Developed by Jonathan Hoffstadt, Preston Cothren, and every direct or indirect c
 [Omar Cornut](http://www.miracleworld.net/) for all his incredible work on [Dear ImGui](https://github.com/ocornut/imgui).
 
 [Evan Pezent](http://evanpezent.com/) for all his work on [ImPlot](https://github.com/epezent/implot)
-
-### Gallery
-
----
-
-<BR>![StandardWindowsExample1](https://github.com/hoffstadt/DearPyGui/blob/assets/WidgetsExample1.PNG?raw=true)
-<BR>![StandardWindowsExample1](https://github.com/hoffstadt/DearPyGui/blob/assets/StandardWindowsExample1.PNG?raw=true)
 
 ### License
 
