@@ -409,7 +409,8 @@ namespace Marvel {
 		if (!(*mvApp::GetApp()->getParsers())["set_theme_item"].parse(args, kwargs, __FUNCTION__, &item, &r, &g, &b, &a))
 			return GetPyNone();
 
-		mvApp::GetApp()->setThemeItem(item, { r, g, b, a });
+		mvColor color = { r, g, b, a };
+		mvApp::GetApp()->setThemeItem(item, color);
 
 		return GetPyNone();
 	}
