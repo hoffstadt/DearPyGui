@@ -5,6 +5,7 @@
 #include "mvThreadPool.h"
 #include "mvProfiler.h"
 #include "mvGlobalIntepreterLock.h"
+#include "mvApp.h"
 
 namespace Marvel {
 
@@ -64,7 +65,7 @@ namespace Marvel {
 
 	bool mvCallbackRegistry::onInputs(mvEvent& event)
 	{
-		const char* active = "new system";
+		const char* active = mvApp::GetApp()->getItemRegistry().getActiveWindow().c_str();
 
 		switch (event.type)
 		{

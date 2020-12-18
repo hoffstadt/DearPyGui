@@ -39,7 +39,6 @@ def window_close_all(sender, data):
         if does_item_exist(win):
             delete_item(win)
 
-
 with window("Primary Window Tester", show=True):
     
     add_button("This Primary", callback=lambda sender, data: set_primary_window("Primary Window Tester", True))
@@ -93,5 +92,4 @@ with window("Asyncronous##dialog", show=True):
     add_button("Start Long Asyncronous Process 1", callback=LongAsyncronousCallback)
     add_button("Start Long Asyncronous Process 2", callback=LongAsyncronousCallback2)
 
-#start_dearpygui(primary_window="Asyncronous##dialog")
 start_dearpygui()
