@@ -70,7 +70,7 @@ namespace Marvel {
 		for (auto& item : m_constants)
 		{
 			m_cconstants.push_back(item.first.c_str());
-			m_constantsValues.push_back("Constant with a value of " + std::to_string(item.second));
+			m_constantsValues.emplace_back("Constant with a value of " + std::to_string(item.second));
 		}
 
 		for (const auto& item : *m_docmap)

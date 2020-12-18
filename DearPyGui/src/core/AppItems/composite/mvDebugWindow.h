@@ -34,7 +34,7 @@ namespace Marvel {
 	private:
 
 		std::string m_selectedItem;
-		ImGuiID     m_selectedID;
+		ImGuiID     m_selectedID = 0u;
 		std::vector<std::pair<std::string, std::string>> m_commands;
 	};
 

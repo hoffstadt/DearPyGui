@@ -26,10 +26,6 @@ namespace Marvel {
 
 		void getExtraConfigDict(PyObject* dict) override;
 
-	private:
-
-		bool m_enabled = true;
-
 	};
 
 }

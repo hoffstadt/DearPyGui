@@ -176,7 +176,7 @@ namespace Marvel {
 		return first->size() == second->size();
 	}
 
-	static bool CheckArraySizes(const char* name, std::vector<const std::vector<float>*> arrays)
+	static bool CheckArraySizes(const char* name, const std::vector<const std::vector<float>*>& arrays)
 	{
 		for (size_t i = 0; i < arrays.size() - 1; i++)
 		{
@@ -189,7 +189,7 @@ namespace Marvel {
 		return true;
 	}
 
-	mvSeries::mvSeries(std::string name, const std::vector<const std::vector<float>*> data, ImPlotYAxis_ axis)
+	mvSeries::mvSeries(std::string name, const std::vector<const std::vector<float>*>& data, ImPlotYAxis_ axis)
 		:
 		m_name(name),
 		m_axis(axis)
@@ -265,7 +265,6 @@ namespace Marvel {
 			if (item.name == name)
 			{
 				exists = true;
-				item.name = name;
 				if (item.source != source)
 				{
 					mvApp::GetApp()->getValueStorage().DecrementRef(source.empty() ? name : source);
@@ -303,7 +302,6 @@ namespace Marvel {
 			if (item.name == name)
 			{
 				exists = true;
-				item.name = name;
 				if (item.source != source)
 				{
 					mvApp::GetApp()->getValueStorage().DecrementRef(source.empty() ? name : source);
@@ -402,7 +400,6 @@ namespace Marvel {
 			if (item.name == name)
 			{
 				exists = true;
-				item.name = name;
 				item.x = x;
 				item.y = y;
 				item.pix_offset.x = xoffset;

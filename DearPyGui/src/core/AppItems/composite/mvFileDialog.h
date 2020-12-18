@@ -20,7 +20,7 @@ namespace Marvel {
 
 	private:
 
-		PyObject*   m_callback;
+		PyObject*   m_callback2 = nullptr;
 	};
 
 }
