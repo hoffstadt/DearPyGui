@@ -11,7 +11,7 @@ def helpmarker(message):
     add_same_line()
     add_text("(?)", color=[150, 150, 150], tip=message)
 
-def hsv_to_rgb(h, s, v):
+def hsv_to_rgb(h: float, s: float, v: float) -> (float, float, float):
     if s == 0.0: return (v, v, v)
     i = int(h*6.) # XXX assume int() truncates!
     f = (h*6.)-i; p,q,t = v*(1.-s), v*(1.-s*f), v*(1.-s*(1.-f)); i%=6
@@ -78,7 +78,7 @@ def demo_main_callback(sender, data):
     if is_mouse_button_clicked(mvMouseButton_Left):
         set_value("Left Mouse Clicked##demo", "True")
     else:
-        set_value("Left Mouse Clicked", "False")
+        set_value("Left Mouse Clicked##demo", "False")
 
     if is_mouse_button_clicked(mvMouseButton_Right):
         set_value("Right Mouse Clicked##demo", "True")
@@ -150,10 +150,13 @@ def demo_accelerator_callback(sender, data):
         
 def show_demo():
 
+    # the render callback is a function that runs every frame
     set_render_callback(demo_main_callback)
+
     #set_accelerator_callback(demo_accelerator_callback)
 
     def on_demo_close(sender, data):
+
         delete_item("Dear PyGui Demo")
         if does_item_exist("Logging Widget On Window##demo"):
             delete_item("Logging Widget On Window##demo")
@@ -215,9 +218,10 @@ def show_demo():
                 add_menu_item("Show Style Editor##demo", callback=show_style_editor)
 
         add_text(f'Dear PyGui says hello. ({get_dearpygui_version()})')
-        add_text("This demo is not complete but will continue to be added to throughout the 0.6.x releases!")
+        add_text("This code for this demo can be found here: ")
+        add_text("https://github.com/hoffstadt/DearPyGui/blob/master/DearPyGui/dearpygui/demo.py")
 
-        with collapsing_header("Window options##demo", default_open=True, closable = True):
+        with collapsing_header("Window options##demo"):
             with managed_columns("Window Options Col##demo", 3, border=False):
                 add_checkbox("No titlebar##demo", callback=lambda sender, data: configure_item("Dear PyGui Demo", no_title_bar=get_value(sender)))
                 add_checkbox("No scrollbar##demo", callback=lambda sender, data: configure_item("Dear PyGui Demo", no_scrollbar=get_value(sender)))
@@ -553,8 +557,6 @@ def show_demo():
 
         with collapsing_header("Layout & Scolling##demo"):
 
-            add_text("This section is not ready! But will completed sometime during the 0.4.x releases!")
-
             with tree_node("Child windows##demo"):
 
                 with child("child##demo", border=False, width=400):
@@ -881,8 +883,6 @@ def show_demo():
 
         with collapsing_header("Plots##demo"):
 
-            add_text("This section is not ready! But will completed sometime during the 0.4.x releases!")
-
             with tree_node("Help##plots##demo"):
                 add_text("Plotting User Guide")
                 add_text("Left click and drag within the plot area to pan X and Y axes.", bullet=True)
@@ -1191,7 +1191,6 @@ def show_demo():
 
                 def LogCallback1(sender, data):
                     show_logger()
-                    clear_log()
                     loglevel = get_value("Log Level##logging##demo")
                     set_log_level(loglevel)
                     log("Trace Message")
@@ -1240,10 +1239,9 @@ def show_demo():
                 add_logger("LoggerWidget##demo", autosize_x=True, height=200, auto_scroll=True)
 
         with collapsing_header("Filtering##demo"):
-            add_text("This section is not ready! But will completed sometime during the 0.6.x releases!")
+            add_text("This section is not ready! But will completed sometime during the 0.7.x releases!")
 
         with collapsing_header("Inputs, Navigation, & Focus##demo"):
-            add_text("This section is not ready! But will completed sometime during the 0.4.x releases!")
 
             with tree_node("Polling##demoinputs"):
                 add_text("Key Polling:")
@@ -1293,3 +1291,6 @@ def show_demo():
                 add_label_text("Keys down##demoevents")
                 add_label_text("Keys pressed##demoevents")
                 add_label_text("Keys released##demoevents")
+
+        with collapsing_header("Collapsing Header##demo", default_open=True, closable = True):
+            add_text("This header is just to demonstrate default_open and closable.")
