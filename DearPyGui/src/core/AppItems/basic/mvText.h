@@ -13,7 +13,8 @@
 
 namespace Marvel {
 
-	PyObject* add_text(PyObject* self, PyObject* args, PyObject* kwargs);
+	PyObject* add_text      (PyObject* self, PyObject* args, PyObject* kwargs);
+	PyObject* add_label_text(PyObject* self, PyObject* args, PyObject* kwargs);
 
 	//-----------------------------------------------------------------------------
 	// mvText
@@ -46,9 +47,6 @@ namespace Marvel {
 	//-----------------------------------------------------------------------------
 	// mvLabelText
 	//-----------------------------------------------------------------------------
-
-	PyObject* add_label_text(PyObject* self, PyObject* args, PyObject* kwargs);
-
 	class mvLabelText : public mvStringPtrBase
 	{
 

@@ -20,7 +20,6 @@ namespace Marvel {
 			{mvPythonDataType::String, "source", "data source for shared data", "''"},
 			{mvPythonDataType::Integer, "width","", "0"},
 			{mvPythonDataType::Integer, "height","", "0"},
-			{mvPythonDataType::String, "popup", "", "''"},
 			{mvPythonDataType::Bool, "show", "Attempt to render", "True"},
 		}, "Adds a progress bar.", "None", "Adding Widgets") });
 	}
@@ -66,11 +65,10 @@ namespace Marvel {
 		const char* source = "";
 		int width = 0;
 		int height = 0;
-		const char* popup = "";
 		int show = true;
 
 		if (!(*mvApp::GetApp()->getParsers())["add_progress_bar"].parse(args, kwargs, __FUNCTION__, &name, &default_value,
-			&overlay, &tip, &parent, &before, &source, &width, &height, &popup, &show))
+			&overlay, &tip, &parent, &before, &source, &width, &height, &show))
 			return ToPyBool(false);
 
 		auto item = CreateRef<mvProgressBar>(name, default_value, source);

@@ -21,7 +21,6 @@ namespace Marvel {
 			{mvPythonDataType::String, "source", "", "''"},
 			{mvPythonDataType::Bool, "enabled", "Display grayed out text so selectable cannot be selected", "True"},
 			{mvPythonDataType::Bool, "horizontal", "", "False"},
-			{mvPythonDataType::String, "popup", "", "''"},
 			{mvPythonDataType::Bool, "show", "Attempt to render", "True"},
 		}, "Adds a set of radio buttons. If items is empty, nothing will be shown.", "None", "Adding Widgets") });
 	}
@@ -94,12 +93,10 @@ namespace Marvel {
 		const char* source = "";
 		int enabled = true;
 		int horizontal = false;
-		const char* popup = "";
 		int show = true;
 
 		if (!(*mvApp::GetApp()->getParsers())["add_radio_button"].parse(args, kwargs, __FUNCTION__, &name, &items,
-			&default_value, &callback, &callback_data, &tip, &parent, &before, &source, &enabled, &horizontal,
-			&popup, &show))
+			&default_value, &callback, &callback_data, &tip, &parent, &before, &source, &enabled, &horizontal, &show))
 			return ToPyBool(false);
 
 		auto item = CreateRef<mvRadioButton>(name, default_value, source);

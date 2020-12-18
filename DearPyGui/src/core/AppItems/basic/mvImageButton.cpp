@@ -24,7 +24,6 @@ namespace Marvel {
 			{mvPythonDataType::Integer, "frame_padding","", "-1"},
 			{mvPythonDataType::FloatList, "uv_min", "normalized texture coordinates", "(0.0, 0.0)"},
 			{mvPythonDataType::FloatList, "uv_max", "normalized texture coordinates", "(1.0, 1.0)"},
-			{mvPythonDataType::String, "popup", "", "''"},
 			{mvPythonDataType::Bool, "show", "Attempt to render", "True"},
 		}, "Adds an image button."
 		"uv_min and uv_max represent the normalized texture coordinates of the original image that will be shown."
@@ -84,7 +83,6 @@ namespace Marvel {
 			if (m_height == 0) m_height = (int)((float)texture->height * (m_uv_max.y - m_uv_min.y));
 
 			m_texture = texture->texture;
-
 		}
 
 		if (m_dirty)
@@ -169,12 +167,11 @@ namespace Marvel {
 		PyObject* uv_max = PyTuple_New(2);
 		PyTuple_SetItem(uv_max, 0, PyFloat_FromDouble(1));
 		PyTuple_SetItem(uv_max, 1, PyFloat_FromDouble(1));
-		const char* popup = "";
 		int show = true;
 
 		if (!(*mvApp::GetApp()->getParsers())["add_image_button"].parse(args, kwargs, __FUNCTION__,
 			&name, &value, &callback, &callback_data, &tintcolor, &backgroundColor, &tip, &parent,
-			&before, &width, &height, &frame_padding, &uv_min, &uv_max, &popup, &show))
+			&before, &width, &height, &frame_padding, &uv_min, &uv_max, &show))
 			return ToPyBool(false);
 
 		//auto mtintcolor = ToColor(tintcolor);

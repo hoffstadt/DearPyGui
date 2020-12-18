@@ -136,7 +136,7 @@ namespace Marvel {
 		m_mainThreadID = std::this_thread::get_id();
 
 #if defined(MV_DEBUG)
-		new mvEventListener();
+		//new mvEventListener();
 #endif // MV_PROFILE
 
 		mvThreadPoolManager::GetThreadPoolManager();
@@ -227,7 +227,7 @@ namespace Marvel {
 
 #if defined(MV_PROFILE) && defined(MV_DEBUG)
         //mvEventBus::ShowDebug();
-		postProfile();
+		//postProfile();
 #endif // MV_PROFILE
 	}
 

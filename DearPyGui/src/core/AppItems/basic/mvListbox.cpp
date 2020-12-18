@@ -24,7 +24,6 @@ namespace Marvel {
 			{mvPythonDataType::Integer, "width","", "0"},
 			{mvPythonDataType::Integer, "num_items", "number of items to show", "3"},
 			{mvPythonDataType::String, "label","", "''"},
-			{mvPythonDataType::String, "popup","", "''"},
 			{mvPythonDataType::Bool, "show", "Attempt to render", "True"},
 		}, "Adds a listbox.", "None", "Adding Widgets") });
 	}
@@ -102,12 +101,11 @@ namespace Marvel {
 		const char* source = "";
 		int enabled = true;
 		const char* label = "";
-		const char* popup = "";
 		int show = true;
 
 		if (!(*mvApp::GetApp()->getParsers())["add_listbox"].parse(args, kwargs, __FUNCTION__, &name, &items,
 			&default_value, &callback, &callback_data, &tip, &parent, &before, &source, &enabled, &width,
-			&num_items, &label, &popup, &show))
+			&num_items, &label, &show))
 			return ToPyBool(false);
 
 		auto item = CreateRef<mvListbox>(name, default_value, source);

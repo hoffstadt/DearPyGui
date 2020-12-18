@@ -141,7 +141,7 @@ def menu(name: str, *, label: str = "__DearPyGuiDefault", show: bool = True, par
 
 @contextmanager
 def child(name: str, *, show: bool = True, tip: str = "", parent: str = "", before: str = "", width: int = 0,
-          height: int = 0, border: bool = True, popup: str = "", autosize_x: bool = False, autosize_y: bool = False,
+          height: int = 0, border: bool = True, autosize_x: bool = False, autosize_y: bool = False,
           no_scrollbar: bool = False, horizontal_scrollbar: bool = False, menubar: bool = False):
     """Wraps add_child() and automates calling end().
 
@@ -155,7 +155,6 @@ def child(name: str, *, show: bool = True, tip: str = "", parent: str = "", befo
         **width: Width of the item.
         **height: Height of the item.
         **border: Shows/Hides the border around the sides
-        **popup: Name of the popup that will be tied to this item.
         **autosize_x: Autosize the window to fit its items in the x.
         **autosize_y: Autosize the window to fit its items in the y.
         **no_scrollbar: Disable scrollbars (window can still scroll with mouse or programmatically)
@@ -167,7 +166,7 @@ def child(name: str, *, show: bool = True, tip: str = "", parent: str = "", befo
     """
     try: 
         yield internal_dpg.add_child(name, show=show, tip=tip, parent=parent, before=before, width=width,
-                                     height=height, border=border, popup=popup, autosize_x=autosize_x, autosize_y=autosize_y,
+                                     height=height, border=border, autosize_x=autosize_x, autosize_y=autosize_y,
                                      no_scrollbar=no_scrollbar, horizontal_scrollbar=horizontal_scrollbar,
                                      menubar=menubar)
     finally:
@@ -217,7 +216,7 @@ def collapsing_header(name: str, *, label: str = "__DearPyGuiDefault", show: boo
 
 @contextmanager
 def group(name: str, *, show: bool = True, tip: str = "", parent: str = "", before: str = "", width: int = 0,
-          horizontal: bool = False, horizontal_spacing: float = -1.0, popup: str = ""):
+          horizontal: bool = False, horizontal_spacing: float = -1.0):
     """Wraps add_group() and automates calling end().
 
     Args:
@@ -230,14 +229,13 @@ def group(name: str, *, show: bool = True, tip: str = "", parent: str = "", befo
         **width: Width of the item.
         **horizontal: Adds the items on the same row by default.
         **horizontal_spacing: Decides the spacing for the items.
-        **popup: Name of the popup that will be tied to this item.
 
     Returns:
         None
     """
     try:
         yield internal_dpg.add_group(name, show=show, tip=tip, parent=parent, before=before, width=width,
-                                     horizontal=horizontal, horizontal_spacing=horizontal_spacing, popup=popup)
+                                     horizontal=horizontal, horizontal_spacing=horizontal_spacing)
     finally:
         internal_dpg.end()
 
@@ -399,7 +397,7 @@ def set_window_pos(window: str, x: int, y: int):
     """Sets the top left corner of the window to the specified position.
 
     Args:
-        window: Parent that the popup will be assigned to.
+        window: window to position
         x: The x position.
         y: The y position.
 
@@ -413,7 +411,7 @@ def get_window_pos(window: str) -> Union[List[int], None]:
     """Gets the top left corner of the window to the specified position.
 
     Args:
-        window: Parent that the popup will be assigned to.
+        window: window to retrieve position
         x: The x position.
         y: The y position.
 
@@ -483,19 +481,6 @@ def set_item_label(item: str, label: str):
     internal_dpg.configure_item(item, label=label)
 
 
-def set_item_popup(item: str, popup: str):
-    """Sets the item's popup.
-
-    Args:
-        item: Item the Popup will be applied to.
-        popup: Popup to be applied.
-
-    Returns:
-        None
-    """
-    internal_dpg.configure_item(item, popup=popup)
-
-
 def set_item_tip(item: str, tip: str):
     """Sets the item's tip.
 
@@ -542,16 +527,6 @@ def get_item_label(item: str) -> Union[str, None]:
         label as a string or None
     """
     return internal_dpg.get_item_configuration(item)["label"]
-
-
-def get_item_popup(item: str) -> Union[str, None]:
-    """Gets the item's popup.
-
-    Returns:
-        popup as a string or None
-    """
-    return internal_dpg.get_item_configuration(item)["popup"]
-
 
 def get_item_tip(item: str) -> Union[str, None]:
     """Gets the item's tip.

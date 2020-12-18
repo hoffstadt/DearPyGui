@@ -28,7 +28,6 @@ namespace Marvel {
 			{mvPythonDataType::Integer, "height","", "0"},
 			{mvPythonDataType::String, "source","", "''"},
 			{mvPythonDataType::String, "label", "", "''"},
-			{mvPythonDataType::String, "popup", "", "''"},
 			{mvPythonDataType::Bool, "show", "Attempt to render", "True"},
 		}, "A simple plot for visualization of a set of values", "None", "Adding Widgets") });
 
@@ -96,11 +95,10 @@ namespace Marvel {
 		int height = 0;
 		const char* source = "";
 		const char* label = "";
-		const char* popup = "";
 		int show = true;
 
 		if (!(*mvApp::GetApp()->getParsers())["add_simple_plot"].parse(args, kwargs, __FUNCTION__, &name, &value, &overlay,
-			&minscale, &maxscale, &histogram, &tip, &parent, &before, &width, &height, &source, &label, &popup, &show))
+			&minscale, &maxscale, &histogram, &tip, &parent, &before, &width, &height, &source, &label, &show))
 			return ToPyBool(false);
 
 		std::vector<float> values = ToFloatVect(value);
