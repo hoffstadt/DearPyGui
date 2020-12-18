@@ -1208,7 +1208,6 @@ def show_demo():
 
             with tree_node("Logger Widgets##demo"):
                 def LogCallback2(sender, data):
-                    clear_log(logger="LoggerWidget##demo")
                     loglevel = get_value("Log Level##2logging##demo")
                     set_log_level(loglevel, logger="LoggerWidget##demo")
                     log("Trace Message", logger="LoggerWidget##demo")
@@ -1238,7 +1237,7 @@ def show_demo():
                     add_button("Test Logger##demo2", callback=LogCallback2)
                     add_radio_button("Log Level##2logging##demo", items=("Trace", "Debug", "Info", "Warning", "Error", "Off"))
                 add_same_line()
-                add_logger("LoggerWidget##demo", autosize_x=True, height=200)
+                add_logger("LoggerWidget##demo", autosize_x=True, height=200, auto_scroll=True)
 
         with collapsing_header("Filtering##demo"):
             add_text("This section is not ready! But will completed sometime during the 0.6.x releases!")
