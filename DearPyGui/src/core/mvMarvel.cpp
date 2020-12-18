@@ -66,6 +66,7 @@ namespace Marvel {
 		mvGroup::InsertParser(parsers.get());
 		mvChild::InsertParser(parsers.get());
 		mvWindowAppItem::InsertParser(parsers.get());
+		mvDocWindow::InsertParser(parsers.get());
 		mvDebugWindow::InsertParser(parsers.get());
 		mvStyleWindow::InsertParser(parsers.get());
 		mvTooltip::InsertParser(parsers.get());
