@@ -38,6 +38,7 @@ Fixes:
 - treenode:          changing labels no longer reset state #373
 - collapsing Header: changing labels fixed
 - Mac sizing:        Partially fixed. #348 #365
+- Logger:            Fixed autoscroll mac bug #347
 
 
 -----------------------------------------------------------------------
