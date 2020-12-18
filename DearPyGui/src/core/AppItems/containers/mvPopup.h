@@ -15,8 +15,6 @@ namespace Marvel {
 			: mvBoolPtrBase(name, false, name), m_parentAddress(parentAddress)
 		{
 			m_description.container = true;
-			if (parentAddress)
-				parentAddress->m_name;
 		}
 
 		void closePopup() { m_close = true; }

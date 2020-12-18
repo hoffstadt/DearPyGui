@@ -14,7 +14,7 @@ namespace Marvel {
 
 	void mvFileDialog::setCallback(PyObject* callback)
 	{ 
-		m_callback = callback; 
+		m_callback2 = callback; 
 	}
 
 	void mvFileDialog::draw()
@@ -30,12 +30,12 @@ namespace Marvel {
 			if (igfd::ImGuiFileDialog::Instance()->IsOk)
 			{
 
-				mvApp::GetApp()->getCallbackRegistry().runCallback(m_callback, "File Dialog", ToPyList({ igfd::ImGuiFileDialog::Instance()->GetCurrentPath(), igfd::ImGuiFileDialog::Instance()->FileNameBuffer }));
+				mvApp::GetApp()->getCallbackRegistry().runCallback(m_callback2, "File Dialog", ToPyList({ igfd::ImGuiFileDialog::Instance()->GetCurrentPath(), igfd::ImGuiFileDialog::Instance()->FileNameBuffer }));
 
 				// action
-				if (m_callback)
-					Py_XDECREF(m_callback);
-				m_callback = nullptr;
+				if (m_callback2)
+					Py_XDECREF(m_callback2);
+				m_callback2 = nullptr;
 			}
 			// close
 			igfd::ImGuiFileDialog::Instance()->CloseDialog("ChooseFileDlgKey");

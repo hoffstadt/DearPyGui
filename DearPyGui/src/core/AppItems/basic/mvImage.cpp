@@ -89,8 +89,9 @@ namespace Marvel {
 		if (m_dirty)
 		{
 			mvTexture* texture = mvApp::GetApp()->getTextureStorage().getTexture(m_value);
-			if (m_texture)
+			if (texture)
 			{
+				m_texture = texture->texture;
 				m_width = (int)((float)texture->width * (m_uv_max.x - m_uv_min.x));
 				m_height = (int)((float)texture->height * (m_uv_max.y - m_uv_min.y));
 			}

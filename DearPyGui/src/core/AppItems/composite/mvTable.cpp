@@ -126,7 +126,7 @@ namespace Marvel {
 	{
 		auto values = ToVectVectString(value, m_name + " requires a list/tuple or list/tuple of strings.");
 
-		m_values = values;
+		m_values = std::move(values);
 
 		if (!m_values.empty()) // just in case value is set to an empty list
 		{

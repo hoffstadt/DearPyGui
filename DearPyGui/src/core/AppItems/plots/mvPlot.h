@@ -232,7 +232,7 @@ namespace Marvel {
 			Stair, Candle
 		};
 
-		mvSeries(std::string name, const std::vector<const std::vector<float>*> data, ImPlotYAxis_ axis = ImPlotYAxis_1);
+		mvSeries(std::string name, const std::vector<const std::vector<float>*>& data, ImPlotYAxis_ axis = ImPlotYAxis_1);
 
 		mvSeries(std::string name, const ImPlotPoint& boundsMin, const ImPlotPoint& boundsMax, ImPlotYAxis_ axis = ImPlotYAxis_1);
 
@@ -255,7 +255,7 @@ namespace Marvel {
 		float                           m_maxY;
 		float                           m_minX;
 		float                           m_minY;
-		float                           m_weight;
+		float                           m_weight = 1.0f;
 		
 	};
 }

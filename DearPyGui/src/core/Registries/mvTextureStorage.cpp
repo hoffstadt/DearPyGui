@@ -103,7 +103,7 @@ namespace Marvel {
 		m_delayedTextures.push_back({ name, {}, 0u, 0u });
 	}
 
-	void mvTextureStorage::addDelayedTexture(const std::string& name, std::vector<float> data, unsigned width, unsigned height, mvTextureFormat format)
+	void mvTextureStorage::addDelayedTexture(const std::string& name, const std::vector<float>& data, unsigned width, unsigned height, mvTextureFormat format)
 	{
 		//m_textures.emplace_back(name, data, width, height, format);
 		m_delayedTextures.push_back({ name, data, width, height, format });

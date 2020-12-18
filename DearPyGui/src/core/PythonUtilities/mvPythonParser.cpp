@@ -173,13 +173,12 @@ namespace Marvel {
 				"\n\t" + element.description + "\n\n";
 		}
 
-		m_documentation = documentation;
+		m_documentation = std::move(documentation);
 	}
 
 	void GenerateStubFile(const std::string& file)
 	{
 		auto commands = BuildDearPyGuiInterface();
-		auto constants = GetModuleConstants();
 
 		// current date/time based on current system
 		time_t now = time(0);

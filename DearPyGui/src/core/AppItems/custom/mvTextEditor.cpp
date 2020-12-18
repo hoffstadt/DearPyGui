@@ -251,10 +251,10 @@ void mvTextEditor::DeleteRange(const Coordinates& aStart, const Coordinates& aEn
 		lastLine.erase(lastLine.begin(), lastLine.begin() + end);
 
 		if (aStart.mLine < aEnd.mLine)
+		{
 			firstLine.insert(firstLine.end(), lastLine.begin(), lastLine.end());
-
-		if (aStart.mLine < aEnd.mLine)
 			RemoveLine(aStart.mLine + 1, aEnd.mLine + 1);
+		}
 	}
 
 	mTextChanged = true;
@@ -1578,8 +1578,6 @@ void mvTextEditor::MoveLeft(int aAmount, bool aSelect, bool aWordMode)
 				--line;
 				if ((int)mLines.size() > line)
 					cindex = (int)mLines[line].size();
-				else
-					cindex = 0;
 			}
 		}
 		else

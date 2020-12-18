@@ -67,7 +67,7 @@ namespace Marvel {
 		void       addTexture       (const std::string& name);
 		void       addTexture       (const std::string& name, float* data, unsigned width, unsigned height, mvTextureFormat format);
 		void       addDelayedTexture(const std::string& name);
-		void       addDelayedTexture(const std::string& name, std::vector<float> data, unsigned width, unsigned height, mvTextureFormat format);
+		void       addDelayedTexture(const std::string& name, const std::vector<float>& data, unsigned width, unsigned height, mvTextureFormat format);
 		void       incrementTexture (const std::string& name);
 		void       decrementTexture (const std::string& name);
 		mvTexture* getTexture       (const std::string& name);

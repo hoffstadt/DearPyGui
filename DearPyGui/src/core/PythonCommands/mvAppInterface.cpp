@@ -313,6 +313,8 @@ namespace Marvel {
 				mvApp::GetApp()->getTextureStorage().addDelayedTexture(name, fdata, width, height, tformat);
 			return GetPyNone();
 		}
+
+		return GetPyNone();
 	}
 
 	PyObject* enable_docking(PyObject* self, PyObject* args, PyObject* kwargs)
