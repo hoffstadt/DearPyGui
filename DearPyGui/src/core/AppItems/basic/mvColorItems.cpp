@@ -18,7 +18,6 @@ namespace Marvel {
 			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)", "''"},
 			{mvPythonDataType::Integer, "width","", "0"},
 			{mvPythonDataType::Integer, "height", "", "0"},
-			{mvPythonDataType::String, "popup", "", "''"},
 			{mvPythonDataType::Bool, "show", "Attemp to render", "True"},
 			{mvPythonDataType::Bool, "no_alpha", "ignore Alpha component", "False"},
 			{mvPythonDataType::Bool, "no_border", "disable border (which is enforced by default)", "False"},
@@ -88,7 +87,6 @@ namespace Marvel {
 		const char* before = "";
 		int width = 0;
 		int height = 0;
-		const char* popup = "";
 		int show = true;
 		int no_alpha = false;
 		int no_border = false;
@@ -96,7 +94,7 @@ namespace Marvel {
 
 		if (!(*mvApp::GetApp()->getParsers())["add_color_button"].parse(args, kwargs, __FUNCTION__,
 			&name, &color, &callback, &callback_data, &tip, &parent, &before, &width, &height,
-			&popup, &show, &no_alpha, &no_border, &no_drag_drop))
+			&show, &no_alpha, &no_border, &no_drag_drop))
 			return ToPyBool(false);
 
 		auto item = CreateRef<mvColorButton>(name, ToColor(color));
@@ -130,7 +128,6 @@ namespace Marvel {
 			{mvPythonDataType::Integer, "width","", "0"},
 			{mvPythonDataType::Integer, "height", "", "0"},
 			{mvPythonDataType::String, "label", "", "''"},
-			{mvPythonDataType::String, "popup", "", "''"},
 			{mvPythonDataType::Bool, "show", "Attempt to render", "True"},
 			{mvPythonDataType::Bool, "no_alpha", "ignore Alpha component", "False"},
 			{mvPythonDataType::Bool, "no_picker", "disable picker when clicking on colored square.", "False"},
@@ -274,7 +271,6 @@ namespace Marvel {
 		const char* parent = "";
 		const char* source = "";
 		const char* label = "";
-		const char* popup = "";
 		int show = true;
 		int no_alpha = false;
 		int no_picker = false;
@@ -298,7 +294,7 @@ namespace Marvel {
 
 		if (!(*mvApp::GetApp()->getParsers())["add_color_edit3"].parse(args, kwargs, __FUNCTION__, &name,
 			&default_value, &callback, &callback_data, &tip, &parent, &before, &source, &width, &height,
-			&label, &popup, &show, &no_alpha, &no_picker, &no_options, &no_small_preview, &no_inputs, &no_tooltip, &no_label, &no_drag_drop,
+			&label, &show, &no_alpha, &no_picker, &no_options, &no_small_preview, &no_inputs, &no_tooltip, &no_label, &no_drag_drop,
 			&alpha_bar, &alpha_preview, &alpha_preview_half, &display_rgb, &display_hsv, &display_hex, &unit8, &floats, &input_rgb, &input_hsv))
 			return ToPyBool(false);
 
@@ -335,7 +331,6 @@ namespace Marvel {
 			{mvPythonDataType::Integer, "width","", "0"},
 			{mvPythonDataType::Integer, "height", "", "0"},
 			{mvPythonDataType::String, "label", "", "''"},
-			{mvPythonDataType::String, "popup", "", "''"},
 			{mvPythonDataType::Bool, "show", "Attempt to render", "True"},
 			{mvPythonDataType::Bool, "no_alpha", "ignore Alpha component", "False"},
 			{mvPythonDataType::Bool, "no_picker", "disable picker when clicking on colored square.", "False"},
@@ -480,7 +475,6 @@ namespace Marvel {
 		const char* parent = "";
 		const char* source = "";
 		const char* label = "";
-		const char* popup = "";
 		int show = true;
 		int no_alpha = false;
 		int no_picker = false;
@@ -502,7 +496,7 @@ namespace Marvel {
 		int input_hsv = false;
 
 		if (!(*mvApp::GetApp()->getParsers())["add_color_edit4"].parse(args, kwargs, __FUNCTION__, &name, &default_value,
-			&callback, &callback_data, &tip, &parent, &before, &source, &width, &height, &label, &popup, &show,
+			&callback, &callback_data, &tip, &parent, &before, &source, &width, &height, &label, &show,
 			&no_alpha, &no_picker, &no_options, &no_small_preview, &no_inputs, &no_tooltip, &no_label, &no_drag_drop,
 			&alpha_bar, &alpha_preview, &alpha_preview_half, &display_rgb, &display_hsv, &display_hex, &unit8, &floats, &input_rgb, &input_hsv))
 			return ToPyBool(false);
@@ -541,7 +535,6 @@ namespace Marvel {
 			{mvPythonDataType::Integer, "width","", "0"},
 			{mvPythonDataType::Integer, "height", "", "0"},
 			{mvPythonDataType::String, "label", "", "''"},
-			{mvPythonDataType::String, "popup", "", "''"},
 			{mvPythonDataType::Bool, "show", "Attempt to render", "True"},
 			{mvPythonDataType::Bool, "no_alpha", "ignore Alpha component", "False"},
 			{mvPythonDataType::Bool, "no_small_preview", "disable colored square preview next to the inputs. (e.g. to show only the inputs). This only displays if the side preview is not shown.", "False"},
@@ -685,7 +678,6 @@ namespace Marvel {
 		const char* parent = "";
 		const char* source = "";
 		const char* label = "";
-		const char* popup = "";
 		int show = true;
 		int no_alpha = false;
 		int no_small_preview = false;
@@ -708,7 +700,7 @@ namespace Marvel {
 
 
 		if (!(*mvApp::GetApp()->getParsers())["add_color_picker3"].parse(args, kwargs, __FUNCTION__, &name, &default_value,
-			&callback, &callback_data, &tip, &parent, &before, &source, &width, &height, &label, &popup, &show,
+			&callback, &callback_data, &tip, &parent, &before, &source, &width, &height, &label, &show,
 			&no_alpha, &no_small_preview, &no_inputs, &no_tooltip, &no_label, &no_side_preview, &alpha_bar,
 			&alpha_preview, &alpha_preview_half, &display_rgb, &display_hsv, &display_hex, &uint8, &floats, &picker_hue_bar,
 			&picker_hue_wheel, &input_rgb, &input_hsv))
@@ -748,7 +740,6 @@ namespace Marvel {
 			{mvPythonDataType::Integer, "width", "", "0"},
 			{mvPythonDataType::Integer, "height", "", "0"},
 			{mvPythonDataType::String, "label", "", "''"},
-			{mvPythonDataType::String, "popup", "", "''"},
 			{mvPythonDataType::Bool, "show", "Attempt to render", "True"},
 			{mvPythonDataType::Bool, "no_alpha", "ignore Alpha component", "False"},
 			{mvPythonDataType::Bool, "no_small_preview", "disable colored square preview next to the inputs. (e.g. to show only the inputs). This only displays if the side preview is not shown.", "False"},
@@ -892,7 +883,6 @@ namespace Marvel {
 		const char* parent = "";
 		const char* source = "";
 		const char* label = "";
-		const char* popup = "";
 		int show = true;
 		int no_alpha = false;
 		int no_small_preview = false;
@@ -915,7 +905,7 @@ namespace Marvel {
 
 		if (!(*mvApp::GetApp()->getParsers())["add_color_picker4"].parse(args, kwargs, __FUNCTION__, &name,
 			&default_value, &callback, &callback_data, &tip, &parent, &before, &source, &width, &height,
-			&label, &popup, &show, &no_alpha, &no_small_preview, &no_inputs, &no_tooltip, &no_label, &no_side_preview, &alpha_bar,
+			&label, &show, &no_alpha, &no_small_preview, &no_inputs, &no_tooltip, &no_label, &no_side_preview, &alpha_bar,
 			&alpha_preview, &alpha_preview_half, &display_rgb, &display_hsv, &display_hex, &uint8, &floats, &picker_hue_bar,
 			&picker_hue_wheel, &input_rgb, &input_hsv))
 			return ToPyBool(false);

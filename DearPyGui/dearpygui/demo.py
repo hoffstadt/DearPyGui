@@ -433,7 +433,7 @@ def show_demo():
                 add_color_edit4("Color Edit 4##2", source="colorvalue", no_inputs=True, no_label=True)
                 
                 add_text("Color button with Custom Picker Popup:")
-                add_color_edit4("Color Edit 4 (with custom popup)", source="colorvalue", no_inputs=True, no_picker=True, popup="custom picker popup")
+                add_color_edit4("Color Edit 4 (with custom popup)", source="colorvalue", no_inputs=True, no_picker=True)
                 helpmarker("we can override the popup with our own custom popup that includes a color pallet")
                 with popup("Color Edit 4 (with custom popup)", "custom picker popup", mousebutton=0):
                     add_color_picker4("custom picker", no_tooltip=True, picker_hue_wheel=True)

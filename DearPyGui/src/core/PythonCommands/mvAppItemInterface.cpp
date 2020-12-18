@@ -91,10 +91,6 @@ namespace Marvel {
 		{mvPythonDataType::String, "item"}
 		}, "Returns an item's parent.", "str", "Widget Commands") });
 
-		parsers->insert({ "get_item_popup", mvPythonParser({
-			{mvPythonDataType::String, "item"}
-		}, "Returns an item's popup.", "str", "Widget Commands") });
-
 		parsers->insert({ "get_item_tip", mvPythonParser({
 			{mvPythonDataType::String, "item"}
 		}, "Returns an item's tip.", "str", "Widget Commands") });
@@ -191,11 +187,6 @@ namespace Marvel {
 			{mvPythonDataType::KeywordOnly},
 			{mvPythonDataType::Object, "callback_data", "Callback data", "None"},
 		}, "Sets an item's callback if applicable.", "None", "Widget Commands") });
-
-		parsers->insert({ "set_item_popup", mvPythonParser({
-			{mvPythonDataType::String, "item"},
-			{mvPythonDataType::String, "popup"}
-		}, "Sets an item's popup if applicable.", "None", "Widget Commands") });
 
 		parsers->insert({ "set_item_tip", mvPythonParser({
 			{mvPythonDataType::String, "item"},

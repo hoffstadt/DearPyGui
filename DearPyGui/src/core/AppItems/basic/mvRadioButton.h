@@ -17,7 +17,7 @@ namespace Marvel {
 
 		MV_APPITEM_TYPE(mvAppItemType::RadioButtons, "add_radio_button")
 
-			mvRadioButton(const std::string& name, int default_value, const std::string& dataSource);
+		mvRadioButton(const std::string& name, int default_value, const std::string& dataSource);
 
 		void draw()               override;
 		void setExtraConfigDict(PyObject* dict) override;

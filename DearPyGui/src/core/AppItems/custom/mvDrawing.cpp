@@ -14,7 +14,6 @@ namespace Marvel {
 			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)", "''"},
 			{mvPythonDataType::Integer, "width","", "0"},
 			{mvPythonDataType::Integer, "height","", "0"},
-			{mvPythonDataType::String, "popup","", "''"},
 			{mvPythonDataType::Bool, "show","Attempt to render", "True"},
 		}, "Adds a drawing widget.", "None", "Drawing") });
 	}
@@ -52,7 +51,6 @@ namespace Marvel {
 		const char* before = "";
 		int width = 0;
 		int height = 0;
-		const char* popup = "";
 		int show = true;
 		float originx = 0.0f;
 		float originy = 0.0f;
@@ -60,7 +58,7 @@ namespace Marvel {
 		float scaley = 1.0f;
 
 		if (!(*mvApp::GetApp()->getParsers())["add_drawing"].parse(args, kwargs, __FUNCTION__,
-			&name, &tip, &parent, &before, &width, &height, &popup, &show, &originx, &originy, &scalex, &scaley))
+			&name, &tip, &parent, &before, &width, &height, &show, &originx, &originy, &scalex, &scaley))
 			return ToPyBool(false);
 
 		auto item = CreateRef<mvDrawing>(name);

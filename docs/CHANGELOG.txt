@@ -31,6 +31,11 @@ Decorated log: https://github.com/hoffstadt/DearPyGui/releases/tag/v0.6.x
 Updates:
 - glfw:              updated to 3.3.2
 
+Breaking Changes:
+- popup keyword:     removed unused popup keyword
+- set_item_popup:    removed command
+- get_item_popup:    removed command
+
 Fixes:
 - drawing api:       polygon fill to draw before outline, related to #371
 - collapsing header: quering open/close works now

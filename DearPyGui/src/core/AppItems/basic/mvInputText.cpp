@@ -33,7 +33,6 @@ namespace Marvel {
 			{mvPythonDataType::Integer, "height","", "0"},
 			{mvPythonDataType::Bool, "on_enter", "Only runs callback on enter", "False"},
 			{mvPythonDataType::String, "label", "", "''"},
-			{mvPythonDataType::String, "popup", "", "''"},
 			{mvPythonDataType::Bool, "show", "Attempt to render", "True"},
 		}, "Adds input for text values.", "None", "Adding Widgets") });
 	}
@@ -174,7 +173,6 @@ namespace Marvel {
 		int enabled = true;
 		int on_enter = false;
 		const char* label = "";
-		const char* popup = "";
 		int show = true;
 
 		//int flags = 0;
@@ -183,7 +181,7 @@ namespace Marvel {
 			&name, &default_value, &hint, &multiline, &no_spaces,
 			&uppercase, &decimal, &hexadecimal, &readonly, &password, &scientific, &callback,
 			&callback_data, &tip, &parent, &before, &source, &enabled, &width, &height, &on_enter,
-			&label, &popup, &show))
+			&label, &show))
 			return ToPyBool(false);
 
 

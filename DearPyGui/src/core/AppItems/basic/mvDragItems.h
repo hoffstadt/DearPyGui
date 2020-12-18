@@ -95,7 +95,6 @@ namespace Marvel {
 			// flags
 			flagop("clamped", ImGuiSliderFlags_ClampOnInput, m_flags);
 			flagop("no_input", ImGuiSliderFlags_NoInput, m_flags);
-
 		}
 
 		void getExtraConfigDict(PyObject* dict) override
@@ -117,7 +116,6 @@ namespace Marvel {
 			// window flags
 			checkbitset("clamped", ImGuiSliderFlags_ClampOnInput, m_flags);
 			checkbitset("no_input", ImGuiSliderFlags_NoInput, m_flags);
-
 		}
 
 	private:

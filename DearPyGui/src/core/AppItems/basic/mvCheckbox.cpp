@@ -17,9 +17,8 @@ namespace Marvel {
 			{mvPythonDataType::String, "tip", "Adds a simple tooltip", "''"},
 			{mvPythonDataType::String, "parent", "Parent to add this item to. (runtime adding)", "''"},
 			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)", "''"},
-			{mvPythonDataType::String, "source", "", "''"},
-			{mvPythonDataType::String, "label", "", "''"},
-			{mvPythonDataType::String, "popup", "", "''"},
+			{mvPythonDataType::String, "source", "Overrides 'name' as value storage key", "''"},
+			{mvPythonDataType::String, "label", "Overrides 'name' as label", "''"},
 			{mvPythonDataType::Bool, "show", "Attempt to render", "True"},
 			{mvPythonDataType::Bool, "enabled", "", "True"}
 		}, "Adds a checkbox widget.", "None", "Adding Widgets") });
@@ -64,13 +63,12 @@ namespace Marvel {
 		const char* parent = "";
 		const char* source = "";
 		const char* label = "";
-		const char* popup = "";
 		int show = true;
 		int enabled = true;
 
 		if (!(*mvApp::GetApp()->getParsers())["add_checkbox"].parse(args, kwargs, __FUNCTION__, &name,
 			&default_value, &callback, &callback_data, &tip, &parent, &before, &source,
-			&label, &popup, &show, &enabled))
+			&label, &show, &enabled))
 			return ToPyBool(false);
 
 		auto item = CreateRef<mvCheckbox>(name, default_value, source);
@@ -84,7 +82,6 @@ namespace Marvel {
 		item->checkConfigDict(kwargs);
 		item->setConfigDict(kwargs);
 		item->setExtraConfigDict(kwargs);
-
 
 		return ToPyBool(mvApp::GetApp()->getItemRegistry().addItemWithRuntimeChecks(item, parent, before));
 	}

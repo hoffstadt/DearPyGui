@@ -19,11 +19,10 @@ namespace Marvel {
 			{mvPythonDataType::String, "tip", "Adds a simple tooltip", "''"},
 			{mvPythonDataType::String, "parent", "Parent this item will be added to. (runtime adding)", "''"},
 			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)", "''"},
-			{mvPythonDataType::String, "source", "", "''"},
+			{mvPythonDataType::String, "source", "Overrides 'name' as value storage key", "''"},
 			{mvPythonDataType::Bool, "enabled", "Display grayed out text so selectable cannot be selected", "True"},
 			{mvPythonDataType::Integer, "width","", "0"},
-			{mvPythonDataType::String, "label","", "''"},
-			{mvPythonDataType::String, "popup","", "''"},
+			{mvPythonDataType::String, "label", "Overrides 'name' as label", "''"},
 			{mvPythonDataType::Bool, "show","Attemp to render", "True"},
 			{mvPythonDataType::Bool, "popup_align_left","Align the popup toward the left by default", "False"},
 			{mvPythonDataType::Bool, "height_small","Max ~4 items visible", "False"},
@@ -62,7 +61,9 @@ namespace Marvel {
 			styleManager.addColorStyle(ImGuiCol_Border, { 0.0f, 0.0f, 0.0f, 0.0f });
 			styleManager.addColorStyle(ImGuiCol_Text, ImVec4(ImGui::GetStyleColorVec4(ImGuiCol_TextDisabled)));
 		}
-		if (ImGui::BeginCombo(m_label.c_str(), m_value->c_str(), m_flags)) // The second parameter is the label previewed before opening the combo.
+
+		// The second parameter is the label previewed before opening the combo.
+		if (ImGui::BeginCombo(m_label.c_str(), m_value->c_str(), m_flags)) 
 		{
 			for (const auto& name : m_enabled ? m_items : disabled_items)
 			{
@@ -74,8 +75,9 @@ namespace Marvel {
 
 				}
 
+				// Set the initial focus when opening the combo (scrolling + for keyboard navigation support in the upcoming navigation branch)
 				if (is_selected)
-					ImGui::SetItemDefaultFocus();   // Set the initial focus when opening the combo (scrolling + for keyboard navigation support in the upcoming navigation branch)
+					ImGui::SetItemDefaultFocus();   
 			}
 
 			ImGui::EndCombo();
@@ -96,15 +98,15 @@ namespace Marvel {
 			if (PyObject* item = PyDict_GetItemString(dict, keyword)) ToBool(item) ? flags |= flag : flags &= ~flag;
 		};
 
-		auto conflictingflagop = [dict](const std::vector<std::string>& keywords, std::vector<int> flags, int& mflags)
+		auto conflictingflagop = [dict](const char* const keywords[4], const int flags[4], int& mflags)
 		{
 
-			for (size_t i = 0; i < keywords.size(); i++)
+			for (size_t i = 0; i < 4; i++)
 			{
-				if (PyObject* item = PyDict_GetItemString(dict, keywords[i].c_str()))
+				if (PyObject* item = PyDict_GetItemString(dict, keywords[i]))
 				{
 					//turning all conflicting flags false
-					for (const auto& flag : flags) mflags &= ~flag;
+					for (int i = 0; i < 4; i++) mflags &= ~flags[i];
 					//writing only the first conflicting flag
 					ToBool(item) ? mflags |= flags[i] : mflags &= ~flags[i];
 					break;
@@ -117,12 +119,13 @@ namespace Marvel {
 		flagop("no_arrow_button", ImGuiComboFlags_NoArrowButton, m_flags);
 		flagop("no_preview", ImGuiComboFlags_NoPreview, m_flags);
 
-		std::vector<std::string> HeightKeywords{
+		constexpr static const char* HeightKeywords[4]{
 			"height_small",
 			"height_regular",
 			"height_large",
 			"height_largest" };
-		std::vector<int> HeightFlags{
+
+		constexpr static const int HeightFlags[4]{
 			ImGuiComboFlags_HeightSmall,
 			ImGuiComboFlags_HeightRegular,
 			ImGuiComboFlags_HeightLarge,
@@ -167,7 +170,6 @@ namespace Marvel {
 		const char* source = "";
 		int enabled = true;
 		const char* label = "";
-		const char* popup = "";
 		int show = true;
 		int popup_align_left = false;
 		int height_small = false;
@@ -180,7 +182,7 @@ namespace Marvel {
 
 		if (!(*mvApp::GetApp()->getParsers())["add_combo"].parse(args, kwargs, __FUNCTION__, &name, &items,
 			&default_value, &callback, &callback_data, &tip, &parent, &before, &source, &enabled, &width,
-			&label, &popup, &show, &popup_align_left, &height_small, &height_regular, &height_large,
+			&label, &show, &popup_align_left, &height_small, &height_regular, &height_large,
 			&height_largest, &no_arrow_button, &no_preview))
 			return ToPyBool(false);
 

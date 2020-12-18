@@ -18,7 +18,6 @@ namespace Marvel {
 			{mvPythonDataType::Integer, "width","", "0"},
 			{mvPythonDataType::Integer, "height", "", "0"},
 			{mvPythonDataType::Bool, "border", "", "True"},
-			{mvPythonDataType::String, "popup", "", "''"},
 			{mvPythonDataType::Bool, "autosize_x", "Autosize the window to fit it's items in the x.", "False"},
 			{mvPythonDataType::Bool, "autosize_y", "Autosize the window to fit it's items in the y.", "False"},
 			{mvPythonDataType::Bool, "no_scrollbar" ," Disable scrollbars (window can still scroll with mouse or programmatically)", "False"},
@@ -135,7 +134,6 @@ namespace Marvel {
 		int width = 0;
 		int height = 0;
 		int border = true;
-		const char* popup = "";
 		int autosize_x = false;
 		int autosize_y = false;
 		int no_scrollbar = false;
@@ -143,7 +141,7 @@ namespace Marvel {
 		int menubar = false;
 
 		if (!(*mvApp::GetApp()->getParsers())["add_child"].parse(args, kwargs, __FUNCTION__, &name,
-			&show, &tip, &parent, &before, &width, &height, &border, &popup, &autosize_x,
+			&show, &tip, &parent, &before, &width, &height, &border, &autosize_x,
 			&autosize_y, &no_scrollbar, &horizontal_scrollbar, &menubar))
 			return ToPyBool(false);
 
