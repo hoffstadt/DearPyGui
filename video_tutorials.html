@@ -1,0 +1,257 @@
+	<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
+    <meta name="generator" content="pdoc 0.8.4" />
+    <title>Dear PyGui video tutorials - Dear PyGUI: a user-friendly and incredibly fast GUI for Python</title>
+    <meta name="description" content="" />
+    <link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/sanitize.min.css" integrity="sha256-PK9q560IAAa6WVRRh76LtCaI8pjTJ2z11v0miyNNjrs=" crossorigin>
+    <link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/typography.min.css" integrity="sha256-7l/o7C8jubJiy74VsKTidCy1yBkRtiUGbVkYBylBqUg=" crossorigin>
+    <link rel="stylesheet preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.1/styles/github.min.css" crossorigin>
+    <style>:root{--highlight-color:#fe9}.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:30px;overflow:hidden}#sidebar > *:last-child{margin-bottom:2cm}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:1em 0 .50em 0}h3{font-size:1.4em;margin:25px 0 10px 0}h4{margin:0;font-size:105%}h1:target,h2:target,h3:target,h4:target,h5:target,h6:target{background:var(--highlight-color);padding:.2em 0}a{color:#058;text-decoration:none;transition:color .3s ease-in-out}a:hover{color:#e82}.h2[id^="header-"]{margin-top:2em}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{margin-top:.6em;font-weight:bold}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}dt:target .name{background:var(--highlight-color)}.name >.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.source summary,.git-link-div{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase}.source summary > *{white-space:nowrap;cursor:pointer}.git-link{color:inherit;margin-left:1em}.source pre{max-height:500px;overflow:auto;margin:0}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}td{padding:0 .5em}.admonition{padding:.1em .5em;margin-bottom:1em}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
+    <style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+    <script>window.addEventListener('DOMContentLoaded', () => hljs.initHighlighting())</script>
+	
+	
+	
+    <style>
+        .inline-code {font-family: 'Monaco', 'Menlo', courier, monospace; font-size:1em; color:#fff; background:#303030; padding:0.2em}
+        article a {font-weight: bold;}
+        h1 {font-weight:370; left-padding;}
+        h2 {color: #058; font-weight:370}
+		
+		.row {
+  display: flex;
+}
+
+.video {
+  width: 560px;
+  padding-right: 30px;
+  padding-top: 35px;
+  padding-bottom: 20px;
+}
+
+.summary {
+  flex-grow: 1;
+  padding-top: 35px;
+  padding-left: 40px;
+}
+
+@media all and (max-width: 700px) {
+  .content {
+    flex-wrap: wrap;
+  }
+  .menu {
+    order: 2;
+  }
+  .information {
+    order: 1;
+    min-width: 100%;
+  }
+}
+
+    </style>
+    <link href="code_style.css" rel="stylesheet" type="text/css">
+    <script src="rainbow-custom.min.js"></script>
+</head>
+
+<body>
+<header>
+    <h1><a href="https://hoffstadt.github.io/DearPyGui/"><i>Dear PyGui</></i> video tutorials</a></h1>
+</header>
+<hr>
+<a href="https://hoffstadt.github.io/DearPyGui/">Home</a> | <a href="https://github.com/hoffstadt/DearPyGui/"><i>Dear PyGui</i> on Github</a>
+
+<main id="content">
+
+<h2><i>Dear PyGui</i> video tutorials by the core developers</h2>
+
+
+<div class="row">
+    <nav class="video">
+      <iframe width="560" height="315" src="https://www.youtube.com/embed/kkRXLrG5oMA" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>   
+    </nav>
+  
+    <article class="summary">
+      <b>Introduction to <i>Dear PyGui</i></b><br/>
+	  <ul>
+	    <li><i>Dear PyGui</i> is an extended Python wrapper around Dear ImGUI. Dear ImGUI is an Immediate Mode GUI (IMGUI) for real-time applications</li>
+		<li>While <i>Dear ImGui</i> uses the fast Immediate Mode in the background, it simulates a traditional retained mode GUI to the Python developer, which makes it easy to work with.</li>
+	    <li>Requirements for installation: Python 3.6 and up (64-bit only)</li>
+	    <li>IDE: Setting up PyCharm, only <i>pip install dearpygui</i> is required</li>
+	    <li>How to run the built-in demo.</li>
+	    <li>Changing the default font type (OTF or TTF font)</li>
+	    <li>Creating a basic window</li>
+	    <li>Using a primary window so that the window matches the area of the viewport</li>
+	  </ul>
+    </article>
+</div>
+
+
+<div class="row">
+    <nav class="video">
+	  <iframe width="560" height="315" src="https://www.youtube.com/embed/5ci4oIzGXdI" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+	</nav>
+    <article class="summary">
+      <b>Basics of callbacks</b><br/>
+      <ul>
+	    <li>Callbacks are functions that are run when any action is taken on a certain widget.</li>
+		<li>If a widget supports it, there will be a keyword called callback and that can be any callable.</li>
+		<li>When using a callback, the keyword should not end with round brackets, e.g. (). The correct way to
+		use a callback is: add_button("Press me", callback=func_name). The function func_name is called without ().</li>
+		<li>The callback always transmits two *variables* to the callback function, e.g. sender and data.</li>
+		<li>Sender is the name of the widget. Data is None by default, but additional data can be sent using the following: callback_data='extra data'.</li>
+		<li>The tutorial shows the use of a callback for a float slider.</li>
+		<li>Throughout the tutorial, the use of the built-in logger and documentation is demonstrated.</li>
+		<li>The callback can be changed during runtime using set_item_callback.</li>
+	  </ul>
+		
+    </article>
+</div>
+
+
+<div class="row">
+    <nav class="video">
+	  <iframe width="560" height="315" src="https://www.youtube.com/embed/zcGWJjGSn-w" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+	</nav>
+    <article class="summary">
+      <b>ID system and debug tool</b><br/>
+	  <ul>
+	    <li>The first argument of a widget is the ID.</li>
+		<li>The label defaults to the ID if no label is provided.</li>
+		<li>Widgets need unique IDs, but can share the same label. There are two ways to accomplish this.</li>
+		<li>Method 1: add_input_float('Float1', label='float1') and add_input_float('Float2', label='float1')</li>
+		<li>Method 2: add_input_float('Float1##1') and add_input_float('Float1##2')</li>
+		<li>ID's are used to retrieve data from widgets.
+	    <li>Start the debug tool by typing show_debug()</li>
+		<li>The debug tool lists all available commands under tab Commands</li>
+		<li>You can execute code at runtime using the debug tool.</li>
+		<li>Track the float values by log_debug(get_value('Float1##1'))</li>
+	  </ul>
+    </article>
+</div>
+
+
+<div class="row">
+    <nav class="video">
+	  <iframe width="560" height="315" src="https://www.youtube.com/embed/CVoArPhOLx4" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>  
+	</nav>
+    <article class="summary">
+      <b>Parent stack system</b><br/>
+	  <ul>
+		<li>The parent stack is a collection of all containers in a GUI.</li>
+		<li>A window is a root item, meaning that it can't have a parent and doesn't need to look at the parent stack. A window is also a container. Because it is a container, a window gets added to the parent stack.</li>
+		<li>When an item is not a root item, it requires a parent. Every tab bar is added to the parent stack and to a container. A tab bar is a container itself as well. A tab is a child of tab bar, but it is also a container.</li>
+		<li>When adding a second item of a parent, it is necessary to remove the first item from the parent stack, e.g. pop it, so that the second item becomes part of the containing parent and not its sibling.</li>
+		<li>The end() command in the core module pops an item off of the parent stack.</li>
+		<li>A checkbox or (radio) button is part of a container, but not a container itself.</li>
+		<li>The simple module adds the context managers (e.g. 'with window' ). The with_ statements of the context managers automate the application of the end() statement, making the code easier to read.</li>
+	  </ul>
+    </article>
+</div>
+
+
+<div class="row">
+    <nav class="video">
+	  <iframe width="560" height="315" src="https://www.youtube.com/embed/b7gm0f5vYcc" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>  
+	</nav>
+    <article class="summary">
+      <b>Value Storage System</b><br/>
+	  <ul>
+	    <li>In many GUI's the widget's value is stored inside the widget.</li>
+		<li>In <i>Dear PyGui</i>, a key-value pair for each widget is stored in the value storage system. A key-value pair tracks the type of the value and the value itself. A widget's value can be retrieved and changed through the widget (by the user) and by the program.</li>
+		<li>Every widget has a keyword source, which by default is equal to the widget's name. If you specify the source, the widget will use that key instead to look up and change values in the value storage system. This allows several widgets to manipulate a single value.</li>
+		<li>If multiple widgets refer to the same keyword, the type and size have to be the same.</li>
+		<li>Pre-add a value with add_value if you are using multiple widgets of different types or sizes on a single key-value pair.</li>
+		<li>A code example is given to demonstrate the value storage system and its types and sizes.</li>
+	  </ul>
+    </article>
+</div>
+
+
+<div class="row">
+    <nav class="video">
+	  <iframe width="560" height="315" src="https://www.youtube.com/embed/tqETQz2As9g" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+	</nav>
+    <article class="summary">
+      <b>Widget basics</b><br/>
+      <ul>
+	    <li>This tutorial shows how to use a number of widget types. Widget types include button, checkbox, label_text, input_int, drag_int, radio_button, combo, listbox and progress_bar widgets.</li>
+		<li>The use of the callback keyword of a widget is shown. For example, add_button('Press me', callback=callback_function).</li>
+		<li>The callback_function is called whenever that button is pressed. The callback always sends two arguments to the callback_function: sender and data. Sender is the name of the widget. The 'data' argument is often empty unless the widget has data to send or it is specified in the code. Nonetheless, the argument 'data' is always included.</li>
+		<li>The use of a number of widget specific keywords are discussed.</li>
+		<li>It is demonstrated how a progres bar widget can be controlled via a drag_int slider using set_value(...) and configure_item(...)</li>
+		<li>Many widgets have multi-component versions as well.</li>
+		<li>More complex use of widgets and multi-component widgets will be shown in future videos.</li>
+	  </ul>
+    </article>
+</div>
+
+
+<div class="row">
+    <nav class="video">
+	  <iframe width="560" height="315" src="https://www.youtube.com/embed/-NXf98oj70c" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+	</nav>
+    <article class="summary">
+      <b>Tab bar, tabs, and tab button basics</b><br/>
+      <ul>
+	    <li>Create a tab bar with the context manager from the simple module, e.g. with tab_bar('tb1') --> with tab('t1') --> add_button('b1').</li>
+		<li>You can add a callback to a tab_bar using with tab_bar('tb1', callback=callback).</li>
+		<li>You can add a button to a tab_bar using add_tab_button('+').</li>
+		<li>Tabs in a tab bar can be made reorderable by using the keyword reorderable=True on the tab_bar.</li>
+	  </ul>
+    </article>
+</div>
+
+
+<div class="row">
+    <nav class="video">
+	    <iframe width="560" height="315" src="https://www.youtube.com/embed/qL_zjinXTJk" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>  
+    </nav>
+  
+    <article class="summary">
+      <b>Smart tables</b><br/>
+      This is an elaborate tutorial on creating a smart, interactive table.<br/>
+	  <ul>
+	    <li>The table is created using managed_columns.</li>
+		<li>The widgets used in the table are add_text, add_input_text and add_input_float</li>
+		<li>After creating a working example, the code is refactored into a SmartTable class with header, row and get_cell_data methods.</li>
+		<li>A widget's label can be hidden by using ## at the beginning of a label's name, e.g. add_input_text('##input_text_1') where input_text_1 is not shown in the GUI.</li>
+		<li>Using add_separator() to change the horizontal spacing of the widgets.</li>
+		<li>Using the built-in <i>Dear PyGui</i> debugger and logger for solving an coding issue.</li>
+	  </ul>
+    </article>
+</div>
+
+View <a href="https://www.youtube.com/playlist?list=PLcqt7R3y3elGh7zoj1-oyygzTh9j81hKV">all <i>Dear PyGui</i> video tutorials</a> by the core developers on YouTube.<br/><br/>
+
+<h2><i>Dear PyGui</i> video tutorials by the community</h2>
+
+
+<div class="row">
+    <nav class="video">
+      <iframe width="560" height="315" src="https://www.youtube.com/embed/2RocXKPPx4o" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>  
+    </nav>
+  
+    <article class="summary">
+      <b>Creating a complete Python app with <i>Dear PyGui</i></b><br/>
+      Learn how to create a fully-functional Python app step by step!
+In this project, we will build a graphic user interface with the brand new <i>Dear PyGui</i> library!
+We will connect this interface to a Simple SMS Spam Filter, which we've built together in a previous project. 
+We will learn how to display images, text, user input, buttons, and separators, as well as hiding widgets and "click" event callback functions.
+    </article>
+</div>
+
+<div>
+  <h2>
+    About <i>Dear PyGui</i><br/>
+  </h2>
+  <p>
+  <i>Dear PyGui</i> is a <a href="https://hoffstadt.github.io/DearPyGui/index.html">user-friendly, flexible, powerful and cross-platform GUI framework for Python</a>. It supports the creation apps on Windows, Linux and MacOS. As an extended wrapping of <a href="https://github.com/ocornut/imgui">Dear ImGui</a>, Dear PyGui is highly performant. While is  primarily written in C/C++ and uses your GPU for renderering, the <a href="https://hoffstadt.github.io/DearPyGui/api_docs.html">Python API for <i>Dear PyGui</i></a> is presented to the developer in a clean and accessible manner.
+  </p>
+</div>
+   
+</main>
+</body>
