@@ -219,22 +219,13 @@ namespace Marvel {
 			float titleBarHeight = ImGui::GetStyle().FramePadding.y * 2 + ImGui::GetFontSize();
 
 			// update mouse
-			mvVec2 oldMousePos = mvInput::getGlobalMousePosition();
 			ImVec2 mousePos = ImGui::GetMousePos();
-			mvInput::setGlobalMousePosition(mousePos.x, mousePos.y);
 			float x = mousePos.x - ImGui::GetWindowPos().x;
 			float y = mousePos.y - ImGui::GetWindowPos().y - titleBarHeight;
 			mvInput::setMousePosition(x, y);
 
 			if (mvApp::GetApp()->getItemRegistry().getActiveWindow() != m_name)
 				mvEventBus::Publish(mvEVT_CATEGORY_ITEM, mvEVT_ACTIVE_WINDOW, { CreateEventArgument("WINDOW", m_name) });
-
-			// mouse move callback
-			//if (oldMousePos.x != mousePos.x || oldMousePos.y != mousePos.y)
-			//{
-			//	mvApp::GetApp()->getCallbackRegistry().runCallback(mvApp::GetApp()->getMouseMoveCallback(), m_name,
-			//		ToPyPair(x, y));
-			//}
 
 		}
 

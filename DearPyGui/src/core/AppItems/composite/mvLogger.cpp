@@ -184,14 +184,12 @@ namespace Marvel {
 
 			// update mouse
 			ImVec2 mousePos = ImGui::GetMousePos();
-			mvInput::setGlobalMousePosition(mousePos.x, mousePos.y);
 			float x = mousePos.x - ImGui::GetWindowPos().x;
 			float y = mousePos.y - ImGui::GetWindowPos().y - titleBarHeight;
 			mvInput::setMousePosition(x, y);
 
 			if (mvApp::GetApp()->getItemRegistry().getActiveWindow() != "logger##standard")
 				mvEventBus::Publish(mvEVT_CATEGORY_ITEM, mvEVT_ACTIVE_WINDOW, { CreateEventArgument("WINDOW", std::string("logger##standard")) });
-
 
 		}
 

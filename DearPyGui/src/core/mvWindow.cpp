@@ -88,8 +88,6 @@ namespace Marvel {
 			// add default proggy
 			io.Fonts->AddFontDefault();
 
-
-
 			if (font == nullptr)
 			{
 				int line = PyFrame_GetLineNumber(PyEval_GetFrame());
