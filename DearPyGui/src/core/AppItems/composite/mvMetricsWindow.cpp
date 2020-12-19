@@ -3,6 +3,7 @@
 #include "mvAppItem.h"
 #include "mvInput.h"
 #include "mvMarvel.h"
+#include "mvApp.h"
 #include <string>
 
 namespace Marvel {

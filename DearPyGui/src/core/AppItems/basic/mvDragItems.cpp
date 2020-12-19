@@ -4,6 +4,7 @@
 #include <utility>
 #include "mvValueStorage.h"
 #include "mvGlobalIntepreterLock.h"
+#include "mvApp.h"
 #include "mvMarvel.h"
 #include <string>
 

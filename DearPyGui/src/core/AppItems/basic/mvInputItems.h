@@ -1,6 +1,7 @@
 #pragma once
 
 #include "mvTypeBases.h"
+#include "mvApp.h"
 #include "mvMarvel.h"
 #include <string>
 
