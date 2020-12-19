@@ -273,10 +273,10 @@ namespace Marvel {
 		// check if item is child to be deleted
 		for (const auto& itemname : m_deleteChildrenQueue)
 		{
-			auto& item = getItem(itemname);
+			auto item = getItem(itemname);
 			if (item)
 			{
-				auto& child = item->getChild(name);
+				auto child = item->getChild(name);
 				if (child) return true;
 			}
 		}
