@@ -105,7 +105,7 @@ namespace Marvel {
 	bool mvItemRegistry::onDeleteItem(mvEvent& event)
 	{
 		if (GetEBool(event, "CHILDREN_ONLY"))
-			m_deleteChildrenQueue.push(GetEString(event, "ITEM"));
+			m_deleteChildrenQueue.emplace_back(GetEString(event, "ITEM"));
 		else
 			m_deleteQueue.push_back(GetEString(event, "ITEM"));
 
@@ -262,12 +262,23 @@ namespace Marvel {
 		return nullptr;
 	}
 
-	bool mvItemRegistry::isItemToBeDeleted(const std::string& name) const
+	bool mvItemRegistry::isItemToBeDeleted(const std::string& name)
 	{
 		for (const auto& item : m_deleteQueue)
 		{
 			if (name == item)
 				return true;
+		}
+
+		// check if item is child to be deleted
+		for (const auto& itemname : m_deleteChildrenQueue)
+		{
+			auto& item = getItem(itemname);
+			if (item)
+			{
+				auto& child = item->getChild(name);
+				if (child) return true;
+			}
 		}
 
 		return false;
@@ -318,12 +329,11 @@ namespace Marvel {
 	{
 
 		// delete items from the delete queue
-		while (!m_deleteChildrenQueue.empty())
+		for (auto& itemname : m_deleteChildrenQueue)
 		{
-			auto item = getItem(m_deleteChildrenQueue.front());
+			auto& item = getItem(itemname);
 			if (item)
 				item->deleteChildren();
-			m_deleteChildrenQueue.pop();
 		}
 
 		// delete items from the delete queue
