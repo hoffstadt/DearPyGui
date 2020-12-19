@@ -331,7 +331,7 @@ namespace Marvel {
 		// delete items from the delete queue
 		for (auto& itemname : m_deleteChildrenQueue)
 		{
-			auto& item = getItem(itemname);
+			auto item = getItem(itemname);
 			if (item)
 				item->deleteChildren();
 		}
