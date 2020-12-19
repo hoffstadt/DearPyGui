@@ -424,6 +424,7 @@ namespace Marvel {
 			
 		}
 		m_deleteQueue.clear();
+		m_deleteChildrenQueue.clear();
 	}
 
 	void mvItemRegistry::postAddItems()
