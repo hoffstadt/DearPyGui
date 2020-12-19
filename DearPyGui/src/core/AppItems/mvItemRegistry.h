@@ -63,7 +63,7 @@ namespace Marvel {
         //-----------------------------------------------------------------------------
         // AppItem Operations
         //-----------------------------------------------------------------------------
-        bool                           isItemToBeDeleted (const std::string& name) const;
+        bool                           isItemToBeDeleted (const std::string& name);
         bool                           addItem           (mvRef<mvAppItem> item);
         bool                           addItemAfter      (const std::string& prev, mvRef<mvAppItem> item);
         bool                           addWindow         (mvRef<mvAppItem> item);
@@ -109,7 +109,7 @@ namespace Marvel {
         std::string                   m_activeWindow;
 
         // runtime widget modifications
-        std::queue<std::string>     m_deleteChildrenQueue;
+        std::vector<std::string>    m_deleteChildrenQueue;
         std::vector<std::string>    m_deleteQueue;
         std::queue<std::string>     m_upQueue;
         std::queue<std::string>     m_downQueue;

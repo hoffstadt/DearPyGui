@@ -44,6 +44,7 @@ Fixes:
 - collapsing Header: changing labels fixed
 - Mac sizing:        Partially fixed. #348 #365
 - Logger:            Fixed autoscroll mac bug #347
+- Delete Item:       does_item_exists now looks at children delete queue
 
 
 -----------------------------------------------------------------------

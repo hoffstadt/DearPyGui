@@ -94,6 +94,10 @@ def add_debug_window(name: str, *, width: int = 700, height: int = 500, x_pos: i
 	"""Creates a debug window."""
 	...
 
+def add_doc_window(name: str, *, width: int = -1, height: int = -1, x_pos: int = 200, y_pos: int = 200, autosize: bool = True, no_resize: bool = False, no_title_bar: bool = False, no_move: bool = False, no_scrollbar: bool = False, no_collapse: bool = False, horizontal_scrollbar: bool = False, no_focus_on_appearing: bool = False, no_bring_to_front_on_focus: bool = False, no_close: bool = False, no_background: bool = False, label: str = '', show: bool = True) -> None:
+	"""Creates a documentation window."""
+	...
+
 def add_drag_float(name: str, *, default_value: float = 0.0, speed: float = 1.0, min_value: float = 0.0, max_value: float = 100.0, format: str = '%0.3f', callback: Callable = None, callback_data: Any = None, tip: str = '', parent: str = '', before: str = '', source: str = '', enabled: bool = True, width: int = 0, no_input: bool = False, clamped: bool = False, label: str = '', show: bool = True) -> None:
 	"""Adds drag for a single float value. CTRL+Click to directly modify the value."""
 	...
