@@ -55,7 +55,7 @@ Ensure you have at least Python 3.6 64bit.
  
 - [Wiki](https://github.com/hoffstadt/DearPyGui/wiki) for most information.
 - [DearPyGui-Examples](https://hoffstadt.github.io/DearPyGui/examples.html) for examples.
-- [Tutorials](https://hoffstadt.github.io/DearPyGui/tutorial.html) for getting started.
+- [Tutorials](https://hoffstadt.github.io/DearPyGui/tutorial-portal.html) for getting started.
 - [Online Documentation](https://hoffstadt.github.io/DearPyGui/) for official documentation.
 - Internal Documentation: Run the `show_documentation` command from within the library to view an reference guide. 
 - Complete Demo: You can also view a mostly complete showcase of _Dear PyGui_ by running the `show_demo` command found in _dearpygui.demo_.
