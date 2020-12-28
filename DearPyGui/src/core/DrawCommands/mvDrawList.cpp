@@ -258,7 +258,6 @@ namespace Marvel {
 		return GetPyNone();
 	}
 
-
 	PyObject* clear_drawing(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		const char* drawing;
