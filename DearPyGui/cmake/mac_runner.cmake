@@ -26,13 +26,13 @@ if(MVPY_VERSION EQUAL 36)
 	target_include_directories(core 
 		PRIVATE 
 			${MARVEL_INCLUDE_DIR}
-			"/Users/appveyor/.localpython3.6.10"
-			"/Users/appveyor/.localpython3.6.10/include/python3.6m"
+			"/Users/appveyor/.localpython3.6.12"
+			"/Users/appveyor/.localpython3.6.12/include/python3.6m"
 	)
 
 	target_link_directories(core 
 		PRIVATE 
-			"/Users/appveyor/.localpython3.6.10/lib"
+			"/Users/appveyor/.localpython3.6.12/lib"
 	)
 
 elseif(MVPY_VERSION EQUAL 37)
@@ -40,13 +40,13 @@ elseif(MVPY_VERSION EQUAL 37)
 	target_include_directories(core 
 		PRIVATE 
 			${MARVEL_INCLUDE_DIR}
-			"/Users/appveyor/.localpython3.7.7"
-			"/Users/appveyor/.localpython3.7.7/include/python3.7m"
+			"/Users/appveyor/.localpython3.7.9"
+			"/Users/appveyor/.localpython3.7.9/include/python3.7m"
 	)
 
 	target_link_directories(core 
 		PRIVATE 
-			"/Users/appveyor/.localpython3.7.7/lib"
+			"/Users/appveyor/.localpython3.7.9/lib"
 	)
 
 elseif(MVPY_VERSION EQUAL 38)
@@ -54,13 +54,13 @@ elseif(MVPY_VERSION EQUAL 38)
 	target_include_directories(core 
 		PRIVATE 
 			${MARVEL_INCLUDE_DIR}
-			"/Users/appveyor/.localpython3.8.3"
-			"/Users/appveyor/.localpython3.8.3/include/python3.8"
+			"/Users/appveyor/.localpython3.8.6"
+			"/Users/appveyor/.localpython3.8.6/include/python3.8"
 	)
 
 	target_link_directories(core 
 		PRIVATE 
-			"/Users/appveyor/.localpython3.8.3/lib"
+			"/Users/appveyor/.localpython3.8.6/lib"
 	)
 
 elseif(MVPY_VERSION EQUAL 39)
@@ -68,12 +68,12 @@ elseif(MVPY_VERSION EQUAL 39)
 	target_include_directories(core 
 		PRIVATE 
 			${MARVEL_INCLUDE_DIR}
-			"/Users/appveyor/.localpython3.9.0b1"
-			"/Users/appveyor/.localpython3.9.0b1/include/python3.9"
+			"/Users/appveyor/.localpython3.9.1"
+			"/Users/appveyor/.localpython3.9.1/include/python3.9"
 	)
 
 	target_link_directories(core 
 		PRIVATE 
-			"/Users/appveyor/.localpython3.9.0b1/lib"
+			"/Users/appveyor/.localpython3.9.1/lib"
 	)
 endif()
