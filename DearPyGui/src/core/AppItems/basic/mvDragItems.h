@@ -31,8 +31,7 @@ namespace Marvel {
 
         MV_APPITEM_TYPE(mvAppItemType::DragFloat, "add_drag_float")
 
-        mvDragFloat(const std::string& name, float default_value, const std::string& dataSource)
-            : mvFloatPtrBase(name, default_value, dataSource);
+        mvDragFloat(const std::string& name, float default_value, const std::string& dataSource);
         
         void setEnabled(bool value) override;
         
@@ -63,15 +62,11 @@ namespace Marvel {
 
         MV_APPITEM_TYPE(mvAppItemType::DragFloat2, "add_drag_float2")
 
-        mvDragFloat2(const std::string& name, float* default_value, const std::string& dataSource)
-            : mvFloat2PtrBase(name, default_value, dataSource);
+        mvDragFloat2(const std::string& name, float* default_value, const std::string& dataSource);
         
         void setEnabled(bool value) override;
-        
         void draw() override;
-        
         void setExtraConfigDict(PyObject* dict) override;
-        
         void getExtraConfigDict(PyObject* dict) override;
         
     private:
@@ -95,15 +90,11 @@ namespace Marvel {
 
         MV_APPITEM_TYPE(mvAppItemType::DragFloat3, "add_drag_float3")
 
-        mvDragFloat3(const std::string& name, float* default_value, const std::string& dataSource)
-            : mvFloat3PtrBase(name, default_value, dataSource);
+        mvDragFloat3(const std::string& name, float* default_value, const std::string& dataSource);
         
         void setEnabled(bool value) override;
-        
         void draw() override;
-        
         void setExtraConfigDict(PyObject* dict) override;
-        
         void getExtraConfigDict(PyObject* dict) override;
         
     private:
@@ -127,15 +118,11 @@ namespace Marvel {
 
         MV_APPITEM_TYPE(mvAppItemType::DragFloat4, "add_drag_float4")
 
-        mvDragFloat4(const std::string& name, float* default_value, const std::string& dataSource)
-            : mvFloat4PtrBase(name, default_value, dataSource);
+        mvDragFloat4(const std::string& name, float* default_value, const std::string& dataSource);
         
         void setEnabled(bool value) override;
-        
         void draw() override;
-        
         void setExtraConfigDict(PyObject* dict) override;
-        
         void getExtraConfigDict(PyObject* dict) override;
         
     private:
@@ -159,15 +146,11 @@ namespace Marvel {
 
         MV_APPITEM_TYPE(mvAppItemType::DragInt, "add_drag_int")
 
-        mvDragInt(const std::string& name, int default_value, const std::string& dataSource)
-            : mvIntPtrBase(name, default_value, dataSource);
+        mvDragInt(const std::string& name, int default_value, const std::string& dataSource);
         
         void setEnabled(bool value) override;
-        
         void draw() override;
-        
         void setExtraConfigDict(PyObject* dict) override;
-        
         void getExtraConfigDict(PyObject* dict) override;
         
     private:
@@ -191,15 +174,11 @@ namespace Marvel {
 
         MV_APPITEM_TYPE(mvAppItemType::DragInt2, "add_drag_int2")
 
-        mvDragInt2(const std::string& name, int* default_value, const std::string& dataSource)
-            : mvInt2PtrBase(name, default_value, dataSource);
+        mvDragInt2(const std::string& name, int* default_value, const std::string& dataSource);
         
         void setEnabled(bool value) override;
-        
         void draw() override;
-        
         void setExtraConfigDict(PyObject* dict) override;
-        
         void getExtraConfigDict(PyObject* dict) override;
         
     private:
@@ -223,15 +202,11 @@ namespace Marvel {
 
         MV_APPITEM_TYPE(mvAppItemType::DragInt3, "add_drag_int3")
 
-        mvDragInt3(const std::string& name, int* default_value, const std::string& dataSource)
-            : mvInt3PtrBase(name, default_value, dataSource);
+        mvDragInt3(const std::string& name, int* default_value, const std::string& dataSource);
         
         void setEnabled(bool value) override;
-        
         void draw() override;
-        
         void setExtraConfigDict(PyObject* dict) override;
-        
         void getExtraConfigDict(PyObject* dict) override;
         
     private:
@@ -255,15 +230,11 @@ namespace Marvel {
 
         MV_APPITEM_TYPE(mvAppItemType::DragInt4, "add_drag_int4")
 
-        mvDragInt4(const std::string& name, int* default_value, const std::string& dataSource)
-            : mvInt4PtrBase(name, default_value, dataSource);
+        mvDragInt4(const std::string& name, int* default_value, const std::string& dataSource);
         
         void setEnabled(bool value) override;
-        
         void draw() override;
-        
         void setExtraConfigDict(PyObject* dict) override;
-        
         void getExtraConfigDict(PyObject* dict) override;
         
     private:

@@ -14,8 +14,7 @@ namespace Marvel {
         
     public:
         
-        mvMetricsWindow(const std::string& name)
-            : mvBaseWindowAppitem(name);
+        mvMetricsWindow(const std::string& name);
         
         void draw() override;
     };

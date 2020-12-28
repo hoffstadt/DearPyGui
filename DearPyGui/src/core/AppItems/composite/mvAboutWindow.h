@@ -11,8 +11,7 @@ namespace Marvel {
         
     public:
         
-        mvAboutWindow(const std::string& name)
-            : mvBaseWindowAppitem(name);
+        mvAboutWindow(const std::string& name);
         
         void draw() override;
     };

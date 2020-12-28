@@ -479,7 +479,7 @@ namespace Marvel {
 
     }
 
-    void smvInputFloat3::etExtraConfigDict(PyObject* dict)
+    void mvInputFloat3::setExtraConfigDict(PyObject* dict)
     {
         if (dict == nullptr)
             return;
@@ -498,7 +498,7 @@ namespace Marvel {
 
     }
 
-    void smvInputFloat3::getExtraConfigDict(PyObject* dict)
+    void mvInputFloat3::getExtraConfigDict(PyObject* dict)
     {
         if (dict == nullptr)
             return;
