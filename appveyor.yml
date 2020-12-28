@@ -25,7 +25,7 @@ environment:
       PYVER: 36
       PYLOC: "python"
       PYSTACK: "3.6"
-      PYFULLVERSION: "3.6.10"
+      PYFULLVERSION: "3.6.12"
       MACOS: "true"
     
     - APPVEYOR_BUILD_WORKER_IMAGE: Ubuntu
@@ -51,7 +51,7 @@ environment:
       PYVER: 37
       PYLOC: "python"
       PYSTACK: "3.7"
-      PYFULLVERSION: "3.7.7"
+      PYFULLVERSION: "3.7.9"
       MACOS: "true"
     
     - APPVEYOR_BUILD_WORKER_IMAGE: Ubuntu
@@ -77,7 +77,7 @@ environment:
       PYVER: 38
       PYLOC: "python"
       PYSTACK: "3.8"
-      PYFULLVERSION: "3.8.3"
+      PYFULLVERSION: "3.8.6"
       MACOS: "true"
     
     - APPVEYOR_BUILD_WORKER_IMAGE: Ubuntu
@@ -103,7 +103,7 @@ environment:
       PYVER: 39
       PYLOC: "python"
       PYSTACK: "3.9"
-      PYFULLVERSION: "3.9.0"
+      PYFULLVERSION: "3.9.1"
       MACOS: "true"
     
     - APPVEYOR_BUILD_WORKER_IMAGE: Ubuntu
