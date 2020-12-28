@@ -82,6 +82,9 @@ set(MARVEL_SOURCES
 	"src/core/AppItems/basic/mvButton.cpp"
 	"src/core/AppItems/basic/mvSelectable.cpp"
 	"src/core/AppItems/basic/mvTabButton.cpp"
+	"src/core/AppItems/basic/mvDragItems.cpp"
+	"src/core/AppItems/basic/mvInputItems.cpp"
+	"src/core/AppItems/basic/mvSliderItems.cpp"
 
 	"src/core/AppItems/misc/mvProgressBar.cpp"
 
@@ -109,6 +112,8 @@ set(MARVEL_SOURCES
 	"src/core/AppItems/composite/mvTable.cpp"
 	"src/core/AppItems/composite/mvLogger.cpp"
 	"src/core/AppItems/composite/mvStyleWindow.cpp"
+	"src/core/AppItems/composite/mvMetricsWindow.cpp"
+	"src/core/AppItems/composite/mvAboutWindow.cpp"
 	
 	"src/core/AppItems/plots/mvPlot.cpp"
 	"src/core/AppItems/plots/mvAreaSeries.cpp"

@@ -32,11 +32,8 @@ namespace Marvel {
         mvSliderFloat(const std::string& name, float default_value, const std::string& dataSource);
         
         void setEnabled(bool value) override;
-        
         void draw() override;
-        
         void setExtraConfigDict(PyObject* dict) override;
-        
         void getExtraConfigDict(PyObject* dict) override;
         
     private:
@@ -63,11 +60,9 @@ namespace Marvel {
         mvSliderFloat2(const std::string& name, float* default_value, const std::string& dataSource);
         
         void setEnabled(bool value) override;
-        
+
         void draw() override;
-        
         void setExtraConfigDict(PyObject* dict) override;
-        
         void getExtraConfigDict(PyObject* dict) override;
         
     private:
@@ -93,11 +88,8 @@ namespace Marvel {
         mvSliderFloat3(const std::string& name, float* default_value, const std::string& dataSource);
         
         void setEnabled(bool value) override;
-        
         void draw() override;
-        
         void setExtraConfigDict(PyObject* dict) override;
-        
         void getExtraConfigDict(PyObject* dict) override;
         
     private:
@@ -123,11 +115,8 @@ namespace Marvel {
         mvSliderFloat4(const std::string& name, float* default_value, const std::string& dataSource);
         
         void setEnabled(bool value) override;
-        
         void draw() override;
-        
         void setExtraConfigDict(PyObject* dict) override;
-        
         void getExtraConfigDict(PyObject* dict) override;
         
     private:
@@ -152,12 +141,9 @@ namespace Marvel {
 
         mvSliderInt(const std::string& name, int default_value, const std::string& dataSource);
             
-        void setEnabled(bool value) override;
-            
+        void setEnabled(bool value) override;   
         void draw() override;
-            
         void setExtraConfigDict(PyObject* dict) override;
-            
         void getExtraConfigDict(PyObject* dict) override;
             
     private:
@@ -184,11 +170,8 @@ namespace Marvel {
         mvSliderInt2(const std::string& name, int* default_value, const std::string& dataSource);
         
         void setEnabled(bool value) override;
-        
         void draw() override;
-        
         void setExtraConfigDict(PyObject* dict) override;
-        
         void getExtraConfigDict(PyObject* dict) override;
         
     private:
@@ -214,11 +197,8 @@ namespace Marvel {
         mvSliderInt3(const std::string& name, int* default_value, const std::string& dataSource);
         
         void setEnabled(bool value) override;
-        
         void draw() override;
-        
         void setExtraConfigDict(PyObject* dict) override;
-        
         void getExtraConfigDict(PyObject* dict) override;
         
     private:
@@ -244,11 +224,8 @@ namespace Marvel {
         mvSliderInt4(const std::string& name, int* default_value, const std::string& dataSource);
         
         void setEnabled(bool value) override;
-        
         void draw() override;
-        
         void setExtraConfigDict(PyObject* dict) override;
-        
         void getExtraConfigDict(PyObject* dict) override;
         
     private:
