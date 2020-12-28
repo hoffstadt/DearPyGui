@@ -176,13 +176,6 @@ namespace Marvel {
         int display_w, display_h;
         glfwGetFramebufferSize(m_window, &display_w, &display_h);
 
-        mvEventBus::Publish(mvEVT_CATEGORY_VIEWPORT, mvEVT_VIEWPORT_RESIZE, {
-            CreateEventArgument("actual_width", (int)m_width),
-            CreateEventArgument("actual_height", (int)m_height),
-            CreateEventArgument("client_width", display_w),
-            CreateEventArgument("client_height", display_h)
-                    });
-
         glViewport(0, 0, display_w, display_h);
         glClearColor(m_clear_color[0], m_clear_color[1], m_clear_color[2], m_clear_color[3]);
         glClear(GL_COLOR_BUFFER_BIT);
