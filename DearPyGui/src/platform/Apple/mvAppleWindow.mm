@@ -76,7 +76,8 @@ namespace Marvel {
 
         // Create window with graphics context
         glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
-        m_window = glfwCreateWindow(width, height, mvApp::GetApp()->m_title.c_str(), nullptr, nullptr);
+        glfwWindowHint(GLFW_COCOA_RETINA_FRAMEBUFFER, GLFW_FALSE);
+        m_window = glfwCreateWindow((int)width, (int)height, mvApp::GetApp()->m_title.c_str(), nullptr, nullptr);
         glfwSetWindowPos(m_window, mvApp::GetApp()->m_mainXPos, mvApp::GetApp()->m_mainYPos);
 
         mvEventBus::Publish(mvEVT_CATEGORY_VIEWPORT, mvEVT_VIEWPORT_RESIZE, {
@@ -103,6 +104,7 @@ namespace Marvel {
 
         // Setup callbacks
         glfwSetWindowSizeCallback(m_window, window_size_callback);
+        //glfwSetFramebufferSizeCallback(m_window, window_size_callback);
         glfwSetWindowCloseCallback(m_window, window_close_callback);
     }
 
@@ -146,18 +148,22 @@ namespace Marvel {
 
             m_layer.displaySyncEnabled = mvApp::GetApp()->getVSync();
 
-            int width, height;
+            int width;
+            int height;
             glfwGetFramebufferSize(m_window, &width, &height);
             m_layer.drawableSize = CGSizeMake(width, height);
             id <CAMetalDrawable> drawable = [m_layer nextDrawable];
 
+            m_width = (unsigned)width;
+            m_height = (unsigned)height;
 
-            mvEventBus::Publish(mvEVT_CATEGORY_VIEWPORT, mvEVT_VIEWPORT_RESIZE, {
+
+/*            mvEventBus::Publish(mvEVT_CATEGORY_VIEWPORT, mvEVT_VIEWPORT_RESIZE, {
             CreateEventArgument("actual_width", (int)m_width),
             CreateEventArgument("actual_height", (int)m_height),
             CreateEventArgument("client_width", width),
             CreateEventArgument("client_height", height)
-                    });
+                    });*/
 
             id <MTLCommandBuffer> commandBuffer = [m_commandQueue commandBuffer];
             m_renderPassDescriptor.colorAttachments[0].clearColor = MTLClearColorMake(m_clear_color[0],

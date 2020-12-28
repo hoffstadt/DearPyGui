@@ -291,7 +291,7 @@ namespace Marvel {
 		return first->size() == second->size();
 	}
 
-	static bool CheckArraySizes(const char* name, std::vector<const std::vector<float>*> arrays)
+	static bool CheckArraySizes(const char* name, const std::vector<const std::vector<float>*>& arrays)
 	{
 		for (size_t i = 0; i < arrays.size() - 1; i++)
 		{

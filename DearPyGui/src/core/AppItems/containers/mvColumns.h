@@ -15,12 +15,13 @@
 
 namespace Marvel {
 
+	PyObject* add_managed_columns(PyObject* self, PyObject* args, PyObject* kwargs);
+	PyObject* add_columns        (PyObject* self, PyObject* args, PyObject* kwargs);
+	PyObject* add_next_column    (PyObject* self, PyObject* args, PyObject* kwargs);
+
 	//-----------------------------------------------------------------------------
 	// mvManagedColumns
 	//-----------------------------------------------------------------------------
-
-	PyObject* add_managed_columns(PyObject* self, PyObject* args, PyObject* kwargs);
-
 	class mvManagedColumns : public mvAppItem
 	{
 
@@ -54,9 +55,6 @@ namespace Marvel {
 	//-----------------------------------------------------------------------------
 	// mvColumn
 	//-----------------------------------------------------------------------------
-
-	PyObject* add_columns(PyObject* self, PyObject* args, PyObject* kwargs);
-
 	class mvColumn : public mvAppItem
 	{
 
@@ -84,9 +82,6 @@ namespace Marvel {
 	//-----------------------------------------------------------------------------
 	// mvNextColumn
 	//-----------------------------------------------------------------------------
-
-	PyObject* add_next_column(PyObject* self, PyObject* args, PyObject* kwargs);
-
 	class mvNextColumn : public mvAppItem
 	{
 

@@ -51,7 +51,6 @@ namespace Marvel{
 		mvGlobalIntepreterLock gil;
 		if (PyObject* item = PyDict_GetItemString(dict, "name")) m_name = ToString(item);
 		if (PyObject* item = PyDict_GetItemString(dict, "label")) setLabel(ToString(item));
-		if (PyObject* item = PyDict_GetItemString(dict, "popup")) m_popup = ToString(item);
 		if (PyObject* item = PyDict_GetItemString(dict, "tip")) m_tip =ToString(item);
 		if (PyObject* item = PyDict_GetItemString(dict, "width")) setWidth(ToInt(item));
 		if (PyObject* item = PyDict_GetItemString(dict, "height")) setHeight(ToInt(item));
@@ -68,7 +67,6 @@ namespace Marvel{
 		PyDict_SetItemString(dict, "name",    ToPyString(m_name));
 		PyDict_SetItemString(dict, "label",   ToPyString(m_label));
 		PyDict_SetItemString(dict, "source",  ToPyString(m_dataSource));
-		PyDict_SetItemString(dict, "popup",   ToPyString(m_popup));
 		PyDict_SetItemString(dict, "tip",     ToPyString(m_tip));
 		PyDict_SetItemString(dict, "show",    ToPyBool  (m_show));
 		PyDict_SetItemString(dict, "enabled", ToPyBool  (m_enabled));
@@ -82,23 +80,13 @@ namespace Marvel{
 		{
 
 			// update mouse
-			mvVec2 oldMousePos = mvInput::getGlobalMousePosition();
 			ImVec2 mousePos = ImGui::GetMousePos();
-			mvInput::setGlobalMousePosition(mousePos.x, mousePos.y);
 			float x = mousePos.x - ImGui::GetWindowPos().x;
 			float y = mousePos.y - ImGui::GetWindowPos().y;
 			mvInput::setMousePosition(x, y);
 
 			if (mvApp::GetApp()->getItemRegistry().getActiveWindow() != m_name)
 				mvEventBus::Publish(mvEVT_CATEGORY_ITEM, mvEVT_ACTIVE_WINDOW, { CreateEventArgument("WINDOW", m_name) });
-
-
-			// mouse move callback
-			//if (oldMousePos.x != mousePos.x || oldMousePos.y != mousePos.y)
-			//{
-			//	mvApp::GetApp()->getCallbackRegistry().runCallback(mvApp::GetApp()->getMouseMoveCallback(), m_name,
-			//		ToPyPair(x, y));
-			//}
 
 		}
 	}

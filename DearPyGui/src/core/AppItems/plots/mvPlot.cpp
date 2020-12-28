@@ -11,107 +11,6 @@
 
 namespace Marvel {
 
-	// helpers
-	static bool CheckList(const char* plot, PyObject* list)
-	{
-		if (!PyList_Check(list))
-		{
-			ThrowPythonException(std::string(plot) + " add area series requires a list of floats.");
-			return false;
-		}
-		return true;
-	}
-
-	static bool CheckIfPlotOk(const char* name, mvAppItem* plot)
-	{
-		if (plot == nullptr)
-		{
-			ThrowPythonException(std::string(name) + " plot does not exist.");
-			return false;
-		}
-
-		if (plot->getType() != mvAppItemType::Plot)
-		{
-			ThrowPythonException(std::string(name) + " is not a plot.");
-			return false;
-		}
-		return true;
-	}
-
-	static bool Check2ArraySizes(const char* name, const std::vector<float>* first, const std::vector<float>* second)
-	{
-		if (second == nullptr)
-			return true;
-
-		return first->size() == second->size();
-	}
-
-	static bool CheckArraySizes(const char* name, std::vector<const std::vector<float>*> arrays)
-	{
-		for (size_t i = 0; i < arrays.size() - 1; i++)
-		{
-			if (!Check2ArraySizes(name, arrays[i], arrays[i + 1]))
-			{
-				ThrowPythonException(std::string(name) + " data list must be the same size.");
-				return false;
-			}
-		}
-		return true;
-	}
-
-	mvSeries::mvSeries(std::string name, const std::vector<const std::vector<float>*> data, ImPlotYAxis_ axis)
-		:
-		m_name(name),
-		m_axis(axis)
-	{
-
-		for (const auto* list : data)
-			m_data.push_back(*list);
-
-		if (!m_data[0].empty())
-		{
-			m_maxX = m_data[0][0];
-			m_minX = m_data[0][0];
-		}
-
-		if (m_data.size() > 1)
-		{
-			if (!m_data[1].empty())
-			{
-				m_maxY = m_data[1][0];
-				m_minY = m_data[1][0];
-			}
-		}
-
-		for (const auto& x : m_data[0])
-		{
-			if (x > m_maxX) m_maxX = x;
-			if (x < m_minX) m_minX = x;
-
-		}
-
-		if (m_data.size() > 1)
-		{
-			for (const auto& y : m_data[1])
-			{
-				if (y > m_maxY) m_maxY = y;
-				if (y < m_minY) m_minY = y;
-			}
-		}
-
-	}
-
-	mvSeries::mvSeries(std::string name, const ImPlotPoint& boundsMin, const ImPlotPoint& boundsMax, ImPlotYAxis_ axis)
-		:
-		m_name(std::move(name)),
-		m_axis(axis)
-	{
-		m_maxX = (float)boundsMax.x;
-		m_maxY = (float)boundsMax.y;
-		m_minX = (float)boundsMin.x;
-		m_minY = (float)boundsMin.y;
-	}
-
 	void mvPlot::InsertParser(std::map<std::string, mvPythonParser>* parsers)
 	{
 		parsers->insert({ "add_plot", mvPythonParser({
@@ -243,6 +142,106 @@ namespace Marvel {
 		}, "Deletes an annotation", "None", "Plotting") });
 	}
 
+	static bool CheckList(const char* plot, PyObject* list)
+	{
+		if (!PyList_Check(list))
+		{
+			ThrowPythonException(std::string(plot) + " add area series requires a list of floats.");
+			return false;
+		}
+		return true;
+	}
+
+	static bool CheckIfPlotOk(const char* name, mvAppItem* plot)
+	{
+		if (plot == nullptr)
+		{
+			ThrowPythonException(std::string(name) + " plot does not exist.");
+			return false;
+		}
+
+		if (plot->getType() != mvAppItemType::Plot)
+		{
+			ThrowPythonException(std::string(name) + " is not a plot.");
+			return false;
+		}
+		return true;
+	}
+
+	static bool Check2ArraySizes(const char* name, const std::vector<float>* first, const std::vector<float>* second)
+	{
+		if (second == nullptr)
+			return true;
+
+		return first->size() == second->size();
+	}
+
+	static bool CheckArraySizes(const char* name, const std::vector<const std::vector<float>*>& arrays)
+	{
+		for (size_t i = 0; i < arrays.size() - 1; i++)
+		{
+			if (!Check2ArraySizes(name, arrays[i], arrays[i + 1]))
+			{
+				ThrowPythonException(std::string(name) + " data list must be the same size.");
+				return false;
+			}
+		}
+		return true;
+	}
+
+	mvSeries::mvSeries(std::string name, const std::vector<const std::vector<float>*>& data, ImPlotYAxis_ axis)
+		:
+		m_name(name),
+		m_axis(axis)
+	{
+
+		for (const auto* list : data)
+			m_data.push_back(*list);
+
+		if (!m_data[0].empty())
+		{
+			m_maxX = m_data[0][0];
+			m_minX = m_data[0][0];
+		}
+
+		if (m_data.size() > 1)
+		{
+			if (!m_data[1].empty())
+			{
+				m_maxY = m_data[1][0];
+				m_minY = m_data[1][0];
+			}
+		}
+
+		for (const auto& x : m_data[0])
+		{
+			if (x > m_maxX) m_maxX = x;
+			if (x < m_minX) m_minX = x;
+
+		}
+
+		if (m_data.size() > 1)
+		{
+			for (const auto& y : m_data[1])
+			{
+				if (y > m_maxY) m_maxY = y;
+				if (y < m_minY) m_minY = y;
+			}
+		}
+
+	}
+
+	mvSeries::mvSeries(std::string name, const ImPlotPoint& boundsMin, const ImPlotPoint& boundsMax, ImPlotYAxis_ axis)
+		:
+		m_name(std::move(name)),
+		m_axis(axis)
+	{
+		m_maxX = (float)boundsMax.x;
+		m_maxY = (float)boundsMax.y;
+		m_minX = (float)boundsMin.x;
+		m_minY = (float)boundsMin.y;
+	}
+
 	mvPlot::mvPlot(const std::string& name, PyObject* queryCallback)
 		: mvAppItem(name), m_queryCallback(queryCallback)
 	{
@@ -266,7 +265,6 @@ namespace Marvel {
 			if (item.name == name)
 			{
 				exists = true;
-				item.name = name;
 				if (item.source != source)
 				{
 					mvApp::GetApp()->getValueStorage().DecrementRef(source.empty() ? name : source);
@@ -304,7 +302,6 @@ namespace Marvel {
 			if (item.name == name)
 			{
 				exists = true;
-				item.name = name;
 				if (item.source != source)
 				{
 					mvApp::GetApp()->getValueStorage().DecrementRef(source.empty() ? name : source);
@@ -403,7 +400,6 @@ namespace Marvel {
 			if (item.name == name)
 			{
 				exists = true;
-				item.name = name;
 				item.x = x;
 				item.y = y;
 				item.pix_offset.x = xoffset;

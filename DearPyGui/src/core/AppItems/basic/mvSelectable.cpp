@@ -20,7 +20,6 @@ namespace Marvel {
 			{mvPythonDataType::String, "source", "", "''"},
 			{mvPythonDataType::Bool, "enabled", "Display grayed out text so selectable cannot be selected", "True"},
 			{mvPythonDataType::String, "label", "", "''"},
-			{mvPythonDataType::String, "popup", "", "''"},
 			{mvPythonDataType::Bool, "show", "Attempt to render", "True"},
 			{mvPythonDataType::Bool, "span_columns", "span all columns", "False"},
 		}, "Adds a selectable.", "None", "Adding Widgets") });
@@ -49,14 +48,7 @@ namespace Marvel {
 		ScopedID id;
 
 		if (ImGui::Selectable(m_label.c_str(), m_value, m_flags))
-		{
-
 			mvApp::GetApp()->getCallbackRegistry().addCallback(m_callback, m_name, m_callbackData);
-
-			// Context Menu
-			if (!m_popup.empty())
-				ImGui::OpenPopup(m_popup.c_str());
-		}
 
 	}
 
@@ -105,7 +97,6 @@ namespace Marvel {
 		const char* source = "";
 		int enabled = true;
 		const char* label = "";
-		const char* popup = "";
 		int show = true;
 		int span_columns = false;
 
@@ -113,7 +104,7 @@ namespace Marvel {
 
 		if (!(*mvApp::GetApp()->getParsers())["add_selectable"].parse(args, kwargs, __FUNCTION__, &name,
 			&default_value, &callback, &callback_data, &tip, &parent, &before, &source, &enabled,
-			&label, &popup, &show, &span_columns))
+			&label, &show, &span_columns))
 			return ToPyBool(false);
 
 		auto item = CreateRef<mvSelectable>(name, default_value, source);

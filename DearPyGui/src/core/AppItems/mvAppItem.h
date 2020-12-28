@@ -164,7 +164,6 @@ namespace Marvel {
         std::string                   m_dataSource;
         std::string                   m_name;
         std::string                   m_label;
-        std::string                   m_popup;
         std::string                   m_tip;
         int                           m_width = 0;
         int                           m_height = 0;

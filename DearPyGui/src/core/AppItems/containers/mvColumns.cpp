@@ -18,6 +18,30 @@ namespace Marvel {
 		}, "Adds managed columns.", "None", "Containers") });
 	}
 
+	void mvColumn::InsertParser(std::map<std::string, mvPythonParser>* parsers)
+	{
+		parsers->insert({ "add_columns", mvPythonParser({
+			{mvPythonDataType::String, "name"},
+			{mvPythonDataType::Integer, "columns"},
+			{mvPythonDataType::KeywordOnly},
+			{mvPythonDataType::Bool, "border", "show border", "True"},
+			{mvPythonDataType::Bool, "show", "Attempt to render", "True"},
+			{mvPythonDataType::String, "parent", "Parent this item will be added to. (runtime adding)", "''"},
+			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)", "''"},
+		}, "Sets columns.", "None", "Containers") });
+	}
+
+	void mvNextColumn::InsertParser(std::map<std::string, mvPythonParser>* parsers)
+	{
+		parsers->insert({ "add_next_column", mvPythonParser({
+			{mvPythonDataType::KeywordOnly},
+			{mvPythonDataType::String, "name", "", "'next_collumn'"},
+			{mvPythonDataType::Bool, "show", "Attempt to render", "True"},
+			{mvPythonDataType::String, "parent", "Parent this item will be added to. (runtime adding)", "''"},
+			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)", "''"},
+		}, "Changes to next column.", "None", "Containers") });
+	}
+
 	mvManagedColumns::mvManagedColumns(const std::string& name, int columns)
 		: mvAppItem(name)
 	{
@@ -128,46 +152,6 @@ namespace Marvel {
 		PyDict_SetItemString(dict, "columns", ToPyInt(m_columns));
 	}
 
-	PyObject* add_managed_columns(PyObject* self, PyObject* args, PyObject* kwargs)
-	{
-		const char* name;
-		int columns;
-		int border = true;
-		int show = true;
-		const char* parent = "";
-		const char* before = "";
-
-
-		if (!(*mvApp::GetApp()->getParsers())["add_managed_columns"].parse(args, kwargs, __FUNCTION__,
-			&name, &columns, &border, &show, &parent, &before))
-			return ToPyBool(false);
-
-		auto item = CreateRef<mvManagedColumns>(name, columns);
-		item->checkConfigDict(kwargs);
-		item->setConfigDict(kwargs);
-		item->setExtraConfigDict(kwargs);
-		if (mvApp::GetApp()->getItemRegistry().addItemWithRuntimeChecks(item, parent, before))
-		{
-			mvApp::GetApp()->getItemRegistry().pushParent(item);
-			return ToPyBool(true);
-		}
-
-		return ToPyBool(false);
-	}
-
-	void mvColumn::InsertParser(std::map<std::string, mvPythonParser>* parsers)
-	{
-		parsers->insert({ "add_columns", mvPythonParser({
-			{mvPythonDataType::String, "name"},
-			{mvPythonDataType::Integer, "columns"},
-			{mvPythonDataType::KeywordOnly},
-			{mvPythonDataType::Bool, "border", "show border", "True"},
-			{mvPythonDataType::Bool, "show", "Attempt to render", "True"},
-			{mvPythonDataType::String, "parent", "Parent this item will be added to. (runtime adding)", "''"},
-			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)", "''"},
-		}, "Sets columns.", "None", "Containers") });
-	}
-
 	mvColumn::mvColumn(const std::string& name, int columns)
 		: mvAppItem(name)
 	{
@@ -211,7 +195,17 @@ namespace Marvel {
 		PyDict_SetItemString(dict, "columns", ToPyInt(m_columns));
 	}
 
-	PyObject* add_columns(PyObject* self, PyObject* args, PyObject* kwargs)
+	mvNextColumn::mvNextColumn(const std::string& name)
+		: mvAppItem(name)
+	{
+	}
+
+	void mvNextColumn::draw()
+	{
+		ImGui::NextColumn();
+	}
+
+	PyObject* add_managed_columns(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		const char* name;
 		int columns;
@@ -221,39 +215,21 @@ namespace Marvel {
 		const char* before = "";
 
 
-		if (!(*mvApp::GetApp()->getParsers())["add_columns"].parse(args, kwargs, __FUNCTION__,
+		if (!(*mvApp::GetApp()->getParsers())["add_managed_columns"].parse(args, kwargs, __FUNCTION__,
 			&name, &columns, &border, &show, &parent, &before))
 			return ToPyBool(false);
 
-		auto item = CreateRef<mvColumn>(name, columns);
+		auto item = CreateRef<mvManagedColumns>(name, columns);
 		item->checkConfigDict(kwargs);
 		item->setConfigDict(kwargs);
 		item->setExtraConfigDict(kwargs);
 		if (mvApp::GetApp()->getItemRegistry().addItemWithRuntimeChecks(item, parent, before))
+		{
+			mvApp::GetApp()->getItemRegistry().pushParent(item);
 			return ToPyBool(true);
+		}
 
 		return ToPyBool(false);
-	}
-
-	void mvNextColumn::InsertParser(std::map<std::string, mvPythonParser>* parsers)
-	{
-		parsers->insert({ "add_next_column", mvPythonParser({
-			{mvPythonDataType::KeywordOnly},
-			{mvPythonDataType::String, "name", "", "'next_collumn'"},
-			{mvPythonDataType::Bool, "show", "Attempt to render", "True"},
-			{mvPythonDataType::String, "parent", "Parent this item will be added to. (runtime adding)", "''"},
-			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)", "''"},
-		}, "Changes to next column.", "None", "Containers") });
-	}
-
-	mvNextColumn::mvNextColumn(const std::string& name)
-		: mvAppItem(name)
-	{
-	}
-
-	void mvNextColumn::draw()
-	{
-		ImGui::NextColumn();
 	}
 
 	PyObject* add_next_column(PyObject* self, PyObject* args, PyObject* kwargs)
@@ -270,6 +246,30 @@ namespace Marvel {
 			return ToPyBool(false);
 
 		auto item = CreateRef<mvNextColumn>(name);
+		item->checkConfigDict(kwargs);
+		item->setConfigDict(kwargs);
+		item->setExtraConfigDict(kwargs);
+		if (mvApp::GetApp()->getItemRegistry().addItemWithRuntimeChecks(item, parent, before))
+			return ToPyBool(true);
+
+		return ToPyBool(false);
+	}
+
+	PyObject* add_columns(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		const char* name;
+		int columns;
+		int border = true;
+		int show = true;
+		const char* parent = "";
+		const char* before = "";
+
+
+		if (!(*mvApp::GetApp()->getParsers())["add_columns"].parse(args, kwargs, __FUNCTION__,
+			&name, &columns, &border, &show, &parent, &before))
+			return ToPyBool(false);
+
+		auto item = CreateRef<mvColumn>(name, columns);
 		item->checkConfigDict(kwargs);
 		item->setConfigDict(kwargs);
 		item->setExtraConfigDict(kwargs);

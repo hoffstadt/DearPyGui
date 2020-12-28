@@ -53,7 +53,6 @@ namespace Marvel {
 
 		// configurable options
 		int  m_loglevel          = 1;
-		bool m_autoScroll        = true;
 		bool m_autoScrollButton  = true;
 		bool m_clearButton       = true;
 		bool m_copyButton        = true;

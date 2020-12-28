@@ -18,7 +18,6 @@ namespace Marvel {
 			{mvPythonDataType::Integer, "width","", "0"},
 			{mvPythonDataType::Bool, "horizontal", "", "False"},
 			{mvPythonDataType::Float, "horizontal_spacing","", "-1"},
-			{mvPythonDataType::String, "popup", "", "''"},
 		}, "Creates a group that other widgets can belong to. The group allows item commands to be issued for all of its members.\
 				Must be closed with the end command."
 		, "None", "Containers") });
@@ -102,10 +101,9 @@ namespace Marvel {
 		int width = 0;
 		int horizontal = false;
 		float horizontal_spacing = -1.0f;
-		const char* popup = "";
 
 		if (!(*mvApp::GetApp()->getParsers())["add_group"].parse(args, kwargs, __FUNCTION__, &name,
-			&show, &tip, &parent, &before, &width, &horizontal, &horizontal_spacing, &popup))
+			&show, &tip, &parent, &before, &width, &horizontal, &horizontal_spacing))
 			return ToPyBool(false);
 
 		auto item = CreateRef<mvGroup>(name);

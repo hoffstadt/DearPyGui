@@ -285,7 +285,6 @@ namespace Marvel {
                 DebugItem("Item Size x:", sizex.c_str());
                 DebugItem("Item Size y:", sizey.c_str());
                 DebugItem("Item Tip:", selectedItem->m_tip.c_str());
-                DebugItem("Item Popup:", selectedItem->m_popup.c_str());
                 DebugItem("Item Show:", selectedItem->m_show ? ts : fs);
                 DebugItem("Item Visible:", selectedItem->getState().isItemVisible() ? ts : fs);
                 DebugItem("Item Hovered:", selectedItem->getState().isItemHovered() ? ts : fs);
@@ -363,25 +362,13 @@ namespace Marvel {
 			float titleBarHeight = ImGui::GetStyle().FramePadding.y * 2 + ImGui::GetFontSize();
 
 			// update mouse
-			mvVec2 oldMousePos = mvInput::getGlobalMousePosition();
 			ImVec2 mousePos = ImGui::GetMousePos();
-			mvInput::setGlobalMousePosition(mousePos.x, mousePos.y);
 			float x = mousePos.x - ImGui::GetWindowPos().x;
 			float y = mousePos.y - ImGui::GetWindowPos().y - titleBarHeight;
 			mvInput::setMousePosition(x, y);
 
 			if (mvApp::GetApp()->getItemRegistry().getActiveWindow() != "debug##standard")
 				mvEventBus::Publish(mvEVT_CATEGORY_ITEM, mvEVT_ACTIVE_WINDOW, { CreateEventArgument("WINDOW", std::string("debug##standard")) });
-
-			// mouse move callback
-			//if (getMouseMoveCallback() != nullptr)
-			//{
-			//	if (oldMousePos.x != mousePos.x || oldMousePos.y != mousePos.y)
-			//	{
-			//		mvApp::GetApp()->getCallbackRegistry().runCallback(getMouseMoveCallback(), m_name,
-			//			ToPyPair(x, y));
-			//	}
-			//}
 
 		}
 		

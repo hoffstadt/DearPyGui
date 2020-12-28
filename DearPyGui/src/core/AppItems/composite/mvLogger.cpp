@@ -7,6 +7,7 @@ typedef std::chrono::high_resolution_clock clock_;
 typedef std::chrono::duration<double, std::ratio<1> > second_;
 
 namespace Marvel {
+
 	void mvLoggerItem::InsertParser(std::map<std::string, mvPythonParser>* parsers)
 	{
 		parsers->insert({ "add_logger", mvPythonParser({
@@ -70,11 +71,6 @@ namespace Marvel {
 			ImGui::NewLine();
 			Filter.Draw("Filter", m_width-100.0f);
 		}
-
-
-		//ImGui::NewLine();
-		//ImGui::Separator();
-
 
 		ImGui::BeginChild(m_name.c_str(), ImVec2(m_autosize_x ? 0 : (float)m_width, m_autosize_y ? 0 : (float)m_height), true, ImGuiWindowFlags_AlwaysHorizontalScrollbar);
 
@@ -177,24 +173,6 @@ namespace Marvel {
 		ImGui::PopID();
 		ImGui::EndGroup();
 
-		if (ImGui::IsWindowFocused())
-		{
-
-			float titleBarHeight = ImGui::GetStyle().FramePadding.y * 2 + ImGui::GetFontSize();
-
-			// update mouse
-			ImVec2 mousePos = ImGui::GetMousePos();
-			mvInput::setGlobalMousePosition(mousePos.x, mousePos.y);
-			float x = mousePos.x - ImGui::GetWindowPos().x;
-			float y = mousePos.y - ImGui::GetWindowPos().y - titleBarHeight;
-			mvInput::setMousePosition(x, y);
-
-			if (mvApp::GetApp()->getItemRegistry().getActiveWindow() != "logger##standard")
-				mvEventBus::Publish(mvEVT_CATEGORY_ITEM, mvEVT_ACTIVE_WINDOW, { CreateEventArgument("WINDOW", std::string("logger##standard")) });
-
-
-		}
-
 	}
 
 	void mvLoggerItem::AddLog(const char* fmt, ...)
@@ -263,7 +241,7 @@ namespace Marvel {
 			return;
 		mvGlobalIntepreterLock gil;
 		if (PyObject* item = PyDict_GetItemString(dict, "log_level")) m_loglevel = ToInt(item);
-		if (PyObject* item = PyDict_GetItemString(dict, "auto_scroll")) m_autoScroll = ToBool(item);
+		if (PyObject* item = PyDict_GetItemString(dict, "auto_scroll")) AutoScroll = ToBool(item);
 		if (PyObject* item = PyDict_GetItemString(dict, "auto_scroll_button")) m_autoScrollButton = ToBool(item);
 		if (PyObject* item = PyDict_GetItemString(dict, "clear_button")) m_clearButton = ToBool(item);
 		if (PyObject* item = PyDict_GetItemString(dict, "copy_button")) m_copyButton = ToBool(item);
@@ -280,7 +258,7 @@ namespace Marvel {
 		mvGlobalIntepreterLock gil;
 
 		PyDict_SetItemString(dict, "log_level", ToPyInt(m_loglevel));
-		PyDict_SetItemString(dict, "auto_scroll", ToPyBool(m_autoScroll));
+		PyDict_SetItemString(dict, "auto_scroll", ToPyBool(AutoScroll));
 		PyDict_SetItemString(dict, "auto_scroll_button", ToPyBool(m_autoScrollButton));
 		PyDict_SetItemString(dict, "clear_button", ToPyBool(m_clearButton));
 		PyDict_SetItemString(dict, "copy_button", ToPyBool(m_copyButton));
@@ -307,7 +285,7 @@ namespace Marvel {
 		int autosize_y = false;
 
 		if (!(*mvApp::GetApp()->getParsers())["add_logger"].parse(args, kwargs, __FUNCTION__,
-			&name, &logLevel, &autoScroll, &autoScrollButton, &copyButton, &clearButton,
+			&name, &logLevel, &autoScroll, &autoScrollButton, &clearButton, &copyButton,
 			&filter, &width, &height, &parent, &before, &show, &autosize_x, &autosize_y))
 			return ToPyBool(false);
 

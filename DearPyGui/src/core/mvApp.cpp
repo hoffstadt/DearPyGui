@@ -644,7 +644,7 @@ namespace Marvel {
 			ImGui::StyleColorsDark(&m_newStyle);
 	}
 
-	void mvApp::setThemeItem(long item, mvColor color)
+	void mvApp::setThemeItem(long item, mvColor& color)
 	{
         m_newStyle.Colors[item] = ImVec4((float)color.r / 255.0f, (float)color.g / 255.0f, (float)color.b / 255.0f,
                                          (float)color.a / 255.0f);

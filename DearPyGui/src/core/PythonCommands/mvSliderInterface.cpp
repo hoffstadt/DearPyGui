@@ -24,7 +24,6 @@ namespace Marvel {
 			{mvPythonDataType::Bool, "no_input", "Disable CTRL+Click or Enter key allowing to input text directly into the widget", "False"},
 			{mvPythonDataType::Bool, "clamped", "Clamp value to min/max bounds when input manually with CTRL+Click. By default CTRL+Click allows going out of bounds.", "False"},
 			{mvPythonDataType::String, "label", "", "''"},
-			{mvPythonDataType::String, "popup", "", "''"},
 			{mvPythonDataType::Bool, "show", "Attempt to render", "True"},
 		}, "Adds slider for a single float value. CTRL+Click to directly modify the value.", "None", "Adding Widgets") });
 
@@ -46,7 +45,6 @@ namespace Marvel {
 			{mvPythonDataType::Bool, "no_input", "Disable CTRL+Click or Enter key allowing to input text directly into the widget", "False"},
 			{mvPythonDataType::Bool, "clamped", "Clamp value to min/max bounds when input manually with CTRL+Click. By default CTRL+Click allows going out of bounds.", "False"},
 			{mvPythonDataType::String, "label", "", "''"},
-			{mvPythonDataType::String, "popup", "", "''"},
 			{mvPythonDataType::Bool, "show", "Attempt to render", "True"},
 		}, "Adds slider for a 2 float values. CTRL+Click to directly modify the value.", "None", "Adding Widgets") });
 
@@ -68,7 +66,6 @@ namespace Marvel {
 			{mvPythonDataType::Bool, "no_input", "Disable CTRL+Click or Enter key allowing to input text directly into the widget", "False"},
 			{mvPythonDataType::Bool, "clamped", "Clamp value to min/max bounds when input manually with CTRL+Click. By default CTRL+Click allows going out of bounds.", "False"},
 			{mvPythonDataType::String, "label", "", "''"},
-			{mvPythonDataType::String, "popup", "", "''"},
 			{mvPythonDataType::Bool, "show", "Attempt to render", "True"},
 		}, "Adds slider for a 3 float values. CTRL+Click to directly modify the value.", "None", "Adding Widgets") });
 
@@ -90,7 +87,6 @@ namespace Marvel {
 			{mvPythonDataType::Bool, "no_input", "Disable CTRL+Click or Enter key allowing to input text directly into the widget", "False"},
 			{mvPythonDataType::Bool, "clamped", "Clamp value to min/max bounds when input manually with CTRL+Click. By default CTRL+Click allows going out of bounds.", "False"},
 			{mvPythonDataType::String, "label", "", "''"},
-			{mvPythonDataType::String, "popup", "", "''"},
 			{mvPythonDataType::Bool, "show", "Attempt to render", "True"},
 		}, "Adds slider for a 4 float values. CTRL+Click to directly modify the value.", "None", "Adding Widgets") });
 
@@ -114,7 +110,6 @@ namespace Marvel {
 			{mvPythonDataType::Bool, "no_input", "Disable CTRL+Click or Enter key allowing to input text directly into the widget", "False"},
 			{mvPythonDataType::Bool, "clamped", "Clamp value to min/max bounds when input manually with CTRL+Click. By default CTRL+Click allows going out of bounds.", "False"},
 			{mvPythonDataType::String, "label", "", "''"},
-			{mvPythonDataType::String, "popup", "", "''"},
 			{mvPythonDataType::Bool, "show", "Attempt to render", "True"},
 		}, "Adds slider for a single int value. CTRL+Click to directly modify the value.", "None", "Adding Widgets") });
 
@@ -136,7 +131,6 @@ namespace Marvel {
 			{mvPythonDataType::Bool, "no_input", "Disable CTRL+Click or Enter key allowing to input text directly into the widget", "False"},
 			{mvPythonDataType::Bool, "clamped", "Clamp value to min/max bounds when input manually with CTRL+Click. By default CTRL+Click allows going out of bounds.", "False"},
 			{mvPythonDataType::String, "label", "", "''"},
-			{mvPythonDataType::String, "popup", "", "''"},
 			{mvPythonDataType::Bool, "show", "Attempt to render", "True"},
 		}, "Adds slider for a 2 int values. CTRL+Click to directly modify the value.", "None", "Adding Widgets") });
 
@@ -158,7 +152,6 @@ namespace Marvel {
 			{mvPythonDataType::Bool, "no_input", "Disable CTRL+Click or Enter key allowing to input text directly into the widget", "False"},
 			{mvPythonDataType::Bool, "clamped", "Clamp value to min/max bounds when input manually with CTRL+Click. By default CTRL+Click allows going out of bounds.", "False"},
 			{mvPythonDataType::String, "label", "", "''"},
-			{mvPythonDataType::String, "popup", "", "''"},
 			{mvPythonDataType::Bool, "show", "Attempt to render", "True"},
 		}, "Adds slider for a 3 int values. CTRL+Click to directly modify the value.", "None", "Adding Widgets") });
 
@@ -180,7 +173,6 @@ namespace Marvel {
 			{mvPythonDataType::Bool, "no_input", "Disable CTRL+Click or Enter key allowing to input text directly into the widget", "False"},
 			{mvPythonDataType::Bool, "clamped", "Clamp value to min/max bounds when input manually with CTRL+Click. By default CTRL+Click allows going out of bounds.", "False"},
 			{mvPythonDataType::String, "label", "", "''"},
-			{mvPythonDataType::String, "popup", "", "''"},
 			{mvPythonDataType::Bool, "show", "Attempt to render", "True"},
 		}, "Adds slider for a 4 int values. CTRL+Click to directly modify the value.", "None", "Adding Widgets") });
 	}
@@ -205,12 +197,11 @@ namespace Marvel {
 		int no_input = false;
 		int clamped = false;
 		const char* label = "";
-		const char* popup = "";
 		int show = true;
 
 		if (!(*mvApp::GetApp()->getParsers())["add_slider_float"].parse(args, kwargs, __FUNCTION__, &name, &default_value,
 			&min_value, &max_value, &format, &vertical, &callback, &callback_data, &tip, &parent, &before,
-			&source, &enabled, &width, &height, &no_input, &clamped, &label, &popup, &show))
+			&source, &enabled, &width, &height, &no_input, &clamped, &label, &show))
 			return ToPyBool(false);
 
 		auto item = CreateRef<mvSliderFloat>(name, default_value, source);
@@ -249,12 +240,11 @@ namespace Marvel {
 		int no_input = false;
 		int clamped = false;
 		const char* label = "";
-		const char* popup = "";
 		int show = true;
 
 		if (!(*mvApp::GetApp()->getParsers())["add_slider_float2"].parse(args, kwargs, __FUNCTION__, &name, &default_value,
 			&min_value, &max_value, &format, &callback, &callback_data, &tip, &parent, &before, &source, &enabled, &width,
-			&no_input, &clamped, &label, &popup, &show))
+			&no_input, &clamped, &label, &show))
 			return ToPyBool(false);
 
 
@@ -297,12 +287,11 @@ namespace Marvel {
 		int no_input = false;
 		int clamped = false;
 		const char* label = "";
-		const char* popup = "";
 		int show = true;
 
 		if (!(*mvApp::GetApp()->getParsers())["add_slider_float3"].parse(args, kwargs, __FUNCTION__, &name, &default_value,
 			&min_value, &max_value, &format, &callback, &callback_data, &tip, &parent, &before, &source, &enabled, &width,
-			&no_input, &clamped, &label, &popup, &show))
+			&no_input, &clamped, &label, &show))
 			return ToPyBool(false);
 
 		auto vec = ToFloatVect(default_value);
@@ -345,12 +334,11 @@ namespace Marvel {
 		int no_input = false;
 		int clamped = false;
 		const char* label = "";
-		const char* popup = "";
 		int show = true;
 
 		if (!(*mvApp::GetApp()->getParsers())["add_slider_float4"].parse(args, kwargs, __FUNCTION__, &name, &default_value,
 			&min_value, &max_value, &format, &callback, &callback_data, &tip, &parent, &before, &source, &enabled,
-			&width, &no_input, &clamped, &label, &popup, &show))
+			&width, &no_input, &clamped, &label, &show))
 			return ToPyBool(false);
 
 		auto vec = ToFloatVect(default_value);
@@ -390,12 +378,11 @@ namespace Marvel {
 		int no_input = false;
 		int clamped = false;
 		const char* label = "";
-		const char* popup = "";
 		int show = true;
 
 		if (!(*mvApp::GetApp()->getParsers())["add_slider_int"].parse(args, kwargs, __FUNCTION__, &name, &default_value,
 			&min_value, &max_value, &format, &vertical, &callback, &callback_data, &tip, &parent, &before, &source, &enabled,
-			&width, &height, &no_input, &clamped, &label, &popup, &show))
+			&width, &height, &no_input, &clamped, &label, &show))
 			return ToPyBool(false);
 
 		auto item = CreateRef<mvSliderInt>(name, default_value, source);
@@ -434,12 +421,11 @@ namespace Marvel {
 		int no_input = false;
 		int clamped = false;
 		const char* label = "";
-		const char* popup = "";
 		int show = true;
 
 		if (!(*mvApp::GetApp()->getParsers())["add_slider_int2"].parse(args, kwargs, __FUNCTION__, &name, &default_value,
 			&min_value, &max_value, &format, &callback, &callback_data, &tip, &parent, &before, &source, &enabled,
-			&width, &no_input, &clamped, &label, &popup, &show))
+			&width, &no_input, &clamped, &label, &show))
 			return ToPyBool(false);
 
 		auto vec = ToIntVect(default_value);
@@ -480,12 +466,11 @@ namespace Marvel {
 		int no_input = false;
 		int clamped = false;
 		const char* label = "";
-		const char* popup = "";
 		int show = true;
 
 		if (!(*mvApp::GetApp()->getParsers())["add_slider_int3"].parse(args, kwargs, __FUNCTION__, &name, &default_value,
 			&min_value, &max_value, &format, &callback, &callback_data, &tip, &parent, &before, &source, &enabled,
-			&width, &no_input, &clamped, &label, &popup, &show))
+			&width, &no_input, &clamped, &label, &show))
 			return ToPyBool(false);
 
 		auto vec = ToIntVect(default_value);
@@ -527,12 +512,11 @@ namespace Marvel {
 		int no_input = false;
 		int clamped = false;
 		const char* label = "";
-		const char* popup = "";
 		int show = true;
 
 		if (!(*mvApp::GetApp()->getParsers())["add_slider_int4"].parse(args, kwargs, __FUNCTION__, &name, &default_value,
 			&min_value, &max_value, &format, &callback, &callback_data, &tip, &parent, &before, &source, &enabled,
-			&width, &no_input, &clamped, &label, &popup, &show))
+			&width, &no_input, &clamped, &label, &show))
 			return ToPyBool(false);
 
 		auto vec = ToIntVect(default_value);

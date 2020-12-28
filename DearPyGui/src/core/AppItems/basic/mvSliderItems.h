@@ -60,6 +60,7 @@ namespace Marvel {
         mvSliderFloat2(const std::string& name, float* default_value, const std::string& dataSource);
         
         void setEnabled(bool value) override;
+
         void draw() override;
         void setExtraConfigDict(PyObject* dict) override;
         void getExtraConfigDict(PyObject* dict) override;

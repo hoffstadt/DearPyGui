@@ -15,6 +15,20 @@ namespace Marvel {
 	{
 		MV_PROFILE_FUNCTION();
 
+		// update mouse
+		// mouse move event
+		if (s_mouseGlobalPos.x != ImGui::GetMousePos().x || s_mouseGlobalPos.y != ImGui::GetMousePos().y)
+		{
+			mvInput::setGlobalMousePosition(ImGui::GetMousePos().x, ImGui::GetMousePos().y);
+
+			mvEventBus::Publish(mvEVT_CATEGORY_INPUT, mvEVT_MOUSE_MOVE,
+				{
+				CreateEventArgument("X", ImGui::GetMousePos().x),
+				CreateEventArgument("Y", ImGui::GetMousePos().y)
+				});
+		}
+		
+
 		// route key events
 		for (int i = 0; i < IM_ARRAYSIZE(ImGui::GetIO().KeysDown); i++)
 		{

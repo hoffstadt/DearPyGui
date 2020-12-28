@@ -71,6 +71,7 @@ set(MARVEL_SOURCES
 	"src/core/AppItems/basic/mvMenuItem.cpp"
 	"src/core/AppItems/basic/mvInputText.cpp"
 	"src/core/AppItems/basic/mvText.cpp"
+	"src/core/AppItems/basic/mvSliderItems.cpp"
 	"src/core/AppItems/basic/mvImage.cpp"
 	"src/core/AppItems/basic/mvImageButton.cpp"
 	"src/core/AppItems/basic/mvColorItems.cpp"
@@ -105,6 +106,7 @@ set(MARVEL_SOURCES
 	"src/core/AppItems/custom/mvTextEditor.cpp"
 	
 	"src/core/AppItems/composite/mvFileDialog.cpp"
+	"src/core/AppItems/composite/mvAboutWindow.cpp"
 	"src/core/AppItems/composite/mvDebugWindow.cpp"
 	"src/core/AppItems/composite/mvDocWindow.cpp"
 	"src/core/AppItems/composite/mvTable.cpp"
