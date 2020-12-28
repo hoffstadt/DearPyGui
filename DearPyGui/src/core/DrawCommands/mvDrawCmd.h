@@ -48,10 +48,26 @@ namespace Marvel {
 	static mvDrawList* GetDrawListFromTarget(const char* name)
 	{
 		if (name == DrawForeground)
+		{
+			auto viewport = mvApp::GetApp()->getViewport();
+			if (viewport == nullptr)
+			{
+				ThrowPythonException(std::string(name) + " viewport can't be accessed until the application is running");
+				return nullptr;
+			}
 			return &mvApp::GetApp()->getViewport()->getFrontDrawList();
+		}
 
 		if (name == DrawBackground)
+		{
+			auto viewport = mvApp::GetApp()->getViewport();
+			if (viewport == nullptr)
+			{
+				ThrowPythonException(std::string(name) + " viewport can't be accessed until the application is running");
+				return nullptr;
+			}
 			return &mvApp::GetApp()->getViewport()->getBackDrawList();
+		}
 
 		auto item = mvApp::GetApp()->getItemRegistry().getItem(name);
 
