@@ -117,7 +117,6 @@ namespace Marvel {
 
             if (mvApp::GetApp()->getItemRegistry().getActiveWindow() != m_name)
                 mvEventBus::Publish(mvEVT_CATEGORY_ITEM, mvEVT_ACTIVE_WINDOW, { CreateEventArgument("WINDOW", m_name) });
-
         }
 
         ImGui::End();
