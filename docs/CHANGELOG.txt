@@ -37,6 +37,7 @@ Breaking Changes:
 - get_item_popup:    removed command
 
 Fixes:
+- input text:        tabs(\t) can now be input #408
 - drawing api:       polygon fill to draw before outline, related to #371
 - collapsing header: quering open/close works now
 - numpy:             list of int/float can now use numpy #105
