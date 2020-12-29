@@ -22,6 +22,22 @@ namespace Marvel {
 		}, "Adds text", "None", "Adding Widgets") });
 	}
 
+	void mvLabelText::InsertParser(std::map<std::string, mvPythonParser>* parsers)
+	{
+		parsers->insert({ "add_label_text", mvPythonParser({
+			{mvPythonDataType::String, "name"},
+			{mvPythonDataType::KeywordOnly},
+			{mvPythonDataType::String, "default_value", "", "''"},
+			{mvPythonDataType::FloatList, "color", "", "(0, 0, 0, -1)"},
+			{mvPythonDataType::String, "tip", "Adds a simple tooltip", "''"},
+			{mvPythonDataType::String, "parent", "Parent this item will be added to. (runtime adding)", "''"},
+			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)", "''"},
+			{mvPythonDataType::String, "source", "data source for shared data", "''"},
+			{mvPythonDataType::String, "label", "", "''"},
+			{mvPythonDataType::Bool, "show", "Attempt to render", "True"},
+		}, "Adds text with a label. Useful for output values.", "None", "Adding Widgets") });
+	}
+
 	static std::string FindRenderedTextEnd(const char* text, const char* text_end = nullptr)
 	{
 		int size = 0;
@@ -94,24 +110,6 @@ namespace Marvel {
 		PyDict_SetItemString(dict, "color", ToPyColor(m_color));
 		PyDict_SetItemString(dict, "wrap", ToPyInt(m_wrap));
 		PyDict_SetItemString(dict, "bullet", ToPyBool(m_bullet));
-	}
-
-	
-
-	void mvLabelText::InsertParser(std::map<std::string, mvPythonParser>* parsers)
-	{
-		parsers->insert({ "add_label_text", mvPythonParser({
-			{mvPythonDataType::String, "name"},
-			{mvPythonDataType::KeywordOnly},
-			{mvPythonDataType::String, "default_value", "", "''"},
-			{mvPythonDataType::FloatList, "color", "", "(0, 0, 0, -1)"},
-			{mvPythonDataType::String, "tip", "Adds a simple tooltip", "''"},
-			{mvPythonDataType::String, "parent", "Parent this item will be added to. (runtime adding)", "''"},
-			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)", "''"},
-			{mvPythonDataType::String, "source", "data source for shared data", "''"},
-			{mvPythonDataType::String, "label", "", "''"},
-			{mvPythonDataType::Bool, "show", "Attempt to render", "True"},
-		}, "Adds text with a label. Useful for output values.", "None", "Adding Widgets") });
 	}
 
 	mvLabelText::mvLabelText(const std::string& name, const std::string& value, const std::string& dataSource)
