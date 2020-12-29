@@ -78,14 +78,9 @@ namespace Marvel {
 		mvDrawList* drawlist = GetDrawListFromTarget(drawing);
 		if (drawlist)
 		{
-			if (auto command = drawlist->getCommand(tag))
-				*static_cast<mvDrawQuadCmd*>(command) = mvDrawQuadCmd(mp1, mp2, mp3, mp4, mcolor, mfill, thickness);
-			else
-			{
-				auto cmd = CreateRef<mvDrawQuadCmd>(mp1, mp2, mp3, mp4, mcolor, mfill, thickness);
-				cmd->tag = tag;
-				drawlist->addCommand(cmd);
-			}
+			auto cmd = CreateRef<mvDrawQuadCmd>(mp1, mp2, mp3, mp4, mcolor, mfill, thickness);
+			cmd->tag = tag;
+			drawlist->addCommand(cmd);
 		}
 		return GetPyNone();
 	}

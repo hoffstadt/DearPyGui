@@ -67,14 +67,9 @@ namespace Marvel {
 		mvDrawList* drawlist = GetDrawListFromTarget(drawing);
 		if (drawlist)
 		{
-			if (auto command = drawlist->getCommand(tag))
-				*static_cast<mvDrawPolylineCmd*>(command) = mvDrawPolylineCmd(mpoints, mcolor, closed, thickness);
-			else
-			{
-				auto cmd = CreateRef<mvDrawPolylineCmd>(mpoints, mcolor, closed, thickness);
-				cmd->tag = tag;
-				drawlist->addCommand(cmd);
-			}
+			auto cmd = CreateRef<mvDrawPolylineCmd>(mpoints, mcolor, closed, thickness);
+			cmd->tag = tag;
+			drawlist->addCommand(cmd);
 		}
 		return GetPyNone();
 	}

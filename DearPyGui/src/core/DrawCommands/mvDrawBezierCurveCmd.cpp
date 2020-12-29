@@ -74,14 +74,9 @@ namespace Marvel {
 		mvDrawList* drawlist = GetDrawListFromTarget(drawing);
 		if (drawlist)
 		{
-			if (auto command = drawlist->getCommand(tag))
-				*static_cast<mvDrawBezierCurveCmd*>(command) = mvDrawBezierCurveCmd(mp1, mp2, mp3, mp4, mcolor, thickness, segments);
-			else
-			{
-				auto cmd = CreateRef<mvDrawBezierCurveCmd>(mp1, mp2, mp3, mp4, mcolor, thickness, segments);
-				cmd->tag = tag;
-				drawlist->addCommand(cmd);
-			}
+			auto cmd = CreateRef<mvDrawBezierCurveCmd>(mp1, mp2, mp3, mp4, mcolor, thickness, segments);
+			cmd->tag = tag;
+			drawlist->addCommand(cmd);
 		}
 		return GetPyNone();
 	}

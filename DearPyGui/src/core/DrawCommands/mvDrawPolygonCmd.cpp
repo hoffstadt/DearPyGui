@@ -140,14 +140,9 @@ namespace Marvel {
 		mvDrawList* drawlist = GetDrawListFromTarget(drawing);
 		if (drawlist)
 		{
-			if (auto command = drawlist->getCommand(tag))
-				*static_cast<mvDrawPolygonCmd*>(command) = mvDrawPolygonCmd(mpoints, mcolor, mfill, thickness);
-			else
-			{
-				auto cmd = CreateRef<mvDrawPolygonCmd>(mpoints, mcolor, mfill, thickness);
-				cmd->tag = tag;
-				drawlist->addCommand(cmd);
-			}
+			auto cmd = CreateRef<mvDrawPolygonCmd>(mpoints, mcolor, mfill, thickness);
+			cmd->tag = tag;
+			drawlist->addCommand(cmd);
 		}
 		return GetPyNone();
 	}

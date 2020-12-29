@@ -62,14 +62,9 @@ namespace Marvel {
 		mvDrawList* drawlist = GetDrawListFromTarget(drawing);
 		if (drawlist)
 		{
-			if (auto command = drawlist->getCommand(tag))
-				*static_cast<mvDrawTextCmd*>(command) = mvDrawTextCmd(mpos, text, mcolor, size);
-			else
-			{
-				auto cmd = CreateRef<mvDrawTextCmd>(mpos, text, mcolor, size);
-				cmd->tag = tag;
-				drawlist->addCommand(cmd);
-			}
+			auto cmd = CreateRef<mvDrawTextCmd>(mpos, text, mcolor, size);
+			cmd->tag = tag;
+			drawlist->addCommand(cmd);
 		}
 		return GetPyNone();
 	}
