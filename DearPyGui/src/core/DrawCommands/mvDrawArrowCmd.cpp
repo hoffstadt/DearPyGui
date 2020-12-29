@@ -28,14 +28,11 @@ namespace Marvel {
 		mvDrawList* drawlist = GetDrawListFromTarget(drawing);
 		if (drawlist)
 		{
-			if (auto command = drawlist->getCommand(tag))
-				*static_cast<mvDrawArrowCmd*>(command) = mvDrawArrowCmd(mp1, mp2, mcolor, (float)thickness, (float)size);
-			else
-			{
-				auto cmd = CreateRef<mvDrawArrowCmd>(mp1, mp2, mcolor, (float)thickness, (float)size);
-				cmd->tag = tag;
-				drawlist->addCommand(cmd);
-			}
+
+			auto cmd = CreateRef<mvDrawArrowCmd>(mp1, mp2, mcolor, (float)thickness, (float)size);
+			cmd->tag = tag;
+			drawlist->addCommand(cmd);
+
 		}
 		return GetPyNone();
 	}
