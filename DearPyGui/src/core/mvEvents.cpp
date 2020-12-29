@@ -178,6 +178,14 @@ namespace Marvel {
 
 	}
 
+	void mvEventBus::Reset()
+	{
+		GetEventHandlers().clear();
+		GetEventCategoryHandlers().clear();
+		while (!GetEndFrameEvents().empty())
+			GetEndFrameEvents().pop();
+	}
+
 	std::stack<mvEvent>& mvEventBus::GetEndFrameEvents()
 	{
 		static std::stack<mvEvent> events;

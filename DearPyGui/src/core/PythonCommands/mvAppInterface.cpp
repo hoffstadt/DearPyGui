@@ -471,6 +471,8 @@ namespace Marvel {
 		mvApp::GetApp()->start(primary_window);
 		
 		mvApp::DeleteApp();
+		mvEventBus::Reset();
+		mvAppLog::Clear();
 
 		return GetPyNone();
 	}
