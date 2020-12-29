@@ -95,5 +95,3 @@ with window("Asyncronous##dialog", show=True):
 
 #start_dearpygui(primary_window="Asyncronous##dialog")
 start_dearpygui()
-
-start_dearpygui()
