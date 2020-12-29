@@ -110,6 +110,8 @@ namespace Marvel {
 		
 		static void ShowDebug();
 
+		static void Reset();
+
 	private:
 
 		static void                                                    Publish(mvEvent event);
