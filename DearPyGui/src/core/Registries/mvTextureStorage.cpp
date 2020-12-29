@@ -1,5 +1,6 @@
 #include "mvTextureStorage.h"
 #include "mvUtilities.h"
+#include "mvPythonExceptions.h"
 #include <imgui.h>
 
 namespace Marvel {
@@ -86,9 +87,8 @@ namespace Marvel {
 		mvTexture* texture = getTexture(name);
 		if (texture)
 		{
-			UnloadTexture(name);
-			FreeTexture(m_textures.at(name));
-			m_textures.erase(name);
+			texture->count = 1;
+			decrementTexture(name);
 		}
 
 		mvTexture newTexture = { 0, 0, nullptr, 1 };

@@ -37,6 +37,7 @@ Breaking Changes:
 - get_item_popup:    removed command
 
 Fixes:
+- textures:          fixed texture decrementing and buffer support (numpy)
 - drawlist:          fixed crash from viewport drawing before starting app
 - input text:        tabs(\t) can now be input #408
 - drawing api:       polygon fill to draw before outline, related to #371

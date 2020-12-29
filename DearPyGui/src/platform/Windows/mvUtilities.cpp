@@ -1,5 +1,6 @@
 #include "mvUtilities.h"
 #include "mvWindowsWindow.h"
+#include "mvPythonExceptions.h"
 
 #define STB_IMAGE_IMPLEMENTATION
 #include <stb_image.h>
@@ -58,6 +59,7 @@ namespace Marvel {
         storage.texture = out_srv;
         storage.width = width;
         storage.height = height;
+        storage.count = 1;
 
         return true;
     }
@@ -123,8 +125,11 @@ namespace Marvel {
     void FreeTexture(mvTexture& storage)
     {
         ID3D11ShaderResourceView* out_srv = static_cast<ID3D11ShaderResourceView*>(storage.texture);
-        out_srv->Release();
-        out_srv = nullptr;
+        if (out_srv)
+            auto count = out_srv->Release();
+
+        storage.texture = nullptr;
+        storage.count = 0;
     }
 
 }

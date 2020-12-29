@@ -23,7 +23,14 @@ namespace Marvel {
 
 	void mvDrawList::addCommand(mvRef<mvDrawCmd> command)
 	{
-		m_commands.push_back(command);
+		mvRef<mvDrawCmd> oldcommand = getCommand(command->tag);
+
+		if (oldcommand.get())
+			oldcommand = command;
+
+		else
+			m_commands.push_back(command);
+		
 	}
 
 	void mvDrawList::bringForward(const std::string& tag)
@@ -120,7 +127,7 @@ namespace Marvel {
 		}
 	}
 
-	mvDrawCmd* mvDrawList::getCommand(const std::string& tag)
+	mvRef<mvDrawCmd> mvDrawList::getCommand(const std::string& tag)
 	{
 
 		if (tag.empty())
@@ -129,7 +136,7 @@ namespace Marvel {
 		for (auto& cmd : m_commands)
 		{
 			if (cmd->tag == tag)
-				return cmd.get();
+				return cmd;
 		}
 
 		return nullptr;

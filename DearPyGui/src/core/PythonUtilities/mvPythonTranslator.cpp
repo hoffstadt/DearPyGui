@@ -396,14 +396,38 @@ namespace Marvel {
 
 		else if (PyObject_CheckBuffer(value))
 		{
+			
+
 			Py_buffer buffer_info;
 
 			if (!PyObject_GetBuffer(value, &buffer_info,
 				PyBUF_CONTIG_RO | PyBUF_FORMAT))
 			{
 
-				for (Py_ssize_t i = 0; i < buffer_info.len / buffer_info.itemsize; i++)
-					items.emplace_back(*((int*)buffer_info.buf + i));
+
+				if (strcmp(buffer_info.format, "d") == 0)
+				{
+
+					for (Py_ssize_t i = 0; i < buffer_info.len / buffer_info.itemsize; i++)
+						items.emplace_back(*((double*)buffer_info.buf + i));
+				}
+				else if (strcmp(buffer_info.format, "l") == 0)
+				{
+
+					for (Py_ssize_t i = 0; i < buffer_info.len / buffer_info.itemsize; i++)
+						items.emplace_back(*((int*)buffer_info.buf + i));
+				}
+				else if (strcmp(buffer_info.format, "B") == 0)
+				{
+
+					for (Py_ssize_t i = 0; i < buffer_info.len / buffer_info.itemsize; i++)
+						items.emplace_back(*((unsigned char*)buffer_info.buf + i));
+				}
+				else
+				{
+					ThrowPythonException("Unknown buffer type.");
+					ThrowPythonException(buffer_info.format);
+				}
 
 				PyBuffer_Release(&buffer_info);
 			}
@@ -452,9 +476,30 @@ namespace Marvel {
 				PyBUF_CONTIG_RO | PyBUF_FORMAT)) 
 			{
 
-				for (Py_ssize_t i = 0; i < buffer_info.len/buffer_info.itemsize; i++)
-					items.emplace_back(*((double*)buffer_info.buf + i));
+				if (strcmp(buffer_info.format, "d") == 0)
+				{
 
+					for (Py_ssize_t i = 0; i < buffer_info.len / buffer_info.itemsize; i++)
+						items.emplace_back(*((double*)buffer_info.buf + i));
+				}
+				else if (strcmp(buffer_info.format, "l") == 0)
+				{
+
+					for (Py_ssize_t i = 0; i < buffer_info.len / buffer_info.itemsize; i++)
+						items.emplace_back(*((int*)buffer_info.buf + i));
+				}
+				else if (strcmp(buffer_info.format, "B") == 0)
+				{
+
+					for (Py_ssize_t i = 0; i < buffer_info.len / buffer_info.itemsize; i++)
+						items.emplace_back(*((unsigned char*)buffer_info.buf + i));
+				}
+				else
+				{
+					ThrowPythonException("Unknown buffer type.");
+					ThrowPythonException(buffer_info.format);
+				}
+	
 				PyBuffer_Release(&buffer_info);
 			}
 		}

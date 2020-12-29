@@ -40,7 +40,7 @@ namespace Marvel {
 		if (name == m_file)
 		{
 			m_texture = nullptr;
-			return true;
+			return false;
 		}
 
 		return false;
@@ -150,14 +150,10 @@ namespace Marvel {
 		if (drawlist)
 		{
 
-			if (auto command = drawlist->getCommand(tag))
-				*static_cast<mvDrawImageCmd*>(command) = mvDrawImageCmd(file, mpmin, mpmax, muv_min, muv_max, mcolor);
-			else
-			{
-				auto cmd = CreateRef<mvDrawImageCmd>(file, mpmin, mpmax, muv_min, muv_max, mcolor);
-				cmd->tag = tag;
-				drawlist->addCommand(cmd);
-			}
+			auto cmd = CreateRef<mvDrawImageCmd>(file, mpmin, mpmax, muv_min, muv_max, mcolor);
+			cmd->tag = tag;
+			drawlist->addCommand(cmd);
+
 		}
 		return GetPyNone();
 	}
