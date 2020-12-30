@@ -116,6 +116,11 @@ namespace Marvel {
 		return { (float)m_xpos, (float)m_ypos };
 	}
 
+	void mvWindowAppItem::setResizeCallback(PyObject* callback)
+	{
+		m_resize_callback = callback;
+	}
+
 	void mvWindowAppItem::draw()
 	{
 		// shouldn't have to do this but do. Fix later
@@ -207,7 +212,7 @@ namespace Marvel {
 		{
 			m_width = (int)ImGui::GetWindowWidth();
 			m_height = (int)ImGui::GetWindowHeight();
-			//mvApp::GetApp()->getCallbackRegistry().runCallback(getResizeCallback(), m_name);
+			mvApp::GetApp()->getCallbackRegistry().runCallback(m_resize_callback, m_name);
 		}
 
 		m_width = (int)ImGui::GetWindowWidth();
