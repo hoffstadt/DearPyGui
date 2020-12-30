@@ -710,6 +710,7 @@ def show_demo():
                 add_button("Select..##popups##demo")
                 add_same_line()
                 add_text("<None>")
+                helpmarker("right click for popup, it is set to right mouse button, this can be changed")
                 with popup("Select..##popups##demo", "popup1"):
                     add_text("Aquariam")
                     add_separator()
@@ -722,6 +723,7 @@ def show_demo():
             with tree_node("Modals##demo"):
                 add_text("Modal windows are like popups but the user cannot close them by clicking outside.")
                 add_button("Delete..##modals##demo")
+                helpmarker("right click for popup, it is set to right mouse button, this can be changed ")
                 with popup("Delete..##modals##demo", "Delete?", modal=True):
                     add_text("All those beautiful files will be deleted.\nThis operation cannot be undone!")
                     add_separator()
