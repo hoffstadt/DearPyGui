@@ -2,7 +2,7 @@ name: Embedded Build
 
 on:
   push:
-    branches: [ master ]
+    branches: [ v0.6.x ]
     
 jobs:
 
