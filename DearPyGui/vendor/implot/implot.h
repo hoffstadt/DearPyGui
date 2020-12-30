@@ -20,7 +20,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-// ImPlot v0.8 WIP
+// ImPlot v0.9 WIP
 
 #pragma once
 #include "imgui.h"
@@ -38,7 +38,7 @@
 #endif
 
 // ImPlot version string
-#define IMPLOT_VERSION "0.8 WIP"
+#define IMPLOT_VERSION "0.9 WIP"
 // Indicates variable should deduced automatically.
 #define IMPLOT_AUTO -1
 // Special color used to indicate that a color should be deduced automatically.
@@ -65,18 +65,20 @@ typedef int ImPlotYAxis;       // -> enum ImPlotYAxis_;
 // Options for plots.
 enum ImPlotFlags_ {
     ImPlotFlags_None          = 0,       // default
-    ImPlotFlags_NoLegend      = 1 << 0,  // the top-left legend will not be displayed
-    ImPlotFlags_NoMenus       = 1 << 1,  // the user will not be able to open context menus with double-right click
-    ImPlotFlags_NoBoxSelect   = 1 << 2,  // the user will not be able to box-select with right-mouse
-    ImPlotFlags_NoMousePos    = 1 << 3,  // the mouse position, in plot coordinates, will not be displayed inside of the plot
-    ImPlotFlags_NoHighlight   = 1 << 4,  // plot items will not be highlighted when their legend entry is hovered
-    ImPlotFlags_NoChild       = 1 << 5,  // a child window region will not be used to capture mouse scroll (can boost performance for single ImGui window applications)
-    ImPlotFlags_YAxis2        = 1 << 6,  // enable a 2nd y-axis on the right side
-    ImPlotFlags_YAxis3        = 1 << 7,  // enable a 3rd y-axis on the right side
-    ImPlotFlags_Query         = 1 << 8,  // the user will be able to draw query rects with middle-mouse
-    ImPlotFlags_Crosshairs    = 1 << 9,  // the default mouse cursor will be replaced with a crosshair when hovered
-    ImPlotFlags_AntiAliased   = 1 << 10, // plot lines will be software anti-aliased (not recommended for density plots, prefer MSAA)
-    ImPlotFlags_CanvasOnly    = ImPlotFlags_NoLegend | ImPlotFlags_NoMenus | ImPlotFlags_NoBoxSelect | ImPlotFlags_NoMousePos
+    ImPlotFlags_NoTitle       = 1 << 0,  // the plot title will not be displayed (titles are also hidden if preceeded by double hashes, e.g. "##MyPlot")
+    ImPlotFlags_NoLegend      = 1 << 1,  // the legend will not be displayed
+    ImPlotFlags_NoMenus       = 1 << 2,  // the user will not be able to open context menus with double-right click
+    ImPlotFlags_NoBoxSelect   = 1 << 3,  // the user will not be able to box-select with right-mouse
+    ImPlotFlags_NoMousePos    = 1 << 4,  // the mouse position, in plot coordinates, will not be displayed inside of the plot
+    ImPlotFlags_NoHighlight   = 1 << 5,  // plot items will not be highlighted when their legend entry is hovered
+    ImPlotFlags_NoChild       = 1 << 6,  // a child window region will not be used to capture mouse scroll (can boost performance for single ImGui window applications)
+    ImPlotFlags_Equal         = 1 << 7,  // primary x and y axes will be constrained to have the same units/pixel (does not apply to auxiliary y axes)
+    ImPlotFlags_YAxis2        = 1 << 8,  // enable a 2nd y-axis on the right side
+    ImPlotFlags_YAxis3        = 1 << 9,  // enable a 3rd y-axis on the right side
+    ImPlotFlags_Query         = 1 << 10, // the user will be able to draw query rects with middle-mouse
+    ImPlotFlags_Crosshairs    = 1 << 11, // the default mouse cursor will be replaced with a crosshair when hovered
+    ImPlotFlags_AntiAliased   = 1 << 12, // plot lines will be software anti-aliased (not recommended for density plots, prefer MSAA)
+    ImPlotFlags_CanvasOnly    = ImPlotFlags_NoTitle | ImPlotFlags_NoLegend | ImPlotFlags_NoMenus | ImPlotFlags_NoBoxSelect | ImPlotFlags_NoMousePos
 };
 
 // Options for plot axes (X and Y).
@@ -153,6 +155,7 @@ enum ImPlotStyleVar_ {
     ImPlotStyleVar_LegendSpacing,      // ImVec2, spacing between legend entries
     ImPlotStyleVar_MousePosPadding,    // ImVec2, padding between plot edge and interior info text
     ImPlotStyleVar_AnnotationPadding,  // ImVec2, text padding around annotation labels
+    ImPlotStyleVar_FitPadding,         // ImVec2, additional fit padding as a percentage of the fit extents (e.g. ImVec2(0.1f,0.1f) adds 10% to the fit extents of X and Y)
     ImPlotStyleVar_PlotDefaultSize,    // ImVec2, default size used when ImVec2(0,0) is passed to BeginPlot
     ImPlotStyleVar_PlotMinSize,        // ImVec2, minimum size plot frame can be when shrunk
     ImPlotStyleVar_COUNT
@@ -274,6 +277,7 @@ struct ImPlotStyle {
     ImVec2  LegendSpacing;           // = 0,0     spacing between legend entries
     ImVec2  MousePosPadding;         // = 10,10   padding between plot edge and interior mouse location text
     ImVec2  AnnotationPadding;       // = 2,2     text padding around annotation labels
+    ImVec2  FitPadding;              // = 0,0     additional fit padding as a percentage of the fit extents (e.g. ImVec2(0.1f,0.1f) adds 10% to the fit extents of X and Y)
     ImVec2  PlotDefaultSize;         // = 400,300 default size used when ImVec2(0,0) is passed to BeginPlot
     ImVec2  PlotMinSize;             // = 300,225 minimum size plot frame can be when shrunk
     // colors
@@ -381,7 +385,7 @@ IMPLOT_API void EndPlot();
 //    MyData my_data;
 //    ImPlot::PlotScatterG("scatter", MyDataGetter, &my_data, my_data.Size());
 //
-// NB: All types are converted to double before plotting. You may loose information
+// NB: All types are converted to double before plotting. You may lose information
 // if you try plotting extremely large 64-bit integral types. Proceed with caution!
 
 // Plots a standard 2D line plot.
@@ -682,7 +686,7 @@ IMPLOT_API void SetImGuiContext(ImGuiContext* ctx);
 // Demo (add implot_demo.cpp to your sources!)
 //-----------------------------------------------------------------------------
 
-// Shows the ImPlot demo. Pass the current ImGui context if ImPlot is a DLL.
+// Shows the ImPlot demo.
 IMPLOT_API void ShowDemoWindow(bool* p_open = NULL);
 
 }  // namespace ImPlot

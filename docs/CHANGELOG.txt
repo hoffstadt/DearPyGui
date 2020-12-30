@@ -30,6 +30,7 @@ Decorated log: https://github.com/hoffstadt/DearPyGui/releases/tag/v0.6.x
 
 Updates:
 - glfw:              updated to 3.3.2
+- implot:            updated to 0.9 WIP a9d3347
 
 Breaking Changes:
 - popup keyword:     removed unused popup keyword
