@@ -20,7 +20,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-// ImPlot v0.8 WIP
+// ImPlot v0.9 WIP
 
 #include "implot.h"
 #include <math.h>
@@ -31,6 +31,10 @@
 
 #ifdef _MSC_VER
 #define sprintf sprintf_s
+#endif
+
+#ifndef PI
+#define PI 3.14159265358979323846
 #endif
 
 // Encapsulates examples for customizing ImPlot.
@@ -282,7 +286,7 @@ void ShowDemoWindow(bool* p_open) {
         }
     }
     //-------------------------------------------------------------------------
-    if (ImGui::CollapsingHeader("Shaded Plots")) {
+    if (ImGui::CollapsingHeader("Shaded Plots##")) {
         static float xs[1001], ys[1001], ys1[1001], ys2[1001], ys3[1001], ys4[1001];
         srand(0);
         for (int i = 0; i < 1001; ++i) {
@@ -415,7 +419,7 @@ void ShowDemoWindow(bool* p_open) {
             ImPlot::EndPlot();
         }
     }
-    if (ImGui::CollapsingHeader("Stem Plots")) {
+    if (ImGui::CollapsingHeader("Stem Plots##")) {
         static double xs[51], ys1[51], ys2[51];
         for (int i = 0; i < 51; ++i) {
             xs[i] = i * 0.02;
@@ -447,7 +451,7 @@ void ShowDemoWindow(bool* p_open) {
         }
 
         ImPlot::SetNextPlotLimits(0,1,0,1,ImGuiCond_Always);
-        if (ImPlot::BeginPlot("##Pie1", NULL, NULL, ImVec2(250,250), ImPlotFlags_NoMousePos, ImPlotAxisFlags_NoDecorations, ImPlotAxisFlags_NoDecorations)) {
+        if (ImPlot::BeginPlot("##Pie1", NULL, NULL, ImVec2(250,250), ImPlotFlags_Equal | ImPlotFlags_NoMousePos, ImPlotAxisFlags_NoDecorations, ImPlotAxisFlags_NoDecorations)) {
             ImPlot::PlotPieChart(labels1, data1, 4, 0.5, 0.5, 0.4, normalize, "%.2f");
             ImPlot::EndPlot();
         }
@@ -459,7 +463,7 @@ void ShowDemoWindow(bool* p_open) {
 
         ImPlot::PushColormap(ImPlotColormap_Pastel);
         ImPlot::SetNextPlotLimits(0,1,0,1,ImGuiCond_Always);
-        if (ImPlot::BeginPlot("##Pie2", NULL, NULL, ImVec2(250,250), ImPlotFlags_NoMousePos, ImPlotAxisFlags_NoDecorations, ImPlotAxisFlags_NoDecorations)) {
+        if (ImPlot::BeginPlot("##Pie2", NULL, NULL, ImVec2(250,250), ImPlotFlags_Equal | ImPlotFlags_NoMousePos, ImPlotAxisFlags_NoDecorations, ImPlotAxisFlags_NoDecorations)) {
             ImPlot::PlotPieChart(labels2, data2, 5, 0.5, 0.5, 0.4, true, "%.0f", 180);
             ImPlot::EndPlot();
         }
@@ -737,6 +741,19 @@ void ShowDemoWindow(bool* p_open) {
         }
     }
     //-------------------------------------------------------------------------
+    if (ImGui::CollapsingHeader("Equal Axes")) {
+        static double xs[1000], ys[1000];
+        for (int i = 0; i < 1000; ++i) {
+            double angle = i * 2 * PI / 999.0;
+            xs[i] = cos(angle); ys[i] = sin(angle);
+        }
+        ImPlot::SetNextPlotLimits(-1,1,-1,1);
+        if (ImPlot::BeginPlot("",0,0,ImVec2(-1,0),ImPlotFlags_Equal)) {
+            ImPlot::PlotLine("Circle",xs,ys,1000);
+            ImPlot::EndPlot();
+        }
+    }
+    //-------------------------------------------------------------------------
     if (ImGui::CollapsingHeader("Querying")) {
         static ImVector<ImPlotPoint> data;
         static ImPlotLimits range, query;
@@ -839,7 +856,7 @@ void ShowDemoWindow(bool* p_open) {
             static MyImPlot::WaveData data3(0.001, 0.2, 6, 0.5);
             ImPlot::PlotLineG("Item 1", MyImPlot::SineWave, &data1, 1000);         // "Item 1" added to legend
             ImPlot::PlotLineG("Item 2##IDText", MyImPlot::SawWave, &data2, 1000);  // "Item 2" added to legend, text after ## used for ID only
-            ImPlot::PlotLineG("##NotDisplayed", MyImPlot::SawWave, &data3, 1000);  // plotted, but not added to legend
+            ImPlot::PlotLineG("##NotListed", MyImPlot::SawWave, &data3, 1000);     // plotted, but not added to legend
             ImPlot::PlotLineG("Item 3", MyImPlot::SineWave, &data1, 1000);         // "Item 3" added to legend
             ImPlot::PlotLineG("Item 3", MyImPlot::SawWave,  &data2, 1000);         // combined with previous "Item 3"
             ImPlot::EndPlot();
@@ -1174,7 +1191,7 @@ void ShowDemoWindow(bool* p_open) {
         ImGui::BulletText("The offset value indicates which circle point index is considered the first.");
         ImGui::BulletText("Offsets can be negative and/or larger than the actual data count.");
         ImGui::SliderInt("Offset", &offset, -2*k_points_per, 2*k_points_per);
-        if (ImPlot::BeginPlot("##strideoffset")) {
+        if (ImPlot::BeginPlot("##strideoffset",0,0,ImVec2(-1,0), ImPlotFlags_Equal)) {
             ImPlot::PushColormap(ImPlotColormap_Jet);
             char buff[16];
             for (int c = 0; c < k_circles; ++c) {
@@ -1222,7 +1239,7 @@ void ShowDemoWindow(bool* p_open) {
         }
     }
     //-------------------------------------------------------------------------
-    if (ImGui::CollapsingHeader("Custom Ticks")) {
+    if (ImGui::CollapsingHeader("Custom Ticks##")) {
         static bool custom_ticks  = true;
         static bool custom_labels = true;
         ImGui::Checkbox("Show Custom Ticks", &custom_ticks);
