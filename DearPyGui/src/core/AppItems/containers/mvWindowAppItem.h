@@ -35,6 +35,7 @@ namespace Marvel {
 		void   setHeight            (int height) override;
 		mvVec2 getWindowPos         () const;
 		void   draw                 () override;
+		void   setResizeCallback    (PyObject* callback);
 		void   setExtraConfigDict   (PyObject* dict) override;
 		void   getExtraConfigDict   (PyObject* dict) override;
 		void   setFocusedNextFrame  () { m_focusNextFrame = true; }
@@ -54,6 +55,7 @@ namespace Marvel {
 		int              m_oldHeight = 200;
 		bool             m_mainWindow = false;
 		PyObject*        m_closing_callback = nullptr;
+		PyObject*        m_resize_callback = nullptr;
 		bool             m_dirty_pos = true;
 		bool             m_dirty_size = true;
 		bool             m_closing = true;

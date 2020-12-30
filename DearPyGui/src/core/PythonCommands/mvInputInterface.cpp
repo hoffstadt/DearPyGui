@@ -61,7 +61,8 @@ namespace Marvel {
 
 		parsers->insert({ "set_resize_callback", mvPythonParser({
 			{mvPythonDataType::Callable, "callback", "Registers a callback"},
-			{mvPythonDataType::String, "handler", "Callback will be run when event occurs while this window is active (default is main window)", "''"},
+			{mvPythonDataType::KeywordOnly},
+			{mvPythonDataType::String, "handler", "Callback will be run when window is resized (default is viewport)", "''"},
 		}, "Sets a callback for a window resize event.", "None", "Input Polling") });
 
 		parsers->insert({ "set_mouse_release_callback", mvPythonParser({
@@ -388,7 +389,7 @@ namespace Marvel {
 	PyObject* set_resize_callback(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		PyObject* callback = nullptr;
-		const char* handler = "MainWindow";
+		const char* handler = "";
 
 		if (!(*mvApp::GetApp()->getParsers())["set_resize_callback"].parse(args, kwargs, __FUNCTION__, 
 			&callback, &handler))
@@ -396,20 +397,24 @@ namespace Marvel {
 		if (callback)
 			Py_XINCREF(callback);
 
-		//mvAppItem* item;
-		//item = mvApp::GetApp()->getItemRegistry().getItem(handler);
+		if (std::string(handler).empty())
+		{
+			mvApp::GetApp()->getCallbackRegistry().setResizeCallback(callback);
+			return GetPyNone();
+		}
+		
+		mvRef<mvAppItem> item = mvApp::GetApp()->getItemRegistry().getItem(handler);
 
-		//if (item)
-		//{
-		//	if (item->getDescription().root)
-		//	{
-		//		auto windowtype = static_cast<mvWindowAppItem*>(item);
-		//		mvOldEventHandler* eventhandler = static_cast<mvOldEventHandler*>(windowtype);
-		//		eventhandler->setResizeCallback(callback);
-		//	}
-		//	else
-		//		ThrowPythonException("Resize callback can only be set for window items");
-		//}
+		if (item)
+		{
+			if (item->getDescription().root)
+			{
+				auto windowtype = static_cast<mvWindowAppItem*>(item.get());
+				windowtype->setResizeCallback(callback);
+			}
+			else
+				ThrowPythonException("Resize callback can only be set for window items");
+		}
 
 
 		return GetPyNone();
