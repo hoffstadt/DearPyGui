@@ -29,6 +29,7 @@ namespace Marvel {
 			{mvPythonDataType::Bool, "query", "", "False"},
 			{mvPythonDataType::Bool, "crosshairs", "", "False"},
 			{mvPythonDataType::Bool, "anti_aliased", "", "False"},
+			{mvPythonDataType::Bool, "equal_aspects", "", "False"},
 			{mvPythonDataType::Bool, "yaxis2", "", "False"},
 			{mvPythonDataType::Bool, "yaxis3", "", "False"},
 
@@ -841,6 +842,7 @@ namespace Marvel {
 		flagop("query",                ImPlotFlags_Query,            m_flags);
 		flagop("crosshairs",           ImPlotFlags_Crosshairs,       m_flags);
 		flagop("anti_aliased",         ImPlotFlags_AntiAliased,      m_flags);
+		flagop("equal_aspects",        ImPlotFlags_Equal,            m_flags);
 		flagop("yaxis2",               ImPlotFlags_YAxis2,           m_flags);
 		flagop("yaxis3",               ImPlotFlags_YAxis3,           m_flags);
 
@@ -916,6 +918,7 @@ namespace Marvel {
 		checkbitset("query",                ImPlotFlags_Query,            m_flags);
 		checkbitset("crosshairs",           ImPlotFlags_Crosshairs,       m_flags);
 		checkbitset("anti_aliased",         ImPlotFlags_AntiAliased,      m_flags);
+		checkbitset("equal_aspects",        ImPlotFlags_Equal,            m_flags);
 		checkbitset("yaxis2",               ImPlotFlags_YAxis2,           m_flags);
 		checkbitset("yaxis3",               ImPlotFlags_YAxis3,           m_flags);
 
@@ -973,6 +976,7 @@ namespace Marvel {
 		int query = false;
 		int crosshairs = false;
 		int antialiased = false;
+		int equal_aspects = false;
 		int yaxis2 = false;
 		int yaxis3 = false;
 
@@ -1031,7 +1035,8 @@ namespace Marvel {
 		int show_drag_points = true;
 
 		if (!(*mvApp::GetApp()->getParsers())["add_plot"].parse(args, kwargs, __FUNCTION__, &name, &xAxisName, &yAxisName,
-			&no_legend, &no_menus, &no_box_select, &no_mouse_pos, &no_highlight, &no_child, &query, &crosshairs, &antialiased,
+			&no_legend, &no_menus, &no_box_select, &no_mouse_pos, &no_highlight, &no_child, &query, &crosshairs, 
+			&antialiased, &equal_aspects,
 			&yaxis2, &yaxis3,
 			&xaxis_no_gridlines,
 			&xaxis_no_tick_marks,

@@ -133,6 +133,7 @@ namespace Marvel {
 
 		bool                          m_setXLimits = false;
 		bool                          m_setYLimits = false;
+		bool                          m_equalAspectRatios = false;
 		ImVec2                        m_xlimits;
 		ImVec2                        m_xlimits_actual;
 		ImVec2                        m_ylimits;
