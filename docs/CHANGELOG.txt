@@ -32,6 +32,9 @@ Updates:
 - glfw:              updated to 3.3.2
 - implot:            updated to 0.9 WIP a9d3347
 
+New Keywords:
+- plot:               Added "equal_aspects" keyword #305
+
 Breaking Changes:
 - popup keyword:     removed unused popup keyword
 - set_item_popup:    removed command
