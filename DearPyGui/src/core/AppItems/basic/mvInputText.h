@@ -30,7 +30,7 @@ namespace Marvel {
 
 		std::string         m_hint;
 		bool                m_multiline = false;
-		ImGuiInputTextFlags m_flags = ImGuiInputTextFlags_AllowTabInput;
+		ImGuiInputTextFlags m_flags = 0;
 		ImGuiInputTextFlags m_stor_flags = 0;
 
 	};
