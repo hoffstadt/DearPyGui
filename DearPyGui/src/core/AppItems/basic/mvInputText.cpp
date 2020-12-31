@@ -17,6 +17,7 @@ namespace Marvel {
 			{mvPythonDataType::Bool, "multiline", "", "False"},
 			{mvPythonDataType::Bool, "no_spaces", "Filter out spaces, tabs", "False"},
 			{mvPythonDataType::Bool, "uppercase", "", "False"},
+			{mvPythonDataType::Bool, "tab_input", "Allows tabs to be input instead of changing widget focus", "False"},
 			{mvPythonDataType::Bool, "decimal", "Allow 0123456789.+-*/", "False"},
 			{mvPythonDataType::Bool, "hexadecimal", "Allow 0123456789ABCDEFabcdef", "False"},
 			{mvPythonDataType::Bool, "readonly", "", "False"},
@@ -122,6 +123,7 @@ namespace Marvel {
 		flagop("password", ImGuiInputTextFlags_Password, m_flags);
 		flagop("on_enter", ImGuiInputTextFlags_EnterReturnsTrue, m_flags);
 		flagop("scientific", ImGuiInputTextFlags_CharsScientific, m_flags);
+		flagop("tab_input", ImGuiInputTextFlags_AllowTabInput, m_flags);
 	}
 
 	void mvInputText::getExtraConfigDict(PyObject* dict)
@@ -147,6 +149,7 @@ namespace Marvel {
 		checkbitset("password", ImGuiInputTextFlags_Password, m_flags);
 		checkbitset("on_enter", ImGuiInputTextFlags_EnterReturnsTrue, m_flags);
 		checkbitset("scientific", ImGuiInputTextFlags_CharsScientific, m_flags);
+		checkbitset("tab_input", ImGuiInputTextFlags_AllowTabInput, m_flags);
 	}
 
 	PyObject* add_input_text(PyObject* self, PyObject* args, PyObject* kwargs)
@@ -157,6 +160,7 @@ namespace Marvel {
 		int multiline = 0;
 		int no_spaces = false;
 		int uppercase = false;
+		int tab_input = false;
 		int decimal = false;
 		int hexadecimal = false;
 		int readonly = false;
@@ -179,7 +183,7 @@ namespace Marvel {
 
 		if (!(*mvApp::GetApp()->getParsers())["add_input_text"].parse(args, kwargs, __FUNCTION__,
 			&name, &default_value, &hint, &multiline, &no_spaces,
-			&uppercase, &decimal, &hexadecimal, &readonly, &password, &scientific, &callback,
+			&uppercase, &tab_input, &decimal, &hexadecimal, &readonly, &password, &scientific, &callback,
 			&callback_data, &tip, &parent, &before, &source, &enabled, &width, &height, &on_enter,
 			&label, &show))
 			return ToPyBool(false);
