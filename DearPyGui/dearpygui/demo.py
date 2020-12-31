@@ -371,7 +371,7 @@ def show_demo():
                         " processors (all in the P5 microarchitecture).\n"
                         "*/\n\n"
                         "label:\n"
-                        "\tlock cmpxchg8b eax\n", height=300, callback=log_callback)
+                        "\tlock cmpxchg8b eax\n", height=300, callback=log_callback, tab_input=True)
 
                 with tree_node("Filtered Text Input##demo"):
                     add_input_text("default##demo", callback=log_callback)
