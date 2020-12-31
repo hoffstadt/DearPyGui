@@ -433,10 +433,15 @@ namespace Marvel {
 		int index = 0;
 		for (auto& item : oldValues)
 		{
-			index++;
+			
 			if (index == row)
+			{
+				index++;
 				continue;
+			}
 			m_values.push_back(item);
+
+			index++;
 			
 		}
 
