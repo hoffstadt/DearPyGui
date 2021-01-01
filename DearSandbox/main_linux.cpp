@@ -2,9 +2,7 @@
 #include <Python.h>
 #include "mvStdOutput.h"
 #include "mvMarvel.h"
-#include "mvApp.h"
 #include <iostream>
-#include <fstream>
 
 using namespace Marvel;
 
@@ -20,10 +18,18 @@ int main(int argc, char* argv[])
 
 	// set path and start the interpreter
 #if defined(__APPLE__)
-    Py_SetPythonHome(L".");
-    wchar_t* deco = Py_DecodeLocale("../../Dependencies/cpython/debug/build/lib.macosx-10.15-x86_64-3.8-pydebug/:../../Dependencies/cpython/Lib/:../../DearPyGui:../../DearSandbox", nullptr);
+  wchar_t *deco = Py_DecodeLocale(
+      PYTHON_LIBS_PATH":"
+      PYTHON_LIBS_PATH"/lib-dynload:"
+      PYTHON_LIBS_PATH"/site-packages:"
+      "../../DearPyGui:"
+      "../../DearSandbox",
+      nullptr);
 #else
-    wchar_t* deco = Py_DecodeLocale("../../Dependencies/cpython/debug/build/lib.linux-x86_64-3.8-pydebug/:../../Dependencies/cpython/Lib/:../../DearPyGui:../../DearSandbox", nullptr);
+  wchar_t *deco = Py_DecodeLocale(
+      "../../Dependencies/cpython/debug/build/lib.linux-x86_64-3.8-pydebug/:../"
+      "../Dependencies/cpython/Lib/:../../DearPyGui:../../DearSandbox",
+      nullptr);
 #endif
 
     Py_SetPath(deco);
