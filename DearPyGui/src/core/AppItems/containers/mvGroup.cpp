@@ -61,6 +61,10 @@ namespace Marvel {
 				ImGui::SameLine(0.0, m_hspacing);
 
 			item->getState().update();
+
+			// updating hovered item
+			if (item->getState().isItemHovered() && !item->m_description.container && item->getType() != mvAppItemType::SameLine && item->getType() != mvAppItemType::Indent && item->getType() != mvAppItemType::Unindent)
+				mvEventBus::Publish(mvEVT_CATEGORY_ITEM, mvEVT_HOVERED_ITEM, { CreateEventArgument("ITEM", item->m_name) });
 		}
 
 		if (m_width != 0)

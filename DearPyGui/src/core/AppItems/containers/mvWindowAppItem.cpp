@@ -182,6 +182,11 @@ namespace Marvel {
 		if (m_mainWindow)
 			ImGui::PopStyleVar();
 
+		if (ImGui::IsWindowHovered())
+			mvEventBus::Publish(mvEVT_CATEGORY_ITEM, mvEVT_HOVERED_ITEM, { CreateEventArgument("ITEM", m_name) });
+		if (ImGui::IsItemHovered())
+			mvEventBus::Publish(mvEVT_CATEGORY_ITEM, mvEVT_HOVERED_ITEM, { CreateEventArgument("ITEM", m_name) });
+
 		for (auto& item : m_children)
 		{
 			// skip item if it's not shown
@@ -199,12 +204,10 @@ namespace Marvel {
 				ImGui::SetTooltip("%s", item->m_tip.c_str());
 
 			item->getState().update();
-			
-			//updating hovered item
-			if (item->getState().isItemHovered())
-			{
+
+			// updating hovered item
+			if (item->getState().isItemHovered() && !item->m_description.container && item->getType() != mvAppItemType::SameLine && item->getType() != mvAppItemType::Indent && item->getType() != mvAppItemType::Unindent && item->getType() != mvAppItemType::Indent && item->getType() != mvAppItemType::Unindent)
 				mvEventBus::Publish(mvEVT_CATEGORY_ITEM, mvEVT_HOVERED_ITEM, { CreateEventArgument("ITEM", item->m_name) });
-			}
 		}
 
 		m_state.setVisible(true);

@@ -76,6 +76,9 @@ namespace Marvel {
 		for (auto window : m_backWindows)
 			window->resetState();
 
+		//reset item hovered state
+		mvEventBus::Publish(mvEVT_CATEGORY_ITEM, mvEVT_HOVERED_ITEM, { CreateEventArgument("ITEM", std::string("NONE")) });
+
 		return false;
 	}
 

@@ -49,6 +49,10 @@ namespace Marvel {
 			if (!m_tip.empty() && ImGui::IsItemHovered())
 				ImGui::SetTooltip("%s", m_tip.c_str());
 
+			// updating hovered item
+			if (ImGui::IsItemHovered())
+				mvEventBus::Publish(mvEVT_CATEGORY_ITEM, mvEVT_HOVERED_ITEM, { CreateEventArgument("ITEM", m_name) });
+
 			for (auto& item : m_children)
 			{
 				// skip item if it's not shown
@@ -66,6 +70,10 @@ namespace Marvel {
 					ImGui::SetTooltip("%s", item->m_tip.c_str());
 
 				item->getState().update();
+
+				// updating hovered item
+				if (item->getState().isItemHovered() && !item->m_description.container && item->getType() != mvAppItemType::SameLine && item->getType() != mvAppItemType::Indent && item->getType() != mvAppItemType::Unindent)
+					mvEventBus::Publish(mvEVT_CATEGORY_ITEM, mvEVT_HOVERED_ITEM, { CreateEventArgument("ITEM", item->m_name) });
 			}
 		}
 
@@ -74,6 +82,10 @@ namespace Marvel {
 			// Regular Tooltip (simple)
 			if (!m_tip.empty() && ImGui::IsItemHovered())
 				ImGui::SetTooltip("%s", m_tip.c_str());
+
+			// updating hovered item
+			if (ImGui::IsItemHovered())
+				mvEventBus::Publish(mvEVT_CATEGORY_ITEM, mvEVT_HOVERED_ITEM, { CreateEventArgument("ITEM", m_name) });
 		}
 	}
 

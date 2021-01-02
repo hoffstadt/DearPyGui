@@ -199,8 +199,6 @@ namespace Marvel {
 
 	void mvTable::addColumn(const std::string& name, const std::vector<std::string>& column)
 	{
-		m_headers.push_back(name);
-
 		if (column.size() > m_values.size())
 		{
 			for (unsigned i = 0; i < column.size(); i++)
@@ -537,6 +535,11 @@ namespace Marvel {
 		auto styleManager = m_styleManager.getScopedStyleManager();
 
 		ImGui::BeginChild(m_name.c_str(), ImVec2((float)m_width, (float)m_height));
+
+		// updating hovered item
+		if (ImGui::IsWindowHovered() || ImGui::IsItemHovered())
+			mvEventBus::Publish(mvEVT_CATEGORY_ITEM, mvEVT_HOVERED_ITEM, { CreateEventArgument("ITEM", m_name) });
+
 		ImGui::Separator();
 		if(m_columns > 0)
 			ImGui::Columns((int)m_columns, nullptr, true);
@@ -572,6 +575,8 @@ namespace Marvel {
 					m_selections[{i, j}] = !m_selections[{i, j}];
 					mvApp::GetApp()->getCallbackRegistry().runCallback(m_callback, m_name);
 				}
+				if (ImGui::IsItemHovered())
+					mvEventBus::Publish(mvEVT_CATEGORY_ITEM, mvEVT_HOVERED_ITEM, { CreateEventArgument("ITEM", m_name) });
 				ImGui::NextColumn();
 				index++;
 			}

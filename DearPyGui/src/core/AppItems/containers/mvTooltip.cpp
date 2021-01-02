@@ -33,6 +33,10 @@ namespace Marvel {
 	{
 		if (ImGui::IsItemHovered())
 		{
+			// updating hovered item
+			if (ImGui::IsItemHovered())
+				mvEventBus::Publish(mvEVT_CATEGORY_ITEM, mvEVT_HOVERED_ITEM, { CreateEventArgument("ITEM", m_name) });
+
 			auto styleManager = m_styleManager.getScopedStyleManager();
 			ImGui::BeginTooltip();
 			for (auto& item : m_children)
@@ -52,6 +56,11 @@ namespace Marvel {
 					ImGui::SetTooltip("%s", item->m_tip.c_str());
 
 				item->getState().update();
+
+				// updating hovered item
+				if (item->getState().isItemHovered() && !item->m_description.container && item->getType() != mvAppItemType::SameLine && item->getType() != mvAppItemType::Indent && item->getType() != mvAppItemType::Unindent)
+					mvEventBus::Publish(mvEVT_CATEGORY_ITEM, mvEVT_HOVERED_ITEM, { CreateEventArgument("ITEM", item->m_name) });
+
 			}
 
 			ImGui::EndTooltip();

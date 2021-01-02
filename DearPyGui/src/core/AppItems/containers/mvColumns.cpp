@@ -81,6 +81,7 @@ namespace Marvel {
 		ScopedID id;
 
 		ImGui::Columns(m_columns, m_name.c_str(), m_border);
+
 		for (auto& item : m_children)
 		{
 			// skip item if it's not shown
@@ -100,6 +101,10 @@ namespace Marvel {
 				ImGui::SetTooltip("%s", item->m_tip.c_str());
 
 			item->getState().update();
+
+			// updating hovered item
+			if (item->getState().isItemHovered() && !item->m_description.container && item->getType() != mvAppItemType::SameLine && item->getType() != mvAppItemType::Indent && item->getType() != mvAppItemType::Unindent)
+				mvEventBus::Publish(mvEVT_CATEGORY_ITEM, mvEVT_HOVERED_ITEM, { CreateEventArgument("ITEM", item->m_name) });
 
 			int index = ImGui::GetColumnIndex();
 

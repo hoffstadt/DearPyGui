@@ -49,6 +49,10 @@ namespace Marvel {
 		// create tab item and see if it is selected
 		if (ImGui::BeginTabItem(m_label.c_str(), m_closable ? &m_show : nullptr, m_flags))
 		{
+			// updating hovered item
+			if (ImGui::IsItemHovered())
+				mvEventBus::Publish(mvEVT_CATEGORY_ITEM, mvEVT_HOVERED_ITEM, { CreateEventArgument("ITEM", m_name) });
+
 			// Regular Tooltip (simple)
 			if (!m_tip.empty() && ImGui::IsItemHovered())
 				ImGui::SetTooltip("%s", m_tip.c_str());
@@ -86,6 +90,10 @@ namespace Marvel {
 					ImGui::SetTooltip("%s", item->m_tip.c_str());
 
 				item->getState().update();
+
+				// updating hovered item
+				if (item->getState().isItemHovered() && !item->m_description.container && item->getType() != mvAppItemType::SameLine && item->getType() != mvAppItemType::Indent && item->getType() != mvAppItemType::Unindent)
+					mvEventBus::Publish(mvEVT_CATEGORY_ITEM, mvEVT_HOVERED_ITEM, { CreateEventArgument("ITEM", item->m_name) });
 			}
 
 			ImGui::EndTabItem();

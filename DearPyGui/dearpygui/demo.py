@@ -23,7 +23,10 @@ def hsv_to_rgb(h: float, s: float, v: float) -> (float, float, float):
     if i == 5: return (255*v, 255*p, 255*q)
 
 def demo_main_callback(sender, data):
+
+    #testing hover command
     log_debug(get_hovered_item())
+
     set_value("Mouse Position##demo", str(get_mouse_pos()))
 
     # keys

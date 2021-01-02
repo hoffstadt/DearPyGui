@@ -39,6 +39,10 @@ namespace Marvel {
 						m_close = false;
 					}
 
+					// updating hovered item
+					if (ImGui::IsItemHovered())
+						mvEventBus::Publish(mvEVT_CATEGORY_ITEM, mvEVT_HOVERED_ITEM, { CreateEventArgument("ITEM", m_name) });
+
 					for (mvRef<mvAppItem> item : m_children)
 					{
 						// skip item if it's not shown
@@ -56,6 +60,10 @@ namespace Marvel {
 							ImGui::SetTooltip("%s", item->m_tip.c_str());
 
 						item->getState().update();
+
+						// updating hovered item
+						if (item->getState().isItemHovered() && !item->m_description.container && item->getType() != mvAppItemType::SameLine && item->getType() != mvAppItemType::Indent && item->getType() != mvAppItemType::Unindent)
+							mvEventBus::Publish(mvEVT_CATEGORY_ITEM, mvEVT_HOVERED_ITEM, { CreateEventArgument("ITEM", item->m_name) });
 					}
 
 					ImGui::EndPopup();
@@ -66,6 +74,9 @@ namespace Marvel {
 			{
 				if (ImGui::BeginPopupContextItem(m_name.c_str(), m_button))
 				{
+					// updating hovered item
+					if (ImGui::IsWindowHovered())
+						mvEventBus::Publish(mvEVT_CATEGORY_ITEM, mvEVT_HOVERED_ITEM, { CreateEventArgument("ITEM", m_name) });
 
 					for (mvRef<mvAppItem> item : m_children)
 					{
@@ -80,12 +91,22 @@ namespace Marvel {
 						item->draw();
 
 						item->getState().update();
+
+						// updating hovered item
+						if (item->getState().isItemHovered() && !item->m_description.container && item->getType() != mvAppItemType::SameLine && item->getType() != mvAppItemType::Indent && item->getType() != mvAppItemType::Unindent)
+							mvEventBus::Publish(mvEVT_CATEGORY_ITEM, mvEVT_HOVERED_ITEM, { CreateEventArgument("ITEM", item->m_name) });
 					}
 
 					// allows this item to have a render callback
 					registerWindowFocusing();
 
 					ImGui::EndPopup();
+				}
+				else 
+				{
+					// updating hovered item
+					if (ImGui::IsItemHovered())
+						mvEventBus::Publish(mvEVT_CATEGORY_ITEM, mvEVT_HOVERED_ITEM, { CreateEventArgument("ITEM", m_name) });
 				}
 			}
 		}
