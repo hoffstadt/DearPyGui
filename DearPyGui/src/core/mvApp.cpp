@@ -128,7 +128,7 @@ namespace Marvel {
 		m_parsers = BuildDearPyGuiInterface();
 
 		// info
-		mvAppLog::AddLog("\n");
+        mvAppLog::Clear();
 		mvAppLog::AddLog("[DearPyGui Version] %0s\n", mvApp::GetVersion());
 		mvAppLog::AddLog("[Python Version] %0s\n", PY_VERSION);
 		mvAppLog::AddLog("[DearImGui Version] %0s\n", IMGUI_VERSION);
