@@ -142,6 +142,9 @@ namespace Marvel {
 		parsers->insert({ "get_active_window", mvPythonParser({
 		}, "Returns the active window name.", "str") });
 
+		parsers->insert({ "get_hovered_item", mvPythonParser({
+		}, "Returns the hovered item by name.", "str") });
+
 		parsers->insert({ "get_dearpygui_version", mvPythonParser({
 		}, "Returns the current version of Dear PyGui.", "str") });
 
@@ -613,6 +616,11 @@ namespace Marvel {
 	PyObject* get_active_window(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		return ToPyString(mvApp::GetApp()->getItemRegistry().getActiveWindow());
+	}
+
+	PyObject* get_hovered_item(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		return ToPyString(mvApp::GetApp()->getItemRegistry().getHoveredItem());
 	}
 
 	PyObject* get_dearpygui_version(PyObject* self, PyObject* args, PyObject* kwargs)

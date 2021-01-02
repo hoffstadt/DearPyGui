@@ -569,6 +569,7 @@ namespace Marvel {
 		ADD_PYTHON_FUNCTION(is_threadpool_high_performance)
 		ADD_PYTHON_FUNCTION(get_threadpool_timeout)
 		ADD_PYTHON_FUNCTION(get_active_window)
+		ADD_PYTHON_FUNCTION(get_hovered_item)
 		ADD_PYTHON_FUNCTION(get_dearpygui_version)
 		ADD_PYTHON_FUNCTION(get_main_window_size)
 		ADD_PYTHON_FUNCTION(setup_dearpygui)

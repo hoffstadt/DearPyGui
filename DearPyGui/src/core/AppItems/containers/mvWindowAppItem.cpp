@@ -199,7 +199,12 @@ namespace Marvel {
 				ImGui::SetTooltip("%s", item->m_tip.c_str());
 
 			item->getState().update();
-
+			
+			//updating hovered item
+			if (item->getState().isItemHovered())
+			{
+				mvEventBus::Publish(mvEVT_CATEGORY_ITEM, mvEVT_HOVERED_ITEM, { CreateEventArgument("ITEM", item->m_name) });
+			}
 		}
 
 		m_state.setVisible(true);

@@ -46,6 +46,7 @@ namespace Marvel {
 		dispatcher.dispatch(BIND_EVENT_METH(mvItemRegistry::onPreRenderReset), mvEVT_PRE_RENDER_RESET);
 		dispatcher.dispatch(BIND_EVENT_METH(mvItemRegistry::onRender), mvEVT_RENDER);
 		dispatcher.dispatch(BIND_EVENT_METH(mvItemRegistry::onActiveWindow), mvEVT_ACTIVE_WINDOW);
+		dispatcher.dispatch(BIND_EVENT_METH(mvItemRegistry::onHoveredItem), mvEVT_HOVERED_ITEM);
 
 		return event.handled;
 	}
@@ -98,6 +99,14 @@ namespace Marvel {
 	{
 
 		m_activeWindow = GetEString(event, "WINDOW");
+
+		return false;
+	}
+
+	bool mvItemRegistry::onHoveredItem(mvEvent& event)
+	{
+
+		m_hoveredItem = GetEString(event, "ITEM");
 
 		return false;
 	}

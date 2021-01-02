@@ -566,6 +566,10 @@ def get_global_font_scale() -> float:
 	"""Returns the global font scale."""
 	...
 
+def get_hovered_item() -> str:
+	"""Returns the hovered item by name."""
+	...
+
 def get_item_callback(item: str) -> Callable:
 	"""Returns an item' callback"""
 	...

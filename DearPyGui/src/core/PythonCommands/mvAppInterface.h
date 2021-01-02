@@ -23,6 +23,7 @@ namespace Marvel {
 	PyObject* set_vsync                      (PyObject* self, PyObject* args, PyObject* kwargs);
 	PyObject* get_dearpygui_version          (PyObject* self, PyObject* args, PyObject* kwargs);
 	PyObject* get_active_window              (PyObject* self, PyObject* args, PyObject* kwargs);
+	PyObject* get_hovered_item				 (PyObject* self, PyObject* args, PyObject* kwargs);
 	PyObject* add_character_remap            (PyObject* self, PyObject* args, PyObject* kwargs);
 
 	// docking

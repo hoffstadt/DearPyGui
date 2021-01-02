@@ -46,6 +46,7 @@
 #define mvEVT_MOVE_ITEM_DOWN    SID("MOVE_ITEM_DOWN")
 #define mvEVT_DELETE_ITEM       SID("DELETE_ITEM")
 #define mvEVT_ACTIVE_WINDOW     SID("ACTIVE_WINDOW_CHANGE")
+#define mvEVT_HOVERED_ITEM      SID("HOVERED_ITEM_CHANGE")
 
 // mvEVT_CATEGORY_TEXTURE Events
 //-----------------------------------------------------------------------------

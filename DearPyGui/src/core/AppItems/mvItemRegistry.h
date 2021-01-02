@@ -59,6 +59,7 @@ namespace Marvel {
         bool                     onRender        (mvEvent& event);
         bool                     onPreRenderReset(mvEvent& event);                     
         bool                     onActiveWindow  (mvEvent& event);                     
+        bool                     onHoveredItem   (mvEvent& event);                  
 
         //-----------------------------------------------------------------------------
         // AppItem Operations
@@ -75,6 +76,7 @@ namespace Marvel {
         std::vector<mvRef<mvAppItem>>& getFrontWindows   () { return m_frontWindows; }
         std::vector<mvRef<mvAppItem>>& getBackWindows    () { return m_backWindows; }
         const std::string&             getActiveWindow() const { return m_activeWindow; }
+        const std::string&             getHoveredItem() const { return m_hoveredItem; }
         bool                           addItemWithRuntimeChecks(mvRef<mvAppItem> item, const char* parent, const char* before);
         
         // called by python interface
@@ -107,6 +109,7 @@ namespace Marvel {
 		std::vector<mvRef<mvAppItem>> m_frontWindows;
 		std::vector<mvRef<mvAppItem>> m_backWindows;
         std::string                   m_activeWindow;
+        std::string                   m_hoveredItem;
 
         // runtime widget modifications
         std::vector<std::string>    m_deleteChildrenQueue;
