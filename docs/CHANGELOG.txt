@@ -34,6 +34,7 @@ New Keywords:
 Fixes:
 - delete_row:     fixed issue where row 0 couldn't be deleted #421
 - get_item_label: fixed issue where internal label was returned #428
+- logger:         fixed issue where logs didn't show up occasionally
 
 ------------------------------------------------------------------------
  VERSION 0.6.117
