@@ -23,12 +23,13 @@ HOW TO UPDATE?
 - Please report any issue!
 
 ------------------------------------------------------------------------
- VERSION 0.6.120
+ VERSION 0.6.121
 ------------------------------------------------------------------------
 
 Fixes:
 - logger:         fixed issue where logs didn't show up at first
 - get_item_label: fixed issue where internal label was returned #428
+- plot:           fixed issue where plot ignored label #435
 
 ------------------------------------------------------------------------
  VERSION 0.6.119
