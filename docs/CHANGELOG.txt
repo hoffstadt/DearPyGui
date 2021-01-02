@@ -35,6 +35,7 @@ Fixes:
 - delete_row:     fixed issue where row 0 couldn't be deleted #421
 - get_item_label: fixed issue where internal label was returned #428
 - logger:         fixed issue where logs didn't show up occasionally
+- plot:           fixed issue where plot ignored label #435
 
 ------------------------------------------------------------------------
  VERSION 0.6.117
