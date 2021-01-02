@@ -9,7 +9,7 @@ if(APPLE)
 endif()
 
 target_sources(DearSandbox
-	
+
 	PRIVATE
 
 		"$<$<PLATFORM_ID:Windows>:main.cpp>"
@@ -72,21 +72,13 @@ elseif(APPLE)
 
 	set_property(TARGET DearSandbox APPEND_STRING PROPERTY COMPILE_FLAGS "-Wno-unused-result -Wsign-compare -Wunreachable-code -fno-common -dynamic -DNDEBUG -g -fwrapv -O3 -Wall -arch x86_64 -g")
 
-	target_link_directories(DearSandbox PRIVATE ../Dependencies/cpython/debug)
-
-	add_custom_command(TARGET DearSandbox POST_BUILD
-			COMMAND install_name_tool -id @loader_path/../../Dependencies/cpython/debug/libpython3.8d.dylib libpython3.8d.dylib
-			WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/Dependencies/cpython/debug
-			COMMENT "Changing python lib id"
-			)
-
-	add_custom_command(TARGET DearSandbox POST_BUILD
-			COMMAND install_name_tool -change /usr/local/lib/libpython3.8d.dylib @loader_path/../../Dependencies/cpython/debug/libpython3.8d.dylib DearSandbox
-			WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/cmake-build-debug/DearSandbox
-			COMMENT "Changing python lib load path")
+    target_link_directories(DearSandbox PRIVATE ../Dependencies/cpython/debug/lib)
 
 	target_link_libraries(DearSandbox PUBLIC coreemb -ldl "-framework CoreFoundation" "python3.8d")
 
+	file(GLOB PYTHON_LIBS_PATH "../Dependencies/cpython/debug/lib/python*")
+
+	add_compile_definitions(PYTHON_LIBS_PATH="${PYTHON_LIBS_PATH}")
 
 else() # Linux
 
