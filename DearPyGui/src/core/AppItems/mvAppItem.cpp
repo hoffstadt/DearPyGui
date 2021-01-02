@@ -11,6 +11,7 @@ namespace Marvel{
 	{
 		m_name = name;
 		m_label = name + "###" + name;
+		m_specifiedLabel = name;
 		m_state.setParent(this);
 	}
 
@@ -65,7 +66,7 @@ namespace Marvel{
 			return;
 		mvGlobalIntepreterLock gil;
 		PyDict_SetItemString(dict, "name",    ToPyString(m_name));
-		PyDict_SetItemString(dict, "label",   ToPyString(m_label));
+		PyDict_SetItemString(dict, "label",   ToPyString(m_specifiedLabel));
 		PyDict_SetItemString(dict, "source",  ToPyString(m_dataSource));
 		PyDict_SetItemString(dict, "tip",     ToPyString(m_tip));
 		PyDict_SetItemString(dict, "show",    ToPyBool  (m_show));
@@ -378,6 +379,7 @@ namespace Marvel{
 
 	void mvAppItem::setLabel(const std::string& value)
 	{
+		m_specifiedLabel = value;
 		m_label = value + "###" + m_name;
 	}
 
