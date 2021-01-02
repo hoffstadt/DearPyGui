@@ -11,7 +11,7 @@
 ![Python Version](https://img.shields.io/pypi/pyversions/dearpygui)
 [![PYPI](https://img.shields.io/pypi/v/dearpygui)](https://pypi.org/project/dearpygui/)
 [![Downloads](https://pepy.tech/badge/dearpygui)](https://pepy.tech/project/dearpygui)
-[![Sponsors](https://img.shields.io/badge/sponsors-19-brightgreen)](https://img.shields.io/badge/sponsors-19-brightgreen)
+[![Sponsors](https://img.shields.io/badge/sponsors-20-brightgreen)](https://img.shields.io/badge/sponsors-20-brightgreen)
 
 [![build status](https://github.com/hoffstadt/DearPyGui/workflows/Embedded%20Build/badge.svg)](https://github.com/hoffstadt/DearPyGui/actions?workflow=Embedded%20Build)
 [![Build status](https://ci.appveyor.com/api/projects/status/eypfn2lyuwfv8mel?svg=true)](https://ci.appveyor.com/project/hoffstadt/dearpygui)
@@ -150,6 +150,7 @@ These include:
 * 🥇 [Michael Kadziela](https://github.com/Innominus) _Gold Sponsor_
 * 🥇 [Yan Zaretskiy](https://github.com/mindv0rtex) _Gold Sponsor_
 * 🥇 [Trinnik](https://github.com/Trinnik) _Gold Sponsor_
+* 🥇 [Nikki Luzader](https://github.com/nikkiluzader) _Gold Sponsor_
 
 Thank you to all other sponsors for keeping this project moving forward!
 
