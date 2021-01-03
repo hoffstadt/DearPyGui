@@ -30,6 +30,9 @@ Decorated log: https://github.com/hoffstadt/DearPyGui/releases/tag/v0.7.x
 
 New Keywords:
 - add_input_text:               Added "tab_input" keyword
+- add_input_int:                Added "min_value" keyword
+- add_input_int:                Added "max_value" keyword
+- add_input_int:                Added "clamped" keyword
 
 Fixes:
 - delete_row:     fixed issue where row 0 couldn't be deleted #421
