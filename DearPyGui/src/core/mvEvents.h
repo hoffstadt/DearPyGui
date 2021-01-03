@@ -50,7 +50,7 @@ namespace Marvel {
 	struct mvEvent
 	{
 
-		mvID type;
+		mvID type = 0;
 		std::unordered_map<mvID, mvVariant> arguments;
 		mvID category = 0;
 		bool handled = false;

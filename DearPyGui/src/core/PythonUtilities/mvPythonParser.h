@@ -28,7 +28,7 @@ namespace Marvel {
     //-----------------------------------------------------------------------------
     enum class mvPythonDataType
     {
-        String, Integer, Float, Bool, StringList, FloatList, Optional,
+        None, String, Integer, Float, Bool, StringList, FloatList, Optional,
         Object, IntList, KeywordOnly, Double, Callable, Dict, ListFloatList, 
         ListStrList, Kwargs
     };
@@ -38,8 +38,8 @@ namespace Marvel {
     //-----------------------------------------------------------------------------
     struct mvPythonDataElement
     {
-        mvPythonDataType type;
-        std::string      name;
+        mvPythonDataType type = mvPythonDataType::None;
+        std::string      name = "";
         std::string      description;
         std::string      default_value = "...";
 
