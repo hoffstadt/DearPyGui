@@ -483,7 +483,7 @@ def show_demo():
                                  "drag int3##demo", "slider int3##demo", "input float4##demo", "drag float4##demo", "slider float4##demo", 
                                  "input int4##demo", "drag int4##demo", "slider int4##demo"]
                 add_checkbox("Enable-Disable##multi-component_widgets", default_value=True, callback=toggle_config, callback_data={'kwargs': ['enabled'], 'items': disable_items})
-                add_input_float2("input float2##demo", source="float2", )
+                add_input_float2("input float2##demo", source="float2")
                 add_drag_float2("drag float2##demo", source="float2")
                 add_slider_float2("slider float2##demo", source="float2")
                 add_input_int2("input int2##demo", source="int2")
