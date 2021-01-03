@@ -147,11 +147,12 @@ Ongoing _Dear PyGui_ development is financially supported by users and private s
 These include:
 * 🏆 [Dean Keinan](https://github.com/deankeinan) _Partner Sponsor_
 * 🏆 [何凌锋](https://github.com/Hedaozi) _Partner Sponsor_
+* 🏆 [Nikki Luzader](https://github.com/nikkiluzader) _Partner Sponsor_
 * 🥇 [Caden Bloxham](https://github.com/cubic-unit) _Gold Sponsor_
 * 🥇 [Michael Kadziela](https://github.com/Innominus) _Gold Sponsor_
 * 🥇 [Yan Zaretskiy](https://github.com/mindv0rtex) _Gold Sponsor_
 * 🥇 [Trinnik](https://github.com/Trinnik) _Gold Sponsor_
-* 🥇 [Nikki Luzader](https://github.com/nikkiluzader) _Gold Sponsor_
+
 
 Thank you to all other sponsors for keeping this project moving forward!
 
