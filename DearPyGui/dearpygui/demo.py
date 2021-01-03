@@ -239,7 +239,7 @@ def show_demo():
 
             with tree_node("Basic##demo"):
                 def log_callback(sender, data):
-                    log_debug(f"{sender} ran a callback")
+                    log_debug(f"{sender} ran a callback its value is {get_value(sender)}")
                 def toggle_config(sender, data):
                     config_dict = {}
                     for kwarg in data['kwargs']:
@@ -298,11 +298,11 @@ def show_demo():
                         "CTRL+Z,CTRL+Y undo/redo.\n"
                         "ESCAPE to revert.\n\n")
                 add_input_text("input text (w/ hint)##demo", hint="enter text here", callback=log_callback)
-                add_input_int("input int##demo", callback=log_callback)
+                add_input_int("input int##demo", callback=log_callback, source="input int##demo", min_value=0, max_value=15, clamped=True)
                 add_input_float("input float##demo", callback=log_callback)
                 add_input_float("input scientific##demo", format="%e", callback=log_callback)
                 add_input_float3("input float3##example##demo", callback=log_callback)
-                add_drag_int("drag int", callback=log_callback)
+                add_drag_int("drag int", callback=log_callback, source="input int##demo")
                 helpmarker(
                         "Click and drag to edit value.\n"
                         "Hold SHIFT/ALT for faster/slower edit.\n"
@@ -483,7 +483,7 @@ def show_demo():
                                  "drag int3##demo", "slider int3##demo", "input float4##demo", "drag float4##demo", "slider float4##demo", 
                                  "input int4##demo", "drag int4##demo", "slider int4##demo"]
                 add_checkbox("Enable-Disable##multi-component_widgets", default_value=True, callback=toggle_config, callback_data={'kwargs': ['enabled'], 'items': disable_items})
-                add_input_float2("input float2##demo", source="float2")
+                add_input_float2("input float2##demo", source="float2", )
                 add_drag_float2("drag float2##demo", source="float2")
                 add_slider_float2("slider float2##demo", source="float2")
                 add_input_int2("input int2##demo", source="int2")

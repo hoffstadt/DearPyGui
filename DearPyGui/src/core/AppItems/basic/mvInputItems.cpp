@@ -51,7 +51,16 @@ namespace Marvel {
         }
 
         if (ImGui::InputInt(m_label.c_str(), m_value, m_step, m_step_fast, m_flags))
-            mvApp::GetApp()->getCallbackRegistry().addCallback(m_callback, m_name, m_callbackData);
+        {
+            if (m_clamped)
+            {
+                if (*m_value < m_min) *m_value = m_min;
+                else if (*m_value > m_max) *m_value = m_max;
+                else mvApp::GetApp()->getCallbackRegistry().addCallback(m_callback, m_name, m_callbackData);
+            }
+            else
+                mvApp::GetApp()->getCallbackRegistry().addCallback(m_callback, m_name, m_callbackData);
+        }
 
     }
 
@@ -64,6 +73,9 @@ namespace Marvel {
         if (PyObject* item = PyDict_GetItemString(dict, "readonly")) ToBool(item) ? m_flags |= ImGuiInputTextFlags_ReadOnly : m_flags &= ~ImGuiInputTextFlags_ReadOnly;
         if (PyObject* item = PyDict_GetItemString(dict, "step")) m_step = ToInt(item);
         if (PyObject* item = PyDict_GetItemString(dict, "step_fast")) m_step_fast = ToInt(item);
+        if (PyObject* item = PyDict_GetItemString(dict, "min_value")) m_min = ToInt(item);
+        if (PyObject* item = PyDict_GetItemString(dict, "max_value")) m_max = ToInt(item);
+        if (PyObject* item = PyDict_GetItemString(dict, "clamped")) m_clamped = ToBool(item);
     }
 
     void mvInputInt::getExtraConfigDict(PyObject* dict)
@@ -75,6 +87,10 @@ namespace Marvel {
         PyDict_SetItemString(dict, "readonly", ToPyBool(m_flags & ImGuiInputTextFlags_ReadOnly));
         PyDict_SetItemString(dict, "step", ToPyInt(m_step));
         PyDict_SetItemString(dict, "step_fast", ToPyInt(m_step_fast));
+        PyDict_SetItemString(dict, "min_value", ToPyInt(m_min));
+        PyDict_SetItemString(dict, "max_value", ToPyInt(m_max));
+        PyDict_SetItemString(dict, "clamped", ToPyBool(m_clamped));
+
     }
 
     //-----------------------------------------------------------------------------

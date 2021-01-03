@@ -8,6 +8,9 @@ namespace Marvel {
 			{mvPythonDataType::String, "name"},
 			{mvPythonDataType::KeywordOnly},
 			{mvPythonDataType::Integer, "default_value", "", "0"},
+			{mvPythonDataType::Integer, "min_value", "only active when clamped", "0"},
+			{mvPythonDataType::Integer, "max_value", "only active when clamped", "100"},
+			{mvPythonDataType::Bool, "clamped", "activates min and max", "False"},
 			{mvPythonDataType::Callable, "callback", "Registers a callback", "None"},
 			{mvPythonDataType::Object, "callback_data", "Callback data", "None"},
 			{mvPythonDataType::String, "tip", "Adds a simple tooltip", "''"},
@@ -161,6 +164,9 @@ namespace Marvel {
 	{
 		const char* name;
 		int default_value = 0;
+		int min_value = 0;
+		int max_value = 100;
+		int clamped = false;
 		PyObject* callback = nullptr;
 		PyObject* callback_data = nullptr;
 		const char* tip = "";
@@ -177,7 +183,7 @@ namespace Marvel {
 		int readonly = false;
 
 		if (!(*mvApp::GetApp()->getParsers())["add_input_int"].parse(args, kwargs, __FUNCTION__, &name,
-			&default_value, &callback, &callback_data, &tip, &parent, &before, &source, &enabled, &width, &on_enter,
+			&default_value, &min_value, &max_value, &clamped, &callback, &callback_data, &tip, &parent, &before, &source, &enabled, &width, &on_enter,
 			&label, &show, &step, &step_fast, &readonly))
 			return ToPyBool(false);
 

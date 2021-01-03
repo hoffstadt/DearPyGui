@@ -44,6 +44,9 @@ namespace Marvel {
         ImGuiInputTextFlags m_stor_flags = 0;
         int                 m_step = 1;
         int                 m_step_fast = 100;
+        int                 m_min = 0;
+        int                 m_max = 100;
+        bool                m_clamped = false;
         
     };
 
