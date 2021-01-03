@@ -52,8 +52,8 @@ jobs:
           fi
           mkdir cmake-build-debug
           cd cmake-build-debug
-          cmake ..
+          cmake .. -DCMAKE_EXPORT_COMPILE_COMMANDS=On
           cd ..
-          pvs-studio-analyzer trace -- cmake --build cmake-build-debug --config Debug -DCMAKE_EXPORT_COMPILE_COMMANDS=On
+          pvs-studio-analyzer trace -- cmake --build cmake-build-debug --config Debug
           pvs-studio-analyzer analyze -l pvs-studio.lic -o pvs-studio.log
           plog-converter -a 'GA:1,2;OP:1' -t errorfile -w pvs-studio.log
