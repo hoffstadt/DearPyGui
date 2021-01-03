@@ -55,5 +55,5 @@ jobs:
           cmake .. -DCMAKE_EXPORT_COMPILE_COMMANDS=On
           cd ..
           pvs-studio-analyzer trace -- cmake --build cmake-build-debug --config Debug
-          pvs-studio-analyzer analyze -l pvs-studio.lic -o pvs-studio.log
+          pvs-studio-analyzer analyze -e ./Dependencies -e ./DearPyGui/vendor -l pvs-studio.lic -o pvs-studio.log
           plog-converter -a 'GA:1,2;OP:1' -t errorfile -w pvs-studio.log
