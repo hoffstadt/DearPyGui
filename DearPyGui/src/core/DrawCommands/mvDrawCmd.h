@@ -11,8 +11,8 @@
 
 #define MV_DRAWCMD_TYPE(x) mvDrawCmdType getType() const override { return x; }
 
-static const std::string DrawForeground = "##FOREGROUND";
-static const std::string DrawBackground = "##BACKGROUND";
+inline const std::string DrawForeground = "##FOREGROUND";
+inline const std::string DrawBackground = "##BACKGROUND";
 
 namespace Marvel {
 
