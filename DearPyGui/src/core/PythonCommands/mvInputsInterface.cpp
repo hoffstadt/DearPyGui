@@ -8,9 +8,10 @@ namespace Marvel {
 			{mvPythonDataType::String, "name"},
 			{mvPythonDataType::KeywordOnly},
 			{mvPythonDataType::Integer, "default_value", "", "0"},
-			{mvPythonDataType::Integer, "min_value", "only active when clamped", "0"},
-			{mvPythonDataType::Integer, "max_value", "only active when clamped", "100"},
-			{mvPythonDataType::Bool, "clamped", "activates min and max", "False"},
+			{mvPythonDataType::Integer, "min_value", "", "0"},
+			{mvPythonDataType::Integer, "max_value", "", "100"},
+			{mvPythonDataType::Bool, "min_clamped", "activates and deactivates min_value", "False"},
+			{mvPythonDataType::Bool, "max_clamped", "activates and deactivates max_value", "False"},
 			{mvPythonDataType::Callable, "callback", "Registers a callback", "None"},
 			{mvPythonDataType::Object, "callback_data", "Callback data", "None"},
 			{mvPythonDataType::String, "tip", "Adds a simple tooltip", "''"},
@@ -31,9 +32,10 @@ namespace Marvel {
 			{mvPythonDataType::String, "name"},
 			{mvPythonDataType::KeywordOnly},
 			{mvPythonDataType::IntList, "default_value", "", "(0, 0)"},
-			{mvPythonDataType::Integer, "min_value", "only active when clamped", "0"},
-			{mvPythonDataType::Integer, "max_value", "only active when clamped", "100"},
-			{mvPythonDataType::Bool, "clamped", "activates min and max", "False"},
+			{mvPythonDataType::Integer, "min_value", "", "0"},
+			{mvPythonDataType::Integer, "max_value", "", "100"},
+			{mvPythonDataType::Bool, "min_clamped", "activates and deactivates min_value", "False"},
+			{mvPythonDataType::Bool, "max_clamped", "activates and deactivates max_value", "False"},
 			{mvPythonDataType::Callable, "callback", "Registers a callback", "None"},
 			{mvPythonDataType::Object, "callback_data", "Callback data", "None"},
 			{mvPythonDataType::String, "tip", "Adds a simple tooltip", "''"},
@@ -52,9 +54,10 @@ namespace Marvel {
 			{mvPythonDataType::String, "name"},
 			{mvPythonDataType::KeywordOnly},
 			{mvPythonDataType::IntList, "default_value", "", "(0, 0, 0)"},
-			{mvPythonDataType::Integer, "min_value", "only active when clamped", "0"},
-			{mvPythonDataType::Integer, "max_value", "only active when clamped", "100"},
-			{mvPythonDataType::Bool, "clamped", "activates min and max", "False"},
+			{mvPythonDataType::Integer, "min_value", "", "0"},
+			{mvPythonDataType::Integer, "max_value", "", "100"},
+			{mvPythonDataType::Bool, "min_clamped", "activates and deactivates min_value", "False"},
+			{mvPythonDataType::Bool, "max_clamped", "activates and deactivates max_value", "False"},
 			{mvPythonDataType::Callable, "callback", "Registers a callback", "None"},
 			{mvPythonDataType::Object, "callback_data", "Callback data", "None"},
 			{mvPythonDataType::String, "tip", "Adds a simple tooltip", "''"},
@@ -73,9 +76,10 @@ namespace Marvel {
 			{mvPythonDataType::String, "name"},
 			{mvPythonDataType::KeywordOnly},
 			{mvPythonDataType::IntList, "default_value", "", "(0, 0, 0, 0)"},
-			{mvPythonDataType::Integer, "min_value", "only active when clamped", "0"},
-			{mvPythonDataType::Integer, "max_value", "only active when clamped", "100"},
-			{mvPythonDataType::Bool, "clamped", "activates min and max", "False"},
+			{mvPythonDataType::Integer, "min_value", "", "0"},
+			{mvPythonDataType::Integer, "max_value", "", "100"},
+			{mvPythonDataType::Bool, "min_clamped", "activates and deactivates min_value", "False"},
+			{mvPythonDataType::Bool, "max_clamped", "activates and deactivates max_value", "False"},
 			{mvPythonDataType::Callable, "callback", "Registers a callback", "None"},
 			{mvPythonDataType::Object, "callback_data", "Callback data", "None"},
 			{mvPythonDataType::String, "tip", "Adds a simple tooltip", "''"},
@@ -94,9 +98,10 @@ namespace Marvel {
 			{mvPythonDataType::String, "name"},
 			{mvPythonDataType::KeywordOnly},
 			{mvPythonDataType::Float, "default_value", "", "0.0"},
-			{mvPythonDataType::Integer, "min_value", "only active when clamped", "0"},
-			{mvPythonDataType::Integer, "max_value", "only active when clamped", "100"},
-			{mvPythonDataType::Bool, "clamped", "activates min and max", "False"},
+			{mvPythonDataType::Float, "min_value", "", "0"},
+			{mvPythonDataType::Float, "max_value", "", "100"},
+			{mvPythonDataType::Bool, "min_clamped", "activates and deactivates min_value", "False"},
+			{mvPythonDataType::Bool, "max_clamped", "activates and deactivates max_value", "False"},
 			{mvPythonDataType::String, "format", "", "'%.3f'"},
 			{mvPythonDataType::Callable, "callback", "Registers a callback", "None"},
 			{mvPythonDataType::Object, "callback_data", "Callback data", "None"},
@@ -118,9 +123,10 @@ namespace Marvel {
 			{mvPythonDataType::String, "name"},
 			{mvPythonDataType::KeywordOnly},
 			{mvPythonDataType::FloatList, "default_value", "", "(0.0, 0.0)"},
-			{mvPythonDataType::Integer, "min_value", "only active when clamped", "0"},
-			{mvPythonDataType::Integer, "max_value", "only active when clamped", "100"},
-			{mvPythonDataType::Bool, "clamped", "activates min and max", "False"},
+			{mvPythonDataType::Float, "min_value", "", "0"},
+			{mvPythonDataType::Float, "max_value", "", "100"},
+			{mvPythonDataType::Bool, "min_clamped", "activates and deactivates min_value", "False"},
+			{mvPythonDataType::Bool, "max_clamped", "activates and deactivates max_value", "False"},
 			{mvPythonDataType::String, "format", "", "'%.3f'"},
 			{mvPythonDataType::Callable, "callback", "Registers a callback", "None"},
 			{mvPythonDataType::Object, "callback_data", "Callback data", "None"},
@@ -140,9 +146,10 @@ namespace Marvel {
 			{mvPythonDataType::String, "name"},
 			{mvPythonDataType::KeywordOnly},
 			{mvPythonDataType::FloatList, "default_value", "", "(0.0, 0.0, 0.0)"},
-			{mvPythonDataType::Integer, "min_value", "only active when clamped", "0"},
-			{mvPythonDataType::Integer, "max_value", "only active when clamped", "100"},
-			{mvPythonDataType::Bool, "clamped", "activates min and max", "False"},
+			{mvPythonDataType::Float, "min_value", "", "0"},
+			{mvPythonDataType::Float, "max_value", "", "100"},
+			{mvPythonDataType::Bool, "min_clamped", "activates and deactivates min_value", "False"},
+			{mvPythonDataType::Bool, "max_clamped", "activates and deactivates max_value", "False"},
 			{mvPythonDataType::String, "format", "", "'%.3f'"},
 			{mvPythonDataType::Callable, "callback", "Registers a callback", "None"},
 			{mvPythonDataType::Object, "callback_data", "Callback data", "None"},
@@ -162,9 +169,10 @@ namespace Marvel {
 			{mvPythonDataType::String, "name"},
 			{mvPythonDataType::KeywordOnly},
 			{mvPythonDataType::FloatList, "default_value", "", "(0.0, 0.0, 0.0, 0.0)"},
-			{mvPythonDataType::Integer, "min_value", "only active when clamped", "0"},
-			{mvPythonDataType::Integer, "max_value", "only active when clamped", "100"},
-			{mvPythonDataType::Bool, "clamped", "activates min and max", "False"},
+			{mvPythonDataType::Float, "min_value", "", "0"},
+			{mvPythonDataType::Float, "max_value", "", "100"},
+			{mvPythonDataType::Bool, "min_clamped", "activates and deactivates min_value", "False"},
+			{mvPythonDataType::Bool, "max_clamped", "activates and deactivates max_value", "False"},
 			{mvPythonDataType::String, "format", "", "'%.3f'"},
 			{mvPythonDataType::Callable, "callback", "Registers a callback", "None"},
 			{mvPythonDataType::Object, "callback_data", "Callback data", "None"},
@@ -187,7 +195,8 @@ namespace Marvel {
 		int default_value = 0;
 		int min_value = 0;
 		int max_value = 100;
-		int clamped = false;
+		int min_clamped = false;
+		int max_clamped = false;
 		PyObject* callback = nullptr;
 		PyObject* callback_data = nullptr;
 		const char* tip = "";
@@ -204,7 +213,7 @@ namespace Marvel {
 		int readonly = false;
 
 		if (!(*mvApp::GetApp()->getParsers())["add_input_int"].parse(args, kwargs, __FUNCTION__, &name,
-			&default_value, &min_value, &max_value, &clamped, &callback, &callback_data, &tip, &parent, &before, &source, &enabled, &width, &on_enter,
+			&default_value, &min_value, &max_value, &min_clamped, &max_clamped, &callback, &callback_data, &tip, &parent, &before, &source, &enabled, &width, &on_enter,
 			&label, &show, &step, &step_fast, &readonly))
 			return ToPyBool(false);
 
@@ -232,7 +241,8 @@ namespace Marvel {
 		PyTuple_SetItem(default_value, 1, PyLong_FromLong(0));
 		int min_value = 0;
 		int max_value = 100;
-		int clamped = false;
+		int min_clamped = false;
+		int max_clamped = false;
 		PyObject* callback = nullptr;
 		PyObject* callback_data = nullptr;
 		const char* tip = "";
@@ -247,7 +257,7 @@ namespace Marvel {
 		int readonly = false;
 
 		if (!(*mvApp::GetApp()->getParsers())["add_input_int2"].parse(args, kwargs, __FUNCTION__, &name,
-			&default_value, &min_value, &max_value, &clamped, &callback, &callback_data, &tip, &parent, &before, &source, &enabled, &width, &on_enter,
+			&default_value, &min_value, &max_value, &min_clamped, &max_clamped, &callback, &callback_data, &tip, &parent, &before, &source, &enabled, &width, &on_enter,
 			&label, &show, &readonly))
 			return ToPyBool(false);
 
@@ -278,7 +288,8 @@ namespace Marvel {
 		PyTuple_SetItem(default_value, 2, PyLong_FromLong(0));
 		int min_value = 0;
 		int max_value = 100;
-		int clamped = false;
+		int min_clamped = false;
+		int max_clamped = false;
 		PyObject* callback = nullptr;
 		PyObject* callback_data = nullptr;
 		const char* tip = "";
@@ -294,7 +305,7 @@ namespace Marvel {
 		int readonly = false;
 
 		if (!(*mvApp::GetApp()->getParsers())["add_input_int3"].parse(args, kwargs, __FUNCTION__, &name,
-			&default_value, &min_value, &max_value, &clamped, &callback, &callback_data, &tip, &parent, &before, &source, &enabled, &width, &on_enter,
+			&default_value, &min_value, &max_value, &min_clamped, &max_clamped, &callback, &callback_data, &tip, &parent, &before, &source, &enabled, &width, &on_enter,
 			&label, &popup, &show, &readonly))
 			return ToPyBool(false);
 
@@ -326,7 +337,8 @@ namespace Marvel {
 		PyTuple_SetItem(default_value, 3, PyLong_FromLong(0));
 		int min_value = 0;
 		int max_value = 100;
-		int clamped = false;
+		int min_clamped = false;
+		int max_clamped = false;
 		PyObject* callback = nullptr;
 		PyObject* callback_data = nullptr;
 		const char* tip = "";
@@ -341,7 +353,7 @@ namespace Marvel {
 		int readonly = false;
 
 		if (!(*mvApp::GetApp()->getParsers())["add_input_int4"].parse(args, kwargs, __FUNCTION__, &name,
-			&default_value, &min_value, &max_value, &clamped, &callback, &callback_data, &tip, &parent, &before, &source, &enabled, &width, &on_enter,
+			&default_value, &min_value, &max_value, &min_clamped, &max_clamped, &callback, &callback_data, &tip, &parent, &before, &source, &enabled, &width, &on_enter,
 			&label, &show, &readonly))
 			return ToPyBool(false);
 
@@ -366,9 +378,10 @@ namespace Marvel {
 	{
 		const char* name;
 		float default_value = 0.0f;
-		int min_value = 0;
-		int max_value = 100;
-		int clamped = false;
+		float min_value = 0.0f;
+		float max_value = 100.0f;
+		int min_clamped = false;
+		int max_clamped = false;
 		const char* format = "%.3f";
 		PyObject* callback = nullptr;
 		PyObject* callback_data = nullptr;
@@ -386,7 +399,7 @@ namespace Marvel {
 		int readonly = false;
 
 		if (!(*mvApp::GetApp()->getParsers())["add_input_float"].parse(args, kwargs, __FUNCTION__, &name,
-			&default_value, &min_value, &max_value, &clamped, &format, &callback, &callback_data, &tip, &parent, &before, &source, &enabled, &width, &on_enter,
+			&default_value, &min_value, &max_value, &min_clamped, &max_clamped, &format, &callback, &callback_data, &tip, &parent, &before, &source, &enabled, &width, &on_enter,
 			&label, &show, &step, &step_fast, &readonly))
 			return ToPyBool(false);
 
@@ -412,9 +425,10 @@ namespace Marvel {
 		PyObject* default_value = PyTuple_New(2);
 		PyTuple_SetItem(default_value, 0, PyLong_FromLong(0));
 		PyTuple_SetItem(default_value, 1, PyLong_FromLong(0));
-		int min_value = 0;
-		int max_value = 100;
-		int clamped = false;
+		float min_value = 0.0f;
+		float max_value = 100.0f;
+		int min_clamped = false;
+		int max_clamped = false;
 		const char* format = "%.3f";
 		PyObject* callback = nullptr;
 		PyObject* callback_data = nullptr;
@@ -430,7 +444,7 @@ namespace Marvel {
 		int readonly = false;
 
 		if (!(*mvApp::GetApp()->getParsers())["add_input_float2"].parse(args, kwargs, __FUNCTION__, &name,
-			&default_value, &min_value, &max_value, &clamped, &format, &callback, &callback_data, &tip, &parent, &before, &source, &enabled, &width, &on_enter,
+			&default_value, &min_value, &max_value, &min_clamped, &max_clamped, &format, &callback, &callback_data, &tip, &parent, &before, &source, &enabled, &width, &on_enter,
 			&label, &show, &readonly))
 			return ToPyBool(false);
 
@@ -458,9 +472,10 @@ namespace Marvel {
 		PyTuple_SetItem(default_value, 0, PyLong_FromLong(0));
 		PyTuple_SetItem(default_value, 1, PyLong_FromLong(0));
 		PyTuple_SetItem(default_value, 2, PyLong_FromLong(0));
-		int min_value = 0;
-		int max_value = 100;
-		int clamped = false;
+		float min_value = 0.0f;
+		float max_value = 100.0f;
+		int min_clamped = false;
+		int max_clamped = false;
 		const char* format = "%.3f";
 		PyObject* callback = nullptr;
 		PyObject* callback_data = nullptr;
@@ -476,7 +491,7 @@ namespace Marvel {
 		int readonly = false;
 
 		if (!(*mvApp::GetApp()->getParsers())["add_input_float3"].parse(args, kwargs, __FUNCTION__, &name,
-			&default_value, &min_value, &max_value, &clamped, &format, &callback, &callback_data, &tip, &parent, &before, &source, &enabled, &width, &on_enter,
+			&default_value, &min_value, &max_value, &min_clamped, &max_clamped, &format, &callback, &callback_data, &tip, &parent, &before, &source, &enabled, &width, &on_enter,
 			&label, &show, &readonly))
 			return ToPyBool(false);
 
@@ -506,9 +521,10 @@ namespace Marvel {
 		PyTuple_SetItem(default_value, 1, PyLong_FromLong(0));
 		PyTuple_SetItem(default_value, 2, PyLong_FromLong(0));
 		PyTuple_SetItem(default_value, 3, PyLong_FromLong(0));
-		int min_value = 0;
-		int max_value = 100;
-		int clamped = false;
+		float min_value = 0.0f;
+		float max_value = 100.0f;
+		int min_clamped = false;
+		int max_clamped = false;
 		const char* format = "%.3f";
 		PyObject* callback = nullptr;
 		PyObject* callback_data = nullptr;
@@ -524,7 +540,7 @@ namespace Marvel {
 		int readonly = false;
 
 		if (!(*mvApp::GetApp()->getParsers())["add_input_float4"].parse(args, kwargs, __FUNCTION__, &name,
-			&default_value, &min_value, &max_value, &clamped, &format, &callback, &callback_data, &tip, &parent, &before, &source, &enabled, &width, &on_enter,
+			&default_value, &min_value, &max_value, &min_clamped, &max_clamped, &format, &callback, &callback_data, &tip, &parent, &before, &source, &enabled, &width, &on_enter,
 			&label, &show, &readonly))
 			return ToPyBool(false);
 

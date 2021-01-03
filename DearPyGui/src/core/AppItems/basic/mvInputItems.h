@@ -44,7 +44,8 @@ namespace Marvel {
         int                 m_step_fast = 100;
         int                 m_min = 0;
         int                 m_max = 100;
-        bool                m_clamped = false;
+        bool                m_min_clamped = false;
+        bool                m_max_clamped = false;
         ImGuiInputTextFlags m_flags = 0;
         ImGuiInputTextFlags m_stor_flags = 0;
         
@@ -71,7 +72,8 @@ namespace Marvel {
         
         int                 m_min = 0;
         int                 m_max = 100;
-        bool                m_clamped = false;
+        bool                m_min_clamped = false;
+        bool                m_max_clamped = false;
         ImGuiInputTextFlags m_flags = 0;
         ImGuiInputTextFlags m_stor_flags = 0;
         
@@ -98,7 +100,8 @@ namespace Marvel {
 
         int                 m_min = 0;
         int                 m_max = 100;
-        bool                m_clamped = false;
+        bool                m_min_clamped = false;
+        bool                m_max_clamped = false;
         ImGuiInputTextFlags m_flags = 0;
         ImGuiInputTextFlags m_stor_flags = 0;
         
@@ -125,7 +128,8 @@ namespace Marvel {
 
         int                 m_min = 0;
         int                 m_max = 100;
-        bool                m_clamped = false;
+        bool                m_min_clamped = false;
+        bool                m_max_clamped = false;
         ImGuiInputTextFlags m_flags = 0;
         ImGuiInputTextFlags m_stor_flags = 0;
         
@@ -150,9 +154,10 @@ namespace Marvel {
         
     private:
 
-        int                 m_min = 0;
-        int                 m_max = 100;
-        bool                m_clamped = false;
+        float               m_min = 0.0f;
+        float               m_max = 100.0f;
+        bool                m_min_clamped = false;
+        bool                m_max_clamped = false;
         std::string         m_format = "%.3f";
         float               m_step = 0.1f;
         float               m_step_fast = 1.0f;
@@ -180,9 +185,10 @@ namespace Marvel {
         
     private:
 
-        int                 m_min = 0;
-        int                 m_max = 100;
-        bool                m_clamped = false;
+        float               m_min = 0.0f;
+        float               m_max = 100.0f;
+        bool                m_min_clamped = false;
+        bool                m_max_clamped = false;
         std::string         m_format = "%.3f";
         ImGuiInputTextFlags m_flags = 0;
         ImGuiInputTextFlags m_stor_flags = 0;
@@ -208,9 +214,10 @@ namespace Marvel {
         
     private:
 
-        int                 m_min = 0;
-        int                 m_max = 100;
-        bool                m_clamped = false;
+        float               m_min = 0.0f;
+        float               m_max = 100.0f;
+        bool                m_min_clamped = false;
+        bool                m_max_clamped = false;
         std::string         m_format = "%.3f";
         ImGuiInputTextFlags m_flags = 0;
         ImGuiInputTextFlags m_stor_flags = 0;
@@ -236,9 +243,10 @@ namespace Marvel {
         
     private:
 
-        int                 m_min = 0;
-        int                 m_max = 100;
-        bool                m_clamped = false;
+        float               m_min = 0.0f;
+        float               m_max = 100.0f;
+        bool                m_min_clamped = false;
+        bool                m_max_clamped = false;
         std::string         m_format = "%.3f";
         ImGuiInputTextFlags m_flags = 0;
         ImGuiInputTextFlags m_stor_flags = 0;
