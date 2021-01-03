@@ -57,3 +57,8 @@ jobs:
           pvs-studio-analyzer trace -- cmake --build cmake-build-debug --config Debug
           pvs-studio-analyzer analyze -e ./Dependencies -e ./DearPyGui/vendor -l pvs-studio.lic -o pvs-studio.log
           plog-converter -a 'GA:1,2;OP:1' -t errorfile -w pvs-studio.log
+      - name: Archive code coverage results
+        uses: actions/upload-artifact@v2
+        with:
+          name: pvs-results
+          path: /home/runner/work/DearPyGui/DearPyGui/pvs-studio.log
