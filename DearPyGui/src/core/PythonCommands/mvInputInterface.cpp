@@ -119,9 +119,8 @@ namespace Marvel {
 
 	PyObject* get_plot_mouse_pos(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
-		int local = true;
 
-		if (!(*mvApp::GetApp()->getParsers())["get_plot_mouse_pos"].parse(args, kwargs, __FUNCTION__, &local))
+		if (!(*mvApp::GetApp()->getParsers())["get_plot_mouse_pos"].parse(args, kwargs, __FUNCTION__))
 			return GetPyNone();
 
 		mvVec2 pos = mvInput::getPlotMousePosition();
