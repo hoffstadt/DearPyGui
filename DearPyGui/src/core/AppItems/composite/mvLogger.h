@@ -69,9 +69,9 @@ namespace Marvel {
 		ImGuiTextBuffer  Buf;
 		ImGuiTextFilter  Filter;
 		ImVector<int>    LineOffsets; // Index to lines offset. We maintain this with AddLog() calls, allowing us to have a random access on lines
-		bool             AutoScroll;  // Keep scrolling if already at the bottom
-		bool             show;        // Keep scrolling if already at the bottom
-		bool             mainmode;
+		bool             AutoScroll = true;  // Keep scrolling if already at the bottom
+		bool             show = true; // Keep scrolling if already at the bottom
+		bool             mainmode = false;
 
 #if defined (_WIN32)
 		static std::chrono::steady_clock::time_point s_start;
