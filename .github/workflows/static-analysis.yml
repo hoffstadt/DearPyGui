@@ -1,0 +1,66 @@
+name: static-analysis
+
+on:
+  push: {}
+  pull_request: {}
+
+jobs:
+  PVS-Studio:
+    runs-on: ubuntu-18.04
+    steps:
+      - uses: actions/checkout@v1
+        with:
+          fetch-depth: 1
+
+      - name: Retrieve submodules
+        run: git submodule update --init --recursive
+
+      - name: Install Dependencies
+        env:
+          # The Secret variable setup in GitHub must be in format: "name_or_email key", on a single line
+          PVS_STUDIO_LICENSE: ${{ secrets.PVS_STUDIO_LICENSE }}
+        run: |
+          if [[ "$PVS_STUDIO_LICENSE" != "" ]];
+          then
+            wget -q https://files.viva64.com/etc/pubkey.txt
+            sudo apt-key add pubkey.txt
+            sudo wget -O /etc/apt/sources.list.d/viva64.list https://files.viva64.com/etc/viva64.list
+            sudo apt-get update
+            sudo apt-get install -y pvs-studio
+            pvs-studio-analyzer credentials -o pvs-studio.lic $PVS_STUDIO_LICENSE
+          fi
+
+      - name: Build Python
+        run: |
+          sudo apt-get update
+          sudo apt-get install libgl1-mesa-dev
+          sudo apt-get install xorg-dev
+          cd Dependencies/cpython
+          mkdir debug
+          cd debug
+          ../configure --with-pydebug --enable-shared
+          make
+
+      - name: PVS-Studio static analysis
+        run: |
+          if [[ ! -f pvs-studio.lic ]];
+          then
+            echo "PVS Studio license is missing. No analysis will be performed."
+            echo "If you have a PVS Studio license please create a project secret named PVS_STUDIO_LICENSE with your license."
+            echo "You may use a free license. More information at https://www.viva64.com/en/b/0457/"
+            exit 0
+          fi
+          mkdir cmake-build-debug
+          cd cmake-build-debug
+          cmake .. -DCMAKE_EXPORT_COMPILE_COMMANDS=On
+          cd ..
+          pvs-studio-analyzer trace -- cmake --build cmake-build-debug --config Debug
+          pvs-studio-analyzer analyze -e ./Dependencies -e ./DearPyGui/vendor -e ./DearPyGui/src/core/AppItems/custom/mvTextEditor.cpp -l pvs-studio.lic -o pvs-studio.log
+          plog-converter -a 'GA:1,2;OP:1' -t fullhtml -o pvs-studio.html -w pvs-studio.log
+
+      - name: Archive code coverage results
+        if: ${{ always() }}
+        uses: actions/upload-artifact@v2
+        with:
+          name: pvs-results
+          path: /home/runner/work/DearPyGui/DearPyGui/pvs-studio.html
