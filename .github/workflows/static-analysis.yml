@@ -41,14 +41,6 @@ jobs:
           ../configure --with-pydebug --enable-shared
           make
 
-      - name: Build DearPyGui
-        run: |
-          mkdir cmake-build-debug
-          cd cmake-build-debug
-          cmake ..
-          cd ..
-          cmake --build cmake-build-debug --config Debug -DCMAKE_EXPORT_COMPILE_COMMANDS=On
-
       - name: PVS-Studio static analysis
         run: |
           if [[ ! -f pvs-studio.lic ]];
@@ -58,7 +50,10 @@ jobs:
             echo "You may use a free license. More information at https://www.viva64.com/en/b/0457/"
             exit 0
           fi
-          cd examples/example_null
-          pvs-studio-analyzer trace -- make WITH_EXTRA_WARNINGS=1
-          pvs-studio-analyzer analyze -l ../../pvs-studio.lic -o pvs-studio.log
+          mkdir cmake-build-debug
+          cd cmake-build-debug
+          cmake ..
+          cd ..
+          pvs-studio-analyzer trace -- cmake --build cmake-build-debug --config Debug -DCMAKE_EXPORT_COMPILE_COMMANDS=On
+          pvs-studio-analyzer analyze -l pvs-studio.lic -o pvs-studio.log
           plog-converter -a 'GA:1,2;OP:1' -t errorfile -w pvs-studio.log
