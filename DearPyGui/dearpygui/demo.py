@@ -239,7 +239,7 @@ def show_demo():
 
             with tree_node("Basic##demo"):
                 def log_callback(sender, data):
-                    log_debug(f"{sender} ran a callback")
+                    log_debug(f"{sender} ran a callback its value is {get_value(sender)}")
                 def toggle_config(sender, data):
                     config_dict = {}
                     for kwarg in data['kwargs']:
@@ -483,24 +483,24 @@ def show_demo():
                                  "drag int3##demo", "slider int3##demo", "input float4##demo", "drag float4##demo", "slider float4##demo", 
                                  "input int4##demo", "drag int4##demo", "slider int4##demo"]
                 add_checkbox("Enable-Disable##multi-component_widgets", default_value=True, callback=toggle_config, callback_data={'kwargs': ['enabled'], 'items': disable_items})
-                add_input_float2("input float2##demo", source="float2")
+                add_input_float2("input float2##demo", source="float2", min_value=0.0, max_value=100.0)
                 add_drag_float2("drag float2##demo", source="float2")
                 add_slider_float2("slider float2##demo", source="float2")
-                add_input_int2("input int2##demo", source="int2")
+                add_input_int2("input int2##demo", source="int2", min_value=0, max_value=100)
                 add_drag_int2("drag int2##demo", source="int2")
                 add_slider_int2("slider int2##demo", source="int2")
                 add_spacing()
-                add_input_float3("input float3##demo", source="float3")
+                add_input_float3("input float3##demo", source="float3", min_value=0.0, max_value=100.0)
                 add_drag_float3("drag float3##demo", source="float3")
                 add_slider_float3("slider float3##demo", source="float3")
-                add_input_int3("input int3##demo", source="int3")
+                add_input_int3("input int3##demo", source="int3", min_value=0, max_value=100)
                 add_drag_int3("drag int3##demo", source="int3")
                 add_slider_int3("slider int3##demo", source="int3")
                 add_spacing()
-                add_input_float4("input float4##demo", source="float4")
+                add_input_float4("input float4##demo", source="float4", min_value=0.0, max_value=100.0)
                 add_drag_float4("drag float4##demo", source="float4")
                 add_slider_float4("slider float4##demo", source="float4")
-                add_input_int4("input int4##demo", source="int4")
+                add_input_int4("input int4##demo", source="int4", min_value=0, max_value=100)
                 add_drag_int4("drag int4##demo", source="int4")
                 add_slider_int4("slider int4##demo", source="int4")
 

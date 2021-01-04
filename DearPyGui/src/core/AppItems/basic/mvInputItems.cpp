@@ -51,7 +51,28 @@ namespace Marvel {
         }
 
         if (ImGui::InputInt(m_label.c_str(), m_value, m_step, m_step_fast, m_flags))
-            mvApp::GetApp()->getCallbackRegistry().addCallback(m_callback, m_name, m_callbackData);
+        {
+            // determines clamped cases
+            //if the value is aboved a clamped value we will do like drag and slider and not run the callback
+            if (m_min_clamped && m_max_clamped)
+            {
+                if (m_value[0] < m_min) m_value[0] = m_min;
+                else if (m_value[0] > m_max) m_value[0] = m_max;
+                else mvApp::GetApp()->getCallbackRegistry().addCallback(m_callback, m_name, m_callbackData);
+            }
+            else if (m_min_clamped)
+            {
+                if (m_value[0] < m_min) m_value[0] = m_min;
+                else mvApp::GetApp()->getCallbackRegistry().addCallback(m_callback, m_name, m_callbackData);
+            }
+            else if (m_max_clamped)
+            {
+                if (m_value[0] > m_max) m_value[0] = m_max;
+                else mvApp::GetApp()->getCallbackRegistry().addCallback(m_callback, m_name, m_callbackData);
+            }
+            else
+                mvApp::GetApp()->getCallbackRegistry().addCallback(m_callback, m_name, m_callbackData);
+        }
 
     }
 
@@ -64,6 +85,10 @@ namespace Marvel {
         if (PyObject* item = PyDict_GetItemString(dict, "readonly")) ToBool(item) ? m_flags |= ImGuiInputTextFlags_ReadOnly : m_flags &= ~ImGuiInputTextFlags_ReadOnly;
         if (PyObject* item = PyDict_GetItemString(dict, "step")) m_step = ToInt(item);
         if (PyObject* item = PyDict_GetItemString(dict, "step_fast")) m_step_fast = ToInt(item);
+        if (PyObject* item = PyDict_GetItemString(dict, "min_value")) { m_min = ToInt(item); m_min_clamped = true; }
+        if (PyObject* item = PyDict_GetItemString(dict, "max_value")) { m_max = ToInt(item); m_max_clamped = true; }
+        if (PyObject* item = PyDict_GetItemString(dict, "min_clamped")) m_min_clamped = ToBool(item);
+        if (PyObject* item = PyDict_GetItemString(dict, "max_clamped")) m_max_clamped = ToBool(item);
     }
 
     void mvInputInt::getExtraConfigDict(PyObject* dict)
@@ -75,6 +100,11 @@ namespace Marvel {
         PyDict_SetItemString(dict, "readonly", ToPyBool(m_flags & ImGuiInputTextFlags_ReadOnly));
         PyDict_SetItemString(dict, "step", ToPyInt(m_step));
         PyDict_SetItemString(dict, "step_fast", ToPyInt(m_step_fast));
+        PyDict_SetItemString(dict, "min_value", ToPyInt(m_min));
+        PyDict_SetItemString(dict, "max_value", ToPyInt(m_max));
+        PyDict_SetItemString(dict, "min_clamped", ToPyBool(m_min_clamped));
+        PyDict_SetItemString(dict, "max_clamped", ToPyBool(m_max_clamped));
+
     }
 
     //-----------------------------------------------------------------------------
@@ -118,8 +148,37 @@ namespace Marvel {
         }
 
         if (ImGui::InputInt2(m_label.c_str(), m_value, m_flags))
-            mvApp::GetApp()->getCallbackRegistry().addCallback(m_callback, m_name, m_callbackData);
-
+        {
+            // determines clamped cases
+            //if the value is aboved a clamped value we will do like drag and slider and not run the callback
+            if (m_min_clamped && m_max_clamped)
+            {
+                for (int i = 0; i < 2; i++)
+                {
+                    if (m_value[i] < m_min) m_value[i] = m_min;
+                    else if (m_value[i] > m_max) m_value[i] = m_max;
+                    else mvApp::GetApp()->getCallbackRegistry().addCallback(m_callback, m_name, m_callbackData);
+                }
+            }
+            else if (m_min_clamped)
+            {
+                for (int i = 0 ; i < 2 ; i++)
+                {
+                    if (m_value[i] < m_min) m_value[i] = m_min;
+                    else mvApp::GetApp()->getCallbackRegistry().addCallback(m_callback, m_name, m_callbackData);
+                }
+            }
+            else if (m_max_clamped)
+            {
+                for (int i = 0; i < 2; i++)
+                {
+                    if (m_value[i] > m_max) m_value[i] = m_max;
+                    else mvApp::GetApp()->getCallbackRegistry().addCallback(m_callback, m_name, m_callbackData);
+                }
+            }
+            else
+                mvApp::GetApp()->getCallbackRegistry().addCallback(m_callback, m_name, m_callbackData);
+        }
     }
 
     void mvInputInt2::setExtraConfigDict(PyObject* dict)
@@ -129,6 +188,10 @@ namespace Marvel {
         mvGlobalIntepreterLock gil;
         if (PyObject* item = PyDict_GetItemString(dict, "on_enter")) ToBool(item) ? m_flags |= ImGuiInputTextFlags_EnterReturnsTrue : m_flags &= ~ImGuiInputTextFlags_EnterReturnsTrue;
         if (PyObject* item = PyDict_GetItemString(dict, "readonly")) ToBool(item) ? m_flags |= ImGuiInputTextFlags_ReadOnly : m_flags &= ~ImGuiInputTextFlags_ReadOnly;
+        if (PyObject* item = PyDict_GetItemString(dict, "min_value")) { m_min = ToInt(item); m_min_clamped = true; }
+        if (PyObject* item = PyDict_GetItemString(dict, "max_value")) { m_max = ToInt(item); m_max_clamped = true; }
+        if (PyObject* item = PyDict_GetItemString(dict, "min_clamped")) m_min_clamped = ToBool(item);
+        if (PyObject* item = PyDict_GetItemString(dict, "max_clamped")) m_max_clamped = ToBool(item);
     }
 
     void mvInputInt2::getExtraConfigDict(PyObject* dict)
@@ -138,6 +201,11 @@ namespace Marvel {
         mvGlobalIntepreterLock gil;
         PyDict_SetItemString(dict, "on_enter", ToPyBool(m_flags & ImGuiInputTextFlags_EnterReturnsTrue));
         PyDict_SetItemString(dict, "readonly", ToPyBool(m_flags & ImGuiInputTextFlags_ReadOnly));
+        PyDict_SetItemString(dict, "min_value", ToPyInt(m_min));
+        PyDict_SetItemString(dict, "max_value", ToPyInt(m_max));
+        PyDict_SetItemString(dict, "min_clamped", ToPyBool(m_min_clamped));
+        PyDict_SetItemString(dict, "max_clamped", ToPyBool(m_max_clamped));
+
     }
 
     //-----------------------------------------------------------------------------
@@ -181,7 +249,37 @@ namespace Marvel {
         }
 
         if (ImGui::InputInt3(m_label.c_str(), m_value, m_flags))
-            mvApp::GetApp()->getCallbackRegistry().addCallback(m_callback, m_name, m_callbackData);
+        {
+            // determines clamped cases
+            //if the value is aboved a clamped value we will do like drag and slider and not run the callback
+            if (m_min_clamped && m_max_clamped)
+            {
+                for (int i = 0; i < 3; i++)
+                {
+                    if (m_value[i] < m_min) m_value[i] = m_min;
+                    else if (m_value[i] > m_max) m_value[i] = m_max;
+                    else mvApp::GetApp()->getCallbackRegistry().addCallback(m_callback, m_name, m_callbackData);
+                }
+            }
+            else if (m_min_clamped)
+            {
+                for (int i = 0; i < 3; i++)
+                {
+                    if (m_value[i] < m_min) m_value[i] = m_min;
+                    else mvApp::GetApp()->getCallbackRegistry().addCallback(m_callback, m_name, m_callbackData);
+                }
+            }
+            else if (m_max_clamped)
+            {
+                for (int i = 0; i < 3; i++)
+                {
+                    if (m_value[i] > m_max) m_value[i] = m_max;
+                    else mvApp::GetApp()->getCallbackRegistry().addCallback(m_callback, m_name, m_callbackData);
+                }
+            }
+            else
+                mvApp::GetApp()->getCallbackRegistry().addCallback(m_callback, m_name, m_callbackData);
+        }
     }
 
     void mvInputInt3::setExtraConfigDict(PyObject* dict)
@@ -191,6 +289,10 @@ namespace Marvel {
         mvGlobalIntepreterLock gil;
         if (PyObject* item = PyDict_GetItemString(dict, "on_enter")) ToBool(item) ? m_flags |= ImGuiInputTextFlags_EnterReturnsTrue : m_flags &= ~ImGuiInputTextFlags_EnterReturnsTrue;
         if (PyObject* item = PyDict_GetItemString(dict, "readonly")) ToBool(item) ? m_flags |= ImGuiInputTextFlags_ReadOnly : m_flags &= ~ImGuiInputTextFlags_ReadOnly;
+        if (PyObject* item = PyDict_GetItemString(dict, "min_value")) { m_min = ToInt(item); m_min_clamped = true; }
+        if (PyObject* item = PyDict_GetItemString(dict, "max_value")) { m_max = ToInt(item); m_max_clamped = true; }
+        if (PyObject* item = PyDict_GetItemString(dict, "min_clamped")) m_min_clamped = ToBool(item);
+        if (PyObject* item = PyDict_GetItemString(dict, "max_clamped")) m_max_clamped = ToBool(item);
     }
 
     void mvInputInt3::getExtraConfigDict(PyObject* dict)
@@ -200,6 +302,10 @@ namespace Marvel {
         mvGlobalIntepreterLock gil;
         PyDict_SetItemString(dict, "on_enter", ToPyBool(m_flags & ImGuiInputTextFlags_EnterReturnsTrue));
         PyDict_SetItemString(dict, "readonly", ToPyBool(m_flags & ImGuiInputTextFlags_ReadOnly));
+        PyDict_SetItemString(dict, "min_value", ToPyInt(m_min));
+        PyDict_SetItemString(dict, "max_value", ToPyInt(m_max));
+        PyDict_SetItemString(dict, "min_clamped", ToPyBool(m_min_clamped));
+        PyDict_SetItemString(dict, "max_clamped", ToPyBool(m_max_clamped));
     }
 
     //-----------------------------------------------------------------------------
@@ -243,8 +349,37 @@ namespace Marvel {
         }
 
         if (ImGui::InputInt4(m_label.c_str(), m_value, m_flags))
-            mvApp::GetApp()->getCallbackRegistry().addCallback(m_callback, m_name, m_callbackData);
-
+        {
+            // determines clamped cases
+            //if the value is aboved a clamped value we will do like drag and slider and not run the callback
+            if (m_min_clamped && m_max_clamped)
+            {
+                for (int i = 0; i < 4; i++)
+                {
+                    if (m_value[i] < m_min) m_value[i] = m_min;
+                    else if (m_value[i] > m_max) m_value[i] = m_max;
+                    else mvApp::GetApp()->getCallbackRegistry().addCallback(m_callback, m_name, m_callbackData);
+                }
+            }
+            else if (m_min_clamped)
+            {
+                for (int i = 0; i < 4; i++)
+                {
+                    if (m_value[i] < m_min) m_value[i] = m_min;
+                    else mvApp::GetApp()->getCallbackRegistry().addCallback(m_callback, m_name, m_callbackData);
+                }
+            }
+            else if (m_max_clamped)
+            {
+                for (int i = 0; i < 4; i++)
+                {
+                    if (m_value[i] > m_max) m_value[i] = m_max;
+                    else mvApp::GetApp()->getCallbackRegistry().addCallback(m_callback, m_name, m_callbackData);
+                }
+            }
+            else
+                mvApp::GetApp()->getCallbackRegistry().addCallback(m_callback, m_name, m_callbackData);
+        }
     }
 
     void mvInputInt4::setExtraConfigDict(PyObject* dict)
@@ -254,6 +389,10 @@ namespace Marvel {
         mvGlobalIntepreterLock gil;
         if (PyObject* item = PyDict_GetItemString(dict, "on_enter")) ToBool(item) ? m_flags |= ImGuiInputTextFlags_EnterReturnsTrue : m_flags &= ~ImGuiInputTextFlags_EnterReturnsTrue;
         if (PyObject* item = PyDict_GetItemString(dict, "readonly")) ToBool(item) ? m_flags |= ImGuiInputTextFlags_ReadOnly : m_flags &= ~ImGuiInputTextFlags_ReadOnly;
+        if (PyObject* item = PyDict_GetItemString(dict, "min_value")) { m_min = ToInt(item); m_min_clamped = true; }
+        if (PyObject* item = PyDict_GetItemString(dict, "max_value")) { m_max = ToInt(item); m_max_clamped = true; }
+        if (PyObject* item = PyDict_GetItemString(dict, "min_clamped")) m_min_clamped = ToBool(item);
+        if (PyObject* item = PyDict_GetItemString(dict, "max_clamped")) m_max_clamped = ToBool(item);
     }
 
     void mvInputInt4::getExtraConfigDict(PyObject* dict)
@@ -263,6 +402,10 @@ namespace Marvel {
         mvGlobalIntepreterLock gil;
         PyDict_SetItemString(dict, "on_enter", ToPyBool(m_flags & ImGuiInputTextFlags_EnterReturnsTrue));
         PyDict_SetItemString(dict, "readonly", ToPyBool(m_flags & ImGuiInputTextFlags_ReadOnly));
+        PyDict_SetItemString(dict, "min_value", ToPyInt(m_min));
+        PyDict_SetItemString(dict, "max_value", ToPyInt(m_max));
+        PyDict_SetItemString(dict, "min_clamped", ToPyBool(m_min_clamped));
+        PyDict_SetItemString(dict, "max_clamped", ToPyBool(m_max_clamped));
     }
 
     //-----------------------------------------------------------------------------
@@ -306,8 +449,28 @@ namespace Marvel {
         }
 
         if (ImGui::InputFloat(m_label.c_str(), m_value, m_step, m_step_fast, m_format.c_str(), m_flags))
-            mvApp::GetApp()->getCallbackRegistry().addCallback(m_callback, m_name, m_callbackData);
-
+        {
+            // determines clamped cases
+            //if the value is aboved a clamped value we will do like drag and slider and not run the callback
+            if (m_min_clamped && m_max_clamped)
+            {
+                if (m_value[0] < m_min) m_value[0] = m_min;
+                else if (m_value[0] > m_max) m_value[0] = m_max;
+                else mvApp::GetApp()->getCallbackRegistry().addCallback(m_callback, m_name, m_callbackData);
+            }
+            else if (m_min_clamped)
+            {
+                if (m_value[0] < m_min) m_value[0] = m_min;
+                else mvApp::GetApp()->getCallbackRegistry().addCallback(m_callback, m_name, m_callbackData);
+            }
+            else if (m_max_clamped)
+            {
+                if (m_value[0] > m_max) m_value[0] = m_max;
+                else mvApp::GetApp()->getCallbackRegistry().addCallback(m_callback, m_name, m_callbackData);
+            }
+            else
+                mvApp::GetApp()->getCallbackRegistry().addCallback(m_callback, m_name, m_callbackData);
+        }
     }
 
     void mvInputFloat::setExtraConfigDict(PyObject* dict)
@@ -318,6 +481,10 @@ namespace Marvel {
         if (PyObject* item = PyDict_GetItemString(dict, "format")) m_format = ToString(item);
         if (PyObject* item = PyDict_GetItemString(dict, "step")) m_step = ToFloat(item);
         if (PyObject* item = PyDict_GetItemString(dict, "step_fast")) m_step_fast = ToFloat(item);
+        if (PyObject* item = PyDict_GetItemString(dict, "min_value")) { m_min = ToFloat(item); m_min_clamped = true; }
+        if (PyObject* item = PyDict_GetItemString(dict, "max_value")) { m_max = ToFloat(item); m_max_clamped = true; }
+        if (PyObject* item = PyDict_GetItemString(dict, "min_clamped")) m_min_clamped = ToBool(item);
+        if (PyObject* item = PyDict_GetItemString(dict, "max_clamped")) m_max_clamped = ToBool(item);
 
         // helper for bit flipping
         auto flagop = [dict](const char* keyword, int flag, int& flags)
@@ -339,6 +506,10 @@ namespace Marvel {
         PyDict_SetItemString(dict, "format", ToPyString(m_format));
         PyDict_SetItemString(dict, "step", ToPyFloat(m_step));
         PyDict_SetItemString(dict, "step_fast", ToPyFloat(m_step_fast));
+        PyDict_SetItemString(dict, "min_value", ToPyFloat(m_min));
+        PyDict_SetItemString(dict, "max_value", ToPyFloat(m_max));
+        PyDict_SetItemString(dict, "min_clamped", ToPyBool(m_min_clamped));
+        PyDict_SetItemString(dict, "max_clamped", ToPyBool(m_max_clamped));
 
         // helper to check and set bit
         auto checkbitset = [dict](const char* keyword, int flag, const int& flags)
@@ -393,7 +564,37 @@ namespace Marvel {
         }
 
         if (ImGui::InputFloat2(m_label.c_str(), m_value, m_format.c_str(), m_flags))
-            mvApp::GetApp()->getCallbackRegistry().addCallback(m_callback, m_name, m_callbackData);
+        {
+            // determines clamped cases
+            //if the value is aboved a clamped value we will do like drag and slider and not run the callback
+            if (m_min_clamped && m_max_clamped)
+            {
+                for (int i = 0; i < 2; i++)
+                {
+                    if (m_value[i] < m_min) m_value[i] = m_min;
+                    else if (m_value[i] > m_max) m_value[i] = m_max;
+                    else mvApp::GetApp()->getCallbackRegistry().addCallback(m_callback, m_name, m_callbackData);
+                }
+            }
+            else if (m_min_clamped)
+            {
+                for (int i = 0; i < 2; i++)
+                {
+                    if (m_value[i] < m_min) m_value[i] = m_min;
+                    else mvApp::GetApp()->getCallbackRegistry().addCallback(m_callback, m_name, m_callbackData);
+                }
+            }
+            else if (m_max_clamped)
+            {
+                for (int i = 0; i < 2; i++)
+                {
+                    if (m_value[i] > m_max) m_value[i] = m_max;
+                    else mvApp::GetApp()->getCallbackRegistry().addCallback(m_callback, m_name, m_callbackData);
+                }
+            }
+            else
+                mvApp::GetApp()->getCallbackRegistry().addCallback(m_callback, m_name, m_callbackData);
+        }
     }
 
     void mvInputFloat2::setExtraConfigDict(PyObject* dict)
@@ -402,6 +603,10 @@ namespace Marvel {
             return;
         mvGlobalIntepreterLock gil;
         if (PyObject* item = PyDict_GetItemString(dict, "format")) m_format = ToString(item);
+        if (PyObject* item = PyDict_GetItemString(dict, "min_value")) { m_min = ToFloat(item); m_min_clamped = true; }
+        if (PyObject* item = PyDict_GetItemString(dict, "max_value")) { m_max = ToFloat(item); m_max_clamped = true; }
+        if (PyObject* item = PyDict_GetItemString(dict, "min_clamped")) m_min_clamped = ToBool(item);
+        if (PyObject* item = PyDict_GetItemString(dict, "max_clamped")) m_max_clamped = ToBool(item);
 
         // helper for bit flipping
         auto flagop = [dict](const char* keyword, int flag, int& flags)
@@ -421,6 +626,10 @@ namespace Marvel {
             return;
         mvGlobalIntepreterLock gil;
         PyDict_SetItemString(dict, "format", ToPyString(m_format));
+        PyDict_SetItemString(dict, "min_value", ToPyFloat(m_min));
+        PyDict_SetItemString(dict, "max_value", ToPyFloat(m_max));
+        PyDict_SetItemString(dict, "min_clamped", ToPyBool(m_min_clamped));
+        PyDict_SetItemString(dict, "max_clamped", ToPyBool(m_max_clamped));
 
         // helper to check and set bit
         auto checkbitset = [dict](const char* keyword, int flag, const int& flags)
@@ -475,8 +684,37 @@ namespace Marvel {
         }
 
         if (ImGui::InputFloat3(m_label.c_str(), m_value, m_format.c_str(), m_flags))
-            mvApp::GetApp()->getCallbackRegistry().addCallback(m_callback, m_name, m_callbackData);
-
+        {
+            // determines clamped cases
+            //if the value is aboved a clamped value we will do like drag and slider and not run the callback
+            if (m_min_clamped && m_max_clamped)
+            {
+                for (int i = 0; i < 3; i++)
+                {
+                    if (m_value[i] < m_min) m_value[i] = m_min;
+                    else if (m_value[i] > m_max) m_value[i] = m_max;
+                    else mvApp::GetApp()->getCallbackRegistry().addCallback(m_callback, m_name, m_callbackData);
+                }
+            }
+            else if (m_min_clamped)
+            {
+                for (int i = 0; i < 3; i++)
+                {
+                    if (m_value[i] < m_min) m_value[i] = m_min;
+                    else mvApp::GetApp()->getCallbackRegistry().addCallback(m_callback, m_name, m_callbackData);
+                }
+            }
+            else if (m_max_clamped)
+            {
+                for (int i = 0; i < 3; i++)
+                {
+                    if (m_value[i] > m_max) m_value[i] = m_max;
+                    else mvApp::GetApp()->getCallbackRegistry().addCallback(m_callback, m_name, m_callbackData);
+                }
+            }
+            else
+                mvApp::GetApp()->getCallbackRegistry().addCallback(m_callback, m_name, m_callbackData);
+        }
     }
 
     void mvInputFloat3::setExtraConfigDict(PyObject* dict)
@@ -485,6 +723,10 @@ namespace Marvel {
             return;
         mvGlobalIntepreterLock gil;
         if (PyObject* item = PyDict_GetItemString(dict, "format")) m_format = ToString(item);
+        if (PyObject* item = PyDict_GetItemString(dict, "min_value")) { m_min = ToFloat(item); m_min_clamped = true; }
+        if (PyObject* item = PyDict_GetItemString(dict, "max_value")) { m_max = ToFloat(item); m_max_clamped = true; }
+        if (PyObject* item = PyDict_GetItemString(dict, "min_clamped")) m_min_clamped = ToBool(item);
+        if (PyObject* item = PyDict_GetItemString(dict, "max_clamped")) m_max_clamped = ToBool(item);
 
         // helper for bit flipping
         auto flagop = [dict](const char* keyword, int flag, int& flags)
@@ -504,6 +746,10 @@ namespace Marvel {
             return;
         mvGlobalIntepreterLock gil;
         PyDict_SetItemString(dict, "format", ToPyString(m_format));
+        PyDict_SetItemString(dict, "min_value", ToPyFloat(m_min));
+        PyDict_SetItemString(dict, "max_value", ToPyFloat(m_max));
+        PyDict_SetItemString(dict, "min_clamped", ToPyBool(m_min_clamped));
+        PyDict_SetItemString(dict, "max_clamped", ToPyBool(m_max_clamped));
 
         // helper to check and set bit
         auto checkbitset = [dict](const char* keyword, int flag, const int& flags)
@@ -558,7 +804,37 @@ namespace Marvel {
         }
 
         if (ImGui::InputFloat4(m_label.c_str(), m_value, m_format.c_str(), m_flags))
-            mvApp::GetApp()->getCallbackRegistry().addCallback(m_callback, m_name, m_callbackData);
+        {
+            // determines clamped cases
+            //if the value is aboved a clamped value we will do like drag and slider and not run the callback
+            if (m_min_clamped && m_max_clamped)
+            {
+                for (int i = 0; i < 4; i++)
+                {
+                    if (m_value[i] < m_min) m_value[i] = m_min;
+                    else if (m_value[i] > m_max) m_value[i] = m_max;
+                    else mvApp::GetApp()->getCallbackRegistry().addCallback(m_callback, m_name, m_callbackData);
+                }
+            }
+            else if (m_min_clamped)
+            {
+                for (int i = 0; i < 4; i++)
+                {
+                    if (m_value[i] < m_min) m_value[i] = m_min;
+                    else mvApp::GetApp()->getCallbackRegistry().addCallback(m_callback, m_name, m_callbackData);
+                }
+            }
+            else if (m_max_clamped)
+            {
+                for (int i = 0; i < 4; i++)
+                {
+                    if (m_value[i] > m_max) m_value[i] = m_max;
+                    else mvApp::GetApp()->getCallbackRegistry().addCallback(m_callback, m_name, m_callbackData);
+                }
+            }
+            else
+                mvApp::GetApp()->getCallbackRegistry().addCallback(m_callback, m_name, m_callbackData);
+        }
     }
 
     void mvInputFloat4::setExtraConfigDict(PyObject* dict)
@@ -567,6 +843,10 @@ namespace Marvel {
             return;
         mvGlobalIntepreterLock gil;
         if (PyObject* item = PyDict_GetItemString(dict, "format")) m_format = ToString(item);
+        if (PyObject* item = PyDict_GetItemString(dict, "min_value")) { m_min = ToFloat(item); m_min_clamped = true; }
+        if (PyObject* item = PyDict_GetItemString(dict, "max_value")) { m_max = ToFloat(item); m_max_clamped = true; }
+        if (PyObject* item = PyDict_GetItemString(dict, "min_clamped")) m_min_clamped = ToBool(item);
+        if (PyObject* item = PyDict_GetItemString(dict, "max_clamped")) m_max_clamped = ToBool(item);
 
         // helper for bit flipping
         auto flagop = [dict](const char* keyword, int flag, int& flags)
@@ -586,6 +866,10 @@ namespace Marvel {
             return;
         mvGlobalIntepreterLock gil;
         PyDict_SetItemString(dict, "format", ToPyString(m_format));
+        PyDict_SetItemString(dict, "min_value", ToPyFloat(m_min));
+        PyDict_SetItemString(dict, "max_value", ToPyFloat(m_max));
+        PyDict_SetItemString(dict, "min_clamped", ToPyBool(m_min_clamped));
+        PyDict_SetItemString(dict, "max_clamped", ToPyBool(m_max_clamped));
 
         // helper to check and set bit
         auto checkbitset = [dict](const char* keyword, int flag, const int& flags)
