@@ -44,6 +44,9 @@ namespace Marvel {
 			CleanupDeviceD3D();
 			::UnregisterClass(m_wc.lpszClassName, m_wc.hInstance);
 		}
+		previous_ime_char=0;
+		HKL hkl=GetKeyboardLayout(0);		
+		lang_id=LOWORD(hkl);
 
 	}
 
@@ -291,7 +294,6 @@ namespace Marvel {
 	{
 		if (ImGui_ImplWin32_WndProcHandler(hWnd, msg, wParam, lParam))
 			return true;
-
 		switch (msg)
 		{
 		case WM_SIZE:
@@ -338,6 +340,48 @@ namespace Marvel {
 		case WM_DESTROY:
 			mvApp::s_started = false;
 			::PostQuitMessage(0);
+			return 0;
+		case WM_INPUTLANGCHANGE:
+			lang_id=LOWORD(lParam);			
+			break;
+        case WM_IME_CHAR:
+			if (lang_id==0x0412)
+				break;
+			auto& io = ImGui::GetIO();
+			DWORD wChar = wParam;
+			if (wChar <= 127)
+			{
+				io.AddInputCharacter(wChar);
+				return 0;
+			}
+			else if(wChar<0xFF){
+			//GBK also supports Traditional Chinese, Japanese, English, Russian and (partially) Greek.
+			//When input Japanese with MS Japanese IME under CP936, dual bytes of one Japanese char are send within one or two wParam in succession.
+				if (previous_ime_char==0){ 
+					previous_ime_char=(BYTE)(wChar & 0x00FF);
+					return 0;
+				}
+				else{
+					BYTE b2=(BYTE)(wChar & 0x00FF);
+					wChar = MAKEWORD( previous_ime_char,b2);
+					previous_ime_char=0;
+				}
+			}
+			else
+			{
+				// swap lower and upper part.
+				BYTE low = (BYTE)(wChar & 0x00FF);
+				BYTE high = (BYTE)((wChar & 0xFF00) >> 8);
+				if (previous_ime_char==0)
+					wChar = MAKEWORD(high, low);
+				else{
+					wChar = MAKEWORD(previous_ime_char, high, low);
+					previous_ime_char=low;
+				}
+			}
+			wchar_t ch[6];
+			MultiByteToWideChar(CP_OEMCP, 0, (LPCSTR)&wChar, 4, ch, 3);
+			io.AddInputCharacter(ch[0]);			
 			return 0;
 		}
 		return ::DefWindowProc(hWnd, msg, wParam, lParam);
