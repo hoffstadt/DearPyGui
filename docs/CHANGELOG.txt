@@ -34,6 +34,15 @@ New Keywords:
 - add_input_int:                Added "max_value" keyword
 - add_input_int:                Added "clamped" keyword
 
+Breaking Changes:
+- get_thread_count:                removed command
+- get_threadpool_timeout:          removed command
+- is_threadpool_high_performance:  removed command
+- run_async_function:              removed command
+- set_thread_count:                removed command
+- set_threadpool_high_performance: removed command
+- set_threadpool_timeout:          removed command
+
 Fixes:
 - delete_row:     fixed issue where row 0 couldn't be deleted #421
 - get_item_label: fixed issue where internal label was returned #428

@@ -2,7 +2,6 @@
 #include "mvAppItem.h"
 #include "mvWindow.h"
 #include "mvEvents.h"
-#include "mvThreadPoolManager.h"
 #include <ImGuiFileDialog.h>
 #include "mvDataStorage.h"
 
@@ -90,13 +89,6 @@ namespace Marvel {
 		parsers->insert({ "get_global_font_scale", mvPythonParser({
 		}, "Returns the global font scale.", "float") });
 
-		parsers->insert({ "run_async_function", mvPythonParser({
-			{mvPythonDataType::Object, "name"},
-			{mvPythonDataType::Object, "data", "Data that will be sent into the async function."},
-			{mvPythonDataType::KeywordOnly},
-			{mvPythonDataType::Callable, "return_handler", "function called on completion", "None"},
-		}, "Runs a function asyncronously.") });
-
 		parsers->insert({ "open_file_dialog", mvPythonParser({
 			{mvPythonDataType::Optional},
 			{mvPythonDataType::Callable, "callback", "function to call on completion", "None"},
@@ -130,31 +122,11 @@ namespace Marvel {
 		parsers->insert({ "get_main_window_size", mvPythonParser({
 		}, "Returns the size of the main window.", "[int, int]") });
 
-		parsers->insert({ "get_thread_count", mvPythonParser({
-		}, "Returns the allowable thread count.", "int") });
-
-		parsers->insert({ "is_threadpool_high_performance", mvPythonParser({
-		}, "Checks if the threadpool is allowed to use the maximum number of threads.", "bool") });
-
-		parsers->insert({ "get_threadpool_timeout", mvPythonParser({
-		}, "Returns the threadpool timeout in seconds.", "float") });
-
 		parsers->insert({ "get_active_window", mvPythonParser({
 		}, "Returns the active window name.", "str") });
 
 		parsers->insert({ "get_dearpygui_version", mvPythonParser({
 		}, "Returns the current version of Dear PyGui.", "str") });
-
-		parsers->insert({ "set_threadpool_timeout", mvPythonParser({
-			{mvPythonDataType::Float, "time"}
-		}, "Sets the threadpool timeout.") });
-
-		parsers->insert({ "set_thread_count", mvPythonParser({
-			{mvPythonDataType::Integer, "threads"}
-		}, "Sets number of threads to use if the threadpool is active.") });
-
-		parsers->insert({ "set_threadpool_high_performance", mvPythonParser({
-		}, "Set the thread count to the maximum number of threads on your computer.") });
 
 		parsers->insert({ "set_main_window_size", mvPythonParser({
 			{mvPythonDataType::Integer, "width"},
@@ -519,29 +491,6 @@ namespace Marvel {
 		return GetPyNone();
 	}
 
-	PyObject* run_async_function(PyObject* self, PyObject* args, PyObject* kwargs)
-	{
-		PyObject* callback;
-		PyObject* return_handler = nullptr;
-		PyObject* data;
-
-		if (!(*mvApp::GetApp()->getParsers())["run_async_function"].parse(args, kwargs, __FUNCTION__, &callback, &data, &return_handler))
-			return GetPyNone();
-
-		if (callback)
-			Py_XINCREF(callback);
-
-		if (return_handler)
-			Py_XINCREF(return_handler);
-
-		auto tpool = mvThreadPoolManager::GetThreadPoolManager();
-
-		mvApp::GetApp()->getCallbackRegistry().addMTCallback(callback, data, return_handler);
-
-		return GetPyNone();
-
-	}
-
 	PyObject* select_directory_dialog(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		PyObject* callback = nullptr;
@@ -595,21 +544,6 @@ namespace Marvel {
 		return ToPyPairII(mvApp::GetApp()->getActualWidth(), mvApp::GetApp()->getActualHeight());
 	}
 
-	PyObject* get_thread_count(PyObject* self, PyObject* args, PyObject* kwargs)
-	{
-		return ToPyInt(mvThreadPoolManager::GetThreadPoolManager()->getThreadCount());
-	}
-
-	PyObject* is_threadpool_high_performance(PyObject* self, PyObject* args, PyObject* kwargs)
-	{
-		return ToPyBool(mvThreadPoolManager::GetThreadPoolManager()->usingThreadPoolHighPerformance());
-	}
-
-	PyObject* get_threadpool_timeout(PyObject* self, PyObject* args, PyObject* kwargs)
-	{
-		return ToPyFloat((float)mvThreadPoolManager::GetThreadPoolManager()->getThreadPoolTimeout());
-	}
-
 	PyObject* get_active_window(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		return ToPyString(mvApp::GetApp()->getItemRegistry().getActiveWindow());
@@ -618,30 +552,6 @@ namespace Marvel {
 	PyObject* get_dearpygui_version(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		return ToPyString(mvApp::GetApp()->GetVersion());
-	}
-
-	PyObject* set_threadpool_timeout(PyObject* self, PyObject* args, PyObject* kwargs)
-	{
-		float time;
-
-		if (!(*mvApp::GetApp()->getParsers())["set_threadpool_timeout"].parse(args, kwargs, __FUNCTION__, &time))
-			return GetPyNone();
-
-		mvThreadPoolManager::GetThreadPoolManager()->setThreadPoolTimeout(time);
-
-		return GetPyNone();
-	}
-
-	PyObject* set_thread_count(PyObject* self, PyObject* args, PyObject* kwargs)
-	{
-		int threads;
-
-		if (!(*mvApp::GetApp()->getParsers())["set_thread_count"].parse(args, kwargs, __FUNCTION__, &threads))
-			return GetPyNone();
-
-		mvThreadPoolManager::GetThreadPoolManager()->setThreadCount(threads);
-
-		return GetPyNone();
 	}
 
 	PyObject* add_data(PyObject* self, PyObject* args, PyObject* kwargs)
@@ -685,12 +595,6 @@ namespace Marvel {
 
 		mvDataStorage::DeleteData(name);
 
-		return GetPyNone();
-	}
-
-	PyObject* set_threadpool_high_performance(PyObject* self, PyObject* args, PyObject* kwargs)
-	{
-		mvThreadPoolManager::GetThreadPoolManager()->setThreadPoolHighPerformance();
 		return GetPyNone();
 	}
 
