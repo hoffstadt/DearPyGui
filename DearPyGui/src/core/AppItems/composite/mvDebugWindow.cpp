@@ -2,7 +2,6 @@
 #include "mvEvents.h"
 #include <misc/cpp/imgui_stdlib.h>
 #include "mvApp.h"
-#include "mvThreadPoolManager.h"
 #include "mvInput.h"
 #include "mvDataStorage.h"
 #include "mvTextureStorage.h"
@@ -144,7 +143,6 @@ namespace Marvel {
 		ImGuiIO& io = ImGui::GetIO();
 
 		static auto app = mvApp::GetApp();
-		static auto tpool = mvThreadPoolManager::GetThreadPoolManager();
 
 		if (ImGui::BeginTabBar("Main Tabbar"))
 		{
@@ -160,18 +158,12 @@ namespace Marvel {
 				DebugItem("ImGui Version: ", IMGUI_VERSION);
 				DebugItem("Stored Data: ", std::to_string(mvDataStorage::GetDataCount()).c_str());
 				DebugItem("Stored Textures: ", std::to_string(mvApp::GetApp()->getTextureStorage().getTextureCount()).c_str());
-				DebugItem("Threads Active: ", std::to_string(tpool->getThreadCount()).c_str());
-				DebugItem("Threadpool Timeout: ", std::to_string(tpool->getThreadPoolTimeout()).c_str());
-				DebugItem("Threadpool Active: ", tpool->usingThreadPool() ? ts : fs);
-				DebugItem("Threadpool High: ", tpool->usingThreadPoolHighPerformance() ? ts : fs);
 				ImGui::Separator();
 				DebugItem("Int Values", std::to_string(mvApp::GetApp()->getValueStorage().s_ints.size()).c_str());
 				DebugItem("Int2 Values", std::to_string(mvApp::GetApp()->getValueStorage().s_int2s.size()).c_str());
 				DebugItem("Int3 Values", std::to_string(mvApp::GetApp()->getValueStorage().s_int3s.size()).c_str());
 				DebugItem("Int4 Values", std::to_string(mvApp::GetApp()->getValueStorage().s_int4s.size()).c_str());
 				ImGui::Separator();
-				//auto & yy = mvApp::GetApp()->getValueStorage().s_refStorage;
-				//auto & xx = mvApp::GetApp()->getValueStorage().s_floats;
 				DebugItem("Float Values", std::to_string(mvApp::GetApp()->getValueStorage().s_floats.size()).c_str());
 				DebugItem("Float2 Values", std::to_string(mvApp::GetApp()->getValueStorage().s_float2s.size()).c_str());
 				DebugItem("Float3 Values", std::to_string(mvApp::GetApp()->getValueStorage().s_float3s.size()).c_str());

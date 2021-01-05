@@ -49,15 +49,6 @@ namespace Marvel {
 	PyObject* add_texture                    (PyObject* self, PyObject* args, PyObject* kwargs);
 	PyObject* decrement_texture              (PyObject* self, PyObject* args, PyObject* kwargs);
 	
-	// concurrency
-	PyObject* set_threadpool_timeout         (PyObject* self, PyObject* args, PyObject* kwargs);
-	PyObject* set_thread_count               (PyObject* self, PyObject* args, PyObject* kwargs);
-	PyObject* set_threadpool_high_performance(PyObject* self, PyObject* args, PyObject* kwargs);
-	PyObject* get_thread_count               (PyObject* self, PyObject* args, PyObject* kwargs);
-	PyObject* is_threadpool_high_performance (PyObject* self, PyObject* args, PyObject* kwargs);
-	PyObject* get_threadpool_timeout         (PyObject* self, PyObject* args, PyObject* kwargs);
-	PyObject* run_async_function             (PyObject* self, PyObject* args, PyObject* kwargs);
-	
 	// logging
 	PyObject* get_log_level                  (PyObject* self, PyObject* args, PyObject* kwargs);
 	PyObject* set_log_level                  (PyObject* self, PyObject* args, PyObject* kwargs);

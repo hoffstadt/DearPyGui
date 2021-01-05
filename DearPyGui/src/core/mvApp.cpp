@@ -14,7 +14,6 @@
 #include "mvPyObject.h"
 #include "mvProfiler.h"
 #include <implot.h>
-#include "mvThreadPoolManager.h"
 #include "mvEventListener.h"
 #include "mvTheme.h"
 
@@ -138,8 +137,6 @@ namespace Marvel {
 #if defined(MV_DEBUG)
 		new mvEventListener();
 #endif // MV_PROFILE
-
-		mvThreadPoolManager::GetThreadPoolManager();
 
 		// create managers
 		m_itemRegistry = CreateOwnedPtr<mvItemRegistry>();
