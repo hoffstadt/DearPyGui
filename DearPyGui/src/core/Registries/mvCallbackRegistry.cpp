@@ -181,10 +181,31 @@ namespace Marvel {
 		{
 			PyErr_Clear();
 
+			PyObject* intermediateResult = nullptr;
+			if (PyCallable_Check(data))
+			{
+				intermediateResult = PyObject_CallObject(data, nullptr);
+				// check if call succeeded
+				if (intermediateResult == nullptr)
+				{
+					PyErr_Print();
+					ThrowPythonException("Callable data failed");
+					intermediateResult = data;
+				}
+
+				// check if error occurred
+				if (PyErr_Occurred())
+					PyErr_Print();
+			}
+			else
+				intermediateResult = data;
+
+			PyErr_Clear();
+
 			//PyObject* pArgs = PyTuple_New(2);
 			mvPyObject pArgs(PyTuple_New(2));
 			PyTuple_SetItem(pArgs, 0, PyUnicode_FromString("Async"));
-			PyTuple_SetItem(pArgs, 1, data); // steals data, so don't deref
+			PyTuple_SetItem(pArgs, 1, intermediateResult); // steals data, so don't deref
 
 			mvPyObject result(PyObject_CallObject(callback, pArgs));
 
@@ -262,9 +283,30 @@ namespace Marvel {
 
 		PyErr_Clear();
 
+		PyObject* intermediateResult = nullptr;
+		if (PyCallable_Check(data))
+		{
+			intermediateResult = PyObject_CallObject(data, nullptr);
+			// check if call succeeded
+			if (intermediateResult == nullptr)
+			{
+				PyErr_Print();
+				ThrowPythonException("Callable data failed");
+				intermediateResult = data;
+			}
+
+			// check if error occurred
+			if (PyErr_Occurred())
+				PyErr_Print();
+		}
+		else
+			intermediateResult = data;
+
+		PyErr_Clear();
+
 		mvPyObject pArgs(PyTuple_New(2));
 		PyTuple_SetItem(pArgs, 0, PyUnicode_FromString(sender.c_str()));
-		PyTuple_SetItem(pArgs, 1, data); // steals data, so don't deref
+		PyTuple_SetItem(pArgs, 1, intermediateResult); // steals data, so don't deref
 
 		mvPyObject result(PyObject_CallObject(callable, pArgs));
 
