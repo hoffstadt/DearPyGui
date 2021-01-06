@@ -62,7 +62,8 @@ namespace Marvel {
 		static ID3D11DeviceContext* s_pd3dDeviceContext;
 		static IDXGISwapChain* s_pSwapChain;
 		static ID3D11RenderTargetView* s_mainRenderTargetView;
-
+		BYTE previous_ime_char;
+		WORD lang_id;
 	};
 
 }
