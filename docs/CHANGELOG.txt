@@ -44,6 +44,7 @@ Breaking Changes:
 - set_threadpool_timeout:          removed command
 
 Fixes:
+- add_text_point: fixed issue where the y value was incorrect #450
 - delete_row:     fixed issue where row 0 couldn't be deleted #421
 - get_item_label: fixed issue where internal label was returned #428
 - logger:         fixed issue where logs didn't show up occasionally
