@@ -11,6 +11,7 @@ namespace Marvel {
 
 	// replacing
 	PyObject* set_item_callback             (PyObject* self, PyObject* args, PyObject* kwargs);
+	PyObject* set_item_callback_data        (PyObject* self, PyObject* args, PyObject* kwargs);
 
 	PyObject* move_item                     (PyObject* self, PyObject* args, PyObject* kwargs);
 	PyObject* delete_item                   (PyObject* self, PyObject* args, PyObject* kwargs);
@@ -18,6 +19,7 @@ namespace Marvel {
 	PyObject* move_item_up                  (PyObject* self, PyObject* args, PyObject* kwargs);
 	PyObject* move_item_down                (PyObject* self, PyObject* args, PyObject* kwargs);
 	PyObject* get_item_callback             (PyObject* self, PyObject* args, PyObject* kwargs);
+	PyObject* get_item_callback_data        (PyObject* self, PyObject* args, PyObject* kwargs);
 	
 	PyObject* get_item_children             (PyObject* self, PyObject* args, PyObject* kwargs);
 	PyObject* get_all_items                 (PyObject* self, PyObject* args, PyObject* kwargs);
