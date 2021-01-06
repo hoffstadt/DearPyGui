@@ -79,6 +79,10 @@ namespace Marvel {
 			{mvPythonDataType::String, "item"}
 		}, "Returns an item' callback", "Callable", "Widget Commands") });
 
+		parsers->insert({ "get_item_callback_data", mvPythonParser({
+			{mvPythonDataType::String, "item"}
+		}, "Returns an item' callback data", "Any", "Widget Commands") });
+
 		parsers->insert({ "get_item_height", mvPythonParser({
 			{mvPythonDataType::String, "item"}
 		}, "Returns an item's height.", "float", "Widget Commands") });
@@ -187,6 +191,11 @@ namespace Marvel {
 			{mvPythonDataType::KeywordOnly},
 			{mvPythonDataType::Object, "callback_data", "Callback data", "None"},
 		}, "Sets an item's callback if applicable.", "None", "Widget Commands") });
+
+		parsers->insert({ "set_item_callback_data", mvPythonParser({
+			{mvPythonDataType::String, "item"},
+			{mvPythonDataType::Object, "callback_data", "Callback data", "None"},
+		}, "Sets an item's callback data if applicable.", "None", "Widget Commands") });
 
 		parsers->insert({ "set_item_tip", mvPythonParser({
 			{mvPythonDataType::String, "item"},
@@ -434,6 +443,29 @@ namespace Marvel {
 		if (appitem)
 		{
 			PyObject* callback = appitem->getCallback();
+			if (callback)
+			{
+				Py_XINCREF(callback);
+				return callback;
+			}
+
+		}
+
+		return GetPyNone();
+	}
+
+	PyObject* get_item_callback_data(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		const char* item;
+
+		if (!(*mvApp::GetApp()->getParsers())["get_item_callback_data"].parse(args, kwargs, __FUNCTION__, &item))
+			return GetPyNone();
+
+		auto appitem = mvApp::GetApp()->getItemRegistry().getItem(item);
+
+		if (appitem)
+		{
+			PyObject* callback = appitem->getCallbackData();
 			if (callback)
 			{
 				Py_XINCREF(callback);
@@ -811,6 +843,26 @@ namespace Marvel {
 					Py_XINCREF(callback_data);
 				appitem->setCallbackData(callback_data);
 			}
+		}
+
+		return GetPyNone();
+	}
+
+	PyObject* set_item_callback_data(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		PyObject* data;
+		const char* item;
+
+		if (!(*mvApp::GetApp()->getParsers())["set_item_callback_data"].parse(args, kwargs, __FUNCTION__, &item, &data))
+			return GetPyNone();
+
+		auto appitem = mvApp::GetApp()->getItemRegistry().getItem(item);
+
+		if (appitem)
+		{
+			if (appitem->getCallbackData() != data)
+				Py_XINCREF(data);
+			appitem->setCallbackData(data);
 		}
 
 		return GetPyNone();

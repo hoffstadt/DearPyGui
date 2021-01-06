@@ -26,6 +26,10 @@ HOW TO UPDATE?
  VERSION 0.6.122
 ------------------------------------------------------------------------
 
+New Commands:
+- get_item_callback_data: can now retrieve an item's callback data #451
+- set_item_callback_data: can now set an item's callback data #451
+
 Updates:
 - callback_data: callback_data can now be a callable that will automatically
                  run and replace the data argument for the callback

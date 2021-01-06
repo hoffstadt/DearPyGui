@@ -46,8 +46,8 @@ with window("Primary Window Tester", show=True):
     add_button("Demo Primary", callback=lambda sender, data: set_primary_window("Dear PyGui Demo", True))
     add_button("Async Primary", callback=window_close_all)
 
-    add_input_float("blah1", label="")
-    add_input_float("blah2", label="")
+    add_input_float("blah1", label="", callback_data=5)
+    add_input_float("blah2", label="", callback_data=lambda x: 2+7)
     add_input_float("blah3", label="")
 
 with window("Asyncronous##dialog", show=True):
