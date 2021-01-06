@@ -28,6 +28,7 @@ HOW TO UPDATE?
 
 Fixes:
 - add_text_point: fixed issue where the y value was incorrect #450
+- constants:      added missing docking mvGuiCol_* constants
 
 ------------------------------------------------------------------------
  VERSION 0.6.121
