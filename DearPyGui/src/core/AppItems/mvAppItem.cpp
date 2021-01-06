@@ -102,6 +102,16 @@ namespace Marvel{
 		m_callback = callback;
 	}
 
+	void mvAppItem::setCallbackData(PyObject* data)
+	{
+		if (data == Py_None)
+		{
+			m_callbackData = nullptr;
+			return;
+		}
+		m_callbackData = data;
+	}
+
 	void mvAppItem::resetState()
 	{
 		m_state.reset();

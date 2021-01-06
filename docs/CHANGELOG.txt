@@ -28,6 +28,14 @@ HOW TO UPDATE?
 
 Decorated log: https://github.com/hoffstadt/DearPyGui/releases/tag/v0.7.x
 
+New Commands:
+- get_item_callback_data: can now retrieve an item's callback data #451
+- set_item_callback_data: can now set an item's callback data #451
+
+Updates:
+- callback_data: callback_data can now be a callable that will automatically
+                 run and replace the data argument for the callback
+
 New Keywords:
 - add_input_text:               Added "tab_input" keyword
 - add_input_int:                Added "min_value" keyword

@@ -118,7 +118,7 @@ namespace Marvel {
         void                                setCallback    (PyObject* callback);
         void                                hide           () { m_show = false; }
         void                                show           () { m_show = true; }
-        void                                setCallbackData(PyObject* data) { m_callbackData = data; }
+        void                                setCallbackData(PyObject* data);
 
         [[nodiscard]] bool                  isShown        () const { return m_show; }
         [[nodiscard]] PyObject*             getCallback    (bool ignore_enabled = true);  // returns the callback. If ignore_enable false and item is disabled then no callback will be returned.

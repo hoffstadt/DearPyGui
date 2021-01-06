@@ -570,6 +570,10 @@ def get_item_callback(item: str) -> Callable:
 	"""Returns an item' callback"""
 	...
 
+def get_item_callback_data(item: str) -> Any:
+	"""Returns an item' callback data"""
+	...
+
 def get_item_children(item: str) -> List[str]:
 	"""Returns a list of an item's children."""
 	...
@@ -1000,6 +1004,10 @@ def set_individual_color(item: str, id: int, color: List[float]) -> None:
 
 def set_item_callback(item: str, callback: Callable, *, callback_data: Any = None) -> None:
 	"""Sets an item's callback if applicable."""
+	...
+
+def set_item_callback_data(item: str, callback_data: Any) -> None:
+	"""Sets an item's callback data if applicable."""
 	...
 
 def set_item_color(item: str, style: int, color: List[float]) -> None:
