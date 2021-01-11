@@ -2,6 +2,7 @@
 #include <string>
 #include <vector>
 #include <stack>
+#include <queue>
 #include <deque>
 #include <unordered_map>
 #include <functional>
@@ -115,7 +116,7 @@ namespace Marvel {
 	private:
 
 		static void                                                    Publish(mvEvent event);
-		static std::stack<mvEvent>&                                    GetEndFrameEvents();
+		static std::queue<mvEvent>&                                    GetEndFrameEvents();
 		static std::unordered_map<mvID, std::vector<mvEventHandler*>>& GetEventHandlers();
 		static std::unordered_map<mvID, std::vector<mvEventHandler*>>& GetEventCategoryHandlers();
 

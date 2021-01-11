@@ -263,7 +263,7 @@ namespace Marvel {
 		{
 			int line = PyFrame_GetLineNumber(PyEval_GetFrame());
 			PyErr_Format(PyExc_Exception,
-				"DearPyGui command on line %d can not be called asycronously", line);
+				"DearPyGui command on line %d can not be called asynchronously", line);
 			PyErr_Print();
 			return false;
 		}
