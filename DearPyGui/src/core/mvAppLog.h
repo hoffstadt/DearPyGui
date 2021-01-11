@@ -36,7 +36,8 @@ namespace Marvel {
 		static void                   SetConfigDict(PyObject* dict);
 		static void                   GetConfigDict(PyObject* dict);
 		static void                   Focus          ();
-
+		static void                   setTitle       (const std::string& title) { s_title = title; }
+		
 	private:
 
 		mvAppLog() = default;
@@ -59,6 +60,7 @@ namespace Marvel {
 		static bool             s_dirty_pos;
 		static bool             s_dirty_size;
 		static bool             s_focus;
+		static std::string      s_title;
 
 #if defined (_WIN32)
         static std::chrono::steady_clock::time_point s_start;

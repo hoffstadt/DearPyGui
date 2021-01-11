@@ -26,6 +26,7 @@ namespace Marvel {
 	int             mvAppLog::s_loglevel = 1;
 	unsigned mvAppLog::s_width = 500;
 	unsigned mvAppLog::s_height = 500;
+	std::string mvAppLog::s_title = "Dear PyGui Logger";
 	ImGuiWindowFlags mvAppLog::s_flags = ImGuiWindowFlags_NoSavedSettings;
 	int  mvAppLog::s_xpos = 200;
 	int  mvAppLog::s_ypos = 200;
@@ -169,7 +170,7 @@ namespace Marvel {
 			s_focus = false;
 		}
 
-		if (!ImGui::Begin("Dear PyGui Logger", &show, s_flags))
+		if (!ImGui::Begin(s_title.c_str(), &show, s_flags))
 		{
 			ImGui::End();
 			return;

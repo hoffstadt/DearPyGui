@@ -52,6 +52,10 @@ namespace Marvel {
 			{mvPythonDataType::String, "title"}
 		}, "Sets the title of the main window.") });
 
+		parsers->insert({ "set_logger_window_title", mvPythonParser({
+			{mvPythonDataType::String, "title"}
+		}, "Sets the title of the logger window.") });
+
 		parsers->insert({ "set_main_window_resizable", mvPythonParser({
 			{mvPythonDataType::Bool, "resizable"}
 		}, "Sets the main window to be resizable.") });
@@ -970,6 +974,19 @@ namespace Marvel {
 	PyObject* show_logger(PyObject* self, PyObject* args)
 	{
 		mvAppLog::Show();
+		return GetPyNone();
+	}
+
+	PyObject* set_logger_window_title(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		const char* title;
+
+		if (!(*mvApp::GetApp()->getParsers())["set_logger_window_title"].parse(args, kwargs, __FUNCTION__,
+			&title))
+			return GetPyNone();
+
+		mvAppLog::setTitle(title);
+
 		return GetPyNone();
 	}
 

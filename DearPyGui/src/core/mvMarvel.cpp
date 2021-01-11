@@ -599,6 +599,7 @@ namespace Marvel {
 		ADD_PYTHON_FUNCTION(get_log_level)
 		ADD_PYTHON_FUNCTION(clear_log)
 		ADD_PYTHON_FUNCTION(show_logger)
+		ADD_PYTHON_FUNCTION(set_logger_window_title)
 		ADD_PYTHON_FUNCTION(set_log_level)
 		ADD_PYTHON_FUNCTION(log)
 		ADD_PYTHON_FUNCTION(log_debug)
