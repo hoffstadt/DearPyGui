@@ -118,17 +118,17 @@ namespace Marvel {
 
 	void mvCallbackRegistry::runCallbacks()
 	{
-		while (!m_callbacks.empty())
-		{
-			NewCallback callback = m_callbacks.front();
-			runCallback(callback.callback, callback.sender, callback.data);
-			m_callbacks.pop();
-		}
+
+		for (auto& item : m_callbacks)
+			runCallback(item.callback, item.sender, item.data);
+
+		m_callbacks.clear();
+
 	}
 
 	void mvCallbackRegistry::addCallback(PyObject* callable, const std::string& sender, PyObject* data)
 	{
-		m_callbacks.push({ sender, callable, data });
+		m_callbacks.push_back({ sender, callable, data });
 	}
 
 	void mvCallbackRegistry::runCallback(PyObject* callable, const std::string& sender, PyObject* data)

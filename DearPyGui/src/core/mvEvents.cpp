@@ -64,7 +64,7 @@ namespace Marvel {
 	{
 		while (!GetEndFrameEvents().empty())
 		{
-			Publish(GetEndFrameEvents().top());
+			Publish(GetEndFrameEvents().front());
 			GetEndFrameEvents().pop();
 		}
 		
@@ -186,9 +186,9 @@ namespace Marvel {
 			GetEndFrameEvents().pop();
 	}
 
-	std::stack<mvEvent>& mvEventBus::GetEndFrameEvents()
+	std::queue<mvEvent>& mvEventBus::GetEndFrameEvents()
 	{
-		static std::stack<mvEvent> events;
+		static std::queue<mvEvent> events;
 		return events;
 	}
 

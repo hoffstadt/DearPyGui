@@ -81,7 +81,7 @@ namespace Marvel {
 		mutable std::mutex               m_mutex;
 
 		// new callback system
-		std::queue<NewCallback>          m_callbacks;
+		std::vector<NewCallback>          m_callbacks;
 
 		// input callbacks
 		PyObject* m_renderCallback = nullptr;
