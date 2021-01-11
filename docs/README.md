@@ -1,8 +1,8 @@
 <a id="user-content-dear-pygui" class="anchor" aria-hidden="true" href="#dear-pygui">
  
-<p align="center">
+<div align="center">
   <img src="https://github.com/hoffstadt/DearPyGui/blob/assets/newlogo.jpg?raw=true" alt="Dear PyGui">
-</p>
+</div>
 
 </a>
 
