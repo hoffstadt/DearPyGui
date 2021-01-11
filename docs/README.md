@@ -1,12 +1,12 @@
 <a id="user-content-dear-pygui" class="anchor" aria-hidden="true" href="#dear-pygui">
  
-<p align="center">
+<div align="center">
   <img src="https://github.com/hoffstadt/DearPyGui/blob/assets/newlogo.jpg?raw=true" alt="Dear PyGui">
-</p>
+</div>
 
 </a>
 
-<sub>(This library is available under a free and permissive license)</sub>
+<sub>(This library is available under a free and permissive license however, if you Enjoy _Dear PyGui_ please consider becoming a [Sponsor](https://github.com/sponsors/hoffstadt))</sub>
 
 ![Python Version](https://img.shields.io/pypi/pyversions/dearpygui)
 [![PYPI](https://img.shields.io/pypi/v/dearpygui)](https://pypi.org/project/dearpygui/)
