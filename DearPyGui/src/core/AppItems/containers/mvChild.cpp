@@ -86,7 +86,7 @@ namespace Marvel {
 	{
 		if (dict == nullptr)
 			return;
-		mvGlobalIntepreterLock gil;
+		 
 		if (PyObject* item = PyDict_GetItemString(dict, "border")) m_border = ToBool(item);
 		if (PyObject* item = PyDict_GetItemString(dict, "autosize_x")) m_autosize_x = ToBool(item);
 		if (PyObject* item = PyDict_GetItemString(dict, "autosize_y")) m_autosize_y = ToBool(item);
@@ -107,7 +107,7 @@ namespace Marvel {
 	{
 		if (dict == nullptr)
 			return;
-		mvGlobalIntepreterLock gil;
+		 
 		PyDict_SetItemString(dict, "border", ToPyBool(m_border));
 		PyDict_SetItemString(dict, "autosize_x", ToPyBool(m_autosize_x));
 		PyDict_SetItemString(dict, "autosize_y", ToPyBool(m_autosize_y));

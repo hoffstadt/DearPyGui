@@ -80,7 +80,7 @@ namespace Marvel {
     {
         if (dict == nullptr)
             return;
-        mvGlobalIntepreterLock gil;
+
         if (PyObject* item = PyDict_GetItemString(dict, "on_enter")) ToBool(item) ? m_flags |= ImGuiInputTextFlags_EnterReturnsTrue : m_flags &= ~ImGuiInputTextFlags_EnterReturnsTrue;
         if (PyObject* item = PyDict_GetItemString(dict, "readonly")) ToBool(item) ? m_flags |= ImGuiInputTextFlags_ReadOnly : m_flags &= ~ImGuiInputTextFlags_ReadOnly;
         if (PyObject* item = PyDict_GetItemString(dict, "step")) m_step = ToInt(item);
@@ -95,7 +95,7 @@ namespace Marvel {
     {
         if (dict == nullptr)
             return;
-        mvGlobalIntepreterLock gil;
+
         PyDict_SetItemString(dict, "on_enter", ToPyBool(m_flags & ImGuiInputTextFlags_EnterReturnsTrue));
         PyDict_SetItemString(dict, "readonly", ToPyBool(m_flags & ImGuiInputTextFlags_ReadOnly));
         PyDict_SetItemString(dict, "step", ToPyInt(m_step));
@@ -185,7 +185,7 @@ namespace Marvel {
     {
         if (dict == nullptr)
             return;
-        mvGlobalIntepreterLock gil;
+
         if (PyObject* item = PyDict_GetItemString(dict, "on_enter")) ToBool(item) ? m_flags |= ImGuiInputTextFlags_EnterReturnsTrue : m_flags &= ~ImGuiInputTextFlags_EnterReturnsTrue;
         if (PyObject* item = PyDict_GetItemString(dict, "readonly")) ToBool(item) ? m_flags |= ImGuiInputTextFlags_ReadOnly : m_flags &= ~ImGuiInputTextFlags_ReadOnly;
         if (PyObject* item = PyDict_GetItemString(dict, "min_value")) { m_min = ToInt(item); m_min_clamped = true; }
@@ -198,7 +198,7 @@ namespace Marvel {
     {
         if (dict == nullptr)
             return;
-        mvGlobalIntepreterLock gil;
+
         PyDict_SetItemString(dict, "on_enter", ToPyBool(m_flags & ImGuiInputTextFlags_EnterReturnsTrue));
         PyDict_SetItemString(dict, "readonly", ToPyBool(m_flags & ImGuiInputTextFlags_ReadOnly));
         PyDict_SetItemString(dict, "min_value", ToPyInt(m_min));
@@ -286,7 +286,7 @@ namespace Marvel {
     {
         if (dict == nullptr)
             return;
-        mvGlobalIntepreterLock gil;
+
         if (PyObject* item = PyDict_GetItemString(dict, "on_enter")) ToBool(item) ? m_flags |= ImGuiInputTextFlags_EnterReturnsTrue : m_flags &= ~ImGuiInputTextFlags_EnterReturnsTrue;
         if (PyObject* item = PyDict_GetItemString(dict, "readonly")) ToBool(item) ? m_flags |= ImGuiInputTextFlags_ReadOnly : m_flags &= ~ImGuiInputTextFlags_ReadOnly;
         if (PyObject* item = PyDict_GetItemString(dict, "min_value")) { m_min = ToInt(item); m_min_clamped = true; }
@@ -299,7 +299,7 @@ namespace Marvel {
     {
         if (dict == nullptr)
             return;
-        mvGlobalIntepreterLock gil;
+
         PyDict_SetItemString(dict, "on_enter", ToPyBool(m_flags & ImGuiInputTextFlags_EnterReturnsTrue));
         PyDict_SetItemString(dict, "readonly", ToPyBool(m_flags & ImGuiInputTextFlags_ReadOnly));
         PyDict_SetItemString(dict, "min_value", ToPyInt(m_min));
@@ -386,7 +386,7 @@ namespace Marvel {
     {
         if (dict == nullptr)
             return;
-        mvGlobalIntepreterLock gil;
+
         if (PyObject* item = PyDict_GetItemString(dict, "on_enter")) ToBool(item) ? m_flags |= ImGuiInputTextFlags_EnterReturnsTrue : m_flags &= ~ImGuiInputTextFlags_EnterReturnsTrue;
         if (PyObject* item = PyDict_GetItemString(dict, "readonly")) ToBool(item) ? m_flags |= ImGuiInputTextFlags_ReadOnly : m_flags &= ~ImGuiInputTextFlags_ReadOnly;
         if (PyObject* item = PyDict_GetItemString(dict, "min_value")) { m_min = ToInt(item); m_min_clamped = true; }
@@ -399,7 +399,7 @@ namespace Marvel {
     {
         if (dict == nullptr)
             return;
-        mvGlobalIntepreterLock gil;
+
         PyDict_SetItemString(dict, "on_enter", ToPyBool(m_flags & ImGuiInputTextFlags_EnterReturnsTrue));
         PyDict_SetItemString(dict, "readonly", ToPyBool(m_flags & ImGuiInputTextFlags_ReadOnly));
         PyDict_SetItemString(dict, "min_value", ToPyInt(m_min));
@@ -477,7 +477,7 @@ namespace Marvel {
     {
         if (dict == nullptr)
             return;
-        mvGlobalIntepreterLock gil;
+         
         if (PyObject* item = PyDict_GetItemString(dict, "format")) m_format = ToString(item);
         if (PyObject* item = PyDict_GetItemString(dict, "step")) m_step = ToFloat(item);
         if (PyObject* item = PyDict_GetItemString(dict, "step_fast")) m_step_fast = ToFloat(item);
@@ -502,7 +502,7 @@ namespace Marvel {
     {
         if (dict == nullptr)
             return;
-        mvGlobalIntepreterLock gil;
+         
         PyDict_SetItemString(dict, "format", ToPyString(m_format));
         PyDict_SetItemString(dict, "step", ToPyFloat(m_step));
         PyDict_SetItemString(dict, "step_fast", ToPyFloat(m_step_fast));
@@ -601,7 +601,7 @@ namespace Marvel {
     {
         if (dict == nullptr)
             return;
-        mvGlobalIntepreterLock gil;
+         
         if (PyObject* item = PyDict_GetItemString(dict, "format")) m_format = ToString(item);
         if (PyObject* item = PyDict_GetItemString(dict, "min_value")) { m_min = ToFloat(item); m_min_clamped = true; }
         if (PyObject* item = PyDict_GetItemString(dict, "max_value")) { m_max = ToFloat(item); m_max_clamped = true; }
@@ -624,7 +624,7 @@ namespace Marvel {
     {
         if (dict == nullptr)
             return;
-        mvGlobalIntepreterLock gil;
+         
         PyDict_SetItemString(dict, "format", ToPyString(m_format));
         PyDict_SetItemString(dict, "min_value", ToPyFloat(m_min));
         PyDict_SetItemString(dict, "max_value", ToPyFloat(m_max));
@@ -721,7 +721,7 @@ namespace Marvel {
     {
         if (dict == nullptr)
             return;
-        mvGlobalIntepreterLock gil;
+         
         if (PyObject* item = PyDict_GetItemString(dict, "format")) m_format = ToString(item);
         if (PyObject* item = PyDict_GetItemString(dict, "min_value")) { m_min = ToFloat(item); m_min_clamped = true; }
         if (PyObject* item = PyDict_GetItemString(dict, "max_value")) { m_max = ToFloat(item); m_max_clamped = true; }
@@ -744,7 +744,7 @@ namespace Marvel {
     {
         if (dict == nullptr)
             return;
-        mvGlobalIntepreterLock gil;
+         
         PyDict_SetItemString(dict, "format", ToPyString(m_format));
         PyDict_SetItemString(dict, "min_value", ToPyFloat(m_min));
         PyDict_SetItemString(dict, "max_value", ToPyFloat(m_max));
@@ -841,7 +841,7 @@ namespace Marvel {
     {
         if (dict == nullptr)
             return;
-        mvGlobalIntepreterLock gil;
+         
         if (PyObject* item = PyDict_GetItemString(dict, "format")) m_format = ToString(item);
         if (PyObject* item = PyDict_GetItemString(dict, "min_value")) { m_min = ToFloat(item); m_min_clamped = true; }
         if (PyObject* item = PyDict_GetItemString(dict, "max_value")) { m_max = ToFloat(item); m_max_clamped = true; }
@@ -864,7 +864,7 @@ namespace Marvel {
     {
         if (dict == nullptr)
             return;
-        mvGlobalIntepreterLock gil;
+         
         PyDict_SetItemString(dict, "format", ToPyString(m_format));
         PyDict_SetItemString(dict, "min_value", ToPyFloat(m_min));
         PyDict_SetItemString(dict, "max_value", ToPyFloat(m_max));

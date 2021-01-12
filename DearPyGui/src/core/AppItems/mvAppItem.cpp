@@ -19,7 +19,7 @@ namespace Marvel{
 	{
 		if (dict == nullptr)
 			return;
-		mvGlobalIntepreterLock gil;
+		 
 		auto configKeys = ToStringVect(PyDict_Keys(dict));
 		auto parserKeywords = (*mvApp::GetApp()->getParsers())[getParserCommand()].getKeywords();
 		if (parserKeywords.empty())
@@ -49,7 +49,7 @@ namespace Marvel{
 	{
 		if (dict == nullptr)
 			return;
-		mvGlobalIntepreterLock gil;
+		 
 		if (PyObject* item = PyDict_GetItemString(dict, "name")) m_name = ToString(item);
 		if (PyObject* item = PyDict_GetItemString(dict, "label")) setLabel(ToString(item));
 		if (PyObject* item = PyDict_GetItemString(dict, "tip")) m_tip =ToString(item);
@@ -64,7 +64,7 @@ namespace Marvel{
 	{
 		if (dict == nullptr)
 			return;
-		mvGlobalIntepreterLock gil;
+		 
 		PyDict_SetItemString(dict, "name",    ToPyString(m_name));
 		PyDict_SetItemString(dict, "label",   ToPyString(m_specifiedLabel));
 		PyDict_SetItemString(dict, "source",  ToPyString(m_dataSource));
@@ -458,7 +458,7 @@ namespace Marvel{
 	{
 		deleteChildren();
 
-		mvGlobalIntepreterLock gil;
+		 
 
 		if (m_callback)
 			Py_DECREF(m_callback);

@@ -43,8 +43,6 @@ namespace Marvel {
 	{
 		if (dict == nullptr)
 			return;
-		mvGlobalIntepreterLock gil;
-
 
 		if (PyObject* item = PyDict_GetItemString(dict, "color")) m_color = ToColor(item).toVec4();
 
@@ -62,7 +60,7 @@ namespace Marvel {
 	{
 		if (dict == nullptr)
 			return;
-		mvGlobalIntepreterLock gil;
+
 		PyDict_SetItemString(dict, "color", ToPyColor({ (int)m_color.x * 255, (int)m_color.y * 255, (int)m_color.z * 255, (int)m_color.w * 255 }));
 
 		// helper to check and set bit
@@ -168,7 +166,6 @@ namespace Marvel {
 	{
 		if (dict == nullptr)
 			return;
-		mvGlobalIntepreterLock gil;
 
 		// helpers for bit flipping
 		auto flagop = [dict](const char* keyword, int flag, int& flags)
@@ -226,7 +223,6 @@ namespace Marvel {
 	{
 		if (dict == nullptr)
 			return;
-		mvGlobalIntepreterLock gil;
 
 		// helper to check and set bit
 		auto checkbitset = [dict](const char* keyword, int flag, const int& flags)
@@ -371,7 +367,6 @@ namespace Marvel {
 	{
 		if (dict == nullptr)
 			return;
-		mvGlobalIntepreterLock gil;
 
 		// helpers for bit flipping
 		auto flagop = [dict](const char* keyword, int flag, int& flags)
@@ -430,7 +425,6 @@ namespace Marvel {
 	{
 		if (dict == nullptr)
 			return;
-		mvGlobalIntepreterLock gil;
 
 		// helper to check and set bit
 		auto checkbitset = [dict](const char* keyword, int flag, const int& flags)
@@ -574,7 +568,6 @@ namespace Marvel {
 	{
 		if (dict == nullptr)
 			return;
-		mvGlobalIntepreterLock gil;
 
 		// helpers for bit flipping
 		auto flagop = [dict](const char* keyword, int flag, int& flags)
@@ -633,7 +626,6 @@ namespace Marvel {
 	{
 		if (dict == nullptr)
 			return;
-		mvGlobalIntepreterLock gil;
 
 		// helper to check and set bit
 		auto checkbitset = [dict](const char* keyword, int flag, const int& flags)
@@ -779,7 +771,6 @@ namespace Marvel {
 	{
 		if (dict == nullptr)
 			return;
-		mvGlobalIntepreterLock gil;
 
 		// helpers for bit flipping
 		auto flagop = [dict](const char* keyword, int flag, int& flags)
@@ -838,7 +829,6 @@ namespace Marvel {
 	{
 		if (dict == nullptr)
 			return;
-		mvGlobalIntepreterLock gil;
 
 		// helper to check and set bit
 		auto checkbitset = [dict](const char* keyword, int flag, const int& flags)

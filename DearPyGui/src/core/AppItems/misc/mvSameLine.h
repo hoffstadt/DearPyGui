@@ -27,7 +27,7 @@ namespace Marvel {
 		{
 			if (dict == nullptr)
 				return;
-			mvGlobalIntepreterLock gil;
+			 
 			if (PyObject* item = PyDict_GetItemString(dict, "xoffset")) m_xoffset = ToFloat(item);
 			if (PyObject* item = PyDict_GetItemString(dict, "spacing")) m_spacing = ToFloat(item);
 
@@ -37,7 +37,7 @@ namespace Marvel {
 		{
 			if (dict == nullptr)
 				return;
-			mvGlobalIntepreterLock gil;
+			 
 			PyDict_SetItemString(dict, "xoffset", ToPyFloat(m_xoffset));
 			PyDict_SetItemString(dict, "spacing", ToPyFloat(m_spacing));
 		}

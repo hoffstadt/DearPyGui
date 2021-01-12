@@ -126,7 +126,7 @@ namespace Marvel {
 	{
 		if (dict == nullptr)
 			return;
-		mvGlobalIntepreterLock gil;
+		 
 		if (PyObject* item = PyDict_GetItemString(dict, "border")) m_border = ToBool(item);
 		if (PyObject* item = PyDict_GetItemString(dict, "columns"))
 		{
@@ -147,7 +147,7 @@ namespace Marvel {
 	{
 		if (dict == nullptr)
 			return;
-		mvGlobalIntepreterLock gil;
+		 
 		PyDict_SetItemString(dict, "border", ToPyBool(m_border));
 		PyDict_SetItemString(dict, "columns", ToPyInt(m_columns));
 	}
@@ -173,7 +173,7 @@ namespace Marvel {
 	{
 		if (dict == nullptr)
 			return;
-		mvGlobalIntepreterLock gil;
+		 
 		if (PyObject* item = PyDict_GetItemString(dict, "border")) m_border = ToBool(item);
 		if (PyObject* item = PyDict_GetItemString(dict, "columns"))
 		{
@@ -190,7 +190,7 @@ namespace Marvel {
 	{
 		if (dict == nullptr)
 			return;
-		mvGlobalIntepreterLock gil;
+		 
 		PyDict_SetItemString(dict, "border", ToPyBool(m_border));
 		PyDict_SetItemString(dict, "columns", ToPyInt(m_columns));
 	}

@@ -10,7 +10,7 @@ namespace Marvel {
 	{
 		if (pyvalue == nullptr)
 			return;
-		mvGlobalIntepreterLock gil;
+		 
 
 		if (!PyList_Check(pyvalue))
 		{
@@ -31,7 +31,7 @@ namespace Marvel {
 	{
 		if (pyvalue == nullptr)
 			return;
-		mvGlobalIntepreterLock gil;
+		 
 
 		if (!PyList_Check(pyvalue))
 		{
@@ -52,7 +52,7 @@ namespace Marvel {
 	{
 		if (pyvalue == nullptr)
 			return;
-		mvGlobalIntepreterLock gil;
+		 
 
 		if (!PyList_Check(pyvalue))
 		{
@@ -77,67 +77,67 @@ namespace Marvel {
 
 	PyObject* GetPyNone()
 	{
-		mvGlobalIntepreterLock gil;
+		 
 		Py_RETURN_NONE;
 	}
 
 	PyObject* ToPyString(const std::string& value)
 	{
-		mvGlobalIntepreterLock gil;
+		 
 		return PyUnicode_FromString(value.c_str());
 	}
 
 	PyObject* ToPyFloat(float value)
 	{
-		mvGlobalIntepreterLock gil;
+		 
 		return PyFloat_FromDouble(value);
 	}
 
 	PyObject* ToPyInt(int value)
 	{
-		mvGlobalIntepreterLock gil;
+		 
 		return PyLong_FromLong(value);
 	}
 
 	PyObject* ToPyBool(bool value)
 	{
-		mvGlobalIntepreterLock gil;
+		 
 		return PyBool_FromLong(value);
 	}
 
 	PyObject* ToPyMPair(int x, float y)
 	{
-		mvGlobalIntepreterLock gil;
+		 
 		return Py_BuildValue("[if]", x, y);
 	}
 
 	PyObject* ToPyMTrip(int i, float x, float y)
 	{
-		mvGlobalIntepreterLock gil;
+		 
 		return Py_BuildValue("[iff]", i, x, y);
 	}
 
 	PyObject* ToPyPair(float x, float y)
 	{
-		mvGlobalIntepreterLock gil;
+		 
 		return Py_BuildValue("[ff]", x, y);
 	}
 
 	PyObject* ToPyPairII(int x, int y)
 	{
-		mvGlobalIntepreterLock gil;
+		 
 		return Py_BuildValue("[ii]", x, y);
 	}
 
 	PyObject* ToPyPair(const std::string& x, const std::string& y)
 	{
-		mvGlobalIntepreterLock gil;
+		 
 		return Py_BuildValue("[ss]", x.c_str(), y.c_str());
 	}
 
 	PyObject* ToPyList(const std::vector<int>& value)
 	{
-		mvGlobalIntepreterLock gil;
+		 
 		
 		PyObject* result = PyList_New(value.size());
 
@@ -149,7 +149,7 @@ namespace Marvel {
 
 	PyObject* ToPyList(const std::vector<mvVec2>& value)
 	{
-		mvGlobalIntepreterLock gil;
+		 
 
 		PyObject* result = PyList_New(value.size());
 
@@ -166,7 +166,7 @@ namespace Marvel {
 
 	PyObject* ToPyList(const std::vector<float>& value)
 	{
-		mvGlobalIntepreterLock gil;
+		 
 
 		PyObject* result = PyList_New(value.size());
 
@@ -178,7 +178,7 @@ namespace Marvel {
 
 	PyObject* ToPyList(const std::vector<std::string>& value)
 	{
-		mvGlobalIntepreterLock gil;
+		 
 
 		PyObject* result = PyList_New(value.size());
 
@@ -190,7 +190,7 @@ namespace Marvel {
 
 	PyObject* ToPyList(const std::vector<std::vector<std::string>>& value)
 	{
-		mvGlobalIntepreterLock gil;
+		 
 
 		PyObject* result = PyList_New(value.size());
 
@@ -202,7 +202,7 @@ namespace Marvel {
 
 	PyObject* ToPyList(const std::vector<std::pair<int, int>>& value)
 	{
-		mvGlobalIntepreterLock gil;
+		 
 
 		PyObject* result = PyList_New(value.size());
 
@@ -214,7 +214,7 @@ namespace Marvel {
 
 	PyObject* ToPyColor(const mvColor& color)
 	{
-		mvGlobalIntepreterLock gil;
+		 
 
 		PyObject* result = PyList_New(4);
 
@@ -228,7 +228,7 @@ namespace Marvel {
 
 	PyObject* ToPyTime(const tm& time)
 	{
-		mvGlobalIntepreterLock gil;
+		 
 		PyObject* dict = PyDict_New();
 		PyDict_SetItemString(dict, "sec",              ToPyInt(time.tm_sec));
 		PyDict_SetItemString(dict, "min",              ToPyInt(time.tm_min));
@@ -244,7 +244,7 @@ namespace Marvel {
 
 	PyObject* ToPyIntList(int* value, int count)
 	{
-		mvGlobalIntepreterLock gil;
+		 
 
 		PyObject* result = PyList_New(count);
 
@@ -256,7 +256,7 @@ namespace Marvel {
 
 	PyObject* ToPyFloatList(float* value, int count)
 	{
-		mvGlobalIntepreterLock gil;
+		 
 
 		PyObject* result = PyList_New(count);
 
@@ -297,7 +297,7 @@ namespace Marvel {
 	{
 		if (value == nullptr)
 			return 0;
-		mvGlobalIntepreterLock gil;
+		 
 
 		if (!PyLong_Check(value))
 		{
@@ -312,7 +312,7 @@ namespace Marvel {
 	{
 		if (value == nullptr)
 			return 0.0f;
-		mvGlobalIntepreterLock gil;
+		 
 
 		if (!PyNumber_Check(value))
 		{
@@ -327,7 +327,7 @@ namespace Marvel {
 	{
 		if (value == nullptr)
 			return false;
-		mvGlobalIntepreterLock gil;
+		 
 
 		if (!PyBool_Check(value))
 		{
@@ -344,7 +344,7 @@ namespace Marvel {
 		if (value == nullptr)
 			return result;
 
-		mvGlobalIntepreterLock gil;
+		 
 
 		if (PyUnicode_Check(value))
 		{
@@ -372,7 +372,7 @@ namespace Marvel {
 		std::vector<int> items;
 		if (value == nullptr)
 			return items;
-		mvGlobalIntepreterLock gil;
+		 
 
 		if (PyTuple_Check(value))
 		{
@@ -446,7 +446,7 @@ namespace Marvel {
 		std::vector<float> items;
 		if (value == nullptr)
 			return items;
-		mvGlobalIntepreterLock gil;
+		 
 
 		if (PyTuple_Check(value))
 		{
@@ -517,7 +517,7 @@ namespace Marvel {
 		std::vector<std::string> items;
 		if (value == nullptr)
 			return items;
-		mvGlobalIntepreterLock gil;
+		 
 
 		if (PyTuple_Check(value))
 		{
@@ -565,7 +565,7 @@ namespace Marvel {
 		if (value == nullptr)
 			return mvColor{ color[0], color[1], color[2], color[3], false };
 
-		mvGlobalIntepreterLock gil;
+		 
 
 		if (PyTuple_Check(value))
 		{
@@ -633,7 +633,7 @@ namespace Marvel {
 		std::vector<std::pair<std::string, std::string>> items;
 		if (value == nullptr)
 			return items;
-		mvGlobalIntepreterLock gil;
+		 
 
 		if (PyTuple_Check(value))
 		{
@@ -668,7 +668,7 @@ namespace Marvel {
 		std::vector<mvVec2> items;
 		if (value == nullptr)
 			return items;
-		mvGlobalIntepreterLock gil;
+		 
 
 		if (PyTuple_Check(value))
 		{
@@ -692,7 +692,7 @@ namespace Marvel {
 		std::pair<std::vector<float>, std::vector<float>> items;
 		if (value == nullptr)
 			return items;
-		mvGlobalIntepreterLock gil;
+		 
 
 		if (PyTuple_Check(value))
 		{
@@ -718,7 +718,7 @@ namespace Marvel {
 		std::vector<mvVec4> items;
 		if (value == nullptr)
 			return items;
-		mvGlobalIntepreterLock gil;
+		 
 
 		if (PyTuple_Check(value))
 		{
@@ -742,7 +742,7 @@ namespace Marvel {
 		std::vector<std::pair<int, int>> items;
 		if (value == nullptr)
 			return items;
-		mvGlobalIntepreterLock gil;
+		 
 
 		if (PyTuple_Check(value))
 		{
@@ -808,7 +808,7 @@ namespace Marvel {
 		std::vector<std::vector<std::string>> items;
 		if (value == nullptr)
 			return items;
-		mvGlobalIntepreterLock gil;
+		 
 
 		if (PyTuple_Check(value))
 		{
@@ -830,7 +830,7 @@ namespace Marvel {
 		std::vector<std::pair<std::string, float>> items;
 		if (value == nullptr)
 			return items;
-		mvGlobalIntepreterLock gil;
+		 
 
 		if (PyTuple_Check(value))
 		{
@@ -865,7 +865,7 @@ namespace Marvel {
 		std::vector<std::vector<float>> items;
 		if (value == nullptr)
 			return items;
-		mvGlobalIntepreterLock gil;
+		 
 
 		if (PyTuple_Check(value))
 		{

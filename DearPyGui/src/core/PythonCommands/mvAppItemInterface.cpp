@@ -328,7 +328,7 @@ namespace Marvel {
 
 	PyObject* configure_item(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
-		mvGlobalIntepreterLock gil;
+		 
 
 		std::string item = ToString(PyTuple_GetItem(args, 0));
 

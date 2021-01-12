@@ -77,7 +77,7 @@ namespace Marvel {
     {
         if (dict == nullptr)
             return;
-        mvGlobalIntepreterLock gil;
+         
         if (PyObject* item = PyDict_GetItemString(dict, "format")) m_format = ToString(item);
         if (PyObject* item = PyDict_GetItemString(dict, "vertical")) m_vertical = ToBool(item);
         if (PyObject* item = PyDict_GetItemString(dict, "min_value")) m_min = ToFloat(item);
@@ -99,7 +99,7 @@ namespace Marvel {
     {
         if (dict == nullptr)
             return;
-        mvGlobalIntepreterLock gil;
+         
         PyDict_SetItemString(dict, "format", ToPyString(m_format));
         PyDict_SetItemString(dict, "vertical", ToPyBool(m_vertical));
         PyDict_SetItemString(dict, "min_value", ToPyFloat(m_min));
@@ -168,7 +168,7 @@ namespace Marvel {
     {
         if (dict == nullptr)
             return;
-        mvGlobalIntepreterLock gil;
+         
         if (PyObject* item = PyDict_GetItemString(dict, "format")) m_format = ToString(item);
         if (PyObject* item = PyDict_GetItemString(dict, "min_value")) m_min = ToFloat(item);
         if (PyObject* item = PyDict_GetItemString(dict, "max_value")) m_max = ToFloat(item);
@@ -189,7 +189,7 @@ namespace Marvel {
     {
         if (dict == nullptr)
             return;
-        mvGlobalIntepreterLock gil;
+         
         PyDict_SetItemString(dict, "format", ToPyString(m_format));
         PyDict_SetItemString(dict, "min_value", ToPyFloat(m_min));
         PyDict_SetItemString(dict, "max_value", ToPyFloat(m_max));
@@ -257,7 +257,7 @@ namespace Marvel {
     {
         if (dict == nullptr)
             return;
-        mvGlobalIntepreterLock gil;
+         
         if (PyObject* item = PyDict_GetItemString(dict, "format")) m_format = ToString(item);
         if (PyObject* item = PyDict_GetItemString(dict, "min_value")) m_min = ToFloat(item);
         if (PyObject* item = PyDict_GetItemString(dict, "max_value")) m_max = ToFloat(item);
@@ -277,7 +277,7 @@ namespace Marvel {
     {
         if (dict == nullptr)
             return;
-        mvGlobalIntepreterLock gil;
+         
         PyDict_SetItemString(dict, "format", ToPyString(m_format));
         PyDict_SetItemString(dict, "min_value", ToPyFloat(m_min));
         PyDict_SetItemString(dict, "max_value", ToPyFloat(m_max));
@@ -345,7 +345,7 @@ namespace Marvel {
     {
         if (dict == nullptr)
             return;
-        mvGlobalIntepreterLock gil;
+         
         if (PyObject* item = PyDict_GetItemString(dict, "format")) m_format = ToString(item);
         if (PyObject* item = PyDict_GetItemString(dict, "min_value")) m_min = ToFloat(item);
         if (PyObject* item = PyDict_GetItemString(dict, "max_value")) m_max = ToFloat(item);
@@ -366,7 +366,7 @@ namespace Marvel {
     {
         if (dict == nullptr)
             return;
-        mvGlobalIntepreterLock gil;
+         
         PyDict_SetItemString(dict, "format", ToPyString(m_format));
         PyDict_SetItemString(dict, "min_value", ToPyFloat(m_min));
         PyDict_SetItemString(dict, "max_value", ToPyFloat(m_max));
@@ -448,7 +448,7 @@ namespace Marvel {
     {
         if (dict == nullptr)
             return;
-        mvGlobalIntepreterLock gil;
+         
         if (PyObject* item = PyDict_GetItemString(dict, "format")) m_format = ToString(item);
         if (PyObject* item = PyDict_GetItemString(dict, "vertical")) m_vertical = ToBool(item);
         if (PyObject* item = PyDict_GetItemString(dict, "min_value")) m_min = ToInt(item);
@@ -470,7 +470,7 @@ namespace Marvel {
     {
         if (dict == nullptr)
             return;
-        mvGlobalIntepreterLock gil;
+         
         PyDict_SetItemString(dict, "format", ToPyString(m_format));
         PyDict_SetItemString(dict, "vertical", ToPyBool(m_vertical));
         PyDict_SetItemString(dict, "min_value", ToPyInt(m_min));
@@ -538,7 +538,7 @@ namespace Marvel {
     {
         if (dict == nullptr)
             return;
-        mvGlobalIntepreterLock gil;
+         
         if (PyObject* item = PyDict_GetItemString(dict, "format")) m_format = ToString(item);
         if (PyObject* item = PyDict_GetItemString(dict, "min_value")) m_min = ToInt(item);
         if (PyObject* item = PyDict_GetItemString(dict, "max_value")) m_max = ToInt(item);
@@ -559,7 +559,7 @@ namespace Marvel {
     {
         if (dict == nullptr)
             return;
-        mvGlobalIntepreterLock gil;
+         
         PyDict_SetItemString(dict, "format", ToPyString(m_format));
         PyDict_SetItemString(dict, "min_value", ToPyInt(m_min));
         PyDict_SetItemString(dict, "max_value", ToPyInt(m_max));
@@ -627,7 +627,7 @@ namespace Marvel {
     {
         if (dict == nullptr)
             return;
-        mvGlobalIntepreterLock gil;
+         
         if (PyObject* item = PyDict_GetItemString(dict, "format")) m_format = ToString(item);
         if (PyObject* item = PyDict_GetItemString(dict, "min_value")) m_min = ToInt(item);
         if (PyObject* item = PyDict_GetItemString(dict, "max_value")) m_max = ToInt(item);
@@ -648,7 +648,7 @@ namespace Marvel {
     {
         if (dict == nullptr)
             return;
-        mvGlobalIntepreterLock gil;
+         
         PyDict_SetItemString(dict, "format", ToPyString(m_format));
         PyDict_SetItemString(dict, "min_value", ToPyInt(m_min));
         PyDict_SetItemString(dict, "max_value", ToPyInt(m_max));
@@ -716,7 +716,7 @@ namespace Marvel {
     {
         if (dict == nullptr)
             return;
-        mvGlobalIntepreterLock gil;
+         
         if (PyObject* item = PyDict_GetItemString(dict, "format")) m_format = ToString(item);
         if (PyObject* item = PyDict_GetItemString(dict, "min_value")) m_min = ToInt(item);
         if (PyObject* item = PyDict_GetItemString(dict, "max_value")) m_max = ToInt(item);
@@ -737,7 +737,7 @@ namespace Marvel {
     {
         if (dict == nullptr)
             return;
-        mvGlobalIntepreterLock gil;
+         
         PyDict_SetItemString(dict, "format", ToPyString(m_format));
         PyDict_SetItemString(dict, "min_value", ToPyInt(m_min));
         PyDict_SetItemString(dict, "max_value", ToPyInt(m_max));

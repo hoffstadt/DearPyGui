@@ -61,7 +61,7 @@ namespace Marvel {
     {
         if (dict == nullptr)
             return;
-        mvGlobalIntepreterLock gil;
+
         if (PyObject* item = PyDict_GetItemString(dict, "format")) m_format = ToString(item);
         if (PyObject* item = PyDict_GetItemString(dict, "speed")) m_speed = ToFloat(item);
         if (PyObject* item = PyDict_GetItemString(dict, "min_value")) m_min = ToFloat(item);
@@ -83,7 +83,7 @@ namespace Marvel {
     {
         if (dict == nullptr)
             return;
-        mvGlobalIntepreterLock gil;
+
         PyDict_SetItemString(dict, "format", ToPyString(m_format));
         PyDict_SetItemString(dict, "speed", ToPyFloat(m_speed));
         PyDict_SetItemString(dict, "min_value", ToPyFloat(m_min));
@@ -150,7 +150,7 @@ namespace Marvel {
     {
         if (dict == nullptr)
             return;
-        mvGlobalIntepreterLock gil;
+
         if (PyObject* item = PyDict_GetItemString(dict, "format")) m_format = ToString(item);
         if (PyObject* item = PyDict_GetItemString(dict, "speed")) m_speed = ToFloat(item);
         if (PyObject* item = PyDict_GetItemString(dict, "min_value")) m_min = ToFloat(item);
@@ -172,7 +172,7 @@ namespace Marvel {
     {
         if (dict == nullptr)
             return;
-        mvGlobalIntepreterLock gil;
+
         PyDict_SetItemString(dict, "format", ToPyString(m_format));
         PyDict_SetItemString(dict, "speed", ToPyFloat(m_speed));
         PyDict_SetItemString(dict, "min_value", ToPyFloat(m_min));
@@ -239,7 +239,7 @@ namespace Marvel {
     {
         if (dict == nullptr)
             return;
-        mvGlobalIntepreterLock gil;
+
         if (PyObject* item = PyDict_GetItemString(dict, "format")) m_format = ToString(item);
         if (PyObject* item = PyDict_GetItemString(dict, "speed")) m_speed = ToFloat(item);
         if (PyObject* item = PyDict_GetItemString(dict, "min_value")) m_min = ToFloat(item);
@@ -261,7 +261,7 @@ namespace Marvel {
     {
         if (dict == nullptr)
             return;
-        mvGlobalIntepreterLock gil;
+
         PyDict_SetItemString(dict, "format", ToPyString(m_format));
         PyDict_SetItemString(dict, "speed", ToPyFloat(m_speed));
         PyDict_SetItemString(dict, "min_value", ToPyFloat(m_min));
@@ -328,7 +328,7 @@ namespace Marvel {
     {
         if (dict == nullptr)
             return;
-        mvGlobalIntepreterLock gil;
+
         if (PyObject* item = PyDict_GetItemString(dict, "format")) m_format = ToString(item);
         if (PyObject* item = PyDict_GetItemString(dict, "speed")) m_speed = ToFloat(item);
         if (PyObject* item = PyDict_GetItemString(dict, "min_value")) m_min = ToFloat(item);
@@ -350,7 +350,7 @@ namespace Marvel {
     {
         if (dict == nullptr)
             return;
-        mvGlobalIntepreterLock gil;
+
         PyDict_SetItemString(dict, "format", ToPyString(m_format));
         PyDict_SetItemString(dict, "speed", ToPyFloat(m_speed));
         PyDict_SetItemString(dict, "min_value", ToPyFloat(m_min));
@@ -417,7 +417,7 @@ namespace Marvel {
     {
         if (dict == nullptr)
             return;
-        mvGlobalIntepreterLock gil;
+
         if (PyObject* item = PyDict_GetItemString(dict, "format")) m_format = ToString(item);
         if (PyObject* item = PyDict_GetItemString(dict, "speed")) m_speed = ToFloat(item);
         if (PyObject* item = PyDict_GetItemString(dict, "min_value")) m_min = ToInt(item);
@@ -438,7 +438,7 @@ namespace Marvel {
     {
         if (dict == nullptr)
             return;
-        mvGlobalIntepreterLock gil;
+
         PyDict_SetItemString(dict, "format", ToPyString(m_format));
         PyDict_SetItemString(dict, "speed", ToPyFloat(m_speed));
         PyDict_SetItemString(dict, "min_value", ToPyInt(m_min));
@@ -505,7 +505,7 @@ namespace Marvel {
     {
         if (dict == nullptr)
             return;
-        mvGlobalIntepreterLock gil;
+
         if (PyObject* item = PyDict_GetItemString(dict, "format")) m_format = ToString(item);
         if (PyObject* item = PyDict_GetItemString(dict, "speed")) m_speed = ToFloat(item);
         if (PyObject* item = PyDict_GetItemString(dict, "min_value")) m_min = ToInt(item);
@@ -527,7 +527,7 @@ namespace Marvel {
     {
         if (dict == nullptr)
             return;
-        mvGlobalIntepreterLock gil;
+
         PyDict_SetItemString(dict, "format", ToPyString(m_format));
         PyDict_SetItemString(dict, "speed", ToPyFloat(m_speed));
         PyDict_SetItemString(dict, "min_value", ToPyInt(m_min));
@@ -594,7 +594,7 @@ namespace Marvel {
     {
         if (dict == nullptr)
             return;
-        mvGlobalIntepreterLock gil;
+
         if (PyObject* item = PyDict_GetItemString(dict, "format")) m_format = ToString(item);
         if (PyObject* item = PyDict_GetItemString(dict, "speed")) m_speed = ToFloat(item);
         if (PyObject* item = PyDict_GetItemString(dict, "min_value")) m_min = ToInt(item);
@@ -616,7 +616,7 @@ namespace Marvel {
     {
         if (dict == nullptr)
             return;
-        mvGlobalIntepreterLock gil;
+
         PyDict_SetItemString(dict, "format", ToPyString(m_format));
         PyDict_SetItemString(dict, "speed", ToPyFloat(m_speed));
         PyDict_SetItemString(dict, "min_value", ToPyInt(m_min));
@@ -683,7 +683,7 @@ namespace Marvel {
     {
         if (dict == nullptr)
             return;
-        mvGlobalIntepreterLock gil;
+
         if (PyObject* item = PyDict_GetItemString(dict, "format")) m_format = ToString(item);
         if (PyObject* item = PyDict_GetItemString(dict, "speed")) m_speed = ToFloat(item);
         if (PyObject* item = PyDict_GetItemString(dict, "min_value")) m_min = ToInt(item);
@@ -705,7 +705,7 @@ namespace Marvel {
     {
         if (dict == nullptr)
             return;
-        mvGlobalIntepreterLock gil;
+
         PyDict_SetItemString(dict, "format", ToPyString(m_format));
         PyDict_SetItemString(dict, "speed", ToPyFloat(m_speed));
         PyDict_SetItemString(dict, "min_value", ToPyInt(m_min));

@@ -56,7 +56,7 @@ namespace Marvel {
 	{
 		if (dict == nullptr)
 			return;
-		mvGlobalIntepreterLock gil;
+		 
 
 		// helper for bit flipping
 		auto flagop = [dict](const char* keyword, int flag, int& flags, bool flip)
@@ -73,7 +73,7 @@ namespace Marvel {
 	{
 		if (dict == nullptr)
 			return;
-		mvGlobalIntepreterLock gil;
+		 
 
 		// helper to check and set bit
 		auto checkbitset = [dict](const char* keyword, int flag, const int& flags, bool flip)

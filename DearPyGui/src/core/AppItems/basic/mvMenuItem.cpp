@@ -56,7 +56,7 @@ namespace Marvel {
 	{
 		if (dict == nullptr)
 			return;
-		mvGlobalIntepreterLock gil;
+		 
 		if (PyObject* item = PyDict_GetItemString(dict, "shortcut")) m_shortcut = ToString(item);
 		if (PyObject* item = PyDict_GetItemString(dict, "check")) m_check = ToBool(item);
 
@@ -66,7 +66,7 @@ namespace Marvel {
 	{
 		if (dict == nullptr)
 			return;
-		mvGlobalIntepreterLock gil;
+		 
 		PyDict_SetItemString(dict, "shortcut", ToPyString(m_shortcut));
 		PyDict_SetItemString(dict, "check", ToPyBool(m_check));
 	}

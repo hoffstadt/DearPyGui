@@ -141,7 +141,7 @@ namespace Marvel {
 			return;
 		}
 
-		mvGlobalIntepreterLock gil;
+		 
 
 		if (!PyCallable_Check(callable))
 		{
