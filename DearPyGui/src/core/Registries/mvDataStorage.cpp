@@ -28,7 +28,7 @@ namespace Marvel {
 		// data doesn't exist, create it for the first time
 		if (s_dataStorage.count(name) == 0)
 		{
-			mvGlobalIntepreterLock gil;
+			 
 			Py_XINCREF(data);
 			s_dataStorage.insert({ name, data });
 		}
@@ -36,7 +36,7 @@ namespace Marvel {
 		{
 			if (s_dataStorage.at(name) != data)
 			{
-				mvGlobalIntepreterLock gil;
+				 
 
 				// this is different item, delete the old
 				Py_XDECREF(s_dataStorage.at(name));
@@ -59,7 +59,7 @@ namespace Marvel {
 			return;
 		}
 
-		mvGlobalIntepreterLock gil;
+		 
 		Py_XDECREF(s_dataStorage.at(name));
 		s_dataStorage.erase(name);
 	}
@@ -74,7 +74,7 @@ namespace Marvel {
 			return nullptr;
 		}
 
-		mvGlobalIntepreterLock gil;
+		 
 		Py_XINCREF(s_dataStorage.at(name));
 		return s_dataStorage.at(name);
 	}

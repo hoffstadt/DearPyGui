@@ -814,7 +814,7 @@ namespace Marvel {
 		if (dict == nullptr)
 			return;
 
-		mvGlobalIntepreterLock gil;
+		 
 
 		if (PyObject* item = PyDict_GetItemString(dict, "x_axis_name"))m_xaxisName = ToString(item);
 		if (PyObject* item = PyDict_GetItemString(dict, "y_axis_name")) m_yaxisName = ToString(item);
@@ -890,7 +890,7 @@ namespace Marvel {
 		if (dict == nullptr)
 			return;
 
-		mvGlobalIntepreterLock gil;
+		 
 
 		PyDict_SetItemString(dict, "x_axis_name", ToPyString(m_xaxisName));
 		PyDict_SetItemString(dict, "y_axis_name", ToPyString(m_yaxisName));

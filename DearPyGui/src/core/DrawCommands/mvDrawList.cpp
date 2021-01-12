@@ -144,7 +144,7 @@ namespace Marvel {
 
 	PyObject* modify_draw_command(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
-		mvGlobalIntepreterLock gil;
+		 
 
 		std::string drawing = ToString(PyTuple_GetItem(args, 0));
 		std::string tag = ToString(PyTuple_GetItem(args, 1));

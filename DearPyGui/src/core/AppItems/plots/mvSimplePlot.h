@@ -58,7 +58,7 @@ namespace Marvel{
 		{
 			if (dict == nullptr)
 				return;
-			mvGlobalIntepreterLock gil;
+			 
 			if (PyObject* item = PyDict_GetItemString(dict, "overlay")) m_overlay = ToString(item);
 			if (PyObject* item = PyDict_GetItemString(dict, "minscale")) m_min = ToFloat(item);
 			if (PyObject* item = PyDict_GetItemString(dict, "maxscale")) m_max = ToFloat(item);
@@ -69,7 +69,7 @@ namespace Marvel{
 		{
 			if (dict == nullptr)
 				return;
-			mvGlobalIntepreterLock gil;
+			 
 			PyDict_SetItemString(dict, "overlay", ToPyString(m_overlay));
 			PyDict_SetItemString(dict, "minscale", ToPyFloat(m_min));
 			PyDict_SetItemString(dict, "maxscale", ToPyFloat(m_max));

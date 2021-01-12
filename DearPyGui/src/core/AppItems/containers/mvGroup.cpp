@@ -77,7 +77,7 @@ namespace Marvel {
 	{
 		if (dict == nullptr)
 			return;
-		mvGlobalIntepreterLock gil;
+		 
 		if (PyObject* item = PyDict_GetItemString(dict, "horizontal")) m_horizontal = ToBool(item);
 		if (PyObject* item = PyDict_GetItemString(dict, "horizontal_spacing")) m_hspacing = ToFloat(item);
 	}
@@ -86,7 +86,7 @@ namespace Marvel {
 	{
 		if (dict == nullptr)
 			return;
-		mvGlobalIntepreterLock gil;
+		 
 		PyDict_SetItemString(dict, "horizontal", ToPyBool(m_horizontal));
 		PyDict_SetItemString(dict, "horizontal_spacing", ToPyFloat(m_hspacing));
 	}

@@ -66,7 +66,7 @@ namespace Marvel {
 	{
 		if (dict == nullptr)
 			return;
-		mvGlobalIntepreterLock gil;
+		 
 		if (PyObject* item = PyDict_GetItemString(dict, "items")) m_itemnames = ToStringVect(item);
 		if (PyObject* item = PyDict_GetItemString(dict, "horizontal")) m_horizontal = ToBool(item);
 	}
@@ -75,7 +75,7 @@ namespace Marvel {
 	{
 		if (dict == nullptr)
 			return;
-		mvGlobalIntepreterLock gil;
+		 
 		PyDict_SetItemString(dict, "items", ToPyList(m_itemnames));
 		PyDict_SetItemString(dict, "horizontal", ToPyBool(m_horizontal));
 	}

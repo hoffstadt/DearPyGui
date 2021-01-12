@@ -264,7 +264,7 @@ namespace Marvel {
 	void mvValueStorage::AddPyValue(const std::string& name, PyObject* value)
 	{
 
-		mvGlobalIntepreterLock gil;
+		 
 		
 		// bool
 		if (PyBool_Check(value))

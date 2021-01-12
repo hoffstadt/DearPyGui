@@ -73,7 +73,6 @@ namespace Marvel {
 	{
 		if (dict == nullptr)
 			return;
-		mvGlobalIntepreterLock gil;
 
 		if (PyObject* item = PyDict_GetItemString(dict, "small")) m_small = ToBool(item);
 		if (PyObject* item = PyDict_GetItemString(dict, "arrow")) m_arrow = ToBool(item);
@@ -84,7 +83,7 @@ namespace Marvel {
 	{
 		if (dict == nullptr)
 			return;
-		mvGlobalIntepreterLock gil;
+
 		PyDict_SetItemString(dict, "small", ToPyBool(m_small));
 		PyDict_SetItemString(dict, "arrow", ToPyBool(m_arrow));
 		PyDict_SetItemString(dict, "direction", ToPyInt(m_direction));

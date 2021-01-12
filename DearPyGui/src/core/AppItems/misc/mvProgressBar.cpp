@@ -42,7 +42,7 @@ namespace Marvel {
 	{
 		if (dict == nullptr)
 			return;
-		mvGlobalIntepreterLock gil;
+		 
 		if (PyObject* item = PyDict_GetItemString(dict, "overlay")) m_overlay = ToString(item);
 	}
 
@@ -50,7 +50,7 @@ namespace Marvel {
 	{
 		if (dict == nullptr)
 			return;
-		mvGlobalIntepreterLock gil;
+		 
 		PyDict_SetItemString(dict, "overlay", ToPyString(m_overlay));
 	}
 

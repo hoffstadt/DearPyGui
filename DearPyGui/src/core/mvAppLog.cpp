@@ -36,7 +36,7 @@ namespace Marvel {
 
 	void mvAppLog::SetConfigDict(PyObject* dict)
 	{
-		mvGlobalIntepreterLock gil;
+		 
 		if (PyObject* item = PyDict_GetItemString(dict, "width")) s_width = ToInt(item);
 		if (PyObject* item = PyDict_GetItemString(dict, "height")) s_height = ToInt(item);
 		if (PyObject* item = PyDict_GetItemString(dict, "x_pos")) s_xpos = ToInt(item);
@@ -46,7 +46,7 @@ namespace Marvel {
 
 	void mvAppLog::GetConfigDict(PyObject* dict)
 	{
-		mvGlobalIntepreterLock gil;
+		 
 		PyDict_SetItemString(dict, "width", ToPyInt(s_width));
 		PyDict_SetItemString(dict, "height", ToPyInt(s_height));
 		PyDict_SetItemString(dict, "x_pos", ToPyInt(s_xpos));

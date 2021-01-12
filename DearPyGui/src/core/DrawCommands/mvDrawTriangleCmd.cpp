@@ -30,7 +30,7 @@ namespace Marvel {
 	{
 		if (dict == nullptr)
 			return;
-		mvGlobalIntepreterLock gil;
+		 
 
 		if (PyObject* item = PyDict_GetItemString(dict, "p1")) m_p1 = ToVec2(item);
 		if (PyObject* item = PyDict_GetItemString(dict, "p2")) m_p2 = ToVec2(item);
@@ -45,7 +45,7 @@ namespace Marvel {
 	{
 		if (dict == nullptr)
 			return;
-		mvGlobalIntepreterLock gil;
+		 
 		PyDict_SetItemString(dict, "p1", ToPyPair(m_p1.x, m_p1.y));
 		PyDict_SetItemString(dict, "p2", ToPyPair(m_p2.x, m_p2.y));
 		PyDict_SetItemString(dict, "p3", ToPyPair(m_p3.x, m_p3.y));

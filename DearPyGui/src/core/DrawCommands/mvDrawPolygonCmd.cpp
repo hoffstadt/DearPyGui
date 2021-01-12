@@ -101,7 +101,7 @@ namespace Marvel {
 	{
 		if (dict == nullptr)
 			return;
-		mvGlobalIntepreterLock gil;
+		 
 
 		if (PyObject* item = PyDict_GetItemString(dict, "points")) m_points = ToVectVec2(item);
 		if (PyObject* item = PyDict_GetItemString(dict, "fill")) m_fill = ToColor(item);
@@ -114,7 +114,7 @@ namespace Marvel {
 	{
 		if (dict == nullptr)
 			return;
-		mvGlobalIntepreterLock gil;
+		 
 		PyDict_SetItemString(dict, "points", ToPyList(m_points));
 		PyDict_SetItemString(dict, "fill", ToPyColor(m_fill));
 		PyDict_SetItemString(dict, "color", ToPyColor(m_color));

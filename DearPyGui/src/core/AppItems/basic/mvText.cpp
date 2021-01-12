@@ -95,7 +95,7 @@ namespace Marvel {
 	{
 		if (dict == nullptr)
 			return;
-		mvGlobalIntepreterLock gil;
+		 
 		if (PyObject* item = PyDict_GetItemString(dict, "color")) m_color = ToColor(item);
 		if (PyObject* item = PyDict_GetItemString(dict, "wrap")) m_wrap = ToInt(item);
 		if (PyObject* item = PyDict_GetItemString(dict, "bullet")) m_bullet = ToBool(item);
@@ -106,7 +106,7 @@ namespace Marvel {
 	{
 		if (dict == nullptr)
 			return;
-		mvGlobalIntepreterLock gil;
+		 
 		PyDict_SetItemString(dict, "color", ToPyColor(m_color));
 		PyDict_SetItemString(dict, "wrap", ToPyInt(m_wrap));
 		PyDict_SetItemString(dict, "bullet", ToPyBool(m_bullet));
@@ -145,7 +145,7 @@ namespace Marvel {
 	{
 		if (dict == nullptr)
 			return;
-		mvGlobalIntepreterLock gil;
+		 
 		if (PyObject* item = PyDict_GetItemString(dict, "color")) m_color = ToColor(item);
 	}
 
@@ -153,7 +153,7 @@ namespace Marvel {
 	{
 		if (dict == nullptr)
 			return;
-		mvGlobalIntepreterLock gil;
+		 
 		PyDict_SetItemString(dict, "color", ToPyColor(m_color));
 	}
 

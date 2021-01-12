@@ -30,7 +30,7 @@ namespace Marvel {
 	{
 		if (dict == nullptr)
 			return;
-		mvGlobalIntepreterLock gil;
+		 
 
 		if (PyObject* item = PyDict_GetItemString(dict, "center")) m_center = ToVec2(item);
 		if (PyObject* item = PyDict_GetItemString(dict, "color")) m_color = ToColor(item);
@@ -45,7 +45,7 @@ namespace Marvel {
 	{
 		if (dict == nullptr)
 			return;
-		mvGlobalIntepreterLock gil;
+		 
 		PyDict_SetItemString(dict, "center", ToPyPair(m_center.x, m_center.y));
 		PyDict_SetItemString(dict, "color", ToPyColor(m_color));
 		PyDict_SetItemString(dict, "fill", ToPyColor(m_fill));
