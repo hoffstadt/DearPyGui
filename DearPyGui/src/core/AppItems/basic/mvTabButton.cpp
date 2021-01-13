@@ -127,8 +127,17 @@ namespace Marvel {
 				item->checkConfigDict(kwargs);
 				item->setConfigDict(kwargs);
 				item->setExtraConfigDict(kwargs);
-				if (mvApp::GetApp()->getItemRegistry().addItemWithRuntimeChecks(item, parent, before))
-					return ToPyBool(true);
+
+				auto fut = mvApp::GetApp()->getCallbackRegistry().submit([=]()
+					{
+						return mvApp::GetApp()->getItemRegistry().addItemWithRuntimeChecks(item, parent, before);
+					});
+
+				std::string returnMessage = fut.get();
+				if (!returnMessage.empty())
+					ThrowPythonException(returnMessage);
+
+				return GetPyNone();
 
 			}
 
@@ -158,8 +167,16 @@ namespace Marvel {
 				item->checkConfigDict(kwargs);
 				item->setConfigDict(kwargs);
 				item->setExtraConfigDict(kwargs);
-				if (mvApp::GetApp()->getItemRegistry().addItemWithRuntimeChecks(item, parent, before))
-					return ToPyBool(true);
+				auto fut = mvApp::GetApp()->getCallbackRegistry().submit([=]()
+					{
+						return mvApp::GetApp()->getItemRegistry().addItemWithRuntimeChecks(item, parent, before);
+					});
+
+				std::string returnMessage = fut.get();
+				if (!returnMessage.empty())
+					ThrowPythonException(returnMessage);
+
+				return GetPyNone();
 			}
 
 			else

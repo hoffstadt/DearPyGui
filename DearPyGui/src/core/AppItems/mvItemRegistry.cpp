@@ -420,55 +420,58 @@ namespace Marvel {
 		m_backWindows.clear();
 	}
 
-	bool mvItemRegistry::addItemWithRuntimeChecks(mvRef<mvAppItem> item, const char* parent, const char* before)
+	std::string mvItemRegistry::addItemWithRuntimeChecks(mvRef<mvAppItem> item, const char* parent, const char* before)
 	{
 
 		if (item == nullptr)
-			return false;
+			return "";
 
 		// remove bad parent stack item
 		if (item->getDescription().root && topParent() != nullptr)
 		{
 			emptyParents();
-			ThrowPythonException("Parent stack not empty. Adding window will empty the parent stack. Don't forget to end container types.");
+
+			return "Parent stack not empty. Adding window will empty the parent stack. Don't forget to end container types.";
 		}
 
 		if (item->getType() == mvAppItemType::Popup || item->getType() == mvAppItemType::Tooltip)
-			return addItemAfter(parent, item);
+		{
+			addItemAfter(parent, item);
+			return "";
+		}
 
 		// window runtime adding
 		if (item->getDescription().root && mvApp::IsAppStarted())
-			return addRuntimeItem("", "", item);
+			addRuntimeItem("", "", item);
 
 		// window compile adding
 		else if (item->getDescription().root)
-			return addWindow(item);
+			addWindow(item);
 
 		// typical run time adding
 		else if ((!std::string(parent).empty() || !std::string(before).empty()) && mvApp::IsAppStarted())
-			return addRuntimeItem(parent, before, item);
+			addRuntimeItem(parent, before, item);
 
 		// adding without specifying before or parent, instead using parent stack
 		else if (std::string(parent).empty() && std::string(before).empty() && mvApp::IsAppStarted() && topParent() != nullptr)
-			return addRuntimeItem(topParent()->m_name, before, item);
+			addRuntimeItem(topParent()->m_name, before, item);
 
 		// adding without specifying before or parent, but with empty stack (add to main window)
 		else if (std::string(parent).empty() && std::string(before).empty() && mvApp::IsAppStarted())
 		{
-			ThrowPythonException("Parent stack is empty. You must specify 'before' or 'parent' widget.");
-			return false;
+			return "Parent stack is empty. You must specify 'before' or 'parent' widget.";
 		}
 
 		// adding normally but using the runtime style of adding
 		else if (!std::string(parent).empty() && !mvApp::IsAppStarted())
-			return addRuntimeItem(parent, before, item);
+			addRuntimeItem(parent, before, item);
 
 		// typical adding before runtime
 		else if (std::string(parent).empty() && !mvApp::IsAppStarted() && std::string(before).empty())
-			return addItem(item);
+			addItem(item);
 
 
-		return false;
+		return "";
 	}
 
 	std::string mvItemRegistry::getItemParentName(const std::string& name)

@@ -216,8 +216,16 @@ namespace Marvel {
 		item->setConfigDict(kwargs);
 		item->setExtraConfigDict(kwargs);
 
-		
-		return ToPyBool(mvApp::GetApp()->getItemRegistry().addItemWithRuntimeChecks(item, parent, before));
+		auto fut = mvApp::GetApp()->getCallbackRegistry().submit([=]()
+			{
+				return mvApp::GetApp()->getItemRegistry().addItemWithRuntimeChecks(item, parent, before);
+			});
+
+		std::string returnMessage = fut.get();
+		if (!returnMessage.empty())
+			ThrowPythonException(returnMessage);
+
+		return GetPyNone();
 	}
 
 	PyObject* add_slider_float2(PyObject* self, PyObject* args, PyObject* kwargs)
@@ -262,8 +270,16 @@ namespace Marvel {
 		item->setConfigDict(kwargs);
 		item->setExtraConfigDict(kwargs);
 
-		
-		return ToPyBool(mvApp::GetApp()->getItemRegistry().addItemWithRuntimeChecks(item, parent, before));
+		auto fut = mvApp::GetApp()->getCallbackRegistry().submit([=]()
+			{
+				return mvApp::GetApp()->getItemRegistry().addItemWithRuntimeChecks(item, parent, before);
+			});
+
+		std::string returnMessage = fut.get();
+		if (!returnMessage.empty())
+			ThrowPythonException(returnMessage);
+
+		return GetPyNone();
 	}
 
 	PyObject* add_slider_float3(PyObject* self, PyObject* args, PyObject* kwargs)
@@ -308,8 +324,16 @@ namespace Marvel {
 		item->setConfigDict(kwargs);
 		item->setExtraConfigDict(kwargs);
 
-		
-		return ToPyBool(mvApp::GetApp()->getItemRegistry().addItemWithRuntimeChecks(item, parent, before));
+		auto fut = mvApp::GetApp()->getCallbackRegistry().submit([=]()
+			{
+				return mvApp::GetApp()->getItemRegistry().addItemWithRuntimeChecks(item, parent, before);
+			});
+
+		std::string returnMessage = fut.get();
+		if (!returnMessage.empty())
+			ThrowPythonException(returnMessage);
+
+		return GetPyNone();
 	}
 
 	PyObject* add_slider_float4(PyObject* self, PyObject* args, PyObject* kwargs)
@@ -354,8 +378,16 @@ namespace Marvel {
 		item->setConfigDict(kwargs);
 		item->setExtraConfigDict(kwargs);
 
-		
-		return ToPyBool(mvApp::GetApp()->getItemRegistry().addItemWithRuntimeChecks(item, parent, before));
+		auto fut = mvApp::GetApp()->getCallbackRegistry().submit([=]()
+			{
+				return mvApp::GetApp()->getItemRegistry().addItemWithRuntimeChecks(item, parent, before);
+			});
+
+		std::string returnMessage = fut.get();
+		if (!returnMessage.empty())
+			ThrowPythonException(returnMessage);
+
+		return GetPyNone();
 	}
 
 	PyObject* add_slider_int(PyObject* self, PyObject* args, PyObject* kwargs)
@@ -397,8 +429,16 @@ namespace Marvel {
 		item->setConfigDict(kwargs);
 		item->setExtraConfigDict(kwargs);
 
-		
-		return ToPyBool(mvApp::GetApp()->getItemRegistry().addItemWithRuntimeChecks(item, parent, before));
+		auto fut = mvApp::GetApp()->getCallbackRegistry().submit([=]()
+			{
+				return mvApp::GetApp()->getItemRegistry().addItemWithRuntimeChecks(item, parent, before);
+			});
+
+		std::string returnMessage = fut.get();
+		if (!returnMessage.empty())
+			ThrowPythonException(returnMessage);
+
+		return GetPyNone();
 	}
 
 	PyObject* add_slider_int2(PyObject* self, PyObject* args, PyObject* kwargs)
@@ -441,8 +481,16 @@ namespace Marvel {
 		item->setConfigDict(kwargs);
 		item->setExtraConfigDict(kwargs);
 
-		
-		return ToPyBool(mvApp::GetApp()->getItemRegistry().addItemWithRuntimeChecks(item, parent, before));
+		auto fut = mvApp::GetApp()->getCallbackRegistry().submit([=]()
+			{
+				return mvApp::GetApp()->getItemRegistry().addItemWithRuntimeChecks(item, parent, before);
+			});
+
+		std::string returnMessage = fut.get();
+		if (!returnMessage.empty())
+			ThrowPythonException(returnMessage);
+
+		return GetPyNone();
 	}
 
 	PyObject* add_slider_int3(PyObject* self, PyObject* args, PyObject* kwargs)
@@ -486,8 +534,16 @@ namespace Marvel {
 		item->setConfigDict(kwargs);
 		item->setExtraConfigDict(kwargs);
 
-		
-		return ToPyBool(mvApp::GetApp()->getItemRegistry().addItemWithRuntimeChecks(item, parent, before));
+		auto fut = mvApp::GetApp()->getCallbackRegistry().submit([=]()
+			{
+				return mvApp::GetApp()->getItemRegistry().addItemWithRuntimeChecks(item, parent, before);
+			});
+
+		std::string returnMessage = fut.get();
+		if (!returnMessage.empty())
+			ThrowPythonException(returnMessage);
+
+		return GetPyNone();
 	}
 
 	PyObject* add_slider_int4(PyObject* self, PyObject* args, PyObject* kwargs)
@@ -532,7 +588,15 @@ namespace Marvel {
 		item->setConfigDict(kwargs);
 		item->setExtraConfigDict(kwargs);
 
-		
-		return ToPyBool(mvApp::GetApp()->getItemRegistry().addItemWithRuntimeChecks(item, parent, before));
+		auto fut = mvApp::GetApp()->getCallbackRegistry().submit([=]()
+			{
+				return mvApp::GetApp()->getItemRegistry().addItemWithRuntimeChecks(item, parent, before);
+			});
+
+		std::string returnMessage = fut.get();
+		if (!returnMessage.empty())
+			ThrowPythonException(returnMessage);
+
+		return GetPyNone();
 	}
 }

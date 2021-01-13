@@ -27,6 +27,7 @@
 #include "mvDrawList.h"
 #include "mvTextureStorage.h"
 #include "mvValueStorage.h"
+#include "mvPythonExceptions.h"
 #include <memory>
 
 //-----------------------------------------------------------------------------
