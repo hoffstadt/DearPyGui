@@ -49,6 +49,14 @@ namespace Marvel {
 
 		runCallbacks();
 
+		// temporary location for threading synronization
+		while (!m_tasks.empty())
+		{
+			mvCallbackRegistry::task_type t;
+			if (m_tasks.try_pop(t))
+				t();
+		}
+
 		return false;
 	}
 

@@ -41,10 +41,10 @@
 
 // mvEVT_CATEGORY_ITEM Events
 //-----------------------------------------------------------------------------
-#define mvEVT_MOVE_ITEM         SID("MOVE_ITEM")
-#define mvEVT_MOVE_ITEM_UP      SID("MOVE_ITEM_UP")
-#define mvEVT_MOVE_ITEM_DOWN    SID("MOVE_ITEM_DOWN")
-#define mvEVT_DELETE_ITEM       SID("DELETE_ITEM")
+//#define mvEVT_MOVE_ITEM         SID("MOVE_ITEM")
+//#define mvEVT_MOVE_ITEM_UP      SID("MOVE_ITEM_UP")
+//#define mvEVT_MOVE_ITEM_DOWN    SID("MOVE_ITEM_DOWN")
+//#define mvEVT_DELETE_ITEM       SID("DELETE_ITEM")
 #define mvEVT_ACTIVE_WINDOW     SID("ACTIVE_WINDOW_CHANGE")
 
 // mvEVT_CATEGORY_TEXTURE Events

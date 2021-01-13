@@ -629,7 +629,7 @@ namespace Marvel {
 
 		if (!std::string(logger).empty())
 		{
-			auto loggeritem = mvApp::GetApp()->getItemRegistry().getItemAsync(logger);
+			auto loggeritem = mvApp::GetApp()->getItemRegistry().getItem(logger);
 			if (loggeritem == nullptr)
 			{
 				ThrowPythonException(std::string(logger) + " logger does not exist.");
@@ -659,7 +659,7 @@ namespace Marvel {
 
 		if (!std::string(logger).empty())
 		{
-			auto loggeritem = mvApp::GetApp()->getItemRegistry().getItemAsync(logger);
+			auto loggeritem = mvApp::GetApp()->getItemRegistry().getItem(logger);
 			if (loggeritem == nullptr)
 			{
 				ThrowPythonException(std::string(logger) + " logger does not exist.");
@@ -692,7 +692,7 @@ namespace Marvel {
 
 		if (!std::string(logger).empty())
 		{
-			auto loggeritem = mvApp::GetApp()->getItemRegistry().getItemAsync(logger);
+			auto loggeritem = mvApp::GetApp()->getItemRegistry().getItem(logger);
 			if (loggeritem == nullptr)
 			{
 				ThrowPythonException(std::string(logger) + " logger does not exist.");
@@ -725,7 +725,7 @@ namespace Marvel {
 
 		if (!std::string(logger).empty())
 		{
-			auto loggeritem = mvApp::GetApp()->getItemRegistry().getItemAsync(logger);
+			auto loggeritem = mvApp::GetApp()->getItemRegistry().getItem(logger);
 			if (loggeritem == nullptr)
 			{
 				ThrowPythonException(std::string(logger) + " logger does not exist.");
@@ -758,7 +758,7 @@ namespace Marvel {
 
 		if (!std::string(logger).empty())
 		{
-			auto loggeritem = mvApp::GetApp()->getItemRegistry().getItemAsync(logger);
+			auto loggeritem = mvApp::GetApp()->getItemRegistry().getItem(logger);
 			if (loggeritem == nullptr)
 			{
 				ThrowPythonException(std::string(logger) + " logger does not exist.");
@@ -790,7 +790,7 @@ namespace Marvel {
 
 		if (!std::string(logger).empty())
 		{
-			auto loggeritem = mvApp::GetApp()->getItemRegistry().getItemAsync(logger);
+			auto loggeritem = mvApp::GetApp()->getItemRegistry().getItem(logger);
 			if (loggeritem == nullptr)
 			{
 				ThrowPythonException(std::string(logger) + " logger does not exist.");
@@ -822,7 +822,7 @@ namespace Marvel {
 
 		if (!std::string(logger).empty())
 		{
-			auto loggeritem = mvApp::GetApp()->getItemRegistry().getItemAsync(logger);
+			auto loggeritem = mvApp::GetApp()->getItemRegistry().getItem(logger);
 			if (loggeritem == nullptr)
 			{
 				ThrowPythonException(std::string(logger) + " logger does not exist.");
@@ -853,7 +853,7 @@ namespace Marvel {
 
 		if (!std::string(logger).empty())
 		{
-			auto loggeritem = mvApp::GetApp()->getItemRegistry().getItemAsync(logger);
+			auto loggeritem = mvApp::GetApp()->getItemRegistry().getItem(logger);
 			if (loggeritem == nullptr)
 			{
 				ThrowPythonException(std::string(logger) + " logger does not exist.");
