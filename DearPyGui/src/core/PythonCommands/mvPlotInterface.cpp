@@ -328,7 +328,10 @@ namespace Marvel {
 
 		mvPlot* graph = static_cast<mvPlot*>(aplot.get());
 
-		graph->clear();
+		mvApp::GetApp()->getCallbackRegistry().submit([=]() 
+			{
+				graph->clear();
+			});
 
 		return GetPyNone();
 	}
@@ -357,7 +360,10 @@ namespace Marvel {
 
 		mvPlot* graph = static_cast<mvPlot*>(aplot.get());
 
-		graph->resetXTicks();
+		mvApp::GetApp()->getCallbackRegistry().submit([=]()
+			{
+				graph->resetXTicks();
+			});
 
 		return GetPyNone();
 	}
@@ -386,7 +392,10 @@ namespace Marvel {
 
 		mvPlot* graph = static_cast<mvPlot*>(aplot.get());
 
-		graph->resetYTicks();
+		mvApp::GetApp()->getCallbackRegistry().submit([=]()
+			{
+				graph->resetYTicks();
+			});
 
 		return GetPyNone();
 	}
@@ -418,16 +427,19 @@ namespace Marvel {
 
 		auto mlabel_pairs = ToVectPairStringFloat(label_pairs);
 
-		std::vector<std::string> labels;
-		std::vector<double> locations;
+		mvApp::GetApp()->getCallbackRegistry().submit([=]()
+			{
 
-		for (const auto& item : mlabel_pairs)
-		{
-			labels.emplace_back(item.first.c_str());
-			locations.emplace_back((double)item.second);
-		}
+				std::vector<std::string> labels;
+				std::vector<double> locations;
 
-		graph->setXTicks(labels, locations);
+				for (const auto& item : mlabel_pairs)
+				{
+					labels.emplace_back(item.first.c_str());
+					locations.emplace_back((double)item.second);
+				}
+				graph->setXTicks(labels, locations);
+			});
 
 		return GetPyNone();
 	}
@@ -459,16 +471,19 @@ namespace Marvel {
 
 		auto mlabel_pairs = ToVectPairStringFloat(label_pairs);
 
-		std::vector<std::string> labels;
-		std::vector<double> locations;
+		mvApp::GetApp()->getCallbackRegistry().submit([=]()
+			{
 
-		for (const auto& item : mlabel_pairs)
-		{
-			labels.emplace_back(item.first.c_str());
-			locations.emplace_back((double)item.second);
-		}
+				std::vector<std::string> labels;
+				std::vector<double> locations;
 
-		graph->setYTicks(labels, locations);
+				for (const auto& item : mlabel_pairs)
+				{
+					labels.emplace_back(item.first.c_str());
+					locations.emplace_back((double)item.second);
+				}
+				graph->setYTicks(labels, locations);
+			});
 
 		return GetPyNone();
 	}
@@ -496,7 +511,10 @@ namespace Marvel {
 		}
 		mvPlot* graph = static_cast<mvPlot*>(aplot.get());
 
-		graph->setXLimitsAuto();
+		mvApp::GetApp()->getCallbackRegistry().submit([=]()
+			{
+				graph->setXLimitsAuto();
+			});
 
 		return GetPyNone();
 	}
@@ -525,7 +543,10 @@ namespace Marvel {
 
 		mvPlot* graph = static_cast<mvPlot*>(aplot.get());
 
-		graph->setYLimitsAuto();
+		mvApp::GetApp()->getCallbackRegistry().submit([=]()
+			{
+				graph->setYLimitsAuto();
+			});
 
 		return GetPyNone();
 	}
@@ -556,7 +577,10 @@ namespace Marvel {
 
 		mvPlot* graph = static_cast<mvPlot*>(aplot.get());
 
-		graph->setXLimits(xmin, xmax);
+		mvApp::GetApp()->getCallbackRegistry().submit([=]()
+			{
+				graph->setXLimits(xmin, xmax);
+			});
 
 		return GetPyNone();
 	}
@@ -586,7 +610,10 @@ namespace Marvel {
 		}
 		mvPlot* graph = static_cast<mvPlot*>(aplot.get());
 
-		graph->setYLimits(ymin, ymax);
+		mvApp::GetApp()->getCallbackRegistry().submit([=]()
+			{
+				graph->setYLimits(ymin, ymax);
+			});
 
 		return GetPyNone();
 	}
@@ -614,7 +641,12 @@ namespace Marvel {
 		}
 		mvPlot* graph = static_cast<mvPlot*>(aplot.get());
 
-		return Py_BuildValue("b", graph->isPlotQueried());
+		auto fut = mvApp::GetApp()->getCallbackRegistry().submit([=]()
+			{
+				return graph->isPlotQueried();
+			});
+
+		return Py_BuildValue("b", fut.get());
 	}
 
 	PyObject* get_plot_xlimits(PyObject* self, PyObject* args, PyObject* kwargs)
@@ -640,7 +672,12 @@ namespace Marvel {
 		}
 		mvPlot* graph = static_cast<mvPlot*>(aplot.get());
 
-		const ImVec2& limits = graph->getXLimits();
+		auto fut = mvApp::GetApp()->getCallbackRegistry().submit([=]()
+			{
+				return graph->getXLimits();
+			});
+
+		const ImVec2& limits = fut.get();
 
 		return ToPyPair(limits.x, limits.y);
 	}
@@ -668,7 +705,12 @@ namespace Marvel {
 		}
 		mvPlot* graph = static_cast<mvPlot*>(aplot.get());
 
-		const ImVec2& limits = graph->getYLimits();
+		auto fut = mvApp::GetApp()->getCallbackRegistry().submit([=]()
+			{
+				return graph->getYLimits();
+			});
+
+		const ImVec2& limits = fut.get();
 
 		return ToPyPair(limits.x, limits.y);
 	}
@@ -696,7 +738,12 @@ namespace Marvel {
 		}
 		mvPlot* graph = static_cast<mvPlot*>(aplot.get());
 
-		auto area = graph->getPlotQueryArea();
+		auto fut = mvApp::GetApp()->getCallbackRegistry().submit([=]()
+			{
+				return graph->getPlotQueryArea();
+			});
+
+		auto area = fut.get();
 
 		return Py_BuildValue("(ffff)", area[0], area[1], area[2], area[3]);
 	}
@@ -726,7 +773,10 @@ namespace Marvel {
 
 		mvPlot* graph = static_cast<mvPlot*>(aplot.get());
 
-		graph->SetColorMap(map);
+		mvApp::GetApp()->getCallbackRegistry().submit([=]()
+			{
+				graph->SetColorMap(map);
+			});
 
 		return GetPyNone();
 	}
@@ -756,7 +806,12 @@ namespace Marvel {
 		}
 
 		mvPlot* graph = static_cast<mvPlot*>(aplot.get());
-		graph->deleteSeries(series);
+
+		mvApp::GetApp()->getCallbackRegistry().submit([=]()
+			{
+				graph->deleteSeries(series);
+			});
+
 		return GetPyNone();
 	}
 
@@ -819,8 +874,10 @@ namespace Marvel {
 		auto series = CreateRef<mvImageSeries>(name, value, ImPlotPoint(mbounds_min[0], mbounds_min[1]), ImPlotPoint(mbounds_max[0], mbounds_max[1]),
 			muv_min, muv_max, mcolor,(ImPlotYAxis_)axis);
 
-		graph->updateSeries(series, update_bounds);
-
+		mvApp::GetApp()->getCallbackRegistry().submit([=]()
+			{
+				graph->updateSeries(series, update_bounds);
+			});
 
 		return GetPyNone();
 	}
@@ -864,9 +921,11 @@ namespace Marvel {
 		}
 
 		auto series = CreateRef<mvPieSeries>(name, &avalues, x, y, radius, normalize, angle, format, alabels, (ImPlotYAxis_)axis);
-
-		graph->updateSeries(series, update_bounds);
-
+		
+		mvApp::GetApp()->getCallbackRegistry().submit([=]()
+			{
+				graph->updateSeries(series, update_bounds);
+			});
 
 		return GetPyNone();
 	}
@@ -906,9 +965,12 @@ namespace Marvel {
 		if (!CheckArraySizes(plot, { &xs, &ys })) return GetPyNone();
 
 		auto series = CreateRef<mvLineSeries>(name, &xs, &ys, mcolor, (ImPlotYAxis_)axis);
-
 		series->setWeight(weight);
-		graph->updateSeries(series, update_bounds);
+
+		mvApp::GetApp()->getCallbackRegistry().submit([=]()
+			{
+				graph->updateSeries(series, update_bounds);
+			});
 
 		return GetPyNone();
 	}
@@ -950,7 +1012,10 @@ namespace Marvel {
 		auto series = CreateRef<mvStairSeries>(name, &xs, &ys, mcolor, (ImPlotYAxis_)axis);
 
 		series->setWeight(weight);
-		graph->updateSeries(series, update_bounds);
+		mvApp::GetApp()->getCallbackRegistry().submit([=]()
+			{
+				graph->updateSeries(series, update_bounds);
+			});
 
 		return GetPyNone();
 	}
@@ -989,7 +1054,10 @@ namespace Marvel {
 
 		auto series = CreateRef<mvBarSeries>(name, &xs, &ys, horizontal, (ImPlotYAxis_)axis);
 		series->setWeight(weight);
-		graph->updateSeries(series, update_bounds);
+		mvApp::GetApp()->getCallbackRegistry().submit([=]()
+			{
+				graph->updateSeries(series, update_bounds);
+			});
 
 		return GetPyNone();
 	}
@@ -1050,7 +1118,10 @@ namespace Marvel {
 
 		auto series = CreateRef<mvShadeSeries>(name, mcolor, mfill , &xs, &y1s, &y2s, (ImPlotYAxis_)axis);
 		series->setWeight(weight);
-		graph->updateSeries(series, update_bounds);
+		mvApp::GetApp()->getCallbackRegistry().submit([=]()
+			{
+				graph->updateSeries(series, update_bounds);
+			});
 
 		return GetPyNone();
 	}
@@ -1114,7 +1185,10 @@ namespace Marvel {
 		auto series = CreateRef<mvCandleSeries>(name, &mdates, &mopens, &mhighs, &mlows, &mcloses,
 			weight, mbull, mbear, (ImPlotYAxis_)axis);
 		series->setWeight(weight);
-		graph->updateSeries(series, update_bounds);
+		mvApp::GetApp()->getCallbackRegistry().submit([=]()
+			{
+				graph->updateSeries(series, update_bounds);
+			});
 
 		return GetPyNone();
 	}
@@ -1165,7 +1239,10 @@ namespace Marvel {
 
 		auto series = CreateRef<mvScatterSeries>(name, &xs, &ys, marker, size, weight, mmarkerOutlineColor, mmarkerFillColor, (ImPlotYAxis_)axis);
 		
-		graph->updateSeries(series, update_bounds);
+		mvApp::GetApp()->getCallbackRegistry().submit([=]()
+			{
+				graph->updateSeries(series, update_bounds);
+			});
 
 		return GetPyNone();
 	}
@@ -1216,8 +1293,11 @@ namespace Marvel {
 		if (xs.size() == 0)
 			return GetPyNone();
 
-		graph->updateSeries(CreateRef<mvStemSeries>(name, &xs, &ys, marker, size, weight, mmarkerOutlineColor,
-			mmarkerFillColor, (ImPlotYAxis_)axis), update_bounds);
+		mvApp::GetApp()->getCallbackRegistry().submit([=]()
+			{
+				graph->updateSeries(CreateRef<mvStemSeries>(name, &xs, &ys, marker, size, weight, mmarkerOutlineColor,
+					mmarkerFillColor, (ImPlotYAxis_)axis), update_bounds);
+			});
 
 		return GetPyNone();
 	}
@@ -1258,7 +1338,11 @@ namespace Marvel {
 		std::vector<float> ax = { x };
 		std::vector<float> ay = { y };
 
-		graph->updateSeries(CreateRef<mvLabelSeries>(name, &ax, &ay, xoffset, yoffset, vertical, (ImPlotYAxis_)axis), update_bounds);
+
+		mvApp::GetApp()->getCallbackRegistry().submit([=]()
+			{
+				graph->updateSeries(CreateRef<mvLabelSeries>(name, &ax, &ay, xoffset, yoffset, vertical, (ImPlotYAxis_)axis), update_bounds);
+			});
 
 		return GetPyNone();
 	}
@@ -1299,14 +1383,16 @@ namespace Marvel {
 		auto mcolor = ToColor(color);
 		auto mfill = ToColor(fill);
 
-		graph->deleteSeries(name);
-		auto aseries = CreateRef<mvAreaSeries>(name, &xs, &ys, mcolor, mfill, (ImPlotYAxis_)axis);
-		auto lseries = CreateRef<mvLineSeries>(name, &xs, &ys, mcolor, (ImPlotYAxis_)axis);
-		aseries->setWeight(weight);
-		lseries->setWeight(weight);
-		graph->addSeries(aseries, update_bounds);
-		graph->addSeries(lseries, update_bounds); // this allows our custom render to work
-
+		mvApp::GetApp()->getCallbackRegistry().submit([=]()
+			{
+				graph->deleteSeries(name);
+				auto aseries = CreateRef<mvAreaSeries>(name, &xs, &ys, mcolor, mfill, (ImPlotYAxis_)axis);
+				auto lseries = CreateRef<mvLineSeries>(name, &xs, &ys, mcolor, (ImPlotYAxis_)axis);
+				aseries->setWeight(weight);
+				lseries->setWeight(weight);
+				graph->addSeries(aseries, update_bounds);
+				graph->addSeries(lseries, update_bounds); // this allows our custom render to work
+			});
 
 		return GetPyNone();
 	}
@@ -1355,7 +1441,11 @@ namespace Marvel {
 
 		auto mcolor = ToColor(color);
 		auto series = CreateRef<mvErrorSeries>(name, &xs, &ys, &negatives, &positives, horizontal, mcolor, (ImPlotYAxis_)axis);
-		graph->updateSeries(series, update_bounds);
+		
+		mvApp::GetApp()->getCallbackRegistry().submit([=]()
+			{
+				graph->updateSeries(series, update_bounds);
+			});
 
 		return GetPyNone();
 	}
@@ -1401,7 +1491,11 @@ namespace Marvel {
 
 		auto series = CreateRef<mvHeatSeries>(name, &mvalues, rows, columns, scale_min,
 			scale_max, format, mbounds_min, mbounds_max, (ImPlotYAxis_)axis);
-		graph->updateSeries(series, update_bounds);
+
+		mvApp::GetApp()->getCallbackRegistry().submit([=]()
+			{
+				graph->updateSeries(series, update_bounds);
+			});
 
 		return GetPyNone();
 	}

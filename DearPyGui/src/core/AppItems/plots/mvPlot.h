@@ -55,8 +55,8 @@ namespace Marvel {
 		~mvPlot(){clear();}
 
 		// drag lines
-		void addDragPoint   (const std::string& name, bool show_label, const mvColor& color, float radius, PyObject* callback, double* dummyValue, const std::string& source);
-		void updateDragPoint(const std::string& name, bool show_label, const mvColor& color, float radius, PyObject* callback, double* dummyValue, const std::string& source);
+		void addDragPoint   (const std::string& name, bool show_label, const mvColor& color, float radius, PyObject* callback, const double* dummyValue, const std::string& source);
+		void updateDragPoint(const std::string& name, bool show_label, const mvColor& color, float radius, PyObject* callback, const double* dummyValue, const std::string& source);
 		void deleteDragPoint(const std::string& name);
 
 		// drag lines
