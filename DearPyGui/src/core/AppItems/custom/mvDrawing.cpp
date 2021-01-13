@@ -22,6 +22,7 @@ namespace Marvel {
 	mvDrawing::mvDrawing(const std::string& name)
 		: mvAppItem(name)
 	{
+		m_drawList = CreateRef<mvDrawList>();
 	}
 
 	void mvDrawing::draw()
@@ -31,13 +32,13 @@ namespace Marvel {
 
 		ImGui::PushClipRect({ m_startx, m_starty }, { m_startx + (float)m_width, m_starty + (float)m_height }, true);
 
-		m_drawList.draw(ImGui::GetWindowDrawList(), m_startx, m_starty);
+		m_drawList->draw(ImGui::GetWindowDrawList(), m_startx, m_starty);
 
 		ImGui::PopClipRect();
 		ImGui::Dummy(ImVec2((float)m_width, (float)m_height));
 	}
 
-	mvDrawList& mvDrawing::getDrawList()
+	mvRef<mvDrawList> mvDrawing::getDrawList()
 	{
 		return m_drawList;
 	}

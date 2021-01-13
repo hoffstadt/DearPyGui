@@ -2,6 +2,8 @@
 
 #include <string>
 #include <vector>
+#include <map>
+#include "mvPythonParser.h"
 #include "mvCore.h"
 #define PY_SSIZE_T_CLEAN
 #include <Python.h>
@@ -21,6 +23,10 @@ namespace Marvel {
 
 	class mvDrawList
 	{
+
+	public:
+
+		static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
 
 	public:
 

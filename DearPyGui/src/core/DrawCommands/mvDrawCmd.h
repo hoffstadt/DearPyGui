@@ -45,7 +45,7 @@ namespace Marvel {
 
 	};
 
-	static mvDrawList* GetDrawListFromTarget(const char* name)
+	static mvRef<mvDrawList> GetDrawListFromTarget(const char* name)
 	{
 		if (name == DrawForeground)
 		{
@@ -55,7 +55,7 @@ namespace Marvel {
 				ThrowPythonException(std::string(name) + " viewport can't be accessed until the application is running");
 				return nullptr;
 			}
-			return &mvApp::GetApp()->getViewport()->getFrontDrawList();
+			return mvApp::GetApp()->getViewport()->getFrontDrawList();
 		}
 
 		if (name == DrawBackground)
@@ -66,7 +66,7 @@ namespace Marvel {
 				ThrowPythonException(std::string(name) + " viewport can't be accessed until the application is running");
 				return nullptr;
 			}
-			return &mvApp::GetApp()->getViewport()->getBackDrawList();
+			return mvApp::GetApp()->getViewport()->getBackDrawList();
 		}
 
 		auto item = mvApp::GetApp()->getItemRegistry().getItem(name);
@@ -75,9 +75,9 @@ namespace Marvel {
 			return nullptr;
 
 		if (item->getType() == mvAppItemType::Drawing)
-			return &static_cast<mvDrawing*>(item.get())->getDrawList();
+			return static_cast<mvDrawing*>(item.get())->getDrawList();
 		if (item->getType() == mvAppItemType::Window)
-			return &static_cast<mvWindowAppItem*>(item.get())->getDrawList();
+			return static_cast<mvWindowAppItem*>(item.get())->getDrawList();
 
 		ThrowPythonException(std::string(name) + " draw target does not exist or is not a valid target.");
 		return nullptr;

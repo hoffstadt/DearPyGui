@@ -145,16 +145,20 @@ namespace Marvel {
 		mvVec2 muv_min = ToVec2(uv_min);
 		mvVec2 muv_max = ToVec2(uv_max);
 		mvColor mcolor = ToColor(color);
+		mvRef<mvDrawList> drawlist = GetDrawListFromTarget(drawing);
 
-		mvDrawList* drawlist = GetDrawListFromTarget(drawing);
-		if (drawlist)
-		{
+		mvApp::GetApp()->getCallbackRegistry().submit([=]() {
 
-			auto cmd = CreateRef<mvDrawImageCmd>(file, mpmin, mpmax, muv_min, muv_max, mcolor);
-			cmd->tag = tag;
-			drawlist->addCommand(cmd);
+			if (drawlist)
+			{
 
-		}
+				auto cmd = CreateRef<mvDrawImageCmd>(file, mpmin, mpmax, muv_min, muv_max, mcolor);
+				cmd->tag = tag;
+				drawlist->addCommand(cmd);
+
+			}
+		});
+
 		return GetPyNone();
 	}
 }

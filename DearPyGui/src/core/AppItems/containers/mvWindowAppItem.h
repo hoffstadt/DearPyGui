@@ -39,30 +39,30 @@ namespace Marvel {
 		void   setExtraConfigDict   (PyObject* dict) override;
 		void   getExtraConfigDict   (PyObject* dict) override;
 		void   setFocusedNextFrame  () { m_focusNextFrame = true; }
-		mvDrawList& getDrawList     () { return m_drawList; }
+		mvRef<mvDrawList> getDrawList     () { return m_drawList; }
 
 		~mvWindowAppItem();
 
 	private:
 
-		ImGuiWindowFlags m_windowflags = ImGuiWindowFlags_NoSavedSettings;
-		ImGuiWindowFlags m_oldWindowflags = ImGuiWindowFlags_NoSavedSettings;
-		int              m_xpos = 200;
-		int              m_oldxpos = 200;
-		int              m_ypos = 200;
-		int              m_oldypos = 200;
-		int              m_oldWidth = 200;
-		int              m_oldHeight = 200;
-		bool             m_mainWindow = false;
-		PyObject*        m_closing_callback = nullptr;
-		PyObject*        m_resize_callback = nullptr;
-		bool             m_dirty_pos = true;
-		bool             m_dirty_size = true;
-		bool             m_closing = true;
-		bool             m_noclose = false;
-		bool             m_hasMenuBar = false;
-		bool             m_focusNextFrame = false;
-		mvDrawList       m_drawList;
+		ImGuiWindowFlags  m_windowflags = ImGuiWindowFlags_NoSavedSettings;
+		ImGuiWindowFlags  m_oldWindowflags = ImGuiWindowFlags_NoSavedSettings;
+		int               m_xpos = 200;
+		int               m_oldxpos = 200;
+		int               m_ypos = 200;
+		int               m_oldypos = 200;
+		int               m_oldWidth = 200;
+		int               m_oldHeight = 200;
+		bool              m_mainWindow = false;
+		PyObject*         m_closing_callback = nullptr;
+		PyObject*         m_resize_callback = nullptr;
+		bool              m_dirty_pos = true;
+		bool              m_dirty_size = true;
+		bool              m_closing = true;
+		bool              m_noclose = false;
+		bool              m_hasMenuBar = false;
+		bool              m_focusNextFrame = false;
+		mvRef<mvDrawList> m_drawList;
 		
 	};
 

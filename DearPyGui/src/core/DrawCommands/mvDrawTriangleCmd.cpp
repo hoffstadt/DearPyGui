@@ -72,14 +72,18 @@ namespace Marvel {
 		mvVec2 mp3 = ToVec2(p3);
 		mvColor mcolor = ToColor(color);
 		mvColor mfill = ToColor(fill);
+		mvRef<mvDrawList> drawlist = GetDrawListFromTarget(drawing);
 
-		mvDrawList* drawlist = GetDrawListFromTarget(drawing);
-		if (drawlist)
-		{
-			auto cmd = CreateRef<mvDrawTriangleCmd>(mp1, mp2, mp3, mcolor, thickness, mfill);
-			cmd->tag = tag;
-			drawlist->addCommand(cmd);
-		}
+		mvApp::GetApp()->getCallbackRegistry().submit([=]() {
+			
+			if (drawlist)
+			{
+				auto cmd = CreateRef<mvDrawTriangleCmd>(mp1, mp2, mp3, mcolor, thickness, mfill);
+				cmd->tag = tag;
+				drawlist->addCommand(cmd);
+			}
+		});
+
 		return GetPyNone();
 	}
 

@@ -50,7 +50,6 @@ set(MARVEL_SOURCES
 	"src/core/PythonUtilities/mvGlobalIntepreterLock.cpp"
 
 	"src/core/PythonCommands/mvPlotInterface.cpp"
-	"src/core/PythonCommands/mvDrawingInterface.cpp"
 	"src/core/PythonCommands/mvTableInterface.cpp"
 	"src/core/PythonCommands/mvThemeInterface.cpp"
 	"src/core/PythonCommands/mvInputInterface.cpp"

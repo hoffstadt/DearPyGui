@@ -136,14 +136,18 @@ namespace Marvel {
 		auto mpoints = ToVectVec2(points);
 		mvColor mcolor = ToColor(color);
 		mvColor mfill = ToColor(fill);
+		mvRef<mvDrawList> drawlist = GetDrawListFromTarget(drawing);
 
-		mvDrawList* drawlist = GetDrawListFromTarget(drawing);
-		if (drawlist)
-		{
-			auto cmd = CreateRef<mvDrawPolygonCmd>(mpoints, mcolor, mfill, thickness);
-			cmd->tag = tag;
-			drawlist->addCommand(cmd);
-		}
+		mvApp::GetApp()->getCallbackRegistry().submit([=]() {
+			
+			if (drawlist)
+			{
+				auto cmd = CreateRef<mvDrawPolygonCmd>(mpoints, mcolor, mfill, thickness);
+				cmd->tag = tag;
+				drawlist->addCommand(cmd);
+			}
+		});
+
 		return GetPyNone();
 	}
 }
