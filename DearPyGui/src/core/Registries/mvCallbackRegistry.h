@@ -2,6 +2,7 @@
 #include <queue>
 #include <string>
 #include <mutex>
+#include "mvThreadPool.h"
 #include "mvEvents.h"
 #define PY_SSIZE_T_CLEAN
 #include <Python.h>
@@ -19,6 +20,8 @@ namespace Marvel {
 
 	class mvCallbackRegistry : public mvEventHandler
 	{
+		typedef mvFunctionWrapper task_type;
+
 		struct NewCallback
 		{
 			std::string sender;
@@ -40,6 +43,19 @@ namespace Marvel {
         void addCallback      (PyObject* callback, const std::string& sender, PyObject* data);
 		
 		void runCallbacks();
+
+		template<typename F, typename ...Args>
+		std::future<typename std::invoke_result<F, Args...>::type> submit(F f)
+		{
+			typedef typename std::invoke_result<F, Args...>::type result_type;
+			std::packaged_task<result_type()> task(std::move(f));
+			std::future<result_type> res(task.get_future());
+			m_tasks.push(std::move(task));
+
+			return res;
+		}
+
+		mvQueue<task_type>& getTaskQueue() { return m_tasks; }
 
 		//-----------------------------------------------------------------------------
         // Callbacks
@@ -80,8 +96,11 @@ namespace Marvel {
 
 		mutable std::mutex               m_mutex;
 
-		// new callback system
+		// callback system
 		std::vector<NewCallback>          m_callbacks;
+
+		// new callback system
+		mvQueue<task_type> m_tasks;
 
 		// input callbacks
 		PyObject* m_renderCallback = nullptr;

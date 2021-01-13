@@ -287,12 +287,8 @@ namespace Marvel {
 			&item, &parent, &before))
 			return GetPyNone();
 
-		mvEventBus::Publish(mvEVT_CATEGORY_ITEM, mvEVT_MOVE_ITEM,
-		{
-				CreateEventArgument("ITEM", std::string(item)),
-				CreateEventArgument("PARENT", std::string(parent)),
-				CreateEventArgument("BEFORE", std::string(before)),
-		});
+		mvApp::GetApp()->getCallbackRegistry().submit([item, parent, before]()
+			{mvApp::GetApp()->getItemRegistry().moveItem(item, parent, before); });
 
 		return GetPyNone();
 	}
@@ -363,11 +359,8 @@ namespace Marvel {
 		if (!(*mvApp::GetApp()->getParsers())["delete_item"].parse(args, kwargs, __FUNCTION__, &item, &childrenOnly))
 			return GetPyNone();
 
-		mvEventBus::Publish(mvEVT_CATEGORY_ITEM, mvEVT_DELETE_ITEM,
-			{
-				CreateEventArgument("ITEM", std::string(item)),
-				CreateEventArgument("CHILDREN_ONLY", (bool)childrenOnly),
-			});
+		mvApp::GetApp()->getCallbackRegistry().submit([item, childrenOnly]() 
+			{mvApp::GetApp()->getItemRegistry().deleteItem(item, childrenOnly); });
 
 		return GetPyNone();
 
@@ -382,9 +375,6 @@ namespace Marvel {
 
 		if (!(*mvApp::GetApp()->getParsers())["does_item_exist"].parse(args, kwargs, __FUNCTION__, &item))
 			return GetPyNone();
-
-		if (mvApp::GetApp()->getItemRegistry().isItemToBeDeleted(item))
-			return ToPyBool(false);
 
 		if (!mvApp::GetApp()->getItemRegistry().getItem(item))
 			return ToPyBool(false);
@@ -403,10 +393,8 @@ namespace Marvel {
 		if (!(*mvApp::GetApp()->getParsers())["move_item_up"].parse(args, kwargs, __FUNCTION__, &item))
 			return GetPyNone();
 
-		mvEventBus::Publish(mvEVT_CATEGORY_ITEM, mvEVT_MOVE_ITEM_UP,
-			{
-					CreateEventArgument("ITEM", std::string(item))
-			});
+		mvApp::GetApp()->getCallbackRegistry().submit([item]()
+			{mvApp::GetApp()->getItemRegistry().moveItemUp(item); });
 
 		return GetPyNone();
 
@@ -422,13 +410,10 @@ namespace Marvel {
 		if (!(*mvApp::GetApp()->getParsers())["move_item_down"].parse(args, kwargs, __FUNCTION__, &item))
 			return GetPyNone();
 
-		mvEventBus::Publish(mvEVT_CATEGORY_ITEM, mvEVT_MOVE_ITEM_DOWN,
-			{
-					CreateEventArgument("ITEM", std::string(item))
-			});
+		mvApp::GetApp()->getCallbackRegistry().submit([item]()
+			{mvApp::GetApp()->getItemRegistry().moveItemUp(item); });
 
 		return GetPyNone();
-
 	}
 
 	PyObject* get_item_callback(PyObject * self, PyObject * args, PyObject * kwargs)

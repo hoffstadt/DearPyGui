@@ -4,7 +4,7 @@
 // mvThreadPool
 //
 //     - This is a simple thread pool implementation from our repository at
-//       https://github.com/RaylockLLC/mvThreadPool
+//       https://github.com/hoffstadt/mvThreadPool
 //     
 //-----------------------------------------------------------------------------
 
@@ -89,7 +89,7 @@ namespace Marvel {
         bool empty()
         {
             std::lock_guard<std::mutex> head_lock(m_head_mutex);
-            return (m_head == get_tail());
+            return (m_head.get() == get_tail());
         }
 
     private:

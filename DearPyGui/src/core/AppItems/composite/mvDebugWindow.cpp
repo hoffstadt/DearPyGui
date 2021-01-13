@@ -231,8 +231,6 @@ namespace Marvel {
 
 				std::string width = std::to_string(selectedItem->m_width);
 				std::string height = std::to_string(selectedItem->m_height);
-				//std::string awidth = std::to_string(selectedItem->getActualWidth());
-				//std::string aheight = std::to_string(selectedItem->getActualHeight());
 				
 				std::string sizex = std::to_string(selectedItem->getState().getItemRectSize().x);
 				std::string sizey = std::to_string(selectedItem->getState().getItemRectSize().y);
@@ -240,25 +238,25 @@ namespace Marvel {
                 ImGui::BeginGroup();
 
                 if (ImGui::ArrowButton("Move Up", ImGuiDir_Up))
-					mvEventBus::Publish(mvEVT_CATEGORY_ITEM, mvEVT_MOVE_ITEM_UP,
+					mvApp::GetApp()->getCallbackRegistry().submit([&]()
 						{
-								CreateEventArgument("ITEM", std::string(m_selectedItem))
+							mvApp::GetApp()->getItemRegistry().moveItemUp(m_selectedItem);
 						});
+
                 ImGui::SameLine();
                 if (ImGui::ArrowButton("Move Down", ImGuiDir_Down))
-					mvEventBus::Publish(mvEVT_CATEGORY_ITEM, mvEVT_MOVE_ITEM_DOWN,
+					mvApp::GetApp()->getCallbackRegistry().submit([&]()
 						{
-								CreateEventArgument("ITEM", std::string(m_selectedItem))
+							mvApp::GetApp()->getItemRegistry().moveItemDown(m_selectedItem);
 						});
                 ImGui::SameLine();
                 if (ImGui::Button("Delete"))
                 {
-					mvEventBus::Publish(mvEVT_CATEGORY_ITEM, mvEVT_DELETE_ITEM,
+					mvApp::GetApp()->getCallbackRegistry().submit([&]()
 						{
-							{SID("ITEM"), std::string(m_selectedItem)},
-							{SID("CHILDREN_ONLY"), false}
+							mvApp::GetApp()->getItemRegistry().deleteItem(m_selectedItem, false);
+							m_selectedItem = "";
 						});
-                    m_selectedItem = "";
                 }
                 ImGui::SameLine();
                 if (ImGui::Button("Show"))
