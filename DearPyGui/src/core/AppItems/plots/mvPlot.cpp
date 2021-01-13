@@ -789,6 +789,18 @@ namespace Marvel {
 		m_ylimits = ImVec2(y_min, y_max);
 	}
 
+	void mvPlot::setY2Limits(float y_min, float y_max)
+	{
+		m_setY2Limits = true;
+		m_y2limits = ImVec2(y_min, y_max);
+	}
+
+	void mvPlot::setY3Limits(float y_min, float y_max)
+	{
+		m_setY3Limits = true;
+		m_y3limits = ImVec2(y_min, y_max);
+	}
+
 	void mvPlot::setXLimitsAuto()
 	{
 		m_setXLimits = false;
@@ -797,6 +809,16 @@ namespace Marvel {
 	void mvPlot::setYLimitsAuto()
 	{
 		m_setYLimits = false;
+	}
+
+	void mvPlot::setY2LimitsAuto()
+	{
+		m_setY2Limits = false;
+	}
+
+	void mvPlot::setY3LimitsAuto()
+	{
+		m_setY3Limits = false;
 	}
 
 	bool mvPlot::isPlotQueried() const
