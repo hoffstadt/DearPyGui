@@ -9,34 +9,6 @@
 
 namespace Marvel {
 
-	PyObject* draw_arrow(PyObject* self, PyObject* args, PyObject* kwargs)
-	{
-		const char* drawing;
-		int thickness;
-		int size;
-		PyObject* p1, * p2;
-		PyObject* color;
-		const char* tag = "";
-
-		if (!(*mvApp::GetApp()->getParsers())["draw_arrow"].parse(args, kwargs, __FUNCTION__, &drawing, &p1, &p2, &color, &thickness, &size, &tag))
-			return GetPyNone();
-
-		mvVec2 mp1 = ToVec2(p1);
-		mvVec2 mp2 = ToVec2(p2);
-		mvColor mcolor = ToColor(color);
-
-		mvDrawList* drawlist = GetDrawListFromTarget(drawing);
-		if (drawlist)
-		{
-
-			auto cmd = CreateRef<mvDrawArrowCmd>(mp1, mp2, mcolor, (float)thickness, (float)size);
-			cmd->tag = tag;
-			drawlist->addCommand(cmd);
-
-		}
-		return GetPyNone();
-	}
-
 	mvDrawArrowCmd::mvDrawArrowCmd(const mvVec2& p1, const mvVec2& p2,
 		const mvColor& color, float thickness, float size)
 		:
@@ -119,5 +91,37 @@ namespace Marvel {
 		PyDict_SetItemString(dict, "color", ToPyColor(m_color));
 		PyDict_SetItemString(dict, "thickness", ToPyFloat(m_thickness));
 		PyDict_SetItemString(dict, "size", ToPyFloat(m_size));
+	}
+
+	PyObject* draw_arrow(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		const char* drawing;
+		int thickness;
+		int size;
+		PyObject* p1, * p2;
+		PyObject* color;
+		const char* tag = "";
+
+		if (!(*mvApp::GetApp()->getParsers())["draw_arrow"].parse(args, kwargs, __FUNCTION__, &drawing, &p1, &p2, &color, &thickness, &size, &tag))
+			return GetPyNone();
+
+		mvVec2 mp1 = ToVec2(p1);
+		mvVec2 mp2 = ToVec2(p2);
+		mvColor mcolor = ToColor(color);
+		mvRef<mvDrawList> drawlist = GetDrawListFromTarget(drawing);
+
+		mvApp::GetApp()->getCallbackRegistry().submit([=]() {
+
+			if (drawlist)
+			{
+
+				auto cmd = CreateRef<mvDrawArrowCmd>(mp1, mp2, mcolor, (float)thickness, (float)size);
+				cmd->tag = tag;
+				drawlist->addCommand(cmd);
+
+			}
+
+			});
+		return GetPyNone();
 	}
 }

@@ -5,6 +5,8 @@
 #include "mvAppLog.h"
 #include "mvPythonTranslator.h"
 #include "mvAppItems.h"
+#include "mvDrawList.h"
+#include "mvDrawCmdCommon.h"
 #include "mvWindow.h"
 #include "mvPythonExceptions.h"
 #include <ImGuiFileDialog.h>
@@ -12,7 +14,6 @@
 
 // new includes
 #include "mvPlotInterface.h"
-#include "mvDrawingInterface.h"
 #include "mvTableInterface.h"
 #include "mvThemeInterface.h"
 #include "mvInputInterface.h"
@@ -78,8 +79,8 @@ namespace Marvel {
 		mvInputText::InsertParser(parsers.get());
 		mvTable::InsertParser(parsers.get());
 		mvPlot::InsertParser(parsers.get());
+		mvDrawList::InsertParser(parsers.get());
 
-		AddDrawingCommands(parsers.get());
 		AddPlotCommands(parsers.get());
 		AddLogCommands(parsers.get());
 		AddInputCommands(parsers.get());

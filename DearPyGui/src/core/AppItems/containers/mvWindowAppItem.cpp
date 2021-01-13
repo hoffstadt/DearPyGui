@@ -37,6 +37,8 @@ namespace Marvel {
 	mvWindowAppItem::mvWindowAppItem(const std::string& name, bool mainWindow, PyObject* closing_callback)
 		: mvAppItem(name), m_mainWindow(mainWindow), m_closing_callback(SanitizeCallback(closing_callback))
 	{
+		m_drawList = CreateRef<mvDrawList>();
+
 		m_description.root = true;
 		m_description.container = true;
 
@@ -237,7 +239,7 @@ namespace Marvel {
 		m_xpos = (int)ImGui::GetWindowPos().x;
 		m_ypos = (int)ImGui::GetWindowPos().y;
 
-		m_drawList.draw(ImGui::GetWindowDrawList(), m_xpos, m_ypos);
+		m_drawList->draw(ImGui::GetWindowDrawList(), m_xpos, m_ypos);
 
 		ImGui::End();
 	}

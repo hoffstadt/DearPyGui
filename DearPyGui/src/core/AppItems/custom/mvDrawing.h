@@ -23,14 +23,14 @@ namespace Marvel {
 
 		void draw() override;
 
-		mvDrawList& getDrawList();
+		mvRef<mvDrawList> getDrawList();
 
 
 	private:
 
-		mvDrawList  m_drawList;
-		float       m_startx = 0.0f;
-		float       m_starty = 0.0f;
+		mvRef<mvDrawList> m_drawList;
+		float             m_startx = 0.0f;
+		float             m_starty = 0.0f;
 
 	};
 }

@@ -36,12 +36,10 @@ namespace Marvel {
 	bool mvItemRegistry::deleteItem(const std::string& name, bool childrenOnly)
 	{
 
-		std::lock_guard<std::mutex> guard(m_mutex);
-
 		// delete items that are parent only
 		if(childrenOnly)
 		{
-			auto item = getItemInternal(name);
+			auto item = getItem(name);
 			if (item)
 			{
 				item->deleteChildren();
@@ -247,7 +245,7 @@ namespace Marvel {
 
 		if (!item->getDescription().duplicatesAllowed)
 		{
-			if (getItemInternal(item->m_name))
+			if (getItem(item->m_name))
 			{
 				std::string message = item->m_name;
 				ThrowPythonException(message + ": Items of this type must have unique names");
@@ -281,7 +279,7 @@ namespace Marvel {
 		// add popup items
 		bool addedItem = false;
 
-		if (getItemInternal(item->m_name))
+		if (getItem(item->m_name))
 		{
 			std::string message = item->m_name;
 			ThrowPythonException(message + ": Items of this type must have unique names");
@@ -335,12 +333,6 @@ namespace Marvel {
 
 	mvRef<mvAppItem> mvItemRegistry::getItem(const std::string& name)
 	{
-		std::lock_guard<std::mutex> guard(m_mutex);
-		return getItemInternal(name);
-	}
-
-	mvRef<mvAppItem> mvItemRegistry::getItemInternal(const std::string& name)
-	{
 		mvRef<mvAppItem> item = nullptr;
 
 		for (auto window : m_frontWindows)
@@ -371,7 +363,7 @@ namespace Marvel {
 		if (!mvApp::GetApp()->checkIfMainThread())
 			return nullptr;
 
-		mvRef<mvAppItem> item = getItemInternal(name);
+		mvRef<mvAppItem> item = getItem(name);
 		if (item == nullptr)
 			return nullptr;
 
@@ -391,7 +383,7 @@ namespace Marvel {
 
 		if (!item->getDescription().duplicatesAllowed)
 		{
-			if (getItemInternal(item->m_name))
+			if (getItem(item->m_name))
 			{
 				std::string message = item->m_name + " " + std::to_string(count);
 				ThrowPythonException(message + ": Items of this type must have unique names");
@@ -507,7 +499,6 @@ namespace Marvel {
 
 	std::vector<std::string> mvItemRegistry::getAllItems()
 	{
-		std::lock_guard<std::mutex> guard(m_mutex);
 
 		std::vector<std::string> childList;
 
@@ -534,7 +525,6 @@ namespace Marvel {
 
 	std::vector<std::string> mvItemRegistry::getWindows()
 	{
-		std::lock_guard<std::mutex> guard(m_mutex);
 
 		std::vector<std::string> childList;
 		for (auto window : m_frontWindows)
@@ -548,7 +538,6 @@ namespace Marvel {
 
 	void mvItemRegistry::setPrimaryWindow(const std::string& name, bool value)
 	{
-		std::lock_guard<std::mutex> guard(m_mutex);
 
 		// reset other windows
 		for (auto window : m_frontWindows)

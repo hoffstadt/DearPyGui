@@ -69,7 +69,6 @@ namespace Marvel {
 
     private:
 
-        mvRef<mvAppItem>         getItemInternal(const std::string& name); // doesn't aquire mutex
         void                     clearRegistry();
         bool                     addItem(mvRef<mvAppItem> item);
         bool                     addItemAfter(const std::string& prev, mvRef<mvAppItem> item);
@@ -79,7 +78,6 @@ namespace Marvel {
 
 	private:
 
-        mutable std::mutex            m_mutex;
 		std::stack<mvRef<mvAppItem>>  m_parents;
 		std::vector<mvRef<mvAppItem>> m_frontWindows;
 		std::vector<mvRef<mvAppItem>> m_backWindows;

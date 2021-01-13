@@ -1050,6 +1050,10 @@ def set_log_level(level: int, *, logger: str = '') -> None:
 	"""Sets the log level."""
 	...
 
+def set_logger_window_title(title: str) -> None:
+	"""Sets the title of the logger window."""
+	...
+
 def set_main_window_pos(x: int, y: int) -> None:
 	"""Sets the main window position."""
 	...
@@ -1300,10 +1304,6 @@ def show_item(name: str) -> None:
 
 def show_logger() -> None:
 	"""Shows the logging window. The Default log level is Trace"""
-	...
-
-def set_logger_window_title(title: str) -> None:
-	"""Sets the title of the logger window."""
 	...
 
 def start_dearpygui(*, primary_window: str = '') -> None:

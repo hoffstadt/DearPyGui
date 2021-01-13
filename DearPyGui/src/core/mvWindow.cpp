@@ -8,6 +8,10 @@ namespace Marvel {
 	mvWindow::mvWindow(unsigned width, unsigned height, bool error) :
 		m_error(error), m_width(width), m_height(height)
 	{
+
+		m_frontDrawList = CreateRef<mvDrawList>();
+		m_backDrawList = CreateRef<mvDrawList>();
+
 		mvEventBus::Subscribe(this, mvEVT_RENDER);
 
 		m_app = mvApp::GetApp();
@@ -31,8 +35,8 @@ namespace Marvel {
 
 	bool mvWindow::onRender(mvEvent& event)
 	{
-		m_frontDrawList.draw(ImGui::GetForegroundDrawList(), 0.0f, 0.0f);
-		m_backDrawList.draw(ImGui::GetBackgroundDrawList(), 0.0f, 0.0f);
+		m_frontDrawList->draw(ImGui::GetForegroundDrawList(), 0.0f, 0.0f);
+		m_backDrawList->draw(ImGui::GetBackgroundDrawList(), 0.0f, 0.0f);
 
 		return true;
 	}
