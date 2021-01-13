@@ -250,14 +250,14 @@ namespace Marvel {
 		m_height = -1;
 	}
 
-	void mvPlot::addDragPoint(const std::string& name, bool show_label, const mvColor& color, float radius, PyObject* callback, double* dummyValue, const std::string& source)
+	void mvPlot::addDragPoint(const std::string& name, bool show_label, const mvColor& color, float radius, PyObject* callback, const double* dummyValue, const std::string& source)
 	{
 		float* value = mvApp::GetApp()->getValueStorage().AddFloat2Value(source, { (float)dummyValue[0], (float)dummyValue[1] });
 
 		m_dragPoints.push_back({ name, value, show_label, color, radius, callback, value[0], value[1], source});
 	}
 
-	void mvPlot::updateDragPoint(const std::string& name, bool show_label, const mvColor& color, float radius, PyObject* callback, double* dummyValue, const std::string& source)
+	void mvPlot::updateDragPoint(const std::string& name, bool show_label, const mvColor& color, float radius, PyObject* callback, const double* dummyValue, const std::string& source)
 	{
 		// check if drag point exist
 		bool exists = false;
@@ -1091,7 +1091,7 @@ namespace Marvel {
 			&y3axis_lock_max,
 			&parent, &before, &width, &height, &query_callback, &show_color_scale, &scale_min, &scale_max,
 			&scale_height, &label, &show, &show_annotations, &show_drag_lines, &show_drag_points))
-			return ToPyBool(false);
+			return GetPyNone();
 
 		if (query_callback)
 			Py_XINCREF(query_callback);
@@ -1102,7 +1102,9 @@ namespace Marvel {
 		item->setConfigDict(kwargs);
 		item->setExtraConfigDict(kwargs);
 
-		return ToPyBool(mvApp::GetApp()->getItemRegistry().addItemWithRuntimeChecks(item, parent, before));
+		mvApp::GetApp()->getItemRegistry().addItemWithRuntimeChecks(item, parent, before);
+
+		return GetPyNone();
 	}
 
 	PyObject* add_drag_line(PyObject* self, PyObject* args, PyObject* kwargs)
@@ -1145,7 +1147,12 @@ namespace Marvel {
 			Py_XINCREF(callback);
 
 		mvPlot* graph = static_cast<mvPlot*>(aplot.get());
-		graph->updateDragLine(name, show_label, ToColor(color), thickness, y_line, callback, default_value, source);
+		
+		mvApp::GetApp()->getCallbackRegistry().submit([=]()
+			{
+				graph->updateDragLine(name, show_label, ToColor(color), thickness, y_line, callback, default_value, source);
+			});
+		
 		return GetPyNone();
 	}
 
@@ -1175,7 +1182,13 @@ namespace Marvel {
 		}
 
 		mvPlot* graph = static_cast<mvPlot*>(aplot.get());
-		graph->deleteDragLine(name);
+		
+
+		mvApp::GetApp()->getCallbackRegistry().submit([=]()
+			{
+				graph->deleteDragLine(name);
+			});
+
 		return GetPyNone();
 	}
 
@@ -1220,7 +1233,12 @@ namespace Marvel {
 
 		mvPlot* graph = static_cast<mvPlot*>(aplot.get());
 		double defaults[2] = { (double)default_x, (double)default_y };
-		graph->updateDragPoint(name, show_label, ToColor(color), radius, callback, defaults, source);
+		
+		mvApp::GetApp()->getCallbackRegistry().submit([=]()
+			{
+				graph->updateDragPoint(name, show_label, ToColor(color), radius, callback, defaults, source);
+			});
+
 		return GetPyNone();
 	}
 
@@ -1250,7 +1268,11 @@ namespace Marvel {
 		}
 
 		mvPlot* graph = static_cast<mvPlot*>(aplot.get());
-		graph->deleteDragPoint(name);
+		mvApp::GetApp()->getCallbackRegistry().submit([=]()
+			{
+				graph->deleteDragPoint(name);
+			});
+		
 		return GetPyNone();
 	}
 
@@ -1291,7 +1313,10 @@ namespace Marvel {
 		}
 
 		mvPlot* graph = static_cast<mvPlot*>(aplot.get());
-		graph->updateAnnotation(tag, x, y, xoffset, yoffset, ToColor(color), text, clamped);
+		mvApp::GetApp()->getCallbackRegistry().submit([=]()
+			{
+				graph->updateAnnotation(tag, x, y, xoffset, yoffset, ToColor(color), text, clamped);
+			});
 		return GetPyNone();
 	}
 
@@ -1321,7 +1346,11 @@ namespace Marvel {
 		}
 
 		mvPlot* graph = static_cast<mvPlot*>(aplot.get());
-		graph->deleteAnnotation(name);
+		mvApp::GetApp()->getCallbackRegistry().submit([=]()
+			{
+				graph->deleteAnnotation(name);
+			});
+
 		return GetPyNone();
 	}
 
