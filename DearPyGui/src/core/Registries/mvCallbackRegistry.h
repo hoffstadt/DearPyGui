@@ -63,6 +63,19 @@ namespace Marvel {
 			return res;
 		}
 
+		template<typename F, typename ...Args>
+		std::future<typename std::invoke_result<F, Args...>::type> submitCallback(F f)
+		{
+
+			typedef typename std::invoke_result<F, Args...>::type result_type;
+			std::packaged_task<result_type()> task(std::move(f));
+			std::future<result_type> res(task.get_future());
+
+			m_calls.push(std::move(task));
+
+			return res;
+		}
+
 		mvQueue<task_type>& getTaskQueue() { return m_tasks; }
 
 		//-----------------------------------------------------------------------------
@@ -109,6 +122,7 @@ namespace Marvel {
 
 		// new callback system
 		mvQueue<task_type> m_tasks;
+		mvQueue<task_type> m_calls;
 
 		// input callbacks
 		PyObject* m_renderCallback = nullptr;

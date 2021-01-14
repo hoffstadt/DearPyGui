@@ -59,7 +59,7 @@ namespace Marvel {
 
 		runTasks();
 
-		runCallbacks();
+		//runCallbacks();
 		
 		return false;
 	}
@@ -131,16 +131,21 @@ namespace Marvel {
 	void mvCallbackRegistry::runCallbacks()
 	{
 
-		for (auto& item : m_callbacks)
-			runCallback(item.callback, item.sender, item.data);
-
-		m_callbacks.clear();
+		while (!m_calls.empty())
+		{
+			mvCallbackRegistry::task_type t;
+			if (m_calls.try_pop(t))
+				t();
+		}
 
 	}
 
 	void mvCallbackRegistry::addCallback(PyObject* callable, const std::string& sender, PyObject* data)
 	{
-		m_callbacks.push_back({ sender, callable, data });
+		submitCallback([=]() {
+			runCallback(callable, sender, data);
+			});
+		//m_callbacks.push_back({ sender, callable, data });
 	}
 
 	void mvCallbackRegistry::runCallback(PyObject* callable, const std::string& sender, PyObject* data)

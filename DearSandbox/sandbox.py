@@ -21,6 +21,7 @@ add_additional_font("../../Resources/NotoSerifCJKjp-Medium.otf", 20)
 show_logger()
 
 def callback(sender, data):
+    log(sender)
     print(sender)
 
 with window("Testing Window"):
