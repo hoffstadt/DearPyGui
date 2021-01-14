@@ -115,8 +115,12 @@ namespace Marvel {
 				ThrowPythonException("Window does not exists.");
 		}
 
+        std::thread t([&]() {m_callbackRegistry->runCallbacks(); });
+        t.detach();
+
 		m_viewport->run();
 		delete m_viewport;
+        m_callbackRegistry->stop();
 		s_started = false;
 	}
 

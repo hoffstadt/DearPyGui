@@ -446,7 +446,9 @@ namespace Marvel {
 			return GetPyNone();
 		}
 
+		Py_BEGIN_ALLOW_THREADS;
 		mvApp::GetApp()->start(primary_window);
+		Py_END_ALLOW_THREADS;
 		
 		mvApp::DeleteApp();
 		mvEventBus::Reset();

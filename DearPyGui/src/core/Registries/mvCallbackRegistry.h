@@ -47,6 +47,8 @@ namespace Marvel {
 		
 		void runCallbacks();
 
+		void stop() { m_running = false; }
+
 		template<typename F, typename ...Args>
 		std::future<typename std::invoke_result<F, Args...>::type> submit(F f)
 		{
@@ -115,7 +117,6 @@ namespace Marvel {
 	
 	private:
 
-		mutable std::mutex               m_mutex;
 
 		// callback system
 		std::vector<NewCallback>          m_callbacks;
@@ -123,6 +124,7 @@ namespace Marvel {
 		// new callback system
 		mvQueue<task_type> m_tasks;
 		mvQueue<task_type> m_calls;
+		std::atomic<bool> m_running;
 
 		// input callbacks
 		PyObject* m_renderCallback = nullptr;
