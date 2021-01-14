@@ -378,9 +378,11 @@ namespace Marvel {
 		for (auto& item : custom_chars)
 			imgui_custom_chars.push_back((ImWchar)item);
 
-
-		mvApp::GetApp()->setFont(file, size, glyph_ranges, imgui_custom_ranges, imgui_custom_chars);
-
+		mvApp::GetApp()->getCallbackRegistry().submit([=]()
+			{
+				mvApp::GetApp()->setFont(file, size, glyph_ranges, imgui_custom_ranges, imgui_custom_chars);
+			});
+		
 		return GetPyNone();
 	}
 

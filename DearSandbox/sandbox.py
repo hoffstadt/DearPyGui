@@ -17,7 +17,14 @@ add_additional_font("../../Resources/NotoSerifCJKjp-Medium.otf", 20)
 #add_character_remap(0x0041, 0x00A2)
 #add_character_remap(0x0061, 0x00AB)
 
-show_demo()
+#show_demo()
 show_logger()
+
+def callback(sender, data):
+    print(sender)
+
+with window("Testing Window"):
+
+    add_button("Press me", callback=callback)
 
 start_dearpygui()

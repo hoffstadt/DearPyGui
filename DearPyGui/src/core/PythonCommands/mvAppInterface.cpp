@@ -220,77 +220,56 @@ namespace Marvel {
 			return GetPyNone();
 
 		mvTextureFormat tformat = (mvTextureFormat)format;
+		std::vector<float> fdata;
 
-		mvApp::GetApp()->getCallbackRegistry().submit([=]()
+		if (tformat == mvTextureFormat::RGBA_INT)
+		{
+			std::vector<int> mdata = ToIntVect(data);
+
+			for (auto& item : mdata)
+				fdata.push_back(item / 255.0f);
+		}
+
+		else if (tformat == mvTextureFormat::RGB_INT)
+		{
+
+			std::vector<int> mdata = ToIntVect(data);
+
+			for (int i = 0; i < mdata.size(); i = i + 3)
 			{
+				fdata.push_back(mdata[i] / 255.0f);
+				fdata.push_back(mdata[i + 1] / 255.0f);
+				fdata.push_back(mdata[i + 2] / 255.0f);
+				fdata.push_back(1.0f);
+			}
 
-			if (tformat == mvTextureFormat::RGBA_INT)
+		}
+
+		else if (tformat == mvTextureFormat::RGBA_FLOAT)
+			fdata = ToFloatVect(data);
+
+		else if (tformat == mvTextureFormat::RGB_FLOAT)
+		{
+			std::vector<float> mdata = ToFloatVect(data);
+
+			for (int i = 0; i < mdata.size(); i = i + 3)
 			{
-				std::vector<int> mdata = ToIntVect(data);
+				fdata.push_back(mdata[i]);
+				fdata.push_back(mdata[i + 1]);
+				fdata.push_back(mdata[i + 2]);
+				fdata.push_back(1.0f);
+			}
 
-				std::vector<float> fdata;
-				for (auto& item : mdata)
-					fdata.push_back(item / 255.0f);
+		}
+
+		mvApp::GetApp()->getCallbackRegistry().submit([=]() mutable
+			{
 
 				if (mvApp::IsAppStarted())
 					mvApp::GetApp()->getTextureStorage().addTexture(name, fdata.data(), width, height, tformat);
 
 				else
 					mvApp::GetApp()->getTextureStorage().addDelayedTexture(name, fdata, width, height, tformat);
-			}
-
-			else if (tformat == mvTextureFormat::RGB_INT)
-			{
-			
-				std::vector<int> mdata = ToIntVect(data);
-
-				std::vector<float> fdata;
-				for (int i = 0; i < mdata.size(); i = i + 3)
-				{
-					fdata.push_back(mdata[i] / 255.0f);
-					fdata.push_back(mdata[i+1] / 255.0f);
-					fdata.push_back(mdata[i+2] / 255.0f);
-					fdata.push_back(1.0f);
-				}
-
-				if (mvApp::IsAppStarted())
-					mvApp::GetApp()->getTextureStorage().addTexture(name, fdata.data(), width, height, tformat);
-
-				else
-					mvApp::GetApp()->getTextureStorage().addDelayedTexture(name, fdata, width, height, tformat);
-
-			}
-
-			else if (tformat == mvTextureFormat::RGBA_FLOAT)
-			{
-				std::vector<float> mdata = ToFloatVect(data);
-
-				if (mvApp::IsAppStarted())
-					mvApp::GetApp()->getTextureStorage().addTexture(name, mdata.data(), width, height, tformat);
-
-				else
-					mvApp::GetApp()->getTextureStorage().addDelayedTexture(name, mdata, width, height, tformat);
-			}
-
-			else if (tformat == mvTextureFormat::RGB_FLOAT)
-			{
-				std::vector<float> mdata = ToFloatVect(data);
-
-				std::vector<float> fdata;
-				for (int i = 0; i < mdata.size(); i = i + 3)
-				{
-					fdata.push_back(mdata[i]);
-					fdata.push_back(mdata[i + 1]);
-					fdata.push_back(mdata[i + 2]);
-					fdata.push_back(1.0f);
-				}
-
-				if (mvApp::IsAppStarted())
-					mvApp::GetApp()->getTextureStorage().addTexture(name, fdata.data(), width, height, tformat);
-
-				else
-					mvApp::GetApp()->getTextureStorage().addDelayedTexture(name, fdata, width, height, tformat);
-			}
 
 			});
 
