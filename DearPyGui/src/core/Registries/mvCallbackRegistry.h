@@ -48,6 +48,7 @@ namespace Marvel {
 		void runCallbacks();
 
 		void stop() { m_running = false; }
+		bool isCallbackEmpty() { return m_calls.empty(); }
 
 		template<typename F, typename ...Args>
 		std::future<typename std::invoke_result<F, Args...>::type> submit(F f)
@@ -74,6 +75,20 @@ namespace Marvel {
 			std::future<result_type> res(task.get_future());
 
 			m_calls.push(std::move(task));
+
+			return res;
+		}
+
+
+		template<typename F, typename ...Args>
+		std::future<typename std::invoke_result<F, Args...>::type> submitPriorityCallback(F f)
+		{
+
+			typedef typename std::invoke_result<F, Args...>::type result_type;
+			std::packaged_task<result_type()> task(std::move(f));
+			std::future<result_type> res(task.get_future());
+
+			m_priorityCalls.push(std::move(task));
 
 			return res;
 		}
@@ -124,6 +139,7 @@ namespace Marvel {
 		// new callback system
 		mvQueue<task_type> m_tasks;
 		mvQueue<task_type> m_calls;
+		mvQueue<task_type> m_priorityCalls;
 		std::atomic<bool> m_running;
 
 		// input callbacks

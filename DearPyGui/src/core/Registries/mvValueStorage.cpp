@@ -8,7 +8,6 @@ namespace Marvel {
 
 	mvValueStorage::mvValueStorage()
 	{
-		mvEventBus::Subscribe(this, 0, mvEVT_CATEGORY_VALUES);
 
 		s_refStorage =
 		{
@@ -56,29 +55,6 @@ namespace Marvel {
 		s_floatvects = { {"common_floatvec", {0.0f, 0.0f}} };
 		s_times = { {"common_time", {}} };
 		s_imtimes = { {"common_imtime", ImPlotTime()} };
-	}
-
-	mvValueStorage::~mvValueStorage()
-	{
-		mvEventBus::UnSubscribe(this);
-	}
-
-	bool mvValueStorage::onEvent(mvEvent& event)
-	{
-		mvEventDispatcher dispatcher(event);
-		dispatcher.dispatch(BIND_EVENT_METH(mvValueStorage::onPythonSetEvent), mvEVT_PY_SET_VALUE);
-
-		return event.handled;
-	}
-
-	bool mvValueStorage::onPythonSetEvent(mvEvent& event)
-	{
-		
-		SetPyValue(GetEString(event, "NAME"), GetEPtr<PyObject*>(event, "VALUE"));
-
-		Py_XDECREF(GetEPtr<PyObject*>(event, "VALUE"));
-
-		return true;
 	}
 
 	PyObject* mvValueStorage::GetPyValue(const std::string& name)

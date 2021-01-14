@@ -311,27 +311,33 @@ namespace Marvel {
 		if (!(*mvApp::GetApp()->getParsers())["clear_plot"].parse(args, kwargs, __FUNCTION__, &plot))
 			return GetPyNone();
 
-		auto aplot = mvApp::GetApp()->getItemRegistry().getItem(plot);
-		if (aplot == nullptr)
-		{
-			std::string message = plot;
-			ThrowPythonException(message + " plot does not exist.");
-			return GetPyNone();
-		}
 
-		if (aplot->getType() != mvAppItemType::Plot)
-		{
-			std::string message = plot;
-			ThrowPythonException(message + " is not a plot.");
-			return GetPyNone();
-		}
-
-		mvPlot* graph = static_cast<mvPlot*>(aplot.get());
-
-		mvApp::GetApp()->getCallbackRegistry().submit([=]() 
+		auto fut = mvApp::GetApp()->getCallbackRegistry().submit([=]() 
 			{
+				auto aplot = mvApp::GetApp()->getItemRegistry().getItem(plot);
+				if (aplot == nullptr)
+				{
+					std::string message = plot;
+					return message + " plot does not exist.";
+				}
+
+				if (aplot->getType() != mvAppItemType::Plot)
+				{
+					std::string message = plot;
+					return message + " is not a plot.";
+				}
+
+				mvPlot* graph = static_cast<mvPlot*>(aplot.get());
+
 				graph->clear();
+
+				return std::string("");
 			});
+
+		auto result = fut.get();
+
+		if (!result.empty())
+			ThrowPythonException(result);
 
 		return GetPyNone();
 	}
@@ -343,27 +349,32 @@ namespace Marvel {
 		if (!(*mvApp::GetApp()->getParsers())["reset_xticks"].parse(args, kwargs, __FUNCTION__, &plot))
 			return GetPyNone();
 
-		auto aplot = mvApp::GetApp()->getItemRegistry().getItem(plot);
-		if (aplot == nullptr)
-		{
-			std::string message = plot;
-			ThrowPythonException(message + " plot does not exist.");
-			return GetPyNone();
-		}
-
-		if (aplot->getType() != mvAppItemType::Plot)
-		{
-			std::string message = plot;
-			ThrowPythonException(message + " is not a plot.");
-			return GetPyNone();
-		}
-
-		mvPlot* graph = static_cast<mvPlot*>(aplot.get());
-
-		mvApp::GetApp()->getCallbackRegistry().submit([=]()
+		auto fut = mvApp::GetApp()->getCallbackRegistry().submit([=]()
 			{
+				auto aplot = mvApp::GetApp()->getItemRegistry().getItem(plot);
+				if (aplot == nullptr)
+				{
+					std::string message = plot;
+					return message + " plot does not exist.";
+				}
+
+				if (aplot->getType() != mvAppItemType::Plot)
+				{
+					std::string message = plot;
+					return message + " is not a plot.";
+				}
+
+				mvPlot* graph = static_cast<mvPlot*>(aplot.get());
+
 				graph->resetXTicks();
+
+				return std::string("");
 			});
+
+		auto result = fut.get();
+
+		if (!result.empty())
+			ThrowPythonException(result);
 
 		return GetPyNone();
 	}
@@ -375,27 +386,32 @@ namespace Marvel {
 		if (!(*mvApp::GetApp()->getParsers())["reset_yticks"].parse(args, kwargs, __FUNCTION__, &plot))
 			return GetPyNone();
 
-		auto aplot = mvApp::GetApp()->getItemRegistry().getItem(plot);
-		if (aplot == nullptr)
-		{
-			std::string message = plot;
-			ThrowPythonException(message + " plot does not exist.");
-			return GetPyNone();
-		}
-
-		if (aplot->getType() != mvAppItemType::Plot)
-		{
-			std::string message = plot;
-			ThrowPythonException(message + " is not a plot.");
-			return GetPyNone();
-		}
-
-		mvPlot* graph = static_cast<mvPlot*>(aplot.get());
-
-		mvApp::GetApp()->getCallbackRegistry().submit([=]()
+		auto fut = mvApp::GetApp()->getCallbackRegistry().submit([=]()
 			{
+				auto aplot = mvApp::GetApp()->getItemRegistry().getItem(plot);
+				if (aplot == nullptr)
+				{
+					std::string message = plot;
+					return message + " plot does not exist.";
+				}
+
+				if (aplot->getType() != mvAppItemType::Plot)
+				{
+					std::string message = plot;
+					return message + " is not a plot.";
+				}
+
+				mvPlot* graph = static_cast<mvPlot*>(aplot.get());
+
 				graph->resetYTicks();
+
+				return std::string("");
 			});
+
+		auto result = fut.get();
+
+		if (!result.empty())
+			ThrowPythonException(result);
 
 		return GetPyNone();
 	}
@@ -408,27 +424,25 @@ namespace Marvel {
 		if (!(*mvApp::GetApp()->getParsers())["set_xticks"].parse(args, kwargs, __FUNCTION__, &plot, &label_pairs))
 			return GetPyNone();
 
-		auto aplot = mvApp::GetApp()->getItemRegistry().getItem(plot);
-		if (aplot == nullptr)
-		{
-			std::string message = plot;
-			ThrowPythonException(message + " plot does not exist.");
-			return GetPyNone();
-		}
-
-		if (aplot->getType() != mvAppItemType::Plot)
-		{
-			std::string message = plot;
-			ThrowPythonException(message + " is not a plot.");
-			return GetPyNone();
-		}
-
-		mvPlot* graph = static_cast<mvPlot*>(aplot.get());
-
 		auto mlabel_pairs = ToVectPairStringFloat(label_pairs);
 
-		mvApp::GetApp()->getCallbackRegistry().submit([=]()
+		auto fut = mvApp::GetApp()->getCallbackRegistry().submit([=]()
 			{
+
+				auto aplot = mvApp::GetApp()->getItemRegistry().getItem(plot);
+				if (aplot == nullptr)
+				{
+					std::string message = plot;
+					return message + " plot does not exist.";
+				}
+
+				if (aplot->getType() != mvAppItemType::Plot)
+				{
+					std::string message = plot;
+					return message + " is not a plot.";
+				}
+
+				mvPlot* graph = static_cast<mvPlot*>(aplot.get());
 
 				std::vector<std::string> labels;
 				std::vector<double> locations;
@@ -439,7 +453,14 @@ namespace Marvel {
 					locations.emplace_back((double)item.second);
 				}
 				graph->setXTicks(labels, locations);
+
+				return std::string("");
 			});
+
+		auto message = fut.get();
+
+		if (!message.empty())
+			ThrowPythonException(message);
 
 		return GetPyNone();
 	}
@@ -452,27 +473,25 @@ namespace Marvel {
 		if (!(*mvApp::GetApp()->getParsers())["set_yticks"].parse(args, kwargs, __FUNCTION__, &plot, &label_pairs))
 			return GetPyNone();
 
-		auto aplot = mvApp::GetApp()->getItemRegistry().getItem(plot);
-		if (aplot == nullptr)
-		{
-			std::string message = plot;
-			ThrowPythonException(message + " plot does not exist.");
-			return GetPyNone();
-		}
-
-		if (aplot->getType() != mvAppItemType::Plot)
-		{
-			std::string message = plot;
-			ThrowPythonException(message + " is not a plot.");
-			return GetPyNone();
-		}
-
-		mvPlot* graph = static_cast<mvPlot*>(aplot.get());
-
 		auto mlabel_pairs = ToVectPairStringFloat(label_pairs);
 
-		mvApp::GetApp()->getCallbackRegistry().submit([=]()
+		auto fut = mvApp::GetApp()->getCallbackRegistry().submit([=]()
 			{
+
+				auto aplot = mvApp::GetApp()->getItemRegistry().getItem(plot);
+				if (aplot == nullptr)
+				{
+					std::string message = plot;
+					return message + " plot does not exist.";
+				}
+
+				if (aplot->getType() != mvAppItemType::Plot)
+				{
+					std::string message = plot;
+					return message + " is not a plot.";
+				}
+
+				mvPlot* graph = static_cast<mvPlot*>(aplot.get());
 
 				std::vector<std::string> labels;
 				std::vector<double> locations;
@@ -483,7 +502,14 @@ namespace Marvel {
 					locations.emplace_back((double)item.second);
 				}
 				graph->setYTicks(labels, locations);
+
+				return std::string("");
 			});
+
+		auto message = fut.get();
+
+		if (!message.empty())
+			ThrowPythonException(message);
 
 		return GetPyNone();
 	}
@@ -495,26 +521,33 @@ namespace Marvel {
 		if (!(*mvApp::GetApp()->getParsers())["set_plot_xlimits_auto"].parse(args, kwargs, __FUNCTION__, &plot))
 			return GetPyNone();
 
-		auto aplot = mvApp::GetApp()->getItemRegistry().getItem(plot);
-		if (aplot == nullptr)
-		{
-			std::string message = plot;
-			ThrowPythonException(message + " plot does not exist.");
-			return GetPyNone();
-		}
-
-		if (aplot->getType() != mvAppItemType::Plot)
-		{
-			std::string message = plot;
-			ThrowPythonException(message + " is not a plot.");
-			return GetPyNone();
-		}
-		mvPlot* graph = static_cast<mvPlot*>(aplot.get());
-
-		mvApp::GetApp()->getCallbackRegistry().submit([=]()
+		auto fut = mvApp::GetApp()->getCallbackRegistry().submit([=]()
 			{
+
+				auto aplot = mvApp::GetApp()->getItemRegistry().getItem(plot);
+				if (aplot == nullptr)
+				{
+					std::string message = plot;
+					return message + " plot does not exist.";
+				}
+
+				if (aplot->getType() != mvAppItemType::Plot)
+				{
+					std::string message = plot;
+					return message + " is not a plot.";
+				}
+
+				mvPlot* graph = static_cast<mvPlot*>(aplot.get());
+
 				graph->setXLimitsAuto();
+
+				return std::string("");
 			});
+
+		auto message = fut.get();
+
+		if (!message.empty())
+			ThrowPythonException(message);
 
 		return GetPyNone();
 	}
@@ -526,27 +559,33 @@ namespace Marvel {
 		if (!(*mvApp::GetApp()->getParsers())["set_plot_ylimits_auto"].parse(args, kwargs, __FUNCTION__, &plot))
 			return GetPyNone();
 
-		auto aplot = mvApp::GetApp()->getItemRegistry().getItem(plot);
-		if (aplot == nullptr)
-		{
-			std::string message = plot;
-			ThrowPythonException(message + " plot does not exist.");
-			return GetPyNone();
-		}
-
-		if (aplot->getType() != mvAppItemType::Plot)
-		{
-			std::string message = plot;
-			ThrowPythonException(message + " is not a plot.");
-			return GetPyNone();
-		}
-
-		mvPlot* graph = static_cast<mvPlot*>(aplot.get());
-
-		mvApp::GetApp()->getCallbackRegistry().submit([=]()
+		auto fut = mvApp::GetApp()->getCallbackRegistry().submit([=]()
 			{
+
+				auto aplot = mvApp::GetApp()->getItemRegistry().getItem(plot);
+				if (aplot == nullptr)
+				{
+					std::string message = plot;
+					return message + " plot does not exist.";
+				}
+
+				if (aplot->getType() != mvAppItemType::Plot)
+				{
+					std::string message = plot;
+					return message + " is not a plot.";
+				}
+
+				mvPlot* graph = static_cast<mvPlot*>(aplot.get());
+
 				graph->setYLimitsAuto();
+
+				return std::string("");
 			});
+
+		auto message = fut.get();
+
+		if (!message.empty())
+			ThrowPythonException(message);
 
 		return GetPyNone();
 	}
@@ -560,27 +599,33 @@ namespace Marvel {
 		if (!(*mvApp::GetApp()->getParsers())["set_plot_xlimits"].parse(args, kwargs, __FUNCTION__, &plot, &xmin, &xmax))
 			return GetPyNone();
 
-		auto aplot = mvApp::GetApp()->getItemRegistry().getItem(plot);
-		if (aplot == nullptr)
-		{
-			std::string message = plot;
-			ThrowPythonException(message + " plot does not exist.");
-			return GetPyNone();
-		}
-
-		if (aplot->getType() != mvAppItemType::Plot)
-		{
-			std::string message = plot;
-			ThrowPythonException(message + " is not a plot.");
-			return GetPyNone();
-		}
-
-		mvPlot* graph = static_cast<mvPlot*>(aplot.get());
-
-		mvApp::GetApp()->getCallbackRegistry().submit([=]()
+		auto fut = mvApp::GetApp()->getCallbackRegistry().submit([=]()
 			{
+
+				auto aplot = mvApp::GetApp()->getItemRegistry().getItem(plot);
+				if (aplot == nullptr)
+				{
+					std::string message = plot;
+					return message + " plot does not exist.";
+				}
+
+				if (aplot->getType() != mvAppItemType::Plot)
+				{
+					std::string message = plot;
+					return message + " is not a plot.";
+				}
+
+				mvPlot* graph = static_cast<mvPlot*>(aplot.get());
+
 				graph->setXLimits(xmin, xmax);
+
+				return std::string("");
 			});
+
+		auto message = fut.get();
+
+		if (!message.empty())
+			ThrowPythonException(message);
 
 		return GetPyNone();
 	}
@@ -594,26 +639,33 @@ namespace Marvel {
 		if (!(*mvApp::GetApp()->getParsers())["set_plot_ylimits"].parse(args, kwargs, __FUNCTION__, &plot, &ymin, &ymax))
 			return GetPyNone();
 
-		auto aplot = mvApp::GetApp()->getItemRegistry().getItem(plot);
-		if (aplot == nullptr)
-		{
-			std::string message = plot;
-			ThrowPythonException(message + " plot does not exist.");
-			return GetPyNone();
-		}
-
-		if (aplot->getType() != mvAppItemType::Plot)
-		{
-			std::string message = plot;
-			ThrowPythonException(message + " is not a plot.");
-			return GetPyNone();
-		}
-		mvPlot* graph = static_cast<mvPlot*>(aplot.get());
-
-		mvApp::GetApp()->getCallbackRegistry().submit([=]()
+		auto fut = mvApp::GetApp()->getCallbackRegistry().submit([=]()
 			{
+
+				auto aplot = mvApp::GetApp()->getItemRegistry().getItem(plot);
+				if (aplot == nullptr)
+				{
+					std::string message = plot;
+					return message + " plot does not exist.";
+				}
+
+				if (aplot->getType() != mvAppItemType::Plot)
+				{
+					std::string message = plot;
+					return message + " is not a plot.";
+				}
+
+				mvPlot* graph = static_cast<mvPlot*>(aplot.get());
+
 				graph->setYLimits(ymin, ymax);
+
+				return std::string("");
 			});
+
+		auto message = fut.get();
+
+		if (!message.empty())
+			ThrowPythonException(message);
 
 		return GetPyNone();
 	}
@@ -625,28 +677,37 @@ namespace Marvel {
 		if (!(*mvApp::GetApp()->getParsers())["is_plot_queried"].parse(args, kwargs, __FUNCTION__, &plot))
 			return GetPyNone();
 
-		auto aplot = mvApp::GetApp()->getItemRegistry().getItem(plot);
-		if (aplot == nullptr)
-		{
-			std::string message = plot;
-			ThrowPythonException(message + " plot does not exist.");
-			return GetPyNone();
-		}
+		std::string errorMessage;
 
-		if (aplot->getType() != mvAppItemType::Plot)
-		{
-			std::string message = plot;
-			ThrowPythonException(message + " is not a plot.");
-			return GetPyNone();
-		}
-		mvPlot* graph = static_cast<mvPlot*>(aplot.get());
-
-		auto fut = mvApp::GetApp()->getCallbackRegistry().submit([=]()
+		auto fut = mvApp::GetApp()->getCallbackRegistry().submit([=, &errorMessage]()
 			{
+
+				auto aplot = mvApp::GetApp()->getItemRegistry().getItem(plot);
+				if (aplot == nullptr)
+				{
+					std::string message = plot;
+					errorMessage = message + " plot does not exist.";
+					return false;
+				}
+
+				if (aplot->getType() != mvAppItemType::Plot)
+				{
+					std::string message = plot;
+					errorMessage = message + " is not a plot.";
+					return false;
+				}
+
+				mvPlot* graph = static_cast<mvPlot*>(aplot.get());
+
 				return graph->isPlotQueried();
 			});
 
-		return Py_BuildValue("b", fut.get());
+		auto result = fut.get();
+
+		if (!errorMessage.empty())
+			ThrowPythonException(errorMessage);
+
+		return ToPyBool(result);
 	}
 
 	PyObject* get_plot_xlimits(PyObject* self, PyObject* args, PyObject* kwargs)
@@ -656,30 +717,38 @@ namespace Marvel {
 		if (!(*mvApp::GetApp()->getParsers())["get_plot_xlimits"].parse(args, kwargs, __FUNCTION__, &plot))
 			return GetPyNone();
 
-		auto aplot = mvApp::GetApp()->getItemRegistry().getItem(plot);
-		if (aplot == nullptr)
-		{
-			std::string message = plot;
-			ThrowPythonException(message + " plot does not exist.");
-			return GetPyNone();
-		}
+		std::string errorMessage;
 
-		if (aplot->getType() != mvAppItemType::Plot)
-		{
-			std::string message = plot;
-			ThrowPythonException(message + " is not a plot.");
-			return GetPyNone();
-		}
-		mvPlot* graph = static_cast<mvPlot*>(aplot.get());
-
-		auto fut = mvApp::GetApp()->getCallbackRegistry().submit([=]()
+		auto fut = mvApp::GetApp()->getCallbackRegistry().submit([=, &errorMessage]()
 			{
-				return graph->getXLimits();
+
+				auto aplot = mvApp::GetApp()->getItemRegistry().getItem(plot);
+				if (aplot == nullptr)
+				{
+					std::string message = plot;
+					errorMessage = message + " plot does not exist.";
+					return std::make_pair<>(0.0f, 0.0f);
+				}
+
+				if (aplot->getType() != mvAppItemType::Plot)
+				{
+					std::string message = plot;
+					errorMessage = message + " is not a plot.";
+					return std::make_pair<>(0.0f, 0.0f);
+				}
+
+				mvPlot* graph = static_cast<mvPlot*>(aplot.get());
+
+				const ImVec2& lim =  graph->getXLimits();
+				return std::make_pair<>(lim.x, lim.y);
 			});
 
-		const ImVec2& limits = fut.get();
+		auto[x, y] = fut.get();
 
-		return ToPyPair(limits.x, limits.y);
+		if (!errorMessage.empty())
+			ThrowPythonException(errorMessage);
+
+		return ToPyPair(x, y);
 	}
 
 	PyObject* get_plot_ylimits(PyObject* self, PyObject* args, PyObject* kwargs)
@@ -689,30 +758,38 @@ namespace Marvel {
 		if (!(*mvApp::GetApp()->getParsers())["get_plot_ylimits"].parse(args, kwargs, __FUNCTION__, &plot))
 			return GetPyNone();
 
-		auto aplot = mvApp::GetApp()->getItemRegistry().getItem(plot);
-		if (aplot == nullptr)
-		{
-			std::string message = plot;
-			ThrowPythonException(message + " plot does not exist.");
-			return GetPyNone();
-		}
+		std::string errorMessage;
 
-		if (aplot->getType() != mvAppItemType::Plot)
-		{
-			std::string message = plot;
-			ThrowPythonException(message + " is not a plot.");
-			return GetPyNone();
-		}
-		mvPlot* graph = static_cast<mvPlot*>(aplot.get());
-
-		auto fut = mvApp::GetApp()->getCallbackRegistry().submit([=]()
+		auto fut = mvApp::GetApp()->getCallbackRegistry().submit([=, &errorMessage]()
 			{
-				return graph->getYLimits();
+
+				auto aplot = mvApp::GetApp()->getItemRegistry().getItem(plot);
+				if (aplot == nullptr)
+				{
+					std::string message = plot;
+					errorMessage = message + " plot does not exist.";
+					return std::make_pair<>(0.0f, 0.0f);
+				}
+
+				if (aplot->getType() != mvAppItemType::Plot)
+				{
+					std::string message = plot;
+					errorMessage = message + " is not a plot.";
+					return std::make_pair<>(0.0f, 0.0f);
+				}
+
+				mvPlot* graph = static_cast<mvPlot*>(aplot.get());
+
+				const ImVec2& lim = graph->getYLimits();
+				return std::make_pair<>(lim.x, lim.y);
 			});
 
-		const ImVec2& limits = fut.get();
+		auto [x, y] = fut.get();
 
-		return ToPyPair(limits.x, limits.y);
+		if (!errorMessage.empty())
+			ThrowPythonException(errorMessage);
+
+		return ToPyPair(x, y);
 	}
 
 	PyObject* get_plot_query_area(PyObject* self, PyObject* args, PyObject* kwargs)
@@ -722,30 +799,38 @@ namespace Marvel {
 		if (!(*mvApp::GetApp()->getParsers())["get_plot_query_area"].parse(args, kwargs, __FUNCTION__, &plot))
 			return GetPyNone();
 
-		auto aplot = mvApp::GetApp()->getItemRegistry().getItem(plot);
-		if (aplot == nullptr)
-		{
-			std::string message = plot;
-			ThrowPythonException(message + " plot does not exist.");
-			return GetPyNone();
-		}
+		std::string errorMessage;
 
-		if (aplot->getType() != mvAppItemType::Plot)
-		{
-			std::string message = plot;
-			ThrowPythonException(message + " is not a plot.");
-			return GetPyNone();
-		}
-		mvPlot* graph = static_cast<mvPlot*>(aplot.get());
-
-		auto fut = mvApp::GetApp()->getCallbackRegistry().submit([=]()
+		auto fut = mvApp::GetApp()->getCallbackRegistry().submit([=, &errorMessage]()
 			{
-				return graph->getPlotQueryArea();
+
+				auto aplot = mvApp::GetApp()->getItemRegistry().getItem(plot);
+				if (aplot == nullptr)
+				{
+					std::string message = plot;
+					errorMessage = message + " plot does not exist.";
+					return std::make_tuple<>(0.0f, 0.0f, 0.0f, 0.0f);
+				}
+
+				if (aplot->getType() != mvAppItemType::Plot)
+				{
+					std::string message = plot;
+					errorMessage = message + " is not a plot.";
+					return std::make_tuple<>(0.0f, 0.0f, 0.0f, 0.0f);
+				}
+
+				mvPlot* graph = static_cast<mvPlot*>(aplot.get());
+
+				float* result = graph->getPlotQueryArea();
+				return std::make_tuple<>(result[0], result[1], result[2], result[3]);
 			});
 
-		auto area = fut.get();
+		auto [x, y, z, w] = fut.get();
 
-		return Py_BuildValue("(ffff)", area[0], area[1], area[2], area[3]);
+		if (!errorMessage.empty())
+			ThrowPythonException(errorMessage);
+
+		return Py_BuildValue("(ffff)", x, y, z, w);
 	}
 
 	PyObject* set_color_map(PyObject* self, PyObject* args, PyObject* kwargs)
@@ -756,27 +841,36 @@ namespace Marvel {
 		if (!(*mvApp::GetApp()->getParsers())["set_color_map"].parse(args, kwargs, __FUNCTION__, &plot, &map))
 			return GetPyNone();
 
-		auto aplot = mvApp::GetApp()->getItemRegistry().getItem(plot);
-		if (aplot == nullptr)
-		{
-			std::string message = plot;
-			ThrowPythonException(message + " plot does not exist.");
-			return GetPyNone();
-		}
+		std::string errorMessage;
 
-		if (aplot->getType() != mvAppItemType::Plot)
-		{
-			std::string message = plot;
-			ThrowPythonException(message + " is not a plot.");
-			return GetPyNone();
-		}
-
-		mvPlot* graph = static_cast<mvPlot*>(aplot.get());
-
-		mvApp::GetApp()->getCallbackRegistry().submit([=]()
+		auto fut = mvApp::GetApp()->getCallbackRegistry().submit([=, &errorMessage]()
 			{
+
+				auto aplot = mvApp::GetApp()->getItemRegistry().getItem(plot);
+				if (aplot == nullptr)
+				{
+					std::string message = plot;
+					errorMessage = message + " plot does not exist.";
+					return false;
+				}
+
+				if (aplot->getType() != mvAppItemType::Plot)
+				{
+					std::string message = plot;
+					errorMessage = message + " is not a plot.";
+					return false;
+				}
+
+				mvPlot* graph = static_cast<mvPlot*>(aplot.get());
+
 				graph->SetColorMap(map);
+				return false;
 			});
+
+		auto result = fut.get();
+
+		if (!errorMessage.empty())
+			ThrowPythonException(errorMessage);
 
 		return GetPyNone();
 	}
@@ -789,28 +883,36 @@ namespace Marvel {
 		if (!(*mvApp::GetApp()->getParsers())["delete_series"].parse(args, kwargs, __FUNCTION__, &plot, &series))
 			return GetPyNone();
 
-		auto aplot = mvApp::GetApp()->getItemRegistry().getItem(plot);
+		std::string errorMessage;
 
-		if (aplot == nullptr)
-		{
-			std::string message = plot;
-			ThrowPythonException(message + " plot does not exist.");
-			return GetPyNone();
-		}
-
-		if (aplot->getType() != mvAppItemType::Plot)
-		{
-			std::string message = plot;
-			ThrowPythonException(message + " is not a plot.");
-			return GetPyNone();
-		}
-
-		mvPlot* graph = static_cast<mvPlot*>(aplot.get());
-
-		mvApp::GetApp()->getCallbackRegistry().submit([=]()
+		auto fut = mvApp::GetApp()->getCallbackRegistry().submit([=, &errorMessage]()
 			{
+
+				auto aplot = mvApp::GetApp()->getItemRegistry().getItem(plot);
+				if (aplot == nullptr)
+				{
+					std::string message = plot;
+					errorMessage = message + " plot does not exist.";
+					return false;
+				}
+
+				if (aplot->getType() != mvAppItemType::Plot)
+				{
+					std::string message = plot;
+					errorMessage = message + " is not a plot.";
+					return false;
+				}
+
+				mvPlot* graph = static_cast<mvPlot*>(aplot.get());
+
 				graph->deleteSeries(series);
+				return false;
 			});
+
+		auto result = fut.get();
+
+		if (!errorMessage.empty())
+			ThrowPythonException(errorMessage);
 
 		return GetPyNone();
 	}
@@ -846,25 +948,6 @@ namespace Marvel {
 		if (!CheckList(plot, bounds_min)) return GetPyNone();
 		if (!CheckList(plot, bounds_max)) return GetPyNone();
 
-
-		auto aplot = mvApp::GetApp()->getItemRegistry().getItem(plot);
-
-		if (aplot == nullptr)
-		{
-			std::string message = plot;
-			ThrowPythonException(message + " plot does not exist.");
-			return GetPyNone();
-		}
-
-		if (aplot->getType() != mvAppItemType::Plot)
-		{
-			std::string message = plot;
-			ThrowPythonException(message + " is not a plot.");
-			return GetPyNone();
-		}
-
-		mvPlot* graph = static_cast<mvPlot*>(aplot.get());
-
 		auto mbounds_min = ToFloatVect(bounds_min);
 		auto mbounds_max = ToFloatVect(bounds_max);
 		auto muv_min = ToVec2(uv_min);
@@ -874,10 +957,36 @@ namespace Marvel {
 		auto series = CreateRef<mvImageSeries>(name, value, ImPlotPoint(mbounds_min[0], mbounds_min[1]), ImPlotPoint(mbounds_max[0], mbounds_max[1]),
 			muv_min, muv_max, mcolor,(ImPlotYAxis_)axis);
 
-		mvApp::GetApp()->getCallbackRegistry().submit([=]()
+		std::string errorMessage;
+
+		auto fut = mvApp::GetApp()->getCallbackRegistry().submit([=, &errorMessage]()
 			{
+
+				auto aplot = mvApp::GetApp()->getItemRegistry().getItem(plot);
+				if (aplot == nullptr)
+				{
+					std::string message = plot;
+					errorMessage = message + " plot does not exist.";
+					return false;
+				}
+
+				if (aplot->getType() != mvAppItemType::Plot)
+				{
+					std::string message = plot;
+					errorMessage = message + " is not a plot.";
+					return false;
+				}
+
+				mvPlot* graph = static_cast<mvPlot*>(aplot.get());
+
 				graph->updateSeries(series, update_bounds);
+				return false;
 			});
+
+		auto result = fut.get();
+
+		if (!errorMessage.empty())
+			ThrowPythonException(errorMessage);
 
 		return GetPyNone();
 	}
@@ -905,12 +1014,6 @@ namespace Marvel {
 		if (!CheckList(plot, values)) return GetPyNone();
 		if (!CheckList(plot, labels)) return GetPyNone();
 
-		auto aplot = mvApp::GetApp()->getItemRegistry().getItem(plot);
-
-		if (!CheckIfPlotOk(plot, aplot.get())) return GetPyNone();
-
-		mvPlot* graph = static_cast<mvPlot*>(aplot.get());
-
 		auto avalues = ToFloatVect(values);
 		auto alabels = ToStringVect(labels);
 
@@ -922,10 +1025,36 @@ namespace Marvel {
 
 		auto series = CreateRef<mvPieSeries>(name, &avalues, x, y, radius, normalize, angle, format, alabels, (ImPlotYAxis_)axis);
 		
-		mvApp::GetApp()->getCallbackRegistry().submit([=]()
+		std::string errorMessage;
+
+		auto fut = mvApp::GetApp()->getCallbackRegistry().submit([=, &errorMessage]()
 			{
+
+				auto aplot = mvApp::GetApp()->getItemRegistry().getItem(plot);
+				if (aplot == nullptr)
+				{
+					std::string message = plot;
+					errorMessage = message + " plot does not exist.";
+					return false;
+				}
+
+				if (aplot->getType() != mvAppItemType::Plot)
+				{
+					std::string message = plot;
+					errorMessage = message + " is not a plot.";
+					return false;
+				}
+
+				mvPlot* graph = static_cast<mvPlot*>(aplot.get());
+
 				graph->updateSeries(series, update_bounds);
+				return false;
 			});
+
+		auto result = fut.get();
+
+		if (!errorMessage.empty())
+			ThrowPythonException(errorMessage);
 
 		return GetPyNone();
 	}
@@ -952,12 +1081,6 @@ namespace Marvel {
 		if (!CheckList(plot, x)) return GetPyNone();
 		if (!CheckList(plot, y)) return GetPyNone();
 
-		auto aplot = mvApp::GetApp()->getItemRegistry().getItem(plot);
-
-		if (!CheckIfPlotOk(plot, aplot.get())) return GetPyNone();
-
-		mvPlot* graph = static_cast<mvPlot*>(aplot.get());
-
 		auto mcolor = ToColor(color);
 		auto xs = ToFloatVect(x);
 		auto ys = ToFloatVect(y);
@@ -967,10 +1090,36 @@ namespace Marvel {
 		auto series = CreateRef<mvLineSeries>(name, &xs, &ys, mcolor, (ImPlotYAxis_)axis);
 		series->setWeight(weight);
 
-		mvApp::GetApp()->getCallbackRegistry().submit([=]()
+		std::string errorMessage;
+
+		auto fut = mvApp::GetApp()->getCallbackRegistry().submit([=, &errorMessage]()
 			{
+
+				auto aplot = mvApp::GetApp()->getItemRegistry().getItem(plot);
+				if (aplot == nullptr)
+				{
+					std::string message = plot;
+					errorMessage = message + " plot does not exist.";
+					return false;
+				}
+
+				if (aplot->getType() != mvAppItemType::Plot)
+				{
+					std::string message = plot;
+					errorMessage = message + " is not a plot.";
+					return false;
+				}
+
+				mvPlot* graph = static_cast<mvPlot*>(aplot.get());
+
 				graph->updateSeries(series, update_bounds);
+				return false;
 			});
+
+		auto result = fut.get();
+
+		if (!errorMessage.empty())
+			ThrowPythonException(errorMessage);
 
 		return GetPyNone();
 	}
@@ -997,12 +1146,6 @@ namespace Marvel {
 		if (!CheckList(plot, x)) return GetPyNone();
 		if (!CheckList(plot, y)) return GetPyNone();
 
-		auto aplot = mvApp::GetApp()->getItemRegistry().getItem(plot);
-
-		if (!CheckIfPlotOk(plot, aplot.get())) return GetPyNone();
-
-		mvPlot* graph = static_cast<mvPlot*>(aplot.get());
-
 		auto mcolor = ToColor(color);
 		auto xs = ToFloatVect(x);
 		auto ys = ToFloatVect(y);
@@ -1012,10 +1155,36 @@ namespace Marvel {
 		auto series = CreateRef<mvStairSeries>(name, &xs, &ys, mcolor, (ImPlotYAxis_)axis);
 
 		series->setWeight(weight);
-		mvApp::GetApp()->getCallbackRegistry().submit([=]()
+		std::string errorMessage;
+
+		auto fut = mvApp::GetApp()->getCallbackRegistry().submit([=, &errorMessage]()
 			{
+
+				auto aplot = mvApp::GetApp()->getItemRegistry().getItem(plot);
+				if (aplot == nullptr)
+				{
+					std::string message = plot;
+					errorMessage = message + " plot does not exist.";
+					return false;
+				}
+
+				if (aplot->getType() != mvAppItemType::Plot)
+				{
+					std::string message = plot;
+					errorMessage = message + " is not a plot.";
+					return false;
+				}
+
+				mvPlot* graph = static_cast<mvPlot*>(aplot.get());
+
 				graph->updateSeries(series, update_bounds);
+				return false;
 			});
+
+		auto result = fut.get();
+
+		if (!errorMessage.empty())
+			ThrowPythonException(errorMessage);
 
 		return GetPyNone();
 	}
@@ -1038,26 +1207,46 @@ namespace Marvel {
 		if (!CheckList(plot, x)) return GetPyNone();
 		if (!CheckList(plot, y)) return GetPyNone();
 
-		auto aplot = mvApp::GetApp()->getItemRegistry().getItem(plot);
-
-		if (!CheckIfPlotOk(plot, aplot.get())) return GetPyNone();
-
 		auto xs = ToFloatVect(x);
 		auto ys = ToFloatVect(y);
 
 		if (!CheckArraySizes(plot, { &xs, &ys })) return GetPyNone();
-
-		mvPlot* graph = static_cast<mvPlot*>(aplot.get());
 
 		if (xs.size() == 0)
 			return GetPyNone();
 
 		auto series = CreateRef<mvBarSeries>(name, &xs, &ys, horizontal, (ImPlotYAxis_)axis);
 		series->setWeight(weight);
-		mvApp::GetApp()->getCallbackRegistry().submit([=]()
+		std::string errorMessage;
+
+		auto fut = mvApp::GetApp()->getCallbackRegistry().submit([=, &errorMessage]()
 			{
+
+				auto aplot = mvApp::GetApp()->getItemRegistry().getItem(plot);
+				if (aplot == nullptr)
+				{
+					std::string message = plot;
+					errorMessage = message + " plot does not exist.";
+					return false;
+				}
+
+				if (aplot->getType() != mvAppItemType::Plot)
+				{
+					std::string message = plot;
+					errorMessage = message + " is not a plot.";
+					return false;
+				}
+
+				mvPlot* graph = static_cast<mvPlot*>(aplot.get());
+
 				graph->updateSeries(series, update_bounds);
+				return false;
 			});
+
+		auto result = fut.get();
+
+		if (!errorMessage.empty())
+			ThrowPythonException(errorMessage);
 
 		return GetPyNone();
 	}
@@ -1091,12 +1280,6 @@ namespace Marvel {
 		if (!CheckList(plot, x)) return GetPyNone();
 		if (!CheckList(plot, y1)) return GetPyNone();
 
-		auto aplot = mvApp::GetApp()->getItemRegistry().getItem(plot);
-
-		if (!CheckIfPlotOk(plot, aplot.get())) return GetPyNone();
-
-		mvPlot* graph = static_cast<mvPlot*>(aplot.get());
-
 		auto mcolor = ToColor(color);
 		auto mfill = ToColor(fill);
 		auto xs = ToFloatVect(x);
@@ -1118,10 +1301,36 @@ namespace Marvel {
 
 		auto series = CreateRef<mvShadeSeries>(name, mcolor, mfill , &xs, &y1s, &y2s, (ImPlotYAxis_)axis);
 		series->setWeight(weight);
-		mvApp::GetApp()->getCallbackRegistry().submit([=]()
+		std::string errorMessage;
+
+		auto fut = mvApp::GetApp()->getCallbackRegistry().submit([=, &errorMessage]()
 			{
+
+				auto aplot = mvApp::GetApp()->getItemRegistry().getItem(plot);
+				if (aplot == nullptr)
+				{
+					std::string message = plot;
+					errorMessage = message + " plot does not exist.";
+					return false;
+				}
+
+				if (aplot->getType() != mvAppItemType::Plot)
+				{
+					std::string message = plot;
+					errorMessage = message + " is not a plot.";
+					return false;
+				}
+
+				mvPlot* graph = static_cast<mvPlot*>(aplot.get());
+
 				graph->updateSeries(series, update_bounds);
+				return false;
 			});
+
+		auto result = fut.get();
+
+		if (!errorMessage.empty())
+			ThrowPythonException(errorMessage);
 
 		return GetPyNone();
 	}
@@ -1163,12 +1372,6 @@ namespace Marvel {
 		if (!CheckList(plot, closes)) return GetPyNone();
 		if (!CheckList(plot, lows)) return GetPyNone();
 
-		auto aplot = mvApp::GetApp()->getItemRegistry().getItem(plot);
-
-		if (!CheckIfPlotOk(plot, aplot.get())) return GetPyNone();
-
-		mvPlot* graph = static_cast<mvPlot*>(aplot.get());
-
 		auto mdates = ToFloatVect(dates);
 		auto mopens = ToFloatVect(opens);
 		auto mhighs = ToFloatVect(highs);
@@ -1185,10 +1388,36 @@ namespace Marvel {
 		auto series = CreateRef<mvCandleSeries>(name, &mdates, &mopens, &mhighs, &mlows, &mcloses,
 			weight, mbull, mbear, (ImPlotYAxis_)axis);
 		series->setWeight(weight);
-		mvApp::GetApp()->getCallbackRegistry().submit([=]()
+		std::string errorMessage;
+
+		auto fut = mvApp::GetApp()->getCallbackRegistry().submit([=, &errorMessage]()
 			{
+
+				auto aplot = mvApp::GetApp()->getItemRegistry().getItem(plot);
+				if (aplot == nullptr)
+				{
+					std::string message = plot;
+					errorMessage = message + " plot does not exist.";
+					return false;
+				}
+
+				if (aplot->getType() != mvAppItemType::Plot)
+				{
+					std::string message = plot;
+					errorMessage = message + " is not a plot.";
+					return false;
+				}
+
+				mvPlot* graph = static_cast<mvPlot*>(aplot.get());
+
 				graph->updateSeries(series, update_bounds);
+				return false;
 			});
+
+		auto result = fut.get();
+
+		if (!errorMessage.empty())
+			ThrowPythonException(errorMessage);
 
 		return GetPyNone();
 	}
@@ -1224,12 +1453,6 @@ namespace Marvel {
 		if (!CheckList(plot, x)) return GetPyNone();
 		if (!CheckList(plot, y)) return GetPyNone();
 
-		auto aplot = mvApp::GetApp()->getItemRegistry().getItem(plot);
-
-		if (!CheckIfPlotOk(plot, aplot.get())) return GetPyNone();
-
-		mvPlot* graph = static_cast<mvPlot*>(aplot.get());
-
 		auto xs = ToFloatVect(x);
 		auto ys = ToFloatVect(y);
 		auto mmarkerOutlineColor = ToColor(outline);
@@ -1239,10 +1462,36 @@ namespace Marvel {
 
 		auto series = CreateRef<mvScatterSeries>(name, &xs, &ys, marker, size, weight, mmarkerOutlineColor, mmarkerFillColor, (ImPlotYAxis_)axis);
 		
-		mvApp::GetApp()->getCallbackRegistry().submit([=]()
+		std::string errorMessage;
+
+		auto fut = mvApp::GetApp()->getCallbackRegistry().submit([=, &errorMessage]()
 			{
+
+				auto aplot = mvApp::GetApp()->getItemRegistry().getItem(plot);
+				if (aplot == nullptr)
+				{
+					std::string message = plot;
+					errorMessage = message + " plot does not exist.";
+					return false;
+				}
+
+				if (aplot->getType() != mvAppItemType::Plot)
+				{
+					std::string message = plot;
+					errorMessage = message + " is not a plot.";
+					return false;
+				}
+
+				mvPlot* graph = static_cast<mvPlot*>(aplot.get());
+
 				graph->updateSeries(series, update_bounds);
+				return false;
 			});
+
+		auto result = fut.get();
+
+		if (!errorMessage.empty())
+			ThrowPythonException(errorMessage);
 
 		return GetPyNone();
 	}
@@ -1277,12 +1526,6 @@ namespace Marvel {
 		if (!CheckList(plot, x)) return GetPyNone();
 		if (!CheckList(plot, y)) return GetPyNone();
 
-		auto aplot = mvApp::GetApp()->getItemRegistry().getItem(plot);
-
-		if (!CheckIfPlotOk(plot, aplot.get())) return GetPyNone();
-
-		mvPlot* graph = static_cast<mvPlot*>(aplot.get());
-
 		auto xs = ToFloatVect(x);
 		auto ys = ToFloatVect(y);
 		auto mmarkerOutlineColor = ToColor(outline);
@@ -1293,11 +1536,37 @@ namespace Marvel {
 		if (xs.size() == 0)
 			return GetPyNone();
 
-		mvApp::GetApp()->getCallbackRegistry().submit([=]()
+		std::string errorMessage;
+
+		auto fut = mvApp::GetApp()->getCallbackRegistry().submit([=, &errorMessage]()
 			{
+
+				auto aplot = mvApp::GetApp()->getItemRegistry().getItem(plot);
+				if (aplot == nullptr)
+				{
+					std::string message = plot;
+					errorMessage = message + " plot does not exist.";
+					return false;
+				}
+
+				if (aplot->getType() != mvAppItemType::Plot)
+				{
+					std::string message = plot;
+					errorMessage = message + " is not a plot.";
+					return false;
+				}
+
+				mvPlot* graph = static_cast<mvPlot*>(aplot.get());
+
 				graph->updateSeries(CreateRef<mvStemSeries>(name, &xs, &ys, marker, size, weight, mmarkerOutlineColor,
 					mmarkerFillColor, (ImPlotYAxis_)axis), update_bounds);
+				return false;
 			});
+
+		auto result = fut.get();
+
+		if (!errorMessage.empty())
+			ThrowPythonException(errorMessage);
 
 		return GetPyNone();
 	}
@@ -1318,31 +1587,39 @@ namespace Marvel {
 			&plot, &name, &x, &y, &vertical, &xoffset, &yoffset, &update_bounds, &axis))
 			return GetPyNone();
 
-		auto aplot = mvApp::GetApp()->getItemRegistry().getItem(plot);
-		if (aplot == nullptr)
-		{
-			std::string message = plot;
-			ThrowPythonException(message + " plot does not exist.");
-			return GetPyNone();
-		}
-
-		if (aplot->getType() != mvAppItemType::Plot)
-		{
-			std::string message = plot;
-			ThrowPythonException(message + " is not a plot.");
-			return GetPyNone();
-		}
-
-		mvPlot* graph = static_cast<mvPlot*>(aplot.get());
-
 		std::vector<float> ax = { x };
 		std::vector<float> ay = { y };
 
+		std::string errorMessage;
 
-		mvApp::GetApp()->getCallbackRegistry().submit([=]()
+		auto fut = mvApp::GetApp()->getCallbackRegistry().submit([=, &errorMessage]()
 			{
+
+				auto aplot = mvApp::GetApp()->getItemRegistry().getItem(plot);
+				if (aplot == nullptr)
+				{
+					std::string message = plot;
+					errorMessage = message + " plot does not exist.";
+					return false;
+				}
+
+				if (aplot->getType() != mvAppItemType::Plot)
+				{
+					std::string message = plot;
+					errorMessage = message + " is not a plot.";
+					return false;
+				}
+
+				mvPlot* graph = static_cast<mvPlot*>(aplot.get());
+
 				graph->updateSeries(CreateRef<mvLabelSeries>(name, &ax, &ay, xoffset, yoffset, vertical, (ImPlotYAxis_)axis), update_bounds);
+				return false;
 			});
+
+		auto result = fut.get();
+
+		if (!errorMessage.empty())
+			ThrowPythonException(errorMessage);
 
 		return GetPyNone();
 	}
@@ -1366,12 +1643,6 @@ namespace Marvel {
 		if (!CheckList(plot, x)) return GetPyNone();
 		if (!CheckList(plot, y)) return GetPyNone();
 
-		auto aplot = mvApp::GetApp()->getItemRegistry().getItem(plot);
-
-		if (!CheckIfPlotOk(plot, aplot.get())) return GetPyNone();
-
-		mvPlot* graph = static_cast<mvPlot*>(aplot.get());
-
 		auto xs = ToFloatVect(x);
 		auto ys = ToFloatVect(y);
 
@@ -1383,8 +1654,28 @@ namespace Marvel {
 		auto mcolor = ToColor(color);
 		auto mfill = ToColor(fill);
 
-		mvApp::GetApp()->getCallbackRegistry().submit([=]()
+		std::string errorMessage;
+
+		auto fut = mvApp::GetApp()->getCallbackRegistry().submit([=, &errorMessage]()
 			{
+
+				auto aplot = mvApp::GetApp()->getItemRegistry().getItem(plot);
+				if (aplot == nullptr)
+				{
+					std::string message = plot;
+					errorMessage = message + " plot does not exist.";
+					return false;
+				}
+
+				if (aplot->getType() != mvAppItemType::Plot)
+				{
+					std::string message = plot;
+					errorMessage = message + " is not a plot.";
+					return false;
+				}
+
+				mvPlot* graph = static_cast<mvPlot*>(aplot.get());
+
 				graph->deleteSeries(name);
 				auto aseries = CreateRef<mvAreaSeries>(name, &xs, &ys, mcolor, mfill, (ImPlotYAxis_)axis);
 				auto lseries = CreateRef<mvLineSeries>(name, &xs, &ys, mcolor, (ImPlotYAxis_)axis);
@@ -1392,7 +1683,14 @@ namespace Marvel {
 				lseries->setWeight(weight);
 				graph->addSeries(aseries, update_bounds);
 				graph->addSeries(lseries, update_bounds); // this allows our custom render to work
+
+				return false;
 			});
+
+		auto result = fut.get();
+
+		if (!errorMessage.empty())
+			ThrowPythonException(errorMessage);
 
 		return GetPyNone();
 	}
@@ -1423,12 +1721,6 @@ namespace Marvel {
 		if (!CheckList(plot, negative)) return GetPyNone();
 		if (!CheckList(plot, positive)) return GetPyNone();
 
-		auto aplot = mvApp::GetApp()->getItemRegistry().getItem(plot);
-
-		if (!CheckIfPlotOk(plot, aplot.get())) return GetPyNone();
-
-		mvPlot* graph = static_cast<mvPlot*>(aplot.get());
-
 		auto xs = ToFloatVect(x);
 		auto ys = ToFloatVect(y);
 		auto negatives = ToFloatVect(negative);
@@ -1442,10 +1734,37 @@ namespace Marvel {
 		auto mcolor = ToColor(color);
 		auto series = CreateRef<mvErrorSeries>(name, &xs, &ys, &negatives, &positives, horizontal, mcolor, (ImPlotYAxis_)axis);
 		
-		mvApp::GetApp()->getCallbackRegistry().submit([=]()
+		std::string errorMessage;
+
+		auto fut = mvApp::GetApp()->getCallbackRegistry().submit([=, &errorMessage]()
 			{
+
+				auto aplot = mvApp::GetApp()->getItemRegistry().getItem(plot);
+				if (aplot == nullptr)
+				{
+					std::string message = plot;
+					errorMessage = message + " plot does not exist.";
+					return false;
+				}
+
+				if (aplot->getType() != mvAppItemType::Plot)
+				{
+					std::string message = plot;
+					errorMessage = message + " is not a plot.";
+					return false;
+				}
+
+				mvPlot* graph = static_cast<mvPlot*>(aplot.get());
+
 				graph->updateSeries(series, update_bounds);
+
+				return false;
 			});
+
+		auto result = fut.get();
+
+		if (!errorMessage.empty())
+			ThrowPythonException(errorMessage);
 
 		return GetPyNone();
 	}
@@ -1476,12 +1795,6 @@ namespace Marvel {
 
 		if (!CheckList(plot, values)) return GetPyNone();
 
-		auto aplot = mvApp::GetApp()->getItemRegistry().getItem(plot);
-
-		if (!CheckIfPlotOk(plot, aplot.get())) return GetPyNone();
-
-		mvPlot* graph = static_cast<mvPlot*>(aplot.get());
-
 		auto mvalues = ToFloatVect(values);
 		auto mbounds_min = ToVec2(bounds_min);
 		auto mbounds_max = ToVec2(bounds_max);
@@ -1492,10 +1805,37 @@ namespace Marvel {
 		auto series = CreateRef<mvHeatSeries>(name, &mvalues, rows, columns, scale_min,
 			scale_max, format, mbounds_min, mbounds_max, (ImPlotYAxis_)axis);
 
-		mvApp::GetApp()->getCallbackRegistry().submit([=]()
+		std::string errorMessage;
+
+		auto fut = mvApp::GetApp()->getCallbackRegistry().submit([=, &errorMessage]()
 			{
+
+				auto aplot = mvApp::GetApp()->getItemRegistry().getItem(plot);
+				if (aplot == nullptr)
+				{
+					std::string message = plot;
+					errorMessage = message + " plot does not exist.";
+					return false;
+				}
+
+				if (aplot->getType() != mvAppItemType::Plot)
+				{
+					std::string message = plot;
+					errorMessage = message + " is not a plot.";
+					return false;
+				}
+
+				mvPlot* graph = static_cast<mvPlot*>(aplot.get());
+
 				graph->updateSeries(series, update_bounds);
+
+				return false;
 			});
+
+		auto result = fut.get();
+
+		if (!errorMessage.empty())
+			ThrowPythonException(errorMessage);
 
 		return GetPyNone();
 	}

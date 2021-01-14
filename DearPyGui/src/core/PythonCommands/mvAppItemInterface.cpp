@@ -380,8 +380,6 @@ namespace Marvel {
 
 	PyObject* delete_item(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
-		if (!mvApp::GetApp()->checkIfMainThread())
-			return GetPyNone();
 
 		const char* item;
 		int childrenOnly = false;
@@ -398,8 +396,6 @@ namespace Marvel {
 
 	PyObject* does_item_exist(PyObject * self, PyObject * args, PyObject * kwargs)
 	{
-		if (!mvApp::GetApp()->checkIfMainThread())
-			return GetPyNone();
 
 		const char* item;
 
@@ -419,8 +415,6 @@ namespace Marvel {
 
 	PyObject* move_item_up(PyObject * self, PyObject * args, PyObject * kwargs)
 	{
-		if (!mvApp::GetApp()->checkIfMainThread())
-			return GetPyNone();
 
 		const char* item;
 
@@ -436,8 +430,6 @@ namespace Marvel {
 
 	PyObject* move_item_down(PyObject * self, PyObject * args, PyObject * kwargs)
 	{
-		if (!mvApp::GetApp()->checkIfMainThread())
-			return GetPyNone();
 
 		const char* item;
 
@@ -830,7 +822,12 @@ namespace Marvel {
 		if (!(*mvApp::GetApp()->getParsers())["get_value"].parse(args, kwargs, __FUNCTION__, &name))
 			return GetPyNone();
 
-		return mvApp::GetApp()->getValueStorage().GetPyValue(name);
+		auto fut = mvApp::GetApp()->getCallbackRegistry().submit([=]()
+			{
+				return &mvApp::GetApp()->getValueStorage();
+			});
+
+		return fut.get()->GetPyValue(name);
 	}
 
 	PyObject* set_value(PyObject* self, PyObject* args, PyObject* kwargs)
@@ -843,14 +840,16 @@ namespace Marvel {
 
 		if (value)
 			Py_XINCREF(value);
-		
-		mvEventBus::PublishEndFrame(mvEVT_CATEGORY_VALUES, mvEVT_PY_SET_VALUE, {
-			CreateEventArgument("NAME", std::string(name)),
-			CreateEventPtrArgument("VALUE", value)
+
+		auto fut = mvApp::GetApp()->getCallbackRegistry().submit([=]()
+			{
+				return &mvApp::GetApp()->getValueStorage();
 			});
 
+		fut.get()->SetPyValue(name, value);
+		Py_XDECREF(value);
+
 		return GetPyNone();
-		//return ToPyBool(mvApp::GetApp()->getValueStorage().SetPyValue(name, value));
 	}
 
 	PyObject* add_value(PyObject* self, PyObject* args, PyObject* kwargs)
@@ -861,7 +860,13 @@ namespace Marvel {
 		if (!(*mvApp::GetApp()->getParsers())["add_value"].parse(args, kwargs, __FUNCTION__, &name, &value))
 			return GetPyNone();
 
-		mvApp::GetApp()->getValueStorage().AddPyValue(name, value);
+		auto fut = mvApp::GetApp()->getCallbackRegistry().submit([=]()
+			{
+				return &mvApp::GetApp()->getValueStorage();
+			});
+
+		fut.get()->AddPyValue(name, value);
+
 		return GetPyNone();
 	}
 
@@ -872,7 +877,10 @@ namespace Marvel {
 		if (!(*mvApp::GetApp()->getParsers())["incref_value"].parse(args, kwargs, __FUNCTION__, &name))
 			return GetPyNone();
 
-		mvApp::GetApp()->getValueStorage().IncrementRef(name);
+		mvApp::GetApp()->getCallbackRegistry().submit([=]()
+			{
+				mvApp::GetApp()->getValueStorage().IncrementRef(name);
+			});
 		return GetPyNone();
 	}
 
@@ -883,7 +891,11 @@ namespace Marvel {
 		if (!(*mvApp::GetApp()->getParsers())["decref_value"].parse(args, kwargs, __FUNCTION__, &name))
 			return GetPyNone();
 
-		mvApp::GetApp()->getValueStorage().DecrementRef(name);
+		mvApp::GetApp()->getCallbackRegistry().submit([=]()
+			{
+				mvApp::GetApp()->getValueStorage().DecrementRef(name);
+			});
+		
 		return GetPyNone();
 	}
 
@@ -900,7 +912,6 @@ namespace Marvel {
 			{
 				return mvApp::GetApp()->getItemRegistry().getItem(item);
 			});
-
 
 		auto appitem = fut.get();
 

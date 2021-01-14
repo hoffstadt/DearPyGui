@@ -135,7 +135,7 @@ namespace Marvel {
 			if (!m_closing)
 			{
 				m_closing = true;
-				mvApp::GetApp()->getCallbackRegistry().runCallback(m_closing_callback, m_name);
+				mvApp::GetApp()->getCallbackRegistry().addCallback(m_closing_callback, m_name, nullptr);
 
 			}
 			return;
@@ -214,7 +214,7 @@ namespace Marvel {
 		{
 			m_width = (int)ImGui::GetWindowWidth();
 			m_height = (int)ImGui::GetWindowHeight();
-			mvApp::GetApp()->getCallbackRegistry().runCallback(m_resize_callback, m_name);
+			mvApp::GetApp()->getCallbackRegistry().addCallback(m_resize_callback, m_name, nullptr);
 		}
 
 		m_width = (int)ImGui::GetWindowWidth();

@@ -748,14 +748,15 @@ namespace Marvel {
 
 			if (m_queryCallback != nullptr && m_queried)
 			{
-				PyGILState_STATE gstate = PyGILState_Ensure();
-				PyObject* area = PyTuple_New(4);
-				PyTuple_SetItem(area, 0, PyFloat_FromDouble(m_queryArea[0]));
-				PyTuple_SetItem(area, 1, PyFloat_FromDouble(m_queryArea[1]));
-				PyTuple_SetItem(area, 2, PyFloat_FromDouble(m_queryArea[2]));
-				PyTuple_SetItem(area, 3, PyFloat_FromDouble(m_queryArea[3]));
-				PyGILState_Release(gstate);
-				mvApp::GetApp()->getCallbackRegistry().runCallback(m_queryCallback, m_name, area);
+				mvApp::GetApp()->getCallbackRegistry().submitCallback([=]() {
+					PyObject* area = PyTuple_New(4);
+					PyTuple_SetItem(area, 0, PyFloat_FromDouble(m_queryArea[0]));
+					PyTuple_SetItem(area, 1, PyFloat_FromDouble(m_queryArea[1]));
+					PyTuple_SetItem(area, 2, PyFloat_FromDouble(m_queryArea[2]));
+					PyTuple_SetItem(area, 3, PyFloat_FromDouble(m_queryArea[3]));
+					if(mvApp::GetApp()->getCallbackRegistry().isCallbackEmpty())
+						mvApp::GetApp()->getCallbackRegistry().runCallback(m_queryCallback, m_name, area);
+					});
 			}
 
 

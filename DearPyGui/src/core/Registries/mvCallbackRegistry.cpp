@@ -58,8 +58,6 @@ namespace Marvel {
 		MV_PROFILE_FUNCTION()
 
 		runTasks();
-
-		//runCallbacks();
 		
 		return false;
 	}
@@ -68,8 +66,9 @@ namespace Marvel {
 	{
 		MV_PROFILE_FUNCTION()
 
-		runCallback(m_renderCallback, "Main Application");
-
+		if(m_renderCallback)
+			submitPriorityCallback([=]() {runCallback(m_renderCallback, "Main Application"); });
+		
 		return false;
 	}
 
@@ -81,7 +80,7 @@ namespace Marvel {
 		{
 		case mvEVT_KEY_PRESS:
 			if(m_keyPressCallback)
-			submitCallback([=]() mutable
+				submitPriorityCallback([=]() mutable
 				{
 					runCallback(m_acceleratorCallback, active, ToPyInt(GetEInt(event, "KEY")));
 					runCallback(m_keyPressCallback, active, ToPyInt(GetEInt(event, "KEY")));
@@ -91,7 +90,7 @@ namespace Marvel {
 
 		case mvEVT_KEY_DOWN:
 			if (m_keyDownCallback)
-			submitCallback([=]() mutable
+				submitPriorityCallback([=]() mutable
 				{
 					runCallback(m_keyDownCallback, active, ToPyMPair(GetEInt(event, "KEY"), GetEFloat(event, "DURATION")));
 				});
@@ -99,7 +98,7 @@ namespace Marvel {
 
 		case mvEVT_KEY_RELEASE:
 			if (m_keyReleaseCallback)
-			submitCallback([=]() mutable
+				submitPriorityCallback([=]() mutable
 				{
 					runCallback(m_keyReleaseCallback, active, ToPyInt(GetEInt(event, "KEY")));
 				});
@@ -107,7 +106,7 @@ namespace Marvel {
 
 		case mvEVT_MOUSE_WHEEL:
 			if (m_mouseWheelCallback)
-			submitCallback([=]() mutable
+				submitPriorityCallback([=]() mutable
 				{
 					runCallback(m_mouseWheelCallback, active, ToPyInt(GetEFloat(event, "DELTA")));
 				});
@@ -115,7 +114,7 @@ namespace Marvel {
 
 		case mvEVT_MOUSE_DRAG:
 			if (m_mouseDragCallback)
-			submitCallback([=]() mutable
+				submitPriorityCallback([=]() mutable
 				{
 					runCallback(m_mouseDragCallback, active,
 						ToPyMTrip(GetEInt(event, "BUTTON"), GetEFloat(event, "X"), GetEFloat(event, "Y")));
@@ -124,7 +123,7 @@ namespace Marvel {
 
 		case mvEVT_MOUSE_CLICK:
 			if (m_mouseClickCallback)
-			submitCallback([=]() mutable
+				submitPriorityCallback([=]() mutable
 				{
 					runCallback(m_mouseClickCallback, active, ToPyInt(GetEInt(event, "BUTTON")));
 				});
@@ -132,7 +131,7 @@ namespace Marvel {
 
 		case mvEVT_MOUSE_DOWN:
 			if (m_mouseDownCallback)
-			submitCallback([=]() mutable
+				submitPriorityCallback([=]() mutable
 				{
 					runCallback(m_mouseDownCallback, active, ToPyMPair(GetEInt(event, "BUTTON"), GetEFloat(event, "DURATION")));
 				});
@@ -140,7 +139,7 @@ namespace Marvel {
 
 		case mvEVT_MOUSE_DBL_CLK:
 			if (m_mouseDoubleClickCallback)
-			submitCallback([=]() mutable
+				submitPriorityCallback([=]() mutable
 				{
 					runCallback(m_mouseDoubleClickCallback, active, ToPyInt(GetEInt(event, "BUTTON")));
 				});
@@ -148,7 +147,7 @@ namespace Marvel {
 
 		case mvEVT_MOUSE_RELEASE:
 			if (m_mouseReleaseCallback)
-			submitCallback([=]() mutable
+				submitPriorityCallback([=]() mutable
 				{
 					runCallback(m_mouseReleaseCallback, active, ToPyInt(GetEInt(event, "BUTTON")));
 				});
@@ -156,7 +155,7 @@ namespace Marvel {
 
 		case mvEVT_MOUSE_MOVE:
 			if (m_mouseMoveCallback)
-			submitCallback([=]() mutable
+				submitPriorityCallback([=]() mutable
 				{
 					runCallback(m_mouseMoveCallback, active, ToPyPair(GetEFloat(event, "X"), GetEFloat(event, "Y")));
 				});
@@ -177,9 +176,16 @@ namespace Marvel {
 
 		while (m_running)
 		{
-			mvCallbackRegistry::task_type t;
-			if (m_calls.try_pop(t))
-				t();
+			while (!m_priorityCalls.empty() || !m_calls.empty())
+			{
+				mvCallbackRegistry::task_type t1;
+				if (m_priorityCalls.try_pop(t1))
+					t1(); 
+
+				mvCallbackRegistry::task_type t2;
+				if (m_calls.try_pop(t2))
+					t2();
+			}
 		}
 
 	}

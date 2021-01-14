@@ -360,8 +360,6 @@ namespace Marvel {
 
 	mvWindowAppItem* mvItemRegistry::getWindow(const std::string& name)
 	{
-		if (!mvApp::GetApp()->checkIfMainThread())
-			return nullptr;
 
 		mvRef<mvAppItem> item = getItem(name);
 		if (item == nullptr)
@@ -375,8 +373,6 @@ namespace Marvel {
 
 	bool mvItemRegistry::addItem(mvRef<mvAppItem> item)
 	{
-		if (!mvApp::GetApp()->checkIfMainThread())
-			return false;
 
 		static int count = 0;
 		count++;
@@ -407,8 +403,6 @@ namespace Marvel {
 
 	bool mvItemRegistry::addWindow(mvRef<mvAppItem> item)
 	{
-		if (!mvApp::GetApp()->checkIfMainThread())
-			return false;
 
 		m_frontWindows.push_back(item);
 		return true;

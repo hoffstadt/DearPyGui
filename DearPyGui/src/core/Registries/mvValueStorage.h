@@ -32,7 +32,7 @@ namespace Marvel {
 	//-----------------------------------------------------------------------------
 	// mvValueStorage
 	//-----------------------------------------------------------------------------
-	class mvValueStorage : public mvEventHandler
+	class mvValueStorage
 	{
 
 		friend class mvDebugWindow;
@@ -50,10 +50,6 @@ namespace Marvel {
 	public:
 
 		mvValueStorage();
-		~mvValueStorage();
-
-		bool onEvent(mvEvent& event) override;
-		bool onPythonSetEvent(mvEvent& event);
 
 		// python interfacing
 		PyObject*           GetPyValue          (const std::string& name);
