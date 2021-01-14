@@ -113,10 +113,9 @@ namespace Marvel {
 			{
 				std::string returnMessage = mvApp::GetApp()->getItemRegistry().addItemWithRuntimeChecks(item, parent, before);
 				if (returnMessage.empty())
-				{
 					mvApp::GetApp()->getItemRegistry().pushParent(item);
-					return returnMessage;
-				}
+
+				return returnMessage;
 			});
 
 		std::string returnMessage = fut.get();

@@ -16,6 +16,16 @@ namespace Marvel {
 		mvEventBus::Subscribe(this, 0, mvEVT_CATEGORY_INPUT);
 	}
 
+	void mvCallbackRegistry::runTasks()
+	{
+		while (!m_tasks.empty())
+		{
+			mvCallbackRegistry::task_type t;
+			if (m_tasks.try_pop(t))
+				t();
+		}
+	}
+
 	bool mvCallbackRegistry::onEvent(mvEvent& event)
 	{
 		mvEventDispatcher dispatcher(event);
@@ -47,16 +57,10 @@ namespace Marvel {
 	{
 		MV_PROFILE_FUNCTION()
 
+		runTasks();
+
 		runCallbacks();
-
-		// temporary location for threading synronization
-		while (!m_tasks.empty())
-		{
-			mvCallbackRegistry::task_type t;
-			if (m_tasks.try_pop(t))
-				t();
-		}
-
+		
 		return false;
 	}
 

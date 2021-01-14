@@ -16,6 +16,7 @@
 #include <implot.h>
 #include "mvEventListener.h"
 #include "mvTheme.h"
+#include "mvCallbackRegistry.h"
 
 namespace Marvel {
 
@@ -146,6 +147,11 @@ namespace Marvel {
         m_callbackRegistry = CreateOwnedPtr<mvCallbackRegistry>();
 
 	}
+
+    mvCallbackRegistry& mvApp::getCallbackRegistry()
+    { 
+        return *m_callbackRegistry; 
+    }
 
 	bool mvApp::onEvent(mvEvent& event)
 	{

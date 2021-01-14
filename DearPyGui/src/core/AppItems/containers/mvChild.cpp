@@ -156,8 +156,8 @@ namespace Marvel {
 				if (returnMessage.empty())
 				{
 					mvApp::GetApp()->getItemRegistry().pushParent(item);
-					return returnMessage;
 				}
+				return returnMessage;
 			});
 
 		std::string returnMessage = fut.get();

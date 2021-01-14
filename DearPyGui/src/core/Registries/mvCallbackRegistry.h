@@ -4,6 +4,7 @@
 #include <mutex>
 #include "mvThreadPool.h"
 #include "mvEvents.h"
+#include "mvApp.h"
 #define PY_SSIZE_T_CLEAN
 #include <Python.h>
 
@@ -39,6 +40,8 @@ namespace Marvel {
 		bool onInputs  (mvEvent& event);
 		bool onRender  (mvEvent& event);
 
+		void runTasks();
+
         void runCallback      (PyObject* callback, const std::string& sender, PyObject* data = nullptr);
         void addCallback      (PyObject* callback, const std::string& sender, PyObject* data);
 		
@@ -47,10 +50,15 @@ namespace Marvel {
 		template<typename F, typename ...Args>
 		std::future<typename std::invoke_result<F, Args...>::type> submit(F f)
 		{
+
 			typedef typename std::invoke_result<F, Args...>::type result_type;
 			std::packaged_task<result_type()> task(std::move(f));
 			std::future<result_type> res(task.get_future());
-			m_tasks.push(std::move(task));
+
+			if (mvApp::IsAppStarted())
+				m_tasks.push(std::move(task));
+			else
+				task();
 
 			return res;
 		}

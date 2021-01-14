@@ -112,8 +112,9 @@ namespace Marvel {
 					mvApp::GetApp()->getItemRegistry().pushParent(item);
 					if (!show)
 						item->hide();
-					return returnMessage;
+					
 				}
+				return returnMessage;
 			});
 
 		std::string returnMessage = fut.get();
@@ -165,8 +166,8 @@ namespace Marvel {
 					mvApp::GetApp()->getItemRegistry().pushParent(item);
 					if (!show)
 						item->hide();
-					return returnMessage;
 				}
+				return returnMessage;
 			});
 
 		std::string returnMessage = fut.get();
@@ -202,12 +203,12 @@ namespace Marvel {
 
 		auto fut = mvApp::GetApp()->getCallbackRegistry().submit([=]()
 			{
-				std::string returnMessage = mvApp::GetApp()->getItemRegistry().addItemWithRuntimeChecks(item, parent, before);
+				std::string returnMessage = mvApp::GetApp()->getItemRegistry().addItemWithRuntimeChecks(item, popupparent, before);
 				if (returnMessage.empty())
 				{
 					mvApp::GetApp()->getItemRegistry().pushParent(item);
-					return returnMessage;
 				}
+				return returnMessage;
 			});
 
 		std::string returnMessage = fut.get();

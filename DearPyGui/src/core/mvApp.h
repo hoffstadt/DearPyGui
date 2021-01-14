@@ -44,6 +44,7 @@ namespace Marvel {
     class mvTextEditor;
     class mvWindow;
     class mvTheme;
+    class mvCallbackRegistry;
     struct mvColor;
     
     //-----------------------------------------------------------------------------
@@ -92,7 +93,7 @@ namespace Marvel {
         mvItemRegistry&          getItemRegistry    () { return *m_itemRegistry; }
         mvTextureStorage&        getTextureStorage  () { return *m_textureStorage; }
         mvValueStorage&          getValueStorage    () { return *(m_valueStorage.get()); }
-        mvCallbackRegistry&      getCallbackRegistry() { return *m_callbackRegistry; }
+        mvCallbackRegistry&      getCallbackRegistry();
         
         //-----------------------------------------------------------------------------
         // App Settings

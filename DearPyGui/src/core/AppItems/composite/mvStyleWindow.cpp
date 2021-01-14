@@ -496,8 +496,9 @@ namespace Marvel {
                     mvApp::GetApp()->getItemRegistry().pushParent(item);
                     if (!show)
                         item->hide();
-                    return returnMessage;
+                    
                 }
+                return returnMessage;
             });
 
         std::string returnMessage = fut.get();
