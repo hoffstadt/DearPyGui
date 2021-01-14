@@ -110,11 +110,19 @@ namespace Marvel {
 		if (!(*mvApp::GetApp()->getParsers())["get_mouse_pos"].parse(args, kwargs, __FUNCTION__, &local))
 			return GetPyNone();
 
-		mvVec2 pos = mvInput::getMousePosition();
-		if (!local)
-			pos = mvInput::getGlobalMousePosition();
-		PyObject* pvalue = ToPyPair(pos.x, pos.y);
-		return pvalue;
+		auto fut = mvApp::GetApp()->getCallbackRegistry().submit([=]()
+			{
+
+				mvVec2 pos = mvInput::getMousePosition();
+				if (!local)
+					pos = mvInput::getGlobalMousePosition();
+
+				return std::make_pair<>(pos.x, pos.y);
+			});
+
+		auto [x, y] = fut.get();
+
+		return ToPyPair(x, y);
 	}
 
 	PyObject* get_plot_mouse_pos(PyObject* self, PyObject* args, PyObject* kwargs)
@@ -123,16 +131,27 @@ namespace Marvel {
 		if (!(*mvApp::GetApp()->getParsers())["get_plot_mouse_pos"].parse(args, kwargs, __FUNCTION__))
 			return GetPyNone();
 
-		mvVec2 pos = mvInput::getPlotMousePosition();
-		PyObject* pvalue = ToPyPair(pos.x, pos.y);
-		return pvalue;
+		auto fut = mvApp::GetApp()->getCallbackRegistry().submit([=]()
+			{
+				mvVec2 pos = mvInput::getPlotMousePosition();
+				return std::make_pair<>(pos.x, pos.y);
+			});
+
+		auto [x, y] = fut.get();
+		return ToPyPair(x, y);
 	}
 
 	PyObject* get_mouse_drag_delta(PyObject* self, PyObject* args)
 	{
-		mvVec2 pos = mvInput::getMouseDragDelta();
-		PyObject* pvalue = ToPyPair(pos.x, pos.y);
-		return pvalue;
+
+		auto fut = mvApp::GetApp()->getCallbackRegistry().submit([=]()
+			{
+				mvVec2 pos = mvInput::getMouseDragDelta();
+				return std::make_pair<>(pos.x, pos.y);
+			});
+
+		auto [x, y] = fut.get();
+		return ToPyPair(x, y);
 	}
 
 	PyObject* is_key_pressed(PyObject* self, PyObject* args, PyObject* kwargs)
@@ -142,11 +161,13 @@ namespace Marvel {
 		if (!(*mvApp::GetApp()->getParsers())["is_key_pressed"].parse(args, kwargs, __FUNCTION__, &key))
 			return GetPyNone();
 
-		bool pressed = mvInput::isKeyPressed(key);
+		auto fut = mvApp::GetApp()->getCallbackRegistry().submit([=]()
+			{
+				return mvInput::isKeyPressed(key);
+			});
 
-		PyObject* pvalue = ToPyBool(pressed);
-
-		return pvalue;
+		bool pressed = fut.get();
+		return ToPyBool(pressed);
 	}
 
 	PyObject* is_key_released(PyObject* self, PyObject* args, PyObject* kwargs)
@@ -156,11 +177,13 @@ namespace Marvel {
 		if (!(*mvApp::GetApp()->getParsers())["is_key_released"].parse(args, kwargs, __FUNCTION__, &key))
 			return GetPyNone();
 
-		bool pressed = mvInput::isKeyReleased(key);
+		auto fut = mvApp::GetApp()->getCallbackRegistry().submit([=]()
+			{
+				return mvInput::isKeyReleased(key);
+			});
 
-		PyObject* pvalue = ToPyBool(pressed);
-
-		return pvalue;
+		bool pressed = fut.get();
+		return ToPyBool(pressed);
 	}
 
 	PyObject* is_key_down(PyObject* self, PyObject* args, PyObject* kwargs)
@@ -170,11 +193,13 @@ namespace Marvel {
 		if (!(*mvApp::GetApp()->getParsers())["is_key_down"].parse(args, kwargs, __FUNCTION__, &key))
 			return GetPyNone();
 
-		bool pressed = mvInput::isKeyDown(key);
+		auto fut = mvApp::GetApp()->getCallbackRegistry().submit([=]()
+			{
+				return mvInput::isKeyDown(key);
+			});
 
-		PyObject* pvalue = ToPyBool(pressed);
-
-		return pvalue;
+		bool result = fut.get();
+		return ToPyBool(result);
 	}
 
 	PyObject* is_mouse_button_dragging(PyObject* self, PyObject* args, PyObject* kwargs)
@@ -185,7 +210,13 @@ namespace Marvel {
 		if (!(*mvApp::GetApp()->getParsers())["is_mouse_button_dragging"].parse(args, kwargs, __FUNCTION__, &button, &threshold))
 			return GetPyNone();
 
-		return ToPyBool(mvInput::isMouseDragging(button, threshold));
+		auto fut = mvApp::GetApp()->getCallbackRegistry().submit([=]()
+			{
+				return mvInput::isMouseDragging(button, threshold);
+			});
+
+		bool result = fut.get();
+		return ToPyBool(result);
 	}
 
 	PyObject* is_mouse_button_down(PyObject* self, PyObject* args, PyObject* kwargs)
@@ -195,7 +226,13 @@ namespace Marvel {
 		if (!(*mvApp::GetApp()->getParsers())["is_mouse_button_down"].parse(args, kwargs, __FUNCTION__, &button))
 			return GetPyNone();
 
-		return ToPyBool(mvInput::isMouseButtonDown(button));
+		auto fut = mvApp::GetApp()->getCallbackRegistry().submit([=]()
+			{
+				return mvInput::isMouseButtonDown(button);
+			});
+
+		bool result = fut.get();
+		return ToPyBool(result);
 	}
 
 	PyObject* is_mouse_button_clicked(PyObject* self, PyObject* args, PyObject* kwargs)
@@ -205,7 +242,13 @@ namespace Marvel {
 		if (!(*mvApp::GetApp()->getParsers())["is_mouse_button_clicked"].parse(args, kwargs, __FUNCTION__, &button))
 			return GetPyNone();
 
-		return ToPyBool(mvInput::isMouseButtonClicked(button));
+		auto fut = mvApp::GetApp()->getCallbackRegistry().submit([=]()
+			{
+				return mvInput::isMouseButtonClicked(button);
+			});
+
+		bool result = fut.get();
+		return ToPyBool(result);
 	}
 
 	PyObject* is_mouse_button_double_clicked(PyObject* self, PyObject* args, PyObject* kwargs)
@@ -215,7 +258,13 @@ namespace Marvel {
 		if (!(*mvApp::GetApp()->getParsers())["is_mouse_button_double_clicked"].parse(args, kwargs, __FUNCTION__, &button))
 			return GetPyNone();
 
-		return ToPyBool(mvInput::isMouseButtonDoubleClicked(button));
+		auto fut = mvApp::GetApp()->getCallbackRegistry().submit([=]()
+			{
+				return mvInput::isMouseButtonDoubleClicked(button);
+			});
+
+		bool result = fut.get();
+		return ToPyBool(result);
 	}
 
 	PyObject* is_mouse_button_released(PyObject* self, PyObject* args, PyObject* kwargs)
@@ -225,7 +274,13 @@ namespace Marvel {
 		if (!(*mvApp::GetApp()->getParsers())["is_mouse_button_released"].parse(args, kwargs, __FUNCTION__, &button))
 			return GetPyNone();
 
-		return ToPyBool(mvInput::isMouseButtonReleased(button));
+		auto fut = mvApp::GetApp()->getCallbackRegistry().submit([=]()
+			{
+				return mvInput::isMouseButtonReleased(button);
+			});
+
+		bool result = fut.get();
+		return ToPyBool(result);
 	}
 
 	PyObject* set_mouse_down_callback(PyObject* self, PyObject* args, PyObject* kwargs)
@@ -239,8 +294,10 @@ namespace Marvel {
 		if (callback)
 			Py_XINCREF(callback);
 
-		mvApp::GetApp()->getCallbackRegistry().setMouseDownCallback(callback);
-
+		mvApp::GetApp()->getCallbackRegistry().submit([=]()
+			{
+				mvApp::GetApp()->getCallbackRegistry().setMouseDownCallback(callback);
+			});
 		return GetPyNone();
 	}
 
@@ -257,7 +314,11 @@ namespace Marvel {
 
 		if (callback)
 			Py_XINCREF(callback);
-		mvApp::GetApp()->getCallbackRegistry().setMouseDragCallback(callback);
+
+		mvApp::GetApp()->getCallbackRegistry().submit([=]()
+			{
+				mvApp::GetApp()->getCallbackRegistry().setMouseDragCallback(callback);
+			});
 
 		return GetPyNone();
 	}
@@ -272,7 +333,10 @@ namespace Marvel {
 
 		if (callback)
 			Py_XINCREF(callback);
-		mvApp::GetApp()->getCallbackRegistry().setMouseDoubleClickCallback(callback);
+		mvApp::GetApp()->getCallbackRegistry().submit([=]()
+			{
+				mvApp::GetApp()->getCallbackRegistry().setMouseDoubleClickCallback(callback);
+			});
 
 		return GetPyNone();
 	}
@@ -286,7 +350,10 @@ namespace Marvel {
 			return GetPyNone();
 		if (callback)
 			Py_XINCREF(callback);
-		mvApp::GetApp()->getCallbackRegistry().setMouseClickCallback(callback);
+		mvApp::GetApp()->getCallbackRegistry().submit([=]()
+			{
+				mvApp::GetApp()->getCallbackRegistry().setMouseClickCallback(callback);
+			});
 		return GetPyNone();
 	}
 
@@ -299,7 +366,10 @@ namespace Marvel {
 			return GetPyNone();
 		if (callback)
 			Py_XINCREF(callback);
-		mvApp::GetApp()->getCallbackRegistry().setMouseReleaseCallback(callback);
+		mvApp::GetApp()->getCallbackRegistry().submit([=]()
+			{
+				mvApp::GetApp()->getCallbackRegistry().setMouseReleaseCallback(callback);
+			});
 
 		return GetPyNone();
 	}
@@ -313,7 +383,10 @@ namespace Marvel {
 			return GetPyNone();
 		if (callback)
 			Py_XINCREF(callback);
-		mvApp::GetApp()->getCallbackRegistry().setKeyDownCallback(callback);
+		mvApp::GetApp()->getCallbackRegistry().submit([=]()
+			{
+				mvApp::GetApp()->getCallbackRegistry().setKeyDownCallback(callback);
+			});
 
 		return GetPyNone();
 	}
@@ -327,7 +400,10 @@ namespace Marvel {
 			return GetPyNone();
 		if (callback)
 			Py_XINCREF(callback);
-		mvApp::GetApp()->getCallbackRegistry().setKeyPressCallback(callback);
+		mvApp::GetApp()->getCallbackRegistry().submit([=]()
+			{
+				mvApp::GetApp()->getCallbackRegistry().setKeyPressCallback(callback);
+			});
 
 		return GetPyNone();
 	}
@@ -341,7 +417,10 @@ namespace Marvel {
 			return GetPyNone();
 		if (callback)
 			Py_XINCREF(callback);
-		mvApp::GetApp()->getCallbackRegistry().setKeyReleaseCallback(callback);
+		mvApp::GetApp()->getCallbackRegistry().submit([=]()
+			{
+				mvApp::GetApp()->getCallbackRegistry().setKeyReleaseCallback(callback);
+			});
 		return GetPyNone();
 	}
 
@@ -354,7 +433,10 @@ namespace Marvel {
 			return GetPyNone();
 		if (callback)
 			Py_XINCREF(callback);
-		mvApp::GetApp()->getCallbackRegistry().setMouseWheelCallback(callback);
+		mvApp::GetApp()->getCallbackRegistry().submit([=]()
+			{
+				mvApp::GetApp()->getCallbackRegistry().setMouseWheelCallback(callback);
+			});
 
 		return GetPyNone();
 	}
@@ -368,7 +450,10 @@ namespace Marvel {
 			return GetPyNone();
 		if (callback)
 			Py_XINCREF(callback);
-		mvApp::GetApp()->getCallbackRegistry().setMouseMoveCallback(callback);
+		mvApp::GetApp()->getCallbackRegistry().submit([=]()
+			{
+				mvApp::GetApp()->getCallbackRegistry().setMouseMoveCallback(callback);
+			});
 
 		return GetPyNone();
 	}
@@ -381,7 +466,10 @@ namespace Marvel {
 			return GetPyNone();
 		if (callback)
 			Py_XINCREF(callback);
-		mvApp::GetApp()->getCallbackRegistry().setRenderCallback(callback);
+		mvApp::GetApp()->getCallbackRegistry().submit([=]()
+			{
+				mvApp::GetApp()->getCallbackRegistry().setRenderCallback(callback);
+			});
 		return GetPyNone();
 	}
 
@@ -396,25 +484,35 @@ namespace Marvel {
 		if (callback)
 			Py_XINCREF(callback);
 
-		if (std::string(handler).empty())
-		{
-			mvApp::GetApp()->getCallbackRegistry().setResizeCallback(callback);
-			return GetPyNone();
-		}
-		
-		mvRef<mvAppItem> item = mvApp::GetApp()->getItemRegistry().getItem(handler);
 
-		if (item)
-		{
-			if (item->getDescription().root)
+		auto fut = mvApp::GetApp()->getCallbackRegistry().submit([=]()
 			{
-				auto windowtype = static_cast<mvWindowAppItem*>(item.get());
-				windowtype->setResizeCallback(callback);
-			}
-			else
-				ThrowPythonException("Resize callback can only be set for window items");
-		}
 
+				if (std::string(handler).empty())
+				{
+					mvApp::GetApp()->getCallbackRegistry().setResizeCallback(callback);
+					return std::string("");
+				}
+
+				mvRef<mvAppItem> item = mvApp::GetApp()->getItemRegistry().getItem(handler);
+
+				if (item)
+				{
+					if (item->getDescription().root)
+					{
+						auto windowtype = static_cast<mvWindowAppItem*>(item.get());
+						windowtype->setResizeCallback(callback);
+					}
+					else
+						return std::string("Resize callback can only be set for window items");
+				}
+				return std::string("");
+			});
+
+		auto message = fut.get();
+
+		if (!message.empty())
+			ThrowPythonException(message);
 
 		return GetPyNone();
 	}
