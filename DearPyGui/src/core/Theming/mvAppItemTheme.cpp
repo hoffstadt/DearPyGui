@@ -52,7 +52,6 @@ namespace Marvel {
 					if ((int)item->getType() == m_itemCode)
 					{
 						item->getIndividualTheme().getColors()[id] = color;
-						item->getStyleManager().clearColors();
 						item->getStyleManager().addColorStyle(id, color);
 					}
 
@@ -67,7 +66,6 @@ namespace Marvel {
 					if ((int)item->getType() == m_itemCode)
 					{
 						item->getIndividualTheme().getColors()[id] = color;
-						item->getStyleManager().clearColors();
 						item->getStyleManager().addColorStyle(id, color);
 					}
 				}

@@ -176,6 +176,8 @@ def show_demo():
     with window("New Style Editor"):
         color_constants = {
             "mvThemeCol_Window"                     : 102,
+            "mvThemeCol_Window_Text"                : 100,
+            "mvThemeCol_Window_TextSelected"        : 144,
             "mvThemeCol_Window_Border"              : 105,
             "mvThemeCol_Window_Title"               : 110,
             "mvThemeCol_Window_TitleActive"         : 111,
@@ -189,38 +191,39 @@ def show_demo():
             "mvThemeCol_Window_ResizeGripActive"    : 132,
             "mvThemeCol_Button"                     : 221,
             "mvThemeCol_Button_Text"                : 200,
+            "mvThemeCol_Button_Border"              : 205,
+            "mvThemeCol_Button_BorderShadow"        : 206,
             "mvThemeCol_Button_Hovered"             : 222,
             "mvThemeCol_Button_Active"              : 223,
-            "mvThemeCol_Spacing"                    : 327,
-            "mvThemeCol_Spacing_Hovered"            : 328,
-            "mvThemeCol_Spacing_Active"             : 329,
-            "mvThemeCol_InputText"                  : 407,
-            "mvThemeCol_InputText_Text"             : 400,
-            "mvThemeCol_InputText_Border"           : 405,
-            "mvThemeCol_RadioButton"                : 507,
-            "mvThemeCol_RadioButton_Text"           : 500,
-            "mvThemeCol_RadioButton_Border"         : 505,
-            "mvThemeCol_RadioButton_Hovered"        : 508,
-            "mvThemeCol_RadioButton_Active"         : 518,
-            "mvThemeCol_Tab"                        : 633,
-            "mvThemeCol_Tab_Text"                   : 600,
-            "mvThemeCol_Tab_Hovered"                : 634,
-            "mvThemeCol_Tab_Active"                 : 635,
-            "mvThemeCol_MenuBar"                    : 713,
-            "mvThemeCol_Menu_BackDrop"              : 800,
-            "mvThemeCol_Menu_Text"                  : 800,
-            "mvThemeCol_Menu_Border"                : 805,
-            "mvThemeCol_Menu_Active"                : 824,
-            "mvThemeCol_Menu_Hovered"               : 825,
-            "mvThemeCol_MenuItem_Text"              : 900,
-            "mvThemeCol_MenuItem_Active"            : 924,
-            "mvThemeCol_MenuItem_Hovered"           : 925,
-            "mvThemeCol_Child"                      :1003,
-            "mvThemeCol_Child_Border"               :1005,
-            "mvThemeCol_Child_Scrollbar"            :1014,
-            "mvThemeCol_Child_ScrollbarGrab"        :1015,
-            "mvThemeCol_Child_ScrollbarGrabHovered" :1016,
-            "mvThemeCol_Child_ScrollbarGrabActive"  :1017}
+            "mvThemeCol_InputText"                  : 307,
+            "mvThemeCol_InputText_Text"             : 300,
+            "mvThemeCol_InputText_Hint"             : 301,
+            "mvThemeCol_InputText_Border"           : 305,
+            "mvThemeCol_InputText_BorderShadow"     : 306,
+            "mvThemeCol_RadioButton"                : 407,
+            "mvThemeCol_RadioButton_Text"           : 400,
+            "mvThemeCol_RadioButton_Border"         : 405,
+            "mvThemeCol_RadioButton_Hovered"        : 408,
+            "mvThemeCol_RadioButton_Active"         : 418,
+            "mvThemeCol_Tab"                        : 533,
+            "mvThemeCol_Tab_Text"                   : 500,
+            "mvThemeCol_Tab_Hovered"                : 534,
+            "mvThemeCol_Tab_Active"                 : 535,
+            "mvThemeCol_MenuBar"                    : 613,
+            "mvThemeCol_Menu_BackDrop"              : 700,
+            "mvThemeCol_Menu_Text"                  : 700,
+            "mvThemeCol_Menu_Border"                : 705,
+            "mvThemeCol_Menu_Active"                : 724,
+            "mvThemeCol_Menu_Hovered"               : 725,
+            "mvThemeCol_MenuItem_Text"              : 800,
+            "mvThemeCol_MenuItem_Active"            : 824,
+            "mvThemeCol_MenuItem_Hovered"           : 825,
+            "mvThemeCol_Child"                      : 903,
+            "mvThemeCol_Child_Border"               : 905,
+            "mvThemeCol_Child_Scrollbar"            : 914,
+            "mvThemeCol_Child_ScrollbarGrab"        : 915,
+            "mvThemeCol_Child_ScrollbarGrabHovered" : 916,
+            "mvThemeCol_Child_ScrollbarGrabActive"  : 917}
         add_button("testttt", callback=lambda sender, data: print(get_item_type(sender)))
         for color,constant in color_constants.items():
             add_color_edit4(color, callback_data = constant, callback = lambda sender, data: set_global_color(data, get_value(sender)))
@@ -704,7 +707,8 @@ def show_demo():
                 add_listbox("##demolistbox4", items=["AAAA", "BBBB", "CCCC", "DDDD"], default_value=3, width=100)
                 
 
-                add_text("Spacing(100):")
+                add_text("Spacing(5):")
+                add_spacing(5)
                 add_button("A##demospacing", width=50, height=50)
                 add_same_line(spacing=100)
                 add_button("B##demospacing", width=50, height=50)

@@ -37,7 +37,7 @@ namespace Marvel {
     //-----------------------------------------------------------------------------
     enum class mvAppItemType
     {
-        None = 0, Window, Button, Spacing, InputText, RadioButtons,
+        None = 0, Window, Button, InputText, RadioButtons,
         TabItem, MenuBar, Menu, MenuItem, Child, SameLine,
         EndMenu, EndMenuBar, Group, TabBar, Image,
         SliderFloat, SliderFloat4, SliderInt, SliderInt4, 
@@ -53,7 +53,7 @@ namespace Marvel {
         ImageButton, TimePicker, DatePicker, ColorButton,
         ManagedColumns, ColumnSet, NextColumn, Logger,
         AboutWindow, DocWindow, DebugWindow, MetricsWindow,
-        StyleWindow, FileDialog, TabButton, 
+        StyleWindow, FileDialog, TabButton, Spacing,
         ItemTypeCount
     };
 
