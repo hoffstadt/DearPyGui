@@ -14,12 +14,12 @@ namespace Marvel {
 	std::atomic_bool     mvInput::s_keyspressed[512];
 	std::atomic_bool     mvInput::s_keysreleased[512];
 	std::atomic_int      mvInput::s_mousewheel;
-	std::atomic_bool     mvInput::s_mousedown[3];
-	std::atomic_bool     mvInput::s_mouseDragging[3];
-	std::atomic_int      mvInput::s_mousedownduration[3]; // 1/100 seconds
-	std::atomic_bool     mvInput::s_mouseclick[3];
-	std::atomic_bool     mvInput::s_mousedoubleclick[3];
-	std::atomic_bool     mvInput::s_mousereleased[3];
+	std::atomic_bool     mvInput::s_mousedown[5];
+	std::atomic_bool     mvInput::s_mouseDragging[5];
+	std::atomic_int      mvInput::s_mousedownduration[5]; // 1/100 seconds
+	std::atomic_bool     mvInput::s_mouseclick[5];
+	std::atomic_bool     mvInput::s_mousedoubleclick[5];
+	std::atomic_bool     mvInput::s_mousereleased[5];
 
 	void mvInput::CheckInputs()
 	{
