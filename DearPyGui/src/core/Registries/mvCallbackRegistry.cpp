@@ -61,6 +61,12 @@ namespace Marvel {
 		MV_PROFILE_FUNCTION()
 
 		runTasks();
+
+		if(m_renderCallback)
+			submitCallback([=]() mutable
+				{
+					runCallback(m_renderCallback, "Main Application");
+				});
 		
 		return false;
 	}
@@ -179,20 +185,8 @@ namespace Marvel {
 		while (m_running)
 		{
 				mvCallbackRegistry::task_type t2;
-				if (m_calls.try_pop(t2))
-				{
-					t2();
-				}
-
-				auto endTimepoint = std::chrono::steady_clock::now();
-				auto highResStart = FloatingPointMicroseconds{ m_startTime.time_since_epoch() };
-				auto elapsedTime = std::chrono::time_point_cast<std::chrono::microseconds>(endTimepoint).time_since_epoch() - std::chrono::time_point_cast<std::chrono::microseconds>(m_startTime).time_since_epoch();
-				
-				if (m_renderCallback && elapsedTime.count() > 16000)
-				{
-					runCallback(m_renderCallback, "Main Application");
-					m_startTime = clock_::now();
-				}
+				m_calls.wait_and_pop(t2);
+				t2();
 		}
 
 	}
