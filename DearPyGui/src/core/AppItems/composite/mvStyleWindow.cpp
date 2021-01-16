@@ -491,14 +491,12 @@ namespace Marvel {
         if (mvApp::GetApp()->getItemRegistry().addItemWithRuntimeChecks(item, "", ""))
         {
             mvApp::GetApp()->getItemRegistry().pushParent(item);
-
             if (!show)
                 item->hide();
 
-            return ToPyBool(true);
         }
 
-        return ToPyBool(false);
+        return GetPyNone();
     }
 
 }

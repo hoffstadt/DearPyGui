@@ -179,11 +179,16 @@ namespace Marvel {
 				item->checkConfigDict(kwargs);
 				item->setConfigDict(kwargs);
 				item->setExtraConfigDict(kwargs);
+
 				if (mvApp::GetApp()->getItemRegistry().addItemWithRuntimeChecks(item, parent, before))
 				{
 					mvApp::GetApp()->getItemRegistry().pushParent(item);
-					return ToPyBool(true);
+					if (!show)
+						item->hide();
+
 				}
+
+				return GetPyNone();
 			}
 
 			else
@@ -206,11 +211,16 @@ namespace Marvel {
 				item->checkConfigDict(kwargs);
 				item->setConfigDict(kwargs);
 				item->setExtraConfigDict(kwargs);
+
 				if (mvApp::GetApp()->getItemRegistry().addItemWithRuntimeChecks(item, parent, before))
 				{
 					mvApp::GetApp()->getItemRegistry().pushParent(item);
-					return ToPyBool(true);
+					if (!show)
+						item->hide();
+
 				}
+
+				return GetPyNone();
 			}
 
 			else

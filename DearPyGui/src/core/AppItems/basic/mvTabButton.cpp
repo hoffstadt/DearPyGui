@@ -127,8 +127,10 @@ namespace Marvel {
 				item->checkConfigDict(kwargs);
 				item->setConfigDict(kwargs);
 				item->setExtraConfigDict(kwargs);
-				if (mvApp::GetApp()->getItemRegistry().addItemWithRuntimeChecks(item, parent, before))
-					return ToPyBool(true);
+
+				mvApp::GetApp()->getItemRegistry().addItemWithRuntimeChecks(item, parent, before);
+
+				return GetPyNone();
 
 			}
 
@@ -158,8 +160,10 @@ namespace Marvel {
 				item->checkConfigDict(kwargs);
 				item->setConfigDict(kwargs);
 				item->setExtraConfigDict(kwargs);
-				if (mvApp::GetApp()->getItemRegistry().addItemWithRuntimeChecks(item, parent, before))
-					return ToPyBool(true);
+
+				mvApp::GetApp()->getItemRegistry().addItemWithRuntimeChecks(item, parent, before);
+
+				return GetPyNone();
 			}
 
 			else

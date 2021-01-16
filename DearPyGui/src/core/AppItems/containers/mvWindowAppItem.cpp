@@ -135,7 +135,7 @@ namespace Marvel {
 			if (!m_closing)
 			{
 				m_closing = true;
-				mvApp::GetApp()->getCallbackRegistry().runCallback(m_closing_callback, m_name);
+				mvApp::GetApp()->getCallbackRegistry().addCallback(m_closing_callback, m_name, nullptr);
 
 			}
 			return;
@@ -214,7 +214,7 @@ namespace Marvel {
 		{
 			m_width = (int)ImGui::GetWindowWidth();
 			m_height = (int)ImGui::GetWindowHeight();
-			mvApp::GetApp()->getCallbackRegistry().runCallback(m_resize_callback, m_name);
+			mvApp::GetApp()->getCallbackRegistry().addCallback(m_resize_callback, m_name, nullptr);
 		}
 
 		m_width = (int)ImGui::GetWindowWidth();
@@ -316,7 +316,6 @@ namespace Marvel {
 			Py_XDECREF(m_closing_callback);
 	}
 
-
 	PyObject* add_window(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		const char* name;
@@ -361,14 +360,12 @@ namespace Marvel {
 		if (mvApp::GetApp()->getItemRegistry().addItemWithRuntimeChecks(item, "", ""))
 		{
 			mvApp::GetApp()->getItemRegistry().pushParent(item);
-
 			if (!show)
 				item->hide();
 
-			return ToPyBool(true);
 		}
 
-		return ToPyBool(false);
+		return GetPyNone();
 	}
 
 }

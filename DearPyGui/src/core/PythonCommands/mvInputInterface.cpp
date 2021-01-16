@@ -110,11 +110,14 @@ namespace Marvel {
 		if (!(*mvApp::GetApp()->getParsers())["get_mouse_pos"].parse(args, kwargs, __FUNCTION__, &local))
 			return GetPyNone();
 
-		mvVec2 pos = mvInput::getMousePosition();
-		if (!local)
+		mvVec2 pos;
+
+		if(local)
+			pos = mvInput::getMousePosition();
+		else
 			pos = mvInput::getGlobalMousePosition();
-		PyObject* pvalue = ToPyPair(pos.x, pos.y);
-		return pvalue;
+
+		return ToPyPair(pos.x, pos.y);
 	}
 
 	PyObject* get_plot_mouse_pos(PyObject* self, PyObject* args, PyObject* kwargs)
@@ -124,15 +127,15 @@ namespace Marvel {
 			return GetPyNone();
 
 		mvVec2 pos = mvInput::getPlotMousePosition();
-		PyObject* pvalue = ToPyPair(pos.x, pos.y);
-		return pvalue;
+
+		return ToPyPair(pos.x, pos.y);
 	}
 
 	PyObject* get_mouse_drag_delta(PyObject* self, PyObject* args)
 	{
+
 		mvVec2 pos = mvInput::getMouseDragDelta();
-		PyObject* pvalue = ToPyPair(pos.x, pos.y);
-		return pvalue;
+		return ToPyPair(pos.x, pos.y);
 	}
 
 	PyObject* is_key_pressed(PyObject* self, PyObject* args, PyObject* kwargs)
@@ -142,11 +145,7 @@ namespace Marvel {
 		if (!(*mvApp::GetApp()->getParsers())["is_key_pressed"].parse(args, kwargs, __FUNCTION__, &key))
 			return GetPyNone();
 
-		bool pressed = mvInput::isKeyPressed(key);
-
-		PyObject* pvalue = ToPyBool(pressed);
-
-		return pvalue;
+		return ToPyBool(mvInput::isKeyPressed(key));
 	}
 
 	PyObject* is_key_released(PyObject* self, PyObject* args, PyObject* kwargs)
@@ -156,11 +155,7 @@ namespace Marvel {
 		if (!(*mvApp::GetApp()->getParsers())["is_key_released"].parse(args, kwargs, __FUNCTION__, &key))
 			return GetPyNone();
 
-		bool pressed = mvInput::isKeyReleased(key);
-
-		PyObject* pvalue = ToPyBool(pressed);
-
-		return pvalue;
+		return ToPyBool(mvInput::isKeyReleased(key));
 	}
 
 	PyObject* is_key_down(PyObject* self, PyObject* args, PyObject* kwargs)
@@ -170,11 +165,7 @@ namespace Marvel {
 		if (!(*mvApp::GetApp()->getParsers())["is_key_down"].parse(args, kwargs, __FUNCTION__, &key))
 			return GetPyNone();
 
-		bool pressed = mvInput::isKeyDown(key);
-
-		PyObject* pvalue = ToPyBool(pressed);
-
-		return pvalue;
+		return ToPyBool(mvInput::isKeyDown(key));
 	}
 
 	PyObject* is_mouse_button_dragging(PyObject* self, PyObject* args, PyObject* kwargs)
@@ -239,8 +230,10 @@ namespace Marvel {
 		if (callback)
 			Py_XINCREF(callback);
 
-		mvApp::GetApp()->getCallbackRegistry().setMouseDownCallback(callback);
-
+		mvApp::GetApp()->getCallbackRegistry().submit([=]()
+			{
+				mvApp::GetApp()->getCallbackRegistry().setMouseDownCallback(callback);
+			});
 		return GetPyNone();
 	}
 
@@ -257,7 +250,11 @@ namespace Marvel {
 
 		if (callback)
 			Py_XINCREF(callback);
-		mvApp::GetApp()->getCallbackRegistry().setMouseDragCallback(callback);
+
+		mvApp::GetApp()->getCallbackRegistry().submit([=]()
+			{
+				mvApp::GetApp()->getCallbackRegistry().setMouseDragCallback(callback);
+			});
 
 		return GetPyNone();
 	}
@@ -272,7 +269,10 @@ namespace Marvel {
 
 		if (callback)
 			Py_XINCREF(callback);
-		mvApp::GetApp()->getCallbackRegistry().setMouseDoubleClickCallback(callback);
+		mvApp::GetApp()->getCallbackRegistry().submit([=]()
+			{
+				mvApp::GetApp()->getCallbackRegistry().setMouseDoubleClickCallback(callback);
+			});
 
 		return GetPyNone();
 	}
@@ -286,7 +286,10 @@ namespace Marvel {
 			return GetPyNone();
 		if (callback)
 			Py_XINCREF(callback);
-		mvApp::GetApp()->getCallbackRegistry().setMouseClickCallback(callback);
+		mvApp::GetApp()->getCallbackRegistry().submit([=]()
+			{
+				mvApp::GetApp()->getCallbackRegistry().setMouseClickCallback(callback);
+			});
 		return GetPyNone();
 	}
 
@@ -299,7 +302,10 @@ namespace Marvel {
 			return GetPyNone();
 		if (callback)
 			Py_XINCREF(callback);
-		mvApp::GetApp()->getCallbackRegistry().setMouseReleaseCallback(callback);
+		mvApp::GetApp()->getCallbackRegistry().submit([=]()
+			{
+				mvApp::GetApp()->getCallbackRegistry().setMouseReleaseCallback(callback);
+			});
 
 		return GetPyNone();
 	}
@@ -313,7 +319,10 @@ namespace Marvel {
 			return GetPyNone();
 		if (callback)
 			Py_XINCREF(callback);
-		mvApp::GetApp()->getCallbackRegistry().setKeyDownCallback(callback);
+		mvApp::GetApp()->getCallbackRegistry().submit([=]()
+			{
+				mvApp::GetApp()->getCallbackRegistry().setKeyDownCallback(callback);
+			});
 
 		return GetPyNone();
 	}
@@ -327,7 +336,10 @@ namespace Marvel {
 			return GetPyNone();
 		if (callback)
 			Py_XINCREF(callback);
-		mvApp::GetApp()->getCallbackRegistry().setKeyPressCallback(callback);
+		mvApp::GetApp()->getCallbackRegistry().submit([=]()
+			{
+				mvApp::GetApp()->getCallbackRegistry().setKeyPressCallback(callback);
+			});
 
 		return GetPyNone();
 	}
@@ -341,7 +353,10 @@ namespace Marvel {
 			return GetPyNone();
 		if (callback)
 			Py_XINCREF(callback);
-		mvApp::GetApp()->getCallbackRegistry().setKeyReleaseCallback(callback);
+		mvApp::GetApp()->getCallbackRegistry().submit([=]()
+			{
+				mvApp::GetApp()->getCallbackRegistry().setKeyReleaseCallback(callback);
+			});
 		return GetPyNone();
 	}
 
@@ -354,7 +369,10 @@ namespace Marvel {
 			return GetPyNone();
 		if (callback)
 			Py_XINCREF(callback);
-		mvApp::GetApp()->getCallbackRegistry().setMouseWheelCallback(callback);
+		mvApp::GetApp()->getCallbackRegistry().submit([=]()
+			{
+				mvApp::GetApp()->getCallbackRegistry().setMouseWheelCallback(callback);
+			});
 
 		return GetPyNone();
 	}
@@ -368,7 +386,10 @@ namespace Marvel {
 			return GetPyNone();
 		if (callback)
 			Py_XINCREF(callback);
-		mvApp::GetApp()->getCallbackRegistry().setMouseMoveCallback(callback);
+		mvApp::GetApp()->getCallbackRegistry().submit([=]()
+			{
+				mvApp::GetApp()->getCallbackRegistry().setMouseMoveCallback(callback);
+			});
 
 		return GetPyNone();
 	}
@@ -381,7 +402,10 @@ namespace Marvel {
 			return GetPyNone();
 		if (callback)
 			Py_XINCREF(callback);
-		mvApp::GetApp()->getCallbackRegistry().setRenderCallback(callback);
+		mvApp::GetApp()->getCallbackRegistry().submit([=]()
+			{
+				mvApp::GetApp()->getCallbackRegistry().setRenderCallback(callback);
+			});
 		return GetPyNone();
 	}
 
@@ -396,25 +420,35 @@ namespace Marvel {
 		if (callback)
 			Py_XINCREF(callback);
 
-		if (std::string(handler).empty())
-		{
-			mvApp::GetApp()->getCallbackRegistry().setResizeCallback(callback);
-			return GetPyNone();
-		}
-		
-		mvRef<mvAppItem> item = mvApp::GetApp()->getItemRegistry().getItem(handler);
 
-		if (item)
-		{
-			if (item->getDescription().root)
+		auto fut = mvApp::GetApp()->getCallbackRegistry().submit([=]()
 			{
-				auto windowtype = static_cast<mvWindowAppItem*>(item.get());
-				windowtype->setResizeCallback(callback);
-			}
-			else
-				ThrowPythonException("Resize callback can only be set for window items");
-		}
 
+				if (std::string(handler).empty())
+				{
+					mvApp::GetApp()->getCallbackRegistry().setResizeCallback(callback);
+					return std::string("");
+				}
+
+				mvRef<mvAppItem> item = mvApp::GetApp()->getItemRegistry().getItem(handler);
+
+				if (item)
+				{
+					if (item->getDescription().root)
+					{
+						auto windowtype = static_cast<mvWindowAppItem*>(item.get());
+						windowtype->setResizeCallback(callback);
+					}
+					else
+						return std::string("Resize callback can only be set for window items");
+				}
+				return std::string("");
+			});
+
+		auto message = fut.get();
+
+		if (!message.empty())
+			ThrowPythonException(message);
 
 		return GetPyNone();
 	}

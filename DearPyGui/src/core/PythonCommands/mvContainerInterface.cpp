@@ -107,14 +107,12 @@ namespace Marvel {
 		if (mvApp::GetApp()->getItemRegistry().addItemWithRuntimeChecks(item, "", ""))
 		{
 			mvApp::GetApp()->getItemRegistry().pushParent(item);
-
 			if (!show)
 				item->hide();
 
-			return ToPyBool(true);
 		}
 
-		return ToPyBool(false);
+		return GetPyNone();
 	}
 
 	PyObject* add_metrics_window(PyObject* self, PyObject* args, PyObject* kwargs)
@@ -154,14 +152,12 @@ namespace Marvel {
 		if (mvApp::GetApp()->getItemRegistry().addItemWithRuntimeChecks(item, "", ""))
 		{
 			mvApp::GetApp()->getItemRegistry().pushParent(item);
-
 			if (!show)
 				item->hide();
 
-			return ToPyBool(true);
 		}
 
-		return ToPyBool(false);
+		return GetPyNone();
 	}
 
 	PyObject* add_popup(PyObject* self, PyObject* args, PyObject* kwargs)
@@ -191,13 +187,17 @@ namespace Marvel {
 		if (mvApp::GetApp()->getItemRegistry().addItemWithRuntimeChecks(item, popupparent, before))
 		{
 			mvApp::GetApp()->getItemRegistry().pushParent(item);
-			return ToPyBool(true);
+			if (!show)
+				item->hide();
+
 		}
-		return ToPyBool(false);
+
+		return GetPyNone();
 	}
 
 	PyObject* end(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
+		std::lock_guard<std::mutex> lk(mvApp::GetApp()->GetApp()->getMutex());
 		mvApp::GetApp()->getItemRegistry().popParent();
 		return GetPyNone();
 	}

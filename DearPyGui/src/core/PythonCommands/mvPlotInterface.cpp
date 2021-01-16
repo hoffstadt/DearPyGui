@@ -311,6 +311,7 @@ namespace Marvel {
 		if (!(*mvApp::GetApp()->getParsers())["clear_plot"].parse(args, kwargs, __FUNCTION__, &plot))
 			return GetPyNone();
 
+		std::lock_guard<std::mutex> lk(mvApp::GetApp()->GetApp()->getMutex());
 		auto aplot = mvApp::GetApp()->getItemRegistry().getItem(plot);
 		if (aplot == nullptr)
 		{
@@ -328,10 +329,7 @@ namespace Marvel {
 
 		mvPlot* graph = static_cast<mvPlot*>(aplot.get());
 
-		mvApp::GetApp()->getCallbackRegistry().submit([=]() 
-			{
-				graph->clear();
-			});
+		graph->clear();
 
 		return GetPyNone();
 	}
@@ -343,6 +341,7 @@ namespace Marvel {
 		if (!(*mvApp::GetApp()->getParsers())["reset_xticks"].parse(args, kwargs, __FUNCTION__, &plot))
 			return GetPyNone();
 
+		std::lock_guard<std::mutex> lk(mvApp::GetApp()->GetApp()->getMutex());
 		auto aplot = mvApp::GetApp()->getItemRegistry().getItem(plot);
 		if (aplot == nullptr)
 		{
@@ -360,10 +359,7 @@ namespace Marvel {
 
 		mvPlot* graph = static_cast<mvPlot*>(aplot.get());
 
-		mvApp::GetApp()->getCallbackRegistry().submit([=]()
-			{
-				graph->resetXTicks();
-			});
+		graph->resetXTicks();
 
 		return GetPyNone();
 	}
@@ -375,6 +371,7 @@ namespace Marvel {
 		if (!(*mvApp::GetApp()->getParsers())["reset_yticks"].parse(args, kwargs, __FUNCTION__, &plot))
 			return GetPyNone();
 
+		std::lock_guard<std::mutex> lk(mvApp::GetApp()->GetApp()->getMutex());
 		auto aplot = mvApp::GetApp()->getItemRegistry().getItem(plot);
 		if (aplot == nullptr)
 		{
@@ -392,10 +389,7 @@ namespace Marvel {
 
 		mvPlot* graph = static_cast<mvPlot*>(aplot.get());
 
-		mvApp::GetApp()->getCallbackRegistry().submit([=]()
-			{
-				graph->resetYTicks();
-			});
+		graph->resetYTicks();
 
 		return GetPyNone();
 	}
@@ -408,6 +402,9 @@ namespace Marvel {
 		if (!(*mvApp::GetApp()->getParsers())["set_xticks"].parse(args, kwargs, __FUNCTION__, &plot, &label_pairs))
 			return GetPyNone();
 
+		auto mlabel_pairs = ToVectPairStringFloat(label_pairs);
+
+		std::lock_guard<std::mutex> lk(mvApp::GetApp()->GetApp()->getMutex());
 		auto aplot = mvApp::GetApp()->getItemRegistry().getItem(plot);
 		if (aplot == nullptr)
 		{
@@ -425,21 +422,16 @@ namespace Marvel {
 
 		mvPlot* graph = static_cast<mvPlot*>(aplot.get());
 
-		auto mlabel_pairs = ToVectPairStringFloat(label_pairs);
+		std::vector<std::string> labels;
+		std::vector<double> locations;
 
-		mvApp::GetApp()->getCallbackRegistry().submit([=]()
-			{
+		for (const auto& item : mlabel_pairs)
+		{
+			labels.emplace_back(item.first.c_str());
+			locations.emplace_back((double)item.second);
+		}
+		graph->setXTicks(labels, locations);
 
-				std::vector<std::string> labels;
-				std::vector<double> locations;
-
-				for (const auto& item : mlabel_pairs)
-				{
-					labels.emplace_back(item.first.c_str());
-					locations.emplace_back((double)item.second);
-				}
-				graph->setXTicks(labels, locations);
-			});
 
 		return GetPyNone();
 	}
@@ -452,6 +444,9 @@ namespace Marvel {
 		if (!(*mvApp::GetApp()->getParsers())["set_yticks"].parse(args, kwargs, __FUNCTION__, &plot, &label_pairs))
 			return GetPyNone();
 
+		auto mlabel_pairs = ToVectPairStringFloat(label_pairs);
+
+		std::lock_guard<std::mutex> lk(mvApp::GetApp()->GetApp()->getMutex());
 		auto aplot = mvApp::GetApp()->getItemRegistry().getItem(plot);
 		if (aplot == nullptr)
 		{
@@ -469,21 +464,15 @@ namespace Marvel {
 
 		mvPlot* graph = static_cast<mvPlot*>(aplot.get());
 
-		auto mlabel_pairs = ToVectPairStringFloat(label_pairs);
+		std::vector<std::string> labels;
+		std::vector<double> locations;
 
-		mvApp::GetApp()->getCallbackRegistry().submit([=]()
-			{
-
-				std::vector<std::string> labels;
-				std::vector<double> locations;
-
-				for (const auto& item : mlabel_pairs)
-				{
-					labels.emplace_back(item.first.c_str());
-					locations.emplace_back((double)item.second);
-				}
-				graph->setYTicks(labels, locations);
-			});
+		for (const auto& item : mlabel_pairs)
+		{
+			labels.emplace_back(item.first.c_str());
+			locations.emplace_back((double)item.second);
+		}
+		graph->setYTicks(labels, locations);
 
 		return GetPyNone();
 	}
@@ -495,6 +484,7 @@ namespace Marvel {
 		if (!(*mvApp::GetApp()->getParsers())["set_plot_xlimits_auto"].parse(args, kwargs, __FUNCTION__, &plot))
 			return GetPyNone();
 
+		std::lock_guard<std::mutex> lk(mvApp::GetApp()->GetApp()->getMutex());
 		auto aplot = mvApp::GetApp()->getItemRegistry().getItem(plot);
 		if (aplot == nullptr)
 		{
@@ -509,12 +499,10 @@ namespace Marvel {
 			ThrowPythonException(message + " is not a plot.");
 			return GetPyNone();
 		}
+
 		mvPlot* graph = static_cast<mvPlot*>(aplot.get());
 
-		mvApp::GetApp()->getCallbackRegistry().submit([=]()
-			{
-				graph->setXLimitsAuto();
-			});
+		graph->setXLimitsAuto();
 
 		return GetPyNone();
 	}
@@ -526,6 +514,7 @@ namespace Marvel {
 		if (!(*mvApp::GetApp()->getParsers())["set_plot_ylimits_auto"].parse(args, kwargs, __FUNCTION__, &plot))
 			return GetPyNone();
 
+		std::lock_guard<std::mutex> lk(mvApp::GetApp()->GetApp()->getMutex());
 		auto aplot = mvApp::GetApp()->getItemRegistry().getItem(plot);
 		if (aplot == nullptr)
 		{
@@ -543,10 +532,7 @@ namespace Marvel {
 
 		mvPlot* graph = static_cast<mvPlot*>(aplot.get());
 
-		mvApp::GetApp()->getCallbackRegistry().submit([=]()
-			{
-				graph->setYLimitsAuto();
-			});
+		graph->setYLimitsAuto();
 
 		return GetPyNone();
 	}
@@ -560,6 +546,7 @@ namespace Marvel {
 		if (!(*mvApp::GetApp()->getParsers())["set_plot_xlimits"].parse(args, kwargs, __FUNCTION__, &plot, &xmin, &xmax))
 			return GetPyNone();
 
+		std::lock_guard<std::mutex> lk(mvApp::GetApp()->GetApp()->getMutex());
 		auto aplot = mvApp::GetApp()->getItemRegistry().getItem(plot);
 		if (aplot == nullptr)
 		{
@@ -577,10 +564,7 @@ namespace Marvel {
 
 		mvPlot* graph = static_cast<mvPlot*>(aplot.get());
 
-		mvApp::GetApp()->getCallbackRegistry().submit([=]()
-			{
-				graph->setXLimits(xmin, xmax);
-			});
+		graph->setXLimits(xmin, xmax);
 
 		return GetPyNone();
 	}
@@ -594,6 +578,7 @@ namespace Marvel {
 		if (!(*mvApp::GetApp()->getParsers())["set_plot_ylimits"].parse(args, kwargs, __FUNCTION__, &plot, &ymin, &ymax))
 			return GetPyNone();
 
+		std::lock_guard<std::mutex> lk(mvApp::GetApp()->GetApp()->getMutex());
 		auto aplot = mvApp::GetApp()->getItemRegistry().getItem(plot);
 		if (aplot == nullptr)
 		{
@@ -608,12 +593,10 @@ namespace Marvel {
 			ThrowPythonException(message + " is not a plot.");
 			return GetPyNone();
 		}
+
 		mvPlot* graph = static_cast<mvPlot*>(aplot.get());
 
-		mvApp::GetApp()->getCallbackRegistry().submit([=]()
-			{
-				graph->setYLimits(ymin, ymax);
-			});
+		graph->setYLimits(ymin, ymax);
 
 		return GetPyNone();
 	}
@@ -625,6 +608,7 @@ namespace Marvel {
 		if (!(*mvApp::GetApp()->getParsers())["is_plot_queried"].parse(args, kwargs, __FUNCTION__, &plot))
 			return GetPyNone();
 
+		std::lock_guard<std::mutex> lk(mvApp::GetApp()->GetApp()->getMutex());
 		auto aplot = mvApp::GetApp()->getItemRegistry().getItem(plot);
 		if (aplot == nullptr)
 		{
@@ -639,14 +623,10 @@ namespace Marvel {
 			ThrowPythonException(message + " is not a plot.");
 			return GetPyNone();
 		}
+
 		mvPlot* graph = static_cast<mvPlot*>(aplot.get());
 
-		auto fut = mvApp::GetApp()->getCallbackRegistry().submit([=]()
-			{
-				return graph->isPlotQueried();
-			});
-
-		return Py_BuildValue("b", fut.get());
+		return ToPyBool(graph->isPlotQueried());
 	}
 
 	PyObject* get_plot_xlimits(PyObject* self, PyObject* args, PyObject* kwargs)
@@ -656,6 +636,7 @@ namespace Marvel {
 		if (!(*mvApp::GetApp()->getParsers())["get_plot_xlimits"].parse(args, kwargs, __FUNCTION__, &plot))
 			return GetPyNone();
 
+		std::lock_guard<std::mutex> lk(mvApp::GetApp()->GetApp()->getMutex());
 		auto aplot = mvApp::GetApp()->getItemRegistry().getItem(plot);
 		if (aplot == nullptr)
 		{
@@ -670,16 +651,11 @@ namespace Marvel {
 			ThrowPythonException(message + " is not a plot.");
 			return GetPyNone();
 		}
+
 		mvPlot* graph = static_cast<mvPlot*>(aplot.get());
 
-		auto fut = mvApp::GetApp()->getCallbackRegistry().submit([=]()
-			{
-				return graph->getXLimits();
-			});
-
-		const ImVec2& limits = fut.get();
-
-		return ToPyPair(limits.x, limits.y);
+		const ImVec2& lim =  graph->getXLimits();
+		return ToPyPair(lim.x, lim.y);
 	}
 
 	PyObject* get_plot_ylimits(PyObject* self, PyObject* args, PyObject* kwargs)
@@ -689,6 +665,7 @@ namespace Marvel {
 		if (!(*mvApp::GetApp()->getParsers())["get_plot_ylimits"].parse(args, kwargs, __FUNCTION__, &plot))
 			return GetPyNone();
 
+		std::lock_guard<std::mutex> lk(mvApp::GetApp()->GetApp()->getMutex());
 		auto aplot = mvApp::GetApp()->getItemRegistry().getItem(plot);
 		if (aplot == nullptr)
 		{
@@ -703,16 +680,11 @@ namespace Marvel {
 			ThrowPythonException(message + " is not a plot.");
 			return GetPyNone();
 		}
+
 		mvPlot* graph = static_cast<mvPlot*>(aplot.get());
 
-		auto fut = mvApp::GetApp()->getCallbackRegistry().submit([=]()
-			{
-				return graph->getYLimits();
-			});
-
-		const ImVec2& limits = fut.get();
-
-		return ToPyPair(limits.x, limits.y);
+		const ImVec2& lim = graph->getYLimits();
+		return ToPyPair(lim.x, lim.y);
 	}
 
 	PyObject* get_plot_query_area(PyObject* self, PyObject* args, PyObject* kwargs)
@@ -722,6 +694,7 @@ namespace Marvel {
 		if (!(*mvApp::GetApp()->getParsers())["get_plot_query_area"].parse(args, kwargs, __FUNCTION__, &plot))
 			return GetPyNone();
 
+		std::lock_guard<std::mutex> lk(mvApp::GetApp()->GetApp()->getMutex());
 		auto aplot = mvApp::GetApp()->getItemRegistry().getItem(plot);
 		if (aplot == nullptr)
 		{
@@ -736,16 +709,11 @@ namespace Marvel {
 			ThrowPythonException(message + " is not a plot.");
 			return GetPyNone();
 		}
+
 		mvPlot* graph = static_cast<mvPlot*>(aplot.get());
 
-		auto fut = mvApp::GetApp()->getCallbackRegistry().submit([=]()
-			{
-				return graph->getPlotQueryArea();
-			});
-
-		auto area = fut.get();
-
-		return Py_BuildValue("(ffff)", area[0], area[1], area[2], area[3]);
+		float* result = graph->getPlotQueryArea();
+		return Py_BuildValue("(ffff)", result[0], result[1], result[2], result[3]);
 	}
 
 	PyObject* set_color_map(PyObject* self, PyObject* args, PyObject* kwargs)
@@ -756,6 +724,7 @@ namespace Marvel {
 		if (!(*mvApp::GetApp()->getParsers())["set_color_map"].parse(args, kwargs, __FUNCTION__, &plot, &map))
 			return GetPyNone();
 
+		std::lock_guard<std::mutex> lk(mvApp::GetApp()->GetApp()->getMutex());
 		auto aplot = mvApp::GetApp()->getItemRegistry().getItem(plot);
 		if (aplot == nullptr)
 		{
@@ -773,10 +742,7 @@ namespace Marvel {
 
 		mvPlot* graph = static_cast<mvPlot*>(aplot.get());
 
-		mvApp::GetApp()->getCallbackRegistry().submit([=]()
-			{
-				graph->SetColorMap(map);
-			});
+		graph->SetColorMap(map);
 
 		return GetPyNone();
 	}
@@ -789,8 +755,8 @@ namespace Marvel {
 		if (!(*mvApp::GetApp()->getParsers())["delete_series"].parse(args, kwargs, __FUNCTION__, &plot, &series))
 			return GetPyNone();
 
+		std::lock_guard<std::mutex> lk(mvApp::GetApp()->GetApp()->getMutex());
 		auto aplot = mvApp::GetApp()->getItemRegistry().getItem(plot);
-
 		if (aplot == nullptr)
 		{
 			std::string message = plot;
@@ -807,10 +773,7 @@ namespace Marvel {
 
 		mvPlot* graph = static_cast<mvPlot*>(aplot.get());
 
-		mvApp::GetApp()->getCallbackRegistry().submit([=]()
-			{
-				graph->deleteSeries(series);
-			});
+		graph->deleteSeries(series);
 
 		return GetPyNone();
 	}
@@ -846,9 +809,17 @@ namespace Marvel {
 		if (!CheckList(plot, bounds_min)) return GetPyNone();
 		if (!CheckList(plot, bounds_max)) return GetPyNone();
 
+		auto mbounds_min = ToFloatVect(bounds_min);
+		auto mbounds_max = ToFloatVect(bounds_max);
+		auto muv_min = ToVec2(uv_min);
+		auto muv_max = ToVec2(uv_max);
+		auto mcolor = ToColor(tintcolor);
 
+		auto series = CreateRef<mvImageSeries>(name, value, ImPlotPoint(mbounds_min[0], mbounds_min[1]), ImPlotPoint(mbounds_max[0], mbounds_max[1]),
+			muv_min, muv_max, mcolor,(ImPlotYAxis_)axis);
+
+		std::lock_guard<std::mutex> lk(mvApp::GetApp()->GetApp()->getMutex());
 		auto aplot = mvApp::GetApp()->getItemRegistry().getItem(plot);
-
 		if (aplot == nullptr)
 		{
 			std::string message = plot;
@@ -865,19 +836,7 @@ namespace Marvel {
 
 		mvPlot* graph = static_cast<mvPlot*>(aplot.get());
 
-		auto mbounds_min = ToFloatVect(bounds_min);
-		auto mbounds_max = ToFloatVect(bounds_max);
-		auto muv_min = ToVec2(uv_min);
-		auto muv_max = ToVec2(uv_max);
-		auto mcolor = ToColor(tintcolor);
-
-		auto series = CreateRef<mvImageSeries>(name, value, ImPlotPoint(mbounds_min[0], mbounds_min[1]), ImPlotPoint(mbounds_max[0], mbounds_max[1]),
-			muv_min, muv_max, mcolor,(ImPlotYAxis_)axis);
-
-		mvApp::GetApp()->getCallbackRegistry().submit([=]()
-			{
-				graph->updateSeries(series, update_bounds);
-			});
+		graph->updateSeries(series, update_bounds);
 
 		return GetPyNone();
 	}
@@ -905,12 +864,6 @@ namespace Marvel {
 		if (!CheckList(plot, values)) return GetPyNone();
 		if (!CheckList(plot, labels)) return GetPyNone();
 
-		auto aplot = mvApp::GetApp()->getItemRegistry().getItem(plot);
-
-		if (!CheckIfPlotOk(plot, aplot.get())) return GetPyNone();
-
-		mvPlot* graph = static_cast<mvPlot*>(aplot.get());
-
 		auto avalues = ToFloatVect(values);
 		auto alabels = ToStringVect(labels);
 
@@ -922,10 +875,25 @@ namespace Marvel {
 
 		auto series = CreateRef<mvPieSeries>(name, &avalues, x, y, radius, normalize, angle, format, alabels, (ImPlotYAxis_)axis);
 		
-		mvApp::GetApp()->getCallbackRegistry().submit([=]()
-			{
-				graph->updateSeries(series, update_bounds);
-			});
+		std::lock_guard<std::mutex> lk(mvApp::GetApp()->GetApp()->getMutex());
+		auto aplot = mvApp::GetApp()->getItemRegistry().getItem(plot);
+		if (aplot == nullptr)
+		{
+			std::string message = plot;
+			ThrowPythonException(message + " plot does not exist.");
+			return GetPyNone();
+		}
+
+		if (aplot->getType() != mvAppItemType::Plot)
+		{
+			std::string message = plot;
+			ThrowPythonException(message + " is not a plot.");
+			return GetPyNone();
+		}
+
+		mvPlot* graph = static_cast<mvPlot*>(aplot.get());
+
+		graph->updateSeries(series, update_bounds);
 
 		return GetPyNone();
 	}
@@ -952,12 +920,6 @@ namespace Marvel {
 		if (!CheckList(plot, x)) return GetPyNone();
 		if (!CheckList(plot, y)) return GetPyNone();
 
-		auto aplot = mvApp::GetApp()->getItemRegistry().getItem(plot);
-
-		if (!CheckIfPlotOk(plot, aplot.get())) return GetPyNone();
-
-		mvPlot* graph = static_cast<mvPlot*>(aplot.get());
-
 		auto mcolor = ToColor(color);
 		auto xs = ToFloatVect(x);
 		auto ys = ToFloatVect(y);
@@ -967,10 +929,25 @@ namespace Marvel {
 		auto series = CreateRef<mvLineSeries>(name, &xs, &ys, mcolor, (ImPlotYAxis_)axis);
 		series->setWeight(weight);
 
-		mvApp::GetApp()->getCallbackRegistry().submit([=]()
-			{
-				graph->updateSeries(series, update_bounds);
-			});
+		std::lock_guard<std::mutex> lk(mvApp::GetApp()->GetApp()->getMutex());
+		auto aplot = mvApp::GetApp()->getItemRegistry().getItem(plot);
+		if (aplot == nullptr)
+		{
+			std::string message = plot;
+			ThrowPythonException(message + " plot does not exist.");
+			return GetPyNone();
+		}
+
+		if (aplot->getType() != mvAppItemType::Plot)
+		{
+			std::string message = plot;
+			ThrowPythonException(message + " is not a plot.");
+			return GetPyNone();
+		}
+
+		mvPlot* graph = static_cast<mvPlot*>(aplot.get());
+
+		graph->updateSeries(series, update_bounds);
 
 		return GetPyNone();
 	}
@@ -997,12 +974,6 @@ namespace Marvel {
 		if (!CheckList(plot, x)) return GetPyNone();
 		if (!CheckList(plot, y)) return GetPyNone();
 
-		auto aplot = mvApp::GetApp()->getItemRegistry().getItem(plot);
-
-		if (!CheckIfPlotOk(plot, aplot.get())) return GetPyNone();
-
-		mvPlot* graph = static_cast<mvPlot*>(aplot.get());
-
 		auto mcolor = ToColor(color);
 		auto xs = ToFloatVect(x);
 		auto ys = ToFloatVect(y);
@@ -1012,10 +983,26 @@ namespace Marvel {
 		auto series = CreateRef<mvStairSeries>(name, &xs, &ys, mcolor, (ImPlotYAxis_)axis);
 
 		series->setWeight(weight);
-		mvApp::GetApp()->getCallbackRegistry().submit([=]()
-			{
-				graph->updateSeries(series, update_bounds);
-			});
+
+		std::lock_guard<std::mutex> lk(mvApp::GetApp()->GetApp()->getMutex());
+		auto aplot = mvApp::GetApp()->getItemRegistry().getItem(plot);
+		if (aplot == nullptr)
+		{
+			std::string message = plot;
+			ThrowPythonException(message + " plot does not exist.");
+			return GetPyNone();
+		}
+
+		if (aplot->getType() != mvAppItemType::Plot)
+		{
+			std::string message = plot;
+			ThrowPythonException(message + " is not a plot.");
+			return GetPyNone();
+		}
+
+		mvPlot* graph = static_cast<mvPlot*>(aplot.get());
+
+		graph->updateSeries(series, update_bounds);
 
 		return GetPyNone();
 	}
@@ -1038,26 +1025,36 @@ namespace Marvel {
 		if (!CheckList(plot, x)) return GetPyNone();
 		if (!CheckList(plot, y)) return GetPyNone();
 
-		auto aplot = mvApp::GetApp()->getItemRegistry().getItem(plot);
-
-		if (!CheckIfPlotOk(plot, aplot.get())) return GetPyNone();
-
 		auto xs = ToFloatVect(x);
 		auto ys = ToFloatVect(y);
 
 		if (!CheckArraySizes(plot, { &xs, &ys })) return GetPyNone();
-
-		mvPlot* graph = static_cast<mvPlot*>(aplot.get());
 
 		if (xs.size() == 0)
 			return GetPyNone();
 
 		auto series = CreateRef<mvBarSeries>(name, &xs, &ys, horizontal, (ImPlotYAxis_)axis);
 		series->setWeight(weight);
-		mvApp::GetApp()->getCallbackRegistry().submit([=]()
-			{
-				graph->updateSeries(series, update_bounds);
-			});
+
+		std::lock_guard<std::mutex> lk(mvApp::GetApp()->GetApp()->getMutex());
+		auto aplot = mvApp::GetApp()->getItemRegistry().getItem(plot);
+		if (aplot == nullptr)
+		{
+			std::string message = plot;
+			ThrowPythonException(message + " plot does not exist.");
+			return GetPyNone();
+		}
+
+		if (aplot->getType() != mvAppItemType::Plot)
+		{
+			std::string message = plot;
+			ThrowPythonException(message + " is not a plot.");
+			return GetPyNone();
+		}
+
+		mvPlot* graph = static_cast<mvPlot*>(aplot.get());
+
+		graph->updateSeries(series, update_bounds);
 
 		return GetPyNone();
 	}
@@ -1091,12 +1088,6 @@ namespace Marvel {
 		if (!CheckList(plot, x)) return GetPyNone();
 		if (!CheckList(plot, y1)) return GetPyNone();
 
-		auto aplot = mvApp::GetApp()->getItemRegistry().getItem(plot);
-
-		if (!CheckIfPlotOk(plot, aplot.get())) return GetPyNone();
-
-		mvPlot* graph = static_cast<mvPlot*>(aplot.get());
-
 		auto mcolor = ToColor(color);
 		auto mfill = ToColor(fill);
 		auto xs = ToFloatVect(x);
@@ -1118,10 +1109,26 @@ namespace Marvel {
 
 		auto series = CreateRef<mvShadeSeries>(name, mcolor, mfill , &xs, &y1s, &y2s, (ImPlotYAxis_)axis);
 		series->setWeight(weight);
-		mvApp::GetApp()->getCallbackRegistry().submit([=]()
-			{
-				graph->updateSeries(series, update_bounds);
-			});
+
+		std::lock_guard<std::mutex> lk(mvApp::GetApp()->GetApp()->getMutex());
+		auto aplot = mvApp::GetApp()->getItemRegistry().getItem(plot);
+		if (aplot == nullptr)
+		{
+			std::string message = plot;
+			ThrowPythonException(message + " plot does not exist.");
+			return GetPyNone();
+		}
+
+		if (aplot->getType() != mvAppItemType::Plot)
+		{
+			std::string message = plot;
+			ThrowPythonException(message + " is not a plot.");
+			return GetPyNone();
+		}
+
+		mvPlot* graph = static_cast<mvPlot*>(aplot.get());
+
+		graph->updateSeries(series, update_bounds);
 
 		return GetPyNone();
 	}
@@ -1163,12 +1170,6 @@ namespace Marvel {
 		if (!CheckList(plot, closes)) return GetPyNone();
 		if (!CheckList(plot, lows)) return GetPyNone();
 
-		auto aplot = mvApp::GetApp()->getItemRegistry().getItem(plot);
-
-		if (!CheckIfPlotOk(plot, aplot.get())) return GetPyNone();
-
-		mvPlot* graph = static_cast<mvPlot*>(aplot.get());
-
 		auto mdates = ToFloatVect(dates);
 		auto mopens = ToFloatVect(opens);
 		auto mhighs = ToFloatVect(highs);
@@ -1185,10 +1186,27 @@ namespace Marvel {
 		auto series = CreateRef<mvCandleSeries>(name, &mdates, &mopens, &mhighs, &mlows, &mcloses,
 			weight, mbull, mbear, (ImPlotYAxis_)axis);
 		series->setWeight(weight);
-		mvApp::GetApp()->getCallbackRegistry().submit([=]()
-			{
-				graph->updateSeries(series, update_bounds);
-			});
+		std::string errorMessage;
+
+		std::lock_guard<std::mutex> lk(mvApp::GetApp()->GetApp()->getMutex());
+		auto aplot = mvApp::GetApp()->getItemRegistry().getItem(plot);
+		if (aplot == nullptr)
+		{
+			std::string message = plot;
+			ThrowPythonException(message + " plot does not exist.");
+			return GetPyNone();
+		}
+
+		if (aplot->getType() != mvAppItemType::Plot)
+		{
+			std::string message = plot;
+			ThrowPythonException(message + " is not a plot.");
+			return GetPyNone();
+		}
+
+		mvPlot* graph = static_cast<mvPlot*>(aplot.get());
+
+		graph->updateSeries(series, update_bounds);
 
 		return GetPyNone();
 	}
@@ -1224,12 +1242,6 @@ namespace Marvel {
 		if (!CheckList(plot, x)) return GetPyNone();
 		if (!CheckList(plot, y)) return GetPyNone();
 
-		auto aplot = mvApp::GetApp()->getItemRegistry().getItem(plot);
-
-		if (!CheckIfPlotOk(plot, aplot.get())) return GetPyNone();
-
-		mvPlot* graph = static_cast<mvPlot*>(aplot.get());
-
 		auto xs = ToFloatVect(x);
 		auto ys = ToFloatVect(y);
 		auto mmarkerOutlineColor = ToColor(outline);
@@ -1239,10 +1251,25 @@ namespace Marvel {
 
 		auto series = CreateRef<mvScatterSeries>(name, &xs, &ys, marker, size, weight, mmarkerOutlineColor, mmarkerFillColor, (ImPlotYAxis_)axis);
 		
-		mvApp::GetApp()->getCallbackRegistry().submit([=]()
-			{
-				graph->updateSeries(series, update_bounds);
-			});
+		std::lock_guard<std::mutex> lk(mvApp::GetApp()->GetApp()->getMutex());
+		auto aplot = mvApp::GetApp()->getItemRegistry().getItem(plot);
+		if (aplot == nullptr)
+		{
+			std::string message = plot;
+			ThrowPythonException(message + " plot does not exist.");
+			return GetPyNone();
+		}
+
+		if (aplot->getType() != mvAppItemType::Plot)
+		{
+			std::string message = plot;
+			ThrowPythonException(message + " is not a plot.");
+			return GetPyNone();
+		}
+
+		mvPlot* graph = static_cast<mvPlot*>(aplot.get());
+
+		graph->updateSeries(series, update_bounds);
 
 		return GetPyNone();
 	}
@@ -1277,12 +1304,6 @@ namespace Marvel {
 		if (!CheckList(plot, x)) return GetPyNone();
 		if (!CheckList(plot, y)) return GetPyNone();
 
-		auto aplot = mvApp::GetApp()->getItemRegistry().getItem(plot);
-
-		if (!CheckIfPlotOk(plot, aplot.get())) return GetPyNone();
-
-		mvPlot* graph = static_cast<mvPlot*>(aplot.get());
-
 		auto xs = ToFloatVect(x);
 		auto ys = ToFloatVect(y);
 		auto mmarkerOutlineColor = ToColor(outline);
@@ -1293,11 +1314,26 @@ namespace Marvel {
 		if (xs.size() == 0)
 			return GetPyNone();
 
-		mvApp::GetApp()->getCallbackRegistry().submit([=]()
-			{
-				graph->updateSeries(CreateRef<mvStemSeries>(name, &xs, &ys, marker, size, weight, mmarkerOutlineColor,
-					mmarkerFillColor, (ImPlotYAxis_)axis), update_bounds);
-			});
+		std::lock_guard<std::mutex> lk(mvApp::GetApp()->GetApp()->getMutex());
+		auto aplot = mvApp::GetApp()->getItemRegistry().getItem(plot);
+		if (aplot == nullptr)
+		{
+			std::string message = plot;
+			ThrowPythonException(message + " plot does not exist.");
+			return GetPyNone();
+		}
+
+		if (aplot->getType() != mvAppItemType::Plot)
+		{
+			std::string message = plot;
+			ThrowPythonException(message + " is not a plot.");
+			return GetPyNone();
+		}
+
+		mvPlot* graph = static_cast<mvPlot*>(aplot.get());
+
+		graph->updateSeries(CreateRef<mvStemSeries>(name, &xs, &ys, marker, size, weight, mmarkerOutlineColor,
+			mmarkerFillColor, (ImPlotYAxis_)axis), update_bounds);
 
 		return GetPyNone();
 	}
@@ -1318,6 +1354,10 @@ namespace Marvel {
 			&plot, &name, &x, &y, &vertical, &xoffset, &yoffset, &update_bounds, &axis))
 			return GetPyNone();
 
+		std::vector<float> ax = { x };
+		std::vector<float> ay = { y };
+
+		std::lock_guard<std::mutex> lk(mvApp::GetApp()->GetApp()->getMutex());
 		auto aplot = mvApp::GetApp()->getItemRegistry().getItem(plot);
 		if (aplot == nullptr)
 		{
@@ -1335,14 +1375,7 @@ namespace Marvel {
 
 		mvPlot* graph = static_cast<mvPlot*>(aplot.get());
 
-		std::vector<float> ax = { x };
-		std::vector<float> ay = { y };
-
-
-		mvApp::GetApp()->getCallbackRegistry().submit([=]()
-			{
-				graph->updateSeries(CreateRef<mvLabelSeries>(name, &ax, &ay, xoffset, yoffset, vertical, (ImPlotYAxis_)axis), update_bounds);
-			});
+		graph->updateSeries(CreateRef<mvLabelSeries>(name, &ax, &ay, xoffset, yoffset, vertical, (ImPlotYAxis_)axis), update_bounds);
 
 		return GetPyNone();
 	}
@@ -1366,12 +1399,6 @@ namespace Marvel {
 		if (!CheckList(plot, x)) return GetPyNone();
 		if (!CheckList(plot, y)) return GetPyNone();
 
-		auto aplot = mvApp::GetApp()->getItemRegistry().getItem(plot);
-
-		if (!CheckIfPlotOk(plot, aplot.get())) return GetPyNone();
-
-		mvPlot* graph = static_cast<mvPlot*>(aplot.get());
-
 		auto xs = ToFloatVect(x);
 		auto ys = ToFloatVect(y);
 
@@ -1383,16 +1410,31 @@ namespace Marvel {
 		auto mcolor = ToColor(color);
 		auto mfill = ToColor(fill);
 
-		mvApp::GetApp()->getCallbackRegistry().submit([=]()
-			{
-				graph->deleteSeries(name);
-				auto aseries = CreateRef<mvAreaSeries>(name, &xs, &ys, mcolor, mfill, (ImPlotYAxis_)axis);
-				auto lseries = CreateRef<mvLineSeries>(name, &xs, &ys, mcolor, (ImPlotYAxis_)axis);
-				aseries->setWeight(weight);
-				lseries->setWeight(weight);
-				graph->addSeries(aseries, update_bounds);
-				graph->addSeries(lseries, update_bounds); // this allows our custom render to work
-			});
+		std::lock_guard<std::mutex> lk(mvApp::GetApp()->GetApp()->getMutex());
+		auto aplot = mvApp::GetApp()->getItemRegistry().getItem(plot);
+		if (aplot == nullptr)
+		{
+			std::string message = plot;
+			ThrowPythonException(message + " plot does not exist.");
+			return GetPyNone();
+		}
+
+		if (aplot->getType() != mvAppItemType::Plot)
+		{
+			std::string message = plot;
+			ThrowPythonException(message + " is not a plot.");
+			return GetPyNone();
+		}
+
+		mvPlot* graph = static_cast<mvPlot*>(aplot.get());
+
+		graph->deleteSeries(name);
+		auto aseries = CreateRef<mvAreaSeries>(name, &xs, &ys, mcolor, mfill, (ImPlotYAxis_)axis);
+		auto lseries = CreateRef<mvLineSeries>(name, &xs, &ys, mcolor, (ImPlotYAxis_)axis);
+		aseries->setWeight(weight);
+		lseries->setWeight(weight);
+		graph->addSeries(aseries, update_bounds);
+		graph->addSeries(lseries, update_bounds); // this allows our custom render to work
 
 		return GetPyNone();
 	}
@@ -1423,12 +1465,6 @@ namespace Marvel {
 		if (!CheckList(plot, negative)) return GetPyNone();
 		if (!CheckList(plot, positive)) return GetPyNone();
 
-		auto aplot = mvApp::GetApp()->getItemRegistry().getItem(plot);
-
-		if (!CheckIfPlotOk(plot, aplot.get())) return GetPyNone();
-
-		mvPlot* graph = static_cast<mvPlot*>(aplot.get());
-
 		auto xs = ToFloatVect(x);
 		auto ys = ToFloatVect(y);
 		auto negatives = ToFloatVect(negative);
@@ -1442,10 +1478,25 @@ namespace Marvel {
 		auto mcolor = ToColor(color);
 		auto series = CreateRef<mvErrorSeries>(name, &xs, &ys, &negatives, &positives, horizontal, mcolor, (ImPlotYAxis_)axis);
 		
-		mvApp::GetApp()->getCallbackRegistry().submit([=]()
-			{
-				graph->updateSeries(series, update_bounds);
-			});
+		std::lock_guard<std::mutex> lk(mvApp::GetApp()->GetApp()->getMutex());
+		auto aplot = mvApp::GetApp()->getItemRegistry().getItem(plot);
+		if (aplot == nullptr)
+		{
+			std::string message = plot;
+			ThrowPythonException(message + " plot does not exist.");
+			return GetPyNone();
+		}
+
+		if (aplot->getType() != mvAppItemType::Plot)
+		{
+			std::string message = plot;
+			ThrowPythonException(message + " is not a plot.");
+			return GetPyNone();
+		}
+
+		mvPlot* graph = static_cast<mvPlot*>(aplot.get());
+
+		graph->updateSeries(series, update_bounds);
 
 		return GetPyNone();
 	}
@@ -1476,12 +1527,6 @@ namespace Marvel {
 
 		if (!CheckList(plot, values)) return GetPyNone();
 
-		auto aplot = mvApp::GetApp()->getItemRegistry().getItem(plot);
-
-		if (!CheckIfPlotOk(plot, aplot.get())) return GetPyNone();
-
-		mvPlot* graph = static_cast<mvPlot*>(aplot.get());
-
 		auto mvalues = ToFloatVect(values);
 		auto mbounds_min = ToVec2(bounds_min);
 		auto mbounds_max = ToVec2(bounds_max);
@@ -1492,10 +1537,25 @@ namespace Marvel {
 		auto series = CreateRef<mvHeatSeries>(name, &mvalues, rows, columns, scale_min,
 			scale_max, format, mbounds_min, mbounds_max, (ImPlotYAxis_)axis);
 
-		mvApp::GetApp()->getCallbackRegistry().submit([=]()
-			{
-				graph->updateSeries(series, update_bounds);
-			});
+		std::lock_guard<std::mutex> lk(mvApp::GetApp()->GetApp()->getMutex());
+		auto aplot = mvApp::GetApp()->getItemRegistry().getItem(plot);
+		if (aplot == nullptr)
+		{
+			std::string message = plot;
+			ThrowPythonException(message + " plot does not exist.");
+			return GetPyNone();
+		}
+
+		if (aplot->getType() != mvAppItemType::Plot)
+		{
+			std::string message = plot;
+			ThrowPythonException(message + " is not a plot.");
+			return GetPyNone();
+		}
+
+		mvPlot* graph = static_cast<mvPlot*>(aplot.get());
+
+		graph->updateSeries(series, update_bounds);
 
 		return GetPyNone();
 	}

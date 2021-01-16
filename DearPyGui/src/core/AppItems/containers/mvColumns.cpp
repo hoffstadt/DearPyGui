@@ -223,13 +223,16 @@ namespace Marvel {
 		item->checkConfigDict(kwargs);
 		item->setConfigDict(kwargs);
 		item->setExtraConfigDict(kwargs);
+
 		if (mvApp::GetApp()->getItemRegistry().addItemWithRuntimeChecks(item, parent, before))
 		{
 			mvApp::GetApp()->getItemRegistry().pushParent(item);
-			return ToPyBool(true);
+			if (!show)
+				item->hide();
+
 		}
 
-		return ToPyBool(false);
+		return GetPyNone();
 	}
 
 	PyObject* add_next_column(PyObject* self, PyObject* args, PyObject* kwargs)
@@ -249,10 +252,10 @@ namespace Marvel {
 		item->checkConfigDict(kwargs);
 		item->setConfigDict(kwargs);
 		item->setExtraConfigDict(kwargs);
-		if (mvApp::GetApp()->getItemRegistry().addItemWithRuntimeChecks(item, parent, before))
-			return ToPyBool(true);
 
-		return ToPyBool(false);
+		mvApp::GetApp()->getItemRegistry().addItemWithRuntimeChecks(item, parent, before);
+
+		return GetPyNone();
 	}
 
 	PyObject* add_columns(PyObject* self, PyObject* args, PyObject* kwargs)
@@ -273,9 +276,9 @@ namespace Marvel {
 		item->checkConfigDict(kwargs);
 		item->setConfigDict(kwargs);
 		item->setExtraConfigDict(kwargs);
-		if (mvApp::GetApp()->getItemRegistry().addItemWithRuntimeChecks(item, parent, before))
-			return ToPyBool(true);
 
-		return ToPyBool(false);
+		mvApp::GetApp()->getItemRegistry().addItemWithRuntimeChecks(item, parent, before);
+
+		return GetPyNone();
 	}
 }

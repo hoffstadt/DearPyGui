@@ -71,6 +71,8 @@ namespace Marvel {
 		if (!item)
 			return ToPyBool(false);
 
-		return ToPyBool(mvApp::GetApp()->getItemRegistry().addItemWithRuntimeChecks(item, parent, before));
+		mvApp::GetApp()->getItemRegistry().addItemWithRuntimeChecks(item, parent, before);
+
+		return GetPyNone();
 	}
 }
