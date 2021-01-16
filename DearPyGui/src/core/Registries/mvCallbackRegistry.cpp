@@ -16,7 +16,6 @@ namespace Marvel {
 		mvEventBus::Subscribe(this, mvEVT_PRE_RENDER);
 		mvEventBus::Subscribe(this, mvEVT_END_FRAME);
 		mvEventBus::Subscribe(this, 0, mvEVT_CATEGORY_INPUT);
-		m_startTime = clock_::now();
 	}
 
 	void mvCallbackRegistry::runTasks()
