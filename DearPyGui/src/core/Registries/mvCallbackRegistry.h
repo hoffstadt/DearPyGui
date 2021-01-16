@@ -7,6 +7,21 @@
 #include "mvApp.h"
 #define PY_SSIZE_T_CLEAN
 #include <Python.h>
+#include <chrono>
+
+//-----------------------------------------------------------------------------
+// Typedefs for chrono's ridiculously long names
+//-----------------------------------------------------------------------------
+typedef std::chrono::high_resolution_clock clock_;
+typedef std::chrono::duration<double, std::ratio<1> > second_;
+typedef std::chrono::duration<double, std::milli > millisecond_;
+#if defined (_WIN32)
+typedef std::chrono::steady_clock::time_point time_point_;
+#elif defined(__APPLE__)
+typedef std::chrono::steady_clock::time_point time_point_;
+#else
+typedef std::chrono::system_clock::time_point time_point_;
+#endif
 
 namespace Marvel {
 
@@ -80,19 +95,6 @@ namespace Marvel {
 		}
 
 
-		template<typename F, typename ...Args>
-		std::future<typename std::invoke_result<F, Args...>::type> submitPriorityCallback(F f)
-		{
-
-			typedef typename std::invoke_result<F, Args...>::type result_type;
-			std::packaged_task<result_type()> task(std::move(f));
-			std::future<result_type> res(task.get_future());
-
-			m_priorityCalls.push(std::move(task));
-
-			return res;
-		}
-
 		mvQueue<task_type>& getTaskQueue() { return m_tasks; }
 
 		//-----------------------------------------------------------------------------
@@ -139,8 +141,8 @@ namespace Marvel {
 		// new callback system
 		mvQueue<task_type> m_tasks;
 		mvQueue<task_type> m_calls;
-		mvQueue<task_type> m_priorityCalls;
 		std::atomic<bool> m_running;
+		time_point_                      m_startTime;                         // threadpool start time
 
 		// input callbacks
 		PyObject* m_renderCallback = nullptr;

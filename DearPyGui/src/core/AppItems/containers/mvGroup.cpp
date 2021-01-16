@@ -112,21 +112,13 @@ namespace Marvel {
 		item->setConfigDict(kwargs);
 		item->setExtraConfigDict(kwargs);
 
-		auto fut = mvApp::GetApp()->getCallbackRegistry().submit([=]()
-			{
-				std::string returnMessage = mvApp::GetApp()->getItemRegistry().addItemWithRuntimeChecks(item, parent, before);
-				if (returnMessage.empty())
-				{
-					mvApp::GetApp()->getItemRegistry().pushParent(item);
-					if (!show)
-						item->hide();
-				}
-				return returnMessage;
-			});
+		if (mvApp::GetApp()->getItemRegistry().addItemWithRuntimeChecks(item, parent, before))
+		{
+			mvApp::GetApp()->getItemRegistry().pushParent(item);
+			if (!show)
+				item->hide();
 
-		std::string returnMessage = fut.get();
-		if (!returnMessage.empty())
-			ThrowPythonException(returnMessage);
+		}
 
 		return GetPyNone();
 	}

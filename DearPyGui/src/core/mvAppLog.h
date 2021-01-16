@@ -2,6 +2,7 @@
 
 #include <imgui.h>
 #include <string>
+#include <atomic>
 #include <chrono>
 #include "mvCore.h"
 #include "mvPythonTranslator.h"

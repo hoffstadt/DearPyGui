@@ -71,14 +71,7 @@ namespace Marvel {
 		if (!item)
 			return ToPyBool(false);
 
-		auto fut = mvApp::GetApp()->getCallbackRegistry().submit([=]()
-			{
-				return mvApp::GetApp()->getItemRegistry().addItemWithRuntimeChecks(item, parent, before);
-			});
-
-		std::string returnMessage = fut.get();
-		if (!returnMessage.empty())
-			ThrowPythonException(returnMessage);
+		mvApp::GetApp()->getItemRegistry().addItemWithRuntimeChecks(item, parent, before);
 
 		return GetPyNone();
 	}

@@ -414,24 +414,26 @@ namespace Marvel {
 		m_backWindows.clear();
 	}
 
-	std::string mvItemRegistry::addItemWithRuntimeChecks(mvRef<mvAppItem> item, const char* parent, const char* before)
+	bool mvItemRegistry::addItemWithRuntimeChecks(mvRef<mvAppItem> item, const char* parent, const char* before)
 	{
 
 		if (item == nullptr)
-			return "";
+			return false;
+
+		std::lock_guard<std::mutex> lk(mvApp::GetApp()->GetApp()->getMutex());
 
 		// remove bad parent stack item
 		if (item->getDescription().root && topParent() != nullptr)
 		{
 			emptyParents();
 
-			return "Parent stack not empty. Adding window will empty the parent stack. Don't forget to end container types.";
+			ThrowPythonException("Parent stack not empty. Adding window will empty the parent stack. Don't forget to end container types.");
 		}
 
 		if (item->getType() == mvAppItemType::Popup || item->getType() == mvAppItemType::Tooltip)
 		{
 			addItemAfter(parent, item);
-			return "";
+			return true;
 		}
 
 		// window runtime adding
@@ -453,7 +455,8 @@ namespace Marvel {
 		// adding without specifying before or parent, but with empty stack (add to main window)
 		else if (std::string(parent).empty() && std::string(before).empty() && mvApp::IsAppStarted())
 		{
-			return "Parent stack is empty. You must specify 'before' or 'parent' widget.";
+			ThrowPythonException("Parent stack is empty. You must specify 'before' or 'parent' widget.");
+			return false;
 		}
 
 		// adding normally but using the runtime style of adding
@@ -465,7 +468,7 @@ namespace Marvel {
 			addItem(item);
 
 
-		return "";
+		return true;
 	}
 
 	std::string mvItemRegistry::getItemParentName(const std::string& name)

@@ -49,7 +49,7 @@ namespace Marvel {
         std::vector<mvRef<mvAppItem>>& getFrontWindows   () { return m_frontWindows; }
         std::vector<mvRef<mvAppItem>>& getBackWindows    () { return m_backWindows; }
         const std::string&             getActiveWindow() const { return m_activeWindow; }
-        std::string                    addItemWithRuntimeChecks(mvRef<mvAppItem> item, const char* parent, const char* before);
+        bool                           addItemWithRuntimeChecks(mvRef<mvAppItem> item, const char* parent, const char* before);
         
         // called by python interface
         std::vector<std::string> getAllItems       ();

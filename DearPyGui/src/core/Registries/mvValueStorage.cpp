@@ -747,7 +747,6 @@ namespace Marvel {
 
 	int* mvValueStorage::GetIntValue(const std::string& name)
 	{
-		std::lock_guard<std::mutex> lock(s_mutex);
 
 		if (HasValue(name))
 		{
@@ -765,7 +764,6 @@ namespace Marvel {
 
 	int* mvValueStorage::GetInt2Value(const std::string& name)
 	{
-		std::lock_guard<std::mutex> lock(s_mutex);
 
 		if (HasValue(name))
 		{
@@ -782,7 +780,6 @@ namespace Marvel {
 
 	int* mvValueStorage::GetInt3Value(const std::string& name)
 	{
-		std::lock_guard<std::mutex> lock(s_mutex);
 
 		if (HasValue(name))
 		{
@@ -798,7 +795,6 @@ namespace Marvel {
 
 	int* mvValueStorage::GetInt4Value(const std::string& name)
 	{
-		std::lock_guard<std::mutex> lock(s_mutex);
 
 		if (HasValue(name) && GetType(name) == ValueTypes::Int4)
 			return s_int4s[name].data();
@@ -807,7 +803,6 @@ namespace Marvel {
 
 	float* mvValueStorage::GetFloatValue(const std::string& name)
 	{
-		std::lock_guard<std::mutex> lock(s_mutex);
 
 		if (HasValue(name))
 		{
@@ -826,7 +821,6 @@ namespace Marvel {
 
 	float* mvValueStorage::GetFloat2Value(const std::string& name)
 	{
-		std::lock_guard<std::mutex> lock(s_mutex);
 
 		if (HasValue(name))
 		{
@@ -844,7 +838,6 @@ namespace Marvel {
 
 	float* mvValueStorage::GetFloat3Value(const std::string& name)
 	{
-		std::lock_guard<std::mutex> lock(s_mutex);
 
 		if (HasValue(name))
 		{
@@ -861,7 +854,6 @@ namespace Marvel {
 
 	float* mvValueStorage::GetFloat4Value(const std::string& name)
 	{
-		std::lock_guard<std::mutex> lock(s_mutex);
 
 		if (HasValue(name))
 		{
@@ -878,7 +870,6 @@ namespace Marvel {
 
 	std::vector<float>* mvValueStorage::GetFloatVectorValue(const std::string& name)
 	{
-		std::lock_guard<std::mutex> lock(s_mutex);
 
 		if (HasValue(name) && GetType(name) == ValueTypes::FloatVect)
 			return &s_floatvects[name];
@@ -887,7 +878,6 @@ namespace Marvel {
 
 	bool* mvValueStorage::GetBoolValue(const std::string& name)
 	{
-		std::lock_guard<std::mutex> lock(s_mutex);
 
 		if (HasValue(name) && GetType(name) == ValueTypes::Bool)
 			return &s_bools[name];
@@ -896,7 +886,6 @@ namespace Marvel {
 
 	std::string* mvValueStorage::GetStringValue(const std::string& name)
 	{
-		std::lock_guard<std::mutex> lock(s_mutex);
 
 		if (HasValue(name) && GetType(name) == ValueTypes::String)
 			return &s_strings[name];
@@ -905,7 +894,6 @@ namespace Marvel {
 
 	tm* mvValueStorage::GetTimeValue(const std::string& name)
 	{
-		std::lock_guard<std::mutex> lock(s_mutex);
 
 		if (HasValue(name) && GetType(name) == ValueTypes::Time)
 			return &s_times[name];
@@ -914,7 +902,6 @@ namespace Marvel {
 
 	ImPlotTime* mvValueStorage::GetImTimeValue(const std::string& name)
 	{
-		std::lock_guard<std::mutex> lock(s_mutex);
 
 		if (HasValue(name) && GetType(name) == ValueTypes::Time)
 			return &s_imtimes[name];
@@ -951,7 +938,6 @@ namespace Marvel {
 
 	void mvValueStorage::DeleteValue(const std::string& name)
 	{
-		std::lock_guard<std::mutex> lock(s_mutex);
 
 		if (HasValue(name))
 		{

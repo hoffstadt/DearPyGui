@@ -300,7 +300,7 @@ namespace Marvel {
 		if (!(*mvApp::GetApp()->getParsers())["set_individual_color"].parse(args, kwargs, __FUNCTION__, &item, &id, &color))
 			return GetPyNone();
 
-
+		std::lock_guard<std::mutex> lk(mvApp::GetApp()->GetApp()->getMutex());
 		mvEventBus::Publish
 		(
 			mvEVT_CATEGORY_THEMES,
@@ -323,7 +323,7 @@ namespace Marvel {
 		if (!(*mvApp::GetApp()->getParsers())["set_global_color"].parse(args, kwargs, __FUNCTION__, &id, &color))
 			return GetPyNone();
 
-
+		std::lock_guard<std::mutex> lk(mvApp::GetApp()->GetApp()->getMutex());
 		mvEventBus::Publish
 		(
 			mvEVT_CATEGORY_THEMES,
@@ -345,6 +345,7 @@ namespace Marvel {
 		if (!(*mvApp::GetApp()->getParsers())["set_global_font_scale"].parse(args, kwargs, __FUNCTION__, &scale))
 			return GetPyNone();
 
+		std::lock_guard<std::mutex> lk(mvApp::GetApp()->GetApp()->getMutex());
 		mvApp::GetApp()->setGlobalFontScale(scale);
 
 		return GetPyNone();
@@ -393,6 +394,7 @@ namespace Marvel {
 		if (!(*mvApp::GetApp()->getParsers())["get_theme_item"].parse(args, kwargs, __FUNCTION__, &item))
 			return GetPyNone();
 
+		std::lock_guard<std::mutex> lk(mvApp::GetApp()->GetApp()->getMutex());
 		auto color = mvApp::GetApp()->getThemeItem(item);
 
 		return ToPyList(std::vector<int>{ color.r, color.g, color.b, color.a });
@@ -400,6 +402,7 @@ namespace Marvel {
 
 	PyObject* get_theme(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
+		std::lock_guard<std::mutex> lk(mvApp::GetApp()->GetApp()->getMutex());
 		return ToPyString(mvApp::GetApp()->getAppTheme());
 	}
 
@@ -412,6 +415,7 @@ namespace Marvel {
 			return GetPyNone();
 
 		mvColor color = { r, g, b, a };
+		std::lock_guard<std::mutex> lk(mvApp::GetApp()->GetApp()->getMutex());
 		mvApp::GetApp()->setThemeItem(item, color);
 
 		return GetPyNone();
@@ -428,6 +432,7 @@ namespace Marvel {
 
 		auto mcolor = ToColor(color);
 
+		std::lock_guard<std::mutex> lk(mvApp::GetApp()->GetApp()->getMutex());
 		auto appitem = mvApp::GetApp()->getItemRegistry().getItem(item);
 
 		if (appitem)
@@ -443,6 +448,7 @@ namespace Marvel {
 		if (!(*mvApp::GetApp()->getParsers())["clear_item_color"].parse(args, kwargs, __FUNCTION__, &item))
 			return GetPyNone();
 
+		std::lock_guard<std::mutex> lk(mvApp::GetApp()->GetApp()->getMutex());
 		auto appitem = mvApp::GetApp()->getItemRegistry().getItem(item);
 
 		if (appitem)
@@ -460,6 +466,7 @@ namespace Marvel {
 		if (!(*mvApp::GetApp()->getParsers())["set_item_style_var"].parse(args, kwargs, __FUNCTION__, &item, &style, &value))
 			return GetPyNone();
 
+		std::lock_guard<std::mutex> lk(mvApp::GetApp()->GetApp()->getMutex());
 		auto appitem = mvApp::GetApp()->getItemRegistry().getItem(item);
 
 		if (appitem)
@@ -475,6 +482,7 @@ namespace Marvel {
 		if (!(*mvApp::GetApp()->getParsers())["clear_item_style_vars"].parse(args, kwargs, __FUNCTION__, &item))
 			return GetPyNone();
 
+		std::lock_guard<std::mutex> lk(mvApp::GetApp()->GetApp()->getMutex());
 		auto appitem = mvApp::GetApp()->getItemRegistry().getItem(item);
 
 		if (appitem)
@@ -490,6 +498,7 @@ namespace Marvel {
 		if (!(*mvApp::GetApp()->getParsers())["set_theme"].parse(args, kwargs, __FUNCTION__, &theme))
 			return GetPyNone();
 
+		std::lock_guard<std::mutex> lk(mvApp::GetApp()->GetApp()->getMutex());
 		mvApp::GetApp()->setAppTheme(std::string(theme));
 
 		return GetPyNone();
@@ -497,186 +506,217 @@ namespace Marvel {
 
 	PyObject* get_style_window_padding(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
+		std::lock_guard<std::mutex> lk(mvApp::GetApp()->GetApp()->getMutex());
 		ImGuiStyle& style = mvApp::GetApp()->getStyle();
 		return ToPyPair(style.WindowPadding.x, style.WindowPadding.y);
 	}
 
 	PyObject* get_style_frame_padding(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
+		std::lock_guard<std::mutex> lk(mvApp::GetApp()->GetApp()->getMutex());
 		ImGuiStyle& style = mvApp::GetApp()->getStyle();
 		return ToPyPair(style.FramePadding.x, style.FramePadding.y);
 	}
 
 	PyObject* get_style_item_spacing(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
+		std::lock_guard<std::mutex> lk(mvApp::GetApp()->GetApp()->getMutex());
 		ImGuiStyle& style = mvApp::GetApp()->getStyle();
 		return ToPyPair(style.ItemSpacing.x, style.ItemSpacing.y);
 	}
 
 	PyObject* get_style_item_inner_spacing(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
+		std::lock_guard<std::mutex> lk(mvApp::GetApp()->GetApp()->getMutex());
 		ImGuiStyle& style = mvApp::GetApp()->getStyle();
 		return ToPyPair(style.ItemInnerSpacing.x, style.ItemInnerSpacing.y);
 	}
 
 	PyObject* get_style_touch_extra_padding(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
+		std::lock_guard<std::mutex> lk(mvApp::GetApp()->GetApp()->getMutex());
 		ImGuiStyle& style = mvApp::GetApp()->getStyle();
 		return ToPyPair(style.TouchExtraPadding.x, style.TouchExtraPadding.y);
 	}
 
 	PyObject* get_style_indent_spacing(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
+		std::lock_guard<std::mutex> lk(mvApp::GetApp()->GetApp()->getMutex());
 		ImGuiStyle& style = mvApp::GetApp()->getStyle();
 		return ToPyFloat(style.IndentSpacing);
 	}
 
 	PyObject* get_style_scrollbar_size(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
+		std::lock_guard<std::mutex> lk(mvApp::GetApp()->GetApp()->getMutex());
 		ImGuiStyle& style = mvApp::GetApp()->getStyle();
 		return ToPyFloat(style.ScrollbarSize);
 	}
 
 	PyObject* get_style_grab_min_size(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
+		std::lock_guard<std::mutex> lk(mvApp::GetApp()->GetApp()->getMutex());
 		ImGuiStyle& style = mvApp::GetApp()->getStyle();
 		return ToPyFloat(style.GrabMinSize);
 	}
 
 	PyObject* get_style_window_border_size(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
+		std::lock_guard<std::mutex> lk(mvApp::GetApp()->GetApp()->getMutex());
 		ImGuiStyle& style = mvApp::GetApp()->getStyle();
 		return ToPyFloat(style.WindowBorderSize);
 	}
 
 	PyObject* get_style_child_border_size(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
+		std::lock_guard<std::mutex> lk(mvApp::GetApp()->GetApp()->getMutex());
 		ImGuiStyle& style = mvApp::GetApp()->getStyle();
 		return ToPyFloat(style.ChildBorderSize);
 	}
 
 	PyObject* get_style_popup_border_size(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
+		std::lock_guard<std::mutex> lk(mvApp::GetApp()->GetApp()->getMutex());
 		ImGuiStyle& style = mvApp::GetApp()->getStyle();
 		return ToPyFloat(style.PopupBorderSize);
 	}
 
 	PyObject* get_style_frame_border_size(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
+		std::lock_guard<std::mutex> lk(mvApp::GetApp()->GetApp()->getMutex());
 		ImGuiStyle& style = mvApp::GetApp()->getStyle();
 		return ToPyFloat(style.FrameBorderSize);
 	}
 
 	PyObject* get_style_tab_border_size(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
+		std::lock_guard<std::mutex> lk(mvApp::GetApp()->GetApp()->getMutex());
 		ImGuiStyle& style = mvApp::GetApp()->getStyle();
 		return ToPyFloat(style.TabBorderSize);
 	}
 
 	PyObject* get_style_window_rounding(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
+		std::lock_guard<std::mutex> lk(mvApp::GetApp()->GetApp()->getMutex());
 		ImGuiStyle& style = mvApp::GetApp()->getStyle();
 		return ToPyFloat(style.WindowRounding);
 	}
 
 	PyObject* get_style_child_rounding(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
+		std::lock_guard<std::mutex> lk(mvApp::GetApp()->GetApp()->getMutex());
 		ImGuiStyle& style = mvApp::GetApp()->getStyle();
 		return ToPyFloat(style.ChildRounding);
 	}
 
 	PyObject* get_style_frame_rounding(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
+		std::lock_guard<std::mutex> lk(mvApp::GetApp()->GetApp()->getMutex());
 		ImGuiStyle& style = mvApp::GetApp()->getStyle();
 		return ToPyFloat(style.FrameRounding);
 	}
 
 	PyObject* get_style_popup_rounding(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
+		std::lock_guard<std::mutex> lk(mvApp::GetApp()->GetApp()->getMutex());
 		ImGuiStyle& style = mvApp::GetApp()->getStyle();
 		return ToPyFloat(style.PopupRounding);
 	}
 
 	PyObject* get_style_scrollbar_rounding(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
+		std::lock_guard<std::mutex> lk(mvApp::GetApp()->GetApp()->getMutex());
 		ImGuiStyle& style = mvApp::GetApp()->getStyle();
 		return ToPyFloat(style.ScrollbarRounding);
 	}
 
 	PyObject* get_style_grab_rounding(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
+		std::lock_guard<std::mutex> lk(mvApp::GetApp()->GetApp()->getMutex());
 		ImGuiStyle& style = mvApp::GetApp()->getStyle();
 		return ToPyFloat(style.GrabRounding);
 	}
 
 	PyObject* get_style_tab_rounding(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
+		std::lock_guard<std::mutex> lk(mvApp::GetApp()->GetApp()->getMutex());
 		ImGuiStyle& style = mvApp::GetApp()->getStyle();
 		return ToPyFloat(style.TabRounding);
 	}
 
 	PyObject* get_style_window_title_align(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
+		std::lock_guard<std::mutex> lk(mvApp::GetApp()->GetApp()->getMutex());
 		ImGuiStyle& style = mvApp::GetApp()->getStyle();
 		return ToPyPair(style.WindowTitleAlign.x, style.WindowTitleAlign.y);
 	}
 
 	PyObject* get_style_window_menu_button_position(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
+		std::lock_guard<std::mutex> lk(mvApp::GetApp()->GetApp()->getMutex());
 		ImGuiStyle& style = mvApp::GetApp()->getStyle();
 		return ToPyInt(style.WindowMenuButtonPosition);
 	}
 
 	PyObject* get_style_color_button_position(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
+		std::lock_guard<std::mutex> lk(mvApp::GetApp()->GetApp()->getMutex());
 		ImGuiStyle& style = mvApp::GetApp()->getStyle();
 		return ToPyInt(style.ColorButtonPosition);
 	}
 
 	PyObject* get_style_button_text_align(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
+		std::lock_guard<std::mutex> lk(mvApp::GetApp()->GetApp()->getMutex());
 		ImGuiStyle& style = mvApp::GetApp()->getStyle();
 		return ToPyPair(style.ButtonTextAlign.x, style.ButtonTextAlign.y);
 	}
 
 	PyObject* get_style_selectable_text_align(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
+		std::lock_guard<std::mutex> lk(mvApp::GetApp()->GetApp()->getMutex());
 		ImGuiStyle& style = mvApp::GetApp()->getStyle();
 		return ToPyPair(style.SelectableTextAlign.x, style.SelectableTextAlign.y);
 	}
 
 	PyObject* get_style_display_safe_area_padding(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
+		std::lock_guard<std::mutex> lk(mvApp::GetApp()->GetApp()->getMutex());
 		ImGuiStyle& style = mvApp::GetApp()->getStyle();
 		return ToPyPair(style.DisplaySafeAreaPadding.x, style.DisplaySafeAreaPadding.y);
 	}
 
 	PyObject* get_style_global_alpha(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
+		std::lock_guard<std::mutex> lk(mvApp::GetApp()->GetApp()->getMutex());
 		ImGuiStyle& style = mvApp::GetApp()->getStyle();
 		return ToPyFloat(style.Alpha);
 	}
 
 	PyObject* get_style_antialiased_lines(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
+		std::lock_guard<std::mutex> lk(mvApp::GetApp()->GetApp()->getMutex());
 		ImGuiStyle& style = mvApp::GetApp()->getStyle();
 		return ToPyBool(style.AntiAliasedLines);
 	}
 
 	PyObject* get_style_antialiased_fill(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
+		std::lock_guard<std::mutex> lk(mvApp::GetApp()->GetApp()->getMutex());
 		ImGuiStyle& style = mvApp::GetApp()->getStyle();
 		return ToPyBool(style.AntiAliasedFill);
 	}
 
 	PyObject* get_style_curve_tessellation_tolerance(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
+		std::lock_guard<std::mutex> lk(mvApp::GetApp()->GetApp()->getMutex());
 		ImGuiStyle& style = mvApp::GetApp()->getStyle();
 		return ToPyFloat(style.CurveTessellationTol);
 	}
 
 	PyObject* get_style_circle_segment_max_error(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
+		std::lock_guard<std::mutex> lk(mvApp::GetApp()->GetApp()->getMutex());
 		ImGuiStyle& style = mvApp::GetApp()->getStyle();
 		return ToPyFloat(style.CircleSegmentMaxError);
 	}
@@ -690,6 +730,7 @@ namespace Marvel {
 			&x, &y))
 			return GetPyNone();
 
+		std::lock_guard<std::mutex> lk(mvApp::GetApp()->GetApp()->getMutex());
 		ImGuiStyle& style = mvApp::GetApp()->getStyle();
 		mvApp::GetApp()->setStyleChanged();
 		style.WindowPadding = { x, y };
@@ -706,6 +747,7 @@ namespace Marvel {
 			&x, &y))
 			return GetPyNone();
 
+		std::lock_guard<std::mutex> lk(mvApp::GetApp()->GetApp()->getMutex());
 		ImGuiStyle& style = mvApp::GetApp()->getStyle();
 		mvApp::GetApp()->setStyleChanged();
 		style.FramePadding = { x, y };
@@ -722,6 +764,7 @@ namespace Marvel {
 			&x, &y))
 			return GetPyNone();
 
+		std::lock_guard<std::mutex> lk(mvApp::GetApp()->GetApp()->getMutex());
 		ImGuiStyle& style = mvApp::GetApp()->getStyle();
 		mvApp::GetApp()->setStyleChanged();
 		style.ItemSpacing = { x, y };
@@ -738,6 +781,7 @@ namespace Marvel {
 			&x, &y))
 			return GetPyNone();
 
+		std::lock_guard<std::mutex> lk(mvApp::GetApp()->GetApp()->getMutex());
 		ImGuiStyle& style = mvApp::GetApp()->getStyle();
 		mvApp::GetApp()->setStyleChanged();
 		style.ItemInnerSpacing = { x, y };
@@ -754,6 +798,7 @@ namespace Marvel {
 			&x, &y))
 			return GetPyNone();
 
+		std::lock_guard<std::mutex> lk(mvApp::GetApp()->GetApp()->getMutex());
 		ImGuiStyle& style = mvApp::GetApp()->getStyle();
 		mvApp::GetApp()->setStyleChanged();
 		style.TouchExtraPadding = { x, y };
@@ -769,6 +814,7 @@ namespace Marvel {
 			&value))
 			return GetPyNone();
 
+		std::lock_guard<std::mutex> lk(mvApp::GetApp()->GetApp()->getMutex());
 		ImGuiStyle& style = mvApp::GetApp()->getStyle();
 		mvApp::GetApp()->setStyleChanged();
 		style.IndentSpacing = value;
@@ -784,6 +830,7 @@ namespace Marvel {
 			&value))
 			return GetPyNone();
 
+		std::lock_guard<std::mutex> lk(mvApp::GetApp()->GetApp()->getMutex());
 		ImGuiStyle& style = mvApp::GetApp()->getStyle();
 		mvApp::GetApp()->setStyleChanged();
 		style.ScrollbarSize = value;
@@ -799,6 +846,7 @@ namespace Marvel {
 			&value))
 			return GetPyNone();
 
+		std::lock_guard<std::mutex> lk(mvApp::GetApp()->GetApp()->getMutex());
 		ImGuiStyle& style = mvApp::GetApp()->getStyle();
 		mvApp::GetApp()->setStyleChanged();
 		style.GrabMinSize = value;
@@ -814,6 +862,7 @@ namespace Marvel {
 			&value))
 			return GetPyNone();
 
+		std::lock_guard<std::mutex> lk(mvApp::GetApp()->GetApp()->getMutex());
 		ImGuiStyle& style = mvApp::GetApp()->getStyle();
 		mvApp::GetApp()->setStyleChanged();
 		style.WindowBorderSize = value;
@@ -829,6 +878,7 @@ namespace Marvel {
 			&value))
 			return GetPyNone();
 
+		std::lock_guard<std::mutex> lk(mvApp::GetApp()->GetApp()->getMutex());
 		ImGuiStyle& style = mvApp::GetApp()->getStyle();
 		mvApp::GetApp()->setStyleChanged();
 		style.ChildBorderSize = value;
@@ -844,6 +894,7 @@ namespace Marvel {
 			&value))
 			return GetPyNone();
 
+		std::lock_guard<std::mutex> lk(mvApp::GetApp()->GetApp()->getMutex());
 		ImGuiStyle& style = mvApp::GetApp()->getStyle();
 		mvApp::GetApp()->setStyleChanged();
 		style.PopupBorderSize = value;
@@ -859,6 +910,7 @@ namespace Marvel {
 			&value))
 			return GetPyNone();
 
+		std::lock_guard<std::mutex> lk(mvApp::GetApp()->GetApp()->getMutex());
 		ImGuiStyle& style = mvApp::GetApp()->getStyle();
 		mvApp::GetApp()->setStyleChanged();
 		style.FrameBorderSize = value;
@@ -874,6 +926,7 @@ namespace Marvel {
 			&value))
 			return GetPyNone();
 
+		std::lock_guard<std::mutex> lk(mvApp::GetApp()->GetApp()->getMutex());
 		ImGuiStyle& style = mvApp::GetApp()->getStyle();
 		mvApp::GetApp()->setStyleChanged();
 		style.TabBorderSize = value;
@@ -889,6 +942,7 @@ namespace Marvel {
 			&value))
 			return GetPyNone();
 
+		std::lock_guard<std::mutex> lk(mvApp::GetApp()->GetApp()->getMutex());
 		ImGuiStyle& style = mvApp::GetApp()->getStyle();
 		mvApp::GetApp()->setStyleChanged();
 		style.WindowRounding = value;
@@ -904,6 +958,7 @@ namespace Marvel {
 			&value))
 			return GetPyNone();
 
+		std::lock_guard<std::mutex> lk(mvApp::GetApp()->GetApp()->getMutex());
 		ImGuiStyle& style = mvApp::GetApp()->getStyle();
 		mvApp::GetApp()->setStyleChanged();
 		style.ChildRounding = value;
@@ -919,6 +974,7 @@ namespace Marvel {
 			&value))
 			return GetPyNone();
 
+		std::lock_guard<std::mutex> lk(mvApp::GetApp()->GetApp()->getMutex());
 		ImGuiStyle& style = mvApp::GetApp()->getStyle();
 		mvApp::GetApp()->setStyleChanged();
 		style.FrameRounding = value;
@@ -934,6 +990,7 @@ namespace Marvel {
 			&value))
 			return GetPyNone();
 
+		std::lock_guard<std::mutex> lk(mvApp::GetApp()->GetApp()->getMutex());
 		ImGuiStyle& style = mvApp::GetApp()->getStyle();
 		mvApp::GetApp()->setStyleChanged();
 		style.PopupRounding = value;
@@ -949,6 +1006,7 @@ namespace Marvel {
 			&value))
 			return GetPyNone();
 
+		std::lock_guard<std::mutex> lk(mvApp::GetApp()->GetApp()->getMutex());
 		ImGuiStyle& style = mvApp::GetApp()->getStyle();
 		mvApp::GetApp()->setStyleChanged();
 		style.ScrollbarRounding = value;
@@ -964,6 +1022,7 @@ namespace Marvel {
 			&value))
 			return GetPyNone();
 
+		std::lock_guard<std::mutex> lk(mvApp::GetApp()->GetApp()->getMutex());
 		ImGuiStyle& style = mvApp::GetApp()->getStyle();
 		mvApp::GetApp()->setStyleChanged();
 		style.GrabRounding = value;
@@ -979,6 +1038,7 @@ namespace Marvel {
 			&value))
 			return GetPyNone();
 
+		std::lock_guard<std::mutex> lk(mvApp::GetApp()->GetApp()->getMutex());
 		ImGuiStyle& style = mvApp::GetApp()->getStyle();
 		mvApp::GetApp()->setStyleChanged();
 		style.TabRounding = value;
@@ -995,6 +1055,7 @@ namespace Marvel {
 			&x, &y))
 			return GetPyNone();
 
+		std::lock_guard<std::mutex> lk(mvApp::GetApp()->GetApp()->getMutex());
 		ImGuiStyle& style = mvApp::GetApp()->getStyle();
 		mvApp::GetApp()->setStyleChanged();
 		style.WindowTitleAlign = { x, y };
@@ -1010,6 +1071,7 @@ namespace Marvel {
 			&value))
 			return GetPyNone();
 
+		std::lock_guard<std::mutex> lk(mvApp::GetApp()->GetApp()->getMutex());
 		ImGuiStyle& style = mvApp::GetApp()->getStyle();
 		mvApp::GetApp()->setStyleChanged();
 		style.WindowMenuButtonPosition = value;
@@ -1025,6 +1087,7 @@ namespace Marvel {
 			&value))
 			return GetPyNone();
 
+		std::lock_guard<std::mutex> lk(mvApp::GetApp()->GetApp()->getMutex());
 		ImGuiStyle& style = mvApp::GetApp()->getStyle();
 		mvApp::GetApp()->setStyleChanged();
 		style.ColorButtonPosition = value;
@@ -1041,6 +1104,7 @@ namespace Marvel {
 			&x, &y))
 			return GetPyNone();
 
+		std::lock_guard<std::mutex> lk(mvApp::GetApp()->GetApp()->getMutex());
 		ImGuiStyle& style = mvApp::GetApp()->getStyle();
 		mvApp::GetApp()->setStyleChanged();
 		style.ButtonTextAlign = { x, y };
@@ -1057,6 +1121,7 @@ namespace Marvel {
 			&x, &y))
 			return GetPyNone();
 
+		std::lock_guard<std::mutex> lk(mvApp::GetApp()->GetApp()->getMutex());
 		ImGuiStyle& style = mvApp::GetApp()->getStyle();
 		mvApp::GetApp()->setStyleChanged();
 		style.SelectableTextAlign = { x, y };
@@ -1073,6 +1138,7 @@ namespace Marvel {
 			&x, &y))
 			return GetPyNone();
 
+		std::lock_guard<std::mutex> lk(mvApp::GetApp()->GetApp()->getMutex());
 		ImGuiStyle& style = mvApp::GetApp()->getStyle();
 		mvApp::GetApp()->setStyleChanged();
 		style.DisplaySafeAreaPadding = { x, y };
@@ -1088,6 +1154,7 @@ namespace Marvel {
 			&value))
 			return GetPyNone();
 
+		std::lock_guard<std::mutex> lk(mvApp::GetApp()->GetApp()->getMutex());
 		ImGuiStyle& style = mvApp::GetApp()->getStyle();
 		mvApp::GetApp()->setStyleChanged();
 		style.Alpha = value;
@@ -1103,6 +1170,7 @@ namespace Marvel {
 			&value))
 			return GetPyNone();
 
+		std::lock_guard<std::mutex> lk(mvApp::GetApp()->GetApp()->getMutex());
 		ImGuiStyle& style = mvApp::GetApp()->getStyle();
 		mvApp::GetApp()->setStyleChanged();
 		style.CurveTessellationTol = value;
@@ -1118,6 +1186,7 @@ namespace Marvel {
 			&value))
 			return GetPyNone();
 
+		std::lock_guard<std::mutex> lk(mvApp::GetApp()->GetApp()->getMutex());
 		ImGuiStyle& style = mvApp::GetApp()->getStyle();
 		mvApp::GetApp()->setStyleChanged();
 		style.CircleSegmentMaxError = value;
@@ -1133,6 +1202,7 @@ namespace Marvel {
 			&value))
 			return GetPyNone();
 
+		std::lock_guard<std::mutex> lk(mvApp::GetApp()->GetApp()->getMutex());
 		ImGuiStyle& style = mvApp::GetApp()->getStyle();
 		mvApp::GetApp()->setStyleChanged();
 		style.AntiAliasedLines = value;
@@ -1148,6 +1218,7 @@ namespace Marvel {
 			&value))
 			return GetPyNone();
 
+		std::lock_guard<std::mutex> lk(mvApp::GetApp()->GetApp()->getMutex());
 		ImGuiStyle& style = mvApp::GetApp()->getStyle();
 		mvApp::GetApp()->setStyleChanged();
 		style.AntiAliasedFill = value;

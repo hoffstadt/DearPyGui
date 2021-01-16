@@ -110,19 +110,14 @@ namespace Marvel {
 		if (!(*mvApp::GetApp()->getParsers())["get_mouse_pos"].parse(args, kwargs, __FUNCTION__, &local))
 			return GetPyNone();
 
-		auto fut = mvApp::GetApp()->getCallbackRegistry().submit([=]()
-			{
+		mvVec2 pos;
 
-				mvVec2 pos = mvInput::getMousePosition();
-				if (!local)
-					pos = mvInput::getGlobalMousePosition();
+		if(local)
+			pos = mvInput::getMousePosition();
+		else
+			pos = mvInput::getGlobalMousePosition();
 
-				return std::make_pair<>(pos.x, pos.y);
-			});
-
-		auto [x, y] = fut.get();
-
-		return ToPyPair(x, y);
+		return ToPyPair(pos.x, pos.y);
 	}
 
 	PyObject* get_plot_mouse_pos(PyObject* self, PyObject* args, PyObject* kwargs)
@@ -131,27 +126,16 @@ namespace Marvel {
 		if (!(*mvApp::GetApp()->getParsers())["get_plot_mouse_pos"].parse(args, kwargs, __FUNCTION__))
 			return GetPyNone();
 
-		auto fut = mvApp::GetApp()->getCallbackRegistry().submit([=]()
-			{
-				mvVec2 pos = mvInput::getPlotMousePosition();
-				return std::make_pair<>(pos.x, pos.y);
-			});
+		mvVec2 pos = mvInput::getPlotMousePosition();
 
-		auto [x, y] = fut.get();
-		return ToPyPair(x, y);
+		return ToPyPair(pos.x, pos.y);
 	}
 
 	PyObject* get_mouse_drag_delta(PyObject* self, PyObject* args)
 	{
 
-		auto fut = mvApp::GetApp()->getCallbackRegistry().submit([=]()
-			{
-				mvVec2 pos = mvInput::getMouseDragDelta();
-				return std::make_pair<>(pos.x, pos.y);
-			});
-
-		auto [x, y] = fut.get();
-		return ToPyPair(x, y);
+		mvVec2 pos = mvInput::getMouseDragDelta();
+		return ToPyPair(pos.x, pos.y);
 	}
 
 	PyObject* is_key_pressed(PyObject* self, PyObject* args, PyObject* kwargs)
@@ -161,13 +145,7 @@ namespace Marvel {
 		if (!(*mvApp::GetApp()->getParsers())["is_key_pressed"].parse(args, kwargs, __FUNCTION__, &key))
 			return GetPyNone();
 
-		auto fut = mvApp::GetApp()->getCallbackRegistry().submit([=]()
-			{
-				return mvInput::isKeyPressed(key);
-			});
-
-		bool pressed = fut.get();
-		return ToPyBool(pressed);
+		return ToPyBool(mvInput::isKeyPressed(key));
 	}
 
 	PyObject* is_key_released(PyObject* self, PyObject* args, PyObject* kwargs)
@@ -177,13 +155,7 @@ namespace Marvel {
 		if (!(*mvApp::GetApp()->getParsers())["is_key_released"].parse(args, kwargs, __FUNCTION__, &key))
 			return GetPyNone();
 
-		auto fut = mvApp::GetApp()->getCallbackRegistry().submit([=]()
-			{
-				return mvInput::isKeyReleased(key);
-			});
-
-		bool pressed = fut.get();
-		return ToPyBool(pressed);
+		return ToPyBool(mvInput::isKeyReleased(key));
 	}
 
 	PyObject* is_key_down(PyObject* self, PyObject* args, PyObject* kwargs)
@@ -193,13 +165,7 @@ namespace Marvel {
 		if (!(*mvApp::GetApp()->getParsers())["is_key_down"].parse(args, kwargs, __FUNCTION__, &key))
 			return GetPyNone();
 
-		auto fut = mvApp::GetApp()->getCallbackRegistry().submit([=]()
-			{
-				return mvInput::isKeyDown(key);
-			});
-
-		bool result = fut.get();
-		return ToPyBool(result);
+		return ToPyBool(mvInput::isKeyDown(key));
 	}
 
 	PyObject* is_mouse_button_dragging(PyObject* self, PyObject* args, PyObject* kwargs)
@@ -210,13 +176,7 @@ namespace Marvel {
 		if (!(*mvApp::GetApp()->getParsers())["is_mouse_button_dragging"].parse(args, kwargs, __FUNCTION__, &button, &threshold))
 			return GetPyNone();
 
-		auto fut = mvApp::GetApp()->getCallbackRegistry().submit([=]()
-			{
-				return mvInput::isMouseDragging(button, threshold);
-			});
-
-		bool result = fut.get();
-		return ToPyBool(result);
+		return ToPyBool(mvInput::isMouseDragging(button, threshold));
 	}
 
 	PyObject* is_mouse_button_down(PyObject* self, PyObject* args, PyObject* kwargs)
@@ -226,13 +186,7 @@ namespace Marvel {
 		if (!(*mvApp::GetApp()->getParsers())["is_mouse_button_down"].parse(args, kwargs, __FUNCTION__, &button))
 			return GetPyNone();
 
-		auto fut = mvApp::GetApp()->getCallbackRegistry().submit([=]()
-			{
-				return mvInput::isMouseButtonDown(button);
-			});
-
-		bool result = fut.get();
-		return ToPyBool(result);
+		return ToPyBool(mvInput::isMouseButtonDown(button));
 	}
 
 	PyObject* is_mouse_button_clicked(PyObject* self, PyObject* args, PyObject* kwargs)
@@ -242,13 +196,7 @@ namespace Marvel {
 		if (!(*mvApp::GetApp()->getParsers())["is_mouse_button_clicked"].parse(args, kwargs, __FUNCTION__, &button))
 			return GetPyNone();
 
-		auto fut = mvApp::GetApp()->getCallbackRegistry().submit([=]()
-			{
-				return mvInput::isMouseButtonClicked(button);
-			});
-
-		bool result = fut.get();
-		return ToPyBool(result);
+		return ToPyBool(mvInput::isMouseButtonClicked(button));
 	}
 
 	PyObject* is_mouse_button_double_clicked(PyObject* self, PyObject* args, PyObject* kwargs)
@@ -258,13 +206,7 @@ namespace Marvel {
 		if (!(*mvApp::GetApp()->getParsers())["is_mouse_button_double_clicked"].parse(args, kwargs, __FUNCTION__, &button))
 			return GetPyNone();
 
-		auto fut = mvApp::GetApp()->getCallbackRegistry().submit([=]()
-			{
-				return mvInput::isMouseButtonDoubleClicked(button);
-			});
-
-		bool result = fut.get();
-		return ToPyBool(result);
+		return ToPyBool(mvInput::isMouseButtonDoubleClicked(button));
 	}
 
 	PyObject* is_mouse_button_released(PyObject* self, PyObject* args, PyObject* kwargs)
@@ -274,13 +216,7 @@ namespace Marvel {
 		if (!(*mvApp::GetApp()->getParsers())["is_mouse_button_released"].parse(args, kwargs, __FUNCTION__, &button))
 			return GetPyNone();
 
-		auto fut = mvApp::GetApp()->getCallbackRegistry().submit([=]()
-			{
-				return mvInput::isMouseButtonReleased(button);
-			});
-
-		bool result = fut.get();
-		return ToPyBool(result);
+		return ToPyBool(mvInput::isMouseButtonReleased(button));
 	}
 
 	PyObject* set_mouse_down_callback(PyObject* self, PyObject* args, PyObject* kwargs)

@@ -43,17 +43,17 @@ def demo_main_callback(sender, data):
         set_value("Q key Released##demo", "False")
 
     # mouse dragging
-    if is_mouse_button_dragging(mvMouseButton_Left, 10):
+    if is_mouse_button_dragging(mvMouseButton_Left, 1):
         set_value("Left Mouse Dragging##demo", "True")
     else:
         set_value("Left Mouse Dragging##demo", "False")
 
-    if is_mouse_button_dragging(mvMouseButton_Right, 10):
+    if is_mouse_button_dragging(mvMouseButton_Right, 1):
         set_value("Right Mouse Dragging##demo", "True")
     else:
         set_value("Right Mouse Dragging##demo", "False")
 
-    if is_mouse_button_dragging(mvMouseButton_Middle, 10):
+    if is_mouse_button_dragging(mvMouseButton_Middle, 1):
         set_value("Middle Mouse Dragging##demo", "True")
     else:
         set_value("Middle Mouse Dragging##demo", "False")

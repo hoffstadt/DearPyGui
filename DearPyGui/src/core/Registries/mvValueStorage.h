@@ -92,11 +92,7 @@ namespace Marvel {
 		void                DecrementRef        (const std::string& name);
 		void                DeleteValue         (const std::string& name);
 
-		std::mutex& GetMutex() { return s_mutex; }
-
 	private:
-
-		std::mutex                                            s_mutex;
 
 		std::unordered_map<std::string, ValueTypes>           s_typeStorage;  // keeps track of value mapping
 		std::unordered_map<std::string, int>                  s_refStorage;   // keeps track of reference count

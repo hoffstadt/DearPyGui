@@ -104,22 +104,13 @@ namespace Marvel {
 		item->setConfigDict(kwargs);
 		item->setExtraConfigDict(kwargs);
 
-		auto fut = mvApp::GetApp()->getCallbackRegistry().submit([=]()
-			{
-				std::string returnMessage = mvApp::GetApp()->getItemRegistry().addItemWithRuntimeChecks(item, "", "");
-				if (returnMessage.empty())
-				{
-					mvApp::GetApp()->getItemRegistry().pushParent(item);
-					if (!show)
-						item->hide();
-					
-				}
-				return returnMessage;
-			});
+		if (mvApp::GetApp()->getItemRegistry().addItemWithRuntimeChecks(item, "", ""))
+		{
+			mvApp::GetApp()->getItemRegistry().pushParent(item);
+			if (!show)
+				item->hide();
 
-		std::string returnMessage = fut.get();
-		if (!returnMessage.empty())
-			ThrowPythonException(returnMessage);
+		}
 
 		return GetPyNone();
 	}
@@ -158,21 +149,13 @@ namespace Marvel {
 		item->setConfigDict(kwargs);
 		item->setExtraConfigDict(kwargs);
 
-		auto fut = mvApp::GetApp()->getCallbackRegistry().submit([=]()
-			{
-				std::string returnMessage = mvApp::GetApp()->getItemRegistry().addItemWithRuntimeChecks(item, "", "");
-				if (returnMessage.empty())
-				{
-					mvApp::GetApp()->getItemRegistry().pushParent(item);
-					if (!show)
-						item->hide();
-				}
-				return returnMessage;
-			});
+		if (mvApp::GetApp()->getItemRegistry().addItemWithRuntimeChecks(item, "", ""))
+		{
+			mvApp::GetApp()->getItemRegistry().pushParent(item);
+			if (!show)
+				item->hide();
 
-		std::string returnMessage = fut.get();
-		if (!returnMessage.empty())
-			ThrowPythonException(returnMessage);
+		}
 
 		return GetPyNone();
 	}
@@ -201,29 +184,21 @@ namespace Marvel {
 		item->setConfigDict(kwargs);
 		item->setExtraConfigDict(kwargs);
 
-		auto fut = mvApp::GetApp()->getCallbackRegistry().submit([=]()
-			{
-				std::string returnMessage = mvApp::GetApp()->getItemRegistry().addItemWithRuntimeChecks(item, popupparent, before);
-				if (returnMessage.empty())
-				{
-					mvApp::GetApp()->getItemRegistry().pushParent(item);
-				}
-				return returnMessage;
-			});
+		if (mvApp::GetApp()->getItemRegistry().addItemWithRuntimeChecks(item, popupparent, before))
+		{
+			mvApp::GetApp()->getItemRegistry().pushParent(item);
+			if (!show)
+				item->hide();
 
-		std::string returnMessage = fut.get();
-		if (!returnMessage.empty())
-			ThrowPythonException(returnMessage);
+		}
 
 		return GetPyNone();
 	}
 
 	PyObject* end(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
-		mvApp::GetApp()->getCallbackRegistry().submit([=]()
-			{
-				mvApp::GetApp()->getItemRegistry().popParent();
-			});
+		std::lock_guard<std::mutex> lk(mvApp::GetApp()->GetApp()->getMutex());
+		mvApp::GetApp()->getItemRegistry().popParent();
 		return GetPyNone();
 	}
 }

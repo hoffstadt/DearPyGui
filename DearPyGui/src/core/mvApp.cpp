@@ -21,7 +21,7 @@
 namespace Marvel {
 
 	mvApp* mvApp::s_instance = nullptr;
-	bool   mvApp::s_started = false;
+	std::atomic_bool mvApp::s_started = false;
 
 
 	// utility structure for realtime plot
@@ -227,6 +227,7 @@ namespace Marvel {
 		// route input callbacks
 		mvInput::CheckInputs();
 
+        std::lock_guard<std::mutex> lk(m_mutex);
 		mvEventBus::Publish(mvEVT_CATEGORY_APP, mvEVT_PRE_RENDER);
 		mvEventBus::Publish(mvEVT_CATEGORY_APP, mvEVT_PRE_RENDER_RESET);
 		mvEventBus::Publish(mvEVT_CATEGORY_APP, mvEVT_RENDER);

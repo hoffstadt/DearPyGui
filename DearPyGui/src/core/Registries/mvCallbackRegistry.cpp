@@ -5,6 +5,8 @@
 #include "mvProfiler.h"
 #include "mvGlobalIntepreterLock.h"
 #include "mvApp.h"
+#include <chrono>
+#include <iostream>
 
 namespace Marvel {
 
@@ -14,6 +16,7 @@ namespace Marvel {
 		mvEventBus::Subscribe(this, mvEVT_PRE_RENDER);
 		mvEventBus::Subscribe(this, mvEVT_END_FRAME);
 		mvEventBus::Subscribe(this, 0, mvEVT_CATEGORY_INPUT);
+		m_startTime = clock_::now();
 	}
 
 	void mvCallbackRegistry::runTasks()
@@ -21,8 +24,8 @@ namespace Marvel {
 		while (!m_tasks.empty())
 		{
 			mvCallbackRegistry::task_type t;
-			if (m_tasks.try_pop(t))
-				t();
+			m_tasks.wait_and_pop(t);
+			t();
 		}
 	}
 
@@ -66,9 +69,8 @@ namespace Marvel {
 	{
 		MV_PROFILE_FUNCTION()
 
-		if(m_renderCallback)
-			submitPriorityCallback([=]() {runCallback(m_renderCallback, "Main Application"); });
-		
+		runTasks();
+	
 		return false;
 	}
 
@@ -80,7 +82,7 @@ namespace Marvel {
 		{
 		case mvEVT_KEY_PRESS:
 			if(m_keyPressCallback)
-				submitPriorityCallback([=]() mutable
+				submitCallback([=]() mutable
 				{
 					runCallback(m_acceleratorCallback, active, ToPyInt(GetEInt(event, "KEY")));
 					runCallback(m_keyPressCallback, active, ToPyInt(GetEInt(event, "KEY")));
@@ -90,7 +92,7 @@ namespace Marvel {
 
 		case mvEVT_KEY_DOWN:
 			if (m_keyDownCallback)
-				submitPriorityCallback([=]() mutable
+				submitCallback([=]() mutable
 				{
 					runCallback(m_keyDownCallback, active, ToPyMPair(GetEInt(event, "KEY"), GetEFloat(event, "DURATION")));
 				});
@@ -98,7 +100,7 @@ namespace Marvel {
 
 		case mvEVT_KEY_RELEASE:
 			if (m_keyReleaseCallback)
-				submitPriorityCallback([=]() mutable
+				submitCallback([=]() mutable
 				{
 					runCallback(m_keyReleaseCallback, active, ToPyInt(GetEInt(event, "KEY")));
 				});
@@ -106,7 +108,7 @@ namespace Marvel {
 
 		case mvEVT_MOUSE_WHEEL:
 			if (m_mouseWheelCallback)
-				submitPriorityCallback([=]() mutable
+				submitCallback([=]() mutable
 				{
 					runCallback(m_mouseWheelCallback, active, ToPyInt(GetEFloat(event, "DELTA")));
 				});
@@ -114,7 +116,7 @@ namespace Marvel {
 
 		case mvEVT_MOUSE_DRAG:
 			if (m_mouseDragCallback)
-				submitPriorityCallback([=]() mutable
+				submitCallback([=]() mutable
 				{
 					runCallback(m_mouseDragCallback, active,
 						ToPyMTrip(GetEInt(event, "BUTTON"), GetEFloat(event, "X"), GetEFloat(event, "Y")));
@@ -123,7 +125,7 @@ namespace Marvel {
 
 		case mvEVT_MOUSE_CLICK:
 			if (m_mouseClickCallback)
-				submitPriorityCallback([=]() mutable
+				submitCallback([=]() mutable
 				{
 					runCallback(m_mouseClickCallback, active, ToPyInt(GetEInt(event, "BUTTON")));
 				});
@@ -131,7 +133,7 @@ namespace Marvel {
 
 		case mvEVT_MOUSE_DOWN:
 			if (m_mouseDownCallback)
-				submitPriorityCallback([=]() mutable
+				submitCallback([=]() mutable
 				{
 					runCallback(m_mouseDownCallback, active, ToPyMPair(GetEInt(event, "BUTTON"), GetEFloat(event, "DURATION")));
 				});
@@ -139,7 +141,7 @@ namespace Marvel {
 
 		case mvEVT_MOUSE_DBL_CLK:
 			if (m_mouseDoubleClickCallback)
-				submitPriorityCallback([=]() mutable
+				submitCallback([=]() mutable
 				{
 					runCallback(m_mouseDoubleClickCallback, active, ToPyInt(GetEInt(event, "BUTTON")));
 				});
@@ -147,7 +149,7 @@ namespace Marvel {
 
 		case mvEVT_MOUSE_RELEASE:
 			if (m_mouseReleaseCallback)
-				submitPriorityCallback([=]() mutable
+				submitCallback([=]() mutable
 				{
 					runCallback(m_mouseReleaseCallback, active, ToPyInt(GetEInt(event, "BUTTON")));
 				});
@@ -155,7 +157,7 @@ namespace Marvel {
 
 		case mvEVT_MOUSE_MOVE:
 			if (m_mouseMoveCallback)
-				submitPriorityCallback([=]() mutable
+				submitCallback([=]() mutable
 				{
 					runCallback(m_mouseMoveCallback, active, ToPyPair(GetEFloat(event, "X"), GetEFloat(event, "Y")));
 				});
@@ -176,16 +178,21 @@ namespace Marvel {
 
 		while (m_running)
 		{
-			while (!m_priorityCalls.empty() || !m_calls.empty())
-			{
-				mvCallbackRegistry::task_type t1;
-				if (m_priorityCalls.try_pop(t1))
-					t1(); 
-
 				mvCallbackRegistry::task_type t2;
 				if (m_calls.try_pop(t2))
+				{
 					t2();
-			}
+				}
+
+				auto endTimepoint = std::chrono::steady_clock::now();
+				auto highResStart = FloatingPointMicroseconds{ m_startTime.time_since_epoch() };
+				auto elapsedTime = std::chrono::time_point_cast<std::chrono::microseconds>(endTimepoint).time_since_epoch() - std::chrono::time_point_cast<std::chrono::microseconds>(m_startTime).time_since_epoch();
+				
+				if (m_renderCallback && elapsedTime.count() > 16000)
+				{
+					runCallback(m_renderCallback, "Main Application");
+					m_startTime = clock_::now();
+				}
 		}
 
 	}

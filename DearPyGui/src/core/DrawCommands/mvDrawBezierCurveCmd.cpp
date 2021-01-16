@@ -70,18 +70,14 @@ namespace Marvel {
 		mvVec2 mp3 = ToVec2(p3);
 		mvVec2 mp4 = ToVec2(p4);
 		mvColor mcolor = ToColor(color);
+		auto cmd = CreateRef<mvDrawBezierCurveCmd>(mp1, mp2, mp3, mp4, mcolor, thickness, segments);
+		cmd->tag = tag;
+
+		std::lock_guard<std::mutex> lk(mvApp::GetApp()->GetApp()->getMutex());
 		mvRef<mvDrawList> drawlist = GetDrawListFromTarget(drawing);
+		if (drawlist)
+			drawlist->addCommand(cmd);
 
-		mvApp::GetApp()->getCallbackRegistry().submit([=]() {
-	
-			if (drawlist)
-			{
-				auto cmd = CreateRef<mvDrawBezierCurveCmd>(mp1, mp2, mp3, mp4, mcolor, thickness, segments);
-				cmd->tag = tag;
-				drawlist->addCommand(cmd);
-			}
-
-			});
 		return GetPyNone();
 	}
 }

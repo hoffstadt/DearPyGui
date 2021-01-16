@@ -226,34 +226,25 @@ namespace Marvel {
 
 		std::string returnMessage;
 
-		auto fut = mvApp::GetApp()->getCallbackRegistry().submit([=, &returnMessage]()
-			{
-				auto item = mvApp::GetApp()->getItemRegistry().getItem(managed_columns);
+		std::lock_guard<std::mutex> lk(mvApp::GetApp()->GetApp()->getMutex());
+		auto appitem = mvApp::GetApp()->getItemRegistry().getItem(managed_columns);
 
-				if (item == nullptr)
-				{
-					returnMessage = managed_columns + std::string(" managed_columns does not exist.");
-					return 0.0f;
-				}
+		if (appitem == nullptr)
+		{
+			ThrowPythonException(managed_columns + std::string(" managed_columns does not exist."));
+			return ToPyFloat(0.0f);
+		}
 
-				mvManagedColumns* columns;
-				if (item->getType() == mvAppItemType::ManagedColumns)
-					columns = static_cast<mvManagedColumns*>(item.get());
-				else
-				{
-					returnMessage = std::string(managed_columns) + " is not a managed columns.";
-					return 0.0f;
-				}
+		mvManagedColumns* columns;
+		if (appitem->getType() == mvAppItemType::ManagedColumns)
+			columns = static_cast<mvManagedColumns*>(appitem.get());
+		else
+		{
+			ThrowPythonException(std::string(managed_columns) + " is not a managed columns.");
+			return ToPyFloat(0.0f);
+		}
 
-				return columns->getColumnWidth(column);
-			});
-
-		auto width = fut.get();
-
-		if (!returnMessage.empty())
-			ThrowPythonException(returnMessage);
-
-		return ToPyFloat(width);
+		return ToPyFloat(columns->getColumnWidth(column));
 	}
 
 	PyObject* set_managed_column_width(PyObject* self, PyObject* args, PyObject* kwargs)
@@ -267,32 +258,27 @@ namespace Marvel {
 			&managed_columns, &column, &width))
 			return GetPyNone();
 
-		auto fut = mvApp::GetApp()->getCallbackRegistry().submit([=]()
-			{
-				auto item = mvApp::GetApp()->getItemRegistry().getItem(managed_columns);
+		std::lock_guard<std::mutex> lk(mvApp::GetApp()->GetApp()->getMutex());
+		auto appitem = mvApp::GetApp()->getItemRegistry().getItem(managed_columns);
 
-				if (item == nullptr)
-				{
-					std::string message = managed_columns;
-					return message + " managed_columns does not exist.";
-				}
+		if (appitem == nullptr)
+		{
+			std::string message = managed_columns;
+			ThrowPythonException(message + " managed_columns does not exist.");
+			return GetPyNone();
+		}
 
-				mvManagedColumns* columns;
-				if (item->getType() == mvAppItemType::ManagedColumns)
-				{
-					columns = static_cast<mvManagedColumns*>(item.get());
-					columns->setColumnWidth(column, width);
-				}
-				else
-					return std::string(managed_columns) + " is not a managed columns.";
-
-				return std::string("");
-			});
-
-		auto message = fut.get();
-
-		if (!message.empty())
-			ThrowPythonException(message);
+		mvManagedColumns* columns;
+		if (appitem->getType() == mvAppItemType::ManagedColumns)
+		{
+			columns = static_cast<mvManagedColumns*>(appitem.get());
+			columns->setColumnWidth(column, width);
+		}
+		else
+		{
+			ThrowPythonException(std::string(managed_columns) + " is not a managed columns.");
+			return GetPyNone();
+		}
 
 		return GetPyNone();
 	}
@@ -322,16 +308,9 @@ namespace Marvel {
 			return GetPyNone();
 
 
-		auto fut = mvApp::GetApp()->getCallbackRegistry().submit([=]()
-			{
-				if (std::string(item) == "logger##standard")
-					return mvRef<mvAppItem>();
+		std::lock_guard<std::mutex> lk(mvApp::GetApp()->GetApp()->getMutex());
+		auto appitem = mvApp::GetApp()->getItemRegistry().getItem(item);
 
-				return mvApp::GetApp()->getItemRegistry().getItem(item);
-
-			});
-
-		auto appitem = fut.get();
 		PyObject* pdict = PyDict_New();
 
 		if (std::string(item) == "logger##standard")
@@ -359,12 +338,8 @@ namespace Marvel {
 			return GetPyNone();
 		}
 
-		auto fut = mvApp::GetApp()->getCallbackRegistry().submit([=]()
-			{
-				return mvApp::GetApp()->getItemRegistry().getItem(item);
-			});
-
-		auto appitem = fut.get();
+		std::lock_guard<std::mutex> lk(mvApp::GetApp()->GetApp()->getMutex());
+		auto appitem = mvApp::GetApp()->getItemRegistry().getItem(item);
 
 		if (appitem)
 		{
@@ -387,8 +362,8 @@ namespace Marvel {
 		if (!(*mvApp::GetApp()->getParsers())["delete_item"].parse(args, kwargs, __FUNCTION__, &item, &childrenOnly))
 			return GetPyNone();
 
-		mvApp::GetApp()->getCallbackRegistry().submit([item, childrenOnly]() 
-			{mvApp::GetApp()->getItemRegistry().deleteItem(item, childrenOnly); });
+		std::lock_guard<std::mutex> lk(mvApp::GetApp()->GetApp()->getMutex());
+		mvApp::GetApp()->getItemRegistry().deleteItem(item, childrenOnly);
 
 		return GetPyNone();
 
@@ -402,15 +377,10 @@ namespace Marvel {
 		if (!(*mvApp::GetApp()->getParsers())["does_item_exist"].parse(args, kwargs, __FUNCTION__, &item))
 			return GetPyNone();
 
-		auto fut = mvApp::GetApp()->getCallbackRegistry().submit([=]()
-			{
-				if (mvApp::GetApp()->getItemRegistry().getItem(item))
-					return true;
-				return false;
-			});
-
-		return ToPyBool(fut.get());
-
+		std::lock_guard<std::mutex> lk(mvApp::GetApp()->GetApp()->getMutex());
+		if (mvApp::GetApp()->getItemRegistry().getItem(item))
+			return ToPyBool(true);
+		return ToPyBool(false);
 	}
 
 	PyObject* move_item_up(PyObject * self, PyObject * args, PyObject * kwargs)
@@ -437,7 +407,7 @@ namespace Marvel {
 			return GetPyNone();
 
 		mvApp::GetApp()->getCallbackRegistry().submit([item]()
-			{mvApp::GetApp()->getItemRegistry().moveItemUp(item); });
+			{mvApp::GetApp()->getItemRegistry().moveItemDown(item); });
 
 		return GetPyNone();
 	}
@@ -449,12 +419,8 @@ namespace Marvel {
 		if (!(*mvApp::GetApp()->getParsers())["get_item_callback"].parse(args, kwargs, __FUNCTION__, &item))
 			return GetPyNone();
 
-		auto fut = mvApp::GetApp()->getCallbackRegistry().submit([=]()
-			{
-				return mvApp::GetApp()->getItemRegistry().getItem(item);
-			});
-
-		auto appitem = fut.get();
+		std::lock_guard<std::mutex> lk(mvApp::GetApp()->GetApp()->getMutex());
+		auto appitem = mvApp::GetApp()->getItemRegistry().getItem(item);
 
 		if (appitem)
 		{
@@ -477,15 +443,11 @@ namespace Marvel {
 		if (!(*mvApp::GetApp()->getParsers())["get_item_children"].parse(args, kwargs, __FUNCTION__, &item))
 			return GetPyNone();
 
-		auto fut = mvApp::GetApp()->getCallbackRegistry().submit([=]()
-			{
-				return mvApp::GetApp()->getItemRegistry().getItemChildren(item);
-			});
+		std::lock_guard<std::mutex> lk(mvApp::GetApp()->GetApp()->getMutex());
+		auto children = mvApp::GetApp()->getItemRegistry().getItemChildren(item);
 
-		auto childlist = fut.get();
-
-		if (!childlist.empty())
-			return ToPyList(childlist);
+		if (!children.empty())
+			return ToPyList(children);
 
 		return GetPyNone();
 	}
@@ -493,23 +455,15 @@ namespace Marvel {
 	PyObject* get_all_items(PyObject * self, PyObject * args, PyObject * kwargs)
 	{
 
-		auto fut = mvApp::GetApp()->getCallbackRegistry().submit([=]()
-			{
-				return mvApp::GetApp()->getItemRegistry().getAllItems();
-			});
-
-		return ToPyList(fut.get());
+		std::lock_guard<std::mutex> lk(mvApp::GetApp()->GetApp()->getMutex());
+		return ToPyList(mvApp::GetApp()->getItemRegistry().getAllItems());
 	}
 
 	PyObject* get_windows(PyObject * self, PyObject * args, PyObject * kwargs)
 	{
 
-		auto fut = mvApp::GetApp()->getCallbackRegistry().submit([=]()
-			{
-				return mvApp::GetApp()->getItemRegistry().getWindows();
-			});
-
-		return ToPyList(fut.get());
+		std::lock_guard<std::mutex> lk(mvApp::GetApp()->GetApp()->getMutex());
+		return ToPyList(mvApp::GetApp()->getItemRegistry().getWindows());
 	}
 
 	PyObject* get_item_parent(PyObject* self, PyObject* args, PyObject* kwargs)
@@ -519,12 +473,10 @@ namespace Marvel {
 		if (!(*mvApp::GetApp()->getParsers())["get_item_parent"].parse(args, kwargs, __FUNCTION__, &item))
 			return GetPyNone();
 
-		auto fut = mvApp::GetApp()->getCallbackRegistry().submit([=]()
-			{
-				return mvApp::GetApp()->getItemRegistry().getItemParentName(item);
-			});
+		std::lock_guard<std::mutex> lk(mvApp::GetApp()->GetApp()->getMutex());
+		auto appitem = mvApp::GetApp()->getItemRegistry().getItem(item);
 
-		auto parent = fut.get();
+		std::string parent = mvApp::GetApp()->getItemRegistry().getItemParentName(item);
 
 		if (!parent.empty())
 			return ToPyString(parent);
@@ -539,15 +491,11 @@ namespace Marvel {
 		if (!(*mvApp::GetApp()->getParsers())["is_item_hovered"].parse(args, kwargs, __FUNCTION__, &item))
 			return GetPyNone();
 
-		auto fut = mvApp::GetApp()->getCallbackRegistry().submit([=]()
-			{
-				auto appitem = mvApp::GetApp()->getItemRegistry().getItem(item);
-				if (appitem)
-					return appitem->getState().isItemHovered();
-				return false;
-			});
-
-		return ToPyBool(fut.get());
+		std::lock_guard<std::mutex> lk(mvApp::GetApp()->GetApp()->getMutex());
+		auto appitem = mvApp::GetApp()->getItemRegistry().getItem(item);
+		if (appitem)
+			return ToPyBool(appitem->getState().isItemHovered());
+		return ToPyBool(false);
 	}
 
 	PyObject* is_item_shown(PyObject* self, PyObject* args, PyObject* kwargs)
@@ -557,16 +505,11 @@ namespace Marvel {
 		if (!(*mvApp::GetApp()->getParsers())["is_item_shown"].parse(args, kwargs, __FUNCTION__, &item))
 			return GetPyNone();
 
-		auto fut = mvApp::GetApp()->getCallbackRegistry().submit([=]()
-			{
-				auto appitem = mvApp::GetApp()->getItemRegistry().getItem(item);
-				if (appitem)
-					return appitem->isShown();
-				return false;
-			});
-
-		return ToPyBool(fut.get());
-
+		std::lock_guard<std::mutex> lk(mvApp::GetApp()->GetApp()->getMutex());
+		auto appitem = mvApp::GetApp()->getItemRegistry().getItem(item);
+		if (appitem)
+			return ToPyBool(appitem->isShown());
+		return ToPyBool(false);
 	}
 
 	PyObject* is_item_active(PyObject* self, PyObject* args, PyObject* kwargs)
@@ -576,15 +519,11 @@ namespace Marvel {
 		if (!(*mvApp::GetApp()->getParsers())["is_item_active"].parse(args, kwargs, __FUNCTION__, &item))
 			return GetPyNone();
 
-		auto fut = mvApp::GetApp()->getCallbackRegistry().submit([=]()
-			{
-				auto appitem = mvApp::GetApp()->getItemRegistry().getItem(item);
-				if (appitem)
-					return appitem->getState().isItemActive();
-				return false;
-			});
-
-		return ToPyBool(fut.get());
+		std::lock_guard<std::mutex> lk(mvApp::GetApp()->GetApp()->getMutex());
+		auto appitem = mvApp::GetApp()->getItemRegistry().getItem(item);
+		if (appitem)
+			return ToPyBool(appitem->getState().isItemActive());
+		return ToPyBool(false);
 	}
 
 	PyObject* is_item_focused(PyObject* self, PyObject* args, PyObject* kwargs)
@@ -594,15 +533,11 @@ namespace Marvel {
 		if (!(*mvApp::GetApp()->getParsers())["is_item_focused"].parse(args, kwargs, __FUNCTION__, &item))
 			return GetPyNone();
 
-		auto fut = mvApp::GetApp()->getCallbackRegistry().submit([=]()
-			{
-				auto appitem = mvApp::GetApp()->getItemRegistry().getItem(item);
-				if (appitem)
-					return appitem->getState().isItemFocused();
-				return false;
-			});
-
-		return ToPyBool(fut.get());
+		std::lock_guard<std::mutex> lk(mvApp::GetApp()->GetApp()->getMutex());
+		auto appitem = mvApp::GetApp()->getItemRegistry().getItem(item);
+		if (appitem)
+			return ToPyBool(appitem->getState().isItemFocused());
+		return ToPyBool(false);
 	}
 
 	PyObject* is_item_clicked(PyObject* self, PyObject* args, PyObject* kwargs)
@@ -612,15 +547,11 @@ namespace Marvel {
 		if (!(*mvApp::GetApp()->getParsers())["is_item_clicked"].parse(args, kwargs, __FUNCTION__, &item))
 			return GetPyNone();
 
-		auto fut = mvApp::GetApp()->getCallbackRegistry().submit([=]()
-			{
-				auto appitem = mvApp::GetApp()->getItemRegistry().getItem(item);
-				if (appitem)
-					return appitem->getState().isItemClicked();
-				return false;
-			});
-
-		return ToPyBool(fut.get());
+		std::lock_guard<std::mutex> lk(mvApp::GetApp()->GetApp()->getMutex());
+		auto appitem = mvApp::GetApp()->getItemRegistry().getItem(item);
+		if (appitem)
+			return ToPyBool(appitem->getState().isItemClicked());
+		return ToPyBool(false);
 	}
 
 	PyObject* is_item_container(PyObject* self, PyObject* args, PyObject* kwargs)
@@ -630,15 +561,12 @@ namespace Marvel {
 		if (!(*mvApp::GetApp()->getParsers())["is_item_container"].parse(args, kwargs, __FUNCTION__, &item))
 			return GetPyNone();
 
-		auto fut = mvApp::GetApp()->getCallbackRegistry().submit([=]()
-			{
-				auto appitem = mvApp::GetApp()->getItemRegistry().getItem(item);
-				if (appitem)
-					return appitem->getDescription().container;
-				return false;
-			});
+		std::lock_guard<std::mutex> lk(mvApp::GetApp()->GetApp()->getMutex());
+		auto appitem = mvApp::GetApp()->getItemRegistry().getItem(item);
+		if (appitem)
+			return ToPyBool(appitem->getDescription().container);
+		return ToPyBool(false);
 
-		return ToPyBool(fut.get());
 	}
 
 	PyObject* is_item_visible(PyObject* self, PyObject* args, PyObject* kwargs)
@@ -648,15 +576,11 @@ namespace Marvel {
 		if (!(*mvApp::GetApp()->getParsers())["is_item_visible"].parse(args, kwargs, __FUNCTION__, &item))
 			return GetPyNone();
 
-		auto fut = mvApp::GetApp()->getCallbackRegistry().submit([=]()
-			{
-				auto appitem = mvApp::GetApp()->getItemRegistry().getItem(item);
-				if (appitem)
-					return appitem->getState().isItemVisible();
-				return false;
-			});
-
-		return ToPyBool(fut.get());
+		std::lock_guard<std::mutex> lk(mvApp::GetApp()->GetApp()->getMutex());
+		auto appitem = mvApp::GetApp()->getItemRegistry().getItem(item);
+		if (appitem)
+			return ToPyBool(appitem->getState().isItemVisible());
+		return ToPyBool(false);
 	}
 
 	PyObject* is_item_edited(PyObject* self, PyObject* args, PyObject* kwargs)
@@ -666,15 +590,11 @@ namespace Marvel {
 		if (!(*mvApp::GetApp()->getParsers())["is_item_edited"].parse(args, kwargs, __FUNCTION__, &item))
 			return GetPyNone();
 
-		auto fut = mvApp::GetApp()->getCallbackRegistry().submit([=]()
-			{
-				auto appitem = mvApp::GetApp()->getItemRegistry().getItem(item);
-				if (appitem)
-					return appitem->getState().isItemEdited();
-				return false;
-			});
-
-		return ToPyBool(fut.get());
+		std::lock_guard<std::mutex> lk(mvApp::GetApp()->GetApp()->getMutex());
+		auto appitem = mvApp::GetApp()->getItemRegistry().getItem(item);
+		if (appitem)
+			return ToPyBool(appitem->getState().isItemEdited());
+		return ToPyBool(false);
 	}
 
 	PyObject* is_item_activated(PyObject* self, PyObject* args, PyObject* kwargs)
@@ -684,15 +604,11 @@ namespace Marvel {
 		if (!(*mvApp::GetApp()->getParsers())["is_item_activated"].parse(args, kwargs, __FUNCTION__, &item))
 			return GetPyNone();
 
-		auto fut = mvApp::GetApp()->getCallbackRegistry().submit([=]()
-			{
-				auto appitem = mvApp::GetApp()->getItemRegistry().getItem(item);
-				if (appitem)
-					return appitem->getState().isItemActivated();
-				return false;
-			});
-
-		return ToPyBool(fut.get());
+		std::lock_guard<std::mutex> lk(mvApp::GetApp()->GetApp()->getMutex());
+		auto appitem = mvApp::GetApp()->getItemRegistry().getItem(item);
+		if (appitem)
+			return ToPyBool(appitem->getState().isItemActivated());
+		return ToPyBool(false);
 	}
 
 	PyObject* is_item_deactivated(PyObject* self, PyObject* args, PyObject* kwargs)
@@ -702,15 +618,11 @@ namespace Marvel {
 		if (!(*mvApp::GetApp()->getParsers())["is_item_deactivated"].parse(args, kwargs, __FUNCTION__, &item))
 			return GetPyNone();
 
-		auto fut = mvApp::GetApp()->getCallbackRegistry().submit([=]()
-			{
-				auto appitem = mvApp::GetApp()->getItemRegistry().getItem(item);
-				if (appitem)
-					return appitem->getState().isItemDeactivated();
-				return false;
-			});
-
-		return ToPyBool(fut.get());
+		std::lock_guard<std::mutex> lk(mvApp::GetApp()->GetApp()->getMutex());
+		auto appitem = mvApp::GetApp()->getItemRegistry().getItem(item);
+		if (appitem)
+			return ToPyBool(appitem->getState().isItemDeactivated());
+		return ToPyBool(false);
 	}
 
 	PyObject* is_item_deactivated_after_edit(PyObject* self, PyObject* args, PyObject* kwargs)
@@ -720,15 +632,11 @@ namespace Marvel {
 		if (!(*mvApp::GetApp()->getParsers())["is_item_deactivated_after_edit"].parse(args, kwargs, __FUNCTION__, &item))
 			return GetPyNone();
 
-		auto fut = mvApp::GetApp()->getCallbackRegistry().submit([=]()
-			{
-				auto appitem = mvApp::GetApp()->getItemRegistry().getItem(item);
-				if (appitem)
-					return appitem->getState().isItemDeactivatedAfterEdit();
-				return false;
-			});
-
-		return ToPyBool(fut.get());
+		std::lock_guard<std::mutex> lk(mvApp::GetApp()->GetApp()->getMutex());
+		auto appitem = mvApp::GetApp()->getItemRegistry().getItem(item);
+		if (appitem)
+			return ToPyBool(appitem->getState().isItemDeactivatedAfterEdit());
+		return ToPyBool(false);
 	}
 
 	PyObject* is_item_toggled_open(PyObject* self, PyObject* args, PyObject* kwargs)
@@ -738,15 +646,14 @@ namespace Marvel {
 		if (!(*mvApp::GetApp()->getParsers())["is_item_toggled_open"].parse(args, kwargs, __FUNCTION__, &item))
 			return GetPyNone();
 
-		auto fut = mvApp::GetApp()->getCallbackRegistry().submit([=]()
-			{
-				auto appitem = mvApp::GetApp()->getItemRegistry().getItem(item);
-				if (appitem)
-					return appitem->getState().isItemToogledOpen();
-				return false;
-			});
+		std::lock_guard<std::mutex> lk(mvApp::GetApp()->GetApp()->getMutex());
+		auto appitem = mvApp::GetApp()->getItemRegistry().getItem(item);
 
-		return ToPyBool(fut.get());
+		if (appitem)
+			return ToPyBool(appitem->getState().isItemToogledOpen());
+				
+
+		return ToPyBool(false);
 	}
 
 	PyObject* get_item_rect_min(PyObject* self, PyObject* args, PyObject* kwargs)
@@ -756,19 +663,14 @@ namespace Marvel {
 		if (!(*mvApp::GetApp()->getParsers())["get_item_rect_min"].parse(args, kwargs, __FUNCTION__, &item))
 			return GetPyNone();
 
-		auto fut = mvApp::GetApp()->getCallbackRegistry().submit([=]()
-			{
-				auto appitem = mvApp::GetApp()->getItemRegistry().getItem(item);
-				if (appitem)
-				{
-					mvVec2 value = appitem->getState().getItemRectMin();
-					return std::make_pair<>(value.x, value.y);
-				}
-				return std::make_pair<float, float>(0.0f, 0.0f);
-			});
-
-		auto[width, height] = fut.get();
-		return ToPyPair(width, height);
+		std::lock_guard<std::mutex> lk(mvApp::GetApp()->GetApp()->getMutex());
+		auto appitem = mvApp::GetApp()->getItemRegistry().getItem(item);
+		if (appitem)
+		{
+			mvVec2 value = appitem->getState().getItemRectMin();
+			return ToPyPair(value.x, value.y);
+		}
+		return ToPyPair(0.0f, 0.0f);
 	}
 
 	PyObject* get_item_rect_max(PyObject* self, PyObject* args, PyObject* kwargs)
@@ -778,19 +680,15 @@ namespace Marvel {
 		if (!(*mvApp::GetApp()->getParsers())["get_item_rect_max"].parse(args, kwargs, __FUNCTION__, &item))
 			return GetPyNone();
 
-		auto fut = mvApp::GetApp()->getCallbackRegistry().submit([=]()
-			{
-				auto appitem = mvApp::GetApp()->getItemRegistry().getItem(item);
-				if (appitem)
-				{
-					mvVec2 value = appitem->getState().getItemRectMax();
-					return std::make_pair<>(value.x, value.y);
-				}
-				return std::make_pair<float, float>(0.0f, 0.0f);
-			});
 
-		auto [width, height] = fut.get();
-		return ToPyPair(width, height);
+		std::lock_guard<std::mutex> lk(mvApp::GetApp()->GetApp()->getMutex());
+		auto appitem = mvApp::GetApp()->getItemRegistry().getItem(item);
+		if (appitem)
+		{
+			mvVec2 value = appitem->getState().getItemRectMax();
+			return ToPyPair(value.x, value.y);
+		}
+		return ToPyPair(0.0f, 0.0f);
 	}
 
 	PyObject* get_item_rect_size(PyObject* self, PyObject* args, PyObject* kwargs)
@@ -800,19 +698,15 @@ namespace Marvel {
 		if (!(*mvApp::GetApp()->getParsers())["get_item_rect_size"].parse(args, kwargs, __FUNCTION__, &item))
 			return GetPyNone();
 
-		auto fut = mvApp::GetApp()->getCallbackRegistry().submit([=]()
-			{
-				auto appitem = mvApp::GetApp()->getItemRegistry().getItem(item);
-				if (appitem)
-				{
-					mvVec2 value = appitem->getState().getItemRectSize();
-					return std::make_pair<>(value.x, value.y);
-				}
-				return std::make_pair<float, float>(0.0f, 0.0f);
-			});
+		std::lock_guard<std::mutex> lk(mvApp::GetApp()->GetApp()->getMutex());
+		auto appitem = mvApp::GetApp()->getItemRegistry().getItem(item);
 
-		auto [width, height] = fut.get();
-		return ToPyPair(width, height);
+		if (appitem)
+		{
+			mvVec2 value = appitem->getState().getItemRectSize();
+			return ToPyPair(value.x, value.y);
+		}
+		return ToPyPair(0.0f, 0.0f);
 	}
 
 	PyObject* get_value(PyObject* self, PyObject* args, PyObject* kwargs)
@@ -827,7 +721,10 @@ namespace Marvel {
 				return &mvApp::GetApp()->getValueStorage();
 			});
 
-		return fut.get()->GetPyValue(name);
+		std::lock_guard<std::mutex> lk(mvApp::GetApp()->GetApp()->getMutex());
+		PyObject* result = mvApp::GetApp()->getValueStorage().GetPyValue(name);
+
+		return result;
 	}
 
 	PyObject* set_value(PyObject* self, PyObject* args, PyObject* kwargs)
@@ -841,12 +738,9 @@ namespace Marvel {
 		if (value)
 			Py_XINCREF(value);
 
-		auto fut = mvApp::GetApp()->getCallbackRegistry().submit([=]()
-			{
-				return &mvApp::GetApp()->getValueStorage();
-			});
+		std::lock_guard<std::mutex> lk(mvApp::GetApp()->GetApp()->getMutex());
+		mvApp::GetApp()->getValueStorage().SetPyValue(name, value);
 
-		fut.get()->SetPyValue(name, value);
 		Py_XDECREF(value);
 
 		return GetPyNone();
@@ -860,12 +754,8 @@ namespace Marvel {
 		if (!(*mvApp::GetApp()->getParsers())["add_value"].parse(args, kwargs, __FUNCTION__, &name, &value))
 			return GetPyNone();
 
-		auto fut = mvApp::GetApp()->getCallbackRegistry().submit([=]()
-			{
-				return &mvApp::GetApp()->getValueStorage();
-			});
-
-		fut.get()->AddPyValue(name, value);
+		std::lock_guard<std::mutex> lk(mvApp::GetApp()->GetApp()->getMutex());
+		mvApp::GetApp()->getValueStorage().AddPyValue(name, value);
 
 		return GetPyNone();
 	}
@@ -908,12 +798,8 @@ namespace Marvel {
 		if (!(*mvApp::GetApp()->getParsers())["set_item_callback"].parse(args, kwargs, __FUNCTION__, &item, &callback, &callback_data))
 			return GetPyNone();
 
-		auto fut = mvApp::GetApp()->getCallbackRegistry().submit([=]()
-			{
-				return mvApp::GetApp()->getItemRegistry().getItem(item);
-			});
-
-		auto appitem = fut.get();
+		std::lock_guard<std::mutex> lk(mvApp::GetApp()->GetApp()->getMutex());
+		auto appitem = mvApp::GetApp()->getItemRegistry().getItem(item);
 
 		if (appitem)
 		{
@@ -939,18 +825,10 @@ namespace Marvel {
 		if (!(*mvApp::GetApp()->getParsers())["get_item_type"].parse(args, kwargs, __FUNCTION__, &name))
 			return GetPyNone();
 
-		auto fut = mvApp::GetApp()->getCallbackRegistry().submit([=]()
-			{
-				auto item = mvApp::GetApp()->getItemRegistry().getItem(name);
+		std::lock_guard<std::mutex> lk(mvApp::GetApp()->GetApp()->getMutex());
+		auto appitem = mvApp::GetApp()->getItemRegistry().getItem(name);
 
-				if (item)
-					return item->getStringType();
-				return std::string("");
-			});
-
-		auto result = fut.get();
-
-		return ToPyString(result);
+		return ToPyString(appitem->getStringType());
 	}
 
 	PyObject* get_item_callback_data(PyObject* self, PyObject* args, PyObject* kwargs)
@@ -960,13 +838,8 @@ namespace Marvel {
 		if (!(*mvApp::GetApp()->getParsers())["get_item_callback_data"].parse(args, kwargs, __FUNCTION__, &item))
 			return GetPyNone();
 
-		auto fut = mvApp::GetApp()->getCallbackRegistry().submit([=]()
-			{
-				return mvApp::GetApp()->getItemRegistry().getItem(item);
-
-			});
-
-		auto appitem = fut.get();
+		std::lock_guard<std::mutex> lk(mvApp::GetApp()->GetApp()->getMutex());
+		auto appitem = mvApp::GetApp()->getItemRegistry().getItem(item);
 
 		if (appitem)
 		{
@@ -990,13 +863,8 @@ namespace Marvel {
 		if (!(*mvApp::GetApp()->getParsers())["set_item_callback_data"].parse(args, kwargs, __FUNCTION__, &item, &data))
 			return GetPyNone();
 
-		auto fut = mvApp::GetApp()->getCallbackRegistry().submit([=]()
-			{
-				return mvApp::GetApp()->getItemRegistry().getItem(item);
-
-			});
-
-		auto appitem = fut.get();
+		std::lock_guard<std::mutex> lk(mvApp::GetApp()->GetApp()->getMutex());
+		auto appitem = mvApp::GetApp()->getItemRegistry().getItem(item);
 
 		if (appitem)
 		{

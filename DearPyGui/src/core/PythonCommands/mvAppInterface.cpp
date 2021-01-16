@@ -262,16 +262,13 @@ namespace Marvel {
 
 		}
 
-		mvApp::GetApp()->getCallbackRegistry().submit([=]() mutable
-			{
+		std::lock_guard<std::mutex> lk(mvApp::GetApp()->GetApp()->getMutex());
+		if (mvApp::IsAppStarted())
+			mvApp::GetApp()->getTextureStorage().addTexture(name, fdata.data(), width, height, tformat);
 
-				if (mvApp::IsAppStarted())
-					mvApp::GetApp()->getTextureStorage().addTexture(name, fdata.data(), width, height, tformat);
+		else
+			mvApp::GetApp()->getTextureStorage().addDelayedTexture(name, fdata, width, height, tformat);
 
-				else
-					mvApp::GetApp()->getTextureStorage().addDelayedTexture(name, fdata, width, height, tformat);
-
-			});
 
 		return GetPyNone();
 	}
@@ -301,10 +298,8 @@ namespace Marvel {
 			&name))
 			return GetPyNone();
 
-		mvApp::GetApp()->getCallbackRegistry().submit([=]()
-			{
-				mvEventBus::PublishEndFrame(mvEVT_CATEGORY_TEXTURE, mvEVT_DEC_TEXTURE, { CreateEventArgument("NAME", std::string(name)) });
-			});
+		std::lock_guard<std::mutex> lk(mvApp::GetApp()->GetApp()->getMutex());
+		mvEventBus::PublishEndFrame(mvEVT_CATEGORY_TEXTURE, mvEVT_DEC_TEXTURE, { CreateEventArgument("NAME", std::string(name)) });
 
 		return GetPyNone();
 	}
@@ -342,10 +337,8 @@ namespace Marvel {
 			&x, &y))
 			return GetPyNone();
 
-		mvApp::GetApp()->getCallbackRegistry().submit([=]()
-			{
-				mvApp::GetApp()->setMainPos(x, y);
-			});
+		std::lock_guard<std::mutex> lk(mvApp::GetApp()->GetApp()->getMutex());
+		mvApp::GetApp()->setMainPos(x, y);
 
 		return GetPyNone();
 	}
@@ -375,10 +368,8 @@ namespace Marvel {
 			&resizable))
 			return GetPyNone();
 
-		mvApp::GetApp()->getCallbackRegistry().submit([=]()
-			{
-				mvApp::GetApp()->setResizable(resizable);
-			});
+		std::lock_guard<std::mutex> lk(mvApp::GetApp()->GetApp()->getMutex());
+		mvApp::GetApp()->setResizable(resizable);
 
 		return GetPyNone();
 	}
@@ -558,50 +549,32 @@ namespace Marvel {
 
 	PyObject* get_total_time(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
-		auto fut = mvApp::GetApp()->getCallbackRegistry().submit([=]()
-			{
-				return (float)mvApp::GetApp()->getTotalTime();
-			});
-		return ToPyFloat(fut.get());
+		std::lock_guard<std::mutex> lk(mvApp::GetApp()->GetApp()->getMutex());
+		return ToPyFloat((float)mvApp::GetApp()->getTotalTime());
 	}
 
 	PyObject* get_delta_time(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
-		auto fut = mvApp::GetApp()->getCallbackRegistry().submit([=]()
-			{
-				return mvApp::GetApp()->getDeltaTime();
-			});
-		return ToPyFloat(fut.get());
+		std::lock_guard<std::mutex> lk(mvApp::GetApp()->GetApp()->getMutex());
+		return ToPyFloat(mvApp::GetApp()->getDeltaTime());
+
 	}
 
 	PyObject* get_main_window_size(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
-		auto fut = mvApp::GetApp()->getCallbackRegistry().submit([=]()
-			{
-				return std::make_pair<int, int>(mvApp::GetApp()->getActualWidth(), 
-					mvApp::GetApp()->getActualHeight());
-			});
-
-		auto [width, height] = fut.get();
-		return ToPyPairII(width, height);
+		std::lock_guard<std::mutex> lk(mvApp::GetApp()->GetApp()->getMutex());
+		return ToPyPairII(mvApp::GetApp()->getActualWidth(), mvApp::GetApp()->getActualHeight());
 	}
 
 	PyObject* get_active_window(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
-		auto fut = mvApp::GetApp()->getCallbackRegistry().submit([=]()
-			{
-				return mvApp::GetApp()->getItemRegistry().getActiveWindow();
-			});
-		return ToPyString(fut.get());
+		std::lock_guard<std::mutex> lk(mvApp::GetApp()->GetApp()->getMutex());
+		return ToPyString(mvApp::GetApp()->getItemRegistry().getActiveWindow());
 	}
 
 	PyObject* get_dearpygui_version(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
-		auto fut = mvApp::GetApp()->getCallbackRegistry().submit([=]()
-			{
-				return mvApp::GetApp()->GetVersion();
-			});
-		return ToPyString(fut.get());
+		return ToPyString(mvApp::GetApp()->GetVersion());
 	}
 
 	PyObject* add_data(PyObject* self, PyObject* args, PyObject* kwargs)
@@ -615,10 +588,7 @@ namespace Marvel {
 
 		Py_XINCREF(data);
 
-		mvApp::GetApp()->getCallbackRegistry().submit([=]()
-			{
-				mvDataStorage::AddData(name, data);
-			});
+		mvDataStorage::AddData(name, data);
 		
 		return GetPyNone();
 	}
@@ -631,17 +601,8 @@ namespace Marvel {
 		if (!(*mvApp::GetApp()->getParsers())["get_data"].parse(args, kwargs, __FUNCTION__, &name))
 			return GetPyNone();
 
-		auto fut = mvApp::GetApp()->getCallbackRegistry().submit([=]()
-			{
-				return mvDataStorage::GetDataIncRef(name);
-			});
+		return mvDataStorage::GetDataIncRef(name);
 
-		auto result = fut.get();
-
-		if (result)
-			return result;
-
-		return GetPyNone();
 	}
 
 	PyObject* delete_data(PyObject* self, PyObject* args, PyObject* kwargs)
@@ -652,10 +613,7 @@ namespace Marvel {
 		if (!(*mvApp::GetApp()->getParsers())["delete_data"].parse(args, kwargs, __FUNCTION__, &name))
 			return GetPyNone();
 
-		mvApp::GetApp()->getCallbackRegistry().submit([=]()
-			{
-				mvDataStorage::DeleteData(name);
-			});
+		mvDataStorage::DeleteData(name);
 		
 		return GetPyNone();
 	}
@@ -669,14 +627,12 @@ namespace Marvel {
 			return GetPyNone();
 
 
-		mvApp::GetApp()->getCallbackRegistry().submit([=]()
-			{
-				mvEventBus::Publish(mvEVT_CATEGORY_VIEWPORT, mvEVT_VIEWPORT_RESIZE, {
-					CreateEventArgument("actual_width", width),
-					CreateEventArgument("actual_height", height),
-					CreateEventArgument("client_width", width),
-					CreateEventArgument("client_height", height)
-					});
+		std::lock_guard<std::mutex> lk(mvApp::GetApp()->GetApp()->getMutex());
+		mvEventBus::Publish(mvEVT_CATEGORY_VIEWPORT, mvEVT_VIEWPORT_RESIZE, {
+			CreateEventArgument("actual_width", width),
+			CreateEventArgument("actual_height", height),
+			CreateEventArgument("client_width", width),
+			CreateEventArgument("client_height", height)
 			});
 
 		return GetPyNone();
@@ -690,40 +646,28 @@ namespace Marvel {
 			return GetPyNone();
 
 
-		std::string error = "";
-
-		auto fut = mvApp::GetApp()->getCallbackRegistry().submit([=, &error]()
+		if (!std::string(logger).empty())
+		{
+			auto loggeritem = mvApp::GetApp()->getItemRegistry().getItem(logger);
+			if (loggeritem == nullptr)
 			{
-				if (!std::string(logger).empty())
-				{
-					auto loggeritem = mvApp::GetApp()->getItemRegistry().getItem(logger);
-					if (loggeritem == nullptr)
-					{
-						//ThrowPythonException(std::string(logger) + " logger does not exist.");
-						error = std::string(logger) + " logger does not exist.";
-						return -1;
-					}
+				ThrowPythonException(std::string(logger) + " logger does not exist.");
+				return ToPyInt(-1);
+			}
 
-					if (loggeritem->getType() != mvAppItemType::Logger)
-					{
-						error = std::string(logger) + " is not a logger.";
-						return -1;
-					}
+			if (loggeritem->getType() != mvAppItemType::Logger)
+			{
+				ThrowPythonException(std::string(logger) + " is not a logger.");
+				return ToPyInt(-1);
+			}
 
-					auto loggerwidget = static_cast<mvLoggerItem*>(loggeritem.get());
-					return loggerwidget->getLogLevel();
+			auto loggerwidget = static_cast<mvLoggerItem*>(loggeritem.get());
+			return ToPyInt(loggerwidget->getLogLevel());
 
-				}
-				else
-					return (int)mvAppLog::getLogLevel();
-			});
+		}
+		else
+			return ToPyInt((int)mvAppLog::getLogLevel());
 
-		int level = fut.get();
-
-		if (!error.empty())
-			ThrowPythonException(error);
-
-		return ToPyInt(level);
 	}
 
 	PyObject* set_log_level(PyObject* self, PyObject* args, PyObject* kwargs)
@@ -734,38 +678,28 @@ namespace Marvel {
 			&level, &logger))
 			return GetPyNone();
 
-		std::string error = "";
 
-		auto fut = mvApp::GetApp()->getCallbackRegistry().submit([=, &error]()
+		if (!std::string(logger).empty())
+		{
+			auto loggeritem = mvApp::GetApp()->getItemRegistry().getItem(logger);
+			if (loggeritem == nullptr)
 			{
-				if (!std::string(logger).empty())
-				{
-					auto loggeritem = mvApp::GetApp()->getItemRegistry().getItem(logger);
-					if (loggeritem == nullptr)
-					{
-						error = std::string(logger) + " logger does not exist.";
-						return 1;
-					}
+				ThrowPythonException(std::string(logger) + " logger does not exist.");
+				return GetPyNone();
+			}
 
-					if (loggeritem->getType() != mvAppItemType::Logger)
-					{
-						error = std::string(logger) + " is not a logger.";
-						return 1;
-					}
+			if (loggeritem->getType() != mvAppItemType::Logger)
+			{
+				ThrowPythonException(std::string(logger) + " is not a logger.");
+				return GetPyNone();
+			}
 
-					auto loggerwidget = static_cast<mvLoggerItem*>(loggeritem.get());
-					loggerwidget->setLogLevel(level);
+			auto loggerwidget = static_cast<mvLoggerItem*>(loggeritem.get());
+			loggerwidget->setLogLevel(level);
 
-				}
-				else
-					mvAppLog::setLogLevel(level);
-				return 0;
-			});
-
-		int code = fut.get();
-
-		if (!error.empty())
-			ThrowPythonException(error);
+		}
+		else
+			mvAppLog::setLogLevel(level);
 		
 		return GetPyNone();
 	}
@@ -779,38 +713,28 @@ namespace Marvel {
 			return GetPyNone();
 
 		std::string cmessage = ToString(message);
-		std::string error = "";
 
-		auto fut = mvApp::GetApp()->getCallbackRegistry().submit([=, &error]()
+		if (!std::string(logger).empty())
+		{
+			auto loggeritem = mvApp::GetApp()->getItemRegistry().getItem(logger);
+			if (loggeritem == nullptr)
 			{
-				if (!std::string(logger).empty())
-				{
-					auto loggeritem = mvApp::GetApp()->getItemRegistry().getItem(logger);
-					if (loggeritem == nullptr)
-					{
-						error = std::string(logger) + " logger does not exist.";
-						return 1;
-					}
+				ThrowPythonException(std::string(logger) + " logger does not exist.");
+				return GetPyNone();
+			}
 
-					if (loggeritem->getType() != mvAppItemType::Logger)
-					{
-						error = std::string(logger) + " is not a logger.";
-						return 1;
-					}
+			if (loggeritem->getType() != mvAppItemType::Logger)
+			{
+				ThrowPythonException(std::string(logger) + " is not a logger.");
+				return GetPyNone();
+			}
 
-					auto loggerwidget = static_cast<mvLoggerItem*>(loggeritem.get());
-					loggerwidget->Log(cmessage, std::string(level));
+			auto loggerwidget = static_cast<mvLoggerItem*>(loggeritem.get());
+			loggerwidget->Log(cmessage, std::string(level));
 
-				}
-				else
-					mvAppLog::Log(cmessage, std::string(level));
-				return 0;
-			});
-
-		int code = fut.get();
-
-		if (!error.empty())
-			ThrowPythonException(error);
+		}
+		else
+			mvAppLog::Log(cmessage, std::string(level));
 
 		return GetPyNone();
 	}
@@ -824,42 +748,29 @@ namespace Marvel {
 			return GetPyNone();
 
 		std::string cmessage = ToString(message);
-		std::string error = "";
-		auto fut = mvApp::GetApp()->getCallbackRegistry().submit([=, &error]()
+
+		if (!std::string(logger).empty())
+		{
+			auto loggeritem = mvApp::GetApp()->getItemRegistry().getItem(logger);
+			if (loggeritem == nullptr)
 			{
-				std::cout << "here" << std::endl;
-				if (!std::string(logger).empty())
-				{
-					auto loggeritem = mvApp::GetApp()->getItemRegistry().getItem(logger);
-					if (loggeritem == nullptr)
-					{
-						error = std::string(logger) + " logger does not exist.";
-						return 1;
-					}
+				ThrowPythonException(std::string(logger) + " logger does not exist.");
+				return GetPyNone();
+			}
 
-					if (loggeritem->getType() != mvAppItemType::Logger)
-					{
-						error = std::string(logger) + " is not a logger.";
-						return 1;
-					}
+			if (loggeritem->getType() != mvAppItemType::Logger)
+			{
+				ThrowPythonException(std::string(logger) + " is not a logger.");
+				return GetPyNone();
+			}
 
-					auto loggerwidget = static_cast<mvLoggerItem*>(loggeritem.get());
-					loggerwidget->LogDebug(cmessage);
+			auto loggerwidget = static_cast<mvLoggerItem*>(loggeritem.get());
+			loggerwidget->LogDebug(cmessage);
 
-				}
-				else
-				{
-					std::cout << "here" << std::endl;
-					mvAppLog::LogDebug(cmessage);
+		}
+		else
+			mvAppLog::LogDebug(cmessage);
 
-				}
-				return 0;
-			});
-
-		int code = fut.get();
-
-		if (!error.empty())
-			ThrowPythonException(error);
 		return GetPyNone();
 	}
 
@@ -872,38 +783,28 @@ namespace Marvel {
 			return GetPyNone();
 
 		std::string cmessage = ToString(message);
-		std::string error = "";
 
-		auto fut = mvApp::GetApp()->getCallbackRegistry().submit([=, &error]()
+		if (!std::string(logger).empty())
+		{
+			auto loggeritem = mvApp::GetApp()->getItemRegistry().getItem(logger);
+			if (loggeritem == nullptr)
 			{
-				if (!std::string(logger).empty())
-				{
-					auto loggeritem = mvApp::GetApp()->getItemRegistry().getItem(logger);
-					if (loggeritem == nullptr)
-					{
-						error = std::string(logger) + " logger does not exist.";
-						return 1;
-					}
+				ThrowPythonException(std::string(logger) + " logger does not exist.");
+				return GetPyNone();
+			}
 
-					if (loggeritem->getType() != mvAppItemType::Logger)
-					{
-						error = std::string(logger) + " is not a logger.";
-						return 1;
-					}
+			if (loggeritem->getType() != mvAppItemType::Logger)
+			{
+				ThrowPythonException(std::string(logger) + " is not a logger.");
+				return GetPyNone();
+			}
 
-					auto loggerwidget = static_cast<mvLoggerItem*>(loggeritem.get());
-					loggerwidget->LogInfo(cmessage);
+			auto loggerwidget = static_cast<mvLoggerItem*>(loggeritem.get());
+			loggerwidget->LogInfo(cmessage);
 
-				}
-				else
-					mvAppLog::LogInfo(cmessage);
-				return 0;
-			});
-
-		int code = fut.get();
-
-		if (!error.empty())
-			ThrowPythonException(error);
+		}
+		else
+			mvAppLog::LogInfo(cmessage);
 
 		return GetPyNone();
 	}
@@ -917,38 +818,28 @@ namespace Marvel {
 			return GetPyNone();
 
 		std::string cmessage = ToString(message);
-		std::string error = "";
 
-		auto fut = mvApp::GetApp()->getCallbackRegistry().submit([=, &error]()
+		if (!std::string(logger).empty())
+		{
+			auto loggeritem = mvApp::GetApp()->getItemRegistry().getItem(logger);
+			if (loggeritem == nullptr)
 			{
-				if (!std::string(logger).empty())
-				{
-					auto loggeritem = mvApp::GetApp()->getItemRegistry().getItem(logger);
-					if (loggeritem == nullptr)
-					{
-						error = std::string(logger) + " logger does not exist.";
-						return 1;
-					}
+				ThrowPythonException(std::string(logger) + " logger does not exist.");
+				return GetPyNone();
+			}
 
-					if (loggeritem->getType() != mvAppItemType::Logger)
-					{
-						error = std::string(logger) + " is not a logger.";
-						return 1;
-					}
+			if (loggeritem->getType() != mvAppItemType::Logger)
+			{
+				ThrowPythonException(std::string(logger) + " is not a logger.");
+				return GetPyNone();
+			}
 
-					auto loggerwidget = static_cast<mvLoggerItem*>(loggeritem.get());
-					loggerwidget->LogWarning(cmessage);
+			auto loggerwidget = static_cast<mvLoggerItem*>(loggeritem.get());
+			loggerwidget->LogWarning(cmessage);
 
-				}
-				else
-					mvAppLog::LogWarning(cmessage);
-				return 0;
-			});
-
-		int code = fut.get();
-
-		if (!error.empty())
-			ThrowPythonException(error);
+		}
+		else
+			mvAppLog::LogWarning(cmessage);
 		return GetPyNone();
 	}
 
@@ -961,38 +852,27 @@ namespace Marvel {
 			return GetPyNone();
 
 		std::string cmessage = ToString(message);
-		std::string error = "";
-
-		auto fut = mvApp::GetApp()->getCallbackRegistry().submit([=, &error]()
+		if (!std::string(logger).empty())
+		{
+			auto loggeritem = mvApp::GetApp()->getItemRegistry().getItem(logger);
+			if (loggeritem == nullptr)
 			{
-				if (!std::string(logger).empty())
-				{
-					auto loggeritem = mvApp::GetApp()->getItemRegistry().getItem(logger);
-					if (loggeritem == nullptr)
-					{
-						error = std::string(logger) + " logger does not exist.";
-						return 1;
-					}
+				ThrowPythonException(std::string(logger) + " logger does not exist.");
+				return GetPyNone();
+			}
 
-					if (loggeritem->getType() != mvAppItemType::Logger)
-					{
-						error = std::string(logger) + " is not a logger.";
-						return 1;
-					}
+			if (loggeritem->getType() != mvAppItemType::Logger)
+			{
+				ThrowPythonException(std::string(logger) + " is not a logger.");
+				return GetPyNone();
+			}
 
-					auto loggerwidget = static_cast<mvLoggerItem*>(loggeritem.get());
-					loggerwidget->LogError(cmessage);
+			auto loggerwidget = static_cast<mvLoggerItem*>(loggeritem.get());
+			loggerwidget->LogError(cmessage);
 
-				}
-				else
-					mvAppLog::LogError(cmessage);
-				return 0;
-			});
-
-		int code = fut.get();
-
-		if (!error.empty())
-			ThrowPythonException(error);
+		}
+		else
+			mvAppLog::LogError(cmessage);
 		return GetPyNone();
 	}
 
@@ -1003,50 +883,35 @@ namespace Marvel {
 		if (!(*mvApp::GetApp()->getParsers())["clear_log"].parse(args, kwargs, __FUNCTION__, &logger))
 			return GetPyNone();
 
-		std::string error = "";
-
-		auto fut = mvApp::GetApp()->getCallbackRegistry().submit([=, &error]()
+		if (!std::string(logger).empty())
+		{
+			auto loggeritem = mvApp::GetApp()->getItemRegistry().getItem(logger);
+			if (loggeritem == nullptr)
 			{
-				if (!std::string(logger).empty())
-				{
-					auto loggeritem = mvApp::GetApp()->getItemRegistry().getItem(logger);
-					if (loggeritem == nullptr)
-					{
-						error = std::string(logger) + " logger does not exist.";
-						return 1;
-					}
+				ThrowPythonException(std::string(logger) + " logger does not exist.");
+				return GetPyNone();
+			}
 
-					if (loggeritem->getType() != mvAppItemType::Logger)
-					{
-						error = std::string(logger) + " is not a logger.";
-						return 1;
-					}
+			if (loggeritem->getType() != mvAppItemType::Logger)
+			{
+				ThrowPythonException(std::string(logger) + " is not a logger.");
+				return GetPyNone();
+			}
 
-					auto loggerwidget = static_cast<mvLoggerItem*>(loggeritem.get());
-					loggerwidget->ClearLog();
+			auto loggerwidget = static_cast<mvLoggerItem*>(loggeritem.get());
+			loggerwidget->ClearLog();
 
-				}
-				else
-					mvAppLog::ClearLog();
-				return 0;
-			});
-
-		int code = fut.get();
-
-		if (!error.empty())
-			ThrowPythonException(error);
+		}
+		else
+			mvAppLog::ClearLog();
 
 		return GetPyNone();
 	}
 
 	PyObject* show_logger(PyObject* self, PyObject* args)
 	{
-
-		mvApp::GetApp()->getCallbackRegistry().submit([=]()
-			{
-				mvAppLog::Show();
-			});
-
+		std::lock_guard<std::mutex> lk(mvApp::GetApp()->GetApp()->getMutex());
+		mvAppLog::Show();
 		return GetPyNone();
 	}
 
@@ -1058,10 +923,8 @@ namespace Marvel {
 			&title))
 			return GetPyNone();
 
-		mvApp::GetApp()->getCallbackRegistry().submit([=]()
-			{
-				mvAppLog::setTitle(title);
-			});
+		std::lock_guard<std::mutex> lk(mvApp::GetApp()->GetApp()->getMutex());
+		mvAppLog::setTitle(title);
 
 		return GetPyNone();
 	}
@@ -1073,30 +936,27 @@ namespace Marvel {
 		if (!(*mvApp::GetApp()->getParsers())["close_popup"].parse(args, kwargs, __FUNCTION__, &popup))
 			return GetPyNone();
 
-		auto fut = mvApp::GetApp()->getCallbackRegistry().submit([=]()
-			{
-				auto item = mvApp::GetApp()->getItemRegistry().getItem(popup);
+		std::lock_guard<std::mutex> lk(mvApp::GetApp()->GetApp()->getMutex());
 
-				if (item == nullptr)
-				{
-					std::string message = popup;
-					return message + " popup does not exist.";
-				}
+		auto item = mvApp::GetApp()->getItemRegistry().getItem(popup);
 
-				mvPopup* pop;
-				if (item->getType() == mvAppItemType::Popup)
-					pop = static_cast<mvPopup*>(item.get());
-				else
-					return std::string(popup) + " is not a popup.";
+		if (item == nullptr)
+		{
+			std::string message = popup;
+			ThrowPythonException(message + " popup does not exist.");
+			return GetPyNone();
+		}
 
-				pop->closePopup();
-				return std::string("");
-			});
+		mvPopup* pop;
+		if (item->getType() == mvAppItemType::Popup)
+			pop = static_cast<mvPopup*>(item.get());
+		else
+		{
+			ThrowPythonException(std::string(popup) + " is not a popup.");
+			return GetPyNone();
+		}
 
-		auto error = fut.get();
-
-		if (!error.empty())
-			ThrowPythonException(error);
+		pop->closePopup();
 
 		return GetPyNone();
 	}
@@ -1109,10 +969,8 @@ namespace Marvel {
 		if (!(*mvApp::GetApp()->getParsers())["set_primary_window"].parse(args, kwargs, __FUNCTION__, &item, &value))
 			return GetPyNone();
 
-		mvApp::GetApp()->getCallbackRegistry().submit([=]()
-			{
-				mvApp::GetApp()->getItemRegistry().setPrimaryWindow(item, value);
-			});
+		std::lock_guard<std::mutex> lk(mvApp::GetApp()->GetApp()->getMutex());
+		mvApp::GetApp()->getItemRegistry().setPrimaryWindow(item, value);
 		
 		return GetPyNone();
 	}

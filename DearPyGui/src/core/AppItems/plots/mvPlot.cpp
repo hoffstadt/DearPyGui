@@ -1103,14 +1103,7 @@ namespace Marvel {
 		item->setConfigDict(kwargs);
 		item->setExtraConfigDict(kwargs);
 
-		auto fut = mvApp::GetApp()->getCallbackRegistry().submit([=]() 
-			{
-				return mvApp::GetApp()->getItemRegistry().addItemWithRuntimeChecks(item, parent, before);
-			});
-
-		std::string returnMessage = fut.get();
-		if (!returnMessage.empty())
-			ThrowPythonException(returnMessage);
+		mvApp::GetApp()->getItemRegistry().addItemWithRuntimeChecks(item, parent, before);
 		
 		return GetPyNone();
 	}
@@ -1156,10 +1149,7 @@ namespace Marvel {
 
 		mvPlot* graph = static_cast<mvPlot*>(aplot.get());
 		
-		mvApp::GetApp()->getCallbackRegistry().submit([=]()
-			{
-				graph->updateDragLine(name, show_label, ToColor(color), thickness, y_line, callback, default_value, source);
-			});
+		graph->updateDragLine(name, show_label, ToColor(color), thickness, y_line, callback, default_value, source);
 		
 		return GetPyNone();
 	}
@@ -1191,11 +1181,7 @@ namespace Marvel {
 
 		mvPlot* graph = static_cast<mvPlot*>(aplot.get());
 		
-
-		mvApp::GetApp()->getCallbackRegistry().submit([=]()
-			{
-				graph->deleteDragLine(name);
-			});
+		graph->deleteDragLine(name);
 
 		return GetPyNone();
 	}
@@ -1242,10 +1228,7 @@ namespace Marvel {
 		mvPlot* graph = static_cast<mvPlot*>(aplot.get());
 		double defaults[2] = { (double)default_x, (double)default_y };
 		
-		mvApp::GetApp()->getCallbackRegistry().submit([=]()
-			{
-				graph->updateDragPoint(name, show_label, ToColor(color), radius, callback, defaults, source);
-			});
+		graph->updateDragPoint(name, show_label, ToColor(color), radius, callback, defaults, source);
 
 		return GetPyNone();
 	}
@@ -1276,10 +1259,8 @@ namespace Marvel {
 		}
 
 		mvPlot* graph = static_cast<mvPlot*>(aplot.get());
-		mvApp::GetApp()->getCallbackRegistry().submit([=]()
-			{
-				graph->deleteDragPoint(name);
-			});
+
+		graph->deleteDragPoint(name);
 		
 		return GetPyNone();
 	}
@@ -1321,10 +1302,9 @@ namespace Marvel {
 		}
 
 		mvPlot* graph = static_cast<mvPlot*>(aplot.get());
-		mvApp::GetApp()->getCallbackRegistry().submit([=]()
-			{
-				graph->updateAnnotation(tag, x, y, xoffset, yoffset, ToColor(color), text, clamped);
-			});
+
+		graph->updateAnnotation(tag, x, y, xoffset, yoffset, ToColor(color), text, clamped);
+
 		return GetPyNone();
 	}
 
@@ -1354,10 +1334,8 @@ namespace Marvel {
 		}
 
 		mvPlot* graph = static_cast<mvPlot*>(aplot.get());
-		mvApp::GetApp()->getCallbackRegistry().submit([=]()
-			{
-				graph->deleteAnnotation(name);
-			});
+
+		graph->deleteAnnotation(name);
 
 		return GetPyNone();
 	}

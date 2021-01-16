@@ -229,14 +229,7 @@ namespace Marvel {
 		item->setConfigDict(kwargs);
 		item->setExtraConfigDict(kwargs);
 
-		auto fut = mvApp::GetApp()->getCallbackRegistry().submit([=]()
-			{
-				return mvApp::GetApp()->getItemRegistry().addItemWithRuntimeChecks(item, parent, before);
-			});
-
-		std::string returnMessage = fut.get();
-		if (!returnMessage.empty())
-			ThrowPythonException(returnMessage);
+		mvApp::GetApp()->getItemRegistry().addItemWithRuntimeChecks(item, parent, before);
 
 		return GetPyNone();
 	}
@@ -283,14 +276,7 @@ namespace Marvel {
 		item->setConfigDict(kwargs);
 		item->setExtraConfigDict(kwargs);
 
-		auto fut = mvApp::GetApp()->getCallbackRegistry().submit([=]()
-			{
-				return mvApp::GetApp()->getItemRegistry().addItemWithRuntimeChecks(item, parent, before);
-			});
-
-		std::string returnMessage = fut.get();
-		if (!returnMessage.empty())
-			ThrowPythonException(returnMessage);
+		mvApp::GetApp()->getItemRegistry().addItemWithRuntimeChecks(item, parent, before);
 
 		return GetPyNone();
 	}
@@ -339,14 +325,7 @@ namespace Marvel {
 		item->setConfigDict(kwargs);
 		item->setExtraConfigDict(kwargs);
 
-		auto fut = mvApp::GetApp()->getCallbackRegistry().submit([=]()
-			{
-				return mvApp::GetApp()->getItemRegistry().addItemWithRuntimeChecks(item, parent, before);
-			});
-
-		std::string returnMessage = fut.get();
-		if (!returnMessage.empty())
-			ThrowPythonException(returnMessage);
+		mvApp::GetApp()->getItemRegistry().addItemWithRuntimeChecks(item, parent, before);
 
 		return GetPyNone();
 	}
@@ -394,14 +373,7 @@ namespace Marvel {
 		item->setConfigDict(kwargs);
 		item->setExtraConfigDict(kwargs);
 
-		auto fut = mvApp::GetApp()->getCallbackRegistry().submit([=]()
-			{
-				return mvApp::GetApp()->getItemRegistry().addItemWithRuntimeChecks(item, parent, before);
-			});
-
-		std::string returnMessage = fut.get();
-		if (!returnMessage.empty())
-			ThrowPythonException(returnMessage);
+		mvApp::GetApp()->getItemRegistry().addItemWithRuntimeChecks(item, parent, before);
 
 		return GetPyNone();
 	}
@@ -447,14 +419,7 @@ namespace Marvel {
 		item->setConfigDict(kwargs);
 		item->setExtraConfigDict(kwargs);
 
-		auto fut = mvApp::GetApp()->getCallbackRegistry().submit([=]()
-			{
-				return mvApp::GetApp()->getItemRegistry().addItemWithRuntimeChecks(item, parent, before);
-			});
-
-		std::string returnMessage = fut.get();
-		if (!returnMessage.empty())
-			ThrowPythonException(returnMessage);
+		mvApp::GetApp()->getItemRegistry().addItemWithRuntimeChecks(item, parent, before);
 
 		return GetPyNone();
 	}
@@ -501,14 +466,7 @@ namespace Marvel {
 		item->setConfigDict(kwargs);
 		item->setExtraConfigDict(kwargs);
 
-		auto fut = mvApp::GetApp()->getCallbackRegistry().submit([=]()
-			{
-				return mvApp::GetApp()->getItemRegistry().addItemWithRuntimeChecks(item, parent, before);
-			});
-
-		std::string returnMessage = fut.get();
-		if (!returnMessage.empty())
-			ThrowPythonException(returnMessage);
+		mvApp::GetApp()->getItemRegistry().addItemWithRuntimeChecks(item, parent, before);
 
 		return GetPyNone();
 	}
@@ -557,14 +515,7 @@ namespace Marvel {
 		item->setConfigDict(kwargs);
 		item->setExtraConfigDict(kwargs);
 
-		auto fut = mvApp::GetApp()->getCallbackRegistry().submit([=]()
-			{
-				return mvApp::GetApp()->getItemRegistry().addItemWithRuntimeChecks(item, parent, before);
-			});
-
-		std::string returnMessage = fut.get();
-		if (!returnMessage.empty())
-			ThrowPythonException(returnMessage);
+		mvApp::GetApp()->getItemRegistry().addItemWithRuntimeChecks(item, parent, before);
 
 		return GetPyNone();
 	}
@@ -614,14 +565,7 @@ namespace Marvel {
 		item->setConfigDict(kwargs);
 		item->setExtraConfigDict(kwargs);
 
-		auto fut = mvApp::GetApp()->getCallbackRegistry().submit([=]()
-			{
-				return mvApp::GetApp()->getItemRegistry().addItemWithRuntimeChecks(item, parent, before);
-			});
-
-		std::string returnMessage = fut.get();
-		if (!returnMessage.empty())
-			ThrowPythonException(returnMessage);
+		mvApp::GetApp()->getItemRegistry().addItemWithRuntimeChecks(item, parent, before);
 
 		return GetPyNone();
 	}

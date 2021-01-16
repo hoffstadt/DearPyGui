@@ -4,12 +4,22 @@
 
 namespace Marvel {
 
-	mvVec2  mvInput::s_mousePos = {0.0f, 0.0f};
-	mvVec2  mvInput::s_mouseGlobalPos = {0.0f, 0.0f};
-	mvVec2  mvInput::s_mousePlotPos = {0.0f, 0.0f};
-	float   mvInput::s_mouseDragThreshold = 20.0f;
-	bool    mvInput::s_mouseDragging = false;
-	mvVec2  mvInput::s_mouseDragDelta = { 0.0f, 0.0f };
+	mvInput::AtomicVec2  mvInput::s_mousePos = {0, 0};
+	mvInput::AtomicVec2  mvInput::s_mouseGlobalPos = {0, 0};
+	mvInput::AtomicVec2  mvInput::s_mousePlotPos = {0, 0};
+	std::atomic_int      mvInput::s_mouseDragThreshold = 20;
+	mvInput::AtomicVec2  mvInput::s_mouseDragDelta = { 0, 0 };
+	std::atomic_bool     mvInput::s_keysdown[512];
+	std::atomic_int      mvInput::s_keysdownduration[512]; // 1/100 seconds
+	std::atomic_bool     mvInput::s_keyspressed[512];
+	std::atomic_bool     mvInput::s_keysreleased[512];
+	std::atomic_int      mvInput::s_mousewheel;
+	std::atomic_bool     mvInput::s_mousedown[3];
+	std::atomic_bool     mvInput::s_mouseDragging[3];
+	std::atomic_int      mvInput::s_mousedownduration[3]; // 1/100 seconds
+	std::atomic_bool     mvInput::s_mouseclick[3];
+	std::atomic_bool     mvInput::s_mousedoubleclick[3];
+	std::atomic_bool     mvInput::s_mousereleased[3];
 
 	void mvInput::CheckInputs()
 	{
@@ -32,32 +42,41 @@ namespace Marvel {
 		// route key events
 		for (int i = 0; i < IM_ARRAYSIZE(ImGui::GetIO().KeysDown); i++)
 		{
+			s_keysdown[i] = ImGui::GetIO().KeysDown[i];
+
 			// route key pressed event
-			if (ImGui::IsKeyPressed(i))
+			if (s_keyspressed[i] = ImGui::IsKeyPressed(i))
 				mvEventBus::Publish(mvEVT_CATEGORY_INPUT, mvEVT_KEY_PRESS, { CreateEventArgument("KEY", i) });
 
 			// route key down event
 			if (ImGui::GetIO().KeysDownDuration[i] >= 0.0f)
+			{
+				s_keysdownduration[i] = (int)(ImGui::GetIO().KeysDownDuration[i] * 100.0);
 				mvEventBus::Publish(mvEVT_CATEGORY_INPUT, mvEVT_KEY_DOWN,
 					{ CreateEventArgument("KEY", i), CreateEventArgument("DURATION", ImGui::GetIO().KeysDownDuration[i]) });
+			}
 
 			// route key released event
-			if (ImGui::IsKeyReleased(i))
+			if (s_keysreleased[i] = ImGui::IsKeyReleased(i))
 				mvEventBus::Publish(mvEVT_CATEGORY_INPUT, mvEVT_KEY_RELEASE, { CreateEventArgument("KEY", i) });
 		}
 
 		// route mouse wheel event
 		if (ImGui::GetIO().MouseWheel != 0.0f)
+		{
+			s_mousewheel = (int)ImGui::GetIO().MouseWheel;
 			mvEventBus::Publish(mvEVT_CATEGORY_INPUT, mvEVT_MOUSE_WHEEL, { CreateEventArgument("DELTA", ImGui::GetIO().MouseWheel) });
+		}
 
 		// route mouse dragging event
 		for (int i = 0; i < 3; i++)
 		{
+			s_mouseDragging[i] = ImGui::IsMouseDragging(i, mvInput::getMouseDragThreshold());
+			
 			if (ImGui::IsMouseDragging(i, mvInput::getMouseDragThreshold()))
 			{
-				// TODO: send delta
-				mvInput::setMouseDragging(true);
 				mvInput::setMouseDragDelta({ ImGui::GetMouseDragDelta().x, ImGui::GetMouseDragDelta().y });
+				// TODO: send delta
 				mvEventBus::Publish(mvEVT_CATEGORY_INPUT, mvEVT_MOUSE_DRAG,
 					{ CreateEventArgument("BUTTON", i),
 					CreateEventArgument("X", ImGui::GetMouseDragDelta().x),
@@ -66,60 +85,59 @@ namespace Marvel {
 				ImGui::ResetMouseDragDelta(i);
 				break;
 			}
-
-			// reset, since event has already been dispatched
-			mvInput::setMouseDragging(false);
-			mvInput::setMouseDragDelta({ 0.0f, 0.0f });
+			
 		}
 
 		// route other mouse events (note mouse move callbacks are handled in mvWindowAppItem)
 		for (int i = 0; i < IM_ARRAYSIZE(ImGui::GetIO().MouseDown); i++)
 		{
+			s_mousedown[i] = ImGui::GetIO().MouseDown[i];
+
 			// route mouse click event
-			if (ImGui::IsMouseClicked(i))
+			if (s_mouseclick[i] = ImGui::IsMouseClicked(i))
 				mvEventBus::Publish(mvEVT_CATEGORY_INPUT, mvEVT_MOUSE_CLICK, { CreateEventArgument("BUTTON", i) });
 
 			// route mouse down event
 			if (ImGui::GetIO().MouseDownDuration[i] >= 0.0f)
+			{
+				s_mousedownduration[i] = (int)(ImGui::GetIO().MouseDownDuration[i] * 100.0);
 				mvEventBus::Publish(mvEVT_CATEGORY_INPUT, mvEVT_MOUSE_DOWN,
 					{ CreateEventArgument("BUTTON", i), CreateEventArgument("DURATION",  ImGui::GetIO().MouseDownDuration[i]) });
+			}
+			else
+				s_mousedownduration[i] = 0;
 
 			// route mouse double clicked event
-			if (ImGui::IsMouseDoubleClicked(i))
+			if (s_mousedoubleclick[i] = ImGui::IsMouseDoubleClicked(i))
 				mvEventBus::Publish(mvEVT_CATEGORY_INPUT, mvEVT_MOUSE_DBL_CLK, { CreateEventArgument("BUTTON", i) });
 
 			// route mouse released event
-			if (ImGui::IsMouseReleased(i))
+			if (s_mousereleased[i] = ImGui::IsMouseReleased(i))
 				mvEventBus::Publish(mvEVT_CATEGORY_INPUT, mvEVT_MOUSE_RELEASE, { CreateEventArgument("BUTTON", i) });
 		}
 	}
 
 	void mvInput::setMousePosition(float x, float y)
 	{
-		s_mousePos.x = x;
-		s_mousePos.y = y;
+		s_mousePos.x = (int)x;
+		s_mousePos.y = (int)y;
 	}
 
 	void mvInput::setGlobalMousePosition(float x, float y)
 	{
-		s_mouseGlobalPos.x = x;
-		s_mouseGlobalPos.y = y;
+		s_mouseGlobalPos.x = (int)x;
+		s_mouseGlobalPos.y = (int)y;
 	}
 
 	void mvInput::setPlotMousePosition(float x, float y)
 	{
-		s_mousePlotPos.x = x;
-		s_mousePlotPos.y = y;
+		s_mousePlotPos.x = (int)x;
+		s_mousePlotPos.y = (int)y;
 	}
 
 	void mvInput::setMouseDragThreshold(float threshold)
 	{
 		s_mouseDragThreshold = threshold;
-	}
-
-	void mvInput::setMouseDragging(bool drag)
-	{
-		s_mouseDragging = drag;
 	}
 
 	void mvInput::setMouseDragDelta(const mvVec2& delta)
@@ -128,85 +146,69 @@ namespace Marvel {
 		s_mouseDragDelta.y = delta.y;
 	}
 
-	float mvInput::getMouseDragThreshold()
+	int mvInput::getMouseDragThreshold()
 	{
 		return s_mouseDragThreshold;
 	}
 
-	const mvVec2& mvInput::getMouseDragDelta()
+	mvVec2 mvInput::getMouseDragDelta()
 	{
-		return s_mouseDragDelta;
+		return { (float)s_mouseDragDelta.x, (float)s_mouseDragDelta.y };
 	}
 
-	const mvVec2& mvInput::getMousePosition()
+	mvVec2 mvInput::getMousePosition()
 	{
-		return s_mousePos;
+		return { (float)s_mousePos.x, (float)s_mousePos.y };
 	}
 
-	const mvVec2& mvInput::getGlobalMousePosition()
+	mvVec2 mvInput::getGlobalMousePosition()
 	{
-		return s_mouseGlobalPos;
+		return { (float)s_mouseGlobalPos.x, (float)s_mouseGlobalPos.y };
 	}
 
-	const mvVec2& mvInput::getPlotMousePosition()
+	mvVec2 mvInput::getPlotMousePosition()
 	{
-		return s_mousePlotPos;
+		return { (float)s_mousePlotPos.x, (float)s_mousePlotPos.y };
 	}
 
 	bool mvInput::isMouseDragging(int button, float threshold)
 	{
-		if (!mvApp::IsAppStarted())
-			return false;
-		return ImGui::IsMouseDragging(button, threshold);
+		return s_mousedownduration[button]/100.0f >= threshold;
 	}
 
 	bool mvInput::isMouseButtonDown(int button)
 	{
-		if (!mvApp::IsAppStarted())
-			return false;
-		return ImGui::IsMouseDown(button);
+		return s_mousedown[button];
 	}
 
 	bool mvInput::isMouseButtonClicked(int button)
 	{
-		if (!mvApp::IsAppStarted())
-			return false;
-		return ImGui::IsMouseClicked(button);
+		return s_mouseclick[button];
 	}
 
 	bool mvInput::isMouseButtonDoubleClicked(int button)
 	{
-		if (!mvApp::IsAppStarted())
-			return false;
-		return ImGui::IsMouseDoubleClicked(button);
+		return s_mousedoubleclick[button];
 	}
 
 	bool mvInput::isMouseButtonReleased(int button)
 	{
-		if (!mvApp::IsAppStarted())
-			return false;
-		return ImGui::IsMouseReleased(button);
+		return s_mousereleased[button];
 	}
 
 	bool mvInput::isKeyPressed(int keycode)
 	{
-		if (!mvApp::IsAppStarted())
-			return false;
-		return ImGui::IsKeyPressed(keycode);
+		return s_keyspressed[keycode];
 	}
 
 	bool mvInput::isKeyReleased(int keycode)
 	{
-		if (!mvApp::IsAppStarted())
-			return false;
-		return ImGui::IsKeyReleased(keycode);
+		return s_keysreleased[keycode];
 	}
 
 	bool mvInput::isKeyDown(int keycode)
 	{
-		if (!mvApp::IsAppStarted())
-			return false;
-		return ImGui::IsKeyDown(keycode);
+		return s_keysdown[keycode];
 	}
 
 }
