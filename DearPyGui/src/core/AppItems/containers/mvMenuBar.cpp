@@ -91,8 +91,12 @@ namespace Marvel {
 			if (mvApp::GetApp()->getItemRegistry().addItemWithRuntimeChecks(item, parent, before))
 			{
 				mvApp::GetApp()->getItemRegistry().pushParent(item);
-				return ToPyBool(true);
+				if (!show)
+					item->hide();
+
 			}
+
+			return GetPyNone();
 		}
 
 		else if (parentItem->getType() == mvAppItemType::Child)
@@ -109,8 +113,12 @@ namespace Marvel {
 			if (mvApp::GetApp()->getItemRegistry().addItemWithRuntimeChecks(item, parent, before))
 			{
 				mvApp::GetApp()->getItemRegistry().pushParent(item);
-				return ToPyBool(true);
+				if (!show)
+					item->hide();
+
 			}
+
+			return GetPyNone();
 		}
 
 		return ToPyBool(false);

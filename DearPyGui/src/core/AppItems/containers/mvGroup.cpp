@@ -118,9 +118,9 @@ namespace Marvel {
 			if (!show)
 				item->hide();
 
-			return ToPyBool(true);
 		}
-		return ToPyBool(false);
+
+		return GetPyNone();
 	}
 
 }

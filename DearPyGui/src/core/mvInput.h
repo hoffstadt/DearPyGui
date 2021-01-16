@@ -14,6 +14,7 @@
 //-----------------------------------------------------------------------------
 
 #include "mvCore.h"
+#include <atomic>
 
 namespace Marvel {
 
@@ -23,20 +24,26 @@ namespace Marvel {
 	class mvInput
 	{
 
+		struct AtomicVec2
+		{
+			std::atomic_int x;
+			std::atomic_int y;
+		};
+
+
 	public:
 
 		static void          setMousePosition      (float x, float y);
 		static void          setGlobalMousePosition(float x, float y);
 		static void          setPlotMousePosition  (float x, float y);
 		static void          setMouseDragThreshold (float threshold);
-		static void          setMouseDragging      (bool drag);
 		static void          setMouseDragDelta     (const mvVec2& delta);
 
-		static float         getMouseDragThreshold ();
-		static const mvVec2& getMouseDragDelta     ();
-		static const mvVec2& getMousePosition      ();
-		static const mvVec2& getGlobalMousePosition();
-		static const mvVec2& getPlotMousePosition  ();
+		static int           getMouseDragThreshold ();
+		static mvVec2        getMouseDragDelta     ();
+		static mvVec2        getMousePosition      ();
+		static mvVec2        getGlobalMousePosition();
+		static mvVec2        getPlotMousePosition  ();
 
 		static bool          isMouseDragging           (int button, float threshold);
 		static bool          isMouseButtonDown         (int button);
@@ -51,12 +58,26 @@ namespace Marvel {
 
 	private:
 
-		static mvVec2 s_mousePos;
-		static mvVec2 s_mouseGlobalPos;
-		static mvVec2 s_mousePlotPos;
-		static float  s_mouseDragThreshold;
-		static bool   s_mouseDragging;
-		static mvVec2 s_mouseDragDelta;
+		static AtomicVec2       s_mousePos;
+		static AtomicVec2       s_mouseGlobalPos;
+		static AtomicVec2       s_mousePlotPos;
+		static std::atomic_int  s_mouseDragThreshold;
+		static AtomicVec2       s_mouseDragDelta;
+
+		// keys
+		static std::atomic_bool s_keysdown[512];
+		static std::atomic_int  s_keysdownduration[512]; // 1/100 seconds
+		static std::atomic_bool s_keyspressed[512];
+		static std::atomic_bool s_keysreleased[512];
+
+		// mouse
+		static std::atomic_int  s_mousewheel;
+		static std::atomic_bool s_mousedown[5];
+		static std::atomic_bool s_mouseDragging[5];
+		static std::atomic_int  s_mousedownduration[5]; // 1/100 seconds
+		static std::atomic_bool s_mouseclick[5];
+		static std::atomic_bool s_mousedoubleclick[5];
+		static std::atomic_bool s_mousereleased[5];
 
 	};
 

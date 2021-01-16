@@ -90,7 +90,9 @@ namespace Marvel {
 		item->setConfigDict(kwargs);
 		item->setExtraConfigDict(kwargs);
 
-		return ToPyBool(mvApp::GetApp()->getItemRegistry().addItemWithRuntimeChecks(item, parent, before));
+		mvApp::GetApp()->getItemRegistry().addItemWithRuntimeChecks(item, parent, before);
+
+		return GetPyNone();
 	}
 
 }

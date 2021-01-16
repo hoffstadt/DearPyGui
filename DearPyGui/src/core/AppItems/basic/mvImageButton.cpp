@@ -174,11 +174,6 @@ namespace Marvel {
 			&before, &width, &height, &frame_padding, &uv_min, &uv_max, &show))
 			return ToPyBool(false);
 
-		//auto mtintcolor = ToColor(tintcolor);
-		//auto mbackgroundColor = ToColor(backgroundColor);
-		//mvVec2 muv_min = ToVec2(uv_min);
-		//mvVec2 muv_max = ToVec2(uv_max);
-
 		auto item = CreateRef<mvImageButton>(name, value);
 		if (callback)
 			Py_XINCREF(callback);
@@ -191,6 +186,8 @@ namespace Marvel {
 		item->setConfigDict(kwargs);
 		item->setExtraConfigDict(kwargs);
 
-		return ToPyBool(mvApp::GetApp()->getItemRegistry().addItemWithRuntimeChecks(item, parent, before));
+		mvApp::GetApp()->getItemRegistry().addItemWithRuntimeChecks(item, parent, before);
+
+		return GetPyNone();
 	}
 }

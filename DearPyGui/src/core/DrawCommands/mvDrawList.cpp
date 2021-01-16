@@ -319,17 +319,11 @@ namespace Marvel {
 		std::string drawing = ToString(PyTuple_GetItem(args, 0));
 		std::string tag = ToString(PyTuple_GetItem(args, 1));
 
+		std::lock_guard<std::mutex> lk(mvApp::GetApp()->GetApp()->getMutex());
 		mvRef<mvDrawList> drawlist = GetDrawListFromTarget(drawing.c_str());
 
-		auto fut = mvApp::GetApp()->getCallbackRegistry().submit([=]() {
-			if (drawlist)
-				return drawlist->getCommand(tag);
-			return mvRef<mvDrawCmd>();
-			});
-
-		mvRef<mvDrawCmd> cmd = fut.get();
-		if (cmd)
-			cmd->setConfigDict(kwargs);
+		if (drawlist)
+			drawlist->getCommand(tag)->setConfigDict(kwargs);
 		else
 			ThrowPythonException(tag + std::string(" tag was not found"));
 
@@ -345,25 +339,21 @@ namespace Marvel {
 			&drawing, &tag))
 			return GetPyNone();
 
+		std::lock_guard<std::mutex> lk(mvApp::GetApp()->GetApp()->getMutex());
 		mvRef<mvDrawList> drawlist = GetDrawListFromTarget(drawing);
 
-		auto fut = mvApp::GetApp()->getCallbackRegistry().submit([=]() {
-			if (drawlist)
+		if (drawlist)
+		{
+
+			if (auto command = drawlist->getCommand(tag))
 			{
-
-				if (auto command = drawlist->getCommand(tag))
-				{
-					PyObject* pdict = PyDict_New();
-					command->getConfigDict(pdict);
-					return pdict;
-				}
-				else
-					ThrowPythonException(tag + std::string(" tag was not found"));
-				
+				PyObject* pdict = PyDict_New();
+				command->getConfigDict(pdict);
+				return pdict;
 			}
-			return GetPyNone();
-			});
-
+			else
+				ThrowPythonException(tag + std::string(" tag was not found"));
+		}
 		return GetPyNone();
 	}
 
@@ -376,12 +366,11 @@ namespace Marvel {
 			&drawing, &tag))
 			return GetPyNone();
 
+		std::lock_guard<std::mutex> lk(mvApp::GetApp()->GetApp()->getMutex());
 		mvRef<mvDrawList> drawlist = GetDrawListFromTarget(drawing);
 
-		mvApp::GetApp()->getCallbackRegistry().submit([=]() {
-			if (drawlist)
-				drawlist->bringForward(tag);
-			});
+		if (drawlist)
+			drawlist->bringForward(tag);
 
 		return GetPyNone();
 	}
@@ -395,12 +384,10 @@ namespace Marvel {
 			&drawing, &tag))
 			return GetPyNone();
 
+		std::lock_guard<std::mutex> lk(mvApp::GetApp()->GetApp()->getMutex());
 		mvRef<mvDrawList> drawlist = GetDrawListFromTarget(drawing);
-
-		mvApp::GetApp()->getCallbackRegistry().submit([=]() {
-			if (drawlist)
-				drawlist->bringToFront(tag);
-			});
+		if (drawlist)
+			drawlist->bringToFront(tag);
 
 		return GetPyNone();
 	}
@@ -414,13 +401,10 @@ namespace Marvel {
 			&drawing, &tag))
 			return GetPyNone();
 
+		std::lock_guard<std::mutex> lk(mvApp::GetApp()->GetApp()->getMutex());
 		mvRef<mvDrawList> drawlist = GetDrawListFromTarget(drawing);
-
-		mvApp::GetApp()->getCallbackRegistry().submit([=]() {
-
-			if (drawlist)
-				drawlist->sendBack(tag);
-			});
+		if (drawlist)
+			drawlist->sendBack(tag);
 
 		return GetPyNone();
 	}
@@ -434,12 +418,10 @@ namespace Marvel {
 			&drawing, &tag))
 			return GetPyNone();
 
+		std::lock_guard<std::mutex> lk(mvApp::GetApp()->GetApp()->getMutex());
 		mvRef<mvDrawList> drawlist = GetDrawListFromTarget(drawing);
-
-		mvApp::GetApp()->getCallbackRegistry().submit([=]() {
-			if (drawlist)
-				drawlist->sendToBack(tag);
-			});
+		if (drawlist)
+			drawlist->sendToBack(tag);
 
 		return GetPyNone();
 	}
@@ -452,12 +434,11 @@ namespace Marvel {
 		if (!(*mvApp::GetApp()->getParsers())["delete_draw_command"].parse(args, kwargs, __FUNCTION__, &drawing, &tag))
 			return GetPyNone();
 
+		std::lock_guard<std::mutex> lk(mvApp::GetApp()->GetApp()->getMutex());
 		mvRef<mvDrawList> drawlist = GetDrawListFromTarget(drawing);
 
-		mvApp::GetApp()->getCallbackRegistry().submit([=]() {
-			if (drawlist)
-				drawlist->deleteCommand(tag);
-			});
+		if (drawlist)
+			drawlist->deleteCommand(tag);
 
 		return GetPyNone();
 	}
@@ -469,12 +450,11 @@ namespace Marvel {
 		if (!(*mvApp::GetApp()->getParsers())["clear_drawing"].parse(args, kwargs, __FUNCTION__, &drawing))
 			return GetPyNone();
 
+		std::lock_guard<std::mutex> lk(mvApp::GetApp()->GetApp()->getMutex());
 		mvRef<mvDrawList> drawlist = GetDrawListFromTarget(drawing);
 
-		mvApp::GetApp()->getCallbackRegistry().submit([=]() {
-			if (drawlist)
-				drawlist->clear();
-			});
+		if (drawlist)
+			drawlist->clear();
 
 		return GetPyNone();
 	}

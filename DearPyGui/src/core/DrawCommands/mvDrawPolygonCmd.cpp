@@ -136,17 +136,14 @@ namespace Marvel {
 		auto mpoints = ToVectVec2(points);
 		mvColor mcolor = ToColor(color);
 		mvColor mfill = ToColor(fill);
-		mvRef<mvDrawList> drawlist = GetDrawListFromTarget(drawing);
 
-		mvApp::GetApp()->getCallbackRegistry().submit([=]() {
-			
-			if (drawlist)
-			{
-				auto cmd = CreateRef<mvDrawPolygonCmd>(mpoints, mcolor, mfill, thickness);
-				cmd->tag = tag;
-				drawlist->addCommand(cmd);
-			}
-		});
+		auto cmd = CreateRef<mvDrawPolygonCmd>(mpoints, mcolor, mfill, thickness);
+		cmd->tag = tag;
+
+		std::lock_guard<std::mutex> lk(mvApp::GetApp()->GetApp()->getMutex());
+		mvRef<mvDrawList> drawlist = GetDrawListFromTarget(drawing);
+		if (drawlist)
+			drawlist->addCommand(cmd);
 
 		return GetPyNone();
 	}

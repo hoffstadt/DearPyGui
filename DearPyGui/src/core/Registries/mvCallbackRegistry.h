@@ -1,11 +1,7 @@
 #pragma once
-#include <queue>
-#include <string>
 #include <mutex>
 #include "mvThreadPool.h"
-#include "mvEvents.h"
-#define PY_SSIZE_T_CLEAN
-#include <Python.h>
+#include "mvApp.h"
 
 namespace Marvel {
 
@@ -39,23 +35,44 @@ namespace Marvel {
 		bool onInputs  (mvEvent& event);
 		bool onRender  (mvEvent& event);
 
+		void runTasks();
+
         void runCallback      (PyObject* callback, const std::string& sender, PyObject* data = nullptr);
         void addCallback      (PyObject* callback, const std::string& sender, PyObject* data);
 		
 		void runCallbacks();
 
+		void stop() { m_running = false; }
+		bool isCallbackEmpty() { return m_calls.empty(); }
+
 		template<typename F, typename ...Args>
 		std::future<typename std::invoke_result<F, Args...>::type> submit(F f)
 		{
+
 			typedef typename std::invoke_result<F, Args...>::type result_type;
 			std::packaged_task<result_type()> task(std::move(f));
 			std::future<result_type> res(task.get_future());
-			m_tasks.push(std::move(task));
+
+			if (mvApp::IsAppStarted())
+				m_tasks.push(std::move(task));
+			else
+				task();
 
 			return res;
 		}
 
-		mvQueue<task_type>& getTaskQueue() { return m_tasks; }
+		template<typename F, typename ...Args>
+		std::future<typename std::invoke_result<F, Args...>::type> submitCallback(F f)
+		{
+
+			typedef typename std::invoke_result<F, Args...>::type result_type;
+			std::packaged_task<result_type()> task(std::move(f));
+			std::future<result_type> res(task.get_future());
+
+			m_calls.push(std::move(task));
+
+			return res;
+		}
 
 		//-----------------------------------------------------------------------------
         // Callbacks
@@ -94,13 +111,14 @@ namespace Marvel {
 	
 	private:
 
-		mutable std::mutex               m_mutex;
 
 		// callback system
 		std::vector<NewCallback>          m_callbacks;
 
 		// new callback system
 		mvQueue<task_type> m_tasks;
+		mvQueue<task_type> m_calls;
+		std::atomic<bool> m_running;
 
 		// input callbacks
 		PyObject* m_renderCallback = nullptr;

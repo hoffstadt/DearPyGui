@@ -80,9 +80,13 @@ namespace Marvel {
 		if (mvApp::GetApp()->getItemRegistry().addItemWithRuntimeChecks(item, tipparent, before))
 		{
 			mvApp::GetApp()->getItemRegistry().pushParent(item);
-			return ToPyBool(true);
+			if (!show)
+				item->hide();
+
 		}
-		return ToPyBool(false);
+
+		return GetPyNone();
+
 	}
 
 }

@@ -1,6 +1,7 @@
 #include "mvAppItemTheme.h"
 #include "mvAppItemStyleManager.h"
 #include "mvApp.h"
+#include "mvAppItem.h"
 
 namespace Marvel {
 

@@ -16,11 +16,12 @@
 #include <implot.h>
 #include "mvEventListener.h"
 #include "mvTheme.h"
+#include "mvCallbackRegistry.h"
 
 namespace Marvel {
 
 	mvApp* mvApp::s_instance = nullptr;
-	bool   mvApp::s_started = false;
+	std::atomic_bool mvApp::s_started = false;
 
 
 	// utility structure for realtime plot
@@ -114,8 +115,12 @@ namespace Marvel {
 				ThrowPythonException("Window does not exists.");
 		}
 
+        std::thread t([&]() {m_callbackRegistry->runCallbacks(); });
+        t.detach();
+
 		m_viewport->run();
 		delete m_viewport;
+        m_callbackRegistry->stop();
 		s_started = false;
 	}
 
@@ -146,6 +151,11 @@ namespace Marvel {
         m_callbackRegistry = CreateOwnedPtr<mvCallbackRegistry>();
 
 	}
+
+    mvCallbackRegistry& mvApp::getCallbackRegistry()
+    { 
+        return *m_callbackRegistry; 
+    }
 
 	bool mvApp::onEvent(mvEvent& event)
 	{
@@ -217,6 +227,7 @@ namespace Marvel {
 		// route input callbacks
 		mvInput::CheckInputs();
 
+        std::lock_guard<std::mutex> lk(m_mutex);
 		mvEventBus::Publish(mvEVT_CATEGORY_APP, mvEVT_PRE_RENDER);
 		mvEventBus::Publish(mvEVT_CATEGORY_APP, mvEVT_PRE_RENDER_RESET);
 		mvEventBus::Publish(mvEVT_CATEGORY_APP, mvEVT_RENDER);
