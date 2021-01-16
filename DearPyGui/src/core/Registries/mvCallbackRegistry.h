@@ -1,27 +1,7 @@
 #pragma once
-#include <queue>
-#include <string>
 #include <mutex>
 #include "mvThreadPool.h"
-#include "mvEvents.h"
 #include "mvApp.h"
-#define PY_SSIZE_T_CLEAN
-#include <Python.h>
-#include <chrono>
-
-//-----------------------------------------------------------------------------
-// Typedefs for chrono's ridiculously long names
-//-----------------------------------------------------------------------------
-typedef std::chrono::high_resolution_clock clock_;
-typedef std::chrono::duration<double, std::ratio<1> > second_;
-typedef std::chrono::duration<double, std::milli > millisecond_;
-#if defined (_WIN32)
-typedef std::chrono::steady_clock::time_point time_point_;
-#elif defined(__APPLE__)
-typedef std::chrono::steady_clock::time_point time_point_;
-#else
-typedef std::chrono::system_clock::time_point time_point_;
-#endif
 
 namespace Marvel {
 
@@ -142,7 +122,6 @@ namespace Marvel {
 		mvQueue<task_type> m_tasks;
 		mvQueue<task_type> m_calls;
 		std::atomic<bool> m_running;
-		time_point_                      m_startTime;                         // threadpool start time
 
 		// input callbacks
 		PyObject* m_renderCallback = nullptr;
