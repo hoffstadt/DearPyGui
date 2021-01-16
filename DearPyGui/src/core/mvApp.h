@@ -22,7 +22,7 @@
 #include <thread>
 #include <atomic>
 #include "mvEvents.h"
-#include "mvAppItem.h"
+//#include "mvAppItem.h"
 #include "mvPythonParser.h"
 #include "mvItemRegistry.h"
 #include "mvDrawList.h"
