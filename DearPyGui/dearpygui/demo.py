@@ -173,6 +173,58 @@ def show_demo():
         set_key_release_callback(None)
         set_accelerator_callback(None)
 
+    with window("New Style Editor"):
+        color_constants = {
+            "mvThemeCol_Window"                     : 102,
+            "mvThemeCol_Window_Border"              : 105,
+            "mvThemeCol_Window_Title"               : 110,
+            "mvThemeCol_Window_TitleActive"         : 111,
+            "mvThemeCol_Window_TitleCollapsed"      : 112,
+            "mvThemeCol_Window_Scrollbar"           : 114,
+            "mvThemeCol_Window_ScrollbarGrab"       : 115,
+            "mvThemeCol_Window_ScrollbarGrabHovered": 116,
+            "mvThemeCol_Window_ScrollbarGrabActive" : 117,
+            "mvThemeCol_Window_ResizeGrip"          : 130,
+            "mvThemeCol_Window_ResizeGripHovered"   : 131,
+            "mvThemeCol_Window_ResizeGripActive"    : 132,
+            "mvThemeCol_Button"                     : 221,
+            "mvThemeCol_Button_Text"                : 200,
+            "mvThemeCol_Button_Hovered"             : 222,
+            "mvThemeCol_Button_Active"              : 223,
+            "mvThemeCol_Spacing"                    : 327,
+            "mvThemeCol_Spacing_Hovered"            : 328,
+            "mvThemeCol_Spacing_Active"             : 329,
+            "mvThemeCol_InputText"                  : 407,
+            "mvThemeCol_InputText_Text"             : 400,
+            "mvThemeCol_InputText_Border"           : 405,
+            "mvThemeCol_RadioButton"                : 507,
+            "mvThemeCol_RadioButton_Text"           : 500,
+            "mvThemeCol_RadioButton_Border"         : 505,
+            "mvThemeCol_RadioButton_Hovered"        : 508,
+            "mvThemeCol_RadioButton_Active"         : 518,
+            "mvThemeCol_Tab"                        : 633,
+            "mvThemeCol_Tab_Text"                   : 600,
+            "mvThemeCol_Tab_Hovered"                : 634,
+            "mvThemeCol_Tab_Active"                 : 635,
+            "mvThemeCol_MenuBar"                    : 713,
+            "mvThemeCol_Menu_BackDrop"              : 800,
+            "mvThemeCol_Menu_Text"                  : 800,
+            "mvThemeCol_Menu_Border"                : 805,
+            "mvThemeCol_Menu_Active"                : 824,
+            "mvThemeCol_Menu_Hovered"               : 825,
+            "mvThemeCol_MenuItem_Text"              : 900,
+            "mvThemeCol_MenuItem_Active"            : 924,
+            "mvThemeCol_MenuItem_Hovered"           : 925,
+            "mvThemeCol_Child"                      :1003,
+            "mvThemeCol_Child_Border"               :1005,
+            "mvThemeCol_Child_Scrollbar"            :1014,
+            "mvThemeCol_Child_ScrollbarGrab"        :1015,
+            "mvThemeCol_Child_ScrollbarGrabHovered" :1016,
+            "mvThemeCol_Child_ScrollbarGrabActive"  :1017}
+        add_button("testttt", callback=lambda sender, data: print(get_item_type(sender)))
+        for color,constant in color_constants.items():
+            add_color_edit4(color, callback_data = constant, callback = lambda sender, data: set_global_color(data, get_value(sender)))
+
     with window("Dear PyGui Demo", x_pos=100, y_pos=100, width=800, height=800, on_close=on_demo_close):
 
         with menu_bar("MenuBar##demo"):

@@ -25,6 +25,8 @@
 //-----------------------------------------------------------------------------
 #define MV_APPITEM_TYPE(x, parser)\
 mvAppItemType getType() const override { return x; }\
+mvAppItemTheme& getIndividualTheme() { return m_appItemTheme; }\
+mvAppItemTheme m_appItemTheme = mvAppItemTheme((int)getType());\
 std::string getStringType() const override { return std::string(#x); }\
 std::string getParserCommand() const override { return parser; }
 
@@ -35,9 +37,9 @@ namespace Marvel {
     //-----------------------------------------------------------------------------
     enum class mvAppItemType
     {
-        None = 0, Spacing, SameLine, InputText, Button, 
-        RadioButtons, TabBar, TabItem, Image, MenuBar, 
-        Menu, EndMenu, MenuItem, EndMenuBar, Group, Child, 
+        None = 0, Window, Button, Spacing, InputText, RadioButtons,
+        TabItem, MenuBar, Menu, MenuItem, Child, SameLine,
+        EndMenu, EndMenuBar, Group, TabBar, Image,
         SliderFloat, SliderFloat4, SliderInt, SliderInt4, 
         SliderFloat2, SliderFloat3, SliderInt2, SliderInt3,
         DragFloat, DragFloat4, DragInt, DragInt4, DragFloat2,
@@ -46,7 +48,7 @@ namespace Marvel {
         InputInt2, InputInt3, ColorEdit3, ColorEdit4, 
         ColorPicker3, ColorPicker4, Tooltip, CollapsingHeader, 
         Separator, Checkbox, Listbox, Text, LabelText, Combo, 
-        Plot, SimplePlot, Indent, Unindent, Drawing, Window,
+        Plot, SimplePlot, Indent, Unindent, Drawing,
         Popup, Selectable, TreeNode, ProgressBar, Table, Dummy,
         ImageButton, TimePicker, DatePicker, ColorButton,
         ManagedColumns, ColumnSet, NextColumn, Logger,
@@ -126,7 +128,7 @@ namespace Marvel {
         const mvAppItemDescription&         getDescription () const { return m_description; }
         mvAppItemState&                     getState       () { return m_state; } 
         mvAppItemStyleManager&              getStyleManager() { return m_styleManager; }
-        mvAppItemTheme&                     getIndividualTheme() { return m_individualTheme; }
+        virtual mvAppItemTheme&             getIndividualTheme() { return mvAppItemTheme{}; }
 
     protected:
 
@@ -172,8 +174,6 @@ namespace Marvel {
         bool                          m_enabled = true;
         PyObject*                     m_callback     = nullptr;
         PyObject*                     m_callbackData = nullptr;
-                                      
-        mvAppItemTheme                m_individualTheme;
     };
 
 }
