@@ -141,7 +141,7 @@ namespace Marvel {
         std::unique_lock<std::mutex> wait_for_data()
         {
             std::unique_lock<std::mutex> head_lock(m_head_mutex);
-            m_data_cond.wait(head_lock, [&] {return m_head != get_tail(); });
+            m_data_cond.wait(head_lock, [&] {return m_head.get() != get_tail(); });
             return head_lock;
         }
 

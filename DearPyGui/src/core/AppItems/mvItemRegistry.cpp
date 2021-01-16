@@ -360,8 +360,6 @@ namespace Marvel {
 
 	mvWindowAppItem* mvItemRegistry::getWindow(const std::string& name)
 	{
-		if (!mvApp::GetApp()->checkIfMainThread())
-			return nullptr;
 
 		mvRef<mvAppItem> item = getItem(name);
 		if (item == nullptr)
@@ -375,8 +373,6 @@ namespace Marvel {
 
 	bool mvItemRegistry::addItem(mvRef<mvAppItem> item)
 	{
-		if (!mvApp::GetApp()->checkIfMainThread())
-			return false;
 
 		static int count = 0;
 		count++;
@@ -407,8 +403,6 @@ namespace Marvel {
 
 	bool mvItemRegistry::addWindow(mvRef<mvAppItem> item)
 	{
-		if (!mvApp::GetApp()->checkIfMainThread())
-			return false;
 
 		m_frontWindows.push_back(item);
 		return true;
@@ -426,31 +420,37 @@ namespace Marvel {
 		if (item == nullptr)
 			return false;
 
+		std::lock_guard<std::mutex> lk(mvApp::GetApp()->GetApp()->getMutex());
+
 		// remove bad parent stack item
 		if (item->getDescription().root && topParent() != nullptr)
 		{
 			emptyParents();
+
 			ThrowPythonException("Parent stack not empty. Adding window will empty the parent stack. Don't forget to end container types.");
 		}
 
 		if (item->getType() == mvAppItemType::Popup || item->getType() == mvAppItemType::Tooltip)
-			return addItemAfter(parent, item);
+		{
+			addItemAfter(parent, item);
+			return true;
+		}
 
 		// window runtime adding
 		if (item->getDescription().root && mvApp::IsAppStarted())
-			return addRuntimeItem("", "", item);
+			addRuntimeItem("", "", item);
 
 		// window compile adding
 		else if (item->getDescription().root)
-			return addWindow(item);
+			addWindow(item);
 
 		// typical run time adding
 		else if ((!std::string(parent).empty() || !std::string(before).empty()) && mvApp::IsAppStarted())
-			return addRuntimeItem(parent, before, item);
+			addRuntimeItem(parent, before, item);
 
 		// adding without specifying before or parent, instead using parent stack
 		else if (std::string(parent).empty() && std::string(before).empty() && mvApp::IsAppStarted() && topParent() != nullptr)
-			return addRuntimeItem(topParent()->m_name, before, item);
+			addRuntimeItem(topParent()->m_name, before, item);
 
 		// adding without specifying before or parent, but with empty stack (add to main window)
 		else if (std::string(parent).empty() && std::string(before).empty() && mvApp::IsAppStarted())
@@ -461,14 +461,14 @@ namespace Marvel {
 
 		// adding normally but using the runtime style of adding
 		else if (!std::string(parent).empty() && !mvApp::IsAppStarted())
-			return addRuntimeItem(parent, before, item);
+			addRuntimeItem(parent, before, item);
 
 		// typical adding before runtime
 		else if (std::string(parent).empty() && !mvApp::IsAppStarted() && std::string(before).empty())
-			return addItem(item);
+			addItem(item);
 
 
-		return false;
+		return true;
 	}
 
 	std::string mvItemRegistry::getItemParentName(const std::string& name)
