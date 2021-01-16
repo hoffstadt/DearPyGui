@@ -72,12 +72,12 @@ namespace Marvel {
 
 		// mouse
 		static std::atomic_int  s_mousewheel;
-		static std::atomic_bool s_mousedown[3];
-		static std::atomic_bool s_mouseDragging[3];
-		static std::atomic_int  s_mousedownduration[3]; // 1/100 seconds
-		static std::atomic_bool s_mouseclick[3];
-		static std::atomic_bool s_mousedoubleclick[3];
-		static std::atomic_bool s_mousereleased[3];
+		static std::atomic_bool s_mousedown[5];
+		static std::atomic_bool s_mouseDragging[5];
+		static std::atomic_int  s_mousedownduration[5]; // 1/100 seconds
+		static std::atomic_bool s_mouseclick[5];
+		static std::atomic_bool s_mousedoubleclick[5];
+		static std::atomic_bool s_mousereleased[5];
 
 	};
 
