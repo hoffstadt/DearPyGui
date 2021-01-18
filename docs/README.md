@@ -155,7 +155,7 @@ These include:
 * 🥇 [Trinnik](https://github.com/Trinnik) _Gold Sponsor_
 
 
-Thank you to all other sponsors for keeping this project moving forward!
+Thank you to all other [sponsors](https://github.com/hoffstadt/DearPyGui/wiki/Sponsors) for keeping this project moving forward!
 
 ### Credits
 
