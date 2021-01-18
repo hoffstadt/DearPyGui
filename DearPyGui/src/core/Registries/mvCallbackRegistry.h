@@ -40,10 +40,10 @@ namespace Marvel {
         void runCallback      (PyObject* callback, const std::string& sender, PyObject* data = nullptr);
         void addCallback      (PyObject* callback, const std::string& sender, PyObject* data);
 		
-		void runCallbacks();
+		bool runCallbacks();
 
 		void stop() { m_running = false; }
-		bool isCallbackEmpty() { return m_calls.empty(); }
+		bool isReadyToBeStopped() const { return m_callbacks.empty(); }
 
 		template<typename F, typename ...Args>
 		std::future<typename std::invoke_result<F, Args...>::type> submit(F f)

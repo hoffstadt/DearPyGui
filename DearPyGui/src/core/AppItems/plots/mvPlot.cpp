@@ -703,7 +703,7 @@ namespace Marvel {
 						if (ImPlot::DragLineY(line.name.c_str(), &line.dummyValue, line.show_label, line.color.toVec4(), line.thickness))
 						{
 							*line.value = (float)line.dummyValue;
-							mvApp::GetApp()->getCallbackRegistry().runCallback(line.callback, line.name, nullptr);
+							mvApp::GetApp()->getCallbackRegistry().addCallback(line.callback, line.name, nullptr);
 						}
 					}
 					else
@@ -711,7 +711,7 @@ namespace Marvel {
 						if (ImPlot::DragLineX(line.name.c_str(), &line.dummyValue, line.show_label, line.color.toVec4(), line.thickness))
 						{
 							*line.value = (float)line.dummyValue;
-							mvApp::GetApp()->getCallbackRegistry().runCallback(line.callback, line.name, nullptr);
+							mvApp::GetApp()->getCallbackRegistry().addCallback(line.callback, line.name, nullptr);
 						}
 					}
 				}
@@ -728,7 +728,7 @@ namespace Marvel {
 					{
 						point.value[0] = (float)point.dummyx;
 						point.value[1] = (float)point.dummyy;
-						mvApp::GetApp()->getCallbackRegistry().runCallback(point.callback, point.name, nullptr);
+						mvApp::GetApp()->getCallbackRegistry().addCallback(point.callback, point.name, nullptr);
 					}
 				}
 			}
@@ -754,8 +754,7 @@ namespace Marvel {
 					PyTuple_SetItem(area, 1, PyFloat_FromDouble(m_queryArea[1]));
 					PyTuple_SetItem(area, 2, PyFloat_FromDouble(m_queryArea[2]));
 					PyTuple_SetItem(area, 3, PyFloat_FromDouble(m_queryArea[3]));
-					if(mvApp::GetApp()->getCallbackRegistry().isCallbackEmpty())
-						mvApp::GetApp()->getCallbackRegistry().runCallback(m_queryCallback, m_name, area);
+					mvApp::GetApp()->getCallbackRegistry().addCallback(m_queryCallback, m_name, area);
 					});
 			}
 

@@ -20,6 +20,7 @@
 #include <string>
 #include <queue>
 #include <thread>
+#include <future>
 #include <atomic>
 #include "mvEvents.h"
 //#include "mvAppItem.h"
@@ -210,6 +211,7 @@ namespace Marvel {
         
         std::thread::id                  m_mainThreadID;
         mutable std::mutex               m_mutex;
+        std::future<bool>                m_future;
 
     };
 

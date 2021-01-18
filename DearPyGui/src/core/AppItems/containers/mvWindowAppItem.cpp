@@ -311,9 +311,12 @@ namespace Marvel {
 
 	mvWindowAppItem::~mvWindowAppItem()
 	{
-		 
-		if (m_closing_callback)
-			Py_XDECREF(m_closing_callback);
+		PyObject* callback = m_closing_callback;
+		mvApp::GetApp()->getCallbackRegistry().submitCallback([callback]() {
+			if (callback)
+				Py_XDECREF(callback);
+			});
+
 	}
 
 	PyObject* add_window(PyObject* self, PyObject* args, PyObject* kwargs)
