@@ -392,7 +392,7 @@ namespace Marvel {
 
 	PyObject* setup_dearpygui(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
-
+		Py_BEGIN_ALLOW_THREADS;
 		mvApp::SetAppStarted();
 
 		// create window
@@ -400,6 +400,7 @@ namespace Marvel {
 		window->show();
 		mvApp::GetApp()->setViewport(window);
 		window->setup();
+		Py_END_ALLOW_THREADS;
 
 		return GetPyNone();
 	}
@@ -407,20 +408,23 @@ namespace Marvel {
 	PyObject* render_dearpygui_frame(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 
+		Py_BEGIN_ALLOW_THREADS;
 		auto window = mvApp::GetApp()->getViewport();
 		window->renderFrame();
+		Py_END_ALLOW_THREADS;
 
 		return GetPyNone();
 	}
 
 	PyObject* cleanup_dearpygui(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
-
 		auto window = mvApp::GetApp()->getViewport();
 		delete window;
 		mvApp::GetApp()->setViewport(nullptr);
+		Py_BEGIN_ALLOW_THREADS;
 		mvApp::SetAppStopped();
 		mvApp::DeleteApp();
+		Py_END_ALLOW_THREADS;
 
 		return GetPyNone();
 	}

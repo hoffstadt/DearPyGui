@@ -45,7 +45,7 @@ namespace Marvel {
 		switch (GetEInt(event, "FRAME"))
 		{
 		case 3:
-			runCallback(m_onStartCallback, "Main Application");
+			addCallback(m_onStartCallback, "Main Application", nullptr);
 			break;
 
 		default:
@@ -175,7 +175,7 @@ namespace Marvel {
 		return true;
 	}
 
-	void mvCallbackRegistry::runCallbacks()
+	bool mvCallbackRegistry::runCallbacks()
 	{
 		m_running = true;
 
@@ -184,10 +184,14 @@ namespace Marvel {
 		while (m_running)
 		{
 				mvCallbackRegistry::task_type t2;
+				Py_BEGIN_ALLOW_THREADS;
 				m_calls.wait_and_pop(t2);
+				Py_END_ALLOW_THREADS;
 				t2();
 		}
 
+		runCallback(m_onCloseCallback, "Main Application", nullptr);
+		return true;
 	}
 
 	void mvCallbackRegistry::addCallback(PyObject* callable, const std::string& sender, PyObject* data)

@@ -74,16 +74,15 @@ namespace Marvel {
 	void mvApp::SetAppStarted() 
 	{
 		s_started = true; 
+        GetApp()->m_future = std::async(std::launch::async, []() {return GetApp()->m_callbackRegistry->runCallbacks(); });
 	}
 
 	void mvApp::SetAppStopped() 
 	{ 
-		if (GetApp())
-		{
-			GetApp()->m_callbackRegistry->runCallback(GetApp()->m_callbackRegistry->getOnCloseCallback(), "Main Application");
-            GetApp()->m_callbackRegistry->setOnCloseCallback(nullptr);
-		}
 
+        GetApp()->getCallbackRegistry().stop();
+        GetApp()->getCallbackRegistry().addCallback(nullptr, "null", nullptr);
+        GetApp()->m_future.get();
 		s_started = false; 
 		auto viewport = s_instance->getViewport();
 		if (viewport)
@@ -115,12 +114,17 @@ namespace Marvel {
 				ThrowPythonException("Window does not exists.");
 		}
 
-        std::thread t([&]() {m_callbackRegistry->runCallbacks(); });
-        t.detach();
+        //std::thread t([&]() {m_callbackRegistry->runCallbacks(); });
+        //t.detach();
+
+        m_future = std::async(std::launch::async, [&]() {return m_callbackRegistry->runCallbacks(); });
 
 		m_viewport->run();
+
+        GetApp()->getCallbackRegistry().stop();
+        GetApp()->getCallbackRegistry().addCallback(nullptr, "null", nullptr);
+        m_future.get();
 		delete m_viewport;
-        m_callbackRegistry->stop();
 		s_started = false;
 	}
 

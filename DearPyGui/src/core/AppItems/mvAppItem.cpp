@@ -459,7 +459,7 @@ namespace Marvel{
 		deleteChildren();
 
 		 
-
+		mvGlobalIntepreterLock gil;
 		if (m_callback)
 			Py_DECREF(m_callback);
 		if (m_callbackData)
