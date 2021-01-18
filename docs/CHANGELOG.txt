@@ -43,6 +43,14 @@ Breaking Changes:
 - set_threadpool_timeout:          removed command
 
 ------------------------------------------------------------------------
+ VERSION 0.6.124
+------------------------------------------------------------------------
+
+Fixes:
+- image_button: fixed issue where callbacks didn't work properly on
+                image buttons using same image #483
+
+------------------------------------------------------------------------
  VERSION 0.6.123
 ------------------------------------------------------------------------
 
