@@ -166,9 +166,9 @@ namespace Marvel {
 			//-----------------------------------------------------------------------------
 			// NEW Theme Color IDs
 			//-----------------------------------------------------------------------------
-			{ "mvThemeCol_Button"               , 121 },
-			{ "mvThemeCol_ButtonHovered"        , 122 },
-			{ "mvThemeCol_ButtonActive"         , 123 },
+			{ "mvThemeCol_Button"               , 421 },
+			{ "mvThemeCol_ButtonHovered"        , 422 },
+			{ "mvThemeCol_ButtonActive"         , 423 },
 
 			//-----------------------------------------------------------------------------
 			// Theme Color IDs
@@ -739,7 +739,7 @@ namespace Marvel {
 
 		// Theme commands
 		ADD_PYTHON_FUNCTION(set_individual_color)
-		ADD_PYTHON_FUNCTION(set_global_color)
+		ADD_PYTHON_FUNCTION(set_theme_color)
 		ADD_PYTHON_FUNCTION(add_additional_font)
 		ADD_PYTHON_FUNCTION(set_item_color)
 		ADD_PYTHON_FUNCTION(clear_item_color)
