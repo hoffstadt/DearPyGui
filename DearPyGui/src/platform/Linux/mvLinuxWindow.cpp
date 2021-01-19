@@ -24,7 +24,7 @@ namespace Marvel {
 
     static void window_close_callback(GLFWwindow* window)
     {
-        mvApp::SetAppStopped();
+        mvApp::s_started = false;
     }
 
     static void window_size_callback(GLFWwindow* window, int width, int height)
