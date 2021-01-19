@@ -160,7 +160,7 @@ Thank you to all other [sponsors](https://github.com/hoffstadt/DearPyGui/wiki/Sp
 
 ---
 
-Developed by Jonathan Hoffstadt, Preston Cothren, and every direct or indirect contributor.
+Developed by [Jonathan Hoffstadt](https://github.com/hoffstadt), [Preston Cothren](https://github.com/Pcothren), and every direct or indirect contributor.
 
 [Omar Cornut](http://www.miracleworld.net/) for all his incredible work on [Dear ImGui](https://github.com/ocornut/imgui).
 
