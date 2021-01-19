@@ -133,7 +133,6 @@ If you are having issues or want to help, here are some places you can go:
 ---
 
 Some upcoming features:
-- An object oriented interface
 - Support for multiple viewports.
 - 3D widget.
 - Custom Widget API.
