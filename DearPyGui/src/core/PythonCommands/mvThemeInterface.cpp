@@ -14,10 +14,12 @@ namespace Marvel {
 			{mvPythonDataType::Object, "custom_glyph_ranges", "list of ranges", "List[List[int]]"},
 		}, "Adds additional font.", "None", "Themes and Styles") });
 
-		parsers->insert({ "set_global_color", mvPythonParser({
-			{mvPythonDataType::Integer, "id", "mvGuiCol_* constants"},
-			{mvPythonDataType::FloatList, "color"}
-		}, "Sets an color of a theme item.", "None", "Themes and Styles") });
+		parsers->insert({ "set_theme_color", mvPythonParser({
+			{mvPythonDataType::Integer, "constant", "mvGuiCol_* constants"},
+			{mvPythonDataType::FloatList, "color"},
+			{mvPythonDataType::Optional},
+			{mvPythonDataType::String, "item", "", ""}
+		}, "Sets a color of a theme item.", "None", "Themes and Styles") });
 
 		parsers->insert({ "set_individual_color", mvPythonParser({
 			{mvPythonDataType::String, "item", ""},
@@ -315,22 +317,23 @@ namespace Marvel {
 		return GetPyNone();
 	}
 
-	PyObject* set_global_color(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* set_theme_color(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
-		int id;
+		int constant;
 		PyObject* color;
+		const char* item = "";
 
-		if (!(*mvApp::GetApp()->getParsers())["set_global_color"].parse(args, kwargs, __FUNCTION__, &id, &color))
+		if (!(*mvApp::GetApp()->getParsers())["set_theme_color"].parse(args, kwargs, __FUNCTION__, &constant, &color, &item))
 			return GetPyNone();
 
 		std::lock_guard<std::mutex> lk(mvApp::GetApp()->GetApp()->getMutex());
 		mvEventBus::Publish
 		(
 			mvEVT_CATEGORY_THEMES,
-			SID(std::string(std::to_string(id / 100) + "_color").c_str()),
+			SID("color_change"),
 			{
-				CreateEventArgument("WIDGET", std::string("")),
-				CreateEventArgument("ID", id),
+				CreateEventArgument("WIDGET", std::string(item)),
+				CreateEventArgument("ID", constant),
 				CreateEventArgument("COLOR", ToColor(color))
 			}
 		);

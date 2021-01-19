@@ -6,19 +6,17 @@
 
 namespace Marvel {
 
-	class mvTheme
+	class mvTheme : public mvEventHandler
 	{
 
 	public:
 
 		mvTheme();
-
-		mvAppItemTheme* getThemeItem(mvAppItemType type);
-
+		~mvTheme();
 
 	private:
-
-		std::unordered_map<mvAppItemType, mvAppItemTheme> m_themeItems;
+		bool onEvent(mvEvent& event) override;
+		bool add_color(mvEvent& event);
 
 	};
 

@@ -6,7 +6,7 @@ namespace Marvel {
 	void AddThemeCommands(std::map<std::string, mvPythonParser>* parsers);
 
 	// global
-	PyObject* set_global_color                      (PyObject* self, PyObject* args, PyObject* kwargs);
+	PyObject* set_theme_color                       (PyObject* self, PyObject* args, PyObject* kwargs);
 	PyObject* set_individual_color                  (PyObject* self, PyObject* args, PyObject* kwargs);
 	PyObject* get_theme_item                        (PyObject* self, PyObject* args, PyObject* kwargs);
 	PyObject* get_theme                             (PyObject* self, PyObject* args, PyObject* kwargs);
