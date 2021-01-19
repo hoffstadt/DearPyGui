@@ -2,6 +2,7 @@ name: static-analysis
 
 on:
   push: {}
+  pull_request: {}
 
 jobs:
   PVS-Studio:
