@@ -38,6 +38,33 @@ namespace Marvel {
 		auto styleManager = m_styleManager.getScopedStyleManager();
 		ScopedID id;
 
+		std::vector<int> pushedIDs;
+		//this goes through the specific colors for the current item type and applies them
+		for (auto& themeColor : getIndividualTheme().getColors()[getType()])
+		{
+			ImGui::PushStyleColor((ImGuiCol)themeColor.first, themeColor.second.toVec4());
+			pushedIDs.push_back(themeColor.first);
+		}
+		//this goes through the specific colors for the current item type and applies them
+		bool root = false;
+		mvAppItem* widget = this;
+		while (!root)
+		{
+			
+			widget = widget->getParent();
+			for (auto& themeColor : widget->getIndividualTheme().getColors()[getType()])
+			{
+				//checking to see if libID has been pushed
+				if (std::find(pushedIDs.begin(), pushedIDs.end(), themeColor.first) == pushedIDs.end())
+				{
+					ImGui::PushStyleColor((ImGuiCol)themeColor.first, themeColor.second.toVec4());
+					pushedIDs.push_back(themeColor.first);
+				}
+			}
+			root = widget->getDescription().root;
+		}
+
+
 		if (!m_enabled)
 		{
 			auto disabled_color = ImVec4(ImGui::GetStyleColorVec4(ImGuiCol_TextDisabled));
@@ -53,6 +80,8 @@ namespace Marvel {
 			if (ImGui::SmallButton(m_label.c_str()))
 				mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), m_name, m_callbackData);
 
+			//remember to pop
+			ImGui::PopStyleColor(pushedIDs.size());
 			return;
 		}
 
@@ -61,12 +90,16 @@ namespace Marvel {
 			if (ImGui::ArrowButton(m_label.c_str(), m_direction))
 				mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), m_name, m_callbackData);
 
+			//remember to pop
+			ImGui::PopStyleColor(pushedIDs.size());
 			return;
 		}
 
 		if (ImGui::Button(m_label.c_str(), ImVec2((float)m_width, (float)m_height)))
 			mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), m_name, m_callbackData);
 
+		//remember to pop
+		ImGui::PopStyleColor(pushedIDs.size());
 	}
 
 	void mvButton::setExtraConfigDict(PyObject* dict)
