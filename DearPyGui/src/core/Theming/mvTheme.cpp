@@ -32,10 +32,14 @@ namespace Marvel {
 		{
 			widget == mvApp::GetApp()->getItemRegistry().getWindows()[0];
 		}
-		else
-			NULL;
 
+		//check widget can take color and apply
 		mvRef<mvAppItem> item = mvApp::GetApp()->getItemRegistry().getItem(widget);
+		if (item->getDescription().container || item->getType() == type)
+		{
+			item->getIndividualTheme().getColors()[type][libID] = color;
+		}
+		else ThrowPythonException("Item does not except this theme constant.");
 		return true;
 	}
 

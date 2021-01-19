@@ -127,6 +127,7 @@ namespace Marvel {
         mvAppItemState&                     getState       () { return m_state; } 
         mvAppItemStyleManager&              getStyleManager() { return m_styleManager; }
         mvAppItemTheme&                     getIndividualTheme() { return m_individualTheme; }
+        mvAppItem*                          getParent() { return m_parent; }
 
     protected:
 
