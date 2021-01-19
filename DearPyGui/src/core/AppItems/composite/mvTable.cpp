@@ -572,7 +572,7 @@ namespace Marvel {
 				if (ImGui::Selectable(m_hashValues[i][j].c_str(), m_selections[{i, j}]))
 				{
 					m_selections[{i, j}] = !m_selections[{i, j}];
-					mvApp::GetApp()->getCallbackRegistry().runCallback(m_callback, m_name);
+					mvApp::GetApp()->getCallbackRegistry().addCallback(m_callback, m_name, nullptr);
 				}
 				ImGui::NextColumn();
 				index++;
