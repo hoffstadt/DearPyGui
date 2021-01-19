@@ -150,6 +150,7 @@ def demo_accelerator_callback(sender, data):
         
 def show_demo():
 
+    
     # the render callback is a function that runs every frame
     set_render_callback(demo_main_callback)
 
