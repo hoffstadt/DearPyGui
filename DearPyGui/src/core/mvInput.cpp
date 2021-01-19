@@ -27,15 +27,19 @@ namespace Marvel {
 
 		// update mouse
 		// mouse move event
-		if (s_mouseGlobalPos.x != ImGui::GetMousePos().x || s_mouseGlobalPos.y != ImGui::GetMousePos().y)
+		ImVec2 mousepos = ImGui::GetMousePos();
+		if (ImGui::IsMousePosValid(&mousepos))
 		{
-			mvInput::setGlobalMousePosition(ImGui::GetMousePos().x, ImGui::GetMousePos().y);
+			if (s_mouseGlobalPos.x != mousepos.x || s_mouseGlobalPos.y !=mousepos.y)
+			{
+				mvInput::setGlobalMousePosition(mousepos.x, mousepos.y);
 
-			mvEventBus::Publish(mvEVT_CATEGORY_INPUT, mvEVT_MOUSE_MOVE,
-				{
-				CreateEventArgument("X", ImGui::GetMousePos().x),
-				CreateEventArgument("Y", ImGui::GetMousePos().y)
-				});
+				mvEventBus::Publish(mvEVT_CATEGORY_INPUT, mvEVT_MOUSE_MOVE,
+					{
+					CreateEventArgument("X", mousepos.x),
+					CreateEventArgument("Y", mousepos.y)
+					});
+			}
 		}
 		
 

@@ -177,9 +177,9 @@ namespace Marvel {
 		m_clientWidth  = GetEInt(event, "client_width");
 		m_clientHeight = GetEInt(event, "client_height");
 
-		m_callbackRegistry->runCallback(
+		m_callbackRegistry->addCallback(
 			m_callbackRegistry->getResizeCallback(), 
-			"Main Application");
+			"Main Application", nullptr);
 
 		return true;
 	}
