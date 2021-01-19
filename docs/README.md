@@ -14,7 +14,7 @@
 [![Sponsors](https://img.shields.io/badge/sponsors-23-brightgreen)](https://img.shields.io/badge/sponsors-23-brightgreen)
 
 [![build status](https://github.com/hoffstadt/DearPyGui/workflows/Embedded%20Build/badge.svg)](https://github.com/hoffstadt/DearPyGui/actions?workflow=Embedded%20Build)
-![static-analysis](https://github.com/hoffstadt/DearPyGui/workflows/static-analysis/badge.svg)
+[![static-analysis](https://github.com/hoffstadt/DearPyGui/workflows/static-analysis/badge.svg)](https://github.com/hoffstadt/DearPyGui/actions?workflow=static-analysis)
 [![Build status](https://ci.appveyor.com/api/projects/status/eypfn2lyuwfv8mel?svg=true)](https://ci.appveyor.com/project/hoffstadt/dearpygui)
 
 **Dear PyGui** is a **simple to use (but powerful) Python GUI framework**. _Dear PyGui_ provides a wrapping of **[Dear ImGui](https://github.com/ocornut/imgui)** which simulates a traditional retained mode GUI (as opposed to _Dear ImGui_'s immediate mode paradigm).
