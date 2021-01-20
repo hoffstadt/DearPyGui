@@ -400,6 +400,7 @@ def show_demo():
                 add_text("Progress Bar##text##demo")
                 set_value("Progress Bar##text##demo", "Progress Bar")
                 add_progress_bar("##Progress Bar##demo", default_value=0.78, overlay="1367/1753")
+                set_item_color("##Progress Bar##demo", mvGuiCol_PlotHistogram, [255,0,0, 255])
 
             with tree_node("Color/Picker Widgets##demo"):
                 # wrapper to apply configuration to all items passed in as a list
