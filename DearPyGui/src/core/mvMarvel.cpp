@@ -210,17 +210,19 @@ namespace Marvel {
 			{"mvGuiCol_TabHovered"           , 34},
 			{"mvGuiCol_TabActive"            , 35},
 			{"mvGuiCol_TabUnfocused"         , 36},
-			{"mvGuiCol_TabUnfocusedActive"   , 37},
-			{"mvGuiCol_PlotLines"            , 38},
-			{"mvGuiCol_PlotLinesHovered"     , 39},
-			{"mvGuiCol_PlotHistogram"        , 40},
-			{"mvGuiCol_PlotHistogramHovered" , 41},
-			{"mvGuiCol_TextSelectedBg"       , 42},
-			{"mvGuiCol_DragDropTarget"       , 43},
-			{"mvGuiCol_NavHighlight"         , 44}, // Gamepad/keyboard: current highlighted item
-			{"mvGuiCol_NavWindowingHighlight", 45}, // Highlight window when using CTRL+TAB
-			{"mvGuiCol_NavWindowingDimBg"    , 46}, // Darken/colorize entire screen behind the CTRL+TAB window list, when active 
-			{"mvGuiCol_ModalWindowDimBg"     , 47}, // Darken/colorize entire screen behind a modal window, when one is active
+			{"mvGuiCol_DockingPreview"       , 37},
+			{"mvGuiCol_DockingEmptyBg"       , 38},
+			{"mvGuiCol_TabUnfocusedActive"   , 39},
+			{"mvGuiCol_PlotLines"            , 40},
+			{"mvGuiCol_PlotLinesHovered"     , 41},
+			{"mvGuiCol_PlotHistogram"        , 42},
+			{"mvGuiCol_PlotHistogramHovered" , 43},
+			{"mvGuiCol_TextSelectedBg"       , 44},
+			{"mvGuiCol_DragDropTarget"       , 45},
+			{"mvGuiCol_NavHighlight"         , 46}, // Gamepad/keyboard: current highlighted item
+			{"mvGuiCol_NavWindowingHighlight", 47}, // Highlight window when using CTRL+TAB
+			{"mvGuiCol_NavWindowingDimBg"    , 48}, // Darken/colorize entire screen behind the CTRL+TAB window list, when active 
+			{"mvGuiCol_ModalWindowDimBg"     , 49}, // Darken/colorize entire screen behind a modal window, when one is active
 
 			//-----------------------------------------------------------------------------
 			// Theme style variable IDs
