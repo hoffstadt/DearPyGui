@@ -338,7 +338,7 @@ namespace Marvel {
 				return 0;
 			break;
 		case WM_DESTROY:
-			mvApp::s_started = false;
+			mvApp::StopApp();
 			::PostQuitMessage(0);
 			return 0;
 		case WM_INPUTLANGCHANGE:
