@@ -500,7 +500,10 @@ namespace Marvel {
 
 	PyObject* stop_dearpygui(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
-		mvApp::SetAppStopped();
+		mvApp::StopApp();
+		auto viewport = mvApp::GetApp()->getViewport();
+		if (viewport)
+			viewport->stop();
 		return GetPyNone();
 	}
 
