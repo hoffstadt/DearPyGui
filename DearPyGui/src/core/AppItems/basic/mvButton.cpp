@@ -41,7 +41,7 @@ namespace Marvel {
 		int libIDCount = 0;
 		int pushedIDs[ImGuiCol_COUNT];
 		//this goes through the specific colors for the current item type and applies them
-		for (auto& themeColor : getIndividualTheme().getColors()[getType()])
+		for (auto& themeColor : getColors()[getType()])
 		{
 			ImGui::PushStyleColor((ImGuiCol)themeColor.first, themeColor.second.toVec4());
 			pushedIDs[libIDCount] = themeColor.first;
@@ -52,7 +52,7 @@ namespace Marvel {
 		while (!widget->getDescription().root)
 		{
 			widget = widget->getParent();
-			for (auto& themeColor : widget->getIndividualTheme().getColors()[getType()])
+			for (auto& themeColor : widget->getColors()[getType()])
 			{
 				//checking if libID has been used
 				int i = 0;

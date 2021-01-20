@@ -1,5 +1,4 @@
 #include "mvTheme.h"
-#include "mvAppItemTheme.h"
 
 namespace Marvel {
 
@@ -37,7 +36,7 @@ namespace Marvel {
 		mvRef<mvAppItem> item = mvApp::GetApp()->getItemRegistry().getItem(widget);
 		if (item->getDescription().container || item->getType() == type)
 		{
-			item->getIndividualTheme().getColors()[type][libID] = color;
+			item->getColors()[type][libID] = color;
 		}
 		else ThrowPythonException("Item does not except this theme constant.");
 		return true;

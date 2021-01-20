@@ -2,7 +2,6 @@
 
 #include <unordered_map>
 #include "mvAppItem.h"
-#include "mvAppItemTheme.h"
 
 namespace Marvel {
 
