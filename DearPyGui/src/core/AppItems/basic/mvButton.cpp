@@ -48,7 +48,7 @@ namespace Marvel {
 		//this goes through the specific colors for the current item type and applies them
 		bool root = false;
 		mvAppItem* widget = this;
-		while (!root)
+		while (!widget->getDescription().root)
 		{
 			
 			widget = widget->getParent();
@@ -61,7 +61,6 @@ namespace Marvel {
 					pushedIDs.push_back(themeColor.first);
 				}
 			}
-			root = widget->getDescription().root;
 		}
 
 
