@@ -38,27 +38,35 @@ namespace Marvel {
 		auto styleManager = m_styleManager.getScopedStyleManager();
 		ScopedID id;
 
-		std::vector<int> pushedIDs;
+		int libIDCount = 0;
+		int pushedIDs[ImGuiCol_COUNT];
 		//this goes through the specific colors for the current item type and applies them
 		for (auto& themeColor : getIndividualTheme().getColors()[getType()])
 		{
 			ImGui::PushStyleColor((ImGuiCol)themeColor.first, themeColor.second.toVec4());
-			pushedIDs.push_back(themeColor.first);
+			pushedIDs[libIDCount] = themeColor.first;
+			libIDCount++;
 		}
 		//this goes through the specific colors for the current item type and applies them
-		bool root = false;
 		mvAppItem* widget = this;
 		while (!widget->getDescription().root)
 		{
-			
 			widget = widget->getParent();
 			for (auto& themeColor : widget->getIndividualTheme().getColors()[getType()])
 			{
-				//checking to see if libID has been pushed
-				if (std::find(pushedIDs.begin(), pushedIDs.end(), themeColor.first) == pushedIDs.end())
+				//checking if libID has been used
+				int i = 0;
+				while (i < libIDCount)
+					if (pushedIDs[i] == themeColor.first)
+						break;
+					else 
+						i++;
+				//adds libID if it has not been found
+				if (i == libIDCount)
 				{
 					ImGui::PushStyleColor((ImGuiCol)themeColor.first, themeColor.second.toVec4());
-					pushedIDs.push_back(themeColor.first);
+					pushedIDs[libIDCount] = themeColor.first;
+					libIDCount++;
 				}
 			}
 		}
@@ -80,7 +88,7 @@ namespace Marvel {
 				mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), m_name, m_callbackData);
 
 			//remember to pop
-			ImGui::PopStyleColor(pushedIDs.size());
+			ImGui::PopStyleColor(libIDCount);
 			return;
 		}
 
@@ -90,7 +98,7 @@ namespace Marvel {
 				mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), m_name, m_callbackData);
 
 			//remember to pop
-			ImGui::PopStyleColor(pushedIDs.size());
+			ImGui::PopStyleColor(libIDCount);
 			return;
 		}
 
@@ -98,7 +106,7 @@ namespace Marvel {
 			mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), m_name, m_callbackData);
 
 		//remember to pop
-		ImGui::PopStyleColor(pushedIDs.size());
+		ImGui::PopStyleColor(libIDCount);
 	}
 
 	void mvButton::setExtraConfigDict(PyObject* dict)
