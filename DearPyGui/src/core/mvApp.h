@@ -73,6 +73,7 @@ namespace Marvel {
         static bool              IsAppStarted        () { return s_started; }
         static void              SetAppStarted       ();
         static void              SetAppStopped       ();
+        static void              StopApp             () { s_started = false; } // ugly
 
         void start(const std::string& primaryWindow);
 
