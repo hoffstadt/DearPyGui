@@ -7,7 +7,7 @@
 </a>
 
 
-<sub>(This library is available under a free and permissive license however, if you Enjoy _Dear PyGui_ please consider becoming a [Sponsor](https://github.com/sponsors/hoffstadt))</sub>
+<sub>(This library is available under a free and permissive license however, if you Enjoy _Dear PyGui_ please consider becoming a [Sponsor](https://github.com/hoffstadt/DearPyGui/wiki/Sponsors))</sub>
 
 ![Python Version](https://img.shields.io/pypi/pyversions/dearpygui)
 [![PYPI](https://img.shields.io/pypi/v/dearpygui)](https://pypi.org/project/dearpygui/)
@@ -121,8 +121,7 @@ _Dear PyGui_ includes several tools to help developers with _DearPyGui_ app deve
 
 ---
 
-- [Sponsor](https://github.com/sponsors/hoffstadt) If you enjoy _Dear PyGui_ please consider becoming a sponsor.
-- [Paypal](https://www.paypal.com/paypalme/JonathanHoffstadt) For those who don't like rewards.
+- [Sponsor](https://github.com/hoffstadt/DearPyGui/wiki/Sponsors) If you enjoy _Dear PyGui_ please consider becoming a sponsor.
 
 If you are having issues or want to help, here are some places you can go:
 - [Github Discussions](https://github.com/hoffstadt/DearPyGui/discussions/)
@@ -156,6 +155,8 @@ These include:
 
 
 Thank you to all other [sponsors](https://github.com/hoffstadt/DearPyGui/wiki/Sponsors) for keeping this project moving forward!
+
+<a href="https://www.buymeacoffee.com/DearPyGui"><img src="https://img.buymeacoffee.com/button-api/?text=Buy us a coffee&emoji=&slug=DearPyGui&button_colour=FFDD00&font_colour=000000&font_family=Cookie&outline_colour=000000&coffee_colour=ffffff"></a>
 
 ### Credits
 
