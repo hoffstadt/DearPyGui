@@ -25,7 +25,7 @@ namespace Marvel {
 		mvAppItemType type = (mvAppItemType)(GetEInt(event, "ID") / 100);
 		int libID = GetEInt(event, "ID") % 100;
 		mvColor color = GetEColor(event, "COLOR");
-		std::string widget = GetEString(event, "WIDGET");
+		const std::string& widget = GetEString(event, "WIDGET");
 
 		//this needs to fill out the root or primary window
 		if (widget.empty())
