@@ -546,7 +546,7 @@ def get_all_items() -> List[str]:
 	"""Returns a list of all items."""
 	...
 
-def get_data(name: str) -> object:
+def get_data(name: str) -> Any:
 	"""Retrieves data from storage."""
 	...
 
