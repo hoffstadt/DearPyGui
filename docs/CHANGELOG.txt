@@ -29,11 +29,18 @@ HOW TO UPDATE?
 Decorated log: https://github.com/hoffstadt/DearPyGui/releases/tag/v0.7.x
 
 ------------------------------------------------------------------------
+ VERSION 0.6.x
+------------------------------------------------------------------------
+
+Upgrades:
+- callbacks: number of arguments do not matter anymore
+
+------------------------------------------------------------------------
  VERSION 0.6.144
 ------------------------------------------------------------------------
 
 Fixes:
--debug window: the "commands" section works again.
+- debug window: the "commands" section works again.
 
 ------------------------------------------------------------------------
  VERSION 0.6.139
