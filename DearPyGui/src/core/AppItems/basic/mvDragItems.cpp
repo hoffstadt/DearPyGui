@@ -38,6 +38,7 @@ namespace Marvel {
     {
         auto styleManager = m_styleManager.getScopedStyleManager();
         ScopedID id;
+        mvImGuiThemeScope scope(this);
 
         if (!m_enabled)
         {
@@ -129,6 +130,7 @@ namespace Marvel {
     {
         auto styleManager = m_styleManager.getScopedStyleManager();
         ScopedID id;
+        mvImGuiThemeScope scope(this);
 
         if (!m_enabled)
         {
@@ -217,6 +219,7 @@ namespace Marvel {
     {
         auto styleManager = m_styleManager.getScopedStyleManager();
         ScopedID id;
+        mvImGuiThemeScope scope(this);
 
         if (!m_enabled)
         {
@@ -306,6 +309,7 @@ namespace Marvel {
     {
         auto styleManager = m_styleManager.getScopedStyleManager();
         ScopedID id;
+        mvImGuiThemeScope scope(this);
 
         if (!m_enabled)
         {
@@ -395,6 +399,7 @@ namespace Marvel {
     {
         auto styleManager = m_styleManager.getScopedStyleManager();
         ScopedID id;
+        mvImGuiThemeScope scope(this);
 
         if (!m_enabled)
         {
@@ -483,6 +488,7 @@ namespace Marvel {
     {
         auto styleManager = m_styleManager.getScopedStyleManager();
         ScopedID id;
+        mvImGuiThemeScope scope(this);
 
         if (!m_enabled)
         {
@@ -572,6 +578,7 @@ namespace Marvel {
     {
         auto styleManager = m_styleManager.getScopedStyleManager();
         ScopedID id;
+        mvImGuiThemeScope scope(this);
 
         if (!m_enabled)
         {
@@ -661,6 +668,7 @@ namespace Marvel {
     {
         auto styleManager = m_styleManager.getScopedStyleManager();
         ScopedID id;
+        mvImGuiThemeScope scope(this);
 
         if (!m_enabled)
         {

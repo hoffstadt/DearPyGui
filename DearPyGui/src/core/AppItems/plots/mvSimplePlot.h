@@ -37,6 +37,7 @@ namespace Marvel{
 		{
 			auto styleManager = m_styleManager.getScopedStyleManager();
 			ImGui::PushID(this);
+			mvImGuiThemeScope scope(this);
 
 			if(m_histogram)
 				ImGui::PlotHistogram(m_label.c_str(), m_value->data(), (int)m_value->size(), 0, m_overlay.c_str(), 

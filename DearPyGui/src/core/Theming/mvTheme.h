@@ -19,4 +19,15 @@ namespace Marvel {
 
 	};
 
+	class mvImGuiThemeScope
+	{
+	public:
+		mvImGuiThemeScope(mvAppItem* item);
+		~mvImGuiThemeScope();
+
+	private:
+
+		int libIDCount = 0;
+	};
+
 }

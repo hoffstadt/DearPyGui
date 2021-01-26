@@ -79,6 +79,7 @@ namespace Marvel {
 	{
 		m_previousColCount = ImGui::GetColumnsCount();
 		ScopedID id;
+		mvImGuiThemeScope scope(this);
 
 		ImGui::Columns(m_columns, m_name.c_str(), m_border);
 		for (auto& item : m_children)

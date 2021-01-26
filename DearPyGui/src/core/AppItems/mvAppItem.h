@@ -18,6 +18,7 @@
 #include "mvAppItemDescription.h"
 #include "mvAppItemStyleManager.h"
 #include "mvCallbackRegistry.h"
+#include "mvTheme.h"
 
 //-----------------------------------------------------------------------------
 // Helper Macro
@@ -57,7 +58,6 @@ namespace Marvel {
     //-----------------------------------------------------------------------------
     // mvAppItem
     //-----------------------------------------------------------------------------
-    typedef std::unordered_map<int, mvColor> themeColors;
 
     class mvAppItem
     {
@@ -130,7 +130,7 @@ namespace Marvel {
         mvAppItem*                          getParent() { return m_parent; }
 
         // theme get/set
-        std::unordered_map<mvAppItemType, themeColors>& getColors() { return m_colors; }
+        std::unordered_map<mvAppItemType, ThemeColors>& getColors() { return m_colors; }
 
     protected:
 
@@ -177,7 +177,7 @@ namespace Marvel {
         PyObject*                     m_callback     = nullptr;
         PyObject*                     m_callbackData = nullptr;
 
-        std::unordered_map<mvAppItemType, themeColors> m_colors;;
+        std::unordered_map<mvAppItemType, ThemeColors> m_colors;
     };
 
 }

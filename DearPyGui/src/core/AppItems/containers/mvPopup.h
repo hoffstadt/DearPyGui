@@ -24,6 +24,7 @@ namespace Marvel {
 
 			auto styleManager = m_styleManager.getScopedStyleManager();
 			ScopedID id(m_parentAddress);
+			mvImGuiThemeScope scope(this);
 
 			if (m_modal)
 			{

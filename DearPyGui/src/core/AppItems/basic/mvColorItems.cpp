@@ -33,6 +33,7 @@ namespace Marvel {
 	void mvColorButton::draw()
 	{
 		ScopedID id;
+		mvImGuiThemeScope scope(this);
 
 		if (ImGui::ColorButton(m_label.c_str(), m_color, m_flags, ImVec2((float)m_width, (float)m_height)))
 			mvApp::GetApp()->getCallbackRegistry().addCallback(m_callback, m_name, m_callbackData);
@@ -158,6 +159,7 @@ namespace Marvel {
 	void mvColorEdit3::draw()
 	{
 		ScopedID id;
+		mvImGuiThemeScope scope(this);
 
 		if (ImGui::ColorEdit3(m_label.c_str(), m_value, m_flags))
 			mvApp::GetApp()->getCallbackRegistry().addCallback(m_callback, m_name, m_callbackData);
@@ -361,6 +363,7 @@ namespace Marvel {
 	void mvColorEdit4::draw()
 	{
 		ScopedID id;
+		mvImGuiThemeScope scope(this);
 
 		if (ImGui::ColorEdit4(m_label.c_str(), m_value, m_flags))
 			mvApp::GetApp()->getCallbackRegistry().addCallback(m_callback, m_name, m_callbackData);
@@ -564,6 +567,7 @@ namespace Marvel {
 	void mvColorPicker3::draw()
 	{
 		ScopedID id;
+		mvImGuiThemeScope scope(this);
 
 		if (ImGui::ColorPicker3(m_label.c_str(), m_value, m_flags))
 			mvApp::GetApp()->getCallbackRegistry().addCallback(m_callback, m_name, m_callbackData);
@@ -768,6 +772,7 @@ namespace Marvel {
 	void mvColorPicker4::draw()
 	{
 		ScopedID id;
+		mvImGuiThemeScope scope(this);
 
 		if (ImGui::ColorPicker4(m_label.c_str(), m_value, m_flags))
 			mvApp::GetApp()->getCallbackRegistry().addCallback(m_callback, m_name, m_callbackData);

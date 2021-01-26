@@ -22,8 +22,8 @@
 #include <thread>
 #include <future>
 #include <atomic>
+#include "mvCore.h"
 #include "mvEvents.h"
-//#include "mvAppItem.h"
 #include "mvPythonParser.h"
 #include "mvItemRegistry.h"
 #include "mvDrawList.h"
@@ -48,6 +48,7 @@ namespace Marvel {
     class mvTheme;
     class mvCallbackRegistry;
     struct mvColor;
+    enum class mvAppItemType;
     
     //-----------------------------------------------------------------------------
     // mvApp
@@ -150,6 +151,7 @@ namespace Marvel {
         //-----------------------------------------------------------------------------
         std::map<std::string, mvPythonParser>* getParsers      () { return m_parsers.get(); }
         std::mutex& getMutex() const { return m_mutex; }
+        std::unordered_map<mvAppItemType, ThemeColors>& getColors() { return m_colors; }
             
     private:
 
@@ -169,11 +171,12 @@ namespace Marvel {
         static std::atomic_bool s_started;
 
         // managers
-        mvOwnedPtr<mvItemRegistry>                   m_itemRegistry;
-        mvOwnedPtr<mvTextureStorage>                 m_textureStorage;
-        mvOwnedPtr<mvValueStorage>                   m_valueStorage;
-        mvOwnedPtr<mvTheme>                          m_themeManager;
-        mvOwnedPtr<mvCallbackRegistry>               m_callbackRegistry;
+        mvOwnedPtr<mvItemRegistry>                     m_itemRegistry;
+        mvOwnedPtr<mvTextureStorage>                   m_textureStorage;
+        mvOwnedPtr<mvValueStorage>                     m_valueStorage;
+        mvOwnedPtr<mvTheme>                            m_themeManager;
+        mvOwnedPtr<mvCallbackRegistry>                 m_callbackRegistry;
+        std::unordered_map<mvAppItemType, ThemeColors> m_colors;
                                                      
         // docking                                   
         bool                                         m_docking          = false;

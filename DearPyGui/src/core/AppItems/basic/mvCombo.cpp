@@ -45,6 +45,7 @@ namespace Marvel {
 
 		auto styleManager = m_styleManager.getScopedStyleManager();
 		ScopedID id;
+		mvImGuiThemeScope scope(this);
 
 		static std::vector<std::string> disabled_items{};
 		if (!m_enabled)

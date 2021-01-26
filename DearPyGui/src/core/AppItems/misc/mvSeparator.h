@@ -20,6 +20,7 @@ namespace Marvel {
 		void draw() override
 		{
 			auto styleManager = m_styleManager.getScopedStyleManager();
+			mvImGuiThemeScope scope(this);
 
 			ImGui::Separator();
 
