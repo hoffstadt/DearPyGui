@@ -29,13 +29,16 @@ namespace Marvel {
 			// action if OK
 			if (igfd::ImGuiFileDialog::Instance()->IsOk)
 			{
+				mvApp::GetApp()->getCallbackRegistry().submitCallback([&]() 
+					{
+						mvApp::GetApp()->getCallbackRegistry().runCallback(m_callback2, "File Dialog", ToPyList({ igfd::ImGuiFileDialog::Instance()->GetCurrentPath(), igfd::ImGuiFileDialog::Instance()->FileNameBuffer }));
 
-				mvApp::GetApp()->getCallbackRegistry().addCallback(m_callback2, "File Dialog", ToPyList({ igfd::ImGuiFileDialog::Instance()->GetCurrentPath(), igfd::ImGuiFileDialog::Instance()->FileNameBuffer }));
+						// action
+						if (m_callback2)
+							Py_XDECREF(m_callback2);
+						m_callback2 = nullptr;
+					});
 
-				// action
-				if (m_callback2)
-					Py_XDECREF(m_callback2);
-				m_callback2 = nullptr;
 			}
 			// close
 			igfd::ImGuiFileDialog::Instance()->CloseDialog("ChooseFileDlgKey");
