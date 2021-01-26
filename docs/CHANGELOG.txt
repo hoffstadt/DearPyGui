@@ -29,11 +29,14 @@ HOW TO UPDATE?
 Decorated log: https://github.com/hoffstadt/DearPyGui/releases/tag/v0.7.x
 
 ------------------------------------------------------------------------
- VERSION 0.6.x
+ VERSION 0.6.146
 ------------------------------------------------------------------------
 
 Upgrades:
 - callbacks: number of arguments do not matter anymore
+
+Fixes:
+- images: fixed crashes caused by unfound images
 
 ------------------------------------------------------------------------
  VERSION 0.6.144
