@@ -33,6 +33,7 @@ namespace Marvel {
 	{
 		auto styleManager = m_styleManager.getScopedStyleManager();
 		ScopedID id;
+		mvImGuiThemeScope scope(this);
 
 		ImGui::BeginGroup();
 		if (ImGui::TreeNodeEx(m_label.c_str(), m_flags))

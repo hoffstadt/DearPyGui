@@ -66,6 +66,8 @@ namespace Marvel {
 
 	void mvImageButton::draw()
 	{
+		mvImGuiThemeScope scope(this);
+
 		if (m_texture == nullptr && !m_value.empty())
 		{
 			mvApp::GetApp()->getTextureStorage().addTexture(m_value);

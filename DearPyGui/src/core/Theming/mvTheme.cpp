@@ -1,4 +1,5 @@
 #include "mvTheme.h"
+#include "imgui.h"
 
 namespace Marvel {
 
@@ -29,7 +30,8 @@ namespace Marvel {
 		//this needs to fill out the root or primary window
 		if (widget.empty())
 		{
-			widget == mvApp::GetApp()->getItemRegistry().getWindows()[0];
+			mvApp::GetApp()->getColors()[type][libID] = color;
+			return true;
 		}
 
 		//check widget can take color and apply
@@ -38,8 +40,73 @@ namespace Marvel {
 		{
 			item->getColors()[type][libID] = color;
 		}
-		else ThrowPythonException("Item does not except this theme constant.");
+		else
+		{
+			mvApp::GetApp()->getCallbackRegistry().submitCallback([=]()
+				{
+					ThrowPythonException("Item does not except this theme constant.");
+				});
+		}
 		return true;
+	}
+
+	mvImGuiThemeScope::mvImGuiThemeScope(mvAppItem* item)
+	{
+		int pushedIDs[ImGuiCol_COUNT];
+		//this goes through the specific colors for the current item type and applies them
+		for (auto& themeColor : item->getColors()[item->getType()])
+		{
+			ImGui::PushStyleColor((ImGuiCol)themeColor.first, themeColor.second.toVec4());
+			pushedIDs[libIDCount] = themeColor.first;
+			libIDCount++;
+		}
+		//this goes through the specific colors for the current item type and applies them
+		mvAppItem* widget = item;
+		while (!widget->getDescription().root)
+		{
+			widget = widget->getParent();
+			for (auto& themeColor : widget->getColors()[item->getType()])
+			{
+				//checking if libID has been used
+				int i = 0;
+				while (i < libIDCount)
+					if (pushedIDs[i] == themeColor.first)
+						break;
+					else
+						i++;
+				//adds libID if it has not been found
+				if (i == libIDCount)
+				{
+					ImGui::PushStyleColor((ImGuiCol)themeColor.first, themeColor.second.toVec4());
+					pushedIDs[libIDCount] = themeColor.first;
+					libIDCount++;
+				}
+			}
+		}
+
+		for (auto& themeColor : mvApp::GetApp()->getColors()[item->getType()])
+		{
+			//checking if libID has been used
+			int i = 0;
+			while (i < libIDCount)
+				if (pushedIDs[i] == themeColor.first)
+					break;
+				else
+					i++;
+			//adds libID if it has not been found
+			if (i == libIDCount)
+			{
+				ImGui::PushStyleColor((ImGuiCol)themeColor.first, themeColor.second.toVec4());
+				pushedIDs[libIDCount] = themeColor.first;
+				libIDCount++;
+			}
+		}
+	}
+
+	mvImGuiThemeScope::~mvImGuiThemeScope()
+	{
+		if (libIDCount > 0)
+			ImGui::PopStyleColor(libIDCount);
 	}
 
 }

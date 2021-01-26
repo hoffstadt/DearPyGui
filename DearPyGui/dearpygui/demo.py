@@ -223,7 +223,9 @@ def show_demo():
         add_text("https://github.com/hoffstadt/DearPyGui/blob/master/DearPyGui/dearpygui/demo.py")
 
         add_button("proof")
-        add_color_edit4("button color",callback=lambda sender, data: set_theme_color(mvThemeCol_Button, get_value(sender), item="Dear PyGui Demo"))
+        add_color_edit4("global color",callback=lambda sender, data: set_theme_color(mvThemeCol_Button, get_value(sender)))
+        add_color_edit4("local window color",callback=lambda sender, data: set_theme_color(mvThemeCol_Button, get_value(sender), item="Dear PyGui Demo"))
+        add_color_edit4("individual color",callback=lambda sender, data: set_theme_color(mvThemeCol_Button, get_value(sender), item="proof"))
 
         with collapsing_header("Window options##demo"):
             with managed_columns("Window Options Col##demo", 3, border=False):

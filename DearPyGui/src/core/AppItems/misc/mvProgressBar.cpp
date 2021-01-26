@@ -33,6 +33,7 @@ namespace Marvel {
 	{
 		auto styleManager = m_styleManager.getScopedStyleManager();
 		ScopedID id;
+		mvImGuiThemeScope scope(this);
 
 		ImGui::ProgressBar(*m_value, ImVec2((float)m_width, (float)m_height), m_overlay.c_str());
 

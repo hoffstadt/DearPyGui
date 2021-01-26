@@ -30,6 +30,7 @@ namespace Marvel {
 	{
 		auto styleManager = m_styleManager.getScopedStyleManager();
 		ScopedID id;
+		mvImGuiThemeScope scope(this);
 
 		// create menu and see if its selected
 		if (ImGui::BeginMenu(m_label.c_str(), m_enabled))

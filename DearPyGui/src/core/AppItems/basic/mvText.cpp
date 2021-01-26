@@ -133,11 +133,15 @@ namespace Marvel {
 			ImGui::SameLine();
 
 			auto styleManager = m_styleManager.getScopedStyleManager();
+			mvImGuiThemeScope scope(this);
 			ImGui::TextUnformatted(m_label.c_str());
 		}
 
 		else
+		{
+			mvImGuiThemeScope scope(this);
 			ImGui::LabelText(m_label.c_str(), m_value->c_str());
+		}
 
 	}
 

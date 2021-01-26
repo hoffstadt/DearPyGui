@@ -46,6 +46,7 @@ namespace Marvel {
 	{
 		auto styleManager = m_styleManager.getScopedStyleManager();
 		ScopedID id;
+		mvImGuiThemeScope scope(this);
 
 		if (ImGui::Selectable(m_label.c_str(), m_value, m_flags))
 			mvApp::GetApp()->getCallbackRegistry().addCallback(m_callback, m_name, m_callbackData);

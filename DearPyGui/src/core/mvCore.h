@@ -10,6 +10,7 @@
 #include <imgui.h>
 #include <utility>
 #include <memory>
+#include <unordered_map>
 
 namespace Marvel {
 
@@ -103,6 +104,8 @@ namespace Marvel {
 		}
 
 	};
+
+	typedef std::unordered_map<int, mvColor> ThemeColors;
 
 }
 

@@ -38,39 +38,7 @@ namespace Marvel {
 		auto styleManager = m_styleManager.getScopedStyleManager();
 		ScopedID id;
 
-		int libIDCount = 0;
-		int pushedIDs[ImGuiCol_COUNT];
-		//this goes through the specific colors for the current item type and applies them
-		for (auto& themeColor : getColors()[getType()])
-		{
-			ImGui::PushStyleColor((ImGuiCol)themeColor.first, themeColor.second.toVec4());
-			pushedIDs[libIDCount] = themeColor.first;
-			libIDCount++;
-		}
-		//this goes through the specific colors for the current item type and applies them
-		mvAppItem* widget = this;
-		while (!widget->getDescription().root)
-		{
-			widget = widget->getParent();
-			for (auto& themeColor : widget->getColors()[getType()])
-			{
-				//checking if libID has been used
-				int i = 0;
-				while (i < libIDCount)
-					if (pushedIDs[i] == themeColor.first)
-						break;
-					else 
-						i++;
-				//adds libID if it has not been found
-				if (i == libIDCount)
-				{
-					ImGui::PushStyleColor((ImGuiCol)themeColor.first, themeColor.second.toVec4());
-					pushedIDs[libIDCount] = themeColor.first;
-					libIDCount++;
-				}
-			}
-		}
-
+		mvImGuiThemeScope scope(this);
 
 		if (!m_enabled)
 		{
@@ -86,9 +54,6 @@ namespace Marvel {
 		{
 			if (ImGui::SmallButton(m_label.c_str()))
 				mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), m_name, m_callbackData);
-
-			//remember to pop
-			ImGui::PopStyleColor(libIDCount);
 			return;
 		}
 
@@ -97,16 +62,12 @@ namespace Marvel {
 			if (ImGui::ArrowButton(m_label.c_str(), m_direction))
 				mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), m_name, m_callbackData);
 
-			//remember to pop
-			ImGui::PopStyleColor(libIDCount);
 			return;
 		}
 
 		if (ImGui::Button(m_label.c_str(), ImVec2((float)m_width, (float)m_height)))
 			mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), m_name, m_callbackData);
 
-		//remember to pop
-		ImGui::PopStyleColor(libIDCount);
 	}
 
 	void mvButton::setExtraConfigDict(PyObject* dict)

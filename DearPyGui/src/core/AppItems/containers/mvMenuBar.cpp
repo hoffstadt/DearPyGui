@@ -32,6 +32,7 @@ namespace Marvel {
 	void mvMenuBar::draw()
 	{
 		auto styleManager = m_styleManager.getScopedStyleManager();
+		mvImGuiThemeScope scope(this);
 
 		if (ImGui::BeginMenuBar())
 		{

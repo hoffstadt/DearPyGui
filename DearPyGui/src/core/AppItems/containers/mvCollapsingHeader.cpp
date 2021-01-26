@@ -37,6 +37,7 @@ namespace Marvel {
 	{
 		auto styleManager = m_styleManager.getScopedStyleManager();
 		ScopedID id;
+		mvImGuiThemeScope scope(this);
 
 		bool* toggle = nullptr;
 		if (m_closable)

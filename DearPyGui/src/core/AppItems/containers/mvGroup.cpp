@@ -32,6 +32,7 @@ namespace Marvel {
 	void mvGroup::draw()
 	{
 		auto styleManager = m_styleManager.getScopedStyleManager();
+		mvImGuiThemeScope scope(this);
 
 		if (m_width != 0)
 			ImGui::PushItemWidth((float)m_width);
