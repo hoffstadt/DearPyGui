@@ -7,7 +7,7 @@
 </a>
 
 
-<sub>(This library is available under a free and permissive license however, if you Enjoy _Dear PyGui_ please consider becoming a [Sponsor](https://github.com/sponsors/hoffstadt))</sub>
+<sub>(This library is available under a free and permissive license however, if you Enjoy _Dear PyGui_ please consider becoming a [Sponsor](https://github.com/hoffstadt/DearPyGui/wiki/Sponsors))</sub>
 
 ![Python Version](https://img.shields.io/pypi/pyversions/dearpygui)
 [![PYPI](https://img.shields.io/pypi/v/dearpygui)](https://pypi.org/project/dearpygui/)
@@ -35,9 +35,9 @@ the following platforms:
 In the same manner Dear ImGui provides a simple way to create tools for game developers, _Dear PyGui_ provides a 
 simple way for python developers to **create quick and powerful GUIs for scripts**.
 
-| [Installing](#installation) - [Usage](#usage) - [Resources](#Resources) - [Features](#some-features) - [Support](#support) |
+| [Installing](#installation) - [Usage](#usage) - [Resources](#Resources) - [Support](#support) |
 :----------------------------------------------------------: |
-| [Upcoming changes](#upcoming-changes) - [Sponsors](#sponsors) - [Credits](#credits) - [License](#license)|
+| [Features](#some-features) - [Sponsors](#sponsors) - [Credits](#credits) - [License](#license)|
 
 ### Installation
 
@@ -56,6 +56,7 @@ Ensure you have at least Python 3.6 64bit.
  ---
  
 - [Documentation](https://github.com/hoffstadt/DearPyGui/wiki) comprehensive documentaion, tutorials, and examples.
+- [Development Roadmap](https://github.com/hoffstadt/DearPyGui/projects/4) future features and changes.
 - Internal Documentation: Run the `show_documentation` command from within the library to view an reference guide. 
 - Complete Demo: You can also view a mostly complete showcase of _Dear PyGui_ by running the `show_demo` command found in _dearpygui.demo_.
 
@@ -119,28 +120,16 @@ _Dear PyGui_ includes several tools to help developers with _DearPyGui_ app deve
 
 ### Support
 
----
-
-- [Sponsor](https://github.com/sponsors/hoffstadt) If you enjoy _Dear PyGui_ please consider becoming a sponsor.
-- [Paypal](https://www.paypal.com/paypalme/JonathanHoffstadt) For those who don't like rewards.
-
 If you are having issues or want to help, here are some places you can go:
 - [Github Discussions](https://github.com/hoffstadt/DearPyGui/discussions/)
 - [Discord Forum](https://discord.gg/tyE7Gu4)
 - [Reddit](https://www.reddit.com/r/DearPyGui/)
 
-### Upcoming Changes
-
----
-
-Some upcoming features:
-- Support for multiple viewports.
-- 3D widget.
-- Custom Widget API.
-
 ### Sponsors
 
 ---
+
+ If you enjoy _Dear PyGui_ please consider becoming a [sponsor](https://github.com/hoffstadt/DearPyGui/wiki/Sponsors).
 
 Ongoing _Dear PyGui_ development is financially supported by users and private sponsors.
 
@@ -156,6 +145,8 @@ These include:
 
 
 Thank you to all other [sponsors](https://github.com/hoffstadt/DearPyGui/wiki/Sponsors) for keeping this project moving forward!
+
+<a href="https://www.buymeacoffee.com/DearPyGui"><img src="https://img.buymeacoffee.com/button-api/?text=Buy us a coffee&emoji=&slug=DearPyGui&button_colour=FFDD00&font_colour=000000&font_family=Cookie&outline_colour=000000&coffee_colour=ffffff"></a>
 
 ### Credits
 

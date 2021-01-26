@@ -252,22 +252,83 @@ namespace Marvel {
 
 		PyErr_Clear();
 
-		mvPyObject pArgs(PyTuple_New(2));
-		PyTuple_SetItem(pArgs, 0, PyUnicode_FromString(sender.c_str()));
-		PyTuple_SetItem(pArgs, 1, intermediateResult); // steals data, so don't deref
+		PyObject* fc = PyObject_GetAttrString(callable, "__code__");
+		if (fc) {
+			PyObject* ac = PyObject_GetAttrString(fc, "co_argcount");
+			if (ac) {
+				const int count = PyLong_AsLong(ac);
+				if (count > 2)
+				{
+					mvPyObject pArgs(PyTuple_New(count));
+					PyTuple_SetItem(pArgs, 0, PyUnicode_FromString(sender.c_str()));
+					PyTuple_SetItem(pArgs, 1, intermediateResult); // steals data, so don't deref
+					
+					for (int i = 2; i < count; i++)
+						PyTuple_SetItem(pArgs, i, GetPyNone());
 
-		mvPyObject result(PyObject_CallObject(callable, pArgs));
+					mvPyObject result(PyObject_CallObject(callable, pArgs));
 
-		// check if call succeeded
-		if (!result.isOk())
-		{
-			PyErr_Print();
-			ThrowPythonException("Callable failed");
+					// check if call succeeded
+					if (!result.isOk())
+					{
+						PyErr_Print();
+						ThrowPythonException("Callable failed");
+					}
+
+				}
+				else if (count == 2)
+				{
+					mvPyObject pArgs(PyTuple_New(2));
+					PyTuple_SetItem(pArgs, 0, PyUnicode_FromString(sender.c_str()));
+					PyTuple_SetItem(pArgs, 1, intermediateResult); // steals data, so don't deref
+
+					mvPyObject result(PyObject_CallObject(callable, pArgs));
+
+					// check if call succeeded
+					if (!result.isOk())
+					{
+						PyErr_Print();
+						ThrowPythonException("Callable failed");
+					}
+
+				}
+				else if(count == 1)
+				{
+					mvPyObject pArgs(PyTuple_New(1));
+					PyTuple_SetItem(pArgs, 0, PyUnicode_FromString(sender.c_str()));
+
+					mvPyObject result(PyObject_CallObject(callable, pArgs));
+
+					// check if call succeeded
+					if (!result.isOk())
+					{
+						PyErr_Print();
+						ThrowPythonException("Callable failed");
+					}
+				}
+				else
+				{
+					mvPyObject result(PyObject_CallObject(callable, nullptr));
+
+					// check if call succeeded
+					if (!result.isOk())
+					{
+						PyErr_Print();
+						ThrowPythonException("Callable failed");
+					}
+
+
+				}
+				Py_DECREF(ac);
+
+				// check if error occurred
+				if (PyErr_Occurred())
+					PyErr_Print();
+			}
+			Py_DECREF(fc);
 		}
 
-		// check if error occurred
-		if (PyErr_Occurred())
-			PyErr_Print();
+
 
 	}
 

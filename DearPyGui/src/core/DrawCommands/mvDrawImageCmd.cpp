@@ -56,11 +56,14 @@ namespace Marvel {
 			mvTexture* texture = mvApp::GetApp()->getTextureStorage().getTexture(m_file);
 			if (texture == nullptr)
 			{
-				PyErr_Format(PyExc_Exception,
-					"Image %s could not be found for draw_image. Check the path to the image "
-					"you provided.", m_file.c_str());
-				PyErr_Print();
-				m_file = "";
+				mvApp::GetApp()->getCallbackRegistry().submitCallback([&]() 
+					{
+						PyErr_Format(PyExc_Exception,
+							"Image %s could not be found for draw_image. Check the path to the image "
+							"you provided.", m_file.c_str());
+						PyErr_Print();
+						m_file = "";
+					});
 				return;
 			}
 
