@@ -274,7 +274,6 @@ namespace Marvel {
                 DebugItem("Item Height:", height.c_str());
                 DebugItem("Item Size x:", sizex.c_str());
                 DebugItem("Item Size y:", sizey.c_str());
-                DebugItem("Item Tip:", selectedItem->m_tip.c_str());
                 DebugItem("Item Show:", selectedItem->m_show ? ts : fs);
                 DebugItem("Item Visible:", selectedItem->getState().isItemVisible() ? ts : fs);
                 DebugItem("Item Hovered:", selectedItem->getState().isItemHovered() ? ts : fs);

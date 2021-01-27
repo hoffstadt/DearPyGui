@@ -16,7 +16,6 @@ namespace Marvel {
 			{mvPythonDataType::Integer, "default_value", "", "0"},
 			{mvPythonDataType::Callable, "callback", "Registers a callback", "None"},
 			{mvPythonDataType::Object, "callback_data", "Callback data", "None"},
-			{mvPythonDataType::String, "tip", "Adds a simple tooltip", "''"},
 			{mvPythonDataType::String, "parent", "Parent this item will be added to. (runtime adding)", "''"},
 			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)", "''"},
 			{mvPythonDataType::String, "source", "", "''"},
@@ -94,7 +93,6 @@ namespace Marvel {
 		int default_value = 0;
 		PyObject* callback = nullptr;
 		PyObject* callback_data = nullptr;
-		const char* tip = "";
 		int width = 0;
 		int num_items = 3;
 		const char* before = "";
@@ -105,7 +103,7 @@ namespace Marvel {
 		int show = true;
 
 		if (!(*mvApp::GetApp()->getParsers())["add_listbox"].parse(args, kwargs, __FUNCTION__, &name, &items,
-			&default_value, &callback, &callback_data, &tip, &parent, &before, &source, &enabled, &width,
+			&default_value, &callback, &callback_data, &parent, &before, &source, &enabled, &width,
 			&num_items, &label, &show))
 			return ToPyBool(false);
 

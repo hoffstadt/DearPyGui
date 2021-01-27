@@ -9,7 +9,6 @@ namespace Marvel {
 		parsers->insert({ "add_drawing", mvPythonParser({
 			{mvPythonDataType::String, "name"},
 			{mvPythonDataType::KeywordOnly},
-			{mvPythonDataType::String, "tip", "Adds a simple tooltip", "''"},
 			{mvPythonDataType::String, "parent", "Parent this item will be added to. (runtime adding)", "''"},
 			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)", "''"},
 			{mvPythonDataType::Integer, "width","", "0"},
@@ -47,7 +46,6 @@ namespace Marvel {
 	PyObject* add_drawing(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		const char* name;
-		const char* tip = "";
 		const char* parent = "";
 		const char* before = "";
 		int width = 0;
@@ -59,7 +57,7 @@ namespace Marvel {
 		float scaley = 1.0f;
 
 		if (!(*mvApp::GetApp()->getParsers())["add_drawing"].parse(args, kwargs, __FUNCTION__,
-			&name, &tip, &parent, &before, &width, &height, &show, &originx, &originy, &scalex, &scaley))
+			&name, &parent, &before, &width, &height, &show, &originx, &originy, &scalex, &scaley))
 			return ToPyBool(false);
 
 		auto item = CreateRef<mvDrawing>(name);

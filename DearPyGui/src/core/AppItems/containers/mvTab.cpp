@@ -18,7 +18,6 @@ namespace Marvel {
 			{mvPythonDataType::Bool, "leading", "Enforce the tab position to the left of the tab bar (after the tab list popup button)", "False"},
 			{mvPythonDataType::Bool, "trailing", "Enforce the tab position to the right of the tab bar (before the scrolling buttons)", "False"},
 			{mvPythonDataType::Bool, "no_tooltip", "Disable tooltip for the given tab", "False"},
-			{mvPythonDataType::String, "tip", "Adds a simple tooltip", "''"},
 			{mvPythonDataType::String, "parent", "Parent to add this item to. (runtime adding)", "''"},
 			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)", "''"},
 		}, "Adds a tab to a tab bar. Must be closed with the end command.", "None", "Containers") });
@@ -50,9 +49,6 @@ namespace Marvel {
 		// create tab item and see if it is selected
 		if (ImGui::BeginTabItem(m_label.c_str(), m_closable ? &m_show : nullptr, m_flags))
 		{
-			// Regular Tooltip (simple)
-			if (!m_tip.empty() && ImGui::IsItemHovered())
-				ImGui::SetTooltip("%s", m_tip.c_str());
 
 			// set other tab's value false
 			for (auto child : parent->m_children)
@@ -82,21 +78,10 @@ namespace Marvel {
 
 				item->draw();
 
-				// Regular Tooltip (simple)
-				if (!item->m_tip.empty() && ImGui::IsItemHovered())
-					ImGui::SetTooltip("%s", item->m_tip.c_str());
-
 				item->getState().update();
 			}
 
 			ImGui::EndTabItem();
-		}
-
-		else
-		{
-			// Regular Tooltip (simple)
-			if (!m_tip.empty() && ImGui::IsItemHovered())
-				ImGui::SetTooltip("%s", m_tip.c_str());
 		}
 
 	}
@@ -156,12 +141,11 @@ namespace Marvel {
 		int leading = false;
 		int trailing = false;
 		int no_tooltip = false;
-		const char* tip = "";
 		const char* parent = "";
 		const char* before = "";
 
 		if (!(*mvApp::GetApp()->getParsers())["add_tab"].parse(args, kwargs, __FUNCTION__, &name, &closeable,
-			&label, &show, &no_reorder, &leading, &trailing, &no_tooltip, &tip, &parent, &before))
+			&label, &show, &no_reorder, &leading, &trailing, &no_tooltip, &parent, &before))
 			return ToPyBool(false);
 
 		if (std::string(parent).empty())

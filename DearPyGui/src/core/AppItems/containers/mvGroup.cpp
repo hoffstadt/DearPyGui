@@ -12,7 +12,6 @@ namespace Marvel {
 			{mvPythonDataType::String, "name"},
 			{mvPythonDataType::KeywordOnly},
 			{mvPythonDataType::Bool, "show", "Attempt to render", "True"},
-			{mvPythonDataType::String, "tip", "Adds a simple tooltip", "''"},
 			{mvPythonDataType::String, "parent", "Parent to add this item to. (runtime adding)", "''"},
 			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)", "''"},
 			{mvPythonDataType::Integer, "width","", "0"},
@@ -54,10 +53,6 @@ namespace Marvel {
 
 			item->draw();
 
-			// Regular Tooltip (simple)
-			if (!item->m_tip.empty() && ImGui::IsItemHovered())
-				ImGui::SetTooltip("%s", item->m_tip.c_str());
-
 			if (m_horizontal)
 				ImGui::SameLine(0.0, m_hspacing);
 
@@ -68,10 +63,6 @@ namespace Marvel {
 			ImGui::PopItemWidth();
 
 		ImGui::EndGroup();
-
-		if (!m_tip.empty() && ImGui::IsItemHovered())
-			ImGui::SetTooltip("%s", m_tip.c_str());
-
 	}
 
 	void mvGroup::setExtraConfigDict(PyObject* dict)
@@ -96,7 +87,6 @@ namespace Marvel {
 	{
 		const char* name;
 		int show = true;
-		const char* tip = "";
 		const char* parent = "";
 		const char* before = "";
 		int width = 0;
@@ -104,7 +94,7 @@ namespace Marvel {
 		float horizontal_spacing = -1.0f;
 
 		if (!(*mvApp::GetApp()->getParsers())["add_group"].parse(args, kwargs, __FUNCTION__, &name,
-			&show, &tip, &parent, &before, &width, &horizontal, &horizontal_spacing))
+			&show, &parent, &before, &width, &horizontal, &horizontal_spacing))
 			return ToPyBool(false);
 
 		auto item = CreateRef<mvGroup>(name);

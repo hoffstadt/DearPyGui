@@ -14,7 +14,6 @@ namespace Marvel {
 			{mvPythonDataType::Bool, "vertical", "sets orientation to vertical", "False"},
 			{mvPythonDataType::Callable, "callback", "Registers a callback", "None"},
 			{mvPythonDataType::Object, "callback_data", "Callback data", "None"},
-			{mvPythonDataType::String, "tip", "Adds a simple tooltip", "''"},
 			{mvPythonDataType::String, "parent", "Parent this item will be added to. (runtime adding)", "''"},
 			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)", "''"},
 			{mvPythonDataType::String, "source", "", "''"},
@@ -36,7 +35,6 @@ namespace Marvel {
 			{mvPythonDataType::String, "format", "", "'%.3f'"},
 			{mvPythonDataType::Callable, "callback", "Registers a callback", "None"},
 			{mvPythonDataType::Object, "callback_data", "Callback data", "None"},
-			{mvPythonDataType::String, "tip", "Adds a simple tooltip", "''"},
 			{mvPythonDataType::String, "parent", "Parent this item will be added to. (runtime adding)", "''"},
 			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)", "''"},
 			{mvPythonDataType::String, "source", "", "''"},
@@ -57,7 +55,6 @@ namespace Marvel {
 			{mvPythonDataType::String, "format", "", "'%.3f'"},
 			{mvPythonDataType::Callable, "callback", "Registers a callback", "None"},
 			{mvPythonDataType::Object, "callback_data", "Callback data", "None"},
-			{mvPythonDataType::String, "tip", "Adds a simple tooltip", "''"},
 			{mvPythonDataType::String, "parent", "Parent this item will be added to. (runtime adding)", "''"},
 			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)", "''"},
 			{mvPythonDataType::String, "source", "", "''"},
@@ -78,7 +75,6 @@ namespace Marvel {
 			{mvPythonDataType::String, "format", "", "'%.3f'"},
 			{mvPythonDataType::Callable, "callback", "Registers a callback", "None"},
 			{mvPythonDataType::Object, "callback_data", "Callback data", "None"},
-			{mvPythonDataType::String, "tip", "Adds a simple tooltip", "''"},
 			{mvPythonDataType::String, "parent", "Parent this item will be added to. (runtime adding)", "''"},
 			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)", "''"},
 			{mvPythonDataType::String, "source", "", "''"},
@@ -100,7 +96,6 @@ namespace Marvel {
 			{mvPythonDataType::Bool, "vertical", "sets orientation to vertical", "False"},
 			{mvPythonDataType::Callable, "callback", "Registers a callback", "None"},
 			{mvPythonDataType::Object, "callback_data", "Callback data", "None"},
-			{mvPythonDataType::String, "tip", "Adds a simple tooltip", "''"},
 			{mvPythonDataType::String, "parent", "Parent this item will be added to. (runtime adding)", "''"},
 			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)", "''"},
 			{mvPythonDataType::String, "source", "", "''"},
@@ -122,7 +117,6 @@ namespace Marvel {
 			{mvPythonDataType::String, "format", "", "'%d'"},
 			{mvPythonDataType::Callable, "callback", "Registers a callback", "None"},
 			{mvPythonDataType::Object, "callback_data", "Callback data", "None"},
-			{mvPythonDataType::String, "tip", "Adds a simple tooltip", "''"},
 			{mvPythonDataType::String, "parent", "Parent this item will be added to. (runtime adding)", "''"},
 			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)", "''"},
 			{mvPythonDataType::String, "source", "", "''"},
@@ -143,7 +137,6 @@ namespace Marvel {
 			{mvPythonDataType::String, "format", "", "'%d'"},
 			{mvPythonDataType::Callable, "callback", "Registers a callback", "None"},
 			{mvPythonDataType::Object, "callback_data", "Callback data", "None"},
-			{mvPythonDataType::String, "tip", "Adds a simple tooltip", "''"},
 			{mvPythonDataType::String, "parent", "Parent this item will be added to. (runtime adding)", "''"},
 			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)", "''"},
 			{mvPythonDataType::String, "source", "", "''"},
@@ -164,7 +157,6 @@ namespace Marvel {
 			{mvPythonDataType::String, "format", "", "'%d'"},
 			{mvPythonDataType::Callable, "callback", "Registers a callback", "None"},
 			{mvPythonDataType::Object, "callback_data", "Callback data", "None"},
-			{mvPythonDataType::String, "tip", "Adds a simple tooltip", "''"},
 			{mvPythonDataType::String, "parent", "Parent this item will be added to. (runtime adding)", "''"},
 			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)", "''"},
 			{mvPythonDataType::String, "source", "", "''"},
@@ -187,7 +179,6 @@ namespace Marvel {
 		int vertical = false;
 		PyObject* callback = nullptr;
 		PyObject* callback_data = nullptr;
-		const char* tip = "";
 		const char* parent = "";
 		const char* before = "";
 		const char* source = "";
@@ -200,7 +191,7 @@ namespace Marvel {
 		int show = true;
 
 		if (!(*mvApp::GetApp()->getParsers())["add_slider_float"].parse(args, kwargs, __FUNCTION__, &name, &default_value,
-			&min_value, &max_value, &format, &vertical, &callback, &callback_data, &tip, &parent, &before,
+			&min_value, &max_value, &format, &vertical, &callback, &callback_data, &parent, &before,
 			&source, &enabled, &width, &height, &no_input, &clamped, &label, &show))
 			return ToPyBool(false);
 
@@ -232,7 +223,6 @@ namespace Marvel {
 		const char* format = "%.3f";
 		PyObject* callback = nullptr;
 		PyObject* callback_data = nullptr;
-		const char* tip = "";
 		const char* parent = "";
 		const char* before = "";
 		const char* source = "";
@@ -244,7 +234,7 @@ namespace Marvel {
 		int show = true;
 
 		if (!(*mvApp::GetApp()->getParsers())["add_slider_float2"].parse(args, kwargs, __FUNCTION__, &name, &default_value,
-			&min_value, &max_value, &format, &callback, &callback_data, &tip, &parent, &before, &source, &enabled, &width,
+			&min_value, &max_value, &format, &callback, &callback_data, &parent, &before, &source, &enabled, &width,
 			&no_input, &clamped, &label, &show))
 			return ToPyBool(false);
 
@@ -280,7 +270,6 @@ namespace Marvel {
 		const char* format = "%.3f";
 		PyObject* callback = nullptr;
 		PyObject* callback_data = nullptr;
-		const char* tip = "";
 		const char* parent = "";
 		const char* before = "";
 		const char* source = "";
@@ -292,7 +281,7 @@ namespace Marvel {
 		int show = true;
 
 		if (!(*mvApp::GetApp()->getParsers())["add_slider_float3"].parse(args, kwargs, __FUNCTION__, &name, &default_value,
-			&min_value, &max_value, &format, &callback, &callback_data, &tip, &parent, &before, &source, &enabled, &width,
+			&min_value, &max_value, &format, &callback, &callback_data, &parent, &before, &source, &enabled, &width,
 			&no_input, &clamped, &label, &show))
 			return ToPyBool(false);
 
@@ -328,7 +317,6 @@ namespace Marvel {
 		const char* format = "%.3f";
 		PyObject* callback = nullptr;
 		PyObject* callback_data = nullptr;
-		const char* tip = "";
 		const char* parent = "";
 		const char* before = "";
 		const char* source = "";
@@ -340,7 +328,7 @@ namespace Marvel {
 		int show = true;
 
 		if (!(*mvApp::GetApp()->getParsers())["add_slider_float4"].parse(args, kwargs, __FUNCTION__, &name, &default_value,
-			&min_value, &max_value, &format, &callback, &callback_data, &tip, &parent, &before, &source, &enabled,
+			&min_value, &max_value, &format, &callback, &callback_data, &parent, &before, &source, &enabled,
 			&width, &no_input, &clamped, &label, &show))
 			return ToPyBool(false);
 
@@ -372,7 +360,6 @@ namespace Marvel {
 		int vertical = false;
 		PyObject* callback = nullptr;
 		PyObject* callback_data = nullptr;
-		const char* tip = "";
 		const char* parent = "";
 		const char* before = "";
 		const char* source = "";
@@ -385,7 +372,7 @@ namespace Marvel {
 		int show = true;
 
 		if (!(*mvApp::GetApp()->getParsers())["add_slider_int"].parse(args, kwargs, __FUNCTION__, &name, &default_value,
-			&min_value, &max_value, &format, &vertical, &callback, &callback_data, &tip, &parent, &before, &source, &enabled,
+			&min_value, &max_value, &format, &vertical, &callback, &callback_data, &parent, &before, &source, &enabled,
 			&width, &height, &no_input, &clamped, &label, &show))
 			return ToPyBool(false);
 
@@ -417,7 +404,6 @@ namespace Marvel {
 		const char* format = "%d";
 		PyObject* callback = nullptr;
 		PyObject* callback_data = nullptr;
-		const char* tip = "";
 		const char* parent = "";
 		const char* before = "";
 		const char* source = "";
@@ -429,7 +415,7 @@ namespace Marvel {
 		int show = true;
 
 		if (!(*mvApp::GetApp()->getParsers())["add_slider_int2"].parse(args, kwargs, __FUNCTION__, &name, &default_value,
-			&min_value, &max_value, &format, &callback, &callback_data, &tip, &parent, &before, &source, &enabled,
+			&min_value, &max_value, &format, &callback, &callback_data, &parent, &before, &source, &enabled,
 			&width, &no_input, &clamped, &label, &show))
 			return ToPyBool(false);
 
@@ -463,7 +449,6 @@ namespace Marvel {
 		const char* format = "%d";
 		PyObject* callback = nullptr;
 		PyObject* callback_data = nullptr;
-		const char* tip = "";
 		const char* parent = "";
 		const char* before = "";
 		const char* source = "";
@@ -475,7 +460,7 @@ namespace Marvel {
 		int show = true;
 
 		if (!(*mvApp::GetApp()->getParsers())["add_slider_int3"].parse(args, kwargs, __FUNCTION__, &name, &default_value,
-			&min_value, &max_value, &format, &callback, &callback_data, &tip, &parent, &before, &source, &enabled,
+			&min_value, &max_value, &format, &callback, &callback_data, &parent, &before, &source, &enabled,
 			&width, &no_input, &clamped, &label, &show))
 			return ToPyBool(false);
 
@@ -510,7 +495,6 @@ namespace Marvel {
 		const char* format = "%d";
 		PyObject* callback = nullptr;
 		PyObject* callback_data = nullptr;
-		const char* tip = "";
 		const char* parent = "";
 		const char* before = "";
 		const char* source = "";
@@ -522,7 +506,7 @@ namespace Marvel {
 		int show = true;
 
 		if (!(*mvApp::GetApp()->getParsers())["add_slider_int4"].parse(args, kwargs, __FUNCTION__, &name, &default_value,
-			&min_value, &max_value, &format, &callback, &callback_data, &tip, &parent, &before, &source, &enabled,
+			&min_value, &max_value, &format, &callback, &callback_data, &parent, &before, &source, &enabled,
 			&width, &no_input, &clamped, &label, &show))
 			return ToPyBool(false);
 

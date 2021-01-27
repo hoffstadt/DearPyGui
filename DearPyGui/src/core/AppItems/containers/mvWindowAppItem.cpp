@@ -208,9 +208,6 @@ namespace Marvel {
 				// apply item's tooltip theme
 				scope.applySimpleTooltipTheme(&(*item));
 
-				// Regular Tooltip (simple)
-				if (!item->m_tip.empty() && ImGui::IsItemHovered())
-					ImGui::SetTooltip("%s", item->m_tip.c_str());
 			}
 
 			item->getState().update();

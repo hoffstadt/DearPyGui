@@ -25,7 +25,6 @@ namespace Marvel {
 			{mvPythonDataType::Bool, "scientific", "Allow 0123456789.+-*/eE (Scientific notation input)", "False"},
 			{mvPythonDataType::Callable, "callback", "Registers a callback", "None"},
 			{mvPythonDataType::Object, "callback_data", "Callback data", "None"},
-			{mvPythonDataType::String, "tip", "Adds a simple tooltip", "''"},
 			{mvPythonDataType::String, "parent", "Parent to add this item to. (runtime adding)", "''"},
 			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)", "''"},
 			{mvPythonDataType::String, "source", "", "''"},
@@ -169,7 +168,6 @@ namespace Marvel {
 		int scientific = false;
 		PyObject* callback = nullptr;
 		PyObject* callback_data = nullptr;
-		const char* tip = "";
 		int width = 0;
 		int height = 0;
 		const char* before = "";
@@ -185,7 +183,7 @@ namespace Marvel {
 		if (!(*mvApp::GetApp()->getParsers())["add_input_text"].parse(args, kwargs, __FUNCTION__,
 			&name, &default_value, &hint, &multiline, &no_spaces,
 			&uppercase, &tab_input, &decimal, &hexadecimal, &readonly, &password, &scientific, &callback,
-			&callback_data, &tip, &parent, &before, &source, &enabled, &width, &height, &on_enter,
+			&callback_data, &parent, &before, &source, &enabled, &width, &height, &on_enter,
 			&label, &show))
 			return ToPyBool(false);
 

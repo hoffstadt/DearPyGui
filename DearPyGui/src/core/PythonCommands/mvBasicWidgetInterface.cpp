@@ -8,7 +8,6 @@ namespace Marvel {
 		parsers->insert({ "add_separator", mvPythonParser({
 			{mvPythonDataType::KeywordOnly},
 			{mvPythonDataType::String, "name", "", "'separator'"},
-			{mvPythonDataType::String, "tip", "Adds a simple tooltip", "''"},
 			{mvPythonDataType::String, "parent", "Parent this item will be added to. (runtime adding)", "''"},
 			{mvPythonDataType::String, "before","This item will be displayed before the specified item in the parent. (runtime adding)", "''"},
 		}, "Adds a horizontal line.", "None", "Adding Widgets") });
@@ -21,7 +20,6 @@ namespace Marvel {
 			{mvPythonDataType::Float, "minscale", "used if autoscale is false", "0.0"},
 			{mvPythonDataType::Float, "maxscale", "used if autoscale is false", "0.0"},
 			{mvPythonDataType::Bool, "histogram", "create a histogram", "False"},
-			{mvPythonDataType::String, "tip", "Adds a simple tooltip", "''"},
 			{mvPythonDataType::String, "parent", "Parent this item will be added to. (runtime adding)", "''"},
 			{mvPythonDataType::String, "before","This item will be displayed before the specified item in the parent. (runtime adding)", "''"},
 			{mvPythonDataType::Integer, "width","", "0"},
@@ -88,7 +86,6 @@ namespace Marvel {
 		float maxscale = 0.0f;
 		int histogram = false;
 		PyObject* value = nullptr;
-		const char* tip = "";
 		const char* parent = "";
 		const char* before = "";
 		int width = 0;
@@ -98,7 +95,7 @@ namespace Marvel {
 		int show = true;
 
 		if (!(*mvApp::GetApp()->getParsers())["add_simple_plot"].parse(args, kwargs, __FUNCTION__, &name, &value, &overlay,
-			&minscale, &maxscale, &histogram, &tip, &parent, &before, &width, &height, &source, &label, &show))
+			&minscale, &maxscale, &histogram, &parent, &before, &width, &height, &source, &label, &show))
 			return ToPyBool(false);
 
 		std::vector<float> values = ToFloatVect(value);
@@ -246,11 +243,10 @@ namespace Marvel {
 		static int i = 0; i++;
 		std::string sname = std::string("separator" + std::to_string(i));
 		const char* name = sname.c_str();
-		const char* tip = "";
 		const char* parent = "";
 		const char* before = "";
 
-		if (!(*mvApp::GetApp()->getParsers())["add_separator"].parse(args, kwargs, __FUNCTION__, &name, &tip, &parent, &before))
+		if (!(*mvApp::GetApp()->getParsers())["add_separator"].parse(args, kwargs, __FUNCTION__, &name, &parent, &before))
 			return ToPyBool(false);
 
 		auto item = CreateRef<mvSeparator>(name);

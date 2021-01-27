@@ -9,7 +9,10 @@ import random
 
 def helpmarker(message):
     add_same_line()
-    add_text("(?)", color=[150, 150, 150], tip=message)
+    add_text("(?)"+message, color=[150, 150, 150], default_value="(?)")
+    add_tooltip("(?)"+message, message + "tip")
+    add_text(message)
+    end()
 
 def hsv_to_rgb(h: float, s: float, v: float) -> (float, float, float):
     if s == 0.0: return (v, v, v)
@@ -199,7 +202,7 @@ def show_demo():
             "mvThemeCol_Window_ResizeGripHovered"   : 5731,
             "mvThemeCol_Window_ResizeGripActive"    : 5732
             }
-        add_button("tester", callback=lambda sender, data: print(get_item_type(sender)), tip="a simple tooltip for testing")
+        add_button("tester", callback=lambda sender, data: print(get_item_type(sender)))
         for color,constant in color_constants.items():
             add_color_edit4(color, callback_data = constant, callback = lambda sender, data: set_theme_color(data, get_value(sender)))
 
@@ -723,10 +726,12 @@ def show_demo():
 
             with tree_node("Groups##demo123"):
                 add_text("Groups can be used to bundle widths together so that you can use functions such as is_item_hovered or add_same_line on the whole group.")
-                with group("group##demotabexamples", tip="The group is hovered"):
+                with group("group##demotabexamples"):
                     add_button("AAA##demogroup")
                     add_button("BBB##demogroup")
                     add_button("CCC##demogroup")
+                with tooltip("group##demotabexamples", "grouptooltip"):
+                    add_text("The group is hovered", wrap=200)
 
                 add_text("Horizontal group:")
                 with group("group##demotabexamples1", horizontal=True):

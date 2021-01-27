@@ -14,7 +14,6 @@ namespace Marvel {
 			{mvPythonDataType::Integer, "default_value", "", "False"},
 			{mvPythonDataType::Callable, "callback", "Registers a callback", "None"},
 			{mvPythonDataType::Object, "callback_data", "Callback data", "None"},
-			{mvPythonDataType::String, "tip", "Adds a simple tooltip", "''"},
 			{mvPythonDataType::String, "parent", "Parent to add this item to. (runtime adding)", "''"},
 			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)", "''"},
 			{mvPythonDataType::String, "source", "Overrides 'name' as value storage key", "''"},
@@ -59,7 +58,6 @@ namespace Marvel {
 		int default_value = 0;
 		PyObject* callback = nullptr;
 		PyObject* callback_data = nullptr;
-		const char* tip = "";
 		const char* before = "";
 		const char* parent = "";
 		const char* source = "";
@@ -68,7 +66,7 @@ namespace Marvel {
 		int enabled = true;
 
 		if (!(*mvApp::GetApp()->getParsers())["add_checkbox"].parse(args, kwargs, __FUNCTION__, &name,
-			&default_value, &callback, &callback_data, &tip, &parent, &before, &source,
+			&default_value, &callback, &callback_data, &parent, &before, &source,
 			&label, &show, &enabled))
 			return ToPyBool(false);
 

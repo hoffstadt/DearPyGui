@@ -14,7 +14,6 @@ namespace Marvel {
 			{mvPythonDataType::Bool, "default_value", "", "False"},
 			{mvPythonDataType::Callable, "callback", "Registers a callback", "None"},
 			{mvPythonDataType::Object, "callback_data", "Callback data", "None"},
-			{mvPythonDataType::String, "tip", "Adds a simple tooltip", "''"},
 			{mvPythonDataType::String, "parent", "Parent this item will be added to. (runtime adding)", "''"},
 			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)", "''"},
 			{mvPythonDataType::String, "source", "", "''"},
@@ -92,7 +91,6 @@ namespace Marvel {
 		int default_value = false;
 		PyObject* callback = nullptr;
 		PyObject* callback_data = nullptr;
-		const char* tip = "";
 		const char* before = "";
 		const char* parent = "";
 		const char* source = "";
@@ -104,7 +102,7 @@ namespace Marvel {
 		//ImGuiSelectableFlags flags = ImGuiSelectableFlags_None;
 
 		if (!(*mvApp::GetApp()->getParsers())["add_selectable"].parse(args, kwargs, __FUNCTION__, &name,
-			&default_value, &callback, &callback_data, &tip, &parent, &before, &source, &enabled,
+			&default_value, &callback, &callback_data, &parent, &before, &source, &enabled,
 			&label, &show, &span_columns))
 			return ToPyBool(false);
 

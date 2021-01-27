@@ -16,7 +16,6 @@ namespace Marvel {
 			{mvPythonDataType::Integer, "direction", "A cardinal direction", "0"},
 			{mvPythonDataType::Callable, "callback", "Registers a callback", "None"},
 			{mvPythonDataType::Object, "callback_data", "Callback data", "None"},
-			{mvPythonDataType::String, "tip", "Adds a simple tooltip", "''"},
 			{mvPythonDataType::String, "parent", "Parent to add this item to. (runtime adding)", "''"},
 			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)", "''"},
 			{mvPythonDataType::Integer, "width","", "0"},
@@ -37,6 +36,7 @@ namespace Marvel {
 	{
 		auto styleManager = m_styleManager.getScopedStyleManager();
 		ScopedID id;
+		mvImGuiThemeScope scope(this);
 
 		if (!m_enabled)
 		{
@@ -97,7 +97,6 @@ namespace Marvel {
 		int direction = 2;
 		PyObject* callback = nullptr;
 		PyObject* callback_data = nullptr;
-		const char* tip = "";
 		int width = 0;
 		int height = 0;
 		const char* before = "";
@@ -107,7 +106,7 @@ namespace Marvel {
 		int enabled = true;
 
 		if (!(*mvApp::GetApp()->getParsers())["add_button"].parse(args, kwargs, __FUNCTION__, &name, &smallb,
-			&arrow, &direction, &callback, &callback_data, &tip, &parent, &before, &width, &height,
+			&arrow, &direction, &callback, &callback_data, &parent, &before, &width, &height,
 			&label, &show, &enabled))
 			return GetPyNone();
 

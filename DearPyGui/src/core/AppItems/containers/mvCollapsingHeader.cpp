@@ -14,7 +14,6 @@ namespace Marvel {
 			{mvPythonDataType::KeywordOnly},
 			{mvPythonDataType::String, "label", "", "''"},
 			{mvPythonDataType::Bool, "show", "Attempt to render", "True"},
-			{mvPythonDataType::String, "tip", "Adds a simple tooltip", "''"},
 			{mvPythonDataType::String, "parent", "Parent to add this item to. (runtime adding)", "''"},
 			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)", "''"},
 			{mvPythonDataType::Bool, "closable", "", "False"},
@@ -46,10 +45,6 @@ namespace Marvel {
 		if (*m_value)
 		{
 
-			// Regular Tooltip (simple)
-			if (!m_tip.empty() && ImGui::IsItemHovered())
-				ImGui::SetTooltip("%s", m_tip.c_str());
-
 			for (auto& item : m_children)
 			{
 				// skip item if it's not shown
@@ -62,19 +57,8 @@ namespace Marvel {
 
 				item->draw();
 
-				// Regular Tooltip (simple)
-				if (!item->m_tip.empty() && ImGui::IsItemHovered())
-					ImGui::SetTooltip("%s", item->m_tip.c_str());
-
 				item->getState().update();
 			}
-		}
-
-		else
-		{
-			// Regular Tooltip (simple)
-			if (!m_tip.empty() && ImGui::IsItemHovered())
-				ImGui::SetTooltip("%s", m_tip.c_str());
 		}
 	}
 
@@ -128,7 +112,6 @@ namespace Marvel {
 		const char* name;
 		const char* label = "";
 		int show = true;
-		const char* tip = "";
 		const char* parent = "";
 		const char* before = "";
 		int closable = false;
@@ -140,7 +123,7 @@ namespace Marvel {
 
 
 		if (!(*mvApp::GetApp()->getParsers())["add_collapsing_header"].parse(args, kwargs, __FUNCTION__, &name,
-			&label, &show, &tip, &parent, &before, &closable, &default_open, &open_on_double_click, &open_on_arrow, &leaf, &bullet))
+			&label, &show, &parent, &before, &closable, &default_open, &open_on_double_click, &open_on_arrow, &leaf, &bullet))
 			return ToPyBool(false);
 
 		auto item = CreateRef<mvCollapsingHeader>(name);
