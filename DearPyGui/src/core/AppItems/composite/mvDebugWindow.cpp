@@ -238,21 +238,21 @@ namespace Marvel {
                 ImGui::BeginGroup();
 
                 if (ImGui::ArrowButton("Move Up", ImGuiDir_Up))
-					mvApp::GetApp()->getCallbackRegistry().submit([&]()
+					mvApp::GetApp()->getCallbackRegistry().submitCallback([&]()
 						{
 							mvApp::GetApp()->getItemRegistry().moveItemUp(m_selectedItem);
 						});
 
                 ImGui::SameLine();
                 if (ImGui::ArrowButton("Move Down", ImGuiDir_Down))
-					mvApp::GetApp()->getCallbackRegistry().submit([&]()
+					mvApp::GetApp()->getCallbackRegistry().submitCallback([&]()
 						{
 							mvApp::GetApp()->getItemRegistry().moveItemDown(m_selectedItem);
 						});
                 ImGui::SameLine();
                 if (ImGui::Button("Delete"))
                 {
-					mvApp::GetApp()->getCallbackRegistry().submit([&]()
+					mvApp::GetApp()->getCallbackRegistry().submitCallback([&]()
 						{
 							mvApp::GetApp()->getItemRegistry().deleteItem(m_selectedItem, false);
 							m_selectedItem = "";
