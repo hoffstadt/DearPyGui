@@ -112,82 +112,18 @@ namespace Marvel {
 				}
 			}
 		}
-
-		//after checking the root for item specific things we should check root for general items
-		//like mvThemeCol_Text, background, ect all the standard DearImGui color items
-		//this is so that when have the ability to change all these more general items within a container
-		//other than changing every items text inside of a window
-	}
-
-	void mvImGuiThemeScope::applySimpleTooltipTheme(mvAppItem* item)
-	{
-		int pushedIDs[ImGuiCol_COUNT];
-		//this goes through the specific colors for the current item type and applies them
-		for (auto& themeColor : item->getColors()[item->getType()])
-		{
-			if (themeColor.first > ImGuiCol_COUNT - 1)
-			{
-				ImGui::PushStyleColor((ImGuiCol)themeColor.first - ImGuiCol_COUNT, themeColor.second.toVec4());
-				pushedIDs[libIDCount] = themeColor.first;
-				libIDCount++;
-			}
-		}
-		//this goes through the specific colors for the current item type and applies them
-		mvAppItem* widget = item;
-		while (!widget->getDescription().root)
-		{
-			widget = widget->getParent();
-			for (auto& themeColor : widget->getColors()[item->getType()])
-			{
-				//checking through all the libID's to see if our id matches one
-				int i = 0;
-				while (i < libIDCount)
-					if (pushedIDs[i] == themeColor.first)
-						break;
-					else
-						i++;
-				//if our position is the equal to the libIDCount then we did not find the current libID 
-				//so push libID and colo to DIG
-				if (i == libIDCount)
-				{
-					if (themeColor.first > ImGuiCol_COUNT - 1)
-					{
-						ImGui::PushStyleColor((ImGuiCol)themeColor.first - ImGuiCol_COUNT, themeColor.second.toVec4());
-						pushedIDs[libIDCount] = themeColor.first;
-						libIDCount++;
-					}
-				}
-			}
-		}
-
-		for (auto& themeColor : mvApp::GetApp()->getColors()[item->getType()])
-		{
-			//checking through all the libID's to see if our id matches one
-			int i = 0;
-			while (i < libIDCount)
-				if (pushedIDs[i] == themeColor.first)
-					break;
-				else
-					i++;
-			//if our position is the equal to the libIDCount then we did not find the current libID 
-			//so push libID and colo to DIG
-			if (i == libIDCount)
-			{
-				if (themeColor.first > ImGuiCol_COUNT - 1)
-				{
-					ImGui::PushStyleColor((ImGuiCol)themeColor.first - ImGuiCol_COUNT, themeColor.second.toVec4());
-					pushedIDs[libIDCount] = themeColor.first;
-					libIDCount++;
-				}
-			}
-		}
-
 	}
 
 	mvImGuiThemeScope::~mvImGuiThemeScope()
 	{
+		cleanup();
+	}
+
+	void mvImGuiThemeScope::cleanup()
+	{
 		if (libIDCount > 0)
 			ImGui::PopStyleColor(libIDCount);
+		libIDCount = 0;
 	}
 
 }

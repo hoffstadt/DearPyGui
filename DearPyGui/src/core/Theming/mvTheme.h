@@ -25,7 +25,7 @@ namespace Marvel {
 		mvImGuiThemeScope(mvAppItem* item);
 		~mvImGuiThemeScope();
 
-		void applySimpleTooltipTheme(mvAppItem* item);
+		void cleanup();
 
 	private:
 		int libIDCount = 0;

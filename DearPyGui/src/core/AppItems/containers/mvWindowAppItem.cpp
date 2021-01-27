@@ -171,24 +171,21 @@ namespace Marvel {
 
 		auto styleManager = m_styleManager.getScopedStyleManager();
 		ScopedID id;
+		mvImGuiThemeScope scope(this);
 
-		{	//this scope is because we do not want the window theme being active while drawing the 
-			//widgets inside the window. if it is active DIG will push the theme on any items that can use it
-			//this may be odd because we will have to do this for all containers
-			mvImGuiThemeScope scope(this);
-
-			if (!ImGui::Begin(m_label.c_str(), m_noclose ? nullptr : &m_show, m_windowflags))
-			{
-				if (m_mainWindow)
-					ImGui::PopStyleVar();
-
-				ImGui::End();
-				return;
-			}
-		}
-
+		if (!ImGui::Begin(m_label.c_str(), m_noclose ? nullptr : &m_show, m_windowflags))
+		{
 			if (m_mainWindow)
 				ImGui::PopStyleVar();
+
+			ImGui::End();
+			return;
+		}
+
+		scope.cleanup();
+
+		if (m_mainWindow)
+			ImGui::PopStyleVar();
 
 		for (auto& item : m_children)
 		{
@@ -200,15 +197,7 @@ namespace Marvel {
 			if (item->m_width != 0)
 				ImGui::SetNextItemWidth((float)item->m_width);
 
-			
-			{	// apply item theme to scope and draw item
-				mvImGuiThemeScope scope(&(*item));
-				item->draw();
-
-				// apply item's tooltip theme
-				scope.applySimpleTooltipTheme(&(*item));
-
-			}
+			item->draw();
 
 			item->getState().update();
 
