@@ -334,7 +334,7 @@ def tree_node(name: str, *, label: str = "__DearPyGuiDefault", show: bool = True
                                              before=before, default_open=default_open, 
                                              open_on_double_click=open_on_double_click, 
                                              open_on_arrow=open_on_arrow,
-                                             leaf=leaf, bullet=bullet)
+                                             leaf=leaf, bullet=bullet, label=label)
     finally:
         internal_dpg.end()
 
