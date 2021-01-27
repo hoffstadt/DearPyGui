@@ -38,8 +38,6 @@ namespace Marvel {
 		auto styleManager = m_styleManager.getScopedStyleManager();
 		ScopedID id;
 
-		mvImGuiThemeScope scope(this);
-
 		if (!m_enabled)
 		{
 			auto disabled_color = ImVec4(ImGui::GetStyleColorVec4(ImGuiCol_TextDisabled));

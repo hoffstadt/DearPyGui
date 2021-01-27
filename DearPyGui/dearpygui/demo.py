@@ -174,6 +174,35 @@ def show_demo():
         set_key_release_callback(None)
         set_accelerator_callback(None)
 
+    with window("New Style Editor"):
+        color_constants = {
+            "mvThemeCol_Button"                     :  421,
+            "mvThemeCol_Button_Text"                :  400,
+            "mvThemeCol_Button_Border"              :  405,
+            "mvThemeCol_Button_BorderShadow"        :  406,
+            "mvThemeCol_Button_Hovered"             :  422,
+            "mvThemeCol_Button_Active"              :  423,
+            "mvThemeCol_Button_TextTip"             :  450,
+            "mvThemeCol_Window"                     : 5702,
+            "mvThemeCol_Window_Text"                : 5700,
+            "mvThemeCol_Window_TextSelected"        : 5744,
+            "mvThemeCol_Window_Border"              : 5705,
+            "mvThemeCol_Window_BorderShadow"        : 5706,
+            "mvThemeCol_Window_Title"               : 5710,
+            "mvThemeCol_Window_TitleActive"         : 5711,
+            "mvThemeCol_Window_TitleCollapsed"      : 5712,
+            "mvThemeCol_Window_Scrollbar"           : 5714,
+            "mvThemeCol_Window_ScrollbarGrab"       : 5715,
+            "mvThemeCol_Window_ScrollbarGrabHovered": 5716,
+            "mvThemeCol_Window_ScrollbarGrabActive" : 5717,
+            "mvThemeCol_Window_ResizeGrip"          : 5730,
+            "mvThemeCol_Window_ResizeGripHovered"   : 5731,
+            "mvThemeCol_Window_ResizeGripActive"    : 5732
+            }
+        add_button("tester", callback=lambda sender, data: print(get_item_type(sender)), tip="a simple tooltip for testing")
+        for color,constant in color_constants.items():
+            add_color_edit4(color, callback_data = constant, callback = lambda sender, data: set_theme_color(data, get_value(sender)))
+
     with window("Dear PyGui Demo", x_pos=100, y_pos=100, width=800, height=800, on_close=on_demo_close):
 
         with menu_bar("MenuBar##demo"):
