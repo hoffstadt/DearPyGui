@@ -256,7 +256,11 @@ namespace Marvel {
 		if (fc) {
 			PyObject* ac = PyObject_GetAttrString(fc, "co_argcount");
 			if (ac) {
-				const int count = PyLong_AsLong(ac);
+				int count = PyLong_AsLong(ac);
+
+				if (PyMethod_Check(callable))
+					count--;
+
 				if (count > 2)
 				{
 					mvPyObject pArgs(PyTuple_New(count));
