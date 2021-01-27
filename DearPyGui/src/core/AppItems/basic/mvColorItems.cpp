@@ -13,7 +13,6 @@ namespace Marvel {
 			{mvPythonDataType::KeywordOnly},
 			{mvPythonDataType::Callable, "callback", "Registers a callback", "None"},
 			{mvPythonDataType::Object, "callback_data", "Callback data", "None"},
-			{mvPythonDataType::String, "tip", "Adds a simple tooltip", "''"},
 			{mvPythonDataType::String, "parent", "Parent to add this item to. (runtime adding)", "''"},
 			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)", "''"},
 			{mvPythonDataType::Integer, "width","", "0"},
@@ -81,7 +80,6 @@ namespace Marvel {
 		PyObject* color;
 		PyObject* callback = nullptr;
 		PyObject* callback_data = nullptr;
-		const char* tip = "";
 		const char* parent = "";
 		const char* before = "";
 		int width = 0;
@@ -92,7 +90,7 @@ namespace Marvel {
 		int no_drag_drop = false;
 
 		if (!(*mvApp::GetApp()->getParsers())["add_color_button"].parse(args, kwargs, __FUNCTION__,
-			&name, &color, &callback, &callback_data, &tip, &parent, &before, &width, &height,
+			&name, &color, &callback, &callback_data, &parent, &before, &width, &height,
 			&show, &no_alpha, &no_border, &no_drag_drop))
 			return ToPyBool(false);
 
@@ -122,7 +120,6 @@ namespace Marvel {
 			{mvPythonDataType::IntList, "default_value", "", "(0, 0, 0, 255)"},
 			{mvPythonDataType::Callable, "callback", "Registers a callback", "None"},
 			{mvPythonDataType::Object, "callback_data", "Callback data", "None"},
-			{mvPythonDataType::String, "tip", "Adds a simple tooltip", "''"},
 			{mvPythonDataType::String, "parent", "Parent to add this item to. (runtime adding)", "''"},
 			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)", "''"},
 			{mvPythonDataType::String, "source", "", "''"},
@@ -264,7 +261,6 @@ namespace Marvel {
 		PyTuple_SetItem(default_value, 2, PyLong_FromLong(255));
 		PyObject* callback = nullptr;
 		PyObject* callback_data = nullptr;
-		const char* tip = "";
 		int width = 0;
 		int height = 0;
 		const char* before = "";
@@ -293,7 +289,7 @@ namespace Marvel {
 
 
 		if (!(*mvApp::GetApp()->getParsers())["add_color_edit3"].parse(args, kwargs, __FUNCTION__, &name,
-			&default_value, &callback, &callback_data, &tip, &parent, &before, &source, &width, &height,
+			&default_value, &callback, &callback_data, &parent, &before, &source, &width, &height,
 			&label, &show, &no_alpha, &no_picker, &no_options, &no_small_preview, &no_inputs, &no_tooltip, &no_label, &no_drag_drop,
 			&alpha_bar, &alpha_preview, &alpha_preview_half, &display_rgb, &display_hsv, &display_hex, &unit8, &floats, &input_rgb, &input_hsv))
 			return ToPyBool(false);
@@ -326,7 +322,6 @@ namespace Marvel {
 			{mvPythonDataType::IntList, "default_value", "", "(0, 0, 0, 255)"},
 			{mvPythonDataType::Callable, "callback", "Registers a callback", "None"},
 			{mvPythonDataType::Object, "callback_data", "Callback data", "None"},
-			{mvPythonDataType::String, "tip", "Adds a simple tooltip", "''"},
 			{mvPythonDataType::String, "parent", "Parent to add this item to. (runtime adding)", "''"},
 			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)", "''"},
 			{mvPythonDataType::String, "source", "", "''"},
@@ -469,7 +464,6 @@ namespace Marvel {
 		PyTuple_SetItem(default_value, 3, PyLong_FromLong(255));
 		PyObject* callback = nullptr;
 		PyObject* callback_data = nullptr;
-		const char* tip = "";
 		int width = 0;
 		int height = 0;
 		const char* before = "";
@@ -497,7 +491,7 @@ namespace Marvel {
 		int input_hsv = false;
 
 		if (!(*mvApp::GetApp()->getParsers())["add_color_edit4"].parse(args, kwargs, __FUNCTION__, &name, &default_value,
-			&callback, &callback_data, &tip, &parent, &before, &source, &width, &height, &label, &show,
+			&callback, &callback_data, &parent, &before, &source, &width, &height, &label, &show,
 			&no_alpha, &no_picker, &no_options, &no_small_preview, &no_inputs, &no_tooltip, &no_label, &no_drag_drop,
 			&alpha_bar, &alpha_preview, &alpha_preview_half, &display_rgb, &display_hsv, &display_hex, &unit8, &floats, &input_rgb, &input_hsv))
 			return ToPyBool(false);
@@ -531,7 +525,6 @@ namespace Marvel {
 			{mvPythonDataType::IntList, "default_value", "", "(0, 0, 0, 255)"},
 			{mvPythonDataType::Callable, "callback", "Registers a callback", "None"},
 			{mvPythonDataType::Object, "callback_data", "Callback data", "None"},
-			{mvPythonDataType::String, "tip", "Adds a simple tooltip", "''"},
 			{mvPythonDataType::String, "parent", "Parent to add this item to. (runtime adding)", "''"},
 			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)", "''"},
 			{mvPythonDataType::String, "source", "", "''"},
@@ -673,7 +666,6 @@ namespace Marvel {
 		PyTuple_SetItem(default_value, 2, PyLong_FromLong(255));
 		PyObject* callback = nullptr;
 		PyObject* callback_data = nullptr;
-		const char* tip = "";
 		int width = 0;
 		int height = 0;
 		const char* before = "";
@@ -702,7 +694,7 @@ namespace Marvel {
 
 
 		if (!(*mvApp::GetApp()->getParsers())["add_color_picker3"].parse(args, kwargs, __FUNCTION__, &name, &default_value,
-			&callback, &callback_data, &tip, &parent, &before, &source, &width, &height, &label, &show,
+			&callback, &callback_data, &parent, &before, &source, &width, &height, &label, &show,
 			&no_alpha, &no_small_preview, &no_inputs, &no_tooltip, &no_label, &no_side_preview, &alpha_bar,
 			&alpha_preview, &alpha_preview_half, &display_rgb, &display_hsv, &display_hex, &uint8, &floats, &picker_hue_bar,
 			&picker_hue_wheel, &input_rgb, &input_hsv))
@@ -736,7 +728,6 @@ namespace Marvel {
 			{mvPythonDataType::IntList, "default_value", "", "(0, 0, 0, 255)"},
 			{mvPythonDataType::Callable, "callback", "Registers a callback", "None"},
 			{mvPythonDataType::Object, "callback_data", "Callback data", "None"},
-			{mvPythonDataType::String, "tip", "Adds a simple tooltip", "''"},
 			{mvPythonDataType::String, "parent", "Parent to add this item to. (runtime adding)", "''"},
 			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)", "''"},
 			{mvPythonDataType::String, "source", "", "''"},
@@ -878,7 +869,6 @@ namespace Marvel {
 		PyTuple_SetItem(default_value, 3, PyLong_FromLong(255));
 		PyObject* callback = nullptr;
 		PyObject* callback_data = nullptr;
-		const char* tip = "";
 		int width = 0;
 		int height = 0;
 		const char* before = "";
@@ -906,7 +896,7 @@ namespace Marvel {
 		int input_hsv = false;
 
 		if (!(*mvApp::GetApp()->getParsers())["add_color_picker4"].parse(args, kwargs, __FUNCTION__, &name,
-			&default_value, &callback, &callback_data, &tip, &parent, &before, &source, &width, &height,
+			&default_value, &callback, &callback_data, &parent, &before, &source, &width, &height,
 			&label, &show, &no_alpha, &no_small_preview, &no_inputs, &no_tooltip, &no_label, &no_side_preview, &alpha_bar,
 			&alpha_preview, &alpha_preview_half, &display_rgb, &display_hsv, &display_hex, &uint8, &floats, &picker_hue_bar,
 			&picker_hue_wheel, &input_rgb, &input_hsv))

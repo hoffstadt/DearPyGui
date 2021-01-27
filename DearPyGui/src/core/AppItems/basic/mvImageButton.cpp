@@ -16,7 +16,6 @@ namespace Marvel {
 			{mvPythonDataType::Object, "callback_data", "Callback data", "None"},
 			{mvPythonDataType::FloatList, "tint_color", "", "(255, 255, 255, 255)"},
 			{mvPythonDataType::FloatList, "background_color", "", "(0, 0, 0, 0)"},
-			{mvPythonDataType::String, "tip", "Adds a simple tooltip", "''"},
 			{mvPythonDataType::String, "parent", "Parent this item will be added to. (runtime adding)", "''"},
 			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)", "''"},
 			{mvPythonDataType::Integer, "width","", "0"},
@@ -161,7 +160,6 @@ namespace Marvel {
 		PyTuple_SetItem(backgroundColor, 1, PyFloat_FromDouble(0.0));
 		PyTuple_SetItem(backgroundColor, 2, PyFloat_FromDouble(0.0));
 		PyTuple_SetItem(backgroundColor, 3, PyFloat_FromDouble(0.0));
-		const char* tip = "";
 		const char* parent = "";
 		const char* before = "";
 		int width = 0;
@@ -176,7 +174,7 @@ namespace Marvel {
 		int show = true;
 
 		if (!(*mvApp::GetApp()->getParsers())["add_image_button"].parse(args, kwargs, __FUNCTION__,
-			&name, &value, &callback, &callback_data, &tintcolor, &backgroundColor, &tip, &parent,
+			&name, &value, &callback, &callback_data, &tintcolor, &backgroundColor, &parent,
 			&before, &width, &height, &frame_padding, &uv_min, &uv_max, &show))
 			return ToPyBool(false);
 

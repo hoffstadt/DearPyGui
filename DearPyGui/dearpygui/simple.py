@@ -140,7 +140,7 @@ def menu(name: str, *, label: str = "__DearPyGuiDefault", show: bool = True, par
 
 
 @contextmanager
-def child(name: str, *, show: bool = True, tip: str = "", parent: str = "", before: str = "", width: int = 0,
+def child(name: str, *, show: bool = True, parent: str = "", before: str = "", width: int = 0,
           height: int = 0, border: bool = True, autosize_x: bool = False, autosize_y: bool = False,
           no_scrollbar: bool = False, horizontal_scrollbar: bool = False, menubar: bool = False):
     """Wraps add_child() and automates calling end().
@@ -149,7 +149,6 @@ def child(name: str, *, show: bool = True, tip: str = "", parent: str = "", befo
         name: Unique name used to programmatically refer to the item. If label is unused this will be the label,
             anything after "##" that occurs in the name will not be shown on screen.
         show: Decides if the item is shown of not.
-        **tip: Adds a simple tooltip
         **parent: Parent to add this item to. (runtime adding)
         **before: This item will be displayed before the specified item in the parent. (runtime adding)
         **width: Width of the item.
@@ -165,7 +164,7 @@ def child(name: str, *, show: bool = True, tip: str = "", parent: str = "", befo
         None
     """
     try: 
-        yield internal_dpg.add_child(name, show=show, tip=tip, parent=parent, before=before, width=width,
+        yield internal_dpg.add_child(name, show=show, parent=parent, before=before, width=width,
                                      height=height, border=border, autosize_x=autosize_x, autosize_y=autosize_y,
                                      no_scrollbar=no_scrollbar, horizontal_scrollbar=horizontal_scrollbar,
                                      menubar=menubar)
@@ -174,8 +173,8 @@ def child(name: str, *, show: bool = True, tip: str = "", parent: str = "", befo
 
 
 @contextmanager
-def collapsing_header(name: str, *, label: str = "__DearPyGuiDefault", show: bool = True, 
-                      tip: str = "", parent: str = "", before: str = "",closable: bool = False, 
+def collapsing_header(name: str, *, label: str = "__DearPyGuiDefault", show: bool = True,
+                     parent: str = "", before: str = "",closable: bool = False, 
                       default_open: bool = False, open_on_double_click: bool = False, open_on_arrow: bool = False, 
                       leaf: bool = False, bullet: bool = False):
     """Wraps add_collapsing_header() and automates calling end().
@@ -185,7 +184,6 @@ def collapsing_header(name: str, *, label: str = "__DearPyGuiDefault", show: boo
             anything after "##" that occurs in the name will not be shown on screen.
         **label: Displayed name of the item.
         **show: Decides if the item is shown of not.
-        **tip: Adds a simple tooltip
         **parent: Parent to add this item to. (runtime adding)
         **before: This item will be displayed before the specified item in the parent. (runtime adding)
         **closable: Decides if the header can be collapsed.
@@ -201,12 +199,12 @@ def collapsing_header(name: str, *, label: str = "__DearPyGuiDefault", show: boo
     """
     try:
         if label == "__DearPyGuiDefault":
-            yield internal_dpg.add_collapsing_header(name, show=show, tip=tip, parent=parent, before=before, 
+            yield internal_dpg.add_collapsing_header(name, show=show, parent=parent, before=before, 
                                                      closable=closable, default_open=default_open, 
                                                      open_on_double_click=open_on_double_click,
                                                      open_on_arrow=open_on_arrow, leaf=leaf, bullet=bullet)
         else:
-            yield internal_dpg.add_collapsing_header(name, show=show, label=label, tip=tip, parent=parent, before=before, 
+            yield internal_dpg.add_collapsing_header(name, show=show, label=label, parent=parent, before=before, 
                                                      closable=closable, default_open=default_open, 
                                                      open_on_double_click=open_on_double_click,
                                                      open_on_arrow=open_on_arrow, leaf=leaf, bullet=bullet)
@@ -215,7 +213,7 @@ def collapsing_header(name: str, *, label: str = "__DearPyGuiDefault", show: boo
 
 
 @contextmanager
-def group(name: str, *, show: bool = True, tip: str = "", parent: str = "", before: str = "", width: int = 0,
+def group(name: str, *, show: bool = True, parent: str = "", before: str = "", width: int = 0,
           horizontal: bool = False, horizontal_spacing: float = -1.0):
     """Wraps add_group() and automates calling end().
 
@@ -223,7 +221,6 @@ def group(name: str, *, show: bool = True, tip: str = "", parent: str = "", befo
         name: Unique name used to programmatically refer to the item. If label is unused this will be the label,
             anything after "##" that occurs in the name will not be shown on screen.
         **show: Decides if the item is shown of not.
-        **tip: Adds a simple tooltip
         **parent: Parent to add this item to. (runtime adding)
         **before: This item will be displayed before the specified item in the parent. (runtime adding)
         **width: Width of the item.
@@ -234,7 +231,7 @@ def group(name: str, *, show: bool = True, tip: str = "", parent: str = "", befo
         None
     """
     try:
-        yield internal_dpg.add_group(name, show=show, tip=tip, parent=parent, before=before, width=width,
+        yield internal_dpg.add_group(name, show=show, parent=parent, before=before, width=width,
                                      horizontal=horizontal, horizontal_spacing=horizontal_spacing)
     finally:
         internal_dpg.end()
@@ -266,7 +263,7 @@ def tab_bar(name: str, *, reorderable: bool = False, callback: Callable = None, 
 
 
 @contextmanager
-def tab(name: str, *, closable: bool = False, label: str = "__DearPyGuiDefault", show: bool = True, tip: str = "",
+def tab(name: str, *, closable: bool = False, label: str = "__DearPyGuiDefault", show: bool = True,
         no_reorder: bool = False, leading: bool = False, trailing: bool = False, no_tooltip: bool = False,
         parent: str = "", before: str = ""):
     """Wraps add_tab() and automates calling end().
@@ -281,7 +278,6 @@ def tab(name: str, *, closable: bool = False, label: str = "__DearPyGuiDefault",
         **leading: Enforce the tab position to the left of the tab bar (after the tab list popup button)
         **trailing: Enforce the tab position to the right of the tab bar (before the scrolling buttons)
         **no_tooltip: Disable tooltip for the given tab
-        **tip: Adds a simple tooltip.
         **parent: Parent to add this item to. (runtime adding)
         **before: This item will be displayed before the specified item in the parent. (runtime adding)
 
@@ -290,17 +286,17 @@ def tab(name: str, *, closable: bool = False, label: str = "__DearPyGuiDefault",
     """
     try:
         if label == "__DearPyGuiDefault":
-            yield internal_dpg.add_tab(name, closable=closable, show=show, tip=tip, parent=parent, before=before,
+            yield internal_dpg.add_tab(name, closable=closable, show=show, parent=parent, before=before,
                                        no_reorder=no_reorder, leading=leading, trailing=trailing, no_tooltip=no_tooltip)
         else:
-            yield internal_dpg.add_tab(name, closable=closable, label=label, show=show, tip=tip, parent=parent,
+            yield internal_dpg.add_tab(name, closable=closable, label=label, show=show, parent=parent,
                                        before=before, no_reorder=no_reorder, leading=leading, trailing=trailing, no_tooltip=no_tooltip)
     finally:
         internal_dpg.end()
 
 
 @contextmanager
-def tree_node(name: str, *, label: str = "__DearPyGuiDefault", show: bool = True, tip: str = "", parent: str = "", 
+def tree_node(name: str, *, label: str = "__DearPyGuiDefault", show: bool = True, parent: str = "", 
               before: str = "", default_open: bool = False, open_on_double_click: bool = False, 
               open_on_arrow: bool = False, leaf: bool = False, bullet: bool = False):
     """Wraps add_tree_node() and automates calling end().
@@ -310,7 +306,6 @@ def tree_node(name: str, *, label: str = "__DearPyGuiDefault", show: bool = True
             anything after "##" that occurs in the name will not be shown on screen.
         **label: Displayed name of the item.
         **show: Decides if the item is shown of not.
-        **tip: Adds a simple tooltip.
         **parent: Parent to add this item to. (runtime adding)
         **before: This item will be displayed before the specified item in the parent. (runtime adding)
         **default_open: Decides if item is open by default.
@@ -324,13 +319,13 @@ def tree_node(name: str, *, label: str = "__DearPyGuiDefault", show: bool = True
     """
     try:
         if label == "__DearPyGuiDefault":
-            yield internal_dpg.add_tree_node(name, show=show, tip=tip, parent=parent,
+            yield internal_dpg.add_tree_node(name, show=show, parent=parent,
                                              before=before, default_open=default_open, 
                                              open_on_double_click=open_on_double_click, 
                                              open_on_arrow=open_on_arrow,
                                              leaf=leaf, bullet=bullet)
         else:
-            yield internal_dpg.add_tree_node(name, show=show, tip=tip, parent=parent,
+            yield internal_dpg.add_tree_node(name, show=show, parent=parent,
                                              before=before, default_open=default_open, 
                                              open_on_double_click=open_on_double_click, 
                                              open_on_arrow=open_on_arrow,
@@ -481,19 +476,6 @@ def set_item_label(item: str, label: str):
     internal_dpg.configure_item(item, label=label)
 
 
-def set_item_tip(item: str, tip: str):
-    """Sets the item's tip.
-
-    Args:
-        item: Item the tip will be applied to.
-        tip: tip to be applied.
-
-    Returns:
-        None
-    """
-    internal_dpg.configure_item(item, tip=tip)
-
-
 def set_item_width(item: str, width: int):
     """Sets the item's width.
 
@@ -527,14 +509,6 @@ def get_item_label(item: str) -> Union[str, None]:
         label as a string or None
     """
     return internal_dpg.get_item_configuration(item)["label"]
-
-def get_item_tip(item: str) -> Union[str, None]:
-    """Gets the item's tip.
-
-    Returns:
-        tip as a string or None
-    """
-    return internal_dpg.get_item_configuration(item)["tip"]
 
 
 def get_item_width(item: str) -> Union[int, None]:

@@ -14,7 +14,6 @@ namespace Marvel {
 			{mvPythonDataType::KeywordOnly},
 			{mvPythonDataType::FloatList, "tint_color", "", "(255, 255, 255, 255)"},
 			{mvPythonDataType::FloatList, "border_color", "", "(0, 0, 0, 0)"},
-			{mvPythonDataType::String, "tip", "Adds a simple tooltip", "''"},
 			{mvPythonDataType::String, "parent", "Parent this item will be added to. (runtime adding)", "''"},
 			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)", "''"},
 			{mvPythonDataType::String, "source", "data source for shared data", "''"},
@@ -165,7 +164,6 @@ namespace Marvel {
 		PyTuple_SetItem(bordercolor, 1, PyFloat_FromDouble(0.0));
 		PyTuple_SetItem(bordercolor, 2, PyFloat_FromDouble(0.0));
 		PyTuple_SetItem(bordercolor, 3, PyFloat_FromDouble(0.0));
-		const char* tip = "";
 		const char* parent = "";
 		const char* before = "";
 		const char* source = "";
@@ -180,7 +178,7 @@ namespace Marvel {
 		int show = true;
 
 		if (!(*mvApp::GetApp()->getParsers())["add_image"].parse(args, kwargs, __FUNCTION__, &name,
-			&value, &tintcolor, &bordercolor, &tip, &parent, &before, &source, &width,
+			&value, &tintcolor, &bordercolor, &parent, &before, &source, &width,
 			&height, &uv_min, &uv_max, &show))
 			return ToPyBool(false);
 

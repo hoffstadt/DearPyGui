@@ -17,7 +17,6 @@ namespace Marvel {
 			{mvPythonDataType::Integer, "level", "0-day, 1-month, 2-year", "0"},
 			{mvPythonDataType::Callable, "callback", "Registers a callback", "None"},
 			{mvPythonDataType::Object, "callback_data", "Callback data", "None"},
-			{mvPythonDataType::String, "tip", "Adds a simple tooltip", "''"},
 			{mvPythonDataType::String, "parent", "Parent this item will be added to. (runtime adding)", "''"},
 			{mvPythonDataType::String, "before","This item will be displayed before the specified item in the parent. (runtime adding)", "''"},
 			{mvPythonDataType::Bool, "show", "Attempt to render", "True"},
@@ -66,13 +65,12 @@ namespace Marvel {
 		int level = 0;
 		PyObject* callback = nullptr;
 		PyObject* callback_data = nullptr;
-		const char* tip = "";
 		const char* before = "";
 		const char* parent = "";
 		int show = true;
 
 		if (!(*mvApp::GetApp()->getParsers())["add_date_picker"].parse(args, kwargs, __FUNCTION__,
-			&name, &default_value, &level, &callback, &callback_data, &tip, &parent, &before, &show))
+			&name, &default_value, &level, &callback, &callback_data, &parent, &before, &show))
 			return ToPyBool(false);
 
 		auto item = CreateRef<mvDatePicker>(name, ToTime(default_value));

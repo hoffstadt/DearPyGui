@@ -16,7 +16,6 @@ namespace Marvel {
 			{mvPythonDataType::String, "default_value", "", "''"},
 			{mvPythonDataType::Callable, "callback", "Registers a callback", "None"},
 			{mvPythonDataType::Object, "callback_data", "Callback data", "None"},
-			{mvPythonDataType::String, "tip", "Adds a simple tooltip", "''"},
 			{mvPythonDataType::String, "parent", "Parent this item will be added to. (runtime adding)", "''"},
 			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)", "''"},
 			{mvPythonDataType::String, "source", "Overrides 'name' as value storage key", "''"},
@@ -164,7 +163,6 @@ namespace Marvel {
 		PyObject* items;
 		PyObject* callback = nullptr;
 		PyObject* callback_data = nullptr;
-		const char* tip = "";
 		int width = 0;
 		const char* before = "";
 		const char* parent = "";
@@ -182,7 +180,7 @@ namespace Marvel {
 
 
 		if (!(*mvApp::GetApp()->getParsers())["add_combo"].parse(args, kwargs, __FUNCTION__, &name, &items,
-			&default_value, &callback, &callback_data, &tip, &parent, &before, &source, &enabled, &width,
+			&default_value, &callback, &callback_data, &parent, &before, &source, &enabled, &width,
 			&label, &show, &popup_align_left, &height_small, &height_regular, &height_large,
 			&height_largest, &no_arrow_button, &no_preview))
 			return ToPyBool(false);

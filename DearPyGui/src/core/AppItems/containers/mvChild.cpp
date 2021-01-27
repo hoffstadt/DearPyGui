@@ -12,7 +12,6 @@ namespace Marvel {
 			{mvPythonDataType::String, "name"},
 			{mvPythonDataType::KeywordOnly},
 			{mvPythonDataType::Bool, "show", "Attempt to render", "True"},
-			{mvPythonDataType::String, "tip", "Adds a simple tooltip", "''"},
 			{mvPythonDataType::String, "parent", "Parent to add this item to. (runtime adding)", "''"},
 			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)", "''"},
 			{mvPythonDataType::Integer, "width","", "0"},
@@ -63,16 +62,8 @@ namespace Marvel {
 
 			item->draw();
 
-			// Regular Tooltip (simple)
-			if (!item->m_tip.empty() && ImGui::IsItemHovered())
-				ImGui::SetTooltip("%s", item->m_tip.c_str());
-
 			item->getState().update();
 		}
-
-		// TODO check if these work for child
-		if (!m_tip.empty() && ImGui::IsItemHovered())
-			ImGui::SetTooltip("%s", m_tip.c_str());
 
 		// allows this item to have a render callback
 		registerWindowFocusing();
@@ -129,7 +120,6 @@ namespace Marvel {
 	{
 		const char* name;
 		int show = true;
-		const char* tip = "";
 		const char* parent = "";
 		const char* before = "";
 		int width = 0;
@@ -142,7 +132,7 @@ namespace Marvel {
 		int menubar = false;
 
 		if (!(*mvApp::GetApp()->getParsers())["add_child"].parse(args, kwargs, __FUNCTION__, &name,
-			&show, &tip, &parent, &before, &width, &height, &border, &autosize_x,
+			&show, &parent, &before, &width, &height, &border, &autosize_x,
 			&autosize_y, &no_scrollbar, &horizontal_scrollbar, &menubar))
 			return ToPyBool(false);
 
