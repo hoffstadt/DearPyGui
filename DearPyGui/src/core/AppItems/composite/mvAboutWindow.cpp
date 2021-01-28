@@ -29,10 +29,10 @@ namespace Marvel {
         ImGui::Text("Dear PyGui is licensed under the MIT License, see LICENSE for more information.");
         ImGui::Separator();
         ImGui::TextColored(ImGui::GetStyleColorVec4(ImGuiCol_PlotHistogramHovered), "Partners");
+        ImGui::BulletText("Tkachenko Igor");
         ImGui::BulletText("Dean Keinan");
         ImGui::BulletText("He Lingfeng");
         ImGui::BulletText("Nikki Luzader");
-        ImGui::BulletText("Tkachenko Igor");
         ImGui::Separator();
         ImGui::TextColored(ImGui::GetStyleColorVec4(ImGuiCol_PlotHistogramHovered), "ImPlot");
         ImGui::Text("ImPlot Author Evan Pezent.");
