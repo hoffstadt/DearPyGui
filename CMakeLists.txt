@@ -25,7 +25,7 @@ endif()
 
 if(MV_CPP)
     add_definitions(-DMV_CPP)
-    add_subdirectory ("DearCppSandbox")
+    add_subdirectory ("DearSandboxCpp")
 endif()
 
 # include sub-projects.
