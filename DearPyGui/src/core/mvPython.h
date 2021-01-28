@@ -1,6 +1,11 @@
 #pragma once
 #include "mvCore.h"
 
+// extremely nasty TEMPORARY code until
+// the python c API can be properly
+// seperated from the architecture.
+// May the Clean Code Gods forgive me.
+
 #ifdef MV_CPP
 #include <iostream>
 #define PyObject void
