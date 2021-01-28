@@ -1,9 +1,5 @@
 #include "mvCallbackRegistry.h"
-#include "mvPyObject.h"
-#include "mvPythonTranslator.h"
-#include "mvPythonExceptions.h"
 #include "mvProfiler.h"
-#include "mvGlobalIntepreterLock.h"
 #include "mvApp.h"
 #include <chrono>
 #include <iostream>

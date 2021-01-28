@@ -1,6 +1,5 @@
 #include "mvDrawing.h"
 #include "mvApp.h"
-#include "mvPythonTranslator.h"
 
 namespace Marvel {
 

@@ -2,8 +2,6 @@
 #include "mvButton.h"
 #include "mvApp.h"
 #include "mvValueStorage.h"
-#include "mvPythonTranslator.h"
-#include "mvGlobalIntepreterLock.h"
 
 namespace Marvel {
 	void mvButton::InsertParser(std::map<std::string, mvPythonParser>* parsers)

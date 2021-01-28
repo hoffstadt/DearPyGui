@@ -1,6 +1,5 @@
 #include "mvUtilities.h"
 #include "mvWindowsWindow.h"
-#include "mvPythonExceptions.h"
 
 #define STB_IMAGE_IMPLEMENTATION
 #include <stb_image.h>

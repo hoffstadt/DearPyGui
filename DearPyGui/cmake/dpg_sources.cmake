@@ -1,6 +1,10 @@
 ﻿
 set(MARVEL_PY_SOURCES
 
+	"$<$<PLATFORM_ID:Windows>:src/core/mvMarvel.cpp>"
+	"$<$<PLATFORM_ID:Linux>:src/core/mvMarvel.cpp>"
+	"$<$<PLATFORM_ID:Darwin>:src/core/mvMarvel.mm>"
+
 	"src/core/Registries/mvDataStorage.cpp"
 
 	"src/core/PythonUtilities/mvPyObject.cpp"
@@ -23,10 +27,6 @@ set(MARVEL_PY_SOURCES
 )
 
 set(MARVEL_SOURCES
-
-	"$<$<PLATFORM_ID:Windows>:src/core/mvMarvel.cpp>"
-	"$<$<PLATFORM_ID:Linux>:src/core/mvMarvel.cpp>"
-	"$<$<PLATFORM_ID:Darwin>:src/core/mvMarvel.mm>"
 
 	"$<$<PLATFORM_ID:Windows>:src/platform/Windows/mvWindowsWindow.cpp>"
 	"$<$<PLATFORM_ID:Windows>:src/platform/Windows/mvUtilities.cpp>"

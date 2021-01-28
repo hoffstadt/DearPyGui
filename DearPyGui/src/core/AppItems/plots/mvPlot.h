@@ -7,7 +7,6 @@
 #include <utility>
 #include "mvCore.h"
 #include "mvPython.h"
-#include "mvPythonParser.h"
 
 //-----------------------------------------------------------------------------
 // Widget Index

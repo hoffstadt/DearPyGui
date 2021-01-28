@@ -1,6 +1,4 @@
 #include "mvDrawPolylineCmd.h"
-#include "mvPythonTranslator.h"
-#include "mvGlobalIntepreterLock.h"
 
 namespace Marvel {
 

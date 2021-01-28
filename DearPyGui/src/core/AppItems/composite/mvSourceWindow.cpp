@@ -4,7 +4,6 @@
 #include <imgui.h>
 #include <fstream>
 #include <streambuf>
-#include "mvPythonTranslator.h"
 
 namespace Marvel {
 

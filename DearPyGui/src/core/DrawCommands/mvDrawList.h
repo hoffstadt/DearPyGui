@@ -3,7 +3,6 @@
 #include <string>
 #include <vector>
 #include <map>
-#include "mvPythonParser.h"
 #include "mvCore.h"
 #include "mvPython.h"
 

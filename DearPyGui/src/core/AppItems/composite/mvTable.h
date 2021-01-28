@@ -3,7 +3,6 @@
 #include "mvAppItem.h"
 #include "mvApp.h"
 #include "mvAppLog.h"
-#include "mvPythonParser.h"
 
 namespace Marvel {
 

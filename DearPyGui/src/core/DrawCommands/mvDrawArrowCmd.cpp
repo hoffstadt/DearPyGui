@@ -4,8 +4,6 @@
 #include "mvApp.h"
 #undef min
 #undef max
-#include "mvPythonTranslator.h"
-#include "mvGlobalIntepreterLock.h"
 
 namespace Marvel {
 

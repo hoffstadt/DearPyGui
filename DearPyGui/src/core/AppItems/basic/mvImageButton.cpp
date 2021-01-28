@@ -1,8 +1,6 @@
 #include "mvImageButton.h"
 #include "mvTextureStorage.h"
-#include "mvPythonExceptions.h"
 #include "mvApp.h"
-#include "mvGlobalIntepreterLock.h"
 
 namespace Marvel {
 

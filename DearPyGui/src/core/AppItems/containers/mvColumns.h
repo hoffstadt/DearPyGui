@@ -2,7 +2,6 @@
 
 #include "mvTypeBases.h"
 #include <vector>
-#include "mvPythonParser.h"
 
 //-----------------------------------------------------------------------------
 // Widget Index

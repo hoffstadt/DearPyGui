@@ -3,7 +3,6 @@
 #include <map>
 #include <string>
 #include "mvTypeBases.h"
-#include "mvPythonParser.h"
 
 namespace Marvel {
 
