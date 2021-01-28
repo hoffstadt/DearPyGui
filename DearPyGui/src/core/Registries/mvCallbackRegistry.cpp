@@ -175,7 +175,9 @@ namespace Marvel {
 	{
 		m_running = true;
 
+#ifndef MV_CPP
 		mvGlobalIntepreterLock gil;
+#endif // !MV_CPP
 
 		while (m_running)
 		{
@@ -208,6 +210,7 @@ namespace Marvel {
 		}
 
 		 
+#ifndef MV_CPP
 
 		if (!PyCallable_Check(callable))
 		{
@@ -328,7 +331,7 @@ namespace Marvel {
 			Py_DECREF(fc);
 		}
 
-
+#endif // !MV_CPP
 
 	}
 

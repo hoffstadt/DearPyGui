@@ -9,7 +9,8 @@
 //     
 //-----------------------------------------------------------------------------
 
-#include "mvPythonParser.h"
+#include "mvPython.h"
+#include <map>
 
 namespace Marvel {
 

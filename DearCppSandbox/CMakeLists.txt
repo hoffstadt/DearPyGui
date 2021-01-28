@@ -16,6 +16,7 @@ target_include_directories(DearCppSandbox
 	PRIVATE
 
 		"../Dependencies/imgui/"
+		"../Dependencies/ImGuiFileDialog/ImGuiFileDialog/"
 		"../DearPyGui/vendor/implot/"
 		"../DearPyGui/src/"
 		"../DearPyGui/src/core/"
@@ -39,9 +40,9 @@ if (WIN32)
 
 	set_target_properties(DearCppSandbox
 		PROPERTIES
-		ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}$<$<CONFIG:Release>:/DearSandbox/>$<$<CONFIG:Debug>:/DearSandbox/>"
-		LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}$<$<CONFIG:Release>:/DearSandbox/>$<$<CONFIG:Debug>:/DearSandbox/>"
-		RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}$<$<CONFIG:Release>:/DearSandbox/>$<$<CONFIG:Debug>:/DearSandbox/>"
+		ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}$<$<CONFIG:Release>:/DearCppSandbox/>$<$<CONFIG:Debug>:/DearCppSandbox/>"
+		LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}$<$<CONFIG:Release>:/DearCppSandbox/>$<$<CONFIG:Debug>:/DearCppSandbox/>"
+		RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}$<$<CONFIG:Release>:/DearCppSandbox/>$<$<CONFIG:Debug>:/DearCppSandbox/>"
 	)
 
 	target_link_libraries(DearCppSandbox PUBLIC coreemb )

@@ -23,6 +23,8 @@ namespace Marvel {
 		void setExtraConfigDict(PyObject* dict) override;
 		void getExtraConfigDict(PyObject* dict) override;
 
+
+
 	private:
 
 		bool     m_small = false;
