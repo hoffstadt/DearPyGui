@@ -109,9 +109,9 @@ namespace Marvel {
         virtual std::string                 getParserCommand     () const { return "no_command_set"; }
 
         // configuration get/set
-        void                                checkConfigDict   (PyObject* dict);
-        void                                setConfigDict     (PyObject* dict);  // python dictionary acts as an out parameter 
-        void                                getConfigDict     (PyObject* dict);
+        void                                checkConfigDict(PyObject* dict);
+        void                                setConfigDict(PyObject* dict);  // python dictionary acts as an out parameter 
+        void                                getConfigDict(PyObject* dict);
         virtual void                        setExtraConfigDict(PyObject* dict) {}
         virtual void                        getExtraConfigDict(PyObject* dict) {}
 

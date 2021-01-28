@@ -154,7 +154,10 @@ namespace Marvel {
 				ImGui::Text("%d active allocations", io.MetricsActiveAllocations);
 				DebugItem("DearPyGui Version: ", mvApp::GetVersion());
 				DebugItem("ImGui Version: ", IMGUI_VERSION);
+#ifndef MV_CPP
 				DebugItem("Stored Data: ", std::to_string(mvDataStorage::GetDataCount()).c_str());
+#endif // !MV_CPP
+
 				DebugItem("Stored Textures: ", std::to_string(mvApp::GetApp()->getTextureStorage().getTextureCount()).c_str());
 				ImGui::Separator();
 				DebugItem("Int Values", std::to_string(mvApp::GetApp()->getValueStorage().s_ints.size()).c_str());
@@ -328,6 +331,9 @@ namespace Marvel {
 				ImGui::PopStyleColor();
 				ImGui::PopTextWrapPos();
 				ImGui::EndChild();
+
+#ifndef MV_CPP
+
 				ImGui::InputTextMultiline("Command##debug", &commandstring, ImVec2(-1, -50));
 				ImGui::PopItemWidth();
 				if (ImGui::Button("Run##debug"))
@@ -338,6 +344,8 @@ namespace Marvel {
 						});
 
 				}
+#endif // !MV_CPP
+
 				ImGui::EndTabItem();
 			}
 

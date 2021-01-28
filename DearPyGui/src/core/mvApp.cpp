@@ -135,8 +135,12 @@ namespace Marvel {
 		// info
         mvAppLog::Clear();
 		mvAppLog::AddLog("[DearPyGui Version] %0s\n", mvApp::GetVersion());
-		mvAppLog::AddLog("[Python Version] %0s\n", PY_VERSION);
 		mvAppLog::AddLog("[DearImGui Version] %0s\n", IMGUI_VERSION);
+
+#ifndef MV_CPP
+        mvAppLog::AddLog("[Python Version] %0s\n", PY_VERSION);
+#endif // !MV_CPP
+
 
 		m_mainThreadID = std::this_thread::get_id();
 
@@ -186,7 +190,10 @@ namespace Marvel {
 		m_itemRegistry->clearRegistry();
 
 		mvApp::GetApp()->getTextureStorage().deleteAllTextures();
-		mvDataStorage::DeleteAllData();
+#ifndef MV_CPP
+        mvDataStorage::DeleteAllData();
+#endif // !MV_CPP
+	
 	}
 
 	void mvApp::turnOnDocking(bool shiftOnly, bool dockSpace)

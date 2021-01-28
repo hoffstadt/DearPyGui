@@ -12,64 +12,6 @@ namespace Marvel{
 		m_state.setParent(this);
 	}
 
-	void mvAppItem::checkConfigDict(PyObject* dict)
-	{
-		if (dict == nullptr)
-			return;
-		 
-		auto configKeys = ToStringVect(PyDict_Keys(dict));
-		auto parserKeywords = (*mvApp::GetApp()->getParsers())[getParserCommand()].getKeywords();
-		if (parserKeywords.empty())
-		{
-			ThrowPythonException("\"" + m_name + "\" could not find a parser that matched \"" + getParserCommand() + "\".");
-			return;
-		}
-		for (const auto& key : configKeys)
-		{
-			size_t i = 0;
-			while (i < parserKeywords.size() - 1)
-			{
-				if (key == parserKeywords[i])
-				{
-					break;
-				}
-				i++;
-			}
-			if (i == parserKeywords.size() - 1)
-			{
-				ThrowPythonException("\"" + key + "\" configuration does not exist in \"" + m_name + "\".");
-			}
-		}
-	}
-
-	void mvAppItem::setConfigDict(PyObject* dict)
-	{
-		if (dict == nullptr)
-			return;
-		 
-		if (PyObject* item = PyDict_GetItemString(dict, "name")) m_name = ToString(item);
-		if (PyObject* item = PyDict_GetItemString(dict, "label")) setLabel(ToString(item));
-		if (PyObject* item = PyDict_GetItemString(dict, "width")) setWidth(ToInt(item));
-		if (PyObject* item = PyDict_GetItemString(dict, "height")) setHeight(ToInt(item));
-		if (PyObject* item = PyDict_GetItemString(dict, "show")) m_show = ToBool(item);
-		if (PyObject* item = PyDict_GetItemString(dict, "source")) setDataSource(ToString(item));
-		if (PyObject* item = PyDict_GetItemString(dict, "enabled")) setEnabled(ToBool(item));
-	}
-
-	void mvAppItem::getConfigDict(PyObject* dict)
-	{
-		if (dict == nullptr)
-			return;
-		 
-		PyDict_SetItemString(dict, "name",    ToPyString(m_name));
-		PyDict_SetItemString(dict, "label",   ToPyString(m_specifiedLabel));
-		PyDict_SetItemString(dict, "source",  ToPyString(m_dataSource));
-		PyDict_SetItemString(dict, "show",    ToPyBool  (m_show));
-		PyDict_SetItemString(dict, "enabled", ToPyBool  (m_enabled));
-		PyDict_SetItemString(dict, "width",   ToPyInt   (m_width));
-		PyDict_SetItemString(dict, "height",  ToPyInt   (m_height));
-	}
-
 	void mvAppItem::registerWindowFocusing()
 	{
 		if (ImGui::IsWindowFocused())
@@ -453,12 +395,13 @@ namespace Marvel{
 	{
 		deleteChildren();
 
-		 
+#ifndef MV_CPP		 
 		mvGlobalIntepreterLock gil;
 		if (m_callback)
 			Py_DECREF(m_callback);
 		if (m_callbackData)
 			Py_DECREF(m_callbackData);
+#endif
 	}
 
 	PyObject* mvAppItem::getCallback(bool ignore_enabled)
@@ -468,4 +411,66 @@ namespace Marvel{
 		return ignore_enabled ? m_callback : nullptr;
 	}
 
+	void mvAppItem::checkConfigDict(PyObject* dict)
+	{
+#ifndef MV_CPP	
+		if (dict == nullptr)
+			return;
+
+		auto configKeys = ToStringVect(PyDict_Keys(dict));
+		auto parserKeywords = (*mvApp::GetApp()->getParsers())[getParserCommand()].getKeywords();
+		if (parserKeywords.empty())
+		{
+			ThrowPythonException("\"" + m_name + "\" could not find a parser that matched \"" + getParserCommand() + "\".");
+			return;
+		}
+		for (const auto& key : configKeys)
+		{
+			size_t i = 0;
+			while (i < parserKeywords.size() - 1)
+			{
+				if (key == parserKeywords[i])
+				{
+					break;
+				}
+				i++;
+			}
+			if (i == parserKeywords.size() - 1)
+			{
+				ThrowPythonException("\"" + key + "\" configuration does not exist in \"" + m_name + "\".");
+			}
+		}
+#endif
+	}
+
+	void mvAppItem::setConfigDict(PyObject* dict)
+	{
+		if (dict == nullptr)
+			return;
+
+#ifndef MV_CPP	
+		if (PyObject* item = PyDict_GetItemString(dict, "name")) m_name = ToString(item);
+		if (PyObject* item = PyDict_GetItemString(dict, "label")) setLabel(ToString(item));
+		if (PyObject* item = PyDict_GetItemString(dict, "width")) setWidth(ToInt(item));
+		if (PyObject* item = PyDict_GetItemString(dict, "height")) setHeight(ToInt(item));
+		if (PyObject* item = PyDict_GetItemString(dict, "show")) m_show = ToBool(item);
+		if (PyObject* item = PyDict_GetItemString(dict, "source")) setDataSource(ToString(item));
+		if (PyObject* item = PyDict_GetItemString(dict, "enabled")) setEnabled(ToBool(item));
+#endif
+	}
+
+	void mvAppItem::getConfigDict(PyObject* dict)
+	{
+		if (dict == nullptr)
+			return;
+#ifndef MV_CPP	
+		PyDict_SetItemString(dict, "name", ToPyString(m_name));
+		PyDict_SetItemString(dict, "label", ToPyString(m_specifiedLabel));
+		PyDict_SetItemString(dict, "source", ToPyString(m_dataSource));
+		PyDict_SetItemString(dict, "show", ToPyBool(m_show));
+		PyDict_SetItemString(dict, "enabled", ToPyBool(m_enabled));
+		PyDict_SetItemString(dict, "width", ToPyInt(m_width));
+		PyDict_SetItemString(dict, "height", ToPyInt(m_height));
+#endif
+	}
 }

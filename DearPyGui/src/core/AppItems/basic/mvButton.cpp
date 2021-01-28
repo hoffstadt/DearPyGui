@@ -86,7 +86,6 @@ namespace Marvel {
 		PyDict_SetItemString(dict, "direction", ToPyInt(m_direction));
 	}
 
-
 	PyObject* add_button(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		const char* name;
@@ -124,6 +123,5 @@ namespace Marvel {
 
 		return GetPyNone();
 	}
-
 
 }

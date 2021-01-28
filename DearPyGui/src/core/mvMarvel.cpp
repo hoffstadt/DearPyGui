@@ -9,7 +9,7 @@
 #include <ImGuiFileDialog.h>
 #include <cstdlib>
 
-// new includes
+#ifndef MV_CPP
 #include "mvPlotInterface.h"
 #include "mvTableInterface.h"
 #include "mvThemeInterface.h"
@@ -21,6 +21,9 @@
 #include "mvContainerInterface.h"
 #include "mvAppItemInterface.h"
 #include "mvAppInterface.h"
+#endif // !MV_CPP
+
+
 
 //-----------------------------------------------------------------------------
 // Helper Macro
@@ -78,6 +81,7 @@ namespace Marvel {
 		mvPlot::InsertParser(parsers.get());
 		mvDrawList::InsertParser(parsers.get());
 
+#ifndef MV_CPP
 		AddPlotCommands(parsers.get());
 		AddLogCommands(parsers.get());
 		AddInputCommands(parsers.get());
@@ -91,6 +95,7 @@ namespace Marvel {
 		AddBasicWidgets(parsers.get());
 		AddContainerWidgets(parsers.get());
 		AddAppCommands(parsers.get());
+#endif
 		return parsers;
 	}
 
@@ -681,6 +686,7 @@ namespace Marvel {
 		return ModuleConstants;
 	}
 
+#ifndef MV_CPP
 	static PyMethodDef dearpyguimethods[]
 	{
 		ADD_PYTHON_FUNCTION(get_item_configuration)
@@ -1051,6 +1057,8 @@ namespace Marvel {
 
 		return m;
 	}
+
+#endif
 
 	void start_dearpygui_error()
 	{
