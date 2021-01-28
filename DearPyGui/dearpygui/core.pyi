@@ -362,7 +362,7 @@ def add_table(name: str, headers: List[str], *, callback: Callable = None, callb
 	"""Adds table."""
 	...
 
-def add_text(name: str, *, wrap: int = 0, color: List[float] = (0, 0, 0, -1), bullet: bool = False, tip: str = '', parent: str = '', before: str = '', source: str = '', default_value: str = '', show: bool = True) -> None:
+def add_text(name: str, *, wrap: int = -1, color: List[float] = (0, 0, 0, -1), bullet: bool = False, tip: str = '', parent: str = '', before: str = '', source: str = '', default_value: str = '', show: bool = True) -> None:
 	"""Adds text"""
 	...
 
