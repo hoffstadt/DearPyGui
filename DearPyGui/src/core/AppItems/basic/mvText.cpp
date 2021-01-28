@@ -10,7 +10,7 @@ namespace Marvel {
 		parsers->insert({ "add_text", mvPythonParser({
 			{mvPythonDataType::String, "name"},
 			{mvPythonDataType::KeywordOnly},
-			{mvPythonDataType::Integer, "wrap", "number of characters until wraping", "0"},
+			{mvPythonDataType::Integer, "wrap", "number of characters until wraping", "-1"},
 			{mvPythonDataType::FloatList, "color", "color of the text (rgba)", "(0, 0, 0, -1)"},
 			{mvPythonDataType::Bool, "bullet", "makes the text bulleted", "False"},
 			{mvPythonDataType::String, "tip", "Adds a simple tooltip", "''"},
@@ -160,7 +160,7 @@ namespace Marvel {
 	PyObject* add_text(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		const char* name;
-		int wrap = 0;
+		int wrap = -1;
 		int bullet = false;
 		PyObject* color = PyTuple_New(4);
 		PyTuple_SetItem(color, 0, PyLong_FromLong(1000));

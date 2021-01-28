@@ -39,7 +39,7 @@ namespace Marvel {
 	private:
 
 		mvColor m_color = {1000, 0, 0, 255, false};
-		int     m_wrap = 0;
+		int     m_wrap = -1;
 		bool    m_bullet = false;
 
 	};
