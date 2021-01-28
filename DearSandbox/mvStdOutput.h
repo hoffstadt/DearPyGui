@@ -7,8 +7,8 @@
 //     
 //-----------------------------------------------------------------------------
 
+#include "mvPython.h"
 #include "mvAppLog.h"
-#define PY_SSIZE_T_CLEAN
 #include <Python.h>
 #include <string>
 

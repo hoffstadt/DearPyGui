@@ -3,7 +3,12 @@
 add_library(coreemb STATIC)
 set_target_properties(coreemb PROPERTIES CXX_STANDARD 17)
 
-target_sources(coreemb PRIVATE ${MARVEL_SOURCES} )
+if(NOT MV_CPP)
+	target_sources(coreemb PRIVATE ${MARVEL_SOURCES} ${MARVEL_PY_SOURCES})
+else()
+	target_sources(coreemb PRIVATE ${MARVEL_SOURCES})
+endif()
+
 target_include_directories(coreemb PRIVATE ${MARVEL_INCLUDE_DIR})
 
 target_compile_definitions(coreemb
@@ -17,7 +22,13 @@ if(WIN32)
 	add_definitions(-DWIN32)
 	add_definitions(-DMV_PROFILE)
 	target_link_directories(coreemb PRIVATE "../Dependencies/cpython/PCbuild/amd64/")
-	target_link_libraries(coreemb PUBLIC $<$<PLATFORM_ID:Windows>:d3d11> $<$<CONFIG:Debug>:python38_d> $<$<CONFIG:Release>:python38>)
+
+	if(NOT MV_CPP)
+		target_link_libraries(coreemb PUBLIC $<$<PLATFORM_ID:Windows>:d3d11> $<$<CONFIG:Debug>:python38_d> $<$<CONFIG:Release>:python38>)
+	else()
+		target_link_libraries(coreemb PUBLIC $<$<PLATFORM_ID:Windows>:d3d11>)
+	endif()
+	
 
 elseif(APPLE)
 
@@ -48,7 +59,12 @@ else() # Linux
 	add_definitions(-DIMGUI_IMPL_OPENGL_LOADER_GL3W)
 
 	set_property(TARGET coreemb APPEND_STRING PROPERTY COMPILE_FLAGS "-fPIC -Wno-unused-result -Wsign-compare -DNDEBUG -g -fwrapv -O3 -Wall")
-	target_link_libraries(coreemb PRIVATE "-lcrypt -lpthread -ldl -lutil -lm" GL glfw python3.8d)
 	target_link_directories(coreemb PRIVATE ../Dependencies/cpython/debug)
+
+	if(NOT MV_CPP)
+		target_link_libraries(coreemb PRIVATE "-lcrypt -lpthread -ldl -lutil -lm" GL glfw python3.8d)
+	else()
+		target_link_libraries(coreemb PRIVATE "-lcrypt -lpthread -ldl -lutil -lm" GL glfw)
+	endif()
 
 endif()

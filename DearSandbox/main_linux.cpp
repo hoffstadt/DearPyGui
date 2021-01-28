@@ -1,5 +1,4 @@
-#define PY_SSIZE_T_CLEAN
-#include <Python.h>
+#include "mvPython.h"
 #include "mvStdOutput.h"
 #include "mvMarvel.h"
 #include <iostream>

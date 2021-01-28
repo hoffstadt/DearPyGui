@@ -1,4 +1,27 @@
 ﻿
+set(MARVEL_PY_SOURCES
+
+	"src/core/Registries/mvDataStorage.cpp"
+
+	"src/core/PythonUtilities/mvPyObject.cpp"
+	"src/core/PythonUtilities/mvPythonTranslator.cpp"
+	"src/core/PythonUtilities/mvPythonParser.cpp"
+	"src/core/PythonUtilities/mvPythonExceptions.cpp"
+	"src/core/PythonUtilities/mvGlobalIntepreterLock.cpp"
+
+	"src/core/PythonCommands/mvPlotInterface.cpp"
+	"src/core/PythonCommands/mvTableInterface.cpp"
+	"src/core/PythonCommands/mvThemeInterface.cpp"
+	"src/core/PythonCommands/mvInputInterface.cpp"
+	"src/core/PythonCommands/mvBasicWidgetInterface.cpp"
+	"src/core/PythonCommands/mvSliderInterface.cpp"
+	"src/core/PythonCommands/mvInputsInterface.cpp"
+	"src/core/PythonCommands/mvDragInterface.cpp"
+	"src/core/PythonCommands/mvContainerInterface.cpp"
+	"src/core/PythonCommands/mvAppItemInterface.cpp"
+	"src/core/PythonCommands/mvAppInterface.cpp"
+)
+
 set(MARVEL_SOURCES
 
 	"$<$<PLATFORM_ID:Windows>:src/core/mvMarvel.cpp>"
@@ -38,27 +61,9 @@ set(MARVEL_SOURCES
 	"src/core/DrawCommands/mvDrawBezierCurveCmd.cpp"
 
 	"src/core/Registries/mvCallbackRegistry.cpp"
-	"src/core/Registries/mvDataStorage.cpp"
+	
 	"src/core/Registries/mvTextureStorage.cpp"
 	"src/core/Registries/mvValueStorage.cpp"
-
-	"src/core/PythonUtilities/mvPyObject.cpp"
-	"src/core/PythonUtilities/mvPythonTranslator.cpp"
-	"src/core/PythonUtilities/mvPythonParser.cpp"
-	"src/core/PythonUtilities/mvPythonExceptions.cpp"
-	"src/core/PythonUtilities/mvGlobalIntepreterLock.cpp"
-
-	"src/core/PythonCommands/mvPlotInterface.cpp"
-	"src/core/PythonCommands/mvTableInterface.cpp"
-	"src/core/PythonCommands/mvThemeInterface.cpp"
-	"src/core/PythonCommands/mvInputInterface.cpp"
-	"src/core/PythonCommands/mvBasicWidgetInterface.cpp"
-	"src/core/PythonCommands/mvSliderInterface.cpp"
-	"src/core/PythonCommands/mvInputsInterface.cpp"
-	"src/core/PythonCommands/mvDragInterface.cpp"
-	"src/core/PythonCommands/mvContainerInterface.cpp"
-	"src/core/PythonCommands/mvAppItemInterface.cpp"
-	"src/core/PythonCommands/mvAppInterface.cpp"
 
 	"src/core/AppItems/mvAppItemState.cpp"
 	"src/core/AppItems/mvAppItem.cpp"
