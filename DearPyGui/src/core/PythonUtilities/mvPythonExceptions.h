@@ -1,7 +1,6 @@
 #pragma once
 
-#define PY_SSIZE_T_CLEAN
-#include <Python.h>
+#include "mvPython.h"
 #include <frameobject.h>
 #include <string>
 #include "mvPythonTranslator.h"

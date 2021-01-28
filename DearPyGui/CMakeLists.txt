@@ -7,7 +7,7 @@ if(MVDIST_ONLY)
 
 	add_library(core SHARED)
 
-	target_sources(core PRIVATE ${MARVEL_SOURCES} )
+	target_sources(core PRIVATE ${MARVEL_SOURCES} ${MARVEL_PY_SOURCES})
 
 	target_compile_definitions(core
 

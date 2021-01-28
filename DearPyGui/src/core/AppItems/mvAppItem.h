@@ -7,8 +7,7 @@
 //     
 //-----------------------------------------------------------------------------
 
-#define PY_SSIZE_T_CLEAN
-#include <Python.h>
+#include "mvPython.h"
 #include <string>
 #include <vector>
 #include <map>

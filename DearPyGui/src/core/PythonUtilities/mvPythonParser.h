@@ -18,8 +18,7 @@
 #include <vector>
 #include <map>
 #include "mvCore.h"
-#define PY_SSIZE_T_CLEAN
-#include <Python.h>
+#include "mvPython.h"
 
 namespace Marvel {
 

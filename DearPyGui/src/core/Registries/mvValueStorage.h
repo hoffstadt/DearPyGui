@@ -21,8 +21,7 @@
 #include "mvEvents.h"
 #include "implot.h"
 #include "implot_internal.h"
-#define PY_SSIZE_T_CLEAN
-#include <Python.h>
+#include "mvPython.h"
 
 // forward declarations
 struct ImPlotTime;

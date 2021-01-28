@@ -6,8 +6,7 @@
 #include <map>
 #include <utility>
 #include "mvCore.h"
-#define PY_SSIZE_T_CLEAN
-#include <Python.h>
+#include "mvPython.h"
 #include "mvPythonParser.h"
 
 //-----------------------------------------------------------------------------
