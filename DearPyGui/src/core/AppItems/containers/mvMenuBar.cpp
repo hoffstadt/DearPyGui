@@ -36,6 +36,9 @@ namespace Marvel {
 
 		if (ImGui::BeginMenuBar())
 		{
+			//we do this so that the children dont get the theme
+			scope.cleanup();
+
 			for (auto& item : m_children)
 			{
 				// skip item if it's not shown
