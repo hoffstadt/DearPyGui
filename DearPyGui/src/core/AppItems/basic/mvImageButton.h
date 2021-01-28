@@ -2,7 +2,6 @@
 
 #include <utility>
 #include "mvAppItem.h"
-#include "mvPythonParser.h"
 
 namespace Marvel {
 
@@ -19,7 +18,7 @@ namespace Marvel {
 
 		MV_APPITEM_TYPE(mvAppItemType::ImageButton, "add_image_button")
 
-			mvImageButton(const std::string& name, std::string  default_value);
+		mvImageButton(const std::string& name, std::string  default_value);
 
 		~mvImageButton() override;
 

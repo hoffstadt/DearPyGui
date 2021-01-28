@@ -1,7 +1,5 @@
 #include "mvCollapsingHeader.h"
 #include "mvInput.h"
-#include "mvPythonTranslator.h"
-#include "mvGlobalIntepreterLock.h"
 #include "mvValueStorage.h"
 #include "mvApp.h"
 

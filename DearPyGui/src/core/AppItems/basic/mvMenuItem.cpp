@@ -1,9 +1,7 @@
 #pragma once
 
 #include "mvMenuItem.h"
-#include "mvPythonTranslator.h"
 #include "mvApp.h"
-#include "mvGlobalIntepreterLock.h"
 
 namespace Marvel {
 

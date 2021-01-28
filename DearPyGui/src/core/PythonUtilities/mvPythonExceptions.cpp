@@ -1,8 +1,5 @@
 #include "mvPython.h"
-#include <frameobject.h>
 #include <string>
-#include "mvPythonTranslator.h"
-#include "mvGlobalIntepreterLock.h"
 
 namespace Marvel
 {

@@ -2,7 +2,6 @@
 
 #include "mvMenuBar.h"
 #include "mvApp.h"
-#include "mvPythonTranslator.h"
 
 namespace Marvel {
 

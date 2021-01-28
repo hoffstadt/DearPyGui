@@ -1,11 +1,9 @@
 #include "mvPythonParser.h"
 #include "mvMarvel.h"
 #include "mvApp.h"
-#include "mvPythonTranslator.h"
 #include "mvAppLog.h"
 #include <fstream>
 #include <utility>
-#include <frameobject.h>
 #include <ctime>
 
 namespace Marvel {

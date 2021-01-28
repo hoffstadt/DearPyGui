@@ -2,8 +2,6 @@
 
 #include "mvTypeBases.h"
 #include "mvApp.h"
-#include "mvGlobalIntepreterLock.h"
-#include "mvPythonParser.h"
 
 namespace Marvel {
 

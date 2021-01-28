@@ -2,7 +2,6 @@
 
 #include <utility>
 #include "mvAppItem.h"
-#include "mvPythonParser.h"
 
 namespace Marvel {
 

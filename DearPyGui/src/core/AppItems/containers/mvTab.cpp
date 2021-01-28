@@ -1,9 +1,6 @@
 #include "mvTab.h"
 #include "mvTabBar.h"
 #include "mvApp.h"
-#include "mvPythonTranslator.h"
-#include "mvGlobalIntepreterLock.h"
-#include "mvPythonExceptions.h"
 
 namespace Marvel {
 	void mvTab::InsertParser(std::map<std::string, mvPythonParser>* parsers)

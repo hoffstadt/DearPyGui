@@ -4,7 +4,6 @@
 #include "mvCore.h"
 #include "mvEvents.h"
 #include "mvTextureStorage.h"
-#include "mvPythonExceptions.h"
 
 namespace Marvel {
 

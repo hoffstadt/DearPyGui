@@ -1,8 +1,5 @@
 #include "mvTabButton.h"
 #include "mvApp.h"
-#include "mvPythonTranslator.h"
-#include "mvGlobalIntepreterLock.h"
-#include "mvPythonExceptions.h"
 
 namespace Marvel {
 

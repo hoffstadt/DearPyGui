@@ -1,9 +1,7 @@
 #pragma once
 
 #include "mvPython.h"
-#include <frameobject.h>
 #include <string>
-#include "mvPythonTranslator.h"
 
 namespace Marvel
 {

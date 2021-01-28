@@ -1,6 +1,5 @@
 #include "mvDrawList.h"
 #include "mvDrawCmd.h"
-#include "mvGlobalIntepreterLock.h"
 #include "mvApp.h"
 
 namespace Marvel {

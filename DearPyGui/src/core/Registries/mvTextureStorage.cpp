@@ -1,6 +1,5 @@
 #include "mvTextureStorage.h"
 #include "mvUtilities.h"
-#include "mvPythonExceptions.h"
 #include <imgui.h>
 
 namespace Marvel {

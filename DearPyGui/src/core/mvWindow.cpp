@@ -1,7 +1,6 @@
 #include "mvWindow.h"
 #include <string>
 #include <array>
-#include "mvPythonExceptions.h"
 
 namespace Marvel {
 

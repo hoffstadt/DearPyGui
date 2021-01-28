@@ -1,10 +1,8 @@
 #include "mvSliderItems.h"
 #include "mvTypeBases.h"
-#include "mvPythonTranslator.h"
 #include <utility>
 #include "mvAppItem.h"
 #include "mvValueStorage.h"
-#include "mvGlobalIntepreterLock.h"
 #include "mvMarvel.h"
 #include "mvApp.h"
 #include <string>

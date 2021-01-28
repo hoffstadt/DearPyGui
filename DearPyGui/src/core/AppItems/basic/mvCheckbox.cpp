@@ -2,8 +2,6 @@
 #include "mvCheckbox.h"
 #include "mvApp.h"
 #include "mvValueStorage.h"
-#include "mvPythonTranslator.h"
-#include "mvGlobalIntepreterLock.h"
 
 namespace Marvel {
 	void mvCheckbox::InsertParser(std::map<std::string, mvPythonParser>* parsers)

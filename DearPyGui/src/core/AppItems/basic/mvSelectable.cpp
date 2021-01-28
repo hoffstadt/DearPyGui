@@ -2,8 +2,6 @@
 #include "mvSelectable.h"
 #include "mvApp.h"
 #include "mvValueStorage.h"
-#include "mvPythonTranslator.h"
-#include "mvGlobalIntepreterLock.h"
 
 namespace Marvel {
 	void mvSelectable::InsertParser(std::map<std::string, mvPythonParser>* parsers)

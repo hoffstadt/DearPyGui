@@ -23,12 +23,10 @@
 #include <atomic>
 #include "mvCore.h"
 #include "mvEvents.h"
-#include "mvPythonParser.h"
 #include "mvItemRegistry.h"
 #include "mvDrawList.h"
 #include "mvTextureStorage.h"
 #include "mvValueStorage.h"
-#include "mvPythonExceptions.h"
 #include <memory>
 
 //-----------------------------------------------------------------------------

@@ -1,6 +1,5 @@
-#pragma once
-#include "mvPythonExceptions.h"
 #include "mvAppItemStyleManager.h"
+#include "mvPython.h"
 
 namespace Marvel {
 

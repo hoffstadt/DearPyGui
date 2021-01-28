@@ -1,5 +1,4 @@
 #include "mvItemRegistry.h"
-#include "mvPythonExceptions.h"
 #include "mvProfiler.h"
 #include "mvApp.h"
 #include "mvItemRegistry.h"
