@@ -564,8 +564,11 @@ namespace Marvel {
 
 	void mvPlot::SetColorMap(ImPlotColormap colormap)
 	{
-		m_colormap = colormap;
-		m_dirty = true;
+		if (colormap < ImPlotColormap_COUNT)
+		{
+			m_colormap = colormap;
+			m_dirty = true;
+		}
 	}
 
 	void mvPlot::resetXTicks()
