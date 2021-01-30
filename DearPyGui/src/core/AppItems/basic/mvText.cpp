@@ -66,6 +66,9 @@ namespace Marvel {
 
 	void mvText::draw()
 	{
+		auto styleManager = m_styleManager.getScopedStyleManager();
+		ScopedID id;
+		mvImGuiThemeScope scope(this);
 
 		if (m_color.specified)
 			ImGui::PushStyleColor(ImGuiCol_Text, m_color);

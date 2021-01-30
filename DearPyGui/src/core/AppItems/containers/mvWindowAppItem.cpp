@@ -180,6 +180,7 @@ namespace Marvel {
 			return;
 		}
 
+		//we do this so that the children dont get the theme
 		scope.cleanup();
 
 		if (m_mainWindow)

@@ -35,6 +35,8 @@ namespace Marvel {
 		ImGui::BeginGroup();
 		if (ImGui::TreeNodeEx(m_label.c_str(), m_flags))
 		{
+			//we do this so that the children dont get the theme
+			scope.cleanup();
 
 			for (auto& item : m_children)
 			{

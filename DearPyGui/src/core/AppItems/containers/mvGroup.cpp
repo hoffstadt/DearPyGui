@@ -29,12 +29,16 @@ namespace Marvel {
 	void mvGroup::draw()
 	{
 		auto styleManager = m_styleManager.getScopedStyleManager();
+		ScopedID id;
 		mvImGuiThemeScope scope(this);
 
 		if (m_width != 0)
 			ImGui::PushItemWidth((float)m_width);
 
 		ImGui::BeginGroup();
+
+		//we do this so that the children dont get the theme
+		scope.cleanup();
 
 		for (auto& item : m_children)
 		{
