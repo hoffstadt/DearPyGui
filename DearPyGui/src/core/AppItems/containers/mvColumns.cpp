@@ -76,10 +76,8 @@ namespace Marvel {
 	void mvManagedColumns::draw()
 	{
 		m_previousColCount = ImGui::GetColumnsCount();
-		ScopedID id;
-		mvImGuiThemeScope scope(this);
-
 		ImGui::Columns(m_columns, m_name.c_str(), m_border);
+
 		for (auto& item : m_children)
 		{
 			// skip item if it's not shown
@@ -101,6 +99,7 @@ namespace Marvel {
 
 			if (!m_firstFrame)
 				m_widths[index] = ImGui::GetColumnWidth();
+
 			ImGui::NextColumn();
 		}
 
@@ -111,8 +110,8 @@ namespace Marvel {
 		else
 			m_dirty_widths = false;
 
+		mvImGuiThemeScope scope(this);
 		ImGui::Columns(m_previousColCount);
-
 	}
 
 	void mvManagedColumns::setExtraConfigDict(PyObject* dict)
@@ -158,7 +157,7 @@ namespace Marvel {
 
 	void mvColumn::draw()
 	{
-		ScopedID id;
+		mvImGuiThemeScope scope(this);
 		ImGui::Columns(m_columns, m_name.c_str(), m_border);
 	}
 

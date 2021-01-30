@@ -40,6 +40,9 @@ namespace Marvel {
 						m_close = false;
 					}
 
+					//we do this so that the children dont get the theme
+					scope.cleanup();
+
 					for (mvRef<mvAppItem> item : m_children)
 					{
 						// skip item if it's not shown
@@ -63,6 +66,9 @@ namespace Marvel {
 			{
 				if (ImGui::BeginPopupContextItem(m_name.c_str(), m_button))
 				{
+
+					//we do this so that the children dont get the theme
+					scope.cleanup();
 
 					for (mvRef<mvAppItem> item : m_children)
 					{

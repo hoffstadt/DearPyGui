@@ -40,9 +40,12 @@ namespace Marvel {
 		if (m_closable)
 			toggle = &m_show;
 		*m_value = ImGui::CollapsingHeader(m_label.c_str(), toggle, m_flags);
+
+		//we do this so that the children dont get the theme
+		scope.cleanup();
+
 		if (*m_value)
 		{
-
 			for (auto& item : m_children)
 			{
 				// skip item if it's not shown
