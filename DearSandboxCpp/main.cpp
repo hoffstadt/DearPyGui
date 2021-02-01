@@ -1,5 +1,6 @@
 #include <iostream>
 #include <Windows.h>
+#include "mvCppPyObject.h"
 #include "mvApp.h"
 #include "mvAppLog.h"
 #include "mvAppItems.h"
@@ -9,22 +10,11 @@ using namespace Marvel;
 int main(int argc, char* argv[])
 {
 
-#ifdef MV_RELEASE
-	HWND hWnd = GetConsoleWindow();
-	ShowWindow(hWnd, SW_HIDE);
-#else
-	HWND hWnd = GetConsoleWindow();
-	ShowWindow(hWnd, SW_SHOW);	
-#endif
-
-	auto item = CreateRef<mvWindowAppItem>("Cpp Window", false, nullptr);
-
-	if (mvApp::GetApp()->getItemRegistry().addItemWithRuntimeChecks(item, "", ""))
 	{
-		mvApp::GetApp()->getItemRegistry().pushParent(item);
-
+		auto man = addc_window("Test Window", std::unordered_map<std::string, PyObject>{
+			{"no_close", PyObject(true)},
+			{ "x_pos", PyObject(0) }});
 	}
-
 	mvApp::GetApp()->start("");
 
 	mvApp::DeleteApp();
