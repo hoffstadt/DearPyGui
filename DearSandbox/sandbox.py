@@ -24,4 +24,5 @@ with window("Extra Window"):
 
     add_button("A new button")
 
-start_dearpygui()
+#start_dearpygui()
+start_dearpygui(primary_window="blah")
