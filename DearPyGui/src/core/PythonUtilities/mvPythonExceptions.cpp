@@ -12,7 +12,11 @@ namespace Marvel
 		int lineno = 0;
 		if (line)
 		{
-			lineno = PyFrame_GetLineNumber(PyEval_GetFrame());
+			auto f = PyEval_GetFrame();
+			if (f)
+				lineno = PyFrame_GetLineNumber(f);
+			else
+				fullMessage.append(" || error occured in a callback");
 		}
 
 		PyErr_Format(PyExc_Exception, fullMessage.c_str(), lineno);
