@@ -2,7 +2,7 @@ version: 0.6.{build}
 
 branches:
   only:
-  - master
+  - 0.6.x
 build:
   verbosity: minimal
   

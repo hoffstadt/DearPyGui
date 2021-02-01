@@ -13,7 +13,13 @@ namespace Marvel
 
 		std::string fullMessage = "Line: %d \t" + message;
 
-		int line = PyFrame_GetLineNumber(PyEval_GetFrame());
+		int line = 0;
+		auto f = PyEval_GetFrame();
+		if (f)
+			line = PyFrame_GetLineNumber(f);
+		else
+			fullMessage.append(" || error occured in a callback");
+
 		PyErr_Format(PyExc_Exception, fullMessage.c_str(), line);
 		PyErr_Print();
 	}
