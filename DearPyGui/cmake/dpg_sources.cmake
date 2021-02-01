@@ -22,6 +22,12 @@ set(MARVEL_PY_SOURCES
 	"src/core/PythonCommands/mvAppInterface.cpp"
 )
 
+set(MARVEL_CPP_SOURCES
+
+	"src/core/CppUtilities/mvCppTranslator.cpp"
+	"src/core/CppUtilities/mvCppPyObject.cpp"
+)
+
 set(MARVEL_SOURCES
 
 	"$<$<PLATFORM_ID:Windows>:src/core/mvMarvel.cpp>"
@@ -152,6 +158,7 @@ set(MARVEL_INCLUDE_DIR
 	"src/core/AppItems"
 	"src/core/DrawCommands"
 	"src/core/PythonCommands"
+	"src/core/CppUtilities"
 	"src/core/PythonUtilities"
 	"src/core/Registries"
 	"src/core/Theming"

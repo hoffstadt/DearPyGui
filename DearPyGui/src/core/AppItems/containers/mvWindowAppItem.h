@@ -8,6 +8,7 @@
 namespace Marvel {
 
 	PyObject* add_window(PyObject* self, PyObject* args, PyObject* kwargs);
+	PyContextManager addc_window(const char* name, const PyObject& kwargs);
 
 	class mvWindowAppItem : public mvAppItem
 	{

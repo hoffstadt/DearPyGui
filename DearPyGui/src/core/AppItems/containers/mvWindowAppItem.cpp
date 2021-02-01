@@ -340,8 +340,6 @@ namespace Marvel {
 		int show = true;
 		PyObject* closing_callback = nullptr;
 
-		//ImGuiWindowFlags flags = ImGuiWindowFlags_NoSavedSettings;
-
 		if (!(*mvApp::GetApp()->getParsers())["add_window"].parse(args, kwargs, __FUNCTION__, &name, &width,
 			&height, &x_pos, &y_pos, &autosize, &no_resize, &no_title_bar, &no_move, &no_scrollbar,
 			&no_collapse, &horizontal_scrollbar, &no_focus_on_appearing, &no_bring_to_front_on_focus, &menubar,
@@ -366,6 +364,27 @@ namespace Marvel {
 		}
 
 		return GetPyNone();
+	}
+
+	PyContextManager addc_window(const char* name, const PyObject& kwargs)
+	{
+
+		auto item = CreateRef<mvWindowAppItem>(name, false, nullptr);
+
+		item->checkConfigDict(&(PyObject&)kwargs);
+		item->setConfigDict(&(PyObject&)kwargs);
+		item->setExtraConfigDict(&(PyObject&)kwargs);
+
+		if (mvApp::GetApp()->getItemRegistry().addItemWithRuntimeChecks(item, "", ""))
+		{
+			mvApp::GetApp()->getItemRegistry().pushParent(item);
+			//if (!show)
+			//	item->hide();
+
+		}
+
+		auto pyMan = PyContextManager();
+		return pyMan;
 	}
 
 }

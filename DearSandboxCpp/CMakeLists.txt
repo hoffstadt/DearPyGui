@@ -24,6 +24,7 @@ target_include_directories(DearCppSandbox
 		"../DearPyGui/src/core/DrawCommands"
 		"../DearPyGui/src/core/Registries"
 		"../DearPyGui/src/core/Theming"
+		"../DearPyGui/src/core/CppUtilities"
 
 )
 
