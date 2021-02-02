@@ -32,7 +32,6 @@ namespace Marvel{
 		setLabel(m_core_config.label);
 		setWidth(m_core_config.width);
 		setHeight(m_core_config.height);
-		m_core_config.show = m_core_config.show;
 		setDataSource(m_core_config.source);
 		setEnabled(m_core_config.enabled);
 	}
