@@ -32,7 +32,7 @@ namespace Marvel {
 			"None", "Containers") });
 	}
 
-	mvWindowAppItem::mvWindowAppItem(const std::string& name, bool mainWindow, PyObject* closing_callback)
+	mvWindowAppItem::mvWindowAppItem(const std::string& name, bool mainWindow, mvCallable closing_callback)
 		: mvAppItem(name), m_mainWindow(mainWindow)
 	{
 		m_drawList = CreateRef<mvDrawList>();
@@ -67,12 +67,24 @@ namespace Marvel {
 		updateConfig(&m_config);
 	}
 
+	mvWindowAppItem::~mvWindowAppItem()
+	{
+		mvCallable callback = m_config.on_close;
+		mvApp::GetApp()->getCallbackRegistry().submitCallback([callback]() {
+			if (callback)
+				Py_XDECREF(callback);
+			});
+
+	}
+
 	void mvWindowAppItem::updateConfig(mvAppItemConfig* config)
 	{
 		auto aconfig = (mvWindowAppItemConfig*)config;
 
-		// core config
-		updateCoreConfig(*config);
+		m_core_config.width = config->width;
+		m_core_config.height = config->height;
+		m_core_config.label = config->label;
+		m_core_config.show = config->show;
 
 		m_config.on_close = SanitizeCallback(m_config.on_close);
 
@@ -103,12 +115,13 @@ namespace Marvel {
 		m_oldHeight = m_core_config.height;
 		m_oldWindowflags = m_windowflags;
 
-		m_config = *aconfig;
+		if (config != &m_config)
+			m_config = *aconfig;
 	}
 
-	mvWindowAppItemConfig mvWindowAppItem::getConfig() const
+	mvAppItemConfig* mvWindowAppItem::getConfig()
 	{
-		return m_config;
+		return &m_config;
 	}
 
 	void mvWindowAppItem::setWindowAsMainStatus(bool value)
@@ -175,7 +188,7 @@ namespace Marvel {
 		return { (float)m_config.xpos, (float)m_config.ypos };
 	}
 
-	void mvWindowAppItem::setResizeCallback(PyObject* callback)
+	void mvWindowAppItem::setResizeCallback(mvCallable callback)
 	{
 		m_resize_callback = callback;
 	}
@@ -300,6 +313,24 @@ namespace Marvel {
 		ImGui::End();
 	}
 
+	void mv_add_window(const char* name, const mvWindowAppItemConfig& config)
+	{
+
+		auto item = CreateRef<mvWindowAppItem>(name, config);
+
+
+		if (mvApp::GetApp()->getItemRegistry().addItemWithRuntimeChecks(item, "", ""))
+		{
+			mvApp::GetApp()->getItemRegistry().pushParent(item);
+			if (!config.show)
+				item->hide();
+
+		}
+
+	}
+
+#ifndef MV_CPP
+
 	void mvWindowAppItem::setExtraConfigDict(PyObject* dict)
 	{
 		if (dict == nullptr)
@@ -365,16 +396,6 @@ namespace Marvel {
 		checkbitset("no_background", ImGuiWindowFlags_NoBackground, m_windowflags);
 	}
 
-	mvWindowAppItem::~mvWindowAppItem()
-	{
-		PyObject* callback = m_config.on_close;
-		mvApp::GetApp()->getCallbackRegistry().submitCallback([callback]() {
-			if (callback)
-				Py_XDECREF(callback);
-			});
-
-	}
-
 	PyObject* add_window(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		const char* name;
@@ -425,20 +446,6 @@ namespace Marvel {
 		return GetPyNone();
 	}
 
-	void mv_add_window(const char* name, const mvWindowAppItemConfig& config)
-	{
-
-		auto item = CreateRef<mvWindowAppItem>(name, config);
-
-
-		if (mvApp::GetApp()->getItemRegistry().addItemWithRuntimeChecks(item, "", ""))
-		{
-			mvApp::GetApp()->getItemRegistry().pushParent(item);
-			if (!config.show)
-				item->hide();
-
-		}
-
-	}
+#endif
 
 }

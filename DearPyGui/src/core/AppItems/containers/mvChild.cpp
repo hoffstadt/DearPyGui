@@ -75,6 +75,8 @@ namespace Marvel {
 		ImGui::EndChild();
 	}
 
+#ifndef MV_CPP
+
 	void mvChild::setExtraConfigDict(PyObject* dict)
 	{
 		if (dict == nullptr)
@@ -154,4 +156,5 @@ namespace Marvel {
 
 	}
 
+#endif // !MV_CPP
 }

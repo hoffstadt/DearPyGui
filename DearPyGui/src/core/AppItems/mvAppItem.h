@@ -59,12 +59,14 @@ namespace Marvel {
         std::string name = "";
         std::string source = "";
         std::string label = "__DearPyGuiDefault";
+        std::string parent = "";
+        std::string before = "";
         int width = 0;
         int height = 0;
         bool show = true;
         bool enabled = true;
-        PyObject* callback = nullptr;
-        PyObject* callback_data = nullptr;
+        mvCallable callback = nullptr;
+        mvCallableData callback_data = nullptr;
         
     };
 
@@ -129,14 +131,14 @@ namespace Marvel {
         virtual void                        setExtraConfigDict(PyObject* dict) {}
         virtual void                        getExtraConfigDict(PyObject* dict) {}
 
-        void                                setCallback    (PyObject* callback);
+        void                                setCallback    (mvCallable callback);
         void                                hide           () { m_core_config.show = false; }
         void                                show           () { m_core_config.show = true; }
-        void                                setCallbackData(PyObject* data);
+        void                                setCallbackData(mvCallableData data);
 
         [[nodiscard]] bool                  isShown        () const { return m_core_config.show; }
-        [[nodiscard]] PyObject*             getCallback    (bool ignore_enabled = true);  // returns the callback. If ignore_enable false and item is disabled then no callback will be returned.
-        [[nodiscard]] PyObject*             getCallbackData()       { return m_core_config.callback_data; }
+        [[nodiscard]] mvCallable            getCallback    (bool ignore_enabled = true);  // returns the callback. If ignore_enable false and item is disabled then no callback will be returned.
+        [[nodiscard]] mvCallableData        getCallbackData()       { return m_core_config.callback_data; }
         const mvAppItemDescription&         getDescription () const { return m_description; }
         mvAppItemState&                     getState       () { return m_state; } 
         mvAppItemStyleManager&              getStyleManager() { return m_styleManager; }
@@ -147,8 +149,9 @@ namespace Marvel {
 
         // cpp interface
         virtual void updateConfig(mvAppItemConfig* config) {}
-        void updateCoreConfig(const mvAppItemConfig& config);
-        mvAppItemConfig getCoreConfig() const;
+        virtual mvAppItemConfig* getConfig() { return nullptr; }
+        void updateCoreConfig();
+        mvAppItemConfig& getCoreConfig();
 
     protected:
 

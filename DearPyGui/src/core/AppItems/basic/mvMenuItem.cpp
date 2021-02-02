@@ -51,21 +51,23 @@ namespace Marvel {
 
 	}
 
+#ifndef MV_CPP
+
 	void mvMenuItem::setExtraConfigDict(PyObject* dict)
 	{
 		if (dict == nullptr)
 			return;
-		 
+
 		if (PyObject* item = PyDict_GetItemString(dict, "shortcut")) m_shortcut = ToString(item);
 		if (PyObject* item = PyDict_GetItemString(dict, "check")) m_check = ToBool(item);
 
-	}
+}
 
 	void mvMenuItem::getExtraConfigDict(PyObject* dict)
 	{
 		if (dict == nullptr)
 			return;
-		 
+
 		PyDict_SetItemString(dict, "shortcut", ToPyString(m_shortcut));
 		PyDict_SetItemString(dict, "check", ToPyBool(m_check));
 	}
@@ -102,4 +104,6 @@ namespace Marvel {
 
 		return GetPyNone();
 	}
+
+#endif // !MV_CPP
 }

@@ -75,37 +75,6 @@ namespace Marvel {
 
     }
 
-    void mvInputInt::setExtraConfigDict(PyObject* dict)
-    {
-        if (dict == nullptr)
-            return;
-
-        if (PyObject* item = PyDict_GetItemString(dict, "on_enter")) ToBool(item) ? m_flags |= ImGuiInputTextFlags_EnterReturnsTrue : m_flags &= ~ImGuiInputTextFlags_EnterReturnsTrue;
-        if (PyObject* item = PyDict_GetItemString(dict, "readonly")) ToBool(item) ? m_flags |= ImGuiInputTextFlags_ReadOnly : m_flags &= ~ImGuiInputTextFlags_ReadOnly;
-        if (PyObject* item = PyDict_GetItemString(dict, "step")) m_step = ToInt(item);
-        if (PyObject* item = PyDict_GetItemString(dict, "step_fast")) m_step_fast = ToInt(item);
-        if (PyObject* item = PyDict_GetItemString(dict, "min_value")) { m_min = ToInt(item); m_min_clamped = true; }
-        if (PyObject* item = PyDict_GetItemString(dict, "max_value")) { m_max = ToInt(item); m_max_clamped = true; }
-        if (PyObject* item = PyDict_GetItemString(dict, "min_clamped")) m_min_clamped = ToBool(item);
-        if (PyObject* item = PyDict_GetItemString(dict, "max_clamped")) m_max_clamped = ToBool(item);
-    }
-
-    void mvInputInt::getExtraConfigDict(PyObject* dict)
-    {
-        if (dict == nullptr)
-            return;
-
-        PyDict_SetItemString(dict, "on_enter", ToPyBool(m_flags & ImGuiInputTextFlags_EnterReturnsTrue));
-        PyDict_SetItemString(dict, "readonly", ToPyBool(m_flags & ImGuiInputTextFlags_ReadOnly));
-        PyDict_SetItemString(dict, "step", ToPyInt(m_step));
-        PyDict_SetItemString(dict, "step_fast", ToPyInt(m_step_fast));
-        PyDict_SetItemString(dict, "min_value", ToPyInt(m_min));
-        PyDict_SetItemString(dict, "max_value", ToPyInt(m_max));
-        PyDict_SetItemString(dict, "min_clamped", ToPyBool(m_min_clamped));
-        PyDict_SetItemString(dict, "max_clamped", ToPyBool(m_max_clamped));
-
-    }
-
     //-----------------------------------------------------------------------------
     // mvInputInt2
     //-----------------------------------------------------------------------------
@@ -179,33 +148,6 @@ namespace Marvel {
             else
                 mvApp::GetApp()->getCallbackRegistry().addCallback(m_core_config.callback, m_core_config.name, m_core_config.callback_data);
         }
-    }
-
-    void mvInputInt2::setExtraConfigDict(PyObject* dict)
-    {
-        if (dict == nullptr)
-            return;
-
-        if (PyObject* item = PyDict_GetItemString(dict, "on_enter")) ToBool(item) ? m_flags |= ImGuiInputTextFlags_EnterReturnsTrue : m_flags &= ~ImGuiInputTextFlags_EnterReturnsTrue;
-        if (PyObject* item = PyDict_GetItemString(dict, "readonly")) ToBool(item) ? m_flags |= ImGuiInputTextFlags_ReadOnly : m_flags &= ~ImGuiInputTextFlags_ReadOnly;
-        if (PyObject* item = PyDict_GetItemString(dict, "min_value")) { m_min = ToInt(item); m_min_clamped = true; }
-        if (PyObject* item = PyDict_GetItemString(dict, "max_value")) { m_max = ToInt(item); m_max_clamped = true; }
-        if (PyObject* item = PyDict_GetItemString(dict, "min_clamped")) m_min_clamped = ToBool(item);
-        if (PyObject* item = PyDict_GetItemString(dict, "max_clamped")) m_max_clamped = ToBool(item);
-    }
-
-    void mvInputInt2::getExtraConfigDict(PyObject* dict)
-    {
-        if (dict == nullptr)
-            return;
-
-        PyDict_SetItemString(dict, "on_enter", ToPyBool(m_flags & ImGuiInputTextFlags_EnterReturnsTrue));
-        PyDict_SetItemString(dict, "readonly", ToPyBool(m_flags & ImGuiInputTextFlags_ReadOnly));
-        PyDict_SetItemString(dict, "min_value", ToPyInt(m_min));
-        PyDict_SetItemString(dict, "max_value", ToPyInt(m_max));
-        PyDict_SetItemString(dict, "min_clamped", ToPyBool(m_min_clamped));
-        PyDict_SetItemString(dict, "max_clamped", ToPyBool(m_max_clamped));
-
     }
 
     //-----------------------------------------------------------------------------
@@ -283,32 +225,6 @@ namespace Marvel {
         }
     }
 
-    void mvInputInt3::setExtraConfigDict(PyObject* dict)
-    {
-        if (dict == nullptr)
-            return;
-
-        if (PyObject* item = PyDict_GetItemString(dict, "on_enter")) ToBool(item) ? m_flags |= ImGuiInputTextFlags_EnterReturnsTrue : m_flags &= ~ImGuiInputTextFlags_EnterReturnsTrue;
-        if (PyObject* item = PyDict_GetItemString(dict, "readonly")) ToBool(item) ? m_flags |= ImGuiInputTextFlags_ReadOnly : m_flags &= ~ImGuiInputTextFlags_ReadOnly;
-        if (PyObject* item = PyDict_GetItemString(dict, "min_value")) { m_min = ToInt(item); m_min_clamped = true; }
-        if (PyObject* item = PyDict_GetItemString(dict, "max_value")) { m_max = ToInt(item); m_max_clamped = true; }
-        if (PyObject* item = PyDict_GetItemString(dict, "min_clamped")) m_min_clamped = ToBool(item);
-        if (PyObject* item = PyDict_GetItemString(dict, "max_clamped")) m_max_clamped = ToBool(item);
-    }
-
-    void mvInputInt3::getExtraConfigDict(PyObject* dict)
-    {
-        if (dict == nullptr)
-            return;
-
-        PyDict_SetItemString(dict, "on_enter", ToPyBool(m_flags & ImGuiInputTextFlags_EnterReturnsTrue));
-        PyDict_SetItemString(dict, "readonly", ToPyBool(m_flags & ImGuiInputTextFlags_ReadOnly));
-        PyDict_SetItemString(dict, "min_value", ToPyInt(m_min));
-        PyDict_SetItemString(dict, "max_value", ToPyInt(m_max));
-        PyDict_SetItemString(dict, "min_clamped", ToPyBool(m_min_clamped));
-        PyDict_SetItemString(dict, "max_clamped", ToPyBool(m_max_clamped));
-    }
-
     //-----------------------------------------------------------------------------
     // mvInputInt4
     //-----------------------------------------------------------------------------
@@ -384,32 +300,6 @@ namespace Marvel {
         }
     }
 
-    void mvInputInt4::setExtraConfigDict(PyObject* dict)
-    {
-        if (dict == nullptr)
-            return;
-
-        if (PyObject* item = PyDict_GetItemString(dict, "on_enter")) ToBool(item) ? m_flags |= ImGuiInputTextFlags_EnterReturnsTrue : m_flags &= ~ImGuiInputTextFlags_EnterReturnsTrue;
-        if (PyObject* item = PyDict_GetItemString(dict, "readonly")) ToBool(item) ? m_flags |= ImGuiInputTextFlags_ReadOnly : m_flags &= ~ImGuiInputTextFlags_ReadOnly;
-        if (PyObject* item = PyDict_GetItemString(dict, "min_value")) { m_min = ToInt(item); m_min_clamped = true; }
-        if (PyObject* item = PyDict_GetItemString(dict, "max_value")) { m_max = ToInt(item); m_max_clamped = true; }
-        if (PyObject* item = PyDict_GetItemString(dict, "min_clamped")) m_min_clamped = ToBool(item);
-        if (PyObject* item = PyDict_GetItemString(dict, "max_clamped")) m_max_clamped = ToBool(item);
-    }
-
-    void mvInputInt4::getExtraConfigDict(PyObject* dict)
-    {
-        if (dict == nullptr)
-            return;
-
-        PyDict_SetItemString(dict, "on_enter", ToPyBool(m_flags & ImGuiInputTextFlags_EnterReturnsTrue));
-        PyDict_SetItemString(dict, "readonly", ToPyBool(m_flags & ImGuiInputTextFlags_ReadOnly));
-        PyDict_SetItemString(dict, "min_value", ToPyInt(m_min));
-        PyDict_SetItemString(dict, "max_value", ToPyInt(m_max));
-        PyDict_SetItemString(dict, "min_clamped", ToPyBool(m_min_clamped));
-        PyDict_SetItemString(dict, "max_clamped", ToPyBool(m_max_clamped));
-    }
-
     //-----------------------------------------------------------------------------
     // mvInputFloat
     //-----------------------------------------------------------------------------
@@ -474,56 +364,6 @@ namespace Marvel {
             else
                 mvApp::GetApp()->getCallbackRegistry().addCallback(m_core_config.callback, m_core_config.name, m_core_config.callback_data);
         }
-    }
-
-    void mvInputFloat::setExtraConfigDict(PyObject* dict)
-    {
-        if (dict == nullptr)
-            return;
-         
-        if (PyObject* item = PyDict_GetItemString(dict, "format")) m_format = ToString(item);
-        if (PyObject* item = PyDict_GetItemString(dict, "step")) m_step = ToFloat(item);
-        if (PyObject* item = PyDict_GetItemString(dict, "step_fast")) m_step_fast = ToFloat(item);
-        if (PyObject* item = PyDict_GetItemString(dict, "min_value")) { m_min = ToFloat(item); m_min_clamped = true; }
-        if (PyObject* item = PyDict_GetItemString(dict, "max_value")) { m_max = ToFloat(item); m_max_clamped = true; }
-        if (PyObject* item = PyDict_GetItemString(dict, "min_clamped")) m_min_clamped = ToBool(item);
-        if (PyObject* item = PyDict_GetItemString(dict, "max_clamped")) m_max_clamped = ToBool(item);
-
-        // helper for bit flipping
-        auto flagop = [dict](const char* keyword, int flag, int& flags)
-        {
-            if (PyObject* item = PyDict_GetItemString(dict, keyword)) ToBool(item) ? flags |= flag : flags &= ~flag;
-        };
-
-        // flags
-        flagop("on_enter", ImGuiInputTextFlags_EnterReturnsTrue, m_flags);
-        flagop("readonly", ImGuiInputTextFlags_ReadOnly, m_flags);
-
-    }
-
-    void mvInputFloat::getExtraConfigDict(PyObject* dict)
-    {
-        if (dict == nullptr)
-            return;
-         
-        PyDict_SetItemString(dict, "format", ToPyString(m_format));
-        PyDict_SetItemString(dict, "step", ToPyFloat(m_step));
-        PyDict_SetItemString(dict, "step_fast", ToPyFloat(m_step_fast));
-        PyDict_SetItemString(dict, "min_value", ToPyFloat(m_min));
-        PyDict_SetItemString(dict, "max_value", ToPyFloat(m_max));
-        PyDict_SetItemString(dict, "min_clamped", ToPyBool(m_min_clamped));
-        PyDict_SetItemString(dict, "max_clamped", ToPyBool(m_max_clamped));
-
-        // helper to check and set bit
-        auto checkbitset = [dict](const char* keyword, int flag, const int& flags)
-        {
-            PyDict_SetItemString(dict, keyword, ToPyBool(flags & flag));
-        };
-
-        // window flags
-        checkbitset("on_enter", ImGuiInputTextFlags_EnterReturnsTrue, m_flags);
-        checkbitset("readonly", ImGuiInputTextFlags_ReadOnly, m_flags);
-
     }
 
     //-----------------------------------------------------------------------------
@@ -601,52 +441,6 @@ namespace Marvel {
         }
     }
 
-    void mvInputFloat2::setExtraConfigDict(PyObject* dict)
-    {
-        if (dict == nullptr)
-            return;
-         
-        if (PyObject* item = PyDict_GetItemString(dict, "format")) m_format = ToString(item);
-        if (PyObject* item = PyDict_GetItemString(dict, "min_value")) { m_min = ToFloat(item); m_min_clamped = true; }
-        if (PyObject* item = PyDict_GetItemString(dict, "max_value")) { m_max = ToFloat(item); m_max_clamped = true; }
-        if (PyObject* item = PyDict_GetItemString(dict, "min_clamped")) m_min_clamped = ToBool(item);
-        if (PyObject* item = PyDict_GetItemString(dict, "max_clamped")) m_max_clamped = ToBool(item);
-
-        // helper for bit flipping
-        auto flagop = [dict](const char* keyword, int flag, int& flags)
-        {
-            if (PyObject* item = PyDict_GetItemString(dict, keyword)) ToBool(item) ? flags |= flag : flags &= ~flag;
-        };
-
-        // flags
-        flagop("on_enter", ImGuiInputTextFlags_EnterReturnsTrue, m_flags);
-        flagop("readonly", ImGuiInputTextFlags_ReadOnly, m_flags);
-
-    }
-
-    void mvInputFloat2::getExtraConfigDict(PyObject* dict)
-    {
-        if (dict == nullptr)
-            return;
-         
-        PyDict_SetItemString(dict, "format", ToPyString(m_format));
-        PyDict_SetItemString(dict, "min_value", ToPyFloat(m_min));
-        PyDict_SetItemString(dict, "max_value", ToPyFloat(m_max));
-        PyDict_SetItemString(dict, "min_clamped", ToPyBool(m_min_clamped));
-        PyDict_SetItemString(dict, "max_clamped", ToPyBool(m_max_clamped));
-
-        // helper to check and set bit
-        auto checkbitset = [dict](const char* keyword, int flag, const int& flags)
-        {
-            PyDict_SetItemString(dict, keyword, ToPyBool(flags & flag));
-        };
-
-        // window flags
-        checkbitset("on_enter", ImGuiInputTextFlags_EnterReturnsTrue, m_flags);
-        checkbitset("readonly", ImGuiInputTextFlags_ReadOnly, m_flags);
-
-    }
-
     //-----------------------------------------------------------------------------
     // mvInputFloat3
     //-----------------------------------------------------------------------------
@@ -720,52 +514,6 @@ namespace Marvel {
             else
                 mvApp::GetApp()->getCallbackRegistry().addCallback(m_core_config.callback, m_core_config.name, m_core_config.callback_data);
         }
-    }
-
-    void mvInputFloat3::setExtraConfigDict(PyObject* dict)
-    {
-        if (dict == nullptr)
-            return;
-         
-        if (PyObject* item = PyDict_GetItemString(dict, "format")) m_format = ToString(item);
-        if (PyObject* item = PyDict_GetItemString(dict, "min_value")) { m_min = ToFloat(item); m_min_clamped = true; }
-        if (PyObject* item = PyDict_GetItemString(dict, "max_value")) { m_max = ToFloat(item); m_max_clamped = true; }
-        if (PyObject* item = PyDict_GetItemString(dict, "min_clamped")) m_min_clamped = ToBool(item);
-        if (PyObject* item = PyDict_GetItemString(dict, "max_clamped")) m_max_clamped = ToBool(item);
-
-        // helper for bit flipping
-        auto flagop = [dict](const char* keyword, int flag, int& flags)
-        {
-            if (PyObject* item = PyDict_GetItemString(dict, keyword)) ToBool(item) ? flags |= flag : flags &= ~flag;
-        };
-
-        // flags
-        flagop("on_enter", ImGuiInputTextFlags_EnterReturnsTrue, m_flags);
-        flagop("readonly", ImGuiInputTextFlags_ReadOnly, m_flags);
-
-    }
-
-    void mvInputFloat3::getExtraConfigDict(PyObject* dict)
-    {
-        if (dict == nullptr)
-            return;
-         
-        PyDict_SetItemString(dict, "format", ToPyString(m_format));
-        PyDict_SetItemString(dict, "min_value", ToPyFloat(m_min));
-        PyDict_SetItemString(dict, "max_value", ToPyFloat(m_max));
-        PyDict_SetItemString(dict, "min_clamped", ToPyBool(m_min_clamped));
-        PyDict_SetItemString(dict, "max_clamped", ToPyBool(m_max_clamped));
-
-        // helper to check and set bit
-        auto checkbitset = [dict](const char* keyword, int flag, const int& flags)
-        {
-            PyDict_SetItemString(dict, keyword, ToPyBool(flags & flag));
-        };
-
-        // window flags
-        checkbitset("on_enter", ImGuiInputTextFlags_EnterReturnsTrue, m_flags);
-        checkbitset("readonly", ImGuiInputTextFlags_ReadOnly, m_flags);
-
     }
 
     //-----------------------------------------------------------------------------
@@ -843,6 +591,260 @@ namespace Marvel {
         }
     }
 
+#ifndef MV_CPP
+
+    void mvInputInt::setExtraConfigDict(PyObject* dict)
+    {
+        if (dict == nullptr)
+            return;
+
+        if (PyObject* item = PyDict_GetItemString(dict, "on_enter")) ToBool(item) ? m_flags |= ImGuiInputTextFlags_EnterReturnsTrue : m_flags &= ~ImGuiInputTextFlags_EnterReturnsTrue;
+        if (PyObject* item = PyDict_GetItemString(dict, "readonly")) ToBool(item) ? m_flags |= ImGuiInputTextFlags_ReadOnly : m_flags &= ~ImGuiInputTextFlags_ReadOnly;
+        if (PyObject* item = PyDict_GetItemString(dict, "step")) m_step = ToInt(item);
+        if (PyObject* item = PyDict_GetItemString(dict, "step_fast")) m_step_fast = ToInt(item);
+        if (PyObject* item = PyDict_GetItemString(dict, "min_value")) { m_min = ToInt(item); m_min_clamped = true; }
+        if (PyObject* item = PyDict_GetItemString(dict, "max_value")) { m_max = ToInt(item); m_max_clamped = true; }
+        if (PyObject* item = PyDict_GetItemString(dict, "min_clamped")) m_min_clamped = ToBool(item);
+        if (PyObject* item = PyDict_GetItemString(dict, "max_clamped")) m_max_clamped = ToBool(item);
+    }
+
+    void mvInputInt::getExtraConfigDict(PyObject* dict)
+    {
+        if (dict == nullptr)
+            return;
+
+        PyDict_SetItemString(dict, "on_enter", ToPyBool(m_flags & ImGuiInputTextFlags_EnterReturnsTrue));
+        PyDict_SetItemString(dict, "readonly", ToPyBool(m_flags & ImGuiInputTextFlags_ReadOnly));
+        PyDict_SetItemString(dict, "step", ToPyInt(m_step));
+        PyDict_SetItemString(dict, "step_fast", ToPyInt(m_step_fast));
+        PyDict_SetItemString(dict, "min_value", ToPyInt(m_min));
+        PyDict_SetItemString(dict, "max_value", ToPyInt(m_max));
+        PyDict_SetItemString(dict, "min_clamped", ToPyBool(m_min_clamped));
+        PyDict_SetItemString(dict, "max_clamped", ToPyBool(m_max_clamped));
+
+    }
+
+    void mvInputInt2::setExtraConfigDict(PyObject* dict)
+    {
+        if (dict == nullptr)
+            return;
+
+        if (PyObject* item = PyDict_GetItemString(dict, "on_enter")) ToBool(item) ? m_flags |= ImGuiInputTextFlags_EnterReturnsTrue : m_flags &= ~ImGuiInputTextFlags_EnterReturnsTrue;
+        if (PyObject* item = PyDict_GetItemString(dict, "readonly")) ToBool(item) ? m_flags |= ImGuiInputTextFlags_ReadOnly : m_flags &= ~ImGuiInputTextFlags_ReadOnly;
+        if (PyObject* item = PyDict_GetItemString(dict, "min_value")) { m_min = ToInt(item); m_min_clamped = true; }
+        if (PyObject* item = PyDict_GetItemString(dict, "max_value")) { m_max = ToInt(item); m_max_clamped = true; }
+        if (PyObject* item = PyDict_GetItemString(dict, "min_clamped")) m_min_clamped = ToBool(item);
+        if (PyObject* item = PyDict_GetItemString(dict, "max_clamped")) m_max_clamped = ToBool(item);
+    }
+
+    void mvInputInt2::getExtraConfigDict(PyObject* dict)
+    {
+        if (dict == nullptr)
+            return;
+
+        PyDict_SetItemString(dict, "on_enter", ToPyBool(m_flags & ImGuiInputTextFlags_EnterReturnsTrue));
+        PyDict_SetItemString(dict, "readonly", ToPyBool(m_flags & ImGuiInputTextFlags_ReadOnly));
+        PyDict_SetItemString(dict, "min_value", ToPyInt(m_min));
+        PyDict_SetItemString(dict, "max_value", ToPyInt(m_max));
+        PyDict_SetItemString(dict, "min_clamped", ToPyBool(m_min_clamped));
+        PyDict_SetItemString(dict, "max_clamped", ToPyBool(m_max_clamped));
+
+    }
+
+    void mvInputInt3::setExtraConfigDict(PyObject* dict)
+    {
+        if (dict == nullptr)
+            return;
+
+        if (PyObject* item = PyDict_GetItemString(dict, "on_enter")) ToBool(item) ? m_flags |= ImGuiInputTextFlags_EnterReturnsTrue : m_flags &= ~ImGuiInputTextFlags_EnterReturnsTrue;
+        if (PyObject* item = PyDict_GetItemString(dict, "readonly")) ToBool(item) ? m_flags |= ImGuiInputTextFlags_ReadOnly : m_flags &= ~ImGuiInputTextFlags_ReadOnly;
+        if (PyObject* item = PyDict_GetItemString(dict, "min_value")) { m_min = ToInt(item); m_min_clamped = true; }
+        if (PyObject* item = PyDict_GetItemString(dict, "max_value")) { m_max = ToInt(item); m_max_clamped = true; }
+        if (PyObject* item = PyDict_GetItemString(dict, "min_clamped")) m_min_clamped = ToBool(item);
+        if (PyObject* item = PyDict_GetItemString(dict, "max_clamped")) m_max_clamped = ToBool(item);
+    }
+
+    void mvInputInt3::getExtraConfigDict(PyObject* dict)
+    {
+        if (dict == nullptr)
+            return;
+
+        PyDict_SetItemString(dict, "on_enter", ToPyBool(m_flags & ImGuiInputTextFlags_EnterReturnsTrue));
+        PyDict_SetItemString(dict, "readonly", ToPyBool(m_flags & ImGuiInputTextFlags_ReadOnly));
+        PyDict_SetItemString(dict, "min_value", ToPyInt(m_min));
+        PyDict_SetItemString(dict, "max_value", ToPyInt(m_max));
+        PyDict_SetItemString(dict, "min_clamped", ToPyBool(m_min_clamped));
+        PyDict_SetItemString(dict, "max_clamped", ToPyBool(m_max_clamped));
+    }
+
+    void mvInputInt4::setExtraConfigDict(PyObject* dict)
+    {
+        if (dict == nullptr)
+            return;
+
+        if (PyObject* item = PyDict_GetItemString(dict, "on_enter")) ToBool(item) ? m_flags |= ImGuiInputTextFlags_EnterReturnsTrue : m_flags &= ~ImGuiInputTextFlags_EnterReturnsTrue;
+        if (PyObject* item = PyDict_GetItemString(dict, "readonly")) ToBool(item) ? m_flags |= ImGuiInputTextFlags_ReadOnly : m_flags &= ~ImGuiInputTextFlags_ReadOnly;
+        if (PyObject* item = PyDict_GetItemString(dict, "min_value")) { m_min = ToInt(item); m_min_clamped = true; }
+        if (PyObject* item = PyDict_GetItemString(dict, "max_value")) { m_max = ToInt(item); m_max_clamped = true; }
+        if (PyObject* item = PyDict_GetItemString(dict, "min_clamped")) m_min_clamped = ToBool(item);
+        if (PyObject* item = PyDict_GetItemString(dict, "max_clamped")) m_max_clamped = ToBool(item);
+    }
+
+    void mvInputInt4::getExtraConfigDict(PyObject* dict)
+    {
+        if (dict == nullptr)
+            return;
+
+        PyDict_SetItemString(dict, "on_enter", ToPyBool(m_flags & ImGuiInputTextFlags_EnterReturnsTrue));
+        PyDict_SetItemString(dict, "readonly", ToPyBool(m_flags & ImGuiInputTextFlags_ReadOnly));
+        PyDict_SetItemString(dict, "min_value", ToPyInt(m_min));
+        PyDict_SetItemString(dict, "max_value", ToPyInt(m_max));
+        PyDict_SetItemString(dict, "min_clamped", ToPyBool(m_min_clamped));
+        PyDict_SetItemString(dict, "max_clamped", ToPyBool(m_max_clamped));
+    }
+
+    void mvInputFloat::setExtraConfigDict(PyObject* dict)
+    {
+        if (dict == nullptr)
+            return;
+
+        if (PyObject* item = PyDict_GetItemString(dict, "format")) m_format = ToString(item);
+        if (PyObject* item = PyDict_GetItemString(dict, "step")) m_step = ToFloat(item);
+        if (PyObject* item = PyDict_GetItemString(dict, "step_fast")) m_step_fast = ToFloat(item);
+        if (PyObject* item = PyDict_GetItemString(dict, "min_value")) { m_min = ToFloat(item); m_min_clamped = true; }
+        if (PyObject* item = PyDict_GetItemString(dict, "max_value")) { m_max = ToFloat(item); m_max_clamped = true; }
+        if (PyObject* item = PyDict_GetItemString(dict, "min_clamped")) m_min_clamped = ToBool(item);
+        if (PyObject* item = PyDict_GetItemString(dict, "max_clamped")) m_max_clamped = ToBool(item);
+
+        // helper for bit flipping
+        auto flagop = [dict](const char* keyword, int flag, int& flags)
+        {
+            if (PyObject* item = PyDict_GetItemString(dict, keyword)) ToBool(item) ? flags |= flag : flags &= ~flag;
+        };
+
+        // flags
+        flagop("on_enter", ImGuiInputTextFlags_EnterReturnsTrue, m_flags);
+        flagop("readonly", ImGuiInputTextFlags_ReadOnly, m_flags);
+
+    }
+
+    void mvInputFloat::getExtraConfigDict(PyObject* dict)
+    {
+        if (dict == nullptr)
+            return;
+
+        PyDict_SetItemString(dict, "format", ToPyString(m_format));
+        PyDict_SetItemString(dict, "step", ToPyFloat(m_step));
+        PyDict_SetItemString(dict, "step_fast", ToPyFloat(m_step_fast));
+        PyDict_SetItemString(dict, "min_value", ToPyFloat(m_min));
+        PyDict_SetItemString(dict, "max_value", ToPyFloat(m_max));
+        PyDict_SetItemString(dict, "min_clamped", ToPyBool(m_min_clamped));
+        PyDict_SetItemString(dict, "max_clamped", ToPyBool(m_max_clamped));
+
+        // helper to check and set bit
+        auto checkbitset = [dict](const char* keyword, int flag, const int& flags)
+        {
+            PyDict_SetItemString(dict, keyword, ToPyBool(flags & flag));
+        };
+
+        // window flags
+        checkbitset("on_enter", ImGuiInputTextFlags_EnterReturnsTrue, m_flags);
+        checkbitset("readonly", ImGuiInputTextFlags_ReadOnly, m_flags);
+
+    }
+
+    void mvInputFloat2::setExtraConfigDict(PyObject* dict)
+    {
+        if (dict == nullptr)
+            return;
+
+        if (PyObject* item = PyDict_GetItemString(dict, "format")) m_format = ToString(item);
+        if (PyObject* item = PyDict_GetItemString(dict, "min_value")) { m_min = ToFloat(item); m_min_clamped = true; }
+        if (PyObject* item = PyDict_GetItemString(dict, "max_value")) { m_max = ToFloat(item); m_max_clamped = true; }
+        if (PyObject* item = PyDict_GetItemString(dict, "min_clamped")) m_min_clamped = ToBool(item);
+        if (PyObject* item = PyDict_GetItemString(dict, "max_clamped")) m_max_clamped = ToBool(item);
+
+        // helper for bit flipping
+        auto flagop = [dict](const char* keyword, int flag, int& flags)
+        {
+            if (PyObject* item = PyDict_GetItemString(dict, keyword)) ToBool(item) ? flags |= flag : flags &= ~flag;
+        };
+
+        // flags
+        flagop("on_enter", ImGuiInputTextFlags_EnterReturnsTrue, m_flags);
+        flagop("readonly", ImGuiInputTextFlags_ReadOnly, m_flags);
+
+    }
+
+    void mvInputFloat2::getExtraConfigDict(PyObject* dict)
+    {
+        if (dict == nullptr)
+            return;
+
+        PyDict_SetItemString(dict, "format", ToPyString(m_format));
+        PyDict_SetItemString(dict, "min_value", ToPyFloat(m_min));
+        PyDict_SetItemString(dict, "max_value", ToPyFloat(m_max));
+        PyDict_SetItemString(dict, "min_clamped", ToPyBool(m_min_clamped));
+        PyDict_SetItemString(dict, "max_clamped", ToPyBool(m_max_clamped));
+
+        // helper to check and set bit
+        auto checkbitset = [dict](const char* keyword, int flag, const int& flags)
+        {
+            PyDict_SetItemString(dict, keyword, ToPyBool(flags & flag));
+        };
+
+        // window flags
+        checkbitset("on_enter", ImGuiInputTextFlags_EnterReturnsTrue, m_flags);
+        checkbitset("readonly", ImGuiInputTextFlags_ReadOnly, m_flags);
+
+    }
+
+    void mvInputFloat3::setExtraConfigDict(PyObject* dict)
+    {
+        if (dict == nullptr)
+            return;
+
+        if (PyObject* item = PyDict_GetItemString(dict, "format")) m_format = ToString(item);
+        if (PyObject* item = PyDict_GetItemString(dict, "min_value")) { m_min = ToFloat(item); m_min_clamped = true; }
+        if (PyObject* item = PyDict_GetItemString(dict, "max_value")) { m_max = ToFloat(item); m_max_clamped = true; }
+        if (PyObject* item = PyDict_GetItemString(dict, "min_clamped")) m_min_clamped = ToBool(item);
+        if (PyObject* item = PyDict_GetItemString(dict, "max_clamped")) m_max_clamped = ToBool(item);
+
+        // helper for bit flipping
+        auto flagop = [dict](const char* keyword, int flag, int& flags)
+        {
+            if (PyObject* item = PyDict_GetItemString(dict, keyword)) ToBool(item) ? flags |= flag : flags &= ~flag;
+        };
+
+        // flags
+        flagop("on_enter", ImGuiInputTextFlags_EnterReturnsTrue, m_flags);
+        flagop("readonly", ImGuiInputTextFlags_ReadOnly, m_flags);
+
+    }
+
+    void mvInputFloat3::getExtraConfigDict(PyObject* dict)
+    {
+        if (dict == nullptr)
+            return;
+
+        PyDict_SetItemString(dict, "format", ToPyString(m_format));
+        PyDict_SetItemString(dict, "min_value", ToPyFloat(m_min));
+        PyDict_SetItemString(dict, "max_value", ToPyFloat(m_max));
+        PyDict_SetItemString(dict, "min_clamped", ToPyBool(m_min_clamped));
+        PyDict_SetItemString(dict, "max_clamped", ToPyBool(m_max_clamped));
+
+        // helper to check and set bit
+        auto checkbitset = [dict](const char* keyword, int flag, const int& flags)
+        {
+            PyDict_SetItemString(dict, keyword, ToPyBool(flags & flag));
+        };
+
+        // window flags
+        checkbitset("on_enter", ImGuiInputTextFlags_EnterReturnsTrue, m_flags);
+        checkbitset("readonly", ImGuiInputTextFlags_ReadOnly, m_flags);
+
+    }
+
     void mvInputFloat4::setExtraConfigDict(PyObject* dict)
     {
         if (dict == nullptr)
@@ -888,4 +890,5 @@ namespace Marvel {
         checkbitset("readonly", ImGuiInputTextFlags_ReadOnly, m_flags);
     }
 
+#endif // !MV_CPP
 }

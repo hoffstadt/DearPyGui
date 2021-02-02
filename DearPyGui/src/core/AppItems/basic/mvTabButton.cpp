@@ -38,6 +38,8 @@ namespace Marvel {
 
 	}
 
+#ifndef MV_CPP
+
 	void mvTabButton::setExtraConfigDict(PyObject* dict)
 	{
 		if (dict == nullptr)
@@ -172,4 +174,5 @@ namespace Marvel {
 		return ToPyBool(false);
 	}
 
+#endif // !MV_CPP
 }

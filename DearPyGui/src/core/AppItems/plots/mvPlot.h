@@ -49,17 +49,17 @@ namespace Marvel {
 
 		MV_APPITEM_TYPE(mvAppItemType::Plot, "add_plot")
 
-		mvPlot(const std::string& name, PyObject* queryCallback);
+		mvPlot(const std::string& name, mvCallable queryCallback);
 		~mvPlot(){clear();}
 
 		// drag lines
-		void addDragPoint   (const std::string& name, bool show_label, const mvColor& color, float radius, PyObject* callback, const double* dummyValue, const std::string& source);
-		void updateDragPoint(const std::string& name, bool show_label, const mvColor& color, float radius, PyObject* callback, const double* dummyValue, const std::string& source);
+		void addDragPoint   (const std::string& name, bool show_label, const mvColor& color, float radius, mvCallable callback, const double* dummyValue, const std::string& source);
+		void updateDragPoint(const std::string& name, bool show_label, const mvColor& color, float radius, mvCallable callback, const double* dummyValue, const std::string& source);
 		void deleteDragPoint(const std::string& name);
 
 		// drag lines
-		void addDragLine    (const std::string& name, bool show_label, const mvColor& color, float thickness, bool y_line, PyObject* callback, double dummyValue, const std::string& source);
-		void updateDragLine (const std::string& name, bool show_label, const mvColor& color, float thickness, bool y_line, PyObject* callback, double dummyValue, const std::string& source);
+		void addDragLine    (const std::string& name, bool show_label, const mvColor& color, float thickness, bool y_line, mvCallable callback, double dummyValue, const std::string& source);
+		void updateDragLine (const std::string& name, bool show_label, const mvColor& color, float thickness, bool y_line, mvCallable callback, double dummyValue, const std::string& source);
 		void deleteDragLine (const std::string& name);
 
 		// annotations
@@ -103,14 +103,16 @@ namespace Marvel {
 		float              getScaleMax      () const { return m_scale_max; }
 		const std::string& getXAxisName     () const { return m_xaxisName; }
 		const std::string& getYAxisName     () const { return m_yaxisName; }
-		PyObject*          getQueryCallback ()       { return m_queryCallback; }
+		mvCallable         getQueryCallback ()       { return m_queryCallback; }
 		const ImVec2&      getXLimits       () const { return m_xlimits_actual; }
 		const ImVec2&      getYLimits       () const { return m_ylimits_actual; }
 		const ImVec2&      getY2Limits       () const { return m_y2limits_actual; }
 		const ImVec2&      getY3Limits       () const { return m_y3limits_actual; }
 
+#ifndef MV_CPP
 		void setExtraConfigDict(PyObject* dict) override;
 		void getExtraConfigDict(PyObject* dict) override;
+#endif // !MV_CPP
 
 	private:
 
@@ -136,7 +138,7 @@ namespace Marvel {
 		ImVec2                        m_xlimits_actual;
 		ImVec2                        m_ylimits;
 		ImVec2                        m_ylimits_actual;
-		PyObject*                     m_queryCallback;
+		mvCallable                    m_queryCallback;
 		bool                          m_queried = false;
 		float                         m_queryArea[4] = {0.0f , 0.0f, 0.0f, 0.0f};
 		bool                          m_dirty = false;
@@ -193,7 +195,7 @@ namespace Marvel {
 		mvColor     color;
 		float       thickness;
 		bool        y_line;
-		PyObject*   callback;
+		mvCallable  callback;
 		double      dummyValue;
 		std::string source;
 	};
@@ -208,7 +210,7 @@ namespace Marvel {
 		bool        show_label;
 		mvColor     color;
 		float       radius;
-		PyObject*   callback;
+		mvCallable  callback;
 		double      dummyx;
 		double      dummyy;
 		std::string source;

@@ -56,6 +56,8 @@ namespace Marvel {
 		}
 	}
 
+#ifndef MV_CPP
+
 	PyObject* add_menu_bar(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		const char* name;
@@ -123,4 +125,6 @@ namespace Marvel {
 		return ToPyBool(false);
 	}
 
+
+#endif
 }

@@ -4,6 +4,7 @@
 #include "mvValueStorage.h"
 
 namespace Marvel {
+
 	void mvButton::InsertParser(std::map<std::string, mvPythonParser>* parsers)
 	{
 		parsers->insert({ "add_button", mvPythonParser({
@@ -30,6 +31,41 @@ namespace Marvel {
 		m_description.disableAllowed = true;
 	}
 
+	mvButton::mvButton(const std::string& name, const mvButtonConfig& config)
+		:
+		mvAppItem(name), m_config(config)
+	{
+		m_description.disableAllowed = true;
+
+		m_config.name = name;
+		updateConfig(&m_config);
+	}
+
+	void mvButton::updateConfig(mvAppItemConfig* config)
+	{
+		auto aconfig = (mvButtonConfig*)config;
+
+		m_core_config.width = config->width;
+		m_core_config.height = config->height;
+		m_core_config.label = config->label;
+		m_core_config.show = config->show;
+		m_core_config.callback = config->callback;
+		m_core_config.callback_data = config->callback_data;
+		m_core_config.enabled = config->enabled;
+		
+		m_config.arrow = aconfig->arrow;
+		m_config.direction = aconfig->direction;
+		m_config.small_button = aconfig->small_button;
+
+		if (config != &m_config)
+			m_config = *aconfig;
+	}
+
+	mvAppItemConfig* mvButton::getConfig()
+	{
+		return &m_config;
+	}
+
 	void mvButton::draw()
 	{
 		auto styleManager = m_styleManager.getScopedStyleManager();
@@ -46,16 +82,16 @@ namespace Marvel {
 			styleManager.addColorStyle(ImGuiCol_Text, ImVec4(ImGui::GetStyleColorVec4(ImGuiCol_TextDisabled)));
 		}
 
-		if (m_small)
+		if (m_config.small_button)
 		{
 			if (ImGui::SmallButton(m_label.c_str()))
 				mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), m_core_config.name, m_core_config.callback_data);
 			return;
 		}
 
-		if (m_arrow)
+		if (m_config.arrow)
 		{
-			if (ImGui::ArrowButton(m_label.c_str(), m_direction))
+			if (ImGui::ArrowButton(m_label.c_str(), m_config.direction))
 				mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), m_core_config.name, m_core_config.callback_data);
 
 			return;
@@ -66,14 +102,23 @@ namespace Marvel {
 
 	}
 
+	void mv_add_button(const char* name, const mvButtonConfig& config)
+	{
+		auto item = CreateRef<mvButton>(name, config);
+
+		mvApp::GetApp()->getItemRegistry().addItemWithRuntimeChecks(item, config.parent.c_str(), config.before.c_str());
+	}
+
+#ifndef MV_CPP
+
 	void mvButton::setExtraConfigDict(PyObject* dict)
 	{
 		if (dict == nullptr)
 			return;
 
-		if (PyObject* item = PyDict_GetItemString(dict, "small")) m_small = ToBool(item);
-		if (PyObject* item = PyDict_GetItemString(dict, "arrow")) m_arrow = ToBool(item);
-		if (PyObject* item = PyDict_GetItemString(dict, "direction")) m_direction = ToInt(item);
+		if (PyObject* item = PyDict_GetItemString(dict, "small")) m_config.small_button = ToBool(item);
+		if (PyObject* item = PyDict_GetItemString(dict, "arrow")) m_config.arrow = ToBool(item);
+		if (PyObject* item = PyDict_GetItemString(dict, "direction")) m_config.direction = ToInt(item);
 	}
 
 	void mvButton::getExtraConfigDict(PyObject* dict)
@@ -81,10 +126,11 @@ namespace Marvel {
 		if (dict == nullptr)
 			return;
 
-		PyDict_SetItemString(dict, "small", ToPyBool(m_small));
-		PyDict_SetItemString(dict, "arrow", ToPyBool(m_arrow));
-		PyDict_SetItemString(dict, "direction", ToPyInt(m_direction));
+		PyDict_SetItemString(dict, "small", ToPyBool(m_config.small_button));
+		PyDict_SetItemString(dict, "arrow", ToPyBool(m_config.arrow));
+		PyDict_SetItemString(dict, "direction", ToPyInt(m_config.direction));
 	}
+
 
 	PyObject* add_button(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
@@ -123,5 +169,5 @@ namespace Marvel {
 
 		return GetPyNone();
 	}
-
+#endif
 }

@@ -55,6 +55,8 @@ namespace Marvel {
 
 	}
 
+#ifndef MV_CPP
+
 	PyObject* add_tooltip(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		const char* tipparent;
@@ -85,4 +87,5 @@ namespace Marvel {
 
 	}
 
+#endif
 }

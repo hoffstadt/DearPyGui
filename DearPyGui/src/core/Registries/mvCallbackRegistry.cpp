@@ -18,7 +18,7 @@ namespace Marvel {
 	{
 		while (!m_tasks.empty())
 		{
-			mvCallbackRegistry::task_type t;
+			mvFunctionWrapper t;
 			m_tasks.wait_and_pop(t);
 			t();
 		}
@@ -181,26 +181,36 @@ namespace Marvel {
 
 		while (m_running)
 		{
-				mvCallbackRegistry::task_type t2;
-				Py_BEGIN_ALLOW_THREADS;
-				m_calls.wait_and_pop(t2);
-				Py_END_ALLOW_THREADS;
-				t2();
+			mvFunctionWrapper t2;
+			Py_BEGIN_ALLOW_THREADS;
+			m_calls.wait_and_pop(t2);
+			Py_END_ALLOW_THREADS;
+			t2();
 		}
 
 		runCallback(m_onCloseCallback, "Main Application", nullptr);
 		return true;
 	}
 
-	void mvCallbackRegistry::addCallback(PyObject* callable, const std::string& sender, PyObject* data)
+	void mvCallbackRegistry::addCallback(mvCallable callable, const std::string& sender, mvCallableData data)
 	{
+#ifdef MV_CPP
+		submitCallback(callable);
+#else
 		submitCallback([=]() {
 			runCallback(callable, sender, data);
 			});
+#endif
 	}
 
-	void mvCallbackRegistry::runCallback(PyObject* callable, const std::string& sender, PyObject* data)
+	void mvCallbackRegistry::runCallback(mvCallable callable, const std::string& sender, PyObject* data)
 	{
+
+#ifdef MV_CPP
+
+		callable();
+		 
+#else
 
 		if (callable == nullptr)
 		{
@@ -208,9 +218,6 @@ namespace Marvel {
 				Py_XDECREF(data);
 			return;
 		}
-
-		 
-#ifndef MV_CPP
 
 		if (!PyCallable_Check(callable))
 		{

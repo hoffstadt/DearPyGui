@@ -4,6 +4,7 @@
 #include "mvValueStorage.h"
 
 namespace Marvel {
+
 	void mvCheckbox::InsertParser(std::map<std::string, mvPythonParser>* parsers)
 	{
 		parsers->insert({ "add_checkbox", mvPythonParser({
@@ -50,6 +51,7 @@ namespace Marvel {
 
 	}
 
+#ifndef MV_CPP
 	PyObject* add_checkbox(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		const char* name;
@@ -84,4 +86,5 @@ namespace Marvel {
 
 		return GetPyNone();
 	}
+#endif
 }
