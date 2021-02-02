@@ -19,8 +19,11 @@ namespace Marvel {
 		mvRadioButton(const std::string& name, int default_value, const std::string& dataSource);
 
 		void draw()               override;
+
+#ifndef MV_CPP
 		void setExtraConfigDict(PyObject* dict) override;
 		void getExtraConfigDict(PyObject* dict) override;
+#endif // !MV_CPP
 
 	private:
 

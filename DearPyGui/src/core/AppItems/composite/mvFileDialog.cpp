@@ -12,7 +12,7 @@ namespace Marvel {
 		return true; 
 	}
 
-	void mvFileDialog::setCallback(PyObject* callback)
+	void mvFileDialog::setCallback(mvCallable callback)
 	{ 
 		m_callback2 = callback; 
 	}
@@ -42,7 +42,7 @@ namespace Marvel {
 			}
 			// close
 			igfd::ImGuiFileDialog::Instance()->CloseDialog("ChooseFileDlgKey");
-			m_show = false;
+			m_core_config.show = false;
 		}
 	}
 

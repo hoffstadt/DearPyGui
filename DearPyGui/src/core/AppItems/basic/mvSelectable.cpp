@@ -4,6 +4,7 @@
 #include "mvValueStorage.h"
 
 namespace Marvel {
+
 	void mvSelectable::InsertParser(std::map<std::string, mvPythonParser>* parsers)
 	{
 		parsers->insert({ "add_selectable", mvPythonParser({
@@ -36,7 +37,7 @@ namespace Marvel {
 		else
 			m_flags |= ImGuiSelectableFlags_Disabled;
 
-		m_enabled = value;
+		m_core_config.enabled = value;
 	}
 
 	void mvSelectable::draw()
@@ -46,9 +47,11 @@ namespace Marvel {
 		mvImGuiThemeScope scope(this);
 
 		if (ImGui::Selectable(m_label.c_str(), m_value, m_flags))
-			mvApp::GetApp()->getCallbackRegistry().addCallback(m_callback, m_name, m_callbackData);
+			mvApp::GetApp()->getCallbackRegistry().addCallback(m_core_config.callback, m_core_config.name, m_core_config.callback_data);
 
 	}
+
+#ifndef MV_CPP
 
 	void mvSelectable::setExtraConfigDict(PyObject* dict)
 	{
@@ -120,5 +123,7 @@ namespace Marvel {
 
 		return GetPyNone();
 	}
+
+#endif // !MV_CPP
 
 }

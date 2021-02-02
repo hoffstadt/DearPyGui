@@ -90,32 +90,11 @@ namespace Marvel {
 
 	}
 
-	void mvText::setExtraConfigDict(PyObject* dict)
-	{
-		if (dict == nullptr)
-			return;
-		 
-		if (PyObject* item = PyDict_GetItemString(dict, "color")) m_color = ToColor(item);
-		if (PyObject* item = PyDict_GetItemString(dict, "wrap")) m_wrap = ToInt(item);
-		if (PyObject* item = PyDict_GetItemString(dict, "bullet")) m_bullet = ToBool(item);
-
-	}
-
-	void mvText::getExtraConfigDict(PyObject* dict)
-	{
-		if (dict == nullptr)
-			return;
-		 
-		PyDict_SetItemString(dict, "color", ToPyColor(m_color));
-		PyDict_SetItemString(dict, "wrap", ToPyInt(m_wrap));
-		PyDict_SetItemString(dict, "bullet", ToPyBool(m_bullet));
-	}
-
 	mvLabelText::mvLabelText(const std::string& name, const std::string& value, const std::string& dataSource)
 		: 
 		mvStringPtrBase(name, value, dataSource)
 	{
-		m_label = FindRenderedTextEnd(m_name.c_str());
+		m_label = FindRenderedTextEnd(m_core_config.name.c_str());
 	}
 
 	void mvLabelText::draw()
@@ -142,6 +121,29 @@ namespace Marvel {
 			ImGui::LabelText(m_label.c_str(), m_value->c_str());
 		}
 
+	}
+
+#ifndef MV_CPP
+
+	void mvText::setExtraConfigDict(PyObject* dict)
+	{
+		if (dict == nullptr)
+			return;
+
+		if (PyObject* item = PyDict_GetItemString(dict, "color")) m_color = ToColor(item);
+		if (PyObject* item = PyDict_GetItemString(dict, "wrap")) m_wrap = ToInt(item);
+		if (PyObject* item = PyDict_GetItemString(dict, "bullet")) m_bullet = ToBool(item);
+
+	}
+
+	void mvText::getExtraConfigDict(PyObject* dict)
+	{
+		if (dict == nullptr)
+			return;
+
+		PyDict_SetItemString(dict, "color", ToPyColor(m_color));
+		PyDict_SetItemString(dict, "wrap", ToPyInt(m_wrap));
+		PyDict_SetItemString(dict, "bullet", ToPyBool(m_bullet));
 	}
 
 	void mvLabelText::setExtraConfigDict(PyObject* dict)
@@ -223,4 +225,6 @@ namespace Marvel {
 
 		return GetPyNone();
 	}
+
+#endif // !MV_CPP
 }

@@ -38,7 +38,7 @@ namespace Marvel {
 
 		bool* toggle = nullptr;
 		if (m_closable)
-			toggle = &m_show;
+			toggle = &m_core_config.show;
 		*m_value = ImGui::CollapsingHeader(m_label.c_str(), toggle, m_flags);
 
 		//we do this so that the children dont get the theme
@@ -49,12 +49,12 @@ namespace Marvel {
 			for (auto& item : m_children)
 			{
 				// skip item if it's not shown
-				if (!item->m_show)
+				if (!item->m_core_config.show)
 					continue;
 
 				// set item width
-				if (item->m_width != 0)
-					ImGui::SetNextItemWidth((float)item->m_width);
+				if (item->m_core_config.width != 0)
+					ImGui::SetNextItemWidth((float)item->m_core_config.width);
 
 				item->draw();
 
@@ -62,6 +62,8 @@ namespace Marvel {
 			}
 		}
 	}
+
+#ifndef MV_CPP
 
 	void mvCollapsingHeader::setExtraConfigDict(PyObject* dict)
 	{
@@ -143,4 +145,5 @@ namespace Marvel {
 		return GetPyNone();
 	}
 
+#endif
 }

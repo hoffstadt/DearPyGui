@@ -6,6 +6,6 @@
 namespace Marvel
 {
 
-	void ThrowPythonException(const std::string& message);
+	void ThrowPythonException(const std::string& message, bool line = true);
 
 }

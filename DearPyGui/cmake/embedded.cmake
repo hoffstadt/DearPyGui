@@ -6,7 +6,7 @@ set_target_properties(coreemb PROPERTIES CXX_STANDARD 17)
 if(NOT MV_CPP)
 	target_sources(coreemb PRIVATE ${MARVEL_SOURCES} ${MARVEL_PY_SOURCES})
 else()
-	target_sources(coreemb PRIVATE ${MARVEL_SOURCES})
+	target_sources(coreemb PRIVATE ${MARVEL_SOURCES} ${MARVEL_CPP_SOURCES})
 endif()
 
 target_include_directories(coreemb PRIVATE ${MARVEL_INCLUDE_DIR})

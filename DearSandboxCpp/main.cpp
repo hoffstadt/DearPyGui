@@ -1,34 +1,21 @@
 #include <iostream>
 #include <Windows.h>
-#include "mvApp.h"
-#include "mvAppLog.h"
-#include "mvAppItems.h"
+#include "mvCppInterface.h"
 
 using namespace Marvel;
+
 
 int main(int argc, char* argv[])
 {
 
-#ifdef MV_RELEASE
-	HWND hWnd = GetConsoleWindow();
-	ShowWindow(hWnd, SW_HIDE);
-#else
-	HWND hWnd = GetConsoleWindow();
-	ShowWindow(hWnd, SW_SHOW);	
-#endif
+	mv_add_window("Test Window");
 
-	auto item = CreateRef<mvWindowAppItem>("Cpp Window", false, nullptr);
+		mvButtonConfig config;
+		config.callback = []() {std::cout << "Button Pressed" << std::endl; };
+		mv_add_button("Press me", config);
+	
+	mv_end();
 
-	if (mvApp::GetApp()->getItemRegistry().addItemWithRuntimeChecks(item, "", ""))
-	{
-		mvApp::GetApp()->getItemRegistry().pushParent(item);
-
-	}
-
-	mvApp::GetApp()->start("");
-
-	mvApp::DeleteApp();
-	mvEventBus::Reset();
-	mvAppLog::Clear();
+	mv_start_dearpygui();
 		
 }

@@ -32,9 +32,11 @@ namespace Marvel {
 		ScopedID id;
 		mvImGuiThemeScope scope(this);
 
-		ImGui::ProgressBar(*m_value, ImVec2((float)m_width, (float)m_height), m_overlay.c_str());
+		ImGui::ProgressBar(*m_value, ImVec2((float)m_core_config.width, (float)m_core_config.height), m_overlay.c_str());
 
 	}
+
+#ifndef MV_CPP
 
 	void mvProgressBar::setExtraConfigDict(PyObject* dict)
 	{
@@ -79,4 +81,5 @@ namespace Marvel {
 		return GetPyNone();
 	}
 
+#endif
 }

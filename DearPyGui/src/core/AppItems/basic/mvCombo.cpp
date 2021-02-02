@@ -45,7 +45,7 @@ namespace Marvel {
 		mvImGuiThemeScope scope(this);
 
 		static std::vector<std::string> disabled_items{};
-		if (!m_enabled)
+		if (!m_core_config.enabled)
 		{
 			ImVec4 disabled_color = ImVec4(ImGui::GetStyleColorVec4(ImGuiCol_TextDisabled));
 			disabled_color.w = 0.392f;
@@ -63,13 +63,13 @@ namespace Marvel {
 		// The second parameter is the label previewed before opening the combo.
 		if (ImGui::BeginCombo(m_label.c_str(), m_value->c_str(), m_flags)) 
 		{
-			for (const auto& name : m_enabled ? m_items : disabled_items)
+			for (const auto& name : m_core_config.enabled ? m_items : disabled_items)
 			{
 				bool is_selected = (*m_value == name);
 				if (ImGui::Selectable((name).c_str(), is_selected))
 				{
-					if (m_enabled) { *m_value = name; }
-					mvApp::GetApp()->getCallbackRegistry().addCallback(m_callback, m_name, m_callbackData);
+					if (m_core_config.enabled) { *m_value = name; }
+					mvApp::GetApp()->getCallbackRegistry().addCallback(m_core_config.callback, m_core_config.name, m_core_config.callback_data);
 
 				}
 
@@ -82,6 +82,8 @@ namespace Marvel {
 		}
 
 	}
+
+#ifndef MV_CPP
 
 	void mvCombo::setExtraConfigDict(PyObject* dict)
 	{
@@ -200,4 +202,5 @@ namespace Marvel {
 		return GetPyNone();
 	}
 
+#endif
 }

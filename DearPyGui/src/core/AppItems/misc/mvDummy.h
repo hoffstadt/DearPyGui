@@ -19,7 +19,7 @@ namespace Marvel {
 
 		void draw() override
 		{
-			ImGui::Dummy({ (float)m_width, (float)m_height });
+			ImGui::Dummy({ (float)m_core_config.width, (float)m_core_config.height });
 		}
 
 	};

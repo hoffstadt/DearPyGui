@@ -5,10 +5,13 @@
 
 namespace Marvel {
 
-	static PyObject* SanitizeCallback(PyObject* callback)
+	static mvCallable SanitizeCallback(mvCallable callback)
 	{
+#ifndef MV_CPP
 		if (callback == Py_None)
 			return nullptr;
+#endif // !MV_CPP
+
 		return callback;
 	}
 
@@ -16,7 +19,6 @@ namespace Marvel {
 
 	class mvCallbackRegistry : public mvEventHandler
 	{
-		typedef mvFunctionWrapper task_type;
 
 		struct NewCallback
 		{
@@ -37,13 +39,12 @@ namespace Marvel {
 
 		void runTasks();
 
-        void runCallback      (PyObject* callback, const std::string& sender, PyObject* data = nullptr);
-        void addCallback      (PyObject* callback, const std::string& sender, PyObject* data);
+        void runCallback      (mvCallable callback, const std::string& sender, PyObject* data = nullptr);
+        void addCallback      (mvCallable callback, const std::string& sender, mvCallableData data);
 		
 		bool runCallbacks();
 
 		void stop() { m_running = false; }
-		bool isReadyToBeStopped() const { return m_callbacks.empty(); }
 
 		template<typename F, typename ...Args>
 		std::future<typename std::invoke_result<F, Args...>::type> submit(F f)
@@ -77,65 +78,82 @@ namespace Marvel {
 		//-----------------------------------------------------------------------------
         // Callbacks
         //----------------------------------------------------------------------------- 
-        void setRenderCallback          (PyObject* callback) { m_renderCallback = SanitizeCallback(callback); }
-        void setResizeCallback          (PyObject* callback) { m_resizeCallback = SanitizeCallback(callback); }
-        void setMouseMoveCallback       (PyObject* callback) { m_mouseMoveCallback = SanitizeCallback(callback); }
-        void setOnCloseCallback         (PyObject* callback) { m_onCloseCallback = SanitizeCallback(callback); }
-        void setOnStartCallback         (PyObject* callback) { m_onStartCallback = SanitizeCallback(callback); }
-        void setAcceleratorCallback     (PyObject* callback) { m_acceleratorCallback = SanitizeCallback(callback); }
-        void setMouseClickCallback      (PyObject* callback) { m_mouseClickCallback = SanitizeCallback(callback); }
-        void setMouseDownCallback       (PyObject* callback) { m_mouseDownCallback = SanitizeCallback(callback); }
-        void setMouseDoubleClickCallback(PyObject* callback) { m_mouseDoubleClickCallback = SanitizeCallback(callback); }
-        void setMouseReleaseCallback    (PyObject* callback) { m_mouseReleaseCallback = SanitizeCallback(callback); }
-        void setMouseWheelCallback      (PyObject* callback) { m_mouseWheelCallback = SanitizeCallback(callback); }
-        void setMouseDragCallback       (PyObject* callback) { m_mouseDragCallback = SanitizeCallback(callback); }
-        void setKeyDownCallback         (PyObject* callback) { m_keyDownCallback = SanitizeCallback(callback); }
-        void setKeyPressCallback        (PyObject* callback) { m_keyPressCallback = SanitizeCallback(callback); }
-        void setKeyReleaseCallback      (PyObject* callback) { m_keyReleaseCallback = SanitizeCallback(callback); }
+        void setRenderCallback          (mvCallable callback) { m_renderCallback = SanitizeCallback(callback); }
+        void setResizeCallback          (mvCallable callback) { m_resizeCallback = SanitizeCallback(callback); }
+        void setMouseMoveCallback       (mvCallable callback) { m_mouseMoveCallback = SanitizeCallback(callback); }
+        void setOnCloseCallback         (mvCallable callback) { m_onCloseCallback = SanitizeCallback(callback); }
+        void setOnStartCallback         (mvCallable callback) { m_onStartCallback = SanitizeCallback(callback); }
+        void setAcceleratorCallback     (mvCallable callback) { m_acceleratorCallback = SanitizeCallback(callback); }
+        void setMouseClickCallback      (mvCallable callback) { m_mouseClickCallback = SanitizeCallback(callback); }
+        void setMouseDownCallback       (mvCallable callback) { m_mouseDownCallback = SanitizeCallback(callback); }
+        void setMouseDoubleClickCallback(mvCallable callback) { m_mouseDoubleClickCallback = SanitizeCallback(callback); }
+        void setMouseReleaseCallback    (mvCallable callback) { m_mouseReleaseCallback = SanitizeCallback(callback); }
+        void setMouseWheelCallback      (mvCallable callback) { m_mouseWheelCallback = SanitizeCallback(callback); }
+        void setMouseDragCallback       (mvCallable callback) { m_mouseDragCallback = SanitizeCallback(callback); }
+        void setKeyDownCallback         (mvCallable callback) { m_keyDownCallback = SanitizeCallback(callback); }
+        void setKeyPressCallback        (mvCallable callback) { m_keyPressCallback = SanitizeCallback(callback); }
+        void setKeyReleaseCallback      (mvCallable callback) { m_keyReleaseCallback = SanitizeCallback(callback); }
 
-        [[nodiscard]] PyObject* getRenderCallback          (){ return m_renderCallback; }
-        [[nodiscard]] PyObject* getResizeCallback          (){ return m_resizeCallback; }
-        [[nodiscard]] PyObject* getMouseReleaseCallback    (){ return m_mouseReleaseCallback; }
-        [[nodiscard]] PyObject* getMouseClickCallback      (){ return m_mouseClickCallback; }
-        [[nodiscard]] PyObject* getMouseDownCallback       (){ return m_mouseDownCallback; }
-        [[nodiscard]] PyObject* getMouseDoubleClickCallback(){ return m_mouseDoubleClickCallback; }
-        [[nodiscard]] PyObject* getMouseDragCallback       (){ return m_mouseDragCallback; }
-        [[nodiscard]] PyObject* getKeyDownCallback         (){ return m_keyDownCallback; }
-        [[nodiscard]] PyObject* getKeyPressCallback        (){ return m_keyPressCallback; }
-        [[nodiscard]] PyObject* getKeyReleaseCallback      (){ return m_keyReleaseCallback; }
-        [[nodiscard]] PyObject* getMouseWheelCallback      (){ return m_mouseWheelCallback; }
-        [[nodiscard]] PyObject* getMouseMoveCallback       (){ return m_mouseMoveCallback; }
-        [[nodiscard]] PyObject* getOnCloseCallback         (){ return m_onCloseCallback; }
-        [[nodiscard]] PyObject* getOnStartCallback         (){ return m_onStartCallback; }
-        [[nodiscard]] PyObject* getAcceleratorCallback     (){ return m_acceleratorCallback; }
+        [[nodiscard]] mvCallable getRenderCallback          (){ return m_renderCallback; }
+        [[nodiscard]] mvCallable getResizeCallback          (){ return m_resizeCallback; }
+        [[nodiscard]] mvCallable getMouseReleaseCallback    (){ return m_mouseReleaseCallback; }
+        [[nodiscard]] mvCallable getMouseClickCallback      (){ return m_mouseClickCallback; }
+        [[nodiscard]] mvCallable getMouseDownCallback       (){ return m_mouseDownCallback; }
+        [[nodiscard]] mvCallable getMouseDoubleClickCallback(){ return m_mouseDoubleClickCallback; }
+        [[nodiscard]] mvCallable getMouseDragCallback       (){ return m_mouseDragCallback; }
+        [[nodiscard]] mvCallable getKeyDownCallback         (){ return m_keyDownCallback; }
+        [[nodiscard]] mvCallable getKeyPressCallback        (){ return m_keyPressCallback; }
+        [[nodiscard]] mvCallable getKeyReleaseCallback      (){ return m_keyReleaseCallback; }
+        [[nodiscard]] mvCallable getMouseWheelCallback      (){ return m_mouseWheelCallback; }
+        [[nodiscard]] mvCallable getMouseMoveCallback       (){ return m_mouseMoveCallback; }
+        [[nodiscard]] mvCallable getOnCloseCallback         (){ return m_onCloseCallback; }
+        [[nodiscard]] mvCallable getOnStartCallback         (){ return m_onStartCallback; }
+        [[nodiscard]] mvCallable getAcceleratorCallback     (){ return m_acceleratorCallback; }
 	
 	private:
 
-
-		// callback system
-		std::vector<NewCallback>          m_callbacks;
-
 		// new callback system
-		mvQueue<task_type> m_tasks;
-		mvQueue<task_type> m_calls;
+		mvQueue<mvFunctionWrapper> m_tasks;
+		mvQueue<mvFunctionWrapper> m_calls;
 		std::atomic<bool> m_running;
 
 		// input callbacks
-		PyObject* m_renderCallback = nullptr;
-		PyObject* m_mouseDownCallback = nullptr;
-		PyObject* m_mouseClickCallback = nullptr;
-		PyObject* m_mouseReleaseCallback = nullptr;
-		PyObject* m_mouseDoubleClickCallback = nullptr;
-		PyObject* m_mouseWheelCallback = nullptr;
-		PyObject* m_mouseDragCallback = nullptr;
-		PyObject* m_keyDownCallback = nullptr;
-		PyObject* m_keyPressCallback = nullptr;
-		PyObject* m_keyReleaseCallback = nullptr;
-		PyObject* m_resizeCallback = nullptr;
-		PyObject* m_mouseMoveCallback = nullptr;
-		PyObject* m_onCloseCallback = nullptr;
-		PyObject* m_onStartCallback = nullptr;
-		PyObject* m_acceleratorCallback = nullptr; // basically the same as the key press callback
+#ifdef MV_CPP
+		mvCallable m_renderCallback = []() {};
+		mvCallable m_mouseDownCallback = []() {};
+		mvCallable m_mouseClickCallback = []() {};
+		mvCallable m_mouseReleaseCallback = []() {};
+		mvCallable m_mouseDoubleClickCallback = []() {};
+		mvCallable m_mouseWheelCallback = []() {};
+		mvCallable m_mouseDragCallback = []() {};
+		mvCallable m_keyDownCallback = []() {};
+		mvCallable m_keyPressCallback = []() {};
+		mvCallable m_keyReleaseCallback = []() {};
+		mvCallable m_resizeCallback = []() {};
+		mvCallable m_mouseMoveCallback = []() {};
+		mvCallable m_onCloseCallback = []() {};
+		mvCallable m_onStartCallback = []() {};
+		mvCallable m_acceleratorCallback = []() {}; // basically the same as the key press callback
+
+#else
+		mvCallable m_renderCallback = nullptr;
+		mvCallable m_mouseDownCallback = nullptr;
+		mvCallable m_mouseClickCallback = nullptr;
+		mvCallable m_mouseReleaseCallback = nullptr;
+		mvCallable m_mouseDoubleClickCallback = nullptr;
+		mvCallable m_mouseWheelCallback = nullptr;
+		mvCallable m_mouseDragCallback = nullptr;
+		mvCallable m_keyDownCallback = nullptr;
+		mvCallable m_keyPressCallback = nullptr;
+		mvCallable m_keyReleaseCallback = nullptr;
+		mvCallable m_resizeCallback = nullptr;
+		mvCallable m_mouseMoveCallback = nullptr;
+		mvCallable m_onCloseCallback = nullptr;
+		mvCallable m_onStartCallback = nullptr;
+		mvCallable m_acceleratorCallback = nullptr; // basically the same as the key press callback
+
+#endif // !MV_CPP
+
 
 	};
 

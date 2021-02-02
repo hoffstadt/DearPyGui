@@ -46,7 +46,7 @@ namespace Marvel {
 		ScopedID id;
 		mvImGuiThemeScope scope(this);
 
-		ImGui::BeginChild(m_label.c_str(), ImVec2(m_autosize_x ? 0 : (float)m_width, m_autosize_y ? 0 : (float)m_height), m_border, m_windowflags);
+		ImGui::BeginChild(m_label.c_str(), ImVec2(m_autosize_x ? 0 : (float)m_core_config.width, m_autosize_y ? 0 : (float)m_core_config.height), m_border, m_windowflags);
 
 		//we do this so that the children dont get the theme
 		scope.cleanup();
@@ -54,12 +54,12 @@ namespace Marvel {
 		for (auto item : m_children)
 		{
 			// skip item if it's not shown
-			if (!item->m_show)
+			if (!item->m_core_config.show)
 				continue;
 
 			// set item width
-			if (item->m_width != 0)
-				ImGui::SetNextItemWidth((float)item->m_width);
+			if (item->m_core_config.width != 0)
+				ImGui::SetNextItemWidth((float)item->m_core_config.width);
 
 			item->draw();
 
@@ -69,11 +69,13 @@ namespace Marvel {
 		// allows this item to have a render callback
 		registerWindowFocusing();
 
-		m_width = (int)ImGui::GetWindowWidth();
-		m_height = (int)ImGui::GetWindowHeight();
+		m_core_config.width = (int)ImGui::GetWindowWidth();
+		m_core_config.height = (int)ImGui::GetWindowHeight();
 
 		ImGui::EndChild();
 	}
+
+#ifndef MV_CPP
 
 	void mvChild::setExtraConfigDict(PyObject* dict)
 	{
@@ -154,4 +156,5 @@ namespace Marvel {
 
 	}
 
+#endif // !MV_CPP
 }

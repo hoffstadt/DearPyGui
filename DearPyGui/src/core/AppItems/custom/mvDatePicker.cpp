@@ -32,13 +32,15 @@ namespace Marvel {
 		ScopedID id;
 		mvImGuiThemeScope scope(this);
 
-		if (ImPlot::ShowDatePicker(m_name.c_str(), &m_level, m_imvalue, m_imvalue))
+		if (ImPlot::ShowDatePicker(m_core_config.name.c_str(), &m_level, m_imvalue, m_imvalue))
 		{
 			ImPlot::GetGmtTime(*m_imvalue, m_value);
-			mvApp::GetApp()->getCallbackRegistry().addCallback(m_callback, m_name, m_callbackData);
+			mvApp::GetApp()->getCallbackRegistry().addCallback(m_core_config.callback, m_core_config.name, m_core_config.callback_data);
 		}
 
 	}
+
+#ifndef MV_CPP
 
 	void mvDatePicker::setExtraConfigDict(PyObject* dict)
 	{
@@ -55,7 +57,6 @@ namespace Marvel {
 		 
 		PyDict_SetItemString(dict, "level", ToPyInt(m_level));
 	}
-
 
 	PyObject* add_date_picker(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
@@ -89,4 +90,5 @@ namespace Marvel {
 		return GetPyNone();
 	}
 
+#endif // !MV_CPP
 }

@@ -36,13 +36,15 @@ namespace Marvel {
 
 		ImPlot::GetStyle().Use24HourClock = m_hour24;
 
-		if (ImPlot::ShowTimePicker(m_name.c_str(), m_imvalue))
+		if (ImPlot::ShowTimePicker(m_core_config.name.c_str(), m_imvalue))
 		{
 			ImPlot::GetGmtTime(*m_imvalue, m_value);
-			mvApp::GetApp()->getCallbackRegistry().addCallback(m_callback, m_name, m_callbackData);
+			mvApp::GetApp()->getCallbackRegistry().addCallback(m_core_config.callback, m_core_config.name, m_core_config.callback_data);
 		}
 
 	}
+
+#ifndef MV_CPP
 
 	void mvTimePicker::setExtraConfigDict(PyObject* dict)
 	{
@@ -91,5 +93,7 @@ namespace Marvel {
 
 		return GetPyNone();
 	}
+
+#endif
 
 }
