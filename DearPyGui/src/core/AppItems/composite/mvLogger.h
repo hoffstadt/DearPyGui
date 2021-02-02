@@ -26,7 +26,7 @@ namespace Marvel {
 			m_clearButtonName = "Clear##" + name;
 			m_copyButtonName = "Copy##" + name;
 			ClearLog();
-			LogInfo("[Logger] " + m_name);
+			LogInfo("[Logger] " + m_core_config.name);
 			m_description.ignoreSizeUpdate = true;
 		}
 

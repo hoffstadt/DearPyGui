@@ -39,12 +39,12 @@ namespace Marvel {
 		if (parent->getValue().empty())
 		{
 			// set mvTabBar value to the first tab name
-			parent->setValue(m_name);
+			parent->setValue(m_core_config.name);
 			*m_value = true;
 		}
 
 		// create tab item and see if it is selected
-		if (ImGui::BeginTabItem(m_label.c_str(), m_closable ? &m_show : nullptr, m_flags))
+		if (ImGui::BeginTabItem(m_label.c_str(), m_closable ? &m_core_config.show : nullptr, m_flags))
 		{
 
 			// set other tab's value false
@@ -58,10 +58,10 @@ namespace Marvel {
 			*m_value = true;
 
 			// run call back if it exists
-			if (parent->getValue() != m_name)
-				mvApp::GetApp()->getCallbackRegistry().addCallback(parent->getCallback(), m_name, parent->getCallbackData());
+			if (parent->getValue() != m_core_config.name)
+				mvApp::GetApp()->getCallbackRegistry().addCallback(parent->getCallback(), m_core_config.name, parent->getCallbackData());
 
-			parent->setValue(m_name);
+			parent->setValue(m_core_config.name);
 
 			//we do this so that the children dont get the theme
 			scope.cleanup();
@@ -69,12 +69,12 @@ namespace Marvel {
 			for (auto& item : m_children)
 			{
 				// skip item if it's not shown
-				if (!item->m_show)
+				if (!item->m_core_config.show)
 					continue;
 
 				// set item width
-				if (item->m_width != 0)
-					ImGui::SetNextItemWidth((float)item->m_width);
+				if (item->m_core_config.width != 0)
+					ImGui::SetNextItemWidth((float)item->m_core_config.width);
 
 				item->draw();
 

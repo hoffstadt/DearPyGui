@@ -81,8 +81,8 @@ namespace Marvel {
 					});
 				return;
 			}
-			if (m_width == 0) m_width = (int)((float)texture->width * (m_uv_max.x - m_uv_min.x));
-			if (m_height == 0) m_height = (int)((float)texture->height * (m_uv_max.y - m_uv_min.y));
+			if (m_core_config.width == 0) m_core_config.width = (int)((float)texture->width * (m_uv_max.x - m_uv_min.x));
+			if (m_core_config.height == 0) m_core_config.height = (int)((float)texture->height * (m_uv_max.y - m_uv_min.y));
 
 			m_texture = texture->texture;
 		}
@@ -92,19 +92,19 @@ namespace Marvel {
 			mvTexture* texture = mvApp::GetApp()->getTextureStorage().getTexture(m_value);
 			if (texture)
 			{
-				m_width = (int)((float)texture->width * (m_uv_max.x - m_uv_min.x));
-				m_height = (int)((float)texture->height * (m_uv_max.y - m_uv_min.y));
+				m_core_config.width = (int)((float)texture->width * (m_uv_max.x - m_uv_min.x));
+				m_core_config.height = (int)((float)texture->height * (m_uv_max.y - m_uv_min.y));
 			}
 			m_dirty = false;
 		}
 
 		if (m_texture)
 		{
-			ImGui::PushID(m_name.c_str());
-			if (ImGui::ImageButton(m_texture, ImVec2((float)m_width, (float)m_height),
+			ImGui::PushID(m_core_config.name.c_str());
+			if (ImGui::ImageButton(m_texture, ImVec2((float)m_core_config.width, (float)m_core_config.height),
 				ImVec2(m_uv_min.x, m_uv_min.y), ImVec2(m_uv_max.x, m_uv_max.y), m_framePadding,
 				m_backgroundColor.toVec4(), m_tintColor.toVec4()))
-				mvApp::GetApp()->getCallbackRegistry().addCallback(m_callback, m_name, m_callbackData);
+				mvApp::GetApp()->getCallbackRegistry().addCallback(m_core_config.callback, m_core_config.name, m_core_config.callback_data);
 			ImGui::PopID();
 		}
 

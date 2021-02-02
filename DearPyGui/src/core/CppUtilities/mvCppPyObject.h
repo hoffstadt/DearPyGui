@@ -6,29 +6,6 @@
 #include "mvCore.h"
 #include <time.h>
 
-class PyContextManager
-{
-public:
-
-	PyContextManager() = default;
-
-	PyContextManager(const PyContextManager& other) = delete;
-	PyContextManager& operator=(const PyContextManager& other) = delete;
-	PyContextManager& operator=(PyContextManager&& other) = delete;
-
-	PyContextManager(PyContextManager&& other) noexcept
-	{
-		m_moved = true;
-	}
-
-	~PyContextManager();
-
-
-private:
-
-	bool m_moved = false;
-};
-
 class PyObject
 {
 

@@ -32,7 +32,7 @@ namespace Marvel {
 		mvImGuiThemeScope scope(this);
 
 		// create menuitem and see if its selected
-		if (ImGui::MenuItem(m_label.c_str(), m_shortcut.c_str(), m_check ? m_value : nullptr, m_enabled))
+		if (ImGui::MenuItem(m_label.c_str(), m_shortcut.c_str(), m_check ? m_value : nullptr, m_core_config.enabled))
 		{
 
 			// set other menuitems's value false on same level
@@ -45,7 +45,7 @@ namespace Marvel {
 
 			*m_value = true;
 
-			mvApp::GetApp()->getCallbackRegistry().addCallback(m_callback, m_name, m_callbackData);
+			mvApp::GetApp()->getCallbackRegistry().addCallback(m_core_config.callback, m_core_config.name, m_core_config.callback_data);
 
 		}
 

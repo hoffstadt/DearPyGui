@@ -79,16 +79,16 @@ namespace Marvel {
 		ScopedID id;
 		mvImGuiThemeScope scope(this);
 
-		ImGui::Columns(m_columns, m_name.c_str(), m_border);
+		ImGui::Columns(m_columns, m_core_config.name.c_str(), m_border);
 		for (auto& item : m_children)
 		{
 			// skip item if it's not shown
-			if (!item->m_show)
+			if (!item->m_core_config.show)
 				continue;
 
 			// set item width
-			if (item->m_width != 0)
-				ImGui::SetNextItemWidth((float)item->m_width);
+			if (item->m_core_config.width != 0)
+				ImGui::SetNextItemWidth((float)item->m_core_config.width);
 
 			item->draw();
 
@@ -159,7 +159,7 @@ namespace Marvel {
 	void mvColumn::draw()
 	{
 		ScopedID id;
-		ImGui::Columns(m_columns, m_name.c_str(), m_border);
+		ImGui::Columns(m_columns, m_core_config.name.c_str(), m_border);
 	}
 
 	void mvColumn::setExtraConfigDict(PyObject* dict)

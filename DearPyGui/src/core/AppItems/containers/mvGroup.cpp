@@ -31,23 +31,23 @@ namespace Marvel {
 		auto styleManager = m_styleManager.getScopedStyleManager();
 		mvImGuiThemeScope scope(this);
 
-		if (m_width != 0)
-			ImGui::PushItemWidth((float)m_width);
+		if (m_core_config.width != 0)
+			ImGui::PushItemWidth((float)m_core_config.width);
 
 		ImGui::BeginGroup();
 
 		for (auto& item : m_children)
 		{
-			if (m_width != 0)
-				item->setWidth(m_width);
+			if (m_core_config.width != 0)
+				item->setWidth(m_core_config.width);
 
 			// skip item if it's not shown
-			if (!item->m_show)
+			if (!item->m_core_config.show)
 				continue;
 
 			// set item width
-			if (item->m_width != 0)
-				ImGui::SetNextItemWidth((float)item->m_width);
+			if (item->m_core_config.width != 0)
+				ImGui::SetNextItemWidth((float)item->m_core_config.width);
 
 			item->draw();
 
@@ -57,7 +57,7 @@ namespace Marvel {
 			item->getState().update();
 		}
 
-		if (m_width != 0)
+		if (m_core_config.width != 0)
 			ImGui::PopItemWidth();
 
 		ImGui::EndGroup();

@@ -29,7 +29,7 @@ namespace Marvel {
             m_flags &= ~ImGuiInputTextFlags_EnterReturnsTrue;
         }
 
-        m_enabled = value;
+        m_core_config.enabled = value;
     }
 
     void mvInputInt::draw()
@@ -38,7 +38,7 @@ namespace Marvel {
         ScopedID id;
         mvImGuiThemeScope scope(this);
 
-        if (!m_enabled)
+        if (!m_core_config.enabled)
         {
             ImVec4 disabled_color = ImVec4(ImGui::GetStyleColorVec4(ImGuiCol_TextDisabled));
             disabled_color.w = 0.392f;
@@ -57,20 +57,20 @@ namespace Marvel {
             {
                 if (m_value[0] < m_min) m_value[0] = m_min;
                 else if (m_value[0] > m_max) m_value[0] = m_max;
-                else mvApp::GetApp()->getCallbackRegistry().addCallback(m_callback, m_name, m_callbackData);
+                else mvApp::GetApp()->getCallbackRegistry().addCallback(m_core_config.callback, m_core_config.name, m_core_config.callback_data);
             }
             else if (m_min_clamped)
             {
                 if (m_value[0] < m_min) m_value[0] = m_min;
-                else mvApp::GetApp()->getCallbackRegistry().addCallback(m_callback, m_name, m_callbackData);
+                else mvApp::GetApp()->getCallbackRegistry().addCallback(m_core_config.callback, m_core_config.name, m_core_config.callback_data);
             }
             else if (m_max_clamped)
             {
                 if (m_value[0] > m_max) m_value[0] = m_max;
-                else mvApp::GetApp()->getCallbackRegistry().addCallback(m_callback, m_name, m_callbackData);
+                else mvApp::GetApp()->getCallbackRegistry().addCallback(m_core_config.callback, m_core_config.name, m_core_config.callback_data);
             }
             else
-                mvApp::GetApp()->getCallbackRegistry().addCallback(m_callback, m_name, m_callbackData);
+                mvApp::GetApp()->getCallbackRegistry().addCallback(m_core_config.callback, m_core_config.name, m_core_config.callback_data);
         }
 
     }
@@ -127,7 +127,7 @@ namespace Marvel {
             m_flags &= ~ImGuiInputTextFlags_EnterReturnsTrue;
         }
 
-        m_enabled = value;
+        m_core_config.enabled = value;
     }
 
     void mvInputInt2::draw()
@@ -136,7 +136,7 @@ namespace Marvel {
         ScopedID id;
         mvImGuiThemeScope scope(this);
 
-        if (!m_enabled)
+        if (!m_core_config.enabled)
         {
             ImVec4 disabled_color = ImVec4(ImGui::GetStyleColorVec4(ImGuiCol_TextDisabled));
             disabled_color.w = 0.392f;
@@ -157,7 +157,7 @@ namespace Marvel {
                 {
                     if (m_value[i] < m_min) m_value[i] = m_min;
                     else if (m_value[i] > m_max) m_value[i] = m_max;
-                    else mvApp::GetApp()->getCallbackRegistry().addCallback(m_callback, m_name, m_callbackData);
+                    else mvApp::GetApp()->getCallbackRegistry().addCallback(m_core_config.callback, m_core_config.name, m_core_config.callback_data);
                 }
             }
             else if (m_min_clamped)
@@ -165,7 +165,7 @@ namespace Marvel {
                 for (int i = 0 ; i < 2 ; i++)
                 {
                     if (m_value[i] < m_min) m_value[i] = m_min;
-                    else mvApp::GetApp()->getCallbackRegistry().addCallback(m_callback, m_name, m_callbackData);
+                    else mvApp::GetApp()->getCallbackRegistry().addCallback(m_core_config.callback, m_core_config.name, m_core_config.callback_data);
                 }
             }
             else if (m_max_clamped)
@@ -173,11 +173,11 @@ namespace Marvel {
                 for (int i = 0; i < 2; i++)
                 {
                     if (m_value[i] > m_max) m_value[i] = m_max;
-                    else mvApp::GetApp()->getCallbackRegistry().addCallback(m_callback, m_name, m_callbackData);
+                    else mvApp::GetApp()->getCallbackRegistry().addCallback(m_core_config.callback, m_core_config.name, m_core_config.callback_data);
                 }
             }
             else
-                mvApp::GetApp()->getCallbackRegistry().addCallback(m_callback, m_name, m_callbackData);
+                mvApp::GetApp()->getCallbackRegistry().addCallback(m_core_config.callback, m_core_config.name, m_core_config.callback_data);
         }
     }
 
@@ -229,7 +229,7 @@ namespace Marvel {
             m_flags &= ~ImGuiInputTextFlags_EnterReturnsTrue;
         }
 
-        m_enabled = value;
+        m_core_config.enabled = value;
     }
 
     void mvInputInt3::draw()
@@ -238,7 +238,7 @@ namespace Marvel {
         ScopedID id;
         mvImGuiThemeScope scope(this);
 
-        if (!m_enabled)
+        if (!m_core_config.enabled)
         {
             ImVec4 disabled_color = ImVec4(ImGui::GetStyleColorVec4(ImGuiCol_TextDisabled));
             disabled_color.w = 0.392f;
@@ -259,7 +259,7 @@ namespace Marvel {
                 {
                     if (m_value[i] < m_min) m_value[i] = m_min;
                     else if (m_value[i] > m_max) m_value[i] = m_max;
-                    else mvApp::GetApp()->getCallbackRegistry().addCallback(m_callback, m_name, m_callbackData);
+                    else mvApp::GetApp()->getCallbackRegistry().addCallback(m_core_config.callback, m_core_config.name, m_core_config.callback_data);
                 }
             }
             else if (m_min_clamped)
@@ -267,7 +267,7 @@ namespace Marvel {
                 for (int i = 0; i < 3; i++)
                 {
                     if (m_value[i] < m_min) m_value[i] = m_min;
-                    else mvApp::GetApp()->getCallbackRegistry().addCallback(m_callback, m_name, m_callbackData);
+                    else mvApp::GetApp()->getCallbackRegistry().addCallback(m_core_config.callback, m_core_config.name, m_core_config.callback_data);
                 }
             }
             else if (m_max_clamped)
@@ -275,11 +275,11 @@ namespace Marvel {
                 for (int i = 0; i < 3; i++)
                 {
                     if (m_value[i] > m_max) m_value[i] = m_max;
-                    else mvApp::GetApp()->getCallbackRegistry().addCallback(m_callback, m_name, m_callbackData);
+                    else mvApp::GetApp()->getCallbackRegistry().addCallback(m_core_config.callback, m_core_config.name, m_core_config.callback_data);
                 }
             }
             else
-                mvApp::GetApp()->getCallbackRegistry().addCallback(m_callback, m_name, m_callbackData);
+                mvApp::GetApp()->getCallbackRegistry().addCallback(m_core_config.callback, m_core_config.name, m_core_config.callback_data);
         }
     }
 
@@ -330,7 +330,7 @@ namespace Marvel {
             m_flags &= ~ImGuiInputTextFlags_EnterReturnsTrue;
         }
 
-        m_enabled = value;
+        m_core_config.enabled = value;
     }
 
     void mvInputInt4::draw()
@@ -339,7 +339,7 @@ namespace Marvel {
         ScopedID id;
         mvImGuiThemeScope scope(this);
 
-        if (!m_enabled)
+        if (!m_core_config.enabled)
         {
             ImVec4 disabled_color = ImVec4(ImGui::GetStyleColorVec4(ImGuiCol_TextDisabled));
             disabled_color.w = 0.392f;
@@ -360,7 +360,7 @@ namespace Marvel {
                 {
                     if (m_value[i] < m_min) m_value[i] = m_min;
                     else if (m_value[i] > m_max) m_value[i] = m_max;
-                    else mvApp::GetApp()->getCallbackRegistry().addCallback(m_callback, m_name, m_callbackData);
+                    else mvApp::GetApp()->getCallbackRegistry().addCallback(m_core_config.callback, m_core_config.name, m_core_config.callback_data);
                 }
             }
             else if (m_min_clamped)
@@ -368,7 +368,7 @@ namespace Marvel {
                 for (int i = 0; i < 4; i++)
                 {
                     if (m_value[i] < m_min) m_value[i] = m_min;
-                    else mvApp::GetApp()->getCallbackRegistry().addCallback(m_callback, m_name, m_callbackData);
+                    else mvApp::GetApp()->getCallbackRegistry().addCallback(m_core_config.callback, m_core_config.name, m_core_config.callback_data);
                 }
             }
             else if (m_max_clamped)
@@ -376,11 +376,11 @@ namespace Marvel {
                 for (int i = 0; i < 4; i++)
                 {
                     if (m_value[i] > m_max) m_value[i] = m_max;
-                    else mvApp::GetApp()->getCallbackRegistry().addCallback(m_callback, m_name, m_callbackData);
+                    else mvApp::GetApp()->getCallbackRegistry().addCallback(m_core_config.callback, m_core_config.name, m_core_config.callback_data);
                 }
             }
             else
-                mvApp::GetApp()->getCallbackRegistry().addCallback(m_callback, m_name, m_callbackData);
+                mvApp::GetApp()->getCallbackRegistry().addCallback(m_core_config.callback, m_core_config.name, m_core_config.callback_data);
         }
     }
 
@@ -431,7 +431,7 @@ namespace Marvel {
             m_flags &= ~ImGuiInputTextFlags_EnterReturnsTrue;
         }
 
-        m_enabled = value;
+        m_core_config.enabled = value;
     }
 
     void mvInputFloat::draw()
@@ -440,7 +440,7 @@ namespace Marvel {
         ScopedID id;
         mvImGuiThemeScope scope(this);
 
-        if (!m_enabled)
+        if (!m_core_config.enabled)
         {
             ImVec4 disabled_color = ImVec4(ImGui::GetStyleColorVec4(ImGuiCol_TextDisabled));
             disabled_color.w = 0.392f;
@@ -459,20 +459,20 @@ namespace Marvel {
             {
                 if (m_value[0] < m_min) m_value[0] = m_min;
                 else if (m_value[0] > m_max) m_value[0] = m_max;
-                else mvApp::GetApp()->getCallbackRegistry().addCallback(m_callback, m_name, m_callbackData);
+                else mvApp::GetApp()->getCallbackRegistry().addCallback(m_core_config.callback, m_core_config.name, m_core_config.callback_data);
             }
             else if (m_min_clamped)
             {
                 if (m_value[0] < m_min) m_value[0] = m_min;
-                else mvApp::GetApp()->getCallbackRegistry().addCallback(m_callback, m_name, m_callbackData);
+                else mvApp::GetApp()->getCallbackRegistry().addCallback(m_core_config.callback, m_core_config.name, m_core_config.callback_data);
             }
             else if (m_max_clamped)
             {
                 if (m_value[0] > m_max) m_value[0] = m_max;
-                else mvApp::GetApp()->getCallbackRegistry().addCallback(m_callback, m_name, m_callbackData);
+                else mvApp::GetApp()->getCallbackRegistry().addCallback(m_core_config.callback, m_core_config.name, m_core_config.callback_data);
             }
             else
-                mvApp::GetApp()->getCallbackRegistry().addCallback(m_callback, m_name, m_callbackData);
+                mvApp::GetApp()->getCallbackRegistry().addCallback(m_core_config.callback, m_core_config.name, m_core_config.callback_data);
         }
     }
 
@@ -547,7 +547,7 @@ namespace Marvel {
             m_flags &= ~ImGuiInputTextFlags_EnterReturnsTrue;
         }
 
-        m_enabled = value;
+        m_core_config.enabled = value;
     }
 
     void mvInputFloat2::draw()
@@ -556,7 +556,7 @@ namespace Marvel {
         ScopedID id;
         mvImGuiThemeScope scope(this);
 
-        if (!m_enabled)
+        if (!m_core_config.enabled)
         {
             ImVec4 disabled_color = ImVec4(ImGui::GetStyleColorVec4(ImGuiCol_TextDisabled));
             disabled_color.w = 0.392f;
@@ -577,7 +577,7 @@ namespace Marvel {
                 {
                     if (m_value[i] < m_min) m_value[i] = m_min;
                     else if (m_value[i] > m_max) m_value[i] = m_max;
-                    else mvApp::GetApp()->getCallbackRegistry().addCallback(m_callback, m_name, m_callbackData);
+                    else mvApp::GetApp()->getCallbackRegistry().addCallback(m_core_config.callback, m_core_config.name, m_core_config.callback_data);
                 }
             }
             else if (m_min_clamped)
@@ -585,7 +585,7 @@ namespace Marvel {
                 for (int i = 0; i < 2; i++)
                 {
                     if (m_value[i] < m_min) m_value[i] = m_min;
-                    else mvApp::GetApp()->getCallbackRegistry().addCallback(m_callback, m_name, m_callbackData);
+                    else mvApp::GetApp()->getCallbackRegistry().addCallback(m_core_config.callback, m_core_config.name, m_core_config.callback_data);
                 }
             }
             else if (m_max_clamped)
@@ -593,11 +593,11 @@ namespace Marvel {
                 for (int i = 0; i < 2; i++)
                 {
                     if (m_value[i] > m_max) m_value[i] = m_max;
-                    else mvApp::GetApp()->getCallbackRegistry().addCallback(m_callback, m_name, m_callbackData);
+                    else mvApp::GetApp()->getCallbackRegistry().addCallback(m_core_config.callback, m_core_config.name, m_core_config.callback_data);
                 }
             }
             else
-                mvApp::GetApp()->getCallbackRegistry().addCallback(m_callback, m_name, m_callbackData);
+                mvApp::GetApp()->getCallbackRegistry().addCallback(m_core_config.callback, m_core_config.name, m_core_config.callback_data);
         }
     }
 
@@ -668,7 +668,7 @@ namespace Marvel {
             m_flags &= ~ImGuiInputTextFlags_EnterReturnsTrue;
         }
 
-        m_enabled = value;
+        m_core_config.enabled = value;
     }
 
     void mvInputFloat3::draw()
@@ -677,7 +677,7 @@ namespace Marvel {
         ScopedID id;
         mvImGuiThemeScope scope(this);
 
-        if (!m_enabled)
+        if (!m_core_config.enabled)
         {
             ImVec4 disabled_color = ImVec4(ImGui::GetStyleColorVec4(ImGuiCol_TextDisabled));
             disabled_color.w = 0.392f;
@@ -698,7 +698,7 @@ namespace Marvel {
                 {
                     if (m_value[i] < m_min) m_value[i] = m_min;
                     else if (m_value[i] > m_max) m_value[i] = m_max;
-                    else mvApp::GetApp()->getCallbackRegistry().addCallback(m_callback, m_name, m_callbackData);
+                    else mvApp::GetApp()->getCallbackRegistry().addCallback(m_core_config.callback, m_core_config.name, m_core_config.callback_data);
                 }
             }
             else if (m_min_clamped)
@@ -706,7 +706,7 @@ namespace Marvel {
                 for (int i = 0; i < 3; i++)
                 {
                     if (m_value[i] < m_min) m_value[i] = m_min;
-                    else mvApp::GetApp()->getCallbackRegistry().addCallback(m_callback, m_name, m_callbackData);
+                    else mvApp::GetApp()->getCallbackRegistry().addCallback(m_core_config.callback, m_core_config.name, m_core_config.callback_data);
                 }
             }
             else if (m_max_clamped)
@@ -714,11 +714,11 @@ namespace Marvel {
                 for (int i = 0; i < 3; i++)
                 {
                     if (m_value[i] > m_max) m_value[i] = m_max;
-                    else mvApp::GetApp()->getCallbackRegistry().addCallback(m_callback, m_name, m_callbackData);
+                    else mvApp::GetApp()->getCallbackRegistry().addCallback(m_core_config.callback, m_core_config.name, m_core_config.callback_data);
                 }
             }
             else
-                mvApp::GetApp()->getCallbackRegistry().addCallback(m_callback, m_name, m_callbackData);
+                mvApp::GetApp()->getCallbackRegistry().addCallback(m_core_config.callback, m_core_config.name, m_core_config.callback_data);
         }
     }
 
@@ -789,7 +789,7 @@ namespace Marvel {
             m_flags &= ~ImGuiInputTextFlags_EnterReturnsTrue;
         }
 
-        m_enabled = value;
+        m_core_config.enabled = value;
     }
 
     void mvInputFloat4::draw()
@@ -798,7 +798,7 @@ namespace Marvel {
         ScopedID id;
         mvImGuiThemeScope scope(this);
 
-        if (!m_enabled)
+        if (!m_core_config.enabled)
         {
             ImVec4 disabled_color = ImVec4(ImGui::GetStyleColorVec4(ImGuiCol_TextDisabled));
             disabled_color.w = 0.392f;
@@ -819,7 +819,7 @@ namespace Marvel {
                 {
                     if (m_value[i] < m_min) m_value[i] = m_min;
                     else if (m_value[i] > m_max) m_value[i] = m_max;
-                    else mvApp::GetApp()->getCallbackRegistry().addCallback(m_callback, m_name, m_callbackData);
+                    else mvApp::GetApp()->getCallbackRegistry().addCallback(m_core_config.callback, m_core_config.name, m_core_config.callback_data);
                 }
             }
             else if (m_min_clamped)
@@ -827,7 +827,7 @@ namespace Marvel {
                 for (int i = 0; i < 4; i++)
                 {
                     if (m_value[i] < m_min) m_value[i] = m_min;
-                    else mvApp::GetApp()->getCallbackRegistry().addCallback(m_callback, m_name, m_callbackData);
+                    else mvApp::GetApp()->getCallbackRegistry().addCallback(m_core_config.callback, m_core_config.name, m_core_config.callback_data);
                 }
             }
             else if (m_max_clamped)
@@ -835,11 +835,11 @@ namespace Marvel {
                 for (int i = 0; i < 4; i++)
                 {
                     if (m_value[i] > m_max) m_value[i] = m_max;
-                    else mvApp::GetApp()->getCallbackRegistry().addCallback(m_callback, m_name, m_callbackData);
+                    else mvApp::GetApp()->getCallbackRegistry().addCallback(m_core_config.callback, m_core_config.name, m_core_config.callback_data);
                 }
             }
             else
-                mvApp::GetApp()->getCallbackRegistry().addCallback(m_callback, m_name, m_callbackData);
+                mvApp::GetApp()->getCallbackRegistry().addCallback(m_core_config.callback, m_core_config.name, m_core_config.callback_data);
         }
     }
 

@@ -53,7 +53,7 @@ namespace Marvel {
 			m_flags &= ~ImGuiInputTextFlags_EnterReturnsTrue;
 		}
 
-		m_enabled = value;
+		m_core_config.enabled = value;
 	}
 
 	void mvInputText::draw()
@@ -62,7 +62,7 @@ namespace Marvel {
 		ScopedID id;
 		mvImGuiThemeScope scope(this);
 
-		if (!m_enabled)
+		if (!m_core_config.enabled)
 		{
 			ImVec4 disabled_color = ImVec4(ImGui::GetStyleColorVec4(ImGuiCol_TextDisabled));
 			disabled_color.w = 0.392f;
@@ -79,20 +79,20 @@ namespace Marvel {
 		{
 			if (m_multiline)
 			{
-				if (ImGui::InputTextMultiline(m_label.c_str(), m_value, ImVec2((float)m_width, (float)m_height), m_flags))
-					mvApp::GetApp()->getCallbackRegistry().addCallback(m_callback, m_name, m_callbackData);
+				if (ImGui::InputTextMultiline(m_label.c_str(), m_value, ImVec2((float)m_core_config.width, (float)m_core_config.height), m_flags))
+					mvApp::GetApp()->getCallbackRegistry().addCallback(m_core_config.callback, m_core_config.name, m_core_config.callback_data);
 			}
 			else
 			{
 				if (ImGui::InputText(m_label.c_str(), m_value, m_flags))
-					mvApp::GetApp()->getCallbackRegistry().addCallback(m_callback, m_name, m_callbackData);
+					mvApp::GetApp()->getCallbackRegistry().addCallback(m_core_config.callback, m_core_config.name, m_core_config.callback_data);
 			}
 		}
 
 		else
 		{
 			if (ImGui::InputTextWithHint(m_label.c_str(), m_hint.c_str(), m_value, m_flags))
-				mvApp::GetApp()->getCallbackRegistry().addCallback(m_callback, m_name, m_callbackData);
+				mvApp::GetApp()->getCallbackRegistry().addCallback(m_core_config.callback, m_core_config.name, m_core_config.callback_data);
 		}
 
 	}
