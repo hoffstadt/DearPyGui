@@ -4,7 +4,16 @@
 
 namespace Marvel {
 
+	struct mvButtonConfig : public mvAppItemConfig
+	{
+		ImGuiDir direction = ImGuiDir_Up;
+		bool small_button = false;
+		bool arrow = false;
+
+	};
+
 	PyObject* add_button(PyObject* self, PyObject* args, PyObject* kwargs);
+	void mv_add_button(const char* name, const mvButtonConfig& config = {});
 
 	class mvButton : public mvAppItem
 	{
@@ -18,18 +27,22 @@ namespace Marvel {
 		MV_APPITEM_TYPE(mvAppItemType::Button, "add_button")
 
 		mvButton(const std::string& name);
+		mvButton(const std::string& name, const mvButtonConfig& config);
 
 		void draw              ()               override;
+
+#ifndef MV_CPP
 		void setExtraConfigDict(PyObject* dict) override;
 		void getExtraConfigDict(PyObject* dict) override;
+#endif // !MV_CPP
 
-
+		// cpp interface
+		void updateConfig(mvAppItemConfig* config) override;
+		mvAppItemConfig* getConfig() override;
 
 	private:
 
-		bool     m_small = false;
-		bool     m_arrow = false;
-		ImGuiDir m_direction = ImGuiDir_Up;
+		mvButtonConfig m_config;
 
 	};
 

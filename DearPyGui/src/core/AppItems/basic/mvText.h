@@ -32,8 +32,11 @@ namespace Marvel {
 		mvText(const std::string& name, const std::string& default_value, const std::string& dataSource);
 
 		void draw              () override;
+
+#ifndef MV_CPP
 		void setExtraConfigDict(PyObject* dict) override;
 		void getExtraConfigDict(PyObject* dict) override;
+#endif // !MV_CPP
 
 	private:
 
@@ -60,8 +63,11 @@ namespace Marvel {
 		mvLabelText(const std::string& name, const std::string& value, const std::string& dataSource);
 
 		void draw              ()               override;
+
+#ifndef MV_CPP
 		void setExtraConfigDict(PyObject* dict) override;
 		void getExtraConfigDict(PyObject* dict) override;
+#endif // !MV_CPP
 
 	private:
 

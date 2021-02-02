@@ -55,8 +55,8 @@ namespace Marvel {
 	mvDocWindow::mvDocWindow(const std::string& name)
 		: mvBaseWindowAppitem(name)
 	{
-		m_width = 700;
-		m_height = 500;
+		m_core_config.width = 700;
+		m_core_config.height = 500;
 		m_description.deleteAllowed = false;
 		setup();
 	}
@@ -697,6 +697,8 @@ namespace Marvel {
 		ImGui::End();
 	}
 
+#ifndef MV_CPP
+
 	PyObject* add_doc_window(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		const char* name;
@@ -741,4 +743,5 @@ namespace Marvel {
 		return GetPyNone();
 	}
 
+#endif
 }

@@ -20,8 +20,8 @@ namespace Marvel {
 		mvDebugWindow(const std::string& name)
 			: mvBaseWindowAppitem(name)
 		{
-			m_width = 700;
-			m_height = 500;
+			m_core_config.width = 700;
+			m_core_config.height = 500;
 			m_description.deleteAllowed = false;
 			m_commands = GetAllCommands();
 		}

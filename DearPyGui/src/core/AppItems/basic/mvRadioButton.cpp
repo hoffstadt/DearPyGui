@@ -37,7 +37,7 @@ namespace Marvel {
 		ScopedID id;
 		mvImGuiThemeScope scope(this);
 
-		if (!m_enabled)
+		if (!m_core_config.enabled)
 		{
 			ImVec4 disabled_color = ImVec4(ImGui::GetStyleColorVec4(ImGuiCol_TextDisabled));
 			disabled_color.w = 0.392f;
@@ -53,12 +53,14 @@ namespace Marvel {
 			if (m_horizontal && i != 0)
 				ImGui::SameLine();
 
-			if (ImGui::RadioButton((m_itemnames[i] + "##" + m_name).c_str(), m_enabled ? m_value : &m_disabled_value, (int)i))
-				mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), m_name, m_callbackData);
+			if (ImGui::RadioButton((m_itemnames[i] + "##" + m_core_config.name).c_str(), m_core_config.enabled ? m_value : &m_disabled_value, (int)i))
+				mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), m_core_config.name, m_core_config.callback_data);
 		}
 
 		ImGui::EndGroup();
 	}
+
+#ifndef MV_CPP
 
 	void mvRadioButton::setExtraConfigDict(PyObject* dict)
 	{
@@ -113,4 +115,5 @@ namespace Marvel {
 		return GetPyNone();
 	}
 
+#endif
 }

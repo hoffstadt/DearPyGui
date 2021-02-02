@@ -23,7 +23,7 @@ namespace Marvel {
 	mvTable::mvTable(const std::string& name, const std::vector<std::string>& headers)
 		: mvAppItem(name)
 	{
-		m_height = 200;
+		m_core_config.height = 200;
 		m_headers = headers;
 		m_columns = headers.size();
 	}
@@ -54,45 +54,11 @@ namespace Marvel {
 		for (size_t i = 0; i < m_hashValues.size(); i++)
 		{
 			for (size_t j = 0; j < m_hashValues[i].size(); j++)
-				m_hashValues[i][j] = m_hashValues[i][j] + "##" + m_name + "-" + std::to_string(i) + "-" + std::to_string(j);
+				m_hashValues[i][j] = m_hashValues[i][j] + "##" + m_core_config.name + "-" + std::to_string(i) + "-" + std::to_string(j);
 
 			for (size_t j = m_hashValues[i].size(); j < m_columns; j++)
-				m_hashValues[i].push_back("##" + m_name + "-" + std::to_string(i) + "-" + std::to_string(j));
+				m_hashValues[i].push_back("##" + m_core_config.name + "-" + std::to_string(i) + "-" + std::to_string(j));
 		}
-	}
-
-	PyObject* add_table(PyObject* self, PyObject* args, PyObject* kwargs)
-	{
-		const char* name;
-		PyObject* headers;
-		PyObject* callback = nullptr;
-		PyObject* callback_data = nullptr;
-		const char* parent = "";
-		const char* before = "";
-		int width = 0;
-		int height = 0;
-		int show = true;
-
-		if (!(*mvApp::GetApp()->getParsers())["add_table"].parse(args, kwargs, __FUNCTION__,
-			&name, &headers, &callback, &callback_data, &parent,
-			&before, &width, &height, &show))
-			return ToPyBool(false);
-
-		auto item = CreateRef<mvTable>(name, ToStringVect(headers));
-		if (callback)
-			Py_XINCREF(callback);
-		item->setCallback(callback);
-		if (callback_data)
-			Py_XINCREF(callback_data);
-		item->setCallbackData(callback_data);
-
-		item->checkConfigDict(kwargs);
-		item->setConfigDict(kwargs);
-		item->setExtraConfigDict(kwargs);
-
-		mvApp::GetApp()->getItemRegistry().addItemWithRuntimeChecks(item, parent, before);
-
-		return GetPyNone();
 	}
 
 	void mvTable::setTableItem(int row, int column, const std::string& value)
@@ -101,7 +67,7 @@ namespace Marvel {
 			return;
 
 		m_values[row][column] = value;
-		m_hashValues[row][column] = value + "##" + m_name + "-" + std::to_string(row) + "-" + std::to_string(column);
+		m_hashValues[row][column] = value + "##" + m_core_config.name + "-" + std::to_string(row) + "-" + std::to_string(column);
 
 	}
 
@@ -123,7 +89,7 @@ namespace Marvel {
 
 	void mvTable::setPyValue(PyObject* value)
 	{
-		auto values = ToVectVectString(value, m_name + " requires a list/tuple or list/tuple of strings.");
+		auto values = ToVectVectString(value, m_core_config.name + " requires a list/tuple or list/tuple of strings.");
 
 		m_values = std::move(values);
 
@@ -536,7 +502,7 @@ namespace Marvel {
 		auto styleManager = m_styleManager.getScopedStyleManager();
 		mvImGuiThemeScope scope(this);
 
-		ImGui::BeginChild(m_name.c_str(), ImVec2((float)m_width, (float)m_height));
+		ImGui::BeginChild(m_core_config.name.c_str(), ImVec2((float)m_core_config.width, (float)m_core_config.height));
 		ImGui::Separator();
 		if(m_columns > 0)
 			ImGui::Columns((int)m_columns, nullptr, true);
@@ -570,7 +536,7 @@ namespace Marvel {
 				if (ImGui::Selectable(m_hashValues[i][j].c_str(), m_selections[{i, j}]))
 				{
 					m_selections[{i, j}] = !m_selections[{i, j}];
-					mvApp::GetApp()->getCallbackRegistry().addCallback(m_callback, m_name, m_callbackData);
+					mvApp::GetApp()->getCallbackRegistry().addCallback(m_core_config.callback, m_core_config.name, m_core_config.callback_data);
 				}
 				ImGui::NextColumn();
 				index++;
@@ -583,4 +549,41 @@ namespace Marvel {
 		ImGui::EndChild();
 	}
 
+#ifndef MV_CPP
+
+	PyObject* add_table(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		const char* name;
+		PyObject* headers;
+		PyObject* callback = nullptr;
+		PyObject* callback_data = nullptr;
+		const char* parent = "";
+		const char* before = "";
+		int width = 0;
+		int height = 0;
+		int show = true;
+
+		if (!(*mvApp::GetApp()->getParsers())["add_table"].parse(args, kwargs, __FUNCTION__,
+			&name, &headers, &callback, &callback_data, &parent,
+			&before, &width, &height, &show))
+			return ToPyBool(false);
+
+		auto item = CreateRef<mvTable>(name, ToStringVect(headers));
+		if (callback)
+			Py_XINCREF(callback);
+		item->setCallback(callback);
+		if (callback_data)
+			Py_XINCREF(callback_data);
+		item->setCallbackData(callback_data);
+
+		item->checkConfigDict(kwargs);
+		item->setConfigDict(kwargs);
+		item->setExtraConfigDict(kwargs);
+
+		mvApp::GetApp()->getItemRegistry().addItemWithRuntimeChecks(item, parent, before);
+
+		return GetPyNone();
+	}
+
+#endif // !MV_CPP
 }

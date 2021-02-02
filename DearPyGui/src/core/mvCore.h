@@ -31,6 +31,60 @@ namespace Marvel {
 	}
 
 	//-----------------------------------------------------------------------------
+	// mvFunctionWrapper
+	//     - Reguired because packaged_task reguires movable function objects
+	//-----------------------------------------------------------------------------
+	class mvFunctionWrapper
+	{
+		struct impl_base {
+			virtual void call() = 0;
+			virtual ~impl_base() = default;
+		};
+
+		template<typename F>
+		struct impl_type : impl_base
+		{
+			F f;
+			explicit impl_type(F&& f) : f(std::move(f)) {}
+			void call() override { f(); }
+		};
+
+	public:
+
+		mvFunctionWrapper() = default;
+
+		template<typename F>
+		mvFunctionWrapper(F&& f) : m_impl(new impl_type<F>(std::move(f))) {}
+
+		mvFunctionWrapper(mvFunctionWrapper&& other) noexcept
+			: m_impl(std::move(other.m_impl))
+		{
+
+		}
+
+		mvFunctionWrapper& operator=(mvFunctionWrapper&& other)
+		{
+			m_impl = std::move(other.m_impl);
+			return *this;
+		}
+
+		// delete copy constructor and assignment operator
+		mvFunctionWrapper(const mvFunctionWrapper&) = delete;
+		mvFunctionWrapper(mvFunctionWrapper&) = delete;
+		mvFunctionWrapper& operator=(const mvFunctionWrapper&) = delete;
+
+		void operator()()
+		{
+			m_impl->call();
+		}
+
+	private:
+
+		std::unique_ptr<impl_base> m_impl;
+
+	};
+
+	//-----------------------------------------------------------------------------
 	// mvVec2
 	//-----------------------------------------------------------------------------
 	struct mvVec2

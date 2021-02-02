@@ -32,7 +32,7 @@ namespace Marvel {
 		mvImGuiThemeScope scope(this);
 
 		// create menuitem and see if its selected
-		if (ImGui::MenuItem(m_label.c_str(), m_shortcut.c_str(), m_check ? m_value : nullptr, m_enabled))
+		if (ImGui::MenuItem(m_label.c_str(), m_shortcut.c_str(), m_check ? m_value : nullptr, m_core_config.enabled))
 		{
 
 			// set other menuitems's value false on same level
@@ -45,27 +45,29 @@ namespace Marvel {
 
 			*m_value = true;
 
-			mvApp::GetApp()->getCallbackRegistry().addCallback(m_callback, m_name, m_callbackData);
+			mvApp::GetApp()->getCallbackRegistry().addCallback(m_core_config.callback, m_core_config.name, m_core_config.callback_data);
 
 		}
 
 	}
 
+#ifndef MV_CPP
+
 	void mvMenuItem::setExtraConfigDict(PyObject* dict)
 	{
 		if (dict == nullptr)
 			return;
-		 
+
 		if (PyObject* item = PyDict_GetItemString(dict, "shortcut")) m_shortcut = ToString(item);
 		if (PyObject* item = PyDict_GetItemString(dict, "check")) m_check = ToBool(item);
 
-	}
+}
 
 	void mvMenuItem::getExtraConfigDict(PyObject* dict)
 	{
 		if (dict == nullptr)
 			return;
-		 
+
 		PyDict_SetItemString(dict, "shortcut", ToPyString(m_shortcut));
 		PyDict_SetItemString(dict, "check", ToPyBool(m_check));
 	}
@@ -102,4 +104,6 @@ namespace Marvel {
 
 		return GetPyNone();
 	}
+
+#endif // !MV_CPP
 }

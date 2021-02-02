@@ -99,7 +99,7 @@ namespace Marvel {
 			// reset other windows
 			for (auto window : m_itemRegistry->getFrontWindows())
 			{
-				if (window->m_name != primaryWindow)
+				if (window->m_core_config.name != primaryWindow)
                     dynamic_cast<mvWindowAppItem*>(window.get())->setWindowAsMainStatus(false);
 			}
 
@@ -108,18 +108,24 @@ namespace Marvel {
 			if (window)
 				window->setWindowAsMainStatus(true);
 			else
-				ThrowPythonException("Window does not exists.");
+                mvApp::GetApp()->getCallbackRegistry().submitCallback([=]()
+                    {
+                        ThrowPythonException("Window does not exists.", false);
+                    });
 		}
-
-        //std::thread t([&]() {m_callbackRegistry->runCallbacks(); });
-        //t.detach();
 
         m_future = std::async(std::launch::async, [&]() {return m_callbackRegistry->runCallbacks(); });
 
 		m_viewport->run();
 
         GetApp()->getCallbackRegistry().stop();
+#ifdef MV_CPP
+        GetApp()->getCallbackRegistry().addCallback([]() {}, "null", nullptr);
+#else
         GetApp()->getCallbackRegistry().addCallback(nullptr, "null", nullptr);
+#endif // !MV_CPP
+
+        
         m_future.get();
 		delete m_viewport;
 		s_started = false;

@@ -32,16 +32,16 @@ namespace Marvel {
 			"None", "Containers") });
 	}
 
-	mvWindowAppItem::mvWindowAppItem(const std::string& name, bool mainWindow, PyObject* closing_callback)
-		: mvAppItem(name), m_mainWindow(mainWindow), m_closing_callback(SanitizeCallback(closing_callback))
+	mvWindowAppItem::mvWindowAppItem(const std::string& name, bool mainWindow, mvCallable closing_callback)
+		: mvAppItem(name), m_mainWindow(mainWindow)
 	{
 		m_drawList = CreateRef<mvDrawList>();
-
+		m_config.on_close = SanitizeCallback(closing_callback);
 		m_description.root = true;
 		m_description.container = true;
 
-		m_width = 500;
-		m_height = 500;
+		m_core_config.width = 500;
+		m_core_config.height = 500;
 
 		m_oldWindowflags = ImGuiWindowFlags_NoSavedSettings;
 
@@ -50,6 +50,78 @@ namespace Marvel {
 			m_windowflags = ImGuiWindowFlags_NoBringToFrontOnFocus | ImGuiWindowFlags_NoSavedSettings
 				| ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoTitleBar;
 		}
+	}
+
+	mvWindowAppItem::mvWindowAppItem(const std::string& name, const mvWindowAppItemConfig& config)
+		:
+		mvAppItem(name), m_mainWindow(false), m_config(config)
+	{
+		m_drawList = CreateRef<mvDrawList>();
+
+		m_description.root = true;
+		m_description.container = true;
+
+		m_oldWindowflags = ImGuiWindowFlags_NoSavedSettings;
+
+		m_config.name = name;
+		updateConfig(&m_config);
+	}
+
+	mvWindowAppItem::~mvWindowAppItem()
+	{
+		mvCallable callback = m_config.on_close;
+		mvApp::GetApp()->getCallbackRegistry().submitCallback([callback]() {
+			if (callback)
+				Py_XDECREF(callback);
+			});
+
+	}
+
+	void mvWindowAppItem::updateConfig(mvAppItemConfig* config)
+	{
+		auto aconfig = (mvWindowAppItemConfig*)config;
+
+		m_core_config.width = config->width;
+		m_core_config.height = config->height;
+		m_core_config.label = config->label;
+		m_core_config.show = config->show;
+
+		m_config.on_close = SanitizeCallback(m_config.on_close);
+
+		setWindowPos(aconfig->xpos, aconfig->ypos);
+
+		// helper for bit flipping
+		auto flagop = [](bool toggle, int flag, int& flags)
+		{
+			toggle ? flags |= flag : flags &= ~flag;
+		};
+
+		// window flags
+		flagop(aconfig->autosize, ImGuiWindowFlags_AlwaysAutoResize, m_windowflags);
+		flagop(aconfig->no_move, ImGuiWindowFlags_NoMove, m_windowflags);
+		flagop(aconfig->no_resize, ImGuiWindowFlags_NoResize, m_windowflags);
+		flagop(aconfig->no_title_bar, ImGuiWindowFlags_NoTitleBar, m_windowflags);
+		flagop(aconfig->no_scrollbar, ImGuiWindowFlags_NoScrollbar, m_windowflags);
+		flagop(aconfig->no_collapse, ImGuiWindowFlags_NoCollapse, m_windowflags);
+		flagop(aconfig->horizontal_scrollbar, ImGuiWindowFlags_HorizontalScrollbar, m_windowflags);
+		flagop(aconfig->no_focus_on_appearing, ImGuiWindowFlags_NoFocusOnAppearing, m_windowflags);
+		flagop(aconfig->no_bring_to_front_on_focus, ImGuiWindowFlags_NoBringToFrontOnFocus, m_windowflags);
+		flagop(aconfig->menubar, ImGuiWindowFlags_MenuBar, m_windowflags);
+		flagop(aconfig->no_background, ImGuiWindowFlags_NoBackground, m_windowflags);
+
+		m_oldxpos = aconfig->xpos;
+		m_oldypos = aconfig->ypos;
+		m_oldWidth = m_core_config.width;
+		m_oldHeight = m_core_config.height;
+		m_oldWindowflags = m_windowflags;
+
+		if (config != &m_config)
+			m_config = *aconfig;
+	}
+
+	mvAppItemConfig* mvWindowAppItem::getConfig()
+	{
+		return &m_config;
 	}
 
 	void mvWindowAppItem::setWindowAsMainStatus(bool value)
@@ -63,10 +135,10 @@ namespace Marvel {
 
 			if (m_hasMenuBar)
 				m_windowflags |= ImGuiWindowFlags_MenuBar;
-			m_oldxpos = m_xpos;
-			m_oldypos = m_ypos;
-			m_oldWidth = m_width;
-			m_oldHeight = m_height;
+			m_oldxpos = m_config.xpos;
+			m_oldypos = m_config.ypos;
+			m_oldWidth = m_core_config.width;
+			m_oldHeight = m_core_config.height;
 		}
 		else
 		{
@@ -74,10 +146,10 @@ namespace Marvel {
 			m_windowflags = m_oldWindowflags;
 			if (m_hasMenuBar)
 				m_windowflags |= ImGuiWindowFlags_MenuBar;
-			m_xpos = m_oldxpos;
-			m_ypos = m_oldypos;
-			m_width = m_oldWidth;
-			m_height = m_oldHeight;
+			m_config.xpos = m_oldxpos;
+			m_config.ypos = m_oldypos;
+			m_core_config.width = m_oldWidth;
+			m_core_config.height = m_oldHeight;
 			m_dirty_pos = true;
 			m_dirty_size = true;
 		}
@@ -87,20 +159,20 @@ namespace Marvel {
 
 	void mvWindowAppItem::setWindowPos(float x, float y)
 	{
-		m_xpos = (int)x;
-		m_ypos = (int)y;
+		m_config.xpos = (int)x;
+		m_config.ypos = (int)y;
 		m_dirty_pos = true;
 	}
 
 	void mvWindowAppItem::setWidth(int width) 
 	{ 
-		m_width = width;
+		m_core_config.width = width;
 		m_dirty_size = true; 
 	}
 
 	void mvWindowAppItem::setHeight(int height) 
 	{ 
-		m_height = height; 
+		m_core_config.height = height;
 		m_dirty_size = true; 
 	}
 
@@ -113,10 +185,10 @@ namespace Marvel {
 
 	mvVec2 mvWindowAppItem::getWindowPos() const
 	{
-		return { (float)m_xpos, (float)m_ypos };
+		return { (float)m_config.xpos, (float)m_config.ypos };
 	}
 
-	void mvWindowAppItem::setResizeCallback(PyObject* callback)
+	void mvWindowAppItem::setResizeCallback(mvCallable callback)
 	{
 		m_resize_callback = callback;
 	}
@@ -124,7 +196,7 @@ namespace Marvel {
 	void mvWindowAppItem::draw()
 	{
 		// shouldn't have to do this but do. Fix later
-		if (!m_show)
+		if (!m_core_config.show)
 		{
 			m_state.setHovered(false);
 			m_state.setFocused(false);
@@ -133,7 +205,7 @@ namespace Marvel {
 			if (!m_closing)
 			{
 				m_closing = true;
-				mvApp::GetApp()->getCallbackRegistry().addCallback(m_closing_callback, m_name, nullptr);
+				mvApp::GetApp()->getCallbackRegistry().addCallback(m_config.on_close, m_core_config.name, nullptr);
 
 			}
 			return;
@@ -150,7 +222,7 @@ namespace Marvel {
 
 		else if (m_dirty_pos)
 		{
-			ImGui::SetNextWindowPos(ImVec2((float)m_xpos, (float)m_ypos));
+			ImGui::SetNextWindowPos(ImVec2((float)m_config.xpos, (float)m_config.ypos));
 			m_dirty_pos = false;
 		}
 
@@ -162,7 +234,7 @@ namespace Marvel {
 
 		if (m_dirty_size)
 		{
-			ImGui::SetNextWindowSize(ImVec2((float)m_width, (float)m_height));
+			ImGui::SetNextWindowSize(ImVec2((float)m_core_config.width, (float)m_core_config.height));
 			m_dirty_size = false;
 		}
 
@@ -171,7 +243,7 @@ namespace Marvel {
 		ScopedID id;
 		mvImGuiThemeScope scope(this);
 
-		if (!ImGui::Begin(m_label.c_str(), m_noclose ? nullptr : &m_show, m_windowflags))
+		if (!ImGui::Begin(m_label.c_str(), m_config.no_close ? nullptr : &m_core_config.show, m_windowflags))
 		{
 			if (m_mainWindow)
 				ImGui::PopStyleVar();
@@ -189,12 +261,12 @@ namespace Marvel {
 		for (auto& item : m_children)
 		{
 			// skip item if it's not shown
-			if (!item->m_show)
+			if (!item->m_core_config.show)
 				continue;
 
 			// set item width
-			if (item->m_width != 0)
-				ImGui::SetNextItemWidth((float)item->m_width);
+			if (item->m_core_config.width != 0)
+				ImGui::SetNextItemWidth((float)item->m_core_config.width);
 
 			item->draw();
 
@@ -208,15 +280,15 @@ namespace Marvel {
 		m_state.setRectSize({ ImGui::GetWindowSize().x, ImGui::GetWindowSize().y });
 		m_state.setActivated(ImGui::IsWindowCollapsed());
 
-		if (ImGui::GetWindowWidth() != (float)m_width || ImGui::GetWindowHeight() != (float)m_height)
+		if (ImGui::GetWindowWidth() != (float)m_core_config.width || ImGui::GetWindowHeight() != (float)m_core_config.height)
 		{
-			m_width = (int)ImGui::GetWindowWidth();
-			m_height = (int)ImGui::GetWindowHeight();
-			mvApp::GetApp()->getCallbackRegistry().addCallback(m_resize_callback, m_name, nullptr);
+			m_core_config.width = (int)ImGui::GetWindowWidth();
+			m_core_config.height = (int)ImGui::GetWindowHeight();
+			mvApp::GetApp()->getCallbackRegistry().addCallback(m_resize_callback, m_core_config.name, nullptr);
 		}
 
-		m_width = (int)ImGui::GetWindowWidth();
-		m_height = (int)ImGui::GetWindowHeight();
+		m_core_config.width = (int)ImGui::GetWindowWidth();
+		m_core_config.height = (int)ImGui::GetWindowHeight();
 
 		if (m_state.isItemFocused())
 		{
@@ -229,27 +301,45 @@ namespace Marvel {
 			float y = mousePos.y - ImGui::GetWindowPos().y - titleBarHeight;
 			mvInput::setMousePosition(x, y);
 
-			if (mvApp::GetApp()->getItemRegistry().getActiveWindow() != m_name)
-				mvEventBus::Publish(mvEVT_CATEGORY_ITEM, mvEVT_ACTIVE_WINDOW, { CreateEventArgument("WINDOW", m_name) });
+			if (mvApp::GetApp()->getItemRegistry().getActiveWindow() != m_core_config.name)
+				mvEventBus::Publish(mvEVT_CATEGORY_ITEM, mvEVT_ACTIVE_WINDOW, { CreateEventArgument("WINDOW", m_core_config.name) });
 
 		}
 
-		m_xpos = (int)ImGui::GetWindowPos().x;
-		m_ypos = (int)ImGui::GetWindowPos().y;
+		m_config.xpos = (int)ImGui::GetWindowPos().x;
+		m_config.ypos = (int)ImGui::GetWindowPos().y;
 
-		m_drawList->draw(ImGui::GetWindowDrawList(), m_xpos, m_ypos);
+		m_drawList->draw(ImGui::GetWindowDrawList(), m_config.xpos, m_config.ypos);
 
 		ImGui::End();
 	}
+
+	void mv_add_window(const char* name, const mvWindowAppItemConfig& config)
+	{
+
+		auto item = CreateRef<mvWindowAppItem>(name, config);
+
+
+		if (mvApp::GetApp()->getItemRegistry().addItemWithRuntimeChecks(item, "", ""))
+		{
+			mvApp::GetApp()->getItemRegistry().pushParent(item);
+			if (!config.show)
+				item->hide();
+
+		}
+
+	}
+
+#ifndef MV_CPP
 
 	void mvWindowAppItem::setExtraConfigDict(PyObject* dict)
 	{
 		if (dict == nullptr)
 			return;
 		 
-		if (PyObject* item = PyDict_GetItemString(dict, "x_pos")) setWindowPos((float)ToInt(item), (float)m_ypos);
-		if (PyObject* item = PyDict_GetItemString(dict, "y_pos")) setWindowPos((float)m_xpos, (float)ToInt(item));
-		if (PyObject* item = PyDict_GetItemString(dict, "no_close")) m_noclose = ToBool(item);
+		if (PyObject* item = PyDict_GetItemString(dict, "x_pos")) setWindowPos((float)ToInt(item), (float)m_config.ypos);
+		if (PyObject* item = PyDict_GetItemString(dict, "y_pos")) setWindowPos((float)m_config.xpos, (float)ToInt(item));
+		if (PyObject* item = PyDict_GetItemString(dict, "no_close")) m_config.no_close = ToBool(item);
 
 		// helper for bit flipping
 		auto flagop = [dict](const char* keyword, int flag, int& flags)
@@ -270,10 +360,10 @@ namespace Marvel {
 		flagop("menubar", ImGuiWindowFlags_MenuBar, m_windowflags);
 		flagop("no_background", ImGuiWindowFlags_NoBackground, m_windowflags);
 
-		m_oldxpos = m_xpos;
-		m_oldypos = m_ypos;
-		m_oldWidth = m_width;
-		m_oldHeight = m_height;
+		m_oldxpos = m_config.xpos;
+		m_oldypos = m_config.ypos;
+		m_oldWidth = m_core_config.width;
+		m_oldHeight = m_core_config.height;
 		m_oldWindowflags = m_windowflags;
 
 	}
@@ -283,8 +373,8 @@ namespace Marvel {
 		if (dict == nullptr)
 			return;
 		 
-		PyDict_SetItemString(dict, "x_pos", ToPyInt(m_xpos));
-		PyDict_SetItemString(dict, "y_pos", ToPyInt(m_ypos));
+		PyDict_SetItemString(dict, "x_pos", ToPyInt(m_config.xpos));
+		PyDict_SetItemString(dict, "y_pos", ToPyInt(m_config.ypos));
 		PyDict_SetItemString(dict, "no_close", ToPyBool(m_closing));
 
 		// helper to check and set bit
@@ -305,16 +395,6 @@ namespace Marvel {
 		checkbitset("no_bring_to_front_on_focus", ImGuiWindowFlags_NoBringToFrontOnFocus, m_windowflags);
 		checkbitset("menubar", ImGuiWindowFlags_MenuBar, m_windowflags);
 		checkbitset("no_background", ImGuiWindowFlags_NoBackground, m_windowflags);
-	}
-
-	mvWindowAppItem::~mvWindowAppItem()
-	{
-		PyObject* callback = m_closing_callback;
-		mvApp::GetApp()->getCallbackRegistry().submitCallback([callback]() {
-			if (callback)
-				Py_XDECREF(callback);
-			});
-
 	}
 
 	PyObject* add_window(PyObject* self, PyObject* args, PyObject* kwargs)
@@ -341,8 +421,6 @@ namespace Marvel {
 		int show = true;
 		PyObject* closing_callback = nullptr;
 
-		//ImGuiWindowFlags flags = ImGuiWindowFlags_NoSavedSettings;
-
 		if (!(*mvApp::GetApp()->getParsers())["add_window"].parse(args, kwargs, __FUNCTION__, &name, &width,
 			&height, &x_pos, &y_pos, &autosize, &no_resize, &no_title_bar, &no_move, &no_scrollbar,
 			&no_collapse, &horizontal_scrollbar, &no_focus_on_appearing, &no_bring_to_front_on_focus, &menubar,
@@ -368,5 +446,7 @@ namespace Marvel {
 
 		return GetPyNone();
 	}
+
+#endif
 
 }

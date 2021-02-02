@@ -69,10 +69,10 @@ namespace Marvel {
 		if (m_filter)
 		{
 			ImGui::NewLine();
-			Filter.Draw("Filter", m_width-100.0f);
+			Filter.Draw("Filter", m_core_config.width-100.0f);
 		}
 
-		ImGui::BeginChild(m_name.c_str(), ImVec2(m_autosize_x ? 0 : (float)m_width, m_autosize_y ? 0 : (float)m_height), true, ImGuiWindowFlags_AlwaysHorizontalScrollbar);
+		ImGui::BeginChild(m_core_config.name.c_str(), ImVec2(m_autosize_x ? 0 : (float)m_core_config.width, m_autosize_y ? 0 : (float)m_core_config.height), true, ImGuiWindowFlags_AlwaysHorizontalScrollbar);
 
 		ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, ImVec2(0, 0));
 		const char* buf = Buf.begin();
@@ -160,14 +160,14 @@ namespace Marvel {
 			float y = mousePos.y - ImGui::GetWindowPos().y - titleBarHeight;
 			mvInput::setMousePosition(x, y);
 
-			if (mvApp::GetApp()->getItemRegistry().getActiveWindow() != m_name)
-				mvEventBus::Publish(mvEVT_CATEGORY_ITEM, mvEVT_ACTIVE_WINDOW, { CreateEventArgument("WINDOW", m_name) });
+			if (mvApp::GetApp()->getItemRegistry().getActiveWindow() != m_core_config.name)
+				mvEventBus::Publish(mvEVT_CATEGORY_ITEM, mvEVT_ACTIVE_WINDOW, { CreateEventArgument("WINDOW", m_core_config.name) });
 
 
 		}
 
-		m_width = (int)ImGui::GetWindowWidth();
-		m_height = (int)ImGui::GetWindowHeight();
+		m_core_config.width = (int)ImGui::GetWindowWidth();
+		m_core_config.height = (int)ImGui::GetWindowHeight();
 
 		ImGui::EndChild();
 		ImGui::PopID();
@@ -235,6 +235,8 @@ namespace Marvel {
 		LineOffsets.push_back(0);
 	}
 
+#ifndef MV_CPP
+
 	void mvLoggerItem::setExtraConfigDict(PyObject* dict)
 	{
 		if (dict == nullptr)
@@ -300,4 +302,5 @@ namespace Marvel {
 		return GetPyNone();
 	}
 
+#endif
 }

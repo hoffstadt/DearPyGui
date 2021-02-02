@@ -41,12 +41,12 @@ namespace Marvel {
 			for (auto& item : m_children)
 			{
 				// skip item if it's not shown
-				if (!item->m_show)
+				if (!item->m_core_config.show)
 					continue;
 
 				// set item width
-				if (item->m_width != 0)
-					ImGui::SetNextItemWidth((float)item->m_width);
+				if (item->m_core_config.width != 0)
+					ImGui::SetNextItemWidth((float)item->m_core_config.width);
 
 				item->draw();
 
@@ -57,6 +57,8 @@ namespace Marvel {
 
 		ImGui::EndGroup();
 	}
+
+#ifndef MV_CPP
 
 	void mvTreeNode::setExtraConfigDict(PyObject* dict)
 	{
@@ -131,4 +133,6 @@ namespace Marvel {
 
 		return GetPyNone();
 	}
+
+#endif
 }
