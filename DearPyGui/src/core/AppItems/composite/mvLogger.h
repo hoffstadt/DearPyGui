@@ -43,8 +43,10 @@ namespace Marvel {
 		void LogError(const std::string& text);
 		void ClearLog();
 
+#ifndef MV_CPP
 		void setExtraConfigDict(PyObject* dict) override;
 		void getExtraConfigDict(PyObject* dict) override;
+#endif
 
 
 	private:

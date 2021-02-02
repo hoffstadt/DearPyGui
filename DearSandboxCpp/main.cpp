@@ -4,16 +4,17 @@
 
 using namespace Marvel;
 
+
 int main(int argc, char* argv[])
 {
 
 	mv_add_window("Test Window");
 
+		mvButtonConfig config;
+		config.callback = []() {std::cout << "Button Pressed" << std::endl; };
+		mv_add_button("Press me", config);
+	
 	mv_end();
-
-	mvWindowAppItemConfig config;
-	config.label = "Pizza";
-	mv_configure_item("Test Window", &config);
 
 	mv_start_dearpygui();
 		

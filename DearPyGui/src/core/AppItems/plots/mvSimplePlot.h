@@ -54,6 +54,8 @@ namespace Marvel{
 		}
 		[[nodiscard]] const std::vector<float>& getValue() const { return *m_value; }
 
+#ifndef MV_CPP
+
 		void setExtraConfigDict(PyObject* dict) override
 		{
 			if (dict == nullptr)
@@ -75,6 +77,8 @@ namespace Marvel{
 			PyDict_SetItemString(dict, "maxscale", ToPyFloat(m_max));
 			PyDict_SetItemString(dict, "histogram", ToPyBool(m_histogram));
 		}
+
+#endif
 
 	private:
 

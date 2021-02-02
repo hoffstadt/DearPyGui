@@ -238,21 +238,21 @@ namespace Marvel {
 		m_minY = (float)boundsMin.y;
 	}
 
-	mvPlot::mvPlot(const std::string& name, PyObject* queryCallback)
+	mvPlot::mvPlot(const std::string& name, mvCallable queryCallback)
 		: mvAppItem(name), m_queryCallback(queryCallback)
 	{
 		m_core_config.width = -1;
 		m_core_config.height = -1;
 	}
 
-	void mvPlot::addDragPoint(const std::string& name, bool show_label, const mvColor& color, float radius, PyObject* callback, const double* dummyValue, const std::string& source)
+	void mvPlot::addDragPoint(const std::string& name, bool show_label, const mvColor& color, float radius, mvCallable callback, const double* dummyValue, const std::string& source)
 	{
 		float* value = mvApp::GetApp()->getValueStorage().AddFloat2Value(source, { (float)dummyValue[0], (float)dummyValue[1] });
 
 		m_dragPoints.push_back({ name, value, show_label, color, radius, callback, value[0], value[1], source});
 	}
 
-	void mvPlot::updateDragPoint(const std::string& name, bool show_label, const mvColor& color, float radius, PyObject* callback, const double* dummyValue, const std::string& source)
+	void mvPlot::updateDragPoint(const std::string& name, bool show_label, const mvColor& color, float radius, mvCallable callback, const double* dummyValue, const std::string& source)
 	{
 		// check if drag point exist
 		bool exists = false;
@@ -281,14 +281,14 @@ namespace Marvel {
 			addDragPoint(name, show_label, color, radius, callback, dummyValue, source.empty() ? name : source);
 	}
 
-	void mvPlot::addDragLine(const std::string& name, bool show_label, const mvColor& color, float thickness, bool y_line, PyObject* callback, double dummyValue, const std::string& source)
+	void mvPlot::addDragLine(const std::string& name, bool show_label, const mvColor& color, float thickness, bool y_line, mvCallable callback, double dummyValue, const std::string& source)
 	{
 		float* value = mvApp::GetApp()->getValueStorage().AddFloatValue(source, (float)dummyValue);
 
 		m_dragLines.push_back({ name, value, show_label, color, thickness, y_line, callback, *value, source});
 	}
 
-	void mvPlot::updateDragLine(const std::string& name, bool show_label, const mvColor& color, float thickness, bool y_line, PyObject* callback, double dummyValue, const std::string& source)
+	void mvPlot::updateDragLine(const std::string& name, bool show_label, const mvColor& color, float thickness, bool y_line, mvCallable callback, double dummyValue, const std::string& source)
 	{
 
 		// check if drag line exist
@@ -829,6 +829,8 @@ namespace Marvel {
 		return m_queryArea;
 	}
 
+#ifndef MV_CPP
+
 	void mvPlot::setExtraConfigDict(PyObject* dict)
 	{
 		if (dict == nullptr)
@@ -1337,4 +1339,5 @@ namespace Marvel {
 		return GetPyNone();
 	}
 
+#endif
 }

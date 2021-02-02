@@ -26,9 +26,8 @@ namespace Marvel{
 		}
 	}
 
-	void mvAppItem::updateCoreConfig(const mvAppItemConfig& config)
+	void mvAppItem::updateCoreConfig()
 	{
-		m_core_config = config;
 
 		setLabel(m_core_config.label);
 		setWidth(m_core_config.width);
@@ -38,7 +37,7 @@ namespace Marvel{
 		setEnabled(m_core_config.enabled);
 	}
 
-	mvAppItemConfig mvAppItem::getCoreConfig() const
+	mvAppItemConfig& mvAppItem::getCoreConfig()
 	{
 		return m_core_config;
 	}
@@ -60,17 +59,20 @@ namespace Marvel{
 		}
 	}
 
-	void mvAppItem::setCallback(PyObject* callback) 
+	void mvAppItem::setCallback(mvCallable callback)
 	{ 
+#ifndef MV_CPP
 		if (callback == Py_None)
 		{
 			m_core_config.callback = nullptr;
 			return;
 		}
+#endif // !MV_CPP
+
 		m_core_config.callback = callback;
 	}
 
-	void mvAppItem::setCallbackData(PyObject* data)
+	void mvAppItem::setCallbackData(mvCallableData data)
 	{
 		if (data == Py_None)
 		{
@@ -435,12 +437,19 @@ namespace Marvel{
 #endif
 	}
 
-	PyObject* mvAppItem::getCallback(bool ignore_enabled)
+	mvCallable mvAppItem::getCallback(bool ignore_enabled)
 	{
 		if (m_core_config.enabled)
 			return m_core_config.callback;
+#ifdef MV_CPP	
+		return m_core_config.callback;
+#else
 		return ignore_enabled ? m_core_config.callback : nullptr;
+#endif
+		
 	}
+
+#ifndef MV_CPP
 
 	void mvAppItem::checkConfigDict(PyObject* dict)
 	{
@@ -504,4 +513,6 @@ namespace Marvel{
 		PyDict_SetItemString(dict, "height", ToPyInt(m_core_config.height));
 #endif
 	}
+
+#endif // !MV_CPP
 }

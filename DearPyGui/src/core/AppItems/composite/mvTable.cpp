@@ -61,40 +61,6 @@ namespace Marvel {
 		}
 	}
 
-	PyObject* add_table(PyObject* self, PyObject* args, PyObject* kwargs)
-	{
-		const char* name;
-		PyObject* headers;
-		PyObject* callback = nullptr;
-		PyObject* callback_data = nullptr;
-		const char* parent = "";
-		const char* before = "";
-		int width = 0;
-		int height = 0;
-		int show = true;
-
-		if (!(*mvApp::GetApp()->getParsers())["add_table"].parse(args, kwargs, __FUNCTION__,
-			&name, &headers, &callback, &callback_data, &parent,
-			&before, &width, &height, &show))
-			return ToPyBool(false);
-
-		auto item = CreateRef<mvTable>(name, ToStringVect(headers));
-		if (callback)
-			Py_XINCREF(callback);
-		item->setCallback(callback);
-		if (callback_data)
-			Py_XINCREF(callback_data);
-		item->setCallbackData(callback_data);
-
-		item->checkConfigDict(kwargs);
-		item->setConfigDict(kwargs);
-		item->setExtraConfigDict(kwargs);
-
-		mvApp::GetApp()->getItemRegistry().addItemWithRuntimeChecks(item, parent, before);
-
-		return GetPyNone();
-	}
-
 	void mvTable::setTableItem(int row, int column, const std::string& value)
 	{
 		if (!isIndexValid(row, column))
@@ -583,4 +549,41 @@ namespace Marvel {
 		ImGui::EndChild();
 	}
 
+#ifndef MV_CPP
+
+	PyObject* add_table(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		const char* name;
+		PyObject* headers;
+		PyObject* callback = nullptr;
+		PyObject* callback_data = nullptr;
+		const char* parent = "";
+		const char* before = "";
+		int width = 0;
+		int height = 0;
+		int show = true;
+
+		if (!(*mvApp::GetApp()->getParsers())["add_table"].parse(args, kwargs, __FUNCTION__,
+			&name, &headers, &callback, &callback_data, &parent,
+			&before, &width, &height, &show))
+			return ToPyBool(false);
+
+		auto item = CreateRef<mvTable>(name, ToStringVect(headers));
+		if (callback)
+			Py_XINCREF(callback);
+		item->setCallback(callback);
+		if (callback_data)
+			Py_XINCREF(callback_data);
+		item->setCallbackData(callback_data);
+
+		item->checkConfigDict(kwargs);
+		item->setConfigDict(kwargs);
+		item->setExtraConfigDict(kwargs);
+
+		mvApp::GetApp()->getItemRegistry().addItemWithRuntimeChecks(item, parent, before);
+
+		return GetPyNone();
+	}
+
+#endif // !MV_CPP
 }

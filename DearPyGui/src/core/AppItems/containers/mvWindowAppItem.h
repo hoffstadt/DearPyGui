@@ -23,7 +23,7 @@ namespace Marvel {
 		bool menubar = false;
 		bool no_close = false;
 		bool no_background = false;
-		PyObject* on_close = nullptr;
+		mvCallable on_close = nullptr;
 		
 		mvWindowAppItemConfig()
 		{
@@ -49,7 +49,7 @@ namespace Marvel {
 
 		MV_APPITEM_TYPE(mvAppItemType::Window, "add_window")
 
-		mvWindowAppItem(const std::string& name, bool mainWindow, PyObject* closing_callback);
+		mvWindowAppItem(const std::string& name, bool mainWindow, mvCallable closing_callback);
 		mvWindowAppItem(const std::string& name, const mvWindowAppItemConfig& config);
 
 		void   addMenuBar           () { m_hasMenuBar = true; }
@@ -62,9 +62,13 @@ namespace Marvel {
 		void   setHeight            (int height) override;
 		mvVec2 getWindowPos         () const;
 		void   draw                 () override;
-		void   setResizeCallback    (PyObject* callback);
-		void   setExtraConfigDict   (PyObject* dict) override;
-		void   getExtraConfigDict   (PyObject* dict) override;
+		void   setResizeCallback    (mvCallable callback);
+
+#ifndef MV_CPP
+		void setExtraConfigDict(PyObject* dict) override;
+		void getExtraConfigDict(PyObject* dict) override;
+#endif // !MV_CPP
+
 		void   setFocusedNextFrame  () { m_focusNextFrame = true; }
 		mvRef<mvDrawList> getDrawList     () { return m_drawList; }
 
@@ -72,7 +76,7 @@ namespace Marvel {
 
 		// cpp interface
 		void updateConfig(mvAppItemConfig* config) override;
-		mvWindowAppItemConfig getConfig() const;
+		mvAppItemConfig* getConfig() override;
 
 	private:
 
@@ -84,7 +88,7 @@ namespace Marvel {
 		int                   m_oldWidth = 200;
 		int                   m_oldHeight = 200;
 		bool                  m_mainWindow = false;
-		PyObject*             m_resize_callback = nullptr;
+		mvCallable            m_resize_callback = nullptr;
 		bool                  m_dirty_pos = true;
 		bool                  m_dirty_size = true;
 		bool                  m_hasMenuBar = false;

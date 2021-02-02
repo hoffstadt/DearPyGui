@@ -4,6 +4,7 @@
 #include "mvValueStorage.h"
 
 namespace Marvel {
+
 	void mvSelectable::InsertParser(std::map<std::string, mvPythonParser>* parsers)
 	{
 		parsers->insert({ "add_selectable", mvPythonParser({
@@ -49,6 +50,8 @@ namespace Marvel {
 			mvApp::GetApp()->getCallbackRegistry().addCallback(m_core_config.callback, m_core_config.name, m_core_config.callback_data);
 
 	}
+
+#ifndef MV_CPP
 
 	void mvSelectable::setExtraConfigDict(PyObject* dict)
 	{
@@ -120,5 +123,7 @@ namespace Marvel {
 
 		return GetPyNone();
 	}
+
+#endif // !MV_CPP
 
 }

@@ -114,15 +114,18 @@ namespace Marvel {
                     });
 		}
 
-        //std::thread t([&]() {m_callbackRegistry->runCallbacks(); });
-        //t.detach();
-
         m_future = std::async(std::launch::async, [&]() {return m_callbackRegistry->runCallbacks(); });
 
 		m_viewport->run();
 
         GetApp()->getCallbackRegistry().stop();
+#ifdef MV_CPP
+        GetApp()->getCallbackRegistry().addCallback([]() {}, "null", nullptr);
+#else
         GetApp()->getCallbackRegistry().addCallback(nullptr, "null", nullptr);
+#endif // !MV_CPP
+
+        
         m_future.get();
 		delete m_viewport;
 		s_started = false;

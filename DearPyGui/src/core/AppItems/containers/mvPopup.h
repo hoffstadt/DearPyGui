@@ -87,6 +87,8 @@ namespace Marvel {
 			}
 		}
 
+#ifndef MV_CPP
+
 		void setExtraConfigDict(PyObject* dict) override
 		{
 			if (dict == nullptr)
@@ -105,6 +107,8 @@ namespace Marvel {
 			PyDict_SetItemString(dict, "modal", ToPyBool(m_modal));
 			PyDict_SetItemString(dict, "mousebutton", ToPyInt(m_button));
 		}
+
+#endif
 
 	private:
 

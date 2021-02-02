@@ -35,8 +35,12 @@ namespace Marvel {
 		mvManagedColumns(const std::string& name, int columns);
 
 		void  draw              ()               override;
-		void  setExtraConfigDict(PyObject* dict) override;
-		void  getExtraConfigDict(PyObject* dict) override;
+
+#ifndef MV_CPP
+		void setExtraConfigDict(PyObject* dict) override;
+		void getExtraConfigDict(PyObject* dict) override;
+#endif // !MV_CPP
+
 		void  setColumnWidth    (int i, float width);
 		float getColumnWidth    (int i);
 
@@ -68,8 +72,11 @@ namespace Marvel {
 		mvColumn(const std::string& name, int columns);
 
 		void draw              ()               override;
+
+#ifndef MV_CPP
 		void setExtraConfigDict(PyObject* dict) override;
 		void getExtraConfigDict(PyObject* dict) override;
+#endif // !MV_CPP
 
 	private:
 

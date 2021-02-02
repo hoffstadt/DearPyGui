@@ -56,49 +56,7 @@ namespace Marvel {
 
     }
 
-    void mvDragFloat::setExtraConfigDict(PyObject* dict)
-    {
-        if (dict == nullptr)
-            return;
 
-        if (PyObject* item = PyDict_GetItemString(dict, "format")) m_format = ToString(item);
-        if (PyObject* item = PyDict_GetItemString(dict, "speed")) m_speed = ToFloat(item);
-        if (PyObject* item = PyDict_GetItemString(dict, "min_value")) m_min = ToFloat(item);
-        if (PyObject* item = PyDict_GetItemString(dict, "max_value")) m_max = ToFloat(item);
-
-        // helper for bit flipping
-        auto flagop = [dict](const char* keyword, int flag, int& flags)
-        {
-            if (PyObject* item = PyDict_GetItemString(dict, keyword)) ToBool(item) ? flags |= flag : flags &= ~flag;
-        };
-
-        // flags
-        flagop("clamped", ImGuiSliderFlags_ClampOnInput, m_flags);
-        flagop("no_input", ImGuiSliderFlags_NoInput, m_flags);
-
-    }
-
-    void mvDragFloat::getExtraConfigDict(PyObject* dict)
-    {
-        if (dict == nullptr)
-            return;
-
-        PyDict_SetItemString(dict, "format", ToPyString(m_format));
-        PyDict_SetItemString(dict, "speed", ToPyFloat(m_speed));
-        PyDict_SetItemString(dict, "min_value", ToPyFloat(m_min));
-        PyDict_SetItemString(dict, "max_value", ToPyFloat(m_max));
-
-        // helper to check and set bit
-        auto checkbitset = [dict](const char* keyword, int flag, const int& flags)
-        {
-            PyDict_SetItemString(dict, keyword, ToPyBool(flags & flag));
-        };
-
-        // window flags
-        checkbitset("clamped", ImGuiSliderFlags_ClampOnInput, m_flags);
-        checkbitset("no_input", ImGuiSliderFlags_NoInput, m_flags);
-
-    }
 
     //-----------------------------------------------------------------------------
     // mvDragFloat2
@@ -146,50 +104,6 @@ namespace Marvel {
             mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), m_core_config.name, m_core_config.callback_data);
     }
 
-    void mvDragFloat2::setExtraConfigDict(PyObject* dict)
-    {
-        if (dict == nullptr)
-            return;
-
-        if (PyObject* item = PyDict_GetItemString(dict, "format")) m_format = ToString(item);
-        if (PyObject* item = PyDict_GetItemString(dict, "speed")) m_speed = ToFloat(item);
-        if (PyObject* item = PyDict_GetItemString(dict, "min_value")) m_min = ToFloat(item);
-        if (PyObject* item = PyDict_GetItemString(dict, "max_value")) m_max = ToFloat(item);
-
-        // helper for bit flipping
-        auto flagop = [dict](const char* keyword, int flag, int& flags)
-        {
-            if (PyObject* item = PyDict_GetItemString(dict, keyword)) ToBool(item) ? flags |= flag : flags &= ~flag;
-        };
-
-        // flags
-        flagop("clamped", ImGuiSliderFlags_ClampOnInput, m_flags);
-        flagop("no_input", ImGuiSliderFlags_NoInput, m_flags);
-
-    }
-
-    void mvDragFloat2::getExtraConfigDict(PyObject* dict)
-    {
-        if (dict == nullptr)
-            return;
-
-        PyDict_SetItemString(dict, "format", ToPyString(m_format));
-        PyDict_SetItemString(dict, "speed", ToPyFloat(m_speed));
-        PyDict_SetItemString(dict, "min_value", ToPyFloat(m_min));
-        PyDict_SetItemString(dict, "max_value", ToPyFloat(m_max));
-
-        // helper to check and set bit
-        auto checkbitset = [dict](const char* keyword, int flag, const int& flags)
-        {
-            PyDict_SetItemString(dict, keyword, ToPyBool(flags & flag));
-        };
-
-        // window flags
-        checkbitset("clamped", ImGuiSliderFlags_ClampOnInput, m_flags);
-        checkbitset("no_input", ImGuiSliderFlags_NoInput, m_flags);
-
-    }
-
     //-----------------------------------------------------------------------------
     // mvDragFloat3
     //-----------------------------------------------------------------------------
@@ -233,50 +147,6 @@ namespace Marvel {
 
         if (ImGui::DragFloat3(m_label.c_str(), m_core_config.enabled ? m_value : &m_disabled_value[0], m_speed, m_min, m_max, m_format.c_str(), m_flags))
             mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), m_core_config.name, m_core_config.callback_data);
-
-    }
-
-    void mvDragFloat3::setExtraConfigDict(PyObject* dict)
-    {
-        if (dict == nullptr)
-            return;
-
-        if (PyObject* item = PyDict_GetItemString(dict, "format")) m_format = ToString(item);
-        if (PyObject* item = PyDict_GetItemString(dict, "speed")) m_speed = ToFloat(item);
-        if (PyObject* item = PyDict_GetItemString(dict, "min_value")) m_min = ToFloat(item);
-        if (PyObject* item = PyDict_GetItemString(dict, "max_value")) m_max = ToFloat(item);
-
-        // helper for bit flipping
-        auto flagop = [dict](const char* keyword, int flag, int& flags)
-        {
-            if (PyObject* item = PyDict_GetItemString(dict, keyword)) ToBool(item) ? flags |= flag : flags &= ~flag;
-        };
-
-        // flags
-        flagop("clamped", ImGuiSliderFlags_ClampOnInput, m_flags);
-        flagop("no_input", ImGuiSliderFlags_NoInput, m_flags);
-
-    }
-
-    void mvDragFloat3::getExtraConfigDict(PyObject* dict)
-    {
-        if (dict == nullptr)
-            return;
-
-        PyDict_SetItemString(dict, "format", ToPyString(m_format));
-        PyDict_SetItemString(dict, "speed", ToPyFloat(m_speed));
-        PyDict_SetItemString(dict, "min_value", ToPyFloat(m_min));
-        PyDict_SetItemString(dict, "max_value", ToPyFloat(m_max));
-
-        // helper to check and set bit
-        auto checkbitset = [dict](const char* keyword, int flag, const int& flags)
-        {
-            PyDict_SetItemString(dict, keyword, ToPyBool(flags & flag));
-        };
-
-        // window flags
-        checkbitset("clamped", ImGuiSliderFlags_ClampOnInput, m_flags);
-        checkbitset("no_input", ImGuiSliderFlags_NoInput, m_flags);
 
     }
 
@@ -326,50 +196,6 @@ namespace Marvel {
 
     }
 
-    void mvDragFloat4::setExtraConfigDict(PyObject* dict)
-    {
-        if (dict == nullptr)
-            return;
-
-        if (PyObject* item = PyDict_GetItemString(dict, "format")) m_format = ToString(item);
-        if (PyObject* item = PyDict_GetItemString(dict, "speed")) m_speed = ToFloat(item);
-        if (PyObject* item = PyDict_GetItemString(dict, "min_value")) m_min = ToFloat(item);
-        if (PyObject* item = PyDict_GetItemString(dict, "max_value")) m_max = ToFloat(item);
-
-        // helper for bit flipping
-        auto flagop = [dict](const char* keyword, int flag, int& flags)
-        {
-            if (PyObject* item = PyDict_GetItemString(dict, keyword)) ToBool(item) ? flags |= flag : flags &= ~flag;
-        };
-
-        // flags
-        flagop("clamped", ImGuiSliderFlags_ClampOnInput, m_flags);
-        flagop("no_input", ImGuiSliderFlags_NoInput, m_flags);
-
-    }
-
-    void mvDragFloat4::getExtraConfigDict(PyObject* dict)
-    {
-        if (dict == nullptr)
-            return;
-
-        PyDict_SetItemString(dict, "format", ToPyString(m_format));
-        PyDict_SetItemString(dict, "speed", ToPyFloat(m_speed));
-        PyDict_SetItemString(dict, "min_value", ToPyFloat(m_min));
-        PyDict_SetItemString(dict, "max_value", ToPyFloat(m_max));
-
-        // helper to check and set bit
-        auto checkbitset = [dict](const char* keyword, int flag, const int& flags)
-        {
-            PyDict_SetItemString(dict, keyword, ToPyBool(flags & flag));
-        };
-
-        // window flags
-        checkbitset("clamped", ImGuiSliderFlags_ClampOnInput, m_flags);
-        checkbitset("no_input", ImGuiSliderFlags_NoInput, m_flags);
-
-    }
-
     //-----------------------------------------------------------------------------
     // mvDragInt
     //-----------------------------------------------------------------------------
@@ -413,49 +239,6 @@ namespace Marvel {
 
         if (ImGui::DragInt(m_label.c_str(), m_core_config.enabled ? m_value : &m_disabled_value, m_speed, m_min, m_max, m_format.c_str(), m_flags))
             mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), m_core_config.name, m_core_config.callback_data);
-
-    }
-
-    void mvDragInt::setExtraConfigDict(PyObject* dict)
-    {
-        if (dict == nullptr)
-            return;
-
-        if (PyObject* item = PyDict_GetItemString(dict, "format")) m_format = ToString(item);
-        if (PyObject* item = PyDict_GetItemString(dict, "speed")) m_speed = ToFloat(item);
-        if (PyObject* item = PyDict_GetItemString(dict, "min_value")) m_min = ToInt(item);
-        if (PyObject* item = PyDict_GetItemString(dict, "max_value")) m_max = ToInt(item);
-
-        // helper for bit flipping
-        auto flagop = [dict](const char* keyword, int flag, int& flags)
-        {
-            if (PyObject* item = PyDict_GetItemString(dict, keyword)) ToBool(item) ? flags |= flag : flags &= ~flag;
-        };
-
-        // flags
-        flagop("clamped", ImGuiSliderFlags_ClampOnInput, m_flags);
-        flagop("no_input", ImGuiSliderFlags_NoInput, m_flags);
-    }
-
-    void mvDragInt::getExtraConfigDict(PyObject* dict)
-    {
-        if (dict == nullptr)
-            return;
-
-        PyDict_SetItemString(dict, "format", ToPyString(m_format));
-        PyDict_SetItemString(dict, "speed", ToPyFloat(m_speed));
-        PyDict_SetItemString(dict, "min_value", ToPyInt(m_min));
-        PyDict_SetItemString(dict, "max_value", ToPyInt(m_max));
-
-        // helper to check and set bit
-        auto checkbitset = [dict](const char* keyword, int flag, const int& flags)
-        {
-            PyDict_SetItemString(dict, keyword, ToPyBool(flags & flag));
-        };
-
-        // window flags
-        checkbitset("clamped", ImGuiSliderFlags_ClampOnInput, m_flags);
-        checkbitset("no_input", ImGuiSliderFlags_NoInput, m_flags);
 
     }
 
@@ -505,50 +288,6 @@ namespace Marvel {
 
     }
 
-    void mvDragInt2::setExtraConfigDict(PyObject* dict)
-    {
-        if (dict == nullptr)
-            return;
-
-        if (PyObject* item = PyDict_GetItemString(dict, "format")) m_format = ToString(item);
-        if (PyObject* item = PyDict_GetItemString(dict, "speed")) m_speed = ToFloat(item);
-        if (PyObject* item = PyDict_GetItemString(dict, "min_value")) m_min = ToInt(item);
-        if (PyObject* item = PyDict_GetItemString(dict, "max_value")) m_max = ToInt(item);
-
-        // helper for bit flipping
-        auto flagop = [dict](const char* keyword, int flag, int& flags)
-        {
-            if (PyObject* item = PyDict_GetItemString(dict, keyword)) ToBool(item) ? flags |= flag : flags &= ~flag;
-        };
-
-        // flags
-        flagop("clamped", ImGuiSliderFlags_ClampOnInput, m_flags);
-        flagop("no_input", ImGuiSliderFlags_NoInput, m_flags);
-
-    }
-
-    void mvDragInt2::getExtraConfigDict(PyObject* dict)
-    {
-        if (dict == nullptr)
-            return;
-
-        PyDict_SetItemString(dict, "format", ToPyString(m_format));
-        PyDict_SetItemString(dict, "speed", ToPyFloat(m_speed));
-        PyDict_SetItemString(dict, "min_value", ToPyInt(m_min));
-        PyDict_SetItemString(dict, "max_value", ToPyInt(m_max));
-
-        // helper to check and set bit
-        auto checkbitset = [dict](const char* keyword, int flag, const int& flags)
-        {
-            PyDict_SetItemString(dict, keyword, ToPyBool(flags & flag));
-        };
-
-        // window flags
-        checkbitset("clamped", ImGuiSliderFlags_ClampOnInput, m_flags);
-        checkbitset("no_input", ImGuiSliderFlags_NoInput, m_flags);
-
-    }
-
     //-----------------------------------------------------------------------------
     // mvDragInt3
     //-----------------------------------------------------------------------------
@@ -592,50 +331,6 @@ namespace Marvel {
 
         if (ImGui::DragInt3(m_label.c_str(), m_core_config.enabled ? m_value : &m_disabled_value[0], m_speed, m_min, m_max, m_format.c_str(), m_flags))
             mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), m_core_config.name, m_core_config.callback_data);
-
-    }
-
-    void mvDragInt3::setExtraConfigDict(PyObject* dict)
-    {
-        if (dict == nullptr)
-            return;
-
-        if (PyObject* item = PyDict_GetItemString(dict, "format")) m_format = ToString(item);
-        if (PyObject* item = PyDict_GetItemString(dict, "speed")) m_speed = ToFloat(item);
-        if (PyObject* item = PyDict_GetItemString(dict, "min_value")) m_min = ToInt(item);
-        if (PyObject* item = PyDict_GetItemString(dict, "max_value")) m_max = ToInt(item);
-
-        // helper for bit flipping
-        auto flagop = [dict](const char* keyword, int flag, int& flags)
-        {
-            if (PyObject* item = PyDict_GetItemString(dict, keyword)) ToBool(item) ? flags |= flag : flags &= ~flag;
-        };
-
-        // flags
-        flagop("clamped", ImGuiSliderFlags_ClampOnInput, m_flags);
-        flagop("no_input", ImGuiSliderFlags_NoInput, m_flags);
-
-    }
-
-    void mvDragInt3::getExtraConfigDict(PyObject* dict)
-    {
-        if (dict == nullptr)
-            return;
-
-        PyDict_SetItemString(dict, "format", ToPyString(m_format));
-        PyDict_SetItemString(dict, "speed", ToPyFloat(m_speed));
-        PyDict_SetItemString(dict, "min_value", ToPyInt(m_min));
-        PyDict_SetItemString(dict, "max_value", ToPyInt(m_max));
-
-        // helper to check and set bit
-        auto checkbitset = [dict](const char* keyword, int flag, const int& flags)
-        {
-            PyDict_SetItemString(dict, keyword, ToPyBool(flags & flag));
-        };
-
-        // window flags
-        checkbitset("clamped", ImGuiSliderFlags_ClampOnInput, m_flags);
-        checkbitset("no_input", ImGuiSliderFlags_NoInput, m_flags);
 
     }
 
@@ -685,6 +380,315 @@ namespace Marvel {
 
     }
 
+#ifndef MV_CPP
+
+    void mvDragFloat::setExtraConfigDict(PyObject* dict)
+    {
+        if (dict == nullptr)
+            return;
+
+        if (PyObject* item = PyDict_GetItemString(dict, "format")) m_format = ToString(item);
+        if (PyObject* item = PyDict_GetItemString(dict, "speed")) m_speed = ToFloat(item);
+        if (PyObject* item = PyDict_GetItemString(dict, "min_value")) m_min = ToFloat(item);
+        if (PyObject* item = PyDict_GetItemString(dict, "max_value")) m_max = ToFloat(item);
+
+        // helper for bit flipping
+        auto flagop = [dict](const char* keyword, int flag, int& flags)
+        {
+            if (PyObject* item = PyDict_GetItemString(dict, keyword)) ToBool(item) ? flags |= flag : flags &= ~flag;
+        };
+
+        // flags
+        flagop("clamped", ImGuiSliderFlags_ClampOnInput, m_flags);
+        flagop("no_input", ImGuiSliderFlags_NoInput, m_flags);
+
+    }
+
+    void mvDragFloat::getExtraConfigDict(PyObject* dict)
+    {
+        if (dict == nullptr)
+            return;
+
+        PyDict_SetItemString(dict, "format", ToPyString(m_format));
+        PyDict_SetItemString(dict, "speed", ToPyFloat(m_speed));
+        PyDict_SetItemString(dict, "min_value", ToPyFloat(m_min));
+        PyDict_SetItemString(dict, "max_value", ToPyFloat(m_max));
+
+        // helper to check and set bit
+        auto checkbitset = [dict](const char* keyword, int flag, const int& flags)
+        {
+            PyDict_SetItemString(dict, keyword, ToPyBool(flags & flag));
+        };
+
+        // window flags
+        checkbitset("clamped", ImGuiSliderFlags_ClampOnInput, m_flags);
+        checkbitset("no_input", ImGuiSliderFlags_NoInput, m_flags);
+
+    }
+
+    void mvDragFloat2::setExtraConfigDict(PyObject* dict)
+    {
+        if (dict == nullptr)
+            return;
+
+        if (PyObject* item = PyDict_GetItemString(dict, "format")) m_format = ToString(item);
+        if (PyObject* item = PyDict_GetItemString(dict, "speed")) m_speed = ToFloat(item);
+        if (PyObject* item = PyDict_GetItemString(dict, "min_value")) m_min = ToFloat(item);
+        if (PyObject* item = PyDict_GetItemString(dict, "max_value")) m_max = ToFloat(item);
+
+        // helper for bit flipping
+        auto flagop = [dict](const char* keyword, int flag, int& flags)
+        {
+            if (PyObject* item = PyDict_GetItemString(dict, keyword)) ToBool(item) ? flags |= flag : flags &= ~flag;
+        };
+
+        // flags
+        flagop("clamped", ImGuiSliderFlags_ClampOnInput, m_flags);
+        flagop("no_input", ImGuiSliderFlags_NoInput, m_flags);
+
+    }
+
+    void mvDragFloat2::getExtraConfigDict(PyObject* dict)
+    {
+        if (dict == nullptr)
+            return;
+
+        PyDict_SetItemString(dict, "format", ToPyString(m_format));
+        PyDict_SetItemString(dict, "speed", ToPyFloat(m_speed));
+        PyDict_SetItemString(dict, "min_value", ToPyFloat(m_min));
+        PyDict_SetItemString(dict, "max_value", ToPyFloat(m_max));
+
+        // helper to check and set bit
+        auto checkbitset = [dict](const char* keyword, int flag, const int& flags)
+        {
+            PyDict_SetItemString(dict, keyword, ToPyBool(flags & flag));
+        };
+
+        // window flags
+        checkbitset("clamped", ImGuiSliderFlags_ClampOnInput, m_flags);
+        checkbitset("no_input", ImGuiSliderFlags_NoInput, m_flags);
+
+    }
+
+    void mvDragFloat3::setExtraConfigDict(PyObject* dict)
+    {
+        if (dict == nullptr)
+            return;
+
+        if (PyObject* item = PyDict_GetItemString(dict, "format")) m_format = ToString(item);
+        if (PyObject* item = PyDict_GetItemString(dict, "speed")) m_speed = ToFloat(item);
+        if (PyObject* item = PyDict_GetItemString(dict, "min_value")) m_min = ToFloat(item);
+        if (PyObject* item = PyDict_GetItemString(dict, "max_value")) m_max = ToFloat(item);
+
+        // helper for bit flipping
+        auto flagop = [dict](const char* keyword, int flag, int& flags)
+        {
+            if (PyObject* item = PyDict_GetItemString(dict, keyword)) ToBool(item) ? flags |= flag : flags &= ~flag;
+        };
+
+        // flags
+        flagop("clamped", ImGuiSliderFlags_ClampOnInput, m_flags);
+        flagop("no_input", ImGuiSliderFlags_NoInput, m_flags);
+
+    }
+
+    void mvDragFloat3::getExtraConfigDict(PyObject* dict)
+    {
+        if (dict == nullptr)
+            return;
+
+        PyDict_SetItemString(dict, "format", ToPyString(m_format));
+        PyDict_SetItemString(dict, "speed", ToPyFloat(m_speed));
+        PyDict_SetItemString(dict, "min_value", ToPyFloat(m_min));
+        PyDict_SetItemString(dict, "max_value", ToPyFloat(m_max));
+
+        // helper to check and set bit
+        auto checkbitset = [dict](const char* keyword, int flag, const int& flags)
+        {
+            PyDict_SetItemString(dict, keyword, ToPyBool(flags & flag));
+        };
+
+        // window flags
+        checkbitset("clamped", ImGuiSliderFlags_ClampOnInput, m_flags);
+        checkbitset("no_input", ImGuiSliderFlags_NoInput, m_flags);
+
+    }
+
+    void mvDragFloat4::setExtraConfigDict(PyObject* dict)
+    {
+        if (dict == nullptr)
+            return;
+
+        if (PyObject* item = PyDict_GetItemString(dict, "format")) m_format = ToString(item);
+        if (PyObject* item = PyDict_GetItemString(dict, "speed")) m_speed = ToFloat(item);
+        if (PyObject* item = PyDict_GetItemString(dict, "min_value")) m_min = ToFloat(item);
+        if (PyObject* item = PyDict_GetItemString(dict, "max_value")) m_max = ToFloat(item);
+
+        // helper for bit flipping
+        auto flagop = [dict](const char* keyword, int flag, int& flags)
+        {
+            if (PyObject* item = PyDict_GetItemString(dict, keyword)) ToBool(item) ? flags |= flag : flags &= ~flag;
+        };
+
+        // flags
+        flagop("clamped", ImGuiSliderFlags_ClampOnInput, m_flags);
+        flagop("no_input", ImGuiSliderFlags_NoInput, m_flags);
+
+    }
+
+    void mvDragFloat4::getExtraConfigDict(PyObject* dict)
+    {
+        if (dict == nullptr)
+            return;
+
+        PyDict_SetItemString(dict, "format", ToPyString(m_format));
+        PyDict_SetItemString(dict, "speed", ToPyFloat(m_speed));
+        PyDict_SetItemString(dict, "min_value", ToPyFloat(m_min));
+        PyDict_SetItemString(dict, "max_value", ToPyFloat(m_max));
+
+        // helper to check and set bit
+        auto checkbitset = [dict](const char* keyword, int flag, const int& flags)
+        {
+            PyDict_SetItemString(dict, keyword, ToPyBool(flags & flag));
+        };
+
+        // window flags
+        checkbitset("clamped", ImGuiSliderFlags_ClampOnInput, m_flags);
+        checkbitset("no_input", ImGuiSliderFlags_NoInput, m_flags);
+
+    }
+
+    void mvDragInt::setExtraConfigDict(PyObject* dict)
+    {
+        if (dict == nullptr)
+            return;
+
+        if (PyObject* item = PyDict_GetItemString(dict, "format")) m_format = ToString(item);
+        if (PyObject* item = PyDict_GetItemString(dict, "speed")) m_speed = ToFloat(item);
+        if (PyObject* item = PyDict_GetItemString(dict, "min_value")) m_min = ToInt(item);
+        if (PyObject* item = PyDict_GetItemString(dict, "max_value")) m_max = ToInt(item);
+
+        // helper for bit flipping
+        auto flagop = [dict](const char* keyword, int flag, int& flags)
+        {
+            if (PyObject* item = PyDict_GetItemString(dict, keyword)) ToBool(item) ? flags |= flag : flags &= ~flag;
+        };
+
+        // flags
+        flagop("clamped", ImGuiSliderFlags_ClampOnInput, m_flags);
+        flagop("no_input", ImGuiSliderFlags_NoInput, m_flags);
+    }
+
+    void mvDragInt::getExtraConfigDict(PyObject* dict)
+    {
+        if (dict == nullptr)
+            return;
+
+        PyDict_SetItemString(dict, "format", ToPyString(m_format));
+        PyDict_SetItemString(dict, "speed", ToPyFloat(m_speed));
+        PyDict_SetItemString(dict, "min_value", ToPyInt(m_min));
+        PyDict_SetItemString(dict, "max_value", ToPyInt(m_max));
+
+        // helper to check and set bit
+        auto checkbitset = [dict](const char* keyword, int flag, const int& flags)
+        {
+            PyDict_SetItemString(dict, keyword, ToPyBool(flags & flag));
+        };
+
+        // window flags
+        checkbitset("clamped", ImGuiSliderFlags_ClampOnInput, m_flags);
+        checkbitset("no_input", ImGuiSliderFlags_NoInput, m_flags);
+
+    }
+
+    void mvDragInt2::setExtraConfigDict(PyObject* dict)
+    {
+        if (dict == nullptr)
+            return;
+
+        if (PyObject* item = PyDict_GetItemString(dict, "format")) m_format = ToString(item);
+        if (PyObject* item = PyDict_GetItemString(dict, "speed")) m_speed = ToFloat(item);
+        if (PyObject* item = PyDict_GetItemString(dict, "min_value")) m_min = ToInt(item);
+        if (PyObject* item = PyDict_GetItemString(dict, "max_value")) m_max = ToInt(item);
+
+        // helper for bit flipping
+        auto flagop = [dict](const char* keyword, int flag, int& flags)
+        {
+            if (PyObject* item = PyDict_GetItemString(dict, keyword)) ToBool(item) ? flags |= flag : flags &= ~flag;
+        };
+
+        // flags
+        flagop("clamped", ImGuiSliderFlags_ClampOnInput, m_flags);
+        flagop("no_input", ImGuiSliderFlags_NoInput, m_flags);
+
+    }
+
+    void mvDragInt2::getExtraConfigDict(PyObject* dict)
+    {
+        if (dict == nullptr)
+            return;
+
+        PyDict_SetItemString(dict, "format", ToPyString(m_format));
+        PyDict_SetItemString(dict, "speed", ToPyFloat(m_speed));
+        PyDict_SetItemString(dict, "min_value", ToPyInt(m_min));
+        PyDict_SetItemString(dict, "max_value", ToPyInt(m_max));
+
+        // helper to check and set bit
+        auto checkbitset = [dict](const char* keyword, int flag, const int& flags)
+        {
+            PyDict_SetItemString(dict, keyword, ToPyBool(flags & flag));
+        };
+
+        // window flags
+        checkbitset("clamped", ImGuiSliderFlags_ClampOnInput, m_flags);
+        checkbitset("no_input", ImGuiSliderFlags_NoInput, m_flags);
+
+    }
+
+    void mvDragInt3::setExtraConfigDict(PyObject* dict)
+    {
+        if (dict == nullptr)
+            return;
+
+        if (PyObject* item = PyDict_GetItemString(dict, "format")) m_format = ToString(item);
+        if (PyObject* item = PyDict_GetItemString(dict, "speed")) m_speed = ToFloat(item);
+        if (PyObject* item = PyDict_GetItemString(dict, "min_value")) m_min = ToInt(item);
+        if (PyObject* item = PyDict_GetItemString(dict, "max_value")) m_max = ToInt(item);
+
+        // helper for bit flipping
+        auto flagop = [dict](const char* keyword, int flag, int& flags)
+        {
+            if (PyObject* item = PyDict_GetItemString(dict, keyword)) ToBool(item) ? flags |= flag : flags &= ~flag;
+        };
+
+        // flags
+        flagop("clamped", ImGuiSliderFlags_ClampOnInput, m_flags);
+        flagop("no_input", ImGuiSliderFlags_NoInput, m_flags);
+
+    }
+
+    void mvDragInt3::getExtraConfigDict(PyObject* dict)
+    {
+        if (dict == nullptr)
+            return;
+
+        PyDict_SetItemString(dict, "format", ToPyString(m_format));
+        PyDict_SetItemString(dict, "speed", ToPyFloat(m_speed));
+        PyDict_SetItemString(dict, "min_value", ToPyInt(m_min));
+        PyDict_SetItemString(dict, "max_value", ToPyInt(m_max));
+
+        // helper to check and set bit
+        auto checkbitset = [dict](const char* keyword, int flag, const int& flags)
+        {
+            PyDict_SetItemString(dict, keyword, ToPyBool(flags & flag));
+        };
+
+        // window flags
+        checkbitset("clamped", ImGuiSliderFlags_ClampOnInput, m_flags);
+        checkbitset("no_input", ImGuiSliderFlags_NoInput, m_flags);
+
+    }
+
     void mvDragInt4::setExtraConfigDict(PyObject* dict)
     {
         if (dict == nullptr)
@@ -729,4 +733,5 @@ namespace Marvel {
 
     }
 
+#endif
 }

@@ -8,6 +8,7 @@
 
 #ifdef MV_CPP
 #include <iostream>
+#include <functional>
 #include "CppUtilities/mvCppPyObject.h"
 #define PyGILState_STATE int
 #define PyExc_Exception -1
@@ -18,6 +19,8 @@
 #define Py_BEGIN_ALLOW_THREADS //
 #define Py_END_ALLOW_THREADS //
 #define ThrowPythonException(x) std::cout<<x<<std::endl
+#define mvCallableData void*
+using mvCallable = std::function<void()>;
 
 inline int       PyEval_GetFrame() { return -1; }
 inline int       PyFrame_GetLineNumber(int) { return -1; }
@@ -38,6 +41,8 @@ inline bool      PyList_Check(PyObject*) { return true; }
 
 #else
 	class PyContextManager {};
+	#define mvCallable PyObject*
+	#define mvCallableData PyObject*
 	#define PY_SSIZE_T_CLEAN
 	#include <Python.h>
 	#include <frameobject.h>

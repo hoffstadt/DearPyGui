@@ -39,6 +39,8 @@ namespace Marvel {
 
 	}
 
+#ifndef MV_CPP
+
 	void mvDatePicker::setExtraConfigDict(PyObject* dict)
 	{
 		if (dict == nullptr)
@@ -54,7 +56,6 @@ namespace Marvel {
 		 
 		PyDict_SetItemString(dict, "level", ToPyInt(m_level));
 	}
-
 
 	PyObject* add_date_picker(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
@@ -88,4 +89,5 @@ namespace Marvel {
 		return GetPyNone();
 	}
 
+#endif // !MV_CPP
 }
