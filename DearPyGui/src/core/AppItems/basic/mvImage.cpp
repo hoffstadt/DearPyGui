@@ -81,8 +81,8 @@ namespace Marvel {
 			
 			m_texture = texture->texture;
 
-			if (m_width == 0) m_width = (int)((float)texture->width * (m_uv_max.x - m_uv_min.x));
-			if (m_height == 0) m_height = (int)((float)texture->height * (m_uv_max.y - m_uv_min.y));
+			if (m_core_config.width == 0) m_core_config.width = (int)((float)texture->width * (m_uv_max.x - m_uv_min.x));
+			if (m_core_config.height == 0) m_core_config.height = (int)((float)texture->height * (m_uv_max.y - m_uv_min.y));
 
 		}
 
@@ -92,15 +92,15 @@ namespace Marvel {
 			if (texture)
 			{
 				m_texture = texture->texture;
-				m_width = (int)((float)texture->width * (m_uv_max.x - m_uv_min.x));
-				m_height = (int)((float)texture->height * (m_uv_max.y - m_uv_min.y));
+				m_core_config.width = (int)((float)texture->width * (m_uv_max.x - m_uv_min.x));
+				m_core_config.height = (int)((float)texture->height * (m_uv_max.y - m_uv_min.y));
 			}
 			m_dirty = false;
 		}
 
 		if (m_texture)
 		{
-			ImGui::Image(m_texture, ImVec2((float)m_width, (float)m_height), ImVec2(m_uv_min.x, m_uv_min.y), ImVec2(m_uv_max.x, m_uv_max.y),
+			ImGui::Image(m_texture, ImVec2((float)m_core_config.width, (float)m_core_config.height), ImVec2(m_uv_min.x, m_uv_min.y), ImVec2(m_uv_max.x, m_uv_max.y),
 				ImVec4((float)m_tintColor.r, (float)m_tintColor.g, (float)m_tintColor.b, (float)m_tintColor.a),
 				ImVec4((float)m_borderColor.r, (float)m_borderColor.g, (float)m_borderColor.b, (float)m_borderColor.a));
 

@@ -36,7 +36,7 @@ namespace Marvel {
 		else
 			m_flags |= ImGuiSelectableFlags_Disabled;
 
-		m_enabled = value;
+		m_core_config.enabled = value;
 	}
 
 	void mvSelectable::draw()
@@ -46,7 +46,7 @@ namespace Marvel {
 		mvImGuiThemeScope scope(this);
 
 		if (ImGui::Selectable(m_label.c_str(), m_value, m_flags))
-			mvApp::GetApp()->getCallbackRegistry().addCallback(m_callback, m_name, m_callbackData);
+			mvApp::GetApp()->getCallbackRegistry().addCallback(m_core_config.callback, m_core_config.name, m_core_config.callback_data);
 
 	}
 

@@ -37,7 +37,7 @@ namespace Marvel {
 		ScopedID id;
 		mvImGuiThemeScope scope(this);
 
-		if (!m_enabled)
+		if (!m_core_config.enabled)
 		{
 			ImVec4 disabled_color = ImVec4(ImGui::GetStyleColorVec4(ImGuiCol_TextDisabled));
 			disabled_color.w = 0.392f;
@@ -55,8 +55,8 @@ namespace Marvel {
 			m_disabled_value = *m_value;
 		}
 
-		if (ImGui::ListBox(m_label.c_str(), m_enabled ? m_value : &m_disabled_value, m_charNames.data(), (int)m_names.size(), m_itemsHeight))
-			mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), m_name, m_callbackData);
+		if (ImGui::ListBox(m_label.c_str(), m_core_config.enabled ? m_value : &m_disabled_value, m_charNames.data(), (int)m_names.size(), m_itemsHeight))
+			mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), m_core_config.name, m_core_config.callback_data);
 
 	}
 

@@ -25,7 +25,6 @@ set(MARVEL_PY_SOURCES
 set(MARVEL_CPP_SOURCES
 
 	"src/core/CppUtilities/mvCppTranslator.cpp"
-	"src/core/CppUtilities/mvCppPyObject.cpp"
 )
 
 set(MARVEL_SOURCES

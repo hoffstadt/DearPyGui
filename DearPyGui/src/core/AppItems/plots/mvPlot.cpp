@@ -241,8 +241,8 @@ namespace Marvel {
 	mvPlot::mvPlot(const std::string& name, PyObject* queryCallback)
 		: mvAppItem(name), m_queryCallback(queryCallback)
 	{
-		m_width = -1;
-		m_height = -1;
+		m_core_config.width = -1;
+		m_core_config.height = -1;
 	}
 
 	void mvPlot::addDragPoint(const std::string& name, bool show_label, const mvColor& color, float radius, PyObject* callback, const double* dummyValue, const std::string& source)
@@ -656,7 +656,7 @@ namespace Marvel {
 		}
 
 		if (ImPlot::BeginPlot(m_label.c_str(), m_xaxisName.empty() ? nullptr : m_xaxisName.c_str(), m_yaxisName.empty() ? nullptr : m_yaxisName.c_str(),
-			ImVec2((float)m_width, (float)m_height), m_flags,
+			ImVec2((float)m_core_config.width, (float)m_core_config.height), m_flags,
 			m_xflags, m_yflags, m_y2flags, m_y3flags))
 		{
 			ImPlot::PushColormap(m_colormap);
@@ -752,7 +752,7 @@ namespace Marvel {
 					PyTuple_SetItem(area, 1, PyFloat_FromDouble(m_queryArea[1]));
 					PyTuple_SetItem(area, 2, PyFloat_FromDouble(m_queryArea[2]));
 					PyTuple_SetItem(area, 3, PyFloat_FromDouble(m_queryArea[3]));
-					mvApp::GetApp()->getCallbackRegistry().addCallback(m_queryCallback, m_name, area);
+					mvApp::GetApp()->getCallbackRegistry().addCallback(m_queryCallback, m_core_config.name, area);
 					});
 			}
 

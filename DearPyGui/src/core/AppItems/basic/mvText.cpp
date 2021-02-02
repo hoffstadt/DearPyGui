@@ -112,7 +112,7 @@ namespace Marvel {
 		: 
 		mvStringPtrBase(name, value, dataSource)
 	{
-		m_label = FindRenderedTextEnd(m_name.c_str());
+		m_label = FindRenderedTextEnd(m_core_config.name.c_str());
 	}
 
 	void mvLabelText::draw()

@@ -29,7 +29,7 @@ namespace Marvel {
             m_flags |= ImGuiSliderFlags_NoInput;
         }
 
-        m_enabled = value;
+        m_core_config.enabled = value;
     }
 
     void mvDragFloat::draw()
@@ -38,7 +38,7 @@ namespace Marvel {
         ScopedID id;
         mvImGuiThemeScope scope(this);
 
-        if (!m_enabled)
+        if (!m_core_config.enabled)
         {
             ImVec4 disabled_color = ImVec4(ImGui::GetStyleColorVec4(ImGuiCol_TextDisabled));
             disabled_color.w = 0.392f;
@@ -51,8 +51,8 @@ namespace Marvel {
         }
 
 
-        if (ImGui::DragFloat(m_label.c_str(), m_enabled ? m_value : &m_disabled_value, m_speed, m_min, m_max, m_format.c_str(), m_flags))
-            mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), m_name, m_callbackData);
+        if (ImGui::DragFloat(m_label.c_str(), m_core_config.enabled ? m_value : &m_disabled_value, m_speed, m_min, m_max, m_format.c_str(), m_flags))
+            mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), m_core_config.name, m_core_config.callback_data);
 
     }
 
@@ -121,7 +121,7 @@ namespace Marvel {
             m_flags |= ImGuiSliderFlags_NoInput;
         }
 
-        m_enabled = value;
+        m_core_config.enabled = value;
     }
 
     void mvDragFloat2::draw()
@@ -130,7 +130,7 @@ namespace Marvel {
         ScopedID id;
         mvImGuiThemeScope scope(this);
 
-        if (!m_enabled)
+        if (!m_core_config.enabled)
         {
             ImVec4 disabled_color = ImVec4(ImGui::GetStyleColorVec4(ImGuiCol_TextDisabled));
             disabled_color.w = 0.392f;
@@ -142,8 +142,8 @@ namespace Marvel {
             std::copy(m_value, m_value + 2, m_disabled_value);
         }
 
-        if (ImGui::DragFloat2(m_label.c_str(), m_enabled ? m_value : &m_disabled_value[0], m_speed, m_min, m_max, m_format.c_str(), m_flags))
-            mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), m_name, m_callbackData);
+        if (ImGui::DragFloat2(m_label.c_str(), m_core_config.enabled ? m_value : &m_disabled_value[0], m_speed, m_min, m_max, m_format.c_str(), m_flags))
+            mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), m_core_config.name, m_core_config.callback_data);
     }
 
     void mvDragFloat2::setExtraConfigDict(PyObject* dict)
@@ -210,7 +210,7 @@ namespace Marvel {
             m_flags |= ImGuiSliderFlags_NoInput;
         }
 
-        m_enabled = value;
+        m_core_config.enabled = value;
     }
 
     void mvDragFloat3::draw()
@@ -219,7 +219,7 @@ namespace Marvel {
         ScopedID id;
         mvImGuiThemeScope scope(this);
 
-        if (!m_enabled)
+        if (!m_core_config.enabled)
         {
             ImVec4 disabled_color = ImVec4(ImGui::GetStyleColorVec4(ImGuiCol_TextDisabled));
             disabled_color.w = 0.392f;
@@ -231,8 +231,8 @@ namespace Marvel {
             std::copy(m_value, m_value + 3, m_disabled_value);
         }
 
-        if (ImGui::DragFloat3(m_label.c_str(), m_enabled ? m_value : &m_disabled_value[0], m_speed, m_min, m_max, m_format.c_str(), m_flags))
-            mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), m_name, m_callbackData);
+        if (ImGui::DragFloat3(m_label.c_str(), m_core_config.enabled ? m_value : &m_disabled_value[0], m_speed, m_min, m_max, m_format.c_str(), m_flags))
+            mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), m_core_config.name, m_core_config.callback_data);
 
     }
 
@@ -300,7 +300,7 @@ namespace Marvel {
             m_flags |= ImGuiSliderFlags_NoInput;
         }
 
-        m_enabled = value;
+        m_core_config.enabled = value;
     }
 
     void mvDragFloat4::draw()
@@ -309,7 +309,7 @@ namespace Marvel {
         ScopedID id;
         mvImGuiThemeScope scope(this);
 
-        if (!m_enabled)
+        if (!m_core_config.enabled)
         {
             ImVec4 disabled_color = ImVec4(ImGui::GetStyleColorVec4(ImGuiCol_TextDisabled));
             disabled_color.w = 0.392f;
@@ -321,8 +321,8 @@ namespace Marvel {
             std::copy(m_value, m_value + 4, m_disabled_value);
         }
 
-        if (ImGui::DragFloat4(m_label.c_str(), m_enabled ? m_value : &m_disabled_value[0], m_speed, m_min, m_max, m_format.c_str(), m_flags))
-            mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), m_name, m_callbackData);
+        if (ImGui::DragFloat4(m_label.c_str(), m_core_config.enabled ? m_value : &m_disabled_value[0], m_speed, m_min, m_max, m_format.c_str(), m_flags))
+            mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), m_core_config.name, m_core_config.callback_data);
 
     }
 
@@ -390,7 +390,7 @@ namespace Marvel {
             m_flags |= ImGuiSliderFlags_NoInput;
         }
 
-        m_enabled = value;
+        m_core_config.enabled = value;
     }
 
     void mvDragInt::draw()
@@ -399,7 +399,7 @@ namespace Marvel {
         ScopedID id;
         mvImGuiThemeScope scope(this);
 
-        if (!m_enabled)
+        if (!m_core_config.enabled)
         {
             ImVec4 disabled_color = ImVec4(ImGui::GetStyleColorVec4(ImGuiCol_TextDisabled));
             disabled_color.w = 0.392f;
@@ -411,8 +411,8 @@ namespace Marvel {
             m_disabled_value = *m_value;
         }
 
-        if (ImGui::DragInt(m_label.c_str(), m_enabled ? m_value : &m_disabled_value, m_speed, m_min, m_max, m_format.c_str(), m_flags))
-            mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), m_name, m_callbackData);
+        if (ImGui::DragInt(m_label.c_str(), m_core_config.enabled ? m_value : &m_disabled_value, m_speed, m_min, m_max, m_format.c_str(), m_flags))
+            mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), m_core_config.name, m_core_config.callback_data);
 
     }
 
@@ -479,7 +479,7 @@ namespace Marvel {
             m_flags |= ImGuiSliderFlags_NoInput;
         }
 
-        m_enabled = value;
+        m_core_config.enabled = value;
     }
 
     void mvDragInt2::draw()
@@ -488,7 +488,7 @@ namespace Marvel {
         ScopedID id;
         mvImGuiThemeScope scope(this);
 
-        if (!m_enabled)
+        if (!m_core_config.enabled)
         {
             ImVec4 disabled_color = ImVec4(ImGui::GetStyleColorVec4(ImGuiCol_TextDisabled));
             disabled_color.w = 0.392f;
@@ -500,8 +500,8 @@ namespace Marvel {
             std::copy(m_value, m_value + 2, m_disabled_value);
         }
 
-        if (ImGui::DragInt2(m_label.c_str(), m_enabled ? m_value : &m_disabled_value[0], m_speed, m_min, m_max, m_format.c_str(), m_flags))
-            mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), m_name, m_callbackData);
+        if (ImGui::DragInt2(m_label.c_str(), m_core_config.enabled ? m_value : &m_disabled_value[0], m_speed, m_min, m_max, m_format.c_str(), m_flags))
+            mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), m_core_config.name, m_core_config.callback_data);
 
     }
 
@@ -569,7 +569,7 @@ namespace Marvel {
             m_flags |= ImGuiSliderFlags_NoInput;
         }
 
-        m_enabled = value;
+        m_core_config.enabled = value;
     }
 
     void mvDragInt3::draw()
@@ -578,7 +578,7 @@ namespace Marvel {
         ScopedID id;
         mvImGuiThemeScope scope(this);
 
-        if (!m_enabled)
+        if (!m_core_config.enabled)
         {
             ImVec4 disabled_color = ImVec4(ImGui::GetStyleColorVec4(ImGuiCol_TextDisabled));
             disabled_color.w = 0.392f;
@@ -590,8 +590,8 @@ namespace Marvel {
             std::copy(m_value, m_value + 3, m_disabled_value);
         }
 
-        if (ImGui::DragInt3(m_label.c_str(), m_enabled ? m_value : &m_disabled_value[0], m_speed, m_min, m_max, m_format.c_str(), m_flags))
-            mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), m_name, m_callbackData);
+        if (ImGui::DragInt3(m_label.c_str(), m_core_config.enabled ? m_value : &m_disabled_value[0], m_speed, m_min, m_max, m_format.c_str(), m_flags))
+            mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), m_core_config.name, m_core_config.callback_data);
 
     }
 
@@ -659,7 +659,7 @@ namespace Marvel {
             m_flags |= ImGuiSliderFlags_NoInput;
         }
 
-        m_enabled = value;
+        m_core_config.enabled = value;
     }
 
     void mvDragInt4::draw()
@@ -668,7 +668,7 @@ namespace Marvel {
         ScopedID id;
         mvImGuiThemeScope scope(this);
 
-        if (!m_enabled)
+        if (!m_core_config.enabled)
         {
             ImVec4 disabled_color = ImVec4(ImGui::GetStyleColorVec4(ImGuiCol_TextDisabled));
             disabled_color.w = 0.392f;
@@ -680,8 +680,8 @@ namespace Marvel {
             std::copy(m_value, m_value + 4, m_disabled_value);
         }
 
-        if (ImGui::DragInt4(m_label.c_str(), m_enabled ? m_value : &m_disabled_value[0], m_speed, m_min, m_max, m_format.c_str(), m_flags))
-            mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), m_name, m_callbackData);
+        if (ImGui::DragInt4(m_label.c_str(), m_core_config.enabled ? m_value : &m_disabled_value[0], m_speed, m_min, m_max, m_format.c_str(), m_flags))
+            mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), m_core_config.name, m_core_config.callback_data);
 
     }
 

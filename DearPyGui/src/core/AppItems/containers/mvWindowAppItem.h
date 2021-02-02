@@ -7,8 +7,34 @@
 
 namespace Marvel {
 
+	struct mvWindowAppItemConfig : public mvAppItemConfig
+	{
+		int xpos = 200;
+		int ypos = 200;
+		bool autosize = false;
+		bool no_resize = false;
+		bool no_title_bar = false;
+		bool no_move = false;
+		bool no_scrollbar = false;
+		bool no_collapse = false;
+		bool horizontal_scrollbar = false;
+		bool no_focus_on_appearing = false;
+		bool no_bring_to_front_on_focus = false;
+		bool menubar = false;
+		bool no_close = false;
+		bool no_background = false;
+		PyObject* on_close = nullptr;
+		
+		mvWindowAppItemConfig()
+		{
+			width = 200;
+			height = 200;
+		}
+
+	};
+
 	PyObject* add_window(PyObject* self, PyObject* args, PyObject* kwargs);
-	PyContextManager addc_window(const char* name, const PyObject& kwargs);
+	void mv_add_window(const char* name, const mvWindowAppItemConfig& config = {});
 
 	class mvWindowAppItem : public mvAppItem
 	{
@@ -24,6 +50,7 @@ namespace Marvel {
 		MV_APPITEM_TYPE(mvAppItemType::Window, "add_window")
 
 		mvWindowAppItem(const std::string& name, bool mainWindow, PyObject* closing_callback);
+		mvWindowAppItem(const std::string& name, const mvWindowAppItemConfig& config);
 
 		void   addMenuBar           () { m_hasMenuBar = true; }
 		void   addFlag              (ImGuiWindowFlags flag) { m_windowflags |= flag; }
@@ -43,26 +70,27 @@ namespace Marvel {
 
 		~mvWindowAppItem();
 
+		// cpp interface
+		void updateConfig(mvAppItemConfig* config) override;
+		mvWindowAppItemConfig getConfig() const;
+
 	private:
 
-		ImGuiWindowFlags  m_windowflags = ImGuiWindowFlags_NoSavedSettings;
-		ImGuiWindowFlags  m_oldWindowflags = ImGuiWindowFlags_NoSavedSettings;
-		int               m_xpos = 200;
-		int               m_oldxpos = 200;
-		int               m_ypos = 200;
-		int               m_oldypos = 200;
-		int               m_oldWidth = 200;
-		int               m_oldHeight = 200;
-		bool              m_mainWindow = false;
-		PyObject*         m_closing_callback = nullptr;
-		PyObject*         m_resize_callback = nullptr;
-		bool              m_dirty_pos = true;
-		bool              m_dirty_size = true;
-		bool              m_closing = true;
-		bool              m_noclose = false;
-		bool              m_hasMenuBar = false;
-		bool              m_focusNextFrame = false;
-		mvRef<mvDrawList> m_drawList;
+		ImGuiWindowFlags      m_windowflags = ImGuiWindowFlags_NoSavedSettings;
+		ImGuiWindowFlags      m_oldWindowflags = ImGuiWindowFlags_NoSavedSettings;
+		mvWindowAppItemConfig m_config;
+		int                   m_oldxpos = 200;
+		int                   m_oldypos = 200;
+		int                   m_oldWidth = 200;
+		int                   m_oldHeight = 200;
+		bool                  m_mainWindow = false;
+		PyObject*             m_resize_callback = nullptr;
+		bool                  m_dirty_pos = true;
+		bool                  m_dirty_size = true;
+		bool                  m_hasMenuBar = false;
+		bool                  m_focusNextFrame = false;
+		bool                  m_closing = true;
+		mvRef<mvDrawList>     m_drawList;
 		
 	};
 
