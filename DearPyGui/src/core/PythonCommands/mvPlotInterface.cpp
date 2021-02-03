@@ -259,12 +259,44 @@ namespace Marvel {
 
 	static bool CheckList(const char* plot, PyObject* list)
 	{
-		if (!PyList_Check(list))
+		bool value = false;
+		if (PyList_Check(list))
+			value = true;
+		else if (PyTuple_Check(list))
+			value = true;
+
+		// TODO: check buffer shape
+		else if (PyObject_CheckBuffer(list))
 		{
-			ThrowPythonException(std::string(plot) + " add area series requires a list of floats.");
+			Py_buffer buffer_info;
 			return false;
+			if (!PyObject_GetBuffer(list, &buffer_info,
+				PyBUF_CONTIG_RO | PyBUF_FORMAT))
+			{
+
+				if (strcmp(buffer_info.format, "d") == 0)
+					value = true;
+				else if (strcmp(buffer_info.format, "l") == 0)
+					value = true;
+				else if (strcmp(buffer_info.format, "B") == 0)
+					value = true;
+				else
+					value = false;
+
+				PyBuffer_Release(&buffer_info);
+			}
+			else
+				value = false;
 		}
+
+		if (!value)
+		{
+			ThrowPythonException(std::string(plot) + " add series requires a list of floats.");
+			return value;
+		}
+
 		return true;
+
 	}
 
 	static bool CheckIfPlotOk(const char* name, mvAppItem* plot)

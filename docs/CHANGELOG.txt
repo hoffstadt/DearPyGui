@@ -31,6 +31,7 @@ Decorated log: https://github.com/hoffstadt/DearPyGui/releases/tag/v0.7.x
 Fixes:
 - start_dearpygui: fixed primary window not found crash #523
 - callback_error: prevent callback error crash
+- numpy: numpy arrays not work with plots
 
 ------------------------------------------------------------------------
  VERSION 0.6.151
