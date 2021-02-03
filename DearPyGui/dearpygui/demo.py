@@ -590,18 +590,6 @@ def show_demo():
                     add_combo("Combo##demomenu", items=["Yes", "No", "Maybe"])
                     add_checkbox("Some Option##demomenu")
 
-            with menu("Themes##demo"):
-                add_menu_item("Dark", callback = lambda sender, data: set_theme(sender), check=True)
-                add_menu_item("Light", callback = lambda sender, data: set_theme(sender), check=True)
-                add_menu_item("Classic", callback = lambda sender, data: set_theme(sender), check=True, shortcut="Ctrl+Shift+T")
-                add_menu_item("Dark 2", callback = lambda sender, data: set_theme(sender), check=True)
-                add_menu_item("Grey", callback = lambda sender, data: set_theme(sender), check=True)
-                add_menu_item("Dark Grey", callback = lambda sender, data: set_theme(sender), check=True)
-                add_menu_item("Cherry", callback = lambda sender, data: set_theme(sender), check=True)
-                add_menu_item("Purple", callback = lambda sender, data: set_theme(sender), check=True)
-                add_menu_item("Gold", callback = lambda sender, data: set_theme(sender), check=True, shortcut="Ctrl+Shift+P")
-                add_menu_item("Red", callback = lambda sender, data: set_theme(sender), check=True, shortcut="Ctrl+Shift+Y")
-
             with menu("Tools##demo"):
                 add_menu_item("Show Logger##demo", callback=show_logger)
                 add_menu_item("Show About##demo", callback=show_about)
@@ -667,11 +655,11 @@ def show_demo():
                     if i > 0:
                         add_same_line()
                     add_button(f"Click##{i}")
-                    set_item_color(f"Click##{i}", mvGuiCol_Button, hsv_to_rgb(i/7.0, 0.6, 0.6))
-                    set_item_color(f"Click##{i}", mvGuiCol_ButtonHovered, hsv_to_rgb(i/7.0, 0.7, 0.7))
-                    set_item_color(f"Click##{i}", mvGuiCol_ButtonActive, hsv_to_rgb(i/7.0, 0.8, 0.8))
-                    set_item_style_var(f"Click##{i}", mvGuiStyleVar_FrameRounding, [i*5])
-                    set_item_style_var(f"Click##{i}", mvGuiStyleVar_FramePadding, [i*3, i*3])
+                    #set_item_color(f"Click##{i}", mvGuiCol_Button, hsv_to_rgb(i/7.0, 0.6, 0.6))
+                    #set_item_color(f"Click##{i}", mvGuiCol_ButtonHovered, hsv_to_rgb(i/7.0, 0.7, 0.7))
+                    #set_item_color(f"Click##{i}", mvGuiCol_ButtonActive, hsv_to_rgb(i/7.0, 0.8, 0.8))
+                    #set_item_style_var(f"Click##{i}", mvGuiStyleVar_FrameRounding, [i*5])
+                    #set_item_style_var(f"Click##{i}", mvGuiStyleVar_FramePadding, [i*3, i*3])
                     disable_items.append(f"Click##{i}")
                 with group("increment_buttons##demo", horizontal=True):
                     add_text("Press a button: ")
@@ -798,7 +786,7 @@ def show_demo():
                 add_text("Progress Bar##text##demo")
                 set_value("Progress Bar##text##demo", "Progress Bar")
                 add_progress_bar("##Progress Bar##demo", default_value=0.78, overlay="1367/1753")
-                set_item_color("##Progress Bar##demo", mvGuiCol_PlotHistogram, [255,0,0, 255])
+                #set_item_color("##Progress Bar##demo", mvGuiCol_PlotHistogram, [255,0,0, 255])
 
             with tree_node("Color/Picker Widgets##demo"):
                 # wrapper to apply configuration to all items passed in as a list
@@ -920,10 +908,10 @@ def show_demo():
                         if i > 0:
                             add_same_line()
                         add_slider_float(f"##v{i}##demo", default_value=values[i], vertical=True, max_value=1.0, height=160)
-                        set_item_color(f"##v{i}##demo", mvGuiCol_FrameBg, hsv_to_rgb(i/7.0, 0.5, 0.5))
-                        set_item_color(f"##v{i}##demo", mvGuiCol_FrameBgHovered, hsv_to_rgb(i/7.0, 0.6, 0.5))
-                        set_item_color(f"##v{i}##demo", mvGuiCol_FrameBgActive, hsv_to_rgb(i/7.0, 0.7, 0.5))
-                        set_item_color(f"##v{i}##demo", mvGuiCol_SliderGrab, hsv_to_rgb(i/7.0, 0.9, 0.9))
+                        #set_item_color(f"##v{i}##demo", mvGuiCol_FrameBg, hsv_to_rgb(i/7.0, 0.5, 0.5))
+                        #set_item_color(f"##v{i}##demo", mvGuiCol_FrameBgHovered, hsv_to_rgb(i/7.0, 0.6, 0.5))
+                        #set_item_color(f"##v{i}##demo", mvGuiCol_FrameBgActive, hsv_to_rgb(i/7.0, 0.7, 0.5))
+                        #set_item_color(f"##v{i}##demo", mvGuiCol_SliderGrab, hsv_to_rgb(i/7.0, 0.9, 0.9))
 
                 add_same_line()
                 with group("v group 2##demo"):
@@ -981,7 +969,7 @@ def show_demo():
                     add_checkbox("horizontal_scrollbar##childdemo", callback=lambda sender, data: configure_item("testchild##demo", horizontal_scrollbar=get_value(sender)))
                     add_checkbox("border##childdemo", default_value=True, callback=lambda sender, data: configure_item("testchild##demo", border=get_value(sender)))
                 with child("testchild##demo", width=500, height=500):
-                    set_item_color("testchild##demo", mvGuiCol_ChildBg, [255, 0, 0, 100])
+                    #set_item_color("testchild##demo", mvGuiCol_ChildBg, [255, 0, 0, 100])
                     with menu_bar("MenuBartestChild##demo"):
                         with menu("Menu##testchild##demo"):
                             pass

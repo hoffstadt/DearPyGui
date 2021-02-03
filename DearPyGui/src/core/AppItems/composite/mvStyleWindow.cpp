@@ -164,19 +164,19 @@ namespace Marvel {
         static int style_idx = -1;
         if (ImGui::Combo(label, &style_idx, "Classic\0Dark\0Light\0Dark 2\0Grey\0Dark Grey\0Cherry\0Purple\0Gold\0Red"))
         {
-            switch (style_idx)
-            {
-            case 0: mvApp::GetApp()->setAppTheme("Classic"); break;
-            case 1: mvApp::GetApp()->setAppTheme("Dark"); break;
-            case 2: mvApp::GetApp()->setAppTheme("Light"); break;
-            case 3: mvApp::GetApp()->setAppTheme("Dark 2"); break;
-            case 4: mvApp::GetApp()->setAppTheme("Grey"); break;
-            case 5: mvApp::GetApp()->setAppTheme("Dark Grey"); break;
-            case 6: mvApp::GetApp()->setAppTheme("Cherry"); break;
-            case 7: mvApp::GetApp()->setAppTheme("Purple"); break;
-            case 8: mvApp::GetApp()->setAppTheme("Gold"); break;
-            case 9: mvApp::GetApp()->setAppTheme("Red"); break;
-            }
+            //switch (style_idx)
+            //{
+            //case 0: mvApp::GetApp()->setAppTheme("Classic"); break;
+            //case 1: mvApp::GetApp()->setAppTheme("Dark"); break;
+            //case 2: mvApp::GetApp()->setAppTheme("Light"); break;
+            //case 3: mvApp::GetApp()->setAppTheme("Dark 2"); break;
+            //case 4: mvApp::GetApp()->setAppTheme("Grey"); break;
+            //case 5: mvApp::GetApp()->setAppTheme("Dark Grey"); break;
+            //case 6: mvApp::GetApp()->setAppTheme("Cherry"); break;
+            //case 7: mvApp::GetApp()->setAppTheme("Purple"); break;
+            //case 8: mvApp::GetApp()->setAppTheme("Gold"); break;
+            //case 9: mvApp::GetApp()->setAppTheme("Red"); break;
+            //}
             return true;
         }
         return false;

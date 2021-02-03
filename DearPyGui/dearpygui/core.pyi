@@ -362,7 +362,7 @@ def add_table(name: str, headers: List[str], *, callback: Callable = None, callb
 	"""Adds table."""
 	...
 
-def add_text(name: str, *, wrap: int = -1, color: List[float] = (0, 0, 0, -1), bullet: bool = False, tip: str = '', parent: str = '', before: str = '', source: str = '', default_value: str = '', show: bool = True) -> None:
+def add_text(name: str, *, wrap: int = -1, color: List[float] = (0, 0, 0, -1), bullet: bool = False, parent: str = '', before: str = '', source: str = '', default_value: str = '', show: bool = True) -> None:
 	"""Adds text"""
 	...
 
@@ -408,14 +408,6 @@ def cleanup_dearpygui() -> None:
 
 def clear_drawing(draw: str) -> None:
 	"""Clears a drawing."""
-	...
-
-def clear_item_color(item: str) -> None:
-	"""Clears individual color styles for an item."""
-	...
-
-def clear_item_style_vars(item: str) -> None:
-	"""Clears individual styles variables for an item."""
 	...
 
 def clear_log(*, logger: str = '') -> None:
@@ -662,24 +654,8 @@ def get_style_antialiased_lines() -> bool:
 	"""Gets anti-aliasing on lines/borders."""
 	...
 
-def get_style_button_text_align() -> List[float]:
-	"""Gets alignment of button text when button is larger than text. Defaults to (0.5, 0.5) (centered)."""
-	...
-
-def get_style_child_border_size() -> float:
-	"""Gets thickness of border around child windows."""
-	...
-
-def get_style_child_rounding() -> float:
-	"""Gets radius of child window corners rounding."""
-	...
-
 def get_style_circle_segment_max_error() -> float:
 	"""Gets maximum error (in pixels) allowed when using draw_circle()or drawing rounded corner rectangles with no explicit segment count specified."""
-	...
-
-def get_style_color_button_position() -> int:
-	"""Gets side of the color button in the ColorEdit4 widget (left/right). Defaults to mvGuiDir_Right."""
 	...
 
 def get_style_curve_tessellation_tolerance() -> float:
@@ -690,92 +666,12 @@ def get_style_display_safe_area_padding() -> List[float]:
 	"""Gets safe area padding. Applies to popups/tooltips as well regular windows."""
 	...
 
-def get_style_frame_border_size() -> float:
-	"""Gets thickness of border around frames."""
-	...
-
-def get_style_frame_padding() -> List[float]:
-	"""Gets padding within a framed rectangle (used by most widgets)."""
-	...
-
-def get_style_frame_rounding() -> float:
-	"""Gets radius of frame corners rounding."""
-	...
-
 def get_style_global_alpha() -> float:
 	"""Gets global alpha applies to everything in Dear PyGui."""
 	...
 
-def get_style_grab_min_size() -> float:
-	"""Gets minimum width/height of a grab box for slider/scrollbar."""
-	...
-
-def get_style_grab_rounding() -> float:
-	"""Gets radius of grabs corners rounding. Set to 0.0 to have rectangular slider grabs."""
-	...
-
-def get_style_indent_spacing() -> float:
-	"""Gets horizontal indentation when e.g. entering a tree node. Generally == (FontSize + FramePadding.x*2)."""
-	...
-
-def get_style_item_inner_spacing() -> List[float]:
-	"""Gets horizontal and vertical spacing between within elements of a composed widget (e.g. a slider and its label)."""
-	...
-
-def get_style_item_spacing() -> List[float]:
-	"""Gets horizontal and vertical spacing between widgets/lines."""
-	...
-
-def get_style_popup_border_size() -> float:
-	"""Gets thickness of border around popup/tooltip windows."""
-	...
-
-def get_style_popup_rounding() -> float:
-	"""Gets radius of popup window corners rounding. (Note that tooltip windows use WindowRounding)."""
-	...
-
-def get_style_scrollbar_rounding() -> float:
-	"""Gets radius of grab corners for scrollbar."""
-	...
-
-def get_style_scrollbar_size() -> float:
-	"""Gets width of the vertical scrollbar, Height of the horizontal scrollbar."""
-	...
-
-def get_style_selectable_text_align() -> List[float]:
-	"""Gets alignment of selectable text. Defaults to (0.0, 0.0) (top-left aligned)."""
-	...
-
-def get_style_tab_border_size() -> float:
-	"""Gets thickness of border around tabs."""
-	...
-
-def get_style_tab_rounding() -> float:
-	"""Gets radius of upper corners of a tab. Set to 0.0 to have rectangular tabs."""
-	...
-
 def get_style_touch_extra_padding() -> List[float]:
 	"""Get touch extra padding."""
-	...
-
-def get_style_window_border_size() -> float:
-	"""Gets thickness of border around windows."""
-	...
-
-def get_style_window_menu_button_position() -> int:
-	"""Gets side of the collapsing/docking button in the title bar (None/Left/Right). Defaults to mvGuiDir_Left."""
-	...
-
-def get_style_window_padding() -> List[float]:
-	"""Gets padding within a window."""
-	...
-
-def get_style_window_rounding() -> float:
-	"""Gets radius of window corners rounding."""
-	...
-
-def get_style_window_title_align() -> List[float]:
-	"""Gets alignment for title bar text. Defaults to (0.0,0.5) for left-aligned,vertically centered."""
 	...
 
 def get_table_data(name: str) -> List[List[str]]:
@@ -788,14 +684,6 @@ def get_table_item(table: str, row: int, column: int) -> str:
 
 def get_table_selections(table: str) -> List[List[int]]:
 	"""Retrieves data from storage."""
-	...
-
-def get_theme() -> str:
-	"""Returns the current theme."""
-	...
-
-def get_theme_item(item: int) -> (float, float, float, float):
-	"""Returns a theme item's color"""
 	...
 
 def get_total_time() -> float:
@@ -994,10 +882,6 @@ def set_headers(table: str, headers: List[str]) -> None:
 	"""Sets a tables headers."""
 	...
 
-def set_individual_color(item: str, id: int, color: List[float]) -> None:
-	"""Sets an color of a theme item."""
-	...
-
 def set_item_callback(item: str, callback: Callable, *, callback_data: Any = None) -> None:
 	"""Sets an item's callback if applicable."""
 	...
@@ -1006,20 +890,12 @@ def set_item_callback_data(item: str, callback_data: Any) -> None:
 	"""Sets an item's callback data if applicable."""
 	...
 
-def set_item_color(item: str, style: int, color: List[float]) -> None:
-	"""Sets an color style for a single item."""
-	...
-
 def set_item_height(item: str, height: int) -> None:
 	"""Sets an item's height if applicable."""
 	...
 
 def set_item_label(item: str, label: str) -> None:
 	"""Sets an item's label."""
-	...
-
-def set_item_style_var(item: str, style: int, value: List[float]) -> None:
-	"""Sets an style variable for a single item."""
 	...
 
 def set_item_tip(item: str, tip: str) -> None:
@@ -1138,24 +1014,8 @@ def set_style_antialiased_lines(value: bool) -> None:
 	"""Sets anti-aliasing on lines/borders. Disable if you are really tight on CPU/GPU."""
 	...
 
-def set_style_button_text_align(x: float, y: float) -> None:
-	"""Sets alignment of button text when button is larger than text. Defaults to (0.5, 0.5) (centered)."""
-	...
-
-def set_style_child_border_size(value: float) -> None:
-	"""Sets thickness of border around child windows. Generally set to 0.0 or 1.0. (Other values are not well tested and more CPU/GPU costly)."""
-	...
-
-def set_style_child_rounding(value: float) -> None:
-	"""Sets radius of child window corners rounding. Set to 0.0 to have rectangular windows."""
-	...
-
 def set_style_circle_segment_max_error(value: float) -> None:
 	"""Sets maximum error (in pixels) allowed when using draw_circle()or drawing rounded corner rectangles with no explicit segment count specified. Decrease for higher quality but more geometry."""
-	...
-
-def set_style_color_button_position(value: int) -> None:
-	"""Sets side of the color button in the ColorEdit4 widget (left/right). Defaults to mvGuiDir_Right."""
 	...
 
 def set_style_curve_tessellation_tolerance(value: float) -> None:
@@ -1166,92 +1026,12 @@ def set_style_display_safe_area_padding(x: float, y: float) -> None:
 	"""Sets if you cannot see the edges of your screen (e.g. on a TV) increase the safe area padding. Apply to popups/tooltips as well regular windows. NB: Prefer configuring your TV sets correctly!"""
 	...
 
-def set_style_frame_border_size(value: float) -> None:
-	"""Sets thickness of border around frames. Generally set to 0.0 or 1.0. (Other values are not well tested and more CPU/GPU costly)."""
-	...
-
-def set_style_frame_padding(x: float, y: float) -> None:
-	"""Sets padding within a framed rectangle (used by most widgets)."""
-	...
-
-def set_style_frame_rounding(value: float) -> None:
-	"""Sets radius of frame corners rounding. Set to 0.0 to have rectangular frame (used by most widgets)."""
-	...
-
 def set_style_global_alpha(value: float) -> None:
 	"""Sets global alpha applies to everything in Dear PyGui."""
 	...
 
-def set_style_grab_min_size(value: float) -> None:
-	"""Sets minimum width/height of a grab box for slider/scrollbar."""
-	...
-
-def set_style_grab_rounding(value: float) -> None:
-	"""Sets radius of grabs corners rounding. Set to 0.0 to have rectangular slider grabs."""
-	...
-
-def set_style_indent_spacing(value: float) -> None:
-	"""Sets horizontal indentation when e.g. entering a tree node. Generally == (FontSize + FramePadding.x*2)."""
-	...
-
-def set_style_item_inner_spacing(x: float, y: float) -> None:
-	"""Sets horizontal and vertical spacing between within elements of a composed widget (e.g. a slider and its label)."""
-	...
-
-def set_style_item_spacing(x: float, y: float) -> None:
-	"""Sets horizontal and vertical spacing between widgets/lines."""
-	...
-
-def set_style_popup_border_size(value: float) -> None:
-	"""Sets thickness of border around popup/tooltip windows. Generally set to 0.0 or 1.0. (Other values are not well tested and more CPU/GPU costly)."""
-	...
-
-def set_style_popup_rounding(value: float) -> None:
-	"""Sets radius of popup window corners rounding. (Note that tooltip windows use WindowRounding)."""
-	...
-
-def set_style_scrollbar_rounding(value: float) -> None:
-	"""Sets radius of grab corners for scrollbar."""
-	...
-
-def set_style_scrollbar_size(value: float) -> None:
-	"""Sets width of the vertical scrollbar, Height of the horizontal scrollbar."""
-	...
-
-def set_style_selectable_text_align(x: float, y: float) -> None:
-	"""Sets alignment of selectable text. Defaults to (0.0, 0.0) (top-left aligned). It's generally important to keep this left-aligned if you want to lay multiple items on a same line."""
-	...
-
-def set_style_tab_border_size(value: float) -> None:
-	"""Sets thickness of border around tabs."""
-	...
-
-def set_style_tab_rounding(value: float) -> None:
-	"""Sets radius of upper corners of a tab. Set to 0.0 to have rectangular tabs."""
-	...
-
 def set_style_touch_extra_padding(x: float, y: float) -> None:
 	"""Expand reactive bounding box for touch-based system where touch position is not accurate enough. Unfortunately we don't sort widgets so priority on overlap will always be given to the first widget. So don't grow this too much!"""
-	...
-
-def set_style_window_border_size(value: float) -> None:
-	"""Sets thickness of border around windows. Generally set to 0.0 or 1.0. (Other values are not well tested and more CPU/GPU costly)."""
-	...
-
-def set_style_window_menu_button_position(value: int) -> None:
-	"""Sets side of the collapsing/docking button in the title bar (None/Left/Right). Defaults to mvGuiDir_Left."""
-	...
-
-def set_style_window_padding(x: float, y: float) -> None:
-	"""Sets padding within a window."""
-	...
-
-def set_style_window_rounding(value: float) -> None:
-	"""Sets Radius of window corners rounding. Set to 0.0fto have rectangular windows. Large values tend to lead to variety of artifacts and are not recommended."""
-	...
-
-def set_style_window_title_align(x: float, y: float) -> None:
-	"""Sets alignment for title bar text. Defaults to (0.0,0.5) for left-aligned,vertically centered."""
 	...
 
 def set_table_data(name: str, data: List[List[str]]) -> None:
@@ -1266,16 +1046,8 @@ def set_table_selection(table: str, row: int, column: int, value: bool) -> None:
 	"""Sets a table's cell selection value."""
 	...
 
-def set_theme(theme: str) -> None:
-	"""Set the application's theme to a built-in theme."""
-	...
-
 def set_theme_color(constant: int, color: List[float], item: str = ) -> None:
 	"""Sets a color of a theme item."""
-	...
-
-def set_theme_item(item: int, r: int, g: int, b: int, a: int) -> None:
-	"""Sets a theme item."""
 	...
 
 def set_value(name: str, value: Any) -> bool:
