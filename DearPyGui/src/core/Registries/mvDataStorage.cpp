@@ -29,16 +29,13 @@ namespace Marvel {
 		if (s_dataStorage.count(name) == 0)
 		{
 			 
-			Py_XINCREF(data);
+			//Py_XINCREF(data);
 			s_dataStorage.insert({ name, data });
 		}
 		else
 		{
 			if (s_dataStorage.at(name) != data)
 			{
-				 
-				// this is different item, delete the old
-				Py_XDECREF(s_dataStorage.at(name));
 				
 				if (PyObject_CheckBuffer(s_dataStorage.at(name)))
 				{
@@ -51,11 +48,23 @@ namespace Marvel {
 					}
 				}
 
+				if(s_dataStorage.at(name) == Py_None)
+					Py_XDECREF(s_dataStorage.at(name));
+				else if (PyNumber_Check(s_dataStorage.at(name)))
+					Py_XDECREF(s_dataStorage.at(name));
+				else
+				{
+					while (s_dataStorage.at(name)->ob_refcnt > 0)
+						Py_XDECREF(s_dataStorage.at(name));
+				}
+
+				auto blah = s_dataStorage.at(name);
 				s_dataStorage.erase(name);
 
-				Py_XINCREF(data);
+				//Py_XINCREF(data);
 				s_dataStorage[name] = data;
 			}
+
 		}
 
 	}
@@ -85,7 +94,7 @@ namespace Marvel {
 			return nullptr;
 		}
 
-		 
+		// inc to tell python we are keeping a copy
 		Py_XINCREF(s_dataStorage.at(name));
 		return s_dataStorage.at(name);
 	}
