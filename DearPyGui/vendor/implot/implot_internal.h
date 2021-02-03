@@ -207,6 +207,23 @@ enum ImPlotTimeFmt_ {              // default        [ 24 Hour Clock ]
     ImPlotTimeFmt_Hr               // 7pm            [ 19:00        ]
 };
 
+// Input mapping structure, default values listed in the comments.
+struct ImPlotInputMap {
+    ImGuiMouseButton PanButton;             // LMB      enables panning when held
+    ImGuiKeyModFlags PanMod;                // none     optional modifier that must be held for panning
+    ImGuiMouseButton FitButton;             // LMB      fits visible data when double clicked
+    ImGuiMouseButton ContextMenuButton;     // RMB      opens plot context menu (if enabled) when clicked
+    ImGuiMouseButton BoxSelectButton;       // RMB      begins box selection when pressed and confirms selection when released
+    ImGuiKeyModFlags BoxSelectMod;          // none     optional modifier that must be held for box selection
+    ImGuiMouseButton BoxSelectCancelButton; // LMB      cancels active box selection when pressed
+    ImGuiMouseButton QueryButton;           // MMB      begins query selection when pressed and end query selection when released
+    ImGuiKeyModFlags QueryMod;              // none     optional modifier that must be held for query selection
+    ImGuiKeyModFlags QueryToggleMod;        // Ctrl     when held, active box selections turn into queries
+    ImGuiKeyModFlags HorizontalMod;         // Alt      expands active box selection/query horizontally to plot edge when held
+    ImGuiKeyModFlags VerticalMod;           // Shift    expands active box selection/query vertically to plot edge when held
+    IMPLOT_API ImPlotInputMap();
+};
+
 //-----------------------------------------------------------------------------
 // [SECTION] ImPlot Structs
 //-----------------------------------------------------------------------------
@@ -537,6 +554,7 @@ struct ImPlotPlot
     ImVec2             QueryStart;
     ImRect             QueryRect;
     bool               Selecting;
+    bool               ContextLocked;
     bool               Querying;
     bool               Queried;
     bool               DraggingQuery;
@@ -561,7 +579,7 @@ struct ImPlotPlot
         for (int i = 0; i < IMPLOT_Y_AXES; ++i)
             YAxis[i].Orientation = ImPlotOrientation_Vertical;
         SelectStart       = QueryStart = ImVec2(0,0);
-        Selecting         = Querying = Queried = DraggingQuery = LegendHovered = LegendOutside = LegendFlipSideNextFrame = false;
+        Selecting         = ContextLocked = Querying = Queried = DraggingQuery = LegendHovered = LegendOutside = LegendFlipSideNextFrame = false;
         ColormapIdx       = CurrentYAxis = 0;
         LegendLocation    = ImPlotLocation_North | ImPlotLocation_West;
         LegendOrientation = ImPlotOrientation_Vertical;
@@ -715,6 +733,13 @@ IMPLOT_API void Initialize(ImPlotContext* ctx);
 IMPLOT_API void Reset(ImPlotContext* ctx);
 
 //-----------------------------------------------------------------------------
+// [SECTION] Input Utils
+//-----------------------------------------------------------------------------
+
+// Allows changing how keyboard/mouse interaction works.
+IMPLOT_API ImPlotInputMap& GetInputMap();
+
+//-----------------------------------------------------------------------------
 // [SECTION] Plot Utils
 //-----------------------------------------------------------------------------
 
@@ -762,8 +787,12 @@ inline ImPlotScale GetCurrentScale() { return GImPlot->Scales[GetCurrentYAxis()]
 
 // Returns true if the user has requested data to be fit.
 inline bool FitThisFrame() { return GImPlot->FitThisFrame; }
-// Extends the current plots axes so that it encompasses point p
+// Extends the current plot's axes so that it encompasses point p
 IMPLOT_API void FitPoint(const ImPlotPoint& p);
+// Extends the current plot's axes so that it encompasses a vertical line at x
+IMPLOT_API void FitPointX(double x);
+// Extends the current plot's axes so that it encompasses a horizontal line at y
+IMPLOT_API void FitPointY(double y);
 
 // Returns true if two ranges overlap
 inline bool RangesOverlap(const ImPlotRange& r1, const ImPlotRange& r2)
