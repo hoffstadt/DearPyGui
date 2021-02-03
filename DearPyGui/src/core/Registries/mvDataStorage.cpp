@@ -39,8 +39,7 @@ namespace Marvel {
 				 
 				// this is different item, delete the old
 				Py_XDECREF(s_dataStorage.at(name));
-				s_dataStorage.erase(name);
-
+				
 				if (PyObject_CheckBuffer(s_dataStorage.at(name)))
 				{
 					Py_buffer buffer_info;
@@ -51,6 +50,8 @@ namespace Marvel {
 						PyBuffer_Release(&buffer_info);
 					}
 				}
+
+				s_dataStorage.erase(name);
 
 				Py_XINCREF(data);
 				s_dataStorage[name] = data;
