@@ -117,20 +117,10 @@ namespace Marvel {
         int                      getActualHeight   () const { return m_actualHeight; }
         int                      getClientWidth    () const { return m_clientWidth; }
         int                      getClientHeight   () const { return m_clientHeight; }
-        ImGuiStyle&              getStyle          ()       { return m_newStyle; }
         mvWindow*                getViewport       ()       { return m_viewport; }
         bool                     getVSync          () const { return m_vsync; }
         bool                     getResizable      () const { return m_resizable; }
-        
-        //-----------------------------------------------------------------------------
-        // Styles/Themes
-        //-----------------------------------------------------------------------------
-        void                     setAppTheme      (const std::string& theme);
-        void                     setThemeItem     (long item, mvColor& color);
-        void                     setStyleChanged  () { m_styleChange = true; }
-                                 
-        const std::string&       getAppTheme () const { return m_theme; }
-        mvColor                  getThemeItem(long item);
+       
 
         //-----------------------------------------------------------------------------
         // Concurrency
@@ -159,8 +149,6 @@ namespace Marvel {
         void postProfile    ();
 
         mvApp();
-
-        void updateStyle();
         
     private:
 
@@ -191,10 +179,7 @@ namespace Marvel {
         mvRef<std::map<std::string, mvPythonParser>> m_parsers;
         
         // appearance
-        std::string m_theme = "Dark";
         float       m_globalFontScale = 1.0f;
-        ImGuiStyle  m_newStyle;
-        bool        m_styleChange = true;
         bool        m_vsync = true;
         bool        m_resizable = true;
 

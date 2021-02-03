@@ -556,60 +556,6 @@ namespace Marvel {
 			{ "mvThemeCol_TabButton_PopupBg"               , 7804 },
 
 			//-----------------------------------------------------------------------------
-			// Theme Color IDs
-			//-----------------------------------------------------------------------------
-			{"mvGuiCol_Text"                 , 0},
-			{"mvGuiCol_TextDisabled"         , 1},
-			{"mvGuiCol_WindowBg"             , 2}, // Background of normal windows
-			{"mvGuiCol_ChildBg"              , 3}, // Background of child windows
-			{"mvGuiCol_PopupBg"              , 4}, // Background of popups, menus, tooltips windows
-			{"mvGuiCol_Border"               , 5},
-			{"mvGuiCol_BorderShadow"         , 6},
-			{"mvGuiCol_FrameBg"              , 7},
-			{"mvGuiCol_FrameBgHovered"       , 8},
-			{"mvGuiCol_FrameBgActive"        , 9},
-			{"mvGuiCol_TitleBg"              , 10},
-			{"mvGuiCol_TitleBgActive"        , 11},
-			{"mvGuiCol_TitleBgCollapsed"     , 12},
-			{"mvGuiCol_MenuBarBg"            , 13},
-			{"mvGuiCol_ScrollbarBg"          , 14},
-			{"mvGuiCol_ScrollbarGrab"        , 15},
-			{"mvGuiCol_ScrollbarGrabHovered" , 16},
-			{"mvGuiCol_ScrollbarGrabActive"  , 17},
-			{"mvGuiCol_CheckMark"            , 18},
-			{"mvGuiCol_SliderGrab"           , 19},
-			{"mvGuiCol_SliderGrabActive"     , 20},
-			{"mvGuiCol_Button"               , 21},
-			{"mvGuiCol_ButtonHovered"        , 22},
-			{"mvGuiCol_ButtonActive"         , 23},
-			{"mvGuiCol_Header"               , 24}, // Header* colors are used for CollapsingHeader, TreeNode, Selectable, MenuItem
-			{"mvGuiCol_HeaderHovered"        , 25},
-			{"mvGuiCol_HeaderActive"         , 26},
-			{"mvGuiCol_Separator"            , 27},
-			{"mvGuiCol_SeparatorHovered"     , 28},
-			{"mvGuiCol_SeparatorActive"      , 29},
-			{"mvGuiCol_ResizeGrip"           , 30},
-			{"mvGuiCol_ResizeGripHovered"    , 31},
-			{"mvGuiCol_ResizeGripActive"     , 32},
-			{"mvGuiCol_Tab"                  , 33},
-			{"mvGuiCol_TabHovered"           , 34},
-			{"mvGuiCol_TabActive"            , 35},
-			{"mvGuiCol_TabUnfocused"         , 36},
-			{"mvGuiCol_DockingPreview"       , 37},
-			{"mvGuiCol_DockingEmptyBg"       , 38},
-			{"mvGuiCol_TabUnfocusedActive"   , 39},
-			{"mvGuiCol_PlotLines"            , 40},
-			{"mvGuiCol_PlotLinesHovered"     , 41},
-			{"mvGuiCol_PlotHistogram"        , 42},
-			{"mvGuiCol_PlotHistogramHovered" , 43},
-			{"mvGuiCol_TextSelectedBg"       , 44},
-			{"mvGuiCol_DragDropTarget"       , 45},
-			{"mvGuiCol_NavHighlight"         , 46}, // Gamepad/keyboard: current highlighted item
-			{"mvGuiCol_NavWindowingHighlight", 47}, // Highlight window when using CTRL+TAB
-			{"mvGuiCol_NavWindowingDimBg"    , 48}, // Darken/colorize entire screen behind the CTRL+TAB window list, when active 
-			{"mvGuiCol_ModalWindowDimBg"     , 49}, // Darken/colorize entire screen behind a modal window, when one is active
-
-			//-----------------------------------------------------------------------------
 			// Theme style variable IDs
 			//-----------------------------------------------------------------------------
 			{ "mvGuiStyleVar_Alpha",               0 },
@@ -1126,79 +1072,8 @@ namespace Marvel {
 		ADD_PYTHON_FUNCTION(set_resize_callback)
 
 		// Theme commands
-		ADD_PYTHON_FUNCTION(set_individual_color)
 		ADD_PYTHON_FUNCTION(set_theme_color)
 		ADD_PYTHON_FUNCTION(add_additional_font)
-		ADD_PYTHON_FUNCTION(set_item_color)
-		ADD_PYTHON_FUNCTION(clear_item_color)
-		ADD_PYTHON_FUNCTION(set_item_style_var)
-		ADD_PYTHON_FUNCTION(clear_item_style_vars)
-		ADD_PYTHON_FUNCTION(get_theme_item)
-		ADD_PYTHON_FUNCTION(get_theme)
-		ADD_PYTHON_FUNCTION(set_theme_item)
-		ADD_PYTHON_FUNCTION(set_theme)
-		ADD_PYTHON_FUNCTION(set_style_window_padding)
-		ADD_PYTHON_FUNCTION(set_style_frame_padding)
-		ADD_PYTHON_FUNCTION(set_style_item_spacing)
-		ADD_PYTHON_FUNCTION(set_style_item_inner_spacing)
-		ADD_PYTHON_FUNCTION(set_style_touch_extra_padding)
-		ADD_PYTHON_FUNCTION(set_style_indent_spacing)
-		ADD_PYTHON_FUNCTION(set_style_scrollbar_size)
-		ADD_PYTHON_FUNCTION(set_style_grab_min_size)
-		ADD_PYTHON_FUNCTION(set_style_window_border_size)
-		ADD_PYTHON_FUNCTION(set_style_child_border_size)
-		ADD_PYTHON_FUNCTION(set_style_popup_border_size)
-		ADD_PYTHON_FUNCTION(set_style_frame_border_size)
-		ADD_PYTHON_FUNCTION(set_style_tab_border_size)
-		ADD_PYTHON_FUNCTION(set_style_window_rounding)
-		ADD_PYTHON_FUNCTION(set_style_child_rounding)
-		ADD_PYTHON_FUNCTION(set_style_frame_rounding)
-		ADD_PYTHON_FUNCTION(set_style_popup_rounding)
-		ADD_PYTHON_FUNCTION(set_style_scrollbar_rounding)
-		ADD_PYTHON_FUNCTION(set_style_grab_rounding)
-		ADD_PYTHON_FUNCTION(set_style_tab_rounding)
-		ADD_PYTHON_FUNCTION(set_style_window_title_align)
-		ADD_PYTHON_FUNCTION(set_style_window_menu_button_position)
-		ADD_PYTHON_FUNCTION(set_style_color_button_position)
-		ADD_PYTHON_FUNCTION(set_style_button_text_align)
-		ADD_PYTHON_FUNCTION(set_style_selectable_text_align)
-		ADD_PYTHON_FUNCTION(set_style_display_safe_area_padding)
-		ADD_PYTHON_FUNCTION(set_style_global_alpha)
-		ADD_PYTHON_FUNCTION(set_style_antialiased_lines)
-		ADD_PYTHON_FUNCTION(set_style_antialiased_fill)
-		ADD_PYTHON_FUNCTION(set_style_curve_tessellation_tolerance)
-		ADD_PYTHON_FUNCTION(set_style_circle_segment_max_error)
-		ADD_PYTHON_FUNCTION(get_style_window_padding)
-		ADD_PYTHON_FUNCTION(get_style_frame_padding)
-		ADD_PYTHON_FUNCTION(get_style_item_spacing)
-		ADD_PYTHON_FUNCTION(get_style_item_inner_spacing)
-		ADD_PYTHON_FUNCTION(get_style_touch_extra_padding)
-		ADD_PYTHON_FUNCTION(get_style_indent_spacing)
-		ADD_PYTHON_FUNCTION(get_style_scrollbar_size)
-		ADD_PYTHON_FUNCTION(get_style_grab_min_size)
-		ADD_PYTHON_FUNCTION(get_style_window_border_size)
-		ADD_PYTHON_FUNCTION(get_style_child_border_size)
-		ADD_PYTHON_FUNCTION(get_style_popup_border_size)
-		ADD_PYTHON_FUNCTION(get_style_frame_border_size)
-		ADD_PYTHON_FUNCTION(get_style_tab_border_size)
-		ADD_PYTHON_FUNCTION(get_style_window_rounding)
-		ADD_PYTHON_FUNCTION(get_style_child_rounding)
-		ADD_PYTHON_FUNCTION(get_style_frame_rounding)
-		ADD_PYTHON_FUNCTION(get_style_popup_rounding)
-		ADD_PYTHON_FUNCTION(get_style_scrollbar_rounding)
-		ADD_PYTHON_FUNCTION(get_style_grab_rounding)
-		ADD_PYTHON_FUNCTION(get_style_tab_rounding)
-		ADD_PYTHON_FUNCTION(get_style_window_title_align)
-		ADD_PYTHON_FUNCTION(get_style_window_menu_button_position)
-		ADD_PYTHON_FUNCTION(get_style_color_button_position)
-		ADD_PYTHON_FUNCTION(get_style_button_text_align)
-		ADD_PYTHON_FUNCTION(get_style_selectable_text_align)
-		ADD_PYTHON_FUNCTION(get_style_display_safe_area_padding)
-		ADD_PYTHON_FUNCTION(get_style_global_alpha)
-		ADD_PYTHON_FUNCTION(get_style_antialiased_lines)
-		ADD_PYTHON_FUNCTION(get_style_antialiased_fill)
-		ADD_PYTHON_FUNCTION(get_style_curve_tessellation_tolerance)
-		ADD_PYTHON_FUNCTION(get_style_circle_segment_max_error)
 		
 		// table commands
 		ADD_PYTHON_FUNCTION(add_table)
