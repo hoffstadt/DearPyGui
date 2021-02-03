@@ -75,10 +75,15 @@ def save_callback(sender, data):
     print("Save Clicked")
 
 with simple.window("Example Window"):
+    core.set_main_window_size(width=640, height=600)
     core.add_text("Hello world")
     core.add_button("Save", callback=save_callback)
+    
     core.add_input_text("string")
     core.add_slider_float("float")
+    
+    core.add_text("say hello again!", source="test")
+    core.set_value("test", "OK!")
 
 core.start_dearpygui()
 ```
