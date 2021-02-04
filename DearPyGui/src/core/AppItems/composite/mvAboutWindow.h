@@ -7,7 +7,7 @@ namespace Marvel {
     class mvAboutWindow : public mvBaseWindowAppitem
     {
         
-        MV_APPITEM_TYPE(mvAppItemType::AboutWindow, "add_about_window")
+        MV_APPITEM_TYPE_OLD_SYSTEM(mvAppItemType::AboutWindow, "add_about_window")
         
     public:
         

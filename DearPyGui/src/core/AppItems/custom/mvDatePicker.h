@@ -15,7 +15,7 @@ namespace Marvel {
 
 	public:
 
-		MV_APPITEM_TYPE(mvAppItemType::DatePicker, "add_date_picker")
+		MV_APPITEM_TYPE_OLD_SYSTEM(mvAppItemType::DatePicker, "add_date_picker")
 
 		mvDatePicker(const std::string& name, tm default_value);
 

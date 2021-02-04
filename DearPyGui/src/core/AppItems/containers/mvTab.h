@@ -15,7 +15,7 @@ namespace Marvel {
 
 	public:
 
-		MV_APPITEM_TYPE(mvAppItemType::TabItem, "add_tab")
+		MV_APPITEM_TYPE_OLD_SYSTEM(mvAppItemType::TabItem, "add_tab")
 
 		mvTab(const std::string& name);
 

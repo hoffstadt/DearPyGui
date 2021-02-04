@@ -27,7 +27,7 @@ namespace Marvel {
 
 	public:
 
-		MV_APPITEM_TYPE(mvAppItemType::Text, "add_text")
+		MV_APPITEM_TYPE_OLD_SYSTEM(mvAppItemType::Text, "add_text")
 
 		mvText(const std::string& name, const std::string& default_value, const std::string& dataSource);
 
@@ -58,7 +58,7 @@ namespace Marvel {
 
 	public:
 
-		MV_APPITEM_TYPE(mvAppItemType::LabelText, "add_label_text")
+		MV_APPITEM_TYPE_OLD_SYSTEM(mvAppItemType::LabelText, "add_label_text")
 
 		mvLabelText(const std::string& name, const std::string& value, const std::string& dataSource);
 

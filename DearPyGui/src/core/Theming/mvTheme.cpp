@@ -3,6 +3,13 @@
 
 namespace Marvel {
 
+	int mvTheme::GetLibraryConstant(int encoded_constant, mvAppItemType* out_type)
+	{
+		if(out_type)
+			*out_type = (mvAppItemType)(encoded_constant / 100);
+		return encoded_constant % 100;
+	}
+
 	mvTheme::mvTheme()
 	{
 		mvEventBus::Subscribe(this, SID("color_change"), mvEVT_CATEGORY_THEMES);
@@ -22,8 +29,9 @@ namespace Marvel {
 
 	bool mvTheme::add_color(mvEvent& event)
 	{
-		mvAppItemType type = (mvAppItemType)(GetEInt(event, "ID") / 100);
-		int libID = GetEInt(event, "ID") % 100;
+		mvAppItemType type;
+		int libID = GetLibraryConstant(GetEInt(event, "ID"), &type);
+
 		mvColor color = GetEColor(event, "COLOR");
 		const std::string& widget = GetEString(event, "WIDGET");
 
@@ -37,9 +45,7 @@ namespace Marvel {
 		//check widget can take color and apply
 		mvRef<mvAppItem> item = mvApp::GetApp()->getItemRegistry().getItem(widget);
 		if (item->getDescription().container || item->getType() == type)
-		{
 			item->getColors()[type][libID] = color;
-		}
 		else
 		{
 			mvApp::GetApp()->getCallbackRegistry().submitCallback([=]()
@@ -120,6 +126,63 @@ namespace Marvel {
 	}
 
 	void mvImGuiThemeScope::cleanup()
+	{
+		if (libIDCount > 0)
+			ImGui::PopStyleColor(libIDCount);
+		libIDCount = 0;
+	}
+
+	mvNewImGuiThemeScope::mvNewImGuiThemeScope(mvAppItem* item)
+	{
+
+		const std::vector<std::pair<std::string, long>>& color_constants = item->getColorConstants();
+
+		std::unordered_map<long, mvColor> colors;
+		std::unordered_map<long, bool> colors_found;
+		for (const auto& color_pair : color_constants)
+			colors_found[color_pair.second] = false;
+
+		// check local colors first
+		if (item->getColors().find(item->getType()) != item->getColors().end())
+		{
+			for (const auto& color : item->getColors()[item->getType()])
+			{
+				colors_found[color.first] = true;
+				colors[color.first] = color.second;
+			}
+		}
+
+		// search through ancestor tree for unfound colors
+		mvAppItem* widget = item;
+		while (!widget->getDescription().root)
+		{
+			widget = widget->getParent();
+
+			if (widget->getColors().find(item->getType()) != widget->getColors().end())
+			{
+				for (const auto& color : widget->getColors()[item->getType()])
+				{
+					// only apply if it wasn't found yet
+					if(!colors_found[color.first])
+						colors[color.first] = color.second;
+
+					colors_found[color.first] = true;
+				}
+			}
+		}
+
+		libIDCount = colors.size();
+		for (const auto& color : colors)
+			ImGui::PushStyleColor(color.first, color.second.toVec4());
+
+	}
+
+	mvNewImGuiThemeScope::~mvNewImGuiThemeScope()
+	{
+		cleanup();
+	}
+
+	void mvNewImGuiThemeScope::cleanup()
 	{
 		if (libIDCount > 0)
 			ImGui::PopStyleColor(libIDCount);

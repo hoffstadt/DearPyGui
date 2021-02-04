@@ -12,7 +12,7 @@ namespace Marvel {
 
 		static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
 
-		MV_APPITEM_TYPE(mvAppItemType::StyleWindow, "add_style_window")
+		MV_APPITEM_TYPE_OLD_SYSTEM(mvAppItemType::StyleWindow, "add_style_window")
 
 	public:
 

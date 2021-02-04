@@ -15,7 +15,7 @@ namespace Marvel {
 
 	public:
 
-		MV_APPITEM_TYPE(mvAppItemType::TabButton, "add_tab_button")
+		MV_APPITEM_TYPE_OLD_SYSTEM(mvAppItemType::TabButton, "add_tab_button")
 
 		mvTabButton(const std::string& name);
 

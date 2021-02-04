@@ -32,6 +32,13 @@
 
 namespace Marvel {
 
+	template <typename T>
+	static void AddWidgetColorConstants(std::vector<std::pair<std::string, long>>& constants)
+	{
+		for (const auto& item : T::GetColorConstants())
+			constants.push_back(item);
+	}
+
 	mvRef<std::map<std::string, mvPythonParser>> BuildDearPyGuiInterface()
 	{
 
@@ -174,12 +181,6 @@ namespace Marvel {
 			{ "mvThemeCol_InputText_Hint"                  ,  301 },
 			{ "mvThemeCol_InputText_Border"                ,  305 },
 			{ "mvThemeCol_InputText_BorderShadow"          ,  306 },
-			{ "mvThemeCol_Button_Text"                     ,  400 },
-			{ "mvThemeCol_Button_Bg"                       ,  421 },
-			{ "mvThemeCol_Button_Hovered"                  ,  422 },
-			{ "mvThemeCol_Button_Active"                   ,  423 },
-			{ "mvThemeCol_Button_Border"                   ,  405 },
-			{ "mvThemeCol_Button_BorderShadow"             ,  406 },
 			{ "mvThemeCol_RadioButton_Text"                ,  500 },
 			{ "mvThemeCol_RadioButton_Bg"                  ,  507 },
 			{ "mvThemeCol_RadioButton_BgHovered"           ,  508 },
@@ -407,33 +408,9 @@ namespace Marvel {
 			{ "mvThemeCol_RadioButton_BgActive"            , 4718 },
 			{ "mvThemeCol_RadioButton_Border"              , 4705 },
 			{ "mvThemeCol_RadioButton_BorderShadow"        , 4706 },
-			{ "mvThemeCol_Listbox_Text"                    , 4800 },
-			{ "mvThemeCol_Listbox_Selected"                , 4824 },
-			{ "mvThemeCol_Listbox_Hovered"                 , 4825 },
-			{ "mvThemeCol_Listbox_Active"                  , 4826 },
-			{ "mvThemeCol_Listbox_Bg"                      , 4807 },
-			{ "mvThemeCol_Listbox_Border"                  , 4805 },
-			{ "mvThemeCol_Listbox_Scrollbar"               , 4814 },
-			{ "mvThemeCol_Listbox_ScrollbarGrab"           , 4815 },
-			{ "mvThemeCol_Listbox_ScrollbarGrabHovered"    , 4816 },
-			{ "mvThemeCol_Listbox_ScrollbarGrabActive"     , 4817 },
 			{ "mvThemeCol_Text_Text"                       , 4900 },
 			{ "mvThemeCol_LabelText_Text"                  , 5000 },
-			{ "mvThemeCol_Combo_Text"                      , 5100 },
-			{ "mvThemeCol_Combo_Selected"                  , 5124 },
-			{ "mvThemeCol_Combo_Hovered"                   , 5125 },
-			{ "mvThemeCol_Combo_Active"                    , 5126 },
-			{ "mvThemeCol_Combo_Bg"                        , 5107 },
-			{ "mvThemeCol_Combo_BgHovered"                 , 5108 },
-			{ "mvThemeCol_Combo_DropBg"                    , 5104 },
-			{ "mvThemeCol_Combo_DropButtonBg"              , 5121 },
-			{ "mvThemeCol_Combo_DropButtonHovered"         , 5122 },
-			{ "mvThemeCol_Combo_Scrollbar"                 , 5114 },
-			{ "mvThemeCol_Combo_ScrollbarGrab"             , 5115 },
-			{ "mvThemeCol_Combo_ScrollbarGrabHovered"      , 5116 },
-			{ "mvThemeCol_Combo_ScrollbarGrabActive"       , 5117 },
-			{ "mvThemeCol_Combo_Border"                    , 5105 },
-			{ "mvThemeCol_Combo_BorderShadow"              , 5106 },
+
 			//plot										   
 			{ "mvThemeCol_SimplePlot_Text"                 , 5300 },
 			{ "mvThemeCol_SimplePlot_Border"               , 5305 },
@@ -879,6 +856,10 @@ namespace Marvel {
 			{ "mvTEX_RGB_INT", 3 },
 
 		};
+
+		AddWidgetColorConstants<mvButton>(ModuleConstants);
+		AddWidgetColorConstants<mvCombo>(ModuleConstants);
+		AddWidgetColorConstants<mvListbox>(ModuleConstants);
 
 		return ModuleConstants;
 	}

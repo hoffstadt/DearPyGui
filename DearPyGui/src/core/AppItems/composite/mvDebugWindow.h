@@ -13,7 +13,7 @@ namespace Marvel {
 
 		static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
 
-		MV_APPITEM_TYPE(mvAppItemType::DebugWindow, "add_debug_window")
+		MV_APPITEM_TYPE_OLD_SYSTEM(mvAppItemType::DebugWindow, "add_debug_window")
 
 	public:
 

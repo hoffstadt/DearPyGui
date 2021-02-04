@@ -15,7 +15,7 @@ namespace Marvel {
 
 	public:
 
-		MV_APPITEM_TYPE(mvAppItemType::TabBar, "add_tab_bar")
+		MV_APPITEM_TYPE_OLD_SYSTEM(mvAppItemType::TabBar, "add_tab_bar")
 
 		mvTabBar(const std::string& name);
 

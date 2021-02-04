@@ -10,7 +10,7 @@ namespace Marvel {
     class mvMetricsWindow : public mvBaseWindowAppitem
     {
         
-        MV_APPITEM_TYPE(mvAppItemType::MetricsWindow, "add_metrics_window")
+        MV_APPITEM_TYPE_OLD_SYSTEM(mvAppItemType::MetricsWindow, "add_metrics_window")
         
     public:
         
