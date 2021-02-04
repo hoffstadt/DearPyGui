@@ -28,6 +28,8 @@ def hsv_to_rgb(h: float, s: float, v: float) -> (float, float, float):
 def demo_main_callback(sender, data):
 
     set_value("Mouse Position##demo", str(get_mouse_pos()))
+    set_value("Drawing Mouse Position##demo", str(get_drawing_mouse_pos()))
+    set_value("Plot Mouse Position##demo", str(get_plot_mouse_pos()))
 
     # keys
     if is_key_down(mvKey_A):
@@ -1507,6 +1509,15 @@ def show_demo():
                 add_annotation("Annotations##plotsdemo", "TL", 0.25, 0.75, -15, -15, color=[255, 255, 0, 255])
                 add_annotation("Annotations##plotsdemo", "Center", 0.5, 0.5, 0, 0, color=[255, 255, 0, 255])
 
+            with tree_node("Infinite Lines##demo"):
+
+                infinite_x_data = [3, 5, 6, 7]
+                infinite_y_data = [3, 5, 6, 7]
+
+                add_plot("Infinite Line Plot##demo", height=400)
+                add_vline_series("Infinite Line Plot##demo", "vertical", infinite_x_data)
+                add_hline_series("Infinite Line Plot##demo", "horizontal", infinite_y_data)
+
             with tree_node("Drag Lines and Points##demo"):
                 
                 add_plot("##dragplotsdemo", height=400)
@@ -1535,6 +1546,15 @@ def show_demo():
 
                 add_plot("Image Plot##demo", height=400)
                 add_image_series("Image Plot##demo", "images", "INTERNAL_DPG_FONT_ATLAS", [100, 100], [200, 200])
+
+            with tree_node("Custom Rendering Plots##demo"):
+
+                add_plot("Custom Rendering Plot##demo", height=400)
+                draw_line("Custom Rendering Plot##demo", (10, 10), (100, 100), (255, 0, 0, 255), 1, tag="line command")
+                draw_triangle("Custom Rendering Plot##demo", (150, 10), (110, 100), (190, 100), (255, 255, 0, 255), thickness = 3.0)
+                draw_quad("Custom Rendering Plot##demo", (210, 10), (290, 10), (290, 100), (210, 100), (255, 255, 0, 255), thickness = 3.0)
+                draw_circle("Custom Rendering Plot##demo", (350, 60), 49, (255, 255, 0, 255))
+
 
         with collapsing_header("Simple Tables##demo"):
 
@@ -1628,6 +1648,8 @@ def show_demo():
                 add_spacing()
                 add_text("Mouse Polling:")
                 add_label_text("Mouse Position##demo", default_value="(0,0)", color=(0,200,255))
+                add_label_text("Drawing Mouse Position##demo", default_value="(0,0)", color=(0,200,255))
+                add_label_text("Plot Mouse Position##demo", default_value="(0,0)", color=(0,200,255))
                 add_label_text("Left Mouse Dragging##demo", default_value="False", color=(0,200,255))
                 add_label_text("Middle Mouse Dragging##demo", default_value="False", color=(0,200,255))
                 add_label_text("Right Mouse Dragging##demo", default_value="False", color=(0,200,255))

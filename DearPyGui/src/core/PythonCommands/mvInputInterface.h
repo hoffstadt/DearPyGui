@@ -13,6 +13,7 @@ namespace Marvel {
 	PyObject* is_mouse_button_released       (PyObject* self, PyObject* args, PyObject* kwargs);
 	PyObject* get_mouse_pos                  (PyObject* self, PyObject* args, PyObject* kwargs);
 	PyObject* get_plot_mouse_pos             (PyObject* self, PyObject* args, PyObject* kwargs);
+	PyObject* get_drawing_mouse_pos          (PyObject* self, PyObject* args, PyObject* kwargs);
 	PyObject* get_mouse_drag_delta           (PyObject* self, PyObject* args);
 
 	// mouse callbacks

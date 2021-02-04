@@ -7,6 +7,7 @@ namespace Marvel {
 	mvInput::AtomicVec2  mvInput::s_mousePos = {0, 0};
 	mvInput::AtomicVec2  mvInput::s_mouseGlobalPos = {0, 0};
 	mvInput::AtomicVec2  mvInput::s_mousePlotPos = {0, 0};
+	mvInput::AtomicVec2  mvInput::s_mouseDrawingPos = {0, 0};
 	std::atomic_int      mvInput::s_mouseDragThreshold = 20;
 	mvInput::AtomicVec2  mvInput::s_mouseDragDelta = { 0, 0 };
 	std::atomic_bool     mvInput::s_keysdown[512];
@@ -139,6 +140,12 @@ namespace Marvel {
 		s_mousePlotPos.y = (int)y;
 	}
 
+	void mvInput::setDrawingMousePosition(float x, float y)
+	{
+		s_mouseDrawingPos.x = (int)x;
+		s_mouseDrawingPos.y = (int)y;
+	}
+
 	void mvInput::setMouseDragThreshold(float threshold)
 	{
 		s_mouseDragThreshold = threshold;
@@ -173,6 +180,11 @@ namespace Marvel {
 	mvVec2 mvInput::getPlotMousePosition()
 	{
 		return { (float)s_mousePlotPos.x, (float)s_mousePlotPos.y };
+	}
+
+	mvVec2 mvInput::getDrawingMousePosition()
+	{
+		return { (float)s_mouseDrawingPos.x, (float)s_mouseDrawingPos.y };
 	}
 
 	bool mvInput::isMouseDragging(int button, float threshold)

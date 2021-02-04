@@ -3,7 +3,6 @@
 #include "mvWindow.h"
 #include "mvCallbackRegistry.h"
 #include "mvInput.h"
-#include "mvThemeScheme.h"
 #include <thread>
 #include <future>
 #include <chrono>
