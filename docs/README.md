@@ -138,6 +138,7 @@ These include:
 * 🏆 [Dean Keinan](https://github.com/deankeinan) _Partner Sponsor_
 * 🏆 [何凌锋](https://github.com/Hedaozi) _Partner Sponsor_
 * 🏆 [Nikki Luzader](https://github.com/nikkiluzader) _Partner Sponsor_
+* 🏆 [Ray Heasman](https://github.com/rheasman) _Partner Sponsor_
 * 🥇 [Caden Bloxham](https://github.com/cubic-unit) _Gold Sponsor_
 * 🥇 [Michael Kadziela](https://github.com/Innominus) _Gold Sponsor_
 * 🥇 [Yan Zaretskiy](https://github.com/mindv0rtex) _Gold Sponsor_
