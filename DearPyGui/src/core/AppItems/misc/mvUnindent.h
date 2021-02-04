@@ -9,7 +9,7 @@ namespace Marvel {
 
 	public:
 
-		MV_APPITEM_TYPE(mvAppItemType::Unindent, "unindent")
+		MV_APPITEM_TYPE_OLD_SYSTEM(mvAppItemType::Unindent, "unindent")
 
 		mvUnindent(const std::string& name, float default_value)
 			: mvFloatPtrBase(name, default_value, name)

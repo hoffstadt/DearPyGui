@@ -16,7 +16,7 @@ namespace Marvel {
 
 	public:
 
-		MV_APPITEM_TYPE(mvAppItemType::ImageButton, "add_image_button")
+		MV_APPITEM_TYPE_OLD_SYSTEM(mvAppItemType::ImageButton, "add_image_button")
 
 		mvImageButton(const std::string& name, std::string  default_value);
 

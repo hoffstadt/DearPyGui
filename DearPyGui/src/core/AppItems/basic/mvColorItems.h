@@ -30,7 +30,7 @@ namespace Marvel {
 
 	public:
 
-		MV_APPITEM_TYPE(mvAppItemType::ColorButton, "add_color_button")
+		MV_APPITEM_TYPE_OLD_SYSTEM(mvAppItemType::ColorButton, "add_color_button")
 
 		mvColorButton(const std::string& name, const mvColor& color);
 
@@ -63,7 +63,7 @@ namespace Marvel {
 
 	public:
 
-		MV_APPITEM_TYPE(mvAppItemType::ColorEdit3, "add_color_edit3")
+		MV_APPITEM_TYPE_OLD_SYSTEM(mvAppItemType::ColorEdit3, "add_color_edit3")
 
 			mvColorEdit3(const std::string& name, float* color, const std::string& dataSource);
 
@@ -96,7 +96,7 @@ namespace Marvel {
 
 	public:
 
-		MV_APPITEM_TYPE(mvAppItemType::ColorEdit4, "add_color_edit4")
+		MV_APPITEM_TYPE_OLD_SYSTEM(mvAppItemType::ColorEdit4, "add_color_edit4")
 
 		mvColorEdit4(const std::string& name, float* color, const std::string& dataSource);
 
@@ -128,7 +128,7 @@ namespace Marvel {
 
 	public:
 
-		MV_APPITEM_TYPE(mvAppItemType::ColorPicker3, "add_color_picker3")
+		MV_APPITEM_TYPE_OLD_SYSTEM(mvAppItemType::ColorPicker3, "add_color_picker3")
 
 		mvColorPicker3(const std::string& name, float* color, const std::string& dataSource);
 
@@ -160,7 +160,7 @@ namespace Marvel {
 
 	public:
 
-		MV_APPITEM_TYPE(mvAppItemType::ColorPicker4, "add_color_picker4")
+		MV_APPITEM_TYPE_OLD_SYSTEM(mvAppItemType::ColorPicker4, "add_color_picker4")
 
 		mvColorPicker4(const std::string& name, float* color, const std::string& dataSource);
 

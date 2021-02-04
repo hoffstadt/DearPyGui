@@ -16,7 +16,7 @@ namespace Marvel {
 
 	public:
 
-		MV_APPITEM_TYPE(mvAppItemType::InputInt, "add_image")
+		MV_APPITEM_TYPE_OLD_SYSTEM(mvAppItemType::InputInt, "add_image")
 
 		mvImage(const std::string& name, std::string default_value);
 

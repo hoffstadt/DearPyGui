@@ -17,7 +17,7 @@ namespace Marvel {
 
 	public:
 
-		MV_APPITEM_TYPE(mvAppItemType::Logger, "add_logger")
+		MV_APPITEM_TYPE_OLD_SYSTEM(mvAppItemType::Logger, "add_logger")
 
 		mvLoggerItem(const std::string& name)
 			: mvAppItem(name)

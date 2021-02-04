@@ -9,7 +9,7 @@ namespace Marvel {
 
 	public:
 
-		MV_APPITEM_TYPE(mvAppItemType::Dummy, "add_dummy")
+		MV_APPITEM_TYPE_OLD_SYSTEM(mvAppItemType::Dummy, "add_dummy")
 
 		mvDummy(const std::string& name)
 			: mvAppItem(name)

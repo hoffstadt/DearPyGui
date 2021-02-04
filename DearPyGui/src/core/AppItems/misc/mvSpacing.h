@@ -9,7 +9,7 @@ namespace Marvel {
 
 	public:
 
-		MV_APPITEM_TYPE(mvAppItemType::Spacing, "add_spacing")
+		MV_APPITEM_TYPE_OLD_SYSTEM(mvAppItemType::Spacing, "add_spacing")
 
 			mvSpacing(const std::string& name, int count)
 			: mvIntPtrBase(name, count, name)

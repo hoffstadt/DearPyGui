@@ -13,6 +13,7 @@ target_sources(DearSandbox
 	PRIVATE
 
 		"$<$<PLATFORM_ID:Windows>:main.cpp>"
+		"$<$<PLATFORM_ID:Windows>:../DearPyGui/src/core/cpp.hint>"
 		"$<$<PLATFORM_ID:Darwin>:main_linux.cpp>"
 		"$<$<PLATFORM_ID:Linux>:main_linux.cpp>"
 )

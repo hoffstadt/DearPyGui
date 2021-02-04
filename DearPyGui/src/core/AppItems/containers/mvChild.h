@@ -15,7 +15,7 @@ namespace Marvel {
 
 	public:
 
-		MV_APPITEM_TYPE(mvAppItemType::Child, "add_child")
+		MV_APPITEM_TYPE_OLD_SYSTEM(mvAppItemType::Child, "add_child")
 
 		mvChild(const std::string& name);
 

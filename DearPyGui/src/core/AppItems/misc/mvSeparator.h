@@ -9,7 +9,7 @@ namespace Marvel {
 
 	public:
 
-		MV_APPITEM_TYPE(mvAppItemType::Separator, "add_separator")
+		MV_APPITEM_TYPE_OLD_SYSTEM(mvAppItemType::Separator, "add_separator")
 
 			mvSeparator(const std::string& name)
 			: mvAppItem(name)

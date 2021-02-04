@@ -15,7 +15,7 @@ namespace Marvel {
 
 	public:
 
-		MV_APPITEM_TYPE(mvAppItemType::Group, "add_group")
+		MV_APPITEM_TYPE_OLD_SYSTEM(mvAppItemType::Group, "add_group")
 
 			mvGroup(const std::string& name);
 

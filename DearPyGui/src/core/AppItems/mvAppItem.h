@@ -20,12 +20,9 @@
 #include "mvTheme.h"
 
 //-----------------------------------------------------------------------------
-// Helper Macro
+// Helper Macros
 //-----------------------------------------------------------------------------
-#define MV_APPITEM_TYPE(x, parser)\
-mvAppItemType getType() const override { return x; }\
-std::string getStringType() const override { return std::string(#x); }\
-std::string getParserCommand() const override { return parser; }
+#include "cpp.hint"
 
 namespace Marvel {
 
@@ -146,6 +143,11 @@ namespace Marvel {
 
         // theme get/set
         std::unordered_map<mvAppItemType, ThemeColors>& getColors() { return m_colors; }
+        virtual const std::vector<std::pair<std::string, long>>& getColorConstants() const 
+        { 
+            static std::vector<std::pair<std::string, long>> constants;
+            return constants;
+        }
         std::unordered_map<mvAppItemType, ThemeStyles>& getStyles() { return m_styles; }
 
         // cpp interface

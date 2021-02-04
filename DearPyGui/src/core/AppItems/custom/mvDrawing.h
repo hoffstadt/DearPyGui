@@ -16,7 +16,7 @@ namespace Marvel {
 
 	public:
 
-		MV_APPITEM_TYPE(mvAppItemType::Drawing, "add_drawing")
+		MV_APPITEM_TYPE_OLD_SYSTEM(mvAppItemType::Drawing, "add_drawing")
 
 		mvDrawing(const std::string& name);
 
