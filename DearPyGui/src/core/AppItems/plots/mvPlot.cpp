@@ -224,6 +224,11 @@ namespace Marvel {
 				if (y < m_minY) m_minY = y;
 			}
 		}
+		else // for the infinite line series case
+		{
+			m_maxY = m_maxX;
+			m_minY = m_minX;
+		}
 
 	}
 
