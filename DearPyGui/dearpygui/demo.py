@@ -1559,6 +1559,15 @@ def show_demo():
                 add_plot("Image Plot##demo", height=400)
                 add_image_series("Image Plot##demo", "images", "INTERNAL_DPG_FONT_ATLAS", [100, 100], [200, 200])
 
+            with tree_node("Custom Rendering Plots##demo"):
+
+                add_plot("Custom Rendering Plot##demo", height=400)
+                draw_line("Custom Rendering Plot##demo", (10, 10), (100, 100), (255, 0, 0, 255), 1, tag="line command")
+                draw_triangle("Custom Rendering Plot##demo", (150, 10), (110, 100), (190, 100), (255, 255, 0, 255), thickness = 3.0)
+                draw_quad("Custom Rendering Plot##demo", (210, 10), (290, 10), (290, 100), (210, 100), (255, 255, 0, 255), thickness = 3.0)
+                draw_circle("Custom Rendering Plot##demo", (350, 60), 49, (255, 255, 0, 255))
+
+
         with collapsing_header("Simple Tables##demo"):
 
             add_button("Delete row 6##demo", callback=lambda sender, data: delete_row("Table##widget##demo", 6))

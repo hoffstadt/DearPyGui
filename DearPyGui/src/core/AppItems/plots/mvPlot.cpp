@@ -246,6 +246,7 @@ namespace Marvel {
 	mvPlot::mvPlot(const std::string& name, mvCallable queryCallback)
 		: mvAppItem(name), m_queryCallback(queryCallback)
 	{
+		m_drawList = CreateRef<mvDrawList>();
 		m_core_config.width = -1;
 		m_core_config.height = -1;
 	}
@@ -773,6 +774,11 @@ namespace Marvel {
 			m_y2limits_actual.y = ImPlot::GetPlotLimits(ImPlotYAxis_2).Y.Max;
 			m_y3limits_actual.x = ImPlot::GetPlotLimits(ImPlotYAxis_3).Y.Min;
 			m_y3limits_actual.y = ImPlot::GetPlotLimits(ImPlotYAxis_3).Y.Max;
+
+			ImPlot::PushPlotClipRect();
+			auto topleft = ImPlot::GetPlotPos();
+			m_drawList->draw(ImPlot::GetPlotDrawList(), topleft.x, topleft.y);
+			ImPlot::PopPlotClipRect();
 
 			ImPlot::EndPlot();
 		}
