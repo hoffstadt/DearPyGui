@@ -146,6 +146,7 @@ namespace Marvel {
 
         // theme get/set
         std::unordered_map<mvAppItemType, ThemeColors>& getColors() { return m_colors; }
+        std::unordered_map<mvAppItemType, ThemeStyles>& getStyles() { return m_styles; }
 
         // cpp interface
         virtual void updateConfig(mvAppItemConfig* config) {}
@@ -190,6 +191,7 @@ namespace Marvel {
         std::string                   m_label; // internal label
 
         std::unordered_map<mvAppItemType, ThemeColors> m_colors;
+        std::unordered_map<mvAppItemType, ThemeStyles> m_styles;
     };
 
 }

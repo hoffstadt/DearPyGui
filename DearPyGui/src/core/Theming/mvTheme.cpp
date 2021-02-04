@@ -50,6 +50,36 @@ namespace Marvel {
 		return true;
 	}
 
+	bool mvTheme::add_style(mvEvent& event)
+	{
+		mvAppItemType type = (mvAppItemType)(GetEInt(event, "ID") / 100);
+		int libID = GetEInt(event, "ID") % 100;
+		float style = GetEFloat(event, "STYLE");
+		const std::string& widget = GetEString(event, "WIDGET");
+
+		//fills out the app's root theme if no item was given
+		if (widget.empty())
+		{
+			mvApp::GetApp()->getStyles()[type][libID] = style;
+			return true;
+		}
+
+		//check widget can take style and apply
+		mvRef<mvAppItem> item = mvApp::GetApp()->getItemRegistry().getItem(widget);
+		if (item->getDescription().container || item->getType() == type)
+		{
+			item->getStyles()[type][libID] = style;
+		}
+		else
+		{
+			mvApp::GetApp()->getCallbackRegistry().submitCallback([=]()
+				{
+					ThrowPythonException("Item does not except this theme constant.");
+				});
+		}
+		return true;
+	}
+
 	mvImGuiThemeScope::mvImGuiThemeScope(mvAppItem* item)
 	{
 		int pushedIDs[ImGuiCol_COUNT];
@@ -60,6 +90,15 @@ namespace Marvel {
 			{
 				ImGui::PushStyleColor((ImGuiCol)themeColor.first, themeColor.second.toVec4());
 				pushedIDs[libIDCount] = themeColor.first;
+				libIDCount++;
+			}
+		}
+		for (auto& themeStyle : item->getStyles()[item->getType()])
+		{
+			if (themeStyle.first < ImGuiStyleVar_COUNT)
+			{
+				ImGui::PushStyleVar((ImGuiStyleVar)themeStyle.first, themeStyle.second);
+				pushedIDs[libIDCount] = themeStyle.first;
 				libIDCount++;
 			}
 		}

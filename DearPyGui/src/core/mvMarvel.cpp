@@ -524,25 +524,25 @@ namespace Marvel {
 			{ "mvThemeCol_ManagedColumns_BorderHovered"    , 6828 },
 			{ "mvThemeCol_ManagedColumns_BorderActive"     , 6829 },
 			//columnset
-			{ "mvThemeCol_NextColumn_Border"               , 7027 },
-			{ "mvThemeCol_NextColumn_BorderHovered"        , 7028 },
-			{ "mvThemeCol_NextColumn_BorderActive"         , 7029 },
-			{ "mvThemeCol_Logger_Text"                     , 7100 },
-			{ "mvThemeCol_Logger_TextHighlight"            , 7144 },
-			{ "mvThemeCol_Logger_OutBg"                    , 7103 },
-			{ "mvThemeCol_Logger_Buttons"                  , 7121 },
-			{ "mvThemeCol_Logger_ButtonsHover"             , 7122 },
-			{ "mvThemeCol_Logger_ButtonsActive"            , 7123 },
-			{ "mvThemeCol_Logger_Settings"                 , 7107 },
-			{ "mvThemeCol_Logger_SettingsHover"            , 7108 },
-			{ "mvThemeCol_Logger_SettingsActive"           , 7109 },
-			{ "mvThemeCol_Logger_SettingSelection"         , 7118 },
-			{ "mvThemeCol_Logger_ScrollBg"                 , 7114 },
-			{ "mvThemeCol_Logger_ScrollGrab"               , 7115 },
-			{ "mvThemeCol_Logger_ScrollGrabHovered"        , 7116 },
-			{ "mvThemeCol_Logger_ScrollGrabActive"         , 7117 },
-			{ "mvThemeCol_Logger_Border"                   , 7105 },
-			{ "mvThemeCol_Logger_BorderShadow"             , 7106 },
+			//{ "mvThemeCol_NextColumn_Border"               , 7027 },
+			//{ "mvThemeCol_NextColumn_BorderHovered"        , 7028 },
+			//{ "mvThemeCol_NextColumn_BorderActive"         , 7029 },
+			//{ "mvThemeCol_Logger_Text"                     , 7100 },
+			//{ "mvThemeCol_Logger_TextHighlight"            , 7144 },
+			//{ "mvThemeCol_Logger_OutBg"                    , 7103 },
+			//{ "mvThemeCol_Logger_Buttons"                  , 7121 },
+			//{ "mvThemeCol_Logger_ButtonsHover"             , 7122 },
+			//{ "mvThemeCol_Logger_ButtonsActive"            , 7123 },
+			//{ "mvThemeCol_Logger_Settings"                 , 7107 },
+			//{ "mvThemeCol_Logger_SettingsHover"            , 7108 },
+			//{ "mvThemeCol_Logger_SettingsActive"           , 7109 },
+			//{ "mvThemeCol_Logger_SettingSelection"         , 7118 },
+			//{ "mvThemeCol_Logger_ScrollBg"                 , 7114 },
+			//{ "mvThemeCol_Logger_ScrollGrab"               , 7115 },
+			//{ "mvThemeCol_Logger_ScrollGrabHovered"        , 7116 },
+			//{ "mvThemeCol_Logger_ScrollGrabActive"         , 7117 },
+			//{ "mvThemeCol_Logger_Border"                   , 7105 },
+			//{ "mvThemeCol_Logger_BorderShadow"             , 7106 },
 			//aboutwindow
 			//docwindow
 			//debugwindow
@@ -554,6 +554,11 @@ namespace Marvel {
 			{ "mvThemeCol_TabButton_BgHovered"             , 7834 },
 			{ "mvThemeCol_TabButton_Border"                , 7805 },
 			{ "mvThemeCol_TabButton_PopupBg"               , 7804 },
+
+			//-----------------------------------------------------------------------------
+			// NEW Theme Color IDs
+			//-----------------------------------------------------------------------------
+			{ "mvThemeStyle_Button_Rounding"                 ,  411 },
 
 			//-----------------------------------------------------------------------------
 			// Theme style variable IDs
@@ -1073,6 +1078,7 @@ namespace Marvel {
 
 		// Theme commands
 		ADD_PYTHON_FUNCTION(set_theme_color)
+		ADD_PYTHON_FUNCTION(set_theme_style)
 		ADD_PYTHON_FUNCTION(add_additional_font)
 		
 		// table commands
