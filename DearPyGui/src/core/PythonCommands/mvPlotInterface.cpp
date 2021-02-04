@@ -255,6 +255,28 @@ namespace Marvel {
 		parsers->insert({ "reset_yticks", mvPythonParser({
 			{mvPythonDataType::String, "plot"},
 		}, "Sets plots y ticks and labels back to automatic", "None", "Plotting") });
+
+		parsers->insert({ "add_vline_series", mvPythonParser({
+			{mvPythonDataType::String, "plot"},
+			{mvPythonDataType::String, "name"},
+			{mvPythonDataType::FloatList, "x"},
+			{mvPythonDataType::KeywordOnly},
+			{mvPythonDataType::FloatList, "color", "", "(0, 0, 0, -1)"},
+			{mvPythonDataType::Float, "weight", "", "1.0"},
+			{mvPythonDataType::Bool, "update_bounds", "update plot bounds", "True"},
+			{mvPythonDataType::Integer, "axis", "", "0"},
+		}, "Adds a infinite vertical line series to a plot.", "None", "Plotting") });
+
+		parsers->insert({ "add_hline_series", mvPythonParser({
+			{mvPythonDataType::String, "plot"},
+			{mvPythonDataType::String, "name"},
+			{mvPythonDataType::FloatList, "x"},
+			{mvPythonDataType::KeywordOnly},
+			{mvPythonDataType::FloatList, "color", "", "(0, 0, 0, -1)"},
+			{mvPythonDataType::Float, "weight", "", "1.0"},
+			{mvPythonDataType::Bool, "update_bounds", "update plot bounds", "True"},
+			{mvPythonDataType::Integer, "axis", "", "0"},
+		}, "Adds a infinite horizontal line series to a plot.", "None", "Plotting") });
 	}
 
 	static bool CheckList(const char* plot, PyObject* list)
@@ -1592,4 +1614,101 @@ namespace Marvel {
 		return GetPyNone();
 	}
 
+	PyObject* add_vline_series(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		const char* plot;
+		const char* name;
+		PyObject* x;
+		float weight = 1.0f;
+		PyObject* color = PyTuple_New(4);
+		PyTuple_SetItem(color, 0, PyLong_FromLong(-255));
+		PyTuple_SetItem(color, 1, PyLong_FromLong(0));
+		PyTuple_SetItem(color, 2, PyLong_FromLong(0));
+		PyTuple_SetItem(color, 3, PyLong_FromLong(255));
+		int update_bounds = true;
+		int axis = 0;
+
+		if (!(*mvApp::GetApp()->getParsers())["add_vline_series"].parse(args, kwargs, __FUNCTION__,
+			&plot, &name, &x, &color, &weight, &update_bounds, &axis))
+			return GetPyNone();
+
+		if (!CheckList(plot, x)) return GetPyNone();
+
+		auto mcolor = ToColor(color);
+		auto xs = ToFloatVect(x);
+
+		auto series = CreateRef<mvVLineSeries>(name, &xs, mcolor, (ImPlotYAxis_)axis);
+		series->setWeight(weight);
+
+		std::lock_guard<std::mutex> lk(mvApp::GetApp()->GetApp()->getMutex());
+		auto aplot = mvApp::GetApp()->getItemRegistry().getItem(plot);
+		if (aplot == nullptr)
+		{
+			std::string message = plot;
+			ThrowPythonException(message + " plot does not exist.");
+			return GetPyNone();
+		}
+
+		if (aplot->getType() != mvAppItemType::Plot)
+		{
+			std::string message = plot;
+			ThrowPythonException(message + " is not a plot.");
+			return GetPyNone();
+		}
+
+		mvPlot* graph = static_cast<mvPlot*>(aplot.get());
+
+		graph->updateSeries(series, update_bounds);
+
+		return GetPyNone();
+	}
+
+	PyObject* add_hline_series(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		const char* plot;
+		const char* name;
+		PyObject* x;
+		float weight = 1.0f;
+		PyObject* color = PyTuple_New(4);
+		PyTuple_SetItem(color, 0, PyLong_FromLong(-255));
+		PyTuple_SetItem(color, 1, PyLong_FromLong(0));
+		PyTuple_SetItem(color, 2, PyLong_FromLong(0));
+		PyTuple_SetItem(color, 3, PyLong_FromLong(255));
+		int update_bounds = true;
+		int axis = 0;
+
+		if (!(*mvApp::GetApp()->getParsers())["add_hline_series"].parse(args, kwargs, __FUNCTION__,
+			&plot, &name, &x, &color, &weight, &update_bounds, &axis))
+			return GetPyNone();
+
+		if (!CheckList(plot, x)) return GetPyNone();
+
+		auto mcolor = ToColor(color);
+		auto xs = ToFloatVect(x);
+
+		auto series = CreateRef<mvHLineSeries>(name, &xs, mcolor, (ImPlotYAxis_)axis);
+		series->setWeight(weight);
+
+		std::lock_guard<std::mutex> lk(mvApp::GetApp()->GetApp()->getMutex());
+		auto aplot = mvApp::GetApp()->getItemRegistry().getItem(plot);
+		if (aplot == nullptr)
+		{
+			std::string message = plot;
+			ThrowPythonException(message + " plot does not exist.");
+			return GetPyNone();
+		}
+
+		if (aplot->getType() != mvAppItemType::Plot)
+		{
+			std::string message = plot;
+			ThrowPythonException(message + " is not a plot.");
+			return GetPyNone();
+		}
+
+		mvPlot* graph = static_cast<mvPlot*>(aplot.get());
+
+		graph->updateSeries(series, update_bounds);
+
+		return GetPyNone();
+	}
 }

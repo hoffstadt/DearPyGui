@@ -1521,6 +1521,15 @@ def show_demo():
                 add_annotation("Annotations##plotsdemo", "TL", 0.25, 0.75, -15, -15, color=[255, 255, 0, 255])
                 add_annotation("Annotations##plotsdemo", "Center", 0.5, 0.5, 0, 0, color=[255, 255, 0, 255])
 
+            with tree_node("Infinite Lines##demo"):
+
+                infinite_x_data = [3, 5, 6, 7]
+                infinite_y_data = [3, 5, 6, 7]
+
+                add_plot("Infinite Line Plot##demo", height=400)
+                add_vline_series("Infinite Line Plot##demo", "vertical", infinite_x_data)
+                add_hline_series("Infinite Line Plot##demo", "horizontal", infinite_y_data)
+
             with tree_node("Drag Lines and Points##demo"):
                 
                 add_plot("##dragplotsdemo", height=400)
