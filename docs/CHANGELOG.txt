@@ -28,9 +28,14 @@ HOW TO UPDATE?
 
 Decorated log: https://github.com/hoffstadt/DearPyGui/releases/tag/v0.7.x
 
+New Commands:
+- add_vline_series: can now add infinite vertical lines to a plot #541
+- add_hline_series: can now add infinite horizontal lines to a plot #541
+
 Updates:
 - imgui: updated to v1.80
 - implot: updated to 7234801
+- draw commands: can now be sent to plots #457
 
 Fixes:
 - start_dearpygui: fixed primary window not found crash #523
