@@ -592,10 +592,6 @@ def show_demo():
         add_color_edit4("global color",callback=lambda sender, data: set_theme_color(mvThemeCol_Button_Bg, get_value(sender)))
         add_color_edit4("local window color",callback=lambda sender, data: set_theme_color(mvThemeCol_Button_Bg, get_value(sender), item="Dear PyGui Demo"))
         add_color_edit4("individual color",callback=lambda sender, data: set_theme_color(mvThemeCol_Button_Bg, get_value(sender), item="proof"))
-
-        add_color_edit4("global color",callback=lambda sender, data: set_theme_color(mvThemeCol_Button_Bg, get_value(sender)))
-        add_color_edit4("local window color",callback=lambda sender, data: set_theme_color(mvThemeCol_Button_Bg, get_value(sender), item="Dear PyGui Demo"))
-        add_color_edit4("individual color",callback=lambda sender, data: set_theme_color(mvThemeCol_Button_Bg, get_value(sender), item="proof"))
         add_slider_float("global style",max_value=14.0,callback=lambda sender, data: set_theme_style(mvThemeStyle_Button_Rounding, get_value(sender)))
         add_slider_float("local window style",max_value=14.0,callback=lambda sender, data: set_theme_style(mvThemeStyle_Button_Rounding, get_value(sender), item="Dear PyGui Demo"))
         add_slider_float("individual style",max_value=14.0,callback=lambda sender, data: set_theme_style(mvThemeStyle_Button_Rounding, get_value(sender), item="proof"))
