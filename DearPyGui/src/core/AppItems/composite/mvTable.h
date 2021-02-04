@@ -17,7 +17,7 @@ namespace Marvel {
 
 	public:
 
-		MV_APPITEM_TYPE(mvAppItemType::Table, "add_table")
+		MV_APPITEM_TYPE_OLD_SYSTEM(mvAppItemType::Table, "add_table")
 
 		mvTable(const std::string& name, const std::vector<std::string>& headers);
 

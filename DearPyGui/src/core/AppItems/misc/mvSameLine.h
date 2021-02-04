@@ -9,7 +9,7 @@ namespace Marvel {
 
 	public:
 
-		MV_APPITEM_TYPE(mvAppItemType::SameLine, "add_same_line")
+		MV_APPITEM_TYPE_OLD_SYSTEM(mvAppItemType::SameLine, "add_same_line")
 
 			mvSameLine(const std::string& name)
 			: mvAppItem(name)

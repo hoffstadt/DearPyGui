@@ -15,7 +15,7 @@ namespace Marvel {
 
 	public:
 
-		MV_APPITEM_TYPE(mvAppItemType::Menu, "add_menu")
+		MV_APPITEM_TYPE_OLD_SYSTEM(mvAppItemType::Menu, "add_menu")
 
 		mvMenu(const std::string& name);
 

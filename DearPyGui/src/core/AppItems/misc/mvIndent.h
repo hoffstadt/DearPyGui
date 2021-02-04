@@ -9,7 +9,7 @@ namespace Marvel {
 
 	public:
 
-		MV_APPITEM_TYPE(mvAppItemType::Indent, "add_indent")
+		MV_APPITEM_TYPE_OLD_SYSTEM(mvAppItemType::Indent, "add_indent")
 
 		mvIndent(const std::string& name, float default_value)
 			: mvFloatPtrBase(name, default_value, name)

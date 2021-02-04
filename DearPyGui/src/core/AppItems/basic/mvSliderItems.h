@@ -27,7 +27,7 @@ namespace Marvel {
         
     public:
         
-        MV_APPITEM_TYPE(mvAppItemType::SliderFloat, "add_slider_float")
+        MV_APPITEM_TYPE_OLD_SYSTEM(mvAppItemType::SliderFloat, "add_slider_float")
 
         mvSliderFloat(const std::string& name, float default_value, const std::string& dataSource);
         
@@ -58,7 +58,7 @@ namespace Marvel {
         
     public:
 
-        MV_APPITEM_TYPE(mvAppItemType::SliderFloat2, "add_slider_float2")
+        MV_APPITEM_TYPE_OLD_SYSTEM(mvAppItemType::SliderFloat2, "add_slider_float2")
 
         mvSliderFloat2(const std::string& name, float* default_value, const std::string& dataSource);
         
@@ -89,7 +89,7 @@ namespace Marvel {
         
     public:
         
-        MV_APPITEM_TYPE(mvAppItemType::SliderFloat3, "add_slider_float3")
+        MV_APPITEM_TYPE_OLD_SYSTEM(mvAppItemType::SliderFloat3, "add_slider_float3")
 
         mvSliderFloat3(const std::string& name, float* default_value, const std::string& dataSource);
         
@@ -119,7 +119,7 @@ namespace Marvel {
           
     public:
         
-        MV_APPITEM_TYPE(mvAppItemType::SliderFloat4, "add_slider_float4")
+        MV_APPITEM_TYPE_OLD_SYSTEM(mvAppItemType::SliderFloat4, "add_slider_float4")
 
         mvSliderFloat4(const std::string& name, float* default_value, const std::string& dataSource);
         
@@ -149,7 +149,7 @@ namespace Marvel {
             
     public:
 
-        MV_APPITEM_TYPE(mvAppItemType::SliderInt, "add_slider_int")
+        MV_APPITEM_TYPE_OLD_SYSTEM(mvAppItemType::SliderInt, "add_slider_int")
 
         mvSliderInt(const std::string& name, int default_value, const std::string& dataSource);
             
@@ -180,7 +180,7 @@ namespace Marvel {
         
     public:
 
-        MV_APPITEM_TYPE(mvAppItemType::SliderInt2, "add_slider_int2")
+        MV_APPITEM_TYPE_OLD_SYSTEM(mvAppItemType::SliderInt2, "add_slider_int2")
 
         mvSliderInt2(const std::string& name, int* default_value, const std::string& dataSource);
         
@@ -210,7 +210,7 @@ namespace Marvel {
         
     public:
         
-        MV_APPITEM_TYPE(mvAppItemType::SliderInt3, "add_slider_int3")
+        MV_APPITEM_TYPE_OLD_SYSTEM(mvAppItemType::SliderInt3, "add_slider_int3")
 
         mvSliderInt3(const std::string& name, int* default_value, const std::string& dataSource);
         
@@ -240,7 +240,7 @@ namespace Marvel {
         
     public:
 
-        MV_APPITEM_TYPE(mvAppItemType::SliderInt4, "add_slider_int4")
+        MV_APPITEM_TYPE_OLD_SYSTEM(mvAppItemType::SliderInt4, "add_slider_int4")
 
         mvSliderInt4(const std::string& name, int* default_value, const std::string& dataSource);
         

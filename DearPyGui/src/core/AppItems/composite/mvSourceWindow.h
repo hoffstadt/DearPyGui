@@ -7,7 +7,7 @@ namespace Marvel {
 	class mvSourceWindow : public mvBaseWindowAppitem
 	{
 
-		MV_APPITEM_TYPE(mvAppItemType::SourceWindow, "add_source_window")
+		MV_APPITEM_TYPE_OLD_SYSTEM(mvAppItemType::SourceWindow, "add_source_window")
 
 	public:
 

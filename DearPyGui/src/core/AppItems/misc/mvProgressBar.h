@@ -14,7 +14,7 @@ namespace Marvel {
 		static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
 	public:
 
-		MV_APPITEM_TYPE(mvAppItemType::ProgressBar, "add_progress_bar")
+		MV_APPITEM_TYPE_OLD_SYSTEM(mvAppItemType::ProgressBar, "add_progress_bar")
 
 		mvProgressBar(const std::string& name, float default_value, const std::string& dataSource);
 

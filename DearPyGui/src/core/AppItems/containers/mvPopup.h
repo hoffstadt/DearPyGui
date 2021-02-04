@@ -9,7 +9,7 @@ namespace Marvel {
 
 	public:
 
-		MV_APPITEM_TYPE(mvAppItemType::Popup, "add_popup")
+		MV_APPITEM_TYPE_OLD_SYSTEM(mvAppItemType::Popup, "add_popup")
 
 		mvPopup(const std::string& name, mvAppItem* parentAddress)
 			: mvBoolPtrBase(name, false, name), m_parentAddress(parentAddress)

@@ -29,7 +29,7 @@ namespace Marvel {
 
     public:
 
-        MV_APPITEM_TYPE(mvAppItemType::DragFloat, "add_drag_float")
+        MV_APPITEM_TYPE_OLD_SYSTEM(mvAppItemType::DragFloat, "add_drag_float")
 
         mvDragFloat(const std::string& name, float default_value, const std::string& dataSource);
         
@@ -61,7 +61,7 @@ namespace Marvel {
 
     public:
 
-        MV_APPITEM_TYPE(mvAppItemType::DragFloat2, "add_drag_float2")
+        MV_APPITEM_TYPE_OLD_SYSTEM(mvAppItemType::DragFloat2, "add_drag_float2")
 
         mvDragFloat2(const std::string& name, float* default_value, const std::string& dataSource);
         
@@ -92,7 +92,7 @@ namespace Marvel {
 
     public:
 
-        MV_APPITEM_TYPE(mvAppItemType::DragFloat3, "add_drag_float3")
+        MV_APPITEM_TYPE_OLD_SYSTEM(mvAppItemType::DragFloat3, "add_drag_float3")
 
         mvDragFloat3(const std::string& name, float* default_value, const std::string& dataSource);
         
@@ -123,7 +123,7 @@ namespace Marvel {
 
     public:
 
-        MV_APPITEM_TYPE(mvAppItemType::DragFloat4, "add_drag_float4")
+        MV_APPITEM_TYPE_OLD_SYSTEM(mvAppItemType::DragFloat4, "add_drag_float4")
 
         mvDragFloat4(const std::string& name, float* default_value, const std::string& dataSource);
         
@@ -154,7 +154,7 @@ namespace Marvel {
 
     public:
 
-        MV_APPITEM_TYPE(mvAppItemType::DragInt, "add_drag_int")
+        MV_APPITEM_TYPE_OLD_SYSTEM(mvAppItemType::DragInt, "add_drag_int")
 
         mvDragInt(const std::string& name, int default_value, const std::string& dataSource);
         
@@ -185,7 +185,7 @@ namespace Marvel {
 
     public:
 
-        MV_APPITEM_TYPE(mvAppItemType::DragInt2, "add_drag_int2")
+        MV_APPITEM_TYPE_OLD_SYSTEM(mvAppItemType::DragInt2, "add_drag_int2")
 
         mvDragInt2(const std::string& name, int* default_value, const std::string& dataSource);
         
@@ -216,7 +216,7 @@ namespace Marvel {
 
     public:
 
-        MV_APPITEM_TYPE(mvAppItemType::DragInt3, "add_drag_int3")
+        MV_APPITEM_TYPE_OLD_SYSTEM(mvAppItemType::DragInt3, "add_drag_int3")
 
         mvDragInt3(const std::string& name, int* default_value, const std::string& dataSource);
         
@@ -247,7 +247,7 @@ namespace Marvel {
 
     public:
 
-        MV_APPITEM_TYPE(mvAppItemType::DragInt4, "add_drag_int4")
+        MV_APPITEM_TYPE_OLD_SYSTEM(mvAppItemType::DragInt4, "add_drag_int4")
 
         mvDragInt4(const std::string& name, int* default_value, const std::string& dataSource);
         

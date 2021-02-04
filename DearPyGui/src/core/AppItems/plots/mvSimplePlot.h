@@ -8,7 +8,7 @@ namespace Marvel{
 	class mvSimplePlot : public mvFloatVectPtrBase
 	{
 
-		MV_APPITEM_TYPE(mvAppItemType::SimplePlot, "add_simple_plot")
+		MV_APPITEM_TYPE_OLD_SYSTEM(mvAppItemType::SimplePlot, "add_simple_plot")
 
 	public:
 		mvSimplePlot(const std::string& name, const std::vector<float>& value)

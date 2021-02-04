@@ -29,7 +29,7 @@ namespace Marvel {
         
     public:
 
-        MV_APPITEM_TYPE(mvAppItemType::InputInt, "add_input_int")
+        MV_APPITEM_TYPE_OLD_SYSTEM(mvAppItemType::InputInt, "add_input_int")
 
         mvInputInt(const std::string& name, int default_value, const std::string& dataSource);
         
@@ -62,7 +62,7 @@ namespace Marvel {
         
     public:
 
-        MV_APPITEM_TYPE(mvAppItemType::InputInt2, "add_input_int")
+        MV_APPITEM_TYPE_OLD_SYSTEM(mvAppItemType::InputInt2, "add_input_int")
 
         mvInputInt2(const std::string& name, int* default_value, const std::string& dataSource);
         
@@ -93,7 +93,7 @@ namespace Marvel {
         
     public:
 
-        MV_APPITEM_TYPE(mvAppItemType::InputInt3, "add_input_int3")
+        MV_APPITEM_TYPE_OLD_SYSTEM(mvAppItemType::InputInt3, "add_input_int3")
 
         mvInputInt3(const std::string& name, int* default_value, const std::string& dataSource);
         
@@ -124,7 +124,7 @@ namespace Marvel {
     
     public:
 
-        MV_APPITEM_TYPE(mvAppItemType::InputInt4, "add_input_int4")
+        MV_APPITEM_TYPE_OLD_SYSTEM(mvAppItemType::InputInt4, "add_input_int4")
 
         mvInputInt4(const std::string& name, int* default_value, const std::string& dataSource);
         
@@ -155,7 +155,7 @@ namespace Marvel {
         
     public:
 
-        MV_APPITEM_TYPE(mvAppItemType::InputFloat, "add_input_float")
+        MV_APPITEM_TYPE_OLD_SYSTEM(mvAppItemType::InputFloat, "add_input_float")
 
         mvInputFloat(const std::string& name, float default_value, const std::string& dataSource);
         
@@ -189,7 +189,7 @@ namespace Marvel {
     
     public:
 
-        MV_APPITEM_TYPE(mvAppItemType::InputFloat2, "add_input_float2")
+        MV_APPITEM_TYPE_OLD_SYSTEM(mvAppItemType::InputFloat2, "add_input_float2")
 
         mvInputFloat2(const std::string& name, float* default_value, const std::string& dataSource);
         
@@ -221,7 +221,7 @@ namespace Marvel {
         
     public:
 
-        MV_APPITEM_TYPE(mvAppItemType::InputFloat3, "add_input_float3")
+        MV_APPITEM_TYPE_OLD_SYSTEM(mvAppItemType::InputFloat3, "add_input_float3")
 
         mvInputFloat3(const std::string& name, float* default_value, const std::string& dataSource);
         
@@ -253,7 +253,7 @@ namespace Marvel {
     
     public:
 
-        MV_APPITEM_TYPE(mvAppItemType::InputFloat4, "add_input_float4")
+        MV_APPITEM_TYPE_OLD_SYSTEM(mvAppItemType::InputFloat4, "add_input_float4")
 
         mvInputFloat4(const std::string& name, float* default_value, const std::string& dataSource);
         

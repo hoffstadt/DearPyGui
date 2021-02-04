@@ -25,8 +25,6 @@ It's mostly a bunch of personal notes, probably incomplete. Feel free to query i
 
 - add_texture: fix alpha channel mess
 
-- windows 7: address this issue with a build script
-
 - mac: handle retina display nonsense
 
 - window callbacks: move callbacks to callback registry

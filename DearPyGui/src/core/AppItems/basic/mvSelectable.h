@@ -15,7 +15,7 @@ namespace Marvel {
 
 	public:
 
-		MV_APPITEM_TYPE(mvAppItemType::Selectable, "add_selectable")
+		MV_APPITEM_TYPE_OLD_SYSTEM(mvAppItemType::Selectable, "add_selectable")
 
 		mvSelectable(const std::string& name, bool default_value, const std::string& dataSource);
 
