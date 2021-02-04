@@ -15,7 +15,7 @@ namespace Marvel {
 
 	public:
 
-		MV_APPITEM_TYPE(mvAppItemType::Checkbox, "add_checkbox")
+		MV_APPITEM_TYPE_OLD_SYSTEM(mvAppItemType::Checkbox, "add_checkbox")
 
 		mvCheckbox(const std::string& name, bool default_value, const std::string& dataSource);
 

@@ -15,7 +15,7 @@ namespace Marvel {
 
 	public:
 
-		MV_APPITEM_TYPE(mvAppItemType::TimePicker, "add_time_picker")
+		MV_APPITEM_TYPE_OLD_SYSTEM(mvAppItemType::TimePicker, "add_time_picker")
 
 		mvTimePicker(const std::string& name, tm default_value);
 

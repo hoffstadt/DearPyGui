@@ -15,7 +15,7 @@ namespace Marvel {
 
 	public:
 
-		MV_APPITEM_TYPE(mvAppItemType::TreeNode, "add_tree_node")
+		MV_APPITEM_TYPE_OLD_SYSTEM(mvAppItemType::TreeNode, "add_tree_node")
 
 		mvTreeNode(const std::string& name);
 

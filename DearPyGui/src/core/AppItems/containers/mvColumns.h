@@ -30,7 +30,7 @@ namespace Marvel {
 
 	public:
 
-		MV_APPITEM_TYPE(mvAppItemType::ManagedColumns, "add_managed_columns")
+		MV_APPITEM_TYPE_OLD_SYSTEM(mvAppItemType::ManagedColumns, "add_managed_columns")
 
 		mvManagedColumns(const std::string& name, int columns);
 
@@ -67,7 +67,7 @@ namespace Marvel {
 
 	public:
 
-		MV_APPITEM_TYPE(mvAppItemType::ColumnSet, "add_columns")
+		MV_APPITEM_TYPE_OLD_SYSTEM(mvAppItemType::ColumnSet, "add_columns")
 
 		mvColumn(const std::string& name, int columns);
 
@@ -97,7 +97,7 @@ namespace Marvel {
 
 	public:
 
-		MV_APPITEM_TYPE(mvAppItemType::NextColumn, "add_next_column")
+		MV_APPITEM_TYPE_OLD_SYSTEM(mvAppItemType::NextColumn, "add_next_column")
 
 		mvNextColumn(const std::string& name);
 

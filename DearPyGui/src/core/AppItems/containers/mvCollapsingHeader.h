@@ -15,7 +15,7 @@ namespace Marvel {
 
 	public:
 
-		MV_APPITEM_TYPE(mvAppItemType::CollapsingHeader, "add_collapsing_header")
+		MV_APPITEM_TYPE_OLD_SYSTEM(mvAppItemType::CollapsingHeader, "add_collapsing_header")
 
 		mvCollapsingHeader(const std::string& name);
 

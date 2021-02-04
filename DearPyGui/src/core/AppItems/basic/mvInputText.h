@@ -16,7 +16,7 @@ namespace Marvel {
 
 	public:
 
-		MV_APPITEM_TYPE(mvAppItemType::InputText, "add_input_text")
+		MV_APPITEM_TYPE_OLD_SYSTEM(mvAppItemType::InputText, "add_input_text")
 
 		mvInputText(const std::string& name, const std::string& default_value, const std::string& dataSource);
 

@@ -47,7 +47,7 @@ namespace Marvel {
 
 	public:
 
-		MV_APPITEM_TYPE(mvAppItemType::Window, "add_window")
+		MV_APPITEM_TYPE_OLD_SYSTEM(mvAppItemType::Window, "add_window")
 
 		mvWindowAppItem(const std::string& name, bool mainWindow, mvCallable closing_callback);
 		mvWindowAppItem(const std::string& name, const mvWindowAppItemConfig& config);

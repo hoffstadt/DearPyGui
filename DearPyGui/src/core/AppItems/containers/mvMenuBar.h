@@ -16,7 +16,7 @@ namespace Marvel {
 
 	public:
 
-		MV_APPITEM_TYPE(mvAppItemType::MenuBar, "add_menu_bar")
+		MV_APPITEM_TYPE_OLD_SYSTEM(mvAppItemType::MenuBar, "add_menu_bar")
 
 		explicit mvMenuBar(const std::string& name);
 

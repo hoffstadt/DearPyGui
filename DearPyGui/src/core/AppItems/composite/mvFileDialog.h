@@ -7,7 +7,7 @@ namespace Marvel {
 
 	class mvFileDialog : public mvBaseWindowAppitem
 	{
-		MV_APPITEM_TYPE(mvAppItemType::FileDialog, "no_command_set")
+		MV_APPITEM_TYPE_OLD_SYSTEM(mvAppItemType::FileDialog, "no_command_set")
 
 	public:
 
