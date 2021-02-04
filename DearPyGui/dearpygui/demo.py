@@ -28,6 +28,8 @@ def hsv_to_rgb(h: float, s: float, v: float) -> (float, float, float):
 def demo_main_callback(sender, data):
 
     set_value("Mouse Position##demo", str(get_mouse_pos()))
+    set_value("Drawing Mouse Position##demo", str(get_drawing_mouse_pos()))
+    set_value("Plot Mouse Position##demo", str(get_plot_mouse_pos()))
 
     # keys
     if is_key_down(mvKey_A):
@@ -1660,6 +1662,8 @@ def show_demo():
                 add_spacing()
                 add_text("Mouse Polling:")
                 add_label_text("Mouse Position##demo", default_value="(0,0)", color=(0,200,255))
+                add_label_text("Drawing Mouse Position##demo", default_value="(0,0)", color=(0,200,255))
+                add_label_text("Plot Mouse Position##demo", default_value="(0,0)", color=(0,200,255))
                 add_label_text("Left Mouse Dragging##demo", default_value="False", color=(0,200,255))
                 add_label_text("Middle Mouse Dragging##demo", default_value="False", color=(0,200,255))
                 add_label_text("Right Mouse Dragging##demo", default_value="False", color=(0,200,255))
