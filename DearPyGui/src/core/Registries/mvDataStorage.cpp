@@ -36,9 +36,7 @@ namespace Marvel {
 
 				if(s_dataStorage.at(name) == Py_None)
 					Py_XDECREF(s_dataStorage.at(name));
-				else if (PyLong_Check(s_dataStorage.at(name)))
-					Py_XDECREF(s_dataStorage.at(name));
-				else if (PyFloat_Check(s_dataStorage.at(name)))
+				else if (PyNumber_Check(s_dataStorage.at(name)))
 					Py_XDECREF(s_dataStorage.at(name));
 				else if (PyUnicode_Check(s_dataStorage.at(name)))
 					Py_XDECREF(s_dataStorage.at(name));

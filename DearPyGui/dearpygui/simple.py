@@ -620,3 +620,11 @@ def show_documentation(sender: str="", data: Any=None) -> None:
         None
     """
     internal_dpg.configure_item("documentation##standard", show=True)
+
+def show_logger() -> None:
+    """Shows the logger window
+
+    Returns:
+        None
+    """
+    internal_dpg.show_logger()
