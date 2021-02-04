@@ -545,22 +545,6 @@ def show_demo():
             "mvThemeCol_NextColumn_Border"               : 7027,
             "mvThemeCol_NextColumn_BorderHovered"        : 7028,
             "mvThemeCol_NextColumn_BorderActive"         : 7029,
-            "mvThemeCol_Logger_Text"                     : 7100,
-            "mvThemeCol_Logger_TextHighlight"            : 7144,
-            "mvThemeCol_Logger_OutBg"                    : 7103,
-            "mvThemeCol_Logger_Buttons"                  : 7121,
-            "mvThemeCol_Logger_ButtonsHover"             : 7122,
-            "mvThemeCol_Logger_ButtonsActive"            : 7123,
-            "mvThemeCol_Logger_Settings"                 : 7107,
-            "mvThemeCol_Logger_SettingsHover"            : 7108,
-            "mvThemeCol_Logger_SettingsActive"           : 7109,
-            "mvThemeCol_Logger_SettingSelection"         : 7118,
-            "mvThemeCol_Logger_ScrollBg"                 : 7114,
-            "mvThemeCol_Logger_ScrollGrab"               : 7115,
-            "mvThemeCol_Logger_ScrollGrabHovered"        : 7116,
-            "mvThemeCol_Logger_ScrollGrabActive"         : 7117,
-            "mvThemeCol_Logger_Border"                   : 7105,
-            "mvThemeCol_Logger_BorderShadow"             : 7106
             }
         add_button("tester", callback=lambda sender, data: print(get_item_type(sender)))
         for color,constant in color_constants.items():
@@ -606,7 +590,9 @@ def show_demo():
         add_color_edit4("global color",callback=lambda sender, data: set_theme_color(mvThemeCol_Button, get_value(sender)))
         add_color_edit4("local window color",callback=lambda sender, data: set_theme_color(mvThemeCol_Button, get_value(sender), item="Dear PyGui Demo"))
         add_color_edit4("individual color",callback=lambda sender, data: set_theme_color(mvThemeCol_Button, get_value(sender), item="proof"))
-
+        add_slider_float("global style",callback=lambda sender, data: set_theme_style(mvThemeStyle_Button_Rounding, get_value(sender)))
+        add_slider_float("local window style",callback=lambda sender, data: set_theme_style(mvThemeStyle_Button_Rounding, get_value(sender), item="Dear PyGui Demo"))
+        add_slider_float("individual style",callback=lambda sender, data: set_theme_style(mvThemeStyle_Button_Rounding, get_value(sender), item="proof"))
         with collapsing_header("Window options##demo"):
             with managed_columns("Window Options Col##demo", 3, border=False):
                 add_checkbox("No titlebar##demo", callback=lambda sender, data: configure_item("Dear PyGui Demo", no_title_bar=get_value(sender)))

@@ -160,6 +160,7 @@ namespace Marvel {
 	};
 
 	typedef std::unordered_map<int, mvColor> ThemeColors;
+	typedef std::unordered_map<int, float> ThemeStyles;
 
 }
 
