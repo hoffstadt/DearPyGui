@@ -30,6 +30,7 @@ namespace Marvel {
 
 	private:
 		int libIDCount = 0;
+		int StyleIDCount = 0;
 	};
 
 }

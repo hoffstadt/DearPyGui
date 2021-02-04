@@ -6,6 +6,7 @@ namespace Marvel {
 	mvTheme::mvTheme()
 	{
 		mvEventBus::Subscribe(this, SID("color_change"), mvEVT_CATEGORY_THEMES);
+		mvEventBus::Subscribe(this, SID("style_change"), mvEVT_CATEGORY_THEMES);
 	}
 
 	mvTheme::~mvTheme()
@@ -16,7 +17,8 @@ namespace Marvel {
 	bool mvTheme::onEvent(mvEvent& event)
 	{
 		mvEventDispatcher dispatcher(event);
-		dispatcher.dispatch(BIND_EVENT_METH(mvTheme::add_color), SID("color_change"), mvEVT_CATEGORY_THEMES);
+		dispatcher.dispatch(BIND_EVENT_METH(mvTheme::add_style), SID("style_change"));
+		dispatcher.dispatch(BIND_EVENT_METH(mvTheme::add_color), SID("color_change"));
 		return event.handled;
 	};
 
@@ -83,6 +85,7 @@ namespace Marvel {
 	mvImGuiThemeScope::mvImGuiThemeScope(mvAppItem* item)
 	{
 		int pushedIDs[ImGuiCol_COUNT];
+		int pushedStyleIDs[ImGuiCol_COUNT];
 		//this goes through the specific colors for the current item type and applies them
 		for (auto& themeColor : item->getColors()[item->getType()])
 		{
@@ -98,8 +101,8 @@ namespace Marvel {
 			if (themeStyle.first < ImGuiStyleVar_COUNT)
 			{
 				ImGui::PushStyleVar((ImGuiStyleVar)themeStyle.first, themeStyle.second);
-				pushedIDs[libIDCount] = themeStyle.first;
-				libIDCount++;
+				pushedStyleIDs[StyleIDCount] = themeStyle.first;
+				StyleIDCount++;
 			}
 		}
 		//this goes through the specific colors for the current item type and applies them
@@ -128,6 +131,27 @@ namespace Marvel {
 					}
 				}
 			}
+			for (auto& themeStyle : widget->getStyles()[item->getType()])
+			{
+				//checking through all the libID's to see if our id matches one
+				int i = 0;
+				while (i < StyleIDCount)
+					if (pushedStyleIDs[i] == themeStyle.first)
+						break;
+					else
+						i++;
+				//if our position is the equal to the libIDCount then we did not find the current libID 
+				//so push libID and colo to DIG
+				if (i == StyleIDCount)
+				{
+					if (themeStyle.first < ImGuiStyleVar_COUNT)
+					{
+						ImGui::PushStyleVar((ImGuiStyleVar)themeStyle.first, themeStyle.second);
+						pushedStyleIDs[StyleIDCount] = themeStyle.first;
+						StyleIDCount++;
+					}
+				}
+			}
 		}
 
 		for (auto& themeColor : mvApp::GetApp()->getColors()[item->getType()])
@@ -151,6 +175,28 @@ namespace Marvel {
 				}
 			}
 		}
+
+		for (auto& themeStyle : mvApp::GetApp()->getStyles()[item->getType()])
+		{
+			//checking through all the libID's to see if our id matches one
+			int i = 0;
+			while (i < StyleIDCount)
+				if (pushedStyleIDs[i] == themeStyle.first)
+					break;
+				else
+					i++;
+			//if our position is the equal to the libIDCount then we did not find the current libID 
+			//so push libID and colo to DIG
+			if (i == StyleIDCount)
+			{
+				if (themeStyle.first < ImGuiStyleVar_COUNT)
+				{
+					ImGui::PushStyleVar((ImGuiStyleVar)themeStyle.first, themeStyle.second);
+					pushedStyleIDs[StyleIDCount] = themeStyle.first;
+					StyleIDCount++;
+				}
+			}
+		}
 	}
 
 	mvImGuiThemeScope::~mvImGuiThemeScope()
@@ -163,6 +209,10 @@ namespace Marvel {
 		if (libIDCount > 0)
 			ImGui::PopStyleColor(libIDCount);
 		libIDCount = 0;
+
+		if (StyleIDCount > 0)
+			ImGui::PopStyleVar(StyleIDCount);
+		StyleIDCount = 0;
 	}
 
 }

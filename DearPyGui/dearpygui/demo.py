@@ -589,12 +589,12 @@ def show_demo():
         add_text("https://github.com/hoffstadt/DearPyGui/blob/master/DearPyGui/dearpygui/demo.py")
 
         add_button("proof")
-        add_color_edit4("global color",callback=lambda sender, data: set_theme_color(mvThemeCol_Button, get_value(sender)))
-        add_color_edit4("local window color",callback=lambda sender, data: set_theme_color(mvThemeCol_Button, get_value(sender), item="Dear PyGui Demo"))
-        add_color_edit4("individual color",callback=lambda sender, data: set_theme_color(mvThemeCol_Button, get_value(sender), item="proof"))
-        add_slider_float("global style",callback=lambda sender, data: set_theme_style(mvThemeStyle_Button_Rounding, get_value(sender)))
-        add_slider_float("local window style",callback=lambda sender, data: set_theme_style(mvThemeStyle_Button_Rounding, get_value(sender), item="Dear PyGui Demo"))
-        add_slider_float("individual style",callback=lambda sender, data: set_theme_style(mvThemeStyle_Button_Rounding, get_value(sender), item="proof"))
+        add_color_edit4("global color",callback=lambda sender, data: set_theme_color(mvThemeCol_Button_Bg, get_value(sender)))
+        add_color_edit4("local window color",callback=lambda sender, data: set_theme_color(mvThemeCol_Button_Bg, get_value(sender), item="Dear PyGui Demo"))
+        add_color_edit4("individual color",callback=lambda sender, data: set_theme_color(mvThemeCol_Button_Bg, get_value(sender), item="proof"))
+        add_slider_float("global style",max_value=14.0,callback=lambda sender, data: set_theme_style(mvThemeStyle_Button_Rounding, get_value(sender)))
+        add_slider_float("local window style",max_value=14.0,callback=lambda sender, data: set_theme_style(mvThemeStyle_Button_Rounding, get_value(sender), item="Dear PyGui Demo"))
+        add_slider_float("individual style",max_value=14.0,callback=lambda sender, data: set_theme_style(mvThemeStyle_Button_Rounding, get_value(sender), item="proof"))
         with collapsing_header("Window options##demo"):
             with managed_columns("Window Options Col##demo", 3, border=False):
                 add_checkbox("No titlebar##demo", callback=lambda sender, data: configure_item("Dear PyGui Demo", no_title_bar=get_value(sender)))
