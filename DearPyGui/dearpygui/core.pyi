@@ -562,6 +562,10 @@ def get_draw_command(drawing: str, tag: str) -> dict:
 	"""Returns an draw commands information"""
 	...
 
+def get_drawing_mouse_pos() -> (int, int):
+	"""Returns the current mouse position in the currently hovered drawing."""
+	...
+
 def get_global_font_scale() -> float:
 	"""Returns the global font scale."""
 	...

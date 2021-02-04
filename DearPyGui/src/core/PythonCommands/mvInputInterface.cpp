@@ -23,6 +23,10 @@ namespace Marvel {
 		}, "Returns the current mouse position in the currently hovered plot.",
 		"(int, int)", "Input Polling") });
 
+		parsers->insert({ "get_drawing_mouse_pos", mvPythonParser({
+		}, "Returns the current mouse position in the currently hovered drawing.",
+		"(int, int)", "Input Polling") });
+
 		parsers->insert({ "get_mouse_drag_delta", mvPythonParser({
 		}, "Returns the current mouse drag delta in pixels", "(float, float)", "Input Polling") });
 
@@ -127,6 +131,17 @@ namespace Marvel {
 			return GetPyNone();
 
 		mvVec2 pos = mvInput::getPlotMousePosition();
+
+		return ToPyPair(pos.x, pos.y);
+	}
+
+	PyObject* get_drawing_mouse_pos(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+
+		if (!(*mvApp::GetApp()->getParsers())["get_drawing_mouse_pos"].parse(args, kwargs, __FUNCTION__))
+			return GetPyNone();
+
+		mvVec2 pos = mvInput::getDrawingMousePosition();
 
 		return ToPyPair(pos.x, pos.y);
 	}

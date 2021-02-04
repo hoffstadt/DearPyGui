@@ -1047,6 +1047,7 @@ namespace Marvel {
 		ADD_PYTHON_FUNCTION(add_metrics_window)
 
 		// input commands
+		ADD_PYTHON_FUNCTION(get_drawing_mouse_pos)
 		ADD_PYTHON_FUNCTION(set_mouse_move_callback)
 		ADD_PYTHON_FUNCTION(set_mouse_drag_callback)
 		ADD_PYTHON_FUNCTION(is_mouse_button_dragging)
