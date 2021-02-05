@@ -6,10 +6,32 @@ namespace Marvel {
 
 	class mvPopup : public mvBoolPtrBase
 	{
+		MV_APPITEM_TYPE(mvAppItemType::Popup, mvPopup, "add_popup")
+
+		MV_CREATE_THEME_CONSTANT(mvAppItemType::Popup, mvThemeCol_Popup_TitleText				,  0L);
+		MV_CREATE_THEME_CONSTANT(mvAppItemType::Popup, mvThemeCol_Popup_TitleBg					, 11L);
+		MV_CREATE_THEME_CONSTANT(mvAppItemType::Popup, mvThemeCol_Popup_Bg						,  4L);
+		MV_CREATE_THEME_CONSTANT(mvAppItemType::Popup, mvThemeCol_Popup_ModalDimBg				, 49L);
+		MV_CREATE_THEME_CONSTANT(mvAppItemType::Popup, mvThemeCol_Popup_Scrollbar				, 14L);
+		MV_CREATE_THEME_CONSTANT(mvAppItemType::Popup, mvThemeCol_Popup_ScrollbarGrab			, 15L);
+		MV_CREATE_THEME_CONSTANT(mvAppItemType::Popup, mvThemeCol_Popup_ScrollbarGrabHovered	, 16L);
+		MV_CREATE_THEME_CONSTANT(mvAppItemType::Popup, mvThemeCol_Popup_ScrollbarGrabActive		, 17L);
+		MV_CREATE_THEME_CONSTANT(mvAppItemType::Popup, mvThemeCol_Popup_Border					,  5L);
+
+
+		MV_START_COLOR_CONSTANTS
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Popup_TitleText),
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Popup_TitleBg),
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Popup_Bg),
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Popup_ModalDimBg),
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Popup_Scrollbar),
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Popup_ScrollbarGrab),
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Popup_ScrollbarGrabHovered),
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Popup_ScrollbarGrabActive),
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Popup_Border),
+		MV_END_COLOR_CONSTANTS
 
 	public:
-
-		MV_APPITEM_TYPE_OLD_SYSTEM(mvAppItemType::Popup, "add_popup")
 
 		mvPopup(const std::string& name, mvAppItem* parentAddress)
 			: mvBoolPtrBase(name, false, name), m_parentAddress(parentAddress)

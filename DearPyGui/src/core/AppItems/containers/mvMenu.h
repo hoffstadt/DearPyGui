@@ -11,11 +11,11 @@ namespace Marvel {
 
 		MV_APPITEM_TYPE(mvAppItemType::Menu, mvMenu, "add_menu")
 
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::Menu, mvThemeCol_Menu_Text		, 0L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::Menu, mvThemeCol_Menu_Bg		, 4L);
+		MV_CREATE_THEME_CONSTANT(mvAppItemType::Menu, mvThemeCol_Menu_Text		,  0L);
+		MV_CREATE_THEME_CONSTANT(mvAppItemType::Menu, mvThemeCol_Menu_Bg		,  4L);
 		MV_CREATE_THEME_CONSTANT(mvAppItemType::Menu, mvThemeCol_Menu_BgHovered	, 25L);
 		MV_CREATE_THEME_CONSTANT(mvAppItemType::Menu, mvThemeCol_Menu_BgActive	, 24L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::Menu, mvThemeCol_Menu_Border	, 5L);
+		MV_CREATE_THEME_CONSTANT(mvAppItemType::Menu, mvThemeCol_Menu_Border	,  5L);
 
 		MV_START_COLOR_CONSTANTS
 			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Menu_Text),

@@ -11,7 +11,7 @@ namespace Marvel {
 	{
 		MV_APPITEM_TYPE(mvAppItemType::MenuItem, mvMenuItem, "add_menu_item")
 
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::MenuItem, mvThemeCol_MenuItem_Text		, 0L);
+		MV_CREATE_THEME_CONSTANT(mvAppItemType::MenuItem, mvThemeCol_MenuItem_Text		,  0L);
 		MV_CREATE_THEME_CONSTANT(mvAppItemType::MenuItem, mvThemeCol_MenuItem_BgHovered	, 25L);
 
 		MV_START_COLOR_CONSTANTS

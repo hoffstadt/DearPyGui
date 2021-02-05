@@ -10,14 +10,39 @@ namespace Marvel {
 
 	class mvTable : public mvAppItem
 	{
+		MV_APPITEM_TYPE(mvAppItemType::Table, mvTable, "add_table")
+
+		MV_CREATE_THEME_CONSTANT(mvAppItemType::Table, mvThemeCol_Table_Text					, 14L);
+		MV_CREATE_THEME_CONSTANT(mvAppItemType::Table, mvThemeCol_Table_Cell					, 24L);
+		MV_CREATE_THEME_CONSTANT(mvAppItemType::Table, mvThemeCol_Table_CellHovered				, 25L);
+		MV_CREATE_THEME_CONSTANT(mvAppItemType::Table, mvThemeCol_Table_CellActive				, 26L);
+		MV_CREATE_THEME_CONSTANT(mvAppItemType::Table, mvThemeCol_Table_Border					, 27L);
+		MV_CREATE_THEME_CONSTANT(mvAppItemType::Table, mvThemeCol_Table_BorderHovered			, 28L);
+		MV_CREATE_THEME_CONSTANT(mvAppItemType::Table, mvThemeCol_Table_BorderActive			, 29L);
+		MV_CREATE_THEME_CONSTANT(mvAppItemType::Table, mvThemeCol_Table_Scrollbar				, 14L);
+		MV_CREATE_THEME_CONSTANT(mvAppItemType::Table, mvThemeCol_Table_ScrollbarGrab			, 15L);
+		MV_CREATE_THEME_CONSTANT(mvAppItemType::Table, mvThemeCol_Table_ScrollbarGrabHovered	, 16L);
+		MV_CREATE_THEME_CONSTANT(mvAppItemType::Table, mvThemeCol_Table_ScrollbarGrabActive		, 17L);
+
+		MV_START_COLOR_CONSTANTS
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Table_Text),
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Table_Cell),
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Table_CellHovered),
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Table_CellActive),
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Table_Border),
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Table_BorderHovered),
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Table_BorderActive),
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Table_Scrollbar),
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Table_ScrollbarGrab),
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Table_ScrollbarGrabHovered),
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Table_ScrollbarGrabActive),
+		MV_END_COLOR_CONSTANTS
 
 	public:
 
 		static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
 
 	public:
-
-		MV_APPITEM_TYPE_OLD_SYSTEM(mvAppItemType::Table, "add_table")
 
 		mvTable(const std::string& name, const std::vector<std::string>& headers);
 

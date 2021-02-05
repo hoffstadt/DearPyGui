@@ -10,13 +10,27 @@ namespace Marvel {
 	class mvImageButton : public mvAppItem, public mvEventHandler
 	{
 
+		MV_APPITEM_TYPE(mvAppItemType::ImageButton, mvImageButton, "add_image_button")
+
+		MV_CREATE_THEME_CONSTANT(mvAppItemType::ImageButton, mvThemeCol_ImageButton_Bg				, 21L);
+		MV_CREATE_THEME_CONSTANT(mvAppItemType::ImageButton, mvThemeCol_ImageButton_BgHovered		, 22L);
+		MV_CREATE_THEME_CONSTANT(mvAppItemType::ImageButton, mvThemeCol_ImageButton_BgActive		, 23L);
+		MV_CREATE_THEME_CONSTANT(mvAppItemType::ImageButton, mvThemeCol_ImageButton_Border			,  5L);
+		MV_CREATE_THEME_CONSTANT(mvAppItemType::ImageButton, mvThemeCol_ImageButton_BorderShadow	,  6L);
+
+		MV_START_COLOR_CONSTANTS
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_ImageButton_Bg),
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_ImageButton_BgHovered),
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_ImageButton_BgActive),
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_ImageButton_Border),
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_ImageButton_BorderShadow),
+		MV_END_COLOR_CONSTANTS
+
 	public:
 
 		static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
 
 	public:
-
-		MV_APPITEM_TYPE_OLD_SYSTEM(mvAppItemType::ImageButton, "add_image_button")
 
 		mvImageButton(const std::string& name, std::string  default_value);
 
