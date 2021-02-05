@@ -29,14 +29,14 @@ namespace Marvel {
         
         MV_APPITEM_TYPE(mvAppItemType::InputInt, mvInputInt, "add_input_int")
 
-        MV_CREATE_THEME_CONSTANT(mvAppItemType::InputInt, mvThemeCol_InputInt_Text              , 0L);
+        MV_CREATE_THEME_CONSTANT(mvAppItemType::InputInt, mvThemeCol_InputInt_Text              ,  0L);
         MV_CREATE_THEME_CONSTANT(mvAppItemType::InputInt, mvThemeCol_InputInt_TextHighlight     , 44L);
-        MV_CREATE_THEME_CONSTANT(mvAppItemType::InputInt, mvThemeCol_InputInt_Bg                , 7L);
+        MV_CREATE_THEME_CONSTANT(mvAppItemType::InputInt, mvThemeCol_InputInt_Bg                ,  7L);
         MV_CREATE_THEME_CONSTANT(mvAppItemType::InputInt, mvThemeCol_InputInt_ButtonBg          , 21L);
         MV_CREATE_THEME_CONSTANT(mvAppItemType::InputInt, mvThemeCol_InputInt_ButtonBgHovered   , 22L);
         MV_CREATE_THEME_CONSTANT(mvAppItemType::InputInt, mvThemeCol_InputInt_ButtonBgActive    , 23L);
-        MV_CREATE_THEME_CONSTANT(mvAppItemType::InputInt, mvThemeCol_InputInt_Border            , 5L);
-        MV_CREATE_THEME_CONSTANT(mvAppItemType::InputInt, mvThemeCol_InputInt_BorderShadow      , 6L);
+        MV_CREATE_THEME_CONSTANT(mvAppItemType::InputInt, mvThemeCol_InputInt_Border            ,  5L);
+        MV_CREATE_THEME_CONSTANT(mvAppItemType::InputInt, mvThemeCol_InputInt_BorderShadow      ,  6L);
 
         MV_START_COLOR_CONSTANTS
             MV_CREATE_CONSTANT_PAIR(mvThemeCol_InputInt_Text),
@@ -82,11 +82,11 @@ namespace Marvel {
 
         MV_APPITEM_TYPE(mvAppItemType::InputInt2, mvInputInt2, "add_input_int2")
 
-        MV_CREATE_THEME_CONSTANT(mvAppItemType::InputInt2, mvThemeCol_InputInt2_Text            , 0L);
+        MV_CREATE_THEME_CONSTANT(mvAppItemType::InputInt2, mvThemeCol_InputInt2_Text            ,  0L);
         MV_CREATE_THEME_CONSTANT(mvAppItemType::InputInt2, mvThemeCol_InputInt2_TextHighlight   , 44L);
-        MV_CREATE_THEME_CONSTANT(mvAppItemType::InputInt2, mvThemeCol_InputInt2_Bg              , 7L);
-        MV_CREATE_THEME_CONSTANT(mvAppItemType::InputInt2, mvThemeCol_InputInt2_Border          , 5L);
-        MV_CREATE_THEME_CONSTANT(mvAppItemType::InputInt2, mvThemeCol_InputInt2_BorderShadow    , 6L);
+        MV_CREATE_THEME_CONSTANT(mvAppItemType::InputInt2, mvThemeCol_InputInt2_Bg              ,  7L);
+        MV_CREATE_THEME_CONSTANT(mvAppItemType::InputInt2, mvThemeCol_InputInt2_Border          ,  5L);
+        MV_CREATE_THEME_CONSTANT(mvAppItemType::InputInt2, mvThemeCol_InputInt2_BorderShadow    ,  6L);
 
         MV_START_COLOR_CONSTANTS
             MV_CREATE_CONSTANT_PAIR(mvThemeCol_InputInt2_Text),
@@ -127,11 +127,11 @@ namespace Marvel {
 
         MV_APPITEM_TYPE(mvAppItemType::InputInt3, mvInputInt3, "add_input_int3")
 
-        MV_CREATE_THEME_CONSTANT(mvAppItemType::InputInt3, mvThemeCol_InputInt3_Text            , 0L);
+        MV_CREATE_THEME_CONSTANT(mvAppItemType::InputInt3, mvThemeCol_InputInt3_Text            ,  0L);
         MV_CREATE_THEME_CONSTANT(mvAppItemType::InputInt3, mvThemeCol_InputInt3_TextHighlight   , 44L);
-        MV_CREATE_THEME_CONSTANT(mvAppItemType::InputInt3, mvThemeCol_InputInt3_Bg              , 7L);
-        MV_CREATE_THEME_CONSTANT(mvAppItemType::InputInt3, mvThemeCol_InputInt3_Border          , 5L);
-        MV_CREATE_THEME_CONSTANT(mvAppItemType::InputInt3, mvThemeCol_InputInt3_BorderShadow    , 6L);
+        MV_CREATE_THEME_CONSTANT(mvAppItemType::InputInt3, mvThemeCol_InputInt3_Bg              ,  7L);
+        MV_CREATE_THEME_CONSTANT(mvAppItemType::InputInt3, mvThemeCol_InputInt3_Border          ,  5L);
+        MV_CREATE_THEME_CONSTANT(mvAppItemType::InputInt3, mvThemeCol_InputInt3_BorderShadow    ,  6L);
 
         MV_START_COLOR_CONSTANTS
             MV_CREATE_CONSTANT_PAIR(mvThemeCol_InputInt3_Text),
@@ -173,11 +173,11 @@ namespace Marvel {
     
         MV_APPITEM_TYPE(mvAppItemType::InputInt4, mvInputInt4, "add_input_int4")
 
-        MV_CREATE_THEME_CONSTANT(mvAppItemType::InputInt4, mvThemeCol_InputInt4_Text            , 0L);
+        MV_CREATE_THEME_CONSTANT(mvAppItemType::InputInt4, mvThemeCol_InputInt4_Text            ,  0L);
         MV_CREATE_THEME_CONSTANT(mvAppItemType::InputInt4, mvThemeCol_InputInt4_TextHighlight   , 44L);
-        MV_CREATE_THEME_CONSTANT(mvAppItemType::InputInt4, mvThemeCol_InputInt4_Bg              , 7L);
-        MV_CREATE_THEME_CONSTANT(mvAppItemType::InputInt4, mvThemeCol_InputInt4_Border          , 5L);
-        MV_CREATE_THEME_CONSTANT(mvAppItemType::InputInt4, mvThemeCol_InputInt4_BorderShadow    , 6L);
+        MV_CREATE_THEME_CONSTANT(mvAppItemType::InputInt4, mvThemeCol_InputInt4_Bg              ,  7L);
+        MV_CREATE_THEME_CONSTANT(mvAppItemType::InputInt4, mvThemeCol_InputInt4_Border          ,  5L);
+        MV_CREATE_THEME_CONSTANT(mvAppItemType::InputInt4, mvThemeCol_InputInt4_BorderShadow    ,  6L);
 
         MV_START_COLOR_CONSTANTS
             MV_CREATE_CONSTANT_PAIR(mvThemeCol_InputInt4_Text),
@@ -218,14 +218,14 @@ namespace Marvel {
         
         MV_APPITEM_TYPE(mvAppItemType::InputFloat, mvInputFloat, "add_input_float")
 
-        MV_CREATE_THEME_CONSTANT(mvAppItemType::InputFloat, mvThemeCol_InputFloat_Text              , 0L);
+        MV_CREATE_THEME_CONSTANT(mvAppItemType::InputFloat, mvThemeCol_InputFloat_Text              ,  0L);
         MV_CREATE_THEME_CONSTANT(mvAppItemType::InputFloat, mvThemeCol_InputFloat_TextHighlight     , 44L);
-        MV_CREATE_THEME_CONSTANT(mvAppItemType::InputFloat, mvThemeCol_InputFloat_Bg                , 7L);
+        MV_CREATE_THEME_CONSTANT(mvAppItemType::InputFloat, mvThemeCol_InputFloat_Bg                ,  7L);
         MV_CREATE_THEME_CONSTANT(mvAppItemType::InputFloat, mvThemeCol_InputFloat_ButtonBg          , 21L);
         MV_CREATE_THEME_CONSTANT(mvAppItemType::InputFloat, mvThemeCol_InputFloat_ButtonBgHovered   , 22L);
         MV_CREATE_THEME_CONSTANT(mvAppItemType::InputFloat, mvThemeCol_InputFloat_ButtonBgActive    , 23L);
-        MV_CREATE_THEME_CONSTANT(mvAppItemType::InputFloat, mvThemeCol_InputFloat_Border            , 5L);
-        MV_CREATE_THEME_CONSTANT(mvAppItemType::InputFloat, mvThemeCol_InputFloat_BorderShadow      , 6L);
+        MV_CREATE_THEME_CONSTANT(mvAppItemType::InputFloat, mvThemeCol_InputFloat_Border            ,  5L);
+        MV_CREATE_THEME_CONSTANT(mvAppItemType::InputFloat, mvThemeCol_InputFloat_BorderShadow      ,  6L);
 
         MV_START_COLOR_CONSTANTS
             MV_CREATE_CONSTANT_PAIR(mvThemeCol_InputFloat_Text),
@@ -272,11 +272,11 @@ namespace Marvel {
     
         MV_APPITEM_TYPE(mvAppItemType::InputFloat2, mvInputFloat2, "add_input_float2")
 
-        MV_CREATE_THEME_CONSTANT(mvAppItemType::InputFloat2, mvThemeCol_InputFloat2_Text            , 0L);
+        MV_CREATE_THEME_CONSTANT(mvAppItemType::InputFloat2, mvThemeCol_InputFloat2_Text            ,  0L);
         MV_CREATE_THEME_CONSTANT(mvAppItemType::InputFloat2, mvThemeCol_InputFloat2_TextHighlight   , 44L);
-        MV_CREATE_THEME_CONSTANT(mvAppItemType::InputFloat2, mvThemeCol_InputFloat2_Bg              , 7L);
-        MV_CREATE_THEME_CONSTANT(mvAppItemType::InputFloat2, mvThemeCol_InputFloat2_Border          , 5L);
-        MV_CREATE_THEME_CONSTANT(mvAppItemType::InputFloat2, mvThemeCol_InputFloat2_BorderShadow    , 6L);
+        MV_CREATE_THEME_CONSTANT(mvAppItemType::InputFloat2, mvThemeCol_InputFloat2_Bg              ,  7L);
+        MV_CREATE_THEME_CONSTANT(mvAppItemType::InputFloat2, mvThemeCol_InputFloat2_Border          ,  5L);
+        MV_CREATE_THEME_CONSTANT(mvAppItemType::InputFloat2, mvThemeCol_InputFloat2_BorderShadow    ,  6L);
 
         MV_START_COLOR_CONSTANTS
             MV_CREATE_CONSTANT_PAIR(mvThemeCol_InputFloat2_Text),
@@ -318,11 +318,11 @@ namespace Marvel {
         
         MV_APPITEM_TYPE(mvAppItemType::InputFloat3, mvInputFloat3, "add_input_float3")
 
-        MV_CREATE_THEME_CONSTANT(mvAppItemType::InputFloat3, mvThemeCol_InputFloat3_Text            , 0L);
+        MV_CREATE_THEME_CONSTANT(mvAppItemType::InputFloat3, mvThemeCol_InputFloat3_Text            ,  0L);
         MV_CREATE_THEME_CONSTANT(mvAppItemType::InputFloat3, mvThemeCol_InputFloat3_TextHighlight   , 44L);
-        MV_CREATE_THEME_CONSTANT(mvAppItemType::InputFloat3, mvThemeCol_InputFloat3_Bg              , 7L);
-        MV_CREATE_THEME_CONSTANT(mvAppItemType::InputFloat3, mvThemeCol_InputFloat3_Border          , 5L);
-        MV_CREATE_THEME_CONSTANT(mvAppItemType::InputFloat3, mvThemeCol_InputFloat3_BorderShadow    , 6L);
+        MV_CREATE_THEME_CONSTANT(mvAppItemType::InputFloat3, mvThemeCol_InputFloat3_Bg              ,  7L);
+        MV_CREATE_THEME_CONSTANT(mvAppItemType::InputFloat3, mvThemeCol_InputFloat3_Border          ,  5L);
+        MV_CREATE_THEME_CONSTANT(mvAppItemType::InputFloat3, mvThemeCol_InputFloat3_BorderShadow    ,  6L);
 
         MV_START_COLOR_CONSTANTS
             MV_CREATE_CONSTANT_PAIR(mvThemeCol_InputFloat3_Text),
@@ -364,11 +364,11 @@ namespace Marvel {
     
         MV_APPITEM_TYPE(mvAppItemType::InputFloat4, mvInputFloat3, "add_input_float4")
 
-        MV_CREATE_THEME_CONSTANT(mvAppItemType::InputFloat4, mvThemeCol_InputFloat4_Text            , 0L);
+        MV_CREATE_THEME_CONSTANT(mvAppItemType::InputFloat4, mvThemeCol_InputFloat4_Text            ,  0L);
         MV_CREATE_THEME_CONSTANT(mvAppItemType::InputFloat4, mvThemeCol_InputFloat4_TextHighlight   , 44L);
-        MV_CREATE_THEME_CONSTANT(mvAppItemType::InputFloat4, mvThemeCol_InputFloat4_Bg              , 7L);
-        MV_CREATE_THEME_CONSTANT(mvAppItemType::InputFloat4, mvThemeCol_InputFloat4_Border          , 5L);
-        MV_CREATE_THEME_CONSTANT(mvAppItemType::InputFloat4, mvThemeCol_InputFloat4_BorderShadow    , 6L);
+        MV_CREATE_THEME_CONSTANT(mvAppItemType::InputFloat4, mvThemeCol_InputFloat4_Bg              ,  7L);
+        MV_CREATE_THEME_CONSTANT(mvAppItemType::InputFloat4, mvThemeCol_InputFloat4_Border          ,  5L);
+        MV_CREATE_THEME_CONSTANT(mvAppItemType::InputFloat4, mvThemeCol_InputFloat4_BorderShadow    ,  6L);
 
         MV_START_COLOR_CONSTANTS
             MV_CREATE_CONSTANT_PAIR(mvThemeCol_InputFloat4_Text),

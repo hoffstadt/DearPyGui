@@ -11,12 +11,12 @@ namespace Marvel {
 	{
 		MV_APPITEM_TYPE(mvAppItemType::InputText, mvInputText, "add_input_text")
 
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::InputText, mvThemeCol_InputText_Text			, 0L);
+		MV_CREATE_THEME_CONSTANT(mvAppItemType::InputText, mvThemeCol_InputText_Text			,  0L);
 		MV_CREATE_THEME_CONSTANT(mvAppItemType::InputText, mvThemeCol_InputText_TextHighlight	, 44L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::InputText, mvThemeCol_InputText_Bg				, 7L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::InputText, mvThemeCol_InputText_Hint			, 1L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::InputText, mvThemeCol_InputText_Border			, 5L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::InputText, mvThemeCol_InputText_BorderShadow	, 6L);
+		MV_CREATE_THEME_CONSTANT(mvAppItemType::InputText, mvThemeCol_InputText_Bg				,  7L);
+		MV_CREATE_THEME_CONSTANT(mvAppItemType::InputText, mvThemeCol_InputText_Hint			,  1L);
+		MV_CREATE_THEME_CONSTANT(mvAppItemType::InputText, mvThemeCol_InputText_Border			,  5L);
+		MV_CREATE_THEME_CONSTANT(mvAppItemType::InputText, mvThemeCol_InputText_BorderShadow	,  6L);
 
 		MV_START_COLOR_CONSTANTS
 			MV_CREATE_CONSTANT_PAIR(mvThemeCol_InputText_Text),

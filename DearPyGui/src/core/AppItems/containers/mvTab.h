@@ -11,11 +11,11 @@ namespace Marvel {
 
 		MV_APPITEM_TYPE(mvAppItemType::TabItem, mvTab, "add_tab")
 
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::TabItem, mvThemeCol_Tab_Text		, 0L);
+		MV_CREATE_THEME_CONSTANT(mvAppItemType::TabItem, mvThemeCol_Tab_Text		,  0L);
 		MV_CREATE_THEME_CONSTANT(mvAppItemType::TabItem, mvThemeCol_Tab_Bg			, 33L);
 		MV_CREATE_THEME_CONSTANT(mvAppItemType::TabItem, mvThemeCol_Tab_BgHovered	, 34L);
 		MV_CREATE_THEME_CONSTANT(mvAppItemType::TabItem, mvThemeCol_Tab_BgActive	, 35L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::TabItem, mvThemeCol_Tab_PopupBg		, 4L);
+		MV_CREATE_THEME_CONSTANT(mvAppItemType::TabItem, mvThemeCol_Tab_PopupBg		,  4L);
 
 		MV_START_COLOR_CONSTANTS
 			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Tab_Text),

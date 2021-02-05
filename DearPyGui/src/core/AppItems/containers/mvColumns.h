@@ -23,14 +23,23 @@ namespace Marvel {
 	//-----------------------------------------------------------------------------
 	class mvManagedColumns : public mvAppItem
 	{
+		MV_APPITEM_TYPE(mvAppItemType::ManagedColumns, mvManagedColumns, "add_managed_columns")
+
+		MV_CREATE_THEME_CONSTANT(mvAppItemType::ManagedColumns, mvThemeCol_ManagedColumns_Border		, 27L);
+		MV_CREATE_THEME_CONSTANT(mvAppItemType::ManagedColumns, mvThemeCol_ManagedColumns_BorderHovered	, 28L);
+		MV_CREATE_THEME_CONSTANT(mvAppItemType::ManagedColumns, mvThemeCol_ManagedColumns_BorderActive	, 29L);
+
+		MV_START_COLOR_CONSTANTS
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_ManagedColumns_Border),
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_ManagedColumns_BorderHovered),
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_ManagedColumns_BorderActive),
+		MV_END_COLOR_CONSTANTS
 
 	public:
 
 		static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
 
 	public:
-
-		MV_APPITEM_TYPE_OLD_SYSTEM(mvAppItemType::ManagedColumns, "add_managed_columns")
 
 		mvManagedColumns(const std::string& name, int columns);
 

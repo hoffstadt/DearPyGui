@@ -8,14 +8,26 @@ namespace Marvel {
 
 	class mvSelectable : public mvBoolPtrBase
 	{
+		MV_APPITEM_TYPE(mvAppItemType::Selectable, mvSelectable, "add_selectable")
+
+		MV_CREATE_THEME_CONSTANT(mvAppItemType::Selectable, mvThemeCol_Selectable_Text		,  0L);
+		MV_CREATE_THEME_CONSTANT(mvAppItemType::Selectable, mvThemeCol_Selectable_Bg		, 24L);
+		MV_CREATE_THEME_CONSTANT(mvAppItemType::Selectable, mvThemeCol_Selectable_BgHovered	, 25L);
+		MV_CREATE_THEME_CONSTANT(mvAppItemType::Selectable, mvThemeCol_Selectable_BgActive	, 26L);
+
+
+		MV_START_COLOR_CONSTANTS
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Selectable_Text),
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Selectable_Bg),
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Selectable_BgHovered),
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Selectable_BgActive),
+		MV_END_COLOR_CONSTANTS
 
 	public:
 
 		static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
 
 	public:
-
-		MV_APPITEM_TYPE_OLD_SYSTEM(mvAppItemType::Selectable, "add_selectable")
 
 		mvSelectable(const std::string& name, bool default_value, const std::string& dataSource);
 

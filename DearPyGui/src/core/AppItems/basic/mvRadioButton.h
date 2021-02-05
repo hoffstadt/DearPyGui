@@ -10,12 +10,12 @@ namespace Marvel {
 	{
 		MV_APPITEM_TYPE(mvAppItemType::RadioButtons, mvRadioButton, "add_radio_button")
 
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::RadioButtons, mvThemeCol_RadioButton_Text			, 0L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::RadioButtons, mvThemeCol_RadioButton_Bg				, 7L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::RadioButtons, mvThemeCol_RadioButton_BgHovered		, 8L);
+		MV_CREATE_THEME_CONSTANT(mvAppItemType::RadioButtons, mvThemeCol_RadioButton_Text			,  0L);
+		MV_CREATE_THEME_CONSTANT(mvAppItemType::RadioButtons, mvThemeCol_RadioButton_Bg				,  7L);
+		MV_CREATE_THEME_CONSTANT(mvAppItemType::RadioButtons, mvThemeCol_RadioButton_BgHovered		,  8L);
 		MV_CREATE_THEME_CONSTANT(mvAppItemType::RadioButtons, mvThemeCol_RadioButton_BgActive		, 18L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::RadioButtons, mvThemeCol_RadioButton_Border			, 5L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::RadioButtons, mvThemeCol_RadioButton_BorderShadow	, 6L);
+		MV_CREATE_THEME_CONSTANT(mvAppItemType::RadioButtons, mvThemeCol_RadioButton_Border			,  5L);
+		MV_CREATE_THEME_CONSTANT(mvAppItemType::RadioButtons, mvThemeCol_RadioButton_BorderShadow	,  6L);
 
 		MV_START_COLOR_CONSTANTS
 			MV_CREATE_CONSTANT_PAIR(mvThemeCol_RadioButton_Text),
