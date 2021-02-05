@@ -42,7 +42,7 @@ namespace Marvel {
 			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Combo_ScrollbarGrabActive),
 			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Combo_Border),
 			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Combo_BorderShadow),
-			MV_END_COLOR_CONSTANTS
+		MV_END_COLOR_CONSTANTS
 
 	public:
 
