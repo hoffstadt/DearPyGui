@@ -179,11 +179,6 @@ namespace Marvel {
 			{"mvPlotColormap_Jet"    ,  10}, // a.k.a. MATLAB "jet"             (n=11)
 
 			//-----------------------------------------------------------------------------
-			// NEW Theme Color IDs
-			//-----------------------------------------------------------------------------
-			//{ "mvThemeStyle_Button_Rounding"                 ,  411 },
-
-			//-----------------------------------------------------------------------------
 			// Theme style variable IDs
 			//-----------------------------------------------------------------------------
 			{ "mvGuiStyleVar_Alpha",               0 },
@@ -501,16 +496,70 @@ namespace Marvel {
 			//-----------------------------------------------------------------------------
 			// Texture Formats
 			//-----------------------------------------------------------------------------
-			{ "mvTEX_RGBA_INT", 0 },
+			{ "mvTEX_RGBA_INT"	, 0 },
 			{ "mvTEX_RGBA_FLOAT", 1 },
-			{ "mvTEX_RGB_FLOAT", 2 },
-			{ "mvTEX_RGB_INT", 3 },
+			{ "mvTEX_RGB_FLOAT"	, 2 },
+			{ "mvTEX_RGB_INT"	, 3 },
 
 		};
 
-		AddWidgetColorConstants<mvButton>(ModuleConstants);
-		AddWidgetColorConstants<mvCombo>(ModuleConstants);
-		AddWidgetColorConstants<mvListbox>(ModuleConstants);
+		AddWidgetColorConstants<mvInputText>		(ModuleConstants);
+		AddWidgetColorConstants<mvButton>			(ModuleConstants);
+		AddWidgetColorConstants<mvRadioButton>		(ModuleConstants);
+		AddWidgetColorConstants<mvTabBar>			(ModuleConstants);
+		AddWidgetColorConstants<mvTab>				(ModuleConstants);
+		AddWidgetColorConstants<mvMenu>				(ModuleConstants);
+		AddWidgetColorConstants<mvMenuItem>			(ModuleConstants);
+		AddWidgetColorConstants<mvChild>			(ModuleConstants);
+		AddWidgetColorConstants<mvSliderFloat>		(ModuleConstants);
+		AddWidgetColorConstants<mvSliderFloat2>		(ModuleConstants);
+		AddWidgetColorConstants<mvSliderFloat3>		(ModuleConstants);
+		AddWidgetColorConstants<mvSliderFloat4>		(ModuleConstants);
+		AddWidgetColorConstants<mvSliderInt>		(ModuleConstants);
+		AddWidgetColorConstants<mvSliderInt2>		(ModuleConstants);
+		AddWidgetColorConstants<mvSliderInt3>		(ModuleConstants);
+		AddWidgetColorConstants<mvSliderInt4>		(ModuleConstants);
+		AddWidgetColorConstants<mvDragFloat>		(ModuleConstants);
+		AddWidgetColorConstants<mvDragFloat2>		(ModuleConstants);
+		AddWidgetColorConstants<mvDragFloat3>		(ModuleConstants);
+		AddWidgetColorConstants<mvDragFloat4>		(ModuleConstants);
+		AddWidgetColorConstants<mvDragInt>			(ModuleConstants);
+		AddWidgetColorConstants<mvDragInt2>			(ModuleConstants);
+		AddWidgetColorConstants<mvDragInt3>			(ModuleConstants);
+		AddWidgetColorConstants<mvDragInt4>			(ModuleConstants);
+		AddWidgetColorConstants<mvInputFloat>		(ModuleConstants);
+		AddWidgetColorConstants<mvInputFloat2>		(ModuleConstants);
+		AddWidgetColorConstants<mvInputFloat3>		(ModuleConstants);
+		AddWidgetColorConstants<mvInputFloat4>		(ModuleConstants);
+		AddWidgetColorConstants<mvInputInt>			(ModuleConstants);
+		AddWidgetColorConstants<mvInputInt2>		(ModuleConstants);
+		AddWidgetColorConstants<mvInputInt3>		(ModuleConstants);
+		AddWidgetColorConstants<mvInputInt4>		(ModuleConstants);
+		AddWidgetColorConstants<mvColorEdit3>		(ModuleConstants);
+		AddWidgetColorConstants<mvColorEdit4>		(ModuleConstants);
+		AddWidgetColorConstants<mvColorPicker3>		(ModuleConstants);
+		AddWidgetColorConstants<mvColorPicker4>		(ModuleConstants);
+		AddWidgetColorConstants<mvTooltip>			(ModuleConstants);
+		AddWidgetColorConstants<mvCollapsingHeader>	(ModuleConstants);
+		AddWidgetColorConstants<mvSeparator>		(ModuleConstants);
+		AddWidgetColorConstants<mvCheckbox>			(ModuleConstants);
+		AddWidgetColorConstants<mvListbox>			(ModuleConstants);
+		AddWidgetColorConstants<mvText>				(ModuleConstants);
+		AddWidgetColorConstants<mvLabelText>		(ModuleConstants);
+		AddWidgetColorConstants<mvCombo>			(ModuleConstants);
+		AddWidgetColorConstants<mvSimplePlot>		(ModuleConstants);
+		AddWidgetColorConstants<mvWindowAppItem>	(ModuleConstants);
+		AddWidgetColorConstants<mvPopup>			(ModuleConstants);
+		AddWidgetColorConstants<mvSelectable>		(ModuleConstants);
+		AddWidgetColorConstants<mvTreeNode>			(ModuleConstants);
+		AddWidgetColorConstants<mvProgressBar>		(ModuleConstants);
+		AddWidgetColorConstants<mvTable>			(ModuleConstants);
+		AddWidgetColorConstants<mvImageButton>		(ModuleConstants);
+		AddWidgetColorConstants<mvTimePicker>		(ModuleConstants);
+		AddWidgetColorConstants<mvDatePicker>		(ModuleConstants);
+		AddWidgetColorConstants<mvColorButton>		(ModuleConstants);
+		AddWidgetColorConstants<mvManagedColumns>	(ModuleConstants);
+		AddWidgetColorConstants<mvTabButton>		(ModuleConstants);
 
 		AddWidgetStyleConstants<mvButton>(ModuleConstants);
 
