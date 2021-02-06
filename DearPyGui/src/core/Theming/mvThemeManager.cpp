@@ -11,6 +11,10 @@ namespace Marvel {
 	{
 		*libID = (int)((encoded_constant / 10) % 100);
 	}
+	int mvThemeManager::decodeIndex(long encoded_constant)
+	{
+		return (int)(encoded_constant % 10);
+	}
 
 
 	mvThemeManager::mvThemeManager()
@@ -101,7 +105,9 @@ namespace Marvel {
 		for (const auto& color_pair : color_constants)
 			colors_found[color_pair.second] = false;
 
-		mvThemeStyles styles;
+		std::unordered_map<ImGuiStyleVar, float> styles;
+		std::unordered_map<ImGuiStyleVar, float> styles2;
+		static int styleID;
 		std::unordered_map<long, bool> styles_found;
 		for (const auto& style_pair : style_constants)
 			styles_found[style_pair.second] = false;
@@ -120,7 +126,11 @@ namespace Marvel {
 			for (const auto& style : item->getStyles()[item->getType()])
 			{
 				styles_found[style.first] = true;
-				styles[style.first] = style.second;
+				mvThemeManager::decodelibID(style.first, &styleID);
+				if (mvThemeManager::decodeIndex(style.first) > 0)
+					styles2[styleID] = style.second;
+				else
+					styles[styleID] = style.second;
 			}
 		}
 		// search through ancestor tree for unfound colors
@@ -148,8 +158,12 @@ namespace Marvel {
 					// only apply if it wasn't found yet
 					if (!styles_found[style.first])
 					{
-						styles[style.first] = style.second;
 						styles_found[style.first] = true;
+						mvThemeManager::decodelibID(style.first, &styleID);
+						if (mvThemeManager::decodeIndex(style.first) > 0)
+							styles2[styleID] = style.second;
+						else
+							styles[styleID] = style.second;
 					}
 				}
 			}
@@ -169,8 +183,12 @@ namespace Marvel {
 			// only apply if it wasn't found yet
 			if (!styles_found[style.first])
 			{
-				styles[style.first] = style.second;
 				styles_found[style.first] = true;
+				mvThemeManager::decodelibID(style.first, &styleID);
+				if (mvThemeManager::decodeIndex(style.first) > 0)
+					styles2[styleID] = style.second;
+				else
+					styles[styleID] = style.second;
 			}
 		}
 
@@ -182,12 +200,15 @@ namespace Marvel {
 			ImGui::PushStyleColor(imColorID, color.second.toVec4());
 		}
 
-		static ImGuiStyleVar imStyleId;
+		StyleIDCount = styles.size();
+		for (const auto& style : styles2)
+		{
+			ImGui::PushStyleVar(style.first, { styles[style.first], styles2[style.first] });
+			styles.erase(style.first);
+		}
 		for (const auto& style : styles)
 		{
-			mvThemeManager::decodelibID(style.first, &imStyleId);
-			ImGui::PushStyleVar(imStyleId, style.second);
-			StyleIDCount++;
+			ImGui::PushStyleVar(style.first, style.second);
 		}
 	}
 
