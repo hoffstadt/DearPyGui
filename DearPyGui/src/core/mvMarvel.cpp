@@ -38,6 +38,12 @@ namespace Marvel {
 		for (const auto& item : T::GetColorConstants())
 			constants.push_back(item);
 	}
+	template <typename T>
+	static void AddWidgetStyleConstants(std::vector<std::pair<std::string, long>>& constants)
+	{
+		for (const auto& item : T::GetStyleConstants())
+			constants.push_back(item);
+	}
 
 	mvRef<std::map<std::string, mvPythonParser>> BuildDearPyGuiInterface()
 	{
@@ -175,7 +181,7 @@ namespace Marvel {
 			//-----------------------------------------------------------------------------
 			// NEW Theme Color IDs
 			//-----------------------------------------------------------------------------
-			{ "mvThemeStyle_Button_Rounding"                 ,  411 },
+			//{ "mvThemeStyle_Button_Rounding"                 ,  411 },
 
 			//-----------------------------------------------------------------------------
 			// Theme style variable IDs
@@ -505,6 +511,8 @@ namespace Marvel {
 		AddWidgetColorConstants<mvButton>(ModuleConstants);
 		AddWidgetColorConstants<mvCombo>(ModuleConstants);
 		AddWidgetColorConstants<mvListbox>(ModuleConstants);
+
+		AddWidgetStyleConstants<mvButton>(ModuleConstants);
 
 		return ModuleConstants;
 	}
