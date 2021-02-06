@@ -12,6 +12,7 @@ namespace Marvel {
 
 		static void decodeType(long encoded_constant, mvAppItemType* type);
 		static void decodelibID(long encoded_constant, int* libID);
+		static int decodeIndex(long encoded_constant);
 
 	public:
 

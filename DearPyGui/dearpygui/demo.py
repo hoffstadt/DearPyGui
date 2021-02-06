@@ -588,13 +588,17 @@ def show_demo():
         add_text("This code for this demo can be found here: ")
         add_text("https://github.com/hoffstadt/DearPyGui/blob/master/DearPyGui/dearpygui/demo.py")
 
-        add_button("proof")
+        add_button("proof", width=100, height=100)
         add_color_edit4("global color",callback=lambda sender, data: set_theme_color(mvThemeCol_Button_Bg, get_value(sender)))
         add_color_edit4("local window color",callback=lambda sender, data: set_theme_color(mvThemeCol_Button_Bg, get_value(sender), item="Dear PyGui Demo"))
         add_color_edit4("individual color",callback=lambda sender, data: set_theme_color(mvThemeCol_Button_Bg, get_value(sender), item="proof"))
         add_slider_float("global style",max_value=14.0,callback=lambda sender, data: set_theme_style(mvThemeStyle_Button_Rounding, get_value(sender)))
         add_slider_float("local window style",max_value=14.0,callback=lambda sender, data: set_theme_style(mvThemeStyle_Button_Rounding, get_value(sender), item="Dear PyGui Demo"))
         add_slider_float("individual style",max_value=14.0,callback=lambda sender, data: set_theme_style(mvThemeStyle_Button_Rounding, get_value(sender), item="proof"))
+        def apply_proof_style(sender):
+            set_theme_style(mvThemeStyle_Button_TextAlignX, get_value(sender)[0], item="proof")
+            set_theme_style(mvThemeStyle_Button_TextAlignY, get_value(sender)[1], item="proof")
+        add_slider_float2("individual style2",max_value=14.0,callback=apply_proof_style)
         with collapsing_header("Window options##demo"):
             with managed_columns("Window Options Col##demo", 3, border=False):
                 add_checkbox("No titlebar##demo", callback=lambda sender, data: configure_item("Dear PyGui Demo", no_title_bar=get_value(sender)))
