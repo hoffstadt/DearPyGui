@@ -54,9 +54,9 @@ namespace Marvel {
 		else
 		{
 			mvApp::GetApp()->getCallbackRegistry().submitCallback([=]()
-				{
-					ThrowPythonException("Item does not except this theme constant.");
-				});
+			{
+				ThrowPythonException("Item type does not except this color constant.");
+			});
 		}
 		return true;
 	}
@@ -79,15 +79,13 @@ namespace Marvel {
 		//check widget can take style and apply
 		mvRef<mvAppItem> item = mvApp::GetApp()->getItemRegistry().getItem(widget);
 		if (item->getDescription().container || item->getType() == type)
-		{
 			item->getStyles()[type][mvThemeConstant] = style;
-		}
 		else
 		{
 			mvApp::GetApp()->getCallbackRegistry().submitCallback([=]()
-				{
-					ThrowPythonException("Item does not except this theme constant.");
-				});
+			{
+				ThrowPythonException("Item type does not except this style constant.");
+			});
 		}
 		return true;
 	}
@@ -96,11 +94,17 @@ namespace Marvel {
 	{
 
 		const std::vector<std::pair<std::string, long>>& color_constants = item->getColorConstants();
+		const std::vector<std::pair<std::string, long>>& style_constants = item->getStyleConstants();
 
 		mvThemeColors colors;
 		std::unordered_map<long, bool> colors_found;
 		for (const auto& color_pair : color_constants)
 			colors_found[color_pair.second] = false;
+
+		mvThemeStyles styles;
+		std::unordered_map<long, bool> styles_found;
+		for (const auto& style_pair : style_constants)
+			styles_found[style_pair.second] = false;
 
 		// check local colors first
 		if (item->getColors().find(item->getType()) != item->getColors().end())
@@ -111,7 +115,14 @@ namespace Marvel {
 				colors[color.first] = color.second;
 			}
 		}
-
+		if (item->getStyles().find(item->getType()) != item->getStyles().end())
+		{
+			for (const auto& style : item->getStyles()[item->getType()])
+			{
+				styles_found[style.first] = true;
+				styles[style.first] = style.second;
+			}
+		}
 		// search through ancestor tree for unfound colors
 		mvAppItem* widget = item;
 		while (!widget->getDescription().root)
@@ -123,10 +134,23 @@ namespace Marvel {
 				for (const auto& color : widget->getColors()[item->getType()])
 				{
 					// only apply if it wasn't found yet
-					if(!colors_found[color.first])
+					if (!colors_found[color.first])
+					{
 						colors[color.first] = color.second;
-
-					colors_found[color.first] = true;
+						colors_found[color.first] = true;
+					}
+				}
+			}
+			if (widget->getStyles().find(item->getType()) != widget->getStyles().end())
+			{
+				for (auto& style : widget->getStyles()[item->getType()])
+				{
+					// only apply if it wasn't found yet
+					if (!styles_found[style.first])
+					{
+						styles[style.first] = style.second;
+						styles_found[style.first] = true;
+					}
 				}
 			}
 		}
@@ -135,18 +159,35 @@ namespace Marvel {
 		{
 			// only apply if it wasn't found yet
 			if (!colors_found[color.first])
+			{
 				colors[color.first] = color.second;
-
-			colors_found[color.first] = true;
+				colors_found[color.first] = true;
+			}
+		}
+		for (auto& style : mvApp::GetApp()->getStyles()[item->getType()])
+		{
+			// only apply if it wasn't found yet
+			if (!styles_found[style.first])
+			{
+				styles[style.first] = style.second;
+				styles_found[style.first] = true;
+			}
 		}
 
 		libIDCount = colors.size();
-
-		static int libID;
+		static ImGuiCol imColorID;
 		for (const auto& color : colors) 
 		{
-			mvThemeManager::decodelibID(color.first, &libID);
-			ImGui::PushStyleColor(libID, color.second.toVec4());
+			mvThemeManager::decodelibID(color.first, &imColorID);
+			ImGui::PushStyleColor(imColorID, color.second.toVec4());
+		}
+
+		static ImGuiStyleVar imStyleId;
+		for (const auto& style : styles)
+		{
+			mvThemeManager::decodelibID(style.first, &imStyleId);
+			ImGui::PushStyleVar(imStyleId, style.second);
+			StyleIDCount++;
 		}
 	}
 
@@ -160,6 +201,9 @@ namespace Marvel {
 		if (libIDCount > 0)
 			ImGui::PopStyleColor(libIDCount);
 		libIDCount = 0;
+		if (StyleIDCount > 0)
+			ImGui::PopStyleVar(StyleIDCount);
+		StyleIDCount = 0;
 	}
 
 }
