@@ -20,6 +20,11 @@ namespace Marvel {
 		return std::get<int>(event.arguments.at(SID(name)));
 	}
 
+	long GetELong(mvEvent& event, const char* name)
+	{
+		return std::get<long>(event.arguments.at(SID(name)));
+	}
+
 	float GetEFloat(mvEvent& event, const char* name)
 	{
 		return std::get<float>(event.arguments.at(SID(name)));

@@ -11,7 +11,7 @@
 #include "mvProfiler.h"
 #include <implot.h>
 #include "mvEventListener.h"
-#include "mvTheme.h"
+#include "mvThemeManager.h"
 #include "mvCallbackRegistry.h"
 
 namespace Marvel {
@@ -157,7 +157,7 @@ namespace Marvel {
 		m_itemRegistry = CreateOwnedPtr<mvItemRegistry>();
 		m_textureStorage = CreateOwnedPtr<mvTextureStorage>();
 		m_valueStorage = CreateOwnedPtr<mvValueStorage>();
-		m_themeManager = CreateOwnedPtr<mvTheme>();
+		m_themeManager = CreateOwnedPtr<mvThemeManager>();
         m_callbackRegistry = CreateOwnedPtr<mvCallbackRegistry>();
 
 	}

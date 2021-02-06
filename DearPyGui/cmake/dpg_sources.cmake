@@ -50,7 +50,7 @@ set(MARVEL_SOURCES
 	"src/core/mvProfiler.cpp"
 
 	"src/core/Theming/mvAppItemStyleManager.cpp"
-	"src/core/Theming/mvTheme.cpp"
+	"src/core/Theming/mvThemeManager.cpp"
 
 	"src/core/DrawCommands/mvDrawList.cpp"
 	"src/core/DrawCommands/mvDrawImageCmd.cpp"
