@@ -2,6 +2,7 @@
 #include <mutex>
 #include "mvThreadPool.h"
 #include "mvApp.h"
+#include "mvAppLog.h"
 
 namespace Marvel {
 
@@ -16,6 +17,9 @@ namespace Marvel {
 
 	class mvCallbackRegistry : public mvEventHandler
 	{
+
+		static constexpr const int s_MaxNumberOfCalls = 50;
+
 		typedef mvFunctionWrapper task_type;
 
 		struct NewCallback
@@ -64,6 +68,14 @@ namespace Marvel {
 		template<typename F, typename ...Args>
 		std::future<typename std::invoke_result<F, Args...>::type> submitCallback(F f)
 		{
+
+			if (m_callCount > s_MaxNumberOfCalls)
+			{
+				mvAppLog::LogWarning("[W0001] Too many callbacks already in the queue.");
+				return {};
+			}
+
+			m_callCount++;
 
 			typedef typename std::invoke_result<F, Args...>::type result_type;
 			std::packaged_task<result_type()> task(std::move(f));
@@ -119,6 +131,7 @@ namespace Marvel {
 		mvQueue<task_type> m_tasks;
 		mvQueue<task_type> m_calls;
 		std::atomic<bool> m_running;
+		std::atomic<int> m_callCount = 0;
 
 		// input callbacks
 		PyObject* m_renderCallback = nullptr;

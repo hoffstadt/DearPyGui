@@ -23,12 +23,22 @@ HOW TO UPDATE?
 - Please report any issue!
 
 ------------------------------------------------------------------------
+ VERSION 0.6.x
+------------------------------------------------------------------------
+
+Updates:
+- callbacks: put a cap on callbacks in the queue
+
+Fixes:
+- accelerator callback: fixed accelerator callback not running
+
+------------------------------------------------------------------------
  VERSION 0.6.159
 ------------------------------------------------------------------------
 
 Fixes:
-- numpy plots: fixed issue with numpy arrays not plotting
-- numpy: fixed possible memory leak with data storage
+- numpy plots:          fixed issue with numpy arrays not plotting
+- numpy:                fixed possible memory leak with data storage
 
 ------------------------------------------------------------------------
  VERSION 0.6.157
