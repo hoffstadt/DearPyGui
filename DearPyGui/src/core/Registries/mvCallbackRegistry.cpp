@@ -58,10 +58,7 @@ namespace Marvel {
 		runTasks();
 
 		if(m_renderCallback)
-			submitCallback([=]() mutable
-				{
-					runCallback(m_renderCallback, "Main Application");
-				});
+			addCallback(m_renderCallback, "Main Application", nullptr);
 		
 		return false;
 	}
@@ -191,6 +188,7 @@ namespace Marvel {
 			m_calls.wait_and_pop(t2);
 			Py_END_ALLOW_THREADS;
 			t2();
+			m_callCount--;
 		}
 
 		runCallback(m_onCloseCallback, "Main Application", nullptr);
@@ -199,9 +197,18 @@ namespace Marvel {
 
 	void mvCallbackRegistry::addCallback(mvCallable callable, const std::string& sender, mvCallableData data)
 	{
+
 #ifdef MV_CPP
 		submitCallback(callable);
 #else
+		if (m_callCount > s_MaxNumberOfCalls)
+		{
+			if (data != nullptr)
+				Py_XDECREF(data);
+			mvAppLog::LogWarning("[W0001] Too many callbacks already in the queue.");
+			return;
+		}
+
 		submitCallback([=]() {
 			runCallback(callable, sender, data);
 			});

@@ -15,8 +15,8 @@ namespace Marvel {
 		MV_CREATE_THEME_CONSTANT(mvAppItemType::Listbox, mvThemeCol_Listbox_Selected             , 24L);
 		MV_CREATE_THEME_CONSTANT(mvAppItemType::Listbox, mvThemeCol_Listbox_Hovered              , 25L);
 		MV_CREATE_THEME_CONSTANT(mvAppItemType::Listbox, mvThemeCol_Listbox_Active               , 26L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::Listbox, mvThemeCol_Listbox_Bg                   , 07L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::Listbox, mvThemeCol_Listbox_Border               , 05L);
+		MV_CREATE_THEME_CONSTANT(mvAppItemType::Listbox, mvThemeCol_Listbox_Bg                   ,  7L);
+		MV_CREATE_THEME_CONSTANT(mvAppItemType::Listbox, mvThemeCol_Listbox_Border               ,  5L);
 		MV_CREATE_THEME_CONSTANT(mvAppItemType::Listbox, mvThemeCol_Listbox_Scrollbar            , 14L);
 		MV_CREATE_THEME_CONSTANT(mvAppItemType::Listbox, mvThemeCol_Listbox_ScrollbarGrab        , 15L);
 		MV_CREATE_THEME_CONSTANT(mvAppItemType::Listbox, mvThemeCol_Listbox_ScrollbarGrabHovered , 16L);

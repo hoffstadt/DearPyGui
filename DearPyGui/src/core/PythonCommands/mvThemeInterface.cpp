@@ -15,11 +15,18 @@ namespace Marvel {
 		}, "Adds additional font.", "None", "Themes and Styles") });
 
 		parsers->insert({ "set_theme_color", mvPythonParser({
-			{mvPythonDataType::Integer, "constant", "mvGuiCol_* constants"},
+			{mvPythonDataType::Integer, "constant", "mvThemeCol_* constants"},
 			{mvPythonDataType::FloatList, "color"},
 			{mvPythonDataType::Optional},
 			{mvPythonDataType::String, "item", "", ""}
 		}, "Sets a color of a theme item.", "None", "Themes and Styles") });
+
+		parsers->insert({ "set_theme_style", mvPythonParser({
+			{mvPythonDataType::Integer, "constant", "mvThemeStyle_* constants"},
+			{mvPythonDataType::Float, "style"},
+			{mvPythonDataType::Optional},
+			{mvPythonDataType::String, "item", "", ""}
+		}, "Sets a style of a theme item.", "None", "Themes and Styles") });
 
 		parsers->insert({ "set_style_touch_extra_padding", mvPythonParser({
 			{mvPythonDataType::Float, "x"},
@@ -75,7 +82,7 @@ namespace Marvel {
 
 	PyObject* set_theme_color(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
-		int constant;
+		long constant;
 		PyObject* color;
 		const char* item = "";
 
@@ -103,6 +110,33 @@ namespace Marvel {
 						Py_XDECREF(color);
 					});
 
+			});
+
+		return GetPyNone();
+	}
+
+	PyObject* set_theme_style(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		long constant;
+		float style;
+		const char* item = "";
+
+		if (!(*mvApp::GetApp()->getParsers())["set_theme_style"].parse(args, kwargs, __FUNCTION__, &constant, &style, &item))
+			return GetPyNone();
+
+		std::lock_guard<std::mutex> lk(mvApp::GetApp()->GetApp()->getMutex());
+		mvApp::GetApp()->getCallbackRegistry().submit([=]()
+			{
+				mvEventBus::Publish
+				(
+					mvEVT_CATEGORY_THEMES,
+					SID("style_change"),
+					{
+						CreateEventArgument("WIDGET", std::string(item)),
+						CreateEventArgument("ID", constant),
+						CreateEventArgument("STYLE", style)
+					}
+				);
 			});
 
 		return GetPyNone();

@@ -21,7 +21,8 @@ namespace Marvel {
 	// type alias
 	using mvID = size_t;
 	using mvVariant = std::variant<
-		int, 
+		int,
+		long,
 		std::string, 
 		bool, 
 		float, 
@@ -42,6 +43,7 @@ namespace Marvel {
 	const std::string& GetEString(mvEvent& event, const char* name);
 	bool               GetEBool  (mvEvent& event, const char* name);
 	int                GetEInt   (mvEvent& event, const char* name);
+	long               GetELong  (mvEvent& event, const char* name);
 	float              GetEFloat (mvEvent& event, const char* name);
 	mvColor            GetEColor (mvEvent& event, const char* name);
 
