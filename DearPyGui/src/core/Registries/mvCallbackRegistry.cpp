@@ -97,6 +97,11 @@ namespace Marvel {
 				{
 					runCallback(m_keyDownCallback, active, ToPyMPair(GetEInt(event, "KEY"), GetEFloat(event, "DURATION")));
 				});
+			if (m_acceleratorCallback)
+				submitCallback([=]() mutable
+					{
+						runCallback(m_acceleratorCallback, active, ToPyInt(GetEInt(event, "KEY")));
+					});
 			break;
 
 		case mvEVT_KEY_RELEASE:
