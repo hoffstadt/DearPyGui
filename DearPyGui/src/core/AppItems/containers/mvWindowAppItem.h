@@ -33,8 +33,11 @@ namespace Marvel {
 
 	};
 
+#ifdef MV_CPP
+	void add_window(const char* name, const mvWindowAppItemConfig& config = {});
+#else
 	PyObject* add_window(PyObject* self, PyObject* args, PyObject* kwargs);
-	void mv_add_window(const char* name, const mvWindowAppItemConfig& config = {});
+#endif //
 
 	class mvWindowAppItem : public mvAppItem
 	{

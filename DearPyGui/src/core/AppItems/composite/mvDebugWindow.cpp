@@ -8,6 +8,15 @@
 
 namespace Marvel {
 
+	mvDebugWindow::mvDebugWindow(const std::string& name)
+		: mvBaseWindowAppitem(name)
+	{
+		m_core_config.width = 700;
+		m_core_config.height = 500;
+		m_description.deleteAllowed = false;
+		m_commands = GetAllCommands();
+	}
+
 	void mvDebugWindow::InsertParser(std::map<std::string, mvPythonParser>* parsers)
 	{
 		parsers->insert({ "add_debug_window", mvPythonParser({

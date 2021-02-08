@@ -20,7 +20,7 @@ namespace Marvel {
 		config = (T)aitem->getConfig();
 	}
 
-	void mv_start_dearpygui()
+	void start_dearpygui()
 	{
 		mvApp::GetApp()->start("");
 
@@ -29,7 +29,7 @@ namespace Marvel {
 		mvAppLog::Clear();
 	}
 
-	void mv_end()
+	void end()
 	{
 		std::lock_guard<std::mutex> lk(Marvel::mvApp::GetApp()->GetApp()->getMutex());
 		Marvel::mvApp::GetApp()->getItemRegistry().popParent();
