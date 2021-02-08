@@ -169,29 +169,6 @@ namespace Marvel {
 			}
 		}
 
-		for (auto& color : mvApp::GetApp()->getColors()[item->getType()])
-		{
-			// only apply if it wasn't found yet
-			if (!colors_found[color.first])
-			{
-				colors[color.first] = color.second;
-				colors_found[color.first] = true;
-			}
-		}
-		for (auto& style : mvApp::GetApp()->getStyles()[item->getType()])
-		{
-			// only apply if it wasn't found yet
-			if (!styles_found[style.first])
-			{
-				styles_found[style.first] = true;
-				mvThemeManager::decodelibID(style.first, &styleID);
-				if (mvThemeManager::decodeIndex(style.first) > 0)
-					styles2[styleID] = style.second;
-				else
-					styles[styleID] = style.second;
-			}
-		}
-
 		libIDCount = colors.size();
 		static ImGuiCol imColorID;
 		for (const auto& color : colors) 
