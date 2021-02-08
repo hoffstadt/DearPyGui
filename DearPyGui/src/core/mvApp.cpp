@@ -135,7 +135,7 @@ namespace Marvel {
 
 		mvEventBus::Subscribe(this, 0, mvEVT_CATEGORY_VIEWPORT);
 
-		m_parsers = BuildDearPyGuiInterface();
+	
 
 		// info
         mvAppLog::Clear();
@@ -143,6 +143,7 @@ namespace Marvel {
 		mvAppLog::AddLog("[DearImGui Version] %0s\n", IMGUI_VERSION);
 
 #ifndef MV_CPP
+		m_parsers = BuildDearPyGuiInterface();
         mvAppLog::AddLog("[Python Version] %0s\n", PY_VERSION);
 #endif // !MV_CPP
 

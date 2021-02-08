@@ -102,14 +102,16 @@ namespace Marvel {
 
 	}
 
-	void mv_add_button(const char* name, const mvButtonConfig& config)
+#ifdef MV_CPP
+
+	void add_button(const char* name, const mvButtonConfig& config)
 	{
 		auto item = CreateRef<mvButton>(name, config);
 
 		mvApp::GetApp()->getItemRegistry().addItemWithRuntimeChecks(item, config.parent.c_str(), config.before.c_str());
 	}
 
-#ifndef MV_CPP
+#else
 
 	void mvButton::setExtraConfigDict(PyObject* dict)
 	{

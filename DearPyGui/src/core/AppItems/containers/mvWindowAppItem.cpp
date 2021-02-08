@@ -314,7 +314,9 @@ namespace Marvel {
 		ImGui::End();
 	}
 
-	void mv_add_window(const char* name, const mvWindowAppItemConfig& config)
+#ifdef MV_CPP
+
+	void add_window(const char* name, const mvWindowAppItemConfig& config)
 	{
 
 		auto item = CreateRef<mvWindowAppItem>(name, config);
@@ -330,7 +332,7 @@ namespace Marvel {
 
 	}
 
-#ifndef MV_CPP
+#else
 
 	void mvWindowAppItem::setExtraConfigDict(PyObject* dict)
 	{
