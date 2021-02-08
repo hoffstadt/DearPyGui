@@ -134,7 +134,7 @@ If you are having issues or want to help, here are some places you can go:
 Ongoing _Dear PyGui_ development is financially supported by users and private sponsors.
 
 These include:
-* 🏢 [Tkachenko Igor](https://github.com/foozzi) _Corporate Sponsor_
+* 🏆 [Tkachenko Igor](https://github.com/foozzi) _Partner Sponsor_
 * 🏆 [Dean Keinan](https://github.com/deankeinan) _Partner Sponsor_
 * 🏆 [何凌锋](https://github.com/Hedaozi) _Partner Sponsor_
 * 🏆 [Nikki Luzader](https://github.com/nikkiluzader) _Partner Sponsor_
