@@ -9,14 +9,29 @@ namespace Marvel {
 
 	class mvInputText : public mvStringPtrBase
 	{
+		MV_APPITEM_TYPE(mvAppItemType::InputText, mvInputText, "add_input_text")
+
+		MV_CREATE_THEME_CONSTANT(mvAppItemType::InputText, mvThemeCol_InputText_Text			,  0L);
+		MV_CREATE_THEME_CONSTANT(mvAppItemType::InputText, mvThemeCol_InputText_TextHighlight	, 44L);
+		MV_CREATE_THEME_CONSTANT(mvAppItemType::InputText, mvThemeCol_InputText_Bg				,  7L);
+		MV_CREATE_THEME_CONSTANT(mvAppItemType::InputText, mvThemeCol_InputText_Hint			,  1L);
+		MV_CREATE_THEME_CONSTANT(mvAppItemType::InputText, mvThemeCol_InputText_Border			,  5L);
+		MV_CREATE_THEME_CONSTANT(mvAppItemType::InputText, mvThemeCol_InputText_BorderShadow	,  6L);
+
+		MV_START_COLOR_CONSTANTS
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_InputText_Text),
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_InputText_TextHighlight),
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_InputText_Bg),
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_InputText_Hint),
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_InputText_Border),
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_InputText_BorderShadow),
+		MV_END_COLOR_CONSTANTS
 
 	public:
 
 		static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
 
 	public:
-
-		MV_APPITEM_TYPE_OLD_SYSTEM(mvAppItemType::InputText, "add_input_text")
 
 		mvInputText(const std::string& name, const std::string& default_value, const std::string& dataSource);
 

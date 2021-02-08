@@ -70,7 +70,7 @@ namespace Marvel {
 	{
 		auto styleManager = m_styleManager.getScopedStyleManager();
 		ScopedID id;
-		mvNewImGuiThemeScope scope(this);
+		mvImGuiThemeScope scope(this);
 
 		if (!m_core_config.enabled)
 		{

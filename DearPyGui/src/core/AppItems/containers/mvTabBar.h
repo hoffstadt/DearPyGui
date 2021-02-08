@@ -9,13 +9,19 @@ namespace Marvel {
 	class mvTabBar : public mvStringPtrBase
 	{
 
+		MV_APPITEM_TYPE(mvAppItemType::TabBar, mvTabBar, "add_tab_bar")
+
+		MV_CREATE_THEME_CONSTANT(mvAppItemType::TabBar, mvThemeCol_TabBar, 35L);
+
+		MV_START_COLOR_CONSTANTS
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_TabBar),
+		MV_END_COLOR_CONSTANTS
+
 	public:
 
 		static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
 
 	public:
-
-		MV_APPITEM_TYPE_OLD_SYSTEM(mvAppItemType::TabBar, "add_tab_bar")
 
 		mvTabBar(const std::string& name);
 

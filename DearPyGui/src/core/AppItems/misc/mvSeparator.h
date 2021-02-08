@@ -6,10 +6,15 @@ namespace Marvel {
 
 	class mvSeparator : public mvAppItem
 	{
+		MV_APPITEM_TYPE(mvAppItemType::Separator, mvSeparator, "add_separator")
+
+		MV_CREATE_THEME_CONSTANT(mvAppItemType::Separator, mvThemeCol_Separator, 27L);
+
+		MV_START_COLOR_CONSTANTS
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Separator),
+		MV_END_COLOR_CONSTANTS
 
 	public:
-
-		MV_APPITEM_TYPE_OLD_SYSTEM(mvAppItemType::Separator, "add_separator")
 
 			mvSeparator(const std::string& name)
 			: mvAppItem(name)

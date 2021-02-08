@@ -42,7 +42,7 @@ namespace Marvel {
     class mvWindowAppItem;
     class mvTextEditor;
     class mvWindow;
-    class mvTheme;
+    class mvThemeManager;
     class mvCallbackRegistry;
     struct mvColor;
     enum class mvAppItemType;
@@ -138,8 +138,8 @@ namespace Marvel {
         //-----------------------------------------------------------------------------
         std::map<std::string, mvPythonParser>* getParsers      () { return m_parsers.get(); }
         std::mutex& getMutex() const { return m_mutex; }
-        std::unordered_map<mvAppItemType, ThemeColors>& getColors() { return m_colors; }
-        std::unordered_map<mvAppItemType, ThemeStyles>& getStyles() { return m_styles; }
+        std::unordered_map<mvAppItemType, mvThemeColors>& getColors() { return m_colors; }
+        std::unordered_map<mvAppItemType, mvThemeStyles>& getStyles() { return m_styles; }
             
     private:
 
@@ -160,10 +160,10 @@ namespace Marvel {
         mvOwnedPtr<mvItemRegistry>                     m_itemRegistry;
         mvOwnedPtr<mvTextureStorage>                   m_textureStorage;
         mvOwnedPtr<mvValueStorage>                     m_valueStorage;
-        mvOwnedPtr<mvTheme>                            m_themeManager;
+        mvOwnedPtr<mvThemeManager>                     m_themeManager;
         mvOwnedPtr<mvCallbackRegistry>                 m_callbackRegistry;
-        std::unordered_map<mvAppItemType, ThemeColors> m_colors;
-        std::unordered_map<mvAppItemType, ThemeStyles> m_styles;
+        std::unordered_map<mvAppItemType, mvThemeColors> m_colors;
+        std::unordered_map<mvAppItemType, mvThemeStyles> m_styles;
                                                      
         // docking                                   
         bool                                         m_docking          = false;

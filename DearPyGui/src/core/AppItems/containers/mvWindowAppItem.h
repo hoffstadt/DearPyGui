@@ -39,6 +39,44 @@ namespace Marvel {
 	class mvWindowAppItem : public mvAppItem
 	{
 
+		MV_APPITEM_TYPE(mvAppItemType::Window, mvWindowAppItem, "add_window")
+
+		MV_CREATE_THEME_CONSTANT(mvAppItemType::Button, mvThemeCol_Window_TitleText				,  0L);
+		MV_CREATE_THEME_CONSTANT(mvAppItemType::Button, mvThemeCol_Window_TitleBg				, 10L);
+		MV_CREATE_THEME_CONSTANT(mvAppItemType::Button, mvThemeCol_Window_TitleBgActive			, 11L);
+		MV_CREATE_THEME_CONSTANT(mvAppItemType::Button, mvThemeCol_Window_TitleBgCollapsed		, 12L);
+		MV_CREATE_THEME_CONSTANT(mvAppItemType::Button, mvThemeCol_Window_MenuBar				, 13L);
+		MV_CREATE_THEME_CONSTANT(mvAppItemType::Button, mvThemeCol_Window_Bg					,  2L);
+		MV_CREATE_THEME_CONSTANT(mvAppItemType::Button, mvThemeCol_Window_Scrollbar				, 14L);
+		MV_CREATE_THEME_CONSTANT(mvAppItemType::Button, mvThemeCol_Window_ScrollbarGrab			, 15L);
+		MV_CREATE_THEME_CONSTANT(mvAppItemType::Button, mvThemeCol_Window_ScrollbarGrabHovered	, 16L);
+		MV_CREATE_THEME_CONSTANT(mvAppItemType::Button, mvThemeCol_Window_ScrollbarGrabActive	, 17L);
+		MV_CREATE_THEME_CONSTANT(mvAppItemType::Button, mvThemeCol_Window_ResizeBorder			, 29L);
+		MV_CREATE_THEME_CONSTANT(mvAppItemType::Button, mvThemeCol_Window_ResizeGrip			, 30L);
+		MV_CREATE_THEME_CONSTANT(mvAppItemType::Button, mvThemeCol_Window_ResizeGripHovered		, 31L);
+		MV_CREATE_THEME_CONSTANT(mvAppItemType::Button, mvThemeCol_Window_ResizeGripActive		, 32L);
+		MV_CREATE_THEME_CONSTANT(mvAppItemType::Button, mvThemeCol_Window_Border				,  5L);
+		MV_CREATE_THEME_CONSTANT(mvAppItemType::Button, mvThemeCol_Window_BorderShadow			,  6L);
+
+		MV_START_COLOR_CONSTANTS
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Window_TitleText),
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Window_TitleBg),
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Window_TitleBgActive),
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Window_TitleBgCollapsed),
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Window_MenuBar),
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Window_Bg),
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Window_Scrollbar),
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Window_ScrollbarGrab),
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Window_ScrollbarGrabHovered),
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Window_ScrollbarGrabActive),
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Window_ResizeBorder),
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Window_ResizeGrip),
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Window_ResizeGripHovered),
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Window_ResizeGripActive),
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Window_Border),
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Window_BorderShadow),
+		MV_END_COLOR_CONSTANTS
+
 		enum class Status{ Normal, Transition, Dirty};
 
 	public:
@@ -46,8 +84,6 @@ namespace Marvel {
 		static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
 
 	public:
-
-		MV_APPITEM_TYPE_OLD_SYSTEM(mvAppItemType::Window, "add_window")
 
 		mvWindowAppItem(const std::string& name, bool mainWindow, mvCallable closing_callback);
 		mvWindowAppItem(const std::string& name, const mvWindowAppItemConfig& config);
