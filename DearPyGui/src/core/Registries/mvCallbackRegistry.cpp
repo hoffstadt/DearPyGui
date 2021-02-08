@@ -89,8 +89,13 @@ namespace Marvel {
 			if(m_keyPressCallback)
 				submitCallback([=]() mutable
 				{
-					runCallback(m_acceleratorCallback, active, ToPyInt(GetEInt(event, "KEY")));
 					runCallback(m_keyPressCallback, active, ToPyInt(GetEInt(event, "KEY")));
+				});
+
+			if (m_acceleratorCallback)
+				submitCallback([=]() mutable
+				{
+					runCallback(m_acceleratorCallback, active, ToPyInt(GetEInt(event, "KEY")));
 				});
 
 			break;
