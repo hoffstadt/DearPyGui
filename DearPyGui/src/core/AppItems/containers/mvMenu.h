@@ -9,13 +9,27 @@ namespace Marvel {
 	class mvMenu : public mvBoolPtrBase
 	{
 
+		MV_APPITEM_TYPE(mvAppItemType::Menu, mvMenu, "add_menu")
+
+		MV_CREATE_THEME_CONSTANT(mvAppItemType::Menu, mvThemeCol_Menu_Text		,  0L);
+		MV_CREATE_THEME_CONSTANT(mvAppItemType::Menu, mvThemeCol_Menu_Bg		,  4L);
+		MV_CREATE_THEME_CONSTANT(mvAppItemType::Menu, mvThemeCol_Menu_BgHovered	, 25L);
+		MV_CREATE_THEME_CONSTANT(mvAppItemType::Menu, mvThemeCol_Menu_BgActive	, 24L);
+		MV_CREATE_THEME_CONSTANT(mvAppItemType::Menu, mvThemeCol_Menu_Border	,  5L);
+
+		MV_START_COLOR_CONSTANTS
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Menu_Text),
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Menu_Bg),
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Menu_BgHovered),
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Menu_BgActive),
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Menu_Border),
+		MV_END_COLOR_CONSTANTS
+
 	public:
 
 		static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
 
 	public:
-
-		MV_APPITEM_TYPE_OLD_SYSTEM(mvAppItemType::Menu, "add_menu")
 
 		mvMenu(const std::string& name);
 

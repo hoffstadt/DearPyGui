@@ -159,8 +159,8 @@ namespace Marvel {
 
 	};
 
-	typedef std::unordered_map<int, mvColor> ThemeColors;
-
+	typedef std::unordered_map<long, mvColor> mvThemeColors;
+	typedef std::unordered_map<long, float> mvThemeStyles;
 }
 
 #define MV_DEFAULT_COLOR Marvel::mvColor{255, 255, 255, 255, false}

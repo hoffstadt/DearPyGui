@@ -9,12 +9,26 @@ namespace Marvel {
 	class mvProgressBar : public mvFloatPtrBase
 	{
 
-	public:
+		MV_APPITEM_TYPE(mvAppItemType::ProgressBar, mvProgressBar, "add_progress_bar")
 
+		MV_CREATE_THEME_CONSTANT(mvAppItemType::ProgressBar, mvThemeCol_ProgressBar_Text			,  0L);
+		MV_CREATE_THEME_CONSTANT(mvAppItemType::ProgressBar, mvThemeCol_ProgressBar_Bar				, 42L);
+		MV_CREATE_THEME_CONSTANT(mvAppItemType::ProgressBar, mvThemeCol_ProgressBar_Bg				,  7L);
+		MV_CREATE_THEME_CONSTANT(mvAppItemType::ProgressBar, mvThemeCol_ProgressBar_Border			,  5L);
+		MV_CREATE_THEME_CONSTANT(mvAppItemType::ProgressBar, mvThemeCol_ProgressBar_BorderShadow	,  6L);
+
+		MV_START_COLOR_CONSTANTS
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_ProgressBar_Text),
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_ProgressBar_Bar),
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_ProgressBar_Bg),
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_ProgressBar_Border),
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_ProgressBar_BorderShadow),
+		MV_END_COLOR_CONSTANTS
+
+	public:
 		static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
-	public:
 
-		MV_APPITEM_TYPE_OLD_SYSTEM(mvAppItemType::ProgressBar, "add_progress_bar")
+	public:
 
 		mvProgressBar(const std::string& name, float default_value, const std::string& dataSource);
 

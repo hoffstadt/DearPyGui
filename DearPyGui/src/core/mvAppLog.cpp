@@ -120,6 +120,8 @@ namespace Marvel {
 		static std::mutex mutex;
 
 		std::lock_guard<std::mutex> lock(mutex);
+		if (LineOffsets.size() > 100000)
+			Clear();
 
 		int old_size = Buf.size();
 		va_list args;
