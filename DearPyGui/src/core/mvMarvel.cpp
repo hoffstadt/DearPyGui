@@ -42,7 +42,9 @@ namespace Marvel {
 	static void AddWidgetStyleConstants(std::vector<std::pair<std::string, long>>& constants)
 	{
 		for (const auto& item : T::GetStyleConstants())
-			constants.push_back(item);
+		{
+			constants.push_back({std::get<0>(item), std::get<1>(item)});
+		}
 	}
 
 	mvRef<std::map<std::string, mvPythonParser>> BuildDearPyGuiInterface()
