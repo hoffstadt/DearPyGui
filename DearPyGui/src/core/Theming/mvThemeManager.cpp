@@ -98,7 +98,7 @@ namespace Marvel {
 	{
 
 		const std::vector<std::pair<std::string, long>>& color_constants = item->getColorConstants();
-		const std::vector<std::pair<std::string, long>>& style_constants = item->getStyleConstants();
+		const std::vector<std::tuple<std::string, long, int, int>>& style_constants = item->getStyleConstants();
 
 		mvThemeColors colors;
 		std::unordered_map<long, bool> colors_found;
@@ -110,7 +110,7 @@ namespace Marvel {
 		static int styleID;
 		std::unordered_map<long, bool> styles_found;
 		for (const auto& style_pair : style_constants)
-			styles_found[style_pair.second] = false;
+			styles_found[std::get<1>(style_pair)] = false;
 
 		// check local colors first
 		if (item->getColors().find(item->getType()) != item->getColors().end())
