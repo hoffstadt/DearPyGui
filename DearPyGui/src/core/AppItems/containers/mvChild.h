@@ -9,13 +9,31 @@ namespace Marvel {
 	class mvChild : public mvBoolPtrBase
 	{
 
+		MV_APPITEM_TYPE(mvAppItemType::Child, mvChild, "add_child")
+
+		MV_CREATE_THEME_CONSTANT(mvAppItemType::Child, mvThemeCol_Child_Bg						,  3L);
+		MV_CREATE_THEME_CONSTANT(mvAppItemType::Child, mvThemeCol_Child_MenuBar					, 13L);
+		MV_CREATE_THEME_CONSTANT(mvAppItemType::Child, mvThemeCol_Child_Border					,  5L);
+		MV_CREATE_THEME_CONSTANT(mvAppItemType::Child, mvThemeCol_Child_Scrollbar				, 14L);
+		MV_CREATE_THEME_CONSTANT(mvAppItemType::Child, mvThemeCol_Child_ScrollbarGrab			, 15L);
+		MV_CREATE_THEME_CONSTANT(mvAppItemType::Child, mvThemeCol_Child_ScrollbarGrabHovered	, 16L);
+		MV_CREATE_THEME_CONSTANT(mvAppItemType::Child, mvThemeCol_Child_ScrollbarGrabActive		, 17L);
+
+		MV_START_COLOR_CONSTANTS
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Child_Bg),
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Child_MenuBar),
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Child_Border),
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Child_Scrollbar),
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Child_ScrollbarGrab),
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Child_ScrollbarGrabHovered),
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Child_ScrollbarGrabActive),
+		MV_END_COLOR_CONSTANTS
+
 	public:
 
 		static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
 
 	public:
-
-		MV_APPITEM_TYPE_OLD_SYSTEM(mvAppItemType::Child, "add_child")
 
 		mvChild(const std::string& name);
 

@@ -21,13 +21,19 @@ namespace Marvel {
 	class mvText : public mvStringPtrBase
 	{
 
+		MV_APPITEM_TYPE(mvAppItemType::Text, mvText, "add_text")
+
+		MV_CREATE_THEME_CONSTANT(mvAppItemType::Text, mvThemeCol_Text_Text, 0L);
+
+		MV_START_COLOR_CONSTANTS
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Text_Text),
+		MV_END_COLOR_CONSTANTS
+
 	public:
 
 		static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
 
 	public:
-
-		MV_APPITEM_TYPE_OLD_SYSTEM(mvAppItemType::Text, "add_text")
 
 		mvText(const std::string& name, const std::string& default_value, const std::string& dataSource);
 
@@ -52,13 +58,19 @@ namespace Marvel {
 	class mvLabelText : public mvStringPtrBase
 	{
 
+		MV_APPITEM_TYPE(mvAppItemType::LabelText, mvLabelText, "add_label_text")
+
+		MV_CREATE_THEME_CONSTANT(mvAppItemType::LabelText, mvThemeCol_LabelText_Text, 0L);
+
+		MV_START_COLOR_CONSTANTS
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_LabelText_Text),
+		MV_END_COLOR_CONSTANTS
+
 	public:
 
 		static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
 
 	public:
-
-		MV_APPITEM_TYPE_OLD_SYSTEM(mvAppItemType::LabelText, "add_label_text")
 
 		mvLabelText(const std::string& name, const std::string& value, const std::string& dataSource);
 

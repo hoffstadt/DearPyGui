@@ -16,5 +16,9 @@ const std::vector<std::pair<std::string, long>>& getColorConstants() const overr
 #define MV_START_COLOR_CONSTANTS public: static const std::vector<std::pair<std::string, long>>& GetColorConstants()\
         {static std::vector<std::pair<std::string, long>> constants ={
 #define MV_END_COLOR_CONSTANTS };return constants;}
+#define MV_START_STYLE_CONSTANTS public: static const std::vector<std::pair<std::string, long>>& GetStyleConstants()\
+        {static std::vector<std::pair<std::string, long>> constants ={
+#define MV_END_STYLE_CONSTANTS };return constants;}
 #define MV_CREATE_CONSTANT_PAIR(x) {#x, x}
-#define MV_CREATE_THEME_CONSTANT(x, y, z) static constexpr const int y = (long)x*100+z;
+#define MV_CREATE_THEME_CONSTANT_NEW(x, y, z, i) static constexpr const long y = (long)x*1000L+z*10L+i;
+#define MV_CREATE_THEME_CONSTANT(x, y, z) static constexpr const long y = (long)x*1000L+z*10L;

@@ -82,7 +82,7 @@ namespace Marvel {
 
 	PyObject* set_theme_color(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
-		int constant;
+		long constant;
 		PyObject* color;
 		const char* item = "";
 
@@ -117,7 +117,7 @@ namespace Marvel {
 
 	PyObject* set_theme_style(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
-		int constant;
+		long constant;
 		float style;
 		const char* item = "";
 

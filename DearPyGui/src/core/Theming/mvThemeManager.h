@@ -5,17 +5,19 @@
 
 namespace Marvel {
 
-	class mvTheme : public mvEventHandler
+	class mvThemeManager : public mvEventHandler
 	{
 
 	public:
 
-		static int GetLibraryConstant(int encoded_constant, mvAppItemType* out_type = nullptr);
+		static void decodeType(long encoded_constant, mvAppItemType* type);
+		static void decodelibID(long encoded_constant, int* libID);
+		static int decodeIndex(long encoded_constant);
 
 	public:
 
-		mvTheme();
-		~mvTheme();
+		mvThemeManager();
+		~mvThemeManager();
 
 	private:
 
@@ -36,18 +38,6 @@ namespace Marvel {
 	private:
 		int libIDCount = 0;
 		int StyleIDCount = 0;
-	};
-
-	class mvNewImGuiThemeScope
-	{
-	public:
-		mvNewImGuiThemeScope(mvAppItem* item);
-		~mvNewImGuiThemeScope();
-
-		void cleanup();
-
-	private:
-		int libIDCount = 0;
 	};
 
 }

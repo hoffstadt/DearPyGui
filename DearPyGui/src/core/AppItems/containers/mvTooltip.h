@@ -8,14 +8,21 @@ namespace Marvel {
 
 	class mvTooltip : public mvBoolPtrBase
 	{
+		MV_APPITEM_TYPE(mvAppItemType::Tooltip, mvTooltip, "add_tooltip")
+
+		MV_CREATE_THEME_CONSTANT(mvAppItemType::Tooltip, mvThemeCol_Tooltip_Bg		,  4L);
+		MV_CREATE_THEME_CONSTANT(mvAppItemType::Tooltip, mvThemeCol_Tooltip_Border	,  5L);
+
+		MV_START_COLOR_CONSTANTS
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Tooltip_Bg),
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Tooltip_Border),
+		MV_END_COLOR_CONSTANTS
 
 	public:
 
 		static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
 
 	public:
-
-		MV_APPITEM_TYPE_OLD_SYSTEM(mvAppItemType::Tooltip, "add_tooltip")
 
 		mvTooltip(const std::string& name);
 

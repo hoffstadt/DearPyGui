@@ -9,13 +9,28 @@ namespace Marvel {
 	class mvTabButton : public mvAppItem
 	{
 
+
+		MV_APPITEM_TYPE(mvAppItemType::TabButton, mvTabButton, "add_tab_button")
+
+		MV_CREATE_THEME_CONSTANT(mvAppItemType::TabButton, mvThemeCol_TabButton_Text		,  0L);
+		MV_CREATE_THEME_CONSTANT(mvAppItemType::TabButton, mvThemeCol_TabButton_Bg			, 33L);
+		MV_CREATE_THEME_CONSTANT(mvAppItemType::TabButton, mvThemeCol_TabButton_BgHovered	, 34L);
+		MV_CREATE_THEME_CONSTANT(mvAppItemType::TabButton, mvThemeCol_TabButton_Border		,  5L);
+		MV_CREATE_THEME_CONSTANT(mvAppItemType::TabButton, mvThemeCol_TabButton_PopupBg		,  4L);
+
+		MV_START_COLOR_CONSTANTS
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_TabButton_Text),
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_TabButton_Bg),
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_TabButton_BgHovered),
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_TabButton_Border),
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_TabButton_PopupBg),
+		MV_END_COLOR_CONSTANTS
+
 	public:
 
 		static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
 
 	public:
-
-		MV_APPITEM_TYPE_OLD_SYSTEM(mvAppItemType::TabButton, "add_tab_button")
 
 		mvTabButton(const std::string& name);
 

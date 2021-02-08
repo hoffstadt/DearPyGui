@@ -8,14 +8,23 @@ namespace Marvel {
 
 	class mvTreeNode : public mvBoolPtrBase
 	{
+		MV_APPITEM_TYPE(mvAppItemType::TreeNode, mvTreeNode, "add_tree_node")
+
+		MV_CREATE_THEME_CONSTANT(mvAppItemType::TreeNode, mvThemeCol_TreeNode_Text		,  0L);
+		MV_CREATE_THEME_CONSTANT(mvAppItemType::TreeNode, mvThemeCol_TreeNode_BgHovered	, 25L);
+		MV_CREATE_THEME_CONSTANT(mvAppItemType::TreeNode, mvThemeCol_TreeNode_BgActive	, 26L);
+
+		MV_START_COLOR_CONSTANTS
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_TreeNode_Text),
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_TreeNode_BgHovered),
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_TreeNode_BgActive),
+		MV_END_COLOR_CONSTANTS
 
 	public:
 
 		static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
 
 	public:
-
-		MV_APPITEM_TYPE_OLD_SYSTEM(mvAppItemType::TreeNode, "add_tree_node")
 
 		mvTreeNode(const std::string& name);
 
