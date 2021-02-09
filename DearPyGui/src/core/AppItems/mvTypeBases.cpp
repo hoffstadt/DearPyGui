@@ -12,26 +12,26 @@ namespace Marvel {
 		mvAppItem(name)
 	{
 		if (dataSource.empty())
-			m_value = mvApp::GetApp()->getValueStorage().AddIntValue(name, default_value);
+		{
+			m_value = std::make_shared<int>(default_value);
+			mvApp::GetApp()->getValueStorage().RegisterExternalValue(name, StorageValueTypes::Int, this);
+		}
 		else
-			m_value = mvApp::GetApp()->getValueStorage().AddIntValue(dataSource, default_value);
+			m_value = mvApp::GetApp()->getValueStorage().add_value(dataSource, default_value);
 
 		m_core_config.source = dataSource;
 	}
-
+	
 	mvIntPtrBase::~mvIntPtrBase()
 	{
 		if (m_core_config.source.empty())
-			mvApp::GetApp()->getValueStorage().DecrementRef(m_core_config.name);
-		else
-			mvApp::GetApp()->getValueStorage().DecrementRef(m_core_config.source);
+			mvApp::GetApp()->getValueStorage().DeleteValue(m_core_config.name);
 	}
 
 	void mvIntPtrBase::setDataSource(const std::string& dataSource)
 	{
 		if (dataSource == m_core_config.source) return;
-		mvApp::GetApp()->getValueStorage().DecrementRef(m_core_config.source);
-		m_value = mvApp::GetApp()->getValueStorage().AddIntValue(dataSource);
+		m_value = mvApp::GetApp()->getValueStorage().add_value(dataSource, 0);
 		m_core_config.source = dataSource;
 	}
 
@@ -40,9 +40,12 @@ namespace Marvel {
 		mvAppItem(name)
 	{
 		if (dataSource.empty())
-			m_value = mvApp::GetApp()->getValueStorage().AddInt2Value(name, { default_value[0], default_value[1] });
+		{
+			m_value = std::make_shared<std::array<int,2>>(std::array{ default_value[0], default_value[1] });
+			mvApp::GetApp()->getValueStorage().RegisterExternalValue(name, StorageValueTypes::Int2, this);
+		}
 		else
-			m_value = mvApp::GetApp()->getValueStorage().AddInt2Value(dataSource, { default_value[0], default_value[1] });
+			m_value = mvApp::GetApp()->getValueStorage().add_value(dataSource, std::array{ default_value[0], default_value[1] });
 
 		m_core_config.source = dataSource;
 	}
@@ -50,16 +53,13 @@ namespace Marvel {
 	mvInt2PtrBase::~mvInt2PtrBase()
 	{
 		if (m_core_config.source.empty())
-			mvApp::GetApp()->getValueStorage().DecrementRef(m_core_config.name);
-		else
-			mvApp::GetApp()->getValueStorage().DecrementRef(m_core_config.source);
+			mvApp::GetApp()->getValueStorage().DeleteValue(m_core_config.name);
 	}
 
 	void mvInt2PtrBase::setDataSource(const std::string& dataSource)
 	{
 		if (dataSource == m_core_config.source) return;
-		mvApp::GetApp()->getValueStorage().DecrementRef(m_core_config.source);
-		m_value = mvApp::GetApp()->getValueStorage().AddInt2Value(dataSource);
+		m_value = mvApp::GetApp()->getValueStorage().add_value(dataSource, std::array{ 0, 0 });
 		m_core_config.source = dataSource;
 	}
 
@@ -68,9 +68,12 @@ namespace Marvel {
 		mvAppItem(name)
 	{
 		if (dataSource.empty())
-			m_value = mvApp::GetApp()->getValueStorage().AddInt3Value(name, { default_value[0], default_value[1], default_value[2] });
+		{
+			m_value = std::make_shared<std::array<int, 3>>(std::array{ default_value[0], default_value[1], default_value[2] });
+			mvApp::GetApp()->getValueStorage().RegisterExternalValue(name, StorageValueTypes::Int3, this);
+		}
 		else
-			m_value = mvApp::GetApp()->getValueStorage().AddInt3Value(dataSource, { default_value[0], default_value[1], default_value[2] });
+			m_value = mvApp::GetApp()->getValueStorage().add_value(dataSource, std::array{ default_value[0], default_value[1], default_value[2] });
 
 		m_core_config.source = dataSource;
 	}
@@ -78,16 +81,13 @@ namespace Marvel {
 	mvInt3PtrBase::~mvInt3PtrBase()
 	{
 		if (m_core_config.source.empty())
-			mvApp::GetApp()->getValueStorage().DecrementRef(m_core_config.name);
-		else
-			mvApp::GetApp()->getValueStorage().DecrementRef(m_core_config.source);
+			mvApp::GetApp()->getValueStorage().DeleteValue(m_core_config.name);
 	}
 
 	void mvInt3PtrBase::setDataSource(const std::string& dataSource)
 	{
 		if (dataSource == m_core_config.source) return;
-		mvApp::GetApp()->getValueStorage().DecrementRef(m_core_config.source);
-		m_value = mvApp::GetApp()->getValueStorage().AddInt3Value(dataSource);
+		m_value = mvApp::GetApp()->getValueStorage().add_value(dataSource, std::array{ 0, 0, 0 });
 		m_core_config.source = dataSource;
 	}
 
@@ -95,9 +95,12 @@ namespace Marvel {
 		: mvAppItem(name)
 	{
 		if (dataSource.empty())
-			m_value = mvApp::GetApp()->getValueStorage().AddInt4Value(name, { default_value[0], default_value[1], default_value[2], default_value[3] });
+		{
+			m_value = std::make_shared<std::array<int, 4>>(std::array{ default_value[0], default_value[1], default_value[2], default_value[3] });
+			mvApp::GetApp()->getValueStorage().RegisterExternalValue(name, StorageValueTypes::Int4, this);
+		}
 		else
-			m_value = mvApp::GetApp()->getValueStorage().AddInt4Value(dataSource, { default_value[0], default_value[1], default_value[2], default_value[3] });
+			m_value = mvApp::GetApp()->getValueStorage().add_value(dataSource, std::array{ default_value[0], default_value[1], default_value[2], default_value[3] });
 
 		m_core_config.source = dataSource;
 	}
@@ -105,16 +108,13 @@ namespace Marvel {
 	mvInt4PtrBase::~mvInt4PtrBase()
 	{
 		if (m_core_config.source.empty())
-			mvApp::GetApp()->getValueStorage().DecrementRef(m_core_config.name);
-		else
-			mvApp::GetApp()->getValueStorage().DecrementRef(m_core_config.source);
+			mvApp::GetApp()->getValueStorage().DeleteValue(m_core_config.name);
 	}
 
 	void mvInt4PtrBase::setDataSource(const std::string& dataSource)
 	{
 		if (dataSource == m_core_config.source) return;
-		mvApp::GetApp()->getValueStorage().DecrementRef(m_core_config.source);
-		m_value = mvApp::GetApp()->getValueStorage().AddInt4Value(dataSource);
+		m_value = mvApp::GetApp()->getValueStorage().add_value(dataSource, std::array{ 0,0,0,0 });
 		m_core_config.source = dataSource;
 	}
 
@@ -122,9 +122,12 @@ namespace Marvel {
 		: mvAppItem(name)
 	{
 		if (dataSource.empty())
-			m_value = mvApp::GetApp()->getValueStorage().AddFloatValue(name, default_value);
+		{
+			m_value = std::make_shared<float>(default_value);
+			mvApp::GetApp()->getValueStorage().RegisterExternalValue(name, StorageValueTypes::Float, this);
+		}
 		else
-			m_value = mvApp::GetApp()->getValueStorage().AddFloatValue(dataSource, default_value);
+			m_value = mvApp::GetApp()->getValueStorage().add_value(dataSource, default_value);
 
 		m_core_config.source = dataSource;
 	}
@@ -132,16 +135,13 @@ namespace Marvel {
 	mvFloatPtrBase::~mvFloatPtrBase()
 	{
 		if (m_core_config.source.empty())
-			mvApp::GetApp()->getValueStorage().DecrementRef(m_core_config.name);
-		else
-			mvApp::GetApp()->getValueStorage().DecrementRef(m_core_config.source);
+			mvApp::GetApp()->getValueStorage().DeleteValue(m_core_config.name);
 	}
 
 	void mvFloatPtrBase::setDataSource(const std::string& dataSource)
 	{
 		if (dataSource == m_core_config.source) return;
-		mvApp::GetApp()->getValueStorage().DecrementRef(m_core_config.source);
-		m_value = mvApp::GetApp()->getValueStorage().AddFloatValue(dataSource);
+		m_value = mvApp::GetApp()->getValueStorage().add_value(dataSource, 0.0f);
 		m_core_config.source = dataSource;
 	}
 
@@ -149,9 +149,12 @@ namespace Marvel {
 		: mvAppItem(name)
 	{
 		if (dataSource.empty())
-			m_value = mvApp::GetApp()->getValueStorage().AddFloat2Value(name, { default_value[0], default_value[1] });
+		{
+			m_value = std::make_shared<std::array<float, 2>>(std::array{ default_value[0], default_value[1] });
+			mvApp::GetApp()->getValueStorage().RegisterExternalValue(name, StorageValueTypes::Float2, this);
+		}
 		else
-			m_value = mvApp::GetApp()->getValueStorage().AddFloat2Value(dataSource, { default_value[0], default_value[1] });
+			m_value = mvApp::GetApp()->getValueStorage().add_value(dataSource, std::array{ default_value[0], default_value[1] });
 
 		m_core_config.source = dataSource;
 	}
@@ -159,16 +162,13 @@ namespace Marvel {
 	mvFloat2PtrBase::~mvFloat2PtrBase()
 	{
 		if (m_core_config.source.empty())
-			mvApp::GetApp()->getValueStorage().DecrementRef(m_core_config.name);
-		else
-			mvApp::GetApp()->getValueStorage().DecrementRef(m_core_config.source);
+			mvApp::GetApp()->getValueStorage().DeleteValue(m_core_config.name);
 	}
 
 	void mvFloat2PtrBase::setDataSource(const std::string& dataSource)
 	{
 		if (dataSource == m_core_config.source) return;
-		mvApp::GetApp()->getValueStorage().DecrementRef(m_core_config.source);
-		m_value = mvApp::GetApp()->getValueStorage().AddFloat2Value(dataSource);
+		m_value = mvApp::GetApp()->getValueStorage().add_value(dataSource, std::array{ 0.0f, 0.0f });
 		m_core_config.source = dataSource;
 	}
 
@@ -176,9 +176,12 @@ namespace Marvel {
 		: mvAppItem(name)
 	{
 		if (dataSource.empty())
-			m_value = mvApp::GetApp()->getValueStorage().AddFloat3Value(name, { default_value[0], default_value[1], default_value[2] });
+		{
+			m_value = std::make_shared<std::array<float, 3>>(std::array{ default_value[0], default_value[1], default_value[2] });
+			mvApp::GetApp()->getValueStorage().RegisterExternalValue(name, StorageValueTypes::Float3, this);
+		}
 		else
-			m_value = mvApp::GetApp()->getValueStorage().AddFloat3Value(dataSource, { default_value[0], default_value[1], default_value[2] });
+			m_value = mvApp::GetApp()->getValueStorage().add_value(dataSource, std::array{ default_value[0], default_value[1], default_value[2] });
 
 		m_core_config.source = dataSource;
 	}
@@ -186,16 +189,13 @@ namespace Marvel {
 	mvFloat3PtrBase::~mvFloat3PtrBase()
 	{
 		if (m_core_config.source.empty())
-			mvApp::GetApp()->getValueStorage().DecrementRef(m_core_config.name);
-		else
-			mvApp::GetApp()->getValueStorage().DecrementRef(m_core_config.source);
+			mvApp::GetApp()->getValueStorage().DeleteValue(m_core_config.name);
 	}
 
 	void mvFloat3PtrBase::setDataSource(const std::string& dataSource)
 	{
 		if (dataSource == m_core_config.source) return;
-		mvApp::GetApp()->getValueStorage().DecrementRef(m_core_config.source);
-		m_value = mvApp::GetApp()->getValueStorage().AddFloat3Value(dataSource);
+		m_value = mvApp::GetApp()->getValueStorage().add_value(dataSource, std::array{ 0.0f, 0.0f, 0.0f });
 		m_core_config.source = dataSource;
 	}
 
@@ -203,9 +203,13 @@ namespace Marvel {
 		: mvAppItem(name)
 	{
 		if (dataSource.empty())
-			m_value = mvApp::GetApp()->getValueStorage().AddFloat4Value(name, { default_value[0], default_value[1], default_value[2], default_value[3] });
+		{
+			m_value = std::make_shared<std::array<float, 4>>(std::array{ default_value[0], default_value[1], default_value[2], default_value[3] });
+			mvApp::GetApp()->getValueStorage().RegisterExternalValue(name, StorageValueTypes::Float4, this);
+		}
 		else
-			m_value = mvApp::GetApp()->getValueStorage().AddFloat4Value(dataSource, { default_value[0], default_value[1], default_value[2], default_value[3] });
+			m_value = mvApp::GetApp()->getValueStorage().add_value(dataSource,
+				std::array{ default_value[0], default_value[1], default_value[2], default_value[3] });
 
 		m_core_config.source = dataSource;
 	}
@@ -213,16 +217,13 @@ namespace Marvel {
 	mvFloat4PtrBase::~mvFloat4PtrBase()
 	{
 		if (m_core_config.source.empty())
-			mvApp::GetApp()->getValueStorage().DecrementRef(m_core_config.name);
-		else
-			mvApp::GetApp()->getValueStorage().DecrementRef(m_core_config.source);
+			mvApp::GetApp()->getValueStorage().DeleteValue(m_core_config.name);
 	}
 
 	void mvFloat4PtrBase::setDataSource(const std::string& dataSource)
 	{
 		if (dataSource == m_core_config.source) return;
-		mvApp::GetApp()->getValueStorage().DecrementRef(m_core_config.source);
-		m_value = mvApp::GetApp()->getValueStorage().AddFloat4Value(dataSource);
+		m_value = mvApp::GetApp()->getValueStorage().add_value(dataSource, std::array{ 0.0f, 0.0f, 0.0f, 0.0f });
 		m_core_config.source = dataSource;
 	}
 
@@ -230,9 +231,13 @@ namespace Marvel {
 		: mvAppItem(name)
 	{
 		if (dataSource.empty())
-			m_value = mvApp::GetApp()->getValueStorage().AddColorValue(name, { default_value[0], default_value[1], default_value[2], default_value[3] });
+		{
+			m_value = std::make_shared<std::array<float, 4>>(std::array{ default_value[0], default_value[1], default_value[2], default_value[3] });
+			mvApp::GetApp()->getValueStorage().RegisterExternalValue(name, StorageValueTypes::Float4, this);
+		}
 		else
-			m_value = mvApp::GetApp()->getValueStorage().AddColorValue(dataSource, { default_value[0], default_value[1], default_value[2], default_value[3] });
+			m_value = mvApp::GetApp()->getValueStorage().add_value(dataSource, 
+				std::array{ default_value[0], default_value[1], default_value[2], default_value[3] });
 
 		m_core_config.source = dataSource;
 	}
@@ -240,26 +245,28 @@ namespace Marvel {
 	mvColorPtrBase::~mvColorPtrBase()
 	{
 		if (m_core_config.source.empty())
-			mvApp::GetApp()->getValueStorage().DecrementRef(m_core_config.name);
-		else
-			mvApp::GetApp()->getValueStorage().DecrementRef(m_core_config.source);
+			mvApp::GetApp()->getValueStorage().DeleteValue(m_core_config.name);
 	}
 
 	void mvColorPtrBase::setDataSource(const std::string& dataSource)
 	{
 		if (dataSource == m_core_config.source) return;
-		mvApp::GetApp()->getValueStorage().DecrementRef(m_core_config.source);
-		m_value = mvApp::GetApp()->getValueStorage().AddFloat4Value(dataSource);
+		m_value = mvApp::GetApp()->getValueStorage().add_value(dataSource, std::array{ 0.0f, 0.0f, 0.0f, 0.0f });
 		m_core_config.source = dataSource;
 	}
 
 	mvBoolPtrBase::mvBoolPtrBase(const std::string& name, bool default_value, const std::string& dataSource)
 		: mvAppItem(name)
 	{
+		m_description.valueType = StorageValueTypes::Bool;
+
 		if (dataSource.empty())
-			m_value = mvApp::GetApp()->getValueStorage().AddBoolValue(name, default_value);
+		{
+			m_value = std::make_shared<bool>(default_value);
+			mvApp::GetApp()->getValueStorage().RegisterExternalValue(name, StorageValueTypes::Bool, this);
+		}
 		else
-			m_value = mvApp::GetApp()->getValueStorage().AddBoolValue(dataSource, default_value);
+			m_value = mvApp::GetApp()->getValueStorage().add_value(dataSource, default_value);
 
 		m_core_config.source = dataSource;
 
@@ -268,16 +275,13 @@ namespace Marvel {
 	mvBoolPtrBase::~mvBoolPtrBase()
 	{
 		if (m_core_config.source.empty())
-			mvApp::GetApp()->getValueStorage().DecrementRef(m_core_config.name);
-		else
-			mvApp::GetApp()->getValueStorage().DecrementRef(m_core_config.source);
+			mvApp::GetApp()->getValueStorage().DeleteValue(m_core_config.name);
 	}
 
 	void mvBoolPtrBase::setDataSource(const std::string& dataSource)
 	{
 		if (dataSource == m_core_config.source) return;
-		mvApp::GetApp()->getValueStorage().DecrementRef(m_core_config.source);
-		m_value = mvApp::GetApp()->getValueStorage().AddBoolValue(dataSource);
+		m_value = mvApp::GetApp()->getValueStorage().add_value(dataSource, false);
 		m_core_config.source = dataSource;
 	}
 
@@ -285,27 +289,27 @@ namespace Marvel {
 		: mvAppItem(name)
 	{
 		if (dataSource.empty())
-			m_value = mvApp::GetApp()->getValueStorage().AddStringValue(name, default_value);
+		{
+			m_value = std::make_shared<std::string>(default_value);
+			mvApp::GetApp()->getValueStorage().RegisterExternalValue(name, StorageValueTypes::String, this);
+		}
 		else
-			m_value = mvApp::GetApp()->getValueStorage().AddStringValue(dataSource, default_value);
+			m_value = mvApp::GetApp()->getValueStorage().add_value(dataSource, default_value);
 
+		m_core_config.source = dataSource;
+	}
+
+	void mvStringPtrBase::setDataSource(const std::string& dataSource)
+	{
+		if (dataSource == m_core_config.source) return;
+		m_value = mvApp::GetApp()->getValueStorage().add_value(dataSource, std::string(""));
 		m_core_config.source = dataSource;
 	}
 
 	mvStringPtrBase::~mvStringPtrBase()
 	{
 		if (m_core_config.source.empty())
-			mvApp::GetApp()->getValueStorage().DecrementRef(m_core_config.name);
-		else
-			mvApp::GetApp()->getValueStorage().DecrementRef(m_core_config.source);
-	}
-
-	void mvStringPtrBase::setDataSource(const std::string& dataSource)
-	{
-		if (dataSource == m_core_config.source) return;
-		mvApp::GetApp()->getValueStorage().DecrementRef(m_core_config.source);
-		m_value = mvApp::GetApp()->getValueStorage().AddStringValue(dataSource);
-		m_core_config.source = dataSource;
+			mvApp::GetApp()->getValueStorage().DeleteValue(m_core_config.name);
 	}
 
 	mvTimePtrBase::mvTimePtrBase(const std::string& name, const tm& default_value, const std::string& dataSource)
@@ -313,13 +317,14 @@ namespace Marvel {
 	{
 		if (dataSource.empty())
 		{
-			m_value = mvApp::GetApp()->getValueStorage().AddTimeValue(name, default_value);
-			m_imvalue = mvApp::GetApp()->getValueStorage().GetImTimeValue(name);
+			m_value = std::make_shared<tm>(default_value);
+			m_imvalue = std::make_shared<ImPlotTime>(ImPlot::MkGmtTime(m_value.get()));
+			mvApp::GetApp()->getValueStorage().RegisterExternalValue(name, StorageValueTypes::Time, this);
 		}
 		else
 		{
-			m_value = mvApp::GetApp()->getValueStorage().AddTimeValue(dataSource, default_value);
-			m_imvalue = mvApp::GetApp()->getValueStorage().GetImTimeValue(dataSource);
+			m_value = mvApp::GetApp()->getValueStorage().add_value(dataSource, default_value);
+			m_imvalue = std::make_shared<ImPlotTime>(ImPlot::MkGmtTime(m_value.get()));
 		}
 
 		m_core_config.source = dataSource;
@@ -328,18 +333,19 @@ namespace Marvel {
 	mvTimePtrBase::~mvTimePtrBase()
 	{
 		if (m_core_config.source.empty())
-			mvApp::GetApp()->getValueStorage().DecrementRef(m_core_config.name);
-		else
-			mvApp::GetApp()->getValueStorage().DecrementRef(m_core_config.source);
+			mvApp::GetApp()->getValueStorage().DeleteValue(m_core_config.name);
 	}
 
 	mvFloatVectPtrBase::mvFloatVectPtrBase(const std::string& name, const std::vector<float>& default_value, const std::string& dataSource)
 		: mvAppItem(name)
 	{
 		if (dataSource.empty())
-			m_value = mvApp::GetApp()->getValueStorage().AddFloatVectorValue(name, default_value);
+		{
+			m_value = std::make_shared<std::vector<float>>(default_value);
+			mvApp::GetApp()->getValueStorage().RegisterExternalValue(name, StorageValueTypes::FloatVect, this);
+		}
 		else
-			m_value = mvApp::GetApp()->getValueStorage().AddFloatVectorValue(dataSource, default_value);
+			m_value = mvApp::GetApp()->getValueStorage().add_value(dataSource, default_value);
 
 		m_core_config.source = dataSource;
 	}
@@ -347,16 +353,13 @@ namespace Marvel {
 	mvFloatVectPtrBase::~mvFloatVectPtrBase()
 	{
 		if (m_core_config.source.empty())
-			mvApp::GetApp()->getValueStorage().DecrementRef(m_core_config.name);
-		else
-			mvApp::GetApp()->getValueStorage().DecrementRef(m_core_config.source);
+			mvApp::GetApp()->getValueStorage().DeleteValue(m_core_config.name);
 	}
 
 	void mvFloatVectPtrBase::setDataSource(const std::string& dataSource)
 	{
 		if (dataSource == m_core_config.source) return;
-		mvApp::GetApp()->getValueStorage().DecrementRef(m_core_config.source);
-		m_value = mvApp::GetApp()->getValueStorage().AddFloatVectorValue(dataSource);
+		m_value = mvApp::GetApp()->getValueStorage().add_value(dataSource, std::vector<float>{});
 		m_core_config.source = dataSource;
 	}
 

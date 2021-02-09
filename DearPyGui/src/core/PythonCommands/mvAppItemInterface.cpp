@@ -2,6 +2,7 @@
 #include "mvEvents.h"
 #include <ImGuiFileDialog.h>
 #include "mvValueStorage.h"
+#include "mvItemRegistry.h"
 
 namespace Marvel {
 
@@ -177,14 +178,6 @@ namespace Marvel {
 			{mvPythonDataType::String, "name"},
 			{mvPythonDataType::Object, "value"}
 		}, "Adds a value to the value storage.", "None", "Widget Commands") });
-
-		parsers->insert({ "incref_value", mvPythonParser({
-			{mvPythonDataType::String, "name"}
-		}, "Increases the reference count of a value.", "None", "Widget Commands") });
-
-		parsers->insert({ "decref_value", mvPythonParser({
-			{mvPythonDataType::String, "name"}
-		}, "Decreases the reference count of a value.", "None", "Widget Commands") });
 
 		parsers->insert({ "show_item", mvPythonParser({
 			{mvPythonDataType::String, "name"}
@@ -757,35 +750,6 @@ namespace Marvel {
 		std::lock_guard<std::mutex> lk(mvApp::GetApp()->GetApp()->getMutex());
 		mvApp::GetApp()->getValueStorage().AddPyValue(name, value);
 
-		return GetPyNone();
-	}
-
-	PyObject* incref_value(PyObject* self, PyObject* args, PyObject* kwargs)
-	{
-		const char* name;
-
-		if (!(*mvApp::GetApp()->getParsers())["incref_value"].parse(args, kwargs, __FUNCTION__, &name))
-			return GetPyNone();
-
-		mvApp::GetApp()->getCallbackRegistry().submit([=]()
-			{
-				mvApp::GetApp()->getValueStorage().IncrementRef(name);
-			});
-		return GetPyNone();
-	}
-
-	PyObject* decref_value(PyObject* self, PyObject* args, PyObject* kwargs)
-	{
-		const char* name;
-
-		if (!(*mvApp::GetApp()->getParsers())["decref_value"].parse(args, kwargs, __FUNCTION__, &name))
-			return GetPyNone();
-
-		mvApp::GetApp()->getCallbackRegistry().submit([=]()
-			{
-				mvApp::GetApp()->getValueStorage().DecrementRef(name);
-			});
-		
 		return GetPyNone();
 	}
 

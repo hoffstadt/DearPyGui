@@ -21,18 +21,8 @@
 #include <thread>
 #include <future>
 #include <atomic>
-#include "mvCore.h"
 #include "mvEvents.h"
-#include "mvItemRegistry.h"
-#include "mvDrawList.h"
-#include "mvTextureStorage.h"
-#include "mvValueStorage.h"
 #include <memory>
-
-//-----------------------------------------------------------------------------
-// Typedefs
-//-----------------------------------------------------------------------------
-typedef std::map<ImGuiStyleVar, ImVec2> mvStyle;
 
 namespace Marvel {
 
@@ -43,6 +33,9 @@ namespace Marvel {
     class mvTextEditor;
     class mvWindow;
     class mvThemeManager;
+    class mvItemRegistry;
+    class mvTextureStorage;
+    class mvValueStorage;
     class mvCallbackRegistry;
     struct mvColor;
     enum class mvAppItemType;
@@ -91,9 +84,9 @@ namespace Marvel {
         //-----------------------------------------------------------------------------
         // Managers
         //-----------------------------------------------------------------------------
-        mvItemRegistry&          getItemRegistry    () { return *m_itemRegistry; }
-        mvTextureStorage&        getTextureStorage  () { return *m_textureStorage; }
-        mvValueStorage&          getValueStorage    () { return *(m_valueStorage.get()); }
+        mvItemRegistry&          getItemRegistry    ();
+        mvTextureStorage&        getTextureStorage  ();
+        mvValueStorage&          getValueStorage    ();
         mvCallbackRegistry&      getCallbackRegistry();
         
         //-----------------------------------------------------------------------------

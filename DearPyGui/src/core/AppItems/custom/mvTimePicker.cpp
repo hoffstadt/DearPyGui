@@ -3,6 +3,7 @@
 #include <implot_internal.h>
 #include <misc/cpp/imgui_stdlib.h>
 #include "mvApp.h"
+#include "mvItemRegistry.h"
 
 namespace Marvel {
 
@@ -36,9 +37,9 @@ namespace Marvel {
 
 		ImPlot::GetStyle().Use24HourClock = m_hour24;
 
-		if (ImPlot::ShowTimePicker(m_core_config.name.c_str(), m_imvalue))
+		if (ImPlot::ShowTimePicker(m_core_config.name.c_str(), m_imvalue.get()))
 		{
-			ImPlot::GetGmtTime(*m_imvalue, m_value);
+			ImPlot::GetGmtTime(*m_imvalue, m_value.get());
 			mvApp::GetApp()->getCallbackRegistry().addCallback(m_core_config.callback, m_core_config.name, m_core_config.callback_data);
 		}
 

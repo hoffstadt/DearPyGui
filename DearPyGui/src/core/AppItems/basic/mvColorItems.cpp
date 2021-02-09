@@ -1,5 +1,7 @@
 #include "mvColorItems.h"
 #include "mvApp.h"
+#include <array>
+#include "mvItemRegistry.h"
 
 namespace Marvel {
 
@@ -84,7 +86,7 @@ namespace Marvel {
 		ScopedID id;
 		mvImGuiThemeScope scope(this);
 
-		if (ImGui::ColorEdit3(m_label.c_str(), m_value, m_flags))
+		if (ImGui::ColorEdit3(m_label.c_str(), m_value->data(), m_flags))
 			mvApp::GetApp()->getCallbackRegistry().addCallback(m_core_config.callback, m_core_config.name, m_core_config.callback_data);
 
 	}
@@ -135,7 +137,7 @@ namespace Marvel {
 		ScopedID id;
 		mvImGuiThemeScope scope(this);
 
-		if (ImGui::ColorEdit4(m_label.c_str(), m_value, m_flags))
+		if (ImGui::ColorEdit4(m_label.c_str(), m_value->data(), m_flags))
 			mvApp::GetApp()->getCallbackRegistry().addCallback(m_core_config.callback, m_core_config.name, m_core_config.callback_data);
 
 	}
@@ -186,7 +188,7 @@ namespace Marvel {
 		ScopedID id;
 		mvImGuiThemeScope scope(this);
 
-		if (ImGui::ColorPicker3(m_label.c_str(), m_value, m_flags))
+		if (ImGui::ColorPicker3(m_label.c_str(), m_value->data(), m_flags))
 			mvApp::GetApp()->getCallbackRegistry().addCallback(m_core_config.callback, m_core_config.name, m_core_config.callback_data);
 
 	}
@@ -237,7 +239,7 @@ namespace Marvel {
 		ScopedID id;
 		mvImGuiThemeScope scope(this);
 
-		if (ImGui::ColorPicker4(m_label.c_str(), m_value, m_flags))
+		if (ImGui::ColorPicker4(m_label.c_str(), m_value->data(), m_flags))
 			mvApp::GetApp()->getCallbackRegistry().addCallback(m_core_config.callback, m_core_config.name, m_core_config.callback_data);
 
 	}

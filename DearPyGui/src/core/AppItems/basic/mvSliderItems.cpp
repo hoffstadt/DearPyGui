@@ -59,13 +59,13 @@ namespace Marvel {
             if ((float)m_core_config.width < 1.0f)
                 m_core_config.width = 20;
 
-            if (ImGui::VSliderFloat(m_label.c_str(), ImVec2((float)m_core_config.width, (float)m_core_config.height), m_core_config.enabled ? m_value : &m_disabled_value, m_min, m_max, m_format.c_str()))
+            if (ImGui::VSliderFloat(m_label.c_str(), ImVec2((float)m_core_config.width, (float)m_core_config.height), m_core_config.enabled ? m_value.get() : &m_disabled_value, m_min, m_max, m_format.c_str()))
                 mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), m_core_config.name, m_core_config.callback_data);
 
         }
         else
         {
-            if (ImGui::SliderFloat(m_label.c_str(), m_core_config.enabled ? m_value : &m_disabled_value, m_min, m_max, m_format.c_str(), m_flags))
+            if (ImGui::SliderFloat(m_label.c_str(), m_core_config.enabled ? m_value.get() : &m_disabled_value, m_min, m_max, m_format.c_str(), m_flags))
                 mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), m_core_config.name, m_core_config.callback_data);
 
         }
@@ -112,10 +112,10 @@ namespace Marvel {
             styleManager.addColorStyle(ImGuiCol_SliderGrab, disabled_color);
             styleManager.addColorStyle(ImGuiCol_SliderGrabActive, disabled_color);
             styleManager.addColorStyle(ImGuiCol_Text, ImVec4(ImGui::GetStyleColorVec4(ImGuiCol_TextDisabled)));
-            std::copy(m_value, m_value + 2, m_disabled_value);
+            std::copy(m_value->data(), m_value->data() + 2, m_disabled_value);
         }
 
-        if (ImGui::SliderFloat2(m_label.c_str(), m_core_config.enabled ? m_value : &m_disabled_value[0], m_min, m_max, m_format.c_str(), m_flags))
+        if (ImGui::SliderFloat2(m_label.c_str(), m_core_config.enabled ? m_value->data() : &m_disabled_value[0], m_min, m_max, m_format.c_str(), m_flags))
             mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), m_core_config.name, m_core_config.callback_data);
 
     }
@@ -160,10 +160,10 @@ namespace Marvel {
             styleManager.addColorStyle(ImGuiCol_SliderGrab, disabled_color);
             styleManager.addColorStyle(ImGuiCol_SliderGrabActive, disabled_color);
             styleManager.addColorStyle(ImGuiCol_Text, ImVec4(ImGui::GetStyleColorVec4(ImGuiCol_TextDisabled)));
-            std::copy(m_value, m_value + 3, m_disabled_value);
+            std::copy(m_value->data(), m_value->data() + 3, m_disabled_value);
         }
 
-        if (ImGui::SliderFloat3(m_label.c_str(), m_core_config.enabled ? m_value : &m_disabled_value[0], m_min, m_max, m_format.c_str(), m_flags))
+        if (ImGui::SliderFloat3(m_label.c_str(), m_core_config.enabled ? m_value->data() : &m_disabled_value[0], m_min, m_max, m_format.c_str(), m_flags))
             mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), m_core_config.name, m_core_config.callback_data);
 
     }
@@ -208,10 +208,10 @@ namespace Marvel {
             styleManager.addColorStyle(ImGuiCol_SliderGrab, disabled_color);
             styleManager.addColorStyle(ImGuiCol_SliderGrabActive, disabled_color);
             styleManager.addColorStyle(ImGuiCol_Text, ImVec4(ImGui::GetStyleColorVec4(ImGuiCol_TextDisabled)));
-            std::copy(m_value, m_value + 4, m_disabled_value);
+            std::copy(m_value->data(), m_value->data() + 4, m_disabled_value);
         }
 
-        if (ImGui::SliderFloat4(m_label.c_str(), m_core_config.enabled ? m_value : &m_disabled_value[0], m_min, m_max, m_format.c_str(), m_flags))
+        if (ImGui::SliderFloat4(m_label.c_str(), m_core_config.enabled ? m_value->data() : &m_disabled_value[0], m_min, m_max, m_format.c_str(), m_flags))
             mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), m_core_config.name, m_core_config.callback_data);
 
     }
@@ -266,12 +266,12 @@ namespace Marvel {
             if ((float)m_core_config.width < 1.0f)
                 m_core_config.width = 20;
 
-            if (ImGui::VSliderInt(m_label.c_str(), ImVec2((float)m_core_config.width, (float)m_core_config.height), m_core_config.enabled ? m_value : &m_disabled_value, m_min, m_max, m_format.c_str()))
+            if (ImGui::VSliderInt(m_label.c_str(), ImVec2((float)m_core_config.width, (float)m_core_config.height), m_core_config.enabled ? m_value.get() : &m_disabled_value, m_min, m_max, m_format.c_str()))
                 mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), m_core_config.name, m_core_config.callback_data);
         }
         else
         {
-            if (ImGui::SliderInt(m_label.c_str(), m_core_config.enabled ? m_value : &m_disabled_value, m_min, m_max, m_format.c_str(), m_flags))
+            if (ImGui::SliderInt(m_label.c_str(), m_core_config.enabled ? m_value.get() : &m_disabled_value, m_min, m_max, m_format.c_str(), m_flags))
                 mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), m_core_config.name, m_core_config.callback_data);
 
         }
@@ -318,10 +318,10 @@ namespace Marvel {
             styleManager.addColorStyle(ImGuiCol_SliderGrab, disabled_color);
             styleManager.addColorStyle(ImGuiCol_SliderGrabActive, disabled_color);
             styleManager.addColorStyle(ImGuiCol_Text, ImVec4(ImGui::GetStyleColorVec4(ImGuiCol_TextDisabled)));
-            std::copy(m_value, m_value + 2, m_disabled_value);
+            std::copy(m_value->data(), m_value->data() + 2, m_disabled_value);
         }
 
-        if (ImGui::SliderInt2(m_label.c_str(), m_core_config.enabled ? m_value : &m_disabled_value[0], m_min, m_max, m_format.c_str(), m_flags))
+        if (ImGui::SliderInt2(m_label.c_str(), m_core_config.enabled ? m_value->data() : &m_disabled_value[0], m_min, m_max, m_format.c_str(), m_flags))
             mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), m_core_config.name, m_core_config.callback_data);
     }
 
@@ -365,10 +365,10 @@ namespace Marvel {
             styleManager.addColorStyle(ImGuiCol_SliderGrab, disabled_color);
             styleManager.addColorStyle(ImGuiCol_SliderGrabActive, disabled_color);
             styleManager.addColorStyle(ImGuiCol_Text, ImVec4(ImGui::GetStyleColorVec4(ImGuiCol_TextDisabled)));
-            std::copy(m_value, m_value + 3, m_disabled_value);
+            std::copy(m_value->data(), m_value->data() + 3, m_disabled_value);
         }
 
-        if (ImGui::SliderInt3(m_label.c_str(), m_core_config.enabled ? m_value : &m_disabled_value[0], m_min, m_max, m_format.c_str(), m_flags))
+        if (ImGui::SliderInt3(m_label.c_str(), m_core_config.enabled ? m_value->data() : &m_disabled_value[0], m_min, m_max, m_format.c_str(), m_flags))
             mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), m_core_config.name, m_core_config.callback_data);
 
     }
@@ -413,10 +413,10 @@ namespace Marvel {
             styleManager.addColorStyle(ImGuiCol_SliderGrab, disabled_color);
             styleManager.addColorStyle(ImGuiCol_SliderGrabActive, disabled_color);
             styleManager.addColorStyle(ImGuiCol_Text, ImVec4(ImGui::GetStyleColorVec4(ImGuiCol_TextDisabled)));
-            std::copy(m_value, m_value + 4, m_disabled_value);
+            std::copy(m_value->data(), m_value->data() + 4, m_disabled_value);
         }
 
-        if (ImGui::SliderInt4(m_label.c_str(), m_core_config.enabled ? m_value : &m_disabled_value[0], m_min, m_max, m_format.c_str(), m_flags))
+        if (ImGui::SliderInt4(m_label.c_str(), m_core_config.enabled ? m_value->data() : &m_disabled_value[0], m_min, m_max, m_format.c_str(), m_flags))
             mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), m_core_config.name, m_core_config.callback_data);
 
     }

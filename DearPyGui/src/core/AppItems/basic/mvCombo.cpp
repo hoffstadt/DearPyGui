@@ -2,6 +2,7 @@
 #include "mvCombo.h"
 #include "mvApp.h"
 #include "mvValueStorage.h"
+#include "mvItemRegistry.h"
 
 namespace Marvel {
 

@@ -2,6 +2,7 @@
 #include "mvCheckbox.h"
 #include "mvApp.h"
 #include "mvValueStorage.h"
+#include "mvItemRegistry.h"
 
 namespace Marvel {
 
@@ -55,7 +56,7 @@ namespace Marvel {
 			m_disabled_value = *m_value;
 		}
 
-		if (ImGui::Checkbox(m_label.c_str(), m_core_config.enabled ? m_value : &m_disabled_value))
+		if (ImGui::Checkbox(m_label.c_str(), m_core_config.enabled ? m_value.get() : &m_disabled_value))
 			mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), m_core_config.name, m_core_config.callback_data);
 
 	}

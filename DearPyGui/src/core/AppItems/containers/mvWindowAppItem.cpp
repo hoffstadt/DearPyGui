@@ -1,6 +1,7 @@
 #pragma once
 #include "mvWindowAppItem.h"
 #include "mvInput.h"
+#include "mvItemRegistry.h"
 
 namespace Marvel {
 

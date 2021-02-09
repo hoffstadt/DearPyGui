@@ -34,6 +34,7 @@ namespace Marvel {
 	struct mvPlotAnnotation;
 	struct mvDragLine;
 	struct mvDragPoint;
+	class mvDrawList;
 
 	//-----------------------------------------------------------------------------
 	// mvPlot
@@ -192,7 +193,7 @@ namespace Marvel {
 	struct mvDragLine
 	{
 		std::string name;
-		float*      value;
+		std::shared_ptr<float> value;
 		bool        show_label;
 		mvColor     color;
 		float       thickness;
@@ -208,7 +209,7 @@ namespace Marvel {
 	struct mvDragPoint
 	{
 		std::string name;
-		float*      value;
+		std::shared_ptr<std::array<float, 2>> value;
 		bool        show_label;
 		mvColor     color;
 		float       radius;

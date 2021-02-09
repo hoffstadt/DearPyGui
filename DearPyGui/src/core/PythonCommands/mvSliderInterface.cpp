@@ -1,4 +1,5 @@
 #include "mvSliderInterface.h"
+#include "mvItemRegistry.h"
 
 namespace Marvel {
 

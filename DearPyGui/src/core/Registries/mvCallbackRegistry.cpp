@@ -3,6 +3,7 @@
 #include "mvApp.h"
 #include <chrono>
 #include <iostream>
+#include "mvItemRegistry.h"
 
 namespace Marvel {
 

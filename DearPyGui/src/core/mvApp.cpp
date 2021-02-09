@@ -13,6 +13,9 @@
 #include "mvEventListener.h"
 #include "mvThemeManager.h"
 #include "mvCallbackRegistry.h"
+#include "mvTextureStorage.h"
+#include "mvValueStorage.h"
+#include "mvItemRegistry.h"
 
 namespace Marvel {
 
@@ -109,7 +112,7 @@ namespace Marvel {
 			else
                 mvApp::GetApp()->getCallbackRegistry().submitCallback([=]()
                     {
-                        ThrowPythonException("Window does not exists.", false);
+                        ThrowPythonException("Window does not exists.");
                     });
 		}
 
@@ -167,6 +170,21 @@ namespace Marvel {
     { 
         return *m_callbackRegistry; 
     }
+
+	mvItemRegistry& mvApp::getItemRegistry() 
+	{ 
+		return *m_itemRegistry; 
+	}
+
+	mvTextureStorage& mvApp::getTextureStorage() 
+	{ 
+		return *m_textureStorage; 
+	}
+
+	mvValueStorage& mvApp::getValueStorage() 
+	{ 
+		return *(m_valueStorage.get()); 
+	}
 
 	bool mvApp::onEvent(mvEvent& event)
 	{

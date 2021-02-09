@@ -1,4 +1,5 @@
 #include "mvInputsInterface.h"
+#include "mvItemRegistry.h"
 
 namespace Marvel {
 

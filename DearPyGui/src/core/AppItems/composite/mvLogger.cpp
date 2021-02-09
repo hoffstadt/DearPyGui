@@ -2,6 +2,7 @@
 #include <chrono>
 #include "mvInput.h"
 #include "mvGlobalIntepreterLock.h"
+#include "mvItemRegistry.h"
 
 typedef std::chrono::high_resolution_clock clock_;
 typedef std::chrono::duration<double, std::ratio<1> > second_;

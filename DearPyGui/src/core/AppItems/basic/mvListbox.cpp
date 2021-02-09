@@ -2,6 +2,7 @@
 #include "mvListbox.h"
 #include "mvApp.h"
 #include "mvValueStorage.h"
+#include "mvItemRegistry.h"
 
 namespace Marvel {
 
@@ -55,7 +56,7 @@ namespace Marvel {
 			m_disabled_value = *m_value;
 		}
 
-		if (ImGui::ListBox(m_label.c_str(), m_core_config.enabled ? m_value : &m_disabled_value, m_charNames.data(), (int)m_names.size(), m_itemsHeight))
+		if (ImGui::ListBox(m_label.c_str(), m_core_config.enabled ? m_value.get() : &m_disabled_value, m_charNames.data(), (int)m_names.size(), m_itemsHeight))
 			mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), m_core_config.name, m_core_config.callback_data);
 
 	}

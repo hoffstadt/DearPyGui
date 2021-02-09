@@ -5,6 +5,7 @@
 #include "mvInput.h"
 #include "mvTextureStorage.h"
 #include "mvValueStorage.h"
+#include "mvItemRegistry.h"
 
 namespace Marvel {
 

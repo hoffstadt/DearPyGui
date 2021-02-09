@@ -33,6 +33,10 @@ New Commands:
 - add_vline_series: can now add infinite vertical lines to a plot #541
 - add_hline_series: can now add infinite horizontal lines to a plot #541
 
+Breaking Changes:
+- removed command: decref_value
+- removed command: incref_value
+
 Updates:
 - imgui: updated to v1.80
 - implot: updated to 7234801

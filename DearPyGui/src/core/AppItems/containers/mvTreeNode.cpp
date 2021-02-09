@@ -1,6 +1,7 @@
 #include "mvTreeNode.h"
 #include "core/mvInput.h"
 #include "mvApp.h"
+#include "mvItemRegistry.h"
 
 namespace Marvel {
 	void mvTreeNode::InsertParser(std::map<std::string, mvPythonParser>* parsers)

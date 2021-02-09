@@ -1,8 +1,8 @@
 #pragma once
 
+#include "mvAppItem.h"
 #include <implot.h>
 #include <implot_internal.h>
-#include "mvAppItem.h"
 
 //-----------------------------------------------------------------------------
 // mvTypeBases
@@ -23,14 +23,13 @@ namespace Marvel {
 	public:
 
 		mvIntPtrBase(const std::string& name, int default_value, const std::string& dataSource);
-
 		~mvIntPtrBase();
-
 		void setDataSource(const std::string& dataSource) override;
+		mvRef<int> getValue() { return m_value; }
 
 	protected:
 
-		int* m_value = nullptr;
+		mvRef<int> m_value;
 		int  m_disabled_value = 0;
 	};
 
@@ -43,14 +42,13 @@ namespace Marvel {
 	public:
 
 		mvInt2PtrBase(const std::string& name, int* default_value, const std::string& dataSource);
-
 		~mvInt2PtrBase();
-
 		void setDataSource(const std::string& dataSource) override;
+		mvRef<std::array<int, 2>> getValue() { return m_value; }
 
 	protected:
 
-		int* m_value = nullptr;
+		mvRef<std::array<int,2>> m_value;
 		int  m_disabled_value[2] {};
 	};
 
@@ -63,14 +61,13 @@ namespace Marvel {
 	public:
 
 		mvInt3PtrBase(const std::string& name, int* default_value, const std::string& dataSource);
-
 		~mvInt3PtrBase();
-
 		void setDataSource(const std::string& dataSource) override;
+		mvRef<std::array<int, 3>> getValue() { return m_value; }
 
 	protected:
 
-		int* m_value = nullptr;
+		mvRef<std::array<int, 3>> m_value;
 		int m_disabled_value[3] {};
 	};
 
@@ -83,14 +80,13 @@ namespace Marvel {
 	public:
 
 		mvInt4PtrBase(const std::string& name, int* default_value, const std::string& dataSource);
-
 		~mvInt4PtrBase();
-
 		void setDataSource(const std::string& dataSource) override;
+		mvRef<std::array<int, 4>> getValue() { return m_value; }
 
 	protected:
 
-		int* m_value = nullptr;
+		mvRef<std::array<int, 4>> m_value;
 		int  m_disabled_value[4] {};
 	};
 
@@ -103,14 +99,13 @@ namespace Marvel {
 	public:
 
 		mvFloatPtrBase(const std::string& name, float default_value, const std::string& dataSource);
-
 		~mvFloatPtrBase();
-
 		void setDataSource(const std::string& dataSource) override;
+		mvRef<float> getValue() { return m_value; }
 
 	protected:
 
-		float* m_value = nullptr;
+		mvRef<float> m_value;
 		float  m_disabled_value = 0.0;
 	};
 
@@ -123,14 +118,13 @@ namespace Marvel {
 	public:
 
 		mvFloat2PtrBase(const std::string& name, float* default_value, const std::string& dataSource);
-
 		~mvFloat2PtrBase();
-
 		void setDataSource(const std::string& dataSource) override;
+		mvRef<std::array<float, 2>> getValue() { return m_value; }
 
 	protected:
 
-		float* m_value = nullptr;
+		mvRef<std::array<float, 2>> m_value;
 		float  m_disabled_value[2] {};
 	};
 
@@ -143,14 +137,13 @@ namespace Marvel {
 	public:
 
 		mvFloat3PtrBase(const std::string& name, float* default_value, const std::string& dataSource);
-
 		~mvFloat3PtrBase();
-
 		void setDataSource(const std::string& dataSource) override;
+		mvRef<std::array<float, 3>> getValue() { return m_value; }
 
 	protected:
 
-		float* m_value = nullptr;
+		mvRef<std::array<float, 3>> m_value;
 		float  m_disabled_value[3] {};
 	};
 
@@ -163,14 +156,13 @@ namespace Marvel {
 	public:
 
 		mvFloat4PtrBase(const std::string& name, float* default_value, const std::string& dataSource);
-
 		~mvFloat4PtrBase();
-
 		void setDataSource(const std::string& dataSource) override;
+		mvRef<std::array<float, 4>> getValue() { return m_value; }
 
 	protected:
 
-		float* m_value = nullptr;
+		mvRef<std::array<float, 4>> m_value;
 		float  m_disabled_value[4] {};
 	};
 
@@ -183,14 +175,13 @@ namespace Marvel {
 	public:
 
 		mvColorPtrBase(const std::string& name, float* default_value, const std::string& dataSource);
-
 		~mvColorPtrBase();
-
 		void setDataSource(const std::string& dataSource) override;
+		mvRef<std::array<float, 4>> getValue() { return m_value; }
 
 	protected:
 
-		float* m_value = nullptr;
+		mvRef<std::array<float, 4>> m_value;
 	};
 
 	//-----------------------------------------------------------------------------
@@ -202,14 +193,13 @@ namespace Marvel {
 	public:
 
 		mvBoolPtrBase(const std::string& name, bool default_value, const std::string& dataSource);
-
 		~mvBoolPtrBase();
-
 		void setDataSource(const std::string& dataSource) override;
+		mvRef<bool> getValue() { return m_value; }
 
 	protected:
 
-		bool* m_value = nullptr;
+		mvRef<bool> m_value;
 		bool  m_disabled_value = false;
 	};
 
@@ -222,14 +212,13 @@ namespace Marvel {
 	public:
 
 		mvStringPtrBase(const std::string& name, const std::string& default_value, const std::string& dataSource);
-
 		~mvStringPtrBase();
-
 		void setDataSource(const std::string& dataSource) override;
+		mvRef<std::string> getValue() { return m_value; }
 
 	protected:
 
-		std::string* m_value = nullptr;
+		mvRef<std::string> m_value;
 		std::string  m_disabled_value = "";
 	};
 
@@ -242,13 +231,14 @@ namespace Marvel {
 	public:
 
 		mvTimePtrBase(const std::string& name, const tm& default_value, const std::string& dataSource);
-
 		~mvTimePtrBase();
+		mvRef<tm> getValue() { return m_value; }
+		mvRef<ImPlotTime> getValue2() { return m_imvalue; }
 
 	protected:
 
-		tm*         m_value   = nullptr;
-		ImPlotTime* m_imvalue = nullptr;
+		mvRef<tm>         m_value ;
+		mvRef<ImPlotTime> m_imvalue;
 	};
 
 	//-----------------------------------------------------------------------------
@@ -260,14 +250,13 @@ namespace Marvel {
 	public:
 
 		mvFloatVectPtrBase(const std::string& name, const std::vector<float>& default_value, const std::string& dataSource);
-
 		~mvFloatVectPtrBase();
-
 		void setDataSource(const std::string& dataSource) override;
+		mvRef<std::vector<float>> getValue() { return m_value; }
 
 	protected:
 
-		std::vector<float>* m_value = nullptr;
+		mvRef<std::vector<float>> m_value;
 	};
 
 	//-----------------------------------------------------------------------------

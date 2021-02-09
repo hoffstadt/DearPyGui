@@ -1,4 +1,5 @@
 #include "mvPlotInterface.h"
+#include "mvItemRegistry.h"
 
 namespace Marvel {
 

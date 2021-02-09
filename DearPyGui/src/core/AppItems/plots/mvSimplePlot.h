@@ -33,15 +33,15 @@ namespace Marvel{
 
 	public:
 		mvSimplePlot(const std::string& name, const std::vector<float>& value)
-			: mvFloatVectPtrBase(name, value, name) 
+			: mvFloatVectPtrBase(name, value, "") 
 		{
 
 			m_description.ignoreSizeUpdate = true;
 
 			if (!value.empty())
 			{
-				m_max = (*m_value)[0];
-				m_min = (*m_value)[0];
+				m_max = m_value->data()[0];
+				m_min = m_value->data()[0];
 
 				for (auto& item : *m_value)
 				{

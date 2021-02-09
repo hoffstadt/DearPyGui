@@ -2,6 +2,7 @@
 
 #include "mvMenu.h"
 #include "mvApp.h"
+#include "mvItemRegistry.h"
 
 namespace Marvel {
 

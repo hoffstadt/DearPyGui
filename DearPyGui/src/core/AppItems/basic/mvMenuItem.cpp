@@ -2,6 +2,7 @@
 
 #include "mvMenuItem.h"
 #include "mvApp.h"
+#include "mvItemRegistry.h"
 
 namespace Marvel {
 
@@ -32,7 +33,7 @@ namespace Marvel {
 		mvImGuiThemeScope scope(this);
 
 		// create menuitem and see if its selected
-		if (ImGui::MenuItem(m_label.c_str(), m_shortcut.c_str(), m_check ? m_value : nullptr, m_core_config.enabled))
+		if (ImGui::MenuItem(m_label.c_str(), m_shortcut.c_str(), m_check ? m_value.get() : nullptr, m_core_config.enabled))
 		{
 
 			// set other menuitems's value false on same level
