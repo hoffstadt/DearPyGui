@@ -10,10 +10,10 @@ namespace Marvel {
 	{
 		MV_APPITEM_TYPE(mvAppItemType::Selectable, mvSelectable, "add_selectable")
 
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::Selectable, mvThemeCol_Selectable_Text		,  0L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::Selectable, mvThemeCol_Selectable_Bg		, 24L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::Selectable, mvThemeCol_Selectable_BgHovered	, 25L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::Selectable, mvThemeCol_Selectable_BgActive	, 26L);
+		MV_CREATE_THEME_CONSTANT(mvAppItemType::Selectable, mvThemeCol_Selectable_Text		,  0L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvAppItemType::Selectable, mvThemeCol_Selectable_Bg		, 24L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvAppItemType::Selectable, mvThemeCol_Selectable_BgHovered	, 25L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvAppItemType::Selectable, mvThemeCol_Selectable_BgActive	, 26L, 0L);
 
 
 		MV_START_COLOR_CONSTANTS

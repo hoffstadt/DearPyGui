@@ -9,15 +9,15 @@ namespace Marvel{
 	{
 		MV_APPITEM_TYPE(mvAppItemType::SimplePlot, mvSimplePlot, "add_simple_plot")
 
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::SimplePlot, mvThemeCol_SimplePlot_Text				,  0L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::SimplePlot, mvThemeCol_SimplePlot_Border			,  5L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::SimplePlot, mvThemeCol_SimplePlot_BorderShadow		,  6L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::SimplePlot, mvThemeCol_SimplePlot_Bg				,  7L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::SimplePlot, mvThemeCol_SimplePlot_PopupBg			,  4L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::SimplePlot, mvThemeCol_SimplePlot_Lines				, 40L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::SimplePlot, mvThemeCol_SimplePlot_LinesHovered		, 41L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::SimplePlot, mvThemeCol_SimplePlot_Histogram			, 42L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::SimplePlot, mvThemeCol_SimplePlot_HistogramHovered	, 43L);
+		MV_CREATE_THEME_CONSTANT(mvAppItemType::SimplePlot, mvThemeCol_SimplePlot_Text				,  0L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvAppItemType::SimplePlot, mvThemeCol_SimplePlot_Border			,  5L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvAppItemType::SimplePlot, mvThemeCol_SimplePlot_BorderShadow		,  6L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvAppItemType::SimplePlot, mvThemeCol_SimplePlot_Bg				,  7L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvAppItemType::SimplePlot, mvThemeCol_SimplePlot_PopupBg			,  4L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvAppItemType::SimplePlot, mvThemeCol_SimplePlot_Lines				, 40L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvAppItemType::SimplePlot, mvThemeCol_SimplePlot_LinesHovered		, 41L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvAppItemType::SimplePlot, mvThemeCol_SimplePlot_Histogram			, 42L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvAppItemType::SimplePlot, mvThemeCol_SimplePlot_HistogramHovered	, 43L, 0L);
 
 		MV_START_COLOR_CONSTANTS
 			MV_CREATE_CONSTANT_PAIR(mvThemeCol_SimplePlot_Text),

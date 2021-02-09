@@ -23,7 +23,7 @@ namespace Marvel {
 
 		MV_APPITEM_TYPE(mvAppItemType::Text, mvText, "add_text")
 
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::Text, mvThemeCol_Text_Text, 0L);
+		MV_CREATE_THEME_CONSTANT(mvAppItemType::Text, mvThemeCol_Text_Text, 0L, 0L);
 
 		MV_START_COLOR_CONSTANTS
 			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Text_Text),
@@ -60,7 +60,7 @@ namespace Marvel {
 
 		MV_APPITEM_TYPE(mvAppItemType::LabelText, mvLabelText, "add_label_text")
 
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::LabelText, mvThemeCol_LabelText_Text, 0L);
+		MV_CREATE_THEME_CONSTANT(mvAppItemType::LabelText, mvThemeCol_LabelText_Text, 0L, 0L);
 
 		MV_START_COLOR_CONSTANTS
 			MV_CREATE_CONSTANT_PAIR(mvThemeCol_LabelText_Text),

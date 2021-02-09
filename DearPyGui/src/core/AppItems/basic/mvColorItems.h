@@ -25,11 +25,11 @@ namespace Marvel {
 	{
 		MV_APPITEM_TYPE(mvAppItemType::ColorButton, mvColorButton, "add_color_button")
 
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::ColorButton, mvThemeCol_ColorButton_Text		,  0L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::ColorButton, mvThemeCol_ColorButton_Separator	, 27L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::ColorButton, mvThemeCol_ColorButton_PopupBg		,  4L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::ColorButton, mvThemeCol_ColorButton_Border		,  5L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::ColorButton, mvThemeCol_ColorButton_BorderShadow,  6L);
+		MV_CREATE_THEME_CONSTANT(mvAppItemType::ColorButton, mvThemeCol_ColorButton_Text		,  0L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvAppItemType::ColorButton, mvThemeCol_ColorButton_Separator	, 27L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvAppItemType::ColorButton, mvThemeCol_ColorButton_PopupBg		,  4L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvAppItemType::ColorButton, mvThemeCol_ColorButton_Border		,  5L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvAppItemType::ColorButton, mvThemeCol_ColorButton_BorderShadow,  6L, 0L);
 
 		MV_START_COLOR_CONSTANTS
 			MV_CREATE_CONSTANT_PAIR(mvThemeCol_ColorButton_Text),
@@ -72,14 +72,14 @@ namespace Marvel {
 
 		MV_APPITEM_TYPE(mvAppItemType::ColorEdit3, mvColorEdit3, "add_color_edit3")
 
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::ColorEdit3, mvThemeCol_ColorEdit3_Text			,  0L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::ColorEdit3, mvThemeCol_ColorEdit3_TextHighlight	, 44L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::ColorEdit3, mvThemeCol_ColorEdit3_Bg			,  7L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::ColorEdit3, mvThemeCol_ColorEdit3_BgHovered		,  8L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::ColorEdit3, mvThemeCol_ColorEdit3_BgActive		,  9L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::ColorEdit3, mvThemeCol_ColorEdit3_PopupBg		,  4L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::ColorEdit3, mvThemeCol_ColorEdit3_Border		,  5L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::ColorEdit3, mvThemeCol_ColorEdit3_BorderShadow	,  6L);
+		MV_CREATE_THEME_CONSTANT(mvAppItemType::ColorEdit3, mvThemeCol_ColorEdit3_Text			,  0L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvAppItemType::ColorEdit3, mvThemeCol_ColorEdit3_TextHighlight	, 44L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvAppItemType::ColorEdit3, mvThemeCol_ColorEdit3_Bg			,  7L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvAppItemType::ColorEdit3, mvThemeCol_ColorEdit3_BgHovered		,  8L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvAppItemType::ColorEdit3, mvThemeCol_ColorEdit3_BgActive		,  9L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvAppItemType::ColorEdit3, mvThemeCol_ColorEdit3_PopupBg		,  4L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvAppItemType::ColorEdit3, mvThemeCol_ColorEdit3_Border		,  5L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvAppItemType::ColorEdit3, mvThemeCol_ColorEdit3_BorderShadow	,  6L, 0L);
 
 		MV_START_COLOR_CONSTANTS
 			MV_CREATE_CONSTANT_PAIR(mvThemeCol_ColorEdit3_Text),
@@ -125,14 +125,14 @@ namespace Marvel {
 
 		MV_APPITEM_TYPE(mvAppItemType::ColorEdit4, mvColorEdit4, "add_color_edit4")
 
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::ColorEdit4, mvThemeCol_ColorEdit4_Text			,  0L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::ColorEdit4, mvThemeCol_ColorEdit4_TextHighlight	, 44L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::ColorEdit4, mvThemeCol_ColorEdit4_Bg			,  7L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::ColorEdit4, mvThemeCol_ColorEdit4_BgHovered		,  8L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::ColorEdit4, mvThemeCol_ColorEdit4_BgActive		,  9L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::ColorEdit4, mvThemeCol_ColorEdit4_PopupBg		,  4L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::ColorEdit4, mvThemeCol_ColorEdit4_Border		,  5L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::ColorEdit4, mvThemeCol_ColorEdit4_BorderShadow	,  6L);
+		MV_CREATE_THEME_CONSTANT(mvAppItemType::ColorEdit4, mvThemeCol_ColorEdit4_Text			,  0L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvAppItemType::ColorEdit4, mvThemeCol_ColorEdit4_TextHighlight	, 44L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvAppItemType::ColorEdit4, mvThemeCol_ColorEdit4_Bg			,  7L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvAppItemType::ColorEdit4, mvThemeCol_ColorEdit4_BgHovered		,  8L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvAppItemType::ColorEdit4, mvThemeCol_ColorEdit4_BgActive		,  9L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvAppItemType::ColorEdit4, mvThemeCol_ColorEdit4_PopupBg		,  4L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvAppItemType::ColorEdit4, mvThemeCol_ColorEdit4_Border		,  5L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvAppItemType::ColorEdit4, mvThemeCol_ColorEdit4_BorderShadow	,  6L, 0L);
 
 		MV_START_COLOR_CONSTANTS
 			MV_CREATE_CONSTANT_PAIR(mvThemeCol_ColorEdit4_Text),
@@ -177,12 +177,12 @@ namespace Marvel {
 
 		MV_APPITEM_TYPE(mvAppItemType::ColorPicker3, mvColorPicker3, "add_color_picker3")
 
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::ColorPicker3, mvThemeCol_ColorPicker3_Text			,  0L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::ColorPicker3, mvThemeCol_ColorPicker3_Bg			,  7L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::ColorPicker3, mvThemeCol_ColorPicker3_BgHovered		,  8L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::ColorPicker3, mvThemeCol_ColorPicker3_BgActive		,  9L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::ColorPicker3, mvThemeCol_ColorPicker3_Border		,  5L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::ColorPicker3, mvThemeCol_ColorPicker3_BorderShadow	,  6L);
+		MV_CREATE_THEME_CONSTANT(mvAppItemType::ColorPicker3, mvThemeCol_ColorPicker3_Text			,  0L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvAppItemType::ColorPicker3, mvThemeCol_ColorPicker3_Bg			,  7L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvAppItemType::ColorPicker3, mvThemeCol_ColorPicker3_BgHovered		,  8L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvAppItemType::ColorPicker3, mvThemeCol_ColorPicker3_BgActive		,  9L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvAppItemType::ColorPicker3, mvThemeCol_ColorPicker3_Border		,  5L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvAppItemType::ColorPicker3, mvThemeCol_ColorPicker3_BorderShadow	,  6L, 0L);
 
 		MV_START_COLOR_CONSTANTS
 			MV_CREATE_CONSTANT_PAIR(mvThemeCol_ColorPicker3_Text),
@@ -225,12 +225,12 @@ namespace Marvel {
 
 		MV_APPITEM_TYPE(mvAppItemType::ColorPicker4, mvColorPicker4, "add_color_picker4")
 
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::ColorPicker4, mvThemeCol_ColorPicker4_Text			,  0L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::ColorPicker4, mvThemeCol_ColorPicker4_Bg			,  7L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::ColorPicker4, mvThemeCol_ColorPicker4_BgHovered		,  8L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::ColorPicker4, mvThemeCol_ColorPicker4_BgActive		,  9L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::ColorPicker4, mvThemeCol_ColorPicker4_Border		,  5L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::ColorPicker4, mvThemeCol_ColorPicker4_BorderShadow	,  6L);
+		MV_CREATE_THEME_CONSTANT(mvAppItemType::ColorPicker4, mvThemeCol_ColorPicker4_Text			,  0L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvAppItemType::ColorPicker4, mvThemeCol_ColorPicker4_Bg			,  7L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvAppItemType::ColorPicker4, mvThemeCol_ColorPicker4_BgHovered		,  8L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvAppItemType::ColorPicker4, mvThemeCol_ColorPicker4_BgActive		,  9L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvAppItemType::ColorPicker4, mvThemeCol_ColorPicker4_Border		,  5L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvAppItemType::ColorPicker4, mvThemeCol_ColorPicker4_BorderShadow	,  6L, 0L);
 
 		MV_START_COLOR_CONSTANTS
 			MV_CREATE_CONSTANT_PAIR(mvThemeCol_ColorPicker4_Text),

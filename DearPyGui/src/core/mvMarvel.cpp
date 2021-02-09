@@ -199,13 +199,14 @@ namespace Marvel {
 			{ "mvGuiStyleVar_ItemSpacing",         13 },
 			{ "mvGuiStyleVar_ItemInnerSpacing",    14 },
 			{ "mvGuiStyleVar_IndentSpacing",       15 },
-			{ "mvGuiStyleVar_ScrollbarSize",       16 },
-			{ "mvGuiStyleVar_ScrollbarRounding",   17 },
-			{ "mvGuiStyleVar_GrabMinSize",         18 },
-			{ "mvGuiStyleVar_GrabRounding",        19 },
-			{ "mvGuiStyleVar_TabRounding",         20 },
-			{ "mvGuiStyleVar_ButtonTextAlign",     21 },
-			{ "mvGuiStyleVar_SelectableTextAlign", 22 },
+			{ "ImGuiStyleVar_CellPadding",		   16 },
+			{ "mvGuiStyleVar_ScrollbarSize",       17 },
+			{ "mvGuiStyleVar_ScrollbarRounding",   18 },
+			{ "mvGuiStyleVar_GrabMinSize",         19 },
+			{ "mvGuiStyleVar_GrabRounding",        20 },
+			{ "mvGuiStyleVar_TabRounding",         21 },
+			{ "mvGuiStyleVar_ButtonTextAlign",     22 },
+			{ "mvGuiStyleVar_SelectableTextAlign", 23 },
 			//-----------------------------------------------------------------------------
 			// Key Codes
 			//-----------------------------------------------------------------------------

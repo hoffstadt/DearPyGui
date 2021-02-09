@@ -25,9 +25,9 @@ namespace Marvel {
 	{
 		MV_APPITEM_TYPE(mvAppItemType::ManagedColumns, mvManagedColumns, "add_managed_columns")
 
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::ManagedColumns, mvThemeCol_ManagedColumns_Border		, 27L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::ManagedColumns, mvThemeCol_ManagedColumns_BorderHovered	, 28L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::ManagedColumns, mvThemeCol_ManagedColumns_BorderActive	, 29L);
+		MV_CREATE_THEME_CONSTANT(mvAppItemType::ManagedColumns, mvThemeCol_ManagedColumns_Border		, 27L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvAppItemType::ManagedColumns, mvThemeCol_ManagedColumns_BorderHovered	, 28L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvAppItemType::ManagedColumns, mvThemeCol_ManagedColumns_BorderActive	, 29L, 0L);
 
 		MV_START_COLOR_CONSTANTS
 			MV_CREATE_CONSTANT_PAIR(mvThemeCol_ManagedColumns_Border),

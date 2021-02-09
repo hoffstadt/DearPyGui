@@ -11,12 +11,12 @@ namespace Marvel {
 
 		MV_APPITEM_TYPE(mvAppItemType::DatePicker, mvDatePicker, "add_date_picker")
 
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::DatePicker, mvThemeCol_DatePicker_Date			,  0L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::DatePicker, mvThemeCol_DatePicker_DateDisabled	,  1L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::DatePicker, mvThemeCol_DatePicker_DateHovered	, 22L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::DatePicker, mvThemeCol_DatePicker_DateActive	, 23L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::DatePicker, mvThemeCol_DatePicker_Border		,  5L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::DatePicker, mvThemeCol_DatePicker_BorderShadow	,  6L);
+		MV_CREATE_THEME_CONSTANT(mvAppItemType::DatePicker, mvThemeCol_DatePicker_Date			,  0L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvAppItemType::DatePicker, mvThemeCol_DatePicker_DateDisabled	,  1L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvAppItemType::DatePicker, mvThemeCol_DatePicker_DateHovered	, 22L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvAppItemType::DatePicker, mvThemeCol_DatePicker_DateActive	, 23L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvAppItemType::DatePicker, mvThemeCol_DatePicker_Border		,  5L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvAppItemType::DatePicker, mvThemeCol_DatePicker_BorderShadow	,  6L, 0L);
 
 		MV_START_COLOR_CONSTANTS
 			MV_CREATE_CONSTANT_PAIR(mvThemeCol_DatePicker_Date),
