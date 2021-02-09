@@ -155,7 +155,9 @@ namespace Marvel {
             return constants;
         }
 
+        //-----------------------------------------------------------------------------
         // cpp interface
+        //-----------------------------------------------------------------------------
         virtual void updateConfig(mvAppItemConfig* config) {}
         virtual mvAppItemConfig* getConfig() { return nullptr; }
         void updateCoreConfig();

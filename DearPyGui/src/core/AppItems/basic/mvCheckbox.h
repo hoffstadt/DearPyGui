@@ -4,7 +4,17 @@
 
 namespace Marvel {
 
+	struct mvCheckboxConfig : public mvAppItemConfig
+	{
+		bool default_value = false;
+		std::string source = "";
+	};
+
+#ifdef MV_CPP
+	void add_checkbox(const char* name, const mvCheckboxConfig& config = {});
+#else
 	PyObject* add_checkbox(PyObject* self, PyObject* args, PyObject* kwargs);
+#endif
 
 	class mvCheckbox : public mvBoolPtrBase
 	{
@@ -34,8 +44,17 @@ namespace Marvel {
 	public:
 
 		mvCheckbox(const std::string& name, bool default_value, const std::string& dataSource);
+		mvCheckbox(const std::string& name, const mvCheckboxConfig& config);
 
 		void draw() override;
+
+		// cpp interface
+		void updateConfig(mvAppItemConfig* config) override;
+		mvAppItemConfig* getConfig() override;
+
+	private:
+
+		mvCheckboxConfig m_config;
 
 	};
 

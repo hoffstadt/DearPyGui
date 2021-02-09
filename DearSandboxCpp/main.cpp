@@ -10,9 +10,9 @@ int main(int argc, char* argv[])
 
 	add_window("Test Window");
 
-		mvButtonConfig config;
-		config.callback = []() {std::cout << "Button Pressed" << std::endl; };
-		add_button("Press me", config);
+		add_button("Press me", []() {std::cout << "Button Pressed" << std::endl; });
+
+		add_checkbox("Click me");
 	
 	end();
 
