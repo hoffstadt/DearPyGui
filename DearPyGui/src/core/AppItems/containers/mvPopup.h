@@ -8,15 +8,15 @@ namespace Marvel {
 	{
 		MV_APPITEM_TYPE(mvAppItemType::Popup, mvPopup, "add_popup")
 
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::Popup, mvThemeCol_Popup_TitleText				,  0L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::Popup, mvThemeCol_Popup_TitleBg					, 11L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::Popup, mvThemeCol_Popup_Bg						,  4L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::Popup, mvThemeCol_Popup_ModalDimBg				, 49L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::Popup, mvThemeCol_Popup_Scrollbar				, 14L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::Popup, mvThemeCol_Popup_ScrollbarGrab			, 15L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::Popup, mvThemeCol_Popup_ScrollbarGrabHovered	, 16L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::Popup, mvThemeCol_Popup_ScrollbarGrabActive		, 17L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::Popup, mvThemeCol_Popup_Border					,  5L);
+		MV_CREATE_THEME_CONSTANT(mvAppItemType::Popup, mvThemeCol_Popup_TitleText				,  0L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvAppItemType::Popup, mvThemeCol_Popup_TitleBg					, 11L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvAppItemType::Popup, mvThemeCol_Popup_Bg						,  4L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvAppItemType::Popup, mvThemeCol_Popup_ModalDimBg				, 49L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvAppItemType::Popup, mvThemeCol_Popup_Scrollbar				, 14L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvAppItemType::Popup, mvThemeCol_Popup_ScrollbarGrab			, 15L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvAppItemType::Popup, mvThemeCol_Popup_ScrollbarGrabHovered	, 16L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvAppItemType::Popup, mvThemeCol_Popup_ScrollbarGrabActive		, 17L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvAppItemType::Popup, mvThemeCol_Popup_Border					,  5L, 0L);
 
 
 		MV_START_COLOR_CONSTANTS

@@ -10,8 +10,8 @@ namespace Marvel {
 	{
 		MV_APPITEM_TYPE(mvAppItemType::Tooltip, mvTooltip, "add_tooltip")
 
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::Tooltip, mvThemeCol_Tooltip_Bg		,  4L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::Tooltip, mvThemeCol_Tooltip_Border	,  5L);
+		MV_CREATE_THEME_CONSTANT(mvAppItemType::Tooltip, mvThemeCol_Tooltip_Bg		,  4L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvAppItemType::Tooltip, mvThemeCol_Tooltip_Border	,  5L, 0L);
 
 		MV_START_COLOR_CONSTANTS
 			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Tooltip_Bg),

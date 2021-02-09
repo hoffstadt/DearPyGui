@@ -11,7 +11,7 @@ namespace Marvel {
 
 		MV_APPITEM_TYPE(mvAppItemType::TabBar, mvTabBar, "add_tab_bar")
 
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::TabBar, mvThemeCol_TabBar, 35L);
+		MV_CREATE_THEME_CONSTANT(mvAppItemType::TabBar, mvThemeCol_TabBar, 35L, 0L);
 
 		MV_START_COLOR_CONSTANTS
 			MV_CREATE_CONSTANT_PAIR(mvThemeCol_TabBar),

@@ -10,9 +10,9 @@ namespace Marvel {
 	{
 		MV_APPITEM_TYPE(mvAppItemType::TreeNode, mvTreeNode, "add_tree_node")
 
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::TreeNode, mvThemeCol_TreeNode_Text		,  0L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::TreeNode, mvThemeCol_TreeNode_BgHovered	, 25L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::TreeNode, mvThemeCol_TreeNode_BgActive	, 26L);
+		MV_CREATE_THEME_CONSTANT(mvAppItemType::TreeNode, mvThemeCol_TreeNode_Text		,  0L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvAppItemType::TreeNode, mvThemeCol_TreeNode_BgHovered	, 25L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvAppItemType::TreeNode, mvThemeCol_TreeNode_BgActive	, 26L, 0L);
 
 		MV_START_COLOR_CONSTANTS
 			MV_CREATE_CONSTANT_PAIR(mvThemeCol_TreeNode_Text),
