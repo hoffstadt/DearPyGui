@@ -13,6 +13,7 @@ namespace Marvel {
 
 #ifdef MV_CPP
 	void add_button(const char* name, const mvButtonConfig& config = {});
+	void add_button(const char* name, mvCallable callable);
 #else
 	PyObject* add_button(PyObject* self, PyObject* args, PyObject* kwargs);
 #endif
