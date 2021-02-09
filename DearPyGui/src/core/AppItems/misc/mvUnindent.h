@@ -19,7 +19,7 @@ namespace Marvel {
 
 		void draw() override
 		{
-			ImGui::Unindent(m_value[0]);
+			ImGui::Unindent(*m_value);
 		}
 
 	};

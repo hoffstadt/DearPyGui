@@ -850,7 +850,7 @@ def show_demo():
                 helpmarker("Color item values given to the widget as a list will cause the \n"
                            "color item to store and return colors as scalar floats from 0.0-1.0.\n"
                            "setting floats=True will turn the inputs also to a float (although this is not necessary)")
-                add_label_text("float_values", default_value="Color List: ",label=f"{get_value('list_color_value')}",color=hsv_to_rgb(get_value('list_color_value')[0],get_value('list_color_value')[1],get_value('list_color_value')[2]))
+                #add_label_text("float_values", default_value="Color List: ",label=f"{get_value('list_color_value')}",color=hsv_to_rgb(get_value('list_color_value')[0],get_value('list_color_value')[1],get_value('list_color_value')[2]))
                 add_color_edit4("Color Edit 4 (ints value)", default_value=(125,125,125,255), alpha_preview= True, callback=lambda sender, data: configure_item("ints_values", label=f"({get_value(sender)[0]}, {get_value(sender)[1]}, {get_value(sender)[2]}, {get_value(sender)[3]})",color=get_value(sender)))
                 helpmarker("Color item values given to the widget as a tuple will cause the \n"
                            "color item to store and return colors as ints from 0-255.")
@@ -925,14 +925,14 @@ def show_demo():
                     add_same_line()
                     add_slider_float("##vs4##demo", vertical=True, max_value=1.0, height=160, source="##v4", width=40)
 
-            with tree_node("Time/Date Widgets##demo"):
-                add_time_picker("Time Picker##demo", default_value={'hour': 14, 'min': 32, 'sec': 23})
-                add_separator()
-                with managed_columns("Date Columns##demo", 3):
-                    add_date_picker("Date Picker1##demo", level=0, default_value={'month_day': 8, 'year':93, 'month':5})
-                    add_date_picker("Date Picker2##demo", level=1, default_value={'month_day': 8, 'year':93, 'month':5})
-                    add_date_picker("Date Picker3##demo", level=2, default_value={'month_day': 8, 'year':93, 'month':5})
-                add_separator()
+            #with tree_node("Time/Date Widgets##demo"):
+            #    add_time_picker("Time Picker##demo", default_value={'hour': 14, 'min': 32, 'sec': 23})
+            #    add_separator()
+            #    with managed_columns("Date Columns##demo", 3):
+            #        add_date_picker("Date Picker1##demo", level=0, default_value={'month_day': 8, 'year':93, 'month':5})
+            #        add_date_picker("Date Picker2##demo", level=1, default_value={'month_day': 8, 'year':93, 'month':5})
+            #        add_date_picker("Date Picker3##demo", level=2, default_value={'month_day': 8, 'year':93, 'month':5})
+            #    add_separator()
 
         with collapsing_header("Layout & Scolling##demo"):
 
@@ -1558,7 +1558,6 @@ def show_demo():
                 draw_triangle("Custom Rendering Plot##demo", (150, 10), (110, 100), (190, 100), (255, 255, 0, 255), thickness = 3.0)
                 draw_quad("Custom Rendering Plot##demo", (210, 10), (290, 10), (290, 100), (210, 100), (255, 255, 0, 255), thickness = 3.0)
                 draw_circle("Custom Rendering Plot##demo", (350, 60), 49, (255, 255, 0, 255))
-
 
         with collapsing_header("Simple Tables##demo"):
 

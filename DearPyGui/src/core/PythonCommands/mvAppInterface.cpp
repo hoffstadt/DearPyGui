@@ -4,6 +4,7 @@
 #include "mvEvents.h"
 #include <ImGuiFileDialog.h>
 #include <iostream>
+#include "mvItemRegistry.h"
 
 namespace Marvel {
 

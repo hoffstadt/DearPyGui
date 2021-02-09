@@ -1,6 +1,7 @@
 #include "mvAppItem.h"
 #include "mvApp.h"
 #include "mvInput.h"
+#include "mvItemRegistry.h"
 
 namespace Marvel{
 

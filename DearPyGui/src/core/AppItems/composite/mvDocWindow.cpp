@@ -2,7 +2,8 @@
 #include <imgui.h>
 #include "mvApp.h"
 #include "mvMarvel.h"
-#include "core/mvInput.h"
+#include "mvInput.h"
+#include "mvItemRegistry.h"
 
 namespace Marvel {
 

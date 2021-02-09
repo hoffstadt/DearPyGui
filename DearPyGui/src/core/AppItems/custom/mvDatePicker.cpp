@@ -3,6 +3,7 @@
 #include <implot.h>
 #include <implot_internal.h>
 #include <misc/cpp/imgui_stdlib.h>
+#include "mvItemRegistry.h"
 
 namespace Marvel {
 
@@ -32,9 +33,9 @@ namespace Marvel {
 		ScopedID id;
 		mvImGuiThemeScope scope(this);
 
-		if (ImPlot::ShowDatePicker(m_core_config.name.c_str(), &m_level, m_imvalue, m_imvalue))
+		if (ImPlot::ShowDatePicker(m_core_config.name.c_str(), &m_level, m_imvalue.get(), m_imvalue.get()))
 		{
-			ImPlot::GetGmtTime(*m_imvalue, m_value);
+			ImPlot::GetGmtTime(*m_imvalue, m_value.get());
 			mvApp::GetApp()->getCallbackRegistry().addCallback(m_core_config.callback, m_core_config.name, m_core_config.callback_data);
 		}
 

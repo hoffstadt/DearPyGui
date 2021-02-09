@@ -2,6 +2,7 @@
 #include "mvRadioButton.h"
 #include "mvApp.h"
 #include "mvValueStorage.h"
+#include "mvItemRegistry.h"
 
 namespace Marvel {
 	void mvRadioButton::InsertParser(std::map<std::string, mvPythonParser>* parsers)
@@ -53,7 +54,7 @@ namespace Marvel {
 			if (m_horizontal && i != 0)
 				ImGui::SameLine();
 
-			if (ImGui::RadioButton((m_itemnames[i] + "##" + m_core_config.name).c_str(), m_core_config.enabled ? m_value : &m_disabled_value, (int)i))
+			if (ImGui::RadioButton((m_itemnames[i] + "##" + m_core_config.name).c_str(), m_core_config.enabled ? m_value.get() : &m_disabled_value, (int)i))
 				mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), m_core_config.name, m_core_config.callback_data);
 		}
 

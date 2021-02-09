@@ -2,6 +2,7 @@
 #include "mvSelectable.h"
 #include "mvApp.h"
 #include "mvValueStorage.h"
+#include "mvItemRegistry.h"
 
 namespace Marvel {
 
@@ -46,7 +47,7 @@ namespace Marvel {
 		ScopedID id;
 		mvImGuiThemeScope scope(this);
 
-		if (ImGui::Selectable(m_label.c_str(), m_value, m_flags))
+		if (ImGui::Selectable(m_label.c_str(), m_value.get(), m_flags))
 			mvApp::GetApp()->getCallbackRegistry().addCallback(m_core_config.callback, m_core_config.name, m_core_config.callback_data);
 
 	}

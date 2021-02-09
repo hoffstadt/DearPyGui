@@ -49,24 +49,24 @@ namespace Marvel {
             styleManager.addColorStyle(ImGuiCol_Text, ImVec4(ImGui::GetStyleColorVec4(ImGuiCol_TextDisabled)));
         }
 
-        if (ImGui::InputInt(m_label.c_str(), m_value, m_step, m_step_fast, m_flags))
+        if (ImGui::InputInt(m_label.c_str(), m_value.get(), m_step, m_step_fast, m_flags))
         {
             // determines clamped cases
             //if the value is aboved a clamped value we will do like drag and slider and not run the callback
             if (m_min_clamped && m_max_clamped)
             {
-                if (m_value[0] < m_min) m_value[0] = m_min;
-                else if (m_value[0] > m_max) m_value[0] = m_max;
+                if (*m_value < m_min) *m_value = m_min;
+                else if (*m_value > m_max) *m_value = m_max;
                 else mvApp::GetApp()->getCallbackRegistry().addCallback(m_core_config.callback, m_core_config.name, m_core_config.callback_data);
             }
             else if (m_min_clamped)
             {
-                if (m_value[0] < m_min) m_value[0] = m_min;
+                if (*m_value < m_min) *m_value = m_min;
                 else mvApp::GetApp()->getCallbackRegistry().addCallback(m_core_config.callback, m_core_config.name, m_core_config.callback_data);
             }
             else if (m_max_clamped)
             {
-                if (m_value[0] > m_max) m_value[0] = m_max;
+                if (*m_value > m_max) *m_value = m_max;
                 else mvApp::GetApp()->getCallbackRegistry().addCallback(m_core_config.callback, m_core_config.name, m_core_config.callback_data);
             }
             else
@@ -116,7 +116,7 @@ namespace Marvel {
             styleManager.addColorStyle(ImGuiCol_Text, ImVec4(ImGui::GetStyleColorVec4(ImGuiCol_TextDisabled)));
         }
 
-        if (ImGui::InputInt2(m_label.c_str(), m_value, m_flags))
+        if (ImGui::InputInt2(m_label.c_str(), m_value->data(), m_flags))
         {
             // determines clamped cases
             //if the value is aboved a clamped value we will do like drag and slider and not run the callback
@@ -124,8 +124,8 @@ namespace Marvel {
             {
                 for (int i = 0; i < 2; i++)
                 {
-                    if (m_value[i] < m_min) m_value[i] = m_min;
-                    else if (m_value[i] > m_max) m_value[i] = m_max;
+                    if (m_value->data()[i] < m_min) m_value->data()[i] = m_min;
+                    else if (m_value->data()[i] > m_max) m_value->data()[i] = m_max;
                     else mvApp::GetApp()->getCallbackRegistry().addCallback(m_core_config.callback, m_core_config.name, m_core_config.callback_data);
                 }
             }
@@ -133,7 +133,7 @@ namespace Marvel {
             {
                 for (int i = 0 ; i < 2 ; i++)
                 {
-                    if (m_value[i] < m_min) m_value[i] = m_min;
+                    if (m_value->data()[i] < m_min) m_value->data()[i] = m_min;
                     else mvApp::GetApp()->getCallbackRegistry().addCallback(m_core_config.callback, m_core_config.name, m_core_config.callback_data);
                 }
             }
@@ -141,7 +141,7 @@ namespace Marvel {
             {
                 for (int i = 0; i < 2; i++)
                 {
-                    if (m_value[i] > m_max) m_value[i] = m_max;
+                    if (m_value->data()[i] > m_max) m_value->data()[i] = m_max;
                     else mvApp::GetApp()->getCallbackRegistry().addCallback(m_core_config.callback, m_core_config.name, m_core_config.callback_data);
                 }
             }
@@ -191,7 +191,7 @@ namespace Marvel {
             styleManager.addColorStyle(ImGuiCol_Text, ImVec4(ImGui::GetStyleColorVec4(ImGuiCol_TextDisabled)));
         }
 
-        if (ImGui::InputInt3(m_label.c_str(), m_value, m_flags))
+        if (ImGui::InputInt3(m_label.c_str(), m_value->data(), m_flags))
         {
             // determines clamped cases
             //if the value is aboved a clamped value we will do like drag and slider and not run the callback
@@ -199,8 +199,8 @@ namespace Marvel {
             {
                 for (int i = 0; i < 3; i++)
                 {
-                    if (m_value[i] < m_min) m_value[i] = m_min;
-                    else if (m_value[i] > m_max) m_value[i] = m_max;
+                    if (m_value->data()[i] < m_min) m_value->data()[i] = m_min;
+                    else if (m_value->data()[i] > m_max) m_value->data()[i] = m_max;
                     else mvApp::GetApp()->getCallbackRegistry().addCallback(m_core_config.callback, m_core_config.name, m_core_config.callback_data);
                 }
             }
@@ -208,7 +208,7 @@ namespace Marvel {
             {
                 for (int i = 0; i < 3; i++)
                 {
-                    if (m_value[i] < m_min) m_value[i] = m_min;
+                    if (m_value->data()[i] < m_min) m_value->data()[i] = m_min;
                     else mvApp::GetApp()->getCallbackRegistry().addCallback(m_core_config.callback, m_core_config.name, m_core_config.callback_data);
                 }
             }
@@ -216,7 +216,7 @@ namespace Marvel {
             {
                 for (int i = 0; i < 3; i++)
                 {
-                    if (m_value[i] > m_max) m_value[i] = m_max;
+                    if (m_value->data()[i] > m_max) m_value->data()[i] = m_max;
                     else mvApp::GetApp()->getCallbackRegistry().addCallback(m_core_config.callback, m_core_config.name, m_core_config.callback_data);
                 }
             }
@@ -266,7 +266,7 @@ namespace Marvel {
             styleManager.addColorStyle(ImGuiCol_Text, ImVec4(ImGui::GetStyleColorVec4(ImGuiCol_TextDisabled)));
         }
 
-        if (ImGui::InputInt4(m_label.c_str(), m_value, m_flags))
+        if (ImGui::InputInt4(m_label.c_str(), m_value->data(), m_flags))
         {
             // determines clamped cases
             //if the value is aboved a clamped value we will do like drag and slider and not run the callback
@@ -274,8 +274,8 @@ namespace Marvel {
             {
                 for (int i = 0; i < 4; i++)
                 {
-                    if (m_value[i] < m_min) m_value[i] = m_min;
-                    else if (m_value[i] > m_max) m_value[i] = m_max;
+                    if (m_value->data()[i] < m_min) m_value->data()[i] = m_min;
+                    else if (m_value->data()[i] > m_max) m_value->data()[i] = m_max;
                     else mvApp::GetApp()->getCallbackRegistry().addCallback(m_core_config.callback, m_core_config.name, m_core_config.callback_data);
                 }
             }
@@ -283,7 +283,7 @@ namespace Marvel {
             {
                 for (int i = 0; i < 4; i++)
                 {
-                    if (m_value[i] < m_min) m_value[i] = m_min;
+                    if (m_value->data()[i] < m_min) m_value->data()[i] = m_min;
                     else mvApp::GetApp()->getCallbackRegistry().addCallback(m_core_config.callback, m_core_config.name, m_core_config.callback_data);
                 }
             }
@@ -291,7 +291,7 @@ namespace Marvel {
             {
                 for (int i = 0; i < 4; i++)
                 {
-                    if (m_value[i] > m_max) m_value[i] = m_max;
+                    if (m_value->data()[i] > m_max) m_value->data()[i] = m_max;
                     else mvApp::GetApp()->getCallbackRegistry().addCallback(m_core_config.callback, m_core_config.name, m_core_config.callback_data);
                 }
             }
@@ -341,24 +341,24 @@ namespace Marvel {
             styleManager.addColorStyle(ImGuiCol_Text, ImVec4(ImGui::GetStyleColorVec4(ImGuiCol_TextDisabled)));
         }
 
-        if (ImGui::InputFloat(m_label.c_str(), m_value, m_step, m_step_fast, m_format.c_str(), m_flags))
+        if (ImGui::InputFloat(m_label.c_str(), m_value.get(), m_step, m_step_fast, m_format.c_str(), m_flags))
         {
             // determines clamped cases
             //if the value is aboved a clamped value we will do like drag and slider and not run the callback
             if (m_min_clamped && m_max_clamped)
             {
-                if (m_value[0] < m_min) m_value[0] = m_min;
-                else if (m_value[0] > m_max) m_value[0] = m_max;
+                if (*m_value < m_min) *m_value = m_min;
+                else if (*m_value > m_max) *m_value = m_max;
                 else mvApp::GetApp()->getCallbackRegistry().addCallback(m_core_config.callback, m_core_config.name, m_core_config.callback_data);
             }
             else if (m_min_clamped)
             {
-                if (m_value[0] < m_min) m_value[0] = m_min;
+                if (*m_value < m_min) *m_value = m_min;
                 else mvApp::GetApp()->getCallbackRegistry().addCallback(m_core_config.callback, m_core_config.name, m_core_config.callback_data);
             }
             else if (m_max_clamped)
             {
-                if (m_value[0] > m_max) m_value[0] = m_max;
+                if (*m_value > m_max) *m_value = m_max;
                 else mvApp::GetApp()->getCallbackRegistry().addCallback(m_core_config.callback, m_core_config.name, m_core_config.callback_data);
             }
             else
@@ -407,7 +407,7 @@ namespace Marvel {
             styleManager.addColorStyle(ImGuiCol_Text, ImVec4(ImGui::GetStyleColorVec4(ImGuiCol_TextDisabled)));
         }
 
-        if (ImGui::InputFloat2(m_label.c_str(), m_value, m_format.c_str(), m_flags))
+        if (ImGui::InputFloat2(m_label.c_str(), m_value->data(), m_format.c_str(), m_flags))
         {
             // determines clamped cases
             //if the value is aboved a clamped value we will do like drag and slider and not run the callback
@@ -415,8 +415,8 @@ namespace Marvel {
             {
                 for (int i = 0; i < 2; i++)
                 {
-                    if (m_value[i] < m_min) m_value[i] = m_min;
-                    else if (m_value[i] > m_max) m_value[i] = m_max;
+                    if (m_value->data()[i] < m_min) m_value->data()[i] = m_min;
+                    else if (m_value->data()[i] > m_max) m_value->data()[i] = m_max;
                     else mvApp::GetApp()->getCallbackRegistry().addCallback(m_core_config.callback, m_core_config.name, m_core_config.callback_data);
                 }
             }
@@ -424,7 +424,7 @@ namespace Marvel {
             {
                 for (int i = 0; i < 2; i++)
                 {
-                    if (m_value[i] < m_min) m_value[i] = m_min;
+                    if (m_value->data()[i] < m_min) m_value->data()[i] = m_min;
                     else mvApp::GetApp()->getCallbackRegistry().addCallback(m_core_config.callback, m_core_config.name, m_core_config.callback_data);
                 }
             }
@@ -432,7 +432,7 @@ namespace Marvel {
             {
                 for (int i = 0; i < 2; i++)
                 {
-                    if (m_value[i] > m_max) m_value[i] = m_max;
+                    if (m_value->data()[i] > m_max) m_value->data()[i] = m_max;
                     else mvApp::GetApp()->getCallbackRegistry().addCallback(m_core_config.callback, m_core_config.name, m_core_config.callback_data);
                 }
             }
@@ -482,7 +482,7 @@ namespace Marvel {
             styleManager.addColorStyle(ImGuiCol_Text, ImVec4(ImGui::GetStyleColorVec4(ImGuiCol_TextDisabled)));
         }
 
-        if (ImGui::InputFloat3(m_label.c_str(), m_value, m_format.c_str(), m_flags))
+        if (ImGui::InputFloat3(m_label.c_str(), m_value->data(), m_format.c_str(), m_flags))
         {
             // determines clamped cases
             //if the value is aboved a clamped value we will do like drag and slider and not run the callback
@@ -490,8 +490,8 @@ namespace Marvel {
             {
                 for (int i = 0; i < 3; i++)
                 {
-                    if (m_value[i] < m_min) m_value[i] = m_min;
-                    else if (m_value[i] > m_max) m_value[i] = m_max;
+                    if (m_value->data()[i] < m_min) m_value->data()[i] = m_min;
+                    else if (m_value->data()[i] > m_max) m_value->data()[i] = m_max;
                     else mvApp::GetApp()->getCallbackRegistry().addCallback(m_core_config.callback, m_core_config.name, m_core_config.callback_data);
                 }
             }
@@ -499,7 +499,7 @@ namespace Marvel {
             {
                 for (int i = 0; i < 3; i++)
                 {
-                    if (m_value[i] < m_min) m_value[i] = m_min;
+                    if (m_value->data()[i] < m_min) m_value->data()[i] = m_min;
                     else mvApp::GetApp()->getCallbackRegistry().addCallback(m_core_config.callback, m_core_config.name, m_core_config.callback_data);
                 }
             }
@@ -507,7 +507,7 @@ namespace Marvel {
             {
                 for (int i = 0; i < 3; i++)
                 {
-                    if (m_value[i] > m_max) m_value[i] = m_max;
+                    if (m_value->data()[i] > m_max) m_value->data()[i] = m_max;
                     else mvApp::GetApp()->getCallbackRegistry().addCallback(m_core_config.callback, m_core_config.name, m_core_config.callback_data);
                 }
             }
@@ -557,7 +557,7 @@ namespace Marvel {
             styleManager.addColorStyle(ImGuiCol_Text, ImVec4(ImGui::GetStyleColorVec4(ImGuiCol_TextDisabled)));
         }
 
-        if (ImGui::InputFloat4(m_label.c_str(), m_value, m_format.c_str(), m_flags))
+        if (ImGui::InputFloat4(m_label.c_str(), m_value->data(), m_format.c_str(), m_flags))
         {
             // determines clamped cases
             //if the value is aboved a clamped value we will do like drag and slider and not run the callback
@@ -565,8 +565,8 @@ namespace Marvel {
             {
                 for (int i = 0; i < 4; i++)
                 {
-                    if (m_value[i] < m_min) m_value[i] = m_min;
-                    else if (m_value[i] > m_max) m_value[i] = m_max;
+                    if (m_value->data()[i] < m_min) m_value->data()[i] = m_min;
+                    else if (m_value->data()[i] > m_max) m_value->data()[i] = m_max;
                     else mvApp::GetApp()->getCallbackRegistry().addCallback(m_core_config.callback, m_core_config.name, m_core_config.callback_data);
                 }
             }
@@ -574,7 +574,7 @@ namespace Marvel {
             {
                 for (int i = 0; i < 4; i++)
                 {
-                    if (m_value[i] < m_min) m_value[i] = m_min;
+                    if (m_value->data()[i] < m_min) m_value->data()[i] = m_min;
                     else mvApp::GetApp()->getCallbackRegistry().addCallback(m_core_config.callback, m_core_config.name, m_core_config.callback_data);
                 }
             }
@@ -582,7 +582,7 @@ namespace Marvel {
             {
                 for (int i = 0; i < 4; i++)
                 {
-                    if (m_value[i] > m_max) m_value[i] = m_max;
+                    if (m_value->data()[i] > m_max) m_value->data()[i] = m_max;
                     else mvApp::GetApp()->getCallbackRegistry().addCallback(m_core_config.callback, m_core_config.name, m_core_config.callback_data);
                 }
             }

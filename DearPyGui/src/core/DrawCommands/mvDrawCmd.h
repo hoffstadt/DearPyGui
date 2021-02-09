@@ -6,6 +6,7 @@
 #include "mvAppItems.h"
 #include "mvWindow.h"
 #include "mvPython.h"
+#include "mvItemRegistry.h"
 
 #define MV_DRAWCMD_TYPE(x) mvDrawCmdType getType() const override { return x; }
 

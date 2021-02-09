@@ -1,5 +1,8 @@
 #include "mvThemeManager.h"
 #include "imgui.h"
+#include "mvAppItem.h"
+#include "mvCore.h"
+#include "mvItemRegistry.h"
 
 namespace Marvel {
 

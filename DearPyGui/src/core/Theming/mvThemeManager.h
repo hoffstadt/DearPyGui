@@ -1,9 +1,12 @@
 #pragma once
 
 #include <unordered_map>
-#include "mvAppItem.h"
+#include "mvEvents.h"
 
 namespace Marvel {
+
+	class mvAppItem;
+	enum class mvAppItemType;
 
 	class mvThemeManager : public mvEventHandler
 	{

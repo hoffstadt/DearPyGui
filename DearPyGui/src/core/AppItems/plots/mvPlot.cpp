@@ -3,6 +3,8 @@
 #include "mvApp.h"
 #include "mvInput.h"
 #include "mvValueStorage.h"
+#include "mvDrawList.h"
+#include "mvItemRegistry.h"
 
 namespace Marvel {
 
@@ -253,9 +255,11 @@ namespace Marvel {
 
 	void mvPlot::addDragPoint(const std::string& name, bool show_label, const mvColor& color, float radius, mvCallable callback, const double* dummyValue, const std::string& source)
 	{
-		float* value = mvApp::GetApp()->getValueStorage().AddFloat2Value(source, { (float)dummyValue[0], (float)dummyValue[1] });
+		auto value = mvApp::GetApp()->getValueStorage().add_value(source, std::array{ (float)dummyValue[0], (float)dummyValue[1] });
+		double dummyx = value->data()[0];
+		double dummyy = value->data()[1];
 
-		m_dragPoints.push_back({ name, value, show_label, color, radius, callback, value[0], value[1], source});
+		m_dragPoints.push_back({ name, value, show_label, color, radius, callback, dummyx, dummyy, source});
 	}
 
 	void mvPlot::updateDragPoint(const std::string& name, bool show_label, const mvColor& color, float radius, mvCallable callback, const double* dummyValue, const std::string& source)
@@ -269,8 +273,7 @@ namespace Marvel {
 				exists = true;
 				if (item.source != source)
 				{
-					mvApp::GetApp()->getValueStorage().DecrementRef(source.empty() ? name : source);
-					item.value = mvApp::GetApp()->getValueStorage().AddFloat2Value(source.empty() ? name : source, { (float)dummyValue[0], (float)dummyValue[1] });
+					item.value = mvApp::GetApp()->getValueStorage().add_value(source.empty() ? name : source, std::array{ (float)dummyValue[0], (float)dummyValue[1] });
 				}
 				item.show_label = show_label;
 				item.color = color;
@@ -289,7 +292,7 @@ namespace Marvel {
 
 	void mvPlot::addDragLine(const std::string& name, bool show_label, const mvColor& color, float thickness, bool y_line, mvCallable callback, double dummyValue, const std::string& source)
 	{
-		float* value = mvApp::GetApp()->getValueStorage().AddFloatValue(source, (float)dummyValue);
+		auto value = mvApp::GetApp()->getValueStorage().add_value(source, (float)dummyValue);
 
 		m_dragLines.push_back({ name, value, show_label, color, thickness, y_line, callback, *value, source});
 	}
@@ -306,8 +309,7 @@ namespace Marvel {
 				exists = true;
 				if (item.source != source)
 				{
-					mvApp::GetApp()->getValueStorage().DecrementRef(source.empty() ? name : source);
-					item.value = mvApp::GetApp()->getValueStorage().AddFloatValue(source.empty() ? name : source, (float)dummyValue);
+					item.value = mvApp::GetApp()->getValueStorage().add_value(source.empty() ? name : source, (float)dummyValue);
 				}
 				item.show_label = show_label;
 				item.color = color;
@@ -343,7 +345,6 @@ namespace Marvel {
 			{
 				if (item.name == name)
 				{
-					mvApp::GetApp()->getValueStorage().DecrementRef(item.source);
 					continue;
 				}
 
@@ -372,7 +373,6 @@ namespace Marvel {
 			{
 				if (item.name == name)
 				{
-					mvApp::GetApp()->getValueStorage().DecrementRef(item.source);
 					continue;
 				}
 
@@ -612,12 +612,6 @@ namespace Marvel {
 	void mvPlot::clear()
 	{
 
-		for (auto& line : m_dragLines)
-			mvApp::GetApp()->getValueStorage().DecrementRef(line.source);
-
-		for (auto& point : m_dragPoints)
-			mvApp::GetApp()->getValueStorage().DecrementRef(point.source);
-
 		m_series.clear();
 		m_annotations.clear();
 		m_dragLines.clear();
@@ -726,12 +720,12 @@ namespace Marvel {
 			{
 				for (auto& point : m_dragPoints)
 				{
-					point.dummyx = point.value[0];
-					point.dummyy = point.value[1];
+					point.dummyx = point.value->data()[0];
+					point.dummyy = point.value->data()[1];
 					if (ImPlot::DragPoint(point.name.c_str(), &point.dummyx, &point.dummyy, point.show_label, point.color.toVec4(), point.radius))
 					{
-						point.value[0] = (float)point.dummyx;
-						point.value[1] = (float)point.dummyy;
+						point.value->data()[0] = (float)point.dummyx;
+						point.value->data()[1] = (float)point.dummyy;
 						mvApp::GetApp()->getCallbackRegistry().addCallback(point.callback, point.name, nullptr);
 					}
 				}

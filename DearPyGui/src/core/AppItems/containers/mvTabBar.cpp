@@ -1,5 +1,6 @@
 #include "mvTabBar.h"
 #include "mvApp.h"
+#include "mvItemRegistry.h"
 
 namespace Marvel {
 

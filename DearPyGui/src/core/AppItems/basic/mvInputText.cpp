@@ -1,6 +1,7 @@
 #include "mvInputText.h"
 #include <misc/cpp/imgui_stdlib.h>
 #include <utility>
+#include "mvItemRegistry.h"
 
 namespace Marvel {
 
@@ -79,19 +80,19 @@ namespace Marvel {
 		{
 			if (m_multiline)
 			{
-				if (ImGui::InputTextMultiline(m_label.c_str(), m_value, ImVec2((float)m_core_config.width, (float)m_core_config.height), m_flags))
+				if (ImGui::InputTextMultiline(m_label.c_str(), m_value.get(), ImVec2((float)m_core_config.width, (float)m_core_config.height), m_flags))
 					mvApp::GetApp()->getCallbackRegistry().addCallback(m_core_config.callback, m_core_config.name, m_core_config.callback_data);
 			}
 			else
 			{
-				if (ImGui::InputText(m_label.c_str(), m_value, m_flags))
+				if (ImGui::InputText(m_label.c_str(), m_value.get(), m_flags))
 					mvApp::GetApp()->getCallbackRegistry().addCallback(m_core_config.callback, m_core_config.name, m_core_config.callback_data);
 			}
 		}
 
 		else
 		{
-			if (ImGui::InputTextWithHint(m_label.c_str(), m_hint.c_str(), m_value, m_flags))
+			if (ImGui::InputTextWithHint(m_label.c_str(), m_hint.c_str(), m_value.get(), m_flags))
 				mvApp::GetApp()->getCallbackRegistry().addCallback(m_core_config.callback, m_core_config.name, m_core_config.callback_data);
 		}
 

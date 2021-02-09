@@ -438,10 +438,6 @@ def configure_item(item: str, **Kwargs) -> None:
 	"""Configures an item"""
 	...
 
-def decref_value(name: str) -> None:
-	"""Decreases the reference count of a value."""
-	...
-
 def decrement_texture(name: str) -> None:
 	"""Decrements a texture."""
 	...
@@ -708,10 +704,6 @@ def get_value(name: str) -> Any:
 
 def get_windows() -> List[str]:
 	"""Returns a list of windows."""
-	...
-
-def incref_value(name: str) -> None:
-	"""Increases the reference count of a value."""
 	...
 
 def insert_column(table: str, column_index: int, name: str, column: List[str]) -> None:
@@ -1060,6 +1052,10 @@ def set_table_selection(table: str, row: int, column: int, value: bool) -> None:
 
 def set_theme_color(constant: int, color: List[float], item: str = ) -> None:
 	"""Sets a color of a theme item."""
+	...
+
+def set_theme_style(constant: int, style: float, item: str = ) -> None:
+	"""Sets a style of a theme item."""
 	...
 
 def set_value(name: str, value: Any) -> bool:

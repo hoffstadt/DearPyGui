@@ -1,6 +1,7 @@
 #include "mvImageButton.h"
 #include "mvTextureStorage.h"
 #include "mvApp.h"
+#include "mvItemRegistry.h"
 
 namespace Marvel {
 

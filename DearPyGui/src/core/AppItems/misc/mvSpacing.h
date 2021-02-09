@@ -19,7 +19,7 @@ namespace Marvel {
 
 		void draw() override
 		{
-			for (int i = 0; i < m_value[0]; i++)
+			for (int i = 0; i < *m_value; i++)
 				ImGui::Spacing();
 		}
 
