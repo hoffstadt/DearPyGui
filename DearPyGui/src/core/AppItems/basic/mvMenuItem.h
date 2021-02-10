@@ -11,13 +11,20 @@ namespace Marvel {
 	{
 		MV_APPITEM_TYPE(mvAppItemType::MenuItem, mvMenuItem, "add_menu_item")
 
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::MenuItem, mvThemeCol_MenuItem_Text		,  0L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::MenuItem, mvThemeCol_MenuItem_BgHovered	, 25L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvAppItemType::MenuItem, mvThemeCol_MenuItem_Text			,  0L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvAppItemType::MenuItem, mvThemeCol_MenuItem_BgHovered		, 25L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvAppItemType::MenuItem, ImGuiStyleVar_MenuItem_TextAlignX	, 23L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvAppItemType::MenuItem, ImGuiStyleVar_MenuItem_TextAlignY	, 23L, 1L);
 
 		MV_START_COLOR_CONSTANTS
 			MV_CREATE_CONSTANT_PAIR(mvThemeCol_MenuItem_Text),
 			MV_CREATE_CONSTANT_PAIR(mvThemeCol_MenuItem_BgHovered),
 		MV_END_COLOR_CONSTANTS
+
+		MV_START_STYLE_CONSTANTS
+			MV_CREATE_CONSTANT_TUPLE(ImGuiStyleVar_MenuItem_TextAlignX, 0, 1),
+			MV_CREATE_CONSTANT_TUPLE(ImGuiStyleVar_MenuItem_TextAlignY, 0, 1),
+		MV_END_STYLE_CONSTANTS
 
 	public:
 

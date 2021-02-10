@@ -595,9 +595,10 @@ def show_demo():
         add_slider_float("global style",max_value=14.0,callback=lambda sender, data: set_theme_style(mvThemeStyle_Button_Rounding, get_value(sender)))
         add_slider_float("local window style",max_value=14.0,callback=lambda sender, data: set_theme_style(mvThemeStyle_Button_Rounding, get_value(sender), item="Dear PyGui Demo"))
         add_slider_float("individual style",max_value=14.0,callback=lambda sender, data: set_theme_style(mvThemeStyle_Button_Rounding, get_value(sender), item="proof"))
+        add_slider_float("global style",max_value=14.0,callback=lambda sender, data: set_theme_style(mvThemeStyle_Button_Rounding, get_value(sender)))
         def apply_proof_style(sender):
-            set_theme_style(mvThemeStyle_Button_TextAlignX, get_value(sender)[0], item="proof")
-            set_theme_style(mvThemeStyle_Button_TextAlignY, get_value(sender)[1], item="proof")
+            set_theme_style(9130, get_value(sender)[0])
+            set_theme_style(9131, get_value(sender)[1])
         add_slider_float2("individual style2",max_value=14.0,callback=apply_proof_style)
         with collapsing_header("Window options##demo"):
             with managed_columns("Window Options Col##demo", 3, border=False):
