@@ -9,6 +9,7 @@ namespace Marvel {
 	PyObject* set_table_data      (PyObject * self, PyObject * args, PyObject * kwargs);
 	PyObject* get_table_data      (PyObject * self, PyObject * args, PyObject * kwargs);
 	PyObject* set_headers         (PyObject * self, PyObject * args, PyObject * kwargs);
+	PyObject* hide_headers        (PyObject * self, PyObject * args, PyObject * kwargs);	
 	PyObject* clear_table         (PyObject * self, PyObject * args, PyObject * kwargs);
 	PyObject* get_table_item      (PyObject * self, PyObject * args, PyObject * kwargs);
 	PyObject* set_table_item      (PyObject * self, PyObject * args, PyObject * kwargs);

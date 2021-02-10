@@ -32,6 +32,7 @@ namespace Marvel {
 		void addColumn     (const std::string& name, const std::vector<std::string>& column);
 		void insertColumn  (int column_index, const std::string& name, const std::vector<std::string>& column);
 		void deleteColumn  (int column);
+		void hideHeaders   (const bool& hide);
 		void clearTable    ();
 		int  getColumnCount() const { return (int)m_columns; }
 
@@ -54,6 +55,7 @@ namespace Marvel {
 		std::vector<std::vector<std::string>> m_hashValues;
 		std::vector<std::vector<std::string>> m_values;
 		size_t                                m_columns;
+		bool                                  m_hideHeaders;
 
 	};
 

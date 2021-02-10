@@ -1002,6 +1002,10 @@ def set_individual_color(item: str, id: int, color: List[float]) -> None:
 	"""Sets an color of a theme item."""
 	...
 
+def hide_headers(table: str, headers: List[str]) -> None:
+	"""Hide a tables headers."""
+	...
+
 def set_item_callback(item: str, callback: Callable, *, callback_data: Any = None) -> None:
 	"""Sets an item's callback if applicable."""
 	...

@@ -29,6 +29,7 @@ namespace Marvel {
 		m_height = 200;
 		m_headers = headers;
 		m_columns = headers.size();
+		m_hideHeaders = false;
 	}
 
 	bool mvTable::isIndexValid(int row, int column) const
@@ -163,6 +164,11 @@ namespace Marvel {
 		
 		return ToPyList(selections);
 	}
+
+	void mvTable::hideHeaders(const bool& hide)
+	{
+		m_hideHeaders = hide;
+	}	
 
 	void mvTable::addHeaders(const std::vector<std::string>& headers) 
 	{
@@ -542,13 +548,15 @@ namespace Marvel {
 		ImGui::Separator();
 		if(m_columns > 0)
 			ImGui::Columns((int)m_columns, nullptr, true);
-
-		for (auto& header : m_headers)
-		{
-			ImGui::Text("%s", header.c_str());
-			ImGui::NextColumn();
+		
+		if (!m_hideHeaders) {
+			for (auto& header : m_headers)
+			{
+				ImGui::Text("%s", header.c_str());
+				ImGui::NextColumn();
+			}
+			ImGui::Separator();
 		}
-		ImGui::Separator();
 
 		ImVec4 alt_color = ImVec4(ImGui::GetStyleColorVec4(ImGuiCol_Header));
 		alt_color.w = 0.10f;
