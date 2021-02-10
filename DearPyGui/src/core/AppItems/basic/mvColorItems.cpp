@@ -244,6 +244,56 @@ namespace Marvel {
 
 	}
 
+#ifdef MV_CPP
+
+	void add_color_button(const char* name, const mvColorButtonConfig& config)
+	{
+		auto item = CreateRef<mvColorButton>(name, config);
+
+		mvApp::GetApp()->getItemRegistry().addItemWithRuntimeChecks(item, config.parent.c_str(), config.before.c_str());
+	}
+
+	void add_color_button(const char* name, mvCallable callable) // ,array color)
+	{
+		mvColorButtonConfig config;
+		config.callback = callable;
+		//config.color = color;
+		add_color_button(name, config);
+	}
+
+	void add_color_edit3(const char* name, const mvColorEdit3Config& config)
+	{
+		auto item = CreateRef<mvColorEdit3>(name, config);
+		
+		mvApp::GetApp()->getItemRegistry().addItemWithRuntimeChecks(item, config.parent.c_str(), config.before.c_str());
+	}
+
+	void add_color_edit4(const char* name, const mvColorEdit4Config& config)
+	{
+		auto item = CreateRef<mvColorEdit4>(name, config);
+
+		mvApp::GetApp()->getItemRegistry().addItemWithRuntimeChecks(item, config.parent.c_str(), config.before.c_str());
+	}
+
+	void add_color_picker3(const char* name, const mvColorPicker3Config& config)
+	{
+		auto item = CreateRef<mvColorPicker3>(name, config);
+
+		mvApp::GetApp()->getItemRegistry().addItemWithRuntimeChecks(item, config.parent.c_str(), config.before.c_str());
+	}
+
+	void add_color_picker4(const char* name, const mvColorPicker4Config& config)
+	{
+		auto item = CreateRef<mvColorPicker4>(name, config);
+
+		mvApp::GetApp()->getItemRegistry().addItemWithRuntimeChecks(item, config.parent.c_str(), config.before.c_str());
+	}
+#else
+#endif
+
+
+
+
 #ifndef MV_CPP
 
 	void mvColorPicker3::setExtraConfigDict(PyObject* dict)
