@@ -105,7 +105,7 @@ namespace Marvel {
 		m_selections.clear();
 	}
 
-	PyObject* mvTable::getPyValue() const
+	PyObject* mvTable::getPyValue()
 	{
 		return ToPyList(m_values);
 	}
