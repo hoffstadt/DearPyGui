@@ -3,364 +3,498 @@
 #include "mvApp.h"
 #include "mvUtilities.h"
 #include "mvAppLog.h"
-#include "mvValueStorage.h"
+#include "mvItemRegistry.h"
 
 namespace Marvel {
 
-	mvIntPtrBase::mvIntPtrBase(const std::string& name, int default_value, const std::string& dataSource)
+	mvIntPtrBase::mvIntPtrBase(const std::string& name, int default_value)
 		: 
 		mvAppItem(name)
 	{
-		if (dataSource.empty())
-		{
-			m_value = std::make_shared<int>(default_value);
-			mvApp::GetApp()->getValueStorage().RegisterExternalValue(name, StorageValueTypes::Int, this);
-		}
-		else
-			m_value = mvApp::GetApp()->getValueStorage().add_value(dataSource, default_value);
+		m_description.valueType = StorageValueTypes::Int;
+		m_value = std::make_shared<int>(default_value);
 
-		m_core_config.source = dataSource;
-	}
-	
-	mvIntPtrBase::~mvIntPtrBase()
-	{
-		if (m_core_config.source.empty())
-			mvApp::GetApp()->getValueStorage().DeleteValue(m_core_config.name);
 	}
 
 	void mvIntPtrBase::setDataSource(const std::string& dataSource)
 	{
 		if (dataSource == m_core_config.source) return;
-		m_value = mvApp::GetApp()->getValueStorage().add_value(dataSource, 0);
 		m_core_config.source = dataSource;
+
+		mvRef<mvAppItem> item = mvApp::GetApp()->getItemRegistry().getItem(dataSource);
+		if (!item)
+		{
+			ThrowPythonException("Source item not found.");
+			return;
+		}
+		if (item->getDescription().valueType != getDescription().valueType)
+		{
+			ThrowPythonException("Values types do not match");
+			return;
+		}
+		m_value = std::get<std::shared_ptr<int>>(item->getValue());
 	}
 
-	mvInt2PtrBase::mvInt2PtrBase(const std::string& name, int* default_value, const std::string& dataSource)
+	PyObject* mvIntPtrBase::getPyValue()
+	{
+		return ToPyInt(*m_value);
+	}
+
+	void mvIntPtrBase::setPyValue(PyObject* value)
+	{
+		*m_value = ToInt(value);
+	}
+
+	mvInt2PtrBase::mvInt2PtrBase(const std::string& name, int* default_value)
 		: 
 		mvAppItem(name)
 	{
-		if (dataSource.empty())
-		{
-			m_value = std::make_shared<std::array<int,2>>(std::array{ default_value[0], default_value[1] });
-			mvApp::GetApp()->getValueStorage().RegisterExternalValue(name, StorageValueTypes::Int2, this);
-		}
-		else
-			m_value = mvApp::GetApp()->getValueStorage().add_value(dataSource, std::array{ default_value[0], default_value[1] });
-
-		m_core_config.source = dataSource;
+		m_description.valueType = StorageValueTypes::Int2;
+		m_value = std::make_shared<std::array<int,2>>(std::array{ default_value[0], default_value[1] });
 	}
 
-	mvInt2PtrBase::~mvInt2PtrBase()
+	PyObject* mvInt2PtrBase::getPyValue()
 	{
-		if (m_core_config.source.empty())
-			mvApp::GetApp()->getValueStorage().DeleteValue(m_core_config.name);
+		return ToPyIntList(m_value->data(), 2);
+	}
+
+	void mvInt2PtrBase::setPyValue(PyObject* value)
+	{
+		std::vector<int> temp = ToIntVect(value);
+		std::array<int, 2> temp_array;
+		for (int i = 0; i < temp_array.size(); i++)
+			temp_array[i] = temp[i];
+		*m_value = temp_array;
 	}
 
 	void mvInt2PtrBase::setDataSource(const std::string& dataSource)
 	{
 		if (dataSource == m_core_config.source) return;
-		m_value = mvApp::GetApp()->getValueStorage().add_value(dataSource, std::array{ 0, 0 });
 		m_core_config.source = dataSource;
+
+		mvRef<mvAppItem> item = mvApp::GetApp()->getItemRegistry().getItem(dataSource);
+		if (!item)
+		{
+			ThrowPythonException("Source item not found.");
+			return;
+		}
+		if (item->getDescription().valueType != getDescription().valueType)
+		{
+			ThrowPythonException("Values types do not match");
+			return;
+		}
+		m_value = std::get<std::shared_ptr<std::array<int,2>>>(item->getValue());
 	}
 
-	mvInt3PtrBase::mvInt3PtrBase(const std::string& name, int* default_value, const std::string& dataSource)
+	mvInt3PtrBase::mvInt3PtrBase(const std::string& name, int* default_value)
 		: 
 		mvAppItem(name)
 	{
-		if (dataSource.empty())
-		{
-			m_value = std::make_shared<std::array<int, 3>>(std::array{ default_value[0], default_value[1], default_value[2] });
-			mvApp::GetApp()->getValueStorage().RegisterExternalValue(name, StorageValueTypes::Int3, this);
-		}
-		else
-			m_value = mvApp::GetApp()->getValueStorage().add_value(dataSource, std::array{ default_value[0], default_value[1], default_value[2] });
-
-		m_core_config.source = dataSource;
+		m_description.valueType = StorageValueTypes::Int3;
+		m_value = std::make_shared<std::array<int, 3>>(std::array{ default_value[0], default_value[1], default_value[2] });
 	}
 
-	mvInt3PtrBase::~mvInt3PtrBase()
+	PyObject* mvInt3PtrBase::getPyValue()
 	{
-		if (m_core_config.source.empty())
-			mvApp::GetApp()->getValueStorage().DeleteValue(m_core_config.name);
+		return ToPyIntList(m_value->data(), 3);
+	}
+
+	void mvInt3PtrBase::setPyValue(PyObject* value)
+	{
+		std::vector<int> temp = ToIntVect(value);
+		std::array<int, 3> temp_array;
+		for (int i = 0; i < temp_array.size(); i++)
+			temp_array[i] = temp[i];
+		*m_value = temp_array;
 	}
 
 	void mvInt3PtrBase::setDataSource(const std::string& dataSource)
 	{
 		if (dataSource == m_core_config.source) return;
-		m_value = mvApp::GetApp()->getValueStorage().add_value(dataSource, std::array{ 0, 0, 0 });
 		m_core_config.source = dataSource;
+
+		mvRef<mvAppItem> item = mvApp::GetApp()->getItemRegistry().getItem(dataSource);
+		if (!item)
+		{
+			ThrowPythonException("Source item not found.");
+			return;
+		}
+		if (item->getDescription().valueType != getDescription().valueType)
+		{
+			ThrowPythonException("Values types do not match");
+			return;
+		}
+		m_value = std::get<std::shared_ptr<std::array<int, 3>>>(item->getValue());
 	}
 
-	mvInt4PtrBase::mvInt4PtrBase(const std::string& name, int* default_value, const std::string& dataSource)
+	mvInt4PtrBase::mvInt4PtrBase(const std::string& name, int* default_value)
 		: mvAppItem(name)
 	{
-		if (dataSource.empty())
-		{
-			m_value = std::make_shared<std::array<int, 4>>(std::array{ default_value[0], default_value[1], default_value[2], default_value[3] });
-			mvApp::GetApp()->getValueStorage().RegisterExternalValue(name, StorageValueTypes::Int4, this);
-		}
-		else
-			m_value = mvApp::GetApp()->getValueStorage().add_value(dataSource, std::array{ default_value[0], default_value[1], default_value[2], default_value[3] });
-
-		m_core_config.source = dataSource;
+		m_description.valueType = StorageValueTypes::Int4;
+		m_value = std::make_shared<std::array<int, 4>>(std::array{ default_value[0], 
+			default_value[1], default_value[2], default_value[3] });
 	}
 
-	mvInt4PtrBase::~mvInt4PtrBase()
+	PyObject* mvInt4PtrBase::getPyValue()
 	{
-		if (m_core_config.source.empty())
-			mvApp::GetApp()->getValueStorage().DeleteValue(m_core_config.name);
+		return ToPyIntList(m_value->data(), 4);
+	}
+
+	void mvInt4PtrBase::setPyValue(PyObject* value)
+	{
+		std::vector<int> temp = ToIntVect(value);
+		std::array<int, 4> temp_array;
+		for (int i = 0; i < temp_array.size(); i++)
+			temp_array[i] = temp[i];
+		*m_value = temp_array;
 	}
 
 	void mvInt4PtrBase::setDataSource(const std::string& dataSource)
 	{
 		if (dataSource == m_core_config.source) return;
-		m_value = mvApp::GetApp()->getValueStorage().add_value(dataSource, std::array{ 0,0,0,0 });
 		m_core_config.source = dataSource;
+
+		mvRef<mvAppItem> item = mvApp::GetApp()->getItemRegistry().getItem(dataSource);
+		if (!item)
+		{
+			ThrowPythonException("Source item not found.");
+			return;
+		}
+		if (item->getDescription().valueType != getDescription().valueType)
+		{
+			ThrowPythonException("Values types do not match");
+			return;
+		}
+		m_value = std::get<std::shared_ptr<std::array<int, 4>>>(item->getValue());
 	}
 
-	mvFloatPtrBase::mvFloatPtrBase(const std::string& name, float default_value, const std::string& dataSource)
+	mvFloatPtrBase::mvFloatPtrBase(const std::string& name, float default_value)
 		: mvAppItem(name)
 	{
-		if (dataSource.empty())
-		{
-			m_value = std::make_shared<float>(default_value);
-			mvApp::GetApp()->getValueStorage().RegisterExternalValue(name, StorageValueTypes::Float, this);
-		}
-		else
-			m_value = mvApp::GetApp()->getValueStorage().add_value(dataSource, default_value);
-
-		m_core_config.source = dataSource;
+		m_description.valueType = StorageValueTypes::Float;
+		m_value = std::make_shared<float>(default_value);
 	}
 
-	mvFloatPtrBase::~mvFloatPtrBase()
+	PyObject* mvFloatPtrBase::getPyValue()
 	{
-		if (m_core_config.source.empty())
-			mvApp::GetApp()->getValueStorage().DeleteValue(m_core_config.name);
+		return ToPyFloat(*m_value);
+	}
+
+	void mvFloatPtrBase::setPyValue(PyObject* value)
+	{
+		*m_value = ToFloat(value);
 	}
 
 	void mvFloatPtrBase::setDataSource(const std::string& dataSource)
 	{
 		if (dataSource == m_core_config.source) return;
-		m_value = mvApp::GetApp()->getValueStorage().add_value(dataSource, 0.0f);
 		m_core_config.source = dataSource;
+
+		mvRef<mvAppItem> item = mvApp::GetApp()->getItemRegistry().getItem(dataSource);
+		if (!item)
+		{
+			ThrowPythonException("Source item not found.");
+			return;
+		}
+		if (item->getDescription().valueType != getDescription().valueType)
+		{
+			ThrowPythonException("Values types do not match");
+			return;
+		}
+		m_value = std::get<std::shared_ptr<float>>(item->getValue());
 	}
 
-	mvFloat2PtrBase::mvFloat2PtrBase(const std::string& name, float* default_value, const std::string& dataSource)
+	mvFloat2PtrBase::mvFloat2PtrBase(const std::string& name, float* default_value)
 		: mvAppItem(name)
 	{
-		if (dataSource.empty())
-		{
-			m_value = std::make_shared<std::array<float, 2>>(std::array{ default_value[0], default_value[1] });
-			mvApp::GetApp()->getValueStorage().RegisterExternalValue(name, StorageValueTypes::Float2, this);
-		}
-		else
-			m_value = mvApp::GetApp()->getValueStorage().add_value(dataSource, std::array{ default_value[0], default_value[1] });
-
-		m_core_config.source = dataSource;
+		m_description.valueType = StorageValueTypes::Float2;
+		m_value = std::make_shared<std::array<float, 2>>(std::array{ default_value[0], default_value[1] });
 	}
 
-	mvFloat2PtrBase::~mvFloat2PtrBase()
+	PyObject* mvFloat2PtrBase::getPyValue()
 	{
-		if (m_core_config.source.empty())
-			mvApp::GetApp()->getValueStorage().DeleteValue(m_core_config.name);
+		return ToPyFloatList(m_value->data(), 2);
+	}
+
+	void mvFloat2PtrBase::setPyValue(PyObject* value)
+	{
+		std::vector<float> temp = ToFloatVect(value);
+		std::array<float, 2> temp_array;
+		for (int i = 0; i < temp_array.size(); i++)
+			temp_array[i] = temp[i];
+		*m_value = temp_array;
 	}
 
 	void mvFloat2PtrBase::setDataSource(const std::string& dataSource)
 	{
 		if (dataSource == m_core_config.source) return;
-		m_value = mvApp::GetApp()->getValueStorage().add_value(dataSource, std::array{ 0.0f, 0.0f });
 		m_core_config.source = dataSource;
+
+		mvRef<mvAppItem> item = mvApp::GetApp()->getItemRegistry().getItem(dataSource);
+		if (!item)
+		{
+			ThrowPythonException("Source item not found.");
+			return;
+		}
+		if (item->getDescription().valueType != getDescription().valueType)
+		{
+			ThrowPythonException("Values types do not match");
+			return;
+		}
+		m_value = std::get<std::shared_ptr<std::array<float, 2>>>(item->getValue());
 	}
 
-	mvFloat3PtrBase::mvFloat3PtrBase(const std::string& name, float* default_value, const std::string& dataSource)
+	mvFloat3PtrBase::mvFloat3PtrBase(const std::string& name, float* default_value)
 		: mvAppItem(name)
 	{
-		if (dataSource.empty())
-		{
-			m_value = std::make_shared<std::array<float, 3>>(std::array{ default_value[0], default_value[1], default_value[2] });
-			mvApp::GetApp()->getValueStorage().RegisterExternalValue(name, StorageValueTypes::Float3, this);
-		}
-		else
-			m_value = mvApp::GetApp()->getValueStorage().add_value(dataSource, std::array{ default_value[0], default_value[1], default_value[2] });
-
-		m_core_config.source = dataSource;
+		m_description.valueType = StorageValueTypes::Float3;
+		m_value = std::make_shared<std::array<float, 3>>(std::array{ default_value[0], default_value[1], default_value[2] });
 	}
 
-	mvFloat3PtrBase::~mvFloat3PtrBase()
+	PyObject* mvFloat3PtrBase::getPyValue()
 	{
-		if (m_core_config.source.empty())
-			mvApp::GetApp()->getValueStorage().DeleteValue(m_core_config.name);
+		return ToPyFloatList(m_value->data(), 3);
+	}
+
+	void mvFloat3PtrBase::setPyValue(PyObject* value)
+	{
+		std::vector<float> temp = ToFloatVect(value);
+		std::array<float, 3> temp_array;
+		for (int i = 0; i < temp_array.size(); i++)
+			temp_array[i] = temp[i];
+		*m_value = temp_array;
 	}
 
 	void mvFloat3PtrBase::setDataSource(const std::string& dataSource)
 	{
 		if (dataSource == m_core_config.source) return;
-		m_value = mvApp::GetApp()->getValueStorage().add_value(dataSource, std::array{ 0.0f, 0.0f, 0.0f });
 		m_core_config.source = dataSource;
+
+		mvRef<mvAppItem> item = mvApp::GetApp()->getItemRegistry().getItem(dataSource);
+		if (!item)
+		{
+			ThrowPythonException("Source item not found.");
+			return;
+		}
+		if (item->getDescription().valueType != getDescription().valueType)
+		{
+			ThrowPythonException("Values types do not match");
+			return;
+		}
+		m_value = std::get<std::shared_ptr<std::array<float, 3>>>(item->getValue());
 	}
 
-	mvFloat4PtrBase::mvFloat4PtrBase(const std::string& name, float* default_value, const std::string& dataSource)
+	mvFloat4PtrBase::mvFloat4PtrBase(const std::string& name, float* default_value)
 		: mvAppItem(name)
 	{
-		if (dataSource.empty())
-		{
-			m_value = std::make_shared<std::array<float, 4>>(std::array{ default_value[0], default_value[1], default_value[2], default_value[3] });
-			mvApp::GetApp()->getValueStorage().RegisterExternalValue(name, StorageValueTypes::Float4, this);
-		}
-		else
-			m_value = mvApp::GetApp()->getValueStorage().add_value(dataSource,
-				std::array{ default_value[0], default_value[1], default_value[2], default_value[3] });
-
-		m_core_config.source = dataSource;
+		m_description.valueType = StorageValueTypes::Float4;
+		m_value = std::make_shared<std::array<float, 4>>(std::array{ default_value[0], default_value[1], default_value[2], default_value[3] });
 	}
 
-	mvFloat4PtrBase::~mvFloat4PtrBase()
+	PyObject* mvFloat4PtrBase::getPyValue()
 	{
-		if (m_core_config.source.empty())
-			mvApp::GetApp()->getValueStorage().DeleteValue(m_core_config.name);
+		return ToPyFloatList(m_value->data(), 4);
+	}
+
+	void mvFloat4PtrBase::setPyValue(PyObject* value)
+	{
+		std::vector<float> temp = ToFloatVect(value);
+		std::array<float, 4> temp_array;
+		for (int i = 0; i < temp_array.size(); i++)
+			temp_array[i] = temp[i];
+		*m_value = temp_array;
 	}
 
 	void mvFloat4PtrBase::setDataSource(const std::string& dataSource)
 	{
 		if (dataSource == m_core_config.source) return;
-		m_value = mvApp::GetApp()->getValueStorage().add_value(dataSource, std::array{ 0.0f, 0.0f, 0.0f, 0.0f });
 		m_core_config.source = dataSource;
+
+		mvRef<mvAppItem> item = mvApp::GetApp()->getItemRegistry().getItem(dataSource);
+		if (!item)
+		{
+			ThrowPythonException("Source item not found.");
+			return;
+		}
+		if (item->getDescription().valueType != getDescription().valueType)
+		{
+			ThrowPythonException("Values types do not match");
+			return;
+		}
+		m_value = std::get<std::shared_ptr<std::array<float, 4>>>(item->getValue());
 	}
 
-	mvColorPtrBase::mvColorPtrBase(const std::string& name, float* default_value, const std::string& dataSource)
+	mvColorPtrBase::mvColorPtrBase(const std::string& name, float* default_value)
 		: mvAppItem(name)
 	{
-		if (dataSource.empty())
-		{
-			m_value = std::make_shared<std::array<float, 4>>(std::array{ default_value[0], default_value[1], default_value[2], default_value[3] });
-			mvApp::GetApp()->getValueStorage().RegisterExternalValue(name, StorageValueTypes::Float4, this);
-		}
-		else
-			m_value = mvApp::GetApp()->getValueStorage().add_value(dataSource, 
-				std::array{ default_value[0], default_value[1], default_value[2], default_value[3] });
-
-		m_core_config.source = dataSource;
+		m_description.valueType = StorageValueTypes::Color;
+		m_value = std::make_shared<std::array<float, 4>>(std::array{ default_value[0], default_value[1], default_value[2], default_value[3] });
 	}
 
-	mvColorPtrBase::~mvColorPtrBase()
+	PyObject* mvColorPtrBase::getPyValue()
 	{
-		if (m_core_config.source.empty())
-			mvApp::GetApp()->getValueStorage().DeleteValue(m_core_config.name);
+		mvColor color = { 
+			(int)(m_value->data()[0] * 255), 
+			(int)(m_value->data()[1] * 255), 
+			(int)(m_value->data()[2] * 255), 
+			(int)(m_value->data()[3] * 255), true };
+		return ToPyColor(color);
+	}
+
+	void mvColorPtrBase::setPyValue(PyObject* value)
+	{
+		std::vector<float> temp = ToFloatVect(value);
+		std::array<float, 4> temp_array;
+		for (int i = 0; i < temp_array.size(); i++)
+			temp_array[i] = temp[i];
+		*m_value = temp_array;
 	}
 
 	void mvColorPtrBase::setDataSource(const std::string& dataSource)
 	{
 		if (dataSource == m_core_config.source) return;
-		m_value = mvApp::GetApp()->getValueStorage().add_value(dataSource, std::array{ 0.0f, 0.0f, 0.0f, 0.0f });
 		m_core_config.source = dataSource;
+
+		mvRef<mvAppItem> item = mvApp::GetApp()->getItemRegistry().getItem(dataSource);
+		if (!item)
+		{
+			ThrowPythonException("Source item not found.");
+			return;
+		}
+		if (item->getDescription().valueType != getDescription().valueType)
+		{
+			ThrowPythonException("Values types do not match");
+			return;
+		}
+		m_value = std::get<std::shared_ptr<std::array<float, 4>>>(item->getValue());
 	}
 
-	mvBoolPtrBase::mvBoolPtrBase(const std::string& name, bool default_value, const std::string& dataSource)
+	mvBoolPtrBase::mvBoolPtrBase(const std::string& name, bool default_value)
 		: mvAppItem(name)
 	{
 		m_description.valueType = StorageValueTypes::Bool;
 
-		if (dataSource.empty())
-		{
-			m_value = std::make_shared<bool>(default_value);
-			mvApp::GetApp()->getValueStorage().RegisterExternalValue(name, StorageValueTypes::Bool, this);
-		}
-		else
-			m_value = mvApp::GetApp()->getValueStorage().add_value(dataSource, default_value);
-
-		m_core_config.source = dataSource;
-
+		m_value = std::make_shared<bool>(default_value);
 	}
 
-	mvBoolPtrBase::~mvBoolPtrBase()
+	PyObject* mvBoolPtrBase::getPyValue()
 	{
-		if (m_core_config.source.empty())
-			mvApp::GetApp()->getValueStorage().DeleteValue(m_core_config.name);
+		return ToPyBool(*m_value);
+	}
+
+	void mvBoolPtrBase::setPyValue(PyObject* value)
+	{
+		*m_value = ToBool(value);
 	}
 
 	void mvBoolPtrBase::setDataSource(const std::string& dataSource)
 	{
 		if (dataSource == m_core_config.source) return;
-		m_value = mvApp::GetApp()->getValueStorage().add_value(dataSource, false);
 		m_core_config.source = dataSource;
+
+		mvRef<mvAppItem> item = mvApp::GetApp()->getItemRegistry().getItem(dataSource);
+		if (!item)
+		{
+			ThrowPythonException("Source item not found.");
+			return;
+		}
+		if (item->getDescription().valueType != getDescription().valueType)
+		{
+			ThrowPythonException("Values types do not match");
+			return;
+		}
+		m_value = std::get<std::shared_ptr<bool>>(item->getValue());
 	}
 
-	mvStringPtrBase::mvStringPtrBase(const std::string& name, const std::string& default_value, const std::string& dataSource)
+	mvStringPtrBase::mvStringPtrBase(const std::string& name, const std::string& default_value)
 		: mvAppItem(name)
 	{
-		if (dataSource.empty())
-		{
-			m_value = std::make_shared<std::string>(default_value);
-			mvApp::GetApp()->getValueStorage().RegisterExternalValue(name, StorageValueTypes::String, this);
-		}
-		else
-			m_value = mvApp::GetApp()->getValueStorage().add_value(dataSource, default_value);
+		m_description.valueType = StorageValueTypes::String;
+		m_value = std::make_shared<std::string>(default_value);
+	}
 
-		m_core_config.source = dataSource;
+	PyObject* mvStringPtrBase::getPyValue()
+	{
+		return ToPyString(*m_value);
+	}
+
+	void mvStringPtrBase::setPyValue(PyObject* value)
+	{
+		*m_value = ToString(value);
 	}
 
 	void mvStringPtrBase::setDataSource(const std::string& dataSource)
 	{
 		if (dataSource == m_core_config.source) return;
-		m_value = mvApp::GetApp()->getValueStorage().add_value(dataSource, std::string(""));
 		m_core_config.source = dataSource;
+
+		mvRef<mvAppItem> item = mvApp::GetApp()->getItemRegistry().getItem(dataSource);
+		if (!item)
+		{
+			ThrowPythonException("Source item not found.");
+			return;
+		}
+		if (item->getDescription().valueType != getDescription().valueType)
+		{
+			ThrowPythonException("Values types do not match");
+			return;
+		}
+		m_value = std::get<std::shared_ptr<std::string>>(item->getValue());
 	}
 
-	mvStringPtrBase::~mvStringPtrBase()
-	{
-		if (m_core_config.source.empty())
-			mvApp::GetApp()->getValueStorage().DeleteValue(m_core_config.name);
-	}
-
-	mvTimePtrBase::mvTimePtrBase(const std::string& name, const tm& default_value, const std::string& dataSource)
+	mvTimePtrBase::mvTimePtrBase(const std::string& name, const tm& default_value)
 		: mvAppItem(name)
 	{
-		if (dataSource.empty())
-		{
-			m_value = std::make_shared<tm>(default_value);
-			m_imvalue = std::make_shared<ImPlotTime>(ImPlot::MkGmtTime(m_value.get()));
-			mvApp::GetApp()->getValueStorage().RegisterExternalValue(name, StorageValueTypes::Time, this);
-		}
-		else
-		{
-			m_value = mvApp::GetApp()->getValueStorage().add_value(dataSource, default_value);
-			m_imvalue = std::make_shared<ImPlotTime>(ImPlot::MkGmtTime(m_value.get()));
-		}
 
-		m_core_config.source = dataSource;
+		m_value = std::make_shared<tm>(default_value);
+		m_imvalue = std::make_shared<ImPlotTime>(ImPlot::MkGmtTime(m_value.get()));
 	}
 
-	mvTimePtrBase::~mvTimePtrBase()
+	PyObject* mvTimePtrBase::getPyValue()
 	{
-		if (m_core_config.source.empty())
-			mvApp::GetApp()->getValueStorage().DeleteValue(m_core_config.name);
+		return ToPyTime(*m_value);
 	}
 
-	mvFloatVectPtrBase::mvFloatVectPtrBase(const std::string& name, const std::vector<float>& default_value, const std::string& dataSource)
+	void mvTimePtrBase::setPyValue(PyObject* value)
+	{
+		*m_value = ToTime(value);
+		ImPlot::GetGmtTime(*m_imvalue, m_value.get());
+	}
+
+	mvFloatVectPtrBase::mvFloatVectPtrBase(const std::string& name, const std::vector<float>& default_value)
 		: mvAppItem(name)
 	{
-		if (dataSource.empty())
-		{
-			m_value = std::make_shared<std::vector<float>>(default_value);
-			mvApp::GetApp()->getValueStorage().RegisterExternalValue(name, StorageValueTypes::FloatVect, this);
-		}
-		else
-			m_value = mvApp::GetApp()->getValueStorage().add_value(dataSource, default_value);
-
-		m_core_config.source = dataSource;
+		m_description.valueType = StorageValueTypes::FloatVect;
+		m_value = std::make_shared<std::vector<float>>(default_value);
 	}
 
-	mvFloatVectPtrBase::~mvFloatVectPtrBase()
+	PyObject* mvFloatVectPtrBase::getPyValue()
 	{
-		if (m_core_config.source.empty())
-			mvApp::GetApp()->getValueStorage().DeleteValue(m_core_config.name);
+		return ToPyList(*m_value);
+	}
+
+	void mvFloatVectPtrBase::setPyValue(PyObject* value)
+	{
+		*m_value = ToFloatVect(value);
 	}
 
 	void mvFloatVectPtrBase::setDataSource(const std::string& dataSource)
 	{
 		if (dataSource == m_core_config.source) return;
-		m_value = mvApp::GetApp()->getValueStorage().add_value(dataSource, std::vector<float>{});
 		m_core_config.source = dataSource;
+
+		mvRef<mvAppItem> item = mvApp::GetApp()->getItemRegistry().getItem(dataSource);
+		if (!item)
+		{
+			ThrowPythonException("Source item not found.");
+			return;
+		}
+		if (item->getDescription().valueType != getDescription().valueType)
+		{
+			ThrowPythonException("Values types do not match");
+			return;
+		}
+		m_value = std::get<std::shared_ptr<std::vector<float>>>(item->getValue());
 	}
 
 	mvBaseWindowAppitem::mvBaseWindowAppitem(const std::string& name)

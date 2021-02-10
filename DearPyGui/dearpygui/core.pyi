@@ -390,10 +390,6 @@ def add_tree_node(name: str, *, label: str = '', show: bool = True, parent: str 
 	"""Adds a tree node to add items to. Must be closed with the end command."""
 	...
 
-def add_value(name: str, value: Any) -> None:
-	"""Adds a value to the value storage."""
-	...
-
 def add_vline_series(plot: str, name: str, x: List[float], *, color: List[float] = (0, 0, 0, -1), weight: float = 1.0, update_bounds: bool = True, axis: int = 0) -> None:
 	"""Adds a infinite vertical line series to a plot."""
 	...

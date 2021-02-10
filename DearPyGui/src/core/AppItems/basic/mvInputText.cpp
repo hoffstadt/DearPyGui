@@ -37,7 +37,7 @@ namespace Marvel {
 
 	mvInputText::mvInputText(const std::string& name, const std::string& default_value, const std::string& dataSource)
 		: 
-		mvStringPtrBase(name, default_value, dataSource)
+		mvStringPtrBase(name, default_value)
 	{
 		m_description.disableAllowed = true;
 	}

@@ -20,7 +20,7 @@ namespace Marvel {
 	}
 
 	mvMenu::mvMenu(const std::string& name)
-			: mvBoolPtrBase(name, false, name)
+			: mvBoolPtrBase(name, false)
 	{
 		m_description.container = true;
 	}

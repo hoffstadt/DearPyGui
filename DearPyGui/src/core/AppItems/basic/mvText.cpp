@@ -60,7 +60,7 @@ namespace Marvel {
 
 	mvText::mvText(const std::string& name, const std::string& default_value, const std::string& dataSource)
 		: 
-		mvStringPtrBase(name, default_value.empty() ? name : default_value, dataSource)
+		mvStringPtrBase(name, default_value.empty() ? name : default_value)
 	{
 		m_description.duplicatesAllowed = true;
 	}
@@ -93,7 +93,7 @@ namespace Marvel {
 
 	mvLabelText::mvLabelText(const std::string& name, const std::string& value, const std::string& dataSource)
 		: 
-		mvStringPtrBase(name, value, dataSource)
+		mvStringPtrBase(name, value)
 	{
 		m_label = FindRenderedTextEnd(m_core_config.name.c_str());
 	}

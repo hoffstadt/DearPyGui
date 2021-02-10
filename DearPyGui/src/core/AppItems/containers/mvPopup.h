@@ -34,7 +34,7 @@ namespace Marvel {
 	public:
 
 		mvPopup(const std::string& name, mvAppItem* parentAddress)
-			: mvBoolPtrBase(name, false, name), m_parentAddress(parentAddress)
+			: mvBoolPtrBase(name, false), m_parentAddress(parentAddress)
 		{
 			m_description.container = true;
 		}

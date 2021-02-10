@@ -24,7 +24,7 @@ namespace Marvel {
 	}
 
 	mvMenuItem::mvMenuItem(const std::string& name)
-		: mvBoolPtrBase(name, false, name) {}
+		: mvBoolPtrBase(name, false) {}
 
 	void mvMenuItem::draw()
 	{

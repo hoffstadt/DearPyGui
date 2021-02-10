@@ -14,7 +14,6 @@
 #include "mvThemeManager.h"
 #include "mvCallbackRegistry.h"
 #include "mvTextureStorage.h"
-#include "mvValueStorage.h"
 #include "mvItemRegistry.h"
 
 namespace Marvel {
@@ -160,7 +159,6 @@ namespace Marvel {
 		// create managers
 		m_itemRegistry = CreateOwnedPtr<mvItemRegistry>();
 		m_textureStorage = CreateOwnedPtr<mvTextureStorage>();
-		m_valueStorage = CreateOwnedPtr<mvValueStorage>();
 		m_themeManager = CreateOwnedPtr<mvThemeManager>();
         m_callbackRegistry = CreateOwnedPtr<mvCallbackRegistry>();
 
@@ -179,11 +177,6 @@ namespace Marvel {
 	mvTextureStorage& mvApp::getTextureStorage() 
 	{ 
 		return *m_textureStorage; 
-	}
-
-	mvValueStorage& mvApp::getValueStorage() 
-	{ 
-		return *(m_valueStorage.get()); 
 	}
 
 	bool mvApp::onEvent(mvEvent& event)

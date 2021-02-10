@@ -18,7 +18,7 @@ namespace Marvel {
 	}
 
 	mvMenuBar::mvMenuBar(const std::string& name)
-			: mvBoolPtrBase(name, true, name)
+			: mvBoolPtrBase(name, true)
 		{
 			m_description.container = true;
 

@@ -33,7 +33,7 @@ namespace Marvel{
 
 	public:
 		mvSimplePlot(const std::string& name, const std::vector<float>& value)
-			: mvFloatVectPtrBase(name, value, "") 
+			: mvFloatVectPtrBase(name, value) 
 		{
 
 			m_description.ignoreSizeUpdate = true;

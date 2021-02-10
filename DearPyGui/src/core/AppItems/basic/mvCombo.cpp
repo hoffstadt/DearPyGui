@@ -1,7 +1,6 @@
 #include <utility>
 #include "mvCombo.h"
 #include "mvApp.h"
-#include "mvValueStorage.h"
 #include "mvItemRegistry.h"
 
 namespace Marvel {
@@ -33,7 +32,7 @@ namespace Marvel {
 	}
 
 	mvCombo::mvCombo(const std::string& name, const std::string& default_value, const std::string& dataSource)
-		: mvStringPtrBase(name, default_value, dataSource)
+		: mvStringPtrBase(name, default_value)
 	{
 		m_description.disableAllowed = true;
 	}

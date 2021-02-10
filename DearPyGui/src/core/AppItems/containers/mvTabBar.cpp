@@ -20,12 +20,12 @@ namespace Marvel {
 
 	mvTabBar::mvTabBar(const std::string& name)
 		:
-		mvStringPtrBase(name, "", name)
+		mvStringPtrBase(name, "")
 	{
 		m_description.container = true;
 	}
 
-	std::string& mvTabBar::getValue()
+	std::string& mvTabBar::getSpecificValue()
 	{
 		return *m_value;
 	}

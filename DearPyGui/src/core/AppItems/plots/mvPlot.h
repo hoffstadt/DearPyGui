@@ -199,7 +199,6 @@ namespace Marvel {
 		float       thickness;
 		bool        y_line;
 		mvCallable  callback;
-		double      dummyValue;
 		std::string source;
 	};
 
@@ -214,8 +213,6 @@ namespace Marvel {
 		mvColor     color;
 		float       radius;
 		mvCallable  callback;
-		double      dummyx;
-		double      dummyy;
 		std::string source;
 	};
 

@@ -12,7 +12,7 @@ namespace Marvel {
 		MV_APPITEM_TYPE_OLD_SYSTEM(mvAppItemType::Unindent, "unindent")
 
 		mvUnindent(const std::string& name, float default_value)
-			: mvFloatPtrBase(name, default_value, name)
+			: mvFloatPtrBase(name, default_value)
 		{
 			m_description.duplicatesAllowed = true;
 		}

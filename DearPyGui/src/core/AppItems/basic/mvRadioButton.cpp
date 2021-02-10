@@ -1,7 +1,6 @@
 #include <utility>
 #include "mvRadioButton.h"
 #include "mvApp.h"
-#include "mvValueStorage.h"
 #include "mvItemRegistry.h"
 
 namespace Marvel {
@@ -24,7 +23,7 @@ namespace Marvel {
 	}
 
 	mvRadioButton::mvRadioButton(const std::string& name, int default_value, const std::string& dataSource)
-		: mvIntPtrBase(name, default_value, dataSource)
+		: mvIntPtrBase(name, default_value)
 	{
 		m_description.disableAllowed = true;
 	}

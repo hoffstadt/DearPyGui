@@ -35,6 +35,14 @@ namespace Marvel {
 		mvEventBus::UnSubscribe(this);
 	}
 
+	mvValueVariant mvItemRegistry::getValue(const std::string& name)
+	{
+		mvRef<mvAppItem> item = getItem(name);
+		if (item)
+			return item->getValue();
+		return nullptr;
+	}
+
 	bool mvItemRegistry::deleteItem(const std::string& name, bool childrenOnly)
 	{
 
