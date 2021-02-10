@@ -34,12 +34,12 @@ namespace Marvel {
 		MV_END_COLOR_CONSTANTS
 
 		MV_START_STYLE_CONSTANTS
-			MV_CREATE_CONSTANT_PAIR(mvThemeStyle_InputText_Rounding),
-			MV_CREATE_CONSTANT_PAIR(mvThemeStyle_InputText_BorderSize),
-			MV_CREATE_CONSTANT_PAIR(mvThemeStyle_InputText_PaddingX),
-			MV_CREATE_CONSTANT_PAIR(mvThemeStyle_InputText_PaddingY),
-			MV_CREATE_CONSTANT_PAIR(mvThemeStyle_InputText_InnerSpacingX),
-			MV_CREATE_CONSTANT_PAIR(mvThemeStyle_InputText_InnerSpacingY),
+			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_InputText_Rounding		, 0, 12),
+			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_InputText_BorderSize		, 0,  1),
+			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_InputText_PaddingX		, 0, 20),
+			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_InputText_PaddingY		, 0, 20),
+			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_InputText_InnerSpacingX	, 0, 20),
+			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_InputText_InnerSpacingY	, 0, 20),
 		MV_END_STYLE_CONSTANTS
 
 	public:
