@@ -269,14 +269,15 @@ namespace Marvel {
 		{
 			if (GetType(name) != StorageValueTypes::FloatVect)
 				return s_floatvects["common_int"];
-			return s_floatvects[name];
+			
 		}
 		else
 		{
 			s_typeStorage[name] = StorageValueTypes::FloatVect;
 			s_floatvects[name] = std::make_shared<std::vector<float>>(value);
-			return s_floatvects[name];
 		}
+
+		return s_floatvects[name];
 	}
 
 	template<>
