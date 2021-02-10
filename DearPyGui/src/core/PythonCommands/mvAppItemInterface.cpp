@@ -1,7 +1,6 @@
 #include "mvAppItemInterface.h"
 #include "mvEvents.h"
 #include <ImGuiFileDialog.h>
-#include "mvValueStorage.h"
 #include "mvItemRegistry.h"
 
 namespace Marvel {
@@ -173,11 +172,6 @@ namespace Marvel {
 			{mvPythonDataType::String, "name"},
 			{mvPythonDataType::Object, "value"}
 		}, "Sets an item's value if applicable.", "bool", "Widget Commands") });
-
-		parsers->insert({ "add_value", mvPythonParser({
-			{mvPythonDataType::String, "name"},
-			{mvPythonDataType::Object, "value"}
-		}, "Adds a value to the value storage.", "None", "Widget Commands") });
 
 		parsers->insert({ "show_item", mvPythonParser({
 			{mvPythonDataType::String, "name"}
@@ -709,15 +703,13 @@ namespace Marvel {
 		if (!(*mvApp::GetApp()->getParsers())["get_value"].parse(args, kwargs, __FUNCTION__, &name))
 			return GetPyNone();
 
-		auto fut = mvApp::GetApp()->getCallbackRegistry().submit([=]()
-			{
-				return &mvApp::GetApp()->getValueStorage();
-			});
-
 		std::lock_guard<std::mutex> lk(mvApp::GetApp()->GetApp()->getMutex());
-		PyObject* result = mvApp::GetApp()->getValueStorage().GetPyValue(name);
+		auto item = mvApp::GetApp()->getItemRegistry().getItem(name);
+		if (item)
+			return item->getPyValue();
 
-		return result;
+		return GetPyNone();
+
 	}
 
 	PyObject* set_value(PyObject* self, PyObject* args, PyObject* kwargs)
@@ -732,23 +724,12 @@ namespace Marvel {
 			Py_XINCREF(value);
 
 		std::lock_guard<std::mutex> lk(mvApp::GetApp()->GetApp()->getMutex());
-		mvApp::GetApp()->getValueStorage().SetPyValue(name, value);
+
+		auto item = mvApp::GetApp()->getItemRegistry().getItem(name);
+		if (item)
+			item->setPyValue(value);
 
 		Py_XDECREF(value);
-
-		return GetPyNone();
-	}
-
-	PyObject* add_value(PyObject* self, PyObject* args, PyObject* kwargs)
-	{
-		const char* name;
-		PyObject* value;
-
-		if (!(*mvApp::GetApp()->getParsers())["add_value"].parse(args, kwargs, __FUNCTION__, &name, &value))
-			return GetPyNone();
-
-		std::lock_guard<std::mutex> lk(mvApp::GetApp()->GetApp()->getMutex());
-		mvApp::GetApp()->getValueStorage().AddPyValue(name, value);
 
 		return GetPyNone();
 	}

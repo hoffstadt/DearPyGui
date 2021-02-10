@@ -4,7 +4,6 @@
 #include "mvApp.h"
 #include "mvInput.h"
 #include "mvTextureStorage.h"
-#include "mvValueStorage.h"
 #include "mvItemRegistry.h"
 
 namespace Marvel {
@@ -169,21 +168,6 @@ namespace Marvel {
 #endif // !MV_CPP
 
 				DebugItem("Stored Textures: ", std::to_string(mvApp::GetApp()->getTextureStorage().getTextureCount()).c_str());
-				ImGui::Separator();
-				DebugItem("Int Values", std::to_string(mvApp::GetApp()->getValueStorage().s_ints.size()).c_str());
-				DebugItem("Int2 Values", std::to_string(mvApp::GetApp()->getValueStorage().s_int2s.size()).c_str());
-				DebugItem("Int3 Values", std::to_string(mvApp::GetApp()->getValueStorage().s_int3s.size()).c_str());
-				DebugItem("Int4 Values", std::to_string(mvApp::GetApp()->getValueStorage().s_int4s.size()).c_str());
-				ImGui::Separator();
-				DebugItem("Float Values", std::to_string(mvApp::GetApp()->getValueStorage().s_floats.size()).c_str());
-				DebugItem("Float2 Values", std::to_string(mvApp::GetApp()->getValueStorage().s_float2s.size()).c_str());
-				DebugItem("Float3 Values", std::to_string(mvApp::GetApp()->getValueStorage().s_float3s.size()).c_str());
-				DebugItem("Float4 Values", std::to_string(mvApp::GetApp()->getValueStorage().s_float4s.size()).c_str());
-				ImGui::Separator();
-				DebugItem("Bool Values", std::to_string(mvApp::GetApp()->getValueStorage().s_bools.size()).c_str());
-				DebugItem("String Values", std::to_string(mvApp::GetApp()->getValueStorage().s_strings.size()).c_str());
-				DebugItem("Times Values", std::to_string(mvApp::GetApp()->getValueStorage().s_times.size()).c_str());
-				DebugItem("ImTimes Values", std::to_string(mvApp::GetApp()->getValueStorage().s_imtimes.size()).c_str());
 
 
 				ImGui::EndGroup();

@@ -1,6 +1,5 @@
 #include "mvCollapsingHeader.h"
 #include "mvInput.h"
-#include "mvValueStorage.h"
 #include "mvApp.h"
 #include "mvItemRegistry.h"
 
@@ -26,7 +25,7 @@ namespace Marvel {
 	}
 
 	mvCollapsingHeader::mvCollapsingHeader(const std::string& name)
-		: mvBoolPtrBase(name, true, name)
+		: mvBoolPtrBase(name, true)
 	{
 		m_description.container = true;
 	}

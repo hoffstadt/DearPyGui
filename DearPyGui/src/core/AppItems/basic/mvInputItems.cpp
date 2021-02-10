@@ -1,7 +1,6 @@
 #include "mvInputItems.h"
 #include "mvTypeBases.h"
 #include <utility>
-#include "mvValueStorage.h"
 #include "mvMarvel.h"
 #include "mvApp.h"
 #include <string>
@@ -12,7 +11,7 @@ namespace Marvel {
     // mvInputInt
     //-----------------------------------------------------------------------------
     mvInputInt::mvInputInt(const std::string& name, int default_value, const std::string& dataSource)
-        : mvIntPtrBase(name, default_value, dataSource)
+        : mvIntPtrBase(name, default_value)
     {
         m_description.disableAllowed = true;
     }
@@ -79,7 +78,7 @@ namespace Marvel {
     // mvInputInt2
     //-----------------------------------------------------------------------------
     mvInputInt2::mvInputInt2(const std::string& name, int* default_value, const std::string& dataSource)
-        : mvInt2PtrBase(name, default_value, dataSource)
+        : mvInt2PtrBase(name, default_value)
     {
         m_description.disableAllowed = true;
     }
@@ -154,7 +153,7 @@ namespace Marvel {
     // mvInputInt3
     //-----------------------------------------------------------------------------
     mvInputInt3::mvInputInt3(const std::string& name, int* default_value, const std::string& dataSource)
-        : mvInt3PtrBase(name, default_value, dataSource)
+        : mvInt3PtrBase(name, default_value)
     {
         m_description.disableAllowed = true;
     }
@@ -229,7 +228,7 @@ namespace Marvel {
     // mvInputInt4
     //-----------------------------------------------------------------------------
     mvInputInt4::mvInputInt4(const std::string& name, int* default_value, const std::string& dataSource)
-        : mvInt4PtrBase(name, default_value, dataSource)
+        : mvInt4PtrBase(name, default_value)
     {
         m_description.disableAllowed = true;
     }
@@ -304,7 +303,7 @@ namespace Marvel {
     // mvInputFloat
     //-----------------------------------------------------------------------------
     mvInputFloat::mvInputFloat(const std::string& name, float default_value, const std::string& dataSource)
-        : mvFloatPtrBase(name, default_value, dataSource)
+        : mvFloatPtrBase(name, default_value)
     {
         m_description.disableAllowed = true;
     }
@@ -370,7 +369,7 @@ namespace Marvel {
     // mvInputFloat2
     //-----------------------------------------------------------------------------
     mvInputFloat2::mvInputFloat2(const std::string& name, float* default_value, const std::string& dataSource)
-        : mvFloat2PtrBase(name, default_value, dataSource)
+        : mvFloat2PtrBase(name, default_value)
     {
         m_description.disableAllowed = true;
     }
@@ -445,7 +444,7 @@ namespace Marvel {
     // mvInputFloat3
     //-----------------------------------------------------------------------------
     mvInputFloat3::mvInputFloat3(const std::string& name, float* default_value, const std::string& dataSource)
-        : mvFloat3PtrBase(name, default_value, dataSource)
+        : mvFloat3PtrBase(name, default_value)
     {
         m_description.disableAllowed = true;
     }
@@ -520,7 +519,7 @@ namespace Marvel {
     // mvInputFloat4
     //-----------------------------------------------------------------------------
     mvInputFloat4::mvInputFloat4(const std::string& name, float* default_value, const std::string& dataSource)
-        : mvFloat4PtrBase(name, default_value, dataSource)
+        : mvFloat4PtrBase(name, default_value)
     {
         m_description.disableAllowed = true;
     }

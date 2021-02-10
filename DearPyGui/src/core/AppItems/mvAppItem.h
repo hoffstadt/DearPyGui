@@ -119,6 +119,9 @@ namespace Marvel {
 
         // virtual methods
         virtual std::string                 getParserCommand     () const { return "no_command_set"; }
+        virtual mvValueVariant getValue() { return nullptr; }
+        virtual PyObject*      getPyValue() { return GetPyNone(); }
+        virtual void           setPyValue(PyObject* value) { }
 
         // configuration get/set
         void                                checkConfigDict(PyObject* dict);

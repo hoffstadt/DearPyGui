@@ -2,7 +2,6 @@
 #include "mvTypeBases.h"
 #include <utility>
 #include "mvAppItem.h"
-#include "mvValueStorage.h"
 #include "mvMarvel.h"
 #include "mvApp.h"
 #include <string>
@@ -13,7 +12,7 @@ namespace Marvel {
     // mvSliderFloat
     //-----------------------------------------------------------------------------
     mvSliderFloat::mvSliderFloat(const std::string& name, float default_value, const std::string& dataSource)
-        : mvFloatPtrBase(name, default_value, dataSource)
+        : mvFloatPtrBase(name, default_value)
     {
         m_description.disableAllowed = true;
     }
@@ -76,7 +75,7 @@ namespace Marvel {
     // mvSliderFloat2
     //-----------------------------------------------------------------------------
     mvSliderFloat2::mvSliderFloat2(const std::string& name, float* default_value, const std::string& dataSource)
-        : mvFloat2PtrBase(name, default_value, dataSource)
+        : mvFloat2PtrBase(name, default_value)
     {
         m_description.disableAllowed = true;
     }
@@ -124,7 +123,7 @@ namespace Marvel {
     // mvSliderFloat3
     //-----------------------------------------------------------------------------
     mvSliderFloat3::mvSliderFloat3(const std::string& name, float* default_value, const std::string& dataSource)
-        : mvFloat3PtrBase(name, default_value, dataSource)
+        : mvFloat3PtrBase(name, default_value)
     {
         m_description.disableAllowed = true;
     }
@@ -172,7 +171,7 @@ namespace Marvel {
     // mvSliderFloat4
     //-----------------------------------------------------------------------------
     mvSliderFloat4::mvSliderFloat4(const std::string& name, float* default_value, const std::string& dataSource)
-        : mvFloat4PtrBase(name, default_value, dataSource)
+        : mvFloat4PtrBase(name, default_value)
     {
         m_description.disableAllowed = true;
     }
@@ -220,7 +219,7 @@ namespace Marvel {
     // mvSliderInt
     //-----------------------------------------------------------------------------
     mvSliderInt::mvSliderInt(const std::string& name, int default_value, const std::string& dataSource)
-        : mvIntPtrBase(name, default_value, dataSource)
+        : mvIntPtrBase(name, default_value)
     {
         m_description.disableAllowed = true;
     }
@@ -282,7 +281,7 @@ namespace Marvel {
     // mvSliderInt2
     //-----------------------------------------------------------------------------
     mvSliderInt2::mvSliderInt2(const std::string& name, int* default_value, const std::string& dataSource)
-        : mvInt2PtrBase(name, default_value, dataSource)
+        : mvInt2PtrBase(name, default_value)
     {
         m_description.disableAllowed = true;
     }
@@ -329,7 +328,7 @@ namespace Marvel {
     // mvSliderInt3
     //-----------------------------------------------------------------------------
     mvSliderInt3::mvSliderInt3(const std::string& name, int* default_value, const std::string& dataSource)
-        : mvInt3PtrBase(name, default_value, dataSource)
+        : mvInt3PtrBase(name, default_value)
     {
         m_description.disableAllowed = true;
     }
@@ -377,7 +376,7 @@ namespace Marvel {
     // mvSliderInt4
     //-----------------------------------------------------------------------------
     mvSliderInt4::mvSliderInt4(const std::string& name, int* default_value, const std::string& dataSource)
-        : mvInt4PtrBase(name, default_value, dataSource)
+        : mvInt4PtrBase(name, default_value)
     {
         m_description.disableAllowed = true;
     }

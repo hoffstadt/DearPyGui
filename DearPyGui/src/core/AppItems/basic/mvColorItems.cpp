@@ -78,7 +78,7 @@ namespace Marvel {
 	}
 
 	mvColorEdit3::mvColorEdit3(const std::string& name, float* color, const std::string& dataSource)
-		: mvColorPtrBase(name, color, dataSource)
+		: mvColorPtrBase(name, color)
 	{}
 
 	void mvColorEdit3::draw()
@@ -129,7 +129,7 @@ namespace Marvel {
 	}
 
 	mvColorEdit4::mvColorEdit4(const std::string& name, float* color, const std::string& dataSource)
-		: mvColorPtrBase(name, color, dataSource)
+		: mvColorPtrBase(name, color)
 	{}
 
 	void mvColorEdit4::draw()
@@ -180,7 +180,7 @@ namespace Marvel {
 	}
 
 	mvColorPicker3::mvColorPicker3(const std::string& name, float* color, const std::string& dataSource)
-		: mvColorPtrBase(name, color, dataSource)
+		: mvColorPtrBase(name, color)
 	{}
 
 	void mvColorPicker3::draw()
@@ -231,7 +231,7 @@ namespace Marvel {
 	}
 
 	mvColorPicker4::mvColorPicker4(const std::string& name, float* color, const std::string& dataSource)
-		: mvColorPtrBase(name, color, dataSource)
+		: mvColorPtrBase(name, color)
 	{}
 
 	void mvColorPicker4::draw()

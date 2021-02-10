@@ -71,7 +71,6 @@ set(MARVEL_SOURCES
 	"src/core/Registries/mvCallbackRegistry.cpp"
 	
 	"src/core/Registries/mvTextureStorage.cpp"
-	"src/core/Registries/mvValueStorage.cpp"
 
 	"src/core/AppItems/mvAppItemState.cpp"
 	"src/core/AppItems/mvAppItem.cpp"

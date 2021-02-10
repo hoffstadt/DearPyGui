@@ -592,7 +592,6 @@ def show_demo():
         add_color_edit4("global color",callback=lambda sender, data: set_theme_color(mvThemeCol_Button_Bg, get_value(sender)))
         add_color_edit4("local window color",callback=lambda sender, data: set_theme_color(mvThemeCol_Button_Bg, get_value(sender), item="Dear PyGui Demo"))
         add_color_edit4("individual color",callback=lambda sender, data: set_theme_color(mvThemeCol_Button_Bg, get_value(sender), item="proof"))
-        add_slider_float("global style",max_value=14.0,callback=lambda sender, data: set_theme_style(mvThemeStyle_Button_Rounding, get_value(sender)))
         add_slider_float("local window style",max_value=14.0,callback=lambda sender, data: set_theme_style(mvThemeStyle_Button_Rounding, get_value(sender), item="Dear PyGui Demo"))
         add_slider_float("individual style",max_value=14.0,callback=lambda sender, data: set_theme_style(mvThemeStyle_Button_Rounding, get_value(sender), item="proof"))
         add_slider_float("global style",max_value=14.0,callback=lambda sender, data: set_theme_style(mvThemeStyle_Button_Rounding, get_value(sender)))
@@ -761,9 +760,9 @@ def show_demo():
                     add_input_text("scientific##demo", scientific=True, callback=log_callback)
             
                 with tree_node("Password Input##demo"):
-                    add_input_text("password##demo", password=True, source="password", callback=log_callback)
-                    add_input_text("password (w/ hint)##demo", password=True, hint="<password>", source="password", callback=log_callback)
-                    add_input_text("password (clear)##demo", source="password", callback=log_callback)
+                    add_input_text("password##demo", password=True, callback=log_callback)
+                    add_input_text("password (w/ hint)##demo", password=True, hint="<password>", source="password##demo", callback=log_callback)
+                    add_input_text("password (clear)##demo", source="password##demo", callback=log_callback)
 
             with tree_node("Simple Plot Widgets##demo"):
                 add_simple_plot("Frame Times##demo", value=[0.6, 0.1, 1.0, 0.5, 0.92, 0.1, 0.2])
@@ -805,19 +804,18 @@ def show_demo():
                 add_checkbox("With No Options Menu", callback=lambda sender, data: configure_items(color_edit_names, no_options = get_value(sender)))
                 helpmarker("Right clicking a color widget brings up an options context menu")
                 
-                add_value("colorvalue", [0.0, 0.0, 0.0, 0.0])
                 add_text("Color Widget:")
-                add_color_edit3(color_edit_names[0], source="colorvalue")
+                add_color_edit3(color_edit_names[0])
                 
                 add_text("Color Widget HSV with Alpha:")
-                add_color_edit4(color_edit_names[1], source="colorvalue", display_hsv=True, alpha_preview=True)
+                add_color_edit4(color_edit_names[1], source=color_edit_names[0], display_hsv=True, alpha_preview=True)
                 add_text("Color button with Picker:")
                 helpmarker("using no inputs and no label leaves only the preview\n"
                            "click the color edit preview will reveal the color picker.")
-                add_color_edit4("Color Edit 4##2", source="colorvalue", no_inputs=True, no_label=True)
+                add_color_edit4("Color Edit 4##2", source=color_edit_names[0], no_inputs=True, no_label=True)
                 
                 add_text("Color button with Custom Picker Popup:")
-                add_color_edit4("Color Edit 4 (with custom popup)", source="colorvalue", no_inputs=True, no_picker=True)
+                add_color_edit4("Color Edit 4 (with custom popup)", source=color_edit_names[0], no_inputs=True, no_picker=True)
                 helpmarker("we can override the popup with our own custom popup that includes a color pallet")
                 with popup("Color Edit 4 (with custom popup)", "custom picker popup", mousebutton=0):
                     add_color_picker4("custom picker", no_tooltip=True, picker_hue_wheel=True)
@@ -845,9 +843,8 @@ def show_demo():
                     elif(get_value(sender) == 1): 
                         configure_item("Color Picker 4", picker_hue_wheel = True)
                 add_radio_button("Display Type", items=["Hue Bar", "Hue Wheel"], callback=apply_hue)
-                add_color_picker4("Color Picker 4", source="colorvalue", alpha_preview= True, alpha_bar=True)
-                add_value("list_color_value", [0.5,0.5,0.5,1.0])
-                add_color_edit4("Color Edit 4 (float values)", source="list_color_value", alpha_preview= True, floats=True, callback=lambda sender, data: configure_item("float_values", label=f"{get_value('list_color_value')}", color=hsv_to_rgb(get_value('list_color_value')[0],get_value('list_color_value')[1],get_value('list_color_value')[2])))
+                add_color_picker4("Color Picker 4", source=color_edit_names[0], alpha_preview= True, alpha_bar=True)
+                add_color_edit4("Color Edit 4 (float values)", alpha_preview= True, floats=True, callback=lambda sender, data: configure_item("float_values", label=f"{get_value('list_color_value')}", color=hsv_to_rgb(get_value('list_color_value')[0],get_value('list_color_value')[1],get_value('list_color_value')[2])))
                 helpmarker("Color item values given to the widget as a list will cause the \n"
                            "color item to store and return colors as scalar floats from 0.0-1.0.\n"
                            "setting floats=True will turn the inputs also to a float (although this is not necessary)")
@@ -863,26 +860,26 @@ def show_demo():
                                  "drag int3##demo", "slider int3##demo", "input float4##demo", "drag float4##demo", "slider float4##demo", 
                                  "input int4##demo", "drag int4##demo", "slider int4##demo"]
                 add_checkbox("Enable-Disable##multi-component_widgets", default_value=True, callback=toggle_config, callback_data={'kwargs': ['enabled'], 'items': disable_items})
-                add_input_float2("input float2##demo", source="float2", min_value=0.0, max_value=100.0)
-                add_drag_float2("drag float2##demo", source="float2")
-                add_slider_float2("slider float2##demo", source="float2")
-                add_input_int2("input int2##demo", source="int2", min_value=0, max_value=100)
-                add_drag_int2("drag int2##demo", source="int2")
-                add_slider_int2("slider int2##demo", source="int2")
+                add_input_float2("input float2##demo", min_value=0.0, max_value=100.0)
+                add_drag_float2("drag float2##demo", source="input float2##demo")
+                add_slider_float2("slider float2##demo", source="input float2##demo")
+                add_input_int2("input int2##demo", min_value=0, max_value=100)
+                add_drag_int2("drag int2##demo", source="input int2##demo")
+                add_slider_int2("slider int2##demo", source="input int2##demo")
                 add_spacing()
-                add_input_float3("input float3##demo", source="float3", min_value=0.0, max_value=100.0)
-                add_drag_float3("drag float3##demo", source="float3")
-                add_slider_float3("slider float3##demo", source="float3")
-                add_input_int3("input int3##demo", source="int3", min_value=0, max_value=100)
-                add_drag_int3("drag int3##demo", source="int3")
-                add_slider_int3("slider int3##demo", source="int3")
+                add_input_float3("input float3##demo", min_value=0.0, max_value=100.0)
+                add_drag_float3("drag float3##demo", source="input float3##demo")
+                add_slider_float3("slider float3##demo", source="input float3##demo")
+                add_input_int3("input int3##demo", min_value=0, max_value=100)
+                add_drag_int3("drag int3##demo", source="input int3##demo")
+                add_slider_int3("slider int3##demo", source="input int3##demo")
                 add_spacing()
-                add_input_float4("input float4##demo", source="float4", min_value=0.0, max_value=100.0)
-                add_drag_float4("drag float4##demo", source="float4")
-                add_slider_float4("slider float4##demo", source="float4")
-                add_input_int4("input int4##demo", source="int4", min_value=0, max_value=100)
-                add_drag_int4("drag int4##demo", source="int4")
-                add_slider_int4("slider int4##demo", source="int4")
+                add_input_float4("input float4##demo", min_value=0.0, max_value=100.0)
+                add_drag_float4("drag float4##demo", source="input float4##demo")
+                add_slider_float4("slider float4##demo", source="input float4##demo")
+                add_input_int4("input int4##demo", min_value=0, max_value=100)
+                add_drag_int4("drag int4##demo", source="input int4##demo")
+                add_slider_int4("slider int4##demo", source="input int4##demo")
 
             with tree_node("Vertical Sliders##demo"):
 
@@ -912,28 +909,28 @@ def show_demo():
                         with group(f"v group 2{i}##demo"):
                             values = [ 0.20, 0.80, 0.40, 0.25 ]
                             for j in range(0, 4):
-                                add_slider_float(f"##v{j}{i}##demo", default_value=values[j], vertical=True, max_value=1.0, height=50, source=f"v{j}")
+                                add_slider_float(f"##v{j}{i}##demo", default_value=values[j], vertical=True, max_value=1.0, height=50)
                                 if i != 3:
                                     add_same_line()   
                             
                 add_same_line()
                 with group("v group 3##demo"):
-                    add_slider_float("##vs1##demo", vertical=True, max_value=1.0, height=160, source="##v1", width=40)
+                    add_slider_float("##vs1##demo", vertical=True, max_value=1.0, height=160, width=40)
                     add_same_line()
-                    add_slider_float("##vs2##demo", vertical=True, max_value=1.0, height=160, source="##v2", width=40)
+                    add_slider_float("##vs2##demo", vertical=True, max_value=1.0, height=160, width=40)
                     add_same_line()
-                    add_slider_float("##vs3##demo", vertical=True, max_value=1.0, height=160, source="##v3", width=40)
+                    add_slider_float("##vs3##demo", vertical=True, max_value=1.0, height=160, width=40)
                     add_same_line()
-                    add_slider_float("##vs4##demo", vertical=True, max_value=1.0, height=160, source="##v4", width=40)
+                    add_slider_float("##vs4##demo", vertical=True, max_value=1.0, height=160, width=40)
 
-            #with tree_node("Time/Date Widgets##demo"):
-            #    add_time_picker("Time Picker##demo", default_value={'hour': 14, 'min': 32, 'sec': 23})
-            #    add_separator()
-            #    with managed_columns("Date Columns##demo", 3):
-            #        add_date_picker("Date Picker1##demo", level=0, default_value={'month_day': 8, 'year':93, 'month':5})
-            #        add_date_picker("Date Picker2##demo", level=1, default_value={'month_day': 8, 'year':93, 'month':5})
-            #        add_date_picker("Date Picker3##demo", level=2, default_value={'month_day': 8, 'year':93, 'month':5})
-            #    add_separator()
+            with tree_node("Time/Date Widgets##demo"):
+                add_time_picker("Time Picker##demo", default_value={'hour': 14, 'min': 32, 'sec': 23})
+                add_separator()
+                with managed_columns("Date Columns##demo", 3):
+                    add_date_picker("Date Picker1##demo", level=0, default_value={'month_day': 8, 'year':93, 'month':5})
+                    add_date_picker("Date Picker2##demo", level=1, default_value={'month_day': 8, 'year':93, 'month':5})
+                    add_date_picker("Date Picker3##demo", level=2, default_value={'month_day': 8, 'year':93, 'month':5})
+                add_separator()
 
         with collapsing_header("Layout & Scolling##demo"):
 
@@ -1526,9 +1523,10 @@ def show_demo():
             with tree_node("Drag Lines and Points##demo"):
                 
                 add_plot("##dragplotsdemo", height=400)
-                add_drag_line("##dragplotsdemo", "dline1", source="floatpp", color=[255, 0, 0, 255])
-                add_drag_line("##dragplotsdemo", "dline2", source="float4pp", color=[255, 255, 0, 255], y_line=True)
-                add_drag_point("##dragplotsdemo", "dpoint1", source="float2pp", color=[255, 0, 255, 255])
+                add_slider_float("Drag Line 2##demo")
+                add_drag_line("##dragplotsdemo", "dline1", color=[255, 0, 0, 255])
+                add_drag_line("##dragplotsdemo", "dline2", source="Drag Line 2##demo", color=[255, 255, 0, 255], y_line=True)
+                add_drag_point("##dragplotsdemo", "dpoint1", color=[255, 0, 255, 255])
 
             with tree_node("Querying##demo"):
                 add_text("Click and drag the middle mouse button!")
