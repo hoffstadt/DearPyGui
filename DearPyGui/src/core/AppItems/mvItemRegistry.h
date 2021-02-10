@@ -6,6 +6,7 @@
 #include <string>
 #include <mutex>
 #include "mvEvents.h"
+#include "mvAppItemDescription.h"
 
 namespace Marvel {
 
@@ -16,7 +17,7 @@ namespace Marvel {
     class mvWindowAppItem;
 
     //-----------------------------------------------------------------------------
-    // mvItemRegistry
+    // mvItemRegistrys
     //-----------------------------------------------------------------------------
 	class mvItemRegistry : public mvEventHandler
 	{
@@ -44,6 +45,7 @@ namespace Marvel {
         //-----------------------------------------------------------------------------
         // AppItem Operations
         //-----------------------------------------------------------------------------
+        mvValueVariant                 getValue(const std::string& name);
         mvRef<mvAppItem>               getItem           (const std::string& name);
         mvWindowAppItem*               getWindow         (const std::string& name);
         std::vector<mvRef<mvAppItem>>& getFrontWindows   () { return m_frontWindows; }

@@ -1,7 +1,6 @@
 #include <utility>
 #include "mvListbox.h"
 #include "mvApp.h"
-#include "mvValueStorage.h"
 #include "mvItemRegistry.h"
 
 namespace Marvel {
@@ -27,7 +26,7 @@ namespace Marvel {
 	}
 
 	mvListbox::mvListbox(const std::string& name, int default_value, const std::string& dataSource)
-		: mvIntPtrBase(name, default_value, dataSource)
+		: mvIntPtrBase(name, default_value)
 	{
 		m_description.disableAllowed = true;
 	}

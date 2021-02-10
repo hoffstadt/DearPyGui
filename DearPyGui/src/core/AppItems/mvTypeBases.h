@@ -3,6 +3,7 @@
 #include "mvAppItem.h"
 #include <implot.h>
 #include <implot_internal.h>
+#include <array>
 
 //-----------------------------------------------------------------------------
 // mvTypeBases
@@ -22,10 +23,11 @@ namespace Marvel {
 
 	public:
 
-		mvIntPtrBase(const std::string& name, int default_value, const std::string& dataSource);
-		~mvIntPtrBase();
+		mvIntPtrBase(const std::string& name, int default_value);
 		void setDataSource(const std::string& dataSource) override;
-		mvRef<int> getValue() { return m_value; }
+		mvValueVariant getValue() override { return m_value; }
+		PyObject*      getPyValue() override;
+		void           setPyValue(PyObject* value) override;
 
 	protected:
 
@@ -41,10 +43,11 @@ namespace Marvel {
 
 	public:
 
-		mvInt2PtrBase(const std::string& name, int* default_value, const std::string& dataSource);
-		~mvInt2PtrBase();
+		mvInt2PtrBase(const std::string& name, int* default_value);
 		void setDataSource(const std::string& dataSource) override;
-		mvRef<std::array<int, 2>> getValue() { return m_value; }
+		mvValueVariant getValue() override { return m_value; }
+		PyObject* getPyValue() override;
+		void           setPyValue(PyObject* value) override;
 
 	protected:
 
@@ -60,10 +63,11 @@ namespace Marvel {
 
 	public:
 
-		mvInt3PtrBase(const std::string& name, int* default_value, const std::string& dataSource);
-		~mvInt3PtrBase();
+		mvInt3PtrBase(const std::string& name, int* default_value);
 		void setDataSource(const std::string& dataSource) override;
-		mvRef<std::array<int, 3>> getValue() { return m_value; }
+		mvValueVariant getValue() override { return m_value; }
+		PyObject* getPyValue() override;
+		void           setPyValue(PyObject* value) override;
 
 	protected:
 
@@ -79,10 +83,11 @@ namespace Marvel {
 
 	public:
 
-		mvInt4PtrBase(const std::string& name, int* default_value, const std::string& dataSource);
-		~mvInt4PtrBase();
+		mvInt4PtrBase(const std::string& name, int* default_value);
 		void setDataSource(const std::string& dataSource) override;
-		mvRef<std::array<int, 4>> getValue() { return m_value; }
+		mvValueVariant getValue() override { return m_value; }
+		PyObject* getPyValue() override;
+		void           setPyValue(PyObject* value) override;
 
 	protected:
 
@@ -98,10 +103,11 @@ namespace Marvel {
 
 	public:
 
-		mvFloatPtrBase(const std::string& name, float default_value, const std::string& dataSource);
-		~mvFloatPtrBase();
+		mvFloatPtrBase(const std::string& name, float default_value);
 		void setDataSource(const std::string& dataSource) override;
-		mvRef<float> getValue() { return m_value; }
+		mvValueVariant getValue() override { return m_value; }
+		PyObject* getPyValue() override;
+		void           setPyValue(PyObject* value) override;
 
 	protected:
 
@@ -117,10 +123,11 @@ namespace Marvel {
 
 	public:
 
-		mvFloat2PtrBase(const std::string& name, float* default_value, const std::string& dataSource);
-		~mvFloat2PtrBase();
+		mvFloat2PtrBase(const std::string& name, float* default_value);
 		void setDataSource(const std::string& dataSource) override;
-		mvRef<std::array<float, 2>> getValue() { return m_value; }
+		mvValueVariant getValue() override { return m_value; }
+		PyObject* getPyValue() override;
+		void           setPyValue(PyObject* value) override;
 
 	protected:
 
@@ -136,10 +143,11 @@ namespace Marvel {
 
 	public:
 
-		mvFloat3PtrBase(const std::string& name, float* default_value, const std::string& dataSource);
-		~mvFloat3PtrBase();
+		mvFloat3PtrBase(const std::string& name, float* default_value);
 		void setDataSource(const std::string& dataSource) override;
-		mvRef<std::array<float, 3>> getValue() { return m_value; }
+		mvValueVariant getValue() override { return m_value; }
+		PyObject* getPyValue() override;
+		void           setPyValue(PyObject* value) override;
 
 	protected:
 
@@ -155,10 +163,11 @@ namespace Marvel {
 
 	public:
 
-		mvFloat4PtrBase(const std::string& name, float* default_value, const std::string& dataSource);
-		~mvFloat4PtrBase();
+		mvFloat4PtrBase(const std::string& name, float* default_value);
 		void setDataSource(const std::string& dataSource) override;
-		mvRef<std::array<float, 4>> getValue() { return m_value; }
+		mvValueVariant getValue() override { return m_value; }
+		PyObject* getPyValue() override;
+		void           setPyValue(PyObject* value) override;
 
 	protected:
 
@@ -174,10 +183,11 @@ namespace Marvel {
 
 	public:
 
-		mvColorPtrBase(const std::string& name, float* default_value, const std::string& dataSource);
-		~mvColorPtrBase();
+		mvColorPtrBase(const std::string& name, float* default_value);
 		void setDataSource(const std::string& dataSource) override;
-		mvRef<std::array<float, 4>> getValue() { return m_value; }
+		mvValueVariant getValue() override { return m_value; }
+		PyObject* getPyValue() override;
+		void           setPyValue(PyObject* value) override;
 
 	protected:
 
@@ -192,10 +202,11 @@ namespace Marvel {
 
 	public:
 
-		mvBoolPtrBase(const std::string& name, bool default_value, const std::string& dataSource);
-		~mvBoolPtrBase();
+		mvBoolPtrBase(const std::string& name, bool default_value);
 		void setDataSource(const std::string& dataSource) override;
-		mvRef<bool> getValue() { return m_value; }
+		mvValueVariant getValue() override { return m_value; }
+		PyObject* getPyValue() override;
+		void           setPyValue(PyObject* value) override;
 
 	protected:
 
@@ -211,10 +222,11 @@ namespace Marvel {
 
 	public:
 
-		mvStringPtrBase(const std::string& name, const std::string& default_value, const std::string& dataSource);
-		~mvStringPtrBase();
+		mvStringPtrBase(const std::string& name, const std::string& default_value);
 		void setDataSource(const std::string& dataSource) override;
-		mvRef<std::string> getValue() { return m_value; }
+		mvValueVariant getValue() override { return m_value; }
+		PyObject* getPyValue() override;
+		void           setPyValue(PyObject* value) override;
 
 	protected:
 
@@ -230,10 +242,10 @@ namespace Marvel {
 
 	public:
 
-		mvTimePtrBase(const std::string& name, const tm& default_value, const std::string& dataSource);
-		~mvTimePtrBase();
-		mvRef<tm> getValue() { return m_value; }
-		mvRef<ImPlotTime> getValue2() { return m_imvalue; }
+		mvTimePtrBase(const std::string& name, const tm& default_value);
+		mvValueVariant getValue() override { return m_value; }
+		PyObject* getPyValue() override;
+		void           setPyValue(PyObject* value) override;
 
 	protected:
 
@@ -249,10 +261,11 @@ namespace Marvel {
 
 	public:
 
-		mvFloatVectPtrBase(const std::string& name, const std::vector<float>& default_value, const std::string& dataSource);
-		~mvFloatVectPtrBase();
+		mvFloatVectPtrBase(const std::string& name, const std::vector<float>& default_value);
 		void setDataSource(const std::string& dataSource) override;
-		mvRef<std::vector<float>> getValue() { return m_value; }
+		mvValueVariant getValue() override { return m_value; }
+		PyObject* getPyValue() override;
+		void           setPyValue(PyObject* value) override;
 
 	protected:
 

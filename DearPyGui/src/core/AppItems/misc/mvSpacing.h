@@ -12,7 +12,7 @@ namespace Marvel {
 		MV_APPITEM_TYPE_OLD_SYSTEM(mvAppItemType::Spacing, "add_spacing")
 
 			mvSpacing(const std::string& name, int count)
-			: mvIntPtrBase(name, count, name)
+			: mvIntPtrBase(name, count)
 		{
 			m_description.duplicatesAllowed = true;
 		}

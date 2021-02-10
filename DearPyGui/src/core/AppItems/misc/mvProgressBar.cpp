@@ -1,7 +1,6 @@
 #include <utility>
 #include "mvProgressBar.h"
 #include "mvApp.h"
-#include "mvValueStorage.h"
 #include "mvItemRegistry.h"
 
 namespace Marvel {
@@ -23,7 +22,7 @@ namespace Marvel {
 	}
 
 	mvProgressBar::mvProgressBar(const std::string& name, float default_value, const std::string& dataSource)
-		: mvFloatPtrBase(name, default_value, dataSource)
+		: mvFloatPtrBase(name, default_value)
 	{
 	}
 

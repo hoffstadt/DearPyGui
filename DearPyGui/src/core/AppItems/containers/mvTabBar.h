@@ -31,7 +31,7 @@ namespace Marvel {
 
 		mvTabBar(const std::string& name);
 
-		std::string& getValue();
+		std::string& getSpecificValue();
 		void         setValue(const std::string& value);
 		void         draw()               override;
 

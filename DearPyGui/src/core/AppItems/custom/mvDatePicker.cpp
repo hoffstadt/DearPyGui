@@ -23,7 +23,7 @@ namespace Marvel {
 	}
 
 	mvDatePicker::mvDatePicker(const std::string& name, tm default_value)
-		: mvTimePtrBase(name, default_value, name)
+		: mvTimePtrBase(name, default_value)
 	{
 	}
 

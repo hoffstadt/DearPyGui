@@ -1,7 +1,6 @@
 #include <utility>
 #include "mvSelectable.h"
 #include "mvApp.h"
-#include "mvValueStorage.h"
 #include "mvItemRegistry.h"
 
 namespace Marvel {
@@ -25,7 +24,7 @@ namespace Marvel {
 	}
 
 	mvSelectable::mvSelectable(const std::string& name, bool default_value, const std::string& dataSource)
-		: mvBoolPtrBase(name, default_value, dataSource)
+		: mvBoolPtrBase(name, default_value)
 	{
 		m_description.disableAllowed = true;
 	}

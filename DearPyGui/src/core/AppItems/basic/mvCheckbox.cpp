@@ -1,7 +1,6 @@
 #include <utility>
 #include "mvCheckbox.h"
 #include "mvApp.h"
-#include "mvValueStorage.h"
 #include "mvItemRegistry.h"
 
 namespace Marvel {
@@ -24,13 +23,13 @@ namespace Marvel {
 	}
 
 	mvCheckbox::mvCheckbox(const std::string& name, bool default_value, const std::string& dataSource)
-		: mvBoolPtrBase(name, default_value, dataSource)
+		: mvBoolPtrBase(name, default_value)
 	{
 		m_description.disableAllowed = true;
 	}
 
 	mvCheckbox::mvCheckbox(const std::string& name, const mvCheckboxConfig& config)
-		: mvBoolPtrBase(name, config.default_value, config.source), m_config(config)
+		: mvBoolPtrBase(name, config.default_value), m_config(config)
 	{
 		m_description.disableAllowed = true;
 

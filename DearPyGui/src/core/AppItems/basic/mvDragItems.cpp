@@ -1,7 +1,6 @@
 #include "mvDragItems.h"
 #include "mvTypeBases.h"
 #include <utility>
-#include "mvValueStorage.h"
 #include "mvApp.h"
 #include "mvMarvel.h"
 #include <string>
@@ -12,7 +11,7 @@ namespace Marvel {
     // mvDragFloat
     //-----------------------------------------------------------------------------
     mvDragFloat::mvDragFloat(const std::string& name, float default_value, const std::string& dataSource)
-        : mvFloatPtrBase(name, default_value, dataSource)
+        : mvFloatPtrBase(name, default_value)
     {
         m_description.disableAllowed = true;
     }
@@ -62,7 +61,7 @@ namespace Marvel {
     // mvDragFloat2
     //-----------------------------------------------------------------------------
     mvDragFloat2::mvDragFloat2(const std::string& name, float* default_value, const std::string& dataSource)
-        : mvFloat2PtrBase(name, default_value, dataSource)
+        : mvFloat2PtrBase(name, default_value)
     {
         m_description.disableAllowed = true;
     }
@@ -108,7 +107,7 @@ namespace Marvel {
     // mvDragFloat3
     //-----------------------------------------------------------------------------
     mvDragFloat3::mvDragFloat3(const std::string& name, float* default_value, const std::string& dataSource)
-        : mvFloat3PtrBase(name, default_value, dataSource)
+        : mvFloat3PtrBase(name, default_value)
     {
         m_description.disableAllowed = true;
     }
@@ -154,7 +153,7 @@ namespace Marvel {
     // mvDragFloat4
     //-----------------------------------------------------------------------------
     mvDragFloat4::mvDragFloat4(const std::string& name, float* default_value, const std::string& dataSource)
-        : mvFloat4PtrBase(name, default_value, dataSource)
+        : mvFloat4PtrBase(name, default_value)
     {
         m_description.disableAllowed = true;
     }
@@ -200,7 +199,7 @@ namespace Marvel {
     // mvDragInt
     //-----------------------------------------------------------------------------
     mvDragInt::mvDragInt(const std::string& name, int default_value, const std::string& dataSource)
-        : mvIntPtrBase(name, default_value, dataSource)
+        : mvIntPtrBase(name, default_value)
     {
         m_description.disableAllowed = true;
     }
@@ -246,7 +245,7 @@ namespace Marvel {
     // mvDragInt2
     //-----------------------------------------------------------------------------
     mvDragInt2::mvDragInt2(const std::string& name, int* default_value, const std::string& dataSource)
-        : mvInt2PtrBase(name, default_value, dataSource)
+        : mvInt2PtrBase(name, default_value)
     {
         m_description.disableAllowed = true;
     }
@@ -292,7 +291,7 @@ namespace Marvel {
     // mvDragInt3
     //-----------------------------------------------------------------------------
     mvDragInt3::mvDragInt3(const std::string& name, int* default_value, const std::string& dataSource)
-        : mvInt3PtrBase(name, default_value, dataSource)
+        : mvInt3PtrBase(name, default_value)
     {
         // empty constructor
     }
@@ -338,7 +337,7 @@ namespace Marvel {
     // mvDragInt4
     //-----------------------------------------------------------------------------
     mvDragInt4::mvDragInt4(const std::string& name, int* default_value, const std::string& dataSource)
-        : mvInt4PtrBase(name, default_value, dataSource)
+        : mvInt4PtrBase(name, default_value)
     {
         m_description.disableAllowed = true;
     }

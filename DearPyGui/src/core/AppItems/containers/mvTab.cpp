@@ -22,7 +22,7 @@ namespace Marvel {
 	}
 	mvTab::mvTab(const std::string& name)
 		: 
-		mvBoolPtrBase(name, false, name)
+		mvBoolPtrBase(name, false)
 	{
 		m_description.container = true;
 	}
@@ -37,7 +37,7 @@ namespace Marvel {
 		auto parent = (mvTabBar*)m_parent;
 
 		// check if this is first tab
-		if (parent->getValue().empty())
+		if (parent->getSpecificValue().empty())
 		{
 			// set mvTabBar value to the first tab name
 			parent->setValue(m_core_config.name);
@@ -59,7 +59,7 @@ namespace Marvel {
 			*m_value = true;
 
 			// run call back if it exists
-			if (parent->getValue() != m_core_config.name)
+			if (parent->getSpecificValue() != m_core_config.name)
 				mvApp::GetApp()->getCallbackRegistry().addCallback(parent->getCallback(), m_core_config.name, parent->getCallbackData());
 
 			parent->setValue(m_core_config.name);

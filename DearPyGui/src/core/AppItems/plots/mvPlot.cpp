@@ -2,7 +2,6 @@
 #include "mvPlot.h"
 #include "mvApp.h"
 #include "mvInput.h"
-#include "mvValueStorage.h"
 #include "mvDrawList.h"
 #include "mvItemRegistry.h"
 
@@ -255,11 +254,29 @@ namespace Marvel {
 
 	void mvPlot::addDragPoint(const std::string& name, bool show_label, const mvColor& color, float radius, mvCallable callback, const double* dummyValue, const std::string& source)
 	{
-		auto value = mvApp::GetApp()->getValueStorage().add_value(source, std::array{ (float)dummyValue[0], (float)dummyValue[1] });
-		double dummyx = value->data()[0];
-		double dummyy = value->data()[1];
+		if (!source.empty())
+		{
+			mvRef<mvAppItem> item = mvApp::GetApp()->getItemRegistry().getItem(source);
+			if (!item)
+			{
+				ThrowPythonException("Source item not found.");
+				return;
+			}
+			if (item->getDescription().valueType != StorageValueTypes::Float2)
+			{
+				ThrowPythonException("Values types do not match");
+				return;
+			}
+			auto value = std::get<std::shared_ptr<std::array<float, 2>>>(item->getValue());
+			double dummyx = value->data()[0];
+			double dummyy = value->data()[1];
 
-		m_dragPoints.push_back({ name, value, show_label, color, radius, callback, dummyx, dummyy, source});
+			m_dragPoints.push_back({ name, value, show_label, color, radius, callback, source });
+			return;
+		}
+		auto value = std::make_shared<std::array<float, 2>>(std::array{ (float)dummyValue[0], (float)dummyValue[1] });
+
+		m_dragPoints.push_back({ name, value, show_label, color, radius, callback, source });
 	}
 
 	void mvPlot::updateDragPoint(const std::string& name, bool show_label, const mvColor& color, float radius, mvCallable callback, const double* dummyValue, const std::string& source)
@@ -273,28 +290,55 @@ namespace Marvel {
 				exists = true;
 				if (item.source != source)
 				{
-					item.value = mvApp::GetApp()->getValueStorage().add_value(source.empty() ? name : source, std::array{ (float)dummyValue[0], (float)dummyValue[1] });
+					mvRef<mvAppItem> newitem = mvApp::GetApp()->getItemRegistry().getItem(source);
+					if (!newitem)
+					{
+						ThrowPythonException("Source item not found.");
+						continue;
+					}
+					if (newitem->getDescription().valueType != StorageValueTypes::Float2)
+					{
+						ThrowPythonException("Values types do not match");
+						continue;
+					}
+					item.value = std::get<std::shared_ptr<std::array<float, 2>>>(newitem->getValue());
 				}
 				item.show_label = show_label;
 				item.color = color;
 				item.radius = radius;
 				item.callback = callback;
-				item.dummyx = dummyValue[0];
-				item.dummyy = dummyValue[1];
 				item.source = source;
 				break;
 			}
 		}
 
 		if (!exists)
-			addDragPoint(name, show_label, color, radius, callback, dummyValue, source.empty() ? name : source);
+			addDragPoint(name, show_label, color, radius, callback, dummyValue, source);
 	}
 
 	void mvPlot::addDragLine(const std::string& name, bool show_label, const mvColor& color, float thickness, bool y_line, mvCallable callback, double dummyValue, const std::string& source)
 	{
-		auto value = mvApp::GetApp()->getValueStorage().add_value(source, (float)dummyValue);
+		if (!source.empty())
+		{
+			mvRef<mvAppItem> item = mvApp::GetApp()->getItemRegistry().getItem(source);
+			if (!item)
+			{
+				ThrowPythonException("Source item not found.");
+				return;
+			}
+			if (item->getDescription().valueType != StorageValueTypes::Float)
+			{
+				ThrowPythonException("Values types do not match");
+				return;
+			}
+			auto value = std::get<std::shared_ptr<float>>(item->getValue());
 
-		m_dragLines.push_back({ name, value, show_label, color, thickness, y_line, callback, *value, source});
+			m_dragLines.push_back({ name, value, show_label, color, thickness, y_line, callback, source });
+			return;
+		}
+		auto value = std::make_shared<float>((float)dummyValue);
+
+		m_dragLines.push_back({ name, value, show_label, color, thickness, y_line, callback, source });
 	}
 
 	void mvPlot::updateDragLine(const std::string& name, bool show_label, const mvColor& color, float thickness, bool y_line, mvCallable callback, double dummyValue, const std::string& source)
@@ -309,21 +353,31 @@ namespace Marvel {
 				exists = true;
 				if (item.source != source)
 				{
-					item.value = mvApp::GetApp()->getValueStorage().add_value(source.empty() ? name : source, (float)dummyValue);
+					mvRef<mvAppItem> newitem = mvApp::GetApp()->getItemRegistry().getItem(source);
+					if (!newitem)
+					{
+						ThrowPythonException("Source item not found.");
+						continue;
+					}
+					if (newitem->getDescription().valueType != StorageValueTypes::Float)
+					{
+						ThrowPythonException("Values types do not match");
+						continue;
+					}
+					item.value = std::get<std::shared_ptr<float>>(newitem->getValue());
 				}
 				item.show_label = show_label;
 				item.color = color;
 				item.thickness = thickness;
 				item.y_line = y_line;
 				item.callback = callback;
-				item.dummyValue = dummyValue;
 				item.source = source;
 				break;
 			}
 		}
 
 		if (!exists)
-			addDragLine(name, show_label, color, thickness, y_line, callback, dummyValue, source.empty() ? name : source);
+			addDragLine(name, show_label, color, thickness, y_line, callback, dummyValue, source);
 	}
 
 	void mvPlot::deleteDragPoint(const std::string& name)
@@ -695,20 +749,21 @@ namespace Marvel {
 			{
 				for (auto& line : m_dragLines)
 				{
-					line.dummyValue = *line.value;
+					static double dummy = 0.0;
+					dummy = *line.value;
 					if (line.y_line)
 					{
-						if (ImPlot::DragLineY(line.name.c_str(), &line.dummyValue, line.show_label, line.color.toVec4(), line.thickness))
+						if (ImPlot::DragLineY(line.name.c_str(),&dummy, line.show_label, line.color.toVec4(), line.thickness))
 						{
-							*line.value = (float)line.dummyValue;
+							*line.value = (float)dummy;
 							mvApp::GetApp()->getCallbackRegistry().addCallback(line.callback, line.name, nullptr);
 						}
 					}
 					else
 					{
-						if (ImPlot::DragLineX(line.name.c_str(), &line.dummyValue, line.show_label, line.color.toVec4(), line.thickness))
+						if (ImPlot::DragLineX(line.name.c_str(), &dummy, line.show_label, line.color.toVec4(), line.thickness))
 						{
-							*line.value = (float)line.dummyValue;
+							*line.value = (float)dummy;
 							mvApp::GetApp()->getCallbackRegistry().addCallback(line.callback, line.name, nullptr);
 						}
 					}
@@ -720,12 +775,8 @@ namespace Marvel {
 			{
 				for (auto& point : m_dragPoints)
 				{
-					point.dummyx = point.value->data()[0];
-					point.dummyy = point.value->data()[1];
-					if (ImPlot::DragPoint(point.name.c_str(), &point.dummyx, &point.dummyy, point.show_label, point.color.toVec4(), point.radius))
+					if (ImPlot::DragPoint(point.name.c_str(), (double*)point.value.get(), (double*)(&point.value.get()[1]), point.show_label, point.color.toVec4(), point.radius))
 					{
-						point.value->data()[0] = (float)point.dummyx;
-						point.value->data()[1] = (float)point.dummyy;
 						mvApp::GetApp()->getCallbackRegistry().addCallback(point.callback, point.name, nullptr);
 					}
 				}

@@ -628,7 +628,6 @@ namespace Marvel {
 		ADD_PYTHON_FUNCTION(set_item_callback_data)
 		ADD_PYTHON_FUNCTION(get_value)
 		ADD_PYTHON_FUNCTION(set_value)
-		ADD_PYTHON_FUNCTION(add_value)
 		ADD_PYTHON_FUNCTION(is_item_hovered)
 		ADD_PYTHON_FUNCTION(is_item_shown)
 		ADD_PYTHON_FUNCTION(is_item_active)
