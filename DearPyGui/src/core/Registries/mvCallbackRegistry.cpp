@@ -75,7 +75,7 @@ namespace Marvel {
 
 	bool mvCallbackRegistry::onInputs(mvEvent& event)
 	{
-		const char* active = mvApp::GetApp()->getItemRegistry().getActiveWindow().c_str();
+		std::string active = mvApp::GetApp()->getItemRegistry().getActiveWindow();
 
 		switch (event.type)
 		{
