@@ -110,8 +110,8 @@ namespace Marvel {
 
 			if (window)
 				window->setWindowAsMainStatus(true);
-			else
-				ThrowPythonException("Window does not exists.");
+			//else
+			//	ThrowPythonException("Window does not exists.");
 		}
 
         //std::thread t([&]() {m_callbackRegistry->runCallbacks(); });

@@ -23,7 +23,15 @@ HOW TO UPDATE?
 - Please report any issue!
 
 ------------------------------------------------------------------------
- VERSION 0.6.x
+ VERSION 0.6.174
+------------------------------------------------------------------------
+
+Fixes:
+- primary window: fixed potential crash when window couldn't be found
+- menu in child: fixed crash in child menus issue
+
+------------------------------------------------------------------------
+ VERSION 0.6.171
 ------------------------------------------------------------------------
 
 Updates:

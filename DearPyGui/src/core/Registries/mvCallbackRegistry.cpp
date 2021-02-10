@@ -78,14 +78,14 @@ namespace Marvel {
 
 	bool mvCallbackRegistry::onInputs(mvEvent& event)
 	{
-		const char* active = mvApp::GetApp()->getItemRegistry().getActiveWindow().c_str();
+		std::string active = mvApp::GetApp()->getItemRegistry().getActiveWindow();
 
 		switch (event.type)
 		{
 		case mvEVT_KEY_PRESS:
 			if(m_keyPressCallback)
 				submitCallback([=]() mutable
-				{
+				{		
 					runCallback(m_keyPressCallback, active, ToPyInt(GetEInt(event, "KEY")));
 				});
 
