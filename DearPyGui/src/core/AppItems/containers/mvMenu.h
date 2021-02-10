@@ -32,12 +32,12 @@ namespace Marvel {
 		MV_END_COLOR_CONSTANTS
 
 		MV_START_STYLE_CONSTANTS
-			MV_CREATE_CONSTANT_PAIR(mvThemeStyle_Menu_BorderSize),
-			MV_CREATE_CONSTANT_PAIR(mvThemeStyle_Menu_Rounding),
-			MV_CREATE_CONSTANT_PAIR(mvThemeStyle_Menu_PaddingX),
-			MV_CREATE_CONSTANT_PAIR(mvThemeStyle_Menu_PaddingY),
-			MV_CREATE_CONSTANT_PAIR(mvThemeStyle_Menu_ItemSpacingX),
-			MV_CREATE_CONSTANT_PAIR(mvThemeStyle_Menu_ItemSpacingY),
+			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_Menu_BorderSize	, 0,  1),
+			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_Menu_Rounding		, 0, 12),
+			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_Menu_PaddingX		, 0, 20),
+			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_Menu_PaddingY		, 0, 20),
+			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_Menu_ItemSpacingX	, 0, 20),
+			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_Menu_ItemSpacingY	, 0, 20),
 		MV_END_STYLE_CONSTANTS
 
 	public:

@@ -33,11 +33,11 @@ namespace Marvel {
 		MV_END_COLOR_CONSTANTS
 
 		MV_START_STYLE_CONSTANTS
-			MV_CREATE_CONSTANT_PAIR(mvThemeStyle_Tab_Rounding),
-			MV_CREATE_CONSTANT_PAIR(mvThemeStyle_Tab_PaddingX),
-			MV_CREATE_CONSTANT_PAIR(mvThemeStyle_Tab_PaddingY),
-			MV_CREATE_CONSTANT_PAIR(mvThemeStyle_Tab_InnerSpacingX),
-			MV_CREATE_CONSTANT_PAIR(mvThemeStyle_Tab_InnerSpacingY),
+			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_Tab_Rounding		, 0, 12),
+			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_Tab_PaddingX		, 0, 20),
+			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_Tab_PaddingY		, 0, 20),
+			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_Tab_InnerSpacingX	, 0, 20),
+			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_Tab_InnerSpacingY	, 0, 20),
 		MV_END_STYLE_CONSTANTS
 
 	public:
