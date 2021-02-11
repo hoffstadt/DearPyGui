@@ -39,7 +39,7 @@ Breaking Changes:
 - removed command: add_value
 
 Updates:
-- imgui: updated to v1.80
+- imgui: updated to v1.81
 - implot: updated to 7234801
 - draw commands: can now be sent to plots #457
 - value_storage: removed
