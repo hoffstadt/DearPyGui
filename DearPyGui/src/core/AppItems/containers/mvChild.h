@@ -4,6 +4,16 @@
 
 namespace Marvel {
 
+	struct mvChildConfig : public mvAppItemConfig
+	{
+		bool border = true;
+		bool autosize_x = false;
+		bool autosize_y = false;
+		bool no_scrollbar = false;
+		bool horizontal_scrollbar = false;
+		bool menubar = false;
+	};
+
 	PyObject* add_child(PyObject* self, PyObject* args, PyObject* kwargs);
 
 	class mvChild : public mvBoolPtrBase

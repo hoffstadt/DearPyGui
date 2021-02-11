@@ -6,6 +6,16 @@
 
 namespace Marvel {
 
+	struct mvTableConfig : public mvAppItemConfig
+	{
+		std::vector<std::string> headers;
+
+		mvTableConfig()
+		{
+			height = 200;
+		}
+	};
+
 	PyObject* add_table(PyObject* self, PyObject* args, PyObject* kwargs);
 
 	class mvTable : public mvAppItem
