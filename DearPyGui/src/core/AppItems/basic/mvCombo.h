@@ -17,7 +17,6 @@ namespace Marvel {
 		bool no_preview = false;
 	};
 
-
 	PyObject* add_combo(PyObject* self, PyObject* args, PyObject* kwargs);
 
 	class mvCombo : public mvStringPtrBase

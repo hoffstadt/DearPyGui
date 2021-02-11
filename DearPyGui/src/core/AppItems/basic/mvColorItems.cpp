@@ -244,11 +244,6 @@ namespace Marvel {
 
 	}
 
-
-
-
-
-
 #ifndef MV_CPP
 
 	void mvColorPicker3::setExtraConfigDict(PyObject* dict)

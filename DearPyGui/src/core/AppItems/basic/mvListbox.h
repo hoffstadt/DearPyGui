@@ -3,6 +3,7 @@
 #include "mvTypeBases.h"
 
 namespace Marvel {
+
 	struct mvListboxConfig : public mvAppItemConfig
 	{
 		std::vector<std::string> items;

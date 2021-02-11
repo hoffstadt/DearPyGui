@@ -26,11 +26,7 @@ namespace Marvel {
 		bool no_drag_drop = false;
 	};
 
-
-
-
 	PyObject* add_color_button(PyObject* self, PyObject* args, PyObject* kwargs);
-
 
 	class mvColorButton : public mvAppItem
 	{
@@ -75,10 +71,9 @@ namespace Marvel {
 	//-----------------------------------------------------------------------------
 	// mvColorEdit3
 	//-----------------------------------------------------------------------------
-
 	struct mvColorEdit3Config : public mvAppItemConfig
 	{
-		mvColor default_value();
+		mvColor default_value;
 		bool no_alpha = false;
 		bool no_picker = false;
 		bool no_options = false;
@@ -151,12 +146,9 @@ namespace Marvel {
 	//-----------------------------------------------------------------------------
 	// mvColorEdit4
 	//-----------------------------------------------------------------------------
-
-	struct mvColorEdit4Config : mvColorEdit3Config {};
-
+	struct mvColorEdit4Config : public mvColorEdit3Config {};
 
 	PyObject* add_color_edit4(PyObject* self, PyObject* args, PyObject* kwargs);
-
 
 	class mvColorEdit4 : public mvColorPtrBase
 	{
@@ -207,11 +199,9 @@ namespace Marvel {
 	//-----------------------------------------------------------------------------
 	// mvColorPicker3
 	//-----------------------------------------------------------------------------
-
-
 	struct mvColorPicker3Config : public mvAppItemConfig
 	{
-		mvColor default_value();
+		mvColor default_value;
 		bool no_alpha = false;
 		bool no_small_preview = false;
 		bool no_inputs = false;
@@ -232,9 +222,7 @@ namespace Marvel {
 		bool input_hsv = false;
 	};
 
-
 	PyObject* add_color_picker3(PyObject* self, PyObject* args, PyObject* kwargs);
-
 
 	class mvColorPicker3 : public mvColorPtrBase
 	{
@@ -281,11 +269,9 @@ namespace Marvel {
 	//-----------------------------------------------------------------------------
 	// mvColorPicker4
 	//-----------------------------------------------------------------------------
-	struct mvColorPicker4Config : mvColorPicker3Config {};
-
+	struct mvColorPicker4Config : public mvColorPicker3Config {};
 
 	PyObject* add_color_picker4(PyObject* self, PyObject* args, PyObject* kwargs);
-
 
 	class mvColorPicker4 : public mvColorPtrBase
 	{

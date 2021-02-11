@@ -4,6 +4,7 @@
 #include "mvTypeBases.h"
 
 namespace Marvel {
+
 	struct mvInputTextConfig : public mvAppItemConfig
 	{
 		std::string default_value = "";
@@ -19,6 +20,7 @@ namespace Marvel {
 		bool scientific = false;
 		bool on_enter = false;
 	};
+
 	PyObject* add_input_text(PyObject* self, PyObject* args, PyObject* kwargs);
 
 	class mvInputText : public mvStringPtrBase
