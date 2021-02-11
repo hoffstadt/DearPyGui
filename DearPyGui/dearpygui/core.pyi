@@ -1002,7 +1002,7 @@ def set_individual_color(item: str, id: int, color: List[float]) -> None:
 	"""Sets an color of a theme item."""
 	...
 
-def hide_headers(table: str, headers: List[str]) -> None:
+def hide_headers(table: str, hide: bool) -> None:
 	"""Hide a tables headers."""
 	...
 
