@@ -73,4 +73,13 @@ elseif(MVPY_VERSION EQUAL 39)
 			"C:/Python39-x64/DLLs"
 	)
 
+elseif(MVPY_VERSION EQUAL 0)
+	target_link_directories(core PRIVATE "../Dependencies/cpython/PCbuild/amd64/")
+	target_link_libraries(core PUBLIC d3d11 python39)
+
+	target_include_directories(core 
+		PRIVATE 
+			${MARVEL_INCLUDE_DIR}
+	)
+
 endif()
