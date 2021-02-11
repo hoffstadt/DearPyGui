@@ -4,7 +4,21 @@
 #include "mvTypeBases.h"
 
 namespace Marvel {
-
+	struct mvInputTextConfig : public mvAppItemConfig
+	{
+		std::string default_value = "";
+		std::string hint = "";
+		bool multiline = false;
+		bool no_spaces = false;
+		bool uppercase = false;
+		bool tab_input = false;
+		bool decimal = false;
+		bool hexadecimal = false;
+		bool readonly = false;
+		bool password = false;
+		bool scientific = false;
+		bool on_enter = false;
+	};
 	PyObject* add_input_text(PyObject* self, PyObject* args, PyObject* kwargs);
 
 	class mvInputText : public mvStringPtrBase

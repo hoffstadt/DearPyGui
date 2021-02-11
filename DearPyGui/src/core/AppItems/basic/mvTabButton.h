@@ -4,6 +4,14 @@
 
 namespace Marvel {
 
+	struct mvTabButtonConfig : public mvAppItemConfig
+	{
+		bool no_reorder = false;
+		bool leading = false;
+		bool trailing = false;
+		bool no_tooltip = false;
+	};
+
 	PyObject* add_tab_button(PyObject* self, PyObject* args, PyObject* kwargs);
 
 	class mvTabButton : public mvAppItem

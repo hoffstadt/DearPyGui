@@ -12,6 +12,14 @@
 
 namespace Marvel {
 
+	struct mvTextConfig : public mvAppItemConfig
+	{
+		int wrap = -1;
+		mvColor color{ 0, 0, 0, -1 };
+		bool bullet = false;
+		std::string default_value = "";
+	};
+
 	PyObject* add_text      (PyObject* self, PyObject* args, PyObject* kwargs);
 	PyObject* add_label_text(PyObject* self, PyObject* args, PyObject* kwargs);
 

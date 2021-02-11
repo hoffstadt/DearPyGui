@@ -20,19 +20,16 @@ namespace Marvel {
 	//-----------------------------------------------------------------------------
 	struct mvColorButtonConfig : public mvAppItemConfig
 	{
-		//floatlist in cpp? array? color = []
+		mvColor color;
 		bool no_alpha = false;
 		bool no_border = false;
 		bool no_drag_drop = false;
 	};
 
 
-#ifdef MV_CPP
-	void add_color_button(const char* name, const mvColorButtonConfig& config = {});
-	void add_color_button(const char* name, mvCallable callable);  //, array color);
-#else
+
+
 	PyObject* add_color_button(PyObject* self, PyObject* args, PyObject* kwargs);
-#endif
 
 
 	class mvColorButton : public mvAppItem
@@ -81,7 +78,7 @@ namespace Marvel {
 
 	struct mvColorEdit3Config : public mvAppItemConfig
 	{
-		//IntList default_value = (0, 0, 0, 255);
+		mvColor default_value();
 		bool no_alpha = false;
 		bool no_picker = false;
 		bool no_options = false;
@@ -102,12 +99,7 @@ namespace Marvel {
 		bool input_hsv = false;
 	};
 
-#ifdef MV_CPP
-	void add_color_edit3(const char* name, const mvColorEdit3Config& config{});
-	
-#else
 	PyObject* add_color_edit3(PyObject* self, PyObject* args, PyObject* kwargs);
-#endif
 
 	class mvColorEdit3 : public mvColorPtrBase
 	{
@@ -162,11 +154,9 @@ namespace Marvel {
 
 	struct mvColorEdit4Config : mvColorEdit3Config {};
 
-#ifdef MV_CPP
-	void add_color_edit4(const char* name, const mvColorEdit4Config& config);
-#else
+
 	PyObject* add_color_edit4(PyObject* self, PyObject* args, PyObject* kwargs);
-#endif
+
 
 	class mvColorEdit4 : public mvColorPtrBase
 	{
@@ -221,7 +211,7 @@ namespace Marvel {
 
 	struct mvColorPicker3Config : public mvAppItemConfig
 	{
-		//IntList default_value = (0, 0, 0, 255);
+		mvColor default_value();
 		bool no_alpha = false;
 		bool no_small_preview = false;
 		bool no_inputs = false;
@@ -242,11 +232,9 @@ namespace Marvel {
 		bool input_hsv = false;
 	};
 
-#ifdef MV_CPP
-	void add_color_picker3(const char* name, const mvColorPicker3Config& config);
-#else
+
 	PyObject* add_color_picker3(PyObject* self, PyObject* args, PyObject* kwargs);
-#endif
+
 
 	class mvColorPicker3 : public mvColorPtrBase
 	{
@@ -295,11 +283,9 @@ namespace Marvel {
 	//-----------------------------------------------------------------------------
 	struct mvColorPicker4Config : mvColorPicker3Config {};
 
-#ifdef MV_CPP
-	void add_color_picker4(const char* name, const mvColorPicker4Config& config);
-#else
+
 	PyObject* add_color_picker4(PyObject* self, PyObject* args, PyObject* kwargs);
-#endif
+
 
 	class mvColorPicker4 : public mvColorPtrBase
 	{

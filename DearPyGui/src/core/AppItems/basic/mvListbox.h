@@ -3,6 +3,13 @@
 #include "mvTypeBases.h"
 
 namespace Marvel {
+	struct mvListboxConfig : public mvAppItemConfig
+	{
+		std::vector<std::string> items;
+		int default_value = 0;
+		int num_items = 3;
+
+	};
 
 	PyObject* add_listbox(PyObject* self, PyObject* args, PyObject* kwargs);
 
