@@ -24,7 +24,7 @@ if(WIN32)
 	target_link_directories(coreemb PRIVATE "../Dependencies/cpython/PCbuild/amd64/")
 
 	if(NOT MV_CPP)
-		target_link_libraries(coreemb PUBLIC $<$<PLATFORM_ID:Windows>:d3d11> $<$<CONFIG:Debug>:python38_d> $<$<CONFIG:Release>:python38>)
+		target_link_libraries(coreemb PUBLIC $<$<PLATFORM_ID:Windows>:d3d11> $<$<CONFIG:Debug>:python39_d> $<$<CONFIG:Release>:python39>)
 	else()
 		target_link_libraries(coreemb PUBLIC $<$<PLATFORM_ID:Windows>:d3d11>)
 	endif()
@@ -62,7 +62,7 @@ else() # Linux
 	target_link_directories(coreemb PRIVATE ../Dependencies/cpython/debug)
 
 	if(NOT MV_CPP)
-		target_link_libraries(coreemb PRIVATE "-lcrypt -lpthread -ldl -lutil -lm" GL glfw python3.8d)
+		target_link_libraries(coreemb PRIVATE "-lcrypt -lpthread -ldl -lutil -lm" GL glfw python3.9d)
 	else()
 		target_link_libraries(coreemb PRIVATE "-lcrypt -lpthread -ldl -lutil -lm" GL glfw)
 	endif()

@@ -22,7 +22,7 @@ target_include_directories(DearSandbox
 
 	PRIVATE
 
-		"$<$<PLATFORM_ID:Linux>:${CMAKE_SOURCE_DIR}/Dependencies/cpython/debug/include/python3.8d/>"
+		"$<$<PLATFORM_ID:Linux>:${CMAKE_SOURCE_DIR}/Dependencies/cpython/debug/include/python3.9d/>"
 		"$<$<PLATFORM_ID:Windows>:${CMAKE_SOURCE_DIR}/Dependencies/cpython/PC/>"
 		"../Dependencies/imgui/"
 		"../DearPyGui/vendor/implot/"
@@ -58,7 +58,7 @@ if (WIN32)
 	)
 
 	target_link_directories(DearSandbox PRIVATE "../Dependencies/cpython/PCbuild/amd64/")
-	target_link_libraries(DearSandbox PUBLIC coreemb $<$<CONFIG:Debug>:python38_d> $<$<CONFIG:Release>:python38>)
+	target_link_libraries(DearSandbox PUBLIC coreemb $<$<CONFIG:Debug>:python39_d> $<$<CONFIG:Release>:python39>)
 
 	add_custom_command(TARGET DearSandbox PRE_BUILD
 						COMMAND ${CMAKE_COMMAND} -E copy_if_different
@@ -67,7 +67,7 @@ if (WIN32)
 
 	add_custom_command(TARGET DearSandbox PRE_BUILD
 						COMMAND ${CMAKE_COMMAND} -E copy_if_different
-							${CMAKE_SOURCE_DIR}/Dependencies/cpython/PCbuild/amd64/python38$<$<CONFIG:Debug>:_d>.dll $<TARGET_FILE_DIR:DearSandbox>)
+							${CMAKE_SOURCE_DIR}/Dependencies/cpython/PCbuild/amd64/python39$<$<CONFIG:Debug>:_d>.dll $<TARGET_FILE_DIR:DearSandbox>)
 
 elseif(APPLE)
 
@@ -75,7 +75,7 @@ elseif(APPLE)
 
     target_link_directories(DearSandbox PRIVATE ../Dependencies/cpython/debug/lib)
 
-	target_link_libraries(DearSandbox PUBLIC coreemb -ldl "-framework CoreFoundation" "python3.8d")
+	target_link_libraries(DearSandbox PUBLIC coreemb -ldl "-framework CoreFoundation" "python3.9d")
 
 	file(GLOB PYTHON_LIBS_PATH "../Dependencies/cpython/debug/lib/python*")
 
@@ -90,6 +90,6 @@ else() # Linux
 		PUBLIC
 			"-lcrypt -lpthread -ldl -lutil -lm"
 			coreemb
-			python3.8d
+			python3.9d
 	)
 endif()
