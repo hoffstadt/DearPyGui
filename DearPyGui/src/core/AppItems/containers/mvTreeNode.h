@@ -4,6 +4,15 @@
 
 namespace Marvel {
 
+	struct mvTreeNodeConfig : public mvAppItemConfig
+	{
+		bool default_open = false;
+		bool open_on_double_click = false;
+		bool open_on_arrow = false;
+		bool leaf = false;
+		bool bullet = false;
+	};
+
 	PyObject* add_tree_node(PyObject* self, PyObject* args, PyObject* kwargs);
 
 	class mvTreeNode : public mvBoolPtrBase

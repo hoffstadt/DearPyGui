@@ -4,6 +4,11 @@
 
 namespace Marvel {
 
+	struct mvTooltipConfig : public mvAppItemConfig
+	{
+		std::string tipparent;
+	};
+
 	PyObject* add_tooltip(PyObject* self, PyObject* args, PyObject* kwargs);
 
 	class mvTooltip : public mvBoolPtrBase
