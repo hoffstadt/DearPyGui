@@ -76,4 +76,12 @@ elseif(MVPY_VERSION EQUAL 39)
 		PRIVATE 
 			"/Users/appveyor/.localpython3.9.1/lib"
 	)
+
+elseif(MVPY_VERSION EQUAL 0)
+	target_link_directories(core PRIVATE ../Dependencies/cpython/debug)
+
+	target_include_directories(core 
+		PRIVATE 
+			${MARVEL_INCLUDE_DIR}
+	)
 endif()
