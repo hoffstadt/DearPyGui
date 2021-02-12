@@ -28,11 +28,6 @@ HOW TO UPDATE?
 
 Decorated log: https://github.com/hoffstadt/DearPyGui/releases/tag/v0.7.x
 
-New Commands:
-- get_drawing_mouse_pos: can now retrieve mouse pos over a drawing #507
-- add_vline_series: can now add infinite vertical lines to a plot #541
-- add_hline_series: can now add infinite horizontal lines to a plot #541
-
 Breaking Changes:
 - removed command: decref_value
 - removed command: incref_value
@@ -40,14 +35,12 @@ Breaking Changes:
 
 Updates:
 - imgui: updated to v1.81
-- implot: updated to 7234801
-- draw commands: can now be sent to plots #457
 - value_storage: removed
 
 Fixes:
 - start_dearpygui: fixed primary window not found crash #523
 - callback_error: prevent callback error crash
-- numpy: numpy arrays not work with plots
+- numpy: numpy arrays not working with plots
 
 ------------------------------------------------------------------------
  VERSION 0.6.151
