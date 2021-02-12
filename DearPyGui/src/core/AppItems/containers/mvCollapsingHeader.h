@@ -17,6 +17,12 @@ namespace Marvel {
 		MV_CREATE_THEME_CONSTANT(mvAppItemType::CollapsingHeader, mvThemeCol_CollapsingHeader_BgActive		, 26L, 0L);
 		MV_CREATE_THEME_CONSTANT(mvAppItemType::CollapsingHeader, mvThemeCol_CollapsingHeader_Border		,  5L, 0L);
 		MV_CREATE_THEME_CONSTANT(mvAppItemType::CollapsingHeader, mvThemeCol_CollapsingHeader_BorderShadow	,  6L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvAppItemType::CollapsingHeader, mvThemeStyle_CollapsingHeader_BorderSize	, 12L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvAppItemType::CollapsingHeader, mvThemeStyle_CollapsingHeader_Rounding	, 11L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvAppItemType::CollapsingHeader, mvThemeStyle_CollapsingHeader_PaddingX	, 10L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvAppItemType::CollapsingHeader, mvThemeStyle_CollapsingHeader_PaddingY	, 10L, 1L);
+		MV_CREATE_THEME_CONSTANT(mvAppItemType::CollapsingHeader, mvThemeStyle_CollapsingHeader_ItemSpacingX, 13L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvAppItemType::CollapsingHeader, mvThemeStyle_CollapsingHeader_ItemSpacingY, 13L, 1L);
 
 		MV_START_COLOR_CONSTANTS
 			MV_CREATE_CONSTANT_PAIR(mvThemeCol_CollapsingHeader_Text),
@@ -26,6 +32,15 @@ namespace Marvel {
 			MV_CREATE_CONSTANT_PAIR(mvThemeCol_CollapsingHeader_Border),
 			MV_CREATE_CONSTANT_PAIR(mvThemeCol_CollapsingHeader_BorderShadow),
 		MV_END_COLOR_CONSTANTS
+
+		MV_START_STYLE_CONSTANTS
+			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_CollapsingHeader_BorderSize	, 0, 1),
+			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_CollapsingHeader_Rounding		, 0, 12),
+			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_CollapsingHeader_PaddingX		, 0, 20),
+			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_CollapsingHeader_PaddingY		, 0, 20),
+			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_CollapsingHeader_ItemSpacingX	, 0, 20),
+			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_CollapsingHeader_ItemSpacingY	, 0, 20),
+		MV_END_STYLE_CONSTANTS
 
 	public:
 
