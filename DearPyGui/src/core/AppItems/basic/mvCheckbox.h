@@ -21,12 +21,19 @@ namespace Marvel {
 
 		MV_APPITEM_TYPE(mvAppItemType::Checkbox, mvCheckbox, "add_checkbox")
 
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::Checkbox, mvThemeCol_CheckBox_Text			,  0L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::Checkbox, mvThemeCol_CheckBox_Bg			,  7L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::Checkbox, mvThemeCol_CheckBox_BgHovered		,  8L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::Checkbox, mvThemeCol_CheckBox_BgActive		, 18L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::Checkbox, mvThemeCol_CheckBox_Border		,  5L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::Checkbox, mvThemeCol_CheckBox_BorderShadow	,  6L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvAppItemType::Checkbox, mvThemeCol_CheckBox_Text					,  0L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvAppItemType::Checkbox, mvThemeCol_CheckBox_Bg					,  7L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvAppItemType::Checkbox, mvThemeCol_CheckBox_BgHovered				,  8L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvAppItemType::Checkbox, mvThemeCol_CheckBox_BgActive				, 18L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvAppItemType::Checkbox, mvThemeCol_CheckBox_Border				,  5L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvAppItemType::Checkbox, mvThemeCol_CheckBox_BorderShadow			,  6L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvAppItemType::Checkbox, mvThemeStyle_Checkbox_Rounding			, 11L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvAppItemType::Checkbox, mvThemeStyle_Checkbox_BorderSize			, 12L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvAppItemType::Checkbox, mvThemeStyle_Checkbox_PaddingX			, 10L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvAppItemType::Checkbox, mvThemeStyle_Checkbox_PaddingY			, 10L, 1L);
+		MV_CREATE_THEME_CONSTANT(mvAppItemType::Checkbox, mvThemeStyle_Checkbox_InnerItemSpacingX	, 14L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvAppItemType::Checkbox, mvThemeStyle_Checkbox_InnerItemSpacingY	, 14L, 1L);
+
 
 		MV_START_COLOR_CONSTANTS
 			MV_CREATE_CONSTANT_PAIR(mvThemeCol_CheckBox_Text),
@@ -36,6 +43,15 @@ namespace Marvel {
 			MV_CREATE_CONSTANT_PAIR(mvThemeCol_CheckBox_Border),
 			MV_CREATE_CONSTANT_PAIR(mvThemeCol_CheckBox_BorderShadow),
 		MV_END_COLOR_CONSTANTS
+
+		MV_START_STYLE_CONSTANTS
+			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_Checkbox_BorderSize		, 0,  1),
+			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_Checkbox_Rounding			, 0, 12),
+			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_Checkbox_PaddingX			, 0, 20),
+			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_Checkbox_PaddingY			, 0, 20),
+			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_Checkbox_InnerItemSpacingX, 0, 20),
+			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_Checkbox_InnerItemSpacingY, 0, 20),
+		MV_END_STYLE_CONSTANTS
 
 	public:
 
