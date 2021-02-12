@@ -25,6 +25,20 @@ namespace Marvel {
 		MV_CREATE_THEME_CONSTANT(mvAppItemType::Combo, mvThemeCol_Combo_ScrollbarGrabActive , 17L, 0L);
 		MV_CREATE_THEME_CONSTANT(mvAppItemType::Combo, mvThemeCol_Combo_Border              ,  5L, 0L);
 		MV_CREATE_THEME_CONSTANT(mvAppItemType::Combo, mvThemeCol_Combo_BorderShadow        ,  6L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvAppItemType::Combo, mvThemeStyle_Combo_BorderSize		, 12L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvAppItemType::Combo, mvThemeStyle_Combo_Rounding			, 11L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvAppItemType::Combo, mvThemeStyle_Combo_PaddingX			, 10L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvAppItemType::Combo, mvThemeStyle_Combo_PaddingY			, 10L, 1L);
+		MV_CREATE_THEME_CONSTANT(mvAppItemType::Combo, mvThemeStyle_Combo_DropPaddingX		,  1L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvAppItemType::Combo, mvThemeStyle_Combo_DropPaddingY		,  1L, 1L);
+		MV_CREATE_THEME_CONSTANT(mvAppItemType::Combo, mvThemeStyle_Combo_DropBorderSize	,  9L, 0L)
+		MV_CREATE_THEME_CONSTANT(mvAppItemType::Combo, mvThemeStyle_Combo_DropRounding		,  8L, 0L)
+		MV_CREATE_THEME_CONSTANT(mvAppItemType::Combo, mvThemeStyle_Combo_ItemSpacingX		, 13L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvAppItemType::Combo, mvThemeStyle_Combo_ItemSpacingY		, 13L, 1L);
+		MV_CREATE_THEME_CONSTANT(mvAppItemType::Combo, mvThemeStyle_Combo_ScrollbarSize		, 17L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvAppItemType::Combo, mvThemeStyle_Combo_ScrollbarRounding	, 18L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvAppItemType::Combo, mvThemeStyle_Combo_TextAlignX		, 23L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvAppItemType::Combo, mvThemeStyle_Combo_TextAlignY		, 23L, 1L);
 
 		MV_START_COLOR_CONSTANTS
 			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Combo_Text),
@@ -43,6 +57,23 @@ namespace Marvel {
 			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Combo_Border),
 			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Combo_BorderShadow),
 		MV_END_COLOR_CONSTANTS
+
+		MV_START_STYLE_CONSTANTS
+			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_Combo_BorderSize			, 0,  1),
+			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_Combo_Rounding			, 0, 12),
+			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_Combo_PaddingX			, 0, 20),
+			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_Combo_PaddingY			, 0, 20),
+			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_Combo_DropPaddingX		, 0, 20),
+			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_Combo_DropPaddingY		, 0, 20),
+			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_Combo_DropBorderSize		, 0,  1),
+			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_Combo_DropRounding		, 0, 12),
+			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_Combo_ItemSpacingX		, 0, 20),
+			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_Combo_ItemSpacingY		, 0, 20),
+			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_Combo_ScrollbarSize		, 0, 20),
+			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_Combo_ScrollbarRounding	, 0, 12),
+			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_Combo_TextAlignX			, 0, 20),
+			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_Combo_TextAlignY			, 0, 20),
+		MV_END_STYLE_CONSTANTS
 
 	public:
 

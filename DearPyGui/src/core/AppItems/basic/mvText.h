@@ -60,11 +60,22 @@ namespace Marvel {
 
 		MV_APPITEM_TYPE(mvAppItemType::LabelText, mvLabelText, "add_label_text")
 
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::LabelText, mvThemeCol_LabelText_Text, 0L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvAppItemType::LabelText, mvThemeCol_LabelText_Text				,  0L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvAppItemType::LabelText, mvThemeStyle_LabelText_PaddingX			, 10L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvAppItemType::LabelText, mvThemeStyle_LabelText_PaddingY			, 10L, 1L);
+		MV_CREATE_THEME_CONSTANT(mvAppItemType::LabelText, mvThemeStyle_LabelText_ItemInnerSpacingX	, 14L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvAppItemType::LabelText, mvThemeStyle_LabelText_ItemInnerSpacingY	, 14L, 1L);
 
 		MV_START_COLOR_CONSTANTS
 			MV_CREATE_CONSTANT_PAIR(mvThemeCol_LabelText_Text),
 		MV_END_COLOR_CONSTANTS
+
+		MV_START_STYLE_CONSTANTS
+			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_LabelText_PaddingX			, 0, 20),
+			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_LabelText_PaddingY			, 0, 20),
+			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_LabelText_ItemInnerSpacingX	, 0, 20),
+			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_LabelText_ItemInnerSpacingY	, 0, 20),
+		MV_END_STYLE_CONSTANTS
 
 	public:
 
