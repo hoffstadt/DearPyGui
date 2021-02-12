@@ -1589,6 +1589,18 @@ namespace Marvel {
 		if (mvalues.size() == 0)
 			return GetPyNone();
 
+		if (mvalues.size() % columns != 0)
+		{
+			ThrowPythonException(std::string(name) + " series dimensions are wrong.");
+			return GetPyNone();
+		}
+
+		if (rows * columns != mvalues.size())
+		{
+			ThrowPythonException(std::string(name) + " series dimensions do not match data sizes.");
+			return GetPyNone();
+		}
+
 		auto series = CreateRef<mvHeatSeries>(name, &mvalues, rows, columns, scale_min,
 			scale_max, format, mbounds_min, mbounds_max, (ImPlotYAxis_)axis);
 
