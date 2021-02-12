@@ -60,6 +60,18 @@ namespace Marvel {
 		MV_CREATE_THEME_CONSTANT(mvAppItemType::Window, mvThemeCol_Window_ResizeGripActive		, 32L, 0L);
 		MV_CREATE_THEME_CONSTANT(mvAppItemType::Window, mvThemeCol_Window_Border				,  5L, 0L);
 		MV_CREATE_THEME_CONSTANT(mvAppItemType::Window, mvThemeCol_Window_BorderShadow			,  6L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvAppItemType::Window, mvThemeStyle_Window_BorderSize			,  3L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvAppItemType::Window, mvThemeStyle_Window_Rounding			,  2L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvAppItemType::Window, mvThemeStyle_Window_MinSizeX			,  4L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvAppItemType::Window, mvThemeStyle_Window_MinSizeY			,  4L, 1L);
+		MV_CREATE_THEME_CONSTANT(mvAppItemType::Window, mvThemeStyle_Window_TitleAlignX			,  5L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvAppItemType::Window, mvThemeStyle_Window_TitleAlignY			,  5L, 1L);
+		MV_CREATE_THEME_CONSTANT(mvAppItemType::Window, mvThemeStyle_Window_PaddingX			,  1L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvAppItemType::Window, mvThemeStyle_Window_PaddingY			,  1L, 1L);
+		MV_CREATE_THEME_CONSTANT(mvAppItemType::Window, mvThemeStyle_Window_ItemSpacingX		, 13L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvAppItemType::Window, mvThemeStyle_Window_ItemSpacingY		, 13L, 1L);
+		MV_CREATE_THEME_CONSTANT(mvAppItemType::Window, mvThemeStyle_Window_ScrollbarSize		, 17L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvAppItemType::Window, mvThemeStyle_Window_ScrollbarRounding	, 18L, 0L);
 
 		MV_START_COLOR_CONSTANTS
 			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Window_TitleText),
@@ -79,6 +91,21 @@ namespace Marvel {
 			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Window_Border),
 			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Window_BorderShadow),
 		MV_END_COLOR_CONSTANTS
+
+		MV_START_STYLE_CONSTANTS
+			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_Window_BorderSize			, 0,  1),
+			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_Window_Rounding			, 0, 12),
+			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_Window_MinSizeX			, 0, 50),
+			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_Window_MinSizeY			, 0, 50),
+			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_Window_TitleAlignX		, 0, 20),
+			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_Window_TitleAlignY		, 0, 20),
+			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_Window_PaddingX			, 0, 20),
+			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_Window_PaddingY			, 0, 20),
+			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_Window_ItemSpacingX		, 0, 20),
+			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_Window_ItemSpacingY		, 0, 20),
+			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_Window_ScrollbarSize		, 0, 20),
+			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_Window_ScrollbarRounding	, 0, 12),
+		MV_END_STYLE_CONSTANTS
 
 		enum class Status{ Normal, Transition, Dirty};
 
