@@ -93,6 +93,7 @@ namespace Marvel {
 
 		[[nodiscard]] bool isPlotQueried() const;
 		float* getPlotQueryArea();
+		mvRef<mvDrawList> getDrawList() { return m_drawList; }
 		
 		ImPlotFlags        getFlags         () const { return m_flags; }
 		ImPlotAxisFlags    getXFlags        () const { return m_xflags; }
@@ -115,6 +116,8 @@ namespace Marvel {
 		void getExtraConfigDict(PyObject* dict) override;
 
 	private:
+
+		mvRef<mvDrawList>             m_drawList;
 
 		// new
 		std::string                   m_xaxisName;
@@ -230,7 +233,7 @@ namespace Marvel {
 		{
 			None = 0, Line, Area, Bar, Error, Heat, 
 			Image, Label, Pie, Scatter, Stem, Shade, 
-			Stair, Candle
+			Stair, Candle, VLine, HLine
 		};
 
 		mvSeries(std::string name, const std::vector<const std::vector<float>*>& data, ImPlotYAxis_ axis = ImPlotYAxis_1);

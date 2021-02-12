@@ -66,3 +66,4 @@
 #include "plots/mvImageSeries.h"
 #include "plots/mvStairSeries.h"
 #include "plots/mvCandleSeries.h"
+#include "plots/mvInfiniteLineSeries.h"

@@ -158,6 +158,10 @@ def add_heat_series(plot: str, name: str, values: List[float], rows: int, column
 	"""Adds a heat series to a plot."""
 	...
 
+def add_hline_series(plot: str, name: str, x: List[float], *, color: List[float] = (0, 0, 0, -1), weight: float = 1.0, update_bounds: bool = True, axis: int = 0) -> None:
+	"""Adds a infinite horizontal line series to a plot."""
+	...
+
 def add_image(name: str, value: str, *, tint_color: List[float] = (255, 255, 255, 255), border_color: List[float] = (0, 0, 0, 0), tip: str = '', parent: str = '', before: str = '', source: str = '', width: int = 0, height: int = 0, uv_min: List[float] = (0.0, 0.0), uv_max: List[float] = (1.0, 1.0), show: bool = True) -> None:
 	"""Adds an image.uv_min and uv_max represent the normalized texture coordinates of the original image that will be shown.Using(0,0)->(1,1) texture coordinates will generally display the entire texture"""
 	...
@@ -390,6 +394,10 @@ def add_value(name: str, value: Any) -> None:
 	"""Adds a value to the value storage."""
 	...
 
+def add_vline_series(plot: str, name: str, x: List[float], *, color: List[float] = (0, 0, 0, -1), weight: float = 1.0, update_bounds: bool = True, axis: int = 0) -> None:
+	"""Adds a infinite vertical line series to a plot."""
+	...
+
 def add_window(name: str, *, width: int = -1, height: int = -1, x_pos: int = 200, y_pos: int = 200, autosize: bool = False, no_resize: bool = False, no_title_bar: bool = False, no_move: bool = False, no_scrollbar: bool = False, no_collapse: bool = False, horizontal_scrollbar: bool = False, no_focus_on_appearing: bool = False, no_bring_to_front_on_focus: bool = False, menubar: bool = False, no_close: bool = False, no_background: bool = False, label: str = '', show: bool = True, on_close: Callable = None) -> None:
 	"""Creates a new window for following items to be added to."""
 	...
@@ -560,6 +568,10 @@ def get_delta_time() -> float:
 
 def get_draw_command(drawing: str, tag: str) -> dict:
 	"""Returns an draw commands information"""
+	...
+
+def get_drawing_mouse_pos() -> (int, int):
+	"""Returns the current mouse position in the currently hovered drawing."""
 	...
 
 def get_global_font_scale() -> float:

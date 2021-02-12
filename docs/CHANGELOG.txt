@@ -23,7 +23,21 @@ HOW TO UPDATE?
 - Please report any issue!
 
 ------------------------------------------------------------------------
- VERSION 0.6.174
+ VERSION 0.6.183
+------------------------------------------------------------------------
+
+Updates:
+- added protections to heat series
+- implot: updated to 7234801
+- draw commands: can now be sent to plots #457
+
+New Commands:
+- get_drawing_mouse_pos: can now retrieve mouse pos over a drawing #507
+- add_vline_series: can now add infinite vertical lines to a plot #541
+- add_hline_series: can now add infinite horizontal lines to a plot #541
+
+------------------------------------------------------------------------
+ VERSION 0.6.175
 ------------------------------------------------------------------------
 
 Fixes:

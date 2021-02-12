@@ -36,6 +36,7 @@ namespace Marvel {
 		static void          setMousePosition      (float x, float y);
 		static void          setGlobalMousePosition(float x, float y);
 		static void          setPlotMousePosition  (float x, float y);
+		static void          setDrawingMousePosition  (float x, float y);
 		static void          setMouseDragThreshold (float threshold);
 		static void          setMouseDragDelta     (const mvVec2& delta);
 
@@ -44,6 +45,7 @@ namespace Marvel {
 		static mvVec2        getMousePosition      ();
 		static mvVec2        getGlobalMousePosition();
 		static mvVec2        getPlotMousePosition  ();
+		static mvVec2        getDrawingMousePosition  ();
 
 		static bool          isMouseDragging           (int button, float threshold);
 		static bool          isMouseButtonDown         (int button);
@@ -61,6 +63,7 @@ namespace Marvel {
 		static AtomicVec2       s_mousePos;
 		static AtomicVec2       s_mouseGlobalPos;
 		static AtomicVec2       s_mousePlotPos;
+		static AtomicVec2       s_mouseDrawingPos;
 		static std::atomic_int  s_mouseDragThreshold;
 		static AtomicVec2       s_mouseDragDelta;
 

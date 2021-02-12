@@ -264,17 +264,34 @@ void ShowDemoWindow(bool* p_open) {
         static bool show_lines = true;
         static bool show_fills = true;
         static float fill_ref = 0;
+        static int shade_mode = 0;
         ImGui::Checkbox("Lines",&show_lines); ImGui::SameLine();
         ImGui::Checkbox("Fills",&show_fills);
-        ImGui::DragFloat("Reference",&fill_ref, 1, -100, 500);
+        if (show_fills) {
+            ImGui::SameLine();
+            if (ImGui::RadioButton("To -INF",shade_mode == 0))
+                shade_mode = 0;
+            ImGui::SameLine();
+            if (ImGui::RadioButton("To +INF",shade_mode == 1))
+                shade_mode = 1;
+            ImGui::SameLine();
+            if (ImGui::RadioButton("To Ref",shade_mode == 2))
+                shade_mode = 2;
+            if (shade_mode == 2) {
+                ImGui::SameLine();
+                ImGui::SetNextItemWidth(100);
+                ImGui::DragFloat("##Ref",&fill_ref, 1, -100, 500);
+            }
+        }
+
 
         ImPlot::SetNextPlotLimits(0,100,0,500);
         if (ImPlot::BeginPlot("Stock Prices", "Days", "Price")) {
             if (show_fills) {
                 ImPlot::PushStyleVar(ImPlotStyleVar_FillAlpha, 0.25f);
-                ImPlot::PlotShaded("Stock 1", xs1, ys1, 101, fill_ref);
-                ImPlot::PlotShaded("Stock 2", xs1, ys2, 101, fill_ref);
-                ImPlot::PlotShaded("Stock 3", xs1, ys3, 101, fill_ref);
+                ImPlot::PlotShaded("Stock 1", xs1, ys1, 101, shade_mode == 0 ? -INFINITY : shade_mode == 1 ? INFINITY : fill_ref);
+                ImPlot::PlotShaded("Stock 2", xs1, ys2, 101, shade_mode == 0 ? -INFINITY : shade_mode == 1 ? INFINITY : fill_ref);
+                ImPlot::PlotShaded("Stock 3", xs1, ys3, 101, shade_mode == 0 ? -INFINITY : shade_mode == 1 ? INFINITY : fill_ref);
                 ImPlot::PopStyleVar();
             }
             if (show_lines) {
@@ -419,6 +436,7 @@ void ShowDemoWindow(bool* p_open) {
             ImPlot::EndPlot();
         }
     }
+    //-------------------------------------------------------------------------
     if (ImGui::CollapsingHeader("Stem Plots##")) {
         static double xs[51], ys1[51], ys2[51];
         for (int i = 0; i < 51; ++i) {
@@ -435,6 +453,15 @@ void ShowDemoWindow(bool* p_open) {
             ImPlot::SetNextMarkerStyle(ImPlotMarker_Square,5,ImVec4(1,0.5f,0,0.25f));
             ImPlot::PlotStems("Stems 2", xs, ys2,51);
 
+            ImPlot::EndPlot();
+        }
+    }
+    //-------------------------------------------------------------------------
+    if (ImGui::CollapsingHeader("Infinite Lines")) {
+        static double vals[] = {0.25, 0.5, 0.75};
+        if (ImPlot::BeginPlot("##Infinite")) {
+            ImPlot::PlotVLines("VLines",vals,3);
+            ImPlot::PlotHLines("HLines",vals,3);
             ImPlot::EndPlot();
         }
     }
@@ -705,9 +732,11 @@ void ShowDemoWindow(bool* p_open) {
         ImPlot::SetNextPlotLimits(0.1, 100, 0, 10);
         ImPlot::SetNextPlotLimitsY(0, 1, ImGuiCond_Once, 1);
         ImPlot::SetNextPlotLimitsY(0, 300, ImGuiCond_Once, 2);
-        if (ImPlot::BeginPlot("Multi-Axis Plot", NULL, NULL, ImVec2(-1,0),
+        if (ImPlot::BeginPlot("Multi-Axis Plot", NULL, "Y-Axis 1", ImVec2(-1,0),
                              (y2_axis ? ImPlotFlags_YAxis2 : 0) |
-                             (y3_axis ? ImPlotFlags_YAxis3 : 0))) {
+                             (y3_axis ? ImPlotFlags_YAxis3 : 0),
+                              ImPlotAxisFlags_None, ImPlotAxisFlags_None, ImPlotAxisFlags_NoGridLines, ImPlotAxisFlags_NoGridLines,
+                              "Y-Axis 2", "Y-Axis 3")) {
             ImPlot::PlotLine("f(x) = x", xs, xs, 1001);
             ImPlot::PlotLine("f(x) = sin(x)*3+1", xs, ys1, 1001);
             if (y2_axis) {

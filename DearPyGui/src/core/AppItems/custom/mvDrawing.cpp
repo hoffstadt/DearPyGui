@@ -1,6 +1,7 @@
 #include "mvDrawing.h"
 #include "mvApp.h"
 #include "mvPythonTranslator.h"
+#include "mvInput.h"
 
 namespace Marvel {
 
@@ -36,6 +37,12 @@ namespace Marvel {
 
 		ImGui::PopClipRect();
 		ImGui::Dummy(ImVec2((float)m_width, (float)m_height));
+
+		if (ImGui::IsItemHovered())
+		{
+			ImVec2 mousepos = ImGui::GetMousePos();
+			mvInput::setDrawingMousePosition((float)mousepos.x - m_startx, (float)mousepos.y - m_starty);
+		}
 	}
 
 	mvRef<mvDrawList> mvDrawing::getDrawList()
