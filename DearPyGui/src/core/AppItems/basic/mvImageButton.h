@@ -17,6 +17,9 @@ namespace Marvel {
 		MV_CREATE_THEME_CONSTANT(mvAppItemType::ImageButton, mvThemeCol_ImageButton_BgActive		, 23L, 0L);
 		MV_CREATE_THEME_CONSTANT(mvAppItemType::ImageButton, mvThemeCol_ImageButton_Border			,  5L, 0L);
 		MV_CREATE_THEME_CONSTANT(mvAppItemType::ImageButton, mvThemeCol_ImageButton_BorderShadow	,  6L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvAppItemType::ImageButton, mvThemeStyle_ImageButton_BorderSize	, 12L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvAppItemType::ImageButton, mvThemeStyle_ImageButton_PaddingX		, 10L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvAppItemType::ImageButton, mvThemeStyle_ImageButton_PaddingY		, 10L, 1L);
 
 		MV_START_COLOR_CONSTANTS
 			MV_CREATE_CONSTANT_PAIR(mvThemeCol_ImageButton_Bg),
@@ -25,6 +28,12 @@ namespace Marvel {
 			MV_CREATE_CONSTANT_PAIR(mvThemeCol_ImageButton_Border),
 			MV_CREATE_CONSTANT_PAIR(mvThemeCol_ImageButton_BorderShadow),
 		MV_END_COLOR_CONSTANTS
+
+		MV_START_STYLE_CONSTANTS
+			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_ImageButton_BorderSize, 0,  1),
+			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_ImageButton_PaddingX	, 0, 20),
+			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_ImageButton_PaddingY	, 0, 20),
+		MV_END_STYLE_CONSTANTS
 
 	public:
 
