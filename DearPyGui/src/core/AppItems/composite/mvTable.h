@@ -58,6 +58,8 @@ namespace Marvel {
 		void deleteColumn  (int column);
 		void clearTable    ();
 		int  getColumnCount() const { return (int)m_columns; }
+		void setExtraConfigDict(PyObject* dict) override;
+		void getExtraConfigDict(PyObject* dict) override;
 
 		[[nodiscard]] std::string getTableItem (int row, int column) const;
 		[[nodiscard]] PyObject*   getSelections() const;
@@ -78,6 +80,7 @@ namespace Marvel {
 		std::vector<std::vector<std::string>> m_hashValues;
 		std::vector<std::vector<std::string>> m_values;
 		size_t                                m_columns;
+		bool                                  hide_headers;
 
 	};
 
