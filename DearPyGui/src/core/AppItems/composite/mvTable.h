@@ -56,7 +56,7 @@ namespace Marvel {
 		std::vector<std::vector<std::string>> m_hashValues;
 		std::vector<std::vector<std::string>> m_values;
 		size_t                                m_columns;
-		bool                                  m_hideHeaders;
+		bool                                  hide_headers;
 
 	};
 
