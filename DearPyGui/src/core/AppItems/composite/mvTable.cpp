@@ -32,6 +32,22 @@ namespace Marvel {
 		m_hideHeaders = false;
 	}
 
+	void mvTable::setExtraConfigDict(PyObject* dict)
+	{
+		if (dict == nullptr)
+			return;
+
+		if (PyObject* item = PyDict_GetItemString(dict, "hide_headers")) m_hideHeaders = ToBool(item);
+	}
+
+	void mvTable::getExtraConfigDict(PyObject* dict)
+	{
+		if (dict == nullptr)
+			return;
+
+		PyDict_SetItemString(dict, "hide_headers", ToPyBool(m_hideHeaders));
+	}
+
 	bool mvTable::isIndexValid(int row, int column) const
 	{
 		if (column < 0 || row < 0)
@@ -164,11 +180,6 @@ namespace Marvel {
 		
 		return ToPyList(selections);
 	}
-
-	void mvTable::hideHeaders(const bool& hide)
-	{
-		m_hideHeaders = hide;
-	}	
 
 	void mvTable::addHeaders(const std::vector<std::string>& headers) 
 	{

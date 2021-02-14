@@ -819,7 +819,6 @@ namespace Marvel {
 		ADD_PYTHON_FUNCTION(set_table_data)
 		ADD_PYTHON_FUNCTION(get_table_data)
 		ADD_PYTHON_FUNCTION(set_headers)
-		ADD_PYTHON_FUNCTION(hide_headers)
 		ADD_PYTHON_FUNCTION(clear_table)
 		ADD_PYTHON_FUNCTION(get_table_item)
 		ADD_PYTHON_FUNCTION(set_table_item)

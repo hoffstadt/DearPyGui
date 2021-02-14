@@ -18,11 +18,6 @@ namespace Marvel{
 			{mvPythonDataType::StringList, "headers"},
 		}, "Sets a tables headers.", "None", "Tables") });
 
-		parsers->insert({ "hide_headers", mvPythonParser({
-			{mvPythonDataType::String, "table"},
-			{mvPythonDataType::Bool, "hide"},
-		}, "Hide a tables headers.", "None", "Tables") });
-
 		parsers->insert({ "clear_table", mvPythonParser({
 			{mvPythonDataType::String, "table"}
 		}, "Clears data in a table", "None", "Tables") });
@@ -168,30 +163,6 @@ namespace Marvel{
 
 		return GetPyNone();
 	}
-	
-	PyObject* hide_headers(PyObject* self, PyObject* args, PyObject* kwargs)
-	{
-		const char* table;
-		bool hide;
-
-		if (!(*mvApp::GetApp()->getParsers())["hide_headers"].parse(args, kwargs, __FUNCTION__, &table, &hide))
-			return GetPyNone();
-
-		auto item = mvApp::GetApp()->getItemRegistry().getItem(table);
-		if (item == nullptr)
-		{
-			std::string message = table;
-			ThrowPythonException(message + " table does not exist.");
-			return GetPyNone();
-		}
-
-		//auto prow = ToBool(hide);
-		mvTable* atable = static_cast<mvTable*>(item.get());
-
-		atable->hideHeaders(hide);
-
-		return GetPyNone();
-	}	
 
 	PyObject* clear_table(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
