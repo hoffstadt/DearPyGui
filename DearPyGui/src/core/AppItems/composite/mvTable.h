@@ -80,7 +80,7 @@ namespace Marvel {
 		std::vector<std::vector<std::string>> m_hashValues;
 		std::vector<std::vector<std::string>> m_values;
 		size_t                                m_columns;
-		bool                                  hide_headers;
+		bool                                  m_hide_headers;
 
 	};
 
