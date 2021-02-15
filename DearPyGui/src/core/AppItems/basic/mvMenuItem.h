@@ -5,6 +5,13 @@
 
 namespace Marvel {
 
+	struct mvMenuItemConfig : public mvAppItemConfig
+	{
+		std::string shortcut = "";
+		bool check = false;
+
+	};
+
 	PyObject* add_menu_item(PyObject* self, PyObject* args, PyObject* kwargs);
 
 	class mvMenuItem : public mvBoolPtrBase

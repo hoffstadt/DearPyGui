@@ -5,6 +5,8 @@
 
 namespace Marvel {
 
+	struct mvMenuBarConfig : public mvAppItemConfig {};
+
 	PyObject* add_menu_bar(PyObject* self, PyObject* args, PyObject* kwargs);
 
 	class mvMenuBar : public mvBoolPtrBase
