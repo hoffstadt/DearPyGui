@@ -18,6 +18,13 @@ namespace Marvel {
 	//-----------------------------------------------------------------------------
 	// mvColorButton
 	//-----------------------------------------------------------------------------
+	struct mvColorButtonConfig : public mvAppItemConfig
+	{
+		mvColor color;
+		bool no_alpha = false;
+		bool no_border = false;
+		bool no_drag_drop = false;
+	};
 
 	PyObject* add_color_button(PyObject* self, PyObject* args, PyObject* kwargs);
 
@@ -79,6 +86,28 @@ namespace Marvel {
 	//-----------------------------------------------------------------------------
 	// mvColorEdit3
 	//-----------------------------------------------------------------------------
+	struct mvColorEdit3Config : public mvAppItemConfig
+	{
+		mvColor default_value;
+		bool no_alpha = false;
+		bool no_picker = false;
+		bool no_options = false;
+		bool no_small_preview = false;
+		bool no_inputs = false;
+		bool no_tooltip = false;
+		bool no_label = false;
+		bool no_drag_drop = false;
+		bool alpha_bar = false;
+		bool alpha_preview = false;
+		bool alpha_preview_half = false;
+		bool display_rgb = false;
+		bool display_hsv = false;
+		bool display_hex = false;
+		bool uint8 = false;
+		bool floats = false;
+		bool input_rgb = false;
+		bool input_hsv = false;
+	};
 
 	PyObject* add_color_edit3(PyObject* self, PyObject* args, PyObject* kwargs);
 
@@ -155,6 +184,7 @@ namespace Marvel {
 	//-----------------------------------------------------------------------------
 	// mvColorEdit4
 	//-----------------------------------------------------------------------------
+	struct mvColorEdit4Config : public mvColorEdit3Config {};
 
 	PyObject* add_color_edit4(PyObject* self, PyObject* args, PyObject* kwargs);
 
@@ -230,6 +260,28 @@ namespace Marvel {
 	//-----------------------------------------------------------------------------
 	// mvColorPicker3
 	//-----------------------------------------------------------------------------
+	struct mvColorPicker3Config : public mvAppItemConfig
+	{
+		mvColor default_value;
+		bool no_alpha = false;
+		bool no_small_preview = false;
+		bool no_inputs = false;
+		bool no_tooltip = false;
+		bool no_label = false;
+		bool no_side_preview = false;
+		bool alpha_bar = false;
+		bool alpha_preview = false;
+		bool alpha_preview_half = false;
+		bool display_rgb = false;
+		bool display_hsv = false;
+		bool display_hex = false;
+		bool uint8 = false;
+		bool floats = false;
+		bool picker_hue_bar = false;
+		bool picker_hue_wheel = false;
+		bool input_rgb = false;
+		bool input_hsv = false;
+	};
 
 	PyObject* add_color_picker3(PyObject* self, PyObject* args, PyObject* kwargs);
 
@@ -301,6 +353,7 @@ namespace Marvel {
 	//-----------------------------------------------------------------------------
 	// mvColorPicker4
 	//-----------------------------------------------------------------------------
+	struct mvColorPicker4Config : public mvColorPicker3Config {};
 
 	PyObject* add_color_picker4(PyObject* self, PyObject* args, PyObject* kwargs);
 

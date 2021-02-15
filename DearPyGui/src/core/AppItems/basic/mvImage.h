@@ -1,9 +1,20 @@
 #pragma once
 
 #include <utility>
+#include <array>
 #include "mvAppItem.h"
 
 namespace Marvel {
+
+	struct mvImageConfig : public mvAppItemConfig
+	{
+		
+		std::string value = "";
+		mvColor tint_color = mvColor{ 255, 255, 255, 255 };
+		mvColor border_color = mvColor{ 0, 0, 0, 0 };
+		std::array<float, 2> uv_min{ 0.0, 0.0 };
+		std::array<float, 2> uv_max{ 1.0, 1.0 };
+	};
 
 	PyObject* add_image(PyObject* self, PyObject* args, PyObject* kwargs);
 
