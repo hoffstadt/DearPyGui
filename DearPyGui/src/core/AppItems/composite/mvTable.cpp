@@ -28,7 +28,7 @@ namespace Marvel {
 		m_core_config.height = 200;
 		m_headers = headers;
 		m_columns = headers.size();
-		hide_headers = false;
+		m_hide_headers = false;
 	}
 
 	void mvTable::setExtraConfigDict(PyObject* dict)
@@ -36,7 +36,7 @@ namespace Marvel {
 		if (dict == nullptr)
 			return;
 
-		if (PyObject* item = PyDict_GetItemString(dict, "hide_headers")) hide_headers = ToBool(item);
+		if (PyObject* item = PyDict_GetItemString(dict, "hide_headers")) m_hide_headers = ToBool(item);
 	}
 
 	void mvTable::getExtraConfigDict(PyObject* dict)
@@ -44,7 +44,7 @@ namespace Marvel {
 		if (dict == nullptr)
 			return;
 
-		PyDict_SetItemString(dict, "hide_headers", ToPyBool(hide_headers));
+		PyDict_SetItemString(dict, "hide_headers", ToPyBool(m_hide_headers));
 	}
 
 	bool mvTable::isIndexValid(int row, int column) const
@@ -526,7 +526,7 @@ namespace Marvel {
 		if(m_columns > 0)
 			ImGui::Columns((int)m_columns, nullptr, true);
 		
-		if (!hide_headers) {
+		if (!m_hide_headers) {
 			for (auto& header : m_headers)
 			{
 				ImGui::Text("%s", header.c_str());
