@@ -227,8 +227,8 @@ namespace Marvel {
 
 		if (callable == nullptr)
 		{
-			if (data != nullptr)
-				Py_XDECREF(data);
+			//if (data != nullptr)
+			//	Py_XDECREF(data);
 			return;
 		}
 
