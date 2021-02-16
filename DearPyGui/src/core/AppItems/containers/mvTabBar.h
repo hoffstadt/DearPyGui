@@ -4,6 +4,11 @@
 
 namespace Marvel {
 
+	struct mvTabBarConfig : public mvAppItemConfig
+	{
+		bool reorderable = false;
+	};
+
 	PyObject* add_tab_bar(PyObject* self, PyObject* args, PyObject* kwargs);
 
 	class mvTabBar : public mvStringPtrBase

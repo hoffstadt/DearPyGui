@@ -4,6 +4,12 @@
 
 namespace Marvel {
 
+	struct mvSelectableConfig : public mvAppItemConfig
+	{
+		bool default_value = false;
+		bool span_columns = false;
+	};
+
 	PyObject* add_selectable(PyObject* self, PyObject* args, PyObject* kwargs);
 
 	class mvSelectable : public mvBoolPtrBase

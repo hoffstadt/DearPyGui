@@ -4,6 +4,16 @@
 
 namespace Marvel {
 
+	struct mvCollapsingHeaderConfig : public mvAppItemConfig
+	{
+		bool closable = false;
+		bool default_open = false;
+		bool open_on_double_click = false;
+		bool open_on_arrow = false;
+		bool leaf = false;
+		bool bullet = false;
+	};
+
 	PyObject* add_collapsing_header(PyObject* self, PyObject* args, PyObject* kwargs);
 
 	class mvCollapsingHeader : public mvBoolPtrBase

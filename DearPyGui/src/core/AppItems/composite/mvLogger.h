@@ -6,6 +6,18 @@
 
 namespace Marvel {
 
+	struct mvLoggerItemConfig : public mvAppItemConfig
+	{
+		int log_level = 1;
+		bool auto_scroll = true;
+		bool auto_scroll_button = true;
+		bool clear_button = true;
+		bool copy_button = true;
+		bool filter = true;
+		bool autosize_x = false;
+		bool autosize_y = false;
+	};
+
 	PyObject* add_logger(PyObject* self, PyObject* args, PyObject* kwargs);
 
 	class mvLoggerItem : public mvAppItem
