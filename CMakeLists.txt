@@ -3,7 +3,7 @@
 project ("DearPyGui")
 
 # variables set by the command line
-#set(MV_CPP ON)
+# set(MV_CPP ON)
 set(MV_CPP ${MV_CPP})
 set(MVDIST_ONLY ${MVDIST_ONLY})
 set(MV37DIST ${MV37DIST})
