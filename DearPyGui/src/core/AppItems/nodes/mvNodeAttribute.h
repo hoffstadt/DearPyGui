@@ -1,5 +1,6 @@
 #pragma once
 #include "mvAppItem.h"
+#include <stdint.h>
 
 namespace Marvel {
 
@@ -20,15 +21,18 @@ namespace Marvel {
 
 		void draw() override;
 
+		int getId() const {return m_id;}
+
 #ifndef MV_CPP
 		void setExtraConfigDict(PyObject* dict) override;
 		void getExtraConfigDict(PyObject* dict) override;
 #endif // !MV_CPP
 
 	private:
-
+        int m_id = 0;
 		bool m_output = false;
 		bool m_static = false;
+
 	};
 
 }

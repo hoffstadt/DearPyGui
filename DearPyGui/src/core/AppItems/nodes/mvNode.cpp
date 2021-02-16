@@ -48,6 +48,9 @@ namespace Marvel {
 	{
 		m_description.container = true;
 		m_core_config.label = FindRenderedTextEnd(m_core_config.name.c_str());
+        int64_t address = (int64_t)this;
+        int64_t reduced_address = address % 2147483648;
+        m_id = (int)reduced_address;
 	}
 
 	void mvNode::setNodePos(float x, float y)
@@ -65,11 +68,11 @@ namespace Marvel {
 
 		if (m_dirty_pos)
 		{
-			imnodes::SetNodeGridSpacePos((int)this, ImVec2(m_xpos, m_ypos));
+			imnodes::SetNodeGridSpacePos((int)m_id, ImVec2(m_xpos, m_ypos));
 			m_dirty_pos = false;
 		}
 
-		imnodes::BeginNode((int)this);
+		imnodes::BeginNode(m_id);
 
 		imnodes::BeginNodeTitleBar();
 		ImGui::TextUnformatted(m_core_config.label.c_str());
@@ -97,7 +100,7 @@ namespace Marvel {
 
 		imnodes::EndNode();
 
-		ImVec2 pos = imnodes::GetNodeGridSpacePos((int)this);
+		ImVec2 pos = imnodes::GetNodeGridSpacePos((int)m_id);
 		m_xpos = pos.x;
 		m_ypos = pos.y;
 	}
