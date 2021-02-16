@@ -1,23 +1,17 @@
-cd ../Dependencies/cpython
-mkdir -p debug
-cd debug
-../configure --with-pydebug --enable-shared
-make -j 
-
-cd ../../../
+cd ..
 mkdir -p cmake-build-release
 cd cmake-build-release
 rm -rf *
-cmake .. -DMVDIST_ONLY=True -DMVPY_VERSION=39 -DMVDPG_VERSION=local_build
+cmake .. -DMVDIST_ONLY=True -DMVPY_VERSION=0 -DMVDPG_VERSION=local_build
 make -j
 cd ..
 
 cd Distribution
-"../Dependencies/cpython/debug/python" BuildPythonWheel.py ../cmake-build-release/DearPyGui/core.so 0
-"../Dependencies/cpython/debug/python" -m ensurepip
-"../Dependencies/cpython/debug/python" -m pip install --upgrade pip
-"../Dependencies/cpython/debug/python" -m pip install twine --upgrade
-"../Dependencies/cpython/debug/python" -m pip install wheel
-"../Dependencies/cpython/debug/python" -m setup bdist_wheel --plat-name manylinux1_x86_64 --dist-dir ../dist
+python3 BuildPythonWheel.py ../cmake-build-release/DearPyGui/core.so 0
+python3 -m ensurepip
+python3 -m pip install --upgrade pip
+python3 -m pip install twine --upgrade
+python3 -m pip install wheel
+python3 -m setup bdist_wheel --plat-name manylinux1_x86_64 --dist-dir ../dist
 cd ..
 cd Scripts
