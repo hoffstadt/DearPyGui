@@ -8,7 +8,7 @@ cd ../../../
 mkdir -p cmake-build-release
 cd cmake-build-release
 rm -rf *
-cmake .. -DMVPY_VERSION=0 -DMVDPG_VERSION=local_build
+cmake .. -DMVPY_VERSION=39 -DMVDPG_VERSION=local_build
 make -j
 cd ..
 
