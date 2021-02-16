@@ -23,6 +23,9 @@ namespace Marvel {
 		: mvAppItem(name)
 	{
 		m_description.container = true;
+		int64_t address = (int64_t)this;
+		int64_t reduced_address = address % 2147483648;
+		m_id = (int)reduced_address;
 	}
 
 	void mvNodeAttribute::draw()
@@ -32,11 +35,11 @@ namespace Marvel {
 		mvImGuiThemeScope scope(this);
 
 		if (m_static)
-			imnodes::BeginStaticAttribute((int)this);
+			imnodes::BeginStaticAttribute((int)m_id);
 		else if(m_output)
-			imnodes::BeginOutputAttribute((int)this);
+			imnodes::BeginOutputAttribute((int)m_id);
 		else
-			imnodes::BeginInputAttribute((int)this);
+			imnodes::BeginInputAttribute((int)m_id);
 
 		//we do this so that the children dont get the theme
 		scope.cleanup();

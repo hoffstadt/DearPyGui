@@ -3,6 +3,7 @@
 #include "mvApp.h"
 #include "mvItemRegistry.h"
 #include "mvNode.h"
+#include "mvNodeAttribute.h"
 
 namespace Marvel {
 
@@ -68,21 +69,21 @@ namespace Marvel {
 
 	void mvNodeEditor::addLink(const std::string& node1, const std::string& node2)
 	{
-		int node1_id = -1;
-		int node2_id = -1;
+		int64_t node1_id = 0;
+        int64_t node2_id = 0;
 
 		for (const auto& node : m_children)
 		{
 			for (const auto& attr : node->m_children)
 			{
 				if (attr->getCoreConfig().name == node1)
-					node1_id = reinterpret_cast<int>(attr.get());
+					node1_id = static_cast<mvNodeAttribute*>(attr.get())->getId();
 				if (attr->getCoreConfig().name == node2)
-					node2_id = reinterpret_cast<int>(attr.get());
+					node2_id = static_cast<mvNodeAttribute*>(attr.get())->getId();
 			}
 		}
 
-		if (node1_id == -1 || node2_id == -1)
+		if (node1_id == 0 || node2_id == 0)
 			return;
 
 		addLink(node1_id, node2_id);
@@ -99,21 +100,21 @@ namespace Marvel {
 
 	void mvNodeEditor::deleteLink(const std::string& node1, const std::string& node2)
 	{
-		int node1_id = -1;
-		int node2_id = -1;
+		int node1_id = 0;
+		int node2_id = 0;
 
 		for (const auto& node : m_children)
 		{
 			for (const auto& attr : node->m_children)
 			{
 				if (attr->getCoreConfig().name == node1)
-					node1_id = reinterpret_cast<int>(attr.get());
+					node1_id = static_cast<mvNodeAttribute*>(attr.get())->getId();
 				if (attr->getCoreConfig().name == node2)
-					node2_id = reinterpret_cast<int>(attr.get());
+					node2_id = static_cast<mvNodeAttribute*>(attr.get())->getId();
 			}
 		}
 
-		if (node1_id == -1 || node2_id == -1)
+		if (node1_id == 0 || node2_id == 0)
 			return;
 
 		deleteLink(node1_id, node2_id);
@@ -159,7 +160,11 @@ namespace Marvel {
 		{
 			for (const auto& child : m_children)
 			{
-				if (reinterpret_cast<int>(child.get()) == item)
+			    int i1 = item;
+			    int i2 = static_cast<mvNode*>(child.get())->getId();
+			    int i3 = i1 + i2;
+				//if (static_cast<mvNode*>(child.get())->getId() == item)
+				if (i1 == i2)
 					result.push_back(child->getCoreConfig().name);
 			}
 		}
@@ -223,7 +228,7 @@ namespace Marvel {
 		{
 			child->getState().setHovered(false);
 
-			ImVec2 size = imnodes::GetNodeDimensions(reinterpret_cast<int>(child.get()));
+			ImVec2 size = imnodes::GetNodeDimensions(static_cast<mvNode*>(child.get())->getId());
 			child->getState().setRectSize({ size.x, size.y });
 			child->getState().setRectMin({ size.x, size.y });
 			child->getState().setRectMax({ size.x, size.y });
@@ -233,7 +238,7 @@ namespace Marvel {
 		{
 			for (auto& child : m_children)
 			{
-				if (reinterpret_cast<int>(child.get()) == hovered_node_id)
+				if (static_cast<mvNode*>(child.get())->getId() == hovered_node_id)
 					child->getState().setHovered(true);
 			}
 		}
@@ -268,10 +273,10 @@ namespace Marvel {
 			{
 				for (const auto& grandchild : child->m_children)
 				{
-					if (reinterpret_cast<int>(grandchild.get()) == start_attr)
+					if (static_cast<mvNodeAttribute*>(grandchild.get())->getId()== start_attr)
 						node1 = grandchild->getCoreConfig().name;
 
-					if (reinterpret_cast<int>(grandchild.get()) == end_attr)
+					if (static_cast<mvNodeAttribute*>(grandchild.get())->getId() == end_attr)
 						node2 = grandchild->getCoreConfig().name;
 				}
 			}
