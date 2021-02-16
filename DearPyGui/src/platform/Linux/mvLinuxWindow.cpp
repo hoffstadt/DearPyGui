@@ -5,6 +5,7 @@
 #include <GLFW/glfw3.h>
 #include "implot.h"
 #include "imgui.h"
+#include "imnodes.h"
 #include "imgui_internal.h"
 #include "imgui_impl_glfw.h"
 #include "imgui_impl_opengl3.h"
@@ -71,6 +72,7 @@ namespace Marvel {
         IMGUI_CHECKVERSION();
         ImGui::CreateContext();
         ImPlot::CreateContext();
+        imnodes::Initialize();
         ImGuiIO& io = ImGui::GetIO(); (void)io;
         io.ConfigWindowsMoveFromTitleBarOnly = true;
         io.IniFilename = nullptr;
@@ -102,6 +104,7 @@ namespace Marvel {
         // Cleanup
         ImGui_ImplOpenGL3_Shutdown();
         ImGui_ImplGlfw_Shutdown();
+        imnodes::Shutdown();
         ImGui::DestroyContext();
 
         glfwDestroyWindow(m_window);

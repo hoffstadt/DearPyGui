@@ -13,6 +13,9 @@ target_sources(PureImgui
 		"$<$<PLATFORM_ID:Windows>:src/mvWindowsWindow.cpp>"
 		"$<$<PLATFORM_ID:Linux>:src/mvLinuxWindow.cpp>"
 
+		# imnodes
+		"../DearPyGui/vendor/imnodes/imnodes.cpp"
+
 		# implot
 		"../DearPyGui/vendor/implot/implot.cpp"
 		"../DearPyGui/vendor/implot/implot_items.cpp"
@@ -68,6 +71,7 @@ target_include_directories(PureImgui
 		"../Dependencies/imgui/examples/libs/gl3w"
 		"../DearPyGui/vendor/implot/"
 		"../DearPyGui/vendor/stb/"
+		"../DearPyGui/vendor/imnodes/"
 )
 
 target_link_libraries(PureImgui

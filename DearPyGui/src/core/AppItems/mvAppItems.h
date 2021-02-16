@@ -67,3 +67,7 @@
 #include "plots/mvStairSeries.h"
 #include "plots/mvCandleSeries.h"
 #include "plots/mvInfiniteLineSeries.h"
+
+#include "nodes/mvNodeEditor.h"
+#include "nodes/mvNode.h"
+#include "nodes/mvNodeAttribute.h"

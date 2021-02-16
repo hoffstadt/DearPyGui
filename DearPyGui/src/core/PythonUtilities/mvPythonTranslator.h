@@ -34,6 +34,7 @@ namespace Marvel {
 	PyObject*   ToPyList  (const std::vector<std::string>& value);
 	PyObject*   ToPyList  (const std::vector<std::vector<std::string>>& value);
 	PyObject*   ToPyList  (const std::vector<std::pair<int, int>>& value);
+	PyObject*   ToPyList  (const std::vector<std::pair<std::string, std::string>>& value);
 	PyObject*   ToPyColor (const mvColor& color);
 	PyObject*   ToPyTime  (const tm& time);
 

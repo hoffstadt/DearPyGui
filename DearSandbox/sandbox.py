@@ -20,8 +20,4 @@ add_additional_font("../../Resources/NotoSerifCJKjp-Medium.otf", 20)
 show_demo()
 show_logger()
 
-with window("Extra Window"):
-
-    add_button("A new button")
-
 start_dearpygui()
