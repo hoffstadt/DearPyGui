@@ -76,9 +76,9 @@ namespace Marvel {
 			for (const auto& attr : node->m_children)
 			{
 				if (attr->getCoreConfig().name == node1)
-					node1_id = (int)attr.get();
+					node1_id = reinterpret_cast<int>(attr.get());
 				if (attr->getCoreConfig().name == node2)
-					node2_id = (int)attr.get();
+					node2_id = reinterpret_cast<int>(attr.get());
 			}
 		}
 
@@ -107,9 +107,9 @@ namespace Marvel {
 			for (const auto& attr : node->m_children)
 			{
 				if (attr->getCoreConfig().name == node1)
-					node1_id = (int)attr.get();
+					node1_id = reinterpret_cast<int>(attr.get());
 				if (attr->getCoreConfig().name == node2)
-					node2_id = (int)attr.get();
+					node2_id = reinterpret_cast<int>(attr.get());
 			}
 		}
 
@@ -159,7 +159,7 @@ namespace Marvel {
 		{
 			for (const auto& child : m_children)
 			{
-				if ((int)child.get() == item)
+				if (reinterpret_cast<int>(child.get()) == item)
 					result.push_back(child->getCoreConfig().name);
 			}
 		}
@@ -223,7 +223,7 @@ namespace Marvel {
 		{
 			child->getState().setHovered(false);
 
-			ImVec2 size = imnodes::GetNodeDimensions((int)child.get());
+			ImVec2 size = imnodes::GetNodeDimensions(reinterpret_cast<int>(child.get()));
 			child->getState().setRectSize({ size.x, size.y });
 			child->getState().setRectMin({ size.x, size.y });
 			child->getState().setRectMax({ size.x, size.y });
@@ -233,7 +233,7 @@ namespace Marvel {
 		{
 			for (auto& child : m_children)
 			{
-				if ((int)child.get() == hovered_node_id)
+				if (reinterpret_cast<int>(child.get()) == hovered_node_id)
 					child->getState().setHovered(true);
 			}
 		}
@@ -268,10 +268,10 @@ namespace Marvel {
 			{
 				for (const auto& grandchild : child->m_children)
 				{
-					if ((int)grandchild.get() == start_attr)
+					if (reinterpret_cast<int>(grandchild.get()) == start_attr)
 						node1 = grandchild->getCoreConfig().name;
 
-					if ((int)grandchild.get() == end_attr)
+					if (reinterpret_cast<int>(grandchild.get()) == end_attr)
 						node2 = grandchild->getCoreConfig().name;
 				}
 			}
