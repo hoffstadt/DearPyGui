@@ -1,5 +1,6 @@
 #include "mvWindowsWindow.h"
 #include "implot.h"
+#include "imnodes.h"
 
 // Forward declare message handler from imgui_impl_win32.cpp
 extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
@@ -33,6 +34,7 @@ void mvWindowsWindow::show()
 	IMGUI_CHECKVERSION();
 	ImGui::CreateContext();
 	ImPlot::CreateContext();
+	imnodes::Initialize();
 	ImGuiIO& io = ImGui::GetIO(); (void)io;
 
 	io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
@@ -94,6 +96,7 @@ void mvWindowsWindow::cleanup()
 	// Cleanup
 	ImGui_ImplDX11_Shutdown();
 	ImGui_ImplWin32_Shutdown();
+	imnodes::Shutdown();
 	ImPlot::DestroyContext();
 	ImGui::DestroyContext();
 

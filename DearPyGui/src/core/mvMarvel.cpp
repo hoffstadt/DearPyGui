@@ -96,6 +96,10 @@ namespace Marvel {
 		mvPlot::InsertParser(parsers.get());
 		mvDrawList::InsertParser(parsers.get());
 
+		mvNodeEditor::InsertParser(parsers.get());
+		mvNode::InsertParser(parsers.get());
+		mvNodeAttribute::InsertParser(parsers.get());
+
 #ifndef MV_CPP
 		AddPlotCommands(parsers.get());
 		AddLogCommands(parsers.get());
@@ -754,6 +758,18 @@ namespace Marvel {
 		ADD_PYTHON_FUNCTION(set_mouse_release_callback)
 		ADD_PYTHON_FUNCTION(set_render_callback)
 		ADD_PYTHON_FUNCTION(set_resize_callback)
+
+		// Node commands
+		ADD_PYTHON_FUNCTION(add_node_editor)
+		ADD_PYTHON_FUNCTION(add_node)
+		ADD_PYTHON_FUNCTION(add_node_attribute)
+		ADD_PYTHON_FUNCTION(add_node_link)
+		ADD_PYTHON_FUNCTION(delete_node_link)
+		ADD_PYTHON_FUNCTION(get_selected_nodes)
+		ADD_PYTHON_FUNCTION(get_selected_links)
+		ADD_PYTHON_FUNCTION(get_links)
+		ADD_PYTHON_FUNCTION(clear_selected_links)
+		ADD_PYTHON_FUNCTION(clear_selected_nodes)
 
 		// Theme commands
 		ADD_PYTHON_FUNCTION(set_theme_color)
