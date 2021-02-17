@@ -29,6 +29,18 @@ HOW TO UPDATE?
 New Keywords:
 - add_table: hide_headers keyword now available
 
+New Commands:
+- add_node:             new command added
+- add_node_attribute:   new command added
+- add_node_editor:      new command added
+- add_node_link:        new command added
+- clear_selected_links: new command added
+- clear_selected_nodes: new command added
+- delete_node_link:     new command added
+- get_links:            new command added
+- get_selected_links:   new command added
+- get_selected_nodes:   new command added
+
 ------------------------------------------------------------------------
  VERSION 0.6.183
 ------------------------------------------------------------------------

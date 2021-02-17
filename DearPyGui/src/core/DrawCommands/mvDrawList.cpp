@@ -53,7 +53,7 @@ namespace Marvel {
 			{mvPythonDataType::FloatList, "uv_max", "normalized texture coordinates", "(1.0, 1.0)"},
 			{mvPythonDataType::IntList, "color", "", "(255, 255, 255, 255)"},
 			{mvPythonDataType::String, "tag", "", "''"},
-		}, ("Draws an image on a drawing. p_min (bottom-left) and p_max (upper-right) represent corners of the rectangle the image will be drawn to."
+		}, ("Draws an image on a drawing. p_min (top-left) and p_max (bottom-right) represent corners of the rectangle the image will be drawn to."
 			"Setting the p_min equal to the p_max will sraw the image to with 1:1 scale."
 			"uv_min and uv_max represent the normalized texture coordinates of the original image that will be shown. Using (0,0)->(1,1) texture"
 			"coordinates will generally display the entire texture."), "None", "Drawing") });

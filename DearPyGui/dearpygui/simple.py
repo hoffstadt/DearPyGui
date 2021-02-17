@@ -239,6 +239,74 @@ def group(name: str, *, show: bool = True, tip: str = "", parent: str = "", befo
     finally:
         internal_dpg.end()
 
+@contextmanager
+def node(name: str, *, label: str = "__DearPyGuiDefault", show: bool = True, draggable: bool = True,
+         parent: str = "", before: str = "", x_pos: int = 100, y_pos: int = 100):
+    """Wraps add_node() and automates calling end().
+    Args:
+        name: Unique name used to programmatically refer to the item. If label is unused this will be the label,
+            anything after "##" that occurs in the name will not be shown on screen.
+        **label: Displayed name of the item.
+        **parent: Parent to add this item to. (runtime adding)
+        **before: This item will be displayed before the specified item in the parent. (runtime adding)
+        **show: sets if the item is shown or not window.
+        **draggable: Allow node to be draggable.
+        **x_pos: x position the node will start at
+        **y_pos: y position the node will start at
+    Returns:
+        None
+    """
+    try:
+        if label == "__DearPyGuiDefault":
+            yield internal_dpg.add_node(name, show=show, parent=parent, before=before, 
+                                                     draggable=draggable, x_pos=x_pos, y_pos=y_pos)
+        else:
+            yield internal_dpg.add_node(name, label=label, show=show, parent=parent, before=before, 
+                                                     draggable=draggable, x_pos=x_pos, y_pos=y_pos)
+    finally:
+        internal_dpg.end()
+
+@contextmanager
+def node_attribute(name: str, *, show: bool = True, output: bool = False,
+         static: bool = False, parent: str = "", before: str = ""):
+    """Wraps add_node_attribute() and automates calling end().
+    Args:
+        name: Unique name used to programmatically refer to the item. If label is unused this will be the label,
+            anything after "##" that occurs in the name will not be shown on screen.
+        **parent: Parent to add this item to. (runtime adding)
+        **before: This item will be displayed before the specified item in the parent. (runtime adding)
+        **show: sets if the item is shown or not window.
+        **output: Set as output attribute
+        **static: Set as static attribute
+    Returns:
+        None
+    """
+    try:
+        yield internal_dpg.add_node_attribute(name, show=show, parent=parent, before=before, 
+                                                    output=output, static=static)
+
+    finally:
+        internal_dpg.end()
+
+@contextmanager
+def node_editor(name: str, *, show: bool = True, parent: str = "", before: str = "", link_callback: Callable = None, delink_callback: Callable = None):
+    """Wraps add_node_editor() and automates calling end().
+    Args:
+        name: Unique name used to programmatically refer to the item. If label is unused this will be the label,
+            anything after "##" that occurs in the name will not be shown on screen.
+        **parent: Parent to add this item to. (runtime adding)
+        **before: This item will be displayed before the specified item in the parent. (runtime adding)
+        **show: sets if the item is shown or not window.
+        **link_callback: Callback ran when a new link is created
+        **delink_callback: Callback ran when a link is detached
+    Returns:
+        None
+    """
+    try:
+        yield internal_dpg.add_node_editor(name, show=show, parent=parent, before=before, link_callback=link_callback, delink_callback=delink_callback)
+    finally:
+        internal_dpg.end()
+
 
 @contextmanager
 def tab_bar(name: str, *, reorderable: bool = False, callback: Callable = None, callback_data: Any = None,  show: bool = True,

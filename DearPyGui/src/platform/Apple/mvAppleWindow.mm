@@ -1,6 +1,7 @@
 #include "mvAppleWindow.h"
 #include "Registries/mvDataStorage.h"
 #include <implot.h>
+#include "imnodes.h"
 
 #define GLFW_INCLUDE_NONE
 #define GLFW_EXPOSE_NATIVE_COCOA
@@ -50,6 +51,7 @@ namespace Marvel {
         IMGUI_CHECKVERSION();
         ImGui::CreateContext();
         ImPlot::CreateContext();
+        imnodes::Initialize();
         ImGuiIO &io = ImGui::GetIO();
         io.ConfigWindowsMoveFromTitleBarOnly = true;
         io.IniFilename = nullptr;
@@ -113,6 +115,7 @@ namespace Marvel {
         // Cleanup
         ImGui_ImplMetal_Shutdown();
         ImGui_ImplGlfw_Shutdown();
+        imnodes::Shutdown();
         ImPlot::DestroyContext();
         ImGui::DestroyContext();
 

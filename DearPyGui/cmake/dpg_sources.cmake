@@ -112,9 +112,16 @@ set(MARVEL_SOURCES
 	"src/core/AppItems/composite/mvStyleWindow.cpp"
 	"src/core/AppItems/composite/mvMetricsWindow.cpp"
 	"src/core/AppItems/composite/mvAboutWindow.cpp"
+
+	"src/core/AppItems/nodes/mvNodeEditor.cpp"
+	"src/core/AppItems/nodes/mvNode.cpp"
+	"src/core/AppItems/nodes/mvNodeAttribute.cpp"
 	
 	"src/core/AppItems/plots/mvPlot.cpp"
 	"src/core/AppItems/plots/mvAreaSeries.cpp"
+
+	# imnodes
+	"vendor/imnodes/imnodes.cpp"
 
 	# implot
 	"vendor/implot/implot.cpp"
@@ -143,6 +150,7 @@ set(MARVEL_INCLUDE_DIR
 
 	"vendor/implot"
 	"vendor/stb"
+	"vendor/imnodes"
 	"src/"
 	"src/core"
 	"src/core/AppItems"

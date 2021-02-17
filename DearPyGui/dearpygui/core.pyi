@@ -254,6 +254,22 @@ def add_next_column(*, name: str = 'next_collumn', show: bool = True, parent: st
 	"""Changes to next column."""
 	...
 
+def add_node(name: str, *, show: bool = True, draggable: bool = True, parent: str = '', before: str = '', x_pos: int = 100, y_pos: int = 100) -> None:
+	"""Adds a node to a node editor."""
+	...
+
+def add_node_attribute(name: str, *, output: bool = False, static: bool = False, show: bool = True, parent: str = '', before: str = '') -> None:
+	"""Adds a node attribute."""
+	...
+
+def add_node_editor(name: str, *, show: bool = True, parent: str = '', before: str = '', link_callback: Callable = None, delink_callback: Callable = None) -> None:
+	"""Adds a node editor."""
+	...
+
+def add_node_link(node_editor: str, node_1: str, node_2: str) -> None:
+	"""Adds a node link between nodes."""
+	...
+
 def add_pie_series(plot: str, name: str, values: List[float], labels: List[str], x: float, y: float, radius: float, *, normalize: bool = False, angle: float = 90.0, format: str = '%0.2f', update_bounds: bool = True, axis: int = 0) -> None:
 	"""Adds a pie series to a plot."""
 	...
@@ -362,7 +378,7 @@ def add_tab_button(name: str, *, label: str = '', show: bool = True, no_reorder:
 	"""Adds a tab button to a tab bar"""
 	...
 
-def add_table(name: str, headers: List[str], *, callback: Callable = None, callback_data: Any = None, parent: str = '', before: str = '', width: int = 0, height: int = 200, show: bool = True) -> None:
+def add_table(name: str, headers: List[str], *, callback: Callable = None, callback_data: Any = None, parent: str = '', before: str = '', width: int = 0, height: int = 200, hide_headers: bool = False, show: bool = True) -> None:
 	"""Adds table."""
 	...
 
@@ -434,6 +450,14 @@ def clear_plot(plot: str) -> None:
 	"""Clears a plot."""
 	...
 
+def clear_selected_links(node_editor: str) -> None:
+	"""Clears selected links."""
+	...
+
+def clear_selected_nodes(node_editor: str) -> None:
+	"""Clears selected nodes."""
+	...
+
 def clear_table(table: str) -> None:
 	"""Clears data in a table"""
 	...
@@ -480,6 +504,10 @@ def delete_draw_command(drawing: str, tag: str) -> None:
 
 def delete_item(item: str, *, children_only: bool = False) -> None:
 	"""Deletes an item if it exists."""
+	...
+
+def delete_node_link(node_editor: str, node_1: str, node_2: str) -> None:
+	"""Deletes a node link if it exist."""
 	...
 
 def delete_row(table: str, row: int) -> None:
@@ -630,6 +658,10 @@ def get_item_width(item: str) -> float:
 	"""Returns an item's width."""
 	...
 
+def get_links(node_editor: str) -> List[List[str]]:
+	"""Returns all links. """
+	...
+
 def get_log_level(*, logger: str = '') -> int:
 	"""Returns the log level."""
 	...
@@ -664,6 +696,14 @@ def get_plot_xlimits(plot: str) -> List[float]:
 
 def get_plot_ylimits(plot: str) -> List[float]:
 	"""Returns the plots x limits"""
+	...
+
+def get_selected_links(node_editor: str) -> List[List[str]]:
+	"""Returns selected links."""
+	...
+
+def get_selected_nodes(node_editor: str) -> List[str]:
+	"""Returns selected nodes."""
 	...
 
 def get_style_antialiased_fill() -> bool:

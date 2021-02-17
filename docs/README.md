@@ -142,6 +142,7 @@ These include:
 * 🥇 [Michael Kadziela](https://github.com/Innominus) _Gold Sponsor_
 * 🥇 [Yan Zaretskiy](https://github.com/mindv0rtex) _Gold Sponsor_
 * 🥇 [Trinnik](https://github.com/Trinnik) _Gold Sponsor_
+* 🥇 [Derek Barker](https://github.com/LordOdin) _Gold Sponsor_
 
 
 Thank you to all other [sponsors](https://github.com/hoffstadt/DearPyGui/wiki/Sponsors) for keeping this project moving forward!

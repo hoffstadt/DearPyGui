@@ -1195,6 +1195,10 @@ def show_demo():
             add_button("Insert col 1##demo", callback=lambda sender, data:insert_column("Table##widget##demo", 1,  "Inserted Column", ["inew1", "inew2", "inew3", "inew4"]))
             add_same_line()
             add_button("Clear Table##demo", callback=lambda sender, data: clear_table("Table##widget##demo"))
+            add_same_line()
+            add_button("Hide/Show Headers##demo", 
+                       callback=lambda sender, data: configure_item("Table##widget##demo", hide_headers=data),
+                       callback_data=lambda:not get_item_configuration("Table##widget##demo")["hide_headers"])
             add_table("Table##widget##demo", ["Column 1", "Column 2", "Column 3", "Column 4"], height=400)
 
             tabledata = []
@@ -1205,6 +1209,54 @@ def show_demo():
                 tabledata.append(row)
 
             set_table_data("Table##widget##demo", tabledata)
+
+        with collapsing_header("Node Editor##demo"):
+
+            def add_new_link(sender, data):
+                add_node_link("Node Editor 1##demo", "Node A2##demo", "Node A3##demo")
+
+            def delete_new_link(sender, data):
+                delete_node_link("Node Editor 1##demo", "Node A2##demo", "Node A3##demo")
+
+            def get_link_info(sender, data):
+                print("Selected Nodes: ", get_selected_nodes("Node Editor 1##demo"))
+                print("Selected Links: ",get_selected_links("Node Editor 1##demo"))
+                print("Links: ", get_links("Node Editor 1##demo"))
+
+            def clear_stuff(sender, data):
+                clear_selected_nodes("Node Editor 1##demo")
+                clear_selected_links("Node Editor 1##demo")
+
+            def link_callback(sender, data):
+                print(data)
+
+            def delink_callback(sender, data):
+                print(data)
+
+            add_text("Ctrl+Click to remove a link.", bullet=True)
+            with managed_columns("Node Editor Columns##demo", 4):
+                add_button("New Link##demo", callback=add_new_link)
+                add_button("Delete Link##demo", callback=delete_new_link)
+                add_button("Get Info##demo", callback=get_link_info)
+                add_button("Clear Selections##demo", callback=clear_stuff)
+
+            with node_editor("Node Editor 1##demo", link_callback=link_callback, delink_callback=delink_callback):
+
+                with node("Node 1##demo", x_pos=0):
+
+                    with node_attribute("Node A1##demo"):
+                        add_input_float("F1##demo", width=150)
+
+                    with node_attribute("Node A2##demo", output=True):
+                        add_input_float("F2##demo", width=150)
+
+                with node("Node 2##demo"):
+
+                    with node_attribute("Node A3##demo"):
+                        add_input_float("F3##demo", width=200)
+
+                    with node_attribute("Node A4##demo", output=True):
+                        add_input_float("F4##demo", width=200)
 
         with collapsing_header("Logging##demo"):
 

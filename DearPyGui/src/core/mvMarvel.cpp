@@ -80,6 +80,9 @@ namespace Marvel {
 		mvTable::InsertParser(parsers.get());
 		mvPlot::InsertParser(parsers.get());
 		mvDrawList::InsertParser(parsers.get());
+		mvNodeEditor::InsertParser(parsers.get());
+		mvNode::InsertParser(parsers.get());
+		mvNodeAttribute::InsertParser(parsers.get());
 
 		AddPlotCommands(parsers.get());
 		AddLogCommands(parsers.get());
@@ -638,6 +641,18 @@ namespace Marvel {
 		ADD_PYTHON_FUNCTION(get_windows)
 		ADD_PYTHON_FUNCTION(get_all_items)
 		ADD_PYTHON_FUNCTION(get_item_children)
+
+		// Node commands
+		ADD_PYTHON_FUNCTION(add_node_editor)
+		ADD_PYTHON_FUNCTION(add_node)
+		ADD_PYTHON_FUNCTION(add_node_attribute)
+		ADD_PYTHON_FUNCTION(add_node_link)
+		ADD_PYTHON_FUNCTION(delete_node_link)
+		ADD_PYTHON_FUNCTION(get_selected_nodes)
+		ADD_PYTHON_FUNCTION(get_selected_links)
+		ADD_PYTHON_FUNCTION(get_links)
+		ADD_PYTHON_FUNCTION(clear_selected_links)
+		ADD_PYTHON_FUNCTION(clear_selected_nodes)
 
 		// widget commands
 		ADD_PYTHON_FUNCTION(add_logger)
