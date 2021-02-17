@@ -2,6 +2,7 @@
 #include <imnodes.h>
 #include "mvApp.h"
 #include "mvItemRegistry.h"
+#include "mvNodeEditor.h"
 
 namespace Marvel {
 
@@ -26,6 +27,13 @@ namespace Marvel {
 		int64_t address = (int64_t)this;
 		int64_t reduced_address = address % 2147483648;
 		m_id = (int)reduced_address;
+	}
+
+	mvNodeAttribute::~mvNodeAttribute()
+	{
+		if (m_parent)
+			if (m_parent->m_parent)
+				static_cast<mvNodeEditor*>(m_parent->m_parent)->deleteLink(m_core_config.name, m_id);
 	}
 
 	void mvNodeAttribute::draw()
@@ -59,7 +67,9 @@ namespace Marvel {
 			item->getState().update();
 		}
 
-		if (m_output)
+		if (m_static)
+			imnodes::EndStaticAttribute();
+		else if (m_output)
 			imnodes::EndOutputAttribute();
 		else
 			imnodes::EndInputAttribute();

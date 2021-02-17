@@ -18,7 +18,7 @@ namespace Marvel {
 	public:
 
 		mvNodeAttribute(const std::string& name);
-
+		~mvNodeAttribute();
 		void draw() override;
 
 		int getId() const {return m_id;}
