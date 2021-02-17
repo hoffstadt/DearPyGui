@@ -254,7 +254,7 @@ def add_next_column(*, name: str = 'next_collumn', show: bool = True, parent: st
 	"""Changes to next column."""
 	...
 
-def add_node(name: str, *, show: bool = True, draggable: bool = True, parent: str = '', before: str = '', x_pos: int = 100, y_pos: int = 100) -> None:
+def add_node(name: str, *, show: bool = True, label: str = '', draggable: bool = True, parent: str = '', before: str = '', x_pos: int = 100, y_pos: int = 100) -> None:
 	"""Adds a node to a node editor."""
 	...
 

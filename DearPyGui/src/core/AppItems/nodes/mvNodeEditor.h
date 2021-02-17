@@ -28,6 +28,7 @@ namespace Marvel {
 
 		void addLink(const std::string& node1, const std::string& node2);
 		void addLink(int node1, int node2);
+		void deleteLink(const std::string& node, int id);
 		void deleteLink(const std::string& node1, const std::string& node2);
 		void deleteLink(int node1, int node2);
 		std::vector<std::string> getSelectedNodes() const;

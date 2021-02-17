@@ -87,13 +87,51 @@ namespace Marvel {
 			return;
 
 		addLink(node1_id, node2_id);
-		m_linksStrings.emplace_back(node1, node2);
+
+		bool found = false;
+		for (const auto& link : m_linksStrings)
+		{
+			if (link.first == node1 && link.second == node2)
+				found = true;
+		}
+		if (!found)
+			m_linksStrings.push_back(std::make_pair(node1, node2));
 
 		mvApp::GetApp()->getCallbackRegistry().submitCallback([=]() {
 			PyObject* link = PyTuple_New(2);
 			PyTuple_SetItem(link, 0, ToPyString(node1));
 			PyTuple_SetItem(link, 1, ToPyString(node2));
 			mvApp::GetApp()->getCallbackRegistry().addCallback(m_linkCallback, m_name, link);
+			});
+
+	}
+
+	void mvNodeEditor::deleteLink(const std::string& node, int id)
+	{
+		int nodeid = id;
+
+		std::vector<std::pair<int, int>> oldLinks = m_links;
+		m_links.clear();
+		for (auto& link : oldLinks)
+		{
+			if (link.first == nodeid || link.second == nodeid)
+				continue;
+			m_links.push_back(link);
+		}
+
+		std::vector<std::pair<std::string, std::string>> oldLinkStrings = m_linksStrings;
+		m_linksStrings.clear();
+		for (auto& link_string : oldLinkStrings)
+		{
+			if (link_string.first == node || link_string.second == node)
+				continue;
+			m_linksStrings.push_back(link_string);
+		}
+
+		mvApp::GetApp()->getCallbackRegistry().submitCallback([=]() {
+			PyObject* link = PyTuple_New(2);
+			PyTuple_SetItem(link, 0, ToPyString(node));
+			mvApp::GetApp()->getCallbackRegistry().addCallback(m_delinkCallback, m_name, link);
 			});
 
 	}
@@ -138,7 +176,14 @@ namespace Marvel {
 
 	void mvNodeEditor::addLink(int node1, int node2)
 	{
-		m_links.push_back(std::make_pair(node1, node2));
+		bool found = false;
+		for (const auto& link : m_links)
+		{
+			if (link.first == node1 && link.second == node2)
+				found = true;
+		}
+		if(!found)
+			m_links.push_back(std::make_pair(node1, node2));
 	}
 
 	void mvNodeEditor::deleteLink(int node1, int node2)

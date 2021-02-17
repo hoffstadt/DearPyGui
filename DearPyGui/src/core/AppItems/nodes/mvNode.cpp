@@ -34,6 +34,7 @@ namespace Marvel {
 			{mvPythonDataType::String, "name"},
 			{mvPythonDataType::KeywordOnly},
 			{mvPythonDataType::Bool, "show", "Attempt to render", "True"},
+			{mvPythonDataType::String, "label", "", "''"},
 			{mvPythonDataType::Bool, "draggable", "Allow node to be draggable.", "True"},
 			{mvPythonDataType::String, "parent", "Parent to add this item to. (runtime adding)", "''"},
 			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)", "''"},
@@ -48,6 +49,7 @@ namespace Marvel {
 	{
 		m_description.container = true;
 		m_label = FindRenderedTextEnd(m_name.c_str());
+		m_specifiedLabel = m_label;
         int64_t address = (int64_t)this;
         int64_t reduced_address = address % 2147483648;
         m_id = (int)reduced_address;
@@ -74,7 +76,7 @@ namespace Marvel {
 		imnodes::BeginNode(m_id);
 
 		imnodes::BeginNodeTitleBar();
-		ImGui::TextUnformatted(m_label.c_str());
+		ImGui::TextUnformatted(m_specifiedLabel.c_str());
 		imnodes::EndNodeTitleBar();
 
 		for (auto item : m_children)
@@ -125,6 +127,7 @@ namespace Marvel {
 	PyObject* add_node(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		const char* name;
+		const char* label = "";
 		int show = true;
 		int draggable = true;
 		const char* parent = "";
@@ -133,7 +136,7 @@ namespace Marvel {
 		int ypos = 100;
 
 		if (!(*mvApp::GetApp()->getParsers())["add_node"].parse(args, kwargs, __FUNCTION__, &name,
-			&show, &draggable, &parent, &before, &xpos, &ypos))
+			&show, &label, &draggable, &parent, &before, &xpos, &ypos))
 			return ToPyBool(false);
 
 		auto item = CreateRef<mvNode>(name);
