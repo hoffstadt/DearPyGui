@@ -146,10 +146,13 @@ namespace Marvel {
 		item->setExtraConfigDict(kwargs);
 
 		auto topParent = mvApp::GetApp()->getItemRegistry().topParent();
-		if (topParent->getType() != mvAppItemType::NodeEditor)
+		if (topParent)
 		{
-			ThrowPythonException("Parent on parent stack must be a node editor.");
-			return ToPyBool(false);
+			if (topParent->getType() != mvAppItemType::NodeEditor)
+			{
+				ThrowPythonException("Parent on parent stack must be a node editor.");
+				return ToPyBool(false);
+			}
 		}
 
 		if (mvApp::GetApp()->getItemRegistry().addItemWithRuntimeChecks(item, parent, before))
