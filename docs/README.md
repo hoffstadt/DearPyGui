@@ -105,7 +105,7 @@ _Dear PyGui_ includes a plotting API ([ImPlot](https://github.com/epezent/implot
 <img src="https://raw.githubusercontent.com/wiki/epezent/implot/screenshots3/tables.gif" width="270">
 
 #### Node Editor
-_Dear PyGui_ includes a plotting API ([imnodes](https://github.com/Nelarius/imnodes) Wrapping)
+_Dear PyGui_ includes a node editor API ([imnodes](https://github.com/Nelarius/imnodes) Wrapping)
 ![](https://raw.githubusercontent.com/Nelarius/imnodes/master/img/imnodes.gif?token=ADH_jEpqbBrw0nH-BUmOip490dyO2CnRks5cVZllwA%3D%3D)
 
 #### Themes
