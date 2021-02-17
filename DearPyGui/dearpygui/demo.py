@@ -1232,7 +1232,7 @@ def show_demo():
 
             with node_editor("Node Editor 1##demo", link_callback=link_callback, delink_callback=delink_callback):
     
-                with node("Node 1##demo", x_pos=0):
+                with node("Node 1##demo", x_pos=10, y_pos=10):
 
                     with node_attribute("Node A1##demo"):
                         add_input_float("F1##demo", width=150)
@@ -1240,13 +1240,19 @@ def show_demo():
                     with node_attribute("Node A2##demo", output=True):
                         add_input_float("F2##demo", width=150)
 
-                with node("Node 2##demo"):
+                with node("Node 2##demo", x_pos=300, y_pos=10):
 
                     with node_attribute("Node A3##demo"):
                         add_input_float("F3##demo", width=200)
 
                     with node_attribute("Node A4##demo", output=True):
                         add_input_float("F4##demo", width=200)
+
+                with node("Node 3##demo", x_pos=25, y_pos=150):                   
+                    with node_attribute("Node A5##demo"):
+                        add_input_text("T5##demo", width=200)
+                    with node_attribute("Node A6##demo", static=True): 
+                        add_simple_plot("Node Plot##demo", value=(0.3, 0.9, 2.5, 8.9), width=200, height=80, histogram=True)
 
         with collapsing_header("Logging##demo"):
 

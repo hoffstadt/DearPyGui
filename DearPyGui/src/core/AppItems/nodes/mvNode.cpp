@@ -34,6 +34,7 @@ namespace Marvel {
 			{mvPythonDataType::String, "name"},
 			{mvPythonDataType::KeywordOnly},
 			{mvPythonDataType::Bool, "show", "Attempt to render", "True"},
+			{mvPythonDataType::String, "label", "", "''"},
 			{mvPythonDataType::Bool, "draggable", "Allow node to be draggable.", "True"},
 			{mvPythonDataType::String, "parent", "Parent to add this item to. (runtime adding)", "''"},
 			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)", "''"},
@@ -48,6 +49,7 @@ namespace Marvel {
 	{
 		m_description.container = true;
 		m_core_config.label = FindRenderedTextEnd(m_core_config.name.c_str());
+		m_label = m_core_config.label;
         int64_t address = (int64_t)this;
         int64_t reduced_address = address % 2147483648;
         m_id = (int)reduced_address;
@@ -75,7 +77,7 @@ namespace Marvel {
 		imnodes::BeginNode(m_id);
 
 		imnodes::BeginNodeTitleBar();
-		ImGui::TextUnformatted(m_core_config.label.c_str());
+		ImGui::TextUnformatted(m_label.c_str());
 		imnodes::EndNodeTitleBar();
 
 		//we do this so that the children dont get the theme
@@ -130,6 +132,7 @@ namespace Marvel {
 	{
 		const char* name;
 		int show = true;
+		const char* label = "";
 		int draggable = true;
 		const char* parent = "";
 		const char* before = "";
@@ -137,7 +140,7 @@ namespace Marvel {
 		int ypos = 100;
 
 		if (!(*mvApp::GetApp()->getParsers())["add_node"].parse(args, kwargs, __FUNCTION__, &name,
-			&show, &draggable, &parent, &before, &xpos, &ypos))
+			&show, &label, &draggable, &parent, &before, &xpos, &ypos))
 			return ToPyBool(false);
 
 		auto item = CreateRef<mvNode>(name);
