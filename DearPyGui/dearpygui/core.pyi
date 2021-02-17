@@ -535,7 +535,7 @@ def draw_circle(drawing: str, center: List[float], radius: float, color: List[in
 	...
 
 def draw_image(drawing: str, file: str, pmin: List[float], pmax: List[float], *, uv_min: List[float] = (0.0, 0.0), uv_max: List[float] = (1.0, 1.0), color: List[int] = (255, 255, 255, 255), tag: str = '') -> None:
-	"""Draws an image on a drawing. p_min (bottom-left) and p_max (upper-right) represent corners of the rectangle the image will be drawn to.Setting the p_min equal to the p_max will sraw the image to with 1:1 scale.uv_min and uv_max represent the normalized texture coordinates of the original image that will be shown. Using (0,0)->(1,1) texturecoordinates will generally display the entire texture."""
+	"""Draws an image on a drawing. p_min (top-left) and p_max (bottom-right) represent corners of the rectangle the image will be drawn to.Setting the p_min equal to the p_max will sraw the image to with 1:1 scale.uv_min and uv_max represent the normalized texture coordinates of the original image that will be shown. Using (0,0)->(1,1) texturecoordinates will generally display the entire texture."""
 	...
 
 def draw_line(drawing: str, p1: List[float], p2: List[float], color: List[int], thickness: int, *, tag: str = '') -> None:
