@@ -16,7 +16,7 @@ namespace Marvel {
 
 	struct mvManagedColumnsConfig : public mvAppItemConfig
 	{
-		int columns;
+		int columns = 1;
 		bool border = true;
 	};
 

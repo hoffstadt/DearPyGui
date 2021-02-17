@@ -47,7 +47,8 @@ namespace Marvel {
         ManagedColumns, ColumnSet, NextColumn, Logger,
         AboutWindow, DocWindow, DebugWindow, MetricsWindow,
         StyleWindow, FileDialog, TabButton, 
-        ItemTypeCount, NodeEditor, Node, NodeAttribute
+        NodeEditor, Node, NodeAttribute,
+        ItemTypeCount
     };
 
     struct mvAppItemConfig
