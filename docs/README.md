@@ -161,6 +161,8 @@ Developed by [Jonathan Hoffstadt](https://github.com/hoffstadt), [Preston Cothre
 
 [Evan Pezent](http://evanpezent.com/) for all his work on [ImPlot](https://github.com/epezent/implot)
 
+[Johann Muszynski](https://github.com/Nelarius) for all of his work on [imnodes](https://github.com/Nelarius/imnodes)
+
 ### License
 
 ---
