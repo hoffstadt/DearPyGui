@@ -327,7 +327,7 @@ namespace Marvel {
 		static int destroyed_attr;
 		if (imnodes::IsLinkDestroyed(&destroyed_attr))
 		{
-			auto& item = m_linksStrings[destroyed_attr];
+			auto item = m_linksStrings[destroyed_attr];
 			deleteLink(item.first, item.second);
 		}
 
