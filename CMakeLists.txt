@@ -2,8 +2,6 @@
 
 project ("DearPyGui")
 
-add_subdirectory ("DearPyGui")
-
 # various settings
 set(GLFW_BUILD_DOCS OFF)
 add_definitions(-D_USE_MATH_DEFINES)
@@ -56,3 +54,5 @@ if(WIN32)
 else() # Apple and Linux
 	add_subdirectory ("Dependencies/glfw")
 endif()
+
+add_subdirectory ("DearPyGui")
