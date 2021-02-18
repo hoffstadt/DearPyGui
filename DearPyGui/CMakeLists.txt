@@ -23,7 +23,7 @@ if(MVDIST_ONLY)
 		include("cmake/linux_runner.cmake")
 	endif()
 
-# For developing
+# For development
 else()
 	include("cmake/embedded.cmake")
 endif()
