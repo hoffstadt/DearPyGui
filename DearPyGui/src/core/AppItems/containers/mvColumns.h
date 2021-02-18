@@ -14,6 +14,12 @@
 
 namespace Marvel {
 
+	struct mvManagedColumnsConfig : public mvAppItemConfig
+	{
+		int columns = 1;
+		bool border = true;
+	};
+
 	PyObject* add_managed_columns(PyObject* self, PyObject* args, PyObject* kwargs);
 	PyObject* add_columns        (PyObject* self, PyObject* args, PyObject* kwargs);
 	PyObject* add_next_column    (PyObject* self, PyObject* args, PyObject* kwargs);
@@ -74,6 +80,8 @@ namespace Marvel {
 	//-----------------------------------------------------------------------------
 	// mvColumn
 	//-----------------------------------------------------------------------------
+	struct mvColumnConfig : public mvManagedColumnsConfig {};
+	
 	class mvColumn : public mvAppItem
 	{
 
@@ -104,6 +112,14 @@ namespace Marvel {
 	//-----------------------------------------------------------------------------
 	// mvNextColumn
 	//-----------------------------------------------------------------------------
+	struct mvNextColumnConfig : public mvAppItemConfig
+	{
+		mvNextColumnConfig()
+		{
+			name = "next_column";
+		}
+	};
+	
 	class mvNextColumn : public mvAppItem
 	{
 

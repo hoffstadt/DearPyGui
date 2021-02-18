@@ -1,9 +1,19 @@
 #pragma once
 
 #include <utility>
+#include <array>
 #include "mvAppItem.h"
 
 namespace Marvel {
+
+	struct mvImageButtonConfig : public mvAppItemConfig
+	{
+		mvColor tint_color{ 255, 255, 255, 255 };
+		mvColor background_color{ 0, 0, 0, 0 };
+		int frame_padding = -1;
+		std::array<float, 2> uv_min{ 0.0, 0.0 };
+		std::array<float, 2> uv_max{ 1.0, 1.0 };
+	};
 
 	PyObject* add_image_button(PyObject* self, PyObject* args, PyObject* kwargs);
 

@@ -4,6 +4,12 @@
 
 namespace Marvel {
 
+	struct mvGroupConfig : public mvAppItemConfig
+	{
+		bool horizontal = false;
+		float horizontal_spacing = -1;
+	};
+
 	PyObject* add_group(PyObject* self, PyObject* args, PyObject* kwargs);
 
 	class mvGroup : public mvAppItem

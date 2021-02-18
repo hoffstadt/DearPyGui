@@ -440,6 +440,24 @@ namespace Marvel {
 			ThrowPythonException("Parent stack not empty. Adding window will empty the parent stack. Don't forget to end container types.");
 		}
 
+		if (item->getType() != mvAppItemType::Node && topParent() != nullptr)
+		{
+			if (topParent()->getType() == mvAppItemType::NodeEditor)
+			{
+				ThrowPythonException("Node editor children must be nodes only.");
+				return false;
+			}
+		}
+
+		if (item->getType() != mvAppItemType::NodeAttribute && topParent() != nullptr)
+		{
+			if (topParent()->getType() == mvAppItemType::Node)
+			{
+				ThrowPythonException("Node children must be nodes attributes only.");
+				return false;
+			}
+		}
+
 		if (item->getType() == mvAppItemType::Popup || item->getType() == mvAppItemType::Tooltip)
 		{
 			addItemAfter(parent, item);

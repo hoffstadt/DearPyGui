@@ -1,6 +1,7 @@
 #include "Platform/Windows/mvWindowsWindow.h"
 #include "mvApp.h"
 #include "implot.h"
+#include "imnodes.h"
 #include <cstdlib>
 #include <ctime>
 
@@ -54,6 +55,7 @@ namespace Marvel {
 		// Cleanup
 		ImGui_ImplDX11_Shutdown();
 		ImGui_ImplWin32_Shutdown();
+		imnodes::Shutdown();
 		ImPlot::DestroyContext();
 		ImGui::DestroyContext();
 
@@ -78,6 +80,8 @@ namespace Marvel {
 		IMGUI_CHECKVERSION();
 		ImGui::CreateContext();
 		ImPlot::CreateContext();
+		imnodes::Initialize();
+
 		ImGuiIO& io = ImGui::GetIO(); (void)io;
 		io.ConfigWindowsMoveFromTitleBarOnly = true;
 		io.IniFilename = nullptr;

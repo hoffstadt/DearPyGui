@@ -90,7 +90,6 @@ Result:
 
 ---
 
-
 #### Plotting/Graphing
 _Dear PyGui_ includes a plotting API ([ImPlot](https://github.com/epezent/implot) Wrapping)
 
@@ -104,6 +103,10 @@ _Dear PyGui_ includes a plotting API ([ImPlot](https://github.com/epezent/implot
 
 <img src="https://raw.githubusercontent.com/wiki/epezent/implot/screenshots3/candle.gif" width="270"> <img src="https://raw.githubusercontent.com/wiki/epezent/implot/screenshots3/heat.gif" width="270">
 <img src="https://raw.githubusercontent.com/wiki/epezent/implot/screenshots3/tables.gif" width="270">
+
+#### Node Editor
+_Dear PyGui_ includes a node editor API ([imnodes](https://github.com/Nelarius/imnodes) Wrapping)
+![](https://raw.githubusercontent.com/Nelarius/imnodes/master/img/imnodes.gif?token=ADH_jEpqbBrw0nH-BUmOip490dyO2CnRks5cVZllwA%3D%3D)
 
 #### Themes
 _Dear PyGui_ currently includes 10 themes and you can create your own:
@@ -144,6 +147,7 @@ These include:
 * 🥇 [Yan Zaretskiy](https://github.com/mindv0rtex) _Gold Sponsor_
 * 🥇 [Trinnik](https://github.com/Trinnik) _Gold Sponsor_
 * 🥇 [Anthony Doupe](https://github.com/Atlamillias) _Gold Sponsor_
+* 🥇 [Derek Barker](https://github.com/LordOdin) _Gold Sponsor_
 
 
 Thank you to all other [sponsors](https://github.com/hoffstadt/DearPyGui/wiki/Sponsors) for keeping this project moving forward!
@@ -159,6 +163,8 @@ Developed by [Jonathan Hoffstadt](https://github.com/hoffstadt), [Preston Cothre
 [Omar Cornut](http://www.miracleworld.net/) for all his incredible work on [Dear ImGui](https://github.com/ocornut/imgui).
 
 [Evan Pezent](http://evanpezent.com/) for all his work on [ImPlot](https://github.com/epezent/implot)
+
+[Johann Muszynski](https://github.com/Nelarius) for all of his work on [imnodes](https://github.com/Nelarius/imnodes)
 
 ### License
 

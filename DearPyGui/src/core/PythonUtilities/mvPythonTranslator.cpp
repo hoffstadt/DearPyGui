@@ -200,12 +200,20 @@ namespace Marvel {
 
 	PyObject* ToPyList(const std::vector<std::pair<int, int>>& value)
 	{
-		 
-
 		PyObject* result = PyList_New(value.size());
 
 		for (size_t i = 0; i < value.size(); i++)
 			PyList_SetItem(result, i, ToPyPairII(value[i].first, value[i].second));
+
+		return result;
+	}
+
+	PyObject* ToPyList(const std::vector<std::pair<std::string, std::string>>& value)
+	{
+		PyObject* result = PyList_New(value.size());
+
+		for (size_t i = 0; i < value.size(); i++)
+			PyList_SetItem(result, i, ToPyPair(value[i].first, value[i].second));
 
 		return result;
 	}

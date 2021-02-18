@@ -4,6 +4,13 @@
 
 namespace Marvel {
 
+	struct mvRadioButtonConfig : public mvAppItemConfig
+	{
+		std::vector<std::string> items;
+		int default_value = 0;
+		bool horizontal = false;
+	};
+
 	PyObject* add_radio_button(PyObject* self, PyObject* args, PyObject* kwargs);
 
 	class mvRadioButton : public mvIntPtrBase

@@ -17,6 +17,7 @@ namespace Marvel {
 			{mvPythonDataType::String, "before","This item will be displayed before the specified item in the parent. (runtime adding)", "''"},
 			{mvPythonDataType::Integer, "width","", "0"},
 			{mvPythonDataType::Integer, "height","", "200"},
+			{mvPythonDataType::Bool, "hide_headers", "Hide headers of the table", "False"},
 			{mvPythonDataType::Bool, "show","Attempt to render", "True"}
 		}, "Adds table.", "None", "Tables") });
 	}
@@ -27,6 +28,23 @@ namespace Marvel {
 		m_core_config.height = 200;
 		m_headers = headers;
 		m_columns = headers.size();
+		m_hide_headers = false;
+	}
+
+	void mvTable::setExtraConfigDict(PyObject* dict)
+	{
+		if (dict == nullptr)
+			return;
+
+		if (PyObject* item = PyDict_GetItemString(dict, "hide_headers")) m_hide_headers = ToBool(item);
+	}
+
+	void mvTable::getExtraConfigDict(PyObject* dict)
+	{
+		if (dict == nullptr)
+			return;
+
+		PyDict_SetItemString(dict, "hide_headers", ToPyBool(m_hide_headers));
 	}
 
 	bool mvTable::isIndexValid(int row, int column) const
@@ -507,13 +525,15 @@ namespace Marvel {
 		ImGui::Separator();
 		if(m_columns > 0)
 			ImGui::Columns((int)m_columns, nullptr, true);
-
-		for (auto& header : m_headers)
-		{
-			ImGui::Text("%s", header.c_str());
-			ImGui::NextColumn();
+		
+		if (!m_hide_headers) {
+			for (auto& header : m_headers)
+			{
+				ImGui::Text("%s", header.c_str());
+				ImGui::NextColumn();
+			}
+			ImGui::Separator();
 		}
-		ImGui::Separator();
 
 		ImVec4 alt_color = ImVec4(ImGui::GetStyleColorVec4(ImGuiCol_Header));
 		alt_color.w = 0.10f;
@@ -563,10 +583,11 @@ namespace Marvel {
 		int width = 0;
 		int height = 0;
 		int show = true;
+		bool hide_headers = false;
 
 		if (!(*mvApp::GetApp()->getParsers())["add_table"].parse(args, kwargs, __FUNCTION__,
 			&name, &headers, &callback, &callback_data, &parent,
-			&before, &width, &height, &show))
+			&before, &width, &height, &show, &hide_headers))
 			return ToPyBool(false);
 
 		auto item = CreateRef<mvTable>(name, ToStringVect(headers));

@@ -4,6 +4,19 @@
 
 namespace Marvel {
 
+	struct mvComboConfig : public mvAppItemConfig
+	{	
+		std::vector<std::string> items;
+		std::string default_value = "";
+		bool popup_align_left = false;
+		bool height_small = false;
+		bool height_regular = false;
+		bool height_large = false;
+		bool height_largest = false;
+		bool no_arrow_button = false;
+		bool no_preview = false;
+	};
+
 	PyObject* add_combo(PyObject* self, PyObject* args, PyObject* kwargs);
 
 	class mvCombo : public mvStringPtrBase
