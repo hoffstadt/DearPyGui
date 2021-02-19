@@ -34,12 +34,19 @@ namespace Marvel {
 		MV_CREATE_THEME_CONSTANT(mvAppItemType::ManagedColumns, mvThemeCol_ManagedColumns_Border		, 27L, 0L);
 		MV_CREATE_THEME_CONSTANT(mvAppItemType::ManagedColumns, mvThemeCol_ManagedColumns_BorderHovered	, 28L, 0L);
 		MV_CREATE_THEME_CONSTANT(mvAppItemType::ManagedColumns, mvThemeCol_ManagedColumns_BorderActive	, 29L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvAppItemType::ManagedColumns, mvThemeStyle_ManagedColumns_ItemSpacingX, 13L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvAppItemType::ManagedColumns, mvThemeStyle_ManagedColumns_ItemSpacingY, 13L, 1L);
 
 		MV_START_COLOR_CONSTANTS
 			MV_CREATE_CONSTANT_PAIR(mvThemeCol_ManagedColumns_Border),
 			MV_CREATE_CONSTANT_PAIR(mvThemeCol_ManagedColumns_BorderHovered),
 			MV_CREATE_CONSTANT_PAIR(mvThemeCol_ManagedColumns_BorderActive),
 		MV_END_COLOR_CONSTANTS
+
+		MV_START_STYLE_CONSTANTS
+			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_ManagedColumns_ItemSpacingX, 0, 20),
+			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_ManagedColumns_ItemSpacingY, 0, 20),
+		MV_END_STYLE_CONSTANTS
 
 	public:
 

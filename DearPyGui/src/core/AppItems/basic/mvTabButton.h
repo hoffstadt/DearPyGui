@@ -25,6 +25,10 @@ namespace Marvel {
 		MV_CREATE_THEME_CONSTANT(mvAppItemType::TabButton, mvThemeCol_TabButton_BgHovered	, 34L, 0L);
 		MV_CREATE_THEME_CONSTANT(mvAppItemType::TabButton, mvThemeCol_TabButton_Border		,  5L, 0L);
 		MV_CREATE_THEME_CONSTANT(mvAppItemType::TabButton, mvThemeCol_TabButton_PopupBg		,  4L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvAppItemType::TabButton, mvThemeStyle_TabButton_Rounding	, 11L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvAppItemType::TabButton, mvThemeStyle_TabButton_BorderSize, 12L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvAppItemType::TabButton, mvThemeStyle_TabButton_PaddingX	, 10L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvAppItemType::TabButton, mvThemeStyle_TabButton_PaddingY	, 10L, 1L);
 
 		MV_START_COLOR_CONSTANTS
 			MV_CREATE_CONSTANT_PAIR(mvThemeCol_TabButton_Text),
@@ -33,6 +37,13 @@ namespace Marvel {
 			MV_CREATE_CONSTANT_PAIR(mvThemeCol_TabButton_Border),
 			MV_CREATE_CONSTANT_PAIR(mvThemeCol_TabButton_PopupBg),
 		MV_END_COLOR_CONSTANTS
+
+		MV_START_STYLE_CONSTANTS
+			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_TabButton_Rounding	, 0, 12),
+			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_TabButton_BorderSize	, 0, 1),
+			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_TabButton_PaddingX	, 0, 20),
+			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_TabButton_PaddingY	, 0, 20),
+		MV_END_STYLE_CONSTANTS
 
 	public:
 

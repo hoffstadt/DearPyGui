@@ -17,6 +17,20 @@ namespace Marvel {
 		MV_CREATE_THEME_CONSTANT(mvAppItemType::Popup, mvThemeCol_Popup_ScrollbarGrabHovered	, 16L, 0L);
 		MV_CREATE_THEME_CONSTANT(mvAppItemType::Popup, mvThemeCol_Popup_ScrollbarGrabActive		, 17L, 0L);
 		MV_CREATE_THEME_CONSTANT(mvAppItemType::Popup, mvThemeCol_Popup_Border					,  5L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvAppItemType::Popup, mvThemeStyle_Popup_BorderSize			,  9L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvAppItemType::Popup, mvThemeStyle_Popup_Rounding				,  8L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvAppItemType::Popup, mvThemeStyle_Popup_PaddingX				,  1L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvAppItemType::Popup, mvThemeStyle_Popup_PaddingY				,  1L, 1L);
+		MV_CREATE_THEME_CONSTANT(mvAppItemType::Popup, mvThemeStyle_Popup_ItemSpacingX			, 13L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvAppItemType::Popup, mvThemeStyle_Popup_ItemSpacingY			, 13L, 1L);
+		MV_CREATE_THEME_CONSTANT(mvAppItemType::Popup, mvThemeStyle_Popup_ModalRounding			,  2L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvAppItemType::Popup, mvThemeStyle_Popup_ModalBorderSize		,  3L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvAppItemType::Popup, mvThemeStyle_Popup_ModalTitleAlignX		,  5L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvAppItemType::Popup, mvThemeStyle_Popup_ModalTitleAlignY		,  5L, 1L);
+		MV_CREATE_THEME_CONSTANT(mvAppItemType::Popup, mvThemeStyle_Popup_ModalMinSizeX			,  4L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvAppItemType::Popup, mvThemeStyle_Popup_ModalMinSizeY			,  4L, 1L);
+		MV_CREATE_THEME_CONSTANT(mvAppItemType::Popup, mvThemeStyle_Popup_ModalScrollbarSize	, 17L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvAppItemType::Popup, mvThemeStyle_Popup_ModalScrollbarRounding, 18L, 0L);
 
 
 		MV_START_COLOR_CONSTANTS
@@ -30,6 +44,23 @@ namespace Marvel {
 			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Popup_ScrollbarGrabActive),
 			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Popup_Border),
 		MV_END_COLOR_CONSTANTS
+
+		MV_START_STYLE_CONSTANTS
+			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_Popup_BorderSize				, 0,  1),
+			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_Popup_Rounding				, 0, 12),
+			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_Popup_PaddingX				, 0, 20),
+			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_Popup_PaddingY				, 0, 20),
+			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_Popup_ItemSpacingX			, 0, 20),
+			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_Popup_ItemSpacingY			, 0, 20),
+			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_Popup_ModalRounding			, 0, 12),
+			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_Popup_ModalBorderSize			, 0,  1),
+			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_Popup_ModalTitleAlignX		, 0, 20),
+			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_Popup_ModalTitleAlignY		, 0, 20),
+			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_Popup_ModalMinSizeX			, 0, 50),
+			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_Popup_ModalMinSizeY			, 0, 50),
+			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_Popup_ModalScrollbarSize		, 0, 20),
+			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_Popup_ModalScrollbarRounding	, 0, 12),
+		MV_END_STYLE_CONSTANTS
 
 	public:
 

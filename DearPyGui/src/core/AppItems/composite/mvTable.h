@@ -33,6 +33,10 @@ namespace Marvel {
 		MV_CREATE_THEME_CONSTANT(mvAppItemType::Table, mvThemeCol_Table_ScrollbarGrab			, 15L, 0L);
 		MV_CREATE_THEME_CONSTANT(mvAppItemType::Table, mvThemeCol_Table_ScrollbarGrabHovered	, 16L, 0L);
 		MV_CREATE_THEME_CONSTANT(mvAppItemType::Table, mvThemeCol_Table_ScrollbarGrabActive		, 17L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvAppItemType::Table, mvThemeStyle_Table_ItemSpacingX			, 13L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvAppItemType::Table, mvThemeStyle_Table_ItemSpacingY			, 13L, 1L);
+		MV_CREATE_THEME_CONSTANT(mvAppItemType::Table, mvThemeStyle_Table_SelectableTextAlignX	, 23L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvAppItemType::Table, mvThemeStyle_Table_SelectableTextAlignY	, 23L, 1L);
 
 		MV_START_COLOR_CONSTANTS
 			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Table_Text),
@@ -47,6 +51,13 @@ namespace Marvel {
 			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Table_ScrollbarGrabHovered),
 			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Table_ScrollbarGrabActive),
 		MV_END_COLOR_CONSTANTS
+
+		MV_START_STYLE_CONSTANTS
+			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_Table_ItemSpacingX		, 0, 20),
+			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_Table_ItemSpacingY		, 0, 20),
+			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_Table_SelectableTextAlignX, 0, 20),
+			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_Table_SelectableTextAlignY, 0, 20),
+		MV_END_STYLE_CONSTANTS
 
 	public:
 
