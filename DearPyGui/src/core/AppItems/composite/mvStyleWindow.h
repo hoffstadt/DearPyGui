@@ -43,7 +43,7 @@ namespace Marvel {
 
 	public:
 
-		mvStyleWindow::mvStyleWindow(const std::string& name);
+		mvStyleWindow(const std::string& name);
 
 		void draw() override;
 
