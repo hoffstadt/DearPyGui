@@ -254,7 +254,7 @@ def add_next_column(*, name: str = 'next_collumn', show: bool = True, parent: st
 	"""Changes to next column."""
 	...
 
-def add_node(name: str, *, show: bool = True, draggable: bool = True, parent: str = '', before: str = '', x_pos: int = 100, y_pos: int = 100) -> None:
+def add_node(name: str, *, show: bool = True, label: str = '', draggable: bool = True, parent: str = '', before: str = '', x_pos: int = 100, y_pos: int = 100) -> None:
 	"""Adds a node to a node editor."""
 	...
 
@@ -1086,11 +1086,11 @@ def set_table_selection(table: str, row: int, column: int, value: bool) -> None:
 	"""Sets a table's cell selection value."""
 	...
 
-def set_theme_color(constant: int, color: List[float], item: str = ) -> None:
+def set_theme_color(constant: int, color: List[float], item: str = '') -> None:
 	"""Sets a color of a theme item."""
 	...
 
-def set_theme_style(constant: int, style: float, item: str = ) -> None:
+def set_theme_style(constant: int, style: float, item: str = '') -> None:
 	"""Sets a style of a theme item."""
 	...
 
