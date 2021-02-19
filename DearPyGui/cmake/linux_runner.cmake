@@ -103,7 +103,7 @@ elseif(MVPY_VERSION EQUAL 39)
 elseif(MVPY_VERSION EQUAL 0)
 	find_package (Python COMPONENTS Development)
 	if(NOT Python_Development_FOUND)
-		message(FATAL_ERROR "The python3 development librarie from your distribution repo need to be installed first!")
+		message(FATAL_ERROR "The python3 development library from your distribution repo need to be installed first!")
 	endif()
 	target_include_directories(core 
 		PRIVATE 
