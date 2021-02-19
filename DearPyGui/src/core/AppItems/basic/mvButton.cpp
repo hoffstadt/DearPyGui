@@ -26,14 +26,16 @@ namespace Marvel {
 	}
 
 	mvButton::mvButton(const std::string& name)
-		: mvAppItem(name)
+		: 
+		mvAppItem(name)
 	{
 		m_description.disableAllowed = true;
 	}
 
 	mvButton::mvButton(const std::string& name, const mvButtonConfig& config)
 		:
-		mvAppItem(name), m_config(config)
+		mvAppItem(name), 
+		m_config(config)
 	{
 		m_description.disableAllowed = true;
 

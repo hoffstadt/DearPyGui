@@ -4,6 +4,9 @@
 
 namespace Marvel {
 
+	//-----------------------------------------------------------------------------
+	// mvButton Keyword Struct
+	//-----------------------------------------------------------------------------
 	struct mvButtonConfig : public mvAppItemConfig
 	{
 		ImGuiDir direction = ImGuiDir_Up;
@@ -18,7 +21,9 @@ namespace Marvel {
 	PyObject* add_button(PyObject* self, PyObject* args, PyObject* kwargs);
 #endif
 	
-
+	//-----------------------------------------------------------------------------
+	// mvButton
+	//-----------------------------------------------------------------------------
 	class mvButton : public mvAppItem
 	{
 
@@ -73,8 +78,8 @@ namespace Marvel {
 #endif // !MV_CPP
 
 		// cpp interface
-		void updateConfig(mvAppItemConfig* config) override;
-		mvAppItemConfig* getConfig() override;
+		void             updateConfig(mvAppItemConfig* config) override;
+		mvAppItemConfig* getConfig   () override;
 
 	private:
 
