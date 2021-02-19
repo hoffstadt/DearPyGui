@@ -30,6 +30,10 @@ namespace Marvel {
 
 	class mvStyleWindow : public mvBaseWindowAppitem
 	{
+		std::vector<std::pair<std::string, long>> colorConstants;
+		std::vector<std::pair<std::string, long>> styleConstants;
+		std::vector<std::pair<long, ImVec4>> themeColor;
+		std::vector<std::pair<long, float>> themeStyle;
 
 	public:
 
@@ -39,11 +43,7 @@ namespace Marvel {
 
 	public:
 
-		mvStyleWindow(const std::string& name) 
-			: mvBaseWindowAppitem(name) 
-		{
-			m_description.deleteAllowed = false;
-		}
+		mvStyleWindow::mvStyleWindow(const std::string& name);
 
 		void draw() override;
 

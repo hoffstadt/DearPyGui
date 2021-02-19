@@ -22,5 +22,9 @@ namespace Marvel {
 
 	std::vector<std::pair<std::string, long>> GetModuleConstants();
 
+	std::vector<std::pair<std::string, long>> GetModuleColorConstants();
+
+	std::vector<std::pair<std::string, long>> GetModuleStyleConstants();
+
 	void start_dearpygui_error();
 }

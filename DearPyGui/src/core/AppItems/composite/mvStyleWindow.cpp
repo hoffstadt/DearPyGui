@@ -3,6 +3,7 @@
 #include "mvStyleWindow.h"
 #include "mvInput.h"
 #include "mvItemRegistry.h"
+#include "mvMarvel.h"
 
 #define IM_MIN(A, B)            (((A) < (B)) ? (A) : (B))
 #define IM_MAX(A, B)            (((A) >= (B)) ? (A) : (B))
@@ -113,6 +114,23 @@ static void NodeFont(ImFont* font)
 }
 
 namespace Marvel {
+
+    mvStyleWindow::mvStyleWindow(const std::string& name)
+        : mvBaseWindowAppitem(name)
+    {
+        m_description.deleteAllowed = false;
+
+        colorConstants = GetModuleColorConstants();
+        styleConstants = GetModuleStyleConstants();
+        for (int i = 0; i < styleConstants.size(); ++i)
+        {
+            themeStyle.emplace_back(styleConstants[i].second, 3.0f);
+        }
+        for (int i = 0; i < colorConstants.size(); ++i)
+        {
+            themeColor.emplace_back(colorConstants[i].second, ImVec4( 0.0f, 0.0f, 0.0f, 0.0f ));
+        }
+    };
 
     void mvStyleWindow::InsertParser(std::map<std::string, mvPythonParser>* parsers)
     {
@@ -427,6 +445,68 @@ namespace Marvel {
                 ImGui::DragFloat("Global Alpha", &style.Alpha, 0.005f, 0.20f, 1.0f, "%.2f"); // Not exposing zero here so user doesn't "lose" the UI (zero alpha clips all widgets). But application code could have a toggle to switch between zero and non-zero.
                 ImGui::PopItemWidth();
 
+                ImGui::EndTabItem();
+            }
+
+            if (ImGui::BeginTabItem("New Style"))
+            {
+                auto oldStyles = themeStyle;
+                ImGui::Text("New Style");
+                ImGui::BeginChild("##stylesNew", ImVec2(0, 0), true, ImGuiWindowFlags_AlwaysVerticalScrollbar | ImGuiWindowFlags_AlwaysHorizontalScrollbar | ImGuiWindowFlags_NavFlattened);
+                ImGui::PushItemWidth(75);
+                for (int i=0; i < themeStyle.size(); ++i)
+                {
+                    std::string name = std::get<0>(styleConstants[i]);
+                    if (ImGui::SliderFloat(name.c_str(), &themeStyle[i].second, 0.0f, 20.0f))
+                    {
+                        mvEventBus::Publish
+                        (
+                            mvEVT_CATEGORY_THEMES,
+                            SID("style_change"),
+                            {
+                                CreateEventArgument("WIDGET", std::string("")),
+                                CreateEventArgument("ID", themeStyle[i].first),
+                                CreateEventArgument("STYLE", themeStyle[i].second)
+                            }
+                        );
+                    };
+                }
+                ImGui::PopItemWidth();
+                ImGui::EndChild();
+                ImGui::EndTabItem();
+            }
+
+            if (ImGui::BeginTabItem("New Color"))
+            {
+                ImGui::Text("New Color");
+                ImGui::BeginChild("##colorsNew", ImVec2(0, 0), true, ImGuiWindowFlags_AlwaysVerticalScrollbar | ImGuiWindowFlags_AlwaysHorizontalScrollbar | ImGuiWindowFlags_NavFlattened);  
+                ImGui::PushItemWidth(150);
+                for (int i = 0; i < themeColor.size(); ++i)
+                {
+                    std::string name = std::get<0>(colorConstants[i]);
+                    if (ImGui::ColorEdit4(name.c_str(), &themeColor[i].second.x))
+                    {
+                        mvColor color
+                        {
+                            int(themeColor[i].second.x * 255.0),
+                            int(themeColor[i].second.y * 255.0),
+                            int(themeColor[i].second.z * 255.0),
+                            int(themeColor[i].second.w * 255.0)
+                        };
+                        mvEventBus::Publish
+                        (
+                            mvEVT_CATEGORY_THEMES,
+                            SID("color_change"),
+                            {
+                                CreateEventArgument("WIDGET", std::string("")),
+                                CreateEventArgument("ID", themeColor[i].first),
+                                CreateEventArgument("COLOR", color)
+                            }
+                        );
+                    };
+                }
+                ImGui::PopItemWidth();
+                ImGui::EndChild();
                 ImGui::EndTabItem();
             }
 
