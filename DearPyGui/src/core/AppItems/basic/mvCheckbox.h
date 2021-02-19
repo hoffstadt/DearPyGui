@@ -4,6 +4,9 @@
 
 namespace Marvel {
 
+	//-----------------------------------------------------------------------------
+	// mvCheckbox Keyword Struct
+	//-----------------------------------------------------------------------------
 	struct mvCheckboxConfig : public mvAppItemConfig
 	{
 		bool default_value = false;
@@ -16,6 +19,9 @@ namespace Marvel {
 	PyObject* add_checkbox(PyObject* self, PyObject* args, PyObject* kwargs);
 #endif
 
+	//-----------------------------------------------------------------------------
+	// mvCheckbox Keyword Struct
+	//-----------------------------------------------------------------------------
 	class mvCheckbox : public mvBoolPtrBase
 	{
 

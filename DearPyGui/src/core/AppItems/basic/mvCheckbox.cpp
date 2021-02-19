@@ -23,13 +23,16 @@ namespace Marvel {
 	}
 
 	mvCheckbox::mvCheckbox(const std::string& name, bool default_value, const std::string& dataSource)
-		: mvBoolPtrBase(name, default_value)
+		: 
+		mvBoolPtrBase(name, default_value)
 	{
 		m_description.disableAllowed = true;
 	}
 
 	mvCheckbox::mvCheckbox(const std::string& name, const mvCheckboxConfig& config)
-		: mvBoolPtrBase(name, config.default_value), m_config(config)
+		: 
+		mvBoolPtrBase(name, config.default_value), 
+		m_config(config)
 	{
 		m_description.disableAllowed = true;
 
