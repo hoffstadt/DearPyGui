@@ -19,14 +19,14 @@ namespace Marvel {
 			{mvPythonDataType::Integer, "constant", "mvThemeCol_* constants"},
 			{mvPythonDataType::FloatList, "color"},
 			{mvPythonDataType::Optional},
-			{mvPythonDataType::String, "item", "", ""}
+			{mvPythonDataType::String, "item", "", "''"}
 		}, "Sets a color of a theme item.", "None", "Themes and Styles") });
 
 		parsers->insert({ "set_theme_style", mvPythonParser({
 			{mvPythonDataType::Integer, "constant", "mvThemeStyle_* constants"},
 			{mvPythonDataType::Float, "style"},
 			{mvPythonDataType::Optional},
-			{mvPythonDataType::String, "item", "", ""}
+			{mvPythonDataType::String, "item", "", "''"}
 		}, "Sets a style of a theme item.", "None", "Themes and Styles") });
 
 		parsers->insert({ "set_style_touch_extra_padding", mvPythonParser({
