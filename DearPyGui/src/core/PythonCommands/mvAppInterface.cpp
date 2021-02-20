@@ -221,43 +221,44 @@ namespace Marvel {
 
 		mvTextureFormat tformat = (mvTextureFormat)format;
 		std::vector<float> fdata;
+		fdata.resize(width * height * 4);
 
 		if (tformat == mvTextureFormat::RGBA_INT)
 		{
-			std::vector<int> mdata = ToIntVect(data);
-
-			for (auto& item : mdata)
-				fdata.push_back(item / 255.0f);
+			for (int i = 0; i < fdata.size(); ++i)
+			{
+				fdata[i] = PyLong_AsLong(PyList_GetItem(data, i)) / 255.0f;
+			}
 		}
 
 		else if (tformat == mvTextureFormat::RGB_INT)
 		{
-
-			std::vector<int> mdata = ToIntVect(data);
-
-			for (int i = 0; i < mdata.size(); i = i + 3)
+			for (int i = 0; i < fdata.size(); i += 3)
 			{
-				fdata.push_back(mdata[i] / 255.0f);
-				fdata.push_back(mdata[i + 1] / 255.0f);
-				fdata.push_back(mdata[i + 2] / 255.0f);
-				fdata.push_back(1.0f);
+				fdata[i] = PyLong_AsLong(PyList_GetItem(data, i)) / 255.0f;
+				fdata[i+1] = PyLong_AsLong(PyList_GetItem(data, i+1)) / 255.0f;
+				fdata[i+2] = PyLong_AsLong(PyList_GetItem(data, i+2)) / 255.0f;
+				fdata[i+3] = 1.0f;
 			}
 
 		}
 
 		else if (tformat == mvTextureFormat::RGBA_FLOAT)
-			fdata = ToFloatVect(data);
+		{
+			for (int i = 0; i < fdata.size(); ++i)
+			{
+				fdata[i] = PyFloat_AsDouble(PyList_GetItem(data, i));
+			}
+		}
 
 		else if (tformat == mvTextureFormat::RGB_FLOAT)
 		{
-			std::vector<float> mdata = ToFloatVect(data);
-
-			for (int i = 0; i < mdata.size(); i = i + 3)
+			for (int i = 0; i < fdata.size(); i += 3)
 			{
-				fdata.push_back(mdata[i]);
-				fdata.push_back(mdata[i + 1]);
-				fdata.push_back(mdata[i + 2]);
-				fdata.push_back(1.0f);
+				fdata[i] = PyFloat_AsDouble(PyList_GetItem(data, i));
+				fdata[i + 1] = PyFloat_AsDouble(PyList_GetItem(data, i + 1));
+				fdata[i + 2] = PyFloat_AsDouble(PyList_GetItem(data, i + 2));
+				fdata[i + 3] = 1.0f;
 			}
 
 		}
