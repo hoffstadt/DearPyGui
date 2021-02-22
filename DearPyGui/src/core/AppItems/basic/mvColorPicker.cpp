@@ -82,7 +82,9 @@ namespace Marvel {
 	mvColorPicker3::mvColorPicker3(const std::string& name, float* color, const std::string& dataSource)
 		: 
 		mvColorPtrBase(name, color)
-	{}
+	{
+		m_config = {};
+	}
 
 	mvColorPicker3::mvColorPicker3(const std::string& name, const mvColorPickerConfig& config)
 		:
@@ -127,8 +129,11 @@ namespace Marvel {
 	}
 
 	mvColorPicker4::mvColorPicker4(const std::string& name, float* color, const std::string& dataSource)
-		: mvColorPtrBase(name, color)
-	{}
+		: 
+		mvColorPtrBase(name, color)
+	{
+		m_config = {};
+	}
 
 	mvColorPicker4::mvColorPicker4(const std::string& name, const mvColorPickerConfig& config)
 		:

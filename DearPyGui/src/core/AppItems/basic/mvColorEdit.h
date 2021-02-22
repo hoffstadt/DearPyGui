@@ -17,7 +17,7 @@ namespace Marvel {
 	//-----------------------------------------------------------------------------
 	struct mvColorEditConfig : public mvAppItemConfig
 	{
-		std::array<float, 4> default_value;
+		std::array<float, 4> default_value = {0.0f, 0.0f, 0.0f, 1.0f};
 		bool                 no_alpha           = false;
 		bool                 no_picker          = false;
 		bool                 no_options         = false;
