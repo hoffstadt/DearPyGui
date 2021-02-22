@@ -17,7 +17,7 @@ namespace Marvel {
 			{mvPythonDataType::Integer, "height"},
 			{mvPythonDataType::KeywordOnly},
 			{mvPythonDataType::Integer, "format", "mvTEX_XXXX_XXXXX constants", "0"},
-		}, "Adds a texture.") });
+		}, "Adds a texture. Incorrect format may yield unexpected results.") });
 
 		parsers->insert({ "decrement_texture", mvPythonParser({
 			{mvPythonDataType::String, "name"},
@@ -218,8 +218,11 @@ namespace Marvel {
 		if (!(*mvApp::GetApp()->getParsers())["add_texture"].parse(args, kwargs, __FUNCTION__, 
 			&name, &data, &width, &height, &format))
 			return GetPyNone();
+		
+		if (!PyList_Check(data)) return GetPyNone();
 
 		mvTextureFormat tformat = (mvTextureFormat)format;
+
 		std::vector<float> fdata;
 		fdata.resize(width * height * 4);
 
