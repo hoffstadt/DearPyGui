@@ -81,8 +81,11 @@ namespace Marvel {
 	}
 
 	mvColorEdit3::mvColorEdit3(const std::string& name, float* color, const std::string& dataSource)
-		: mvColorPtrBase(name, color)
-	{}
+		: 
+		mvColorPtrBase(name, color)
+	{
+		m_config = {};
+	}
 
 	mvColorEdit3::mvColorEdit3(const std::string& name, const mvColorEditConfig& config)
 		:
@@ -127,8 +130,11 @@ namespace Marvel {
 	}
 
 	mvColorEdit4::mvColorEdit4(const std::string& name, float* color, const std::string& dataSource)
-		: mvColorPtrBase(name, color)
-	{}
+		: 
+		mvColorPtrBase(name, color)
+	{
+		m_config = {};
+	}
 
 	mvColorEdit4::mvColorEdit4(const std::string& name, const mvColorEditConfig& config)
 		:

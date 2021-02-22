@@ -1,13 +1,13 @@
 cd ..
-mkdir -p cmake-build-release
-cd cmake-build-release
+mkdir -p cmake-build-local
+cd cmake-build-local
 rm -rf *
 cmake .. -DMVDIST_ONLY=True -DMVPY_VERSION=0 -DMVDPG_VERSION=local_build
 make -j
 cd ..
 
 cd Distribution
-python3 BuildPythonWheel.py ../cmake-build-release/DearPyGui/core.so 0
+python3 BuildPythonWheel.py ../cmake-build-local/DearPyGui/core.so 0
 python3 -m ensurepip
 python3 -m pip install --upgrade pip
 python3 -m pip install twine --upgrade

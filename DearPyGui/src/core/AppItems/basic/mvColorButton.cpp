@@ -29,7 +29,7 @@ namespace Marvel {
 		mvAppItem(name),
 		m_color(color.toVec4())
 	{
-		m_config.color;
+		m_config.color = color;
 	}
 
 	mvColorButton::mvColorButton(const std::string& name, const mvColorButtonConfig& config)
