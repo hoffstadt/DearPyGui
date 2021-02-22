@@ -105,7 +105,7 @@ namespace Marvel {
 		mvCombo(const std::string& name, const std::string& default_value, const std::string& dataSource);
 		mvCombo(const std::string& name, const mvComboConfig& config);
 
-		void draw()               override;
+		void draw() override;
 
 #ifndef MV_CPP
 		void setExtraConfigDict(PyObject* dict) override;
@@ -118,7 +118,7 @@ namespace Marvel {
 
 	private:
 		ImGuiComboFlags m_flags = ImGuiComboFlags_None;
-		mvComboConfig m_config;
+		mvComboConfig   m_config;
 	};
 
 }
