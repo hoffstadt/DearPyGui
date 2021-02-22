@@ -140,7 +140,7 @@ namespace Marvel {
 		if (dict == nullptr)
 			return;
 
-		if (PyObject* item = PyDict_GetItemString(dict, "items")) m_items = ToStringVect(item);
+		if (PyObject* item = PyDict_GetItemString(dict, "items")) m_config.items = ToStringVect(item);
 
 		// helpers for bit flipping
 		auto flagop = [dict](const char* keyword, int flag, int& flags)
@@ -190,7 +190,7 @@ namespace Marvel {
 		if (dict == nullptr)
 			return;
 
-		PyDict_SetItemString(dict, "items", ToPyList(m_items));
+		PyDict_SetItemString(dict, "items", ToPyList(m_config.items));
 
 		// helper to check and set bit
 		auto checkbitset = [dict](const char* keyword, int flag, const int& flags)
