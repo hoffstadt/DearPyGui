@@ -200,7 +200,8 @@ namespace Marvel {
 	{
 
 #ifdef MV_CPP
-		submitCallback(callable);
+		if(callable)
+			submitCallback(callable);
 #else
 		if (m_callCount > s_MaxNumberOfCalls)
 		{

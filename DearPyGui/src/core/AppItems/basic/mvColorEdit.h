@@ -13,33 +13,38 @@
 namespace Marvel {
 
 	//-----------------------------------------------------------------------------
-	// mvColorEdit3
+	// mvColorEdit Configuration Struct
 	//-----------------------------------------------------------------------------
 	struct mvColorEditConfig : public mvAppItemConfig
 	{
-		mvColor default_value;
-		bool no_alpha = false;
-		bool no_picker = false;
-		bool no_options = false;
-		bool no_small_preview = false;
-		bool no_inputs = false;
-		bool no_tooltip = false;
-		bool no_label = false;
-		bool no_drag_drop = false;
-		bool alpha_bar = false;
-		bool alpha_preview = false;
-		bool alpha_preview_half = false;
-		bool display_rgb = false;
-		bool display_hsv = false;
-		bool display_hex = false;
-		bool uint8 = false;
-		bool floats = false;
-		bool input_rgb = false;
-		bool input_hsv = false;
+		std::array<float, 4> default_value;
+		bool                 no_alpha           = false;
+		bool                 no_picker          = false;
+		bool                 no_options         = false;
+		bool                 no_small_preview   = false;
+		bool                 no_inputs          = false;
+		bool                 no_tooltip         = false;
+		bool                 no_label           = false;
+		bool                 no_drag_drop       = false;
+		bool                 alpha_bar          = false;
+		bool                 alpha_preview      = false;
+		bool                 alpha_preview_half = false;
+		bool                 display_rgb        = false;
+		bool                 display_hsv        = false;
+		bool                 display_hex        = false;
+		bool                 uint8              = false;
+		bool                 floats             = false;
+		bool                 input_rgb          = false;
+		bool                 input_hsv          = false;
 	};
 
+#ifdef MV_CPP
+	void add_color_edit3(const std::string& name, const mvColorEditConfig& config = {});
+	void add_color_edit4(const std::string& name, const mvColorEditConfig& config = {});
+#else
 	PyObject* add_color_edit3(PyObject* self, PyObject* args, PyObject* kwargs);
 	PyObject* add_color_edit4(PyObject* self, PyObject* args, PyObject* kwargs);
+#endif
 
 	class mvColorEdit3 : public mvColorPtrBase
 	{
@@ -95,9 +100,14 @@ namespace Marvel {
 
 	public:
 
-			mvColorEdit3(const std::string& name, float* color, const std::string& dataSource);
+		mvColorEdit3(const std::string& name, float* color, const std::string& dataSource);
+		mvColorEdit3(const std::string& name, const mvColorEditConfig& config);
 
-		void draw              ()               override;
+		void draw() override;
+
+		// cpp interface
+		void             updateConfig(mvAppItemConfig* config) override;
+		mvAppItemConfig* getConfig() override;
 
 
 #ifndef MV_CPP
@@ -108,6 +118,7 @@ namespace Marvel {
 	private:
 
 		ImGuiColorEditFlags m_flags = ImGuiColorEditFlags_None;
+		mvColorEditConfig   m_config;
 
 	};
 
@@ -169,17 +180,23 @@ namespace Marvel {
 	public:
 
 		mvColorEdit4(const std::string& name, float* color, const std::string& dataSource);
+		mvColorEdit4(const std::string& name, const mvColorEditConfig& config);
 
-		void draw              ()               override;
+		void draw() override;
 
 #ifndef MV_CPP
 		void setExtraConfigDict(PyObject* dict) override;
 		void getExtraConfigDict(PyObject* dict) override;
 #endif // !MV_CPP
 
+		// cpp interface
+		void             updateConfig(mvAppItemConfig* config) override;
+		mvAppItemConfig* getConfig() override;
+
 	private:
 
 		ImGuiColorEditFlags m_flags = ImGuiColorEditFlags_None;
+		mvColorEditConfig   m_config;
 
 	};
 

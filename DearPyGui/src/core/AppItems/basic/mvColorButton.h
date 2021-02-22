@@ -17,8 +17,8 @@ namespace Marvel {
 	struct mvColorButtonConfig : public mvAppItemConfig
 	{
 		mvColor color;
-		bool no_alpha = false;
-		bool no_border = false;
+		bool no_alpha     = false;
+		bool no_border    = false;
 		bool no_drag_drop = false;
 	};
 

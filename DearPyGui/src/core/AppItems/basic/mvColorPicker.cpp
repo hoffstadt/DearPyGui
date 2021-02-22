@@ -42,20 +42,6 @@ namespace Marvel {
 		}, "Adds an rgb color picking widget. Click and draging the color square will copy the color to be applied on any other color widget. Right Click allows the style of the color picker to be changed.", "None", "Adding Widgets") });
 	}
 
-	mvColorPicker3::mvColorPicker3(const std::string& name, float* color, const std::string& dataSource)
-		: mvColorPtrBase(name, color)
-	{}
-
-	void mvColorPicker3::draw()
-	{
-		ScopedID id;
-		mvImGuiThemeScope scope(this);
-
-		if (ImGui::ColorPicker3(m_label.c_str(), m_value->data(), m_flags))
-			mvApp::GetApp()->getCallbackRegistry().addCallback(m_core_config.callback, m_core_config.name, m_core_config.callback_data);
-
-	}
-
 	void mvColorPicker4::InsertParser(std::map<std::string, mvPythonParser>* parsers)
 	{
 
@@ -93,9 +79,84 @@ namespace Marvel {
 		}, "Adds an rgba color picking widget. Click and draging the color square will copy the color to be applied on any other color widget. Right Click allows the style of the color picker to be changed", "None", "Adding Widgets") });
 	}
 
+	mvColorPicker3::mvColorPicker3(const std::string& name, float* color, const std::string& dataSource)
+		: 
+		mvColorPtrBase(name, color)
+	{}
+
+	mvColorPicker3::mvColorPicker3(const std::string& name, const mvColorPickerConfig& config)
+		:
+		mvColorPtrBase(name, config.default_value.data())
+	{
+
+	}
+
+	void mvColorPicker3::updateConfig(mvAppItemConfig* config)
+	{
+		auto aconfig = (mvColorPickerConfig*)config;
+
+		m_core_config.width = config->width;
+		m_core_config.height = config->height;
+		m_core_config.label = config->label;
+		m_core_config.show = config->show;
+		m_core_config.callback = config->callback;
+		m_core_config.callback_data = config->callback_data;
+		m_core_config.enabled = config->enabled;
+
+		m_config.source = aconfig->source;
+
+		if (config != &m_config)
+			m_config = *aconfig;
+	}
+
+	mvAppItemConfig* mvColorPicker3::getConfig()
+	{
+		return &m_config;
+	}
+
+	void mvColorPicker3::draw()
+	{
+		ScopedID id;
+		mvImGuiThemeScope scope(this);
+
+		if (ImGui::ColorPicker3(m_label.c_str(), m_value->data(), m_flags))
+			mvApp::GetApp()->getCallbackRegistry().addCallback(m_core_config.callback, m_core_config.name, m_core_config.callback_data);
+
+	}
+
 	mvColorPicker4::mvColorPicker4(const std::string& name, float* color, const std::string& dataSource)
 		: mvColorPtrBase(name, color)
 	{}
+
+	mvColorPicker4::mvColorPicker4(const std::string& name, const mvColorPickerConfig& config)
+		:
+		mvColorPtrBase(name, config.default_value.data())
+	{
+
+	}
+
+	void mvColorPicker4::updateConfig(mvAppItemConfig* config)
+	{
+		auto aconfig = (mvColorPickerConfig*)config;
+
+		m_core_config.width = config->width;
+		m_core_config.height = config->height;
+		m_core_config.label = config->label;
+		m_core_config.show = config->show;
+		m_core_config.callback = config->callback;
+		m_core_config.callback_data = config->callback_data;
+		m_core_config.enabled = config->enabled;
+
+		m_config.source = aconfig->source;
+
+		if (config != &m_config)
+			m_config = *aconfig;
+	}
+
+	mvAppItemConfig* mvColorPicker4::getConfig()
+	{
+		return &m_config;
+	}
 
 	void mvColorPicker4::draw()
 	{
@@ -107,7 +168,19 @@ namespace Marvel {
 
 	}
 
-#ifndef MV_CPP
+#ifdef MV_CPP
+	void add_color_picker3(const std::string& name, const mvColorPickerConfig& config)
+	{
+		auto item = CreateRef<mvColorPicker3>(name, config);
+		mvApp::GetApp()->getItemRegistry().addItemWithRuntimeChecks(item, config.parent.c_str(), config.before.c_str());
+	}
+
+	void add_color_picker4(const std::string& name, const mvColorPickerConfig& config)
+	{
+		auto item = CreateRef<mvColorPicker4>(name, config);
+		mvApp::GetApp()->getItemRegistry().addItemWithRuntimeChecks(item, config.parent.c_str(), config.before.c_str());
+	}
+#else
 
 	void mvColorPicker3::setExtraConfigDict(PyObject* dict)
 	{

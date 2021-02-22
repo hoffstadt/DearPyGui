@@ -324,7 +324,7 @@ namespace Marvel {
 		m_value = std::get<std::shared_ptr<std::array<float, 4>>>(item->getValue());
 	}
 
-	mvColorPtrBase::mvColorPtrBase(const std::string& name, float* default_value)
+	mvColorPtrBase::mvColorPtrBase(const std::string& name, const float* default_value)
 		: mvAppItem(name)
 	{
 		m_description.valueType = StorageValueTypes::Color;

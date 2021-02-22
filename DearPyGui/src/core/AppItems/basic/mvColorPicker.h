@@ -17,29 +17,34 @@ namespace Marvel {
 	//-----------------------------------------------------------------------------
 	struct mvColorPickerConfig : public mvAppItemConfig
 	{
-		mvColor default_value;
-		bool no_alpha = false;
-		bool no_small_preview = false;
-		bool no_inputs = false;
-		bool no_tooltip = false;
-		bool no_label = false;
-		bool no_side_preview = false;
-		bool alpha_bar = false;
-		bool alpha_preview = false;
-		bool alpha_preview_half = false;
-		bool display_rgb = false;
-		bool display_hsv = false;
-		bool display_hex = false;
-		bool uint8 = false;
-		bool floats = false;
-		bool picker_hue_bar = false;
-		bool picker_hue_wheel = false;
-		bool input_rgb = false;
-		bool input_hsv = false;
+		std::array<float, 4> default_value;
+		bool                 no_alpha           = false;
+		bool                 no_small_preview   = false;
+		bool                 no_inputs          = false;
+		bool                 no_tooltip         = false;
+		bool                 no_label           = false;
+		bool                 no_side_preview    = false;
+		bool                 alpha_bar          = false;
+		bool                 alpha_preview      = false;
+		bool                 alpha_preview_half = false;
+		bool                 display_rgb        = false;
+		bool                 display_hsv        = false;
+		bool                 display_hex        = false;
+		bool                 uint8              = false;
+		bool                 floats             = false;
+		bool                 picker_hue_bar     = false;
+		bool                 picker_hue_wheel   = false;
+		bool                 input_rgb          = false;
+		bool                 input_hsv          = false;
 	};
 
+#ifdef MV_CPP
+	void add_color_picker3(const std::string& name, const mvColorPickerConfig& config = {});
+	void add_color_picker4(const std::string& name, const mvColorPickerConfig& config = {});
+#else
 	PyObject* add_color_picker3(PyObject* self, PyObject* args, PyObject* kwargs);
 	PyObject* add_color_picker4(PyObject* self, PyObject* args, PyObject* kwargs);
+#endif
 
 	//-----------------------------------------------------------------------------
 	// mvColorPicker3
@@ -73,9 +78,9 @@ namespace Marvel {
 			MV_CREATE_CONSTANT_PAIR(mvThemeCol_ColorPicker3_BgActive),
 			MV_CREATE_CONSTANT_PAIR(mvThemeCol_ColorPicker3_Border),
 			MV_CREATE_CONSTANT_PAIR(mvThemeCol_ColorPicker3_BorderShadow),
-			MV_END_COLOR_CONSTANTS
+		MV_END_COLOR_CONSTANTS
 
-			MV_START_STYLE_CONSTANTS
+		MV_START_STYLE_CONSTANTS
 			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_ColorPicker3_Rounding, 0, 12),
 			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_ColorPicker3_BorderSize, 0, 1),
 			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_ColorPicker3_PopupRounding, 0, 12),
@@ -86,7 +91,7 @@ namespace Marvel {
 			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_ColorPicker3_PopupPaddingY, 0, 20),
 			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_ColorPicker3_PaddingX, 0, 20),
 			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_ColorPicker3_PaddingY, 0, 20),
-			MV_END_STYLE_CONSTANTS
+		MV_END_STYLE_CONSTANTS
 
 	public:
 
@@ -95,6 +100,7 @@ namespace Marvel {
 	public:
 
 		mvColorPicker3(const std::string& name, float* color, const std::string& dataSource);
+		mvColorPicker3(const std::string& name, const mvColorPickerConfig& config);
 
 		void draw()               override;
 
@@ -103,9 +109,14 @@ namespace Marvel {
 		void getExtraConfigDict(PyObject* dict) override;
 #endif // !MV_CPP
 
+		// cpp interface
+		void updateConfig(mvAppItemConfig* config) override;
+		mvAppItemConfig* getConfig() override;
+
 	private:
 
 		ImGuiColorEditFlags m_flags = ImGuiColorEditFlags_None;
+		mvColorPickerConfig m_config;
 
 	};
 
@@ -141,9 +152,9 @@ namespace Marvel {
 			MV_CREATE_CONSTANT_PAIR(mvThemeCol_ColorPicker4_BgActive),
 			MV_CREATE_CONSTANT_PAIR(mvThemeCol_ColorPicker4_Border),
 			MV_CREATE_CONSTANT_PAIR(mvThemeCol_ColorPicker4_BorderShadow),
-			MV_END_COLOR_CONSTANTS
+		MV_END_COLOR_CONSTANTS
 
-			MV_START_STYLE_CONSTANTS
+		MV_START_STYLE_CONSTANTS
 			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_ColorPicker4_Rounding, 0, 12),
 			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_ColorPicker4_BorderSize, 0, 1),
 			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_ColorPicker4_PopupRounding, 0, 12),
@@ -154,7 +165,7 @@ namespace Marvel {
 			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_ColorPicker4_PopupPaddingY, 0, 20),
 			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_ColorPicker4_PaddingX, 0, 20),
 			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_ColorPicker4_PaddingY, 0, 20),
-			MV_END_STYLE_CONSTANTS
+		MV_END_STYLE_CONSTANTS
 
 	public:
 
@@ -163,6 +174,7 @@ namespace Marvel {
 	public:
 
 		mvColorPicker4(const std::string& name, float* color, const std::string& dataSource);
+		mvColorPicker4(const std::string& name, const mvColorPickerConfig& config);
 
 		void draw()               override;
 
@@ -171,9 +183,14 @@ namespace Marvel {
 		void getExtraConfigDict(PyObject* dict) override;
 #endif // !MV_CPP
 
+		// cpp interface
+		void updateConfig(mvAppItemConfig* config) override;
+		mvAppItemConfig* getConfig() override;
+
 	private:
 
 		ImGuiColorEditFlags m_flags = ImGuiColorEditFlags_None;
+		mvColorPickerConfig m_config;
 
 	};
 
