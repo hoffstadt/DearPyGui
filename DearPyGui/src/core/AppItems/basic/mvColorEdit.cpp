@@ -43,20 +43,6 @@ namespace Marvel {
 		}, "Adds an rgb color editing widget. Click and draging the color square will copy the color to be applied on any other color widget.", "None", "Adding Widgets") });
 	}
 
-	mvColorEdit3::mvColorEdit3(const std::string& name, float* color, const std::string& dataSource)
-		: mvColorPtrBase(name, color)
-	{}
-
-	void mvColorEdit3::draw()
-	{
-		ScopedID id;
-		mvImGuiThemeScope scope(this);
-
-		if (ImGui::ColorEdit3(m_label.c_str(), m_value->data(), m_flags))
-			mvApp::GetApp()->getCallbackRegistry().addCallback(m_core_config.callback, m_core_config.name, m_core_config.callback_data);
-
-	}
-
 	void mvColorEdit4::InsertParser(std::map<std::string, mvPythonParser>* parsers)
 	{
 		parsers->insert({ "add_color_edit4", mvPythonParser({
@@ -94,9 +80,58 @@ namespace Marvel {
 		}, "Adds an rgba color editing widget. Click and draging the color square will copy the color to be applied on any other color widget.", "None", "Adding Widgets") });
 	}
 
+	mvColorEdit3::mvColorEdit3(const std::string& name, float* color, const std::string& dataSource)
+		: mvColorPtrBase(name, color)
+	{}
+
+	mvColorEdit3::mvColorEdit3(const std::string& name, const mvColorEditConfig& config)
+		:
+		mvColorPtrBase(name, config.default_value.data())
+	{
+	}
+
+	void mvColorEdit3::draw()
+	{
+		ScopedID id;
+		mvImGuiThemeScope scope(this);
+
+		if (ImGui::ColorEdit3(m_label.c_str(), m_value->data(), m_flags))
+			mvApp::GetApp()->getCallbackRegistry().addCallback(m_core_config.callback, m_core_config.name, m_core_config.callback_data);
+
+	}
+
+	void mvColorEdit3::updateConfig(mvAppItemConfig* config)
+	{
+		auto aconfig = (mvColorEditConfig*)config;
+
+		m_core_config.width = config->width;
+		m_core_config.height = config->height;
+		m_core_config.label = config->label;
+		m_core_config.show = config->show;
+		m_core_config.callback = config->callback;
+		m_core_config.callback_data = config->callback_data;
+		m_core_config.enabled = config->enabled;
+
+		m_config.source = aconfig->source;
+
+		if (config != &m_config)
+			m_config = *aconfig;
+	}
+
+	mvAppItemConfig* mvColorEdit3::getConfig()
+	{
+		return &m_config;
+	}
+
 	mvColorEdit4::mvColorEdit4(const std::string& name, float* color, const std::string& dataSource)
 		: mvColorPtrBase(name, color)
 	{}
+
+	mvColorEdit4::mvColorEdit4(const std::string& name, const mvColorEditConfig& config)
+		:
+		mvColorPtrBase(name, config.default_value.data())
+	{
+	}
 
 	void mvColorEdit4::draw()
 	{
@@ -108,7 +143,42 @@ namespace Marvel {
 
 	}
 
-#ifndef MV_CPP
+	void mvColorEdit4::updateConfig(mvAppItemConfig* config)
+	{
+		auto aconfig = (mvColorEditConfig*)config;
+
+		m_core_config.width = config->width;
+		m_core_config.height = config->height;
+		m_core_config.label = config->label;
+		m_core_config.show = config->show;
+		m_core_config.callback = config->callback;
+		m_core_config.callback_data = config->callback_data;
+		m_core_config.enabled = config->enabled;
+
+		m_config.source = aconfig->source;
+
+		if (config != &m_config)
+			m_config = *aconfig;
+	}
+
+	mvAppItemConfig* mvColorEdit4::getConfig()
+	{
+		return &m_config;
+	}
+
+#ifdef MV_CPP
+	void add_color_edit3(const std::string& name, const mvColorEditConfig& config)
+	{
+		auto item = CreateRef<mvColorEdit3>(name, config);
+		mvApp::GetApp()->getItemRegistry().addItemWithRuntimeChecks(item, config.parent.c_str(), config.before.c_str());
+	}
+
+	void add_color_edit4(const std::string& name, const mvColorEditConfig& config)
+	{
+		auto item = CreateRef<mvColorEdit4>(name, config);
+		mvApp::GetApp()->getItemRegistry().addItemWithRuntimeChecks(item, config.parent.c_str(), config.before.c_str());
+	}
+#else
 
 	void mvColorEdit3::setExtraConfigDict(PyObject* dict)
 	{

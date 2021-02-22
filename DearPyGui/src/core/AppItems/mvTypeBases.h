@@ -183,7 +183,7 @@ namespace Marvel {
 
 	public:
 
-		mvColorPtrBase(const std::string& name, float* default_value);
+		mvColorPtrBase(const std::string& name, const float* default_value);
 		void setDataSource(const std::string& dataSource) override;
 		mvValueVariant getValue() override { return m_value; }
 		PyObject* getPyValue() override;
