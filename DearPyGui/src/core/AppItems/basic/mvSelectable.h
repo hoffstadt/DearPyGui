@@ -52,8 +52,13 @@ namespace Marvel {
 		void getExtraConfigDict(PyObject* dict) override;
 #endif // !MV_CPP
 
+		// cpp interface
+		void updateConfig(mvAppItemConfig* config) override;
+		mvAppItemConfig* getConfig() override;
+
 	private:
 		ImGuiSelectableFlags m_flags = ImGuiSelectableFlags_None;
+		mvSelectableConfig   m_config;
 	};
 
 }
