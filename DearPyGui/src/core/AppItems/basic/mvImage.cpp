@@ -123,10 +123,7 @@ namespace Marvel {
 	{
 		auto aconfig = (mvImageConfig*)config;
 
-		m_core_config.name = config->name;
 		m_core_config.source = config->source;
-		m_core_config.parent = config->parent;
-		m_core_config.before = config->before;
 		m_core_config.width = config->width;
 		m_core_config.height = config->height;
 		m_core_config.show = config->show;
