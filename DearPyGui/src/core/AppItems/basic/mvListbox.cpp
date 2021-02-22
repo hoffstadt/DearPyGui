@@ -60,6 +60,33 @@ namespace Marvel {
 
 	}
 
+	void mvListbox::updateConfig(mvAppItemConfig* config)
+	{
+		auto aconfig = (mvListboxConfig*)config;
+
+		m_core_config.name = config->name;
+		m_core_config.source = config->source;
+		m_core_config.label = config->label;
+		m_core_config.parent = config->parent;
+		m_core_config.before = config->before;
+		m_core_config.width = config->width;
+		m_core_config.show = config->show;
+		m_core_config.enabled = config->enabled;
+		m_core_config.callback = config->callback;
+		m_core_config.callback_data = config->callback_data;
+
+		m_config.source = aconfig->source;
+
+		if (config != &m_config)
+			m_config = *aconfig;
+	}
+
+	mvAppItemConfig* mvListbox::getConfig()
+	{
+		return &m_config;
+	}
+
+
 #ifndef MV_CPP
 
 	void mvListbox::setExtraConfigDict(PyObject* dict)
