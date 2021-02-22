@@ -14,6 +14,9 @@ namespace Marvel {
 			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Separator),
 		MV_END_COLOR_CONSTANTS
 
+		MV_START_STYLE_CONSTANTS
+		MV_END_STYLE_CONSTANTS
+
 	public:
 
 			mvSeparator(const std::string& name)
