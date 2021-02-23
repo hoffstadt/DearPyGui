@@ -60,6 +60,27 @@ namespace Marvel {
 		ImGui::EndGroup();
 	}
 
+	void mvRadioButton::updateConfig(mvAppItemConfig* config)
+	{
+		auto aconfig = (mvRadioButtonConfig*)config;
+
+		m_core_config.source = config->source;
+		m_core_config.show = config->show;
+		m_core_config.enabled = config->enabled;
+		m_core_config.callback = config->callback;
+		m_core_config.callback_data = config->callback_data;
+
+		m_config.source = aconfig->source;
+
+		if (config != &m_config)
+			m_config = *aconfig;
+	}
+
+	mvAppItemConfig* mvRadioButton::getConfig()
+	{
+		return &m_config;
+	}
+
 #ifndef MV_CPP
 
 	void mvRadioButton::setExtraConfigDict(PyObject* dict)

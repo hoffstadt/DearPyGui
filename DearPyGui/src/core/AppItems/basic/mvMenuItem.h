@@ -48,10 +48,15 @@ namespace Marvel {
 		void getExtraConfigDict(PyObject* dict) override;
 #endif // !MV_CPP
 
+		// cpp interface
+		void updateConfig(mvAppItemConfig* config) override;
+		mvAppItemConfig* getConfig() override;
+
 	private:
 
 		std::string m_shortcut;
 		bool        m_check = false;
+		mvMenuItemConfig m_config;
 
 	};
 
