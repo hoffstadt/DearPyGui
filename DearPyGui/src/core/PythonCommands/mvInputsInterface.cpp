@@ -72,7 +72,7 @@ namespace Marvel {
 
 		parsers->insert({ "add_input_int4", mvPythonParser({
 			{mvPythonDataType::String, "name"},
-			{mvPythonDataType::KeywordOnly},
+			{mvPythonDataType::KeywordOnly},-
 			{mvPythonDataType::IntList, "default_value", "", "(0, 0, 0, 0)"},
 			{mvPythonDataType::Integer, "min_value", "", "0"},
 			{mvPythonDataType::Integer, "max_value", "", "100"},
