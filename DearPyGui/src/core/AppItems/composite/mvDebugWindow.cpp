@@ -278,7 +278,7 @@ namespace Marvel {
                 DebugItem("Item Edited:", selectedItem->getState().isItemEdited() ? ts : fs);
                 DebugItem("Item Activated:", selectedItem->getState().isItemActivated() ? ts : fs);
                 DebugItem("Item Deactivated:", selectedItem->getState().isItemDeactivated() ? ts : fs);
-                DebugItem("Item DeavtivatedAfterEdit:", selectedItem->getState().isItemDeactivatedAfterEdit() ? ts : fs);
+                DebugItem("Item DeactivatedAfterEdit:", selectedItem->getState().isItemDeactivatedAfterEdit() ? ts : fs);
                 DebugItem("Item ToggledOpen:", selectedItem->getState().isItemToogledOpen() ? ts : fs);
                 ImGui::EndGroup();
                 ImGui::PopItemWidth();
