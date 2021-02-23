@@ -49,8 +49,8 @@ namespace Marvel {
 		bool m_clearNodes = false;
 		bool m_clearLinks = false;
 
-		mvCallable m_linkCallback;
-		mvCallable m_delinkCallback;
+		mvCallable m_linkCallback = nullptr;
+		mvCallable m_delinkCallback = nullptr;
 	};
 
 }
