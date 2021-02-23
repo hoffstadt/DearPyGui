@@ -74,12 +74,17 @@ namespace Marvel {
 		void getExtraConfigDict(PyObject* dict) override;
 #endif // !MV_CPP
 
+		// cpp interface
+		void updateConfig(mvAppItemConfig* config) override;
+		mvAppItemConfig* getConfig() override;
+
 	private:
 
 		std::string         m_hint;
 		bool                m_multiline = false;
 		ImGuiInputTextFlags m_flags = 0;
 		ImGuiInputTextFlags m_stor_flags = 0;
+		mvInputTextConfig m_config;
 
 	};
 

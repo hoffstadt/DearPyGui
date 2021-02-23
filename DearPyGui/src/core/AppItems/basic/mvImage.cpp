@@ -119,6 +119,26 @@ namespace Marvel {
 		return m_value; 
 	}
 
+	void mvImage::updateConfig(mvAppItemConfig* config)
+	{
+		auto aconfig = (mvImageConfig*)config;
+
+		m_core_config.source = config->source;
+		m_core_config.width = config->width;
+		m_core_config.height = config->height;
+		m_core_config.show = config->show;
+
+		m_config.source = aconfig->source;
+
+		if (config != &m_config)
+			m_config = *aconfig;
+	}
+
+	mvAppItemConfig* mvImage::getConfig()
+	{
+		return &m_config;
+	}
+
 #ifndef MV_CPP
 
 	void mvImage::setExtraConfigDict(PyObject* dict)

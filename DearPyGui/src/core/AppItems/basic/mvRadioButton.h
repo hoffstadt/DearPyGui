@@ -61,11 +61,15 @@ namespace Marvel {
 		void getExtraConfigDict(PyObject* dict) override;
 #endif // !MV_CPP
 
+		// cpp interface
+		void updateConfig(mvAppItemConfig* config) override;
+		mvAppItemConfig* getConfig() override;
+
 	private:
 
 		std::vector<std::string> m_itemnames;
 		bool                     m_horizontal = false;
-
+		mvRadioButtonConfig		 m_config;
 	};
 
 }

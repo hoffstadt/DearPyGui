@@ -98,6 +98,31 @@ namespace Marvel {
 
 	}
 
+	void mvInputText::updateConfig(mvAppItemConfig* config)
+	{
+		auto aconfig = (mvInputTextConfig*)config;
+
+		m_core_config.source = config->source;
+		m_core_config.label = config->label;
+		m_core_config.width = config->width;
+		m_core_config.height = config->height;
+		m_core_config.show = config->show;
+		m_core_config.enabled = config->enabled;
+		m_core_config.callback = config->callback;
+		m_core_config.callback_data = config->callback_data;
+
+		m_config.source = aconfig->source;
+
+		if (config != &m_config)
+			m_config = *aconfig;
+	}
+
+	mvAppItemConfig* mvInputText::getConfig()
+	{
+		return &m_config;
+	}
+
+
 #ifndef MV_CPP
 
 	void mvInputText::setExtraConfigDict(PyObject* dict)
