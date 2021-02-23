@@ -71,6 +71,29 @@ namespace Marvel {
 
     }
 
+    void mvSliderFloat::updateConfig(mvAppItemConfig* config)
+    {
+        auto aconfig = (mvSliderFloatConfig*)config;
+
+        m_core_config.width = config->width;
+        m_core_config.height = config->height;
+        m_core_config.label = config->label;
+        m_core_config.show = config->show;
+        m_core_config.callback = config->callback;
+        m_core_config.callback_data = config->callback_data;
+        m_core_config.enabled = config->enabled;
+
+        m_config.source = aconfig->source;
+
+        if (config != &m_config)
+            m_config = *aconfig;
+    }
+
+    mvAppItemConfig* mvSliderFloat::getConfig()
+    {
+        return &m_config;
+    }
+
     //-----------------------------------------------------------------------------
     // mvSliderFloat2
     //-----------------------------------------------------------------------------
@@ -117,6 +140,28 @@ namespace Marvel {
         if (ImGui::SliderFloat2(m_label.c_str(), m_core_config.enabled ? m_value->data() : &m_disabled_value[0], m_min, m_max, m_format.c_str(), m_flags))
             mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), m_core_config.name, m_core_config.callback_data);
 
+    }
+
+    void mvSliderFloat2::updateConfig(mvAppItemConfig* config)
+    {
+        auto aconfig = (mvSliderFloatsConfig*)config;
+
+        m_core_config.width = config->width;
+        m_core_config.label = config->label;
+        m_core_config.show = config->show;
+        m_core_config.callback = config->callback;
+        m_core_config.callback_data = config->callback_data;
+        m_core_config.enabled = config->enabled;
+
+        m_config.source = aconfig->source;
+
+        if (config != &m_config)
+            m_config = *aconfig;
+    }
+
+    mvAppItemConfig* mvSliderFloat2::getConfig()
+    {
+        return &m_config;
     }
 
     //-----------------------------------------------------------------------------
@@ -167,6 +212,28 @@ namespace Marvel {
 
     }
 
+    void mvSliderFloat3::updateConfig(mvAppItemConfig* config)
+    {
+        auto aconfig = (mvSliderFloatsConfig*)config;
+
+        m_core_config.width = config->width;
+        m_core_config.label = config->label;
+        m_core_config.show = config->show;
+        m_core_config.callback = config->callback;
+        m_core_config.callback_data = config->callback_data;
+        m_core_config.enabled = config->enabled;
+
+        m_config.source = aconfig->source;
+
+        if (config != &m_config)
+            m_config = *aconfig;
+    }
+
+    mvAppItemConfig* mvSliderFloat3::getConfig()
+    {
+        return &m_config;
+    }
+
     //-----------------------------------------------------------------------------
     // mvSliderFloat4
     //-----------------------------------------------------------------------------
@@ -213,6 +280,28 @@ namespace Marvel {
         if (ImGui::SliderFloat4(m_label.c_str(), m_core_config.enabled ? m_value->data() : &m_disabled_value[0], m_min, m_max, m_format.c_str(), m_flags))
             mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), m_core_config.name, m_core_config.callback_data);
 
+    }
+
+    void mvSliderFloat4::updateConfig(mvAppItemConfig* config)
+    {
+        auto aconfig = (mvSliderFloatsConfig*)config;
+
+        m_core_config.width = config->width;
+        m_core_config.label = config->label;
+        m_core_config.show = config->show;
+        m_core_config.callback = config->callback;
+        m_core_config.callback_data = config->callback_data;
+        m_core_config.enabled = config->enabled;
+
+        m_config.source = aconfig->source;
+
+        if (config != &m_config)
+            m_config = *aconfig;
+    }
+
+    mvAppItemConfig* mvSliderFloat4::getConfig()
+    {
+        return &m_config;
     }
 
     //-----------------------------------------------------------------------------
@@ -277,6 +366,30 @@ namespace Marvel {
 
     }
 
+    void mvSliderInt::updateConfig(mvAppItemConfig* config)
+    {
+        auto aconfig = (mvSliderIntConfig*)config;
+
+        m_core_config.width = config->width;
+        m_core_config.height = config->height;
+        m_core_config.label = config->label;
+        m_core_config.show = config->show;
+        m_core_config.callback = config->callback;
+        m_core_config.callback_data = config->callback_data;
+        m_core_config.enabled = config->enabled;
+
+        m_config.source = aconfig->source;
+
+        if (config != &m_config)
+            m_config = *aconfig;
+    }
+
+    mvAppItemConfig* mvSliderInt::getConfig()
+    {
+        return &m_config;
+    }
+
+
     //-----------------------------------------------------------------------------
     // mvSliderInt2
     //-----------------------------------------------------------------------------
@@ -322,6 +435,28 @@ namespace Marvel {
 
         if (ImGui::SliderInt2(m_label.c_str(), m_core_config.enabled ? m_value->data() : &m_disabled_value[0], m_min, m_max, m_format.c_str(), m_flags))
             mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), m_core_config.name, m_core_config.callback_data);
+    }
+
+    void mvSliderInt2::updateConfig(mvAppItemConfig* config)
+    {
+        auto aconfig = (mvSliderIntsConfig*)config;
+
+        m_core_config.width = config->width;
+        m_core_config.label = config->label;
+        m_core_config.show = config->show;
+        m_core_config.callback = config->callback;
+        m_core_config.callback_data = config->callback_data;
+        m_core_config.enabled = config->enabled;
+
+        m_config.source = aconfig->source;
+
+        if (config != &m_config)
+            m_config = *aconfig;
+    }
+
+    mvAppItemConfig* mvSliderInt2::getConfig()
+    {
+        return &m_config;
     }
 
     //-----------------------------------------------------------------------------
@@ -372,6 +507,28 @@ namespace Marvel {
 
     }
 
+    void mvSliderInt3::updateConfig(mvAppItemConfig* config)
+    {
+        auto aconfig = (mvSliderIntsConfig*)config;
+
+        m_core_config.width = config->width;
+        m_core_config.label = config->label;
+        m_core_config.show = config->show;
+        m_core_config.callback = config->callback;
+        m_core_config.callback_data = config->callback_data;
+        m_core_config.enabled = config->enabled;
+
+        m_config.source = aconfig->source;
+
+        if (config != &m_config)
+            m_config = *aconfig;
+    }
+
+    mvAppItemConfig* mvSliderInt3::getConfig()
+    {
+        return &m_config;
+    }
+
     //-----------------------------------------------------------------------------
     // mvSliderInt4
     //-----------------------------------------------------------------------------
@@ -418,6 +575,28 @@ namespace Marvel {
         if (ImGui::SliderInt4(m_label.c_str(), m_core_config.enabled ? m_value->data() : &m_disabled_value[0], m_min, m_max, m_format.c_str(), m_flags))
             mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), m_core_config.name, m_core_config.callback_data);
 
+    }
+
+    void mvSliderInt4::updateConfig(mvAppItemConfig* config)
+    {
+        auto aconfig = (mvSliderIntsConfig*)config;
+
+        m_core_config.width = config->width;
+        m_core_config.label = config->label;
+        m_core_config.show = config->show;
+        m_core_config.callback = config->callback;
+        m_core_config.callback_data = config->callback_data;
+        m_core_config.enabled = config->enabled;
+
+        m_config.source = aconfig->source;
+
+        if (config != &m_config)
+            m_config = *aconfig;
+    }
+
+    mvAppItemConfig* mvSliderInt4::getConfig()
+    {
+        return &m_config;
     }
 
 #ifndef MV_CPP
