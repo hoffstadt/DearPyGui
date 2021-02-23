@@ -19,6 +19,6 @@ python3 -m ensurepip
 python3 -m pip install --upgrade pip
 python3 -m pip install twine --upgrade
 python3 -m pip install wheel
-python3 -m setup bdist_wheel --plat-name manylinux1_x86_64 --dist-dir ../dist
+python3 -m setup bdist_wheel --plat-name linux_armv7l --dist-dir ../dist
 cd ..
 cd Scripts
