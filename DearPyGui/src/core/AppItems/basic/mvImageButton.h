@@ -65,6 +65,10 @@ namespace Marvel {
 		void getExtraConfigDict(PyObject* dict) override;
 #endif // !MV_CPP
 
+		// cpp interface
+		void updateConfig(mvAppItemConfig* config) override;
+		mvAppItemConfig* getConfig() override;
+
 	private:
 
 		std::string m_value;
@@ -75,6 +79,7 @@ namespace Marvel {
 		void*       m_texture = nullptr;
 		int         m_framePadding = -1;
 		bool        m_dirty = false;
+		mvImageButtonConfig m_config;
 
 	};
 

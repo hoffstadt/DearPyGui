@@ -124,6 +124,43 @@ namespace Marvel {
 
 	}
 
+	void mvText::updateConfig(mvAppItemConfig* config)
+	{
+		auto aconfig = (mvTextConfig*)config;
+
+		m_core_config.source = config->source;
+		m_core_config.show = config->show;
+
+		m_config.source = aconfig->source;
+
+		if (config != &m_config)
+			m_config = *aconfig;
+	}
+
+	mvAppItemConfig* mvText::getConfig()
+	{
+		return &m_config;
+	}
+
+	void mvLabelText::updateConfig(mvAppItemConfig* config)
+	{
+		auto aconfig = (mvLabelTextConfig*)config;
+
+		m_core_config.source = config->source;
+		m_core_config.show = config->show;
+		m_core_config.label = config->label;
+
+		m_config.source = aconfig->source;
+
+		if (config != &m_config)
+			m_config = *aconfig;
+	}
+
+	mvAppItemConfig* mvLabelText::getConfig()
+	{
+		return &m_config;
+	}
+
 #ifndef MV_CPP
 
 	void mvText::setExtraConfigDict(PyObject* dict)

@@ -60,8 +60,13 @@ namespace Marvel {
 		void getExtraConfigDict(PyObject* dict) override;
 #endif // !MV_CPP
 
+		// cpp interface
+		void updateConfig(mvAppItemConfig* config) override;
+		mvAppItemConfig* getConfig() override;
+
 	private:
 
 		ImGuiTabItemFlags m_flags = ImGuiTabItemFlags_None;
+		mvTabButtonConfig m_config;
 	};
 }

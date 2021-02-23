@@ -39,6 +39,26 @@ namespace Marvel {
 
 	}
 
+	void mvTabButton::updateConfig(mvAppItemConfig* config)
+	{
+		auto aconfig = (mvTabButtonConfig*)config;
+
+		m_core_config.label = config->label;
+		m_core_config.show = config->show;
+		m_core_config.callback = config->callback;
+		m_core_config.callback_data = config->callback_data;
+
+		m_config.source = aconfig->source;
+
+		if (config != &m_config)
+			m_config = *aconfig;
+	}
+
+	mvAppItemConfig* mvTabButton::getConfig()
+	{
+		return &m_config;
+	}
+
 #ifndef MV_CPP
 
 	void mvTabButton::setExtraConfigDict(PyObject* dict)

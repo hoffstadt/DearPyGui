@@ -55,17 +55,29 @@ namespace Marvel {
 		void getExtraConfigDict(PyObject* dict) override;
 #endif // !MV_CPP
 
+		// cpp interface
+		void updateConfig(mvAppItemConfig* config) override;
+		mvAppItemConfig* getConfig() override;
+
 	private:
 
 		mvColor m_color = {1000, 0, 0, 255, false};
 		int     m_wrap = -1;
 		bool    m_bullet = false;
+		mvTextConfig m_config;
 
 	};
 
 	//-----------------------------------------------------------------------------
 	// mvLabelText
 	//-----------------------------------------------------------------------------
+
+	struct mvLabelTextConfig : public mvAppItemConfig
+	{
+		std::string default_value = "";
+		mvColor color{ 0, 0, 0, -1 };
+	};
+
 	class mvLabelText : public mvStringPtrBase
 	{
 
@@ -103,9 +115,14 @@ namespace Marvel {
 		void getExtraConfigDict(PyObject* dict) override;
 #endif // !MV_CPP
 
+		// cpp interface
+		void updateConfig(mvAppItemConfig* config) override;
+		mvAppItemConfig* getConfig() override;
+
 	private:
 
 		mvColor m_color = { 1000, 0, 0, 255, false };
+		mvLabelTextConfig m_config;
 
 	};
 
