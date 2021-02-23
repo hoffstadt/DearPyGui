@@ -1,7 +1,7 @@
 cd ../Dependencies/cpython
 mkdir debug
 cd debug
-../configure --with-pydebug --enable-shared
+../configure --enable-shared
 make
 cd ../../..
 
