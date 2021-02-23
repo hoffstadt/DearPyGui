@@ -49,8 +49,8 @@ namespace Marvel {
 		bool m_clearNodes = false;
 		bool m_clearLinks = false;
 
-		PyObject* m_linkCallback;
-		PyObject* m_delinkCallback;
+		PyObject* m_linkCallback = nullptr;
+		PyObject* m_delinkCallback = nullptr;
 	};
 
 }
