@@ -52,6 +52,27 @@ namespace Marvel {
 
 	}
 
+	void mvMenuItem::updateConfig(mvAppItemConfig* config)
+	{
+		auto aconfig = (mvMenuItemConfig*)config;
+
+		m_core_config.label = config->label;
+		m_core_config.show = config->show;
+		m_core_config.enabled = config->enabled;
+		m_core_config.callback = config->callback;
+		m_core_config.callback_data = config->callback_data;
+
+		m_config.source = aconfig->source;
+
+		if (config != &m_config)
+			m_config = *aconfig;
+	}
+
+	mvAppItemConfig* mvMenuItem::getConfig()
+	{
+		return &m_config;
+	}
+
 #ifndef MV_CPP
 
 	void mvMenuItem::setExtraConfigDict(PyObject* dict)

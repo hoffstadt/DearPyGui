@@ -82,11 +82,16 @@ namespace Marvel {
 		void getExtraConfigDict(PyObject* dict) override;
 #endif // !MV_CPP
 
+		// cpp interface
+		void updateConfig(mvAppItemConfig* config) override;
+		mvAppItemConfig* getConfig() override;
+
 	private:
 
 		std::vector<std::string> m_names;
 		int                      m_itemsHeight = 3; // number of items to show (default -1)
 		std::vector<const char*> m_charNames;
+		mvListboxConfig          m_config;
 
 	};
 
