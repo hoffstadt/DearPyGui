@@ -3,6 +3,7 @@
 out/
 cmake-build-debug/
 cmake-build-release/
+cmake-build-local/
 Output/
 dist/
 .DS_Store

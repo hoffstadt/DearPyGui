@@ -32,9 +32,21 @@ namespace Marvel {
 	}
 
 	mvCombo::mvCombo(const std::string& name, const std::string& default_value, const std::string& dataSource)
-		: mvStringPtrBase(name, default_value)
+		: 
+		mvStringPtrBase(name, default_value)
 	{
 		m_description.disableAllowed = true;
+	}
+
+	mvCombo::mvCombo(const std::string& name, const mvComboConfig& config)
+		:
+		mvStringPtrBase(name, config.default_value),
+		m_config(config)
+	{
+		m_description.disableAllowed = true;
+
+		m_config.name = name;
+		updateConfig(&m_config);
 	}
 
 	void mvCombo::draw()
@@ -63,7 +75,7 @@ namespace Marvel {
 		// The second parameter is the label previewed before opening the combo.
 		if (ImGui::BeginCombo(m_label.c_str(), m_value->c_str(), m_flags)) 
 		{
-			for (const auto& name : m_core_config.enabled ? m_items : disabled_items)
+			for (const auto& name : m_core_config.enabled ? m_config.items : disabled_items)
 			{
 				bool is_selected = (*m_value == name);
 				if (ImGui::Selectable((name).c_str(), is_selected))
@@ -83,14 +95,52 @@ namespace Marvel {
 
 	}
 
-#ifndef MV_CPP
+	void mvCombo::updateConfig(mvAppItemConfig* config)
+	{
+		auto aconfig = (mvComboConfig*)config;
+
+		m_core_config.width = config->width;
+		m_core_config.height = config->height;
+		m_core_config.label = config->label;
+		m_core_config.show = config->show;
+		m_core_config.callback = config->callback;
+		m_core_config.callback_data = config->callback_data;
+		m_core_config.enabled = config->enabled;
+
+		m_config.source = aconfig->source;
+
+		if (config != &m_config)
+			m_config = *aconfig;
+	}
+
+	mvAppItemConfig* mvCombo::getConfig()
+	{
+		return &m_config;
+	}
+
+#ifdef MV_CPP
+	void add_combo(const char* name, const mvComboConfig& config)
+	{
+		auto item = CreateRef<mvCombo>(name, config);
+
+		mvApp::GetApp()->getItemRegistry().addItemWithRuntimeChecks(item, config.parent.c_str(), config.before.c_str());
+	}
+
+	void add_combo(const char* name, const std::vector<std::string>& items, mvCallable callable)
+	{
+		mvComboConfig config;
+		config.items = items;
+		config.callback = callable;
+		add_combo(name, config);
+	}
+#else
 
 	void mvCombo::setExtraConfigDict(PyObject* dict)
 	{
 		if (dict == nullptr)
 			return;
 
-		if (PyObject* item = PyDict_GetItemString(dict, "items")) m_items = ToStringVect(item);
+		if (PyObject* item = PyDict_GetItemString(dict, "items")) m_config.items = ToStringVect(item);
 
 		// helpers for bit flipping
 		auto flagop = [dict](const char* keyword, int flag, int& flags)
@@ -140,7 +190,7 @@ namespace Marvel {
 		if (dict == nullptr)
 			return;
 
-		PyDict_SetItemString(dict, "items", ToPyList(m_items));
+		PyDict_SetItemString(dict, "items", ToPyList(m_config.items));
 
 		// helper to check and set bit
 		auto checkbitset = [dict](const char* keyword, int flag, const int& flags)

@@ -75,6 +75,9 @@ namespace Marvel {
 			imnodes::EndInputAttribute();
 	}
 
+#ifdef MV_CPP
+#else
+
 	void mvNodeAttribute::setExtraConfigDict(PyObject* dict)
 	{
 		if (dict == nullptr)
@@ -133,4 +136,5 @@ namespace Marvel {
 
 	}
 
+#endif
 }

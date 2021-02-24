@@ -108,6 +108,8 @@ namespace Marvel {
 		for (const auto& color_pair : color_constants)
 			colors_found[color_pair.second] = false;
 
+		//style is were we place all zero first position floats
+		//style2 is where we place a const that may have a second position for pushing ImVec2 constants
 		std::unordered_map<ImGuiStyleVar, float> styles;
 		std::unordered_map<ImGuiStyleVar, float> styles2;
 		static int styleID;

@@ -6,6 +6,19 @@ project ("DearPyGui")
 set(GLFW_BUILD_DOCS OFF)
 add_definitions(-D_USE_MATH_DEFINES)
 
+# can be set to 36, 37, 38, 39, or 0
+#   * 36 = Python 3.6
+#   * 37 = Python 3.7
+#   * 38 = Python 3.8
+#   * 39 = Python 3.9
+#   *  0 = Embedded Python
+set(MVPY_VERSION ${MVPY_VERSION})
+if(MVDPG_VERSION)
+    add_definitions(-DMV_SANDBOX_VERSION="${MVDPG_VERSION}")
+else()
+    add_definitions(-DMV_SANDBOX_VERSION="master")
+endif()
+
 # when set to "ON", the C++ version will be
 # build instead of the Python version
 set(MV_CPP ${MV_CPP})
@@ -24,19 +37,6 @@ endif()
 
 if(NOT MVDIST_ONLY)
     add_subdirectory ("ImguiTesting")
-endif()
-
-# can be set to 36, 37, 38, 39, or 0
-#   * 36 = Python 3.6
-#   * 37 = Python 3.7
-#   * 38 = Python 3.8
-#   * 39 = Python 3.9
-#   *  0 = Embedded Python
-set(MVPY_VERSION ${MVPY_VERSION})
-if(MVDPG_VERSION)
-    add_definitions(-DMV_SANDBOX_VERSION="${MVDPG_VERSION}")
-else()
-    add_definitions(-DMV_SANDBOX_VERSION="master")
 endif()
 
 # version number of Dear PyGui, usually set

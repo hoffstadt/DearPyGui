@@ -46,6 +46,9 @@ namespace Marvel {
 		void               setValue          (const std::string& value);
 		const std::string& getValue          () const;
 
+		// cpp interface
+		void updateConfig(mvAppItemConfig* config) override;
+		mvAppItemConfig* getConfig() override;
 
 	private:
 
@@ -56,6 +59,7 @@ namespace Marvel {
 		mvColor     m_borderColor = {0, 0, 0, 0, true};
 		void*       m_texture = nullptr;
 		bool        m_dirty = false;
+		mvImageConfig m_config;
 
 	};
 

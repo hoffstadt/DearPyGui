@@ -7,14 +7,14 @@ make
 make install
 
 cd ../../..
-mkdir cmake-build-release
-cd cmake-build-release
+mkdir cmake-build-local
+cd cmake-build-local
 cmake .. -DMVDIST_ONLY=True -DMVPY_VERSION=0 -DMVDPG_VERSION=local_build
 cd ..
-cmake --build cmake-build-release --config Release
+cmake --build cmake-build-local --config Release
 
 cd Distribution
-"../Dependencies/cpython/debug/python.exe" BuildPythonWheel.py ../cmake-build-release/DearPyGui/core.so 0
+"../Dependencies/cpython/debug/python.exe" BuildPythonWheel.py ../cmake-build-local/DearPyGui/core.so 0
 "../Dependencies/cpython/debug/python.exe" -m ensurepip
 "../Dependencies/cpython/debug/python.exe" -m pip install --upgrade pip
 "../Dependencies/cpython/debug/python.exe" -m pip install twine --upgrade

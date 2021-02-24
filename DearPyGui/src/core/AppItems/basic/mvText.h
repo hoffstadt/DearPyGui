@@ -37,6 +37,9 @@ namespace Marvel {
 			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Text_Text),
 		MV_END_COLOR_CONSTANTS
 
+		MV_START_STYLE_CONSTANTS
+		MV_END_STYLE_CONSTANTS
+
 	public:
 
 		static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
@@ -52,17 +55,29 @@ namespace Marvel {
 		void getExtraConfigDict(PyObject* dict) override;
 #endif // !MV_CPP
 
+		// cpp interface
+		void updateConfig(mvAppItemConfig* config) override;
+		mvAppItemConfig* getConfig() override;
+
 	private:
 
 		mvColor m_color = {1000, 0, 0, 255, false};
 		int     m_wrap = -1;
 		bool    m_bullet = false;
+		mvTextConfig m_config;
 
 	};
 
 	//-----------------------------------------------------------------------------
 	// mvLabelText
 	//-----------------------------------------------------------------------------
+
+	struct mvLabelTextConfig : public mvAppItemConfig
+	{
+		std::string default_value = "";
+		mvColor color{ 0, 0, 0, -1 };
+	};
+
 	class mvLabelText : public mvStringPtrBase
 	{
 
@@ -100,9 +115,14 @@ namespace Marvel {
 		void getExtraConfigDict(PyObject* dict) override;
 #endif // !MV_CPP
 
+		// cpp interface
+		void updateConfig(mvAppItemConfig* config) override;
+		mvAppItemConfig* getConfig() override;
+
 	private:
 
 		mvColor m_color = { 1000, 0, 0, 255, false };
+		mvLabelTextConfig m_config;
 
 	};
 

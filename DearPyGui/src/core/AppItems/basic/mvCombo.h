@@ -4,20 +4,28 @@
 
 namespace Marvel {
 
+	//-----------------------------------------------------------------------------
+	// mvColorPicker Config Struct
+	//-----------------------------------------------------------------------------
 	struct mvComboConfig : public mvAppItemConfig
 	{	
 		std::vector<std::string> items;
-		std::string default_value = "";
-		bool popup_align_left = false;
-		bool height_small = false;
-		bool height_regular = false;
-		bool height_large = false;
-		bool height_largest = false;
-		bool no_arrow_button = false;
-		bool no_preview = false;
+		std::string              default_value    = "";
+		bool                     popup_align_left = false;
+		bool                     height_small     = false;
+		bool                     height_regular   = false;
+		bool                     height_large     = false;
+		bool                     height_largest   = false;
+		bool                     no_arrow_button  = false;
+		bool                     no_preview       = false;
 	};
 
+#ifdef MV_CPP
+	void add_combo(const char* name, const mvComboConfig& config = {});
+	void add_combo(const char* name, const std::vector<std::string>& items, mvCallable callable = nullptr);
+#else
 	PyObject* add_combo(PyObject* self, PyObject* args, PyObject* kwargs);
+#endif
 
 	class mvCombo : public mvStringPtrBase
 	{
@@ -95,17 +103,22 @@ namespace Marvel {
 	public:
 
 		mvCombo(const std::string& name, const std::string& default_value, const std::string& dataSource);
+		mvCombo(const std::string& name, const mvComboConfig& config);
 
-		void draw()               override;
+		void draw() override;
 
 #ifndef MV_CPP
 		void setExtraConfigDict(PyObject* dict) override;
 		void getExtraConfigDict(PyObject* dict) override;
 #endif // !MV_CPP
 
+		// cpp interface
+		void updateConfig(mvAppItemConfig* config) override;
+		mvAppItemConfig* getConfig() override;
+
 	private:
 		ImGuiComboFlags m_flags = ImGuiComboFlags_None;
-		std::vector<std::string> m_items;
+		mvComboConfig   m_config;
 	};
 
 }

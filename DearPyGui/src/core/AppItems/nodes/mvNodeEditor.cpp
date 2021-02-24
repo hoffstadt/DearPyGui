@@ -97,12 +97,13 @@ namespace Marvel {
 		if (!found)
 			m_linksStrings.push_back(std::make_pair(node1, node2));
 
-		mvApp::GetApp()->getCallbackRegistry().submitCallback([=]() {
-			PyObject* link = PyTuple_New(2);
-			PyTuple_SetItem(link, 0, ToPyString(node1));
-			PyTuple_SetItem(link, 1, ToPyString(node2));
-			mvApp::GetApp()->getCallbackRegistry().addCallback(m_linkCallback, m_core_config.name, link);
-			});
+		if(m_linkCallback)
+			mvApp::GetApp()->getCallbackRegistry().submitCallback([=]() {
+				PyObject* link = PyTuple_New(2);
+				PyTuple_SetItem(link, 0, ToPyString(node1));
+				PyTuple_SetItem(link, 1, ToPyString(node2));
+				mvApp::GetApp()->getCallbackRegistry().addCallback(m_linkCallback, m_core_config.name, link);
+				});
 
 	}
 
@@ -128,11 +129,12 @@ namespace Marvel {
 			m_linksStrings.push_back(link_string);
 		}
 
-		mvApp::GetApp()->getCallbackRegistry().submitCallback([=]() {
-			PyObject* link = PyTuple_New(2);
-			PyTuple_SetItem(link, 0, ToPyString(node));
-			mvApp::GetApp()->getCallbackRegistry().addCallback(m_delinkCallback, m_core_config.name, link);
-			});
+		if(m_delinkCallback)
+			mvApp::GetApp()->getCallbackRegistry().submitCallback([=]() {
+				PyObject* link = PyTuple_New(2);
+				PyTuple_SetItem(link, 0, ToPyString(node));
+				mvApp::GetApp()->getCallbackRegistry().addCallback(m_delinkCallback, m_core_config.name, link);
+				});
 
 	}
 
@@ -164,13 +166,6 @@ namespace Marvel {
 				continue;
 			m_linksStrings.push_back(link_string);
 		}
-
-		mvApp::GetApp()->getCallbackRegistry().submitCallback([=]() {
-			PyObject* link = PyTuple_New(2);
-			PyTuple_SetItem(link, 0, ToPyString(node1));
-			PyTuple_SetItem(link, 1, ToPyString(node2));
-			mvApp::GetApp()->getCallbackRegistry().addCallback(m_delinkCallback, m_core_config.name, link);
-			});
 
 	}
 
@@ -340,6 +335,9 @@ namespace Marvel {
 		
 	}
 
+#ifdef MV_CPP
+#else
+
 	PyObject* add_node_editor(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		const char* name;
@@ -359,6 +357,12 @@ namespace Marvel {
 
 		if (delink_callback)
 			Py_XINCREF(delink_callback);
+
+		if (link_callback == Py_None)
+			link_callback = nullptr;
+
+		if (delink_callback == Py_None)
+			delink_callback = nullptr;
 
 		auto item = CreateRef<mvNodeEditor>(name, link_callback, delink_callback);
 		item->checkConfigDict(kwargs);
@@ -605,4 +609,6 @@ namespace Marvel {
 		return GetPyNone();
 
 	}
+
+#endif
 }
