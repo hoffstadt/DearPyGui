@@ -74,6 +74,28 @@ namespace Marvel {
 
     }
 
+    void mvInputInt::updateConfig(mvAppItemConfig* config)
+    {
+        auto aconfig = (mvInputIntConfig*)config;
+
+        m_core_config.width = config->width;
+        m_core_config.label = config->label;
+        m_core_config.show = config->show;
+        m_core_config.callback = config->callback;
+        m_core_config.callback_data = config->callback_data;
+        m_core_config.enabled = config->enabled;
+
+        m_config.source = aconfig->source;
+
+        if (config != &m_config)
+            m_config = *aconfig;
+    }
+
+    mvAppItemConfig* mvInputInt::getConfig()
+    {
+        return &m_config;
+    }
+
     //-----------------------------------------------------------------------------
     // mvInputInt2
     //-----------------------------------------------------------------------------
@@ -147,6 +169,28 @@ namespace Marvel {
             else
                 mvApp::GetApp()->getCallbackRegistry().addCallback(m_core_config.callback, m_core_config.name, m_core_config.callback_data);
         }
+    }
+
+    void mvInputInt2::updateConfig(mvAppItemConfig* config)
+    {
+        auto aconfig = (mvInputIntsConfig*)config;
+
+        m_core_config.width = config->width;
+        m_core_config.label = config->label;
+        m_core_config.show = config->show;
+        m_core_config.callback = config->callback;
+        m_core_config.callback_data = config->callback_data;
+        m_core_config.enabled = config->enabled;
+
+        m_config.source = aconfig->source;
+
+        if (config != &m_config)
+            m_config = *aconfig;
+    }
+
+    mvAppItemConfig* mvInputInt2::getConfig()
+    {
+        return &m_config;
     }
 
     //-----------------------------------------------------------------------------
@@ -224,6 +268,28 @@ namespace Marvel {
         }
     }
 
+    void mvInputInt3::updateConfig(mvAppItemConfig* config)
+    {
+        auto aconfig = (mvInputIntsConfig*)config;
+
+        m_core_config.width = config->width;
+        m_core_config.label = config->label;
+        m_core_config.show = config->show;
+        m_core_config.callback = config->callback;
+        m_core_config.callback_data = config->callback_data;
+        m_core_config.enabled = config->enabled;
+
+        m_config.source = aconfig->source;
+
+        if (config != &m_config)
+            m_config = *aconfig;
+    }
+
+    mvAppItemConfig* mvInputInt3::getConfig()
+    {
+        return &m_config;
+    }
+
     //-----------------------------------------------------------------------------
     // mvInputInt4
     //-----------------------------------------------------------------------------
@@ -299,6 +365,28 @@ namespace Marvel {
         }
     }
 
+    void mvInputInt4::updateConfig(mvAppItemConfig* config)
+    {
+        auto aconfig = (mvInputIntsConfig*)config;
+
+        m_core_config.width = config->width;
+        m_core_config.label = config->label;
+        m_core_config.show = config->show;
+        m_core_config.callback = config->callback;
+        m_core_config.callback_data = config->callback_data;
+        m_core_config.enabled = config->enabled;
+
+        m_config.source = aconfig->source;
+
+        if (config != &m_config)
+            m_config = *aconfig;
+    }
+
+    mvAppItemConfig* mvInputInt4::getConfig()
+    {
+        return &m_config;
+    }
+
     //-----------------------------------------------------------------------------
     // mvInputFloat
     //-----------------------------------------------------------------------------
@@ -363,6 +451,28 @@ namespace Marvel {
             else
                 mvApp::GetApp()->getCallbackRegistry().addCallback(m_core_config.callback, m_core_config.name, m_core_config.callback_data);
         }
+    }
+
+    void mvInputFloat::updateConfig(mvAppItemConfig* config)
+    {
+        auto aconfig = (mvInputFloatConfig*)config;
+
+        m_core_config.width = config->width;
+        m_core_config.label = config->label;
+        m_core_config.show = config->show;
+        m_core_config.callback = config->callback;
+        m_core_config.callback_data = config->callback_data;
+        m_core_config.enabled = config->enabled;
+
+        m_config.source = aconfig->source;
+
+        if (config != &m_config)
+            m_config = *aconfig;
+    }
+
+    mvAppItemConfig* mvInputFloat::getConfig()
+    {
+        return &m_config;
     }
 
     //-----------------------------------------------------------------------------
@@ -440,6 +550,28 @@ namespace Marvel {
         }
     }
 
+    void mvInputFloat2::updateConfig(mvAppItemConfig* config)
+    {
+        auto aconfig = (mvInputFloatsConfig*)config;
+
+        m_core_config.width = config->width;
+        m_core_config.label = config->label;
+        m_core_config.show = config->show;
+        m_core_config.callback = config->callback;
+        m_core_config.callback_data = config->callback_data;
+        m_core_config.enabled = config->enabled;
+
+        m_config.source = aconfig->source;
+
+        if (config != &m_config)
+            m_config = *aconfig;
+    }
+
+    mvAppItemConfig* mvInputFloat2::getConfig()
+    {
+        return &m_config;
+    }
+
     //-----------------------------------------------------------------------------
     // mvInputFloat3
     //-----------------------------------------------------------------------------
@@ -515,6 +647,28 @@ namespace Marvel {
         }
     }
 
+    void mvInputFloat3::updateConfig(mvAppItemConfig* config)
+    {
+        auto aconfig = (mvInputFloatsConfig*)config;
+
+        m_core_config.width = config->width;
+        m_core_config.label = config->label;
+        m_core_config.show = config->show;
+        m_core_config.callback = config->callback;
+        m_core_config.callback_data = config->callback_data;
+        m_core_config.enabled = config->enabled;
+
+        m_config.source = aconfig->source;
+
+        if (config != &m_config)
+            m_config = *aconfig;
+    }
+
+    mvAppItemConfig* mvInputFloat3::getConfig()
+    {
+        return &m_config;
+    }
+
     //-----------------------------------------------------------------------------
     // mvInputFloat4
     //-----------------------------------------------------------------------------
@@ -588,6 +742,28 @@ namespace Marvel {
             else
                 mvApp::GetApp()->getCallbackRegistry().addCallback(m_core_config.callback, m_core_config.name, m_core_config.callback_data);
         }
+    }
+
+    void mvInputFloat4::updateConfig(mvAppItemConfig* config)
+    {
+        auto aconfig = (mvInputFloatsConfig*)config;
+
+        m_core_config.width = config->width;
+        m_core_config.label = config->label;
+        m_core_config.show = config->show;
+        m_core_config.callback = config->callback;
+        m_core_config.callback_data = config->callback_data;
+        m_core_config.enabled = config->enabled;
+
+        m_config.source = aconfig->source;
+
+        if (config != &m_config)
+            m_config = *aconfig;
+    }
+
+    mvAppItemConfig* mvInputFloat4::getConfig()
+    {
+        return &m_config;
     }
 
 #ifndef MV_CPP

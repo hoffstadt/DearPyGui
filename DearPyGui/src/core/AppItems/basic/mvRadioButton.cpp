@@ -64,7 +64,6 @@ namespace Marvel {
 	{
 		auto aconfig = (mvRadioButtonConfig*)config;
 
-		m_core_config.source = config->source;
 		m_core_config.show = config->show;
 		m_core_config.enabled = config->enabled;
 		m_core_config.callback = config->callback;

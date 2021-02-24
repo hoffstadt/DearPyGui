@@ -128,7 +128,6 @@ namespace Marvel {
 	{
 		auto aconfig = (mvTextConfig*)config;
 
-		m_core_config.source = config->source;
 		m_core_config.show = config->show;
 
 		m_config.source = aconfig->source;
@@ -146,7 +145,6 @@ namespace Marvel {
 	{
 		auto aconfig = (mvLabelTextConfig*)config;
 
-		m_core_config.source = config->source;
 		m_core_config.show = config->show;
 		m_core_config.label = config->label;
 
