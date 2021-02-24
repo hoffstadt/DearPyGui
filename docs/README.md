@@ -26,11 +26,13 @@
 uses the immediate mode paradigm and your computer's GPU to facilitate extremely dynamic interfaces. _Dear PyGui_ is currently supported on
 the following platforms:
 
-| Platform | Rendering API |
-|----------|---------------|
-| **Windows 10** | _DirectX 11_ |
-| **macOs** | _Metal_ |
-| **Linux** | _OpenGL 3_ |
+| Platform | Rendering API | Newest Version |
+|----------|---------------|----------------|
+| **Windows 10** | _DirectX 11_ | [![PYPI](https://img.shields.io/pypi/v/dearpygui)](https://pypi.org/project/dearpygui/) |
+| **macOs** | _Metal_ | [![PYPI](https://img.shields.io/pypi/v/dearpygui)](https://pypi.org/project/dearpygui/) |
+| **Linux** | _OpenGL 3_ | [![PYPI](https://img.shields.io/pypi/v/dearpygui)](https://pypi.org/project/dearpygui/) |
+| **Raspberry Pi 4** | _OpenGL ES_ | [![PYPI](https://img.shields.io/badge/pypi-v0.6.213-orange)](https://img.shields.io/badge/pypi-v0.6.213-orange) |
+
 
 In the same manner Dear ImGui provides a simple way to create tools for game developers, _Dear PyGui_ provides a 
 simple way for python developers to **create quick and powerful GUIs for scripts**.
