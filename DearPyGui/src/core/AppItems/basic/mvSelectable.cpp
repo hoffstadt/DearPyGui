@@ -55,7 +55,6 @@ namespace Marvel {
 	{
 		auto aconfig = (mvSelectableConfig*)config;
 
-		m_core_config.source = config->source;
 		m_core_config.label = config->label;
 		m_core_config.show = config->show;
 		m_core_config.enabled = config->enabled;

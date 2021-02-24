@@ -102,7 +102,6 @@ namespace Marvel {
 	{
 		auto aconfig = (mvInputTextConfig*)config;
 
-		m_core_config.source = config->source;
 		m_core_config.label = config->label;
 		m_core_config.width = config->width;
 		m_core_config.height = config->height;
