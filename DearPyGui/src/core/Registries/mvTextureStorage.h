@@ -37,7 +37,11 @@ namespace Marvel {
 		RGBA_INT = 0u,
 		RGBA_FLOAT,
 		RGB_FLOAT,
-		RGB_INT
+		RGB_INT,
+		BGRA_INT,
+		BGRA_FLOAT,
+		BGR_FLOAT,
+		BGR_INT
 	};
 
 	//-----------------------------------------------------------------------------

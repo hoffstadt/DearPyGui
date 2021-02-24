@@ -207,7 +207,10 @@ namespace Marvel {
 
 	PyObject* add_texture(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
-		// TO DO, FIX THIS MESS
+		// When using RGBA python data is texture data
+		// When using RGB we must divide out the increment to stay in bouds of the shorter python data
+		// When using BGRA python data must be reordered to match RGBA
+		// When using BGR we must divide out the increment to stay in bouds of the shorter python data and reorder
 
 		const char* name;
 		PyObject* data;
@@ -226,53 +229,91 @@ namespace Marvel {
 		std::vector<float> fdata;
 		fdata.resize(width * height * 4);
 
-		if (tformat == mvTextureFormat::RGBA_INT)
+		switch (tformat)
 		{
-			for (int i = 0; i < fdata.size(); ++i)
-			{
-				fdata[i] = PyLong_AsLong(PyList_GetItem(data, i)) / 255.0f;
-			}
-		}
+			case mvTextureFormat::RGBA_FLOAT:
+				for (int i = 0; i < fdata.size(); ++i)
+				{
+					fdata[i] = PyFloat_AsDouble(PyList_GetItem(data, i));
+				}
+				break;
 
-		else if (tformat == mvTextureFormat::RGB_INT)
-		{
-			for (int i = 0; i < fdata.size(); i += 3)
-			{
-				fdata[i] = PyLong_AsLong(PyList_GetItem(data, i)) / 255.0f;
-				fdata[i+1] = PyLong_AsLong(PyList_GetItem(data, i+1)) / 255.0f;
-				fdata[i+2] = PyLong_AsLong(PyList_GetItem(data, i+2)) / 255.0f;
-				fdata[i+3] = 1.0f;
-			}
+			case mvTextureFormat::RGBA_INT:
+				for (int i = 0; i < fdata.size(); ++i)
+				{
+					fdata[i] = PyLong_AsLong(PyList_GetItem(data, i)) / 255.0f;
+				}
+				break;
 
-		}
+			case mvTextureFormat::BGRA_FLOAT:
+				for (int i = 0; i < fdata.size(); i += 4)
+				{
+					fdata[i] = PyFloat_AsDouble(PyList_GetItem(data, i + 2));
+					fdata[i + 1] = PyFloat_AsDouble(PyList_GetItem(data, i + 1));
+					fdata[i + 2] = PyFloat_AsDouble(PyList_GetItem(data, i));
+					fdata[i + 3] = PyFloat_AsDouble(PyList_GetItem(data, i + 3));
+				}
+				break;
 
-		else if (tformat == mvTextureFormat::RGBA_FLOAT)
-		{
-			for (int i = 0; i < fdata.size(); ++i)
-			{
-				fdata[i] = PyFloat_AsDouble(PyList_GetItem(data, i));
-			}
-		}
+			case mvTextureFormat::BGRA_INT:
+				for (int i = 0; i < fdata.size(); i += 4)
+				{
+					fdata[i] = PyLong_AsLong(PyList_GetItem(data, i + 2)) / 255.0f;
+					fdata[i + 1] = PyLong_AsLong(PyList_GetItem(data, i + 1)) / 255.0f;
+					fdata[i + 2] = PyLong_AsLong(PyList_GetItem(data, i)) / 255.0f;
+					fdata[i + 3] = PyLong_AsLong(PyList_GetItem(data, i + 3)) / 255.0f;
+				}
+				break;
 
-		else if (tformat == mvTextureFormat::RGB_FLOAT)
-		{
-			for (int i = 0; i < fdata.size(); i += 3)
-			{
-				fdata[i] = PyFloat_AsDouble(PyList_GetItem(data, i));
-				fdata[i + 1] = PyFloat_AsDouble(PyList_GetItem(data, i + 1));
-				fdata[i + 2] = PyFloat_AsDouble(PyList_GetItem(data, i + 2));
-				fdata[i + 3] = 1.0f;
-			}
+			case mvTextureFormat::RGB_FLOAT:
+				for (int i = 0; i < fdata.size(); i += 4)
+				{
+					fdata[i] = PyFloat_AsDouble(PyList_GetItem(data, (i / 4) * 3));
+					fdata[i + 1] = PyFloat_AsDouble(PyList_GetItem(data, (i / 4) * 3 + 1));
+					fdata[i + 2] = PyFloat_AsDouble(PyList_GetItem(data, (i / 4) * 3 + 2));
+					fdata[i + 3] = 1.0f;
+				}
+				break;
 
+			case mvTextureFormat::RGB_INT:
+				for (int i = 0; i < fdata.size(); i += 4)
+				{
+					fdata[i] = PyLong_AsLong(PyList_GetItem(data, (i / 4) * 3)) / 255.0f;
+					fdata[i + 1] = PyLong_AsLong(PyList_GetItem(data, (i / 4) * 3 + 1)) / 255.0f;
+					fdata[i + 2] = PyLong_AsLong(PyList_GetItem(data, (i / 4) * 3 + 2)) / 255.0f;
+					fdata[i + 3] = 1.0f;
+				}
+				break;
+
+			case mvTextureFormat::BGR_FLOAT:
+				for (int i = 0; i < fdata.size(); i += 4)
+				{
+					fdata[i] = PyFloat_AsDouble(PyList_GetItem(data, (i / 4) * 3 + 2));
+					fdata[i + 1] = PyFloat_AsDouble(PyList_GetItem(data, (i / 4) * 3 + 1));
+					fdata[i + 2] = PyFloat_AsDouble(PyList_GetItem(data, (i / 4) * 3));
+					fdata[i + 3] = 1.0f;
+				}
+				break;
+
+			case mvTextureFormat::BGR_INT:
+				for (int i = 0; i < fdata.size(); i += 4)
+				{
+					fdata[i] = PyLong_AsLong(PyList_GetItem(data, (i / 4) * 3 + 2)) / 255.0f;
+					fdata[i + 1] = PyLong_AsLong(PyList_GetItem(data, (i / 4) * 3 + 1)) / 255.0f;
+					fdata[i + 2] = PyLong_AsLong(PyList_GetItem(data, (i / 4) * 3)) / 255.0f;
+					fdata[i + 3] = 1.0f;
+				}
+				break;
+
+			default:
+				return GetPyNone();
 		}
 
 		std::lock_guard<std::mutex> lk(mvApp::GetApp()->GetApp()->getMutex());
 		if (mvApp::IsAppStarted())
 			mvApp::GetApp()->getTextureStorage().addTexture(name, fdata.data(), width, height, tformat);
-
 		else
 			mvApp::GetApp()->getTextureStorage().addDelayedTexture(name, fdata, width, height, tformat);
-
 
 		return GetPyNone();
 	}
