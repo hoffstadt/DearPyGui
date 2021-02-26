@@ -567,6 +567,18 @@ namespace Marvel {
 	void mvItemRegistry::setPrimaryWindow(const std::string& name, bool value)
 	{
 
+		mvWindowAppItem* window = getWindow(name);
+
+		if (window)
+		{
+			if (window->getWindowAsMainStatus() == value)
+				return;
+			else
+				window->setWindowAsMainStatus(value);
+		}
+		else
+			ThrowPythonException("Window does not exists.");
+
 		// reset other windows
 		for (auto window : m_frontWindows)
 		{
@@ -575,13 +587,5 @@ namespace Marvel {
 		}
 
 		mvAppLog::Focus();
-
-		mvWindowAppItem* window = getWindow(name);
-
-		if (window)
-			window->setWindowAsMainStatus(value);
-		else
-			ThrowPythonException("Window does not exists.");
-
 	}
 }
