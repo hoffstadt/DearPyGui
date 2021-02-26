@@ -40,6 +40,7 @@ namespace Marvel {
 		void   getExtraConfigDict   (PyObject* dict) override;
 		void   setFocusedNextFrame  () { m_focusNextFrame = true; }
 		mvRef<mvDrawList> getDrawList     () { return m_drawList; }
+		bool  getWindowAsMainStatus() const {return m_mainWindow;}
 
 		~mvWindowAppItem();
 
