@@ -23,12 +23,13 @@ HOW TO UPDATE?
 - Please report any issue!
 
 ------------------------------------------------------------------------
- VERSION 0.6.x
+ VERSION 0.6.218
 ------------------------------------------------------------------------
 
 Fixes:
 - primary window getting "stuck" #634
 - window config not returning specified label #627
+- Fixed enable/disable lost settings #633
 
 ------------------------------------------------------------------------
  VERSION 0.6.203
