@@ -28,6 +28,7 @@ HOW TO UPDATE?
 
 Fixes:
 - primary window getting "stuck" #634
+- window config not returning specified label #627
 
 ------------------------------------------------------------------------
  VERSION 0.6.203
