@@ -619,7 +619,9 @@ namespace Marvel {
 
         // flags
         flagop("clamped", ImGuiSliderFlags_ClampOnInput, m_flags);
+        flagop("clamped", ImGuiSliderFlags_ClampOnInput, m_stor_flags);
         flagop("no_input", ImGuiSliderFlags_NoInput, m_flags);
+        flagop("no_input", ImGuiSliderFlags_NoInput, m_stor_flags);
 
     }
 
@@ -662,7 +664,9 @@ namespace Marvel {
 
         // flags
         flagop("clamped", ImGuiSliderFlags_ClampOnInput, m_flags);
+        flagop("clamped", ImGuiSliderFlags_ClampOnInput, m_stor_flags);
         flagop("no_input", ImGuiSliderFlags_NoInput, m_flags);
+        flagop("no_input", ImGuiSliderFlags_NoInput, m_stor_flags);
 
     }
 
@@ -702,8 +706,11 @@ namespace Marvel {
             if (PyObject* item = PyDict_GetItemString(dict, keyword)) ToBool(item) ? flags |= flag : flags &= ~flag;
         };
 
+        // flags
         flagop("clamped", ImGuiSliderFlags_ClampOnInput, m_flags);
+        flagop("clamped", ImGuiSliderFlags_ClampOnInput, m_stor_flags);
         flagop("no_input", ImGuiSliderFlags_NoInput, m_flags);
+        flagop("no_input", ImGuiSliderFlags_NoInput, m_stor_flags);
 
     }
 
@@ -745,7 +752,9 @@ namespace Marvel {
 
         // flags
         flagop("clamped", ImGuiSliderFlags_ClampOnInput, m_flags);
+        flagop("clamped", ImGuiSliderFlags_ClampOnInput, m_stor_flags);
         flagop("no_input", ImGuiSliderFlags_NoInput, m_flags);
+        flagop("no_input", ImGuiSliderFlags_NoInput, m_stor_flags);
 
     }
 
@@ -788,7 +797,9 @@ namespace Marvel {
 
         // flags
         flagop("clamped", ImGuiSliderFlags_ClampOnInput, m_flags);
+        flagop("clamped", ImGuiSliderFlags_ClampOnInput, m_stor_flags);
         flagop("no_input", ImGuiSliderFlags_NoInput, m_flags);
+        flagop("no_input", ImGuiSliderFlags_NoInput, m_stor_flags);
 
     }
 
@@ -831,7 +842,9 @@ namespace Marvel {
 
         // flags
         flagop("clamped", ImGuiSliderFlags_ClampOnInput, m_flags);
+        flagop("clamped", ImGuiSliderFlags_ClampOnInput, m_stor_flags);
         flagop("no_input", ImGuiSliderFlags_NoInput, m_flags);
+        flagop("no_input", ImGuiSliderFlags_NoInput, m_stor_flags);
 
     }
 
@@ -873,7 +886,9 @@ namespace Marvel {
 
         // flags
         flagop("clamped", ImGuiSliderFlags_ClampOnInput, m_flags);
+        flagop("clamped", ImGuiSliderFlags_ClampOnInput, m_stor_flags);
         flagop("no_input", ImGuiSliderFlags_NoInput, m_flags);
+        flagop("no_input", ImGuiSliderFlags_NoInput, m_stor_flags);
 
     }
 
@@ -915,7 +930,9 @@ namespace Marvel {
 
         // flags
         flagop("clamped", ImGuiSliderFlags_ClampOnInput, m_flags);
+        flagop("clamped", ImGuiSliderFlags_ClampOnInput, m_stor_flags);
         flagop("no_input", ImGuiSliderFlags_NoInput, m_flags);
+        flagop("no_input", ImGuiSliderFlags_NoInput, m_stor_flags);
 
     }
 
