@@ -129,6 +129,7 @@ namespace Marvel {
 		mvVec2 getWindowPos         () const;
 		void   draw                 () override;
 		void   setResizeCallback    (mvCallable callback);
+		bool  getWindowAsMainStatus() const { return m_mainWindow; }
 
 #ifndef MV_CPP
 		void setExtraConfigDict(PyObject* dict) override;
