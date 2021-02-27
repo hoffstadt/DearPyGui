@@ -1,5 +1,4 @@
 #include "mvPythonTranslator.h"
-#include "mvApp.h"
 #include "mvAppLog.h"
 
 namespace Marvel {
@@ -350,8 +349,6 @@ namespace Marvel {
 		if (value == nullptr)
 			return result;
 
-		 
-
 		if (PyUnicode_Check(value))
 		{
 			result = _PyUnicode_AsString(value);
@@ -370,6 +367,28 @@ namespace Marvel {
 
 		return result;
 
+	}
+
+	float BufferViewItemAsFloat(Py_buffer& bufferView, Py_ssize_t index)
+	{
+		if (strcmp(bufferView.format, "d") == 0)
+		{
+			return *((double*)bufferView.buf + index);
+		}
+		else if (strcmp(bufferView.format, "l") == 0)
+		{
+			return *((int*)bufferView.buf + index);
+		}
+		else if (strcmp(bufferView.format, "B") == 0)
+		{
+			return *((unsigned char*)bufferView.buf + index);
+		}
+		else
+		{
+			ThrowPythonException("Unknown buffer type.");
+			ThrowPythonException(bufferView.format);
+		}
+		return NULL;
 	}
 
 	std::vector<int> ToIntVect(PyObject* value, const std::string& message)
@@ -411,34 +430,13 @@ namespace Marvel {
 			if (!PyObject_GetBuffer(value, &buffer_info,
 				PyBUF_CONTIG_RO | PyBUF_FORMAT))
 			{
-
-
-				if (strcmp(buffer_info.format, "d") == 0)
+				for (Py_ssize_t i = 0; i < buffer_info.len / buffer_info.itemsize; ++i)
 				{
-
-					for (Py_ssize_t i = 0; i < buffer_info.len / buffer_info.itemsize; ++i)
-						items.emplace_back(*((double*)buffer_info.buf + i));
+					items.emplace_back(BufferViewItemAsFloat(buffer_info, i));
 				}
-				else if (strcmp(buffer_info.format, "l") == 0)
-				{
-
-					for (Py_ssize_t i = 0; i < buffer_info.len / buffer_info.itemsize; ++i)
-						items.emplace_back(*((int*)buffer_info.buf + i));
-				}
-				else if (strcmp(buffer_info.format, "B") == 0)
-				{
-
-					for (Py_ssize_t i = 0; i < buffer_info.len / buffer_info.itemsize; ++i)
-						items.emplace_back(*((unsigned char*)buffer_info.buf + i));
-				}
-				else
-				{
-					ThrowPythonException("Unknown buffer type.");
-					ThrowPythonException(buffer_info.format);
-				}
-
-				PyBuffer_Release(&buffer_info);
 			}
+
+			PyBuffer_Release(&buffer_info);
 		}
 
 		else
@@ -484,28 +482,9 @@ namespace Marvel {
 				PyBUF_CONTIG_RO | PyBUF_FORMAT)) 
 			{
 
-				if (strcmp(buffer_info.format, "d") == 0)
+				for (Py_ssize_t i = 0; i < buffer_info.len / buffer_info.itemsize; ++i)
 				{
-
-					for (Py_ssize_t i = 0; i < buffer_info.len / buffer_info.itemsize; ++i)
-						items.emplace_back(*((double*)buffer_info.buf + i));
-				}
-				else if (strcmp(buffer_info.format, "l") == 0)
-				{
-
-					for (Py_ssize_t i = 0; i < buffer_info.len / buffer_info.itemsize; ++i)
-						items.emplace_back(*((int*)buffer_info.buf + i));
-				}
-				else if (strcmp(buffer_info.format, "B") == 0)
-				{
-
-					for (Py_ssize_t i = 0; i < buffer_info.len / buffer_info.itemsize; ++i)
-						items.emplace_back(*((unsigned char*)buffer_info.buf + i));
-				}
-				else
-				{
-					ThrowPythonException("Unknown buffer type.");
-					ThrowPythonException(buffer_info.format);
+					items.emplace_back(BufferViewItemAsFloat(buffer_info, i));
 				}
 	
 				PyBuffer_Release(&buffer_info);

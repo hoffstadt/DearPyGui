@@ -221,32 +221,32 @@ namespace Marvel {
 		if (!(*mvApp::GetApp()->getParsers())["add_texture"].parse(args, kwargs, __FUNCTION__, 
 			&name, &data, &width, &height, &format))
 			return GetPyNone();
-		
-		if (!PyList_Check(data)) return GetPyNone();
 
 		mvTextureFormat tformat = (mvTextureFormat)format;
 
 		std::vector<float> fdata;
 		fdata.resize(width * height * 4);
 
-		switch (tformat)
-		{
+		if (PyList_Check(data)) {
+
+			switch (tformat)
+			{
 			case mvTextureFormat::RGBA_FLOAT:
-				for (int i = 0; i < fdata.size(); ++i)
+				for (Py_ssize_t i = 0; i < PyList_Size(data); ++i)
 				{
 					fdata[i] = PyFloat_AsDouble(PyList_GetItem(data, i));
 				}
 				break;
 
 			case mvTextureFormat::RGBA_INT:
-				for (int i = 0; i < fdata.size(); ++i)
+				for (Py_ssize_t i = 0; i < PyList_Size(data); ++i)
 				{
 					fdata[i] = PyLong_AsLong(PyList_GetItem(data, i)) / 255.0f;
 				}
 				break;
 
 			case mvTextureFormat::BGRA_FLOAT:
-				for (int i = 0; i < fdata.size(); i += 4)
+				for (Py_ssize_t i = 0; i < PyList_Size(data); i += 4)
 				{
 					fdata[i] = PyFloat_AsDouble(PyList_GetItem(data, i + 2));
 					fdata[i + 1] = PyFloat_AsDouble(PyList_GetItem(data, i + 1));
@@ -256,7 +256,7 @@ namespace Marvel {
 				break;
 
 			case mvTextureFormat::BGRA_INT:
-				for (int i = 0; i < fdata.size(); i += 4)
+				for (Py_ssize_t i = 0; i < PyList_Size(data); i += 4)
 				{
 					fdata[i] = PyLong_AsLong(PyList_GetItem(data, i + 2)) / 255.0f;
 					fdata[i + 1] = PyLong_AsLong(PyList_GetItem(data, i + 1)) / 255.0f;
@@ -266,7 +266,7 @@ namespace Marvel {
 				break;
 
 			case mvTextureFormat::RGB_FLOAT:
-				for (int i = 0; i < fdata.size(); i += 4)
+				for (Py_ssize_t i = 0; i < PyList_Size(data); i += 4)
 				{
 					fdata[i] = PyFloat_AsDouble(PyList_GetItem(data, (i / 4) * 3));
 					fdata[i + 1] = PyFloat_AsDouble(PyList_GetItem(data, (i / 4) * 3 + 1));
@@ -276,7 +276,7 @@ namespace Marvel {
 				break;
 
 			case mvTextureFormat::RGB_INT:
-				for (int i = 0; i < fdata.size(); i += 4)
+				for (Py_ssize_t i = 0; i < PyList_Size(data); i += 4)
 				{
 					fdata[i] = PyLong_AsLong(PyList_GetItem(data, (i / 4) * 3)) / 255.0f;
 					fdata[i + 1] = PyLong_AsLong(PyList_GetItem(data, (i / 4) * 3 + 1)) / 255.0f;
@@ -286,7 +286,7 @@ namespace Marvel {
 				break;
 
 			case mvTextureFormat::BGR_FLOAT:
-				for (int i = 0; i < fdata.size(); i += 4)
+				for (Py_ssize_t i = 0; i < PyList_Size(data); i += 4)
 				{
 					fdata[i] = PyFloat_AsDouble(PyList_GetItem(data, (i / 4) * 3 + 2));
 					fdata[i + 1] = PyFloat_AsDouble(PyList_GetItem(data, (i / 4) * 3 + 1));
@@ -296,7 +296,7 @@ namespace Marvel {
 				break;
 
 			case mvTextureFormat::BGR_INT:
-				for (int i = 0; i < fdata.size(); i += 4)
+				for (Py_ssize_t i = 0; i < PyList_Size(data); i += 4)
 				{
 					fdata[i] = PyLong_AsLong(PyList_GetItem(data, (i / 4) * 3 + 2)) / 255.0f;
 					fdata[i + 1] = PyLong_AsLong(PyList_GetItem(data, (i / 4) * 3 + 1)) / 255.0f;
@@ -307,6 +307,102 @@ namespace Marvel {
 
 			default:
 				return GetPyNone();
+			}
+		}
+
+		else if (PyObject_CheckBuffer(data)) 
+		{
+
+			Py_buffer buffer_info;
+
+			if (PyObject_GetBuffer(data, &buffer_info,
+				PyBUF_CONTIG_RO | PyBUF_FORMAT))
+			{
+				PyBuffer_Release(&buffer_info);
+				return GetPyNone();
+			}
+
+			switch (tformat)
+			{
+			case mvTextureFormat::RGBA_FLOAT:
+				for (Py_ssize_t i = 0; i < buffer_info.len / buffer_info.itemsize; ++i)
+				{
+					fdata[i] = BufferViewItemAsFloat(buffer_info, i);
+				}
+				break;
+
+			case mvTextureFormat::RGBA_INT:
+				for (Py_ssize_t i = 0; i < buffer_info.len / buffer_info.itemsize; ++i)
+				{
+					fdata[i] = BufferViewItemAsFloat(buffer_info, i) / 255.0f;
+				}
+				break;
+
+			case mvTextureFormat::BGRA_FLOAT:
+				for (Py_ssize_t i = 0; i < buffer_info.len / buffer_info.itemsize; i += 4)
+				{
+					fdata[i] = BufferViewItemAsFloat(buffer_info, i + 2);
+					fdata[i + 1] = BufferViewItemAsFloat(buffer_info, i + 1);
+					fdata[i + 2] = BufferViewItemAsFloat(buffer_info, i);
+					fdata[i + 3] = BufferViewItemAsFloat(buffer_info, i + 3);
+				}
+				break;
+
+			case mvTextureFormat::BGRA_INT:
+				for (Py_ssize_t i = 0; i < buffer_info.len / buffer_info.itemsize; i += 4)
+				{
+					fdata[i] = BufferViewItemAsFloat(buffer_info, i + 2) / 255.0f;
+					fdata[i + 1] = BufferViewItemAsFloat(buffer_info, i + 1) / 255.0f;
+					fdata[i + 2] = BufferViewItemAsFloat(buffer_info, i) / 255.0f;
+					fdata[i + 3] = BufferViewItemAsFloat(buffer_info, i + 3) / 255.0f;
+				}
+				break;
+
+			case mvTextureFormat::RGB_FLOAT:
+				for (Py_ssize_t i = 0; i < buffer_info.len / buffer_info.itemsize; i += 4)
+				{
+					fdata[i] = BufferViewItemAsFloat(buffer_info, (i / 4) * 3);
+					fdata[i + 1] = BufferViewItemAsFloat(buffer_info, (i / 4) * 3 + 1);
+					fdata[i + 2] = BufferViewItemAsFloat(buffer_info, (i / 4) * 3 + 2);
+					fdata[i + 3] = 1.0f;
+				}
+				break;
+
+			case mvTextureFormat::RGB_INT:
+				for (Py_ssize_t i = 0; i < buffer_info.len / buffer_info.itemsize; i += 4)
+				{
+					fdata[i] = BufferViewItemAsFloat(buffer_info, (i / 4) * 3) / 255.0f;
+					fdata[i + 1] = BufferViewItemAsFloat(buffer_info, (i / 4) * 3 + 1) / 255.0f;
+					fdata[i + 2] = BufferViewItemAsFloat(buffer_info, (i / 4) * 3 + 2) / 255.0f;
+					fdata[i + 3] = 1.0f;
+				}
+				break;
+
+			case mvTextureFormat::BGR_FLOAT:
+				for (Py_ssize_t i = 0; i < buffer_info.len / buffer_info.itemsize; i += 4)
+				{
+					fdata[i] = BufferViewItemAsFloat(buffer_info, (i / 4) * 3 + 2);
+					fdata[i + 1] = BufferViewItemAsFloat(buffer_info, (i / 4) * 3 + 1);
+					fdata[i + 2] = BufferViewItemAsFloat(buffer_info, (i / 4) * 3);
+					fdata[i + 3] = 1.0f;
+				}
+				break;
+
+			case mvTextureFormat::BGR_INT:
+				for (Py_ssize_t i = 0; i < buffer_info.len / buffer_info.itemsize; i += 4)
+				{
+					fdata[i] = BufferViewItemAsFloat(buffer_info, (i / 4) * 3 + 2) / 255.0f;
+					fdata[i + 1] = BufferViewItemAsFloat(buffer_info, (i / 4) * 3 + 1) / 255.0f;
+					fdata[i + 2] = BufferViewItemAsFloat(buffer_info, (i / 4) * 3) / 255.0f;
+					fdata[i + 3] = 1.0f;
+				}
+				break;
+
+			default:
+				PyBuffer_Release(&buffer_info);
+				return GetPyNone();
+			}
+			PyBuffer_Release(&buffer_info);
 		}
 
 		std::lock_guard<std::mutex> lk(mvApp::GetApp()->GetApp()->getMutex());

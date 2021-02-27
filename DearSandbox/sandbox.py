@@ -1,23 +1,36 @@
 from dearpygui.core import *
 from dearpygui.simple import *
-from dearpygui.demo import *
-from math import sin, cos
-import random
 import time
+import array as array
 
-set_log_level(0)
-#enable_docking(shift_only=False, dock_space=True)
+textdata = []
+for i in range(0, 1920 * 1080):
+	textdata.append(float(0.0))
+	textdata.append(float((i/(1920 * 1080))*255.0))
+	textdata.append(float(255.0))
+	textdata.append(float(255.0))
+img_shape = [1920, 1080]
 
-set_main_window_title("DearPyGui Demo")
-set_main_window_size(1000, 800)
-set_main_window_pos(0, 0)
-add_additional_font("../../Resources/NotoSerifCJKjp-Medium.otf", 20)
+textarray = array.array('d', textdata)
+# set_vsync(False)
 
-# char remaps
-#add_character_remap(0x0041, 0x00A2)
-#add_character_remap(0x0061, 0x00AB)
+with window("main##", width=1920, height=1080):
+	add_text("taketime")
+	add_drawing("canvas", width=img_shape[0], height=img_shape[1])
+	add_texture("tex_data", textarray, img_shape[0], img_shape[1], format=mvTEX_RGBA_FLOAT)
+	draw_image("canvas", "tex_data", [0.0, 0.0], [img_shape[0], img_shape[1]], tag="texture")
 
-show_demo()
-show_logger()
 
+def render(sender, data):
+	start_time = time.perf_counter()
+
+	add_texture("tex_data", textdata, img_shape[0], img_shape[1], format=mvTEX_RGBA_INT)
+	modify_draw_command("canvas", "texture", file="tex_data")
+
+	delay_time = time.perf_counter() - start_time
+	millisecond = 1/(delay_time)
+	set_value("taketime", f"taketime : {millisecond:.2f}ms")  # 26.5ms == 37fps
+
+
+set_render_callback(render)
 start_dearpygui()
