@@ -43,7 +43,7 @@ namespace Marvel {
 
 	public:
 
-		mvInt2PtrBase(const std::string& name, int* default_value);
+		mvInt2PtrBase(const std::string& name,int* default_value);
 		void setDataSource(const std::string& dataSource) override;
 		mvValueVariant getValue() override { return m_value; }
 		PyObject* getPyValue() override;

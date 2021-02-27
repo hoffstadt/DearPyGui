@@ -55,6 +55,28 @@ namespace Marvel {
 
     }
 
+    void mvDragFloat::updateConfig(mvAppItemConfig* config)
+    {
+        auto aconfig = (mvDragFloatConfig*)config;
+
+        m_core_config.width = config->width;
+        m_core_config.label = config->label;
+        m_core_config.show = config->show;
+        m_core_config.callback = config->callback;
+        m_core_config.callback_data = config->callback_data;
+        m_core_config.enabled = config->enabled;
+
+        m_config.source = aconfig->source;
+
+        if (config != &m_config)
+            m_config = *aconfig;
+    }
+
+    mvAppItemConfig* mvDragFloat::getConfig()
+    {
+        return &m_config;
+    }
+
 
 
     //-----------------------------------------------------------------------------
@@ -103,6 +125,28 @@ namespace Marvel {
             mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), m_core_config.name, m_core_config.callback_data);
     }
 
+    void mvDragFloat2::updateConfig(mvAppItemConfig* config)
+    {
+        auto aconfig = (mvDragFloatsConfig*)config;
+
+        m_core_config.width = config->width;
+        m_core_config.label = config->label;
+        m_core_config.show = config->show;
+        m_core_config.callback = config->callback;
+        m_core_config.callback_data = config->callback_data;
+        m_core_config.enabled = config->enabled;
+
+        m_config.source = aconfig->source;
+
+        if (config != &m_config)
+            m_config = *aconfig;
+    }
+
+    mvAppItemConfig* mvDragFloat2::getConfig()
+    {
+        return &m_config;
+    }
+
     //-----------------------------------------------------------------------------
     // mvDragFloat3
     //-----------------------------------------------------------------------------
@@ -147,6 +191,28 @@ namespace Marvel {
         if (ImGui::DragFloat3(m_label.c_str(), m_core_config.enabled ? m_value->data() : &m_disabled_value[0], m_speed, m_min, m_max, m_format.c_str(), m_flags))
             mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), m_core_config.name, m_core_config.callback_data);
 
+    }
+
+    void mvDragFloat3::updateConfig(mvAppItemConfig* config)
+    {
+        auto aconfig = (mvDragFloatsConfig*)config;
+
+        m_core_config.width = config->width;
+        m_core_config.label = config->label;
+        m_core_config.show = config->show;
+        m_core_config.callback = config->callback;
+        m_core_config.callback_data = config->callback_data;
+        m_core_config.enabled = config->enabled;
+
+        m_config.source = aconfig->source;
+
+        if (config != &m_config)
+            m_config = *aconfig;
+    }
+
+    mvAppItemConfig* mvDragFloat3::getConfig()
+    {
+        return &m_config;
     }
 
     //-----------------------------------------------------------------------------
@@ -195,6 +261,28 @@ namespace Marvel {
 
     }
 
+    void mvDragFloat4::updateConfig(mvAppItemConfig* config)
+    {
+        auto aconfig = (mvDragFloatsConfig*)config;
+
+        m_core_config.width = config->width;
+        m_core_config.label = config->label;
+        m_core_config.show = config->show;
+        m_core_config.callback = config->callback;
+        m_core_config.callback_data = config->callback_data;
+        m_core_config.enabled = config->enabled;
+
+        m_config.source = aconfig->source;
+
+        if (config != &m_config)
+            m_config = *aconfig;
+    }
+
+    mvAppItemConfig* mvDragFloat4::getConfig()
+    {
+        return &m_config;
+    }
+
     //-----------------------------------------------------------------------------
     // mvDragInt
     //-----------------------------------------------------------------------------
@@ -239,6 +327,28 @@ namespace Marvel {
         if (ImGui::DragInt(m_label.c_str(), m_core_config.enabled ? m_value.get() : &m_disabled_value, m_speed, m_min, m_max, m_format.c_str(), m_flags))
             mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), m_core_config.name, m_core_config.callback_data);
 
+    }
+
+    void mvDragInt::updateConfig(mvAppItemConfig* config)
+    {
+        auto aconfig = (mvDragIntConfig*)config;
+
+        m_core_config.width = config->width;
+        m_core_config.label = config->label;
+        m_core_config.show = config->show;
+        m_core_config.callback = config->callback;
+        m_core_config.callback_data = config->callback_data;
+        m_core_config.enabled = config->enabled;
+
+        m_config.source = aconfig->source;
+
+        if (config != &m_config)
+            m_config = *aconfig;
+    }
+
+    mvAppItemConfig* mvDragInt::getConfig()
+    {
+        return &m_config;
     }
 
     //-----------------------------------------------------------------------------
@@ -287,6 +397,28 @@ namespace Marvel {
 
     }
 
+    void mvDragInt2::updateConfig(mvAppItemConfig* config)
+    {
+        auto aconfig = (mvDragIntsConfig*)config;
+
+        m_core_config.width = config->width;
+        m_core_config.label = config->label;
+        m_core_config.show = config->show;
+        m_core_config.callback = config->callback;
+        m_core_config.callback_data = config->callback_data;
+        m_core_config.enabled = config->enabled;
+
+        m_config.source = aconfig->source;
+
+        if (config != &m_config)
+            m_config = *aconfig;
+    }
+
+    mvAppItemConfig* mvDragInt2::getConfig()
+    {
+        return &m_config;
+    }
+
     //-----------------------------------------------------------------------------
     // mvDragInt3
     //-----------------------------------------------------------------------------
@@ -331,6 +463,28 @@ namespace Marvel {
         if (ImGui::DragInt3(m_label.c_str(), m_core_config.enabled ? m_value->data() : &m_disabled_value[0], m_speed, m_min, m_max, m_format.c_str(), m_flags))
             mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), m_core_config.name, m_core_config.callback_data);
 
+    }
+
+    void mvDragInt3::updateConfig(mvAppItemConfig* config)
+    {
+        auto aconfig = (mvDragIntsConfig*)config;
+
+        m_core_config.width = config->width;
+        m_core_config.label = config->label;
+        m_core_config.show = config->show;
+        m_core_config.callback = config->callback;
+        m_core_config.callback_data = config->callback_data;
+        m_core_config.enabled = config->enabled;
+
+        m_config.source = aconfig->source;
+
+        if (config != &m_config)
+            m_config = *aconfig;
+    }
+
+    mvAppItemConfig* mvDragInt3::getConfig()
+    {
+        return &m_config;
     }
 
     //-----------------------------------------------------------------------------
@@ -379,6 +533,28 @@ namespace Marvel {
 
     }
 
+    void mvDragInt4::updateConfig(mvAppItemConfig* config)
+    {
+        auto aconfig = (mvDragIntsConfig*)config;
+
+        m_core_config.width = config->width;
+        m_core_config.label = config->label;
+        m_core_config.show = config->show;
+        m_core_config.callback = config->callback;
+        m_core_config.callback_data = config->callback_data;
+        m_core_config.enabled = config->enabled;
+
+        m_config.source = aconfig->source;
+
+        if (config != &m_config)
+            m_config = *aconfig;
+    }
+
+    mvAppItemConfig* mvDragInt4::getConfig()
+    {
+        return &m_config;
+    }
+
 #ifndef MV_CPP
 
     void mvDragFloat::setExtraConfigDict(PyObject* dict)
@@ -399,7 +575,9 @@ namespace Marvel {
 
         // flags
         flagop("clamped", ImGuiSliderFlags_ClampOnInput, m_flags);
+        flagop("clamped", ImGuiSliderFlags_ClampOnInput, m_stor_flags);
         flagop("no_input", ImGuiSliderFlags_NoInput, m_flags);
+        flagop("no_input", ImGuiSliderFlags_NoInput, m_stor_flags);
 
     }
 
@@ -443,7 +621,9 @@ namespace Marvel {
 
         // flags
         flagop("clamped", ImGuiSliderFlags_ClampOnInput, m_flags);
+        flagop("clamped", ImGuiSliderFlags_ClampOnInput, m_stor_flags);
         flagop("no_input", ImGuiSliderFlags_NoInput, m_flags);
+        flagop("no_input", ImGuiSliderFlags_NoInput, m_stor_flags);
 
     }
 
@@ -487,7 +667,9 @@ namespace Marvel {
 
         // flags
         flagop("clamped", ImGuiSliderFlags_ClampOnInput, m_flags);
+        flagop("clamped", ImGuiSliderFlags_ClampOnInput, m_stor_flags);
         flagop("no_input", ImGuiSliderFlags_NoInput, m_flags);
+        flagop("no_input", ImGuiSliderFlags_NoInput, m_stor_flags);
 
     }
 
@@ -531,7 +713,9 @@ namespace Marvel {
 
         // flags
         flagop("clamped", ImGuiSliderFlags_ClampOnInput, m_flags);
+        flagop("clamped", ImGuiSliderFlags_ClampOnInput, m_stor_flags);
         flagop("no_input", ImGuiSliderFlags_NoInput, m_flags);
+        flagop("no_input", ImGuiSliderFlags_NoInput, m_stor_flags);
 
     }
 
@@ -575,7 +759,9 @@ namespace Marvel {
 
         // flags
         flagop("clamped", ImGuiSliderFlags_ClampOnInput, m_flags);
+        flagop("clamped", ImGuiSliderFlags_ClampOnInput, m_stor_flags);
         flagop("no_input", ImGuiSliderFlags_NoInput, m_flags);
+        flagop("no_input", ImGuiSliderFlags_NoInput, m_stor_flags);
     }
 
     void mvDragInt::getExtraConfigDict(PyObject* dict)
@@ -618,7 +804,9 @@ namespace Marvel {
 
         // flags
         flagop("clamped", ImGuiSliderFlags_ClampOnInput, m_flags);
+        flagop("clamped", ImGuiSliderFlags_ClampOnInput, m_stor_flags);
         flagop("no_input", ImGuiSliderFlags_NoInput, m_flags);
+        flagop("no_input", ImGuiSliderFlags_NoInput, m_stor_flags);
 
     }
 
@@ -662,7 +850,9 @@ namespace Marvel {
 
         // flags
         flagop("clamped", ImGuiSliderFlags_ClampOnInput, m_flags);
+        flagop("clamped", ImGuiSliderFlags_ClampOnInput, m_stor_flags);
         flagop("no_input", ImGuiSliderFlags_NoInput, m_flags);
+        flagop("no_input", ImGuiSliderFlags_NoInput, m_stor_flags);
 
     }
 
@@ -706,7 +896,9 @@ namespace Marvel {
 
         // flags
         flagop("clamped", ImGuiSliderFlags_ClampOnInput, m_flags);
+        flagop("clamped", ImGuiSliderFlags_ClampOnInput, m_stor_flags);
         flagop("no_input", ImGuiSliderFlags_NoInput, m_flags);
+        flagop("no_input", ImGuiSliderFlags_NoInput, m_stor_flags);
 
     }
 

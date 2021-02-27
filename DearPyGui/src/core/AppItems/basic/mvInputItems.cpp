@@ -74,6 +74,28 @@ namespace Marvel {
 
     }
 
+    void mvInputInt::updateConfig(mvAppItemConfig* config)
+    {
+        auto aconfig = (mvInputIntConfig*)config;
+
+        m_core_config.width = config->width;
+        m_core_config.label = config->label;
+        m_core_config.show = config->show;
+        m_core_config.callback = config->callback;
+        m_core_config.callback_data = config->callback_data;
+        m_core_config.enabled = config->enabled;
+
+        m_config.source = aconfig->source;
+
+        if (config != &m_config)
+            m_config = *aconfig;
+    }
+
+    mvAppItemConfig* mvInputInt::getConfig()
+    {
+        return &m_config;
+    }
+
     //-----------------------------------------------------------------------------
     // mvInputInt2
     //-----------------------------------------------------------------------------
@@ -147,6 +169,28 @@ namespace Marvel {
             else
                 mvApp::GetApp()->getCallbackRegistry().addCallback(m_core_config.callback, m_core_config.name, m_core_config.callback_data);
         }
+    }
+
+    void mvInputInt2::updateConfig(mvAppItemConfig* config)
+    {
+        auto aconfig = (mvInputIntsConfig*)config;
+
+        m_core_config.width = config->width;
+        m_core_config.label = config->label;
+        m_core_config.show = config->show;
+        m_core_config.callback = config->callback;
+        m_core_config.callback_data = config->callback_data;
+        m_core_config.enabled = config->enabled;
+
+        m_config.source = aconfig->source;
+
+        if (config != &m_config)
+            m_config = *aconfig;
+    }
+
+    mvAppItemConfig* mvInputInt2::getConfig()
+    {
+        return &m_config;
     }
 
     //-----------------------------------------------------------------------------
@@ -224,6 +268,28 @@ namespace Marvel {
         }
     }
 
+    void mvInputInt3::updateConfig(mvAppItemConfig* config)
+    {
+        auto aconfig = (mvInputIntsConfig*)config;
+
+        m_core_config.width = config->width;
+        m_core_config.label = config->label;
+        m_core_config.show = config->show;
+        m_core_config.callback = config->callback;
+        m_core_config.callback_data = config->callback_data;
+        m_core_config.enabled = config->enabled;
+
+        m_config.source = aconfig->source;
+
+        if (config != &m_config)
+            m_config = *aconfig;
+    }
+
+    mvAppItemConfig* mvInputInt3::getConfig()
+    {
+        return &m_config;
+    }
+
     //-----------------------------------------------------------------------------
     // mvInputInt4
     //-----------------------------------------------------------------------------
@@ -299,6 +365,28 @@ namespace Marvel {
         }
     }
 
+    void mvInputInt4::updateConfig(mvAppItemConfig* config)
+    {
+        auto aconfig = (mvInputIntsConfig*)config;
+
+        m_core_config.width = config->width;
+        m_core_config.label = config->label;
+        m_core_config.show = config->show;
+        m_core_config.callback = config->callback;
+        m_core_config.callback_data = config->callback_data;
+        m_core_config.enabled = config->enabled;
+
+        m_config.source = aconfig->source;
+
+        if (config != &m_config)
+            m_config = *aconfig;
+    }
+
+    mvAppItemConfig* mvInputInt4::getConfig()
+    {
+        return &m_config;
+    }
+
     //-----------------------------------------------------------------------------
     // mvInputFloat
     //-----------------------------------------------------------------------------
@@ -363,6 +451,28 @@ namespace Marvel {
             else
                 mvApp::GetApp()->getCallbackRegistry().addCallback(m_core_config.callback, m_core_config.name, m_core_config.callback_data);
         }
+    }
+
+    void mvInputFloat::updateConfig(mvAppItemConfig* config)
+    {
+        auto aconfig = (mvInputFloatConfig*)config;
+
+        m_core_config.width = config->width;
+        m_core_config.label = config->label;
+        m_core_config.show = config->show;
+        m_core_config.callback = config->callback;
+        m_core_config.callback_data = config->callback_data;
+        m_core_config.enabled = config->enabled;
+
+        m_config.source = aconfig->source;
+
+        if (config != &m_config)
+            m_config = *aconfig;
+    }
+
+    mvAppItemConfig* mvInputFloat::getConfig()
+    {
+        return &m_config;
     }
 
     //-----------------------------------------------------------------------------
@@ -440,6 +550,28 @@ namespace Marvel {
         }
     }
 
+    void mvInputFloat2::updateConfig(mvAppItemConfig* config)
+    {
+        auto aconfig = (mvInputFloatsConfig*)config;
+
+        m_core_config.width = config->width;
+        m_core_config.label = config->label;
+        m_core_config.show = config->show;
+        m_core_config.callback = config->callback;
+        m_core_config.callback_data = config->callback_data;
+        m_core_config.enabled = config->enabled;
+
+        m_config.source = aconfig->source;
+
+        if (config != &m_config)
+            m_config = *aconfig;
+    }
+
+    mvAppItemConfig* mvInputFloat2::getConfig()
+    {
+        return &m_config;
+    }
+
     //-----------------------------------------------------------------------------
     // mvInputFloat3
     //-----------------------------------------------------------------------------
@@ -513,6 +645,28 @@ namespace Marvel {
             else
                 mvApp::GetApp()->getCallbackRegistry().addCallback(m_core_config.callback, m_core_config.name, m_core_config.callback_data);
         }
+    }
+
+    void mvInputFloat3::updateConfig(mvAppItemConfig* config)
+    {
+        auto aconfig = (mvInputFloatsConfig*)config;
+
+        m_core_config.width = config->width;
+        m_core_config.label = config->label;
+        m_core_config.show = config->show;
+        m_core_config.callback = config->callback;
+        m_core_config.callback_data = config->callback_data;
+        m_core_config.enabled = config->enabled;
+
+        m_config.source = aconfig->source;
+
+        if (config != &m_config)
+            m_config = *aconfig;
+    }
+
+    mvAppItemConfig* mvInputFloat3::getConfig()
+    {
+        return &m_config;
     }
 
     //-----------------------------------------------------------------------------
@@ -590,6 +744,28 @@ namespace Marvel {
         }
     }
 
+    void mvInputFloat4::updateConfig(mvAppItemConfig* config)
+    {
+        auto aconfig = (mvInputFloatsConfig*)config;
+
+        m_core_config.width = config->width;
+        m_core_config.label = config->label;
+        m_core_config.show = config->show;
+        m_core_config.callback = config->callback;
+        m_core_config.callback_data = config->callback_data;
+        m_core_config.enabled = config->enabled;
+
+        m_config.source = aconfig->source;
+
+        if (config != &m_config)
+            m_config = *aconfig;
+    }
+
+    mvAppItemConfig* mvInputFloat4::getConfig()
+    {
+        return &m_config;
+    }
+
 #ifndef MV_CPP
 
     void mvInputInt::setExtraConfigDict(PyObject* dict)
@@ -598,7 +774,9 @@ namespace Marvel {
             return;
 
         if (PyObject* item = PyDict_GetItemString(dict, "on_enter")) ToBool(item) ? m_flags |= ImGuiInputTextFlags_EnterReturnsTrue : m_flags &= ~ImGuiInputTextFlags_EnterReturnsTrue;
+        if (PyObject* item = PyDict_GetItemString(dict, "on_enter")) ToBool(item) ? m_stor_flags |= ImGuiInputTextFlags_EnterReturnsTrue : m_stor_flags &= ~ImGuiInputTextFlags_EnterReturnsTrue;
         if (PyObject* item = PyDict_GetItemString(dict, "readonly")) ToBool(item) ? m_flags |= ImGuiInputTextFlags_ReadOnly : m_flags &= ~ImGuiInputTextFlags_ReadOnly;
+        if (PyObject* item = PyDict_GetItemString(dict, "readonly")) ToBool(item) ? m_stor_flags |= ImGuiInputTextFlags_ReadOnly : m_stor_flags &= ~ImGuiInputTextFlags_ReadOnly;
         if (PyObject* item = PyDict_GetItemString(dict, "step")) m_step = ToInt(item);
         if (PyObject* item = PyDict_GetItemString(dict, "step_fast")) m_step_fast = ToInt(item);
         if (PyObject* item = PyDict_GetItemString(dict, "min_value")) { m_min = ToInt(item); m_min_clamped = true; }
@@ -629,7 +807,9 @@ namespace Marvel {
             return;
 
         if (PyObject* item = PyDict_GetItemString(dict, "on_enter")) ToBool(item) ? m_flags |= ImGuiInputTextFlags_EnterReturnsTrue : m_flags &= ~ImGuiInputTextFlags_EnterReturnsTrue;
+        if (PyObject* item = PyDict_GetItemString(dict, "on_enter")) ToBool(item) ? m_stor_flags |= ImGuiInputTextFlags_EnterReturnsTrue : m_stor_flags &= ~ImGuiInputTextFlags_EnterReturnsTrue;
         if (PyObject* item = PyDict_GetItemString(dict, "readonly")) ToBool(item) ? m_flags |= ImGuiInputTextFlags_ReadOnly : m_flags &= ~ImGuiInputTextFlags_ReadOnly;
+        if (PyObject* item = PyDict_GetItemString(dict, "readonly")) ToBool(item) ? m_stor_flags |= ImGuiInputTextFlags_ReadOnly : m_stor_flags &= ~ImGuiInputTextFlags_ReadOnly;
         if (PyObject* item = PyDict_GetItemString(dict, "min_value")) { m_min = ToInt(item); m_min_clamped = true; }
         if (PyObject* item = PyDict_GetItemString(dict, "max_value")) { m_max = ToInt(item); m_max_clamped = true; }
         if (PyObject* item = PyDict_GetItemString(dict, "min_clamped")) m_min_clamped = ToBool(item);
@@ -656,7 +836,9 @@ namespace Marvel {
             return;
 
         if (PyObject* item = PyDict_GetItemString(dict, "on_enter")) ToBool(item) ? m_flags |= ImGuiInputTextFlags_EnterReturnsTrue : m_flags &= ~ImGuiInputTextFlags_EnterReturnsTrue;
+        if (PyObject* item = PyDict_GetItemString(dict, "on_enter")) ToBool(item) ? m_stor_flags |= ImGuiInputTextFlags_EnterReturnsTrue : m_stor_flags &= ~ImGuiInputTextFlags_EnterReturnsTrue;
         if (PyObject* item = PyDict_GetItemString(dict, "readonly")) ToBool(item) ? m_flags |= ImGuiInputTextFlags_ReadOnly : m_flags &= ~ImGuiInputTextFlags_ReadOnly;
+        if (PyObject* item = PyDict_GetItemString(dict, "readonly")) ToBool(item) ? m_stor_flags |= ImGuiInputTextFlags_ReadOnly : m_stor_flags &= ~ImGuiInputTextFlags_ReadOnly;
         if (PyObject* item = PyDict_GetItemString(dict, "min_value")) { m_min = ToInt(item); m_min_clamped = true; }
         if (PyObject* item = PyDict_GetItemString(dict, "max_value")) { m_max = ToInt(item); m_max_clamped = true; }
         if (PyObject* item = PyDict_GetItemString(dict, "min_clamped")) m_min_clamped = ToBool(item);
@@ -682,7 +864,9 @@ namespace Marvel {
             return;
 
         if (PyObject* item = PyDict_GetItemString(dict, "on_enter")) ToBool(item) ? m_flags |= ImGuiInputTextFlags_EnterReturnsTrue : m_flags &= ~ImGuiInputTextFlags_EnterReturnsTrue;
+        if (PyObject* item = PyDict_GetItemString(dict, "on_enter")) ToBool(item) ? m_stor_flags |= ImGuiInputTextFlags_EnterReturnsTrue : m_stor_flags &= ~ImGuiInputTextFlags_EnterReturnsTrue;
         if (PyObject* item = PyDict_GetItemString(dict, "readonly")) ToBool(item) ? m_flags |= ImGuiInputTextFlags_ReadOnly : m_flags &= ~ImGuiInputTextFlags_ReadOnly;
+        if (PyObject* item = PyDict_GetItemString(dict, "readonly")) ToBool(item) ? m_stor_flags |= ImGuiInputTextFlags_ReadOnly : m_stor_flags &= ~ImGuiInputTextFlags_ReadOnly;
         if (PyObject* item = PyDict_GetItemString(dict, "min_value")) { m_min = ToInt(item); m_min_clamped = true; }
         if (PyObject* item = PyDict_GetItemString(dict, "max_value")) { m_max = ToInt(item); m_max_clamped = true; }
         if (PyObject* item = PyDict_GetItemString(dict, "min_clamped")) m_min_clamped = ToBool(item);
@@ -723,7 +907,9 @@ namespace Marvel {
 
         // flags
         flagop("on_enter", ImGuiInputTextFlags_EnterReturnsTrue, m_flags);
+        flagop("on_enter", ImGuiInputTextFlags_EnterReturnsTrue, m_stor_flags);
         flagop("readonly", ImGuiInputTextFlags_ReadOnly, m_flags);
+        flagop("readonly", ImGuiInputTextFlags_ReadOnly, m_stor_flags);
 
     }
 
@@ -771,7 +957,9 @@ namespace Marvel {
 
         // flags
         flagop("on_enter", ImGuiInputTextFlags_EnterReturnsTrue, m_flags);
+        flagop("on_enter", ImGuiInputTextFlags_EnterReturnsTrue, m_stor_flags);
         flagop("readonly", ImGuiInputTextFlags_ReadOnly, m_flags);
+        flagop("readonly", ImGuiInputTextFlags_ReadOnly, m_stor_flags);
 
     }
 
@@ -817,7 +1005,9 @@ namespace Marvel {
 
         // flags
         flagop("on_enter", ImGuiInputTextFlags_EnterReturnsTrue, m_flags);
+        flagop("on_enter", ImGuiInputTextFlags_EnterReturnsTrue, m_stor_flags);
         flagop("readonly", ImGuiInputTextFlags_ReadOnly, m_flags);
+        flagop("readonly", ImGuiInputTextFlags_ReadOnly, m_stor_flags);
 
     }
 
@@ -863,7 +1053,9 @@ namespace Marvel {
 
         // flags
         flagop("on_enter", ImGuiInputTextFlags_EnterReturnsTrue, m_flags);
+        flagop("on_enter", ImGuiInputTextFlags_EnterReturnsTrue, m_stor_flags);
         flagop("readonly", ImGuiInputTextFlags_ReadOnly, m_flags);
+        flagop("readonly", ImGuiInputTextFlags_ReadOnly, m_stor_flags);
 
     }
 

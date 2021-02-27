@@ -22,6 +22,18 @@ namespace Marvel {
     //-----------------------------------------------------------------------------
     // mvSliderFloat
     //-----------------------------------------------------------------------------
+    
+    struct mvSliderFloatConfig : public mvAppItemConfig
+    {
+        float       default_value   = 0.0;
+        float       min_value       = 0.0;
+        float       max_value       = 100.0;
+        std::string format          = "'%.3f'";
+        bool        vertical        = false;
+        bool        no_input        = false;
+        bool        clamped         = false;
+    };
+    
     class mvSliderFloat : public mvFloatPtrBase
     {
         
@@ -78,6 +90,10 @@ namespace Marvel {
         void getExtraConfigDict(PyObject* dict) override;
 #endif // !MV_CPP
         
+        // cpp interface
+        void updateConfig(mvAppItemConfig* config) override;
+        mvAppItemConfig* getConfig() override;
+
     private:
 
         float               m_min = 0.0f;
@@ -86,12 +102,23 @@ namespace Marvel {
         bool                m_vertical = false;
         ImGuiInputTextFlags m_flags = ImGuiSliderFlags_None;
         ImGuiInputTextFlags m_stor_flags = ImGuiSliderFlags_None;
-        
+        mvSliderFloatConfig m_config;
     };
 
     //-----------------------------------------------------------------------------
     // mvSliderFloat2
     //-----------------------------------------------------------------------------
+    
+    struct mvSliderFloatsConfig : public mvAppItemConfig
+    {
+        std::array<float,4> default_value   = { 0.0f, 0.0f, 0.0f, 0.0f };
+        float               min_value       = 0.0;
+        float               max_value       = 100.0;
+        std::string         format          = "'%.3f'";
+        bool                no_input        = false;
+        bool                clamped         = false;
+    };
+    
     class mvSliderFloat2 : public mvFloat2PtrBase
     {
         
@@ -149,14 +176,18 @@ namespace Marvel {
         void getExtraConfigDict(PyObject* dict) override;
 #endif // !MV_CPP
         
+        // cpp interface
+        void updateConfig(mvAppItemConfig* config) override;
+        mvAppItemConfig* getConfig() override;
+
     private:
 
-        float               m_min = 0.0f;
-        float               m_max = 100.0f;
-        std::string         m_format = "%.3f";
-        ImGuiInputTextFlags m_flags = ImGuiSliderFlags_None;
-        ImGuiInputTextFlags m_stor_flags = ImGuiSliderFlags_None;
-        
+        float                   m_min = 0.0f;
+        float                   m_max = 100.0f;
+        std::string             m_format = "%.3f";
+        ImGuiInputTextFlags     m_flags = ImGuiSliderFlags_None;
+        ImGuiInputTextFlags     m_stor_flags = ImGuiSliderFlags_None;
+        mvSliderFloatsConfig    m_config;
     };
 
     //-----------------------------------------------------------------------------
@@ -217,15 +248,19 @@ namespace Marvel {
         void setExtraConfigDict(PyObject* dict) override;
         void getExtraConfigDict(PyObject* dict) override;
 #endif // !MV_CPP
+
+        // cpp interface
+        void updateConfig(mvAppItemConfig* config) override;
+        mvAppItemConfig* getConfig() override;
         
     private:
 
-        float               m_min = 0.0f;
-        float               m_max = 100.0f;
-        std::string         m_format = "%.3f";
-        ImGuiInputTextFlags m_flags = ImGuiSliderFlags_None;
-        ImGuiInputTextFlags m_stor_flags = ImGuiSliderFlags_None;
-        
+        float                   m_min = 0.0f;
+        float                   m_max = 100.0f;
+        std::string             m_format = "%.3f";
+        ImGuiInputTextFlags     m_flags = ImGuiSliderFlags_None;
+        ImGuiInputTextFlags     m_stor_flags = ImGuiSliderFlags_None;
+        mvSliderFloatsConfig    m_config;
     };
     
     //-----------------------------------------------------------------------------
@@ -286,20 +321,36 @@ namespace Marvel {
         void setExtraConfigDict(PyObject* dict) override;
         void getExtraConfigDict(PyObject* dict) override;
 #endif // !MV_CPP
+
+        // cpp interface
+        void updateConfig(mvAppItemConfig* config) override;
+        mvAppItemConfig* getConfig() override;
         
     private:
 
-        float               m_min = 0.0f;
-        float               m_max = 100.0f;
-        std::string         m_format = "%.3f";
-        ImGuiInputTextFlags m_flags = ImGuiSliderFlags_None;
-        ImGuiInputTextFlags m_stor_flags = ImGuiSliderFlags_None;
-        
+        float                   m_min = 0.0f;
+        float                   m_max = 100.0f;
+        std::string             m_format = "%.3f";
+        ImGuiInputTextFlags     m_flags = ImGuiSliderFlags_None;
+        ImGuiInputTextFlags     m_stor_flags = ImGuiSliderFlags_None;
+        mvSliderFloatsConfig    m_config;
     };
      
     //-----------------------------------------------------------------------------
     // mvSliderInt
     //-----------------------------------------------------------------------------
+    
+    struct mvSliderIntConfig : public mvAppItemConfig
+    {
+        int         default_value;
+        int         min_value;
+        int         max_value   = 100;
+        std::string format      = "'%d'";
+        bool        vertical    = false;
+        bool        no_input    = false;
+        bool        clamped     = false;
+    };
+    
     class mvSliderInt : public mvIntPtrBase
     {
             
@@ -356,6 +407,10 @@ namespace Marvel {
         void setExtraConfigDict(PyObject* dict) override;
         void getExtraConfigDict(PyObject* dict) override;
 #endif // !MV_CPP
+
+        // cpp interface
+        void updateConfig(mvAppItemConfig* config) override;
+        mvAppItemConfig* getConfig() override;
             
     private:
 
@@ -365,12 +420,23 @@ namespace Marvel {
         bool                m_vertical = false;
         ImGuiInputTextFlags m_flags = ImGuiSliderFlags_None;
         ImGuiInputTextFlags m_stor_flags = ImGuiSliderFlags_None;
-        
+        mvSliderIntConfig   m_config;
     };
         
     //-----------------------------------------------------------------------------
     // mvSliderInt2
     //-----------------------------------------------------------------------------
+    
+    struct mvSliderIntsConfig : public mvAppItemConfig
+    {
+        std::array<int, 4>  default_value   = { 0, 0, 0, 0 };
+        int                 min_value;
+        int                 max_value       = 100;
+        std::string         format          = "'%d'";
+        bool                no_input        = false;
+        bool                clamped         = false;
+    };
+    
     class mvSliderInt2 : public mvInt2PtrBase
     {
         
@@ -426,6 +492,10 @@ namespace Marvel {
         void setExtraConfigDict(PyObject* dict) override;
         void getExtraConfigDict(PyObject* dict) override;
 #endif // !MV_CPP
+
+        // cpp interface
+        void updateConfig(mvAppItemConfig* config) override;
+        mvAppItemConfig* getConfig() override;
         
     private:
 
@@ -434,7 +504,7 @@ namespace Marvel {
         std::string         m_format = "%d";
         ImGuiInputTextFlags m_flags = ImGuiSliderFlags_None;
         ImGuiInputTextFlags m_stor_flags = ImGuiSliderFlags_None;
-        
+        mvSliderIntsConfig  m_config;
     };
     
     //-----------------------------------------------------------------------------
@@ -495,6 +565,10 @@ namespace Marvel {
         void setExtraConfigDict(PyObject* dict) override;
         void getExtraConfigDict(PyObject* dict) override;
 #endif // !MV_CPP
+
+        // cpp interface
+        void updateConfig(mvAppItemConfig* config) override;
+        mvAppItemConfig* getConfig() override;
         
     private:
 
@@ -503,7 +577,7 @@ namespace Marvel {
         std::string         m_format = "%d";
         ImGuiInputTextFlags m_flags = ImGuiSliderFlags_None;
         ImGuiInputTextFlags m_stor_flags = ImGuiSliderFlags_None;
-        
+        mvSliderIntsConfig  m_config;
     };
         
     //-----------------------------------------------------------------------------
@@ -564,6 +638,10 @@ namespace Marvel {
         void setExtraConfigDict(PyObject* dict) override;
         void getExtraConfigDict(PyObject* dict) override;
 #endif // !MV_CPP
+
+        // cpp interface
+        void updateConfig(mvAppItemConfig* config) override;
+        mvAppItemConfig* getConfig() override;
         
     private:
 
@@ -572,7 +650,7 @@ namespace Marvel {
         std::string         m_format = "%d";
         ImGuiInputTextFlags m_flags = ImGuiSliderFlags_None;
         ImGuiInputTextFlags m_stor_flags = ImGuiSliderFlags_None;
-        
+        mvSliderIntsConfig  m_config;
     };
 
 }
