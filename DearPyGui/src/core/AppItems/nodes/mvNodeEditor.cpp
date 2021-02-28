@@ -167,6 +167,14 @@ namespace Marvel {
 			m_linksStrings.push_back(link_string);
 		}
 
+		if (m_delinkCallback)
+			mvApp::GetApp()->getCallbackRegistry().submitCallback([=]() {
+			PyObject* link = PyTuple_New(2);
+			PyTuple_SetItem(link, 0, ToPyString(node1));
+			PyTuple_SetItem(link, 0, ToPyString(node2));
+			mvApp::GetApp()->getCallbackRegistry().addCallback(m_delinkCallback, m_core_config.name, link);
+				});
+
 	}
 
 	void mvNodeEditor::addLink(int node1, int node2)
