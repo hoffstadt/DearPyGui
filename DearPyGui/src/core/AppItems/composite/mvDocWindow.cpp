@@ -454,50 +454,6 @@ namespace Marvel {
 
 				}
 
-				if (ImGui::CollapsingHeader("Concurrency and Asyncronous Functions"))
-				{
-
-					ColorText("BASICS:");
-					ImGui::BulletText("If a callback needs to perform time consuming calculations, functions can be");
-					ImGui::Text("    ran asyncronously (on seperate threads).");
-					ImGui::BulletText("Currently, the async function can only call some Dear PyGui commands.");
-
-					ImGui::BulletText("The following command is used for asyncronous functions:");
-					ImGui::Indent();
-					CodeColorText("run_async_function(name, data, return_handler)");
-					ImGui::Unindent();
-					ImGui::BulletText("Notes:");
-					ImGui::Indent();
-					ImGui::BulletText("name - the function name to run concurrently");
-					ImGui::BulletText("data - any data needed by the function");
-					ImGui::BulletText("return_hander - the name of a function to run on completion");
-					ImGui::Unindent();
-					ImGui::Separator();
-
-					ColorText("RETURN HANDLER:");
-					ImGui::BulletText("The return handler is used to provide any updates to the GUI following");
-					ImGui::Text("    an asyncronous function call. This function is ran on the main thread.");
-					ImGui::BulletText("Takes the following form:");
-					ImGui::Indent();
-					CodeColorText("def ReturnHandler(data):");
-					CodeColorText("    ...");
-					ImGui::Unindent();
-					ImGui::BulletText("Where data is the return value of the async function (if anything is returned).");
-					ImGui::Separator();
-
-					ColorText("THREADPOOL:");
-					ImGui::BulletText("When an asyncronous function is called, a threadpool is created to manage threads.");
-					ImGui::BulletText("There are 2 aspects of this threadpool that can be configured:");
-					ImGui::Indent();
-					ImGui::BulletText("Number of threads using the following commands:");
-					CodeColorText("set_thread_count(...)                # sets number of threads to use (default is 2)");
-					CodeColorText("set_threadpool_high_performance(...) # sets thread count to maximum");
-					ImGui::BulletText("Timeout using the following command:");
-					CodeColorText("set_threadpool_timeout(...) # sets the timeout before destroying threadpool when not in use");
-					ImGui::Unindent();
-
-				}
-
 				if (ImGui::CollapsingHeader("Input Polling"))
 				{
 					ImGui::BulletText("During any callback, you can poll information about the mouse and keyboard.");
